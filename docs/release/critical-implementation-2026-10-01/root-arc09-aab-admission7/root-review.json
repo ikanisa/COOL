@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-02T13:39:56.929553+00:00",
+  "status": "PASS",
+  "driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "admission_sha256": "31552e84558aa3c98294ec7359a406597415b8ab0adb4d099647a87dcca4d6dc",
+  "previous_review_sha256": "340f754f0e61695980fa6f9b0bea5977825e653ed4fc4f4288e2d0510cc581b7",
+  "failed_preflight_readback_sha256": "a5298a8ed32ea198fc97932492310e071ae0422571e11d08f9c55ba15fac2faa",
+  "headroom_recovery_readback_sha256": "5edce55629da7fc47a8ae0ec8ce574542d5d5868cf60ef30a1d39df32fae42b9",
+  "only_changed_prerequisite": "external free space after verified preservation and removal of ignored compiler cache",
+  "source_dependency_versions_or_locks_changed": false,
+  "AAB_only": true,
+  "runtime_compile_graphs_reused": true,
+  "production_release_approval": false
+}

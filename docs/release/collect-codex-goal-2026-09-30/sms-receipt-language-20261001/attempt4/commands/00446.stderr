@@ -1,0 +1,5 @@
+ERROR:  22023: receipt_language_invalid
+CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

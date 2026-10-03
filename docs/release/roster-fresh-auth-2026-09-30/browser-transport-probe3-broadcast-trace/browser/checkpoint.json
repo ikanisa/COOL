@@ -1,0 +1,389 @@
+{
+  "phase": "response-loss-leaves-uncertain-transfer-with-no-preview",
+  "checks": [
+    {
+      "id": "production-initialize-starts-signed-out-with-empty-browser-storage",
+      "pass": true
+    },
+    {
+      "id": "normal-Supabase-sign-in-is-not-adopted-by-peer",
+      "pass": true
+    },
+    {
+      "id": "normal-Admin-unsaved-roster-never-enters-browser-storage",
+      "pass": true
+    },
+    {
+      "id": "full-reload-and-peer-refresh-cannot-restore-credentials-or-editor",
+      "pass": true
+    },
+    {
+      "id": "fresh-lookup-is-read-only",
+      "pass": true
+    },
+    {
+      "id": "actual-Admin-inspection-keeps-approval-and-submit-disabled",
+      "pass": true
+    },
+    {
+      "id": "response-loss-leaves-uncertain-transfer-with-no-preview",
+      "pass": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_list_interrupted_roster_imports",
+      "rpc": "admin_list_interrupted_roster_imports",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_inspect_interrupted_roster_import",
+      "rpc": "admin_inspect_interrupted_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/loss-transfer",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_transfer_interrupted_roster_import",
+      "rpc": "admin_transfer_interrupted_roster_import",
+      "sdk_retry_count": null
+    }
+  ]
+}

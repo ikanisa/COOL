@@ -1,0 +1,23 @@
+{
+  "ARC09_closed": false,
+  "SDK_or_patch_or_writer_executed": false,
+  "actual_FD_mutation_and_named_leaf_swap_rejected": true,
+  "actual_preparation_tests": 15,
+  "authorized_controller_sha256": "f1485b07efa314c53728469e174f863c88064e413ef23c8bf9c87817aa2cf2c3",
+  "candidate2_absent": true,
+  "candidate_promoted": false,
+  "cumulative_validator_sha256": "ffbcf5f5863f9b770a8492b7f702d64deaeb47a16951c6dd61952d2346eefad3",
+  "derivative_observer_sha256": "e20b59be3bdedfc0e2767f0203121287574075678f3976d9c2c7fd4727738fad",
+  "derivative_writer_sha256": "6f06d64a491c74aa6076c8aa8bea158e58f1443588c126af9e41f6a455775549",
+  "exact_application_sha256": "f3234155a970b88b0207c989d70e61bc47e603924d42e2c7b430ae8778da2409",
+  "exact_command_sha256": "c3f280e329807ab4d20e968a7d1c6420cc71499b5941c942c6d73479cf2736af",
+  "failed_candidate1_source_and_outputs_preserved": true,
+  "new_dependency_template_serialization_KotlinDSL_versions": false,
+  "packet_leaf_files": 14,
+  "packet_manifest_sha256": "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6",
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T01:27:07.547857+00:00",
+  "same_owned_private_Gradle_cache_idle_and5critical_origin_fingerprints_retained": true,
+  "source_files_exact_cumulative_scope": 8,
+  "status": "EXACT_FRESH_CANDIDATE2_CUMULATIVE8_PREPARATION_FROZEN__NO_WRITES_OR_SDK_EXECUTION"
+}

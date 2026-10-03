@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "current_capture_report_sha256": "b32318e747de210fc034104c3b60e300479ab3e7e053964233fcaae9a7edc5cf",
+  "visual_review_sha256": "affd8b4ea11b25ccc62351c6c971aa5dc5c6b400828fef1720cacabfb901a3fb",
+  "image_identity_proof_sha256": "99d69932f67a57aae2c929d08148453bedbf2c65848a4c264dade6ec1aeb447c",
+  "capture_count": 7,
+  "review_transfer_only_for_exact_identical_bytes": true,
+  "scope": "Truthful current source-bound synthetic browser interface previews for local website publication only. Comprehensive source comparator/interaction/accessibility/native and whole-application release remain separate."
+}

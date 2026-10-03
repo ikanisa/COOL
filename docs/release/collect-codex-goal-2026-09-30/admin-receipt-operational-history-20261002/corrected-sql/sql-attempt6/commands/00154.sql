@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role authenticated;select set_config('request.jwt.claims','{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}',true);select public.admin_get_operator_entity_audit_v1('receipt_operations_policy','00000000-0000-4000-8000-000000000001',20,null,null);commit;

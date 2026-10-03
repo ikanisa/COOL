@@ -1,0 +1,45 @@
+{
+  "format": "collect-inactive-overlay-proposal-validation-v1",
+  "observed_at": "2026-10-02T02:22:37.721006+00:00",
+  "proposal_sha256": "38d57dc6f32d6933099e616d7f0b2ddd2c6e7e410fbf7e3087fe3faac6059506",
+  "source_records_checked": 241,
+  "distinct_paths_checked": 221,
+  "all_source_bindings_unchanged": true,
+  "canonical_source_count": 208,
+  "new_sql_target": false,
+  "implementation": false,
+  "archive_replay": false,
+  "hosted_or_live": false,
+  "files": [
+    {
+      "path": "ADDITIONAL_INPUTS.json",
+      "bytes": 1287,
+      "sha256": "5429c84f7ba6ab4cd5f6dc18849d6b3e2c6a73574e53a48a7fc94ce52fd66c65"
+    },
+    {
+      "path": "CANONICAL207.json",
+      "bytes": 44856,
+      "sha256": "627191410131a50c825ab723f9bed2956a7144579f88b2069c4e316623a6c2f5"
+    },
+    {
+      "path": "CANONICAL208.json",
+      "bytes": 42415,
+      "sha256": "51fce1bdc1a834706e1d945753a8c805fc662d7a0eccebff924a1a725446106c"
+    },
+    {
+      "path": "GUARD_MAP.json",
+      "bytes": 14556,
+      "sha256": "a498063c24d7e6c4a12f2335f954459a6abc61c61adb963b388571b7c4de0c0c"
+    },
+    {
+      "path": "PROPOSAL.md",
+      "bytes": 17920,
+      "sha256": "38d57dc6f32d6933099e616d7f0b2ddd2c6e7e410fbf7e3087fe3faac6059506"
+    },
+    {
+      "path": "SOURCE_INPUTS.json",
+      "bytes": 6220,
+      "sha256": "3e578fd6c3d4c9557645c08187cd2d4dcaba6f9dfe0e3ded66ee647f9d5e58a9"
+    }
+  ]
+}

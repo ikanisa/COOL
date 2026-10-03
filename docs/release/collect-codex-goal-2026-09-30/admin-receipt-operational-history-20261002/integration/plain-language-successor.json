@@ -1,0 +1,9 @@
+{
+  "scope": "Root-owned human-readable history labels after inspected current captures",
+  "files": {
+    "lib/admin/core/admin_receipt_operational_history_view.dart": "c8718d44296f519d4a77c2081ca08a2bbfcf4deedbca7e5aa689f8a519dd161c",
+    "test/admin_receipt_history_labels_capture_test.dart": "237fb482065317736b3dafcb9b4f37c76da628dbd40c9bf6f185c6124c5f5baa"
+  },
+  "behavior": "Read authority and DTOs unchanged; removed implementation error spelling and clarified original reservation evidence",
+  "preceding_proof": "consumer-attempt2/result.json"
+}

@@ -1,0 +1,28 @@
+{
+  "observed_at_utc": "2026-10-01T23:45:31.447244+00:00",
+  "owned_source_before": {
+    "scripts/public_static_site_build.rb": {
+      "sha256": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+      "bytes": 80929,
+      "preserved_before": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/source-before/scripts/public_static_site_build.rb"
+    },
+    "web/public/revolut.css": {
+      "sha256": "919f09f7161b516e951ba6ec52880567526efd751eb7ae9569cbde52b3442961",
+      "bytes": 21956,
+      "preserved_before": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/source-before/web/public/revolut.css"
+    }
+  },
+  "design_authority": "revolut-design",
+  "source_reference_hashes": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/current-web-state-evidence.json": "86f41462a84fa7b543bb3d63d681ee1dfad445a369fa8d9cd916cc73dd036bbc",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/state-theme-desktop-followup.md": "e26da6ce3b1af2d0df75bdb2822b199c2cb843c73945a006d019934c386d9bf3",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606"
+  },
+  "reference_scope": "WEB-STATE-002 current public signed-out disabled composition evidence plus directly reopened LIVE024 disabled original; neutral target tokens are adaptations, not exact SSO/native token equality. No private account pixels copied.",
+  "previous_sealed_batch": "docs/release/critical-implementation-2026-10-01/public-media-batch2/batch.json",
+  "previous_sealed_batch_sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d",
+  "scope": "Two narrow static share visual/terminology fixes. Full media/native/visual/legal/production acceptance stays open."
+}

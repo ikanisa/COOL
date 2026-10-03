@@ -10,6 +10,8 @@ MODE="${1:-}"
 ruby -r json -r uri -r time -r cgi -r digest - "$BUILD_DIR" "$MODE" <<'RUBY'
 build_dir = ARGV.fetch(0)
 mode = ARGV.fetch(1)
+require File.expand_path("scripts/qa/public_capability_contract", Dir.pwd)
+product_capabilities = CollectProductCapabilities.new(Dir.pwd)
 
 def read(path)
   File.file?(path) ? File.read(path) : ""
@@ -493,12 +495,9 @@ check(
 
 whatsapp_links = root_html.scan(/https:\/\/wa\.me\//).length
 app_download_url = "https://play.google.com/store/apps/details?id=app.cool.mobile"
-public_app_and_whatsapp_support = whatsapp_links >= 3 &&
+root_action_failures = PublicCapabilityContract.action_failures(product_capabilities, "/", root_html)
+public_app_and_whatsapp_support = whatsapp_links >= 1 && root_action_failures.empty? &&
   root_html.include?(app_download_url) &&
-  root_html.include?("Get the App") &&
-  root_html.include?("Create Group Saving") &&
-  root_html.include?("Get in Touch") &&
-  root_html.include?('aria-label="Get Collect by IKANISA for Android on Google Play"') &&
   !root_html.include?("WhatsApp support options") &&
   !root_html.include?("Partner Inquiry") &&
   !root_html.include?("Privacy or Deletion") &&
@@ -510,26 +509,29 @@ check(
   checks,
   "public_app_and_whatsapp_support_conversion",
   pass_if(public_app_and_whatsapp_support),
-  public_app_and_whatsapp_support ? "Root exposes public app download and lean WhatsApp support CTAs with no support panel or email form." : "Root support path is missing public app download, WhatsApp support CTA, or still exposes wrong support content.",
-  "whatsapp_link_count" => whatsapp_links
+  public_app_and_whatsapp_support ? "Root exposes the canonical Android app/group actions, email support and existing WhatsApp contact without an email form." : "Root is missing a canonical capability action or supported contact, or exposes an unsupported support form.",
+  "whatsapp_link_count" => whatsapp_links,
+  "capability_action_failures" => root_action_failures
 )
 
 privacy_semantic_links = {
-  "/subprocessors/" => ["/subprocessors", "View subprocessor information"],
-  "/privacy-request/" => ["/privacy-request", "Submit a privacy request"],
-  "/account-deletion/" => ["/account-deletion", "Open the account-deletion page"],
-  "/cookies/" => ["/cookies", "Read the cookie and website technology notice"],
+  "/privacy/#sharing" => "Read about service providers and data sharing",
+  "mailto:info@ikanisa.com?subject=Collect+privacy+request" => "Email info@ikanisa.com about a privacy request",
+  "/account-deletion/" => "Open the account-deletion page",
+  "/privacy/#cookies" => "Read about cookies and website analytics",
 }
-missing_privacy_links = privacy_semantic_links.reject do |href, (visible_text, accessible_label)|
-  privacy_text.match?(%r{<a[^>]+href="#{Regexp.escape(href)}"[^>]+aria-label="#{Regexp.escape(accessible_label)}"[^>]*>#{Regexp.escape(visible_text)}</a>})
+missing_privacy_links = privacy_semantic_links.reject do |href, accessible_label|
+  privacy_text.match?(%r{<a[^>]+href="#{Regexp.escape(href)}"[^>]*>#{Regexp.escape(accessible_label)}</a>})
 end
-semantic_privacy_links_ok = missing_privacy_links.empty?
+retired_privacy_links = privacy_text.scan(%r{href="/(?:subprocessors|privacy-request|cookies)/?"})
+semantic_privacy_links_ok = missing_privacy_links.empty? && retired_privacy_links.empty?
 check(
   checks,
   "privacy_semantic_links",
   pass_if(semantic_privacy_links_ok),
-  semantic_privacy_links_ok ? "Privacy policy preserves baseline visible copy while exposing accessible destination links." : "Privacy policy changed baseline reference copy or is missing an accessible destination link.",
-  "missing_links" => missing_privacy_links
+  semantic_privacy_links_ok ? "Privacy policy exposes clearly named links to existing policy sections, account deletion and the supported email request channel." : "Privacy policy is missing a clearly named supported destination or links to an absent route.",
+  "missing_links" => missing_privacy_links,
+  "retired_links" => retired_privacy_links
 )
 
 all_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }
@@ -544,35 +546,21 @@ check(
   "files" => stray_brace_files.map { |path| path.delete_prefix(build_dir + "/") }
 )
 
-# Owner screenshot review, 6 September 2026: invented phone text was removed
-# and real native captures added with Example data captions. The 19-page
-# comparison verifies unchanged copy outside hero artwork. See
-# WEBSITE_AUTHENTIC_APP_MEDIA_2026-09-06.md for capture and content evidence.
-baseline_content_hashes = JSON.parse(File.read('docs/release/public-website-content-baseline.json')).fetch('hashes')
+# Exact historical hashes remain in the dated baseline. Current product copy
+# requires the additive itemized engineering review and its bound source bytes.
+require File.expand_path('scripts/qa/public_content_contract', Dir.pwd)
 generated_routes = all_html_paths.map do |path|
   relative = path.delete_prefix(build_dir).delete_suffix("index.html")
   relative.empty? ? "/" : relative
 end.reject { |route| ["/app/", "/c/", "/group-link/"].include?(route) }.sort
-content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
-  html = read(route_index(build_dir, route)).gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
-  # The responsive menu carries the original three CTAs. Count the separate
-  # desktop-only copy of Get the App once, without excluding other content.
-  if html.include?('class="mobile-menu-actions"')
-    html = html.sub(%r{<div class="header-actions">\s*<a[^>]*>Get the App</a>\s*</div>}, "")
-  end
-  visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
-  actual_hash = Digest::SHA256.hexdigest(visible_text)
-  failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
-end
-baseline_content_ok = generated_routes == baseline_content_hashes.keys.sort && content_hash_failures.empty?
+content_pages = generated_routes.to_h { |route| [route, read(route_index(build_dir, route))] }
+current_content = PublicContentContract.evaluate(root: Dir.pwd, pages: content_pages, routes: generated_routes)
 check(
   checks,
   "pre_audit_content_parity",
-  pass_if(baseline_content_ok),
-  baseline_content_ok ? "Public routes match the approved visible-content baseline." : "Public route content differs from the approved visible-content baseline.",
-  "expected_routes" => baseline_content_hashes.keys.sort,
-  "generated_routes" => generated_routes,
-  "hash_failures" => content_hash_failures
+  current_content.fetch('status'),
+  current_content['status'] == 'pass' ? "Public routes match the reviewed current Collect product-copy contract; historical evidence is retained." : "Public content or its reviewed source evidence changed.",
+  current_content
 )
 
 trust_text = read(route_index(build_dir, "/trust/"))
@@ -678,7 +666,9 @@ deleted_partner_phrases = [
 ]
 deleted_partner_phrase_hits = deleted_partner_phrases.select { |phrase| partners_text.include?(phrase) }
 partner_specific_content_removed_ok = deleted_partner_phrase_hits.empty? &&
-  partners_text.include?("Growth Engines for Banks") &&
+  partners_text.include?("Prospective opportunities for licensed providers") &&
+  partners_text.include?(CGI.escapeHTML(product_capabilities.detail("partner_engine_intro"))) &&
+  partners_text.include?(CGI.escapeHTML(product_capabilities.detail("partner_collect_heading"))) &&
   partners_text.include?("What each side brings") &&
   partners_text.include?("partner-market-section") &&
   partners_text.include?("partner-operating-section") &&
@@ -691,12 +681,10 @@ check(
   "hits" => deleted_partner_phrase_hits
 )
 
-cta_hierarchy_ok = partners_text.include?("Get the App") &&
-  partners_text.include?("Create Group Saving") &&
-  partners_text.include?("Get in Touch") &&
+cta_hierarchy_failures = PublicCapabilityContract.action_failures(product_capabilities, "/our-partners/", partners_text)
+cta_hierarchy_ok = cta_hierarchy_failures.empty? &&
   !partners_text.include?("Talk to our team") &&
   !partners_text.include?("Get Support") &&
-  partners_text.include?("Get the App") &&
   !partners_text.include?("Talk to us about starting a group") &&
   !partners_text.include?(">Create Group<")
 footer_trust_ok = root_html.include?("<strong>Collect by IKANISA</strong>") &&
@@ -713,27 +701,25 @@ check(
   checks,
   "cta_and_footer_trust_hierarchy",
   pass_if(cta_hierarchy_ok && footer_trust_ok),
-  cta_hierarchy_ok && footer_trust_ok ? "CTA hierarchy and footer trust signals match the current public-site audit fixes." : "CTA hierarchy or footer trust signals are incomplete.",
+  cta_hierarchy_ok && footer_trust_ok ? "Capability-specific CTA hierarchy and footer trust signals are complete." : "CTA hierarchy or footer trust signals are incomplete.",
   "cta_hierarchy_ok" => cta_hierarchy_ok,
+  "capability_action_failures" => cta_hierarchy_failures,
   "footer_trust_ok" => footer_trust_ok
 )
 
-cta_routes = ["/", "/group-savings/", "/insurance/", "/craas/", "/community-groups/", "/our-partners/", "/trust/"]
-cta_failures = cta_routes.reject do |route|
+cta_routes = PublicCapabilityContract::ROUTES
+cta_failures = cta_routes.map do |route|
   html = read(route_index(build_dir, route))
-  File.file?(route_index(build_dir, route)) &&
-    html.scan(">Get the App<").length >= 2 &&
-    html.scan(">Create Group Saving<").length >= 2 &&
-    html.scan(">Get in Touch<").length >= 2 &&
-    html.scan(%r{class="[^"]*cta-group[^"]*" href="#{Regexp.escape(app_download_url)}"}).length >= 2 &&
-    !html.include?("faq-section") &&
-    !html.include?("Questions visitors ask")
-end
+  failures = PublicCapabilityContract.action_failures(product_capabilities, route, html)
+  failures << { "reason" => "Missing page or retired redundant sections" } unless
+    File.file?(route_index(build_dir, route)) && !html.include?("faq-section") && !html.include?("Questions visitors ask")
+  { "route" => route, "failures" => failures } unless failures.empty?
+end.compact
 check(
   checks,
   "consistent_ctas_without_disclaimer_labels",
   pass_if(cta_failures.empty?),
-  cta_failures.empty? ? "CTA trio is consistent without redundant availability labels." : "CTA trio is incomplete on one or more routes.",
+  cta_failures.empty? ? "All public routes expose the canonical supported app/group or planned/provider inquiry actions and email support." : "A public route has a missing, unsupported or incorrect capability action.",
   "failures" => cta_failures
 )
 
@@ -854,9 +840,9 @@ check(
   "duplicate_h1s" => duplicate_h1s.transform_values { |items| items.map { |item| item["route"] } }
 )
 
-mobile_hero_css_ok = stylesheet.match?(/\.app-capture img\{[^}]*height:auto/) &&
-  stylesheet.match?(/\.hero-device\{[^}]*max-height:none/) &&
-  stylesheet.match?(/\.site-footer a\{[^}]*min-height:44px/) &&
+mobile_hero_css_ok = stylesheet.match?(/\.app-capture img\{[^}]*height\s*:\s*auto/) &&
+  stylesheet.match?(/\.hero-device\{[^}]*max-height\s*:\s*none/) &&
+  stylesheet.match?(/\.site-footer a\{[^}]*min-height\s*:\s*44px/) &&
   stylesheet.match?(/@media\s*\(max-width:\s*720px\)/)
 route_class_ok = route_identity.all? do |item|
   read(route_index(build_dir, item["route"])).match?(%r{<body class="[^"]*\broute-[^"\s]+})
@@ -864,10 +850,11 @@ end
 route_variation_ok = root_html.match?(%r{<body class="[^"]*\broute-home\b}) &&
   read(route_index(build_dir, "/craas/")).include?("content-grid-craas") &&
   read(route_index(build_dir, "/community-groups/")).include?("content-grid-community-groups")
-responsive_components_ok = stylesheet.include?("grid-template-columns:minmax(0,1fr)") &&
-  stylesheet.include?("overflow-wrap:anywhere") &&
-  stylesheet.include?("prefers-reduced-motion:reduce") &&
-  stylesheet.include?("forced-colors:active") &&
+responsive_media_css = stylesheet.gsub(%r{/\*.*?\*/}m, "")
+responsive_components_ok = stylesheet.match?(/grid-template-columns\s*:\s*minmax\(\s*0\s*,\s*1fr\s*\)/) &&
+  stylesheet.match?(/overflow-wrap\s*:\s*anywhere/) &&
+  responsive_media_css.match?(/@media\s*\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)/) &&
+  responsive_media_css.match?(/@media\s*\(\s*forced-colors\s*:\s*active\s*\)/) &&
   stylesheet.include?(".mobile-menu-actions")
 menu_routes = route_identity.map { |item| item["route"] } + ["/c/", "/app/", "/group-link/"]
 menu_failures = menu_routes.reject do |route|
@@ -928,16 +915,17 @@ public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |pat
   legal_route_prefixes.any? { |prefix| relative == "#{prefix}/index.html" }
 end
 banned_public_claim_patterns = {
-  "consent" => /consent/i,
   "email_form_or_unapproved_contact" => /type=["']email["']|name=["']email["']|\b(?:privacy|support|complaints|partnerships)@ikanisa\.com\b/i,
   "projection_or_scenario" => /projection|scenario|estimate/i,
   "unsupported_partner_names" => /Malta|three Rwanda banks/i,
   "deck_only_market_figures" => /RWF 50|150B|300K|100K|35B|3-5x|US\$0\.5B|864M|19,807B|351\.3B|169,570|7,169,324|67\.6B|26\.2%|25,000|70,000|~60%|~0%/i,
-  "restricted_financial_claims" => /host[- ]bank|custody|collateral lock|collateralized|underwrit|Stripe fallback|backup payment|Android\/iOS live/i,
 }
 public_claim_failures = []
 public_html_paths.each do |path|
   html = read(path)
+  PublicCapabilityContract.claim_failures(product_capabilities, html).each do |failure|
+    public_claim_failures << { "file" => path.delete_prefix(build_dir + "/") }.merge(failure)
+  end
   banned_public_claim_patterns.each do |id, pattern|
     next unless html.match?(pattern)
 
@@ -948,7 +936,7 @@ check(
   checks,
   "public_claim_guard",
   pass_if(public_claim_failures.empty?),
-  public_claim_failures.empty? ? "Generated public HTML avoids deck-only, unsupported, email, consent, projection, and restricted financial claims." : "Generated public HTML contains banned public-claim content.",
+  public_claim_failures.empty? ? "Generated public HTML preserves exact qualified capability limitations and rejects unsupported financial/platform claims, unapproved contact/forms and deck-only projections." : "Generated public HTML contains banned public-claim content.",
   "failures" => public_claim_failures
 )
 

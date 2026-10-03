@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "private_sdk": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1",
+  "copy_method": "APFS cp -cR clone of cached SDK; all 2384 declared original critical inputs checked before one leaf replacement",
+  "original_input_count": 2384,
+  "original_cached_sdk_unchanged": true,
+  "changed_leaf": "bin/cache/artifacts/engine/darwin-x64/font-subset",
+  "original_binary_sha256": "fcd76cbd293f373b0da518d3ce6b1a438d37977a80c32310ed0497d217d3be2c",
+  "wrapper_sha256": "02abb6805f90dbdf79009e7624d01dc77c53b9160f7521bc364035c2782a407b",
+  "config_sha256": "e7349331355ea651389b3c7523f0fb112ec9d2f1ef4926e8a9b3a66827d1beb9",
+  "private_declared_input_count": 2386,
+  "stdin_args_font_outputs_preserved": true,
+  "stdout_correction": "Reader thread drains all original stdout concurrently while wait() runs; bounded65536byte prefix plus full byte count/SHA; no head/truncation of engine output",
+  "stderr": "Original stderr inherited unmodified",
+  "exit": "Actual engine exit code returned; signal failure shell128+signal; wrapper admission/drain failures125",
+  "original_failed_session": 48445,
+  "original_failed_exit_code": 1,
+  "attempted_builds": 2,
+  "successful_final_builds_expected": 1,
+  "approval": "Root message approved finite causal private I/O recovery; no application, compiler option, dependency resolution or shared SDK change"
+}

@@ -1,0 +1,98 @@
+{
+  "status": "comparison_review_with_explicit_limits",
+  "surface_reviews": [
+    {
+      "id": "native-home",
+      "source_path_private_local": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/020-home-current-clean.jpg",
+      "source_sha256": "dbe799cc878a14cd7db4b04cdfce86f5eba42268743bfc2f33f06aba540837a5",
+      "target_path": "test/goldens/baselines/member_home_dark.png",
+      "target_sha256": "870a641f0dcacf7773ab7fe7f9623c359a187a74db19281ff284b5437abef3fe",
+      "inspection": "actual images inspected",
+      "scope": "September2026iOSDarkGlow; build/logicalscale unknown; ownGroup/account/actions preserved; no exact native fontclaim"
+    },
+    {
+      "id": "admin-component",
+      "source_path_private_local": "/Users/jeanbosco/Documents/ChatGPT/Revolut/assets/public-business/bills-preview.png",
+      "source_sha256": "d142f7fcb0fd7098e2574e98bad74da84c4d4a849d48d65ce9de9cc0fc56e849",
+      "target_path": "test/goldens/baselines/admin_overview_desktop.png",
+      "target_sha256": "aea3e63f14be1316b55d9ab49365d4d95a54defeca011d1c073dfc24220b119b",
+      "inspection": "actual images inspected",
+      "scope": "Official staticBusinessreceiptmatching component only; current authenticatedoverview comparator unavailable; target remains an explicit operator adaptation"
+    }
+  ],
+  "public_comparison": {
+    "packet": "docs/release/rapid-completion-2026-10-01/font-rights-current1/public-golden-review.json",
+    "sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd",
+    "cohort": "September2026UKpublicmarketing",
+    "licensed_font_difference": "Inter replaces AeonikPro under the selected skill fallback; never a100percentfontmatch",
+    "current_public_golden_sha256": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4"
+  },
+  "prior_core_accessibility": "docs/release/shared-ui-accessibility-2026-09-30/attempt6/README.md",
+  "prior_owned_source_comparison": [
+    {
+      "path": "lib/shared/widgets/collect_scaffold_chrome.dart",
+      "captured_sha256": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8",
+      "current_sha256": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8",
+      "matches": true
+    },
+    {
+      "path": "lib/features/status/account_legal_screens.dart",
+      "captured_sha256": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+      "current_sha256": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+      "matches": true
+    },
+    {
+      "path": "lib/features/settings/settings_subscreens.dart",
+      "captured_sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+      "current_sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+      "matches": true
+    },
+    {
+      "path": "lib/features/status/group_members_screen.dart",
+      "captured_sha256": "e02d9a2b58b336179b13d2fc479f0d40ead9ef2dbc2d9e3d8e667271bd457d5f",
+      "current_sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+      "matches": false
+    },
+    {
+      "path": "lib/shared/widgets/collect_display_primitives.dart",
+      "captured_sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+      "current_sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+      "matches": true
+    },
+    {
+      "path": "lib/features/collections/collection_detail_screen.dart",
+      "captured_sha256": "14e55cbed3ad5e8926de1f5ef50baf56b9cf8e56eb1af4bd6f3dcd861c7ba4de",
+      "current_sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+      "matches": false
+    },
+    {
+      "path": "lib/core/widgets/collect_shell.dart",
+      "captured_sha256": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+      "current_sha256": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+      "matches": true
+    },
+    {
+      "path": "lib/shared/widgets/collect_state_illustrations.dart",
+      "captured_sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+      "current_sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+      "matches": true
+    },
+    {
+      "path": "tool/public_app_media_capture.dart",
+      "captured_sha256": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+      "current_sha256": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+      "matches": true
+    },
+    {
+      "path": "test/features/shared_chrome_accessibility_test.dart",
+      "captured_sha256": "92cd0eb29d0f4811fa543adcc27bac8bf84f7e4ea60e5d55c5637deaf0be5431",
+      "current_sha256": "92cd0eb29d0f4811fa543adcc27bac8bf84f7e4ea60e5d55c5637deaf0be5431",
+      "matches": true
+    }
+  ],
+  "changed_member_views_require_current_narrow_packet": "core-interface-current1",
+  "sole_authority_gate": "revolut-authority-current1.json",
+  "full_visual_fidelity_or_native_acceptance_claimed": false,
+  "unsampled_routes_states_spoken_reader_physical_devices_and_authenticated_source_behavior": "unverified; outside the finite local core check; preserve original release criteria",
+  "scope": "Available matching source contexts were inspected separately. Own product identity, capabilities and access controls are preserved. Missing authenticated source imagery and explicit licensed font adaptation prevent any100percentvisualclaim."
+}

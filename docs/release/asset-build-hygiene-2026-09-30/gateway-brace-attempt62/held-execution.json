@@ -1,0 +1,10 @@
+{
+  "status": "held_unaccepted",
+  "base61_sha256": "faae7e52ee6f98e5270613806d2cd6e3865fc46b6b0debae8c7b8c4a5c9b8c91",
+  "preserved62_prior_sha256": "faae7e52ee6f98e5270613806d2cd6e3865fc46b6b0debae8c7b8c4a5c9b8c91",
+  "current_sha256": "3a2c067947667bb38e6f40f9486dcd732c71e0786fe19576c4730a64410fd9b0",
+  "prior62_has_new_status_key_envelope": false,
+  "edit_mutated_source": false,
+  "correction_failure": "Expected single-line if was already formatter-wrapped; edit assertion stopped before mutation. The separately arriving key envelope also invalidates the earlier source scope.",
+  "scope": "Guarded hygiene attempt retained; no semantic edit or accepted current Gateway gate"
+}

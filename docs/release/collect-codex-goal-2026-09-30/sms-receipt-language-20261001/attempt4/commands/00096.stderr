@@ -1,0 +1,8 @@
+NOTICE:  00000: policy "stripe_customers_owner_select" for relation "stripe_customers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "stripe_payment_methods_owner_select" for relation "stripe_payment_methods" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "diaspora_contribution_intents_participant_select" for relation "diaspora_contribution_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "stripe_webhook_events_admin_select" for relation "stripe_webhook_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

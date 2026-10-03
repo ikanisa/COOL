@@ -1,0 +1,84 @@
+{
+  "finding": "ARC-09",
+  "recorded_at_utc": "2026-10-01T20:53:55.723754+00:00",
+  "status": "local_update_configuration_validated",
+  "original_three_update_entries_unchanged": true,
+  "original_configuration_sha256": "14e8ea2a9cb5fa1889079ea6108b739f5c371b2f4da8a7f64adc96ace5de3ff4",
+  "source_hashes": {
+    ".github/dependabot.yml": "174d4481b3cad797717987569e206762e29728fe19b798ba8fc359e0bd0a8af0",
+    "Gemfile": "3f9baf66774f08c7dc206e8346f418faa3134e1b358e1f924c528bba9319a627",
+    "Gemfile.lock": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed",
+    "tools/collect-notification-mcp/package.json": "d8773681ef14a850e495e2bf3ff23b21b1cb31fb60c22834c32804715c6a27c7",
+    "tools/collect-notification-mcp/pnpm-lock.yaml": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+    "tools/public-photography/package.json": "dd3a5cc3cfa68558fce2842f2369f2554432da1c1df2f499a7560f0d038ed641",
+    "tools/public-photography/package-lock.json": "b9a364dd4c6983196641657d8adfe411bcae1ed872d3b543e4967117b3d5b38a",
+    "tools/roster-decoder/Dockerfile": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a"
+  },
+  "maintained_update_targets": [
+    {
+      "ecosystem": "github-actions",
+      "directory": "/"
+    },
+    {
+      "ecosystem": "pub",
+      "directory": "/"
+    },
+    {
+      "ecosystem": "gradle",
+      "directory": "/android"
+    },
+    {
+      "ecosystem": "npm",
+      "directory": "/tools/collect-notification-mcp"
+    },
+    {
+      "ecosystem": "npm",
+      "directory": "/tools/public-photography"
+    },
+    {
+      "ecosystem": "bundler",
+      "directory": "/"
+    },
+    {
+      "ecosystem": "docker",
+      "directory": "/tools/roster-decoder"
+    }
+  ],
+  "added_targets": [
+    {
+      "ecosystem": "npm",
+      "directory": "/tools/collect-notification-mcp"
+    },
+    {
+      "ecosystem": "npm",
+      "directory": "/tools/public-photography"
+    },
+    {
+      "ecosystem": "bundler",
+      "directory": "/"
+    },
+    {
+      "ecosystem": "docker",
+      "directory": "/tools/roster-decoder"
+    }
+  ],
+  "yaml_parser_version": "6.0.3",
+  "configuration_and_manifest_validation": "pass",
+  "package_or_lock_updates": false,
+  "hosted_execution_or_PR_creation": false,
+  "vulnerability_clearance": false,
+  "license_clearance": false,
+  "final_acceptance": false,
+  "remaining": [
+    "Authenticate Firebase Messaging/GoTrue owned fork origins and reviewed deltas using existing supply-chain tools.",
+    "Retain frozen package installation; update configuration does not prove advisories, publisher identity or license rights.",
+    "Review native Gradle verification metadata and shipped AAB/IPA/web/image composition.",
+    "Deno has no deno.json/deno.jsonc and decoder uses requirements.in/requirements.lock; nominal unsupported discovery entries were not added.",
+    "Regenerate dated SBOM/inventory once against the integrated candidate; existing aggregate has15 changed inputs."
+  ],
+  "primary_references": [
+    "https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories",
+    "https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference",
+    "https://docs.gradle.org/current/userguide/dependency_verification.html"
+  ]
+}

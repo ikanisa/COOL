@@ -1,0 +1,246 @@
+{
+  "android/app/build.gradle.kts": {
+    "parent": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9",
+    "actual_before": "671a96822366595aebbc61f1f2d38b50b0c0bdcf60d3e5d6525e9663ceff4b69"
+  },
+  "android/app/src/internal_gateway/AndroidManifest.xml": {
+    "parent": "c778027823da007569079e2dd5e5b28237c4aaf126f8eda4b33dcc5c971041f6",
+    "actual_before": "b2f1301a7ea3e5c69720df0eb813bbcd0b8e14b6bdd6e09b6ca272d4e8996995"
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": {
+    "parent": "a18761d4017c51c09f6497be00c0180d2d6ccee8d57cde4d36dbde4d5b26d8a1",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": {
+    "parent": "660b19c973006145e0176344c0a16c230cb8dc3b2612c21aff72b32d5c244e20",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": {
+    "parent": "c94d51cae03d4adad79316cd268412ac1475143d8afc6c462e6d10620807ea72",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+    "parent": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": {
+    "parent": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+    "parent": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+    "parent": "7a653e5788ceb07a8d40a7ee15ddd91f4950d8325126404ad7a59ba15bab2049",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+    "parent": "b8346512be48d74c548fe9b3982500b18d6ce62f9573f10e7d29aac1e983f150",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+    "parent": "a2c2604420b813a1ebd7230ac701e5e4f013b32a5227410412c4ad37beb96124",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": {
+    "parent": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": {
+    "parent": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+    "parent": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+    "actual_before": null
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+    "parent": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+    "actual_before": null
+  },
+  "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+    "parent": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+    "actual_before": null
+  },
+  "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+    "parent": "a74a273bcd61c21b834ee297c44c4c543c8ffb342adf21ac92d7cf413791951a",
+    "actual_before": null
+  },
+  "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+    "parent": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+    "actual_before": null
+  },
+  "assets/marketing/SOURCE.json": {
+    "parent": "b59f79ca4a7bcb477d1be0d86e7ef68e5d2002e75e6ca6dfcc41af94ea656e73",
+    "actual_before": "82d78be8910ff14f8f778b6f5edd4571a69b54d20da45aa027edbecc580cd6b1"
+  },
+  "assets/typefaces/AeonikPro-Medium.ttf": {
+    "parent": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "actual_before": null
+  },
+  "assets/typefaces/AeonikPro-Regular.ttf": {
+    "parent": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "actual_before": null
+  },
+  "lib/admin/core/admin_automations_page.dart": {
+    "parent": "a8ea000ab0c6a64bcd7cacf94012c7864ead5f5a95e80488f8eca18a1213f05b",
+    "actual_before": "4310cd4e02f23578b8bdcc05d0ef6cb4fd3e7900d2353b862e8e45f57ddf5b46"
+  },
+  "lib/admin/core/admin_exception_page.dart": {
+    "parent": "02ca2b7533cc09f60c90a9a1ab34de069cf2a7c2c4ec2734114cd92bf66a8668",
+    "actual_before": "478bca7ebaf7cb18f630abf6df4fd39a67acfdd0ed2f3d4404a9080637b3127c"
+  },
+  "lib/admin/core/admin_investigation.dart": {
+    "parent": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398",
+    "actual_before": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+  },
+  "lib/admin/core/admin_list_runtime.dart": {
+    "parent": "1d4be604b5c5c19d88ce780bd6cd781b1ddd24ce8ecb869cafe2950d1ddaddd8",
+    "actual_before": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921"
+  },
+  "lib/admin/core/admin_operating_policy_card.dart": {
+    "parent": "9c7d966aa6b799eb3aef63b3a65bc43658451fe8cfdca2d4f89fc9bdb1b3939e",
+    "actual_before": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+  },
+  "lib/admin/core/admin_repository_base.dart": {
+    "parent": "007486ebd7c86a59987e5a8e822486d081172a0abd0090a82d79ed5926fe2568",
+    "actual_before": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d"
+  },
+  "lib/admin/core/admin_runtime.dart": {
+    "parent": "669a3c6618a1b7b7d772e71b3224890a30b8202fb08045b2c00449f6041a8bb4",
+    "actual_before": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0"
+  },
+  "lib/admin/shared/components/admin_confirm_dialog.dart": {
+    "parent": "1a966b281e36d87e8f60a114a84ed9fe0be2182a57f6f9d46737461969ec1814",
+    "actual_before": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+  },
+  "lib/app/theme/collect_runtime_typography.dart": {
+    "parent": "81da5ff4d0a2911becd04130bcf27ae34169736e3c102c9543d8bbe6765271ad",
+    "actual_before": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f"
+  },
+  "lib/gateway/gateway_app.dart": {
+    "parent": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+    "actual_before": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c"
+  },
+  "pubspec.yaml": {
+    "parent": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8",
+    "actual_before": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+  },
+  "scripts/qa/edge_http_runtime_uat.ts": {
+    "parent": "229b7631bc625ac7f280c8b4ffafefc052355f1c27b0d7e9be200c48cfc66e3d",
+    "actual_before": "ad3a536a959a5adfd732b7d4757fa04314d20f600f619e0ea39c25dfc00e3d32"
+  },
+  "scripts/qa/local_browser_api_fixture.mjs": {
+    "parent": "40cf27386b16c5647595e92f389b6aa4e2013e4c972315d4b238624d74988eed",
+    "actual_before": "70b4cf450250820bf5423ca15e16dad91aa77f398311c9f380a80ee84f4fd73b"
+  },
+  "scripts/qa/swift_cached_artifact_inputs.py": {
+    "parent": "0984dd6c267b692340e66d01b519c5a6b4ce14f6a70ea573fd8647a63cbdedb1",
+    "actual_before": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63"
+  },
+  "scripts/supabase_apply_auth_hardening.sh": {
+    "parent": "5df54b6a27c5eb3592624854e9531085d314ea645b9e627a7456705728768c99",
+    "actual_before": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+  },
+  "scripts/tests/staged_bundle_upgrade_uat.py": {
+    "parent": "2fa8deb568377192862900ddcf4a402814e212d7a40efd5d28d18fec45b92ce4",
+    "actual_before": "f94280aadb4d4dd196f1f458ef294a5a4081e77787a90a88b09a218d1548d354"
+  },
+  "scripts/tests/supabase_secret_transport_test.py": {
+    "parent": "ae87f65eacef7d3a1b3d4efa3f9f354c0ef2a539a2184f483607a1143c9de66a",
+    "actual_before": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+  },
+  "scripts/tests/swift_cached_artifact_inputs_test.py": {
+    "parent": "315db0728f745bea2b9df8f62a05f2d7c5d570d7b8e4d0a24431f6c045531a28",
+    "actual_before": "e8b1320c33aef43fcd022a901839ec7843576f8f89bfb99ad8790ce6562619e8"
+  },
+  "test/admin_custom_action_ui_test.dart": {
+    "parent": "f4436ca8070fd4cb0fb7a2cef5e330bc630705bef6a6ee2aeeba8f03bbd5ade1",
+    "actual_before": "23016c22dab6936681c7ba479648afeabf53181a1cd89001e40a116669767552"
+  },
+  "test/admin_exception_page_test.dart": {
+    "parent": "737a42c6e13e5224ed0c913103bc4085967e1c3c959852c6433cc0a0a26e6f0c",
+    "actual_before": "66e218e0893e00a631bcb6b4cdfd86ba1870422f988114ac61c71a88da97e7e9"
+  },
+  "test/admin_operating_policy_runtime_test.dart": {
+    "parent": "a8890eee9e0ff0ed8afb9232b67c1a1d8aa9f6d871b3b1eb94c85737830d4602",
+    "actual_before": "be87c173ed7f85033350dc5806e5c78acbd7dd7c5eec7ec986074309fe222fba"
+  },
+  "test/admin_platform_access_test.dart": {
+    "parent": "146127999fda285b3cea5c28047838a494e9170bec0e7afe5aeb1007ef967c11",
+    "actual_before": "6e6086faf1cb7068d312d1193f2abdf6a51e4b556b1468f6395f130cbabe2f85"
+  },
+  "test/admin_reconciliation_ui_test.dart": {
+    "parent": "e50798e8757880bab7b4a6cca0b83ee34c47a184b8dbdb6c8ece910c9553befb",
+    "actual_before": "6baf814bcb2b45f69239adf5588486eb584a1c1900ea65c8cd84262697e3f8df"
+  },
+  "test/admin_roster_dialog_test.dart": {
+    "parent": "b9b962d866ef323945f4a7a88b54641be8516d72dbf1bbc8d44b41e8ce06e0f5",
+    "actual_before": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582"
+  },
+  "test/admin_sensitive_permission_test.dart": {
+    "parent": "95e8cf5608f81b58f52d62f965b43caafbd552b3b22a044810ed071202c7537d",
+    "actual_before": "59eb0c218af6eaadbe35df694cef46b03530a2d030fabfa18e143cad457a3e8c"
+  },
+  "test/features/runtime_component_contract_test.dart": {
+    "parent": "572310656b9424ce39f2417b9efb9102fcee45ef162f034083a4317ee7f96ebf",
+    "actual_before": "ffac52e860613fa0f639941ea770a66185154e6df115824ba7be11442e7834d8"
+  },
+  "test/gateway/gateway_enrollment_lifecycle_test.dart": {
+    "parent": "78dfd6f1b0722a5adcc5149d0aa4f168638dfaf3927c3d4f35b810f93858b2d9",
+    "actual_before": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6"
+  },
+  "test/goldens/GOLDEN_MANIFEST.sha256": {
+    "parent": "87d2133b64be798e9a1eb85bb29e01cbb612c1f584d3536293e96341ac892d6b",
+    "actual_before": "602324d40471dcaff33a38c460d453522355c89d4d6d0c9734051c0f08c945ea"
+  },
+  "test/goldens/README.md": {
+    "parent": "1b8657818a89aa2e62630a057525b8882080715ac5e17b97332e3e897dd2f718",
+    "actual_before": "2271533254c47552142a4e1e2f902a227efc319b10354689ec047e0baba7f253"
+  },
+  "test/goldens/baselines/admin_overview_desktop.png": {
+    "parent": "ff63daac5f537b3fdc52a4b563ed9d720c0fef264d20451e052518d37eac37fc",
+    "actual_before": "aea3e63f14be1316b55d9ab49365d4d95a54defeca011d1c073dfc24220b119b"
+  },
+  "test/goldens/baselines/member_auth_dark.png": {
+    "parent": "0f26c064c59f7ab815fe3fe3d7edbf1dab7bc0d111442ada525d843e53014656",
+    "actual_before": "aca6b5ee00ecd68d7869879feed04bd62c4125747fe5e3396c0b8d0fcce825d2"
+  },
+  "test/goldens/baselines/member_contribute_entry_dark.png": {
+    "parent": "3e4f2acaddcbadf38be2494cbd51b6427eccb8f20ebabd581dfbcd9da01b8613",
+    "actual_before": "54b7cb508566b9dd549775a507278b0cb07d34f82dbfae7f3c0354c9ff93c93c"
+  },
+  "test/goldens/baselines/member_offline_dark.png": {
+    "parent": "76415af1623f9291f63c3c47f35758dafb82e86c87109f2b6baa7495dc7391d9",
+    "actual_before": "a227be9ff104dff7c7710f6f3a9c7c6ba3be494a8332abdc201fd53f730789e7"
+  },
+  "test/goldens/baselines/public_home_desktop.png": {
+    "parent": "11317d542c00089567be7170192f48ad9e54ee63244b41b9f222314b23086645",
+    "actual_before": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4"
+  },
+  "test/goldens/collect_core_surfaces_golden_test.dart": {
+    "parent": "d8a4833ab54095ba6c27741d46c31ec4c0ce705c640ca0603da74afd51e7408f",
+    "actual_before": "6acbcbccb4bdbe521ed82b03a0cdb1f630f13d31770245a8b257abed3e3a8f8b"
+  },
+  "test/landing_page_test.dart": {
+    "parent": "10cb7863cbf0f3f8d08d4c08d53828128c9a0c20aced7e929351174bccb80d75",
+    "actual_before": "95965c355a5a66bb527e2c98b2e518b0ba3b3e52b82b40be32f65e9b7b92bb4a"
+  },
+  "test/supabase_contract_test.dart": {
+    "parent": "a1ea4f3bb51f2349f2ae254c47309e80def9178ef1a9535707db8ab7305f9771",
+    "actual_before": "9b28f9fa575a00d417dbaf29f94650bfb593ab5ab4a77f5d65b205e5b76d6cd2"
+  },
+  "third_party/gotrue/test/client_test.dart": {
+    "parent": "4bdb86ee4499ba6332ba690ddfd9eb7990fdb0c2869c97af7f4563533319f6ee",
+    "actual_before": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469"
+  },
+  "third_party/gotrue/test/get_claims_test.dart": {
+    "parent": "4172db82411fb90360f50af4a6e19abe0302d61530cf777043f0626ef58da6cb",
+    "actual_before": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43"
+  },
+  "web/public/revolut.css": {
+    "parent": "eeeb929ce9a48dd61de25b614b2440fe58097d87cab79b863839c01bc8435143",
+    "actual_before": "80fa3251c493329c85e1382b07747864b34b6d57abf2b70b76a18b4c90fdf406"
+  }
+}

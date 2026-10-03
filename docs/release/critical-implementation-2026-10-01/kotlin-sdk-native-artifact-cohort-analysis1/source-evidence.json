@@ -1,0 +1,204 @@
+{
+  "evidence": [
+    {
+      "finding": "Original three-ABI, all-flavor/build-type compile/test/graph then unsigned release artifact criterion",
+      "line_end": 55,
+      "line_start": 29,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-plan1/README.md"
+    },
+    {
+      "finding": "Internal physical output root; explicit QA property bypasses signing lookup",
+      "line_end": 99,
+      "line_start": 59,
+      "path": "android/app/build.gradle.kts"
+    },
+    {
+      "finding": "Java17 and four channel flavor identities; release signing assigned only when configured",
+      "line_end": 252,
+      "line_start": 173,
+      "path": "android/app/build.gradle.kts"
+    },
+    {
+      "finding": "Flavor notification topology and generated task-local registrant adapters",
+      "line_end": 360,
+      "line_start": 265,
+      "path": "android/app/build.gradle.kts"
+    },
+    {
+      "finding": "Signing task guards; only two production release locks; production/gateway QA marker; GoogleServices enablement limitation",
+      "line_end": 476,
+      "line_start": 363,
+      "path": "android/app/build.gradle.kts"
+    },
+    {
+      "finding": "Exact local Flutter includeBuild, AGP9.0.1 and Kotlin2.4.20",
+      "line_end": 24,
+      "line_start": 1,
+      "path": "android/settings.gradle.kts"
+    },
+    {
+      "finding": "Local plugin build outputs and existing test-runner resolution policy",
+      "line_end": 28,
+      "line_start": 8,
+      "path": "android/build.gradle.kts"
+    },
+    {
+      "finding": "Gradle9.1.0 checksum and distribution",
+      "line_end": 8,
+      "line_start": 1,
+      "path": "android/gradle/wrapper/gradle-wrapper.properties"
+    },
+    {
+      "finding": "Receive-only SMS protection and absence of READ_SMS declaration",
+      "line_end": 39,
+      "line_start": 3,
+      "path": "android/app/src/main/AndroidManifest.xml"
+    },
+    {
+      "finding": "Receiver permission and protected exported SMS receiver",
+      "line_end": 20,
+      "line_start": 1,
+      "path": "android/app/src/internal_receiver/AndroidManifest.xml"
+    },
+    {
+      "finding": "Gateway send/phone-state additions and receive/call/camera/notification removals; restricted components",
+      "line_end": 34,
+      "line_start": 8,
+      "path": "android/app/src/internal_gateway/AndroidManifest.xml"
+    },
+    {
+      "finding": "XML permission elements and receiver sender permission distinguished",
+      "line_end": 35,
+      "line_start": 4,
+      "path": "scripts/android_manifest_permissions.rb"
+    },
+    {
+      "finding": "Real applied KGP observer and productionRelease-only graph schema",
+      "line_end": 107,
+      "line_start": 42,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle"
+    },
+    {
+      "finding": "Only production/gateway release graphs; edges and external artifact hashes, local outputs excluded",
+      "line_end": 80,
+      "line_start": 24,
+      "path": "scripts/supply_chain/gradle_runtime_inventory.init.gradle"
+    },
+    {
+      "finding": "Only two release flavor pairs; graph/external SBOM and repository-relative evidence paths",
+      "line_end": 98,
+      "line_start": 10,
+      "path": "scripts/supply_chain/gradle_observed_sbom.py"
+    },
+    {
+      "finding": "Source inventory coverage explicitly excludes installed SDK and final native artifacts/legal clearance",
+      "line_end": 638,
+      "line_start": 615,
+      "path": "scripts/supply_chain/inventory.py"
+    },
+    {
+      "finding": "Verified source/asset/fork hashes; source-only SBOM and explicit unknown license/advisory scope",
+      "line_end": 118,
+      "line_start": 43,
+      "path": "scripts/supply_chain/source_sbom.py"
+    },
+    {
+      "finding": "Store wrapper forces unsigned QA property false",
+      "line_end": 14,
+      "line_start": 13,
+      "path": "scripts/android_play_store_build.sh"
+    },
+    {
+      "finding": "Store wrapper cleans output and creates output symlinks",
+      "line_end": 158,
+      "line_start": 124,
+      "path": "scripts/android_play_store_build.sh"
+    },
+    {
+      "finding": "Production signed artifact auditor and hardcoded tool/runtime/version paths",
+      "line_end": 65,
+      "line_start": 17,
+      "path": "scripts/audits/collect_native_cutover_artifacts.rb"
+    },
+    {
+      "finding": "Git enumeration and fixed production artifact paths; unsuitable as direct independent-export reader",
+      "line_end": 78,
+      "line_start": 12,
+      "path": "scripts/qa/native_build_provenance.rb"
+    },
+    {
+      "finding": "Combined Android/Admin and optionally public/iOS archive shapes",
+      "line_end": 94,
+      "line_start": 45,
+      "path": "scripts/release_artifact_manifest.sh"
+    },
+    {
+      "finding": "Presence/mtime/hash receipt is not strict no-alias, all-flavor container acceptance",
+      "line_end": 206,
+      "line_start": 177,
+      "path": "scripts/release_artifact_manifest.sh"
+    },
+    {
+      "finding": "Maintained credential-free unsigned iOS source compilation command",
+      "line_end": 106,
+      "line_start": 98,
+      "path": ".github/workflows/ios-app-store.yml"
+    },
+    {
+      "finding": "iOS15.5 and CocoaPods/Flutter generated dependency inputs",
+      "line_end": 38,
+      "line_start": 1,
+      "path": "ios/Podfile"
+    },
+    {
+      "finding": "Production release scheme archive configuration",
+      "line_end": 118,
+      "line_start": 113,
+      "path": "ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme"
+    },
+    {
+      "finding": "Maintained Admin source-only build and separate headers step",
+      "line_end": 287,
+      "line_start": 279,
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "finding": "Dev-only three split-APK CI size proxy, not four-flavor evidence",
+      "line_end": 630,
+      "line_start": 620,
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "finding": "Production config wrapper and postcompile header copies",
+      "line_end": 60,
+      "line_start": 12,
+      "path": "scripts/admin_pwa_release_build.sh"
+    },
+    {
+      "finding": "Separate signed IPA/store export wrapper",
+      "line_end": 81,
+      "line_start": 62,
+      "path": "scripts/ios_app_store_build.sh"
+    },
+    {
+      "finding": "Exact generated roots/plugin SDK source bindings; no blanket new iOS outputs",
+      "line_end": 36,
+      "line_start": 20,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/consumer_guards.py"
+    },
+    {
+      "finding": "Authored/source/lock membership and required registrant/link proofs",
+      "line_end": 648,
+      "line_start": 559,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/consumer_guards.py"
+    },
+    {
+      "finding": "Installed prerequisites, genuine whole guarded native completion and explicitly incomplete all-flavor flag",
+      "line_end": 445,
+      "line_start": 388,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py"
+    }
+  ],
+  "kind": "read_only_static_evidence",
+  "read_scope": "Maintained source plus sealed private proposal documents only; no current APP/SDK/control readback"
+}

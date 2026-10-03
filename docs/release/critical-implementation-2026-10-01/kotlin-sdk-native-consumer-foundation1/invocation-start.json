@@ -1,0 +1,20 @@
+{
+  "SDK_tools_requested": false,
+  "actual_PID": 1360,
+  "argv_exact": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py",
+    "--stage",
+    "foundation",
+    "--prepared-manifest-sha256",
+    "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+    "--root-review-sha256",
+    "6c0a5990146965548066dad38137a44c99d44d61f1b0971909713178de590e3f"
+  ],
+  "deadline_owner": "unchanged reviewed controller owned stage child",
+  "foundation_process_deadline_seconds": 600,
+  "one_invocation": true,
+  "started_UTC": "2026-10-02T02:35:48.316623+00:00"
+}

@@ -1,0 +1,3 @@
+ERROR:  22023: operations_pilot_caps_exceeded
+CONTEXT:  PL/pgSQL function public.admin_configure_receipt_operations_v2(uuid,bigint,text,boolean,uuid[],uuid[],uuid[],jsonb,boolean,integer,text,timestamp with time zone) line 16 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

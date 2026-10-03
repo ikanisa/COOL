@@ -1,0 +1,2071 @@
+{
+  "links": [
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+privacy+request",
+      "class": "legal-inline-link",
+      "label": "Email info@ikanisa.com about a privacy request",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+privacy+request",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/privacy/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/terms/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/account-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "legal-inline-link",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/data-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "generated",
+      "source_route": "/trust/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/trust/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/trust/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/trust/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/trust/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "generated",
+      "source_route": "/security/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/security/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/security/",
+      "href": "mailto:info@ikanisa.com",
+      "class": "button ghost on-light cta-touch",
+      "label": "Email Collect support",
+      "address": "info@ikanisa.com",
+      "query": "",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/security/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "generated",
+      "source_route": "/security/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/privacy/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/privacy/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/privacy/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/privacy/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/privacy/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/terms/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/terms/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/terms/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/terms/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/terms/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/account-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/account-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/account-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/account-deletion/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/account-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/data-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/data-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/data-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/data-deletion/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/data-deletion/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/trust/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/trust/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/trust/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/trust/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/trust/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/security/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/security/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/security/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "class": "button ghost on-light cta-touch",
+      "label": "Get in Touch",
+      "phone_matches_supported": true
+    },
+    {
+      "origin": "live",
+      "source_route": "/security/",
+      "href": "mailto:info@ikanisa.com?subject=Collect+support",
+      "class": "",
+      "label": "info@ikanisa.com",
+      "address": "info@ikanisa.com",
+      "query": "subject=Collect+support",
+      "address_matches_supported": true,
+      "verification": "URI/address only; no mail application or message"
+    },
+    {
+      "origin": "live",
+      "source_route": "/security/",
+      "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "class": "whatsapp-contact",
+      "label": "WhatsApp +250 795 588 248",
+      "phone_matches_supported": true
+    }
+  ],
+  "anonymous_gets": {
+    "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.": {
+      "requested_url": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+      "purpose": "support",
+      "started_at_utc": "2026-10-02T06:23:36.132264+00:00",
+      "finished_at_utc": "2026-10-02T06:23:37.339705+00:00",
+      "method": "GET",
+      "anonymous": true,
+      "redirects": [
+        {
+          "url": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "status": 302,
+          "headers": {
+            "location": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.&type=phone_number&app_absent=0",
+            "content-security-policy": "default-src 'self' blob: *.whatsapp.net *.whatsapp.com *.fbcdn.net *.facebook.com *.facebook.net;script-src *.whatsapp.com *.whatsapp.net *.facebook.com *.facebook.net 'nonce-G6v0rVCG' 'self' blob: *.fbcdn.net;style-src *.whatsapp.com *.whatsapp.net 'unsafe-inline' *.facebook.com 'self' blob: *.fbcdn.net *.facebook.net;connect-src *.whatsapp.com *.whatsapp.net wss://*.facebook.com:* *.fbcdn.net 'self' data: blob:;font-src *.whatsapp.com *.whatsapp.net *.facebook.com static.xx.fbcdn.net 'self' data: blob:;img-src *.whatsapp.com *.whatsapp.net *.facebook.com *.fbcdn.net static.xx.fbcdn.net 'self' data: blob:;media-src *.fbcdn.net 'self' data: blob:;child-src 'self' data: blob:;frame-src *.facebook.com *.whatsapp.com 'self' blob: whatsapp:;manifest-src 'self' data: blob:;object-src 'self' data: blob:;worker-src *.whatsapp.com *.whatsapp.net *.facebook.com *.facebook.net 'nonce-G6v0rVCG' 'self' data: blob:;block-all-mixed-content;upgrade-insecure-requests;",
+            "cache-control": "private, no-cache, no-store, must-revalidate",
+            "x-content-type-options": "nosniff",
+            "strict-transport-security": "max-age=31536000; preload; includeSubDomains",
+            "content-type": "text/html; charset=\"utf-8\"",
+            "date": "Fri, 02 Oct 2026 06:23:37 GMT",
+            "content-length": "0"
+          },
+          "elapsed_seconds": 0.511,
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "body_bytes": 0
+        },
+        {
+          "url": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.&type=phone_number&app_absent=0",
+          "status": 200,
+          "headers": {
+            "content-security-policy": "frame-ancestors https://*.whatsapp.com https://whatsapp.com;",
+            "cache-control": "private, no-cache, no-store, must-revalidate",
+            "x-content-type-options": "nosniff",
+            "strict-transport-security": "max-age=31536000; preload; includeSubDomains",
+            "content-type": "text/html; charset=\"utf-8\"",
+            "date": "Fri, 02 Oct 2026 06:23:37 GMT"
+          },
+          "elapsed_seconds": 0.693,
+          "body_sha256": "3a97ba10011451c0553e8a4855b595d82bdbcb9a12c7e354e4d5baf498413d53",
+          "body_bytes": 224929
+        }
+      ],
+      "final_url": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.&type=phone_number&app_absent=0",
+      "final_status": 200,
+      "body_sha256": "3a97ba10011451c0553e8a4855b595d82bdbcb9a12c7e354e4d5baf498413d53",
+      "body_bytes": 224929,
+      "body_path": "responses/250795588248-9ceae74640.html",
+      "error": null,
+      "page": {
+        "canonical": "",
+        "title": "Share on WhatsApp",
+        "h1": "",
+        "ids": [
+          "facebook",
+          "meta_referrer",
+          "pageTitle",
+          "top-of-page",
+          "u_0_0_0P",
+          "u_0_1_Qs",
+          "u_0_2_Wk",
+          "content-wrapper",
+          "main_block",
+          "action-button",
+          "fallback_block",
+          "a",
+          "b",
+          "c",
+          "action-button",
+          "footer-wrapper",
+          "contact_us_link_footer",
+          "u_0_3_HB",
+          "wauiLanguagePopup_dialog",
+          "u_0_4_gj",
+          "wauiLanguagePopup_region",
+          "u_0_5_id"
+        ],
+        "images": [
+          {
+            "src": "https://static.whatsapp.net/rsrc.php/yM/r/ys-5GPT4pwS.svg",
+            "alt": "WhatsApp Main Logo"
+          },
+          {
+            "src": "https://static.whatsapp.net/rsrc.php/yJ/r/twC7frrXavH.svg",
+            "alt": "WhatsApp Main Logo"
+          }
+        ],
+        "links": [
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "#",
+            "class": "_aeo8 _av2s _9vcv _9u4o _9sep",
+            "label": "Features"
+          },
+          {
+            "href": "https://www.whatsapp.com/calling",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Calling"
+          },
+          {
+            "href": "https://www.whatsapp.com/messaging",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Messaging"
+          },
+          {
+            "href": "https://www.whatsapp.com/groups",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Groups"
+          },
+          {
+            "href": "https://www.whatsapp.com/channels",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Channels"
+          },
+          {
+            "href": "https://www.whatsapp.com/meta-ai",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Meta AI"
+          },
+          {
+            "href": "https://www.whatsapp.com/status",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Status"
+          },
+          {
+            "href": "https://www.whatsapp.com/security",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Security"
+          },
+          {
+            "href": "https://www.whatsapp.com/parentalcontrols",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Parental controls"
+          },
+          {
+            "href": "https://www.whatsapp.com/privacy",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Privacy"
+          },
+          {
+            "href": "https://blog.whatsapp.com/",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Blog"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Apps"
+          },
+          {
+            "href": "https://faq.whatsapp.com/",
+            "class": "_aeo8 _av3i _9vcv _9u4o _9u4l _9sep",
+            "label": "Help Center"
+          },
+          {
+            "href": "https://whatsappbusiness.com/",
+            "class": "_aeo8 _av3i _9vcv _9u4o _9u4l _9sep",
+            "label": "For Business"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_aeo8 _9vcv _9u4o _9u4j _9sep",
+            "label": "Log In"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_aeo8 _9vcv _9u4o _9u4i _9sep",
+            "label": "Download"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_aeo8 _9vcv _9u4o _9u4i",
+            "label": "Download"
+          },
+          {
+            "href": "https://web.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.&type=phone_number&app_absent=0",
+            "class": "_9vcv _9u4i",
+            "label": "Open app"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl?wame_funnel=1",
+            "class": "_av3i _9vcv _9vcx _9sew",
+            "label": "Download it now"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl?wame_funnel=1",
+            "class": "_9vcv _9u4i",
+            "label": "Download app"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://www.whatsapp.com/calling",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Features"
+          },
+          {
+            "href": "https://blog.whatsapp.com/",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Blog"
+          },
+          {
+            "href": "https://www.whatsapp.com/security",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Security"
+          },
+          {
+            "href": "https://whatsappbusiness.com/",
+            "class": "_asnw _9vcv _9sep",
+            "label": "For Business"
+          },
+          {
+            "href": "https://www.whatsapp.com/about",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "About us"
+          },
+          {
+            "href": "https://www.metacareers.com/jobs?divisions[0]=WhatsApp",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Careers"
+          },
+          {
+            "href": "https://www.facebook.com/brand/resources/whatsapp/whatsapp-brand",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Brand Center"
+          },
+          {
+            "href": "https://www.whatsapp.com/privacy",
+            "class": "_asnw _9vcv _9sep",
+            "label": "Privacy"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/mobile",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Mobile"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/desktop",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Desktop"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/tablet",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Tablet"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_asnw _9vcv _9sep",
+            "label": "WhatsApp Web"
+          },
+          {
+            "href": "https://www.whatsapp.com/contact",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Contact Us"
+          },
+          {
+            "href": "https://faq.whatsapp.com/",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Help Center"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Apps"
+          },
+          {
+            "href": "https://www.whatsapp.com/security/advisories",
+            "class": "_asnw _9vcv _9sep",
+            "label": "Security Advisories"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/legal/",
+            "class": "_9vcv _9vcx _9sep",
+            "label": "Terms & Privacy Policy"
+          },
+          {
+            "href": "https://www.whatsapp.com/sitemap",
+            "class": "_asnw _9vcv",
+            "label": "Sitemap"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=af",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Afrikaans"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=az",
+            "class": "_av-c _asnw _9vcv",
+            "label": "azərbaycan"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=id",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Bahasa Indonesia"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ca",
+            "class": "_av-c _asnw _9vcv",
+            "label": "català"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=cs",
+            "class": "_av-c _asnw _9vcv",
+            "label": "čeština"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=da",
+            "class": "_av-c _asnw _9vcv",
+            "label": "dansk"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=de",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Deutsch"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=et",
+            "class": "_av-c _asnw _9vcv",
+            "label": "eesti"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=en",
+            "class": "_av-c _asnw _9vcv",
+            "label": "English"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=es",
+            "class": "_av-c _asnw _9vcv",
+            "label": "español"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=tl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Filipino"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "français"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ga",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Gaeilge"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "hrvatski"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=it",
+            "class": "_av-c _asnw _9vcv",
+            "label": "italiano"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sw",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Kiswahili"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=lv",
+            "class": "_av-c _asnw _9vcv",
+            "label": "latviešu"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=lt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "lietuvių"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hu",
+            "class": "_av-c _asnw _9vcv",
+            "label": "magyar"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ms",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Melayu"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=nl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Nederlands"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=nb",
+            "class": "_av-c _asnw _9vcv",
+            "label": "norsk bokmål"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=uz",
+            "class": "_av-c _asnw _9vcv",
+            "label": "o‘zbek"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "polski"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Português (Brasil)"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pt-pt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Português (Portugal)"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ro",
+            "class": "_av-c _asnw _9vcv",
+            "label": "română"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sq",
+            "class": "_av-c _asnw _9vcv",
+            "label": "shqip"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "slovenčina"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "slovenščina"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "suomi"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sv",
+            "class": "_av-c _asnw _9vcv",
+            "label": "svenska"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=vi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Tiếng Việt"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=tr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Türkçe"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=el",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Ελληνικά"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=bg",
+            "class": "_av-c _asnw _9vcv",
+            "label": "български"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=kk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "қазақ тілі"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=mk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "македонски"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ru",
+            "class": "_av-c _asnw _9vcv",
+            "label": "русский"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "српски"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=uk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "українська"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=he",
+            "class": "_av-c _asnw _9vcv",
+            "label": "עברית"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ur",
+            "class": "_av-c _asnw _9vcv",
+            "label": "اردو"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ar",
+            "class": "_av-c _asnw _9vcv",
+            "label": "العربية"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fa",
+            "class": "_av-c _asnw _9vcv",
+            "label": "فارسی"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=mr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "मराठी"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "हिन्दी"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=bn",
+            "class": "_av-c _asnw _9vcv",
+            "label": "বাংলা"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pa",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ਪੰਜਾਬੀ"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=gu",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ગુજરાતી"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ta",
+            "class": "_av-c _asnw _9vcv",
+            "label": "தமிழ்"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=te",
+            "class": "_av-c _asnw _9vcv",
+            "label": "తెలుగు"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=kn",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ಕನ್ನಡ"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ml",
+            "class": "_av-c _asnw _9vcv",
+            "label": "മലയാളം"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=th",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ไทย"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ko",
+            "class": "_av-c _asnw _9vcv",
+            "label": "한국어"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ja",
+            "class": "_av-c _asnw _9vcv",
+            "label": "日本語"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh",
+            "class": "_av-c _asnw _9vcv",
+            "label": "简体中文"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh-tw",
+            "class": "_av-c _asnw _9vcv",
+            "label": "繁體中文（台灣）"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh-hk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "繁體中文（香港）"
+          }
+        ],
+        "visible_text": "Share on WhatsApp\nFeatures\nCalling\nMessaging\nGroups\nChannels\nMeta AI\nStatus\nSecurity\nParental controls\nPrivacy\nBlog\nApps\nHelp Center\nFor Business\nLog In\nDownload\nDownload\nChat on WhatsApp with +250 795 588 248\nHello IKANISA, I am contacting you from the Collect website.\nOpen app\nDon't have the app?\nDownload it now\nLooks like you don't have WhatsApp installed.\nDownload app\nDownload\nDownload\nWhat we do\nFeatures\nBlog\nSecurity\nFor Business\nWho we are\nAbout us\nCareers\nBrand Center\nPrivacy\nUse WhatsApp\nMobile\nDesktop\nTablet\nWhatsApp Web\nNeed help?\nContact Us\nHelp Center\nApps\nSecurity Advisories\nDownload\n2026 © WhatsApp LLC\nTerms & Privacy Policy\nSitemap\nEnglish\nSelect a region\nAll languages (60)\nAfrica and the Middle East (6)\nAmericas (4)\nAsia-Pacific (22)\nEastern Europe (17)\nWestern Europe (14)\nAfrikaans\nazərbaycan\nBahasa Indonesia\ncatalà\nčeština\ndansk\nDeutsch\neesti\nEnglish\nespañol\nFilipino\nfrançais\nGaeilge\nhrvatski\nitaliano\nKiswahili\nlatviešu\nlietuvių\nmagyar\nMelayu\nNederlands\nnorsk bokmål\no‘zbek\npolski\nPortuguês (Brasil)\nPortuguês (Portugal)\nromână\nshqip\nslovenčina\nslovenščina\nsuomi\nsvenska\nTiếng Việt\nTürkçe\nΕλληνικά\nбългарски\nқазақ тілі\nмакедонски\nрусский\nсрпски\nукраїнська\nעברית\nاردو\nالعربية\nفارسی\nमराठी\nहिन्दी\nবাংলা\nਪੰਜਾਬੀ\nગુજરાતી\nதமிழ்\nతెలుగు\nಕನ್ನಡ\nമലയാളം\nไทย\n한국어\n日本語\n简体中文\n繁體中文（台灣）\n繁體中文（香港）",
+        "legal_text": ""
+      }
+    },
+    "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.": {
+      "requested_url": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+      "purpose": "support",
+      "started_at_utc": "2026-10-02T06:23:36.132481+00:00",
+      "finished_at_utc": "2026-10-02T06:23:38.060275+00:00",
+      "method": "GET",
+      "anonymous": true,
+      "redirects": [
+        {
+          "url": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+have+a+question+about+Collect.",
+          "status": 302,
+          "headers": {
+            "location": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+have+a+question+about+Collect.&type=phone_number&app_absent=0",
+            "content-security-policy": "default-src 'self' blob: *.whatsapp.net *.whatsapp.com *.fbcdn.net *.facebook.com *.facebook.net;script-src *.whatsapp.com *.whatsapp.net *.facebook.com *.facebook.net 'nonce-6n1OVG0f' 'self' blob: *.fbcdn.net;style-src *.whatsapp.com *.whatsapp.net 'unsafe-inline' *.facebook.com 'self' blob: *.fbcdn.net *.facebook.net;connect-src *.whatsapp.com *.whatsapp.net wss://*.facebook.com:* *.fbcdn.net 'self' data: blob:;font-src *.whatsapp.com *.whatsapp.net *.facebook.com static.xx.fbcdn.net 'self' data: blob:;img-src *.whatsapp.com *.whatsapp.net *.facebook.com *.fbcdn.net static.xx.fbcdn.net 'self' data: blob:;media-src *.fbcdn.net 'self' data: blob:;child-src 'self' data: blob:;frame-src *.facebook.com *.whatsapp.com 'self' blob: whatsapp:;manifest-src 'self' data: blob:;object-src 'self' data: blob:;worker-src *.whatsapp.com *.whatsapp.net *.facebook.com *.facebook.net 'nonce-6n1OVG0f' 'self' data: blob:;block-all-mixed-content;upgrade-insecure-requests;",
+            "cache-control": "private, no-cache, no-store, must-revalidate",
+            "x-content-type-options": "nosniff",
+            "strict-transport-security": "max-age=31536000; preload; includeSubDomains",
+            "content-type": "text/html; charset=\"utf-8\"",
+            "date": "Fri, 02 Oct 2026 06:23:37 GMT",
+            "content-length": "0"
+          },
+          "elapsed_seconds": 0.511,
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "body_bytes": 0
+        },
+        {
+          "url": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+have+a+question+about+Collect.&type=phone_number&app_absent=0",
+          "status": 200,
+          "headers": {
+            "content-security-policy": "frame-ancestors https://*.whatsapp.com https://whatsapp.com;",
+            "cache-control": "private, no-cache, no-store, must-revalidate",
+            "x-content-type-options": "nosniff",
+            "strict-transport-security": "max-age=31536000; preload; includeSubDomains",
+            "content-type": "text/html; charset=\"utf-8\"",
+            "date": "Fri, 02 Oct 2026 06:23:37 GMT"
+          },
+          "elapsed_seconds": 1.416,
+          "body_sha256": "4187abf4f5224196dbacb63d13f5ea986992d08ad96086cb7902974f9e3dd965",
+          "body_bytes": 224868
+        }
+      ],
+      "final_url": "https://api.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+have+a+question+about+Collect.&type=phone_number&app_absent=0",
+      "final_status": 200,
+      "body_sha256": "4187abf4f5224196dbacb63d13f5ea986992d08ad96086cb7902974f9e3dd965",
+      "body_bytes": 224868,
+      "body_path": "responses/250795588248-8d67fcdc3c.html",
+      "error": null,
+      "page": {
+        "canonical": "",
+        "title": "Share on WhatsApp",
+        "h1": "",
+        "ids": [
+          "facebook",
+          "meta_referrer",
+          "pageTitle",
+          "top-of-page",
+          "u_0_0_7i",
+          "u_0_1_2F",
+          "u_0_2_ZT",
+          "content-wrapper",
+          "main_block",
+          "action-button",
+          "fallback_block",
+          "a",
+          "b",
+          "c",
+          "action-button",
+          "footer-wrapper",
+          "contact_us_link_footer",
+          "u_0_3_DU",
+          "wauiLanguagePopup_dialog",
+          "u_0_4_9J",
+          "wauiLanguagePopup_region",
+          "u_0_5_ub"
+        ],
+        "images": [
+          {
+            "src": "https://static.whatsapp.net/rsrc.php/yM/r/ys-5GPT4pwS.svg",
+            "alt": "WhatsApp Main Logo"
+          },
+          {
+            "src": "https://static.whatsapp.net/rsrc.php/yJ/r/twC7frrXavH.svg",
+            "alt": "WhatsApp Main Logo"
+          }
+        ],
+        "links": [
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "#",
+            "class": "_aeo8 _av2s _9vcv _9u4o _9sep",
+            "label": "Features"
+          },
+          {
+            "href": "https://www.whatsapp.com/calling",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Calling"
+          },
+          {
+            "href": "https://www.whatsapp.com/messaging",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Messaging"
+          },
+          {
+            "href": "https://www.whatsapp.com/groups",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Groups"
+          },
+          {
+            "href": "https://www.whatsapp.com/channels",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Channels"
+          },
+          {
+            "href": "https://www.whatsapp.com/meta-ai",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Meta AI"
+          },
+          {
+            "href": "https://www.whatsapp.com/status",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Status"
+          },
+          {
+            "href": "https://www.whatsapp.com/security",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Security"
+          },
+          {
+            "href": "https://www.whatsapp.com/parentalcontrols",
+            "class": "_av3i _asnw _9vcv _9sep",
+            "label": "Parental controls"
+          },
+          {
+            "href": "https://www.whatsapp.com/privacy",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Privacy"
+          },
+          {
+            "href": "https://blog.whatsapp.com/",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Blog"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_av3i _9vcv _9u4l _9sep",
+            "label": "Apps"
+          },
+          {
+            "href": "https://faq.whatsapp.com/",
+            "class": "_aeo8 _av3i _9vcv _9u4o _9u4l _9sep",
+            "label": "Help Center"
+          },
+          {
+            "href": "https://whatsappbusiness.com/",
+            "class": "_aeo8 _av3i _9vcv _9u4o _9u4l _9sep",
+            "label": "For Business"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_aeo8 _9vcv _9u4o _9u4j _9sep",
+            "label": "Log In"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_aeo8 _9vcv _9u4o _9u4i _9sep",
+            "label": "Download"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_aeo8 _9vcv _9u4o _9u4i",
+            "label": "Download"
+          },
+          {
+            "href": "https://web.whatsapp.com/send/?phone=250795588248&text=Hello+IKANISA%2C+I+have+a+question+about+Collect.&type=phone_number&app_absent=0",
+            "class": "_9vcv _9u4i",
+            "label": "Open app"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl?wame_funnel=1",
+            "class": "_av3i _9vcv _9vcx _9sew",
+            "label": "Download it now"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl?wame_funnel=1",
+            "class": "_9vcv _9u4i",
+            "label": "Download app"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/",
+            "class": "_asnw _9vcv",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://www.whatsapp.com/calling",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Features"
+          },
+          {
+            "href": "https://blog.whatsapp.com/",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Blog"
+          },
+          {
+            "href": "https://www.whatsapp.com/security",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Security"
+          },
+          {
+            "href": "https://whatsappbusiness.com/",
+            "class": "_asnw _9vcv _9sep",
+            "label": "For Business"
+          },
+          {
+            "href": "https://www.whatsapp.com/about",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "About us"
+          },
+          {
+            "href": "https://www.metacareers.com/jobs?divisions[0]=WhatsApp",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Careers"
+          },
+          {
+            "href": "https://www.facebook.com/brand/resources/whatsapp/whatsapp-brand",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Brand Center"
+          },
+          {
+            "href": "https://www.whatsapp.com/privacy",
+            "class": "_asnw _9vcv _9sep",
+            "label": "Privacy"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/mobile",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Mobile"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/desktop",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Desktop"
+          },
+          {
+            "href": "https://www.whatsapp.com/download/tablet",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Tablet"
+          },
+          {
+            "href": "https://web.whatsapp.com/",
+            "class": "_asnw _9vcv _9sep",
+            "label": "WhatsApp Web"
+          },
+          {
+            "href": "https://www.whatsapp.com/contact",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Contact Us"
+          },
+          {
+            "href": "https://faq.whatsapp.com/",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Help Center"
+          },
+          {
+            "href": "https://www.whatsapp.com/download",
+            "class": "_asnw _9vcv _9scy _9sep",
+            "label": "Apps"
+          },
+          {
+            "href": "https://www.whatsapp.com/security/advisories",
+            "class": "_asnw _9vcv _9sep",
+            "label": "Security Advisories"
+          },
+          {
+            "href": "https://www.whatsapp.com/dl",
+            "class": "_aeo8 _advo _auqi _9vcv _9u4o _9u4i _9scc _9scs",
+            "label": "Download"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.whatsapp.com/legal/",
+            "class": "_9vcv _9vcx _9sep",
+            "label": "Terms & Privacy Policy"
+          },
+          {
+            "href": "https://www.whatsapp.com/sitemap",
+            "class": "_asnw _9vcv",
+            "label": "Sitemap"
+          },
+          {
+            "href": "https://x.com/whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.youtube.com/channel/UCAuerig2N-RZWJT8x75V9yw",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.instagram.com/whatsapp/?hl=en",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.facebook.com/profile.php?id=100064758844406",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://www.threads.com/@whatsapp",
+            "class": "_afwh _adig _ao_2 _ad_c",
+            "label": ""
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=af",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Afrikaans"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=az",
+            "class": "_av-c _asnw _9vcv",
+            "label": "azərbaycan"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=id",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Bahasa Indonesia"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ca",
+            "class": "_av-c _asnw _9vcv",
+            "label": "català"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=cs",
+            "class": "_av-c _asnw _9vcv",
+            "label": "čeština"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=da",
+            "class": "_av-c _asnw _9vcv",
+            "label": "dansk"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=de",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Deutsch"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=et",
+            "class": "_av-c _asnw _9vcv",
+            "label": "eesti"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=en",
+            "class": "_av-c _asnw _9vcv",
+            "label": "English"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=es",
+            "class": "_av-c _asnw _9vcv",
+            "label": "español"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=tl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Filipino"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "français"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ga",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Gaeilge"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "hrvatski"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=it",
+            "class": "_av-c _asnw _9vcv",
+            "label": "italiano"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sw",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Kiswahili"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=lv",
+            "class": "_av-c _asnw _9vcv",
+            "label": "latviešu"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=lt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "lietuvių"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hu",
+            "class": "_av-c _asnw _9vcv",
+            "label": "magyar"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ms",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Melayu"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=nl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Nederlands"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=nb",
+            "class": "_av-c _asnw _9vcv",
+            "label": "norsk bokmål"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=uz",
+            "class": "_av-c _asnw _9vcv",
+            "label": "o‘zbek"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "polski"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Português (Brasil)"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pt-pt",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Português (Portugal)"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ro",
+            "class": "_av-c _asnw _9vcv",
+            "label": "română"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sq",
+            "class": "_av-c _asnw _9vcv",
+            "label": "shqip"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "slovenčina"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sl",
+            "class": "_av-c _asnw _9vcv",
+            "label": "slovenščina"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "suomi"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sv",
+            "class": "_av-c _asnw _9vcv",
+            "label": "svenska"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=vi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Tiếng Việt"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=tr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Türkçe"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=el",
+            "class": "_av-c _asnw _9vcv",
+            "label": "Ελληνικά"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=bg",
+            "class": "_av-c _asnw _9vcv",
+            "label": "български"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=kk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "қазақ тілі"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=mk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "македонски"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ru",
+            "class": "_av-c _asnw _9vcv",
+            "label": "русский"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=sr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "српски"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=uk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "українська"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=he",
+            "class": "_av-c _asnw _9vcv",
+            "label": "עברית"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ur",
+            "class": "_av-c _asnw _9vcv",
+            "label": "اردو"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ar",
+            "class": "_av-c _asnw _9vcv",
+            "label": "العربية"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=fa",
+            "class": "_av-c _asnw _9vcv",
+            "label": "فارسی"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=mr",
+            "class": "_av-c _asnw _9vcv",
+            "label": "मराठी"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=hi",
+            "class": "_av-c _asnw _9vcv",
+            "label": "हिन्दी"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=bn",
+            "class": "_av-c _asnw _9vcv",
+            "label": "বাংলা"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=pa",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ਪੰਜਾਬੀ"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=gu",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ગુજરાતી"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ta",
+            "class": "_av-c _asnw _9vcv",
+            "label": "தமிழ்"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=te",
+            "class": "_av-c _asnw _9vcv",
+            "label": "తెలుగు"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=kn",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ಕನ್ನಡ"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ml",
+            "class": "_av-c _asnw _9vcv",
+            "label": "മലയാളം"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=th",
+            "class": "_av-c _asnw _9vcv",
+            "label": "ไทย"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ko",
+            "class": "_av-c _asnw _9vcv",
+            "label": "한국어"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=ja",
+            "class": "_av-c _asnw _9vcv",
+            "label": "日本語"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh",
+            "class": "_av-c _asnw _9vcv",
+            "label": "简体中文"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh-tw",
+            "class": "_av-c _asnw _9vcv",
+            "label": "繁體中文（台灣）"
+          },
+          {
+            "href": "https://api.whatsapp.com/send--sanitized-S228802--?lang=zh-hk",
+            "class": "_av-c _asnw _9vcv",
+            "label": "繁體中文（香港）"
+          }
+        ],
+        "visible_text": "Share on WhatsApp\nFeatures\nCalling\nMessaging\nGroups\nChannels\nMeta AI\nStatus\nSecurity\nParental controls\nPrivacy\nBlog\nApps\nHelp Center\nFor Business\nLog In\nDownload\nDownload\nChat on WhatsApp with +250 795 588 248\nHello IKANISA, I have a question about Collect.\nOpen app\nDon't have the app?\nDownload it now\nLooks like you don't have WhatsApp installed.\nDownload app\nDownload\nDownload\nWhat we do\nFeatures\nBlog\nSecurity\nFor Business\nWho we are\nAbout us\nCareers\nBrand Center\nPrivacy\nUse WhatsApp\nMobile\nDesktop\nTablet\nWhatsApp Web\nNeed help?\nContact Us\nHelp Center\nApps\nSecurity Advisories\nDownload\n2026 © WhatsApp LLC\nTerms & Privacy Policy\nSitemap\nEnglish\nSelect a region\nAll languages (60)\nAfrica and the Middle East (6)\nAmericas (4)\nAsia-Pacific (22)\nEastern Europe (17)\nWestern Europe (14)\nAfrikaans\nazərbaycan\nBahasa Indonesia\ncatalà\nčeština\ndansk\nDeutsch\neesti\nEnglish\nespañol\nFilipino\nfrançais\nGaeilge\nhrvatski\nitaliano\nKiswahili\nlatviešu\nlietuvių\nmagyar\nMelayu\nNederlands\nnorsk bokmål\no‘zbek\npolski\nPortuguês (Brasil)\nPortuguês (Portugal)\nromână\nshqip\nslovenčina\nslovenščina\nsuomi\nsvenska\nTiếng Việt\nTürkçe\nΕλληνικά\nбългарски\nқазақ тілі\nмакедонски\nрусский\nсрпски\nукраїнська\nעברית\nاردو\nالعربية\nفارسی\nमराठी\nहिन्दी\nবাংলা\nਪੰਜਾਬੀ\nગુજરાતી\nதமிழ்\nతెలుగు\nಕನ್ನಡ\nമലയാളം\nไทย\n한국어\n日本語\n简体中文\n繁體中文（台灣）\n繁體中文（香港）",
+        "legal_text": ""
+      }
+    }
+  },
+  "no_message_sent": true,
+  "mailto_delivery_unknown": true
+}

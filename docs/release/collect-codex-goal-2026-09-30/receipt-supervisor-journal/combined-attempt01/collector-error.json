@@ -1,0 +1,21 @@
+{
+  "error_code": "NODE_REPORTER_SUMMARY_PARSE_FAILED",
+  "files_sha256": {
+    "combined-current-tests.log": "561725ecd31fbbca3cae976a0f762fb9c2642abce1f3bfab47e62c479cdc397e",
+    "combined-current-typescript.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner-used.py": "dfae03c5d3f5a7481d8f37a7ed45992af505f1ea0c04027054c26c6dd195161d"
+  },
+  "kind": "actual_check_logs_with_failed_evidence_collector",
+  "scope": "Logs are actual. The evidence helper failed after completion; no source-before/after or compiler exit is retrospectively invented.",
+  "source_before_after_binding_retained": false,
+  "test_output_counts": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 139,
+    "skipped": 0,
+    "tests": 139,
+    "todo": 0
+  },
+  "typescript_exit_receipt_retained": false,
+  "typescript_log_empty": true
+}

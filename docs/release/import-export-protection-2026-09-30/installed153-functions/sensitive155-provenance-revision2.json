@@ -1,0 +1,801 @@
+{
+  "installed_count": 153,
+  "original_consumers": [
+    {
+      "name": "public._admin_list_people_by_membership",
+      "volatile": "s",
+      "signature": "public._admin_list_people_by_membership(boolean, text, text, integer, integer, text)",
+      "source_sha256": "143e8eea156971bdccff8a0caf9d7b03ca26b2fecba04876c0f14f2ff5306520"
+    },
+    {
+      "name": "public.admin_assign_hybrid_receiving_route",
+      "volatile": "v",
+      "signature": "public.admin_assign_hybrid_receiving_route(uuid, uuid, uuid, text, uuid)",
+      "source_sha256": "5047ff022c9bc7e03eaa05bac81a72f6de1dadf28228fd9009d835c29ac28c6e"
+    },
+    {
+      "name": "public.admin_create_collect_payee",
+      "volatile": "v",
+      "signature": "public.admin_create_collect_payee(uuid, text, text, text, text)",
+      "source_sha256": "6f358e0695981dee69cbced719d9c9a340e52a96dcde92d68a2a7f13a82fb3d2"
+    },
+    {
+      "name": "public.admin_create_platform_public_group",
+      "volatile": "v",
+      "signature": "public.admin_create_platform_public_group(text, text, text, text, text, text, text, text, text)",
+      "source_sha256": "b67d7993a8691ac90eb5d5985bfc6278db2ab04bf1c9ee3d42160c6df111adf1"
+    },
+    {
+      "name": "public.admin_get_bank_allocation_request",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_allocation_request(uuid)",
+      "source_sha256": "7bc75b12076aac1aae46e1e582c1cb4cb083e87364d3f78514f22ad352411eed"
+    },
+    {
+      "name": "public.admin_get_bank_destination_change_request",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_destination_change_request(uuid)",
+      "source_sha256": "aeb252f4295eaa090fc59cdc4c0a29ff678f54a9aad6cfd946300d97a97337b9"
+    },
+    {
+      "name": "public.admin_get_bank_destination",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_destination(uuid)",
+      "source_sha256": "a4759c8b2f15492db3061f842402aef6f032ac6568ca3c5931e6cff99cf74aee"
+    },
+    {
+      "name": "public.admin_get_bank_evidence",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_evidence(uuid)",
+      "source_sha256": "8aa7f8725b8941e453aefa0473494a3443d55876d9db5e70aa71f7a3511da663"
+    },
+    {
+      "name": "public.admin_get_bank_transaction",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_transaction(uuid)",
+      "source_sha256": "05117494d7deaefb4ff0be0955a7105c3f4111bef313ae32e00391c5f7f25027"
+    },
+    {
+      "name": "public.admin_get_bank_transfer_intent",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_transfer_intent(uuid)",
+      "source_sha256": "0a1244498f0c373069645ad5267ccd2a7e66a9c4d741162e825bd0fb1d4d9b85"
+    },
+    {
+      "name": "public.admin_get_collect_transaction",
+      "volatile": "s",
+      "signature": "public.admin_get_collect_transaction(text)",
+      "source_sha256": "f2180b7dea08355e60bc1326e6795b6185097f2867b8b21a6698fa93616d138d"
+    },
+    {
+      "name": "public.admin_get_collection",
+      "volatile": "s",
+      "signature": "public.admin_get_collection(uuid)",
+      "source_sha256": "15d733a81d364d547113aff45e72f81a58488df98295b23a97fe2963901b3a38"
+    },
+    {
+      "name": "public.admin_get_hybrid_sms_receipt",
+      "volatile": "s",
+      "signature": "public.admin_get_hybrid_sms_receipt(uuid)",
+      "source_sha256": "0aaa8c3fba53e90514c8e9a8a05cdbc746ac88393674c4b961294c31d26ea014"
+    },
+    {
+      "name": "public.admin_get_journal_entry",
+      "volatile": "s",
+      "signature": "public.admin_get_journal_entry(uuid)",
+      "source_sha256": "975b3f413552cc47387d599f90168887cad09f80a08c7637f15529c6371630a5"
+    },
+    {
+      "name": "public.admin_get_member_record",
+      "volatile": "s",
+      "signature": "public.admin_get_member_record(uuid)",
+      "source_sha256": "db0803667496d3e6454ee970573f046f288d834d778283f2358f9e2025a63182"
+    },
+    {
+      "name": "public.admin_get_notification",
+      "volatile": "v",
+      "signature": "public.admin_get_notification(uuid)",
+      "source_sha256": "6909a1e5d038021ba0918992ed2486967a7ba5124e5e03594087fba4221a3761"
+    },
+    {
+      "name": "public.admin_get_payment_event",
+      "volatile": "s",
+      "signature": "public.admin_get_payment_event(uuid)",
+      "source_sha256": "fce4e5c499206a901c5756b1ec409f0ff953caa2168062a3844956b91658e894"
+    },
+    {
+      "name": "public.admin_get_payment_intent",
+      "volatile": "s",
+      "signature": "public.admin_get_payment_intent(uuid)",
+      "source_sha256": "3e734ed75a46fd439bb0f1df111d68e93b311610d6f9174e84cb917b5ad0d88d"
+    },
+    {
+      "name": "public.admin_get_payment",
+      "volatile": "s",
+      "signature": "public.admin_get_payment(uuid)",
+      "source_sha256": "e8b89a84d034c2ce2415e62db6835a9f736b3a1d900a3b6a7e64efa2acba3f30"
+    },
+    {
+      "name": "public.admin_get_queue_sla",
+      "volatile": "s",
+      "signature": "public.admin_get_queue_sla(text)",
+      "source_sha256": "4bf9a4608d9a490b2c85c8290c8f9fa538eca4fe77ec8573e050ec18c2c38d30"
+    },
+    {
+      "name": "public.admin_get_receiver",
+      "volatile": "s",
+      "signature": "public.admin_get_receiver(uuid)",
+      "source_sha256": "f80dd5102b241e0319fe7c11387e93ccba6254b60c9bd478e96023fd4c788e7f"
+    },
+    {
+      "name": "public.admin_get_reconciliation_exception",
+      "volatile": "s",
+      "signature": "public.admin_get_reconciliation_exception(uuid)",
+      "source_sha256": "9d92161d54cd96a6cc24bc27a1c8ec71388bdccab810b1f6bf4aed4bba34e115"
+    },
+    {
+      "name": "public.admin_get_reconciliation_run",
+      "volatile": "s",
+      "signature": "public.admin_get_reconciliation_run(uuid)",
+      "source_sha256": "52a2fad283cd98d18f907cc7d07c99e2d3f170e8c8d1e8ced267d200e5f753d1"
+    },
+    {
+      "name": "public.admin_get_sms_metadata",
+      "volatile": "s",
+      "signature": "public.admin_get_sms_metadata(uuid)",
+      "source_sha256": "ba239966cb686f5586f362c51e227ed0a4ae312def32fa07845cf962fbe3d348"
+    },
+    {
+      "name": "public.admin_get_user",
+      "volatile": "s",
+      "signature": "public.admin_get_user(uuid)",
+      "source_sha256": "26849284a6f214a45d156986503f57af8ee80f9b0b82825d0cab5c5a59753f6d"
+    },
+    {
+      "name": "public.admin_grant_user_role",
+      "volatile": "v",
+      "signature": "public.admin_grant_user_role(uuid, text, text)",
+      "source_sha256": "56875332f2dc0cf46e434479c4840d6620983e05ae6cdeaf77ef06702eb9ae48"
+    },
+    {
+      "name": "public.admin_import_bank_statement",
+      "volatile": "v",
+      "signature": "public.admin_import_bank_statement(text, text, date, date, jsonb, text)",
+      "source_sha256": "e7da7f67778a4c285d9f72b7189c8083863c1858e95cdd099561abae2cee427a"
+    },
+    {
+      "name": "public.admin_list_allocations",
+      "volatile": "s",
+      "signature": "public.admin_list_allocations(text, text, integer, integer, text)",
+      "source_sha256": "4a7f2c7f0ee611998994f9cc5ab634fcd0df8e8ee88c26ffec43af8971684404"
+    },
+    {
+      "name": "public.admin_list_audit_logs",
+      "volatile": "s",
+      "signature": "public.admin_list_audit_logs(text, text)",
+      "source_sha256": "a72d6670da9b09e1e50897c1bb81c72847b6a9380c4041c9ded281c304744aa4"
+    },
+    {
+      "name": "public.admin_list_bank_allocation_requests",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_allocation_requests(text, text, integer, integer, text)",
+      "source_sha256": "f104cbab4f243b84a5c8dcfb74864f027ee97848cd8a536beff0bf3f3b45157f"
+    },
+    {
+      "name": "public.admin_list_bank_destination_change_requests",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_destination_change_requests(text, text, integer, integer, text)",
+      "source_sha256": "bf0110bdc8f05393edfb4c869a80c9cca58621a0fce4c32851cea4f4201cb864"
+    },
+    {
+      "name": "public.admin_list_bank_destinations",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_destinations(text, text, integer, integer, text)",
+      "source_sha256": "d9966fffe40f8064e45739a2985998a1f2dbecc92fdfd73dec03e89c74e96323"
+    },
+    {
+      "name": "public.admin_list_bank_evidence",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_evidence(text, text, integer, integer, text)",
+      "source_sha256": "ab1e9b11f8876c67e44918d1d9a59d1df5d08156456538e95e7958cfd94b4328"
+    },
+    {
+      "name": "public.admin_list_bank_transactions",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_transactions(text, text, integer, integer, text)",
+      "source_sha256": "3b60470bb477c868740ab324a86175893c69ff0a48dc97a56e22114af4701adb"
+    },
+    {
+      "name": "public.admin_list_bank_transfer_intents",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_transfer_intents(text, text, integer, integer, text)",
+      "source_sha256": "f465c472a4995bd0be6992cbda4b1bc0d2634e1611ff5740cf4d54471c9e3192"
+    },
+    {
+      "name": "public.admin_list_collect_ledgers",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_ledgers(text, text, integer, integer, text)",
+      "source_sha256": "b50b33a247fc2668766836742658d65a118e79fa18e9df34f48c05da0ee3a7a6"
+    },
+    {
+      "name": "public.admin_list_collect_payees",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_payees(text, text, integer, integer, text)",
+      "source_sha256": "bcb988b7bd5a5f748f1ccf1033fa79d03498419cf996b061018a5ba87bee35bb"
+    },
+    {
+      "name": "public.admin_list_collect_reconciliations",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_reconciliations(text, text, integer, integer, text)",
+      "source_sha256": "fd2ecc312c6d5566aba1f9019e3bced4ba9352f61e6b6b86730f977d8068c401"
+    },
+    {
+      "name": "public.admin_list_collect_transactions",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_transactions(text, text, integer, integer, text)",
+      "source_sha256": "1e57180b59f84fae15713a2e88b91f92e2d7d0bd50d183ae2f254f19c1e5da4f"
+    },
+    {
+      "name": "public.admin_list_collections",
+      "volatile": "s",
+      "signature": "public.admin_list_collections(text, text, integer, integer, text)",
+      "source_sha256": "37d9c9857d19ba355e49ec40e02f4ef6544c7fd0dfa4de7506f44fa7a65074dd"
+    },
+    {
+      "name": "public.admin_list_hybrid_sms_receipts",
+      "volatile": "s",
+      "signature": "public.admin_list_hybrid_sms_receipts(text, text, integer, integer, text)",
+      "source_sha256": "c8326f7a25a2d082092f27de6076b73bef7dad4546a76a2c1dc81ae5b09277c3"
+    },
+    {
+      "name": "public.admin_list_journal_entries",
+      "volatile": "s",
+      "signature": "public.admin_list_journal_entries(text, text, integer, integer, text)",
+      "source_sha256": "8003f5c8cbdac54a05e17c7b4634f9be8394a8f36b1b36b22e7a84125efac5ff"
+    },
+    {
+      "name": "public.admin_list_ledger",
+      "volatile": "s",
+      "signature": "public.admin_list_ledger(text, text)",
+      "source_sha256": "bfa23f3cdcf61950096d7d188481abbfbc31b71801e1cbd50b8a52a2caa52d7d"
+    },
+    {
+      "name": "public.admin_list_members",
+      "volatile": "s",
+      "signature": "public.admin_list_members(text, text, integer, integer, text)",
+      "source_sha256": "f04cb9c510e1e441cf9646ef1cfaea87b2390941f8733d1b60bb53524a463a98"
+    },
+    {
+      "name": "public.admin_list_notifications",
+      "volatile": "s",
+      "signature": "public.admin_list_notifications(text, text, integer, integer, text)",
+      "source_sha256": "8eb59736033a03f081051d282487d7ed4d1f5c9ad53cace11713747172304290"
+    },
+    {
+      "name": "public.admin_list_payment_events",
+      "volatile": "s",
+      "signature": "public.admin_list_payment_events(text, text, integer, integer, text)",
+      "source_sha256": "e7c4be92fa6357f25178e4dce3e9763f4d52aab2a7ac14c1629acdaa6738cf9b"
+    },
+    {
+      "name": "public.admin_list_payment_intents",
+      "volatile": "s",
+      "signature": "public.admin_list_payment_intents(text, text, integer, integer, text)",
+      "source_sha256": "d633b081961febb10a57e64e4ce9b5d2734faad7ea6fd3f5e4b54472e77d252d"
+    },
+    {
+      "name": "public.admin_list_payments",
+      "volatile": "s",
+      "signature": "public.admin_list_payments(text, text, integer, integer, text)",
+      "source_sha256": "8dfeb0bab1cd2c60c43abd3f2804a0c0e3e2028e84818bc47252094e3872f0ae"
+    },
+    {
+      "name": "public.admin_list_payments",
+      "volatile": "s",
+      "signature": "public.admin_list_payments(text, text)",
+      "source_sha256": "db933469e1226a014f460eb80a574ce56cb2cb612ba1742a383fce258b541193"
+    },
+    {
+      "name": "public.admin_list_platform_payee_candidates",
+      "volatile": "s",
+      "signature": "public.admin_list_platform_payee_candidates(text, text, integer, integer, text)",
+      "source_sha256": "64f9fdddccfc2ec87c9330ef76d6bfb65b4bcf3a20e5548e43ddd08bdcfbe17f"
+    },
+    {
+      "name": "public.admin_list_receivers",
+      "volatile": "s",
+      "signature": "public.admin_list_receivers(text, text)",
+      "source_sha256": "08e2f0531c72a6c4f5eb81f4a1e9d39c35d8ffd797056ae1560163289bcab8ec"
+    },
+    {
+      "name": "public.admin_list_reconciliation_exceptions",
+      "volatile": "s",
+      "signature": "public.admin_list_reconciliation_exceptions(text, text, integer, integer, text)",
+      "source_sha256": "78b67d0a299088c8cbb59b284eca265b726d47c212702fb0ff5fd9785b3cdcad"
+    },
+    {
+      "name": "public.admin_list_reconciliation_runs",
+      "volatile": "s",
+      "signature": "public.admin_list_reconciliation_runs(text, text, integer, integer, text)",
+      "source_sha256": "cfb13c9c4dc265ccad55cb0a93c7e9f0570ee0f8ffb31478d2409cdceafe32be"
+    },
+    {
+      "name": "public.admin_list_settings",
+      "volatile": "s",
+      "signature": "public.admin_list_settings(text, text)",
+      "source_sha256": "e40c73d0ef972039e672dcea0c8182c13bd31b4a0be53b079788b9f7fc826775"
+    },
+    {
+      "name": "public.admin_list_sms_metadata",
+      "volatile": "s",
+      "signature": "public.admin_list_sms_metadata(text, text)",
+      "source_sha256": "ac825a7d4dad585a6534fbe445c89eebaac4b1dace32f985d071561890638816"
+    },
+    {
+      "name": "public.admin_list_unallocated",
+      "volatile": "s",
+      "signature": "public.admin_list_unallocated(text, text, integer, integer, text)",
+      "source_sha256": "9310657e9bd01d5bb43bdbaa417e5a295da6318860ccea1896f51b3dd51ffb8e"
+    },
+    {
+      "name": "public.admin_list_users",
+      "volatile": "s",
+      "signature": "public.admin_list_users(text, text, integer, integer, text)",
+      "source_sha256": "9dcc1303cca9c978cb555af7febbc0fa612c5fc6c03bbd9ab648c9a78f1fd7ed"
+    },
+    {
+      "name": "public.admin_manual_allocate_payment",
+      "volatile": "v",
+      "signature": "public.admin_manual_allocate_payment(uuid, uuid, uuid, text)",
+      "source_sha256": "cb691c4ad613fd88a0258c195b9ad3b712cfe504ec764dccbfeae4b7d46f560b"
+    },
+    {
+      "name": "public.admin_overview",
+      "volatile": "s",
+      "signature": "public.admin_overview()",
+      "source_sha256": "851d150008a6d03129fe44d51e37e9d03f67993b8f3ea6945c5cab88adca0cc8"
+    },
+    {
+      "name": "public.admin_propose_bank_allocation",
+      "volatile": "v",
+      "signature": "public.admin_propose_bank_allocation(uuid, uuid, text)",
+      "source_sha256": "1456f8b999c1e2d2ac8871e22fa2d26f1d937a11ef72f6491a9b6d07b3055eb5"
+    },
+    {
+      "name": "public.admin_propose_bank_destination",
+      "volatile": "v",
+      "signature": "public.admin_propose_bank_destination(text, text, text, text, boolean, text)",
+      "source_sha256": "dcd46105f9207352004f8e05c8fbcb265deb822600cc6f108c0f9a273412c886"
+    },
+    {
+      "name": "public.admin_record_operator_note",
+      "volatile": "v",
+      "signature": "public.admin_record_operator_note(text, uuid, text)",
+      "source_sha256": "74c1ae74b471ea05d079619809db07a98bd47474c1dc06124c32b520d804f822"
+    },
+    {
+      "name": "public.admin_reopen_daily_bank_close",
+      "volatile": "v",
+      "signature": "public.admin_reopen_daily_bank_close(uuid, text)",
+      "source_sha256": "f4eb03665ddfaaa0384adb2b635c079d11f5531ec449eed0059c6ca5771e4fd0"
+    },
+    {
+      "name": "public.admin_reparse_payment_event",
+      "volatile": "v",
+      "signature": "public.admin_reparse_payment_event(uuid, text)",
+      "source_sha256": "dcab5fe7c9c1cd2c26c7789769d29d2cb7d4842cb2ac1498a241d10ef045a968"
+    },
+    {
+      "name": "public.admin_resolve_reconciliation_exception",
+      "volatile": "v",
+      "signature": "public.admin_resolve_reconciliation_exception(uuid, text, boolean)",
+      "source_sha256": "b5b7cdbe791242c540f28995027951f41064c709b26bcd686b667eda2609624e"
+    },
+    {
+      "name": "public.admin_retry_notification",
+      "volatile": "v",
+      "signature": "public.admin_retry_notification(uuid, text)",
+      "source_sha256": "72efbf45d584a7527d5eef7aced5939bebf783140910573b3fab7f322dde333d"
+    },
+    {
+      "name": "public.admin_reveal_raw_bank_evidence",
+      "volatile": "v",
+      "signature": "public.admin_reveal_raw_bank_evidence(uuid, text)",
+      "source_sha256": "28b291947709431125a0e13ab560a8e1add8132ac7caebc960177930fce6e294"
+    },
+    {
+      "name": "public.admin_reveal_raw_sms",
+      "volatile": "v",
+      "signature": "public.admin_reveal_raw_sms(uuid, text)",
+      "source_sha256": "a4e82a4a59ea7a76201b2601b032ed808b12f501d34e36903caea06f82948b70"
+    },
+    {
+      "name": "public.admin_reverse_momo_payment",
+      "volatile": "v",
+      "signature": "public.admin_reverse_momo_payment(uuid, text, uuid)",
+      "source_sha256": "5da0f83ba0706b25a2eae0e454cf136975883c360884942e8436325eb644eaf7"
+    },
+    {
+      "name": "public.admin_review_bank_allocation",
+      "volatile": "v",
+      "signature": "public.admin_review_bank_allocation(uuid, boolean, text)",
+      "source_sha256": "6050e2348557b3cf71f5d4e2ab60445b6c03c8aa6f0f955eea1910b7a880a7a6"
+    },
+    {
+      "name": "public.admin_review_bank_destination_change",
+      "volatile": "v",
+      "signature": "public.admin_review_bank_destination_change(uuid, boolean, text)",
+      "source_sha256": "cdfebb2e5a2f0ee84b4e28fcad6713410aeeba0904f5561dafa27aac85d29025"
+    },
+    {
+      "name": "public.admin_revoke_user_role",
+      "volatile": "v",
+      "signature": "public.admin_revoke_user_role(uuid, text, text)",
+      "source_sha256": "8530800647091e012b015efdd4ef1497f17c92bab65f72611a4b714b005a2c34"
+    },
+    {
+      "name": "public.admin_run_bank_reconciliation",
+      "volatile": "v",
+      "signature": "public.admin_run_bank_reconciliation(date, text)",
+      "source_sha256": "db79d7cdb9cbd07c43b9a1098dc44a21cf751f30614607d356299e84daa8009e"
+    },
+    {
+      "name": "public.admin_set_collect_payee_status",
+      "volatile": "v",
+      "signature": "public.admin_set_collect_payee_status(uuid, boolean, text)",
+      "source_sha256": "44c5fa6f851650da9c2b2055e7a0006f23ce44f472ccce931d01d2621418dcb7"
+    },
+    {
+      "name": "public.admin_set_group_active",
+      "volatile": "v",
+      "signature": "public.admin_set_group_active(uuid, boolean, text)",
+      "source_sha256": "c41909e3abbfd7d4af568394d082b0bc0eb37d25d1ba8013c775285852bb5c8e"
+    },
+    {
+      "name": "public.admin_update_collect_payee",
+      "volatile": "v",
+      "signature": "public.admin_update_collect_payee(uuid, text, text)",
+      "source_sha256": "8f7f5bedf83c5b3e6a14b348affdbabd6ec34ec1f2fc1074501f6c93b8a6eecc"
+    },
+    {
+      "name": "public.admin_update_collection_support_status",
+      "volatile": "v",
+      "signature": "public.admin_update_collection_support_status(uuid, text, text)",
+      "source_sha256": "82dc8abedbdece080288e994ef4dc206e5a74508ec8b0a7ad0bf3a5417198881"
+    },
+    {
+      "name": "public.admin_update_platform_public_group_metadata",
+      "volatile": "v",
+      "signature": "public.admin_update_platform_public_group_metadata(uuid, text, text, text, text, text, text, text)",
+      "source_sha256": "dc159c29ec666f5b027b14411d0169440af6bbdf1c9c50b3cf7ee14810e75728"
+    },
+    {
+      "name": "public.admin_update_platform_public_group",
+      "volatile": "v",
+      "signature": "public.admin_update_platform_public_group(uuid, text, text, text, text, text, text, text)",
+      "source_sha256": "c4c091b513f72388ff530ba846045463f46837719a1fb13a3a81060b7f8201b9"
+    }
+  ],
+  "volatility_changes": [
+    {
+      "name": "public._admin_list_people_by_membership",
+      "volatile": "s",
+      "signature": "public._admin_list_people_by_membership(boolean, text, text, integer, integer, text)",
+      "source_sha256": "143e8eea156971bdccff8a0caf9d7b03ca26b2fecba04876c0f14f2ff5306520"
+    },
+    {
+      "name": "public.admin_get_bank_allocation_request",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_allocation_request(uuid)",
+      "source_sha256": "7bc75b12076aac1aae46e1e582c1cb4cb083e87364d3f78514f22ad352411eed"
+    },
+    {
+      "name": "public.admin_get_bank_destination_change_request",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_destination_change_request(uuid)",
+      "source_sha256": "aeb252f4295eaa090fc59cdc4c0a29ff678f54a9aad6cfd946300d97a97337b9"
+    },
+    {
+      "name": "public.admin_get_bank_destination",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_destination(uuid)",
+      "source_sha256": "a4759c8b2f15492db3061f842402aef6f032ac6568ca3c5931e6cff99cf74aee"
+    },
+    {
+      "name": "public.admin_get_bank_evidence",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_evidence(uuid)",
+      "source_sha256": "8aa7f8725b8941e453aefa0473494a3443d55876d9db5e70aa71f7a3511da663"
+    },
+    {
+      "name": "public.admin_get_bank_transaction",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_transaction(uuid)",
+      "source_sha256": "05117494d7deaefb4ff0be0955a7105c3f4111bef313ae32e00391c5f7f25027"
+    },
+    {
+      "name": "public.admin_get_bank_transfer_intent",
+      "volatile": "s",
+      "signature": "public.admin_get_bank_transfer_intent(uuid)",
+      "source_sha256": "0a1244498f0c373069645ad5267ccd2a7e66a9c4d741162e825bd0fb1d4d9b85"
+    },
+    {
+      "name": "public.admin_get_collect_transaction",
+      "volatile": "s",
+      "signature": "public.admin_get_collect_transaction(text)",
+      "source_sha256": "f2180b7dea08355e60bc1326e6795b6185097f2867b8b21a6698fa93616d138d"
+    },
+    {
+      "name": "public.admin_get_collection",
+      "volatile": "s",
+      "signature": "public.admin_get_collection(uuid)",
+      "source_sha256": "15d733a81d364d547113aff45e72f81a58488df98295b23a97fe2963901b3a38"
+    },
+    {
+      "name": "public.admin_get_hybrid_sms_receipt",
+      "volatile": "s",
+      "signature": "public.admin_get_hybrid_sms_receipt(uuid)",
+      "source_sha256": "0aaa8c3fba53e90514c8e9a8a05cdbc746ac88393674c4b961294c31d26ea014"
+    },
+    {
+      "name": "public.admin_get_journal_entry",
+      "volatile": "s",
+      "signature": "public.admin_get_journal_entry(uuid)",
+      "source_sha256": "975b3f413552cc47387d599f90168887cad09f80a08c7637f15529c6371630a5"
+    },
+    {
+      "name": "public.admin_get_member_record",
+      "volatile": "s",
+      "signature": "public.admin_get_member_record(uuid)",
+      "source_sha256": "db0803667496d3e6454ee970573f046f288d834d778283f2358f9e2025a63182"
+    },
+    {
+      "name": "public.admin_get_payment_event",
+      "volatile": "s",
+      "signature": "public.admin_get_payment_event(uuid)",
+      "source_sha256": "fce4e5c499206a901c5756b1ec409f0ff953caa2168062a3844956b91658e894"
+    },
+    {
+      "name": "public.admin_get_payment_intent",
+      "volatile": "s",
+      "signature": "public.admin_get_payment_intent(uuid)",
+      "source_sha256": "3e734ed75a46fd439bb0f1df111d68e93b311610d6f9174e84cb917b5ad0d88d"
+    },
+    {
+      "name": "public.admin_get_payment",
+      "volatile": "s",
+      "signature": "public.admin_get_payment(uuid)",
+      "source_sha256": "e8b89a84d034c2ce2415e62db6835a9f736b3a1d900a3b6a7e64efa2acba3f30"
+    },
+    {
+      "name": "public.admin_get_queue_sla",
+      "volatile": "s",
+      "signature": "public.admin_get_queue_sla(text)",
+      "source_sha256": "4bf9a4608d9a490b2c85c8290c8f9fa538eca4fe77ec8573e050ec18c2c38d30"
+    },
+    {
+      "name": "public.admin_get_receiver",
+      "volatile": "s",
+      "signature": "public.admin_get_receiver(uuid)",
+      "source_sha256": "f80dd5102b241e0319fe7c11387e93ccba6254b60c9bd478e96023fd4c788e7f"
+    },
+    {
+      "name": "public.admin_get_reconciliation_exception",
+      "volatile": "s",
+      "signature": "public.admin_get_reconciliation_exception(uuid)",
+      "source_sha256": "9d92161d54cd96a6cc24bc27a1c8ec71388bdccab810b1f6bf4aed4bba34e115"
+    },
+    {
+      "name": "public.admin_get_reconciliation_run",
+      "volatile": "s",
+      "signature": "public.admin_get_reconciliation_run(uuid)",
+      "source_sha256": "52a2fad283cd98d18f907cc7d07c99e2d3f170e8c8d1e8ced267d200e5f753d1"
+    },
+    {
+      "name": "public.admin_get_sms_metadata",
+      "volatile": "s",
+      "signature": "public.admin_get_sms_metadata(uuid)",
+      "source_sha256": "ba239966cb686f5586f362c51e227ed0a4ae312def32fa07845cf962fbe3d348"
+    },
+    {
+      "name": "public.admin_get_user",
+      "volatile": "s",
+      "signature": "public.admin_get_user(uuid)",
+      "source_sha256": "26849284a6f214a45d156986503f57af8ee80f9b0b82825d0cab5c5a59753f6d"
+    },
+    {
+      "name": "public.admin_list_allocations",
+      "volatile": "s",
+      "signature": "public.admin_list_allocations(text, text, integer, integer, text)",
+      "source_sha256": "4a7f2c7f0ee611998994f9cc5ab634fcd0df8e8ee88c26ffec43af8971684404"
+    },
+    {
+      "name": "public.admin_list_audit_logs",
+      "volatile": "s",
+      "signature": "public.admin_list_audit_logs(text, text)",
+      "source_sha256": "a72d6670da9b09e1e50897c1bb81c72847b6a9380c4041c9ded281c304744aa4"
+    },
+    {
+      "name": "public.admin_list_bank_allocation_requests",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_allocation_requests(text, text, integer, integer, text)",
+      "source_sha256": "f104cbab4f243b84a5c8dcfb74864f027ee97848cd8a536beff0bf3f3b45157f"
+    },
+    {
+      "name": "public.admin_list_bank_destination_change_requests",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_destination_change_requests(text, text, integer, integer, text)",
+      "source_sha256": "bf0110bdc8f05393edfb4c869a80c9cca58621a0fce4c32851cea4f4201cb864"
+    },
+    {
+      "name": "public.admin_list_bank_destinations",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_destinations(text, text, integer, integer, text)",
+      "source_sha256": "d9966fffe40f8064e45739a2985998a1f2dbecc92fdfd73dec03e89c74e96323"
+    },
+    {
+      "name": "public.admin_list_bank_evidence",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_evidence(text, text, integer, integer, text)",
+      "source_sha256": "ab1e9b11f8876c67e44918d1d9a59d1df5d08156456538e95e7958cfd94b4328"
+    },
+    {
+      "name": "public.admin_list_bank_transactions",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_transactions(text, text, integer, integer, text)",
+      "source_sha256": "3b60470bb477c868740ab324a86175893c69ff0a48dc97a56e22114af4701adb"
+    },
+    {
+      "name": "public.admin_list_bank_transfer_intents",
+      "volatile": "s",
+      "signature": "public.admin_list_bank_transfer_intents(text, text, integer, integer, text)",
+      "source_sha256": "f465c472a4995bd0be6992cbda4b1bc0d2634e1611ff5740cf4d54471c9e3192"
+    },
+    {
+      "name": "public.admin_list_collect_ledgers",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_ledgers(text, text, integer, integer, text)",
+      "source_sha256": "b50b33a247fc2668766836742658d65a118e79fa18e9df34f48c05da0ee3a7a6"
+    },
+    {
+      "name": "public.admin_list_collect_payees",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_payees(text, text, integer, integer, text)",
+      "source_sha256": "bcb988b7bd5a5f748f1ccf1033fa79d03498419cf996b061018a5ba87bee35bb"
+    },
+    {
+      "name": "public.admin_list_collect_reconciliations",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_reconciliations(text, text, integer, integer, text)",
+      "source_sha256": "fd2ecc312c6d5566aba1f9019e3bced4ba9352f61e6b6b86730f977d8068c401"
+    },
+    {
+      "name": "public.admin_list_collect_transactions",
+      "volatile": "s",
+      "signature": "public.admin_list_collect_transactions(text, text, integer, integer, text)",
+      "source_sha256": "1e57180b59f84fae15713a2e88b91f92e2d7d0bd50d183ae2f254f19c1e5da4f"
+    },
+    {
+      "name": "public.admin_list_collections",
+      "volatile": "s",
+      "signature": "public.admin_list_collections(text, text, integer, integer, text)",
+      "source_sha256": "37d9c9857d19ba355e49ec40e02f4ef6544c7fd0dfa4de7506f44fa7a65074dd"
+    },
+    {
+      "name": "public.admin_list_hybrid_sms_receipts",
+      "volatile": "s",
+      "signature": "public.admin_list_hybrid_sms_receipts(text, text, integer, integer, text)",
+      "source_sha256": "c8326f7a25a2d082092f27de6076b73bef7dad4546a76a2c1dc81ae5b09277c3"
+    },
+    {
+      "name": "public.admin_list_journal_entries",
+      "volatile": "s",
+      "signature": "public.admin_list_journal_entries(text, text, integer, integer, text)",
+      "source_sha256": "8003f5c8cbdac54a05e17c7b4634f9be8394a8f36b1b36b22e7a84125efac5ff"
+    },
+    {
+      "name": "public.admin_list_ledger",
+      "volatile": "s",
+      "signature": "public.admin_list_ledger(text, text)",
+      "source_sha256": "bfa23f3cdcf61950096d7d188481abbfbc31b71801e1cbd50b8a52a2caa52d7d"
+    },
+    {
+      "name": "public.admin_list_members",
+      "volatile": "s",
+      "signature": "public.admin_list_members(text, text, integer, integer, text)",
+      "source_sha256": "f04cb9c510e1e441cf9646ef1cfaea87b2390941f8733d1b60bb53524a463a98"
+    },
+    {
+      "name": "public.admin_list_notifications",
+      "volatile": "s",
+      "signature": "public.admin_list_notifications(text, text, integer, integer, text)",
+      "source_sha256": "8eb59736033a03f081051d282487d7ed4d1f5c9ad53cace11713747172304290"
+    },
+    {
+      "name": "public.admin_list_payment_events",
+      "volatile": "s",
+      "signature": "public.admin_list_payment_events(text, text, integer, integer, text)",
+      "source_sha256": "e7c4be92fa6357f25178e4dce3e9763f4d52aab2a7ac14c1629acdaa6738cf9b"
+    },
+    {
+      "name": "public.admin_list_payment_intents",
+      "volatile": "s",
+      "signature": "public.admin_list_payment_intents(text, text, integer, integer, text)",
+      "source_sha256": "d633b081961febb10a57e64e4ce9b5d2734faad7ea6fd3f5e4b54472e77d252d"
+    },
+    {
+      "name": "public.admin_list_payments",
+      "volatile": "s",
+      "signature": "public.admin_list_payments(text, text, integer, integer, text)",
+      "source_sha256": "8dfeb0bab1cd2c60c43abd3f2804a0c0e3e2028e84818bc47252094e3872f0ae"
+    },
+    {
+      "name": "public.admin_list_payments",
+      "volatile": "s",
+      "signature": "public.admin_list_payments(text, text)",
+      "source_sha256": "db933469e1226a014f460eb80a574ce56cb2cb612ba1742a383fce258b541193"
+    },
+    {
+      "name": "public.admin_list_platform_payee_candidates",
+      "volatile": "s",
+      "signature": "public.admin_list_platform_payee_candidates(text, text, integer, integer, text)",
+      "source_sha256": "64f9fdddccfc2ec87c9330ef76d6bfb65b4bcf3a20e5548e43ddd08bdcfbe17f"
+    },
+    {
+      "name": "public.admin_list_receivers",
+      "volatile": "s",
+      "signature": "public.admin_list_receivers(text, text)",
+      "source_sha256": "08e2f0531c72a6c4f5eb81f4a1e9d39c35d8ffd797056ae1560163289bcab8ec"
+    },
+    {
+      "name": "public.admin_list_reconciliation_exceptions",
+      "volatile": "s",
+      "signature": "public.admin_list_reconciliation_exceptions(text, text, integer, integer, text)",
+      "source_sha256": "78b67d0a299088c8cbb59b284eca265b726d47c212702fb0ff5fd9785b3cdcad"
+    },
+    {
+      "name": "public.admin_list_reconciliation_runs",
+      "volatile": "s",
+      "signature": "public.admin_list_reconciliation_runs(text, text, integer, integer, text)",
+      "source_sha256": "cfb13c9c4dc265ccad55cb0a93c7e9f0570ee0f8ffb31478d2409cdceafe32be"
+    },
+    {
+      "name": "public.admin_list_settings",
+      "volatile": "s",
+      "signature": "public.admin_list_settings(text, text)",
+      "source_sha256": "e40c73d0ef972039e672dcea0c8182c13bd31b4a0be53b079788b9f7fc826775"
+    },
+    {
+      "name": "public.admin_list_sms_metadata",
+      "volatile": "s",
+      "signature": "public.admin_list_sms_metadata(text, text)",
+      "source_sha256": "ac825a7d4dad585a6534fbe445c89eebaac4b1dace32f985d071561890638816"
+    },
+    {
+      "name": "public.admin_list_unallocated",
+      "volatile": "s",
+      "signature": "public.admin_list_unallocated(text, text, integer, integer, text)",
+      "source_sha256": "9310657e9bd01d5bb43bdbaa417e5a295da6318860ccea1896f51b3dd51ffb8e"
+    },
+    {
+      "name": "public.admin_list_users",
+      "volatile": "s",
+      "signature": "public.admin_list_users(text, text, integer, integer, text)",
+      "source_sha256": "9dcc1303cca9c978cb555af7febbc0fa612c5fc6c03bbd9ab648c9a78f1fd7ed"
+    },
+    {
+      "name": "public.admin_overview",
+      "volatile": "s",
+      "signature": "public.admin_overview()",
+      "source_sha256": "851d150008a6d03129fe44d51e37e9d03f67993b8f3ea6945c5cab88adca0cc8"
+    }
+  ],
+  "source_path": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+  "source_sha256": "4b228ee53ee19cd136f7bf858e6d248b33dbd0d3576f7cefa6bf085e16ca4606",
+  "original_assert_sha256": "74d501630511aa42cc3af4232db21577888dcb7d62237beb827e56beaf57bdeb",
+  "reveal_original_sha256": "39206c95e5f0e5acbe5bcf343e9bcc49e83829ba6eefd1890f5420ffb89e1a0a",
+  "retry_original_sha256": "37c20cc08bdc3227f17b026638d0ba4b1204b35302ac90ad7896d2fda004ae31",
+  "meaning": "Exact installed direct consumers; bodies/ACLs stay unchanged except the three declared authority/reason functions and the RLS snapshot guard.",
+  "prior_candidate_sha256": "83e27ce23c8f5fe9f81fc9095bda2c6770df6c567b475daf0d506090a22de7fd",
+  "correction": "Terminate the two copied pg_get_functiondef statements; prior failed rehearsal preserved."
+}

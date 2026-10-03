@@ -1,0 +1,17 @@
+{
+  "files": {
+    "README.md": "4d3a890e58051ad2a0349f58b998b544d12a18e68564c566c45303d296f28a66",
+    "authorized-run-start.json": "e33014bc37dab989613887e2aed8294286a9bcce2eeaeb5aaff721f4ab4ccb35",
+    "bind_three_file_preview.py": "04d0b4a5a9649907a2e7910c7b5ef14c30196266ae0ecb0a47c43cd6e9c686fb",
+    "independent-three-file-validation-plan.json": "782b53f5459cc8e5547d6d6f72a1c25a2870159c6bdbd62467f4f7852c41e20e",
+    "physical-expansion-result.json": "344663398604eb5248432b4b4ff7d62d0de5c562a2cd4fe94d087c0ad18ea33f",
+    "physical-expansion-terminal.json": "88ae4ea49bddf51d9398192eecc5efec7514ca51d8297d9fb3c2e298e844ac36",
+    "physical-expansion.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "physical-expansion.stdout": "bb082c04269eda3285a94f56e88e4aa42520aa7880f9922f6dd616f4f86bbf36",
+    "physical-foundation-validation.json": "630c13ed4602959a0fd7aedaddc8feaab61b26bd279265b1aeb9a23483912451",
+    "preservation-readback.json": "6ce1e3f7f02312080f93c7271f9a5affd8b9bda8a2b1b32202b5c5ea0eabbbf6",
+    "run_authorized_physical_expansion.py": "7836dde03699ad3f02b413bb6e6f663574fd1fae31ae60c33bf0d3f79ea069a6",
+    "three-file-physical-preview-binding.json": "e61d580116a7fb976733cbf7dc3ae6c6d3b927c5c0bb46f04511ba39e2e01f34"
+  },
+  "scope": "Authorized pristine independent physical expansion/full readback and read-only exact3 preview/current compiler-runtime plan. No patch or SDK execution."
+}

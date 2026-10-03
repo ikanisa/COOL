@@ -1,0 +1,32 @@
+{
+  "R8_AGP_provider_verified": false,
+  "actual_seconds": 0.7622509999928297,
+  "captured_at_utc": "2026-10-02T15:24:45.237793+00:00",
+  "changed_settings": {
+    "actual_after": {
+      "bytes": 1163,
+      "mode": 448,
+      "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a"
+    },
+    "archived_before": {
+      "bytes": 840,
+      "mode": 448,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "path": "android/settings.gradle.kts"
+  },
+  "current_APP_manifest": {
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+    "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1"
+  },
+  "current_APP_source_manifest_sha256": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "deadline_seconds": 300,
+  "kind": "actual_reviewed_R8_settings_overlay_after_Android2",
+  "original_native_test_scope_reused_without_whole_current_native_claim": true,
+  "previous_APP_manifest_sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7",
+  "production_release_approval": false,
+  "source_file_count": 2561,
+  "source_lock_attested": false,
+  "unchanged_archived_rows_after_Android3": 2558,
+  "unchanged_rows_since_Android2": 2560
+}

@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "private_stage_manifest_sha256": "68f7b3724996d0bf5fc9c3d4b80cd557ad8eb32ea396533f43b59f18f9d01112",
+  "expected_private_stage_manifest_sha256": "68f7b3724996d0bf5fc9c3d4b80cd557ad8eb32ea396533f43b59f18f9d01112",
+  "maintained_copy_safety_tool_sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+  "expected_copy_safety_tool_sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690"
+}

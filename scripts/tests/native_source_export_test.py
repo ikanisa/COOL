@@ -63,6 +63,27 @@ class NativeSourceExportTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.export(self.root, Path(self.temp.name) / "output")
 
+    def test_authority_and_actual_production_build_callers_are_hash_bound(self):
+        names = ["AGENTS.md", "scripts/qa/native_build_provenance.rb",
+                 "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
+                 "scripts/ios_app_store_build.sh", "scripts/qa/native_source_export.py",
+                 "scripts/supply_chain/gradle_runtime_inventory.init.gradle"]
+        for name in names:
+            self.write(name, "Synthetic public build caller: " + name)
+        first = module.export(self.root, Path(self.temp.name) / "output-before")
+        for name in names:
+            self.assertEqual(first["source_sha256"][name], module.digest(self.root / name))
+        self.write("scripts/qa/native_build_provenance.rb", "Changed public build caller")
+        second = module.export(self.root, Path(self.temp.name) / "output-after")
+        self.assertNotEqual(first["source_sha256"]["scripts/qa/native_build_provenance.rb"],
+                            second["source_sha256"]["scripts/qa/native_build_provenance.rb"])
+
+    def test_internal_source_symlink_refuses_ambiguous_source_identity(self):
+        target = self.write("lib/real.dart", "Synthetic regular runtime source")
+        (self.root / "lib/alias.dart").symlink_to(target)
+        with self.assertRaisesRegex(ValueError, "must be a regular file"):
+            module.export(self.root, Path(self.temp.name) / "output")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,61 @@
+{
+  "observed_at": "2026-10-02T02:00:01.989986+00:00",
+  "queries": [
+    {
+      "name": "supervisor-exact-id",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "--format",
+        "{{.Id}} {{.Name}}",
+        "7b2a8b50c79eb9429baa7c3365c1b088d817d8cc2ec756789b4d166a9f618c2d"
+      ],
+      "deadline_seconds": 15,
+      "exit_code": 1,
+      "exact_missing_object_diagnostic": true,
+      "stdout_empty": true
+    },
+    {
+      "name": "security-exact-name",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "--format",
+        "{{.Id}} {{.Name}}",
+        "collect_roster_decoder_5fbdff83cc2b_dependency_security"
+      ],
+      "deadline_seconds": 15,
+      "exit_code": 1,
+      "exact_missing_object_diagnostic": true,
+      "stdout_empty": true
+    },
+    {
+      "name": "fresh-image-containers",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "ps",
+        "-a",
+        "--filter",
+        "ancestor=sha256:1804707ebbd146cfecd373da7bf2041457c9f7192b26540c41fa3d1955a38b96",
+        "--format",
+        "{{.ID}} {{.Names}}"
+      ],
+      "deadline_seconds": 15,
+      "exit_code": 0,
+      "exact_missing_object_diagnostic": null,
+      "stdout_empty": true
+    }
+  ],
+  "actual_task_supervisor_absent": true,
+  "actual_task_security_container_absent": true,
+  "fresh_image_has_zero_containers": true,
+  "actual_owned_live_processes": {},
+  "owned_original_diagnostic_preserved": {
+    "path": "execution-result.json",
+    "field": "supervisor_absent_after_gate",
+    "value": false,
+    "explanation": "Original case-sensitive No such parser did not match Docker lowercase no such object. Actual exit1 and exact object diagnostic above prove absence; original receipt remains unchanged."
+  },
+  "image_retained_as_local_immutable_id": "sha256:1804707ebbd146cfecd373da7bf2041457c9f7192b26540c41fa3d1955a38b96",
+  "broader_daemon_or_other_tasks_claimed_absent": false
+}

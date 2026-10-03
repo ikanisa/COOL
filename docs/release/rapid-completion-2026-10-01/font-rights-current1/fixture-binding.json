@@ -1,0 +1,7 @@
+{
+  "correction": "Copied only the missing named historical fixture; passing Flutter/font/syntax checks are not repeated.",
+  "export_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "original_failure": "single-static-source-route-case.log",
+  "path": "docs/release/public-website-content-baseline.json",
+  "root_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf"
+}

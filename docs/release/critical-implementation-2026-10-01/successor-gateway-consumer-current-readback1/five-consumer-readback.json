@@ -1,0 +1,107 @@
+{
+  "contracts/edge-functions.json": {
+    "base_sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+    "candidate_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/contracts/edge-functions.json",
+    "candidate_sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2",
+    "current": {
+      "bytes": 3836,
+      "identity": [
+        16777247,
+        15904058,
+        420,
+        3836,
+        1790883007901237634,
+        1790883007901237634,
+        1
+      ],
+      "mode": 420,
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28"
+    },
+    "current_base_matches": true,
+    "maintained_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/contracts/edge-functions.json"
+  },
+  "scripts/edge_function_inventory.rb": {
+    "base_sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+    "candidate_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/edge_function_inventory.rb",
+    "candidate_sha256": "f73326cc6f05b4df37bdacc2500f480fbccc8850bd3842ae9b723945905e7d6d",
+    "current": {
+      "bytes": 6127,
+      "identity": [
+        16777247,
+        15904059,
+        420,
+        6127,
+        1790883007901887093,
+        1790883007901887093,
+        1
+      ],
+      "mode": 420,
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9"
+    },
+    "current_base_matches": true,
+    "maintained_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/edge_function_inventory.rb"
+  },
+  "scripts/supabase_production_readiness.sh": {
+    "base_sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd",
+    "candidate_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/supabase_production_readiness.sh",
+    "candidate_sha256": "b83f9ea65fd56c301c5c8df2de87f063affa754d9d365664e866e19b004edc4d",
+    "current": {
+      "bytes": 62358,
+      "identity": [
+        16777247,
+        2695370,
+        448,
+        62358,
+        1790887432474607839,
+        1790887432474607839,
+        1
+      ],
+      "mode": 448,
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+    },
+    "current_base_matches": true,
+    "maintained_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supabase_production_readiness.sh"
+  },
+  "scripts/tests/edge_function_inventory_test.rb": {
+    "base_sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b",
+    "candidate_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/tests/edge_function_inventory_test.rb",
+    "candidate_sha256": "53c298cd1b00181ed2183a86962fa75f7778c79e6fac4bccdde11ffef04f619a",
+    "current": {
+      "bytes": 3844,
+      "identity": [
+        16777247,
+        15904555,
+        420,
+        3844,
+        1790883186030693847,
+        1790883186030693847,
+        1
+      ],
+      "mode": 420,
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b"
+    },
+    "current_base_matches": true,
+    "maintained_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/edge_function_inventory_test.rb"
+  },
+  "scripts/tests/supabase_delivery_contract_test.py": {
+    "base_sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+    "candidate_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/tests/supabase_delivery_contract_test.py",
+    "candidate_sha256": "6f2741778742e6fd13d7b9bf898bc83d91fb9651afa4bfe7e079d9e4eec2f926",
+    "current": {
+      "bytes": 28103,
+      "identity": [
+        16777247,
+        15904556,
+        420,
+        28103,
+        1790886748558280886,
+        1790886748558280886,
+        1
+      ],
+      "mode": 420,
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d"
+    },
+    "current_base_matches": true,
+    "maintained_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py"
+  }
+}

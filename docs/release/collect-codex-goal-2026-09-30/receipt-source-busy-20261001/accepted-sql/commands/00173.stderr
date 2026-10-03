@@ -1,0 +1,12 @@
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transfer_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transactions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_evidence_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.reconciliation_runs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.reconciliation_exceptions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transfer_destinations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

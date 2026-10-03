@@ -1,0 +1,3 @@
+scripts/tests/operational_metric_concurrency_uat.rb:129:in `<main>': ERROR:  cannot cast type integer[] to json (RuntimeError)
+LINE 1: select pg_blocking_pids(943)::json;
+                                    ^

@@ -1,0 +1,25 @@
+..............E.............
+======================================================================
+ERROR: test_management_target_and_exact_single_integer_row_required (__main__.PostgresAdmissionTest.test_management_target_and_exact_single_integer_row_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_postgres_admission.py", line 249, in test_management_target_and_exact_single_integer_row_required
+    admitted = self.admit('migration')
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_postgres_admission.py", line 68, in admit
+    return pg.Admission.from_environment(self.env, operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/postgres_admission.py", line 204, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ADMISSION'), env.get('COLLECT_POSTGRES_ADMISSION_SHA256'), env, operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/postgres_admission.py", line 196, in __init__
+    code, observed = bounded([str(self.client), '--version'], local_environment(), limits['version_seconds'], limit=1024)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/postgres_admission.py", line 92, in bounded
+    raise Refused('PG_COMMAND_TIMEOUT')
+postgres_admission.Refused: PG_COMMAND_TIMEOUT
+
+----------------------------------------------------------------------
+Ran 28 tests in 13.219s
+
+FAILED (errors=1)

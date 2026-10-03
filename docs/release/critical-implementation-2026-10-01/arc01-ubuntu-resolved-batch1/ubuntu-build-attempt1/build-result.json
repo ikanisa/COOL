@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "docker",
+    "build",
+    "--no-cache",
+    "--progress",
+    "plain",
+    "--platform",
+    "linux/amd64",
+    "--tag",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800:proof",
+    "--iidfile",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc01-ubuntu-resolved-batch1/ubuntu-build-attempt1/image-id.txt",
+    "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/ubuntu-build-context"
+  ],
+  "completed_at_utc": "2026-10-02T00:29:05.355791+00:00",
+  "deadline_seconds": 300,
+  "elapsed_seconds": 300.08927112499805,
+  "exit_code": 130,
+  "log_sha256": "fd4144c6a46c7a2c5d92f354d0a8674937fc167f803cb40209338c958a1f0d30",
+  "started_at_utc": "2026-10-02T00:24:05.269328+00:00",
+  "timed_out": true
+}

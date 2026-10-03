@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/after.ts",
+      "bytes": 48433,
+      "sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/before.ts",
+      "bytes": 48311,
+      "sha256": "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/promotion.json",
+      "bytes": 635,
+      "sha256": "a28fc221f85d4b9ff006c7d2d9228f5764679414c5b68fb9931d5ef60f82b16f"
+    }
+  ],
+  "scope": "Exact reviewed single-file type correction applied after bounded private full86 type-only proof."
+}

@@ -1,0 +1,216 @@
+{
+  "sealed_at_utc": "2026-10-02T02:15:41.168343+00:00",
+  "status": "read_only_review_complete_source_stable",
+  "maintained_inputs": 29,
+  "artifact_count": 36,
+  "current_inventory_counts": {
+    "manifest": 12,
+    "source": 13,
+    "config": 13,
+    "literal_http_loader": 12
+  },
+  "missing_declared_fixtures": [
+    "./fixtures/observed-first-successor-grant.json",
+    "./fixtures/observed-first-successor-arm.json",
+    "./fixtures/observed-exact-grant-recovery.json",
+    "./fixtures/observed-multipart-callbacks.json",
+    "./fixtures/observed-successor-grant.json",
+    "./fixtures/observed-exact-successor-archive-ack.json",
+    "./fixtures/observed-armed-status.json",
+    "./fixtures/observed-late-conflicting-status.json",
+    "./fixtures/observed-late-original-request-recovery.json",
+    "./fixtures/observed-incomplete-archive.json"
+  ],
+  "declared_tests": 25,
+  "handler_tests_executed": false,
+  "source_only_inventory_exit_code": 1,
+  "before_copy_after_identity_mode_hash_verified": true,
+  "source_stable_through_seal": true,
+  "maintained_source_writes": 0,
+  "sql_and_handler_execution": false,
+  "network_and_hosted_operations": false,
+  "current_canonical_acceptance_claimed": false,
+  "prior137_source_packet_relabelled": false,
+  "artifacts": {
+    "README.md": {
+      "sha256": "72c6ad381c3d026331e65ec5891db7467e68357dc27ef710e8d5d9c906e9f451",
+      "bytes": 9325,
+      "mode": 420
+    },
+    "actual-inventory-check.stderr": {
+      "sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887",
+      "bytes": 118,
+      "mode": 420
+    },
+    "actual-inventory-check.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 420
+    },
+    "capture_read_only_review.py": {
+      "sha256": "30dbdaca628dad967957d9de89886541a63805966f0adfe8fda2b9dc8284eaa6",
+      "bytes": 7749,
+      "mode": 420
+    },
+    "inputs/contracts/edge-functions.json": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420
+    },
+    "inputs/scripts/audits/collect_edge_function_local_gate.rb": {
+      "sha256": "d16f3b374a6bd228c9e5edd977201291c3a87db6c1e2ce0db4ed175dd59ee774",
+      "bytes": 8039,
+      "mode": 448
+    },
+    "inputs/scripts/edge_function_inventory.rb": {
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+      "bytes": 6127,
+      "mode": 420
+    },
+    "inputs/scripts/edge_function_inventory.sh": {
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+      "bytes": 1610,
+      "mode": 420
+    },
+    "inputs/scripts/qa/backend_release_delivery.py": {
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+      "bytes": 30962,
+      "mode": 420
+    },
+    "inputs/scripts/qa/edge_http_runtime_uat.ts": {
+      "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+      "bytes": 44961,
+      "mode": 448
+    },
+    "inputs/scripts/qa/run_edge_ci.py": {
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349,
+      "mode": 420
+    },
+    "inputs/scripts/qa/run_edge_http_uat.py": {
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+      "bytes": 6603,
+      "mode": 448
+    },
+    "inputs/scripts/qa/run_edge_unit_tests.py": {
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "bytes": 9611,
+      "mode": 420
+    },
+    "inputs/scripts/supabase_deploy.sh": {
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+      "bytes": 345,
+      "mode": 448
+    },
+    "inputs/scripts/supabase_production_readiness.sh": {
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd",
+      "bytes": 62358,
+      "mode": 448
+    },
+    "inputs/scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "sha256": "4c3657eb119efaa1da02f1488468ca6bb66f7004a55553cdad56c87d235e6b23",
+      "bytes": 5682,
+      "mode": 448
+    },
+    "inputs/scripts/tests/edge_function_inventory_test.rb": {
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b",
+      "bytes": 3844,
+      "mode": 420
+    },
+    "inputs/scripts/tests/supabase_delivery_contract_test.py": {
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+      "bytes": 28103,
+      "mode": 420
+    },
+    "inputs/supabase/config.toml": {
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+      "bytes": 16173,
+      "mode": 448
+    },
+    "inputs/supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "mode": 448
+    },
+    "inputs/supabase/functions/_shared/supabase.ts": {
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "mode": 448
+    },
+    "inputs/supabase/functions/collect-android-gateway/handler.ts": {
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "mode": 420
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+      "bytes": 9031,
+      "mode": 420
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176",
+      "bytes": 15936,
+      "mode": 420
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+      "bytes": 417,
+      "mode": 420
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "bytes": 13374,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+      "bytes": 20369,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560",
+      "bytes": 28095,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "bytes": 105502,
+      "mode": 420
+    },
+    "inputs/supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "bytes": 103624,
+      "mode": 420
+    },
+    "proposal.json": {
+      "sha256": "b06b560772abdb9c69edbd4361439ee817bba35059feb9dd837fa51fb97e6734",
+      "bytes": 6253,
+      "mode": 420
+    },
+    "readback.json": {
+      "sha256": "db94b7def55af79c8e4c37cb344ff0f0cd77c4eef3d8289c68e0f24ee6e41996",
+      "bytes": 36238,
+      "mode": 420
+    },
+    "seal-source-readback.json": {
+      "sha256": "87a3611ce91d60985bfe7db6e700096ea79549a276406d02c7e50b586f712233",
+      "bytes": 10724,
+      "mode": 420
+    }
+  }
+}

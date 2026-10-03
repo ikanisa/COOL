@@ -1,0 +1,73 @@
+{
+  "scope": "private recipe proposal only; parent owns promotion and one actual local execution; no Docker/network/SQL executed here",
+  "proposed_directory": "proposed-final",
+  "maintained_file_changes": [
+    ".github/workflows/ci.yml"
+  ],
+  "new_files": [
+    "scripts/qa/run_sql_ci.py",
+    "scripts/tests/sql_ci_runner_test.py",
+    "scripts/tests/fixtures/ordinary_installer_v1/manifest.json",
+    "scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql",
+    "scripts/tests/fixtures/ordinary_installer_v1/predecessor.json"
+  ],
+  "original_helpers_changed": false,
+  "interfaces": {
+    "--docker": "Explicit absolute physical executable; whole-file caller SHA checked before each child/parent Docker command; no PATH fallback in execution",
+    "--docker-sha256": "Explicit64-hex pin of that local CLI; observed caller binding, not a fabricated upstream/shipping approval",
+    "--docker-host": "Explicit strict local unix:/// path; tcp/ssh/default context refused",
+    "--fixture-lock-sha256": "Whole checked-in fixture manifest pin; known17.6 configID/Python3.12.14 cohort and fixed two fixture hashes enforced",
+    "--output": "Fresh contained repository .cache output; original main gets captured-source/docs/release/ordinary-sql-ci"
+  },
+  "operations": [
+    {
+      "phase": "separate CI acquisition",
+      "commands": [
+        "docker pull --platform=linux/arm64 public.ecr.aws/supabase/postgres:17.6.1.095",
+        "Mandatory configID check sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"
+      ],
+      "mutable_tag_acquisition": true,
+      "execution_allowed_on_mismatch": false,
+      "registry_repo_digest_bound_in_prior37": false,
+      "performed_here": false
+    },
+    {
+      "phase": "execution preflight",
+      "commands": [
+        "Bound Docker image inspect exact configID, restricted output Id/Os/Architecture",
+        "Check Linux/arm64 actual image fields before original main; prior37 did not attest architecture"
+      ],
+      "scope": "Read-only local image metadata; no image acquisition or provider access"
+    },
+    {
+      "phase": "original37 rehearsal",
+      "commands": [
+        "Call original current_ordinary_installer_rehearsal.main --output on the frozen private candidate",
+        "Original two unique owned1GiB tmpfs containers, --pull=never --network=none/noports; source209 application migrations unchanged",
+        "Original privileged platform setup followed by actual postgres NOSUPERUSER; CREATE ROLE/CREATE DB/BYPASSRLS/trusted memberships remain disclosed",
+        "Original37 assertions,18 projection fingerprints, strict complete catalogs and scheduler-disable readbacks unchanged"
+      ],
+      "inner_command_timeout_seconds": 120,
+      "shared_or_real_database_or_provider_target": false
+    },
+    {
+      "phase": "cleanup",
+      "commands": [
+        "Exact registered name + imageID + ownership label + networknone/noports required before fallback removal",
+        "Metadata daemon/permission failure is not absence; fallback requires actual no-such-target readback and forces overall failure",
+        "Owned subprocess groups must actually be absent; zero-probe EPERM after stop remains unknown until ESRCH within same5s bound"
+      ],
+      "whole_seconds": 600,
+      "execution_seconds": 540,
+      "reserved_cleanup_seconds": 60,
+      "new_execution_reserve_is_stricter_than_prior_outer600": true
+    }
+  ],
+  "actual_acceptance_scopes": {
+    "first17_boundary_cases": "16PASS/1ERROR; exact original failure retained",
+    "successor_changed_cohort": "2PASS: unchanged failed descendant case plus new forced transient post-kill probe case; no full18 pass claim",
+    "workflow_parser_policy": "PASS; all13 original jobs/top-level policy fields unchanged",
+    "new_recipe_actual_Docker_SQL_Linux": "UNRUN; explicit parent execution after integration required",
+    "prior_actuals": "209ordinary37PASS, committed recovery27PASS and shipping Linux39 proof retained as dated separate scopes; not rerun"
+  }
+}

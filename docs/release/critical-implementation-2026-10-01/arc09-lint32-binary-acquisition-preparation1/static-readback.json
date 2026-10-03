@@ -1,0 +1,170 @@
+{
+  "GNU_sidecars": "plain40hex or one checksum+exact Maven coordinate path; paths are evidence text, never read/executed; namedjavax/kxml fixtures included",
+  "JAR_policy": "all member CRCs streamed without extraction; reject traversal/absolute/backslash/duplicates/symlink/encryption, more200000entries or over2GiB inflated",
+  "actual_binary_acquisition_or_shared_cache_or_maintained_source_writes": false,
+  "all_fenced_sources_match": true,
+  "checks": {
+    "actual_seconds": 0.05392700000084005,
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/limited_test.py"
+    ],
+    "deadline_seconds": 30,
+    "exit_code": 0,
+    "fixtures_written_only_under_newprivate_preparation": true,
+    "network_or_binary_acquisition_calls": 0,
+    "owned_PID_PGID": 30765,
+    "owned_group_absent": true,
+    "stderr_sha256": "ebb7bb51e5610a41749f03fb8945d271606c12356429d4092e4a27999a8d2c61",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unittest_count": 11
+  },
+  "cleanup": "every request30s within global180s; TERM then KILL bounded within separate2s; unreaped groups stay in active readback and fail qualification",
+  "controller_sha256": "0d3633128cf1aecd9cf175267c87988fdc6c802da614e658669edf8ac4271ed2",
+  "excluded_BOM_and_duplicate_core_bridge": [
+    {
+      "POM_packaging": "pom",
+      "actual_selected_variant": {
+        "attributes": [
+          {
+            "name": "org.gradle.status",
+            "type": "java.lang.String",
+            "value": "release"
+          }
+        ],
+        "capabilities": [
+          {
+            "group": "org.jetbrains.kotlinx",
+            "name": "kotlinx-coroutines-bom",
+            "version": "1.9.0"
+          }
+        ],
+        "external_variant": null,
+        "name": "default",
+        "owner": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0"
+      },
+      "component_id": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0",
+      "reason": "selected coroutines BOM is a POM platform; no JAR projected"
+    },
+    {
+      "component_id": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0",
+      "reason": "authenticated selected available-at bridge to core-jvm; unique target JAR already included; no separate root JAR",
+      "selected_variant": {
+        "attributes": [
+          {
+            "name": "org.gradle.category",
+            "type": "java.lang.String",
+            "value": "library"
+          },
+          {
+            "name": "org.gradle.jvm.environment",
+            "type": "java.lang.String",
+            "value": "standard-jvm"
+          },
+          {
+            "name": "org.gradle.libraryelements",
+            "type": "java.lang.String",
+            "value": "jar"
+          },
+          {
+            "name": "org.gradle.status",
+            "type": "java.lang.String",
+            "value": "release"
+          },
+          {
+            "name": "org.gradle.usage",
+            "type": "java.lang.String",
+            "value": "java-runtime"
+          },
+          {
+            "name": "org.jetbrains.kotlin.platform.type",
+            "type": "java.lang.String",
+            "value": "jvm"
+          }
+        ],
+        "capabilities": [
+          {
+            "group": "org.jetbrains.kotlinx",
+            "name": "kotlinx-coroutines-core",
+            "version": "1.9.0"
+          }
+        ],
+        "external_variant": {
+          "attributes": [
+            {
+              "name": "org.gradle.category",
+              "type": "java.lang.String",
+              "value": "library"
+            },
+            {
+              "name": "org.gradle.jvm.environment",
+              "type": "java.lang.String",
+              "value": "standard-jvm"
+            },
+            {
+              "name": "org.gradle.libraryelements",
+              "type": "java.lang.String",
+              "value": "jar"
+            },
+            {
+              "name": "org.gradle.status",
+              "type": "java.lang.String",
+              "value": "release"
+            },
+            {
+              "name": "org.gradle.usage",
+              "type": "java.lang.String",
+              "value": "java-runtime"
+            },
+            {
+              "name": "org.jetbrains.kotlin.platform.type",
+              "type": "java.lang.String",
+              "value": "jvm"
+            }
+          ],
+          "capabilities": [
+            {
+              "group": "org.jetbrains.kotlinx",
+              "name": "kotlinx-coroutines-core-jvm",
+              "version": "1.9.0"
+            }
+          ],
+          "further_external_variant_present": false,
+          "name": "jvmRuntimeElements-published",
+          "owner": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0"
+        },
+        "name": "jvmRuntimeElements-published",
+        "owner": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+      }
+    }
+  ],
+  "existing_result": "Sealed69POM/8module/61official404 publisher metadata qualified against successful metadata3",
+  "fallback_bundle_components": [
+    "com.google.guava:failureaccess:1.0.2",
+    "com.google.jimfs:jimfs:1.1"
+  ],
+  "fallback_primary_sources": "primary-fallback-contract.json",
+  "input_rows": 211,
+  "nonexecuted_unfinished_financial_preparation_not_assumed": "bounded named release/cache inventory found no predecessor binary prep files; none imported",
+  "plan_counts": {
+    "Maven_fallback": 60,
+    "excluded_duplicate_or_POM_components": 2,
+    "module_declared": 7,
+    "selected_modules": 69,
+    "unique_JARs": 67
+  },
+  "plan_sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+  "preserved_selected_variant_and_reciprocal_bridge_proof": true,
+  "production_release_approval": false,
+  "readback_contract": "artifacts coordinate/filename/body_path/sha256/sha1/bytes/publisher_URL/publisher_SHA1_verified/complete/errors +selected owner/typejar/classifiernull/extensionjar +planproof; partial failures retained; plan_sha256/status/actual_seconds/requests/body_bytes/owned_processes_absent/full_graph_admissionfalse",
+  "remaining_gap": "Actual binary intake, review, root-owned standard blob cache admission, normal full Gradle artifact/graph compare, lint/AAB/license/release",
+  "request_worker_sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4",
+  "required_outcome": "Root-executable bounded67-JAR publisher intake plan/controller with selected metadata proof and meaningful failure checks",
+  "schema_version": 1,
+  "source_fences_sha256": "0fc53638285d8d4a6ce46d909bdc4be6f134505cc50700432a222b09bc73fa9a",
+  "status": "PASS_PRIVATE_PREPARATION_ONLY",
+  "transport_TLS": "installed curl default certificate validation inferred from explicit HTTPS and successful exit; no insecure/customCA/proxy/config flags or environment. No ssl_verify_result field is invented.",
+  "transport_intake_bound": "streamed headers atmost64KiB/body atmost128MiB; total conservative intake reservation/charge atmost512MiB; maximum4workers may wait for budget"
+}

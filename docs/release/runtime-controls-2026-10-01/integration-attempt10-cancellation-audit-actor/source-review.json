@@ -1,0 +1,14 @@
+{
+  "status": "source_review_pass_runtime_pending",
+  "captured_at": "2026-10-01T00:56:53.590065+00:00",
+  "source_sha256": {
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+  },
+  "exact_single_body_delta": "create_audit_log actor argument null becomes auth.uid()",
+  "ddl_existing_function_recreation": "create or replace",
+  "all_other_function_source_bytes_equal": true,
+  "financial_receipt_replay_revision_authority_and_return_contracts_unchanged": true,
+  "new_table_or_privilege_grant": false,
+  "runtime_validation_complete": false
+}

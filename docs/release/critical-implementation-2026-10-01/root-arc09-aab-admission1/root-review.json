@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "utc": "2026-10-02T12:38:51.227512+00:00",
+  "revised_packet_sha256": "caab479ae6d1afd41d9471d146405fddfb8a071f05dfccd86012db1fad2e6851",
+  "verified_revised_leaves": 9,
+  "verified_original_leaves_unchanged": 8,
+  "verified_prepared_source_pins": 42,
+  "driver_sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e",
+  "admission_sha256": "f38ff9f5514333e1ad968cb636bc6a918e7efacc2cc715ef10435e24ca863098",
+  "private_Gradle_marker_survivors": [],
+  "native_completed_prior_to_AAB": true,
+  "selected_local_AAB_execution_authorized": true,
+  "production_release_approval": false
+}

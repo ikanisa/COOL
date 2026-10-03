@@ -1,0 +1,64 @@
+[
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-followup-v2-20261001/attempt2/result.json",
+    "sha256": "7cdb8f962f10b6bc0959b9e7c6beab36724c0fc3ce93aa6a06a1a90ee0023cd1",
+    "status": "pass",
+    "cases": 83,
+    "failed": [],
+    "source_drift": [],
+    "target": {
+      "container_id": "1382c5ebd1eedcf84164b85a832018bbf321bdc282d2c8a37b4b869a2d9c10d1",
+      "container_name": "collect_current_rehearsal_exception_followup_v2_2b2b42920e07",
+      "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+      "guard": {
+        "network": "none",
+        "published_ports": false,
+        "labels_verified": true,
+        "net": "0",
+        "cron": "off",
+        "listen": "",
+        "server": "17.6"
+      },
+      "task_container_removed": true
+    },
+    "limits": [
+      "Local installer postgres superuser normalization",
+      "Owner-normalized retained schema153 plus captured additive subset",
+      "SET LOCAL authenticated role and synthetic JWT claims; no signed JWT",
+      "Mock cron catalog only; scheduler/net/provider runtime untested"
+    ]
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt5/result.json",
+    "sha256": "6c27df1c17d7517f089c62bb6b641939f702ffabfe9e54b26bacaf2703303335",
+    "status": "failed",
+    "cases": 37,
+    "failed": [],
+    "source_drift": [
+      "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "scripts/tests/exception_inbox_audit_v2_uat.py"
+    ],
+    "target": {
+      "container_id": "b691ad181f6fa3dae176ad0274cc6afef7df834031c3bb573de3bda81ce28e18",
+      "container_name": "collect_current_rehearsal_exception_history_621ffb9c616c",
+      "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+      "guard": {
+        "network": "none",
+        "published_ports": false,
+        "labels_verified": true,
+        "net": "0",
+        "cron": "off",
+        "listen": "",
+        "server": "17.6"
+      },
+      "task_container_removed": true
+    },
+    "limits": [
+      "Local installer postgres superuser normalization",
+      "Owner-normalized retained schema153 plus captured19-file subset",
+      "Mock cron catalog shape only; no net/Vault/scheduler invocation",
+      "SET LOCAL API roles and synthetic JWT claims; no Auth service/signature verification",
+      "Current185 installer blocker and whole187 candidate acceptance remain outside scope"
+    ]
+  }
+]

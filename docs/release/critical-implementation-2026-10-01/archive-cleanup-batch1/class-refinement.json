@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "input_uncompressed_sha256": "36ea95cba947e5e9a192fc4060bb120a1c0bcb9f1529f73aea0131f840ceee16",
+  "file_count": 361062,
+  "logical_bytes": 35754404784,
+  "classes": {
+    "authored_or_copied_code_unclassified": {
+      "files": 23113,
+      "logical_bytes": 1232912826,
+      "allocated_bytes": 1284968448
+    },
+    "binary_archive_or_generated_component": {
+      "files": 236,
+      "logical_bytes": 1683763793,
+      "allocated_bytes": 1684303872
+    },
+    "compiled_or_packaged_artifact": {
+      "files": 1033,
+      "logical_bytes": 433182063,
+      "allocated_bytes": 435634176
+    },
+    "copied_source_or_candidate_tree": {
+      "files": 280343,
+      "logical_bytes": 21303923040,
+      "allocated_bytes": 21975732224
+    },
+    "dependency_or_compiler_cache": {
+      "files": 2809,
+      "logical_bytes": 7555060222,
+      "allocated_bytes": 7561732096
+    },
+    "execution_log_or_text_evidence": {
+      "files": 36386,
+      "logical_bytes": 1451175667,
+      "allocated_bytes": 1492353024
+    },
+    "image_or_visual_evidence": {
+      "files": 2414,
+      "logical_bytes": 510415852,
+      "allocated_bytes": 515702784
+    },
+    "other_unclassified": {
+      "files": 1067,
+      "logical_bytes": 218908085,
+      "allocated_bytes": 221343744
+    },
+    "report_document_or_page": {
+      "files": 630,
+      "logical_bytes": 5970132,
+      "allocated_bytes": 7368704
+    },
+    "structured_report_manifest_or_data": {
+      "files": 13031,
+      "logical_bytes": 1359093104,
+      "allocated_bytes": 1395892224
+    }
+  },
+  "priority": "Explicit dependency/compiler cache then compiled artifact then copied-source tree then extension heuristic.",
+  "supersedes_only_preliminary_class_totals_in": "inventory-representation.json",
+  "reason": "Keep dependency/cache descendants classified as cache even inside a copied-source tree; byte-equivalent original metadata inventory unchanged.",
+  "method": "Metadata-only path heuristic; content uniqueness, approval, reproducibility and discardability not inferred."
+}

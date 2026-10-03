@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "checkedAt": "2026-10-01T17:30:49.313Z",
+  "method": "Actual prior/current repository minifier methods applied to actual layout.css, measured in Chrome",
+  "results": {
+    "before": {
+      "labelDisplay": "inline",
+      "labelGap": 0,
+      "legalHeadingGap": 19.92,
+      "calcWidth": 1280
+    },
+    "after": {
+      "labelDisplay": "block",
+      "labelGap": 12,
+      "legalHeadingGap": 16,
+      "calcWidth": 120
+    }
+  }
+}

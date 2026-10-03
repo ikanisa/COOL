@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 152, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 134, in main
+    inbox=call("public.admin_list_operational_exceptions_v2(true,20,'receipt_event',null,null)");save(report/'observed-busy-admin-inbox.json',inbox)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 52, in call
+    def call(expr,service=False):return t.json('begin;'+(svc if service else auth)+'select '+expr+';commit;')
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/sql-attempt1/inputs/executed-helper.py", line 115, in json
+    return json.loads(self.scalar(sql))
+                      ^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/sql-attempt1/inputs/executed-helper.py", line 112, in scalar
+    return self.sql(sql).stdout.strip().splitlines()[-1]
+           ^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/sql-attempt1/inputs/executed-helper.py", line 108, in sql
+    raise RuntimeError(label + ': ' + result.stderr[-3500:])
+RuntimeError: query: ERROR:  22007: invalid input syntax for type timestamp with time zone: "receipt_event"
+LINE 1: ...blic.admin_list_operational_exceptions_v2(true,20,'receipt_e...
+                                                             ^
+LOCATION:  DateTimeParseError, datetime.c:4140
+

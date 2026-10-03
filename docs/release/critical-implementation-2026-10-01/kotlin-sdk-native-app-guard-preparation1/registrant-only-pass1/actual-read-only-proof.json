@@ -1,0 +1,156 @@
+{
+  "SDK_app_control_or_maintained_writes": false,
+  "actual_pub_child_exit_code": 0,
+  "actual_pub_child_seconds": 294.027,
+  "actual_seconds": 5.042,
+  "actual_stage_or_Flutter_Gradle_build_execution": false,
+  "actual_whole_app_lock_stage_pass": false,
+  "all_preserved_input_identities_unchanged": true,
+  "authored_files_verified": 2510,
+  "candidate_promoted": false,
+  "corrected_whole_app_guard_pass": false,
+  "corrected_whole_app_guard_refusal": "app generated alias/special file",
+  "exact_generated_registrants": {
+    "ios/Runner/GeneratedPluginRegistrant.h": {
+      "bytes": 378,
+      "device": 16777232,
+      "inode": 59957525,
+      "mode": 420,
+      "mtime_ns": 1790925219310729193,
+      "nlink": 1,
+      "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+    },
+    "ios/Runner/GeneratedPluginRegistrant.m": {
+      "bytes": 3578,
+      "device": 16777232,
+      "inode": 59957526,
+      "mode": 420,
+      "mtime_ns": 1790925219311496627,
+      "nlink": 1,
+      "sha256": "3b2ac015fc041af99a572e0d9f0d698e1353dd6d1db75f2d024f38453e29dad6"
+    }
+  },
+  "generated_symlink_blockers": {
+    "ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1": {
+      "ctime_ns": 1790925219314843979,
+      "device": 16777232,
+      "inode": 59957529,
+      "mode": 41453,
+      "mtime_ns": 1790925219314825427,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1/ios/app_links"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0": {
+      "ctime_ns": 1790925219315318331,
+      "device": 16777232,
+      "inode": 59957530,
+      "mode": 41453,
+      "mtime_ns": 1790925219315303989,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0/darwin/file_picker_darwin"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/file_saver": {
+      "ctime_ns": 1790925219315523155,
+      "device": 16777232,
+      "inode": 59957531,
+      "mode": 41453,
+      "mtime_ns": 1790925219315511398,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver/ios/file_saver"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0": {
+      "ctime_ns": 1790925219315872185,
+      "device": 16777232,
+      "inode": 59957532,
+      "mode": 41453,
+      "mtime_ns": 1790925219315860804,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0/ios/firebase_core"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/firebase_messaging": {
+      "ctime_ns": 1790925219342229427,
+      "device": 16777232,
+      "inode": 59957599,
+      "mode": 41453,
+      "mtime_ns": 1790925219342215169,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0": {
+      "ctime_ns": 1790925219342621149,
+      "device": 16777232,
+      "inode": 59957600,
+      "mode": 41453,
+      "mtime_ns": 1790925219342603680,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0/ios/flutter_local_notifications"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6": {
+      "ctime_ns": 1790925219342892260,
+      "device": 16777232,
+      "inode": 59957601,
+      "mode": 41453,
+      "mtime_ns": 1790925219342878252,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6/ios/image_picker_ios"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/integration_test": {
+      "ctime_ns": 1790925219343252089,
+      "device": 16777232,
+      "inode": 59957602,
+      "mode": 41453,
+      "mtime_ns": 1790925219343240832,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test/ios/integration_test"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0": {
+      "ctime_ns": 1790925219343442155,
+      "device": 16777232,
+      "inode": 59957603,
+      "mode": 41453,
+      "mtime_ns": 1790925219343425770,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0/darwin/mobile_scanner"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0": {
+      "ctime_ns": 1790925219345116351,
+      "device": 16777232,
+      "inode": 59957604,
+      "mode": 41453,
+      "mtime_ns": 1790925219345097799,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0/ios/permission_handler_apple"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0": {
+      "ctime_ns": 1790925219345540174,
+      "device": 16777232,
+      "inode": 59957605,
+      "mode": 41453,
+      "mtime_ns": 1790925219345527334,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0/ios/share_plus"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6": {
+      "ctime_ns": 1790925219345829421,
+      "device": 16777232,
+      "inode": 59957606,
+      "mode": 41453,
+      "mtime_ns": 1790925219345817415,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6/darwin/shared_preferences_foundation"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1": {
+      "ctime_ns": 1790925219346117084,
+      "device": 16777232,
+      "inode": 59957607,
+      "mode": 41453,
+      "mtime_ns": 1790925219346101992,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/ios/url_launcher_ios"
+    }
+  },
+  "method_channel_ios_plugins": 13,
+  "original_app_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "original_guard_refusal": "app unreviewed generated source/path: ios/Runner/GeneratedPluginRegistrant.h",
+  "preserved_generated_symlink_guard": true,
+  "production_release_approval": false,
+  "proof_scope": "read-only corrected registrant/plugin guards and authored files on preserved failed candidate",
+  "protected_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "protected_before": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "retry_or_native_admission": false,
+  "reviewed_plugin_pubspecs": 52,
+  "status": "PASS_COMPONENTS_WITH_WHOLE_GUARD_REFUSAL"
+}

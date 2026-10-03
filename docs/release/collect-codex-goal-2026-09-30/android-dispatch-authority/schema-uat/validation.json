@@ -1,0 +1,2574 @@
+{
+  "schema_draft": "2020-12",
+  "jsonschema_version": "4.26.0",
+  "date_time_assertions": "Explicit local ISO-8601 calendar check plus schema UTC/precision pattern; no optional format dependency required",
+  "network_used": false,
+  "installed_dependencies": false,
+  "scope": "Offline structural schema only; observed SQL results and synthetic envelopes are labelled separately. No signature, native/device, current policy, contextual binding or dispatch authority proof.",
+  "recording_contract": "Reconcile publishes only persisted dispatch_grant|arm_dispatch|callback; the current Edge/native validators additionally accept attempt_status as a compatibility branch, which is excluded here because status reads are never recorded.",
+  "schema_meta_validation_passed": true,
+  "definitions": 38,
+  "checks_passed": 362,
+  "checks_failed": 0,
+  "categories": {
+    "constructed_envelope": 20,
+    "constructed_payload": 5,
+    "constructed_result": 6,
+    "hostile": 314,
+    "observed_result": 12,
+    "structural_only_limit": 5
+  },
+  "source_hashes": {
+    "contracts/collect-android-dispatch-v2/schema.json": "ac75e5efa12f7880ddc5267a219d4dfccf3ed7413f9100b7ab5fae487486757f",
+    "contracts/collect-android-dispatch-v2/validate_schema.py": "6c32e75544af8a80f38b8a79dcc134047effa422eddc06467baf0144baf21a2d",
+    "contracts/collect-android-dispatch-v2/CONTRACT.md": "3183ade4f7120eba476f76a888f80d925a877a8b71f0136c8a8f3d0450cd6c64",
+    "supabase/functions/collect-android-gateway/handler.ts": "39756c7e26fc67d82b1c129feb2c731be02d31c53092ba13380b5b749ebb3665",
+    ".cache/android-dispatch-attempt8/observed-arm.json": "21162e4e21444e4f6c6a39b31c5627c050570f312ad872d4933cdfd737541c10",
+    ".cache/android-dispatch-attempt8/observed-complete-callback.json": "73a6bf2b8d5a9955786efba9c158f5a1bed421cd2ccf2faf392b034ac7c86be2",
+    ".cache/android-dispatch-attempt8/observed-concurrent-grants.json": "3fe3ff18155b78c4f9cfe1247c06fa11067da455e10ce4d3786e4391bc7d89f9",
+    ".cache/android-dispatch-attempt8/observed-contradictory-callback.json": "20340f6c557e02c835b26f4f27e9c03d35301c557a3aea0f459bf86b898b15a6",
+    ".cache/android-dispatch-attempt8/observed-grant-paused.json": "979eff4755fc2755d1e6aa5958634946100650e9b9b81655fe5f11370c7fc2db",
+    ".cache/android-dispatch-attempt8/observed-grant-reconciliation.json": "30ed3f064eeffce50ac0122ad777a2ef00ca32bec3648bc6b97df19d0da4ea5d",
+    ".cache/android-dispatch-attempt8/observed-grant.json": "2d206413391677a347db18d491f388d96a0b69320297b3bbc3f2679d0cd32849",
+    ".cache/android-dispatch-attempt8/observed-owner-automatic-history.json": "45ca9d2637566e0a4b9895a937a1cb768f1d8a1650982c381f5530322377cc8e",
+    ".cache/android-dispatch-attempt8/observed-partial-callback.json": "3366c9f43ea932a710eb5a7a4ff806e305e571892d71e89fc7ca86d6a115687e",
+    ".cache/android-dispatch-attempt8/observed-status.json": "0e65b26d8712b1a40ec029ecc7bfa38434929206a08a5b4b8a461497d927a425"
+  },
+  "source_drift": false,
+  "checks": [
+    {
+      "name": "observed-arm.json",
+      "definition": "arm_dispatch_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-complete-callback.json",
+      "definition": "callback_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]",
+      "definition": "dispatch_grant_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]",
+      "definition": "dispatch_grant_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-contradictory-callback.json",
+      "definition": "callback_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-grant-paused.json",
+      "definition": "dispatch_grant_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-grant-reconciliation.json",
+      "definition": "reconcile_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-grant.json",
+      "definition": "dispatch_grant_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-owner-automatic-history.json",
+      "definition": "owner_receipt_read",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-partial-callback.json",
+      "definition": "callback_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "observed-status.json",
+      "definition": "attempt_status_result",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "dispatch_grant:dispatch_grant_payload",
+      "definition": "dispatch_grant_payload",
+      "category": "constructed_payload",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "dispatch_grant:dispatch_grant_request",
+      "definition": "dispatch_grant_request",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "dispatch_grant:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "dispatch_grant:dispatch_grant_response",
+      "definition": "dispatch_grant_response",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "dispatch_grant:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "arm_dispatch:arm_dispatch_payload",
+      "definition": "arm_dispatch_payload",
+      "category": "constructed_payload",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "arm_dispatch:arm_dispatch_request",
+      "definition": "arm_dispatch_request",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "arm_dispatch:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "arm_dispatch:arm_dispatch_response",
+      "definition": "arm_dispatch_response",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "arm_dispatch:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "callback:callback_payload",
+      "definition": "callback_payload",
+      "category": "constructed_payload",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "callback:callback_request",
+      "definition": "callback_request",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "callback:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "callback:callback_response",
+      "definition": "callback_response",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "callback:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:reconcile_payload",
+      "definition": "reconcile_payload",
+      "category": "constructed_payload",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:reconcile_request",
+      "definition": "reconcile_request",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:reconcile_response",
+      "definition": "reconcile_response",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "attempt_status:attempt_status_payload",
+      "definition": "attempt_status_payload",
+      "category": "constructed_payload",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "attempt_status:attempt_status_request",
+      "definition": "attempt_status_request",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "attempt_status:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "attempt_status:attempt_status_response",
+      "definition": "attempt_status_response",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "attempt_status:root",
+      "definition": "root",
+      "category": "constructed_envelope",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "owner_read:root",
+      "definition": "root",
+      "category": "observed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "owner_read:no_attempt",
+      "definition": "owner_receipt_read",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:unknown",
+      "definition": "reconcile_result",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:redacted:dispatch_grant",
+      "definition": "reconcile_result",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:recovered_authority:dispatch_grant",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refused_body:dispatch_grant",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refusal_replay_false:dispatch_grant",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:redacted:arm_dispatch",
+      "definition": "reconcile_result",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:recovered_authority:arm_dispatch",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refused_body:arm_dispatch",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refusal_replay_false:arm_dispatch",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:callback",
+      "definition": "reconcile_result",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "reconcile:read_is_not_recorded",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:unknown_cannot_recover",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:extra_key",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:ok",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:code",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:replay",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:armed_at",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:device_id",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:attempt_id",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:expires_at",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:request_id",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:carrier_proof",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:fence_version",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-arm.json:missing:reservation_sha256",
+      "definition": "arm_dispatch_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:extra_key",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:state",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:replay",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:callback_id",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:recorded_at",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:carrier_proof",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:sent_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:delivery_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-complete-callback.json:missing:conflicting_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:extra_key",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:missing:ok",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:missing:code",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:missing:replay",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:missing:device_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[0]:missing:request_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:extra_key",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:ok",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:body",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:code",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:replay",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:run_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:device_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:issued_at",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:attempt_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:expires_at",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:receipt_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:request_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:body_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:fence_version",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:segment_count",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:policy_revision",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:destination_e164",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:destination_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-concurrent-grants.json[1]:missing:sim_revision_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:extra_key",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:state",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:replay",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:callback_id",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:recorded_at",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:carrier_proof",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:sent_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:delivery_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-contradictory-callback.json:missing:conflicting_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:extra_key",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:missing:ok",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:missing:code",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:missing:replay",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:missing:device_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-paused.json:missing:request_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-reconciliation.json:extra_key",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-reconciliation.json:missing:outcome",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-reconciliation.json:missing:recorded_action",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-reconciliation.json:missing:recorded_result",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant-reconciliation.json:missing:target_request_id",
+      "definition": "reconcile_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:extra_key",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:ok",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:body",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:code",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:replay",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:run_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:device_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:issued_at",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:attempt_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:expires_at",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:receipt_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:request_id",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:body_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:fence_version",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:segment_count",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:policy_revision",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:destination_e164",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:destination_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-grant.json:missing:sim_revision_sha256",
+      "definition": "dispatch_grant_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:extra_key",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:missing:checked_at",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:missing:receipt_id",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:missing:contract_version",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:missing:automatic_attempt",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-owner-automatic-history.json:missing:sample_valid_until",
+      "definition": "owner_receipt_read",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:extra_key",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:state",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:replay",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:callback_id",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:recorded_at",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:carrier_proof",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:sent_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:delivery_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-partial-callback.json:missing:conflicting_observations",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:extra_key",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:state",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:armed_at",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:attempt_id",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:carrier_proof",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:fence_version",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:segment_count",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:sent_observations",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:terminal_archive_ack",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:delivery_observations",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "observed-status.json:missing:conflicting_observations",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_payload:extra_key",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:extra_key",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:contract_version",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:action",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:device_id",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:request_id",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:issued_at",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_request:missing:payload",
+      "definition": "dispatch_grant_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:extra_key",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:missing:contract_version",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:missing:action",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:missing:device_id",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:missing:request_id",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant_response:missing:result",
+      "definition": "dispatch_grant_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:extra_key",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:attempt_id",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:fence_version",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:body_sha256",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:destination_sha256",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:reservation_sha256",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_payload:missing:callbacks",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:extra_key",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:contract_version",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:action",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:device_id",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:request_id",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:issued_at",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_request:missing:payload",
+      "definition": "arm_dispatch_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:extra_key",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:missing:contract_version",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:missing:action",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:missing:device_id",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:missing:request_id",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch_response:missing:result",
+      "definition": "arm_dispatch_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:extra_key",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:callback_id",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:attempt_id",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:fence_version",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:segment_index",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:segment_count",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:body_sha256",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:destination_sha256",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:callback_kind",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:result_code",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:tp_status",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_payload:missing:occurred_at",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:extra_key",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:contract_version",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:action",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:device_id",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:request_id",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:issued_at",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_request:missing:payload",
+      "definition": "callback_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:extra_key",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:missing:contract_version",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:missing:action",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:missing:device_id",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:missing:request_id",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_response:missing:result",
+      "definition": "callback_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_payload:extra_key",
+      "definition": "reconcile_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_payload:missing:target_request_id",
+      "definition": "reconcile_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:extra_key",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:contract_version",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:action",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:device_id",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:request_id",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:issued_at",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_request:missing:payload",
+      "definition": "reconcile_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:extra_key",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:missing:contract_version",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:missing:action",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:missing:device_id",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:missing:request_id",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile_response:missing:result",
+      "definition": "reconcile_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_payload:extra_key",
+      "definition": "attempt_status_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_payload:missing:attempt_id",
+      "definition": "attempt_status_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_payload:missing:fence_version",
+      "definition": "attempt_status_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:extra_key",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:contract_version",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:action",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:device_id",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:request_id",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:issued_at",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_request:missing:payload",
+      "definition": "attempt_status_request",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:extra_key",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:missing:contract_version",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:missing:action",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:missing:device_id",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:missing:request_id",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_response:missing:result",
+      "definition": "attempt_status_response",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant:version1",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant:foreign_action",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant:refused_caller_body",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_grant:refused_caller_destination",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch:version1",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch:foreign_action",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch:refused_caller_body",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm_dispatch:refused_caller_destination",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:version1",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:foreign_action",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:refused_caller_body",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:refused_caller_destination",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:version1",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:foreign_action",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refused_caller_body",
+      "definition": "reconcile_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "reconcile:refused_caller_destination",
+      "definition": "reconcile_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status:version1",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status:foreign_action",
+      "definition": "root",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status:refused_caller_body",
+      "definition": "attempt_status_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status:refused_caller_destination",
+      "definition": "attempt_status_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:run_id",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:policy_revision",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:segment_count",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:collection_id",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:principal_id",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:balance",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:refused_selector:country",
+      "definition": "dispatch_grant_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_granted:replay_success",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_granted:fractional_fence",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_granted:boolean_fence",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_granted:zero_fence",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_granted:fence_above_cap",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_armed:replay_success",
+      "definition": "dispatch_armed",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_armed:fractional_fence",
+      "definition": "dispatch_armed",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_armed:boolean_fence",
+      "definition": "dispatch_armed",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_armed:zero_fence",
+      "definition": "dispatch_armed",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "dispatch_armed:fence_above_cap",
+      "definition": "dispatch_armed",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:body",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:body",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:destination_e164",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:destination_e164",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:reservation_sha256",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:reservation_sha256",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:callbacks",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:callbacks",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:spki",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:spki",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:privileged:request_sha256",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner:privileged:request_sha256",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:sent_observations:negative",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:sent_observations:over_cap",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:sent_observations:fractional",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:sent_observations:boolean",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:delivery_observations:negative",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:delivery_observations:over_cap",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:delivery_observations:fractional",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:delivery_observations:boolean",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:carrier_attestation",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:delivery_conclusion",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback_result:observed_sent_conflict",
+      "definition": "callback_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:sent_observations:negative",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:sent_observations:over_cap",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:sent_observations:fractional",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:sent_observations:boolean",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:delivery_observations:negative",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:delivery_observations:over_cap",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:delivery_observations:fractional",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:delivery_observations:boolean",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:carrier_attestation",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:delivery_conclusion",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "attempt_status_result:observed_sent_conflict",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:sent_observations:negative",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:sent_observations:over_cap",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:sent_observations:fractional",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:sent_observations:boolean",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:delivery_observations:negative",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:delivery_observations:over_cap",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:delivery_observations:fractional",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:delivery_observations:boolean",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:carrier_attestation",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:delivery_conclusion",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "owner_automatic_attempt:observed_sent_conflict",
+      "definition": "owner_automatic_attempt",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "status:terminal_compaction",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "status:granted_has_no_arm",
+      "definition": "attempt_status_result",
+      "category": "constructed_result",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "status:granted_with_arm",
+      "definition": "attempt_status_result",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm:plan:empty",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm:plan:eleven",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm:plan:duplicate_item",
+      "definition": "arm_dispatch_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm:plan_extra_key",
+      "definition": "callback_plan_item",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "arm:plan_index_over_cap",
+      "definition": "callback_plan_item",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:empty_body",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:body_above_cap",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:foreign_destination",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:unsupported_rwanda_prefix",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:segment_count_above_cap",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:policy_revision_over_cap",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:uppercase_digest",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:short_digest",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:malformed_uuid",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:nonUTC_time",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:excess_time_precision",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "grant:invalid_calendar_time",
+      "definition": "dispatch_granted",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:unsupported_kind",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:result_code_over_cap",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "callback:tp_status_over_cap",
+      "definition": "callback_payload",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "refusal:invented_code",
+      "definition": "dispatch_refusal",
+      "category": "hostile",
+      "expected_valid": false,
+      "observed_valid": false
+    },
+    {
+      "name": "runtime_required:actual_body_digest",
+      "definition": "dispatch_granted",
+      "category": "structural_only_limit",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "runtime_required:lease_order_freshness",
+      "definition": "dispatch_granted",
+      "category": "structural_only_limit",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "runtime_required:response_request_binding",
+      "definition": "root",
+      "category": "structural_only_limit",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "runtime_required:status_count_relationship",
+      "definition": "attempt_status_result",
+      "category": "structural_only_limit",
+      "expected_valid": true,
+      "observed_valid": true
+    },
+    {
+      "name": "runtime_required:callback_plan_UUID_distinctness",
+      "definition": "arm_dispatch_payload",
+      "category": "structural_only_limit",
+      "expected_valid": true,
+      "observed_valid": true
+    }
+  ]
+}

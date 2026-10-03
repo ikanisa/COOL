@@ -1,0 +1,62 @@
+{
+  "current12_DROP_authority_sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae",
+  "fresh_fence_capture": {
+    "actual_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+    "already_completed_by_root": true,
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/source_fence.py",
+      "capture",
+      "--root",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "--output",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review1/source-fence.json"
+    ],
+    "deadline_seconds": 300,
+    "execute_again_at_same_path": false,
+    "floor_bytes": 4294967296
+  },
+  "limitations": [
+    "The preservation plan is a comparison snapshot, not an OS source lock.",
+    "Each rename is atomic; the three-tree sequence is not atomic as a group. If interrupted, retain partial archive and inspect intent/verified journals; do not blindly rerun, roll back or overwrite.",
+    "Archive links retain absolute literal targets and must never be followed: some can dangle after APP rename or later name a fresh APP.",
+    "Any maintained source/QA/index/identity change after root capture requires a new preserved capture and exact controller receipt binding.",
+    "Controller binds the full fence and derivative; current12 authority and preservation proof are additional root-review obligations, not additional controller predicates.",
+    "Old export PASS and locked-pub child PASS do not satisfy fresh derivative whole export/app-lock gates."
+  ],
+  "no_auto_advance": true,
+  "no_other_stage_admission": [
+    "foundation",
+    "sdk-lock",
+    "startup",
+    "app-export",
+    "app-lock",
+    "native"
+  ],
+  "prepared_manifest_sha256": "509a1d3cd394276dd39447893596edc7066acb76981df32ba4300af8fb7cb78f",
+  "preservation": {
+    "archive_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/app-lock-20261002-attempt1-92db906a7a1f433bb67a3a8c9564d5bc",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review1/preserve_failed_candidate.py",
+      "--mode",
+      "preserve",
+      "--plan-sha256",
+      "fbb5fd3721184f77a1634c1a2492790057731dc2c1b6b3781bd48ab6614f6e7b"
+    ],
+    "deadline_seconds": 300,
+    "floor_bytes": 4294967296,
+    "requires_root_review_of_plan": true
+  },
+  "receipt_hash_binding": "Hash the exact root-created stage admission file immediately before its separately scoped command; controller rechecks SHA and all required fields.",
+  "root_execution_precondition": "Do not preserve until the preparation2 read-only full candidate reader is complete and root has reviewed this preservation plan.",
+  "scope": "Root execution only. Read-only plan produced; no preservation/stage executed by proposal agent.",
+  "source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "stage_bounds_reused": "Export/fence/SDK readers 300s, locked pub 1200s, live floor 4GiB; app-cache readback retains its 8GiB entry floor.",
+  "status": "WITHDRAWN_FOR_STAGE_EXECUTION_PACKET1_GAPS",
+  "withdrawal_reason": "Independent review found optional absent registrants, lazy empty-link membership and metadata-derived plugin expectation. Root requires corrected sealed preparation2 and new review2 before any stage."
+}

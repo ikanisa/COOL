@@ -1,0 +1,101 @@
+{
+  "status": "BLOCKED_PLATFORM_INSTALLER_PRIVILEGE",
+  "sealed_at": "2026-10-01T14:29:21.311679+00:00",
+  "captured_migrations": 185,
+  "candidate_manifest_sha256": "4afb9c824ff1568f147ed560c2a0eda003e66d19d5e1fa02c55f0c8397b0f154",
+  "first_unprovisioned_failure": "20260820162240_bank_transfer_only_financial_control_plane.sql:42501 cannot create genuine pg_cron as postgres NOSUPERUSER;79 passed per target",
+  "clean_final": {
+    "passed_migrations": 138,
+    "failed_position": 139,
+    "failed_migration": "20260929160000_notification_retry_schedule.sql",
+    "error": "42501 permission denied for cron.alter_job",
+    "target_removed": true
+  },
+  "populated_final": {
+    "hosted_baseline_migrations": 124,
+    "passed_pending_migrations": 14,
+    "failed_position": 139,
+    "failed_migration": "20260929160000_notification_retry_schedule.sql",
+    "actual_amount_rwf": 850,
+    "canonical_postings": 3,
+    "journal_lines": 6,
+    "primary_receipts": 2,
+    "preserved_projections": 18,
+    "fingerprints_identical": true,
+    "target_removed": true
+  },
+  "new110000_through180000_executed": false,
+  "full185_accepted": false,
+  "production_or_hosted_privilege_parity_accepted": false,
+  "image": "public.ecr.aws/supabase/postgres:17.6.1.021",
+  "image_id": "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a",
+  "real_extensions": [
+    {
+      "name": "pg_cron",
+      "owner": "supabase_admin",
+      "version": "1.6.4"
+    },
+    {
+      "name": "pg_graphql",
+      "owner": "supabase_admin",
+      "version": "1.5.11"
+    },
+    {
+      "name": "pg_net",
+      "owner": "supabase_admin",
+      "version": "0.19.5"
+    },
+    {
+      "name": "pg_stat_statements",
+      "owner": "supabase_admin",
+      "version": "1.11"
+    },
+    {
+      "name": "pgcrypto",
+      "owner": "postgres",
+      "version": "1.3"
+    },
+    {
+      "name": "plpgsql",
+      "owner": "supabase_admin",
+      "version": "1.0"
+    },
+    {
+      "name": "supabase_vault",
+      "owner": "supabase_admin",
+      "version": "0.3.1"
+    },
+    {
+      "name": "uuid-ossp",
+      "owner": "postgres",
+      "version": "1.1"
+    }
+  ],
+  "no_privilege_promotion": true,
+  "no_manual_application_grant_owner_index_changes": true,
+  "no_synthetic_vault_net": true,
+  "skipped_source_migrations": false,
+  "cron_history": 0,
+  "net_queue": 0,
+  "all_task_targets_removed": true,
+  "source_drift_at_run_end": [],
+  "source_drift_at_seal": [],
+  "docker_binary_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+  "additional_local_platform_prerequisites": {
+    "pg_net_version": "0.19.5",
+    "net_relation_owner": "supabase_admin",
+    "api_role_table_select": true,
+    "postgres_owner_role_usage": false,
+    "source160000_index_privacy_contract_reached": false,
+    "hosted_net_owner_acl_parity_verified": false
+  },
+  "limits": [
+    "Only SQL candidate185 is bound; this is not a whole-source/build/release freeze.",
+    "Schema153 supplies row-free Auth table/helper shape; Auth/GoTrue/JWT/email/provider and Storage runtime were not tested. Image defaults/owners/grants were preserved. The only missing auth.jwt() helper came from the exact captured schema.",
+    "The final populated fixture supplies matching legacy per-field and JSON role claims to the unchanged older image Auth helper; this is a synthetic database trusted-boundary fixture, not real service JWT/provider confirmation or external settlement proof.",
+    "Migration139 blocks the full sequence and current-email/principal/worker/gateway read/lifecycle integration. Migration110000\u2013180000 installation and narrow behavior checks never ran.",
+    "Real local Vault was not substituted or populated. Encryption/root-key provisioning and live worker transport remain untested.",
+    "Real cached extension versions match captured hosted metadata; extension owners/ACLs and installer-role parity were not captured from hosted runtime.",
+    "No hosted, shared DB, device, network request, scheduler run, key provisioning, OTP or SMS action occurred."
+  ]
+}

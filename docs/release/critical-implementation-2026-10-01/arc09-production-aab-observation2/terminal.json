@@ -1,0 +1,183 @@
+{
+  "ARC09_closed": false,
+  "actual_error": "separate owned daemon absence failed; exact observation retained",
+  "bounded_failure_diagnostics": {
+    "process": {
+      "actual_seconds": 14.077,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/run_selected_aab.py",
+        "--admission",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-admission2/admission.json",
+        "--admission-sha256",
+        "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384",
+        "--guard-phase",
+        "failure"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1",
+      "deadline_seconds": 300,
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T12:57:27.512697+00:00",
+      "headroom_failure": false,
+      "owned_process_group_absent": true,
+      "pid": 93085,
+      "residual_process_group_required_stop": false,
+      "spawned": true,
+      "started_utc": "2026-10-02T12:57:13.435433+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    }
+  },
+  "daemon_receipts": [
+    {
+      "late_observed_daemon_ids": [],
+      "observation_utc": "2026-10-02T12:57:13.434705+00:00",
+      "observed_ancestry": [
+        {
+          "ancestry": [
+            92622
+          ],
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android --offline --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=2 -PcollectUnsignedLocalQa=true -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart -Pandroid.builder.sdkDownload=false -I /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/gradle_runtime_inventory.init.gradle -PcollectInventoryConfiguration=productionReleaseCompileClasspath :app:collectRuntimeGraph",
+          "pgid": 92622,
+          "pid": 92622,
+          "ppid": 92517,
+          "start": "Fri Oct 2 14:56:26 2026"
+        },
+        {
+          "ancestry": [
+            92622,
+            92641
+          ],
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+          "observed_session_history": [
+            {
+              "PID_start_command_parent_unchanged": true,
+              "after_pgid": 92641,
+              "before_pgid": 92622,
+              "observed_utc": "2026-10-02T12:56:30.642891+00:00",
+              "private_home_evidence": {
+                "actual_matching_lsof_fields": {
+                  "inode": "60441893",
+                  "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+                  "pid": 92641
+                },
+                "home_identity": [
+                  16777232,
+                  58765337,
+                  448
+                ],
+                "log_device": 16777232,
+                "log_inode": 60441893,
+                "lsof_stdout_sha256": "78a6b430d31c0f67c87f74197b3c7b3f92a720cb20bfff2674cb6d09cd308646",
+                "observed_utc": "2026-10-02T12:56:30.642851+00:00",
+                "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+                "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+                "retained_matching_lsof_lines": [
+                  "p92641",
+                  "i60441893",
+                  "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log"
+                ]
+              }
+            }
+          ],
+          "pgid": 92641,
+          "pid": 92641,
+          "ppid": 92622,
+          "start": "Fri Oct 2 14:56:28 2026"
+        }
+      ],
+      "observed_new_daemons": [
+        {
+          "PGID_absent": true,
+          "PID_absent": true,
+          "cleanup": [],
+          "daemon": {
+            "ancestry": [
+              92622,
+              92641
+            ],
+            "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+            "observed_session_history": [
+              {
+                "PID_start_command_parent_unchanged": true,
+                "after_pgid": 92641,
+                "before_pgid": 92622,
+                "observed_utc": "2026-10-02T12:56:30.642891+00:00",
+                "private_home_evidence": {
+                  "actual_matching_lsof_fields": {
+                    "inode": "60441893",
+                    "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+                    "pid": 92641
+                  },
+                  "home_identity": [
+                    16777232,
+                    58765337,
+                    448
+                  ],
+                  "log_device": 16777232,
+                  "log_inode": 60441893,
+                  "lsof_stdout_sha256": "78a6b430d31c0f67c87f74197b3c7b3f92a720cb20bfff2674cb6d09cd308646",
+                  "observed_utc": "2026-10-02T12:56:30.642851+00:00",
+                  "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+                  "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+                  "retained_matching_lsof_lines": [
+                    "p92641",
+                    "i60441893",
+                    "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log"
+                  ]
+                }
+              }
+            ],
+            "pgid": 92641,
+            "pid": 92641,
+            "ppid": 92622,
+            "private_home_evidence": {
+              "actual_matching_lsof_fields": {
+                "inode": "60441893",
+                "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+                "pid": 92641
+              },
+              "home_identity": [
+                16777232,
+                58765337,
+                448
+              ],
+              "log_device": 16777232,
+              "log_inode": 60441893,
+              "lsof_stdout_sha256": "857d6d80e3acb3fd29b873b45900869c82a203acabb108d5d06560c01b9744d1",
+              "observed_utc": "2026-10-02T12:56:30.676490+00:00",
+              "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log",
+              "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+              "retained_matching_lsof_lines": [
+                "p92641",
+                "i60441893",
+                "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-92641.out.log"
+              ]
+            },
+            "start": "Fri Oct 2 14:56:28 2026"
+          }
+        }
+      ],
+      "observer_error": {
+        "error": "wrapper exec transition is not the pinned Java Gradle wrapper",
+        "type": "ValueError"
+      },
+      "owned_daemons_absent": false,
+      "separate_daemon_required_stop": false,
+      "spontaneous_daemon_shutdown": false,
+      "unproven_private_home_daemons": [],
+      "wrapper_group_does_not_prove_daemon_absence": true,
+      "wrapper_pid": 92622
+    }
+  ],
+  "elapsed_seconds": 103.98317079199478,
+  "error_type": "ValueError",
+  "offline_failure_does_not_create_new_user_permission_requirement": true,
+  "partial_failure_preserved": true,
+  "production_release_approval": false,
+  "root_may_assess_authorized_public_provenance_acquisition": true,
+  "status": "fail"
+}

@@ -1,0 +1,139 @@
+{
+  "payload_files": [
+    {
+      "bytes": 24810,
+      "path": "acceptance-status-before-actual-readback-note.json",
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e"
+    },
+    {
+      "bytes": 1348,
+      "path": "application.json",
+      "sha256": "f6b851c2547162f1d25a64ac607774bde5486736e1dd766d0935fca4e7f6dff3"
+    },
+    {
+      "bytes": 95057,
+      "path": "applied-index-before-runtime-fix1.json",
+      "sha256": "ce06b7c494b19a9d205c96c73eb5d1f15b9e318592d78f38f859a6c5a7950b19"
+    },
+    {
+      "bytes": 95063,
+      "path": "applied-index-before-runtime-fix2.json",
+      "sha256": "8c599ade6f3fa8b8b0ee53ed892ca8a55e16f634630d729a424ceda15fbcdf80"
+    },
+    {
+      "bytes": 23201,
+      "path": "before/acceptance-status.json",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    },
+    {
+      "bytes": 72863,
+      "path": "before/current-candidate-evidence-index.json",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    {
+      "bytes": 10061,
+      "path": "before/current-candidate-evidence-index.schema.json",
+      "sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244"
+    },
+    {
+      "bytes": 95062,
+      "path": "current-candidate-evidence-index-before-actual-readback-note.json",
+      "sha256": "227dfb4f1739f9c62ec1d027b63a766e93143731b1c85f5824b9fe10a1c2f9fa"
+    },
+    {
+      "bytes": 1085,
+      "path": "final-readback.json",
+      "sha256": "ec04542fce3430a6cfc328b35115163caa22b27e5d782492c8baeb5f54981ad1"
+    },
+    {
+      "bytes": 978,
+      "path": "reader-attempt1.json",
+      "sha256": "16575307e5106205213f5898a80f99d1d49bf06559827d38cd8750e262e783d5"
+    },
+    {
+      "bytes": 0,
+      "path": "reader-attempt1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 187,
+      "path": "reader-attempt1.stdout",
+      "sha256": "93896b6167451b7dcf1ead63349f591c5e2561ac30bb5daac3070fcb8330ebb9"
+    },
+    {
+      "bytes": 977,
+      "path": "reader-attempt2.json",
+      "sha256": "fd5f2af6d20d8244895204b664d3c263e1afd319c2d577f82827e3b68d8ad7ea"
+    },
+    {
+      "bytes": 0,
+      "path": "reader-attempt2.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 172,
+      "path": "reader-attempt2.stdout",
+      "sha256": "10ae12b0479cf7a25d435d7c15676de519235d20e3da5f5aa2363bddd936716d"
+    },
+    {
+      "bytes": 976,
+      "path": "reader-attempt3.json",
+      "sha256": "bef462b451487c8561fd32a1ed101fe95d801daf0a4ddf2a7f5d1b8220418dd5"
+    },
+    {
+      "bytes": 0,
+      "path": "reader-attempt3.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 50279,
+      "path": "reader-attempt3.stdout",
+      "sha256": "afcd788da6d08a669cf2e083955cf5597b9a6eac5a74c75cc06b3c2a4e7e7ae9"
+    },
+    {
+      "bytes": 976,
+      "path": "reader-final.json",
+      "sha256": "93f52f34cbf5db621a9491a1817b8d4da31d76251a8715a90c6c92cf7bb29a36"
+    },
+    {
+      "bytes": 0,
+      "path": "reader-final.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 50652,
+      "path": "reader-final.stdout",
+      "sha256": "85aa3be09a3fa6e3fbaf4a25cefabf2aa14830bd3ab92284791e1cd5be301697"
+    },
+    {
+      "bytes": 585,
+      "path": "revolut-authority.json",
+      "sha256": "2828a2dd1c986c003ea629bf8336c13a0e3427b122231c665c65937a914cd7be"
+    },
+    {
+      "bytes": 0,
+      "path": "revolut-authority.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 32,
+      "path": "revolut-authority.stdout",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "bytes": 429,
+      "path": "runtime-reader-manifest-shape-correction.json",
+      "sha256": "b3e483a64273518308a5f056e15d026fe38392fc45d7d84ad3f6792b8977f2e6"
+    },
+    {
+      "bytes": 478,
+      "path": "runtime-schema-reference-correction.json",
+      "sha256": "527f4aada5176bb97a73899130202472339b3ac570bb34619ac99c204aceb1b7"
+    },
+    {
+      "bytes": 293,
+      "path": "schema-validation.json",
+      "sha256": "6c139a392359e157e88dd10d323ec50cc7c11850a91c5f4c92bc316d1659e990"
+    }
+  ]
+}

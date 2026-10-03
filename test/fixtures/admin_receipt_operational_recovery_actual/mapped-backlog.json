@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "code": "RECEIPT_ENQUEUED",
+      "payment_id": "c49e4cd1-bdcf-4f68-a3de-982330e5c4c9",
+      "receipt_id": "f5d19271-9d58-49ba-be85-0a7e10281e91",
+      "request_id": null,
+      "evidence_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "recorded_at": "2026-10-02T01:23:07.969628Z",
+      "snapshot_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "exception_ids": [],
+      "source_status": "available",
+      "business_handled": true,
+      "transaction_sms_id": "6d5a8208-0067-4d4d-9ca2-18134cf31c39"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "e93a86f5-afa1-40ea-b4bc-c610d6f2fc12",
+  "status": "partial",
+  "section": "backlog_results",
+  "checked_at": "2026-10-02T01:23:08.603882Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T01:24:08.603882Z"
+}

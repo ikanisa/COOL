@@ -1,0 +1,1 @@
+{"acceptance": "draft-with-open-mappings", "catalog_categories_preserved": 20, "catalog_matches_current_migration_names": true, "catalog_objects_verified": 2543, "grants_verified": 4157, "input_files_verified": 1094, "replayed_migration_bytes_match": true, "semantic_output_files_verified": 5, "status": "PASS", "verification_method": "full-independent-recomputation"}

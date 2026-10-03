@@ -1,0 +1,15 @@
+{
+  "status": "fail",
+  "scope": "Readonly actual screenshots of the exact preserved capture42 build, before/after semantics activation and in headed/headless Chrome; no new build or publication, native/device/whole-goal acceptance",
+  "caller_sha256": "cc26198f60c608aa8d6fd72b5be4434f1ee5319ddbcd182647355b676a7d6fa2",
+  "source_capture_report_sha256": "e8cecc73d00a030fc65bcf4b3b5f73f69601f101927013ba4cbbf04163fb7201",
+  "source_runtime_sha256": "c61de60910454d183b46006981f3bd11b93445f893ebf6e356b19674a9cc8ff8",
+  "source_build_manifest_sha256": "4619b75f1c91ba09f9900588feaaaa5d4c0fd75033f2d81d0ff2213735e5b047",
+  "chrome_sha256": "4e0c9634bbafc4007a5d5d72cfcb7101fda2ac519daf7cf2beefcbbed4136361",
+  "captures": [],
+  "resources": {},
+  "errors": [],
+  "blocked_requests": [],
+  "network_calls": 0,
+  "failure": "TypeError: Cannot read properties of undefined (reading 'launch')"
+}

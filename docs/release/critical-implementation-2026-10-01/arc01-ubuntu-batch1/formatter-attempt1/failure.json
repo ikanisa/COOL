@@ -1,0 +1,6 @@
+{
+  "at_utc": "2026-10-02T00:12:36.084141+00:00",
+  "error": "Current reviewed source fails actual Ubuntu Make gate; preserve exact changed files and do not edit frozen source",
+  "source_changed_by_worker": false,
+  "type": "RuntimeError"
+}

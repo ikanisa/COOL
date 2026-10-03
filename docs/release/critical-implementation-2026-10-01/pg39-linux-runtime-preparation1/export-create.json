@@ -1,0 +1,30 @@
+{
+  "actual_seconds": 0.057702874997630715,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "create",
+    "--name",
+    "collect-pg39-runtime-export-df2f60c8c18545b29d34971ef5660536",
+    "--pull=never",
+    "--network=none",
+    "--read-only",
+    "--cap-drop=ALL",
+    "--security-opt=no-new-privileges",
+    "--pids-limit=64",
+    "--memory=512m",
+    "--cpus=1",
+    "--workdir=/",
+    "--entrypoint=/usr/local/bin/python3.12",
+    "sha256:75496575cd8e3aeb3fe561f0384f661d490c14770eda935d2302d61ca20a0b2d",
+    "-I",
+    "-B",
+    "-c",
+    "from pathlib import Path\nimport hashlib,json,os,stat\nroot=Path('/usr/local'); rows=[]\nfor path in sorted(root.rglob('*')):\n    info=path.lstat(); row={'path':str(path.relative_to(root)),'mode':stat.S_IMODE(info.st_mode)}\n    if stat.S_ISLNK(info.st_mode): row.update(kind='symlink',target=os.readlink(path))\n    elif stat.S_ISDIR(info.st_mode): row.update(kind='directory')\n    elif stat.S_ISREG(info.st_mode):\n        h=hashlib.sha256()\n        with path.open('rb') as handle:\n            while chunk:=handle.read(1024*1024):h.update(chunk)\n        row.update(kind='file',bytes=info.st_size,sha256=h.hexdigest())\n    else: raise RuntimeError('unsupported runtime inode')\n    rows.append(row)\nprint(json.dumps(rows,sort_keys=True,separators=(',',':')))\n"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "owned_process_group_absent": true,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "be9e278b0bff3b6c94e910431facc15428a1757ce91cc61e0f9dab840bdc8a2b",
+  "timed_out": false
+}

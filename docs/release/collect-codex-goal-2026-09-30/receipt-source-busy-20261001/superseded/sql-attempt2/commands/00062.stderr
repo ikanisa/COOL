@@ -1,0 +1,32 @@
+NOTICE:  00000: policy "realtime invalidations read authenticated" for relation "app_realtime_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "profiles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_members" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_allocations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "ledger_entries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_receivers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "parsed_payment_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_user_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "audit_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_sensitive_access_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "feature_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "system_settings" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

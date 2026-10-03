@@ -1,0 +1,59 @@
+{
+  "ARC09_closed": false,
+  "SHA256SUMS_excludes_self_and_packet_files": true,
+  "file_count": 9,
+  "files": {
+    "README.md": {
+      "bytes": 5667,
+      "mode": 256,
+      "sha256": "c0fe880ad498f88d8a6fc03dacbc94a53cee23d5b25d736001145a80bc7ad8cb"
+    },
+    "SHA256SUMS": {
+      "bytes": 691,
+      "mode": 256,
+      "sha256": "d4c971065be43bef936ceb2309305cb28b66f0e2cdd8666bd2cc3de73118fd0d"
+    },
+    "handoff.json": {
+      "bytes": 2997,
+      "mode": 256,
+      "sha256": "05b17775ec36d03a30ce0676a3ca698a5c12d8ceec94c49314610e6df522d8ef"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+    },
+    "prepared-reference-readback.json": {
+      "bytes": 12174,
+      "mode": 256,
+      "sha256": "5593fd51be2abed9a0e645dca05662a0b19e3c7ff255fbf7428bc472698c000d"
+    },
+    "revision.json": {
+      "bytes": 1630,
+      "mode": 256,
+      "sha256": "c1a6c090a47310f79aa0ae6117db0f57bf7e9a60bdaf2363be8053c741a00997"
+    },
+    "root-admission-template.json": {
+      "bytes": 4239,
+      "mode": 256,
+      "sha256": "f38ff9f5514333e1ad968cb636bc6a918e7efacc2cc715ef10435e24ca863098"
+    },
+    "run_selected_aab.py": {
+      "bytes": 42170,
+      "mode": 256,
+      "sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e"
+    },
+    "static-review.json": {
+      "bytes": 4551,
+      "mode": 256,
+      "sha256": "95d0b9803832cdf05b4030fc6e793a55d6adb41a9d91692c17fc1e7fd49d7be5"
+    }
+  },
+  "kind": "private_root_reviewed_selected_AAB_driver_preparation",
+  "packet_files_excludes_self": true,
+  "preserved_predecessor_packet_sha256": "927741352a68aba1f7983123d46e0626ffe33868e71f87b89719434a315810a9",
+  "production_release_approval": false,
+  "root_execution_owner": true,
+  "schema_version": 1,
+  "status": "static-reviewed-unexecuted"
+}

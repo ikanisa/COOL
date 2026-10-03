@@ -1,0 +1,41 @@
+{
+  "source-contract": {
+    "argv": [
+      "ruby",
+      "scripts/tests/collect_recovery_source_test.rb"
+    ],
+    "terminal_tool_receipt": {
+      "chunk_id": "3601eb",
+      "wall_time_seconds": 0.3491735,
+      "exit_code": 0,
+      "original_token_count": 43,
+      "output": "Run options: --seed 60407\n\n# Running:\n\n.............\n\nFinished in 0.267357s, 48.6241 runs/s, 220.6787 assertions/s.\n\n13 runs, 59 assertions, 0 failures, 0 errors, 0 skips\n"
+    }
+  },
+  "existing-backup": {
+    "argv": [
+      "ruby",
+      "scripts/tests/collect_encrypted_database_backup_test.rb"
+    ],
+    "terminal_tool_receipt": {
+      "chunk_id": "015eb5",
+      "wall_time_seconds": 0.099099833,
+      "exit_code": 0,
+      "original_token_count": 42,
+      "output": "Run options: --seed 51682\n\n# Running:\n\n....\n\nFinished in 0.000831s, 4813.4777 runs/s, 27677.4970 assertions/s.\n\n4 runs, 23 assertions, 0 failures, 0 errors, 0 skips\n"
+    }
+  },
+  "existing-restore": {
+    "argv": [
+      "ruby",
+      "scripts/tests/production_archive_restore_test.rb"
+    ],
+    "terminal_tool_receipt": {
+      "chunk_id": "9b8ee2",
+      "wall_time_seconds": 0.1169765,
+      "exit_code": 0,
+      "original_token_count": 42,
+      "output": "Run options: --seed 17622\n\n# Running:\n\n.......\n\nFinished in 0.003304s, 2118.6441 runs/s, 7566.5860 assertions/s.\n\n7 runs, 25 assertions, 0 failures, 0 errors, 0 skips\n"
+    }
+  }
+}

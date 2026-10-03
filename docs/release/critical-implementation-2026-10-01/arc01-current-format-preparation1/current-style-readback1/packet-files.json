@@ -1,0 +1,26 @@
+{
+  "current_readiness_decision_owner": "root",
+  "files": {
+    "actual-linux-two-file-format-check-process.json": "8018db61230cfe048401d3443c156a4e3801d2b4bef413cbc6a6db0cfb43221e",
+    "actual-linux-two-file-format-check-result.json": "5ba7fb00cc68186948c56b78abbd292f6a0d029531563ade7213e185cd3ec697",
+    "actual-linux-two-file-format-check.log": "11a57d97889bc161aad83f19055424c45a757ed0654809f75c0ad99f31bb11b7",
+    "container-create-process.json": "84520fc27e3c57a2e3712c2cb6939ea96920bc5979cd4aa34e0e04fe6c456c54",
+    "container-create-result.json": "fe34daa05333d25957527171f8953bc18ffebea713bad0674fcd9ead3e4d511a",
+    "container-create.log": "6efecba3e6660da1dc211199050c9a18e75093bd1d98af026cd8f5e5c463bbe2",
+    "container-start-process.json": "401b86cd51aa9c0fd30b27a285b68bcd7e590cf3f64eaa94aeaa85f75defbbc2",
+    "container-start-result.json": "aea2900715ba89bf1db2f661d81f9044f0587736bf8f6af9c439875a9c284cb2",
+    "container-start.log": "0923c0aacdba47da12e33deab028fe808f004f046c983210030b546858555712",
+    "current-scope-after.json": "35caa4d3eb559c65e83e9c35d12e9f6f04add59836c8a697012f7a001a8eec17",
+    "current-scope-before.json": "03461988b4a8ae27bcfcbb159b2d0d9c8c74f5020733744c0f0c746b5ac2c07c",
+    "independent-readback.json": "55142d22ec10926d17d31fa36ec47b389f11e0b27419728702ce6540a1728c6c",
+    "owned-container-before-cleanup.json": "5ea76f27b3897c494af02555bea60eed5ade75a5f3bd9b4aad4279929442b484",
+    "owned-container-cleanup.json": "3549a578bd4cf5a940172084ed7d7d3169be48a915c4b8ad0a26dc46c60cf44c",
+    "owned-container-identity.json": "e32ade2cbc15ecc3ba64419bf3f76cf045ecb81ed22cca81a4ede7690ce57f92",
+    "result.json": "1ac0900ed8c5a59f6d4654e0f07bd2a96dd0c73da049a3ea8f6ae22f2b3e3006",
+    "reused-basis.json": "ccf9834aaa8c80b32cc82e514608434afb6743713b25e13e656913c742fedfd4",
+    "run_owned.py": "563292a7a51f1ab1e73896488901d99324e3411f8bec4be17f9cd26ed99ac463",
+    "verify_current.py": "ed438b0cffff4bf1cbc937e1d96212b16a9a4199ee90a64da4a8b4e3d79aa207"
+  },
+  "maintained_source_written": false,
+  "scope": "Current style composition: existing full710 original Make plus unchanged controls/other708 inputs and exact2 changed Linux-format checks; no full/negative/restored repetition"
+}

@@ -1,0 +1,500 @@
+{
+  "observed_at_utc": "2026-10-01T22:31:15.232100+00:00",
+  "status": "BE05_OPEN_DISCOVERY_COMPLETE_IMPLEMENTATION_NOT_STARTED",
+  "findings": [
+    {
+      "id": "BE05-01",
+      "priority": "P1",
+      "title": "Accepted request has no execution lifecycle",
+      "observed": "request_account_deletion inserts a fresh pending request and audit pointer; the Flutter caller discards the UUID. No idempotency, server reason bound, live-session fence, restriction/revocation, executor or completion receipt was found in the bounded source roots. Existing lifecycle UAT checks submission and row visibility only.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+          "line": 82,
+          "sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e"
+        },
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "line": 729,
+          "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1"
+        },
+        {
+          "path": "scripts/local_backend_privacy_lifecycle_uat.sql",
+          "line": 553,
+          "sha256": "494ab8e90cda10642085c1e59c60d8fe481479c08184128c841cf4a7d8f3fa05"
+        }
+      ],
+      "recommendation": "Introduce scoped idempotent requests, status receipts and bounded restartable execution; retain the existing honest request-only UI until effects are proved.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-02",
+      "priority": "P1",
+      "title": "Auth deletion conflicts with retained profile and direct Auth evidence references",
+      "observed": "profiles.id cascades from auth.users, but deletion/support/raw/parsed/collection/operator records reference profiles with RESTRICT. A deletion-request row itself can block the cascade. collect_ops recipient/assignee references point directly to auth.users with RESTRICT; several dependent rows cannot be deleted or relinked through their current guards.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/202605230001_collect_baseline.sql",
+          "line": 9,
+          "sha256": "0cdd5a5ff487a51ce1a5a2951bad003174fd022dc8850c4de36f971dd8adb046"
+        },
+        {
+          "path": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+          "line": 1,
+          "sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e"
+        },
+        {
+          "path": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+          "line": 5,
+          "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+        }
+      ],
+      "recommendation": "Design a retained, minimized principal distinct from live Auth; migrate the complete effective FK graph and protect every retained-profile API against revoked JWTs before actual Auth removal.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-03",
+      "priority": "P1",
+      "title": "Raw receipt redaction and deletion are prohibited by current evidence guards",
+      "observed": "The raw identity trigger blocks changes to sender/body/hash/owner/timestamps/envelope; attestation has a separate immutable binding. BEFORE DELETE raises a governed-retention-migration requirement. No current operational redaction/erasure path was found.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql",
+          "line": 20,
+          "sha256": "ca586cfc047f82ecb6d295aac98d9bdf27dde97d12c9df720ddfcf5acfe14f93"
+        },
+        {
+          "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+          "line": 286,
+          "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+        },
+        {
+          "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+          "line": 373,
+          "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+        }
+      ],
+      "recommendation": "Add a narrow job-authorized field-redaction transition with locked policy/hold proof. Preserve attestation, IDs, original dedup hashes and approved financial evidence; do not disable guards globally.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-04",
+      "priority": "P1",
+      "title": "Every receipt consumer needs a common content lifecycle fence",
+      "observed": "Ingest accepts a durable attested receipt then invokes parsing. Parser claim/replay/repair/allocation branches and raw reveals/investigation/exception/gateway source locks currently have no erasure state. Redacting only raw_body can cause parser retries, misleading health or reintroduced plaintext.",
+      "evidence": [
+        {
+          "path": "supabase/functions/ingest-payment-sms/index.ts",
+          "line": 1,
+          "sha256": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36"
+        },
+        {
+          "path": "supabase/functions/parse-payment-sms/index.ts",
+          "line": 1,
+          "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9"
+        },
+        {
+          "path": "supabase/migrations/20260815083500_claim_sms_parser_work.sql",
+          "line": 17,
+          "sha256": "afaaf50c46bd57476e6be992444e8776c57518cdb073c3172d982ae0fb96b91c"
+        },
+        {
+          "path": "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql",
+          "line": 13,
+          "sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57"
+        },
+        {
+          "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+          "line": 80,
+          "sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c"
+        }
+      ],
+      "recommendation": "Fence ingestion, parse leases, replay acknowledgements, reveals, derived writes, allocations and scheduled work on one server-owned lifecycle state; never parse a redaction marker or re-ingest purged plaintext.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-05",
+      "priority": "P1",
+      "title": "Roster expiry does not erase retained candidate material",
+      "observed": "Sources carry metadata and a 24-hour operational lifetime; immutable provenance revisions contain preview and normalized row JSON. The bounded purge removes only expired editor drafts/recovery intents; recovery transfers create further lineage copies. No purge scheduler for that function was found.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "line": 1,
+          "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+        },
+        {
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "line": 219,
+          "sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line": 303,
+          "sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d"
+        }
+      ],
+      "recommendation": "Separate erasable content from minimal provenance; enumerate and purge/redact every revision, draft, intent, result/commit payload and transferred descendant subject to a versioned policy, without changing TTL/session/commit finality.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-06",
+      "priority": "P1",
+      "title": "AI configuration cannot prove processor erasure or authorized overseas storage",
+      "observed": "Roster source bytes are inline in OpenAI requests with store:false; extraction metadata records an attempted provider call. No project retention/residency approval or processor-erasure acknowledgement was observed. The isolated decoder child handles source bytes in memory; its supervisor persists nonce/time only, not document content.",
+      "evidence": [
+        {
+          "path": "supabase/functions/_shared/openai_roster.ts",
+          "line": 60,
+          "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+        },
+        {
+          "path": "supabase/functions/prepare-roster-import/handler.ts",
+          "line": 290,
+          "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+        },
+        {
+          "path": "tools/roster-decoder/server.py",
+          "line": 27,
+          "sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4"
+        }
+      ],
+      "recommendation": "Bind processor/project/model/region contracts and actual retention configuration; track attempted or uncertain transmissions as child dispositions. Treat store:false as one request control, not zero-retention certification.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-07",
+      "priority": "P1",
+      "title": "Member identity and immutable financial history require distinct actions",
+      "observed": "member_records retain the six-digit Collect ID and nullable profile linkage; member_momo_identities retain full phone/name and match keys. Payments, journals, snapshots and balance references have retention guards and RESTRICT links. Account deletion must not rewrite posted amounts, balances, consumed transaction IDs or member reservation.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260902120555_hybrid_member_registry.sql",
+          "line": 9,
+          "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de"
+        },
+        {
+          "path": "supabase/migrations/20260902120555_hybrid_member_registry.sql",
+          "line": 35,
+          "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de"
+        },
+        {
+          "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+          "line": 751,
+          "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+        },
+        {
+          "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+          "line": 854,
+          "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+        }
+      ],
+      "recommendation": "Minimize eligible profile/member identity under approved policy; unlink live identity explicitly, retain stable principal/member/financial keys only where justified, and prove exact pre/post journal and balance invariance.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-08",
+      "priority": "P1",
+      "title": "SMS outbox content and uncertain send evidence are retained together",
+      "observed": "sms_notification_outbox stores plaintext destination and message_body with snapshot and consent revision; current core trigger prohibits their changes and all deletion. Attempt/session/Android archive evidence is immutable and has state/finality dependencies.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+          "line": 38,
+          "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9"
+        },
+        {
+          "path": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+          "line": 195,
+          "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9"
+        },
+        {
+          "path": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+          "line": 36,
+          "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+        },
+        {
+          "path": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+          "line": 1,
+          "sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2"
+        }
+      ],
+      "recommendation": "Stop new sends and revoke consent first; cancel only safely unstarted jobs. Separate eligible content erasure from minimal immutable attempt proof. Preserve uncertain/observed outcomes, fences and no-retry semantics.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-09",
+      "priority": "P1",
+      "title": "Sign-out preserves unacknowledged encrypted receipts and cannot be called erasure",
+      "observed": "Android encrypted SMS queue removes only exact server-acknowledged owner/envelope/body hashes. Native disable/sign-out preserves unacknowledged items by design. Protected financial snapshots clear through the serialized local cache path; Android/iOS exclude these stores from backup by source settings.",
+      "evidence": [
+        {
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "line": 16,
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386"
+        },
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "line": 629,
+          "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1"
+        },
+        {
+          "path": "android/app/src/main/kotlin/app/cool/mobile/security/ProtectedSnapshotStore.kt",
+          "line": 14,
+          "sha256": "092450eac1a4ea6b52ec07542e9e0f4e09c0ef6adb5242211c9f6058d0d75989"
+        },
+        {
+          "path": "ios/Runner/AppDelegate.swift",
+          "line": 174,
+          "sha256": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f"
+        }
+      ],
+      "recommendation": "Add owner-bound governed queue disposition and device acknowledgement; report offline/inaccessible device copies outstanding. Verify real device storage, backups and account-switch races before claiming physical deletion.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-10",
+      "priority": "P1",
+      "title": "Revoking refresh/session state does not cover every already-issued JWT route",
+      "observed": "Local config jwt_expiry is 3600 seconds; notification registration/workers have live-session fences and revoke triggers. Account request RPC/RLS relies on auth.uid without a live SID check. Retained profiles would make stale-token read/write exposure material unless all affected APIs and RLS are gated.",
+      "evidence": [
+        {
+          "path": "supabase/config.toml",
+          "line": 157,
+          "sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67"
+        },
+        {
+          "path": "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+          "line": 154,
+          "sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+        },
+        {
+          "path": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+          "line": 82,
+          "sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e"
+        }
+      ],
+      "recommendation": "Implement a server-owned ordinary-access tombstone and live-auth/session checks in all relevant RPC/RLS/Edge/Storage paths, and use the supported Auth administration API from a dedicated server executor.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-11",
+      "priority": "P1",
+      "title": "No approved comprehensive retention schedule or legal-hold registry was observed",
+      "observed": "Repository notes explicitly leave per-class horizons, raw-body erasure, processor acceptance and owner decisions open. Recovery TTL and historical bank-evidence 90-day default are individual operational/schema settings, not a complete lawful schedule or proof of purge.",
+      "evidence": [
+        {
+          "path": "docs/PRIVACY_AND_COMPLIANCE_NOTES.md",
+          "line": 13,
+          "sha256": "187b21b35819119bf929cf1ea68aebae6fd11001b89e8457a577259eee8c26e5"
+        },
+        {
+          "path": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+          "line": 133,
+          "sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e"
+        },
+        {
+          "path": "content/legal/collect_privacy_policy.yaml",
+          "line": 265,
+          "sha256": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540"
+        }
+      ],
+      "recommendation": "Create versioned per-class purpose/basis/trigger/action/approval and legal-hold decisions. Refuse unapproved destructive phases while progressing accepted requests, verification and safe restriction.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-12",
+      "priority": "P1",
+      "title": "Backups, restored copies and exports are outside current completion proof",
+      "observed": "Encrypted logical-backup and explicitly partial public-schema export scripts exist; recovery runbook distinguishes database capture from Storage/offsite/RPO/RTO proof. No verified overwrite horizon, replica/export manifest, restore tombstone replay or provider completion receipt was observed.",
+      "evidence": [
+        {
+          "path": "scripts/audits/collect_encrypted_database_backup.rb",
+          "line": 1,
+          "sha256": "7ccfb051b88bbf5e30b01ca570b81d42d921d574dc9e05d4cb178346e90015a9"
+        },
+        {
+          "path": "scripts/supabase_logical_backup.sh",
+          "line": 1,
+          "sha256": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e"
+        },
+        {
+          "path": "docs/RECOVERY_RUNBOOK.md",
+          "line": 1,
+          "sha256": "a99d4482e36b633c3c9039257d8ba0844406b5c279f215bb6381929eac21828a"
+        }
+      ],
+      "recommendation": "Inventory every copy and controlled processor, record separate disposition receipts, and apply durable erasure tombstones before restored systems expose data or start provider workers. Keep completion partial while external copies remain unverified.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-13",
+      "priority": "P2",
+      "title": "Public policy promises need operational status and owned escalation",
+      "observed": "Public content promises identity verification, account restriction, eligible deletion and completion confirmation with a 30-day response target. Current code provides request submission and contact guidance only; no automatic reminder/escalation or completion tracking was found.",
+      "evidence": [
+        {
+          "path": "content/legal/collect_delete_account.yaml",
+          "line": 68,
+          "sha256": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f"
+        },
+        {
+          "path": "content/legal/collect_privacy_policy.yaml",
+          "line": 299,
+          "sha256": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540"
+        },
+        {
+          "path": "lib/features/landing/public_policy_page_content.dart",
+          "line": 56,
+          "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7"
+        }
+      ],
+      "recommendation": "Return request UUID and bounded status, show eligible actions versus retained grounds and pending providers, and implement owner-assigned response monitoring. Do not report completion from a pending row or contact link.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-14",
+      "priority": "P1",
+      "title": "Phone hashes and audit actor digests remain personal/linkable data",
+      "observed": "The repository explicitly classifies unkeyed normalized phone SHA-256 values as pseudonymous; the limited Rwanda input space enables dictionary matching. Retained filenames, audit reasons, support/deletion free text and opaque lineage/session IDs also need purpose/access/retention treatment.",
+      "evidence": [
+        {
+          "path": "docs/PRIVACY_AND_COMPLIANCE_NOTES.md",
+          "line": 15,
+          "sha256": "187b21b35819119bf929cf1ea68aebae6fd11001b89e8457a577259eee8c26e5"
+        },
+        {
+          "path": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+          "line": 1,
+          "sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e"
+        },
+        {
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "line": 1,
+          "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+        }
+      ],
+      "recommendation": "Minimize free text and receipt payloads; keep approved linkable proof private. Do not count digest retention as anonymization or silently change matching hashes used by dedup/finality.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-15",
+      "priority": "P2",
+      "title": "Historical retired rail evidence remains a privacy dependency",
+      "observed": "Rwanda-only migration revokes historical bank/diaspora/Stripe/SEPA operations while retaining existing historical rows. raw_payment_evidence contains body/headers with bank-evidence RESTRICT dependencies. Its expiry column has no discovered whole-copy purge executor.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260925190000_rwanda_momo_only.sql",
+          "line": 524,
+          "sha256": "89953426da70529801848beb0db04699a0c37b2b82d6f8aaa98e8123b1201fd8"
+        },
+        {
+          "path": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+          "line": 133,
+          "sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e"
+        }
+      ],
+      "recommendation": "Include retained historical evidence and backups in the same classified lifecycle graph; do not restore retired rails or infer absence of historical personal records from current product scope.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-16",
+      "priority": "P1",
+      "title": "Existing local privacy PASS labels are narrower than deletion acceptance",
+      "observed": "The maintained privacy lifecycle SQL checks request insertion, ownership/RLS and other privacy controls. Hybrid Auth-deletion fixture exercises Collect-ID reservation for a synthetic unencumbered account. Neither proves physical erasure across the actual retained evidence/FK graph.",
+      "evidence": [
+        {
+          "path": "scripts/local_backend_privacy_lifecycle_uat.sql",
+          "line": 553,
+          "sha256": "494ab8e90cda10642085c1e59c60d8fe481479c08184128c841cf4a7d8f3fa05"
+        },
+        {
+          "path": "scripts/tests/hybrid_backend_uat.sql",
+          "line": 102,
+          "sha256": "da1dedcbce93578c4b9c21537cc0ea89e29323b6812487a7f297e9f748a48c45"
+        }
+      ],
+      "recommendation": "Add meaningful current-chain execution, stale-token/authorization, active worker/hold/restart, full derivative, Auth/Storage/device/provider/restore and immutable financial invariance tests before closing BE05.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-17",
+      "priority": "P1",
+      "title": "Storage actor and receiver IDs are not a complete data-subject identity graph",
+      "observed": "A roster is recorded under the uploading actor/session but its candidate rows describe multiple members. A raw receipt is owned by the receiver but also contains payer identity. Deleting all records by actor/receiver alone can miss the subject's copies or erase other members' valid evidence. Name/last-three match keys and opaque hashes are not sufficient destructive subject proof.",
+      "evidence": [
+        {
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "line": 1,
+          "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+        },
+        {
+          "path": "supabase/migrations/202605230001_collect_baseline.sql",
+          "line": 124,
+          "sha256": "0cdd5a5ff487a51ce1a5a2951bad003174fd022dc8850c4de36f971dd8adb046"
+        },
+        {
+          "path": "supabase/functions/parse-payment-sms/index.ts",
+          "line": 1,
+          "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9"
+        }
+      ],
+      "recommendation": "Build a purpose-scoped, verified subject-to-field/asset graph. Use stable member/payment/import lineage keys where available; route ambiguous or unaffiliated subject matches to governed review. Apply row/field minimization to multi-subject payloads and preserve other parties' justified records.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no hosted effects verified"
+    },
+    {
+      "id": "BE05-18",
+      "priority": "P1",
+      "title": "Native gateway retention and export/restore create additional linkable copies",
+      "observed": "The internal_gateway flavor stores encrypted signed requests, attempt/callback bindings, observed/terminal and late evidence in an append-only retention index under noBackupFilesDir. Archive compaction retains reserved request/attempt identities. Recovery exports full ciphertext and restore preserves an original directory plus a validated inactive view; export does not contain the signing key or grant activation authority. These are additional personal/linkable copies even where full SMS destination/body is omitted.",
+      "evidence": [
+        {
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+          "line": 14,
+          "sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4"
+        },
+        {
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt",
+          "line": 6,
+          "sha256": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c"
+        },
+        {
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt",
+          "line": 84,
+          "sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0"
+        },
+        {
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt",
+          "line": 133,
+          "sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0"
+        },
+        {
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/ARCHIVE_CONTRACT.md",
+          "line": 1,
+          "sha256": "0d51ffa0de919bccf692339129b5b4abdad39f77bd77bdced2db13c4ff4fed93"
+        }
+      ],
+      "recommendation": "Include installation-owned retention objects, late evidence, ciphertext exports, transfer files and both restore copies in exact copy dispositions. Preserve non-reusable identities and ambiguous-send proof under documented basis; do not treat compaction, encryption, an inactive restore or key absence as verified erasure. Coordinate with the native gateway owner before any source change.",
+      "implemented_in_this_batch": false,
+      "evidence_type": "current bounded source inspection; no physical or hosted effects verified"
+    }
+  ],
+  "limits": "Severity is implementation/release-risk triage; no legal permission, horizon, provider setting, live catalog, erasure execution or hosted readiness is certified."
+}

@@ -1,0 +1,91 @@
+{
+  "browser_builds": false,
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "test/admin_exception_escalation_inbox_v2_models_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-format",
+      "parent_exit_confirmed": true,
+      "process_group": 10735,
+      "seconds": 0.124,
+      "sha256": "1685974b88bd671112e17334bdc2abb8ef350e01ae026547459ec7a8307375ec",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "test/admin_exception_escalation_inbox_v2_models_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 10738,
+      "seconds": 1.441,
+      "sha256": "65055da1b1b344deda9a0fa2eea8b4afa26f1408a2c829abbc057842f33851df",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/admin-review/affected-vm.machine.jsonl",
+        "test/admin_exception_escalation_inbox_v2_models_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "affected-vm",
+      "parent_exit_confirmed": true,
+      "process_group": 10764,
+      "seconds": 2.225,
+      "sha256": "c3fefb2943eff32599d52a680c5d6650d620eb34cd7ecb39a00921b7f642af72",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "composite_drift": [
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql"
+  ],
+  "export_drift": [],
+  "native_builds": false,
+  "package_inputs_unchanged": true,
+  "private_derivative_changes": [
+    "lib/admin/core/admin_exception_followup_v2_models.dart",
+    "lib/admin/core/admin_exception_history_v2_models.dart",
+    "lib/admin/core/admin_exception_workflow_card.dart",
+    "test/admin_entity_audit_links_test.dart",
+    "test/admin_entity_audit_page_test.dart",
+    "test/admin_exception_assignment_test.dart",
+    "test/admin_exception_escalation_inbox_v2_models_test.dart",
+    "test/admin_exception_history_v2_models_test.dart",
+    "test/admin_exception_history_v2_sdk_test.dart",
+    "test/admin_exception_workflow_sdk_test.dart",
+    "test/admin_exception_workflow_test.dart"
+  ],
+  "runtime_or_peer_test_writes": false,
+  "scope": "1 affected Admin cohorts and selected fatal analysis/format on frozen composite with explicit private resource-admission patch. No whole-current/live or SQL acceptance claim.",
+  "sdk_unchanged": true,
+  "sql_executed": false,
+  "status": "fail",
+  "vm": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 11,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  }
+}

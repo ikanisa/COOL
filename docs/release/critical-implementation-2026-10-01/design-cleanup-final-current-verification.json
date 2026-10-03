@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T23:36:10.134430+00:00",
+  "scope": "Competing UI/design skills and retired mobile checklist/gates; unrelated technical/professional skills retained per explicit clarification.",
+  "external_readback": {
+    "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/owner-current-cleanup-verified-20261001T233236Z.json",
+    "sha256": "5be19bd699e2f22ef92a5dbd93c139be8ca1fe488633a15401557a33e947a86e"
+  },
+  "recorded_removed_paths_checked": 141,
+  "remaining_removed_paths": [],
+  "current_skill_inputs": 708,
+  "inputs_hashed": 2006,
+  "removed_skill_or_rule_or_route_hits": [],
+  "read_errors": [],
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "repository_agents_sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+  "old_checklist_absent": true,
+  "product_design_cache_absent": true,
+  "product_design_config_entries": [],
+  "limits": "Protected/inaccessible discovery paths, pruned Git/dependency/application internals, other archive formats and one invalid nested ZIP in an unrelated financial audit pack were not verified. Existing conversation/history mentions are not installed skills or active acceptance gates.",
+  "whole_computer_unconditional_absence_claim": false,
+  "visual_fidelity_acceptance": false
+}

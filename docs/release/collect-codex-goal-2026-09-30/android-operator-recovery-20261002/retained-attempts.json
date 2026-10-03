@@ -1,0 +1,26 @@
+[
+  {
+    "name": "native-attempt-1",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  },
+  {
+    "name": "native-attempt-2",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  },
+  {
+    "name": "native-attempt-3",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  },
+  {
+    "name": "dart-attempt-1",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  },
+  {
+    "name": "dart-attempt-2",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  },
+  {
+    "name": "dart-attempt-4",
+    "disposition": "superseded ZIP/harness or repaired setup/compiler/lint failure; no method counts added"
+  }
+]

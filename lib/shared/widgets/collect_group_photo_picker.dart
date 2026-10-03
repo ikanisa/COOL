@@ -232,7 +232,11 @@ class _CollectGroupPhotoSheetState extends State<CollectGroupPhotoSheet> {
                                         ),
                                       ],
                                     ),
-                                    CollectSpacing.gap12,
+                                    SizedBox(
+                                      height: MediaQuery.textScalerOf(
+                                        context,
+                                      ).scale(CollectSpacing.x3),
+                                    ),
                                     DropdownButtonFormField<String>(
                                       key: ValueKey('photo-family-$_family'),
                                       initialValue: _family ?? '',
@@ -260,7 +264,11 @@ class _CollectGroupPhotoSheetState extends State<CollectGroupPhotoSheet> {
                                     if (_browseAll ||
                                         widget.groupType ==
                                             CollectionType.church) ...[
-                                      CollectSpacing.gap12,
+                                      SizedBox(
+                                        height: MediaQuery.textScalerOf(
+                                          context,
+                                        ).scale(CollectSpacing.x3),
+                                      ),
                                       DropdownButtonFormField<String>(
                                         key: ValueKey(
                                           'photo-context-$_context',

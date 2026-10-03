@@ -1,0 +1,73 @@
+{
+  "kind": "frozen_source06_actual_sql_contract_readback",
+  "status": "pass",
+  "cases": [
+    {
+      "schema": "collect-safe-receipt-action-v1.schema.json",
+      "observation": "inspection",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-safe-receipt-action-v1.schema.json",
+      "observation": "cancel",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-safe-receipt-action-v1.schema.json",
+      "observation": "cancel_replay",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-safe-receipt-action-v1.schema.json",
+      "observation": "cancel_lookup",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-operator-entity-audit-v1.schema.json",
+      "observation": "receipt_audit",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-operator-entity-audit-v1.schema.json",
+      "observation": "shadow_audit",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-unattended-operating-policy-v1.schema.json",
+      "observation": "policy_default",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-unattended-operating-policy-v1.schema.json",
+      "observation": "policy_receipt",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-unattended-operating-policy-v1.schema.json",
+      "observation": "policy_replay",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-unattended-operating-policy-v1.schema.json",
+      "observation": "policy_lookup",
+      "status": "pass"
+    },
+    {
+      "schema": "collect-unattended-operating-policy-v1.schema.json",
+      "observation": "policy_current",
+      "status": "pass"
+    }
+  ],
+  "case_count": 11,
+  "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "actual_observation_sha256": "d3689a2d549683f1ad90541cc7736333a60badd5bb729633326d15e12993bdc9",
+  "validator_sha256": "8d9319300d9987dc500181fd217a46195fb69664ee6f32835a9f12695c3b9dd1",
+  "source_schema_sha256": {
+    "collect-safe-receipt-action-v1.schema.json": "ac3e5b3d3cc82788f90d6ac8de0897a227dbf936d4862a360b2116af44217088",
+    "collect-operator-entity-audit-v1.schema.json": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60",
+    "collect-unattended-operating-policy-v1.schema.json": "242a6702cf284625882d6f962b4e216b2296e0c5c37d58b2f0452b24809e1881"
+  },
+  "capture_before_validator_execution": true,
+  "observation_is_rolled_back_synthetic_composition": true,
+  "sql_or_product_mutation": false
+}

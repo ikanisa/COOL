@@ -1,0 +1,5 @@
+# Merge this stanza into the reviewed project's Supabase configuration.
+# Dedicated scheduler secret plus durable scheduled-job authority; no operator
+# or handset credentials are accepted. The endpoint verifies its own boundary.
+[functions.collect-receipt-exception-worker]
+verify_jwt = false

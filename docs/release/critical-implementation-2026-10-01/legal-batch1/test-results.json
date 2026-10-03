@@ -1,0 +1,77 @@
+{
+  "captured_at": "2026-10-01T20:39:15.718863+00:00",
+  "status": "pass",
+  "checks": [
+    {
+      "command": [
+        "ruby",
+        "scripts/tests/public_legal_rendering_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.166,
+      "stdout": "Run options: --seed 40586\n\n# Running:\n\n.........\n\nFinished in 0.008606s, 1045.7820 runs/s, 29165.6983 assertions/s.\n\n9 runs, 251 assertions, 0 failures, 0 errors, 0 skips\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruby",
+        "scripts/tests/public_content_contract_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.204,
+      "stdout": "Run options: --seed 41485\n\n# Running:\n\n........................\n\nFinished in 0.092561s, 259.2885 runs/s, 345.7180 assertions/s.\n\n24 runs, 32 assertions, 0 failures, 0 errors, 0 skips\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruby",
+        "scripts/tests/public_static_routes_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.14,
+      "stdout": "Run options: --seed 17091\n\n# Running:\n\n.......\n\nFinished in 0.037574s, 186.2990 runs/s, 798.4244 assertions/s.\n\n7 runs, 30 assertions, 0 failures, 0 errors, 0 skips\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruby",
+        "-c",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.068,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "content/legal",
+        "scripts/public_static_site_build.rb",
+        "scripts/tests/public_legal_rendering_test.rb",
+        "docs/release/public-website-current-content-contract.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.035,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "input_sha256": {
+    "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3",
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "content/legal/collect_legal_pages_bundle.yaml": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94",
+    "content/legal/collect_terms_of_use.yaml": "71f1c395fbdcc94d903c0980ba597cfe959c69f8cb8d164e9b9caedf2aebcea7",
+    "content/legal/collect_delete_account.yaml": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f",
+    "content/legal/collect_privacy_policy.yaml": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540",
+    "scripts/tests/public_legal_rendering_test.rb": "acfc18bdda90bd3ca6f952b7ad2d66c89f0a839d281ad71604f9c5aff0adc7ed",
+    "scripts/tests/public_content_contract_test.rb": "154bd88005e9f373c5855dede2ccf3bd190693657635674113e22f53b39fafa3",
+    "scripts/tests/public_static_routes_test.rb": "cc2b5f9b45b5259019675c5472829ba131042c6381d0d95c2d8b6b22b5c24c8c",
+    "scripts/qa/public_content_contract.rb": "45b78125fd4a979f94771cda20815f2d61b53028d738e1433fdffd1e9f8d8fa5",
+    "docs/release/public-website-current-content-contract.json": "4d390debc4a7df2735ac2350bfbe4b1de26919d46f053732ff261cf60e3e290a"
+  },
+  "inputs_stable": true
+}

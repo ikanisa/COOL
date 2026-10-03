@@ -1,0 +1,1304 @@
+{
+  "artifact_copy_drift": {
+    "admin": [],
+    "public": []
+  },
+  "artifact_counts": {
+    "admin": 154,
+    "public": 53
+  },
+  "artifact_drift": {
+    "admin": [],
+    "public": []
+  },
+  "artifact_manifest": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/artifact-manifest.json",
+  "artifact_manifest_sha256": "ddcb7eb977db1db56e80b8347334fe3044f20142b5e0c787dde158ae4256b07d",
+  "artifact_paths": {
+    "admin": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/artifacts/admin-build",
+    "public": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/artifacts/public-build"
+  },
+  "attempted_builds": 2,
+  "blocked_outbound_requests": [
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    },
+    {
+      "origin": "https://fonts.gstatic.com",
+      "path": "/s/roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2"
+    }
+  ],
+  "browser_check_count": 89,
+  "browser_tool_drift": [],
+  "browser_tool_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-tool-inputs.json",
+  "browser_tool_map_sha256": "443c3de8d216d98f9d979392157aa927f87b3fb3d9d7daaf854ea5dbafb20320",
+  "build_attempt_interpretation": "One original failed engine-I/O build attempt; one successful final Admin/Public build whose initial browser drive timed out; one artifact-identical retained browser continuation with no build. production_admin_build_executed_once denotes the single successful final Admin artifact, not total attempted commands.",
+  "build_drift": [],
+  "candidate": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-integrated-local-candidate-20261001-current2",
+  "candidate_drift": [],
+  "candidate_file_count": 2175,
+  "candidate_manifest_sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a",
+  "candidate_source_manifest_sha256": "4e5a057805c427338b841f7d1b26b2ed74ae6958f1cb88069b9b0b8cee847fa1",
+  "causal_recovery": "Original font-subset stdout-pipe deadlock; private identical engine binary now has full concurrent stdout drain with bounded proof prefix and total digest. Application/compiler options unchanged.",
+  "command_log_drift": [],
+  "commands": [
+    {
+      "args": [
+        "--version",
+        "--machine"
+      ],
+      "command": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/flutter",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "flutter-runtime",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "690199243b7b6ada03fbca643f341fb42bcd8a6a6831dce2878ffcc2d2cfb024"
+    },
+    {
+      "args": [
+        "scripts/tests/local_browser_email_fixture_test.mjs"
+      ],
+      "command": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "email-fixture-boundaries",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3ee30b6a8ad38ffc53c024c55f01a48f0f95a254e55ff75218ffc18a596e4ea4"
+    },
+    {
+      "args": [
+        "scripts/tests/admin_pwa_worker_cache_test.mjs"
+      ],
+      "command": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "worker-cache-regression",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "19f815f798331b72f00b53c2ed547df449779d1469255e0efe701085e7303eea"
+    },
+    {
+      "args": [
+        "scripts/tests/admin_pwa_bundle_gate_test.rb"
+      ],
+      "command": "ruby",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "bundle-gate-regression",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b53d7928b4a3c43b8b6e2cf39584af15901b045e66c9348c58ade3557228ff70"
+    },
+    {
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/scripts/admin_pwa_release_build.sh"
+      ],
+      "command": "/bin/bash",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "admin-build",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "25c006e37068165f935cdc8f151d429b500d176bb1287933b404e0f4626a8e13"
+    },
+    {
+      "args": [
+        "scripts/public_static_site_build.rb"
+      ],
+      "command": "ruby",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "name": "public-build",
+      "reused_from": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3d4c164bb8879d02fd46a631b51de2d3152dcaeb19b4e58064f59343d6ca90a0"
+    },
+    {
+      "args": [
+        "-r",
+        "digest",
+        "-r",
+        "json",
+        "-r",
+        "open3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current3/postprocessor.rb"
+      ],
+      "command": "ruby",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current3/version-b",
+      "exit_code": 0,
+      "name": "version-b-postprocess",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "args": [
+        "-r",
+        "digest",
+        "-r",
+        "json",
+        "-r",
+        "open3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current3/postprocessor.rb"
+      ],
+      "command": "ruby",
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current3/version-failed",
+      "exit_code": 0,
+      "name": "version-failed-postprocess",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "coverage": {
+    "account_switch": true,
+    "authenticated_all_routes": true,
+    "email_sign_in": true,
+    "exact_departure_denies": true,
+    "failed_update": true,
+    "installed_pwa": true,
+    "legacy_broadcast_refused": true,
+    "legacy_cache_migration": true,
+    "mismatched_departure_refused": true,
+    "offline_signed_out": true,
+    "private_logout": true,
+    "public_admin_separation": true,
+    "reference_only_storage": true,
+    "reload_requires_sign_in": true,
+    "signed_out_all_routes": true,
+    "static_cache_privacy": true,
+    "tabs_do_not_adopt_sign_in": true,
+    "warm_update": true
+  },
+  "database_calls": 0,
+  "design_fidelity_certified": false,
+  "engine_stdout_drain_accepted": true,
+  "engine_stdout_drain_receipt_count": 3,
+  "errors": [],
+  "executed_consumer_count": 632,
+  "executed_consumers": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/executed-consumers.json",
+  "executed_consumers_sha256": "36f17f135b79bb058a43d5ce1985b61670baf800ab611b565f335539dbc4e00d",
+  "executed_drift": [],
+  "fresh_build_commands_passed": true,
+  "fresh_build_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2/report.json",
+  "fresh_build_report_sha256": "f4a63a453f5cdd4516c0724a25ab66d23a280ceff9d8afbe2f4521c8e3ce8c95",
+  "harness_drift": [],
+  "hosted_calls": 0,
+  "inputs_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-inputs.json",
+  "inputs_receipt_sha256": "530c6fda32a3d015e58a71feae69f0347811eb8ac51289316d6f785116a3db42",
+  "lifecycle_command_invocations": 3,
+  "limits": "All 28 routes use signed-out or synthetic approved email-owner empty, unavailable or permission-denied records. This run does not certify positive joined-history/inbox-v2 browser scenarios; their existing affected widget/SDK and SQL receipts remain separate. No real email delivery, hosted/provider actions, physical devices, new native build, or Revolut visual fidelity claim.",
+  "live_source_readback": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/live-executed-source-readback.json",
+  "named_browser_checks": [
+    {
+      "id": "retained-build-compiler-inputs-unchanged",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "retained-admin-bundle-byte-identical",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "shipped-security-headers",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "current-route-contract-covers-declared28",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/login",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/denied",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/groups",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/groups/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/users",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/users/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/members",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/members/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/payees",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/transactions",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/transactions/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/reconciliations",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/ledgers",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/sms-receipts",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/sms-receipts/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/notifications",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/notifications/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/audit-logs",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/audit-logs/entity/:kind/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/settings",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/feature-flags",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/system-health",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/automations",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/sms-gateway",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/exceptions",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/admin-users",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-route:/admin/admin-users/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "signed-out-routes-dispatch-no-private-rpc",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/login",
+      "observed": {
+        "expected": "Collect admin login",
+        "state": "login"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/denied",
+      "observed": {
+        "expected": "Admin access required",
+        "state": "denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin",
+      "observed": {
+        "expected": "Payments and receipts \u00b7 Unavailable",
+        "state": "unavailable-metrics"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/groups",
+      "observed": {
+        "expected": "No groups",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/groups/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/users",
+      "observed": {
+        "expected": "No users",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/users/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/members",
+      "observed": {
+        "expected": "No members",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/members/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/payees",
+      "observed": {
+        "expected": "No payees",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/transactions",
+      "observed": {
+        "expected": "No transactions",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/transactions/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/reconciliations",
+      "observed": {
+        "expected": "No payments awaiting review",
+        "state": "empty-payment-queue"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/ledgers",
+      "observed": {
+        "expected": "No ledgers",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/sms-receipts",
+      "observed": {
+        "expected": "No sms receipts",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/sms-receipts/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/notifications",
+      "observed": {
+        "expected": "No notifications",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/notifications/:id",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/audit-logs",
+      "observed": {
+        "expected": "No audit logs",
+        "state": "empty"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/audit-logs/entity/:kind/:id",
+      "observed": {
+        "expected": "Action history service unavailable",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/settings",
+      "observed": {
+        "expected": "Permission required: settings.read",
+        "state": "missing-permission-denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "denied-route-dispatches-no-private-rpc:/admin/settings",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/feature-flags",
+      "observed": {
+        "expected": "Permission required: feature_flags.read",
+        "state": "missing-permission-denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "denied-route-dispatches-no-private-rpc:/admin/feature-flags",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/system-health",
+      "observed": {
+        "expected": "The admin request could not be completed.",
+        "state": "unavailable-read"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/automations",
+      "observed": {
+        "expected": "Current platform owner access with user administration, notifications management and system health permissions is required for receipt operations policy.",
+        "state": "receipt-policy-permission-denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/sms-gateway",
+      "observed": {
+        "expected": "Gateway read failed",
+        "state": "invalid-synthetic-read-refused"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/exceptions",
+      "observed": {
+        "expected": "Exception read failed",
+        "state": "invalid-synthetic-read-refused"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/admin-users",
+      "observed": {
+        "expected": "Permission required: admin_users.read",
+        "state": "missing-permission-denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "denied-route-dispatches-no-private-rpc:/admin/admin-users",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-route:/admin/admin-users/:id",
+      "observed": {
+        "expected": "Permission required: admin_users.read",
+        "state": "missing-permission-denied"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "denied-route-dispatches-no-private-rpc:/admin/admin-users/:id",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "email-sign-in-keeps-admin-route",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "confirmed-email-sign-in-stores-no-browser-credentials",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "authenticated-groups-navigation",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "reference-only-roster-storage",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "reload-never-restores-auth-or-private-editor",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "new-tab-does-not-adopt-sign-in",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "legacy-token-broadcast-cannot-authenticate-peer",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "departure-for-another-session-does-not-clear-live-tabs",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "logout-clears-departed-private-ui-without-adopting-peer",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "explicit-a-b-a-sign-in-stays-private",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "legacy-broadcast-cannot-replace-existing-session",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "actual-exact-owner-departure-denies-runtime",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "separate-public-artifact-omits-admin-bundle",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "public-storage-isolated",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "public-private-paths-return-404",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "static-cache-excludes-private-responses",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "warm-update-keeps-signed-out-shell",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "update-removes-legacy-and-previous-admin-caches",
+      "observed": {
+        "newKeys": [
+          "collect-admin-80b6a77a64958c7a",
+          "unrelated-static-fixture"
+        ],
+        "oldKeys": [
+          "collect-admin-96d14eba3b32c6ec",
+          "flutter-app-cache",
+          "flutter-temp-cache",
+          "flutter-app-manifest",
+          "unrelated-static-fixture"
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "failed-update-retains-active-worker",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "failed-update-retains-only-previous-cache",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "offline-reload-remains-signed-out",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "offline-api-fails-without-cached-private-response",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "installed-pwa-offline-launch-has-no-auth",
+      "observed": null,
+      "status": "pass"
+    },
+    {
+      "id": "final-static-cache-private-data-exclusion",
+      "observed": null,
+      "status": "pass"
+    }
+  ],
+  "original_failed_build_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/original-command-terminal.json",
+  "original_failed_build_receipt_sha256": "02ac3c86e8108b72ef347c83a3582b89fa7d82b5772485c8a86c543c08688593",
+  "package_config_drift": false,
+  "package_drift": {},
+  "package_graph_drift": false,
+  "package_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-packages-prepared.json",
+  "package_map_sha256": "677beed2e9d968809910c6322d0c0387661edb5e59abda2f6ee9238569b6a69b",
+  "peer_657_candidate_source_bound_count": 295,
+  "peer_657_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/admin-exception-history-ui-20261001/attempt3/verification.json",
+  "peer_657_receipt_sha256": "7b3f38e6b22c42d386ed9b171ddc02e18ef50e2a9a3cbb055fa42aef5fb41e66",
+  "peer_657_receipt_unchanged": true,
+  "peer_657_reused_cases": 657,
+  "private_harness_admission": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/private-harness-admission.json",
+  "private_harness_admission_sha256": "3b25c419e41de8ec0c761246d70dc7e8a07e9bdc40e73d0b05494d7b847fdb9b",
+  "private_sdk_admission": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/private-sdk-admission.json",
+  "private_sdk_admission_sha256": "291e205fb81edce391af46224c02b5918ca7156022605fab9c81057c35e34513",
+  "private_sdk_drift": [],
+  "private_sdk_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-private-sdk-inputs.json",
+  "private_sdk_map_sha256": "b771446415baaa5f004dd4c53094ecbbf40fce01117931e7684e28f440e865ae",
+  "production_admin_build_attempts": 2,
+  "production_admin_build_executed_once": true,
+  "production_admin_successful_builds": 1,
+  "provider_calls": 0,
+  "report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-evidence/report.json",
+  "report_sha256": "0f31baa0fb72506b20608d0306d6e7e2e4761d4d9aa81b928a38d68c387f592b",
+  "retained_admin_bundle_used": true,
+  "retained_artifacts_exact": true,
+  "route_authority_counts": {
+    "authenticated-email-owner": 28,
+    "signed-out": 28
+  },
+  "route_states": [
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/login",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/denied",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/groups",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/groups/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/users",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/users/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/members",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/members/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/payees",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/transactions",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/transactions/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/reconciliations",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/ledgers",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/sms-receipts",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/sms-receipts/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/notifications",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/notifications/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/audit-logs",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/audit-logs/entity/:kind/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/settings",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/feature-flags",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/system-health",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/automations",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/sms-gateway",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/exceptions",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/admin-users",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "signed-out",
+      "pattern": "/admin/admin-users/:id",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/login",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_runtime_config",
+        "collect-notification-operator",
+        "admin_overview",
+        "admin_list_country_scoped",
+        "admin_list_country_scoped",
+        "admin_list_country_scoped",
+        "admin_get_queue_sla",
+        "admin_list_country_scoped",
+        "admin_list_country_scoped",
+        "admin_receipt_overview_v1",
+        "admin_system_health",
+        "collect-notification-operator"
+      ],
+      "expected": "Collect admin login",
+      "pattern": "/admin/login",
+      "state": "login",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/denied",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Admin access required",
+      "pattern": "/admin/denied",
+      "state": "denied",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Payments and receipts \u00b7 Unavailable",
+      "pattern": "/admin",
+      "state": "unavailable-metrics",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/groups",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No groups",
+      "pattern": "/admin/groups",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/groups/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_collection"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/groups/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/users",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No users",
+      "pattern": "/admin/users",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/users/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_user"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/users/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/members",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No members",
+      "pattern": "/admin/members",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/members/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_member_record"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/members/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/payees",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No payees",
+      "pattern": "/admin/payees",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/transactions",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No transactions",
+      "pattern": "/admin/transactions",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/transactions/momo:99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_collect_transaction"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/transactions/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/reconciliations",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No payments awaiting review",
+      "pattern": "/admin/reconciliations",
+      "state": "empty-payment-queue",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/ledgers",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No ledgers",
+      "pattern": "/admin/ledgers",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/sms-receipts",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_hybrid_sms_receipts"
+      ],
+      "expected": "No sms receipts",
+      "pattern": "/admin/sms-receipts",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/sms-receipts/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_hybrid_sms_receipt"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/sms-receipts/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/notifications",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_country_scoped"
+      ],
+      "expected": "No notifications",
+      "pattern": "/admin/notifications",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/notifications/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_notification"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/notifications/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/audit-logs",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_audit_logs"
+      ],
+      "expected": "No audit logs",
+      "pattern": "/admin/audit-logs",
+      "state": "empty",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/audit-logs/entity/gateway_device/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_get_operator_entity_audit_v1"
+      ],
+      "expected": "Action history service unavailable",
+      "pattern": "/admin/audit-logs/entity/:kind/:id",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/settings",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Permission required: settings.read",
+      "pattern": "/admin/settings",
+      "state": "missing-permission-denied",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/feature-flags",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Permission required: feature_flags.read",
+      "pattern": "/admin/feature-flags",
+      "state": "missing-permission-denied",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/system-health",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_system_health"
+      ],
+      "expected": "The admin request could not be completed.",
+      "pattern": "/admin/system-health",
+      "state": "unavailable-read",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/automations",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_system_health",
+        "admin_get_receipt_exception_worker_health_v1",
+        "admin_get_unattended_operating_policy_v1",
+        "list_collect_shadow_runs_v1"
+      ],
+      "expected": "Current platform owner access with user administration, notifications management and system health permissions is required for receipt operations policy.",
+      "pattern": "/admin/automations",
+      "state": "receipt-policy-permission-denied",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/sms-gateway",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_gateway_devices_v1"
+      ],
+      "expected": "Gateway read failed",
+      "pattern": "/admin/sms-gateway",
+      "state": "invalid-synthetic-read-refused",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/exceptions",
+      "authority": "authenticated-email-owner",
+      "calls": [
+        "admin_list_operational_exceptions_v2"
+      ],
+      "expected": "Exception read failed",
+      "pattern": "/admin/exceptions",
+      "state": "invalid-synthetic-read-refused",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/admin-users",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Permission required: admin_users.read",
+      "pattern": "/admin/admin-users",
+      "state": "missing-permission-denied",
+      "status": "pass"
+    },
+    {
+      "actual_path": "#/admin/admin-users/99690000-0000-4000-8000-000000090001",
+      "authority": "authenticated-email-owner",
+      "calls": [],
+      "expected": "Permission required: admin_users.read",
+      "pattern": "/admin/admin-users/:id",
+      "state": "missing-permission-denied",
+      "status": "pass"
+    }
+  ],
+  "scope": "One successful final production Admin build and separate Public build after preserved engine-I/O failure; hash-identical bundles reused for a private focus-corrected browser/PWA continuation. Actual current email/tab-session lifecycle against final immutable current2, synthetic loopback API. Existing 657 affected VM cases bound and reused, not rerun.",
+  "sdk_drift": [],
+  "sdk_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/browser-sdk-prepared.json",
+  "sdk_map_sha256": "d8b6db6281564c76487a750dbd160658be9f5307a30bb28d0ba0d56b780f9f94",
+  "source_guard_map_kind": "Complete declared lifecycle runtime/script source snapshot, not a traced compiler reachability graph or per-file behavior coverage. Exact named checks provide behavior evidence.",
+  "source_inputs_stable": true,
+  "status": "pass",
+  "successful_final_admin_builds": 1,
+  "supplemental_drift": [],
+  "wrapper_runtime_drift": []
+}

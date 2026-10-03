@@ -1,0 +1,9 @@
+{
+  "scope": "Actual SDK fixture session timer/provider initialization and explicit widget-end disposal. Current14 preserved; current policy refresh already uses a real-zone tap and is preserved unchanged.",
+  "before": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "f5f9ad8c6be9d56d818ecff08ca9ee61c79fb39b6d35204836408451b2b86af9"
+  },
+  "after": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "b901fd4a0cb4baae8f0c2b6aec7f4cc899b0b3c5897c94b05b0b5ab278666f95"
+  }
+}

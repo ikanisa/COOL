@@ -1,0 +1,386 @@
+[
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 20.156,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 20.134,
+          "Actual Total Time": 20.135,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2501,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.018,
+        "Triggers": []
+      }
+    ],
+    "query": "",
+    "sort": "newest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 27.043,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 27.029,
+          "Actual Total Time": 27.03,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2491,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.007,
+        "Triggers": []
+      }
+    ],
+    "query": "You",
+    "sort": "newest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 104.572,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 104.556,
+          "Actual Total Time": 104.556,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2492,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.02,
+        "Triggers": []
+      }
+    ],
+    "query": "",
+    "sort": "oldest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 21.853,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 21.839,
+          "Actual Total Time": 21.839,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2482,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.016,
+        "Triggers": []
+      }
+    ],
+    "query": "You",
+    "sort": "oldest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 16.019,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 16.011,
+          "Actual Total Time": 16.011,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2523,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.006,
+        "Triggers": []
+      }
+    ],
+    "query": "",
+    "sort": "highest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 20.332,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 20.317,
+          "Actual Total Time": 20.317,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2513,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.013,
+        "Triggers": []
+      }
+    ],
+    "query": "You",
+    "sort": "highest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 14.449,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 14.438,
+          "Actual Total Time": 14.439,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2519,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.012,
+        "Triggers": []
+      }
+    ],
+    "query": "",
+    "sort": "lowest"
+  },
+  {
+    "limit": 7,
+    "limitation": "Wrapper plan measures real SQL execution on69 synthetic posted rows; it does not expose nested function plan or certify production scale.",
+    "plan": [
+      {
+        "Execution Time": 24.183,
+        "Plan": {
+          "Actual Loops": 1,
+          "Actual Rows": 1,
+          "Actual Startup Time": 24.075,
+          "Actual Total Time": 24.076,
+          "Async Capable": false,
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Plan Rows": 1,
+          "Plan Width": 32,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 2509,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Startup Cost": 0.0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Total Cost": 0.26
+        },
+        "Planning": {
+          "Local Dirtied Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Written Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.021,
+        "Triggers": []
+      }
+    ],
+    "query": "You",
+    "sort": "lowest"
+  }
+]

@@ -1,0 +1,69 @@
+--- original/scripts/qa/revolut_design_authority.py
++++ scripts/qa/revolut_design_authority.py
+@@ -53,6 +53,34 @@
+             return False
+         return re.fullmatch(r'name: [a-z][a-z0-9_]*\n?', target.read_text()) is not None
+     except (OSError, UnicodeError):
++        return False
++
++
++def retained_backend_fixture(path: Path, relative: str, root: Path) -> bool:
++    """Recognize exact canonical producer aliases; still scan their contents.
++
++    Private Flutter validation mounts these seven backend receipts from the
++    canonical test fixtures. They are business evidence, not design references.
++    This does not admit arbitrary reference links or skip their declarations.
++    """
++    names = {
++        'successor_approval_read.json', 'successor_approval_receipt.json',
++        'successor_closure_inspection.json', 'successor_closure_receipt.json',
++        'successor_lineage_pages.json', 'successor_retry_preview.json',
++        'successor_revocation_receipt.json',
++    }
++    if (not relative.startswith('.cache/') or path.name not in names or
++            path.parent.parts[-3:] != ('validation-app', 'test', 'fixtures')):
++        return False
++    target = root / 'test/fixtures' / path.name
++    try:
++        declared = Path(os.path.normpath(os.path.join(path.parent, os.readlink(path))))
++        if (declared != target or target.parent.is_symlink() or
++                target.is_symlink() or not target.is_file() or
++                target.stat().st_size > 65536):
++            return False
++        return isinstance(json.loads(target.read_text()), dict)
++    except (OSError, UnicodeError, ValueError):
+         return False
+ 
+ 
+@@ -113,6 +141,7 @@
+     files = 0
+     # Include ignored local exports: deletion of a tracked report alone must
+     # not leave its competing reference copy available in this checkout.
++    backend_fixture_links = []
+     for folder, dirs, names in os.walk(root, followlinks=False):
+         dirs[:] = [name for name in dirs if name not in PRUNED and
+                    not (Path(folder) / name).is_symlink()]
+@@ -128,9 +157,14 @@
+             if path.is_symlink():
+                 if inert_pubspec_fixture(path, relative):
+                     fixture_links.append(relative)
++                    continue
++                elif retained_backend_fixture(path, relative, root):
++                    backend_fixture_links.append(relative)
++                    # Continue normal content inspection below. The source
++                    # counterpart lies under test/, so inspect the alias here.
+                 else:
+                     competing.append(relative + ':symlinked_reference')
+-                continue
++                    continue
+             files += 1
+             try:
+                 if path.stat().st_size > 8 * 1024 * 1024:
+@@ -162,6 +196,7 @@
+         'retired_references': sorted(retired),
+         'competing_declarations': sorted(set(competing)),
+         'inert_package_fixture_links': sorted(fixture_links),
++        'retained_backend_fixture_links': sorted(backend_fixture_links),
+         'failures': sorted(set(failures)),
+         'visual_acceptance': 'unverified',
+         'meaning': 'Reference hygiene only; no route/state fidelity percentage.',

@@ -297,30 +297,37 @@ final paymentUiStatusProvider =
 
 final ownerGroupHealthProvider =
     FutureProvider.family<OwnerGroupHealth, String>((ref, collectionId) {
-      return ref
-          .read(collectRepositoryProvider.notifier)
-          .ownerHealthFor(collectionId);
+      final repository = ref.watch(collectRepositoryProvider.notifier);
+      ref.watch(
+        collectRepositoryProvider.select(
+          (state) => (
+            repository.sessionGeneration,
+            state.currentProfile?.id,
+            state.lastSuccessfulSyncAt,
+            state.collections,
+          ),
+        ),
+      );
+      return repository.ownerHealthFor(collectionId);
     });
 
-final groupMembersProvider = FutureProvider.family<List<CollectMember>, String>((
-  ref,
-  collectionId,
-) {
-  // A roster belongs to the signed-in account and current membership snapshot.
-  // Invalidate it on sign-out, account changes and successful live refreshes.
-  ref.watch(
-    collectRepositoryProvider.select(
-      (state) => (
-        state.currentProfile?.id,
-        state.lastSuccessfulSyncAt,
-        state.collections,
+final groupMembersProvider = FutureProvider.family<List<CollectMember>, String>(
+  (ref, collectionId) {
+    // A roster belongs to the exact client session and membership snapshot.
+    final repository = ref.watch(collectRepositoryProvider.notifier);
+    ref.watch(
+      collectRepositoryProvider.select(
+        (state) => (
+          repository.sessionGeneration,
+          state.currentProfile?.id,
+          state.lastSuccessfulSyncAt,
+          state.collections,
+        ),
       ),
-    ),
-  );
-  return ref
-      .read(collectRepositoryProvider.notifier)
-      .membersForCollection(collectionId);
-});
+    );
+    return repository.membersForCollection(collectionId);
+  },
+);
 
 final shareConfirmationProvider = StateProvider<String?>((ref) => null);
 

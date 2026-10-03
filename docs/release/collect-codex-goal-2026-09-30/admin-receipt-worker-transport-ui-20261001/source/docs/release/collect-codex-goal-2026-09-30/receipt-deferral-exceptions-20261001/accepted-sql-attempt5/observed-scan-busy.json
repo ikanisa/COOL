@@ -1,0 +1,20 @@
+{
+  "seeded": 0,
+  "status": "busy",
+  "cleared": 0,
+  "pending": 0,
+  "refused": 0,
+  "activated": 0,
+  "processed": 0,
+  "unchanged": 0,
+  "checked_at": "2026-10-01T12:10:27.354626Z",
+  "expires_at": "2026-10-01T12:12:07.228933Z",
+  "request_id": "5f4b1aa1-cf8b-4b89-af51-b226597a39fc",
+  "scan_epoch": 11,
+  "scan_phase": "receipt_backlog",
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "observations_added": 0,
+  "source_scan_complete": false
+}

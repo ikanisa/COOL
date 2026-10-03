@@ -1,0 +1,26 @@
+{
+  "scope": "Unlaunched native runner parent changes to fresh common83; all failed51evidence and source exports retained",
+  "common_parent": "local-source-acceptance-attempt83",
+  "runners": {
+    "run-native-ios-attempt52.py": {
+      "before": "7e4d1e721298c0f5cd9d47f97e7b7977c673432311cc1a5346953f76fdc8daec",
+      "after": "f67660f1b70881f86cf133b6e5c8891699d7d35008c4b9e9df8b7250e8c51d80"
+    },
+    "verify-native-ios-attempt52.py": {
+      "before": "6485bbb3c581425bb192e5371ee80dedcffd775cd27ccda7d94a3118d04e6e19",
+      "after": "6485bbb3c581425bb192e5371ee80dedcffd775cd27ccda7d94a3118d04e6e19"
+    },
+    "run-native-android-attempt53.py": {
+      "before": "d45b763fe339881026688aa893dfc2fb874211dfe5f0c09ce460928573cf356e",
+      "after": "17011828e7ccc501242578e81669576f7c9224f3ee4f379bab2f56d3a5d61029"
+    },
+    "run-native-gateway-attempt63.py": {
+      "before": "b982f7b706e95c76ac6fd9fe5fbaed1002146c5ca3a226ca4bfe99ba35676e42",
+      "after": "1b35b24e045a56f2df278a47c85950ff3df543a33e8e357581e6bf6b079814d0"
+    },
+    "run-observed-native-attempt65.py": {
+      "before": "9aaffc2bf5cb158f8188f5a8ac42dfc5e1b04f00bcbe5cc2286a80cb5d0d3830",
+      "after": "52649f5ea9e331872576d38ac8c25a2b24dce08aeb03fc5fe56e152ded24db61"
+    }
+  }
+}

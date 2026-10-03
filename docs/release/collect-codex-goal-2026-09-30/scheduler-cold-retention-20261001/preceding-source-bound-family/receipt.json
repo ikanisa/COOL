@@ -1,0 +1,53 @@
+{
+  "canonical_source_writes": 0,
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-concurrency=1",
+        "src/unattended_client.test.ts",
+        "src/unattended_enrollment.test.ts",
+        "src/unattended_enrollment_observed.test.ts",
+        "src/unattended_history.test.ts",
+        "src/unattended_journal.test.ts",
+        "src/unattended_profile.test.ts",
+        "src/unattended_retention.test.ts",
+        "src/unattended_runner.test.ts",
+        "src/unattended_scheduler.test.ts",
+        "src/unattended_scheduler_control.test.ts",
+        "src/unattended_stdio.test.ts",
+        "src/unattended_store.test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-cold-retention-20261001/tools/collect-notification-mcp",
+      "elapsed_seconds": 256.9829969406128,
+      "exit_code": 1,
+      "log_sha256": "6033654715c56ffa260b9bd6fb05ddea43ac81475b80d8e2d82328aa62517609",
+      "name": "family"
+    }
+  ],
+  "contract_version": 1,
+  "export_scope": "cold local evidence only; hot records, credentials, deployment, SQL history and full operational recovery excluded",
+  "family_test_files": [
+    "src/unattended_client.test.ts",
+    "src/unattended_enrollment.test.ts",
+    "src/unattended_enrollment_observed.test.ts",
+    "src/unattended_history.test.ts",
+    "src/unattended_journal.test.ts",
+    "src/unattended_profile.test.ts",
+    "src/unattended_retention.test.ts",
+    "src/unattended_runner.test.ts",
+    "src/unattended_scheduler.test.ts",
+    "src/unattended_scheduler_control.test.ts",
+    "src/unattended_stdio.test.ts",
+    "src/unattended_store.test.ts"
+  ],
+  "input_count": 1779,
+  "inputs_unchanged": true,
+  "launchctl_daemon_calls": 0,
+  "live_http_calls": 0,
+  "live_signer_calls": 0,
+  "scope": "staged unattended retention and affected caller family; synthetic Edge/owner/daemon seams and real private filesystem",
+  "status": "rejected"
+}

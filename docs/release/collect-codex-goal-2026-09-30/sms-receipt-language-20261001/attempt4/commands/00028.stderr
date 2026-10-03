@@ -1,0 +1,20 @@
+NOTICE:  00000: policy "admin roles read admins" for relation "admin_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin permissions read admins" for relation "admin_permissions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin role permissions read admins" for relation "admin_role_permissions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin user roles read admins" for relation "admin_user_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "sensitive access logs read compliance" for relation "admin_sensitive_access_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "feature flags read admins" for relation "feature_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "system settings read admins" for relation "system_settings" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "moderation flags read admins" for relation "moderation_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin notes read admins" for relation "admin_notes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "raw sms metadata scoped read" for relation "raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

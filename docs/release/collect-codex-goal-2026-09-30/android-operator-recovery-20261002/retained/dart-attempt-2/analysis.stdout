@@ -1,0 +1,13 @@
+Analyzing 4 items...                                            
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:33:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:54:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:61:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:92:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:101:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:117:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_page.dart:123:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_platform.dart:35:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_platform.dart:82:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_recovery_platform.dart:97:7 • curly_braces_in_flow_control_structures
+

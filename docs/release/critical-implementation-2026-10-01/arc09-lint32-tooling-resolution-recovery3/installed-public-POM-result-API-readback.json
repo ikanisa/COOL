@@ -1,0 +1,36 @@
+{
+  "Gradle_version": "9.1.0",
+  "actual_DefaultArtifactResolutionResult_used_only_in_fixture": true,
+  "production_internal_API_added": false,
+  "public_API": "getResolvedComponents for artifact collection; getComponents filtered for UnresolvedComponentResult",
+  "source_files": [
+    {
+      "bytes": 1943,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/result/ArtifactResolutionResult.java",
+      "relevant_lines": [
+        38,
+        43,
+        47
+      ],
+      "sha256": "62405db8aa790601062584b159b8d34fef9de579682c499aac1324a3e044b9f9"
+    },
+    {
+      "bytes": 920,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/result/UnresolvedComponentResult.java",
+      "relevant_lines": [
+        27
+      ],
+      "sha256": "4aaecbe370179eb9440cccbeb84914c34377a631e35583384793aec20c4ba10a"
+    },
+    {
+      "bytes": 1765,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/api/internal/artifacts/result/DefaultArtifactResolutionResult.java",
+      "relevant_lines": [
+        33,
+        38,
+        41
+      ],
+      "sha256": "7ca28e5e430e29acb7b98d420cad0f40425a1bc497d96f67c910cfc7d7f69579"
+    }
+  ]
+}

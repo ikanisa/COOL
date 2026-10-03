@@ -1,0 +1,278 @@
+{
+  "cloud_api_basis": "Official Cloud Storage objects.get API; exact already-source-derived object paths only.",
+  "dart_url_derived_from": "Pinned update_dart_sdk.sh + engine.version, darwin-arm64, default storage and empty realm. No updater executed.",
+  "requests": {
+    "dart-sdk-head.json": {
+      "bytes": 0,
+      "fetched_utc": "2026-10-01T23:46:28.717199+00:00",
+      "final_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/dart-sdk-darwin-arm64.zip",
+      "headers": {
+        "Content-Length": "215861209",
+        "Content-Type": "application/zip",
+        "ETag": "\"4f8e3e9ff1104e7beb41761adc2146d1\"",
+        "Last-Modified": "Wed, 24 Jun 2026 00:31:34 GMT",
+        "x-goog-generation": "1782261094034487",
+        "x-goog-hash": "crc32c=MTJhAA==",
+        "x-goog-metageneration": "1"
+      },
+      "http_status": 200,
+      "method": "HEAD",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/dart-sdk-darwin-arm64.zip"
+    },
+    "dart-sdk-object-metadata.json": {
+      "bytes": 1088,
+      "fetched_utc": "2026-10-01T23:46:27.111494+00:00",
+      "final_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdart-sdk-darwin-arm64.zip",
+      "headers": {
+        "Content-Length": "1088",
+        "Content-Type": "application/json; charset=UTF-8",
+        "ETag": "CLfYoPvPnpUDEAE="
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "dart-sdk-object-metadata.json",
+      "sha256": "a6ad91bece5600928dc00a2a06de9a4ce1055b61d7494ad2af256bfc6678b37b",
+      "url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdart-sdk-darwin-arm64.zip"
+    },
+    "engine_stamp.json": {
+      "bytes": 237,
+      "fetched_utc": "2026-10-01T23:46:26.978709+00:00",
+      "final_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/engine_stamp.json",
+      "headers": {
+        "Content-Length": "237",
+        "Content-Type": "application/json",
+        "ETag": "\"b78ca04030fbf9602f664fdba8572333\"",
+        "Last-Modified": "Wed, 24 Jun 2026 00:27:11 GMT",
+        "x-goog-generation": "1782260831219544",
+        "x-goog-hash": "crc32c=yko3wA==",
+        "x-goog-metageneration": "1"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "engine_stamp.json",
+      "sha256": "df5cffb3cee2d6bfea7d1de442a85c31cb3884060fe7b56887d8ee093ea968bb",
+      "url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/engine_stamp.json"
+    },
+    "main.client.dart.js_10.part.js": {
+      "bytes": 840,
+      "fetched_utc": "2026-10-01T23:46:24.330629+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_10.part.js",
+      "headers": {
+        "Content-Length": "840",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"1ee1c551c0744e029a899c69aa4a01dd67c86f305c344aeb205bb8ef449b071d\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_10.part.js",
+      "sha256": "b679ff2e28e958d0e7118d811f7a8cb88e334f82230b8ebb029722e97f40fd45",
+      "url": "https://docs.flutter.dev/main.client.dart.js_10.part.js"
+    },
+    "main.client.dart.js_15.part.js": {
+      "bytes": 547,
+      "fetched_utc": "2026-10-01T23:46:25.777504+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_15.part.js",
+      "headers": {
+        "Content-Length": "547",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"62b85c44d90a4490e2ed942a3c95783e7ff76581492c2202c3aed5c790822aa1\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_15.part.js",
+      "sha256": "ca45e99176e054229b6d7536d8bf5622b49736d7886cafc1a81428d908cb87a9",
+      "url": "https://docs.flutter.dev/main.client.dart.js_15.part.js"
+    },
+    "main.client.dart.js_2.part.js": {
+      "bytes": 1444,
+      "fetched_utc": "2026-10-01T23:46:24.329695+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_2.part.js",
+      "headers": {
+        "Content-Length": "1444",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"21fcd68931d4d0a054fa3cf6e988af412e18b8db09073bb5c969f4174ddf6ba2\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_2.part.js",
+      "sha256": "e11b58d627c02c90e597242e6bebd694ea09e9d39db4cc4ef80a635ccb2c1e28",
+      "url": "https://docs.flutter.dev/main.client.dart.js_2.part.js"
+    },
+    "main.client.dart.js_21.part.js": {
+      "bytes": 555,
+      "fetched_utc": "2026-10-01T23:46:24.330262+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_21.part.js",
+      "headers": {
+        "Content-Length": "555",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"a7ec6cd84b72ae565989748b5f91f80addd84d212a24bdc903957349263ab994\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_21.part.js",
+      "sha256": "7238807e9b60d7ddcefd9fab9b2d682d3af10b8c13a325e60866706b3c079456",
+      "url": "https://docs.flutter.dev/main.client.dart.js_21.part.js"
+    },
+    "main.client.dart.js_3.part.js": {
+      "bytes": 1758,
+      "fetched_utc": "2026-10-01T23:46:26.401546+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_3.part.js",
+      "headers": {
+        "Content-Length": "1758",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"70af8b797190c0ed166104b3728e9a881bad4268cb9e50d8db5c3efac190d791\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_3.part.js",
+      "sha256": "6e93e061d97756efd779c5417ba6573b60a439f1cba7183c931ab63439f3f8b7",
+      "url": "https://docs.flutter.dev/main.client.dart.js_3.part.js"
+    },
+    "main.client.dart.js_37.part.js": {
+      "bytes": 6883,
+      "fetched_utc": "2026-10-01T23:46:26.549974+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_37.part.js",
+      "headers": {
+        "Content-Length": "6883",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"cd8002af9084273b5830cdafbcf2cf16a52883ddffe8cc209b4bf6093fb4dc10\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_37.part.js",
+      "sha256": "23edd928aed2499ce0ae47fc0e02c42e2d28116fd6b39c34d2bee55c78b41a05",
+      "url": "https://docs.flutter.dev/main.client.dart.js_37.part.js"
+    },
+    "main.client.dart.js_38.part.js": {
+      "bytes": 518,
+      "fetched_utc": "2026-10-01T23:46:26.393569+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_38.part.js",
+      "headers": {
+        "Content-Length": "518",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"26c4cf8e6ab5ca660f8aec0276e369ed883c873bdbb250196a1bbeccbd264f7c\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_38.part.js",
+      "sha256": "84d8d839d657085b55bea2228c6afa21b0b4f6885cc5704e71183a5309126d1f",
+      "url": "https://docs.flutter.dev/main.client.dart.js_38.part.js"
+    },
+    "main.client.dart.js_4.part.js": {
+      "bytes": 47404,
+      "fetched_utc": "2026-10-01T23:46:26.381409+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_4.part.js",
+      "headers": {
+        "Content-Length": "47404",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"52eb6465a3bf4d8eba0ac7c665ce780fad8db93b304b9d7cbf4dae188350e141\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_4.part.js",
+      "sha256": "dc5e37c63854306af2ff6ddf68921b7e19d8c93423ca7c0cbc791b4fe6a379b2",
+      "url": "https://docs.flutter.dev/main.client.dart.js_4.part.js"
+    },
+    "main.client.dart.js_5.part.js": {
+      "bytes": 687,
+      "fetched_utc": "2026-10-01T23:46:25.868927+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_5.part.js",
+      "headers": {
+        "Content-Length": "687",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"bc5a806d9ea688c59785878a5e8ea26a722968c46a9c695ddb0c50887f96fbb7\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_5.part.js",
+      "sha256": "87411364f0f1943f0ef3b3223ef283eda859536dad8659e95f69864fe04299cf",
+      "url": "https://docs.flutter.dev/main.client.dart.js_5.part.js"
+    },
+    "main.client.dart.js_6.part.js": {
+      "bytes": 5879,
+      "fetched_utc": "2026-10-01T23:46:24.330354+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_6.part.js",
+      "headers": {
+        "Content-Length": "5879",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"9dbf3cc5a93a739febc69a94317ff4013f8e650d0b24885880eeb837e918199a\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_6.part.js",
+      "sha256": "a38983dfc51417101bc67482e3393332c2f7bf9280ceeb7f272215179d44c0d0",
+      "url": "https://docs.flutter.dev/main.client.dart.js_6.part.js"
+    },
+    "main.client.dart.js_8.part.js": {
+      "bytes": 898,
+      "fetched_utc": "2026-10-01T23:46:25.945525+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_8.part.js",
+      "headers": {
+        "Content-Length": "898",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"81091b5f3d7422f8036d37cf3357325b713b61d8043a60b1a87674aa63590762\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_8.part.js",
+      "sha256": "ba0cb529076eb3451e47886a6a8033f95a4f590c8820e1adfb42ecd9efb9ca16",
+      "url": "https://docs.flutter.dev/main.client.dart.js_8.part.js"
+    },
+    "main.client.dart.js_9.part.js": {
+      "bytes": 1118,
+      "fetched_utc": "2026-10-01T23:46:25.827992+00:00",
+      "final_url": "https://docs.flutter.dev/main.client.dart.js_9.part.js",
+      "headers": {
+        "Content-Length": "1118",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "ETag": "\"c9f81fa092363389cc31f3075ab61045b2fc68c805c8a637d584e76cb0c247ac\"",
+        "Last-Modified": "Thu, 01 Oct 2026 17:41:58 GMT"
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "main.client.dart.js_9.part.js",
+      "sha256": "6a8c6dc40ac58734370fea2775ed922cc5c6ed44b1ec3851dd45d3d2127b6f00",
+      "url": "https://docs.flutter.dev/main.client.dart.js_9.part.js"
+    },
+    "release-catalog-json-api-media.json": {
+      "error": "HTTPError",
+      "fetched_utc": "2026-10-01T23:46:28.716606+00:00",
+      "http_status": 404,
+      "method": "GET",
+      "url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Freleases%2Freleases_macos.json?alt=media"
+    },
+    "release-catalog-object-metadata.json": {
+      "error": "HTTPError",
+      "fetched_utc": "2026-10-01T23:46:27.331546+00:00",
+      "http_status": 404,
+      "method": "GET",
+      "url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Freleases%2Freleases_macos.json"
+    }
+  },
+  "source_derived_archive_deferred_part_indices": [
+    0,
+    9,
+    1,
+    2,
+    11,
+    3,
+    4,
+    5,
+    6,
+    40,
+    7,
+    41
+  ]
+}

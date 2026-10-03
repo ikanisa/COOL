@@ -1,0 +1,9 @@
+{
+  "status": "actual-harness-failure",
+  "error": "AssertionError authenticate: greedy expression parser included the enclosing fixturePromise closing parenthesis",
+  "runner_sha256": "0d7f4fd7b9c95416f0056b619b3130cccd310d688486d9242b72e422a7542c48",
+  "production_test_assertions_changed": false,
+  "source_changed_by_parser": false,
+  "corrective_action": "parse exact parenthesized object expression rather than enclosing helper parenthesis",
+  "observed_at": "2026-10-02T02:07:03.645176+00:00"
+}

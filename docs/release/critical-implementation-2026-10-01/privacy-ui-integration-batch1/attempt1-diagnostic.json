@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "test/features/privacy/privacy_logout_integration_test.dart",
+    "test/shared/repository_session_fencing_test.dart",
+    "--reporter",
+    "expanded"
+  ],
+  "observed_exit_code": 1,
+  "passed": 34,
+  "failed": 1,
+  "evidence_source": "Actual PTY session14033 transcript; full output is in chat tool history, not reconstructed as a retained log. This initial exploratory attempt had no before-source seal.",
+  "failure": "Expected sessionChanged for late OTP after UID delivery; actual provider disposed old controller and returned cancelled. New owner was preserved. Assertion corrected to demand cancelled for this exact branch; no production relaxation.",
+  "claim": "Diagnostic only; no final acceptance."
+}

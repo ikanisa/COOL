@@ -1,0 +1,92 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-git-init",
+      "parent_exit_confirmed": true,
+      "process_group": 7632,
+      "seconds": 0.041,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "-f",
+        "--pathspec-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root203-current-golden-review/declared-paths.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-index",
+      "parent_exit_confirmed": true,
+      "process_group": 7636,
+      "seconds": 4.319,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 7646,
+      "seconds": 0.238,
+      "sha256": "9192271fe32fcbca62a51443993c177fc748fc2c3991b69b88f38cfc7394bf7e",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 7676,
+      "seconds": 1.249,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root203-current-golden-review/tests.machine.jsonl",
+        "test/goldens/collect_core_surfaces_golden_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "current-goldens-before-review",
+      "parent_exit_confirmed": true,
+      "process_group": 7745,
+      "seconds": 20.605,
+      "sha256": "29652db0b8381930e420782dec45a76bca1378d00e364fd3cf157adf5d0574c8",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "status": "running"
+}

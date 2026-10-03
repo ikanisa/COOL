@@ -1,0 +1,19 @@
+--- full_candidate_ordinary_rehearsal.py
++++ full_candidate_ordinary_rehearsal_attempt2.py
+@@ -147,11 +147,12 @@
+             target = OwnedTarget(report, "ordinary_" + phase, outcome)
+             targets.append(target)
+             with target:
+-                mounts = json.loads(replay.command([replay.DOCKER, 'inspect', target.name, '--format', '{{json .Mounts}}']).stdout)
+-                pgdata_mount = [m for m in mounts if m.get('Destination') == '/var/lib/postgresql/collect-rehearsal']
++                tmpfs = json.loads(replay.command([replay.DOCKER, 'inspect', target.name, '--format', '{{json .HostConfig.Tmpfs}}']).stdout)
++                pgdata_path = '/var/lib/postgresql/collect-rehearsal'
++                actual_fstype = replay.command([replay.DOCKER, 'exec', target.name, 'stat', '-f', '-c', '%T', pgdata_path]).stdout.strip()
++                outcome['actual_pgdata_mount'] = {'path': pgdata_path, 'docker_tmpfs_options': tmpfs.get(pgdata_path), 'actual_filesystem_type': actual_fstype}
+                 case(phase + ' actual PostgreSQL data directory remains on owned tmpfs',
+-                     len(pgdata_mount) == 1 and pgdata_mount[0]['Type'] == 'tmpfs')
+-                outcome['actual_pgdata_mount'] = pgdata_mount[0]
++                     pgdata_path in tmpfs and actual_fstype == 'tmpfs')
+                 target.sql(platform, label="privileged retained platform bootstrap before any application migration")
+                 # pg_cron's C APIs execute their internal writes as the
+                 # extension owner. The cached managed image owns cron.job as

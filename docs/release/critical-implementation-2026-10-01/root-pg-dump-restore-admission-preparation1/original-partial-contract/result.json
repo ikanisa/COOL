@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "argv": [
+    "/usr/bin/ruby",
+    "docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/backup_export_contract_test.rb"
+  ],
+  "env": {
+    "PATH": "/bin:/usr/bin",
+    "LC_ALL": "en_US.UTF-8",
+    "LANG": "en_US.UTF-8"
+  },
+  "bound_seconds": 15,
+  "elapsed_seconds": 0.14406879199668765,
+  "exit_code": 0,
+  "outer_process_group_absent": true,
+  "original_test_file_sha256": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+  "candidate_test_byte_identical": true,
+  "stdout_sha256": "34d20b34596b516a528c21028ac3b89f8a8b93fd86a90448cb1c0dfeabfef2b2",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "ruby_sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+}

@@ -1,0 +1,224 @@
+{
+  "actual_inter_test_asset_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "baseline_and_manifest_unchanged": {
+    "test/goldens/GOLDEN_MANIFEST.sha256": "8f9e78d6e5987c9725e7a1340e776ff45366d2d41fd08f0769075012c8252e3f",
+    "test/goldens/baselines/public_home_desktop.png": "ba9800f9380e2084857642e625a0165963bef0beee94eb1ca8ea114364813835"
+  },
+  "broad_suites_executed": false,
+  "browser_native_static_builds_sql_executed": false,
+  "completion_commands": [
+    {
+      "argv": [
+        "ruby",
+        "scripts/tests/public_static_routes_test.rb",
+        "--name=test_repository_static_routes_match_product_baseline_and_include_entry_paths"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "single-static-source-route-case-fixture-corrected",
+      "parent_exit_confirmed": true,
+      "process_group": 33677,
+      "seconds": 0.185,
+      "sha256": "e3a344cf66c9e37c2cbf0205ab2c5da1ebd038de2c94887341c8da2b2ee3d864",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--plain-name=public website compares historical desktop baseline",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/public-candidate.machine.jsonl",
+        "test/goldens/collect_core_surfaces_golden_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "single-public-inter-golden-candidate",
+      "parent_exit_confirmed": true,
+      "process_group": 33687,
+      "seconds": 6.18,
+      "sha256": "2de590b5b1105f1f4bdf6e62047fdf64418281428f6074f50c94f569fd5ab442",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "export_drift": {},
+  "goldens_regenerated": false,
+  "license_sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "machine_summaries": {
+    "font_contract": {
+      "errors": 0,
+      "event_errors": [],
+      "failed": 0,
+      "failures": [],
+      "passed": 1,
+      "runner_completed_successfully": true,
+      "skipped": 0,
+      "unfinished": []
+    },
+    "landing": {
+      "errors": 0,
+      "event_errors": [],
+      "failed": 0,
+      "failures": [],
+      "passed": 8,
+      "runner_completed_successfully": true,
+      "skipped": 0,
+      "unfinished": []
+    },
+    "public_candidate": {
+      "errors": 1,
+      "event_errors": [],
+      "failed": 0,
+      "failures": [
+        {
+          "name": "public website compares historical desktop baseline (variant: TargetPlatform.android)",
+          "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"
+        }
+      ],
+      "passed": 0,
+      "runner_completed_successfully": false,
+      "skipped": 0,
+      "unfinished": []
+    }
+  },
+  "original_missing_ruby_fixture_failure_preserved": true,
+  "prior_commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 31101,
+      "seconds": 0.294,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/app/theme/collect_runtime_typography.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "nonwriting-format",
+      "parent_exit_confirmed": true,
+      "process_group": 31129,
+      "seconds": 0.19,
+      "sha256": "87d9b8bdee515410e2af67ab625102aedfd4a779b1739a030092969350277d0b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/app/theme/collect_runtime_typography.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 31134,
+      "seconds": 13.725,
+      "sha256": "10488cc21089e3640820dcde7944f233faee2e3053ba1f9761255eda9e349d7b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/landing.machine.jsonl",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "landing-actual-inter",
+      "parent_exit_confirmed": true,
+      "process_group": 31319,
+      "seconds": 14.063,
+      "sha256": "3d595513973ef8d636c226df276b48e7e3b8809467f19eca537ba0e563e70402",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--plain-name=Collect bundles licensed Inter for product and marketing roles",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/font-contract.machine.jsonl",
+        "test/features/runtime_component_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "single-font-contract",
+      "parent_exit_confirmed": true,
+      "process_group": 32210,
+      "seconds": 7.219,
+      "sha256": "d0ec70460ff8132d46c55fca2850f7ecdf7090877d1f54a624fe9d9b26a037ec",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "ruby",
+        "-c",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 0,
+      "name": "ruby-syntax",
+      "parent_exit_confirmed": true,
+      "process_group": 32629,
+      "seconds": 0.13,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "ruby",
+        "scripts/tests/public_static_routes_test.rb",
+        "--name=test_repository_static_routes_match_product_baseline_and_include_entry_paths"
+      ],
+      "exit_code": 1,
+      "name": "single-static-source-route-case",
+      "parent_exit_confirmed": true,
+      "process_group": 32641,
+      "seconds": 0.182,
+      "sha256": "6989b77d8269ac03fba0a768dd1fb10379560cd4b635fed58da965cc19a8e0db",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "public_golden_candidate": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/golden-candidate/public_home_desktop.png",
+  "public_golden_candidate_sha256": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4",
+  "public_golden_expected_mismatch_preserved": true,
+  "scope": "Actual8 Inter landing tests, single font contract and corrected single source-only Ruby route case; one expected public golden mismatch captured for root visual review. No old successful check repeated. No full surface/native comparator or release packaging claim.",
+  "source_drift": {},
+  "status": "pass_pending_public_golden_review"
+}

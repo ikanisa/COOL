@@ -1,0 +1,8 @@
+{
+  "exit_code": 1,
+  "query_observed": "select current_setting('server_version_num')::integer as server_version_num;",
+  "caller_stdout": "[collect-edge-inventory] 13 active endpoints and auth configuration agree; source wiring checked\n[supabase-ready] checking linked project and endpoint binding\n",
+  "caller_stderr": "[supabase-ready][FAIL] PostgreSQL admission or server matrix refused\n",
+  "calls": [],
+  "query_transport": "synthetic local override"
+}

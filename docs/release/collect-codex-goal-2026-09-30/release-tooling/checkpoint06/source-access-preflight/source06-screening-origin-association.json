@@ -1,0 +1,60 @@
+{
+  "captured_exporter_sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356",
+  "captured_screening_policy": "recognized private-key/token patterns only; no security or privacy attestation",
+  "captured_selection_policy": "tracked plus nonignored untracked; missing indexed files recorded as absent",
+  "captured_source_fields": {
+    "absent_indexed_source_paths": [
+      "web/public/app-screens/terms-377e5eed2d41.png"
+    ],
+    "approvals": {
+      "frozen": false,
+      "owner_approved": false,
+      "production_release_accepted": false,
+      "reviewed": false,
+      "signed": false,
+      "trusted_source_verified": false
+    },
+    "base_head_observed": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+    "capture_classification": "unapproved_non_atomic_implementation_checkpoint",
+    "capture_interval": {
+      "copied_at_utc": "2026-10-01T08:43:54Z",
+      "source_observed_at_utc": "2026-10-01T08:45:21Z",
+      "started_at_utc": "2026-10-01T08:42:44Z"
+    },
+    "excluded_file_counts": {
+      "cache_or_build_output": 11242,
+      "outside_declared_source_scope": 264202,
+      "private_artifact_or_payload_format": 208,
+      "upstream_qa_fixture_source": 40
+    },
+    "excluded_upstream_qa_sha256": "a63d1e3c8fe02fb9d0bb6912f9df86a437feaa82122666ecfd9d042e0d8810a6",
+    "full_source_and_test_acceptance": "open; upstream fork regression fixtures remain in the checkout and require separate controlled coverage",
+    "private_or_ignored_inputs_copied": false,
+    "retain_source_drift": true,
+    "source_current_tree_accepted": false,
+    "source_provenance": "Non-atomic implementation checkpoint; per-file bytes are exact, original-tree coherence/review/freeze/owner approval are not attested.",
+    "source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  },
+  "checked_at_utc": "2026-10-01T08:56:35.339504+00:00",
+  "excluded_upstream_qa_files": 40,
+  "exporter_hash_matches_source_manifest": true,
+  "external_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "git_history_or_ignored_private_inputs_scanned": false,
+  "limitations": [
+    "Recognized key/token/JWT/JSON credential patterns only; synthetic fixture prefixes and public anon project claims have explicit allowances.",
+    "No comprehensive secret-discovery, privacy or malicious-source attestation; ignored/private/cache/build/payload material and Git history are outside the selected export.",
+    "Tracked plus nonignored untracked/modified code is permitted. Remote commit-reference equality does not prove exported-file parity, author identity or approval.",
+    "Forty upstream QA/auth fixture files are excluded from this build export, with exact source hashes retained; full fork regression coverage remains open.",
+    "Per-file copies/hash readback and zero observed capture-window drift do not prove atomic original-tree coherence, authentic provenance, source review or production acceptance."
+  ],
+  "new_credential_scan_performed": false,
+  "observed_capture_window_drift_counts": {
+    "excluded_upstream_fixtures": 0,
+    "indexed_absence_paths": 0,
+    "selected_files": 0
+  },
+  "source06_root": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-06",
+  "source_bytes": 154222431,
+  "source_file_count": 1905,
+  "source_trust_or_review_claimed": false
+}

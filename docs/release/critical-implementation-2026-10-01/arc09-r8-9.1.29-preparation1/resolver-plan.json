@@ -1,0 +1,44 @@
+{
+  "actual_execution": false,
+  "command_deadline_seconds": 180,
+  "derived_from_lint_runner_at_capture": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/run_resolution.py",
+    "sha256": "7aacec28779a0c94302be789803958ae3d2ae28679c3ed4516131b93e9f719c3"
+  },
+  "kind": "unexecuted_exact_r8_180s_resolution_plan",
+  "label": "exact-r8-9.1.29-resolution",
+  "must_run_sequentially_after_lint_resolver": true,
+  "no_source_tasks_or_APP_SDK_compilation": true,
+  "only_module": "com.android.tools:r8:9.1.29",
+  "only_repository": "https://storage.googleapis.com/r8-releases/raw",
+  "reviewed_lifecycle_driver": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/run_selected_aab.py",
+    "sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8"
+  },
+  "reviewed_tracker58_reused_without_rerun": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/argv-fixture-tests-result.json",
+    "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+  },
+  "root_invocation_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/run_resolution.py",
+    "--source-fences-sha256",
+    "f50f7348dd11018304f218cb37510494d4f8c0954b58ee3cb2a76d0dcdab04a1",
+    "--r8-artifact-admission-sha256",
+    "ROOT_ACTUAL_ARTIFACT_ADMISSION_SHA256",
+    "--output",
+    "ROOT_FRESH_PRIVATE_OUTPUT"
+  ],
+  "root_owned_only": true,
+  "runner": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/run_resolution.py",
+    "sha256": "ec9e77b572b6f7db52ae418eceb6ee2b995cbf93d39ee0e7f2fc83bfe5d18d25"
+  },
+  "source_fences": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/resolver-source-fences.json",
+    "sha256": "f50f7348dd11018304f218cb37510494d4f8c0954b58ee3cb2a76d0dcdab04a1"
+  },
+  "transitive_resolution": false
+}

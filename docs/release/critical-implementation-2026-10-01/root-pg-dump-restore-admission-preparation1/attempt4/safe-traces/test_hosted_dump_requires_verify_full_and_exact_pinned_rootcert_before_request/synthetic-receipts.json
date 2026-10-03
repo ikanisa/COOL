@@ -1,0 +1,51 @@
+{
+  "scope": "synthetic engineering fixtures; no live approval, customer/Auth/SQL/provider execution",
+  "receipts": {
+    "output/database.dump.admission.json": {
+      "argv_profile": "full_custom",
+      "artifact": {
+        "bytes": 196618,
+        "path": "/private/tmp/collect-archive-admission-rx0ol7tq/output/database.dump",
+        "sha256": "54d997472b11099be4ecf08fe74049f9e458b5d3cc5c515020c5db8e2c7398e2"
+      },
+      "client_version_num": 170006,
+      "clients": {
+        "pg_dump": {
+          "path": "/private/tmp/collect-archive-admission-rx0ol7tq/pg_dump",
+          "sha256": "693394b08efb5ebddce0a9d491439cbc3e1430de4b693975aaa6557252d78650",
+          "version": "17.6"
+        },
+        "pg_restore": {
+          "path": "/private/tmp/collect-archive-admission-rx0ol7tq/pg_restore",
+          "sha256": "693394b08efb5ebddce0a9d491439cbc3e1430de4b693975aaa6557252d78650",
+          "version": "17.6"
+        }
+      },
+      "encrypted_destination_verified": false,
+      "full_catalog_ACL_projection_recovery_accepted": false,
+      "human_review_authenticated": false,
+      "kind": "collect_pg_archive_client_receipt",
+      "manifest_sha256": "aab52cfd7b308cb2b92e779c4d45fe089456d36ae4113180b771ba2ee603d9d2",
+      "operation": "dump",
+      "operation_sha256": "bdcb47c72829d15ed5bf0ff09158cf546965ec158a673e2f8627a0716e44c557",
+      "production_ready": false,
+      "profile": "full_custom",
+      "psql_sha256": "693394b08efb5ebddce0a9d491439cbc3e1430de4b693975aaa6557252d78650",
+      "server_version_num": 170006,
+      "source_binding": {
+        "path": "/private/tmp/collect-archive-admission-rx0ol7tq/synthetic-source-binding.json",
+        "sha256": "b4421c3378814d441c9c644e414a0c800e16dd1205cb1f67076069dc29ca5e7a"
+      },
+      "source_contract_semantics_validated": false,
+      "status": "client_completed_artifact_bound",
+      "target": {
+        "database": "postgres",
+        "host": "db.abcdefghijklmnopqrst.supabase.co",
+        "kind": "supabase",
+        "port": 5432,
+        "project_ref": "abcdefghijklmnopqrst",
+        "user": "postgres"
+      }
+    }
+  }
+}

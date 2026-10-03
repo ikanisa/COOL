@@ -1,0 +1,19 @@
+{
+  "status": "pending_owner_registry_reconciliation",
+  "observed_at_utc": "2026-10-01T23:54:44.375465+00:00",
+  "actual_command": [
+    "ruby",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/share_copy_test.rb"
+  ],
+  "minitest_executed": false,
+  "actual_ruby_exit_code": null,
+  "outer_receipt_capture_exit_code": 1,
+  "exit_code_limit": "The receipt helper crashed when parsing the absent Minitest summary after the observed source-validator exception; no Ruby exit code was persisted. Raw actual stdout/stderr and outer command outcome are retained.",
+  "observed_exception": "Capability source changed: lib/features/status/account_legal_screens.dart",
+  "corrected_test_sha256": "c9f6fcbb5b8279cbe2168a8f72bebe1c4f53287dc26ea79587acda31463e4386",
+  "stderr_sha256": "17cee9ab9fa3e589fbf06a19ea83d971a50f358c7af34394a6e65810bbfe332f",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_fix_performed_for_block": false,
+  "next_action": "Parent will reconcile current observed capability source bindings after privacy source settles; rerun only the corrected focused copy test once notified.",
+  "broader_reruns_required": false
+}

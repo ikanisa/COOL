@@ -1,0 +1,4 @@
+ERROR:  42703: column "details" does not exist
+LINE 1: ...t('action',action,'entity_id',entity_id,'details',details)or...
+                                                             ^
+LOCATION:  errorMissingColumn, parse_relation.c:3716

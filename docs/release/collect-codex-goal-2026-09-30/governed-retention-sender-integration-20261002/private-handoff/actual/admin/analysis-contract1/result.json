@@ -1,0 +1,31 @@
+{
+  "started_at": "2026-10-02T03:33:43.693822+00:00",
+  "mode": "analysis_contract",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/admin/core/admin_sender_retention_models.dart",
+    "lib/admin/core/admin_sender_retention_sdk.dart",
+    "lib/admin/core/admin_sender_retention_controller.dart",
+    "test/admin_sender_retention_models_test.dart",
+    "test/admin_sender_retention_controller_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/runtime",
+  "source_sha256": "c7d5cafefeb9fbde23e6408ec5e3264ef41fdadc3775f691bfbfb9db88b678fa",
+  "closure_sha256": "05bf3d08287795bce45a3ef987a38edb5f0dd7ab37293cab7647f07de2f2d903",
+  "dependencies_sha256": "d10185d12ebbfc8df9e166dc84e1407450d850f88c127eb8ccd931301777d517",
+  "canonical_sha256": "ffd4e5e7fe495b2328161e3d476c9a90a32c78bfe0361e63f6dba3029c52b6c2",
+  "tools": {
+    "runner": "7fcb9e8d1b2b5511f4a23adfd90dc698035214420a62ab4d03c9d47d6b956f95",
+    "python": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a"
+  },
+  "exit_code": 0,
+  "finished_at": "2026-10-02T03:33:47.370791+00:00",
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "canonical_unchanged": true,
+  "dependencies_unchanged": true
+}

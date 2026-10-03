@@ -1,0 +1,97 @@
+{
+  "status": "pass",
+  "started_at_utc": "2026-10-01T20:43:06.973454+00:00",
+  "runtime_binary": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+  "runtime_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "real_source_before": {
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "supabase/functions/_shared/apns_test.ts": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+    "supabase/functions/_shared/apns.ts": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+    "supabase/functions/_shared/notification_retry.ts": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+  },
+  "initial_dependency_cache_file_count": 0,
+  "dependency_cache": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/lock-probe/dependency-cache",
+  "network_execution_permission": false,
+  "public_dependency_import_hosts": [
+    "deno.land"
+  ],
+  "provider_calls": 0,
+  "steps": [
+    {
+      "name": "valid_public_dependency_fetch",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "cache",
+        "--no-config",
+        "--frozen",
+        "--lock=supabase/functions/deno.lock",
+        "--allow-import=deno.land:443",
+        "supabase/functions/_shared/apns_test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/lock-probe/valid",
+      "exit_code": 0,
+      "elapsed_seconds": 3.491,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0704fc9574bc8db2e9702fc2cdb2641e077e6260a50a3bb3da2dc00a8bebafb3"
+    },
+    {
+      "name": "valid_actual_tests",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--no-config",
+        "--frozen",
+        "--lock=supabase/functions/deno.lock",
+        "--cached-only",
+        "--no-prompt",
+        "supabase/functions/_shared/apns_test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/lock-probe/valid",
+      "exit_code": 0,
+      "elapsed_seconds": 0.508,
+      "stdout_sha256": "770d583483549d44c47f92fca8f1a5d715981e0d34506e639e4740b71e55ed9e",
+      "stderr_sha256": "cb4762834439003f0f54f0a5dcb2702ac1c5a5cffc96910312d381133a5340b3"
+    },
+    {
+      "name": "corrupted_actual_tests",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+        "test",
+        "--no-config",
+        "--frozen",
+        "--lock=supabase/functions/deno.lock",
+        "--cached-only",
+        "--no-prompt",
+        "supabase/functions/_shared/apns_test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/lock-probe/corrupted",
+      "exit_code": 10,
+      "elapsed_seconds": 0.023,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1b2aa96829150511fa7d2c3571c6c408153d6fb7781517c1867335fabbe144d8"
+    }
+  ],
+  "runtime_version": "2.5.6",
+  "corruption": {
+    "private_lock": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/lock-probe/corrupted/supabase/functions/deno.lock",
+    "url": "https://deno.land/std@0.224.0/assert/mod.ts",
+    "original_integrity": "48b8cb8a619ea0b7958ad7ee9376500fe902284bb36f0e32c598c3dc34cbd6f3",
+    "corrupted_integrity": "0000000000000000000000000000000000000000000000000000000000000000",
+    "private_corrupted_lock_sha256": "9846871526849ae5111f1e7aff96226ececf4ecdab1f5597a480cd0dfc54ebdf"
+  },
+  "valid_actual_tests_passed": 3,
+  "corrupted_lock_rejected_before_test_execution": true,
+  "real_source_after": {
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "supabase/functions/_shared/apns_test.ts": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+    "supabase/functions/_shared/apns.ts": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+    "supabase/functions/_shared/notification_retry.ts": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f",
+    "supabase/functions/_shared/production_contract.ts": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+  },
+  "real_source_unchanged": true,
+  "runtime_binary_unchanged": true,
+  "finished_at_utc": "2026-10-01T20:43:11.078137+00:00"
+}

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/read_failed_candidate.py", line 82, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/read_failed_candidate.py", line 43, in main
+    result=guards.app_readback('app-locked',binding['export_manifest_file_sha256'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/consumer_guards.py", line 494, in app_readback
+    raise ValueError('app unreviewed directory path: ' + name)
+ValueError: app unreviewed directory path: android/app/src/main/java

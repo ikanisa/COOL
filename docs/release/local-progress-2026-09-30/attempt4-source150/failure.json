@@ -1,0 +1,6 @@
+{
+  "status": "failed_before_register_writes",
+  "reason": "Source inventory advanced concurrently to151; current150 is installed and newly added20260930200000 remains source only. Original sourcecount150 assumption rejected.",
+  "source_count_observed": 151,
+  "canonical_registers_unchanged": true
+}

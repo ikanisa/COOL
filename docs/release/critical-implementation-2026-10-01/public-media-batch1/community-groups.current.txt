@@ -1,0 +1,77 @@
+Community Groups | Collect by IKANISA
+Skip to content
+Collect
+by IKANISA
+Menu
+Group Savings
+Insurance
+CRaaS
+Community Groups
+Our Partners
+Trust & Security
+Get the App
+Create a group on Android
+Email Collect support
+Finance works better when communities lead.
+Collect adds Rwanda group-contribution records while your group keeps its own relationships, leadership and rules. Bank credit, insurance and basic-phone Collect access are separate planned directions.
+Get the App
+Create a group on Android
+Email Collect support
+Collect interface preview · Example data
+What the current app supports
+The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake.
+01
+For group leaders
+Create private groups on eligible Android builds
+Invite members by private link or QR
+Review contributions within authorized roles
+Keep group and payer records separate
+02
+For members
+Inspect the Rwanda MoMo receiver and whole-RWF amount
+Use Android for the app’s USSD handoff
+Review pending and reconciled contribution records
+Keep personal evidence out of public links
+Community use cases
+01
+Moto-taxi groups
+Set a contribution purpose such as licensing, taxes or a future insurance purchase. Collect does not supply insurance.
+02
+Agricultural cooperatives
+Track contributions toward inputs, equipment or working-capital goals without an automatic finance offer.
+03
+Women and youth groups
+Keep clearer Rwanda contribution records. Credit-readiness assistance remains planned.
+04
+MSME associations
+Coordinate group records for business goals. Loan and professional service availability requires separate arrangements.
+Collect supports community groups
+01
+Community & faith
+Ibimina, religious and neighbourhood associations, family savings groups
+02
+Economic
+Cooperatives, trade and business associations, agricultural groups, employer and professional groups
+03
+Demographic
+Women-led groups and youth savings groups
+Download
+Collect
+or Get in Touch
+Get the App
+Create a group on Android
+Email Collect support
+Collect by IKANISA
+IKANISA Ltd.
+IKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.
+Support:
+info@ikanisa.com
+·
+WhatsApp
++250 795 588 248
+© YEAR IKANISA Ltd.. All rights reserved.
+Privacy
+Terms
+Account deletion
+Data deletion
+Trust

@@ -1,0 +1,8 @@
+{
+  "observed_at": "2026-10-01T15:40:10.606504+00:00",
+  "copied_source_count": 36,
+  "copied_sources_match_selected_original_hashes": true,
+  "compiled_artifact_count": 217,
+  "retained_private_artifacts_readback_passed": true,
+  "no_tests_repeated": true
+}

@@ -1,0 +1,78 @@
+{
+  "files": [
+    {
+      "path": "attempt1/actual-observations.json",
+      "size": 22921,
+      "sha256": "c63e288c82689e6f488594aca487cf13207cca7949f4d39a7d106416f7c6f5e9"
+    },
+    {
+      "path": "attempt1/actual-test.log",
+      "size": 18417,
+      "sha256": "5d4976baa4a60a4be19c4d6f2cb52d36bf7aa8b374fd5c1de160dadb751fa04a"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/app/router.dart",
+      "size": 22095,
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_providers.dart",
+      "size": 1875,
+      "sha256": "1c3f4a7dbb5bce49c20aa5685b5a866c1518606787cdfcdc355dcd85629204b1"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_request_controller.dart",
+      "size": 8609,
+      "sha256": "527ce7d1a7b4ac8254e4303f42d1ba2e269e78e5d38c99b548f88e82f76696bf"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_request_screen.dart",
+      "size": 17997,
+      "sha256": "8a49063817dc5d4b3768da9fd066f5be214b5a9d9d7e8c3bc04f2315b884f405"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_session.dart",
+      "size": 6902,
+      "sha256": "24110a65f7dfde6b9de71a51660ef7c785c5f8f3ae816222a53896f780bc4c7b"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38348,
+      "sha256": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository_providers.dart",
+      "size": 7783,
+      "sha256": "57ca1d19be818dfeb84b932ce91f28829cff7379922ad58b267ba744483c508b"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository_state.dart",
+      "size": 4188,
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd"
+    },
+    {
+      "path": "attempt1/receipt.json",
+      "size": 686,
+      "sha256": "feffa554d27d3b2dcffafae7924d7fba27f2e9ad01ab8e640120f52ea431a61a"
+    },
+    {
+      "path": "attempt1/sources-after.json",
+      "size": 96859,
+      "sha256": "8c428c315bd418d16a5af0f0ec886785fdd7cf1f8499ea79d3de771a34c6da5c"
+    },
+    {
+      "path": "attempt1/sources-before.json",
+      "size": 96859,
+      "sha256": "8c428c315bd418d16a5af0f0ec886785fdd7cf1f8499ea79d3de771a34c6da5c"
+    },
+    {
+      "path": "attempt1/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    }
+  ],
+  "no_original_mutation": true,
+  "actual_old_behavior_status": "FAIL",
+  "source_count": 587,
+  "root_patch_not_yet_executed": true
+}

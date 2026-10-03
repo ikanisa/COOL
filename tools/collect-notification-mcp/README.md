@@ -1,7 +1,7 @@
 # Collect notification MCP bridge
 
 This local stdio server exposes the governed Collect SMS receipt queue and
-redacted Admin operations reads.
+redacted Admin operations reads, plus an explicit manual shadow telemetry check.
 It never posts payments, changes balances, chooses recipients, or sends through
 Apple Messages. The Supabase Edge boundary independently authenticates the
 operator and enforces current admin permissions.
@@ -14,9 +14,10 @@ Runtime requirements:
 
 The configured Mac now also supports `COLLECT_OPERATOR_KEYCHAIN_HELPER`. When
 explicit environment credentials are absent, the server reads only its dedicated
-device-local Keychain item at call time. Normal WhatsApp OTP sign-in through
-`src/operator_login.ts request` / `verify` authenticates the existing approved
-second Admin without signup and verifies health/list. OTP input is hidden. No
+device-local Keychain item at call time. The owner-selected email OTP sign-in through
+`src/operator_login.ts request` / `verify` is fixed to `info@ikanisa.com`, authenticates
+an existing enrolled approved operator without signup, and verifies health/list.
+Hosted email delivery and account authority must actually be available. OTP input is hidden. No
 browser store or service key is used. By default only the short-lived access
 token is saved and expiry requires normal reauthentication.
 
@@ -38,7 +39,13 @@ retried. There is no change to server session policies or Admin permissions.
 
 After a fresh login, `src/operator_login.ts renew` provides an explicit real
 rotation test before expiry; it does not alter timestamps or tokens to simulate
-live acceptance. It calls only Auth refresh and operator health/list. A
+live acceptance. It calls Auth refresh, the current GoTrue `/user` read and
+operator health/list. Before saving the rotated token, the explicit email renew
+path requires the selected verified email and the same UUID subject from current
+GoTrue. Wrong-email, legacy-phone, unconfirmed, malformed, future-confirmation or
+unavailable identity results retain the pending marker and require fresh sign-in.
+The identity read refuses redirects and bounds its response/deadline; decoded
+JWT email claims do not establish this identity. A
 leftover `.session-lock` is never stolen or auto-deleted: inspect the exact
 operator processes, establish that no refresh/login is active, then remove only
 the empty lock directory. Never print the Keychain item to diagnose a failure.
@@ -53,7 +60,7 @@ connection or sending claim.
 Both connection preflights require a boolean queue-enabled flag and all six
 nonnegative integer queue counts before reading the bounded pending page.
 Malformed successful responses remain blocked. Local transport regressions
-exercise all nine tool mappings, input rejection, redirect refusal and a real
+exercise the registered tool mappings, input rejection, redirect refusal and a real
 15-second timeout against isolated HTTP fixtures with synthetic credentials.
 Those tests do not access Keychain, invoke Messages, prove SQL persistence or
 establish current production authorization or delivery.
@@ -149,6 +156,10 @@ automatic retry. Their results project only validated states, opaque receipt
 IDs, timestamps, bounded counters and fixed reason codes. Member names, Collect
 IDs, telephone numbers (including masks), receipt bodies, amounts, balances,
 transaction references and arbitrary backend diagnostic text are removed.
+The fixed receipt template accepts only integer versions 1 (immutable legacy)
+and 2 (governed recorded-savings snapshot). Its content/version never becomes an
+assertion of carrier delivery or external settlement, and receipt text remains
+omitted from these operational projections.
 
 `get_collect_health` requires version 1 of the contract in
 `supabase/migrations/20260930160000_redacted_operational_health.sql`. It verifies
@@ -185,5 +196,157 @@ This remains a local stdio bridge, with no remote MCP/OAuth server or generic
 SQL/RPC dispatch. Registering it and passing synthetic tests do not prove a
 current authenticated production connection. Live read-only RPC verification
 and the deployed contract are required for that claim. Automated send/retry,
-supervisor and pause/resume tools require separate backend controls, rollout
-evidence and authorization before any future implementation or enablement.
+scheduled supervision and pause/resume tools require separate backend controls,
+rollout evidence and authorization before future implementation or enablement.
+
+## Explicit manual shadow check
+
+The bridge registers these four fixed public RPC mappings for the manual check:
+
+| Tool | RPC | Effect |
+| --- | --- | --- |
+| `begin_supervisor_run` | `begin_collect_shadow_run_v1` | Acquire a server-fixed 120-second lease and create private run telemetry for one supplied request UUID. |
+| `sample_supervisor_run` | `sample_collect_shadow_run_v1` | Persist one server-derived health/SMS aggregate sample under the original session and fence. |
+| `complete_supervisor_run` | `finish_collect_shadow_run_v1` | Record completion from the persisted sample while the original lease, session and fence are valid. |
+| `get_supervisor_run` | `get_collect_shadow_run_v1` | Read the original actor's run by request UUID for manual reconciliation, including after normal reauthentication. |
+
+The three lifecycle tools declare `readOnlyHint: false`. Their writes are limited
+to private operational run, lease and sample telemetry. They do not change
+payments, balances, notification outboxes, claims, attempts, sender settings,
+device heartbeats or scheduling, and cannot send a message. Scope is the Collect
+platform, derived by the backend; there is no caller-provided tenant, recipient,
+message, amount, result or completion count. The backend requires a current
+approved platform owner with both `system_health.read` and `notifications.read`.
+Lifecycle calls also require the original user/session and current unexpired
+fence; a changed session cannot restart or resume an old request.
+
+The Codex host keeps its five-read allowlist: `collect_notification_health`,
+`collect_list_pending_receipts`, `get_collect_health`, `get_notification_status`
+and `list_notification_failures`. None of the four shadow tools is enabled in
+that profile. The explicit CLI opens its own isolated stdio connection to the
+same bridge and current-user credential resolver; it neither changes the host
+allowlist nor signs in or requests an OTP. Existing opt-in Keychain renewal
+rules still apply, including blocking after an uncertain refresh.
+
+From the repository root, use a retained request UUID:
+
+```sh
+python3 scripts/collect_operator_login.py shadow --request-id UUID
+python3 scripts/collect_operator_login.py shadow-status --request-id UUID
+```
+
+Equivalent bridge-directory commands in the governed environment are:
+
+```sh
+node --experimental-strip-types src/shadow_supervisor.ts --once --request-id UUID
+node --experimental-strip-types src/shadow_supervisor.ts --status --request-id UUID
+```
+
+Generate and retain the request UUID before running. Missing, conflicting,
+duplicate or unknown arguments fail before starting the bridge or loading
+credentials. `--once` makes exactly one begin, one sample and one completion
+call, stopping earlier on BUSY, a terminal replay, refusal, stale health or
+uncertainty. It has a 60-second total deadline and 15-second request deadlines,
+including bounded stdio replies; there is no automatic retry, repeated scan or
+scheduler. BUSY creates no run for that request. Replaying a completed or expired
+request does not restart it. Backend serialization conflicts, deadlocks, expired
+leases and lost fences terminate for manual reconciliation.
+
+A timeout, disconnect, redirect, oversized response, unknown backend failure or
+malformed lifecycle success returns `SHADOW_OUTCOME_UNKNOWN` and retains the
+request ID. This cannot establish whether private telemetry committed. Use
+`--status` with that same ID to reconcile; do not blindly replay the lifecycle
+or substitute a new ID to bypass unresolved state. Status performs one read,
+never acquires a lease, and labels summaries as historical evidence. Run sample
+timestamps alone cannot establish current health freshness. Output contains
+only fixed aggregate statuses, check/sample counts, opaque run/request IDs,
+fences and timestamps; raw diagnostics, credentials, phones, receipt content
+and amounts are absent. Exit code 2 means blocked or reconciliation required.
+
+The adapter validates the exact versioned contract, bounded fence and counts,
+120-second lease, state/timestamp consistency, 13 alert classifications and
+zero business/provider counts. Sample parsing also validates the complete
+health contract and the server aggregate SMS queue before projecting a bounded
+summary. A 60-second source sample cannot become fresh merely because it was
+read again, and explicit false freshness cannot become true in transit.
+The backend-owned lifecycle fixtures are synthetic; their placeholder digest
+does not prove database persistence.
+
+This requires the deployed `20260930210000_shadow_supervisor_runs.sql` contract
+and its authority/health prerequisites. Source implementation and synthetic
+tests do not demonstrate a live completed run, durable production telemetry,
+a scheduled Codex run or a working sender. No live shadow lifecycle is performed
+by local verification tests. The tests cover real SDK stdio and CLI subprocesses
+against synthetic loopback backends, strict inputs, BUSY/replay, authority
+revocation, expired/stale fences and source health, malformed responses,
+redaction, transport limits and retained-ID uncertainty without retries.
+
+
+## Separate receipt-operations client (v2)
+
+`unattended_server.ts` is a separate stdio server. It does not replace the existing
+installed Collect connection, alter its exact five-read allowlist, consume an
+operator/member JWT or extend v1 Shadow authority. The v2 identity scope is
+`rw_receipt_operations`, with a separate Secure Enclave key tag, fixed project,
+fixed Edge endpoint, signed exact bytes and owner-authorized enrollment/activation.
+Discovery is credential-free. A missing/expired/unconfigured profile fails closed.
+No sender or financial mutation tool is registered; `ensure_receipt` asks the
+backend to derive a governed receipt from immutable source evidence. Content,
+destinations, amounts, consent and eligible lifetime-primary identity are never
+caller arguments. An event is handled only by the server's finite durable-proof
+codes; Dry-run/Shadow observations and deferred/quota outcomes are not global ACKs.
+
+The eight tools cover explicit `prove_key`, `begin_run`, `list_events`,
+`ensure_receipt`, `reconcile_backlog`, `complete_run`, `reconcile_request` and local
+`status`. Operations that write request/run evidence declare `readOnlyHint:false`.
+The original-request lookup is read-only at the backend. No installer, profile,
+Keychain item, scheduler, live policy or device activation is created at startup.
+
+The bounded runner uses the actual separate MCP stdio process. With a reviewed
+owner-private public profile already provisioned, explicit commands are:
+
+```sh
+node --experimental-strip-types src/unattended_runner.ts --once --request-id ORIGINAL_UUID --profile /absolute/private/profile.json
+node --experimental-strip-types src/unattended_runner.ts --status --request-id ROOT_RUN_REQUEST_UUID --profile /absolute/private/profile.json
+node --experimental-strip-types src/unattended_runner.ts --lookup --request-id UNRESOLVED_ACTION_UUID --lookup-id DISTINCT_LOOKUP_UUID --run-request-id ROOT_RUN_REQUEST_UUID --profile /absolute/private/profile.json
+```
+
+`--once` defaults to five events; `--max-events` permits1..10. One execution has a
+60-second MCP process limit, 15-second MCP request limit and five-second signed HTTP
+exchange limits. The server's run lease is120seconds with no renewal. There is no
+loop, daemon, schedule or default live-send behavior. A deployment/supported host
+and governed cadence remain separate acceptance work.
+
+Every run's child UUIDs are retained before the first request. Each action has an
+atomic append-only checkpoint, then a signature-bound envelope hash/issued time
+saved, fsynced and read back before HTTP. The owner-0700 journal contains only
+opaque IDs, bounded aggregates, finite codes and public identity metadata; no
+key/signature/token/message/destination/balance is saved. Private files require
+owner0600, regular/nlink1/O_NOFOLLOW validation and canonical bounded readback.
+Local overlapping runs have one append-only claim-chain winner. A confirmed BUSY,
+paused or unconfigured begin closes no-run tracking with a labeled local60-second
+backoff. Server quota/lease refusal is never replaced with a fabricated success.
+
+On a crash, timeout, malformed response, persistence failure or uncertain outcome,
+the original UUID and evidence survive and no original action is replayed. A new
+run stays locally blocked until an explicit lookup reconciles the pending action.
+`not_recorded` before the conservative120-second original signed-request horizon
+stays unknown. In-progress or failed lookups stay unknown. Optional manual local
+run recovery accepts recorded completion/no-run proof, or a fresh resolved lookup
+beyond the original lease plus120seconds; this closes local overlap tracking only,
+retains every original request, and does not claim server completion or replay it.
+A subsequent run requires a new explicit root UUID and current server authority.
+
+The public profile is canonical JSON plus newline, owner0600 under an owner0700
+parent, with exact fields `contract_version:2`, `scope:rw_receipt_operations`,
+`identity:{principalId,keySha256,expiresAt}`, `helper_path`, `helper_sha256`, and
+`journal_directory`. URLs/bearer credentials/arbitrary configuration keys are
+refused. The helper's expected binary hash is an installation binding, not proof
+of owner review or server activation. `unattended_keychain.swift self-test` checks
+synthetic envelope parsing without accessing Keychain; key creation/signing require
+separate explicit provisioning and are not performed by our validation.
+
+Complete-run counts are historical server evidence. `recorded_sms_segments` is a
+quota counter, not a provider result or handset delivery claim. This local client
+work does not close hosted migration, key enrollment, policy activation, supported
+host scheduling, physical Android/SIM/carrier or production acceptance gates.

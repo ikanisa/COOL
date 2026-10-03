@@ -1,0 +1,87 @@
+PASS supabase/migrations/20260930213000_operator_email_auth.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20260930220527_operator_email_cutover_guard.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20260930230100_receipt_backlog_events.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20260930230200_admin_receipt_overview.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20260930211605_android_gateway_identity.sql preserves nonempty financial/receipt records
+PASS supabase/migrations/20261001000100_operational_exception_inbox.sql preserves nonempty financial/receipt records
+PASS .cache/admin-exception-v2-preparation/supabase/migrations/20261001000300_admin_exception_reads.sql preserves nonempty financial/receipt records
+PASS new read genuinely has no historical exception backfill
+PASS new helpers remain inaccessible to every API role
+PASS private operational records retain RLS without direct API access
+PASS v2 functions grant execution only to authenticated
+PASS anon cannot execute list
+PASS anon cannot execute lookup
+PASS service_role cannot execute list
+PASS service_role cannot execute lookup
+PASS list refuses expired session
+PASS lookup refuses expired session
+PASS list refuses banned account
+PASS lookup refuses banned account
+PASS list refuses revoked owner grant
+PASS lookup refuses revoked owner grant
+PASS list refuses changed owner role
+PASS lookup refuses changed owner role
+PASS list refuses revoked email approval
+PASS lookup refuses revoked email approval
+PASS list refuses expired email approval
+PASS lookup refuses expired email approval
+PASS list refuses unverified email
+PASS lookup refuses unverified email
+PASS list refuses changed email
+PASS lookup refuses changed email
+PASS list refuses payments.read
+PASS lookup refuses payments.read
+PASS list refuses notifications.read
+PASS lookup refuses notifications.read
+PASS list refuses system_health.read
+PASS lookup refuses system_health.read
+PASS bound session cannot be replaced for select public.admin_list_operational_exceptions_v2()
+PASS repeatable-read snapshot is refused for select public.admin_list_operational_exceptions_v2()
+PASS bound session cannot be replaced for select public.admin_get_operational_exception_action_v2('3cc63a70-aac7-4071-8141-9136cefc390b')
+PASS repeatable-read snapshot is refused for select public.admin_get_operational_exception_action_v2('3cc63a70-aac7-4071-8141-9136cefc390b')
+PASS read does not require mutation permission
+PASS invalid list arguments null
+PASS invalid list arguments true,0
+PASS invalid list arguments true,51
+PASS invalid list arguments true,1,null,'2173cc83-c73f-4bdf-9f05-51b2870ff55f'
+PASS invalid list arguments true,1,clock_timestamp(),null
+PASS invalid list arguments true,1,'infinity','7252b4f2-49ee-4ef1-8e27-04da3f08a6a2'
+PASS invalid list arguments true,1,null,null,''
+PASS invalid list arguments true,1,null,null,'all'
+PASS null request is rejected only after authority
+PASS bound raw exception links only its own authoritative Rwanda UUID
+PASS allocation ID is not mistaken for the raw SMS ID
+PASS payment uses its actual parsed/raw join
+PASS valid route without a parsed source returns nullable link
+PASS foreign parsed currency cannot persist past the real schema constraint
+PASS current outgoing cannot supply any canonical SMS link
+PASS current nonpayment cannot supply any canonical SMS link
+PASS current different receiving provider cannot supply any canonical SMS link
+PASS current parsed receiving hash conflict cannot supply any canonical SMS link
+PASS current parsed receiver conflict cannot supply any canonical SMS link
+PASS absent raw identity does not become a guessed transaction link
+PASS actual uncertain receipt uses only its own opaque source ID
+PASS actual gateway observation uses its device ID with no invented transaction
+PASS server category filters the full candidate set before paging
+PASS v2 projects the exact immutable v1 receipt
+PASS another current owner cannot read the original actor receipt
+PASS absent UUID is a read result without mutation replay permission
+PASS all categories and reconciliation reads preserve financial/outbox and action rows
+PASS paired keyset pages are bounded, ordered and disjoint
+PASS cursor beyond known category returns genuine empty window
+PASS cleared source stays visible only in its requested category/state
+PASS new source revision resets historical review flags
+PASS actual held action produces bounded authority_busy without request disclosure
+PASS unrelated UUID has identical busy authority refusal
+PASS manual post-commit lookup reconciles exact original v1 action receipt
+PASS request-lock branch is in_progress only after current authority succeeds
+PASS released unrecorded request stays unrecorded without retry
+PASS function-local lock timeout restores caller setting on success
+PASS function-local lock timeout restores caller setting on error
+PASS canonical menu is provisioned with backend read permission
+PASS navigation conflict preserves explicit disabled customization
+PASS v2 never broadens or edits v1 function definitions
+PASS read UAT never opens dispatch or scheduler execution
+PASS all actual synthetic receipt journals remain two-line balanced
+PASS executed auxiliary Python bytes remain stable after the run

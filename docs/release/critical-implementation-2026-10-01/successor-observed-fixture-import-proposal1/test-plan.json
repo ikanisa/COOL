@@ -1,0 +1,52 @@
+{
+  "status": "unexecuted_requires_root_full_patch_review_and_exact_hash_authorization",
+  "candidate_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1",
+  "preparation_command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/prepare_candidate.py"
+  ],
+  "canonical_command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "scripts/qa/run_edge_ci.py",
+    "--deno",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "--decoder-python",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-venv/bin/python",
+    "--wheel-source",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/inputs/wheels",
+    "--publisher-receipt",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/inputs/publisher-inputs.json",
+    "--publisher-sha256",
+    "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+    "--metadata-directory",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/inputs/primary",
+    "--cache-dependencies",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/source/.cache/canonical"
+  ],
+  "canonical_cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/source",
+  "whole_deadline_seconds": 1200,
+  "build_deadline_seconds": 300,
+  "linux_phase_deadline_seconds": 600,
+  "required_phases": [
+    "pinned_frozen_types",
+    "all_unit_suites_including_actual25_successor_tests",
+    "actual13_HTTP_loader_suites",
+    "actual_Linux_decoder_integration",
+    "decoder_regression_and_security"
+  ],
+  "required_fresh_inputs": "Physical new154 source copy, exact13 offline input copies including the separate publisher receipt, initially empty Deno cache, fresh17-file context and fresh task image; retain all context/input/tool/source hashes and actual completed stdout counts. Dated140 PASS is a prior baseline only.",
+  "required_refusal_conditions": [
+    "source/QA27fc/consumer/producer/offline-input/tool identity or hash drift",
+    "any of ten maintained destination paths appears",
+    "previous stage or output/cache/image exists",
+    "missing fixture, original suite, assertion, source or signed Linux case",
+    "timeout, skipped/ignored test or failure",
+    "incomplete cleanup/source-before-after/output receipt"
+  ],
+  "current_sql_hosted_device_provider_acceptance": false,
+  "exact_input_matrix_sha256": "7aa445535904a39a3fda095cbd8a8ee5a4993c0407e92f251a84960485cb1794",
+  "prior140_execution_result_sha256": "67aabbe060036477ccee768561b2bf6d414d4a9aa20bca5ad186fcd7af8b8f35"
+}

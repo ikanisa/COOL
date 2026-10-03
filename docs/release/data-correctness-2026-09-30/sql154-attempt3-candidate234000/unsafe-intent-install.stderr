@@ -1,0 +1,5 @@
+ERROR:  23514: check constraint "payment_intents_expected_exact_json" of relation "payment_intents" is violated by some row
+SCHEMA NAME:  public
+TABLE NAME:  payment_intents
+CONSTRAINT NAME:  payment_intents_expected_exact_json
+LOCATION:  ATRewriteTable, tablecmds.c:6296

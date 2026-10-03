@@ -1,0 +1,94 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "artifact_sha256": {},
+  "cases": [
+    {
+      "error": "{\"all_source_tables_catalog_cron_preserved\": true, \"isolated_database_removed\": true, \"path\": \"docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt3-candidate235000/unsafe-predecessor\", \"recorder_sources_unchanged\": true, \"result_sha256\": \"9ee520e89719360baf1a70b8111a10b0942a09aefc039205c09a0b3e250d67ff\", \"source_rows_copied\": false, \"status\": \"failed\"}",
+      "name": "exact235 aborts atomically on genuine unsafe POSTED predecessor",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "equal": true
+      },
+      "name": "schema clone preserves actual API bodies attributes and application ACLs",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T23:05:34.814573+00:00",
+  "current_server_acceptance": false,
+  "database": "collect_local_uat_6722278cb2ba40cb",
+  "failure": "ERROR:  42702: column reference \"oid\" is ambiguous\nLINE 9:       select oid,family,jsonb_agg(jsonb_build_object(\n                     ^\nLOCATION:  scanRTEForColumn, parse_relation.c:831\n",
+  "hosted_called": false,
+  "independent_provider_truth": false,
+  "isolated_database_removed": true,
+  "kind": "installed154_plus_exact234000_synthetic_positive_history_mechanics",
+  "mode": "candidate235",
+  "native_device_attestation_tested": false,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "48bcc77105a2ea79d7a226a9d22bfd0c4af47c4815ec36214742d7bb018cbf33",
+    "local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "remaining_acceptance": [
+    "Current installed/hosted server alignment is not inferred from a patched disposable154 clone.",
+    "Synthetic reconciled inputs prove local mechanics; independent provider/native/device/settlement acceptance remains separate."
+  ],
+  "schema_only_sha256": "6fe28e4f5156b7a6a0d99090de0b93a9999f04bac1934f2efe3b488a04a2043e",
+  "signed_jwt_tested": false,
+  "source_database_written": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_inputs": {
+    "scripts/tests/data_correctness_sql_positive_history_uat.py": "cdc445be9f9872ce6fcb65a00921bdc3f8e1432207409dca0958feb9ad4f3f7b",
+    "scripts/tests/data_correctness_sql_uat.py": "3ed2b9e92acccb30283d59937a0f3b0de8f80835dda8f7ca562e06e5062c1e5b",
+    "scripts/tests/local_offline_verification.py": "48bcc77105a2ea79d7a226a9d22bfd0c4af47c4815ec36214742d7bb018cbf33",
+    "scripts/tests/local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260703225455_notification_templates_runtime.sql": "507a2f5ce15bb799cc31377476bc2f180a7d11a506b34727abd495049665a57e",
+    "supabase/migrations/20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+  },
+  "source_inputs_unchanged": true,
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T23:04:59.256490+00:00",
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py\", line 793, in main\n    run(db, report, evidence, args.mode, stages)\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py\", line 403, in run\n    source_catalog, cloned_catalog = catalog(\"postgres\"), catalog(db)\n                                     ^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py\", line 86, in catalog\n    return D.scalar(db, f\"\"\"with acl as (\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_uat.py\", line 57, in scalar\n    return json.loads(U.psql(db, sql).stdout.strip().splitlines()[-1])\n                      ^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/shadow_supervisor_uat.py\", line 31, in psql\n    if check and r.returncode:raise RuntimeError(r.stderr[-4000:])\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: ERROR:  42702: column reference \"oid\" is ambiguous\nLINE 9:       select oid,family,jsonb_agg(jsonb_build_object(\n                     ^\nLOCATION:  scanRTEForColumn, parse_relation.c:831\n\n",
+  "unsafe_predecessor": {
+    "all_source_tables_catalog_cron_preserved": true,
+    "isolated_database_removed": true,
+    "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt3-candidate235000/unsafe-predecessor",
+    "recorder_sources_unchanged": true,
+    "result_sha256": "9ee520e89719360baf1a70b8111a10b0942a09aefc039205c09a0b3e250d67ff",
+    "source_rows_copied": false,
+    "status": "failed"
+  }
+}

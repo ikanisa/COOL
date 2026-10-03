@@ -1,0 +1,61 @@
+{
+  "rows": [
+    {
+      "action": "supervisor.operations.activate",
+      "source": "receipt_operations_enrollment_workflow",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "fc41cfcf-bebe-5ca2-387a-bd6b2d0c9aad",
+      "revision": null,
+      "request_id": "f7e64cbe-042b-4ab0-9de7-ee1e47d2cf70",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:45.095014Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.activate",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "c9e07272-de23-6ce0-4aef-8c6666e05733",
+      "revision": null,
+      "request_id": "f7e64cbe-042b-4ab0-9de7-ee1e47d2cf70",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:45.093010Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.enroll",
+      "source": "receipt_operations_enrollment_workflow",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "81284964-29df-ccd0-4fb1-e0945c40d5e8",
+      "revision": null,
+      "request_id": "745ac07f-f5b0-4806-be3e-da2b6388d8a9",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:44.960930Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.enroll",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "6de4ee25-f3ba-e2fa-4027-5765d19eaef1",
+      "revision": null,
+      "request_id": "745ac07f-f5b0-4806-be3e-da2b6388d8a9",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:44.959291Z",
+      "fence_version": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "8bd4425d-6516-4e8d-a203-5e3c2396b35d",
+  "checked_at": "2026-10-02T00:14:53.776466Z",
+  "entity_kind": "supervisor_identity",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:53.776466Z",
+  "historical_shadow_audit_backfilled": false
+}

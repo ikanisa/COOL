@@ -1,0 +1,23 @@
+{
+  "status": "integrated_aggregate_pending",
+  "utc": "2026-10-02T10:25:34.680696+00:00",
+  "proposal_packet_sha256": "b4e8eac09ff68e38e8bf6858fd650d5d4f6ed08ab85b6980bcf8f8d8cc10022c",
+  "proposal_moved_from_top_level_into_evidence_directory_all14_leaves_preserved": true,
+  "historical_private_proof_paths_refer_to_pre_move_execution": "retained as dated paths, not current execution claims",
+  "proposed": [
+    {
+      "path": "test/core/auth_fixture_token_test.dart",
+      "sha256": "9560bf6d52dd8882707795b76628cd5d125c77b4b452d6edcae78096b3501ebe",
+      "bytes": 2418,
+      "change": "Replace only one fixture import with ../support/synthetic_jwt.dart."
+    },
+    {
+      "path": "test/support/synthetic_jwt.dart",
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "bytes": 508,
+      "change": "Exact byte copy of local dummy fixture; upstream fixture remains untouched."
+    }
+  ],
+  "vendor_helper_unchanged": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+  "ARC02_closed": false
+}

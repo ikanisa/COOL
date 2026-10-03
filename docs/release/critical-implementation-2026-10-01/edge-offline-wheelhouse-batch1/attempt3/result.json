@@ -1,0 +1,31 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "scripts/tests/edge_runner_contract_test.py",
+    "-v"
+  ],
+  "source_before": {
+    "scripts/qa/roster_wheelhouse.py": "cf536ba3293dedc092b1c36b8233d3cfcde36afec0f1367f30d96f7ad0ed60b8",
+    "scripts/tests/roster_wheelhouse_test.py": "07925305fd296befa5119e50f45b8f512d7ea4db055fc3e500eb768b54eff1d0",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "started_at": "2026-10-02T01:36:20.901995+00:00",
+  "deadline_seconds": 60,
+  "scope": "Offline copier/caller contracts plus synthetic HTTPS producer transport and actual owned process timeout. No real acquisition/Docker/install.",
+  "exit_code": 0,
+  "source_after": {
+    "scripts/qa/roster_wheelhouse.py": "cf536ba3293dedc092b1c36b8233d3cfcde36afec0f1367f30d96f7ad0ed60b8",
+    "scripts/tests/roster_wheelhouse_test.py": "07925305fd296befa5119e50f45b8f512d7ea4db055fc3e500eb768b54eff1d0",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "elapsed_seconds": 1.4492061250020924,
+  "finished_at": "2026-10-02T01:36:22.351315+00:00",
+  "source_unchanged": true
+}

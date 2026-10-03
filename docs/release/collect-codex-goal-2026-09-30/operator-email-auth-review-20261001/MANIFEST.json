@@ -1,0 +1,164 @@
+{
+  "kind": "independent_operator_email_auth_review",
+  "sealed_at": "2026-10-01T10:31:57.055398+00:00",
+  "file_count": 30,
+  "bytes": 218392,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "5d5e51d31fefef2158890c0ac1f8cd6dbd18977b9c20354aaea43fe64f932260",
+      "bytes": 4989
+    },
+    {
+      "path": "corrected-reproduction.json",
+      "sha256": "0047a2b48888053c0dd141ad930c9d50280e24d1bf80bb3e1908e59d584a486d",
+      "bytes": 737
+    },
+    {
+      "path": "corrected-source-bindings.json",
+      "sha256": "fe2050dcf5a11c114367868ebbdc922f86d95bd037add04dab8db100cf2f20e5",
+      "bytes": 1365
+    },
+    {
+      "path": "corrected-subject/collect_operator_email_auth.py",
+      "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "bytes": 16171
+    },
+    {
+      "path": "corrected-subject/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "bytes": 5534
+    },
+    {
+      "path": "corrected-subject/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "bytes": 12080
+    },
+    {
+      "path": "corrected-subject/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "bytes": 14391
+    },
+    {
+      "path": "corrected-subject/test_collect_operator_email_auth.py",
+      "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "bytes": 18028
+    },
+    {
+      "path": "corrected_reproduction.py",
+      "sha256": "1bb0a2d7b32ba3784926ee0782ee849a6f485bc5b4f0b161e4a55082a28e6230",
+      "bytes": 4355
+    },
+    {
+      "path": "management-wire-schema-check.json",
+      "sha256": "29fc037bcb4a0aa2ea28cdf6e982c507b20425a4c5d62da4b491936842a35f19",
+      "bytes": 1642
+    },
+    {
+      "path": "original-reproduction.json",
+      "sha256": "72da989f018680822dd6b44ed8eafda92f17c2bcf408ac9cc7fffc56557764aa",
+      "bytes": 904
+    },
+    {
+      "path": "owner-final31/email-focused-tests.json",
+      "sha256": "3b0a0855058e586af805597aed1574163a7a9a221318978e9fe52f29351a538c",
+      "bytes": 2536
+    },
+    {
+      "path": "owner-final31/email-focused-tests.log",
+      "sha256": "1a8d8bdd1815f306412929500e6383af5727e6b45f1fa9ea518756c85802c9fd",
+      "bytes": 4334
+    },
+    {
+      "path": "owner-final31/email-source-binding.json",
+      "sha256": "47a7cc867991cbc638e38a750b22935ef3f648417d32d8f78154d352d5e4b682",
+      "bytes": 1708
+    },
+    {
+      "path": "owner-final31/source/scripts/collect_operator_email_auth.py",
+      "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "bytes": 16171
+    },
+    {
+      "path": "owner-final31/source/scripts/load_dotenv_strict.sh",
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+      "bytes": 2479
+    },
+    {
+      "path": "owner-final31/source/scripts/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "bytes": 5534
+    },
+    {
+      "path": "owner-final31/source/scripts/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "bytes": 12080
+    },
+    {
+      "path": "owner-final31/source/scripts/tests/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "bytes": 14391
+    },
+    {
+      "path": "owner-final31/source/scripts/tests/test_collect_operator_email_auth.py",
+      "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "bytes": 18028
+    },
+    {
+      "path": "owner-final31/source/supabase/templates/collect_email_sign_in.html",
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+      "bytes": 854
+    },
+    {
+      "path": "primary-source-check.json",
+      "sha256": "5bbb8a3c341ad8e4de0f37e96895c16a5f9a544c55db155022d010c8d105d781",
+      "bytes": 474
+    },
+    {
+      "path": "review_reproduction.py",
+      "sha256": "17d5d6fbcbb4a6095cbb4c490b15447fcdf00ad1e88cd9147b0dc552b1ba18d2",
+      "bytes": 3772
+    },
+    {
+      "path": "subject/collect_operator_email_auth.py",
+      "sha256": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62",
+      "bytes": 9335
+    },
+    {
+      "path": "subject/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "bytes": 5534
+    },
+    {
+      "path": "subject/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "bytes": 12080
+    },
+    {
+      "path": "subject/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "bytes": 14391
+    },
+    {
+      "path": "subject/test_collect_operator_email_auth.py",
+      "sha256": "3e0dc6cf045b8ae958ab18ca15aaa1c1f0f330595bee959da02cf6972030d5af",
+      "bytes": 7730
+    },
+    {
+      "path": "subject-bindings.json",
+      "sha256": "d6d060f4462199bb3ae60c8a25e31433b78ea7f4eddaf4f9a7cb106ae13d0ce7",
+      "bytes": 816
+    },
+    {
+      "path": "verification.json",
+      "sha256": "3b8f6c2635fb4f43e2be3ad8e2cf5b1b8b72d80ff972f68f623fd5d461d805b8",
+      "bytes": 5949
+    }
+  ],
+  "excluded": [
+    "MANIFEST.json (self-hash supplied externally)"
+  ],
+  "scope": "Synthetic independent review, source association and copied actual final owner31 receipts; not production or hosted acceptance",
+  "source_freeze": false,
+  "production_acceptance": false
+}

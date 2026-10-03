@@ -1,0 +1,9 @@
+{
+  "status": "fail",
+  "session_id": 43884,
+  "exit_code": 1,
+  "scope": "Packaging only after89/89browser pass",
+  "cause": "Existing retained mode records reused_from log origin and does not copy those logs into continuation output; packager incorrectly read all logs from new directory",
+  "browser_or_build_restarted": false,
+  "fix": "Resolve reused command logs from exact reused_from receipt path, SHA verify and package original bytes"
+}

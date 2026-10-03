@@ -1,0 +1,32 @@
+{
+  "selected_prerequisite_count": 192,
+  "canonical_migration_count": 197,
+  "excluded": [
+    {
+      "path": "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+      "sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+      "reason": "unused worker transport; no telemetry causal dependency or stub"
+    },
+    {
+      "path": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "reason": "concurrent foreign migration outside selected source proof; root compatibility review required"
+    },
+    {
+      "path": "supabase/migrations/20261001234000_play_integrity_admission.sql",
+      "sha256": "f7602666cdd6d1afa09250c74ae2f09afa0c051990074adc7b04900fc47de275",
+      "reason": "concurrent foreign migration outside selected source proof; root compatibility review required"
+    },
+    {
+      "path": "supabase/migrations/20261001235000_admin_audit_read_api_only.sql",
+      "sha256": "9d860d2575b74f3a388dd4ed960cda1ad1d6843b962ab14509c065c2afcabcb4",
+      "reason": "concurrent foreign migration outside selected source proof; root compatibility review required"
+    },
+    {
+      "path": "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+      "sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+      "reason": "concurrent foreign migration outside selected source proof; root compatibility review required"
+    }
+  ],
+  "complete_candidate": false
+}

@@ -1,0 +1,19 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Use this to assert unreachable code.
+ *
+ * @example
+ * ```ts
+ * import { unreachable } from "https://deno.land/std@$STD_VERSION/assert/unreachable.ts";
+ *
+ * unreachable(); // Throws
+ * ```
+ */
+export function unreachable(reason?: string): never {
+  throw new AssertionError(reason ?? "unreachable");
+}
+
+// denoCacheMetadata={"headers":{"strict-transport-security":"max-age=63072000; includeSubDomains; preload","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","x-content-type-options":"nosniff","server-timing":"fetchSource;dur=19","x-deno-trace-id":"ff7b6f34c4c9f1ec2b101f9eea043884","access-control-allow-origin":"*","x-frame-options":"DENY","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","access-control-allow-headers":"*","content-length":"479","cf-cache-status":"HIT","referrer-policy":"strict-origin-when-cross-origin","cross-origin-resource-policy":"same-origin","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=dhayZ32w7gBjLV7IB1gr","cache-status":"deno; hit","etag":"\"beab4bb2a4198bddd167d9f0e0248e6e\"","cache-control":"public, max-age=31536000, immutable","date":"Thu, 01 Oct 2026 00:05:48 GMT","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","server":"cloudflare,deployd","cross-origin-embedder-policy":"same-origin","access-control-allow-methods":"GET, HEAD","content-type":"application/typescript; charset=utf-8","last-modified":"Thu, 27 Aug 2026 16:21:32 GMT","accept-ranges":"bytes","cf-ray":"a43737c05ad199d3-AMS","cross-origin-opener-policy":"same-origin","age":"293294"},"url":"https://deno.land/std@0.224.0/assert/unreachable.ts","time":1790910997}

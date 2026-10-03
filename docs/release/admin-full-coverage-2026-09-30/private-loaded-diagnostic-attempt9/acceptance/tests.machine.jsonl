@@ -1,0 +1,11 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":17268,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export/test/admin_private_provider_authority_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export/test/admin_private_provider_authority_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":1,"time":4,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":25696}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":25698}
+{"test":{"id":3,"name":"admin_get_collection production detail hides loaded private content after permission loss","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":281,"root_column":7,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export/test/admin_private_provider_authority_test.dart"},"type":"testStart","time":25698}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":26618}
+{"test":{"id":4,"name":"admin_get_member_record production detail hides loaded private content after permission loss","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":281,"root_column":7,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export/test/admin_private_provider_authority_test.dart"},"type":"testStart","time":26619}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":26737}
+{"success":true,"type":"done","time":26750}

@@ -1,0 +1,134 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-git-init",
+      "parent_exit_confirmed": true,
+      "process_group": 27374,
+      "seconds": 0.117,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "-f",
+        "--pathspec-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root214-current-regressions/declared-paths.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-index",
+      "parent_exit_confirmed": true,
+      "process_group": 27381,
+      "seconds": 11.97,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 27824,
+      "seconds": 0.554,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 27859,
+      "seconds": 3.741,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_app.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "third_party/gotrue/test/client_test.dart",
+        "third_party/gotrue/test/get_claims_test.dart",
+        "third_party/gotrue/test/synthetic_jwt.dart",
+        "test/core/auth_fixture_token_test.dart",
+        "test/supabase_contract_test.dart",
+        "test/core/auth_fixture_token_test.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "format-changed",
+      "parent_exit_confirmed": true,
+      "process_group": 28284,
+      "seconds": 0.343,
+      "sha256": "b72b027df2527a77fe9271cf4bbd176534cb412f3935c05d9e073fc4eb90e2e6",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=expanded",
+        "test/core/auth_fixture_token_test.dart"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "unsigned-claim-parser-fixtures",
+      "parent_exit_confirmed": true,
+      "process_group": 28287,
+      "seconds": 45.758,
+      "sha256": "ea059f37da72019a9b5dc2cb438a60cdc25cccca46dab076fac1857313a5b5fc",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 1,
+      "expected_exit": 0,
+      "name": "fatal-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 29615,
+      "seconds": 28.137,
+      "sha256": "08b5045baabf7e1fd3764bf630b3010b5947bd90264f15e8989f0606d769c527",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "status": "running"
+}

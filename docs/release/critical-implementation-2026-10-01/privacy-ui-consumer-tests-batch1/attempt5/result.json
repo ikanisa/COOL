@@ -1,0 +1,58 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "log": "command-0.log",
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "test/features/privacy/privacy_request_screen_test.dart"
+      ],
+      "exit_code": 0,
+      "log": "command-1.log",
+      "sha256": "0b0c3bb00bcb272f3013cc0b952a3a31e996d979595af7b81ccbac987aecb652"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--timeout",
+        "45s",
+        "--reporter",
+        "json",
+        "test/features/privacy/privacy_request_screen_test.dart",
+        "--plain-name",
+        "320px"
+      ],
+      "exit_code": 1,
+      "log": "command-2.log",
+      "sha256": "807d5e2a11b56df17b7e327438b1441a91de85f7780f360922df132d3dc72709"
+    }
+  ],
+  "completed_at_utc": "2026-10-02T00:01:55.712550+00:00",
+  "drift": {},
+  "failed": 4,
+  "inputs": 358,
+  "passed": 0,
+  "runner_done": [
+    {
+      "success": false,
+      "time": 4063,
+      "type": "done"
+    }
+  ],
+  "scope": "Synthetic actual-route widget fixture only; no hosted/provider/erasure or visual-fidelity claim.",
+  "skipped": 0,
+  "started_at_utc": "2026-10-02T00:01:41.504573+00:00",
+  "visible_tests": 4
+}

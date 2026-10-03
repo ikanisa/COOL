@@ -1,0 +1,14 @@
+{
+  "ARC09_closed": false,
+  "actual_export_binding_sha256": null,
+  "all_flavor_ABI_complete": false,
+  "candidate_promoted": false,
+  "prepared_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "production_release_approval": false,
+  "protected_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "stage": "app-lock",
+  "stage_pass": true
+}

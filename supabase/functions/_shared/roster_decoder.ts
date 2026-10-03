@@ -10,9 +10,9 @@ import { rosterSha256, type RosterSource } from "./roster_provenance.ts";
 export const ROSTER_DECODER_POLICY = "collect-roster-decoder-v1";
 export const ROSTER_DECODER_TOOLCHAIN = {
   python: "3.12",
-  pillow: "12.0.0",
+  pillow: "12.3.0",
   pypdfium2: "5.2.0",
-  pypdf: "6.7.0",
+  pypdf: "6.19.0",
   openpyxl: "3.1.5",
   defusedxml: "0.7.1",
 } as const;

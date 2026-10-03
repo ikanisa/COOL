@@ -12,6 +12,7 @@ import 'admin_display_formatters.dart';
 import 'admin_error_boundary.dart';
 import 'admin_operational_health.dart';
 import 'admin_repository_base.dart';
+import 'admin_shadow_runs.dart';
 import 'admin_sms_queue_health.dart';
 
 final adminSmsQueueHealthProvider =
@@ -94,11 +95,11 @@ class _AdminSmsDispatchBannerState
         ? 'SMS receipt gate enabled'
         : 'New SMS receipt dispatch disabled';
     final message = sample.isLoading
-        ? 'Loading the current assisted-SMS queue status.'
+        ? 'Loading the current SMS receipt queue status.'
         : !fresh
         ? 'Refresh to check the current gate. Payment ingestion has a separate status.'
         : health!.enabled
-        ? 'Receipts require the assisted operator workflow. This does not confirm sender availability or delivery.'
+        ? 'Sending requires current gateway authorization and recorded attempt evidence. This does not confirm sender availability or delivery.'
         : 'The global receipt gate is closed. This cannot recall a message already handed off for sending.';
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -139,6 +140,7 @@ class AdminAutomationsPage extends ConsumerStatefulWidget {
 
 class _AdminAutomationsPageState
     extends _OperationsClockState<AdminAutomationsPage> {
+  int _historyRefresh = 0;
   @override
   Widget build(BuildContext context) {
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
@@ -152,7 +154,17 @@ class _AdminAutomationsPageState
     final now = ref.watch(adminClockProvider)();
     void refresh() {
       ref.invalidate(adminAutomationHealthProvider);
+      ref.invalidate(adminReceiptOperationsPolicyProvider);
+      ref.invalidate(adminOperatingPolicyProvider);
+      ref.invalidate(adminReceiptWorkerHealthProvider);
+      ref.invalidate(adminReceiptOperationalTelemetryProvider);
+      ref.invalidate(adminReceiptHistoryPageProvider);
+      ref.invalidate(adminReceiptOperationalRunProvider);
+      ref.invalidate(adminReceiptPrincipalsProvider);
+      ref.invalidate(adminReceiptPrincipalProvider);
       if (sms != null) ref.invalidate(adminSmsQueueHealthProvider);
+      ref.invalidate(adminShadowRunsProvider(const AdminShadowRunsQuery()));
+      setState(() => _historyRefresh++);
     }
 
     return AdminPage(
@@ -170,6 +182,42 @@ class _AdminAutomationsPageState
               icon: const Icon(Icons.refresh),
               label: const Text('Refresh status'),
             ),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Receipt operating controls',
+            icon: Icons.policy_outlined,
+            child: AdminReceiptOperationsCard(),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Receipt signing identities',
+            icon: Icons.key_outlined,
+            child: AdminReceiptPrincipalCard(),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Receipt operations measurements',
+            icon: Icons.insights_outlined,
+            child: AdminReceiptTelemetryCard(embedded: true),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Receipt operational run history',
+            icon: Icons.history_outlined,
+            child: AdminReceiptOperationalHistoryCard(),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Receipt exception worker',
+            icon: Icons.fact_check_outlined,
+            child: AdminReceiptWorkerCard(),
+          ),
+          const SizedBox(height: 16),
+          const _OperationsSection(
+            title: 'Legacy policy preferences',
+            icon: Icons.history_outlined,
+            child: AdminOperatingPolicyCard(),
           ),
           const SizedBox(height: 16),
           _OperationsSection(
@@ -307,7 +355,7 @@ class _AdminAutomationsPageState
                     ],
                     const SizedBox(height: 12),
                     const Text(
-                      'Provider configuration is unverified. Provider acceptance does not establish delivery. This scheduler serves app notifications; assisted SMS receipts have a separate workflow.',
+                      'Provider configuration is unverified. Provider acceptance does not establish delivery. This scheduler serves app notifications; SMS receipts have a separate governed gateway workflow.',
                     ),
                     const SizedBox(height: 12),
                     TextButton.icon(
@@ -323,26 +371,15 @@ class _AdminAutomationsPageState
             ),
           ),
           const SizedBox(height: 16),
-          const _OperationsSection(
-            title: 'Codex supervision',
+          _OperationsSection(
+            title: 'Manual shadow monitoring',
             icon: Icons.manage_search_outlined,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AdminStatusChip(label: 'Run telemetry unavailable'),
-                SizedBox(height: 12),
-                Text(
-                  'MCP connectivity and supervisor run history are not reported by the current backend. A queue heartbeat cannot certify either.',
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Native Codex schedules are managed in Codex. This console has no verified integration to edit them or invoke a runner.',
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Gateway internet, telephony, SIM, permissions and carrier delivery callbacks are not measured by these services.',
-                ),
-              ],
+            child: AdminShadowRunsView(
+              key: ValueKey((
+                ref.watch(adminAuthSessionScopeProvider),
+                _historyRefresh,
+              )),
+              now: now,
             ),
           ),
         ],

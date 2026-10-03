@@ -1,0 +1,109 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 444,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 58032,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.729,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_sensitive_permission_test.dart",
+        "test/admin_permission_refresh_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 58105,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 22.341,
+      "sha256": "5211feef910ec1d936742dd00ce54757ac74057dc403a5a3906c94ea298c30cf"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_sensitive_permission_test.dart",
+        "test/admin_permission_refresh_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 58986,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 3.516,
+      "sha256": "82ab41446f821526fa66b9ece537b0217b4d10f2681f44d11e47d2bdbb77a346"
+    }
+  ],
+  "test_files": [
+    "test/admin_sensitive_permission_test.dart",
+    "test/admin_permission_refresh_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 6,
+    "failed": 0,
+    "errors": 3,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "raw SMS identity refresh hides evidence and reveal controls",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/source-export/test/admin_sensitive_permission_test.dart"
+      },
+      {
+        "name": "approval capability A-B-A rejects the old lookup after restore",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/source-export/test/admin_sensitive_permission_test.dart"
+      },
+      {
+        "name": "approval identity refresh hides returned status while pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/source-export/test/admin_sensitive_permission_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "machine_test_log_sha256": "5aeb5cd95b7035e3a7d7a9f8e26e74e5d50d0f547cbf635e26004dca73de4e43",
+  "source_before_sha256": "8e57ed5af98972cc278ca19a3c107b4ac838c280d3e244c3b60a64af8444f8bd",
+  "source_after_sha256": "8e57ed5af98972cc278ca19a3c107b4ac838c280d3e244c3b60a64af8444f8bd"
+}

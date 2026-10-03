@@ -1,0 +1,79 @@
+{
+  "rows": [
+    {
+      "state": "pending",
+      "health": null,
+      "device_id": "b02f7194-816a-4dc5-beb8-64e9d34324ce",
+      "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+      "revoked_at": null,
+      "enrolled_at": "2026-09-30T22:47:41.926854Z",
+      "activated_at": null,
+      "installation_id": "4318a478-bb42-44ba-8554-00503a008735",
+      "last_owner_action": {
+        "action": "enroll",
+        "receipt": {
+          "replay": false,
+          "device_id": "b02f7194-816a-4dc5-beb8-64e9d34324ce",
+          "request_id": "77886760-b30e-48a6-8064-4bc34ea9ad27",
+          "recorded_at": "2026-09-30T22:47:41.926854Z",
+          "state_at_action": "pending"
+        }
+      },
+      "dispatch_authority": "pending",
+      "dispatch_available": false,
+      "callback_observations": {
+        "sent": 0,
+        "total": 0,
+        "delivery": 0
+      },
+      "signing_certificate_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "state": "revoked",
+      "health": {
+        "network": "unvalidated",
+        "freshness": "fresh",
+        "telephony": "unknown",
+        "ingested_at": "2026-09-30T22:47:44.401366Z",
+        "local_pause": true,
+        "reported_at": "2026-09-30T22:47:44.077000Z",
+        "sim_selected": false,
+        "carrier_proof": false,
+        "observation_id": "b39f39d4-3bd7-462e-b1f2-63bdb0f39f58",
+        "sms_permission": false,
+        "observation_valid_until": "2026-09-30T22:49:44.077000Z"
+      },
+      "device_id": "ab7b10e5-99a1-4252-af4a-92f144de929c",
+      "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+      "revoked_at": "2026-09-30T22:47:51.718447Z",
+      "enrolled_at": "2026-09-30T22:47:41.674653Z",
+      "activated_at": "2026-09-30T22:47:45.355049Z",
+      "installation_id": "a6690ed4-1cf3-472a-a058-f4f631078a5f",
+      "last_owner_action": {
+        "action": "revoke",
+        "receipt": {
+          "replay": false,
+          "device_id": "ab7b10e5-99a1-4252-af4a-92f144de929c",
+          "request_id": "0fc57a12-ded8-4341-96ea-b412e3552754",
+          "recorded_at": "2026-09-30T22:47:51.718447Z",
+          "state_at_action": "revoked"
+        }
+      },
+      "dispatch_authority": "pending",
+      "dispatch_available": false,
+      "callback_observations": {
+        "sent": 1,
+        "total": 2,
+        "delivery": 1
+      },
+      "signing_certificate_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  ],
+  "limit": 20,
+  "scope": "platform_global",
+  "total": 2,
+  "checked_at": "2026-09-30T22:47:52.863354Z",
+  "next_cursor": null,
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T22:48:52.863354Z"
+}

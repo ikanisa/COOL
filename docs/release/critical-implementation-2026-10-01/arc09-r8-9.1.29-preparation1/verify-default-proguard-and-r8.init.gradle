@@ -1,0 +1,149 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import java.nio.file.Files
+import org.gradle.api.GradleException
+
+def selectedSettings = null
+gradle.settingsEvaluated { settings ->
+    def physicalRoot = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android')
+    if (settings.settingsDir.canonicalFile == physicalRoot) {
+        selectedSettings = settings
+    }
+}
+
+gradle.projectsEvaluated {
+    // Init scripts also run in Flutter's included Gradle build. Select only the
+    // exact physical Collect Android root before looking up its app project.
+    def expectedAndroidRoot = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android')
+    def actualAndroidRoot = gradle.rootProject.projectDir
+    if (actualAndroidRoot.canonicalFile != expectedAndroidRoot) {
+        return
+    }
+    if (actualAndroidRoot.absoluteFile != expectedAndroidRoot || expectedAndroidRoot.canonicalFile != expectedAndroidRoot) {
+        throw new GradleException('Collect default ProGuard readback requires the exact physical Android root')
+    }
+    def app = gradle.rootProject.project(':app')
+    def extractor = app.tasks.named('extractProguardFiles')
+    app.tasks.register('collectVerifyDefaultProguardDirectory') {
+        group = 'verification'
+        description = 'Read back the configured default ProGuard paths and their actual generated file.'
+        dependsOn(extractor)
+        doLast {
+            def android = app.extensions.getByName('android')
+            def release = android.buildTypes.getByName('release')
+            def expected = android.getDefaultProguardFile('proguard-android-optimize.txt').canonicalFile
+            def buildDirectory = app.layout.buildDirectory.get().asFile.canonicalFile
+            def configuredRoot = System.getenv('COLLECT_ANDROID_BUILD_ROOT')
+            def configuredApp = configuredRoot == null || configuredRoot.isBlank() ? null :
+                new File(app.file(configuredRoot), 'app').canonicalFile
+            def rules = release.proguardFiles.collect { app.file(it).canonicalFile }
+            def defaults = rules.findAll { it.name == expected.name }
+            def producerOutputs = extractor.get().outputs.files.files.collect { it.canonicalFile }
+            if (configuredApp != null && buildDirectory != configuredApp) {
+                throw new GradleException('App build directory does not match the configured Collect root')
+            }
+            if (defaults.isEmpty() || defaults.any { it != expected }) {
+                throw new GradleException('A release default ProGuard rule still points to a stale build directory')
+            }
+            if (!expected.toPath().startsWith(buildDirectory.toPath())) {
+                throw new GradleException('Default ProGuard path is outside the configured app build directory')
+            }
+            if (!producerOutputs.any { expected == it || expected.toPath().startsWith(it.toPath()) }) {
+                throw new GradleException('Configured default ProGuard file is not covered by its producer outputs')
+            }
+            if (!expected.isFile() || Files.isSymbolicLink(expected.toPath())) {
+                throw new GradleException('Default ProGuard producer did not supply a regular rule file')
+            }
+            if (!release.minifyEnabled || !release.shrinkResources) {
+                throw new GradleException('Existing release shrinking must remain enabled')
+            }
+            // Resolve R8 through the loader used by AGP's real R8Tool caller.
+            // R8.main is retained even when internal Version methods are minified.
+            def pluginLoader = app.plugins.getPlugin('com.android.application').getClass().getClassLoader()
+            def toolClass = Class.forName('com.android.builder.dexing.R8Tool', false, pluginLoader)
+            def toolLoader = toolClass.getClassLoader()
+            def r8Class = Class.forName('com.android.tools.r8.R8', true, toolLoader)
+            def mainMethod = r8Class.getMethod('main', String[].class)
+            def providerURL = r8Class.protectionDomain?.codeSource?.location
+            if (providerURL == null || providerURL.protocol != 'file') {
+                throw new GradleException('Actual R8 compiler must have a local JAR provider')
+            }
+            def provider = new File(providerURL.toURI()).canonicalFile
+            if (!provider.isFile() || Files.isSymbolicLink(provider.toPath())) {
+                throw new GradleException('Actual R8 compiler provider must be a physical regular JAR')
+            }
+            def artifacts = selectedSettings.buildscript.configurations.getByName('classpath')
+                .resolvedConfiguration.resolvedArtifacts.findAll {
+                    it.moduleVersion.id.group == 'com.android.tools' && it.name == 'r8'
+                }
+            if (artifacts.size() != 1 || artifacts[0].moduleVersion.id.version != '9.1.29') {
+                throw new GradleException('Settings classpath must resolve exactly com.android.tools:r8:9.1.29')
+            }
+            def artifact = artifacts[0].file.canonicalFile
+            def artifactBytes = Files.readAllBytes(artifact.toPath())
+            def providerBytes = Files.readAllBytes(provider.toPath())
+            def captured = new ByteArrayOutputStream()
+            def capturedStream = new PrintStream(captured, true, 'UTF-8')
+            synchronized (System.class) {
+                def previousOut = System.out
+                try {
+                    System.setOut(capturedStream)
+                    mainMethod.invoke(null, [(['--version'] as String[])] as Object[])
+                } finally {
+                    System.setOut(previousOut)
+                    capturedStream.close()
+                }
+            }
+            def versionOutput = captured.toString('UTF-8')
+            if (!(versionOutput =~ /(?m)^R8 9\.1\.29(?:\s|$)/).find()) {
+                throw new GradleException('Actual AGP R8 compiler invocation did not return version 9.1.29: ' + versionOutput)
+            }
+            def compiler = [
+                coordinate: 'com.android.tools:r8:9.1.29',
+                version: '9.1.29',
+                tool_class: toolClass.name,
+                tool_classloader: toolLoader.getClass().name,
+                tool_classloader_identity: System.identityHashCode(toolLoader),
+                R8_class: r8Class.name,
+                R8_classloader: r8Class.getClassLoader().getClass().name,
+                R8_classloader_identity: System.identityHashCode(r8Class.getClassLoader()),
+                R8_selected_from_AGP_tool_classloader: true,
+                invoked_method: mainMethod.toGenericString(),
+                invoked_method_name: mainMethod.name,
+                invoked_modifiers: mainMethod.modifiers,
+                invoked_return_type: mainMethod.returnType.name,
+                invoked_parameter_types: mainMethod.parameterTypes.collect { it.name },
+                invoked_declaring_class: mainMethod.declaringClass.name,
+                invoked_arguments: ['--version'],
+                version_method_invoked: true,
+                version_stdout: versionOutput,
+                provider: [path: provider.path, bytes: providerBytes.length,
+                    sha256: MessageDigest.getInstance('SHA-256').digest(providerBytes).encodeHex().toString()],
+                resolved_artifact: [path: artifact.path, bytes: artifactBytes.length,
+                    sha256: MessageDigest.getInstance('SHA-256').digest(artifactBytes).encodeHex().toString(),
+                    md5_hex: MessageDigest.getInstance('MD5').digest(artifactBytes).encodeHex().toString()],
+                app_compilation_executed_by_this_task: false
+            ]
+            def bytes = Files.readAllBytes(expected.toPath())
+            def row = [
+                kind: 'collect_default_proguard_directory_readback',
+                actual_R8_compiler_readback: compiler,
+                app_build_directory: buildDirectory.path,
+                configured_app_build_directory: configuredApp?.path,
+                default_proguard_file: expected.path,
+                release_default_proguard_paths: defaults.collect { it.path },
+                all_release_proguard_paths: rules.collect { it.path },
+                producer_task: extractor.get().path,
+                producer_outputs: producerOutputs.collect { it.path },
+                actual_default_file_bytes: bytes.length,
+                actual_default_file_sha256: MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString(),
+                minify_enabled: release.minifyEnabled,
+                shrink_resources: release.shrinkResources,
+                default_paths_and_producer_verified: true,
+                r8_execution_verified: false,
+                package_or_release_acceptance: false
+            ]
+            println('COLLECT_DEFAULT_PROGUARD_READBACK=' + JsonOutput.toJson(row))
+        }
+    }
+}

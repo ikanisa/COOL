@@ -1,0 +1,17 @@
+usage: runtime_control_edit_eligibility_uat.py [-h] [--workspace WORKSPACE]
+                                               --candidate-root CANDIDATE_ROOT
+                                               --output OUTPUT
+                                               [--scope {full,extended,extended-tail,final-only}]
+
+Bounded networkless SQL proof of governed-settings original requests. Captures
+exact local prerequisites and fixtures before execution. A retained row-free
+schema/ACL and synthetic financial fixtures are installed in a new, labelled
+network-none target. The additive migration runs as postgres NOSUPER. No
+shared database, hosted Auth, signed JWT, provider or device is exercised.
+
+options:
+  -h, --help            show this help message and exit
+  --workspace WORKSPACE
+  --candidate-root CANDIDATE_ROOT
+  --output OUTPUT
+  --scope {full,extended,extended-tail,final-only}

@@ -1,0 +1,260 @@
+--- a/scripts/edge_function_inventory.rb
++++ b/scripts/edge_function_inventory.rb
+@@ -6,6 +6,16 @@
+ # handler tests and database UAT are still required to prove authorization.
+ module CollectEdgeInventory
+   MODES = %w[user_jwt signed_auth_hook internal_signature device_signature supervisor_signature scheduler_secret].freeze
++  # Empty unsigned JSON must reach the existing rejection boundary for its
++  # reviewed auth mode. These probes never carry caller or scheduler authority.
++  DENIAL_PROBES = {
++    'user_jwt' => [401, ''],
++    'signed_auth_hook' => [401, 'invalid_hook_signature'],
++    'internal_signature' => [401, ''],
++    'device_signature' => [400, 'GATEWAY_REQUEST_INVALID'],
++    'supervisor_signature' => [400, 'SUPERVISOR_REQUEST_INVALID'],
++    'scheduler_secret' => [401, 'WORKER_AUTH_REQUIRED']
++  }.transform_values(&:freeze).freeze
+   SLUG = /\A[a-z][a-z0-9]*(?:-[a-z0-9]+)*\z/
+   SUCCESSOR = 'collect-receipt-successor-gateway'
+   SUCCESSOR_RPC = {
+@@ -139,14 +149,26 @@
+     true
+   end
+ 
++  def self.denial_probes(manifest)
++    manifest.fetch('functions').map do |entry|
++      status, error = DENIAL_PROBES.fetch(entry.fetch('auth')) do
++        raise "Unsupported denial probe auth for #{entry.fetch('name')}"
++      end
++      [entry.fetch('name'), status, error]
++    end
++  end
++
+   def self.run(args, root: File.expand_path('..', __dir__))
+     manifest = read(root)
+     action = args.shift
+-    raise 'Usage: edge_function_inventory.rb check|auth-check|expected|no-verify-jwt|retired|secrets' unless args.empty?
++    raise 'Usage: edge_function_inventory.rb check|auth-check|expected|no-verify-jwt|retired|secrets|denial-probes' unless args.empty?
+     case action
+     when 'check', 'auth-check'
+       validate(root, manifest, auth: action == 'auth-check')
+       puts "[collect-edge-inventory] #{manifest.fetch('functions').length} active endpoints and auth configuration agree#{action == 'auth-check' ? '; source wiring checked' : ''}"
++    when 'denial-probes'
++      validate(root, manifest, auth: true)
++      denial_probes(manifest).each { |row| puts row.join("\t") }
+     when 'expected' then puts manifest.fetch('functions').map { |entry| entry.fetch('name') }.sort
+     when 'no-verify-jwt' then puts manifest.fetch('functions').reject { |entry| entry.fetch('verify_jwt') }.map { |entry| entry.fetch('name') }.sort
+     when 'retired' then puts manifest.fetch('retired').sort
+--- a/scripts/supabase_production_readiness.sh
++++ b/scripts/supabase_production_readiness.sh
+@@ -1077,7 +1077,9 @@
+ 
+ check_functions() {
+   log "checking deployed Edge Function endpoints"
+-  local inventory
++  local inventory probe_plan
++  probe_plan="$(ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" denial-probes)" ||
++    fail "Edge Function denial probe plan refused"
+   if inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
+     local actual expected
+     actual="$(ruby -r json -e 'puts JSON.parse(STDIN.read).map { |fn| fn["name"] }.compact.sort' <<< "$inventory")"
+@@ -1091,46 +1093,27 @@
+   fi
+ 
+   local base_url="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1"
+-  local response status body
+-
+-  # This deliberately carries no webhook signature or OTP. It must be
+-  # rejected before reservation/provider effects; a static hook-secret header
+-  # is obsolete and must never be used as an authorization probe.
+-  response="$(curl -sS -w '\n%{http_code}' \
+-    -X POST "$base_url/auth-send-whatsapp-otp" \
+-    -H 'content-type: application/json' \
+-    --data '{}')"
+-  status="${response##*$'\n'}"
+-  body="${response%$'\n'*}"
+-  [[ "$status" == "401" ]] || fail "auth-send-whatsapp-otp unsigned probe expected HTTP 401, got $status"
+-  [[ "$body" == *'invalid_hook_signature'* ]] || fail "auth-send-whatsapp-otp unsigned probe did not establish the signed-hook denial"
+-
+-  local fn
+-  for fn in collect-notification-operator ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity reconciliation-finalize dispatch-notifications send-notification; do
+-    status="$(curl -sS -o /dev/null -w '%{http_code}' \
+-      -X POST "$base_url/$fn" \
+-      -H 'content-type: application/json' \
+-      --data '{}')"
+-    [[ "$status" == "401" ]] || fail "$fn unauthenticated probe expected HTTP 401, got $status"
+-  done
+-
+-  # Custom device/supervisor handlers reject an empty envelope at their schema
+-  # boundary. This checks endpoint presence without signed device commands.
+-  # The worker instead requires its dedicated scheduler secret before parsing.
+-  local expected_status expected_error
+-  for fn in collect-android-gateway collect-receipt-successor-gateway collect-receipt-supervisor collect-receipt-exception-worker; do
+-    case "$fn" in
+-      collect-android-gateway|collect-receipt-successor-gateway) expected_status=400; expected_error=GATEWAY_REQUEST_INVALID ;;
+-      collect-receipt-supervisor) expected_status=400; expected_error=SUPERVISOR_REQUEST_INVALID ;;
+-      collect-receipt-exception-worker) expected_status=401; expected_error=WORKER_AUTH_REQUIRED ;;
+-    esac
+-    response="$(curl -sS -w '\n%{http_code}' -X POST "$base_url/$fn" \
+-      -H 'content-type: application/json' --data '{}')"
+-    status="${response##*$'\n'}"
+-    body="${response%$'\n'*}"
+-    [[ "$status" == "$expected_status" && "$body" == *"$expected_error"* ]] ||
+-      fail "$fn unsigned negative probe did not reach its rejection boundary"
+-  done
++  local response status body fn expected_status expected_error
++
++  # Derive every unsigned probe from the reviewed manifest auth mode. The
++  # request stays empty JSON with no webhook, device, supervisor or worker
++  # signature, bearer credential, OTP or provider-capable authority.
++  while IFS=$'\t' read -r fn expected_status expected_error; do
++    if [[ -z "$expected_error" ]]; then
++      status="$(curl -sS -o /dev/null -w '%{http_code}' \
++        -X POST "$base_url/$fn" \
++        -H 'content-type: application/json' --data '{}')"
++      [[ "$status" == "$expected_status" ]] ||
++        fail "$fn unauthenticated probe expected HTTP $expected_status, got $status"
++    else
++      response="$(curl -sS -w '\n%{http_code}' -X POST "$base_url/$fn" \
++        -H 'content-type: application/json' --data '{}')"
++      status="${response##*$'\n'}"
++      body="${response%$'\n'*}"
++      [[ "$status" == "$expected_status" && "$body" == *"$expected_error"* ]] ||
++        fail "$fn unsigned negative probe did not reach its rejection boundary"
++    fi
++  done <<< "$probe_plan"
+ }
+ 
+ check_secrets() {
+--- a/scripts/tests/edge_function_inventory_test.rb
++++ b/scripts/tests/edge_function_inventory_test.rb
+@@ -3,6 +3,7 @@
+ require 'minitest/autorun'
+ require 'tmpdir'
+ require 'fileutils'
++require 'open3'
+ require_relative '../edge_function_inventory'
+ 
+ class EdgeFunctionInventoryTest < Minitest::Test
+@@ -194,4 +195,121 @@
+     File.write(config, wrong)
+     assert_includes assert_raises(RuntimeError) { CollectEdgeInventory.validate(@root, @manifest, auth: true) }.message, 'JWT config differs'
+   end
++
++  def test_denial_plan_preserves_all_current_auth_boundaries
++    rows = CollectEdgeInventory.denial_probes(@manifest)
++    assert_equal @manifest.fetch('functions').map { |entry| entry.fetch('name') }, rows.map(&:first)
++    assert_equal rows.length, rows.map(&:first).uniq.length
++    expected = {
++      'auth-send-whatsapp-otp' => [401, 'invalid_hook_signature'],
++      'collect-android-gateway' => [400, 'GATEWAY_REQUEST_INVALID'],
++      'collect-receipt-successor-gateway' => [400, 'GATEWAY_REQUEST_INVALID'],
++      'collect-receipt-supervisor' => [400, 'SUPERVISOR_REQUEST_INVALID'],
++      'collect-receipt-exception-worker' => [401, 'WORKER_AUTH_REQUIRED']
++    }
++    rows.each do |name, status, error|
++      assert_equal expected.fetch(name, [401, '']), [status, error], name
++    end
++  end
++
++  def test_denial_plan_rejects_unsupported_auth_without_partial_output
++    @manifest.fetch('functions').last['auth'] = 'unreviewed_auth'
++    write_manifest
++    output, = capture_io do
++      assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    end
++    assert_empty output
++    assert_raises(RuntimeError) { CollectEdgeInventory.denial_probes(@manifest) }
++  end
++
++  def test_denial_cli_revalidates_source_auth_and_rejects_extra_arguments
++    output, = capture_io { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    assert_equal CollectEdgeInventory.denial_probes(@manifest).map { |row| row.join("\t") + "\n" }.join, output
++    assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes', 'unreviewed'], root: @root) }
++    File.delete(File.join(@root, 'supabase/functions/reconciliation-finalize/index.ts'))
++    output, = capture_io do
++      assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    end
++    assert_empty output
++  end
++
++  # The shell functions replace every potential provider/management command.
++  # Production readiness's main is never sourced or executed in this fixture.
++  def run_unsigned_probe_fixture(extra_env = {})
++    scripts = File.join(@root, 'scripts')
++    FileUtils.mkdir_p(scripts)
++    %w[edge_function_inventory.rb edge_function_inventory.sh supabase_cli_helpers.sh load_dotenv_strict.sh].each do |name|
++      FileUtils.cp(File.join(ROOT, 'scripts', name), scripts)
++    end
++    source = File.read(File.join(ROOT, 'scripts/supabase_production_readiness.sh'))
++    prefix, marker, suffix = source.rpartition('main "$@"')
++    raise 'Missing readiness main boundary' if marker.empty? || !suffix.strip.empty?
++
++    fixture = File.join(scripts, 'readiness-functions.sh')
++    File.write(fixture, prefix)
++    log = File.join(@root, 'probe-calls.jsonl')
++    File.delete(log) if File.exist?(log)
++    command = <<~'BASH'
++      . "$1"
++      supabase_cli() {
++        ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" expected |
++          ruby -r json -e 'puts STDIN.readlines.map { |x| {name: x.strip} }.to_json'
++      }
++      curl() {
++        ruby -r json -e 'File.open(ENV.fetch("PROBE_LOG"), "a") { |f| f.puts ARGV.to_json }' -- "$@"
++        local url='' arg status=401 error='authentication_required' discard=false
++        for arg in "$@"; do
++          case "$arg" in
++            */functions/v1/*) url="$arg" ;;
++            /dev/null) discard=true ;;
++          esac
++        done
++        case "$url" in
++          */auth-send-whatsapp-otp) error=invalid_hook_signature ;;
++          */collect-android-gateway|*/collect-receipt-successor-gateway) status=400; error=GATEWAY_REQUEST_INVALID ;;
++          */collect-receipt-supervisor) status=400; error=SUPERVISOR_REQUEST_INVALID ;;
++          */collect-receipt-exception-worker) error=WORKER_AUTH_REQUIRED ;;
++        esac
++        [[ "${url##*/}" != "${PROBE_WRONG_BODY:-}" ]] || error=UNEXPECTED_ERROR
++        [[ "$discard" == true ]] || printf '{"error":"%s"}\n' "$error"
++        printf '%s' "$status"
++      }
++      check_functions
++    BASH
++    env = {'PATH' => '/usr/bin:/bin', 'LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8', 'SUPABASE_ACCESS_TOKEN' => 'unused-test-only-token',
++           'SUPABASE_PROJECT_REF' => 'abcdefghijklmnopqrst', 'PROBE_LOG' => log,
++           'PROBE_WRONG_BODY' => ''}.merge(extra_env)
++    stdout, stderr, result = Open3.capture3(env, 'bash', '-c', command, 'bash', fixture, unsetenv_others: true)
++    calls = File.exist?(log) ? File.readlines(log).map { |line| JSON.parse(line) } : []
++    [stdout, stderr, result, calls]
++  end
++
++  def test_actual_readiness_probes_follow_a_reviewed_manifest_name_change
++    entry = @manifest.fetch('functions').find { |row| row.fetch('name') == 'collect-notification-operator' }
++    entry['name'] = 'reviewed-operator-fixture'
++    write_manifest
++    FileUtils.mv(File.join(@root, 'supabase/functions/collect-notification-operator'),
++                 File.join(@root, 'supabase/functions/reviewed-operator-fixture'))
++    config = File.join(@root, 'supabase/config.toml')
++    File.write(config, File.read(config).sub('[functions.collect-notification-operator]', '[functions.reviewed-operator-fixture]'))
++    _, stderr, result, calls = run_unsigned_probe_fixture
++    assert result.success?, stderr
++    observed = calls.map { |args| args.find { |arg| arg.include?('/functions/v1/') }.split('/').last }
++    assert_equal @manifest.fetch('functions').map { |row| row.fetch('name') }, observed
++    assert_includes observed, 'reviewed-operator-fixture'
++    refute_includes observed, 'collect-notification-operator'
++    calls.each do |args|
++      assert_equal 'POST', args.fetch(args.index('-X') + 1)
++      assert_equal '{}', args.fetch(args.index('--data') + 1)
++      headers = args.each_index.select { |index| args[index] == '-H' }.map { |index| args[index + 1] }
++      assert_equal ['content-type: application/json'], headers
++      refute args.any? { |arg| arg.downcase.include?('authorization') || arg.include?('unused-test-only-token') }
++    end
++  end
++
++  def test_actual_readiness_requires_custom_auth_error_even_when_status_matches
++    _, stderr, result, = run_unsigned_probe_fixture('PROBE_WRONG_BODY' => 'collect-receipt-supervisor')
++    refute result.success?
++    assert_includes stderr, 'collect-receipt-supervisor unsigned negative probe did not reach its rejection boundary'
++  end
+ end

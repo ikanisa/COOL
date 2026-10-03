@@ -26,9 +26,7 @@ void main() {
 
     setUp(() async {
       final response = await http.post(
-        Uri.parse(
-          resetAuthDataUrl,
-        ),
+        Uri.parse(resetAuthDataUrl),
         headers: {
           'x-forwarded-for': '127.0.0.1',
           'apikey': getServiceRoleToken(env),
@@ -68,16 +66,30 @@ void main() {
     });
 
     test('basic json parsing', () async {
-      const body =
-          '{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjExODk1MzExLCJzdWIiOiI0Njg3YjkzNi02ZDE5LTRkNmUtOGIyYi1kYmU0N2I1ZjYzOWMiLCJlbWFpbCI6InRlc3Q5QGdtYWlsLmNvbSIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIn0sInVzZXJfbWV0YWRhdGEiOm51bGwsInJvbGUiOiJhdXRoZW50aWNhdGVkIn0.GyIokEvKGp0M8PYU8IiIpvzeTAXspoCtR5aj-jCnWys","token_type":"bearer","expires_in":3600,"refresh_token":"gnqAPZwZDj_XCYMF7U2Xtg","user":{"id":"4687b936-6d19-4d6e-8b2b-dbe47b5f639c","aud":"authenticated","role":"authenticated","email":"test9@gmail.com","confirmed_at":"2021-01-29T03:41:51.026791085Z","last_sign_in_at":"2021-01-29T03:41:51.032154484Z","app_metadata":{"provider":"email"},"user_metadata":null,"created_at":"2021-01-29T03:41:51.022787Z","updated_at":"2021-01-29T03:41:51.033826Z"}}';
+      // This test needs an opaque token, not a copied signed session.
+      const accessToken = 'synthetic-local-parser-access-token';
+      final body = json.encode({
+        'access_token': accessToken,
+        'token_type': 'bearer',
+        'expires_in': 3600,
+        'refresh_token': 'synthetic-local-parser-refresh-token',
+        'user': {
+          'id': '4687b936-6d19-4d6e-8b2b-dbe47b5f639c',
+          'aud': 'authenticated',
+          'role': 'authenticated',
+          'email': 'parser@example.invalid',
+          'app_metadata': {'provider': 'email'},
+          'user_metadata': {},
+          'created_at': '2021-01-29T03:41:51.026791085Z',
+        },
+      });
       final bodyJson = json.decode(body);
       final session = Session.fromJson(bodyJson as Map<String, dynamic>);
 
       expect(session, isNotNull);
-      expect(
-        session!.accessToken,
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjExODk1MzExLCJzdWIiOiI0Njg3YjkzNi02ZDE5LTRkNmUtOGIyYi1kYmU0N2I1ZjYzOWMiLCJlbWFpbCI6InRlc3Q5QGdtYWlsLmNvbSIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIn0sInVzZXJfbWV0YWRhdGEiOm51bGwsInJvbGUiOiJhdXRoZW50aWNhdGVkIn0.GyIokEvKGp0M8PYU8IiIpvzeTAXspoCtR5aj-jCnWys',
-      );
+      expect(session!.accessToken, accessToken);
+      expect(session.refreshToken, 'synthetic-local-parser-refresh-token');
+      expect(session.user.email, 'parser@example.invalid');
     });
 
     test('anonymous sign-in', () async {
@@ -464,10 +476,7 @@ void main() {
 
     test('signIn() with the wrong password', () async {
       await expectLater(
-        client.signInWithPassword(
-          email: email1,
-          password: 'wrong_$password',
-        ),
+        client.signInWithPassword(email: email1, password: 'wrong_$password'),
         throwsA(
           isA<AuthException>().having((e) => e.message, 'message', isNotNull),
         ),
@@ -540,8 +549,7 @@ void main() {
         asyncStorage: TestAsyncStorage(),
         httpClient: httpClient,
       );
-      final session =
-          '{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODAzNDE3MDUsInN1YiI6IjRkMjU4M2RhLThkZTQtNDlkMy05Y2QxLTM3YTlhNzRmNTViZCIsImVtYWlsIjoiZmFrZTE2ODAzMzgxMDVAZW1haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJIZWxsbyI6IldvcmxkIn0sInJvbGUiOiIiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTY4MDMzODEwNX1dLCJzZXNzaW9uX2lkIjoiYzhiOTg2Y2UtZWJkZC00ZGUxLWI4MjAtZjIyOWYyNjg1OGIwIn0.0x1rFlPKbIU1rZPY1SH_FNSZaXerfkFA1Y-EOlhuzUs","expires_in":3600,"refresh_token":"-yeS4omysFs9tpUYBws9Rg","token_type":"bearer","provider_token":null,"provider_refresh_token":null,"user":{"id":"4d2583da-8de4-49d3-9cd1-37a9a74f55bd","app_metadata":{"provider":"email","providers":["email"]},"user_metadata":{"Hello":"World"},"aud":"","email":"fake1680338105@email.com","phone":"","created_at":"2023-04-01T08:35:05.208586Z","confirmed_at":null,"email_confirmed_at":"2023-04-01T08:35:05.220096086Z","phone_confirmed_at":null,"last_sign_in_at":"2023-04-01T08:35:05.222755878Z","role":"","updated_at":"2023-04-01T08:35:05.226938Z"},"expiresAt":1680341705}';
+      final session = getSessionData(DateTime.utc(2021, 1, 1)).sessionString;
 
       ///These 3 are bundled and in sum 1 refresh token requests is made, because the first 3 fail in [RetryTestHttpClient]
       final responses = await Future.wait([
@@ -623,11 +631,7 @@ void main() {
                 'originalError',
                 isA<http.Response>(),
               )
-              .having(
-                (e) => e.message,
-                'message',
-                contains('empty response'),
-              ),
+              .having((e) => e.message, 'message', contains('empty response')),
         ),
       );
     });
@@ -645,7 +649,7 @@ void main() {
     test('Session recovery succeeds after retries', () async {
       try {
         await client.recoverSession(
-          '{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODAzNDE3MDUsInN1YiI6IjRkMjU4M2RhLThkZTQtNDlkMy05Y2QxLTM3YTlhNzRmNTViZCIsImVtYWlsIjoiZmFrZTE2ODAzMzgxMDVAZW1haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJIZWxsbyI6IldvcmxkIn0sInJvbGUiOiIiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTY4MDMzODEwNX1dLCJzZXNzaW9uX2lkIjoiYzhiOTg2Y2UtZWJkZC00ZGUxLWI4MjAtZjIyOWYyNjg1OGIwIn0.0x1rFlPKbIU1rZPY1SH_FNSZaXerfkFA1Y-EOlhuzUs","expires_in":3600,"refresh_token":"-yeS4omysFs9tpUYBws9Rg","token_type":"bearer","provider_token":null,"provider_refresh_token":null,"user":{"id":"4d2583da-8de4-49d3-9cd1-37a9a74f55bd","app_metadata":{"provider":"email","providers":["email"]},"user_metadata":{"Hello":"World"},"aud":"","email":"fake1680338105@email.com","phone":"","created_at":"2023-04-01T08:35:05.208586Z","confirmed_at":null,"email_confirmed_at":"2023-04-01T08:35:05.220096086Z","phone_confirmed_at":null,"last_sign_in_at":"2023-04-01T08:35:05.222755878Z","role":"","updated_at":"2023-04-01T08:35:05.226938Z"},"expiresAt":1680341705}',
+          getSessionData(DateTime.utc(2021, 1, 1)).sessionString,
         );
       } on ClientException {
         // the method should throw
@@ -702,82 +706,67 @@ void main() {
       );
     });
 
-    test(
-      'getSessionFromUrl handles implicit tokens in the fragment',
-      () async {
-        final pkceClient = GoTrueClient(
-          url: gotrueUrl,
-          flowType: AuthFlowType.pkce,
-          asyncStorage: TestAsyncStorage(),
-          httpClient: MockedHttpClient({
-            'id': '18bc7a4e-c095-4573-93dc-e0be29bada97',
-            'aud': '',
-            'role': '',
-            'email': 'new@email.com',
-            'app_metadata': {
-              'provider': 'email',
-              'providers': ['email'],
-            },
-            'user_metadata': {},
-            'created_at': '2023-04-01T09:38:59.784028Z',
-            'updated_at': '2023-04-01T09:38:59.908816Z',
-          }),
-        );
+    test('getSessionFromUrl handles implicit tokens in the fragment', () async {
+      final pkceClient = GoTrueClient(
+        url: gotrueUrl,
+        flowType: AuthFlowType.pkce,
+        asyncStorage: TestAsyncStorage(),
+        httpClient: MockedHttpClient({
+          'id': '18bc7a4e-c095-4573-93dc-e0be29bada97',
+          'aud': '',
+          'role': '',
+          'email': 'new@email.com',
+          'app_metadata': {
+            'provider': 'email',
+            'providers': ['email'],
+          },
+          'user_metadata': {},
+          'created_at': '2023-04-01T09:38:59.784028Z',
+          'updated_at': '2023-04-01T09:38:59.908816Z',
+        }),
+      );
 
-        final url = Uri.parse(
-          'http://my-callback-url.com/#access_token=my-access-token'
-          '&expires_in=3600&refresh_token=my-refresh-token'
-          '&token_type=bearer&type=email_change',
-        );
+      final url = Uri.parse(
+        'http://my-callback-url.com/#access_token=my-access-token'
+        '&expires_in=3600&refresh_token=my-refresh-token'
+        '&token_type=bearer&type=email_change',
+      );
 
-        final emittedEvent = pkceClient.onAuthStateChange
-            .firstWhere(
-              (state) => state.event != AuthChangeEvent.initialSession,
-            )
-            .then((state) => state.event);
+      final emittedEvent = pkceClient.onAuthStateChange
+          .firstWhere((state) => state.event != AuthChangeEvent.initialSession)
+          .then((state) => state.event);
 
-        final response = await pkceClient.getSessionFromUrl(url);
-        expect(response.session.accessToken, 'my-access-token');
-        expect(response.session.refreshToken, 'my-refresh-token');
-        expect(response.session.user.email, 'new@email.com');
-        expect(response.redirectType, 'email_change');
-        expect(pkceClient.currentUser?.email, 'new@email.com');
-        expect(await emittedEvent, AuthChangeEvent.signedIn);
-      },
-    );
+      final response = await pkceClient.getSessionFromUrl(url);
+      expect(response.session.accessToken, 'my-access-token');
+      expect(response.session.refreshToken, 'my-refresh-token');
+      expect(response.session.user.email, 'new@email.com');
+      expect(response.redirectType, 'email_change');
+      expect(pkceClient.currentUser?.email, 'new@email.com');
+      expect(await emittedEvent, AuthChangeEvent.signedIn);
+    });
 
     test(
       'updateUser email change under PKCE can be exchanged for a session',
       () async {
         await http.post(
-          Uri.parse(
-            resetAuthDataUrl,
-          ),
+          Uri.parse(resetAuthDataUrl),
           headers: {
             'x-forwarded-for': '127.0.0.1',
             'apikey': getServiceRoleToken(env),
             'Authorization': 'Bearer ${getServiceRoleToken(env)}',
           },
         );
-        await http.delete(
-          Uri.parse('$localStackMailUrl/api/v1/messages'),
-        );
+        await http.delete(Uri.parse('$localStackMailUrl/api/v1/messages'));
 
         final pkceClient = GoTrueClient(
           url: gotrueUrl,
-          headers: {
-            'Authorization': 'Bearer $anonToken',
-            'apikey': anonToken,
-          },
+          headers: {'Authorization': 'Bearer $anonToken', 'apikey': anonToken},
           asyncStorage: TestAsyncStorage(),
           flowType: AuthFlowType.pkce,
           autoRefreshToken: false,
         );
 
-        await pkceClient.signInWithPassword(
-          email: email1,
-          password: password,
-        );
+        await pkceClient.signInWithPassword(email: email1, password: password);
 
         final updatedEmail = getNewEmail();
         final updateResponse = await pkceClient.updateUser(
@@ -830,12 +819,9 @@ void main() {
       expect(httpClient.refreshCount, 1);
 
       var signedOut = false;
-      final subscription = client.onAuthStateChange.listen(
-        (state) {
-          if (state.event == AuthChangeEvent.signedOut) signedOut = true;
-        },
-        onError: (_) {},
-      );
+      final subscription = client.onAuthStateChange.listen((state) {
+        if (state.event == AuthChangeEvent.signedOut) signedOut = true;
+      }, onError: (_) {});
 
       // Second recovery uses the same (now stale) persisted session, as happens
       // when a second code path recovers the session it read before the first
@@ -867,9 +853,7 @@ Future<String> _pkceCodeFromEmailChange(
     final search =
         jsonDecode(
               (await http.get(
-                Uri.parse(
-                  '$localStackMailUrl/api/v1/search?query=to:$toEmail',
-                ),
+                Uri.parse('$localStackMailUrl/api/v1/search?query=to:$toEmail'),
               )).body,
             )
             as Map<String, dynamic>;

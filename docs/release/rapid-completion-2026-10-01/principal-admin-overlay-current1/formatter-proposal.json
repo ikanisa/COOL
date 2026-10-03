@@ -1,0 +1,10 @@
+{
+  "source": "lib/admin/core/admin_repository_base.dart",
+  "tested_source_sha256": "6e649929ec3e8015ddf1f80b7abd86d325dc9b7c1941a8230148555f280381f8",
+  "current_source_sha256": "6e649929ec3e8015ddf1f80b7abd86d325dc9b7c1941a8230148555f280381f8",
+  "proposed_formatted_sha256": "21b62b7f5490beceed7b7d8d954b4275a27459bcfceb18d8c2ede292a1fb9ccf",
+  "current_equals_tested": true,
+  "runtime_written": false,
+  "proposal": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/formatter-candidate/admin_repository_base.dart",
+  "diff": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/admin_repository_base.format.diff"
+}

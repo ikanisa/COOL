@@ -1,0 +1,103 @@
+--- immutable-preparation1/test_app_guard.py
++++ private-preparation2/test_app_guard.py
+@@ -37,10 +37,15 @@
+         source = G.SDK
+         for name in G.SDK_PLUGIN_SOURCE_HASHES:
+             file(self.sdk / name, (source / name).read_bytes())
++        integration_spec = file(self.sdk/'packages/integration_test/pubspec.yaml',
++            b'name: integration_test\nflutter:\n  plugin:\n    platforms:\n      ios:\n        pluginClass: IntegrationTestPlugin\n')
++        source_hashes = dict(G.SDK_PLUGIN_SOURCE_HASHES)
++        source_hashes['packages/integration_test/pubspec.yaml'] = digest(integration_spec)
++        patch=mock.patch.object(G,'SDK_PLUGIN_SOURCE_HASHES',source_hashes);patch.start();self.addCleanup(patch.stop)
+         self.root = self.pub / 'hosted/pub.dev/fixture_plugin-1.0.0'
+         self.spec = file(self.root / 'pubspec.yaml', b'name: fixture_plugin\nversion: 1.0.0\nflutter:\n  plugin:\n    platforms:\n      ios:\n        pluginClass: FixturePlugin\n')
+         for root in (self.root, self.sdk / 'packages/integration_test', self.app): (root / 'lib').mkdir(parents=True, exist_ok=True)
+-        file(self.app / 'pubspec.yaml', b'name: collect\nversion: 1.0.0\n')
++        file(self.app / 'pubspec.yaml', b'name: collect\nversion: 1.0.0\ndependencies:\n  fixture_plugin: 1.0.0\ndev_dependencies:\n  integration_test:\n    sdk: flutter\n')
+         self.lock = file(self.app / 'pubspec.lock', b'packages:\n  fixture_plugin:\n    description:\n      name: fixture_plugin\n      url: "https://pub.dev"\n    source: hosted\n    version: "1.0.0"\n  integration_test:\n    description: flutter\n    source: sdk\n    version: "0.0.0"\n')
+         file(self.app / 'lib/main.dart', b'void main() {}\n'); file(self.app / 'LICENSE', b'Fixture\n')
+         file(self.app / 'ios/Runner/Info.plist', b'<plist/>\n')
+@@ -57,10 +62,10 @@
+         packages = [{'name':name,'rootUri':str(root)+'/', 'packageUri':'lib/'} for name,root in
+                     [('fixture_plugin',self.root),('integration_test',self.sdk/'packages/integration_test'),('collect',self.app)]]
+         self.config = file(self.app / '.dart_tool/package_config.json', json.dumps(dict(configVersion=2,packages=packages)).encode())
+-        self.metadata = file(self.app / '.flutter-plugins-dependencies', json.dumps(dict(plugins={'ios':[
++        self.metadata = file(self.app / '.flutter-plugins-dependencies', json.dumps(dict(swift_package_manager_enabled={'ios':True},plugins={'android':[],'macos':[],'linux':[],'windows':[],'web':[],'ios':[
+             dict(name='fixture_plugin',path=str(self.root)+'/',native_build=True),
+             dict(name='integration_test',path=str(self.sdk/'packages/integration_test')+'/',native_build=True)]})).encode())
+-        binding = dict(format='collect-exact-locked-plugin-pubspec-bindings-v1',sources={name:dict(exact_root=str(root),pubspec_sha256=digest(root/'pubspec.yaml'),pubspec_bytes=(root/'pubspec.yaml').stat().st_size) for name,root in [('fixture_plugin',self.root),('integration_test',self.sdk/'packages/integration_test')]})
++        binding = dict(format='collect-complete-locked-package-pubspec-bindings-v2',expected_app_name='collect',expected_app_pubspec_sha256=digest(self.app/'pubspec.yaml'),expected_app_lock_sha256=digest(self.lock),sources={name:dict(exact_root=str(root),pubspec_sha256=digest(root/'pubspec.yaml'),pubspec_bytes=(root/'pubspec.yaml').stat().st_size,package_uri='lib/') for name,root in [('fixture_plugin',self.root),('integration_test',self.sdk/'packages/integration_test'),('collect',self.app)]})
+         self.binding = file(self.private / 'plugin-source-bindings.json', json.dumps(binding).encode())
+         self.h = file(self.app / G.IOS_REGISTRANTS[0], (G.APP / G.IOS_REGISTRANTS[0]).read_bytes())
+         prefix = '//\n//  Generated file. Do not edit.\n//\n\n// clang-format off\n\n#import "GeneratedPluginRegistrant.h"\n\n'
+@@ -103,10 +108,10 @@
+         self.file(self.sdk/'packages/flutter_tools/pubspec.yaml',b'name: flutter_tools\nversion: 1.0.0\n')
+         data=json.loads(self.config.read_bytes());data['packages'][0]['rootUri']=str(self.sdk/'packages/flutter_tools')+'/'
+         self.config.write_text(json.dumps(data))
+-        with self.assertRaisesRegex(ValueError, 'only exact integration_test'): G.plugin_metadata(self.metadata)
++        with self.assertRaisesRegex(ValueError, 'only exact integration_test|pubspec bytes changed|package root changed'): G.plugin_metadata(self.metadata)
+     def test_sdk_plugin_name_impersonation_rejected(self):
+         data=json.loads(self.metadata.read_bytes());data['plugins']['ios'][1]['name']='integration_test_other';self.metadata.write_text(json.dumps(data))
+-        with self.assertRaisesRegex(ValueError, 'absent from exact reviewed'): G.plugin_metadata(self.metadata)
++        with self.assertRaisesRegex(ValueError, 'source-derived platform plugin membership'): G.plugin_metadata(self.metadata)
+     def test_symlink_metadata_rejected(self):
+         real=self.metadata.with_name('retained-metadata');self.metadata.rename(real);self.metadata.symlink_to(real)
+         with self.assertRaises(ValueError): G.plugin_metadata(self.metadata)
+@@ -142,13 +147,17 @@
+             copied=self.app/'build/ios/SourcePackages/firebase_messaging';shutil.copytree(source,copied)
+             (copied/'ios/firebase_messaging/Package.swift').write_bytes(swift.read_bytes().replace(b'"../fixture_plugin"',b'"../fixture_plugin-1.0.0"'))
+             self.copy=copied;self.copy_source=source
+-            binding['sources']['firebase_messaging']=dict(exact_root=str(source),pubspec_sha256=digest(pubspec),pubspec_bytes=pubspec.stat().st_size,ios_swiftpm_manifest=dict(relative_path='ios/firebase_messaging/Package.swift',sha256=digest(swift),bytes=swift.stat().st_size))
++            binding['sources']['firebase_messaging']=dict(exact_root=str(source),pubspec_sha256=digest(pubspec),pubspec_bytes=pubspec.stat().st_size,package_uri='lib/',ios_swiftpm_manifest=dict(relative_path='ios/firebase_messaging/Package.swift',sha256=digest(swift),bytes=swift.stat().st_size))
+             config=json.loads(self.config.read_text());config['packages'].append(dict(name='firebase_messaging',rootUri=str(source)+'/',packageUri='lib/'));self.config.write_text(json.dumps(config))
+             self.lock.write_bytes(self.lock.read_bytes()+b'  firebase_messaging:\n    description:\n      path: "third_party/firebase_messaging"\n      relative: true\n    source: path\n    version: "16.5.0"\n')
++            app_spec=self.app/'pubspec.yaml';app_spec.write_bytes(app_spec.read_bytes().replace(b'dev_dependencies:',b'  firebase_messaging:\n    path: third_party/firebase_messaging\ndev_dependencies:'))
+             metadata['plugins']['ios'].append(dict(name='firebase_messaging',path=str(source)+'/',native_build=True));metadata['plugins']['ios'].sort(key=lambda row:row['name'])
+             firebase_import=b'#if __has_include(<firebase_messaging/FLTFirebaseMessagingPlugin.h>)\n#import <firebase_messaging/FLTFirebaseMessagingPlugin.h>\n#else\n@import firebase_messaging;\n#endif\n\n'
+             self.m.write_bytes(self.m.read_bytes().replace(b'#if __has_include(<fixture_plugin/',firebase_import+b'#if __has_include(<fixture_plugin/').replace(b'+ (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {\n',b'+ (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {\n  [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];\n'))
+             self.links.joinpath('firebase_messaging').symlink_to(copied/'ios/firebase_messaging')
++        binding['expected_app_lock_sha256']=digest(self.lock)
++        binding['expected_app_pubspec_sha256']=digest(self.app/'pubspec.yaml')
++        binding['sources']['collect'].update(pubspec_sha256=digest(self.app/'pubspec.yaml'),pubspec_bytes=(self.app/'pubspec.yaml').stat().st_size)
+         self.binding.write_text(json.dumps(binding));G.PLUGIN_BINDINGS_SHA256=digest(self.binding);self.metadata.write_text(json.dumps(metadata))
+         # Refresh only this synthetic authored manifest after fixture construction.
+         authored={}
+@@ -192,6 +201,26 @@
+         self.assertIn(java.relative_to(self.app).as_posix(),self.app_readback()['generated_files_separate'])
+         self.file(self.app/'android/app/src/main/java/unreviewed/Injected.java',b'// not admitted\n')
+         with self.assertRaisesRegex(ValueError,'unreviewed directory path'):self.app_readback()
++    def test_both_generated_registrants_absent_rejected(self):
++        self.h.unlink();self.m.unlink()
++        with self.assertRaises(FileNotFoundError):self.app_readback()
++    def test_all_expected_generated_links_absent_rejected(self):
++        self.swiftpm_fixture();self.link.unlink()
++        with self.assertRaisesRegex(ValueError,'computed generated SwiftPM link membership differs'):self.app_readback()
++    def test_omitted_ios_plugin_with_consistent_registry_and_link_drop_rejected(self):
++        self.swiftpm_fixture();self.link.unlink()
++        data=json.loads(self.metadata.read_text());data['plugins']['ios']=[r for r in data['plugins']['ios'] if r['name']!='fixture_plugin'];self.metadata.write_text(json.dumps(data))
++        text=self.m.read_text();start=text.index('#if __has_include(<fixture_plugin/');end=text.index('#if __has_include(<integration_test/',start)
++        text=text[:start]+text[end:];text=text.replace('  [FixturePlugin registerWithRegistrar:[registry registrarForPlugin:@"FixturePlugin"]];\n','');self.m.write_text(text)
++        with self.assertRaisesRegex(ValueError,'complete source-derived platform plugin membership differs: ios'):self.app_readback()
++    def test_omitted_configuration_package_with_metadata_drop_rejected(self):
++        data=json.loads(self.config.read_text());data['packages']=[r for r in data['packages'] if r['name']!='fixture_plugin'];self.config.write_text(json.dumps(data))
++        data=json.loads(self.metadata.read_text());data['plugins']['ios']=[r for r in data['plugins']['ios'] if r['name']!='fixture_plugin'];self.metadata.write_text(json.dumps(data))
++        with self.assertRaisesRegex(ValueError,'complete reviewed package configuration membership differs'):self.app_readback()
++    def test_valid_hyphenated_flutter_key_and_duplicate_refusal(self):
++        body=b'name: fixture\nflutter:\n  uses-material-design: true\n'
++        self.assertEqual(G.yaml_mapping(body,('flutter','plugin')), {})
++        with self.assertRaises(ValueError):G.yaml_mapping(body+b'  uses-material-design: false\n',('flutter',))
+ 
+ class ControllerWiringTests(unittest.TestCase):
+     def test_original_commands_and_resource_bounds_remain_exact(self):
+@@ -239,9 +268,9 @@
+             unittest.defaultTestLoader.loadTestsFromTestCase(RegistrantGuardTests),
+             unittest.defaultTestLoader.loadTestsFromTestCase(ControllerWiringTests)])
+         result=unittest.TextTestRunner(verbosity=2).run(suite)
+-        receipt=dict(tests=result.testsRun,affected_original_cases=list(ORIGINAL_AFFECTED),focused_cases=30,
++        receipt=dict(tests=result.testsRun,affected_original_cases=list(ORIGINAL_AFFECTED),focused_cases=35,
+                      failures=len(result.failures),errors=len(result.errors),skips=len(result.skipped),
+                      fixture_parent='/private/tmp',no_Flutter_Gradle_or_stage_execution=True,
+                      original31_test_source_sha256=digest(ORIGINAL/'test_preparation.py'),original31_ASTs_preserved=True)
+         with (HERE/'tests-result.json').open('x') as out:json.dump(receipt,out,indent=2,sort_keys=True);out.write('\n')
+-        raise SystemExit(0 if result.wasSuccessful() and not result.skipped and result.testsRun==37 else 1)
++        raise SystemExit(0 if result.wasSuccessful() and not result.skipped and result.testsRun==42 else 1)

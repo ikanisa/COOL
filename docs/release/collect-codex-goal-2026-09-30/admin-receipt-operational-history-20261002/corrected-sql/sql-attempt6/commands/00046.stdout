@@ -1,0 +1,1 @@
+["id", "request_id", "principal_id", "fence_version", "policy_revision", "mode", "collection_ids", "device_id", "started_at", "expires_at", "scan_performed", "completed_at"]

@@ -1,0 +1,26 @@
+[
+  {
+    "bytes": 243,
+    "existing_fixture_path": "test/fixtures/admin_receipt_operations_v2/observed-owner-configure.json",
+    "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6",
+    "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-configure.json"
+  },
+  {
+    "bytes": 242,
+    "existing_fixture_path": "test/fixtures/admin_receipt_operations_v2/observed-owner-stop.json",
+    "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad",
+    "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-stop.json"
+  },
+  {
+    "bytes": 530,
+    "existing_fixture_path": "test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-recorded.json",
+    "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84",
+    "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-lookup-recorded.json"
+  },
+  {
+    "bytes": 531,
+    "existing_fixture_path": "test/fixtures/admin_receipt_operations_v2/observed-policy-default.json",
+    "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de",
+    "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-policy-default.json"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "build_exit_code": 0,
+  "historical_source_git_commit": "f0b8b37a0e5c7e97a222127924fb3a7942e74ed2",
+  "historical_source_manifest_sha256": "162453052fd0b7fbfc6abd29252c1931810529a99affbaab749fdbf57094170d",
+  "historical_source_unchanged": true,
+  "instrumented_media_sha256": "08e37c7a3e46450322956e5af79061b50fa3cd677e920adaea4f2f979c89b9f8",
+  "wrapper_sha256": "8b1badd815171c71aeaebf2aad608f0e1289cf548ed9cbb3c0c5853df34c5600",
+  "removed_guard_exactly": "Historical runtime screenshot freshness guard only; native image provenance/hash/dimensions and all original builder content retained.",
+  "scope": "Explicit historical content reconstruction. Instrumented helper is separate QA evidence; dated screenshots are not asserted current and historical styling/design is not restored as active authority."
+}

@@ -1,0 +1,41 @@
+{
+  "observed_at_utc": "2026-10-01T21:50:28.028033+00:00",
+  "checks": [
+    {
+      "path": "scripts/tests/roster_fresh_auth_recovery_uat.sql",
+      "pre_edit_sha256": "5e0593554514b99a9ff9c4e1dd1353f6ff96e3a06c7d288b15fff3c486d0ff57",
+      "reconstructed_pre_edit_sha256": "5e0593554514b99a9ff9c4e1dd1353f6ff96e3a06c7d288b15fff3c486d0ff57",
+      "all_unrelated_pre_edit_bytes_preserved": true,
+      "current_sha256": "8dcd71c2425476655e25dfc9dd119d3febd641293873109322bd556eb25b6677"
+    },
+    {
+      "path": "scripts/tests/roster_resource_concurrency_uat.rb",
+      "pre_edit_sha256": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+      "reconstructed_pre_edit_sha256": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+      "all_unrelated_pre_edit_bytes_preserved": true,
+      "current_sha256": "8a415d80697b31900147a9face0a8d685c3eb83d732fa8a195d3ec7fd9fe9b76"
+    },
+    {
+      "path": "scripts/tests/roster_resource_final_compatibility_uat.sql",
+      "pre_edit_sha256": "cf01acb18db68afd85d26cf11a241f796fa4649d2dbc4140237756bbe99cd777",
+      "reconstructed_pre_edit_sha256": "cf01acb18db68afd85d26cf11a241f796fa4649d2dbc4140237756bbe99cd777",
+      "all_unrelated_pre_edit_bytes_preserved": true,
+      "current_sha256": "eb568bded11a3b0a1ac974cbb3dbedb4c6deaabb4df6ffabf3b6968fe094ac42"
+    },
+    {
+      "path": "scripts/tests/roster_resource_integrity_uat.sql",
+      "pre_edit_sha256": "badb9cdf37e14e090a4bb9ea4ec2d6a06dc3621b15b721cd8cd6f2e28cdfc6f6",
+      "reconstructed_pre_edit_sha256": "badb9cdf37e14e090a4bb9ea4ec2d6a06dc3621b15b721cd8cd6f2e28cdfc6f6",
+      "all_unrelated_pre_edit_bytes_preserved": true,
+      "current_sha256": "d6eebe9019bcbe0d2cfac52760adbf1315f5d89d7c7307bcd89529f067257f95"
+    },
+    {
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "pre_edit_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "reconstructed_pre_edit_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "all_unrelated_pre_edit_bytes_preserved": true,
+      "current_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b"
+    }
+  ],
+  "method": "Reverse only exact assigned version/chain updates, new individual-version denials, strict offline target branch and matching synthetic phone pair, then compare SHA256 to pre-edit inputs. No current source overwritten."
+}

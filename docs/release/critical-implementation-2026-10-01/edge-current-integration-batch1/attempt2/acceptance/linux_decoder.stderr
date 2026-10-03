@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt2/source/scripts/tests/verify_roster_decoder.py", line 35, in run
+    process.communicate(input=input,timeout=timeout)
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2141, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['docker', 'build', '-t', 'collect_roster_decoder_036ab5154879:qa', 'tools/roster-decoder']' timed out after 299.9999317919992 seconds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt2/source/scripts/tests/verify_roster_decoder.py", line 172, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt2/source/scripts/tests/verify_roster_decoder.py", line 62, in main
+    run(['docker','build','-t',image,'tools/roster-decoder'],output/'build.log',300)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt2/source/scripts/tests/verify_roster_decoder.py", line 49, in run
+    raise RuntimeError(f'Command timed out after {timeout}s; inspect {log.name}') from error
+RuntimeError: Command timed out after 300s; inspect build.log

@@ -1,0 +1,113 @@
+{
+  "Gradle_network_cache_or_APP_execution": false,
+  "actual_checks": {
+    "Groovy_process": {
+      "Gradle_invoked": false,
+      "actual_seconds": 5.594292957990547,
+      "all_reference_external_and_classpath_fences_match_after": true,
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-Duser.home=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-home",
+        "-Djava.io.tmpdir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-tmp",
+        "-cp",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/*:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/plugins/*",
+        "groovy.ui.GroovyMain",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/limited_groovy_checks.groovy",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/minimal-project/build.gradle",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-fixtures"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3",
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "network_invoked": false,
+      "owned_group_absent": true,
+      "owned_group_id": 39627,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "041f35869fec5659fd64d749a9d10766292255c4c1ccb2cf3d867d32fe84530a",
+      "timed_out": false
+    },
+    "Python_process": {
+      "Gradle_invoked": false,
+      "actual_seconds": 0.04287537500204053,
+      "all_reference_external_and_classpath_fences_match_after": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/limited_preparation_test.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3",
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "network_invoked": false,
+      "owned_group_absent": true,
+      "owned_group_id": 39623,
+      "stderr_sha256": "1f5448c8076d732f929847d50b8b1e927c3892ec917c893b791ca357f1f4a6ac",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    },
+    "full_script_compile_alone_not_used_as_runtime_proof": true,
+    "new_concrete_public_facade_fixture": 1,
+    "new_fixture_executes_exact_POM_collector_block_with_actual_installed_result_facade": true,
+    "retained_Groovy_groups": 9,
+    "retained_Python_tests": 7
+  },
+  "admitted_binary_files": 0,
+  "build_sha256": "d205c5246f02e110913384e4f249b0855801461b1a1d809b3843fd0041fd1b65",
+  "exact_root": "com.android.tools.lint:lint-gradle:32.0.1",
+  "existing_actual_metadata2": {
+    "counts": {
+      "artifacts": 0,
+      "components": 70,
+      "edges": 181,
+      "poms": 69
+    },
+    "errors": [
+      "groovy.lang.MissingPropertyException: No such property: unresolvedComponents for class: org.gradle.api.internal.artifacts.result.DefaultArtifactResolutionResult\nPossible solutions: resolvedComponents"
+    ],
+    "execution_failed_and_not_relabelled": true,
+    "graph_sha256": "96b5948e34520b67226745ea94e1ca78bd3cdf1bd050378b2893694d424abb26",
+    "packet_sha256": "e9e730242ca77f375017d65a31d928db21e551a0a15788c4cf5372f840aab781",
+    "readback_sha256": "f8318da86812e85480ec9e3c96eebd53b839fbf47dab57162a7e1b39a8b13ebb"
+  },
+  "patch_sha256": "f2fcfce1e307dc455d4396b68a033322ed018aafd2bd7f09b6e43790b6702fe6",
+  "preserved_bounds": {
+    "Gradle_seconds": 180,
+    "artifacts": 192,
+    "checkpoints": 8,
+    "components": 160,
+    "edges": 1024,
+    "outer_observation_allowance_seconds": 420,
+    "separate_owned_cleanup_seconds": 30
+  },
+  "preserved_checkpoint_POM_count_and_phase_semantics": true,
+  "private_behavioral_source_diff": [
+    "minimal-project/build.gradle only: UnresolvedComponentResult import, resolvedComponents loop, public components unresolved filter"
+  ],
+  "production_release_approval": false,
+  "public_API_evidence": "installed-public-POM-result-API-readback.json",
+  "publisher_plan_unexecuted": true,
+  "reference_count": 13,
+  "remaining": "Actual metadata3 execution, public filename binding/acquisition, full graph comparison, lint/AAB and external release acceptance",
+  "runner_publisher_project_settings_unchanged": true,
+  "runner_sha256": "53a89d40f693f110d4fd5ae834e889d2090fe1ff72d078a259cd244cccd47e58",
+  "schema_version": 1,
+  "source_rebind": {
+    "actual_APP_epoch_context": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+    "input_count": 17,
+    "intentional_rows": [
+      "two private project paths",
+      "maintained settings3c06 to4e28",
+      "privateAPP settings3c06 to4e28"
+    ],
+    "receipt": {
+      "bytes": 1320,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+      "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+    },
+    "root_settings_pin": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a",
+    "source_fences_sha256": "587d18bb3a1b2889304b74cd3a406af9aff9d15e4b4821fb38275f815bcd215d",
+    "unchanged_rows": 13
+  },
+  "status": "PASS_PRIVATE_PREPARATION_ONLY"
+}

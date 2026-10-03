@@ -1,0 +1,9 @@
+# Additional local progress
+
+Current common source167 passes strict format516/zero changes, full fatal analysis/zero issues, offline enforced lockfile and8 Public layout/copy regressions. All1,041 native source files and504 additional tooling files match the captured export; no add/delete/change drift was present at completion. Sole Revolut authority hygiene separately passes; this does not certify visual fidelity.
+
+Swift cached-binary input binding passes17 synthetic mutation controls. The three prepared native recipes now point to accepted167, and the iOS recipe requires real copied XCFramework path relocation plus exact bytes/modes/internal-symlink verification before and after Xcode. Actual native compilation and real binary binding remain separate pending checks.
+
+The initial query candidate completed its1,000-row run with340 passes/five retained failures and removed its clone while preserving all153 shared data/catalog/cron. One failure is the physical-index metadata verifier omission; four are genuine amount-order buffer regressions. The corrected verifier admits exactly18 expected physical metadata entries, with8 negative controls, and stops before later mutations on a failed check. A refined unpublished candidate retains seek guards and moves the page's collection-title lookup to a permission-guarded EXISTS, under validated immediate non-null FK invariants. All108 windows per arm, exact catalog/API/ACL equality and the original scan/buffer benefit checks remain required; no threshold is relaxed.
+
+Unsigned production Android compilation and the complete declared95-cohort Admin aggregate have been launched from preserved current inputs. Their running handles are not completion evidence. The refined four-arm1,000/10,000 query verification will run after CPU-heavy builds/tests have finished.

@@ -1,0 +1,196 @@
+Compiled from "GeneratedPluginRegistrant.java"
+public final class io.flutter.plugins.GeneratedPluginRegistrant {
+  public io.flutter.plugins.GeneratedPluginRegistrant();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void registerWith(io.flutter.embedding.engine.FlutterEngine);
+    Code:
+       0: aload_0
+       1: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+       4: new           #13                 // class com/mr/flutter/plugin/filepicker/FilePickerPlugin
+       7: dup
+       8: invokespecial #15                 // Method com/mr/flutter/plugin/filepicker/FilePickerPlugin."<init>":()V
+      11: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+      16: goto          28
+      19: astore_1
+      20: ldc           #26                 // String GeneratedPluginRegistrant
+      22: ldc           #28                 // String Error registering plugin android_file_picker, com.mr.flutter.plugin.filepicker.FilePickerPlugin
+      24: aload_1
+      25: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+      28: aload_0
+      29: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+      32: new           #36                 // class com/llfbandit/app_links/AppLinksPlugin
+      35: dup
+      36: invokespecial #38                 // Method com/llfbandit/app_links/AppLinksPlugin."<init>":()V
+      39: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+      44: goto          56
+      47: astore_1
+      48: ldc           #26                 // String GeneratedPluginRegistrant
+      50: ldc           #39                 // String Error registering plugin app_links, com.llfbandit.app_links.AppLinksPlugin
+      52: aload_1
+      53: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+      56: aload_0
+      57: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+      60: new           #41                 // class com/incrediblezayed/file_saver/FileSaverPlugin
+      63: dup
+      64: invokespecial #43                 // Method com/incrediblezayed/file_saver/FileSaverPlugin."<init>":()V
+      67: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+      72: goto          84
+      75: astore_1
+      76: ldc           #26                 // String GeneratedPluginRegistrant
+      78: ldc           #44                 // String Error registering plugin file_saver, com.incrediblezayed.file_saver.FileSaverPlugin
+      80: aload_1
+      81: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+      84: aload_0
+      85: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+      88: new           #46                 // class io/flutter/plugins/firebase/core/FlutterFirebaseCorePlugin
+      91: dup
+      92: invokespecial #48                 // Method io/flutter/plugins/firebase/core/FlutterFirebaseCorePlugin."<init>":()V
+      95: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     100: goto          112
+     103: astore_1
+     104: ldc           #26                 // String GeneratedPluginRegistrant
+     106: ldc           #49                 // String Error registering plugin firebase_core, io.flutter.plugins.firebase.core.FlutterFirebaseCorePlugin
+     108: aload_1
+     109: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     112: aload_0
+     113: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     116: new           #51                 // class io/flutter/plugins/flutter_plugin_android_lifecycle/FlutterAndroidLifecyclePlugin
+     119: dup
+     120: invokespecial #53                 // Method io/flutter/plugins/flutter_plugin_android_lifecycle/FlutterAndroidLifecyclePlugin."<init>":()V
+     123: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     128: goto          140
+     131: astore_1
+     132: ldc           #26                 // String GeneratedPluginRegistrant
+     134: ldc           #54                 // String Error registering plugin flutter_plugin_android_lifecycle, io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin
+     136: aload_1
+     137: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     140: aload_0
+     141: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     144: new           #56                 // class io/flutter/plugins/imagepicker/ImagePickerPlugin
+     147: dup
+     148: invokespecial #58                 // Method io/flutter/plugins/imagepicker/ImagePickerPlugin."<init>":()V
+     151: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     156: goto          168
+     159: astore_1
+     160: ldc           #26                 // String GeneratedPluginRegistrant
+     162: ldc           #59                 // String Error registering plugin image_picker_android, io.flutter.plugins.imagepicker.ImagePickerPlugin
+     164: aload_1
+     165: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     168: aload_0
+     169: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     172: new           #61                 // class dev/flutter/plugins/integration_test/IntegrationTestPlugin
+     175: dup
+     176: invokespecial #63                 // Method dev/flutter/plugins/integration_test/IntegrationTestPlugin."<init>":()V
+     179: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     184: goto          196
+     187: astore_1
+     188: ldc           #26                 // String GeneratedPluginRegistrant
+     190: ldc           #64                 // String Error registering plugin integration_test, dev.flutter.plugins.integration_test.IntegrationTestPlugin
+     192: aload_1
+     193: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     196: aload_0
+     197: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     200: new           #66                 // class com/github/dart_lang/jni/JniPlugin
+     203: dup
+     204: invokespecial #68                 // Method com/github/dart_lang/jni/JniPlugin."<init>":()V
+     207: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     212: goto          224
+     215: astore_1
+     216: ldc           #26                 // String GeneratedPluginRegistrant
+     218: ldc           #69                 // String Error registering plugin jni, com.github.dart_lang.jni.JniPlugin
+     220: aload_1
+     221: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     224: aload_0
+     225: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     228: new           #71                 // class com/github/dart_lang/jni_flutter/JniFlutterPlugin
+     231: dup
+     232: invokespecial #73                 // Method com/github/dart_lang/jni_flutter/JniFlutterPlugin."<init>":()V
+     235: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     240: goto          252
+     243: astore_1
+     244: ldc           #26                 // String GeneratedPluginRegistrant
+     246: ldc           #74                 // String Error registering plugin jni_flutter, com.github.dart_lang.jni_flutter.JniFlutterPlugin
+     248: aload_1
+     249: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     252: aload_0
+     253: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     256: new           #76                 // class dev/steenbakker/mobile_scanner/MobileScannerPlugin
+     259: dup
+     260: invokespecial #78                 // Method dev/steenbakker/mobile_scanner/MobileScannerPlugin."<init>":()V
+     263: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     268: goto          280
+     271: astore_1
+     272: ldc           #26                 // String GeneratedPluginRegistrant
+     274: ldc           #79                 // String Error registering plugin mobile_scanner, dev.steenbakker.mobile_scanner.MobileScannerPlugin
+     276: aload_1
+     277: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     280: aload_0
+     281: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     284: new           #81                 // class com/baseflow/permissionhandler/PermissionHandlerPlugin
+     287: dup
+     288: invokespecial #83                 // Method com/baseflow/permissionhandler/PermissionHandlerPlugin."<init>":()V
+     291: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     296: goto          308
+     299: astore_1
+     300: ldc           #26                 // String GeneratedPluginRegistrant
+     302: ldc           #84                 // String Error registering plugin permission_handler_android, com.baseflow.permissionhandler.PermissionHandlerPlugin
+     304: aload_1
+     305: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     308: aload_0
+     309: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     312: new           #86                 // class dev/fluttercommunity/plus/share/SharePlusPlugin
+     315: dup
+     316: invokespecial #88                 // Method dev/fluttercommunity/plus/share/SharePlusPlugin."<init>":()V
+     319: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     324: goto          336
+     327: astore_1
+     328: ldc           #26                 // String GeneratedPluginRegistrant
+     330: ldc           #89                 // String Error registering plugin share_plus, dev.fluttercommunity.plus.share.SharePlusPlugin
+     332: aload_1
+     333: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     336: aload_0
+     337: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     340: new           #91                 // class io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin
+     343: dup
+     344: invokespecial #93                 // Method io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin."<init>":()V
+     347: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     352: goto          364
+     355: astore_1
+     356: ldc           #26                 // String GeneratedPluginRegistrant
+     358: ldc           #94                 // String Error registering plugin shared_preferences_android, io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin
+     360: aload_1
+     361: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     364: aload_0
+     365: invokevirtual #7                  // Method io/flutter/embedding/engine/FlutterEngine.getPlugins:()Lio/flutter/embedding/engine/plugins/PluginRegistry;
+     368: new           #96                 // class io/flutter/plugins/urllauncher/UrlLauncherPlugin
+     371: dup
+     372: invokespecial #98                 // Method io/flutter/plugins/urllauncher/UrlLauncherPlugin."<init>":()V
+     375: invokeinterface #16,  2           // InterfaceMethod io/flutter/embedding/engine/plugins/PluginRegistry.add:(Lio/flutter/embedding/engine/plugins/FlutterPlugin;)V
+     380: goto          392
+     383: astore_1
+     384: ldc           #26                 // String GeneratedPluginRegistrant
+     386: ldc           #99                 // String Error registering plugin url_launcher_android, io.flutter.plugins.urllauncher.UrlLauncherPlugin
+     388: aload_1
+     389: invokestatic  #30                 // Method io/flutter/Log.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+     392: return
+    Exception table:
+       from    to  target type
+           0    16    19   Class java/lang/Exception
+          28    44    47   Class java/lang/Exception
+          56    72    75   Class java/lang/Exception
+          84   100   103   Class java/lang/Exception
+         112   128   131   Class java/lang/Exception
+         140   156   159   Class java/lang/Exception
+         168   184   187   Class java/lang/Exception
+         196   212   215   Class java/lang/Exception
+         224   240   243   Class java/lang/Exception
+         252   268   271   Class java/lang/Exception
+         280   296   299   Class java/lang/Exception
+         308   324   327   Class java/lang/Exception
+         336   352   355   Class java/lang/Exception
+         364   380   383   Class java/lang/Exception
+}

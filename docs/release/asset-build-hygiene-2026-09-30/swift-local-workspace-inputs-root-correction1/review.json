@@ -1,0 +1,9 @@
+{
+  "status": "reproduced_before_compilation",
+  "at_utc": "2026-10-01T09:14:27.507998+00:00",
+  "failure": "Unknown dependency input kind",
+  "actual_workspace_remote_dependencies": 13,
+  "actual_workspace_local_dependencies": 14,
+  "actual_cached_binary_artifacts": 9,
+  "scope": "Actual preserved old18 resolver metadata includes current-source local plugin and Flutter framework paths. Binding must require complete generated-input proof and relocate all exact local aliases as well as binary paths. No broad kind allowlist or lock/source check removal."
+}

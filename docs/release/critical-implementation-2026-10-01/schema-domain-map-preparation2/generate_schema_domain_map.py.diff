@@ -1,0 +1,190 @@
+--- preparation1/generate_schema_domain_map.py
++++ preparation2/generate_schema_domain_map.py
+@@ -9,9 +9,11 @@
+ from pathlib import Path
+ import re
+ import sys
++import tempfile
+ import tomllib
+ 
+ FORMAT = "collect-schema-domain-map-v1"
++SEMANTIC_OUTPUTS = ("schema-domain-map.json", "input-manifest.json", "coverage.json", "gaps.json", "DOMAIN_MAP.md")
+ ROOTS = ("lib", "supabase/functions", "android/app/src/main", "android/app/src/internal_gateway", "ios/Runner",
+          "tools/collect-notification-mcp/src", "tools/roster-decoder", "tool", "scripts")
+ EXTENSIONS = {".dart", ".ts", ".js", ".mjs", ".cjs", ".kt", ".swift", ".py", ".rb", ".sh"}
+@@ -63,6 +65,18 @@
+ 
+ def canonical(value):
+     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
++
++def required_bytes(path):
++    if path.is_symlink():raise ValueError("symlink input refused: "+str(path))
++    try:return path.read_bytes()
++    except OSError as error:raise ValueError("missing or unreadable input: "+str(path)) from error
++
++def required_json(path):
++    try:return json.loads(required_bytes(path))
++    except (json.JSONDecodeError,UnicodeDecodeError) as error:raise ValueError("invalid JSON input: "+str(path)) from error
++
++def admit_catalog_paths(paths):
++    if len(paths)!=2 or len({p.resolve() for p in paths})!=2:raise ValueError("two distinct effective catalog paths required")
+ 
+ def domain(schema, name):
+     if schema in SCHEMA_DOMAINS:
+@@ -295,12 +309,12 @@
+ 
+ def admit(catalog):
+     required = {"format", "server", "database", "migrations", "schemas", "relations", "functions", "columns", "roles", "memberships", "default_acls", "types", "dependencies", "settings", "policies", "triggers", "indexes", "constraints", "extensions", "event_triggers"}
+-    if not required <= catalog.keys() or catalog["format"] != "collect-recovery-catalog-v1": raise ValueError("unsupported or incomplete catalog")
++    if not isinstance(catalog,dict) or not required <= catalog.keys() or catalog["format"] != "collect-recovery-catalog-v1": raise ValueError("unsupported or incomplete catalog")
+     sizes = {"schemas":3,"relations":10,"functions":13,"columns":11,"roles":11,"memberships":6,"default_acls":4,"types":9,"dependencies":7}
+     for key,size in sizes.items():
+         if not isinstance(catalog[key],list) or any(not isinstance(r,list) or len(r)!=size for r in catalog[key]): raise ValueError("catalog row shape: "+key)
+     if not isinstance(catalog["database"],dict) or not {"acl","owner","name"} <= catalog["database"].keys(): raise ValueError("catalog database shape")
+-    for key,indexes in {"schemas":(0,),"relations":(0,1),"functions":(0,1,2),"columns":(0,1,2),"roles":(0,)}.items():
++    for key,indexes in {"schemas":(0,),"relations":(0,1),"functions":(0,1,2),"types":(0,1),"columns":(0,1,2),"roles":(0,)}.items():
+         ids=[tuple(r[i] for i in indexes) for r in catalog[key]]
+         if len(ids)!=len(set(ids)): raise ValueError("duplicate catalog identity: "+key)
+     if catalog["migrations"] != sorted(set(catalog["migrations"])): raise ValueError("migration catalog ordering/duplicates")
+@@ -346,14 +360,15 @@
+ 
+ def build(root, catalog_paths, output, replay_migrations=None):
+     inputs=[]; catalogs=[]
++    admit_catalog_paths(catalog_paths)
+     for path in catalog_paths:
+-        raw=path.read_bytes(); value=json.loads(raw); admit(value)
++        raw=required_bytes(path); value=json.loads(raw); admit(value)
+         catalogs.append(value); inputs.append({"path":str(path.relative_to(root)) if path.is_relative_to(root) else str(path),"sha256":sha(raw),"kind":"effective-catalog"})
+     catalog=catalogs[0]
+     if any(canonical(c) != canonical(catalog) for c in catalogs[1:]): raise ValueError("peer final catalogs differ")
+     sources,excluded=maintained_sources(root); sites=[]
+     for path in sources:
+-        raw=path.read_bytes(); relative=path.relative_to(root).as_posix()
++        raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+     migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; versions=[]
+@@ -361,7 +376,7 @@
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+         if not m: raise ValueError("migration filename")
+-        version=m.group(1); versions.append(version); raw=path.read_bytes(); relative=path.relative_to(root).as_posix()
++        version=m.group(1); versions.append(version); raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"original-migration","version":version,"represented_in_catalog":version in catalog["migrations"]})
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
+     if versions != sorted(set(versions)): raise ValueError("migration source ordering/duplicates")
+@@ -370,8 +385,9 @@
+         captured=sorted(replay_migrations.glob("*.sql"))
+         if [p.name for p in captured]!=[p.name for p in migration_files]:raise ValueError("replayed migration set differs")
+         for captured_path,source_path in zip(captured,migration_files):
+-            if captured_path.is_symlink() or captured_path.read_bytes()!=source_path.read_bytes():raise ValueError("replayed migration byte drift: "+source_path.name)
+-            inputs.append({"path":captured_path.relative_to(root).as_posix() if captured_path.is_relative_to(root) else str(captured_path),"sha256":sha(captured_path.read_bytes()),"kind":"replayed-original-migration","version":source_path.name.split("_",1)[0]})
++            captured_raw=required_bytes(captured_path)
++            if captured_raw!=required_bytes(source_path):raise ValueError("replayed migration byte drift: "+source_path.name)
++            inputs.append({"path":captured_path.relative_to(root).as_posix() if captured_path.is_relative_to(root) else str(captured_path),"sha256":sha(captured_raw),"kind":"replayed-original-migration","version":source_path.name.split("_",1)[0]})
+         replay_bound=True
+     objects=normalize_objects(catalog); matched=[]; sql_references=[]
+     by_body=collections.defaultdict(list)
+@@ -387,19 +403,19 @@
+             for site in sql_sites(d,catalog):
+                 sql_references.append({"caller_function":obj["identity"],"source_path":d["path"],"source_line":d["line"],**site})
+             matched.append(obj["identity"])
+-    config_path=root/"supabase/config.toml"; config_raw=config_path.read_bytes(); config=tomllib.loads(config_raw.decode())
++    config_path=root/"supabase/config.toml"; config_raw=required_bytes(config_path); config=tomllib.loads(config_raw.decode())
+     inputs.append({"path":"supabase/config.toml","sha256":sha(config_raw),"kind":"local-platform-config"})
+     for relative in ["scripts/sql/collect_recovery_source_catalog.sql","scripts/sql/receipt_transport_platform_prerequisites.sql","scripts/supabase_schema_inventory.sh","scripts/audits/collect_migration_history_review.rb"]:
+         p=root/relative
+-        if p.exists(): inputs.append({"path":relative,"sha256":sha(p.read_bytes()),"kind":"catalog-or-platform-setup"})
++        if p.exists(): inputs.append({"path":relative,"sha256":sha(required_bytes(p)),"kind":"catalog-or-platform-setup"})
+     this_script=Path(__file__).resolve()
+-    inputs.append({"path":this_script.relative_to(root).as_posix() if this_script.is_relative_to(root) else str(this_script),"sha256":sha(this_script.read_bytes()),"kind":"generator-proposal"})
++    inputs.append({"path":this_script.relative_to(root).as_posix() if this_script.is_relative_to(root) else str(this_script),"sha256":sha(required_bytes(this_script)),"kind":"generator-proposal"})
+     reviewed=[];seams_path=this_script.with_name("reviewed-caller-seams.json")
+-    if this_script.is_relative_to(root) and seams_path.exists():
+-        seams_raw=seams_path.read_bytes();seams=json.loads(seams_raw)
++    if this_script.is_relative_to(root):
++        seams_raw=required_bytes(seams_path);seams=json.loads(seams_raw)
+         if seams.get("format")!="collect-reviewed-caller-seams-v1":raise ValueError("reviewed seams format")
+         for case in seams["cases"]:
+-            p=root/case["path"];raw=p.read_bytes();source=raw.decode()
++            p=root/case["path"];raw=required_bytes(p);source=raw.decode()
+             if sha(raw)!=case["source_sha256"] or case["anchor"] not in source:raise ValueError("reviewed source seam drift: "+case["id"])
+             if source.count("\n",0,source.index(case["anchor"]))+1!=case["line"]:raise ValueError("reviewed seam line drift")
+             entry=dict(case);entry["candidate_targets"]=[target for name in case["reviewed_public_name_candidates"] for target in targets(name,catalog)]
+@@ -464,19 +480,26 @@
+     return summary
+ 
+ def verify_bundle(root, output):
+-    """Fresh readback: fail on changed input bytes, omissions, ACL loss or invalid targets."""
+-    manifest=json.loads((output/"input-manifest.json").read_text());doc=json.loads((output/"schema-domain-map.json").read_text())
++    """Read back admitted bytes and recompute every semantic artifact from those inputs."""
++    manifest=required_json(output/"input-manifest.json");doc=required_json(output/"schema-domain-map.json")
++    if not isinstance(manifest,dict) or manifest.get("format")!="collect-schema-domain-inputs-v1" or not isinstance(manifest.get("inputs"),list):raise ValueError("input manifest shape")
++    if not isinstance(doc,dict) or doc.get("format")!=FORMAT:raise ValueError("generated inventory shape")
+     inputs=manifest["inputs"]
+-    if doc["input_manifest_sha256"]!=sha(canonical(inputs)):raise ValueError("manifest binding changed")
++    if any(not isinstance(i,dict) or not all(isinstance(i.get(k),str) for k in ["path","kind","sha256"]) for i in inputs):raise ValueError("input manifest entry shape")
++    if len({(i["kind"],i["path"]) for i in inputs})!=len(inputs):raise ValueError("duplicate input manifest entry")
++    if doc.get("input_manifest_sha256")!=sha(canonical(inputs)):raise ValueError("manifest binding changed")
+     source_paths,_=maintained_sources(root)
+     if {p.relative_to(root).as_posix() for p in source_paths}!={i["path"] for i in inputs if i["kind"]=="maintained-caller-source"}:raise ValueError("maintained caller source set drift")
+     if {p.relative_to(root).as_posix() for p in (root/"supabase/migrations").glob("*.sql")}!={i["path"] for i in inputs if i["kind"]=="original-migration"}:raise ValueError("migration source set drift")
+     for item in inputs:
+         p=Path(item["path"]);p=p if p.is_absolute() else root/p
+-        if p.is_symlink() or sha(p.read_bytes())!=item["sha256"]:raise ValueError("input drift: "+item["path"])
++        if sha(required_bytes(p))!=item["sha256"]:raise ValueError("input drift: "+item["path"])
+     paths=[Path(i["path"]) if Path(i["path"]).is_absolute() else root/i["path"] for i in inputs if i["kind"]=="effective-catalog"]
+-    catalog=json.loads(paths[0].read_text());admit(catalog)
+-    if any(canonical(json.loads(p.read_text()))!=canonical(catalog) for p in paths[1:]):raise ValueError("peer catalog changed")
++    admit_catalog_paths(paths)
++    catalog=required_json(paths[0]);admit(catalog)
++    for path in paths[1:]:
++        peer=required_json(path);admit(peer)
++        if canonical(peer)!=canonical(catalog):raise ValueError("peer catalog changed")
+     objects=doc["objects"]
+     identities={(o["kind"],o["identity"]) for o in objects}
+     if len(identities)!=len(objects):raise ValueError("duplicate mapped object")
+@@ -489,13 +512,30 @@
+     if set(doc["catalog_supporting_records"])!=set(catalog)-{"schemas","relations","functions","types"}:raise ValueError("supporting category omitted")
+     target_ids={o["identity"] for o in objects}
+     for key in ["caller_sites","sql_reference_sites"]:
+-        for site in doc[key]:
++        if key in doc and not isinstance(doc[key],list):raise ValueError("generated category shape: "+key)
++        for site in doc.get(key,[]):
+             if any(t not in target_ids for t in site["candidate_targets"]):raise ValueError("invented target")
+-    for case in doc["reviewed_caller_seams"]:
+-        source=(root/case["path"]).read_bytes()
++    for case in doc.get("reviewed_caller_seams",[]):
++        source=required_bytes(root/case["path"])
+         if sha(source)!=case["source_sha256"] or case["anchor"] not in source.decode():raise ValueError("reviewed seam source drift")
+         if any(t not in target_ids for t in case["candidate_targets"]):raise ValueError("invented reviewed seam target")
+-    return {"status":"PASS", "input_files_verified":len(inputs),"catalog_objects_verified":len(objects),"catalog_categories_preserved":len(catalog),"grants_verified":len(doc["grants"]),"catalog_matches_current_migration_names":doc["summary"]["catalog_matches_current_migration_names"],"replayed_migration_bytes_match":doc["summary"]["replayed_migration_bytes_match"],"acceptance":doc["summary"]["acceptance"]}
++    replay_paths=[Path(i["path"]) if Path(i["path"]).is_absolute() else root/i["path"] for i in inputs if i["kind"]=="replayed-original-migration"]
++    replay_parents={p.parent for p in replay_paths}
++    if len(replay_parents)>1:raise ValueError("replay migration inputs have multiple directories")
++    replay_directory=next(iter(replay_parents)) if replay_parents else None
++    # Recompute in an independent temporary output. No stored mapping, counter,
++    # classification, resolution or gap supplies the expected result.
++    with tempfile.TemporaryDirectory(prefix="collect-domain-map-recompute-") as tmp:
++        expected=Path(tmp)/"generated"
++        summary=build(root,paths,expected,replay_directory)
++        for name in SEMANTIC_OUTPUTS:
++            actual_bytes=required_bytes(output/name);expected_bytes=required_bytes(expected/name)
++            if name.endswith(".json"):
++                try:equal=canonical(json.loads(actual_bytes))==canonical(json.loads(expected_bytes))
++                except (ValueError,UnicodeDecodeError) as error:raise ValueError("invalid generated JSON: "+name) from error
++            else:equal=actual_bytes==expected_bytes
++            if not equal:raise ValueError("semantic recomputation mismatch: "+name)
++    return {"status":"PASS", "input_files_verified":len(inputs),"catalog_objects_verified":len(objects),"catalog_categories_preserved":len(catalog),"grants_verified":len(doc["grants"]),"semantic_output_files_verified":len(SEMANTIC_OUTPUTS),"verification_method":"full-independent-recomputation","catalog_matches_current_migration_names":summary["catalog_matches_current_migration_names"],"replayed_migration_bytes_match":summary["replayed_migration_bytes_match"],"acceptance":summary["acceptance"]}
+ 
+ def main():
+     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--root",type=Path,default=Path.cwd())
+@@ -504,7 +544,7 @@
+     parser.add_argument("--require-current",action="store_true");parser.add_argument("--verify",action="store_true");args=parser.parse_args()
+     if not args.verify and not args.catalog:parser.error("--catalog is required for generation")
+     try:summary=verify_bundle(args.root.resolve(),args.output.resolve()) if args.verify else build(args.root.resolve(),[p.resolve() for p in args.catalog],args.output.resolve(),args.replay_migrations.resolve() if args.replay_migrations else None)
+-    except (ValueError,UnicodeDecodeError,KeyError,json.JSONDecodeError) as e:print(str(e),file=sys.stderr);return 2
++    except (ValueError,UnicodeDecodeError,KeyError,TypeError,OSError,json.JSONDecodeError) as e:print(str(e),file=sys.stderr);return 2
+     print(json.dumps(summary,sort_keys=True))
+     return 2 if args.require_current and (not summary["catalog_matches_current_migration_names"] or summary["replayed_migration_bytes_match"] is not True) else 0
+ 

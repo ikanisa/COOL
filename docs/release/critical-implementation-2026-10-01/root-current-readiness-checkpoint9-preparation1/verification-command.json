@@ -1,0 +1,24 @@
+{
+  "kind": "actual_private_exact_proposal_readonly_verification",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation1/integrate_checkpoint9.py",
+    "--controller-sha256",
+    "5a300638a250952f3114cf5b78ba788cfbd451f535eaf00a8044c69accd51aff",
+    "--admission-sha256",
+    "81ab05146e1d7058e78ec3fb340af5b0b0ef110b8aaf57400ff6d222f8897b1b",
+    "--verify-only"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "bound_seconds": 60,
+  "actual_seconds": 0.04244829200615641,
+  "exit_code": 0,
+  "stdout_sha256": "a7af7f2ea339974671c266af7ee82e087675723de98e854cddeaa4edf4889857",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "canonical_writes": false,
+  "tests_builds_cache_network_provider_calls": false,
+  "prior_successful_readonly_validation_retained": "verification-attempt1",
+  "reverification_reason": "Final apply controller added explicit partial-write attempt/hash receipts and post-integration affected live input guards; no proposal bytes changed and no test/build rerun."
+}

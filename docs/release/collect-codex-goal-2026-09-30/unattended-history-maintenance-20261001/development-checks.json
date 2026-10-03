@@ -1,0 +1,27 @@
+{
+  "kind": "earlier_tool_transcript_observations_not_final_bound_runs",
+  "observations": [
+    {
+      "check": "Initial TSC",
+      "exit_code": 0,
+      "source_before_after_binding": false
+    },
+    {
+      "check": "Initial four-file Node run",
+      "tests": 65,
+      "passed": 64,
+      "failed": 1,
+      "failure": "Missing predecessor gap was reconstructible; added explicit hole refusal.",
+      "source_before_after_binding": false
+    },
+    {
+      "check": "Intermediate history-file run",
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "source_before_after_binding": false,
+      "limit": "Later semantic timestamp guard/test additions are covered by checks-final instead."
+    }
+  ],
+  "raw_log_limit": "Preliminary tool output is in the conversation; no raw file log is claimed for these observations."
+}

@@ -1,0 +1,58 @@
+{
+  "BE08_complete": false,
+  "SQL_evaluated": false,
+  "all20_catalog_categories_exact": true,
+  "all2543_raw_objects_exact": true,
+  "all4157_grants_exact": true,
+  "caller_sites_and18seams_exact": true,
+  "canonical_changed": false,
+  "existing_function_AST_deltas": [
+    "build"
+  ],
+  "final_generated_output": "generated-current209-proposal2",
+  "final_generation_receipt": "generation-attempt2.json",
+  "focused12_actual_seconds": 1.241,
+  "focused12_final_receipt": "focused-tests-attempt3.json",
+  "full5_recomputation_receipt": "verification-attempt1.json",
+  "generation_seconds": 3.657,
+  "maintained1091_inputs_exact_before_after": true,
+  "maintained12_exact": true,
+  "maintained_changed": false,
+  "new_function_names": [],
+  "new_source_status_count": 34,
+  "old49_method_AST_count": 49,
+  "original49_source_bytes_preserved": true,
+  "proposed_files": [
+    {
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "sha256": "aa69eb5e75578f4b20556223067871d4f291c495bde0e57c65812062835aea15"
+    },
+    {
+      "path": "scripts/audits/collect_schema_function_lineage.py",
+      "sha256": "c7805a1c57208ca1d70932b959c999f984249bf886c0c9ab9bc5ecf5a0013b26"
+    },
+    {
+      "path": "scripts/tests/collect_schema_function_lineage_test.py",
+      "sha256": "e77a03a2f4e696c40b1e1e5e550fd4dde498b3db4c003968cbe03462680ff7e8"
+    },
+    {
+      "path": "scripts/tests/collect_schema_domain_map_test.py",
+      "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+    }
+  ],
+  "remaining_platform_gaps_by_schema": {
+    "auth": 4,
+    "cron": 7,
+    "extensions": 55,
+    "graphql": 6,
+    "graphql_public": 1,
+    "net": 12,
+    "pgbouncer": 1,
+    "vault": 5
+  },
+  "remaining_reasons": {
+    "no-literal-effective-name-definition": 91
+  },
+  "runtime_authority_assigned": false,
+  "verification_seconds": 3.682
+}

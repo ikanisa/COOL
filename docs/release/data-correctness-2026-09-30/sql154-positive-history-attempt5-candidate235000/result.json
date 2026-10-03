@@ -1,0 +1,1970 @@
+{
+  "aggregate_boundary_observation": {
+    "actual_response": null,
+    "rejected": true,
+    "rolled_back": true,
+    "sql_error": "t payment.id, payment.collection_id, payment.amount_rwf,\n      payment.posted_at,\n      coalesce(payment.contributor_user_id = actor, false) as own,\n      case when payment.contributor_user_id = actor\n        then payment.transaction_id end as transaction_id,\n      case when payment.contributor_user_id = actor then 'You'\n        when payment.anonymity_choice = 'public_id'\n          and payment.contributor_public_id is not null\n          then 'Collect ID ' || payment.contributor_public_id\n        else 'Anonymous supporter' end as supporter_label,\n      collection.title,\n      payment.collection_id in (select id from readable) as can_read_collection\n    from public.payments payment\n    join public.collections collection on collection.id = payment.collection_id\n    where payment.status = 'posted' and payment.currency = 'RWF'\n      and (p_collection_id is null or payment.collection_id = p_collection_id)\n      and (payment.contributor_user_id = actor\n        or payment.collection_id in (select id from readable))\n  ), matched as (\n    select * from scoped\n    where query_text = ''\n      or strpos(lower(supporter_label), query_text) > 0\n      or strpos(lower(coalesce(transaction_id, '')), query_text) > 0\n      or (can_read_collection and strpos(lower(title), query_text) > 0)\n  )\n  select collect_member_actions.exact_json_amount(count(*)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf), 0)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf) filter (where own), 0)),\n    coalesce(to_jsonb(array_agg(distinct collection_id::text\n      order by collection_id::text) filter (where own)), '[]'::jsonb),\n    -- A 256-bit XOR of per-row SHA-256 digests has constant aggregate space.\n    -- Row identity is included, so a changed/missing row changes the revision\n    -- with overwhelming probability; count also distinguishes cardinality.\n    md5(row(actor, p_collection_id, query_text, p_sort, count(*),\n      coalesce(bit_xor(('x' || encode(extensions.digest(\n        row(id, collection_id, amount_rwf, posted_at, own,\n          transaction_id, supporter_label)::text, 'sha256'), 'hex'))::bit(256)),\n        repeat('0', 256)::bit(256)))::text)\n                                                                             from matched\"\nPL/pgSQL function collect_member_actions.history_page(uuid,text,text,jsonb,integer) line 37 at SQL statement\nSQL function \"list_current_member_history_page\" statement 1\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+  },
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "artifact_sha256": {
+    "actual-history-wrapper-plans.json": "0a391b1b44b28cac34517909e2a071124b0ad680ba919b4eef25760e10e2811b",
+    "actual-member-balances.json": "09711e957a328f38303b58a65d80ea86f4bb9dd4d7851825a4e308adac46bee6",
+    "actual-member-history-pages.json": "e4d9b9d41b0a058b6e9b120cd3221133e190b4938fb7af9074c91909db270a36",
+    "financial-after-fixture-before-reads.json": "5b65bad10355c24f7b34af13025b57c12d8c88b706cb743f2cea108d1664d86a",
+    "synthetic-reconciliation-receipts.json": "ac2f2f013fc9abefe041573eed8cdab5f1631f708fbb7ec7fd83df5b5c270e05"
+  },
+  "candidate": {
+    "applied_only_to_disposable_clone": true,
+    "installed_in_shared_database": false,
+    "path": "supabase/migrations/20260930234000_exact_request_amounts.sql",
+    "sha256": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba"
+  },
+  "cases": [
+    {
+      "detail": {
+        "all_source_tables_catalog_cron_preserved": true,
+        "isolated_database_removed": true,
+        "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt5-candidate235000/unsafe-predecessor",
+        "recorder_sources_unchanged": true,
+        "result_sha256": "1d51c48701c4c423e5f82f13d25db22f0e681488cf8444ff65bbf7d1218fef3f",
+        "source_rows_copied": false,
+        "status": "pass_scoped"
+      },
+      "name": "exact235 aborts atomically on genuine unsafe POSTED predecessor",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "equal": true
+      },
+      "name": "schema clone preserves actual API bodies attributes and application ACLs",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "changed": [],
+        "clone_count": 5972,
+        "clone_only": [],
+        "equal": true,
+        "normalization": "No-owner restore; OWNER ACL identities normalized; PUBLIC/anon/authenticated/service_role ACLs compared; internal platform-role grants not certified",
+        "source_count": 5972,
+        "source_only": []
+      },
+      "name": "schema clone preserves exhaustive normalized catalog and every application API ACL",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "all_catalog_entries_after": 5977,
+        "all_catalog_entries_before": 5975,
+        "only_four_reviewed_bodies_changed": [
+          "routine:collect_member_actions.history_page(uuid,text,text,jsonb,integer)",
+          "routine:public.confirm_provider_payment(uuid,text,text,text,text,bigint,timestamp with time zone,text)",
+          "routine:public.list_current_member_collection_balances()",
+          "routine:public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text)"
+        ],
+        "only_private_helper_and_validated_posted_constraint_added": true,
+        "owner_restore_normalization_explicit": true,
+        "signatures_defaults_acls_attributes_preserved": true
+      },
+      "name": "exact235 preserves all catalog contracts except reviewed four bodies and private bounds",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "all_table_rows_preserved": true,
+        "unsafe_review_observations_retained": true
+      },
+      "name": "exact235 retains legitimate and unsafe REVIEW observations without row rewriting",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_service_public_finalizer": true,
+        "all_rows_and_controls_preserved": true,
+        "amount": 9007199254740992,
+        "exact_denial_before_financial_mutation": true,
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(p_amount_rwf)\"\nPL/pgSQL function public.confirm_provider_payment(uuid,text,text,text,text,bigint,timestamp with time zone,text) line 22 at PERFORM\nPL/pgSQL function public.process_provider_finality_event(uuid,text,text,uuid,text,text,text,text,bigint,timestamp with time zone,text,text,text) line 72 at assignment\nPL/pgSQL function public.finalize_approved_reconciliation_v2(uuid) line 26 at assignment\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "canonical confirmation rejects previously approved unsafe amount 9007199254740992",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_service_public_finalizer": true,
+        "all_rows_and_controls_preserved": true,
+        "amount": 9223372036854775807,
+        "exact_denial_before_financial_mutation": true,
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(p_amount_rwf)\"\nPL/pgSQL function public.confirm_provider_payment(uuid,text,text,text,text,bigint,timestamp with time zone,text) line 22 at PERFORM\nPL/pgSQL function public.process_provider_finality_event(uuid,text,text,uuid,text,text,text,text,bigint,timestamp with time zone,text,text,text) line 72 at assignment\nPL/pgSQL function public.finalize_approved_reconciliation_v2(uuid) line 26 at assignment\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "canonical confirmation rejects previously approved unsafe amount 9223372036854775807",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "0",
+        "exact_integer": true
+      },
+      "name": "private exact helper owner arithmetic preserves 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "1",
+        "exact_integer": true
+      },
+      "name": "private exact helper owner arithmetic preserves 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "9007199254740991",
+        "exact_integer": true
+      },
+      "name": "private exact helper owner arithmetic preserves 9007199254740991",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "null",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic null",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "-1",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic -1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "0.5",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic 0.5",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "9007199254740992",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic 9007199254740992",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "'NaN'",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic 'NaN'",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "'Infinity'",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic 'Infinity'",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "amount": "'-Infinity'",
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "private exact helper refuses nonexact arithmetic '-Infinity'",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "private exact helper is inaccessible to direct API role anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "private exact helper is inaccessible to direct API role authenticated",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "private exact helper is inaccessible to direct API role service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual": {
+          "confirmations": 69,
+          "journal": 69,
+          "ledger": 138,
+          "posted": 69,
+          "unbalanced": 0
+        },
+        "fixture_provenance": "SYNTHETIC mechanical review inputs via genuine public API/trigger route"
+      },
+      "name": "69 genuine reviewed synthetic postings retain confirmed journal and balance triggers",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "financial_changed": true,
+        "independent_provider_truth": false,
+        "provider_called": false
+      },
+      "name": "synthetic posting is a deliberate financial change, not provider settlement evidence",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040066",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065",
+          "momo:99640000-0000-4000-8000-000000040067"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 9007199254740991,
+        "total_count": 67,
+        "windows": 10
+      },
+      "name": "full nonzero history typed tie order and complete pagination newest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 2,
+        "own_amount": 56,
+        "total_amount": 9007199254740981,
+        "total_count": 65,
+        "windows": 33
+      },
+      "name": "group-scoped history full count/totals tie order newest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065",
+          "momo:99640000-0000-4000-8000-000000040067",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040066"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 9007199254740991,
+        "total_count": 67,
+        "windows": 10
+      },
+      "name": "full nonzero history typed tie order and complete pagination oldest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040064"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 2,
+        "own_amount": 56,
+        "total_amount": 9007199254740981,
+        "total_count": 65,
+        "windows": 33
+      },
+      "name": "group-scoped history full count/totals tie order oldest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040065",
+          "momo:99640000-0000-4000-8000-000000040067",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040066",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040061"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 9007199254740991,
+        "total_count": 67,
+        "windows": 10
+      },
+      "name": "full nonzero history typed tie order and complete pagination highest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040065",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040061"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 2,
+        "own_amount": 56,
+        "total_amount": 9007199254740981,
+        "total_count": 65,
+        "windows": 33
+      },
+      "name": "group-scoped history full count/totals tie order highest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040066",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040067",
+          "momo:99640000-0000-4000-8000-000000040065"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 9007199254740991,
+        "total_count": 67,
+        "windows": 10
+      },
+      "name": "full nonzero history typed tie order and complete pagination lowest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040065"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 2,
+        "own_amount": 56,
+        "total_amount": 9007199254740981,
+        "total_count": 65,
+        "windows": 33
+      },
+      "name": "group-scoped history full count/totals tie order lowest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040067"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 63,
+        "total_count": 23,
+        "windows": 4
+      },
+      "name": "matched history filters exact complete count/sums/privacy You",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040067"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 63,
+        "total_amount": 63,
+        "total_count": 23,
+        "windows": 4
+      },
+      "name": "matched history filters exact complete count/sums/privacy   yOu  ",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 9007199254740925,
+        "total_count": 43,
+        "windows": 7
+      },
+      "name": "matched history filters exact complete count/sums/privacy Collect ID 421379",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040066"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 3,
+        "total_count": 1,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy Anonymous supporter",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040002",
+          "momo:99640000-0000-4000-8000-000000040004",
+          "momo:99640000-0000-4000-8000-000000040006",
+          "momo:99640000-0000-4000-8000-000000040008",
+          "momo:99640000-0000-4000-8000-000000040010",
+          "momo:99640000-0000-4000-8000-000000040012",
+          "momo:99640000-0000-4000-8000-000000040014",
+          "momo:99640000-0000-4000-8000-000000040016",
+          "momo:99640000-0000-4000-8000-000000040018",
+          "momo:99640000-0000-4000-8000-000000040020",
+          "momo:99640000-0000-4000-8000-000000040022",
+          "momo:99640000-0000-4000-8000-000000040024",
+          "momo:99640000-0000-4000-8000-000000040026",
+          "momo:99640000-0000-4000-8000-000000040028",
+          "momo:99640000-0000-4000-8000-000000040030",
+          "momo:99640000-0000-4000-8000-000000040032",
+          "momo:99640000-0000-4000-8000-000000040034",
+          "momo:99640000-0000-4000-8000-000000040036",
+          "momo:99640000-0000-4000-8000-000000040038",
+          "momo:99640000-0000-4000-8000-000000040040",
+          "momo:99640000-0000-4000-8000-000000040042",
+          "momo:99640000-0000-4000-8000-000000040044",
+          "momo:99640000-0000-4000-8000-000000040046",
+          "momo:99640000-0000-4000-8000-000000040048",
+          "momo:99640000-0000-4000-8000-000000040050",
+          "momo:99640000-0000-4000-8000-000000040052",
+          "momo:99640000-0000-4000-8000-000000040054",
+          "momo:99640000-0000-4000-8000-000000040056",
+          "momo:99640000-0000-4000-8000-000000040058",
+          "momo:99640000-0000-4000-8000-000000040060",
+          "momo:99640000-0000-4000-8000-000000040062",
+          "momo:99640000-0000-4000-8000-000000040064",
+          "momo:99640000-0000-4000-8000-000000040001",
+          "momo:99640000-0000-4000-8000-000000040003",
+          "momo:99640000-0000-4000-8000-000000040005",
+          "momo:99640000-0000-4000-8000-000000040007",
+          "momo:99640000-0000-4000-8000-000000040009",
+          "momo:99640000-0000-4000-8000-000000040011",
+          "momo:99640000-0000-4000-8000-000000040013",
+          "momo:99640000-0000-4000-8000-000000040015",
+          "momo:99640000-0000-4000-8000-000000040017",
+          "momo:99640000-0000-4000-8000-000000040019",
+          "momo:99640000-0000-4000-8000-000000040021",
+          "momo:99640000-0000-4000-8000-000000040023",
+          "momo:99640000-0000-4000-8000-000000040025",
+          "momo:99640000-0000-4000-8000-000000040027",
+          "momo:99640000-0000-4000-8000-000000040029",
+          "momo:99640000-0000-4000-8000-000000040031",
+          "momo:99640000-0000-4000-8000-000000040033",
+          "momo:99640000-0000-4000-8000-000000040035",
+          "momo:99640000-0000-4000-8000-000000040037",
+          "momo:99640000-0000-4000-8000-000000040039",
+          "momo:99640000-0000-4000-8000-000000040041",
+          "momo:99640000-0000-4000-8000-000000040043",
+          "momo:99640000-0000-4000-8000-000000040045",
+          "momo:99640000-0000-4000-8000-000000040047",
+          "momo:99640000-0000-4000-8000-000000040049",
+          "momo:99640000-0000-4000-8000-000000040051",
+          "momo:99640000-0000-4000-8000-000000040053",
+          "momo:99640000-0000-4000-8000-000000040055",
+          "momo:99640000-0000-4000-8000-000000040057",
+          "momo:99640000-0000-4000-8000-000000040059",
+          "momo:99640000-0000-4000-8000-000000040061",
+          "momo:99640000-0000-4000-8000-000000040063",
+          "momo:99640000-0000-4000-8000-000000040065"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 56,
+        "total_amount": 9007199254740981,
+        "total_count": 65,
+        "windows": 10
+      },
+      "name": "matched history filters exact complete count/sums/privacy synthetic private data",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040066"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 3,
+        "total_count": 1,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy Synthetic public data",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040067"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 7,
+        "total_amount": 7,
+        "total_count": 1,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy SYNTH-OWN-UNREADABLE",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy SYNTH-MECHANICAL-001",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy SYNTH-HIDDEN-PRIVATE",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy Synthetic foreign private",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy SYNTH-NOT-CONFIRMED",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "matched history filters exact complete count/sums/privacy %' OR true --",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040067"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 7,
+        "total_amount": 7,
+        "total_count": 1,
+        "windows": 1
+      },
+      "name": "history exact ownership selected group 99640000-0000-4000-8000-000000020003",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [
+          "momo:99640000-0000-4000-8000-000000040066"
+        ],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 3,
+        "total_count": 1,
+        "windows": 1
+      },
+      "name": "history exact ownership selected group 99640000-0000-4000-8000-000000020002",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "history exact ownership selected group 99640000-0000-4000-8000-000000020004",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_id_order": [],
+        "full_aggregate_not_page_sum": true,
+        "limit": 7,
+        "own_amount": 0,
+        "total_amount": 0,
+        "total_count": 0,
+        "windows": 1
+      },
+      "name": "history exact ownership selected group 99640000-0000-4000-8000-000000099999",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "unavailable": {
+          "items": [],
+          "next_cursor": null,
+          "own_collection_ids": [],
+          "own_totals": {},
+          "revision": "0c7a8af01c7138ea25f52caa8d40d398",
+          "total_count": 0,
+          "totals": {}
+        },
+        "zero": {
+          "items": [],
+          "next_cursor": null,
+          "own_collection_ids": [],
+          "own_totals": {},
+          "revision": "942122fe4ce12a552597114fe004937b",
+          "total_count": 0,
+          "totals": {}
+        }
+      },
+      "name": "known zero history totals differ from nonzero and inaccessible group",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "P0001"
+      },
+      "name": "actual history rejects stale revision",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "P0001"
+      },
+      "name": "actual history rejects forged anchor",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "P0001"
+      },
+      "name": "actual history rejects foreign hidden anchor",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "P0001"
+      },
+      "name": "changed filter rejects borrowed continuation revision",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual": [
+          {
+            "balances": [
+              {
+                "amount_raised_minor": 9007199254740981,
+                "currency": "RWF",
+                "current_user_balance_minor": 56
+              }
+            ],
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "supporter_count": 2
+          },
+          {
+            "balances": [
+              {
+                "amount_raised_minor": 3,
+                "currency": "RWF",
+                "current_user_balance_minor": 0
+              }
+            ],
+            "collection_id": "99640000-0000-4000-8000-000000020002",
+            "supporter_count": null
+          },
+          {
+            "balances": [
+              {
+                "amount_raised_minor": 0,
+                "currency": "RWF",
+                "current_user_balance_minor": 0
+              }
+            ],
+            "collection_id": "99640000-0000-4000-8000-000000020004",
+            "supporter_count": 0
+          }
+        ]
+      },
+      "name": "nonzero balance projections are complete sums, supporters unknown distinct from zero",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual": {
+          "items": [
+            {
+              "amount_minor": 9007199254740991,
+              "collection_id": "99640000-0000-4000-8000-000000020005",
+              "currency": "RWF",
+              "is_current_user_contribution": true,
+              "payment_id": "momo:99640000-0000-4000-8000-000000040069",
+              "posted_at": "2026-09-29T12:00:00+00:00",
+              "rail": "rwanda_momo",
+              "supporter_label": "You",
+              "transaction_id": "SYNTH-EXACT-MAX"
+            }
+          ],
+          "next_cursor": null,
+          "own_collection_ids": [
+            "99640000-0000-4000-8000-000000020005"
+          ],
+          "own_totals": {
+            "RWF": 9007199254740991
+          },
+          "revision": "b1c63da5878f52c203c0fb4420e30ca3",
+          "total_count": 1,
+          "totals": {
+            "RWF": 9007199254740991
+          }
+        }
+      },
+      "name": "genuine max-exact individual payment and max-exact aggregate JSON receipt",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "minimum": 1
+      },
+      "name": "genuine minimum positive payment remains exact",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "measurements": [
+          {
+            "query": "",
+            "server_execution_ms": 79.235,
+            "sort": "newest"
+          },
+          {
+            "query": "You",
+            "server_execution_ms": 95.062,
+            "sort": "newest"
+          },
+          {
+            "query": "",
+            "server_execution_ms": 26.367,
+            "sort": "oldest"
+          },
+          {
+            "query": "You",
+            "server_execution_ms": 14.992,
+            "sort": "oldest"
+          },
+          {
+            "query": "",
+            "server_execution_ms": 18.894,
+            "sort": "highest"
+          },
+          {
+            "query": "You",
+            "server_execution_ms": 28.031,
+            "sort": "highest"
+          },
+          {
+            "query": "",
+            "server_execution_ms": 70.502,
+            "sort": "lowest"
+          },
+          {
+            "query": "You",
+            "server_execution_ms": 56.184,
+            "sort": "lowest"
+          }
+        ],
+        "nested_query_plan_certified": false,
+        "production_scale_acceptance": false
+      },
+      "name": "actual positive history SQL wrapper execution measurements all four sorts and own filter",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "after": {
+          "collect_hybrid.collection_balances": {
+            "rows": 4,
+            "sha256": "5508110222ae11c5b901d5e2edcebf979da06f508e52ec73c9d7420e67434421"
+          },
+          "collect_hybrid.member_balances": {
+            "rows": 5,
+            "sha256": "456fca0affbe3df912091c021dffbfeda02c813a4cb6eb4d5cf0e5b2ef73c889"
+          },
+          "collect_hybrid.momo_balance_snapshots": {
+            "rows": 69,
+            "sha256": "b806307dbba48707c2706f8625bb3f3b36b59a84966108ea751a70caf144d24d"
+          },
+          "collect_hybrid.momo_journal_entries": {
+            "rows": 69,
+            "sha256": "bc9675c7dbef4c51ca37b6ada8f655524670c5f8085644ecd9c3a28d66b32edf"
+          },
+          "collect_hybrid.momo_journal_lines": {
+            "rows": 138,
+            "sha256": "17af63b422b631adda4693bccb17bcf5955a77bd1547266d0a50972927f58e9c"
+          },
+          "collect_hybrid.sms_notification_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_outbox": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_operator_heartbeats": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_security.reconciliation_reviews": {
+            "rows": 71,
+            "sha256": "22965039bdfa72994e62f3e8ead78111d3a7018b4cd91d66f956d0bb7f0786c7"
+          },
+          "public.audit_logs": {
+            "rows": 280,
+            "sha256": "717e8e568d0be15a08a5f9fcd13932faab01a3a31ef159e438ad36f9c86a0146"
+          },
+          "public.ledger_entries": {
+            "rows": 138,
+            "sha256": "4f1d006a7d3ad7f2c65502e6f58dfd303ca7995e30d85bc5d8e78b60309b71db"
+          },
+          "public.notification_deliveries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_delivery_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_events": {
+            "rows": 68,
+            "sha256": "0ad49a4931723f8108441416c978bc703ca93d0d39c1715c415ca49561ddc746"
+          },
+          "public.payment_allocations": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payment_provider_confirmations": {
+            "rows": 69,
+            "sha256": "e1abc58e41cdc1da22a57d664ddf2ff35213e5e4bcb58e763cc1c85cc4ac9528"
+          },
+          "public.payments": {
+            "rows": 72,
+            "sha256": "23050ac5d5c6a451d72a6566da3377fc5944969128447519d49da634c273fe6c"
+          },
+          "public.provider_finality_requests": {
+            "rows": 69,
+            "sha256": "abfb7d2d7077206df974dfc98870465e2f72f20d1f37b174d16a0c88a412d112"
+          }
+        },
+        "before": {
+          "collect_hybrid.collection_balances": {
+            "rows": 4,
+            "sha256": "5508110222ae11c5b901d5e2edcebf979da06f508e52ec73c9d7420e67434421"
+          },
+          "collect_hybrid.member_balances": {
+            "rows": 5,
+            "sha256": "456fca0affbe3df912091c021dffbfeda02c813a4cb6eb4d5cf0e5b2ef73c889"
+          },
+          "collect_hybrid.momo_balance_snapshots": {
+            "rows": 69,
+            "sha256": "b806307dbba48707c2706f8625bb3f3b36b59a84966108ea751a70caf144d24d"
+          },
+          "collect_hybrid.momo_journal_entries": {
+            "rows": 69,
+            "sha256": "bc9675c7dbef4c51ca37b6ada8f655524670c5f8085644ecd9c3a28d66b32edf"
+          },
+          "collect_hybrid.momo_journal_lines": {
+            "rows": 138,
+            "sha256": "17af63b422b631adda4693bccb17bcf5955a77bd1547266d0a50972927f58e9c"
+          },
+          "collect_hybrid.sms_notification_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_outbox": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_operator_heartbeats": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_security.reconciliation_reviews": {
+            "rows": 71,
+            "sha256": "22965039bdfa72994e62f3e8ead78111d3a7018b4cd91d66f956d0bb7f0786c7"
+          },
+          "public.audit_logs": {
+            "rows": 280,
+            "sha256": "717e8e568d0be15a08a5f9fcd13932faab01a3a31ef159e438ad36f9c86a0146"
+          },
+          "public.ledger_entries": {
+            "rows": 138,
+            "sha256": "4f1d006a7d3ad7f2c65502e6f58dfd303ca7995e30d85bc5d8e78b60309b71db"
+          },
+          "public.notification_deliveries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_delivery_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_events": {
+            "rows": 68,
+            "sha256": "0ad49a4931723f8108441416c978bc703ca93d0d39c1715c415ca49561ddc746"
+          },
+          "public.payment_allocations": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payment_provider_confirmations": {
+            "rows": 69,
+            "sha256": "e1abc58e41cdc1da22a57d664ddf2ff35213e5e4bcb58e763cc1c85cc4ac9528"
+          },
+          "public.payments": {
+            "rows": 72,
+            "sha256": "23050ac5d5c6a451d72a6566da3377fc5944969128447519d49da634c273fe6c"
+          },
+          "public.provider_finality_requests": {
+            "rows": 69,
+            "sha256": "abfb7d2d7077206df974dfc98870465e2f72f20d1f37b174d16a0c88a412d112"
+          }
+        }
+      },
+      "name": "all history/query/balance reads preserve legitimate financial fingerprints",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_response": null,
+        "amount": 0,
+        "exact_bound_denial": true,
+        "only_synthetic_mechanical_inputs": true,
+        "rejected": true,
+        "rolled_back": true,
+        "sql_error": "ERROR:  23514: new row for relation \"payments\" violates check constraint \"payments_amount_rwf_check\"\nDETAIL:  Failing row contains (99640000-0000-4000-8000-000000049901, null, null, 99640000-0000-4000-8000-000000020005, 99640000-0000-4000-8000-000000000003, 287848, 99640000-0000-4000-8000-000000000003, 29170e54704bfb009c6a6d2e7990374b9c30370146ed4f4cf30a62b5316a6e1d, 0, RWF, SYNTH-UNSAFE-PRECISION, manual_admin, review, public_id, null, 2026-09-30 23:31:50.157956+00, mtn_momo, 99640000-0000-4000-8000-000000000003).\nSCHEMA NAME:  public\nTABLE NAME:  payments\nCONSTRAINT NAME:  payments_amount_rwf_check\nLOCATION:  ExecConstraints, execMain.c:2033\n"
+      },
+      "name": "review input plus genuine finalizer refuses nonexact money 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_response": null,
+        "amount": -1,
+        "exact_bound_denial": true,
+        "only_synthetic_mechanical_inputs": true,
+        "rejected": true,
+        "rolled_back": true,
+        "sql_error": "ERROR:  23514: new row for relation \"payments\" violates check constraint \"payments_amount_rwf_check\"\nDETAIL:  Failing row contains (99640000-0000-4000-8000-000000049901, null, null, 99640000-0000-4000-8000-000000020005, 99640000-0000-4000-8000-000000000003, 287848, 99640000-0000-4000-8000-000000000003, 29170e54704bfb009c6a6d2e7990374b9c30370146ed4f4cf30a62b5316a6e1d, -1, RWF, SYNTH-UNSAFE-PRECISION, manual_admin, review, public_id, null, 2026-09-30 23:31:53.332383+00, mtn_momo, 99640000-0000-4000-8000-000000000003).\nSCHEMA NAME:  public\nTABLE NAME:  payments\nCONSTRAINT NAME:  payments_amount_rwf_check\nLOCATION:  ExecConstraints, execMain.c:2033\n"
+      },
+      "name": "review input plus genuine finalizer refuses nonexact money -1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_response": null,
+        "amount": 9007199254740992,
+        "exact_bound_denial": true,
+        "only_synthetic_mechanical_inputs": true,
+        "rejected": true,
+        "rolled_back": true,
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(payment_row.amount_rwf)\"\nPL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 21 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "review input plus genuine finalizer refuses nonexact money 9007199254740992",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_response": null,
+        "amount": 9223372036854775807,
+        "exact_bound_denial": true,
+        "only_synthetic_mechanical_inputs": true,
+        "rejected": true,
+        "rolled_back": true,
+        "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(payment_row.amount_rwf)\"\nPL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 21 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "review input plus genuine finalizer refuses nonexact money 9223372036854775807",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_response": null,
+        "rejected": true,
+        "rolled_back": true,
+        "sql_error": "t payment.id, payment.collection_id, payment.amount_rwf,\n      payment.posted_at,\n      coalesce(payment.contributor_user_id = actor, false) as own,\n      case when payment.contributor_user_id = actor\n        then payment.transaction_id end as transaction_id,\n      case when payment.contributor_user_id = actor then 'You'\n        when payment.anonymity_choice = 'public_id'\n          and payment.contributor_public_id is not null\n          then 'Collect ID ' || payment.contributor_public_id\n        else 'Anonymous supporter' end as supporter_label,\n      collection.title,\n      payment.collection_id in (select id from readable) as can_read_collection\n    from public.payments payment\n    join public.collections collection on collection.id = payment.collection_id\n    where payment.status = 'posted' and payment.currency = 'RWF'\n      and (p_collection_id is null or payment.collection_id = p_collection_id)\n      and (payment.contributor_user_id = actor\n        or payment.collection_id in (select id from readable))\n  ), matched as (\n    select * from scoped\n    where query_text = ''\n      or strpos(lower(supporter_label), query_text) > 0\n      or strpos(lower(coalesce(transaction_id, '')), query_text) > 0\n      or (can_read_collection and strpos(lower(title), query_text) > 0)\n  )\n  select collect_member_actions.exact_json_amount(count(*)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf), 0)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf) filter (where own), 0)),\n    coalesce(to_jsonb(array_agg(distinct collection_id::text\n      order by collection_id::text) filter (where own)), '[]'::jsonb),\n    -- A 256-bit XOR of per-row SHA-256 digests has constant aggregate space.\n    -- Row identity is included, so a changed/missing row changes the revision\n    -- with overwhelming probability; count also distinguishes cardinality.\n    md5(row(actor, p_collection_id, query_text, p_sort, count(*),\n      coalesce(bit_xor(('x' || encode(extensions.digest(\n        row(id, collection_id, amount_rwf, posted_at, own,\n          transaction_id, supporter_label)::text, 'sha256'), 'hex'))::bit(256)),\n        repeat('0', 256)::bit(256)))::text)\n                                                                             from matched\"\nPL/pgSQL function collect_member_actions.history_page(uuid,text,text,jsonb,integer) line 37 at SQL statement\nSQL function \"list_current_member_history_page\" statement 1\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+      },
+      "name": "history server does not publish nonexact aggregate JSON",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"with visible as (\n    select collection.id from public.collections collection\n    where public.user_can_read_collection(collection.id, auth.uid())\n      and collection.currency = 'RWF' and not collection.diaspora_enabled\n  )\n  select coalesce(jsonb_agg(jsonb_build_object(\n    'collection_id', visible.id,\n    'balances', jsonb_build_array(jsonb_build_object(\n      'currency', 'RWF',\n      'amount_raised_minor', collect_member_actions.exact_json_amount(coalesce(balance.confirmed_rwf, 0)),\n      'current_user_balance_minor', collect_member_actions.exact_json_amount(coalesce((\n        select sum(member_balance.confirmed_rwf)\n        from collect_hybrid.member_balances member_balance\n        where member_balance.collection_id = visible.id\n          and collect_hybrid.member_record_belongs_to_user(\n            member_balance.member_record_id, auth.uid()\n          )\n      ), 0))\n    )),\n    'supporter_count', (\n      select case when count(*) filter (where payment.contributor_user_id is null) > 0\n        then null else count(distinct payment.contributor_user_id) end\n      from public.payments payment\n      where payment.collection_id = visible.id and payment.status = 'posted'\n        and payment.currency = 'RWF'\n    )\n  ) order by visible.id), '[]'::jsonb)\n                from visible\n  left join collect_hybrid.collection_balances balance on balance.collection_id = visible.id\"\nPL/pgSQL function public.list_current_member_collection_balances() line 7 at SQL statement\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+        "all_rows_controls_and_operational_capture_preserved": true,
+        "description": "visible collection full confirmed aggregate",
+        "each_individual_amount_exact": true,
+        "expected_full_aggregate": 9007199254740992
+      },
+      "name": "server rejects nonexact visible collection full confirmed aggregate before JSON",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"with visible as (\n    select collection.id from public.collections collection\n    where public.user_can_read_collection(collection.id, auth.uid())\n      and collection.currency = 'RWF' and not collection.diaspora_enabled\n  )\n  select coalesce(jsonb_agg(jsonb_build_object(\n    'collection_id', visible.id,\n    'balances', jsonb_build_array(jsonb_build_object(\n      'currency', 'RWF',\n      'amount_raised_minor', collect_member_actions.exact_json_amount(coalesce(balance.confirmed_rwf, 0)),\n      'current_user_balance_minor', collect_member_actions.exact_json_amount(coalesce((\n        select sum(member_balance.confirmed_rwf)\n        from collect_hybrid.member_balances member_balance\n        where member_balance.collection_id = visible.id\n          and collect_hybrid.member_record_belongs_to_user(\n            member_balance.member_record_id, auth.uid()\n          )\n      ), 0))\n    )),\n    'supporter_count', (\n      select case when count(*) filter (where payment.contributor_user_id is null) > 0\n        then null else count(distinct payment.contributor_user_id) end\n      from public.payments payment\n      where payment.collection_id = visible.id and payment.status = 'posted'\n        and payment.currency = 'RWF'\n    )\n  ) order by visible.id), '[]'::jsonb)\n                from visible\n  left join collect_hybrid.collection_balances balance on balance.collection_id = visible.id\"\nPL/pgSQL function public.list_current_member_collection_balances() line 7 at SQL statement\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+        "all_rows_controls_and_operational_capture_preserved": true,
+        "description": "own and group confirmed aggregate",
+        "each_individual_amount_exact": true,
+        "expected_full_aggregate": 9007199254740992
+      },
+      "name": "server rejects nonexact own and group confirmed aggregate before JSON",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"with readable as materialized (\n    select collection.id from public.collections collection\n    where public.user_can_read_collection(collection.id, actor)\n  ), scoped as (\n    select payment.id, payment.collection_id, payment.amount_rwf,\n      payment.posted_at,\n      coalesce(payment.contributor_user_id = actor, false) as own,\n      case when payment.contributor_user_id = actor\n        then payment.transaction_id end as transaction_id,\n      case when payment.contributor_user_id = actor then 'You'\n        when payment.anonymity_choice = 'public_id'\n          and payment.contributor_public_id is not null\n          then 'Collect ID ' || payment.contributor_public_id\n        else 'Anonymous supporter' end as supporter_label,\n      collection.title,\n      payment.collection_id in (select id from readable) as can_read_collection\n    from public.payments payment\n    join public.collections collection on collection.id = payment.collection_id\n    where payment.status = 'posted' and payment.currency = 'RWF'\n      and (p_collection_id is null or payment.collection_id = p_collection_id)\n      and (payment.contributor_user_id = actor\n        or payment.collection_id in (select id from readable))\n  ), matched as (\n    select * from scoped\n    where query_text = ''\n      or strpos(lower(supporter_label), query_text) > 0\n      or strpos(lower(coalesce(transaction_id, '')), query_text) > 0\n      or (can_read_collection and strpos(lower(title), query_text) > 0)\n  )\n  select collect_member_actions.exact_json_amount(count(*)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf), 0)),\n    collect_member_actions.exact_json_amount(coalesce(sum(amount_rwf) filter (where own), 0)),\n    coalesce(to_jsonb(array_agg(distinct collection_id::text\n      order by collection_id::text) filter (where own)), '[]'::jsonb),\n    -- A 256-bit XOR of per-row SHA-256 digests has constant aggregate space.\n    -- Row identity is included, so a changed/missing row changes the revision\n    -- with overwhelming probability; count also distinguishes cardinality.\n    md5(row(actor, p_collection_id, query_text, p_sort, count(*),\n      coalesce(bit_xor(('x' || encode(extensions.digest(\n        row(id, collection_id, amount_rwf, posted_at, own,\n          transaction_id, supporter_label)::text, 'sha256'), 'hex'))::bit(256)),\n        repeat('0', 256)::bit(256)))::text)\n                                                                             from matched\"\nPL/pgSQL function collect_member_actions.history_page(uuid,text,text,jsonb,integer) line 37 at SQL statement\nSQL function \"list_current_member_history_page\" statement 1\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+        "all_rows_controls_and_operational_capture_preserved": true,
+        "description": "own and group history aggregate",
+        "each_individual_amount_exact": true,
+        "expected_full_aggregate": 9007199254740992
+      },
+      "name": "server rejects nonexact own and group history aggregate before JSON",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "equal": true
+      },
+      "name": "precision probes rollback all financial changes and controls",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T23:32:36.336191+00:00",
+  "current_server_acceptance": false,
+  "database": "collect_local_uat_48ddfe4420424e38",
+  "financial_after": {
+    "collect_hybrid.collection_balances": {
+      "rows": 4,
+      "sha256": "5508110222ae11c5b901d5e2edcebf979da06f508e52ec73c9d7420e67434421"
+    },
+    "collect_hybrid.member_balances": {
+      "rows": 5,
+      "sha256": "456fca0affbe3df912091c021dffbfeda02c813a4cb6eb4d5cf0e5b2ef73c889"
+    },
+    "collect_hybrid.momo_balance_snapshots": {
+      "rows": 69,
+      "sha256": "b806307dbba48707c2706f8625bb3f3b36b59a84966108ea751a70caf144d24d"
+    },
+    "collect_hybrid.momo_journal_entries": {
+      "rows": 69,
+      "sha256": "bc9675c7dbef4c51ca37b6ada8f655524670c5f8085644ecd9c3a28d66b32edf"
+    },
+    "collect_hybrid.momo_journal_lines": {
+      "rows": 138,
+      "sha256": "17af63b422b631adda4693bccb17bcf5955a77bd1547266d0a50972927f58e9c"
+    },
+    "collect_hybrid.sms_notification_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_operator_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.reconciliation_reviews": {
+      "rows": 71,
+      "sha256": "22965039bdfa72994e62f3e8ead78111d3a7018b4cd91d66f956d0bb7f0786c7"
+    },
+    "public.audit_logs": {
+      "rows": 280,
+      "sha256": "717e8e568d0be15a08a5f9fcd13932faab01a3a31ef159e438ad36f9c86a0146"
+    },
+    "public.ledger_entries": {
+      "rows": 138,
+      "sha256": "4f1d006a7d3ad7f2c65502e6f58dfd303ca7995e30d85bc5d8e78b60309b71db"
+    },
+    "public.notification_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_delivery_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_events": {
+      "rows": 68,
+      "sha256": "0ad49a4931723f8108441416c978bc703ca93d0d39c1715c415ca49561ddc746"
+    },
+    "public.payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_provider_confirmations": {
+      "rows": 69,
+      "sha256": "e1abc58e41cdc1da22a57d664ddf2ff35213e5e4bcb58e763cc1c85cc4ac9528"
+    },
+    "public.payments": {
+      "rows": 72,
+      "sha256": "23050ac5d5c6a451d72a6566da3377fc5944969128447519d49da634c273fe6c"
+    },
+    "public.provider_finality_requests": {
+      "rows": 69,
+      "sha256": "abfb7d2d7077206df974dfc98870465e2f72f20d1f37b174d16a0c88a412d112"
+    }
+  },
+  "financial_before_legitimate_posting": {
+    "collect_hybrid.collection_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_balance_snapshots": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_lines": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_operator_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_security.reconciliation_reviews": {
+      "rows": 2,
+      "sha256": "8da020b7cf8cc549705813bf7b9f6e2d777df519f9155aca15b5fa07bcfc5823"
+    },
+    "public.audit_logs": {
+      "rows": 4,
+      "sha256": "d4e0094dcfc575026e1ac5bdea8c1904cd764f67c5bd6ea28c703c64a3fe68bc"
+    },
+    "public.ledger_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_delivery_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_provider_confirmations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payments": {
+      "rows": 71,
+      "sha256": "3201a058c4c220e9625f68e7e4a18bb0278c63ed8497f27cc37d1c16ea82c5e9"
+    },
+    "public.provider_finality_requests": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "fixture_catalog_source": {
+    "path": "supabase/migrations/20260703225455_notification_templates_runtime.sql",
+    "production_triggers_preserved": true,
+    "seed": "Only exact contribution-confirmed source catalog rows",
+    "sha256": "507a2f5ce15bb799cc31377476bc2f180a7d11a506b34727abd495049665a57e",
+    "source_database_rows_copied": false
+  },
+  "hosted_called": false,
+  "independent_provider_truth": false,
+  "isolated_database_removed": true,
+  "kind": "installed154_plus_exact234000_synthetic_positive_history_mechanics",
+  "mode": "candidate235",
+  "native_device_attestation_tested": false,
+  "operator_fixture_authority": {
+    "email_delivery_or_signed_jwt_tested": false,
+    "grants_and_approvals_before_fresh_aal2_sessions": true,
+    "member_phone_momo_identity_preserved": true,
+    "operator_provider": "dated_whatsapp"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "precision_boundary_observations": [
+    {
+      "actual_response": null,
+      "amount": 0,
+      "exact_bound_denial": true,
+      "only_synthetic_mechanical_inputs": true,
+      "rejected": true,
+      "rolled_back": true,
+      "sql_error": "ERROR:  23514: new row for relation \"payments\" violates check constraint \"payments_amount_rwf_check\"\nDETAIL:  Failing row contains (99640000-0000-4000-8000-000000049901, null, null, 99640000-0000-4000-8000-000000020005, 99640000-0000-4000-8000-000000000003, 287848, 99640000-0000-4000-8000-000000000003, 29170e54704bfb009c6a6d2e7990374b9c30370146ed4f4cf30a62b5316a6e1d, 0, RWF, SYNTH-UNSAFE-PRECISION, manual_admin, review, public_id, null, 2026-09-30 23:31:50.157956+00, mtn_momo, 99640000-0000-4000-8000-000000000003).\nSCHEMA NAME:  public\nTABLE NAME:  payments\nCONSTRAINT NAME:  payments_amount_rwf_check\nLOCATION:  ExecConstraints, execMain.c:2033\n"
+    },
+    {
+      "actual_response": null,
+      "amount": -1,
+      "exact_bound_denial": true,
+      "only_synthetic_mechanical_inputs": true,
+      "rejected": true,
+      "rolled_back": true,
+      "sql_error": "ERROR:  23514: new row for relation \"payments\" violates check constraint \"payments_amount_rwf_check\"\nDETAIL:  Failing row contains (99640000-0000-4000-8000-000000049901, null, null, 99640000-0000-4000-8000-000000020005, 99640000-0000-4000-8000-000000000003, 287848, 99640000-0000-4000-8000-000000000003, 29170e54704bfb009c6a6d2e7990374b9c30370146ed4f4cf30a62b5316a6e1d, -1, RWF, SYNTH-UNSAFE-PRECISION, manual_admin, review, public_id, null, 2026-09-30 23:31:53.332383+00, mtn_momo, 99640000-0000-4000-8000-000000000003).\nSCHEMA NAME:  public\nTABLE NAME:  payments\nCONSTRAINT NAME:  payments_amount_rwf_check\nLOCATION:  ExecConstraints, execMain.c:2033\n"
+    },
+    {
+      "actual_response": null,
+      "amount": 9007199254740992,
+      "exact_bound_denial": true,
+      "only_synthetic_mechanical_inputs": true,
+      "rejected": true,
+      "rolled_back": true,
+      "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(payment_row.amount_rwf)\"\nPL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 21 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+    },
+    {
+      "actual_response": null,
+      "amount": 9223372036854775807,
+      "exact_bound_denial": true,
+      "only_synthetic_mechanical_inputs": true,
+      "rejected": true,
+      "rolled_back": true,
+      "sql_error": "ERROR:  22023: financial_amount_not_exact\nCONTEXT:  PL/pgSQL function collect_member_actions.exact_json_amount(numeric) line 5 at RAISE\nSQL statement \"SELECT collect_member_actions.exact_json_amount(payment_row.amount_rwf)\"\nPL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 21 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+    }
+  ],
+  "provider_called": false,
+  "receipt_candidate": {
+    "applied_only_to_disposable_clone": true,
+    "installed_in_shared_database": false,
+    "path": "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+    "sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+  },
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "remaining_acceptance": [
+    "Current installed/hosted server alignment is not inferred from a patched disposable154 clone.",
+    "Synthetic reconciled inputs prove local mechanics; independent provider/native/device/settlement acceptance remains separate."
+  ],
+  "schema_only_sha256": "96f8b37140f301c3d4fd835ef4efa8aa68db5483636ffe0196561cc8ab1a282f",
+  "signed_jwt_tested": false,
+  "source_database_written": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_inputs": {
+    "scripts/tests/data_correctness_sql_positive_history_uat.py": "5aac65ef9cc78adab9536c9f2039e5026f164014247ff4cc4e346911bc4d88f6",
+    "scripts/tests/data_correctness_sql_uat.py": "3ed2b9e92acccb30283d59937a0f3b0de8f80835dda8f7ca562e06e5062c1e5b",
+    "scripts/tests/local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "scripts/tests/local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260703225455_notification_templates_runtime.sql": "507a2f5ce15bb799cc31377476bc2f180a7d11a506b34727abd495049665a57e",
+    "supabase/migrations/20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+  },
+  "source_inputs_unchanged": true,
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T23:27:31.601905+00:00",
+  "status": "pass_scoped",
+  "unsafe_predecessor": {
+    "all_source_tables_catalog_cron_preserved": true,
+    "isolated_database_removed": true,
+    "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt5-candidate235000/unsafe-predecessor",
+    "recorder_sources_unchanged": true,
+    "result_sha256": "1d51c48701c4c423e5f82f13d25db22f0e681488cf8444ff65bbf7d1218fef3f",
+    "source_rows_copied": false,
+    "status": "pass_scoped"
+  }
+}

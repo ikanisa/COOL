@@ -1,0 +1,38 @@
+--- historical/community-groups/
++++ current/community-groups/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -18,7 +17,7 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
++Collect interface preview · Example data
+ What the app enables for a group
+ 01
+ For group leaders
+@@ -48,9 +47,6 @@
+ 04
+ MSME associations
+ Prepare members for business loans and coordinate professional services.
+-05
+-Diaspora associations
+-Create partner-bank-linked group savings and eligible collateral arrangements.
+ Collect supports community groups
+ 01
+ Community & faith
+@@ -60,7 +56,7 @@
+ Cooperatives, trade and business associations, agricultural groups, employer and professional groups
+ 03
+ Demographic
+-Women-led groups, youth savings groups, diaspora associations
++Women-led groups and youth savings groups
+ Download
+ Collect
+ or Get in Touch

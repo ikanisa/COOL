@@ -1,0 +1,931 @@
+{
+  "kind": "local_gateway_admin_read_slice_evidence",
+  "generated_at": "2026-09-30T22:50:37.045065+00:00",
+  "files": [
+    {
+      "path": "CONTRACT.md",
+      "bytes": 5555,
+      "sha256": "84e2275a1bf919b6859753f9975834fe81675274d8642336edd33e4019ff735a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3984,
+      "sha256": "c3c009053093a48f270ba4033e05cd6a2f332fe34ae8454f8e8c732760572793"
+    },
+    {
+      "path": "backend-uat/captured-source/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "backend-uat/captured-source/collect-admin-gateway-owner-request-v1.fixture.json",
+      "bytes": 831,
+      "sha256": "37e4fea9a7b86011702a7278e1eb9e0661932cdb31898fee6293fe6aae781ba9"
+    },
+    {
+      "path": "backend-uat/captured-source/collect-admin-gateway-v1.fixture.json",
+      "bytes": 1723,
+      "sha256": "e63217f04ab19c404815685686501c115f1896d315e02cc9ee8a6a3a99868d5e"
+    },
+    {
+      "path": "backend-uat/captured-source/collect-admin-gateway-v1.schema.json",
+      "bytes": 11766,
+      "sha256": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3"
+    },
+    {
+      "path": "backend-uat/gateway/202605230001_collect_baseline.log",
+      "bytes": 272,
+      "sha256": "54f942d03d5a682d5ff4ef9863908aef9b74c4ab241cb5c9fb635f3f94f931c7"
+    },
+    {
+      "path": "backend-uat/gateway/202605230002_fix_invite_rpc_lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230003_harden_rls_indexes.log",
+      "bytes": 180,
+      "sha256": "bbf89b8ade55a8704396fe844836438ef9c18ede9419514cb233c684a2feece8"
+    },
+    {
+      "path": "backend-uat/gateway/202605230004_restore_payment_intent_paid_rpc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230005_restore_sms_collection_scope.log",
+      "bytes": 316,
+      "sha256": "7547003c70058603b2818084ff9327133bdfa241fbc41cc50be3ae5311c750ed"
+    },
+    {
+      "path": "backend-uat/gateway/202605230006_finalize_payment_intent_hardening.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230007_revoke_public_function_execute.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230008_admin_panel.log",
+      "bytes": 1625,
+      "sha256": "1cc6541d624f96f67fdf4f738b227353583602aaf15be00ef3992347c4bdee32"
+    },
+    {
+      "path": "backend-uat/gateway/202605230009_add_client_safe_views.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230010_grant_collection_receiver_read.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230011_fix_receiver_consent_execute_grant.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230012_admin_rpc_grants.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230013_admin_settings_flags.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230014_admin_review_hardening.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230015_admin_collection_moderation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605230016_drop_unowned_admin_helpers.log",
+      "bytes": 878,
+      "sha256": "029d46f03437830cb9f8313a711e2a4c5ce1844e46ed3a3402676001b27862fa"
+    },
+    {
+      "path": "backend-uat/gateway/202605230017_admin_list_filter_contracts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260523203132_tighten_admin_role_permissions.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260523204235_set_views_security_invoker.log",
+      "bytes": 345,
+      "sha256": "00ce36e12e36fcb0c08bc6550fffe7b2fe28818f5abe67e48538dcd61bfa9240"
+    },
+    {
+      "path": "backend-uat/gateway/20260523205502_set_helper_function_search_paths.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260523210723_split_permissive_select_policies.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260523212244_revoke_anon_platform_admin_helper.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260523213113_disable_graphql_introspection.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/202605250001_app_realtime_invalidation.log",
+      "bytes": 2598,
+      "sha256": "e7d316a57b7eeb696492bd4e710fbadddfcd83cc88f60ae6694f458a6ad67385"
+    },
+    {
+      "path": "backend-uat/gateway/202605270001_sms_first_group_payment_intents.log",
+      "bytes": 155,
+      "sha256": "2bedd9dc9988ad0edea2240288b767101dbd5ea347ef11278da650081c6e6aa5"
+    },
+    {
+      "path": "backend-uat/gateway/20260531162852_harden_sms_first_function_grants.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260531190000_mobile_production_state_support.log",
+      "bytes": 341,
+      "sha256": "879fca574aa085c92ed3ac175f909d21a2c6327b33cc337c551cf4bf08d09c59"
+    },
+    {
+      "path": "backend-uat/gateway/20260601230000_preserve_contribution_sender_hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260602050000_harden_mobile_state_rls_initplan.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260607130500_update_collection_profile_rpc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260608090000_native_notifications.log",
+      "bytes": 1381,
+      "sha256": "531899c91796b41d61b19b374bcdf5e1b9dbba42efca16c02237bcd23a2af1da"
+    },
+    {
+      "path": "backend-uat/gateway/20260611111500_harden_mobile_profile_rpcs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260611113000_harden_notification_rls_initplan.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260611114500_tighten_notification_rpc_grants.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260611171920_admin_whatsapp_operator_login.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260612103000_disable_browser_admin_bootstrap.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260612110000_admin_payment_event_server_paging.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260612111500_drop_legacy_payment_event_queue_overloads.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260612113000_revoke_anon_admin_queue_paging.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260619003000_profile_momo_pay_code.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260622090000_market_expansion_categories_stripe_foundation.log",
+      "bytes": 706,
+      "sha256": "9170f19c9e996b2473fde0b62f56cfc025b18a51b9c827b70d983cd68b8951f3"
+    },
+    {
+      "path": "backend-uat/gateway/20260626193000_gate_notification_enqueue_by_preferences.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627143000_restrict_admin_permission_helper_probing.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627171000_harden_diaspora_stripe_table_grants.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627183000_add_admin_operator_note_rpc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627184500_add_admin_queue_sla_policies.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627190000_add_admin_collection_status_rpc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260627191000_add_admin_feature_flag_toggle_rpc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260701090000_developer_account_seed_data.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260701100000_group_owner_controls.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260703170000_harden_developer_and_group_rpcs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260703224559_collection_type_catalog_runtime.log",
+      "bytes": 2936,
+      "sha256": "19dbca12e08b26fca1dddd978399f5070280d8813e760e94ddd9ec5c71c2b1e3"
+    },
+    {
+      "path": "backend-uat/gateway/20260703225455_notification_templates_runtime.log",
+      "bytes": 2880,
+      "sha256": "e3d4052d1a49673af3b809b34b31a4978d6bd13519f655aa02ec1b600cfde6c4"
+    },
+    {
+      "path": "backend-uat/gateway/20260704100000_public_runtime_config.log",
+      "bytes": 3495,
+      "sha256": "2fecd47daaad47d2011ad6d93c07e70d2f9e986ad420690996ed727e9775378f"
+    },
+    {
+      "path": "backend-uat/gateway/20260704110000_admin_runtime_metadata.log",
+      "bytes": 2768,
+      "sha256": "5a8d768cd63c8712d9a3f3a71314840512da78e4362b710f75e0a72caaa11668"
+    },
+    {
+      "path": "backend-uat/gateway/20260704120000_policy_documents_account_reasons.log",
+      "bytes": 2434,
+      "sha256": "78aea085c9fa7ca90945b3cee2d114d4d0f3ce7952383bf04a5b1916315e4423"
+    },
+    {
+      "path": "backend-uat/gateway/20260704133000_split_runtime_metadata_select_policies.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260730134500_grant_mobile_request_own_read.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260804150000_native_push_delivery.log",
+      "bytes": 1093,
+      "sha256": "0dc615356f0b51da88bfc64a5e93f93e23245fc1258142f55687c5d8fb3f15c8"
+    },
+    {
+      "path": "backend-uat/gateway/20260805120000_android_fcm_push_delivery.log",
+      "bytes": 192,
+      "sha256": "203336132934f0654c9dccbc75909eb196ea346f343fbd70e80a698d4bb168e7"
+    },
+    {
+      "path": "backend-uat/gateway/20260808093000_qualify_notification_token_digest.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260812073431_remove_legacy_mock_groups_and_classify_home.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260812080000_restore_mobile_notification_preferences_grants.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260812090000_expand_momo_pay_code_length.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260812100000_remove_developer_dummy_data.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260812110000_correct_momo_merchant_ussd_template.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815050900_harden_momo_sms_standalone_posting.log",
+      "bytes": 341,
+      "sha256": "8d1671dfb04d0f249b65b5c9840751459da52450c494a27bab21507eb25c69b5"
+    },
+    {
+      "path": "backend-uat/gateway/20260815051035_harden_group_creation_journey.log",
+      "bytes": 186,
+      "sha256": "c70365cafcb5378825fd6f5d48c83808d494fa4c95ca5720b4949666deaf2a5e"
+    },
+    {
+      "path": "backend-uat/gateway/20260815054500_close_group_journey_database_lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815062536_complete_admin_operations_control_plane.log",
+      "bytes": 346,
+      "sha256": "bcdbc765ed5cde2193c7f604f38a5109f5f73150e705c048b88c71df54b44a0d"
+    },
+    {
+      "path": "backend-uat/gateway/20260815071500_bind_contribution_payer_identity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815082500_close_group_authorization_privacy.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815083000_require_provider_finality.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815083500_claim_sms_parser_work.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815084000_atomic_sms_ingestion.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815084500_revoke_non_dml_table_privileges.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260815085000_atomic_provider_finality_gateway.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260820160000_restore_momo_sms_standalone.log",
+      "bytes": 163,
+      "sha256": "fd090095df7cfa37a177aa8c758c2374caa9aa5bf900ccfd75964a86f94e7903"
+    },
+    {
+      "path": "backend-uat/gateway/20260820162240_bank_transfer_only_financial_control_plane.log",
+      "bytes": 1040,
+      "sha256": "a98eb9b4628655a307ebe147588b31ce788cf7e2e2d9bda88687f2a2007a068b"
+    },
+    {
+      "path": "backend-uat/gateway/20260820185500_revoke_direct_bank_transfer_intent_read.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260828100000_profile_country_session_independence.log",
+      "bytes": 652,
+      "sha256": "42cdb85a62b6051a85fcd7ed004e11523e7df2d7fb0928235021e73aafca688c"
+    },
+    {
+      "path": "backend-uat/gateway/20260831084239_expand_admin_queue_sla_support.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260831084646_hybrid_geographic_payment_rails.log",
+      "bytes": 797,
+      "sha256": "12d4979053e33fb584ca10dbd208a6e70abecacbbf489eb99db52e99e47d6a13"
+    },
+    {
+      "path": "backend-uat/gateway/20260831095454_collect_admin_operations_model.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901134820_platform_public_groups.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901135728_public_group_directory.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901141842_public_contribution_auto_membership.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901160000_collect_admin_payee_management.log",
+      "bytes": 191,
+      "sha256": "c8bd289345d5f920041e9a415c9ecbdd0f066a7eac17165f12f44bbe91bf64a7"
+    },
+    {
+      "path": "backend-uat/gateway/20260901183000_admin_operations_tables.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901193000_admin_group_lifecycle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901194500_admin_users_and_members.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901200000_localize_public_group_payment_routes.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901210000_admin_single_access_role.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901220000_admin_country_scope_contract.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901223000_live_admin_uat_fixes.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260901230000_admin_people_detail_contract.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902073741_member_profile_numeric_identity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902075721_member_collection_read_contract.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902081017_hybrid_admin_overview_metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902081830_member_profile_read_allowlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902083940_member_cross_rail_history.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902090210_member_group_owner_controls.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902091314_member_group_roster.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902093609_member_history_query_plan.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902100046_member_bounded_history_pages.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902120435_hybrid_receipt_capture_contract.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902120555_hybrid_member_registry.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902134420_member_add_group_admin.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902140151_platform_admin_whatsapp_approval.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260902212721_revoke_official_payee_trigger_execute.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903083947_member_profile_rpc_only_writes.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903084000_hybrid_direct_ussd_financial_core.log",
+      "bytes": 323,
+      "sha256": "0f7be4649d0b525ed1b1e1d8a7560935b23e8666447f776002dd8a6d750a07f2"
+    },
+    {
+      "path": "backend-uat/gateway/20260903085000_hybrid_roster_import_control_plane.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903090000_hybrid_sms_notification_outbox.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903090500_admin_sms_receipt_queue.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903091000_hybrid_verified_account_claim.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903091500_hybrid_member_directory_views.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903092000_admin_sms_receipt_failed_filter.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903092500_revoke_hybrid_internal_function_execute.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903200322_hybrid_directory_presentation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260903201326_geographic_member_profile_gates.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260906093000_member_profile_momo_code.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260906160000_group_cover_bank_and_atomic_creation_media.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260914165641_restore_member_roster_membership_boundary.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260914213600_atomic_otp_rate_limit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260925190000_rwanda_momo_only.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928150000_relational_member_history_pages.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928160000_sms_observation_never_settles.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928170000_confirmed_momo_payer_posting.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928171000_strict_intent_sms_match.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928172000_allow_incomplete_rwanda_onboarding_profile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260928174000_attested_receipt_v2_contract.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929110000_admin_notification_page_before_delivery_counts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929120000_provider_finality_payment_lock_order.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929130000_provider_finality_content_binding.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929140000_notification_delivery_fencing.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929150000_notification_retry_eligibility.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260929160000_notification_retry_schedule.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260929170000_governed_reconciliation_workflow.log",
+      "bytes": 305,
+      "sha256": "0d76b1e58985e2d30a9ef82aaf4059cb10a1e272942d46cb13cd152695c4a64b"
+    },
+    {
+      "path": "backend-uat/gateway/20260929180000_notification_registration_sessions.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260930100000_roster_import_provenance.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260930110000_retire_legacy_bank_scheduler.log",
+      "bytes": 1339,
+      "sha256": "280fc3eda511e13769850189d1b2276e5fdc554b852c4c4e075556d62ea50d39"
+    },
+    {
+      "path": "backend-uat/gateway/20260930120000_roster_import_reload_recovery.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260930130000_signed_otp_uncertain_recovery.log",
+      "bytes": 631,
+      "sha256": "4b8942f4b94f6a4b145679c019c63915419ce01ca68cbfc2232769343bf5fae3"
+    },
+    {
+      "path": "backend-uat/gateway/20260930140000_roster_resource_integrity.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260930150000_runtime_control_governance.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "backend-uat/gateway/20260930160000_redacted_operational_health.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930170000_roster_fresh_auth_recovery.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/gateway/20260930180000_operational_health_authority.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930200000_admin_automation_navigation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930210000_shadow_supervisor_runs.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930211605_android_gateway_identity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930213000_operator_email_auth.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930220000_runtime_control_authority.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930220527_operator_email_cutover_guard.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930230000_group_share_rotation_receipts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930230100_receipt_backlog_events.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930230200_admin_receipt_overview.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930230300_admin_transaction_lifecycle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930230400_admin_investigation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930233000_sensitive_admin_authority.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/20260930234000_exact_request_amounts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/gateway/concurrency-queries.sql",
+      "bytes": 1236,
+      "sha256": "85f2a30f5f3194ef2ccf7f3ecc80184587fcd8c151d77dbc8e91c56fa2a7e489"
+    },
+    {
+      "path": "backend-uat/gateway/concurrency.log",
+      "bytes": 3156,
+      "sha256": "aa79fb99b11cd44153e3b54a2270ba07d0e2d98d412429451c2f7ef5504a0b89"
+    },
+    {
+      "path": "backend-uat/gateway/container.log",
+      "bytes": 34908,
+      "sha256": "5fd9db77c8c611239874c7fca6fb111840bfbf208269146be3e6944e7d5bde5f"
+    },
+    {
+      "path": "backend-uat/gateway/preexisting-primary-receipts.json",
+      "bytes": 2527,
+      "sha256": "1ab4a6a46440379af415fcd07379899f36345b01fde44d044892bf7d591903e8"
+    },
+    {
+      "path": "backend-uat/gateway/queries.log",
+      "bytes": 186479,
+      "sha256": "e9cd57a2c762ba6186121b0999bf6c7aef14fbd2c5519402ae81723609b207db"
+    },
+    {
+      "path": "backend-uat/gateway/queries.sql",
+      "bytes": 4077437,
+      "sha256": "d835287dfac182a49f9f8a68cde71b06a4cf3ba3371a0008228d2be591234649"
+    },
+    {
+      "path": "backend-uat/gateway/synthetic-seed.sql",
+      "bytes": 7741,
+      "sha256": "1be331c465174ad9a4d819932add3d78e7e57f0626c2778a35f01b3afb383986"
+    },
+    {
+      "path": "backend-uat/install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/observed-active.json",
+      "bytes": 2728,
+      "sha256": "cd0e4e228b32248186d4774c49ce77d33379333411bd49a0aa709c8027ea3efd"
+    },
+    {
+      "path": "backend-uat/observed-empty.json",
+      "bytes": 226,
+      "sha256": "097b617a251c728cdcdae755f891bb5fca27419c893d56a639e942a4a949d87c"
+    },
+    {
+      "path": "backend-uat/observed-owner-request.json",
+      "bytes": 830,
+      "sha256": "f2498a676e7e7febc83f1994bec23dc004f263a553d79aa3331f28ac19c3b802"
+    },
+    {
+      "path": "backend-uat/observed-pending.json",
+      "bytes": 2238,
+      "sha256": "a68e76c983c2537b0608bc96e87499adaff1231792d500507277853d64d5fe55"
+    },
+    {
+      "path": "backend-uat/observed-revoked-callbacks.json",
+      "bytes": 2753,
+      "sha256": "5fccac5556ac4cf1ae42f4b7c7ce0e934391fe8cc352e39753e975983b1dd483"
+    },
+    {
+      "path": "backend-uat/result.json",
+      "bytes": 105106,
+      "sha256": "b24eab4392cc3de2cd3443dfd79d2a692a99a683644aaa39003a78ea6a317ab7"
+    },
+    {
+      "path": "backend-uat/synthetic-prior-arm.sql",
+      "bytes": 347,
+      "sha256": "e30358be625a013de9e5769d8c1d92f2fb7997a4611c2098d2529aabb5b72d77"
+    },
+    {
+      "path": "case-summary.json",
+      "bytes": 5659,
+      "sha256": "39d6160121df7a2d7ec2f8fdb1be8996ea23085f2e683cbd321bc313d2db38b1"
+    }
+  ]
+}

@@ -1,0 +1,1058 @@
+{
+  "status": "pass",
+  "origin": "http://127.0.0.1:62709",
+  "kind": "production_Supabase_initialization_and_actual_Admin_roster_dialog_loopback",
+  "operator_auth": "production_AdminRepository_email_OTP_with_synthetic_confirmed_email_and_current_approval_decoder",
+  "current_email_server_authority_verified_here": false,
+  "sql149_receipt_sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+  "sql149_receipt_unchanged": true,
+  "synthetic_transport_adapted_fields": [
+    "transfer_request_id",
+    "commit_request_id"
+  ],
+  "response_loss_mode": "after_headers",
+  "transfer_effects": 1,
+  "application_fetch_dispatches": [
+    [
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_get_operator_approval_v1"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_list_interrupted_roster_imports"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_inspect_interrupted_roster_import"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_transfer_interrupted_roster_import"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_get_roster_transfer_status"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_recover_roster_import"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_stage_roster_import_intent"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_execute_roster_import_intent"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_stage_roster_import_intent"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_execute_roster_import_intent"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_list_interrupted_roster_imports"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_inspect_interrupted_roster_import"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_get_operator_approval_v1"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_list_interrupted_roster_imports"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_inspect_interrupted_roster_import"
+      },
+      {
+        "method": "POST",
+        "rpc": "admin_current_user"
+      }
+    ],
+    []
+  ],
+  "broadcasts": [
+    {
+      "kind": "open",
+      "channel": "sb-127-auth-token"
+    },
+    {
+      "kind": "received",
+      "channel": "sb-127-auth-token",
+      "keys": [
+        "protocol",
+        "version",
+        "event",
+        "project",
+        "actor",
+        "session",
+        "issued",
+        "expires"
+      ],
+      "credential_present": false,
+      "project": "http://127.0.0.1:62709/auth/v1",
+      "actor": "99890000-0000-4000-8000-000000000001",
+      "session": "99890000-0000-4000-8000-000000000012",
+      "issued": 1790811774,
+      "expires": 1790811804
+    },
+    {
+      "kind": "open",
+      "channel": "sb-127-auth-token"
+    },
+    {
+      "kind": "sent",
+      "channel": "sb-127-auth-token",
+      "keys": [
+        "protocol",
+        "version",
+        "event",
+        "project",
+        "actor",
+        "session",
+        "issued",
+        "expires"
+      ],
+      "credential_present": false,
+      "project": "http://127.0.0.1:62709/auth/v1",
+      "actor": "99890000-0000-4000-8000-000000000001",
+      "session": "99890000-0000-4000-8000-000000000012",
+      "issued": 1790811774,
+      "expires": 1790811804
+    },
+    {
+      "kind": "open",
+      "channel": "sb-127-auth-token"
+    },
+    {
+      "kind": "received",
+      "channel": "sb-127-auth-token",
+      "keys": [
+        "protocol",
+        "version",
+        "event",
+        "project",
+        "actor",
+        "session",
+        "issued",
+        "expires"
+      ],
+      "credential_present": false,
+      "project": "http://127.0.0.1:62709/auth/v1",
+      "actor": "99890000-0000-4000-8000-000000000001",
+      "session": "99890000-0000-4000-8000-000000000012",
+      "issued": 1790811774,
+      "expires": 1790811804
+    },
+    {
+      "kind": "open",
+      "channel": "sb-127-auth-token"
+    }
+  ],
+  "final_states": [
+    {
+      "boot": "ready",
+      "authenticated": true,
+      "session_id": "99890000-0000-4000-8000-000000000012",
+      "identity_ready": true,
+      "email_approval_ready": true,
+      "events": [
+        "initialSession",
+        "signedIn",
+        "signedOut",
+        "signedIn"
+      ],
+      "dialog": false,
+      "invalidated": false,
+      "busy": false,
+      "preview": false,
+      "can_submit": false,
+      "can_commit": false,
+      "edited": false,
+      "affirmed": false,
+      "fresh_affirmed": false,
+      "interrupted_count": 0,
+      "inspected": false,
+      "transfer_pending": false,
+      "row_count": 0,
+      "error_code": null,
+      "outcome": "closed"
+    },
+    {
+      "boot": "ready",
+      "authenticated": false,
+      "session_id": null,
+      "identity_ready": false,
+      "email_approval_ready": false,
+      "events": [
+        "initialSession"
+      ],
+      "dialog": false,
+      "invalidated": false,
+      "busy": false,
+      "preview": false,
+      "can_submit": false,
+      "can_commit": false,
+      "edited": false,
+      "affirmed": false,
+      "fresh_affirmed": false,
+      "interrupted_count": 0,
+      "inspected": false,
+      "transfer_pending": false,
+      "row_count": 0,
+      "error_code": null,
+      "outcome": "none"
+    }
+  ],
+  "checks": [
+    {
+      "id": "production-initialize-starts-signed-out-with-empty-browser-storage",
+      "pass": true
+    },
+    {
+      "id": "production-Admin-email-verification-decodes-current-approval-envelope",
+      "pass": true
+    },
+    {
+      "id": "normal-Supabase-sign-in-is-not-adopted-by-peer",
+      "pass": true
+    },
+    {
+      "id": "normal-Admin-unsaved-roster-never-enters-browser-storage",
+      "pass": true
+    },
+    {
+      "id": "full-reload-and-peer-refresh-cannot-restore-credentials-or-editor",
+      "pass": true
+    },
+    {
+      "id": "fresh-lookup-is-read-only",
+      "pass": true
+    },
+    {
+      "id": "actual-Admin-inspection-keeps-approval-and-submit-disabled",
+      "pass": true
+    },
+    {
+      "id": "response-loss-leaves-uncertain-transfer-with-no-preview",
+      "pass": true
+    },
+    {
+      "id": "status-read-adopts-actual149-lineage-without-repeating-transfer",
+      "pass": true
+    },
+    {
+      "id": "recovered-editor-resets-review-and-confirmation",
+      "pass": true
+    },
+    {
+      "id": "production-browser-bookmark-contains-only-versioned-references-and-digests",
+      "pass": true
+    },
+    {
+      "id": "new-human-review-is-required-before-confirming-submission",
+      "pass": true
+    },
+    {
+      "id": "production-Admin-dialog-closes-only-after-exact-operation-ACK",
+      "pass": true
+    },
+    {
+      "id": "acknowledged-completion-clears-browser-recovery-reference",
+      "pass": true
+    },
+    {
+      "id": "same-session-peer-logout-clears-private-inspection-and-dialog-draft",
+      "pass": true
+    },
+    {
+      "id": "production-roster-wrapper-clears-private-state-during-retained-identity-loading",
+      "pass": true
+    },
+    {
+      "id": "authority-refresh-cannot-resurrect-old-dialog-or-approval",
+      "pass": true
+    },
+    {
+      "id": "production-initialize-cleans-owned-legacy-credentials-and-preserves-unrelated-values",
+      "pass": true
+    },
+    {
+      "id": "production-initialize-fails-closed-on-real-sandbox-storage-denial",
+      "pass": true
+    },
+    {
+      "id": "normal-Supabase-tab0-no-persisted-auth-or-private-roster",
+      "pass": true
+    },
+    {
+      "id": "normal-Supabase-tab1-no-persisted-auth-or-private-roster",
+      "pass": true
+    },
+    {
+      "id": "normal-Supabase-cross-tab-denial-messages-never-contain-credentials",
+      "pass": true
+    },
+    {
+      "id": "browser-runtime-completes-without-unhandled-errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_operator_approval_v1",
+      "rpc": "admin_get_operator_approval_v1",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_operator_approval_v1",
+      "rpc": "admin_get_operator_approval_v1",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_operator_approval_v1",
+      "rpc": "admin_get_operator_approval_v1",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_list_interrupted_roster_imports",
+      "rpc": "admin_list_interrupted_roster_imports",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_inspect_interrupted_roster_import",
+      "rpc": "admin_inspect_interrupted_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/loss-transfer",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_transfer_interrupted_roster_import",
+      "rpc": "admin_transfer_interrupted_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_roster_transfer_status",
+      "rpc": "admin_get_roster_transfer_status",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_recover_roster_import",
+      "rpc": "admin_recover_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_stage_roster_import_intent",
+      "rpc": "admin_stage_roster_import_intent",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_execute_roster_import_intent",
+      "rpc": "admin_execute_roster_import_intent",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_stage_roster_import_intent",
+      "rpc": "admin_stage_roster_import_intent",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_execute_roster_import_intent",
+      "rpc": "admin_execute_roster_import_intent",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/reset",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_list_interrupted_roster_imports",
+      "rpc": "admin_list_interrupted_roster_imports",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_inspect_interrupted_roster_import",
+      "rpc": "admin_inspect_interrupted_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_operator_approval_v1",
+      "rpc": "admin_get_operator_approval_v1",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_get_operator_approval_v1",
+      "rpc": "admin_get_operator_approval_v1",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_list_interrupted_roster_imports",
+      "rpc": "admin_list_interrupted_roster_imports",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_inspect_interrupted_roster_import",
+      "rpc": "admin_inspect_interrupted_roster_import",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/identity-hold",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/admin_current_user",
+      "rpc": "admin_current_user",
+      "sdk_retry_count": null
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/identity-release",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/icons/collect-web-512.png",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/flutter_bootstrap.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.wasm",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/canvaskit/chromium/canvaskit.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/main.dart.js",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/FontManifest.json",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/MaterialIcons-Regular.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Regular.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/AeonikPro-Medium.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/assets/typefaces/Inter-Variable.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf",
+      "rpc": null,
+      "sdk_retry_count": null
+    },
+    {
+      "method": "GET",
+      "path": "/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "rpc": null,
+      "sdk_retry_count": null
+    }
+  ],
+  "database_calls": 0,
+  "hosted_calls": 0,
+  "provider_calls": 0,
+  "scope": "Actual production client initialization/email verification/current approval decoder/gateway/dialog; retained dated149 PostgreSQL response structures prove decoder and ACK lineage with dynamic request-ID adapters. Current email server authority belongs to separate root213000+233000 SQL evidence. Synthetic loopback transport does not certify deployed authorization or provider execution."
+}

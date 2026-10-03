@@ -1,0 +1,30 @@
+{
+  "kind": "published_tested_safe_receipt_action_v1",
+  "retained_at": "2026-10-01T00:29:03.139965+00:00",
+  "accepted_attempt": 3,
+  "accepted_case_count": 147,
+  "migration_path": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+  "migration_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+  "runner_sha256": "182db28e76c98bebf784cdedb93f0b7a3c3a367a04033821666b08d798421d95",
+  "schema_sha256": "ac3e5b3d3cc82788f90d6ac8de0897a227dbf936d4862a360b2116af44217088",
+  "contract_sha256": "79b5ecb72fdc160ace91efce52107ddd1f354e05c426248e1d0a5f2d30630aa1",
+  "fixture_sources": {
+    "contracts/collect-safe-receipt-action-v1.inspection.fixture.json": {
+      "observed_source": "observed-preexisting-eligible-inspection.json",
+      "sha256": "8aa92eed8d3fc9f9232139e0d2099cca6a074a51093b851e94e33bac7f5f0166"
+    },
+    "contracts/collect-safe-receipt-action-v1.fixture.json": {
+      "observed_source": "observed-cancelled-action.json",
+      "sha256": "646a9787cdde36ff79cf6d15cca7c380a6222ed7fbb2df2fcd212549219770eb"
+    },
+    "contracts/collect-safe-receipt-action-v1.lookup.fixture.json": {
+      "observed_source": "observed-recorded-lookup.json",
+      "sha256": "c4046b0031d213df5cbac874469ba4d06f1494def0b3b5d32742533c755f0304"
+    }
+  },
+  "selected_source_changed_during_execution": false,
+  "helper_source_drift": [],
+  "production_deployed": false,
+  "full_current_upgrade_covered": false,
+  "scope": "Retained schema153 plus nine exact staged migrations; actual nonempty synthetic financial/receipt/transport fixtures; no Auth or provider runtime acceptance."
+}

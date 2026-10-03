@@ -1,0 +1,14 @@
+BOUND abseil-cpp-binary 8
+BOUND app-check 137
+BOUND firebase-ios-sdk 4683
+BOUND google-ads-on-device-conversion-ios-sdk 9
+BOUND googleappmeasurement 14
+BOUND googledatatransport 296
+BOUND googleutilities 116
+BOUND grpc-binary 15
+BOUND gtm-session-fetcher 76
+BOUND interop-ios-for-google-sdks 23
+BOUND leveldb 155
+BOUND nanopb 363
+BOUND promises 154
+SPM ACTUAL PINNED BYTE OBSERVATION PASS 13 6049

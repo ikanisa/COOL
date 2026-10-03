@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-lineage-integration1/generated-current209-maintained1",
+    "--verify",
+    "--require-current"
+  ],
+  "started_utc": "2026-10-02T07:26:53.486487+00:00",
+  "actual_seconds": 4.536,
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "timed_out": false,
+  "owned_process_group_absent": true,
+  "stdout_sha256": "dbc3f59a551ae7836831e2e00dc9440a22a76b16eecb77d4b9507353e52ca121",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

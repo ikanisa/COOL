@@ -1,0 +1,13 @@
+{
+  "checked_at_utc": "2026-10-02T07:02:26.167458+00:00",
+  "checked_packet_leaves": 22,
+  "config_reviewed_AUTH_DIR_only": true,
+  "packet_manifest_sha256": "d40ce77be6faa0afe514dba1ea1193f33eb69f904b852732d028ae0705e1b47d",
+  "production_release_approval": false,
+  "protected_original_metadata": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "runner_reviewed_AUTH_DIR_only": true,
+  "source_lock_attested": false
+}

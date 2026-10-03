@@ -1,0 +1,27 @@
+{
+  "catalog_and_replayed209_migration_hashes_changed": false,
+  "changed": [
+    {
+      "before_sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+      "current_sha256": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+      "kind": "maintained-caller-source",
+      "path": "lib/admin/core/admin_receipt_repository.dart"
+    },
+    {
+      "before_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "current_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+      "kind": "maintained-caller-source",
+      "path": "lib/admin/core/admin_runtime.dart"
+    },
+    {
+      "before_sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+      "current_sha256": "348ea14666444ca99a20b8ddc0a3afa835ebc2cfa4850d76eea319bc9ce28bc9",
+      "kind": "maintained-caller-source",
+      "path": "scripts/admin_pwa_browser_qa.mjs"
+    }
+  ],
+  "input_count": 1093,
+  "input_set_changed": false,
+  "original_manifest_path": "docs/release/critical-implementation-2026-10-01/root-schema-current-refactor-refresh1/generated-current209/input-manifest.json",
+  "original_manifest_sha256": "460793fdbd00cf849073eb29035b9832d5f292ea56aa257f9ec50186c9de30e2"
+}

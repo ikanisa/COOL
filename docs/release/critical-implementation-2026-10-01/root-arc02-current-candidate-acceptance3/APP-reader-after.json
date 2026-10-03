@@ -1,0 +1,26 @@
+{
+  "actual_seconds": 1.004,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/run_checks.py",
+    "--packet-sha256",
+    "5799e3b1fbe5ab7993fab885449542ff0666a3a2039fc41009f0d563f1488e0b",
+    "--observe",
+    "after"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3",
+  "deadline_seconds": 300,
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T10:35:13.777010+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 37489,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T10:35:12.772799+00:00",
+  "stderr_sha256": "ae23ed1dc5a805cef19927d5912013c244df04f6560ec50a53258483997109c5",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

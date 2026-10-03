@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "inventory-tests": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/usr/bin/ruby",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "deadline_seconds": 180,
+      "elapsed_seconds": 0.4319320409995271,
+      "exit_code": 0
+    },
+    "auth-check": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/usr/bin/ruby",
+        "scripts/edge_function_inventory.rb",
+        "auth-check"
+      ],
+      "deadline_seconds": 20,
+      "elapsed_seconds": 0.05835062500045751,
+      "exit_code": 0
+    },
+    "shell-syntax": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/bin/bash",
+        "-n",
+        "scripts/supabase_production_readiness.sh"
+      ],
+      "deadline_seconds": 20,
+      "elapsed_seconds": 0.00987370900111273,
+      "exit_code": 0
+    }
+  },
+  "source_unchanged_after_checks": true,
+  "status": "pass",
+  "real_handler_or_SQL_tests_executed": false,
+  "production_ready": false
+}

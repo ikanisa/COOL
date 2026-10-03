@@ -1,0 +1,93 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 452,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 88642,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.395,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt35-current-value-screens/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_value_screen_integrity_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt35-current-value-screens/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 88670,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 9.716,
+      "sha256": "02b8f11c6b522a77453146503f40044a4478070717a167dc14eaf7b71c78bd6b"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_value_screen_integrity_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 89203,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 1.972,
+      "sha256": "1873415c2f66686bcc8947bbb3decdf532f2baeea4fad93d18f327d749f950c8"
+    }
+  ],
+  "test_files": [
+    "test/admin_value_screen_integrity_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": 33,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": true,
+    "passed": 33,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [],
+    "event_errors": []
+  },
+  "test_gate_passed": true,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "machine_test_log_sha256": "f2e68a591c37a4c595877e2110911ea6d9a67ec147202ab50466a47c254651bb",
+  "source_before_sha256": "91dafbeeac41900848be07fb4e941854c2bb9c92f518b57c22175c04b56fb9c6",
+  "source_after_sha256": "91dafbeeac41900848be07fb4e941854c2bb9c92f518b57c22175c04b56fb9c6"
+}

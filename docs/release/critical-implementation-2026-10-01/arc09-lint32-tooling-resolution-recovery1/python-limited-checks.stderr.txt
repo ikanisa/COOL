@@ -1,0 +1,12 @@
+test_all_external_fences_match_and_only_two_private_paths_are_rebound (__main__.RecoveryPreparationTests.test_all_external_fences_match_and_only_two_private_paths_are_rebound) ... ok
+test_exact_root_and_all_existing_graph_admission_bounds_are_preserved (__main__.RecoveryPreparationTests.test_exact_root_and_all_existing_graph_admission_bounds_are_preserved) ... ok
+test_module_metadata_has_four_observed_variants_and_attributes_choose_one_runtime_jre (__main__.RecoveryPreparationTests.test_module_metadata_has_four_observed_variants_and_attributes_choose_one_runtime_jre) ... ok
+test_original_runner_publisher_and_repository_configuration_are_byte_identical (__main__.RecoveryPreparationTests.test_original_runner_publisher_and_repository_configuration_are_byte_identical) ... ok
+test_terse_fields_are_retained_and_full_failure_and_variant_attributes_are_additive (__main__.RecoveryPreparationTests.test_terse_fields_are_retained_and_full_failure_and_variant_attributes_are_additive) ... ok
+test_the_only_consumer_requirements_are_runtime_and_standard_jvm (__main__.RecoveryPreparationTests.test_the_only_consumer_requirements_are_runtime_and_standard_jvm) ... ok
+test_the_sequential_180_second_phases_and_cleanup_guards_are_preserved (__main__.RecoveryPreparationTests.test_the_sequential_180_second_phases_and_cleanup_guards_are_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK

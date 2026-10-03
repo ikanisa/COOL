@@ -1,0 +1,759 @@
+{
+  "actual_blocking_races": 8,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": true,
+      "name": "candidate preserves all existing routine names/results/arguments/owners/ACLs and all unrelated bodies",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all62 explicitly reviewed transitive readers are writable VOLATILE RPCs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current email-approved owner can reveal exact synthetic body",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "raw reveal creates both current-actor audit records without raw-body leakage",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "approved ordinary member without Admin role cannot reveal",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "compliance_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "operations_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "payments_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "moderation_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "support_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "read_only_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing specific permission refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked grant refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new approval requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new role requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "unverified email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "changed email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "deleted Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "banned Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired Auth session refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "session bound to another user is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing Auth session is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason None refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '   ' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\\t\\n\\r' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9 refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Raw SMS not found",
+        "sqlstate": "P0001"
+      },
+      "name": "nonexistent SMS does not produce success",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all denied reveal attempts leave audit counts unchanged",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1000 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 24 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "stored reasons are trimmed and bounded by Unicode character count",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "raw body direct-column ACL denies 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "raw body direct-column ACL denies 2",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "authenticated cannot erase admin_sensitive_access_logs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "authenticated cannot erase audit_logs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "grant read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "grant revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email approval read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email approval revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth session read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth session revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "permission read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "permission revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all sensitive reads preserve seven financial/delivery row families",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "ordinary approved member cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing retry permission refuses operation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason None leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '   ' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '\\t\\n\\r' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9 leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "invalid retry attempts create no retry audit or queue mutation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "expired recipient session cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "disabled recipient device cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "banned recipient cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "valid retry returns exact queued count acknowledgement",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "retry preserves cumulative attempts, clears lease and records current actor/reason",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "queued retry is not blindly repeated",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "retry fixture cleanup restores all seven financial/delivery row families",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "source remains exactly the reviewed email and security migrations",
+      "status": "pass"
+    }
+  ],
+  "catalog_changes": {
+    "collect_admin_access.approval_status(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.caller_eligible(uuid)": [
+      "body"
+    ],
+    "collect_admin_access.get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public._admin_list_people_by_membership(boolean, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_allocation_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination_change_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_evidence(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transaction(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transfer_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_collect_transaction(text)": [
+      "volatility"
+    ],
+    "public.admin_get_collection(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_hybrid_sms_receipt(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_journal_entry(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_member_record(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_event(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_queue_sla(text)": [
+      "volatility"
+    ],
+    "public.admin_get_receiver(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_exception(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_run(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_sms_metadata(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_whatsapp_approval(uuid)": [
+      "volatility"
+    ],
+    "public.admin_list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_allocations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_audit_logs(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_allocation_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destination_change_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destinations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_evidence(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transactions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transfer_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_ledgers(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_payees(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_reconciliations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_country_scoped(text, text, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_hybrid_sms_receipts(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_journal_entries(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_ledger(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_members(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_non_member_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_notifications(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_events(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_platform_payee_candidates(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_receivers(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_exceptions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_runs(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_settings(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_sms_metadata(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_unallocated(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_overview()": [
+      "volatility"
+    ],
+    "public.admin_retry_notification(uuid, text)": [
+      "body"
+    ],
+    "public.admin_reveal_raw_sms(uuid, text)": [
+      "body"
+    ],
+    "public.assert_admin_permission(text)": [
+      "body",
+      "config",
+      "volatility"
+    ],
+    "public.has_admin_permission(text, uuid)": [
+      "body"
+    ]
+  },
+  "completed_at": "2026-09-30T22:33:40.949765+00:00",
+  "current_staged_bundle_tested": true,
+  "database": "collect_local_uat_4af7f2360e00455c",
+  "hosted_called": false,
+  "installed_in_shared_source": false,
+  "isolated_database_removed": true,
+  "kind": "actual_sensitive_admin_email_authority_schema154",
+  "migration_sources": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "2f97656e92f2e5b522a276ecb395b57dab5278d0331e9da8f528c4b00ab0ab6a",
+    "local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "11ea547153596a297a2699e5cdb3372f00d576ddb457ab9e2f9d9a5506da6c13",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T22:33:16.258342+00:00",
+  "status": "pass"
+}

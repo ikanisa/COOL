@@ -1,0 +1,10 @@
+{
+  "batch_sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4",
+  "manifest_sha256": "5a3a42099b494f20dd2fe76b1e0fb9d6fc0f65fe88168656f8b3fc49131418dc",
+  "provenance_sha256": "486bd30284b49ab515199800a1e8794285422b7f42afefc02da8235765b1c074",
+  "approved_assets_sha256": "34bead86f83806bb6a4bfab88457c69afe03cbcec65e53dab323455d56c25cf1",
+  "browser_report_sha256": "d30bfb679b1a985d30642e653285cde8b514674838ce0d35e63245e71782d6f9",
+  "quality_sha256": "e11d6531971d3cebf9c62aee24e5bf6a67e5edd14d5b26f89aea7b015b1478cf",
+  "current_contract_sha256": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+  "evidence_files": 35
+}

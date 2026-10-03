@@ -1,0 +1,73 @@
+{
+  "cache_enabled": false,
+  "candidate_source_modified": false,
+  "files": {
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt": {
+      "RAM_proposed_after_SHA256": "c6e24e802c3ae9f5b8df5ef1a7d87d5be5c0afd53f577b409d0d9a2a3ee69134",
+      "after_bytes": 3473,
+      "before_SHA256": "27dd5ea0f0938f3d1cfb54b992601b39cbf25ae8f20bfe2da771d2ebbb630c56",
+      "before_bytes": 3276,
+      "copyright_license_header_unchanged": true,
+      "current_candidate_equals_pristine_exact_official_source": true,
+      "official_git_blob": "1858a139d0e96b6f2faa9e9e147d3805df69e0f2",
+      "official_git_mode": "100644",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt": {
+      "RAM_proposed_after_SHA256": "133e72216389b9bdf63842ddf01d6a5660760353de76fd799e2d33306b4ec0af",
+      "after_bytes": 2139,
+      "before_SHA256": "0804d0e089a75f95a671e097c216469984128ac327a5490548ed439d59613e2b",
+      "before_bytes": 1815,
+      "copyright_license_header_unchanged": true,
+      "current_candidate_equals_pristine_exact_official_source": true,
+      "official_git_blob": "364371cf4065777901ff01e5b4b4c687bfda4230",
+      "official_git_mode": "100644",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt": {
+      "RAM_proposed_after_SHA256": "6c912d9d36fc91209f15679a2415dbcb7ea650120790c370d520970d400a04e4",
+      "after_bytes": 2125,
+      "before_SHA256": "93dc5805d863e1df88f1b297a18dc1eedd619c7e80bfdaa37b7edbf9dd506920",
+      "before_bytes": 1822,
+      "copyright_license_header_unchanged": true,
+      "current_candidate_equals_pristine_exact_official_source": true,
+      "official_git_blob": "b017cc941cb3f821280eaf89050e4262505c1950",
+      "official_git_mode": "100644",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt": {
+      "RAM_proposed_after_SHA256": "d135eaf41cb9465e3760a26da9bc1a7c8aae7c7485637ad8ce67eeedf6dcc2d8",
+      "after_bytes": 2261,
+      "before_SHA256": "525fc434a271b6540e4665e6a3bb48c7250d751c4c060198ec7fdf7559abe648",
+      "before_bytes": 2300,
+      "copyright_license_header_unchanged": true,
+      "current_candidate_equals_pristine_exact_official_source": true,
+      "official_git_blob": "1b779b21fae5017e60806739e836bde9d7ce90ee",
+      "official_git_mode": "100644",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt": {
+      "RAM_proposed_after_SHA256": "0e939fa9cca43c089f6d6479c18bb91bd277d165caa07f3b1957095f4324fa4a",
+      "after_bytes": 84526,
+      "before_SHA256": "24da3bc6b5c6942446ea897c73ed3d505dfffad9b58dc9eb1fdea8e65549c1ad",
+      "before_bytes": 84639,
+      "copyright_license_header_unchanged": true,
+      "current_candidate_equals_pristine_exact_official_source": true,
+      "official_git_blob": "28bc9c00d806a0d9ebe3d55a0daa5b2c75cd26f9",
+      "official_git_mode": "100644",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt"
+    }
+  },
+  "future_real_compiler_recipe": "unchanged complete a1caea5 command; fixed new2700s attempt after explicit root review and actual source admission",
+  "future_total_exact_changed_source_files": 8,
+  "new_dependency_or_version_deltas": false,
+  "official_flutter_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "patch_SHA256": "1e8afbbacd725d9f0578e69cff2c5c81f6c65a2ac00dca1a7c675c9097d4318e",
+  "path_default_preserved": "ABSOLUTE",
+  "production_release_approval": false,
+  "scope": "Five exact unchanged upstream task/test files only; original three Collect version/checker deltas remain unchanged",
+  "shared_pristine_SDK_modified": false,
+  "status": "REVIEW_PROPOSAL_ONLY__NOT_APPLIED",
+  "template_maxKnown_fourth_delta": false,
+  "test_omission_or_assertion_disabling": false
+}

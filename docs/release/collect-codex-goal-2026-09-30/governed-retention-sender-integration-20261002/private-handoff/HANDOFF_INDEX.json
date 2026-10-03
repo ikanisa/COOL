@@ -1,0 +1,51 @@
+{
+  "actual_current_ui_analysis": "20724/fa2c3e exit0 four items",
+  "actual_current_ui_scope": "validation-correction1 terminal93077/fd3c57 exit0:15 controller+6 widget cases",
+  "classification": "finite private A-C implementation, root review/promotion and actual shared mount pending",
+  "current_controller_sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1",
+  "current_model_sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e",
+  "current_web_store_sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5",
+  "limits": [
+    "no canonical/tracker mutation",
+    "no retention erasure/expiry authority",
+    "no arbitrary sender/physical SIM ownership claim",
+    "no live sending or hosted targets",
+    "release-declared scheduler/Android source hashes are metadata, observed_at null",
+    "local inherited ACLs are fixture evidence, not hosted parity"
+  ],
+  "necessary_followups": [
+    "root review of exact final two product deltas and three mounting patches",
+    "actual shared Settings/operations card caller and sole-authority hygiene acceptance",
+    "full current chronological candidate rehearsal with any later approved migration",
+    "hosted Auth/permissions/cron/runtime, physical Android/carrier and release acceptance"
+  ],
+  "predecessor_manifest_sha256": "dcd4a1aaeafc0fac76a7dd552f7e74bbf993316213e68eb229a5328cc7b83285",
+  "predecessor_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/accepted-retention-controls-current1",
+  "predecessor_seal_sha256": "d45eda3c77af632d3e6c7cef1edb87518e0fc099d4e94f6ada4a633acb8a77d1",
+  "product_files": [
+    "lib/admin/core/admin_sender_picker.dart",
+    "lib/admin/core/admin_sender_retention_sdk.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+    "lib/admin/core/admin_sender_retention_models.dart",
+    "lib/admin/core/admin_sender_retention_host.dart",
+    "lib/admin/core/admin_sender_retention_controller.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+    "lib/admin/core/admin_sender_retention_view.dart",
+    "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql"
+  ],
+  "raw_lookup_trace": {
+    "bytes": 262864812,
+    "kind": "retained actual proof artifact",
+    "sha256": "ae9042051e13164a13cacfdd4336f515167b0357f75b6abf3e92b62eca2ec808"
+  },
+  "raw_trace_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/retention/queries.log",
+  "root_owned_mount_notes": "source/root-integration/MOUNT_NOTES.md",
+  "root_owned_mount_plan": "source/root-integration/PLAN.json",
+  "source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation",
+  "sql": {
+    "path": "source/supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+    "sha256": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d"
+  },
+  "strict_producer_association": "source/producer-association.json"
+}

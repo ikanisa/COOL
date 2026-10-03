@@ -1,0 +1,81 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "source-export",
+      "argv": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/invitation-prior-attempt4/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.78,
+      "stdout_sha256": "255f1994c221061908f595ab75a9b7932cf991d18c971bb5e80f112e3c16e391",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "git-init",
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-offline",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.01,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/shared/group_invitation_protection_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 6.93,
+      "stdout_sha256": "d3ef856f847ebc2aa32a8a1c18a2530a7e09d24a474e7e1efddc9be82429e920",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "test/shared/group_invitation_protection_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 6.14,
+      "stdout_sha256": "41d7fb73f042ba588e790c7d867635680e351d82f6750473d9c078921f7f3e31",
+      "stderr_sha256": "cb769a78ea632fbf3fee9fa937895dc44f4213b56c7306f78d3602d23374fb6f"
+    }
+  ],
+  "source_inputs": 921,
+  "export_source_changes": [],
+  "checkout_drift": [],
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4",
+  "scope": "Actual Flutter production methods/widgets and locked SDK using synthetic local HTTP/platform transports; no database/provider/native build/capture executed"
+}

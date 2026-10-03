@@ -1,0 +1,9 @@
+{
+  "executed_sql_sha256": "f80b4b84806d22e1453b05c73f511f5c5b15b299877de3ca4895ed617f6b1af7",
+  "full_baseline_restored": true,
+  "intended_guard_observed": true,
+  "name": "original_function_configuration",
+  "rejection_observed": true,
+  "stderr_sha256": "1c59c6c91d35186157e35a0aced50a5dcb81ecb069b21f780b432b80d194a444",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

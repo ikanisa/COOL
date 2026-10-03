@@ -241,7 +241,7 @@ page:
     body:
     - Collect serves Rwanda users. Service providers may process data outside Rwanda under appropriate legal, contractual,
       organisational and technical safeguards where applicable.
-    subprocessor_link: /subprocessors
+    subprocessor_link: /privacy/#sharing
   - id: ai
     heading: 9. AI and automated processing
     intro: 'Collect may use artificial intelligence to:'
@@ -294,24 +294,26 @@ page:
     - Complain to a data-protection authority
     contact:
       email: info@ikanisa.com
-      form: /privacy-request
+      privacy_request: mailto:info@ikanisa.com?subject=Collect+privacy+request
     closing: We may need to verify your identity before completing a request.
   - id: account-and-data-deletion
     heading: 12. Account deletion and data deletion
     subsections:
     - heading: Delete your account in the Collect app
       steps:
-      - Open Collect
-      - Go to Profile
-      - Select Settings
-      - Select Privacy and Security
-      - Select Delete Account
-      - Review the consequences
-      - Verify your identity
-      - Confirm your request
-    - heading: Delete your account through the website
-      body: Use the public account-deletion page. You do not need to reinstall the app to submit a deletion request.
+      - Open Collect and sign in.
+      - Go to Settings.
+      - Select Security.
+      - Select Delete data.
+      - Select a reason for your request.
+      - Select Submit.
+      - Review the confirmation and select Submit.
+      path: Settings → Security → Delete data
+    - id: delete-your-account-through-the-website
+      heading: Request deletion without the app
+      body: Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.
       link: /account-deletion
+      email: info@ikanisa.com
     - heading: What happens after a deletion request
       bullets:
       - We verify that the request comes from the account holder
@@ -381,8 +383,8 @@ page:
     - Preference cookies
     - Performance and analytics cookies
     - Marketing cookies, where consent is required
-    closing: You can manage optional cookies through Cookie Settings. See the separate Cookie Policy.
-    link: /cookies
+    closing: For questions about cookies and website technologies described in this notice, contact info@ikanisa.com.
+    link: /privacy/#cookies
   - id: children
     heading: 15. Children
     body: Collect is not intended for people under the minimum age required by applicable law, except where a specific

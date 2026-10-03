@@ -1,0 +1,128 @@
+{
+  "actual_blocking_races": 0,
+  "all_task_containers_removed": true,
+  "baseline_sha256": {
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+  },
+  "cases": [
+    {
+      "detail": {
+        "superuser": false,
+        "user": "postgres"
+      },
+      "name": "feature installer is actual postgres NOSUPERUSER",
+      "status": "pass"
+    },
+    {
+      "detail": "",
+      "name": "additive v2 installs as ordinary owner",
+      "status": "pass"
+    },
+    {
+      "detail": null,
+      "name": "all preexisting function OIDs bodies owners ACL and configuration preserved",
+      "status": "pass"
+    },
+    {
+      "detail": null,
+      "name": "install preserves nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "detail": null,
+      "name": "private original requests have RLS and no API grants",
+      "status": "pass"
+    },
+    {
+      "detail": null,
+      "name": "all seven predecessor private helpers retain no direct API execution",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-10-01T18:37:50.990149+00:00",
+  "database": "governed_settings_73ab8d50bc",
+  "failure": "cannot access local variable 'eligible' where it is not associated with a value",
+  "families": [
+    "account_request_reason_options",
+    "admin_navigation_items",
+    "admin_queue_filter_options",
+    "admin_queue_signals",
+    "admin_queue_sla_policies",
+    "admin_queue_specs",
+    "brand_entities",
+    "collection_category_subtypes",
+    "collection_purpose_templates",
+    "collection_type_catalog",
+    "collection_type_country_rules",
+    "feature_flags",
+    "notification_channels",
+    "notification_event_types",
+    "notification_template_versions",
+    "notification_templates",
+    "otp_policy",
+    "payment_entrypoints",
+    "policy_document_sections",
+    "policy_documents",
+    "roster_resource_policy",
+    "sms_receipt_member_consents",
+    "sms_receipt_policies",
+    "support_channels",
+    "system_settings"
+  ],
+  "fixture_limits": [
+    "Retained row-free schema153/ACL, current scoped prerequisites and all26 existing synthetic control fixtures.",
+    "Fresh feature DDL and API SQL execute as actual postgres NOSUPERUSER; original v1 catalog/body preserved.",
+    "Platform/Auth schema is owner-normalized; mock cron; no hosted or signed-JWT acceptance; not whole-candidate migration replay."
+  ],
+  "hosted_called": false,
+  "kind": "governed_settings_v2_networkless_sql",
+  "provider_called": false,
+  "retained_baseline_proof_sha256": "b9437c27277c5e37cf75c7e20ad6323e1cbb524539af7486318cc28393f09df2",
+  "scope": "final-only",
+  "shared_database_written": false,
+  "signed_jwt_tested": false,
+  "source_rows_copied": false,
+  "source_sha256": {
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/current_runtime_control_bundle_uat.py": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/runtime_control_edit_eligibility_uat.py": "4cbb27255ff6bb3c7fbbb775834678c5b1493542468f83e6ba8f376bb32be83e",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "supabase/migrations/20261001220000_governed_settings_requests.sql": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4"
+  },
+  "started_at": "2026-10-01T18:37:43.370902+00:00",
+  "status": "failed",
+  "target": {
+    "container_id": "48d3c1786d6aef8b4861719364bbe53137679054fc727cc7d8de0f2e9f372ae5",
+    "container_name": "collect_current_rehearsal_settings_eligibility_d9af165823c3",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "tools": {
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "python_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  }
+}

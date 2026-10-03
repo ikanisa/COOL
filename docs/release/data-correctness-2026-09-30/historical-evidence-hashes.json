@@ -1,0 +1,50 @@
+[
+  {
+    "file": "docs/release/payer-identity-adversarial-2026-09-29/pre-snapshot.json",
+    "expected_sha256": "8e68e83fc4e1e856d1964cd72227b5be810df901397f28386cb0bbd1424871fd",
+    "actual_sha256": "8e68e83fc4e1e856d1964cd72227b5be810df901397f28386cb0bbd1424871fd",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  },
+  {
+    "file": "docs/release/payer-identity-adversarial-2026-09-29/post-snapshot.json",
+    "expected_sha256": "8e68e83fc4e1e856d1964cd72227b5be810df901397f28386cb0bbd1424871fd",
+    "actual_sha256": "8e68e83fc4e1e856d1964cd72227b5be810df901397f28386cb0bbd1424871fd",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  },
+  {
+    "file": "docs/release/payer-identity-adversarial-2026-09-29/uat-result.txt",
+    "expected_sha256": "99b08198edfed8fd9801ee1d6296146a1b09b186651990e25e86a8e942a44bbf",
+    "actual_sha256": "99b08198edfed8fd9801ee1d6296146a1b09b186651990e25e86a8e942a44bbf",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  },
+  {
+    "file": "docs/release/history-pagination-2026-09-28/history-interleaved-full-schema-summary.json",
+    "expected_sha256": "dc655655198f6fece41a86fc681bd20ba4bec06a6828391249a14e7cfd443a30",
+    "actual_sha256": "dc655655198f6fece41a86fc681bd20ba4bec06a6828391249a14e7cfd443a30",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  },
+  {
+    "file": "scripts/tests/history_full_schema_interleaved_uat.py",
+    "expected_sha256": "6951bb0349f81c7fff5577c96d7b7500ac1f360fcf91b6c44acc4994d304d1a5",
+    "actual_sha256": "6951bb0349f81c7fff5577c96d7b7500ac1f360fcf91b6c44acc4994d304d1a5",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  },
+  {
+    "file": "docs/release/history-pagination-2026-09-28/recent-intents-full-schema-summary.json",
+    "expected_sha256": "818dde36f87127119970d6038f9b41ed836b5e3f0366c51b23d8ae9d5814fecf",
+    "actual_sha256": "818dde36f87127119970d6038f9b41ed836b5e3f0366c51b23d8ae9d5814fecf",
+    "matches": true,
+    "schema_scope": "historical133_not_installed_current",
+    "sql_executed_here": false
+  }
+]

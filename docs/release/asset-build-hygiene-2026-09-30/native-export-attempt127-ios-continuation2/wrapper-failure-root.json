@@ -1,0 +1,7 @@
+{
+  "status": "failed_before_build",
+  "observed_terminal_exit_code": 1,
+  "failure": "ValueError: Unexpected dependency identity/path; actual remote checkout retains uppercase basename",
+  "xcode_compilation_executed": false,
+  "at_utc": "2026-10-01T09:18:14.877057+00:00"
+}

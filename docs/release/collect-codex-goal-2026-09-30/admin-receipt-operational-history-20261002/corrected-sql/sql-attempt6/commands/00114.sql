@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role authenticated;select set_config('request.jwt.claims','{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}',true);select public.admin_list_receipt_operation_evidence_v1('55779298-3772-4c82-ab50-25ac6766b784','budget_refusals',1,null,null);commit;

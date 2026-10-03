@@ -1,0 +1,105 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/verify_candidate2_source.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py
+@@ -12,12 +12,13 @@
+ from pathlib import Path
+ 
+ HERE=Path(__file__).resolve().parent
+-CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2')
++CANDIDATE=Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter')
+ PRISTINE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1')
+ INSTALLED=Path('/Volumes/PRO-G40/Development/Flutter/flutter')
+ FAILED_CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1')
++COMPLETED_CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2')
+ ADDITIONAL_PREVIEW_SHA='9a772be6d48982d3700aef3671179ddf2f55ce674891e75faf48f9c621f55a22'
+-WRITER_SHA='6f06d64a491c74aa6076c8aa8bea158e58f1443588c126af9e41f6a455775549'
++WRITER_SHA='9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12'
+ ADMISSION_SHA='9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749'
+ PREVIEW_SHA='e61d580116a7fb976733cbf7dc3ae6c6d3b927c5c0bb46f04511ba39e2e01f34'
+ GENERATED_ROOTS=('flutter/packages/flutter_tools/gradle/.gradle','flutter/packages/flutter_tools/gradle/.kotlin','flutter/packages/flutter_tools/gradle/build')
+@@ -41,7 +42,7 @@
+ 
+ 
+ def anchors():
+-    writer=HERE/'authenticated_candidate2_expansion.py'
++    writer=HERE/'authenticated_native_consumer_expansion.py'
+     if sha(writer)!=WRITER_SHA: raise ValueError('exact reviewed derivative writer drift')
+     spec=importlib.util.spec_from_file_location('exact_candidate_writer',writer)
+     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+@@ -87,11 +88,13 @@
+ 
+ 
+ def generated_path_allowed(name,phase):
+-    return phase=='built' and any(name==r or name.startswith(r+'/') for r in GENERATED_ROOTS)
++    return ((phase=='built' and any(name==r or name.startswith(r+'/') for r in GENERATED_ROOTS))
++            or (phase in ('sdk-locked','startup','app-locked','built')
++                and (name=='flutter/packages/flutter_tools/.dart_tool' or name.startswith('flutter/packages/flutter_tools/.dart_tool/'))))
+ 
+ 
+ def verify(phase):
+-    if phase not in ('pristine','patched','built'):raise ValueError('unreviewed candidate source phase')
++    if phase not in ('pristine','patched','sdk-locked','startup','app-locked','built'):raise ValueError('unreviewed candidate source phase')
+     module,admission,preview=anchors()
+     helper,nodes,checkout,_,_,links=module.bindings()
+     if (not CANDIDATE.is_dir() or CANDIDATE.is_symlink() or CANDIDATE.resolve()!=CANDIDATE
+@@ -127,19 +130,20 @@
+                 if observation.st_nlink!=1:raise ValueError('candidate shares writable regular inode')
+                 total+=observation.st_size
+                 if observation.st_size>1024**3 or total>12*1024**3:raise ValueError('candidate expanded byte bound')
+-                for other_root in (PRISTINE,INSTALLED,FAILED_CANDIDATE):
++                for other_root in (PRISTINE,INSTALLED,FAILED_CANDIDATE,COMPLETED_CANDIDATE):
+                     other=other_root/path.relative_to(CANDIDATE)
+                     if other.exists() and other.is_file():
+                         previous=other.stat()
+                         if (observation.st_dev,observation.st_ino)==(previous.st_dev,previous.st_ino):
+                             raise ValueError('candidate/pristine/installed/failed-candidate shared inode')
+-                digest=hashlib.sha256();crc=0;count=0
++                digest=hashlib.sha256();crc=0;count=0;source_body=bytearray() if name in nodes else None
+                 fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
+                 with os.fdopen(fd,'rb') as stream:
+                     opened=os.fstat(stream.fileno())
+                     if regular_identity(opened)!=regular_identity(observation):raise ValueError('physical reader identity race')
+                     for chunk in iter(lambda:stream.read(1024**2),b''):
+                         count+=len(chunk);digest.update(chunk);crc=zlib.crc32(chunk,crc)
++                        if source_body is not None:source_body.extend(chunk)
+                         if count>observation.st_size:raise ValueError('candidate read byte overrun')
+                     regular_read_fence(path,observation,opened,os.fstat(stream.fileno()))
+                 if count!=observation.st_size:raise ValueError('candidate read length drift')
+@@ -151,7 +155,7 @@
+                         if crc!=row['CRC']:raise ValueError('retained CRC drift')
+                     if name in nodes:
+                         if name.removeprefix('flutter/') not in preview['files'] or phase=='pristine':
+-                            module.source_identity(name,path.read_bytes(),observation.st_mode,nodes,checkout,helper)
++                            module.source_identity(name,bytes(source_body),observation.st_mode,nodes,checkout,helper)
+                         source_seen.add(name)
+                 entry={'kind':kind,'bytes':count,'sha256':actual_sha,'CRC':crc,'mode':stat.S_IMODE(observation.st_mode),'device':observation.st_dev,'inode':observation.st_ino,'nlink':observation.st_nlink}
+             elif kind=='symlink':
+@@ -165,16 +169,27 @@
+             if row:rows[name]=entry
+             else:generated[name]=entry
+         if source_seen!=set(nodes):raise ValueError('missing exact official source/license identity')
++        metadata_path=HERE/'publisher_metadata.py'
++        if sha(metadata_path)!='c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25':raise ValueError('exact metadata policy drift')
++        spec=importlib.util.spec_from_file_location('exact_consumer_metadata',metadata_path)
++        metadata=importlib.util.module_from_spec(spec);spec.loader.exec_module(metadata)
++        four=metadata.validate_four_bytes(CANDIDATE)
++        for name,row in four.items():
++            if phase in ('pristine','patched') or name!='packages/flutter_tools/pubspec.lock':
++                if row['mtime_ns']!=metadata.timestamp_ns(metadata.FILES[name][0]):raise ValueError('publisher four-timestamp restoration drift')
++        if four['packages/flutter_tools/pubspec.yaml']['mtime_ns']>four['packages/flutter_tools/pubspec.lock']['mtime_ns']:
++            raise ValueError('YAML newer than locked SDK tool; startup upgrade prerequisite')
+         return {'status':'EXACT_CANDIDATE_SOURCE_DELTA_AND_PHYSICAL_READBACK_PASS','phase':phase,'source_entries':len(source_seen),
+             'allowed_source_deltas':[] if phase=='pristine' else sorted(preview['files']),
+             'retained_publisher_members':len(rows),'generated_output_manifest':generated,'generated_roots_exact':GENERATED_ROOTS,
+             'retained_physical_manifest':rows,'zero_pristine_installed_failed_candidate_shared_inodes':True,'SDK_executed_by_verifier':False,
+-            'scope':'Exact physical/source/allowed8 delta and separately inventoried generated paths. No compiler/ABI/advisory/release acceptance.'}
++            'four_publisher_bootstrap_leaf_observations':four,'completed_candidate2_inodes_protected':True,
++            'scope':'Exact physical/source/allowed8 delta and separately inventoried generated paths; post-SDK-lock lock mtime may come only from actual enforced pub stage. No native/ABI/advisory/release acceptance.'}
+ 
+ 
+ if __name__=='__main__':
+     parser=argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('phase',choices=('pristine','patched','built'))
++    parser.add_argument('phase',choices=('pristine','patched','sdk-locked','startup','app-locked','built'))
+     parser.add_argument('--output',type=Path,required=True)
+     args=parser.parse_args()
+     if args.output.exists():raise ValueError('output exists; preserve prior attempts')

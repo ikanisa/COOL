@@ -1,0 +1,25 @@
+{
+  "status": "sealed",
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-register-heading-correction1/README.md",
+      "bytes": 392,
+      "sha256": "2dad32f7599218bc14e1e95bf6629035223d4e572156624ab79c22a44096fb7e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-register-heading-correction1/correction.json",
+      "bytes": 2155,
+      "sha256": "f2a98fb23f35fd19d28038a10d7ba81cc5f05b4e848f526b0403161e657f0c2b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-register-heading-correction1/register-after.md",
+      "bytes": 54858,
+      "sha256": "835d3b1400fdd50481bf34e990b57794dd9c0e1921ef6ae2d164b5b91d7c2bb0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-register-heading-correction1/register-before.md",
+      "bytes": 54818,
+      "sha256": "25b20c19b3727949cf0dcdf91df74bb3170a0eecddc3a3d58ad685dd2714fdd1"
+    }
+  ]
+}

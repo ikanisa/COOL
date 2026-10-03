@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/consumer-cohort.py",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 10.633,
+  "exit_code": 1,
+  "output_limit_bytes": 4194304,
+  "pgid": 24796,
+  "pid": 24796,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 40127,
+    "device": 16777247,
+    "inode": 17772462,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924066017529776,
+    "sha256": "a327e36f8c1ece88b2860ce105850706311430986053429932fa26ddba95496d"
+  },
+  "stdout": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17772461,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924055395764119,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 900
+}

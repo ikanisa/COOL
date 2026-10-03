@@ -1,0 +1,12 @@
+{
+  "scope": "Normalized schema only; no new origin acquisition. Derived from exact previously authenticated primary receipt and raw metadata.",
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/wheel-provenance.json",
+  "source_sha256": "24e0069f93225e2669c0d627389624105313092607b68faf652159acfb266f54",
+  "normalized_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-offline-wheelhouse-batch1/local-publisher-inputs.json",
+  "normalized_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "wheel_count": 6,
+  "metadata_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/primary",
+  "wheel_pool": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels",
+  "live_network": false,
+  "reverified_whole_files_in_next_preparation": true
+}

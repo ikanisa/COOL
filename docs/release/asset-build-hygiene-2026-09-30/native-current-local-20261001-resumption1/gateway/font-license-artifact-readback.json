@@ -1,0 +1,11 @@
+{
+  "artifact_sha256": "b483ecaa1924c254b1baecf64b890887f7bcae361645e5665d45b0e9d9fbec43",
+  "compressed_notices_sha256": "046b6b15fb01cae4a37c8edd17ba441dc094b62f2a523611996129d660dbd782",
+  "full_ofl_inter_text_in_actual_compiled_notices": true,
+  "inter_license_sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "notices_compression": "gzip",
+  "raw_license_asset_bundled": false,
+  "reader_correction": "License is included in the compiled Flutter notice registry; a separate raw TXT asset is not required or claimed. Initial raw-path assertion was rejected.",
+  "scope": "Actual artifact/font license text, no assertion of rights for other assets or dependencies.",
+  "status": "pass"
+}

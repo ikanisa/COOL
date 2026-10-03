@@ -1,0 +1,19 @@
+{
+  "private_helper_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py",
+  "helper_sha256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f",
+  "test_sha256": "046aa42d82068f757e1c2735e71515a35a67ee04c8f26ba772cca7aeb683d457",
+  "submitted_tests_result_sha256": "830b2241ab6673ebe8d6467cd567ae401a6c584b7689f627bc9f6aec3d94a48a",
+  "synthetic_tests_passed": 11,
+  "maintained_files_changed": false,
+  "actual_AAB_or_build_checked": false,
+  "root_owns_actual_run_and_outputs": true,
+  "font_rights_unresolved": true,
+  "complete_package_SBOM_established": false,
+  "ARC09_closed": false,
+  "CLI": "--aab --aab-sha256 --bindings --bindings-sha256 --output [--timeout-seconds]",
+  "binding_roles_are_opaque_evidence_labels": true,
+  "all_supplied_input_files_hashed_before_and_after": true,
+  "ordinary_ZIP_only": true,
+  "archive_byte_bound": 1073741824,
+  "member_count_bound": 50000
+}

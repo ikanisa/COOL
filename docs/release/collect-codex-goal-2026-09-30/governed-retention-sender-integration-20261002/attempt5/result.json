@@ -1,0 +1,53 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/admin_sender_retention_mount_test.dart"
+      ],
+      "started_at": "2026-10-02T04:09:13.068820+00:00",
+      "finished_at": "2026-10-02T04:09:29.185843+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "10d043dc4f2b8cab0908cedcf8e84109558ae126b120da70bd823fd1679d2fb3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_sender_picker.dart",
+        "lib/admin/core/admin_sender_retention_models.dart",
+        "lib/admin/core/admin_sender_retention_sdk.dart",
+        "lib/admin/core/admin_sender_retention_controller.dart",
+        "lib/admin/core/admin_sender_retention_host.dart",
+        "lib/admin/core/admin_sender_retention_view.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_governed_settings_page.dart",
+        "lib/admin/core/admin_receipt_operations_card.dart",
+        "test/admin_sender_retention_models_test.dart",
+        "test/admin_sender_retention_controller_test.dart",
+        "test/admin_sender_retention_view_test.dart",
+        "test/admin_sender_retention_mount_test.dart",
+        "test/admin_governed_settings_widget_test.dart",
+        "test/admin_receipt_operations_card_test.dart"
+      ],
+      "started_at": "2026-10-02T04:09:29.185963+00:00",
+      "finished_at": "2026-10-02T04:09:33.780721+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "074ef3dcd6bb82fe7788d02c5c50b99748168d215e0262c93bc14f5407e6add5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Canonical Settings and receipt operations mounts, retained producer DTOs with explicitly synthetic Auth/HTTP and adapted sender fixture; no hosted service, real sender, reader speech, comparator parity or release artifact acceptance"
+}

@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/admin_receipt_operational_history_test.dart",
+        "test/admin_receipt_operational_history_recovery_test.dart",
+        "test/admin_worker_cold_consumer_test.dart"
+      ],
+      "started_at": "2026-10-02T01:56:23.603964+00:00",
+      "finished_at": "2026-10-02T01:56:31.292366+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "747b89d92a0c5e6519bb1cba2278296b4830adcca9292a7d0c86771562f9b8b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_receipt_operational_history_models.dart",
+        "lib/admin/core/admin_receipt_operational_history_sdk.dart",
+        "lib/admin/core/admin_receipt_operational_history_view.dart",
+        "test/admin_receipt_operational_history_recovery_test.dart",
+        "test/admin_worker_cold_consumer_test.dart"
+      ],
+      "started_at": "2026-10-02T01:56:31.292437+00:00",
+      "finished_at": "2026-10-02T01:56:38.508174+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "867fa8e8aec013fc0539b5f75ac5dee185727f88e1eaa047f6b3b41a4485469a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Affected canonical Admin model/SDK/provider/view consumer closure; synthetic Auth/HTTP and local producer fixtures; no complete UI or hosted acceptance",
+  "checks": 51,
+  "analysis_files": 5,
+  "bound_inputs": 445,
+  "input_drift": []
+}

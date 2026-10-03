@@ -1,0 +1,30 @@
+{
+    "components": [
+        
+    ],
+    "edges": [
+        
+    ],
+    "artifacts": [
+        
+    ],
+    "poms": [
+        
+    ],
+    "checkpoints": [
+        {
+            "sequence": 0,
+            "phase": "before-selected-metadata-resolution",
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-fixtures/fixture-metadata.json.checkpoint-0.json"
+        }
+    ],
+    "complete_selected_tooling_metadata": false,
+    "complete_selected_tooling_graph": false,
+    "phase": "before-selected-metadata-resolution",
+    "counts": {
+        "components": 0,
+        "edges": 0,
+        "artifacts": 0,
+        "poms": 0
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "absence_probe": "Scoped name/command selection only, no success inferred from absence; initial PID/PGID was not retained",
+  "claim_PASS": false,
+  "completion_receipt_present": false,
+  "exit_code": null,
+  "first_argv": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "matching_rows": [],
+  "matching_rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "planned_outer_bound_seconds": 30,
+  "recorded_at_utc": "2026-10-02T14:16:40.443208+00:00",
+  "result": "unverified_capture_missing",
+  "source_scripts_mutated": false,
+  "stdout_stderr_available": false
+}

@@ -1,0 +1,107 @@
+--- preparation3/test_rehearsal.py
++++ preparation4/test_rehearsal.py
+@@ -309,4 +309,104 @@
+         with self.assertRaises(r.Refused):r.graphql_state(dict(schemas=[[]],functions=[],dependencies=[]))
+ 
+ 
++class CompatibilityTests(unittest.TestCase):
++    def fixture(self):
++        inputs=json.loads((HERE/'inputs.json').read_text());candidate=Path(inputs['candidate'])
++        source=json.loads((candidate/'reference/compatibility3/source-predecessor-catalog.json').read_text())
++        restored=json.loads((candidate/'reference/compatibility3/restored-predecessor-catalog.json').read_text())
++        texts=[(candidate/name).read_text() for name in [
++            '.cache/receipt-foundation-attempt8/schema-only.sql',r.TRANSPORT,
++            'supabase/migrations/20260804150000_native_push_delivery.sql',
++            'supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql']]
++        return source,restored,texts,r.compatibility_source_scope(source,restored,*texts)
++
++    def test_exact_captured_difference_proposes_only_named_transactions(self):
++        source,restored,_,scope=self.fixture();plan=r.compatibility_plan(source,restored,scope)
++        self.assertEqual(plan['admin_sql'],r.GRAPHQL_GRANTS_SQL+r.TRANSPORT_INDEX_SQL+'\ncommit;')
++        self.assertEqual(plan['postgres_sql'],r.CHECK_REPAIR_SQL)
++        self.assertEqual(len(scope['graphql_schemas']),2);self.assertEqual(len(scope['graphql_functions']),6)
++        self.assertEqual(len(scope['graphql_sequence']),1);self.assertEqual(len(scope['source_constraints']),2)
++        for sql in [plan['admin_sql'],plan['postgres_sql']]:
++            self.assertTrue(sql.startswith('begin;\n'));self.assertTrue(sql.endswith('commit;'))
++            self.assertNotIn('grant all',sql.lower());self.assertNotIn('create or replace',sql.lower())
++        self.assertFalse(scope['schema_or_function_rewrite']);self.assertTrue(scope['full_catalog_comparator_unchanged'])
++
++    def test_exact_source_requires_no_repair(self):
++        source,_,_,scope=self.fixture();plan=r.compatibility_plan(source,copy.deepcopy(source),scope)
++        self.assertEqual(plan,dict(admin_sql='',postgres_sql='',reason='already_exact_source_catalog'))
++
++    def test_unknown_target_acl_owner_body_index_and_check_refused(self):
++        source,restored,_,scope=self.fixture()
++        mutations=[('schemas',lambda rows:rows[0].append('unknown')),
++            ('functions',lambda rows:next(row for row in rows if row[0]=='graphql').__setitem__(11,'a'*64)),
++            ('functions',lambda rows:next(row for row in rows if row[0]=='graphql').__setitem__(10,['unknown=X/supabase_admin'])),
++            ('relations',lambda rows:next(row for row in rows if row[:2]==['graphql','seq_schema_version']).__setitem__(4,'postgres')),
++            ('indexes',lambda rows:rows.append(['net','unknown',True,True,True,'a'*64])),
++            ('constraints',lambda rows:next(row for row in rows if row[2]=='notification_events_copy_length_check').__setitem__(7,'a'*64)),
++            ('constraints',lambda rows:next(row for row in rows if row[2]=='provider_finality_requests_provider_network_check').__setitem__(4,False)),
++            ('migrations',lambda rows:rows.pop())]
++        for key,mutate in mutations:
++            bad=copy.deepcopy(restored);mutate(bad[key])
++            with self.subTest(category=key),self.assertRaisesRegex(r.Refused,'UNKNOWN_RESTORED_METADATA_ACL_INDEX_OR_CHECK'):
++                r.compatibility_plan(source,bad,scope)
++
++    def test_unknown_source_metadata_or_extension_membership_refused(self):
++        source,restored,texts,scope=self.fixture()
++        for key in ['functions','schemas','relations','columns','indexes','constraints','dependencies']:
++            bad=copy.deepcopy(source);bad[key].pop()
++            with self.subTest(category=key),self.assertRaises(r.Refused):
++                r.compatibility_source_scope(bad,restored,*texts)
++            with self.assertRaises(r.Refused):r.compatibility_plan(bad,restored,scope)
++
++    def test_frozen_hook_index_or_between_source_substitution_refused(self):
++        source,restored,texts,_=self.fixture()
++        replacements=[('grant usage on schema graphql','grant usage on schema unknown'),
++            ('collect_receipt_http_response_id on net._http_response(id)','collect_receipt_http_response_id on net._http_response(status_code)'),
++            ('between 1 and 120','between 1 and 121'),('between 2 and 32','between 2 and 33')]
++        for index,(old,new) in enumerate(replacements):
++            bad=list(texts);self.assertIn(old,bad[index]);bad[index]=bad[index].replace(old,new,1)
++            with self.subTest(input=index),self.assertRaisesRegex(r.Refused,'EXACT_FROZEN_COMPATIBILITY_SOURCE_SQL_REQUIRED'):
++                r.compatibility_source_scope(source,restored,*bad)
++
++    def test_forged_repair_sql_or_admitted_hash_refused(self):
++        source,restored,_,scope=self.fixture()
++        for key,value in [('admin_sql','begin;grant all on schema public to anon;commit;'),
++            ('postgres_sql',r.CHECK_REPAIR_SQL.replace('not valid','')),
++            ('source_catalog_canonical_sha256','a'*64),('captured_restored_catalog_canonical_sha256','a'*64)]:
++            bad=copy.deepcopy(scope);bad[key]=value
++            with self.subTest(key=key),self.assertRaisesRegex(r.Refused,'SOURCE_COMPATIBILITY_SCOPE_CHANGED'):
++                r.compatibility_plan(source,restored,bad)
++
++    def test_original_between_and_validation_flags_are_preserved(self):
++        _,_,texts,scope=self.fixture();sql=scope['postgres_sql']
++        self.assertIn(r.NOTIFICATION_EXPRESSION,texts[2]);self.assertIn(r.PROVIDER_EXPRESSION,texts[3])
++        self.assertIn(r.NOTIFICATION_EXPRESSION,sql);self.assertIn(r.PROVIDER_EXPRESSION,sql)
++        self.assertEqual(sql.count('not valid;'),1);self.assertNotIn('validate constraint',sql)
++        self.assertEqual([row[4:7] for row in scope['source_constraints']],[[False,False,False],[True,False,False]])
++        self.assertEqual([row[7] for row in scope['exact_admitted_restored_constraints']],
++            ['74e42a847ff75a14e384b3eaaca4ce27961584e94628a4dadeb2b76bd0a7275e',
++             '04d7111057711ab49ddb4d03ef63af3f3fe4fae5b66822a288bfad9ab74aa678'])
++
++    def test_all18_fresh_projections_required_before_and_after(self):
++        source={str(i):dict(rows=2,sha256='a'*64) for i in range(18)}
++        self.assertTrue(r.projection_parity(copy.deepcopy(source),source))
++        missing=copy.deepcopy(source);missing.pop('0')
++        changed=copy.deepcopy(source);changed['0']['sha256']='b'*64
++        for bad in [missing,changed,{},[],dict(source,extra=dict(rows=0,sha256='a'*64))]:
++            with self.assertRaisesRegex(r.Refused,'ALL18_COMMITTED_PROJECTIONS_MUST_MATCH_AROUND_REPAIRS'):
++                r.projection_parity(bad,source)
++
++    def test_archive_omission_proof_refuses_unexpected_index_or_extension_entries(self):
++        source,_,_,_=self.fixture()
++        toc='1; 3079 42 EXTENSION - pg_graphql\n2; 0 0 ACL graphql_public FUNCTION graphql("operationName" text, query text, variables jsonb, extensions jsonb) supabase_admin\n'
++        proof=r.compatibility_archive_proof(source,toc,b'PGDMPsynthetic-test')
++        self.assertTrue(proof['no_archive_line_omitted_or_rewritten_by_this_proof'])
++        for line in ['3; 1259 43 INDEX net collect_receipt_http_response_id supabase_admin\n',
++            '3; 1255 43 FUNCTION graphql resolve(query text) supabase_admin\n',
++            '3; 0 0 ACL graphql FUNCTION resolve(query text) supabase_admin\n',
++            '3; 1259 43 SEQUENCE graphql seq_schema_version supabase_admin\n']:
++            with self.assertRaises(r.Refused):r.compatibility_archive_proof(source,toc+line,b'PGDMPsynthetic-test')
++        with self.assertRaises(r.Refused):r.compatibility_archive_proof(source,toc,b'PGDMPcollect_receipt_http_response_id')
++
++
+ if __name__=='__main__':unittest.main()

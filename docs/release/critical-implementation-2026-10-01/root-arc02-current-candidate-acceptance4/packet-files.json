@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "bytes": 10191,
+      "path": "run_checks.py",
+      "sha256": "c18d11433c0ed705041f9faee7b04f74022fa0875deb27339a9f22e6e10781ee"
+    },
+    {
+      "bytes": 901,
+      "path": "exact-size-gate.sh",
+      "sha256": "d99c3d5ccb77990ae092a9d25b87f96ad9a95328df1b082bfeb752800edfa911"
+    },
+    {
+      "bytes": 6256,
+      "path": "plan.json",
+      "sha256": "ab64a6dc161497d47bb4421d25cba6a73caa913b873a45c6e0461a0c6bed06fe"
+    }
+  ]
+}

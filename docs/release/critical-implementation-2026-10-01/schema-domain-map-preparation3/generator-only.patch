@@ -1,0 +1,222 @@
+--- a/scripts/audits/collect_schema_domain_map.py
++++ b/scripts/audits/collect_schema_domain_map.py
+@@ -247,6 +247,124 @@
+             if site["schema_assumption"]: site["resolution"] = "schema-override-review-required"
+     return sites
+ 
++def sql_identifier(text, token):
++    return token.value if text[token.start:token.start+1] == '"' else token.value.lower()
++
++def sql_signature(text, tokens, opening):
++    """Only explicit builtin input types; unknown modes/types stay unresolved."""
++    if opening >= len(tokens) or tokens[opening].value != "(": return None, opening
++    parts, current, depth, j = [], [], 1, opening+1
++    while j < len(tokens):
++        token=tokens[j]
++        if token.kind=="symbol" and token.value=="(": depth+=1
++        elif token.kind=="symbol" and token.value==")":
++            depth-=1
++            if not depth:
++                if current: parts.append(current)
++                break
++        if depth==1 and token.kind=="symbol" and token.value==",": parts.append(current);current=[]
++        else: current.append(token)
++        j+=1
++    if depth: return None, j
++    builtins={"uuid","bigint","integer","smallint","text","boolean","jsonb","json","bytea","numeric",
++              "real","double precision","date","timestamp","timestamp with time zone","timestamp without time zone",
++              "time","time with time zone","time without time zone"}
++    result=[]
++    for part in parts:
++        if not part:return None,j
++        if part[0].kind=="id" and part[0].value.lower()=="in":part=part[1:]
++        elif part[0].kind=="id" and part[0].value.lower() in {"out","inout","variadic"}:return None,j
++        cut=next((i for i,t in enumerate(part) if t.value=="=" or (t.kind=="id" and t.value.lower()=="default")),len(part))
++        part=part[:cut]
++        def known(values):
++            if not values or any(t.kind!="id" or text[t.start:t.start+1]=='"' for t in values):return None
++            value=" ".join(t.value.lower() for t in values)
++            return value if value in builtins else None
++        value=known(part)
++        if value is None and len(part)>1 and part[0].kind=="id":value=known(part[1:])
++        if value is None:return None,j
++        result.append(value)
++    return tuple(result),j
++
++def sql_static_alterations(text, path, version):
++    """Active literal ALTER only. DO bodies and EXECUTE strings remain opaque."""
++    tokens=lex(text,sql=True);result=[]
++    for i,token in enumerate(tokens):
++        if token.kind!="id" or token.value.lower() not in {"alter","drop"}:continue
++        dropping=token.value.lower()=="drop"
++        j=i+1
++        if j>=len(tokens) or tokens[j].value.lower()!="function":continue
++        j+=1
++        if dropping and j+1<len(tokens) and [tokens[j].value.lower(),tokens[j+1].value.lower()]==["if","exists"]:j+=2
++        if j>=len(tokens) or tokens[j].kind!="id":continue
++        schema,name="public",sql_identifier(text,tokens[j]);j+=1
++        qualified=j+1<len(tokens) and tokens[j].value=="." and tokens[j+1].kind=="id"
++        if qualified:schema,name=name,sql_identifier(text,tokens[j+1]);j+=2
++        if dropping:
++            # A literal DROP makes prior declarations uncertain. Invalidate each
++            # visible qualified name, even if its argument syntax is unsupported.
++            end=next((k for k in range(j,len(tokens)) if tokens[k].kind=="symbol" and tokens[k].value==";"),len(tokens))
++            names={(schema,name)} if qualified else set()
++            for k in range(j,end-3):
++                if tokens[k].kind=="id" and tokens[k+1].value=="." and tokens[k+2].kind=="id" and tokens[k+3].value=="(":
++                    names.add((sql_identifier(text,tokens[k]),sql_identifier(text,tokens[k+2])))
++            for dropped_schema,dropped_name in sorted(names):
++                result.append({"path":path,"line":text.count("\n",0,token.start)+1,"version":version,
++                               "statement_offset":token.start,"schema":dropped_schema,"name":dropped_name,
++                               "signature_types":None,"operation":"drop-name","destination":None})
++            continue
++        if not qualified:continue
++        signature,j=sql_signature(text,tokens,j)
++        if signature is None:continue
++        j+=1
++        if j+3>=len(tokens):continue
++        operation=[tokens[j].value.lower(),tokens[j+1].value.lower()]
++        if operation not in (["rename","to"],["set","schema"]) or tokens[j+2].kind!="id" or tokens[j+3].value!=";":continue
++        destination=sql_identifier(text,tokens[j+2])
++        result.append({"path":path,"line":text.count("\n",0,token.start)+1,"version":version,
++                       "statement_offset":token.start,"statement_sha256":sha(text[token.start:tokens[j+3].end].encode()),
++                       "schema":schema,"name":name,"signature_types":signature,
++                       "operation":"rename" if operation[0]=="rename" else "set-schema",
++                       "destination":destination})
++    return result
++
++def sql_static_lineage(definitions, alterations):
++    """Track latest exact-signature declarations through explicit static moves."""
++    state={};uncertain=set()
++    events=[(d["version"],d["definition_offset"],"definition",d) for d in definitions]
++    events += [(a["version"],a["statement_offset"],"alteration",a) for a in alterations]
++    for _,_,kind,event in sorted(events,key=lambda e:(e[0],e[1])):
++        name=(event["schema"],event["name"]);signature=event["signature_types"]
++        if kind=="alteration" and event["operation"]=="drop-name":
++            state={key:value for key,value in state.items() if key[:2]!=name};uncertain.add(name);continue
++        if kind=="definition":
++            if event["routine_kind"]!="function":continue
++            if signature is None:uncertain.add(name);continue
++            state[(*name,signature)]={**event,"static_lineage":[]};continue
++        key=(*name,signature)
++        if name in uncertain or key not in state:continue
++        destination=(event["schema"],event["destination"]) if event["operation"]=="rename" else (event["destination"],event["name"])
++        new_key=(*destination,signature)
++        if destination in uncertain or new_key in state:continue
++        declaration=state.pop(key)
++        proof={k:v for k,v in event.items() if k!="statement_offset"}
++        state[new_key]={**declaration,"static_lineage":[*declaration["static_lineage"],proof]}
++    return state
++
++def function_source_review(obj, definitions, lineage_candidates, matches):
++    """Candidate evidence explains gaps; same bodies never imply name lineage."""
++    literal=[d for d in definitions if (d["schema"],d["name"])==(obj["schema"],obj["name"])]
++    other=[d for d in definitions if d["prosrc_sha256"]==obj["prosrc_sha256"] and (d["schema"],d["name"])!=(obj["schema"],obj["name"])]
++    def evidence(d):return {k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}}
++    reason="exact-static-lineage-body-match" if matches else "static-lineage-body-hash-mismatch" if lineage_candidates else "literal-effective-name-body-hash-mismatch" if literal else "no-literal-effective-name-definition"
++    return {"identity":obj["identity"],"schema":obj["schema"],
++            "source_scope":"platform-schema" if obj["schema"] in PLATFORM_SCHEMAS else "application-schema-or-public",
++            "reason":reason,"resolved":bool(matches),"required_final_prosrc_sha256":obj["prosrc_sha256"],
++            "literal_effective_name_candidates":[evidence(d) for d in literal],
++            "same_body_other_name_candidates":[evidence(d) for d in other],
++            "static_lineage_candidates":[evidence(d) for d in lineage_candidates],
++            "same_body_other_name_is_match":False,"dynamic_SQL_evaluation_performed":False}
++
+ def sql_definitions(text, path, version):
+     """Body hashes bind candidates to pg_proc.prosrc; arguments are never inferred."""
+     result, tokens = [], lex(text, sql=True)
+@@ -255,20 +373,26 @@
+         j=i+1
+         if j+1<len(tokens) and [tokens[j].value.lower(),tokens[j+1].value.lower()]==["or","replace"]:j+=2
+         if j+1>=len(tokens) or tokens[j].value.lower() not in {"function","procedure"}:continue
++        routine_kind=tokens[j].value.lower()
+         j+=1
+         if tokens[j].kind!="id":continue
+-        schema,short="public",tokens[j].value;j+=1
+-        if j+1<len(tokens) and tokens[j].value=="." and tokens[j+1].kind=="id":schema,short=short,tokens[j+1].value;j+=2
++        schema,short="public",sql_identifier(text,tokens[j]);j+=1
++        if j+1<len(tokens) and tokens[j].value=="." and tokens[j+1].kind=="id":schema,short=short,sql_identifier(text,tokens[j+1]);j+=2
+         if j>=len(tokens) or tokens[j].value!="(":continue
++        signature,_=sql_signature(text,tokens,j)
+         body_token=None
+-        while j+1<len(tokens) and tokens[j].value!=";":
++        while j+1<len(tokens) and not (tokens[j].kind=="symbol" and tokens[j].value==";"):
+             if tokens[j].kind=="id" and tokens[j].value.lower()=="as" and tokens[j+1].kind=="string":body_token=tokens[j+1];break
+             j+=1
+         if body_token is None:continue
+         delimiter=re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",text[body_token.start:])
+         offset=body_token.start+(len(delimiter.group()) if delimiter else 1)
++        end=next((t.end for t in tokens[j+2:] if t.kind=="symbol" and t.value==";"),None)
++        if end is None:continue
+         result.append({"path":path,"line":text.count("\n",0,token.start)+1,"schema":schema,"name":short,
+-                       "version":version,"prosrc_sha256":sha(body_token.value.encode()),"body":body_token.value,"body_offset":offset})
++                       "version":version,"prosrc_sha256":sha(body_token.value.encode()),"body":body_token.value,"body_offset":offset,
++                       "definition_offset":token.start,"declaration_sha256":sha(text[token.start:end].encode()),"signature_types":signature,
++                       "routine_kind":routine_kind})
+     return result
+ 
+ def sql_sites(definition, catalog):
+@@ -371,7 +495,7 @@
+         raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+-    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; versions=[]
++    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; versions=[]
+     for path in migration_files:
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+@@ -379,6 +503,7 @@
+         version=m.group(1); versions.append(version); raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"original-migration","version":version,"represented_in_catalog":version in catalog["migrations"]})
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
++        alterations.extend(sql_static_alterations(raw.decode("utf-8"),relative,version))
+     if versions != sorted(set(versions)): raise ValueError("migration source ordering/duplicates")
+     replay_bound=None
+     if replay_migrations is not None:
+@@ -389,15 +514,26 @@
+             if captured_raw!=required_bytes(source_path):raise ValueError("replayed migration byte drift: "+source_path.name)
+             inputs.append({"path":captured_path.relative_to(root).as_posix() if captured_path.is_relative_to(root) else str(captured_path),"sha256":sha(captured_raw),"kind":"replayed-original-migration","version":source_path.name.split("_",1)[0]})
+         replay_bound=True
+-    objects=normalize_objects(catalog); matched=[]; sql_references=[]
++    objects=normalize_objects(catalog); matched=[]; sql_references=[]; source_reviews=[]; lineage_matches=[]
+     by_body=collections.defaultdict(list)
++    admitted_definitions=[d for d in definitions if d["version"] in catalog["migrations"]]
++    lineage=sql_static_lineage(admitted_definitions,[a for a in alterations if a["version"] in catalog["migrations"]])
+     for d in definitions:
+         if d["version"] in catalog["migrations"]: by_body[(d["schema"],d["name"],d["prosrc_sha256"])].append(d)
+     for obj in objects:
+         if obj["kind"]!="function":continue
+         matches=by_body[(obj["schema"],obj["name"],obj["prosrc_sha256"])]
+-        obj["matched_body_sources"]=[{k:v for k,v in d.items() if k not in {"body","body_offset"}} for d in matches]
+-        obj["source_status"]="catalog-prosrc-hash-matched" if matches else "no-exact-body-source-match"
++        literal_match=bool(matches)
++        if not matches:
++            signature_tokens=lex("("+obj["catalog_row"][2]+")",sql=True)
++            signature,_=sql_signature("("+obj["catalog_row"][2]+")",signature_tokens,0)
++            candidates=[d for (schema,name,types),d in lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and obj["catalog_row"][3]=="f" and signature is not None and types==signature]
++            matches=[d for d in candidates if d["prosrc_sha256"]==obj["prosrc_sha256"]]
++            review=function_source_review(obj,admitted_definitions,candidates,matches)
++            obj["source_match_review"]=review;source_reviews.append(review)
++            if matches:lineage_matches.append(obj["identity"])
++        obj["matched_body_sources"]=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}} for d in matches]
++        obj["source_status"]="catalog-prosrc-hash-matched" if literal_match else "catalog-prosrc-hash-matched-static-lineage" if matches else "no-exact-body-source-match"
+         if matches:
+             d=matches[-1]
+             for site in sql_sites(d,catalog):
+@@ -439,6 +575,8 @@
+              "catalog_objects_by_kind":dict(collections.Counter(o["kind"] for o in objects)),
+              "maintained_source_files":len(sources),"caller_sites_by_kind":dict(collections.Counter(s["kind"] for s in sites)),
+              "functions_with_exact_body_hash_match":len(matched),"functions_without_exact_body_hash_match":len(catalog["functions"])-len(matched),
++             "functions_with_exact_static_lineage_body_hash_match":len(lineage_matches),"function_body_match_review_records":len(source_reviews),
++             "functions_without_exact_body_hash_match_by_scope":dict(collections.Counter(r["source_scope"] for r in source_reviews if not r["resolved"])),
+              "sql_reference_sites":len(sql_references),"unclassified_objects":sum(o["domain"]=="unclassified" for o in objects),
+              "function_objects_without_literal_caller_or_sql_candidate":sum(o["kind"]=="function" and not o["caller_site_indexes"] and not o["sql_reference_indexes"] for o in objects),
+              "dynamic_or_unresolved_caller_sites":sum(s["kind"].startswith("dynamic-") or s["resolution"] in {"unresolved","schema-override-review-required","overload-or-name-ambiguous"} for s in sites),
+@@ -464,6 +602,7 @@
+                        ("coverage.json",summary),("gaps.json",{"unclassified_objects":[{k:o[k] for k in ["kind","identity","database_owner","domain_basis"]} for o in objects if o["domain"]=="unclassified"],
+                         "unresolved_callers":[s for s in sites if s["kind"].startswith("dynamic-") or s["resolution"] in {"unresolved","schema-override-review-required","overload-or-name-ambiguous"}],
+                         "functions_without_exact_body_match":[o["identity"] for o in objects if o["kind"]=="function" and o["source_status"]=="no-exact-body-source-match"],
++                        "function_body_match_review":source_reviews,
+                         "sql_resolution_review":[s for s in sql_references if s["resolution"]!="unique-qualified-name"],
+                         "unrepresented_migration_sources":[r for r in inputs if r["kind"]=="original-migration" and not r["represented_in_catalog"]]})]:
+         (output/name).write_text(json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+"\n")

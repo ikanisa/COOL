@@ -1,0 +1,22 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:50 GMT",
+    "ETag": "W/\"e691b0af2ab899631a3a8b83ddb3ef8f71740b863f20ce98f8435969c2e7b152\"",
+    "Last-Modified": "Fri, 25 Sep 2026 19:25:56 GMT",
+    "X-RateLimit-Remaining": "46",
+    "X-RateLimit-Reset": "1790890738"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.github.com/advisories?ecosystem=rubygems&affects=rubyzip%402.4.1&per_page=100&type=reviewed",
+  "requested_at": "2026-10-01T21:22:49.276189+00:00",
+  "response_bytes": 4256,
+  "response_path": "primary/github-affected-rubyzip-2.4.1.response",
+  "response_sha256": "d4f95f2b9657caa93e4f96c96db96130da26d7bb88b1337d9ac20982873971a1",
+  "response_url": "https://api.github.com/advisories?ecosystem=rubygems&affects=rubyzip%402.4.1&per_page=100&type=reviewed",
+  "retrieved_at": "2026-10-01T21:22:50.101693+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

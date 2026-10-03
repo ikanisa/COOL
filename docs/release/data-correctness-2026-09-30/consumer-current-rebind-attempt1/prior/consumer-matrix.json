@@ -1,0 +1,5472 @@
+{
+  "status": "scoped_client_and_current_staged_sql_accepted_final_bindings_pending",
+  "whole_system_acceptance": false,
+  "sql_executed_here": false,
+  "packet": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge",
+  "validation_sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee",
+  "validation_path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+  "retained_original_validation_sha256": "a1270967b0dfacdd1061f2d2543126c7d76331d443df0f2a5c17082e5b0abeeb",
+  "inputs_sha256": "09dca0a2ccf0121408789b4f18b182d3f393a23d2d50adcdbf92103ccb63cef5",
+  "source_file_count": 827,
+  "consumer_file_count": 92,
+  "control_family_count": 19,
+  "vm": {
+    "passed": 744,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "runner_completed_successfully": true
+  },
+  "browser": {
+    "passed": 299,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "runner_completed_successfully": true
+  },
+  "current_source_acceptance": false,
+  "installed154_sql_scope": {
+    "packet": "docs/release/data-correctness-2026-09-30/sql154-attempt2",
+    "result_sha256": "73f0a3ac32574dab76b9c4e863831686f00200031c78c8445709ff735f7beba7",
+    "status": "failed",
+    "passed": 55,
+    "failed": 2,
+    "installed_migrations": 154,
+    "latest": "20260930230000",
+    "source_preserved": true,
+    "disposable_database_removed": true,
+    "full_server_acceptance": false,
+    "scope": "Schema-only actual installed154 APIs; source/financial preservation, real intents/full counts, empty summaries/history, ownership and payer/attestation denials. No posted/confirmed/native capability fabrication."
+  },
+  "exact_request_candidate_sql_scope": {
+    "packet": "docs/release/data-correctness-2026-09-30/sql154-attempt4-candidate234000",
+    "result_sha256": "a0b4878c82da8ef9ef037aaadffe9e2c774e01b5970a5c0077134f9144e245d4",
+    "passed": 80,
+    "failed": 0,
+    "candidate": {
+      "applied_only_to_disposable_clone": true,
+      "installed_in_shared_database": false,
+      "path": "supabase/migrations/20260930234000_exact_request_amounts.sql"
+    },
+    "candidate_sha256": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "source_preserved": true,
+    "disposable_database_removed": true,
+    "scope": "Actual baseline154 schema plus reviewed234000 in a disposable clone; exact intent/target/suggestion bounds, atomic migration refusal, preserved signature/body/grants and null/positive controls.",
+    "installed_in_shared_or_hosted_database": false,
+    "recorder_version": "The dated packet binds its original recorder, not the subsequent stronger catalog recorder.",
+    "full_server_acceptance": false
+  },
+  "actual_sql_history_client_bridge_scope": {
+    "source_packet": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt6-full-current167",
+    "result_sha256": "b7cf118a6db0bfb3e62af5135d74ea379dfbddaa83b8215acad8d006d193075a",
+    "artifact_sha256": {
+      "actual-member-history-pages.json": "4b0feb9cdc2c15d172452b016038f72c288301c9d22d3f87b45b5b14b3524ad4",
+      "actual-member-balances.json": "09711e957a328f38303b58a65d80ea86f4bb9dd4d7851825a4e308adac46bee6",
+      "synthetic-reconciliation-receipts.json": "65f0d885bdb9b197afd8bf0450b7d9b0dac5c603d6f19297262d62e06c4e3005",
+      "financial-after-fixture-before-reads.json": "0ac5fed1efab558651d1c7d5d485f503156daed4124c530dd60c181ce393ec29",
+      "actual-history-wrapper-plans.json": "57927770340ff08efe6c9fb4069492325e88a3783db3c75c6085eedcbba39319"
+    },
+    "define_file_sha256": "c5a4aa409a78337827618e43d02bd04da6c87b517701c3c96ef26f9e6ee21c63",
+    "server_result_status": "pass_scoped",
+    "server_failed_cases": [],
+    "receipt_candidate": {
+      "applied_only_to_disposable_clone": true,
+      "installed_in_shared_database": false,
+      "path": "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+      "sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+    },
+    "mode": "full-current",
+    "reviewed_stage_packet": {
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt7-exact-column-acl-all167/result.json",
+      "sha256": "f49403c79b16c7d82d82f74dfffa6b184a99c0a353347837c3a4d7cf851d70be",
+      "source_migration_sha256": {
+        "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+        "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+        "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+        "20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+        "20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+        "20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+      }
+    },
+    "retained_unsafe_scope": {
+      "source_packet": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt2",
+      "result_sha256": "36b17dfef5357a778e2a8bbd9b65aff18e3b3afaac775cd4d771e955530691d0",
+      "server_result_status": "failed",
+      "passing_cases": 39,
+      "failed_cases": 4,
+      "negative_decoder_observations": 2,
+      "corrected_server_acceptance": false
+    },
+    "current_server_acceptance": false,
+    "sql_executed_here": false,
+    "scope": "Genuine public reconciliation API synthetic mechanics, captured positive history and explicitly retained unsafe observations; decoder acceptance is separate from server failures and provider/device/settlement acceptance."
+  },
+  "live_source_drift": [
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+    "lib/admin/admin_router.dart",
+    "lib/admin/admin_shell.dart",
+    "lib/admin/core/admin_action_contracts.dart",
+    "lib/admin/core/admin_exception_checkpoint.dart",
+    "lib/admin/core/admin_exception_checkpoint_stub.dart",
+    "lib/admin/core/admin_exception_checkpoint_web.dart",
+    "lib/admin/core/admin_exception_models.dart",
+    "lib/admin/core/admin_exception_page.dart",
+    "lib/admin/core/admin_exception_runtime.dart",
+    "lib/admin/core/admin_operation_components.dart",
+    "lib/admin/core/admin_operation_tables.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "scripts/tests/data_correctness_gate.py",
+    "test/admin_exception_checkpoint_browser_test.dart",
+    "test/admin_exception_models_test.dart",
+    "test/admin_exception_page_test.dart",
+    "test/admin_exception_repository_test.dart",
+    "test/admin_gateway_action_ui_sdk_test.dart",
+    "test/admin_private_provider_authority_test.dart",
+    "test/admin_pwa_test.dart",
+    "test/admin_roster_calendar_test.dart",
+    "web/public/app-screens/capture-provenance.json",
+    "web/public/app-screens/manifest.json",
+    "web/public/app-screens/terms-377e5eed2d41.png",
+    "web/public/app-screens/terms-71f5644e1234.png"
+  ],
+  "current_source_reference_rebind": {
+    "reference_files": {
+      "lib/admin/core/admin_detail_formatters.dart": {
+        "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+        "references": [
+          {
+            "line": 47,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 99,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_detail_runtime.dart": {
+        "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a",
+        "references": [
+          {
+            "line": 523,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_detail_specs.dart": {
+        "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea",
+        "references": [
+          {
+            "line": 171,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_exception_checkpoint.dart": {
+        "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e",
+        "references": [
+          {
+            "line": 23,
+            "symbols": [
+              "int.parse"
+            ]
+          }
+        ],
+        "in_accepted_export": false,
+        "acceptance": "delegated_admin_new_source_requires_owner_packet"
+      },
+      "lib/admin/core/admin_exception_models.dart": {
+        "sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1",
+        "references": [
+          {
+            "line": 33,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": false,
+        "acceptance": "delegated_admin_new_source_requires_owner_packet"
+      },
+      "lib/admin/core/admin_exception_page.dart": {
+        "sha256": "0b6c745c254918d4a0fd2e76ee15bd6f8f1446f7b1613b8cf289098739ebb92d",
+        "references": [
+          {
+            "line": 103,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 498,
+            "symbols": [
+              "int.parse"
+            ]
+          }
+        ],
+        "in_accepted_export": false,
+        "acceptance": "delegated_admin_new_source_requires_owner_packet"
+      },
+      "lib/admin/core/admin_gateway_contracts.dart": {
+        "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+        "references": [
+          {
+            "line": 43,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_investigation.dart": {
+        "sha256": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398",
+        "references": [
+          {
+            "line": 559,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 567,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_models.dart": {
+        "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+        "references": [
+          {
+            "line": 326,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 332,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 346,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 352,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_operation_components.dart": {
+        "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c",
+        "references": [
+          {
+            "line": 683,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 725,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 745,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_operational_health.dart": {
+        "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+        "references": [
+          {
+            "line": 189,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_operator_approval.dart": {
+        "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f",
+        "references": [
+          {
+            "line": 115,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_overview_components.dart": {
+        "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa",
+        "references": [
+          {
+            "line": 313,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 314,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 315,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 339,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 340,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 341,
+            "symbols": [
+              "int.tryParse"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_read_contracts.dart": {
+        "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+        "references": [
+          {
+            "line": 248,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_receipt_overview.dart": {
+        "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+        "references": [
+          {
+            "line": 51,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_reconciliation_runtime.dart": {
+        "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667",
+        "references": [
+          {
+            "line": 94,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_roster_import.dart": {
+        "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+        "references": [
+          {
+            "line": 1000,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_roster_models.dart": {
+        "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9",
+        "references": [
+          {
+            "line": 78,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_shadow_runs.dart": {
+        "sha256": "63efcb042621d32fb82bc4e47d19f4575f6506fe98afa7a0d37864ad1e011102",
+        "references": [
+          {
+            "line": 54,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/admin_sms_queue_health.dart": {
+        "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578",
+        "references": [
+          {
+            "line": 38,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/admin/core/roster_xlsx_preflight.dart": {
+        "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+        "references": [
+          {
+            "line": 831,
+            "symbols": [
+              "int.parse"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/data/exact_json_values.dart": {
+        "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+        "references": [
+          {
+            "line": 5,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 16,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 28,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 40,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 58,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 73,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 74,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 75,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 76,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 77,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 78,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 79,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 80,
+            "symbols": [
+              "int.parse"
+            ]
+          },
+          {
+            "line": 97,
+            "symbols": [
+              "DateTime.tryParse"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/notifications/collect_notification_service.dart": {
+        "sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+        "references": [
+          {
+            "line": 133,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 299,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 305,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/payments/momo_ussd_intent_guard.dart": {
+        "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+        "references": [
+          {
+            "line": 7,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 8,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/security/play_integrity_service.dart": {
+        "sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+        "references": [
+          {
+            "line": 32,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/utils/date_format.dart": {
+        "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+        "references": [
+          {
+            "line": 16,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/core/utils/money_format.dart": {
+        "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+        "references": [
+          {
+            "line": 3,
+            "symbols": [
+              "formatRwf"
+            ]
+          },
+          {
+            "line": 27,
+            "symbols": [
+              "formatMoneyMinor"
+            ]
+          },
+          {
+            "line": 35,
+            "symbols": [
+              "formatRwf"
+            ]
+          },
+          {
+            "line": 38,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 47,
+            "symbols": [
+              "formatRwf"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/activity/activity_screen.dart": {
+        "sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+        "references": [
+          {
+            "line": 47,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 50,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 99,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/collections/collection_detail_screen.dart": {
+        "sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+        "references": [
+          {
+            "line": 70,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 74,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 160,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/collections/collection_detail_timeline.dart": {
+        "sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+        "references": [
+          {
+            "line": 6,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 35,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 43,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          },
+          {
+            "line": 44,
+            "symbols": [
+              "formatMoneyMinor"
+            ]
+          },
+          {
+            "line": 48,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/collections/collection_manage_screen.dart": {
+        "sha256": "c58e53bc686919d265ff7f03e6e9533692c52b6206a7ea253f2535f6fccd47ca",
+        "references": [
+          {
+            "line": 122,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/collections/collections_screen.dart": {
+        "sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+        "references": [
+          {
+            "line": 252,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 307,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/collections/share_screen.dart": {
+        "sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+        "references": [
+          {
+            "line": 222,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/home/home_public_groups_section.dart": {
+        "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+        "references": [
+          {
+            "line": 19,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/home/home_screen.dart": {
+        "sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+        "references": [
+          {
+            "line": 63,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 118,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/landing/collect_landing_page.dart": {
+        "sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+        "references": [
+          {
+            "line": 300,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/landing/public_policy_page_content.dart": {
+        "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+        "references": [
+          {
+            "line": 116,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/ledger/ledger_screen.dart": {
+        "sha256": "d821e6e84a9d564f40d05dacb05ec21a2b3fe60640dc9935590cdffa377fb583",
+        "references": [
+          {
+            "line": 50,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 101,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          },
+          {
+            "line": 158,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 272,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 304,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/payments/contribution_flow_screen.dart": {
+        "sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+        "references": [
+          {
+            "line": 79,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 254,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 313,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 338,
+            "symbols": [
+              "PaymentIntentDraft"
+            ]
+          },
+          {
+            "line": 387,
+            "symbols": [
+              "PaymentIntentDraft"
+            ]
+          },
+          {
+            "line": 619,
+            "symbols": [
+              "formatRwf"
+            ]
+          },
+          {
+            "line": 667,
+            "symbols": [
+              "formatRwf"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/settings/settings_subscreens.dart": {
+        "sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+        "references": [
+          {
+            "line": 101,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 106,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 148,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 158,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 364,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 417,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/features/status/group_members_screen.dart": {
+        "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+        "references": [
+          {
+            "line": 36,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 38,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 45,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 71,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          },
+          {
+            "line": 87,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 500,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 512,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 513,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 524,
+            "symbols": [
+              "CollectMember"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/l10n/collect_localizations.dart": {
+        "sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+        "references": [
+          {
+            "line": 39,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 58,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/models/collect_model_json_helpers.dart": {
+        "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+        "references": [
+          {
+            "line": 44,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/models/collect_models.dart": {
+        "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+        "references": [
+          {
+            "line": 63,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 571,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 572,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 717,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 718,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 721,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 764,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 829,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 830,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 838,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 879,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 904,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 911,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 980,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 981,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 1007,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 1008,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 1009,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1010,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1016,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1033,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 1034,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 1051,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1052,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1074,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1103,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 1113,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1117,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 1127,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1128,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1144,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1145,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1146,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1152,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 1157,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/models/collect_payment_json.dart": {
+        "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+        "references": [
+          {
+            "line": 46,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 67,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/models/collect_payment_models.dart": {
+        "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+        "references": [
+          {
+            "line": 4,
+            "symbols": [
+              "PaymentIntentDraft"
+            ]
+          },
+          {
+            "line": 5,
+            "symbols": [
+              "PaymentIntentDraft"
+            ]
+          },
+          {
+            "line": 17,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 18,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 58,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 75,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 115,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 116,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 138,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 147,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 175,
+            "symbols": [
+              "ParsedPaymentEvent"
+            ]
+          },
+          {
+            "line": 176,
+            "symbols": [
+              "ParsedPaymentEvent"
+            ]
+          },
+          {
+            "line": 196,
+            "symbols": [
+              "ParsedPaymentEvent"
+            ]
+          },
+          {
+            "line": 200,
+            "symbols": [
+              "ParsedPaymentEvent"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/models/member_history_page.dart": {
+        "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+        "references": [
+          {
+            "line": 5,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 6,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 20,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 28,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 30,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 43,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 206,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 234,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 235,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 262,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/providers/collect_app_state.dart": {
+        "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+        "references": [
+          {
+            "line": 299,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 314,
+            "symbols": [
+              "CollectMember"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_offline_cache.dart": {
+        "sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+        "references": [
+          {
+            "line": 271,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 272,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 273,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 274,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 323,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 327,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 333,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 344,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 350,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 400,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 401,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 406,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 407,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 451,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 504,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 522,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository.dart": {
+        "sha256": "327cfbd76c3113ef305ce0e1dad1e1f5251864e94b85bf8f12b84ebbc95fcdb9",
+        "references": [
+          {
+            "line": 53,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 70,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 73,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 107,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 144,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 404,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 424,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 473,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 1002,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1150,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 1157,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 1234,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 1349,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 1352,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 1360,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 1401,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1423,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1425,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1434,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1447,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1541,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1641,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1649,
+            "symbols": [
+              "CollectMember"
+            ]
+          },
+          {
+            "line": 1667,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1685,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1694,
+            "symbols": [
+              "OwnerGroupHealth"
+            ]
+          },
+          {
+            "line": 1744,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 1747,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository_contribution_actions.dart": {
+        "sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+        "references": [
+          {
+            "line": 21,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 294,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 295,
+            "symbols": [
+              "PaymentIntentDraft"
+            ]
+          },
+          {
+            "line": 297,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 302,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 361,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 369,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 400,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository_history.dart": {
+        "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+        "references": [
+          {
+            "line": 26,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository_live_reader.dart": {
+        "sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+        "references": [
+          {
+            "line": 82,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 144,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 146,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 160,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 166,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 167,
+            "symbols": [
+              "exactJsonInteger"
+            ]
+          },
+          {
+            "line": 175,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 181,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 203,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 205,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 242,
+            "symbols": [
+              "DateTime.tryParse"
+            ]
+          },
+          {
+            "line": 246,
+            "symbols": [
+              "DateTime.tryParse"
+            ]
+          },
+          {
+            "line": 253,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 268,
+            "symbols": [
+              "exactJsonIdentifier"
+            ]
+          },
+          {
+            "line": 271,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 292,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 309,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 312,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository_providers.dart": {
+        "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+        "references": [
+          {
+            "line": 111,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 117,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 184,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 193,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 196,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 206,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 210,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/collect_repository_state.dart": {
+        "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+        "references": [
+          {
+            "line": 37,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 38,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 39,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 40,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          },
+          {
+            "line": 42,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 72,
+            "symbols": [
+              "PaymentIntentModel"
+            ]
+          },
+          {
+            "line": 73,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 74,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 77,
+            "symbols": [
+              "NotificationEvent"
+            ]
+          },
+          {
+            "line": 98,
+            "symbols": [
+              "MemberHistoryPage"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/pending_shared_group_intent_store.dart": {
+        "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+        "references": [
+          {
+            "line": 75,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          },
+          {
+            "line": 156,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/repositories/runtime_control_contract.dart": {
+        "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+        "references": [
+          {
+            "line": 21,
+            "symbols": [
+              "exactJsonTimestamp"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_financial_amount_entry.dart": {
+        "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+        "references": [
+          {
+            "line": 292,
+            "symbols": [
+              "formatRwf"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_financial_ledger.dart": {
+        "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+        "references": [
+          {
+            "line": 4,
+            "symbols": [
+              "Contribution"
+            ]
+          },
+          {
+            "line": 8,
+            "symbols": [
+              "formatCollectDateTime"
+            ]
+          },
+          {
+            "line": 14,
+            "symbols": [
+              "ParsedPaymentEvent"
+            ]
+          },
+          {
+            "line": 86,
+            "symbols": [
+              "formatMoneyMinor"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_financial_money.dart": {
+        "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+        "references": [
+          {
+            "line": 42,
+            "symbols": [
+              "formatRwf"
+            ]
+          },
+          {
+            "line": 91,
+            "symbols": [
+              "formatRwf"
+            ]
+          },
+          {
+            "line": 161,
+            "symbols": [
+              "formatMoneyMinor"
+            ]
+          },
+          {
+            "line": 162,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 327,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_group_card_editorial.dart": {
+        "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+        "references": [
+          {
+            "line": 45,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 161,
+            "symbols": [
+              "Contribution"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_group_card_media.dart": {
+        "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+        "references": [
+          {
+            "line": 125,
+            "symbols": [
+              "int.tryParse"
+            ]
+          },
+          {
+            "line": 127,
+            "symbols": [
+              "int.parse"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_group_card_metrics.dart": {
+        "sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+        "references": [
+          {
+            "line": 11,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 19,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 61,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      },
+      "lib/shared/widgets/collect_group_cards.dart": {
+        "sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+        "references": [
+          {
+            "line": 24,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 52,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 100,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 137,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          },
+          {
+            "line": 149,
+            "symbols": [
+              "formatCurrencyTotals"
+            ]
+          },
+          {
+            "line": 297,
+            "symbols": [
+              "CollectionSummary"
+            ]
+          }
+        ],
+        "in_accepted_export": true,
+        "acceptance": "existing_family_or_explicit_source_reference"
+      }
+    },
+    "added_references_since_accepted_export": [
+      "lib/admin/core/admin_exception_checkpoint.dart",
+      "lib/admin/core/admin_exception_models.dart",
+      "lib/admin/core/admin_exception_page.dart"
+    ],
+    "removed_references_since_accepted_export": [],
+    "new_reference_acceptance_claimed": false,
+    "owned_runtime_consumers_all_match_export": true
+  },
+  "families": [
+    {
+      "id": "roster_calendar_and_ack",
+      "files": [
+        "lib/admin/core/admin_roster_models.dart",
+        "lib/admin/core/admin_roster_import.dart"
+      ],
+      "controls": "Every roster expiry/created timestamp uses canonical real-calendar parsing within the existing String wire shape; staged ACK expiry must be a real instant exactly equal to the reviewed expiry before execution.",
+      "why": "The unchanged prior source accepted twelve malformed receipt expiry values and executed three reviews after an impossible or overprecision or non-String staged ACK normalized to the reviewed instant. Exact fields and hashes remain required.",
+      "tests": [
+        "test/admin_roster_calendar_test.dart"
+      ]
+    },
+    {
+      "id": "canonical_values",
+      "files": [
+        "lib/core/data/exact_json_values.dart",
+        "lib/shared/models/collect_model_json_helpers.dart"
+      ],
+      "controls": "Exact interoperable integers; decimal text is bounded before conversion; immutable opaque identifiers; actual zoned calendar instants and UTC year bounds.",
+      "why": "Native and JavaScript must agree on financial values. Normalizing impossible dates or assigning device timezones to naive timestamps changes evidence.",
+      "tests": [
+        "test/data_correctness_contract_test.dart",
+        "test/payment_json_integrity_test.dart"
+      ]
+    },
+    {
+      "id": "shared_domain",
+      "files": [
+        "lib/shared/models/collect_models.dart",
+        "lib/shared/models/collect_profile_country_rules.dart"
+      ],
+      "controls": "Profile/group IDs and optional owner semantics; suggested amounts; group summaries; notification identity/date fields; roster disclosure and health count contracts.",
+      "why": "Forged IDs, truncated suggestions, unsafe counts and missing metadata must be rejected before they can become authorized client state.",
+      "tests": [
+        "test/data_correctness_contract_test.dart",
+        "test/group_summary_integrity_test.dart",
+        "test/group_summary_decoding_test.dart",
+        "test/shared/member_data_authority_test.dart",
+        "test/shared/collect_profile_country_rules_test.dart"
+      ]
+    },
+    {
+      "id": "payment_wire_aliases",
+      "files": [
+        "lib/shared/models/collect_payment_json.dart",
+        "lib/shared/models/collect_payment_models.dart",
+        "lib/shared/models/collect_summary_json.dart"
+      ],
+      "controls": "Positive exact RWF amounts and coherent aliases; explicit route/currency; no invented pending status; chronological intent lifetime; posting/payment identity precedence retained where fields describe distinct schemas.",
+      "why": "Alias conflicts must not select whichever amount is convenient. Historical expired intents remain valid history, while malformed lifetimes and unsupported payment routes cannot become actionable.",
+      "tests": [
+        "test/payment_json_integrity_test.dart",
+        "test/payment_intent_decoding_test.dart",
+        "test/payment_event_decoding_test.dart",
+        "test/group_summary_integrity_test.dart"
+      ]
+    },
+    {
+      "id": "history_contract",
+      "files": [
+        "lib/shared/models/member_history_page.dart"
+      ],
+      "controls": "Unique IDs; exact count and full aggregates; loaded sums cannot exceed aggregates; coherent own IDs/flags; full-page equality; immutable cursor/revision/request/order checks.",
+      "why": "A recent window cannot prove a complete total or supported-group count. A forged own flag or repeated cursor must not inflate displayed financial totals.",
+      "tests": [
+        "test/data_correctness_contract_test.dart",
+        "test/member_history_page_integrity_test.dart",
+        "test/member_history_controller_integrity_test.dart",
+        "test/shared/member_history_pagination_test.dart",
+        "test/shared/rwanda_momo_history_test.dart"
+      ]
+    },
+    {
+      "id": "protected_cache",
+      "files": [
+        "lib/shared/repositories/collect_offline_cache.dart",
+        "lib/shared/repositories/collect_repository_state.dart",
+        "lib/core/security/protected_snapshot_store.dart"
+      ],
+      "controls": "Present array/map structure validated before legacy filters; all window IDs unique; missing aggregates/counts stay unknown; explicit zero preserved; real saved date; optional absent public owner round trips as null; damaged summary isolated.",
+      "why": "Invalid cached rows must not disappear into a misleading empty or zero result. Legacy migration must preserve valid Rwanda data without reviving foreign financial totals.",
+      "tests": [
+        "test/data_correctness_contract_test.dart",
+        "test/payment_cache_integrity_test.dart",
+        "test/payment_intent_cache_boundary_test.dart",
+        "test/group_summary_cache_recovery_test.dart",
+        "test/shared/collect_offline_cache_test.dart",
+        "test/shared/rwanda_momo_history_test.dart"
+      ]
+    },
+    {
+      "id": "live_initial_and_scoped_reads",
+      "files": [
+        "lib/shared/repositories/collect_repository_live_reader.dart",
+        "lib/shared/repositories/collect_repository.dart"
+      ],
+      "controls": "Actual SDK profile/group/summary/event identity validation and duplicate checks; requested intent/group match; exact counts; captured Bearer and sticky session checks after every initial-read await; old session cannot dispatch later stages.",
+      "why": "Blocking only final publication still allowed a retained old pipeline to make later calls under replacement authority. The prior immutable probe reproduced all ten replacement-stage cases and mixed token headers during a valid refresh.",
+      "tests": [
+        "test/shared/member_read_integrity_test.dart",
+        "test/shared/member_data_authority_test.dart",
+        "test/shared/contribution_intent_binding_test.dart"
+      ]
+    },
+    {
+      "id": "member_mutation_authority",
+      "files": [
+        "lib/shared/repositories/collect_repository_contribution_actions.dart",
+        "lib/shared/repositories/collect_repository_helpers.dart",
+        "lib/core/security/play_integrity_service.dart",
+        "lib/core/security/phone_normalizer.dart",
+        "lib/core/payments/rwanda_momo_number.dart"
+      ],
+      "controls": "Create group/profile update/group profile/join/promote/archive/transfer/notification pipelines retain immutable session authority; RPC and scoped fetch Bearer pinned; returned identity validated; capability timestamp strict; late native/verdict/reply cannot publish or advance old workflow.",
+      "why": "The same user ID after a new session, or A to B to A, is not permission to complete a departed operation. Returned profile, owner and membership fields must match the submitted operation.",
+      "tests": [
+        "test/shared/member_mutation_session_test.dart",
+        "test/shared/contribution_intent_binding_test.dart",
+        "test/core/play_integrity_service_test.dart",
+        "test/shared/collect_repository_test.dart"
+      ]
+    },
+    {
+      "id": "provider_history_lifecycle",
+      "files": [
+        "lib/shared/repositories/collect_repository_history.dart",
+        "lib/shared/repositories/collect_repository_providers.dart",
+        "lib/shared/providers/collect_app_state.dart"
+      ],
+      "controls": "Repository replacement/session revision/profile/sync invalidates history, roster and health; late resolved and in-flight values are fenced; aggregate providers retain unknown; local complete-history shortcut is explicit fixture-only.",
+      "why": "Resolved provider values and retained controllers otherwise outlive the session that authorized them. Offline partial windows cannot establish a complete production total.",
+      "tests": [
+        "test/shared/member_data_authority_test.dart",
+        "test/member_history_controller_integrity_test.dart",
+        "test/features/member_data_unknown_states_test.dart"
+      ]
+    },
+    {
+      "id": "financial_inputs",
+      "files": [
+        "lib/shared/widgets/collect_financial_amount_entry.dart",
+        "lib/core/payments/momo_ussd_launcher.dart",
+        "lib/core/payments/momo_ussd_intent_guard.dart"
+      ],
+      "controls": "Decimal digits bounded before parsing; leading zeros and composing edits preserved; positive safe amount before native channel; preflight intent identity/amount/receiver/instant exact.",
+      "why": "JavaScript integer conversion can change large pasted input before validation. A contribution must launch only the exact reviewed current request.",
+      "tests": [
+        "test/core/rwf_amount_input_formatter_test.dart",
+        "test/core/momo_ussd_amount_boundary_test.dart",
+        "test/core/momo_ussd_intent_guard_test.dart"
+      ]
+    },
+    {
+      "id": "shared_link_storage",
+      "files": [
+        "lib/shared/repositories/pending_shared_group_intent_store.dart"
+      ],
+      "controls": "Real zoned captured instant, TTL, exact record/generation/owner/slug; local DateTime retains its instant when serialized UTC.",
+      "why": "An impossible calendar value previously normalized into a still-valid invitation retention window. The store must never silently extend or reinterpret an invitation.",
+      "tests": [
+        "test/shared/pending_shared_group_intent_store_test.dart"
+      ]
+    },
+    {
+      "id": "amount_date_display",
+      "files": [
+        "lib/core/utils/money_format.dart",
+        "lib/core/utils/date_format.dart",
+        "lib/shared/widgets/collect_financial_money.dart",
+        "lib/shared/widgets/collect_financial_ledger.dart",
+        "lib/shared/widgets/collect_financial_payments.dart"
+      ],
+      "controls": "Exact bounded money flows from validated DTOs; formatting preserves maximum positive/negative digits in default/en/fr/rw on VM and Chrome; display dates use the instant converted to local time.",
+      "why": "Correct wire values are insufficient if a formatter rounds them. Date rendering must use a real instant; local display conversion is source reviewed, not a claim of every physical-device timezone configuration.",
+      "tests": [
+        "test/core/money_format_test.dart",
+        "test/payment_json_integrity_test.dart"
+      ]
+    },
+    {
+      "id": "unknown_total_and_roster_surfaces",
+      "files": [
+        "lib/features/home/home_screen.dart",
+        "lib/features/home/home_public_groups_section.dart",
+        "lib/features/collections/collections_screen.dart",
+        "lib/features/activity/activity_screen.dart",
+        "lib/features/ledger/ledger_screen.dart",
+        "lib/features/collections/collection_detail_screen.dart",
+        "lib/features/collections/collection_detail_timeline.dart",
+        "lib/features/collections/collection_manage_screen.dart",
+        "lib/features/payments/contribute_entry_screen.dart",
+        "lib/features/status/group_members_screen.dart",
+        "lib/shared/widgets/collect_group_cards.dart",
+        "lib/shared/widgets/collect_group_card_editorial.dart",
+        "lib/shared/widgets/collect_group_card_metrics.dart",
+        "lib/shared/widgets/collect_history_footer.dart"
+      ],
+      "controls": "Absent summary/page stays unavailable; known zero remains zero; supported groups cannot become a complete empty set from a partial window; fresh roster loading/error removes retained IDs/amounts; all rows display validated DTO amounts/dates.",
+      "why": "A zero or no-activity message is a financial assertion. It requires explicit complete metadata. Retained AsyncData during authorization refresh is not current roster authority.",
+      "tests": [
+        "test/features/member_data_unknown_states_test.dart",
+        "test/group_list_summary_availability_test.dart",
+        "test/hardening/editorial_summary_availability_test.dart"
+      ]
+    },
+    {
+      "id": "contribution_workflow",
+      "files": [
+        "lib/features/payments/contribution_flow_screen.dart",
+        "lib/features/profile/member_profile_gate.dart"
+      ],
+      "controls": "Sticky repository/session/profile captured across preparation, profile gate, preflight and native launch; stale reply/error cannot update the flow; provider subscription survives transient missing-group state.",
+      "why": "A departed session cannot authorize a payment later in the same mounted widget. Losing the subscription during Auth clearance also prevented a legitimate current session from recovering.",
+      "tests": [
+        "test/features/contribution_flow_session_test.dart",
+        "test/shared/contribution_intent_binding_test.dart"
+      ]
+    },
+    {
+      "id": "other_member_hosts",
+      "files": [
+        "lib/features/collections/collection_create_screen.dart",
+        "lib/features/collections/collection_create_widgets.dart",
+        "lib/features/collections/group_profile_screen.dart",
+        "lib/features/collections/group_profile_form_controls.dart",
+        "lib/features/profile/profile_edit_screen.dart",
+        "lib/features/profile/profile_edit_widgets.dart"
+      ],
+      "controls": "Source-reviewed hosts call corrected repository operations; they do not decode financial JSON or derive financial totals. Their repository data/authority boundaries are directly tested; these tests do not certify every host navigation/visual state.",
+      "why": "A source callsite and a repository proof are distinct evidence. Keep the exact lower-layer acceptance without claiming an unrun complete widget journey.",
+      "tests": [
+        "test/shared/member_mutation_session_test.dart"
+      ]
+    },
+    {
+      "id": "delegated_invitation",
+      "files": [
+        "lib/shared/repositories/collect_invitation_protection.dart",
+        "lib/features/collections/share_screen.dart",
+        "lib/features/collections/group_share_service.dart",
+        "lib/features/collections/group_link_screen.dart",
+        "lib/features/collections/group_invitation_transport.dart",
+        "lib/shared/utils/collect_share_links.dart"
+      ],
+      "controls": "Invitation operations and save-result proof owned by asset worker; summary display source-reviewed unknown guard; exact current acceptance supplied separately.",
+      "why": "Invitation permission/session and external save-result semantics need their own accepted packet; the shared data gate must not infer them from compilation.",
+      "tests": [],
+      "acceptance": "delegated_asset_packet_required"
+    },
+    {
+      "id": "delegated_runtime_controls_and_push",
+      "files": [
+        "lib/shared/repositories/runtime_control_contract.dart",
+        "lib/core/notifications/collect_notification_service.dart",
+        "lib/features/settings/settings_subscreens.dart",
+        "lib/core/security/durable_sms_receipt.dart",
+        "lib/core/security/sms_access_channel.dart"
+      ],
+      "controls": "Canonical timestamp reused by runtime receipts; preference revision/session and remote push owner/session/UUID/deep-link/minimal payload controls inspected; durable SMS receipt is storage identity/hash ACK, not settlement.",
+      "why": "Push payloads and receipts cannot become payment or ownership evidence. These dedicated behavior cohorts belong to root/current platform packets and are not executed by this data gate.",
+      "tests": [
+        "test/shared/notification_preference_runtime_test.dart",
+        "test/core/notification_account_isolation_test.dart",
+        "test/core/notification_registration_recovery_test.dart",
+        "test/hardening/durable_sms_receipt_test.dart"
+      ],
+      "acceptance": "delegated_current_packet_required"
+    },
+    {
+      "id": "delegated_gateway_observations",
+      "files": [
+        "lib/gateway/gateway_platform.dart",
+        "lib/gateway/gateway_app.dart"
+      ],
+      "controls": "Native observation snapshot requires explicit Boolean fields and integer counts in 0..100; missing or malformed status cannot become zero. Enrollment/reason are allowlisted; UI distinguishes callbacks from actual recipient delivery.",
+      "why": "Gateway callback counts are bounded operational observations, not financial settlement or handset delivery proof. Runtime compilation and dedicated native acceptance remain owned by root.",
+      "tests": [],
+      "acceptance": "delegated_root_gateway_packet_required"
+    },
+    {
+      "id": "actual_sql_history_receipt_bridge",
+      "files": [
+        "lib/shared/models/collect_models.dart",
+        "lib/shared/models/collect_payment_models.dart",
+        "lib/shared/models/member_history_page.dart"
+      ],
+      "controls": "Captured genuine public reconciliation SQL mechanics feed the production history/balance decoders in VM and real Chrome; every window, continuation, complete exact sum, ownership flag, real timestamp and zero/unknown count is checked.",
+      "why": "Independent fake JSON model cases cannot prove that actual server receipts are compatible. The same source-bound SQL JSON must preserve precision and semantics in both native Dart and JavaScript. Synthetic mechanical fixtures and any server failures remain separately labeled.",
+      "tests": [
+        "test/actual_member_history_sql_receipts_test.dart"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "lib/admin/core/admin_detail_formatters.dart",
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 47,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 99,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_detail_runtime.dart",
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 523,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_detail_specs.dart",
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 171,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_gateway_contracts.dart",
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 43,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_investigation.dart",
+      "sha256": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 559,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 567,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_models.dart",
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 326,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 332,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 346,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 352,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_operation_components.dart",
+      "sha256": "e7194d76281ac2b0b3dfce76d459d65142ef56bf3faebae00d9c785fffabeab2",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 702,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 744,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 764,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": false
+    },
+    {
+      "file": "lib/admin/core/admin_operational_health.dart",
+      "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 189,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_operator_approval.dart",
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 115,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_overview_components.dart",
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 313,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 314,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 315,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 339,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 340,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 341,
+          "symbols": [
+            "int.tryParse"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_read_contracts.dart",
+      "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 248,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_receipt_overview.dart",
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 51,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_reconciliation_runtime.dart",
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 94,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_roster_import.dart",
+      "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+      "families": [
+        "roster_calendar_and_ack"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 1000,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_roster_models.dart",
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9",
+      "families": [
+        "roster_calendar_and_ack"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 78,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_shadow_runs.dart",
+      "sha256": "63efcb042621d32fb82bc4e47d19f4575f6506fe98afa7a0d37864ad1e011102",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 54,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/admin_sms_queue_health.dart",
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 38,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/admin/core/roster_xlsx_preflight.dart",
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+      "families": [],
+      "review": "delegated_admin_current_inventory_and_acceptance_required",
+      "references": [
+        {
+          "line": 831,
+          "symbols": [
+            "int.parse"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/app/router.dart",
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/data/exact_json_values.dart",
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "families": [
+        "canonical_values"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 5,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 16,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 28,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 40,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 58,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 75,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 76,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 77,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 78,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 79,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 80,
+          "symbols": [
+            "int.parse"
+          ]
+        },
+        {
+          "line": 97,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/notifications/collect_notification_service.dart",
+      "sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+      "families": [
+        "delegated_runtime_controls_and_push"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 133,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 299,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 305,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/payments/momo_ussd_intent_guard.dart",
+      "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+      "families": [
+        "financial_inputs"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 7,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 8,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/payments/momo_ussd_launcher.dart",
+      "sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+      "families": [
+        "financial_inputs"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/payments/rwanda_momo_number.dart",
+      "sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+      "families": [
+        "member_mutation_authority"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/security/durable_sms_receipt.dart",
+      "sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+      "families": [
+        "delegated_runtime_controls_and_push"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/security/phone_normalizer.dart",
+      "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+      "families": [
+        "member_mutation_authority"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/security/play_integrity_service.dart",
+      "sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+      "families": [
+        "member_mutation_authority"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 32,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/security/protected_snapshot_store.dart",
+      "sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+      "families": [
+        "protected_cache"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/security/sms_access_channel.dart",
+      "sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+      "families": [
+        "delegated_runtime_controls_and_push"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/utils/date_format.dart",
+      "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+      "families": [
+        "amount_date_display"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 16,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/core/utils/money_format.dart",
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+      "families": [
+        "amount_date_display"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 3,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 27,
+          "symbols": [
+            "formatMoneyMinor"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 47,
+          "symbols": [
+            "formatRwf"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/activity/activity_screen.dart",
+      "sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 47,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 50,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 99,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collection_create_screen.dart",
+      "sha256": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collection_create_widgets.dart",
+      "sha256": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collection_detail_screen.dart",
+      "sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 70,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 160,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collection_detail_timeline.dart",
+      "sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 6,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 43,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        },
+        {
+          "line": 44,
+          "symbols": [
+            "formatMoneyMinor"
+          ]
+        },
+        {
+          "line": 48,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collection_manage_screen.dart",
+      "sha256": "c58e53bc686919d265ff7f03e6e9533692c52b6206a7ea253f2535f6fccd47ca",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 122,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/collections_screen.dart",
+      "sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 252,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 307,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/group_invitation_transport.dart",
+      "sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/group_link_screen.dart",
+      "sha256": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/group_profile_form_controls.dart",
+      "sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/group_profile_screen.dart",
+      "sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/group_share_service.dart",
+      "sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/collections/share_screen.dart",
+      "sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 222,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/home/app_share_service.dart",
+      "sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/home/home_public_groups_section.dart",
+      "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 19,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/home/home_screen.dart",
+      "sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 63,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 118,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/landing/collect_landing_page.dart",
+      "sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [
+        {
+          "line": 300,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/landing/public_policy_page_content.dart",
+      "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [
+        {
+          "line": 116,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/ledger/ledger_screen.dart",
+      "sha256": "d821e6e84a9d564f40d05dacb05ec21a2b3fe60640dc9935590cdffa377fb583",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 50,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 101,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        },
+        {
+          "line": 158,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 272,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 304,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/payments/contribute_entry_screen.dart",
+      "sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/payments/contribution_flow_screen.dart",
+      "sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+      "families": [
+        "contribution_workflow"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 79,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 254,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 313,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 338,
+          "symbols": [
+            "PaymentIntentDraft"
+          ]
+        },
+        {
+          "line": 387,
+          "symbols": [
+            "PaymentIntentDraft"
+          ]
+        },
+        {
+          "line": 619,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 667,
+          "symbols": [
+            "formatRwf"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/profile/member_profile_gate.dart",
+      "sha256": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+      "families": [
+        "contribution_workflow"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/profile/profile_edit_screen.dart",
+      "sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/profile/profile_edit_widgets.dart",
+      "sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+      "families": [
+        "other_member_hosts"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/settings/settings_subscreens.dart",
+      "sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+      "families": [
+        "delegated_runtime_controls_and_push"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 101,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 106,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 148,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 158,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 364,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 417,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/features/status/group_members_screen.dart",
+      "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 36,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 45,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 71,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        },
+        {
+          "line": 87,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 500,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 512,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 513,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 524,
+          "symbols": [
+            "CollectMember"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/gateway/gateway_app.dart",
+      "sha256": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+      "families": [
+        "delegated_gateway_observations"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/gateway/gateway_platform.dart",
+      "sha256": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+      "families": [
+        "delegated_gateway_observations"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/l10n/collect_localizations.dart",
+      "sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [
+        {
+          "line": 39,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 58,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover.dart",
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover_catalog.dart",
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart",
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_model_json_helpers.dart",
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "families": [
+        "canonical_values"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 44,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_models.dart",
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "families": [
+        "shared_domain",
+        "actual_sql_history_receipt_bridge"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 63,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 571,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 572,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 717,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 718,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 721,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 764,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 829,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 830,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 838,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 879,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 904,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 911,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 980,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 981,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1007,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1008,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1009,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1010,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1016,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1033,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1034,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1051,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1052,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1074,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1103,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 1113,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1117,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 1127,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1128,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1144,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1145,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1146,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1152,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 1157,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_payment_json.dart",
+      "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "families": [
+        "payment_wire_aliases"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 46,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 67,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_payment_models.dart",
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "families": [
+        "payment_wire_aliases",
+        "actual_sql_history_receipt_bridge"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 4,
+          "symbols": [
+            "PaymentIntentDraft"
+          ]
+        },
+        {
+          "line": 5,
+          "symbols": [
+            "PaymentIntentDraft"
+          ]
+        },
+        {
+          "line": 17,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 18,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 58,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 75,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 115,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 116,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 138,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 147,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 175,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 176,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 196,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 200,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_profile_country_rules.dart",
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "families": [
+        "shared_domain"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/collect_summary_json.dart",
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "families": [
+        "payment_wire_aliases"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/models/member_history_page.dart",
+      "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "families": [
+        "history_contract",
+        "actual_sql_history_receipt_bridge"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 5,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 6,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 20,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 28,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 30,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 43,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 206,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 234,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 235,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 262,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/providers/collect_app_state.dart",
+      "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+      "families": [
+        "provider_history_lifecycle"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 299,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 314,
+          "symbols": [
+            "CollectMember"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_invitation_protection.dart",
+      "sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_offline_cache.dart",
+      "sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+      "families": [
+        "protected_cache"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 271,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 272,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 273,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 274,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 323,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 327,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 333,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 344,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 350,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 400,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 401,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 406,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 407,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 451,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 504,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 522,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository.dart",
+      "sha256": "327cfbd76c3113ef305ce0e1dad1e1f5251864e94b85bf8f12b84ebbc95fcdb9",
+      "families": [
+        "live_initial_and_scoped_reads"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 53,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 70,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 107,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 144,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 404,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 424,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 473,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 1002,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1150,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1157,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 1234,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 1349,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1352,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1360,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1401,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1423,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1425,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1434,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1447,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1541,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1641,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1649,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1667,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1685,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1694,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1744,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 1747,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_contribution_actions.dart",
+      "sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+      "families": [
+        "member_mutation_authority"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 21,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 294,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 295,
+          "symbols": [
+            "PaymentIntentDraft"
+          ]
+        },
+        {
+          "line": 297,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 302,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 361,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 369,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 400,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_helpers.dart",
+      "sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+      "families": [
+        "member_mutation_authority"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_history.dart",
+      "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+      "families": [
+        "provider_history_lifecycle"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 26,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "families": [
+        "live_initial_and_scoped_reads"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 82,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 144,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 146,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 160,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 166,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 167,
+          "symbols": [
+            "exactJsonInteger"
+          ]
+        },
+        {
+          "line": 175,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 181,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 203,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 205,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 242,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        },
+        {
+          "line": 246,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        },
+        {
+          "line": 253,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 268,
+          "symbols": [
+            "exactJsonIdentifier"
+          ]
+        },
+        {
+          "line": 271,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 292,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 309,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 312,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_providers.dart",
+      "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+      "families": [
+        "provider_history_lifecycle"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 111,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 117,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 184,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 193,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 196,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 206,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 210,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_state.dart",
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+      "families": [
+        "protected_cache"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 37,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 39,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 40,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 42,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 72,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 77,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 98,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/pending_shared_group_intent_store.dart",
+      "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+      "families": [
+        "shared_link_storage"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 75,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        },
+        {
+          "line": 156,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/repositories/runtime_control_contract.dart",
+      "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "families": [
+        "delegated_runtime_controls_and_push"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 21,
+          "symbols": [
+            "exactJsonTimestamp"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/utils/collect_share_links.dart",
+      "sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+      "families": [
+        "delegated_invitation"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_amount_entry.dart",
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+      "families": [
+        "financial_inputs"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 292,
+          "symbols": [
+            "formatRwf"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_ledger.dart",
+      "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+      "families": [
+        "amount_date_display"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 4,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 8,
+          "symbols": [
+            "formatCollectDateTime"
+          ]
+        },
+        {
+          "line": 14,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 86,
+          "symbols": [
+            "formatMoneyMinor"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_money.dart",
+      "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+      "families": [
+        "amount_date_display"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 42,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 91,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 161,
+          "symbols": [
+            "formatMoneyMinor"
+          ]
+        },
+        {
+          "line": 162,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 327,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_payments.dart",
+      "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+      "families": [
+        "amount_date_display"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_editorial.dart",
+      "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 45,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 161,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_media.dart",
+      "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+      "families": [],
+      "review": "nonfinancial_static_presentation_or_routing_reference",
+      "references": [
+        {
+          "line": 125,
+          "symbols": [
+            "int.tryParse"
+          ]
+        },
+        {
+          "line": 127,
+          "symbols": [
+            "int.parse"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_metrics.dart",
+      "sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 11,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 61,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_cards.dart",
+      "sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [
+        {
+          "line": 24,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 52,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 100,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 137,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 149,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 297,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        }
+      ],
+      "live_matches_export": true
+    },
+    {
+      "file": "lib/shared/widgets/collect_history_footer.dart",
+      "sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+      "families": [
+        "unknown_total_and_roster_surfaces"
+      ],
+      "review": "reviewed_contract_or_consumer",
+      "references": [],
+      "live_matches_export": true
+    }
+  ],
+  "declared_vm_cohorts": {
+    "test/data_correctness_contract_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 81,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/admin_roster_calendar_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 29,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/contribution_intent_binding_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 23,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/member_data_authority_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 16,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/member_read_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 17,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/member_mutation_session_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 39,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/features/member_data_unknown_states_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 1,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/features/contribution_flow_session_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 0,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/core/momo_ussd_amount_boundary_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 4,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/core/momo_ussd_intent_guard_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 3,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/core/play_integrity_service_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 1,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/core/rwf_amount_input_formatter_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 12,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/core/money_format_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 7,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/pending_shared_group_intent_store_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 17,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/payment_json_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 106,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/payment_intent_decoding_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 108,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/payment_event_decoding_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 23,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/payment_cache_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 8,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/payment_intent_cache_boundary_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 7,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/group_summary_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 1,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/group_summary_decoding_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 65,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/group_summary_cache_recovery_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 16,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/member_history_page_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 59,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/member_history_controller_integrity_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 15,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/member_history_pagination_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 10,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/rwanda_momo_history_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 3,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/collect_offline_cache_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 6,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/collect_repository_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 7,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/collect_repository_live_reader_contract_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 1,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/shared/collect_profile_country_rules_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 2,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/group_list_summary_availability_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 0,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/hardening/editorial_summary_availability_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 0,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    },
+    "test/actual_member_history_sql_receipts_test.dart": {
+      "declared": true,
+      "direct_named_vm_results": 5,
+      "note": "Widget runner events may name package:flutter_test; counts are not inferred for those events."
+    }
+  },
+  "remaining_gaps": [
+    "Baseline154 SQL reproduced2 exact integer amount defects. Root234000 candidate mechanics passed80 checks in a disposable clone; installation/current-server alignment remains separate.",
+    "Current reviewed staged SQL positive history mechanics and captured native/Chrome receipt decoding are bound in this client packet. The SQL server packet status is pass_scoped, with 0 declared server failures. Retained prior unsafe receipts remain historical failed-server evidence and are consumed only as negative decoder controls. Shared/hosted installation and independent provider/native/device settlement are separate acceptance.",
+    "The separate normal Admin/Auth browser packet must be bound to the final runtime and retained actual149 SQL/concurrency receipts.",
+    "Delegated Admin investigation, invitation/save-result, preference/push/native and browser Auth packets must be bound individually; this data gate does not execute or certify their whole scope.",
+    "The positive-history server receipt binds the reviewed13-stage/167-source snapshot. New staged sources require their exact root ordinary-owner proof and current generated-query benchmark integration; the dated13-stage proof is not promoted to that newer scope.",
+    "Live source drift requires an exact final common rebind; this packet remains accepted only for its immutable inputs."
+  ],
+  "current_positive_history_sql_scope": {
+    "result_sha256": "b7cf118a6db0bfb3e62af5135d74ea379dfbddaa83b8215acad8d006d193075a",
+    "status": "pass_scoped",
+    "passed": 67,
+    "failed": 0,
+    "mode": "full-current",
+    "receipt_candidate": {
+      "applied_only_to_disposable_clone": true,
+      "installed_in_shared_database": false,
+      "path": "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+      "sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+    },
+    "reviewed_stage_packet": {
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt7-exact-column-acl-all167/result.json",
+      "sha256": "f49403c79b16c7d82d82f74dfffa6b184a99c0a353347837c3a4d7cf851d70be",
+      "source_migration_sha256": {
+        "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+        "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+        "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+        "20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+        "20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+        "20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+      }
+    },
+    "all_shared_tables_catalog_cron_preserved": true,
+    "disposable_databases_removed": true,
+    "runner_inputs_unchanged": true,
+    "recorder_sources_unchanged": true,
+    "provider_truth": false,
+    "shared_or_hosted_installation_claimed": false,
+    "retained_unsafe_scope": {
+      "source_packet": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt2",
+      "result_sha256": "36b17dfef5357a778e2a8bbd9b65aff18e3b3afaac775cd4d771e955530691d0",
+      "server_result_status": "failed",
+      "passing_cases": 39,
+      "failed_cases": 4,
+      "negative_decoder_observations": 2,
+      "corrected_server_acceptance": false
+    }
+  }
+}

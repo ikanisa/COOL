@@ -1,0 +1,80 @@
+--- old/lib/app/router.dart
++++ reviewed/lib/app/router.dart
+@@ -3,6 +3,7 @@
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
+ import 'package:go_router/go_router.dart';
+ 
++import '../core/supabase/supabase_module.dart';
+ import '../core/widgets/collect_shell.dart';
+ import '../features/activity/activity_screen.dart';
+ import '../features/auth/auth_screen.dart';
+@@ -30,11 +31,13 @@
+ 
+ final appRouterProvider = Provider<GoRouter>((ref) {
+   final refresh = _CollectRouterRefresh();
++  String? privacyRouteOwner;
+   ref.onDispose(refresh.dispose);
++  ref.listen(collectAuthenticatedUserIdProvider, (_, _) => refresh.notify());
+   ref.listen(
+     collectRepositoryProvider.select(
+       (state) => (
+-        state.currentProfile != null,
++        state.currentProfile?.id,
+         state.currentProfile?.countryCode,
+         state.isLoading,
+       ),
+@@ -46,6 +49,32 @@
+     refreshListenable: refresh,
+     routeRedirect: (state) {
+       final collectState = ref.read(collectRepositoryProvider);
++      if (state.uri.path == '/settings/account/delete') {
++        final liveOwner = ref
++            .read(supabaseClientProvider)
++            ?.auth
++            .currentUser
++            ?.id;
++        if (privacyRouteOwner != null && liveOwner != privacyRouteOwner) {
++          privacyRouteOwner = null;
++          return '/auth';
++        }
++        final profileOwner = collectState.currentProfile?.id;
++        if (profileOwner != null && profileOwner == liveOwner) {
++          privacyRouteOwner = profileOwner;
++        }
++        // Keep only the already-owned privacy form during a pending same-owner
++        // reread. Other routes still use the financial profile/loading guard.
++        // A denied completed read, logout or account switch removes this view.
++        if (privacyRouteOwner != null &&
++            privacyRouteOwner == liveOwner &&
++            (profileOwner == privacyRouteOwner || collectState.isLoading)) {
++          return null;
++        }
++        privacyRouteOwner = null;
++      } else {
++        privacyRouteOwner = null;
++      }
+       return collectAuthenticationRedirect(
+         uri: state.uri,
+         hasProfile: collectState.currentProfile != null,
+--- old/lib/shared/repositories/collect_repository.dart
++++ reviewed/lib/shared/repositories/collect_repository.dart
+@@ -88,6 +88,8 @@
+     _authSubscription = _supabase?.auth.onAuthStateChange.listen((_) {
+       final identity = _sessionIdentity(_supabase.auth.currentSession);
+       if (!mounted || identity == _observedAuthIdentity) return;
++      final sameOwner =
++          identity != null && identity.userId == _observedAuthIdentity?.userId;
+       _observedAuthIdentity = identity;
+       final generation = ++_authGeneration;
+       ++_notificationRegistrationGeneration;
+@@ -101,7 +103,9 @@
+       _signingOutIdentity = null;
+       ++_loadGeneration;
+       _stopRealtimeSync();
+-      state = _emptyCollectState();
++      // Clear all financial data immediately. Same-owner session renewal is
++      // already a pending reread, including the native/cache awaits below.
++      state = _emptyCollectState().copyWith(isLoading: sameOwner);
+       unawaited(_reloadAfterAccountChange(identity, generation));
+     });
+   }

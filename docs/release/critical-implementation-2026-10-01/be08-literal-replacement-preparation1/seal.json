@@ -1,0 +1,9 @@
+{
+  "format": "collect-be08-private-literal-replacement-seal-v1",
+  "packet_sha256": "df352bfe7e198283d8ba3ae5ffc4429e76487b670aaf786284d8bc029288cc9f",
+  "sha256sums_sha256": "48c0d0c9170641059fbde325179f7f65f945e8041701208e73318616f021f314",
+  "payload_files": 53,
+  "total_files": 56,
+  "mode": "0400 readable files; not OS immutable",
+  "final_input_fence_readback": "all 1095 prior inputs and both maintained proposal targets match preserved before bytes"
+}

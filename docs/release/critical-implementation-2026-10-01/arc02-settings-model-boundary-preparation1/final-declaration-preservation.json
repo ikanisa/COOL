@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "--packages=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/package_config.json",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/declaration_preservation.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/before/lib/admin/core/admin_governed_settings_models.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/candidate-final/lib/admin/core/admin_governed_settings_models.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/candidate-final/lib/admin/core/admin_governed_settings_history_models.dart"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 2.8517235420004,
+  "timeout_seconds": 60,
+  "bound_sources_unchanged": true,
+  "bound_source_count": 639,
+  "app_or_flutter_cli_used": false,
+  "pub_or_network_resolution_used": false,
+  "shared_package_configuration_written": false,
+  "stdout_sha256": "d35eb59422360108c26196c19d2c7dcda6a25fe34977b113fb33841f96593d77",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "ast_result": {
+    "status": "pass",
+    "parser_errors": [],
+    "original_declaration_count": 28,
+    "proposed_declaration_count": 28,
+    "all_declaration_syntax_and_order_preserved": true,
+    "all_original_imports_preserved": true,
+    "part_library_binding_valid": true,
+    "semantic_type_resolution_or_runtime_behavior_proven": false
+  },
+  "status": "pass"
+}

@@ -1,0 +1,393 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/shared/member_data_authority_test.dart",
+      "test/features/member_data_unknown_states_test.dart",
+      "test/shared/member_read_integrity_test.dart",
+      "test/core/momo_ussd_amount_boundary_test.dart",
+      "test/core/rwf_amount_input_formatter_test.dart",
+      "test/shared/pending_shared_group_intent_store_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt6-consumer-fences/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:43:34.684325+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 11286,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 11.644,
+    "stdout_sha256": "d1ae712e84fa8ba850075e5ef5883d1693f55ec1b458e6a1b208a35bbb16e1f7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 58,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "owner health ACK is exactly bound to requested group",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "owner health cannot truncate/default invalid count null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "owner health cannot truncate/default invalid count -1",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "owner health cannot truncate/default invalid count 1.5",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "owner health cannot truncate/default invalid count 9007199254740992",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster IDs and exact amount cannot be duplicated or forged as own",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "health old reply is fenced after same-user new-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "health old reply is fenced after A to B to A original-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster old reply is fenced after same-user new-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster old reply is fenced after A to B to A original-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "history old reply is fenced after same-user new-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "history old reply is fenced after A to B to A original-session and pins request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "retained history controller cannot publish after same-user replacement session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "resolved health provider reloads for same-user replacement session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "late health provider result cannot replace current-session result",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production offline history without aggregate metadata stays unavailable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent complete aggregates remain unknown despite partial owned rows",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks empty partial ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks partial positive ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent activity page cannot be shown as zero confirmed history",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "refreshing retained roster removes previous IDs and amounts before reply",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects foreign profile before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects duplicate group before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects inexact pending count before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects inexact modern total before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects foreign event before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects duplicate event before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe amount 0 never reaches the native USSD bridge",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe amount -1 never reaches the native USSD bridge",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe amount 9007199254740992 never reaches the native USSD bridge",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exact maximum is preserved as decimal text at the native boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe digit input is rejected before web parsing or regrouping",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "groups digits as the user types",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "accepts grouped paste and normalizes leading zeroes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects fractions signs and letters instead of changing their value",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "retains cursor position on middle insertion",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "backspace across comma removes the preceding digit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "forward delete across comma removes the following digit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "preserves a reverse selection by digit position",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "retains a caret immediately after an existing grouping separator",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "clearing and replacing selected text remain editable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "does not round unsafe long input into another amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "does not modify active IME composition",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-02-30T12:00:00Z cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28T11:00:00 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 0000-07-28T11:00:00Z cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28T11:00:00+24:00 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "writing a DateTime instant serializes UTC and preserves exact TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "pending group intent survives a store and controller recreation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a signed-out invitation binds once and rejects another account",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a stale same-slug completion cannot clear a later invitation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "duplicate warm App Links keep the visible intent generation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "stale, malformed, and oversized pending intents fail closed",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "only the matching completed intent can clear persisted recovery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a persistence failure does not expose an in-memory-only intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "slug normalization accepts only bounded canonical URL segments",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "external app links accept only the canonical Collect group origin",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "app sharing links route only canonical app and invite targets",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

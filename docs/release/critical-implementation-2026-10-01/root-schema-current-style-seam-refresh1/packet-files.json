@@ -1,0 +1,164 @@
+{
+  "SQL_CI_runner_still_private_during_execution": true,
+  "acceptance": "draft-with-open-mappings",
+  "all1093_input_bindings_before_after_unchanged": true,
+  "caller_record_deltas_sha256": "7fced6747350a223c48d44a68ff81d487bad1fd7556b9990d307b4c0a428899d",
+  "files": [
+    {
+      "bytes": 4287,
+      "mode": 420,
+      "path": "README.md",
+      "sha256": "50c509205319726a411565695912067a569320d785d92fcb4ed9c96108d4ef0d"
+    },
+    {
+      "bytes": 16998,
+      "mode": 420,
+      "path": "caller-record-deltas.json",
+      "sha256": "7fced6747350a223c48d44a68ff81d487bad1fd7556b9990d307b4c0a428899d"
+    },
+    {
+      "bytes": 121,
+      "mode": 420,
+      "path": "dependency-scope-after.json",
+      "sha256": "e31a9a13faeea3dd503579489d1ecdd8d4e4869df5b078c8d4ef029e8e925026"
+    },
+    {
+      "bytes": 3131,
+      "mode": 420,
+      "path": "dependency-scope-before.json",
+      "sha256": "60bdbb236f329695a11b413fbfb85ab117589fb4f52ffb2195126adee35c2a2e"
+    },
+    {
+      "bytes": 727,
+      "mode": 420,
+      "path": "extra-code-after.json",
+      "sha256": "4a8b3334b171774a56f80115bad6ef7713a604b9d1041360aaa1a32e9ef90c41"
+    },
+    {
+      "bytes": 727,
+      "mode": 420,
+      "path": "extra-code-before.json",
+      "sha256": "4a8b3334b171774a56f80115bad6ef7713a604b9d1041360aaa1a32e9ef90c41"
+    },
+    {
+      "bytes": 4177,
+      "mode": 420,
+      "path": "generated-current209/DOMAIN_MAP.md",
+      "sha256": "b9c5211c5e190dcf860a38443a3a5929f3bf7d7ed86cb69e0eb960822c7ca50e"
+    },
+    {
+      "bytes": 1400,
+      "mode": 420,
+      "path": "generated-current209/coverage.json",
+      "sha256": "ccd1711d26c4ea9e053bcbcd9affc023a23ce90708a05ee5555d4d6825826f36"
+    },
+    {
+      "bytes": 356585,
+      "mode": 420,
+      "path": "generated-current209/gaps.json",
+      "sha256": "3022cb7894610bba4cf3cdd143370b04e40ab979470c3c79012ee8d4c2251f31"
+    },
+    {
+      "bytes": 329912,
+      "mode": 420,
+      "path": "generated-current209/input-manifest.json",
+      "sha256": "d4f62a27cf8807f6202f5e11f4bc02fb10f76bdda9cd0c986a5165c186ee2d20"
+    },
+    {
+      "bytes": 12352604,
+      "mode": 420,
+      "path": "generated-current209/schema-domain-map.json",
+      "sha256": "122bab064de521df81b92c27baa099d8639511f623cebe3efc72d1697ce91701"
+    },
+    {
+      "bytes": 1953,
+      "mode": 420,
+      "path": "generation.json",
+      "sha256": "94401e37eddea72e35ba13a723cebf1524fc5753342b1cdae5194fac5b0dff57"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "generation.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1280,
+      "mode": 420,
+      "path": "generation.stdout",
+      "sha256": "b931b6ddca42440026f4a4c078ea3ddb9e05f3da913ba55b29048f23fc974e3e"
+    },
+    {
+      "bytes": 250776,
+      "mode": 420,
+      "path": "inputs-after.json",
+      "sha256": "54b3c10398d94a7badcc297572ea8b8f44fe2a4024d7da7b6bbb38c3c1593c4e"
+    },
+    {
+      "bytes": 250776,
+      "mode": 420,
+      "path": "inputs-before.json",
+      "sha256": "54b3c10398d94a7badcc297572ea8b8f44fe2a4024d7da7b6bbb38c3c1593c4e"
+    },
+    {
+      "bytes": 5273,
+      "mode": 420,
+      "path": "output-readback.json",
+      "sha256": "050ff57211a3985082b86add103e3a3c2c112299f950a546f0f76546c7d7ce14"
+    },
+    {
+      "bytes": 1555,
+      "mode": 420,
+      "path": "prior-current-input-deltas.json",
+      "sha256": "3d02cdbbe8453c535d902f1ba1d44cfada33ac1d59fc778afadd1a83bf1f47a9"
+    },
+    {
+      "bytes": 3723,
+      "mode": 420,
+      "path": "result.json",
+      "sha256": "f393d737b37801e9d27e8ed9516ed0bdf3978f7c728be064105da40b207ac2c5"
+    },
+    {
+      "bytes": 1239,
+      "mode": 420,
+      "path": "reused60-test-evidence.json",
+      "sha256": "7f43b35ee32aa29dccdb788431ee9259b3310a2bad04f3548b20a467ad5c1748"
+    },
+    {
+      "bytes": 1330,
+      "mode": 420,
+      "path": "verification.json",
+      "sha256": "7d8336806fddd22016a08f9de7dae6ad622b31676cb412c0cbc55aea4abf2568"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "verification.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 369,
+      "mode": 420,
+      "path": "verification.stdout",
+      "sha256": "2b6178f030b95e85fea8695d4ebd5f230f7b1a5b02aaf0c109c4e8d6939b4191"
+    }
+  ],
+  "full_independent_five_output_verification": true,
+  "generation_receipt_sha256": "94401e37eddea72e35ba13a723cebf1524fc5753342b1cdae5194fac5b0dff57",
+  "input_manifest_sha256": "d4f62a27cf8807f6202f5e11f4bc02fb10f76bdda9cd0c986a5165c186ee2d20",
+  "kind": "collect_current_style_seam_mapper_refresh",
+  "maintained_APP_SDK_DB_writes": 0,
+  "manifest": "SHA256SUMS",
+  "manifest_sha256": "5d6e41bbd1d51de9c191a2ce5b3741f0281902fa0aa613091fc71bf950c20696",
+  "mapper_test_SQL209_Linux39_replays": 0,
+  "output_readback_sha256": "050ff57211a3985082b86add103e3a3c2c112299f950a546f0f76546c7d7ce14",
+  "pending_SQL_CI_runner_scope_overlap_observed": true,
+  "previous60_tests_reused": true,
+  "release_approval": false,
+  "result_sha256": "f393d737b37801e9d27e8ed9516ed0bdf3978f7c728be064105da40b207ac2c5",
+  "schema_domain_map_sha256": "122bab064de521df81b92c27baa099d8639511f623cebe3efc72d1697ce91701",
+  "sealed_regular_bytes": 13588943,
+  "sealed_regular_leaves": 23,
+  "status": "pass",
+  "verification_receipt_sha256": "7d8336806fddd22016a08f9de7dae6ad622b31676cb412c0cbc55aea4abf2568"
+}

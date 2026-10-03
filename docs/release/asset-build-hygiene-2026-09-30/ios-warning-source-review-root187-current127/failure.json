@@ -1,0 +1,5 @@
+{
+  "status": "fail",
+  "scope": "QA recorder only",
+  "reason": "Recorder replacement-loop variable shadowed the prior-row dictionary; no production source was edited"
+}

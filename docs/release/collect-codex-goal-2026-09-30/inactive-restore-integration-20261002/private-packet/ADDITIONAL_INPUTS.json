@@ -1,0 +1,29 @@
+{
+  "format": "collect-inactive-overlay-additional-source-v1",
+  "observed_at": "2026-10-02T02:20:02.543436+00:00",
+  "scope": "additional proposal references; retain prior207/29 and selected205 archive identities unchanged",
+  "files": [
+    {
+      "path": "supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+      "bytes": 14442,
+      "sha256": "f082950cbc11766d336e514ebde35c1c3407d32118c5d0faf8ef5d8e27a67230"
+    },
+    {
+      "path": "scripts/audits/collect_receipt_worker_snapshot.rb",
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/selected-source-contract.json",
+      "bytes": 3024596,
+      "sha256": "4d4005d4af273a0c2c1c905031421a37dd76457dac6b5116ad8341e2b7428d36"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/result.json",
+      "bytes": 144936,
+      "sha256": "05f90efceff4da12bd77dc03671ede107e27b8e86ae3e2cd43985ec561a59f24"
+    }
+  ],
+  "prior_source_inputs_sha256": "3e578fd6c3d4c9557645c08187cd2d4dcaba6f9dfe0e3ded66ee647f9d5e58a9",
+  "canonical208_sha256": "51fce1bdc1a834706e1d945753a8c805fc662d7a0eccebff924a1a725446106c"
+}

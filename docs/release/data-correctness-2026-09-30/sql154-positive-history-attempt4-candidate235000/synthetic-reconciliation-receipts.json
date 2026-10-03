@@ -1,0 +1,1313 @@
+[
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040001",
+      "transaction": "SYNTH-MECHANICAL-000",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040001",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "8cc6519f-bc54-45af-8ffb-a8ff528405df"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040002",
+      "transaction": "SYNTH-MECHANICAL-001",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040002",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "b4b18b2f-fc39-4d73-baac-ec4c88b555f4"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040003",
+      "transaction": "SYNTH-MECHANICAL-002",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040003",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "e4ff7cad-996d-40ae-a469-b49406d436a5"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040004",
+      "transaction": "SYNTH-MECHANICAL-003",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040004",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "af7f7136-1305-4702-bfb0-ab7acca49640"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040005",
+      "transaction": "SYNTH-MECHANICAL-004",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040005",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "9fb310a2-fac3-4113-8068-93c0940b4e3a"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040006",
+      "transaction": "SYNTH-MECHANICAL-005",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040006",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "cc69c4c2-58da-4816-bdc8-aa91f5b1266f"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040007",
+      "transaction": "SYNTH-MECHANICAL-006",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040007",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "01972635-fa39-45a7-be56-da79fcd4fd96"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040008",
+      "transaction": "SYNTH-MECHANICAL-007",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040008",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "fc87703e-25de-46d8-a68f-794ddf4e9a68"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040009",
+      "transaction": "SYNTH-MECHANICAL-008",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040009",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "8d54722a-b870-4a13-94dd-280089ba14a9"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040010",
+      "transaction": "SYNTH-MECHANICAL-009",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040010",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "43a97e1e-5799-460c-b88e-9770d0b3095b"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040011",
+      "transaction": "SYNTH-MECHANICAL-010",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040011",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "439268f0-e819-4b9c-9057-7f1c734928ef"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040012",
+      "transaction": "SYNTH-MECHANICAL-011",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040012",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "cf5d2ef2-e2f6-4bef-92fb-c9bca3ae8f36"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040013",
+      "transaction": "SYNTH-MECHANICAL-012",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040013",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "17c34c9a-db07-4a95-a969-989edefea22b"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040014",
+      "transaction": "SYNTH-MECHANICAL-013",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040014",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "bfb404d4-f488-4e54-9c74-6cfc982e86ac"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040015",
+      "transaction": "SYNTH-MECHANICAL-014",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040015",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "c8832d5d-2b55-4f7b-bfc8-56fea513e636"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040016",
+      "transaction": "SYNTH-MECHANICAL-015",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040016",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "be37c14a-efdd-4612-854e-ffaad2b119c7"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040017",
+      "transaction": "SYNTH-MECHANICAL-016",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040017",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "88a14b74-aeda-4e7d-957e-85b4cf0d8b58"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040018",
+      "transaction": "SYNTH-MECHANICAL-017",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040018",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "5bacf13d-71ad-4301-8357-16840c8e95ab"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040019",
+      "transaction": "SYNTH-MECHANICAL-018",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040019",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "aa1b5c8b-56e1-4fb9-95f8-ef199b3b4cbb"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040020",
+      "transaction": "SYNTH-MECHANICAL-019",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040020",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "663dd997-1c7a-49dd-9736-be891a7b1963"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040021",
+      "transaction": "SYNTH-MECHANICAL-020",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040021",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "c2d36f2e-9c1b-4bc0-967c-868502a96423"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040022",
+      "transaction": "SYNTH-MECHANICAL-021",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040022",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "34f12390-b4f1-463a-b1dd-19aeb439f50c"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040023",
+      "transaction": "SYNTH-MECHANICAL-022",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040023",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "f3d14655-d72e-486e-a7e3-87fc329e9a8e"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040024",
+      "transaction": "SYNTH-MECHANICAL-023",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040024",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "656faafd-f2b0-4730-83b3-b393427f6844"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040025",
+      "transaction": "SYNTH-MECHANICAL-024",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040025",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "7d97bf15-3ef0-4f4d-8db8-0f3dd83ebf44"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040026",
+      "transaction": "SYNTH-MECHANICAL-025",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040026",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "efb8a95b-9dcb-466c-a0be-1276b2525535"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040027",
+      "transaction": "SYNTH-MECHANICAL-026",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040027",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "109f3b63-7f57-4bb4-9a33-fe857d32c822"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040028",
+      "transaction": "SYNTH-MECHANICAL-027",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040028",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "0657a067-2b41-4ff4-ad0f-cb99542baa14"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040029",
+      "transaction": "SYNTH-MECHANICAL-028",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040029",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "20b3e883-d2db-492a-8d57-408a76f7ee56"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040030",
+      "transaction": "SYNTH-MECHANICAL-029",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040030",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "c7ab3c29-b2c3-4ecf-ad09-b2d8880f872f"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040031",
+      "transaction": "SYNTH-MECHANICAL-030",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040031",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "e67ec413-b114-4ace-8eb2-55f18c4b1df0"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040032",
+      "transaction": "SYNTH-MECHANICAL-031",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040032",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "be5141b8-3efd-478a-a9e6-ffd4b950fc55"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040033",
+      "transaction": "SYNTH-MECHANICAL-032",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040033",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "265851bd-14b3-4266-a927-79a9dc12cf94"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040034",
+      "transaction": "SYNTH-MECHANICAL-033",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040034",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "90d55219-b2d3-42e9-bc31-1d4d8ee40dd6"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040035",
+      "transaction": "SYNTH-MECHANICAL-034",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040035",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "4ac5a4c2-db6d-4110-9a75-1bcb3ca502f7"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040036",
+      "transaction": "SYNTH-MECHANICAL-035",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040036",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "436e84c8-7949-4034-bf99-1a3b11dc2ecb"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040037",
+      "transaction": "SYNTH-MECHANICAL-036",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040037",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "af2b8af9-c0a8-4638-98e9-d4d0e72db574"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040038",
+      "transaction": "SYNTH-MECHANICAL-037",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040038",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "cbd6603b-69c5-427f-8a55-1da13be10ea3"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040039",
+      "transaction": "SYNTH-MECHANICAL-038",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040039",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "d1216baf-2118-4478-aafb-04531fad2381"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040040",
+      "transaction": "SYNTH-MECHANICAL-039",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040040",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "d738df43-fd66-4483-b410-1a4bfddb6d60"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040041",
+      "transaction": "SYNTH-MECHANICAL-040",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040041",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "63970065-efca-4a8c-9d0f-c7767709389e"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040042",
+      "transaction": "SYNTH-MECHANICAL-041",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040042",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "77149006-2ecb-49f6-b4e2-3431175c9a3e"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040043",
+      "transaction": "SYNTH-MECHANICAL-042",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040043",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "952c5d5c-bcb1-4617-9aaa-7f16b5cba063"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040044",
+      "transaction": "SYNTH-MECHANICAL-043",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040044",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "46e41645-29ea-421d-b6e9-2c332450ec97"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040045",
+      "transaction": "SYNTH-MECHANICAL-044",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040045",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "fab1e336-87cb-4409-87bd-ef9cc7a0cfcb"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040046",
+      "transaction": "SYNTH-MECHANICAL-045",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040046",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "53a61185-877d-498e-8910-6b96b3c825fa"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040047",
+      "transaction": "SYNTH-MECHANICAL-046",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040047",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "3debcd50-420f-4c69-bc5b-89b6593716ab"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040048",
+      "transaction": "SYNTH-MECHANICAL-047",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040048",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "f180f557-f720-4484-b0f0-c518aa2311e7"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040049",
+      "transaction": "SYNTH-MECHANICAL-048",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040049",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "36a7f601-25ee-465f-9ae9-04469403633f"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040050",
+      "transaction": "SYNTH-MECHANICAL-049",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040050",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "3b66da78-0316-4b74-879b-c6ca91110576"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040051",
+      "transaction": "SYNTH-MECHANICAL-050",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040051",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "93dfffad-1f9d-492e-84b0-92e13d091389"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040052",
+      "transaction": "SYNTH-MECHANICAL-051",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040052",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "43de2df6-dc76-4708-abb5-6ebb45cbcd82"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040053",
+      "transaction": "SYNTH-MECHANICAL-052",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040053",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "f7e4b44d-2204-4c4e-9962-4b1bf94aa4f5"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040054",
+      "transaction": "SYNTH-MECHANICAL-053",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040054",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "b28fd17a-a007-4071-b48f-847f234fdfba"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040055",
+      "transaction": "SYNTH-MECHANICAL-054",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040055",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "e44cebfa-ae63-43c4-85ac-aee2dfdcc4cf"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040056",
+      "transaction": "SYNTH-MECHANICAL-055",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040056",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "87f07b3d-02e3-41ae-8972-159e0b307143"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040057",
+      "transaction": "SYNTH-MECHANICAL-056",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040057",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "9e29eb31-f067-4937-8ba4-13dfe985e596"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040058",
+      "transaction": "SYNTH-MECHANICAL-057",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040058",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "0a0760c5-0f89-4133-9000-1e7832742761"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040059",
+      "transaction": "SYNTH-MECHANICAL-058",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040059",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "860ebb14-ba93-48c2-8dcd-2c7683dfa9f1"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040060",
+      "transaction": "SYNTH-MECHANICAL-059",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040060",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "142c5b6f-b321-43c7-92e9-c2691e506d14"
+    }
+  },
+  {
+    "input": {
+      "amount": 1,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040061",
+      "transaction": "SYNTH-MECHANICAL-060",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040061",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "b0513cfb-8e58-4bbc-a5c2-fa69f13dee7a"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040062",
+      "transaction": "SYNTH-MECHANICAL-061",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040062",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "05277c64-74ce-480e-8dd9-b660d4389d9e"
+    }
+  },
+  {
+    "input": {
+      "amount": 2,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040063",
+      "transaction": "SYNTH-MECHANICAL-062",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040063",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "c2401cb7-27bf-4bfa-84e9-91373c12b53a"
+    }
+  },
+  {
+    "input": {
+      "amount": 5,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040064",
+      "transaction": "SYNTH-MECHANICAL-063",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040064",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "1eea2681-5015-47b6-a334-3e6424593005"
+    }
+  },
+  {
+    "input": {
+      "amount": 9007199254740821,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000002",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020001",
+      "id": "99640000-0000-4000-8000-000000040065",
+      "transaction": "SYNTH-MECHANICAL-064",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040065",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "7a14f371-8ad3-4063-95bd-104a90a20643"
+    }
+  },
+  {
+    "input": {
+      "amount": 3,
+      "anonymity": "anonymous",
+      "contributor": null,
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020002",
+      "id": "99640000-0000-4000-8000-000000040066",
+      "transaction": "SYNTH-PUBLIC-ANONYMOUS",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040066",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "780a70af-9880-42d0-84e3-b7c8193906bd"
+    }
+  },
+  {
+    "input": {
+      "amount": 7,
+      "anonymity": "anonymous",
+      "contributor": "99640000-0000-4000-8000-000000000001",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020003",
+      "id": "99640000-0000-4000-8000-000000040067",
+      "transaction": "SYNTH-OWN-UNREADABLE",
+      "visible": true
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040067",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "3c4077c5-f74a-4234-a6d0-8893720bd141"
+    }
+  },
+  {
+    "input": {
+      "amount": 11,
+      "anonymity": "anonymous",
+      "contributor": "99640000-0000-4000-8000-000000000003",
+      "date": "2026-09-28T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020003",
+      "id": "99640000-0000-4000-8000-000000040068",
+      "transaction": "SYNTH-HIDDEN-PRIVATE",
+      "visible": false
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040068",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "9cef1052-1efc-4b9d-912e-5667c863e33a"
+    }
+  },
+  {
+    "input": {
+      "amount": 9007199254740991,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000003",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020005",
+      "id": "99640000-0000-4000-8000-000000040069",
+      "transaction": "SYNTH-EXACT-MAX",
+      "visible": false
+    },
+    "receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000040069",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "8cdf5c1e-2157-4c38-a188-079ffa40ebbb"
+    }
+  }
+]

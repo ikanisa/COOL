@@ -1,0 +1,4 @@
+{
+  "source_sha256": "15b4cf30ba422d11a47681c527c42b0ecd3e3dd95e4a386fe8444bc679fe45d3",
+  "scope": "Retained initial synchronous mount expectation and compile-hygiene changes; actual current1 export is separately unchanged."
+}

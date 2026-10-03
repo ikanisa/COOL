@@ -1,0 +1,390 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/FINAL.md",
+      "bytes": 3271,
+      "sha256": "231738f6a1f696d39511c4bb5b4def12f0c6637d83993ca94319f1edce0289dc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/README.md",
+      "bytes": 4717,
+      "sha256": "048f19a4f0853c42e74f91a2f08d7245b5b46fdd4e45fc319d5f6835ab73738c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/after/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38753,
+      "sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/application.json",
+      "bytes": 7073,
+      "sha256": "26e86466417e71a0bd8dfc02bf73e75a28a2a6a0df7c332330221270094848d1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-format-check.stderr",
+      "bytes": 16,
+      "sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-format-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-lint.stderr",
+      "bytes": 16,
+      "sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-runtime.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-tests.stdout",
+      "bytes": 9306,
+      "sha256": "82a82880f510196f3141257737ddd2ec5f6659bdee49bd1e3d33e5c41520bc4c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-types.stderr",
+      "bytes": 455,
+      "sha256": "d9f3e30696a1cb3b3841233a50d75deba3d0c3d88d81dc0dda160a6b77932bff"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/applied-verification.json",
+      "bytes": 58263,
+      "sha256": "3485616f84b3c49ea0e00ca9de89bb7f9a2f128e3e82aef744572c31bbd6fab8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/before/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38170,
+      "sha256": "572d7d8b00ba433a4733ad452a2808f0e5d68c32d8f8804694ae717d2ce8222b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/body-preservation.json",
+      "bytes": 2374,
+      "sha256": "d97d8423200c2f8d162e5ea93968c530f1d25a1f531195325d06c95549db92f9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/previous-packet-readback.json",
+      "bytes": 468,
+      "sha256": "0f6cc53c5ddde210b6ea131539804a1006078b1a5b8d07d8d971ebaec01406fc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/previous-packets-final-readback.json",
+      "bytes": 775,
+      "sha256": "140818ceb90aa631bc7bd130271a154eec445bea60a7d1b898a76334686ef369"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-format-check.stderr",
+      "bytes": 16,
+      "sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-format-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-format.stderr",
+      "bytes": 172,
+      "sha256": "b0332f2bd3590b73d7ffb8f733d6b28184d348fa77e8296449dd86879d32250a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-format.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-lint.stderr",
+      "bytes": 16,
+      "sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-preparation-corrected-runner.py",
+      "bytes": 5490,
+      "sha256": "f7655a1bff44dd355db7d4d508976a606674d8fc6c09b639d138a11b9d870688"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-preparation-failure.json",
+      "bytes": 319,
+      "sha256": "c7f919f74106cd6f11b2da2e17da30eaf69bd4f7982fc3a35c50cb9e11e1bb83"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-preparation-runner.py",
+      "bytes": 5099,
+      "sha256": "280c6fae413b1e5d809e55f1c38acddfd48b2e6c06af68624d3dd68d473ed194"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-runtime.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-tests.stdout",
+      "bytes": 9300,
+      "sha256": "6df8a742b2e61ca0cc23a1dc04f334a8f87de76b719b2d44ad4717b6e614918b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-types.stderr",
+      "bytes": 667,
+      "sha256": "d7173f67bb08eef3ac294cc2f826dbd925731cf09b3504abd88080bcd2ec304f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal-verification.json",
+      "bytes": 57928,
+      "sha256": "4179c21fd98ca219a91a58e8e4c0078985f5597de6ec678df2bf2067f9998b8a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposal.json",
+      "bytes": 2016,
+      "sha256": "9c3d0b0cc9ea928683de24a54bceb5bbd536f326cfd326f0ff5c7a8a3c963560"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposed-fixture-raw.patch",
+      "bytes": 2175,
+      "sha256": "929237f0344010e2e1ef0480451eea57a7ab1d27bb26b88cc256662e7f46d74b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposed-fixture.patch",
+      "bytes": 12588,
+      "sha256": "08eac394c084c03cdc42a17ab90c38c924a93a10c0c5125c4d45ca177bf01105"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/proposed-handler_test.ts",
+      "bytes": 38753,
+      "sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/root-authorization.txt",
+      "bytes": 616,
+      "sha256": "3f4ddd2439a2a2730d4a65aea67f95e3874adce29f0610707d9d6ffd0f4dbb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/source-before.json",
+      "bytes": 3463,
+      "sha256": "bada6188bc2967969b509af4f6d00781ffccf0dae4ee9586a8c9a9e603da5262"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/verify_applied.py",
+      "bytes": 4808,
+      "sha256": "668f289f5caf28405126395310db1766eb307aefec54ff7f076cc9f38de1c6fe"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/verify_packet.py",
+      "bytes": 2609,
+      "sha256": "51c2ee7e13aba8c163ca679d58c5021cff45f5a488919f1908ec333669a5cf51"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/verify_proposal.py",
+      "bytes": 3838,
+      "sha256": "2ba577edfea30cc4d1d4e5d95d4481dad5ae5ece29de5da73b1464c04beffe9d"
+    }
+  ],
+  "scope": "new fixture preparation/application/check evidence and exact source snapshots; excludes batch,index,and seal readback to avoid circular digests",
+  "excluded": [
+    "batch.json",
+    "evidence-index.json",
+    "seal-readback.json"
+  ]
+}

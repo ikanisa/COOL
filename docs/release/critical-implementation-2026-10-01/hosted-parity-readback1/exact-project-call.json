@@ -1,0 +1,38 @@
+{
+  "started": {
+    "current_time": "2026-10-02 07:48:22 UTC"
+  },
+  "finished": {
+    "current_time": "2026-10-02 07:48:23 UTC"
+  },
+  "tool": "mcp__codex_apps__supabase_get_project",
+  "arguments": {
+    "id": "lhbowpbcpwoiparwnwgt"
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"error\":{\"name\":\"ProtocolError\",\"message\":\"MCP error -32600: You do not have permission to perform this action\"}}"
+      }
+    ],
+    "structuredContent": {
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "isError": true
+  },
+  "interpretation": {
+    "observed_permission_refusal": true,
+    "metadata_read_success": false,
+    "additional_hosted_calls": 0,
+    "no_token_refresh_or_retry": true,
+    "target_selection": "Exact existing linked ref plus dated metadata; no project-list selection",
+    "not_inferred": [
+      "outage",
+      "project deletion",
+      "token expiration",
+      "wrong account",
+      "current hosted migration/function/server parity"
+    ]
+  }
+}

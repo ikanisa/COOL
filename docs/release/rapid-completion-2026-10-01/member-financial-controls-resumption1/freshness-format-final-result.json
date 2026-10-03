@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/dart",
+    "format",
+    "--output=none",
+    "--set-exit-if-changed",
+    "lib/shared/repositories/collect_repository.dart",
+    "test/shared/member_realtime_sdk_session_test.dart"
+  ],
+  "exit_code": 0,
+  "root_and_export_sha256": {
+    "lib/shared/repositories/collect_repository.dart": {
+      "root": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "export": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3"
+    },
+    "test/shared/member_realtime_sdk_session_test.dart": {
+      "root": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565",
+      "export": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565"
+    }
+  },
+  "tested_test_before_format_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc",
+  "format_only_diff": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-format-only.diff",
+  "scope": "Only added expect expression whitespace wrapped; runtime unchanged. Prior test and analyzer results bind preformat exact bytes; no behavior pass inferred from untaken rerun."
+}

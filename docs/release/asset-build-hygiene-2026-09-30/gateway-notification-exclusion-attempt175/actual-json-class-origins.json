@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "origins": [
+    "[0.777s][info][class,load] org.json.JSONObject source: file:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.json/json/20250517/d67181bbd819ccceb929b580a4e2fcb0c8b17cd8/json-20250517.jar"
+  ],
+  "class_log_sha256": {
+    "jvm-class-load-72016.log": "df60b31a3ff3f1c75142c367260dd5d81a2d66348c7d17a9d5b98d13c931e14d"
+  }
+}

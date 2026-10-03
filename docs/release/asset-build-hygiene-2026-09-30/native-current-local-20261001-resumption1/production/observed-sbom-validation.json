@@ -1,0 +1,13 @@
+{
+  "compile_graph_sha256": "1c726680f8ef29e821d5c05371d44ef59fec837218fd657963b8106801f2d167",
+  "components": 200,
+  "external_artifact_occurrences": 188,
+  "helper_sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb",
+  "inventory_sha256": "b9369a57537d4bfaf84a2fde1570cedaeeb3736a2967498c09f125943b5a429b",
+  "reproduction_verified": true,
+  "runtime_graph_sha256": "0379489b47cb6daf51cc4755f33d2966b44d022f5215100354d4f24909d30c80",
+  "sbom_sha256": "a19e4743eeb9238fde7229c0ea0eee868fac33eb4e8d215fbe9059b0cdf1b079",
+  "schema_errors": [],
+  "scope": "Only missing current compile observation ran; current runtime reused from actual native build. Complete external AAR/JAR hashes, project edges, deterministic CycloneDX/schema; no license/advisory or signed/device/store acceptance.",
+  "status": "pass"
+}

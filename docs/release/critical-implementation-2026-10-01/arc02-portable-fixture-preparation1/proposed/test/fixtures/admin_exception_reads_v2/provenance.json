@@ -1,0 +1,63 @@
+{
+  "kind": "collect_dated_observed_sql_test_fixtures",
+  "producer_result": {
+    "completed_at": "2026-09-30T23:32:44.339242+00:00",
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/result.json",
+    "runner_sha256": "d090475661c996e46cd48e093d617fd87f5ef2521cf34c17328b15bd1f5deddc",
+    "sha256": "d43ac5cdeddf5b6d3e066a352ed187b5072012b750a40affe65fe3d27104d632",
+    "started_at": "2026-09-30T23:30:19.377200+00:00",
+    "status": "pass"
+  },
+  "production_data": false,
+  "receipts": [
+    {
+      "bytes": 327,
+      "file": "observed-empty.json",
+      "sha256": "da573fe1099c870d7030fffa1fcba253438d2207d2dae516ca09491568d916e5",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-empty.json"
+    },
+    {
+      "bytes": 3702,
+      "file": "observed-populated.json",
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-populated.json"
+    },
+    {
+      "bytes": 918,
+      "file": "observed-filtered.json",
+      "sha256": "026af1cd52b0b3466c5ac835480012d25832ebc2cc03ee5474448d234f8fdbd4",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-filtered.json"
+    },
+    {
+      "bytes": 912,
+      "file": "observed-cleared.json",
+      "sha256": "f4098e216968f91373491059310e9eb54a423a698df02ebd869288c4c234a9e7",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-cleared.json"
+    },
+    {
+      "bytes": 632,
+      "file": "observed-recorded-lookup.json",
+      "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json"
+    },
+    {
+      "bytes": 263,
+      "file": "observed-unknown-lookup.json",
+      "sha256": "414f30dc8588b4fec172d574408c74de61a2beb0afcf6e741296b0194448aeae",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-unknown-lookup.json"
+    },
+    {
+      "bytes": 262,
+      "file": "observed-progress-lookup.json",
+      "sha256": "18232f8ab20f43bd4441b5515d932f5125d3da3618d341a4050f3d676c969e6d",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-progress-lookup.json"
+    },
+    {
+      "bytes": 356,
+      "file": "observed-action-receipt.json",
+      "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-action-receipt.json"
+    }
+  ],
+  "scope": "Byte-exact dated isolated PostgreSQL observations for local regression tests. No current backend installation, provider, delivery, hosted Auth, or release approval claim."
+}

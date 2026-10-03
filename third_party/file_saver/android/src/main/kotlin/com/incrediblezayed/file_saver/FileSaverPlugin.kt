@@ -89,12 +89,12 @@ class FileSaverPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                     result.success(downloadId)
                 }
                 else -> {
-                    Log.d(tag, "Unknown Method called " + call.method!!)
+                    Log.d(tag, "Unrecognized file operation")
                     result.notImplemented()
                 }
             }
         } catch (e: Exception) {
-            Log.d(tag, "Error While Calling method" + e.message)
+            Log.d(tag, "File operation failed")
         }
 
     }
@@ -114,7 +114,7 @@ class FileSaverPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
             file.writeBytes(bytes ?: throw IllegalArgumentException("bytes is null"))
             file.absolutePath
         } catch (e: Exception) {
-            Log.d(tag, "Error While Saving File" + e.message)
+            Log.d(tag, "File save failed")
             "Error While Saving File" + e.message
         }
     }

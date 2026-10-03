@@ -1,0 +1,73 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "widgets",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/gateway/gateway_recovery_test.dart",
+        "test/gateway/gateway_safety_test.dart",
+        "test/gateway/gateway_local_dispatch_test.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+      "status": "terminal",
+      "pid": 43638,
+      "exit_code": 0,
+      "owned_child_reaped": true,
+      "wall_seconds": 31.3969450830009,
+      "stdout_sha256": "911cb777e1eafd0658aea88181d22994b0a9eced4441163cf2175632f965e815",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/gateway/gateway_app.dart",
+        "lib/gateway/gateway_recovery_page.dart",
+        "lib/gateway/gateway_recovery_platform.dart",
+        "test/gateway/gateway_recovery_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+      "status": "terminal",
+      "pid": 45517,
+      "exit_code": 0,
+      "owned_child_reaped": true,
+      "wall_seconds": 25.03666179100037,
+      "stdout_sha256": "6127d1f4a0b266c28f12f176d8b4166c630fd397bc910fe29dcedeecf58101d1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "widget_test_count": 44,
+  "inputs_sha256": "07455fc7191dd0e1f0f22cca015ced08a5e7bca545f985243555d4cf892c5dab",
+  "source_changes": [],
+  "dependency_changes": [],
+  "tool_changes": [],
+  "tools_sha256": {
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/flutter_tools.snapshot": "03f256b87096b0c30d7dc7774871dbf5bbf1391720b7fa2007ca99100b7c2fd3",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "dependencies_sha256": "46f804e73bd4e111c97a2757bd1d14cebe4ce8305b1d4b33286fc3918749c36b",
+  "dependency_count": 1462,
+  "excluded_baseline_dependencies": [
+    {
+      "path": "/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/154.0.8037.59/Google Chrome Framework",
+      "reason": "browser binary unused by VM widget/analyzer scope"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "reason": "browser binary unused by VM widget/analyzer scope"
+    }
+  ],
+  "limitations": [
+    "Flutter method-channel/widget proof on synthetic states; no physical Android SAF, TalkBack, native picker lifecycle or device recovery acceptance."
+  ]
+}

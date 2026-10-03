@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
+import '../../core/data/exact_json_values.dart';
+
 String rosterTextDigest(String text) =>
     sha256.convert(utf8.encode(text)).toString();
 
@@ -72,7 +74,11 @@ DateTime _zonedExpiry(Object? value) {
       ).hasMatch(value)) {
     invalidRosterReceipt();
   }
-  return DateTime.tryParse(value) ?? invalidRosterReceipt();
+  try {
+    return exactJsonTimestamp(value, field: 'roster.expires_at');
+  } on FormatException {
+    invalidRosterReceipt();
+  }
 }
 
 Map<String, dynamic> immutableRosterJson(Map<String, dynamic> value) =>

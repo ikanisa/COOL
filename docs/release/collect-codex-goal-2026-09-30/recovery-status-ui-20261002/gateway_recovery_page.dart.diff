@@ -1,0 +1,23 @@
+--- before/lib/gateway/gateway_recovery_page.dart
++++ lib/gateway/gateway_recovery_page.dart
+@@ -284,10 +284,16 @@
+                       'Recovery cancelled. Any partial evidence remains in private quarantine. Dispatch authority is unchanged.',
+                     ),
+                   if (value?.state == 'failed')
+-                    Text(
+-                      value?.reasonCode == 'gateway_recovery_pause_required'
+-                          ? 'Turn on Emergency pause and check it before exporting.'
+-                          : 'Recovery could not be completed. Retained evidence stays inactive. Investigate before selecting another archive.',
++                    Semantics(
++                      liveRegion: true,
++                      child: Text(switch (value?.reasonCode) {
++                        'gateway_recovery_pause_required' =>
++                          'Turn on Emergency pause and check it before exporting.',
++                        'gateway_recovery_storage_full' =>
++                          'Recovery stopped because free device storage is low or could not be checked. Check device storage and free space outside Collect before starting a new recovery operation. Keep existing gateway evidence.',
++                        _ =>
++                          'Recovery could not be completed. Retained evidence stays inactive. Investigate before selecting another archive.',
++                      }),
+                     ),
+                 ],
+               ),

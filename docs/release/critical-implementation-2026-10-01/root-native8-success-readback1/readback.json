@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "utc": "2026-10-02T12:18:07.898826+00:00",
+  "native_terminal_sha256": "bafcc7a1425467ff93aa8b64bf8e618fe3bca69887f2723fb8746374b083525c",
+  "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "source_files": 2561,
+  "actual_command_seconds": 1858.452,
+  "original_bound_seconds": 2700,
+  "actual_JVM_tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "actual_JVM_suites": 3,
+  "actual_release_classes": 20,
+  "raw_JVM_XML_and_classes_independently_read_and_copied": true,
+  "SDK_source_entries": 15660,
+  "SDK_source_deltas": 8,
+  "SDK_retained_physical_differences": [
+    {
+      "path": "flutter/bin/cache/engine.stamp",
+      "before": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 60416660,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      },
+      "after": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 60420617,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      }
+    }
+  ],
+  "SDK_generated_output_changes_separately_recorded": true,
+  "original_protected_paths_unchanged": 68020,
+  "owned_groups": [
+    {
+      "pgid": 74680,
+      "state": "ESRCH_absent"
+    },
+    {
+      "pgid": 74694,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "original_flat_native_graphs": [
+    {
+      "label": "COLLECT_NATIVE_PRODUCTION_GRAPH",
+      "ordinal": 0,
+      "path": "observed-native-graphs/collect_native_production_graph0.json"
+    },
+    {
+      "label": "COLLECT_NATIVE_PRODUCTION_GRAPH",
+      "ordinal": 1,
+      "path": "observed-native-graphs/collect_native_production_graph1.json"
+    },
+    {
+      "label": "COLLECT_CANDIDATE_SDK_GRAPHS",
+      "ordinal": 0,
+      "path": "observed-native-graphs/collect_candidate_sdk_graphs0.json"
+    }
+  ],
+  "canonical_packaged_SBOM_graphs": false,
+  "native_packages_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

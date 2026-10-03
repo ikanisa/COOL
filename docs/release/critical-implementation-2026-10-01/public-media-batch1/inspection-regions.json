@@ -1,0 +1,44 @@
+[
+  {
+    "source": ".cache/public-media-current-20261001-batch1-attempt2/screenshots/group-detail.png",
+    "source_sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "source_unchanged": true,
+    "original_pixel_coordinates": [
+      0,
+      2290,
+      1170,
+      2532
+    ],
+    "inspection_only_region": ".cache/public-media-current-20261001-batch1-attempt2/inspection-regions/group-detail-2290.png",
+    "pixels_resized_repainted_or_replaced": false,
+    "publication_allowed": false
+  },
+  {
+    "source": ".cache/public-media-current-20261001-batch1-attempt2/screenshots/terms.png",
+    "source_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "source_unchanged": true,
+    "original_pixel_coordinates": [
+      45,
+      490,
+      1100,
+      615
+    ],
+    "inspection_only_region": ".cache/public-media-current-20261001-batch1-attempt2/inspection-regions/terms-490.png",
+    "pixels_resized_repainted_or_replaced": false,
+    "publication_allowed": false
+  },
+  {
+    "source": ".cache/public-media-current-20261001-batch1-attempt2/screenshots/terms.png",
+    "source_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "source_unchanged": true,
+    "original_pixel_coordinates": [
+      40,
+      90,
+      205,
+      265
+    ],
+    "inspection_only_region": ".cache/public-media-current-20261001-batch1-attempt2/inspection-regions/terms-90.png",
+    "pixels_resized_repainted_or_replaced": false,
+    "publication_allowed": false
+  }
+]

@@ -1,0 +1,8 @@
+test_alias_normalization_refuses_qualified_quoted_and_custom_types_first (__main__.LineageTests.test_alias_normalization_refuses_qualified_quoted_and_custom_types_first) ... ok
+test_self_contained34_case_hashes_and_controlled_lineage (__main__.LineageTests.test_self_contained34_case_hashes_and_controlled_lineage) ... ok
+test_current209_retains_only_uninterrupted_fixture_case (__main__.LineageTests.test_current209_retains_only_uninterrupted_fixture_case) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.364s
+
+OK

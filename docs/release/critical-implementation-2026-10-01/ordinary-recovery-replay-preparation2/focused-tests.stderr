@@ -1,0 +1,23 @@
+test_actual_tool_versions (__main__.AdmissionTests.test_actual_tool_versions) ... ok
+test_database_acl_parser (__main__.AdmissionTests.test_database_acl_parser) ... ok
+test_exact_proposed_fixture_cohort (__main__.AdmissionTests.test_exact_proposed_fixture_cohort) ... ok
+test_owned_container_guard (__main__.AdmissionTests.test_owned_container_guard) ... ok
+test_review_drift_and_scope_are_refused (__main__.AdmissionTests.test_review_drift_and_scope_are_refused) ... ok
+test_unknown_and_duplicate_json_fields_refused (__main__.AdmissionTests.test_unknown_and_duplicate_json_fields_refused) ... ok
+test_dump_integrity_and_substitutions (__main__.ArchiveTests.test_dump_integrity_and_substitutions) ... ok
+test_preinstalled_extension_entries_keep_all_data_history_and_acl (__main__.ArchiveTests.test_preinstalled_extension_entries_keep_all_data_history_and_acl) ... ok
+test_concurrent_input_and_output (__main__.RunnerTests.test_concurrent_input_and_output) ... ok
+test_tool_output_and_wall_time_are_bounded (__main__.RunnerTests.test_tool_output_and_wall_time_are_bounded) ... ok
+test_already_exact_roles_require_no_mutation (__main__.SourceRoleTests.test_already_exact_roles_require_no_mutation) ... ok
+test_duplicate_malformed_and_unknown_global_rows_refused (__main__.SourceRoleTests.test_duplicate_malformed_and_unknown_global_rows_refused) ... ok
+test_every_observed_role_attribute_mismatch_refused (__main__.SourceRoleTests.test_every_observed_role_attribute_mismatch_refused) ... ok
+test_membership_and_setting_mismatches_refused (__main__.SourceRoleTests.test_membership_and_setting_mismatches_refused) ... ok
+test_observed_missing_role_has_one_exact_prerequisite (__main__.SourceRoleTests.test_observed_missing_role_has_one_exact_prerequisite) ... ok
+test_readonly_query_reuses_exact_bound_catalog_expressions (__main__.SourceRoleTests.test_readonly_query_reuses_exact_bound_catalog_expressions) ... ok
+test_unadmitted_source_role_attributes_refused (__main__.SourceRoleTests.test_unadmitted_source_role_attributes_refused) ... ok
+test_unknown_missing_and_extra_roles_refused (__main__.SourceRoleTests.test_unknown_missing_and_extra_roles_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.153s
+
+OK

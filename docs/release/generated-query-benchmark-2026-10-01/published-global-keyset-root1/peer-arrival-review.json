@@ -1,0 +1,20 @@
+{
+  "status": "reviewed_for_current_set_clone_integration_only",
+  "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+  "sha256": "82de223a03ba769d27d12d002a9500853a9fef01b401c0d75ea426c3af65ea39",
+  "changes": [
+    "Member-only immutable receipt snapshot wording and v2 evidence",
+    "Private schema with two RLS tables and denied direct API DML",
+    "Public claim/dispatch/cancellation/investigation retain existing signatures with v2 eligibility",
+    "One new read policy API with authenticated execution and owner authority"
+  ],
+  "scope_limits": [
+    "No source comment is treated as new user authorization",
+    "No hosted/provider/settlement/delivery approval inferred",
+    "Peer changes remain preserved",
+    "Dedicated complete receipt policy acceptance remains separate"
+  ],
+  "new_source_count": 177,
+  "new_stage_count": 23,
+  "prior_manifest_refusal_preserved": true
+}

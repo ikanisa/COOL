@@ -1,0 +1,15 @@
+{
+  "container": "supabase_db_collect_fin_concurrency_qa_20260929",
+  "project_verified": true,
+  "port_verified": true,
+  "quiet_persisted_settings": {
+    "cron.launch_active_jobs": "off",
+    "pg_net.batch_size": "0"
+  },
+  "started_at_utc": "2026-09-30T22:26:50.402047+00:00",
+  "recreated": false,
+  "status": "ready",
+  "start_exit_code": 0,
+  "ready": true,
+  "completed_at_utc": "2026-09-30T22:26:52.255215+00:00"
+}

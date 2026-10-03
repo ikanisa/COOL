@@ -1,0 +1,30 @@
+{
+  "fixture_correction": "Use actual newline delimiters for extra/duplicate action negatives; no production consumer change",
+  "result": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1) (allow default) (deny network*)",
+      "/usr/bin/ruby",
+      "scripts/tests/edge_function_inventory_test.rb"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source",
+    "deadline_seconds": 180,
+    "elapsed_seconds": 0.3988272499991581,
+    "exit_code": 0,
+    "timed_out": false,
+    "owned_process_pid": 70237,
+    "logs": {
+      "stdout": {
+        "path": "candidate-corrected-ruby-check/ruby-inventory-tests.stdout",
+        "bytes": 176,
+        "sha256": "07df9c93dd5657421a0255b10fc97c80ccd75e1e4b56bbe22d26cbe6de5af0af"
+      },
+      "stderr": {
+        "path": "candidate-corrected-ruby-check/ruby-inventory-tests.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  }
+}

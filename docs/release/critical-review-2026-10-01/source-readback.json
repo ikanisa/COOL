@@ -1,0 +1,69 @@
+{
+  "captured_utc": "2026-10-01T17:35:58.230462+00:00",
+  "baseline_count": 2224,
+  "changed": [
+    {
+      "path": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
+      "change": "content_changed",
+      "before_sha256": "f7a00791a65732dea19f4d9dfb54d1dc460ce4d63be195dfa854a4512cfd2e9a",
+      "after_sha256": "ecc7237025342dd753ebe5de32ebd520df75dd38334e0efc0d03562f8db92802"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "change": "content_changed",
+      "before_sha256": "b4e6e14731ab0d546b45a285a136fe854022f40a4ae59e1e5fa06bff5ccf5ee4",
+      "after_sha256": "fdc120649e76b4b0d15ef0b1758a39617e8143d719f840a6a61c098c1c9e1335"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "change": "content_changed",
+      "before_sha256": "377456cf245319890602764dad970a1360d2347815554bae2ff363b2af46182b",
+      "after_sha256": "19bddee70f234565357c4fffe1303f30a7185aae9039fee62b39e1fb4a011162"
+    },
+    {
+      "path": "scripts/admin_pwa_browser_qa.mjs",
+      "change": "content_changed",
+      "before_sha256": "0cd9eb47989cc1c7c66adc327561aa5376080106149bba857793bd1028b0d42d",
+      "after_sha256": "27f942bb5b1e5fc142943e90dac7abe98e201ac1a71e145c04a454df095876e3"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "change": "content_changed",
+      "before_sha256": "af090a720ec41f40f225e09f1d9be2750ad8794481fc46e56e2d658c70733e6a",
+      "after_sha256": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90"
+    },
+    {
+      "path": "scripts/public_website_route_rendered_qa.js",
+      "change": "content_changed",
+      "before_sha256": "f6fc7874d12f26f4fa7db2924ca39feac9d1ca5035c0498c4840e3afb24f50d0",
+      "after_sha256": "857e2ed997d69bfffb9fcbee7ca1b34f68a22344452a8c89b7acd83fdfa8d418"
+    },
+    {
+      "path": "web/public/app-screens/capture-provenance.json",
+      "change": "content_changed",
+      "before_sha256": "fcf64f691daa22b40ac86da1cd38c434b0891d3fa0e77d6d204795a576249cd8",
+      "after_sha256": "7e8097b5bb38ed0fb22c97a72bc22aec991e2e3dea5e0b47f9da2b55183beb1f"
+    },
+    {
+      "path": "web/public/app-screens/manifest.json",
+      "change": "content_changed",
+      "before_sha256": "ff35115b945c8bac292d34233b427e8526850e98d92baa354e24ca07ed583a67",
+      "after_sha256": "4801939a6e04eeefe284526ca32e9257c6bf3485e3ed6b1b4a28da38df95b144"
+    }
+  ],
+  "added": [
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_models.dart",
+      "sha256": "6fa6d02c2394641a7a88fcb70ff792d056504b9450ce5c049f12770f7cf3c7a8",
+      "bytes": 18915
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_runtime.dart",
+      "sha256": "4d5bff37e20b56ef7f069eb3c85b38214594e4a614e8fcfa4e9fef5130b76599",
+      "bytes": 2541
+    }
+  ],
+  "source_stable": false,
+  "current_migration_count": 188,
+  "meaning": "Fresh hash readback of selected review scope; unrelated active edits are preserved and scoped check results are not whole-system acceptance."
+}

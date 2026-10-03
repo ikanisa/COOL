@@ -1,0 +1,1 @@
+Historical initial seal, retained before correcting one prose elapsed-time typo. Its paths refer to the enclosing packet at that point in time. The old enclosing README is retained as original-packet-README.md. Canonical actual command receipt is unchanged: 898.811s, not the initial prose 898.759s. This historical seal is not the current package seal.

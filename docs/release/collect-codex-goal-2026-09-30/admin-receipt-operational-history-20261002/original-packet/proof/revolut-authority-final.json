@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "design_authority": "revolut-design",
+  "scope": [
+    "admin",
+    "member_app",
+    "public_website"
+  ],
+  "skill_revision_check": "verified",
+  "reference_files_scanned": 52,
+  "retired_references": [],
+  "competing_declarations": [],
+  "failures": [],
+  "visual_acceptance": "unverified",
+  "meaning": "Reference hygiene only; no route/state fidelity percentage."
+}

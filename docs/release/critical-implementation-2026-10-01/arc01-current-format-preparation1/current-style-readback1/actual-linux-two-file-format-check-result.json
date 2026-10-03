@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-style-45f655ec29454ed290b2cfd0823b86b1-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "exec /opt/flutter/flutter/bin/cache/dart-sdk/bin/dart format --output=none --set-exit-if-changed --language-version=3.12 scripts/tests/admin_receipt_source_busy_test.dart test/support/test_capture_paths.dart"
+  ],
+  "completed_at_utc": "2026-10-02T11:23:40.232710+00:00",
+  "deadline_seconds": 30,
+  "elapsed_seconds": 0.25883954200253356,
+  "exit_code": 0,
+  "log_sha256": "11a57d97889bc161aad83f19055424c45a757ed0654809f75c0ad99f31bb11b7",
+  "started_at_utc": "2026-10-02T11:23:39.973892+00:00",
+  "timed_out": false
+}

@@ -1,0 +1,150 @@
+{
+  "actual_handler_or_sql_tests": false,
+  "network_policy": "OS deny network for owned command tree; CLI/curl/Deno transports remain synthetic",
+  "observed_at_utc": "2026-10-02T02:27:16.843747+00:00",
+  "provider_or_hosted_operations": false,
+  "results": {
+    "inventory-auth-check": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/usr/bin/ruby",
+        "scripts/edge_function_inventory.rb",
+        "auth-check"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/baseline/source",
+      "deadline_seconds": 20,
+      "elapsed_seconds": 0.05946208399836905,
+      "exit_code": 1,
+      "logs": {
+        "stderr": {
+          "bytes": 118,
+          "path": "baseline-checks/inventory-auth-check.stderr",
+          "sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "baseline-checks/inventory-auth-check.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "owned_process_pid": 63786,
+      "timed_out": false
+    },
+    "network-denial-probe": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "-c",
+        "import socket; s=socket.socket();\ntry: s.connect(('127.0.0.1', 9))\nexcept PermissionError as e: print(type(e).__name__, e); raise SystemExit(0)\nexcept Exception as e: print(type(e).__name__, e); raise SystemExit(1)\nraise SystemExit(2)"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/baseline/source",
+      "deadline_seconds": 20,
+      "elapsed_seconds": 0.020694083003036212,
+      "exit_code": 0,
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "path": "baseline-checks/network-denial-probe.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 50,
+          "path": "baseline-checks/network-denial-probe.stdout",
+          "sha256": "d64707a99c9a83a659518782e3e4558803bd5ce960fd91ff01763e369cc274d2"
+        }
+      },
+      "owned_process_pid": 63795,
+      "timed_out": false
+    },
+    "python-delivery-tests": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "scripts/tests/supabase_delivery_contract_test.py",
+        "-v"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/baseline/source",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 84.74660329100152,
+      "exit_code": 1,
+      "logs": {
+        "stderr": {
+          "bytes": 14827,
+          "path": "baseline-checks/python-delivery-tests.stderr",
+          "sha256": "480d612af041af5817b00e561edb31123d05c33432f37015074e64b73e013eaa"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "baseline-checks/python-delivery-tests.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "owned_process_pid": 62787,
+      "timed_out": false
+    },
+    "readiness-shell-syntax": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/bin/bash",
+        "-n",
+        "scripts/supabase_production_readiness.sh"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/baseline/source",
+      "deadline_seconds": 20,
+      "elapsed_seconds": 0.009702833001938416,
+      "exit_code": 0,
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "path": "baseline-checks/readiness-shell-syntax.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "baseline-checks/readiness-shell-syntax.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "owned_process_pid": 63794,
+      "timed_out": false
+    },
+    "ruby-inventory-tests": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1) (allow default) (deny network*)",
+        "/usr/bin/ruby",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/baseline/source",
+      "deadline_seconds": 180,
+      "elapsed_seconds": 0.24586858299880987,
+      "exit_code": 1,
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "path": "baseline-checks/ruby-inventory-tests.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 705,
+          "path": "baseline-checks/ruby-inventory-tests.stdout",
+          "sha256": "80e384348db44e2dee8588ade42db5b44f24f2ac5da492895bedeb9023e2a22f"
+        }
+      },
+      "owned_process_pid": 62782,
+      "timed_out": false
+    }
+  },
+  "stage": "baseline"
+}

@@ -1,0 +1,23 @@
+{
+  "independent_finding_received_via_parent": {
+    "addressed": "Activation-bound original checkpoint and closed latch publish/readback before all daemon observation; daemon mutations require verified matching host.",
+    "code": "LOCAL_STOP_LATCH_AFTER_HOST_OBSERVATION",
+    "description": "Unknown/conflicting daemon observation refused before durable local disable; future local ticks could remain authorized.",
+    "material": true,
+    "prior_40_receipt_remains_historical": true,
+    "regression_cases": [
+      "print timeout",
+      "malformed state",
+      "conflicting job args"
+    ]
+  },
+  "limits": [
+    "Local latch is not running-process termination proof",
+    "Already submitted signed operations retain their own unknown state",
+    "Host cadence and production acceptance unexecuted"
+  ],
+  "parent_changed_boundary_review": "No remaining material finding in corrected checkpoint/latch-before-observation boundary; scoped review only.",
+  "recorded_at": "2026-10-01T14:22:40.354036Z",
+  "review_did_not_execute_host_commands": true,
+  "scope": "scheduler activation/disable/manual reconciliation; changed urgent-stop boundary"
+}

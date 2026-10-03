@@ -1,0 +1,41 @@
+{
+  "excluded_generated_state_components": [
+    ".gradle"
+  ],
+  "files": {
+    "exact-lint32-tooling-resolution.daemon-readback.json": {
+      "bytes": 10105,
+      "sha256": "fcc8e056c74d397bcb82aa60d0e3ae84022ecd7a05757b0c1932789633c0116f"
+    },
+    "exact-lint32-tooling-resolution.json": {
+      "bytes": 1423,
+      "sha256": "c5be057e0d591c1722d61f42c0084f80d34a9b45efbc46ec526b8b2627271c63"
+    },
+    "exact-lint32-tooling-resolution.stderr": {
+      "bytes": 603,
+      "sha256": "e2864869f657516e1ea84746500a9c867e868f95c9d359e84917a6121ca2fc40"
+    },
+    "exact-lint32-tooling-resolution.stdout": {
+      "bytes": 350,
+      "sha256": "c85222193781192fd05cfd0b1ece96db0589848daa8d7410c07a193da5603636"
+    },
+    "minimal-project/build.gradle": {
+      "bytes": 8090,
+      "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+    },
+    "minimal-project/settings.gradle": {
+      "bytes": 390,
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    "readback.json": {
+      "bytes": 15162,
+      "sha256": "964ddacb899f55537435fd88e7ffcf38da94cf94a1cef6ff9e6817532611e607"
+    },
+    "selected-tooling-graph.json": {
+      "bytes": 113203,
+      "sha256": "874a4c20281347dd0c53a677f094c8d5ea61aee6321cf2aa261d3905defd1061"
+    }
+  },
+  "payload_count": 8,
+  "schema_version": 1
+}

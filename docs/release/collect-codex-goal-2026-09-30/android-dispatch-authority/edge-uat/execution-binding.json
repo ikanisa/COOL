@@ -1,0 +1,25 @@
+{
+  "started_at": "2026-10-01T12:13:10.555080+00:00",
+  "source_sha256": {
+    "supabase/functions/collect-android-gateway/handler_test.ts": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801",
+    "supabase/functions/collect-android-gateway/dispatch_v2_test.ts": "d1e4a998fb3d30c5c21ac157cc134594e063ca673322ead28374fa4aefa05d5e",
+    "supabase/functions/collect-android-gateway/dispatch_observed_test.ts": "1b8bebb2e7d153dc6f1545e80bf81f2ae12f1de9f132d850c8f5011447a281fe",
+    "supabase/functions/collect-android-gateway/index.ts": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+    "supabase/functions/collect-android-gateway/handler.ts": "39756c7e26fc67d82b1c129feb2c731be02d31c53092ba13380b5b749ebb3665",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-grant.json": "2d206413391677a347db18d491f388d96a0b69320297b3bbc3f2679d0cd32849",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-contradictory-callback.json": "20340f6c557e02c835b26f4f27e9c03d35301c557a3aea0f459bf86b898b15a6",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-owner-automatic-history.json": "45ca9d2637566e0a4b9895a937a1cb768f1d8a1650982c381f5530322377cc8e",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-complete-callback.json": "73a6bf2b8d5a9955786efba9c158f5a1bed421cd2ccf2faf392b034ac7c86be2",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-partial-callback.json": "3366c9f43ea932a710eb5a7a4ff806e305e571892d71e89fc7ca86d6a115687e",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-status.json": "0e65b26d8712b1a40ec029ecc7bfa38434929206a08a5b4b8a461497d927a425",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-grant-reconciliation.json": "30ed3f064eeffce50ac0122ad777a2ef00ca32bec3648bc6b97df19d0da4ea5d",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-concurrent-grants.json": "3fe3ff18155b78c4f9cfe1247c06fa11067da455e10ce4d3786e4391bc7d89f9",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-arm.json": "21162e4e21444e4f6c6a39b31c5627c050570f312ad872d4933cdfd737541c10",
+    "contracts/collect-android-dispatch-v2/fixtures/observed-grant-paused.json": "979eff4755fc2755d1e6aa5958634946100650e9b9b81655fe5f11370c7fc2db",
+    ".cache/android-dispatch-edge-final-attempt2/run.py": "9dc2ecad5d8d6e235ec04c87b75ce8350ef582358aee1edf1ce83a3bd26e7482"
+  },
+  "binary_sha256": "b3ac3bd206e48c26026cadd80c1367e96c149f9c66130952382a642b09fa8a71",
+  "scope": "offline synthetic signed handler plus actual task-private SQL outputs; no network/provider/Auth/runtime acceptance",
+  "commands": []
+}

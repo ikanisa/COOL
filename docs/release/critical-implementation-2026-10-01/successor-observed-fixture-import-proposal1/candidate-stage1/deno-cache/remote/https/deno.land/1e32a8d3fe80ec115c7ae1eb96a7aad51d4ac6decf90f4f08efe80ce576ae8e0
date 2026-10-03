@@ -1,0 +1,29 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that actual includes expected. If not
+ * then throw.
+ *
+ * @example
+ * ```ts
+ * import { assertStringIncludes } from "https://deno.land/std@$STD_VERSION/assert/assert_string_includes.ts";
+ *
+ * assertStringIncludes("Hello", "ello"); // Doesn't throw
+ * assertStringIncludes("Hello", "world"); // Throws
+ * ```
+ */
+export function assertStringIncludes(
+  actual: string,
+  expected: string,
+  msg?: string,
+) {
+  if (!actual.includes(expected)) {
+    const msgSuffix = msg ? `: ${msg}` : ".";
+    msg = `Expected actual: "${actual}" to contain: "${expected}"${msgSuffix}`;
+    throw new AssertionError(msg);
+  }
+}
+
+// denoCacheMetadata={"headers":{"access-control-allow-headers":"*","accept-ranges":"bytes","age":"293294","x-deno-trace-id":"dc798e023769910cf764cbf3cb80e078","cf-ray":"a43737c05ac599d3-AMS","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=oUoyuUdlDopqMvSB%2BFFIqb","cross-origin-embedder-policy":"same-origin","content-length":"807","cache-status":"deno; hit","x-content-type-options":"nosniff","cache-control":"public, max-age=31536000, immutable","content-type":"application/typescript; charset=utf-8","cross-origin-resource-policy":"same-origin","etag":"\"4b46028a8b30adca5c99ba5bc29ab6d7\"","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","cross-origin-opener-policy":"same-origin","cf-cache-status":"HIT","strict-transport-security":"max-age=63072000; includeSubDomains; preload","access-control-allow-methods":"GET, HEAD","referrer-policy":"strict-origin-when-cross-origin","date":"Thu, 01 Oct 2026 00:05:48 GMT","last-modified":"Thu, 27 Aug 2026 16:21:31 GMT","access-control-allow-origin":"*","x-frame-options":"DENY","server-timing":"fetchSource;dur=20","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","server":"cloudflare,deployd","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"},"url":"https://deno.land/std@0.224.0/assert/assert_string_includes.ts","time":1790910997}

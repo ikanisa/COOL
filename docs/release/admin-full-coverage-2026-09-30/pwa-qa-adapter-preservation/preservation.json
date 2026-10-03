@@ -1,0 +1,19 @@
+{
+  "scope": "Prior immutable common130 bytes and current owned QA fixture changes; no production policy or SQL execution.",
+  "prior_manifest_sha256": "95fdd662ca935d9bf4ae346841ded77a12b04fd3a5213e6a098e07753aeedc74",
+  "files": [
+    {
+      "file": "scripts/admin_pwa_browser_qa.mjs",
+      "common130_copy_available": false
+    },
+    {
+      "file": "scripts/admin_pwa_authenticated_render_smoke.sh",
+      "common130_copy_available": false
+    },
+    {
+      "file": "test/admin_pwa_test.dart",
+      "prior_sha256": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906",
+      "saved_current_sha256": "6db59ae592cb2e970fe3b3b72f5d7d80e9c110ac59c240005c7f5e4603642360"
+    }
+  ]
+}

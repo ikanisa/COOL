@@ -1,0 +1,19 @@
+--- historical/group-savings/
++++ current/group-savings/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -18,7 +17,7 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
++Collect interface preview · Example data
+ Trusted savings should not remain invisible.
+ Many groups still depend on cash, notebooks, spreadsheets, WhatsApp messages or one person's mobile-money account. This makes reconciliation difficult, weakens transparency and prevents years of savings discipline from becoming a recognised financial record.
+ Manual contribution tracking

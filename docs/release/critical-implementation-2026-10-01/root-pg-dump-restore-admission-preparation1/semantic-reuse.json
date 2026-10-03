@@ -1,0 +1,57 @@
+{
+  "scope": "Exact AST/source binding; no rerun or green reclassification of failed attempt3",
+  "unchanged_original_test_AST_counts": {
+    "admission": 28,
+    "delivery": 45,
+    "secret_transport": 5
+  },
+  "first25_test_method_ASTs_unchanged": true,
+  "attempt3_all28_test_method_ASTs_unchanged": true,
+  "archive_API_except_CLI_main_AST_unchanged_since_attempt1": true,
+  "setUp_fixture_AST_unchanged_except_nonexecuting_trace_cleanup": true,
+  "current_additions": [
+    "3 helper/CLI/directory wiring tests in attempt2",
+    "2 TLS tests and hosted synthetic fixture helper in attempt4"
+  ],
+  "wrong_service_negative": {
+    "name": "test_wrong_service_target_options_or_permissions_refuse_before_request",
+    "method_ast_sha256": "346c073e5e497f47c24e675fdd393ce9054c0c0ef4eced2d33e96a17e5762b2a",
+    "attempt1_actual_line": "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ok",
+    "attempt3_actual_line": "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ERROR",
+    "attempt3_setup_pre_request_timeout_retained": true,
+    "single_case_retry_performed": false,
+    "earlier_affected_body_pass_reused_without_reclassifying_attempt3": true
+  },
+  "all30_current_test_method_ASTs": {
+    "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order": "416ef66a7c7462f2d5287b49fbf21dd8f1aadf72b4d08e0f35ab41e0ee712900",
+    "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture": "0f3a47e2cad6a89f4670ad02a9d27d71e6a399c87ee1d401bf19f8617d6f1873",
+    "test_dump_argument_bypasses_refuse_before_server_or_dump": "231d53619220e321500fb190e57679463201aa7928715a6c930c1ba1d3628f1f",
+    "test_restore_argument_bypasses_refuse_before_list_server_or_write": "1564ec7d9cc6f3ab2982f4d40f1c9621912bafb6d9638351e916d0acee3e9a1d",
+    "test_forged_same_version_client_bytes_and_path_override_refuse_before_request": "7da3dbd9bdda8924222f09ed39b27710d27388e1cdbf3cbf6600c6b1ca3d3cae",
+    "test_wrong_actual_version_even_when_tool_bytes_are_bound": "b2fd20be8a6903f7b43113f892cac3ca7da54f83aabd0d8e01622a2a3e943180",
+    "test_version_state_drift_before_first_remote_observation_is_refused": "fd65ab5cd1258443d70907026c2dc0e0a945bfb19d2d87da49672c0bda72bd95",
+    "test_version_state_drift_after_server_observation_refuses_before_operation": "d0fbe6c70432bc255aae4ffd8526617dc7e97770726a1e64c41e441db6e0188b",
+    "test_incompatible_or_forged_numeric_server_is_never_written": "b13e62ea3aecd2f2a0ba61232db2a5ae5322a47d08f6ef6f47df745d63c9960b",
+    "test_path_substitute_never_selected_and_explicit_overrides_refuse": "83aac9c1791dbc61c4333e34c1640516c548d87698bdca9e5859fa352ba3d1a3",
+    "test_manifest_job_and_source_drift_refuse_before_first_request": "1b5d22b079e566292e9be8a9bf66cceb86c015f30d61e25e9aff79e87a2af550",
+    "test_same_byte_client_inode_substitution_and_symlink_refuse": "b23601c53e5868093ed4ada2f456515b944de4ba09cf17bf506a0cae2777b3ec",
+    "test_unsupported_cohort_and_operation_are_not_manifest_expandable": "fc76d899d6a6957892faa24bfa5404a59e71b4f05aa679e3c27a482b6741777c",
+    "test_wrong_service_target_options_or_permissions_refuse_before_request": "346c073e5e497f47c24e675fdd393ce9054c0c0ef4eced2d33e96a17e5762b2a",
+    "test_service_source_changes_during_read_never_reach_dump": "8a9a5dd19ba63fce6a18ba02e38ecbf6cb83762733e6a16b82e603bd1db4f6c0",
+    "test_credentials_and_loader_environment_are_absent_from_versions_and_operations": "3aa6701e01a1df0853f17f50bae65efbd941d28c8aaa692b86835efd5a52dfa1",
+    "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool": "8d258961ac7442910e6af39464dc4cb115de26ecaefe6f88cffa4f881d20b382",
+    "test_expired_operation_and_unbound_hash_refuse_before_tools": "0f0b3fc3ba521cf895e6f4751a26a0cae52e04eca65a502a650dff8915efce71",
+    "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller": "dd74ad7f3d8f5f77773f6c8b2695e87370ec747aeaa5d6c404798df3917376ef",
+    "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write": "c34b7bb557d1668a393dad5f16a6c24b11387508ed5f1ecfa25f1a97288c6568",
+    "test_restore_capture_binding_must_match_full_profile_and_source": "7bed4c63d385f860bc3ddb3c90c4f443b77dc1278e52c1dc8af25e1988bcf195",
+    "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt": "b2c099f6a2950d0c916ad469f28d843275f97b50962b515782e2777483c92b79",
+    "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt": "eb43361c969697103b08def3203b712a400e616cb6e90a8cd6a7f4b61d6eb454",
+    "test_real_descendant_holding_stdio_is_killed_with_its_owned_group": "4de4b802b1292fe3cb1f0f341364fc52473590396a1d39112ecff51ebce76dba",
+    "test_existing_artifact_and_output_directory_escape_refuse_without_request": "64a484569ab9d9fd7b1e7a3dcab236fcbcb26715a2c068560cd01b83ecb7fadf",
+    "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts": "d2f7c4e60e8b7b4f73e62195d61f2638d17d9c449bbbdda902c2907699d926c8",
+    "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read": "0c4645eb58bbb82dbc4dd571905430d765a51c6520bda7e4adfb4fcfe7282a8d",
+    "test_output_directory_parent_symlink_substitution_refuses_before_request": "8ca712ce909a96ddf269f93da62c2d1387851933abca5900d0dc3727939267c2",
+    "test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request": "584819928ddf018b1b5d0fd5837136bdb3115e768d0e7e54455d62182648e05f",
+    "test_pinned_rootcert_drift_refuses_before_first_request": "407a1d32eb045e86709ad76291b3792c7e2a608d802eb7cae97dda87d1b6d85a"
+  }
+}

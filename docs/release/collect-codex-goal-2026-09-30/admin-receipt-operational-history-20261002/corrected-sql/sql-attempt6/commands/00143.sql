@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role service_role;select set_config('request.jwt.claims','{"role":"service_role"}',true);select public.receipt_operations_execute_v2('07eb4d13-d1c1-49b2-bb44-a3da7b9551fb','c6da1eef-d5cd-42e5-9749-fcbf12d5c90f','5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3','bd803ed82eaa254e3cd9c36aa92a32e2553e77eb6ecaf1a8b63b8d2f12b0fe62',clock_timestamp(),'begin_run','{}'::jsonb);commit;

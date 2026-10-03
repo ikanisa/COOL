@@ -1,0 +1,129 @@
+Analyzing export-attempt73-public-graph...                      
+
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver.dart:78:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver.dart:185:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver.dart:212:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:45:9 • prefer_final_locals
+  error • A value of type 'dynamic' can't be assigned to a variable of type 'String'. Try changing the type of the variable, or casting the right-hand type to 'String' • third_party/file_saver/lib/file_saver_web.dart:45:23 • invalid_assignment
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:60:7 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:67:7 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:68:7 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:175:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/file_saver_web.dart:176:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart:48:7 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart:52:7 • prefer_final_locals
+   info • Use of an async 'dart:io' method. Try using the synchronous version of the method • third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart:52:26 • avoid_slow_async_io
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/src/platform_handler/platform_handler_web.dart:13:5 • prefer_final_locals
+   info • Use of an async 'dart:io' method. Try using the synchronous version of the method • third_party/file_saver/lib/src/utils/file_ops_io.dart:69:13 • avoid_slow_async_io
+   info • Local variables should be final. Try making the variable final • third_party/file_saver/lib/src/utils/helpers.dart:42:5 • prefer_final_locals
+warning • The generic type 'Response<dynamic>' should have explicit type arguments but doesn't. Use explicit type arguments for 'Response<dynamic>' • third_party/file_saver/lib/src/utils/helpers.dart:42:5 • strict_raw_type
+  error • A value of type 'dynamic' can't be returned from the method '_getBytesFromLink' because it has a return type of 'Future<Uint8List>' • third_party/file_saver/lib/src/utils/helpers.dart:51:16 • return_of_invalid_type
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'List<int>'.  • third_party/file_saver/lib/src/utils/helpers.dart:53:35 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String'.  • third_party/file_saver/lib/src/utils/helpers.dart:55:28 • argument_type_not_assignable
+   info • The private field _firebaseMessagingInstances could be 'final'. Try making the field 'final' • third_party/firebase_messaging/lib/src/messaging.dart:17:41 • prefer_final_fields
+   info • Local variables should be final. Try making the variable final • third_party/firebase_messaging/lib/src/messaging.dart:32:5 • prefer_final_locals
+   info • Local variables should be final. Try making the variable final • third_party/firebase_messaging/lib/src/messaging.dart:288:3 • prefer_final_locals
+  error • A value of type 'dynamic' can't be returned from the method '_getErrorMessage' because it has a return type of 'String' • third_party/gotrue/lib/src/fetch.dart:21:14 • return_of_invalid_type
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Iterable<dynamic>'.  • third_party/gotrue/lib/src/fetch.dart:97:38 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Iterable<dynamic>'.  • third_party/gotrue/lib/src/fetch.dart:104:36 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:95:34 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:138:65 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:162:34 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:210:42 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:222:34 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_api.dart:238:34 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart:70:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart:86:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart:111:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart:33:58 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart:52:54 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:85:45 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:104:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:122:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:144:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:162:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart:180:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:255:48 • argument_type_not_assignable
+  error • A value of type 'dynamic' can't be assigned to a variable of type 'Map<String, dynamic>'. Try changing the type of the variable, or casting the right-hand type to 'Map<String, dynamic>' • third_party/gotrue/lib/src/gotrue_client.dart:302:18 • invalid_assignment
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:335:13 • prefer_const_constructors
+  error • A value of type 'dynamic' can't be assigned to a variable of type 'Map<String, dynamic>'. Try changing the type of the variable, or casting the right-hand type to 'Map<String, dynamic>' • third_party/gotrue/lib/src/gotrue_client.dart:361:18 • invalid_assignment
+  error • A value of type 'dynamic' can't be assigned to a variable of type 'Map<String, dynamic>'. Try changing the type of the variable, or casting the right-hand type to 'Map<String, dynamic>' • third_party/gotrue/lib/src/gotrue_client.dart:375:18 • invalid_assignment
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:389:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:430:13 • prefer_const_constructors
+  error • A value of type 'dynamic' can't be assigned to a variable of type 'Map<String, dynamic>'. Try changing the type of the variable, or casting the right-hand type to 'Map<String, dynamic>' • third_party/gotrue/lib/src/gotrue_client.dart:436:43 • invalid_assignment
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:525:48 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:528:13 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:573:48 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:576:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:648:11 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:709:48 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/gotrue_client.dart:867:40 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:886:34 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:921:48 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1015:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1028:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1031:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1034:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1037:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1042:13 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:1200:48 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1203:13 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String'.  • third_party/gotrue/lib/src/gotrue_client.dart:1235:51 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:1254:38 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:1277:40 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_client.dart:1423:52 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1438:17 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1530:33 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_client.dart:1783:57 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_mfa_api.dart:26:45 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_mfa_api.dart:91:53 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_mfa_api.dart:118:53 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_mfa_api.dart:154:46 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/gotrue_mfa_api.dart:216:14 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.  • third_party/gotrue/lib/src/gotrue_mfa_api.dart:238:48 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:58:46 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:122:62 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:133:46 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:244:48 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:270:42 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:296:42 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_oauth_api.dart:314:62 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_passkey_api.dart:80:66 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_passkey_api.dart:137:29 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_passkey_api.dart:160:58 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_passkey_api.dart:189:48 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/gotrue_passkey_api.dart:238:29 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/helper.dart:28:39 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/helper.dart:32:41 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/helper.dart:69:32 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/helper.dart:83:11 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/helper.dart:87:11 • prefer_const_constructors
+  error • The initializer type 'dynamic' can't be assigned to the field type 'String' • third_party/gotrue/lib/src/types/auth_response.dart:97:20 • field_initializer_not_assignable
+  error • The initializer type 'dynamic' can't be assigned to the field type 'String' • third_party/gotrue/lib/src/types/auth_response.dart:98:18 • field_initializer_not_assignable
+  error • The initializer type 'dynamic' can't be assigned to the field type 'String' • third_party/gotrue/lib/src/types/auth_response.dart:99:21 • field_initializer_not_assignable
+  error • The initializer type 'dynamic' can't be assigned to the field type 'String' • third_party/gotrue/lib/src/types/auth_response.dart:100:20 • field_initializer_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/auth_response.dart:102:9 • argument_type_not_assignable
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • third_party/gotrue/lib/src/types/session.dart:43:13 • prefer_const_constructors
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String'.  • third_party/gotrue/lib/src/types/user.dart:64:11 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String'.  • third_party/gotrue/lib/src/types/user.dart:67:12 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:68:27 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:69:23 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:70:26 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:71:17 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:72:18 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:73:19 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:74:14 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:75:14 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String'.  • third_party/gotrue/lib/src/types/user.dart:76:18 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:77:20 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:78:25 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:79:25 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:80:21 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:81:13 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'String?'.  • third_party/gotrue/lib/src/types/user.dart:82:18 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Iterable<dynamic>'.  • third_party/gotrue/lib/src/types/user.dart:85:15 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/types/user.dart:85:67 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Iterable<dynamic>'.  • third_party/gotrue/lib/src/types/user.dart:89:31 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'Map<String, dynamic>'.  • third_party/gotrue/lib/src/types/user.dart:89:75 • argument_type_not_assignable
+  error • The argument type 'dynamic' can't be assigned to the parameter type 'bool'.  • third_party/gotrue/lib/src/types/user.dart:91:20 • argument_type_not_assignable
+

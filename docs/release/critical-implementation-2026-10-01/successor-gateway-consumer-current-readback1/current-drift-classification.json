@@ -1,0 +1,36 @@
+{
+  "during_command_drift": {},
+  "intentional_root_QA_fixture_change": {
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "current": {
+        "bytes": 48311,
+        "identity": [
+          16777247,
+          17214737,
+          448,
+          48311,
+          1790908487077207993,
+          1790908487077349659,
+          1
+        ],
+        "mode": 448,
+        "sha256": "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7"
+      },
+      "source_before": {
+        "bytes": 44961,
+        "identity": [
+          16777247,
+          2695415,
+          448,
+          44961,
+          1790888331327212458,
+          1790888331327212458,
+          1
+        ],
+        "mode": 448,
+        "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868"
+      }
+    }
+  },
+  "other_drift": {}
+}

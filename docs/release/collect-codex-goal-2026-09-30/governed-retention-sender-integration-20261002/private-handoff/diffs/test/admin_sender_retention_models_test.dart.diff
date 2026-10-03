@@ -1,0 +1,31 @@
+--- predecessor/test/admin_sender_retention_models_test.dart
++++ final/test/admin_sender_retention_models_test.dart
+@@ -3,6 +3,17 @@
+ import 'support/retention_fixture.dart';
+ 
+ void main() {
++  test('v1 snapshot refuses a different valid retention protocol hash', () {
++    final r = decoded(readInitialRaw);
++    (r['retention'] as Map)['protocol_sha256'] = 'a' * 64;
++    expect(() => AdminRetentionSnapshot.parse(r, actor, session), throwsFormatException);
++  });
++  test('v1 intent refuses a different valid retention protocol hash', () {
++    expect(() => AdminRetentionIntent.parse({
++      ...originalIntent().row,
++      'protocol_sha256': 'a' * 64,
++    }), throwsFormatException);
++  });
+   for (final raw in [
+     readInitialRaw,
+     readNoManageRaw,
+@@ -38,6 +49,10 @@
+       'expires_at': retentionUtc(i.expiresAt.add(const Duration(seconds: 1))),
+       'protocol_sha256': 'f' * 64,
+     }.entries) {
++      if (e.key == 'protocol_sha256') {
++        expect(() => AdminRetentionIntent.parse({...i.row, e.key: e.value}), throwsFormatException);
++        continue;
++      }
+       final next = AdminRetentionIntent.parse({...i.row, e.key: e.value});
+       expect(next.fingerprint, isNot(i.fingerprint));
+     }

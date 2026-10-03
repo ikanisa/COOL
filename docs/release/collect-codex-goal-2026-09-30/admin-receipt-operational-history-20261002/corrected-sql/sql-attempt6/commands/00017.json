@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "-i",
+    "collect_current_rehearsal_operational_history_317d3b010f2b",
+    "psql",
+    "-XqAt",
+    "-U",
+    "supabase_admin",
+    "-d",
+    "postgres",
+    "-v",
+    "ON_ERROR_STOP=1",
+    "-v",
+    "VERBOSITY=verbose"
+  ],
+  "input_sha256": "ea9e22cdbb7801d95709267a021338b54d705657acab34d8faf5478d20af2885",
+  "started_at": "2026-10-02T00:46:51.013990Z",
+  "finished_at": "2026-10-02T00:46:51.056774Z",
+  "exit_code": 0
+}

@@ -1,3 +1,5 @@
+import '../../core/data/exact_json_values.dart';
+
 /// Aggregate evidence from the authenticated assisted-SMS operator service.
 /// A heartbeat does not establish a completed supervisor run or SMS delivery.
 class AdminSmsQueueHealth {
@@ -32,13 +34,11 @@ class AdminSmsQueueHealth {
         ).hasMatch(value)) {
       _invalid();
     }
-    final parsed = DateTime.tryParse(value);
-    if (parsed == null ||
-        parsed.toUtc().toIso8601String().substring(0, 19) !=
-            value.substring(0, 19)) {
+    try {
+      return exactJsonTimestamp(value, field: 'SMS queue timestamp');
+    } on FormatException {
       _invalid();
     }
-    return parsed.toUtc();
   }
 
   factory AdminSmsQueueHealth.parse(Object? raw) {

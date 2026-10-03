@@ -1,0 +1,129 @@
+{
+  "browser_builds": false,
+  "changed_files": [
+    "lib/admin/core/admin_exception_page.dart",
+    "lib/admin/core/admin_exception_workflow_card.dart",
+    "test/admin_exception_page_test.dart",
+    "test/admin_exception_workflow_test.dart"
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 3666,
+      "seconds": 0.417,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 3767,
+      "seconds": 2.778,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/core/admin_exception_page.dart",
+        "lib/admin/core/admin_exception_workflow_card.dart",
+        "test/admin_exception_page_test.dart",
+        "test/admin_exception_workflow_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "format",
+      "parent_exit_confirmed": true,
+      "process_group": 3841,
+      "seconds": 0.14,
+      "sha256": "40543d7dcfc9a0948305d0ebc0095f8a5b29b54f19bcb1d007ded7bf753eeb45",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_exception_page.dart",
+        "lib/admin/core/admin_exception_workflow_card.dart",
+        "test/admin_exception_page_test.dart",
+        "test/admin_exception_workflow_test.dart",
+        "lib/admin/core/admin_runtime.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 3843,
+      "seconds": 7.285,
+      "sha256": "1883cba2c6e6d3fadd6a0ab01ebe05e270a7a6db70a9794dca19852e81a85017",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=2",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/admin-session-current1/tests.machine.jsonl",
+        "test/admin_exception_page_test.dart",
+        "test/admin_exception_workflow_test.dart",
+        "test/admin_exception_workflow_sdk_test.dart",
+        "test/admin_action_session_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "focused-admin-session",
+      "parent_exit_confirmed": true,
+      "process_group": 4174,
+      "seconds": 23.026,
+      "sha256": "bbcdfd16fc1742f1e0d99ec44d4b1206aed40e182ea4b2987afaaca5caa347b5",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "export_drift": [],
+  "machine_summary": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 83,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "native_builds": false,
+  "provider_credentials_supplied": false,
+  "runtime_guard_input_count": 419,
+  "scope": "Actual four-file exception page/workflow/SDK and common Admin action session selection; existing observed SQL fixture bytes as decoder inputs; does not prove all E1 role/RLS/import/export acceptance.",
+  "source_drift": {},
+  "sql_executed": false,
+  "status": "pass",
+  "test_files": [
+    "test/admin_exception_page_test.dart",
+    "test/admin_exception_workflow_test.dart",
+    "test/admin_exception_workflow_sdk_test.dart",
+    "test/admin_action_session_test.dart"
+  ]
+}

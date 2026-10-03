@@ -1,0 +1,47 @@
+{
+  "status": "integrated_private_focused_proofs_match_final_inputs",
+  "utc": "2026-10-02T10:15:16.211068+00:00",
+  "proposal_packet_sha256": "77474fef17e791dde7a15b0779180498bb7809ef14a4d52645174c942f344814",
+  "promoted": {
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "before_sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "after_sha256": "2053a7963db87f9a26dd72a8e204dcde03f22d69c6f95e2039022726a2eba734",
+      "bytes": 26482,
+      "lines": 818,
+      "mode": "0o644",
+      "maintained_before_mode": "0o644",
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "supabase/functions/prepare-roster-import/handler_test_fixture.ts": {
+      "before_sha256": null,
+      "after_sha256": "93f9563d7d89b5a931ebf85e3b9bc307d03d65b57e3d186efaba294f53f1b395",
+      "bytes": 13090,
+      "lines": 408,
+      "mode": "0o644",
+      "maintained_before_mode": null,
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts": {
+      "before_sha256": null,
+      "after_sha256": "e49860ca5ad4377b78c317099bb8a37c236a6cf789ee52f66e5b2da61baace82",
+      "bytes": 15800,
+      "lines": 444,
+      "mode": "0o644",
+      "maintained_before_mode": null,
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "scripts/tests/verify_roster_decoder.py": {
+      "before_sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "after_sha256": "5de7df73cd8393968f4c1b98c90db1267942ba3deb653b745b492d8768bfb4f3",
+      "bytes": 13969,
+      "lines": 190,
+      "mode": "0o644",
+      "maintained_before_mode": "0o644",
+      "maintained_after_mode_recommendation": "0o644"
+    }
+  },
+  "all127_private_actual_tests_pass": true,
+  "maintained_current_aggregate_acceptance_pending": true,
+  "handler_or_policy_behavior_changed": false,
+  "ARC02_closed": false
+}

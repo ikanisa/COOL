@@ -1,0 +1,6 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1/test/gateway/gateway_recovery_capture_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: capture recovery dark_task
+00:13 +1: capture recovery dark_opaque
+00:17 +2: (tearDownAll)
+00:17 +2: All tests passed!

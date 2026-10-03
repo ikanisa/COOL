@@ -61,6 +61,7 @@ cp web/_headers build/web/_headers
 cp web/robots.txt build/web/robots.txt
 
 ruby -r digest -r json -r open3 <<'RUBY'
+require "fileutils"
 source_commit, source_commit_status = Open3.capture2("git", "rev-parse", "HEAD")
 source_changes, source_status = Open3.capture2("git", "status", "--porcelain")
 version_path = "build/web/version.json"
@@ -110,7 +111,7 @@ File.write(index_path, index)
 cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
   .select { |path| File.file?(path) }
   .reject do |path|
-    path.end_with?(
+    path.start_with?("build/web/_build/") || path.end_with?(
       ".DS_Store",
       ".last_build_id",
       "_headers",
@@ -123,19 +124,46 @@ cache_paths = Dir.glob("build/web/**/*", File::FNM_DOTMATCH)
   .map { |path| path.sub(%r{\Abuild/web/}, "") }
   .sort
 
+# New entrypoints and assets never use the retired immutable stable URLs.
+# Keep root files as revalidating compatibility probes, not runtime references.
+control_paths = %w[flutter_bootstrap.js manifest.json version.json robots.txt]
+runtime_paths = cache_paths.reject { |path| control_paths.include?(path) || path.start_with?(".well-known/") }
+runtime_source = runtime_paths.map do |path|
+  "#{path}\0#{Digest::SHA256.file(File.join("build/web", path)).hexdigest}"
+end.join("\n")
+asset_base = "_build/#{Digest::SHA256.hexdigest(runtime_source)}/"
+runtime_paths.each do |path|
+  destination = File.join("build/web", asset_base, path)
+  FileUtils.mkdir_p(File.dirname(destination))
+  FileUtils.cp(File.join("build/web", path), destination)
+end
+cache_paths = (cache_paths - runtime_paths + runtime_paths.map { |path| "#{asset_base}#{path}" }).sort
 cache_urls = (["./"] + cache_paths.map { |path| "./#{path}" }).uniq
 index = File.read(index_path)
 index = index.gsub(%r{\n\s*<!-- Collect Admin PWA service worker -->.*?</script>}m, "")
+# Normalize a previously postprocessed artifact before applying its current base.
+index = index.gsub(%r{_build/[0-9a-f]{64}/}, "")
+index = index.gsub('href="icons/', "href=\"#{asset_base}icons/")
+index = index.gsub('url("assets/', "url(\"#{asset_base}assets/")
 File.write(index_path, index)
+manifest["icons"].each { |icon| icon["src"] = "#{asset_base}icons/collect-web-512.png" }
+File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
+
+bootstrap = File.read(bootstrap_path)
+bootstrap = bootstrap.gsub(%r{var adminAssetBase = '[^']+';}, "var adminAssetBase = '__COLLECT_ADMIN_ASSET_BASE__';")
+bootstrap = bootstrap.gsub(%r{var adminServiceWorkerVersion = '[^']+';}, "var adminServiceWorkerVersion = '__COLLECT_ADMIN_SW_VERSION__';")
+abort("flutter_bootstrap.js is missing the versioned asset-base placeholder") unless bootstrap.include?("__COLLECT_ADMIN_ASSET_BASE__")
+bootstrap = bootstrap.gsub("__COLLECT_ADMIN_ASSET_BASE__", asset_base)
+File.write(bootstrap_path, bootstrap)
 
 worker_template = File.read("scripts/templates/admin_pwa_service_worker.js")
-%w[__COLLECT_ADMIN_CACHE_NAME__ __COLLECT_ADMIN_CACHE_URLS__].each do |marker|
+%w[__COLLECT_ADMIN_CACHE_NAME__ __COLLECT_ADMIN_CACHE_URLS__ __COLLECT_ADMIN_CACHE_HASHES__].each do |marker|
   abort("Admin service worker must contain exactly one #{marker}") unless worker_template.scan(marker).length == 1
 end
 # The root shell is cached as ./ because hosting redirects /index.html. Its
 # bytes, asset paths and worker policy must still invalidate the cache version.
 version_paths = (cache_paths + ["index.html"]).uniq.sort
-cache_schema_version = "fresh-install-v3"
+cache_schema_version = "natural-wait-integrity-v4"
 version_source = ([cache_schema_version, Digest::SHA256.hexdigest(worker_template)] + version_paths.map do |path|
   "#{path}\0#{Digest::SHA256.file(File.join("build/web", path)).hexdigest}"
 end).join("\n")
@@ -150,15 +178,24 @@ unless bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
   abort("flutter_bootstrap.js is missing Collect Admin service worker placeholder")
 end
 bootstrap = bootstrap.gsub("__COLLECT_ADMIN_SW_VERSION__", cache_name)
-unless bootstrap.include?("canvasKitBaseUrl: 'canvaskit/'")
+unless bootstrap.include?("canvasKitBaseUrl: adminAssetBase + 'canvaskit/'") &&
+       bootstrap.include?("entrypointBaseUrl: adminAssetBase") && bootstrap.include?("assetBase: adminAssetBase")
   abort("flutter_bootstrap.js must self-host CanvasKit")
 end
 File.write(bootstrap_path, bootstrap)
+
+# Bind fetched bytes to the completed build, including the rendered bootstrap.
+# A non-atomic publication must fail installation rather than cache a mixture.
+cache_hashes = cache_urls.to_h do |url|
+  path = url == "./" ? "index.html" : url.delete_prefix("./")
+  [url, Digest::SHA256.file(File.join("build/web", path)).hexdigest]
+end
 
 File.write(
   service_worker_path,
   worker_template.gsub("__COLLECT_ADMIN_CACHE_NAME__", cache_name.to_json)
     .gsub("__COLLECT_ADMIN_CACHE_URLS__", JSON.pretty_generate(cache_urls))
+    .gsub("__COLLECT_ADMIN_CACHE_HASHES__", JSON.pretty_generate(cache_hashes))
 )
 
 generated_service_worker = File.read(service_worker_path)

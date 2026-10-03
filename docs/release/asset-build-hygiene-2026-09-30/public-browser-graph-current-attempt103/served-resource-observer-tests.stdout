@@ -1,0 +1,19 @@
+✔ Real HTTP response bytes are verified before identical fulfillment, redirects disabled (2.967292ms)
+✔ Changed or undeclared actual body aborts and cannot be fulfilled (2.425584ms)
+✔ Delayed failed HTTP body and failed abort cannot escape before caller drain (425.626ms)
+✔ Remote HTTP and redirects are refused without remote follow (33.802417ms)
+✔ Actual non-200 HTTP bytes are delivered without granting compiled-byte proof (0.51025ms)
+✔ Synchronous fetch and fulfillment failures are retained and abort safely (0.8505ms)
+✔ Successful actual compiler receipt may be reused independently of failed browser observation (0.633625ms)
+✔ Changed current reachable source, generated package binding or selected SDK refuses reuse (1.209625ms)
+✔ Changed compiled byte manifest refuses reuse (0.163167ms)
+✔ Failed, duplicate or altered compiler recipe cannot grant reuse (0.71025ms)
+✔ Unknown source graph or wrong compiler entrypoint refuses reuse (0.297875ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 735.314667

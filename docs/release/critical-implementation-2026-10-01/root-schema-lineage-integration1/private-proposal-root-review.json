@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:24:57.140315+00:00",
+  "private_packet_sha256": "f23a471b8a153779ac39d87ae1936278d78e23c67865920c7482e5b229d768ad",
+  "checked_leaves": 33,
+  "existing_function_AST_changes": [
+    "sql_definitions",
+    "build"
+  ],
+  "new_helpers": [
+    "function_source_review",
+    "sql_identifier",
+    "sql_signature",
+    "sql_static_alterations",
+    "sql_static_lineage"
+  ],
+  "generator_patch_and_all12_new_tests_reviewed": true,
+  "maintained_promotion_performed": false,
+  "source_hold_release_required_before_promotion": true,
+  "static_lineage_scoped_not_runtime_or_business_ownership": true
+}

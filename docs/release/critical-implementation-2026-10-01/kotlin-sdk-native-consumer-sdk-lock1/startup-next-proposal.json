@@ -1,0 +1,31 @@
+{
+  "ARC09_closed": false,
+  "all_publisher_source_binary_JSON_and_exact8_bytes_must_remain_unchanged": true,
+  "app_export_app_resolution_Gradle_native_authorized": false,
+  "candidate_promoted": false,
+  "exact_original_SDK_lock_SHA256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340",
+  "exact_startup_command": {
+    "argv": [
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+      "--suppress-analytics",
+      "--version",
+      "--machine"
+    ],
+    "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "deadline_seconds": 300
+  },
+  "forbid_upgrade_bootstrap_branch": true,
+  "live_floor_bytes": 4294967296,
+  "new_source_or_binary_cache_exceptions_admitted": false,
+  "preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "production_release_approval": false,
+  "required_new_immutable_root_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/startup-admission.json",
+  "required_predecessor_terminal_sha256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+  "resolved_packages_only_owned_roots": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache"
+  ],
+  "scope": "Next unchanged private SDK version startup only proposed; not executed by this locked-resolution proof.",
+  "source_readback_deadline_seconds": 300,
+  "startup_executed": false
+}

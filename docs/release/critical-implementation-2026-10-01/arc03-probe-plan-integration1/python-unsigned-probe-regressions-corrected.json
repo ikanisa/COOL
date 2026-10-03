@@ -1,0 +1,45 @@
+{
+  "label": "python-unsigned-probe-regressions-corrected",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "scripts/tests/supabase_delivery_contract_test.py",
+    "SupabaseDeliveryContractTest.test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret",
+    "SupabaseDeliveryContractTest.test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs",
+    "SupabaseDeliveryContractTest.test_missing_successor_endpoint_refuses_readiness"
+  ],
+  "started_at_utc": "2026-10-02T13:52:03.684439+00:00",
+  "finished_at_utc": "2026-10-02T13:52:11.308322+00:00",
+  "actual_seconds": 7.62377,
+  "deadline_seconds": 60,
+  "exit_code": 0,
+  "timed_out": false,
+  "pid": 8568,
+  "pgid": 8568,
+  "owned_process_group_absent": true,
+  "environment": {
+    "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "HOME": "/Users/jeanbosco"
+  },
+  "node": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "realpath": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "version": "v24.19.0"
+  },
+  "python": {
+    "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "realpath": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "consumer_input_count": 389,
+  "consumer_inputs_unchanged": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "42acba673b9675e3fe5481993152b9bd54d7910396849059f0edb35a25e31b93",
+  "terminal_stdout": "",
+  "terminal_stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 7.565s\n\nOK\n",
+  "initial_missing_node_failure_retained": true
+}

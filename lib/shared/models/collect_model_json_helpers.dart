@@ -40,8 +40,5 @@ bool _collectionIsPublic(Map<String, dynamic> json) {
   return visibility == 'public' || visibility == 'public_approved';
 }
 
-DateTime _dateTime(Object? value) {
-  if (value is DateTime) return value;
-  if (value is String) return DateTime.parse(value);
-  return DateTime.now();
-}
+DateTime _dateTime(Object? value) =>
+    exactJsonTimestamp(value, field: 'created_at');

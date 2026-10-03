@@ -1,0 +1,87 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "graph-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_browser_graph_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.55,
+      "stdout_sha256": "a533282264db78bccac8fcbb5ed4be6ee49fa82b497d1007677d301cef67f9c9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "legacy-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.49,
+      "stdout_sha256": "719891b290e43a8a497b70ccfa9aba30eacda27979d9f8068c5fbec7cd5d01a4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "browser-source-binding-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.9,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "de8c866fe2fdcbfc3b469b6a859a1800dc2e8055d68c1e80b37cede891a1a46a"
+    },
+    {
+      "name": "publication-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_media_publication_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.15,
+      "stdout_sha256": "2b85f0fa5ae220af9e543bcd1dfb9ba7a4a0e12e58b8afc67b18828a8e05b45a",
+      "stderr_sha256": "b8e4c17369aefb843a12c7ccf1e3c8ad20150e894fdada1a94b07ad3ef304113"
+    },
+    {
+      "name": "native-publication-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_native_media_publisher_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.38,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "085fd1322dc44fa63f10d734e96fbe230d0083888faf0d2be1df58d24828d623"
+    },
+    {
+      "name": "native-provenance-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_native_media_provenance_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.54,
+      "stdout_sha256": "2c48596ce6cbe50081c8eb2cfa1f4211895590f2ee298ebea537db19f3a96a04",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recorder-syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.46,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "copied_tooling_inputs": 468,
+  "export_inputs_unchanged": true,
+  "original_tooling_drift": {},
+  "scope": "Strict complete browser fixture graph, actual reachable/unrelated drift mutations, publication bindings and unchanged native/legacy contracts; no route/native/visual acceptance"
+}

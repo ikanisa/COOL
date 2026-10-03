@@ -7,6 +7,8 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
+export '../privacy/privacy_request_screen.dart';
+
 class LegalScreen extends ConsumerWidget {
   const LegalScreen({required this.kind, super.key});
 
@@ -190,204 +192,18 @@ class AccountSessionScreen extends ConsumerWidget {
       destructive: true,
     );
     if (confirmed != true || !context.mounted) return;
-    await ref.read(collectRepositoryProvider.notifier).signOut();
-    if (context.mounted) context.go('/auth');
-  }
-}
-
-class DeleteAccountRequestScreen extends ConsumerStatefulWidget {
-  const DeleteAccountRequestScreen({super.key});
-
-  @override
-  ConsumerState<DeleteAccountRequestScreen> createState() =>
-      _DeleteAccountRequestScreenState();
-}
-
-class _DeleteAccountRequestScreenState
-    extends ConsumerState<DeleteAccountRequestScreen> {
-  final Set<String> _selectedReasons = {};
-  bool _submitted = false;
-  bool _submitting = false;
-  String? _error;
-
-  @override
-  Widget build(BuildContext context) {
-    final reasonOptions =
-        ref.watch(collectAccountDeletionReasonsProvider).valueOrNull ??
-        collectDefaultAccountDeletionReasons;
-    return ScreenScaffold(
-      title: 'Delete request',
-      children: [
-        if (_error != null)
-          InfoSecurityBanner(
-            title: 'Request failed',
-            message: _error!,
-            tone: CollectStatusTone.warning,
-          ),
-        if (_submitted)
-          const _StateHero(
-            icon: CollectIcons.check,
-            title: 'Request submitted.',
-            tone: CollectStatusTone.success,
-          )
-        else
-          CollectCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final reason in reasonOptions.map((item) => item.label))
-                  _DeleteReasonOption(
-                    label: reason,
-                    selected: _selectedReasons.contains(reason),
-                    onTap: () {
-                      setState(() {
-                        if (_selectedReasons.contains(reason)) {
-                          _selectedReasons.remove(reason);
-                        } else {
-                          _selectedReasons.add(reason);
-                        }
-                      });
-                    },
-                  ),
-                CollectSpacing.gap16,
-                Text(
-                  _selectedReasons.isEmpty
-                      ? 'Select a reason to submit.'
-                      : 'Ready to submit.',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: context.collectColors.textSecondary,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
-                ),
-                CollectSpacing.gap8,
-                CollectButton(
-                  label: _submitting ? 'Submitting' : 'Submit',
-                  icon: CollectIcons.error,
-                  variant: CollectButtonVariant.danger,
-                  onPressed: _submitting || _selectedReasons.isEmpty
-                      ? null
-                      : _confirmAndSubmit,
-                  expand: true,
-                ),
-              ],
-            ),
-          ),
-      ],
-    );
-  }
-
-  Future<void> _confirmAndSubmit() async {
-    final confirmed = await showCollectConfirmationSheet(
-      context: context,
-      title: 'Submit delete request?',
-      message:
-          'This creates an auditable data deletion request. Some ledger, security, dispute, and legal records may be retained.',
-      confirmLabel: 'Submit',
-      destructive: true,
-    );
-    if (confirmed != true || !mounted) return;
-    setState(() {
-      _submitting = true;
-      _error = null;
-    });
     try {
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .requestAccountDeletion(reason: _selectedReasons.join('; '));
-      if (mounted) setState(() => _submitted = true);
-    } catch (error) {
-      if (mounted) setState(() => _error = _safeAccountRequestError(error));
-    } finally {
-      if (mounted) setState(() => _submitting = false);
+      await ref.read(collectRepositoryProvider.notifier).signOut();
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Sign-out could not finish. Try again.'),
+          ),
+        );
+      }
+      return;
     }
-  }
-}
-
-String _safeAccountRequestError(Object error) {
-  if (error is FormatException) return error.message.toString();
-  if (error is StateError) return error.message.toString();
-  return 'The request could not be submitted. Check your connection and try again.';
-}
-
-class _DeleteReasonOption extends StatelessWidget {
-  const _DeleteReasonOption({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
-      child: InkWell(
-        borderRadius: CollectRadius.mdBorder,
-        onTap: onTap,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: selected
-                ? colors.statusBlocked.withValues(alpha: 0.14)
-                : colors.controlSurface,
-            borderRadius: CollectRadius.mdBorder,
-            border: Border.all(
-              color: selected ? colors.statusBlocked : colors.border,
-              width: selected ? 1.5 : 1,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x3),
-            child: Row(
-              children: [
-                Icon(
-                  selected ? CollectIcons.check : CollectIcons.error,
-                  color: selected ? colors.statusBlocked : colors.textMuted,
-                ),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: Text(
-                    label,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleSmall?.copyWith(color: colors.textPrimary),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StateHero extends StatelessWidget {
-  const _StateHero({
-    required this.icon,
-    required this.title,
-    this.tone = CollectStatusTone.info,
-  });
-
-  final IconData icon;
-  final String title;
-  final CollectStatusTone tone;
-
-  @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      padding: CollectSpacing.cardPaddingComfortable,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CollectStatusChip(label: title, tone: tone, icon: icon),
-          CollectSpacing.gap20,
-          Text(title, style: Theme.of(context).textTheme.headlineMedium),
-        ],
-      ),
-    );
+    if (context.mounted) context.go('/auth');
   }
 }

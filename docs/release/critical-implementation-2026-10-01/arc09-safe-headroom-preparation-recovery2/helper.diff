@@ -1,0 +1,26 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation1/preserve_exact_caches.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation-recovery2/preserve_exact_caches.py
+@@ -90,10 +90,10 @@
+     path.chmod(0o400)
+ 
+ 
+-def run_readonly(argv, deadline, bound=15):
++def run_readonly(argv, deadline, bound=15, input_bytes=None):
+     check_deadline(deadline)
+     remaining = min(bound, deadline - time.monotonic())
+-    return subprocess.run(argv, cwd=ROOT, capture_output=True, timeout=remaining)
++    return subprocess.run(argv, cwd=ROOT, input=input_bytes, capture_output=True, timeout=remaining)
+ 
+ 
+ def verify_guards(deadline):
+@@ -134,8 +134,8 @@
+         fd = open_verified(path, row, deadline)
+         os.close(fd)
+     tracked = run_readonly(['/usr/bin/git', 'ls-files', '-z', '--', *[r['path'] for r in rows]], deadline)
+-    ignored = run_readonly(['/usr/bin/git', 'check-ignore', '-z', '--', *[r['path'] for r in rows]], deadline)
+-    if tracked.returncode or tracked.stdout or tracked.stderr or ignored.returncode or ignored.stderr or set(ignored.stdout.decode().split('\0')) != EXACT_PATHS | {''}:
++    ignored = run_readonly(['/usr/bin/git', 'check-ignore', '--stdin', '-z'], deadline, input_bytes=(''.join(r['path'] + '\0' for r in rows)).encode('utf-8'))
++    if tracked.returncode or tracked.stdout or tracked.stderr or ignored.returncode or ignored.stderr or ignored.stdout.count(b'\0') != 8 or set(ignored.stdout.decode().split('\0')) != EXACT_PATHS | {''}:
+         raise ValueError('cache must remain untracked and ignored')
+     if os.statvfs(DESTINATION.parent).f_bavail * os.statvfs(DESTINATION.parent).f_frsize < 1024 ** 3:
+         raise ValueError('insufficient internal preservation headroom')

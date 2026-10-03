@@ -1,0 +1,13 @@
+{
+  "actual_global_archive_path": "/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+  "actual_matches_independent_publisher_checksum": true,
+  "actual_readback_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "bytes": 232491070,
+  "file_metadata_stable_during_readback": true,
+  "independently_published_primary_checksum": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "only_read_no_global_mutation": true,
+  "private_live_wrapper_transfer_untouched": true,
+  "published_primary_checksum_url": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+  "scope": "Existing complete artifact byte input is publisher-matched by independent primary checksum. This is not acceptance of any extracted/global cache; no current command/transfer was restarted or replaced.",
+  "use_in_current_or_future_command_performed": false
+}

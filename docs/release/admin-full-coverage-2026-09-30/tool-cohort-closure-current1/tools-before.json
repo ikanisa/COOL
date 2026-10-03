@@ -1,0 +1,7 @@
+{
+  "scripts/tests/admin_full_coverage_inventory.py": "40244c28dd1298bc355c665a269347500865b95a544e3966f5dfefaf8742c936",
+  "scripts/tests/admin_matrix_report.py": "b9a1d516a9cba7271d8f85f793bf181a2d68136854ecb2fd22aad0984e83eb72",
+  "scripts/tests/admin_read_gateway_gate.py": "d33129027fdde614b81a73633df9998eb9706160c83b70ec66db9436a78b5030",
+  "scripts/tests/admin_matrix_acceptance.py": "6767e82499b8e354e4d83671a59c7ddbc2454c0f22e4da2bb2de40143772d1d6",
+  "scripts/tests/test_admin_read_gateway_runner.py": "2c58825cd54f6f10ad92a954306c88749a62955da823b73033a66166b669c6f1"
+}

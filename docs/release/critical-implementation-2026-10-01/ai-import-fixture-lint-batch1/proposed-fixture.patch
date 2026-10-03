@@ -1,0 +1,347 @@
+--- a/supabase/functions/prepare-roster-import/handler_test.ts
++++ b/supabase/functions/prepare-roster-import/handler_test.ts
+@@ -127,6 +127,13 @@
+   throw new Error(`Expected ${code}`);
+ }
+ type Call = { name: string; args: Record<string, unknown> };
++function fixturePromise<T>(body: () => T): Promise<T> {
++  try {
++    return Promise.resolve(body());
++  } catch (error) {
++    return Promise.reject(error);
++  }
++}
+ function fixture() {
+   const calls: Call[] = [], events: string[] = [];
+   let original: Record<string, unknown> = {};
+@@ -146,11 +153,12 @@
+     replay: false,
+   };
+   const deps: RosterHandlerDependencies = {
+-    authenticate: async () => {
+-      events.push("authenticate");
+-      if (state.authError) throw new Error("Authentication required");
+-      return { id: ACTOR };
+-    },
++    authenticate: () =>
++      fixturePromise(() => {
++        events.push("authenticate");
++        if (state.authError) throw new Error("Authentication required");
++        return { id: ACTOR };
++      }),
+     configuration: () => ({
+       model: "fixture-model",
+       apiKey: state.apiKey,
+@@ -158,141 +166,144 @@
+       decoderSecret: DECODER_SECRET,
+       decoderBuildSha256: "d".repeat(64),
+     }),
+-    rpc: async (name, args) => {
+-      if (name === "reserve_roster_resources") {
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            reservation_id: RESERVATION,
+-            request_id: args.p_request_id,
+-            actor_id: args.p_actor_id,
+-            session_id: args.p_session_id,
+-            source_sha256: args.p_source_sha256,
+-            state: state.replay ? "finished" : "reserved",
+-            replayed: state.replay,
+-            expires_at: EXPIRY,
+-          },
+-        };
+-      }
+-      if (name === "verify_roster_source_integrity") {
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            reservation_id: RESERVATION,
+-            source_sha256: decoderSourceHash,
+-            derived_sha256: decoderDerivedHash,
+-            decoder_receipt_sha256: args.p_decoder_receipt_sha256,
+-            verified: true,
+-          },
+-        };
+-      }
+-      if (name === "finish_roster_resources") {
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            reservation_id: RESERVATION,
+-            outcome: args.p_outcome,
+-            charged: true,
+-          },
+-        };
+-      }
+-      events.push(name);
+-      calls.push({ name, args });
+-      if (name === "create_roster_import_source") {
+-        if (state.sourceError) return { data: null, error: state.sourceError };
+-        original = args;
+-        return {
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            request_id: args.p_request_id,
+-            import_id: IMPORT,
+-            source_sha256: args.p_original_sha256,
+-            source_size: args.p_original_size,
+-            source_kind: args.p_source_kind,
+-            extraction_id: args.p_ai_consent ? EXTRACTION : null,
+-            expires_at: EXPIRY,
+-            derived_sha256: args.p_derived_sha256,
+-            derived_assurance: args.p_source_kind === "xlsx"
++    rpc: (name, args) =>
++      fixturePromise(() => {
++        if (name === "reserve_roster_resources") {
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: RESERVATION,
++              request_id: args.p_request_id,
++              actor_id: args.p_actor_id,
++              session_id: args.p_session_id,
++              source_sha256: args.p_source_sha256,
++              state: state.replay ? "finished" : "reserved",
++              replayed: state.replay,
++              expires_at: EXPIRY,
++            },
++          };
++        }
++        if (name === "verify_roster_source_integrity") {
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: RESERVATION,
++              source_sha256: decoderSourceHash,
++              derived_sha256: decoderDerivedHash,
++              decoder_receipt_sha256: args.p_decoder_receipt_sha256,
++              verified: true,
++            },
++          };
++        }
++        if (name === "finish_roster_resources") {
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: RESERVATION,
++              outcome: args.p_outcome,
++              charged: true,
++            },
++          };
++        }
++        events.push(name);
++        calls.push({ name, args });
++        if (name === "create_roster_import_source") {
++          if (state.sourceError) {
++            return { data: null, error: state.sourceError };
++          }
++          original = args;
++          return {
++            data: {
++              contract_version: 1,
++              ok: true,
++              request_id: args.p_request_id,
++              import_id: IMPORT,
++              source_sha256: args.p_original_sha256,
++              source_size: args.p_original_size,
++              source_kind: args.p_source_kind,
++              extraction_id: args.p_ai_consent ? EXTRACTION : null,
++              expires_at: EXPIRY,
++              derived_sha256: args.p_derived_sha256,
++              derived_assurance: args.p_source_kind === "xlsx"
++                ? "client_derived_tsv"
++                : null,
++              state: state.replay ? "preview_ready" : "awaiting_preview",
++              replayed: state.replay,
++              completed_preview: state.replay ? cached : null,
++              error_code: null,
++              ...state.sourcePatch,
++            },
++            error: null,
++          };
++        }
++        if (name === "fail_roster_import_preview") {
++          return {
++            data: {
++              contract_version: 1,
++              ok: true,
++              import_id: IMPORT,
++              state: "failed",
++              error_code: args.p_error_code,
++              replayed: false,
++            },
++            error: state.failError ? { message: "private failure" } : null,
++          };
++        }
++        assertEquals(name, "complete_roster_import_preview");
++        if (state.completeSqlInvalid) {
++          return {
++            data: null,
++            error: { code: "22023", message: "private SQL detail" },
++          };
++        }
++        if (state.completeError) {
++          throw new Error("private transport failure after possible commit");
++        }
++        const preview = normalizeRosterCandidates(args.p_candidates);
++        cached = {
++          contract_version: 1,
++          ok: true,
++          import_id: IMPORT,
++          source_sha256: original.p_original_sha256,
++          source_kind: original.p_source_kind,
++          source_receipt: {
++            request_id: original.p_request_id,
++            source_size: original.p_original_size,
++            client_filename: original.p_client_filename,
++            declared_mime: original.p_declared_mime,
++            detected_type: original.p_detected_type,
++            derived_sha256: original.p_derived_sha256,
++            derived_assurance: original.p_source_kind === "xlsx"
+               ? "client_derived_tsv"
+               : null,
+-            state: state.replay ? "preview_ready" : "awaiting_preview",
+-            replayed: state.replay,
+-            completed_preview: state.replay ? cached : null,
+-            error_code: null,
+-            ...state.sourcePatch,
++            extraction_id: original.p_ai_consent ? EXTRACTION : null,
++            ai_consent: original.p_ai_consent,
++            consent_version: original.p_consent_version,
++            parser_version: "collect-roster-parser-v1",
++            schema_version: "collect-roster-rows-v1",
+           },
+-          error: null,
++          revision_id: REVISION,
++          parent_revision_id: null,
++          revision_number: 1,
++          reviewed_rows_sha256: "a".repeat(64),
++          ...preview,
++          can_submit: false,
++          requires_human_review: true,
++          processing_method: original.p_ai_consent
++            ? "openai_structured_extraction"
++            : "deterministic",
++          model: original.p_ai_consent ? "fixture-model" : null,
++          expires_at: EXPIRY,
++          ...state.previewPatch,
+         };
+-      }
+-      if (name === "fail_roster_import_preview") {
+-        return {
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            import_id: IMPORT,
+-            state: "failed",
+-            error_code: args.p_error_code,
+-            replayed: false,
+-          },
+-          error: state.failError ? { message: "private failure" } : null,
+-        };
+-      }
+-      assertEquals(name, "complete_roster_import_preview");
+-      if (state.completeSqlInvalid) {
+-        return {
+-          data: null,
+-          error: { code: "22023", message: "private SQL detail" },
+-        };
+-      }
+-      if (state.completeError) {
+-        throw new Error("private transport failure after possible commit");
+-      }
+-      const preview = normalizeRosterCandidates(args.p_candidates);
+-      cached = {
+-        contract_version: 1,
+-        ok: true,
+-        import_id: IMPORT,
+-        source_sha256: original.p_original_sha256,
+-        source_kind: original.p_source_kind,
+-        source_receipt: {
+-          request_id: original.p_request_id,
+-          source_size: original.p_original_size,
+-          client_filename: original.p_client_filename,
+-          declared_mime: original.p_declared_mime,
+-          detected_type: original.p_detected_type,
+-          derived_sha256: original.p_derived_sha256,
+-          derived_assurance: original.p_source_kind === "xlsx"
+-            ? "client_derived_tsv"
+-            : null,
+-          extraction_id: original.p_ai_consent ? EXTRACTION : null,
+-          ai_consent: original.p_ai_consent,
+-          consent_version: original.p_consent_version,
+-          parser_version: "collect-roster-parser-v1",
+-          schema_version: "collect-roster-rows-v1",
+-        },
+-        revision_id: REVISION,
+-        parent_revision_id: null,
+-        revision_number: 1,
+-        reviewed_rows_sha256: "a".repeat(64),
+-        ...preview,
+-        can_submit: false,
+-        requires_human_review: true,
+-        processing_method: original.p_ai_consent
+-          ? "openai_structured_extraction"
+-          : "deterministic",
+-        model: original.p_ai_consent ? "fixture-model" : null,
+-        expires_at: EXPIRY,
+-        ...state.previewPatch,
+-      };
+-      return { data: cached, error: null };
+-    },
++        return { data: cached, error: null };
++      }),
+     // This fixture simulates an independently signed decoder receipt. Actual
+     // codec/workbook behavior is exercised against the Linux sandbox separately.
+     decoderFetch: async (_url, init) => {
+@@ -344,19 +355,23 @@
+       ].map((v) => v.toString(16).padStart(2, "0")).join("");
+       return new Response(JSON.stringify({ payload, signature }));
+     },
+-    fetch: async (_url, init) => {
+-      events.push("provider");
+-      assertEquals(calls[0].name, "create_roster_import_source");
+-      assertEquals(calls[0].args.p_ai_consent, true);
+-      assertEquals(calls[0].args.p_consent_version, "roster-ai-extraction-v1");
+-      assertEquals(init?.redirect, "error");
+-      assert(init?.signal);
+-      const body = JSON.parse(String(init?.body));
+-      assertEquals(body.store, false);
+-      assertEquals(body.tools, undefined);
+-      if (state.fetchError) throw state.fetchError;
+-      return state.providerResponse();
+-    },
++    fetch: (_url, init) =>
++      fixturePromise(() => {
++        events.push("provider");
++        assertEquals(calls[0].name, "create_roster_import_source");
++        assertEquals(calls[0].args.p_ai_consent, true);
++        assertEquals(
++          calls[0].args.p_consent_version,
++          "roster-ai-extraction-v1",
++        );
++        assertEquals(init?.redirect, "error");
++        assert(init?.signal);
++        const body = JSON.parse(String(init?.body));
++        assertEquals(body.store, false);
++        assertEquals(body.tools, undefined);
++        if (state.fetchError) throw state.fetchError;
++        return state.providerResponse();
++      }),
+   };
+   return {
+     state,

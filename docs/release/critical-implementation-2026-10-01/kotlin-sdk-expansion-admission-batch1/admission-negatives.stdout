@@ -1,0 +1,28 @@
+test_actual_archive_prefix_truncation_and_byte_drift_reject_before_sdk_writes (__main__.ExactAdmissionNegatives.test_actual_archive_prefix_truncation_and_byte_drift_reject_before_sdk_writes) ... ok
+test_actual_full_admission_receipt_has_consistent_publisher_bindings (__main__.ExactAdmissionNegatives.test_actual_full_admission_receipt_has_consistent_publisher_bindings) ... ok
+test_actual_license_byte_loss_rejected (__main__.ExactAdmissionNegatives.test_actual_license_byte_loss_rejected) ... ok
+test_actual_member_path_traversal_rejected (__main__.ExactAdmissionNegatives.test_actual_member_path_traversal_rejected) ... ok
+test_actual_source_executable_mode_drift_rejected (__main__.ExactAdmissionNegatives.test_actual_source_executable_mode_drift_rejected) ... ok
+test_actual_source_type_drift_rejected (__main__.ExactAdmissionNegatives.test_actual_source_type_drift_rejected) ... ok
+test_all_exact33_actual_raw_pairs_reject_one_byte_changes_before_conversion (__main__.ExactAdmissionNegatives.test_all_exact33_actual_raw_pairs_reject_one_byte_changes_before_conversion) ... ok
+test_canonical_only_git_bytes_do_not_replace_exact_reviewed_publisher_CRLF (__main__.ExactAdmissionNegatives.test_canonical_only_git_bytes_do_not_replace_exact_reviewed_publisher_CRLF) ... ok
+test_duplicate_actual_archive_identity_rejected (__main__.ExactAdmissionNegatives.test_duplicate_actual_archive_identity_rejected) ... ok
+test_exact_framework_link_target_drift_even_if_contained_rejected (__main__.ExactAdmissionNegatives.test_exact_framework_link_target_drift_even_if_contained_rejected) ... ok
+test_external_git_object_pointer_rejected (__main__.ExactAdmissionNegatives.test_external_git_object_pointer_rejected) ... ok
+test_git_executable_hook_configuration_rejected (__main__.ExactAdmissionNegatives.test_git_executable_hook_configuration_rejected) ... ok
+test_license_omitted_from_actual_receipt_rejected (__main__.ExactAdmissionNegatives.test_license_omitted_from_actual_receipt_rejected) ... ok
+test_publisher_source_link_omission_rejected (__main__.ExactAdmissionNegatives.test_publisher_source_link_omission_rejected) ... ok
+test_recursive_link_resolution_receipt_drift_rejected (__main__.ExactAdmissionNegatives.test_recursive_link_resolution_receipt_drift_rejected) ... ok
+test_reviewed_delta_manifest_actual_byte_drift_rejected (__main__.ExactAdmissionNegatives.test_reviewed_delta_manifest_actual_byte_drift_rejected) ... ok
+test_root_review_actual_byte_drift_rejected (__main__.ExactAdmissionNegatives.test_root_review_actual_byte_drift_rejected) ... ok
+test_same_framework_extra_alias_not_in_exact17_rejected (__main__.ExactAdmissionNegatives.test_same_framework_extra_alias_not_in_exact17_rejected) ... ok
+test_source_checkout_pair_raw_SHA_drift_in_actual_receipt_rejected (__main__.ExactAdmissionNegatives.test_source_checkout_pair_raw_SHA_drift_in_actual_receipt_rejected) ... ok
+test_source_git_identity_drift_in_actual_receipt_rejected (__main__.ExactAdmissionNegatives.test_source_git_identity_drift_in_actual_receipt_rejected) ... ok
+test_source_safe_materialized_permission_drift_rejected (__main__.ExactAdmissionNegatives.test_source_safe_materialized_permission_drift_rejected) ... ok
+test_total_expanded_size_drift_rejected (__main__.ExactAdmissionNegatives.test_total_expanded_size_drift_rejected) ... ok
+test_unlisted_source_cannot_be_admitted_by_blanket_CRLF_normalization (__main__.ExactAdmissionNegatives.test_unlisted_source_cannot_be_admitted_by_blanket_CRLF_normalization) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 3.591s
+
+OK

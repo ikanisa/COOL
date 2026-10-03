@@ -1,0 +1,33 @@
+{
+  "actual_future_index_schema_validation": "PENDING_actual_index_not_generated",
+  "captured_at_utc": "2026-10-02T15:14:24.169367+00:00",
+  "future_AAB_result_required_for_source_refresh": false,
+  "known_document_hashes_match": true,
+  "known_documents_fences_checked": 13,
+  "maintained_writes_by_this_agent": false,
+  "new_current_reader_output": "PENDING",
+  "private_helper_executed": false,
+  "proposed_Draft202012_schema_check_schema": "PASS",
+  "schema_version": 1,
+  "source_static_checks": [
+    {
+      "AST_compile_only": "PASS",
+      "executed": false,
+      "path": "refresh_current_index.py",
+      "sha256": "ef0943912db73ec253b31d072ce1cf6bcefd9464119558e746b42b59c83ef4df"
+    },
+    {
+      "AST_compile_only": "PASS",
+      "executed": false,
+      "path": "proposed/scripts/audits/collect_current_evidence_index.py",
+      "sha256": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119"
+    },
+    {
+      "AST_compile_only": "PASS",
+      "executed": false,
+      "path": "proposed/scripts/tests/collect_current_evidence_index_test.py",
+      "sha256": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736"
+    }
+  ],
+  "tests_executed_by_this_agent": false
+}

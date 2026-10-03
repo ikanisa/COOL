@@ -50,6 +50,22 @@ test("status and failure outputs remove recipient, financial and arbitrary diagn
   assert.throws(() => notificationFailures(failureSample("uncertain"), 20, 0, "failed_no_send"), /COLLECT_RESPONSE_INVALID/);
   assert.throws(() => notificationFailures({rows: [failureSample().rows[0], failureSample().rows[0]], total: 2}, 20, 0, "failed_no_send"), /COLLECT_RESPONSE_INVALID/);
 });
+test("immutable legacy and recorded-savings receipt versions project the same bounded operational facts", () => {
+  const legacy = statusSample();
+  const recorded = {...legacy, template_version: 2, message_body: "PRIVATE_RECORDED_SAVINGS_TEXT", destination_e164: "+250788123456", member_balance_rwf: 987654321};
+  assert.deepEqual(notificationStatus(recorded, fixtureNotificationId), notificationStatus(legacy, fixtureNotificationId));
+  const source = failureSample();
+  const current = {...source, rows: source.rows.map(row => ({...row, template_version: 2, message_body: "PRIVATE_RECORDED_SAVINGS_TEXT", destination_e164: "+250788123456", member_balance_rwf: 987654321}))};
+  assert.deepEqual(notificationFailures(current, 20, 0, "failed_no_send"), notificationFailures(source, 20, 0, "failed_no_send"));
+  assert.doesNotMatch(JSON.stringify(notificationStatus(recorded, fixtureNotificationId)), /PRIVATE|250788|987654321|balance|message_body|destination|template_version/);
+});
+test("receipt template versions remain an explicit integer allowlist with no future-version or type coercion", () => {
+  for (const template_version of [0, 3, 1.5, "1", "2", null, true, {toString: () => "2"}]) {
+    assert.throws(() => notificationStatus({...statusSample(), template_version}, fixtureNotificationId), /^Error: COLLECT_RESPONSE_INVALID$/);
+    const source = failureSample();
+    assert.throws(() => notificationFailures({...source, rows: source.rows.map(row => ({...row, template_version}))}, 20, 0, "failed_no_send"), /^Error: COLLECT_RESPONSE_INVALID$/);
+  }
+});
 test("failure listing has bounded fixed statuses and no search or arbitrary recipients", async () => {
   let seen: Record<string, unknown> | undefined;
   await callOperationalRead("failures", {limit: 1, offset: 5, status: "uncertain"}, environment, async (_url, init) => {

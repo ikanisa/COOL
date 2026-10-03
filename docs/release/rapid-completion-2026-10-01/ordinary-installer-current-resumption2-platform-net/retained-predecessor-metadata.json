@@ -1,0 +1,3409 @@
+{
+  "read_only": true,
+  "hosted_mutations": 0,
+  "provider_calls": 0,
+  "operator_auth_tested": false,
+  "metadata_only": true,
+  "project": {
+    "id": "lhbowpbcpwoiparwnwgt",
+    "ref": "lhbowpbcpwoiparwnwgt",
+    "organization_id": "tllhoyxobnemgdbaibmw",
+    "organization_slug": "tllhoyxobnemgdbaibmw",
+    "name": "COOL",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "database": {
+      "host": "db.lhbowpbcpwoiparwnwgt.supabase.co",
+      "version": "17.6.1.021",
+      "postgres_engine": "17",
+      "release_channel": "ga"
+    },
+    "created_at": "2025-10-15T19:55:27.146033Z"
+  },
+  "migrations": [
+    {
+      "version": "202605230001",
+      "name": "collect_baseline"
+    },
+    {
+      "version": "202605230002",
+      "name": "fix_invite_rpc_lint"
+    },
+    {
+      "version": "202605230003",
+      "name": "harden_rls_indexes"
+    },
+    {
+      "version": "202605230004",
+      "name": "restore_payment_intent_paid_rpc"
+    },
+    {
+      "version": "202605230005",
+      "name": "restore_sms_collection_scope"
+    },
+    {
+      "version": "202605230006",
+      "name": "finalize_payment_intent_hardening"
+    },
+    {
+      "version": "202605230007",
+      "name": "revoke_public_function_execute"
+    },
+    {
+      "version": "202605230008",
+      "name": "admin_panel"
+    },
+    {
+      "version": "202605230009",
+      "name": "add_client_safe_views"
+    },
+    {
+      "version": "202605230010",
+      "name": "grant_collection_receiver_read"
+    },
+    {
+      "version": "202605230011",
+      "name": "fix_receiver_consent_execute_grant"
+    },
+    {
+      "version": "202605230012",
+      "name": "admin_user_receiver_management"
+    },
+    {
+      "version": "202605230013",
+      "name": "admin_role_audit_actions"
+    },
+    {
+      "version": "202605230014",
+      "name": "admin_new_rpc_privileges"
+    },
+    {
+      "version": "202605230015",
+      "name": "admin_collection_moderation"
+    },
+    {
+      "version": "202605230016",
+      "name": "drop_unowned_admin_helpers"
+    },
+    {
+      "version": "202605230017",
+      "name": "admin_list_filter_contracts"
+    },
+    {
+      "version": "20260523203132",
+      "name": "tighten_admin_role_permissions"
+    },
+    {
+      "version": "20260523204235",
+      "name": "set_views_security_invoker"
+    },
+    {
+      "version": "20260523205502",
+      "name": "set_helper_function_search_paths"
+    },
+    {
+      "version": "20260523210723",
+      "name": "split_permissive_select_policies"
+    },
+    {
+      "version": "20260523212244",
+      "name": "revoke_anon_platform_admin_helper"
+    },
+    {
+      "version": "20260523213113",
+      "name": "disable_graphql_introspection"
+    },
+    {
+      "version": "202605250001",
+      "name": "app_realtime_invalidation"
+    },
+    {
+      "version": "202605270001",
+      "name": "sms_first_group_payment_intents"
+    },
+    {
+      "version": "20260531162852",
+      "name": "harden_sms_first_function_grants"
+    },
+    {
+      "version": "20260531190000",
+      "name": "mobile_production_state_support"
+    },
+    {
+      "version": "20260601230000",
+      "name": "preserve_contribution_sender_hash"
+    },
+    {
+      "version": "20260602050000",
+      "name": "harden_mobile_state_rls_initplan"
+    },
+    {
+      "version": "20260607130500",
+      "name": "update_collection_profile_rpc"
+    },
+    {
+      "version": "20260608090000",
+      "name": "native_notifications"
+    },
+    {
+      "version": "20260611111500",
+      "name": "harden_mobile_profile_rpcs"
+    },
+    {
+      "version": "20260611113000",
+      "name": "harden_notification_rls_initplan"
+    },
+    {
+      "version": "20260611114500",
+      "name": "tighten_notification_rpc_grants"
+    },
+    {
+      "version": "20260611171920",
+      "name": "admin_whatsapp_operator_login"
+    },
+    {
+      "version": "20260611184934",
+      "name": "fix_admin_whatsapp_bootstrap_phone_lookup"
+    },
+    {
+      "version": "20260612103000",
+      "name": "disable_browser_admin_bootstrap"
+    },
+    {
+      "version": "20260612110000",
+      "name": "admin_payment_event_server_paging"
+    },
+    {
+      "version": "20260612111500",
+      "name": "drop_legacy_payment_event_queue_overloads"
+    },
+    {
+      "version": "20260612113000",
+      "name": "revoke_anon_admin_queue_paging"
+    },
+    {
+      "version": "20260619003000",
+      "name": "profile_momo_pay_code"
+    },
+    {
+      "version": "20260622090000",
+      "name": "market_expansion_categories_stripe_foundation"
+    },
+    {
+      "version": "20260626193000",
+      "name": "gate_notification_enqueue_by_preferences"
+    },
+    {
+      "version": "20260627143000",
+      "name": "restrict_admin_permission_helper_probing"
+    },
+    {
+      "version": "20260627171000",
+      "name": "harden_diaspora_stripe_table_grants"
+    },
+    {
+      "version": "20260627183000",
+      "name": "add_admin_operator_note_rpc"
+    },
+    {
+      "version": "20260627184500",
+      "name": "add_admin_queue_sla_policies"
+    },
+    {
+      "version": "20260627190000",
+      "name": "add_admin_collection_status_rpc"
+    },
+    {
+      "version": "20260627191000",
+      "name": "add_admin_feature_flag_toggle_rpc"
+    },
+    {
+      "version": "20260701090000",
+      "name": "developer_account_seed_data"
+    },
+    {
+      "version": "20260701100000",
+      "name": "group_owner_controls"
+    },
+    {
+      "version": "20260703170000",
+      "name": "harden_developer_and_group_rpcs"
+    },
+    {
+      "version": "20260703224559",
+      "name": "collection_type_catalog_runtime"
+    },
+    {
+      "version": "20260703225455",
+      "name": "notification_templates_runtime"
+    },
+    {
+      "version": "20260704100000",
+      "name": "public_runtime_config"
+    },
+    {
+      "version": "20260704110000",
+      "name": "admin_runtime_metadata"
+    },
+    {
+      "version": "20260704120000",
+      "name": "policy_documents_account_reasons"
+    },
+    {
+      "version": "20260704133000",
+      "name": "split_runtime_metadata_select_policies"
+    },
+    {
+      "version": "20260730134500",
+      "name": "grant_mobile_request_own_read"
+    },
+    {
+      "version": "20260804150000",
+      "name": "native_push_delivery"
+    },
+    {
+      "version": "20260805120000",
+      "name": "android_fcm_push_delivery"
+    },
+    {
+      "version": "20260808093000",
+      "name": "qualify_notification_token_digest"
+    },
+    {
+      "version": "20260812073431",
+      "name": "remove_legacy_mock_groups_and_classify_home"
+    },
+    {
+      "version": "20260812080000",
+      "name": "restore_mobile_notification_preferences_grants"
+    },
+    {
+      "version": "20260812090000",
+      "name": "expand_momo_pay_code_length"
+    },
+    {
+      "version": "20260812100000",
+      "name": "remove_developer_dummy_data"
+    },
+    {
+      "version": "20260812110000",
+      "name": "correct_momo_merchant_ussd_template"
+    },
+    {
+      "version": "20260815050900",
+      "name": "harden_momo_sms_standalone_posting"
+    },
+    {
+      "version": "20260815051035",
+      "name": "harden_group_creation_journey"
+    },
+    {
+      "version": "20260815054500",
+      "name": "close_group_journey_database_lint"
+    },
+    {
+      "version": "20260815062536",
+      "name": "complete_admin_operations_control_plane"
+    },
+    {
+      "version": "20260815071500",
+      "name": "bind_contribution_payer_identity"
+    },
+    {
+      "version": "20260815082500",
+      "name": "close_group_authorization_privacy"
+    },
+    {
+      "version": "20260815083000",
+      "name": "require_provider_finality"
+    },
+    {
+      "version": "20260815083500",
+      "name": "claim_sms_parser_work"
+    },
+    {
+      "version": "20260815084000",
+      "name": "atomic_sms_ingestion"
+    },
+    {
+      "version": "20260815084500",
+      "name": "revoke_non_dml_table_privileges"
+    },
+    {
+      "version": "20260815085000",
+      "name": "atomic_provider_finality_gateway"
+    },
+    {
+      "version": "20260820160000",
+      "name": "restore_momo_sms_standalone"
+    },
+    {
+      "version": "20260820162240",
+      "name": "bank_transfer_only_financial_control_plane"
+    },
+    {
+      "version": "20260820185500",
+      "name": "revoke_direct_bank_transfer_intent_read"
+    },
+    {
+      "version": "20260828100000",
+      "name": "profile_country_session_independence"
+    },
+    {
+      "version": "20260831084239",
+      "name": "expand_admin_queue_sla_support"
+    },
+    {
+      "version": "20260831084646",
+      "name": "hybrid_geographic_payment_rails"
+    },
+    {
+      "version": "20260831095454",
+      "name": "collect_admin_operations_model"
+    },
+    {
+      "version": "20260901134820",
+      "name": "platform_public_groups"
+    },
+    {
+      "version": "20260901135728",
+      "name": "public_group_directory"
+    },
+    {
+      "version": "20260901141842",
+      "name": "public_contribution_auto_membership"
+    },
+    {
+      "version": "20260901160000",
+      "name": "collect_admin_payee_management"
+    },
+    {
+      "version": "20260901183000",
+      "name": "admin_operations_tables"
+    },
+    {
+      "version": "20260901193000",
+      "name": "admin_group_lifecycle"
+    },
+    {
+      "version": "20260901194500",
+      "name": "admin_users_and_members"
+    },
+    {
+      "version": "20260901200000",
+      "name": "localize_public_group_payment_routes"
+    },
+    {
+      "version": "20260901210000",
+      "name": "admin_single_access_role"
+    },
+    {
+      "version": "20260901220000",
+      "name": "admin_country_scope_contract"
+    },
+    {
+      "version": "20260901223000",
+      "name": "live_admin_uat_fixes"
+    },
+    {
+      "version": "20260901230000",
+      "name": "admin_people_detail_contract"
+    },
+    {
+      "version": "20260902073741",
+      "name": "member_profile_numeric_identity"
+    },
+    {
+      "version": "20260902075721",
+      "name": "member_collection_read_contract"
+    },
+    {
+      "version": "20260902081017",
+      "name": "hybrid_admin_overview_metrics"
+    },
+    {
+      "version": "20260902081830",
+      "name": "member_profile_read_allowlist"
+    },
+    {
+      "version": "20260902083940",
+      "name": "member_cross_rail_history"
+    },
+    {
+      "version": "20260902090210",
+      "name": "member_group_owner_controls"
+    },
+    {
+      "version": "20260902091314",
+      "name": "member_group_roster"
+    },
+    {
+      "version": "20260902093609",
+      "name": "member_history_query_plan"
+    },
+    {
+      "version": "20260902100046",
+      "name": "member_bounded_history_pages"
+    },
+    {
+      "version": "20260902120435",
+      "name": "hybrid_receipt_capture_contract"
+    },
+    {
+      "version": "20260902120555",
+      "name": "hybrid_member_registry"
+    },
+    {
+      "version": "20260902134420",
+      "name": "member_add_group_admin"
+    },
+    {
+      "version": "20260902140151",
+      "name": "platform_admin_whatsapp_approval"
+    },
+    {
+      "version": "20260902212721",
+      "name": "revoke_official_payee_trigger_execute"
+    },
+    {
+      "version": "20260903083947",
+      "name": "member_profile_rpc_only_writes"
+    },
+    {
+      "version": "20260903084000",
+      "name": "hybrid_direct_ussd_financial_core"
+    },
+    {
+      "version": "20260903085000",
+      "name": "hybrid_roster_import_control_plane"
+    },
+    {
+      "version": "20260903090000",
+      "name": "hybrid_sms_notification_outbox"
+    },
+    {
+      "version": "20260903090500",
+      "name": "admin_sms_receipt_queue"
+    },
+    {
+      "version": "20260903091000",
+      "name": "hybrid_verified_account_claim"
+    },
+    {
+      "version": "20260903091500",
+      "name": "hybrid_member_directory_views"
+    },
+    {
+      "version": "20260903092000",
+      "name": "admin_sms_receipt_failed_filter"
+    },
+    {
+      "version": "20260903092500",
+      "name": "revoke_hybrid_internal_function_execute"
+    },
+    {
+      "version": "20260903200322",
+      "name": "hybrid_directory_presentation"
+    },
+    {
+      "version": "20260903201326",
+      "name": "geographic_member_profile_gates"
+    },
+    {
+      "version": "20260906093000",
+      "name": "member_profile_momo_code"
+    },
+    {
+      "version": "20260906160000",
+      "name": "group_cover_bank_and_atomic_creation_media"
+    }
+  ],
+  "metadata": [
+    {
+      "release_metadata": {
+        "checked_at": "2026-09-30T20:58:35.087498+00:00",
+        "extensions": [
+          {
+            "name": "pg_cron",
+            "version": "1.6.4"
+          },
+          {
+            "name": "pg_graphql",
+            "version": "1.5.11"
+          },
+          {
+            "name": "pg_net",
+            "version": "0.19.5"
+          },
+          {
+            "name": "pgcrypto",
+            "version": "1.3"
+          }
+        ],
+        "public_rpc": [
+          {
+            "name": "admin_list_collect_transactions",
+            "search_path": [
+              "search_path=public"
+            ],
+            "anon_execute": false,
+            "identity_args": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+            "service_execute": true,
+            "security_definer": true,
+            "definition_sha256": "d9d7f5f9b9a8d96682d56c4953908de18792af1f1b3795dea321a70eb4313a7a",
+            "authenticated_execute": true
+          },
+          {
+            "name": "collect_list_pending_receipts",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "identity_args": "p_operator_user_id uuid, p_limit integer, p_after_created_at timestamp with time zone",
+            "service_execute": true,
+            "security_definer": true,
+            "definition_sha256": "ae73d5e0895174f1517da448cff2c5ffdb029322e78e11cede9c65dcfadc56a1",
+            "authenticated_execute": false
+          },
+          {
+            "name": "collect_notification_health",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "identity_args": "p_operator_user_id uuid",
+            "service_execute": true,
+            "security_definer": true,
+            "definition_sha256": "259ff21f296d8dd999dbbc21ce7734eb8c749f38e3c8921362407d8558aa593a",
+            "authenticated_execute": false
+          }
+        ],
+        "cron_inventory": [
+          {
+            "jobid": 2,
+            "active": true,
+            "jobname": "redact-momo-sms-artifacts-daily",
+            "schedule": "17 2 * * *",
+            "command_sha256": "0408dad4eea9d28faebf735e07ec2993b14cb7a2ef640db2d0e2404068fb1107"
+          },
+          {
+            "jobid": 3,
+            "active": true,
+            "jobname": "check-momo-sms-migration-safety-daily",
+            "schedule": "29 2 * * *",
+            "command_sha256": "e7c49b7f2fccfa0dc0481a283d7896d1d84741d39a22aa162912468e1bcc65b2"
+          },
+          {
+            "jobid": 4,
+            "active": true,
+            "jobname": "purge_edge_function_rate_events",
+            "schedule": "*/15 * * * *",
+            "command_sha256": "dbe283cf0b78965c8d25909ba524fa0931a9ae9a655ba9280d99336030411115"
+          },
+          {
+            "jobid": 5,
+            "active": true,
+            "jobname": "expire_biopay_payment_intents",
+            "schedule": "* * * * *",
+            "command_sha256": "e21d0add3697e7e9490f1a19b9532ba686bac88b2e77672a9de5ce378a305410"
+          },
+          {
+            "jobid": 6,
+            "active": true,
+            "jobname": "collect-daily-bank-reconciliation",
+            "schedule": "30 21 * * *",
+            "command_sha256": "58ca13bd6915f92b194de581f89815718ac50a5d702055a4df3f07c0486bd597"
+          }
+        ],
+        "private_tables": [
+          {
+            "rls": true,
+            "name": "sms_notification_attempts",
+            "schema": "collect_hybrid",
+            "force_rls": false,
+            "anon_select": false,
+            "service_select": false,
+            "authenticated_select": false
+          },
+          {
+            "rls": true,
+            "name": "sms_notification_confirmations",
+            "schema": "collect_hybrid",
+            "force_rls": false,
+            "anon_select": false,
+            "service_select": false,
+            "authenticated_select": false
+          },
+          {
+            "rls": true,
+            "name": "sms_notification_outbox",
+            "schema": "collect_hybrid",
+            "force_rls": false,
+            "anon_select": false,
+            "service_select": false,
+            "authenticated_select": false
+          }
+        ],
+        "postgres_version": "17.6"
+      }
+    }
+  ],
+  "focused": [
+    {
+      "focused_metadata": {
+        "flags": [
+          {
+            "key": "enable_android_sms_access",
+            "enabled": true,
+            "updated_at": "2026-08-31T10:50:32.238056+00:00"
+          },
+          {
+            "key": "hybrid_sms_notifications",
+            "enabled": false,
+            "updated_at": "2026-09-03T11:41:20.519929+00:00"
+          },
+          {
+            "key": "native_sms_attestation_enforcement",
+            "enabled": false,
+            "updated_at": "2026-09-03T11:41:20.519929+00:00"
+          }
+        ],
+        "functions": [
+          {
+            "args": "",
+            "name": "admin_current_user",
+            "schema": "public",
+            "sha256": "006ec1863d359cf8918b67cd646b28d3170e59e723e70159fb5acd33c47c4ad9",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": false,
+            "authenticated_execute": true
+          },
+          {
+            "args": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+            "name": "admin_list_collect_transactions",
+            "schema": "public",
+            "sha256": "d9d7f5f9b9a8d96682d56c4953908de18792af1f1b3795dea321a70eb4313a7a",
+            "search_path": [
+              "search_path=public"
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": true,
+            "authenticated_execute": true
+          },
+          {
+            "args": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+            "name": "admin_list_hybrid_sms_receipts",
+            "schema": "public",
+            "sha256": "8c16e11c7baf49db52584cbb609edcff3782d5797fbb5c23203f956227282adb",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": true,
+            "authenticated_execute": true
+          },
+          {
+            "args": "p_id text",
+            "name": "admin_system_health",
+            "schema": "public",
+            "sha256": "a26d4af615cf44930b347efd4848cd7793f73aeadf3a8614fb791b9babe17539",
+            "search_path": [
+              "search_path=public"
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": true,
+            "authenticated_execute": true
+          },
+          {
+            "args": "p_operator_user_id uuid, p_limit integer, p_after_created_at timestamp with time zone",
+            "name": "collect_list_pending_receipts",
+            "schema": "public",
+            "sha256": "ae73d5e0895174f1517da448cff2c5ffdb029322e78e11cede9c65dcfadc56a1",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": true,
+            "authenticated_execute": false
+          },
+          {
+            "args": "p_operator_user_id uuid",
+            "name": "collect_notification_health",
+            "schema": "public",
+            "sha256": "259ff21f296d8dd999dbbc21ce7734eb8c749f38e3c8921362407d8558aa593a",
+            "search_path": [
+              "search_path=\"\""
+            ],
+            "anon_execute": false,
+            "service_execute": true,
+            "security_definer": true,
+            "authenticated_execute": false
+          }
+        ],
+        "checked_at": "2026-09-30T21:01:05.749364+00:00",
+        "rls_policies": []
+      }
+    }
+  ],
+  "edge_functions": [
+    {
+      "id": "935457e7-ff0e-46a6-a004-56e08a349c09",
+      "slug": "auth-send-whatsapp-otp",
+      "name": "auth-send-whatsapp-otp",
+      "status": "ACTIVE",
+      "version": 44,
+      "created_at": 1779527409580,
+      "updated_at": 1788293874712,
+      "verify_jwt": false,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_935457e7-ff0e-46a6-a004-56e08a349c09_44/source/supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "ezbr_sha256": "aa8da63ffb94014a5b69327868b6406b0395baf1ea6d9a973a8b5b299cc714c3"
+    },
+    {
+      "id": "20d39cc1-373d-4468-9ab2-e5115b86e2e0",
+      "slug": "send-notification",
+      "name": "send-notification",
+      "status": "ACTIVE",
+      "version": 20,
+      "created_at": 1781179305649,
+      "updated_at": 1788293892615,
+      "verify_jwt": false,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_20d39cc1-373d-4468-9ab2-e5115b86e2e0_20/source/supabase/functions/send-notification/index.ts",
+      "ezbr_sha256": "7fea052024f5ef54d153feaa657962e3d4d620039f2066a0665641a4d2b73fc9"
+    },
+    {
+      "id": "ef550581-88b1-4260-a111-2c8447aa4696",
+      "slug": "dispatch-notifications",
+      "name": "dispatch-notifications",
+      "status": "ACTIVE",
+      "version": 14,
+      "created_at": 1785874608239,
+      "updated_at": 1788293877090,
+      "verify_jwt": false,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_ef550581-88b1-4260-a111-2c8447aa4696_14/source/supabase/functions/dispatch-notifications/index.ts",
+      "ezbr_sha256": "3fea3e2ee473d1f35c591dda71aaa3bd60d2991c30d9280832d43c7d51a7dfe7"
+    },
+    {
+      "id": "a93adb2e-8720-4f57-a722-ec61e5f4e06f",
+      "slug": "ingest-bank-email",
+      "name": "ingest-bank-email",
+      "status": "ACTIVE",
+      "version": 6,
+      "created_at": 1787250780975,
+      "updated_at": 1788293879544,
+      "verify_jwt": false,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_a93adb2e-8720-4f57-a722-ec61e5f4e06f_6/source/supabase/functions/ingest-bank-email/index.ts",
+      "ezbr_sha256": "acd620fb8dd88ba558ebb79a0954e079472096e01f59c4101e355e023b2bae9b"
+    },
+    {
+      "id": "b0f0fb70-74b2-48bb-93e1-5dc575b8c51b",
+      "slug": "ingest-bank-sms",
+      "name": "ingest-bank-sms",
+      "status": "ACTIVE",
+      "version": 6,
+      "created_at": 1787250789253,
+      "updated_at": 1788293882265,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_b0f0fb70-74b2-48bb-93e1-5dc575b8c51b_6/source/supabase/functions/ingest-bank-sms/index.ts",
+      "ezbr_sha256": "9b8c1d6a7bf2ed35662e5c0df51ff4686c063181b3cb2c838d0f385372ca6227"
+    },
+    {
+      "id": "ed41f77c-85c6-4f62-b4d0-3e10d12435c8",
+      "slug": "ingest-bank-statement",
+      "name": "ingest-bank-statement",
+      "status": "ACTIVE",
+      "version": 6,
+      "created_at": 1787250793448,
+      "updated_at": 1788293884933,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_ed41f77c-85c6-4f62-b4d0-3e10d12435c8_6/source/supabase/functions/ingest-bank-statement/index.ts",
+      "ezbr_sha256": "517b7d09494e393e77ef7b3f3f7822359ae53a7b34bd79322f3d94b7acd24454"
+    },
+    {
+      "id": "23690d62-2197-4392-990f-7c9c86b97990",
+      "slug": "ingest-payment-sms",
+      "name": "ingest-payment-sms",
+      "status": "ACTIVE",
+      "version": 5,
+      "created_at": 1788173529319,
+      "updated_at": 1788436877270,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_23690d62-2197-4392-990f-7c9c86b97990_5/source/supabase/functions/ingest-payment-sms/index.ts",
+      "ezbr_sha256": "b1b90345c76b413dd5d77bddfa4436b052828ab6f9cf17567497bb8eb633f449"
+    },
+    {
+      "id": "99c80e00-b11b-490e-9268-b081237e6676",
+      "slug": "parse-payment-sms",
+      "name": "parse-payment-sms",
+      "status": "ACTIVE",
+      "version": 6,
+      "created_at": 1788173531550,
+      "updated_at": 1788436882806,
+      "verify_jwt": false,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_99c80e00-b11b-490e-9268-b081237e6676_6/source/supabase/functions/parse-payment-sms/index.ts",
+      "ezbr_sha256": "93974103ef18f5cc27eee63feec7b75ef125626056ae71417286bfb670fc6c1c"
+    },
+    {
+      "id": "d3108932-e8b1-4465-8870-15aaa9223fec",
+      "slug": "verify-play-integrity",
+      "name": "verify-play-integrity",
+      "status": "ACTIVE",
+      "version": 4,
+      "created_at": 1788173536187,
+      "updated_at": 1788436871740,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_d3108932-e8b1-4465-8870-15aaa9223fec_4/source/supabase/functions/verify-play-integrity/index.ts",
+      "ezbr_sha256": "60838247abebbe0493cd4f3a09c10c6bae9219ca1c42433fe3c45c5008af8de4"
+    },
+    {
+      "id": "dd426b84-7149-46dc-a91c-d832efb1b3ed",
+      "slug": "prepare-roster-import",
+      "name": "prepare-roster-import",
+      "status": "ACTIVE",
+      "version": 1,
+      "created_at": 1788436887839,
+      "updated_at": 1788436887839,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_dd426b84-7149-46dc-a91c-d832efb1b3ed_1/source/supabase/functions/prepare-roster-import/index.ts",
+      "ezbr_sha256": "5b81aaa39c1ea6f74240e08d546e6877d1f2cb1e0dd0b653e1ab951a8be15b77"
+    },
+    {
+      "id": "0161fae3-3b9d-4152-bebd-5145214505ce",
+      "slug": "collect-notification-operator",
+      "name": "collect-notification-operator",
+      "status": "ACTIVE",
+      "version": 1,
+      "created_at": 1788436892967,
+      "updated_at": 1788436892967,
+      "verify_jwt": true,
+      "import_map": false,
+      "entrypoint_path": "file:///tmp/user_fn_lhbowpbcpwoiparwnwgt_0161fae3-3b9d-4152-bebd-5145214505ce_1/source/supabase/functions/collect-notification-operator/index.ts",
+      "ezbr_sha256": "53975863f5442499b225b3f0ab8bf3ef389e8f231e1229d6c24fd11fb3cfc9ba"
+    }
+  ],
+  "advisors": {
+    "lints": [
+      {
+        "name": "rls_enabled_no_policy",
+        "title": "RLS Enabled No Policy",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "count": 46,
+        "findings": [
+          {
+            "detail": "Table \\`collect_admin_access.whatsapp_approvals\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "whatsapp_approvals",
+              "type": "table",
+              "schema": "collect_admin_access"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.collection_balances\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "collection_balances",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.group_creation_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "group_creation_requests",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.member_account_claims\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "member_account_claims",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.member_balances\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "member_balances",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.member_momo_identities\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "member_momo_identities",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.member_receiving_assignments\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "member_receiving_assignments",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.member_records\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "member_records",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.momo_balance_snapshots\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "momo_balance_snapshots",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.momo_journal_entries\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "momo_journal_entries",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.momo_journal_lines\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "momo_journal_lines",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.momo_reconciliation_exceptions\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "momo_reconciliation_exceptions",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.momo_reversal_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "momo_reversal_requests",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.receiving_assignment_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "receiving_assignment_requests",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.roster_batches\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "roster_batches",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_notification_attempts\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_notification_attempts",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_notification_claim_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_notification_claim_requests",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_notification_confirmations\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_notification_confirmations",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_notification_outbox\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_notification_outbox",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_operator_heartbeats\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_operator_heartbeats",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_receipt_member_consents\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_receipt_member_consents",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`collect_hybrid.sms_receipt_policies\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "sms_receipt_policies",
+              "type": "table",
+              "schema": "collect_hybrid"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.admin_queue_sla_policies\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "admin_queue_sla_policies",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_allocation_change_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_allocation_change_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_destination_change_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_destination_change_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_evidence_events\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_evidence_events",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_statement_imports\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_statement_imports",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_statement_lines\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_statement_lines",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_transaction_allocations\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_transaction_allocations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_transactions\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_transactions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.bank_transfer_destinations\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "bank_transfer_destinations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.collection_share_secrets\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "collection_share_secrets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.daily_bank_closes\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "daily_bank_closes",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.journal_entries\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "journal_entries",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.journal_lines\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "journal_lines",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.native_action_capabilities\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "native_action_capabilities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.notification_deliveries\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "notification_deliveries",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.notification_delivery_attempts\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "notification_delivery_attempts",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.notification_device_tokens\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "notification_device_tokens",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.payment_evidence_links\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "payment_evidence_links",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.payment_provider_confirmations\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "payment_provider_confirmations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.provider_finality_requests\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "provider_finality_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.raw_payment_evidence\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "raw_payment_evidence",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.reconciliation_exceptions\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "reconciliation_exceptions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.reconciliation_matches\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "reconciliation_matches",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Table \\`public.reconciliation_runs\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "reconciliation_runs",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          }
+        ]
+      },
+      {
+        "name": "pg_graphql_anon_table_exposed",
+        "title": "Public Can See Object in GraphQL Schema",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects tables, views, materialized views, and foreign tables that are visible in the GraphQL schema to anyone using your public anon key. Revoke `SELECT` from `anon` for objects that should not be discoverable before sign-in, and check lint 0027 for the matching signed-in-user exposure.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0026_pg_graphql_anon_table_exposed",
+        "count": 19,
+        "findings": [
+          {
+            "detail": "table `public.account_request_reason_options` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "account_request_reason_options",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.brand_entities` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "brand_entities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_category_subtypes` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "collection_category_subtypes",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_purpose_templates` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "collection_purpose_templates",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_type_catalog` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "collection_type_catalog",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_type_country_rules` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "collection_type_country_rules",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collections` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "collections",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_channels` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "notification_channels",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_event_types` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "notification_event_types",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_template_versions` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "notification_template_versions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_templates` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "notification_templates",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.payment_entrypoints` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "payment_entrypoints",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.policy_document_sections` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "policy_document_sections",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.policy_documents` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "policy_documents",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.profile_country_rules` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "profile_country_rules",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.profiles` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "profiles",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.public_collections_view` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "public_collections_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.public_profiles_view` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "public_profiles_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.support_channels` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in.",
+            "metadata": {
+              "name": "support_channels",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          }
+        ]
+      },
+      {
+        "name": "pg_graphql_authenticated_table_exposed",
+        "title": "Signed-In Users Can See Object in GraphQL Schema",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects tables, views, materialized views, and foreign tables that are visible in the GraphQL schema to signed-in users. Revoke `SELECT` from `authenticated` for objects that signed-in users should not discover, and check lint 0026 for the matching public exposure.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0027_pg_graphql_authenticated_table_exposed",
+        "count": 32,
+        "findings": [
+          {
+            "detail": "table `public.account_request_reason_options` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "account_request_reason_options",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.admin_navigation_items` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "admin_navigation_items",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.admin_queue_filter_options` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "admin_queue_filter_options",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.admin_queue_signals` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "admin_queue_signals",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.admin_queue_specs` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "admin_queue_specs",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.app_realtime_events` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "app_realtime_events",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.brand_entities` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "brand_entities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_category_subtypes` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "collection_category_subtypes",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_purpose_templates` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "collection_purpose_templates",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_type_catalog` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "collection_type_catalog",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collection_type_country_rules` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "collection_type_country_rules",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.collections` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "collections",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.member_collection_summary_view` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "member_collection_summary_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.member_collections_view` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "member_collections_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.member_contributions_view` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "member_contributions_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.mobile_account_deletion_requests` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "mobile_account_deletion_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.mobile_support_requests` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "mobile_support_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_channels` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_channels",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_event_types` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_event_types",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_events` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_events",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_preferences` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_preferences",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_template_versions` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_template_versions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.notification_templates` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "notification_templates",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.payment_entrypoints` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "payment_entrypoints",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.policy_acceptance_events` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "policy_acceptance_events",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.policy_document_sections` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "policy_document_sections",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.policy_documents` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "policy_documents",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.profile_country_rules` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "profile_country_rules",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.profiles` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "profiles",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.public_collections_view` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "public_collections_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "view `public.public_profiles_view` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "public_profiles_view",
+              "type": "view",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "table `public.support_channels` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account.",
+            "metadata": {
+              "name": "support_channels",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          }
+        ]
+      },
+      {
+        "name": "anon_security_definer_function_executable",
+        "title": "Public Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+        "count": 6,
+        "findings": [
+          {
+            "detail": "Function `public.collection_is_public_approved(target_collection_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/collection_is_public_approved`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "collection_is_public_approved",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "target_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_active_policy_document(p_kind text, p_locale text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_active_policy_document`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_active_policy_document",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_kind text, p_locale text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_account_request_reasons(p_request_type text, p_locale text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_account_request_reasons`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_account_request_reasons",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_request_type text, p_locale text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.public_collection_payment_route(p_collection_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_collection_payment_route`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "public_collection_payment_route",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.user_can_read_collection(collection uuid, user_uuid uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/user_can_read_collection`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "user_can_read_collection",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "collection uuid, user_uuid uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.user_is_collection_admin(collection uuid, user_uuid uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/user_is_collection_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "user_is_collection_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "collection uuid, user_uuid uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          }
+        ]
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "count": 134,
+        "findings": [
+          {
+            "detail": "Function `public.admin_add_assisted_roster(p_collection_id uuid, p_rows jsonb, p_request_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_add_assisted_roster`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_add_assisted_roster",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_collection_id uuid, p_rows jsonb, p_request_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_assign_hybrid_receiving_route(p_collection_id uuid, p_member_record_id uuid, p_collection_receiver_id uuid, p_reason text, p_request_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_assign_hybrid_receiving_route`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_assign_hybrid_receiving_route",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_member_record_id uuid, p_collection_receiver_id uuid, p_reason text, p_request_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_create_assisted_group(p_title text, p_reason text, p_request_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_create_assisted_group`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_create_assisted_group",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_title text, p_reason text, p_request_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_create_assisted_group_with_roster(p_title text, p_rows jsonb, p_reason text, p_group_request_id uuid, p_roster_request_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_create_assisted_group_with_roster`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_create_assisted_group_with_roster",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_title text, p_rows jsonb, p_reason text, p_group_request_id uuid, p_roster_request_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_create_collect_payee(p_collection_id uuid, p_label text, p_momo_code text, p_network text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_create_collect_payee`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_create_collect_payee",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_label text, p_momo_code text, p_network text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_create_platform_public_group(p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_momo_code text, p_network text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_create_platform_public_group`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_create_platform_public_group",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_momo_code text, p_network text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_allocation_request(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_allocation_request`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_allocation_request",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_destination(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_destination`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_destination",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_destination_change_request(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_destination_change_request`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_destination_change_request",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_evidence(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_evidence`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_evidence",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_transaction(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_transaction`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_transaction",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_bank_transfer_intent(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_bank_transfer_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_bank_transfer_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_collect_transaction(p_id text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_collect_transaction`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_collect_transaction",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_collection(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_collection`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_collection",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_hybrid_sms_receipt(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_hybrid_sms_receipt`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_hybrid_sms_receipt",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_journal_entry(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_journal_entry`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_journal_entry",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_member_record(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_member_record`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_member_record",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_notification(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_notification`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_notification",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_payment(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_payment`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_payment",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_payment_event(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_payment_event`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_payment_event",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_payment_intent(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_payment_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_payment_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_queue_sla(p_queue_key text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_queue_sla`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_queue_sla",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_queue_key text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_receiver(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_receiver`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_receiver",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_reconciliation_exception(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_reconciliation_exception`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_reconciliation_exception",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_reconciliation_run(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_reconciliation_run`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_reconciliation_run",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_sms_metadata(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_sms_metadata`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_sms_metadata",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_get_user(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_get_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_get_user",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_import_bank_statement(p_file_name text, p_file_hash text, p_period_start date, p_period_end date, p_lines jsonb, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_import_bank_statement`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_import_bank_statement",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_file_name text, p_file_hash text, p_period_start date, p_period_end date, p_lines jsonb, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_allocations(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_allocations`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_allocations",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_audit_logs(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_audit_logs`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_audit_logs",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_allocation_requests(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_allocation_requests`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_allocation_requests",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_destination_change_requests(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_destination_change_requests`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_destination_change_requests",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_destinations(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_destinations`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_destinations",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_evidence(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_evidence`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_evidence",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_transactions(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_transactions`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_transactions",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_bank_transfer_intents(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_bank_transfer_intents`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_bank_transfer_intents",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collect_ledgers(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collect_ledgers`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collect_ledgers",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collect_payees(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collect_payees`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collect_payees",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collect_reconciliations(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collect_reconciliations`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collect_reconciliations",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collect_transactions(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collect_transactions`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collect_transactions",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collections(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collections`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collections",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_collections(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_collections`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_collections",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_country_scoped(p_rpc_name text, p_country text, p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_country_scoped`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_country_scoped",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_rpc_name text, p_country text, p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_feature_flags(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_feature_flags`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_feature_flags",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_hybrid_sms_receipts(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_hybrid_sms_receipts`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_hybrid_sms_receipts",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_journal_entries(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_journal_entries`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_journal_entries",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_ledger(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_ledger`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_ledger",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_members(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_members`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_members",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_non_member_users(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_non_member_users`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_non_member_users",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_notifications(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_notifications`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_notifications",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_payment_events(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_payment_events`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_payment_events",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_payment_intents(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_payment_intents`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_payment_intents",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_payments(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_payments`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_payments",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_payments(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_payments`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_payments",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_platform_payee_candidates(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_platform_payee_candidates`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_platform_payee_candidates",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_receivers(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_receivers`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_receivers",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_reconciliation_exceptions(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_reconciliation_exceptions`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_reconciliation_exceptions",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_reconciliation_runs(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_reconciliation_runs`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_reconciliation_runs",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_settings(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_settings`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_settings",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_sms_metadata(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_sms_metadata`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_sms_metadata",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_unallocated(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_unallocated`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_unallocated",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_users(p_search text, p_status text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_users`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_users",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_search text, p_status text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_list_users(p_search text, p_status text, p_limit integer, p_offset integer, p_sort text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_list_users`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_list_users",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_manual_allocate_payment(p_event_id uuid, p_collection_id uuid, p_payment_intent_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_manual_allocate_payment`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_manual_allocate_payment",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_event_id uuid, p_collection_id uuid, p_payment_intent_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_overview()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_overview`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_overview",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_propose_bank_allocation(p_bank_transaction_id uuid, p_bank_transfer_intent_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_propose_bank_allocation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_propose_bank_allocation",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_bank_transaction_id uuid, p_bank_transfer_intent_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_propose_bank_destination(p_beneficiary_name text, p_iban text, p_bic text, p_bank_name text, p_supports_instant boolean, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_propose_bank_destination`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_propose_bank_destination",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_beneficiary_name text, p_iban text, p_bic text, p_bank_name text, p_supports_instant boolean, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_record_operator_note(p_entity_type text, p_entity_id uuid, p_body text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_record_operator_note`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_record_operator_note",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_entity_type text, p_entity_id uuid, p_body text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_reopen_daily_bank_close(p_close_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_reopen_daily_bank_close`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_reopen_daily_bank_close",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_close_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_reparse_payment_event(p_event_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_reparse_payment_event`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_reparse_payment_event",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_event_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_resolve_reconciliation_exception(p_exception_id uuid, p_resolution_note text, p_dismiss boolean)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_resolve_reconciliation_exception`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_resolve_reconciliation_exception",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_exception_id uuid, p_resolution_note text, p_dismiss boolean",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_retry_notification(p_event_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_retry_notification`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_retry_notification",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_event_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_reveal_raw_bank_evidence(p_event_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_reveal_raw_bank_evidence`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_reveal_raw_bank_evidence",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_event_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_reveal_raw_sms(p_sms_id uuid, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_reveal_raw_sms`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_reveal_raw_sms",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_sms_id uuid, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_reverse_momo_payment(p_payment_id uuid, p_reason text, p_request_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_reverse_momo_payment`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_reverse_momo_payment",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_payment_id uuid, p_reason text, p_request_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_review_bank_allocation(p_request_id uuid, p_approve boolean, p_review_note text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_review_bank_allocation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_review_bank_allocation",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_request_id uuid, p_approve boolean, p_review_note text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_review_bank_destination_change(p_request_id uuid, p_approve boolean, p_review_note text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_review_bank_destination_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_review_bank_destination_change",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_request_id uuid, p_approve boolean, p_review_note text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_run_bank_reconciliation(p_run_date date, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_run_bank_reconciliation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_run_bank_reconciliation",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_run_date date, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_runtime_config()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_runtime_config`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_runtime_config",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_set_collect_payee_status(p_payee_id uuid, p_active boolean, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_set_collect_payee_status`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_set_collect_payee_status",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_payee_id uuid, p_active boolean, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_set_feature_flag(p_key text, p_enabled boolean, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_set_feature_flag`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_set_feature_flag",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_key text, p_enabled boolean, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_set_group_active(p_collection_id uuid, p_active boolean, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_set_group_active`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_set_group_active",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_active boolean, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_set_member_sms_receipt_consent(p_member_record_id uuid, p_enabled boolean, p_capture_method text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_set_member_sms_receipt_consent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_set_member_sms_receipt_consent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_member_record_id uuid, p_enabled boolean, p_capture_method text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_set_sms_receipt_policy(p_collection_id uuid, p_enabled boolean, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_set_sms_receipt_policy`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_set_sms_receipt_policy",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_enabled boolean, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_system_health(p_id text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_system_health`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_system_health",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_update_collect_payee(p_payee_id uuid, p_label text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_update_collect_payee`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_update_collect_payee",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_payee_id uuid, p_label text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_update_collection_support_status(p_collection_id uuid, p_status text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_update_collection_support_status`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_update_collection_support_status",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_status text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_update_platform_public_group(p_collection_id uuid, p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_momo_code text, p_network text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_update_platform_public_group`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_update_platform_public_group",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_momo_code text, p_network text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.admin_update_platform_public_group_metadata(p_collection_id uuid, p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/admin_update_platform_public_group_metadata`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "admin_update_platform_public_group_metadata",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_title text, p_description text, p_collection_type text, p_category_subtype text, p_purpose_label text, p_receiver_label text, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.cancel_bank_transfer_intent(p_intent_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/cancel_bank_transfer_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "cancel_bank_transfer_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_intent_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.claim_verified_current_account()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/claim_verified_current_account`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "claim_verified_current_account",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.collection_is_public_approved(target_collection_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/collection_is_public_approved`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "collection_is_public_approved",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "target_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.create_bank_transfer_intent(p_collection_id uuid, p_amount_minor bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_bank_transfer_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "create_bank_transfer_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_amount_minor bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.create_contribution_intent(collection uuid, p_expected_amount_rwf bigint, p_sender_phone_hash text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_contribution_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "create_contribution_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "collection uuid, p_expected_amount_rwf bigint, p_sender_phone_hash text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.create_mobile_support_request(request_subject text, request_message text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_mobile_support_request`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "create_mobile_support_request",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "request_subject text, request_message text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.create_private_group_with_owner_attested(group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_private_group_with_owner_attested`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "create_private_group_with_owner_attested",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.create_private_group_with_owner_media_attested(group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_private_group_with_owner_media_attested`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "create_private_group_with_owner_media_attested",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.current_user_has_admin_permission(permission text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_has_admin_permission`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "current_user_has_admin_permission",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "permission text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.current_user_is_platform_admin()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_is_platform_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "current_user_is_platform_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.ensure_current_member_profile(p_whatsapp_phone text, p_country_code text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/ensure_current_member_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "ensure_current_member_profile",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_whatsapp_phone text, p_country_code text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_active_policy_document(p_kind text, p_locale text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_active_policy_document`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_active_policy_document",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_kind text, p_locale text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_bank_transfer_destination()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_bank_transfer_destination`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_bank_transfer_destination",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_bank_transfer_intent(p_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_bank_transfer_intent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_bank_transfer_intent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_current_member_profile()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_current_member_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_current_member_profile",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_group_share_code(p_collection_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_group_share_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_group_share_code",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.get_owner_group_health(collection uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_owner_group_health`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "get_owner_group_health",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "collection uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.ingest_bank_evidence(p_channel text, p_source_uid text, p_raw_sender text, p_raw_body text, p_received_at timestamp with time zone, p_direction text, p_amount_minor bigint, p_currency text, p_bank_transaction_id text, p_end_to_end_id text, p_transfer_reference text, p_payer_name text, p_payer_account_last4 text, p_occurred_at timestamp with time zone, p_confidence numeric, p_parser_name text, p_parsed_json jsonb, p_headers jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/ingest_bank_evidence`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "ingest_bank_evidence",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_channel text, p_source_uid text, p_raw_sender text, p_raw_body text, p_received_at timestamp with time zone, p_direction text, p_amount_minor bigint, p_currency text, p_bank_transaction_id text, p_end_to_end_id text, p_transfer_reference text, p_payer_name text, p_payer_account_last4 text, p_occurred_at timestamp with time zone, p_confidence numeric, p_parser_name text, p_parsed_json jsonb, p_headers jsonb",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.join_group_by_share_code(p_group_code text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/join_group_by_share_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "join_group_by_share_code",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_group_code text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.join_group_by_slug(group_slug text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/join_group_by_slug`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "join_group_by_slug",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "group_slug text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_account_request_reasons(p_request_type text, p_locale text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_account_request_reasons`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_account_request_reasons",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_request_type text, p_locale text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_member_collection_balances()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_member_collection_balances`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_member_collection_balances",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_member_payment_intents()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_member_payment_intents`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_member_payment_intents",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_bank_collection_summaries()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_bank_collection_summaries`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_bank_collection_summaries",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_bank_contributions()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_bank_contributions`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_bank_contributions",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_bank_transfer_intents()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_bank_transfer_intents`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_bank_transfer_intents",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_collection_summaries()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_collection_summaries`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_collection_summaries",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_collections(p_collection_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_collections`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_collections",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_contributions()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_contributions`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_contributions",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.list_current_user_payment_intents()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/list_current_user_payment_intents`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "list_current_user_payment_intents",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.mark_bank_transfer_handoff_opened(p_intent_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/mark_bank_transfer_handoff_opened`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "mark_bank_transfer_handoff_opened",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_intent_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.mark_notification_event_read(p_event_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/mark_notification_event_read`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "mark_notification_event_read",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_event_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.public_collection_payment_route(p_collection_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_collection_payment_route`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "public_collection_payment_route",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "p_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.record_policy_acceptance(p_policy_kind text, p_policy_version text, p_locale text, p_source text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/record_policy_acceptance`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "record_policy_acceptance",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_policy_kind text, p_policy_version text, p_locale text, p_source text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.record_sms_access_consent(enabled boolean, momo_number_hash text, build_channel text, device_label text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/record_sms_access_consent`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "record_sms_access_consent",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "enabled boolean, momo_number_hash text, build_channel text, device_label text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.register_notification_device(p_platform text, p_provider text, p_token text, p_environment text, p_locale text, p_app_version text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/register_notification_device`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "register_notification_device",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_platform text, p_provider text, p_token text, p_environment text, p_locale text, p_app_version text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.request_account_deletion(request_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/request_account_deletion`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "request_account_deletion",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "request_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.rotate_group_share_code(p_collection_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/rotate_group_share_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "rotate_group_share_code",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.run_daily_bank_reconciliation(p_run_date date, p_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/run_daily_bank_reconciliation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "run_daily_bank_reconciliation",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_run_date date, p_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.unregister_notification_device(p_provider text, p_token text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/unregister_notification_device`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "unregister_notification_device",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_provider text, p_token text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.update_bank_transfer_group_profile(p_collection_id uuid, p_group_name text, p_group_description text, p_group_image_url text, p_group_accent_color_hex text, p_group_is_public boolean, p_group_recurring_cadence text, p_group_collection_type text, p_group_category_subtype text, p_group_purpose_label text, p_group_is_recurring boolean)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/update_bank_transfer_group_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "update_bank_transfer_group_profile",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_collection_id uuid, p_group_name text, p_group_description text, p_group_image_url text, p_group_accent_color_hex text, p_group_is_public boolean, p_group_recurring_cadence text, p_group_collection_type text, p_group_category_subtype text, p_group_purpose_label text, p_group_is_recurring boolean",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.update_current_member_profile(p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/update_current_member_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "update_current_member_profile",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.update_current_member_profile(p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/update_current_member_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "update_current_member_profile",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.user_can_read_collection(collection uuid, user_uuid uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/user_can_read_collection`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "user_can_read_collection",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "collection uuid, user_uuid uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          },
+          {
+            "detail": "Function `public.user_is_collection_admin(collection uuid, user_uuid uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/user_is_collection_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "user_is_collection_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "collection uuid, user_uuid uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-09-30T21:00:58.773Z"
+          }
+        ]
+      },
+      {
+        "name": "auth_leaked_password_protection",
+        "title": "Leaked Password Protection Disabled",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Leaked password protection is currently disabled.",
+        "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+        "count": 1,
+        "findings": [
+          {
+            "detail": "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security.",
+            "metadata": {
+              "type": "auth",
+              "entity": "Auth"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "status": "published_pending_integrated_acceptance",
+  "at": "2026-10-01T09:49:52.830777+00:00",
+  "candidate_proof_sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2",
+  "candidate_hashes": {
+    "global-four-sort-indexes.sql": "f1d8514669ce59790ae74bda74d6f03aa0124b453c72b190dff92093dfcfa9d6",
+    "history-primary-seek-title-exists.sql": "80f59269a4d9b3bbc06073d52841ea15978e3292194e82dc8481eff6eeadbb24"
+  },
+  "new_migration": "supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql",
+  "new_migration_sha256": "2e36bc6083723b78dd82b4666ba7ca2f28e99c61d0554dd8a4c8b88492f61da0",
+  "source_migrations_before": 175,
+  "source_migrations_after": 176,
+  "reviewed_stages_after": 22,
+  "catalog_change": "Exactly four indexes and one existing function body; existing function ACL/owner/signature remain",
+  "additional_integrity_guard": "Immediate validated non-null collection FK prerequisite is enforced before any candidate change",
+  "preexisting_migrations_modified": false,
+  "summary_scan_removed": false,
+  "latency_slo_claimed": false,
+  "shared_database_written": false
+}

@@ -1,0 +1,8 @@
+{
+  "status": "running",
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "scripts/public_website_route_rendered_qa.js"
+  ],
+  "started_at": "2026-10-01T00:58:36.002268+00:00"
+}

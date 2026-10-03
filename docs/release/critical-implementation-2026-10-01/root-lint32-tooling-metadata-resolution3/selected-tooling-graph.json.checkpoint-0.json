@@ -1,0 +1,61 @@
+{
+    "schema_version": 1,
+    "root_requested": "com.android.tools.lint:lint-gradle:32.0.1",
+    "generated_utc": "2026-10-02T15:47:29.990977Z",
+    "repository_scope": [
+        "https://dl.google.com/dl/android/maven2/",
+        "https://repo.maven.apache.org/maven2/"
+    ],
+    "actual_artifact_repository_not_exposed_by_this_collector": true,
+    "components": [
+        
+    ],
+    "edges": [
+        
+    ],
+    "artifacts": [
+        
+    ],
+    "poms": [
+        
+    ],
+    "errors": [
+        
+    ],
+    "failure_details": [
+        
+    ],
+    "requested_consumer_attributes": [
+        {
+            "name": "org.gradle.jvm.environment",
+            "type": "org.gradle.api.attributes.java.TargetJvmEnvironment",
+            "value": "standard-jvm"
+        },
+        {
+            "name": "org.gradle.usage",
+            "type": "org.gradle.api.attributes.Usage",
+            "value": "java-runtime"
+        }
+    ],
+    "metadata_only_requested": true,
+    "complete_selected_tooling_metadata": false,
+    "complete_selected_tooling_graph": false,
+    "publisher_admission_complete": false,
+    "selected_variant_filenames_inferred": false,
+    "artifact_filename_admission": "Requires selected variant owner/name/attributes plus exact publisher module/POM file evidence; default JAR names are not projected",
+    "checkpoints": [
+        {
+            "sequence": 0,
+            "phase": "before-selected-metadata-resolution",
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json.checkpoint-0.json"
+        }
+    ],
+    "production_release_approval": false,
+    "phase": "before-selected-metadata-resolution",
+    "counts": {
+        "components": 0,
+        "edges": 0,
+        "artifacts": 0,
+        "poms": 0
+    }
+}

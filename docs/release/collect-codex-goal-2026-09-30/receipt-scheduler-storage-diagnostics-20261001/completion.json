@@ -1,0 +1,50 @@
+{
+  "action_evidence_removed_or_rewritten": false,
+  "actual_host_job_observation_or_action": false,
+  "admission_is_atomic_global_capacity_reservation": false,
+  "associated_scopes": {
+    "existing_scheduler": 16,
+    "new_execution": false,
+    "new_preparation_python": 12,
+    "receipt": "final-scope-association.json"
+  },
+  "before_after_unchanged": true,
+  "business_handled_after_run_persistence_failure": null,
+  "cadence_verified": false,
+  "changed_product_paths": {
+    "scripts/tests/unattended_launchd_preparation_test.py": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3",
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c",
+    "tools/collect-notification-mcp/src/unattended_deployment.ts": "3fda830ac0e1ed1573b2c9ef95559c86f9981a4ea3efde160db36a1a2bf7cc9a",
+    "tools/collect-notification-mcp/src/unattended_host_tick.ts": "3d4853fc6f0e5e4d85a13320168818ce2adc0b9bac694d105965c306edee5199",
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": "5dc0aa6249bcbd435739c228add45e1293552c9f9263f8907c4ef968039d99d1",
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.ts": "cc10e7c0d507d28e6101d803343b4bc4671d73af68d2f8c9506fe7e13d833e8b",
+    "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e"
+  },
+  "current_affected": {
+    "cancelled": 0,
+    "failed": 0,
+    "passed": 62,
+    "receipt": "attempt3-uncertainty/verification.json",
+    "skipped": 0,
+    "tsc_exit_code": 0
+  },
+  "dependency_files_plus_node": 1608,
+  "diagnostic_record_bytes_max": 2048,
+  "diagnostic_retention_verified": false,
+  "full_current_history_acceptance": "open",
+  "hosted_calls": false,
+  "installed_five_read_profile_edited": false,
+  "keychain_calls": false,
+  "post_run_unknown_original_uuid_retained": true,
+  "production_accepted": false,
+  "recorded_at": "2026-10-01T14:57:30.083393Z",
+  "restoration_verified": false,
+  "scope": "bounded local scheduler storage/log diagnostics",
+  "sealed_historical_packets_modified": false,
+  "sender_actions": 0,
+  "source_copy_readback": true,
+  "source_inputs": 92,
+  "stdout_and_stderr_new_preparations": "/dev/null",
+  "urgent_disable_budget_bypass": true,
+  "whole_current_suite_aggregate_claimed": false
+}

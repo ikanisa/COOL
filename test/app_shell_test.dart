@@ -897,41 +897,48 @@ void main() {
     expect(script, contains('"variant" => {'));
   });
 
-  test('orange is reserved away from routine CTA and decorative surfaces', () {
-    for (final path in <String>[
-      'lib/features/landing/collect_landing_page.dart',
-      'lib/features/landing/public_marketing_page_content.dart',
-      'lib/features/landing/public_page_content.dart',
-      'lib/features/landing/public_policy_page_content.dart',
-    ]) {
-      expect(
-        File(path).readAsStringSync(),
-        isNot(contains('brandOrangeRed')),
-        reason: path,
-      );
-    }
+  test(
+    'public runtime uses marketing roles instead of logo-derived colours',
+    () {
+      for (final path in <String>[
+        'lib/features/landing/collect_landing_page.dart',
+        'lib/features/landing/public_marketing_page_content.dart',
+        'lib/features/landing/public_page_content.dart',
+        'lib/features/landing/public_policy_page_content.dart',
+      ]) {
+        expect(
+          File(path).readAsStringSync(),
+          isNot(contains('brandOrangeRed')),
+          reason: path,
+        );
+      }
 
-    final groupCardMedia = File(
-      'lib/shared/widgets/collect_group_card_media.dart',
-    ).readAsStringSync();
-    expect(groupCardMedia, isNot(contains('orangePaint')));
-    expect(groupCardMedia, isNot(contains('brandAction,')));
-    expect(groupCardMedia, isNot(contains('rosePaint')));
-    expect(groupCardMedia, isNot(contains('periwinklePaint')));
-    expect(groupCardMedia, contains('assets/marketing/rwanda/'));
-    expect(groupCardMedia, isNot(contains('CollectColors.brandPeriwinkle')));
-    expect(groupCardMedia, isNot(contains('_groupCoverPalette')));
+      final groupCardMedia = File(
+        'lib/shared/widgets/collect_group_card_media.dart',
+      ).readAsStringSync();
+      expect(groupCardMedia, isNot(contains('orangePaint')));
+      expect(groupCardMedia, isNot(contains('brandAction,')));
+      expect(groupCardMedia, isNot(contains('rosePaint')));
+      expect(groupCardMedia, isNot(contains('periwinklePaint')));
+      expect(groupCardMedia, contains('assets/marketing/rwanda/'));
+      expect(groupCardMedia, isNot(contains('CollectColors.brandPeriwinkle')));
+      expect(groupCardMedia, isNot(contains('_groupCoverPalette')));
 
-    final staticSite = File(
-      'scripts/public_static_site_build.rb',
-    ).readAsStringSync();
-    expect(staticSite, isNot(contains('var(--orange)')));
-    expect(
-      staticSite,
-      contains('.button.cta-touch { background: var(--black)'),
-    );
-    expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
-  });
+      final staticSite = File(
+        'scripts/public_static_site_build.rb',
+      ).readAsStringSync();
+      expect(staticSite, isNot(contains('var(--orange)')));
+      final publicCss = <String>[
+        'web/public/layout.css',
+        'web/public/revolut.css',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
+      expect(publicCss, contains('--web-action:'));
+      expect(publicCss, contains('background: var(--web-action)'));
+      expect(publicCss, contains('color: var(--web-ink)'));
+      expect(publicCss, isNot(contains('var(--periwinkle)')));
+      expect(publicCss, isNot(contains('var(--brand-orange)')));
+    },
+  );
 
   test('runtime assets preserve Collect identity', () {
     final runtimeAssets = File(

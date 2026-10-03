@@ -1,0 +1,9 @@
+{
+  "commands": [],
+  "status": "fail",
+  "failure_phase": "resolved_native_package_source_binding",
+  "failure": "Prepared identifier guard rejects legitimate _fe_analyzer_shared before native compilation",
+  "native_compile_started": false,
+  "runner_exit_code": 1,
+  "finished_at": "2026-09-30T23:34:38.394205+00:00"
+}

@@ -8,10 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 class _RejectedOtpRepository extends AdminEvidenceRepository {
   int sendCount = 0;
   @override
-  Future<void> sendOtp({required String phone}) async => sendCount++;
+  Future<void> sendEmailOtp({required String email}) async => sendCount++;
   @override
-  Future<AdminIdentity?> verifyOtp({
-    required String phone,
+  Future<AdminIdentity?> verifyEmailOtp({
+    required String email,
     required String otp,
   }) => Future.error(StateError('Token has expired or is invalid'));
 }
@@ -30,8 +30,11 @@ void main() {
           ),
         ),
       );
-      await tester.enterText(find.byType(TextField).first, '0788971001');
-      await tester.tap(find.text('Send WhatsApp OTP'));
+      await tester.enterText(
+        find.byType(TextField).first,
+        'operator@collect.example',
+      );
+      await tester.tap(find.text('Send code'));
       await tester.pumpAndSettle();
       expect(repository.sendCount, 1);
       await tester.enterText(find.byType(TextField).last, '111111');
@@ -39,13 +42,14 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         find.text(
-          'That code could not be verified. Check the latest WhatsApp code or request a new one.',
+          'That code could not be verified. Use the latest email code or request a new one.',
         ),
         findsOneWidget,
       );
       await tester.pump(const Duration(seconds: 61));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Resend WhatsApp OTP'));
+      await tester.ensureVisible(find.text('Resend email OTP'));
+      await tester.tap(find.text('Resend email OTP'));
       await tester.pumpAndSettle();
       expect(repository.sendCount, 2);
       expect(
@@ -54,7 +58,7 @@ void main() {
       );
       expect(
         find.text(
-          'That code could not be verified. Check the latest WhatsApp code or request a new one.',
+          'That code could not be verified. Use the latest email code or request a new one.',
         ),
         findsNothing,
       );

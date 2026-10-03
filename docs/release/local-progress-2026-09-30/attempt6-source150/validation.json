@@ -1,0 +1,124 @@
+{
+  "all_original_ids_preserved": true,
+  "canonical_output_sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "fbf9cf3487faacd155cea4544acfc57946a58fcb503acdfe0ee079e2d0f8a788",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "9c7194d9ff0cbf4542fd4a8ccaecef82ab89234018245a1c244dc6218949d2f7",
+    "local-implementation-register-2026-09-30.json": "6e77620f371be47185334b5406e72074d617e04c998b57f022976c1ad0a84d64",
+    "production-remaining-tasks-2026-09-30.json": "cd6497f8edd1accfcbcb742e77f949d62c71e3926ff19bcd4abba17aa7f57475",
+    "production-remaining-tasks-2026-09-30.validation.json": "fee571130524949b9c3d47453c8601bf79a1e26d885cf45f4068d4c5c6ea54b8"
+  },
+  "closed_ids": [
+    "G06"
+  ],
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "external_state_refreshed": false,
+  "full_current_source_acceptance": false,
+  "installed149150source_matches": true,
+  "installed_migration_count": 150,
+  "installed_table_count": 149,
+  "last_complete_clean_replay": 141,
+  "local_criteria_preserved": true,
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "local_snapshot_revision": 6,
+  "new_scoped_evidence_packets": [
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/install149-normal-owner-attempt1/result.json",
+      "sha256": "489b289f7fc41eaec530beb97708b5d1db59f772a9d133c26e0a7eb0f045c9a0"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/uat149-installed-rollback-attempt3-exact-ack/result.json",
+      "sha256": "f8d0f7b27d684412e945d9ccdb0adb6ec5252c4efacb948da86e4672633e293e"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/concurrency150-attempt2-typed-arrays/validation.json",
+      "sha256": "653e6c123dd5820e998fe440c65021ea11a3b431db5176b64e7b1d619ab1f7f4"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt5/validation.json",
+      "sha256": "7aa5a051d453b724e920c97a3e7ce4aa6d5ab276ad1c75ee23935ba993248664"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/install150-normal-owner-attempt1/result.json",
+      "sha256": "a94e392e9058fb9721c69814ce32567fef69a286744f3844d2ca6861bc8a14ae"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/health-authority-concurrency150-attempt1/validation.json",
+      "sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/alert-matrix150-rollback-attempt1/result.json",
+      "sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/metric-concurrency150-attempt1/validation.json",
+      "sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/validation.json",
+      "sha256": "64569b66bb2ec27d5b5f1bd00f6e9031ffa31a4fbe84031755233e57a5750c50"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-ios/artifact-verification.json",
+      "sha256": "7f0e6f56875eec5a8268aa7ae96c5719b7fa396897f8fc0fec3b9bb35d702b70"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-android-remaining/apk-verification.json",
+      "sha256": "0c2438aed4709506c8f40ff05775b541d5cb576c15a5ddd7dfdb7d9b80639bb0"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-android-remaining/jvm-tests.json",
+      "sha256": "59a0b49d91e3660a96abfada2cc59ab0def9233c6b0219199ac9d0bce1ddef37"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt30/publication.json",
+      "sha256": "a335cf5f936af5fb3becbfe51f4f4a2e5966646bbb7cee9b1ec2f2dc91898e59"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-provenance-coverage-attempt31/verification.json",
+      "sha256": "1cfc111f83918ab0c373dfb73e9a9cd4247e13bf8176eef8cf28e4b58f3a6048"
+    }
+  ],
+  "original_criteria_preserved": true,
+  "prior_revision_preserved": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "f55e7f82e6870897d84baae6a3fc0c2dde1849c9a2d2392fdbddbf28db826a65",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "043cbb60c8deebeca3f24c1bd1971f385e92654bdcfc501ccbc872d4de281f4f",
+    "local-implementation-register-2026-09-30.json": "d9103c9a7d0d6db61c6d125d122ac3100205edea6055a54f09782e31c2a322fa",
+    "production-remaining-tasks-2026-09-30.json": "bb0953c9ad4b905cd7510cfbeb18f7f93aa165c51359d5a9923ba181ff0f9455",
+    "production-remaining-tasks-2026-09-30.validation.json": "80f5af6fd2ae530915565c351415e4161c288f1c8252e6de8a534a880d2b4a55"
+  },
+  "priority_counts": {
+    "Crosscutting": 2,
+    "P0": 24,
+    "P1": 71,
+    "P2": 4
+  },
+  "refresh_script_sha256": "60c8f508006aa7adf775af3b83377bdf60450f000d62f63e2fe6e8d7dba634b9",
+  "scope": "Original register integrity and scoped local evidence; not final whole-system acceptance",
+  "sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "fbf9cf3487faacd155cea4544acfc57946a58fcb503acdfe0ee079e2d0f8a788",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "9c7194d9ff0cbf4542fd4a8ccaecef82ab89234018245a1c244dc6218949d2f7",
+    "docs/release/local-implementation-register-2026-09-30.json": "6e77620f371be47185334b5406e72074d617e04c998b57f022976c1ad0a84d64",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "cd6497f8edd1accfcbcb742e77f949d62c71e3926ff19bcd4abba17aa7f57475"
+  },
+  "snapshot_revision": 8,
+  "source_documents_match": true,
+  "source_migration_count": 152,
+  "staged_source_versions": [
+    "20260930200000",
+    "20260930210000"
+  ],
+  "status": "pass",
+  "unique_open_rows": 101,
+  "validated_at_utc": "2026-09-30T19:41:16.529928+00:00"
+}

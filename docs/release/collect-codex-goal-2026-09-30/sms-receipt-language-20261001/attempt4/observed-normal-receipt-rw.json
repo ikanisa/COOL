@@ -1,0 +1,39 @@
+{
+  "job": {
+    "id": "3f5f8444-f93b-4231-bd7b-c62240d12737",
+    "state": "queued",
+    "reference": "LANGUAGE-1",
+    "amount_rwf": 100,
+    "claimed_by": null,
+    "created_at": "2026-10-01T18:37:29.311838+00:00",
+    "payment_id": "a0444222-5c92-4969-aef6-782f222d6189",
+    "updated_at": "2026-10-01T18:37:29.311838+00:00",
+    "body_sha256": "5fddbfc2fc5db2e9c876db0b542c0167570d8757ec8f50b93bf423b3d54a5e91",
+    "claim_token": null,
+    "snapshot_id": "9d537d27-f5ec-4906-9c78-3d1973673bac",
+    "message_body": "BuriMunsi: Ubwizigame bwa 100 RWF bwanditswe. Igiteranyo cyawe cyanditswe muri iri tsinda ku 2026-10-01 20:37 CAT: 1,050 RWF. Ref: LANGUAGE-1.",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_count": 0,
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "fence_version": 0,
+    "policy_revision": 1,
+    "claim_expires_at": null,
+    "consent_revision": 1,
+    "destination_e164": "+250788978201",
+    "member_record_id": "99780000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 2,
+    "group_balance_rwf": 1050,
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2",
+    "member_balance_rwf": 1050,
+    "suppression_reason": null,
+    "destination_revision": 1
+  },
+  "evidence": {
+    "language": "rw",
+    "outbox_id": "3f5f8444-f93b-4231-bd7b-c62240d12737",
+    "body_sha256": "5fddbfc2fc5db2e9c876db0b542c0167570d8757ec8f50b93bf423b3d54a5e91",
+    "content_version": 2,
+    "snapshot_recorded_at": "2026-10-01T18:37:29.311838+00:00"
+  }
+}

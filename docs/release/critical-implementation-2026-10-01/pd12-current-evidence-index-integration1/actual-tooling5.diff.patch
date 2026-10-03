@@ -1,0 +1,620 @@
+--- archived-abf/scripts/audits/collect_schema_domain_map.py
++++ current/scripts/audits/collect_schema_domain_map.py
+@@ -406,7 +406,168 @@
+                 fence(token,"drop-name","unsupported-ALTER-destination",sql_identifier(text,tail[2]),name)
+     return result
+ 
+-def function_source_review(obj, definitions, lineage_candidates, matches):
++def transformation_signature(arguments):
++    """Candidate identity only; do not expand the admitted lineage type grammar."""
++    text="("+arguments+")";tokens=lex(text,sql=True)
++    tokens=[Token(t.kind,"timestamp with time zone" if t.kind=="id" and
++                  t.value.lower()=="timestamptz" and text[t.start:t.start+1]!='"' else t.value,
++                  t.start,t.end) for t in tokens]
++    signature,closing=sql_signature(text,tokens,0)
++    return signature if closing==len(tokens)-1 else None
++
++def sql_transformation_candidates(text, path, version):
++    """Syntactic DO hints only. Never execute SQL or reconstruct expected bodies.
++
++    Exact spans refer to character offsets in the original UTF-8 source text.
++    All anonymous-effect fences remain in sql_lineage_uncertainty unchanged.
++    """
++    result=[];outer=lex(text,sql=True)
++    safe_name=r"[a-z_][a-z_0-9]*"
++    def reference(value):
++        m=re.fullmatch(r"("+safe_name+r")\.("+safe_name+r")\((.*)\)",value,re.S)
++        if not m:return None
++        return {"schema":m[1],"name":m[2],"signature_types":transformation_signature(m[3]),
++                "literal_regprocedure":value}
++    def arguments(tokens,opening):
++        if opening>=len(tokens) or tokens[opening].value!="(":return None,None
++        parts=[];start=opening+1;depth=1
++        for j in range(start,len(tokens)):
++            t=tokens[j]
++            if t.kind=="symbol" and t.value=="(":depth+=1
++            elif t.kind=="symbol" and t.value==")":
++                depth-=1
++                if not depth:return [*parts,tokens[start:j]],j
++            elif t.kind=="symbol" and t.value=="," and depth==1:
++                parts.append(tokens[start:j]);start=j+1
++        return None,None
++    def get_reference(tokens):
++        # Refuse OIDs, regproc, search_path-dependent and expression-built names.
++        if len(tokens)!=7 or [t.value.lower() for t in tokens[:2]]!=["pg_get_functiondef","("]:
++            return None
++        if tokens[2].kind!="string" or [t.value.lower() for t in tokens[3:]]!=[":",":","regprocedure",")"]:
++            return None
++        return reference(tokens[2].value)
++    for i,token in enumerate(outer):
++        if token.kind!="id" or token.value.lower()!="do" or (i and outer[i-1].value!=";"):
++            continue
++        if i+2>=len(outer) or outer[i+1].kind!="string" or outer[i+2].value!=";":continue
++        block=outer[i+1];raw=text[block.start:block.end]
++        delimiter=re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",raw)
++        if not delimiter or not raw.endswith(delimiter[0]):continue
++        base=block.start+len(delimiter[0]);body=block.value;tokens=lex(body,sql=True)
++        def span(start,end):
++            return {"path":path,"version":version,"line":text.count("\n",0,start)+1,
++                    "start_character_offset":start,"end_character_offset":end,
++                    "sha256":sha(text[start:end].encode())}
++        block_span=span(token.start,outer[i+2].end)
++        def expression(part):
++            return {"source_span":span(base+part[0].start,base+part[-1].end),
++                    "evaluation_performed":False} if part else None
++        common={"candidate_format":"collect-function-transformation-candidate-v1",
++                "source_migration_sha256":sha(text.encode()),"anonymous_block":block_span,
++                "expected_body_computed":False,"expected_body_hash_match":None,
++                "lineage_complete":False,"resolved":False,"dynamic_SQL_evaluation_performed":False}
++        assignments={}
++        for j,t in enumerate(tokens):
++            # Store only the nearest textual assignment, not a PL/pgSQL dataflow result.
++            assignment=j+2 if j+1<len(tokens) and tokens[j+1].value.lower()=="text" else j+1
++            if t.kind=="id" and body[t.start:t.start+1]!='"' and assignment+1<len(tokens) and [x.value for x in tokens[assignment:assignment+2]]==[":","="]:
++                end=next((k for k in range(assignment+2,len(tokens)) if tokens[k].kind=="symbol" and tokens[k].value==";"),len(tokens))
++                assignments[t.value.lower()]=tokens[assignment+2:end]
++            if t.kind!="id" or t.value.lower()!="execute" or j+2>=len(tokens) or tokens[j+1].value.lower()!="replace":continue
++            parts,closing=arguments(tokens,j+2)
++            if parts is None or len(parts)!=3 or closing+1>=len(tokens) or tokens[closing+1].value!=";":continue
++            predecessor=get_reference(parts[0])
++            if predecessor is None and len(parts[0])==1 and parts[0][0].kind=="id":
++                predecessor=get_reference(assignments.get(parts[0][0].value.lower(),[]))
++            if predecessor is None:continue
++            target=dict(predecessor);operation="function-definition-replace"
++            # Header spelling is a hint: body collisions and pg_get_functiondef
++            # canonical header bytes remain unproved; no body equality is asserted.
++            if all(len(p)==1 and p[0].kind=="string" for p in parts[1:]):
++                needle,replacement=(p[0].value for p in parts[1:])
++                header="FUNCTION "+predecessor["schema"]+"."+predecessor["name"]+"("
++                destination=re.fullmatch(r"FUNCTION ("+safe_name+r")\.("+safe_name+r")\(",replacement)
++                if needle==header and destination:
++                    operation="function-definition-header-copy"
++                    target={"schema":destination[1],"name":destination[2],
++                            "signature_types":predecessor["signature_types"]}
++            assigned=[]
++            for part in parts[1:]:
++                source=assignments.get(part[0].value.lower()) if len(part)==1 and part[0].kind=="id" else None
++                assigned.append(expression(source) if source else None)
++            result.append({**common,"operation":operation,"target":target,"predecessor":predecessor,
++                "identity_binding":"literal-regprocedure-signature" if target["signature_types"] is not None else "name-only-unsupported-signature",
++                "operation_source":span(base+t.start,base+tokens[closing+1].end),
++                "replace_argument_expressions":[expression(p) for p in parts],
++                "nearest_textual_replacement_assignments":assigned,
++                "limitations":["anonymous effects and variable/control-flow state unproved",
++                               "replacement scope and literal/E-string decoding unproved",
++                               "predecessor installed state and effective history unproved"]})
++        # Finite inventory form used by roster recovery. Exact template spelling
++        # binds the hint; pg_proc overloads, ordered names/defaults and guards
++        # remain catalog-dependent and are not evaluated or admitted here.
++        inventory=[];suffix=None;formats={}
++        values=[t.value for t in tokens]
++        for j,t in enumerate(tokens):
++            if values[j:j+8]==["entries","text","[","]",":","=","array","["]:
++                end=next((k for k in range(j+8,len(tokens)) if tokens[k].value=="]"),None)
++                items=tokens[j+8:end] if end is not None else []
++                if items and len(items)%2 and all(x.kind=="string" and re.fullmatch(safe_name,x.value) if k%2==0 else x.value=="," for k,x in enumerate(items)):
++                    inventory=sorted({x.value for x in items if x.kind=="string"})
++            if values[j:j+7]==["alias_name",":","=","f",".","proname","|"] and j+9<len(tokens) and values[j+7]=="|" and tokens[j+8].kind=="string" and values[j+9]==";":
++                suffix=tokens[j+8].value if re.fullmatch(safe_name,tokens[j+8].value) else None
++            if values[j:j+3]==["execute","format","("]:
++                parts,closing=arguments(tokens,j+2)
++                if parts and len(parts[0])==1 and parts[0][0].kind=="string" and closing+1<len(tokens) and values[closing+1]==";":
++                    formats[parts[0][0].value]=(j,closing,parts)
++        move="alter function public.%I(%s) set schema collect_hybrid"
++        rename="alter function collect_hybrid.%I(%s) rename to %I"
++        template="create function public.%I(%s) returns jsonb language plpgsql security definer set search_path='' as $fn$\n   begin %s return collect_hybrid.%I(%s); end $fn$ "
++        query=["n",".","nspname","=","public","and","p",".","proname","=","any","(","entries",")"]
++        if not(inventory and suffix and all(f in formats for f in [move,rename,template]) and any(values[j:j+len(query)]==query for j in range(len(values)))):continue
++        expected=[["f",".","proname"],["f",".","identity_args"]]
++        if [[t.value for t in p] for p in formats[move][2][1:]]!=expected:continue
++        if [[t.value for t in p] for p in formats[rename][2][1:]]!=[*expected,["alias_name"]]:continue
++        wrapper_arguments=[["f",".","proname"],["f",".","declaration"],["guard_sql"],["alias_name"],["arguments"]]
++        if [[t.value for t in p] for p in formats[template][2][1:]]!=wrapper_arguments:continue
++        for name in inventory:
++            predecessor={"schema":"public","name":name,"signature_types":None}
++            for operation,target,keys in [
++                ("finite-inventory-private-move-rename",{"schema":"collect_hybrid","name":name+suffix,"signature_types":None},[move,rename]),
++                ("finite-inventory-generated-wrapper",dict(predecessor),[template])]:
++                result.append({**common,"operation":operation,"target":target,"predecessor":predecessor,
++                    "identity_binding":"name-only-catalog-dependent-predecessor",
++                    "operation_sources":[span(base+tokens[formats[k][0]].start,base+tokens[formats[k][1]+1].end) for k in keys],
++                    "format_template_sha256":[sha(k.encode()) for k in keys],"literal_inventory":inventory,
++                    "literal_alias_suffix":suffix,
++                    "limitations":["catalog-derived predecessor overloads/arguments/defaults unproved",
++                                   "guard branches and format semantics not evaluated",
++                                   "anonymous effects and installed history unproved"]})
++    return sorted(result,key=lambda c:(c["anonymous_block"]["start_character_offset"],
++                   c.get("operation_source",c["anonymous_block"])["start_character_offset"],
++                   c["operation"],c["target"]["schema"],c["target"]["name"]))
++
++def transformation_candidate_review(obj, definitions, transformations):
++    """Attach identity candidates without participating in any match decision."""
++    signature=transformation_signature(obj["catalog_row"][2]);result=[]
++    for candidate in transformations:
++        target=candidate["target"]
++        if (target["schema"],target["name"])!=(obj["schema"],obj["name"]):continue
++        if target["signature_types"] is not None and target["signature_types"]!=signature:continue
++        predecessor=candidate["predecessor"]
++        source_candidates=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}}
++            for d in definitions if (d["schema"],d["name"])==(predecessor["schema"],predecessor["name"])
++            and d["signature_types"] is not None and predecessor["signature_types"] is not None
++            and d["signature_types"]==predecessor["signature_types"]
++            and (d["version"],d["definition_offset"])<(candidate["anonymous_block"]["version"],candidate["anonymous_block"]["start_character_offset"])]
++        result.append({**candidate,"catalog_identity":obj["identity"],
++                       "required_final_prosrc_sha256":obj["prosrc_sha256"],
++                       "predecessor_source_definition_candidates":source_candidates,
++                       "predecessor_candidates_are_installed_state":False})
++    return result
++
++def function_source_review(obj, definitions, lineage_candidates, matches, transformations=()):
+     """Candidate evidence explains gaps; same bodies never imply name lineage."""
+     literal=[d for d in definitions if (d["schema"],d["name"])==(obj["schema"],obj["name"])]
+     other=[d for d in definitions if d["prosrc_sha256"]==obj["prosrc_sha256"] and (d["schema"],d["name"])!=(obj["schema"],obj["name"])]
+@@ -418,7 +579,8 @@
+             "literal_effective_name_candidates":[evidence(d) for d in literal],
+             "same_body_other_name_candidates":[evidence(d) for d in other],
+             "static_lineage_candidates":[evidence(d) for d in lineage_candidates],
+-            "same_body_other_name_is_match":False,"dynamic_SQL_evaluation_performed":False}
++            "same_body_other_name_is_match":False,"dynamic_SQL_evaluation_performed":False,
++            "transformation_candidates":transformation_candidate_review(obj,definitions,transformations)}
+ 
+ def sql_definitions(text, path, version):
+     """Body hashes bind candidates to pg_proc.prosrc; arguments are never inferred."""
+@@ -550,7 +712,7 @@
+         raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+-    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; uncertainty=[]; versions=[]
++    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; uncertainty=[]; transformations=[]; versions=[]
+     for path in migration_files:
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+@@ -560,6 +722,7 @@
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
+         alterations.extend(sql_static_alterations(raw.decode("utf-8"),relative,version))
+         uncertainty.extend(sql_lineage_uncertainty(raw.decode("utf-8"),relative,version))
++        transformations.extend(sql_transformation_candidates(raw.decode("utf-8"),relative,version))
+     if versions != sorted(set(versions)): raise ValueError("migration source ordering/duplicates")
+     replay_bound=None
+     if replay_migrations is not None:
+@@ -575,6 +738,7 @@
+     admitted_definitions=[d for d in definitions if d["version"] in catalog["migrations"]]
+     admitted_alterations=[a for a in alterations if a["version"] in catalog["migrations"]]
+     admitted_uncertainty=[a for a in uncertainty if a["version"] in catalog["migrations"]]
++    admitted_transformations=[a for a in transformations if a["anonymous_block"]["version"] in catalog["migrations"]]
+     unfenced_lineage=sql_static_lineage(admitted_definitions,admitted_alterations)
+     lineage=sql_static_lineage(admitted_definitions,[*admitted_alterations,*admitted_uncertainty])
+     for d in definitions:
+@@ -588,7 +752,7 @@
+             signature,_=sql_signature("("+obj["catalog_row"][2]+")",signature_tokens,0)
+             candidates=[d for (schema,name,types),d in lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and obj["catalog_row"][3]=="f" and signature is not None and types==signature]
+             matches=[d for d in candidates if d["prosrc_sha256"]==obj["prosrc_sha256"]]
+-            review=function_source_review(obj,admitted_definitions,candidates,matches)
++            review=function_source_review(obj,admitted_definitions,candidates,matches,admitted_transformations)
+             withdrawn=[d for (schema,name,types),d in unfenced_lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and types==signature and d["prosrc_sha256"]==obj["prosrc_sha256"]] if not matches else []
+             if withdrawn:
+                 review["reason"]="intervening-unproved-function-effects"
+--- archived-abf/scripts/edge_function_inventory.rb
++++ current/scripts/edge_function_inventory.rb
+@@ -6,6 +6,16 @@
+ # handler tests and database UAT are still required to prove authorization.
+ module CollectEdgeInventory
+   MODES = %w[user_jwt signed_auth_hook internal_signature device_signature supervisor_signature scheduler_secret].freeze
++  # Empty unsigned JSON must reach the existing rejection boundary for its
++  # reviewed auth mode. These probes never carry caller or scheduler authority.
++  DENIAL_PROBES = {
++    'user_jwt' => [401, ''],
++    'signed_auth_hook' => [401, 'invalid_hook_signature'],
++    'internal_signature' => [401, ''],
++    'device_signature' => [400, 'GATEWAY_REQUEST_INVALID'],
++    'supervisor_signature' => [400, 'SUPERVISOR_REQUEST_INVALID'],
++    'scheduler_secret' => [401, 'WORKER_AUTH_REQUIRED']
++  }.transform_values(&:freeze).freeze
+   SLUG = /\A[a-z][a-z0-9]*(?:-[a-z0-9]+)*\z/
+   SUCCESSOR = 'collect-receipt-successor-gateway'
+   SUCCESSOR_RPC = {
+@@ -139,14 +149,26 @@
+     true
+   end
+ 
++  def self.denial_probes(manifest)
++    manifest.fetch('functions').map do |entry|
++      status, error = DENIAL_PROBES.fetch(entry.fetch('auth')) do
++        raise "Unsupported denial probe auth for #{entry.fetch('name')}"
++      end
++      [entry.fetch('name'), status, error]
++    end
++  end
++
+   def self.run(args, root: File.expand_path('..', __dir__))
+     manifest = read(root)
+     action = args.shift
+-    raise 'Usage: edge_function_inventory.rb check|auth-check|expected|no-verify-jwt|retired|secrets' unless args.empty?
++    raise 'Usage: edge_function_inventory.rb check|auth-check|expected|no-verify-jwt|retired|secrets|denial-probes' unless args.empty?
+     case action
+     when 'check', 'auth-check'
+       validate(root, manifest, auth: action == 'auth-check')
+       puts "[collect-edge-inventory] #{manifest.fetch('functions').length} active endpoints and auth configuration agree#{action == 'auth-check' ? '; source wiring checked' : ''}"
++    when 'denial-probes'
++      validate(root, manifest, auth: true)
++      denial_probes(manifest).each { |row| puts row.join("\t") }
+     when 'expected' then puts manifest.fetch('functions').map { |entry| entry.fetch('name') }.sort
+     when 'no-verify-jwt' then puts manifest.fetch('functions').reject { |entry| entry.fetch('verify_jwt') }.map { |entry| entry.fetch('name') }.sort
+     when 'retired' then puts manifest.fetch('retired').sort
+--- archived-abf/scripts/supabase_production_readiness.sh
++++ current/scripts/supabase_production_readiness.sh
+@@ -1077,7 +1077,9 @@
+ 
+ check_functions() {
+   log "checking deployed Edge Function endpoints"
+-  local inventory
++  local inventory probe_plan
++  probe_plan="$(ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" denial-probes)" ||
++    fail "Edge Function denial probe plan refused"
+   if inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
+     local actual expected
+     actual="$(ruby -r json -e 'puts JSON.parse(STDIN.read).map { |fn| fn["name"] }.compact.sort' <<< "$inventory")"
+@@ -1091,46 +1093,27 @@
+   fi
+ 
+   local base_url="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1"
+-  local response status body
+-
+-  # This deliberately carries no webhook signature or OTP. It must be
+-  # rejected before reservation/provider effects; a static hook-secret header
+-  # is obsolete and must never be used as an authorization probe.
+-  response="$(curl -sS -w '\n%{http_code}' \
+-    -X POST "$base_url/auth-send-whatsapp-otp" \
+-    -H 'content-type: application/json' \
+-    --data '{}')"
+-  status="${response##*$'\n'}"
+-  body="${response%$'\n'*}"
+-  [[ "$status" == "401" ]] || fail "auth-send-whatsapp-otp unsigned probe expected HTTP 401, got $status"
+-  [[ "$body" == *'invalid_hook_signature'* ]] || fail "auth-send-whatsapp-otp unsigned probe did not establish the signed-hook denial"
+-
+-  local fn
+-  for fn in collect-notification-operator ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity reconciliation-finalize dispatch-notifications send-notification; do
+-    status="$(curl -sS -o /dev/null -w '%{http_code}' \
+-      -X POST "$base_url/$fn" \
+-      -H 'content-type: application/json' \
+-      --data '{}')"
+-    [[ "$status" == "401" ]] || fail "$fn unauthenticated probe expected HTTP 401, got $status"
+-  done
+-
+-  # Custom device/supervisor handlers reject an empty envelope at their schema
+-  # boundary. This checks endpoint presence without signed device commands.
+-  # The worker instead requires its dedicated scheduler secret before parsing.
+-  local expected_status expected_error
+-  for fn in collect-android-gateway collect-receipt-successor-gateway collect-receipt-supervisor collect-receipt-exception-worker; do
+-    case "$fn" in
+-      collect-android-gateway|collect-receipt-successor-gateway) expected_status=400; expected_error=GATEWAY_REQUEST_INVALID ;;
+-      collect-receipt-supervisor) expected_status=400; expected_error=SUPERVISOR_REQUEST_INVALID ;;
+-      collect-receipt-exception-worker) expected_status=401; expected_error=WORKER_AUTH_REQUIRED ;;
+-    esac
+-    response="$(curl -sS -w '\n%{http_code}' -X POST "$base_url/$fn" \
+-      -H 'content-type: application/json' --data '{}')"
+-    status="${response##*$'\n'}"
+-    body="${response%$'\n'*}"
+-    [[ "$status" == "$expected_status" && "$body" == *"$expected_error"* ]] ||
+-      fail "$fn unsigned negative probe did not reach its rejection boundary"
+-  done
++  local response status body fn expected_status expected_error
++
++  # Derive every unsigned probe from the reviewed manifest auth mode. The
++  # request stays empty JSON with no webhook, device, supervisor or worker
++  # signature, bearer credential, OTP or provider-capable authority.
++  while IFS=$'\t' read -r fn expected_status expected_error; do
++    if [[ -z "$expected_error" ]]; then
++      status="$(curl -sS -o /dev/null -w '%{http_code}' \
++        -X POST "$base_url/$fn" \
++        -H 'content-type: application/json' --data '{}')"
++      [[ "$status" == "$expected_status" ]] ||
++        fail "$fn unauthenticated probe expected HTTP $expected_status, got $status"
++    else
++      response="$(curl -sS -w '\n%{http_code}' -X POST "$base_url/$fn" \
++        -H 'content-type: application/json' --data '{}')"
++      status="${response##*$'\n'}"
++      body="${response%$'\n'*}"
++      [[ "$status" == "$expected_status" && "$body" == *"$expected_error"* ]] ||
++        fail "$fn unsigned negative probe did not reach its rejection boundary"
++    fi
++  done <<< "$probe_plan"
+ }
+ 
+ check_secrets() {
+--- archived-abf/scripts/tests/collect_schema_domain_map_test.py
++++ current/scripts/tests/collect_schema_domain_map_test.py
+@@ -414,4 +414,141 @@
+              "ALTER FUNCTION public.fresh() RENAME TO old;")
+         self.assertFalse(any(key[1]=="old" for key in self.lineage(sql)))
+ 
++class TransformationCandidateTests(unittest.TestCase):
++    build=LineageAndGapTests.build
++    find=LineageAndGapTests.find
++
++    def candidates(self,sql):
++        return M.sql_transformation_candidates(sql,"synthetic.sql","20260101000000")
++
++    def wrapper_sql(self,inventory="'old'"):
++        return """DO $install$ DECLARE f record; alias_name text; arguments text; guard_sql text;
++ entries text[]:=array["""+inventory+"""]; BEGIN
++ FOR f IN SELECT p.proname, p.proargnames, pg_get_function_arguments(p.oid) AS declaration,
++ pg_get_function_identity_arguments(p.oid) AS identity_args FROM pg_proc p
++ JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' and p.proname=any(entries) LOOP
++ alias_name:=f.proname||'_guarded_149';
++ execute format('alter function public.%I(%s) set schema collect_hybrid',f.proname,f.identity_args);
++ execute format('alter function collect_hybrid.%I(%s) rename to %I',f.proname,f.identity_args,alias_name);
++ execute format($ddl$create function public.%I(%s) returns jsonb language plpgsql security definer set search_path='' as $fn$
++   begin %s return collect_hybrid.%I(%s); end $fn$ $ddl$,f.proname,f.declaration,guard_sql,alias_name,arguments);
++ END LOOP; END $install$;"""
++
++    def test_finite_inventory_hints_are_name_only_and_do_not_admit_overloads(self):
++        sql=self.wrapper_sql("'old','old'")
++        candidates=self.candidates(sql)
++        self.assertEqual(len(candidates),2)
++        self.assertEqual({c['operation'] for c in candidates},{'finite-inventory-private-move-rename','finite-inventory-generated-wrapper'})
++        self.assertEqual({(c['target']['schema'],c['target']['name']) for c in candidates},{('public','old'),('collect_hybrid','old_guarded_149')})
++        for c in candidates:
++            self.assertIsNone(c['target']['signature_types'])
++            self.assertFalse(c['resolved']);self.assertFalse(c['lineage_complete'])
++            self.assertFalse(c['expected_body_computed']);self.assertIsNone(c['expected_body_hash_match'])
++            self.assertEqual(c['literal_inventory'],['old'])
++        with tempfile.TemporaryDirectory() as tmp:
++            rows=[function('old','SELECT 2;',arguments='p_id uuid'),function('old','SELECT 3;',arguments='p_id text'),function('old_guarded_149','SELECT 1;','collect_hybrid',arguments='p_id uuid'),function('unrelated','SELECT 9;')]
++            doc,_=self.build(Path(tmp),sql,rows)
++            for obj in [o for o in doc['objects'] if o['kind']=='function']:
++                hints=obj['source_match_review']['transformation_candidates']
++                self.assertEqual(len(hints),0 if obj['name']=='unrelated' else 1)
++                self.assertEqual(obj['source_status'],'no-exact-body-source-match')
++                self.assertFalse(obj['source_match_review']['resolved']);self.assertEqual(obj['matched_body_sources'],[])
++
++    def test_header_alias_records_source_destination_and_exact_source_hashes(self):
++        sql="CREATE FUNCTION public.old(p_id uuid) RETURNS int AS $$SELECT 1;$$ LANGUAGE sql;\nDO $$DECLARE body text; BEGIN body:=pg_get_functiondef('public.old(uuid)'::regprocedure); execute replace(body,'FUNCTION public.old(', 'FUNCTION collect_hybrid.saved('); END$$;"
++        c=self.candidates(sql)[0]
++        self.assertEqual(c['operation'],'function-definition-header-copy')
++        self.assertEqual((c['predecessor']['schema'],c['predecessor']['name'],c['predecessor']['signature_types']),('public','old',('uuid',)))
++        self.assertEqual((c['target']['schema'],c['target']['name']),('collect_hybrid','saved'))
++        for s in [c['anonymous_block'],c['operation_source']]:
++            self.assertEqual(s['sha256'],M.sha(sql[s['start_character_offset']:s['end_character_offset']].encode()))
++        with tempfile.TemporaryDirectory() as tmp:
++            doc,_=self.build(Path(tmp),sql,[function('saved','SELECT 1;','collect_hybrid',arguments='p_id uuid')])
++            review=self.find(doc,'saved')['source_match_review']
++            hint=review['transformation_candidates'][0]
++            self.assertEqual(len(hint['predecessor_source_definition_candidates']),1)
++            self.assertFalse(hint['predecessor_candidates_are_installed_state'])
++            self.assertFalse(review['resolved']);self.assertEqual(review['reason'],'no-literal-effective-name-definition')
++
++    def test_replacement_hints_preserve_order_and_raw_e_string_expression(self):
++        sql="DO $$DECLARE body text; needle text:='SELECT 1;'; replacement text:=needle||E'\\nSELECT 2;'; BEGIN body:=pg_get_functiondef('public.saved()'::regprocedure); execute replace(body,needle,replacement); needle:='2'; replacement:='3'; execute replace(body,needle,replacement); body:=pg_get_functiondef('public.other()'::regprocedure); execute replace(body,'1','9'); END$$;"
++        candidates=self.candidates(sql)
++        self.assertEqual([c['target']['name'] for c in candidates],['saved','saved','other'])
++        self.assertEqual([c['operation'] for c in candidates],['function-definition-replace']*3)
++        expression=candidates[0]['nearest_textual_replacement_assignments'][1]
++        span=expression['source_span'];raw=sql[span['start_character_offset']:span['end_character_offset']]
++        self.assertEqual(raw,"needle||E'\\nSELECT 2;'")
++        self.assertEqual(span['sha256'],M.sha(raw.encode()));self.assertFalse(expression['evaluation_performed'])
++        self.assertLess(candidates[0]['operation_source']['start_character_offset'],candidates[1]['operation_source']['start_character_offset'])
++
++    def test_literal_signature_candidate_cannot_attach_to_different_overload(self):
++        sql="DO $$DECLARE body text; BEGIN body:=pg_get_functiondef('public.saved(uuid)'::regprocedure); execute replace(body,'1','2'); END$$;"
++        with tempfile.TemporaryDirectory() as tmp:
++            doc,_=self.build(Path(tmp),sql,[function('saved','SELECT 2;',arguments='p_id uuid'),function('saved','SELECT 3;',arguments='p_id text')])
++            objects=[o for o in doc['objects'] if o['kind']=='function']
++            self.assertEqual([len(o['source_match_review']['transformation_candidates']) for o in objects],[1,0])
++        self.assertEqual(M.transformation_signature('p_at timestamp with time zone'),M.transformation_signature('p_at timestamptz'))
++        self.assertIsNone(M.transformation_signature('p_id "OddType"'))
++        self.assertIsNone(M.transformation_signature('OUT p_id uuid'))
++
++    def test_strings_comments_and_nonliteral_targets_do_not_generate_hints(self):
++        fragment="body:=pg_get_functiondef('public.saved()'::regprocedure); execute replace(body,'1','2');"
++        cases=["-- DO $$BEGIN "+fragment+" END$$;", "/* /* nested */ DO $$BEGIN "+fragment+" END$$; */",
++               "DO $do$BEGIN RAISE NOTICE $payload$"+fragment+"$payload$; END$do$;",
++               "DO $$BEGIN body:=pg_get_functiondef('saved(uuid)'::regprocedure); execute replace(body,'1','2'); END$$;",
++               "DO $$BEGIN body:=pg_get_functiondef(target_oid); execute replace(body,'1','2'); END$$;",
++               "DO $$BEGIN body:=pg_get_functiondef('public.saved'::regproc); execute replace(body,'1','2'); END$$;",
++               self.wrapper_sql().replace("array['old']","runtime_inventory")]
++        for sql in cases:
++            with self.subTest(sql=sql):self.assertEqual(self.candidates(sql),[])
++        with self.assertRaisesRegex(ValueError,'unknown or unterminated DO syntax'):
++            M.sql_lineage_uncertainty("DO $missing$ BEGIN SELECT 1;",'synthetic.sql','20260101000000')
++
++    def test_wrapper_template_or_argument_drift_remains_unrecognized(self):
++        sql=self.wrapper_sql()
++        cases=[sql.replace('begin %s return','begin  %s return'),
++               sql.replace('f.declaration,guard_sql','other_declaration,guard_sql'),
++               sql.replace("n.nspname='public'","n.nspname='unknown'"),
++               sql.replace("alias_name:=f.proname||'_guarded_149'","alias_name:=runtime_alias(f.proname)")]
++        for changed in cases:
++            with self.subTest(changed=changed):self.assertEqual(self.candidates(changed),[])
++
++    def test_dynamic_hints_preserve_all_existing_semantics_and_uncertainty(self):
++        sql="CREATE FUNCTION public.old() RETURNS int AS $$SELECT 1;$$ LANGUAGE sql; DO $$BEGIN PERFORM public.unknown_effect(); END$$; ALTER FUNCTION public.old() RENAME TO saved; DO $$DECLARE body text; BEGIN body:=pg_get_functiondef('public.saved()'::regprocedure); execute replace(body,'1','2'); END$$;"
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp);doc,out=self.build(root,sql,[function('saved','SELECT 1;')])
++            gaps=json.loads((out/'gaps.json').read_text())
++            original=M.sql_transformation_candidates
++            try:
++                M.sql_transformation_candidates=lambda *args:[]
++                baseline_out=root/'baseline-output'
++                M.build(root,[root/'catalog.json',root/'catalog-peer.json'],baseline_out)
++                baseline=json.loads((baseline_out/'schema-domain-map.json').read_text())
++                baseline_gaps=json.loads((baseline_out/'gaps.json').read_text())
++            finally:M.sql_transformation_candidates=original
++            for record in [*doc['objects'],*baseline['objects']]:
++                if 'source_match_review' in record:record['source_match_review'].pop('transformation_candidates',None)
++            for record in [*gaps['function_body_match_review'],*baseline_gaps['function_body_match_review']]:record.pop('transformation_candidates',None)
++            self.assertEqual(doc,baseline);self.assertEqual(gaps,baseline_gaps)
++            review=self.find(doc,'saved')['source_match_review']
++            self.assertEqual(review['reason'],'intervening-unproved-function-effects')
++            self.assertTrue(review['withdrawn_static_lineage_candidates']);self.assertFalse(review['resolved'])
++            self.assertEqual(doc['summary']['functions_with_exact_body_hash_match'],0)
++            self.assertFalse(doc['summary']['business_owner_assignments_verified'])
++
++    def test_transformation_hint_tamper_is_rejected_by_full_semantic_readback(self):
++        sql="DO $$DECLARE body text; BEGIN body:=pg_get_functiondef('public.saved()'::regprocedure); execute replace(body,'1','2'); END$$;"
++        for artifact in ['schema-domain-map.json','gaps.json']:
++            for mode in ['alter','omit','duplicate']:
++                with self.subTest(artifact=artifact,mode=mode),tempfile.TemporaryDirectory() as tmp:
++                    root=Path(tmp);_,out=self.build(root,sql,[function('saved','SELECT 2;')])
++                    path=out/artifact;data=json.loads(path.read_text())
++                    review=next(o for o in data['objects'] if o['kind']=='function')['source_match_review'] if artifact=='schema-domain-map.json' else data['function_body_match_review'][0]
++                    hints=review['transformation_candidates'];self.assertEqual(len(hints),1)
++                    if mode=='alter':hints[0]['resolved']=True
++                    elif mode=='omit':hints.clear()
++                    else:hints.append(copy.deepcopy(hints[0]))
++                    path.write_text(json.dumps(data))
++                    with self.assertRaisesRegex(ValueError,'semantic recomputation mismatch: '+artifact):M.verify_bundle(root,out)
++
+ if __name__=="__main__":unittest.main(verbosity=2)
+--- archived-abf/scripts/tests/edge_function_inventory_test.rb
++++ current/scripts/tests/edge_function_inventory_test.rb
+@@ -3,6 +3,7 @@
+ require 'minitest/autorun'
+ require 'tmpdir'
+ require 'fileutils'
++require 'open3'
+ require_relative '../edge_function_inventory'
+ 
+ class EdgeFunctionInventoryTest < Minitest::Test
+@@ -194,4 +195,121 @@
+     File.write(config, wrong)
+     assert_includes assert_raises(RuntimeError) { CollectEdgeInventory.validate(@root, @manifest, auth: true) }.message, 'JWT config differs'
+   end
++
++  def test_denial_plan_preserves_all_current_auth_boundaries
++    rows = CollectEdgeInventory.denial_probes(@manifest)
++    assert_equal @manifest.fetch('functions').map { |entry| entry.fetch('name') }, rows.map(&:first)
++    assert_equal rows.length, rows.map(&:first).uniq.length
++    expected = {
++      'auth-send-whatsapp-otp' => [401, 'invalid_hook_signature'],
++      'collect-android-gateway' => [400, 'GATEWAY_REQUEST_INVALID'],
++      'collect-receipt-successor-gateway' => [400, 'GATEWAY_REQUEST_INVALID'],
++      'collect-receipt-supervisor' => [400, 'SUPERVISOR_REQUEST_INVALID'],
++      'collect-receipt-exception-worker' => [401, 'WORKER_AUTH_REQUIRED']
++    }
++    rows.each do |name, status, error|
++      assert_equal expected.fetch(name, [401, '']), [status, error], name
++    end
++  end
++
++  def test_denial_plan_rejects_unsupported_auth_without_partial_output
++    @manifest.fetch('functions').last['auth'] = 'unreviewed_auth'
++    write_manifest
++    output, = capture_io do
++      assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    end
++    assert_empty output
++    assert_raises(RuntimeError) { CollectEdgeInventory.denial_probes(@manifest) }
++  end
++
++  def test_denial_cli_revalidates_source_auth_and_rejects_extra_arguments
++    output, = capture_io { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    assert_equal CollectEdgeInventory.denial_probes(@manifest).map { |row| row.join("\t") + "\n" }.join, output
++    assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes', 'unreviewed'], root: @root) }
++    File.delete(File.join(@root, 'supabase/functions/reconciliation-finalize/index.ts'))
++    output, = capture_io do
++      assert_raises(RuntimeError) { CollectEdgeInventory.run(['denial-probes'], root: @root) }
++    end
++    assert_empty output
++  end
++
++  # The shell functions replace every potential provider/management command.
++  # Production readiness's main is never sourced or executed in this fixture.
++  def run_unsigned_probe_fixture(extra_env = {})
++    scripts = File.join(@root, 'scripts')
++    FileUtils.mkdir_p(scripts)
++    %w[edge_function_inventory.rb edge_function_inventory.sh supabase_cli_helpers.sh load_dotenv_strict.sh].each do |name|
++      FileUtils.cp(File.join(ROOT, 'scripts', name), scripts)
++    end
++    source = File.read(File.join(ROOT, 'scripts/supabase_production_readiness.sh'))
++    prefix, marker, suffix = source.rpartition('main "$@"')
++    raise 'Missing readiness main boundary' if marker.empty? || !suffix.strip.empty?
++
++    fixture = File.join(scripts, 'readiness-functions.sh')
++    File.write(fixture, prefix)
++    log = File.join(@root, 'probe-calls.jsonl')
++    File.delete(log) if File.exist?(log)
++    command = <<~'BASH'
++      . "$1"
++      supabase_cli() {
++        ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" expected |
++          ruby -r json -e 'puts STDIN.readlines.map { |x| {name: x.strip} }.to_json'
++      }
++      curl() {
++        ruby -r json -e 'File.open(ENV.fetch("PROBE_LOG"), "a") { |f| f.puts ARGV.to_json }' -- "$@"
++        local url='' arg status=401 error='authentication_required' discard=false
++        for arg in "$@"; do
++          case "$arg" in
++            */functions/v1/*) url="$arg" ;;
++            /dev/null) discard=true ;;
++          esac
++        done
++        case "$url" in
++          */auth-send-whatsapp-otp) error=invalid_hook_signature ;;
++          */collect-android-gateway|*/collect-receipt-successor-gateway) status=400; error=GATEWAY_REQUEST_INVALID ;;
++          */collect-receipt-supervisor) status=400; error=SUPERVISOR_REQUEST_INVALID ;;
++          */collect-receipt-exception-worker) error=WORKER_AUTH_REQUIRED ;;
++        esac
++        [[ "${url##*/}" != "${PROBE_WRONG_BODY:-}" ]] || error=UNEXPECTED_ERROR
++        [[ "$discard" == true ]] || printf '{"error":"%s"}\n' "$error"
++        printf '%s' "$status"
++      }
++      check_functions
++    BASH
++    env = {'PATH' => '/usr/bin:/bin', 'LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8', 'SUPABASE_ACCESS_TOKEN' => 'unused-test-only-token',
++           'SUPABASE_PROJECT_REF' => 'abcdefghijklmnopqrst', 'PROBE_LOG' => log,
++           'PROBE_WRONG_BODY' => ''}.merge(extra_env)
++    stdout, stderr, result = Open3.capture3(env, 'bash', '-c', command, 'bash', fixture, unsetenv_others: true)
++    calls = File.exist?(log) ? File.readlines(log).map { |line| JSON.parse(line) } : []
++    [stdout, stderr, result, calls]
++  end
++
++  def test_actual_readiness_probes_follow_a_reviewed_manifest_name_change
++    entry = @manifest.fetch('functions').find { |row| row.fetch('name') == 'collect-notification-operator' }
++    entry['name'] = 'reviewed-operator-fixture'
++    write_manifest
++    FileUtils.mv(File.join(@root, 'supabase/functions/collect-notification-operator'),
++                 File.join(@root, 'supabase/functions/reviewed-operator-fixture'))
++    config = File.join(@root, 'supabase/config.toml')
++    File.write(config, File.read(config).sub('[functions.collect-notification-operator]', '[functions.reviewed-operator-fixture]'))
++    _, stderr, result, calls = run_unsigned_probe_fixture
++    assert result.success?, stderr
++    observed = calls.map { |args| args.find { |arg| arg.include?('/functions/v1/') }.split('/').last }
++    assert_equal @manifest.fetch('functions').map { |row| row.fetch('name') }, observed
++    assert_includes observed, 'reviewed-operator-fixture'
++    refute_includes observed, 'collect-notification-operator'
++    calls.each do |args|
++      assert_equal 'POST', args.fetch(args.index('-X') + 1)
++      assert_equal '{}', args.fetch(args.index('--data') + 1)
++      headers = args.each_index.select { |index| args[index] == '-H' }.map { |index| args[index + 1] }
++      assert_equal ['content-type: application/json'], headers
++      refute args.any? { |arg| arg.downcase.include?('authorization') || arg.include?('unused-test-only-token') }
++    end
++  end
++
++  def test_actual_readiness_requires_custom_auth_error_even_when_status_matches
++    _, stderr, result, = run_unsigned_probe_fixture('PROBE_WRONG_BODY' => 'collect-receipt-supervisor')
++    refute result.success?
++    assert_includes stderr, 'collect-receipt-supervisor unsigned negative probe did not reach its rejection boundary'
++  end
+ end

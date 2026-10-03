@@ -1,0 +1,25 @@
+{
+  "archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "links": {
+    "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS": "Versions/Current/FlutterMacOS",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers": "Versions/Current/Headers",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules": "Versions/Current/Modules",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources": "Versions/Current/Resources",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current": "A",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS": "Versions/Current/FlutterMacOS",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers": "Versions/Current/Headers",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules": "Versions/Current/Modules",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources": "Versions/Current/Resources",
+    "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current": "A",
+    "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS": "Versions/Current/FlutterMacOS",
+    "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers": "Versions/Current/Headers",
+    "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules": "Versions/Current/Modules",
+    "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources": "Versions/Current/Resources",
+    "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current": "A"
+  },
+  "rationale": "Framework resources,headers,module,binary aliases through Versions/Current to A preserve actual official macOS framework layout. No general signed-archive symlink exception.",
+  "recorded_utc": "2026-10-02T00:11:53.286917+00:00",
+  "review_authority": "Parent explicitly reviewed these exact15 debug/profile/release standard framework aliases from the authenticated archive; permitted only if recursive containment/target existence/no loops/collisions pass.",
+  "schema_version": 1,
+  "scope": "Read-only preflight allowlist and future bounded extraction plan only; extraction/SDK execution/patching/promotion and production approval remain unauthorized."
+}

@@ -1,0 +1,11 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart
+00:00 +0: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:00 +1: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:00 +2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+00:00 +3: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_focus_test.dart: reason dialog restores focus to its triggering control
+00:00 +4: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+00:00 +5: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:00 +6: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:01 +7: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: reason preserves 22 code point input
+00:01 +8: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-current-attempt3/test/admin_reason_dialog_bounds_test.dart: oversize reason is retained for correction and cancellation
+00:01 +9: All tests passed!

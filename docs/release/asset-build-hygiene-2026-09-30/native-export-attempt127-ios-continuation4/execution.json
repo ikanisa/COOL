@@ -1,0 +1,62 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "swift-pinned-inputs-prebuild",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-continuation4/spm-observer-source.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.37,
+      "stdout_sha256": "bb26747afa4f7324686530c3ca42ec4a663eddee8b1950e8da63b5ba4ded04db",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-ios-build",
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-workspace",
+        "ios/Runner.xcworkspace",
+        "-scheme",
+        "production",
+        "-configuration",
+        "Release-production",
+        "-sdk",
+        "iphoneos",
+        "-destination",
+        "generic/platform=iOS",
+        "-derivedDataPath",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData",
+        "-clonedSourcePackagesDirPath",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages",
+        "-onlyUsePackageVersionsFromResolvedFile",
+        "-disableAutomaticPackageResolution",
+        "-skipPackageUpdates",
+        "CODE_SIGNING_ALLOWED=NO",
+        "CODE_SIGNING_REQUIRED=NO",
+        "CODE_SIGNING_IDENTITY=",
+        "DEVELOPMENT_TEAM=",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 464.36,
+      "stdout_sha256": "b47741486c48cd04d28a626fe9a391236850cef738cf9ddb22c0e58e40131f79",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "swift-pinned-inputs-afterbuild",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-continuation4/spm-observer-source.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.08,
+      "stdout_sha256": "bb26747afa4f7324686530c3ca42ec4a663eddee8b1950e8da63b5ba4ded04db",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "prior_config_binding_sha256": "8c5571e5d9ece248152040a72dbe86bd739cee4f8579fe01ebf8ee16d443c116",
+  "scope": "Actual unsigned source-bound iOS build continued after unchanged retained config-only; original failed prebuild packet preserved"
+}

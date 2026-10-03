@@ -1,0 +1,16 @@
+test_actual_regular_stream_growth_is_bounded_before_retention (__main__.ArchiveReadback.test_actual_regular_stream_growth_is_bounded_before_retention) ... ok
+test_archive_named_leaf_replacement_is_refused (__main__.ArchiveReadback.test_archive_named_leaf_replacement_is_refused) ... ok
+test_central_directory_bound_is_checked_before_zip_parser_allocation (__main__.ArchiveReadback.test_central_directory_bound_is_checked_before_zip_parser_allocation) ... ok
+test_complete_readback_hashes_all_members_and_notice_bytes (__main__.ArchiveReadback.test_complete_readback_hashes_all_members_and_notice_bytes) ... ok
+test_crc_corruption_is_refused (__main__.ArchiveReadback.test_crc_corruption_is_refused) ... ok
+test_duplicate_member_is_refused (__main__.ArchiveReadback.test_duplicate_member_is_refused) ... ok
+test_gzip_truncation_trailing_data_and_decoded_bound_are_refused (__main__.ArchiveReadback.test_gzip_truncation_trailing_data_and_decoded_bound_are_refused) ... ok
+test_real_CLI_creates_private_receipt_and_refuses_overwrite (__main__.ArchiveReadback.test_real_CLI_creates_private_receipt_and_refuses_overwrite) ... ok
+test_symlink_member_is_refused_without_extraction (__main__.ArchiveReadback.test_symlink_member_is_refused_without_extraction) ... ok
+test_traversal_backslash_dot_and_file_directory_collisions_are_refused (__main__.ArchiveReadback.test_traversal_backslash_dot_and_file_directory_collisions_are_refused) ... ok
+test_wrong_input_digest_and_numeric_marker_flags_are_refused (__main__.ArchiveReadback.test_wrong_input_digest_and_numeric_marker_flags_are_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.070s
+
+OK

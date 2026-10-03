@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/run_sql_acceptance.py", line 232, in <module>
+    main()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/run_sql_acceptance.py", line 94, in main
+    raise ValueError("Exactly the current ordered 194-chain is required")
+ValueError: Exactly the current ordered 194-chain is required

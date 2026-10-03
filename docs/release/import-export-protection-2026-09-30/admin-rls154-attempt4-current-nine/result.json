@@ -1,0 +1,153 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "candidate_installed_in_shared_source": false,
+  "cases": [
+    {
+      "name": "legacy transition role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy-only identity denied after email cutover",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T22:39:13.658493+00:00",
+  "current_staged_bundle_tested": true,
+  "database": "collect_local_uat_48c6d0519e8c4007",
+  "email_migration_sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_admin_public_table_rls_snapshot",
+  "migration_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+  "migration_sources": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "positive_controls": 9,
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "2f97656e92f2e5b522a276ecb395b57dab5278d0331e9da8f528c4b00ab0ab6a",
+    "local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "e05a2f9473eaa643a39e95a9af1790e2765c31c3b6f69b2a5fac2a0fb96451f6",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "source_unchanged": true,
+  "started_at": "2026-09-30T22:39:04.274218+00:00",
+  "status": "pass"
+}

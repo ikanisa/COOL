@@ -31,8 +31,28 @@ String _formatDetailFieldValue(String label, String value) {
   if (label == 'Reference') {
     return adminCompactTransactionReference(value);
   }
-  final count = int.tryParse(value);
-  if (count == null) return value;
+  const countLabels = {
+    'Members',
+    'Groups',
+    'Attempts',
+    'Reconciliation exceptions',
+    'Allocation approvals',
+    'Queued notifications',
+    'Processing notifications',
+    'Failed notifications',
+  };
+  if (!countLabels.contains(label)) return value;
+  final int count;
+  try {
+    count = exactJsonInteger(
+      value,
+      field: label,
+      minimum: 0,
+      allowDigitString: true,
+    );
+  } on FormatException {
+    return 'Not available';
+  }
   return switch (label) {
     'Members' => '$count ${count == 1 ? 'member' : 'members'}',
     'Groups' => '$count ${count == 1 ? 'group' : 'groups'}',
@@ -73,9 +93,15 @@ String _formatDetailValue(Object? value) {
   if (value is Map) return '';
   final text = value.toString().trim();
   if (text.isEmpty) return '';
-  final date = DateTime.tryParse(text);
-  if (date != null && (text.contains('T') || text.endsWith('Z'))) {
-    return _formatDetailDate(date.toLocal(), includeTime: true);
+  if (RegExp(r'^\d{4}-\d{2}-\d{2}[Tt ]').hasMatch(text)) {
+    try {
+      return _formatDetailDate(
+        exactJsonTimestamp(text, field: 'detail timestamp'),
+        includeTime: true,
+      );
+    } on FormatException {
+      return 'Not available';
+    }
   }
   return switch (text.toLowerCase()) {
     'mtn_momo' => 'MTN MoMo',
@@ -100,26 +126,7 @@ bool _isSafeDetailKey(String key) {
 }
 
 String _formatDetailDate(DateTime value, {bool includeTime = false}) {
-  const months = <String>[
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  final date = '${value.day} ${months[value.month - 1]} ${value.year}';
-  if (!includeTime) return date;
-  final time =
-      '${value.hour.toString().padLeft(2, '0')}:'
-      '${value.minute.toString().padLeft(2, '0')}';
-  return '$date · $time';
+  return includeTime ? adminKigaliDateTime(value) : adminKigaliDate(value);
 }
 
 String _humanizeDetailValue(String value) {

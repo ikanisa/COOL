@@ -1,0 +1,9 @@
+{
+  "command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "exit_code": 0,
+  "log_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "visual_fidelity_certified": false
+}

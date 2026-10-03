@@ -1,0 +1,9 @@
+{
+  "at_utc": "2026-10-02T01:06:36.359832+00:00",
+  "status": "failed_report_assembly_not_verification_failure",
+  "error": "FileNotFoundError",
+  "incorrect_assumption": "archive-cleanup-batch1/SHA256SUMS exists",
+  "actual_seal_contract": "batch.json artifacts SHA256+bytes; no SHA256SUMS in old packet",
+  "inputs_modified": false,
+  "maintained_tests_rerun_required": false
+}

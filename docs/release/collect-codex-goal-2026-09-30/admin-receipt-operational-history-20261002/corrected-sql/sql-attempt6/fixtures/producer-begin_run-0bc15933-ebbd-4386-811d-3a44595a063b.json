@@ -1,0 +1,13 @@
+{
+  "ok": false,
+  "code": "OPERATIONS_PAUSED",
+  "mode": "Paused",
+  "action": "begin_run",
+  "run_id": null,
+  "expires_at": null,
+  "request_id": "0bc15933-ebbd-4386-811d-3a44595a063b",
+  "observed_at": "2026-10-02T00:46:54.167807Z",
+  "principal_id": "07eb4d13-d1c1-49b2-bb44-a3da7b9551fb",
+  "fence_version": null,
+  "contract_version": 2
+}

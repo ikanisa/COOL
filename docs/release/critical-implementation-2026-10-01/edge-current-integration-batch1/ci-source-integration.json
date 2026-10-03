@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-01T22:21:33.700210+00:00",
+  "workflow_path": ".github/workflows/ci.yml",
+  "before_sha256": "d4c7b0c70bee2a29d7aac3f34bef2ecce41eb35dbe2d622b839d0052ecb5619b",
+  "after_sha256": "1be3c6e9f8dfbca9fab940df2f765b89818b6ca2e20d387978906c7258388583",
+  "yaml_base_loader_semantic_projection_matches_before": true,
+  "retained_jobs_trigger_permissions_concurrency_and_other_steps_unchanged": true,
+  "additions": [
+    "One product content consistency/test step after frozen fork provenance and before format/analyze",
+    "Separate15min credential-free frozen Ruby bundle/real ZIP security/Fastlane lane parsing job"
+  ],
+  "new_shell_snippets_bash_syntax_passed": 2,
+  "hosted_ci_executed": false,
+  "provider_or_signing_effects": false
+}

@@ -1,0 +1,49 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: one selected validated approval uses real repository/session read path
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: at least one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Sent callback observed": []>
+   Which: means none were found but some were expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart:236:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart line 236
+The test description was:
+  one selected validated approval uses real repository/session read path
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:04 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: one selected validated approval uses real repository/session read path [E]
+  Test failed. See exception logs above.
+  The test description was: one selected validated approval uses real repository/session read path
+  
+00:04 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: denied parent pagination clears review and selected execution; explicit refresh recovers
+00:09 +1 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: transient parent timeout retains the selected authorized page
+00:12 +2 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: real auth signout and departed response cannot restore protected execution
+00:15 +3 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: source/read boundary changes dismount selected evidence and require a new selection
+00:18 +4 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: owner role loss invalidates real provider authority without another read
+00:20 +5 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: compact enlarged text and labelled keyboard selection remain usable
+00:22 +6 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart
+00:22 +6 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: operator review exposes headings, labelled reason and keyboard dismissal with actual rendered captures
+Actual Inter review capture completed.
+Review dialog settled.
+Escape dismissal settled.
+00:23 +7 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: new receipt context cancels old pagination without a stuck busy state
+00:24 +8 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: a review opened on the old receipt cannot submit after controller replacement
+00:24 +9 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: denied review hides text and never reads private evidence
+00:24 +10 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: manual closure and separate replacement review retain exact text and reason
+00:24 +11 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: uncertain response shows original lookup and never another approval
+00:24 +12 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: expired sample hides prospective copy and enlarged compact review has no overflow
+00:24 +13 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart: permission removal hides prospective and historical evidence
+00:24 +14 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart: one selected validated approval uses real repository/session read path

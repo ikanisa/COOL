@@ -1,0 +1,136 @@
+{
+  "actual_browser_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root212-attempt15/report.json",
+  "actual_browser_return_code": 1,
+  "checkout_input_drift": {
+    "test/core/auth_fixture_token_test.dart": {
+      "after": "85ccadb945d2d0a92e22b2d165ca7dc7121575cdb08a66a1f04cd2d396f205d3",
+      "before": null
+    },
+    "test/goldens/GOLDEN_MANIFEST.sha256": {
+      "after": "8f9e78d6e5987c9725e7a1340e776ff45366d2d41fd08f0769075012c8252e3f",
+      "before": "87d2133b64be798e9a1eb85bb29e01cbb612c1f584d3536293e96341ac892d6b"
+    },
+    "test/goldens/README.md": {
+      "after": "ad9865352f1e2aa23bffc99df00e2a606a7ba2c83f1df396ddc1ca956a68d9e4",
+      "before": "1b8657818a89aa2e62630a057525b8882080715ac5e17b97332e3e897dd2f718"
+    },
+    "test/goldens/baselines/admin_overview_desktop.png": {
+      "after": "aea3e63f14be1316b55d9ab49365d4d95a54defeca011d1c073dfc24220b119b",
+      "before": "ff63daac5f537b3fdc52a4b563ed9d720c0fef264d20451e052518d37eac37fc"
+    },
+    "test/goldens/baselines/member_auth_dark.png": {
+      "after": "aca6b5ee00ecd68d7869879feed04bd62c4125747fe5e3396c0b8d0fcce825d2",
+      "before": "0f26c064c59f7ab815fe3fe3d7edbf1dab7bc0d111442ada525d843e53014656"
+    },
+    "test/goldens/baselines/member_contribute_entry_dark.png": {
+      "after": "54b7cb508566b9dd549775a507278b0cb07d34f82dbfae7f3c0354c9ff93c93c",
+      "before": "3e4f2acaddcbadf38be2494cbd51b6427eccb8f20ebabd581dfbcd9da01b8613"
+    },
+    "test/goldens/baselines/member_offline_dark.png": {
+      "after": "a227be9ff104dff7c7710f6f3a9c7c6ba3be494a8332abdc201fd53f730789e7",
+      "before": "76415af1623f9291f63c3c47f35758dafb82e86c87109f2b6baa7495dc7391d9"
+    },
+    "test/goldens/baselines/public_home_desktop.png": {
+      "after": "ba9800f9380e2084857642e625a0165963bef0beee94eb1ca8ea114364813835",
+      "before": "11317d542c00089567be7170192f48ad9e54ee63244b41b9f222314b23086645"
+    },
+    "third_party/gotrue/test/get_claims_test.dart": {
+      "after": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+      "before": "9b5b2e14448f2c1960dbaf7b82510879da8bc249139157fe6c792f7ee50c8100"
+    },
+    "third_party/gotrue/test/synthetic_jwt.dart": {
+      "after": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "before": null
+    }
+  },
+  "checks": 26,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root212-current-browser",
+      "elapsed_seconds": 0.08,
+      "exit_code": 0,
+      "name": "export-git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root212-current-browser",
+      "elapsed_seconds": 0.46,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4f5effb55519ad86d8ad7e7eda769ef25237fda3dbbeb0685c6ae6c6b69d7deb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root212-current-browser",
+      "elapsed_seconds": 3.21,
+      "exit_code": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root212-attempt15"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 124.26,
+      "exit_code": 1,
+      "name": "actual-current-browser",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1167ba6a09457f5e53b1505b97a623b0eaf98c4f6755e9bb14b3a7fc135b674"
+    }
+  ],
+  "completed_at": "2026-10-01T10:55:48.326702+00:00",
+  "coverage": {
+    "account_switch": true,
+    "email_sign_in": true,
+    "exact_departure_denies": true,
+    "failed_update": true,
+    "installed_pwa": true,
+    "legacy_broadcast_refused": true,
+    "legacy_cache_migration": true,
+    "mismatched_departure_refused": true,
+    "offline_signed_out": true,
+    "private_logout": true,
+    "public_admin_separation": true,
+    "reference_only_storage": true,
+    "reload_requires_sign_in": true,
+    "static_cache_privacy": true,
+    "tabs_do_not_adopt_sign_in": true,
+    "warm_update": true
+  },
+  "database_commands_executed": false,
+  "errors": 0,
+  "export_drift": [],
+  "provider_credentials_supplied": false,
+  "report_sha256": "fd9c2f9719ad4a7a819aae12d01c6919d260f9f52b0a134ba059417bed1a8fbc",
+  "retained_source_binding_sha256": "21a3dfca770b13874bda38247e6ce4dd3ddc8c68cfbfc8f64a167af1e3b1bbea",
+  "runtime_executables_unchanged": true,
+  "scope": "Actual current normal Admin/Public entrypoints and browser lifecycle including installed standalone PWA offline; no SQL/provider/physical-device/design or whole repository/release acceptance",
+  "source_input_count": 2582,
+  "source_inputs_current": false,
+  "status": "fail",
+  "synthetic_browser_profile_excluded_from_repo": true,
+  "whole_L01_complete": false,
+  "whole_L18_original_local_criterion_complete": false
+}

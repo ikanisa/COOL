@@ -1,0 +1,43 @@
+{
+  "new_SQL_or_Linux_invocations": 0,
+  "records": [
+    {
+      "bytes": 64510,
+      "mode": 420,
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/execution-result.json",
+      "rerun_performed": false,
+      "sha256": "df4d29b833bdab2c5b55852fabd2646b6f41d73486ea0483a2f7455feb9b0ca9"
+    },
+    {
+      "bytes": 320194,
+      "mode": 420,
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/result.json",
+      "rerun_performed": false,
+      "sha256": "38262086d57566e5357bcff74c6e723e73dc41adb19f4063f48d36b2f653bee4"
+    },
+    {
+      "bytes": 216369,
+      "mode": 420,
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/actual-result.json",
+      "rerun_performed": false,
+      "sha256": "8ea040fcc835d24671c568cb039b217f61a76b3745ff7ae4f024bf149631efa7"
+    },
+    {
+      "bytes": 324,
+      "mode": 420,
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/packet-files.json",
+      "rerun_performed": false,
+      "sha256": "c75e8a35ea208f855217b11b73492eb9e58b8f9341286c353b9b62c0b70553ba"
+    },
+    {
+      "bytes": 37307,
+      "mode": 420,
+      "path": "docs/release/critical-implementation-2026-10-01/root-pg39-linux-readback1/packet-files.json",
+      "rerun_performed": false,
+      "sha256": "bc23c2f3803e5747289c86bed17c7cff59aeb14372f9bd34cf9b908803d32edb"
+    }
+  ],
+  "scope": "Prior ordinary209/37, committed recovery27 and PG39 Linux scopes retained as dated separate evidence; no SQL or Docker execution in this mapper task; not acceptance of promoted SQL CI recipe.",
+  "source_binding_manifest": "docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/input-manifest.json",
+  "source_binding_manifest_sha256": "56932fbd93a8523c05076e9db4077e731ffbc636c928bbcbad3bfdd16f252948"
+}

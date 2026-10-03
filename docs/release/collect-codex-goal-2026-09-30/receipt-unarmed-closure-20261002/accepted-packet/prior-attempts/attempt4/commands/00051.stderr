@@ -1,0 +1,3 @@
+ERROR:  55000: receipt_original_irreversibly_closed
+CONTEXT:  PL/pgSQL function collect_receipt_successors.protect_closed_root() line 4 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

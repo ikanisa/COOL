@@ -1,0 +1,17 @@
+--- attempt-1/GatewayLookupFairnessTest.kt
++++ attempt-2/GatewayLookupFairnessTest.kt
+@@ -128,8 +128,13 @@
+     @Test fun stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation() {
+         for(fault in listOf("stop","enrollment")) test { f ->
+             val (a,exact)=startUnknown(f);f.f.append(a,f.f.callback(a,1,1));f.lookupFault="network"
++            val hotFile=File(f.f.directory,"requests.bin");val hotBefore=hotFile.readBytes()
+             f.onReadFailure={ if(fault=="enrollment") assertTrue(File(f.f.directory,"enrollment.bin").delete()) else File(f.f.directory,"cold-control.bin").writeBytes(byteArrayOf(1,2,3)) }
+-            refuse { f.cycle() };assertEquals(1,callbackCount(f));assertOriginal(f,exact)
++            refuse { f.cycle() };assertEquals(1,callbackCount(f));assertArrayEquals(hotBefore,hotFile.readBytes())
++            // Corrupt control must still refuse validated readers. Verify the
++            // retained encrypted original without treating that refusal as loss.
++            val row=f.f.read("requests").getJSONArray("requests").getJSONObject(0)
++            assertArrayEquals(exact,Base64.getDecoder().decode(row.getString("request_bytes_base64")));assertEquals("outcome_unknown",row.getString("state"))
+         }
+     }
+     @Test fun laterReceiptFailureRemainsUnknownUntilExactReadRecoveryAndNeverReplays() = test { f ->

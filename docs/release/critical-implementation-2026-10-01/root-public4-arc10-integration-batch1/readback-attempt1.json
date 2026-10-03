@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "scope": "Root readback wrapper path selection only; no production or worker evidence mutation",
+  "cause": "Used assumed docs/product contract path; fallback found multiple digest-identical historical preserved copies. Correct to actual canonical docs/release/public-website-current-content-contract.json.",
+  "source_sha256": "c716d987aae4bc4e7606c92d5ffc7a8851980923b0e0471959ac6bd1d2b08596",
+  "actual_exit": 1
+}

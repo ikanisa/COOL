@@ -1,0 +1,39 @@
+[
+  {
+    "name": "tsc",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "started_at": "2026-10-01T13:09:24.486460+00:00",
+    "completed_at": "2026-10-01T13:09:25.090563+00:00",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "node",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "--experimental-strip-types",
+      "--test",
+      "src/unattended_client.test.ts",
+      "src/unattended_history.test.ts",
+      "src/unattended_journal.test.ts",
+      "src/unattended_profile.test.ts",
+      "src/unattended_runner.test.ts",
+      "src/unattended_scheduler.test.ts",
+      "src/unattended_stdio.test.ts",
+      "src/unattended_store.test.ts",
+      "src/unattended_enrollment.test.ts",
+      "src/unattended_enrollment_observed.test.ts"
+    ],
+    "timeout_seconds": 180,
+    "exit_code": 124,
+    "started_at": "2026-10-01T13:09:25.091162+00:00",
+    "completed_at": "2026-10-01T13:12:25.097324+00:00",
+    "log_sha256": "5ccb5f0744c0e4c35a42583332b9cb7fdedeec99b9a4d0871009d56d5ded0306",
+    "counts": {}
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "bytes": 1139,
+      "path": "SDK-after-diagnostic.json",
+      "sha256": "4df393f77a160388b742ad95a09e95c30e51e2474c08faad50cb0c5208e7960a"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-after-diagnostic.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-after-diagnostic.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-after-output.json",
+      "sha256": "715e4c4fe4d65785126140a17dbe99fb80e0860ee5ddd8238d703ae33c00a054"
+    },
+    {
+      "bytes": 5812,
+      "path": "diagnosis.json",
+      "sha256": "eea265f89cd9d7cc3e5c66f1a737dd67e7a9507c48e0535383704a402df4ddc2"
+    }
+  ]
+}

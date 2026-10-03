@@ -1,0 +1,152 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:26:58.025221+00:00",
+  "before_sha256": {
+    "Makefile": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b",
+    "docs/architecture/postgres-admission.md": "52201fccc5d975d6c8d93d1ab06d8f9ce88d090b7582a407f49447983c6d3b6a",
+    "scripts/audits/collect_schema_domain_caller_seams.json": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+    "scripts/audits/collect_schema_domain_map.py": "96a218f211f3ca95e98c87aa934365adbc8e2ebd5c1f944d0400569a105051c9",
+    "scripts/qa/backend_release_delivery.py": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+    "scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "scripts/supabase_cli_helpers.sh": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+    "scripts/supabase_production_readiness.sh": "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40",
+    "scripts/tests/collect_schema_domain_map_test.py": "68976d8bd3060de11662cdf0b7db125431f2c7b76117e41e02d2a06a4b1c9dc8",
+    "scripts/tests/supabase_delivery_contract_test.py": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+    "scripts/tests/supabase_secret_transport_test.py": "ee97ea89c524c1325a63be3a2890caa67b84d768e7cfc22219dbd498890844ec",
+    "scripts/tests/test_postgres_admission.py": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13"
+  },
+  "after_sha256": {
+    "Makefile": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b",
+    "docs/architecture/postgres-admission.md": "52201fccc5d975d6c8d93d1ab06d8f9ce88d090b7582a407f49447983c6d3b6a",
+    "scripts/audits/collect_schema_domain_caller_seams.json": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+    "scripts/audits/collect_schema_domain_map.py": "fc734112fe564479d42042717efbd2a915efbf372915fe4eae0119bb8f7d4cef",
+    "scripts/qa/backend_release_delivery.py": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+    "scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "scripts/supabase_cli_helpers.sh": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+    "scripts/supabase_production_readiness.sh": "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40",
+    "scripts/tests/collect_schema_domain_map_test.py": "278fb17949d7b05b6a555dab2881b769eced1408d0248675faed42f3769a07d5",
+    "scripts/tests/supabase_delivery_contract_test.py": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+    "scripts/tests/supabase_secret_transport_test.py": "ee97ea89c524c1325a63be3a2890caa67b84d768e7cfc22219dbd498890844ec",
+    "scripts/tests/test_postgres_admission.py": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13"
+  },
+  "changed_sources": [
+    "scripts/audits/collect_schema_domain_map.py",
+    "scripts/tests/collect_schema_domain_map_test.py"
+  ],
+  "management_corrected_proof_verified_21_leaves": true,
+  "original32_test_ASTs_unchanged": true,
+  "maintained_tests": 44,
+  "commands": {
+    "tests": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py"
+      ],
+      "started_utc": "2026-10-02T07:26:48.958661+00:00",
+      "actual_seconds": 0.345,
+      "deadline_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group_absent": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ec76eaa0019ef9ff1b454b0f0add1c237b809ef7f5ce18cb0577152b0dd69ac1"
+    },
+    "generation": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-lineage-integration1/generated-current209-maintained1",
+        "--require-current"
+      ],
+      "started_utc": "2026-10-02T07:26:49.304199+00:00",
+      "actual_seconds": 4.182,
+      "deadline_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group_absent": true,
+      "stdout_sha256": "0c096d54826cbd16b8284fe2e8abe8cc9402849251370aac26b44a7c02daf818",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verification": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-lineage-integration1/generated-current209-maintained1",
+        "--verify",
+        "--require-current"
+      ],
+      "started_utc": "2026-10-02T07:26:53.486487+00:00",
+      "actual_seconds": 4.536,
+      "deadline_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group_absent": true,
+      "stdout_sha256": "dbc3f59a551ae7836831e2e00dc9440a22a76b16eecb77d4b9507353e52ca121",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "coverage": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 777,
+    "functions_with_exact_static_lineage_body_hash_match": 2,
+    "functions_without_exact_body_hash_match": 125,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 34,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 664,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4772,
+    "unclassified_objects": 74
+  },
+  "full_finding_closed": false,
+  "release_decision": "NO-GO",
+  "goal_status": "active"
+}

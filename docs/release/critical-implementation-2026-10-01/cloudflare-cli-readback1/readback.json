@@ -1,0 +1,347 @@
+{
+  "schema": "collect-cloudflare-readonly-identity-v1",
+  "startedAt": "2026-10-02T06:31:26.393Z",
+  "target": {
+    "hostname": "collect.ikanisa.com",
+    "expectedWorker": "collect-public",
+    "sourceAccountDeclared": false,
+    "sourceRoutesDeclared": false,
+    "sourceAssetsDirectory": "../build/public_web",
+    "configuredCandidateDirectory": false
+  },
+  "criteriaRetained": [
+    "Provider account, exact custom-domain service mapping and active deployment identity must be read back independently.",
+    "Current batch4 artifact deployment equality is not established by deployment metadata or HTTP headers.",
+    "Production readiness, original Revolut comparison, browser interactions, native evidence and release acceptance remain separate required criteria."
+  ],
+  "workflow": {
+    "path": ".github/workflows/public-website.yml",
+    "staticGates": true,
+    "liveGates": true,
+    "publishingStep": false
+  },
+  "candidate": {
+    "name": "collect-public-static",
+    "generated_at": "2026-10-02T00:57:53Z",
+    "source_commit": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+    "source_dirty": true,
+    "routes": [
+      "/",
+      "/account-deletion/",
+      "/community-groups/",
+      "/craas/",
+      "/credit-readiness/",
+      "/data-deletion/",
+      "/group-savings/",
+      "/insurance/",
+      "/our-partners/",
+      "/partners/",
+      "/privacy/",
+      "/protection/",
+      "/security/",
+      "/terms/",
+      "/trust/"
+    ],
+    "share_routes": [
+      "/c/:slug",
+      "/app",
+      "/invite/:publicId"
+    ],
+    "indexnow_key_file": null
+  },
+  "sourceInputsBefore": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 1419,
+      "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+      "mtime": "2026-10-01T18:38:40.253Z",
+      "mode": "700"
+    },
+    {
+      "path": ".github/workflows/public-website.yml",
+      "bytes": 3673,
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+      "mtime": "2026-10-01T09:40:50.622Z",
+      "mode": "700"
+    },
+    {
+      "path": "deploy/public.wrangler.jsonc",
+      "bytes": 127,
+      "sha256": "259fb934475e833e97cfc9d289161e4d4165f6b44987d51973cdb312e40036cb",
+      "mtime": "2026-09-10T09:03:55.000Z",
+      "mode": "700"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 17912,
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+      "mtime": "2026-10-01T19:34:38.787Z",
+      "mode": "700"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "bytes": 81189,
+      "sha256": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+      "mtime": "2026-10-01T23:45:31.481Z",
+      "mode": "700"
+    },
+    {
+      "path": "scripts/public_website_ci_gate.sh",
+      "bytes": 2073,
+      "sha256": "45a36e610b33a8244d872b123e889f49d22ea03e4bd08974204eca2e44f3487a",
+      "mtime": "2026-09-28T18:36:20.399Z",
+      "mode": "700"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/version.json",
+      "bytes": 583,
+      "sha256": "008ac28df730142dff0bce1dc3b313f5b30110a1a7a28e2cce6abe3eba4bee62",
+      "mtime": "2026-10-02T00:57:53.493Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/manifest.json",
+      "bytes": 390,
+      "sha256": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281",
+      "mtime": "2026-10-02T00:57:52.712Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+      "bytes": 13553,
+      "sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+      "mtime": "2026-10-02T00:57:52.713Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+      "bytes": 28382,
+      "sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+      "bytes": 23326,
+      "sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+      "mtime": "2026-10-02T00:57:53.204Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+      "bytes": 9383,
+      "sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+      "bytes": 9564,
+      "sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+      "bytes": 11002,
+      "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+      "mtime": "2026-10-02T00:57:53.205Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+      "bytes": 12908,
+      "sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+      "mtime": "2026-10-02T00:57:53.205Z",
+      "mode": "644"
+    }
+  ],
+  "head": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "runtime": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "version": "v24.19.0",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "scriptSha256": "9cb6cd4ac2c7c13e7fa5e23d1e09e09509439fe9806a34fa598a2c80b7d73934"
+  },
+  "connection": {
+    "kind": "existing-local-Wrangler-OAuth via direct HTTPS GET",
+    "credentialPath": "/Users/jeanbosco/Library/Preferences/.wrangler/config/default.toml",
+    "oauthFieldPresent": true,
+    "expiration": "2026-10-02T07:16:50.760Z",
+    "unexpiredAtStart": true,
+    "credentialValuesCaptured": false,
+    "credentialsRefreshed": false,
+    "wranglerExecuted": false,
+    "cliAvailability": "No executable on PATH or Wrangler package in bounded existing npx root inventory.",
+    "inheritedEnvironment": "env -i; PATH=/usr/bin:/bin only"
+  },
+  "bounds": {
+    "method": "GET only",
+    "perRequestMilliseconds": 10000,
+    "totalDeadlineMilliseconds": 55000,
+    "maximumResponseBytes": 524288,
+    "maximumAccounts": 3,
+    "automaticRedirects": false,
+    "automaticRetries": false,
+    "maximumDeploymentsRetained": 5
+  },
+  "providerReads": [
+    {
+      "method": "GET",
+      "endpoint": "/accounts?per_page=50",
+      "startedAt": "2026-10-02T06:31:26.494Z",
+      "httpStatus": 200,
+      "responseBytes": 489,
+      "responseSha256": "11b1d59efbcb120c5b7d3a9a79f6d0bc5d43bd3db7c9c7cdb2be812989aea553",
+      "providerSuccess": true,
+      "errors": [],
+      "resultInfo": {
+        "page": 1,
+        "per_page": 50,
+        "total_pages": 1,
+        "count": 1,
+        "total_count": 1
+      },
+      "facts": {
+        "accountIds": [
+          "2209b915a85b1c11cee79b7806c6e73b"
+        ]
+      },
+      "finishedAt": "2026-10-02T06:31:28.069Z"
+    },
+    {
+      "method": "GET",
+      "endpoint": "/accounts/2209b915a85b1c11cee79b7806c6e73b/workers/domains?hostname=collect.ikanisa.com",
+      "startedAt": "2026-10-02T06:31:28.069Z",
+      "httpStatus": 403,
+      "responseBytes": 217,
+      "responseSha256": "c5f1ffa6511cf5b45f91538242ba2f1f986db54996e42696dca139b080bdd462",
+      "providerSuccess": false,
+      "errors": [
+        {
+          "code": 10000,
+          "message": "Authentication error"
+        }
+      ],
+      "resultInfo": null,
+      "finishedAt": "2026-10-02T06:31:28.479Z"
+    }
+  ],
+  "matches": [],
+  "status": "provider_identity_incomplete",
+  "limitations": [
+    "The exact hostname was not confirmed by a successful Workers custom-domain response in the bounded accounts. This does not prove the public hostname is absent; another routing product or inaccessible account remains possible.",
+    "Readback contains deployment IDs and traffic versions only. It contains no content hash linking the deployed Worker assets to the current local batch4 artifact."
+  ],
+  "finishedAt": "2026-10-02T06:31:28.479Z",
+  "durationMilliseconds": 2086,
+  "sourceInputsAfter": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 1419,
+      "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+      "mtime": "2026-10-01T18:38:40.253Z",
+      "mode": "700"
+    },
+    {
+      "path": ".github/workflows/public-website.yml",
+      "bytes": 3673,
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+      "mtime": "2026-10-01T09:40:50.622Z",
+      "mode": "700"
+    },
+    {
+      "path": "deploy/public.wrangler.jsonc",
+      "bytes": 127,
+      "sha256": "259fb934475e833e97cfc9d289161e4d4165f6b44987d51973cdb312e40036cb",
+      "mtime": "2026-09-10T09:03:55.000Z",
+      "mode": "700"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 17912,
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+      "mtime": "2026-10-01T19:34:38.787Z",
+      "mode": "700"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "bytes": 81189,
+      "sha256": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+      "mtime": "2026-10-01T23:45:31.481Z",
+      "mode": "700"
+    },
+    {
+      "path": "scripts/public_website_ci_gate.sh",
+      "bytes": 2073,
+      "sha256": "45a36e610b33a8244d872b123e889f49d22ea03e4bd08974204eca2e44f3487a",
+      "mtime": "2026-09-28T18:36:20.399Z",
+      "mode": "700"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/version.json",
+      "bytes": 583,
+      "sha256": "008ac28df730142dff0bce1dc3b313f5b30110a1a7a28e2cce6abe3eba4bee62",
+      "mtime": "2026-10-02T00:57:53.493Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/manifest.json",
+      "bytes": 390,
+      "sha256": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281",
+      "mtime": "2026-10-02T00:57:52.712Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+      "bytes": 13553,
+      "sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+      "mtime": "2026-10-02T00:57:52.713Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+      "bytes": 28382,
+      "sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+      "bytes": 23326,
+      "sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+      "mtime": "2026-10-02T00:57:53.204Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+      "bytes": 9383,
+      "sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+      "bytes": 9564,
+      "sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+      "mtime": "2026-10-02T00:57:53.203Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+      "bytes": 11002,
+      "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+      "mtime": "2026-10-02T00:57:53.205Z",
+      "mode": "644"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+      "bytes": 12908,
+      "sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+      "mtime": "2026-10-02T00:57:53.205Z",
+      "mode": "644"
+    }
+  ],
+  "selectedInputsByteStable": true,
+  "providerStateMutated": false
+}

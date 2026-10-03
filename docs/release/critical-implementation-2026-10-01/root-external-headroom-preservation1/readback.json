@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-02T13:39:01.893593+00:00",
+  "scope": "ignored untracked Flutter compiler cache only",
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/flutter_build",
+  "preserved_destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/external-headroom-preservation1/flutter_build",
+  "files": 527,
+  "bytes": 1192908517,
+  "all_copy_bytes_hashes_modes_times_verified": true,
+  "source_rechecked_before_removal": true,
+  "no_open_files_reported": true,
+  "tracked_source_or_release_evidence_removed": false,
+  "private_native_APP_SDK_or_original_protected_paths_modified": false,
+  "recoverable_internal_copy_retained": true,
+  "actual_seconds": 3.139316333006718,
+  "external_free_before_bytes": 3957919744,
+  "external_free_after_bytes": 5151514624,
+  "source_compiler_cache_removed_after_verified_copy": true,
+  "internal_manifest_sha256": "22eaacc69268652cd055fa0ecc3bc114a265f269b654ad797fb5b9d0b290482c",
+  "internal_readback_sha256": "597cd7fd8b405b9c6e0cf4abb5011ac429959b27f3fd7a9f07f662adb2eb0d18"
+}

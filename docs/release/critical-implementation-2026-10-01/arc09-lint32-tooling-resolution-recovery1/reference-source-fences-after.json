@@ -1,0 +1,57 @@
+{
+  "sources": [
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava/33.3.1-jre/c99293bbf166d01849489fc6f94a101f79072aa7/guava-33.3.1-jre.module",
+      "sha256": "41858c84753fd96a6b7c51122fccef39558c91cc08264e08506bcf20e0e63733",
+      "bytes": 7839
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/packet-files.json",
+      "sha256": "f197dfac9ab0f2ed412074a16f1bb1eea88b538762be3378d9632ea4b860b12b",
+      "bytes": 1365
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/source-fences.json",
+      "sha256": "5aea3cf743b22c73a1c5cae4103c9fe8dbcf891e1a2ab99dd9fd6d843c9ecf25",
+      "bytes": 7935
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+      "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e",
+      "bytes": 8090
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/selected-tooling-graph.json",
+      "sha256": "874a4c20281347dd0c53a677f094c8d5ea61aee6321cf2aa261d3905defd1061",
+      "bytes": 113203
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/readback.json",
+      "sha256": "964ddacb899f55537435fd88e7ffcf38da94cf94a1cef6ff9e6817532611e607",
+      "bytes": 15162
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/exact-lint32-tooling-resolution.json",
+      "sha256": "c5be057e0d591c1722d61f42c0084f80d34a9b45efbc46ec526b8b2627271c63",
+      "bytes": 1423
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/jvm-services/org/gradle/api/internal/artifacts/JavaEcosystemSupport.java",
+      "sha256": "0a5b27cc681776b0646768f260630a0d9f3390a5b9cee53af2b94923cca9e5d0",
+      "bytes": 18563
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/stdlib-java-extensions/org/gradle/internal/exceptions/DefaultMultiCauseException.java",
+      "sha256": "754d5b664a2617b6e878e69e495b091fed6a4b443270c93be55800096b8a597b",
+      "bytes": 6032
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/ResolveException.java",
+      "sha256": "6a871d3c15dda6092c508db29305845d6870590a186f8a46261c6a4180707902",
+      "bytes": 1316
+    }
+  ],
+  "all_reference_hashes_unchanged": true,
+  "all17source_inputs_unchanged_during_preparation": true,
+  "all_classpath_jars_unchanged": true
+}

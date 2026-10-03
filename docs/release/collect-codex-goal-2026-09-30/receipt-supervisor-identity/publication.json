@@ -1,0 +1,18 @@
+{
+  "cli": "Supabase CLI 2.84.2",
+  "cli_binary": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "cli_project_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-supervisor-preparation",
+  "generated_name": "20260930231804_receipt_supervisor_identity.sql",
+  "selected_name": "20261001000400_receipt_supervisor_identity.sql",
+  "tested_draft_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+  "selected_sql_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+  "sql_publication_changes": false,
+  "published_runner_change": "Default migration path only; captured executed runner remains in sql-attempt3.",
+  "draft_runner_sha256": "ce11a394d5c0e2293a4a2b1ecf811fb4a46d595b2420f9a52ef55e809c1c4de0",
+  "selected_runner_sha256": "df62e12509f407928bf23d6531d77eb4fab29d7f8b26aaef2fefe01cb8b7a1aa",
+  "selected_source_published": true,
+  "hosted_deployed": false,
+  "auth_user_created": false,
+  "supervisor_principal_created": false,
+  "production_ready": false
+}

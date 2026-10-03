@@ -1,0 +1,9 @@
+{
+  "bytes": 376279,
+  "fetched_utc": "2026-10-01T23:47:15.475119+00:00",
+  "final_url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json",
+  "http_status": 200,
+  "sha256": "d98510bf7a14c5b09be007094a2b988b6180a44072a6e2178e437f739f127ef2",
+  "source_derivation": "Official docs deferred archive client main.client.dart.js_3.part.js line18 uses flutter_infra_release/releases/releases_<os>.json (no flutter/ intermediate segment).",
+  "url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json"
+}

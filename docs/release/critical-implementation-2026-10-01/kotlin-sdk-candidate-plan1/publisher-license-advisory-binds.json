@@ -1,0 +1,73 @@
+{
+  "advisory": {
+    "affected_kgp_range": "<2.4.20-Beta1",
+    "exact_stable_target": "2.4.20",
+    "id": "CVE-2026-53914",
+    "primary": "https://github.com/advisories/GHSA-r937-wjx7-w2jp",
+    "scope": "Existing dated exact-target0record query is not a new candidate graph clearance; refresh actual resolved complete SDK/build graph at candidate freeze."
+  },
+  "flutter_license": {
+    "publisher_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/LICENSE",
+    "retained": "public-origin/flutter-3.44.4-license",
+    "scope": "Exact selected copyright/license preservation, not full redistribution or engine/Dart/dependency rights clearance.",
+    "sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+    "source_license": "BSD3-Clause"
+  },
+  "kotlin_license": {
+    "license": "Apache-2.0",
+    "publisher_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.4.20/kotlin-gradle-plugin-2.4.20.pom",
+    "scope": "Publisher POM license declaration; retained JAR/source notices and all transitive rights still require inventory review."
+  },
+  "production_release_approval": false,
+  "references": {
+    "applied_plugin_observation": {
+      "path": "../kotlin-dependency-batch1/effective-kgp-authentication.json",
+      "sha256": "87e734260b033b153fcafd74c1c7ef825521c6f5eb423d0202b79d600f23601f"
+    },
+    "completed_native_results": {
+      "path": "../kotlin-dependency-batch1/native-results.json",
+      "sha256": "b401af5e7c4cefd293d737e7ca5a62ed92ffd3f89f8992a33afd7628874c177d"
+    },
+    "current_upstream_no_fixed_sdk": {
+      "path": "../flutter-sdk-advisory-research/github-sdk-build-observations.json",
+      "sha256": "d8f95ec1cac726c4c45b36afd3ffabb54184b2a624c8fe7ac26dd181ef203934"
+    },
+    "dated_advisory_release_osv": {
+      "path": "../kotlin-dependency-batch1/advisory-crosscheck.json",
+      "sha256": "a69e5dd1db4d56bd35864e22ac00e0097401bac6715994e0a3daabf0ecec6359"
+    },
+    "fixed_kotlin_publisher": {
+      "path": "../kotlin-dependency-batch1/public-origin/authentication.json",
+      "sha256": "c8c2bb7e55a9331bbc76e721eb93e3763d97844d28c806fcf1742fde2d4c3623"
+    },
+    "gradle_distribution_checksum": {
+      "path": "../kotlin-dependency-batch1/public-origin/gradle-distribution-authentication.json",
+      "sha256": "b563a11a765d5a8c54d2e6bebc39634fbc26ea82be6318076fbf9f817de7fa18"
+    },
+    "kotlin_compatibility": {
+      "path": "../kotlin-dependency-batch1/public-origin/compatibility.json",
+      "sha256": "1ca1436a0a9d4c53a04d5636ee023dd33f89d8bcc026b198771691b5558cdb56"
+    },
+    "native_packet_freeze": {
+      "path": "../kotlin-dependency-batch1/source-freeze.json",
+      "sha256": "8f8e7903066131ccff29853038d5488aac5a2a0504eb8ce6993ed95ab2cc40c9"
+    },
+    "old_sdk_runtime_graph": {
+      "path": "../kotlin-dependency-batch1/sdk-runtime-graph.json",
+      "sha256": "36942628728766688c70164a93f3c4cde118d71775512322dd9effc7e1d3fd6e"
+    },
+    "plugin_portal_marker": {
+      "path": "../kotlin-dependency-batch1/public-origin/plugin-marker-pom",
+      "sha256": "670fe231a67958bd9ba05124cc701af77fad2dfba4e591fb9bcba369efe85602"
+    },
+    "publisher_module": {
+      "path": "../kotlin-dependency-batch1/public-origin/kgp-module",
+      "sha256": "8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43"
+    },
+    "publisher_pom_license": {
+      "path": "../kotlin-dependency-batch1/public-origin/kgp-pom",
+      "sha256": "934dba7a977a17c008dac6c8670c8c86519a91cedb759b9a8f77040005e95dc5"
+    }
+  },
+  "scope": "Explicit byte binding to reusable primary/actual receipts; these describe the completed repository remediation and old SDK observation. They do not prove any new SDK candidate."
+}

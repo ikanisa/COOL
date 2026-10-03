@@ -1,0 +1,14 @@
+--- test/shared/member_realtime_sdk_session_test.dart
++++ test/shared/member_realtime_sdk_session_test.dart
+@@ -507,7 +507,10 @@
+       expect(probe.repo.state.lastError, isNull);
+       expect(probe.repo.state.usingStaleCache, isFalse);
+       expect(probe.repo.state.collections.single.id, _groupA);
+-      expect(probe.repo.state.lastSuccessfulSyncAt!.isBefore(lastSync!), isFalse);
++      expect(
++        probe.repo.state.lastSuccessfulSyncAt!.isBefore(lastSync!),
++        isFalse,
++      );
+     },
+   );
+ 

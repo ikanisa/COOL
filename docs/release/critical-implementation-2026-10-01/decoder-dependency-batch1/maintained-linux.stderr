@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/source/scripts/tests/verify_roster_decoder.py", line 135, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/source/scripts/tests/verify_roster_decoder.py", line 117, in main
+    run(['deno','test',*regressions],output/'regressions.log')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/source/scripts/tests/verify_roster_decoder.py", line 30, in run
+    if result.returncode:raise RuntimeError(f'Command failed; inspect {log.name}')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Command failed; inspect regressions.log

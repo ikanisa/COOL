@@ -1,0 +1,9 @@
+{
+  "recorded_utc": "2026-10-02T00:38:07.049924+00:00",
+  "packet_leaves": 12,
+  "manifest_sha256": "15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126",
+  "plan_sha256": "782b53f5459cc8e5547d6d6f72a1c25a2870159c6bdbd62467f4f7852c41e20e",
+  "exact_original_three_source_paths_checked": 3,
+  "errors": [],
+  "scope": "Independent root readback of sealed physical packet and actual pristine three originals; candidate compiler/runtime not executed or accepted."
+}

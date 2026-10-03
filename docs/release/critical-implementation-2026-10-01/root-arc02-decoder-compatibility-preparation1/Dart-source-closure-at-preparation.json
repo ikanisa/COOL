@@ -1,0 +1,4187 @@
+{
+  "local_Dart_source_file_count": 209,
+  "observed_local_Dart_source_files": {
+    "lib/admin/core/admin_action_contracts.dart": {
+      "maintained": {
+        "bytes": 7442,
+        "device": 16777247,
+        "inode": 9529541,
+        "mode": 420,
+        "mtime_ns": 1790813902394071961,
+        "nlink": 1,
+        "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253"
+      },
+      "private_APP": {
+        "bytes": 7442,
+        "device": 16777232,
+        "inode": 60128185,
+        "mode": 420,
+        "mtime_ns": 1790929391586408053,
+        "nlink": 1,
+        "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253"
+      }
+    },
+    "lib/admin/core/admin_auth_guard.dart": {
+      "maintained": {
+        "bytes": 6190,
+        "device": 16777247,
+        "inode": 2694162,
+        "mode": 448,
+        "mtime_ns": 1790785462109151140,
+        "nlink": 1,
+        "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+      },
+      "private_APP": {
+        "bytes": 6190,
+        "device": 16777232,
+        "inode": 60128186,
+        "mode": 448,
+        "mtime_ns": 1790929391586719718,
+        "nlink": 1,
+        "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+      }
+    },
+    "lib/admin/core/admin_automatic_gateway_models.dart": {
+      "maintained": {
+        "bytes": 19149,
+        "device": 16777247,
+        "inode": 15778253,
+        "mode": 420,
+        "mtime_ns": 1790876367624223412,
+        "nlink": 1,
+        "sha256": "4d5c6d0d478a9b7fdebc29fbae0cb3891243ee8c1021e75143cc1e9ddc536c88"
+      },
+      "private_APP": {
+        "bytes": 19149,
+        "device": 16777232,
+        "inode": 60128187,
+        "mode": 420,
+        "mtime_ns": 1790929391586904217,
+        "nlink": 1,
+        "sha256": "4d5c6d0d478a9b7fdebc29fbae0cb3891243ee8c1021e75143cc1e9ddc536c88"
+      }
+    },
+    "lib/admin/core/admin_automatic_gateway_runtime.dart": {
+      "maintained": {
+        "bytes": 2858,
+        "device": 16777247,
+        "inode": 15779875,
+        "mode": 420,
+        "mtime_ns": 1790876201651155753,
+        "nlink": 1,
+        "sha256": "c83452da32a8057ce733035317f0a73a951bd20287ccb6c83df3225b6d5f7ef0"
+      },
+      "private_APP": {
+        "bytes": 2858,
+        "device": 16777232,
+        "inode": 60128188,
+        "mode": 420,
+        "mtime_ns": 1790929391587074049,
+        "nlink": 1,
+        "sha256": "c83452da32a8057ce733035317f0a73a951bd20287ccb6c83df3225b6d5f7ef0"
+      }
+    },
+    "lib/admin/core/admin_automatic_gateway_view.dart": {
+      "maintained": {
+        "bytes": 18267,
+        "device": 16777247,
+        "inode": 17023696,
+        "mode": 420,
+        "mtime_ns": 1790902419628845530,
+        "nlink": 1,
+        "sha256": "3a2b989c3ced302a86dc7f1760c50bd1373b266d5b9fd2cf4bc3062c9b6c2884"
+      },
+      "private_APP": {
+        "bytes": 18267,
+        "device": 16777232,
+        "inode": 60128189,
+        "mode": 420,
+        "mtime_ns": 1790929391587230715,
+        "nlink": 1,
+        "sha256": "3a2b989c3ced302a86dc7f1760c50bd1373b266d5b9fd2cf4bc3062c9b6c2884"
+      }
+    },
+    "lib/admin/core/admin_detail_formatters.dart": {
+      "maintained": {
+        "bytes": 4684,
+        "device": 16777247,
+        "inode": 2694163,
+        "mode": 448,
+        "mtime_ns": 1790799949083989071,
+        "nlink": 1,
+        "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+      },
+      "private_APP": {
+        "bytes": 4684,
+        "device": 16777232,
+        "inode": 60128191,
+        "mode": 448,
+        "mtime_ns": 1790929391587594713,
+        "nlink": 1,
+        "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+      }
+    },
+    "lib/admin/core/admin_detail_runtime.dart": {
+      "maintained": {
+        "bytes": 38218,
+        "device": 16777247,
+        "inode": 2694164,
+        "mode": 448,
+        "mtime_ns": 1790802729395840932,
+        "nlink": 1,
+        "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a"
+      },
+      "private_APP": {
+        "bytes": 38218,
+        "device": 16777232,
+        "inode": 60128192,
+        "mode": 448,
+        "mtime_ns": 1790929391587757795,
+        "nlink": 1,
+        "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a"
+      }
+    },
+    "lib/admin/core/admin_detail_specs.dart": {
+      "maintained": {
+        "bytes": 12015,
+        "device": 16777247,
+        "inode": 2694165,
+        "mode": 448,
+        "mtime_ns": 1790802795646763836,
+        "nlink": 1,
+        "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea"
+      },
+      "private_APP": {
+        "bytes": 12015,
+        "device": 16777232,
+        "inode": 60128193,
+        "mode": 448,
+        "mtime_ns": 1790929391587944335,
+        "nlink": 1,
+        "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea"
+      }
+    },
+    "lib/admin/core/admin_display_formatters.dart": {
+      "maintained": {
+        "bytes": 1997,
+        "device": 16777247,
+        "inode": 2694166,
+        "mode": 448,
+        "mtime_ns": 1790799949019448919,
+        "nlink": 1,
+        "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829"
+      },
+      "private_APP": {
+        "bytes": 1997,
+        "device": 16777232,
+        "inode": 60128194,
+        "mode": 448,
+        "mtime_ns": 1790929391588101793,
+        "nlink": 1,
+        "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829"
+      }
+    },
+    "lib/admin/core/admin_email_otp.dart": {
+      "maintained": {
+        "bytes": 1316,
+        "device": 16777247,
+        "inode": 12211867,
+        "mode": 420,
+        "mtime_ns": 1790804271853448810,
+        "nlink": 1,
+        "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+      },
+      "private_APP": {
+        "bytes": 1316,
+        "device": 16777232,
+        "inode": 60128195,
+        "mode": 420,
+        "mtime_ns": 1790929391588250417,
+        "nlink": 1,
+        "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+      }
+    },
+    "lib/admin/core/admin_entity_audit.dart": {
+      "maintained": {
+        "bytes": 13279,
+        "device": 16777247,
+        "inode": 17023698,
+        "mode": 420,
+        "mtime_ns": 1790902419628959653,
+        "nlink": 1,
+        "sha256": "17db9d8cc6d8cae563f829b166b95b090bfd675d397a2c4f374f15e3b816b53a"
+      },
+      "private_APP": {
+        "bytes": 13279,
+        "device": 16777232,
+        "inode": 60128196,
+        "mode": 420,
+        "mtime_ns": 1790929391588459249,
+        "nlink": 1,
+        "sha256": "17db9d8cc6d8cae563f829b166b95b090bfd675d397a2c4f374f15e3b816b53a"
+      }
+    },
+    "lib/admin/core/admin_entity_audit_link.dart": {
+      "maintained": {
+        "bytes": 1216,
+        "device": 16777247,
+        "inode": 13812702,
+        "mode": 420,
+        "mtime_ns": 1790869340608755697,
+        "nlink": 1,
+        "sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf"
+      },
+      "private_APP": {
+        "bytes": 1216,
+        "device": 16777232,
+        "inode": 60128197,
+        "mode": 420,
+        "mtime_ns": 1790929391588608748,
+        "nlink": 1,
+        "sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf"
+      }
+    },
+    "lib/admin/core/admin_entity_audit_page.dart": {
+      "maintained": {
+        "bytes": 14883,
+        "device": 16777247,
+        "inode": 17023699,
+        "mode": 420,
+        "mtime_ns": 1790902419629007903,
+        "nlink": 1,
+        "sha256": "67957725aa703b21313fc38e2beb55236e62313f11705e267b4a93c804942a3c"
+      },
+      "private_APP": {
+        "bytes": 14883,
+        "device": 16777232,
+        "inode": 60128198,
+        "mode": 420,
+        "mtime_ns": 1790929391588801247,
+        "nlink": 1,
+        "sha256": "67957725aa703b21313fc38e2beb55236e62313f11705e267b4a93c804942a3c"
+      }
+    },
+    "lib/admin/core/admin_entity_audit_runtime.dart": {
+      "maintained": {
+        "bytes": 1697,
+        "device": 16777247,
+        "inode": 13430407,
+        "mode": 420,
+        "mtime_ns": 1790815280052195534,
+        "nlink": 1,
+        "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+      },
+      "private_APP": {
+        "bytes": 1697,
+        "device": 16777232,
+        "inode": 60128199,
+        "mode": 420,
+        "mtime_ns": 1790929391588967287,
+        "nlink": 1,
+        "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+      }
+    },
+    "lib/admin/core/admin_error_boundary.dart": {
+      "maintained": {
+        "bytes": 3125,
+        "device": 16777247,
+        "inode": 2694167,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+      },
+      "private_APP": {
+        "bytes": 3125,
+        "device": 16777232,
+        "inode": 60128200,
+        "mode": 448,
+        "mtime_ns": 1790929391589113203,
+        "nlink": 1,
+        "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+      }
+    },
+    "lib/admin/core/admin_exception_assignment_dialog.dart": {
+      "maintained": {
+        "bytes": 11552,
+        "device": 16777247,
+        "inode": 15534754,
+        "mode": 420,
+        "mtime_ns": 1790866391192081978,
+        "nlink": 1,
+        "sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b"
+      },
+      "private_APP": {
+        "bytes": 11552,
+        "device": 16777232,
+        "inode": 60128202,
+        "mode": 420,
+        "mtime_ns": 1790929391589429076,
+        "nlink": 1,
+        "sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b"
+      }
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "maintained": {
+        "bytes": 1975,
+        "device": 16777247,
+        "inode": 13158420,
+        "mode": 420,
+        "mtime_ns": 1790813139906931797,
+        "nlink": 1,
+        "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+      },
+      "private_APP": {
+        "bytes": 1975,
+        "device": 16777232,
+        "inode": 60128203,
+        "mode": 420,
+        "mtime_ns": 1790929391589584283,
+        "nlink": 1,
+        "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+      }
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 116,
+        "device": 16777247,
+        "inode": 13158421,
+        "mode": 420,
+        "mtime_ns": 1790812036740441472,
+        "nlink": 1,
+        "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+      },
+      "private_APP": {
+        "bytes": 116,
+        "device": 16777232,
+        "inode": 60128204,
+        "mode": 420,
+        "mtime_ns": 1790929391589743365,
+        "nlink": 1,
+        "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+      }
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 986,
+        "device": 16777247,
+        "inode": 13158422,
+        "mode": 420,
+        "mtime_ns": 1790812582060790144,
+        "nlink": 1,
+        "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+      },
+      "private_APP": {
+        "bytes": 986,
+        "device": 16777232,
+        "inode": 60128205,
+        "mode": 420,
+        "mtime_ns": 1790929391589891823,
+        "nlink": 1,
+        "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+      }
+    },
+    "lib/admin/core/admin_exception_escalation_inbox_v2_models.dart": {
+      "maintained": {
+        "bytes": 5948,
+        "device": 16777247,
+        "inode": 15585254,
+        "mode": 420,
+        "mtime_ns": 1790867933605691081,
+        "nlink": 1,
+        "sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4"
+      },
+      "private_APP": {
+        "bytes": 5948,
+        "device": 16777232,
+        "inode": 60128206,
+        "mode": 420,
+        "mtime_ns": 1790929391590087363,
+        "nlink": 1,
+        "sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4"
+      }
+    },
+    "lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "maintained": {
+        "bytes": 20645,
+        "device": 16777247,
+        "inode": 15632274,
+        "mode": 420,
+        "mtime_ns": 1790869717454082924,
+        "nlink": 1,
+        "sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765"
+      },
+      "private_APP": {
+        "bytes": 20645,
+        "device": 16777232,
+        "inode": 60128207,
+        "mode": 420,
+        "mtime_ns": 1790929391590238696,
+        "nlink": 1,
+        "sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765"
+      }
+    },
+    "lib/admin/core/admin_exception_history_runtime.dart": {
+      "maintained": {
+        "bytes": 14050,
+        "device": 16777247,
+        "inode": 15585379,
+        "mode": 420,
+        "mtime_ns": 1790867963603016163,
+        "nlink": 1,
+        "sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a"
+      },
+      "private_APP": {
+        "bytes": 14050,
+        "device": 16777232,
+        "inode": 60128208,
+        "mode": 420,
+        "mtime_ns": 1790929391590442403,
+        "nlink": 1,
+        "sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a"
+      }
+    },
+    "lib/admin/core/admin_exception_history_v2_models.dart": {
+      "maintained": {
+        "bytes": 11287,
+        "device": 16777247,
+        "inode": 15585253,
+        "mode": 420,
+        "mtime_ns": 1790868607945277230,
+        "nlink": 1,
+        "sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c"
+      },
+      "private_APP": {
+        "bytes": 11287,
+        "device": 16777232,
+        "inode": 60128209,
+        "mode": 420,
+        "mtime_ns": 1790929391590603568,
+        "nlink": 1,
+        "sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c"
+      }
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "maintained": {
+        "bytes": 17303,
+        "device": 16777247,
+        "inode": 13157955,
+        "mode": 420,
+        "mtime_ns": 1790895240630543899,
+        "nlink": 1,
+        "sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f"
+      },
+      "private_APP": {
+        "bytes": 17303,
+        "device": 16777232,
+        "inode": 60128210,
+        "mode": 420,
+        "mtime_ns": 1790929391590758109,
+        "nlink": 1,
+        "sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f"
+      }
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "maintained": {
+        "bytes": 30535,
+        "device": 16777247,
+        "inode": 13160024,
+        "mode": 420,
+        "mtime_ns": 1790856876987446955,
+        "nlink": 1,
+        "sha256": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015"
+      },
+      "private_APP": {
+        "bytes": 30535,
+        "device": 16777232,
+        "inode": 60128211,
+        "mode": 420,
+        "mtime_ns": 1790929391590921275,
+        "nlink": 1,
+        "sha256": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015"
+      }
+    },
+    "lib/admin/core/admin_exception_repository.dart": {
+      "maintained": {
+        "bytes": 5043,
+        "device": 16777247,
+        "inode": 16004393,
+        "mode": 420,
+        "mtime_ns": 1790884339313181882,
+        "nlink": 1,
+        "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a"
+      },
+      "private_APP": {
+        "bytes": 5043,
+        "device": 16777232,
+        "inode": 60128212,
+        "mode": 420,
+        "mtime_ns": 1790929391591107690,
+        "nlink": 1,
+        "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a"
+      }
+    },
+    "lib/admin/core/admin_exception_runtime.dart": {
+      "maintained": {
+        "bytes": 4007,
+        "device": 16777247,
+        "inode": 13158423,
+        "mode": 420,
+        "mtime_ns": 1790812582064343597,
+        "nlink": 1,
+        "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+      },
+      "private_APP": {
+        "bytes": 4007,
+        "device": 16777232,
+        "inode": 60128213,
+        "mode": 420,
+        "mtime_ns": 1790929391591267106,
+        "nlink": 1,
+        "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+      }
+    },
+    "lib/admin/core/admin_exception_workflow_card.dart": {
+      "maintained": {
+        "bytes": 41161,
+        "device": 16777247,
+        "inode": 15632360,
+        "mode": 420,
+        "mtime_ns": 1790895240631930436,
+        "nlink": 1,
+        "sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7"
+      },
+      "private_APP": {
+        "bytes": 41161,
+        "device": 16777232,
+        "inode": 60128214,
+        "mode": 420,
+        "mtime_ns": 1790929391591435563,
+        "nlink": 1,
+        "sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7"
+      }
+    },
+    "lib/admin/core/admin_exception_workflow_models.dart": {
+      "maintained": {
+        "bytes": 20540,
+        "device": 16777247,
+        "inode": 15061886,
+        "mode": 420,
+        "mtime_ns": 1790895240631286272,
+        "nlink": 1,
+        "sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85"
+      },
+      "private_APP": {
+        "bytes": 20540,
+        "device": 16777232,
+        "inode": 60128215,
+        "mode": 420,
+        "mtime_ns": 1790929391591912560,
+        "nlink": 1,
+        "sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85"
+      }
+    },
+    "lib/admin/core/admin_gateway_checkpoint.dart": {
+      "maintained": {
+        "bytes": 3915,
+        "device": 16777247,
+        "inode": 13374404,
+        "mode": 420,
+        "mtime_ns": 1790813938074508571,
+        "nlink": 1,
+        "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f"
+      },
+      "private_APP": {
+        "bytes": 3915,
+        "device": 16777232,
+        "inode": 60128216,
+        "mode": 420,
+        "mtime_ns": 1790929391592099434,
+        "nlink": 1,
+        "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f"
+      }
+    },
+    "lib/admin/core/admin_gateway_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 110,
+        "device": 16777247,
+        "inode": 13374405,
+        "mode": 420,
+        "mtime_ns": 1790813777101804090,
+        "nlink": 1,
+        "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+      },
+      "private_APP": {
+        "bytes": 110,
+        "device": 16777232,
+        "inode": 60128217,
+        "mode": 420,
+        "mtime_ns": 1790929391592261016,
+        "nlink": 1,
+        "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+      }
+    },
+    "lib/admin/core/admin_gateway_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 971,
+        "device": 16777247,
+        "inode": 13374406,
+        "mode": 420,
+        "mtime_ns": 1790813777115569020,
+        "nlink": 1,
+        "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3"
+      },
+      "private_APP": {
+        "bytes": 971,
+        "device": 16777232,
+        "inode": 60128218,
+        "mode": 420,
+        "mtime_ns": 1790929391592411682,
+        "nlink": 1,
+        "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3"
+      }
+    },
+    "lib/admin/core/admin_gateway_contracts.dart": {
+      "maintained": {
+        "bytes": 8356,
+        "device": 16777247,
+        "inode": 12776128,
+        "mode": 420,
+        "mtime_ns": 1790807784304492006,
+        "nlink": 1,
+        "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+      },
+      "private_APP": {
+        "bytes": 8356,
+        "device": 16777232,
+        "inode": 60128219,
+        "mode": 420,
+        "mtime_ns": 1790929391592572973,
+        "nlink": 1,
+        "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+      }
+    },
+    "lib/admin/core/admin_gateway_dialogs.dart": {
+      "maintained": {
+        "bytes": 4489,
+        "device": 16777247,
+        "inode": 12776831,
+        "mode": 420,
+        "mtime_ns": 1790807784310083939,
+        "nlink": 1,
+        "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+      },
+      "private_APP": {
+        "bytes": 4489,
+        "device": 16777232,
+        "inode": 60128220,
+        "mode": 420,
+        "mtime_ns": 1790929391592759888,
+        "nlink": 1,
+        "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+      }
+    },
+    "lib/admin/core/admin_gateway_models.dart": {
+      "maintained": {
+        "bytes": 13628,
+        "device": 16777247,
+        "inode": 12779510,
+        "mode": 420,
+        "mtime_ns": 1790808187893795991,
+        "nlink": 1,
+        "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+      },
+      "private_APP": {
+        "bytes": 13628,
+        "device": 16777232,
+        "inode": 60128221,
+        "mode": 420,
+        "mtime_ns": 1790929391592961053,
+        "nlink": 1,
+        "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+      }
+    },
+    "lib/admin/core/admin_gateway_page.dart": {
+      "maintained": {
+        "bytes": 35750,
+        "device": 16777247,
+        "inode": 12782818,
+        "mode": 420,
+        "mtime_ns": 1790876202407818911,
+        "nlink": 1,
+        "sha256": "e7436487b84d88a459e4264f9d79ca6b83fdc7ea7da926dd21c7d5bbafda3c98"
+      },
+      "private_APP": {
+        "bytes": 35750,
+        "device": 16777232,
+        "inode": 60128222,
+        "mode": 420,
+        "mtime_ns": 1790929391593130677,
+        "nlink": 1,
+        "sha256": "e7436487b84d88a459e4264f9d79ca6b83fdc7ea7da926dd21c7d5bbafda3c98"
+      }
+    },
+    "lib/admin/core/admin_gateway_runtime.dart": {
+      "maintained": {
+        "bytes": 3400,
+        "device": 16777247,
+        "inode": 12779591,
+        "mode": 420,
+        "mtime_ns": 1790808101202271281,
+        "nlink": 1,
+        "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+      },
+      "private_APP": {
+        "bytes": 3400,
+        "device": 16777232,
+        "inode": 60128223,
+        "mode": 420,
+        "mtime_ns": 1790929391593298301,
+        "nlink": 1,
+        "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_checkpoint.dart": {
+      "maintained": {
+        "bytes": 782,
+        "device": 16777247,
+        "inode": 16220024,
+        "mode": 420,
+        "mtime_ns": 1790878419189392477,
+        "nlink": 1,
+        "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7"
+      },
+      "private_APP": {
+        "bytes": 782,
+        "device": 16777232,
+        "inode": 60128224,
+        "mode": 420,
+        "mtime_ns": 1790929391593449759,
+        "nlink": 1,
+        "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 122,
+        "device": 16777247,
+        "inode": 16220020,
+        "mode": 420,
+        "mtime_ns": 1790878000625643434,
+        "nlink": 1,
+        "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d"
+      },
+      "private_APP": {
+        "bytes": 122,
+        "device": 16777232,
+        "inode": 60128225,
+        "mode": 420,
+        "mtime_ns": 1790929391593599383,
+        "nlink": 1,
+        "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 6539,
+        "device": 16777247,
+        "inode": 16220017,
+        "mode": 420,
+        "mtime_ns": 1790879048662805411,
+        "nlink": 1,
+        "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d"
+      },
+      "private_APP": {
+        "bytes": 6539,
+        "device": 16777232,
+        "inode": 60128226,
+        "mode": 420,
+        "mtime_ns": 1790929391593782215,
+        "nlink": 1,
+        "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_controller.dart": {
+      "maintained": {
+        "bytes": 7708,
+        "device": 16777247,
+        "inode": 16220019,
+        "mode": 420,
+        "mtime_ns": 1790878996460087930,
+        "nlink": 1,
+        "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9"
+      },
+      "private_APP": {
+        "bytes": 7708,
+        "device": 16777232,
+        "inode": 60128227,
+        "mode": 420,
+        "mtime_ns": 1790929391593995588,
+        "nlink": 1,
+        "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_models.dart": {
+      "maintained": {
+        "bytes": 38333,
+        "device": 16777247,
+        "inode": 16220016,
+        "mode": 420,
+        "mtime_ns": 1790891588344198594,
+        "nlink": 1,
+        "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026"
+      },
+      "private_APP": {
+        "bytes": 38333,
+        "device": 16777232,
+        "inode": 60128228,
+        "mode": 420,
+        "mtime_ns": 1790929391594274837,
+        "nlink": 1,
+        "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_page.dart": {
+      "maintained": {
+        "bytes": 38314,
+        "device": 16777247,
+        "inode": 16220021,
+        "mode": 420,
+        "mtime_ns": 1790913728539175380,
+        "nlink": 1,
+        "sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9"
+      },
+      "private_APP": {
+        "bytes": 38314,
+        "device": 16777232,
+        "inode": 60128229,
+        "mode": 420,
+        "mtime_ns": 1790929391594473835,
+        "nlink": 1,
+        "sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_registry.dart": {
+      "maintained": {
+        "bytes": 11129,
+        "device": 16777247,
+        "inode": 16220022,
+        "mode": 420,
+        "mtime_ns": 1790890825093728144,
+        "nlink": 1,
+        "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787"
+      },
+      "private_APP": {
+        "bytes": 11129,
+        "device": 16777232,
+        "inode": 60128230,
+        "mode": 420,
+        "mtime_ns": 1790929391594653334,
+        "nlink": 1,
+        "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_runtime.dart": {
+      "maintained": {
+        "bytes": 5193,
+        "device": 16777247,
+        "inode": 16220018,
+        "mode": 420,
+        "mtime_ns": 1790891588345066722,
+        "nlink": 1,
+        "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2"
+      },
+      "private_APP": {
+        "bytes": 5193,
+        "device": 16777232,
+        "inode": 60128231,
+        "mode": 420,
+        "mtime_ns": 1790929391594843916,
+        "nlink": 1,
+        "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2"
+      }
+    },
+    "lib/admin/core/admin_governed_settings_sdk.dart": {
+      "maintained": {
+        "bytes": 6069,
+        "device": 16777247,
+        "inode": 16220023,
+        "mode": 420,
+        "mtime_ns": 1790891588344758221,
+        "nlink": 1,
+        "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a"
+      },
+      "private_APP": {
+        "bytes": 6069,
+        "device": 16777232,
+        "inode": 60128232,
+        "mode": 420,
+        "mtime_ns": 1790929391595039915,
+        "nlink": 1,
+        "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a"
+      }
+    },
+    "lib/admin/core/admin_group_runtime.dart": {
+      "maintained": {
+        "bytes": 13183,
+        "device": 16777247,
+        "inode": 2694169,
+        "mode": 448,
+        "mtime_ns": 1790798076496707329,
+        "nlink": 1,
+        "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd"
+      },
+      "private_APP": {
+        "bytes": 13183,
+        "device": 16777232,
+        "inode": 60128233,
+        "mode": 448,
+        "mtime_ns": 1790929391595250664,
+        "nlink": 1,
+        "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd"
+      }
+    },
+    "lib/admin/core/admin_investigation.dart": {
+      "maintained": {
+        "bytes": 18098,
+        "device": 16777247,
+        "inode": 11892039,
+        "mode": 420,
+        "mtime_ns": 1790848167719629073,
+        "nlink": 1,
+        "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+      },
+      "private_APP": {
+        "bytes": 18098,
+        "device": 16777232,
+        "inode": 60128234,
+        "mode": 420,
+        "mtime_ns": 1790929391595445829,
+        "nlink": 1,
+        "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+      }
+    },
+    "lib/admin/core/admin_investigation_view.dart": {
+      "maintained": {
+        "bytes": 24548,
+        "device": 16777247,
+        "inode": 16762263,
+        "mode": 420,
+        "mtime_ns": 1790897617549481576,
+        "nlink": 1,
+        "sha256": "cad59f5d940b4ec7d75ea7c77666bb5248c94904e4793181db88f351a27ad255"
+      },
+      "private_APP": {
+        "bytes": 24548,
+        "device": 16777232,
+        "inode": 60128235,
+        "mode": 420,
+        "mtime_ns": 1790929391595662619,
+        "nlink": 1,
+        "sha256": "cad59f5d940b4ec7d75ea7c77666bb5248c94904e4793181db88f351a27ad255"
+      }
+    },
+    "lib/admin/core/admin_list_paging.dart": {
+      "maintained": {
+        "bytes": 3686,
+        "device": 16777247,
+        "inode": 8042784,
+        "mode": 420,
+        "mtime_ns": 1790799949082955304,
+        "nlink": 1,
+        "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+      },
+      "private_APP": {
+        "bytes": 3686,
+        "device": 16777232,
+        "inode": 60128236,
+        "mode": 420,
+        "mtime_ns": 1790929391595878576,
+        "nlink": 1,
+        "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+      }
+    },
+    "lib/admin/core/admin_list_runtime.dart": {
+      "maintained": {
+        "bytes": 31085,
+        "device": 16777247,
+        "inode": 2694170,
+        "mode": 448,
+        "mtime_ns": 1790854470099219928,
+        "nlink": 1,
+        "sha256": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921"
+      },
+      "private_APP": {
+        "bytes": 31085,
+        "device": 16777232,
+        "inode": 60128237,
+        "mode": 448,
+        "mtime_ns": 1790929391596304907,
+        "nlink": 1,
+        "sha256": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921"
+      }
+    },
+    "lib/admin/core/admin_list_specs.dart": {
+      "maintained": {
+        "bytes": 22187,
+        "device": 16777247,
+        "inode": 2694171,
+        "mode": 448,
+        "mtime_ns": 1790361843362100276,
+        "nlink": 1,
+        "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183"
+      },
+      "private_APP": {
+        "bytes": 22187,
+        "device": 16777232,
+        "inode": 60128238,
+        "mode": 448,
+        "mtime_ns": 1790929391596582655,
+        "nlink": 1,
+        "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183"
+      }
+    },
+    "lib/admin/core/admin_login_runtime.dart": {
+      "maintained": {
+        "bytes": 23457,
+        "device": 16777247,
+        "inode": 2694172,
+        "mode": 448,
+        "mtime_ns": 1790806640394781260,
+        "nlink": 1,
+        "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+      },
+      "private_APP": {
+        "bytes": 23457,
+        "device": 16777232,
+        "inode": 60128239,
+        "mode": 448,
+        "mtime_ns": 1790929391596810987,
+        "nlink": 1,
+        "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+      }
+    },
+    "lib/admin/core/admin_models.dart": {
+      "maintained": {
+        "bytes": 10471,
+        "device": 16777247,
+        "inode": 2694173,
+        "mode": 448,
+        "mtime_ns": 1790800877472826255,
+        "nlink": 1,
+        "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+      },
+      "private_APP": {
+        "bytes": 10471,
+        "device": 16777232,
+        "inode": 60128240,
+        "mode": 448,
+        "mtime_ns": 1790929391597044569,
+        "nlink": 1,
+        "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+      }
+    },
+    "lib/admin/core/admin_operating_policy_card.dart": {
+      "maintained": {
+        "bytes": 5521,
+        "device": 16777247,
+        "inode": 13545505,
+        "mode": 420,
+        "mtime_ns": 1790855255200002178,
+        "nlink": 1,
+        "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+      },
+      "private_APP": {
+        "bytes": 5521,
+        "device": 16777232,
+        "inode": 60128241,
+        "mode": 420,
+        "mtime_ns": 1790929391597276276,
+        "nlink": 1,
+        "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+      }
+    },
+    "lib/admin/core/admin_operating_policy_models.dart": {
+      "maintained": {
+        "bytes": 7317,
+        "device": 16777247,
+        "inode": 13545503,
+        "mode": 420,
+        "mtime_ns": 1790816044024813237,
+        "nlink": 1,
+        "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+      },
+      "private_APP": {
+        "bytes": 7317,
+        "device": 16777232,
+        "inode": 60128242,
+        "mode": 420,
+        "mtime_ns": 1790929391597528357,
+        "nlink": 1,
+        "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+      }
+    },
+    "lib/admin/core/admin_operating_policy_runtime.dart": {
+      "maintained": {
+        "bytes": 1599,
+        "device": 16777247,
+        "inode": 13545504,
+        "mode": 420,
+        "mtime_ns": 1790815612211873963,
+        "nlink": 1,
+        "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10"
+      },
+      "private_APP": {
+        "bytes": 1599,
+        "device": 16777232,
+        "inode": 60128243,
+        "mode": 420,
+        "mtime_ns": 1790929391597809856,
+        "nlink": 1,
+        "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10"
+      }
+    },
+    "lib/admin/core/admin_operation_components.dart": {
+      "maintained": {
+        "bytes": 21731,
+        "device": 16777247,
+        "inode": 2694174,
+        "mode": 448,
+        "mtime_ns": 1790813117316747458,
+        "nlink": 1,
+        "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+      },
+      "private_APP": {
+        "bytes": 21731,
+        "device": 16777232,
+        "inode": 60128244,
+        "mode": 448,
+        "mtime_ns": 1790929391598047979,
+        "nlink": 1,
+        "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+      }
+    },
+    "lib/admin/core/admin_operation_tables.dart": {
+      "maintained": {
+        "bytes": 27052,
+        "device": 16777247,
+        "inode": 2694175,
+        "mode": 448,
+        "mtime_ns": 1790813116841199879,
+        "nlink": 1,
+        "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+      },
+      "private_APP": {
+        "bytes": 27052,
+        "device": 16777232,
+        "inode": 60128245,
+        "mode": 448,
+        "mtime_ns": 1790929391598284478,
+        "nlink": 1,
+        "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+      }
+    },
+    "lib/admin/core/admin_operational_health.dart": {
+      "maintained": {
+        "bytes": 16347,
+        "device": 16777247,
+        "inode": 10015207,
+        "mode": 420,
+        "mtime_ns": 1790802348580926079,
+        "nlink": 1,
+        "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292"
+      },
+      "private_APP": {
+        "bytes": 16347,
+        "device": 16777232,
+        "inode": 60128246,
+        "mode": 420,
+        "mtime_ns": 1790929391598573684,
+        "nlink": 1,
+        "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292"
+      }
+    },
+    "lib/admin/core/admin_operator_approval.dart": {
+      "maintained": {
+        "bytes": 4827,
+        "device": 16777247,
+        "inode": 12376356,
+        "mode": 420,
+        "mtime_ns": 1790805667433964493,
+        "nlink": 1,
+        "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+      },
+      "private_APP": {
+        "bytes": 4827,
+        "device": 16777232,
+        "inode": 60128247,
+        "mode": 420,
+        "mtime_ns": 1790929391598843308,
+        "nlink": 1,
+        "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+      }
+    },
+    "lib/admin/core/admin_overview_components.dart": {
+      "maintained": {
+        "bytes": 28760,
+        "device": 16777247,
+        "inode": 2694176,
+        "mode": 448,
+        "mtime_ns": 1790801536009597347,
+        "nlink": 1,
+        "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+      },
+      "private_APP": {
+        "bytes": 28760,
+        "device": 16777232,
+        "inode": 60128248,
+        "mode": 448,
+        "mtime_ns": 1790929391599075598,
+        "nlink": 1,
+        "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+      }
+    },
+    "lib/admin/core/admin_overview_runtime.dart": {
+      "maintained": {
+        "bytes": 35018,
+        "device": 16777247,
+        "inode": 2694177,
+        "mode": 448,
+        "mtime_ns": 1790895240635768132,
+        "nlink": 1,
+        "sha256": "a0373df0ab1956fd42201007b808a739b6611f892d5484bd90b1c894cf95ec87"
+      },
+      "private_APP": {
+        "bytes": 35018,
+        "device": 16777232,
+        "inode": 60128249,
+        "mode": 448,
+        "mtime_ns": 1790929391599341263,
+        "nlink": 1,
+        "sha256": "a0373df0ab1956fd42201007b808a739b6611f892d5484bd90b1c894cf95ec87"
+      }
+    },
+    "lib/admin/core/admin_payee_runtime.dart": {
+      "maintained": {
+        "bytes": 13134,
+        "device": 16777247,
+        "inode": 2694178,
+        "mode": 448,
+        "mtime_ns": 1790798076497406648,
+        "nlink": 1,
+        "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+      },
+      "private_APP": {
+        "bytes": 13134,
+        "device": 16777232,
+        "inode": 60128250,
+        "mode": 448,
+        "mtime_ns": 1790929391599636136,
+        "nlink": 1,
+        "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+      }
+    },
+    "lib/admin/core/admin_platform_access.dart": {
+      "maintained": {
+        "bytes": 17093,
+        "device": 16777247,
+        "inode": 2694180,
+        "mode": 448,
+        "mtime_ns": 1790806418820780812,
+        "nlink": 1,
+        "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c"
+      },
+      "private_APP": {
+        "bytes": 17093,
+        "device": 16777232,
+        "inode": 60128251,
+        "mode": 448,
+        "mtime_ns": 1790929391599854176,
+        "nlink": 1,
+        "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c"
+      }
+    },
+    "lib/admin/core/admin_read_contracts.dart": {
+      "maintained": {
+        "bytes": 14844,
+        "device": 16777247,
+        "inode": 10014024,
+        "mode": 420,
+        "mtime_ns": 1790800173251185589,
+        "nlink": 1,
+        "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102"
+      },
+      "private_APP": {
+        "bytes": 14844,
+        "device": 16777232,
+        "inode": 60128252,
+        "mode": 420,
+        "mtime_ns": 1790929391600129716,
+        "nlink": 1,
+        "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_card.dart": {
+      "maintained": {
+        "bytes": 24268,
+        "device": 16777247,
+        "inode": 13533448,
+        "mode": 420,
+        "mtime_ns": 1790843760056932742,
+        "nlink": 1,
+        "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+      },
+      "private_APP": {
+        "bytes": 24268,
+        "device": 16777232,
+        "inode": 60128253,
+        "mode": 420,
+        "mtime_ns": 1790929391600361465,
+        "nlink": 1,
+        "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint.dart": {
+      "maintained": {
+        "bytes": 1718,
+        "device": 16777247,
+        "inode": 13522790,
+        "mode": 420,
+        "mtime_ns": 1790815143916746457,
+        "nlink": 1,
+        "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867"
+      },
+      "private_APP": {
+        "bytes": 1718,
+        "device": 16777232,
+        "inode": 60128254,
+        "mode": 420,
+        "mtime_ns": 1790929391600597255,
+        "nlink": 1,
+        "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 129,
+        "device": 16777247,
+        "inode": 13522792,
+        "mode": 420,
+        "mtime_ns": 1790814993294285958,
+        "nlink": 1,
+        "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+      },
+      "private_APP": {
+        "bytes": 129,
+        "device": 16777232,
+        "inode": 60128255,
+        "mode": 420,
+        "mtime_ns": 1790929391600822962,
+        "nlink": 1,
+        "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 1007,
+        "device": 16777247,
+        "inode": 13522794,
+        "mode": 420,
+        "mtime_ns": 1790815143957315002,
+        "nlink": 1,
+        "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd"
+      },
+      "private_APP": {
+        "bytes": 1007,
+        "device": 16777232,
+        "inode": 60128256,
+        "mode": 420,
+        "mtime_ns": 1790929391601051793,
+        "nlink": 1,
+        "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_models.dart": {
+      "maintained": {
+        "bytes": 10561,
+        "device": 16777247,
+        "inode": 13430639,
+        "mode": 420,
+        "mtime_ns": 1790815143871415823,
+        "nlink": 1,
+        "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+      },
+      "private_APP": {
+        "bytes": 10561,
+        "device": 16777232,
+        "inode": 60128257,
+        "mode": 420,
+        "mtime_ns": 1790929391601268292,
+        "nlink": 1,
+        "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+      }
+    },
+    "lib/admin/core/admin_receipt_cancel_runtime.dart": {
+      "maintained": {
+        "bytes": 3131,
+        "device": 16777247,
+        "inode": 13522796,
+        "mode": 420,
+        "mtime_ns": 1790816894913226339,
+        "nlink": 1,
+        "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+      },
+      "private_APP": {
+        "bytes": 3131,
+        "device": 16777232,
+        "inode": 60128258,
+        "mode": 420,
+        "mtime_ns": 1790929391601478999,
+        "nlink": 1,
+        "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+      }
+    },
+    "lib/admin/core/admin_receipt_deferral_card.dart": {
+      "maintained": {
+        "bytes": 7930,
+        "device": 16777247,
+        "inode": 15194589,
+        "mode": 420,
+        "mtime_ns": 1790857614042918623,
+        "nlink": 1,
+        "sha256": "71bcf9f8d4e1679a1ada67077a5981f3c5cf8c4aae9bf0bac1498ddcacc538d2"
+      },
+      "private_APP": {
+        "bytes": 7930,
+        "device": 16777232,
+        "inode": 60128259,
+        "mode": 420,
+        "mtime_ns": 1790929391601745914,
+        "nlink": 1,
+        "sha256": "71bcf9f8d4e1679a1ada67077a5981f3c5cf8c4aae9bf0bac1498ddcacc538d2"
+      }
+    },
+    "lib/admin/core/admin_receipt_deferral_models.dart": {
+      "maintained": {
+        "bytes": 6305,
+        "device": 16777247,
+        "inode": 15194184,
+        "mode": 420,
+        "mtime_ns": 1790891318266709344,
+        "nlink": 1,
+        "sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66"
+      },
+      "private_APP": {
+        "bytes": 6305,
+        "device": 16777232,
+        "inode": 60128260,
+        "mode": 420,
+        "mtime_ns": 1790929391602013037,
+        "nlink": 1,
+        "sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66"
+      }
+    },
+    "lib/admin/core/admin_receipt_operational_history_models.dart": {
+      "maintained": {
+        "bytes": 22247,
+        "device": 16777247,
+        "inode": 17178151,
+        "mode": 420,
+        "mtime_ns": 1790906145887138959,
+        "nlink": 1,
+        "sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c"
+      },
+      "private_APP": {
+        "bytes": 22247,
+        "device": 16777232,
+        "inode": 60128261,
+        "mode": 420,
+        "mtime_ns": 1790929391602239578,
+        "nlink": 1,
+        "sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c"
+      }
+    },
+    "lib/admin/core/admin_receipt_operational_history_runtime.dart": {
+      "maintained": {
+        "bytes": 3589,
+        "device": 16777247,
+        "inode": 17023707,
+        "mode": 420,
+        "mtime_ns": 1790902419630361472,
+        "nlink": 1,
+        "sha256": "e6a661aa0e359bbbb43eadb1e548762a1ce584e8890c27af55fb2bca8466931e"
+      },
+      "private_APP": {
+        "bytes": 3589,
+        "device": 16777232,
+        "inode": 60128262,
+        "mode": 420,
+        "mtime_ns": 1790929391602745741,
+        "nlink": 1,
+        "sha256": "e6a661aa0e359bbbb43eadb1e548762a1ce584e8890c27af55fb2bca8466931e"
+      }
+    },
+    "lib/admin/core/admin_receipt_operational_history_sdk.dart": {
+      "maintained": {
+        "bytes": 1099,
+        "device": 16777247,
+        "inode": 17023708,
+        "mode": 420,
+        "mtime_ns": 1790902419630545387,
+        "nlink": 1,
+        "sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33"
+      },
+      "private_APP": {
+        "bytes": 1099,
+        "device": 16777232,
+        "inode": 60128263,
+        "mode": 420,
+        "mtime_ns": 1790929391602968823,
+        "nlink": 1,
+        "sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33"
+      }
+    },
+    "lib/admin/core/admin_receipt_operational_history_view.dart": {
+      "maintained": {
+        "bytes": 20508,
+        "device": 16777247,
+        "inode": 17023709,
+        "mode": 420,
+        "mtime_ns": 1790903188451715773,
+        "nlink": 1,
+        "sha256": "c8718d44296f519d4a77c2081ca08a2bbfcf4deedbca7e5aa689f8a519dd161c"
+      },
+      "private_APP": {
+        "bytes": 20508,
+        "device": 16777232,
+        "inode": 60128264,
+        "mode": 420,
+        "mtime_ns": 1790929391603189280,
+        "nlink": 1,
+        "sha256": "c8718d44296f519d4a77c2081ca08a2bbfcf4deedbca7e5aa689f8a519dd161c"
+      }
+    },
+    "lib/admin/core/admin_receipt_operational_telemetry.dart": {
+      "maintained": {
+        "bytes": 15444,
+        "device": 16777247,
+        "inode": 16527705,
+        "mode": 420,
+        "mtime_ns": 1790895240632181394,
+        "nlink": 1,
+        "sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27"
+      },
+      "private_APP": {
+        "bytes": 15444,
+        "device": 16777232,
+        "inode": 60128265,
+        "mode": 420,
+        "mtime_ns": 1790929391603447112,
+        "nlink": 1,
+        "sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_card.dart": {
+      "maintained": {
+        "bytes": 22581,
+        "device": 16777247,
+        "inode": 15167891,
+        "mode": 420,
+        "mtime_ns": 1790913880259123032,
+        "nlink": 1,
+        "sha256": "89b30e331188bbf7cbecb01db67519ecf2a068874c67af3986c82e98fdb5d605"
+      },
+      "private_APP": {
+        "bytes": 22581,
+        "device": 16777232,
+        "inode": 60128266,
+        "mode": 420,
+        "mtime_ns": 1790929391603615985,
+        "nlink": 1,
+        "sha256": "89b30e331188bbf7cbecb01db67519ecf2a068874c67af3986c82e98fdb5d605"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_checkpoint.dart": {
+      "maintained": {
+        "bytes": 4915,
+        "device": 16777247,
+        "inode": 15166415,
+        "mode": 420,
+        "mtime_ns": 1790855507620634571,
+        "nlink": 1,
+        "sha256": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559"
+      },
+      "private_APP": {
+        "bytes": 4915,
+        "device": 16777232,
+        "inode": 60128267,
+        "mode": 420,
+        "mtime_ns": 1790929391603812068,
+        "nlink": 1,
+        "sha256": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 141,
+        "device": 16777247,
+        "inode": 15166416,
+        "mode": 420,
+        "mtime_ns": 1790855304571697725,
+        "nlink": 1,
+        "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc"
+      },
+      "private_APP": {
+        "bytes": 141,
+        "device": 16777232,
+        "inode": 60128268,
+        "mode": 420,
+        "mtime_ns": 1790929391603969983,
+        "nlink": 1,
+        "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 3589,
+        "device": 16777247,
+        "inode": 15166417,
+        "mode": 420,
+        "mtime_ns": 1790855507621890308,
+        "nlink": 1,
+        "sha256": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b"
+      },
+      "private_APP": {
+        "bytes": 3589,
+        "device": 16777232,
+        "inode": 60128269,
+        "mode": 420,
+        "mtime_ns": 1790929391604137857,
+        "nlink": 1,
+        "sha256": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_models.dart": {
+      "maintained": {
+        "bytes": 13697,
+        "device": 16777247,
+        "inode": 15165047,
+        "mode": 420,
+        "mtime_ns": 1790855507629100273,
+        "nlink": 1,
+        "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2"
+      },
+      "private_APP": {
+        "bytes": 13697,
+        "device": 16777232,
+        "inode": 60128270,
+        "mode": 420,
+        "mtime_ns": 1790929391604330981,
+        "nlink": 1,
+        "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2"
+      }
+    },
+    "lib/admin/core/admin_receipt_operations_runtime.dart": {
+      "maintained": {
+        "bytes": 10570,
+        "device": 16777247,
+        "inode": 15167469,
+        "mode": 420,
+        "mtime_ns": 1790855858569280231,
+        "nlink": 1,
+        "sha256": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3"
+      },
+      "private_APP": {
+        "bytes": 10570,
+        "device": 16777232,
+        "inode": 60128271,
+        "mode": 420,
+        "mtime_ns": 1790929391604524813,
+        "nlink": 1,
+        "sha256": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3"
+      }
+    },
+    "lib/admin/core/admin_receipt_overview.dart": {
+      "maintained": {
+        "bytes": 4951,
+        "device": 16777247,
+        "inode": 11457021,
+        "mode": 420,
+        "mtime_ns": 1790802348582144143,
+        "nlink": 1,
+        "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+      },
+      "private_APP": {
+        "bytes": 4951,
+        "device": 16777232,
+        "inode": 60128272,
+        "mode": 420,
+        "mtime_ns": 1790929391604739312,
+        "nlink": 1,
+        "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_card.dart": {
+      "maintained": {
+        "bytes": 23603,
+        "device": 16777247,
+        "inode": 15443360,
+        "mode": 420,
+        "mtime_ns": 1790862965999252367,
+        "nlink": 1,
+        "sha256": "454454ef0f25875d39d0bf90a85ca6eebf21b12eb938adfec8e110049cb5bfab"
+      },
+      "private_APP": {
+        "bytes": 23603,
+        "device": 16777232,
+        "inode": 60128273,
+        "mode": 420,
+        "mtime_ns": 1790929391604914061,
+        "nlink": 1,
+        "sha256": "454454ef0f25875d39d0bf90a85ca6eebf21b12eb938adfec8e110049cb5bfab"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_checkpoint.dart": {
+      "maintained": {
+        "bytes": 3578,
+        "device": 16777247,
+        "inode": 15441223,
+        "mode": 420,
+        "mtime_ns": 1790862040121130458,
+        "nlink": 1,
+        "sha256": "32ab3b64e5115d836c9f96c443923e4f519123a8a00636e2d95eb9ad62522f04"
+      },
+      "private_APP": {
+        "bytes": 3578,
+        "device": 16777232,
+        "inode": 60128274,
+        "mode": 420,
+        "mtime_ns": 1790929391605073893,
+        "nlink": 1,
+        "sha256": "32ab3b64e5115d836c9f96c443923e4f519123a8a00636e2d95eb9ad62522f04"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 142,
+        "device": 16777247,
+        "inode": 15441224,
+        "mode": 420,
+        "mtime_ns": 1790862040170837239,
+        "nlink": 1,
+        "sha256": "ca9263e4b17ee9f53c2a3d73b2e4e71331ebe1cff52e890782820f7077bbf12d"
+      },
+      "private_APP": {
+        "bytes": 142,
+        "device": 16777232,
+        "inode": 60128275,
+        "mode": 420,
+        "mtime_ns": 1790929391605270183,
+        "nlink": 1,
+        "sha256": "ca9263e4b17ee9f53c2a3d73b2e4e71331ebe1cff52e890782820f7077bbf12d"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 7560,
+        "device": 16777247,
+        "inode": 15441225,
+        "mode": 420,
+        "mtime_ns": 1790862040165071644,
+        "nlink": 1,
+        "sha256": "1ea1e78acf6554208019cd69fb2a3a66559e6816d0d0e29eddc45a4e76f6bfb3"
+      },
+      "private_APP": {
+        "bytes": 7560,
+        "device": 16777232,
+        "inode": 60128276,
+        "mode": 420,
+        "mtime_ns": 1790929391605457307,
+        "nlink": 1,
+        "sha256": "1ea1e78acf6554208019cd69fb2a3a66559e6816d0d0e29eddc45a4e76f6bfb3"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_controller.dart": {
+      "maintained": {
+        "bytes": 11526,
+        "device": 16777247,
+        "inode": 15444059,
+        "mode": 420,
+        "mtime_ns": 1790862240736361785,
+        "nlink": 1,
+        "sha256": "a826594bd27bf4c95d75560f9945e82ceecef927714c574138693b9bcd58d52d"
+      },
+      "private_APP": {
+        "bytes": 11526,
+        "device": 16777232,
+        "inode": 60128277,
+        "mode": 420,
+        "mtime_ns": 1790929391605615473,
+        "nlink": 1,
+        "sha256": "a826594bd27bf4c95d75560f9945e82ceecef927714c574138693b9bcd58d52d"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_models.dart": {
+      "maintained": {
+        "bytes": 24662,
+        "device": 16777247,
+        "inode": 15414083,
+        "mode": 420,
+        "mtime_ns": 1790862342173564618,
+        "nlink": 1,
+        "sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842"
+      },
+      "private_APP": {
+        "bytes": 24662,
+        "device": 16777232,
+        "inode": 60128278,
+        "mode": 420,
+        "mtime_ns": 1790929391605791722,
+        "nlink": 1,
+        "sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842"
+      }
+    },
+    "lib/admin/core/admin_receipt_principal_runtime.dart": {
+      "maintained": {
+        "bytes": 5467,
+        "device": 16777247,
+        "inode": 15440984,
+        "mode": 420,
+        "mtime_ns": 1790862965997489350,
+        "nlink": 1,
+        "sha256": "7dc0858a4443f8dd700028b5a49f0e06b18de402b7e788fefb0ab471dd015fac"
+      },
+      "private_APP": {
+        "bytes": 5467,
+        "device": 16777232,
+        "inode": 60128279,
+        "mode": 420,
+        "mtime_ns": 1790929391605986095,
+        "nlink": 1,
+        "sha256": "7dc0858a4443f8dd700028b5a49f0e06b18de402b7e788fefb0ab471dd015fac"
+      }
+    },
+    "lib/admin/core/admin_receipt_repository.dart": {
+      "maintained": {
+        "bytes": 6970,
+        "device": 16777247,
+        "inode": 17023700,
+        "mode": 420,
+        "mtime_ns": 1790902419629057902,
+        "nlink": 1,
+        "sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5"
+      },
+      "private_APP": {
+        "bytes": 6970,
+        "device": 16777232,
+        "inode": 60128280,
+        "mode": 420,
+        "mtime_ns": 1790929391606170594,
+        "nlink": 1,
+        "sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_checkpoint.dart": {
+      "maintained": {
+        "bytes": 1675,
+        "device": 16777247,
+        "inode": 16762241,
+        "mode": 420,
+        "mtime_ns": 1790897617544155608,
+        "nlink": 1,
+        "sha256": "3ab0bf747354349d1b2ff375994599fc5153b0a8750a8b7e994f2c1614648762"
+      },
+      "private_APP": {
+        "bytes": 1675,
+        "device": 16777232,
+        "inode": 60128281,
+        "mode": 420,
+        "mtime_ns": 1790929391606326510,
+        "nlink": 1,
+        "sha256": "3ab0bf747354349d1b2ff375994599fc5153b0a8750a8b7e994f2c1614648762"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 142,
+        "device": 16777247,
+        "inode": 16762242,
+        "mode": 420,
+        "mtime_ns": 1790897617544258190,
+        "nlink": 1,
+        "sha256": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0"
+      },
+      "private_APP": {
+        "bytes": 142,
+        "device": 16777232,
+        "inode": 60128282,
+        "mode": 420,
+        "mtime_ns": 1790929391606476259,
+        "nlink": 1,
+        "sha256": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 1000,
+        "device": 16777247,
+        "inode": 16762243,
+        "mode": 420,
+        "mtime_ns": 1790897617544347189,
+        "nlink": 1,
+        "sha256": "2aa002583e641648c5cddf7ecc116357f1c51ff6a898475cccfcfc8f74d653f3"
+      },
+      "private_APP": {
+        "bytes": 1000,
+        "device": 16777232,
+        "inode": 60128283,
+        "mode": 420,
+        "mtime_ns": 1790929391606617300,
+        "nlink": 1,
+        "sha256": "2aa002583e641648c5cddf7ecc116357f1c51ff6a898475cccfcfc8f74d653f3"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_controller.dart": {
+      "maintained": {
+        "bytes": 5235,
+        "device": 16777247,
+        "inode": 16762244,
+        "mode": 420,
+        "mtime_ns": 1790897617544453395,
+        "nlink": 1,
+        "sha256": "6de89f2b119571b8e3e2b5616ad7b3036759101f4930813160e169fee660e449"
+      },
+      "private_APP": {
+        "bytes": 5235,
+        "device": 16777232,
+        "inode": 60128284,
+        "mode": 420,
+        "mtime_ns": 1790929391606791840,
+        "nlink": 1,
+        "sha256": "6de89f2b119571b8e3e2b5616ad7b3036759101f4930813160e169fee660e449"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_execution_controller.dart": {
+      "maintained": {
+        "bytes": 4583,
+        "device": 16777247,
+        "inode": 17194054,
+        "mode": 420,
+        "mtime_ns": 1790906966748655343,
+        "nlink": 1,
+        "sha256": "4ebb59646e5458ef03e3dfbb3877b5b89678fe39e02f7e3a45f5144f23d47c20"
+      },
+      "private_APP": {
+        "bytes": 4583,
+        "device": 16777232,
+        "inode": 60128285,
+        "mode": 420,
+        "mtime_ns": 1790929391606981172,
+        "nlink": 1,
+        "sha256": "4ebb59646e5458ef03e3dfbb3877b5b89678fe39e02f7e3a45f5144f23d47c20"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_execution_host.dart": {
+      "maintained": {
+        "bytes": 3487,
+        "device": 16777247,
+        "inode": 17194055,
+        "mode": 420,
+        "mtime_ns": 1790906631314991357,
+        "nlink": 1,
+        "sha256": "04624bc7e88a5a37628a11a41da6a7194a3fdfeece9f99ba78808b9a8a9af99d"
+      },
+      "private_APP": {
+        "bytes": 3487,
+        "device": 16777232,
+        "inode": 60128286,
+        "mode": 420,
+        "mtime_ns": 1790929391607194213,
+        "nlink": 1,
+        "sha256": "04624bc7e88a5a37628a11a41da6a7194a3fdfeece9f99ba78808b9a8a9af99d"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_execution_models.dart": {
+      "maintained": {
+        "bytes": 15317,
+        "device": 16777247,
+        "inode": 17194056,
+        "mode": 420,
+        "mtime_ns": 1790906631314736522,
+        "nlink": 1,
+        "sha256": "5f75145e1a0e430ef9d3de7ebe6adf0c5f754ed80aa88bb8dbfc140a1230d6fc"
+      },
+      "private_APP": {
+        "bytes": 15317,
+        "device": 16777232,
+        "inode": 60128287,
+        "mode": 420,
+        "mtime_ns": 1790929391607476752,
+        "nlink": 1,
+        "sha256": "5f75145e1a0e430ef9d3de7ebe6adf0c5f754ed80aa88bb8dbfc140a1230d6fc"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_execution_sdk.dart": {
+      "maintained": {
+        "bytes": 3371,
+        "device": 16777247,
+        "inode": 17194057,
+        "mode": 420,
+        "mtime_ns": 1790906966755829169,
+        "nlink": 1,
+        "sha256": "4e6a7bca780b650008941c7227bd748c3f956f4e255bc3185ca4eee68446a517"
+      },
+      "private_APP": {
+        "bytes": 3371,
+        "device": 16777232,
+        "inode": 60128288,
+        "mode": 420,
+        "mtime_ns": 1790929391607638752,
+        "nlink": 1,
+        "sha256": "4e6a7bca780b650008941c7227bd748c3f956f4e255bc3185ca4eee68446a517"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_execution_view.dart": {
+      "maintained": {
+        "bytes": 9065,
+        "device": 16777247,
+        "inode": 17194058,
+        "mode": 420,
+        "mtime_ns": 1790906631315313650,
+        "nlink": 1,
+        "sha256": "f541a811a19651153e3814b1259c3c0e760e89b6c9a185063e4f9b74375da96d"
+      },
+      "private_APP": {
+        "bytes": 9065,
+        "device": 16777232,
+        "inode": 60128289,
+        "mode": 420,
+        "mtime_ns": 1790929391607817167,
+        "nlink": 1,
+        "sha256": "f541a811a19651153e3814b1259c3c0e760e89b6c9a185063e4f9b74375da96d"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_host.dart": {
+      "maintained": {
+        "bytes": 4747,
+        "device": 16777247,
+        "inode": 16762245,
+        "mode": 420,
+        "mtime_ns": 1790897617544545478,
+        "nlink": 1,
+        "sha256": "2fec6b4fd5ad68ca1d9f6632ee12e661da5abc14f9c5924cf497f0eb15cadd4d"
+      },
+      "private_APP": {
+        "bytes": 4747,
+        "device": 16777232,
+        "inode": 60128290,
+        "mode": 420,
+        "mtime_ns": 1790929391608004166,
+        "nlink": 1,
+        "sha256": "2fec6b4fd5ad68ca1d9f6632ee12e661da5abc14f9c5924cf497f0eb15cadd4d"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_models.dart": {
+      "maintained": {
+        "bytes": 19605,
+        "device": 16777247,
+        "inode": 16762246,
+        "mode": 420,
+        "mtime_ns": 1790897617544653059,
+        "nlink": 1,
+        "sha256": "fa80e93d179436d21244006268ad7affb2cec2e97a6d5cc9b2991c23d26880c3"
+      },
+      "private_APP": {
+        "bytes": 19605,
+        "device": 16777232,
+        "inode": 60128291,
+        "mode": 420,
+        "mtime_ns": 1790929391608156915,
+        "nlink": 1,
+        "sha256": "fa80e93d179436d21244006268ad7affb2cec2e97a6d5cc9b2991c23d26880c3"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_sdk.dart": {
+      "maintained": {
+        "bytes": 9182,
+        "device": 16777247,
+        "inode": 16762247,
+        "mode": 420,
+        "mtime_ns": 1790897617544820557,
+        "nlink": 1,
+        "sha256": "1302dacf889572a87d89aed0090b7cfd3ac733f4a4da71e54c243e6e63079c28"
+      },
+      "private_APP": {
+        "bytes": 9182,
+        "device": 16777232,
+        "inode": 60128292,
+        "mode": 420,
+        "mtime_ns": 1790929391608321706,
+        "nlink": 1,
+        "sha256": "1302dacf889572a87d89aed0090b7cfd3ac733f4a4da71e54c243e6e63079c28"
+      }
+    },
+    "lib/admin/core/admin_receipt_successor_view.dart": {
+      "maintained": {
+        "bytes": 22492,
+        "device": 16777247,
+        "inode": 16762248,
+        "mode": 420,
+        "mtime_ns": 1790907429014319395,
+        "nlink": 1,
+        "sha256": "3dae4d817bdd5f642e10f760afcc0cbe48b34aab41b6ed5e6e36e16de99fc2b0"
+      },
+      "private_APP": {
+        "bytes": 22492,
+        "device": 16777232,
+        "inode": 60128293,
+        "mode": 420,
+        "mtime_ns": 1790929391608475913,
+        "nlink": 1,
+        "sha256": "3dae4d817bdd5f642e10f760afcc0cbe48b34aab41b6ed5e6e36e16de99fc2b0"
+      }
+    },
+    "lib/admin/core/admin_receipt_telemetry_card.dart": {
+      "maintained": {
+        "bytes": 13871,
+        "device": 16777247,
+        "inode": 16527714,
+        "mode": 420,
+        "mtime_ns": 1790895240636660170,
+        "nlink": 1,
+        "sha256": "2489e5656cbd83ef09378137836f93c942a358572091a5fedb68567a3fb14bdb"
+      },
+      "private_APP": {
+        "bytes": 13871,
+        "device": 16777232,
+        "inode": 60128294,
+        "mode": 420,
+        "mtime_ns": 1790929391608727078,
+        "nlink": 1,
+        "sha256": "2489e5656cbd83ef09378137836f93c942a358572091a5fedb68567a3fb14bdb"
+      }
+    },
+    "lib/admin/core/admin_receipt_worker_card.dart": {
+      "maintained": {
+        "bytes": 7275,
+        "device": 16777247,
+        "inode": 15228326,
+        "mode": 420,
+        "mtime_ns": 1790860364242639015,
+        "nlink": 1,
+        "sha256": "e9c6279fab3606dfcaaba2c189ac24f9cbae6878d434d9ffc3fa62d80ddbda82"
+      },
+      "private_APP": {
+        "bytes": 7275,
+        "device": 16777232,
+        "inode": 60128295,
+        "mode": 420,
+        "mtime_ns": 1790929391608924452,
+        "nlink": 1,
+        "sha256": "e9c6279fab3606dfcaaba2c189ac24f9cbae6878d434d9ffc3fa62d80ddbda82"
+      }
+    },
+    "lib/admin/core/admin_receipt_worker_health.dart": {
+      "maintained": {
+        "bytes": 7121,
+        "device": 16777247,
+        "inode": 15228325,
+        "mode": 420,
+        "mtime_ns": 1790858742659657569,
+        "nlink": 1,
+        "sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019"
+      },
+      "private_APP": {
+        "bytes": 7121,
+        "device": 16777232,
+        "inode": 60128296,
+        "mode": 420,
+        "mtime_ns": 1790929391609107409,
+        "nlink": 1,
+        "sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019"
+      }
+    },
+    "lib/admin/core/admin_receipt_worker_transport_card.dart": {
+      "maintained": {
+        "bytes": 9458,
+        "device": 16777247,
+        "inode": 15281544,
+        "mode": 420,
+        "mtime_ns": 1790860731777928354,
+        "nlink": 1,
+        "sha256": "46025a42090c4749978ae267ff489e2c81d0fe875b90f0defea8ed693460bec5"
+      },
+      "private_APP": {
+        "bytes": 9458,
+        "device": 16777232,
+        "inode": 60128297,
+        "mode": 420,
+        "mtime_ns": 1790929391609264699,
+        "nlink": 1,
+        "sha256": "46025a42090c4749978ae267ff489e2c81d0fe875b90f0defea8ed693460bec5"
+      }
+    },
+    "lib/admin/core/admin_receipt_worker_transport_models.dart": {
+      "maintained": {
+        "bytes": 15478,
+        "device": 16777247,
+        "inode": 15276095,
+        "mode": 420,
+        "mtime_ns": 1790859976398991741,
+        "nlink": 1,
+        "sha256": "e6e2118d59cb0e8e694c0164577bd779a5415842f80a776f3e33da8ce65f3d15"
+      },
+      "private_APP": {
+        "bytes": 15478,
+        "device": 16777232,
+        "inode": 60128298,
+        "mode": 420,
+        "mtime_ns": 1790929391609459532,
+        "nlink": 1,
+        "sha256": "e6e2118d59cb0e8e694c0164577bd779a5415842f80a776f3e33da8ce65f3d15"
+      }
+    },
+    "lib/admin/core/admin_reconciliation_models.dart": {
+      "maintained": {
+        "bytes": 1919,
+        "device": 16777247,
+        "inode": 8902351,
+        "mode": 420,
+        "mtime_ns": 1790787388618639323,
+        "nlink": 1,
+        "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+      },
+      "private_APP": {
+        "bytes": 1919,
+        "device": 16777232,
+        "inode": 60128299,
+        "mode": 420,
+        "mtime_ns": 1790929391609606197,
+        "nlink": 1,
+        "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+      }
+    },
+    "lib/admin/core/admin_reconciliation_runtime.dart": {
+      "maintained": {
+        "bytes": 38720,
+        "device": 16777247,
+        "inode": 8872256,
+        "mode": 420,
+        "mtime_ns": 1790800066606680018,
+        "nlink": 1,
+        "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+      },
+      "private_APP": {
+        "bytes": 38720,
+        "device": 16777232,
+        "inode": 60128300,
+        "mode": 420,
+        "mtime_ns": 1790929391609764238,
+        "nlink": 1,
+        "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+      }
+    },
+    "lib/admin/core/admin_reconciliation_step_up.dart": {
+      "maintained": {
+        "bytes": 10303,
+        "device": 16777247,
+        "inode": 8875045,
+        "mode": 420,
+        "mtime_ns": 1790719559531395403,
+        "nlink": 1,
+        "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02"
+      },
+      "private_APP": {
+        "bytes": 10303,
+        "device": 16777232,
+        "inode": 60128301,
+        "mode": 420,
+        "mtime_ns": 1790929391609928404,
+        "nlink": 1,
+        "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02"
+      }
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "maintained": {
+        "bytes": 9941,
+        "device": 16777247,
+        "inode": 17023701,
+        "mode": 420,
+        "mtime_ns": 1790902419629117360,
+        "nlink": 1,
+        "sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c"
+      },
+      "private_APP": {
+        "bytes": 9941,
+        "device": 16777232,
+        "inode": 60128302,
+        "mode": 420,
+        "mtime_ns": 1790929391610083528,
+        "nlink": 1,
+        "sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c"
+      }
+    },
+    "lib/admin/core/admin_review_credentials.dart": {
+      "maintained": {
+        "bytes": 168,
+        "device": 16777247,
+        "inode": 2694183,
+        "mode": 448,
+        "mtime_ns": 1790804050831169921,
+        "nlink": 1,
+        "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+      },
+      "private_APP": {
+        "bytes": 168,
+        "device": 16777232,
+        "inode": 60128303,
+        "mode": 448,
+        "mtime_ns": 1790929391610233777,
+        "nlink": 1,
+        "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+      }
+    },
+    "lib/admin/core/admin_roster_checkpoint.dart": {
+      "maintained": {
+        "bytes": 3781,
+        "device": 16777247,
+        "inode": 9728910,
+        "mode": 420,
+        "mtime_ns": 1790774355131689993,
+        "nlink": 1,
+        "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+      },
+      "private_APP": {
+        "bytes": 3781,
+        "device": 16777232,
+        "inode": 60128304,
+        "mode": 420,
+        "mtime_ns": 1790929391610375151,
+        "nlink": 1,
+        "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+      }
+    },
+    "lib/admin/core/admin_roster_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 98,
+        "device": 16777247,
+        "inode": 9728911,
+        "mode": 420,
+        "mtime_ns": 1790773929207199517,
+        "nlink": 1,
+        "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+      },
+      "private_APP": {
+        "bytes": 98,
+        "device": 16777232,
+        "inode": 60128305,
+        "mode": 420,
+        "mtime_ns": 1790929391610512733,
+        "nlink": 1,
+        "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+      }
+    },
+    "lib/admin/core/admin_roster_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 683,
+        "device": 16777247,
+        "inode": 9728912,
+        "mode": 420,
+        "mtime_ns": 1790773929208639607,
+        "nlink": 1,
+        "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+      },
+      "private_APP": {
+        "bytes": 683,
+        "device": 16777232,
+        "inode": 60128306,
+        "mode": 420,
+        "mtime_ns": 1790929391610647982,
+        "nlink": 1,
+        "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+      }
+    },
+    "lib/admin/core/admin_roster_dialog.dart": {
+      "maintained": {
+        "bytes": 27073,
+        "device": 16777247,
+        "inode": 9236409,
+        "mode": 420,
+        "mtime_ns": 1790797216529595262,
+        "nlink": 1,
+        "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+      },
+      "private_APP": {
+        "bytes": 27073,
+        "device": 16777232,
+        "inode": 60128307,
+        "mode": 420,
+        "mtime_ns": 1790929391610807523,
+        "nlink": 1,
+        "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+      }
+    },
+    "lib/admin/core/admin_roster_gateway.dart": {
+      "maintained": {
+        "bytes": 14265,
+        "device": 16777247,
+        "inode": 16004389,
+        "mode": 420,
+        "mtime_ns": 1790884290217349810,
+        "nlink": 1,
+        "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183"
+      },
+      "private_APP": {
+        "bytes": 14265,
+        "device": 16777232,
+        "inode": 60128308,
+        "mode": 420,
+        "mtime_ns": 1790929391611002438,
+        "nlink": 1,
+        "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183"
+      }
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "maintained": {
+        "bytes": 37855,
+        "device": 16777247,
+        "inode": 9229492,
+        "mode": 420,
+        "mtime_ns": 1790884290217726646,
+        "nlink": 1,
+        "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b"
+      },
+      "private_APP": {
+        "bytes": 37855,
+        "device": 16777232,
+        "inode": 60128309,
+        "mode": 420,
+        "mtime_ns": 1790929391611163562,
+        "nlink": 1,
+        "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b"
+      }
+    },
+    "lib/admin/core/admin_roster_models.dart": {
+      "maintained": {
+        "bytes": 34778,
+        "device": 16777247,
+        "inode": 9228720,
+        "mode": 420,
+        "mtime_ns": 1790803915130521005,
+        "nlink": 1,
+        "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+      },
+      "private_APP": {
+        "bytes": 34778,
+        "device": 16777232,
+        "inode": 60128310,
+        "mode": 420,
+        "mtime_ns": 1790929391611343020,
+        "nlink": 1,
+        "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+      }
+    },
+    "lib/admin/core/admin_roster_upload.dart": {
+      "maintained": {
+        "bytes": 4714,
+        "device": 16777247,
+        "inode": 16004390,
+        "mode": 420,
+        "mtime_ns": 1790884290217440436,
+        "nlink": 1,
+        "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636"
+      },
+      "private_APP": {
+        "bytes": 4714,
+        "device": 16777232,
+        "inode": 60128311,
+        "mode": 420,
+        "mtime_ns": 1790929391611533102,
+        "nlink": 1,
+        "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636"
+      }
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "maintained": {
+        "bytes": 38513,
+        "device": 16777247,
+        "inode": 17023702,
+        "mode": 420,
+        "mtime_ns": 1790913728538437631,
+        "nlink": 1,
+        "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a"
+      },
+      "private_APP": {
+        "bytes": 38513,
+        "device": 16777232,
+        "inode": 60128312,
+        "mode": 420,
+        "mtime_ns": 1790929391611687434,
+        "nlink": 1,
+        "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a"
+      }
+    },
+    "lib/admin/core/admin_sender_picker.dart": {
+      "maintained": {
+        "bytes": 4749,
+        "device": 16777247,
+        "inode": 17347638,
+        "mode": 420,
+        "mtime_ns": 1790914020155576144,
+        "nlink": 1,
+        "sha256": "2c4f59f3fac0401d92b6715aafa2708469022416a4b986722be1df57020b0c7d"
+      },
+      "private_APP": {
+        "bytes": 4749,
+        "device": 16777232,
+        "inode": 60128313,
+        "mode": 420,
+        "mtime_ns": 1790929391611890849,
+        "nlink": 1,
+        "sha256": "2c4f59f3fac0401d92b6715aafa2708469022416a4b986722be1df57020b0c7d"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_checkpoint.dart": {
+      "maintained": {
+        "bytes": 491,
+        "device": 16777247,
+        "inode": 17347644,
+        "mode": 420,
+        "mtime_ns": 1790913728534491720,
+        "nlink": 1,
+        "sha256": "6435ef4476d2fd57ed1b6fc2f376265cc284bad6414e14d29e4ee4294e406aaf"
+      },
+      "private_APP": {
+        "bytes": 491,
+        "device": 16777232,
+        "inode": 60128314,
+        "mode": 420,
+        "mtime_ns": 1790929391612034682,
+        "nlink": 1,
+        "sha256": "6435ef4476d2fd57ed1b6fc2f376265cc284bad6414e14d29e4ee4294e406aaf"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_checkpoint_stub.dart": {
+      "maintained": {
+        "bytes": 94,
+        "device": 16777247,
+        "inode": 17347640,
+        "mode": 420,
+        "mtime_ns": 1790913728533049514,
+        "nlink": 1,
+        "sha256": "0ffd7dc70672a80757a1627aa297e613bd6d4beacff2de2ff3697bfb60ea9b64"
+      },
+      "private_APP": {
+        "bytes": 94,
+        "device": 16777232,
+        "inode": 60128315,
+        "mode": 420,
+        "mtime_ns": 1790929391612171056,
+        "nlink": 1,
+        "sha256": "0ffd7dc70672a80757a1627aa297e613bd6d4beacff2de2ff3697bfb60ea9b64"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_checkpoint_web.dart": {
+      "maintained": {
+        "bytes": 4602,
+        "device": 16777247,
+        "inode": 17347645,
+        "mode": 420,
+        "mtime_ns": 1790913728534753220,
+        "nlink": 1,
+        "sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5"
+      },
+      "private_APP": {
+        "bytes": 4602,
+        "device": 16777232,
+        "inode": 60128316,
+        "mode": 420,
+        "mtime_ns": 1790929391612353721,
+        "nlink": 1,
+        "sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_controller.dart": {
+      "maintained": {
+        "bytes": 5040,
+        "device": 16777247,
+        "inode": 17347643,
+        "mode": 420,
+        "mtime_ns": 1790913728534294846,
+        "nlink": 1,
+        "sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1"
+      },
+      "private_APP": {
+        "bytes": 5040,
+        "device": 16777232,
+        "inode": 60128317,
+        "mode": 420,
+        "mtime_ns": 1790929391612529762,
+        "nlink": 1,
+        "sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_host.dart": {
+      "maintained": {
+        "bytes": 3057,
+        "device": 16777247,
+        "inode": 17347642,
+        "mode": 420,
+        "mtime_ns": 1790913728534075596,
+        "nlink": 1,
+        "sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3"
+      },
+      "private_APP": {
+        "bytes": 3057,
+        "device": 16777232,
+        "inode": 60128318,
+        "mode": 420,
+        "mtime_ns": 1790929391612740052,
+        "nlink": 1,
+        "sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_models.dart": {
+      "maintained": {
+        "bytes": 11260,
+        "device": 16777247,
+        "inode": 17347641,
+        "mode": 420,
+        "mtime_ns": 1790913728533625222,
+        "nlink": 1,
+        "sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e"
+      },
+      "private_APP": {
+        "bytes": 11260,
+        "device": 16777232,
+        "inode": 60128319,
+        "mode": 420,
+        "mtime_ns": 1790929391612917843,
+        "nlink": 1,
+        "sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_sdk.dart": {
+      "maintained": {
+        "bytes": 2498,
+        "device": 16777247,
+        "inode": 17347639,
+        "mode": 420,
+        "mtime_ns": 1790913728532576723,
+        "nlink": 1,
+        "sha256": "d12f904a57ac2932b0548091ce36ed75d7b7b17d16f9da4ce1fd476898d14737"
+      },
+      "private_APP": {
+        "bytes": 2498,
+        "device": 16777232,
+        "inode": 60128320,
+        "mode": 420,
+        "mtime_ns": 1790929391613076925,
+        "nlink": 1,
+        "sha256": "d12f904a57ac2932b0548091ce36ed75d7b7b17d16f9da4ce1fd476898d14737"
+      }
+    },
+    "lib/admin/core/admin_sender_retention_view.dart": {
+      "maintained": {
+        "bytes": 9434,
+        "device": 16777247,
+        "inode": 17347646,
+        "mode": 420,
+        "mtime_ns": 1790913728534940345,
+        "nlink": 1,
+        "sha256": "68deed4f8404d37e9ad1ebef506a1d98ac7e135b14f24bb7cf220d2055109135"
+      },
+      "private_APP": {
+        "bytes": 9434,
+        "device": 16777232,
+        "inode": 60128321,
+        "mode": 420,
+        "mtime_ns": 1790929391613237091,
+        "nlink": 1,
+        "sha256": "68deed4f8404d37e9ad1ebef506a1d98ac7e135b14f24bb7cf220d2055109135"
+      }
+    },
+    "lib/admin/core/admin_shadow_runs.dart": {
+      "maintained": {
+        "bytes": 27159,
+        "device": 16777247,
+        "inode": 10721633,
+        "mode": 420,
+        "mtime_ns": 1790815517211651449,
+        "nlink": 1,
+        "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+      },
+      "private_APP": {
+        "bytes": 27159,
+        "device": 16777232,
+        "inode": 60128322,
+        "mode": 420,
+        "mtime_ns": 1790929391613401507,
+        "nlink": 1,
+        "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+      }
+    },
+    "lib/admin/core/admin_sms_queue_health.dart": {
+      "maintained": {
+        "bytes": 2639,
+        "device": 16777247,
+        "inode": 10070330,
+        "mode": 420,
+        "mtime_ns": 1790802348583802659,
+        "nlink": 1,
+        "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+      },
+      "private_APP": {
+        "bytes": 2639,
+        "device": 16777232,
+        "inode": 60128323,
+        "mode": 420,
+        "mtime_ns": 1790929391613841837,
+        "nlink": 1,
+        "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+      }
+    },
+    "lib/admin/core/admin_transaction_lifecycle.dart": {
+      "maintained": {
+        "bytes": 3481,
+        "device": 16777247,
+        "inode": 11457997,
+        "mode": 420,
+        "mtime_ns": 1790800600352767283,
+        "nlink": 1,
+        "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+      },
+      "private_APP": {
+        "bytes": 3481,
+        "device": 16777232,
+        "inode": 60128324,
+        "mode": 420,
+        "mtime_ns": 1790929391614002336,
+        "nlink": 1,
+        "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+      }
+    },
+    "lib/admin/core/roster_file_parser.dart": {
+      "maintained": {
+        "bytes": 3081,
+        "device": 16777247,
+        "inode": 2694187,
+        "mode": 448,
+        "mtime_ns": 1790718975953437316,
+        "nlink": 1,
+        "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+      },
+      "private_APP": {
+        "bytes": 3081,
+        "device": 16777232,
+        "inode": 60128325,
+        "mode": 448,
+        "mtime_ns": 1790929391614157543,
+        "nlink": 1,
+        "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+      }
+    },
+    "lib/admin/core/roster_xlsx_preflight.dart": {
+      "maintained": {
+        "bytes": 26641,
+        "device": 16777247,
+        "inode": 8865937,
+        "mode": 420,
+        "mtime_ns": 1790719368079637927,
+        "nlink": 1,
+        "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+      },
+      "private_APP": {
+        "bytes": 26641,
+        "device": 16777232,
+        "inode": 60128326,
+        "mode": 420,
+        "mtime_ns": 1790929391614316626,
+        "nlink": 1,
+        "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+      }
+    },
+    "lib/admin/shared/components/admin_confirm_dialog.dart": {
+      "maintained": {
+        "bytes": 3792,
+        "device": 16777247,
+        "inode": 2694188,
+        "mode": 448,
+        "mtime_ns": 1790854470098730392,
+        "nlink": 1,
+        "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+      },
+      "private_APP": {
+        "bytes": 3792,
+        "device": 16777232,
+        "inode": 60128329,
+        "mode": 448,
+        "mtime_ns": 1790929391614556333,
+        "nlink": 1,
+        "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+      }
+    },
+    "lib/admin/shared/components/admin_data_table.dart": {
+      "maintained": {
+        "bytes": 20611,
+        "device": 16777247,
+        "inode": 2694189,
+        "mode": 448,
+        "mtime_ns": 1790873521185266783,
+        "nlink": 1,
+        "sha256": "3bc96731fea31559cb74eb95d5c42eb0021ce2db29654e37846b159328ecbe56"
+      },
+      "private_APP": {
+        "bytes": 20611,
+        "device": 16777232,
+        "inode": 60128330,
+        "mode": 448,
+        "mtime_ns": 1790929391614723956,
+        "nlink": 1,
+        "sha256": "3bc96731fea31559cb74eb95d5c42eb0021ce2db29654e37846b159328ecbe56"
+      }
+    },
+    "lib/admin/shared/components/admin_empty_state.dart": {
+      "maintained": {
+        "bytes": 2131,
+        "device": 16777247,
+        "inode": 2694190,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265"
+      },
+      "private_APP": {
+        "bytes": 2131,
+        "device": 16777232,
+        "inode": 60128331,
+        "mode": 448,
+        "mtime_ns": 1790929391614898664,
+        "nlink": 1,
+        "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265"
+      }
+    },
+    "lib/admin/shared/components/admin_filter_bar.dart": {
+      "maintained": {
+        "bytes": 7945,
+        "device": 16777247,
+        "inode": 2694191,
+        "mode": 448,
+        "mtime_ns": 1790596434319294550,
+        "nlink": 1,
+        "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425"
+      },
+      "private_APP": {
+        "bytes": 7945,
+        "device": 16777232,
+        "inode": 60128332,
+        "mode": 448,
+        "mtime_ns": 1790929391615131204,
+        "nlink": 1,
+        "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425"
+      }
+    },
+    "lib/admin/shared/components/admin_loading_state.dart": {
+      "maintained": {
+        "bytes": 600,
+        "device": 16777247,
+        "inode": 2694192,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+      },
+      "private_APP": {
+        "bytes": 600,
+        "device": 16777232,
+        "inode": 60128333,
+        "mode": 448,
+        "mtime_ns": 1790929391615297703,
+        "nlink": 1,
+        "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+      }
+    },
+    "lib/admin/shared/components/admin_page.dart": {
+      "maintained": {
+        "bytes": 4596,
+        "device": 16777247,
+        "inode": 2694194,
+        "mode": 448,
+        "mtime_ns": 1790787352888637263,
+        "nlink": 1,
+        "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534"
+      },
+      "private_APP": {
+        "bytes": 4596,
+        "device": 16777232,
+        "inode": 60128334,
+        "mode": 448,
+        "mtime_ns": 1790929391615492868,
+        "nlink": 1,
+        "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534"
+      }
+    },
+    "lib/admin/shared/components/admin_sensitive_data_gate.dart": {
+      "maintained": {
+        "bytes": 4105,
+        "device": 16777247,
+        "inode": 2694195,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183"
+      },
+      "private_APP": {
+        "bytes": 4105,
+        "device": 16777232,
+        "inode": 60128335,
+        "mode": 448,
+        "mtime_ns": 1790929391615700033,
+        "nlink": 1,
+        "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183"
+      }
+    },
+    "lib/admin/shared/components/admin_status_chip.dart": {
+      "maintained": {
+        "bytes": 6670,
+        "device": 16777247,
+        "inode": 2694196,
+        "mode": 448,
+        "mtime_ns": 1790873521188468027,
+        "nlink": 1,
+        "sha256": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f"
+      },
+      "private_APP": {
+        "bytes": 6670,
+        "device": 16777232,
+        "inode": 60128336,
+        "mode": 448,
+        "mtime_ns": 1790929391616078656,
+        "nlink": 1,
+        "sha256": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f"
+      }
+    },
+    "lib/app/env/app_env.dart": {
+      "maintained": {
+        "bytes": 2173,
+        "device": 16777247,
+        "inode": 2694199,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035"
+      },
+      "private_APP": {
+        "bytes": 2173,
+        "device": 16777232,
+        "inode": 60128340,
+        "mode": 448,
+        "mtime_ns": 1790929391616528986,
+        "nlink": 1,
+        "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035"
+      }
+    },
+    "lib/app/theme/collect_colors.dart": {
+      "maintained": {
+        "bytes": 15171,
+        "device": 16777247,
+        "inode": 2694201,
+        "mode": 448,
+        "mtime_ns": 1790787277767519040,
+        "nlink": 1,
+        "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+      },
+      "private_APP": {
+        "bytes": 15171,
+        "device": 16777232,
+        "inode": 60128344,
+        "mode": 448,
+        "mtime_ns": 1790929391617069108,
+        "nlink": 1,
+        "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+      }
+    },
+    "lib/app/theme/collect_component_tokens.dart": {
+      "maintained": {
+        "bytes": 3980,
+        "device": 16777247,
+        "inode": 2694202,
+        "mode": 448,
+        "mtime_ns": 1790787310372393633,
+        "nlink": 1,
+        "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388"
+      },
+      "private_APP": {
+        "bytes": 3980,
+        "device": 16777232,
+        "inode": 60128345,
+        "mode": 448,
+        "mtime_ns": 1790929391617218607,
+        "nlink": 1,
+        "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388"
+      }
+    },
+    "lib/app/theme/collect_icons.dart": {
+      "maintained": {
+        "bytes": 2698,
+        "device": 16777247,
+        "inode": 2694203,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67"
+      },
+      "private_APP": {
+        "bytes": 2698,
+        "device": 16777232,
+        "inode": 60128346,
+        "mode": 448,
+        "mtime_ns": 1790929391617377523,
+        "nlink": 1,
+        "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67"
+      }
+    },
+    "lib/app/theme/collect_motion.dart": {
+      "maintained": {
+        "bytes": 769,
+        "device": 16777247,
+        "inode": 2694204,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0"
+      },
+      "private_APP": {
+        "bytes": 769,
+        "device": 16777232,
+        "inode": 60128347,
+        "mode": 448,
+        "mtime_ns": 1790929391617568188,
+        "nlink": 1,
+        "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0"
+      }
+    },
+    "lib/app/theme/collect_radius.dart": {
+      "maintained": {
+        "bytes": 863,
+        "device": 16777247,
+        "inode": 2694205,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da"
+      },
+      "private_APP": {
+        "bytes": 863,
+        "device": 16777232,
+        "inode": 60128348,
+        "mode": 448,
+        "mtime_ns": 1790929391617894019,
+        "nlink": 1,
+        "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da"
+      }
+    },
+    "lib/app/theme/collect_runtime_assets.dart": {
+      "maintained": {
+        "bytes": 894,
+        "device": 16777247,
+        "inode": 2694206,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6"
+      },
+      "private_APP": {
+        "bytes": 894,
+        "device": 16777232,
+        "inode": 60128349,
+        "mode": 448,
+        "mtime_ns": 1790929391618183476,
+        "nlink": 1,
+        "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6"
+      }
+    },
+    "lib/app/theme/collect_runtime_tokens.dart": {
+      "maintained": {
+        "bytes": 8988,
+        "device": 16777247,
+        "inode": 2694207,
+        "mode": 448,
+        "mtime_ns": 1790787382403628226,
+        "nlink": 1,
+        "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a"
+      },
+      "private_APP": {
+        "bytes": 8988,
+        "device": 16777232,
+        "inode": 60128350,
+        "mode": 448,
+        "mtime_ns": 1790929391618341475,
+        "nlink": 1,
+        "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a"
+      }
+    },
+    "lib/app/theme/collect_runtime_typography.dart": {
+      "maintained": {
+        "bytes": 581,
+        "device": 16777247,
+        "inode": 2694208,
+        "mode": 448,
+        "mtime_ns": 1790873392509485501,
+        "nlink": 1,
+        "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+      },
+      "private_APP": {
+        "bytes": 581,
+        "device": 16777232,
+        "inode": 60128351,
+        "mode": 448,
+        "mtime_ns": 1790929391618491599,
+        "nlink": 1,
+        "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+      }
+    },
+    "lib/app/theme/collect_semantic_icons.dart": {
+      "maintained": {
+        "bytes": 1434,
+        "device": 16777247,
+        "inode": 2694209,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8"
+      },
+      "private_APP": {
+        "bytes": 1434,
+        "device": 16777232,
+        "inode": 60128352,
+        "mode": 448,
+        "mtime_ns": 1790929391618647431,
+        "nlink": 1,
+        "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8"
+      }
+    },
+    "lib/app/theme/collect_spacing.dart": {
+      "maintained": {
+        "bytes": 1454,
+        "device": 16777247,
+        "inode": 2694210,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62"
+      },
+      "private_APP": {
+        "bytes": 1454,
+        "device": 16777232,
+        "inode": 60128353,
+        "mode": 448,
+        "mtime_ns": 1790929391618795139,
+        "nlink": 1,
+        "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62"
+      }
+    },
+    "lib/app/theme/collect_theme.dart": {
+      "maintained": {
+        "bytes": 14130,
+        "device": 16777247,
+        "inode": 2694211,
+        "mode": 448,
+        "mtime_ns": 1790874546681165549,
+        "nlink": 1,
+        "sha256": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247"
+      },
+      "private_APP": {
+        "bytes": 14130,
+        "device": 16777232,
+        "inode": 60128354,
+        "mode": 448,
+        "mtime_ns": 1790929391618998138,
+        "nlink": 1,
+        "sha256": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247"
+      }
+    },
+    "lib/app/theme/collect_typography.dart": {
+      "maintained": {
+        "bytes": 8038,
+        "device": 16777247,
+        "inode": 2694213,
+        "mode": 448,
+        "mtime_ns": 1790790047144797743,
+        "nlink": 1,
+        "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b"
+      },
+      "private_APP": {
+        "bytes": 8038,
+        "device": 16777232,
+        "inode": 60128356,
+        "mode": 448,
+        "mtime_ns": 1790929391619335344,
+        "nlink": 1,
+        "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b"
+      }
+    },
+    "lib/app/theme/collect_universal_tokens.dart": {
+      "maintained": {
+        "bytes": 8012,
+        "device": 16777247,
+        "inode": 2694214,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910"
+      },
+      "private_APP": {
+        "bytes": 8012,
+        "device": 16777232,
+        "inode": 60128357,
+        "mode": 448,
+        "mtime_ns": 1790929391619525009,
+        "nlink": 1,
+        "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910"
+      }
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "maintained": {
+        "bytes": 3650,
+        "device": 16777247,
+        "inode": 11448084,
+        "mode": 420,
+        "mtime_ns": 1790799933232691347,
+        "nlink": 1,
+        "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+      },
+      "private_APP": {
+        "bytes": 3650,
+        "device": 16777232,
+        "inode": 60128360,
+        "mode": 420,
+        "mtime_ns": 1790929391619843090,
+        "nlink": 1,
+        "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+      }
+    },
+    "lib/core/logging/app_logger.dart": {
+      "maintained": {
+        "bytes": 2971,
+        "device": 16777247,
+        "inode": 2694215,
+        "mode": 448,
+        "mtime_ns": 1790895800926964652,
+        "nlink": 1,
+        "sha256": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2"
+      },
+      "private_APP": {
+        "bytes": 2971,
+        "device": 16777232,
+        "inode": 60128362,
+        "mode": 448,
+        "mtime_ns": 1790929391620029339,
+        "nlink": 1,
+        "sha256": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2"
+      }
+    },
+    "lib/core/security/phone_normalizer.dart": {
+      "maintained": {
+        "bytes": 917,
+        "device": 16777247,
+        "inode": 2694221,
+        "mode": 448,
+        "mtime_ns": 1790365128737930165,
+        "nlink": 1,
+        "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8"
+      },
+      "private_APP": {
+        "bytes": 917,
+        "device": 16777232,
+        "inode": 60128372,
+        "mode": 448,
+        "mtime_ns": 1790929391621156374,
+        "nlink": 1,
+        "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8"
+      }
+    },
+    "lib/core/startup/collect_startup_controller.dart": {
+      "maintained": {
+        "bytes": 4033,
+        "device": 16777247,
+        "inode": 16565542,
+        "mode": 420,
+        "mtime_ns": 1790895801223202878,
+        "nlink": 1,
+        "sha256": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409"
+      },
+      "private_APP": {
+        "bytes": 4033,
+        "device": 16777232,
+        "inode": 60128379,
+        "mode": 420,
+        "mtime_ns": 1790929391622134242,
+        "nlink": 1,
+        "sha256": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409"
+      }
+    },
+    "lib/core/supabase/browser_auth_memory.dart": {
+      "maintained": {
+        "bytes": 935,
+        "device": 16777247,
+        "inode": 10021717,
+        "mode": 420,
+        "mtime_ns": 1790786619645945401,
+        "nlink": 1,
+        "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9"
+      },
+      "private_APP": {
+        "bytes": 935,
+        "device": 16777232,
+        "inode": 60128383,
+        "mode": 420,
+        "mtime_ns": 1790929391622590823,
+        "nlink": 1,
+        "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9"
+      }
+    },
+    "lib/core/supabase/browser_auth_storage_stub.dart": {
+      "maintained": {
+        "bytes": 78,
+        "device": 16777247,
+        "inode": 10021715,
+        "mode": 420,
+        "mtime_ns": 1790785761390187677,
+        "nlink": 1,
+        "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04"
+      },
+      "private_APP": {
+        "bytes": 78,
+        "device": 16777232,
+        "inode": 60128384,
+        "mode": 420,
+        "mtime_ns": 1790929391622734822,
+        "nlink": 1,
+        "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04"
+      }
+    },
+    "lib/core/supabase/browser_auth_storage_web.dart": {
+      "maintained": {
+        "bytes": 907,
+        "device": 16777247,
+        "inode": 10021716,
+        "mode": 420,
+        "mtime_ns": 1790786619646511403,
+        "nlink": 1,
+        "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036"
+      },
+      "private_APP": {
+        "bytes": 907,
+        "device": 16777232,
+        "inode": 60128385,
+        "mode": 420,
+        "mtime_ns": 1790929391622878654,
+        "nlink": 1,
+        "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036"
+      }
+    },
+    "lib/core/supabase/collect_supabase_bootstrap.dart": {
+      "maintained": {
+        "bytes": 872,
+        "device": 16777247,
+        "inode": 16565545,
+        "mode": 420,
+        "mtime_ns": 1790895420760193939,
+        "nlink": 1,
+        "sha256": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0"
+      },
+      "private_APP": {
+        "bytes": 872,
+        "device": 16777232,
+        "inode": 60128386,
+        "mode": 420,
+        "mtime_ns": 1790929391623023737,
+        "nlink": 1,
+        "sha256": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0"
+      }
+    },
+    "lib/core/supabase/realtime_invalidation.dart": {
+      "maintained": {
+        "bytes": 7232,
+        "device": 16777247,
+        "inode": 2694226,
+        "mode": 448,
+        "mtime_ns": 1790599842094063115,
+        "nlink": 1,
+        "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907"
+      },
+      "private_APP": {
+        "bytes": 7232,
+        "device": 16777232,
+        "inode": 60128387,
+        "mode": 448,
+        "mtime_ns": 1790929391623202569,
+        "nlink": 1,
+        "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907"
+      }
+    },
+    "lib/core/supabase/supabase_module.dart": {
+      "maintained": {
+        "bytes": 2108,
+        "device": 16777247,
+        "inode": 2694228,
+        "mode": 448,
+        "mtime_ns": 1790895614011306807,
+        "nlink": 1,
+        "sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df"
+      },
+      "private_APP": {
+        "bytes": 2108,
+        "device": 16777232,
+        "inode": 60128388,
+        "mode": 448,
+        "mtime_ns": 1790929391623347651,
+        "nlink": 1,
+        "sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df"
+      }
+    },
+    "lib/core/utils/date_format.dart": {
+      "maintained": {
+        "bytes": 445,
+        "device": 16777247,
+        "inode": 2694229,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28"
+      },
+      "private_APP": {
+        "bytes": 445,
+        "device": 16777232,
+        "inode": 60128390,
+        "mode": 448,
+        "mtime_ns": 1790929391623521734,
+        "nlink": 1,
+        "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28"
+      }
+    },
+    "lib/core/utils/money_format.dart": {
+      "maintained": {
+        "bytes": 1421,
+        "device": 16777247,
+        "inode": 2694230,
+        "mode": 448,
+        "mtime_ns": 1790363300461244704,
+        "nlink": 1,
+        "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5"
+      },
+      "private_APP": {
+        "bytes": 1421,
+        "device": 16777232,
+        "inode": 60128391,
+        "mode": 448,
+        "mtime_ns": 1790929391623667983,
+        "nlink": 1,
+        "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5"
+      }
+    },
+    "lib/shared/models/collect_model_json_helpers.dart": {
+      "maintained": {
+        "bytes": 1332,
+        "device": 16777247,
+        "inode": 2694295,
+        "mode": 448,
+        "mtime_ns": 1790799698817950526,
+        "nlink": 1,
+        "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+      },
+      "private_APP": {
+        "bytes": 1332,
+        "device": 16777232,
+        "inode": 60128488,
+        "mode": 448,
+        "mtime_ns": 1790929391639762214,
+        "nlink": 1,
+        "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+      }
+    },
+    "lib/shared/models/collect_models.dart": {
+      "maintained": {
+        "bytes": 39421,
+        "device": 16777247,
+        "inode": 2694296,
+        "mode": 448,
+        "mtime_ns": 1790800602144958031,
+        "nlink": 1,
+        "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59"
+      },
+      "private_APP": {
+        "bytes": 39421,
+        "device": 16777232,
+        "inode": 60128489,
+        "mode": 448,
+        "mtime_ns": 1790929391640177253,
+        "nlink": 1,
+        "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59"
+      }
+    },
+    "lib/shared/models/collect_payment_json.dart": {
+      "maintained": {
+        "bytes": 2193,
+        "device": 16777247,
+        "inode": 8042797,
+        "mode": 420,
+        "mtime_ns": 1790799698817533245,
+        "nlink": 1,
+        "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e"
+      },
+      "private_APP": {
+        "bytes": 2193,
+        "device": 16777232,
+        "inode": 60128490,
+        "mode": 420,
+        "mtime_ns": 1790929391640422959,
+        "nlink": 1,
+        "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e"
+      }
+    },
+    "lib/shared/models/collect_payment_models.dart": {
+      "maintained": {
+        "bytes": 7307,
+        "device": 16777247,
+        "inode": 2694297,
+        "mode": 448,
+        "mtime_ns": 1790598992790789637,
+        "nlink": 1,
+        "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8"
+      },
+      "private_APP": {
+        "bytes": 7307,
+        "device": 16777232,
+        "inode": 60128491,
+        "mode": 448,
+        "mtime_ns": 1790929391640648791,
+        "nlink": 1,
+        "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8"
+      }
+    },
+    "lib/shared/models/collect_profile_country_rules.dart": {
+      "maintained": {
+        "bytes": 893,
+        "device": 16777247,
+        "inode": 2694298,
+        "mode": 448,
+        "mtime_ns": 1790596434534537757,
+        "nlink": 1,
+        "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+      },
+      "private_APP": {
+        "bytes": 893,
+        "device": 16777232,
+        "inode": 60128492,
+        "mode": 448,
+        "mtime_ns": 1790929391640804624,
+        "nlink": 1,
+        "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+      }
+    },
+    "lib/shared/models/collect_summary_json.dart": {
+      "maintained": {
+        "bytes": 1961,
+        "device": 16777247,
+        "inode": 8042801,
+        "mode": 420,
+        "mtime_ns": 1790799698818338601,
+        "nlink": 1,
+        "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+      },
+      "private_APP": {
+        "bytes": 1961,
+        "device": 16777232,
+        "inode": 60128493,
+        "mode": 420,
+        "mtime_ns": 1790929391640953789,
+        "nlink": 1,
+        "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+      }
+    },
+    "lib/shared/repositories/runtime_control_contract.dart": {
+      "maintained": {
+        "bytes": 3678,
+        "device": 16777247,
+        "inode": 9982981,
+        "mode": 420,
+        "mtime_ns": 1790800613862966015,
+        "nlink": 1,
+        "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d"
+      },
+      "private_APP": {
+        "bytes": 3678,
+        "device": 16777232,
+        "inode": 60128510,
+        "mode": 420,
+        "mtime_ns": 1790929391643769521,
+        "nlink": 1,
+        "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d"
+      }
+    },
+    "lib/shared/utils/collect_haptics.dart": {
+      "maintained": {
+        "bytes": 365,
+        "device": 16777247,
+        "inode": 2694311,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3"
+      },
+      "private_APP": {
+        "bytes": 365,
+        "device": 16777232,
+        "inode": 60128512,
+        "mode": 448,
+        "mtime_ns": 1790929391643951312,
+        "nlink": 1,
+        "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3"
+      }
+    },
+    "lib/shared/widgets/collect_action_controls.dart": {
+      "maintained": {
+        "bytes": 7194,
+        "device": 16777247,
+        "inode": 2694315,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c"
+      },
+      "private_APP": {
+        "bytes": 7194,
+        "device": 16777232,
+        "inode": 60128517,
+        "mode": 448,
+        "mtime_ns": 1790929391644600766,
+        "nlink": 1,
+        "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c"
+      }
+    },
+    "lib/shared/widgets/collect_bento_actions.dart": {
+      "maintained": {
+        "bytes": 11061,
+        "device": 16777247,
+        "inode": 2694316,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6"
+      },
+      "private_APP": {
+        "bytes": 11061,
+        "device": 16777232,
+        "inode": 60128518,
+        "mode": 448,
+        "mtime_ns": 1790929391644756807,
+        "nlink": 1,
+        "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6"
+      }
+    },
+    "lib/shared/widgets/collect_chrome.dart": {
+      "maintained": {
+        "bytes": 624,
+        "device": 16777247,
+        "inode": 2694317,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772"
+      },
+      "private_APP": {
+        "bytes": 624,
+        "device": 16777232,
+        "inode": 60128519,
+        "mode": 448,
+        "mtime_ns": 1790929391644900264,
+        "nlink": 1,
+        "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772"
+      }
+    },
+    "lib/shared/widgets/collect_components.dart": {
+      "maintained": {
+        "bytes": 1487,
+        "device": 16777247,
+        "inode": 2694318,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775"
+      },
+      "private_APP": {
+        "bytes": 1487,
+        "device": 16777232,
+        "inode": 60128520,
+        "mode": 448,
+        "mtime_ns": 1790929391645040305,
+        "nlink": 1,
+        "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775"
+      }
+    },
+    "lib/shared/widgets/collect_confirmation_sheet.dart": {
+      "maintained": {
+        "bytes": 3727,
+        "device": 16777247,
+        "inode": 2694319,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368"
+      },
+      "private_APP": {
+        "bytes": 3727,
+        "device": 16777232,
+        "inode": 60128521,
+        "mode": 448,
+        "mtime_ns": 1790929391645195679,
+        "nlink": 1,
+        "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368"
+      }
+    },
+    "lib/shared/widgets/collect_display_primitives.dart": {
+      "maintained": {
+        "bytes": 8515,
+        "device": 16777247,
+        "inode": 2694321,
+        "mode": 448,
+        "mtime_ns": 1790781513677870281,
+        "nlink": 1,
+        "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117"
+      },
+      "private_APP": {
+        "bytes": 8515,
+        "device": 16777232,
+        "inode": 60128523,
+        "mode": 448,
+        "mtime_ns": 1790929391645519969,
+        "nlink": 1,
+        "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117"
+      }
+    },
+    "lib/shared/widgets/collect_feature_surfaces.dart": {
+      "maintained": {
+        "bytes": 6498,
+        "device": 16777247,
+        "inode": 2694322,
+        "mode": 448,
+        "mtime_ns": 1790792334888391633,
+        "nlink": 1,
+        "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83"
+      },
+      "private_APP": {
+        "bytes": 6498,
+        "device": 16777232,
+        "inode": 60128524,
+        "mode": 448,
+        "mtime_ns": 1790929391645715134,
+        "nlink": 1,
+        "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83"
+      }
+    },
+    "lib/shared/widgets/collect_financial_amount_entry.dart": {
+      "maintained": {
+        "bytes": 14083,
+        "device": 16777247,
+        "inode": 2694323,
+        "mode": 448,
+        "mtime_ns": 1790800602167950646,
+        "nlink": 1,
+        "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993"
+      },
+      "private_APP": {
+        "bytes": 14083,
+        "device": 16777232,
+        "inode": 60128525,
+        "mode": 448,
+        "mtime_ns": 1790929391645917508,
+        "nlink": 1,
+        "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993"
+      }
+    },
+    "lib/shared/widgets/collect_financial_components.dart": {
+      "maintained": {
+        "bytes": 771,
+        "device": 16777247,
+        "inode": 2694324,
+        "mode": 448,
+        "mtime_ns": 1790363464431376653,
+        "nlink": 1,
+        "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465"
+      },
+      "private_APP": {
+        "bytes": 771,
+        "device": 16777232,
+        "inode": 60128526,
+        "mode": 448,
+        "mtime_ns": 1790929391646068590,
+        "nlink": 1,
+        "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465"
+      }
+    },
+    "lib/shared/widgets/collect_financial_ledger.dart": {
+      "maintained": {
+        "bytes": 5148,
+        "device": 16777247,
+        "inode": 2694325,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e"
+      },
+      "private_APP": {
+        "bytes": 5148,
+        "device": 16777232,
+        "inode": 60128527,
+        "mode": 448,
+        "mtime_ns": 1790929391646247631,
+        "nlink": 1,
+        "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e"
+      }
+    },
+    "lib/shared/widgets/collect_financial_money.dart": {
+      "maintained": {
+        "bytes": 12649,
+        "device": 16777247,
+        "inode": 2694326,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd"
+      },
+      "private_APP": {
+        "bytes": 12649,
+        "device": 16777232,
+        "inode": 60128528,
+        "mode": 448,
+        "mtime_ns": 1790929391646431004,
+        "nlink": 1,
+        "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd"
+      }
+    },
+    "lib/shared/widgets/collect_financial_payments.dart": {
+      "maintained": {
+        "bytes": 1617,
+        "device": 16777247,
+        "inode": 2694328,
+        "mode": 448,
+        "mtime_ns": 1790361860768549424,
+        "nlink": 1,
+        "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679"
+      },
+      "private_APP": {
+        "bytes": 1617,
+        "device": 16777232,
+        "inode": 60128529,
+        "mode": 448,
+        "mtime_ns": 1790929391646579420,
+        "nlink": 1,
+        "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679"
+      }
+    },
+    "lib/shared/widgets/collect_foundation.dart": {
+      "maintained": {
+        "bytes": 18892,
+        "device": 16777247,
+        "inode": 2694329,
+        "mode": 448,
+        "mtime_ns": 1790792455073327106,
+        "nlink": 1,
+        "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70"
+      },
+      "private_APP": {
+        "bytes": 18892,
+        "device": 16777232,
+        "inode": 60128531,
+        "mode": 448,
+        "mtime_ns": 1790929391647139458,
+        "nlink": 1,
+        "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70"
+      }
+    },
+    "lib/shared/widgets/collect_inputs.dart": {
+      "maintained": {
+        "bytes": 5271,
+        "device": 16777247,
+        "inode": 2694337,
+        "mode": 448,
+        "mtime_ns": 1790788084365526427,
+        "nlink": 1,
+        "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a"
+      },
+      "private_APP": {
+        "bytes": 5271,
+        "device": 16777232,
+        "inode": 60128539,
+        "mode": 448,
+        "mtime_ns": 1790929391648658157,
+        "nlink": 1,
+        "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a"
+      }
+    },
+    "lib/shared/widgets/collect_loading_surfaces.dart": {
+      "maintained": {
+        "bytes": 19526,
+        "device": 16777247,
+        "inode": 2694338,
+        "mode": 448,
+        "mtime_ns": 1790796613924734902,
+        "nlink": 1,
+        "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a"
+      },
+      "private_APP": {
+        "bytes": 19526,
+        "device": 16777232,
+        "inode": 60128540,
+        "mode": 448,
+        "mtime_ns": 1790929391648857697,
+        "nlink": 1,
+        "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a"
+      }
+    },
+    "lib/shared/widgets/collect_scaffold_chrome.dart": {
+      "maintained": {
+        "bytes": 30301,
+        "device": 16777247,
+        "inode": 2694339,
+        "mode": 448,
+        "mtime_ns": 1790875518346141724,
+        "nlink": 1,
+        "sha256": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b"
+      },
+      "private_APP": {
+        "bytes": 30301,
+        "device": 16777232,
+        "inode": 60128541,
+        "mode": 448,
+        "mtime_ns": 1790929391649036863,
+        "nlink": 1,
+        "sha256": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b"
+      }
+    },
+    "lib/shared/widgets/collect_selection_controls.dart": {
+      "maintained": {
+        "bytes": 1575,
+        "device": 16777247,
+        "inode": 2694340,
+        "mode": 448,
+        "mtime_ns": 1790787277769657964,
+        "nlink": 1,
+        "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5"
+      },
+      "private_APP": {
+        "bytes": 1575,
+        "device": 16777232,
+        "inode": 60128542,
+        "mode": 448,
+        "mtime_ns": 1790929391649209112,
+        "nlink": 1,
+        "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5"
+      }
+    },
+    "lib/shared/widgets/collect_state_feedback.dart": {
+      "maintained": {
+        "bytes": 7939,
+        "device": 16777247,
+        "inode": 2694341,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48"
+      },
+      "private_APP": {
+        "bytes": 7939,
+        "device": 16777232,
+        "inode": 60128543,
+        "mode": 448,
+        "mtime_ns": 1790929391649404527,
+        "nlink": 1,
+        "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48"
+      }
+    },
+    "lib/shared/widgets/collect_state_illustrations.dart": {
+      "maintained": {
+        "bytes": 3298,
+        "device": 16777247,
+        "inode": 2694342,
+        "mode": 448,
+        "mtime_ns": 1790782773935891049,
+        "nlink": 1,
+        "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992"
+      },
+      "private_APP": {
+        "bytes": 3298,
+        "device": 16777232,
+        "inode": 60128544,
+        "mode": 448,
+        "mtime_ns": 1790929391649552610,
+        "nlink": 1,
+        "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992"
+      }
+    },
+    "lib/shared/widgets/collect_state_panels.dart": {
+      "maintained": {
+        "bytes": 641,
+        "device": 16777247,
+        "inode": 2694343,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+      },
+      "private_APP": {
+        "bytes": 641,
+        "device": 16777232,
+        "inode": 60128545,
+        "mode": 448,
+        "mtime_ns": 1790929391649691317,
+        "nlink": 1,
+        "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+      }
+    },
+    "lib/shared/widgets/collect_tone_icon.dart": {
+      "maintained": {
+        "bytes": 1695,
+        "device": 16777247,
+        "inode": 2694344,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a"
+      },
+      "private_APP": {
+        "bytes": 1695,
+        "device": 16777232,
+        "inode": 60128546,
+        "mode": 448,
+        "mtime_ns": 1790929391649831358,
+        "nlink": 1,
+        "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a"
+      }
+    },
+    "lib/shared/widgets/collect_top_chrome.dart": {
+      "maintained": {
+        "bytes": 9407,
+        "device": 16777247,
+        "inode": 2694345,
+        "mode": 448,
+        "mtime_ns": 1789031035000000000,
+        "nlink": 1,
+        "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423"
+      },
+      "private_APP": {
+        "bytes": 9407,
+        "device": 16777232,
+        "inode": 60128547,
+        "mode": 448,
+        "mtime_ns": 1790929391649975732,
+        "nlink": 1,
+        "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423"
+      }
+    },
+    "test/admin_read_contracts_test.dart": {
+      "maintained": {
+        "bytes": 12156,
+        "device": 16777247,
+        "inode": 10019329,
+        "mode": 420,
+        "mtime_ns": 1790786601881397329,
+        "nlink": 1,
+        "sha256": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886"
+      },
+      "private_APP": {
+        "bytes": 12156,
+        "device": 16777232,
+        "inode": 60129651,
+        "mode": 420,
+        "mtime_ns": 1790929391841740135,
+        "nlink": 1,
+        "sha256": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886"
+      }
+    },
+    "test/admin_roster_import_test.dart": {
+      "maintained": {
+        "bytes": 33183,
+        "device": 16777247,
+        "inode": 9260730,
+        "mode": 420,
+        "mtime_ns": 1790724595995629101,
+        "nlink": 1,
+        "sha256": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03"
+      },
+      "private_APP": {
+        "bytes": 33183,
+        "device": 16777232,
+        "inode": 60129705,
+        "mode": 420,
+        "mtime_ns": 1790929391850568412,
+        "nlink": 1,
+        "sha256": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03"
+      }
+    },
+    "test/admin_roster_reload_test.dart": {
+      "maintained": {
+        "bytes": 24256,
+        "device": 16777247,
+        "inode": 9742836,
+        "mode": 420,
+        "mtime_ns": 1790774473758457344,
+        "nlink": 1,
+        "sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2"
+      },
+      "private_APP": {
+        "bytes": 24256,
+        "device": 16777232,
+        "inode": 60129706,
+        "mode": 420,
+        "mtime_ns": 1790929391850813286,
+        "nlink": 1,
+        "sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2"
+      }
+    },
+    "test/support/admin_read_fixture.dart": {
+      "maintained": {
+        "bytes": 6562,
+        "device": 16777247,
+        "inode": 10019328,
+        "mode": 420,
+        "mtime_ns": 1790802096188555928,
+        "nlink": 1,
+        "sha256": "74e7fa9480fdf8be5769764525e5f661536dc01130163704e817baa77864a640"
+      },
+      "private_APP": {
+        "bytes": 6562,
+        "device": 16777232,
+        "inode": 60129985,
+        "mode": 420,
+        "mtime_ns": 1790929391897483113,
+        "nlink": 1,
+        "sha256": "74e7fa9480fdf8be5769764525e5f661536dc01130163704e817baa77864a640"
+      }
+    },
+    "test/support/admin_roster_fixture.dart": {
+      "maintained": {
+        "bytes": 6092,
+        "device": 16777247,
+        "inode": 9260729,
+        "mode": 420,
+        "mtime_ns": 1790723003545462737,
+        "nlink": 1,
+        "sha256": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0"
+      },
+      "private_APP": {
+        "bytes": 6092,
+        "device": 16777232,
+        "inode": 60129987,
+        "mode": 420,
+        "mtime_ns": 1790929391898006152,
+        "nlink": 1,
+        "sha256": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0"
+      }
+    }
+  },
+  "tests_executed": false,
+  "whole_repo_export_verified": false
+}

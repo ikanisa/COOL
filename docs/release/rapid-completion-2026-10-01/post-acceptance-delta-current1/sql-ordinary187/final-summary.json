@@ -1,0 +1,61 @@
+{
+  "all_task_containers_removed": true,
+  "captured_migrations_byte_identical": true,
+  "case_count": 36,
+  "cases_passed": 36,
+  "finished_at": "2026-10-01T15:39:29.634292+00:00",
+  "hosted_called": false,
+  "installer_result": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/evidence/result.json",
+    "sha256": "b5a978c9556754cf6718559d49e2de6da7de70ee5fa587e5574499b0fdc9db25"
+  },
+  "kind": "ordinary187_final_compact_receipt",
+  "managed_hosted_owner_parity": false,
+  "migration_applications": 374,
+  "migration_files": 187,
+  "phases": {
+    "clean": {
+      "applications": 187,
+      "network_guard": {
+        "cron": "off",
+        "labels_verified": true,
+        "listen": "",
+        "net": "0",
+        "network": "none",
+        "published_ports": false,
+        "server": "17.6"
+      },
+      "ordinary_authority_checked": 187,
+      "passed": 187,
+      "task_container_removed": true
+    },
+    "populated": {
+      "applications": 187,
+      "network_guard": {
+        "cron": "off",
+        "labels_verified": true,
+        "listen": "",
+        "net": "0",
+        "network": "none",
+        "published_ports": false,
+        "server": "17.6"
+      },
+      "ordinary_authority_checked": 187,
+      "passed": 187,
+      "task_container_removed": true
+    }
+  },
+  "provider_called": false,
+  "shared_database_written": false,
+  "signed_jwt_tested": false,
+  "source_and_helpers_unchanged": true,
+  "source_binding": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/source-binding.json",
+    "sha256": "5e39a3fb66936d9df6741b499809a5e68a18d9b8be8f012fcc4d5087c199250a"
+  },
+  "status": "pass",
+  "validation": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/validation.json",
+    "sha256": "e09a076aa7492f4d0632cdf9119a18c616948069c03b0d4eab4e6729967be20c"
+  }
+}

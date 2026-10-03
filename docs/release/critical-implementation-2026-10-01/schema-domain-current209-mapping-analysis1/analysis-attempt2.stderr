@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 334, in <module>
+    main()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 321, in main
+    before = admit_inputs()
+             ^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 45, in admit_inputs
+    raise ValueError('exact current209 input cohort differs')
+ValueError: exact current209 input cohort differs

@@ -1,0 +1,15 @@
+{
+  "SQL_Docker_runtime_or_provider_execution": false,
+  "all1091_generated_input_bindings_and_transitive_guarded_identities_preserved": true,
+  "current12_full_identities_unchanged": true,
+  "current_authority_sha256": "ef2f69cf0d51b5f08ec8c475cc3fe53ed7534314e6f8609f1a493762af3f4c1e",
+  "maintained_writes": false,
+  "observed_utc": "2026-10-02T07:23:39.128665+00:00",
+  "prior_manifest_hashes": {
+    "schema-domain-map-preparation1": "972fc42286df5d89b5b9769a96edb91d8f825ecb5f11b1d3968cfaebc6abd194",
+    "schema-domain-map-preparation2": "96859d49551194c1dca0b2ea616135b7f1fe9329cce68434be298ee7f34f9a3e"
+  },
+  "prior_preparation1_and2_manifest_and_leaf_identities_unchanged": true,
+  "promotion_or_release_admission": false,
+  "status": "PASS"
+}

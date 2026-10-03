@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-01T23:06:29.264262+00:00",
+  "status": "scoped_local_tests_and_analysis_pass",
+  "findings": [
+    "ARC-12"
+  ],
+  "source": {
+    "lib/main.dart": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1",
+    "lib/main_admin.dart": "3400aa6f9f34a7048203c9a5b6974b0c3f06c0710d5dbd3f446bd75b35d97343",
+    "lib/core/logging/app_logger.dart": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+    "lib/core/startup/collect_startup_controller.dart": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409",
+    "lib/core/startup/collect_startup_host.dart": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b",
+    "lib/core/startup/collect_global_error_handlers.dart": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436",
+    "lib/core/supabase/collect_supabase_bootstrap.dart": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0",
+    "lib/core/supabase/supabase_module.dart": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+    "test/core/collect_startup_recovery_test.dart": "2838d4d7caa2e31cab13b0f16b371a5f1cb434ccaddb72d38c30eca0920e369f",
+    "test/core/collect_supabase_bootstrap_test.dart": "622529b7cdef1c75356835b3599cb9b3f2f79ef87911752221cab2aaf8c79a9c",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "validation_sha256": "0d088e4d0960b7883dcff156a9b6420cafd0e332275e83113556201dc17bc1ae",
+  "test_cases_passed": 12,
+  "implementation": {
+    "member_and_admin_loading_before_async_initialization": true,
+    "provisional_display_deadline_seconds": 15,
+    "deadline_does_not_cancel_or_overlap_initializer": true,
+    "actual_partial_supabase_cleanup_before_retry": true,
+    "unsafe_cleanup_requires_restart": true,
+    "late_success_and_disposal_are_fenced": true,
+    "fixed_public_framework_platform_recovery": true,
+    "diagnostic_fields_allowlisted": true,
+    "diagnostic_burst_limit_per_minute": 64,
+    "suppression_event_max_per_window": 1,
+    "supabase_raw_debug_logging_disabled": true,
+    "controller_lifecycle": "caller_owned; entry-point controller remains for process and runtime faults"
+  },
+  "tests": [
+    "first rendered loading then ready with null/unconfigured client",
+    "display timeout/repeated retry reuses exactly one pending operation",
+    "genuine rejection retries; unsafe cleanup forbids retry",
+    "fatal/disposed late completion cannot notify or hide failure",
+    "sensitive object is not stringified in framework/platform/recovery paths",
+    "coalesced deferred fault; handler disposal restores only owned callbacks",
+    "bounded diagnostic burst/redacted build+environment/attempt clamps/broken sink",
+    "member/Admin at320x480 with3x text/light+dark/highcontrast",
+    "actual installed Supabase storage initialize failure, real disposal and clean retry withzeroHTTPrequests"
+  ],
+  "authority_observation_sha256": "3f8ba42a7f9ec1c4a2c0bc05d21fb11fbadd313cf38b0a8d682d93ca5f988c44",
+  "selected_revolut_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "runtime_browser_integration": "maintained observer adaptation in progress; fresh build/capture not yet accepted",
+  "remaining": [
+    "Named duty owner and external alert transport/delivery, actionable owned response",
+    "Approved startup/support/capacity budgets and outage/queue/backpressure proofs",
+    "Alert silence/recovery and support/incident rehearsal",
+    "Long-session minimum device/real configured member+Admin boot",
+    "Actual version build define may beunknown; final candidate build binding required",
+    "Fresh browser/native screenshots after source changes and full immutable candidate validation"
+  ],
+  "full_ARC12_closed": false,
+  "provider_or_hosted_effects": false,
+  "production_ready": false
+}

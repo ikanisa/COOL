@@ -1,0 +1,19 @@
+{
+  "applied_at_utc": "2026-10-02T14:01:00.412378+00:00",
+  "maintained_files": [
+    {
+      "bytes": 15461,
+      "exact_sealed_proposal_bytes": true,
+      "path": "scripts/audits/collect_current_evidence_index.py",
+      "sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1"
+    },
+    {
+      "bytes": 14151,
+      "exact_sealed_proposal_bytes": true,
+      "path": "scripts/tests/collect_current_evidence_index_test.py",
+      "sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6"
+    }
+  ],
+  "tests_run": false,
+  "write_boundary": "Only two authorized new source scripts; final bytes held for root build fence"
+}

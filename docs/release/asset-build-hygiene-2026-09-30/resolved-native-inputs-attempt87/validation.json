@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "actual_tests": 12,
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/resolved_native_package_inputs.py": "8963e625bb8dde388a547de6d4337afa97b5f72c4664a900a5608fbf4c1a5a01",
+    "scripts/tests/resolved_native_package_inputs_test.py": "537e855d5f3c87742133cccc71fd54683277b101d3884c0fb10a786fa5b34ff1"
+  },
+  "scope": "Complete observed compiler/plugin source maps with conservative root QA/generated exclusions; hosted immutable copies, SDK byte binding, source/config mutation, escapes, private files and aggregate resource limits. No registry authenticity or whole SDK attestation"
+}

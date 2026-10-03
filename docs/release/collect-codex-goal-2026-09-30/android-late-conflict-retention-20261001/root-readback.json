@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "verification": "composed root readback: exact source/dependencies/runtime/artifacts/terminal logs/cases, then predecessor and promotion bindings; no new test execution",
+  "packet_members": 113,
+  "source_inputs": 41,
+  "canonical_before_bindings": 38,
+  "original_binary_inputs": 14,
+  "private_binary_bindings": 14,
+  "JDK_entries": 550,
+  "compiled_artifacts": 248,
+  "fresh_actual_unique_case_events": 109,
+  "terminal_current_commands": 19,
+  "reused_exact_terminal_product_compile": true,
+  "predecessor_members_unchanged": 93,
+  "promotion_files": 9,
+  "canonical_promoted": false
+}

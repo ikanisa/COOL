@@ -1,0 +1,242 @@
+{
+  "AppArmorProfile": "",
+  "Args": [
+    "900"
+  ],
+  "Config": {
+    "AttachStderr": true,
+    "AttachStdin": false,
+    "AttachStdout": true,
+    "Cmd": [
+      "/bin/sleep",
+      "900"
+    ],
+    "Domainname": "",
+    "Entrypoint": null,
+    "Env": [
+      "DART_SUPPRESS_ANALYTICS=true",
+      "CI=true",
+      "PATH=/opt/dart/dart-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "Hostname": "07fe0619fd30",
+    "Image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+    "Labels": {
+      "com.collect.arc01.owner": "collect-arc01-ubuntu-20261002-deabfee579f3",
+      "org.opencontainers.image.version": "24.04"
+    },
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Tty": false,
+    "User": "arc01",
+    "Volumes": null,
+    "WorkingDir": "/work/checkout"
+  },
+  "Created": "2026-10-02T00:12:26.78183838Z",
+  "Driver": "overlay2",
+  "ExecIDs": null,
+  "GraphDriver": {
+    "Data": {
+      "ID": "07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9",
+      "LowerDir": "/var/lib/docker/overlay2/f210a427515e10a2548cc2e86c1e76632927cfd2dc12e417fc03c71ed72449ad-init/diff:/var/lib/docker/overlay2/y77x0jhsguv6htqnxiwe09zj5/diff:/var/lib/docker/overlay2/nk1deud1oujz2a22d4yamve07/diff:/var/lib/docker/overlay2/bff956jvd3jo6mvpeys8n8gj0/diff:/var/lib/docker/overlay2/5r7slvqmsifcmhgomobfq1ez3/diff:/var/lib/docker/overlay2/c14kistq8ji2i13q05f18ufx5/diff:/var/lib/docker/overlay2/de15bbc473fbc4be7e28ec0de371231c000923515c6e3ef093f93f522ff9d0ee/diff",
+      "MergedDir": "/var/lib/docker/overlay2/f210a427515e10a2548cc2e86c1e76632927cfd2dc12e417fc03c71ed72449ad/merged",
+      "UpperDir": "/var/lib/docker/overlay2/f210a427515e10a2548cc2e86c1e76632927cfd2dc12e417fc03c71ed72449ad/diff",
+      "WorkDir": "/var/lib/docker/overlay2/f210a427515e10a2548cc2e86c1e76632927cfd2dc12e417fc03c71ed72449ad/work"
+    },
+    "Name": "overlay2"
+  },
+  "HostConfig": {
+    "AutoRemove": false,
+    "Binds": null,
+    "BlkioDeviceReadBps": [],
+    "BlkioDeviceReadIOps": [],
+    "BlkioDeviceWriteBps": [],
+    "BlkioDeviceWriteIOps": [],
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": [],
+    "CapAdd": null,
+    "CapDrop": [
+      "ALL"
+    ],
+    "Cgroup": "",
+    "CgroupParent": "",
+    "CgroupnsMode": "private",
+    "ConsoleSize": [
+      0,
+      0
+    ],
+    "ContainerIDFile": "",
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpuShares": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "DeviceCgroupRules": null,
+    "DeviceRequests": null,
+    "Devices": [],
+    "Dns": null,
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": null,
+    "GroupAdd": null,
+    "IOMaximumBandwidth": 0,
+    "IOMaximumIOps": 0,
+    "IpcMode": "private",
+    "Isolation": "",
+    "Links": null,
+    "LogConfig": {
+      "Config": {},
+      "Type": "json-file"
+    },
+    "MaskedPaths": [
+      "/proc/acpi",
+      "/proc/asound",
+      "/proc/interrupts",
+      "/proc/kcore",
+      "/proc/keys",
+      "/proc/latency_stats",
+      "/proc/sched_debug",
+      "/proc/scsi",
+      "/proc/timer_list",
+      "/proc/timer_stats",
+      "/sys/devices/virtual/powercap",
+      "/sys/firmware"
+    ],
+    "Memory": 1073741824,
+    "MemoryReservation": 0,
+    "MemorySwap": 2147483648,
+    "MemorySwappiness": null,
+    "Mounts": [
+      {
+        "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/checkout",
+        "Target": "/work/checkout",
+        "Type": "bind"
+      },
+      {
+        "ReadOnly": true,
+        "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/runtime",
+        "Target": "/opt/dart",
+        "Type": "bind"
+      },
+      {
+        "ReadOnly": true,
+        "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/harness",
+        "Target": "/opt/arc01",
+        "Type": "bind"
+      }
+    ],
+    "NanoCpus": 2000000000,
+    "NetworkMode": "none",
+    "OomKillDisable": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "PidsLimit": 128,
+    "PortBindings": {},
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyPaths": [
+      "/proc/bus",
+      "/proc/fs",
+      "/proc/irq",
+      "/proc/sys",
+      "/proc/sysrq-trigger"
+    ],
+    "ReadonlyRootfs": true,
+    "RestartPolicy": {
+      "MaximumRetryCount": 0,
+      "Name": "no"
+    },
+    "Runtime": "runc",
+    "SecurityOpt": [
+      "no-new-privileges"
+    ],
+    "ShmSize": 67108864,
+    "Tmpfs": {
+      "/home/arc01": "rw,uid=501,gid=501,size=16m",
+      "/tmp": "rw,size=64m"
+    },
+    "UTSMode": "",
+    "Ulimits": [],
+    "UsernsMode": "",
+    "VolumeDriver": "",
+    "VolumesFrom": null
+  },
+  "HostnamePath": "/var/lib/docker/containers/07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9/hostname",
+  "HostsPath": "/var/lib/docker/containers/07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9/hosts",
+  "Id": "07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9",
+  "Image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+  "LogPath": "/var/lib/docker/containers/07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9/07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9-json.log",
+  "MountLabel": "",
+  "Mounts": [
+    {
+      "Destination": "/work/checkout",
+      "Mode": "",
+      "Propagation": "rprivate",
+      "RW": true,
+      "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/checkout",
+      "Type": "bind"
+    },
+    {
+      "Destination": "/opt/dart",
+      "Mode": "",
+      "Propagation": "rprivate",
+      "RW": false,
+      "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/runtime",
+      "Type": "bind"
+    },
+    {
+      "Destination": "/opt/arc01",
+      "Mode": "",
+      "Propagation": "rprivate",
+      "RW": false,
+      "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/harness",
+      "Type": "bind"
+    }
+  ],
+  "Name": "/collect-arc01-ubuntu-20261002-deabfee579f3-format",
+  "NetworkSettings": {
+    "Networks": {
+      "none": {
+        "Aliases": null,
+        "DNSNames": null,
+        "DriverOpts": null,
+        "EndpointID": "fb7473c232ef8fdd443abf0c013eb4ffa74b553544b085c6a2f02a22b7def4b1",
+        "Gateway": "",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "GwPriority": 0,
+        "IPAMConfig": null,
+        "IPAddress": "",
+        "IPPrefixLen": 0,
+        "IPv6Gateway": "",
+        "Links": null,
+        "MacAddress": "",
+        "NetworkID": "162f38a9111ebf460add19c45ab093a5dd9b9e9e66261a9c47fb51d1ac655d60"
+      }
+    },
+    "Ports": {},
+    "SandboxID": "acc9a996d1f23514deee6215f6c07f0afa8aef1db63204350f18e9c4f32f0784",
+    "SandboxKey": "/var/run/docker/netns/acc9a996d1f2"
+  },
+  "Path": "/bin/sleep",
+  "Platform": "linux",
+  "ProcessLabel": "",
+  "ResolvConfPath": "/var/lib/docker/containers/07fe0619fd30384fb14e4bdef9edd277933ce544c2270bcbcd29148ce8367aa9/resolv.conf",
+  "RestartCount": 0,
+  "State": {
+    "Dead": false,
+    "Error": "",
+    "ExitCode": 0,
+    "FinishedAt": "0001-01-01T00:00:00Z",
+    "OOMKilled": false,
+    "Paused": false,
+    "Pid": 92736,
+    "Restarting": false,
+    "Running": true,
+    "StartedAt": "2026-10-02T00:12:26.891679171Z",
+    "Status": "running"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "run",
+    "--detach",
+    "--pull=never",
+    "--name",
+    "collect-recovery-inactive-1adeeef43e02",
+    "--label",
+    "collect.rehearsal.owner=collect-recovery-inactive-1adeeef43e02",
+    "--network",
+    "none",
+    "--tmpfs",
+    "/var/lib/postgresql/collect-rehearsal:rw,size=1073741824",
+    "-e",
+    "POSTGRES_PASSWORD=<random-local-only>",
+    "-e",
+    "PGDATA=/var/lib/postgresql/collect-rehearsal/data",
+    "--tmpfs",
+    "/run/collect:rw,mode=1777",
+    "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "sh",
+    "-c",
+    "docker-entrypoint.sh postgres -D /var/lib/postgresql/collect-rehearsal/data -c shared_preload_libraries=pg_cron,pg_net,pg_stat_statements -c wal_level=logical -c cron.database_name=postgres -c cron.launch_active_jobs=off -c cron.log_run=on -c cron.timezone=UTC -c pg_net.batch_size=0 -c listen_addresses= -c pg_net.database_name=template1 -c collect.recovery_drill=production-archive-v1 -c unix_socket_directories=/run/collect,/var/run/postgresql & child=$!; wait \"$child\"; while :; do sleep 3600; done"
+  ],
+  "input_sha256": null,
+  "exit_code": 0,
+  "stdout_sha256": "f23dc95e4170e65081eb7e8f443423f9ae669475455ace929848da8794405e0f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

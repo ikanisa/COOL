@@ -1,0 +1,21 @@
+{
+  "action": "activate",
+  "status": "recorded",
+  "receipt": {
+    "scope": "rw_receipt_operations",
+    "action": "activate",
+    "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+    "request_id": "9428550c-56b7-41a5-aaf0-88c7f24a3afe",
+    "recorded_at": "2026-10-01T13:03:01.835266Z",
+    "principal_id": "1c5c5b80-b2b5-432f-9dc5-f8ad8b7d476d",
+    "state_at_action": "active",
+    "contract_version": 3,
+    "request_expires_at": "2026-10-01T13:04:31.769163Z",
+    "identity_expires_at": "2026-10-02T13:02:53.705222Z"
+  },
+  "checked_at": "2026-10-01T13:03:01.919052Z",
+  "request_id": "9428550c-56b7-41a5-aaf0-88c7f24a3afe",
+  "contract_version": 3,
+  "request_expires_at": "2026-10-01T13:04:31.769163Z",
+  "sample_valid_until": "2026-10-01T13:04:01.919052Z"
+}

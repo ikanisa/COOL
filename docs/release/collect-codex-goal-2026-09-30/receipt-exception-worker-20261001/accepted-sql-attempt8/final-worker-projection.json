@@ -1,0 +1,15 @@
+{
+  "jobs": 4,
+  "receipts": 1,
+  "dispatches": 4,
+  "configuration": {
+    "enabled": false,
+    "day_jobs": 1440,
+    "revision": 5,
+    "scan_limit": 25,
+    "updated_at": "2026-10-01T12:34:10.428709+00:00",
+    "day_escalations": 28800,
+    "day_scan_sources": 36000,
+    "escalation_limit": 20
+  }
+}

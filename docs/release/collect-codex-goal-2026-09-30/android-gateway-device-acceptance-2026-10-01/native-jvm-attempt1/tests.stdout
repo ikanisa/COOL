@@ -1,0 +1,15 @@
+JUnit version 4.13.2
+...................................E...
+Time: 6.552
+There was 1 failure:
+1) timeoutDisconnectsAndPreservesUnknownWithoutRetry(app.cool.mobile.gateway.GatewayTransportTest)
+java.lang.AssertionError: expected:<1> but was:<0>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at app.cool.mobile.gateway.GatewayTransportTest.timeoutDisconnectsAndPreservesUnknownWithoutRetry(GatewayTransportTest.kt:61)
+
+FAILURES!!!
+Tests run: 38,  Failures: 1
+

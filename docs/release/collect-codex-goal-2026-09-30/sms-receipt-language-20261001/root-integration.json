@@ -1,0 +1,18 @@
+{
+  "integrated_at": "2026-10-01T21:41:18.331854+00:00",
+  "unique_passing_checks": 63,
+  "actual_command_receipts": 596,
+  "predecessor_inputs_verified": 180,
+  "canonical_sha256": {
+    "supabase/migrations/20261001250000_sms_receipt_language_selection.sql": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+    "scripts/tests/sms_receipt_language_uat.py": "e4534cc21ff809f153212ca7175a316941172d661d9c9bb06d8390417e7bd266"
+  },
+  "complete_candidate_rehearsed": false,
+  "retained_failures": {
+    "attempt1": "fixture SQL syntax",
+    "attempt2": "fixture SQL syntax",
+    "attempt3": "actual pre-fix account-claim/ledger foreign-key deadlock"
+  },
+  "current_attempt": "attempt4 only",
+  "authority_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50"
+}

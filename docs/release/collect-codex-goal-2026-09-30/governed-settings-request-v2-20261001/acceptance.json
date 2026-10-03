@@ -1,0 +1,168 @@
+{
+  "actual_observed_blocking_races": 9,
+  "all_task_containers_removed": true,
+  "baseline_sha256": {
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+  },
+  "canonical_promoted": false,
+  "case_bindings_sha256": "5ac3bca3dbd5da2ca0f2831e8b83c8bd55dde9fba6e7e6cc441441e1d0978bb7",
+  "created_at": "2026-10-01T17:46:51.285997+00:00",
+  "default_full_scope_includes_all_composed_case_bodies": true,
+  "distinct_source_bound_cases": 224,
+  "feature_sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+  "full_SMS_content_language_policy_propagation_implemented": false,
+  "kind": "composed_governed_settings_v2_local_SQL_acceptance",
+  "no_hosted_provider_signedJWT_or_device_acceptance": true,
+  "original_failures_preserved": [
+    {
+      "cases": 0,
+      "failure": "[Errno 2] No such file or directory: '/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql'",
+      "proof": "attempt1",
+      "status": "failed"
+    },
+    {
+      "cases": 0,
+      "failure": "Cannot connect to the Docker daemon at unix:///Users/jeanbosco/.docker/run/docker.sock. Is the docker daemon running?\n",
+      "proof": "attempt2",
+      "status": "failed"
+    },
+    {
+      "cases": 0,
+      "failure": "ERROR:  23503: insert or update on table \"admin_navigation_items\" violates foreign key constraint \"admin_navigation_items_required_permission_fkey\"\nDETAIL:  Key (required_permission)=(settings.read) is not present in table \"admin_permissions\".\nSCHEMA NAME:  public\nTABLE NAME:  admin_navigation_items\nCONSTRAINT NAME:  admin_navigation_items_required_permission_fkey\nLOCATION:  ri_ReportViolation, ri_triggers.c:2599\n",
+      "proof": "attempt3",
+      "status": "failed"
+    },
+    {
+      "cases": 0,
+      "failure": "ERROR:  42601: syntax error at or near \"to_jsonb\"\nLINE 1: ...000-8000-000000000001\"}'::jsonb)).updated_bywhere to_jsonb(t...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+      "proof": "attempt4",
+      "status": "failed"
+    },
+    {
+      "cases": 6,
+      "failure": "all eight private helpers have no direct API execution: None",
+      "proof": "attempt5",
+      "status": "failed"
+    },
+    {
+      "cases": 168,
+      "failure": "Session marker timeout HEAD_HELD ['ERROR:  42601: syntax error at or near \"update\"', 'LINE 1: ...nd identity=\\'{\"key\":\"qa_runtime_current\"}\\'::jsonbfor update;', '                                                                ^', 'LOCATION:  scanner_yyerror, scan.l:1244', 'ERROR:  25P02: current transaction is aborted, commands ignored until end of transaction block', 'LOCATION:  exec_simple_query, postgres.c:1140']",
+      "proof": "attempt6",
+      "status": "failed"
+    },
+    {
+      "cases": 34,
+      "failure": "actual expected database blocking not observed",
+      "proof": "affected-attempt7",
+      "status": "failed"
+    },
+    {
+      "cases": 24,
+      "failure": "Expecting value: line 1 column 1 (char 0)",
+      "proof": "affected-tail-attempt8",
+      "status": "failed"
+    }
+  ],
+  "proof_runs": {
+    "affected-attempt7": {
+      "all_task_containers_removed": true,
+      "cases": 34,
+      "runner_sha256": "6499141bedd0ccf715502ce745a549c2ea4503d3f515b161bdd8c7be09524d86",
+      "status": "failed"
+    },
+    "affected-tail-attempt8": {
+      "all_task_containers_removed": true,
+      "cases": 24,
+      "runner_sha256": "04c4ca53e564242ef861a7b1e20d71656eb9107f61edfee7750a56d0e8f3ef5d",
+      "status": "failed"
+    },
+    "attempt6": {
+      "all_task_containers_removed": true,
+      "cases": 168,
+      "runner_sha256": "d9b4e9ec5040b9f3c977e7ca09311f133d2f7fbc1d7e515739b9f3f823651291",
+      "status": "failed"
+    },
+    "final-only-attempt9": {
+      "all_task_containers_removed": true,
+      "cases": 20,
+      "runner_sha256": "66042f95b363f257246ccbeb77a3255431da75e143dc8636c860851c9d16ea2b",
+      "status": "pass"
+    }
+  },
+  "retained_EXPLAIN_query_source_sha256": "5233505ad37459ed8d2edcc27428be048ea7428ea186e703b6c5f0bbd1975499",
+  "root_review_required": true,
+  "runner_equivalences": [
+    {
+      "name": "attempt6 all25 family loop and entire original no-op/permission/auth negative body",
+      "nodes": 30,
+      "normalized_ast_sha256": "b597d35647307997ff52e2befc7d0c39758168ee71f668a0c594d2be14dbbd9a",
+      "status": "pass"
+    },
+    {
+      "name": "attempt7 exact deadline/concurrency/insertion fence body before original failed expiry fixture",
+      "nodes": 106,
+      "normalized_ast_sha256": "13e259744a2a5d2918d4dc7418cb4bf25a69e0b3e4e3db25a5e39171dada10d7",
+      "status": "pass"
+    },
+    {
+      "name": "attempt8 actual approval expiry/publication/identity/catalog/history body before diagnostic parse",
+      "nodes": 55,
+      "normalized_ast_sha256": "4c3781df65f936640f7a24eaa212141ad693c03148aacdc5122be028fd82f659",
+      "status": "pass"
+    },
+    {
+      "name": "attempt6 entire fixture/install/get/make/fingerprint/lookup common setup",
+      "nodes": 78,
+      "normalized_ast_sha256": "6fd8796590b32b30d3290cc96efaae912b47b780b6dcbbf9d5a8882fd6fab970",
+      "status": "pass"
+    },
+    {
+      "name": "attempt6 all module import/global DTO constants and quote/hash/time helpers",
+      "nodes": 19,
+      "normalized_ast_sha256": "75af394676a3378328fa2faf89e638679113612794c14eeea1ca26c22dfc5ed6",
+      "status": "pass"
+    },
+    {
+      "name": "attempt7 all common session/blocking/snapshot race helpers",
+      "nodes": 4,
+      "normalized_ast_sha256": "d1cafbcfd178df86e1a44fd485f85e15a0571f8281cd16b7a5a9ad430639f3df",
+      "status": "pass"
+    },
+    {
+      "name": "final9 new exact original-input/create/sensitive boundary body now included in default full scope",
+      "nodes": 24,
+      "normalized_ast_sha256": "3082f4b41db955e92a54149af537a72183b71fa9d355e99687ae0add0023ab40",
+      "status": "pass"
+    }
+  ],
+  "runner_sha256": "084cc224894466585871776972e1d29fc9ba6e817ab6f143fdc17cdec7bf9dcc",
+  "source_capture_readback": true,
+  "status": "pass",
+  "terminal_cleanup_sha256": "c77aa50b3a94bff56b86ce13b635c16fb99d24a1a78d124d2a94c71bf05e9de5",
+  "tools": {
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "python_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "typed_Settings_UI_implemented": false,
+  "unchanged_transitive_source_sha256": {
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/current_runtime_control_bundle_uat.py": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "supabase/migrations/20261001220000_governed_settings_requests.sql": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e"
+  },
+  "whole_original_run_pass": false
+}

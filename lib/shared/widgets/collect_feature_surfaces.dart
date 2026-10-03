@@ -89,9 +89,10 @@ class CollectListTile extends StatelessWidget {
       label: visibleSubtitle == null ? title : '$title, $visibleSubtitle',
       onTap: onTap,
       child: ExcludeSemantics(
-        child: InkWell(
+        child: CollectFocusableInkWell(
           borderRadius: CollectRadius.mdBorder,
           onTap: onTap,
+          outsideFocusRing: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
             child: Row(

@@ -41,7 +41,12 @@ class ScreenScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final offlineSnapshot = ref.watch(offlineSnapshotStatusProvider);
+    final offlineSnapshot = ref.watch(
+      offlineSnapshotStatusProvider.select(
+        (status) =>
+            (usingStaleCache: status.usingStaleCache, label: status.label),
+      ),
+    );
     final stalePill = offlineSnapshot.usingStaleCache
         ? Semantics(
             liveRegion: true,

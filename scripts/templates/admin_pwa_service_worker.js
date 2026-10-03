@@ -2,6 +2,7 @@
 
 const CACHE_NAME = __COLLECT_ADMIN_CACHE_NAME__;
 const CACHE_URLS = __COLLECT_ADMIN_CACHE_URLS__;
+const CACHE_HASHES = __COLLECT_ADMIN_CACHE_HASHES__;
 const SHELL_URL = new URL('./', self.location.href).href;
 const ASSET_URLS = new Set(CACHE_URLS.map((path) => new URL(path, self.location.href).href));
 // Migrate caches from the retired generated Flutter worker on this Admin
@@ -16,7 +17,9 @@ self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     try {
       const cache = await caches.open(CACHE_NAME);
-      await Promise.all(CACHE_URLS.map(async (url) => {
+      // Wait for every write before cleanup if any resource fails. Otherwise
+      // an in-flight successful fetch could recreate the rejected cache.
+      const results = await Promise.allSettled(CACHE_URLS.map(async (url) => {
         // A static shell must be identical for every operator. Never let an
         // authenticated cookie or a redirect to an account page enter it.
         const request = new Request(url, {
@@ -30,9 +33,18 @@ self.addEventListener('install', (event) => {
             new URL(response.url).href !== expected.href) {
           throw new Error(`Failed to cache static Admin asset ${url}`);
         }
+        const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
+        const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+        if (actual !== CACHE_HASHES[url]) {
+          throw new Error(`Admin asset bytes differ from this build: ${url}`);
+        }
         await cache.put(request, response);
       }));
-      await self.skipWaiting();
+      const failed = results.find((result) => result.status === 'rejected');
+      if (failed) throw failed.reason;
+      // Use the browser's waiting phase. Open operator tabs keep their entire
+      // installed build until all controlled tabs/windows have been closed.
+      // Do not activate an update over an unfinished operator action.
     } catch (error) {
       await caches.delete(CACHE_NAME);
       throw error;
@@ -47,7 +59,8 @@ self.addEventListener('activate', (event) => {
       (key.startsWith('collect-admin-') && key !== CACHE_NAME) ||
       LEGACY_FLUTTER_CACHES.has(key))
       .map((key) => caches.delete(key)));
-    await self.clients.claim();
+    // Natural activation happens after previous controlled clients close.
+    // Do not take over a page which loaded an earlier build from the network.
   })());
 });
 
@@ -58,7 +71,12 @@ async function cacheFirst(request) {
   const key = request.mode === 'navigate' ? SHELL_URL : request;
   const cached = await cache.match(key, { ignoreSearch: true });
   if (cached) return cached;
-  return fetch(request);
+  // An evicted static entry must not fetch newer, unversioned build bytes into
+  // an old running app. Close all Admin tabs and reopen online to recover.
+  return new Response('Admin static build is unavailable. Close all Admin tabs and reopen online.', {
+    status: 503,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
 }
 
 self.addEventListener('fetch', (event) => {

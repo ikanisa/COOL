@@ -1,0 +1,63 @@
+{
+  "scope": "current Admin principal SDK/UI/recovery with worker transport, health, Automations, deferral and policy regression",
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_receipt_principal_card.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+        "lib/admin/core/admin_receipt_principal_controller.dart",
+        "lib/admin/core/admin_receipt_principal_models.dart",
+        "lib/admin/core/admin_receipt_principal_runtime.dart",
+        "test/admin_receipt_principal_browser_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_receipt_principal_models_test.dart",
+        "test/admin_receipt_principal_recovery_test.dart"
+      ],
+      "returncode": 0,
+      "duration_seconds": 41.17
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=2",
+        "test/admin_receipt_principal_models_test.dart",
+        "test/admin_receipt_principal_recovery_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_receipt_worker_transport_test.dart",
+        "test/admin_receipt_worker_health_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_receipt_deferral_test.dart",
+        "test/admin_receipt_operations_models_test.dart",
+        "test/admin_receipt_operations_checkpoint_test.dart",
+        "test/admin_receipt_operations_runtime_test.dart",
+        "test/admin_receipt_operations_card_test.dart",
+        "--reporter",
+        "json"
+      ],
+      "returncode": 0,
+      "duration_seconds": 159.9
+    }
+  ],
+  "accepted": true,
+  "expected_cases": 359,
+  "visible_cases": 359,
+  "completed_visible_cases": 359,
+  "terminal": {
+    "success": true,
+    "type": "done",
+    "time": 150129
+  },
+  "inputs": 2533,
+  "changed_inputs": [],
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "visual_comparator_accepted": false,
+  "full_candidate_regression": false,
+  "optional_visual_capture_environment_disabled": true
+}

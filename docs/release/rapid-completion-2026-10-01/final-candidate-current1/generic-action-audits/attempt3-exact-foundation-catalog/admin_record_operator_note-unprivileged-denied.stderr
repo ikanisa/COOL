@@ -1,0 +1,5 @@
+ERROR:  42501: Admin permission collections.read required
+CONTEXT:  PL/pgSQL function public.assert_admin_permission(text) line 8 at RAISE
+SQL statement "SELECT assert_admin_permission('collections.read')"
+PL/pgSQL function admin_record_operator_note(text,uuid,text) line 12 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

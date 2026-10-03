@@ -1,0 +1,78 @@
+{
+  "scoped_vm_tests": {
+    "status": "pass",
+    "passed": 94,
+    "failed": 0,
+    "files": {
+      "models": 30,
+      "sdk": 9,
+      "card": 36,
+      "existing_investigation": 19
+    },
+    "raw_log": "scoped-tests-final.log"
+  },
+  "isolated_chrome_storage": {
+    "status": "pass",
+    "passed": 1,
+    "failed": 0,
+    "raw_log": "browser-storage.log",
+    "full_reload_real_auth_e2e": false
+  },
+  "analysis": {
+    "status": "pass",
+    "files": 13,
+    "issues": 0,
+    "raw_log": "analysis-final.log"
+  },
+  "sole_design_authority": {
+    "status": "pass",
+    "raw_log": "design-authority-final.log",
+    "visual_fidelity_certified": false,
+    "after_source_reference_copies": true
+  },
+  "capture_inspection": {
+    "status": "inspected",
+    "synthetic": true,
+    "files": [
+      "receipt-cancellation-dark-synthetic.png",
+      "receipt-cancellation-light-synthetic.png"
+    ],
+    "desktop_pixels": [
+      1440,
+      2200
+    ],
+    "bundled_fonts_and_logo": true,
+    "visible_desktop_overflow": false,
+    "actual_state": "Independent cancellation eligibility; joined investigation unavailable"
+  },
+  "accessibility_responsive": {
+    "dark_light_320px_2x_text_widget_tests": "pass",
+    "explicit_reason_dialog": "pass",
+    "keyboard_escape": "pass",
+    "deployed_screen_reader": "unverified"
+  },
+  "backend_scoped_cases": {
+    "passed": 147,
+    "packet": "../safe-receipt-actions/README.md",
+    "backend_reexecuted_by_ui_slice": false,
+    "whole_hosted_chain_acceptance": false
+  },
+  "auth_persistence": {
+    "persistSession": false,
+    "storage": "EmptyLocalStorage",
+    "checkpoint": "owner/project/purpose-bound sessionStorage only",
+    "real_email_sign_in_after_browser_reload": "unverified"
+  },
+  "reviewed_production_freeze": false,
+  "whole_C13_C23_acceptance": false,
+  "source05_contains_slice": false,
+  "failed_attempts_preserved": [
+    "analysis-attempt1.log",
+    "analysis-attempt2.log",
+    "analysis-attempt3.log",
+    "tests-attempt1.log",
+    "card-attempt2.log",
+    "scoped-tests-attempt3.log",
+    "scoped-tests-attempt4.log"
+  ]
+}

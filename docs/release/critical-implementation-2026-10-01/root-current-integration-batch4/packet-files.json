@@ -1,0 +1,106 @@
+{
+  "status": "sealed",
+  "scope": "Six canonical registers reconciled while preserving all40 original criteria and102/24 original rows. ARC-04 original local criterion is closed;37 full findings and production NO-GO remain.",
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/arc04-original-criterion-review.json",
+      "bytes": 2806,
+      "sha256": "6097fab026136820a82b24fc8e37bad27e017641388dee15f45f4ea1cc8ff475"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/design-current-readback.json",
+      "bytes": 619,
+      "sha256": "ffed251b112dab18961d21f419d54e80e49cabdb695714c36485e55294ed525f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/design-final-current-readback.json",
+      "bytes": 616,
+      "sha256": "f1f73fb3f715df1c8004c253eded0fc840c9ae931cfdb97fc26325fc6986411e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/edge-full140-independent-readback.json",
+      "bytes": 339,
+      "sha256": "260ad87de65c9996f7c1fd55fd46debf9a8495a06538fe1f1134bf2b34c41d10"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/edge-inputs4-admission.json",
+      "bytes": 768,
+      "sha256": "8aafe8c62eef3ac0318c1c1451bb134fd0a8f787de69c8a2a4d36eca1306a498"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/reconcile_registers.py",
+      "bytes": 27919,
+      "sha256": "53342aa1ea77096960038b19055545db80a4a06aed519e7913567426e655f29b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/reconciliation-attempt1-refusal.json",
+      "bytes": 502,
+      "sha256": "16a95334eeff93174fa52ece26eb3be3ee3bcb1c54aa066dab4a9151a8ffc411"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/register-reconciliation.json",
+      "bytes": 1358,
+      "sha256": "58b8d432cf87ff3bc9139214bafce1ff2ab4f5d21b1b10d03235232fd1d75f8c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 22528,
+      "sha256": "436fa817a48307e80289ee39983b80c4c1066e1941fe94c988dda3fe7c3ed0a8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 37680,
+      "sha256": "c114626d22bec85828fd17089270b40fd1041ed5f0ddc866db850b74c6cbe200"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 54818,
+      "sha256": "25b20c19b3727949cf0dcdf91df74bb3170a0eecddc3a3d58ad685dd2714fdd1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 156799,
+      "sha256": "54cbf430bc6498498c939a9120f143d246b091c2ecfc3511fc878923d8b70934"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 152719,
+      "sha256": "0d525637a288cc98e16a001c0f2bee04bec8e76aace6de4ef8a4c5a3833911d0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-after/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 341877,
+      "sha256": "ae06b13a14209553b8d0c912275438261ad1d46a40829ea33711dc1385fd50dd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 20761,
+      "sha256": "4c8ae32325f8818a55e0b1ae8bb9649662a4039269d7f58e6f78d6f11992a0b6"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 35913,
+      "sha256": "7bf885108359a30fd8c0593ea31763bd8bc260814b594a4d9cbc6034604ca026"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 44273,
+      "sha256": "4c36d6729f76f4ad40d4d0745d8a787adc715779e19fd312fbbd770f3d4142c7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 127161,
+      "sha256": "e548729952cbc4ae857abe68f5923f652de3a7109d3d01551185a4be15f1ed79"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 145902,
+      "sha256": "c11bf9022c099aa2ca3890beebcf1bef07ba38f65c240c7a20a4621b93de2d85"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch4/registers-before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 335060,
+      "sha256": "09ad98b0c6b49129cc37669f3cbdec02117fbb49427fe459ee270b8fc1e4ba7e"
+    }
+  ]
+}

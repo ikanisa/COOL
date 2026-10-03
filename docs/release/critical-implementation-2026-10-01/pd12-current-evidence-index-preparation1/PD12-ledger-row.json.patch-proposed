@@ -1,0 +1,21 @@
+{
+  "closure_change_authorized_by_this_proposal": false,
+  "expected_before": {
+    "acceptance_status": "open",
+    "full_finding_closed": false,
+    "implementation_status": "current_source_and_failed_acceptance_checkpoint_refreshed_artifact_and_visual_index_open",
+    "next_action": "Current source changes, strict export/lock result, failed41 consumers, final-reader diagnosis and Linux39 pass are reflected in this checkpoint. Rebind final typography/public acceptance indexes to actual final source/dependency/build/artifact and comparison results; do not reuse superseded package/fidelity claims.",
+    "status": "finding_or_acceptance_gap"
+  },
+  "preserve_all_other_fields_and_rows": true,
+  "selector": {
+    "items.id": "PD-12"
+  },
+  "set_only": {
+    "implementation_status": "current_candidate_index_proposal_unapplied_actual_binding_verification_open",
+    "next_action": "Current captured app2561 source abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191 has completed1114 successful unskipped checks across41 affected suites and native12 JVM tests/20 release class files PASS. Historical failed41 attempts remain failed. Retained backend156, local SQL219-input/209-migration/37-case, public4 local55-artifact/104-rendered-share and exact157 selected-runtime empty OSV readbacks keep their own scopes; OSV is not packaged SBOM/security/licence acceptance. Apply and actually verify the proposed current candidate index/source/transitive/artifact bindings, reconcile dated summaries and retain explicit unknown graph coverage. Bind the future actual AAB only after its result and exact input/artifact proof exist. Full visual, font rights, legal/publication and hosted/provider acceptance remain separate."
+  },
+  "source_path": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+  "source_sha256": "9c0edad7b072e98837283b0e962008c047b43e68bcc54ac0cb11369f12d8659e",
+  "unapplied": true
+}

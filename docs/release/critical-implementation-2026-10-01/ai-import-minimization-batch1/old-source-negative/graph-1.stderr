@@ -1,0 +1,6 @@
+error: unexpected argument '--cached-only' found
+
+  tip: to pass '--cached-only' as a value, use '-- --cached-only'
+
+Usage: deno info --json --no-config [file]
+

@@ -1,0 +1,57 @@
+{
+  "tool_source_binding_correction_verified": true,
+  "focused_python_tests": {
+    "argv": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/tests",
+      "-p",
+      "test_admin_read_gateway_runner.py",
+      "-v"
+    ],
+    "observed_passed": 7,
+    "observed_failed": 0,
+    "exit_code": 0,
+    "execution_evidence": "retained functions.exec/write_stdin transcript, session22121; helper/export checks plus actual reporter CLI",
+    "scope": "Source-binding and decoder-export regression checks; cohort mapping is declaration only"
+  },
+  "python_syntax_files": 5,
+  "declared_vm_cohorts": 106,
+  "declared_browser_checkpoint_cohorts": 5,
+  "additional_vm_cohorts": 11,
+  "additional_browser_checkpoint_cohorts": 1,
+  "additional_decoder_inputs": 21,
+  "all_declared_test_paths_present": true,
+  "declared_tests_unique": true,
+  "original_six_sdk_test_body_bytes_preserved": true,
+  "new_sdk_cases_declared": 33,
+  "expected_sdk_case_total": 39,
+  "sdk_widget_cases_executed_here": false,
+  "selected_test_fatal_analysis_exit_code": 0,
+  "selected_analysis_admin_source_drift": [],
+  "owned_source_sha256": {
+    "scripts/tests/admin_full_coverage_inventory.py": "18f9a152b41431f87bbe9492039bc168fa76d80ac38cb9d67bf84a03d845ceab",
+    "scripts/tests/admin_matrix_report.py": "c918633ea66896063e0da2cf9754c2ed786348230eb5f23194bdd7578bdce932",
+    "scripts/tests/admin_read_gateway_gate.py": "9481639bb1182fbd808afc99955bb8223ea198bdfe3d59fbb1070c69474bc594",
+    "scripts/tests/admin_matrix_acceptance.py": "0fae7a4c7ff311a09e5b4e2ae1b87805d3392a999ff1b476ec81b4b9385d3065",
+    "scripts/tests/test_admin_read_gateway_runner.py": "b6ff629ef94cfb3722b7393fbd4bc25252b0e92045b91614f6b504bc3682cd27",
+    "test/admin_exception_workflow_sdk_test.dart": "49c664da7e5264388d8023b2dc4ca95f80f147a6b3619c38ac26688097688c6c"
+  },
+  "decoder_input_manifest_sha256": "c78e6303ffc7ad9fd8c60f6b6787cea7616744497dc64ba9a5a44695064e9567",
+  "full_Admin_acceptance": false,
+  "runtime_changed_by_this_task": false,
+  "database_called": false,
+  "provider_called": false,
+  "live_process_handles": [],
+  "remaining_candidate_proof": [
+    "Named current execution of newly declared receipt/worker/deferral/workflow and39-case escalation SDK/production-consumer file",
+    "Changed current health55 consumer cohort rebind",
+    "Current stable 28-route PWA/router/session/offline and selected Revolut interaction/state evidence",
+    "Root-owned current server authorization/CAS/persisted audit evidence remains separately bound"
+  ],
+  "retained_peer_99_result": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/final-local-checks-02/result.json",
+  "retained_peer_99_scope": "Five exception files, exit0/99pass but source_stable=false; does not establish newest receipt operations/deferral/worker candidate acceptance"
+}

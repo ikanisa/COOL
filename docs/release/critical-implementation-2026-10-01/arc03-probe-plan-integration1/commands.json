@@ -1,0 +1,105 @@
+[
+  {
+    "label": "ruby-inventory-suite",
+    "argv": [
+      "/usr/bin/ruby",
+      "scripts/tests/edge_function_inventory_test.rb"
+    ],
+    "started_at_utc": "2026-10-02T13:50:47.243330+00:00",
+    "finished_at_utc": "2026-10-02T13:50:49.681400+00:00",
+    "actual_seconds": 2.438123,
+    "deadline_seconds": 45,
+    "exit_code": 0,
+    "timed_out": false,
+    "pid": 7203,
+    "pgid": 7203,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "df5549230756746b7fd77d3faa019a7ca0d130bdfe9e0a9b7313e40286007a8c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "environment": {
+      "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "LANG": "en_US.UTF-8",
+      "LC_ALL": "en_US.UTF-8",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "HOME": "/Users/jeanbosco"
+    },
+    "terminal_stdout": "Run options: --seed 40873\n\n# Running:\n\n......................\n\nFinished in 2.301877s, 9.5574 runs/s, 112.0824 assertions/s.\n\n22 runs, 258 assertions, 0 failures, 0 errors, 0 skips\n",
+    "terminal_stderr": ""
+  },
+  {
+    "label": "python-unsigned-probe-regressions",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "scripts/tests/supabase_delivery_contract_test.py",
+      "SupabaseDeliveryContractTest.test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret",
+      "SupabaseDeliveryContractTest.test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs",
+      "SupabaseDeliveryContractTest.test_missing_successor_endpoint_refuses_readiness"
+    ],
+    "started_at_utc": "2026-10-02T13:50:49.681649+00:00",
+    "finished_at_utc": "2026-10-02T13:50:50.819759+00:00",
+    "actual_seconds": 1.138139,
+    "deadline_seconds": 60,
+    "exit_code": 1,
+    "timed_out": false,
+    "pid": 7454,
+    "pgid": 7454,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e4a0dff18ee122e6228b6dc373d7e308db9048fc3417069c7fa2aeb231b705bf",
+    "environment": {
+      "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "LANG": "en_US.UTF-8",
+      "LC_ALL": "en_US.UTF-8",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "HOME": "/Users/jeanbosco"
+    },
+    "terminal_stdout": "",
+    "terminal_stderr": "py\", line 302, in collect_toolchain\n    raise ReleaseError(\"CANDIDATE_NODE_REQUIRED\")\ncollect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED\n\n======================================================================\nERROR: test_missing_successor_endpoint_refuses_readiness (__main__.SupabaseDeliveryContractTest.test_missing_successor_endpoint_refuses_readiness)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py\", line 201, in setUp\n    self.reviewed_fixture()\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py\", line 206, in reviewed_fixture\n    result = self.candidate.export_candidate(self.root, export, self.sdk)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py\", line 373, in export_candidate\n    toolchain = collect_toolchain(root, flutter_sdk)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py\", line 302, in collect_toolchain\n    raise ReleaseError(\"CANDIDATE_NODE_REQUIRED\")\ncollect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED\n\n----------------------------------------------------------------------\nRan 3 tests in 1.098s\n\nFAILED (errors=3)\n"
+  },
+  {
+    "label": "python-unsigned-probe-regressions-corrected",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "scripts/tests/supabase_delivery_contract_test.py",
+      "SupabaseDeliveryContractTest.test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret",
+      "SupabaseDeliveryContractTest.test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs",
+      "SupabaseDeliveryContractTest.test_missing_successor_endpoint_refuses_readiness"
+    ],
+    "started_at_utc": "2026-10-02T13:52:03.684439+00:00",
+    "finished_at_utc": "2026-10-02T13:52:11.308322+00:00",
+    "actual_seconds": 7.62377,
+    "deadline_seconds": 60,
+    "exit_code": 0,
+    "timed_out": false,
+    "pid": 8568,
+    "pgid": 8568,
+    "owned_process_group_absent": true,
+    "environment": {
+      "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "LANG": "en_US.UTF-8",
+      "LC_ALL": "en_US.UTF-8",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "HOME": "/Users/jeanbosco"
+    },
+    "node": {
+      "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "realpath": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+      "version": "v24.19.0"
+    },
+    "python": {
+      "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "realpath": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+    },
+    "consumer_input_count": 389,
+    "consumer_inputs_unchanged": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "42acba673b9675e3fe5481993152b9bd54d7910396849059f0edb35a25e31b93",
+    "terminal_stdout": "",
+    "terminal_stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 7.565s\n\nOK\n",
+    "initial_missing_node_failure_retained": true
+  }
+]

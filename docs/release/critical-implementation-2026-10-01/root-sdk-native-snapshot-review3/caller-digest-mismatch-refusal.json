@@ -1,0 +1,8 @@
+{
+  "at_utc": "2026-10-02T06:51:52.253841+00:00",
+  "wrong_caller_argument": "7d1368586b983e464895a616533a72b11db6d0132d98184da23d8d6c8d32f162",
+  "actual_review_receipt_sha256": "596e0c375b23a2f92274589dda1e6e03c2d9cfba2f793679dc5975d1181763e9",
+  "refused_before_stage_creation_or_export": true,
+  "error": "separate root authorization receipt differs",
+  "receipt_or_safeguards_modified": false
+}

@@ -1,0 +1,40 @@
+{
+  "failed_root_results": {
+    "mounted-attempt1": "05bbf71ef048e4700c6fa44472cd5540010dbc1b64785e8fd58e7dd98abebecd",
+    "mounted-attempt2": "d43e229cfb24aad2728dfbad44cf2bd579cc32586f3d926e5f9d32ed953e8c77",
+    "mounted-attempt3": "1c9951f25c5c2a83612e400fefa2552d4147b980d08536ba78f492363aa7cbe3",
+    "mounted-attempt4": "93538805c022989c2f916acf550f4fc5c13a2f007b5125b3e389de46385139d8"
+  },
+  "hygiene_correction": {
+    "exit_code": 0,
+    "result_sha256": "98a3cf6d232c46731f57cc6e09679465d9dafa81f5a89d150aa637018b4f8516",
+    "session_id": 95362,
+    "sole_authority_exit_code": 0,
+    "terminal_chunk": "d6844f",
+    "unit_cases": 12,
+    "unit_exit_code": 0
+  },
+  "mounted_attempt4": {
+    "analysis_exit_code": 0,
+    "analysis_items": 2,
+    "exit_code": 1,
+    "result_sha256": "93538805c022989c2f916acf550f4fc5c13a2f007b5125b3e389de46385139d8",
+    "session_id": 56484,
+    "sole_authority_exit_code": 2,
+    "terminal_chunk": "e6f926",
+    "test_cases": 7,
+    "test_exit_code": 0
+  },
+  "old_terminal_receipts": "Retained in original private packet VERIFICATION/terminal JSON, not invented here",
+  "provenance": "Root-provided execution tool handles; independent result/output/source hash readback by capsule owner. No original execution handled or rerun in this capsule task.",
+  "root_final_association": {
+    "exit_code": 0,
+    "sha256": "0c59bce821962c1aceb8ee466570d7032d0eb6e7847dbca79b867c92c43222eb",
+    "terminal_chunk": "056146"
+  },
+  "separate_full208_root_copy": {
+    "limits": "Independent durable full208 installation scope; no copy or rerun by capsule owner",
+    "root_provided_exit_code": 0,
+    "root_provided_terminal": "58ec6f"
+  }
+}

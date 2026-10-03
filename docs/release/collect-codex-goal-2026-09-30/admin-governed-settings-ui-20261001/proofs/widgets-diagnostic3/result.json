@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_widget_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "exit_code": 1,
+  "elapsed_seconds": 5.54892266700017,
+  "source_sha256": "dea8c139d3db4b5f027e4c2c624493a6960df6ceac048320ea3f0800f6037524"
+}

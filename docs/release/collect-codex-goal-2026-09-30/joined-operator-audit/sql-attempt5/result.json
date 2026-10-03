@@ -1,0 +1,391 @@
+{
+  "kind": "private_joined_operator_audit_schema153_subset",
+  "started_at": "2026-10-01T00:30:21.334655+00:00",
+  "cases": [
+    {
+      "name": "20260930213000_operator_email_auth.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930220527_operator_email_cutover_guard.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930230100_receipt_backlog_events.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930230200_admin_receipt_overview.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930230300_admin_transaction_lifecycle.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930211605_android_gateway_identity.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20261001000100_operational_exception_inbox.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20261001000300_admin_exception_reads.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20261001000400_receipt_supervisor_identity.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20261001000519_safe_unstarted_receipt_cancel.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20261001001457_joined_operator_audit.sql preserves financial and immutable receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "installation does not invent historical shadow audit",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private audit table denies all API roles with RLS",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private audit schema and helpers are not API capabilities",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot access the joined audit",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot access the joined audit",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "legacy phone owner cannot read email-owned audit",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "operator_audit_current_email_owner_required"
+      }
+    },
+    {
+      "name": "old real manual run has no fabricated audit timeline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses unverified email",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses revoked session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses revoked owner role",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses missing audit.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses missing notifications.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "audit refuses missing system_health.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "repeatable read cannot retain audit authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "serializable cannot retain audit authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid audit arguments null,'766c4069-5ada-457c-ae69-51ae2e7f083e'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'payment','766c4069-5ada-457c-ae69-51ae2e7f083e'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'shadow_run',null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'shadow_run','766c4069-5ada-457c-ae69-51ae2e7f083e',0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'shadow_run','766c4069-5ada-457c-ae69-51ae2e7f083e',51",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'shadow_run','766c4069-5ada-457c-ae69-51ae2e7f083e',20,clock_timestamp(),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid audit arguments 'shadow_run','766c4069-5ada-457c-ae69-51ae2e7f083e',20,'infinity',gen_random_uuid()",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "shadow_run absent identity does not disclose events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "gateway_device absent identity does not disclose events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supervisor_identity absent identity does not disclose events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception absent identity does not disclose events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt absent identity does not disclose events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual takeover attributes explicit expiry to the different executing owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual shadow lifecycle yields three transactional audit events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private shadow events join actual public audit identities",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "manual finish replay does not duplicate audit",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "keyset pages preserve ordering without duplicates",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private shadow audit is immutable update",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private shadow audit is immutable delete",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual private capture failure refuses lifecycle begin",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "synthetic_capture_refused"
+      }
+    },
+    {
+      "name": "capture failure rolls back public audit lifecycle and lease atomically",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "gateway audit reads original immutable enrollment and revocation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supervisor audit reads original enrollment and revocation without key material",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception action audit does not imply source resolution or delivered escalation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt audit joins actual cancellation while retaining primary receipt identity",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "removing positive Rwanda receiving scope hides retained receipt actions",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt separately requires financial evidence permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception separately requires financial evidence permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all joined audit reads leave financial receipt and transport rows unchanged",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "real overlapping authority lock gives bounded safe busy",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55P03",
+        "reason": "operator_audit_authority_busy"
+      }
+    },
+    {
+      "name": "audit recovers through manual read after busy",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "hosted_mutations": false,
+  "source_rows_copied": false,
+  "signed_jwt_or_auth_provider_tested": false,
+  "provider_or_sms_called": false,
+  "production_ready": false,
+  "runner_sha256": "fc32019fa4bd981ce3b2eaf08f904329d80e3ed154963bd1e0c40cb2f0d10f05",
+  "executed_helpers_sha256": {
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/android_gateway_identity_uat.py": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8",
+    "scripts/tests/operational_exception_inbox_uat.py": "236be45f10ce592ea657c19707af09360a296680d81c277e405cd1afbf44643d"
+  },
+  "schema_sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60",
+  "executed_migrations_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    ".cache/joined-operator-audit-preparation/supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+  },
+  "offline_target": {
+    "container_id": "ea3de4b0cb41e69369e2791728c832e04751936565235c937d5e0c721924518a",
+    "container_name": "collect_current_rehearsal_joined_audit_aca5fdf367e6",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "baseline": {
+    "migration_count": 153,
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+  },
+  "helper_source_drift": [],
+  "migration_source_drift": [],
+  "status": "pass",
+  "isolated_database_removed": true,
+  "case_count": 59,
+  "completed_at": "2026-10-01T00:31:21.108497+00:00"
+}

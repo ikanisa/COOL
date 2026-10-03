@@ -1,0 +1,4 @@
+ERROR:  P0001: Reason is required
+CONTEXT:  PL/pgSQL function admin_update_platform_public_group(uuid,text,text,text,text,text,text,text) line 9 at RAISE
+PL/pgSQL function admin_update_platform_public_group_metadata(uuid,text,text,text,text,text,text,text) line 21 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

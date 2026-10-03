@@ -1,0 +1,60 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.03,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.15,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-gateway-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleInternal_gatewayRelease",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3907.75,
+      "stdout_sha256": "fac5a1b35bf983bf9aad9125e1110821ddb1d73957059ffbd2548806b7c8ab66",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    },
+    {
+      "name": "gateway-native-lint",
+      "command": [
+        "./gradlew",
+        ":app:lintInternal_gatewayRelease",
+        "-Ptarget=lib/main_gateway.dart",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 438.39,
+      "stdout_sha256": "52c841a56a26c6c00b153f4ce01a5746b1ec705a7e915bf8cdb4c12fbbab7919",
+      "stderr_sha256": "98c13a362400ae7b3458792fc6ee85964f2371a05b9431540b7a7667f0109816"
+    }
+  ]
+}

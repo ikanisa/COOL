@@ -38,14 +38,16 @@ are hash-bound. Remote resources were blocked before HTTP; the renderer's
 default Roboto font requests are recorded explicitly. No hosted service,
 provider or database was called. Fixture code is confined to the capture tool.
 
-The fresh seven-image inspection in `media-pinned-current/visual-review.json`
-explicitly corrects the earlier visual finding: Security has a visible Back
-arrow; the empty Back capsule is on Terms. The direct group-detail route has an
-empty painted navigation capsule; several settings headings
-are painted but absent from the queried semantics tree. These are open design
-and accessibility findings. The review passes only authenticity/readability and
-use as clearly captioned interface illustrations. Native/design/production
-acceptance flags are false. Images were not edited.
+The dated inspection in `media-pinned-current/visual-review.json` reported
+apparently empty Terms Back and direct group-detail navigation capsules. A later
+readonly paint diagnosis, recorded below in attempt47, disproves those findings
+for the actual current capture42 PNGs: their unchanged pixels contain the controls
+and complete text. The initial current inspection was an error. Older reports
+remain preserved as dated evidence; no runtime change was made to satisfy that
+incorrect reading. Earlier heading-semantics observations and complete design/
+accessibility acceptance still need their independently scoped evidence. Preview
+reviews establish authenticity/readability only; native/design/production
+acceptance flags remain false. Images were not edited.
 
 Both native recapture attempts failed during simulator creation with EPERM.
 The exact commands, exit codes and CoreSimulator evidence are retained in
@@ -274,7 +276,264 @@ SBOM components. Recorded framework output verifies those counts. Recorder synta
 deterministic SBOM reproduction and offline schema validation pass. This dated
 packet covers all three forks; final aggregate source inventory remains separate.
 
-### Remaining local acceptance gates
+### Current isolated source verification
+
+`pure-current-attempt24/verification.json` records **103 actual tests** and
+**266 Ruby assertions**, current asset/group integrity, complete declared
+source inventory reproduction and offline CycloneDX 1.6 validation. Its aggregate
+SBOM contains 688 components and includes the three local package trees. All
+634 inventory/reachability inputs remained unchanged during this scoped gate.
+The conservative source graph reaches all **203 runtime Dart files**, with no
+missing local imports, unreachable runtime files or unresolved bundled assets.
+This source result does not certify current media, native artifacts or release.
+
+`local-source-acceptance-attempt23/` records an immutable 892-file native input
+export, separately bound public tooling sources, offline enforced Pub restoration,
+**399 Dart files formatted without changes**, and a full fatal analyzer result of
+**no issues**. Its isolated SDK reports Flutter 3.44.4, Dart 3.12.2 and revision
+`ad70ec4617166f1c38e5d2bfd388af71fda14f06`; the recorded tool executable/snapshot
+hashes match the original pinned tree. Full SDK/cache attestation is not claimed.
+The original checkout changed `admin_runtime.dart` and one Admin test during the
+gate. The immutable export stayed byte-identical; it is therefore dated scoped
+tooling evidence and requires a final source rebind.
+
+`media-isolation-attempt27/verification.json` passes **27 actual tests / 53 Ruby
+assertions**, recorder syntax and `make revolut-design-authority`. The Public
+recorder can compile from an explicit outside-checkout immutable source export,
+keeps generated package/plugin bindings in their actual compilation directory,
+and refuses checkout runtime drift. The publisher verifies the real export and
+binding bytes before publication. Actual file mutations test changed runtime,
+bindings, recorder, source symlinks, invalid export boundaries and checkout drift.
+The original macOS temporary-path fixture failure is retained before correcting
+its `/var` alias. This packet grants no screenshot, native visual or design-fidelity
+acceptance; the seven replacement previews still require real captures and review.
+
+Actual unsigned Android/iOS build attempts are recorded independently. An early
+Android attempt failed before Gradle because the restricted runner environment
+omitted the existing local JBR; those diagnostics remain preserved in attempt25.
+Subsequent attempts explicitly bind the existing toolchain. Only completed build,
+artifact and warning inspection packets may supply native acceptance evidence.
+
+### Later completed native artifacts and warning review
+
+`native-export-attempt28-android-remaining/` preserves the successful attempt26
+unsigned production build and completes only its unfinished lint, JVM and artifact
+checks. The previous runner had no terminal lint result or live process; the
+continuation record explains that boundary. The existing build was not repeated.
+The resulting unsigned APK is **96,462,672 bytes**, SHA256
+`08b31d216141545d7c11f929a675b0b926541933134bc505d02f4fcd092a775f`.
+Actual `apksigner` rejection, ZIP integrity, QA marker and APK badging were checked.
+All 892 exported sources stayed unchanged. Production lint passed with **zero
+errors and 37 warnings**, and all **12 JVM tests** passed without failures,
+errors or skips. Every warning is individually rebound to its actual source
+location and prior reason in `warning-dispositions.json`; two failed metadata
+matching attempts remain preserved. No blanket warning suppression was added.
+
+`native-export-attempt28-ios/` records a complete successful actual production
+arm64 Xcode build from a separate 892-file export containing all three forks.
+Its unsigned `Collect.app` contains **199 regular files / 41,575,264 bytes**;
+the main executable SHA256 is
+`df5e2234367c7dd2ee7d33cd890e1b5daa6a117a467148176e98edcdb59dcf27`.
+Actual signature inspection rejects the unsigned bundle, provisioning is absent,
+and all declared exported sources and pinned package locks stayed unchanged.
+`ios-warning-source-review-attempt29/` individually reviews **19 primary
+diagnostics plus four duplicate Swift renderings**. The actual whole-app build
+compiled the corrected Firebase callback bytes without the earlier return-type
+mismatch; remaining warnings retain source-specific explanations.
+
+Both native packets record checkout drift explicitly. Later identity, dialog,
+transport, health-guidance and product-copy changes require fresh final native
+builds. These successful artifacts are dated compilation evidence, with no native
+visual, physical-device, provider, signing or store acceptance.
+
+### Full build-input provenance and observed native inventory
+
+`native-provenance-coverage-attempt31/` records a concrete production-wrapper
+correction. Its former collector omitted Admin runtime source and the three local
+dependency trees. The updated collector includes those inputs, native locks,
+licenses, build callers and configuration, rejects escaping source symlinks,
+excludes private/generated files, and writes an inspectable exact source hash map.
+**Seven actual mutation tests / 111 assertions** pass. The prior implementation
+fails the same seven regressions. Synthetic artifacts in those tests exercise
+metadata binding only; actual native artifacts are covered by the build packets.
+
+`native-observed-inventory-attempt33/` reruns the actual offline Gradle production
+runtime and compile configuration graphs. The current dependency-input hashes
+match the retained immutable export and remain unchanged. The merged inventory
+contains **200 components and 188 external artifact occurrences**, with actual
+JAR/AAR hashes and project edges. Deterministic reproduction and the retained
+official CycloneDX 1.6 schema pass. This graph does not establish installed signed
+contents, advisory clearance, license approval or final application-source parity.
+
+### Later Public captures and factual sign-in wording
+
+`public-capture-execution-attempt30/` records seven real compiled Flutter routes
+from an outside-checkout immutable source export. Every PNG was directly inspected
+before byte-identical publication in `public-media-publication-attempt30/`.
+Previous native media and approval metadata are hash-preserved. Captions describe
+browser interface previews with example data. The initial omitted review-to-build
+binding was rejected before publication and its failure remains preserved.
+
+Subsequent runtime changes correctly cause the actual Public production builder
+in `public-production-build-attempt34/` to refuse those stale previews before
+writing output. A further seven-route capture passed in
+`public-capture-execution-attempt36/`, but it has not been published: subsequent
+permission and transport corrections invalidate its current-runtime status.
+Neither capture is a final native/design/accessibility certificate. Final captures
+and the Public build remain pending the shared runtime freeze.
+
+`otp-wording-correction-attempt37/` binds the narrow factual correction in the
+shared default terms and two active marketing occurrences. The text now distinguishes
+payment-provider OTPs from Collect's implemented WhatsApp sign-in code. No legal
+or financial capability was added. Formatting changed no files and the sole-design
+authority hygiene gate passed; the longer copy still needs the final existing
+responsive regression and route capture gates.
+
+### Resumed local source and export checks
+
+`native-export-callers-attempt38/` consolidates the actual production build
+wrappers, provenance helper and authority file into the isolated native exporter.
+The exporter also refuses internal source symlinks instead of silently converting
+them into regular copied files. Five actual temporary-Git regressions pass; the
+prior implementation fails the two new coverage/boundary cases. No application
+build or signing operation is part of those tests.
+
+`pure-source-attempt39/` passes **126 actual tests / 384 Ruby assertions**, covering
+asset integrity, source reachability, source supply chain, format inventory,
+native export/provenance, Public media binding/publication and observed native
+SBOM construction. The aggregate **688-component** source SBOM reproduces and
+passes the retained official schema offline. The conservative graph reaches all
+**204 runtime Dart files**, with no missing local directives, unreachable runtime
+files or unresolved bundled assets. During the broad 1,343-file source comparison,
+one Admin test changed; its exact before/after hashes are retained and complete
+current-source acceptance is false. Runtime source did not drift during this gate.
+
+`image-decode-attempt40/` fully verifies and decodes **174 approved PNG/WebP files**
+with the existing local Pillow 11.3.0 runtime. Original bytes, dimensions and
+decoded pixel hashes are retained; all image and approval-manifest hashes remain
+unchanged. Decoding does not establish artwork rights, visual fidelity, complete
+decoder platform attestation or native-device acceptance. The final source freeze
+and native/Public compilation gates below remain pending.
+
+### Current capture diagnosis and corrected web metadata
+
+`media-source-preparation-attempt41/` binds a fresh immutable source export and
+offline enforced local package/plugin bindings. The seven actual routes in
+`public-capture-execution-attempt42/` passed with unchanged export and checkout
+runtime fingerprints, served application bytes and generated bindings, and zero
+provider/hosted/database calls. Subsequent L15 correctness changes invalidate its
+final-current status; it has not been published.
+
+`public-paint-diagnostic-attempt47/` uses the exact retained capture42 build in
+both headed and headless Chrome. Eighteen real unedited screenshots cover three
+routes before/after semantics activation and after another eight-second wait.
+Every image for each route is byte-identical. All bundled typeface/icon responses
+match the actual build, and the only remote attempts are the recognized engine
+Roboto fallback, blocked before HTTP. Raw pixel inspection and high-detail
+rereading of the unchanged PNGs show the complete group-detail navigation,
+Terms Back arrow and initial word “Collect.” `visual-diagnosis.json` explicitly
+retracts the initial contrary inspection; no runtime UI correction is supported.
+The failed CommonJS-import attempt46 remains preserved separately.
+
+`web-metadata-correction-attempt48/` preserves the prior Flutter web/PWA HTML
+and replaces its obsolete EUR/SEPA description with factual group contribution,
+shared-goal and record wording. Exactly one parsed description is present and
+the obsolete claims are absent. No financial capability or release approval is
+added. Fresh final captures and native/source evidence remain held while the
+model, cache, payment and Admin correctness corrections are implemented.
+
+### Final source rebind
+
+`local-source-acceptance-attempt43/` retains the first common application export
+after the shared correctness changes: 944 application/native inputs and 456
+Public tooling inputs. Its immutable source and live application inputs did not
+drift during verification, but the nonwriting 439-file formatter identified two
+unformatted files and the fatal analyzer found one test brace diagnostic. The
+packet is failed evidence. No native build or Public capture used that export.
+Later roster calendar and co-resident Gateway/Admin changes require a new export.
+
+`gateway-compilation-attempt58/` retains the actual 21-error Gateway frontend
+failure, an intermediate four-diagnostic brace result and the final clean fatal
+analysis. The correction maps spacing to the existing equal-value `x2`, `x4` and
+`x6` adapters, removes an invalid const widget constructor and supplies required
+mounted-state braces. Its saved source formats without changes and passes the
+sole-design-authority gate. This accepts the narrow Gateway compilation repair;
+native SMS/SIM dispatch, the complete application build and visual fidelity are
+outside that packet's scope. The final shared-source window remains held while
+the other owners finish their current acceptance checks.
+
+`reachability-gateway-attempt59/` corrects the source graph's omitted native
+Gateway entry point and explicitly fails when a declared runtime root is absent.
+Eight copied graph regressions pass; the unchanged prior graph failed four cases.
+`pure-source-attempt60/` then passes **128 tests / 384 Ruby assertions**, including
+the existing export, asset, publication, source inventory and native SBOM tooling
+cohorts. Its **688-component** source SBOM reproduces and passes the retained
+official schema. No local directive or bundled asset is unresolved. Four inputs
+changed during this run, including a newly arriving Admin approval source; the
+recorded graph reaches 215 of 216 runtime Dart files while that source is being
+integrated. The exact drift is retained, current-source acceptance is false, and
+this dated gate does not replace final application/native/media acceptance.
+
+`gateway-sbom-scope-attempt64/` accepts four copied observer-contract regressions
+for the separately declared `internal_gateway` compile/runtime pair. Cross-flavor
+mixing, duplicate or extra graph reports and undeclared flavors are refused.
+Gateway inventory explicitly carries its flavor and does not claim the reviewed
+production dependency lock. Actual Gradle observation, artifact hashes, schema
+validation and deterministic reproduction remain held until fresh native builds.
+
+`gateway-enrollment-prior-attempt66/` reproduces the production enrollment dialog
+using a disposed text controller during its exit frames. Nine existing Gateway
+safety cases passed; the four new lifecycle cases failed, with the retained
+controller error and subsequent framework invariant errors. Its scoped fatal
+analysis was clean. `gateway-enrollment-correction-attempt67/` records the exact
+tested-source guard, preceding bytes and unchanged extracted dialog body. The
+controller now belongs to the dialog's own State and is disposed when that State
+leaves the route tree. Enrollment validation, inputs, rendered content and the
+existing platform invocation policy are preserved.
+
+`gateway-enrollment-current-attempt68/` passes **13 actual widget cases** and
+scoped fatal analysis, including Close/reopen, immediate and delayed enrollment
+ACKs, exact submitted input and a redacted late failure after parent removal.
+All 970 exported inputs remained unchanged. Six unrelated checkout inputs changed
+during the run; their exact native/roster hashes are retained. The tested Gateway
+frontend/platform and both Gateway test files still matched during the subsequent
+read-only check. The sole-authority gate passed in packet67; native/device behavior,
+complete application acceptance and visual fidelity remain outside this proof.
+
+`local-source-acceptance-attempt69/` is a later immutable diagnostic, completed
+on 1 October while other source owners continued their accepted scope. Its
+971 application/native/public/test inputs and 466 tooling inputs remained
+unchanged in the export. Formatting passed across 454 files with no changes,
+and all eight Public copy/responsive regressions passed. Fatal analysis failed
+only on two missing `if` braces in the newly added SQL receipt test. That test's
+owner subsequently saved the correction; this failed packet is preserved.
+Twenty checkout paths changed during the diagnostic, including Admin Gateway
+integration and the Gateway heading. Current-source acceptance is false.
+
+`native-runner-preparation-attempt70/` preserves the preceding five runner
+sources and records their syntax/readiness review. Prepared native builds
+require all three passing common-source checks, bind explicit production and
+Gateway Dart targets, verify copied tooling alongside native inputs and record
+checkout additions/deletions. Unsigned APK verification must identify the
+expected missing-signature diagnostic. No native build was launched by this
+readiness packet; actual artifacts remain pending the common source window.
+
+`public-browser-graph-prior-attempt71/` demonstrates two actual unrelated
+Admin/Gateway and native callback additions invalidating the former broad
+browser fingerprint. New browser version4 binds the complete conservative
+fixture import/export/part graph, including local fork directives, all declared
+assets/fonts/licenses, fork provenance/analyzer profiles, project metadata and
+web build scaffold. Missing or unknown directives, symlinks and omitted inputs
+are refused. Native and legacy media retain their original broader contracts.
+
+`public-browser-graph-current-attempt75/` passes **66 tests / 94 Ruby assertions**
+across graph mutations, publication/source bindings and existing native/legacy
+contracts. All 468 exported tooling inputs stayed unchanged and current. The
+actual preview graph contains 329 inputs and no Admin or Gateway source.
+`media-source-preparation-attempt73/` is preserved as failed: its first minimal
+export omitted the three vendored analyzer profiles, producing 126 inherited
+upstream diagnostics. The corrected graph includes those real profiles; fresh
+preparation/capture proceeds separately from the whole native source window.
 
 After the Auth 149, Admin and shared UI owners freeze their final source:
 
@@ -285,7 +544,8 @@ After the Auth 149, Admin and shared UI owners freeze their final source:
 3. Recapture and visually inspect all seven real Public routes, publish unchanged
    capture bytes with current provenance, and run the real Public production builder.
 4. Export final sources to new isolated native workspaces; run actual unsigned
-   Android/iOS compilation, JVM/lint gates, artifact/merged-manifest inspection and
+   production Android/iOS and internal Gateway compilation, JVM/lint gates,
+   artifact/merged-manifest inspection and
    current default signing-refusal checks. Confirm the corrected scene return warning
    is absent from the complete final iOS build.
 5. Regenerate aggregate source and observed native inventories/SBOMs, verify source/

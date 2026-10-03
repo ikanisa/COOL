@@ -1,0 +1,62 @@
+{
+  "AAB_build_bound_seconds": 2700,
+  "AAB_copy_bound_seconds": 120,
+  "ARC09_closed": false,
+  "actual_driver_or_build_executions_here": 0,
+  "actual_metadata_or_daemon_actions_here": 0,
+  "actual_native_packet_leaf_count": 46,
+  "admission_template": {
+    "bytes": 4239,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/root-admission-template.json",
+    "sha256": "f38ff9f5514333e1ad968cb636bc6a918e7efacc2cc715ef10435e24ca863098"
+  },
+  "archive_reader_bounds_seconds": {
+    "internal": 120,
+    "process": 150
+  },
+  "before_after_prepared_reference_bindings_equal": true,
+  "complete_package_SBOM_verified": false,
+  "driver": {
+    "bytes": 42170,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/run_selected_aab.py",
+    "sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e"
+  },
+  "driver_bound_seconds": 5070,
+  "exact_verified_bounded_daemon_cleanup_after_success_is_accepted": true,
+  "font_rights_verified": false,
+  "graph_bound_seconds_each": 300,
+  "maintained_or_APP_SDK_or_old_packet_writes": 0,
+  "new_or_repeated_synthetic_tests_here": 0,
+  "original_sealed_packet_preserved": true,
+  "output_directory_created": false,
+  "owner": "/root/arc02_roster_test_boundary",
+  "prepared_input_pins": {
+    "bytes": 10527,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/prepared-input-pins.json",
+    "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+  },
+  "prepared_reference_count": 42,
+  "production_release_approval": false,
+  "reference_readback": {
+    "bytes": 12174,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/prepared-reference-readback.json",
+    "sha256": "5593fd51be2abed9a0e645dca05662a0b19e3c7ff255fbf7428bc472698c000d"
+  },
+  "reviewed_proposal_leaf_count": 11,
+  "root_is_only_execution_owner": true,
+  "schema_version": 1,
+  "selected_build_scope": "one productionRelease unsigned local QA AAB with two canonical observed graphs",
+  "static_review": {
+    "bytes": 4551,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/static-review.json",
+    "sha256": "95d0b9803832cdf05b4030fc6e793a55d6adb41a9d91692c17fc1e7fd49d7be5"
+  },
+  "status": "root-reviewed-revised-private-prepared-unexecuted",
+  "utc": "2026-10-02T12:33:57.660179+00:00",
+  "write_boundary": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final"
+}

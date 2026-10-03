@@ -1,0 +1,169 @@
+{
+  "format": "be08-bounded-review-source-binding-v1",
+  "captured_at": "2026-10-02T12:16:28.379047+00:00",
+  "workspace": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "relevant_source_inputs": [
+    {
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "bytes": 55616,
+      "sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+      "captured_mapper_manifest_sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+      "equal_captured_input": true
+    },
+    {
+      "path": "scripts/sql/collect_recovery_source_catalog.sql",
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "captured_mapper_manifest_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "equal_captured_input": true
+    },
+    {
+      "path": "scripts/tests/collect_schema_domain_map_test.py",
+      "bytes": 31057,
+      "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4",
+      "captured_mapper_manifest_sha256": null,
+      "equal_captured_input": null
+    },
+    {
+      "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "bytes": 38882,
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "captured_mapper_manifest_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "bytes": 20025,
+      "sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "captured_mapper_manifest_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "bytes": 17752,
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "captured_mapper_manifest_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "bytes": 44807,
+      "sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "captured_mapper_manifest_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+      "bytes": 12253,
+      "sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+      "captured_mapper_manifest_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "captured_mapper_manifest_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+      "captured_mapper_manifest_sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+      "captured_mapper_manifest_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "captured_mapper_manifest_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "captured_mapper_manifest_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+      "bytes": 8005,
+      "sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "captured_mapper_manifest_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+      "bytes": 4320,
+      "sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+      "captured_mapper_manifest_sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+      "bytes": 38762,
+      "sha256": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07",
+      "captured_mapper_manifest_sha256": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07",
+      "equal_captured_input": true
+    },
+    {
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "bytes": 16746,
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "captured_mapper_manifest_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "equal_captured_input": true
+    }
+  ],
+  "captured_artifacts": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/generated-current209/gaps.json",
+      "bytes": 356585,
+      "sha256": "3022cb7894610bba4cf3cdd143370b04e40ab979470c3c79012ee8d4c2251f31"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/generated-current209/schema-domain-map.json",
+      "bytes": 12352604,
+      "sha256": "9a444ae4e547cd5b5f52ae3c6d03e565876b8313fb88395065ebd82a32eeb55e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/generated-current209/input-manifest.json",
+      "bytes": 330141,
+      "sha256": "47c5ff28b3172c5cdb38683bc14c46c5afb1fade6f036b936df1e9bbad055ae4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/generation.json",
+      "bytes": 2163,
+      "sha256": "a283253d99fc9aa5b8bf089402cf8a57776bd39c5e8f9c6ee2f36fa89150915e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/result.json",
+      "bytes": 3439,
+      "sha256": "d55bb04a5688cbe8788e660771b944c8ab53c2768b871f3bc34e7a961eca4a01"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/packet-files.json",
+      "bytes": 4291,
+      "sha256": "697163c7437d4b2105e47fffee1e0319d24742b74628ea4c13db3d914ad00174"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/seal-readback.json",
+      "bytes": 1144,
+      "sha256": "73d8d877c873272fb1cc4c157345f7f4b4fc72718250a41ffc1bb501113796ec"
+    }
+  ],
+  "scope": "only 36 captured application function body-match gaps; no broader schema, owner, caller, platform or release review",
+  "actual_mapper_path": "scripts/audits/collect_schema_domain_map.py",
+  "root_native_source_ownership_preserved": true,
+  "body_reconstruction_performed": false,
+  "maintained_APP_SDK_DB_mutations": 0,
+  "tests_or_replay_or_provider_runs": 0
+}

@@ -1,0 +1,6 @@
+{
+  "error": "HTTPError",
+  "fetched_utc": "2026-10-01T23:36:38.536176+00:00",
+  "http_status": 404,
+  "url": "https://api.github.com/repos/flutter/website/contents/sites/docs/src/components?ref=main"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "path": "lib/app/router.dart",
+    "original_packet": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/attempt1/original-production-source/lib/app/router.dart",
+    "original_sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "current_sha256": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb"
+  },
+  {
+    "path": "lib/shared/repositories/collect_repository.dart",
+    "original_packet": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/attempt1/original-production-source/lib/shared/repositories/collect_repository.dart",
+    "original_sha256": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e",
+    "current_sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+  },
+  {
+    "path": "lib/shared/widgets/screen_scaffold.dart",
+    "original_packet": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/attempt2/original-production-source/lib/shared/widgets/screen_scaffold.dart",
+    "original_sha256": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+    "current_sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+  }
+]

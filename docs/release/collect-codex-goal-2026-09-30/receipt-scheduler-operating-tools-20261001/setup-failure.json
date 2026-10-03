@@ -1,0 +1,8 @@
+{
+  "stage": "source inventory before commands",
+  "observed_exception": "FileNotFoundError",
+  "missing_assumed_lock": "tools/collect-notification-mcp/package-lock.json",
+  "actual_installed_lock": "tools/collect-notification-mcp/pnpm-lock.yaml",
+  "tests_started": false,
+  "source_correction": "bind actual pnpm lock; dependency bytes unchanged"
+}

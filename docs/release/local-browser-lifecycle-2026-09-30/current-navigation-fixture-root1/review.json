@@ -1,0 +1,12 @@
+{
+  "failed_packet": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-attempt7/validation.json",
+  "failed_packet_sha256": "8b230dacb8767c26b6e34193ff2f89135dea28c7a271af0a4f7777c98685e6b8",
+  "finding": "Successful sign-in opens the actual overview; synthetic runtime configuration exposed no navigation destinations. Browser must navigate using a current valid Groups destination before attempting the group action.",
+  "production_source_changed": false,
+  "authorization_gates_changed": false,
+  "before_sha256": {
+    "scripts/qa/local_browser_api_fixture.mjs": "8c2847e3589e4bc7c121996f6245b9bdff0b50383cc8ff420c82faf7e22dd4e8",
+    "scripts/qa/current_browser_lifecycle.mjs": "24886226db81811fd516c520c7269571ddd8074a234a3ba738e6cc1f28803c5f",
+    "scripts/tests/local_browser_email_fixture_test.mjs": "cc13fb134ec9c2d3ce84d4d0e01e41f3a29f64711e63c241e8a83cba8bba0703"
+  }
+}

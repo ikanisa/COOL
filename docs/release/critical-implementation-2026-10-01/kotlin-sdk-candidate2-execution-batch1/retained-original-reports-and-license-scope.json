@@ -1,0 +1,239 @@
+{
+  "Kotlin_DSL_embedded_2_2_0_support_warning_retained": true,
+  "SDK_selection_or_promotion": false,
+  "actual_mixed_graph": {
+    "kotlinCompilerClasspath": [
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-compiler-embeddable",
+        "version": "2.4.20"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-reflect",
+        "version": "1.6.10"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "2.4.20"
+      }
+    ],
+    "runtimeClasspath": [
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin",
+        "version": "2.4.20"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "1.7.10"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-common",
+        "version": "1.7.10"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk7",
+        "version": "1.7.10"
+      },
+      {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk8",
+        "version": "1.7.10"
+      }
+    ]
+  },
+  "actual_original_XML_retained": [
+    {
+      "bytes": 563,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.AppLinkSettingsTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.AppLinkSettingsTest.xml",
+      "sha256": "6188189ca434e6e9bc92f671542ecfae34356839b4b63e34855147775544de9b"
+    },
+    {
+      "bytes": 1223,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.BaseApplicationNameHandlerTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.BaseApplicationNameHandlerTest.xml",
+      "sha256": "9d3d54b4cf10ee392029a70dddcdb71569d26444013c5f86e071c16b0daa4409"
+    },
+    {
+      "bytes": 967,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.DeeplinkTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.DeeplinkTest.xml",
+      "sha256": "ea8a225c9ed249b2c250b2a0730cd65aaee33a100b3d41418f178f1871e4fc0e"
+    },
+    {
+      "bytes": 129215,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.DependencyVersionCheckerTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.DependencyVersionCheckerTest.xml",
+      "sha256": "16d8dc87a0fd974d1a509f9e9ad7071706a40ce4889cb90bdba29432876d1160"
+    },
+    {
+      "bytes": 1143,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterExtensionTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.FlutterExtensionTest.xml",
+      "sha256": "b33f35bb219816bbc70d8474afb0852ed29a583c7ddf873a68ab4458644567e2"
+    },
+    {
+      "bytes": 606,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.FlutterPluginTest.xml",
+      "sha256": "b71133d85891084e2a6d0e18ecea206b005042502112e4d817e99a82f7f9d58b"
+    },
+    {
+      "bytes": 1711,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests.xml",
+      "sha256": "9b1c6d7282f0feb663f894976887b1a6b64180d269d8ee5634e6fbb073bde478"
+    },
+    {
+      "bytes": 1326,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests.xml",
+      "sha256": "25799dfcb4349d0fdfdc4f5dad72765d3bd6e40f5c069abefbfe3c6c3f9f44eb"
+    },
+    {
+      "bytes": 18589,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.FlutterPluginUtilsTest.xml",
+      "sha256": "0ba2db8d2fe883878dbe71e586f932df8dd76553b20a0326c1e8ba8d7582017c"
+    },
+    {
+      "bytes": 447,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.IntentFilterCheckTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.IntentFilterCheckTest.xml",
+      "sha256": "1064621396eac9d7574da98c41376dbfa871d90b196a537276750a7fa1c9c603"
+    },
+    {
+      "bytes": 1057,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.VersionFetcherTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.VersionFetcherTest.xml",
+      "sha256": "cb8ee5e463406c26900526fcc4bd646db09c55c8e7d8c07f2e9b9b6b7d07f39d"
+    },
+    {
+      "bytes": 546,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.VersionUtilsTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.VersionUtilsTest.xml",
+      "sha256": "3ca5ed5201a451f162904c7c591cce5a7f84cfa7a3ca07ba7bb730b987219b63"
+    },
+    {
+      "bytes": 1874,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.plugins.PluginHandlerTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.plugins.PluginHandlerTest.xml",
+      "sha256": "1145e642745121a908113aa46962ce71458ff74b99078445eb6601c8d61dae6f"
+    },
+    {
+      "bytes": 2131,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.BaseFlutterTaskHelperTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.tasks.BaseFlutterTaskHelperTest.xml",
+      "sha256": "94056ca2d9e2f914dc82828b18a20c481364db07cd63cfb11bca60a25e2aae1e"
+    },
+    {
+      "bytes": 2347,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest.xml",
+      "sha256": "f57488adf7bf08b88d9e787da404673834efdfea626b6a279ad5249d9a3f5440"
+    },
+    {
+      "bytes": 1369,
+      "distinct_physical_inode": true,
+      "publisher_generated_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.FlutterTaskHelperTest.xml",
+      "retained_packet_leaf": "original-JUnit-XML/TEST-com.flutter.gradle.tasks.FlutterTaskHelperTest.xml",
+      "sha256": "25a8052cc106b55e1eddb65c651975fd681cb1cda71e8e37804a598d1db47857"
+    }
+  ],
+  "application_all_flavor_native_bootstrap_Dart_acceptance": false,
+  "critical_legal_assessment": {
+    "actual_core_embedded_legal_members_preserved": [
+      {
+        "bytes": 11357,
+        "member": "LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "bytes": 11358,
+        "member": "META-INF/LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "bytes": 11357,
+        "member": "META-INF/LICENSE.txt",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "bytes": 178,
+        "member": "META-INF/NOTICE.txt",
+        "sha256": "28a309fd415da6e802ecf85061a451f7ac4353f3610f2982f7af29e9d1529289"
+      },
+      {
+        "bytes": 11601,
+        "member": "driver/package/LICENSE",
+        "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+      },
+      {
+        "bytes": 254,
+        "member": "driver/package/NOTICE",
+        "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+      },
+      {
+        "bytes": 676,
+        "member": "driver/package/ThirdPartyNotices.txt",
+        "sha256": "a549d329bad8806fe279f0ecae0fc0270dec7e7c2dc8ec10f90e394f7c32b144"
+      },
+      {
+        "bytes": 18617,
+        "member": "driver/package/lib/serverRegistry.js.LICENSE",
+        "sha256": "5cf540fe55a2ba9bcf0eb76e739b454faa8581e2f1a0f777602ef0855534302e"
+      },
+      {
+        "bytes": 110417,
+        "member": "driver/package/lib/utilsBundle.js.LICENSE",
+        "sha256": "e3f91eea8ba98019d8e65ec61756af34a67e170070005a09d1fc6f49a64b544b"
+      }
+    ],
+    "all_transitive_license_approval": false,
+    "compiler_embedded_legal_members": [],
+    "compiler_independently_published_SHA256_available": false,
+    "compiler_matching_independent_HTTPS_body_SHA256": "cf97161430683fb9af96dc6a7017ffae1fe8737b80d12eee11f2fe3e76f8ded8",
+    "compiler_published_SHA1_match": true,
+    "critical_POM_declarations": {
+      "compiler": [
+        {
+          "name": "Apache-2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+      ],
+      "core": [
+        {
+          "name": "Apache-2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+      ],
+      "jvm-marker": []
+    },
+    "scope": "Publisher-bound core/compiler declarations and preserved core embedded notices; complete transitive legal review remains open."
+  },
+  "full_transitive_advisory_license_ABI_SBOM_clearance": false,
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T01:38:36.828652+00:00",
+  "unchanged_generic_template_and_maxKnown_KGP": "2.3.20"
+}

@@ -1,0 +1,20 @@
+{
+  "ok": false,
+  "code": "CALLBACK_EVIDENCE_INCOMPLETE",
+  "replay": false,
+  "device_id": "2bd6a8d0-4433-484d-8305-e3156b2c0997",
+  "attempt_id": "012d0288-7fc0-478f-9ae8-f9662333ea19",
+  "receipt_id": null,
+  "request_id": "bc8eba7d-9a73-48f6-97bc-d8256509337f",
+  "body_sha256": "82370c9bb2a639e53a4d9eb0e501928ac25ef1415c85c376452f6a87477fad00",
+  "recorded_at": "2026-10-01T12:51:59.441768Z",
+  "carrier_proof": false,
+  "evidence_kind": null,
+  "fence_version": 1,
+  "segment_count": 2,
+  "archive_ack_id": null,
+  "send_authority": false,
+  "delivery_proven": false,
+  "callback_requests": null,
+  "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+}

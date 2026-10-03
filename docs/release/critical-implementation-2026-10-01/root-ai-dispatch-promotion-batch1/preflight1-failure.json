@@ -1,0 +1,7 @@
+{
+  "observed_at": "2026-10-02T02:16:52.323217+00:00",
+  "status": "failed_before_review_or_shared_write",
+  "runner_sha256": "a46867feac449c1eede7377d46ffb41210350fa7fa8905d9e30b78b9521f6dc7",
+  "error": "Root original-case assertion selected old/source test file, which deliberately includes new tests for the negative baseline; expected preserved suffix begins after errorResponse in packet before/source.",
+  "shared_promotion": false
+}

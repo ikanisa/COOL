@@ -1,0 +1,98 @@
+{
+  "files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 23831,
+      "mode": 448,
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624"
+    },
+    ".github/workflows/ios-app-store.yml": {
+      "bytes": 13430,
+      "mode": 448,
+      "sha256": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85"
+    },
+    "AGENTS.md": {
+      "bytes": 1648,
+      "mode": 448,
+      "sha256": "12642acf1baacb3b50b791fcad543618f096ed9567e6afaa5c9a58dc6b870128"
+    },
+    "android/app/build.gradle.kts": {
+      "bytes": 24380,
+      "mode": 448,
+      "sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df"
+    },
+    "deploy/admin.wrangler.jsonc": {
+      "bytes": 119,
+      "mode": 448,
+      "sha256": "2aef4e823e6a42521ac24c27211546f455beb4bff3f6d209196d0ca4e7395ef0"
+    },
+    "deploy/public.wrangler.jsonc": {
+      "bytes": 127,
+      "mode": 448,
+      "sha256": "259fb934475e833e97cfc9d289161e4d4165f6b44987d51973cdb312e40036cb"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json": {
+      "bytes": 6532,
+      "mode": 420,
+      "sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353"
+    },
+    "docs/release/critical-review-2026-10-01/architecture-delivery.md": {
+      "bytes": 34333,
+      "mode": 420,
+      "sha256": "c4bda181a539262366ab786d0d9fde6bfd7280cdd5693aa2908d38efcb17e46e"
+    },
+    "fastlane/Fastfile": {
+      "bytes": 12075,
+      "mode": 448,
+      "sha256": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86"
+    },
+    "ios/Runner.xcodeproj/xcshareddata/xcschemes/staging.xcscheme": {
+      "bytes": 4762,
+      "mode": 448,
+      "sha256": "cba4a93bc09400d3a56d51fd9ae92af0a1516c54c02d1c93fe0895bf5b2161df"
+    },
+    "lib/main_gateway.dart": {
+      "bytes": 396,
+      "mode": 420,
+      "sha256": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08"
+    },
+    "scripts/android_gateway_device_acceptance.py": {
+      "bytes": 9335,
+      "mode": 420,
+      "sha256": "67357b38420e12d26582a7ac568276fc3a0b3a55ea44139a54442126ac684754"
+    },
+    "scripts/android_play_store_build.sh": {
+      "bytes": 8955,
+      "mode": 448,
+      "sha256": "f9c30d71b28a8861ca5512aa768607559d72939df1fb771df2e94a62e112fe0f"
+    },
+    "scripts/google_play_production_upload.sh": {
+      "bytes": 19368,
+      "mode": 448,
+      "sha256": "825d8b274453dc4fe4ce53af1e1d6f7fd6d5d423bd3ebe65bd9410e4e82ea0dd"
+    },
+    "scripts/ios_app_store_build.sh": {
+      "bytes": 2866,
+      "mode": 448,
+      "sha256": "f0e551b58d26b8c779c1d566447a82e814f397c8dab1362d55109a8fb78495ef"
+    },
+    "scripts/public_landing_prepare_build.sh": {
+      "bytes": 250,
+      "mode": 448,
+      "sha256": "6349c5acd6dc21d8602ba583eabc5c68dcdaece6c0675d28d0ed36e8bd278707"
+    },
+    "scripts/supply_chain/gradle_observed_sbom.py": {
+      "bytes": 6470,
+      "mode": 420,
+      "sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb"
+    },
+    "scripts/supply_chain/inventory.py": {
+      "bytes": 35274,
+      "mode": 420,
+      "sha256": "b4ee5595f54dd67aaccbfd211d29a2de654b0d836c417d8be2fc29002ddd84e7"
+    }
+  },
+  "kind": "static_analysis_input_bindings",
+  "ledger_snapshot_sha256": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+  "no_current_runtime_claim": true,
+  "prior_analysis_seal_verified": "5ea6cce0e48e0a3dcbfb1723e978b19dec8d30ddb6afc08a668009a8b292be27"
+}

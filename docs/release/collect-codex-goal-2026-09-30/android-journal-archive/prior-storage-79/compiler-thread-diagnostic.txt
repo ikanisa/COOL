@@ -1,0 +1,167 @@
+80789:
+2026-10-01 13:23:23
+Full thread dump OpenJDK 64-Bit Server VM (21.0.8+-14196175-b1038.72 mixed mode):
+
+Threads class SMR info:
+_java_thread_list=0x00007f9060855d10, length=13, elements={
+0x00007f90b800c200, 0x00007f9077008600, 0x00007f9077008e00, 0x00007f909682c200,
+0x00007f90b880b600, 0x00007f9077812800, 0x00007f909682f400, 0x00007f90b6848800,
+0x00007f90b7835800, 0x00007f9066808c00, 0x00007f90b8052600, 0x00007f90b791fc00,
+0x00007f90b9259000
+}
+
+"main" #1 [10755] prio=5 os_prio=31 cpu=29153.30ms elapsed=81.98s tid=0x00007f90b800c200 nid=10755 runnable  [0x000000030d18b000]
+   java.lang.Thread.State: RUNNABLE
+	at kotlin.collections.CollectionsKt___CollectionsKt.lastOrNull(_Collections.kt:522)
+	at org.jetbrains.kotlin.fir.java.scopes.JavaClassUseSiteMemberScope.replaceWithWrapperSymbolIfNeeded(JavaClassUseSiteMemberScope.kt:408)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.collectDeclaredFunctions$lambda$0(AbstractFirUseSiteMemberScope.kt:84)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope$$Lambda/0x0000000800730758.invoke(Unknown Source)
+	at org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl.processFunctionsByName(FirClassDeclaredMemberScope.kt:121)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.collectDeclaredFunctions(AbstractFirUseSiteMemberScope.kt:79)
+	at org.jetbrains.kotlin.fir.java.scopes.JavaClassUseSiteMemberScope.collectFunctions(JavaClassUseSiteMemberScope.kt:435)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.processFunctionsByName(AbstractFirUseSiteMemberScope.kt:64)
+	at org.jetbrains.kotlin.fir.java.scopes.JavaClassMembersEnhancementScope.processFunctionsByName(JavaClassMembersEnhancementScope.kt:43)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.getFunctionsFromSupertypesByName(AbstractFirUseSiteMemberScope.kt:149)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.collectFunctionsFromSupertypes(AbstractFirUseSiteMemberScope.kt:99)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.collectFunctions(AbstractFirUseSiteMemberScope.kt:75)
+	at org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope.processFunctionsByName(AbstractFirUseSiteMemberScope.kt:64)
+	at org.jetbrains.kotlin.fir.scopes.impl.FirScopeWithCallableCopyReturnTypeUpdater.processFunctionsByName(FirScopeWithCallableCopyReturnTypeUpdater.kt:33)
+	at org.jetbrains.kotlin.fir.scopes.FirContainingNamesAwareScopeKt.processAllFunctions(FirContainingNamesAwareScope.kt:24)
+	at org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirOverrideChecker.check(FirOverrideChecker.kt:165)
+	at org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirOverrideChecker$Regular.check(FirOverrideChecker.kt:112)
+	at org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirOverrideChecker$Regular.check(FirOverrideChecker.kt:108)
+	at org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent.visitRegularClass(DeclarationCheckersDiagnosticComponent.kt:264)
+	at org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent.visitRegularClass(DeclarationCheckersDiagnosticComponent.kt:25)
+	at org.jetbrains.kotlin.fir.declarations.FirRegularClass.accept(FirRegularClass.kt:66)
+	at org.jetbrains.kotlin.fir.analysis.collectors.CheckerRunningDiagnosticCollectorVisitor.checkElement(CheckerRunningDiagnosticCollectorVisitor.kt:24)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.access$checkElement(AbstractDiagnosticCollectorVisitor.kt:38)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitRegularClass(AbstractDiagnosticCollectorVisitor.kt:652)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitRegularClass(AbstractDiagnosticCollectorVisitor.kt:38)
+	at org.jetbrains.kotlin.fir.declarations.FirRegularClass.accept(FirRegularClass.kt:66)
+	at org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl.acceptChildren(FirRegularClassImpl.kt:69)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitNestedElements(AbstractDiagnosticCollectorVisitor.kt:46)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitRegularClass(AbstractDiagnosticCollectorVisitor.kt:662)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitRegularClass(AbstractDiagnosticCollectorVisitor.kt:38)
+	at org.jetbrains.kotlin.fir.declarations.FirRegularClass.accept(FirRegularClass.kt:66)
+	at org.jetbrains.kotlin.fir.declarations.impl.FirFileImpl.acceptChildren(FirFileImpl.kt:60)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitNestedElements(AbstractDiagnosticCollectorVisitor.kt:46)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitFile(AbstractDiagnosticCollectorVisitor.kt:1356)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor.visitFile(AbstractDiagnosticCollectorVisitor.kt:38)
+	at org.jetbrains.kotlin.fir.declarations.FirFile.accept(FirFile.kt:43)
+	at org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollector.collectDiagnostics(AbstractDiagnosticCollector.kt:36)
+	at org.jetbrains.kotlin.fir.pipeline.AnalyseKt.runCheckers(analyse.kt:37)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.runPlatformCheckers(convertToIr.kt:89)
+	at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase.executePhase(JvmFrontendPipelinePhase.kt:175)
+	at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase.executePhase(JvmFrontendPipelinePhase.kt:55)
+	at org.jetbrains.kotlin.cli.pipeline.PipelinePhase.phaseBody(PipelinePhase.kt:68)
+	at org.jetbrains.kotlin.cli.pipeline.PipelinePhase.phaseBody(PipelinePhase.kt:58)
+	at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase.invoke(CompilerPhase.kt:102)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:22)
+	at org.jetbrains.kotlin.config.phaser.CompilerPhaseKt.invokeToplevel(CompilerPhase.kt:53)
+	at org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline.runPhasedPipeline(AbstractCliPipeline.kt:109)
+	at org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline.execute(AbstractCliPipeline.kt:68)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecutePhased(K2JVMCompiler.kt:51)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecutePhased(K2JVMCompiler.kt:42)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:91)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.exec(CLICompiler.kt:363)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.exec(CLICompiler.kt:341)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.exec(CLICompiler.kt:303)
+	at org.jetbrains.kotlin.cli.common.CLICompiler$Companion.doMainNoExit(CLICompiler.kt:442)
+	at org.jetbrains.kotlin.cli.common.CLICompiler$Companion.doMainNoExit$default(CLICompiler.kt:437)
+	at org.jetbrains.kotlin.cli.common.CLICompiler$Companion.doMain(CLICompiler.kt:429)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion.main(K2JVMCompiler.kt:232)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.main(K2JVMCompiler.kt)
+
+"Common-Cleaner" #9 [25795] daemon prio=8 os_prio=31 cpu=29.25ms elapsed=81.90s tid=0x00007f9077008600 nid=25795 waiting on condition  [0x000000030dab6000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@21.0.8/Native Method)
+	- parking to wait for  <0x00000007c04ac580> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@21.0.8/Unknown Source)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.ReferenceQueue.await(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.ReferenceQueue.remove(java.base@21.0.8/Unknown Source)
+	at jdk.internal.ref.CleanerImpl.run(java.base@21.0.8/Unknown Source)
+	at java.lang.Thread.runWith(java.base@21.0.8/Unknown Source)
+	at java.lang.Thread.run(java.base@21.0.8/Unknown Source)
+	at jdk.internal.misc.InnocuousThread.run(java.base@21.0.8/Unknown Source)
+
+"Reference Handler" #10 [27939] daemon prio=10 os_prio=31 cpu=29.86ms elapsed=81.89s tid=0x00007f9077008e00 nid=27939 waiting on condition  [0x000000030dbb9000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@21.0.8/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@21.0.8/Unknown Source)
+
+"Finalizer" #11 [27395] daemon prio=8 os_prio=31 cpu=0.34ms elapsed=81.89s tid=0x00007f909682c200 nid=27395 in Object.wait()  [0x000000030dcbc000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait0(java.base@21.0.8/Native Method)
+	- waiting on <0x00000007c04acaa0> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.Object.wait(java.base@21.0.8/Unknown Source)
+	at java.lang.Object.wait(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.NativeReferenceQueue.await(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@21.0.8/Unknown Source)
+	at java.lang.ref.NativeReferenceQueue.remove(java.base@21.0.8/Unknown Source)
+	- locked <0x00000007c04acaa0> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@21.0.8/Unknown Source)
+
+"Signal Dispatcher" #12 [32771] daemon prio=9 os_prio=31 cpu=4.54ms elapsed=81.89s tid=0x00007f90b880b600 nid=32771 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #13 [33539] daemon prio=9 os_prio=31 cpu=6.22ms elapsed=81.89s tid=0x00007f9077812800 nid=33539 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #14 [43267] daemon prio=9 os_prio=31 cpu=5.43ms elapsed=81.89s tid=0x00007f909682f400 nid=43267 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #15 [34051] daemon prio=9 os_prio=31 cpu=16308.09ms elapsed=81.89s tid=0x00007f90b6848800 nid=34051 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   Compiling: 12197   !   4       org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor::visitElement (404 bytes)
+
+"C1 CompilerThread0" #16 [42243] daemon prio=9 os_prio=31 cpu=6144.28ms elapsed=81.88s tid=0x00007f90b7835800 nid=42243 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Notification Thread" #17 [34371] daemon prio=9 os_prio=31 cpu=0.11ms elapsed=81.77s tid=0x00007f9066808c00 nid=34371 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"DefaultDispatcher-worker-1" #19 [40163] daemon prio=5 os_prio=31 cpu=30.79ms elapsed=74.12s tid=0x00007f90b8052600 nid=40163 waiting on condition  [0x000000030e4d4000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@21.0.8/Native Method)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@21.0.8/Unknown Source)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.park(CoroutineScheduler.kt:856)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.tryPark(CoroutineScheduler.kt:801)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:749)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:702)
+
+"DefaultDispatcher-worker-2" #20 [39427] daemon prio=5 os_prio=31 cpu=8.65ms elapsed=74.12s tid=0x00007f90b791fc00 nid=39427 waiting on condition  [0x000000030e5d7000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@21.0.8/Native Method)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@21.0.8/Unknown Source)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.park(CoroutineScheduler.kt:856)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.tryPark(CoroutineScheduler.kt:801)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:749)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:702)
+
+"Attach Listener" #21 [38927] daemon prio=9 os_prio=31 cpu=7.39ms elapsed=0.57s tid=0x00007f90b9259000 nid=38927 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"GC Thread#1" os_prio=31 cpu=380.10ms elapsed=80.39s tid=0x00007f90b701d2b0 nid=40963 runnable  
+
+"VM Thread" os_prio=31 cpu=106.87ms elapsed=81.96s tid=0x00007f90b710de90 nid=32515 runnable  
+
+"VM Periodic Task Thread" os_prio=31 cpu=47.32ms elapsed=81.99s tid=0x00007f90b7214d90 nid=17923 waiting on condition  
+
+"G1 Service" os_prio=31 cpu=3.52ms elapsed=81.99s tid=0x00007f90967144b0 nid=19715 runnable  
+
+"G1 Refine#0" os_prio=31 cpu=23.41ms elapsed=81.99s tid=0x00007f909682be00 nid=19971 runnable  
+
+"G1 Conc#0" os_prio=31 cpu=387.20ms elapsed=81.99s tid=0x00007f90b6714c20 nid=20483 runnable  
+
+"G1 Main Marker" os_prio=31 cpu=3.10ms elapsed=81.99s tid=0x00007f90b6713ec0 nid=16643 runnable  
+
+"GC Thread#0" os_prio=31 cpu=388.23ms elapsed=81.99s tid=0x00007f90b740d450 nid=21507 runnable  
+
+JNI global refs: 10, weak refs: 4
+
+JNI global refs memory usage: 835, weak refs: 833
+

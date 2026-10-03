@@ -1,0 +1,623 @@
+{
+  "status": "pass",
+  "build_dir": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2",
+  "checked_at_utc": "2026-10-01T13:16:39Z",
+  "summary": {
+    "total": 55,
+    "passed": 55,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "id": "build_dir_exists",
+      "status": "pass",
+      "message": "Public build directory exists.",
+      "details": {
+        "build_dir": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2"
+      }
+    },
+    {
+      "id": "route_",
+      "status": "pass",
+      "message": "/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/index.html",
+        "required_text": [
+          "Microsavings and group savings for daily earners",
+          "Collect"
+        ],
+        "bytes": 13583
+      }
+    },
+    {
+      "id": "route_group_savings_",
+      "status": "pass",
+      "message": "/group-savings/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/group-savings/index.html",
+        "required_text": [
+          "Group savings"
+        ],
+        "bytes": 12736
+      }
+    },
+    {
+      "id": "route_privacy_",
+      "status": "pass",
+      "message": "/privacy/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/privacy/index.html",
+        "required_text": [
+          "Privacy Policy",
+          "Account deletion and data deletion"
+        ],
+        "bytes": 28576
+      }
+    },
+    {
+      "id": "route_terms_",
+      "status": "pass",
+      "message": "/terms/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/terms/index.html",
+        "required_text": [
+          "Terms"
+        ],
+        "bytes": 23718
+      }
+    },
+    {
+      "id": "route_account_deletion_",
+      "status": "pass",
+      "message": "/account-deletion/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/account-deletion/index.html",
+        "required_text": [
+          "Account Deletion"
+        ],
+        "bytes": 11828
+      }
+    },
+    {
+      "id": "route_data_deletion_",
+      "status": "pass",
+      "message": "/data-deletion/ has content-complete HTML.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/data-deletion/index.html",
+        "required_text": [
+          "Data Deletion"
+        ],
+        "bytes": 13122
+      }
+    },
+    {
+      "id": "native_share_link_fallbacks",
+      "status": "pass",
+      "message": "Group and app share URLs have native-open and public-web fallbacks.",
+      "details": {
+        "group_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/c/index.html",
+        "app_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/app/index.html",
+        "redirects_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/_redirects"
+      }
+    },
+    {
+      "id": "retired_routes_absent",
+      "status": "pass",
+      "message": "Retired public routes are absent from the generated build.",
+      "details": {
+        "retired_present": [
+
+        ]
+      }
+    },
+    {
+      "id": "route_credit_readiness",
+      "status": "pass",
+      "message": "credit_readiness route is present.",
+      "details": {
+        "accepted_routes": [
+          "/credit-readiness/",
+          "/craas/"
+        ],
+        "matched_routes": [
+          "/credit-readiness/"
+        ]
+      }
+    },
+    {
+      "id": "route_protection",
+      "status": "pass",
+      "message": "protection route is present.",
+      "details": {
+        "accepted_routes": [
+          "/protection/",
+          "/insurance/"
+        ],
+        "matched_routes": [
+          "/protection/",
+          "/insurance/"
+        ]
+      }
+    },
+    {
+      "id": "route_partners",
+      "status": "pass",
+      "message": "partners route is present.",
+      "details": {
+        "accepted_routes": [
+          "/partners/",
+          "/our-partners/"
+        ],
+        "matched_routes": [
+          "/partners/",
+          "/our-partners/"
+        ]
+      }
+    },
+    {
+      "id": "route_trust",
+      "status": "pass",
+      "message": "trust route is present.",
+      "details": {
+        "accepted_routes": [
+          "/trust/",
+          "/security/"
+        ],
+        "matched_routes": [
+          "/trust/",
+          "/security/"
+        ]
+      }
+    },
+    {
+      "id": "english_only_language_decision",
+      "status": "pass",
+      "message": "English is the only published language; no unsupported language route or switcher is emitted.",
+      "details": {
+        "rw_route_files": [
+
+        ],
+        "french_route_files": [
+
+        ]
+      }
+    },
+    {
+      "id": "root_raw_html_content",
+      "status": "pass",
+      "message": "Root has meaningful raw HTML content.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/index.html",
+        "bytes": 13583
+      }
+    },
+    {
+      "id": "no_public_noindex",
+      "status": "pass",
+      "message": "No noindex marker found in public headers/root HTML.",
+      "details": {
+        "headers_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/_headers"
+      }
+    },
+    {
+      "id": "canonical_root",
+      "status": "pass",
+      "message": "Root canonical URL exists.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/index.html"
+      }
+    },
+    {
+      "id": "social_metadata",
+      "status": "pass",
+      "message": "Root social metadata exists.",
+      "details": {
+      }
+    },
+    {
+      "id": "structured_data",
+      "status": "pass",
+      "message": "Structured data is valid JSON-LD.",
+      "details": {
+        "types": [
+          "Organization",
+          "SoftwareApplication"
+        ],
+        "parse_error": null
+      }
+    },
+    {
+      "id": "pre_audit_brand_assets",
+      "status": "pass",
+      "message": "Official header logo, PNG favicon, social image, and manifest icon match the governed immutable asset hash.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/icons/collect.png",
+        "bytes": 103231,
+        "hash_failures": {
+        }
+      }
+    },
+    {
+      "id": "robots_allow",
+      "status": "pass",
+      "message": "robots.txt allows public crawling.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/robots.txt"
+      }
+    },
+    {
+      "id": "sitemap_routes",
+      "status": "pass",
+      "message": "Sitemap includes required public routes and excludes retired routes.",
+      "details": {
+        "missing": [
+
+        ],
+        "retired_present": [
+
+        ],
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/sitemap.xml"
+      }
+    },
+    {
+      "id": "sitemap_lastmod",
+      "status": "pass",
+      "message": "Sitemap includes ISO date lastmod for every URL.",
+      "details": {
+        "url_count": 15,
+        "lastmod_count": 15,
+        "lastmod_values": [
+          "2026-10-01"
+        ],
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/sitemap.xml"
+      }
+    },
+    {
+      "id": "sitemap_route_metadata",
+      "status": "pass",
+      "message": "Every sitemap route has local non-redirecting metadata-complete HTML.",
+      "details": {
+        "failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "assetlinks",
+      "status": "pass",
+      "message": "assetlinks.json is present for Android App Links.",
+      "details": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/.well-known/assetlinks.json"
+      }
+    },
+    {
+      "id": "no_flutter_public_critical_path",
+      "status": "pass",
+      "message": "Public build has no Flutter/CanvasKit critical-path files.",
+      "details": {
+        "root_markers": [
+
+        ],
+        "flutter_files": [
+
+        ],
+        "canvaskit_file_count": 0
+      }
+    },
+    {
+      "id": "js_budget",
+      "status": "pass",
+      "message": "JavaScript budget is within limit.",
+      "details": {
+        "budget_bytes": 153600,
+        "actual_bytes": 6393,
+        "files": {
+          "site.js": 6393
+        }
+      }
+    },
+    {
+      "id": "no_wasm",
+      "status": "pass",
+      "message": "No WASM files in public build.",
+      "details": {
+        "files": [
+
+        ]
+      }
+    },
+    {
+      "id": "security_headers",
+      "status": "pass",
+      "message": "Security headers are present.",
+      "details": {
+        "missing": [
+
+        ],
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2/_headers"
+      }
+    },
+    {
+      "id": "cache_policy",
+      "status": "pass",
+      "message": "Public cache policy avoids no-store and keeps immutable assets.",
+      "details": {
+        "contains_no_store": false,
+        "contains_immutable_assets": true
+      }
+    },
+    {
+      "id": "policy_content",
+      "status": "pass",
+      "message": "Policy route contains Play deletion contact content.",
+      "details": {
+      }
+    },
+    {
+      "id": "public_app_and_whatsapp_support_conversion",
+      "status": "pass",
+      "message": "Root exposes public app download and lean WhatsApp support CTAs with no support panel or email form.",
+      "details": {
+        "whatsapp_link_count": 4
+      }
+    },
+    {
+      "id": "privacy_semantic_links",
+      "status": "pass",
+      "message": "Privacy policy preserves baseline visible copy while exposing accessible destination links.",
+      "details": {
+        "missing_links": {
+        }
+      }
+    },
+    {
+      "id": "no_stray_template_brace",
+      "status": "pass",
+      "message": "Generated public HTML has no visible standalone template brace.",
+      "details": {
+        "files": [
+
+        ]
+      }
+    },
+    {
+      "id": "pre_audit_content_parity",
+      "status": "pass",
+      "message": "Public routes match the reviewed current Collect product-copy contract; historical evidence is retained.",
+      "details": {
+        "status": "pass",
+        "expected_routes": [
+          "/",
+          "/account-deletion/",
+          "/community-groups/",
+          "/craas/",
+          "/credit-readiness/",
+          "/data-deletion/",
+          "/group-savings/",
+          "/insurance/",
+          "/our-partners/",
+          "/partners/",
+          "/privacy/",
+          "/protection/",
+          "/security/",
+          "/terms/",
+          "/trust/"
+        ],
+        "generated_routes": [
+          "/",
+          "/account-deletion/",
+          "/community-groups/",
+          "/craas/",
+          "/credit-readiness/",
+          "/data-deletion/",
+          "/group-savings/",
+          "/insurance/",
+          "/our-partners/",
+          "/partners/",
+          "/privacy/",
+          "/protection/",
+          "/security/",
+          "/terms/",
+          "/trust/"
+        ],
+        "hash_failures": [
+
+        ],
+        "scope": "Exact locally reviewed Collect Rwanda-only product copy and source inputs. Historical baseline retained; no visual, legal, publication or hosted availability acceptance.",
+        "contract_sha256": "7e15b1541fa2e2e109d224fb43911e6e377581845ce42ef80ebaa749290790a3",
+        "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+        "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+        "reviewed_source_count": 6,
+        "legal_release_approved": false,
+        "publication_approved": false
+      }
+    },
+    {
+      "id": "trust_center_standalone",
+      "status": "pass",
+      "message": "Trust route is a standalone trust center, not a Privacy Policy duplicate.",
+      "details": {
+      }
+    },
+    {
+      "id": "trust_sidebar_removed",
+      "status": "pass",
+      "message": "Trust route omits the legal sidebar/table-of-contents requested for deletion.",
+      "details": {
+        "has_no_sidebar_class": true,
+        "has_legal_sidebar": false,
+        "has_legal_toc": false
+      }
+    },
+    {
+      "id": "privacy_sidebar_removed",
+      "status": "pass",
+      "message": "Privacy route omits the legal sidebar/table-of-contents requested for deletion.",
+      "details": {
+        "has_no_sidebar_class": true,
+        "has_legal_sidebar": false,
+        "has_legal_toc": false
+      }
+    },
+    {
+      "id": "terms_sidebar_removed",
+      "status": "pass",
+      "message": "Terms route omits the legal sidebar/table-of-contents requested for deletion.",
+      "details": {
+        "has_no_sidebar_class": true,
+        "has_legal_sidebar": false,
+        "has_legal_toc": false
+      }
+    },
+    {
+      "id": "partners_specific_content_removed",
+      "status": "pass",
+      "message": "Partners sections are restored and the copied phrases are absent.",
+      "details": {
+        "hits": [
+
+        ]
+      }
+    },
+    {
+      "id": "cta_and_footer_trust_hierarchy",
+      "status": "pass",
+      "message": "CTA hierarchy and footer trust signals match the current public-site audit fixes.",
+      "details": {
+        "cta_hierarchy_ok": true,
+        "footer_trust_ok": true
+      }
+    },
+    {
+      "id": "consistent_ctas_without_disclaimer_labels",
+      "status": "pass",
+      "message": "CTA trio is consistent without redundant availability labels.",
+      "details": {
+        "failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "partner_status_disclaimer_absent",
+      "status": "pass",
+      "message": "The internal partner-status disclaimer is absent from public routes.",
+      "details": {
+      }
+    },
+    {
+      "id": "public_evidence_disclaimer_absent",
+      "status": "pass",
+      "message": "The redundant public-evidence disclaimer block is absent.",
+      "details": {
+      }
+    },
+    {
+      "id": "fee_disclaimer_absent",
+      "status": "pass",
+      "message": "The redundant fee disclaimer block is absent.",
+      "details": {
+      }
+    },
+    {
+      "id": "authentic_app_media",
+      "status": "pass",
+      "message": "App media matches reviewed captures and current runtime source; invented phone UI is absent.",
+      "details": {
+      }
+    },
+    {
+      "id": "single_source_color_contract",
+      "status": "pass",
+      "message": "Public marketing uses shared semantic roles and no native or logo-derived colour palette.",
+      "details": {
+        "missing_roles": [
+
+        ],
+        "legacy_palette": false,
+        "old_public_color_hits": [
+
+        ]
+      }
+    },
+    {
+      "id": "cta_white_label_contrast",
+      "status": "pass",
+      "message": "Shared flat marketing colours meet AA contrast; rendered photography and interaction states require separate browser evidence.",
+      "details": {
+        "ratios": {
+          "marketing_primary": 16.48,
+          "marketing_copy": 8.04,
+          "marketing_heading": 15.97
+        }
+      }
+    },
+    {
+      "id": "legal_task_first_layout",
+      "status": "pass",
+      "message": "Legal and deletion routes use a calmer task-first layout with navigation aids where sections exist.",
+      "details": {
+        "failures": [
+
+        ],
+        "legal_css_ok": true
+      }
+    },
+    {
+      "id": "alias_route_identity",
+      "status": "pass",
+      "message": "Alias routes have deliberate unique title/H1 identities.",
+      "details": {
+        "duplicate_titles": {
+        },
+        "duplicate_h1s": {
+        }
+      }
+    },
+    {
+      "id": "responsive_layout_and_route_variation",
+      "status": "pass",
+      "message": "Static responsive and menu structure checks only; browser layout, task, contrast and source fidelity remain separate.",
+      "details": {
+        "mobile_hero_css_ok": true,
+        "route_class_ok": true,
+        "route_variation_ok": true,
+        "responsive_components_ok": true,
+        "menu_failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "credit_readiness_explainer",
+      "status": "pass",
+      "message": "Credit-readiness and provider boundaries are explained on the home page.",
+      "details": {
+      }
+    },
+    {
+      "id": "source_backed_market_context",
+      "status": "pass",
+      "message": "Home market figures are present.",
+      "details": {
+      }
+    },
+    {
+      "id": "craas_bank_benefit_cleanup",
+      "status": "pass",
+      "message": "CRaaS bank-benefit list no longer includes the deleted first bullet.",
+      "details": {
+      }
+    },
+    {
+      "id": "public_claim_guard",
+      "status": "pass",
+      "message": "Generated public HTML avoids deck-only, unsupported, email, consent, projection, and restricted financial claims.",
+      "details": {
+        "failures": [
+
+        ]
+      }
+    }
+  ]
+}

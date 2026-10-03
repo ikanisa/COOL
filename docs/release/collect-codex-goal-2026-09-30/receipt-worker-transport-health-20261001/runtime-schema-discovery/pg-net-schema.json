@@ -1,0 +1,96 @@
+{
+  "tables": {
+    "_http_response": [
+      {
+        "name": "id",
+        "type": "bigint",
+        "notnull": false
+      },
+      {
+        "name": "status_code",
+        "type": "integer",
+        "notnull": false
+      },
+      {
+        "name": "content_type",
+        "type": "text",
+        "notnull": false
+      },
+      {
+        "name": "headers",
+        "type": "jsonb",
+        "notnull": false
+      },
+      {
+        "name": "content",
+        "type": "text",
+        "notnull": false
+      },
+      {
+        "name": "timed_out",
+        "type": "boolean",
+        "notnull": false
+      },
+      {
+        "name": "error_msg",
+        "type": "text",
+        "notnull": false
+      },
+      {
+        "name": "created",
+        "type": "timestamp with time zone",
+        "notnull": true
+      }
+    ],
+    "http_request_queue": [
+      {
+        "name": "id",
+        "type": "bigint",
+        "notnull": true
+      },
+      {
+        "name": "method",
+        "type": "net.http_method",
+        "notnull": true
+      },
+      {
+        "name": "url",
+        "type": "text",
+        "notnull": true
+      },
+      {
+        "name": "headers",
+        "type": "jsonb",
+        "notnull": false
+      },
+      {
+        "name": "body",
+        "type": "bytea",
+        "notnull": false
+      },
+      {
+        "name": "timeout_milliseconds",
+        "type": "integer",
+        "notnull": true
+      }
+    ]
+  },
+  "extension": {
+    "name": "pg_net",
+    "version": "0.20.0"
+  },
+  "functions": [
+    "net._await_response(bigint)",
+    "net._encode_url_with_params_array(text,text[])",
+    "net._http_collect_response(bigint,boolean)",
+    "net._urlencode_string(character varying)",
+    "net.check_worker_is_up()",
+    "net.http_collect_response(bigint,boolean)",
+    "net.http_delete(text,jsonb,jsonb,integer,jsonb)",
+    "net.http_get(text,jsonb,jsonb,integer)",
+    "net.http_post(text,jsonb,jsonb,jsonb,integer)",
+    "net.wait_until_running()",
+    "net.wake()",
+    "net.worker_restart()"
+  ]
+}

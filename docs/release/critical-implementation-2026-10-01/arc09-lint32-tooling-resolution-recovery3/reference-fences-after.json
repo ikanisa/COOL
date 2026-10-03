@@ -1,0 +1,71 @@
+{
+  "all_17_inputs_13_references_unchanged": true,
+  "source_fences_sha256": "587d18bb3a1b2889304b74cd3a406af9aff9d15e4b4821fb38275f815bcd215d",
+  "sources": [
+    {
+      "bytes": 8194,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/packet-files.json",
+      "sha256": "5d96bd55e0d11a9f260616b068290f5ae4f4d8a102841e7c8853c4f7d24788e0"
+    },
+    {
+      "bytes": 5819,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/static-readback.json",
+      "sha256": "6f86851f335ff8a708f8755389b38ad67c09dd84e6840289a56924c9d44a1bd6"
+    },
+    {
+      "bytes": 12982,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/build.gradle",
+      "sha256": "d766511a650bf85fda1d8fb7b25823f97c787c06dce63dc620c5dfa0201f69ba"
+    },
+    {
+      "bytes": 10414,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/source-fences.json",
+      "sha256": "87ca76357e29317cdeeb0117e3789383726d63b7f954fd5bb99e90ae1e65eae3"
+    },
+    {
+      "bytes": 9796,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/run_resolution.py",
+      "sha256": "53a89d40f693f110d4fd5ae834e889d2090fe1ff72d078a259cd244cccd47e58"
+    },
+    {
+      "bytes": 2011,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/packet-files.json",
+      "sha256": "e9e730242ca77f375017d65a31d928db21e551a0a15788c4cf5372f840aab781"
+    },
+    {
+      "bytes": 16284,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/readback.json",
+      "sha256": "f8318da86812e85480ec9e3c96eebd53b839fbf47dab57162a7e1b39a8b13ebb"
+    },
+    {
+      "bytes": 396243,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/selected-tooling-graph.json",
+      "sha256": "96b5948e34520b67226745ea94e1ca78bd3cdf1bd050378b2893694d424abb26"
+    },
+    {
+      "bytes": 339659,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/selected-tooling-graph.json.checkpoint-1.json",
+      "sha256": "248277403bd4334e8ff1f97433df3fc4f2deabb09adf54afa4d2d26581a44569"
+    },
+    {
+      "bytes": 1488,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/exact-lint32-tooling-metadata.json",
+      "sha256": "c701487300a9b9a2a936592a124a27262a3538ed7daa89d6d0f5112540f1a282"
+    },
+    {
+      "bytes": 10203,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution2/exact-lint32-tooling-metadata.daemon-readback.json",
+      "sha256": "0031da76563923e19d3fc46ea342c8792a644d47e2618dfa4831eae18ea0b215"
+    },
+    {
+      "bytes": 1320,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+      "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+    },
+    {
+      "bytes": 4760,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/apply-settings.py",
+      "sha256": "0ceb1830761f640a71304cc0f2674775b23524cdb5878b2817f4ff40ab9ec320"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "scope": "Additional captured native verification helpers, separate from the immutable root1103 build candidate.",
+  "source_sha256": {
+    "scripts/qa/resolved_native_package_inputs.py": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a"
+  }
+}

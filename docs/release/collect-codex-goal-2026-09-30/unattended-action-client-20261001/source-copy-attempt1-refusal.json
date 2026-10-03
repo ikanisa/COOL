@@ -1,0 +1,28 @@
+{
+  "accepted": false,
+  "reason": "Post-test backend final fixture/strict-validator publication detected before source-copy acceptance. Copy stopped on fixture hash mismatch; no candidate manifest accepted.",
+  "earlier_check_scope": "checks-scoped-final",
+  "delta": [
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json",
+      "earlier_sha256": "ee1905088960e1f635a9c971749428e8340d0187f04ea148f346aec251d55e11",
+      "current_sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "earlier_sha256": "4a997e58f650d46ad3404b877cfc63a98b361bc853d949ab3544cb691dacc760",
+      "current_sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "earlier_sha256": "0851b657e49a0064629d2feca7db48f5c54ad2be0376083968620b4451aa8c00",
+      "current_sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "earlier_sha256": "f5f4de46f05414cecf165c2a642a657725c0866e58c0c803a1e23aa3a3bccec5",
+      "current_sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9"
+    }
+  ],
+  "resolution": "One justified new scoped check against final published inputs, followed by strict hash-bound source readback."
+}

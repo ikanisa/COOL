@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "verified_at": "2026-10-01T00:46:04.946340+00:00",
+  "current_approved_image_count": 174,
+  "manifest_sha256": "0bd98a4a669d4d5874822d9b86f5f8170f879ea8ccd9a1a317689df7cbb2d78f",
+  "prior_full_decode_receipt_sha256": "196cec68b10afb2663b967bb23864d0e1f2d6d7e07439d7ba686dedecce632b4",
+  "current_manifest_and_exact_all_image_set_match": true,
+  "current_image_map_sha256": "78ba7fecbca8284dcd166ed534ff86d73f0dec4267d155f160e2c3e3f5313187",
+  "decode_scope": "Prior57 actual full Pillow decoding of every approved image reused only because current exact174-file set, manifest and every image byte remain identical. No fresh decoder execution or changed-pixel review is claimed.",
+  "scope": "Current file identity/add-delete verification transfers actual prior decode results for identical inputs; no rights/design/native-device/provider/release certification."
+}

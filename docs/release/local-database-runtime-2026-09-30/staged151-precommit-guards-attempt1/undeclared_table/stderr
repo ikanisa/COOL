@@ -1,0 +1,2 @@
+ERROR:  Unexpected new catalog object
+CONTEXT:  PL/pgSQL function inline_code_block line 27 at RAISE

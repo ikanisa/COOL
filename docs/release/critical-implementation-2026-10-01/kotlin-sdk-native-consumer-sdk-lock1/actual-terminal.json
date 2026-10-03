@@ -1,0 +1,13 @@
+{
+  "ARC09_closed": false,
+  "actual_export_binding_sha256": null,
+  "all_flavor_ABI_complete": false,
+  "candidate_promoted": false,
+  "production_release_approval": false,
+  "protected_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "stage": "sdk-lock",
+  "stage_pass": true
+}

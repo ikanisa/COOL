@@ -1,0 +1,17 @@
+{
+  "command": [
+    "git",
+    "apply",
+    "--check",
+    "--whitespace=error-all",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/full-candidate.patch"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "exit_code": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "maintained_mutations": 0,
+  "runtime_tests_executed": 0,
+  "candidate_preparer_executed": false,
+  "candidate_stage_present": false
+}

@@ -1,0 +1,11 @@
+{"state": "running", "stage": "compile-shim-product", "pid": 7696, "bound_seconds": 480}
+{"state": "stage_terminal", "stage": "compile-shim-product", "exit_code": 0, "wall_seconds": 6.3573578750074375, "cpu_seconds": 12.492136}
+{"state": "running", "stage": "compile-tests-0", "pid": 7823, "bound_seconds": 480}
+{"state": "stage_terminal", "stage": "compile-tests-0", "exit_code": 0, "wall_seconds": 4.6731836249964545, "cpu_seconds": 9.396155}
+{"state": "running", "stage": "compile-tests-1", "pid": 7834, "bound_seconds": 480}
+{"state": "stage_terminal", "stage": "compile-tests-1", "exit_code": 0, "wall_seconds": 4.473342832992785, "cpu_seconds": 10.234672999999999}
+{"state": "running", "stage": "tests", "pid": 7857, "bound_seconds": 180}
+{"state": "stage_terminal", "stage": "tests", "exit_code": 0, "wall_seconds": 11.227316042000894, "cpu_seconds": 9.132871}
+{"state": "running", "stage": "compile-real-android-api", "pid": 7873, "bound_seconds": 480}
+{"state": "stage_terminal", "stage": "compile-real-android-api", "exit_code": 0, "wall_seconds": 5.9111047089973, "cpu_seconds": 13.773033}
+{"state": "terminal", "status": "pass", "commands": 5, "changes": {"original_source": [], "copied_source": [], "original_binary": [], "copied_binary": [], "shims": [], "tools": [], "native_source_inventory": []}}

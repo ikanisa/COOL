@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py", line 114, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py", line 85, in main
+    before = inputs()
+             ^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py", line 72, in inputs
+    rows['/usr/bin/git'] = fingerprint(Path('/usr/bin/git'))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py", line 31, in fingerprint
+    raise ValueError('suite source must be independent regular file')
+ValueError: suite source must be independent regular file

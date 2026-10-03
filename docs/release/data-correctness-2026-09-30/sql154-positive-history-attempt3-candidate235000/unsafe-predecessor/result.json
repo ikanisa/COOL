@@ -1,0 +1,49 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [],
+  "database": "collect_local_uat_fc3e7b8b601b46b9",
+  "failure": "ERROR:  42702: column reference \"oid\" is ambiguous\nLINE 9:       select oid,family,jsonb_agg(jsonb_build_object(\n                     ^\nLOCATION:  scanRTEForColumn, parse_relation.c:831\n",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "synthetic_genuine_unsafe_posted_predecessor_atomic_migration_abort",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "48bcc77105a2ea79d7a226a9d22bfd0c4af47c4815ec36214742d7bb018cbf33",
+    "local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "81a55d50ac37cc8db92547c6f22fc4a962c61c4b5c5447a253297db9a8038d2a",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py\", line 367, in unsafe_predecessor\n    before_catalog = catalog(db)\n                     ^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py\", line 86, in catalog\n    return D.scalar(db, f\"\"\"with acl as (\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_uat.py\", line 57, in scalar\n    return json.loads(U.psql(db, sql).stdout.strip().splitlines()[-1])\n                      ^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/shadow_supervisor_uat.py\", line 31, in psql\n    if check and r.returncode:raise RuntimeError(r.stderr[-4000:])\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: ERROR:  42702: column reference \"oid\" is ambiguous\nLINE 9:       select oid,family,jsonb_agg(jsonb_build_object(\n                     ^\nLOCATION:  scanRTEForColumn, parse_relation.c:831\n\n"
+}

@@ -1,0 +1,97 @@
+--- before/test/gateway/gateway_recovery_test.dart
++++ test/gateway/gateway_recovery_test.dart
+@@ -92,6 +92,19 @@
+         files: 12,
+         sha: 'a' * 64,
+         key: current.operation == 'restore' ? key : null,
++      ),
++    );
++    pending!.complete(current);
++    pending = null;
++  }
++
++  void fail(String reason) {
++    current = parsed(
++      recovery(
++        operation: current.operation,
++        state: 'failed',
++        phase: 'failed',
++        reason: reason,
+       ),
+     );
+     pending!.complete(current);
+@@ -362,6 +375,74 @@
+     expect(fake.exports, 1);
+     expect(tester.takeException(), isNull);
+   });
++  for (final operation in ['export', 'restore']) {
++    testWidgets(
++      '$operation storage refusal announces recovery without automatically repeating it',
++      (tester) async {
++        tester.view.physicalSize = const Size(320, 640);
++        tester.view.devicePixelRatio = 1;
++        addTearDown(tester.view.resetPhysicalSize);
++        addTearDown(tester.view.resetDevicePixelRatio);
++        final semantics = tester.ensureSemantics();
++        try {
++          final fake = FakeRecovery();
++          await tester.pumpWidget(
++            MaterialApp(
++              theme: CollectTheme.light(),
++              home: MediaQuery(
++                data: const MediaQueryData(
++                  size: Size(320, 640),
++                  textScaler: TextScaler.linear(2),
++                ),
++                child: GatewayRecoveryPage(platform: fake),
++              ),
++            ),
++          );
++          await tester.pumpAndSettle();
++          if (operation == 'restore') {
++            await tester.enterText(find.byType(TextField), 'a' * 64);
++            await tester.pump();
++          }
++          final action = operation == 'export'
++              ? 'Export journal archive'
++              : 'Restore inactive evidence';
++          await tap(tester, action);
++          fake.fail('gateway_recovery_storage_full');
++          await tester.pumpAndSettle();
++          final notice = find.text(
++            'Recovery stopped because free device storage is low or could not be checked. Check device storage and free space outside Collect before starting a new recovery operation. Keep existing gateway evidence.',
++          );
++          await tester.ensureVisible(notice);
++          await tester.pumpAndSettle();
++          expect(
++            tester.getSemantics(notice),
++            matchesSemantics(
++              label:
++                  'Recovery stopped because free device storage is low or could not be checked. Check device storage and free space outside Collect before starting a new recovery operation. Keep existing gateway evidence.',
++              isLiveRegion: true,
++            ),
++          );
++          expect(tester.takeException(), isNull);
++          await tester.pump(const Duration(seconds: 5));
++          expect(fake.exports, operation == 'export' ? 1 : 0);
++          expect(fake.restores, operation == 'restore' ? 1 : 0);
++          expect(fake.cancels, 0);
++          expect(
++            tester.widget<TextField>(find.byType(TextField)).controller!.text,
++            operation == 'restore' ? 'a' * 64 : isEmpty,
++          );
++          await tap(tester, action);
++          expect(fake.exports, operation == 'export' ? 2 : 0);
++          expect(fake.restores, operation == 'restore' ? 2 : 0);
++          fake.finish();
++          await tester.pumpAndSettle();
++          expect(notice, findsNothing);
++        } finally {
++          semantics.dispose();
++        }
++      },
++    );
++  }
+   testWidgets(
+     'narrow large-text recovery remains scrollable with labeled controls',
+     (tester) async {

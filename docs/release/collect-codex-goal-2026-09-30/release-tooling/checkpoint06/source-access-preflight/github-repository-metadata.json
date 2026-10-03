@@ -1,0 +1,25 @@
+{
+  "credential_values_reported": false,
+  "exit_code": 0,
+  "http_status": 200,
+  "raw_output_reported": false,
+  "repository": {
+    "archived": false,
+    "default_branch": "main",
+    "disabled": false,
+    "full_name": "ikanisa/COOL",
+    "private": true,
+    "visibility": "private"
+  },
+  "request": "GET /repos/ikanisa/COOL",
+  "security_and_analysis_visible": false,
+  "security_status": {},
+  "standard_gh_auth_only": true,
+  "viewer_permissions": {
+    "admin": true,
+    "maintain": true,
+    "pull": true,
+    "push": true,
+    "triage": true
+  }
+}

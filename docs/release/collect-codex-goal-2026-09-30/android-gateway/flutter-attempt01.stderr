@@ -1,0 +1,9 @@
+test/gateway/gateway_safety_test.dart:73:41: Error: The type 'Map<String, Object>' used in the 'for' loop must implement 'Iterable<dynamic>'.
+ - 'Map' is from 'dart:core'.
+ - 'Object' is from 'dart:core'.
+ - 'Iterable' is from 'dart:core'.
+    for (final entry in <String, Object>{
+                                        ^
+test/gateway/gateway_safety_test.dart:175:25: Error: This expression has type 'void' and can't be used.
+      await tester.view.resetPhysicalSize();
+                        ^

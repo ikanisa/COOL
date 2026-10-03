@@ -1,0 +1,21 @@
+{
+  "python": {
+    "cases": 34,
+    "deadline_seconds": 300,
+    "elapsed_seconds": 254.71710029099995,
+    "errors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "ruby": {
+    "assertions": 173,
+    "cases": 17,
+    "deadline_seconds": 180,
+    "elapsed_seconds": 0.3988272499991581,
+    "errors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "source": "sealed original completed logs, not a new suite run",
+  "whole_python_suite_rerun": false
+}

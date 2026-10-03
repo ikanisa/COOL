@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T09:06:48.193004+00:00",
+  "recovery5": {
+    "packet": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/packet-files.json",
+      "sha256": "c75e8a35ea208f855217b11b73492eb9e58b8f9341286c353b9b62c0b70553ba"
+    },
+    "readback": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/readback.json",
+      "sha256": "e5a5164f14636855cfa86be25fac2c7b218e7dfc40c5eb0a89afbe5589f968f9"
+    },
+    "actual_result": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/actual-result.json",
+      "sha256": "8ea040fcc835d24671c568cb039b217f61a76b3745ff7ae4f024bf149631efa7"
+    }
+  },
+  "native_guard": {
+    "final": true,
+    "packet": {
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-guard2-readback1/packet-files.json",
+      "sha256": "e295da23c5c70fcbf0ae57c3330e7097de1b3b60043a39cf7bddd4e7dca7146d"
+    },
+    "readback": {
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-guard2-readback1/readback.json",
+      "sha256": "042a5941f7f3a94f853081b93b87ab36f7e19e48ae3b13496f05716232c8931e"
+    },
+    "terminal_status": {
+      "pointer": "/status",
+      "expected": "pass"
+    },
+    "passing_cases": {
+      "pointer": "/tests/passed",
+      "expected": 42
+    },
+    "total_cases": {
+      "pointer": "/tests/total",
+      "expected": 42
+    },
+    "reader_pass": {
+      "pointer": "/reader/stage_pass",
+      "expected": true
+    },
+    "reader_seconds": {
+      "pointer": "/reader/actual_seconds",
+      "expected": 43.295
+    }
+  },
+  "native_stages": {
+    "final": true,
+    "packet": {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-failure-readback1/packet-files.json",
+      "sha256": "a1f281aeb715153cc3d043212b1fb5046b351409e970028dd22cbdb2c00ec814"
+    },
+    "readback": {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-failure-readback1/readback.json",
+      "sha256": "4a87ce1fde1444209234b674a718826bdad78b4c339c3448c3e4e8624b40f064"
+    },
+    "terminal_status": {
+      "pointer": "/status",
+      "expected": "failed"
+    },
+    "native_admitted": {
+      "pointer": "/native_admitted",
+      "expected": true
+    },
+    "native_packages_built": {
+      "pointer": "/native_packages_built",
+      "expected": false
+    },
+    "whole_export": {
+      "outcome": "pass",
+      "stage_identity": {
+        "pointer": "/stages/app-export/stage",
+        "expected": "app-export"
+      },
+      "observation": {
+        "pointer": "/stages/app-export/stage_pass",
+        "expected": true
+      }
+    },
+    "whole_app_lock": {
+      "outcome": "pass",
+      "stage_identity": {
+        "pointer": "/stages/app-lock/stage",
+        "expected": "app-lock"
+      },
+      "observation": {
+        "pointer": "/stages/app-lock/stage_pass",
+        "expected": true
+      }
+    },
+    "whole_native": {
+      "outcome": "failed",
+      "stage_identity": {
+        "pointer": "/stages/native/stage",
+        "expected": "native"
+      },
+      "observation": {
+        "pointer": "/stages/native/stage_pass",
+        "expected": false
+      }
+    }
+  }
+}

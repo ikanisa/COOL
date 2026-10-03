@@ -1,0 +1,315 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart
+00:00 +0: strict native observations never coerce booleans or numbers
+00:00 +1: unknown keys and oversized aggregates fail closed
+00:00 +2: delivery and network evidence contradictions fail closed
+00:00 +3: unknown attempts remain independent from framework sent evidence
+00:00 +4: initial offline installation disables all network operations and exposes no send override
+00:04 +5: emergency pause remains reachable during loading
+00:04 +6: initial native failure keeps emergency pause and redacts private errors
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: private synthetic token recipient message
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart:157:28)
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:189:25)
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:19)
+#10     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1941:5)
+#13     TestWidgetsFlutterBinding._runTest (package:flutter_test/src/binding.dart:1926:10)
+#14     AutomatedTestWidgetsFlutterBinding.runTest.<anonymous closure> (package:flutter_test/src/binding.dart:2489:24)
+#15     FakeAsync.run.<anonymous closure>.<anonymous closure> (package:fake_async/fake_async.dart:182:47)
+#20     withClock (package:clock/src/default.dart:52:10)
+#21     FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:182:15)
+#26     FakeAsync.run (package:fake_async/fake_async.dart:181:52)
+#27     AutomatedTestWidgetsFlutterBinding.runTest (package:flutter_test/src/binding.dart:2486:15)
+#28     testWidgets.<anonymous closure> (package:flutter_test/src/widget_tester.dart:184:24)
+#29     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+#31     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:252:15)
+#36     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:17)
+#37     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:17)
+#42     Invoker._waitForOutstandingCallbacks (package:test_api/src/backend/invoker.dart:314:5)
+#43     Invoker._onRun.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/invoker.dart:457:21)
+#45     Invoker._onRun.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/invoker.dart:455:15)
+#50     Invoker._onRun.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/invoker.dart:445:11)
+#51     Invoker._guardIfGuarded (package:test_api/src/backend/invoker.dart:500:15)
+#52     Invoker._onRun.<anonymous closure> (package:test_api/src/backend/invoker.dart:444:9)
+#59     Invoker._onRun (package:test_api/src/backend/invoker.dart:442:11)
+#60     LiveTestController.run (package:test_api/src/backend/live_test_controller.dart:161:11)
+#61     RemoteListener._runLiveTest.<anonymous closure> (package:test_api/src/backend/remote_listener.dart:323:16)
+#66     RemoteListener._runLiveTest (package:test_api/src/backend/remote_listener.dart:322:5)
+#67     RemoteListener._serializeTest.<anonymous closure> (package:test_api/src/backend/remote_listener.dart:263:7)
+#85     _GuaranteeSink.add (package:stream_channel/src/guarantee_channel.dart:125:12)
+#86     new _MultiChannel.<anonymous closure> (package:stream_channel/src/multi_channel.dart:159:31)
+#88     CastStreamSubscription._onData (dart:_internal/async_cast.dart:95:11)
+#114    new _WebSocketImpl._fromSocket.<anonymous closure> (dart:_http/websocket_impl.dart:1252:27)
+#120    _WebSocketProtocolTransformer._messageFrameEnd (dart:_http/websocket_impl.dart:348:23)
+#121    _WebSocketProtocolTransformer.add (dart:_http/websocket_impl.dart:238:46)
+#129    _Socket._onData (dart:io-patch/socket_patch.dart:2874:41)
+#136    new _RawSocket.<anonymous closure> (dart:io-patch/socket_patch.dart:2312:31)
+#137    _NativeSocket.issueReadEvent.issue (dart:io-patch/socket_patch.dart:1647:14)
+(elided 102 frames from dart:async and package:stack_trace)
+
+The test description was:
+  initial native failure keeps emergency pause and redacts private errors
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +6 -1: initial native failure keeps emergency pause and redacts private errors [E]
+  Test failed. See exception logs above.
+  The test description was: initial native failure keeps emergency pause and redacts private errors
+  
+00:06 +6 -1: narrow layout and large text keep independent observations readable
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#a07e2 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 520.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#de930 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 840.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#30606 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 680.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#1931d relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 680.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#a9974 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 440.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#4d8d7 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 320.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 23 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/gateway/gateway_app.dart:336:12
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#75997 relayoutBoundary=up16 OVERFLOWING:
+  creator: Row ← Padding ← Column ← ConstrainedBox ← Center ← Padding ← _SingleChildViewport ←
+    IgnorePointer-[GlobalKey#8fc25] ← Semantics ← Listener ← _GestureSemantics ←
+    RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#b2858] ← ⋯
+  parentData: offset=Offset(0.0, 8.0) (can use size)
+  constraints: BoxConstraints(w=288.0, 0.0<=h<=Infinity)
+  size: Size(288.0, 720.0)
+  direction: horizontal
+  mainAxisAlignment: start
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: 'Multiple exceptions (7) were detected during the running of the current test, and at
+least one was unexpected.'
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart:189:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart line 189
+The test description was:
+  narrow layout and large text keep independent observations readable
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:08 +6 -2: narrow layout and large text keep independent observations readable [E]
+  Test failed. See exception logs above.
+  The test description was: narrow layout and large text keep independent observations readable
+  
+00:08 +6 -2: public enrollment UI has no body, recipient or arbitrary host controls
+00:11 +7 -2: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: initial native failure keeps emergency pause and redacts private errors
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: narrow layout and large text keep independent observations readable

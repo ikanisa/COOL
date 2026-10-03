@@ -1,0 +1,36 @@
+{
+  "sql_executed_here": false,
+  "whole_system_acceptance": false,
+  "packets": [
+    {
+      "file": "docs/release/data-correctness-2026-09-30/immutable-attempt14-current-client/validation.json",
+      "sha256": "7ae1cb8bbba7c093121d17ff1943911b81131fbf5c1878cf97a72cd96ad35420",
+      "status": "fail",
+      "scope": "retained exact packet; not current whole-client acceptance"
+    },
+    {
+      "file": "docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/validation.json",
+      "sha256": "d78c40b5d952b9a273afcef541bb97ff7cdc3f955018769a6b89ff3aaf5af178",
+      "status": "fail",
+      "scope": "retained exact packet; not current whole-client acceptance"
+    },
+    {
+      "file": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/validation.json",
+      "sha256": "8c850ca6326b68b318ecf3c807d05e2cd1c7457f3b1437f24428a569af0e7ef4",
+      "status": "pass",
+      "scope": "retained exact packet; not current whole-client acceptance"
+    },
+    {
+      "file": "docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/validation.json",
+      "sha256": "e15a10bb1ac332da6764f7acb36f8ad8311a2f1f32782b53e509a13ee1f1eb41",
+      "status": "fail",
+      "scope": "retained exact packet; not current whole-client acceptance"
+    },
+    {
+      "file": "docs/release/data-correctness-2026-09-30/immutable-attempt18-final-client/validation.json",
+      "sha256": "e06778ac0d0407279c2b44c7683856562d9d9b36aed0bd0847865ca5b5e347e4",
+      "status": "fail",
+      "scope": "retained exact packet; not current whole-client acceptance"
+    }
+  ]
+}

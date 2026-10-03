@@ -1,0 +1,242 @@
+{
+  "kind": "exception_lifecycle_isolated_sql",
+  "status": "pass",
+  "cases": [
+    {
+      "name": "additive install preserves financial evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unassigned source has no fabricated owner or deadline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "assignment records approved current owner and bounded deadline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exact request replay preserves immutable receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "request collision cannot reinterpret the original action",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "stale workflow revision refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "exception_workflow_source_changed"
+      }
+    },
+    {
+      "name": "active source cannot be marked resolved",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "exception_workflow_source_state_invalid"
+      }
+    },
+    {
+      "name": "past deadline refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_deadline_invalid"
+      }
+    },
+    {
+      "name": "unknown unapproved assignee refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_workflow_recipient_unavailable"
+      }
+    },
+    {
+      "name": "separate escalation requests deduplicate delivery work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unknown response reconciles by original actor request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "missing response lookup remains explicit not recorded",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "delivery pump requires service role",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot inspect owner workflow",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot inspect owner workflow",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "durable delivery commits once without external send",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "worker recovery does not redeliver committed work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "recipient inbox contains delivered evidence and separate unread state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read acknowledgement is idempotent and does not resolve source",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unauthorized receipt ID refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "exception_workflow_requests immutable even to table owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception_inbox_deliveries immutable even to table owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception_inbox_reads immutable even to table owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all lifecycle tables deny direct API access with RLS",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "real cleared source is visible before explicit resolution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "resolution is tied to rechecked cleared source revision",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reopened source retains identity and does not inherit resolution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "revoked recipient cannot receive escalation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "restored recipient is retried using same durable escalation ID",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "deadline sweep reuses delivered identity without another delivery",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "real elapsed deadline creates and delivers one new revision escalation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "bounded repeated deadline sweep does not duplicate delivery",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "source cleared before delivery makes queued work obsolete",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "expired session loses lifecycle read authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all workflow actions preserve financial records",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "hosted_called": false,
+  "carrier_called": false,
+  "shared_database_written": false,
+  "source_rows_copied": false,
+  "auth_provider_tested": false,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "c74c22a426dfa443f269ec8c2095374beb82570ebb0f1bebf6ed97252d12b5ff",
+    "scripts/tests/exception_lifecycle_uat.py": "9204ff8583c8fc0a252538a0e160ff6d30c49ee84cb40537ff9a094452be1ccc"
+  },
+  "target": {
+    "container_id": "4ca2939b4311da0dada19715e4306fcbfb73f3abcf594923908b4aa2187950c1",
+    "container_name": "collect_current_rehearsal_exception_lifecycle_3d376a0df25a",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "database_removed": true,
+  "sources_unchanged": true,
+  "finished_at": "2026-10-01T11:12:59.712187+00:00"
+}

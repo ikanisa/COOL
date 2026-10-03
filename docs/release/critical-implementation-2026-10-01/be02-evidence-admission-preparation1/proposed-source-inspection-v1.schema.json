@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:collect:proposed:financial-source-inspection:v1",
+  "title": "Proposed financial source inspection response, route undecided",
+  "description": "Preparation only. No endpoint or approval is registered. Metadata requires the current authorized reconciliation actor; retained bytes need separately authorized audited reveal. Historical unbound reviews expose legacy_unverified, with null policy/source and no invented provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "scope", "review_id", "decision_state", "checked_at", "policy", "source_record", "limitations"],
+  "properties": {
+    "contract_version": {"const": 1},
+    "scope": {"const": "collect_financial_source_inspection"},
+    "review_id": {"type": "string", "format": "uuid"},
+    "decision_state": {"enum": ["route_undecided", "policy_unavailable", "legacy_unverified", "source_absent", "source_untrusted", "source_mismatch", "source_ambiguous", "source_admitted", "source_consumed"]},
+    "checked_at": {"type": "string", "format": "date-time"},
+    "limitations": {"const": "internal_ledger_acknowledgement_does_not_prove_external_settlement"},
+    "policy": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["policy_id", "route_kind", "approval_state", "rules_sha256", "evidence_level", "provider_settlement_verified"],
+          "properties": {
+            "policy_id": {"type": "string", "format": "uuid"},
+            "route_kind": {"enum": ["authenticated_provider_api", "authenticated_statement", "constrained_internal_reconciliation"]},
+            "approval_state": {"enum": ["unapproved", "approved", "revoked", "superseded"]},
+            "rules_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "evidence_level": {"enum": ["source_authenticated", "provider_settlement_authenticated", "constrained_internal_reconciliation"]},
+            "provider_settlement_verified": {"type": "boolean"}
+          },
+          "allOf": [
+            {"if": {"properties": {"evidence_level": {"const": "provider_settlement_authenticated"}}, "required": ["evidence_level"]}, "then": {"properties": {"provider_settlement_verified": {"const": true}}}, "else": {"properties": {"provider_settlement_verified": {"const": false}}}},
+            {"if": {"properties": {"route_kind": {"const": "constrained_internal_reconciliation"}}, "required": ["route_kind"]}, "then": {"properties": {"evidence_level": {"const": "constrained_internal_reconciliation"}, "provider_settlement_verified": {"const": false}}}}
+          ]
+        }
+      ]
+    },
+    "source_record": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["source_record_id", "source_object_id", "source_bytes_sha256", "source_provenance_sha256", "record_sha256", "source_record_reference", "purpose", "provider_network", "transaction_id", "receiver_hash", "amount_rwf", "currency", "occurred_at", "authentication_state", "finality_state", "checker_version", "checker_artifact_sha256", "candidate_match"],
+          "properties": {
+            "source_record_id": {"type": "string", "format": "uuid"},
+            "source_object_id": {"type": "string", "format": "uuid"},
+            "source_bytes_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "source_provenance_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "record_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "source_record_reference": {"type": "string", "minLength": 3, "maxLength": 128},
+            "purpose": {"enum": ["receipt", "reversal", "rejection"]},
+            "provider_network": {"enum": ["mtn_momo", "airtel_money"]},
+            "transaction_id": {"type": "string", "minLength": 3, "maxLength": 128},
+            "receiver_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "amount_rwf": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+            "currency": {"const": "RWF"},
+            "occurred_at": {"type": "string", "format": "date-time"},
+            "authentication_state": {"enum": ["authenticated", "internal_reviewed", "rejected", "unverified"]},
+            "finality_state": {"enum": ["settled", "not_settled", "unknown", "internal_record", "reversed"]},
+            "checker_version": {"type": "string", "minLength": 1, "maxLength": 128},
+            "checker_artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "candidate_match": {"enum": ["unique_match", "mismatch", "ambiguous", "not_checked"]}
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision_state": {"enum": ["source_admitted", "source_consumed"]}}, "required": ["decision_state"]},
+      "then": {
+        "properties": {
+          "policy": {"type": "object"},
+          "source_record": {"type": "object", "properties": {"candidate_match": {"const": "unique_match"}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"decision_state": {"const": "source_admitted"}}, "required": ["decision_state"]},
+      "then": {"properties": {"policy": {"type": "object", "properties": {"approval_state": {"const": "approved"}}}}}
+    },
+    {
+      "if": {"properties": {"decision_state": {"enum": ["route_undecided", "legacy_unverified"]}}, "required": ["decision_state"]},
+      "then": {"properties": {"policy": {"type": "null"}, "source_record": {"type": "null"}}}
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "Gradle_mapper_or_tests_run": false,
+  "actual_packaged_AAB_not_claimed": true,
+  "exact_captured_source_copies": [
+    {
+      "bytes": 403254,
+      "path": "captured-source/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    {
+      "bytes": 1580,
+      "path": "captured-source/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    }
+  ],
+  "format": "collect-selected-runtime-advisory-source-fences-v1",
+  "maintained_source_APP_SDK_DB_writes": 0,
+  "original_whole_driver_failure_preserved": true,
+  "root_native_build_ownership_preserved": true,
+  "sealed_graph": {
+    "bytes": 403254,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+    "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+  },
+  "sealed_readback": {
+    "bytes": 1580,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+    "record": {
+      "AAB_built": false,
+      "ARC09_closed": false,
+      "artifacts": 141,
+      "components": 173,
+      "driver_terminal_sha256": "346e988f940f39528d32842152e5dd13971b5ba62c8c8b7606c970df0f4143a9",
+      "edges": 995,
+      "failed_output_packet_sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf",
+      "failure_guard_summary": {
+        "APP-source": {
+          "readback_completed": true
+        },
+        "SDK-source": {
+          "readback_completed": true
+        },
+        "protected": {
+          "readback_completed": true
+        }
+      },
+      "independent_absence": [
+        {
+          "id": 87082,
+          "kind": "pid",
+          "state": "ESRCH_absent"
+        },
+        {
+          "id": 87105,
+          "kind": "pid",
+          "state": "ESRCH_absent"
+        },
+        {
+          "id": 87082,
+          "kind": "pgid",
+          "state": "ESRCH_absent"
+        },
+        {
+          "id": 87105,
+          "kind": "pgid",
+          "state": "ESRCH_absent"
+        }
+      ],
+      "matching_live_process_rows": [],
+      "original_monitor_failure_preserved": true,
+      "production_release_approval": false,
+      "runtime_command_sha256": "81dd393d5301347967fa90098627266cee5dd5cf7013c798013bfb26ceba0285",
+      "runtime_exit_code": 0,
+      "runtime_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+      "runtime_seconds": 41.261,
+      "runtime_stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "runtime_stdout_sha256": "24f3c67e4f7ac4df0fa88162dc43c117399e685bd966ab11d98c91d3ce2fb27c",
+      "status": "successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved",
+      "utc": "2026-10-02T12:42:41.481966+00:00"
+    },
+    "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+  },
+  "source_graph_equal_after_query": true,
+  "source_readback_equal_after_query": true
+}

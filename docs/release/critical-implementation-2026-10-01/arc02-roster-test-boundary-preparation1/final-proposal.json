@@ -1,0 +1,59 @@
+{
+  "promote_files": {
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "before_sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "after_sha256": "2053a7963db87f9a26dd72a8e204dcde03f22d69c6f95e2039022726a2eba734",
+      "bytes": 26482,
+      "lines": 818,
+      "mode": "0o644",
+      "maintained_before_mode": "0o644",
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "supabase/functions/prepare-roster-import/handler_test_fixture.ts": {
+      "before_sha256": null,
+      "after_sha256": "93f9563d7d89b5a931ebf85e3b9bc307d03d65b57e3d186efaba294f53f1b395",
+      "bytes": 13090,
+      "lines": 408,
+      "mode": "0o644",
+      "maintained_before_mode": null,
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts": {
+      "before_sha256": null,
+      "after_sha256": "e49860ca5ad4377b78c317099bb8a37c236a6cf789ee52f66e5b2da61baace82",
+      "bytes": 15800,
+      "lines": 444,
+      "mode": "0o644",
+      "maintained_before_mode": null,
+      "maintained_after_mode_recommendation": "0o644"
+    },
+    "scripts/tests/verify_roster_decoder.py": {
+      "before_sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "after_sha256": "5de7df73cd8393968f4c1b98c90db1267942ba3deb653b745b492d8768bfb4f3",
+      "bytes": 13969,
+      "lines": 190,
+      "mode": "0o644",
+      "maintained_before_mode": "0o644",
+      "maintained_after_mode_recommendation": "0o644"
+    }
+  },
+  "validation_sha256": "27cb61919e313dc2204682896549c1d745854959c7da47c4632acb2314148a8c",
+  "canonical_caller_source_sha256": {
+    "scripts/qa/run_edge_unit_tests.py": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    ".github/workflows/ci.yml": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+    "scripts/tests/admin_matrix_acceptance.py": "b884a1b14a0b6de676237f1d6e307968a5db1b0ee741aff8a8360a7a326b4072",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5"
+  },
+  "canonical_unit_glob_includes_new_policy_test": true,
+  "canonical_type_glob_includes_both_new_modules": true,
+  "explicit_linux_runner_proposed_two_source_and_one_test_additions": true,
+  "all_other_python_runner_AST_nodes_unchanged": true,
+  "maintained_mutation": false,
+  "production_handler_changed": false,
+  "registered_test_count": 127,
+  "real_cases_passed": 127,
+  "ignored": 0,
+  "full_current_repo_CI_or_ARC02_closure_claimed": false,
+  "prior_cli_format_lint_failures_preserved": true
+}

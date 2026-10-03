@@ -3,7 +3,11 @@ part of 'collect_repository.dart';
 final collectRepositoryProvider =
     StateNotifierProvider<CollectRepository, CollectState>((ref) {
       final supabase = ref.watch(supabaseClientProvider);
-      final repository = CollectRepository(supabase: supabase);
+      final repository = CollectRepository(
+        supabase: supabase,
+        onSignOutStarted: () =>
+            ref.read(privacySessionAuthorityProvider)?.invalidate(),
+      );
       if (supabase != null) unawaited(repository.loadInitial());
       return repository;
     });
@@ -156,33 +160,17 @@ final featuredCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   );
 });
 
-final pendingPaymentCountProvider = Provider<int>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) =>
-          state.pendingIntentCount ??
-          state.paymentIntents.where((item) => item.isAwaitingTransfer).length,
-    ),
-  );
-});
+// A recent window cannot establish a complete pending count or money total.
+// Absence stays unknown even when the locally visible rows happen to be empty.
+final pendingPaymentCountProvider = Provider<int?>(
+  (ref) => ref.watch(
+    collectRepositoryProvider.select((state) => state.pendingIntentCount),
+  ),
+);
 
-final raisedTotalsByCurrencyProvider = Provider<Map<String, int>>((ref) {
-  final state = ref.watch(collectRepositoryProvider);
-  if (state.historyPage != null) return state.historyPage!.ownTotals;
-  final totals = <String, int>{};
-  for (final item in state.contributions) {
-    if (item.isCurrentUserContribution ||
-        (state.currentProfile != null &&
-            _contributionBelongsToProfile(item, state.currentProfile!))) {
-      totals.update(
-        item.currency,
-        (value) => value + item.amountMinor,
-        ifAbsent: () => item.amountMinor,
-      );
-    }
-  }
-  return Map.unmodifiable(totals);
-});
+final raisedTotalsByCurrencyProvider = Provider<Map<String, int>?>(
+  (ref) => ref.watch(collectRepositoryProvider).historyPage?.ownTotals,
+);
 
 final contributedCollectionIdsProvider = Provider<Set<String>>((ref) {
   final state = ref.watch(collectRepositoryProvider);

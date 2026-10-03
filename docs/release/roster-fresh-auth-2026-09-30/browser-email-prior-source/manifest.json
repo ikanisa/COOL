@@ -1,0 +1,7 @@
+{
+  "source": {
+    "tool/qa/roster_fresh_auth_browser_fixture.dart": "71b6262cfac1ffae0a41e9d3a42c8a55d7a7a41bd56ac3fc0bef06f9ab6b8ff9",
+    "scripts/qa/browser_auth_reference/roster_dialog.mjs": "17f15e5d8b387473a749f4575fe3692a0e0bd78b32030138887892e53876c20e"
+  },
+  "scope": "Prior synthetic SMS sign-in fixture retained before root-approved current email QA alignment; not current operator-email acceptance."
+}

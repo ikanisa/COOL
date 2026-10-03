@@ -1,0 +1,95 @@
+--- a/scripts/tests/production_archive_restore.rb
++++ b/scripts/tests/production_archive_restore.rb
+@@ -54,7 +54,7 @@
+   sql_text.sub(marker, "\n#{supplement}#{marker}")
+ end
+ 
+-def read_archive(report_path, filename, expected_report: nil)
++def read_archive(report_path, filename, expected_report: nil, worker_document: nil, worker_sha256: nil)
+   report = CollectRecoverySource.parse(CollectRecoverySource.read(report_path))
+   raise 'Source report changed after preflight' if expected_report && report != expected_report
+   raise 'Source capture not verified' unless report['project'] == REF &&
+@@ -66,7 +66,15 @@
+     mounted = true
+     data = File.binread(File.join(info.fetch('mount'), filename))
+     raise 'Encrypted source hash mismatch' unless Digest::SHA256.hexdigest(data) == report.fetch('archive').fetch('sha256')
+-    [data, report]
++    if worker_document
++      manifest = CollectReceiptWorkerSnapshot.load(info.fetch('mount'), report, worker_document, worker_sha256)
++      references = [report.fetch('worker_snapshot')] + %w[logical objects].flat_map { |stream| manifest.fetch(stream).fetch('pages') }
++      files = references.to_h { |ref| [ref.fetch('name'), CollectReceiptWorkerSnapshot.safe_file(info.fetch('mount'), ref.fetch('name'), ref.fetch('bytes'), ref.fetch('sha256'))] }
++      [data, report, { 'manifest'=>manifest, 'files'=>files }]
++    else
++      raise 'Worker snapshot input cannot be ignored' if report.key?('worker_snapshot')
++      [data, report]
++    end
+   ensure
+     vault('detach', identifier) if mounted
+   end
+@@ -124,6 +132,7 @@
+     options = CollectRecoverySource.options(ARGV, :restore)
+     source_contract = CollectRecoverySource.selected_contract(options)
+     source_query = source_contract && CollectRecoverySource.query(source_contract)
++    worker_snapshot = options['--worker-snapshot'] == true
+     database_path = options.fetch('--database-report', DB_REPORT)
+     roles_path = options.fetch('--roles-report', ROLE_REPORT)
+     metadata_path = options.fetch('--extension-metadata', GRAPHQL_REPORT)
+@@ -136,8 +145,16 @@
+       CollectRecoverySource.verify_report!(database_input, source_contract, sha256, 'database')
+       CollectRecoverySource.verify_report!(roles_input, source_contract, sha256, 'global_roles_without_passwords')
+       CollectRecoverySource.verify_extension_metadata!(source_contract, graphql_metadata)
+-    end
+-  rescue CollectRecoverySource::Error
++      if worker_snapshot
++        worker_migration = File.join(ROOT, 'supabase/migrations/20261002070000_receipt_worker_history_storage.sql')
++        CollectReceiptWorkerSnapshot.api_contract!(source_contract, File.binread(worker_migration))
++        raise CollectReceiptWorkerSnapshot::Error, 'Worker snapshot remount association required' unless database_input['worker_snapshot_verified_after_remount'] == true && database_input.dig('cleanup', 'snapshot_clients_removed') == true
++        CollectReceiptWorkerSnapshot.keys!(database_input.fetch('worker_snapshot'), %w[format name bytes sha256 archive source_contract logical_rows logical_sha256 objects objects_sha256])
++      end
++    end
++    raise CollectReceiptWorkerSnapshot::Error, 'Worker snapshot input cannot be ignored' if database_input.key?('worker_snapshot') && !worker_snapshot
++    raise CollectReceiptWorkerSnapshot::Error, 'Global-role snapshot association invalid' if roles_input.key?('worker_snapshot')
++  rescue CollectRecoverySource::Error, CollectReceiptWorkerSnapshot::Error, SystemCallError, KeyError
+     abort('Restore source preflight refused; verify all explicit inputs and the current contract before vault actions.')
+   end
+   rehearse = options['--rehearse-migrations'] == true
+@@ -161,7 +178,8 @@
+   created = false
+   mounted = false
+   begin
+-    archive, database_report = read_archive(database_path, 'database.dump', expected_report: database_input)
++    archive, database_report, worker_bundle = read_archive(database_path, 'database.dump', expected_report: database_input,
++      worker_document: worker_snapshot ? source_contract : nil, worker_sha256: options['--source-contract-sha256'])
+     roles, role_report = read_archive(roles_path, 'roles.sql', expected_report: roles_input)
+     original_roles = roles.dup
+     # PostgreSQL 16+ records role ownership against its bootstrap superuser.
+@@ -178,6 +196,7 @@
+     mounted = true
+     report[:encrypted_evidence_vault] = evidence.fetch('image')
+     log_dir = evidence.fetch('mount')
++    worker_bundle.fetch('files').each { |name, raw| private_write(File.join(log_dir, name), raw) } if worker_bundle
+     start = <<~'SH'
+       set -eu
+       initdb -D /run/collect/data -U supabase_admin --auth-local=trust --auth-host=reject --no-instructions \
+@@ -305,6 +324,13 @@
+         compared_before_any_business_policy_changes: true, business_policy_overlay_applied: false,
+         database_data_compared_separately: true }
+     end
++    if worker_bundle
++      raise 'Restored physical worker guards changed' unless sql.call("select current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='' and current_setting('pg_net.database_name')='template1' and current_setting('pg_net.batch_size')='0';") == 't'
++      report[:worker_snapshot_comparison] = CollectReceiptWorkerSnapshot.verify_restored(log_dir, worker_bundle.fetch('manifest'),
++        argv: ['docker', 'exec', '-i', target, 'psql', '-w', '-XqAt', '-h', '/run/collect', '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1'],
++        error_path: File.join(log_dir, 'worker-restored-reader.log'))
++      raise 'Restored physical worker guards changed' unless sql.call("select current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='' and current_setting('pg_net.database_name')='template1' and current_setting('pg_net.batch_size')='0';") == 't'
++    end
+     report[:result] = 'DATABASE_RESTORE_AND_DATA_COMPARISON_PASS_NOT_FULL_RECOVERY_ACCEPTANCE'
+     puts 'Table data, sequences, schema/ACLs and global role definitions match.'
+     if rehearse
+@@ -320,6 +346,7 @@
+     archive&.clear
+     roles&.clear
+     original_roles&.clear
++    worker_bundle&.fetch('files')&.each_value(&:clear)
+     if created
+       raw, _, state = command('docker', 'inspect', target)
+       begin

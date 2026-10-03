@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-01T00:30:23.895064+00:00",
+  "project_id": "lhbowpbcpwoiparwnwgt",
+  "http_status": 200,
+  "email_provider_enabled": false,
+  "selected_email_account_count": 0,
+  "verified_email_account_count": 0,
+  "account_count_source": "Separate readonly hosted Auth SQL count in this turn",
+  "configuration_supplied_sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+  "hosted_mutations": false,
+  "otp_requested": false,
+  "credentials_recorded": false
+}

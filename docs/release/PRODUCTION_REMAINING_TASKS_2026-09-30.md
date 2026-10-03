@@ -1,33 +1,64 @@
-# Collect — exhaustive remaining production tasks
+# Collect — remaining production acceptance
 
-**Snapshot: 30 September2026 (Africa/Kigali), revision7. Release decision: NO-GO.**
+Current checkpoint — 2026-10-02T19:15:21.339469+00:00. **7 original findings closed; 33 open in full. Production NO-GO; goal active.**
 
-**101 acceptance checks remain open:99 of100 original tasks, plus X01 and X02.** G06 is locally closed. This is an acceptance count; substantial implementation exists within open tasks. Crosscutting checks overlap other tasks.
+New closures: ARC-01 (actual clean Ubuntu Make, rejection/restored proof and current two-file composition), ARC-02 (one current source candidate passing the original size/strict/consumer criterion), and BE-10 (canonical frozen backend and maintained ordinary SQL CI recipes). ARC-04, PD-02 and PD-14 retain their original closure scopes. PD-12 now closes its original current-index reconciliation criterion; full native/visual/provider/release acceptance remains separate.
 
-| Priority | Open |
-| --- | ---: |
-| P0 |24|
-| P1 |71|
-| P2 |4|
-| Crosscutting |2|
-| **Total** |**101**|
+The prior captured 2,561-file refactor candidate passes its original hard size/strict analysis gates and all 1,114 affected cases across 41 suites, including the 56 telemetry, seven dated source-busy and three actual decoder checks. That proof retains archived source map abf7eb09… and its exact source scope. Later maintained 2,563 source includes new index scripts and reviewed Android Gradle changes; whole acceptance of that source is pending. Earlier failed outcomes remain failed.
 
-Evidence states remain67 Partial,27 External,7 Unverified. No production criterion has been narrowed or closed by this local refresh.
+Actual original Make format-check passes 710 files and rejects a deliberately malformed fixture before restored 710 passes. The two later style changes pass the same pinned Linux formatter; the other 708 applicable files, 68 upstream exclusions and 14 controls remain unchanged. The original proof is reused without additional full/negative runs.
 
-Source: HEAD `c2569a47c7f87de68a60c4a247b5c5e3ca640f06` plus816 captured working-tree entries at `2026-09-30T16:50:47.886560+00:00`. No release candidate is frozen. 149 migration source files are present; the exact isolated registry has148 installed migrations and146 tables. Staged source versions: 20260930170000. Last complete clean replay remains141.
+Canonical backend acceptance passes 92 type inputs, 34 unit files/668 tests, 109 HTTP checks and actual Linux decoder/security phases. 155 of 156 inputs remain identical; the sole CI change adds ordinary SQL while keeping all 13 previous jobs/top policies exact. The new recipe passes 37/37 in 158.253 seconds against 219 frozen/captured inputs; clean and populated Linux/arm64 databases each apply 209 migrations as actual NOSUPERUSER. Network/ports are absent, cron dispatch disabled, complete final catalogs agree and both owned containers are verified removed. Its Python orchestrator ran on macOS using Python 3.12.14; remote GitHub execution was not observed or added as a closure gate.
 
-## Latest verified local progress and limits
+The maintained mapper passes 69 recorded tests, reused for unchanged mapper/test bytes. Latest current 209-migration generation and independent verification pass at source epoch 0843 in 4.518 and 5.127 seconds, each within 30 seconds, with 1,095 held input rows, 668 maintained sources, 718 callers, 2,543 objects and 4,157 grants. Three literal replacement candidates compute to catalog hashes; all 127 unresolved functions (36 application/public, 91 platform), 34 candidate reviews/37 candidates, 74 classifications, 58 unresolved callers and 84 lineage uncertainties remain unresolved. Only the reader caller input changes from the 69-test epoch; the other 1,094 input rows and all coverage fields remain unchanged. Ownership, body provenance, history and full-system recovery acceptance remain open.
 
-- **A08:** corrected147 is installed;26 governed control families,110 actual SQL checks and11 blocking races. Retained client205-test and notification recovery UI6-test packets pass; full current consumer/audit integration remains.
-- **O06:**148 is installed;36 actual SQL assertions with146-table rollback equivalence. Current receipt telemetry has76 actual frozen loopback HTTP checks and309 Edge unit tests. Health UI has39 actual-SQL-bound contract/widget tests, clean analysis and explicit expiry/refresh. Response procedures are documented; full concurrency/performance/rehearsal acceptance remains.
-- **S09/U06/P07:** retained read/Auth/expiry gate passes265 tests. Actual17 installed148 read receipts include routed details, nullable suppressed SMS, SLA and approval. Additional reproduced support/config/member-mapping corrections and full route/action matrix are underway.
-- **U02/U04/U05:** scoped shared compact correction passes120 widget tests and25 actual Chrome cases/205 assertions, including1x/2x text, keyboard and meaningful prior-source failure. Full applicable surface/state coverage and final-source integration remain.
-- **A01/P07/U08:** memory-only web Auth and a bounded local GoTrue fork are implemented.149 fresh-sign-in roster recovery is a draft; full normal browser/Auth/storage/recovery acceptance remains open. Prior SDK persistent-token failures are preserved.
-- **Q01/Q02/Q07/A05:** reviewed Gradle wrapper provenance/checksum enforcement, dated unsigned Android/iOS artifacts and new local-fork collectors pass. Final-source media/reachability/formatter/analyzer/SBOM/native rebuilds remain. The substantive Firebase scene callback return-type defect remains under correction; build success does not clear it.
-- **L02/L06/L09/L10/L11/L13:** six existing local goal closures remain verified. Other local goals are partially implemented and remain open. [Current local register](LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md) retains every original criterion.
-- Retained hosted metadata contains124 versions. Current filename comparison finds25 local versions absent from that retained set; it does not establish current deployed state. No hosted, provider, signing, store, Drive-permission or physical-device acceptance was refreshed.
+Archived app/native outcomes and the failed AAB9 remain in their original source scopes. The current 2,563-source map 0843bf6a… is bound to fence f5448ce9…; the current APP map is 46a85b4c…. Actual probe2 passes in 188.523 seconds: AGP selects R8 9.1.29 and invokes its version method from the exact 56,139,715-byte raw publisher JAR, SHA-256 9a7d1e9e…. Required source/APP/SDK/protected guards pass, and shrinking/lint remain enabled. This probe runs no current APP compilation, fresh runtime/compile graphs or AAB. Lint metadata3 passes in 11.051 seconds with 70 components, 181 edges, 69 POMs and no binary artifacts. Separate publisher metadata retains its 69-POM/eight-module scope. Later combined publisher intake verifies 67 JARs / 157,111,917 bytes: the original 50.145-second phase keeps its incomplete result with 66 verified JARs and the original request failure; a separate one-JAR recovery passes in 10.696 seconds. These are separate phases, with no shared Gradle cache writes or full graph admission. Exact full-AAB admission was assembled in 0.071 seconds; AAB execution did not occur. Standard Gradle full tooling graph/cache resolution, the unchanged current-source AAB and artifact/SBOM consumers remain pending. No package or release acceptance is claimed.
 
-The [new local progress packet](local-progress-2026-09-30/attempt3-source148/validation.json) binds the exact local registry/table/catalog/cron readback, preserved earlier registers and16 newer scoped packets. Existing packet failures remain preserved. Final clean/populated replay and single-source full acceptance are pending; generated local fixtures do not establish representative customer acceptance.
+BE-02 payment evidence remains reviewed and uninstalled; route/policy/custody decisions are pending. ARC-03 manifest-derived probes pass 22 inventory tests / 258 assertions and three existing unsigned regressions. The dated OSV query returns no known records for 157 exact Maven versions in its bound earlier runtime graph; 16 local projects and complete package/licence/exploitability acceptance are outside that result.
+
+PD-12 retains closure of its original current-index reconciliation criterion, revalidated for source epoch 0843 by separate integrator criterion-review2. The actual reader matches 133 facts across 33 sets and records exactly three expected archived-vs-current Android differences, with no other reported drift or unknown physical entries; exit 1 preserves those explicit historical differences. Eighteen unchanged reader tests, schema validation and authority hygiene are bound. Captured inventory completeness beyond listed leaves remains unknown. Whole graph, native, visual, font-rights, provider, package and release acceptance remain unverified.
+
+Revolut remains the sole design authority. All 40 original finding titles/criteria, original 102 production rows and 24 local rows are preserved. Hosted/provider access, independent payment evidence, complete erasure/recovery, native/visual/accessibility states, font rights and signed/device/store/release acceptance remain open.
+
+Historical checkpoint — 2026-10-02T09:06:48.193004+00:00. **Three original findings remain closed (ARC-04, PD-02 and PD-14); 37 remain open in full. Production NO-GO; goal active.**
+
+Actual committed recovery5 passes 27/27 in 301.559782 seconds within 600/540/60 second bounds: durable dump, source removal, independent restore, strict predecessor catalog/effective ACL parity, 85 original forward migrations, final 209 full catalog/ACL parity and all 18 projections after each migration. Both owned containers are removed and cleanup has no errors. Original 216/admitted 222 inputs remain unchanged. Attempts 1–4 remain retained genuine failures; attempt4 had 22 passes then failed on nonblocking stdin EAGAIN. No full owner/runtime/history, shipping restore adapter, real approval or full-system closure is inferred.
+
+Fresh purpose-built read-only access to the exact linked Collect project was refused; hosted parity remains unknown and the cause is unclassified. No further hosted calls were made. September 30 metadata has 124 IDs versus 209 current source IDs and three common ID/name differences; its 11 Edge functions versus 13 current source/config/deploy/probe functions is a dated comparison, not today's pending inventory. Fresh hosted migration/function/JWT/bundle/server/catalog and authorized runtime security acceptance remain unobserved.
+
+The final native guard receipt records 42/42 cases and isolated reader pass=true in 43.295000 seconds. The separately bound whole strict export outcome is pass; whole app-lock outcome is pass. The separately bound native release-Kotlin compilation, SDK/Production graph and ProductionDebug JVM test outcome is failed; native admission=true. This local stage does not assemble app packages. Packages remain unbuilt and all-flavor/ABI artifact completeness remains false. Retained older export/app-lock failures stay failed; child or guard outcomes do not establish whole-stage success. Complete remaining whole stages, all-flavor/ABI packages, store/device checks, advisory/license review and artifact-bound SBOM reconciliation; full ARC09 acceptance remains open.
+
+Maintained schema mapper49 and affected management3 checks retain their recorded scope. All 40 original human titles and acceptance criteria, 102 production rows and 24 local rows remain unchanged. The previous checkpoint below is superseded for current status; its observations and failures remain historical evidence. Hosted, device/provider, privacy/erasure, font rights, signed packages, full recovery and owner/release acceptance remain open.
+
+
+Historical implementation checkpoint (superseded by the checkpoint above) — 2026-10-02T07:38:05.659804+00:00. Three original findings remain closed (ARC-04, PD-02 and PD-14);37 remain open in full. Production NO-GO; goal active.
+
+PostgreSQL admission is now maintained. The corrected two-migration management path and two transaction-boundary negatives pass3/3; the previous failed probe remains recorded. The schema mapper passes49 maintained tests and fresh full five-output recomputation, including conservative unqualified DROP handling. Two exact static renames resolve;125 function mappings,74 object classifications and58 caller sites remain unresolved.
+
+Committed restore3 passes15 checks, including role/GraphQL prerequisites and pg_restore, but fails complete predecessor catalog/effectiveACL equality. Both containers are removed; original forward replay is not reached. Earlier failed recovery cohorts remain immutable.
+
+Strict app export3 passes as a whole stage. Locked app pub resolution passes as a child in294.027seconds, but whole app-lock1 fails on an unreviewed generated iOS registrant. All2510 original authored files and lock bytes are unchanged. Native compilation has not run. A reviewed guard correction and fresh source fence/export/app-lock retry remain required.
+
+Anonymous live legal readback finds three404 destinations, a missing retained-data anchor and an old deletion-form promise without a form. All seven sampled HTML hashes differ from the local candidate. Read-only Cloudflare API identifies the worker and a September7 deployment; public hostname binding/current-candidate deployment remain unverified. No provider configuration or publication was changed.
+
+All40 original critical acceptance requirements and102 production/24 local rows remain unchanged. Retained packets are dated producer evidence. Hosted, device, provider, privacy/erasure, font rights, signed packages, full recovery and owner/release acceptance remain open. This checkpoint supersedes older implementation-status prose below; the original acceptance rows and dated observations remain historical evidence.
+
+
+**Snapshot: 2026-10-01T16:21:37.797737+00:00; revision 17. Release decision: NO-GO.**
+
+**101 original production checks remain open. All24 local implementation criteria are complete against the named immutable candidate.**
+
+The original production table and acceptance wording below are retained. Its source observations are dated; local implementation completion is recorded separately by parent ID in the JSON register. No external acceptance or owner approval is inferred.
+
+All24 original local criteria complete on the declared tested immutable2117-file candidate and371-file reproduction supplement.185 source migrations,370 ordinary clean/populated applications; retained shared fixture154/153 with31 staged. The subsequent controlled integration is accepted within its declared affected-source scope. Original101 production checks remain open; external state was not refreshed.
+
+[Final local evidence](rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json). [Local criteria](LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md).
+
+## Integrated local update — 2026-10-01T16:21:37.797737+00:00
+
+**The two review corrections are integrated and the current Admin browser/PWA artifact is verified.** The 2,175-file capture contains 187 migrations. The 657-case affected Admin run and strict analysis passed. The 413 MCP cases form a composed proof with matching inputs. The latest SQL reader has 21 ordinary-owner checks plus 37 query-plan checks; the preceding full 187-migration clean/populated rehearsal remains explicitly bound to its earlier reader body. Unchanged native and Edge consumer proof is reused only through the new input/readback maps. All original 24 local criteria and 102 production criteria are preserved; 101 production checks remain open.
+
+[Integrated acceptance](rapid-completion-2026-10-01/post-acceptance-integration-current1/INTEGRATION.md). [Machine-readable evidence](rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json).
 
 ## G — Source and governance: 9 open
 
@@ -238,3 +269,35 @@ Every closure requires integrated source, stated cases in the required environme
 - [Historical drifted XLSX packet](roster-xlsx-hardening-2026-09-30/README.md).
 
 The sole UI/UX authority is `revolut-design`, implemented through shared tokens/components across mobile, Admin and public web. Native, Business/operator and marketing comparators require their applicable route/state, interaction, accessibility and owner evidence. No surface is asserted fully matched. The full implementation goal remains active.
+
+## Critical review implementation extension — 1 October 2026
+
+Updated 2026-10-02T03:25:49.213473+00:00. [Current critical findings register](/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md).
+
+Revolut remains the sole UI/UX design authority. All 141 recorded competing design paths and the retired checklist and gates are absent in the checked scope. The computer scan has protected, pruned, inaccessible and archive-format limits. Coding, security, testing, finance and professional skills remain available under the owner’s clarified scope.
+
+Exactly seven reviewed AI files are applied. All 213 affected tests, frozen type checks, default lint and formatting pass. A separately pinned server policy is checked before charging and immediately before decoder and provider dispatch. No actual processor or owner approval is provisioned. Source-bound operator documentation records the exact 20 policy fields, four server values and current data path. Vendor, project, region, transfer, retention, durable policy lineage, erasure and holds, spend, accuracy and Admin acceptance remain open.
+
+The original frozen 137-file backend completed all phases with a fresh cache and authenticated offline image. A genuinely corrupted imported lock digest was rejected with exit 10 under OS network denial. The frozen 140-file AI composition subsequently passed the full recipe. Earlier HTTP fixture, duplicate-property compiler, publisher-receipt preparation and collector failures are retained separately; their corrections preserve original assertions. Current CI acquisition wiring and 12 policy tests covering six workflow policies pass locally. Hosted CI and live publisher acquisition are not certified.
+
+The current 154-file backend graph completed the full recipe once in 42.519 seconds: 77 runner contracts, 90 type files, 33 unit suites with 668 passed tests and 32 steps, 109 HTTP checks, 32 Linux decoder cases, 14 signed decoder HTTP cases, 212 regressions and six same-image security tests. All 25 gateway tests passed, with zero failed or ignored tests and steps. The fresh cache, no-cache image build, network-none installation and all 13 offline inputs are recorded. The build, Linux and whole-run deadlines remain 300, 600 and 1,200 seconds.
+
+Root verified all ten genuine observation originals against completed local SQL producer outputs and matching Edge source, then applied only the reviewed loader change and ten exact JSON additions. All 154 maintained hashes equal the tested private candidate, and all other original input guards stayed unchanged. The intended source, typed manifest and literal HTTP loader now agree on 13 functions. Seventeen Ruby tests with 173 assertions and 34 private delivery tests also pass, with the latter scoped to synthetic transport. The observation fixtures test current decoders; they do not certify the complete current SQL chain, hosted activation or SMS and carrier delivery.
+
+Root verified and removed only the fresh task image after confirming its sole owned tag and zero containers. The supervisor container and birth-matched owned processes are absent. All 507 canonical output files are retained in the sealed proof, along with actual commands, tool identities, input provenance, pre/post source hashes and cleanup readbacks.
+
+**Historical observation, superseded by the current checkpoint above.** The isolated eight-file Flutter SDK change has strict standalone compiler, plugin and JAR proof with 137 passing tests across 14 families. The new private SDK foundation verifies 22,415 publisher members, 15,660 source entries and 71 legal paths; all 68,020 protected original metadata paths remain unchanged. Enforced SDK pub resolution preserves original lock bytes and binds 103 packages to owned roots. The unchanged private SDK startup passes with exact pinned versions and full source checks. A reader’s inode-equality refusal is retained: the publisher script atomically replaces engine.stamp with identical bytes. App export, app dependency resolution and native builds have not run. The source-snapshot concurrency review is preparation only. All-flavor and ABI packages, advisory and licence review, packaged SBOM reconciliation and release selection remain open.
+
+Dated public media and compiled-browser proof, privacy renewal and owner isolation, and evidence-reader results retain their original scopes. Native visual comparison, font rights, every live legal link and promised privacy outcome, erasure, holds and revocation, encrypted archives, independent full restore and archive-free builds remain open. The obsolete PD-05 stale-media prerequisite is corrected without claiming live legal or privacy acceptance.
+
+All 40 original acceptance requirements, 102 production rows and 24 local rows are preserved. ARC-04 is closed for its complete original local criterion. PD-02 and PD-14 retain their limited closures; 37 findings remain open in full. Production remains NO-GO and the implementation goal stays active.
+
+
+
+Historical schema progress (superseded by the current checkpoint above) — 2026-10-02T06:22:15.061740+00:00. The shipping validator now preserves complete12/14-digit migration versions and rejects malformed/symlink inputs;8 behavioral cases pass. The actual current209-migration clean/populated rehearsal passes all37 checks in149.722seconds on216 unchanged inputs. All application migrations run as postgres NOSUPERUSER after explicit platform preparation, with remaining CREATE ROLE/CREATE DB/BYPASSRLS and trusted memberships disclosed. All18 tested predecessor projections are preserved through85 pending migrations. Full final catalogs match byte-for-byte and canonically, including38schemas/902functions/997relations/3756columns, owners, grants, policies and dependencies. Both test containers are absent and external dispatch remained disabled. Earlier208 evidence stays immutable. Domain/caller mapping, broader historical data/ACL preservation, committed recovery and forward replay, and managed hosted acceptance remain open.
+
+**Historical observation, superseded by the current checkpoint above.** The native snapshot derivative has independent root review and34 new plus31 original passing guard tests, with56 sealed leaves and42 unchanged source/tool identities. Actual app export/pub/native builds have not run; a fresh source fence and separate stage admission remain necessary. The PostgreSQL integration remains an unpromoted private proposal pending supported-cohort and consumer proof.
+
+**Historical observation, superseded by the current checkpoint above.** Cloudflare was confirmed running, but both native window reads timed out and Chrome was unavailable through the browser connector. No deployment/configuration state was observed or changed; no outage/authentication failure is inferred. Hosted parity remains unverified.
+
+All40 original criteria and original102 production/24 local rows remain unchanged. Closed findings remain ARC-04, PD-02 and PD-14;37 full findings remain open. Production remains NO-GO; goal active.

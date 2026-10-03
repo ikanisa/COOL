@@ -1,0 +1,12 @@
+test_actual_shell_expansion_uses_synthetic_secret_without_copy_or_injection (__main__.DiagnosticTransportTest.test_actual_shell_expansion_uses_synthetic_secret_without_copy_or_injection) ... ok
+test_diagnostic_failure_is_retained_and_never_retried (__main__.DiagnosticTransportTest.test_diagnostic_failure_is_retained_and_never_retried) ... ok
+test_diagnostic_preflight_checks_actual_role_and_session_echo (__main__.DiagnosticTransportTest.test_diagnostic_preflight_checks_actual_role_and_session_echo) ... ok
+test_diagnostic_preflight_failure_stops_before_any_dataset_posting (__main__.DiagnosticTransportTest.test_diagnostic_preflight_failure_stops_before_any_dataset_posting) ... ok
+test_nested_buffer_plan_retains_actual_reported_duration (__main__.DiagnosticTransportTest.test_nested_buffer_plan_retains_actual_reported_duration) ... ok
+test_pinned_container_and_database_are_arguments_sql_is_stdin (__main__.DiagnosticTransportTest.test_pinned_container_and_database_are_arguments_sql_is_stdin) ... ok
+test_wrapper_only_plan_is_not_accepted_as_nested_plan (__main__.DiagnosticTransportTest.test_wrapper_only_plan_is_not_accepted_as_nested_plan) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.529s
+
+OK

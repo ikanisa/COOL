@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app/env/app_env.dart';
 import 'browser_auth_memory.dart';
+import 'collect_supabase_bootstrap.dart';
 import 'browser_auth_storage_stub.dart'
     if (dart.library.js_interop) 'browser_auth_storage_web.dart';
 
@@ -47,10 +48,12 @@ Future<SupabaseClient?> createSupabaseClientFromEnvironment({
     return null;
   }
   if (kIsWeb) await removeOwnedLegacyBrowserCredentials(env.supabaseUrl);
-  final supabase = await Supabase.initialize(
-    url: env.supabaseUrl,
-    publishableKey: env.supabaseAnonKey,
-    authOptions: collectAuthOptions(browser: kIsWeb),
+  return initializeCollectSupabase(
+    () => Supabase.initialize(
+      url: env.supabaseUrl,
+      publishableKey: env.supabaseAnonKey,
+      authOptions: collectAuthOptions(browser: kIsWeb),
+      debug: false,
+    ),
   );
-  return supabase.client;
 }

@@ -1,0 +1,13 @@
+{
+  "current_runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+  "observed_behavior": "Unified analytics returns NoOpAnalytics when process variable is true; legacy usage suppresses analytics and skips session setup. The minimal runner environment does not copy FLUTTER_ANALYTICS_LOG_FILE. No persisted Flutter configuration or SDK source changes.",
+  "preserved_resolution_runner_sha256": "8d217815cc37a68a54b6ff6e4044786f5b3e67c0cf19a56c683b3a8661f7e1b9",
+  "process_variable": "FLUTTER_SUPPRESS_ANALYTICS",
+  "public_source_hashes": {
+    "packages/flutter_tools/lib/src/reporting/unified_analytics.dart": "802f96a0a596124a30b6506ae07a5d04720cb1594428c4369038f7c515a3dc81",
+    "packages/flutter_tools/lib/src/reporting/usage.dart": "9edb7303ce7ee6991fbfe29bdff63149aed55172db83d034e482bb226f7b1c7f"
+  },
+  "used_from": "After attempt4 compile resolution, runtime resolution and sdk-runtime graph; future native compile/unit runner",
+  "value": "true",
+  "verified_installed_sdk": "3.44.4"
+}

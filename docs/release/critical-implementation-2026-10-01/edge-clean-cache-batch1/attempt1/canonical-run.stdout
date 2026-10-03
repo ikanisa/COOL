@@ -1,0 +1,1 @@
+{"status": "fail", "phases": {"runner_contract": {"status": "pass"}, "frozen_dependency_cache": {"status": "pass"}, "types": {"status": "pass"}, "units": {"status": "fail"}}, "error": "units command failed; inspect its evidence", "report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/final-source/.cache/canonical-acceptance/validation.json"}

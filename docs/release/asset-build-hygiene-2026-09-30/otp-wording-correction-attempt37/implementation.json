@@ -1,0 +1,14 @@
+{
+  "status": "implemented",
+  "captured_at": "2026-09-30T19:52:06.983223+00:00",
+  "task": "L17 financial/authentication wording correctness",
+  "source_sha256": {
+    "lib/shared/models/collect_models.dart": "7c2ec76e2485bafb7661c3d7f7b794372558c68169793140ffc1bd309dff19f7",
+    "lib/features/landing/public_marketing_page_content.dart": "06b465eea80b04e0d3c662a748cf12a69b1faf79a6dbf6a5e185e0b1689ee625",
+    "lib/features/landing/collect_landing_page.dart": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348"
+  },
+  "change": "Payment-provider PIN/OTP restrictions distinguish the actual WhatsApp sign-in code; existing logging privacy restrictions remain unchanged.",
+  "validation": "Exact3-file formatter reports0 changed; make revolut-design-authority passes. Existing landing layout regressions will run with final immutable export.",
+  "historical_capture_evidence_preserved": true,
+  "scope": "Narrow factual product copy correction; no new legal, provider or full visual acceptance claim"
+}

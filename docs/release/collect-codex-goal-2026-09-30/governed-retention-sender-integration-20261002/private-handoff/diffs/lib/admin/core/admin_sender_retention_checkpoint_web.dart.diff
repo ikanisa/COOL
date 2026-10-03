@@ -1,0 +1,13 @@
+--- predecessor/lib/admin/core/admin_sender_retention_checkpoint_web.dart
++++ final/lib/admin/core/admin_sender_retention_checkpoint_web.dart
+@@ -101,9 +101,7 @@
+     final resolved = web.window.localStorage.getItem(
+       '${_key(intent.actorId, intent.sessionId)}.resolved.${intent.requestId}',
+     );
+-    if (resolved != null &&
+-        AdminRetentionIntent.parse(jsonDecode(resolved)).fingerprint !=
+-            intent.fingerprint) {
++    if (resolved != null) {
+       retentionInvalid();
+     }
+     final old = _read(intent.actorId, intent.sessionId);

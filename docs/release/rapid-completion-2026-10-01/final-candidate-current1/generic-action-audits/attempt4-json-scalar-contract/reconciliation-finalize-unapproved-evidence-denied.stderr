@@ -1,0 +1,3 @@
+ERROR:  22023: reconciliation_approved_evidence_required
+CONTEXT:  PL/pgSQL function public.finalize_approved_reconciliation_v2(uuid) line 11 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,19 +1,6 @@
 /* September 2026 UK marketing cohort. Product copy and routes belong to Collect.
-   Source artwork/font provenance: assets/marketing/SOURCE.json. */
-@font-face {
-  font-family: "Aeonik Pro";
-  src: url("/assets/typefaces/AeonikPro-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Aeonik Pro";
-  src: url("/assets/typefaces/AeonikPro-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
+   Supplied Aeonik Pro faces: 400 body and observed 500 heading/control roles.
+   Asset provenance: assets/marketing/SOURCE.json. */
 :root {
   --type-marketing-family: "Aeonik Pro", "Inter", sans-serif;
   --type-product-family: "Inter", sans-serif;
@@ -41,9 +28,10 @@
   --web-gutter: 48px;
   --web-home-gutter: max(var(--web-gutter), calc((100vw - 1080px) / 2));
 }
-.revolut-public { font-family: var(--type-marketing-family); background: var(--web-canvas); color: var(--web-ink); }
+.revolut-public { font-synthesis: none; font-family: var(--type-marketing-family); background: var(--web-canvas); color: var(--web-ink); }
+.revolut-public .currency-value { font-family: var(--type-product-family); font-variant-numeric: lining-nums tabular-nums; }
 .revolut-public h1, .revolut-public h2, .revolut-public h3 { font-weight: var(--type-weight-medium); text-transform: none; }
-.revolut-public button, .revolut-public .button { font-family: var(--type-marketing-family); font-size: var(--type-web-control); font-weight: var(--type-weight-medium); line-height: 22px; border-radius: var(--web-pill); min-height: 44px; padding: 10px 24px; box-shadow: none; transition: background-color .3s cubic-bezier(.15,.5,.5,1), color .3s cubic-bezier(.15,.5,.5,1), opacity .3s cubic-bezier(.15,.5,.5,1), box-shadow .2s cubic-bezier(.4,.3,.8,.6), outline .2s cubic-bezier(.4,.3,.8,.6); }
+.revolut-public button, .revolut-public .button { font-family: var(--type-marketing-family); font-size: var(--type-web-control); font-weight: var(--type-weight-medium); line-height: var(--type-leading-22px); border-radius: var(--web-pill); min-height: 44px; padding: 10px 24px; box-shadow: none; transition: background-color .3s cubic-bezier(.15,.5,.5,1), color .3s cubic-bezier(.15,.5,.5,1), opacity .3s cubic-bezier(.15,.5,.5,1), box-shadow .2s cubic-bezier(.4,.3,.8,.6), outline .2s cubic-bezier(.4,.3,.8,.6); }
 .revolut-public .button.primary, .revolut-public .button.secondary, .revolut-public .button.cta-app { color: var(--web-canvas); background: var(--web-action); border-color: var(--web-action); box-shadow: none; }
 .revolut-public .button.ghost { background: transparent; box-shadow: none; }
 .revolut-public :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
@@ -51,6 +39,9 @@
    Keep Collect's 44px minimum target; the observed source control is 42px. */
 .revolut-public :is(button, .button):not(:disabled):not([aria-disabled="true"]):hover { opacity: .85; }
 .revolut-public :is(button, .button):focus-visible { opacity: 1; outline: 2px solid var(--web-focus-outer); outline-offset: 2px; box-shadow: inset 0 0 0 2px var(--web-focus-inner), inset 0 0 0 3.6px var(--web-canvas); }
+.revolut-public :is(button, .button):disabled,
+.revolut-public .hero .button[aria-disabled="true"],
+.revolut-public.route-share-link .hero .button[aria-disabled="true"] { background: var(--web-card-border); color: var(--web-secondary); border-color: var(--web-card-border); cursor: default; opacity: 1; }
 .revolut-public .site-header { padding: 16px var(--web-gutter); min-height: 80px; background: var(--web-canvas); color: var(--web-ink); border: 0; backdrop-filter: none; }
 .revolut-public .brand small { color: var(--web-secondary); font-weight: var(--type-weight-regular); }
 .revolut-public .brand strong { font-weight: var(--type-weight-medium); }
@@ -88,8 +79,8 @@
 .revolut-public main > section:not(.hero):nth-of-type(even) { --web-card-surface: var(--web-canvas); background: var(--web-widget); }
 .revolut-public main > section:not(.hero) h2 { font-size: var(--type-web-heading); line-height: var(--type-leading-1-05); letter-spacing: var(--type-web-tracking); font-weight: var(--type-weight-medium); color: var(--web-ink); }
 .revolut-public main > section:not(.hero) p, .revolut-public main > section:not(.hero) .section-kicker { color: var(--web-secondary); }
-.revolut-public main > section:not(.hero) .section-card h2 { font-size: 28px; line-height: 1.15; letter-spacing: 0; }
-.revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: 32px; line-height: 1.2; letter-spacing: 0; }
+.revolut-public main > section:not(.hero) .section-card h2 { font-size: var(--type-size-28px); line-height: var(--type-leading-1-15); letter-spacing: var(--type-tracking-0); }
+.revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: var(--type-size-32px); line-height: var(--type-leading-1-2); letter-spacing: var(--type-tracking-0); }
 /* Product copy adapts the selected marketing hierarchy at the available width. */
 @media (min-width: 981px) {
   .revolut-public :is(.original-story, .group-workflow-section, .group-feature-section, .group-use-section, .insurance-work-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-market-section, .partner-operating-section) > .story-copy {
@@ -99,7 +90,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .revolut-public .partner-market-section {
-    grid-template-columns: minmax(200px, .25fr) minmax(0, 1fr);
+    /* Keep complete provider-plan heading words inside their editorial column. */
+    grid-template-columns: minmax(320px, .5fr) minmax(0, 1fr);
     gap: clamp(24px, 3vw, 48px);
   }
   .revolut-public :is(.original-story[aria-labelledby="ibimina-heading"], .original-story[aria-labelledby="rwanda-community-heading"], .group-workflow-section, .group-feature-section, .group-use-section, .craas-specialist-section) {
@@ -116,19 +108,19 @@
   .revolut-public .partner-operating-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .revolut-public .section-card, .revolut-public .infographic-step, .revolut-public .supported-group-card { border-radius: var(--web-panel); box-shadow: none; }
-.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) {
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) {
   gap: 24px; background: transparent; border: 0;
 }
-.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) > :is(article, .section-card, .infographic-step) {
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) > :is(article, .section-card, .infographic-step) {
   background: var(--web-card-surface); color: var(--web-ink); border: 1px solid var(--web-card-border); border-radius: var(--web-panel); padding: var(--web-card-padding); box-shadow: none; min-height: 0; min-width: 0; overflow-wrap: anywhere;
 }
 .revolut-public :is(.problem-list.compact, .use-case-grid) > article {
   font-size: var(--type-web-body); font-weight: var(--type-weight-medium); line-height: var(--type-leading-1-4);
 }
-.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(strong, h3) {
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(strong, h3) {
   color: var(--web-ink); font-weight: var(--type-weight-medium); line-height: var(--type-leading-1-2); font-size: var(--type-size-24px);
 }
-.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(p, span, li) {
+.revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(p, span, li) {
   color: var(--web-secondary); font-weight: var(--type-weight-regular); font-size: var(--type-web-body); line-height: var(--type-leading-1-4);
 }
 .revolut-public .market-grid article { background: var(--web-card-surface); border: 1px solid var(--web-card-border); border-radius: var(--web-panel); }
@@ -175,6 +167,7 @@
   .revolut-public .menu-button { display: inline-flex; margin-left: auto; }
   .revolut-public .header-actions { display: none; }
   .revolut-public .site-nav { display: none; position: fixed; inset: 80px 0 0; padding: 24px var(--web-gutter); background: var(--web-canvas); color: var(--web-ink); border: 0; box-shadow: none; overflow-y: auto; }
+  .revolut-public .site-nav.open { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
   .revolut-public .site-nav.open { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; justify-content: flex-start; }
   .revolut-public .site-nav .nav-link { border-radius: 0; font-size: var(--type-size-24px); padding: 18px 0; border-bottom: 1px solid var(--web-widget); white-space: normal; }
   .mobile-menu-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 32px; }
@@ -198,13 +191,13 @@
   .revolut-public .hero-device { min-height: 0; }
   .revolut-public .legal-layout { grid-template-columns: minmax(0, 1fr); }
   .revolut-public :is(.legal-content, .legal-meta, .legal-priority, .legal-card-grid, .legal-card) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
-  .revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: 24px; }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: var(--web-card-padding); min-height: 0; min-width: 0; border-radius: 20px; }
+  .revolut-public main > section.legal-content :is(.legal-section, .legal-priority) h2 { font-size: var(--type-size-24px); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .craas-benefit-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .problem-list.compact, .use-case-grid, .craas-service-grid, .craas-benefit-grid, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) > :is(article, .section-card, .infographic-step) { grid-column: auto; grid-row: auto; padding: var(--web-card-padding); min-height: 0; min-width: 0; border-radius: 20px; }
   .revolut-public :is(.problem-list.compact, .use-case-grid) { --web-card-padding: 16px 20px; }
   .revolut-public :is(.problem-list.compact, .use-case-grid) > article { font-size: var(--type-web-control); }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(strong, h2, h3) { font-size: var(--type-size-20px); line-height: var(--type-leading-1-2); }
-  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(p, span, li) { font-size: var(--type-web-control); line-height: var(--type-leading-1-4); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .craas-benefit-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(strong, h2, h3) { font-size: var(--type-size-20px); line-height: var(--type-leading-1-2); }
+  .revolut-public :is(.story-grid, .journey-rail, .content-grid, .infographic-grid, .craas-service-grid, .craas-benefit-grid, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid, .supported-groups-grid) :is(p, span, li) { font-size: var(--type-web-control); line-height: var(--type-leading-1-4); }
   .revolut-public main > section:not(.hero) { padding: 64px var(--web-gutter); }
   .revolut-public .site-footer { padding: 48px var(--web-gutter); }
 }

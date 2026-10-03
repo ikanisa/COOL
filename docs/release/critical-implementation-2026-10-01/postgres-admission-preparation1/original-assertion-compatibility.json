@@ -1,0 +1,32 @@
+[
+  {
+    "file": "supabase_delivery_contract_test.py",
+    "original_count": 34,
+    "proposed_count": 43,
+    "removed_tests": [],
+    "unchanged_original_method_bodies": 34,
+    "changed_original_methods": [],
+    "added_tests": [
+      "test_database_approval_without_postgres_binding_refuses_before_requests",
+      "test_incompatible_server_is_observed_by_read_only_query_before_any_write",
+      "test_main_binary_drift_after_dry_run_stops_first_write",
+      "test_postgres_client_byte_drift_refuses_before_requests",
+      "test_postgres_client_drift_after_dry_run_stops_first_write",
+      "test_postgres_manifest_drift_after_dry_run_stops_first_write",
+      "test_server_drift_after_dry_run_stops_first_write",
+      "test_server_read_precedes_every_release_mutation_and_management_migration",
+      "test_wrong_postgres_manifest_hash_and_override_refuse_before_requests"
+    ]
+  },
+  {
+    "file": "supabase_secret_transport_test.py",
+    "original_count": 5,
+    "proposed_count": 5,
+    "removed_tests": [],
+    "unchanged_original_method_bodies": 4,
+    "changed_original_methods": [
+      "test_direct_database_url_is_only_in_owner_only_service_file"
+    ],
+    "added_tests": []
+  }
+]

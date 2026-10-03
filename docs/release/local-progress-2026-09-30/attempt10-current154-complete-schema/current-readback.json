@@ -1,0 +1,37 @@
+{
+  "captured_at_utc": "2026-09-30T22:06:54.574477+00:00",
+  "guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "head": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "hosted_state_refreshed": false,
+  "latest_installed_version": "20260930230000",
+  "migration_count": 154,
+  "provider_called": false,
+  "source_frozen": false,
+  "source_inventory_sha256": "59e2c0984d459ce49cb880b3384b98ef1ab851ca84d0bc629d29f36458029848",
+  "source_migration_count": 163,
+  "staged_source_versions": [
+    "20260930211605",
+    "20260930213000",
+    "20260930220527",
+    "20260930230100",
+    "20260930230200",
+    "20260930230300",
+    "20260930230400",
+    "20260930233000",
+    "20260930234000"
+  ],
+  "table_catalog_cron_sha256": "502a7e27e5fc9319120c9bcb46d004af7b641f58c8dd41d31f6d8b5814ef2d53",
+  "table_count": 153,
+  "working_tree_status_entries": 430
+}

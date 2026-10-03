@@ -1,0 +1,574 @@
+{
+  "format": "collect-be08-maintained-three-computed-body-readback-v1",
+  "method": "actual maintained generator outputs compared to reviewed independent literal extraction and both captured catalogs",
+  "reviewed_independent_proof_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/reviewed-final/three-real-computed-body-proofs.json",
+  "reviewed_independent_proof_sha256": "e9d2f88a650d611a495dc5504a55ddf708c1bd83e9b70fb4d7e0dbaeaac14f7a",
+  "computed_candidates": [
+    {
+      "anonymous_block": {
+        "end_character_offset": 16061,
+        "line": 125,
+        "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+        "sha256": "0f7dbf01cad346793729446f21b2846095fb0aac671f1049aa685a998140aeec",
+        "start_character_offset": 13813,
+        "version": "20261002080000"
+      },
+      "candidate_format": "collect-function-transformation-candidate-v1",
+      "catalog_identity": "collect_ops.capture_receipt_backlog_budget_refusal()",
+      "dynamic_SQL_evaluation_performed": false,
+      "expected_body_computed": true,
+      "expected_body_hash_match": true,
+      "identity_binding": "literal-regprocedure-signature",
+      "limitations": [
+        "anonymous effects and installed predecessor state unproved",
+        "raw literal prosrc candidate computed; pg_get_functiondef DDL replacement scope unproved",
+        "predecessor installed state and effective history unproved"
+      ],
+      "lineage_complete": false,
+      "literal_replacement_computation": {
+        "catalog_prosrc_hash_match": true,
+        "computation_format": "collect-literal-prosrc-replacement-candidate-v1",
+        "computed": true,
+        "computed_prosrc_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+        "computed_prosrc_utf8_bytes": 490,
+        "dynamic_SQL_evaluation_performed": false,
+        "evaluation_scope": "raw-literal-prosrc-body-candidate",
+        "guard_source": {
+          "end_character_offset": 16007,
+          "line": 149,
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "sha256": "3febda5244a7eebf7a0da109fdc2e6451d8e74129d516bc97b6d7b534913b960",
+          "start_character_offset": 15858,
+          "version": "20261002080000"
+        },
+        "installed_predecessor_state_verified": false,
+        "lineage_complete": false,
+        "needle_literal": {
+          "source_span": {
+            "end_character_offset": 15234,
+            "line": 125,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "98a74095a34efcba1859bdb65b7a87a8dca4b9bc67858f3805cbb5c85be74fbc",
+            "start_character_offset": 13854,
+            "version": "20261002080000"
+          },
+          "value_sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+          "value_utf8_bytes": 1370
+        },
+        "needle_occurrences": 1,
+        "pg_get_functiondef_ddl_evaluated": false,
+        "predecessor_assignment_source": {
+          "end_character_offset": 15855,
+          "line": 148,
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "sha256": "f71130b517c2adc4194d898c98a1dc112400d153f135614186242f0c5bb49e82",
+          "start_character_offset": 15761,
+          "version": "20261002080000"
+        },
+        "predecessor_literal_body": {
+          "declaration_sha256": "a9e60ff29afd6dd39921f83f428cc3112392ba827b1a668d324a6e5a8c92943b",
+          "end_character_offset": 14829,
+          "line": 154,
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+          "source_migration_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "start_character_offset": 13459,
+          "utf8_bytes": 1370,
+          "version": "20261001140000"
+        },
+        "reason": "exact-dollarquoted-literal-body-candidate",
+        "replacement_literal": {
+          "source_span": {
+            "end_character_offset": 15753,
+            "line": 140,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "69c6d81cb57db9c61c78f05486b93c773416613c55e0d128681a774b324bbb88",
+            "start_character_offset": 15253,
+            "version": "20261002080000"
+          },
+          "value_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+          "value_utf8_bytes": 490
+        },
+        "resolved": false
+      },
+      "nearest_textual_replacement_assignments": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 15234,
+            "line": 125,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "98a74095a34efcba1859bdb65b7a87a8dca4b9bc67858f3805cbb5c85be74fbc",
+            "start_character_offset": 13854,
+            "version": "20261002080000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 15753,
+            "line": 140,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "69c6d81cb57db9c61c78f05486b93c773416613c55e0d128681a774b324bbb88",
+            "start_character_offset": 15253,
+            "version": "20261002080000"
+          }
+        }
+      ],
+      "operation": "function-definition-replace",
+      "operation_source": {
+        "end_character_offset": 16050,
+        "line": 150,
+        "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+        "sha256": "0be815b466d8d2aabcad5f36e23cc764507c285de43b6caac3fac7e9734fb97e",
+        "start_character_offset": 16009,
+        "version": "20261002080000"
+      },
+      "predecessor": {
+        "literal_regprocedure": "collect_ops.capture_receipt_backlog_budget_refusal()",
+        "name": "capture_receipt_backlog_budget_refusal",
+        "schema": "collect_ops",
+        "signature_types": []
+      },
+      "predecessor_candidates_are_installed_state": false,
+      "predecessor_source_definition_candidates": [
+        {
+          "declaration_sha256": "a9e60ff29afd6dd39921f83f428cc3112392ba827b1a668d324a6e5a8c92943b",
+          "line": 153,
+          "name": "capture_receipt_backlog_budget_refusal",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [],
+          "version": "20261001140000"
+        }
+      ],
+      "replace_argument_expressions": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 16029,
+            "line": 150,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "230d8358dc8e8890b4c58deeb62912ee2f20357ae92a5cc861b98e68fe31acb5",
+            "start_character_offset": 16025,
+            "version": "20261002080000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 16036,
+            "line": 150,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "09881f6ed93360a2f6ad81f435a8ca51ca4575d0f954f197ff8f7d16c6565562",
+            "start_character_offset": 16030,
+            "version": "20261002080000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 16048,
+            "line": 150,
+            "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+            "sha256": "95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47",
+            "start_character_offset": 16037,
+            "version": "20261002080000"
+          }
+        }
+      ],
+      "required_final_prosrc_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+      "resolved": false,
+      "source_migration_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "target": {
+        "literal_regprocedure": "collect_ops.capture_receipt_backlog_budget_refusal()",
+        "name": "capture_receipt_backlog_budget_refusal",
+        "schema": "collect_ops",
+        "signature_types": []
+      }
+    },
+    {
+      "anonymous_block": {
+        "end_character_offset": 7995,
+        "line": 48,
+        "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "sha256": "26aa7f5cc0447b912269d391a989ae6d87dfb92eaccbae8c8f1e91a460d55827",
+        "start_character_offset": 3606,
+        "version": "20261001210000"
+      },
+      "candidate_format": "collect-function-transformation-candidate-v1",
+      "catalog_identity": "collect_ops.queue_receipt_exception_source()",
+      "dynamic_SQL_evaluation_performed": false,
+      "expected_body_computed": true,
+      "expected_body_hash_match": true,
+      "identity_binding": "literal-regprocedure-signature",
+      "limitations": [
+        "anonymous effects and installed predecessor state unproved",
+        "raw literal prosrc candidate computed; pg_get_functiondef DDL replacement scope unproved",
+        "predecessor installed state and effective history unproved"
+      ],
+      "lineage_complete": false,
+      "literal_replacement_computation": {
+        "catalog_prosrc_hash_match": true,
+        "computation_format": "collect-literal-prosrc-replacement-candidate-v1",
+        "computed": true,
+        "computed_prosrc_sha256": "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+        "computed_prosrc_utf8_bytes": 802,
+        "dynamic_SQL_evaluation_performed": false,
+        "evaluation_scope": "raw-literal-prosrc-body-candidate",
+        "guard_source": {
+          "end_character_offset": 4551,
+          "line": 59,
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "sha256": "5eb265088b4193dd0eac82888e251e8f25611ff6ab7d00ed6930c696df16c1e8",
+          "start_character_offset": 4425,
+          "version": "20261001210000"
+        },
+        "installed_predecessor_state_verified": false,
+        "lineage_complete": false,
+        "needle_literal": {
+          "source_span": {
+            "end_character_offset": 3903,
+            "line": 50,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "488acff2fa3ae95127ca248e591fa0bf7ad62cf7f208db959f0a16a752feed44",
+            "start_character_offset": 3762,
+            "version": "20261001210000"
+          },
+          "value_sha256": "1151c6b6b3247f2b6cca6fc81c73590e9d21cebf55ebb8bc4818da2b8fa23b25",
+          "value_utf8_bytes": 127
+        },
+        "needle_occurrences": 1,
+        "pg_get_functiondef_ddl_evaluated": false,
+        "predecessor_assignment_source": {
+          "end_character_offset": 3751,
+          "line": 49,
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "sha256": "d615d480a79885f8116b83ca6163f9c69a31d8b85dc7bcb93342555bdb92cb24",
+          "start_character_offset": 3665,
+          "version": "20261001210000"
+        },
+        "predecessor_literal_body": {
+          "declaration_sha256": "e2f4baa9f5faf4a07ec332d5130247b5a2a3447bf0e38a9dfd14d8e9be7dcd84",
+          "end_character_offset": 6602,
+          "line": 60,
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "sha256": "8a1283f5172d8ce673aba5226244eb051789f050f07cad9b037039472cffec86",
+          "source_migration_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "start_character_offset": 6162,
+          "utf8_bytes": 440,
+          "version": "20261001140000"
+        },
+        "reason": "exact-dollarquoted-literal-body-candidate",
+        "replacement_literal": {
+          "source_span": {
+            "end_character_offset": 4422,
+            "line": 52,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "aa6a80e815edfa7c7ea859c706fa15ec765f26a8fc25e1ee746f84e07ccc9f03",
+            "start_character_offset": 3919,
+            "version": "20261001210000"
+          },
+          "value_sha256": "21fb89db47e2522dc81dc5d7e50700058ac591ec5ee85cf338ecdae284aef0eb",
+          "value_utf8_bytes": 489
+        },
+        "resolved": false
+      },
+      "nearest_textual_replacement_assignments": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 3903,
+            "line": 50,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "488acff2fa3ae95127ca248e591fa0bf7ad62cf7f208db959f0a16a752feed44",
+            "start_character_offset": 3762,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 4422,
+            "line": 52,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "aa6a80e815edfa7c7ea859c706fa15ec765f26a8fc25e1ee746f84e07ccc9f03",
+            "start_character_offset": 3919,
+            "version": "20261001210000"
+          }
+        }
+      ],
+      "operation": "function-definition-replace",
+      "operation_source": {
+        "end_character_offset": 4594,
+        "line": 60,
+        "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "sha256": "0be815b466d8d2aabcad5f36e23cc764507c285de43b6caac3fac7e9734fb97e",
+        "start_character_offset": 4553,
+        "version": "20261001210000"
+      },
+      "predecessor": {
+        "literal_regprocedure": "collect_ops.queue_receipt_exception_source()",
+        "name": "queue_receipt_exception_source",
+        "schema": "collect_ops",
+        "signature_types": []
+      },
+      "predecessor_candidates_are_installed_state": false,
+      "predecessor_source_definition_candidates": [
+        {
+          "declaration_sha256": "e2f4baa9f5faf4a07ec332d5130247b5a2a3447bf0e38a9dfd14d8e9be7dcd84",
+          "line": 59,
+          "name": "queue_receipt_exception_source",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "8a1283f5172d8ce673aba5226244eb051789f050f07cad9b037039472cffec86",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [],
+          "version": "20261001140000"
+        }
+      ],
+      "replace_argument_expressions": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 4573,
+            "line": 60,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "230d8358dc8e8890b4c58deeb62912ee2f20357ae92a5cc861b98e68fe31acb5",
+            "start_character_offset": 4569,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 4580,
+            "line": 60,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "09881f6ed93360a2f6ad81f435a8ca51ca4575d0f954f197ff8f7d16c6565562",
+            "start_character_offset": 4574,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 4592,
+            "line": 60,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47",
+            "start_character_offset": 4581,
+            "version": "20261001210000"
+          }
+        }
+      ],
+      "required_final_prosrc_sha256": "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+      "resolved": false,
+      "source_migration_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "target": {
+        "literal_regprocedure": "collect_ops.queue_receipt_exception_source()",
+        "name": "queue_receipt_exception_source",
+        "schema": "collect_ops",
+        "signature_types": []
+      }
+    },
+    {
+      "anonymous_block": {
+        "end_character_offset": 7995,
+        "line": 48,
+        "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "sha256": "26aa7f5cc0447b912269d391a989ae6d87dfb92eaccbae8c8f1e91a460d55827",
+        "start_character_offset": 3606,
+        "version": "20261001210000"
+      },
+      "candidate_format": "collect-function-transformation-candidate-v1",
+      "catalog_identity": "collect_ops.receipt_exception_quota_available(p_kind text, p_source uuid)",
+      "dynamic_SQL_evaluation_performed": false,
+      "expected_body_computed": true,
+      "expected_body_hash_match": true,
+      "identity_binding": "literal-regprocedure-signature",
+      "limitations": [
+        "anonymous effects and installed predecessor state unproved",
+        "raw literal prosrc candidate computed; pg_get_functiondef DDL replacement scope unproved",
+        "predecessor installed state and effective history unproved"
+      ],
+      "lineage_complete": false,
+      "literal_replacement_computation": {
+        "catalog_prosrc_hash_match": true,
+        "computation_format": "collect-literal-prosrc-replacement-candidate-v1",
+        "computed": true,
+        "computed_prosrc_sha256": "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+        "computed_prosrc_utf8_bytes": 1002,
+        "dynamic_SQL_evaluation_performed": false,
+        "evaluation_scope": "raw-literal-prosrc-body-candidate",
+        "guard_source": {
+          "end_character_offset": 7945,
+          "line": 92,
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "sha256": "dfb89be22cd4d88a1dd35896bb7e27c5f3fdef843e7bdbf822f2d3b522ca713f",
+          "start_character_offset": 7822,
+          "version": "20261001210000"
+        },
+        "installed_predecessor_state_verified": false,
+        "lineage_complete": false,
+        "needle_literal": {
+          "source_span": {
+            "end_character_offset": 7337,
+            "line": 86,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "e5a841854c98ca374e429205344fc2155aa74aa038dab7dcc853768c91a1f674",
+            "start_character_offset": 6973,
+            "version": "20261001210000"
+          },
+          "value_sha256": "5b9c65e0f8ea0efcd665f827df42a555cf1e05ef57359c449253b0b5cb7476d9",
+          "value_utf8_bytes": 350
+        },
+        "needle_occurrences": 1,
+        "pg_get_functiondef_ddl_evaluated": false,
+        "predecessor_assignment_source": {
+          "end_character_offset": 6962,
+          "line": 85,
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "sha256": "c81f18d590de4f064ef8803241fd365892b23b4816278330665c217969f0653b",
+          "start_character_offset": 6864,
+          "version": "20261001210000"
+        },
+        "predecessor_literal_body": {
+          "declaration_sha256": "0ceaea020c46ed8d04cab898e99ff1780a259542a6a6aed305e53c8c4822c8b0",
+          "end_character_offset": 13079,
+          "line": 139,
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "sha256": "72cdef85c2611a4e36107306dfe58a1740c3987aeb61e04a94469262bf738746",
+          "source_migration_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "start_character_offset": 12179,
+          "utf8_bytes": 900,
+          "version": "20261001140000"
+        },
+        "reason": "exact-dollarquoted-literal-body-candidate",
+        "replacement_literal": {
+          "source_span": {
+            "end_character_offset": 7819,
+            "line": 89,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "d69c32f2d6c39e2b2df8e72a0027d03960cdacf9a691ca028b592152736ac300",
+            "start_character_offset": 7353,
+            "version": "20261001210000"
+          },
+          "value_sha256": "371aabc23ad905038d93ec41f5961a7c5739911a9953c50a002df18e0a096775",
+          "value_utf8_bytes": 452
+        },
+        "resolved": false
+      },
+      "nearest_textual_replacement_assignments": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 7337,
+            "line": 86,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "e5a841854c98ca374e429205344fc2155aa74aa038dab7dcc853768c91a1f674",
+            "start_character_offset": 6973,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 7819,
+            "line": 89,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "d69c32f2d6c39e2b2df8e72a0027d03960cdacf9a691ca028b592152736ac300",
+            "start_character_offset": 7353,
+            "version": "20261001210000"
+          }
+        }
+      ],
+      "operation": "function-definition-replace",
+      "operation_source": {
+        "end_character_offset": 7988,
+        "line": 93,
+        "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "sha256": "0be815b466d8d2aabcad5f36e23cc764507c285de43b6caac3fac7e9734fb97e",
+        "start_character_offset": 7947,
+        "version": "20261001210000"
+      },
+      "predecessor": {
+        "literal_regprocedure": "collect_ops.receipt_exception_quota_available(text,uuid)",
+        "name": "receipt_exception_quota_available",
+        "schema": "collect_ops",
+        "signature_types": [
+          "text",
+          "uuid"
+        ]
+      },
+      "predecessor_candidates_are_installed_state": false,
+      "predecessor_source_definition_candidates": [
+        {
+          "declaration_sha256": "0ceaea020c46ed8d04cab898e99ff1780a259542a6a6aed305e53c8c4822c8b0",
+          "line": 138,
+          "name": "receipt_exception_quota_available",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "72cdef85c2611a4e36107306dfe58a1740c3987aeb61e04a94469262bf738746",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [
+            "text",
+            "uuid"
+          ],
+          "version": "20261001140000"
+        }
+      ],
+      "replace_argument_expressions": [
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 7967,
+            "line": 93,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "230d8358dc8e8890b4c58deeb62912ee2f20357ae92a5cc861b98e68fe31acb5",
+            "start_character_offset": 7963,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 7974,
+            "line": 93,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "09881f6ed93360a2f6ad81f435a8ca51ca4575d0f954f197ff8f7d16c6565562",
+            "start_character_offset": 7968,
+            "version": "20261001210000"
+          }
+        },
+        {
+          "evaluation_performed": false,
+          "source_span": {
+            "end_character_offset": 7986,
+            "line": 93,
+            "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+            "sha256": "95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47",
+            "start_character_offset": 7975,
+            "version": "20261001210000"
+          }
+        }
+      ],
+      "required_final_prosrc_sha256": "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+      "resolved": false,
+      "source_migration_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "target": {
+        "literal_regprocedure": "collect_ops.receipt_exception_quota_available(text,uuid)",
+        "name": "receipt_exception_quota_available",
+        "schema": "collect_ops",
+        "signature_types": [
+          "text",
+          "uuid"
+        ]
+      }
+    }
+  ],
+  "raw_prosrc_hashes_match_reviewed_expected": true,
+  "overall_unresolved_count": 127
+}

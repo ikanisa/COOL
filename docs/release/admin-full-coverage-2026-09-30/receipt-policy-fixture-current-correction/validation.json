@@ -1,0 +1,11 @@
+{
+  "scope": "Fixture identity wire contract, absent-scope safe exception equivalence, and real SDK widget event-loop settlement. No runtime semantics changed here.",
+  "before": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "dcadab696c977124fcd53b32f44add3cb6f2282b0f4f12ad97da38b0e0c5022c",
+    "test/admin_operating_policy_runtime_test.dart": "fb77d57ff3e1c60c494f5e2d825f6a2a8bff76544e48283f71fa8c21cdd65956"
+  },
+  "after": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "529cdf41ffc268061cd715921bb0dfb825807074c1f6c13c5acc4b93ff183a8b",
+    "test/admin_operating_policy_runtime_test.dart": "2c98b969263333a19666ce6be06a2a3aee325a63017e3c4af8086944ab160216"
+  }
+}

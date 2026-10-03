@@ -1,0 +1,5 @@
+{
+  "android/app/build.gradle.kts": "671a96822366595aebbc61f1f2d38b50b0c0bdcf60d3e5d6525e9663ceff4b69",
+  "android/gradle/CollectPluginRegistrant.java": "bee00b8b251d1355bb7d9694e5adc1d67733df738baa21ffcf134d030758a248",
+  "scripts/qa/gateway_notification_dependencies.init.gradle": "8bedbf973be13ae41b848d8560cc5533a353516c33a02bb4c2c9977514e24f35"
+}

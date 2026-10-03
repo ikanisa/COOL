@@ -1,0 +1,130 @@
+{
+  "files": [
+    {
+      "bytes": 1109,
+      "path": "actual-control/SDK-readback-after-startup.json",
+      "sha256": "f6b0687f17a7ac12464469474ec9ca4e4c130b128164cde8888bd7ec6f94394c"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/SDK-readback-after-startup.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 758,
+      "path": "actual-control/SDK-readback-after-startup.stdout",
+      "sha256": "1c7d4f2ff32c607c1d1400b2af280eb2db07dc2d42e14387445697b5afcf1872"
+    },
+    {
+      "bytes": 1110,
+      "path": "actual-control/SDK-readback-before-startup.json",
+      "sha256": "e4c82d459b555067ac1f29111bfd73b4cb42ef1a553ff17651b413e50dbf448a"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/SDK-readback-before-startup.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 758,
+      "path": "actual-control/SDK-readback-before-startup.stdout",
+      "sha256": "1c7d4f2ff32c607c1d1400b2af280eb2db07dc2d42e14387445697b5afcf1872"
+    },
+    {
+      "bytes": 6797044,
+      "path": "actual-control/SDK-source-after-startup.json",
+      "sha256": "8f175bd1c0d024c99ee543eb3b667ca420517119a142f965fa49bbcc8392c2f9"
+    },
+    {
+      "bytes": 6797044,
+      "path": "actual-control/SDK-source-before-startup.json",
+      "sha256": "8f175bd1c0d024c99ee543eb3b667ca420517119a142f965fa49bbcc8392c2f9"
+    },
+    {
+      "bytes": 1191,
+      "path": "actual-control/actual-command.json",
+      "sha256": "21ef3e8c39f28efb37138dcb4b41acd7ab95a31db10543f259044f8218a8a9ce"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/actual-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1847,
+      "path": "actual-control/actual-command.stdout",
+      "sha256": "930190a2af72826c812f67a6ef11051f46966e160e9d7133e246bdfe6a8f0480"
+    },
+    {
+      "bytes": 758091,
+      "path": "actual-control/exact-app-export-readback.json",
+      "sha256": "5fc6f6dd93d2c2c37f2a89b5a4aaaf65acda01d2b2219e94fc2245b145d1caa2"
+    },
+    {
+      "bytes": 1226,
+      "path": "actual-control/export-source-binding.json",
+      "sha256": "1e56eefbea54fb5c479c15fcd7db605de0f7e7414adda4fd184d462f2639ce6d"
+    },
+    {
+      "bytes": 1767,
+      "path": "actual-control/source-export.json",
+      "sha256": "a022faf0d28f4d2c85fbf4bcebf3e393766dd41ddb779f9f7078f054bbd48f17"
+    },
+    {
+      "bytes": 902545,
+      "path": "actual-control/source-fence-after-capture.json",
+      "sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd"
+    },
+    {
+      "bytes": 1430,
+      "path": "actual-control/source-fence-after.json",
+      "sha256": "fd85f22c46aa1ec33511035025d92404377c737390321a8fb7613064e40a27e4"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/source-fence-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "actual-control/source-fence-after.stdout",
+      "sha256": "bc9eae3b7bb4483ffba9dc7034214dab4339d0a783240a43bf895cd6afff519d"
+    },
+    {
+      "bytes": 902545,
+      "path": "actual-control/source-fence-before-capture.json",
+      "sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd"
+    },
+    {
+      "bytes": 1431,
+      "path": "actual-control/source-fence-before.json",
+      "sha256": "6e5562b3ab3cff4ec4611481df9987a58ab2a332d36f1c2ce1f14005b6e26470"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/source-fence-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "actual-control/source-fence-before.stdout",
+      "sha256": "bc9eae3b7bb4483ffba9dc7034214dab4339d0a783240a43bf895cd6afff519d"
+    },
+    {
+      "bytes": 1547,
+      "path": "actual-control/start.json",
+      "sha256": "efd2de8933e4ed3c5a9cbe38a1fad92c99e2cdba49b0da7d08b608e275b8d206"
+    },
+    {
+      "bytes": 514,
+      "path": "actual-control/terminal.json",
+      "sha256": "0972133ee11e44e831e1cbd229fae8680524b7fc056944b08c031c4f19f2a960"
+    },
+    {
+      "bytes": 811209,
+      "path": "readback.json",
+      "sha256": "f8650033abdda6dd16b2e3239b256c318ee816c990cb07807e6eaca8d24e8507"
+    }
+  ],
+  "status": "sealed"
+}

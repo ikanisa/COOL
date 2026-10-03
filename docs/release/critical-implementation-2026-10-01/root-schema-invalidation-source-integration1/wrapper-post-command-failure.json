@@ -1,0 +1,5 @@
+{
+  "followup_reader": true,
+  "reason": "Root wrapper expected49 summary in stdout although maintained unittest writes its result to stderr. All four child commands had already passed. No child reexecution or evidence reclassification.",
+  "status": "failed"
+}

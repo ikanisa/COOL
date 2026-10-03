@@ -36,6 +36,33 @@ class ObservedGradleSbomTest(unittest.TestCase):
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):
                 module.build(graphs, {})
 
+    def test_exact_gateway_pair_keeps_flavor_and_lock_scope_explicit(self):
+        graphs = self.graphs()
+        for graph in graphs:
+            graph['configuration'] = graph['configuration'].replace('production', 'internal_gateway')
+        bom, inventory = module.build(graphs, {}, 'internal_gateway')
+        self.assertEqual('observed_android_gateway_graph_inventory', inventory['kind'])
+        self.assertEqual('internal_gateway', inventory['flavor'])
+        self.assertIn('does not establish', inventory['scope'])
+        self.assertIn({'name': 'collect:android-flavor', 'value': 'internal_gateway'}, bom['metadata']['properties'])
+        with self.assertRaises(ValueError):
+            module.build(graphs, {})
+
+    def test_mixed_duplicate_extra_and_unknown_flavor_graphs_are_refused(self):
+        for mutation in ['mixed', 'duplicate', 'extra', 'unknown_flavor']:
+            graphs = copy.deepcopy(self.graphs())
+            flavor = 'production'
+            if mutation == 'mixed':
+                graphs[0]['configuration'] = 'internal_gatewayReleaseRuntimeClasspath'
+            if mutation == 'duplicate':
+                graphs[1]['configuration'] = graphs[0]['configuration']
+            if mutation == 'extra':
+                graphs.append(copy.deepcopy(graphs[0]))
+            if mutation == 'unknown_flavor':
+                flavor = 'dev'
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                module.build(graphs, {}, flavor)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,16 @@
+{
+  "scope": "rw_receipt_successors",
+  "action": "revoke_successor",
+  "outbox_id": "f1b634a3-8f01-472a-a238-c85ddc1f03b6",
+  "request_id": "6fd80a1b-e739-4449-9b28-55fde93de100",
+  "approval_id": "77038076-b214-47b7-bfbb-e7a2f48a99ac",
+  "recorded_at": "2026-10-01T22:43:07.033772Z",
+  "send_action": false,
+  "carrier_proof": false,
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "lineage_revision": 4,
+  "primary_receipt_retained": true,
+  "expected_lineage_revision": 3
+}

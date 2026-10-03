@@ -1,0 +1,69 @@
+{
+  "passed": false,
+  "exit_code": 1,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "600",
+    "--test-concurrency",
+    "1",
+    "--test-file",
+    "test/admin_gateway_action_ui_sdk_test.dart"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "transport_dependencies_unchanged": true,
+  "transport_dependencies_sha256": "1bbf1dd125aad4aa5a321eb74ea9247552a04939b4e3c3724421b38590068240",
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+    "lib/admin/core/admin_exception_checkpoint.dart",
+    "lib/admin/core/admin_exception_checkpoint_web.dart",
+    "lib/admin/core/admin_exception_models.dart",
+    "lib/admin/core/admin_exception_page.dart",
+    "lib/admin/core/admin_exception_runtime.dart",
+    "test/admin_exception_page_test.dart",
+    "test/admin_exception_repository_test.dart",
+    "test/admin_gateway_action_ui_sdk_test.dart"
+  ],
+  "input_count": 857,
+  "acceptance_sha256": "6a003b855893a6358eaff02207f27d1a1af33080fd2272f5009d818eff2718d3",
+  "test_count": null,
+  "analysis_clean": false,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "dated_roster_sql149_receipt": null,
+  "dated_gateway_decoder_inputs": {
+    "result_sha256": "b24eab4392cc3de2cd3443dfd79d2a692a99a683644aaa39003a78ea6a317ab7",
+    "archived_source_sha256": {
+      "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/collect-admin-gateway-v1.schema.json": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3"
+    },
+    "observed_document_sha256": {
+      "empty": "097b617a251c728cdcdae755f891bb5fca27419c893d56a639e942a4a949d87c",
+      "pending": "a68e76c983c2537b0608bc96e87499adaff1231792d500507277853d64d5fe55",
+      "active": "cd0e4e228b32248186d4774c49ce77d33379333411bd49a0aa709c8027ea3efd",
+      "revoked-callbacks": "5fccac5556ac4cf1ae42f4b7c7ce0e934391fe8cc352e39753e975983b1dd483",
+      "owner-request": "f2498a676e7e7febc83f1994bec23dc004f263a553d79aa3331f28ac19c3b802"
+    },
+    "sql_executed_here": false,
+    "current_server_state_verified_here": false,
+    "scope": "Decoder compatibility with archived isolated synthetic-UAT documents; no ordinary-owner installation acceptance."
+  },
+  "synthetic_visual_captures": {},
+  "gateway_visual_capture_requested": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

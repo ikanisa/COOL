@@ -1,0 +1,110 @@
+{
+  "all_original_ids_preserved": true,
+  "closed_ids": [
+    "G06"
+  ],
+  "external_state_refreshed": false,
+  "full_current_source_acceptance": false,
+  "installed_migration_count": 154,
+  "installed_table_count": 153,
+  "last_complete_clean_replay": 141,
+  "local_criteria_preserved": true,
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "local_snapshot_revision": 8,
+  "new_scoped_evidence_packets": [
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/install154-attempt1-guarded/result.json",
+      "sha256": "cb128e6e263af26772c420d27f8fb7a692db010a770149153dd31c6e672beb0a"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/invitation-installed154-attempt6-function-name-binding/result.json",
+      "sha256": "812377621d4b69d93c44bb7a88bfc409390642b918e8da9b64290a5028ebe9b2"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/admin-rls154-attempt3-email-integration/result.json",
+      "sha256": "888480c351c7ca4232a2f1cb0a2f46221525e5aefa13c2f69ba86de4f58dfb58"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/admin-sensitive154-attempt3-rls-audit-effects/result.json",
+      "sha256": "4c7380e271f5d04c768d522cb22da34a4a14cb7107a3237ac1ccf089d671cfc9"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/invitation-save-final-attempt15/validation.json",
+      "sha256": "63d8fa1f1c3b38e6e948802a4f03615397cd3a39ed713133a341f3d72b95b8ff"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/validation.json",
+      "sha256": "8c850ca6326b68b318ecf3c807d05e2cd1c7457f3b1437f24428a569af0e7ef4"
+    },
+    {
+      "observed_status": "failed",
+      "path": "docs/release/data-correctness-2026-09-30/sql154-attempt2/result.json",
+      "sha256": "73f0a3ac32574dab76b9c4e863831686f00200031c78c8445709ff735f7beba7"
+    },
+    {
+      "observed_status": "see_scoped_manifest",
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/validation.json",
+      "sha256": "eaac36ec164286c63473771b444044ba3508fe6f0cd8507a148655f1061d5f19"
+    },
+    {
+      "observed_status": "see_scoped_manifest",
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt2/validation.json",
+      "sha256": "d46b9af16a93ce323b69682777eea463523edd6a44424c5918c8c7386a824fd9"
+    },
+    {
+      "observed_status": "pass_scoped_gateway_graph",
+      "path": "docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/validation.json",
+      "sha256": "189d2353c2cc0bb525b0a67560505617d38a92e9f46f0ecba8353e881e81bb1c"
+    }
+  ],
+  "original_criteria_preserved": true,
+  "prior_revision_preserved": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "f0dafe0c8e4cfbe49a4a1872603467520acc3984d8674699f8ef37e64eee49f4",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "4fa6a81efe5e4ce9bdfcefad8b3d8ff708529a06e0eae8d128c8b8f3da97e753",
+    "local-implementation-register-2026-09-30.json": "6fb7677398e2007485ab3e70a182f6932d9d827b388b9cbeef66044863137e31",
+    "production-remaining-tasks-2026-09-30.json": "0ea0dc22e4a1969b0cce4dc4ed258f7d88177770b9cd373710279984411c96d6",
+    "production-remaining-tasks-2026-09-30.validation.json": "8e5b07940a34a699f47df40bdbbd9ba50ef30df91a8c9fb42057956df0645ed7"
+  },
+  "priority_counts": {
+    "Crosscutting": 2,
+    "P0": 24,
+    "P1": 71,
+    "P2": 4
+  },
+  "scope": "Register integrity and scoped154 progress only; not whole-system acceptance",
+  "sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "86a05c2e4ace9d6e744e88356999402db05dbd26803fddfd54f505bba26cc2a7",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "ccf2b52b259bc0a06948745187172497bf0827f8b062fff67b625d2bd8adefe3",
+    "local-implementation-register-2026-09-30.json": "6ce85f484da985e37ec3446a715adbe130e907fba77a9ed31eec215b6f84f645",
+    "production-remaining-tasks-2026-09-30.json": "fb5793a5e3e763f4890fa9d6aac4d04c6c3bb1e1650f36dd8755c4d800a2bf59"
+  },
+  "snapshot_revision": 10,
+  "source_migration_count": 163,
+  "staged_source_versions": [
+    "20260930211605",
+    "20260930213000",
+    "20260930220527",
+    "20260930230100",
+    "20260930230200",
+    "20260930230300",
+    "20260930230400",
+    "20260930233000",
+    "20260930234000"
+  ],
+  "status": "pass",
+  "unique_open_rows": 101,
+  "validated_at_utc": "2026-09-30T22:06:54.574477+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "SQL_replay_performed": false,
+  "all_bound_inputs_before_after_equal": true,
+  "captured_migration_count": 209,
+  "catalog_migrations": 209,
+  "observed_ordinary_catalogs": [
+    {
+      "current": {
+        "bytes": 4369758,
+        "mode": 420,
+        "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+      },
+      "kind": "effective-catalog",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+      "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+    },
+    {
+      "current": {
+        "bytes": 4369758,
+        "mode": 420,
+        "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+      },
+      "kind": "effective-catalog",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+      "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+    }
+  ],
+  "original_and_captured209_bytes_equal": true,
+  "original_migration_count": 209,
+  "peer_catalogs_equal": true,
+  "scope": "Current byte/readback binding of existing observed ordinary209 catalogs and captured migrations; no new database execution.",
+  "status": "pass"
+}

@@ -31,9 +31,16 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   @override
   Widget build(BuildContext context) {
     final members = ref.watch(groupMembersProvider(widget.collectionId));
-    // Match AsyncValue.when's loading/error/refresh behavior so a failed or
-    // invalidated roster cannot leave rows from a different account visible.
-    final items = members.whenOrNull(data: (items) => items);
+    // Retained AsyncData during refresh is not current roster authority.
+    final currentMembers = members.isLoading
+        ? const AsyncLoading<List<CollectMember>>()
+        : members.hasError
+        ? AsyncError<List<CollectMember>>(
+            members.error!,
+            members.stackTrace ?? StackTrace.empty,
+          )
+        : members;
+    final items = currentMembers.whenOrNull(data: (items) => items);
     final query = _query.trim().toLowerCase();
     final filtered = (items ?? const <CollectMember>[]).where((item) {
       final matchesQuery =
@@ -78,7 +85,7 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
           onChanged: (value) => setState(() => _query = value),
         ),
         CollectAsyncStateView<List<CollectMember>>(
-          value: members,
+          value: currentMembers,
           loadingTitle: 'Loading members',
           loadingMessage: 'Fetching group members and Collect ID roles.',
           loadingIcon: CollectIcons.people,

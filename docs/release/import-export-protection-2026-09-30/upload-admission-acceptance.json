@@ -1,0 +1,63 @@
+{
+  "status": "pass",
+  "scope": "Application admission using actual locked PlatformFile interface and Dart byte streams; existing parser/import preservation.",
+  "runtime": {
+    "path": "lib/admin/core/admin_roster_import.dart",
+    "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+    "matches_accepted_export": true,
+    "change_confined_to_upload_class_and_typed_data_import": true
+  },
+  "prior": {
+    "packet": "docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2",
+    "passed": 49,
+    "failed": 43,
+    "analysis_clean": true,
+    "validation_sha256": "95e597b4075f52d0ef48fedd13344003305885d7356606c1a03dd54af40a3c3e"
+  },
+  "current": {
+    "packet": "docs/release/admin-full-coverage-2026-09-30/upload-admission-current-attempt4",
+    "validation_sha256": "bf288037f87bc79da9bb25904ab90b25417e216ec2f87508ac4fa3caebd49530",
+    "passes": 209,
+    "skips": 1,
+    "analysis_clean": true,
+    "upload_cohort_cases": 93,
+    "upload_cohort_all_passed": true,
+    "immutable_input_count": 824,
+    "export_unchanged": true,
+    "dependencies_unchanged": true,
+    "dependency_manifest_sha256": "1bbf1dd125aad4aa5a321eb74ea9247552a04939b4e3c3724421b38590068240",
+    "original_whole_set_drift": [
+      "lib/admin/admin_router.dart",
+      "lib/admin/admin_shell.dart",
+      "lib/admin/core/admin_action_contracts.dart",
+      "lib/admin/core/admin_gateway_contracts.dart",
+      "lib/admin/core/admin_gateway_dialogs.dart",
+      "lib/admin/core/admin_repository_base.dart",
+      "lib/admin/core/admin_runtime.dart",
+      "lib/gateway/gateway_app.dart",
+      "scripts/tests/admin_read_gateway_gate.py",
+      "test/admin_email_submit_paint_test.dart",
+      "test/gateway/gateway_capture_test.dart",
+      "test/gateway/gateway_safety_test.dart"
+    ]
+  },
+  "limits": {
+    "text_bytes": 512000,
+    "binary_bytes": 5242880,
+    "metadata_type_consent_before_IO": true,
+    "known_length_must_match_stream": true,
+    "unknown_length_allowed_with_cumulative_cap": true,
+    "cap_checked_before_chunk_append": true,
+    "whole_read_and_async_length_fallback_unused": true,
+    "overrun_error_cancel_and_reused_buffer_copy_verified": true
+  },
+  "exclusions": [
+    "physical picker and OS file lifecycle",
+    "allocation of a chunk before plugin emission",
+    "actual Edge extraction, budget and persisted audit",
+    "hosted provider delivery",
+    "whole-source current acceptance after listed drift"
+  ],
+  "sql_executed": false,
+  "external_provider_called": false
+}

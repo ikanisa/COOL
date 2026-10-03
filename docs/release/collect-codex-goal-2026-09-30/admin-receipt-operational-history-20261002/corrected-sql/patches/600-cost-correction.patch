@@ -1,0 +1,153 @@
+--- a/supabase/migrations/20261002060000_admin_receipt_operational_history.sql
++++ b/supabase/migrations/20261002060000_admin_receipt_operational_history.sql
+@@ -23,7 +23,6 @@
+ create index receipt_history_backlog_outcomes on collect_receipt_operations.backlog_results(run_id,recorded_at desc,snapshot_id desc);
+ create index receipt_history_budget_refusals on collect_ops.receipt_backlog_budget_deferrals(run_id,recorded_at desc,((request_id::text||':'||snapshot_id::text)collate "C")desc);
+ create index receipt_history_run_reservations on collect_receipt_operations.reservations(run_id,recorded_at desc,id desc);
+-create index receipt_history_completions on collect_receipt_operations.requests((collect_operator_audit.safe_uuid(input->>'run_id')))where action='complete_run';
+ create index receipt_history_configurations on collect_receipt_operations.owner_requests(((result->>'revision')::bigint))where action='configure';
+ 
+ create function public.admin_list_receipt_operation_starts_v1(p_limit integer default 20,
+@@ -59,19 +58,21 @@
+  select *into r from collect_receipt_operations.runs where id=p_run_id and collect_receipt_history.run_scope(id);
+  if r.id is not null then
+   -- Historical budgets belong only to the exact immutable configure revision.
+-  select count(*)into n from collect_receipt_operations.owner_requests q where q.action='configure'and(q.result->>'revision')::bigint=r.policy_revision
+-   and q.recorded_at<=r.started_at and jsonb_typeof(q.input)='array'and collect_receipt_operations.caps_valid(q.input->6);
++  select count(*)into n from(select 1 from collect_receipt_operations.owner_requests q where q.action='configure'and(q.result->>'revision')::bigint=r.policy_revision
++   and q.recorded_at<=r.started_at and jsonb_typeof(q.input)='array'and collect_receipt_operations.caps_valid(q.input->6)limit 2)matching_config;
+   if n=1 then select *into config from collect_receipt_operations.owner_requests q where q.action='configure'
+-   and(q.result->>'revision')::bigint=r.policy_revision and q.recorded_at<=r.started_at and jsonb_typeof(q.input)='array'and collect_receipt_operations.caps_valid(q.input->6);caps:=config.input->6;end if;
++   and(q.result->>'revision')::bigint=r.policy_revision and q.recorded_at<=r.started_at and jsonb_typeof(q.input)='array'and collect_receipt_operations.caps_valid(q.input->6)limit 1;caps:=config.input->6;end if;
+   -- Exact original complete_run evidence, never a latest request/configuration.
+-  select count(*)into n from collect_receipt_operations.requests q where q.action='complete_run'and q.principal_id=r.principal_id
++  select count(*)into n from(select 1 from collect_receipt_operations.requests q where q.action='complete_run'and q.principal_id=r.principal_id
++   and collect_operator_audit.safe_uuid(q.input->>'run_id')=r.id
+    and q.input->>'run_id'=r.id::text and q.input->>'fence_version'=r.fence_version::text
+    and q.result->>'run_id'=r.id::text and q.result->>'fence_version'=r.fence_version::text
+-   and q.result->>'status'='completed'and r.completed_at is not null and q.recorded_at>=r.completed_at and q.recorded_at<=at;
++   and q.result->>'status'='completed'and r.completed_at is not null and q.recorded_at>=r.completed_at and q.recorded_at<=at limit 2)matching_completion;
+   if n=1 then select *into completion from collect_receipt_operations.requests q where q.action='complete_run'and q.principal_id=r.principal_id
++   and collect_operator_audit.safe_uuid(q.input->>'run_id')=r.id
+    and q.input->>'run_id'=r.id::text and q.input->>'fence_version'=r.fence_version::text
+    and q.result->>'run_id'=r.id::text and q.result->>'fence_version'=r.fence_version::text
+-   and q.result->>'status'='completed'and r.completed_at is not null and q.recorded_at>=r.completed_at and q.recorded_at<=at;
++   and q.result->>'status'='completed'and r.completed_at is not null and q.recorded_at>=r.completed_at and q.recorded_at<=at limit 1;
+    summary:=jsonb_build_object('request_id',completion.request_id,'recorded_at',collect_ops.utc(completion.recorded_at),
+     'handled_count',(completion.result->>'handled_count')::bigint,'deferred_count',(completion.result->>'deferred_count')::bigint,
+     'action_count',(completion.result->>'action_count')::bigint,'sms_segments',(completion.result->>'sms_segments')::bigint,
+@@ -175,11 +176,19 @@
+ create function collect_operator_audit.operational_event_id(p_source text,p_request uuid)returns uuid
+ language sql immutable set search_path=''as $$select md5(p_source||':'||p_request::text)::uuid$$;
+ create index receipt_history_operations_audit_order on collect_receipt_operations.owner_requests(recorded_at desc,
+- (collect_operator_audit.operational_event_id('receipt_operations_owner_request',request_id))desc);
++ (collect_operator_audit.operational_event_id('receipt_operations_owner_request',request_id))desc)where action in('configure','stop');
+ create index receipt_history_workflow_audit_order on collect_receipt_operations.enrollment_workflow_requests
+  (collect_operator_audit.safe_uuid(result->>'principal_id'),recorded_at desc,(collect_operator_audit.operational_event_id('receipt_operations_enrollment_workflow',request_id))desc);
++create index receipt_history_completions on collect_receipt_operations.requests
++ (collect_operator_audit.safe_uuid(input->>'run_id'),principal_id,recorded_at desc,
++ (collect_operator_audit.operational_event_id('receipt_operations_service_request',request_id))desc)where action='complete_run';
++create index receipt_history_service_run_audit on collect_receipt_operations.requests
++ (collect_operator_audit.safe_uuid(input->>'run_id'),principal_id,action,recorded_at desc,
++ (collect_operator_audit.operational_event_id('receipt_operations_service_request',request_id))desc)
++ where action in('list_events','ensure_receipt','reconcile_backlog','complete_run');
+ create index receipt_history_owner_identity_audit on collect_receipt_operations.owner_requests
+- (collect_operator_audit.safe_uuid(result->>'principal_id'),recorded_at desc,request_id desc);
++ (collect_operator_audit.safe_uuid(result->>'principal_id'),recorded_at desc,
++ (collect_operator_audit.operational_event_id('receipt_operations_owner_request',request_id))desc);
+ create index receipt_history_workflow_identity_audit on collect_receipt_operations.enrollment_workflow_requests
+  (collect_operator_audit.safe_uuid(result->>'principal_id'),recorded_at desc,request_id desc);
+ create or replace function public.admin_get_operator_entity_audit_v1(p_entity_kind text,p_entity_id uuid,
+@@ -240,11 +249,17 @@
+   (select *from(  select collect_operator_audit.operational_event_id('receipt_operations_owner_request',e.request_id),'receipt_operations_owner_request',
+    'supervisor.operations.'||e.action,e.recorded_at,e.actor_id,e.request_id,
+    case when p_entity_kind='receipt_operations_policy'then(e.result->>'revision')::bigint end,null::bigint,null::text
+-   from collect_receipt_operations.owner_requests e where
+-    (p_entity_kind='supervisor_identity'and e.action in('enroll','activate','revoke')and collect_operator_audit.safe_uuid(e.result->>'principal_id')=p_entity_id)
+-    or(p_entity_kind='receipt_operations_policy'and e.action in('configure','stop'))
+-  )branch(event_id,source,action,recorded_at,actor_id,request_id,revision,fence_version,reason_code) where isfinite(recorded_at)and recorded_at<=sample
+-   and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))
++   from collect_receipt_operations.owner_requests e where p_entity_kind='supervisor_identity'and e.action in('enroll','activate','revoke')and collect_operator_audit.safe_uuid(e.result->>'principal_id')=p_entity_id
++  )branch(event_id,source,action,recorded_at,actor_id,request_id,revision,fence_version,reason_code) where isfinite(recorded_at)and recorded_at<=sample
++   and(recorded_at,event_id)<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
++   order by recorded_at desc,event_id desc limit p_limit+1)
++  union all
++  (select *from(  select collect_operator_audit.operational_event_id('receipt_operations_owner_request',e.request_id),'receipt_operations_owner_request',
++   'supervisor.operations.'||e.action,e.recorded_at,e.actor_id,e.request_id,
++   case when p_entity_kind='receipt_operations_policy'then(e.result->>'revision')::bigint end,null::bigint,null::text
++   from collect_receipt_operations.owner_requests e where p_entity_kind='receipt_operations_policy'and e.action in('configure','stop')
++  )branch(event_id,source,action,recorded_at,actor_id,request_id,revision,fence_version,reason_code) where isfinite(recorded_at)and recorded_at<=sample
++   and(recorded_at,event_id)<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
+    order by recorded_at desc,event_id desc limit p_limit+1)
+   union all
+   (select *from(  select collect_operator_audit.operational_event_id('receipt_operations_enrollment_workflow',e.request_id),'receipt_operations_enrollment_workflow',
+@@ -255,16 +270,59 @@
+    and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))
+    order by recorded_at desc,event_id desc limit p_limit+1)
+   union all
+-  (select *from(  select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
+-   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
+-   from collect_receipt_operations.requests e join collect_receipt_operations.runs r on r.id=p_entity_id
+-   where p_entity_kind='receipt_operation_run'and e.principal_id=r.principal_id and
+-    ((e.action='begin_run'and e.request_id=r.request_id and e.result->>'run_id'=r.id::text)
+-     or(e.action in('list_events','ensure_receipt','reconcile_backlog','complete_run')and e.input->>'run_id'=r.id::text
+-      and e.input->>'fence_version'=r.fence_version::text and e.result->>'run_id'=r.id::text and e.result->>'fence_version'=r.fence_version::text))
+-  )branch(event_id,source,action,recorded_at,actor_id,request_id,revision,fence_version,reason_code) where isfinite(recorded_at)and recorded_at<=sample
+-   and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))
+-   order by recorded_at desc,event_id desc limit p_limit+1)
++  (select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
++   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
++   from collect_receipt_operations.runs r cross join lateral(
++    -- Lookup the original begin request before action/time filters: a retained
++    -- principal's lifetime begin history never becomes this branch's input.
++    select q.*from collect_receipt_operations.requests q where q.request_id=r.request_id limit 1
++   )e where p_entity_kind='receipt_operation_run'and r.id=p_entity_id and e.principal_id=r.principal_id
++    and e.action='begin_run'and e.result->>'run_id'=r.id::text and isfinite(e.recorded_at)and e.recorded_at<=sample
++    and(e.recorded_at,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id))<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid)))
++  union all
++  (select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
++   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
++   from collect_receipt_operations.runs r cross join lateral(
++    select e.*from collect_receipt_operations.requests e where e.principal_id=r.principal_id and e.action='list_events'
++     and collect_operator_audit.safe_uuid(e.input->>'run_id')=r.id and e.input->>'run_id'=r.id::text
++     and e.input->>'fence_version'=r.fence_version::text and e.result->>'run_id'=r.id::text and e.result->>'fence_version'=r.fence_version::text
++     and isfinite(e.recorded_at)and e.recorded_at<=sample
++     and(e.recorded_at,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id))<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
++    order by e.recorded_at desc,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id)desc limit p_limit+1
++   )e where p_entity_kind='receipt_operation_run'and r.id=p_entity_id)
++  union all
++  (select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
++   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
++   from collect_receipt_operations.runs r cross join lateral(
++    select e.*from collect_receipt_operations.requests e where e.principal_id=r.principal_id and e.action='ensure_receipt'
++     and collect_operator_audit.safe_uuid(e.input->>'run_id')=r.id and e.input->>'run_id'=r.id::text
++     and e.input->>'fence_version'=r.fence_version::text and e.result->>'run_id'=r.id::text and e.result->>'fence_version'=r.fence_version::text
++     and isfinite(e.recorded_at)and e.recorded_at<=sample
++     and(e.recorded_at,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id))<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
++    order by e.recorded_at desc,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id)desc limit p_limit+1
++   )e where p_entity_kind='receipt_operation_run'and r.id=p_entity_id)
++  union all
++  (select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
++   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
++   from collect_receipt_operations.runs r cross join lateral(
++    select e.*from collect_receipt_operations.requests e where e.principal_id=r.principal_id and e.action='reconcile_backlog'
++     and collect_operator_audit.safe_uuid(e.input->>'run_id')=r.id and e.input->>'run_id'=r.id::text
++     and e.input->>'fence_version'=r.fence_version::text and e.result->>'run_id'=r.id::text and e.result->>'fence_version'=r.fence_version::text
++     and isfinite(e.recorded_at)and e.recorded_at<=sample
++     and(e.recorded_at,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id))<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
++    order by e.recorded_at desc,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id)desc limit p_limit+1
++   )e where p_entity_kind='receipt_operation_run'and r.id=p_entity_id)
++  union all
++  (select collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id),'receipt_operations_service_request',
++   'operations.'||e.action,e.recorded_at,null::uuid,e.request_id,null::bigint,r.fence_version,null::text
++   from collect_receipt_operations.runs r cross join lateral(
++    select e.*from collect_receipt_operations.requests e where e.principal_id=r.principal_id and e.action='complete_run'
++     and collect_operator_audit.safe_uuid(e.input->>'run_id')=r.id and e.input->>'run_id'=r.id::text
++     and e.input->>'fence_version'=r.fence_version::text and e.result->>'run_id'=r.id::text and e.result->>'fence_version'=r.fence_version::text
++     and isfinite(e.recorded_at)and e.recorded_at<=sample
++     and(e.recorded_at,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id))<(coalesce(p_before_at,'infinity'::timestamptz),coalesce(p_before_event_id,'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid))
++    order by e.recorded_at desc,collect_operator_audit.operational_event_id('receipt_operations_service_request',e.request_id)desc limit p_limit+1
++   )e where p_entity_kind='receipt_operation_run'and r.id=p_entity_id)
+   union all
+   (select *from(  select e.request_id,'exception_action','exception.'||e.action,e.recorded_at,e.actor_id,e.request_id,
+    e.expected_revision,null::bigint,e.reason_code from collect_ops.exception_actions e

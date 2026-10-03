@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:56:24.382113+00:00",
+  "packet_sha256": "509a1d3cd394276dd39447893596edc7066acb76981df32ba4300af8fb7cb78f",
+  "safe_leaves_checked": 87,
+  "complete_guard_controller_and_fence_diff_reviewed": true,
+  "original_function_AST_deltas_verified": true,
+  "focused37_and_readonly_whole_guard_proofs_bound_to_current_executables": true,
+  "source_capture_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "current12_source_authority_verified": true,
+  "source_lock_attested": false,
+  "transient_write_and_restore_absence_attested": false,
+  "actual_app_lock_still_failed": true,
+  "native_admitted": false,
+  "production_release_approval": false
+}

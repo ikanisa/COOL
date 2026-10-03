@@ -1,0 +1,11 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/original_tests.py
+@@ -7,7 +7,7 @@
+ import tempfile
+ import unittest
+ 
+-SPEC=importlib.util.spec_from_file_location("domain_map",Path(__file__).resolve().parents[1] / "audits" / "collect_schema_domain_map.py")
++SPEC=importlib.util.spec_from_file_location("domain_map",Path(__file__).resolve().parent / "collect_schema_domain_map.py")
+ M=importlib.util.module_from_spec(SPEC);sys.modules[SPEC.name]=M;SPEC.loader.exec_module(M)
+ 
+ def catalog():

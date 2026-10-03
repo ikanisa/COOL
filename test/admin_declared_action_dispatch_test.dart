@@ -84,6 +84,38 @@ void main() {
       await expectLater(repository.action(rpc, params), throwsFormatException);
       expect(requests, hasLength(1));
     });
+    for (final lostReply in ['network', '503']) {
+      test('$rpc $lostReply never silently repeats an Admin POST', () async {
+        var attempts = 0;
+        respond = (_) async {
+          attempts++;
+          if (attempts == 1) {
+            if (lostReply == 'network') {
+              throw http.ClientException('Synthetic response lost');
+            }
+            return sdk.response({
+              'code': 'synthetic_unavailable',
+              'message': 'Synthetic service unavailable',
+            }, 503);
+          }
+          return sdk.response(ack);
+        };
+        await expectLater(
+          repository.action(rpc, params),
+          throwsA(
+            lostReply == 'network'
+                ? isA<http.ClientException>()
+                : isA<PostgrestException>(),
+          ),
+        );
+        expect(requests, hasLength(1));
+        expect(attempts, 1);
+        // A second explicit caller remains possible. Its handling is governed
+        // by the server's existing operation contract and idempotency rules.
+        expect(await repository.action(rpc, params), ack);
+        expect(requests, hasLength(2));
+      });
+    }
     test(
       '$rpc genuine permission denial is not translated to success',
       () async {

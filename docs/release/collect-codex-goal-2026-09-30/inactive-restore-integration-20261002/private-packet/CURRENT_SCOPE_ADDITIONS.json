@@ -1,0 +1,12 @@
+{
+  "scope": "Current source now209; exact original208 associations retained. New900 is outside the completed SQL78 fixture and not counted as a209 restore/rehearsal.",
+  "path": "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+  "binding": {
+    "bytes": 15870,
+    "sha256": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d"
+  },
+  "root_sealer": {
+    "bytes": 11966,
+    "sha256": "29b2273ac523f97e351d9e26b844cfdd405cc55a590a048e1295cbf00d35c63d"
+  }
+}

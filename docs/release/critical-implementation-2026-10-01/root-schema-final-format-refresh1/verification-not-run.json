@@ -1,0 +1,22 @@
+{
+  "deadline_seconds": 30,
+  "executed": false,
+  "only_output_directory_changed": true,
+  "original_argv_receipt_path": "docs/release/critical-implementation-2026-10-01/root-schema-current-refactor-refresh1/verification.json",
+  "original_argv_receipt_sha256": "7de392a87b39a3a79e249a7bd5b5c12747e6a3db575f04a2dea8c16053186471",
+  "planned_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-final-format-refresh1/generated-current209",
+    "--verify",
+    "--require-current"
+  ],
+  "prerequisite_generation_exit_code": 2,
+  "reason": "Generation refused the stale reviewed source/line binding before producing the required five-output bundle.",
+  "retry_performed": false
+}

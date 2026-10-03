@@ -1,0 +1,23 @@
+{
+  "captured_at": "2026-10-01T15:34:56.006368+00:00",
+  "official_metadata_url": "https://api.github.com/repos/adoptium/temurin21-binaries/releases/latest",
+  "browsed_primary_sources": [
+    "https://adoptium.net/temurin/releases/?version=21&os=mac&arch=aarch64",
+    "https://github.com/adoptium/temurin21-binaries/releases/latest"
+  ],
+  "release_tag": "jdk-21.0.12.1+1",
+  "published_at": "2026-08-19T12:10:19Z",
+  "archive_name": "OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+  "archive_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+  "checksum_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz.sha256.txt",
+  "archive_sha256": "3623232f33a9c3baadf304480b2535f9a3cba8a58d42ecbb438ba267315d9998",
+  "archive_bytes": 200073404,
+  "checksum_verified_before_extraction": true,
+  "archive_retained_private": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+  "jdk_root": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk",
+  "java": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+  "architecture_observation": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java: Mach-O 64-bit executable arm64",
+  "runtime_closure_sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a",
+  "no_global_install_or_java_configuration_changed": true,
+  "supply_chain_limit": "SHA256 matches official HTTPS release asset; no independent signature/reproducible-build verification claimed."
+}

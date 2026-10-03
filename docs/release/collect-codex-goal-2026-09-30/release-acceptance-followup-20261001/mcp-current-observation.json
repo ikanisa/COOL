@@ -1,0 +1,15 @@
+{
+  "scope": "Actual installed MCP tool calls; projected reason codes only",
+  "recorded_at": "2026-10-01T09:46:38.392Z",
+  "exact_tool_call_timestamp_retained": false,
+  "tool_calls": 2,
+  "reason_codes": {
+    "collect_notification_health": "OPERATOR_SESSION_REAUTHENTICATION_REQUIRED",
+    "get_collect_health": "COLLECT_CURRENT_USER_SESSION_REQUIRED"
+  },
+  "successful_authenticated_backend_reads": 0,
+  "otp_or_send_actions_requested": false,
+  "additional_authenticated_reads_after_failure": false,
+  "raw_credentials_or_customer_data_retained": false,
+  "raw_error_payloads_retained": false
+}

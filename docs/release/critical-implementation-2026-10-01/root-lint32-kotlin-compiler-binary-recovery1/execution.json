@@ -1,0 +1,103 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/request_worker.py",
+    "--url",
+    "https://dl.google.com/dl/android/maven2/com/android/tools/external/com-intellij/kotlin-compiler/32.0.1/kotlin-compiler-32.0.1.jar",
+    "--body",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-kotlin-compiler-recovery1/body",
+    "--max-bytes",
+    "134217728",
+    "--seconds",
+    "120"
+  ],
+  "started_utc": "2026-10-02T19:10:00.060083+00:00",
+  "owned_PID_PGID": 33881,
+  "whole_work_seconds": 180,
+  "request_seconds": 120,
+  "cleanup_seconds": 2,
+  "reason_for_request_scope": "Actual30s partial17039360B vs publisherHEAD51542838B projects90.75s whole transfer; bounded120s single fixed JAR recovery; 66 verified JARs reused",
+  "original_failed_readback_sha256": "a1f97ca1a72ccf76b73fe7945c66144286e452f85d3fca37e6fb4dbe2c1ff67b",
+  "publisher_HEAD_sha256": "1b9fb98e5b462f992c44213ed3b8dfd247d77371b21b37a378a0b57b40b77310",
+  "publisher_SHA1_sidecar": {
+    "bytes": 40,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0023/body",
+    "sha256": "b5c9821feeba94bb3b9414ab6fa1f3dcf62fd0637af3fe96db7d92db614fc613"
+  },
+  "plan_item": {
+    "actual_selected_variant": {
+      "attributes": [
+        {
+          "name": "org.gradle.status",
+          "type": "java.lang.String",
+          "value": "release"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.android.tools.external.com-intellij",
+          "name": "kotlin-compiler",
+          "version": "32.0.1"
+        }
+      ],
+      "external_variant": null,
+      "name": "default",
+      "owner": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+    },
+    "binary_bytes_downloaded_or_admitted": false,
+    "bound_component_ids": [
+      "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+    ],
+    "coordinate": {
+      "group": "com.android.tools.external.com-intellij",
+      "name": "kotlin-compiler",
+      "version": "32.0.1"
+    },
+    "proof": {
+      "classifier": null,
+      "effective_Gradle_extension": "jar",
+      "official_module404": {
+        "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/external/com-intellij/kotlin-compiler/32.0.1/kotlin-compiler-32.0.1.module",
+        "receipt_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0033/receipt.json",
+        "request": 33
+      },
+      "packaging_declared": null,
+      "primary_contract_evidence": "primary-fallback-contract.json",
+      "qualified_metadata3_graph_SHA256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d",
+      "relocation_absent": true,
+      "verified_POM": {
+        "SHA1_sidecar": {
+          "bytes": 40,
+          "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0030/body",
+          "sha1": "cdc95f612d89d7dde2c7eb9f4e296b61587d1a44",
+          "sha256": "f95e57e276b2f86782406e0e0a3e1644876ffa6695dc663d8c968d288967fe3f"
+        },
+        "body": {
+          "bytes": 919,
+          "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0025/body",
+          "sha1": "cf5be5dafbe461f24bd918d1cee5642866531158",
+          "sha256": "abeb61df878f32a9e0e4fdf94a73413c2967236bcbe8f963efa8a34a22584fb1"
+        },
+        "exact_Gradle_POM_match": true,
+        "identity": [
+          "com.android.tools.external.com-intellij",
+          "kotlin-compiler",
+          "32.0.1"
+        ],
+        "packaging_declared": null,
+        "published_with_Gradle_metadata_marker": false,
+        "repository": "https://dl.google.com/dl/android/maven2/",
+        "url": "https://dl.google.com/dl/android/maven2/com/android/tools/external/com-intellij/kotlin-compiler/32.0.1/kotlin-compiler-32.0.1.pom"
+      }
+    },
+    "publisher_binary_SHA1_sidecar_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/external/com-intellij/kotlin-compiler/32.0.1/kotlin-compiler-32.0.1.jar.sha1",
+    "publisher_binary_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/external/com-intellij/kotlin-compiler/32.0.1/kotlin-compiler-32.0.1.jar",
+    "publisher_declared_hashes": {},
+    "publisher_declared_size": null,
+    "publisher_filename": "kotlin-compiler-32.0.1.jar",
+    "source_kind": "verified_official_module404_standard_Maven_Gradle9.1_unclassified_JAR_contract"
+  },
+  "automatic_retry": false
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.DeeplinkTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:18.858Z" hostname="Jeans-Mac-mini.local" time="0.024">
+  <properties/>
+  <testcase name="canCreateDeeplinkJsonWithIntentFilter()" classname="com.flutter.gradle.DeeplinkTest" time="0.001"/>
+  <testcase name="equals should return false for unequal objects()" classname="com.flutter.gradle.DeeplinkTest" time="0.001"/>
+  <testcase name="equals should return false for other of different type()" classname="com.flutter.gradle.DeeplinkTest" time="0.001"/>
+  <testcase name="equals should throw NullPointerException for null other()" classname="com.flutter.gradle.DeeplinkTest" time="0.017"/>
+  <testcase name="equals should return true for equal objects()" classname="com.flutter.gradle.DeeplinkTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

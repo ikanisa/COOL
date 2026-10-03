@@ -1,0 +1,23 @@
+import groovy.json.JsonOutput
+
+// Read-only classloader observation alongside genuine compile/unit tasks.
+// This neither alters versions nor resolves a replacement/synthetic graph.
+gradle.projectsEvaluated {
+    def rows = []
+    gradle.rootProject.allprojects.each { project ->
+        ['org.jetbrains.kotlin.android', 'kotlin-android', 'org.jetbrains.kotlin.jvm'].each { id ->
+            def plugin = project.plugins.findPlugin(id)
+            if (plugin != null && !rows.any { it.project == project.path && it.plugin_class == plugin.class.name }) {
+                def source = plugin.class.protectionDomain.codeSource?.location
+                rows.add([root_name: gradle.rootProject.name, project: project.path,
+                          plugin_id: id, plugin_class: plugin.class.name,
+                          package_implementation_version: plugin.class.getPackage()?.implementationVersion,
+                          loaded_code_source: source?.toExternalForm(),
+                          scope: 'Observed applied plugin class; source artifact publisher hashes are verified separately'])
+            }
+        }
+    }
+    println('COLLECT_LOADED_KOTLIN_PLUGINS_BEGIN')
+    println(JsonOutput.toJson(rows))
+    println('COLLECT_LOADED_KOTLIN_PLUGINS_END')
+}

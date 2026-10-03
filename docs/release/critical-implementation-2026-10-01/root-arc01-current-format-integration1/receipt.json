@@ -1,0 +1,22 @@
+{
+  "captured_at_utc": "2026-10-02T10:48:35.487625+00:00",
+  "private_proposal_packet_sha256": "30c8086a64f6f1068aecdbb0eaabb96e97ea6f184809e078defe55719bdd300f",
+  "files": {
+    "lib/admin/core/admin_runtime.dart": {
+      "before_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "after_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b"
+    },
+    "scripts/tests/admin_receipt_source_busy_test.dart": {
+      "before_sha256": "d195407bf6fa5bd9e4626d18e3b2ad9d0c24b7b02ec4e296a2b70826693f1073",
+      "after_sha256": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd"
+    },
+    "test/features/runtime_component_contract_test.dart": {
+      "before_sha256": "4833cc76b86ba6d56c310d7da3fd532b8118b30e7d049556767c58386b1eede5",
+      "after_sha256": "2f6bd060508d7968afaffce62119fd38953238175b48c84a9444dd009fa64d4c"
+    }
+  },
+  "format_only_integration": true,
+  "current_imports_parts_assertions_preserved": true,
+  "current_whole_Make_acceptance": false,
+  "root_owned_integration": true
+}

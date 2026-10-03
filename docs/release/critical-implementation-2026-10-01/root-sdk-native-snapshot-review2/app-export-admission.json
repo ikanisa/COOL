@@ -1,0 +1,21 @@
+{
+  "app_lock_native_admitted": false,
+  "at_utc": "2026-10-02T06:29:39.063573+00:00",
+  "candidate_promoted": false,
+  "checked_packet_leaves": 56,
+  "current_source_export_authorized": true,
+  "errors": [],
+  "execution_stage_admissions": {
+    "app-export": true
+  },
+  "packet_manifest_sha256": "72aedc2004efaafe192f8e86a05dc08bf7df9425dcd68f08d9dd6898cf01c283",
+  "private_snapshot_exclusive": true,
+  "production_release_approval": false,
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "required_source_fence_sha256": "3373ba66b616aafab987ac9f49a11c2dbb8a2795c51e4a320a65e8be6bd2b381",
+  "root_preparation_review_sha256": "cc1a792050dcdadf9781db9b339e9f6bbce63a5a35a57d50561e82c4ae94c40d",
+  "source_lock_attested": false,
+  "source_scope_held_for_strict_export": false,
+  "strict_current_source_comparison_required": true,
+  "transient_write_and_restore_absence_attested": false
+}

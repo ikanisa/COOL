@@ -1,0 +1,13 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/settings-current-integration-proof-20261001-current-integration2/runtime/test/admin_governed_settings_widget_test.dart
+00:00 +0: actual authenticated Settings route uses dedicated typed workspace
+00:07 +1: typed editor captures immutable preview and one durable original save
+00:12 +2: nullable field clear is explicit and invalid reason never opens preview
+00:15 +3: integer input error denies preparation and unsafe original expiry denies save
+00:16 +4: permission refresh removes draft dialog immediately and late future cannot restore it
+00:18 +5: uncertain response exposes original lookup action and no resend control
+00:20 +6: independent audit view works for known identity without settings.read
+00:20 +7: expired current sample disables editor until explicit refresh
+00:20 +8: history pages use paired immutable cursor and retain newer navigation
+00:21 +9: narrow 320.0 large-text 1.0 labels and keyboard controls do not overflow
+00:22 +10: narrow 450.0 large-text 2.0 labels and keyboard controls do not overflow
+00:22 +11: All tests passed!

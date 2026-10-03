@@ -1,0 +1,7 @@
+{
+  "prior_failed_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-continuation1",
+  "failure_sha256": "f6e8359064c698904336a4b151b082ba3212ed0e3fc7b3e2b6e9c3d37a1e9b3c",
+  "actual_import_execution_sha256": "d6a2a4c708a361e15a433e8b9e51df8e96c7fa99141ee95ca876453b3de54523",
+  "preserved_generated_cache_sha256": "ba79624a24cd66578ee8b039be1f54d8bb9eb6b255df6ab4311ab0426ca88e36",
+  "copy_reexecuted": false
+}

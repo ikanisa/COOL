@@ -1,0 +1,5 @@
+{
+  "source_sha256": "54bbf73c8ba4eb997097b3c2c26de5a953792944a930ef05bcbdccf2773b6c70",
+  "accepted_test_receipt_sha256": "6d5b5a7b16a10c732ca6908e9df6476d9e9f3ec829b0189ac69e0519889f757b",
+  "scope": "Actual generated compiler-root binding after config-only and before Xcode; accepted24 mutation/control tests plus actual read-only reconciliation; application source remains unchanged."
+}

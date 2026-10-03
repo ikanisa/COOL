@@ -1,0 +1,125 @@
+{
+  "kind": "private_checkpoint9_recovery2_proposal_packet",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2178,
+      "sha256": "9cd28bb6bffc5dc3e9b3b3149e7ad5091542dfa7c1f8273b4c7647e9a9d16460"
+    },
+    {
+      "path": "admission.json",
+      "bytes": 14161,
+      "sha256": "4d1afdde97c7437bd56c74ccc009f9874e2601f2ea1e4f5ff40b081c44e7eb64"
+    },
+    {
+      "path": "before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 33653,
+      "sha256": "ad6f9b6257aa0e409c9f671acb4d060688a8ac3172a1436eb3ead8329ca7363a"
+    },
+    {
+      "path": "before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 48805,
+      "sha256": "a0b8b7672f13f600fbd3d3676688499ee29702f32957abdc13ef73148474341d"
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "bytes": 6331,
+      "sha256": "0ceae9d27cd33cfa7e9b0a03c74fe2f07e2c8a6bf39ad7084c337a3be4fafc18"
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 13246,
+      "sha256": "e6a45b89f16e26c8b8d319b9845662e8267444b7fdd93d171e0b854b76b43734"
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 277309,
+      "sha256": "86f31f9af3274cd2adff3cfeb18959a2c16434f5143c1d16607ec1ed1246c10d"
+    },
+    {
+      "path": "before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 195024,
+      "sha256": "485531ac36b949287f2ceedd81d1f8b5650d9e8f2f0c4b83c94a2a2d6f0f0961"
+    },
+    {
+      "path": "before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 384182,
+      "sha256": "2d63e20d4c6116a98a7cf48fc67917cb22a7a32b81eaafd9c2453491384c5cb9"
+    },
+    {
+      "path": "canonical.diff",
+      "bytes": 257618,
+      "sha256": "d02277f0f37a7e13c11a4aa5177e7bd327b969222628dace8c5c163f433d643b"
+    },
+    {
+      "path": "integrate_checkpoint9.py",
+      "bytes": 12474,
+      "sha256": "5a300638a250952f3114cf5b78ba788cfbd451f535eaf00a8044c69accd51aff"
+    },
+    {
+      "path": "link-reference-readback.json",
+      "bytes": 99524,
+      "sha256": "035ae71d52475eeccc5ea52e3dbd4ef62efc7ccdd99d59968dad4b8ccc9393c8"
+    },
+    {
+      "path": "proposed/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 34991,
+      "sha256": "8b484925d4091aff7a8ac11de5cc54ad95f53b21e7649e394a0a3da6d75e6b30"
+    },
+    {
+      "path": "proposed/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 50143,
+      "sha256": "00d18a01f8f2345ed67dcbe3e2c3aa8766fcecf7efef21f1e060e4025ad47f6a"
+    },
+    {
+      "path": "proposed/docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "bytes": 8961,
+      "sha256": "6a3a164d82f4d1a27151fcc7f3791a71cac4a03e13eaea857a4af0f29f14d061"
+    },
+    {
+      "path": "proposed/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 14594,
+      "sha256": "55c2da73ddf0e8182828d53e8ed30efe6d3c87dc3008e342345c14e76256c390"
+    },
+    {
+      "path": "proposed/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 327222,
+      "sha256": "fa1b5deb2605a1cc95f9e1f1ec592b110e53c79ba8a4882580ab187d31a0f490"
+    },
+    {
+      "path": "proposed/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 231503,
+      "sha256": "4daccd09775979e7bde7cd05f5a8b8614710ed3250ab0f06e96fa9ea5ec8e90b"
+    },
+    {
+      "path": "proposed/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 420661,
+      "sha256": "f7926ee6b1d250e8a069599def24d8935117332740f347713c5be2f16f8d8147"
+    },
+    {
+      "path": "recovery2-vs-prep1.diff",
+      "bytes": 53306,
+      "sha256": "298744e6c9e6ba6071136a5f9c67a7f57c49d8cbbbb36dc3e153031f60bb03a6"
+    },
+    {
+      "path": "root-apply-plan.json",
+      "bytes": 3855,
+      "sha256": "d4eba725e3567932d65f3f030e67e3d77ea7a9319f6ca646dd2de582e42240e7"
+    },
+    {
+      "path": "verification-command.json",
+      "bytes": 1159,
+      "sha256": "095c87397903b89734bff40da1bac93f79ae8a30bc4b47fe4197f467b5722eb4"
+    },
+    {
+      "path": "verification.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification.stdout",
+      "bytes": 3120,
+      "sha256": "1bf19c0d87cd446f75b22a9dbde93831304d82790eb1b92888ee67236c7eadeb"
+    }
+  ]
+}

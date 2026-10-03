@@ -1,0 +1,13 @@
+{
+  "status": "fail",
+  "phase": "baseline_source_association",
+  "native_commands_started": false,
+  "cause": "canonical additional test inventory not present in predecessor packet",
+  "additional_current": [
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt"
+  ],
+  "different": []
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "name": "captures",
+    "command": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--reporter",
+      "expanded",
+      "test/admin_receipt_operations_card_test.dart",
+      "--plain-name",
+      "optional source-bound light/dark captures render through actual shared theme"
+    ],
+    "started_at": "2026-10-01T12:03:15.440645+00:00",
+    "finished_at": "2026-10-01T12:03:22.933225+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 90
+  }
+]

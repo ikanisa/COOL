@@ -1,0 +1,1070 @@
+{
+  "Python_SHA256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "Python_bytes": 18041888,
+  "Python_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "inputs": [
+    {
+      "bytes": 131497,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/binary-acquisition-facts.json",
+      "sha256": "61e120f8479c4b0333c3ae265cfe1e5f149a5c8dbc52ef2bf4320ff8154ce037"
+    },
+    {
+      "bytes": 888425,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/completed-metadata-acquisition-readback.json",
+      "sha256": "30db69201c5ed4b18551f64c63f1568ea21da82885852295a1ddc923b84d964f"
+    },
+    {
+      "bytes": 79523,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/filename-binding-readback.json",
+      "sha256": "9842b38e7e84ab9bac7a99172da033656700eac10f5db5934bf450e4cbbde941"
+    },
+    {
+      "bytes": 197412,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/packet-files.json",
+      "sha256": "3cd27713752e6482211f0706eb9121bae66f8d88d51eb0384fecd8e91332cbee"
+    },
+    {
+      "bytes": 1332,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/qualified-metadata3-reuse.json",
+      "sha256": "5780ccb86fe90efbc5b4becc84dc53a52edc754735d9d2d626f43144d2ed5b76"
+    },
+    {
+      "bytes": 1139,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0001/body",
+      "sha256": "564bbbd5c7067866e529573bbf14f5225508feae6a67e965e4947dfde87735b2"
+    },
+    {
+      "bytes": 2237,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0002/body",
+      "sha256": "d6436392bb35ac2a44535719cfcb334c5af12981f53c118bb6478eb2e7f54758"
+    },
+    {
+      "bytes": 2246,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0003/body",
+      "sha256": "0e7962e0f693c92b246b42201e4b1b1660921da44f4611b1a5fe8cef4fcc3583"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0005/body",
+      "sha256": "453b972525e6d3d3e006ff6d6a3d44cc8080e3df28592e577fef297ad82517ec"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0007/body",
+      "sha256": "3c81f9cbc26fe161e12507b14f38b374c9fd8b1b9e57651b325688dea8ba5501"
+    },
+    {
+      "bytes": 2813,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0008/receipt.json",
+      "sha256": "663abc803f68d37339ed1e2968841dd63bb5f76473abf885d1f085277f7c3bd6"
+    },
+    {
+      "bytes": 3768,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0009/body",
+      "sha256": "f5b69d4dd64f46dc895fd8780da43586f1abc6524d8e444dc6b97d24486e098c"
+    },
+    {
+      "bytes": 2814,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0010/receipt.json",
+      "sha256": "259f69d3e47d0079ac6868a0f417c7a2a35e36ef6a7c13a7f554cff454c558c9"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0011/body",
+      "sha256": "4f14beaaef1855e6404489450c45b7dcf33b1db140e151d294ae6057b38012e5"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0013/body",
+      "sha256": "ffaebc8730a348a1eed5123edcc07e902a2806b3db2dd01055dcfbbf09cbff98"
+    },
+    {
+      "bytes": 2820,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0016/receipt.json",
+      "sha256": "171f7dd8fd3a092bf7d2af0f7331a0ac03d1e81b2dd87f9b0b1e0a78c15edaa8"
+    },
+    {
+      "bytes": 1637,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0017/body",
+      "sha256": "5868a6f884b34a94044910ca7588e86165f6d10b5bbb67f1e0ab01a69b8749fa"
+    },
+    {
+      "bytes": 918,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0019/body",
+      "sha256": "fda1f8a1f435e1cac5fe0a71f22deb8cf3e2d5933a30cd662aedb3e675dc81b9"
+    },
+    {
+      "bytes": 4083,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0020/body",
+      "sha256": "d02fc82f71b3a6957bc419e1608ce87cb8e46229004c8864c84ff11e8b813f88"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0021/body",
+      "sha256": "20edcafc53f7ee6f4bb742a8d1e3f1e221d2fe0dcf6a0a40543b232c95199fac"
+    },
+    {
+      "bytes": 4587,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0022/body",
+      "sha256": "8d9b53a274f4b92b410a267bd127b6ccb3c25a94d1264400a4f4b8feb4b54c27"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0023/body",
+      "sha256": "9d01f341043652746493a7eb8a7c59a0281dace0a0d5a49e4bfbbf2decf2ddb8"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0024/body",
+      "sha256": "7fbd1c7a44dda254c45a6274038c51b1130a3e950f56c82296040d20eaff15c6"
+    },
+    {
+      "bytes": 919,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0025/body",
+      "sha256": "abeb61df878f32a9e0e4fdf94a73413c2967236bcbe8f963efa8a34a22584fb1"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0026/body",
+      "sha256": "9cd3e939e4b129679561277059a535f6f4db7a64c994dcebe42f6d0893609e3a"
+    },
+    {
+      "bytes": 895,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0027/body",
+      "sha256": "e4dde76802b8abe8ff71e9d05751d1468c3c7d3d4641b44945bf3965687ff3a5"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0028/body",
+      "sha256": "e436ac1c30788e9849ca6539fe0f08adbe6a943cad8ff29b77a75f1b1464f5cb"
+    },
+    {
+      "bytes": 2868,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0029/receipt.json",
+      "sha256": "4fb65179f450b90a9932fb48984dd8808b1345f04bf241577d5a128e15728c4c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0030/body",
+      "sha256": "f95e57e276b2f86782406e0e0a3e1644876ffa6695dc663d8c968d288967fe3f"
+    },
+    {
+      "bytes": 2817,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0031/receipt.json",
+      "sha256": "f374ec7e6c14df702611717a87633448e542cddecc6cd09025ee91fd7b04c6f3"
+    },
+    {
+      "bytes": 1670,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0032/body",
+      "sha256": "b7cc1421567303edec174afc33e1bbe2725aeed605e41bb934755ed663089834"
+    },
+    {
+      "bytes": 2880,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0033/receipt.json",
+      "sha256": "8ba5d86a8ec014e3cc5df1d5c36fe86f50f7bcf6466899d96856047b2a21c679"
+    },
+    {
+      "bytes": 4233,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0034/body",
+      "sha256": "fa2fa5545530a2f6aaeaf250addf24064882d8b347e832027363e1ba5af0afad"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0035/body",
+      "sha256": "bed66f67aff1c3f846786dc8cc6c8cb5ca2fe2b7668b442c0154c47e770cfc04"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0036/body",
+      "sha256": "15e06a7e60e031249a9c72116150b7a475f69b3d1626f8e6a12663bba03d7eac"
+    },
+    {
+      "bytes": 3708,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0037/body",
+      "sha256": "2f906045c68af280b0bca01bf0f890aadaf42c9068b0d41b48afbfb33ef0ceb0"
+    },
+    {
+      "bytes": 2832,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0038/receipt.json",
+      "sha256": "c79a8dbf39a905414c173a18e69ebbf99981ef7731d6a0f4cb421fad49c6c373"
+    },
+    {
+      "bytes": 2775,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0039/receipt.json",
+      "sha256": "446b728b3dc973b34b4a57638d3728e7810164cd6617213f6694e00639f0f88e"
+    },
+    {
+      "bytes": 2276,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0040/body",
+      "sha256": "452063fcd5a803edad32ba898dc8ccfa8a3592b76e2fe2424653d5b95e70a619"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0041/body",
+      "sha256": "204cca449849af78781c9d490396154d468f8849c9694c05aca58510f74d61e3"
+    },
+    {
+      "bytes": 2787,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0042/receipt.json",
+      "sha256": "ad2b0aca9d90092e881cee2332c7196ccf18eaee68c67483614516c1fbcf2bda"
+    },
+    {
+      "bytes": 2184,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0043/body",
+      "sha256": "f756bae5b3e490c4751a3c38f26ba6e7a6360de8a90f7ed20e212d0960fea840"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0044/body",
+      "sha256": "aa488f04eb109f451ff53a66ea6db441aecf0c6bd8b405e9c7f1ea04688e75a5"
+    },
+    {
+      "bytes": 1491,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0045/body",
+      "sha256": "3c7d5e76d6bbf97414ba8cd162f53e09834a77b7cc8373c52df18091b891c1a0"
+    },
+    {
+      "bytes": 2805,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0046/receipt.json",
+      "sha256": "00a3f7462cfba7428c46cbc40fa71f1615e23ac86c70cdef0367f8210225420d"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0047/body",
+      "sha256": "302c5871a60bd46ce7dc7c9dce0990c90565126ec5f0dfb8d0fd9e8a99d27ed1"
+    },
+    {
+      "bytes": 2804,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0048/receipt.json",
+      "sha256": "640292a451afd42e67136e311f7075b76efa9c8e4fe86eb19eb09ab1ab516788"
+    },
+    {
+      "bytes": 4018,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0049/body",
+      "sha256": "d9683833f038bdffb77d035ba43c7e90a3cd25643ac39b9073c9c0854a2b37ed"
+    },
+    {
+      "bytes": 2799,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0050/receipt.json",
+      "sha256": "4e346b88e088084bbb05469ebd3c8674dce80a18b960a2891c4311ee189b8e0b"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0051/body",
+      "sha256": "1f10a14d328e6267afb913ab306b74092af303455d0032cd5505ffdfa5ac9108"
+    },
+    {
+      "bytes": 822,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0052/body",
+      "sha256": "2a34003cfd63c0db5e108de26b18fb5264cd08de1d7c4b4749c8d0cd0b5a3cc4"
+    },
+    {
+      "bytes": 1664,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0053/body",
+      "sha256": "b1c92e02c1feb69434b687da18f5e261c9f24d50b332e970123241c031d75937"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0054/body",
+      "sha256": "3830ae68fbdf4c371b565b392fe4bc7a99d4d8a07688ebb80b1870fbcf726d63"
+    },
+    {
+      "bytes": 2859,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0055/receipt.json",
+      "sha256": "efe0d7d2e16ddb7324ba2813d76442d47332f3b7514d5bb82a93d9cc54b81252"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0056/body",
+      "sha256": "65fbfbcecace910b43ed945647816604a0f0d95327a3fa4ad0000b347f68a2ae"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0057/body",
+      "sha256": "2ca9d3f6fbeda46614934530e0205ec646f6027885449513b88dabe1b3290bd2"
+    },
+    {
+      "bytes": 2763,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0058/receipt.json",
+      "sha256": "a81deb52a1a12e8c92ecfad946e752f040287fae88d8eb5b877a729425ee1159"
+    },
+    {
+      "bytes": 1110,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0059/body",
+      "sha256": "349b186a9ecb8120974489b6ea2382754fad87829064dc79411bc677a707283f"
+    },
+    {
+      "bytes": 2790,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0060/receipt.json",
+      "sha256": "3b8feb1cf2ad56768821cdec312efc7f814a2e78c33f597e781ce238f26d1a0e"
+    },
+    {
+      "bytes": 2760,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0061/receipt.json",
+      "sha256": "170144a40fb8dd4b0a466687eee0c4dbf83e2aaf4bb3aa971bc2292ba183bc93"
+    },
+    {
+      "bytes": 1128,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0062/body",
+      "sha256": "e7d40493e15a42309b6b3d98855e1b88314056f3eff17bcf696720e703fb0f14"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0063/body",
+      "sha256": "0fb24b0c2b5a8d91f6ff7e0658a42b3145e3b1c079bbd766873055cc4d5c0d24"
+    },
+    {
+      "bytes": 2248,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0064/body",
+      "sha256": "cbca1d08fd49d8c24b3bf1b98522df5a224a658836f72cc1fc48eb75026ced6c"
+    },
+    {
+      "bytes": 4063,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0065/body",
+      "sha256": "f8df494750df7445bfcc856b84783e11aeb89d02ec8012cc6a02aad0e128648b"
+    },
+    {
+      "bytes": 2754,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0066/receipt.json",
+      "sha256": "8613db971739604eee08adbf923b111942836d99a92928fb42958873460f80da"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0067/body",
+      "sha256": "40760a1acaac307b66412eaf6da3114b0468730ad68a0028f5c32b7449f956f2"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0068/body",
+      "sha256": "10a81e5f044517557287c67272a23ceb28a16edeee99249b7c362845bcda052b"
+    },
+    {
+      "bytes": 2808,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0069/receipt.json",
+      "sha256": "d5bfa4c00630ca630d69c5af96cdedcdbb629e5b234f666f2334bdb2626dc1a2"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0070/body",
+      "sha256": "694d4ffb93e7cdfccb6939696b8b265bc6a39078df4db2c080321a4497d68d17"
+    },
+    {
+      "bytes": 2575,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0071/body",
+      "sha256": "bbfd9caede08a62d8cc07e5929cab5abac1b44b7b7929368d9816471f89857df"
+    },
+    {
+      "bytes": 4286,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0072/body",
+      "sha256": "19889dbdf1b254b2601a5ee645b8147a974644882297684c798afe5d63d78dfe"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0073/receipt.json",
+      "sha256": "ad120cc4463c487ff2f79f80d2ea7a6dd51451fe250e04204b24f8321c31b2e0"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0074/receipt.json",
+      "sha256": "b669b045ddbb25fb5ea62d06d6cc229e770d9beeec0636155b7e095e8467a024"
+    },
+    {
+      "bytes": 11821,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0075/body",
+      "sha256": "c0e547bea998888e6e25c5886a90e762272bc88b5275343dd2c05ded6ca2e360"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0076/body",
+      "sha256": "c8e2ce5aa5c5b73a8f2642591e36ab3dbee19bfb03c3716cf01051e8a68ff7ae"
+    },
+    {
+      "bytes": 4252,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0077/body",
+      "sha256": "0ce909f13a568148476e5ee200f380f98c75ba08971aaf15db295eb77598ef3a"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0078/body",
+      "sha256": "24f07e3aabbbdae799ae733c92707e192095914e2c502a8c458f099a3982e1f5"
+    },
+    {
+      "bytes": 2765,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0079/receipt.json",
+      "sha256": "bfd3045ef3a8a9196839e06d2ec478fe9ab27aba67b4d98368a903e5ee6fee8c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0080/body",
+      "sha256": "5e0a726727b6f686cf3ce4c18910260d2104118b08ada26fa87866e581685f8a"
+    },
+    {
+      "bytes": 2747,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0081/receipt.json",
+      "sha256": "0b250412b0a58d1fe4c954c37a377afad357d78b16980f58597ce614eeff3403"
+    },
+    {
+      "bytes": 2864,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0082/receipt.json",
+      "sha256": "c378d5e4aedc897472a555d5525e2ee1082b0329c26a810a726cb546f34d2e3f"
+    },
+    {
+      "bytes": 3339,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0083/body",
+      "sha256": "19ebc6f4bdb4edbb3d07b6ee994f846b54ef295582a9b5634719ffa9f31d03b2"
+    },
+    {
+      "bytes": 2278,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0085/body",
+      "sha256": "18d4b1db26153d4e55079ce1f76bb1fe05cdb862ef9954a88cbcc4ff38b8679b"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0087/body",
+      "sha256": "dc88001fb22ddcc8ee6e8262ea97eeb544ac23f37f10ef5629d23f33a55b7a23"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0088/body",
+      "sha256": "2ddba2cb13efe0e1eca97cc5ee40d2330cbc5d460a820b898eae78daace4d4e3"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0089/body",
+      "sha256": "a81335963066c953b0dd06e173aa7ac5e27677b46184e64de7b392ae1e59d358"
+    },
+    {
+      "bytes": 2783,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0090/receipt.json",
+      "sha256": "570f7c69a54b7ebc91a25d85dff7180b5477b37fbe988512f1cf1e249495e39d"
+    },
+    {
+      "bytes": 3017,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0091/receipt.json",
+      "sha256": "c5e710cef81452e55dd9a52b34f25dd8487e56838c80c12a34443a573972d5db"
+    },
+    {
+      "bytes": 7839,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0092/body",
+      "sha256": "41858c84753fd96a6b7c51122fccef39558c91cc08264e08506bcf20e0e63733"
+    },
+    {
+      "bytes": 2760,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0093/receipt.json",
+      "sha256": "5f19b304fee7a8c979ba5e1c58448f89cf0bf4c4dbd2810c6b6d3daa11a64eab"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0094/body",
+      "sha256": "ac904551b3e76f5c38c9510f0954fb1554a0b3d553d8d7cc8517f3ce4ee535be"
+    },
+    {
+      "bytes": 5057,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0095/body",
+      "sha256": "23b3d039e168ad89dd114698e6dd7be383f4a2c577b8877d82c73a6515e74a17"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0096/body",
+      "sha256": "f6ab27e5143ded8c9bb406e516c4ea84cf4727dbc9f4db60ebc02993203e0f29"
+    },
+    {
+      "bytes": 4147,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0097/body",
+      "sha256": "efa86e5cd922f17b472fdfcae57234d8d4ac3e148b6250737dfce454af7a7a44"
+    },
+    {
+      "bytes": 1554,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0098/body",
+      "sha256": "e752032157a7a39be9be3786684075452a46cd586b2865abd33e707568a4c8af"
+    },
+    {
+      "bytes": 2816,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0099/receipt.json",
+      "sha256": "46f1debcad4b1405717f501cf3a7e43d266aaf0a250dd3b474b49de69a198e2d"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0100/body",
+      "sha256": "de6f569b3c6f0070147c871f4fdd68a5fc898abb59f5855545bb8bca6391964b"
+    },
+    {
+      "bytes": 3555,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0101/body",
+      "sha256": "c2e014d34cb84ed287d064986c45c305a4124228a7337eccf6c421d14d708f1c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0102/body",
+      "sha256": "6748913abbe6d26bc75f40e2ec666722dc7c7bed5998a369d4908a99f794a8a7"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0103/body",
+      "sha256": "634c29f808a48b6404dc408e92344ab4022134a5c71d0fb01d847632607b4fad"
+    },
+    {
+      "bytes": 2723,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0104/receipt.json",
+      "sha256": "11a6bfbcf0b6bd929dade1d391ebd7633b0d712678259b411a69d49c149b8c76"
+    },
+    {
+      "bytes": 2799,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0105/receipt.json",
+      "sha256": "b3ec0e275b67b00dbcbb2db51407f8358d9e4853380d1c8dc53e62a6ad5d744c"
+    },
+    {
+      "bytes": 5262,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0106/body",
+      "sha256": "e147d258ab6e6691f70599a952400e6e6c7558f8c9c028dbe1be23178308e830"
+    },
+    {
+      "bytes": 2832,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0107/receipt.json",
+      "sha256": "8252d79bec060f3015af7a951ca426e71298602eb04dad6278fe466b519b279f"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0108/body",
+      "sha256": "e54d89c8624a75af7355418b9b68f48782882918826f2b7f2d95d50290e0a88e"
+    },
+    {
+      "bytes": 17776,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0109/body",
+      "sha256": "7fa0db4d8150daf932958b8aea89ee24abb4d18e2316a5de535278fc131512a0"
+    },
+    {
+      "bytes": 19623,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0110/body",
+      "sha256": "5777d292251c7895c04a4c57015683ec3b353a12486c9b3e7178e9b0b3c38fff"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0111/body",
+      "sha256": "ca582bc048e4a1309025761d03d1d307ae347aab5fca59dcc6ca39d201040c4a"
+    },
+    {
+      "bytes": 19206,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0112/body",
+      "sha256": "c91ab5aa570d86f6fd07cc158ec6bc2c50080402972ee9179fe24100739fbb20"
+    },
+    {
+      "bytes": 2781,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0113/receipt.json",
+      "sha256": "5d5c9007ab2a50fd45f26ac3a1ef94c89712bb3d9eb02ac03b36e394043da039"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0114/body",
+      "sha256": "6597fd2902b8f3d6b691a9b00aac6aa573a6a555f668f09a3f3c9fef957395b5"
+    },
+    {
+      "bytes": 2799,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0115/receipt.json",
+      "sha256": "ce7e8ae3e042f979dea513512890ea150452f8d16cddd915e489f86ddad2e18c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0116/body",
+      "sha256": "1700d0faf16d5f7d554643aa37253718056e235d9132eec448119ff000234c67"
+    },
+    {
+      "bytes": 2781,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0117/receipt.json",
+      "sha256": "8b96e5233eba0b09f5387b088fa529ba834e7103934544dbdfc56dbf50667976"
+    },
+    {
+      "bytes": 2753,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0118/receipt.json",
+      "sha256": "4e129ae86d3286739b7bb6df4f0bc233d1d7e436951d865b6ccc7ad3979f3c9a"
+    },
+    {
+      "bytes": 4572,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0119/body",
+      "sha256": "42585cb07dda7f23aa04eb5e0940061944a246a67ad3d16942fbe569ff03cd31"
+    },
+    {
+      "bytes": 15997,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0120/body",
+      "sha256": "b537b388dbab4cc0690b9d2fb0c74124d672531734567acf6e53130eab131ad6"
+    },
+    {
+      "bytes": 612,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0121/body",
+      "sha256": "943e12b100627804638fa285805a0ab788a680266531e650921ebfe4621a8bfa"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0122/body",
+      "sha256": "5b138db6dee51c6c806c5fd0d279e8bbde861630751a8a303e07056e998e609e"
+    },
+    {
+      "bytes": 1800,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0123/body",
+      "sha256": "1beb35cb4184e6c906a7e32eaebd852dd3da0a263962e99134ab945832394e28"
+    },
+    {
+      "bytes": 138,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0124/body",
+      "sha256": "8ac184b467ccff882fe11508898931d3cf6d629636d1b4a3b9df53a67b2690d6"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0125/body",
+      "sha256": "43a57206587f683a5d30b9eb58de1ab01961ab1fcd5f3cd8695cffbb23cc73f7"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0127/body",
+      "sha256": "9d5828170248d53945b4285ca69a73e66ab83c6713ae62b8218e91309309b0a8"
+    },
+    {
+      "bytes": 2826,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0128/receipt.json",
+      "sha256": "c051c2ff6e29180ada34ef634c6559972a4f1aa9d5ee75c0f0025feef03ee5f1"
+    },
+    {
+      "bytes": 2778,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0129/receipt.json",
+      "sha256": "9ac52d54147d8d201845e21eef6112d4f059c0a2c9049df08f5afeba8b7d126f"
+    },
+    {
+      "bytes": 2844,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0130/receipt.json",
+      "sha256": "2d49abca9fba21072ac5405951b1a6ccb9463516ab87eb177b007e0292c0e12b"
+    },
+    {
+      "bytes": 1580,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0131/body",
+      "sha256": "5fe81b0255978f24616d37b10608b79498a5f3073e1d9b2038d8736a831f2608"
+    },
+    {
+      "bytes": 1490,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0132/body",
+      "sha256": "31ce606f4e9518936299bb0d27c978fa61e185fd1de7c9874fe959a53e34a685"
+    },
+    {
+      "bytes": 23045,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0133/body",
+      "sha256": "df8cc1a8387d4ce842363b7209fdc6d35df9763839fd3fcab558a0f83f9d841c"
+    },
+    {
+      "bytes": 31259,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0134/body",
+      "sha256": "e280383956c2e72c1deb3a307b3b75f05ee43649b7d43f0215f7b6c7b15eea2c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0135/body",
+      "sha256": "5c14ab185a460f756b8d7a2b1efd03b3503f2b1632fd2a5c10565074abded52c"
+    },
+    {
+      "bytes": 131,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0136/body",
+      "sha256": "d479b33958b611c1c89d61749a6dffaf9cc451736634fd77fb55cb8444cdf9e4"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0137/body",
+      "sha256": "78bfb64e9a347ef325b85cf962f467b85b2461301a99949a06279549395aa061"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0138/body",
+      "sha256": "6fa5b87d7540299befd5cb069ad29058371a8e2aa4504aea30ff6557054b7e64"
+    },
+    {
+      "bytes": 2814,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0139/receipt.json",
+      "sha256": "0cb56b9274888edcb631960ed0f79385ca84b702bba9e9a0663106189686dd62"
+    },
+    {
+      "bytes": 2797,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0141/receipt.json",
+      "sha256": "2965e90b5e79b0fdc745c18beac7320421060b0a7811a72f77ab53cb43606f7b"
+    },
+    {
+      "bytes": 2722,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0142/receipt.json",
+      "sha256": "a16231fd4f4b2fc3f47ace2048f02ce287a196486aa917c278b444ea96ba407f"
+    },
+    {
+      "bytes": 6639,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0143/body",
+      "sha256": "7efc1241e73e7fbb268bfd33242d11ebd3ca07061d7d85f2962dc32a0f0b8855"
+    },
+    {
+      "bytes": 4967,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0144/body",
+      "sha256": "3cbad849b35dacfe6cec31adada2c623c026c3261141b0d26eec7e399c6cd7fa"
+    },
+    {
+      "bytes": 5236,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0145/body",
+      "sha256": "dfbfd6ffe2a784ca9817c46365aa7f8a578320b805bde39d6f55a0b09d8aa8ca"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0146/body",
+      "sha256": "cdcdc88ea6a082da94a7e3d6142f39044d033ca2688549e82cd213269ae2eecf"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0147/body",
+      "sha256": "1fe5d1b9d9ddc9c9d0871e5fa270040edb9199213fc69ea9ae374c5e26bc209b"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0148/body",
+      "sha256": "5e5cef7cbff3382324e768215aeb724d10fcf04efeb7e24e1ead301b185b1fb8"
+    },
+    {
+      "bytes": 1641,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0149/body",
+      "sha256": "35e49f4134de2ac326c3a50a25762cbb4db56f3802fa3f730cc85b653ad0987b"
+    },
+    {
+      "bytes": 2793,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0150/receipt.json",
+      "sha256": "d337a772035c9b27cf70216c1ee420268f1eb21f2cebf0e3380e51ced2630ed3"
+    },
+    {
+      "bytes": 2787,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0151/receipt.json",
+      "sha256": "effd201593aa5faa2ff37edb1ebb05ed0c0131f82c430a40faa352fb7b6b07ac"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0152/body",
+      "sha256": "bf93490c9488987d181d71809e0b318e7a652902c94bc9933d1a3c93a3c491e2"
+    },
+    {
+      "bytes": 2781,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0153/receipt.json",
+      "sha256": "65705505cd5932a315a2e0687052cf482ac56a0b84e678864483b92859d9c50a"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0154/receipt.json",
+      "sha256": "0319082e89687dcb6ee8645e37b144337caef03f5f9d0aaf1c1076d89901396f"
+    },
+    {
+      "bytes": 1141,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0155/body",
+      "sha256": "d8f1a06b149d746e9d98de54e2f7aa9b2eb613fb35ca67d8ae396ceaac661ee4"
+    },
+    {
+      "bytes": 1320,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0156/body",
+      "sha256": "e24c1fb4cf1605405a6988e9e4d6e4b2e1f4393fc73a89a9452ae625ee311d02"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0158/body",
+      "sha256": "e192f56cf3cf0cbd412efa3ee8d771f72dca72cc6bb687e41b41923d2d3c2b6d"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0159/body",
+      "sha256": "2f1a02643e512d9d12516e569e8c8258007b140fd19fcdbd17fefad7ceb15b84"
+    },
+    {
+      "bytes": 23680,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0161/body",
+      "sha256": "51b731e5cff121efd6d320f4a801cd616869c5bed4e9c0e353b29060b1d2355f"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0162/receipt.json",
+      "sha256": "596e0131a2a45e75ec8396b10546a70794d650b28604d73ad2f406b68a7301af"
+    },
+    {
+      "bytes": 3498,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0163/body",
+      "sha256": "f8163327245ab8625532948c72a930548cd97f34d6c3fe860fa6aec5a34d79b4"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0164/body",
+      "sha256": "e79ffdcf6c53b9998f0a525e7e98feab4422b46b8c9080d3118e2ac81fd74bcb"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0165/receipt.json",
+      "sha256": "a60f346608317154efc124ced402f804044c4129e08f75095d43b735d5c0e041"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0166/body",
+      "sha256": "6ff0dc5f0118d6adba6fabec5867ee11c481fe82f9274debc0a9752599529cb5"
+    },
+    {
+      "bytes": 5573,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0167/body",
+      "sha256": "9448a5ad7fa68a6083dfbe4f42c8c83e082b9202a105401fc68e944c26548b34"
+    },
+    {
+      "bytes": 2766,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0168/body",
+      "sha256": "a79dd002fb038183ff286a2635be2e68c103b87e0e64717d8d44bfd017fd33ea"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0169/body",
+      "sha256": "7b6ec1342c7a89dd2cf831789257f07c8887a35972b7b89cbdf418b2dc4cbdf8"
+    },
+    {
+      "bytes": 1372,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0170/body",
+      "sha256": "ae46614906414404cefc41a467435205d6dee67a2390598328a639ad2bacbd11"
+    },
+    {
+      "bytes": 2758,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0171/receipt.json",
+      "sha256": "09dc67f29e7ee3be4cdd895d180a91e9fa1c4a9c52e104832f3c67285b2bd9d8"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0172/body",
+      "sha256": "ee813bf47e9590d22cf49d9835b885c32b209dcc70d407457be3b5bc2aa65097"
+    },
+    {
+      "bytes": 2784,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0173/receipt.json",
+      "sha256": "e1bb3cf9b64f831536aa6ff8e14843aebc243b8d38703cc51347e874a3b73063"
+    },
+    {
+      "bytes": 1389,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0174/body",
+      "sha256": "be494907e0e19c78bb821154afa1776d5ad7a058b4ab30090f74354b0e1338de"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0175/body",
+      "sha256": "11053f3fae8da924298f2f288823bf11e2f37c2fd6b33677130c83fc3f891369"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0176/body",
+      "sha256": "d9323e57f33770e8907abc9530d0ebae01d7ca1fea5c54b48dc487499cd3a897"
+    },
+    {
+      "bytes": 1581,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0177/body",
+      "sha256": "2569cf5a980724f140157501db36dffab919cd0d443d2e14b5a35a2f96f84fac"
+    },
+    {
+      "bytes": 2808,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0178/receipt.json",
+      "sha256": "6dc38f8001874c79981c9c15abd3fee7fcf380cfcfb202d17bde8b8e92448042"
+    },
+    {
+      "bytes": 2735,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0179/receipt.json",
+      "sha256": "bb9a1d832997daf76292193a194ce0f185690dc8bb31eae1703dea8bcd3e2f74"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0180/body",
+      "sha256": "e20f283c2778e05ff208029dcd5a1eae15aa4d2bf34e59536c276a6751c49e0f"
+    },
+    {
+      "bytes": 2832,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0181/receipt.json",
+      "sha256": "43ab844bdeeec2c03c1f0ba5a92b3cd1a45a0b64c16f28bbf9e29d9e913c5bf9"
+    },
+    {
+      "bytes": 2831,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0183/receipt.json",
+      "sha256": "4c73ad14565565e295408a6e3a0a13e933f5a801c9b6616de54a43cb507a7bde"
+    },
+    {
+      "bytes": 12430,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0193/body",
+      "sha256": "db78df08283591cb67c8b9d2796109eb52b6088d4dfe102b545f20118249713f"
+    },
+    {
+      "bytes": 1354,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0194/body",
+      "sha256": "c9490f655132328df2cfbcfdf743f53fc3916d6c1d10437175a6ca6e3a67771c"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0196/body",
+      "sha256": "a2c197292ee1d0fd8193ac1677197e9d6965d8e8def3c6a7abb1023f489c4beb"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0197/body",
+      "sha256": "d509d3ac0c2e265b257cd40d459c01f7fe4821816060e9702979b2e5007b61be"
+    },
+    {
+      "bytes": 4438,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0198/body",
+      "sha256": "b321a899e40d3ce345707aa2cfda9983ad0dcc69fea74a9b8bf906a16c1cf8a9"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0199/body",
+      "sha256": "1412c0984aad014fdf510f4e22d510c3f98f4d2649fa74ee618b305ef87ccd94"
+    },
+    {
+      "bytes": 15152,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0200/body",
+      "sha256": "8fc84f36ce6da6ce8c893b6538199a7f69a69a0706d9b17a3ee6a3a09452eed6"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0201/body",
+      "sha256": "7ae9e68ebb7884a6488b98741a21acbb2dd42dfa55b3b17af0a3c5b3e4d5ac75"
+    },
+    {
+      "bytes": 2621,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0202/body",
+      "sha256": "c5747e25c72e1b07d5263c75c78ad61a626dd2458fafcafc23f81d3253ee42ed"
+    },
+    {
+      "bytes": 2768,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0203/receipt.json",
+      "sha256": "f90915874e3fe2ba03d4da61918eb81966c321b9efaca25ffd49ede78472c2ec"
+    },
+    {
+      "bytes": 2788,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0204/body",
+      "sha256": "f793e78f01f703717d09472e56cdf212fe298970c882e2116e8e549fb6d140c2"
+    },
+    {
+      "bytes": 2747,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0205/receipt.json",
+      "sha256": "07fa7f796eb18555672e7c8693071d55dafa3e49548b1e4bcaf11d437bbb1918"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0206/body",
+      "sha256": "945d4a6370942e6444c69902ad7c2d787cfe7e62bf9cf3c217d8393428ecc767"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0207/body",
+      "sha256": "9a5c25b05c47742ce32b10d0313a41b73ea33d4fb4ec1af7e6aec44d9a5999c2"
+    },
+    {
+      "bytes": 2744,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0208/receipt.json",
+      "sha256": "af678eb2ec7cfb2e639ad23517abeb292a48d63cb9b0fad9adf53d4de2bea094"
+    },
+    {
+      "bytes": 2592,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0209/body",
+      "sha256": "7149e7faa0e191296f879aeed9209c8942d398f0698d2cca1a9c628f2e2a8f77"
+    },
+    {
+      "bytes": 2370,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0210/body",
+      "sha256": "c1367c3bb383d7619e7f797e38df7513885f2eef04ae7b5908f68222657b5baa"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0211/body",
+      "sha256": "8ef219aae7adcd7d929f40a2a84cd4621d0885ba969369902a3876286c24ae0f"
+    },
+    {
+      "bytes": 40,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0212/body",
+      "sha256": "3eaafb8996b9ab0d6b88965178de50a0aadc6e62a11b4e5a7328d67574cf1153"
+    },
+    {
+      "bytes": 2750,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0213/receipt.json",
+      "sha256": "b195ea3fa101a4959d3f7d8a28fec5b10bdfd5efda82c441c9bf7fa83c7c156c"
+    },
+    {
+      "bytes": 2725,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0214/receipt.json",
+      "sha256": "f45454f0dd6f6d023be0897a270d1807200db165ea25f5f610a18906917905f4"
+    },
+    {
+      "bytes": 2695,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0215/receipt.json",
+      "sha256": "32895f024d489ccc802bc3fecebd218b12274367aae9f4d5ee0e4d618f0c69d4"
+    },
+    {
+      "bytes": 2773,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0216/receipt.json",
+      "sha256": "3c2a18f2f1fb74fb16ba0181cda58941d293be1b6c3812354353fad97e9a1c49"
+    },
+    {
+      "bytes": 2752,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/requests/0217/receipt.json",
+      "sha256": "36ee651756a7cd0e53037aea26f270681df4672fe1a9f05a4915d2ded3bf142e"
+    },
+    {
+      "bytes": 335,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/seal.json",
+      "sha256": "09d0e8a9bf50613897a9c84a9b5ee4a25ea6151b874fcd893e7cbcbf908f35fb"
+    },
+    {
+      "bytes": 30830,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/PomReader.java",
+      "sha256": "9d281b81ed1d137967bd98f1afe0510981badb4ba494c028abf0a48ef52b965f"
+    },
+    {
+      "bytes": 13296,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/internal/component/external/model/maven/DefaultMavenModuleResolveMetadata.java",
+      "sha256": "e87a27695e6e027b80344d02ea7d64b9d840e2551c3efd68cd1c5bbe5cca3a93"
+    },
+    {
+      "bytes": 17681,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/internal/component/external/model/maven/RealisedMavenModuleResolveMetadata.java",
+      "sha256": "d76ae0afa9a500b9147d0c76604163b95db7b3725aa8a96a4424343d2099fc59"
+    },
+    {
+      "bytes": 16717,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/acquire_binaries.py",
+      "sha256": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d"
+    },
+    {
+      "bytes": 218102,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/plan.json",
+      "sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593"
+    },
+    {
+      "bytes": 3000,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/primary-fallback-contract.json",
+      "sha256": "f0675fb1c64b065960eda82fddbcf2bbf281eaee9ac2ca5a79edafc087702640"
+    },
+    {
+      "bytes": 3939,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/request_worker.py",
+      "sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4"
+    },
+    {
+      "bytes": 529,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/prior-selected-metadata-parity.json",
+      "sha256": "c13012f49bbf5677ab58de3bfaa1471c8148006bfe970f3043f4aab314c027b0"
+    },
+    {
+      "bytes": 19703,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "sha256": "bf5d27df07af9172651d6e7ea0ce162d8a7188d09b7b7c56a330e0e213c1d37f"
+    },
+    {
+      "bytes": 377894,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+    },
+    {
+      "bytes": 551152,
+      "path": "/usr/bin/curl",
+      "sha256": "b636262803922ee1dd0fbf614818473ffa53c811e44fd3278c2270d3af4759d3"
+    }
+  ],
+  "no_maintained_APP_or_shared_Gradle_cache_write_scope": true,
+  "root_metadata3_exact_selected69_fact_epoch": {
+    "bytes": 377894,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+    "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+  },
+  "schema_version": 1,
+  "scope": "exact publisher plan/controller/transport/qualified metadata+POM/module/404/primary-version-contract inputs; root owns current source/native epoch and normal full Gradle comparison"
+}

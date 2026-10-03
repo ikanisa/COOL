@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.3328068256378174
+    },
+    {
+      "name": "cases",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_recovery.test.ts",
+        "src/unattended_scheduler_control.test.ts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 95.33398103713989
+    }
+  ],
+  "input_drift": [],
+  "canonical_baseline_drift": [],
+  "inputs_sha256": "ed27ee5b74b90f3c77fe1b5af03d1fdf130efc8f2eeebe7a4ad3aebd81110a7f",
+  "private_staging_only": true
+}

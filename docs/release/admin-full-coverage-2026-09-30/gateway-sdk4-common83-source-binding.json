@@ -1,0 +1,14 @@
+{
+  "SDK4_wrapper_sha256": "876fba2d5f4b85f7e6446c4223788504e8c6b216720f106aa41789ba02a0ff1d",
+  "SDK4_passed": true,
+  "overlap_count": 806,
+  "differences": [
+    {
+      "path": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "SDK4": "1088d6f87a6908e42878a7de1d6bb0690961341264c8e4eeb6ed189129673120",
+      "common83": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a"
+    }
+  ],
+  "runtime_overlap_identical": true,
+  "scope": "Current corrected fixture and actual SDK acceptance; common83 has the immediately preceding test-only injected-error timing. No native, SQL or full Admin acceptance from SDK4."
+}

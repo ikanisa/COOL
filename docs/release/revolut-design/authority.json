@@ -6,9 +6,7 @@
     "admin",
     "public_website"
   ],
-  "authority_sha256": "59ed494b2dd61684a8f2f516385ba601cfa549b7541bc1e9706df50e28fe3e1a",
-  "mobile_acceptance_rule": "MOBILE-DESIGN-100",
-  "mobile_acceptance_rule_sha256": "f552445abe63cab63bdcda039d301d6b532f404380fb0d3d35d3563a3ec803cb",
+  "authority_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
   "surface_references": {
     "member_app": [
       "references/mobile-patterns.md",

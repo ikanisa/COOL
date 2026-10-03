@@ -1,0 +1,15 @@
+{
+  "scope": "rw_receipt_retention_control_request",
+  "intent": null,
+  "status": "not_recorded",
+  "actor_id": "99780000-0000-4000-8000-000000000001",
+  "after_cron": null,
+  "request_id": "bed17a53-e8bd-4a55-b20a-2b567a230c4e",
+  "session_id": "99780000-0000-4000-8000-000000010001",
+  "before_cron": null,
+  "recorded_at": null,
+  "contract_version": 1,
+  "fingerprint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "after_configuration": null,
+  "before_configuration": null
+}

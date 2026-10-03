@@ -1,0 +1,6 @@
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_dump", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_restore", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "constructor-first-version-observer", "stage": "version", "parent_pgid": 90675, "descendant_pid": 90678, "owned_group_absent": true, "no_database_request_or_artifact": true, "unchanged_executable_second_constructor_pass": true}

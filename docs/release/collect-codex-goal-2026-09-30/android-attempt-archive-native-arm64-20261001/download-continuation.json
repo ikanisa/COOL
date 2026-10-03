@@ -1,0 +1,21 @@
+{
+  "state": "terminal",
+  "started_at": "2026-10-01T15:23:51.145766+00:00",
+  "original_external_path": "/Users/jeanbosco/.codex/tmp/collect-android-native-proof-20261001",
+  "original_external_resolved": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/tmp/collect-android-native-proof-20261001",
+  "internal_root": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001",
+  "initial_partial_bytes": 51019157,
+  "initial_partial_sha256": "c413129f5ffc2af8ef8e4eddb72a3910ed994be2bdf8f85578a9c6a486079ca4",
+  "same_official_archive_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+  "bound_seconds": 900,
+  "resume_from_existing_partial": true,
+  "no_archive_restart_or_toolchain_selection_change": true,
+  "finished_at": "2026-10-01T15:34:53.417704+00:00",
+  "exit_code": 0,
+  "wall_seconds": 662.2128944589931,
+  "final_bytes": 200073404,
+  "final_sha256": "3623232f33a9c3baadf304480b2535f9a3cba8a58d42ecbb438ba267315d9998",
+  "expected_official_sha256": "3623232f33a9c3baadf304480b2535f9a3cba8a58d42ecbb438ba267315d9998",
+  "checksum_verified": true,
+  "exact_expected_bytes": true
+}

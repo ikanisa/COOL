@@ -1,0 +1,38 @@
+{
+  "scripts/audits/collect_recovery_source.rb": {
+    "sha256": "4a6a0d7f80628781bf18e6b7aa00ced630943f3af612247126e0bf21c3c760cc",
+    "mode": 420
+  },
+  "scripts/sql/collect_recovery_source_catalog.sql": {
+    "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+    "mode": 420
+  },
+  "scripts/audits/collect_encrypted_database_backup.rb": {
+    "sha256": "563697906caeec76fe1da346cc6fac8b4bb0f1c54320c382c9262bec5c2ef742",
+    "mode": 448
+  },
+  "scripts/tests/production_archive_restore.rb": {
+    "sha256": "b4eb514956df738056479ed711b9e42a66e91d5d479ca01e9f68b0517a37c415",
+    "mode": 448
+  },
+  "scripts/tests/collect_recovery_source_test.rb": {
+    "sha256": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a",
+    "mode": 420
+  },
+  "scripts/tests/collect_encrypted_database_backup_test.rb": {
+    "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+    "mode": 448
+  },
+  "scripts/tests/production_archive_restore_test.rb": {
+    "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+    "mode": 448
+  },
+  "scripts/tests/collect_recovery_source_catalog_uat.rb": {
+    "sha256": "9144160ed04def92aa1f8f6cfbbd761e5aec21f5940b120ae2faf591bda3806c",
+    "mode": 420
+  },
+  "docs/platform/CURRENT_CANDIDATE_RECOVERY.md": {
+    "sha256": "f8531600e2fac860b9f44b4c44abcd168952ec51050c315159de2e56607760be",
+    "mode": 420
+  }
+}

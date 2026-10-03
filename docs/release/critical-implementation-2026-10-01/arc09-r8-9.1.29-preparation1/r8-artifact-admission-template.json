@@ -1,0 +1,28 @@
+{
+  "POM_sha256": "136af50c91e46198fc439f2e233094edd39c5d68df88f33045526b872a4a6e06",
+  "actual_acquisition": {
+    "HTTP_code": null,
+    "TLS_verify_result": null,
+    "deadline_seconds": 120,
+    "effective_url": null,
+    "maximum_bytes": 60000000,
+    "observed": false
+  },
+  "coordinate": "com.android.tools:r8:9.1.29",
+  "jar": {
+    "bytes": 56139715,
+    "md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+    "path": null,
+    "sha256": null
+  },
+  "kind": "root_selected_exact_r8_artifact_admission",
+  "production_release_approval": false,
+  "publisher_content_length": 56139715,
+  "publisher_crc32c_base64": "wwtxyA==",
+  "publisher_generation": "1770813549786388",
+  "publisher_md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+  "publisher_url": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar",
+  "root_pinned_transformed_providers": [],
+  "schema_version": 1,
+  "version": "9.1.29"
+}

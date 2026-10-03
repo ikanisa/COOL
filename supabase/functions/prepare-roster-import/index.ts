@@ -13,5 +13,9 @@ Deno.serve(createRosterImportHandler({
     decoderUrl: Deno.env.get("ROSTER_DECODER_URL")?.trim(),
     decoderSecret: Deno.env.get("ROSTER_DECODER_SECRET"),
     decoderBuildSha256: Deno.env.get("ROSTER_DECODER_BUILD_SHA256"),
+    aiApprovalJson: Deno.env.get("ROSTER_AI_APPROVAL_JSON"),
+    aiApprovalSha256: Deno.env.get("ROSTER_AI_APPROVAL_SHA256"),
+    openAiOrganizationId: Deno.env.get("OPENAI_ORGANIZATION_ID"),
+    openAiProjectId: Deno.env.get("OPENAI_PROJECT_ID"),
   }),
 }));

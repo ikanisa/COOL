@@ -1,0 +1,14 @@
+{
+  "scans": 2004,
+  "progress": {
+    "epoch": 2,
+    "phase": "receipt_backlog",
+    "last_id": "001aba65-b7be-4e3f-bfa8-da632abc7560",
+    "singleton": true,
+    "last_scan_at": "2026-10-01T16:25:18.713151+00:00",
+    "last_request_id": "216e8a82-36bb-462f-b12f-5f58c8166a0b"
+  },
+  "budget_rows": 6000,
+  "history_rows": 7100,
+  "registry_sources": 1099
+}

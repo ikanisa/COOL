@@ -1,0 +1,203 @@
+{
+  "last_actual_owned_rows": {},
+  "late_observed_daemon_ids": [],
+  "observation_utc": "2026-10-02T13:28:39.326984+00:00",
+  "observed_ancestry": [
+    {
+      "ancestry": [
+        99590
+      ],
+      "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-repository-metadata-resolution1/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 resolveExactPublisherJar",
+      "pgid": 99590,
+      "pid": 99590,
+      "ppid": 99587,
+      "start": "Fri Oct 2 15:28:26 2026",
+      "state": "Us"
+    },
+    {
+      "ancestry": [
+        99590,
+        99607
+      ],
+      "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+      "observed_session_history": [
+        {
+          "PID_start_command_parent_unchanged": true,
+          "after_pgid": 99607,
+          "before_pgid": 99590,
+          "observed_utc": "2026-10-02T13:28:28.972246+00:00",
+          "private_home_evidence": {
+            "actual_matching_lsof_fields": {
+              "inode": "60446249",
+              "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+              "pid": 99607
+            },
+            "home_identity": [
+              16777232,
+              58765337,
+              448
+            ],
+            "log_device": 16777232,
+            "log_inode": 60446249,
+            "lsof_stdout_sha256": "3d711ba07b112f11634f3efaa0f218b1eb6c591f4928de6b23a7b6b8951d4ae9",
+            "observed_utc": "2026-10-02T13:28:28.972204+00:00",
+            "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+            "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+            "retained_matching_lsof_lines": [
+              "p99607",
+              "i60446249",
+              "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log"
+            ]
+          }
+        }
+      ],
+      "pgid": 99607,
+      "pid": 99607,
+      "ppid": 99590,
+      "start": "Fri Oct 2 15:28:27 2026",
+      "state": "R"
+    }
+  ],
+  "observed_new_daemons": [
+    {
+      "PGID_absent": true,
+      "PID_absent": true,
+      "cleanup": [],
+      "daemon": {
+        "ancestry": [
+          99590,
+          99607
+        ],
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+        "observed_session_history": [
+          {
+            "PID_start_command_parent_unchanged": true,
+            "after_pgid": 99607,
+            "before_pgid": 99590,
+            "observed_utc": "2026-10-02T13:28:28.972246+00:00",
+            "private_home_evidence": {
+              "actual_matching_lsof_fields": {
+                "inode": "60446249",
+                "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+                "pid": 99607
+              },
+              "home_identity": [
+                16777232,
+                58765337,
+                448
+              ],
+              "log_device": 16777232,
+              "log_inode": 60446249,
+              "lsof_stdout_sha256": "3d711ba07b112f11634f3efaa0f218b1eb6c591f4928de6b23a7b6b8951d4ae9",
+              "observed_utc": "2026-10-02T13:28:28.972204+00:00",
+              "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+              "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+              "retained_matching_lsof_lines": [
+                "p99607",
+                "i60446249",
+                "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log"
+              ]
+            }
+          }
+        ],
+        "pgid": 99607,
+        "pid": 99607,
+        "ppid": 99590,
+        "private_home_evidence": {
+          "actual_matching_lsof_fields": {
+            "inode": "60446249",
+            "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+            "pid": 99607
+          },
+          "home_identity": [
+            16777232,
+            58765337,
+            448
+          ],
+          "log_device": 16777232,
+          "log_inode": 60446249,
+          "lsof_stdout_sha256": "3d711ba07b112f11634f3efaa0f218b1eb6c591f4928de6b23a7b6b8951d4ae9",
+          "observed_utc": "2026-10-02T13:28:29.008096+00:00",
+          "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+          "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+          "retained_matching_lsof_lines": [
+            "p99607",
+            "i60446249",
+            "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log"
+          ]
+        },
+        "start": "Fri Oct 2 15:28:27 2026",
+        "state": "R"
+      }
+    }
+  ],
+  "observer_error": {
+    "error": "recognized live Gradle daemon has ambiguous private-home open-file evidence",
+    "type": "ValueError"
+  },
+  "owned_daemons_absent": false,
+  "refused_transitions": [
+    {
+      "before": {
+        "ancestry": [
+          99590,
+          99607
+        ],
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+        "observed_session_history": [
+          {
+            "PID_start_command_parent_unchanged": true,
+            "after_pgid": 99607,
+            "before_pgid": 99590,
+            "observed_utc": "2026-10-02T13:28:28.972246+00:00",
+            "private_home_evidence": {
+              "actual_matching_lsof_fields": {
+                "inode": "60446249",
+                "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+                "pid": 99607
+              },
+              "home_identity": [
+                16777232,
+                58765337,
+                448
+              ],
+              "log_device": 16777232,
+              "log_inode": 60446249,
+              "lsof_stdout_sha256": "3d711ba07b112f11634f3efaa0f218b1eb6c591f4928de6b23a7b6b8951d4ae9",
+              "observed_utc": "2026-10-02T13:28:28.972204+00:00",
+              "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log",
+              "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+              "retained_matching_lsof_lines": [
+                "p99607",
+                "i60446249",
+                "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-99607.out.log"
+              ]
+            }
+          }
+        ],
+        "pgid": 99607,
+        "pid": 99607,
+        "ppid": 99590,
+        "start": "Fri Oct 2 15:28:27 2026",
+        "state": "R"
+      },
+      "current": {
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+        "pgid": 99607,
+        "pid": 99607,
+        "ppid": 99590,
+        "start": "Fri Oct 2 15:28:27 2026",
+        "state": "Rs"
+      },
+      "reason": "recognized live Gradle daemon has ambiguous private-home open-file evidence",
+      "utc": "2026-10-02T13:28:39.087730+00:00"
+    }
+  ],
+  "separate_daemon_required_stop": false,
+  "spontaneous_daemon_shutdown": false,
+  "terminal_Z_is_not_absence_or_signal_authority": true,
+  "unavailable_argv_is_not_absence_ownership_or_signal_authority": true,
+  "unproven_private_home_daemons": [],
+  "wrapper_group_does_not_prove_daemon_absence": true,
+  "wrapper_pid": 99590
+}

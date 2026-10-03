@@ -1,0 +1,5576 @@
+{
+  "frozen_at_utc": "2026-10-02T02:45:39.807697+00:00",
+  "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "private_candidate": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source",
+  "cohort": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3",
+  "source_count": 140,
+  "exact_current_dynamic_inventory": false,
+  "exact_composed_private_dynamic_inventory": true,
+  "composition": "Exact preserved failed140 plus the single root-approved HTTP fixture; retains dated12 config/loader and separate12 manifest, no current-checkout acceptance.",
+  "before_copy_after_mode_hash_equal": true,
+  "all_private_file_inodes_distinct": true,
+  "initial_deno_file_count": 0,
+  "deno_cache": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/deno-cache",
+  "source_manifest": [
+    {
+      "path": ".dvmrc",
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "bytes": 6,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217231,
+        448,
+        6,
+        1790908591678580076,
+        1790908591678611326,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233914,
+        448,
+        6,
+        1790909139633769436,
+        1790909139633797103,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217231,
+        448,
+        6,
+        1790908591678580076,
+        1790908591678611326,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/.dvmrc",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+      "bytes": 23831,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217234,
+        448,
+        23831,
+        1790908591678863699,
+        1790908591678883907,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233917,
+        448,
+        23831,
+        1790909139634025978,
+        1790909139634048020,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217234,
+        448,
+        23831,
+        1790908591678863699,
+        1790908591678883907,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/.github/workflows/ci.yml",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+      "bytes": 17912,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217235,
+        448,
+        17912,
+        1790908591679233321,
+        1790908591679263280,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233918,
+        448,
+        17912,
+        1790909139634215645,
+        1790909139634233936,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217235,
+        448,
+        17912,
+        1790908591679233321,
+        1790908591679263280,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/Makefile",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-attempt-archive-v3/fixtures/observed-ack.json",
+      "sha256": "96ebaf4b1e8f838722ecf29e9c320553283150fc5eb651925670cd0b0f5cebd3",
+      "bytes": 1677,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217239,
+        420,
+        1677,
+        1790908591679570944,
+        1790908591679587444,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233922,
+        420,
+        1677,
+        1790909139634467144,
+        1790909139634484394,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217239,
+        420,
+        1677,
+        1790908591679570944,
+        1790908591679587444,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-attempt-archive-v3/fixtures/observed-ack.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-attempt-archive-v3/fixtures/observed-incomplete.json",
+      "sha256": "45c865ee926e17e228e98de34f0cc3eab99a2f063606f4303d36dd2170019b6b",
+      "bytes": 698,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217240,
+        420,
+        698,
+        1790908591679713026,
+        1790908591679730109,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233923,
+        420,
+        698,
+        1790909139634612269,
+        1790909139634630103,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217240,
+        420,
+        698,
+        1790908591679713026,
+        1790908591679730109,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-attempt-archive-v3/fixtures/observed-incomplete.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-attempt-archive-v3/fixtures/observed-late-conflict.json",
+      "sha256": "f6b051e7b211c1f03c7df655d200c46d86eaa3a1378a8ebb8b493ffcded5aaff",
+      "bytes": 269,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217241,
+        420,
+        269,
+        1790908591679855275,
+        1790908591679870150,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233924,
+        420,
+        269,
+        1790909139634734269,
+        1790909139634747686,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217241,
+        420,
+        269,
+        1790908591679855275,
+        1790908591679870150,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-attempt-archive-v3/fixtures/observed-late-conflict.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-attempt-archive-v3/fixtures/observed-lookup.json",
+      "sha256": "8b021e5cbe14ccee30b8c30c41a41124b42b3975adf78b6698e105bc555a99c6",
+      "bytes": 1870,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217242,
+        420,
+        1870,
+        1790908591679987524,
+        1790908591680001732,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233925,
+        420,
+        1870,
+        1790909139634909978,
+        1790909139634932103,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217242,
+        420,
+        1870,
+        1790908591679987524,
+        1790908591680001732,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-attempt-archive-v3/fixtures/observed-lookup.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-attempt-archive-v3/fixtures/observed-unknown.json",
+      "sha256": "a9c3a4c0bd5d756e78dec6014602f394796161ce8038cae2b59de4751f6ac9ce",
+      "bytes": 117,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217243,
+        420,
+        117,
+        1790908591680117815,
+        1790908591680133856,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233926,
+        420,
+        117,
+        1790909139635071102,
+        1790909139635090311,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217243,
+        420,
+        117,
+        1790908591680117815,
+        1790908591680133856,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-attempt-archive-v3/fixtures/observed-unknown.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-arm.json",
+      "sha256": "21162e4e21444e4f6c6a39b31c5627c050570f312ad872d4933cdfd737541c10",
+      "bytes": 463,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217246,
+        420,
+        463,
+        1790908591680315147,
+        1790908591680329105,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233929,
+        420,
+        463,
+        1790909139635277977,
+        1790909139635296311,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217246,
+        420,
+        463,
+        1790908591680315147,
+        1790908591680329105,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-arm.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-complete-callback.json",
+      "sha256": "73a6bf2b8d5a9955786efba9c158f5a1bed421cd2ccf2faf392b034ac7c86be2",
+      "bytes": 274,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217247,
+        420,
+        274,
+        1790908591680452146,
+        1790908591680465854,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233930,
+        420,
+        274,
+        1790909139635404977,
+        1790909139635418602,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217247,
+        420,
+        274,
+        1790908591680452146,
+        1790908591680465854,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-complete-callback.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-concurrent-grants.json",
+      "sha256": "3fe3ff18155b78c4f9cfe1247c06fa11067da455e10ce4d3786e4391bc7d89f9",
+      "bytes": 1254,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217248,
+        420,
+        1254,
+        1790908591680592644,
+        1790908591680607311,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233931,
+        420,
+        1254,
+        1790909139635667561,
+        1790909139635685227,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217248,
+        420,
+        1254,
+        1790908591680592644,
+        1790908591680607311,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-concurrent-grants.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-contradictory-callback.json",
+      "sha256": "20340f6c557e02c835b26f4f27e9c03d35301c557a3aea0f459bf86b898b15a6",
+      "bytes": 269,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217249,
+        420,
+        269,
+        1790908591680724727,
+        1790908591680741435,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233932,
+        420,
+        269,
+        1790909139635805144,
+        1790909139635822227,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217249,
+        420,
+        269,
+        1790908591680724727,
+        1790908591680741435,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-contradictory-callback.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-grant-paused.json",
+      "sha256": "979eff4755fc2755d1e6aa5958634946100650e9b9b81655fe5f11370c7fc2db",
+      "bytes": 179,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217250,
+        420,
+        179,
+        1790908591680858476,
+        1790908591680872476,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233933,
+        420,
+        179,
+        1790909139635937686,
+        1790909139635954727,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217250,
+        420,
+        179,
+        1790908591680858476,
+        1790908591680872476,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-grant-paused.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-grant-reconciliation.json",
+      "sha256": "30ed3f064eeffce50ac0122ad777a2ef00ca32bec3648bc6b97df19d0da4ea5d",
+      "bytes": 350,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217251,
+        420,
+        350,
+        1790908591680989725,
+        1790908591681003850,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233934,
+        420,
+        350,
+        1790909139636073685,
+        1790909139636090019,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217251,
+        420,
+        350,
+        1790908591680989725,
+        1790908591681003850,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-grant-reconciliation.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-grant.json",
+      "sha256": "2d206413391677a347db18d491f388d96a0b69320297b3bbc3f2679d0cd32849",
+      "bytes": 1014,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217252,
+        420,
+        1014,
+        1790908591681119766,
+        1790908591681133765,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233935,
+        420,
+        1014,
+        1790909139636208644,
+        1790909139636224977,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217252,
+        420,
+        1014,
+        1790908591681119766,
+        1790908591681133765,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-grant.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-owner-automatic-history.json",
+      "sha256": "45ca9d2637566e0a4b9895a937a1cb768f1d8a1650982c381f5530322377cc8e",
+      "bytes": 789,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217253,
+        420,
+        789,
+        1790908591681252390,
+        1790908591681267223,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233936,
+        420,
+        789,
+        1790909139636342852,
+        1790909139636359310,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217253,
+        420,
+        789,
+        1790908591681252390,
+        1790908591681267223,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-owner-automatic-history.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-partial-callback.json",
+      "sha256": "3366c9f43ea932a710eb5a7a4ff806e305e571892d71e89fc7ca86d6a115687e",
+      "bytes": 273,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217254,
+        420,
+        273,
+        1790908591681381389,
+        1790908591681395014,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233937,
+        420,
+        273,
+        1790909139636474352,
+        1790909139636491352,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217254,
+        420,
+        273,
+        1790908591681381389,
+        1790908591681395014,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-partial-callback.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "contracts/collect-android-dispatch-v2/fixtures/observed-status.json",
+      "sha256": "0e65b26d8712b1a40ec029ecc7bfa38434929206a08a5b4b8a461497d927a425",
+      "bytes": 323,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217255,
+        420,
+        323,
+        1790908591681505971,
+        1790908591681519596,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233938,
+        420,
+        323,
+        1790909139636606144,
+        1790909139636623019,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217255,
+        420,
+        323,
+        1790908591681505971,
+        1790908591681519596,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/contracts/collect-android-dispatch-v2/fixtures/observed-status.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/qa/edge_http_runtime_uat.ts",
+      "sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9",
+      "bytes": 48433,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17214737,
+        448,
+        48433,
+        1790909078952455957,
+        1790909078952505290,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234086,
+        448,
+        48433,
+        1790909139658839593,
+        1790909139658858176,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17214737,
+        448,
+        48433,
+        1790909078952455957,
+        1790909078952505290,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts",
+      "origin_class": "root_approved_HTTP_fixture"
+    },
+    {
+      "path": "scripts/qa/roster_wheelhouse.py",
+      "sha256": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+      "bytes": 38755,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217259,
+        420,
+        38755,
+        1790908591682086967,
+        1790908591682121425,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233942,
+        420,
+        38755,
+        1790909139637037393,
+        1790909139637055394,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217259,
+        420,
+        38755,
+        1790908591682086967,
+        1790908591682121425,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/qa/roster_wheelhouse.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/qa/run_edge_ci.py",
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217260,
+        420,
+        14349,
+        1790908591682473506,
+        1790908591682499714,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233943,
+        420,
+        14349,
+        1790909139637216268,
+        1790909139637233810,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217260,
+        420,
+        14349,
+        1790908591682473506,
+        1790908591682499714,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/qa/run_edge_ci.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/qa/run_edge_http_uat.py",
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+      "bytes": 6603,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217261,
+        448,
+        6603,
+        1790908591682665921,
+        1790908591682683671,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233944,
+        448,
+        6603,
+        1790909139637362727,
+        1790909139637389977,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217261,
+        448,
+        6603,
+        1790908591682665921,
+        1790908591682683671,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/qa/run_edge_http_uat.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/qa/run_edge_unit_tests.py",
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "bytes": 9611,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217262,
+        420,
+        9611,
+        1790908591682906336,
+        1790908591682924336,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233945,
+        420,
+        9611,
+        1790909139637678727,
+        1790909139637696018,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217262,
+        420,
+        9611,
+        1790908591682906336,
+        1790908591682924336,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/qa/run_edge_unit_tests.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/edge_runner_contract_test.py",
+      "sha256": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72",
+      "bytes": 11776,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217264,
+        420,
+        11776,
+        1790908591683169125,
+        1790908591683185667,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233947,
+        420,
+        11776,
+        1790909139638021310,
+        1790909139638130310,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217264,
+        420,
+        11776,
+        1790908591683169125,
+        1790908591683185667,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/edge_runner_contract_test.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001110000_receipt_operational_authority.sql",
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217268,
+        420,
+        51801,
+        1790908591683557872,
+        1790908591683577122,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233951,
+        420,
+        51801,
+        1790909139638383560,
+        1790909139638402935,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217268,
+        420,
+        51801,
+        1790908591683557872,
+        1790908591683577122,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001110000_receipt_operational_authority.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001120000_operational_exception_lifecycle.sql",
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "bytes": 21389,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217269,
+        420,
+        21389,
+        1790908591683772662,
+        1790908591683789121,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233952,
+        420,
+        21389,
+        1790909139638601935,
+        1790909139638619934,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217269,
+        420,
+        21389,
+        1790908591683772662,
+        1790908591683789121,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001120000_operational_exception_lifecycle.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001140000_receipt_deferral_exceptions.sql",
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217270,
+        420,
+        37268,
+        1790908591683958994,
+        1790908591683975286,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233953,
+        420,
+        37268,
+        1790909139638786351,
+        1790909139638804351,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217270,
+        420,
+        37268,
+        1790908591683958994,
+        1790908591683975286,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001140000_receipt_deferral_exceptions.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001150000_receipt_exception_worker.sql",
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "bytes": 19487,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217271,
+        420,
+        19487,
+        1790908591684152660,
+        1790908591684169909,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233954,
+        420,
+        19487,
+        1790909139638974851,
+        1790909139638991768,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217271,
+        420,
+        19487,
+        1790908591684152660,
+        1790908591684169909,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/20261001150000_receipt_exception_worker.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/authority-support.py",
+      "sha256": "5c344108f9c397730cb684b96bb6f5bdf15d78ce35ef465cecacd4d0254678e5",
+      "bytes": 35313,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217272,
+        420,
+        35313,
+        1790908591684330450,
+        1790908591684345741,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233955,
+        420,
+        35313,
+        1790909139639157559,
+        1790909139639176184,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217272,
+        420,
+        35313,
+        1790908591684330450,
+        1790908591684345741,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/authority-support.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-helper.py",
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217273,
+        420,
+        32062,
+        1790908591684532990,
+        1790908591684550323,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233956,
+        420,
+        32062,
+        1790909139639351184,
+        1790909139639368601,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217273,
+        420,
+        32062,
+        1790908591684532990,
+        1790908591684550323,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-helper.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-runner.py",
+      "sha256": "076f49062e05dbbc5453b293c0bca0dbcda901fd786085e6ce904975051144a9",
+      "bytes": 26566,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217274,
+        420,
+        26566,
+        1790908591684720614,
+        1790908591684737155,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233957,
+        420,
+        26566,
+        1790909139639547809,
+        1790909139639566184,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217274,
+        420,
+        26566,
+        1790908591684720614,
+        1790908591684737155,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-runner.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/manifest.json",
+      "sha256": "e5ed738a0aa4dc6cf870bf33352610074a6e46ab82705dd82440571b58a6a657",
+      "bytes": 1996,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217275,
+        420,
+        1996,
+        1790908591684923362,
+        1790908591684939862,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233958,
+        420,
+        1996,
+        1790909139639716601,
+        1790909139639733809,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217275,
+        420,
+        1996,
+        1790908591684923362,
+        1790908591684939862,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/manifest.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-executed.json",
+      "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+      "bytes": 1226,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217276,
+        420,
+        1226,
+        1790908591685297776,
+        1790908591685315442,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233959,
+        420,
+        1226,
+        1790909139639855142,
+        1790909139639871017,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217276,
+        420,
+        1226,
+        1790908591685297776,
+        1790908591685315442,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-executed.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-expired-lookup.json",
+      "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+      "bytes": 280,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217277,
+        420,
+        280,
+        1790908591685538982,
+        1790908591685556357,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233960,
+        420,
+        280,
+        1790909139639990476,
+        1790909139640006892,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217277,
+        420,
+        280,
+        1790908591685538982,
+        1790908591685556357,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-expired-lookup.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-lookup.json",
+      "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+      "bytes": 1375,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217278,
+        420,
+        1375,
+        1790908591685767314,
+        1790908591685785106,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233961,
+        420,
+        1375,
+        1790909139640125351,
+        1790909139640141392,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217278,
+        420,
+        1375,
+        1790908591685767314,
+        1790908591685785106,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/observed-worker-lookup.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/fixtures/receipt_worker_observation_v1/result.json",
+      "sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc",
+      "bytes": 69611,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217279,
+        420,
+        69611,
+        1790908591685959229,
+        1790908591685994229,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233962,
+        420,
+        69611,
+        1790909139640292350,
+        1790909139640323684,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217279,
+        420,
+        69611,
+        1790908591685959229,
+        1790908591685994229,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/fixtures/receipt_worker_observation_v1/result.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/play_integrity_handler_test.ts",
+      "sha256": "41f181641d75cb9b56460ded224df53f76581c9fe7fa1a36f1b79d38b3a419b6",
+      "bytes": 20920,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217280,
+        420,
+        20920,
+        1790908591686232852,
+        1790908591686252394,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233963,
+        420,
+        20920,
+        1790909139640518309,
+        1790909139640537350,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217280,
+        420,
+        20920,
+        1790908591686232852,
+        1790908591686252394,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/play_integrity_handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247",
+      "bytes": 7629,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217281,
+        420,
+        7629,
+        1790908591686432851,
+        1790908591686452767,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233964,
+        420,
+        7629,
+        1790909139640763309,
+        1790909139640788475,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217281,
+        420,
+        7629,
+        1790908591686432851,
+        1790908591686452767,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_extraction_evaluation.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075",
+      "bytes": 2330,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217282,
+        420,
+        2330,
+        1790908591686618391,
+        1790908591686636849,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233965,
+        420,
+        2330,
+        1790909139640935392,
+        1790909139640954892,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217282,
+        420,
+        2330,
+        1790908591686618391,
+        1790908591686636849,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_extraction_evaluation_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_resource_concurrency_uat.rb",
+      "sha256": "485f331b96c34f26ba24efcb8c9c728cebeb74557693ed4eb7591daf10200e49",
+      "bytes": 42215,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217283,
+        420,
+        42215,
+        1790908591686803890,
+        1790908591686821765,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233966,
+        420,
+        42215,
+        1790909139641114183,
+        1790909139641134059,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217283,
+        420,
+        42215,
+        1790908591686803890,
+        1790908591686821765,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_resource_concurrency_uat.rb",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_resource_final_compatibility_uat.sql",
+      "sha256": "66d06aeeda1e8badce413ecb96e27a4a97f2ac0467122172beda9d1bee3d6377",
+      "bytes": 6161,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217284,
+        420,
+        6161,
+        1790908591687002263,
+        1790908591687020930,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233967,
+        420,
+        6161,
+        1790909139641305475,
+        1790909139641323975,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217284,
+        420,
+        6161,
+        1790908591687002263,
+        1790908591687020930,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_resource_final_compatibility_uat.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_resource_integrity_uat.sql",
+      "sha256": "8d1aa1706e05e19c14bbfb88cc22d865226a0cbbfe2e7162d005d89dd8143a0e",
+      "bytes": 14516,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217285,
+        420,
+        14516,
+        1790908591687174345,
+        1790908591687194970,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233968,
+        420,
+        14516,
+        1790909139641457850,
+        1790909139641476642,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217285,
+        420,
+        14516,
+        1790908591687174345,
+        1790908591687194970,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_resource_integrity_uat.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/roster_wheelhouse_test.py",
+      "sha256": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+      "bytes": 36657,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217286,
+        420,
+        36657,
+        1790908591687430677,
+        1790908591687446843,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233969,
+        420,
+        36657,
+        1790909139641632517,
+        1790909139641651808,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217286,
+        420,
+        36657,
+        1790908591687430677,
+        1790908591687446843,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/roster_wheelhouse_test.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "scripts/tests/verify_roster_decoder.py",
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "bytes": 13760,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217287,
+        420,
+        13760,
+        1790908591687607801,
+        1790908591687621925,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233970,
+        420,
+        13760,
+        1790909139641820183,
+        1790909139641838266,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217287,
+        420,
+        13760,
+        1790908591687607801,
+        1790908591687621925,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/scripts/tests/verify_roster_decoder.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+      "bytes": 16032,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217289,
+        448,
+        16032,
+        1790908591687785757,
+        1790908591687800591,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233972,
+        448,
+        16032,
+        1790909139642002975,
+        1790909139642019141,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217289,
+        448,
+        16032,
+        1790908591687785757,
+        1790908591687800591,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/config.toml",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/apns.ts",
+      "sha256": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+      "bytes": 4779,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217292,
+        448,
+        4779,
+        1790908591687995548,
+        1790908591688011297,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233975,
+        448,
+        4779,
+        1790909139642328766,
+        1790909139642353058,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217292,
+        448,
+        4779,
+        1790908591687995548,
+        1790908591688011297,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/apns.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/apns_test.ts",
+      "sha256": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+      "bytes": 4140,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217293,
+        448,
+        4140,
+        1790908591688131338,
+        1790908591688165546,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233976,
+        448,
+        4140,
+        1790909139642498391,
+        1790909139642517808,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217293,
+        448,
+        4140,
+        1790908591688131338,
+        1790908591688165546,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/apns_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/buri_munsi_receipt.ts",
+      "sha256": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb",
+      "bytes": 1339,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217294,
+        448,
+        1339,
+        1790908591688507627,
+        1790908591688526002,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233977,
+        448,
+        1339,
+        1790909139642649683,
+        1790909139642666891,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217294,
+        448,
+        1339,
+        1790908591688507627,
+        1790908591688526002,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/buri_munsi_receipt.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/cors.ts",
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217295,
+        448,
+        1247,
+        1790908591688658626,
+        1790908591688675792,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233978,
+        448,
+        1247,
+        1790909139642783266,
+        1790909139642799349,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217295,
+        448,
+        1247,
+        1790908591688658626,
+        1790908591688675792,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/cors.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/fcm.ts",
+      "sha256": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6",
+      "bytes": 6937,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217296,
+        448,
+        6937,
+        1790908591688808083,
+        1790908591688825166,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233979,
+        448,
+        6937,
+        1790909139642904474,
+        1790909139642918391,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217296,
+        448,
+        6937,
+        1790908591688808083,
+        1790908591688825166,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/fcm.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/fcm_test.ts",
+      "sha256": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb",
+      "bytes": 5961,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217297,
+        448,
+        5961,
+        1790908591688961707,
+        1790908591688977749,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233980,
+        448,
+        5961,
+        1790909139643052308,
+        1790909139643071933,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217297,
+        448,
+        5961,
+        1790908591688961707,
+        1790908591688977749,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/fcm_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/hash.ts",
+      "sha256": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+      "bytes": 1444,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217298,
+        448,
+        1444,
+        1790908591689101997,
+        1790908591689116414,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233981,
+        448,
+        1444,
+        1790909139643205599,
+        1790909139643222516,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217298,
+        448,
+        1444,
+        1790908591689101997,
+        1790908591689116414,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/hash.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/hmac.ts",
+      "sha256": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace",
+      "bytes": 1466,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217299,
+        448,
+        1466,
+        1790908591689240455,
+        1790908591689256747,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233982,
+        448,
+        1466,
+        1790909139643332724,
+        1790909139643345683,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217299,
+        448,
+        1466,
+        1790908591689240455,
+        1790908591689256747,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/hmac.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/hmac_test.ts",
+      "sha256": "f107f802e955ca20380312ee0282f57cacb79bce19593fd01606f0f66bc7178b",
+      "bytes": 593,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217300,
+        448,
+        593,
+        1790908591689381912,
+        1790908591689397204,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233983,
+        448,
+        593,
+        1790909139643463391,
+        1790909139643479557,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217300,
+        448,
+        593,
+        1790908591689381912,
+        1790908591689397204,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/hmac_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/integrity_admission.ts",
+      "sha256": "e199493ea1dc150bc3472ad38d2ea906ee118e102bc8631b035d8b52dbea077c",
+      "bytes": 3661,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217301,
+        420,
+        3661,
+        1790908591689633577,
+        1790908591689652202,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233984,
+        420,
+        3661,
+        1790909139643620932,
+        1790909139643638307,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217301,
+        420,
+        3661,
+        1790908591689633577,
+        1790908591689652202,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/integrity_admission.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/integrity_admission_test.ts",
+      "sha256": "999c093490077ab1b16dea805ee3c8a7ab38359f1b3078aa283d0ca3395d138d",
+      "bytes": 5343,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217302,
+        420,
+        5343,
+        1790908591689798992,
+        1790908591689817284,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233985,
+        420,
+        5343,
+        1790909139643768807,
+        1790909139643788474,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217302,
+        420,
+        5343,
+        1790908591689798992,
+        1790908591689817284,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/integrity_admission_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/integrity_policy.ts",
+      "sha256": "abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807",
+      "bytes": 1824,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217303,
+        420,
+        1824,
+        1790908591689942033,
+        1790908591689956824,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233986,
+        420,
+        1824,
+        1790909139643907224,
+        1790909139643924599,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217303,
+        420,
+        1824,
+        1790908591689942033,
+        1790908591689956824,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/integrity_policy.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+      "sha256": "d627b98b5cb655673df3a682e65c51f82b4eeb280cf73f7fed506abab18c58dd",
+      "bytes": 5800,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217304,
+        448,
+        5800,
+        1790908591690088282,
+        1790908591690106282,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233987,
+        448,
+        5800,
+        1790909139644057641,
+        1790909139644074307,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217304,
+        448,
+        5800,
+        1790908591690088282,
+        1790908591690106282,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/momo_sms_hybrid_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/momo_sms_parser.ts",
+      "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1",
+      "bytes": 5241,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217305,
+        448,
+        5241,
+        1790908591690267947,
+        1790908591690282530,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233988,
+        448,
+        5241,
+        1790909139644214682,
+        1790909139644231849,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217305,
+        448,
+        5241,
+        1790908591690267947,
+        1790908591690282530,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/momo_sms_parser.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/momo_sms_parser_test.ts",
+      "sha256": "e7881a50eff5982b47b73896775e93edc524c1c405b3bf8c72babd4ba7f7a365",
+      "bytes": 875,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217306,
+        448,
+        875,
+        1790908591690400405,
+        1790908591690414321,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233989,
+        448,
+        875,
+        1790909139644346432,
+        1790909139644361099,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217306,
+        448,
+        875,
+        1790908591690400405,
+        1790908591690414321,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/momo_sms_parser_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/notification_operator.ts",
+      "sha256": "58418544d493e3395e0a6023108588d083e2357dec5ddc3d4d331cc71e9f5ca2",
+      "bytes": 8111,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217307,
+        448,
+        8111,
+        1790908591690538487,
+        1790908591690553445,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233990,
+        448,
+        8111,
+        1790909139644486932,
+        1790909139644505599,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217307,
+        448,
+        8111,
+        1790908591690538487,
+        1790908591690553445,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/notification_operator.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/notification_operator_test.ts",
+      "sha256": "43b289314873f366d3fa6846d3b8909e1b4b6de4bba874909fa85cf751dba88c",
+      "bytes": 4375,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217308,
+        448,
+        4375,
+        1790908591690682486,
+        1790908591690699319,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233991,
+        448,
+        4375,
+        1790909139644647807,
+        1790909139644665474,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217308,
+        448,
+        4375,
+        1790908591690682486,
+        1790908591690699319,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/notification_operator_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/notification_retry.ts",
+      "sha256": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f",
+      "bytes": 2063,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217309,
+        420,
+        2063,
+        1790908591690947359,
+        1790908591690966609,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233992,
+        420,
+        2063,
+        1790909139644781015,
+        1790909139644797390,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217309,
+        420,
+        2063,
+        1790908591690947359,
+        1790908591690966609,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/notification_retry.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/notification_retry_test.ts",
+      "sha256": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520",
+      "bytes": 1509,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217310,
+        420,
+        1509,
+        1790908591691106274,
+        1790908591691122733,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233993,
+        420,
+        1509,
+        1790909139644912932,
+        1790909139644929015,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217310,
+        420,
+        1509,
+        1790908591691106274,
+        1790908591691122733,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/notification_retry_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c",
+      "bytes": 3317,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217311,
+        448,
+        3317,
+        1790908591691248732,
+        1790908591691262398,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233994,
+        448,
+        3317,
+        1790909139645050099,
+        1790909139645066265,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217311,
+        448,
+        3317,
+        1790908591691248732,
+        1790908591691262398,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/openai_roster.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28",
+      "bytes": 4582,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217312,
+        448,
+        4582,
+        1790908591691391814,
+        1790908591691407439,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233995,
+        448,
+        4582,
+        1790909139645195932,
+        1790909139645214432,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217312,
+        448,
+        4582,
+        1790908591691391814,
+        1790908591691407439,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/openai_roster_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/operational_metrics.ts",
+      "sha256": "01a52ef3869faa672b9e3fa5d3ec34fbbd89344985012f6c24ea3c0ebd8fccdd",
+      "bytes": 1637,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217313,
+        420,
+        1637,
+        1790908591691542854,
+        1790908591691557229,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233996,
+        420,
+        1637,
+        1790909139645338348,
+        1790909139645354682,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217313,
+        420,
+        1637,
+        1790908591691542854,
+        1790908591691557229,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/operational_metrics.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/operational_metrics_test.ts",
+      "sha256": "088e4ee450f6f4221283d98131a802067b066c442d026af2eacf6955725b4a38",
+      "bytes": 2627,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217314,
+        420,
+        2627,
+        1790908591691690228,
+        1790908591691704978,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233997,
+        420,
+        2627,
+        1790909139645468890,
+        1790909139645486640,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217314,
+        420,
+        2627,
+        1790908591691690228,
+        1790908591691704978,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/operational_metrics_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/play_integrity_binding.ts",
+      "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9",
+      "bytes": 1480,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217315,
+        448,
+        1480,
+        1790908591691834644,
+        1790908591691852019,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233998,
+        448,
+        1480,
+        1790909139645596807,
+        1790909139645609932,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217315,
+        448,
+        1480,
+        1790908591691834644,
+        1790908591691852019,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/play_integrity_binding.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/play_integrity_binding_test.ts",
+      "sha256": "8128a2f0662e28cb744514a70a87ff326a74ab206c92778e7344c68bd713e50c",
+      "bytes": 1756,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217316,
+        448,
+        1756,
+        1790908591691986434,
+        1790908591692002184,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17233999,
+        448,
+        1756,
+        1790909139645725682,
+        1790909139645743515,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217316,
+        448,
+        1756,
+        1790908591691986434,
+        1790908591692002184,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/play_integrity_binding_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+      "bytes": 5120,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217317,
+        420,
+        5120,
+        1790908591692137808,
+        1790908591692153558,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234000,
+        420,
+        5120,
+        1790909139645861390,
+        1790909139645877598,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217317,
+        420,
+        5120,
+        1790908591692137808,
+        1790908591692153558,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/production_contract.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/raw_sms_input.ts",
+      "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239",
+      "bytes": 453,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217318,
+        448,
+        453,
+        1790908591692283765,
+        1790908591692298390,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234001,
+        448,
+        453,
+        1790909139645997348,
+        1790909139646013056,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217318,
+        448,
+        453,
+        1790908591692283765,
+        1790908591692298390,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/raw_sms_input.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/receipt_ingestion.ts",
+      "sha256": "a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2",
+      "bytes": 1906,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217319,
+        420,
+        1906,
+        1790908591692424056,
+        1790908591692439889,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234002,
+        420,
+        1906,
+        1790909139646152931,
+        1790909139646170390,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217319,
+        420,
+        1906,
+        1790908591692424056,
+        1790908591692439889,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/receipt_ingestion.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75",
+      "bytes": 6203,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217320,
+        420,
+        6203,
+        1790908591692569930,
+        1790908591692586138,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234003,
+        420,
+        6203,
+        1790909139646293098,
+        1790909139646310681,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217320,
+        420,
+        6203,
+        1790908591692569930,
+        1790908591692586138,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a",
+      "bytes": 6485,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217321,
+        420,
+        6485,
+        1790908591692724637,
+        1790908591692741179,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234004,
+        420,
+        6485,
+        1790909139646433056,
+        1790909139646450431,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217321,
+        420,
+        6485,
+        1790908591692724637,
+        1790908591692741179,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3",
+      "bytes": 2960,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217322,
+        420,
+        2960,
+        1790908591692875219,
+        1790908591692890719,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234005,
+        420,
+        2960,
+        1790909139646575556,
+        1790909139646592515,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217322,
+        420,
+        2960,
+        1790908591692875219,
+        1790908591692890719,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb",
+      "bytes": 8205,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217323,
+        420,
+        8205,
+        1790908591693117259,
+        1790908591693136092,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234006,
+        420,
+        8205,
+        1790909139646877889,
+        1790909139646895014,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217323,
+        420,
+        8205,
+        1790908591693117259,
+        1790908591693136092,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_decoder.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "sha256": "bab8e476b5e81875b6e4c6975cb900e8cf329f263df3909facb3b3b9cb975659",
+      "bytes": 17140,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217324,
+        420,
+        17140,
+        1790908591693296383,
+        1790908591693314633,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234007,
+        420,
+        17140,
+        1790909139647037889,
+        1790909139647055264,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217324,
+        420,
+        17140,
+        1790908591693296383,
+        1790908591693314633,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_test.ts",
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e",
+      "bytes": 6181,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217325,
+        420,
+        6181,
+        1790908591693455632,
+        1790908591693474340,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234008,
+        420,
+        6181,
+        1790909139647196806,
+        1790909139647214056,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217325,
+        420,
+        6181,
+        1790908591693455632,
+        1790908591693474340,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_decoder_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy.ts",
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+      "bytes": 8127,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217326,
+        420,
+        8127,
+        1790908591693616839,
+        1790908591693634005,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234009,
+        420,
+        8127,
+        1790909139647342181,
+        1790909139647360723,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217326,
+        420,
+        8127,
+        1790908591693616839,
+        1790908591693634005,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_file_policy.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy_test.ts",
+      "sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+      "bytes": 6694,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217327,
+        420,
+        6694,
+        1790908591693777338,
+        1790908591693794962,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234010,
+        420,
+        6694,
+        1790909139647485389,
+        1790909139647502473,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217327,
+        420,
+        6694,
+        1790908591693777338,
+        1790908591693794962,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_file_policy_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import.ts",
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+      "bytes": 7987,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217328,
+        448,
+        7987,
+        1790908591693931378,
+        1790908591693948795,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234011,
+        448,
+        7987,
+        1790909139647705889,
+        1790909139647722681,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217328,
+        448,
+        7987,
+        1790908591693931378,
+        1790908591693948795,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_import.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import_test.ts",
+      "sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+      "bytes": 2317,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217329,
+        448,
+        2317,
+        1790908591694097044,
+        1790908591694116252,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234012,
+        448,
+        2317,
+        1790909139647843097,
+        1790909139647858847,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217329,
+        448,
+        2317,
+        1790908591694097044,
+        1790908591694116252,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_import_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+      "bytes": 7593,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217330,
+        420,
+        7593,
+        1790908591694281792,
+        1790908591694300667,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234013,
+        420,
+        7593,
+        1790909139647979514,
+        1790909139647996722,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217330,
+        420,
+        7593,
+        1790908591694281792,
+        1790908591694300667,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_provenance.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+      "bytes": 1982,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217331,
+        420,
+        1982,
+        1790908591694449333,
+        1790908591694467374,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234014,
+        420,
+        1982,
+        1790909139648117889,
+        1790909139648133972,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217331,
+        420,
+        1982,
+        1790908591694449333,
+        1790908591694467374,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_resource_budget.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+      "bytes": 8416,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217332,
+        420,
+        8416,
+        1790908591694698248,
+        1790908591694715622,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234015,
+        420,
+        8416,
+        1790909139648406264,
+        1790909139648423139,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217332,
+        420,
+        8416,
+        1790908591694698248,
+        1790908591694715622,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_response_policy.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+      "bytes": 11038,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217333,
+        420,
+        11038,
+        1790908591694930704,
+        1790908591694946662,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234016,
+        420,
+        11038,
+        1790909139648735972,
+        1790909139648753680,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217333,
+        420,
+        11038,
+        1790908591694930704,
+        1790908591694946662,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/roster_response_policy_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/signed_sms_hook.ts",
+      "sha256": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+      "bytes": 1943,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217334,
+        420,
+        1943,
+        1790908591695074411,
+        1790908591695088495,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234017,
+        420,
+        1943,
+        1790909139648880222,
+        1790909139648901222,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217334,
+        420,
+        1943,
+        1790908591695074411,
+        1790908591695088495,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/signed_sms_hook.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/supabase.ts",
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217335,
+        448,
+        1265,
+        1790908591695203327,
+        1790908591695217952,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234018,
+        448,
+        1265,
+        1790909139649011014,
+        1790909139649026389,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217335,
+        448,
+        1265,
+        1790908591695203327,
+        1790908591695217952,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/supabase.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/_shared/test_assert.ts",
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+      "bytes": 326,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217336,
+        448,
+        326,
+        1790908591695337159,
+        1790908591695351409,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234019,
+        448,
+        326,
+        1790909139649135305,
+        1790909139649148013,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217336,
+        448,
+        326,
+        1790908591695337159,
+        1790908591695351409,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/_shared/test_assert.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/auth-send-whatsapp-otp/handler.ts",
+      "sha256": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+      "bytes": 11307,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217338,
+        420,
+        11307,
+        1790908591695581783,
+        1790908591695597491,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234021,
+        420,
+        11307,
+        1790909139649448888,
+        1790909139649465972,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217338,
+        420,
+        11307,
+        1790908591695581783,
+        1790908591695597491,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/auth-send-whatsapp-otp/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/auth-send-whatsapp-otp/handler_test.ts",
+      "sha256": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b",
+      "bytes": 19958,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217339,
+        420,
+        19958,
+        1790908591695745823,
+        1790908591695761573,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234022,
+        420,
+        19958,
+        1790909139649604388,
+        1790909139649622888,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217339,
+        420,
+        19958,
+        1790908591695745823,
+        1790908591695761573,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/auth-send-whatsapp-otp/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "sha256": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+      "bytes": 357,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217340,
+        448,
+        357,
+        1790908591695899947,
+        1790908591695914738,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234023,
+        448,
+        357,
+        1790909139649754430,
+        1790909139649771263,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217340,
+        448,
+        357,
+        1790908591695899947,
+        1790908591695914738,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/archive_v3.ts",
+      "sha256": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b",
+      "bytes": 5418,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217342,
+        420,
+        5418,
+        1790908591696068279,
+        1790908591696084904,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234025,
+        420,
+        5418,
+        1790909139649911472,
+        1790909139649928221,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217342,
+        420,
+        5418,
+        1790908591696068279,
+        1790908591696084904,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/archive_v3.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/archive_v3_test.ts",
+      "sha256": "7f2d0e6ccaf8394dbe75b015946a5fa5ddee9a56e6b1657a8cb031028ebdf950",
+      "bytes": 9484,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217343,
+        420,
+        9484,
+        1790908591696288861,
+        1790908591696305652,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234026,
+        420,
+        9484,
+        1790909139650461596,
+        1790909139650479096,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217343,
+        420,
+        9484,
+        1790908591696288861,
+        1790908591696305652,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/archive_v3_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/dispatch_observed_test.ts",
+      "sha256": "1b8bebb2e7d153dc6f1545e80bf81f2ae12f1de9f132d850c8f5011447a281fe",
+      "bytes": 6493,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217344,
+        420,
+        6493,
+        1790908591696434859,
+        1790908591696450109,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234027,
+        420,
+        6493,
+        1790909139650617388,
+        1790909139650635138,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217344,
+        420,
+        6493,
+        1790908591696434859,
+        1790908591696450109,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/dispatch_observed_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/dispatch_v2_test.ts",
+      "sha256": "d1e4a998fb3d30c5c21ac157cc134594e063ca673322ead28374fa4aefa05d5e",
+      "bytes": 21812,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217345,
+        420,
+        21812,
+        1790908591696587400,
+        1790908591696603066,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234028,
+        420,
+        21812,
+        1790909139650770429,
+        1790909139650789096,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217345,
+        420,
+        21812,
+        1790908591696587400,
+        1790908591696603066,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/dispatch_v2_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/handler.ts",
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217346,
+        420,
+        27054,
+        1790908591696761774,
+        1790908591696777190,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234029,
+        420,
+        27054,
+        1790909139650944055,
+        1790909139650960179,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217346,
+        420,
+        27054,
+        1790908591696761774,
+        1790908591696777190,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/handler_test.ts",
+      "sha256": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801",
+      "bytes": 15662,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217347,
+        420,
+        15662,
+        1790908591696935231,
+        1790908591696950731,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234030,
+        420,
+        15662,
+        1790909139651109596,
+        1790909139651127138,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217347,
+        420,
+        15662,
+        1790908591696935231,
+        1790908591696950731,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/index.ts",
+      "sha256": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+      "bytes": 404,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217348,
+        420,
+        404,
+        1790908591697309061,
+        1790908591697323603,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234031,
+        420,
+        404,
+        1790909139651259471,
+        1790909139651275138,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217348,
+        420,
+        404,
+        1790908591697309061,
+        1790908591697323603,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-android-gateway/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-notification-operator/index.ts",
+      "sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72",
+      "bytes": 3051,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217350,
+        448,
+        3051,
+        1790908591697476810,
+        1790908591697490977,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234033,
+        448,
+        3051,
+        1790909139651426179,
+        1790909139651444012,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217350,
+        448,
+        3051,
+        1790908591697476810,
+        1790908591697490977,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-notification-operator/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-exception-worker/handler.ts",
+      "sha256": "a7707c8888178194c3f050fcdbdddd060d65e246fb2d7280e903faaebbb3cb99",
+      "bytes": 10378,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217352,
+        420,
+        10378,
+        1790908591697732141,
+        1790908591697748225,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234035,
+        420,
+        10378,
+        1790909139651773637,
+        1790909139651790221,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217352,
+        420,
+        10378,
+        1790908591697732141,
+        1790908591697748225,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-exception-worker/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+      "sha256": "f0ceb3321444a4d498b851b8635a8e97eacdc409353e73a17368ca584f075685",
+      "bytes": 10775,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217353,
+        420,
+        10775,
+        1790908591697961265,
+        1790908591697977306,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234036,
+        420,
+        10775,
+        1790909139652089012,
+        1790909139652104762,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217353,
+        420,
+        10775,
+        1790908591697961265,
+        1790908591697977306,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-exception-worker/index.ts",
+      "sha256": "fd40a8d1058289b32141ecdc17693142dc14f3d408251ce3cbc736224b5df84e",
+      "bytes": 600,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217354,
+        420,
+        600,
+        1790908591698104222,
+        1790908591698117847,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234037,
+        420,
+        600,
+        1790909139652227596,
+        1790909139652242221,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217354,
+        420,
+        600,
+        1790908591698104222,
+        1790908591698117847,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-exception-worker/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-exception-worker/observed_test.ts",
+      "sha256": "a20efe8bc124c9606e20b4d6f75b37a9d2f45fba899e1fc9745e418b7938ab15",
+      "bytes": 931,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217355,
+        420,
+        931,
+        1790908591698395178,
+        1790908591698459928,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234038,
+        420,
+        931,
+        1790909139652355929,
+        1790909139652370887,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217355,
+        420,
+        931,
+        1790908591698395178,
+        1790908591698459928,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-exception-worker/observed_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json",
+      "sha256": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27",
+      "bytes": 556,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217358,
+        420,
+        556,
+        1790908591698676009,
+        1790908591698691843,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234041,
+        420,
+        556,
+        1790909139652552304,
+        1790909139652568470,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217358,
+        420,
+        556,
+        1790908591698676009,
+        1790908591698691843,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json",
+      "sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74",
+      "bytes": 5108,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217359,
+        420,
+        5108,
+        1790908591698820883,
+        1790908591698837008,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234042,
+        420,
+        5108,
+        1790909139652686554,
+        1790909139652703720,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217359,
+        420,
+        5108,
+        1790908591698820883,
+        1790908591698837008,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json",
+      "sha256": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da",
+      "bytes": 396,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217360,
+        420,
+        396,
+        1790908591698961632,
+        1790908591698976090,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234043,
+        420,
+        396,
+        1790909139652827470,
+        1790909139652844012,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217360,
+        420,
+        396,
+        1790908591698961632,
+        1790908591698976090,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json",
+      "sha256": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9",
+      "bytes": 719,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217361,
+        420,
+        719,
+        1790908591699096298,
+        1790908591699110589,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234044,
+        420,
+        719,
+        1790909139652959429,
+        1790909139652976095,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217361,
+        420,
+        719,
+        1790908591699096298,
+        1790908591699110589,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bytes": 18100,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217362,
+        420,
+        18100,
+        1790908591699251963,
+        1790908591699267588,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234045,
+        420,
+        18100,
+        1790909139653108429,
+        1790909139653125762,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217362,
+        420,
+        18100,
+        1790908591699251963,
+        1790908591699267588,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/handler_test.ts",
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "bytes": 11780,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217363,
+        420,
+        11780,
+        1790908591699497087,
+        1790908591699518795,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234046,
+        420,
+        11780,
+        1790909139653418595,
+        1790909139653443220,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217363,
+        420,
+        11780,
+        1790908591699497087,
+        1790908591699518795,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/index.ts",
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "bytes": 411,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217364,
+        420,
+        411,
+        1790908591699656585,
+        1790908591699671877,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234047,
+        420,
+        411,
+        1790909139653568845,
+        1790909139653587345,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217364,
+        420,
+        411,
+        1790908591699656585,
+        1790908591699671877,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "sha256": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+      "bytes": 8735,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217365,
+        420,
+        8735,
+        1790908591699912458,
+        1790908591699927375,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234048,
+        420,
+        8735,
+        1790909139653989261,
+        1790909139654008511,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217365,
+        420,
+        8735,
+        1790908591699912458,
+        1790908591699927375,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "bytes": 11092,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217366,
+        420,
+        11092,
+        1790908591700168748,
+        1790908591700188206,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234049,
+        420,
+        11092,
+        1790909139654306511,
+        1790909139654326261,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217366,
+        420,
+        11092,
+        1790908591700168748,
+        1790908591700188206,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "bytes": 1148,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217367,
+        420,
+        1148,
+        1790908591700411788,
+        1790908591700427080,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234050,
+        420,
+        1148,
+        1790909139654475553,
+        1790909139654496970,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217367,
+        420,
+        1148,
+        1790908591700411788,
+        1790908591700427080,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/wire_test.ts",
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "bytes": 1169,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217368,
+        420,
+        1169,
+        1790908591700550662,
+        1790908591700566370,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234051,
+        420,
+        1169,
+        1790909139654625095,
+        1790909139654642553,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217368,
+        420,
+        1169,
+        1790908591700550662,
+        1790908591700566370,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/collect-receipt-supervisor/wire_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+      "bytes": 7115,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217369,
+        420,
+        7115,
+        1790908591700691244,
+        1790908591700706161,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234052,
+        420,
+        7115,
+        1790909139654769553,
+        1790909139654787844,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217369,
+        420,
+        7115,
+        1790908591700691244,
+        1790908591700706161,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/deno.lock",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/dispatch-notifications/dispatcher.ts",
+      "sha256": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+      "bytes": 3673,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217371,
+        420,
+        3673,
+        1790908591700861326,
+        1790908591700875576,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234054,
+        420,
+        3673,
+        1790909139654937636,
+        1790909139654953469,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217371,
+        420,
+        3673,
+        1790908591700861326,
+        1790908591700875576,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/dispatch-notifications/dispatcher.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/dispatch-notifications/dispatcher_test.ts",
+      "sha256": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d",
+      "bytes": 8163,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217372,
+        420,
+        8163,
+        1790908591700996825,
+        1790908591701011825,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234055,
+        420,
+        8163,
+        1790909139655073219,
+        1790909139655091553,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217372,
+        420,
+        8163,
+        1790908591700996825,
+        1790908591701011825,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/dispatch-notifications/dispatcher_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/dispatch-notifications/index.ts",
+      "sha256": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+      "bytes": 4960,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217373,
+        448,
+        4960,
+        1790908591701134241,
+        1790908591701149282,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234056,
+        448,
+        4960,
+        1790909139655214469,
+        1790909139655231178,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217373,
+        448,
+        4960,
+        1790908591701134241,
+        1790908591701149282,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/dispatch-notifications/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/ingest-payment-sms/index.ts",
+      "sha256": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36",
+      "bytes": 3669,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217375,
+        448,
+        3669,
+        1790908591701305156,
+        1790908591701321240,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234058,
+        448,
+        3669,
+        1790909139655397719,
+        1790909139655415803,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217375,
+        448,
+        3669,
+        1790908591701305156,
+        1790908591701321240,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/ingest-payment-sms/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/parse-payment-sms/index.ts",
+      "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9",
+      "bytes": 6538,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217377,
+        448,
+        6538,
+        1790908591701465322,
+        1790908591701480238,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234060,
+        448,
+        6538,
+        1790909139655557094,
+        1790909139655576178,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217377,
+        448,
+        6538,
+        1790908591701465322,
+        1790908591701480238,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/parse-payment-sms/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134",
+      "bytes": 24077,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217379,
+        420,
+        24077,
+        1790908591701650987,
+        1790908591701666612,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234062,
+        420,
+        24077,
+        1790909139655740594,
+        1790909139655768011,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217379,
+        420,
+        24077,
+        1790908591701650987,
+        1790908591701666612,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/prepare-roster-import/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "bytes": 54480,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217380,
+        420,
+        54480,
+        1790908591701840569,
+        1790908591701856986,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234063,
+        420,
+        54480,
+        1790909139655943886,
+        1790909139655962178,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217380,
+        420,
+        54480,
+        1790908591701840569,
+        1790908591701856986,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/prepare-roster-import/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9",
+      "bytes": 962,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217381,
+        448,
+        962,
+        1790908591702031026,
+        1790908591702045276,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234064,
+        448,
+        962,
+        1790909139656123636,
+        1790909139656138219,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217381,
+        448,
+        962,
+        1790908591702031026,
+        1790908591702045276,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/prepare-roster-import/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/handler.ts",
+      "sha256": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116",
+      "bytes": 3691,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217383,
+        420,
+        3691,
+        1790908591702188358,
+        1790908591702203691,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234066,
+        420,
+        3691,
+        1790909139656272844,
+        1790909139656290552,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217383,
+        420,
+        3691,
+        1790908591702188358,
+        1790908591702203691,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/reconciliation-finalize/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/handler_test.ts",
+      "sha256": "f681e5a29be57236958ec2edfcf7f8b23af4b0f5b1b31ab142475406c05094c0",
+      "bytes": 6815,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217384,
+        420,
+        6815,
+        1790908591702321941,
+        1790908591702337024,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234067,
+        420,
+        6815,
+        1790909139656403261,
+        1790909139656420261,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217384,
+        420,
+        6815,
+        1790908591702321941,
+        1790908591702337024,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/reconciliation-finalize/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/index.ts",
+      "sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+      "bytes": 736,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217385,
+        420,
+        736,
+        1790908591702454023,
+        1790908591702469648,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234068,
+        420,
+        736,
+        1790909139656542136,
+        1790909139656557636,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217385,
+        420,
+        736,
+        1790908591702454023,
+        1790908591702469648,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/reconciliation-finalize/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/send-notification/handler.ts",
+      "sha256": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+      "bytes": 7034,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217387,
+        420,
+        7034,
+        1790908591702618855,
+        1790908591702634521,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234070,
+        420,
+        7034,
+        1790909139656704094,
+        1790909139656720677,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217387,
+        420,
+        7034,
+        1790908591702618855,
+        1790908591702634521,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/send-notification/handler.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/send-notification/handler_test.ts",
+      "sha256": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458",
+      "bytes": 6323,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217388,
+        420,
+        6323,
+        1790908591702753479,
+        1790908591702768354,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234071,
+        420,
+        6323,
+        1790909139656838969,
+        1790909139656855469,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217388,
+        420,
+        6323,
+        1790908591702753479,
+        1790908591702768354,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/send-notification/handler_test.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/send-notification/index.ts",
+      "sha256": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+      "bytes": 558,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217389,
+        448,
+        558,
+        1790908591702884270,
+        1790908591702897561,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234072,
+        448,
+        558,
+        1790909139656967885,
+        1790909139656981094,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217389,
+        448,
+        558,
+        1790908591702884270,
+        1790908591702897561,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/send-notification/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/functions/verify-play-integrity/index.ts",
+      "sha256": "3e5f2fb1ba52241aa2906f6ce97c04a81b6a97e33479a06a12400bbc5137b7ed",
+      "bytes": 14989,
+      "before_mode": 448,
+      "copy_mode": 448,
+      "after_mode": 448,
+      "before_identity": [
+        16777247,
+        17217391,
+        448,
+        14989,
+        1790908591703141309,
+        1790908591703159809,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234074,
+        448,
+        14989,
+        1790909139657119802,
+        1790909139657136677,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217391,
+        448,
+        14989,
+        1790908591703141309,
+        1790908591703159809,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/functions/verify-play-integrity/index.ts",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "bytes": 17752,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217393,
+        420,
+        17752,
+        1790908591703331475,
+        1790908591703346475,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234076,
+        420,
+        17752,
+        1790909139657342968,
+        1790909139657363677,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217393,
+        420,
+        17752,
+        1790908591703331475,
+        1790908591703346475,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/Dockerfile",
+      "sha256": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+      "bytes": 560,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217396,
+        420,
+        560,
+        1790908591703537890,
+        1790908591703551890,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234079,
+        420,
+        560,
+        1790909139657559302,
+        1790909139657575468,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217396,
+        420,
+        560,
+        1790908591703537890,
+        1790908591703551890,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/Dockerfile",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/decoder.py",
+      "sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "bytes": 17044,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217397,
+        420,
+        17044,
+        1790908591703675264,
+        1790908591703690722,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234080,
+        420,
+        17044,
+        1790909139657694093,
+        1790909139657711177,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217397,
+        420,
+        17044,
+        1790908591703675264,
+        1790908591703690722,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/decoder.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/generate_fixtures.py",
+      "sha256": "8e53bdc5442866287ff8b37a0922de2c3044e3ce9a10c273805568f67991d109",
+      "bytes": 9231,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217398,
+        420,
+        9231,
+        1790908591703914470,
+        1790908591703929262,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234081,
+        420,
+        9231,
+        1790909139657988343,
+        1790909139658005343,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217398,
+        420,
+        9231,
+        1790908591703914470,
+        1790908591703929262,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/generate_fixtures.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/requirements.in",
+      "sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "bytes": 98,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217399,
+        420,
+        98,
+        1790908591704046803,
+        1790908591704060011,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234082,
+        420,
+        98,
+        1790909139658133927,
+        1790909139658150343,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217399,
+        420,
+        98,
+        1790908591704046803,
+        1790908591704060011,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/requirements.in",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/requirements.lock",
+      "sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "bytes": 661,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217400,
+        420,
+        661,
+        1790908591704168218,
+        1790908591704182385,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234083,
+        420,
+        661,
+        1790909139658265926,
+        1790909139658282885,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217400,
+        420,
+        661,
+        1790908591704168218,
+        1790908591704182385,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/requirements.lock",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/server.py",
+      "sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "bytes": 7142,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217401,
+        420,
+        7142,
+        1790908591704293967,
+        1790908591704308759,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234084,
+        420,
+        7142,
+        1790909139658471468,
+        1790909139658491468,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217401,
+        420,
+        7142,
+        1790908591704293967,
+        1790908591704308759,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/server.py",
+      "origin_class": "preserved_failed140"
+    },
+    {
+      "path": "tools/roster-decoder/test_dependency_security.py",
+      "sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "bytes": 5123,
+      "before_mode": 420,
+      "copy_mode": 420,
+      "after_mode": 420,
+      "before_identity": [
+        16777247,
+        17217402,
+        420,
+        5123,
+        1790908591704427550,
+        1790908591704442758,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234085,
+        420,
+        5123,
+        1790909139658619343,
+        1790909139658637468,
+        1
+      ],
+      "after_identity": [
+        16777247,
+        17217402,
+        420,
+        5123,
+        1790908591704427550,
+        1790908591704442758,
+        1
+      ],
+      "origin": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/tools/roster-decoder/test_dependency_security.py",
+      "origin_class": "preserved_failed140"
+    }
+  ],
+  "publisher_receipt_original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/publisher-inputs.json",
+  "publisher_receipt_copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/publisher-inputs.json",
+  "publisher_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "wheel_source": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels",
+  "metadata_directory": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary",
+  "external_inputs": [
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+      "bytes": 25604,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217405,
+        292,
+        25604,
+        1790908591775025855,
+        1790908591775051689,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234088,
+        292,
+        25604,
+        1790909139722421692,
+        1790909139722537025,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/defusedxml-0.7.1-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/defusedxml-0.7.1-pypi.json",
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+      "bytes": 35962,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217407,
+        292,
+        35962,
+        1790908591775420061,
+        1790908591775439602,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234090,
+        292,
+        35962,
+        1790909139723004483,
+        1790909139723031025,
+        1
+      ]
+    },
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/et_xmlfile-2.0.0-py3-none-any.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/et_xmlfile-2.0.0-py3-none-any.whl",
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa",
+      "bytes": 18059,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217408,
+        292,
+        18059,
+        1790908591776048223,
+        1790908591776066389,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234091,
+        292,
+        18059,
+        1790909139723370900,
+        1790909139723391941,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/et-xmlfile-2.0.0-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/et-xmlfile-2.0.0-pypi.json",
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+      "bytes": 4816,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217409,
+        292,
+        4816,
+        1790908591776357679,
+        1790908591776374554,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234092,
+        292,
+        4816,
+        1790909139723647900,
+        1790909139723667358,
+        1
+      ]
+    },
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2",
+      "bytes": 250910,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217410,
+        292,
+        250910,
+        1790908591776987132,
+        1790908591777282339,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234093,
+        292,
+        250910,
+        1790909139724216858,
+        1790909139724384233,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/openpyxl-3.1.5-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/openpyxl-3.1.5-pypi.json",
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+      "bytes": 4748,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217411,
+        292,
+        4748,
+        1790908591777787293,
+        1790908591777802876,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234094,
+        292,
+        4748,
+        1790909139724872274,
+        1790909139724890691,
+        1
+      ]
+    },
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+      "bytes": 6266838,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217412,
+        292,
+        6266838,
+        1790908591786161647,
+        1790908591787985092,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234095,
+        292,
+        6266838,
+        1790909139732567688,
+        1790909139739000769,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/pillow-12.3.0-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/pillow-12.3.0-pypi.json",
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+      "bytes": 84184,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217413,
+        292,
+        84184,
+        1790908591793943422,
+        1790908591793996714,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234096,
+        292,
+        84184,
+        1790909139744303641,
+        1790909139744463641,
+        1
+      ]
+    },
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/pypdf-6.19.0-py3-none-any.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/pypdf-6.19.0-py3-none-any.whl",
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14",
+      "bytes": 395480,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217414,
+        292,
+        395480,
+        1790908591794945290,
+        1790908591795067914,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234097,
+        292,
+        395480,
+        1790909139745324058,
+        1790909139745608557,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/pypdf-6.19.0-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/pypdf-6.19.0-pypi.json",
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+      "bytes": 9248,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217415,
+        292,
+        9248,
+        1790908591795863825,
+        1790908591795881283,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234098,
+        292,
+        9248,
+        1790909139746337599,
+        1790909139746356057,
+        1
+      ]
+    },
+    {
+      "kind": "wheel",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec",
+      "bytes": 2979235,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217416,
+        292,
+        2979235,
+        1790908591800070960,
+        1790908591800794788,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234099,
+        292,
+        2979235,
+        1790909139750032264,
+        1790909139753809471,
+        1
+      ]
+    },
+    {
+      "kind": "primary",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/primary/pypdfium2-5.2.0-pypi.json",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/primary/pypdfium2-5.2.0-pypi.json",
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961",
+      "bytes": 88511,
+      "original_mode": 292,
+      "copy_mode": 292,
+      "original_identity": [
+        16777247,
+        17217417,
+        292,
+        88511,
+        1790908591803966181,
+        1790908591804003556,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17234100,
+        292,
+        88511,
+        1790909139756533511,
+        1790909139756746928,
+        1
+      ]
+    }
+  ],
+  "auxiliary_dated12_manifest": {
+    "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/dated12-edge-functions.json",
+    "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/dated12-edge-functions.json",
+    "before": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17217418,
+        420,
+        3836,
+        1790908591804405219,
+        1790908591804420094,
+        1
+      ]
+    },
+    "copied": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17234101,
+        420,
+        3836,
+        1790909139757066553,
+        1790909139757081178,
+        1
+      ]
+    },
+    "after": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17217418,
+        420,
+        3836,
+        1790908591804405219,
+        1790908591804420094,
+        1
+      ]
+    }
+  },
+  "maintained_source_mutations": 0,
+  "network_acquisition": false,
+  "full_gate_started": false
+}

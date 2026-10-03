@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 0.1240070839994587,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation2/refresh_current_index.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--inputs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/refresh-inputs.actual.json",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data1"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 90,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T15:28:31.971109+00:00",
+  "helper_sha256": "ef0943912db73ec253b31d072ce1cf6bcefd9464119558e746b42b59c83ef4df",
+  "inputs_sha256": "92df0c27c8097c76af3eb3afaf059fad2e328635f609c02098d486782c1dd226",
+  "maintained_writes": false,
+  "owned_group_absent": true,
+  "pid": 39607,
+  "started_utc": "2026-10-02T15:28:31.847101+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

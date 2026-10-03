@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-10-01T21:42:42Z",
+  "status": "warning",
+  "app_agp_major": 9,
+  "app_built_in_kotlin_enabled": false,
+  "plugin_count": 17,
+  "direct_kotlin_plugin_count": 2,
+  "direct_kotlin_plugins": [
+    {
+      "name": "android_file_picker",
+      "markers": [
+        "apply(plugin = \"org.jetbrains.kotlin.android\")"
+      ],
+      "conditional_fallbacks": [
+
+      ]
+    },
+    {
+      "name": "mobile_scanner",
+      "markers": [
+        "apply plugin: 'kotlin-android'"
+      ],
+      "conditional_fallbacks": [
+        "built_in_kotlin_disabled"
+      ]
+    }
+  ],
+  "future_built_in_kotlin_ready_count": 16,
+  "future_not_ready_plugin_count": 1,
+  "future_not_ready_plugins": [
+    {
+      "name": "android_file_picker",
+      "markers": [
+        "apply(plugin = \"org.jetbrains.kotlin.android\")"
+      ]
+    }
+  ],
+  "failures": [
+
+  ],
+  "interpretation": "Classpath declarations and kotlin compilerOptions are not treated as direct KGP application. Conditional AGP<9 or built-in-Kotlin-disabled fallbacks are evaluated against the current app graph.",
+  "platform_boundary": "Flutter 3.44 can migrate source syntax, but official Flutter guidance requires Flutter 3.47 or later before android.builtInKotlin=true can be enabled and validated.",
+  "secret_handling": "This gate reports plugin names, Gradle compatibility markers, and public build configuration only; it does not read or print signing or environment secrets."
+}

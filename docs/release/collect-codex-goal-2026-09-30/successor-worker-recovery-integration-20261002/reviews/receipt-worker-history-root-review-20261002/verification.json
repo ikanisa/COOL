@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-02T01:18:39.278705+00:00",
+  "status": "private_packet_and_current_inputs_verified",
+  "member_count": 14602,
+  "member_bytes": 2326540160,
+  "selected_source_tool_bindings": 418,
+  "actual_sql_checks": 60,
+  "promotion_entries": [
+    {
+      "canonical": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "change": "new additive migration",
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/promote/supabase/migrations/20261002070000_receipt_worker_history_storage.sql"
+    },
+    {
+      "canonical": "docs/platform/RECEIPT_WORKER_HISTORY_STORAGE.md",
+      "change": "new owner maintenance/recovery documentation",
+      "sha256": "f1c72a3229a5e1c123bff5c080e6a5aef32676fc5182149d0a96050c65310279",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/promote/docs/platform/RECEIPT_WORKER_HISTORY_STORAGE.md"
+    }
+  ],
+  "canonical_written": false,
+  "prerequisite_limit": "Exact private430, canonical500 and corrected600 over selected retained checkpoint; not full current candidate or hosted acceptance",
+  "remaining": "Verify actual SDK/card consumer packet, original target absence, private430 integration dependency, and unified snapshot/native/scheduler recovery"
+}

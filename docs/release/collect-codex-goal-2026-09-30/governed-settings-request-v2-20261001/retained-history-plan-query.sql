@@ -1,0 +1,1 @@
+explain(format json,analyze,buffers)select e.id from collect_security.runtime_control_events e where family='brand_entities'and identity_sha256=collect_security.runtime_control_hash('{"key":"qa_equal_history"}'::jsonb)and (recorded_at,id)<('2026-10-01T17:19:33.856395Z'::timestamptz,'a9790000-0000-4000-8000-000000000050'::uuid)order by recorded_at desc,id desc limit 12;

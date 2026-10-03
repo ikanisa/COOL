@@ -1,0 +1,785 @@
+{
+  "kind": "offline_exception_reads_v2_schema153_subset",
+  "started_at": "2026-09-30T23:30:19.377200+00:00",
+  "production_written": false,
+  "shared_database_written": false,
+  "source_rows_copied": false,
+  "provider_called": false,
+  "sms_sent": false,
+  "signed_jwt_or_auth_provider_tested": false,
+  "full_hosted_upgrade_tested_here": false,
+  "draft_preparation_only": true,
+  "cases": [
+    {
+      "name": "supabase/migrations/20260930213000_operator_email_auth.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930220527_operator_email_cutover_guard.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230100_receipt_backlog_events.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230200_admin_receipt_overview.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930211605_android_gateway_identity.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001000100_operational_exception_inbox.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": ".cache/admin-exception-v2-preparation/supabase/migrations/20261001000300_admin_exception_reads.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new read genuinely has no historical exception backfill",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new helpers remain inaccessible to every API role",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private operational records retain RLS without direct API access",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 functions grant execution only to authenticated",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot execute list",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot execute lookup",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot execute list",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot execute lookup",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses expired session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses expired session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses banned account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses banned account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses revoked owner grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses revoked owner grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses changed owner role",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses changed owner role",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses revoked email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses revoked email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses expired email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses expired email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses unverified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses unverified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses changed email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses changed email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses payments.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses payments.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses notifications.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses notifications.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "list refuses system_health.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "lookup refuses system_health.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "bound session cannot be replaced for select public.admin_list_operational_exceptions_v2()",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "repeatable-read snapshot is refused for select public.admin_list_operational_exceptions_v2()",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "operational_exception_snapshot_retry"
+      }
+    },
+    {
+      "name": "bound session cannot be replaced for select public.admin_get_operational_exception_action_v2('3cc63a70-aac7-4071-8141-9136cefc390b')",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "repeatable-read snapshot is refused for select public.admin_get_operational_exception_action_v2('3cc63a70-aac7-4071-8141-9136cefc390b')",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "operational_exception_snapshot_retry"
+      }
+    },
+    {
+      "name": "read does not require mutation permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid list arguments null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,51",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,1,null,'2173cc83-c73f-4bdf-9f05-51b2870ff55f'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,1,clock_timestamp(),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,1,'infinity','7252b4f2-49ee-4ef1-8e27-04da3f08a6a2'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,1,null,null,''",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "invalid list arguments true,1,null,null,'all'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_query_invalid"
+      }
+    },
+    {
+      "name": "null request is rejected only after authority",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operational_exception_action_invalid"
+      }
+    },
+    {
+      "name": "bound raw exception links only its own authoritative Rwanda UUID",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "allocation ID is not mistaken for the raw SMS ID",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payment uses its actual parsed/raw join",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "valid route without a parsed source returns nullable link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "foreign parsed currency cannot persist past the real schema constraint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current outgoing cannot supply any canonical SMS link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current nonpayment cannot supply any canonical SMS link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current different receiving provider cannot supply any canonical SMS link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current parsed receiving hash conflict cannot supply any canonical SMS link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current parsed receiver conflict cannot supply any canonical SMS link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "absent raw identity does not become a guessed transaction link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual uncertain receipt uses only its own opaque source ID",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual gateway observation uses its device ID with no invented transaction",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "server category filters the full candidate set before paging",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 projects the exact immutable v1 receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "another current owner cannot read the original actor receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "absent UUID is a read result without mutation replay permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all categories and reconciliation reads preserve financial/outbox and action rows",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "paired keyset pages are bounded, ordered and disjoint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "cursor beyond known category returns genuine empty window",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "cleared source stays visible only in its requested category/state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new source revision resets historical review flags",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual held action produces bounded authority_busy without request disclosure",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unrelated UUID has identical busy authority refusal",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55P03",
+        "reason": "operational_exception_authority_busy"
+      }
+    },
+    {
+      "name": "manual post-commit lookup reconciles exact original v1 action receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "request-lock branch is in_progress only after current authority succeeds",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "released unrecorded request stays unrecorded without retry",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "function-local lock timeout restores caller setting on success",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "function-local lock timeout restores caller setting on error",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "canonical menu is provisioned with backend read permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "navigation conflict preserves explicit disabled customization",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 never broadens or edits v1 function definitions",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read UAT never opens dispatch or scheduler execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all actual synthetic receipt journals remain two-line balanced",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "executed auxiliary Python bytes remain stable after the run",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "executed_helper_sha256": {
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "runner_sha256": "d090475661c996e46cd48e093d617fd87f5ef2521cf34c17328b15bd1f5deddc",
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    ".cache/admin-exception-v2-preparation/supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+  },
+  "schema_sha256": "41b28ba0b393f945cab31d4b1214a1e5006682a5e7045905b3e6e26c46f381bd",
+  "target": {
+    "container_id": "d8048704812184cffc72b616ec1c32e4d6acdc503208757cca98caf1faeaf69a",
+    "container_name": "collect_current_rehearsal_exception_v2_860741ed49b0",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "baseline": {
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "captured_migration_count": 153,
+    "no_rows_copied": true,
+    "not_attested": "Complete managed-host Auth/platform/source parity; this is the retained schema153 subset"
+  },
+  "before_install": {
+    "journal": {
+      "rows": 2,
+      "sha256": "fa2b36e3e9195c7379be3e44d107e45b303aa79ba1e431d5d035c0b404bde46b"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "e99662c3efa6853edef8513b0391e39a59d3869e73a652cb5c3cc35e1d6ba79a"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "50b55e869d73ea6ca924332454dac1d933b839ad6fe6d3e9070069967a70e0fc"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "295fec648f2c1d9e1edce8aaae24701dbb0b618162428c5151d08c8316e90da6"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "6ac16d987efaec37af6a46a26c43e8516e98517ce614bfe913f8940473de20d0"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "2d5b9553cfdf6ce509df4d1c39182d92e105a3465c14f994c91f761e907207eb"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "5f83ff6561dc531382ccbca1adbba5d04c07fd207ee1f638780ea0609e4e1e38"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "eeb0cdb30be1dcb4781691b774ec9b6f6a9e2845256694f612e538d7439c42b9"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "actual_action_lookup_race": {
+    "actually_waited": true,
+    "busy_seconds": 1.2648271660000319,
+    "action_output": [
+      "{\"sub\": \"99710000-0000-4000-8000-000000000001\", \"session_id\": \"99710000-0000-4000-8000-000000010001\", \"role\": \"authenticated\", \"aal\": \"aal1\"}",
+      "{\"action\": \"escalate\", \"revision\": 3, \"request_id\": \"1e2cfdb6-ab52-47ac-85d1-356297a0d55d\", \"recorded_at\": \"2026-09-30T23:32:30.754693Z\", \"send_action\": false, \"exception_id\": \"c3542350-0d2c-44f8-8af0-5372ffb31811\", \"source_resolved\": false, \"contract_version\": 1, \"financial_action\": false, \"escalation_delivery_verified\": false}",
+      "ACTION_FINISHED"
+    ],
+    "post_commit_lookup": {
+      "scope": "platform_global",
+      "status": "recorded",
+      "receipt": {
+        "action": "escalate",
+        "revision": 3,
+        "request_id": "1e2cfdb6-ab52-47ac-85d1-356297a0d55d",
+        "recorded_at": "2026-09-30T23:32:30.754693Z",
+        "send_action": false,
+        "exception_id": "c3542350-0d2c-44f8-8af0-5372ffb31811",
+        "source_resolved": false,
+        "contract_version": 1,
+        "financial_action": false,
+        "escalation_delivery_verified": false
+      },
+      "checked_at": "2026-09-30T23:32:31.679709Z",
+      "request_id": "1e2cfdb6-ab52-47ac-85d1-356297a0d55d",
+      "contract_version": 2,
+      "sample_valid_until": "2026-09-30T23:33:31.679709Z"
+    }
+  },
+  "final_business_fingerprints": {
+    "journal": {
+      "rows": 3,
+      "sha256": "0a229258916877e2e1cf7ab94df5041cbc8b611993de3d213d4a1a9798a65f06"
+    },
+    "payments": {
+      "rows": 5,
+      "sha256": "21b0ffb16e0c02f5a144fab4a0e90121f4a5b4929ffc2a2c5980fdfa5e76b1b6"
+    },
+    "sms_outbox": {
+      "rows": 2,
+      "sha256": "e671af05a55b5dd5010081b7de11cd30964d10cd3bd05544a3ba6af823713ec0"
+    },
+    "sms_attempts": {
+      "rows": 1,
+      "sha256": "ff32b262a5cedcfbd878f3d13aa9e4798e8b603449a9c07913efd4d266424a94"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 6,
+      "sha256": "cab3bb71920634d2988e1862569e7f0c261e2fd27bfde21650f74473c4e16808"
+    },
+    "momo_balance_snapshots": {
+      "rows": 3,
+      "sha256": "e287b9e02cbb8117fe70b1418711f350945a2641f0e971dd114f773821f9f391"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "e5bf485102e73f5193f71c53c67d401ee3898e58e636d22e749fbb3f0336532d"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "30636a605825cc666dcb9f57266841d6048efe1a6cc8acb2e1976284912c9f4f"
+    },
+    "payment_provider_confirmations": {
+      "rows": 3,
+      "sha256": "62d98dcb33f7b051fd5b74333d94b2827b33bd71e56b9edf67f710134ab46bb5"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 4,
+      "sha256": "08fa038f2c33ff47587f1b238085775bc4f0280c81c9fd11157450b67627969e"
+    },
+    "parsed_payment_events": {
+      "rows": 1,
+      "sha256": "c2470ad3539c8b8a76edd78c92a4ce11122518304d43607f893c061a1bbb24ed"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "source_after_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    ".cache/admin-exception-v2-preparation/supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+  },
+  "helper_source_drift": [],
+  "status": "pass",
+  "isolated_database_removed": true,
+  "case_count": 87,
+  "completed_at": "2026-09-30T23:32:44.339242+00:00"
+}

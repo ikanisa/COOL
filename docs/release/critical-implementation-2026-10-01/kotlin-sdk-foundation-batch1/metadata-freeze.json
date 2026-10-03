@@ -1,0 +1,120 @@
+{
+  "archive_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+  "arm64_release_row": {
+    "archive": "stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+    "channel": "stable",
+    "dart_sdk_arch": "arm64",
+    "dart_sdk_version": "3.12.2",
+    "hash": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "release_date": "2026-06-24T23:26:23.575873Z",
+    "sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+    "version": "3.44.4"
+  },
+  "checks": {
+    "arm64_attestation_subject_matches_feed": true,
+    "object_name_and_size_bound": true,
+    "source_commit_matches_feed": true,
+    "unique_exact_architecture_rows": true,
+    "x64_attestation_subject_matches_distinct_x64_feed": true
+  },
+  "expected_bytes": 2210831302,
+  "expected_generation": "1782343628635421",
+  "expected_md5_base64": "38g/h4BjTUdVZ3o/PtaoYg==",
+  "expected_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "files": {
+    "actual-release-catalog-origin.json": {
+      "bytes": 563,
+      "sha256": "46e195d422052b1f75c8d495cbde83e111d0dd0c817be1550e42ad5fc7f0b98f"
+    },
+    "actual-release-catalog.json": {
+      "bytes": 376279,
+      "sha256": "d98510bf7a14c5b09be007094a2b988b6180a44072a6e2178e437f739f127ef2"
+    },
+    "archive-client.js": {
+      "bytes": 230956,
+      "sha256": "5f39a2d6cf3b04440ac778aba2346adda68a1c407339ac103b21d0bd094f04fa"
+    },
+    "bundle-attestation.jsonl": {
+      "bytes": 4569,
+      "sha256": "ea83c8d0f5527364c0cdf7943bbecbd8140c9ad8bcbdd6b9071378c24020aba4"
+    },
+    "bundle-object-metadata.json": {
+      "bytes": 1033,
+      "sha256": "18e0d4c14e432e545336628bb24932477666b6d3b7fb9aea0f2119f5b4e93bec"
+    },
+    "bundle-provenance-decoded.json": {
+      "bytes": 4364,
+      "sha256": "a018c3a4cefb5493087fa4e59c9283000a02d70c64971ae234fa0ff385ad1a4f"
+    },
+    "cache.dart": {
+      "bytes": 59517,
+      "sha256": "ff6a424aa26083ac95204a3704aca2d72540fdc227d02fb2510d79fb93d63e0d"
+    },
+    "dart-sdk-object-metadata.json": {
+      "bytes": 1088,
+      "sha256": "a6ad91bece5600928dc00a2a06de9a4ce1055b61d7494ad2af256bfc6678b37b"
+    },
+    "engine.version": {
+      "bytes": 41,
+      "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+    },
+    "engine_stamp.json": {
+      "bytes": 237,
+      "sha256": "df5cffb3cee2d6bfea7d1de442a85c31cb3884060fe7b56887d8ee093ea968bb"
+    },
+    "exact-bundle-origin-index.json": {
+      "bytes": 3909,
+      "sha256": "bae32fe69821c4f0ddcce93030528cfa9b7d47f4a1e32c9f2cb8eafc1abddcd5"
+    },
+    "flutter_cache.dart": {
+      "bytes": 31470,
+      "sha256": "a0eb7d8ba0457cd6a00e2c6f922f8baaf73ba6caf96a875767f080ab92a4ee64"
+    },
+    "main.client.dart.js_3.part.js": {
+      "bytes": 1758,
+      "sha256": "6e93e061d97756efd779c5417ba6573b60a439f1cba7183c931ab63439f3f8b7"
+    },
+    "main.client.dart.js_37.part.js": {
+      "bytes": 6883,
+      "sha256": "23edd928aed2499ce0ae47fc0e02c42e2d28116fd6b39c34d2bee55c78b41a05"
+    },
+    "official-commit.json": {
+      "bytes": 2596,
+      "sha256": "ae1470975c951b94319dc1d56205eb54041be280b0935988cbb0cb19e0c26449"
+    },
+    "table-attestation.jsonl": {
+      "bytes": 4573,
+      "sha256": "78a3d0b5e0492a9ce081ae4a671713ef480bfd63c6f96e644d391f51d547ec37"
+    },
+    "table-provenance-decoded.json": {
+      "bytes": 4365,
+      "sha256": "ff8d90fef03f89493053b9f323c96907b453dff984389d151e4fb81654303b40"
+    },
+    "update_dart_sdk.sh": {
+      "bytes": 5941,
+      "sha256": "730d3f3145d0c652147043fa914ac54679ab2b4ac94f8f983e4d44f1e17cb6f7"
+    },
+    "update_engine_version.sh": {
+      "bytes": 3112,
+      "sha256": "6d71ef5d911243afdc83a4238b65159aad7905d7b19cb2464db40e347536ebb4"
+    }
+  },
+  "frozen_utc": "2026-10-01T23:50:50.123426+00:00",
+  "release_feed_url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json",
+  "schema_version": 1,
+  "scope": "Published metadata authentication prerequisite only; no full archive readback, extraction, SDK execution, patching or acceptance.",
+  "signature_verification": {
+    "performed": false,
+    "reason": "Publisher-hosted DSSE subject binding retained; signing-key origin and cryptographic signature verification are not established by this receipt."
+  },
+  "x64_release_row": {
+    "archive": "stable/macos/flutter_macos_3.44.4-stable.zip",
+    "channel": "stable",
+    "dart_sdk_arch": "x64",
+    "dart_sdk_version": "3.12.2",
+    "hash": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "release_date": "2026-06-24T23:34:11.763532Z",
+    "sha256": "32bca4386121042e827ff2d90edbd7c7fb47c514fc04d5a87db6e3202dafde5d",
+    "version": "3.44.4"
+  }
+}

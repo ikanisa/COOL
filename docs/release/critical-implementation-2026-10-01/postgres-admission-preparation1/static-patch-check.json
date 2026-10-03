@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "apply",
+    "--check",
+    "--whitespace=error",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/full-candidate.patch"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "error: dev/null: No such file or directory\nerror: dev/null: No such file or directory\nerror: dev/null: No such file or directory\n"
+}

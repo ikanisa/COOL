@@ -1,0 +1,70 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": {
+        "changed": [],
+        "clone_only": [],
+        "columns": 1631,
+        "source_only": []
+      },
+      "name": "every column preserves explicit PUBLIC/API grants and all effective API privileges",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "columns_with_explicit_api_acl": 29
+      },
+      "name": "source selected-column contracts are exercised rather than an empty ACL fixture",
+      "status": "failed"
+    }
+  ],
+  "completed_at": "2026-09-30T23:13:55.363280+00:00",
+  "database": "collect_local_uat_2ea5d26ba4654616",
+  "failure": "source selected-column contracts are exercised rather than an empty ACL fixture",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_schema_clone_api_column_acl_parity",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "b07c13b64716f98984a591844634c6a4382a0949e33c47bf534c12f9a50953d5",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T23:13:40.301661+00:00",
+  "status": "failed"
+}

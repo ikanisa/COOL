@@ -1,0 +1,15 @@
+{
+  "SDK_executed": false,
+  "candidate_promoted": false,
+  "concrete_next_plan_sha256": "782b53f5459cc8e5547d6d6f72a1c25a2870159c6bdbd62467f4f7852c41e20e",
+  "packet_leaf_files": 12,
+  "packet_manifest_sha256": "15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126",
+  "physical_foundation_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1",
+  "physical_result_sha256": "344663398604eb5248432b4b4ff7d62d0de5c562a2cd4fe94d087c0ad18ea33f",
+  "physical_validation_sha256": "630c13ed4602959a0fd7aedaddc8feaab61b26bd279265b1aeb9a23483912451",
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T00:36:07.025346+00:00",
+  "reviewed_preview_binding_sha256": "e61d580116a7fb976733cbf7dc3ae6c6d3b927c5c0bb46f04511ba39e2e01f34",
+  "source_patch_applied": false,
+  "status": "PRISTINE_INDEPENDENT_PHYSICAL_FOUNDATION_AND_NEXT_PLAN_FROZEN__NO_PATCH_NO_SDK_EXECUTION"
+}

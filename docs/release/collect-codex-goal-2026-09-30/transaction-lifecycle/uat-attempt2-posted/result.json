@@ -1,0 +1,293 @@
+{
+  "kind": "admin_transaction_lifecycle_isolated_schema_only",
+  "started_at": "2026-09-30T20:41:17.522430+00:00",
+  "production_written": false,
+  "provider_called": false,
+  "cases": [
+    {
+      "name": "migration installs in isolated schema-only database",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "three nonempty Rwanda observations use independent states",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "allocated observation cannot imply verification or financial posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "failed parsing is distinct from allocation ambiguity",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pending parser is distinct from pending provider verification",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "page beyond end retains exact total",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "oldest-first sorting preserved in response",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "equal timestamp pagination has stable nonoverlapping tie-breaker",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "parse-failed operational filter resolves actual failure state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid query denied null,null,0,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "invalid query denied null,null,101,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "invalid query denied null,null,25,-1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "invalid query denied null,null,25,100001",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "invalid query denied null,null,25,0,'unsafe'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "invalid query denied repeat('a',129),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "anon cannot invoke Admin lifecycle list",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot invoke Admin lifecycle list",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "missing Auth session denied",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "revoked notification read never exposes receipt existence/state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payment permission removed denies fresh observation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "owner role revoked denies fresh observation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "approval revoked denies fresh observation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read/denial matrix preserves seven business fingerprints including populated payments",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "balanced canonical posting and confirmation produce independent observations",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "confirmed amount ordering preserves leading financial record",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "posted evidence stays unchanged by Admin list reads",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "source_metadata": {
+    "net": "0",
+    "cron": "off",
+    "count": 150,
+    "latest": "20260930180000"
+  },
+  "migration_sha256": "9908b61b0aaa53b3e53ef4224df4f2bc7bbb7c02e1a5361c7b791b1d7a421a57",
+  "prerequisites": {
+    "20260930170000": {
+      "current_source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "installed_migration_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "normalized_installed_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "installed_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad"
+    },
+    "20260930180000": {
+      "current_source_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "installed_migration_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "normalized_installed_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd",
+      "installed_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd"
+    }
+  },
+  "database": "collect_shadow_uat_6f16813d6912",
+  "source_schema_dump_sha256": "244a6161ac81c61e11410b59be37d45fb8a80647c9f9575fc6f0bf5b11bad26d",
+  "application_api_acl_sha256": "3283a589630eb16a99153cac80df0d10e19119a7c08eeb4947bca2de843e3885",
+  "restored_schema_dump_sha256": "244a6161ac81c61e11410b59be37d45fb8a80647c9f9575fc6f0bf5b11bad26d",
+  "install_exit_code": 0,
+  "financial_evidence": "synthetic_current_schema_not_provider_authenticity",
+  "business_before_reads": {
+    "journal": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payments": {
+      "rows": 1,
+      "sha256": "3c3921420665fb9244a8b9e46fbcea18ccfc2156045432c9a9beec4150b98ec2"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "business_after_reads": {
+    "journal": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payments": {
+      "rows": 1,
+      "sha256": "3c3921420665fb9244a8b9e46fbcea18ccfc2156045432c9a9beec4150b98ec2"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "posted_business_fingerprints": {
+    "journal": {
+      "rows": 1,
+      "sha256": "5ab65abec6bd600c2f0c7fbb29ba4814adae5448c4d02ad43c0620b1897d89ef"
+    },
+    "payments": {
+      "rows": 1,
+      "sha256": "d6685628abfd1f1f0bef30b67b28c63687ea417442cfbd108ea762c4f4452e18"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T20:41:20.669701+00:00"
+}

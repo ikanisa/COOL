@@ -1,0 +1,28 @@
+--- executed-before-header/run_consumers.py
++++ executed-after-header/run_consumers.py
+@@ -32,6 +32,7 @@
+     files += list(ROOT.joinpath('test/fixtures').rglob('*.dart'))
+     files += [ROOT / t for t in TESTS]
+     files += [ROOT / 'test/features/mobile_completion_test.dart',
++              ROOT / 'test/features/security_hub_header_test.dart',
+               ROOT / 'test/features/privacy/privacy_test_support.dart',
+               ROOT / 'pubspec.yaml', ROOT / 'pubspec.lock',
+               ROOT / '.dart_tool/package_config.json', ROOT / 'analysis_options.yaml',
+@@ -80,11 +81,17 @@
+     command = [str(FLUTTER / 'bin/flutter'), 'analyze', '--no-pub',
+                'lib/app/router.dart', 'lib/shared/repositories/collect_repository.dart',
+                'lib/shared/widgets/screen_scaffold.dart', 'lib/features/privacy',
++               'lib/features/settings/security_hub_header.dart',
+                'test/features/privacy', 'test/shared/repository_session_fencing_test.dart',
+                'test/features/auth_route_accessibility_regression_test.dart',
+                'test/core/route_inventory_contract_test.dart']
+ elif mode == 'cohort':
+     command = [str(FLUTTER / 'bin/flutter'), 'test', '--no-pub', '--reporter', 'expanded', *TESTS]
++elif mode == 'affected_security':
++    command = [str(FLUTTER / 'bin/flutter'), 'test', '--no-pub', '--reporter', 'expanded',
++               'test/features/shared_chrome_accessibility_test.dart',
++               'test/features/security_hub_header_test.dart',
++               'test/features/privacy/privacy_default_route_integration_test.dart']
+ elif mode == 'stale_home':
+     command = [str(FLUTTER / 'bin/flutter'), 'test', '--no-pub', '--reporter', 'expanded',
+                'test/features/mobile_completion_test.dart', '--plain-name',

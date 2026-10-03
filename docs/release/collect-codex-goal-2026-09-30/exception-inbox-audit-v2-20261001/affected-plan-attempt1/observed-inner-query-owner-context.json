@@ -1,0 +1,6 @@
+{
+  "current_user": "postgres",
+  "function_owner": "postgres",
+  "security_definer": true,
+  "synthetic_authenticated_actor": "99790000-0000-4000-8000-000000000001"
+}

@@ -1,0 +1,1 @@
+{"status":"pass","checks":3,"upstream_and_project_tokens_identical":true,"expired_fixture_rejected":true,"parser_claims_preserved":true,"asymmetric_dummy_signature_rejected":true,"jwks_requests":1,"authenticated_session_created":false}

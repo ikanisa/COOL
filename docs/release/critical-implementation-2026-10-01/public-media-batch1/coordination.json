@@ -1,0 +1,35 @@
+{
+  "recorded_at_utc": "2026-10-01T22:14:31.869114+00:00",
+  "status": "strict_attempt1_blocked_source_drift",
+  "source": "Direct maintained exporter terminal exit2 receipt; no candidate retained.",
+  "blocking_source_condition": "Two current migration filenames contain invalid hour components 24 and 25; maintained strict release export validator refuses them. Root owns byte-preserving filename normalization, mapping and reproof.",
+  "reported_migration_version_prefixes": [
+    "20261001240000",
+    "20261001250000"
+  ],
+  "bypass_allowed": false,
+  "source_omission_allowed": false,
+  "capture_started": false,
+  "source_publication_approval": false,
+  "release_acceptance": false,
+  "first_export_report": "docs/release/critical-implementation-2026-10-01/public-media-batch1/strict-export.json",
+  "first_export_report_sha256": "8f812fa3ee4a4d3a7c1b647b562590193c8c07b0f959ef2fbce3131dd0b30bdb",
+  "first_export_result": {
+    "affected_source_paths": [
+      "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "lib/gateway/gateway_app.dart",
+      "scripts/tests/admin_receipt_source_busy_test.dart",
+      "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "scripts/tests/receipt_source_busy_uat.py",
+      "scripts/tests/runtime_control_edit_eligibility_uat.py",
+      "scripts/tests/sms_receipt_language_uat.py",
+      "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+      "tools/collect-notification-mcp/src/unattended_source_busy.test.ts"
+    ],
+    "credential_values_reported": false,
+    "production_mutations": 0,
+    "reason_code": "CANDIDATE_SOURCE_CHANGED",
+    "status": "blocked"
+  },
+  "source_holds": "Not released; parent successful-copy condition unsatisfied. Additional writer coordination required."
+}

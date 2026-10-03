@@ -1,0 +1,20 @@
+{
+  "kind": "storage#object",
+  "id": "flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-x64-release/darwin-x64.zip/1782261037671650",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-x64-release%2Fdarwin-x64.zip",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-x64-release%2Fdarwin-x64.zip?generation=1782261037671650&alt=media",
+  "name": "flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-x64-release/darwin-x64.zip",
+  "bucket": "flutter_infra_release",
+  "generation": "1782261037671650",
+  "metageneration": "1",
+  "contentType": "application/zip",
+  "storageClass": "STANDARD",
+  "size": "4582902",
+  "md5Hash": "zNA/5vafeUq75Slb3Rdp/w==",
+  "crc32c": "IeORhQ==",
+  "etag": "COLJsODPnpUDEAE=",
+  "timeCreated": "2026-06-24T00:30:37.831Z",
+  "updated": "2026-06-24T00:30:37.831Z",
+  "timeStorageClassUpdated": "2026-06-24T00:30:37.831Z",
+  "timeFinalized": "2026-06-24T00:30:37.831Z"
+}

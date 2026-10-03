@@ -1,0 +1,6 @@
+{
+  "task_owned_parent_pid": 65605,
+  "terminated_task_owned_child_pid": 76590,
+  "reason": "First captured shim compiler exceeded its 360-second bound; tests did not execute. Stop the now redundant API-only follow-up before final changed-source rerun. Existing preceding141 whole API pass remains separate.",
+  "other_processes_touched": false
+}

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/gateway",
+    "lib/main_gateway.dart",
+    "test/gateway"
+  ],
+  "exit_code": 1
+}

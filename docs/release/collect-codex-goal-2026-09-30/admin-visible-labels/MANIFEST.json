@@ -1,0 +1,35 @@
+{
+  "kind": "visible_operation_labels_local_analysis",
+  "files": {
+    "README.md": {
+      "bytes": 1429,
+      "sha256": "cfb3413c6feca188207c9a085cf5924f5025b1c573a37f29de462418ef4c0c90"
+    },
+    "analysis.log": {
+      "bytes": 112,
+      "sha256": "0816c3ace6dd6f5767855d59c28234cd8c9f461f5914ffcfc8ea770105bb2b6d"
+    },
+    "design-authority.log": {
+      "bytes": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    "source-snapshot/lib/admin/core/admin_operation_components.dart": {
+      "bytes": 21731,
+      "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    "source-snapshot/lib/admin/core/admin_operation_tables.dart": {
+      "bytes": 27052,
+      "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    "source-snapshot/test/admin_pwa_test.dart": {
+      "bytes": 26124,
+      "sha256": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906"
+    },
+    "validation.json": {
+      "bytes": 1510,
+      "sha256": "2da9ca6b4414387e6f2e3ce86db7b80a1d7f1a2ea7f580d9fb59ef51d6958653"
+    }
+  },
+  "production_ready": false,
+  "authenticated_comparator_acceptance": false
+}

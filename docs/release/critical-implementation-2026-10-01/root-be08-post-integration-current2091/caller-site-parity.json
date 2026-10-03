@@ -1,0 +1,80 @@
+{
+  "caller_count": 718,
+  "semantic_records_exactly_equal_after_only_line_offset_removal": true,
+  "position_changes": [
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_grant_v1",
+      "old_line": 12,
+      "new_line": 22,
+      "old_offset": 488,
+      "new_offset": 1011
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_arm_v1",
+      "old_line": 13,
+      "new_line": 23,
+      "old_offset": 548,
+      "new_offset": 1071
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_reconcile_v1",
+      "old_line": 14,
+      "new_line": 24,
+      "old_offset": 603,
+      "new_offset": 1126
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_callback_v1",
+      "old_line": 15,
+      "new_line": 25,
+      "old_offset": 663,
+      "new_offset": 1186
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_attempt_status_v1",
+      "old_line": 16,
+      "new_line": 26,
+      "old_offset": 728,
+      "new_offset": 1251
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_receipt_successor_archive_v1",
+      "old_line": 17,
+      "new_line": 27,
+      "old_offset": 800,
+      "new_offset": 1323
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "kind": "function-literal-reference",
+      "symbol": "gateway_device_key_v1",
+      "old_line": 125,
+      "new_line": 135,
+      "old_offset": 7718,
+      "new_offset": 8241
+    },
+    {
+      "path": "scripts/supabase_production_readiness.sh",
+      "kind": "edge-http-route-reference",
+      "symbol": null,
+      "old_line": 1203,
+      "new_line": 1186,
+      "old_offset": 56300,
+      "new_offset": 55243
+    }
+  ],
+  "readiness_production_caller_records_exactly_equal": false,
+  "new_evidence_index_caller_site_count": 0
+}

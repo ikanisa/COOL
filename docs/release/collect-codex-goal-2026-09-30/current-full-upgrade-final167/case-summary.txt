@@ -1,0 +1,19 @@
+PASS clean bootstrap has no Auth users or application objects
+PASS all frozen application migrations replay on empty app with explicit bootstrap owner
+PASS clean never launches cron history or external network work
+PASS populated bootstrap has no Auth users or application objects
+PASS populated predecessor exactly reaches hosted124 version boundary
+PASS nonempty predecessor has 850 RWF, three balanced journals and two immutable primary receipts
+PASS predecessor dispatch is paused with no carrier attempts
+PASS every pending migration preserves 18 predecessor financial receipt Auth and approval projections
+PASS full upgrade registry reaches exact captured count
+PASS confirmed payer migration cancels only the incompatible legacy intent
+PASS Rwanda mode retains existing FR profile while retiring non-Rwanda country configuration
+PASS all retained journals remain two-line balanced
+PASS paused predecessor payment is never silently backfilled
+PASS current investigation reads actual retained posting and independent current balance
+PASS upgraded Overview receipt section remains independently authorized
+PASS manual shadow history exists without any scheduled or claimed runs
+PASS upgraded read calls preserve all predecessor projections
+PASS new handset dispatch authority remains unavailable
+PASS populated never launches cron history or external network work

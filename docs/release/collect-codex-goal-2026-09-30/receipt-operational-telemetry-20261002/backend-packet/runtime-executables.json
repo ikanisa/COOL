@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-10-01T22:43:00.627017+00:00",
+  "executables": [
+    {
+      "path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "resolved_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+      "size": 41375408
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "resolved_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+      "size": 18041888
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+      "resolved_path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+      "sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "size": 3884832
+    }
+  ],
+  "raw_sql_image_receipts": "sql-attempt13/commands/00001.json and target DB shape receipt",
+  "dart_dependency_hashes": "admin/brace-tail/inputs-before.json",
+  "scope": "local SQL, strict Dart model; no hosted/runtime/device attestation"
+}

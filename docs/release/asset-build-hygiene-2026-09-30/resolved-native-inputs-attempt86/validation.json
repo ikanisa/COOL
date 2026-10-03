@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "actual_tests": 11,
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/resolved_native_package_inputs.py": "d23829dcb9e586f106b4b6306e8ca043875defce825a7f5fea64f72760b2d049",
+    "scripts/tests/resolved_native_package_inputs_test.py": "17acd7b2d73d823ff5cee23c77feb87a1a057825a8a5070e8efb0f8261103355"
+  },
+  "scope": "Actual resolved root copying/rebinding, copied native/source mutation, SDK mutation, package/plugin escapes, private files, resource bounds and add/delete proofs; no build or cache authenticity acceptance"
+}

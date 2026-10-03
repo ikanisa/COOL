@@ -1,0 +1,29 @@
+{
+  "accepted250_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+  "inputs": {
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+    "supabase/functions/collect-receipt-supervisor/operations_contract.ts": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+    "tools/collect-notification-mcp/src/unattended_contract.ts": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+    "lib/admin/core/admin_exception_models.dart": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5",
+    "lib/admin/core/admin_receipt_deferral_models.dart": "de0973a727b0c56cba30fe25a8e5ed209f795b4fbd2ef8ff3f9defd2f29004e9"
+  },
+  "guards": [
+    [
+      "collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)",
+      "e0caafdfd15bf90a5c91af49f6394432aacf4d48c083ee731e601dcc883021ea"
+    ],
+    [
+      "collect_ops.receipt_exception_source(text,uuid)",
+      "e5fa8846cd39550b3f5a4ef51a1e3409a149304a09abd84cb007fc543ec86c3a"
+    ]
+  ],
+  "constraint_definition_sha256": "482483bfc29f113331757f772d3641ef6dacc8ad214d88058a647b6c3a385d6c",
+  "outputs": {
+    "supabase/migrations/20261001260000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+    "supabase/functions/collect-receipt-supervisor/operations_contract.ts": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+    "tools/collect-notification-mcp/src/unattended_contract.ts": "a26e4b8bfadb5fc787413d93d283916035240c44d615778a8b7ce3be6b11fa61",
+    "lib/admin/core/admin_exception_models.dart": "d5fc9be9c24266c2ad8d9e48ee78b0eb05485785e1e068f501225f21cbbbaa28",
+    "lib/admin/core/admin_receipt_deferral_models.dart": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66"
+  }
+}

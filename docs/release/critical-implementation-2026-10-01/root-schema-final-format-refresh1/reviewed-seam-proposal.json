@@ -1,0 +1,231 @@
+{
+  "all18_reviewed_cases_retained": true,
+  "all_case_current_bindings": [
+    {
+      "anchor_occurrences": 1,
+      "before_line": 23,
+      "before_sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 23,
+      "current_sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+      "id": "member-session-client",
+      "path": "lib/core/supabase/supabase_module.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 20,
+      "before_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 20,
+      "current_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "id": "member-profile-read",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 133,
+      "before_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 133,
+      "current_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "id": "member-dynamic-financial-reader",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 979,
+      "before_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "bound_hash_and_line_match_current": false,
+      "current_line": 978,
+      "current_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+      "id": "admin-rpc-map",
+      "path": "lib/admin/core/admin_runtime.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 4,
+      "before_sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 4,
+      "current_sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "id": "edge-service-and-user-clients",
+      "path": "supabase/functions/_shared/supabase.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 64,
+      "before_sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 64,
+      "current_sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72",
+      "id": "operator-edge-dispatch",
+      "path": "supabase/functions/collect-notification-operator/index.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 53,
+      "before_sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 53,
+      "current_sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+      "id": "gateway-enum-interpolation",
+      "path": "lib/admin/core/admin_gateway_contracts.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 27,
+      "before_sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 27,
+      "current_sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842",
+      "id": "receipt-principal-enum-interpolation",
+      "path": "lib/admin/core/admin_receipt_principal_models.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 57,
+      "before_sha256": "5b4e158273a0851e540e1e343504821705e48484413e6eb43bca854afeb2a13f",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 57,
+      "current_sha256": "5b4e158273a0851e540e1e343504821705e48484413e6eb43bca854afeb2a13f",
+      "id": "native-gateway-fixed-transport",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 4,
+      "before_sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 4,
+      "current_sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "id": "successor-action-map",
+      "path": "supabase/functions/collect-receipt-successor-gateway/wire.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 384,
+      "before_sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 384,
+      "current_sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "id": "supervisor-action-dispatch",
+      "path": "supabase/functions/collect-receipt-supervisor/handler.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 150,
+      "before_sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 150,
+      "current_sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "id": "operator-postgrest-session",
+      "path": "tools/collect-notification-mcp/src/operational_client.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 55,
+      "before_sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 55,
+      "current_sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "id": "shadow-action-postgrest",
+      "path": "tools/collect-notification-mcp/src/shadow_client.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 8,
+      "before_sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 8,
+      "current_sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+      "id": "reconciliation-two-client-boundary",
+      "path": "supabase/functions/reconciliation-finalize/index.ts"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 45,
+      "before_sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 45,
+      "current_sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3",
+      "id": "retention-209-admin-callback",
+      "path": "lib/admin/core/admin_sender_retention_host.dart"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 9,
+      "before_sha256": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 9,
+      "current_sha256": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f",
+      "id": "ios-native-channel-boundary",
+      "path": "ios/Runner/AppDelegate.swift"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 37,
+      "before_sha256": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 37,
+      "current_sha256": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f",
+      "id": "platform-net-reader-boundary",
+      "path": "scripts/sql/receipt_transport_platform_prerequisites.sql"
+    },
+    {
+      "anchor_occurrences": 1,
+      "before_line": 152,
+      "before_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "bound_hash_and_line_match_current": true,
+      "current_line": 152,
+      "current_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "id": "dynamic-historical-sql-patch",
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql"
+    }
+  ],
+  "authorization_unchanged": "not-inferred",
+  "before_anchor_line": 979,
+  "before_case": {
+    "anchor": "Future<Map<String, dynamic>> rpcMap(",
+    "authorization": "not-inferred",
+    "id": "admin-rpc-map",
+    "line": 979,
+    "observation": "rpcMap delegates to _requireClient().rpc under _withSession and sets Authorization to the captured session token. The generator recognizes rpcMap only under lib/admin; arbitrary functions ending in Rpc are not treated as database calls.",
+    "path": "lib/admin/core/admin_runtime.dart",
+    "review_status": "source-read-only",
+    "reviewed_public_name_candidates": [],
+    "source_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a"
+  },
+  "before_sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+  "current_anchor_line": 978,
+  "current_source_path": "lib/admin/core/admin_runtime.dart",
+  "current_source_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+  "exact_rpcMap_method_bytes_unchanged": true,
+  "kind": "collect_private_current_reviewed_seam_binding_proposal",
+  "maintained_path": "scripts/audits/collect_schema_domain_caller_seams.json",
+  "maintained_writes": 0,
+  "only_changed_case_fields": [
+    "line",
+    "source_sha256"
+  ],
+  "other17_cases_exactly_unchanged": true,
+  "previous_source_path": "docs/release/critical-implementation-2026-10-01/root-arc01-current-format-integration1/before/lib/admin/core/admin_runtime.dart",
+  "previous_source_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+  "proposed_case": {
+    "anchor": "Future<Map<String, dynamic>> rpcMap(",
+    "authorization": "not-inferred",
+    "id": "admin-rpc-map",
+    "line": 978,
+    "observation": "rpcMap delegates to _requireClient().rpc under _withSession and sets Authorization to the captured session token. The generator recognizes rpcMap only under lib/admin; arbitrary functions ending in Rpc are not treated as database calls.",
+    "path": "lib/admin/core/admin_runtime.dart",
+    "review_status": "source-read-only",
+    "reviewed_public_name_candidates": [],
+    "source_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b"
+  },
+  "proposed_sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+  "reviewed_public_candidates_unchanged": true,
+  "root_owns_integration_and_fresh_attempt": true,
+  "rpcMap_method_lines": 21,
+  "rpcMap_method_sha256": "eb5d7644e3c57f40182784e80baf753ad6b0292d83c78398baaf5be0cac9bc44",
+  "rpcMap_method_source": "Future<Map<String, dynamic>> rpcMap(\n    String rpcName, {\n    Map<String, dynamic>? params,\n    bool automaticRetry = true,\n  }) async {\n    final response = await _withSession(\n      (session) => _requireClient()\n          .rpc<dynamic>(rpcName, params: params)\n          // An uncertain reply requires an explicit operator decision. A\n          // transport retry must never repeat a write or an audited reveal.\n          .retry(enabled: automaticRetry)\n          .setHeader('Authorization', 'Bearer ${session.token}'),\n      reconciliation: const {\n        'list_payment_reconciliations_v2',\n        'get_payment_reconciliation_v2',\n      }.contains(rpcName),\n    );\n    if (response == null) return const {};\n    if (response is Map) return Map<String, dynamic>.from(response);\n    throw StateError('$rpcName returned ${response.runtimeType}, expected map');\n  }\n",
+  "unchanged_anchor": "Future<Map<String, dynamic>> rpcMap("
+}

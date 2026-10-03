@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 1.1691490420053015,
+  "owned_process_group_absent": true,
+  "all_inputs_unchanged": true,
+  "input_file_count": 1180,
+  "actual_semantic_result": {
+    "status": "pass",
+    "checks": 3,
+    "upstream_and_project_tokens_identical": true,
+    "expired_fixture_rejected": true,
+    "parser_claims_preserved": true,
+    "asymmetric_dummy_signature_rejected": true,
+    "jwks_requests": 1,
+    "authenticated_session_created": false
+  },
+  "canonical_flutter_test_run": false,
+  "strict_analysis_run": false,
+  "maintained_source_changed": false,
+  "root_app_sdk_written": false
+}

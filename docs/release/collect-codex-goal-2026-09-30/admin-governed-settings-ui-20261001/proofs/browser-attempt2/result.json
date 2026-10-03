@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--platform=chrome",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_checkpoint_browser_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "exit_code": 0,
+  "elapsed_seconds": 11.973978959000306,
+  "source_sha256": "9d45879a53497062b6583fbc8b1955e7ca418a0316a3a52e87c8c1977ccc45dc"
+}

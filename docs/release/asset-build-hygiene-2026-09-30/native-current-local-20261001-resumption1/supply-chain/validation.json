@@ -1,0 +1,381 @@
+{
+  "additional_inputs_unchanged": true,
+  "checks": {
+    "assets": {
+      "aeonik_license_evidence_files_in_typefaces": [],
+      "declared_asset_missing": [],
+      "declared_asset_path_count": 93,
+      "group_catalog_concepts": 42,
+      "group_catalog_paths_missing_from_declared_assets": [],
+      "group_runtime_derivative_mismatches": [],
+      "group_runtime_derivatives_checked": 84,
+      "group_source_image_mismatches": [],
+      "group_source_images_checked": 42,
+      "marketing_source_sha256_mismatches": []
+    },
+    "dart": {
+      "dart_sdk_constraint": "^3.12.0",
+      "local_file_saver": {
+        "integrity_scope": "Path/name plus SHA-256 manifest of local regular source files; not a hosted archive digest",
+        "license_text": "third_party/file_saver/LICENSE",
+        "path": "third_party/file_saver",
+        "tree_file_count": 47,
+        "tree_sha256": "e14ef77df8c19f08380b83d7809ae0980b8f2c7cbafadfa46d3ea41b94b36314",
+        "upstream_provenance": "third_party/file_saver/COLLECT_FORK.md",
+        "version": "0.4.0+collect.1"
+      },
+      "local_forks": {
+        "file_saver": {
+          "integrity_scope": "Path/name plus SHA-256 manifest of local regular source files; not a hosted archive digest",
+          "license_text": "third_party/file_saver/LICENSE",
+          "path": "third_party/file_saver",
+          "tree_file_count": 47,
+          "tree_sha256": "e14ef77df8c19f08380b83d7809ae0980b8f2c7cbafadfa46d3ea41b94b36314",
+          "upstream_provenance": "third_party/file_saver/COLLECT_FORK.md",
+          "version": "0.4.0+collect.1"
+        },
+        "firebase_messaging": {
+          "fork_added_files": [
+            "COLLECT_FORK.md",
+            "UPSTREAM-SHA256.json",
+            "analysis_options.yaml"
+          ],
+          "integrity_scope": "Path/name plus SHA-256 manifest of local regular source files; not a hosted archive digest",
+          "license_text": "third_party/firebase_messaging/LICENSE",
+          "path": "third_party/firebase_messaging",
+          "tree_file_count": 39,
+          "tree_sha256": "fc90d7f30b688894481adf04cae01610590dd088889f16a911c2a5482cb8fed1",
+          "upstream_changed_files": [
+            "ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m",
+            "pubspec.yaml"
+          ],
+          "upstream_comparison_scope": "Recorded original cached-source hashes; no independent hosted archive authenticity or change approval claim",
+          "upstream_file_count": 148,
+          "upstream_missing_files": [
+            "example/README.md",
+            "example/analysis_options.yaml",
+            "example/android/app/build.gradle",
+            "example/android/app/src/debug/AndroidManifest.xml",
+            "example/android/app/src/main/AndroidManifest.xml",
+            "example/android/app/src/main/kotlin/io/flutter/plugins/firebase/messaging/example/MainActivity.kt",
+            "example/android/app/src/main/res/drawable-v21/launch_background.xml",
+            "example/android/app/src/main/res/drawable/launch_background.xml",
+            "example/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+            "example/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+            "example/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+            "example/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+            "example/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+            "example/android/app/src/main/res/values-night/styles.xml",
+            "example/android/app/src/main/res/values/styles.xml",
+            "example/android/app/src/profile/AndroidManifest.xml",
+            "example/android/build.gradle",
+            "example/android/gradle.properties",
+            "example/android/gradle/wrapper/gradle-wrapper.properties",
+            "example/android/settings.gradle",
+            "example/bundled-service-worker/firebase-messaging-sw.ts",
+            "example/bundled-service-worker/package.json",
+            "example/bundled-service-worker/tsconfig.json",
+            "example/bundled-service-worker/yarn.lock",
+            "example/ios/Flutter/AppFrameworkInfo.plist",
+            "example/ios/Flutter/Debug.xcconfig",
+            "example/ios/Flutter/Release.xcconfig",
+            "example/ios/Podfile",
+            "example/ios/Runner.xcodeproj/project.pbxproj",
+            "example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+            "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+            "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+            "example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+            "example/ios/Runner.xcworkspace/contents.xcworkspacedata",
+            "example/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+            "example/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+            "example/ios/Runner/AppDelegate.h",
+            "example/ios/Runner/AppDelegate.m",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-1024.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20@2x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20@3x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29@2x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29@3x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40@2x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40@3x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-60@2x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-60@3x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-76.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-76@2x.png",
+            "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-83.5@2x.png",
+            "example/ios/Runner/Assets.xcassets/Contents.json",
+            "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+            "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+            "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+            "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+            "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+            "example/ios/Runner/Base.lproj/LaunchScreen.storyboard",
+            "example/ios/Runner/Base.lproj/Main.storyboard",
+            "example/ios/Runner/Firebase Cloud Messaging Example.entitlements",
+            "example/ios/Runner/Info.plist",
+            "example/ios/Runner/main.m",
+            "example/ios/firebase_app_id_file.json",
+            "example/lib/main.dart",
+            "example/lib/message.dart",
+            "example/lib/message_list.dart",
+            "example/lib/permissions.dart",
+            "example/lib/token_monitor.dart",
+            "example/macos/Flutter/Flutter-Debug.xcconfig",
+            "example/macos/Flutter/Flutter-Release.xcconfig",
+            "example/macos/Podfile",
+            "example/macos/Runner.xcodeproj/project.pbxproj",
+            "example/macos/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+            "example/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+            "example/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+            "example/macos/Runner.xcworkspace/contents.xcworkspacedata",
+            "example/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+            "example/macos/Runner/AppDelegate.swift",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-1024.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-128.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-16.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-256.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-32.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-512.png",
+            "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-64.png",
+            "example/macos/Runner/Base.lproj/MainMenu.xib",
+            "example/macos/Runner/Configs/AppInfo.xcconfig",
+            "example/macos/Runner/Configs/Debug.xcconfig",
+            "example/macos/Runner/Configs/Release.xcconfig",
+            "example/macos/Runner/Configs/Warnings.xcconfig",
+            "example/macos/Runner/DebugProfile.entitlements",
+            "example/macos/Runner/Info.plist",
+            "example/macos/Runner/MainFlutterWindow.swift",
+            "example/macos/Runner/Release.entitlements",
+            "example/macos/firebase_app_id_file.json",
+            "example/pubspec.yaml",
+            "example/scripts/package.json",
+            "example/scripts/send-message.js",
+            "example/web/favicon.png",
+            "example/web/firebase-messaging-sw.js",
+            "example/web/icons/Icon-192.png",
+            "example/web/icons/Icon-512.png",
+            "example/web/icons/Icon-maskable-192.png",
+            "example/web/icons/Icon-maskable-512.png",
+            "example/web/index.html",
+            "example/web/manifest.json",
+            "test/firebase_messaging_test.dart",
+            "test/mock.dart"
+          ],
+          "upstream_provenance": "third_party/firebase_messaging/COLLECT_FORK.md",
+          "upstream_source_manifest": "third_party/firebase_messaging/UPSTREAM-SHA256.json",
+          "version": "16.5.0"
+        },
+        "gotrue": {
+          "fork_added_files": [
+            "COLLECT_FORK.md",
+            "UPSTREAM-SHA256.json",
+            "lib/src/collect_browser_invalidation.dart",
+            "test/synthetic_jwt.dart"
+          ],
+          "integrity_scope": "Path/name plus SHA-256 manifest of local regular source files; not a hosted archive digest",
+          "license_text": "third_party/gotrue/LICENSE",
+          "path": "third_party/gotrue",
+          "tree_file_count": 81,
+          "tree_sha256": "6df07d13368b2aaa09274f33146421bb0e33ca4b33fff7d04630298f87a2bf4d",
+          "upstream_changed_files": [
+            "analysis_options.yaml",
+            "lib/src/broadcast_web.dart",
+            "lib/src/gotrue_client.dart",
+            "pubspec.yaml",
+            "test/client_test.dart",
+            "test/get_claims_test.dart"
+          ],
+          "upstream_comparison_scope": "Recorded original cached-source hashes; no independent hosted archive authenticity or change approval claim",
+          "upstream_file_count": 79,
+          "upstream_missing_files": [
+            "example/README.md",
+            "example/main.dart"
+          ],
+          "upstream_provenance": "third_party/gotrue/COLLECT_FORK.md",
+          "upstream_source_manifest": "third_party/gotrue/UPSTREAM-SHA256.json",
+          "version": "2.27.1"
+        }
+      },
+      "lock_sdk_constraints": {
+        "dart": ">=3.12.0 <4.0.0",
+        "flutter": ">=3.44.0"
+      },
+      "manifest_direct_not_in_lock": [],
+      "pubspec_version": "1.2.4+23"
+    },
+    "decoder": {
+      "architecture_scope": "Linux aarch64 / Python3.12",
+      "base_image_digest_pinned": true,
+      "hash_pinned_wheel_count": 6,
+      "installed_wheel_and_image_contents": "not verified by source inventory",
+      "requirements_declaration_lock_mismatches": []
+    },
+    "edge": {
+      "deno_lock_present": true,
+      "external_import_occurrences": 7,
+      "resolved_dependency_lock": {
+        "direct_imports_missing_from_lock": [],
+        "integrity_scope": "Declared lock hashes; actual cached compiler integrity enforcement is verified separately",
+        "npm_dependency_edges": [
+          {
+            "from": "@types/node@24.2.0",
+            "to": "undici-types@7.10.0"
+          },
+          {
+            "from": "standardwebhooks@1.0.0",
+            "to": "@stablelib/base64@1.0.1"
+          },
+          {
+            "from": "standardwebhooks@1.0.0",
+            "to": "fast-sha256@1.3.0"
+          }
+        ],
+        "npm_packages": 5,
+        "path": "supabase/functions/deno.lock",
+        "redirects": {
+          "https://esm.sh/iceberg-js@^0.8.1?target=denonext": "https://esm.sh/iceberg-js@0.8.1?target=denonext"
+        },
+        "remote_modules": 45,
+        "version": "5"
+      },
+      "transitive_resolution_status": "Remote/npm modules hash-locked; remote dependency edges and installed contents are separate compiler evidence",
+      "typescript_source_count": 77,
+      "unique_external_imports": 2
+    },
+    "gradle": {
+      "resolved_dependency_lock": {
+        "configurations": [
+          "productionReleaseCompileClasspath",
+          "productionReleaseRuntimeClasspath"
+        ],
+        "entry_count": 184,
+        "present": true,
+        "scope": "Selected app module versions; artifact hashes and dependency edges are separate observed evidence"
+      },
+      "resolved_graph_status": "App module versions locked; observed graph edges/artifact hashes are retained in the native build packet",
+      "wrapper_distribution_sha256_pinned": {
+        "android/gradle/wrapper/gradle-wrapper.properties": true,
+        "third_party/file_saver/android/gradle/wrapper/gradle-wrapper.properties": true
+      },
+      "wrapper_jar_sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3",
+      "wrapper_versions": {
+        "android/gradle/wrapper/gradle-wrapper.properties": "9.1.0",
+        "third_party/file_saver/android/gradle/wrapper/gradle-wrapper.properties": "8.7"
+      }
+    },
+    "ios": {
+      "native_plugin_resolution_status": "not verified against a fresh iOS build",
+      "pod_lock_package_count": 1,
+      "podfile_lock_cocoapods": "1.16.2",
+      "swiftpm_pin_count": 13,
+      "swiftpm_resolved_files_identical": true
+    },
+    "node": {
+      "npm_direct_not_in_lock": [],
+      "npm_lockfile_version": 3,
+      "pnpm_direct_not_in_lock": [],
+      "pnpm_lockfile_version": "9.0"
+    },
+    "ruby": {
+      "direct_not_in_lock": []
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json"
+      ],
+      "exit_code": 0,
+      "name": "candidate-inventory",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "227502afd5b68caec7246442d330d5280cb2abaac9e79e38fe9682ccaca5160d"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "name": "candidate-inventory-reproduction",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4e73f743052817c81790a3a3aef0aa8c6b1b794cf71376b6ae2b6a3651fcae1f"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom-reproduction",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom-schema",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "22e70ec367525f7b3dcf295e2f5717c4fc8377b0b73a200c2d2c078c4540eea3"
+    }
+  ],
+  "inventory_sha256": "41567d4fbd4a109ce4672a92742e38090d3003cfd912e277ea7840cf6db6e129",
+  "live_additional_input_drift": {},
+  "native_source_unchanged": true,
+  "scope": "Reproducible source declarations/assets/fork integrity plus CycloneDX schema; actual Android graphs/APK and iOS bundle compiler bindings remain separate native packets. License unknowns remain explicit.",
+  "source_sbom_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+  "status": "pass",
+  "summary": {
+    "asset_paths_total": 93,
+    "assets_without_license_assertion": 91,
+    "packages_by_ecosystem": {
+      "cocoapods": 1,
+      "dart": 167,
+      "deno-import": 7,
+      "deno-npm": 5,
+      "deno-remote": 45,
+      "gradle-plugin": 4,
+      "maven": 194,
+      "npm": 32,
+      "oci": 1,
+      "pnpm": 26,
+      "pypi": 6,
+      "rubygems": 97,
+      "swiftpm": 13
+    },
+    "packages_total": 598,
+    "packages_without_license_evidence": 563
+  }
+}

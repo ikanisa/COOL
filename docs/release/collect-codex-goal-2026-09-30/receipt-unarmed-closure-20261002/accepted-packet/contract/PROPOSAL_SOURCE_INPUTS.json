@@ -1,0 +1,283 @@
+{
+  "recorded_at": "2026-10-01T22:09:29.703743+00:00",
+  "purpose": "scoped proposal inputs; not complete implementation/test dependency closure",
+  "canonical_mutation": false,
+  "rows": [
+    {
+      "path": "AGENTS.md",
+      "status": "captured",
+      "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+      "bytes": 1419
+    },
+    {
+      "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "status": "captured",
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "bytes": 97254
+    },
+    {
+      "path": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+      "status": "captured",
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "bytes": 46086
+    },
+    {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "status": "captured",
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951
+    },
+    {
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "status": "captured",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "bytes": 37881
+    },
+    {
+      "path": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "status": "captured",
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793
+    },
+    {
+      "path": "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "status": "captured",
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+      "bytes": 3408
+    },
+    {
+      "path": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "status": "captured",
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "bytes": 35488
+    },
+    {
+      "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "status": "captured",
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801
+    },
+    {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "status": "captured",
+      "sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "bytes": 42033
+    },
+    {
+      "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "status": "captured",
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268
+    },
+    {
+      "path": "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "status": "captured",
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "bytes": 19487
+    },
+    {
+      "path": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "status": "captured",
+      "sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "bytes": 11348
+    },
+    {
+      "path": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "status": "captured",
+      "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "bytes": 22197
+    },
+    {
+      "path": "supabase/migrations/20261002000000_runtime_control_edit_eligibility.sql",
+      "status": "captured",
+      "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+      "bytes": 7484
+    },
+    {
+      "path": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "status": "captured",
+      "sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "bytes": 52641
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/handler.ts",
+      "status": "captured",
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/archive_v3.ts",
+      "status": "captured",
+      "sha256": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b",
+      "bytes": 5418
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "status": "captured",
+      "sha256": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+      "bytes": 8735
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/server.ts",
+      "status": "captured",
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+      "bytes": 10762
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_contract.ts",
+      "status": "captured",
+      "sha256": "a26e4b8bfadb5fc787413d93d283916035240c44d615778a8b7ce3be6b11fa61",
+      "bytes": 11223
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "status": "captured",
+      "sha256": "968eacea72b62629d56b18b8039c75ee0eafebf5a75db4e497c87f934f26e2cd",
+      "bytes": 16768
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_models.dart",
+      "status": "captured",
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7",
+      "bytes": 10561
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_card.dart",
+      "status": "captured",
+      "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f",
+      "bytes": 24268
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_runtime.dart",
+      "status": "captured",
+      "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956",
+      "bytes": 3131
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint.dart",
+      "status": "captured",
+      "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867",
+      "bytes": 1718
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "status": "captured",
+      "sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "bytes": 6423
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "status": "captured",
+      "sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+      "bytes": 9597
+    },
+    {
+      "path": "lib/admin/core/admin_investigation.dart",
+      "status": "captured",
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b",
+      "bytes": 18098
+    },
+    {
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "status": "captured",
+      "sha256": "31c06dc7df0ec4a2758e29cb2b7318a3c86d876113497803eb3a69f347805f8b",
+      "bytes": 22943
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_view.dart",
+      "status": "captured",
+      "sha256": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+      "bytes": 17174
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "status": "captured",
+      "sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+      "bytes": 9456
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "status": "captured",
+      "sha256": "84a51578060450b2b56827b9e60a4b71500ae7048f36b1ee68530685d5d98441",
+      "bytes": 17935
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "status": "captured",
+      "sha256": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+      "bytes": 12163
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "status": "captured",
+      "sha256": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+      "bytes": 27400
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+      "status": "captured",
+      "sha256": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157",
+      "bytes": 6000
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+      "status": "captured",
+      "sha256": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+      "bytes": 11093
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveWire.kt",
+      "status": "captured",
+      "sha256": "62addb08265838b74ebb892239c3c318105c0b47f31a7ecfc3d1622b9543c116",
+      "bytes": 5518
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "status": "captured",
+      "sha256": "e6d91ee121752d90365749bb3f3053246035e55b40107fb2a16346e329c5125c",
+      "bytes": 25063
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "status": "captured",
+      "sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+      "bytes": 71348
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt",
+      "status": "captured",
+      "sha256": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+      "bytes": 19666
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt",
+      "status": "captured",
+      "sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0",
+      "bytes": 11405
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "status": "captured",
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+      "bytes": 1898
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "status": "captured",
+      "sha256": "929bf916059126e8bbad1997ec63a100b884a8bc4b3fb7795291d4be516124da",
+      "bytes": 12098
+    },
+    {
+      "path": "/Volumes/PRO-G40/Agents/Codex/Operational-Installation/.agents/skills/efficient-codex/SKILL.md",
+      "status": "captured",
+      "sha256": "a24e74dfa061319b8fbd0ea7619d9ae114562ae35a02ce18bef77635173522a1",
+      "bytes": 6537
+    },
+    {
+      "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md",
+      "status": "captured",
+      "sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+      "bytes": 17598
+    }
+  ]
+}

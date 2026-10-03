@@ -1,0 +1,99 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "source-export",
+      "argv": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/reason-prior-attempt2/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.64,
+      "stdout_sha256": "30c1cf9a4bd0736ebc31e74918b107f1a221a98d6eede1ee3d526b071c731a7e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "git-init",
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.02,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-offline",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.87,
+      "stdout_sha256": "c3b6fce0d22dbddc0c05dee13256ec5991a59f681b652ea60b4f58cff5bc74ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 8.21,
+      "stdout_sha256": "5323ff77d9a86f5c9af45aa5fe825211ac0388337a940346c490207c1fb439f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.71,
+      "stdout_sha256": "0c26f3a3d9fe213d747fbbdfb6aed3e5032c4bb7ce1edb6ac96a80786338ef9c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_inputs": 919,
+  "export_source_changes": [],
+  "checkout_drift": [
+    "lib/admin/core/admin_operation_tables.dart",
+    "lib/admin/core/admin_transaction_lifecycle.dart",
+    "lib/admin/shared/components/admin_status_chip.dart",
+    "lib/core/payments/momo_ussd_launcher.dart",
+    "lib/features/activity/activity_screen.dart",
+    "lib/features/collections/collections_screen.dart",
+    "lib/shared/models/collect_models.dart",
+    "lib/shared/providers/collect_app_state.dart",
+    "lib/shared/repositories/collect_repository.dart",
+    "lib/shared/repositories/collect_repository_history.dart",
+    "lib/shared/repositories/collect_repository_live_reader.dart",
+    "lib/shared/repositories/collect_repository_providers.dart",
+    "lib/shared/repositories/pending_shared_group_intent_store.dart",
+    "lib/shared/widgets/collect_financial_amount_entry.dart",
+    "test/admin_transaction_lifecycle_test.dart"
+  ],
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2",
+  "scope": "Actual Flutter production methods/widgets and locked SDK using synthetic local HTTP/platform transports; no database/provider/native build/capture executed"
+}

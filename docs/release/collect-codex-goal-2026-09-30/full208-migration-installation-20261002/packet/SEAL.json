@@ -1,0 +1,13 @@
+{
+  "manifest_sha256": "cb7490907207b539d841a4974959914cf46c837825aac192b15cf236ec495a23",
+  "member_count": 1543,
+  "total_member_bytes": 43045493,
+  "verification_sha256": "c59340e8450e6856c81881ad92b0d3898db1f384df4fc3a7bbb604368c240039",
+  "terminal_receipts_sha256": "e92be98326a256301509a680503806b59ced890e19c805dff8b339aa50dcb765",
+  "final_result_sha256": "770cd01c9e96fcc0df59b82ba7abf5c98bb5905d89dca1dc860267f3d50ddca7",
+  "final_driver_sha256": "3c63fa61aed0735d20fccfd24a3f84c3bce7796dee20be58c153290c67b920ec",
+  "final_reader_sha256": "19bf64469226ff7ab4930d5d5222949935de5c5e2169a560bc66f3f97afdf213",
+  "root_frozen_inventory_sha256": "d5747f242b224c05be86096e98de8bd9bbf908f9b502765162359778ed4b2cf8",
+  "all_five_attempt_targets_absent": true,
+  "sealed_at": "2026-10-02T02:26:09.388614+00:00"
+}

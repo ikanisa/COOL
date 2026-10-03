@@ -18,7 +18,7 @@ const manager = AdminIdentity(
   userId: operatorId,
   displayName: '984001',
   roles: ['admin'],
-  permissions: ['admin_users.read', 'admin_users.manage'],
+  permissions: ['users.read', 'admin_users.read', 'admin_users.manage'],
 );
 
 class AccessRepository extends AdminEvidenceRepository {
@@ -45,14 +45,27 @@ class AccessRepository extends AdminEvidenceRepository {
     Map<String, dynamic> params,
   ) async {
     calls.add((rpcName, Map.of(params)));
-    if (rpcName == 'admin_get_whatsapp_approval') {
+    if (rpcName == 'admin_get_operator_approval_v1') {
       if (failRead) throw StateError('Synthetic read failure');
       return {
+        'contract_version': 1,
         'user_id': params['p_user_id'],
+        'provider': 'whatsapp',
+        'mode': 'transition',
+        'identity_masked': '+***4002',
+        'approved_at': approved ? '2026-09-02T10:00:00Z' : null,
+        'expires_at': null,
         'approved': approved,
         'role_granted': granted,
+        'admin_access': approved && granted,
+        'access_status': approved && granted
+            ? 'active'
+            : granted
+            ? 'approval_required'
+            : approved
+            ? 'approved'
+            : 'revoked',
         'status': approved ? 'approved' : 'not_approved',
-        'phone_masked': '+***4002',
       };
     }
     if (mutationGate != null) await mutationGate!.future;
@@ -72,8 +85,9 @@ class AccessRepository extends AdminEvidenceRepository {
     throw StateError('Unexpected RPC $rpcName');
   }
 
-  List<(String, Map<String, dynamic>)> get mutations =>
-      calls.where((call) => call.$1 != 'admin_get_whatsapp_approval').toList();
+  List<(String, Map<String, dynamic>)> get mutations => calls
+      .where((call) => call.$1 != 'admin_get_operator_approval_v1')
+      .toList();
 }
 
 Future<void> mount(
@@ -84,6 +98,7 @@ Future<void> mount(
   double scale = 1,
   GlobalKey? boundary,
   bool detail = false,
+  Brightness brightness = Brightness.dark,
 }) async {
   tester.view.physicalSize = Size(width, 844);
   tester.view.devicePixelRatio = 1;
@@ -96,7 +111,9 @@ Future<void> mount(
         adminRepositoryProvider.overrideWithValue(repository),
       ],
       child: MaterialApp(
-        theme: AppTheme.dark(),
+        theme: brightness == Brightness.dark
+            ? AppTheme.dark()
+            : AppTheme.light(),
         builder: (context, child) => MediaQuery(
           data: MediaQuery.of(
             context,
@@ -201,7 +218,7 @@ void main() {
     expect(find.text('Deactivate Admin'), findsOneWidget);
     expect(find.text('Approve WhatsApp'), findsNothing);
     expect(
-      repo.calls.where((call) => call.$1 == 'admin_get_whatsapp_approval'),
+      repo.calls.where((call) => call.$1 == 'admin_get_operator_approval_v1'),
       hasLength(2),
     );
   });

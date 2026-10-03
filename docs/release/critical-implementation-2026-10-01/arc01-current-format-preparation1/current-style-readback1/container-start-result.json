@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "start",
+    "collect-arc01-current-style-45f655ec29454ed290b2cfd0823b86b1-format"
+  ],
+  "completed_at_utc": "2026-10-02T11:23:39.973450+00:00",
+  "deadline_seconds": 20,
+  "elapsed_seconds": 0.13573470899427775,
+  "exit_code": 0,
+  "log_sha256": "0923c0aacdba47da12e33deab028fe808f004f046c983210030b546858555712",
+  "started_at_utc": "2026-10-02T11:23:39.837736+00:00",
+  "timed_out": false
+}

@@ -1,0 +1,35 @@
+{
+  "rows": [
+    {
+      "id": "momo:99720000-0000-4000-8000-000000000101",
+      "rail": "rw_momo",
+      "title": "SYNTHETIC-A",
+      "amount": "RWF 2,500",
+      "status": "allocated",
+      "event_id": "99720000-0000-4000-8000-000000000111",
+      "subtitle": "Rwanda \u00b7 MTN MoMo \u00b7 Synthetic lifecycle",
+      "lifecycle": {
+        "ledger": "posted",
+        "allocation": "allocated",
+        "notification": "not_created",
+        "verification": "confirmation_recorded",
+        "evidence_limit": "confirmation_record_is_not_external_settlement_proof",
+        "contract_version": 1
+      },
+      "reference": "SYNTHETIC-A",
+      "created_at": "2026-09-30T10:00:00+00:00",
+      "group_name": "Synthetic lifecycle",
+      "payment_id": "99720000-0000-4000-8000-000000000121",
+      "raw_sms_id": "99720000-0000-4000-8000-000000000101",
+      "payee_label": null,
+      "country_code": "RW",
+      "source_label": "MTN MoMo receipt SMS",
+      "collection_id": "99720000-0000-4000-8000-000000000010",
+      "sender_masked": "M-Money",
+      "payer_name_masked": "S\u2022\u2022\u2022r",
+      "payment_intent_id": null,
+      "allocated_member_id": null
+    }
+  ],
+  "total": 1
+}

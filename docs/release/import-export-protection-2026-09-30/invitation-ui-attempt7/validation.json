@@ -1,0 +1,98 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "source-export",
+      "argv": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/invitation-ui-attempt7/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.28,
+      "stdout_sha256": "a2071904dba4444e36423c4197a10adc35b597d0655f16acf4582c0770429293",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "git-init",
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-offline",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.66,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/features/group_invitation_output_test.dart",
+        "test/shared/collect_share_links_test.dart",
+        "test/shared/collect_share_origin_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 110.23,
+      "stdout_sha256": "583b02e8938dce307db4d37038b0d9a9111711926a4a6ed5f161aece0e331d11",
+      "stderr_sha256": "298bd02f127775ed69f0e8ec9a64c0cb87f572a745c14fab975a5cd22aab5b3d"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/features/group_invitation_output_test.dart",
+        "test/shared/collect_share_links_test.dart",
+        "test/shared/collect_share_origin_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 10.2,
+      "stdout_sha256": "03028ad8a30868ad75efdb02de20d7ef6012692ec8686215dd450b6d412ec3e2",
+      "stderr_sha256": "018bb07c137e869eb7ec427f0b7e13fd95900566ef9ea186e25b1f3ce742760a"
+    }
+  ],
+  "source_inputs": 928,
+  "export_source_changes": [],
+  "checkout_drift": [
+    "lib/admin/core/admin_list_runtime.dart",
+    "lib/features/collections/share_screen.dart",
+    "lib/shared/repositories/collect_repository.dart",
+    "test/admin_receipt_overview_test.dart",
+    "test/features/group_invitation_output_test.dart",
+    "test/features/member_data_unknown_states_test.dart"
+  ],
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7",
+  "scope": "Actual Flutter production methods/widgets and locked SDK using synthetic local HTTP/platform transports; no database/provider/native build/capture executed"
+}

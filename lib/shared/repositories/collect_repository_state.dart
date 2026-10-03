@@ -73,7 +73,7 @@ class CollectState {
     List<Contribution>? contributions,
     Map<String, CollectionSummary>? collectionSummaries,
     Object? historyPage = _unsetDateTimeField,
-    int? pendingIntentCount,
+    Object? pendingIntentCount = _unsetDateTimeField,
     List<NotificationEvent>? notificationEvents,
     NotificationPreferences? notificationPreferences,
     bool? smsAccessEnabled,
@@ -96,7 +96,9 @@ class CollectState {
       historyPage: identical(historyPage, _unsetDateTimeField)
           ? this.historyPage
           : historyPage as MemberHistoryPage?,
-      pendingIntentCount: pendingIntentCount ?? this.pendingIntentCount,
+      pendingIntentCount: identical(pendingIntentCount, _unsetDateTimeField)
+          ? this.pendingIntentCount
+          : pendingIntentCount as int?,
       notificationEvents: notificationEvents ?? this.notificationEvents,
       notificationPreferences:
           notificationPreferences ?? this.notificationPreferences,

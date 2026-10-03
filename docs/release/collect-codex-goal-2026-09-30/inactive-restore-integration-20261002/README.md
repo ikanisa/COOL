@@ -1,0 +1,13 @@
+# Integrated inactive restore safeguard
+
+Seven reviewed canonical files now provide an opt-in target-only stop after the original data, schema/ACL, roles, catalog and worker comparisons pass. Both modified originals are preserved. The unchanged catalog SQL is a prerequisite, not an eighth change. [Usage and operating limits](../../../platform/INACTIVE_RESTORE_OVERLAY.md) describe the existing restore caller.
+
+The safeguard pauses receipt authority, disables worker configurations, revokes operational identities and sender devices, disables the two owned cron jobs and retains authenticated late-callback evidence. A logged immutable capsule binds the original UUID, effective stop state, original evidence and derived changes. Replay refuses drift or reactivation. Unknown responses preserve the original UUID. Recovery requires fresh trusted authority and enrollment; old keys stay revoked.
+
+Canonical affected acceptance passed **43 cases / 210 assertions**, 13 Ruby syntax checks and 227 unchanged captured inputs. The separate private SQL rehearsal passed **78 driver checks**; two outer binding/cleanup checks are separate. That SQL scope uses selected205 plus exact420/440/800 deltas and current208 source association. The added900 migration is outside that SQL rehearsal. All17 exact disposable targets were independently confirmed absent.
+
+The full private packet was read back:14,413 members /1,767,664,615 bytes,488 bound associations /258 distinct paths, exact seven canonical hashes and both preserved originals. This finite capsule copies the accepted SQL receipts below8 MiB, accepted unit receipts, canonical caller evidence, review diffs and source metadata. Three large accepted raw traces remain referenced by absolute path, byte count and SHA-256 in [LARGE_TRACE_REFERENCES.json](LARGE_TRACE_REFERENCES.json); the full inventory and seal are copied. Failed/preceding attempts remain in the original private packet and are indexed separately. Counts are not added across overlapping scopes.
+
+The current candidate contains209 migrations. Full209 chronological/unified archive restore, native/scheduler evidence joining, actual Vault/production roles, physical power-loss, RPO/RTO drills and hosted/device release acceptance remain open. The observed restart proof is a postmaster restart within the same disposable container and PGDATA lifetime. This work changes no hosted configuration and sends no SMS.
+
+See [root-integration.json](root-integration.json), [canonical caller result](root-integration/canonical-attempt1/result.json), [SQL result](private-packet/proof/sql-attempt17/result.json) and the copied [private attempt index](private-packet/ATTEMPT_INDEX.json).

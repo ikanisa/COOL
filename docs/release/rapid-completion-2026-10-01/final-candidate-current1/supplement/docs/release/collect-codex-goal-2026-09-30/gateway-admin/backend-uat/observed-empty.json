@@ -1,0 +1,10 @@
+{
+  "rows": [],
+  "limit": 20,
+  "scope": "platform_global",
+  "total": 0,
+  "checked_at": "2026-09-30T22:47:21.569014Z",
+  "next_cursor": null,
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T22:48:21.569014Z"
+}

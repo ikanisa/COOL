@@ -1,0 +1,7 @@
+{
+  "completed": false,
+  "classification": "Explicitly interrupted native screenshot encoding outside real asynchronous time; no successful completion.",
+  "runtime_changed": false,
+  "future_capture_fix": "Image creation/encoding/file write all inside tester.runAsync",
+  "log_retained": true
+}

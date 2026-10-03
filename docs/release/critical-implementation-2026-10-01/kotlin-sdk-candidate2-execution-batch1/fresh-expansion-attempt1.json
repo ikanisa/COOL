@@ -1,0 +1,24 @@
+{
+  "actual_deadline_seconds": 600,
+  "actual_seconds": 25.16,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/run_authorized_candidate2.py",
+    "--prepared-manifest-sha256",
+    "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6",
+    "--root-review-sha256",
+    "ed394ba365d0623294d51f91707b844b467fc9bc2771fa962c6758d4ed48b4bd",
+    "--expand-child"
+  ],
+  "exit_code": 0,
+  "headroom_failure": false,
+  "pid": 72041,
+  "runner_sha256": "f1485b07efa314c53728469e174f863c88064e413ef23c8bf9c87817aa2cf2c3",
+  "started_utc": "2026-10-02T01:30:33.241386+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "terminal_utc": "2026-10-02T01:30:58.401717+00:00",
+  "timed_out": false
+}

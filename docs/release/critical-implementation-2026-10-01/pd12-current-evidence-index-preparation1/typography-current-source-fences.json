@@ -1,0 +1,33 @@
+{
+  "capture_role": "current regular leaf bytes only; no loaded-font, metric or licence acceptance",
+  "files": {
+    "assets/typefaces/AeonikPro-Medium.ttf": {
+      "bytes": 159752,
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5"
+    },
+    "assets/typefaces/AeonikPro-Regular.ttf": {
+      "bytes": 134268,
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef"
+    },
+    "assets/typefaces/Inter-Variable.ttf": {
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    "assets/typefaces/OFL-Inter.txt": {
+      "bytes": 4377,
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+    },
+    "lib/app/theme/collect_runtime_typography.dart": {
+      "bytes": 581,
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+    },
+    "pubspec.yaml": {
+      "bytes": 2425,
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+    },
+    "web/public/revolut.css": {
+      "bytes": 22026,
+      "sha256": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7"
+    }
+  }
+}

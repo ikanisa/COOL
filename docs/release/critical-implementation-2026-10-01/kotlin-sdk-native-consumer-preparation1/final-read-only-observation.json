@@ -1,0 +1,86 @@
+{
+  "SDK_executed": false,
+  "SDK_expanded": false,
+  "actual_host_machine": "arm64",
+  "actual_local_executable_byte_readbacks": {
+    "JDK_java": {
+      "executed": false,
+      "matches_declared_SHA256": true,
+      "observed": {
+        "bytes": 33792,
+        "device": 16777247,
+        "inode": 210829,
+        "mode": 493,
+        "mtime_ns": 1764609609000000000,
+        "nlink": 1,
+        "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+      },
+      "path": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+      "publisher_attestation": false
+    },
+    "Node": {
+      "executed": false,
+      "matches_declared_SHA256": true,
+      "observed": {
+        "bytes": 121304480,
+        "device": 16777247,
+        "inode": 2038730,
+        "mode": 493,
+        "mtime_ns": 1790013655000000000,
+        "nlink": 1,
+        "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+      },
+      "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "publisher_attestation": false
+    },
+    "Python": {
+      "executed": false,
+      "matches_declared_SHA256": true,
+      "observed": {
+        "bytes": 18041888,
+        "device": 16777247,
+        "inode": 1824150,
+        "mode": 493,
+        "mtime_ns": 1790065819921462013,
+        "nlink": 1,
+        "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+      },
+      "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "publisher_attestation": false
+    }
+  },
+  "candidate_promoted": false,
+  "destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+  "destination_absent": true,
+  "final_Python_source_SHA256": {
+    "apply_native_consumer_cumulative8.py": "aafa57dc4b6604326aa1d89a5069a4640a46a52eeb98b084d312cb7827ff9386",
+    "authenticated_native_consumer_expansion.py": "9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12",
+    "consumer_guards.py": "f8ab32c78b0b499f8822b62ba79a8491effc67fad810187a22ac38d5ea2023aa",
+    "publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "run_native_consumer.py": "33788a5bb25509b02e555f5411216c0849fc2590a4b8f6c22176a97bf7afbd86",
+    "test_preparation.py": "e95c100c54b6faad81a30d3581fe536db9a03b980b2eafc2236f1f1fb6b456ea",
+    "verify_native_consumer_source.py": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+  },
+  "final_Python_source_compile_only": "PASS",
+  "immutable_root_review_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1",
+  "live_floor_bytes": 4294967296,
+  "live_free_bytes": 232479797248,
+  "minimum_free_bytes": 20350276001,
+  "observed_UTC": "2026-10-02T02:29:36.152336+00:00",
+  "physical_device": 16777232,
+  "physical_existing_ancestor": "/Users/jeanbosco/Library/Caches",
+  "production_release_approval": false,
+  "protected_originals": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "root_stage_receipts_present": {
+    "app-export": false,
+    "app-lock": false,
+    "foundation": false,
+    "native": false,
+    "sdk-lock": false,
+    "startup": false
+  },
+  "scope": "Current read-only final preparation source/executable/destination/protected-original readback only; no SDK or native execution."
+}

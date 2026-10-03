@@ -1,0 +1,5 @@
+ERROR:  55P03: canceling statement due to lock timeout
+CONTEXT:  while locking tuple (0,1) in relation "devices"
+SQL statement "UPDATE collect_gateway.devices SET state='revoked',revoked_at=at WHERE state<>'revoked'"
+PL/pgSQL function inline_code_block line 292 at SQL statement
+LOCATION:  ProcessInterrupts, postgres.c:3398

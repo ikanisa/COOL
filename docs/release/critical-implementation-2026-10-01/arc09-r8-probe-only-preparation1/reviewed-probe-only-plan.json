@@ -1,0 +1,43 @@
+{
+  "actual_Gradle_execution": false,
+  "actual_current_APP_manifest_SHA256": null,
+  "actual_current_maintained_source_fence_SHA256": null,
+  "actual_publisher_JAR_SHA256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+  "candidate3_delta_unchanged": true,
+  "controller": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-probe-only-preparation1/run_probe_only.py",
+    "sha256": "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69"
+  },
+  "driver_context_and_guards_tracker_unchanged": true,
+  "finite_probe_and_guard_envelope_seconds": 1800,
+  "invalid_or_guard_failure_exit_code": 1,
+  "kind": "unexecuted_root_admitted_R8_probe_only_plan",
+  "known_provider_observation_exit_code": 0,
+  "no_compile_package_or_full_graph_commands_reachable": true,
+  "prepared42_pins_unchanged": true,
+  "probe_deadline_seconds": 300,
+  "probe_task": ":app:collectVerifyDefaultProguardDirectory",
+  "production_release_approval": false,
+  "protected_original_PID_scope": 68020,
+  "provider_observation_persisted_before_admission_check": true,
+  "repository_source_APP_SDK_and_protected_before_after_required": true,
+  "required_root_existing_artifact_admission_SHA256": "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651",
+  "root_invocation_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-probe-only-preparation1/run_probe_only.py",
+    "--controller-sha256",
+    "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69",
+    "--admission",
+    "ROOT_ACTUAL_CURRENT_UNSIGNED_AAB_ADMISSION_PATH",
+    "--admission-sha256",
+    "ROOT_ACTUAL_CURRENT_UNSIGNED_AAB_ADMISSION_SHA256",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation1"
+  ],
+  "schema_version": 1,
+  "signal_authority_for_protected_original_PID": false,
+  "source_guard_stage_deadline_seconds": 300,
+  "unknown_provider_exit_code": 2
+}

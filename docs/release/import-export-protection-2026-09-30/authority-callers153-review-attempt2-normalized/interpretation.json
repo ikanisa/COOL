@@ -1,0 +1,22 @@
+{
+  "kind": "historical_diagnostic_scope_correction",
+  "unaccepted_helper_packet": "admin-authority153-attempt1-prior-snapshot",
+  "reason": "Direct helper calls were denied by EXECUTE ACL; no valid public-RPC positive control. This packet does not prove authority revocation.",
+  "actual_public_negative": "admin-authority153-attempt2-public-api-controls",
+  "actual_correction_rollback": "admin-authority153-attempt4-rehearsed155",
+  "current_candidate_is_not_installed": true,
+  "current_candidate_sha256": "1b7cb1a3743a9d36862dd63806ec6c8a88bf7262d23860dd868100a94c3032ee",
+  "additional_reviewed_functions": [
+    "collect_admin_access.approval_status(uuid)",
+    "collect_admin_access.get_admin_user(uuid)",
+    "collect_admin_access.list_admin_users(text,text,integer,integer,text)",
+    "public.admin_get_admin_user(uuid)",
+    "public.admin_get_whatsapp_approval(uuid)",
+    "public.admin_list_admin_users(text,text,integer,integer,text)",
+    "public.admin_list_collections(text,text)",
+    "public.admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+    "public.admin_list_non_member_users(text,text,integer,integer,text)",
+    "public.admin_list_users(text,text)"
+  ],
+  "prior_evidence_unchanged": true
+}

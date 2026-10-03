@@ -1,0 +1,9 @@
+{
+  "cli": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "version": "2.84.2",
+  "workdir": ".cache/receipt-financial-policy-preparation",
+  "generated_path": "supabase/migrations/20261001094127_receipt_financial_policy.sql",
+  "publication_path": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+  "owned_timestamp_rename": true,
+  "no_deployment": true
+}

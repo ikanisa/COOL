@@ -1,5 +1,10 @@
 import '../../shared/repositories/runtime_control_contract.dart';
+import '../../core/data/exact_json_values.dart';
 import 'admin_read_contracts.dart';
+import 'admin_email_otp.dart';
+import 'admin_operator_approval.dart';
+import 'admin_gateway_contracts.dart';
+import 'admin_exception_models.dart';
 
 /// Action receipts match the installed SQL contracts. Fields that the backend
 /// does not return (for example notification event ID) are not invented here.
@@ -19,13 +24,39 @@ void validateAdminActionReceipt(
   bool bound(String field, String parameter) =>
       id(request[parameter]) && response[field] == request[parameter];
   final ok = response['ok'] == true;
+  bool reason() =>
+      request['p_reason'] is String &&
+      (request['p_reason'] as String).trim().length >= 8 &&
+      (request['p_reason'] as String).trim().length <= 500;
+  bool email() {
+    try {
+      return request['p_email'] is String &&
+          normalizeAdminEmail(request['p_email'] as String) ==
+              request['p_email'];
+    } on FormatException {
+      return false;
+    }
+  }
+
   final valid = switch (operation) {
+    'admin_act_operational_exception_v1' => adminExceptionActionReceiptMatches(
+      request,
+      response,
+    ),
+    'admin_enroll_gateway_device_v1' ||
+    'admin_activate_gateway_device_v1' ||
+    'admin_revoke_gateway_device_v1' => adminGatewayActionReceiptMatches(
+      operation,
+      request,
+      response,
+    ),
     'admin_retry_notification' =>
       keys('ok status delivery_count') &&
           ok &&
           response['status'] == 'queued' &&
           response['delivery_count'] is int &&
-          (response['delivery_count'] as int) > 0,
+          (response['delivery_count'] as int) > 0 &&
+          (response['delivery_count'] as int) <= maxExactJsonInteger,
     'admin_create_platform_public_group' =>
       keys('ok collection_id payee_id status visibility route_immutable') &&
           ok &&
@@ -115,6 +146,18 @@ void validateAdminActionReceipt(
           bound('user_id', 'p_user_id') &&
           response['status'] ==
               (operation == 'admin_approve_whatsapp' ? 'approved' : 'revoked'),
+    'admin_approve_email_operator_v1' || 'admin_revoke_email_operator_v1' =>
+      keys('ok status user_id') &&
+          ok &&
+          bound('user_id', 'p_user_id') &&
+          reason() &&
+          request.length ==
+              (operation == 'admin_approve_email_operator_v1' ? 3 : 2) &&
+          (operation != 'admin_approve_email_operator_v1' || email()) &&
+          response['status'] ==
+              (operation == 'admin_approve_email_operator_v1'
+                  ? 'approved'
+                  : 'revoked'),
     'admin_set_user_access' =>
       keys('ok status') &&
           ok &&
@@ -125,6 +168,13 @@ void validateAdminActionReceipt(
     'admin_get_whatsapp_approval' =>
       request['p_user_id'] is String &&
           adminApprovalReadMatches(request['p_user_id'] as String, response),
+    'admin_get_operator_approval_v1' =>
+      request.length == 1 &&
+          request['p_user_id'] is String &&
+          adminOperatorApprovalReadMatches(
+            request['p_user_id'] as String,
+            response,
+          ),
     _ => false,
   };
   if (!valid) {

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "scripts.tests.test_collect_release_candidate",
+    "-v"
+  ],
+  "exit_code": 0,
+  "checked_at": "2026-09-30T20:54:50.242600+00:00",
+  "scope": "synthetic Git/SDK/stdio only; no hosted reads, OTP, credentials or provider calls"
+}

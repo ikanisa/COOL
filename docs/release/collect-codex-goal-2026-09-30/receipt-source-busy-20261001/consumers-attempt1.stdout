@@ -1,0 +1,68 @@
+edge exit 0
+running 31 tests from ./supabase/functions/collect-receipt-supervisor/operations_contract_test.ts
+real v2 P256 envelope binds business authority to exact service RPC ... ok (75ms)
+v2 cannot borrow old Shadow key scope ... ok (2ms)
+pending operations identity can prove possession but cannot start ... ok (8ms)
+closed v2 ensure rejects extra before key lookup ... ok (1ms)
+closed v2 ensure rejects recipient before key lookup ... ok (2ms)
+closed v2 ensure rejects version before key lookup ... ok (2ms)
+closed v2 ensure rejects fraction before key lookup ... ok (3ms)
+closed v2 ensure rejects missing before key lookup ... ok (3ms)
+closed v2 ensure rejects unknown before key lookup ... ok (2ms)
+v2 exact existing receipt handled proof survives strict projection ... ok (3ms)
+v2 malformed post-proof ensure stays unknown: rawContact ... ok (3ms)
+v2 malformed post-proof ensure stays unknown: rawText ... ok (3ms)
+v2 malformed post-proof ensure stays unknown: falseHandled ... ok (3ms)
+v2 malformed post-proof ensure stays unknown: missingReceipt ... ok (6ms)
+v2 malformed post-proof ensure stays unknown: foreignEvent ... ok (4ms)
+v2 malformed post-proof ensure stays unknown: foreignFence ... ok (2ms)
+v2 malformed post-proof ensure stays unknown: wrongVersion ... ok (3ms)
+v2 malformed post-proof ensure stays unknown: unknownCode ... ok (4ms)
+SOURCE_CHANGED echoes retained expected version and creates no ACK ... ok (219µs)
+lease result rejects future ... ok (4ms)
+lease result rejects renewed ... ok (2ms)
+lease result rejects missingFence ... ok (2ms)
+lease result rejects pausedStarted ... ok (1ms)
+lease result rejects private ... ok (3ms)
+retained pause refusal has no fabricated lease ... ok (2ms)
+historical request lookup keeps original result and grants no fresh run ... ok (2ms)
+v2 lookup not_recorded remains no proof of absence or permission to retry ... ok (2ms)
+v2 lookup in_progress remains no proof of absence or permission to retry ... ok (3ms)
+actual run policy fence refusal is stable redacted conflict ... ok (2ms)
+strict event list filters private source data and duplicate UUIDs ... ok (303µs)
+completion derives bounded actual segment count and cannot handle deferred work ... ok (174µs)
+
+ok | 31 passed | 0 failed (174ms)
+
+Check supabase/functions/collect-receipt-supervisor/operations_contract_test.ts
+
+mcp exit 0
+✔ actual ordinary-owner SQL SOURCE_BUSY decodes through both closed contracts (2.216542ms)
+✔ signed actual Edge handler and MCP client preserve source contention without ACK or retry (37.84775ms)
+✔ SOURCE_BUSY rejects falseACK in both closed decoders (0.169625ms)
+✔ SOURCE_BUSY rejects wrongBusiness in both closed decoders (0.257709ms)
+✔ SOURCE_BUSY rejects fabricatedReceipt in both closed decoders (0.195125ms)
+✔ SOURCE_BUSY rejects privateExtra in both closed decoders (0.135792ms)
+✔ SOURCE_BUSY rejects arbitraryCode in both closed decoders (0.12ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 185.765208
+
+admin exit 0
+PASS actual SQL busy detail has distinct deferred unhandled labels
+PASS actual exception inbox parses the closed SOURCE_BUSY reason
+PASS busy detail cannot fabricate business handling
+PASS busy detail cannot invent a finite code
+PASS busy detail cannot invent a receipt identifier
+PASS busy detail cannot add private destination fields
+PASS busy detail cannot claim a financial side effect
+PASS 7 distinct actual Admin model checks
+
+mcp-typecheck exit 1
+error TS5112: tsconfig.json is present but will not be loaded if files are specified on commandline. Use '--ignoreConfig' to skip this error.
+

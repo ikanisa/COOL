@@ -1,0 +1,64 @@
+{
+  "task": "ARC08 prerequisite and ARC05 executable closure repair",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/tests/supabase_delivery_contract_test.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 199.649,
+  "source_before": {
+    "scripts/supabase_deploy.sh": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+    "scripts/qa/backend_release_delivery.py": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/supabase_delivery_contract_test.py": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+    "scripts/supabase_cli_helpers.sh": "13f874017d890729e1f15c5c5cbc6f47a726a96f848a3c03c9bb381904ae7f1a",
+    ".supabase-cli-version": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+  },
+  "source_after": {
+    "scripts/supabase_deploy.sh": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+    "scripts/qa/backend_release_delivery.py": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/supabase_delivery_contract_test.py": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+    "scripts/supabase_cli_helpers.sh": "13f874017d890729e1f15c5c5cbc6f47a726a96f848a3c03c9bb381904ae7f1a",
+    ".supabase-cli-version": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+  },
+  "owned_and_helper_inputs_stable": true,
+  "project_operations_performed": false,
+  "production_acceptance": false,
+  "log": "delivery-contract-tests.log",
+  "finished_at_utc": "2026-10-01T20:37:10.561589+00:00",
+  "started_at_utc": "2026-10-01T20:33:50.912589+00:00",
+  "tests_passed": 30,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "canonical_exporter_changed_in_followup": false,
+  "existing_exporter_regression": {
+    "tests_passed": 39,
+    "proof": "../deployment-batch1/candidate-tests.json",
+    "verified_exporter_sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690"
+  },
+  "focused_new_case_check": {
+    "tests_passed": 4,
+    "tests_failed": 0,
+    "elapsed_seconds": 24.4
+  },
+  "global_final_backend_source_freeze": false,
+  "final_checks": {
+    "affected_python_ast_syntax": "pass",
+    "bash_launcher_syntax": "pass",
+    "owned_path_git_whitespace": "pass",
+    "source_hash_readback": "pass",
+    "binary_hash_readback": "pass"
+  },
+  "operator_contract_sha256": "479868a81cab642e5aeb65f2975fef8a9a5bfe6351b73e42b551184db753b803",
+  "artifact_sha256": {
+    "README.md": "f2050b4c78a6a92bab52a23278bdb272656caf33fb2244848917bcfc2984ef4f",
+    "integrity.json": "5c9e5a99c3b96a7390c977679fd59c237a89d8691621ddd5b0337a7d3fc41fc9",
+    "release-metadata.json": "0f9573569d037a7f009c0642c6b218d800e57327234522fcbb7334715e2dd0d1",
+    "delivery-contract-tests.log": "dfc714741b4b8624f83bd951926b034b99f198346e7025bf2b60085fcda6cd7d"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "candidate_promoted": false,
+  "checked_packet_leaves": "ROOT_COUNT_AND_VERIFY_ALL_MANIFEST_LEAVES",
+  "current_source_export_authorized": false,
+  "errors": [],
+  "execution_stage_admissions": {
+    "app-export": false
+  },
+  "kind": "unissued_root_admission_template_requires_independent_review",
+  "no_actual_authorization_issued_by_this_template": true,
+  "packet_manifest_sha256": "ROOT_FILL_EXACT_FINAL_PREPARATION_MANIFEST_SHA256",
+  "private_snapshot_exclusive": true,
+  "production_release_approval": false,
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "required_source_fence_sha256": "ROOT_FILL_FRESH_AFTER_REVIEW_SOURCE_FENCE_SHA256",
+  "source_lock_attested": false,
+  "source_scope_held_for_strict_export": false,
+  "strict_current_source_comparison_required": true,
+  "transient_write_and_restore_absence_attested": false
+}

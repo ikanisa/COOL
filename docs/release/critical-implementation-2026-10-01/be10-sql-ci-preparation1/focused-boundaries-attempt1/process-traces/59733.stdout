@@ -1,0 +1,12 @@
+DOCKER_HOST=unix:///var/run/docker.sock
+LC_ALL=C.UTF-8
+PYTHONIOENCODING=utf-8
+PATH=/usr/bin:/bin
+PWD=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/.cache/sql-boundary-r9d72nk4
+DOCKER_CONFIG=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/.cache/sql-boundary-r9d72nk4/empty-docker-config
+LANG=C.UTF-8
+PYTHONDONTWRITEBYTECODE=1
+SHLVL=1
+HOME=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/.cache/sql-boundary-r9d72nk4/empty-home
+PYTHONUTF8=1
+_=/usr/bin/env

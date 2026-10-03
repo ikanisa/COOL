@@ -1,0 +1,63 @@
+{
+  "additional_script": {
+    "bytes": 5120,
+    "device": 16777247,
+    "inode": 17772669,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790923970646112477,
+    "sha256": "be79d22d9858ed8db281f0c1ec31a53fbbdb8e9786525b2a67edb134d5200461"
+  },
+  "before_snapshot_sha256": "47769f19ffe736ea0c69a8b82fddc2318f5a774bf4d38b98aea7f345500fdff1",
+  "cohort_script": {
+    "bytes": 3382,
+    "device": 16777247,
+    "inode": 17772668,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790923970645701316,
+    "sha256": "d694a337a53aa815e8a5e4b9fd7d65c2e81ec976a180d058808100dc7925c03b"
+  },
+  "credential_environment": false,
+  "environment": {
+    "GIT_CONFIG_GLOBAL": "/dev/null",
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/Volumes/PRO-G40/Development/Node/bin:/bin:/usr/bin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/private/tmp"
+  },
+  "inherited_environment": false,
+  "node_identity": {
+    "bytes": 121304480,
+    "device": 16777247,
+    "inode": 2038730,
+    "links": 1,
+    "mode": 493,
+    "mtime_ns": 1790013655000000000,
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  },
+  "node_path": "/Volumes/PRO-G40/Development/Node/bin/node",
+  "python": {
+    "bytes": 18041888,
+    "device": 16777247,
+    "inode": 1824150,
+    "links": 1,
+    "mode": 493,
+    "mtime_ns": 1790065819921462013,
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "python_runtime_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "real_provider_sql_docker_download": false,
+  "runner": {
+    "bytes": 11256,
+    "device": 16777247,
+    "inode": 17772670,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924119906151489,
+    "sha256": "69c24567c7cce4b2379809ab30db8f3b526fbf341e65b6f73c9a5209492a5a97"
+  }
+}

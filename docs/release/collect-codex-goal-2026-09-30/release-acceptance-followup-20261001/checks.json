@@ -1,0 +1,76 @@
+{
+  "bridge_test_files": 18,
+  "changed_inputs": [],
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp",
+      "exit_code": 0,
+      "name": "typescript"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/keychain_store.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/operational_client.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/operational_health.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/operational_transport.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/operator_client.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/operator_login.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/preflight.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/runtime_credentials.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/server.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/server_transport.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/session_renewal.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/shadow_cli_options.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/shadow_client.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/shadow_stdio.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/shadow_supervisor.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/stdio_preflight.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/supervisor_client.test.ts",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/supervisor_journal.test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "name": "mcp-tests"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/collect_ci_policy.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "name": "ci-policy"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-m",
+        "unittest",
+        "scripts.tests.test_collect_ci_policy",
+        "scripts.tests.test_collect_release_acceptance",
+        "-v"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "name": "tooling-tests"
+    }
+  ],
+  "compiler_sha256": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+  "credentials_forwarded": false,
+  "dependency_download_or_installation": false,
+  "finished_at": "2026-10-01T09:48:07.286296+00:00",
+  "node_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "otp_keychain_mcp_host_or_real_backend_calls_requested": false,
+  "pass": true,
+  "scope": "Current local bridge, selected CI declarations and acceptance tooling; synthetic tests only.",
+  "source_inputs": 54,
+  "started_at": "2026-10-01T09:47:40.839399+00:00"
+}

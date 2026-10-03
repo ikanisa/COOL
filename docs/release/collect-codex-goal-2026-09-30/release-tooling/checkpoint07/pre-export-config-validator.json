@@ -1,0 +1,23 @@
+{
+  "observed_at_utc": "2026-10-01T10:10:31.646166+00:00",
+  "public_config_metadata": {
+    "bytes": 203,
+    "file_mode": "0600",
+    "key_form": "public_publishable_key",
+    "keys": [
+      "APP_ENVIRONMENT",
+      "ENABLE_ADMIN_PANEL",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_URL"
+    ],
+    "parent_mode": "0700",
+    "privileged_or_user_credentials_allowed": false,
+    "project_allowlist_match": true,
+    "remote_authentication_attested": false,
+    "sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+    "source_path": "/Users/jeanbosco/.cache/collect-release-config/admin-checkpoint04-public-defines.json"
+  },
+  "read_public_defines_validator": "pass",
+  "reviewed_runner_sha256": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95",
+  "value_printed_or_copied_to_packet": false
+}

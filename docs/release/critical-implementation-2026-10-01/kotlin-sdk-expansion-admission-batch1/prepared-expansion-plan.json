@@ -1,0 +1,18 @@
+{
+  "actual_future_deadline_seconds": 600,
+  "archive_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/flutter_macos_arm64_3.44.4-stable.zip",
+  "archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "current_free_bytes": 39047266304,
+  "destination_absent": true,
+  "exact15_framework_manifest_sha256": "69dba636e0276c26b935101770a9f45f24ac135fe010043d75646f1fe19bb774",
+  "exact33_manifest_sha256": "a2973071acadf279d9e22535611167705a9f1918d76270f3938ca93d85da435c",
+  "exact_future_admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "exact_future_writer_code_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "isolated_exclusive_write_and_full_physical_readback_required": true,
+  "new_exact_destination": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1",
+  "no_bootstrap_patch_promotion_or_sdk_execution": true,
+  "production_release_approval": false,
+  "required_expanded_plus_2GiB_bytes": 6391632289,
+  "root_review_sha256": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d",
+  "status": "PREPARED_ONLY__NOT_EXECUTED"
+}

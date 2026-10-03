@@ -1,0 +1,395 @@
+[
+  {
+    "name": "observed-first-successor-grant.json",
+    "family": "first_job",
+    "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+    "bytes": 1325,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-first-successor-grant.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+    "destination_absent": true,
+    "producer_result_sha256": "453db56ba0eaeea2c8c4b5c118ca05d50a637b22fd5cebc65d8457a129d492cd",
+    "producer_packet_manifest_sha256": "d88c93d23e7f2f3c14a1bc0de7de837738fb9ecf842b3719c25fb2b58cf22fb7",
+    "producer_migration_sha256": "3bee0ca12ebd6c1e42420eee3b001593276777a54a532120ecd100a44a1879f6",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/commands/00064.json",
+            "command_id": "00064",
+            "receipt_sha256": "e5c1c507804f65e8e76f4c44f98f7c24b5e08bc99c845fbba23152b3125777e2",
+            "input_sha256": "80c6946dd649f01d08cd452600fb5d0cafc292b8a513f6b656ffa11b55f5147d",
+            "stdout_sha256": "bac563ef94aef50e5559f4c44a1c0a6ab33149acd6a0583f067c988569f67853",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:09:03.005952Z",
+            "finished_at": "2026-10-02T00:09:03.126261Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-first-successor-arm.json",
+    "family": "first_job",
+    "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+    "bytes": 853,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-first-successor-arm.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+    "destination_absent": true,
+    "producer_result_sha256": "453db56ba0eaeea2c8c4b5c118ca05d50a637b22fd5cebc65d8457a129d492cd",
+    "producer_packet_manifest_sha256": "d88c93d23e7f2f3c14a1bc0de7de837738fb9ecf842b3719c25fb2b58cf22fb7",
+    "producer_migration_sha256": "3bee0ca12ebd6c1e42420eee3b001593276777a54a532120ecd100a44a1879f6",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/commands/00083.json",
+            "command_id": "00083",
+            "receipt_sha256": "eb072a60eadd7cd39214df2c150621935b3508090f6ab3d3cb61ec346147915f",
+            "input_sha256": "285f311b6627289a5d0d4af68fb2855dad2459b6d1d584f6801d5f7b65cb30bd",
+            "stdout_sha256": "32958dc6f125248433738806931c712c0eaee9ca465233f996976de02153427a",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:09:04.467359Z",
+            "finished_at": "2026-10-02T00:09:04.558742Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-exact-grant-recovery.json",
+    "family": "first_job",
+    "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+    "bytes": 933,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-exact-grant-recovery.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+    "destination_absent": true,
+    "producer_result_sha256": "453db56ba0eaeea2c8c4b5c118ca05d50a637b22fd5cebc65d8457a129d492cd",
+    "producer_packet_manifest_sha256": "d88c93d23e7f2f3c14a1bc0de7de837738fb9ecf842b3719c25fb2b58cf22fb7",
+    "producer_migration_sha256": "3bee0ca12ebd6c1e42420eee3b001593276777a54a532120ecd100a44a1879f6",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/commands/00073.json",
+            "command_id": "00073",
+            "receipt_sha256": "c59b8e9475f07e820f3f48f95130ef556b685c4d69c08ea3c80ef0b3148592f6",
+            "input_sha256": "e64d2e68b300c01b74bc1cf60573fc9f2dbb946f8aa62789ba86717ec404a856",
+            "stdout_sha256": "11897c49ce66a29448dc2b39c53cf7c0b5f42cd6c29fe2d280d09fcebc5f084c",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:09:03.745233Z",
+            "finished_at": "2026-10-02T00:09:03.809718Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-multipart-callbacks.json",
+    "family": "callback_archive",
+    "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+    "bytes": 3518,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-multipart-callbacks.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00059.json",
+            "command_id": "00059",
+            "receipt_sha256": "5d0e00ca5114b11abc2a4f6cada233517765868c73c536e9f1ad3c2c3b701607",
+            "input_sha256": "92630c4ee6eb91f3c318fa4d03f10279361b4d79c2b4c8cfae87519b574138f6",
+            "stdout_sha256": "5528e501380b1052f54a1512aff6f23a0168b976074d84bb9e3e8e073318de8d",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:02.170262Z",
+            "finished_at": "2026-10-02T00:20:02.243805Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": [
+              {
+                "device_id": "b16243bd-8fbf-426f-91d4-f732b6a84db4",
+                "request_id": "b60c3e13-9782-4fc6-b792-f8c688b967b1",
+                "request_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                "payload_exactly_matches_observed_wrapper": true
+              },
+              {
+                "device_id": "b16243bd-8fbf-426f-91d4-f732b6a84db4",
+                "request_id": "b60c3e13-9782-4fc6-b792-f8c688b967b1",
+                "request_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                "payload_exactly_matches_observed_wrapper": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "observation_index": 1,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00061.json",
+            "command_id": "00061",
+            "receipt_sha256": "42746924734efd70e6bad48d70034e7e54f45a3f583cef1850323e2862fe6882",
+            "input_sha256": "194d12a84d60d3c69c8e7bca79cfa2fa4a211b9a76c6ff00e53008a96e720e96",
+            "stdout_sha256": "81b0c15b8d7bd180b95e64696f1f8df87248c7f1d2c4b8d637463e48d76908be",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:02.327296Z",
+            "finished_at": "2026-10-02T00:20:02.410652Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": [
+              {
+                "device_id": "b16243bd-8fbf-426f-91d4-f732b6a84db4",
+                "request_id": "5956fd06-2fd7-4184-be19-34ae62598c73",
+                "request_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                "payload_exactly_matches_observed_wrapper": true
+              },
+              {
+                "device_id": "b16243bd-8fbf-426f-91d4-f732b6a84db4",
+                "request_id": "5956fd06-2fd7-4184-be19-34ae62598c73",
+                "request_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                "payload_exactly_matches_observed_wrapper": true
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-successor-grant.json",
+    "family": "callback_archive",
+    "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+    "bytes": 1325,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-successor-grant.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00053.json",
+            "command_id": "00053",
+            "receipt_sha256": "8a1167db17d232c73414360caf87ae85ad8b475a4ec4add8f177cd03706967fe",
+            "input_sha256": "979628ce90b73fa27a0678c8d575db90a9d8d361f4a01c0569c1592d23bce6d9",
+            "stdout_sha256": "0868b6152f93600ffb7fd0af730804cd807a1fe6490996c51ce33524dd5031e4",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:01.658100Z",
+            "finished_at": "2026-10-02T00:20:01.767054Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-exact-successor-archive-ack.json",
+    "family": "callback_archive",
+    "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+    "bytes": 1569,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-exact-successor-archive-ack.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00073.json",
+            "command_id": "00073",
+            "receipt_sha256": "7fe0a576fc20cda1a0266bcc01364f1a3ddebcccf06a19a4fd47b451706763d6",
+            "input_sha256": "618128ac0203adb57f9af62f344ced2ec5ca93d933d3c455e0ae2a394ad7a89a",
+            "stdout_sha256": "1bf36d8ea0b82d7a10de88d880a444944f5d5c2c2e7fb10f7af745bbe7d683dd",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:03.236006Z",
+            "finished_at": "2026-10-02T00:20:03.314730Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-armed-status.json",
+    "family": "callback_archive",
+    "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+    "bytes": 750,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-armed-status.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00057.json",
+            "command_id": "00057",
+            "receipt_sha256": "bc75f9e30dd87775f83336e7d48bcd8a5106333937d5d36446c6fc2002427c16",
+            "input_sha256": "b47fe88e25cf65c48ae298ffb2e21e586e75c75318497b9e346e992c60cf4250",
+            "stdout_sha256": "97f503bf24a8660a524c2614919539e5f9a3a77fff945f38f024e9e420fb6ffd",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:02.020300Z",
+            "finished_at": "2026-10-02T00:20:02.099453Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-late-conflicting-status.json",
+    "family": "callback_archive",
+    "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+    "bytes": 743,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-late-conflicting-status.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00084.json",
+            "command_id": "00084",
+            "receipt_sha256": "de016cd2b45f147a86f2d261bbb11f6646ee6faf21454fe7c014209947ad6c97",
+            "input_sha256": "92c41242fb46c9dcc9489c0e89f3b4904e878d788e7f04eefec2b99b362fbe23",
+            "stdout_sha256": "423684ac37e115773aaf1e830985a2328dd5bf4398656b91c8cf765ced5483a6",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:04.022242Z",
+            "finished_at": "2026-10-02T00:20:04.099130Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-late-original-request-recovery.json",
+    "family": "callback_archive",
+    "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+    "bytes": 1361,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-late-original-request-recovery.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00086.json",
+            "command_id": "00086",
+            "receipt_sha256": "e36fab37df30fa31bee77f3e48587ca3c42fb303c7df6ca67433db588cb2fc39",
+            "input_sha256": "94222eeb05a543cf2f4b0b91052c14f34ca9cf7e670d4730246ff2717bc688a8",
+            "stdout_sha256": "bf053a38019f292ddb160ade08f7424f003eccb93e74c3802138d7e010cc82b7",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:04.171978Z",
+            "finished_at": "2026-10-02T00:20:04.248950Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  },
+  {
+    "name": "observed-incomplete-archive.json",
+    "family": "callback_archive",
+    "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+    "bytes": 338,
+    "original_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-incomplete-archive.json",
+    "sealed_consumer_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+    "sealed_consumer_proof_copy": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+    "destination": "supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+    "destination_absent": true,
+    "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "producer_packet_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+    "producer_migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_association_sha256": "20f5342a98d35ab0c6215fc97a96b9021f6a33c2bf32069bb234501812ca3147",
+    "actual_output_links": [
+      {
+        "observation_index": 0,
+        "actual_successful_output_links": [
+          {
+            "receipt_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/commands/00055.json",
+            "command_id": "00055",
+            "receipt_sha256": "2f77e46fb946ed863ddf0af8233936713287ff08eb6c67d8481ad2614e481314",
+            "input_sha256": "d18964534542d68a46599b056b7f60aa2a865cd564ee32fefb5a1bd8d640eeea",
+            "stdout_sha256": "a71edd113ab924fdb1faf21f56efe96bf99087921d79195ee1f7b32986b4526b",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "started_at": "2026-10-02T00:20:01.870557Z",
+            "finished_at": "2026-10-02T00:20:01.945394Z",
+            "exit_code": 0,
+            "callback_request_payload_sql_binding": null
+          }
+        ]
+      }
+    ],
+    "all_discovered_copies_identical": false
+  }
+]

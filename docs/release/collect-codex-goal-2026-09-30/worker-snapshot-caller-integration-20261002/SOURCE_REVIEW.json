@@ -1,0 +1,19 @@
+{
+  "API_source_owner_ACL_checked_in_helper": true,
+  "all_six_changes_and_four_predecessors_hash_verified": true,
+  "bounded_caller_patches_and_new_helper_test_read": true,
+  "capsule_worker_product_tests_rerun": false,
+  "closed_private_stream_shapes_both_tiers_and_empty_terminal": true,
+  "current_205_selected_unique_version_and_source_hashes_match": true,
+  "new_helper_lines_read": 491,
+  "no_filtered_archive_or_worker_input_silently_ignored": true,
+  "no_full_current_chronology_acceptance": true,
+  "ordinary_postgres_holder_and_independent_physical_inactive_guards": true,
+  "original_700_owner_restore_verifiers_and_exact_full_reenumeration": true,
+  "review_owner": "Root canonical source review plus bounded capsule source/association review",
+  "root_full_packet_member_review_reused": 3536,
+  "root_review_record_sha256": "6802de29fd3577d23b9f3417c345e8502c2e93c8c578d821d5209929876ca4ae",
+  "single_read_only_RR_snapshot_and_full_custom_dump": true,
+  "source_tool_readback_current_verified": 334,
+  "two_private_fixture_aliases_preserved": true
+}

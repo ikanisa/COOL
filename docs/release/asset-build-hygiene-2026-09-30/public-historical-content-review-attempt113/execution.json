@@ -1,0 +1,15 @@
+{
+  "status": "fail",
+  "command": [
+    "ruby",
+    "scripts/public_static_site_build.rb"
+  ],
+  "exit_code": 1,
+  "historical_git_commit": "f0b8b37a0e5c7e97a222127924fb3a7942e74ed2",
+  "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt113-historical-public-content",
+  "build": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt113-historical-public-content/historical-public-build",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "bbe933c91fb4f74672c6fe12654112c9400cc6628c4d1a2b93a8fe9e16e85d7f",
+  "all_retained_historical_sources_unchanged": true,
+  "scope": "Historical source-only local HTML reconstruction for exact old visible-content baseline comparison, no production/native/design acceptance."
+}

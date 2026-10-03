@@ -1,0 +1,3 @@
+ERROR:  22023: receipt_successor_request_conflict
+CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 15 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

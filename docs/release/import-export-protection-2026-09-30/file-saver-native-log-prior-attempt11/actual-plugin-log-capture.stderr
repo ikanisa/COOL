@@ -1,0 +1,3 @@
+Exception in thread "main" java.lang.IllegalStateException: 2 native log capture cases failed
+	at collect.logprobe.NativeLogProbeKt.main(NativeLogProbe.kt:52)
+	at collect.logprobe.NativeLogProbeKt.main(NativeLogProbe.kt)

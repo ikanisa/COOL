@@ -1,0 +1,34 @@
+{
+  "recorded_at_utc": "2026-10-01T21:29:12.543778+00:00",
+  "docker_endpoint": "unix:///Users/jeanbosco/.docker/run/docker.sock",
+  "ruby_runtime_image": "ruby@sha256:db0c2089bdb31c206de726a6719d2bec464580ddf898679959678c0bd09bc718",
+  "ruby_version_annotation": "3.3.12-bookworm",
+  "index_sha256": "dba270af6994f64e45ee3dd2b85225a2a0d01f29c04508c7a3c7c8dbf59d2a85",
+  "selected_manifest": {
+    "annotations": {
+      "com.docker.official-images.bashbrew.arch": "arm64v8",
+      "org.opencontainers.image.base.digest": "sha256:cf51e3c343116062f4929d71d1edcc85b66d514224f12ec7bf84cb21392613d6",
+      "org.opencontainers.image.base.name": "buildpack-deps:bookworm",
+      "org.opencontainers.image.created": "2026-09-19T03:42:33Z",
+      "org.opencontainers.image.revision": "11b46206a6d5d4755df64cdd0bb433b3dfe87e2d",
+      "org.opencontainers.image.source": "https://github.com/docker-library/ruby.git#11b46206a6d5d4755df64cdd0bb433b3dfe87e2d:3.3/bookworm",
+      "org.opencontainers.image.url": "https://hub.docker.com/_/ruby",
+      "org.opencontainers.image.version": "3.3.12-bookworm"
+    },
+    "digest": "sha256:db0c2089bdb31c206de726a6719d2bec464580ddf898679959678c0bd09bc718",
+    "mediaType": "application/vnd.oci.image.manifest.v1+json",
+    "platform": {
+      "architecture": "arm64",
+      "os": "linux",
+      "variant": "v8"
+    },
+    "size": 2317
+  },
+  "official_registry": "docker.io/library/ruby",
+  "bundler_metadata_url": "https://rubygems.org/api/v2/rubygems/bundler/versions/2.7.2.json",
+  "bundler_metadata_sha256": "9efcbc1f2a95e387cf7067cf3cf72f2bcf62feddeb68a16efc0c47707e862c0b",
+  "bundler_version": "2.7.2",
+  "bundler_archive_sha256": "1decaf9e2e1acb91b6586a2925c8f3f6da2334a82731a62ff2ded1b83c283871",
+  "staging": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ruby-advisory-resolution-20261001",
+  "scope": "Verified official registry HTTPS metadata/content digests; no independent publisher signature or production provenance attestation. Task-only runtime and explicit staged resolver; repository Gemfile/lock unchanged."
+}

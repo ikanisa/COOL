@@ -1,0 +1,23 @@
+{
+  "kind": "current_graph_scoped_public_route_capture_execution",
+  "started_at": "2026-10-01T13:01:38.010134+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_browser_app_media.mjs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-media-20261001-attempt1"
+  ],
+  "caller_sha256": "64689409c566138e949d5d1712ac4f89e5a8c725b59e926b8425006564fd80e7",
+  "source_preparation_sha256": "aa7425cc57545576a690a9cd5732685963abba220a7048c4df09e47e343d74a5",
+  "source_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-public-current-inter-20261001-attempt1",
+  "scope": "Seven fresh actual browser images from unchanged accepted current Public graph; actual fresh release compilation from copied hosted package source and exact current graph/bindings/SDK. No provider, hosted, SQL, native visual or whole-application acceptance.",
+  "actual_pub_compiler_binding_sha256": "440aff3120450e5f83aec3502e3a921c16ec05748fe6b504b1a68b7ad22cb087",
+  "actual_pub_compiler_after_verification_sha256": "3098a49bf908b5e1545b88ec780537f70109b66811052c6b752a2d8d164a763b",
+  "actual_resolved_pub_compiler_inputs_unchanged": true,
+  "status": "pass",
+  "exit_code": 0,
+  "stdout_sha256": "7d5a55477bb07378fb31721b49991a2f89dfeef4c15417c5d5b0b32e931360b7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "capture_report_sha256": "00f99d8b43c44444c1e5637c2432d3882f94859631159c45ca906c13b16ec99a",
+  "additional_current_caller_drift": {},
+  "finished_at": "2026-10-01T13:02:50.373946+00:00"
+}

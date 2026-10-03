@@ -74,6 +74,7 @@ class AdminRpcListPage extends ConsumerStatefulWidget {
     this.actionKind,
     this.subtitleOverride,
     this.valueLabelOverride,
+    this.initialStatus,
     this.minimal = false,
     super.key,
   });
@@ -84,6 +85,9 @@ class AdminRpcListPage extends ConsumerStatefulWidget {
   final String? actionKind;
   final String? subtitleOverride;
   final String? valueLabelOverride;
+
+  /// Explicit deep-link filters override remembered view preferences.
+  final String? initialStatus;
   final bool minimal;
 
   @override
@@ -144,12 +148,20 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     _lastCountryScope = ref.read(adminCountryScopeProvider);
     _viewStates = ref.read(_adminQueueViewStatesProvider);
     final saved = _viewStates[widget.rpcName];
-    _search = TextEditingController(text: saved?.search ?? '');
+    _search = TextEditingController(
+      text: widget.initialStatus == null ? saved?.search ?? '' : '',
+    );
     _appliedSearch = _search.text;
     _lastRealtimeTick = ref.read(adminRealtimeTickProvider);
-    _status = saved?.status ?? '';
-    _sortBy = saved?.sortBy ?? 'created_at_desc';
-    if (saved != null && saved.country == _lastCountryScope) {
+    _status = widget.initialStatus == null
+        ? saved?.status ?? ''
+        : _queryStatus(widget.initialStatus!);
+    _sortBy = widget.initialStatus == null
+        ? saved?.sortBy ?? 'created_at_desc'
+        : 'created_at_desc';
+    if (widget.initialStatus == null &&
+        saved != null &&
+        saved.country == _lastCountryScope) {
       _page = saved.page;
       _restoreScrollOffset = saved.scrollOffset;
     }
@@ -160,7 +172,18 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   @override
   void didUpdateWidget(covariant AdminRpcListPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.rpcName == widget.rpcName) return;
+    if (oldWidget.rpcName == widget.rpcName) {
+      if (oldWidget.initialStatus != widget.initialStatus) {
+        _search.clear();
+        _appliedSearch = '';
+        _status = _queryStatus(widget.initialStatus ?? '');
+        _sortBy = 'created_at_desc';
+        _page = 0;
+        _restoreScrollOffset = 0;
+        _future = _load();
+      }
+      return;
+    }
     _rememberView(rpcName: oldWidget.rpcName);
     _lastCountryScope = ref.read(adminCountryScopeProvider);
     final currentViewStates = ref.read(_adminQueueViewStatesProvider);
@@ -169,11 +192,17 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     _viewStates = currentViewStates;
     _canRememberView = true;
     final saved = _viewStates[widget.rpcName];
-    _search.text = saved?.search ?? '';
+    _search.text = widget.initialStatus == null ? saved?.search ?? '' : '';
     _appliedSearch = _search.text;
-    _status = saved?.status ?? '';
-    _sortBy = saved?.sortBy ?? 'created_at_desc';
-    if (saved != null && saved.country == _lastCountryScope) {
+    _status = widget.initialStatus == null
+        ? saved?.status ?? ''
+        : _queryStatus(widget.initialStatus!);
+    _sortBy = widget.initialStatus == null
+        ? saved?.sortBy ?? 'created_at_desc'
+        : 'created_at_desc';
+    if (widget.initialStatus == null &&
+        saved != null &&
+        saved.country == _lastCountryScope) {
       _page = saved.page;
       _restoreScrollOffset = saved.scrollOffset;
     } else {
@@ -181,6 +210,16 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
       _restoreScrollOffset = 0;
     }
     _future = _load();
+  }
+
+  String _queryStatus(String value) {
+    final spec = _AdminListSpec.forRpc(
+      widget.rpcName,
+      runtimeConfig: ref.read(adminRuntimeConfigProvider).valueOrNull,
+    );
+    return spec.statusOptions.any((option) => option.value == value)
+        ? value
+        : '';
   }
 
   @override
@@ -204,7 +243,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
         setState(() {
           _search.clear();
           _appliedSearch = '';
-          _status = '';
+          _status = _queryStatus(widget.initialStatus ?? '');
           _sortBy = 'created_at_desc';
           _page = 0;
           _restoreScrollOffset = 0;
@@ -410,7 +449,9 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     final repository = ref.read(adminRepositoryProvider);
     final sessionScope = ref.read(adminAuthSessionScopeProvider);
     final countryScope = ref.read(adminCountryScopeProvider);
-    final userId = ref.read(adminIdentityProvider).valueOrNull?.userId;
+    final userId = _adminResolvedIdentity(
+      ref.read(adminIdentityProvider),
+    )?.userId;
     final rpcName = widget.rpcName;
     if (applySearch) _appliedSearch = _search.text.trim();
     // Freeze the query before awaiting: a retry must not mix an old page with
@@ -426,7 +467,8 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
         identical(ref.read(adminRepositoryProvider), repository) &&
         widget.rpcName == rpcName &&
         ref.read(adminCountryScopeProvider) == countryScope &&
-        ref.read(adminIdentityProvider).valueOrNull?.userId == userId;
+        _adminResolvedIdentity(ref.read(adminIdentityProvider))?.userId ==
+            userId;
     final loaded = await loadAdminListPage(
       page: requestedPage,
       pageSize: _pageSize,
@@ -601,7 +643,7 @@ class _AdminRowActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final List<Widget> actions = switch (actionKind) {
       'payment_event_reparse'
           when _adminHasPermission(identity, 'payment_events.reparse') =>
@@ -736,6 +778,8 @@ class _AdminRowActions extends ConsumerWidget {
           _AdminSessionDialog(scope: scope, child: child),
       title: enabled ? 'Enable feature flag' : 'Disable feature flag',
       actionLabel: enabled ? 'Enable flag' : 'Disable flag',
+      minLength: 8,
+      maxLength: 500,
     );
     if (reason == null || !context.mounted || !scope.isCurrent) return;
     try {

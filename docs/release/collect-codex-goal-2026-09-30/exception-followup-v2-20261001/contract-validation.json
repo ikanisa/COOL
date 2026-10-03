@@ -1,0 +1,110 @@
+{
+  "kind": "offline_schema_semantic_observed_readback",
+  "status": "pass",
+  "checks": [
+    {
+      "name": "observed-after-commit-lookup.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-after-commit-lookup.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-after-commit-lookup.json actor original receipt binding",
+      "status": "pass"
+    },
+    {
+      "name": "observed-assignment-receipt.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-first.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-first.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-first.json bounded unique strict paired order",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-first.json cursor is last visible tuple",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-last.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-last.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-directory-last.json bounded unique strict paired order",
+      "status": "pass"
+    },
+    {
+      "name": "observed-expired-unrecorded-lookup.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-expired-unrecorded-lookup.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-foreign-lookup.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-foreign-lookup.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-in-progress-lookup.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-in-progress-lookup.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-recorded-lookup.json strict actual result shape",
+      "status": "pass"
+    },
+    {
+      "name": "observed-recorded-lookup.json exactly60second read TTL",
+      "status": "pass"
+    },
+    {
+      "name": "observed-recorded-lookup.json actor original receipt binding",
+      "status": "pass"
+    },
+    {
+      "name": "ten-line no-trailing-LF exact original input SHA256",
+      "status": "pass"
+    },
+    {
+      "name": "original assignment result is expected workflow revision plus1",
+      "status": "pass"
+    },
+    {
+      "name": "original recorded lookup retains exact selected expiry and receipt",
+      "status": "pass"
+    },
+    {
+      "name": "foreign lookup discloses no original receipt",
+      "status": "pass"
+    },
+    {
+      "name": "expired absent lookup uses server checked_at proof",
+      "status": "pass"
+    }
+  ],
+  "executed_validator_sha256": "0ba98374c33469bb70d2088da9216fb39016910c3abf4c2aa825f6062eb9d2fe",
+  "schema_sha256": "15db4e51d0006a7152fac8f82d6acc167b69322e59602682be5408686c263170",
+  "jsonschema_version": "4.26.0",
+  "hosted_or_database_calls": false
+}

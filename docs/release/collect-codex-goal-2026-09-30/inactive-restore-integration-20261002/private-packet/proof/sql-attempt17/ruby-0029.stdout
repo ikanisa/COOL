@@ -1,0 +1,2 @@
+{"format": "collect-inactive-restore-result-v1", "item_count": 14, "restore_id": "54442617-0af0-4baf-b0bc-be895a819095", "recorded_at": "2026-10-02T03:36:10.417281+00:00", "send_action": false, "delta_sha256": "1dc6ccc4fece6f1ed1031f1aacf3cabff318bc4dcf665cf0ccf3bcf5c734d502", "session_owner": "postgres", "effective_owner": "postgres", "resume_required": true, "financial_action": false}
+{"inactive": true, "new_flag_rows": 0, "new_binding_rows": 1}

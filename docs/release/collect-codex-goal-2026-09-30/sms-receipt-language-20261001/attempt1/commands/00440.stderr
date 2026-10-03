@@ -1,0 +1,4 @@
+ERROR:  42601: trailing junk after numeric literal at or near "1and"
+LINE 1: ...amily='sms_receipt_policies'and previous_revision=1and revis...
+                                                             ^
+LOCATION:  scanner_yyerror, scan.l:1244

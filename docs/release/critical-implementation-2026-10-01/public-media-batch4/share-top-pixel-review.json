@@ -1,0 +1,173 @@
+{
+  "reviewed_at_utc": "2026-10-02T01:00:21.724823+00:00",
+  "scope": "Direct fresh inspection of the eight original app/invalid-group top screenshots at all four viewports, separate from maintained keyboard/post-traversal captures. No whole native/visual/hosted/provider acceptance.",
+  "screens": [
+    {
+      "scenario": "app-direct",
+      "viewport": "compact_320x740",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/app-direct_compact_320x740.png",
+      "sha256": "42e80e096e573bed5ffff1acf08bd27486221a1a9d6bd1431c8d02434ed73ec1",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "COLLECT APP LINK/Open Collect generic app semantics",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "mobile_390x844",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/app-direct_mobile_390x844.png",
+      "sha256": "6ad4ff0ae993b9fcbe1601ef9c7bb8004edd506dd463596e7c7545b99f4d8d5d",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "COLLECT APP LINK/Open Collect generic app semantics",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "tablet_834x1194",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/app-direct_tablet_834x1194.png",
+      "sha256": "de823e6e9b17fc729e2f32f5c67a680ce4baf8fc0f66ac4ea057b6e26045193c",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "COLLECT APP LINK/Open Collect generic app semantics",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "desktop_1440x1000",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/app-direct_desktop_1440x1000.png",
+      "sha256": "c3bba9f62afc5e54410be1dead56831106272d55ed6296ab00a7ebd8dd6be593",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "COLLECT APP LINK/Open Collect generic app semantics",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "compact_320x740",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/group-link-direct_compact_320x740.png",
+      "sha256": "a8cde7ff7f3b6bd1b650b8c4c70577f52bc5fd49b71ebcdbef286d6157849993",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "Muted gray inactive Open in Collect, absent href and invalid-link recovery",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "mobile_390x844",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/group-link-direct_mobile_390x844.png",
+      "sha256": "1bba8bd256a1582291147e3ee22caaaa6247f967a924065751e0680525a71b43",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "Muted gray inactive Open in Collect, absent href and invalid-link recovery",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "tablet_834x1194",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/group-link-direct_tablet_834x1194.png",
+      "sha256": "1d84377eba5d1926e8b8a631f92540b08c40ecb5c6e87d039e1a095a3db5cf54",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "Muted gray inactive Open in Collect, absent href and invalid-link recovery",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "desktop_1440x1000",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/group-link-direct_desktop_1440x1000.png",
+      "sha256": "13b80d3d99e641430634d1d942d74ac18bcb21d1dc776e22138d897fc878073a",
+      "original_directly_inspected": true,
+      "before_keyboard_scroll_traversal": true,
+      "scrollY": 0,
+      "headerTop": 0,
+      "observed_correction": "Muted gray inactive Open in Collect, absent href and invalid-link recovery",
+      "computed_checks": {
+        "genuineTopCapture": true,
+        "truthfulCardLabel": true,
+        "truthfulHelp": true,
+        "visiblyDisabled": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true
+      }
+    }
+  ],
+  "sole_authority_reference_hashes": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/current-web-state-evidence.json": "86f41462a84fa7b543bb3d63d681ee1dfad445a369fa8d9cd916cc73dd036bbc",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/state-theme-desktop-followup.md": "e26da6ce3b1af2d0df75bdb2822b199c2cb843c73945a006d019934c386d9bf3",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606"
+  },
+  "patterns": "Direct selected current Revolut public disabled-control pattern plus native LIVE024 inactive action. Existing neutral Collect roles adapt the pattern; no public/native token identity or exact geometry equality claim.",
+  "limits": [
+    "Compact viewport is a fold; card/help continuation needs scrolling.",
+    "Original image viewer can resize or omit portions in its presentation; complete glyph/composition equality is unverified.",
+    "No installed native scheme/store navigation, actual authenticated deletion/support, OS/scaled text/provider/hosted or full visual acceptance."
+  ],
+  "full_visual_fidelity_accepted": false
+}

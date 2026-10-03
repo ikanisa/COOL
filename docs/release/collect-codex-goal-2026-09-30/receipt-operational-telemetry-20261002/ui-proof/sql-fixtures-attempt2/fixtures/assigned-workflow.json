@@ -1,0 +1,15 @@
+{
+  "due_at": "2026-10-01T22:45:01.573042Z",
+  "status": "assigned",
+  "overdue": false,
+  "checked_at": "2026-10-01T22:45:00.746106Z",
+  "assignee_id": "99780000-0000-4000-8000-000000000001",
+  "escalations": [],
+  "exception_id": "f648a229-87bf-4214-9c3c-42cb955d9014",
+  "source_active": true,
+  "source_revision": 1,
+  "contract_version": 1,
+  "workflow_revision": 1,
+  "sample_valid_until": "2026-10-01T22:46:00.746106Z",
+  "recipient_available": true
+}

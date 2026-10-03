@@ -1,0 +1,18 @@
+{
+  "mode": "Shadow",
+  "scope": "rw_receipt_shadow",
+  "action": "shadow_health",
+  "expires_at": "2026-10-02T01:05:32.675331Z",
+  "request_id": "05ab8974-21c6-484a-9242-9ce1362811b6",
+  "observed_at": "2026-10-01T01:05:33.006139Z",
+  "send_action": false,
+  "principal_id": "af245dc4-57ba-4398-ac8c-b102aa824d62",
+  "queued_count": 1,
+  "unknown_count": 0,
+  "business_handled": false,
+  "contract_version": 1,
+  "dispatch_enabled": false,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T01:06:33.006139Z",
+  "failed_no_send_count": 0
+}

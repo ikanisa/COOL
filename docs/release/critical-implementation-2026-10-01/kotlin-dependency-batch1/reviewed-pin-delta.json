@@ -1,0 +1,24 @@
+{
+  "all_other_bytes_equal_preserved_before_source": true,
+  "changes": [
+    {
+      "after_sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+      "before_sha256": "838ccff354f21d1767a7770d9543134726c24d3d1c0b1f09268cf5f01fb3690e",
+      "only_change": "Exact Kotlin version 2.3.20 to 2.4.20",
+      "path": "android/settings.gradle.kts"
+    },
+    {
+      "after_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4",
+      "before_sha256": "d81ac67b597d40d5e01e8cabfbb97d745d943d7793fa032f4778a232d96755fc",
+      "only_change": "Exact Kotlin version 2.1.0 to 2.4.20",
+      "path": "third_party/file_saver/android/build.gradle"
+    },
+    {
+      "after_sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+      "before_sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+      "only_change": "Exact Kotlin version 2.3.20 to 2.4.20",
+      "path": "android/app/build.gradle.kts"
+    }
+  ],
+  "schema_version": 1
+}

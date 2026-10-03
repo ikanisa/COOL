@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "action": "shadow.expired",
+      "source": "shadow_audit_event",
+      "actor_id": "99810000-0000-4000-8000-000000000001",
+      "event_id": "72e02623-d18b-48ae-b6d0-ff58aa9f4e46",
+      "revision": null,
+      "request_id": "579c350f-3727-4a65-af1a-0a5891beb32a",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T00:31:06.259941Z",
+      "fence_version": 1000
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "9de5c7f3-c451-4a2a-859d-4a43a11bbb78",
+  "checked_at": "2026-10-01T00:31:06.445783Z",
+  "entity_kind": "shadow_run",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T00:32:06.445783Z",
+  "historical_shadow_audit_backfilled": false
+}

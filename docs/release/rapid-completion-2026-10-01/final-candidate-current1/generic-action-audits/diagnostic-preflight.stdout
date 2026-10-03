@@ -1,0 +1,2 @@
+{"sub": "99640000-0000-4000-8000-000000000004", "session_id": "99760000-0000-4000-8000-000000090001", "role": "authenticated", "aal": "aal2"}
+{"actor": "99640000-0000-4000-8000-000000000004", "session": "99760000-0000-4000-8000-000000090001", "api_role": "authenticated", "preflight": true, "session_user": "postgres"}

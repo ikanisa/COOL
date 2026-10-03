@@ -1,0 +1,209 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 515,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 94147,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.739,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_gateway_action_ui_sdk_test.dart",
+        "test/admin_private_provider_authority_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 94178,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 47.814,
+      "sha256": "873955fec9e5f637489408135f1142a3fc3ec585a7478e62c571d2bc117061f2"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_gateway_action_ui_sdk_test.dart",
+        "test/admin_private_provider_authority_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 95490,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 3.374,
+      "sha256": "06d20d61a41f15f7d76512510892fd4600768e708c7c5c570486ed576536fb1e"
+    }
+  ],
+  "test_files": [
+    "test/admin_gateway_action_ui_sdk_test.dart",
+    "test/admin_private_provider_authority_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 105,
+    "failed": 0,
+    "errors": 27,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "enroll enroll production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after permission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after role",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after loading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after repository",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after A-B-A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK denied redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK lost redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK wrong-request redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK private-extra redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK wrong-device redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after permission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after role",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after loading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after repository",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after A-B-A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK denied redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK lost redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK wrong-request redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK private-extra redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK wrong-device redacts and preserves uncertainty",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "4eb2ea7eb9da3c1b7b91d7065534970e92041060664c52f9cd0c9122871f6900",
+  "source_before_sha256": "ccf71c9f9d9cdb6688a0da8fd44ba2711112390df0590bff996e74d51fd7804f",
+  "source_after_sha256": "ccf71c9f9d9cdb6688a0da8fd44ba2711112390df0590bff996e74d51fd7804f"
+}

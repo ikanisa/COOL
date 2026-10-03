@@ -1,0 +1,18 @@
+{
+  "items": [],
+  "limit": 20,
+  "scope": "rw_receipt_successor_observations",
+  "status": "available",
+  "checked_at": "2026-10-02T03:24:41.929955Z",
+  "approval_id": "db12011c-4013-44e0-954c-fee561a6ef69",
+  "send_action": false,
+  "carrier_proof": false,
+  "after_revision": null,
+  "cutoff_revision": 5,
+  "delivery_proven": false,
+  "contract_version": 4,
+  "financial_action": false,
+  "primary_receipt_id": "731f35c8-40cf-4078-b9c9-03e02381fd06",
+  "sample_valid_until": "2026-10-02T03:25:41.929955Z",
+  "next_after_revision": null
+}

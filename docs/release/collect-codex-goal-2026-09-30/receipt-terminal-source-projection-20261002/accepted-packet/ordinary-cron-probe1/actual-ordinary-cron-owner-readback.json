@@ -1,0 +1,7 @@
+{
+  "job_owner": "supabase_admin",
+  "nosuperuser": true,
+  "schedule_owner": "supabase_admin",
+  "extension_owner": "supabase_admin",
+  "installer_direct_dml": false
+}

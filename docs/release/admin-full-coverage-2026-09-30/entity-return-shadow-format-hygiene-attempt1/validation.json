@@ -1,0 +1,11 @@
+{
+  "before": {
+    "test/admin_entity_audit_page_test.dart": "1445b5c8b6db90af14ae9b00988b98a7e7ac46c2e19ce07d987640c84c33a8a5",
+    "lib/admin/core/admin_shadow_runs.dart": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+  },
+  "after": {
+    "test/admin_entity_audit_page_test.dart": "376d2c22693178fbea07755f34bb5abff2a53493ad53496779c1edd1c2408ee5",
+    "lib/admin/core/admin_shadow_runs.dart": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+  },
+  "scope": "Shadow pinned formatter only; Entity test waits completed pop transition before asserting no departed page. No runtime semantics changed."
+}

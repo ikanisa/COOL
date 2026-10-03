@@ -1,0 +1,24 @@
+{
+  "kind": "actual_current_source_epoch_after_five_reviewed_leaves",
+  "new_root_fence": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+    "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+    "bytes": 922156
+  },
+  "source_manifest_sha256": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "source_files": 2563,
+  "only_changed_selected_leaves": [
+    "android/settings.gradle.kts",
+    "scripts/audits/collect_current_evidence_index.py",
+    "scripts/audits/collect_schema_domain_map.py",
+    "scripts/tests/collect_current_evidence_index_test.py",
+    "scripts/tests/collect_schema_domain_map_test.py"
+  ],
+  "other_selected_files_byte_mode_unchanged": 2558,
+  "current_APP_manifest": {
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+    "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1"
+  },
+  "production_release_approval": false,
+  "source_lock_attested": false
+}

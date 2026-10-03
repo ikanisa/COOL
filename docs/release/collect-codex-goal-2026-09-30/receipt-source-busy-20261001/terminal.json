@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-01T21:54:58.801575+00:00",
+  "matching_owned_processes": [],
+  "owned_exec_sessions": [
+    {
+      "id": 39523,
+      "terminal_exit_code": 1
+    },
+    {
+      "id": 33472,
+      "terminal_exit_code": 1
+    },
+    {
+      "id": 48044,
+      "terminal_exit_code": 0
+    },
+    {
+      "id": 44787,
+      "terminal_exit_code": 1
+    },
+    {
+      "id": 3746,
+      "terminal_exit_code": 0
+    }
+  ],
+  "containers": [
+    {
+      "attempt": "sql-attempt1",
+      "name": "collect_current_rehearsal_source_busy_3b5406e4fe06",
+      "inspect_exit": 1,
+      "inspect_stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "inspect_stderr": "error: no such object: collect_current_rehearsal_source_busy_3b5406e4fe06\n",
+      "removed": true
+    },
+    {
+      "attempt": "sql-attempt2",
+      "name": "collect_current_rehearsal_source_busy_8a444a4fba23",
+      "inspect_exit": 1,
+      "inspect_stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "inspect_stderr": "error: no such object: collect_current_rehearsal_source_busy_8a444a4fba23\n",
+      "removed": true
+    },
+    {
+      "attempt": "sql-attempt3",
+      "name": "collect_current_rehearsal_source_busy_9a071f5be34c",
+      "inspect_exit": 1,
+      "inspect_stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "inspect_stderr": "error: no such object: collect_current_rehearsal_source_busy_9a071f5be34c\n",
+      "removed": true
+    }
+  ]
+}

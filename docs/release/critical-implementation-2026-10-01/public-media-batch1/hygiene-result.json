@@ -1,0 +1,13 @@
+{
+  "command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "exit_code": 0,
+  "status": "pass",
+  "observed_terminal_session": 51767,
+  "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "web_public_revolut_css_sha256": "919f09f7161b516e951ba6ec52880567526efd751eb7ae9569cbde52b3442961",
+  "scope": "Sole-authority hygiene after current shared CSS repair; no visual-fidelity certification."
+}

@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-01T00:08:28.646146+00:00",
+  "source_before_sha256": {
+    "lib/admin/core/admin_operation_components.dart": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c",
+    "lib/admin/core/admin_operation_tables.dart": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78",
+    "test/admin_pwa_test.dart": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906"
+  },
+  "source_after_sha256": {
+    "lib/admin/core/admin_operation_components.dart": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c",
+    "lib/admin/core/admin_operation_tables.dart": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78",
+    "test/admin_pwa_test.dart": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906"
+  },
+  "source_drift": [],
+  "analysis_exit_code": 0,
+  "design_authority_exit_code": 0,
+  "existing_widget_runs_pending": false,
+  "new_tests_added": false,
+  "browser_or_authenticated_comparator_acceptance": false,
+  "production_ready": false,
+  "existing_widget_regression": {
+    "passed": 33,
+    "failed": 0,
+    "packet": "../admin-exceptions/validation.json",
+    "log": "../admin-exceptions/current-admin-regressions.log",
+    "scope": "Existing admin_pwa_test and admin_operations_readability_test; no new label-only tests",
+    "three_selected_sources_still_match_analysis_hashes": true,
+    "continuous_shared_source_freeze_attested": false,
+    "actual_authenticated_card_captures_verified": false
+  }
+}

@@ -1,0 +1,1 @@
+{"tool": "genuine_shell_with_delayed_stream_close_observer", "stage": "runner_refusal", "elapsed_seconds": 1.0563402920015506, "operation_bound_seconds": 1, "injected_observer_delay_seconds": 1.05, "refusal": "PG_ARCHIVE_COMMAND_TIMEOUT"}

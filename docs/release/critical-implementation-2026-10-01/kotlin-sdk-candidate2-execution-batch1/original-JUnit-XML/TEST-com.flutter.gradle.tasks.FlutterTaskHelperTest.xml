@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.tasks.FlutterTaskHelperTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:36.109Z" hostname="Jeans-Mac-mini.local" time="0.114">
+  <properties/>
+  <testcase name="getSnapshots returns correct CopySpec for release build()" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.025"/>
+  <testcase name="getSourceFiles returns files when dependenciesFile exists(Path)" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.046"/>
+  <testcase name="getSnapshots returns correct CopySpec for debug build()" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.011"/>
+  <testcase name="getOutputFiles returns files when dependenciesFile exists(Path)" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.009"/>
+  <testcase name="getSourceFiles correctly replaces escaped spaces(Path)" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.012"/>
+  <testcase name="getAssetsDirectory returns correct path()" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.005"/>
+  <testcase name="getAssets returns correct CopySpec()" classname="com.flutter.gradle.tasks.FlutterTaskHelperTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

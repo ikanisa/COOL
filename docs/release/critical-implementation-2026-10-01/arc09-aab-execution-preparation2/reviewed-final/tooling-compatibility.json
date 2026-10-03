@@ -1,0 +1,94 @@
+{
+  "canonical_graph_observer": {
+    "artifacts": "external module component, basename, exists=true, kind, positive bytes and SHA256",
+    "components": "module group/name/version or local project path",
+    "configurations": [
+      "productionReleaseRuntimeClasspath",
+      "productionReleaseCompileClasspath"
+    ],
+    "edges": "from/to typed component identities, boolean constraint",
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+    "sha256": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6",
+    "task": ":app:collectRuntimeGraph",
+    "top_level_fields": [
+      "configuration",
+      "components",
+      "edges",
+      "artifacts",
+      "project_artifact_scope",
+      "project_components",
+      "scope"
+    ],
+    "unresolved_dependencies": "Actual task failure with unresolved markers; not omitted"
+  },
+  "exporter": {
+    "exact_two_graphs_for_selected_flavor": true,
+    "incompatible_native_flat_observer_output": "Warm8 native observer observations do not supply canonical edges/configuration schema and must not be substituted or reshaped to pretend graph evidence.",
+    "kind_other_unsupported": true,
+    "local_project_artifact_hashes_established": false,
+    "module_without_artifact_allowed": "Selected metadata/platform module retained explicitly with no reported AAR/JAR bytes.",
+    "normal_export_can_overwrite_paths": "Root must reserve fresh filenames and refuse pre-existing outputs before invoking; --check then reproduces exact bytes.",
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/gradle_observed_sbom.py",
+    "requires_JSON_inputs_physically_under_repository_ROOT": true,
+    "sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb"
+  },
+  "reader": {
+    "AAB_and_member_byte_bound": 1073741824,
+    "QA_marker": {
+      "bytes": 108,
+      "exact_UTF8_payload_with_newline": "{\"kind\":\"local_unsigned_native_qa\",\"store_acceptance\":false,\"provider_configuration\":false,\"signing\":false}\n",
+      "member": "base/assets/collect-local-unsigned-qa.json",
+      "sha256": "253b0571fc86f17319d67c2dc68fc11228d2c67e70895ea282cc08926f17b7a2"
+    },
+    "ZIP64_or_trailing_bytes_supported": false,
+    "central_directory_bytes_bound": 33554432,
+    "font_payload_match_and_NOTICES_Z_gzip_readback": "Actual reported evidence requiring root assessment; reader status pass alone does not establish content completeness.",
+    "font_records": "Unique label, family, asset bundle relative asset path, physical source path and lowercase SHA256.",
+    "font_rights_or_complete_package_SBOM_verified": false,
+    "input_binding_schema_version": 1,
+    "input_records": "Unique label, opaque role, physical absolute path and lowercase SHA256; hashes/identity before and after read.",
+    "internal_deadline_seconds": 120,
+    "member_count_bound": 50000,
+    "ordinary_ZIP_only": true,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py",
+    "sha256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f",
+    "signature_or_unsignedness_cryptographically_verified": false,
+    "total_expanded_byte_bound": 4294967296
+  },
+  "schema_validation": {
+    "installed_runtime_dependency_availability": [
+      {
+        "METADATA_sha256": "05b189866ca98a96da3934bf6b83687ced3ff85325273b77e16b705f6d8b26d2",
+        "complete_transitive_runtime_attestation": false,
+        "distribution": "jsonschema",
+        "installed_origin": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/lib/python3.12/site-packages/jsonschema/__init__.py",
+        "module": "jsonschema",
+        "observed_by_read_only_metadata_query": true,
+        "schema_validation_executed": false,
+        "version": "4.26.0"
+      },
+      {
+        "METADATA_sha256": "c93b00e6ab1524fd60848376604c189a114374776475c25a31d57be47b29de6a",
+        "complete_transitive_runtime_attestation": false,
+        "distribution": "referencing",
+        "installed_origin": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/lib/python3.12/site-packages/referencing/__init__.py",
+        "module": "referencing",
+        "observed_by_read_only_metadata_query": true,
+        "schema_validation_executed": false,
+        "version": "0.37.0"
+      }
+    ],
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/validate_source_sbom.py",
+    "positional_argument": "actual observed CycloneDX JSON document",
+    "provenance_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/schema/provenance.json",
+    "provenance_sha256": "b541145f59fc45bfca95bf2668001f8aae99359bcd009100e91653f8e7ea4b9d",
+    "schema_hashes": {
+      "bom-1.6.schema.json": "3e92dddbc30cf7f6a02b80f0942b1a4cfd4fb1c26f1dfc4310afa9d613cafb93",
+      "jsf-0.82.schema.json": "8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae",
+      "spdx.schema.json": "baa9d3bd1ed57b6751b0887edead6b5063ff53ff7429cf85d476c6c94af0166e"
+    },
+    "scope": "Offline Draft7 CycloneDX1.6 structure only; no source freshness, advisory, rights or artifact mapping acceptance.",
+    "sha256": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51"
+  },
+  "source_SBOM": "source_sbom.py separately verifies inventory-recorded source hashes/fork membership/assets. Its current source is bound, but no new broad inventory or source-SBOM generation is proposed here. Graph and artifact scope remain separate."
+}

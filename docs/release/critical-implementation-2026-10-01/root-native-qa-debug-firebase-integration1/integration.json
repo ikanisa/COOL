@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T09:07:48.003136+00:00",
+  "scope": "Extend existing explicit unsigned local QA GoogleServices exception to ProductionDebug required by actual combined native/JVM task.",
+  "source": "android/app/build.gradle.kts",
+  "before_sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+  "after_sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f",
+  "only_expected_change": true,
+  "existing_signing_and_default_configuration_bytes_unchanged": true,
+  "actual_native_verified": false,
+  "actual_failed_native_packet": "docs/release/critical-implementation-2026-10-01/root-native-failure-readback1/packet-files.json",
+  "provider_configuration": false,
+  "production_release_approval": false,
+  "ARC09_closed": false
+}

@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-01T13:04:35.298017+00:00",
+  "files_checked": 1147,
+  "mismatches": [],
+  "seal_sha256": "a2a98b8a8e1d86ca2a82a187958c6a03cd586fac8bf49c0cb836919b27d86fe6",
+  "current_source": {
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95"
+  },
+  "runner_sha256": "c3c2bceba9918b621d5d371e37c7813768e11370dc05daa22a4f61cb2f67840a"
+}

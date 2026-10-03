@@ -1,0 +1,30 @@
+✔ real operating CLI round-trip preserves mixed hot/cold requests, original configuration and history while every restored store stays inactive (87993.378ms)
+✔ actual CLI recovery dispatch invokes zero owner, signer, HTTP, transport or daemon authority (8818.351ms)
+✔ interrupted stores_inactive import keeps all stores inactive and refuses a completion claim (5843.492666ms)
+✔ interrupted record_imported import keeps all stores inactive and refuses a completion claim (5457.921583ms)
+✔ source publication drift refuses an export seal and keeps the failed proof (3005.309375ms)
+✔ source transient-record drift refuses an export seal and keeps the failed proof (9124.651833ms)
+✔ source helper drift refuses an export seal and keeps the failed proof (3390.456375ms)
+✔ source dependency-link drift refuses an export seal and keeps the failed proof (2454.660583ms)
+✔ source new-runtime-file drift refuses an export seal and keeps the failed proof (2091.474625ms)
+✔ source same-root drift refuses an export seal and keeps the failed proof (1975.672125ms)
+✔ source compaction drift refuses an export seal and keeps the failed proof (1434.909042ms)
+✔ missing-page cannot receive a complete restore (1594.165791ms)
+✔ reordered-page cannot receive a complete restore (2037.698375ms)
+✔ duplicate-entry cannot receive a complete restore (2317.510333ms)
+✔ conflicting-hot-cold cannot receive a complete restore (4019.978792ms)
+✔ extra-page cannot receive a complete restore (1125.320958ms)
+✔ missing-seal cannot receive a complete restore (1043.859125ms)
+✔ exact duplicate hot/cold bytes retain both source tiers while divergent bytes refuse export (3814.378208ms)
+✔ canonical malformed and orphan evidence is preserved and reported without repairing original claims (3346.025417ms)
+✔ configuration bytes stay inert and historical UID metadata cannot become a live Deployment (965.171292ms)
+✔ invalid names, credential fields, target overlap, occupied targets and symlinks refuse local recovery (1144.140458ms)
+✔ recovery parser and page bounds remain explicit and reject authority flags (0.519667ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 153236.057208

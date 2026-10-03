@@ -1,0 +1,51 @@
+--- predecessor/test/admin_sender_retention_controller_test.dart
++++ final/test/admin_sender_retention_controller_test.dart
+@@ -8,6 +8,40 @@
+ import 'support/retention_api_fixture.dart';
+ 
+ void main() {
++  test('invalid local draft has no original request and remains correctable', () async {
++    final api = Api(), store = Store(), c = control(api, store);
++    await c.refresh();
++    await c.apply(enabled: false, batchLimit: 26, byteLimit: 1048576, reason: 'Synthetic governed maintenance test');
++    expect(c.error, 'Check the maintenance limits and reason before recording a change.');
++    expect(c.pending, isNull);
++    expect(store.value, isNull);
++    expect(store.writes, 0);
++    expect(store.clears, 0);
++    expect(api.changes, 0);
++    expect(c.canApply, isTrue);
++    await apply(c);
++    expect(api.changes, 1);
++    expect(store.writes, 1);
++    expect(store.clears, 1);
++    expect(c.pending, isNull);
++    c.dispose();
++  });
++  test('SDK rejects drifted v1 protocol authority before any configure call', () async {
++    final raw = decoded(readInitialRaw), calls = <String>[];
++    (raw['retention'] as Map)['protocol_sha256'] = 'a' * 64;
++    final sdk = AdminRetentionSdk(
++      actorId: actor,
++      sessionId: session,
++      isCurrent: () => true,
++      now: () => fixtureNow,
++      rpc: (name, p) async {
++        calls.add(name);
++        return raw;
++      },
++    );
++    await expectLater(sdk.read(), throwsFormatException);
++    expect(calls, ['admin_get_receipt_retention_controls_v1']);
++  });
+   test(
+     'SDK binds real actor/session producer and disables automatic replay by one call seam',
+     () async {
+@@ -59,6 +93,7 @@
+     expect(api.changes, 0);
+     expect(c.pending, isNotNull);
+     expect(c.canApply, isFalse);
++    expect(c.error, contains('original request requires recovery'));
+     c.dispose();
+   });
+   test(

@@ -1,0 +1,21 @@
+{
+  "at_utc": "2026-10-02T06:11:11.857127+00:00",
+  "cutoff_index_sha256": "657e3f93b4decc04f2a15d7c1577795b2a4ce8251effc492f4968b2346df33f1",
+  "scope": "all 800 recorded proposal inputs, comparison after the owned resume fixes; baseline remains exact",
+  "matched": 798,
+  "missing": [],
+  "changed": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate/scripts/tests/supabase_delivery_contract_test.py",
+      "cutoff_sha256": "39c4b3990c5380641f365a59dce61c1d2845aee4e0f26aec27c89eab72d0c3ac",
+      "current_sha256": "6dea26ac7157a4670e81116d32b9240e3cb5a1c95455330aace70d3b299699f4",
+      "current_bytes": 37995
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate/scripts/tests/test_postgres_admission.py",
+      "cutoff_sha256": "7ba58f9207139c8589ac4917d74e657bd09e238acf10417c02c07f467bee0852",
+      "current_sha256": "9b08d8838a4ea86d86ac0146caf473c6953cb5bb49c0835181455acc22a80324",
+      "current_bytes": 15308
+    }
+  ]
+}

@@ -1,0 +1,698 @@
+{
+  "tables": [
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+      "rls": true,
+      "owner": "postgres",
+      "identity": "mobile_account_deletion_requests",
+      "forced_rls": false,
+      "service_select": true,
+      "authenticated_insert": true,
+      "authenticated_select": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "rls": true,
+      "owner": "postgres",
+      "identity": "profiles",
+      "forced_rls": false,
+      "service_select": true,
+      "authenticated_insert": false,
+      "authenticated_select": false
+    }
+  ],
+  "policies": [
+    {
+      "cmd": "SELECT",
+      "qual": "((user_id = ( SELECT uid() AS uid)) OR is_platform_admin(( SELECT uid() AS uid)))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "mobile_account_deletion_requests",
+      "permissive": "PERMISSIVE",
+      "policyname": "account deletion own read",
+      "schemaname": "public",
+      "with_check": null
+    }
+  ],
+  "triggers": [
+    {
+      "name": "a_notification_auth_session_revocation_gate",
+      "table": "sessions",
+      "definition": "CREATE TRIGGER a_notification_auth_session_revocation_gate BEFORE DELETE OR UPDATE OF id, user_id, created_at, aal, not_after ON auth.sessions FOR EACH STATEMENT EXECUTE FUNCTION lock_notification_auth_revocation()"
+    },
+    {
+      "name": "b_notification_auth_session_activity_gate",
+      "table": "sessions",
+      "definition": "CREATE TRIGGER b_notification_auth_session_activity_gate BEFORE INSERT OR DELETE OR UPDATE ON auth.sessions FOR EACH STATEMENT EXECUTE FUNCTION lock_notification_auth_activity()"
+    },
+    {
+      "name": "revoke_notification_session_devices_trigger",
+      "table": "sessions",
+      "definition": "CREATE TRIGGER revoke_notification_session_devices_trigger BEFORE DELETE OR UPDATE OF id, user_id, created_at, aal, not_after ON auth.sessions FOR EACH ROW EXECUTE FUNCTION revoke_notification_session_devices()"
+    },
+    {
+      "name": "a_notification_auth_user_revocation_gate",
+      "table": "users",
+      "definition": "CREATE TRIGGER a_notification_auth_user_revocation_gate BEFORE DELETE OR UPDATE OF id, phone, phone_confirmed_at, email_confirmed_at, deleted_at, banned_until, is_anonymous ON auth.users FOR EACH STATEMENT EXECUTE FUNCTION lock_notification_auth_revocation()"
+    },
+    {
+      "name": "b_notification_auth_user_activity_gate",
+      "table": "users",
+      "definition": "CREATE TRIGGER b_notification_auth_user_activity_gate BEFORE INSERT OR DELETE OR UPDATE ON auth.users FOR EACH STATEMENT EXECUTE FUNCTION lock_notification_auth_activity()"
+    },
+    {
+      "name": "on_auth_user_created_collect_profile",
+      "table": "users",
+      "definition": "CREATE TRIGGER on_auth_user_created_collect_profile AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION create_profile_for_auth_user()"
+    },
+    {
+      "name": "revoke_notification_user_devices_trigger",
+      "table": "users",
+      "definition": "CREATE TRIGGER revoke_notification_user_devices_trigger BEFORE UPDATE OF id, phone_confirmed_at, email_confirmed_at, deleted_at, banned_until, is_anonymous ON auth.users FOR EACH ROW EXECUTE FUNCTION revoke_notification_user_devices()"
+    }
+  ],
+  "functions": [
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=public"
+      ],
+      "definer": true,
+      "identity": "_lock_notification_registration_session()",
+      "definition": "CREATE OR REPLACE FUNCTION public._lock_notification_registration_session()\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare session_text text:=auth.jwt()->>'session_id'; session_id uuid; begin\n  perform public._lock_notification_session_gate();\n  if auth.role() is distinct from 'authenticated' or auth.uid() is null\n    or session_text is null or session_text !~* '^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$' then\n    raise exception 'notification_registration_session_required' using errcode='42501';\n  end if;\n  session_id:=session_text::uuid;\n  -- SHARE blocks both deletion and non-key revocation updates before we lock\n  -- a token. A late registration sees the deletion after waiting and refuses.\n  perform 1 from auth.sessions s where s.id=session_id and s.user_id=auth.uid() for share;\n  if not found or not public._notification_session_is_live(session_id,auth.uid()) then\n    raise exception 'notification_registration_session_required' using errcode='42501';\n  end if;\n  return session_id;\nend $function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "identity": "_lock_notification_session_gate()",
+      "definition": "CREATE OR REPLACE FUNCTION public._lock_notification_session_gate()\n RETURNS void\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select pg_catalog.pg_advisory_xact_lock_shared(193517,141);\n$function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=public"
+      ],
+      "definer": true,
+      "identity": "_notification_session_is_live(uuid,uuid)",
+      "definition": "CREATE OR REPLACE FUNCTION public._notification_session_is_live(p_session uuid, p_user uuid)\n RETURNS boolean\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select exists(select 1 from auth.sessions s join auth.users u on u.id=s.user_id\n    where s.id=p_session and s.user_id=p_user and s.created_at is not null and isfinite(s.created_at)\n      and s.aal::text in ('aal1','aal2')\n      and (s.not_after is null or s.not_after>clock_timestamp())\n      and u.deleted_at is null and not coalesce(u.is_anonymous,false)\n      and (u.phone_confirmed_at is not null or u.email_confirmed_at is not null)\n      and (u.banned_until is null or u.banned_until<=clock_timestamp()));\n$function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "identity": "collect_hybrid.require_fresh_roster_auth()",
+      "definition": "CREATE OR REPLACE FUNCTION collect_hybrid.require_fresh_roster_auth()\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare sid uuid; s auth.sessions; exp_epoch numeric; begin\n sid:=collect_hybrid.require_roster_caller();\n select * into s from auth.sessions where id=sid and user_id=auth.uid() for share;\n if s.id is null or s.created_at<clock_timestamp()-interval '10 minutes' or s.created_at>clock_timestamp()\n  or jsonb_typeof(auth.jwt()->'exp') is distinct from 'number' then\n  raise exception 'roster_fresh_auth_required' using errcode='42501'; end if;\n begin exp_epoch:=(auth.jwt()->>'exp')::numeric; exception when others then\n  raise exception 'roster_fresh_auth_required' using errcode='42501'; end;\n if exp_epoch<=extract(epoch from clock_timestamp()) or exp_epoch>253402300799 then\n  raise exception 'roster_fresh_auth_required' using errcode='42501'; end if;\n return sid;\nend $function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "identity": "collect_hybrid.require_roster_caller()",
+      "definition": "CREATE OR REPLACE FUNCTION collect_hybrid.require_roster_caller()\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare sid text:=auth.jwt()->>'session_id';\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'authenticated' or auth.uid() is null or sid is null\n  or sid !~* '^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$' then\n  raise exception 'roster_session_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(auth.uid(),sid::uuid);\n return sid::uuid;\nend $function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": false,
+      "identity": "is_platform_admin(uuid)",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_platform_admin(user_uuid uuid DEFAULT uid())\n RETURNS boolean\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$ select coalesce(collect_admin_access.platform_admin(user_uuid),false); $function$\n",
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_execute": true
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "identity": "lock_notification_auth_activity()",
+      "definition": "CREATE OR REPLACE FUNCTION public.lock_notification_auth_activity()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  perform public._lock_notification_session_gate();\n  return null;\nend $function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "identity": "lock_notification_auth_revocation()",
+      "definition": "CREATE OR REPLACE FUNCTION public.lock_notification_auth_revocation()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  -- A multi-statement Auth transaction may already hold a shared activity\n  -- gate. Never wait while upgrading that lock: another shared reader could\n  -- be waiting for this transaction's Auth row. Abort atomically for a whole\n  -- transaction retry instead of forming an upgrade deadlock.\n  if exists(select 1 from pg_catalog.pg_locks where locktype='advisory'\n      and pid=pg_catalog.pg_backend_pid() and classid=193517 and objid=141\n      and objsubid=2 and mode='ShareLock' and granted)\n    and not exists(select 1 from pg_catalog.pg_locks where locktype='advisory'\n      and pid=pg_catalog.pg_backend_pid() and classid=193517 and objid=141\n      and objsubid=2 and mode='ExclusiveLock' and granted) then\n    if not pg_catalog.pg_try_advisory_xact_lock(193517,141) then\n      raise exception 'notification_auth_revocation_retry' using errcode='40001';\n    end if;\n  else\n    perform pg_catalog.pg_advisory_xact_lock(193517,141);\n  end if;\n  return null;\nend $function$\n",
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_execute": false
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "owner": "postgres",
+      "config": [
+        "search_path=public, extensions"
+      ],
+      "definer": true,
+      "identity": "request_account_deletion(text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.request_account_deletion(request_reason text DEFAULT NULL::text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'extensions'\nAS $function$\ndeclare\n  request_id uuid;\nbegin\n  if auth.uid() is null then\n    raise exception 'Authentication required';\n  end if;\n\n  insert into mobile_account_deletion_requests (user_id, reason)\n  values (auth.uid(), nullif(trim(request_reason), ''))\n  returning id into request_id;\n\n  insert into audit_logs (actor_user_id, action, entity_type, entity_id, metadata)\n  values (\n    auth.uid(),\n    'mobile.account_deletion_requested',\n    'profile',\n    auth.uid(),\n    jsonb_build_object('request_id', request_id)\n  );\n\n  return request_id;\nend;\n$function$\n",
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_execute": true
+    }
+  ],
+  "max_version": "20261002020000",
+  "foreign_keys": [
+    {
+      "name": "account_request_reason_options_updated_by_fkey",
+      "table": "account_request_reason_options",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_navigation_items_updated_by_fkey",
+      "table": "admin_navigation_items",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_notes_created_by_fkey",
+      "table": "admin_notes",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "admin_queue_filter_options_updated_by_fkey",
+      "table": "admin_queue_filter_options",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_queue_signals_updated_by_fkey",
+      "table": "admin_queue_signals",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_queue_sla_policies_updated_by_fkey",
+      "table": "admin_queue_sla_policies",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_queue_specs_updated_by_fkey",
+      "table": "admin_queue_specs",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_sensitive_access_logs_actor_user_id_fkey",
+      "table": "admin_sensitive_access_logs",
+      "definition": "FOREIGN KEY (actor_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "admin_user_roles_granted_by_fkey",
+      "table": "admin_user_roles",
+      "definition": "FOREIGN KEY (granted_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_user_roles_revoked_by_fkey",
+      "table": "admin_user_roles",
+      "definition": "FOREIGN KEY (revoked_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "admin_user_roles_user_id_fkey",
+      "table": "admin_user_roles",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "audit_logs_actor_user_id_fkey",
+      "table": "audit_logs",
+      "definition": "FOREIGN KEY (actor_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "bank_allocation_change_requests_proposed_by_fkey",
+      "table": "bank_allocation_change_requests",
+      "definition": "FOREIGN KEY (proposed_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "bank_allocation_change_requests_reviewed_by_fkey",
+      "table": "bank_allocation_change_requests",
+      "definition": "FOREIGN KEY (reviewed_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "bank_destination_change_requests_proposed_by_fkey",
+      "table": "bank_destination_change_requests",
+      "definition": "FOREIGN KEY (proposed_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "bank_destination_change_requests_reviewed_by_fkey",
+      "table": "bank_destination_change_requests",
+      "definition": "FOREIGN KEY (reviewed_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "bank_statement_imports_imported_by_fkey",
+      "table": "bank_statement_imports",
+      "definition": "FOREIGN KEY (imported_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "bank_transaction_allocations_allocated_by_fkey",
+      "table": "bank_transaction_allocations",
+      "definition": "FOREIGN KEY (allocated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "bank_transaction_allocations_contributor_user_id_fkey",
+      "table": "bank_transaction_allocations",
+      "definition": "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "bank_transfer_destinations_approved_by_fkey",
+      "table": "bank_transfer_destinations",
+      "definition": "FOREIGN KEY (approved_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "bank_transfer_destinations_created_by_fkey",
+      "table": "bank_transfer_destinations",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "bank_transfer_intents_contributor_user_id_fkey",
+      "table": "bank_transfer_intents",
+      "definition": "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "brand_entities_updated_by_fkey",
+      "table": "brand_entities",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "whatsapp_approvals_approved_by_fkey",
+      "table": "collect_admin_access.whatsapp_approvals",
+      "definition": "FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "whatsapp_approvals_revoked_by_fkey",
+      "table": "collect_admin_access.whatsapp_approvals",
+      "definition": "FOREIGN KEY (revoked_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "whatsapp_approvals_user_id_fkey",
+      "table": "collect_admin_access.whatsapp_approvals",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "group_creation_requests_actor_id_fkey",
+      "table": "collect_hybrid.group_creation_requests",
+      "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "member_account_claims_user_id_fkey",
+      "table": "collect_hybrid.member_account_claims",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "member_receiving_assignments_created_by_fkey",
+      "table": "collect_hybrid.member_receiving_assignments",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "member_records_created_by_fkey",
+      "table": "collect_hybrid.member_records",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "member_records_linked_user_id_fkey",
+      "table": "collect_hybrid.member_records",
+      "definition": "FOREIGN KEY (linked_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "momo_journal_entries_created_by_fkey",
+      "table": "collect_hybrid.momo_journal_entries",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "momo_reversal_requests_actor_id_fkey",
+      "table": "collect_hybrid.momo_reversal_requests",
+      "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "receiving_assignment_requests_actor_id_fkey",
+      "table": "collect_hybrid.receiving_assignment_requests",
+      "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "roster_batches_actor_id_fkey",
+      "table": "collect_hybrid.roster_batches",
+      "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_notification_attempts_operator_user_id_fkey",
+      "table": "collect_hybrid.sms_notification_attempts",
+      "definition": "FOREIGN KEY (operator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_notification_claim_requests_operator_user_id_fkey",
+      "table": "collect_hybrid.sms_notification_claim_requests",
+      "definition": "FOREIGN KEY (operator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_notification_confirmations_operator_user_id_fkey",
+      "table": "collect_hybrid.sms_notification_confirmations",
+      "definition": "FOREIGN KEY (operator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_operator_heartbeats_operator_user_id_fkey",
+      "table": "collect_hybrid.sms_operator_heartbeats",
+      "definition": "FOREIGN KEY (operator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_receipt_member_consents_recorded_by_fkey",
+      "table": "collect_hybrid.sms_receipt_member_consents",
+      "definition": "FOREIGN KEY (recorded_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "sms_receipt_policies_updated_by_fkey",
+      "table": "collect_hybrid.sms_receipt_policies",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "exception_escalations_recipient_id_fkey",
+      "table": "collect_ops.exception_escalations",
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "exception_inbox_deliveries_recipient_id_fkey",
+      "table": "collect_ops.exception_inbox_deliveries",
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "exception_inbox_reads_recipient_id_fkey",
+      "table": "collect_ops.exception_inbox_reads",
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "exception_workflows_assignee_id_fkey",
+      "table": "collect_ops.exception_workflows",
+      "definition": "FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "collection_category_subtypes_updated_by_fkey",
+      "table": "collection_category_subtypes",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collection_invites_invited_by_fkey",
+      "table": "collection_invites",
+      "definition": "FOREIGN KEY (invited_by) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "collection_members_user_id_fkey",
+      "table": "collection_members",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "collection_purpose_templates_updated_by_fkey",
+      "table": "collection_purpose_templates",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collection_receivers_receiver_user_id_fkey",
+      "table": "collection_receivers",
+      "definition": "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "collection_reports_reporter_user_id_fkey",
+      "table": "collection_reports",
+      "definition": "FOREIGN KEY (reporter_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collection_share_secrets_rotated_by_fkey",
+      "table": "collection_share_secrets",
+      "definition": "FOREIGN KEY (rotated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collection_type_catalog_updated_by_fkey",
+      "table": "collection_type_catalog",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collection_type_country_rules_updated_by_fkey",
+      "table": "collection_type_country_rules",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "collections_creator_user_id_fkey",
+      "table": "collections",
+      "definition": "FOREIGN KEY (creator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "daily_bank_closes_closed_by_fkey",
+      "table": "daily_bank_closes",
+      "definition": "FOREIGN KEY (closed_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "daily_bank_closes_reopened_by_fkey",
+      "table": "daily_bank_closes",
+      "definition": "FOREIGN KEY (reopened_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "feature_flags_updated_by_fkey",
+      "table": "feature_flags",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "identities_user_id_fkey",
+      "table": "identities",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "journal_entries_created_by_fkey",
+      "table": "journal_entries",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "journal_lines_contributor_user_id_fkey",
+      "table": "journal_lines",
+      "definition": "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "ledger_entries_user_id_fkey",
+      "table": "ledger_entries",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "member_obligations_user_id_fkey",
+      "table": "member_obligations",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "mfa_factors_user_id_fkey",
+      "table": "mfa_factors",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "mobile_account_deletion_requests_reviewed_by_fkey",
+      "table": "mobile_account_deletion_requests",
+      "definition": "FOREIGN KEY (reviewed_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "mobile_account_deletion_requests_user_id_fkey",
+      "table": "mobile_account_deletion_requests",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "mobile_support_requests_resolved_by_fkey",
+      "table": "mobile_support_requests",
+      "definition": "FOREIGN KEY (resolved_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "mobile_support_requests_user_id_fkey",
+      "table": "mobile_support_requests",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "moderation_flags_created_by_fkey",
+      "table": "moderation_flags",
+      "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "moderation_flags_resolved_by_fkey",
+      "table": "moderation_flags",
+      "definition": "FOREIGN KEY (resolved_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "native_action_capabilities_user_id_fkey",
+      "table": "native_action_capabilities",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "notification_channels_updated_by_fkey",
+      "table": "notification_channels",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "notification_device_tokens_user_id_fkey",
+      "table": "notification_device_tokens",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "notification_event_types_updated_by_fkey",
+      "table": "notification_event_types",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "notification_events_user_id_fkey",
+      "table": "notification_events",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "notification_preferences_user_id_fkey",
+      "table": "notification_preferences",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "notification_template_versions_updated_by_fkey",
+      "table": "notification_template_versions",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "notification_templates_updated_by_fkey",
+      "table": "notification_templates",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "oauth_authorizations_user_id_fkey",
+      "table": "oauth_authorizations",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "oauth_consents_user_id_fkey",
+      "table": "oauth_consents",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "one_time_tokens_user_id_fkey",
+      "table": "one_time_tokens",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "parsed_payment_events_receiver_user_id_fkey",
+      "table": "parsed_payment_events",
+      "definition": "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "payment_allocations_allocated_by_fkey",
+      "table": "payment_allocations",
+      "definition": "FOREIGN KEY (allocated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "payment_entrypoints_updated_by_fkey",
+      "table": "payment_entrypoints",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "payment_intents_contributor_user_id_fkey",
+      "table": "payment_intents",
+      "definition": "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "payments_contributor_user_id_fkey",
+      "table": "payments",
+      "definition": "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "payments_receiver_user_id_fkey",
+      "table": "payments",
+      "definition": "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "policy_acceptance_events_user_id_fkey",
+      "table": "policy_acceptance_events",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "policy_document_sections_updated_by_fkey",
+      "table": "policy_document_sections",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "policy_documents_updated_by_fkey",
+      "table": "policy_documents",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "profiles_id_fkey",
+      "table": "profiles",
+      "definition": "FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "raw_payment_sms_receiver_user_id_fkey",
+      "table": "raw_payment_sms",
+      "definition": "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    },
+    {
+      "name": "receiver_mode_consents_user_id_fkey",
+      "table": "receiver_mode_consents",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "reconciliation_exceptions_resolved_by_fkey",
+      "table": "reconciliation_exceptions",
+      "definition": "FOREIGN KEY (resolved_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "reconciliation_runs_started_by_fkey",
+      "table": "reconciliation_runs",
+      "definition": "FOREIGN KEY (started_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "sessions_user_id_fkey",
+      "table": "sessions",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "support_channels_updated_by_fkey",
+      "table": "support_channels",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "system_settings_updated_by_fkey",
+      "table": "system_settings",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "webauthn_challenges_user_id_fkey",
+      "table": "webauthn_challenges",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "webauthn_credentials_user_id_fkey",
+      "table": "webauthn_credentials",
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    }
+  ],
+  "migration_count": 197
+}

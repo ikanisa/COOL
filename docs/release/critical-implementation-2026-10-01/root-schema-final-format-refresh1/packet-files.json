@@ -1,0 +1,119 @@
+{
+  "failed_stderr_sha256": "cfe3ca16c97301a1c59d2d0061c989d6cc6024ecf5397867ecd1a283fcd8830d",
+  "files": [
+    {
+      "bytes": 3485,
+      "mode": 420,
+      "path": "README.md",
+      "sha256": "cc8662b296d8808b74e9561c3a608403c9ec3d7f275527c3c034096384ba6ca5"
+    },
+    {
+      "bytes": 13792,
+      "mode": 420,
+      "path": "before/scripts/audits/collect_schema_domain_caller_seams.json",
+      "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc"
+    },
+    {
+      "bytes": 1369,
+      "mode": 420,
+      "path": "catalog-migration-readback.json",
+      "sha256": "af30ed1548bdab805b8bf284abe223581890d51cb24e9e36b53c22dd95414e89"
+    },
+    {
+      "bytes": 727,
+      "mode": 420,
+      "path": "extra-code-after.json",
+      "sha256": "82fc29abf370f17b06f4884f51e445cd22b3b3bdf1e3f44daa29f42561a0feca"
+    },
+    {
+      "bytes": 727,
+      "mode": 420,
+      "path": "extra-code-before.json",
+      "sha256": "82fc29abf370f17b06f4884f51e445cd22b3b3bdf1e3f44daa29f42561a0feca"
+    },
+    {
+      "bytes": 2126,
+      "mode": 420,
+      "path": "generation.json",
+      "sha256": "19ac04756f92aca0701c9bf1c02a110f69af03eb9e08d69fc36c5e05fa410db2"
+    },
+    {
+      "bytes": 42,
+      "mode": 420,
+      "path": "generation.stderr",
+      "sha256": "cfe3ca16c97301a1c59d2d0061c989d6cc6024ecf5397867ecd1a283fcd8830d"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "generation.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 250776,
+      "mode": 420,
+      "path": "inputs-after.json",
+      "sha256": "903958f2ac67ae3136a861ad0d9241b1dcd7a8befd7bcc2750294f6f91814491"
+    },
+    {
+      "bytes": 250776,
+      "mode": 420,
+      "path": "inputs-before.json",
+      "sha256": "903958f2ac67ae3136a861ad0d9241b1dcd7a8befd7bcc2750294f6f91814491"
+    },
+    {
+      "bytes": 1266,
+      "mode": 420,
+      "path": "prior-current-input-deltas.json",
+      "sha256": "4f16232dea0a3526ac69e07490347021dfdb2841ab121140dfa735409d01d38b"
+    },
+    {
+      "bytes": 13792,
+      "mode": 420,
+      "path": "proposed/scripts/audits/collect_schema_domain_caller_seams.json",
+      "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077"
+    },
+    {
+      "bytes": 1722,
+      "mode": 420,
+      "path": "result.json",
+      "sha256": "795420625b8e0b8d3b69cfc0af768c5519b4c4acba0f1dfbf1346b739fe211de"
+    },
+    {
+      "bytes": 1232,
+      "mode": 420,
+      "path": "reused60-test-evidence.json",
+      "sha256": "0ee6efb72a632f0e6c422af8da182a38100edf4b2dfa1e6753fbf58ea1085ab8"
+    },
+    {
+      "bytes": 11467,
+      "mode": 420,
+      "path": "reviewed-seam-proposal.json",
+      "sha256": "aa7fb61c3e6f73f8ce8fdf948af12973f0363ad8bda959946cd294cc8f8ca9e8"
+    },
+    {
+      "bytes": 1022,
+      "mode": 420,
+      "path": "verification-not-run.json",
+      "sha256": "31755933d15f21c9ea6b2e73c408a0c56d2dab5baa42accf304cd0a45cd7a6e9"
+    }
+  ],
+  "generation_exit_code": 2,
+  "generation_receipt_sha256": "19ac04756f92aca0701c9bf1c02a110f69af03eb9e08d69fc36c5e05fa410db2",
+  "generation_retried": false,
+  "kind": "collect_failed_mapper_refresh_and_private_seam_proposal",
+  "maintained_APP_SDK_DB_writes": 0,
+  "manifest": "SHA256SUMS",
+  "manifest_sha256": "865275d3342ba752dea06e1c6423abd68a2834a18a37be67a1aa6a02a575761d",
+  "mapper_pass_claimed": false,
+  "mapper_test_SQL209_Linux39_replays": 0,
+  "private_proposed_registry_sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+  "registry_preimage_sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+  "result_sha256": "795420625b8e0b8d3b69cfc0af768c5519b4c4acba0f1dfbf1346b739fe211de",
+  "reviewed_seam_proposal_sha256": "aa7fb61c3e6f73f8ce8fdf948af12973f0363ad8bda959946cd294cc8f8ca9e8",
+  "root_owns_integration_and_fresh_attempt": true,
+  "sealed_regular_bytes": 554321,
+  "sealed_regular_leaves": 16,
+  "status": "fail",
+  "verification_executed": false
+}

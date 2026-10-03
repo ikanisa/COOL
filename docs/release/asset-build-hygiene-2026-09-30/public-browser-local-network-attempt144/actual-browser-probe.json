@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "completed_at": "2026-10-01T00:43:37.193Z",
+  "checks": [
+    "allowed loopback document",
+    "allowed exact-origin resource",
+    "local share interception retained",
+    "different-origin traffic blocked before server arrival",
+    "share page fallback honors context fence",
+    "denial receipt excludes paths queries fragments and bodies",
+    "nonloopback HTTPS and credentialed base rejected"
+  ],
+  "allowed_http_arrivals": 2,
+  "denied_page_requests": [
+    {
+      "protocol": "http:",
+      "origin": "http://127.0.0.1:52052",
+      "resourceType": "fetch"
+    },
+    {
+      "protocol": "http:",
+      "origin": "http://127.0.0.1:52052",
+      "resourceType": "fetch"
+    }
+  ],
+  "forbidden_server_arrivals": 0,
+  "helper_sha256": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3",
+  "route_tool_sha256": "3293441977b18b332f45d567bf0de80960816306480bd805c520acc158174f09",
+  "scope": "Actual local Chrome HTTP origin/adversarial share-override probe; no external address contacted, no OS background-network or provider acceptance claim"
+}

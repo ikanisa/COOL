@@ -1,0 +1,10 @@
+{
+  "destination_absent": true,
+  "foundation_leaves_current_readback_unchanged": 97,
+  "no_owned_repo_or_shared_SDK_writes": true,
+  "recorded_utc": "2026-10-02T00:28:36.326293+00:00",
+  "root_review_current_sha256": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d",
+  "scope": "This task creates only the new admission packet and temporary negative JSON/archive-prefix files; prior native/source-patch plan and original foundation evidence remain frozen.",
+  "sealed_foundation_freeze_sha256": "2885cc31f500defc1eaf5b5b6b3b45ce792928360a7d6a30e75c9828e1350a11",
+  "sealed_foundation_manifest_sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"
+}

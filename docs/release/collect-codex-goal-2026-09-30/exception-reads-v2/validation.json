@@ -1,0 +1,8 @@
+{
+  "migration_structural_validator": "pass",
+  "cached_sql_cases": 87,
+  "cached_sql_status": "pass",
+  "selected_publication_byte_equal": true,
+  "selected_path_sql_rerun_claimed": false,
+  "deployed": false
+}

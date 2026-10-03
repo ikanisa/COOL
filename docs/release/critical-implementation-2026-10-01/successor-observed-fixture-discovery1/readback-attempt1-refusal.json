@@ -1,0 +1,10 @@
+{
+  "status": "reader_failed_before_complete_readback",
+  "exit_code": 1,
+  "cause": "Readback initially assumed every191 producer-bound migration lived under inputs/migrations. Original producer saves189 there and the400/410 copies directly under inputs, as its retained executed-runner.py specifies.",
+  "failed_path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/inputs/migrations/20261002040000_receipt_unarmed_closure.sql",
+  "existing_outputs": ["exact-filename-discovery.json", "sealed-packet-readback.json"],
+  "correction": "Only the two exact400/410 filenames may resolve to the producer's direct inputs directory. No source, fixture or sealed packet was changed. A new readback-attempt2 output boundary is used.",
+  "runtime_tests_executed": 0,
+  "observations_imported": 0
+}

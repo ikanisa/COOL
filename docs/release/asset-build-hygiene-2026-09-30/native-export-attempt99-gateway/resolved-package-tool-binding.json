@@ -1,0 +1,5 @@
+{
+  "tool_sha256": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a",
+  "accepted_test_packet_sha256": "997a18be883259fae82b5dff8c099a3a81cd7457548e954cc7986b55b6fbfcd9",
+  "scope": "Actual additional helper source, accepted15 pure regressions and immutable native package bindings; no application source change"
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_admin_query_benchmark_uat.py", line 98, in admit_platform_sql
+    P.require(sorted(compact(s) for s in grants) == sorted(compact(s) for s in expected)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/data_correctness_sql_positive_history_uat.py", line 340, in require
+    raise AssertionError(json.dumps(detail, sort_keys=True))
+AssertionError: {"unreviewed_affirmative_platform_authority": true}

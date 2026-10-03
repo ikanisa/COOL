@@ -1,0 +1,237 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "scope",
+    "entity_kind",
+    "entity_id",
+    "status",
+    "checked_at",
+    "sample_valid_until",
+    "limit",
+    "history_complete",
+    "historical_shadow_audit_backfilled",
+    "financial_action",
+    "send_action",
+    "rows",
+    "next_cursor"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": 1
+    },
+    "scope": {
+      "const": "rw_operator_entity_audit"
+    },
+    "entity_kind": {
+      "enum": [
+        "shadow_run",
+        "gateway_device",
+        "supervisor_identity",
+        "exception",
+        "receipt"
+      ]
+    },
+    "entity_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "status": {
+      "enum": [
+        "available",
+        "unavailable"
+      ]
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "sample_valid_until": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50
+    },
+    "history_complete": {
+      "const": false
+    },
+    "historical_shadow_audit_backfilled": {
+      "const": false
+    },
+    "financial_action": {
+      "const": false
+    },
+    "send_action": {
+      "const": false
+    },
+    "rows": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_id",
+          "source",
+          "action",
+          "recorded_at",
+          "actor_id",
+          "request_id",
+          "revision",
+          "fence_version",
+          "reason_code"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "source": {
+            "enum": [
+              "shadow_audit_event",
+              "gateway_admin_request",
+              "supervisor_owner_request",
+              "exception_action",
+              "receipt_cancellation"
+            ]
+          },
+          "action": {
+            "enum": [
+              "shadow.started",
+              "shadow.sampled",
+              "shadow.completed",
+              "shadow.expired",
+              "gateway.enroll",
+              "gateway.activate",
+              "gateway.revoke",
+              "supervisor.enroll",
+              "supervisor.activate",
+              "supervisor.revoke",
+              "exception.acknowledge",
+              "exception.escalate",
+              "receipt.cancel_unstarted"
+            ]
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "actor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "request_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fence_version": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "review_started",
+                  "owner_review_required",
+                  "uncertain_send_review",
+                  "contact_review",
+                  "operator_cancelled",
+                  "recipient_review_required",
+                  "content_review_required"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "recorded_at",
+            "event_id"
+          ],
+          "properties": {
+            "recorded_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "event_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://collect.ikanisa.com/contracts/collect-operator-entity-audit-v1.schema.json",
+  "title": "Redacted retained operator entity action evidence",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "unavailable"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rows": {
+            "maxItems": 0
+          },
+          "next_cursor": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

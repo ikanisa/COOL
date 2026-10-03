@@ -1,0 +1,5 @@
+{
+  "status": "intentionally_stopped_distribution_download_only",
+  "wrapper_pid": 84133,
+  "reason": "Complete existing archive now authenticated against freshly fetched official Gradle SHA256 and repository wrapper pin; restart with verified archive in same isolated Gradle cache. No extracted or module cache reuse."
+}

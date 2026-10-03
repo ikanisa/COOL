@@ -1,0 +1,100 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "source-export",
+      "argv": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt9",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/invitation-ui-attempt9/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.66,
+      "stdout_sha256": "5a53cded59d8f59ad556e2900efeaaeaebd6bc5b68996eb968a23fd705393f94",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "git-init",
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-offline",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.31,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/features/group_invitation_output_test.dart",
+        "test/shared/collect_share_links_test.dart",
+        "test/shared/collect_share_origin_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.68,
+      "stdout_sha256": "2314ccc93e68fa9a55725c7b6d0b3b06ca52c274243286812231cfc8873c316a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/features/group_invitation_output_test.dart",
+        "test/shared/collect_share_links_test.dart",
+        "test/shared/collect_share_origin_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart",
+        "lib/admin/shared/components/admin_confirm_dialog.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/shared/repositories/collect_invitation_protection.dart",
+        "lib/features/collections/share_screen.dart",
+        "lib/features/collections/group_share_service.dart",
+        "lib/features/collections/group_invitation_transport.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.66,
+      "stdout_sha256": "a18f841215ff9c8cd694b2e8fc3d1cb95f33b3c3ab7a9bbc15a7c4c1af29cf67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_inputs": 930,
+  "export_source_changes": [],
+  "checkout_drift": [
+    "lib/admin/core/admin_overview_components.dart",
+    "test/data_correctness_contract_test.dart"
+  ],
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt9",
+  "scope": "Actual Flutter production methods/widgets and locked SDK using synthetic local HTTP/platform transports; no database/provider/native build/capture executed"
+}

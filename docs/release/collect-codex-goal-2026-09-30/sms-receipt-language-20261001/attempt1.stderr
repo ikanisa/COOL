@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 171, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 84, in main
+    adoption=t.json("select to_jsonb(e)from collect_security.runtime_control_events e where family='sms_receipt_policies'and previous_revision="+str(old_head)+"and revision="+str(old_head+1)+"and identity_sha256=collect_security.runtime_control_hash("+identity+');');save(report/'observed-schema-adoption.json',adoption)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/attempt1/inputs/executed-helper.py", line 115, in json
+    return json.loads(self.scalar(sql))
+                      ^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/attempt1/inputs/executed-helper.py", line 112, in scalar
+    return self.sql(sql).stdout.strip().splitlines()[-1]
+           ^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/attempt1/inputs/executed-helper.py", line 108, in sql
+    raise RuntimeError(label + ': ' + result.stderr[-3500:])
+RuntimeError: query: ERROR:  42601: trailing junk after numeric literal at or near "1and"
+LINE 1: ...amily='sms_receipt_policies'and previous_revision=1and revis...
+                                                             ^
+LOCATION:  scanner_yyerror, scan.l:1244
+

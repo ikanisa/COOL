@@ -1,0 +1,34 @@
+{
+  "admin_receipt_successor_host_test.dart": {
+    "local_files": 187,
+    "changed_inputs": [
+      "lib/core/logging/app_logger.dart",
+      "lib/core/startup/collect_startup_controller.dart"
+    ]
+  },
+  "admin_receipt_successor_checkpoint_browser_test.dart": {
+    "local_files": 7,
+    "changed_inputs": []
+  },
+  "admin_receipt_successor_sdk_controller_test.dart": {
+    "local_files": 19,
+    "changed_inputs": [
+      "lib/core/logging/app_logger.dart",
+      "lib/core/startup/collect_startup_controller.dart"
+    ]
+  },
+  "admin_receipt_successor_view_test.dart": {
+    "local_files": 31,
+    "changed_inputs": [
+      "lib/core/logging/app_logger.dart",
+      "lib/core/startup/collect_startup_controller.dart"
+    ]
+  },
+  "admin_receipt_successor_models_test.dart": {
+    "local_files": 18,
+    "changed_inputs": [
+      "lib/core/logging/app_logger.dart",
+      "lib/core/startup/collect_startup_controller.dart"
+    ]
+  }
+}

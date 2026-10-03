@@ -1,0 +1,134 @@
+{
+  "JDK_java_SHA256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+  "JDK_java_executable": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+  "Node_SHA256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "Node_executable": "/Volumes/PRO-G40/Development/Node/bin/node",
+  "Python_SHA256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "Python_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "SDK": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+  "all_flavors_ABI_followthrough_open": true,
+  "app": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "app_lock_native_require_root_pinned_original_export_binding": true,
+  "base": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+  "candidate_promoted": false,
+  "commands": {
+    "app-export": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "export",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+        "--flutter-sdk",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+        "--report",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/source-export.json"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 300
+    },
+    "app-lock": {
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+        "--suppress-analytics",
+        "pub",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "deadline_seconds": 1200
+    },
+    "native": {
+      "argv": [
+        "/bin/bash",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+        "-p",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+        "--no-daemon",
+        "--no-build-cache",
+        "--no-configuration-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--rerun-tasks",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+        "-PcollectUnsignedLocalQa=true",
+        "-Ptarget-platform=android-arm,android-arm64,android-x64",
+        "-Ptarget=lib/main.dart",
+        "-Pandroid.builder.sdkDownload=false",
+        ":gradle:collectSdkRuntimeGraph",
+        ":app:collectProductionCompileGraph",
+        ":app:collectProductionRuntimeGraph",
+        ":file_saver:compileReleaseKotlin",
+        ":app:compileProductionReleaseKotlin",
+        ":app:testProductionDebugUnitTest"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "deadline_seconds": 2700
+    },
+    "sdk-lock": {
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart",
+        "pub",
+        "--suppress-analytics",
+        "get",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools",
+      "deadline_seconds": 1200
+    },
+    "startup": {
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+        "--suppress-analytics",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+      "deadline_seconds": 300
+    }
+  },
+  "environment_exact": {
+    "ANDROID_HOME": "/Users/jeanbosco/Library/Android/sdk",
+    "ANDROID_SDK_ROOT": "/Users/jeanbosco/Library/Android/sdk",
+    "CI": "true",
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "FLUTTER_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "GIT_OPTIONAL_LOCKS": "0",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+    "HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/home",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PATH": "/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PUB_CACHE": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache",
+    "TMPDIR": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/tmp"
+  },
+  "exporter_Node_version_execution_disclosed": true,
+  "exporter_no_Flutter_execution_source_verified": true,
+  "foundation_deadline_seconds": 600,
+  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-native-stage-review1",
+  "later_stage_requires_root_pinned_predecessor_terminal": true,
+  "live_free_floor_bytes": 4294967296,
+  "minimum_free_bytes": 20350276001,
+  "only_app_export_admitted_by_derivative": false,
+  "only_app_export_and_app_lock_admitted_by_derivative": false,
+  "only_native_admitted_by_derivative": true,
+  "production_release_approval": false,
+  "raw_Gradle_ZIP_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "raw_Gradle_ZIP_bytes": 232491070,
+  "raw_Gradle_ZIP_owned_relative_destination": "wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+  "raw_Gradle_seed_deadline_seconds": 300,
+  "raw_published_Gradle_ZIP_source": "/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+  "reviewed_exporter_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+  "separate_root_stage_authorization_required": true,
+  "source_identity_index_membership_fixture_fences_required": true,
+  "source_readback_deadline_seconds": 300,
+  "source_scope_held_for_strict_export": false,
+  "strict_current_source_comparison_required_for_export": true,
+  "strict_current_source_hold_required_for_export": false
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-f92a68e41bba416a8f40bab2d3667051-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "cat /etc/os-release\nuname -m\n\"$DART\" --version\nsha256sum /opt/flutter/flutter/bin/cache/dart-sdk/bin/dart\nmake --version\nruby --version"
+  ],
+  "deadline_seconds": 30,
+  "pid": 43138,
+  "started_at_utc": "2026-10-02T10:46:00.642278+00:00"
+}

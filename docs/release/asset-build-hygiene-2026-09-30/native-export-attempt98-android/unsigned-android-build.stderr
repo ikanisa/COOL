@@ -1,0 +1,17 @@
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt83/android/build.gradle.kts' line: 19
+
+* What went wrong:
+A problem occurred configuring project ':app'.
+> Product Flavor internal_gateway contains custom resource values, but the feature is disabled.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 16m 52s

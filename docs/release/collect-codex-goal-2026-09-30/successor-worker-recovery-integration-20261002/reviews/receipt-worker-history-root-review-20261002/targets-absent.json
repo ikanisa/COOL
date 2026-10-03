@@ -1,0 +1,203 @@
+{
+  "checked_at": "2026-10-02T01:23:46.894680+00:00",
+  "status": "all_selected_owned_targets_confirmed_absent",
+  "target_count": 14,
+  "receipts": [
+    {
+      "container_id": "03d0a3ef2ffd87ddd7189387fc7fe2aab60ee03f4c94faa1eab77ebb2178a5f6",
+      "name": "collect_current_rehearsal_source_projection_f5f589191123",
+      "source": "sql-attempt7/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "03d0a3ef2ffd87ddd7189387fc7fe2aab60ee03f4c94faa1eab77ebb2178a5f6"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 03d0a3ef2ffd87ddd7189387fc7fe2aab60ee03f4c94faa1eab77ebb2178a5f6\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "176e1d4888229466d1b1c1d36b87844e7e727c47651e12cb725d7994c933de43",
+      "name": "collect_current_rehearsal_source_projection_d6358ff6fb5c",
+      "source": "sql-attempt10/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "176e1d4888229466d1b1c1d36b87844e7e727c47651e12cb725d7994c933de43"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 176e1d4888229466d1b1c1d36b87844e7e727c47651e12cb725d7994c933de43\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "29c1cee8549ef925244fa652df1fd7a693c6fe3fd81ef74acb607d3e763e37f5",
+      "name": "collect_current_rehearsal_source_projection_87ff83883580",
+      "source": "sql-attempt8/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "29c1cee8549ef925244fa652df1fd7a693c6fe3fd81ef74acb607d3e763e37f5"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 29c1cee8549ef925244fa652df1fd7a693c6fe3fd81ef74acb607d3e763e37f5\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "400871ee32cccf94500a65fb32089af02d7c22fc595617da32e3597ecd914064",
+      "name": "collect_current_rehearsal_source_projection_3ffca8f59006",
+      "source": "sql-attempt12/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "400871ee32cccf94500a65fb32089af02d7c22fc595617da32e3597ecd914064"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 400871ee32cccf94500a65fb32089af02d7c22fc595617da32e3597ecd914064\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "41ce4c0d5fbb6196f67a2b16ab072bb96280166b551aeb0678d8b089fdefa942",
+      "name": "collect_current_rehearsal_source_projection_3b5bf3b123c7",
+      "source": "sql-attempt1/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "41ce4c0d5fbb6196f67a2b16ab072bb96280166b551aeb0678d8b089fdefa942"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 41ce4c0d5fbb6196f67a2b16ab072bb96280166b551aeb0678d8b089fdefa942\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "4d317bbe11eeb5f8c976aee13e55b1ee0443049caede15e8ac26838edbe79923",
+      "name": "collect_current_rehearsal_source_projection_7f42f8ef5ea3",
+      "source": "sql-attempt3/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "4d317bbe11eeb5f8c976aee13e55b1ee0443049caede15e8ac26838edbe79923"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 4d317bbe11eeb5f8c976aee13e55b1ee0443049caede15e8ac26838edbe79923\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "88cc9dbe804ed13d7214c26b3c9261ffced40f40fc843098bade59cf2a072b0e",
+      "name": "collect_current_rehearsal_source_projection_83b8c095d2cf",
+      "source": "sql-attempt4/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "88cc9dbe804ed13d7214c26b3c9261ffced40f40fc843098bade59cf2a072b0e"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 88cc9dbe804ed13d7214c26b3c9261ffced40f40fc843098bade59cf2a072b0e\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "a8f4ebc6cc499f8721e0808f155ee5b85f3d7e79ec5b0809f8cf9b0cddc04ba9",
+      "name": "collect_current_rehearsal_source_projection_3fae91abe598",
+      "source": "sql-attempt9/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "a8f4ebc6cc499f8721e0808f155ee5b85f3d7e79ec5b0809f8cf9b0cddc04ba9"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: a8f4ebc6cc499f8721e0808f155ee5b85f3d7e79ec5b0809f8cf9b0cddc04ba9\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "b59feccf940fcfdad081b4509d14f5d7165a597e9f45ed7cd7b4774e16e957d7",
+      "name": "collect_current_rehearsal_source_projection_7999d08c5e71",
+      "source": "sql-attempt2/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "b59feccf940fcfdad081b4509d14f5d7165a597e9f45ed7cd7b4774e16e957d7"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: b59feccf940fcfdad081b4509d14f5d7165a597e9f45ed7cd7b4774e16e957d7\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "b73faf76a663c6dd718d0d8f1eeb3e1d1666f05e4ee6dd733e9e846da329033f",
+      "name": "collect_current_rehearsal_both_tier_recovery_4412152b39f1",
+      "source": "sql-attempt12/actual-both-tier-recovery-receipt.json",
+      "command": [
+        "docker",
+        "inspect",
+        "b73faf76a663c6dd718d0d8f1eeb3e1d1666f05e4ee6dd733e9e846da329033f"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: b73faf76a663c6dd718d0d8f1eeb3e1d1666f05e4ee6dd733e9e846da329033f\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "baa9c438487e5006ab5482f4a5a7fa780c55b4da85774440f08d9fbd19640609",
+      "name": "collect_current_rehearsal_source_projection_bf72203e466b",
+      "source": "corrected600-admission-attempt1/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "baa9c438487e5006ab5482f4a5a7fa780c55b4da85774440f08d9fbd19640609"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: baa9c438487e5006ab5482f4a5a7fa780c55b4da85774440f08d9fbd19640609\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "cd32d485f63cc71684dd13eb886a824fde238b7f8fa4605804254a03e66b5788",
+      "name": "collect_current_rehearsal_source_projection_f55a4396d367",
+      "source": "sql-attempt11/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "cd32d485f63cc71684dd13eb886a824fde238b7f8fa4605804254a03e66b5788"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: cd32d485f63cc71684dd13eb886a824fde238b7f8fa4605804254a03e66b5788\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "f02971909d7d8822574d63908ba0a824f226c69403a2bde7057c5e756364ffba",
+      "name": "collect_current_rehearsal_source_projection_dd09d7dfb235",
+      "source": "sql-attempt6/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "f02971909d7d8822574d63908ba0a824f226c69403a2bde7057c5e756364ffba"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: f02971909d7d8822574d63908ba0a824f226c69403a2bde7057c5e756364ffba\n",
+      "confirmed_absent": true
+    },
+    {
+      "container_id": "fce5f3dc30c06808f6164f769cf04bc862a8060ad166b2b8999fc8491f8f6864",
+      "name": "collect_current_rehearsal_source_projection_d416b752725c",
+      "source": "sql-attempt5/target-handle.json",
+      "command": [
+        "docker",
+        "inspect",
+        "fce5f3dc30c06808f6164f769cf04bc862a8060ad166b2b8999fc8491f8f6864"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: fce5f3dc30c06808f6164f769cf04bc862a8060ad166b2b8999fc8491f8f6864\n",
+      "confirmed_absent": true
+    }
+  ]
+}

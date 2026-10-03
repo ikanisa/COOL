@@ -106,7 +106,7 @@ class Dialog: NSObject, UIDocumentPickerDelegate {
                 tempURL = nil
 
             } catch {
-                print(error.localizedDescription)
+                print("FileSaver temporary file cleanup failed")
             }
         }
     }
@@ -125,7 +125,7 @@ class Dialog: NSObject, UIDocumentPickerDelegate {
     ) {
         deleteTemp()
 
-        print("in didPickDocumentAt " + url.path)
+        print("FileSaver document selection completed")
 
         result?(url.path)
     }
@@ -136,7 +136,7 @@ class Dialog: NSObject, UIDocumentPickerDelegate {
     ) {
         deleteTemp()
 
-        print("in didPickDocumentAt " + urls[0].path)
+        print("FileSaver document selection completed")
 
         result?(urls[0].path)
     }

@@ -1,0 +1,48 @@
+test_capture_detects_added_or_changed_migrations (sql_ci_runner_test.SqlRecipeBoundaries.test_capture_detects_added_or_changed_migrations) ... ok
+test_changed_fixture_and_original_helper_bytes_are_refused (sql_ci_runner_test.SqlRecipeBoundaries.test_changed_fixture_and_original_helper_bytes_are_refused) ... ok
+test_changed_whole_manifest_is_refused (sql_ci_runner_test.SqlRecipeBoundaries.test_changed_whole_manifest_is_refused) ... ok
+test_cleanup_refuses_unknown_label_or_network_without_removal (sql_ci_runner_test.SqlRecipeBoundaries.test_cleanup_refuses_unknown_label_or_network_without_removal) ... ok
+test_complete_case_and_current_inventory_binding_cannot_be_narrowed (sql_ci_runner_test.SqlRecipeBoundaries.test_complete_case_and_current_inventory_binding_cannot_be_narrowed) ... ok
+test_daemon_error_is_not_absence (sql_ci_runner_test.SqlRecipeBoundaries.test_daemon_error_is_not_absence) ... ok
+test_detached_stdio_descendant_is_not_terminal_success (sql_ci_runner_test.SqlRecipeBoundaries.test_detached_stdio_descendant_is_not_terminal_success) ... ERROR
+test_exact_docker_path_and_bytes_before_any_invocation (sql_ci_runner_test.SqlRecipeBoundaries.test_exact_docker_path_and_bytes_before_any_invocation) ... ok
+test_exact_fixture_lock_and_historical_prefix (sql_ci_runner_test.SqlRecipeBoundaries.test_exact_fixture_lock_and_historical_prefix) ... ok
+test_expired_bound_refuses_before_spawn (sql_ci_runner_test.SqlRecipeBoundaries.test_expired_bound_refuses_before_spawn) ... ok
+test_new_hash_does_not_authorize_another_runtime_cohort (sql_ci_runner_test.SqlRecipeBoundaries.test_new_hash_does_not_authorize_another_runtime_cohort) ... ok
+test_owned_cleanup_uses_actual_cli_and_requires_absence_after_remove (sql_ci_runner_test.SqlRecipeBoundaries.test_owned_cleanup_uses_actual_cli_and_requires_absence_after_remove) ... ok
+test_prefix_reordering_is_refused (sql_ci_runner_test.SqlRecipeBoundaries.test_prefix_reordering_is_refused) ... ok
+test_real_process_timeout_refuses_success_and_removes_group (sql_ci_runner_test.SqlRecipeBoundaries.test_real_process_timeout_refuses_success_and_removes_group) ... ok
+test_remote_socket_and_inherited_credentials_are_refused_or_scrubbed (sql_ci_runner_test.SqlRecipeBoundaries.test_remote_socket_and_inherited_credentials_are_refused_or_scrubbed) ... ok
+test_symlink_fixture_is_refused (sql_ci_runner_test.SqlRecipeBoundaries.test_symlink_fixture_is_refused) ... ok
+test_wrong_image_platform_refuses_before_original_rehearsal (sql_ci_runner_test.SqlRecipeBoundaries.test_wrong_image_platform_refuses_before_original_rehearsal) ... ok
+
+======================================================================
+ERROR: test_detached_stdio_descendant_is_not_terminal_success (sql_ci_runner_test.SqlRecipeBoundaries.test_detached_stdio_descendant_is_not_terminal_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/scripts/tests/sql_ci_runner_test.py", line 145, in test_detached_stdio_descendant_is_not_terminal_success
+    result = sql.run_process(["/bin/sh", "-c", "sleep 2 >/dev/null 2>&1 & exit 0"],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/scripts/tests/sql_ci_runner_test.py", line 48, in recorded
+    result = original(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/scripts/qa/run_sql_ci.py", line 176, in run_process
+    while not group_absent(child.pid) and time.monotonic() < stop_deadline:
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be10-sql-ci-preparation1/validation-source/scripts/qa/run_sql_ci.py", line 141, in group_absent
+    os.killpg(pid, 0)
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.969s
+
+FAILED (errors=1)

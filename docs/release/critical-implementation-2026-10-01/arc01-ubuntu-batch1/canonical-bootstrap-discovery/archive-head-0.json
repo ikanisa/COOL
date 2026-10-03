@@ -1,0 +1,29 @@
+{
+  "at_utc": "2026-10-02T00:18:44.467846+00:00",
+  "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.44.4-stable.tar.xz",
+  "http_status": 200,
+  "headers": {
+    "Content-Type": "application/x-tar",
+    "X-GUploader-UploadID": "AP6rU81L3JZKuEQOcif2tUqpDBYj4g0hq0tGLI_NZ5_XUpi2UsQhBLDytFVNqBRkbFt3ETse2iKGUds",
+    "Expires": "Fri, 02 Oct 2026 01:18:44 GMT",
+    "Date": "Fri, 02 Oct 2026 00:18:44 GMT",
+    "Cache-Control": "public, max-age=3600",
+    "Last-Modified": "Wed, 24 Jun 2026 23:47:57 GMT",
+    "ETag": "\"81d1d2304ffa4ba080111534fc617d35\"",
+    "x-goog-generation": "1782344877588856",
+    "x-goog-metageneration": "1",
+    "x-goog-stored-content-encoding": "identity",
+    "x-goog-stored-content-length": "1543593524",
+    "x-goog-hash": "crc32c=WbIP+Q==",
+    "x-goog-storage-class": "STANDARD",
+    "Accept-Ranges": "bytes",
+    "Content-Length": "1543593524",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Expose-Headers": "Content-Type",
+    "Server": "UploadServer",
+    "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+    "Connection": "close"
+  },
+  "elapsed_seconds": 0.5765104589991097,
+  "archive_downloaded": false
+}

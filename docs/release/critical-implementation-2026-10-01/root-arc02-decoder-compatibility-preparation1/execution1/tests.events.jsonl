@@ -1,0 +1,21 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":59798,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":3,"time":3,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":6044}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":6045}
+{"test":{"id":3,"name":"actual SQL deterministic and AI status receipts bind their source, revision and commit","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":57,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart"},"type":"testStart","time":6046}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":6077}
+{"suite":{"id":4,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart"},"type":"suite","time":6087}
+{"test":{"id":5,"name":"loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":6087}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9159}
+{"group":{"id":6,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":9164}
+{"test":{"id":7,"name":"root-owned actual SQL read receipts satisfy the routed contracts","suiteID":4,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":35,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart"},"type":"testStart","time":9164}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9193}
+{"suite":{"id":8,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart"},"type":"suite","time":9199}
+{"test":{"id":9,"name":"loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart","suiteID":8,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":9199}
+{"testID":9,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9684}
+{"group":{"id":10,"suiteID":8,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":9684}
+{"test":{"id":11,"name":"actual rollback SQL144 receipts decode staged and completed recovery exactly","suiteID":8,"groupIDs":[10],"metadata":{"skip":false,"skipReason":null},"line":695,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart"},"type":"testStart","time":9684}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9715}
+{"success":true,"type":"done","time":9722}

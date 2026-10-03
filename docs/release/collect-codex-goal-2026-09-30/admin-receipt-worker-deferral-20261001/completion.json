@@ -1,0 +1,25 @@
+{
+  "scope": "local Admin trusted-worker health and receipt-deferral integration",
+  "source_files_copied": 255,
+  "flutter_cases": {
+    "worker_health": 32,
+    "automations": 12,
+    "receipt_deferral": 55,
+    "combined": 99
+  },
+  "accepted": true,
+  "hosted_verified": false,
+  "real_email_session_verified": false,
+  "visual_comparator_accepted": false,
+  "physical_reader_verified": false,
+  "whole_candidate_frozen": false,
+  "source_scan_complete": false,
+  "financial_action": false,
+  "send_action": false,
+  "remaining": [
+    "original worker transport investigation and principal enrollment UI",
+    "full affected route/role/session/keyboard/reader and comparator acceptance",
+    "complete candidate migration/regression/build/package proof",
+    "hosted and physical gateway acceptance"
+  ]
+}

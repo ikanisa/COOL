@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "test ! -d .git\ngit init\ngit config user.name 'Collect ARC01 private fixture'\ngit config user.email 'arc01-private-fixture@invalid.example'\ngit add --all --force .\ngit commit -m 'Exact dated ARC01 formatter fixture'\ntest -z \"$(git status --porcelain)\"\ntest ! -e .git/objects/info/alternates\ngit rev-parse HEAD\n"
+  ],
+  "completed_at_utc": "2026-10-02T00:36:35.444388+00:00",
+  "deadline_seconds": 90,
+  "elapsed_seconds": 8.787250833000144,
+  "exit_code": 0,
+  "log_sha256": "10ea62487b4ad32b59127f62b1e585e34b99a7a22ecc7bf67be92656e2db7202",
+  "started_at_utc": "2026-10-02T00:36:26.657743+00:00",
+  "timed_out": false
+}

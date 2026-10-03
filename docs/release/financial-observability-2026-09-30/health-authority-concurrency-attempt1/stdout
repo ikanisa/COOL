@@ -1,0 +1,284 @@
+{
+  "kind": "actual148_health_authority_races",
+  "started_at": "2026-09-30T17:48:26Z",
+  "controls_before": "ada1cfadf4d18238c63acc3004ab6283496b291787a4fdd16878cc2999dddab6",
+  "source_sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+  "tracked_transaction_ids": [
+    "3285",
+    "3286",
+    "3287",
+    "3290",
+    "3291",
+    "3292",
+    "3295",
+    "3296",
+    "3299",
+    "3302",
+    "3303",
+    "3304",
+    "3305",
+    "3308",
+    "3309",
+    "3310"
+  ],
+  "cases": [
+    {
+      "name": "role_revoke_before_read",
+      "outcome": "42501",
+      "blocking": {
+        "pid": 1751,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1757
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "name": "auth_revoke_before_read",
+      "outcome": "42501",
+      "blocking": {
+        "pid": 1751,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1757
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "name": "read_before_role_revoke",
+      "outcome": "allowed",
+      "late_outcome": "42501",
+      "blocking": {
+        "pid": 1757,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1751
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "name": "read_before_auth_revoke",
+      "outcome": "allowed",
+      "late_outcome": "42501",
+      "blocking": {
+        "pid": 1757,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1751
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "name": "established_rr_role_revoke",
+      "outcome": "allowed",
+      "blocking": {
+        "pid": 1751,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1757
+        ]
+      },
+      "status": "unsafe_snapshot"
+    },
+    {
+      "name": "established_rr_auth_revoke",
+      "outcome": "40001",
+      "blocking": {
+        "pid": 1751,
+        "wait_type": "Lock",
+        "wait_event": "advisory",
+        "blocking_pids": [
+          1757
+        ]
+      },
+      "status": "pass"
+    }
+  ],
+  "cases_observed": 6,
+  "cleanup_attributed_rows": [
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.users"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.sessions"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.sessions"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.sessions"
+    },
+    {
+      "xmin": "3285",
+      "relation": "auth.sessions"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.profiles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3286",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3295",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3305",
+      "relation": "public.admin_user_roles"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_admin_access.whatsapp_approvals"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3285",
+      "relation": "collect_hybrid.member_records"
+    },
+    {
+      "xmin": "3286",
+      "relation": "public.audit_logs"
+    },
+    {
+      "xmin": "3295",
+      "relation": "public.audit_logs"
+    },
+    {
+      "xmin": "3305",
+      "relation": "public.audit_logs"
+    }
+  ],
+  "status": "fail",
+  "all_tables_restored": false,
+  "all_controls_restored": true,
+  "worker_sessions_remaining": 0,
+  "finished_at": "2026-09-30T17:48:33Z",
+  "provider_called": false,
+  "hosted_called": false
+}

@@ -1,0 +1,40 @@
+{
+  "started_at_utc": "2026-10-01T20:29:02.652401+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "test/security_hygiene_test.dart",
+    "--name",
+    "iOS App Store build preserves production data and review isolation",
+    "--reporter=expanded"
+  ],
+  "source_before": {
+    "test/security_hygiene_test.dart": "ac6a28b3358f1613a181ea823726e80380aa281037eff6aaa517b3d2e539bae1",
+    "fastlane/Fastfile": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    "scripts/qa/ios_delivery_guard.py": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "lib/main.dart": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/shared/repositories/collect_repository_notification_actions.dart": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+    "lib/shared/repositories/collect_repository_group_actions.dart": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "exit_code": 0,
+  "source_after": {
+    "test/security_hygiene_test.dart": "ac6a28b3358f1613a181ea823726e80380aa281037eff6aaa517b3d2e539bae1",
+    "fastlane/Fastfile": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    "scripts/qa/ios_delivery_guard.py": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "lib/main.dart": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/shared/repositories/collect_repository_notification_actions.dart": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+    "lib/shared/repositories/collect_repository_group_actions.dart": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "log": "docs/release/critical-implementation-2026-10-01/ios-security-consumer-test.log",
+  "log_sha256": "d4a08bdb2d3e1ff97981c13270b9233f688bb28c56fd28fada17eae214586261",
+  "source_unchanged": true
+}

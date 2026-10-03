@@ -1,0 +1,11 @@
+{
+  "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha256",
+  "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha256",
+  "HTTP_status": 200,
+  "TLS_verify_result": 0,
+  "curl_exit_code": 0,
+  "bytes": 64,
+  "sha256": "0c5390a8791e8f23fcb6d86adf8896015a114ea367a748c9395bc96db7c459be",
+  "actual_seconds": 0.8621037919947412,
+  "no_retries": true
+}

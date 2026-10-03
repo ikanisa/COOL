@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "source": "lib/admin/core/admin_repository_base.dart",
+  "before_sha256": "6e649929ec3e8015ddf1f80b7abd86d325dc9b7c1941a8230148555f280381f8",
+  "after_sha256": "21b62b7f5490beceed7b7d8d954b4275a27459bcfceb18d8c2ede292a1fb9ccf",
+  "only_change": "Single expression wraps at a whitespace token boundary; exact replacement preserves every Dart token, literal and runtime behavior.",
+  "guarded_current_equals_tested_before_save": true,
+  "all_nonformatter_source_preserved": true,
+  "ended_at": "2026-10-01T14:16:10.941801+00:00"
+}

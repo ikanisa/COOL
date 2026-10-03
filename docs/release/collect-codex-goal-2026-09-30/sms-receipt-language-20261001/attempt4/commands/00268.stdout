@@ -1,0 +1,1 @@
+["id", "parsed_event_id", "payment_intent_id", "collection_id", "contributor_user_id", "contributor_public_id", "receiver_user_id", "receiver_momo_number_hash", "amount_rwf", "currency", "transaction_id", "source", "status", "anonymity_choice", "posted_at", "created_at", "provider_network", "member_record_id"]

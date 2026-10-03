@@ -1,0 +1,28 @@
+test_authority_and_actual_production_build_callers_are_hash_bound (regressions.NativeSourceExportTest.test_authority_and_actual_production_build_callers_are_hash_bound) ... ERROR
+test_checkout_output_existing_output_and_external_symlink_rejected (regressions.NativeSourceExportTest.test_checkout_output_existing_output_and_external_symlink_rejected) ... ok
+test_ignored_provider_keys_and_caches_excluded_even_if_private_file_indexed (regressions.NativeSourceExportTest.test_ignored_provider_keys_and_caches_excluded_even_if_private_file_indexed) ... ok
+test_internal_source_symlink_refuses_ambiguous_source_identity (regressions.NativeSourceExportTest.test_internal_source_symlink_refuses_ambiguous_source_identity) ... FAIL
+test_local_auth_fork_runtime_license_and_original_provenance_are_exported_exactly (regressions.NativeSourceExportTest.test_local_auth_fork_runtime_license_and_original_provenance_are_exported_exactly) ... ok
+
+======================================================================
+ERROR: test_authority_and_actual_production_build_callers_are_hash_bound (regressions.NativeSourceExportTest.test_authority_and_actual_production_build_callers_are_hash_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/native_source_export_test.py", line 75, in test_authority_and_actual_production_build_callers_are_hash_bound
+    self.assertEqual(first["source_sha256"][name], module.digest(self.root / name))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'AGENTS.md'
+
+======================================================================
+FAIL: test_internal_source_symlink_refuses_ambiguous_source_identity (regressions.NativeSourceExportTest.test_internal_source_symlink_refuses_ambiguous_source_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/native_source_export_test.py", line 84, in test_internal_source_symlink_refuses_ambiguous_source_identity
+    with self.assertRaisesRegex(ValueError, "must be a regular file"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.460s
+
+FAILED (failures=1, errors=1)

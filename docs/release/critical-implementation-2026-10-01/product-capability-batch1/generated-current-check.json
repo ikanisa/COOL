@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "check": true,
+  "registry_sha256": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+  "outputs": {
+    "lib/features/landing/public_marketing_page_content.dart": "918f4249030efdd3f205f9d564af08bf84041e6c5e0552784ada641df3aca94b",
+    "lib/features/landing/public_capability_content.dart": "42ad83dfc12e040dc3f0fdc444909d17379a279944049a1cf89ded27724a31ac",
+    "fastlane/metadata/en-GB/description.txt": "9b621473516ff0bb928b5ae255ec25eaaea0dae5e45a9bd289a1c162bc3a80e3",
+    "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+    "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+    "fastlane/metadata/en-GB/review_notes.txt": "93e0494e7f8eb53e563c9885035a4a3270900e514fc60b7161516af15475981b",
+    "fastlane/metadata/en-GB/release_notes.txt": "33601afa0354bfe201edaf88e1ee0a3850860d480d5d3c2d97e5f02b51878e28",
+    "fastlane/metadata/android/en-US/full_description.txt": "2f832a59908e33e505580134600f576fa1fb1837dd5725bb9467784ec083365d",
+    "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+  },
+  "owner_approved": false,
+  "publication_approved": false,
+  "provider_approved": false
+}

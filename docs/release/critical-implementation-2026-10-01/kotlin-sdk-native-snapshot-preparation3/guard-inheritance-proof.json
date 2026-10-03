@@ -1,0 +1,30 @@
+{
+  "changed_behavior_test_result": "phase-readback-test-result.json",
+  "full_suites_not_reexecuted": true,
+  "historical_suites_do_not_certify_changed_reader_behavior": true,
+  "reason": "Both historical guard suites and their full current input identities match their passed source-bound receipts. The new observation behavior is covered by five focused real Python-child tests. Original guard/helper functions and other controller function ASTs are unchanged.",
+  "suites": {
+    "original": {
+      "changed_current_input_rows": [],
+      "checked_current_input_identity_rows": 42,
+      "errors": 0,
+      "failures": 0,
+      "fresh_full_suite_executed": false,
+      "previous_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/original-bound-after.json",
+      "previous_receipt_sha256": "f26b7d92273efc8a2d55109081169f7bb3f1d6febbf9221455611d4eb8d5a937",
+      "skips": 0,
+      "tests": 31
+    },
+    "snapshot": {
+      "changed_current_input_rows": [],
+      "checked_current_input_identity_rows": 42,
+      "errors": 0,
+      "failures": 0,
+      "fresh_full_suite_executed": false,
+      "previous_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-bound-after.json",
+      "previous_receipt_sha256": "5224e4e82fb7064c899f56ef47b8823a4607f01c6372ff3b3444d9c0f161a51c",
+      "skips": 0,
+      "tests": 34
+    }
+  }
+}

@@ -5,14 +5,19 @@ import 'package:flutter_test/flutter_test.dart';
 const _revision = '0123456789abcdef0123456789abcdef';
 const _changed = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 
-Contribution _row(int index, {int amount = 10, String group = 'group'}) =>
-    Contribution(
-      id: 'payment-${index.toString().padLeft(4, '0')}',
-      collectionId: group,
-      amountRwf: amount,
-      supporterLabel: 'Collect member',
-      createdAt: DateTime.utc(2026, 9, 1).subtract(Duration(minutes: index)),
-    );
+Contribution _row(
+  int index, {
+  int amount = 10,
+  String group = 'group',
+  bool own = false,
+}) => Contribution(
+  id: 'payment-${index.toString().padLeft(4, '0')}',
+  collectionId: group,
+  amountRwf: amount,
+  supporterLabel: 'Collect member',
+  isCurrentUserContribution: own,
+  createdAt: DateTime.utc(2026, 9, 1).subtract(Duration(minutes: index)),
+);
 
 Map<String, dynamic> _metadata({
   int count = 3,
@@ -23,7 +28,7 @@ Map<String, dynamic> _metadata({
   List<String> ownIds = const [],
 }) => {
   'total_count': count,
-  'totals': totals ?? (count == 0 ? <String, int>{} : {'RWF': 30}),
+  'totals': totals ?? (count == 0 ? <String, int>{} : {'RWF': count * 10}),
   'own_totals': ownTotals ?? (count == 0 ? <String, int>{} : {'RWF': 0}),
   'own_collection_ids': ownIds,
   'revision': revision,
@@ -268,11 +273,16 @@ void main() {
             ? [last, first]
             : [first, last];
         final query = MemberHistoryQuery(sort: sort);
-        _page(ordered, count: 2).validateRequest(query: query);
+        _page(
+          ordered,
+          count: 2,
+          totals: {'RWF': 30},
+        ).validateRequest(query: query);
         expect(
           () => _page(
             ordered.reversed.toList(),
             count: 2,
+            totals: {'RWF': 30},
           ).validateRequest(query: query),
           throwsFormatException,
         );
@@ -364,9 +374,18 @@ void main() {
       );
     });
     test('compare ownership sets by value rather than order', () {
-      final first = _page([_row(0)], more: true, ownIds: ['g1', 'g2']);
+      final first = _page(
+        [_row(0, group: 'g1', own: true)],
+        more: true,
+        ownIds: ['g1', 'g2'],
+        ownTotals: {'RWF': 30},
+      );
       final result = first.append(
-        _page([_row(1), _row(2)], ownIds: ['g2', 'g1']),
+        _page(
+          [_row(1, group: 'g2', own: true), _row(2, group: 'g1', own: true)],
+          ownIds: ['g2', 'g1'],
+          ownTotals: {'RWF': 30},
+        ),
       );
       expect(result.totalCount, 3);
     });

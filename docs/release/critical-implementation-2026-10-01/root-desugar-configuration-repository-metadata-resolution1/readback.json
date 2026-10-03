@@ -1,0 +1,18 @@
+{
+  "AAB_built": false,
+  "SDK_source_changes": false,
+  "app_source_or_version_changes": false,
+  "command_exit_code": 0,
+  "command_seconds": 12.104,
+  "command_sha256": "8bc767c6d4a362cba6a375960c86145b11bf1aa460d23e58f2abff4927b2f3a7",
+  "daemon_readback_sha256": "7599be5bbba785a668ab49bb33b75e8711ff3c9791a9f80eeb15dd01be419229",
+  "dependency_scope": "com.android.tools:desugar_jdk_libs_configuration:2.1.4 only, transitive=false",
+  "owned_daemons_absent": true,
+  "private_cache_jar_bytes": 55749,
+  "private_cache_jar_sha256": "5d770c1ba225c2cdf09086bf662954ae765ee481f901b02cd7b1dc3c8077c3f4",
+  "production_release_approval": false,
+  "project_source_unchanged": true,
+  "repository_scope": "official Google Maven, exact module content filter",
+  "status": "exact_dependency_repository_metadata_registered",
+  "utc": "2026-10-02T13:33:55.836454+00:00"
+}

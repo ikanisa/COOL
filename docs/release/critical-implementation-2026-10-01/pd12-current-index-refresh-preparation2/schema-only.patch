@@ -1,0 +1,93 @@
+--- a/docs/release/revolut-design/current-candidate-evidence-index.schema.json
++++ b/docs/release/revolut-design/current-candidate-evidence-index.schema.json
+@@ -25,7 +25,8 @@
+   "additionalProperties": false,
+   "properties": {
+     "PD12_closed": {
+-      "const": false
++      "const": false,
++      "description": "Legacy reader no-grant flag; it does not deny a separately pinned integrator original-criterion decision."
+     },
+     "acceptance_boundaries": {
+       "const": {
+@@ -42,6 +43,9 @@
+           "const": false
+         },
+         "current_APP_after_Android2_source_manifest_sha256": {
++          "$ref": "#/$defs/digest"
++        },
++        "current_APP_source_manifest_sha256": {
+           "$ref": "#/$defs/digest"
+         },
+         "current_declared_source_file_count": {
+@@ -339,6 +343,50 @@
+         "actual-index-readback-retained"
+       ]
+     },
++    "integrator_original_criterion_decision": {
++      "additionalProperties": false,
++      "properties": {
++        "applicability": {
++          "const": "recorded-source-epoch-only"
++        },
++        "checkpoint_document": {
++          "minLength": 1,
++          "type": "string"
++        },
++        "criterion_met": {
++          "const": true
++        },
++        "decision_authority": {
++          "const": "release/QA integrator"
++        },
++        "review_document": {
++          "minLength": 1,
++          "type": "string"
++        },
++        "reviewed_index_document": {
++          "minLength": 1,
++          "type": "string"
++        },
++        "reviewed_source_epoch": {
++          "$ref": "#/$defs/digest"
++        },
++        "reviewed_summary_document": {
++          "minLength": 1,
++          "type": "string"
++        }
++      },
++      "required": [
++        "criterion_met",
++        "decision_authority",
++        "applicability",
++        "reviewed_source_epoch",
++        "review_document",
++        "checkpoint_document",
++        "reviewed_index_document",
++        "reviewed_summary_document"
++      ],
++      "type": "object"
++    },
+     "pending_areas": {
+       "items": {
+         "additionalProperties": false,
+@@ -361,6 +409,9 @@
+         "type": "object"
+       },
+       "type": "array"
++    },
++    "reader_grants_closure": {
++      "const": false
+     },
+     "recorded_at_utc": {
+       "type": "string"
+@@ -425,7 +476,8 @@
+     "evidence",
+     "acceptance_boundaries",
+     "pending_areas",
+-    "PD12_closed"
++    "PD12_closed",
++    "reader_grants_closure"
+   ],
+   "title": "Collect current candidate evidence index proposal",
+   "type": "object"

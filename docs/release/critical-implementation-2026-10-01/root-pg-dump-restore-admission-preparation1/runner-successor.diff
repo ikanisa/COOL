@@ -1,0 +1,85 @@
+--- candidate1/pg_archive_admission.py
++++ candidate5/pg_archive_admission.py
+@@ -74,6 +74,46 @@
+         return result
+     except (TypeError, ValueError, AttributeError) as error:
+         raise Refused('PG_ARCHIVE_TIME_INVALID') from error
++
++
++def group_exists(pgid):
++    try:
++        os.killpg(pgid, 0)
++        return True
++    except ProcessLookupError:
++        return False
++
++
++def cleanup_group(process):
++    """Kill/reap this runner's group and require absence within five seconds."""
++    deadline = time.monotonic() + 5
++    while True:
++        process.poll()  # Reap an already exited parent before signalling its group.
++        if process.returncode is not None and not group_exists(process.pid):
++            return
++        try:
++            os.killpg(process.pid, signal.SIGKILL)
++        except ProcessLookupError:
++            pass
++        except PermissionError as error:
++            # Reap only within the original cleanup bound. A parent which exits
++            # naturally is not proof of cleanup: its entire group must be absent.
++            # Any surviving/unreaped group retains the original signalling error.
++            try:
++                process.wait(timeout=max(0.001, deadline - time.monotonic()))
++            except subprocess.TimeoutExpired:
++                raise error
++            if group_exists(process.pid):
++                raise error
++        try:
++            process.wait(timeout=max(0.001, deadline - time.monotonic()))
++        except subprocess.TimeoutExpired as error:
++            raise Refused('PG_ARCHIVE_GROUP_CLEANUP_TIMEOUT') from error
++        if not group_exists(process.pid):
++            return
++        left = deadline - time.monotonic()
++        fail(left > 0, 'PG_ARCHIVE_GROUP_CLEANUP_TIMEOUT')
++        time.sleep(min(0.01, left))
+ 
+ 
+ def run(argv, env, timeout, limit, output=None, input_file=None):
+@@ -121,23 +161,26 @@
+                 code = process.wait(timeout=max(0.001, deadline - time.monotonic()))
+             except subprocess.TimeoutExpired as error:
+                 raise Refused('PG_ARCHIVE_COMMAND_TIMEOUT') from error
++        fail(time.monotonic() <= deadline, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+         fail(code == 0, 'PG_ARCHIVE_COMMAND_FAILED')
+         fail(not errors, 'PG_ARCHIVE_COMMAND_WARNINGS_REFUSED')
++        fail(not group_exists(process.pid), 'PG_ARCHIVE_RESIDUAL_PROCESS_GROUP')
++        fail(time.monotonic() <= deadline, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+         failed = False
+         return bytes(result), count
+     except OSError as error:
+         raise Refused('PG_ARCHIVE_COMMAND_UNAVAILABLE') from error
+     finally:
+         if process is not None:
+-            if failed or process.poll() is None:
+-                try:
+-                    os.killpg(process.pid, signal.SIGKILL)
+-                except ProcessLookupError:
+-                    pass
+-                process.wait(timeout=5)
+-            for stream in (process.stdout, process.stderr):
+-                if stream is not None:
+-                    stream.close()
++            try:
++                if failed or process.poll() is None:
++                    cleanup_group(process)
++            finally:
++                for stream in (process.stdout, process.stderr):
++                    if stream is not None:
++                        stream.close()
++                if not failed:
++                    fail(time.monotonic() <= deadline, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+ 
+ 
+ class ArchiveAdmission:

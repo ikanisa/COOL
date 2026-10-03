@@ -1,0 +1,19 @@
+{
+  "name": "candidate-strict-analysis",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "analyze",
+    "--fatal-infos",
+    "--fatal-warnings",
+    "scripts/tests"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-receipt-analysis-preparation1/proof-candidate",
+  "time_limit_seconds": 90,
+  "elapsed_seconds": 0.9397034590001567,
+  "exit_code": 0,
+  "timed_out": false,
+  "owned_group_absent": true,
+  "stdout_sha256": "f03e6dc85ee3e83111a285d21b25825465dac3d74ba941cedbc70f6704f48e2d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pass_": true
+}

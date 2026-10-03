@@ -1,0 +1,69 @@
+{
+  "head": {
+    "active": true,
+    "due_at": "2026-10-02T03:24:28.437385Z",
+    "source": {
+      "causal": {
+        "request_id": "f75dfb36-8968-4f18-85f4-a56302540e61",
+        "recorded_at": "2026-10-02T03:27:31.012585Z",
+        "lineage_revision": 8
+      },
+      "failure": true,
+      "conflict": true,
+      "sent_covered": 0,
+      "delivery_covered": 1,
+      "expected_segments": 1,
+      "sticky_uncertainty": false
+    },
+    "case_id": "57ab3f12-bf61-4706-ba69-77fd95f76365",
+    "episode": 3,
+    "armed_at": "2026-10-02T03:22:28.437385Z",
+    "revision": 4,
+    "rule_code": "SEND_OUTCOME_UNKNOWN",
+    "attempt_id": "3bcad461-77d6-4086-b4ca-e425b2a12c87",
+    "approval_id": "db12011c-4013-44e0-954c-fee561a6ef69",
+    "observed_at": "2026-10-02T03:27:31.259043Z",
+    "exception_id": "89f52e96-da7b-48ce-bd10-88bd40e55a73",
+    "arm_request_id": "86473851-ba46-40e3-b428-6b4b56bf427c",
+    "protocol_family": "receipt_successor",
+    "refresh_pending": false,
+    "root_receipt_id": "731f35c8-40cf-4078-b9c9-03e02381fd06"
+  },
+  "items": [
+    {
+      "active": false,
+      "source": {
+        "causal": {
+          "request_id": null,
+          "recorded_at": null,
+          "lineage_revision": null
+        },
+        "failure": false,
+        "conflict": false,
+        "sent_covered": 0,
+        "delivery_covered": 0,
+        "expected_segments": 1,
+        "sticky_uncertainty": false
+      },
+      "episode": 1,
+      "revision": 1,
+      "observed_at": "2026-10-02T03:22:29.299133Z",
+      "source_sha256": "e3f9c54dc2b3688512d1af26f6b7e6c0235490d45c184f036bfc4165dde00325"
+    }
+  ],
+  "limit": 1,
+  "scope": "receipt_callback_deadline_detail",
+  "status": "available",
+  "case_id": "57ab3f12-bf61-4706-ba69-77fd95f76365",
+  "checked_at": "2026-10-02T03:27:32.066999Z",
+  "send_action": false,
+  "carrier_proof": false,
+  "next_revision": 1,
+  "scanned_count": 1,
+  "after_revision": null,
+  "cutoff_revision": 4,
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-02T03:28:32.066999Z"
+}

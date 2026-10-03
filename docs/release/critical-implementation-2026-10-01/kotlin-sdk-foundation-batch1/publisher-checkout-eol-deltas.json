@@ -1,0 +1,960 @@
+{
+  "archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "attribute_sources": {
+    ".gitattributes": {
+      "git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "rules": [
+        [
+          "*",
+          "text=auto"
+        ],
+        [
+          "*.dart",
+          "text"
+        ],
+        [
+          "*.gradle",
+          "text"
+        ],
+        [
+          "*.html",
+          "text"
+        ],
+        [
+          "*.java",
+          "text"
+        ],
+        [
+          "*.json",
+          "text"
+        ],
+        [
+          "*.md",
+          "text"
+        ],
+        [
+          "*.py",
+          "text"
+        ],
+        [
+          "*.sh",
+          "text"
+        ],
+        [
+          "*.txt",
+          "text"
+        ],
+        [
+          "*.xml",
+          "text"
+        ],
+        [
+          "*.yaml",
+          "text"
+        ],
+        [
+          "*.bat",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.ps1",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.rc",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.sln",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.props",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.vcxproj",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.vcxproj.filters",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.sln.tmpl",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.props.tmpl",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "*.vcxproj.tmpl",
+          "text",
+          "eol=crlf"
+        ],
+        [
+          "bin/flutter",
+          "text",
+          "eol=lf"
+        ],
+        [
+          "bin/flutter-dev",
+          "text",
+          "eol=lf"
+        ],
+        [
+          "bin/dart",
+          "text",
+          "eol=lf"
+        ],
+        [
+          "*.ico",
+          "binary"
+        ],
+        [
+          "*.jar",
+          "binary"
+        ],
+        [
+          "*.png",
+          "binary"
+        ],
+        [
+          "*.zip",
+          "binary"
+        ]
+      ],
+      "sha256": "804725d344c1751047712e218ce8629c84b31943e3e03c382889ba2edf7a76d9"
+    },
+    "engine/src/.gitattributes": {
+      "git_blob_sha1": "21a13a6c6e189fcf2183593cffe22f3d125d01a9",
+      "rules": [],
+      "sha256": "e8b170c8c066324fef275526ffdece1e5847fea818570aac4f763a07622dca1b"
+    },
+    "engine/src/flutter/.gitattributes": {
+      "git_blob_sha1": "915d1ed51d121f1986c9dfe71cf1745c1a11286d",
+      "rules": [
+        [
+          "*.dart",
+          "text",
+          "eol=lf"
+        ]
+      ],
+      "sha256": "8ad52586003f457ccc38cd4d7153dbc0865be39991338eaf4f83373aaa97e4e7"
+    },
+    "engine/src/flutter/txt/.gitattributes": {
+      "git_blob_sha1": "da2e8a59e51bedfdf2be293cdf475d5107903ef1",
+      "rules": [
+        [
+          "*",
+          "text=auto"
+        ],
+        [
+          "*.c",
+          "text"
+        ],
+        [
+          "*.cc",
+          "text"
+        ],
+        [
+          "*.cpp",
+          "text"
+        ],
+        [
+          "*.h",
+          "text"
+        ],
+        [
+          "*.gn",
+          "text"
+        ],
+        [
+          "*.md",
+          "text"
+        ]
+      ],
+      "sha256": "aab40f821e516b29aeac09ea91ea52f2ff258c797d01b259f7da113caaec035f"
+    }
+  },
+  "count": 33,
+  "expected_checkout_deltas": [
+    {
+      "CRLF_count": 49,
+      "actual_blob_sha1": "ea3fd83b56575771382c060bc4bf197644f9f5b5",
+      "actual_bytes": 1965,
+      "actual_sha256": "c9ca7f8b003e19f290951d79fb5e403e4782137a3f1d2b21d02ff531cea7e73e",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 49,
+      "canonical_git_blob_sha1": "0bcd226dbdf9fd13418cc951a3d30da1d8c125db",
+      "canonical_git_bytes": 1916,
+      "canonical_git_sha256": "3497de3693dc36702e06930e04e0edd328b2c6b6a936b014a16befae2b624cef",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "0bcd226dbdf9fd13418cc951a3d30da1d8c125db",
+      "expected_bytes": 1916,
+      "override_rules": [],
+      "path": "flutter/bin/dart.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 79,
+      "actual_blob_sha1": "bf2c40c8b8c411bea9534d096fdad9823d2e2082",
+      "actual_bytes": 3427,
+      "actual_sha256": "d0718f626198f76ae34480f0c3f8c7a50cdf9e81bded0a82ef7fe565a9e0238b",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 79,
+      "canonical_git_blob_sha1": "64a913ea1960a82dc4b33d5d60d1fcec337d5236",
+      "canonical_git_bytes": 3348,
+      "canonical_git_sha256": "deaf0ce3c059ab9e1ebc88dfce930cd832e6518eb10bd735992981ed5682df8c",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "64a913ea1960a82dc4b33d5d60d1fcec337d5236",
+      "expected_bytes": 3348,
+      "override_rules": [],
+      "path": "flutter/bin/flutter-dev.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 74,
+      "actual_blob_sha1": "db58b54b7ee04a6ba32e99502e4af8f971ed55b1",
+      "actual_bytes": 3080,
+      "actual_sha256": "f83bfed7ecd10fd1afd8ce19c0b0119d2c80e24fbf26f4ff4f63c1cc5f75dcd5",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 74,
+      "canonical_git_blob_sha1": "246cbb5d3fd0dc80c5fb8fab879cff170d6d4dd7",
+      "canonical_git_bytes": 3006,
+      "canonical_git_sha256": "2b7ba2976ed9ebcbc459efa86d1148635b75e8cc6672aacd1b3f384df8b4611a",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "246cbb5d3fd0dc80c5fb8fab879cff170d6d4dd7",
+      "expected_bytes": 3006,
+      "override_rules": [],
+      "path": "flutter/bin/flutter.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 84,
+      "actual_blob_sha1": "be2cdaec034267ae3f7be4d8d928a469d9c07ec8",
+      "actual_bytes": 3848,
+      "actual_sha256": "5a65cc90ae6df3d241ce51f63d3689b733afc18fa52ac6b1d376a762c8007d29",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 84,
+      "canonical_git_blob_sha1": "275af26df3648fce5566d39645ff39ad3cce9928",
+      "canonical_git_bytes": 3764,
+      "canonical_git_sha256": "e50dd4313b451b5fa4395ce3110a6b15e7480fa1c9a5c0a6b822a9edc27be1c6",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.ps1",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "275af26df3648fce5566d39645ff39ad3cce9928",
+      "expected_bytes": 3764,
+      "override_rules": [],
+      "path": "flutter/bin/internal/content_aware_hash.ps1",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 13,
+      "actual_blob_sha1": "683c0b1574fe7080b0be1f45e95b5da0c5e103e3",
+      "actual_bytes": 562,
+      "actual_sha256": "f4014bd05cc24391ff28f7bd5b22949cc80f0bb66ab9eda512c9c3997f0283e0",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 13,
+      "canonical_git_blob_sha1": "921624d5b0cb8d6f791f3f438da9c1a9b38ef5fe",
+      "canonical_git_bytes": 549,
+      "canonical_git_sha256": "8aef9584b72330655b648322262097804b32714e206d6ad73cbc452259165f35",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "921624d5b0cb8d6f791f3f438da9c1a9b38ef5fe",
+      "expected_bytes": 549,
+      "override_rules": [],
+      "path": "flutter/bin/internal/exit_with_errorlevel.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 66,
+      "actual_blob_sha1": "9c6e0f73c371518d2d8c6304e9efa0770e943339",
+      "actual_bytes": 2922,
+      "actual_sha256": "1db22f519548c7e208d9ca9399b9bf5a642c4090382aad629c15a58b72be69c1",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 66,
+      "canonical_git_blob_sha1": "a4789942c2b1f2d9ed54340fd5ce264a81239365",
+      "canonical_git_bytes": 2856,
+      "canonical_git_sha256": "5872f061ac2f99fab93f3d1e65d540111c3958ec563bcc3c6062d2701e96b035",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.ps1",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "a4789942c2b1f2d9ed54340fd5ce264a81239365",
+      "expected_bytes": 2856,
+      "override_rules": [],
+      "path": "flutter/bin/internal/last_engine_commit.ps1",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 240,
+      "actual_blob_sha1": "3760deae5e00b9157e67e140bb2b620eb4d4064e",
+      "actual_bytes": 10433,
+      "actual_sha256": "b1b8a1b696ecd1265c0cfdc1408c340f0d8351c0e1624710bb8fbf1ab218d4db",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 240,
+      "canonical_git_blob_sha1": "1a55bffb11b98bfd647e327256b0eb787b5aa772",
+      "canonical_git_bytes": 10193,
+      "canonical_git_sha256": "98b548ae0022267da3aeb9e7c4c98b3ef8b8f0a1aa0ffd98c2399597ed77e0df",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "1a55bffb11b98bfd647e327256b0eb787b5aa772",
+      "expected_bytes": 10193,
+      "override_rules": [],
+      "path": "flutter/bin/internal/shared.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 127,
+      "actual_blob_sha1": "b29915e0a72037f6c09bc07cf5e50c17c0c70583",
+      "actual_bytes": 5525,
+      "actual_sha256": "80b35d02219b9b2f59adac3f04f47ee95d8a7680656585fab7b3c84e939bdf65",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 127,
+      "canonical_git_blob_sha1": "318ef62add853afbebedca0a194e6170047beee5",
+      "canonical_git_bytes": 5398,
+      "canonical_git_sha256": "6436a8b27e167f1c449480a1e327a8d3e7e0c6d40f0a522c0ac28400cf03b525",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.ps1",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "318ef62add853afbebedca0a194e6170047beee5",
+      "expected_bytes": 5398,
+      "override_rules": [],
+      "path": "flutter/bin/internal/update_dart_sdk.ps1",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 95,
+      "actual_blob_sha1": "ccf400625f1b3ab7582c2f63249b3634f9202e34",
+      "actual_bytes": 3760,
+      "actual_sha256": "f2a743b9b0532ad7c22b1ea1fbfb80e1a946674a58327034c08b5471842c18bc",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 95,
+      "canonical_git_blob_sha1": "2eed1b0723d8203cdc01019e2bebd4ce1604d9b0",
+      "canonical_git_bytes": 3665,
+      "canonical_git_sha256": "1c6fa527356e128231a2bde87deb8b72cc518d7096a7c16190765399890f36ed",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.ps1",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "2eed1b0723d8203cdc01019e2bebd4ce1604d9b0",
+      "expected_bytes": 3665,
+      "override_rules": [],
+      "path": "flutter/bin/internal/update_engine_version.ps1",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "8bea95f1193e463edf91f721390fcc44a57bff1d",
+      "actual_bytes": 3182,
+      "actual_sha256": "0b37f40c9400ab0b405f480487abe2535329dd2f97ef43d60bcc9c5a814fccf9",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "9b5eba68d5484f612acbff61acc936088ee450f1",
+      "canonical_git_bytes": 3061,
+      "canonical_git_sha256": "9d84bc1f7e338a8a6ba9b106d3573bf88ac953cd81f643927aaaf8d1f0ebc4ba",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "9b5eba68d5484f612acbff61acc936088ee450f1",
+      "expected_bytes": 3061,
+      "override_rules": [],
+      "path": "flutter/dev/a11y_assessments/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "6d171eb69ee5257fac069dad2eae674a4993502e",
+      "actual_bytes": 3185,
+      "actual_sha256": "330a600e4317cf77e07719ef7be1a53a5b9fe370544c314dc96882dcb3ec124a",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "43a6726c33f6dc949a19e4c3c1989a2b4418a7ca",
+      "canonical_git_bytes": 3064,
+      "canonical_git_sha256": "8d880a6f9257da46825946f39deffd9b8c6b0e295a23d93f7ee629122c558ad1",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "43a6726c33f6dc949a19e4c3c1989a2b4418a7ca",
+      "expected_bytes": 3064,
+      "override_rules": [],
+      "path": "flutter/dev/benchmarks/complex_layout/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 23,
+      "actual_blob_sha1": "5f46e378b06c3f481916c23b3e42a839fc525a12",
+      "actual_bytes": 798,
+      "actual_sha256": "f0a58bebfed5919cd1f817e5f2897d6259ed6bd1b41ea9c0604cc9924f8ebee3",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 23,
+      "canonical_git_blob_sha1": "1536db554a2875fa147ec242ef3affe6bbf192b0",
+      "canonical_git_bytes": 775,
+      "canonical_git_sha256": "c29390fc6815cf29bae01d61aabf96c42f2fc523b3611a4c334fd5b648f53814",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "1536db554a2875fa147ec242ef3affe6bbf192b0",
+      "expected_bytes": 775,
+      "override_rules": [],
+      "path": "flutter/dev/customer_testing/ci.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 117,
+      "actual_blob_sha1": "cedda1638bd62566bf7375d0414854d373790ff5",
+      "actual_bytes": 2988,
+      "actual_sha256": "0eadc8ffe1c56f91b948e477979e6d3fb99ca43913fa5613300d8be2542e95bb",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 117,
+      "canonical_git_blob_sha1": "b9e1c0939940ed7b7f5b80a7fd93a21acf38977c",
+      "canonical_git_bytes": 2871,
+      "canonical_git_sha256": "2174fab201d59e2ca49ddbb860a37347d03b5e42c503e0b5b5c64cbb417726e2",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "b9e1c0939940ed7b7f5b80a7fd93a21acf38977c",
+      "expected_bytes": 2871,
+      "override_rules": [],
+      "path": "flutter/dev/integration_tests/data_asset_app/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "c6d66d79d3861b7328426318e5fa3d2128e43428",
+      "actual_bytes": 3188,
+      "actual_sha256": "aa998749709cffa9675f78618250c168f69d49a50905a74be8a5b1b8a32b4f98",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "79f936a2f5dbf4163ca9610f0a0d99c71cd06042",
+      "canonical_git_bytes": 3067,
+      "canonical_git_sha256": "5053795649beafb0069854955b5d48c3a0805944c9ced7e5d4cbca4fd31696f9",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "79f936a2f5dbf4163ca9610f0a0d99c71cd06042",
+      "expected_bytes": 3067,
+      "override_rules": [],
+      "path": "flutter/dev/integration_tests/flutter_gallery/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "d6e61e1d4e820a283427fa6f3357a6205c25b8d0",
+      "actual_bytes": 3127,
+      "actual_sha256": "cc4837637e736953cdcb91cadc84f51e50e8f3de9b4b128dd75bc85dc37fc408",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "f74da7eb54f26fe6c500c7e17efb05ba05996a8f",
+      "canonical_git_bytes": 3006,
+      "canonical_git_sha256": "cbf711352fea6057529e6774210a347bf7a495d26d207ffdb567f18e8d9ac6f8",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "f74da7eb54f26fe6c500c7e17efb05ba05996a8f",
+      "expected_bytes": 3006,
+      "override_rules": [],
+      "path": "flutter/dev/integration_tests/ui/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "058c9889751809590d186cf24a334d4c64f5b5e8",
+      "actual_bytes": 3177,
+      "actual_sha256": "45279d4c33e66fb55524f7ac499453d5eeaca575d78adefdbce261c08bc596b6",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "9101e691326232bbf05c55ac4835e92215ed6b0f",
+      "canonical_git_bytes": 3056,
+      "canonical_git_sha256": "88f9b9eb2c4173ea15bd76fb5fd8ae990d296478b6422351596da122fe6ad3b0",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "9101e691326232bbf05c55ac4835e92215ed6b0f",
+      "expected_bytes": 3056,
+      "override_rules": [],
+      "path": "flutter/dev/integration_tests/windowing_test/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "c1a82e368c8a0650e4449a0dcf00ce088d42ca4a",
+      "actual_bytes": 3201,
+      "actual_sha256": "5d9909cceeb0525549fc467427eb9699a22b0ebebbad9ac07196c7e56dc676e4",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "b2671cacb8c68644d021b216ba95bb090b41db89",
+      "canonical_git_bytes": 3080,
+      "canonical_git_sha256": "c6672e4e4c58be64e8280d1b7b91e49b81689620367f9865fcc785bebbedb9cf",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "b2671cacb8c68644d021b216ba95bb090b41db89",
+      "expected_bytes": 3080,
+      "override_rules": [],
+      "path": "flutter/dev/integration_tests/windows_startup_test/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "ae1cdb1188eb081f2a3644b85731fbd251e9a62d",
+      "actual_bytes": 3166,
+      "actual_sha256": "da2f175907cb2d9fff28aad1cb4b54e8426f6a6f40e7fe81830a7f997d76e2cd",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "7d70f92ec37af17e3389e818b913945f001cea49",
+      "canonical_git_bytes": 3045,
+      "canonical_git_sha256": "61c5033fcf03d9ee9b606e1d2c9938e2aacb09d38575ede9eacc606aa59d8394",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "7d70f92ec37af17e3389e818b913945f001cea49",
+      "expected_bytes": 3045,
+      "override_rules": [],
+      "path": "flutter/dev/manual_tests/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 22,
+      "actual_blob_sha1": "284c83c42e62567d5d4266da083450495454b58a",
+      "actual_bytes": 784,
+      "actual_sha256": "579ba6c6dbcebf8f7c019e5fa2eade37fa3d118a1244857dea0866c13591a887",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 22,
+      "canonical_git_blob_sha1": "46ed331d7abad969de53f42ecf782be6806b0e68",
+      "canonical_git_bytes": 762,
+      "canonical_git_sha256": "43912b57c893a36e7cee85534acff7e9f54a22a2a8956837e50cdafb6a044508",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "46ed331d7abad969de53f42ecf782be6806b0e68",
+      "expected_bytes": 762,
+      "override_rules": [],
+      "path": "flutter/dev/tools/format.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 43,
+      "actual_blob_sha1": "8be1498ab387034e9f0c1080d01aac6824bd26d5",
+      "actual_bytes": 1634,
+      "actual_sha256": "f927d9d491c08fbb98bfd6d31b5a290a083862420edb84d4662635fdbd31f7d1",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 43,
+      "canonical_git_blob_sha1": "b5d90f7caafb80b98e9be448dee32751e060fc0a",
+      "canonical_git_bytes": 1591,
+      "canonical_git_sha256": "b037d409ab8eadcf9d83b9509fcb8c6700c2028972f87e7da9aa7475ef9d27cf",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "b5d90f7caafb80b98e9be448dee32751e060fc0a",
+      "expected_bytes": 1591,
+      "override_rules": [],
+      "path": "flutter/engine/src/flutter/bin/et.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 40,
+      "actual_blob_sha1": "6da361157d40117412c16b704390593ad8180ced",
+      "actual_bytes": 1500,
+      "actual_sha256": "e2da73a42b61242f97af72c558401891090196e3b90582830e9cb4f41b558bbb",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 40,
+      "canonical_git_blob_sha1": "b8c5d8ad71a48e23f2d3c263c2b216e95fcd4588",
+      "canonical_git_bytes": 1460,
+      "canonical_git_sha256": "7fa6b642fb40d1ef573262834030059c239044c92b9ae4bfdae664d604a0f811",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "b8c5d8ad71a48e23f2d3c263c2b216e95fcd4588",
+      "expected_bytes": 1460,
+      "override_rules": [],
+      "path": "flutter/engine/src/flutter/ci/format.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 31,
+      "actual_blob_sha1": "b56b9320477b8c5900f32a6806afb7ddf22337b4",
+      "actual_bytes": 978,
+      "actual_sha256": "a01541ce394ff810b29a5684fef2d6d9fe56541fb14dd5a91fba8a8d9372c026",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 31,
+      "canonical_git_blob_sha1": "4d13b43786ee802df7544a52b6222b2e6245cd3c",
+      "canonical_git_bytes": 947,
+      "canonical_git_sha256": "0396b798a53457153e53686bc5d0506ab1ae3c490c38e9febe249c171db5c13c",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "4d13b43786ee802df7544a52b6222b2e6245cd3c",
+      "expected_bytes": 947,
+      "override_rules": [],
+      "path": "flutter/engine/src/flutter/lib/web_ui/dev/felt.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 1,
+      "actual_blob_sha1": "03b48d1365123c2fb7661b205bb79a44f2d1e0b2",
+      "actual_bytes": 29,
+      "actual_sha256": "d26e9eb05f4e254bb5c0b7bb99d85b0481cb441ef452cf5ee4220c0b35f7999e",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 1,
+      "canonical_git_blob_sha1": "adf7d8953ee459d228a864924ccfe9af70efd50c",
+      "canonical_git_bytes": 28,
+      "canonical_git_sha256": "267c239e11017f4eb82eb547191837c43a870d74231e9e815ea85950ad8142ea",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "adf7d8953ee459d228a864924ccfe9af70efd50c",
+      "expected_bytes": 28,
+      "override_rules": [],
+      "path": "flutter/engine/src/flutter/tools/gn.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 16,
+      "actual_blob_sha1": "edfda78335054d6373b73747ad6e8de3c2dc8159",
+      "actual_bytes": 660,
+      "actual_sha256": "dff2369c3f0a39da300006589c90092c4f7639ab0007e0cd39c857b9b6c08703",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 16,
+      "canonical_git_blob_sha1": "e75ae51364a32db82683b34b9f6f322bb2f3a6ec",
+      "canonical_git_bytes": 644,
+      "canonical_git_sha256": "cd27592617cb745cab9b3fae18d8781a5052a32ca7e344939c916e39a4f20da8",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "e75ae51364a32db82683b34b9f6f322bb2f3a6ec",
+      "expected_bytes": 644,
+      "override_rules": [],
+      "path": "flutter/engine/src/flutter/tools/yapf.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "8d46438b8901b01335eb2078b09d90b4254809c7",
+      "actual_bytes": 3236,
+      "actual_sha256": "72e9095a54011c076f294e338d7799ae0daad202b8db6e0923f08e7648de2a5e",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "34a087abcbc73e1c0cc602afcf1c1745d588c24d",
+      "canonical_git_bytes": 3115,
+      "canonical_git_sha256": "de07285364dde89bff67fdfcf130df876eac8ff03b7b01ef492ac292c5d4b539",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "34a087abcbc73e1c0cc602afcf1c1745d588c24d",
+      "expected_bytes": 3115,
+      "override_rules": [],
+      "path": "flutter/examples/api/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "8f54589f4ea30c58e1c0af7945544d828fbd2d8f",
+      "actual_bytes": 3185,
+      "actual_sha256": "d60d27f75f377632e4fcf92ef76cfcc377cb571c7bbc46b4a79698346b664a15",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "1683efd58f2f55e262b36eedfbed02e16b25392d",
+      "canonical_git_bytes": 3064,
+      "canonical_git_sha256": "ea5ba104be0b61118fc2c047253f1727a76fccd05332b53fee7b336f518294cb",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "1683efd58f2f55e262b36eedfbed02e16b25392d",
+      "expected_bytes": 3064,
+      "override_rules": [],
+      "path": "flutter/examples/flutter_view/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "11fb1a27cce7da4b0e3c1119712688550c977584",
+      "actual_bytes": 3181,
+      "actual_sha256": "3a4ac532739d4318d2b0bd4616254fe223446ac427ea3b4871b1183a83350a39",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "fb3a7ba2fc2d911a53dfcef353549ab2717f3422",
+      "canonical_git_bytes": 3060,
+      "canonical_git_sha256": "c85c6e1eb398f8061379deef9b0dc239a4b4bfe50104ae4a3e2a065dce91c2ca",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "fb3a7ba2fc2d911a53dfcef353549ab2717f3422",
+      "expected_bytes": 3060,
+      "override_rules": [],
+      "path": "flutter/examples/hello_world/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "5a33bde61b398ddcafe711761e20eacd9a55e230",
+      "actual_bytes": 3161,
+      "actual_sha256": "1b30991ca01685953862972f5a9e6dd41a7c4079ee1e31faab04eb71f4328da9",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "a3740660d8bc0f37273336b22b501d3c93d56892",
+      "canonical_git_bytes": 3040,
+      "canonical_git_sha256": "8cd0bd680da01ae2b3510dd3265cac277115c68cea3e79ef74783d2208ff75d6",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "a3740660d8bc0f37273336b22b501d3c93d56892",
+      "expected_bytes": 3040,
+      "override_rules": [],
+      "path": "flutter/examples/layers/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 111,
+      "actual_blob_sha1": "a7da9cad83ccbe1d0f9877e8ba7f2e93813e09ef",
+      "actual_bytes": 2993,
+      "actual_sha256": "a45ba15f79773c7a54db240d883474742f62297f0ec16ba089aa41bd35ac436f",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 111,
+      "canonical_git_blob_sha1": "d9d3832510220d30aef49ae62cd9e0fa326f7645",
+      "canonical_git_bytes": 2882,
+      "canonical_git_sha256": "335dac0aa9532d97fbdedc8e6c1fb06671aee683bc8725f17ae1150885d9d500",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "d9d3832510220d30aef49ae62cd9e0fa326f7645",
+      "expected_bytes": 2882,
+      "override_rules": [],
+      "path": "flutter/examples/multiple_windows/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 111,
+      "actual_blob_sha1": "66e11ee9f436eea02dcaba07c6bd52ad26eaf8a8",
+      "actual_bytes": 2912,
+      "actual_sha256": "64669afc7b62ed824ac962e7885de97c7be2f73bf8c5cb4647b063dc2ed56290",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 111,
+      "canonical_git_blob_sha1": "7f604a7b067cb7116df88f46bd12dfda16534a83",
+      "canonical_git_bytes": 2801,
+      "canonical_git_sha256": "f1cb3b0272cb1c65a41a8c42e40b25c103a5d402a981f3910f1c5aa77ead13d1",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "7f604a7b067cb7116df88f46bd12dfda16534a83",
+      "expected_bytes": 2801,
+      "override_rules": [],
+      "path": "flutter/examples/platform_channel/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 121,
+      "actual_blob_sha1": "d9d83c4f73acfcad6e03a98284d6b0ef7f2d8bac",
+      "actual_bytes": 3189,
+      "actual_sha256": "89f21fc0bf29e88206c40ba8891d0d8f6490155f79897fc8f91c2325db3eda2f",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 121,
+      "canonical_git_blob_sha1": "ab09dd472f3f5350e2c1b77140e22020f50391ab",
+      "canonical_git_bytes": 3068,
+      "canonical_git_sha256": "2e78f95f521236c5039cc66bc09a532cbfed911ec3a0ab4db692eed10991484c",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.rc",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "ab09dd472f3f5350e2c1b77140e22020f50391ab",
+      "expected_bytes": 3068,
+      "override_rules": [],
+      "path": "flutter/examples/platform_view/windows/runner/Runner.rc",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 38,
+      "actual_blob_sha1": "58307645c597b27c28d0ea0aa3d73865aa4a680c",
+      "actual_bytes": 1731,
+      "actual_sha256": "551d742a340deb6d041cf0664ba813e2fbab0bd8f8617500a1a4678a08b30ce4",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 38,
+      "canonical_git_blob_sha1": "e88b8e7f15aca18f3063a3138e3710b303505368",
+      "canonical_git_bytes": 1693,
+      "canonical_git_sha256": "d61c5aabb863d0fd0d2ce9983c5c66a9f73c9d338157802656b358d68fbf4762",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "e88b8e7f15aca18f3063a3138e3710b303505368",
+      "expected_bytes": 1693,
+      "override_rules": [],
+      "path": "flutter/flutter_console.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    },
+    {
+      "CRLF_count": 9,
+      "actual_blob_sha1": "23a402d9b85751fbc6522f0ff55a73b668fa22ef",
+      "actual_bytes": 368,
+      "actual_sha256": "314e44db292d9977ea0108b11b75d17f41632caaafbad888acfc0a60eeb92525",
+      "attribute_git_blob_sha1": "29f55cc2490987fdea98b1df65337cce4faf3744",
+      "attribute_source": ".gitattributes",
+      "canonical_LF_count": 9,
+      "canonical_git_blob_sha1": "7140f90b9e3cf4f48575fd0702cc692ef61e46d7",
+      "canonical_git_bytes": 359,
+      "canonical_git_sha256": "07d99ac4082b4e3b01ee7aaa0d0cc4304b086fd938d20ef3dfe7290b91147144",
+      "exact_CRLF_checkout_and_inverse_match": true,
+      "exact_attribute_rule": [
+        "*.bat",
+        "text",
+        "eol=crlf"
+      ],
+      "expected_blob_sha1": "7140f90b9e3cf4f48575fd0702cc692ef61e46d7",
+      "expected_bytes": 359,
+      "override_rules": [],
+      "path": "flutter/packages/flutter_tools/bin/tool_backend.bat",
+      "rationale": "Publisher worktree CRLF bytes are exactly the checkout representation required by this pinned Git attribute; LF canonical bytes match the already authenticated official Git blob. No other byte difference is accepted."
+    }
+  ],
+  "no_source_bytes_changed_or_expanded": true,
+  "passed_classification": true,
+  "recorded_utc": "2026-10-02T00:15:23.548434+00:00",
+  "schema_version": 1,
+  "scope": "Exact-byte classification of33 publisher ZIP Windows checkout line endings via pinned Git attributes and canonical blob identity. Original strict raw-byte comparison remains retained; no blanket normalization, auto-approved source delta, extraction or patch.",
+  "source_acceptance_review_pending": true,
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "unexplained_byte_deltas": 0
+}

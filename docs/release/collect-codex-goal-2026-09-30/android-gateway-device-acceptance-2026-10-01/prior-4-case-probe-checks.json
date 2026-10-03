@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "probe-analysis",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "integration_test/gateway_device_probe.dart",
+        "integration_test/gateway_device_no_send_test.dart",
+        "test/gateway/gateway_device_probe_test.dart"
+      ],
+      "exit_code": 0,
+      "completion_marker": true,
+      "status": "pass"
+    },
+    {
+      "name": "probe-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/gateway/gateway_device_probe_test.dart"
+      ],
+      "exit_code": 0,
+      "completion_marker": true,
+      "status": "pass"
+    }
+  ],
+  "inputs_before": {
+    "integration_test/gateway_device_probe.dart": "9b7c1a32ddd20476e6d2ec2150301369aee3063e68f8c53a20264a59b269287d",
+    "integration_test/gateway_device_no_send_test.dart": "f16626a308917a4b4d66c18b813ac1346c095a853e0c646c26017aa5bd74f3ea",
+    "test/gateway/gateway_device_probe_test.dart": "c691a36463ae398c6896fcbba00551717815f76ca0a3f6c14b877f5758cff793",
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+  },
+  "inputs_after": {
+    "integration_test/gateway_device_probe.dart": "9b7c1a32ddd20476e6d2ec2150301369aee3063e68f8c53a20264a59b269287d",
+    "integration_test/gateway_device_no_send_test.dart": "f16626a308917a4b4d66c18b813ac1346c095a853e0c646c26017aa5bd74f3ea",
+    "test/gateway/gateway_device_probe_test.dart": "c691a36463ae398c6896fcbba00551717815f76ca0a3f6c14b877f5758cff793",
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+  },
+  "physical_execution": false,
+  "scope": "Synthetic no-send probe safety and explicit three-file analysis only; no Android native execution."
+}

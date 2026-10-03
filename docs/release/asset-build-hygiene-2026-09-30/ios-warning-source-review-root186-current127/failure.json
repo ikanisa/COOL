@@ -1,0 +1,7 @@
+{
+  "status": "fail",
+  "scope": "Warning source rebind stopped before acceptance",
+  "reason": "Dialog.swift differs from dated review by three already applied private-path/error log redactions; the keyWindow warning needs a byte-specific additive review",
+  "production_changed": false,
+  "captured_at": "2026-10-01T10:17:46.380120+00:00"
+}

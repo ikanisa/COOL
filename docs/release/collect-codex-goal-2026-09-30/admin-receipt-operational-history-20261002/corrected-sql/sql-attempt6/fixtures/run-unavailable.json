@@ -1,0 +1,15 @@
+{
+  "run": null,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "77d9ade5-202f-4065-9bed-32195be1b25a",
+  "status": "unavailable",
+  "checked_at": "2026-10-02T00:47:02.884685Z",
+  "completion": null,
+  "quota_usage": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "historical_config": null,
+  "sample_valid_until": "2026-10-02T00:48:02.884685Z"
+}

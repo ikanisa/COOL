@@ -1,0 +1,459 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 554,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 33831,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.565,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_private_provider_authority_test.dart",
+        "test/admin_entity_audit_models_test.dart",
+        "test/admin_entity_audit_repository_test.dart",
+        "test/admin_entity_audit_authority_test.dart",
+        "test/admin_entity_audit_page_test.dart",
+        "test/admin_receipt_cancel_models_test.dart",
+        "test/admin_receipt_cancel_repository_test.dart",
+        "test/admin_receipt_cancel_card_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 33882,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 38.459,
+      "sha256": "fddb389cac2c4ef31700b7c1d83834f7a367b71783c1c1a8f407646ab68224b9"
+    },
+    {
+      "name": "browser-checkpoint",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--platform=chrome",
+        "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+        "test/admin_exception_checkpoint_browser_test.dart",
+        "test/admin_gateway_checkpoint_browser_test.dart",
+        "test/admin_roster_bookmark_browser_test.dart",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/acceptance/browser-checkpoint.machine.jsonl"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 36193,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 41.246,
+      "sha256": "09c229b5062c80eed445dcfdd6045e51693b5766f58c0382aa2b871a76be7f88"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_private_provider_authority_test.dart",
+        "test/admin_entity_audit_models_test.dart",
+        "test/admin_entity_audit_repository_test.dart",
+        "test/admin_entity_audit_authority_test.dart",
+        "test/admin_entity_audit_page_test.dart",
+        "test/admin_receipt_cancel_models_test.dart",
+        "test/admin_receipt_cancel_repository_test.dart",
+        "test/admin_receipt_cancel_card_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 39419,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 20.557,
+      "sha256": "bb0ee4db7cfcb0ef6e9bdb4159a434567a0dce5bd82bdef90fd391df1bc390b2"
+    }
+  ],
+  "test_files": [
+    "test/admin_private_provider_authority_test.dart",
+    "test/admin_entity_audit_models_test.dart",
+    "test/admin_entity_audit_repository_test.dart",
+    "test/admin_entity_audit_authority_test.dart",
+    "test/admin_entity_audit_page_test.dart",
+    "test/admin_receipt_cancel_models_test.dart",
+    "test/admin_receipt_cancel_repository_test.dart",
+    "test/admin_receipt_cancel_card_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 275,
+    "failed": 0,
+    "errors": 75,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "actual isolated SQL linked-rwanda-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL revision-exhausted-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL unavailable-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL prior-attempt-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL unclassified-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL cancelled-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL preexisting-eligible-inspection passes strict inspection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL recorded-lookup passes original-actor lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL in-progress-lookup passes original-actor lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL reauthenticated-original-lookup passes original-actor lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual isolated SQL not-recorded-lookup passes original-actor lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual immutable cancellation receipt matches original revision and reason",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects private field",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects wrong scope",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects boolean version",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects wrong target",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects wrong receipt target",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects renewed TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects noncanonical timestamp",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects impossible date",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects missing receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects hidden ineligible",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects queued-only reason on attempted state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects unknown reason",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects unbounded revision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects exhausted eligible revision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "inspection rejects string revision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "immutable receipt rejects delivery or finance claims and changed reviewed inputs",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "lookup rejects wrong original UUID and mismatched nested receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "bounded owner-purpose checkpoint contains only original references and closed reason",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_models_test.dart"
+      },
+      {
+        "name": "actual SDK sends exact authenticated cancellation once and validates immutable receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "actual SDK inspection and original lookup bind exact UUID without broad data fetch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "actual mutation HTTP 403 performs no retry or fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "actual mutation HTTP 503 performs no retry or fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "bounded busy original lookup discloses no receipt and does not retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "malformed or mismatched action evidence stays unconfirmed after one request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "departed real SDK session suppresses pending cancellation evidence switchBack=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "departed real SDK session suppresses pending cancellation evidence switchBack=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_repository_test.dart"
+      },
+      {
+        "name": "missing platform_owner prevents all cancellation reads and writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "missing payments.read prevents all cancellation reads and writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "missing notifications.read prevents all cancellation reads and writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "missing system_health.read prevents all cancellation reads and writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "read-only operator sees eligibility without mutation control",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "receipt investigation remains separate when joined evidence unavailable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "explicit reason and verified exact checkpoint precede one action; confirmed receipt refreshes source",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "storage write failure prevents action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "storage readback corruption prevents action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "inspection TTL hides source and prevents reviewed stale submission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "current authority loss after dialog blocks mutation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "session replacement closes reviewed dialog without saving or submitting",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "not_recorded recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "in_progress recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "busy recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "mismatch recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "missing recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "stale recovery retains original UUID and blocks a new cancellation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "later not-recorded lookup remains uncertainty and cannot replace UUID",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "confirmed exact original receipt clears checkpoint under fresh owner session without replay",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "source-changed action refusal keeps original request for reconciliation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "original request for another receipt blocks new work and exposes canonical original link",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "different owner cannot expose stored request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "actual prior-attempt-inspection exposes no eligible mutation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "actual revision-exhausted-inspection exposes no eligible mutation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "actual unavailable-inspection exposes no eligible mutation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "server 42501 remains distinct and reveals no private error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "server PGRST202 remains distinct and reveals no private error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "departed pending inspection is not parsed or published into new session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "manual shadow run links push its canonical action history and preserve return route",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_entity_audit_page_test.dart"
+      },
+      {
+        "name": "same-owner session replacement retains pending original and suppresses late action acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "confirmed action with clear failure retains visible evidence and original checkpoint",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "keyboard Escape retains receipt without checkpoint or action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "320px 2x dark reason and confirmation controls are reachable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "desktop dark integrated cancellation synthetic capture",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "320px 2x light reason and confirmation controls are reachable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      },
+      {
+        "name": "desktop light integrated cancellation synthetic capture",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_receipt_cancel_card_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "browser_checkpoint_passed": true,
+  "required_browser_checkpoint_cases": {
+    "test/admin_receipt_cancel_checkpoint_browser_test.dart": "actual same-tab storage persists exact original intent across adapter recreation and isolates owners",
+    "test/admin_exception_checkpoint_browser_test.dart": "real browser sessionStorage retains only owner-bound same-tab reviewed references across adapter recreation",
+    "test/admin_gateway_checkpoint_browser_test.dart": "real same-tab browser adapter retains reviewed fingerprints after recreation and isolates owners",
+    "test/admin_roster_bookmark_browser_test.dart": "actual browser sessionStorage retains only bounded schema references across adapter recreation"
+  },
+  "browser_checkpoint_machine_summary": {
+    "runner_completed_successfully": true,
+    "passed": 4,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [],
+    "event_errors": []
+  },
+  "browser_checkpoint_machine_sha256": "fd293f4e14a21b46e9f37cb560a518c0a243f3bb93d9bcf5981bd958209435c5",
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "4987a95a94eed3842723a3195211174e61d0bfba6f7e8decc277e412f830e62f",
+  "source_before_sha256": "3bff72e24bc9f9ca00f61d9c479b094828536c80b42f344e53221bbd4f2ac72e",
+  "source_after_sha256": "3bff72e24bc9f9ca00f61d9c479b094828536c80b42f344e53221bbd4f2ac72e"
+}

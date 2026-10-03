@@ -1,0 +1,188 @@
+import {
+  objectValue,
+  PublicError,
+  SHA256,
+  UUID,
+  zonedInstant,
+} from "./production_contract.ts";
+import { rosterSha256 } from "./roster_provenance.ts";
+
+export const ROSTER_OPENAI_RESPONSES_ENDPOINT =
+  "https://api.openai.com/v1/responses";
+
+export type RosterAiConfiguration = {
+  model: string;
+  apiKey: string | undefined;
+  decoderUrl?: string;
+  decoderSecret?: string;
+  decoderBuildSha256?: string;
+  aiApprovalJson?: string;
+  aiApprovalSha256?: string;
+  openAiOrganizationId?: string;
+  openAiProjectId?: string;
+};
+export type RosterAiDispatchApproval = Readonly<{
+  policySha256: string;
+  organizationId: string;
+  projectId: string;
+  approvedAt: number;
+  validUntil: number;
+}>;
+const configurationFields = [
+  "model",
+  "apiKey",
+  "decoderUrl",
+  "decoderSecret",
+  "decoderBuildSha256",
+  "aiApprovalJson",
+  "aiApprovalSha256",
+  "openAiOrganizationId",
+  "openAiProjectId",
+] as const;
+const policyFields = [
+  "schema_version",
+  "purpose",
+  "enabled",
+  "status",
+  "approval_id",
+  "approval_evidence_sha256",
+  "approved_at",
+  "valid_until",
+  "provider",
+  "organization_id",
+  "project_id",
+  "responses_endpoint",
+  "model",
+  "processing_region_evidence_ref",
+  "retention_evidence_ref",
+  "decoder_processor_evidence_ref",
+  "decoder_region_evidence_ref",
+  "decoder_retention_evidence_ref",
+  "decoder_url",
+  "decoder_build_sha256",
+];
+const identifier = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/;
+const encoder = new TextEncoder();
+function unavailable(): never {
+  throw new PublicError("roster_extraction_unavailable", 503);
+}
+export function snapshotRosterAiConfiguration(
+  value: RosterAiConfiguration,
+): Readonly<RosterAiConfiguration> {
+  return Object.freeze({
+    model: value.model,
+    apiKey: value.apiKey,
+    decoderUrl: value.decoderUrl,
+    decoderSecret: value.decoderSecret,
+    decoderBuildSha256: value.decoderBuildSha256,
+    aiApprovalJson: value.aiApprovalJson,
+    aiApprovalSha256: value.aiApprovalSha256,
+    openAiOrganizationId: value.openAiOrganizationId,
+    openAiProjectId: value.openAiProjectId,
+  });
+}
+function validWindow(approvedAt: number, validUntil: number): void {
+  const now = Date.now();
+  if (
+    !Number.isFinite(now) || approvedAt > now || validUntil <= now ||
+    approvedAt >= validUntil
+  ) unavailable();
+}
+/** Validates a represented server record, never legal/vendor acceptance. */
+export async function prepareRosterAiDispatchApproval(
+  config: Readonly<RosterAiConfiguration>,
+): Promise<RosterAiDispatchApproval> {
+  try {
+    const raw = config.aiApprovalJson;
+    if (
+      typeof raw !== "string" || encoder.encode(raw).length > 8192 ||
+      typeof config.aiApprovalSha256 !== "string" ||
+      !SHA256.test(config.aiApprovalSha256)
+    ) return unavailable();
+    const policy = objectValue(JSON.parse(raw));
+    // Canonical compact bytes also reject duplicated keys and ambiguous JSON.
+    if (
+      JSON.stringify(policy) !== raw.trim() ||
+      Object.keys(policy).length !== policyFields.length ||
+      policyFields.some((field) => !(field in policy)) ||
+      policy.schema_version !== 1 ||
+      policy.purpose !== "collect_roster_pdf_image_extraction" ||
+      policy.enabled !== true || policy.status !== "approved" ||
+      policy.provider !== "openai" ||
+      policy.responses_endpoint !== ROSTER_OPENAI_RESPONSES_ENDPOINT ||
+      typeof policy.approval_id !== "string" ||
+      !UUID.test(policy.approval_id) ||
+      typeof policy.approval_evidence_sha256 !== "string" ||
+      !SHA256.test(policy.approval_evidence_sha256) ||
+      typeof policy.decoder_build_sha256 !== "string" ||
+      !SHA256.test(policy.decoder_build_sha256)
+    ) return unavailable();
+    for (
+      const field of [
+        "organization_id",
+        "project_id",
+        "model",
+        "processing_region_evidence_ref",
+        "retention_evidence_ref",
+        "decoder_processor_evidence_ref",
+        "decoder_region_evidence_ref",
+        "decoder_retention_evidence_ref",
+      ]
+    ) {
+      if (
+        typeof policy[field] !== "string" || !identifier.test(policy[field])
+      ) {
+        return unavailable();
+      }
+    }
+    const approvedAt = zonedInstant(policy.approved_at);
+    const validUntil = zonedInstant(policy.valid_until);
+    if (approvedAt === null || validUntil === null) return unavailable();
+    if (
+      typeof policy.decoder_url !== "string" ||
+      encoder.encode(policy.decoder_url).length > 2048 ||
+      policy.organization_id !== config.openAiOrganizationId ||
+      policy.project_id !== config.openAiProjectId ||
+      policy.model !== config.model ||
+      policy.decoder_url !== config.decoderUrl ||
+      policy.decoder_build_sha256 !== config.decoderBuildSha256
+    ) return unavailable();
+    const endpoint = new URL(policy.decoder_url);
+    if (
+      endpoint.username || endpoint.password || endpoint.search ||
+      endpoint.hash ||
+      endpoint.pathname !== "/decode" ||
+      (endpoint.protocol !== "https:" &&
+        !(endpoint.protocol === "http:" &&
+          ["127.0.0.1", "localhost", "roster-decoder"].includes(
+            endpoint.hostname,
+          )))
+    ) return unavailable();
+    const digest = await rosterSha256(encoder.encode(raw));
+    if (digest !== config.aiApprovalSha256) return unavailable();
+    const starts = Date.parse(approvedAt), ends = Date.parse(validUntil);
+    // The SHA await must complete before the final current-window check.
+    validWindow(starts, ends);
+    return Object.freeze({
+      policySha256: digest,
+      organizationId: policy.organization_id as string,
+      projectId: policy.project_id as string,
+      approvedAt: starts,
+      validUntil: ends,
+    });
+  } catch {
+    return unavailable();
+  }
+}
+/** Call synchronously at actual fetch entry, after all signing/validation awaits. */
+export function assertRosterAiDispatchApproval(
+  original: Readonly<RosterAiConfiguration>,
+  approval: RosterAiDispatchApproval,
+  current: RosterAiConfiguration,
+): void {
+  if (
+    configurationFields.some((field) => original[field] !== current[field]) ||
+    original.aiApprovalSha256 !== approval.policySha256
+  ) unavailable();
+  validWindow(approval.approvedAt, approval.validUntil);
+}

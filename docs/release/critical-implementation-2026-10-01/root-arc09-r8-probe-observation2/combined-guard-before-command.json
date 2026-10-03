@@ -1,0 +1,32 @@
+{
+  "actual_seconds": 16.061,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-probe-only-preparation1/run_probe_only.py",
+    "--controller-sha256",
+    "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69",
+    "--admission",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/probe-source-admission.json",
+    "--admission-sha256",
+    "68a1396919e5b6f7d2f01055659ebc7155ead70793c3bbfa4a52b5c33ec6e6c1",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2",
+    "--guard-phase",
+    "before"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-probe-only-preparation1",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T15:49:36.659414+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 49359,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T15:49:20.597983+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

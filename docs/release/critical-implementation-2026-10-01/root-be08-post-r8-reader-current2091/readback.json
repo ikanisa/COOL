@@ -1,0 +1,71 @@
+{
+  "kind": "actual_current209_mapper_after_reader_R8_source_epoch",
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209",
+        "--require-current"
+      ],
+      "pid": 38269,
+      "pgid": 38269,
+      "exit_code": 0,
+      "timed_out": false,
+      "deadline_seconds": 30,
+      "actual_seconds": 4.51847516700218,
+      "started_at_utc": "2026-10-02T15:26:34.052047+00:00",
+      "owned_process_group_absent": true,
+      "stdout_sha256": "ca7f80ee9eaccde3ae13966228a95fecbaf44271b030b30bc2e9fdd261789580",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209",
+        "--verify"
+      ],
+      "pid": 38414,
+      "pgid": 38414,
+      "exit_code": 0,
+      "timed_out": false,
+      "deadline_seconds": 30,
+      "actual_seconds": 5.127004374997341,
+      "started_at_utc": "2026-10-02T15:26:38.611045+00:00",
+      "owned_process_group_absent": true,
+      "stdout_sha256": "5579f05fb873e0f4d65a6a214127ce6de6ce01c99427c21962299f0469baa4f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "held1095_inputs_unchanged_through_generation_and_independent_verify": true,
+  "changed_input_rows_since69_integration": [
+    [
+      "scripts/audits/collect_current_evidence_index.py",
+      "maintained-caller-source"
+    ]
+  ],
+  "unchanged_other_input_rows": 1094,
+  "coverage_all_fields_unchanged": true,
+  "current_maintained_source_fence_sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+  "source_manifest_sha256": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "mapper69tests_reused_byte_unchanged": true,
+  "BE08_closed": false,
+  "production_release_approval": false
+}

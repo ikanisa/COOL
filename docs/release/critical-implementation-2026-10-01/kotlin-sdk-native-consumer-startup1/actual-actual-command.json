@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 2.019,
+  "argv": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+    "--suppress-analytics",
+    "--version",
+    "--machine"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T02:50:59.161963+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 73981,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T02:50:57.142997+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "ffd7b8985038fa73ac49c8d81e91ff1bff5593f813260363fd5fea3d0a09ae80",
+  "timed_out": false
+}

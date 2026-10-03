@@ -1,0 +1,20 @@
+{
+  "copied_tested_selected_inputs": 54,
+  "counts_added_to_historical_versions": false,
+  "current_authenticated_mcp_acceptance": false,
+  "current_tree_freeze_or_approval_claim": false,
+  "documentation_copied_after_tests": [
+    {
+      "path": "tools/collect-notification-mcp/README.md",
+      "sha256": "e89c20d2e351dbdf9182e438edd0263fbfec2e89e2c4a5d19b454d670960a523"
+    }
+  ],
+  "github_defaults_readback": true,
+  "recorded_at": "2026-10-01T09:50:54.860299+00:00",
+  "root_registers_or_sealed_historical_packets_changed": false,
+  "scoped_node_cases_passed": 146,
+  "scoped_python_tooling_cases_passed": 18,
+  "scoped_tsc_clean": true,
+  "tested_inputs_still_match": true,
+  "tested_selected_inputs": 54
+}

@@ -1,0 +1,4 @@
+Check supabase/functions/collect-android-gateway/handler_test.ts
+Check supabase/functions/collect-android-gateway/dispatch_v2_test.ts
+Check supabase/functions/collect-android-gateway/dispatch_observed_test.ts
+Check supabase/functions/collect-android-gateway/archive_v3_test.ts

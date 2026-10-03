@@ -1,0 +1,15 @@
+{
+  "kind": "staged_receipt_cancel_source_review",
+  "status": "reviewed_pending_execution",
+  "migration": "20261001000519_safe_unstarted_receipt_cancel.sql",
+  "prior_sha256": "d3252ea09b91aa5d12aa20547e1a71dab056513fe4dc60bd0a1f2450926c0c50",
+  "current_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+  "reviewed_change": "Private stable rwanda_source helper reuses the existing conjunction of payment_scope and linked-parser transaction_sms_id; inspection visibility and mutation eligibility now share the same conjunction. Read/mutation cannot use a Rwanda receiving route to override a contradictory linked parser.",
+  "financial_behavior_changed": false,
+  "send_or_dispatch_authority_added": false,
+  "new_private_tables": 0,
+  "new_public_signatures": 0,
+  "all_private_functions_revoked_from_api_roles": true,
+  "source_unchanged_after_capture": true,
+  "ordinary_owner_integration_proven": false
+}

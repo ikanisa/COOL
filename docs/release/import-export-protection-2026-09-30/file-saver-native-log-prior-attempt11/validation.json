@@ -1,0 +1,98 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/javac",
+        "-d",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/classes",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/source/scripts/tests/fixtures/file_saver_native_log/Log.java"
+      ],
+      "elapsed_seconds": 2.66,
+      "exit_code": 0,
+      "name": "java-log-sink",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-cp",
+        "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.2.20/bb8331b7585e36ea311825b01a1c06860c055fd1/kotlin-compiler-embeddable-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.7.0/920472d40adcdef5e18708976b3e314f9a636fcd/annotation-jvm-1.7.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_release/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/7372e7612bd9b692791ebb672712686c6d102d41/flutter_embedding_release-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar:/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-classpath",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/classes:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.7.0/920472d40adcdef5e18708976b3e314f9a636fcd/annotation-jvm-1.7.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_release/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/7372e7612bd9b692791ebb672712686c6d102d41/flutter_embedding_release-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar:/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar",
+        "-d",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/classes",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/source/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/source/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/source/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/source/scripts/tests/fixtures/file_saver_native_log/NativeLogProbe.kt"
+      ],
+      "elapsed_seconds": 22.62,
+      "exit_code": 0,
+      "name": "actual-kotlin-compile",
+      "stderr_sha256": "9941f0fc935edd0b53eb3be0e378370e3b1124b4d6c249cdcc786d8c1f30d785",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-ea",
+        "-cp",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/import-export-protection-2026-09-30/file-saver-native-log-prior-attempt11/classes:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.7.0/920472d40adcdef5e18708976b3e314f9a636fcd/annotation-jvm-1.7.0.jar:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_release/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/7372e7612bd9b692791ebb672712686c6d102d41/flutter_embedding_release-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar:/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar",
+        "collect.logprobe.NativeLogProbeKt"
+      ],
+      "elapsed_seconds": 0.66,
+      "exit_code": 1,
+      "name": "actual-plugin-log-capture",
+      "stderr_sha256": "bdd14cd4e64675f73e8f0ba468c2ebadcf0d1f93a8500504c37bcdda4d38d2d8",
+      "stdout_sha256": "bec9505fc966f356c4ed1571cbb9472347bc22e57af57bea5866a67962c5584b"
+    }
+  ],
+  "jvm": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+  "jvm_java_sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+  "scope": "Actual three production Kotlin sources compile against cached Android36/Flutter engine API; real plugin method/exception branches with local Log capture. Swift routine print source check only; current unsigned Swift/native APK build acceptance is separate.",
+  "source_changes": [],
+  "source_sha256": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/file_saver_native_log_test.py": "0bfeb3ec24bd2dff5c5048cd799695ac724644f0bc4efabef04895afc87c5784",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/fixtures/file_saver_native_log/Log.java": "a17e95b34bebccf704885d3220967d3691a268ef7aba04990bd1b487c771ced6",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/fixtures/file_saver_native_log/NativeLogProbe.kt": "ad68b58b0e68c8ba84624a5cd15bdd56582aa99410a408ff2541b5f55cc532ed",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt": "006f1c6418c704d636fa5ae1c20ad323bd1a06abc35040b4ec7ce596b71bf29a",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt": "fb274ba092c7c736e55604d724c6d92863f5d0c4cc1f74914ea445cce1ffa4f6",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt": "c89c087d27c14f7eaa8db5d2e53a89e170cbd2a6fba5deecbbeb01dbc1bd1de6",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift": "1aa23a1d7c11f3f2e241bca51aa56fc9440e09a54deebfce7bf71948dc02ca8a",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/ios/file_saver/Sources/file_saver/FileSaverPlugin.swift": "f6c4c2b8fe768ea08cb5ff8a0b7ad6306c9c08b6a17bfa81f4bbbf5f6114da7b"
+  },
+  "status": "fail",
+  "toolchain_dependencies": {
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.7.0/920472d40adcdef5e18708976b3e314f9a636fcd/annotation-jvm-1.7.0.jar": "e36b8e4b8393a4adc74e3d4ab22ad5a36396f0cea2e40b5734eae14937dfd224",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_release/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/7372e7612bd9b692791ebb672712686c6d102d41/flutter_embedding_release-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar": "8bca1e8c061c3dfe57808bf4f9426e7f61859d85d20320ce71a8f1266b4a145f",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.2.20/bb8331b7585e36ea311825b01a1c06860c055fd1/kotlin-compiler-embeddable-2.2.20.jar": "1c6c3f810bfe6a41abcbc34b3a2ef639f1e3f4aeed3a953a4b0974eea4f41889",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar": "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar": "5c8bd5dd7ae1ea2eeb2778fdbeaa19a562184975f6cab8a0bb6779e4190731ae",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar": "8836ccffd3585fadda9901244b20d42901d2f3cd581058d8434e2ffabcf3a3e7",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar": "f3d4f5de1c391bbcc20f3b3435ccbac013521e76b6902d7d59635ec15c1f797e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+    "/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a"
+  },
+  "unsafe_source_sinks": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: exception stack output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt: dynamic routine log",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift: dynamic routine print",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift: dynamic routine print",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift: dynamic routine print"
+  ]
+}

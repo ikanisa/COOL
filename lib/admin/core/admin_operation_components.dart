@@ -67,22 +67,15 @@ class _AdminPremiumTable extends StatelessWidget {
 }
 
 class _AdminColumnLabel extends StatelessWidget {
-  const _AdminColumnLabel({
-    required this.icon,
-    required this.label,
-    this.iconOnly = true,
-  }) : brandIcon = null;
+  const _AdminColumnLabel({required this.icon, required this.label})
+    : brandIcon = null;
 
-  const _AdminColumnLabel.brand({
-    required this.brandIcon,
-    required this.label,
-    this.iconOnly = true,
-  }) : icon = null;
+  const _AdminColumnLabel.brand({required this.brandIcon, required this.label})
+    : icon = null;
 
   final IconData? icon;
   final FaIconData? brandIcon;
   final String label;
-  final bool iconOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +92,8 @@ class _AdminColumnLabel extends StatelessWidget {
               FaIcon(brandIcon!, size: 17, color: colors.textSecondary)
             else
               Icon(icon, size: 17, color: colors.textSecondary),
-            if (!iconOnly) ...[const SizedBox(width: 6), Text(label)],
+            const SizedBox(width: 6),
+            Text(label),
           ],
         ),
       ),
@@ -479,7 +473,6 @@ class _AdminOperationsCard extends StatelessWidget {
     required this.onOpen,
     required this.openLabel,
     this.subtitleIcon,
-    this.iconOnlyFields = false,
   });
 
   final Widget leading;
@@ -490,7 +483,6 @@ class _AdminOperationsCard extends StatelessWidget {
   final VoidCallback? onOpen;
   final String openLabel;
   final IconData? subtitleIcon;
-  final bool iconOnlyFields;
 
   @override
   Widget build(BuildContext context) {
@@ -551,10 +543,7 @@ class _AdminOperationsCard extends StatelessWidget {
                     for (final field in fields)
                       SizedBox(
                         width: width,
-                        child: _AdminOperationsField(
-                          data: field,
-                          iconOnly: iconOnlyFields,
-                        ),
+                        child: _AdminOperationsField(data: field),
                       ),
                   ],
                 );
@@ -576,10 +565,9 @@ class _AdminOperationsFieldData {
 }
 
 class _AdminOperationsField extends StatelessWidget {
-  const _AdminOperationsField({required this.data, this.iconOnly = false});
+  const _AdminOperationsField({required this.data});
 
   final _AdminOperationsFieldData data;
-  final bool iconOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -594,40 +582,27 @@ class _AdminOperationsField extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: iconOnly ? 1 : 0),
-              child: Icon(data.icon, size: 17, color: colors.textSecondary),
-            ),
+            Icon(data.icon, size: 17, color: colors.textSecondary),
             const SizedBox(width: 8),
             Expanded(
-              child: iconOnly
-                  ? Text(
-                      value,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          data.label,
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          value,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                fontWeight: CollectTypography.weightBold,
-                              ),
-                        ),
-                      ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.label,
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    value,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: CollectTypography.weightBold,
                     ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -656,9 +631,12 @@ String _momoSender(AdminTableRowData row) {
 }
 
 String _transactionDisplayAmount(AdminTableRowData row) {
-  final digits = row.amount.replaceAll(RegExp(r'[^0-9\-]'), '');
-  final amount = int.tryParse(digits);
-  return amount == null ? '—' : formatRwf(amount);
+  final amount = row.amount.trim();
+  if (amount.isEmpty) return '—';
+  if (RegExp(r'^-?[0-9]+$').hasMatch(amount)) {
+    return adminFormatRwfAmount('RWF $amount');
+  }
+  return adminFormatRwfAmount(amount);
 }
 
 String _transactionSource(AdminTableRowData row) =>
@@ -694,10 +672,23 @@ IconData _groupPurposeIcon(AdminTableRowData row) {
   return Icons.groups_2_outlined;
 }
 
-int _groupMemberCount(AdminTableRowData row) {
+int? _groupMemberCount(AdminTableRowData row) {
   final explicit = _extraInt(row, 'active_members');
-  if (explicit > 0) return explicit;
-  return int.tryParse(row.amount.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+  if (row.extra.containsKey('active_members')) return explicit;
+  // Legacy responses carried only the member-count display string. Never
+  // treat another amount or an absent measurement as a zero member count.
+  final match = RegExp(r'^([0-9]+) members?$').firstMatch(row.amount.trim());
+  if (match == null) return null;
+  try {
+    return exactJsonInteger(
+      match[1],
+      field: 'active_members',
+      minimum: 0,
+      allowDigitString: true,
+    );
+  } on FormatException {
+    return null;
+  }
 }
 
 String _maskedReceiver(AdminTableRowData row) {
@@ -727,11 +718,19 @@ String _extraText(AdminTableRowData row, String key, {String fallback = ''}) {
   return text.isEmpty || text == 'null' ? fallback : text;
 }
 
-int _extraInt(AdminTableRowData row, String key) {
+int? _extraInt(AdminTableRowData row, String key) {
   final value = row.extra[key];
-  if (value is int) return value;
-  if (value is num) return value.toInt();
-  return int.tryParse('${value ?? ''}') ?? 0;
+  if (value == null) return null;
+  try {
+    return exactJsonInteger(
+      value is String ? value.trim() : value,
+      field: key,
+      minimum: 0,
+      allowDigitString: true,
+    );
+  } on FormatException {
+    return null;
+  }
 }
 
 bool _extraBool(AdminTableRowData row, String key) {
@@ -741,31 +740,14 @@ bool _extraBool(AdminTableRowData row, String key) {
 
 DateTime? _extraDate(AdminTableRowData row, String key) {
   final value = row.extra[key];
-  if (value is DateTime) return value;
-  return DateTime.tryParse('${value ?? ''}')?.toLocal();
+  if (value == null) return null;
+  try {
+    return exactJsonTimestamp(value, field: key);
+  } on FormatException {
+    return null;
+  }
 }
 
 String _adminDateTime(DateTime? value, {bool dateOnly = false}) {
-  if (value == null) return '—';
-  final local = value.toLocal();
-  const months = <String>[
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  final date = '${local.day} ${months[local.month - 1]} ${local.year}';
-  if (dateOnly) return date;
-  final time =
-      '${local.hour.toString().padLeft(2, '0')}:'
-      '${local.minute.toString().padLeft(2, '0')}';
-  return '$date · $time';
+  return dateOnly ? adminKigaliDate(value) : adminKigaliDateTime(value);
 }

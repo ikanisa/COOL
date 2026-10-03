@@ -1,0 +1,510 @@
+{
+  "artifacts": {
+    "README.md": {
+      "bytes": 9325,
+      "identity": [
+        16777247,
+        17194299,
+        420,
+        9325,
+        1790907309722163449,
+        1790907309722163449,
+        1
+      ],
+      "mode": 420,
+      "sha256": "72c6ad381c3d026331e65ec5891db7467e68357dc27ef710e8d5d9c906e9f451"
+    },
+    "actual-inventory-check.stderr": {
+      "bytes": 118,
+      "identity": [
+        16777247,
+        17193704,
+        420,
+        118,
+        1790907196337205284,
+        1790907196337205284,
+        1
+      ],
+      "mode": 420,
+      "sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887"
+    },
+    "actual-inventory-check.stdout": {
+      "bytes": 0,
+      "identity": [
+        16777247,
+        17193703,
+        420,
+        0,
+        1790907196337036244,
+        1790907196337073869,
+        1
+      ],
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture_read_only_review.py": {
+      "bytes": 7749,
+      "identity": [
+        16777247,
+        17193660,
+        420,
+        7749,
+        1790907196196786326,
+        1790907196196786326,
+        1
+      ],
+      "mode": 420,
+      "sha256": "30dbdaca628dad967957d9de89886541a63805966f0adfe8fda2b9dc8284eaa6"
+    },
+    "inputs/contracts/edge-functions.json": {
+      "bytes": 3836,
+      "identity": [
+        16777247,
+        17193671,
+        420,
+        3836,
+        1790907196245021036,
+        1790907196245035536,
+        1
+      ],
+      "mode": 420,
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28"
+    },
+    "inputs/scripts/audits/collect_edge_function_local_gate.rb": {
+      "bytes": 8039,
+      "identity": [
+        16777247,
+        17193692,
+        448,
+        8039,
+        1790907196251088026,
+        1790907196251105859,
+        1
+      ],
+      "mode": 448,
+      "sha256": "d16f3b374a6bd228c9e5edd977201291c3a87db6c1e2ce0db4ed175dd59ee774"
+    },
+    "inputs/scripts/edge_function_inventory.rb": {
+      "bytes": 6127,
+      "identity": [
+        16777247,
+        17193678,
+        420,
+        6127,
+        1790907196247233225,
+        1790907196247252684,
+        1
+      ],
+      "mode": 420,
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9"
+    },
+    "inputs/scripts/edge_function_inventory.sh": {
+      "bytes": 1610,
+      "identity": [
+        16777247,
+        17193679,
+        420,
+        1610,
+        1790907196247366016,
+        1790907196247383349,
+        1
+      ],
+      "mode": 420,
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8"
+    },
+    "inputs/scripts/qa/backend_release_delivery.py": {
+      "bytes": 30962,
+      "identity": [
+        16777247,
+        17193685,
+        420,
+        30962,
+        1790907196248202301,
+        1790907196248221342,
+        1
+      ],
+      "mode": 420,
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2"
+    },
+    "inputs/scripts/qa/edge_http_runtime_uat.ts": {
+      "bytes": 44961,
+      "identity": [
+        16777247,
+        17193687,
+        448,
+        44961,
+        1790907196248939878,
+        1790907196248955502,
+        1
+      ],
+      "mode": 448,
+      "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868"
+    },
+    "inputs/scripts/qa/run_edge_ci.py": {
+      "bytes": 14349,
+      "identity": [
+        16777247,
+        17193689,
+        420,
+        14349,
+        1790907196250193617,
+        1790907196250216783,
+        1
+      ],
+      "mode": 420,
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2"
+    },
+    "inputs/scripts/qa/run_edge_http_uat.py": {
+      "bytes": 6603,
+      "identity": [
+        16777247,
+        17193688,
+        448,
+        6603,
+        1790907196249284458,
+        1790907196249300458,
+        1
+      ],
+      "mode": 448,
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925"
+    },
+    "inputs/scripts/qa/run_edge_unit_tests.py": {
+      "bytes": 9611,
+      "identity": [
+        16777247,
+        17193690,
+        420,
+        9611,
+        1790907196250728654,
+        1790907196250748362,
+        1
+      ],
+      "mode": 420,
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3"
+    },
+    "inputs/scripts/supabase_deploy.sh": {
+      "bytes": 345,
+      "identity": [
+        16777247,
+        17193682,
+        448,
+        345,
+        1790907196247819220,
+        1790907196247833679,
+        1
+      ],
+      "mode": 448,
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886"
+    },
+    "inputs/scripts/supabase_production_readiness.sh": {
+      "bytes": 62358,
+      "identity": [
+        16777247,
+        17193683,
+        448,
+        62358,
+        1790907196247971428,
+        1790907196247991636,
+        1
+      ],
+      "mode": 448,
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+    },
+    "inputs/scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "bytes": 5682,
+      "identity": [
+        16777247,
+        17193693,
+        448,
+        5682,
+        1790907196251226691,
+        1790907196251245441,
+        1
+      ],
+      "mode": 448,
+      "sha256": "4c3657eb119efaa1da02f1488468ca6bb66f7004a55553cdad56c87d235e6b23"
+    },
+    "inputs/scripts/tests/edge_function_inventory_test.rb": {
+      "bytes": 3844,
+      "identity": [
+        16777247,
+        17193681,
+        420,
+        3844,
+        1790907196247515056,
+        1790907196247532265,
+        1
+      ],
+      "mode": 420,
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b"
+    },
+    "inputs/scripts/tests/supabase_delivery_contract_test.py": {
+      "bytes": 28103,
+      "identity": [
+        16777247,
+        17193686,
+        420,
+        28103,
+        1790907196248370174,
+        1790907196248388091,
+        1
+      ],
+      "mode": 420,
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d"
+    },
+    "inputs/supabase/config.toml": {
+      "bytes": 16173,
+      "identity": [
+        16777247,
+        17193669,
+        448,
+        16173,
+        1790907196244429708,
+        1790907196244445250,
+        1
+      ],
+      "mode": 448,
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392"
+    },
+    "inputs/supabase/functions/_shared/cors.ts": {
+      "bytes": 1247,
+      "identity": [
+        16777247,
+        17193674,
+        448,
+        1247,
+        1790907196245994653,
+        1790907196246020444,
+        1
+      ],
+      "mode": 448,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    "inputs/supabase/functions/_shared/supabase.ts": {
+      "bytes": 1265,
+      "identity": [
+        16777247,
+        17193673,
+        448,
+        1265,
+        1790907196245640531,
+        1790907196245665572,
+        1
+      ],
+      "mode": 448,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    "inputs/supabase/functions/collect-android-gateway/handler.ts": {
+      "bytes": 27054,
+      "identity": [
+        16777247,
+        17193676,
+        420,
+        27054,
+        1790907196246736896,
+        1790907196246759563,
+        1
+      ],
+      "mode": 420,
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "bytes": 9031,
+      "identity": [
+        16777247,
+        17193665,
+        420,
+        9031,
+        1790907196243352884,
+        1790907196243392633,
+        1
+      ],
+      "mode": 420,
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "bytes": 15936,
+      "identity": [
+        16777247,
+        17193666,
+        420,
+        15936,
+        1790907196243667298,
+        1790907196243689339,
+        1
+      ],
+      "mode": 420,
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "bytes": 417,
+      "identity": [
+        16777247,
+        17193667,
+        420,
+        417,
+        1790907196243891421,
+        1790907196243909046,
+        1
+      ],
+      "mode": 420,
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "bytes": 13374,
+      "identity": [
+        16777247,
+        17193668,
+        420,
+        13374,
+        1790907196244110294,
+        1790907196244129752,
+        1
+      ],
+      "mode": 420,
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14"
+    },
+    "inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "identity": [
+        16777247,
+        17193695,
+        420,
+        26951,
+        1790907196251400106,
+        1790907196251417648,
+        1
+      ],
+      "mode": 420,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "identity": [
+        16777247,
+        17193696,
+        420,
+        15793,
+        1790907196251544564,
+        1790907196251561063,
+        1
+      ],
+      "mode": 420,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    "inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "bytes": 51801,
+      "identity": [
+        16777247,
+        17193697,
+        420,
+        51801,
+        1790907196251871394,
+        1790907196251895810,
+        1
+      ],
+      "mode": 420,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    "inputs/supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "bytes": 20369,
+      "identity": [
+        16777247,
+        17193698,
+        420,
+        20369,
+        1790907196252181933,
+        1790907196252202725,
+        1
+      ],
+      "mode": 420,
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a"
+    },
+    "inputs/supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "bytes": 28095,
+      "identity": [
+        16777247,
+        17193699,
+        420,
+        28095,
+        1790907196252824427,
+        1790907196252916218,
+        1
+      ],
+      "mode": 420,
+      "sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560"
+    },
+    "inputs/supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "bytes": 105502,
+      "identity": [
+        16777247,
+        17193700,
+        420,
+        105502,
+        1790907196253337631,
+        1790907196253361464,
+        1
+      ],
+      "mode": 420,
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c"
+    },
+    "inputs/supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "bytes": 103624,
+      "identity": [
+        16777247,
+        17193701,
+        420,
+        103624,
+        1790907196253646004,
+        1790907196253668795,
+        1
+      ],
+      "mode": 420,
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3"
+    },
+    "proposal.json": {
+      "bytes": 6253,
+      "identity": [
+        16777247,
+        17194300,
+        420,
+        6253,
+        1790907309763109763,
+        1790907309763109763,
+        1
+      ],
+      "mode": 420,
+      "sha256": "b06b560772abdb9c69edbd4361439ee817bba35059feb9dd837fa51fb97e6734"
+    },
+    "readback.json": {
+      "bytes": 36238,
+      "identity": [
+        16777247,
+        17193705,
+        420,
+        36238,
+        1790907196339767804,
+        1790907196339767804,
+        1
+      ],
+      "mode": 420,
+      "sha256": "db94b7def55af79c8e4c37cb344ff0f0cd77c4eef3d8289c68e0f24ee6e41996"
+    },
+    "seal-source-readback.json": {
+      "bytes": 10724,
+      "identity": [
+        16777247,
+        17194433,
+        420,
+        10724,
+        1790907341162097326,
+        1790907341162097326,
+        1
+      ],
+      "mode": 420,
+      "sha256": "87a3611ce91d60985bfe7db6e700096ea79549a276406d02c7e50b586f712233"
+    }
+  },
+  "batch_sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0",
+  "verified_artifact_count": 36
+}

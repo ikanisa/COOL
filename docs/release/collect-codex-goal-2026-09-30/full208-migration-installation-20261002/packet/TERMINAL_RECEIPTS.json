@@ -1,0 +1,32 @@
+{
+  "attempt1": {
+    "session_id": 79227,
+    "initial_chunk": "a8d76b",
+    "terminal_chunk": "e20ee0",
+    "exit_code": 1,
+    "applications": 0,
+    "checks_passed": 0,
+    "failure": "private inspector used .Mounts for --tmpfs",
+    "targets_removed": 1
+  },
+  "attempt2": {
+    "session_id": 61269,
+    "initial_chunk": "f02496",
+    "terminal_chunk": "227db5",
+    "exit_code": 1,
+    "applications": 416,
+    "checks_passed": 43,
+    "failure": "private seam expected unavailable from unchanged phone fixture; actual email-owner denial",
+    "targets_removed": 2
+  },
+  "attempt3": {
+    "session_id": 49970,
+    "initial_chunk": "2b2c6f",
+    "terminal_chunk": "f6c207",
+    "exit_code": 0,
+    "applications": 416,
+    "checks_passed": 50,
+    "targets_removed": 2
+  },
+  "not_a_combined_aggregate": true
+}

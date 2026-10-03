@@ -1,0 +1,10 @@
+--- historical/credit-readiness/
++++ current/credit-readiness/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups

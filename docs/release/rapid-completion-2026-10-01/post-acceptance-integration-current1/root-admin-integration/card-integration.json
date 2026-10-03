@@ -1,0 +1,9 @@
+{
+  "status": "integrated_guard_preserving_peer_navigation_and_opening_epoch",
+  "at_utc": "2026-10-01T15:49:15.459439+00:00",
+  "file": "lib/admin/core/admin_exception_workflow_card.dart",
+  "before_sha256": "f2cd5c7e4ca46d5e28a6ede63aa4afe97984b14a466b4eaba6d614c41e8d8c7d",
+  "after_sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116",
+  "source_owner_released": true,
+  "test_owner": "Otherchat19affectedVMs after combinedsource stable"
+}

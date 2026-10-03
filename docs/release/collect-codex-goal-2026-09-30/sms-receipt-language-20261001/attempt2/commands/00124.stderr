@@ -1,0 +1,32 @@
+NOTICE:  00000: policy "admin navigation read admins" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin navigation manage admins" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue specs read admins" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue specs manage admins" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue filter options read admins" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue filter options manage admins" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue signals read admins" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue signals manage admins" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

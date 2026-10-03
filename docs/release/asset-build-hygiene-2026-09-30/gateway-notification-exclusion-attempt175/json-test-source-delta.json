@@ -1,0 +1,7 @@
+{
+  "before_sha256": "7bc81c594a3caae7d58a77f99211cb264f27e9ad7b653a4ed53dcb1239d47497",
+  "after_sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+  "coordinate": "org.json:json:20250517",
+  "configuration": "testInternal_gatewayImplementation",
+  "only_delta": "Pinned realJSON test dependency and explanation inside existing dependencies block; no runtime configuration, permission, suppression, source/test or Release build delta."
+}

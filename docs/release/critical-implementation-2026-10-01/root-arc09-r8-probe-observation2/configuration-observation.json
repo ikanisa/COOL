@@ -1,0 +1,64 @@
+{
+  "actual_R8_compiler_readback": {
+    "R8_class": "com.android.tools.r8.R8",
+    "R8_classloader": "org.gradle.internal.classloader.VisitableURLClassLoader$InstrumentingVisitableURLClassLoader",
+    "R8_classloader_identity": 723603553,
+    "R8_selected_from_AGP_tool_classloader": true,
+    "app_compilation_executed_by_this_task": false,
+    "coordinate": "com.android.tools:r8:9.1.29",
+    "invoked_arguments": [
+      "--version"
+    ],
+    "invoked_declaring_class": "com.android.tools.r8.R8",
+    "invoked_method": "public static void com.android.tools.r8.R8.main(java.lang.String[])",
+    "invoked_method_name": "main",
+    "invoked_modifiers": 9,
+    "invoked_parameter_types": [
+      "[Ljava.lang.String;"
+    ],
+    "invoked_return_type": "void",
+    "provider": {
+      "bytes": 56139715,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar",
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    },
+    "resolved_artifact": {
+      "bytes": 56139715,
+      "md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar",
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    },
+    "tool_class": "com.android.builder.dexing.R8Tool",
+    "tool_classloader": "org.gradle.internal.classloader.VisitableURLClassLoader$InstrumentingVisitableURLClassLoader",
+    "tool_classloader_identity": 723603553,
+    "version": "9.1.29",
+    "version_method_invoked": true,
+    "version_stdout": "R8 9.1.29 (build 7130940ccb0c41990c77906b3d4f0a4412acb501 from go/r8bot (luci-r8-custom-ci-archive-0-alg6))\n"
+  },
+  "actual_default_file_bytes": 3201,
+  "actual_default_file_sha256": "0c2037f6eca949ee82dad4ade741ad1e3fcb7a5d98e4b31d08be89b26cf0d7d0",
+  "all_release_proguard_paths": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/gradle/flutter_proguard_rules.pro",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/proguard-rules.pro",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/proguard-rules.pro"
+  ],
+  "app_build_directory": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app",
+  "configured_app_build_directory": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app",
+  "default_paths_and_producer_verified": true,
+  "default_proguard_file": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+  "kind": "collect_default_proguard_directory_readback",
+  "minify_enabled": true,
+  "package_or_release_acceptance": false,
+  "producer_outputs": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global"
+  ],
+  "producer_task": ":app:extractProguardFiles",
+  "r8_execution_verified": false,
+  "release_default_proguard_paths": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1"
+  ],
+  "shrink_resources": true
+}

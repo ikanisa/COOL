@@ -1,0 +1,4 @@
+Analyzing export-attempt51...                                   
+
+  error • Constant expressions don't support 'for' elements. Try replacing the 'for' element with a spread, or removing 'const' • test/admin_gateway_sdk_state_matrix_test.dart:252:21 • const_eval_for_element
+

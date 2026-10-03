@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T12:56:20Z",
+  "status": "blocked_stale_public_media",
+  "workspace": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "capture_kind": "browser_flutter_fixture",
+  "runtime_fingerprint_version": 4,
+  "published_runtime_sha256": "06b41ea203bab5d435685a41c81c2ae1a3d4469b05206f49700efb1d99eea162",
+  "current_runtime_sha256": "bb29041c6c318e128ea00cc2342957c2ce0bda7257c9b8559c146a0748733822",
+  "capture_report": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt157/capture-report.json",
+  "changed_capture_inputs": [
+    "assets/typefaces/AeonikPro-Medium.ttf",
+    "assets/typefaces/AeonikPro-Regular.ttf",
+    "lib/app/theme/collect_runtime_typography.dart",
+    "pubspec.yaml",
+    "web/public/revolut.css"
+  ],
+  "required_next_action": "Recapture and review current media with retained artifact/source provenance before canonical static build and quality/link gates.",
+  "build_attempted": false,
+  "freshness_bypassed": false,
+  "browser_acceptance": "unverified",
+  "native_acceptance": false,
+  "visual_fidelity": "unverified"
+}

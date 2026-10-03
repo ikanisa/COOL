@@ -1,0 +1,111 @@
+{
+  "files": {
+    "SHA256SUMS": {
+      "bytes": 1861,
+      "mode": 256,
+      "sha256": "1d648819b0b469b89ede739274efa8a108ae0cf53994c06334f7fd3ac2c22f16"
+    },
+    "apple-ps-source-note.md": {
+      "bytes": 2160,
+      "mode": 256,
+      "sha256": "1cf811bcccee51886fd03578eb3b5a753b09941ada9488a4ae003d777eaa65cf"
+    },
+    "argv-fixture-tests-result.json": {
+      "bytes": 3059,
+      "mode": 256,
+      "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+    },
+    "argv-fixture-tests.stderr": {
+      "bytes": 8546,
+      "mode": 256,
+      "sha256": "1d01dfb82052b13133d77cb31a528cf93063f9544a7b64075cbdf855ad1a2fda"
+    },
+    "argv-fixture-tests.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "captured-fixture.json": {
+      "bytes": 4938187,
+      "mode": 256,
+      "sha256": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5"
+    },
+    "captured-lifecycle-fixture.json": {
+      "bytes": 3085467,
+      "mode": 256,
+      "sha256": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63"
+    },
+    "captured-stage3-production-release-aab.daemon-readback.json": {
+      "bytes": 9868,
+      "mode": 256,
+      "sha256": "c7478073987cd3be1f6f17bba9d46b9bccc3719bf953d6bad93f568e9baf89de"
+    },
+    "captured-stage3-production-release-aab.json": {
+      "bytes": 1184,
+      "mode": 256,
+      "sha256": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6"
+    },
+    "captured-stage3-production-release-aab.stderr": {
+      "bytes": 1745,
+      "mode": 256,
+      "sha256": "9911ef0a6c2733362a3383324d1edfb475e36a2588f8274d56399e70b6eda445"
+    },
+    "driver.diff": {
+      "bytes": 3275,
+      "mode": 256,
+      "sha256": "27f5c1440b0cb497ce8ca6ef50041069b3fd563b6f336c4aad378accd5e475eb"
+    },
+    "handoff.md": {
+      "bytes": 1880,
+      "mode": 256,
+      "sha256": "29abaf14c85d4ce15f23c70f4b2b044c3e0735604281e3b60cc06093446792f7"
+    },
+    "preparation-inputs.json": {
+      "bytes": 1451,
+      "mode": 256,
+      "sha256": "21b13c440ed9c415c80487090625b50cb8a797cf17101f7d2fe60f5f46a03eff"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+    },
+    "ps-manual-excerpt.txt": {
+      "bytes": 1010,
+      "mode": 256,
+      "sha256": "6798309bd7e01bf8ec8f5dfa1e9962e73422b141358e8e44205c8e1cf5a78ff2"
+    },
+    "review.json": {
+      "bytes": 2165,
+      "mode": 256,
+      "sha256": "438e36098e2fe5305282aa63a4a9dc67785f28c8eb2f8921380d24393119b4b3"
+    },
+    "root-admission-template.json": {
+      "bytes": 12517,
+      "mode": 256,
+      "sha256": "9b557322112f9cd4ae350a253c413c3362c969d00ba86499c041c622981d400d"
+    },
+    "run_selected_aab.py": {
+      "bytes": 59166,
+      "mode": 256,
+      "sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8"
+    },
+    "test_argv_unavailable.py": {
+      "bytes": 8083,
+      "mode": 256,
+      "sha256": "c74c23c68adba546782ad06c3d28d475e61cb5d2d01cd71504a33213984f3346"
+    },
+    "test_lifecycle_metadata.py": {
+      "bytes": 8032,
+      "mode": 256,
+      "sha256": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3"
+    },
+    "test_owned_metadata.py": {
+      "bytes": 12544,
+      "mode": 256,
+      "sha256": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+    }
+  },
+  "kind": "private_argv_unavailable_recovery3_proposal",
+  "schema_version": 1
+}

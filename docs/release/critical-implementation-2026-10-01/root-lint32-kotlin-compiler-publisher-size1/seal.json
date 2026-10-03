@@ -1,0 +1,7 @@
+{
+  "packet_sha256": "676e6203ffdd0f19f101e3169f757f51cb1a647a372c14720deea9123f796a9e",
+  "SHA256SUMS_sha256": "61776b47bf93be91a67f874a7becfe5ac24ee19b5f95796494273333e2c54878",
+  "payload_file_count": 5,
+  "sealed_at_utc": "2026-10-02T19:12:25.395299+00:00",
+  "production_release_approval": false
+}

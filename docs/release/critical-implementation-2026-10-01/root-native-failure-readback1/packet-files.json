@@ -1,0 +1,90 @@
+{
+  "files": [
+    {
+      "bytes": 1112,
+      "path": "actual-control/SDK-readback-before-app-locked.json",
+      "sha256": "f59ceada0fb9c37247924f78fba7a0226f4bab24e18780334e0f0513387b4906"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/SDK-readback-before-app-locked.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 761,
+      "path": "actual-control/SDK-readback-before-app-locked.stdout",
+      "sha256": "05289b4491df1e78eb3448ffc19c1574ebda75dd1e8ae75d7a97370e47a10d23"
+    },
+    {
+      "bytes": 6797047,
+      "path": "actual-control/SDK-source-before-app-locked.json",
+      "sha256": "86189cb2d366d6a7da2d1b9e19bc73c2b1b79d3469698cebf73a00d01219a210"
+    },
+    {
+      "bytes": 1587,
+      "path": "actual-control/actual-command.json",
+      "sha256": "7ad90189187286a5cd47a782a0d6f3a6074165b7661b7f0e24226eec443365fc"
+    },
+    {
+      "bytes": 2103,
+      "path": "actual-control/actual-command.stderr",
+      "sha256": "25490b0f7e0cbeedaf9bd31080b314496a9ab45dc4cca57b2125546914e6a391"
+    },
+    {
+      "bytes": 153645,
+      "path": "actual-control/actual-command.stdout",
+      "sha256": "216837a8ec5c89def2ec29f900aeec64377540e04f2c88f3410d12562c67d2c9"
+    },
+    {
+      "bytes": 6880417,
+      "path": "actual-control/actual-failure-SDK-source.json",
+      "sha256": "24ddfe2f882a8379396b2251104940663ebcffdd9254ca94e93986691134bbb8"
+    },
+    {
+      "bytes": 1103,
+      "path": "actual-control/failure-source-readback.json",
+      "sha256": "41ec84803a6e745ad1d23833ffe65c0b038298d490f404016f7048331537317c"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-control/failure-source-readback.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "actual-control/failure-source-readback.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 935,
+      "path": "actual-control/raw-Gradle-exclusive-copy.json",
+      "sha256": "5642a84e47ea2dec7677baee6be092690c433bc0cb4e561c6bb79757685e68f5"
+    },
+    {
+      "bytes": 1543,
+      "path": "actual-control/start.json",
+      "sha256": "6a057babf307d6928712eef1901f011b5e60ff24f10af12073e4397c9f4ddbc8"
+    },
+    {
+      "bytes": 1737,
+      "path": "actual-control/terminal.json",
+      "sha256": "9211f83842a2c521cd822165abf94ebb1266d0d81b2934d2070c8b7ac41af330"
+    },
+    {
+      "bytes": 1135830,
+      "path": "app-source-readback.json",
+      "sha256": "5807a911d791a78ed33dab6d736a6583f23a015ec908bd5710735b64df22357e"
+    },
+    {
+      "bytes": 6636,
+      "path": "readback.json",
+      "sha256": "4a87ce1fde1444209234b674a718826bdad78b4c339c3448c3e4e8624b40f064"
+    },
+    {
+      "bytes": 7891,
+      "path": "readback.py",
+      "sha256": "e7789e051d17b53250dce576082f83d68df109238b56a34f90c2204e222f23d1"
+    }
+  ],
+  "status": "sealed"
+}

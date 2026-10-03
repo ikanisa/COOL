@@ -1,0 +1,102 @@
+--- historical/privacy/
++++ current/privacy/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -19,7 +18,7 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
++Collect interface preview · Example data
+ Last updated: 8 August 2026
+ Last Updated:
+ 8 August 2026
+@@ -45,12 +44,10 @@
+ This Policy applies when you:
+ Visit the Collect website
+ Use the Collect Android or iOS application
+-Prepare a SEPA bank transfer and open your banking app
+ Create or join a savings group
+ Use credit-readiness services
+ Submit documents for a loan application
+ Express interest in an insurance product
+-Join a diaspora savings group
+ Contact customer support
+ Participate in a pilot, event or survey
+ Apply to become a bank, community or service partner
+@@ -67,9 +64,8 @@
+ Account username and authentication details
+ Identity and verification information
+ Where required:
+-National ID, passport or other identification
++Rwanda National ID
+ Identity-document image
+-Nationality and residency status
+ Proof of address
+ Tax or business-identification numbers
+ KYC and KYB verification results
+@@ -86,13 +82,13 @@
+ Group communications and support records
+ Transaction and ledger information
+ Contribution amount, date and reference
+-Bank-transfer confirmation and statement reconciliation
++MoMo and USSD confirmation and reconciliation
+ Payer and recipient identifiers
+ Transaction status
+ Refunds, reversals and reconciliations
+ Repayment records
+ Purpose-based savings goals
+-A controlled internal bank-evidence receiver may process only new bank-notification SMS received after an authorised operator grants access. The public production app does not request SMS access. Collect does not read inbox history, unrelated messages or SMS from before consent. Transaction evidence may also come from authenticated bank email notifications and imported bank statements.
++Collect processes Rwanda MoMo and USSD confirmation evidence to maintain accurate contribution and ledger records. The public app does not read SMS inbox history.
+ Credit-readiness information
+ Business profile and ownership information
+ Requested loan amount and purpose
+@@ -115,14 +111,6 @@
+ Claim-notification information
+ Supporting claim documents
+ The licensed insurer determines what information is required for underwriting and claims.
+-Diaspora information
+-Where relevant:
+-Host country and residency information
+-Host-country banking relationship
+-Diaspora group membership
+-Contribution and collateral instructions
+-Loan-interest information
+-Proposed Rwanda investment purpose
+ Device and technical information
+ Device type and operating system
+ IP address
+@@ -144,7 +132,6 @@
+ Directly from you
+ From your savings group or authorised group leader
+ From a partner bank or custodian
+-From a partner bank, its notification service or statement records
+ From an insurer
+ From a professional service provider you instruct us to coordinate
+ From identity, KYC, fraud or compliance providers
+@@ -218,9 +205,8 @@
+ We may disclose data where legally required, including for regulatory supervision, fraud prevention, law enforcement, court orders or protection of legal rights.
+ Business transfers
+ If IKANISA is restructured, merged, financed or sold, relevant data may be transferred subject to confidentiality, lawful processing and notice requirements.
+-8. International transfers
+-Collect may operate across Rwanda, Malta, the European Economic Area, the United Kingdom, Canada, the United States and other jurisdictions.
+-Where information is stored or transferred outside your country, we use appropriate legal, contractual, organisational and technical safeguards. Where required, we seek regulatory authorisation and use approved data-transfer arrangements.
++8. Data processing location
++Collect serves Rwanda users. Service providers may process data outside Rwanda under appropriate legal, contractual, organisational and technical safeguards where applicable.
+ Subprocessor Link:
+ /subprocessors
+ 9. AI and automated processing
+@@ -296,7 +282,6 @@
+ Complete or cancel an active credit-readiness handoff
+ Address an unresolved dispute or fraud investigation
+ What account deletion does not do
+-Close a bank account
+ Cancel a loan
+ Remove a repayment obligation
+ Cancel an insurance policy

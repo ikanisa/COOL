@@ -1,0 +1,982 @@
+{
+  "PD12_closed": false,
+  "acceptance_boundaries": {
+    "complete_packaged_SBOM": "unverified",
+    "font_distribution_rights": "unverified",
+    "full_visual_acceptance": "unverified",
+    "hosted_candidate_parity": "unverified",
+    "production_release_approval": false
+  },
+  "candidate": {
+    "archived_candidate_current_repository_equivalence": false,
+    "current_APP_after_Android2_source_manifest_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+    "current_declared_source_file_count": 2563,
+    "current_declared_source_manifest_sha256": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+    "id": "current-selected2563-1c55bbe1af164ec6-retaining-archived2561-abf",
+    "identity_bindings": [
+      {
+        "document": "app-scope",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-binding",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-before",
+        "pointer": "/app/source_manifest_sha256"
+      },
+      {
+        "document": "app-plan",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-terminal",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-root-acceptance",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "native-readback",
+        "pointer": "/source_manifest_sha256"
+      }
+    ],
+    "scope_binding_model": "Archived original2559 privateAPP leaves + two preserved original Android files; current2556 with exactly two reviewed Android digests; separately tested tooling5 plus two new PD12 scripts captured in actual selectedroot2563.",
+    "source_file_count": 2561,
+    "source_manifest_role": "archived completed app/native execution-source binding; current selected source has separate exact identity below",
+    "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "source_scope": "Archived private app2561/abf completed consumers; current selectedroot2563/1c55 and privateAPP2561/f997 Android2 epoch are separately machine-checked. No entire current repository equals archivedabf."
+  },
+  "closure_interpretation": "Integrator review and actual original-criterion proof remain required; file existence or matched retained lists do not close PD12.",
+  "errors": [
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/app/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    },
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    }
+  ],
+  "evidence": [
+    {
+      "context": "historical",
+      "declared_result": "failed",
+      "id": "app-failed3",
+      "independent_receipt_retained": false,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "No old pass, source hash or failed stage is converted to current acceptance."
+      ],
+      "listed_bindings": "unverified",
+      "scope": "Original candidate3 failed41 attempt, source2517/2dac97\u2026 at10:35UTC.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "archived-completed-candidate",
+      "declared_result": "pass",
+      "id": "app2561-current1114-41",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Retained root independent original ARC02 criterion review; no whole visual/font/provider/native packaging/release approval.",
+        "Private export is the execution source; maintained checkout parity and new source additions require actual integration readback.",
+        "Named audit-only changes are tracked separately from archived source; current2556 known path match must be actual, not expected. No entire current repo==abf claim or automatic unaffected consumer rerun.",
+        "Actual reviewed Android2 source overlay is a later epoch. Original1114/41 and12/20 outcomes do not grant wholesale current native/app acceptance."
+      ],
+      "listed_bindings": "drift",
+      "scope": "Current captured app abf7\u20262561, strict analysis and1114 successful/unskipped checks,41 affected suites.",
+      "supersedes": [
+        "app-failed3"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "archived-completed-candidate",
+      "declared_result": "PASS",
+      "id": "native12-20",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "SDK physical/source/allowed8 and protected68020 proof retained in pinned receipt; generic index does not reconstruct directory/link/inode proof.",
+        "No built package, canonical packaged graph, visual acceptance or future AAB result.",
+        "Actual reviewed Android2 source overlay is a later epoch. Original1114/41 and12/20 outcomes do not grant wholesale current native/app acceptance."
+      ],
+      "listed_bindings": "drift",
+      "scope": "Current captured native JVM12 unskipped tests,3 suites,20 actual release classes, sourceabf7\u20262561.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "declared_result": true,
+      "id": "backend-CI-pending-dated",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "True pending flag remains true in the historical receipt; later local SQL37 pass supersedes this pending statement only within its actual scope."
+      ],
+      "listed_bindings": "unverified",
+      "scope": "Dated only-CIjob ordinary-sql composition preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "declared_result": "pass",
+      "id": "backend156",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "One CI input has later exact composition proof; original156 test outcome still binds its original CI bytes.",
+        "No provider/release or external CI acceptance."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Backend original156 capture canonical aggregate pass:668 units/109 HTTP,92types and retained Linux32/212/14/6 scopes.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "declared_result": "pass",
+      "id": "SQL219-209-37",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "No hosted catalog, provider, remote Linux new CI or fullBE10 closure."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual local ordinary clean/populated recipe,219 inputs/209 migrations/37 original cases/418 applications.",
+      "supersedes": [
+        "backend-CI-pending-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "declared_result": "pass",
+      "id": "public-font-copy15-historical",
+      "independent_receipt_retained": false,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Generator hash and preserved copy prove only that historical engineering comparison; no fonts, distribution rights, native/full public output or legal acceptance."
+      ],
+      "listed_bindings": "unverified",
+      "scope": "Dated15-route unchanged public-copy source comparison.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "superseded-summary",
+      "declared_result": "dated_scoped_review_pass_current_candidate_unverified",
+      "id": "public-summary-stale-media-dated",
+      "independent_receipt_retained": false,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Stale app media blocker and no-recapture wording are superseded only by public4 local scope.",
+        "Existing summary requires the attached unapplied correction; old drift arrays/date are preserved as dated facts."
+      ],
+      "listed_bindings": "unverified",
+      "scope": "Dated2026-10-01T20:44 retained source/artifact readback in the existing summary.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "captured-candidate",
+      "declared_result": "sealed_pass_current_local_public_candidate_scope",
+      "id": "public4-local",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Retained independent input equality and original visual subset review; whole mutable candidate explicitly unaccepted.",
+        "66 static inputs+3 executables are observed lists, not proof of complete generator/transitive closure; symlink/external toolchain identities unproved by this minimal reader.",
+        "No whole Revolut visual match, font rights, legal/publication, hosted/provider/device/store or production acceptance."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Completed fresh private synthetic media/static/browser public4 local scope,344media/55quality/104render-share cases and exact55artifacts.",
+      "supersedes": [
+        "public-summary-stale-media-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "external-dated-readback",
+      "declared_result": false,
+      "id": "public-GET-dated",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Retained root readback only; no new provider request in preparation.",
+        "Seven sampled live HTML hashes differ local reviewed artifacts; this does not provide deployed candidate parity, legal approval or request outcome acceptance."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual dated anonymous public GET bytes: reviewed local artifact is unpublished/unbound; three promised legal/support targets404.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "declared_result": "successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved",
+      "id": "selected-runtime-graph",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Exact graph bytes are pinned; graph141 filenames/hash records do not independently locate/reopen packaged bytes.",
+        "AAB_built=false belongs to the captured12:42UTC failure readback; active future AAB result is not known or prefilled."
+      ],
+      "listed_bindings": "unverified",
+      "scope": "Selected productionReleaseRuntimeClasspath graph173components/995edges/141 artifact-hash records, graph exit0/41.261s while whole monitorFAIL is preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "declared_result": "verified_exact_selected_runtime_query_capture",
+      "id": "selected-runtime-OSV157",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "No known OSV records returned for these exact157 versions at retained query time.",
+        "No pagination/advisory IDs; no exploitability, licence approval, whole security clearance, complete packaged SBOM or ARC09 closure."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual exact157 Maven query/empty OSV readback bound to selected graph20bb8\u2026;16 local projects unqueryable.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-declaration",
+      "declared_result": "selected_full_faces_implemented_distribution_rights_unverified",
+      "id": "typography-current-declarations",
+      "independent_receipt_retained": false,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Supplied files/metadata/OFL-Inter presence do not establish Aeonik distribution rights, loaded output, native metrics or full visual fidelity."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Current declarations use Aeonik Pro400/500 for marketing and Inter for member/operator/financial roles.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "current-relevant-scope",
+      "declared_result": false,
+      "id": "current-relevant-known-inputs",
+      "independent_receipt_retained": false,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "Actual consumer must bind current2556 with Android2 and meaningful five-tooling changes separately from archived native/app scope.",
+        "Current selectedsource2563 includes the two new PD12 scripts; no entire repository/OS-lock/deployed/whole native claim.",
+        "New/unlisted transitive graph completeness remains unverified."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual current bytes for2556 retained known source paths and separately named audit-tooling5; current full repository equivalence to abf is explicitly false.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "current-maintained-tooling",
+      "declared_result": "PASS",
+      "id": "BE08-actual-additive-tooling",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "No provider/DB/native rerun, fabricated ownership/financial authority, static resolution lineage or external acceptance.",
+        "Actual unchanged app inputs and archived consumer outcomes remain separate from this tooling validation."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual maintained57 tests/current209 generation/independent semantic proof;127 resolution gaps and original counters unchanged.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-maintained-tooling",
+      "declared_result": "pass_in_local_implemented_scope",
+      "id": "ARC03-actual-local-tooling",
+      "independent_receipt_retained": true,
+      "input_set_completeness": "unknown",
+      "limitations": [
+        "No provider/DB/native rerun, fabricated ownership/financial authority, static resolution lineage or external acceptance.",
+        "Actual unchanged app inputs and archived consumer outcomes remain separate from this tooling validation."
+      ],
+      "listed_bindings": "matched",
+      "scope": "Actual Ruby22/Python3 local probes and reviewed exact3-path delta; original external acceptance remains open.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    }
+  ],
+  "facts": [
+    {
+      "id": "original-PD12-criterion",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-current-pass",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-source-count",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "affected-suites41",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-successful-unskipped1114",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-zero-failed-skipped",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-independent-scope-acceptance",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "failed-attempts-retained",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "app-historical-failed3",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native12-tests",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-zero-failures",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-zero-errors",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-zero-skips",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native20-classes",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-actual-copied-readback",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-readback-had-no-package",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "native-readback-no-packaged-SBOM",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SDK-retained-source-count",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "backend-actual-pass",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "backend156",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "backend-unit668",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "backend-HTTP109",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "backend155-unchanged",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "CIcomposition-only-new-job",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "dated-CIcomposition-SQL-pending-retained",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL-local-pass",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL-original37",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL-cases-not-expanded",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL209-set",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL219-source-binding",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL418-applications",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "SQL-remote-CI-unrun",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public4-fresh-capture",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public4-originals-unaltered",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public55-files",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public-independent344",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public-quality55",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public-browser104",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public-whole-candidate-unaccepted",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "public-oldbatch3-superseded",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "GET-provider-binding-unverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "GET-current-artifact-unpublished",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "GET-three404",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "GET-request-outcome-unverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime-graph-exit0",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime41seconds-retained",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime173components",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime995edges",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime141hashrecords",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "runtime-whole-monitor-failure-preserved",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "dated-runtime-capture-AAB-unbuilt",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-exact-graph-bound",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV157exact",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV157empty",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV16-unqueryable",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-HTTP200",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-TLSverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-not-packageSBOM",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-not-security-approval",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "OSV-not-licence-approval",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "summary-Aeonik",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "summary-native-Inter",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "summary-rights-unverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "summary-visual-unverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-dart-Inter",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-dart-Aeonik",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-css-Aeonik",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-pubspec-Aeonik-face",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "Android-actual-other2559-unchanged",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-AndroidAPP-f997",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "current-selectedroot2563-identity",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-tests57",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-newcases8",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-original127-unresolved",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-original-counters-unchanged",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-all-lineage-flags-unproved",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-actual-generation-exit0",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "BE08-independent-semantic-exit0",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-ruby22",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-ruby-zero-failures",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-python3",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-python-inputs389-unchanged",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-no-other-source-change",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "ARC03-initial-failure-retained",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "PD12-maintained-tests14",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "PD12-tests-exit0",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "live-current-summary-public-status",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "live-current-summary-root-source",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "live-current-summary-visual-unverified",
+      "matches_pinned_source": true
+    },
+    {
+      "id": "live-current-summary-font-rights-unverified",
+      "matches_pinned_source": true
+    }
+  ],
+  "file_sets": {
+    "ARC03-actual24leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 24,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 24,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact meaningful Ruby22/Python3 local probe evidence and retained initial setup failure; no provider execution or original external ARC03 acceptance.",
+      "unknown_entries": []
+    },
+    "BE08-actual17leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 17,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 17,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact sealed actual BE08 maintained tests/generation/semantic recomputation and outputs; all127 original resolution gaps remain unproved.",
+      "unknown_entries": []
+    },
+    "app-authored2561": {
+      "binding_domain": "archived-tested-candidate",
+      "entries": 2559,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2559,
+      "role": "source",
+      "source_or_artifact_scope": "Archived test source2559 unchanged privateAPP leaves after excluding exactly Android2; two original files are independently retained and checked below. This materialized original view is not a current whole native test pass.",
+      "unknown_entries": []
+    },
+    "app-execution41leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 41,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 41,
+      "role": "artifact",
+      "source_or_artifact_scope": "41 retained execution packet leaves; this count is distinct from41 affected suites.",
+      "unknown_entries": []
+    },
+    "app-external-library3337": {
+      "binding_domain": "archived-tested-candidate",
+      "entries": 3337,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 3337,
+      "role": "transitive-input",
+      "source_or_artifact_scope": "Exact3337 captured external library file paths. No library resolution performed by index; added package/graph completeness remains unknown.",
+      "unknown_entries": []
+    },
+    "archived-Android2-originals": {
+      "binding_domain": "archived-tested-candidate",
+      "entries": 2,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2,
+      "role": "source",
+      "source_or_artifact_scope": "Actual preserved original Android2 bytes match archived2561/abf source before the reviewed build-directory overlay; not post-overlay native test acceptance.",
+      "unknown_entries": []
+    },
+    "archived-abf-vs-current-liveAPP2561": {
+      "binding_domain": "archived-tested-candidate",
+      "entries": 2561,
+      "failed": [
+        {
+          "path": "android/app/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        },
+        {
+          "path": "android/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        }
+      ],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2559,
+      "role": "source",
+      "source_or_artifact_scope": "Direct actual comparison of old2561/abf input expectations with current live privateAPP after Android2. Preserve observed two-row drift; matching preserved original bytes in a separate set does not erase live drift or grant current native acceptance.",
+      "unknown_entries": []
+    },
+    "backend156-composition": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 156,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 156,
+      "role": "source",
+      "source_or_artifact_scope": "Original backend156 capture plus exactly one independently retained CI composition digest. Original backend pass and old CI bytes remain historical facts.",
+      "unknown_entries": []
+    },
+    "backend559leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 559,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 559,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact559 sealed checksum rows, including actual canonical report,513 copied output files and original source snapshots; no generated state used as active source.",
+      "unknown_entries": []
+    },
+    "current-declared-selected2563": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "entries": 2563,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2563,
+      "role": "source",
+      "source_or_artifact_scope": "Exact root current captured selected2563 leaves at source epoch1c55; actual reader must hash current leaf bytes. Declared root source selection, not OS lock/entire repository/whole native or deployed acceptance.",
+      "unknown_entries": []
+    },
+    "current-known-captured2556": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "entries": 2556,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2556,
+      "role": "source",
+      "source_or_artifact_scope": "Actual current2556 known captured leaves excluding only named tooling5, with exactly Android2 current digests bound to the actual overlay receipt. No entire current repo equals archivedabf or post-overlay native test claim.",
+      "unknown_entries": []
+    },
+    "liveGET40leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 40,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 40,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact retained anonymous public GET request/response bytes; dated404/local-live differences do not certify a hosted candidate.",
+      "unknown_entries": []
+    },
+    "native46leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 46,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 46,
+      "role": "artifact",
+      "source_or_artifact_scope": "Raw JVM XML,20 release class files, three dated flat native graphs and exact readback leaves.",
+      "unknown_entries": []
+    },
+    "public3-static-toolchain": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 3,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 3,
+      "role": "transitive-input",
+      "source_or_artifact_scope": "Three explicitly recorded Python/bash/Ruby executable path digests. Symlink target identity is unproved by digest-only rows; index does not follow them.",
+      "unknown_entries": []
+    },
+    "public344media-source": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 344,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 344,
+      "role": "source",
+      "source_or_artifact_scope": "Captured344 media inputs for private synthetic public4 scope. If current source changed later, retain pass while reporting drift.",
+      "unknown_entries": []
+    },
+    "public4-private-resolution": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 4,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 4,
+      "role": "transitive-input",
+      "source_or_artifact_scope": "Four private pub resolution/runtime leaves only; complete resolution/transitive compiler closure not inferred.",
+      "unknown_entries": []
+    },
+    "public4-reviewed-production-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 4,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 4,
+      "role": "source",
+      "source_or_artifact_scope": "Only four explicitly reviewed production leaves; whole current application equivalence was not accepted.",
+      "unknown_entries": []
+    },
+    "public55-static-artifacts": {
+      "binding_domain": "captured-artifact",
+      "entries": 55,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 55,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact local public static artifact55 files. No hosted parity, legal acceptance or whole visual match.",
+      "unknown_entries": []
+    },
+    "public66-static-inputs": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 66,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 66,
+      "role": "transitive-input",
+      "source_or_artifact_scope": "66 explicitly observed static generator inputs at the completed public4 execution. Added/unlisted inputs remain unknown.",
+      "unknown_entries": []
+    },
+    "public704-evidence-leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 704,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 704,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact704 retained local evidence leaves including original PNGs/build/browser/static records; no edits to originals.",
+      "unknown_entries": []
+    },
+    "selectedOSV51payloads": {
+      "binding_domain": "captured-artifact",
+      "entries": 51,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 51,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact public docs/request/response/query mapping capture for157 selected Maven coordinates;16 local projects explicitly unqueryable.",
+      "unknown_entries": []
+    },
+    "separate-named-tooling5": {
+      "binding_domain": "separate-maintained-tooling",
+      "entries": 5,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 5,
+      "role": "verification-tooling",
+      "source_or_artifact_scope": "Five actual maintained BE08/ARC03 tooling leaf hashes bound to preserved originalabf bytes, reviewed patches, actual diff and meaningful57/22+3 integration tests; other source changes are not exempted.",
+      "unknown_entries": []
+    },
+    "sql219inputs": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 219,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 219,
+      "role": "source",
+      "source_or_artifact_scope": "Exact219 inputs to completed local clean/populated ordinary SQL recipe,209 migrations; neither219 migrations nor hosted SQL acceptance.",
+      "unknown_entries": []
+    },
+    "sql669leaves": {
+      "binding_domain": "captured-artifact",
+      "entries": 669,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 669,
+      "role": "artifact",
+      "source_or_artifact_scope": "Exact669 packet artifacts for original37 local cases/418 migration applications; external CI and hosted/provider acceptance remain separate.",
+      "unknown_entries": []
+    },
+    "tooling5-original-bytes": {
+      "binding_domain": "archived-tested-candidate",
+      "entries": 5,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 5,
+      "role": "source",
+      "source_or_artifact_scope": "Exact original before bytes for the five actual tooling changes, each SHA matches archivedabf source and root integration provenance.",
+      "unknown_entries": []
+    },
+    "typography-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "entries": 7,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 7,
+      "role": "source",
+      "source_or_artifact_scope": "Exact current font declarations and supplied font/OFL files. Bytes alone do not establish distribution rights or loaded output.",
+      "unknown_entries": []
+    }
+  },
+  "format": "collect-current-candidate-evidence-readback-v1",
+  "integration_state": "applied-pending-actual-readback",
+  "pending_areas": [
+    {
+      "area": "actual current filesystem binding consumer",
+      "reason": "Maintained14 tests passed; source/transitive/artifact consumer is next, with actual drift/incomplete/unknown retained.",
+      "state": "pending-actual-run"
+    },
+    {
+      "area": "public generator/transitive graph and new/unlisted inputs",
+      "reason": "Exact observed66+3 inputs/current listed source rows and artifact bytes do not establish complete added/unlisted compilation graph scope.",
+      "state": "unverified"
+    },
+    {
+      "area": "SDK physical identity/current native execution",
+      "reason": "Pinned original SDK physical/source/allowed8 evidence stays exact. Minimal index does not re-read4.24GB SDK or reconstruct directory/link/inode proof; active root AAB consumer owns its current fence.",
+      "state": "retained-independent-scope-only"
+    },
+    {
+      "area": "native test acceptance after Android2 overlay",
+      "reason": "Completed JVM12/20 classes bind original2561/abf scope; actual Android2 differs, and no whole current native test/package result is inferred.",
+      "state": "unverified"
+    },
+    {
+      "area": "future AAB/artifact graph",
+      "reason": "No future AAB hash/result or complete packaged SBOM has been invented; original failed whole monitor/41.261s graph remains dated.",
+      "state": "pending-root-actual-result"
+    },
+    {
+      "area": "archivedabf inputs compared with current liveAPP",
+      "reason": "Direct full2561 old expectation comparison remains present alongside original2559+preserved2 checks and reviewed overlay current binding. Observed Android2 live drift will not be hidden to obtain exit0.",
+      "state": "actual-reader-next"
+    }
+  ],
+  "status": "binding-drift-or-contradiction",
+  "summary_corrections_unapplied": []
+}

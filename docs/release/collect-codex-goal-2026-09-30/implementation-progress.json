@@ -1,0 +1,751 @@
+{
+  "objective_file": "/Users/jeanbosco/.codex/attachments/44c2c99c-f61d-4806-9d7b-69104460f907/goal-objective.md",
+  "scope": "Implement and release all 36 supplied tasks",
+  "recorded_at": "2026-10-01T10:44:44.840858+00:00",
+  "goal_status": "usageLimited",
+  "release_decision": "NO_GO",
+  "frozen_reviewed_candidate": false,
+  "assigned_owners_verified": false,
+  "external_inputs_pending": [
+    "real hosted/device/provider/store and comparator acceptance",
+    "actual authorized Android device enrollment and controlled distribution",
+    "hosted email account provisioning, approved email session, Auth delivery/template readback and compatible cutover",
+    "restore normal Supabase project/Auth configuration access; attached Android gateway handset and exact signed artifact"
+  ],
+  "tasks": [
+    {
+      "id": "C01",
+      "task": "Freeze one reviewed release candidate.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Preserve concurrent work, agree the trusted origin and accountable owners, integrate compatible changes, pin dependencies/toolchains and retain source/artifact hashes from a clean checkout.",
+      "master_ids": [
+        "G04",
+        "G05",
+        "G07",
+        "G08",
+        "G09",
+        "G10",
+        "Q01",
+        "Q07",
+        "Q09"
+      ],
+      "implementation_evidence": "release-tooling/checkpoint06/source-export.json:1905 source files154222431bytes retained with external manifest3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f. Exact readback passed; no drift observed during capture. Explicit non-atomic unapproved checkpoint, not a reviewed trusted/frozen candidate or owner/release acceptance."
+    },
+    {
+      "id": "C02",
+      "task": "Restore the approved operator session.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Implement and deploy the owner-selected info@ikanisa.com email operator migration, provision through normal Auth with email verification, restore a fresh approved session and verify role/permissions, Keychain, expiry and revocation. No passwords or OTPs in chat. Hosted public Auth settings currently report email disabled; management Auth configuration returns HTTP403 through the existing local credential; retained shadow probe remains SHADOW_SESSION_REQUIRED.",
+      "master_ids": [
+        "S05",
+        "S09",
+        "A01"
+      ],
+      "implementation_evidence": "email-auth/operator-email-readback-20261001.json:2026-10-01 00:30 UTC fresh read confirms hosted email disabled and selected info@ikanisa.com account/verified count0. Local migration/session implementation remains separately scoped; no Auth account, OTP, cutover or Keychain restoration performed. Fresh continuation public settings read at2026-10-01 08:36 UTC remains email disabled (HTTP200). Account lookup connector unavailable in this continuation, so the earlier count0 is not promoted into a current account recheck. Owner explicitly authorized remediation. Narrow email setup and corrected hardening script passed31 current tests on stable selected inputs. Authorized hosted apply stopped on initial GET403; no PATCH. Latest public Auth09:40UTC emailfalse/phonetrue. Connector read-only query/project read denied; previous accountcount is not refreshed. Explicit CLI renewal now revalidates current selected verifiedemail identity before persistence; covered by current146 MCP cases. Independent review corrections enforce enabled-hook precedence, typed redaction, nested exact unrelated preservation,20s whole exchange deadlines and a credential-free private worker; actual local timeout/environment cases passed. Earlier hosted GET403 predates those final corrections; no blind hosted retry. Latest bounded publicAuth read10:33UTC HTTP200 still emailfalse/phonetrue, same response hash; no fresh account/private configuration read or PATCH."
+    },
+    {
+      "id": "C03",
+      "task": "Verify the deployed MCP installation and tool inventory.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Pin the local bridge/runtime and supported installation, reload/discover the five allowed reads, exclude unrestricted controls and duplicate connections, and verify safe error/redaction behavior. A plugin is optional packaging; HTTP/OAuth is required only if remote HTTP is selected.",
+      "master_ids": [
+        "G07",
+        "S07",
+        "S08",
+        "Q01",
+        "A10"
+      ],
+      "implementation_evidence": "release-tooling/checkpoint06/mcp-evidence-association/association.json:58 journal and42 discovery inputs (60 distinct overlapping paths) match captured06 bytes. Historical139-test/TSC and16registered/exactfive-read discovery SOURCE scopes associated without rerun. Exact current five-read host profile/deadlines observed; host and regression Node binaries have different paths/hashes despite v24.19.0. Historical host binary hash, host reload, full dependency bytes and authenticated hosted calls remain unverified. release-acceptance-followup-20261001:current146/18-file Node andTSC passed,54 bound inputs stable, currentversions1|2 redacted projections. Actual installed health tools return OPERATOR_SESSION_REAUTHENTICATION_REQUIRED and COLLECT_CURRENT_USER_SESSION_REQUIRED; exact5read profile retained. Hostedauthenticated success remains open."
+    },
+    {
+      "id": "C04",
+      "task": "Deploy compatible backend contracts and navigation.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Refresh the hosted baseline, rehearse clean and populated upgrades plus rollback/roll-forward, deploy reviewed prerequisites/navigation/shadow contracts, and read back exact bodies, RLS, grants, Auth, flags and cron. Verify retirement of unsupported legacy bank execution.",
+      "master_ids": [
+        "D09",
+        "O01",
+        "S08",
+        "S10",
+        "X02"
+      ],
+      "implementation_evidence": "source06-compatibility/README.md:exact175-source clean and representative populated124+51 upgrade passed350 DDL executions,36 SQL composition checks and11 actual schema validations.19 predecessor categories preserved with documented incompatible-intent status delta; all175 frozen bytes/helper stable, both final targets removed. Earlier169 and C34 subset remain separate. Cached-image/mock-Auth application compatibility only; hosted installer/data/Auth/runtime/cron/flags/deployment acceptance remain open. Later financial content2 feature passed43 isolated SQL checks against175 captured prerequisites plus its new migration; an additional member-history index now makes177 current migration files. This feature packet does not establish full177-chain or hosted upgrade acceptance."
+    },
+    {
+      "id": "C05",
+      "task": "Build and host the latest Admin bundle.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Compile current source including shadow history; verify production configuration, configured navigation/deep links, authenticated/public separation, headers and cache/upgrade/logout behavior. The retained earlier build excludes history.",
+      "master_ids": [
+        "Q05",
+        "U07",
+        "U08",
+        "A10"
+      ],
+      "implementation_evidence": "release-tooling/checkpoint06/README.md:configured production Admin compiled from exact1905-file source06 with offline enforced locks;155 artifacts66349485bytes, artifact manifest109257ba0e3dcb621fba9d31d3cfb431931b8601075335cbdbcfa655a28a40ae. Includes policy view and canonical audit links;39/39 existing Automations/PWA checks pass against derived exact source. Stable selected source/locks/public config/tools and pristine readback. Unapproved non-atomic checkpoint; no deployment/live-authentication/whole-source acceptance. Later added C34 QA runner is separately recorded. Latestcheckpoint08: exact1933-file source08/154526055bytes with177migration inventory, source manifestce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80. Captured final Auth7 and financial12 inputs match; configured Admin compile passed in55.1s,155artifacts66349535bytes, artifact-mapf49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b. Root independently recomputed map/readallartifacts with no mismatch. Prior31Auth/43SQL/80Flutter checks associated without relabeling as08reruns.07partialcapture retained as superseded diagnostic. No deployment, liveAuth, full177chain, source-trust/freeze or comparator acceptance. Final08packet36listedfiles independentlyhashverified. Later originalcheckout comparison found9changedpaths retained with exact before/current hashes,21criticalpinsunchanged; snapshot08 andbundle unchanged. The compiler pass does not attest later working-tree edits."
+    },
+    {
+      "id": "C06",
+      "task": "Validate every enabled MCP read against the hosted backend.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Exercise health, pending work, exact receipt status and failures with authorized nonempty test evidence; prove denied/cross-scope/replaced-session/stale/malformed/deadline behavior and no unintended writes. An empty failure page does not validate exact receipt lookup.",
+      "master_ids": [
+        "S07",
+        "S08",
+        "S09",
+        "Q06",
+        "A09"
+      ]
+    },
+    {
+      "id": "C07",
+      "task": "Run and reconcile a real manual shadow lifecycle.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Prove begin/sample/finish/history with the approved identity, durable records, BUSY, expiry, fence loss, session replacement, unknown-response lookup and server-derived counters. Confirm only telemetry changes; completion must not imply current health or message delivery.",
+      "master_ids": [
+        "S09",
+        "Q06",
+        "O06",
+        "A01",
+        "A09"
+      ]
+    },
+    {
+      "id": "C08",
+      "task": "Rerun complete acceptance on the frozen candidate.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Run full Flutter/native/Edge/database/browser suites, representative populated upgrades and negative/concurrency cases; retain exact logs, exclusions and source bindings. Scoped test counts cannot close whole-system gates.",
+      "master_ids": [
+        "Q02",
+        "Q03",
+        "Q06",
+        "D09",
+        "S08",
+        "S09"
+      ]
+    },
+    {
+      "id": "C09",
+      "task": "Complete the operations Overview.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Add posted-today payment/value metrics, receipt age, definite failures and unknown outcomes; separate ingestion, telephony, internet and supervisor freshness; link real policy-based alerts to filtered worklists and isolate partial failures.",
+      "master_ids": [
+        "O06",
+        "U06",
+        "A08"
+      ]
+    },
+    {
+      "id": "C10",
+      "task": "Separate transaction lifecycle states.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Expose provider reference, payer/intended member/group and independent verification, allocation, ledger and notification states; preserve pagination/filter/scope correctness. The current transaction table has one aggregate Status column.",
+      "master_ids": [
+        "D07",
+        "F01",
+        "F09",
+        "U06"
+      ]
+    },
+    {
+      "id": "C11",
+      "task": "Complete transaction investigation.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Join ingestion→parse→verification→allocation→posting→receipt→attempt→delivery evidence; distinguish posting-time receipt snapshots from current balances, show permitted/blocked actions and version conflicts, and preserve audited privileged raw-evidence reveal.",
+      "master_ids": [
+        "F01",
+        "F10",
+        "S09",
+        "U06",
+        "A09"
+      ],
+      "implementation_evidence": " Financial content2 follow-up passed43 focused SQL cases and80 distinct selected Flutter cases; actual observed masked v2 snapshot preview is parsed without exposing full text or contact. New eligible v2 receipts are retained while SMS is disabled; no consent, disabled policy and linked-app exclusions preserve financial posting. Hosted, carrier and automatic recovery behavior remain unverified."
+    },
+    {
+      "id": "C12",
+      "task": "Complete a cross-service exception inbox.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Cover member/group ambiguity, unsupported parsing, verification differences, missing contacts, gateway outages and uncertain sends with category, age, owner, severity, evidence, exact previews and governed approval. Reuse existing financial reconciliation.",
+      "master_ids": [
+        "F09",
+        "F10",
+        "U06",
+        "A09",
+        "O09"
+      ],
+      "implementation_evidence": "admin-exceptions/README.md:71 distinct scoped client cases (33 model,9 actual SDK,28 corrected full page,1 real isolated Chrome sessionStorage) plus existing33 PWA/readability checks and15-file clean analysis/authority hygiene. Actual SQL fixture DTOs, server filters, TTL, same-owner original-request recovery and synthetic desktop/narrow captures verified. Separate foundation144/read-v2 87 SQL cases. Hosted/session/browser-reader/comparator and complete source-scan acceptance remain open; source05 bundle excludes this UI."
+    },
+    {
+      "id": "C13",
+      "task": "Complete notification investigation and permitted actions.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Display immutable payload/version/snapshot context, masked destination, segment estimate, attempts/journal/per-part callbacks and original/resend/correction links. Add only backend-authorized cancellation/retry/resend; unknown outcomes lead to investigation.",
+      "master_ids": [
+        "S09",
+        "U06",
+        "A09",
+        "O05"
+      ],
+      "implementation_evidence": "admin-investigation/README.md and investigation-backend/README.md retain joined immutable financial/snapshot/attempt evidence. admin-receipt-cancellation/README.md adds safe unstarted cancellation in receipt investigation:94 current combined client/regression cases plus1 actual isolated Chrome storage case, clean selected analysis/hygiene and inspected synthetic responsive captures. Real hosted/session/provider/comparator acceptance remains open; retry/correction/resend are unavailable. Financial content2 follow-up passed43 focused SQL cases and80 distinct selected Flutter cases; actual observed masked v2 snapshot preview is parsed without exposing full text or contact. New eligible v2 receipts are retained while SMS is disabled; no consent, disabled policy and linked-app exclusions preserve financial posting. Hosted, carrier and automatic recovery behavior remain unverified."
+    },
+    {
+      "id": "C14",
+      "task": "Add a real SMS Gateway/provider operations page.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Bind identity/ownership/build/SIM or provider status, internet/telephony/permissions, local/server backlog, journal, heartbeat and lifecycle to real services. Enrollment/revoke/allowlisted test actions require backend authority. No fake online or delivery badge.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S09",
+        "U06",
+        "O06"
+      ],
+      "implementation_evidence": "admin-gateway-recovery/README.md:current model/page52/52, actual isolated Chrome sessionStorage1/1, affected final SDK14/14 (overlap with earlier65-case matrix; no combined118 invocation). Verified owner-bound checkpoint before mutation and manual same-owner recovery after fresh sign-in; exact original identity fingerprints and uncertain UUID retained. Earlier69-case packet limitations explicit. Hosted/comparator/device acceptance and later exact bundle remain open."
+    },
+    {
+      "id": "C15",
+      "task": "Complete Automations status, runs, policy and access.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Add effective modes/caps, actual runner/cadence ownership, unacknowledged work, last attempt versus success, execution location, actions/exceptions and audit links. Keep Run now/schedule editing absent until backed by the selected integration.",
+      "master_ids": [
+        "S09",
+        "O05",
+        "O06",
+        "A08",
+        "A09"
+      ],
+      "implementation_evidence": "Existing manual monitoring and joined-operator-audit/README.md:59 SQL checks; separate source-bound audit navigation/DTO evidence is retained. unattended-operating-policy/README.md:116 isolated SQL cases for current-owner future preferences and immutable request evidence; admin-operating-policy-read/README.md:65/65 current scoped client cases and7-file clean analysis;148 inputs unchanged. Read-only current policy observation hides expired/unauthorized facts and never enables execution. Every mode reports no executing unattended runner; limits/schedule/approvals are unconfigured. Full modes/caps/schedule ownership and acceptance remain open. admin-entity-audit/README.md and admin-entity-audit-links/README.md retain five-kind history reads,33 new canonical navigation/access cases plus122 affected-page cases; actual capture separately1/1 with8 inspected views.222 final selected source copies read back exactly. Earlier216-case audit scope is separate; no total across versions or hosted/comparator closure. The configured captured06 bundle now includes the policy view/audit links and passes39 existing Automations/PWA cases; hosted route and whole workflow acceptance remain open."
+    },
+    {
+      "id": "C16",
+      "task": "Complete joined audit and governed domain settings.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Link payment/posting/receipt/attempt/run/real actor; implement approved balance/disclosure/template/language/recipient/sender-limit/device/retention settings with permission, version, reason and audit checks. Reuse existing governed toggles.",
+      "master_ids": [
+        "S09",
+        "A08",
+        "A09",
+        "P05",
+        "P10"
+      ],
+      "implementation_evidence": "joined-operator-audit/README.md:59 scoped SQL cases and independent read-only source review; joins five retained action kinds, actual future shadow audit rows, positive Rwanda scope, locked current email-owner permissions, ordered pages and atomic capture. Admin canonical links/DTO checks retained separately; complete governed templates/disclosures/recipients/languages/sender/retention and hosted acceptance remain open. admin-entity-audit/README.md and admin-entity-audit-links/README.md retain five-kind history reads,33 new canonical navigation/access cases plus122 affected-page cases; actual capture separately1/1 with8 inspected views.222 final selected source copies read back exactly. Earlier216-case audit scope is separate; no total across versions or hosted/comparator closure."
+    },
+    {
+      "id": "C17",
+      "task": "Finish shared UX and selected-skill acceptance.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Fix remaining icon-only specialized headings and incomplete offline/stale/partial states; verify configured navigation and all declared routes/actions/roles/session transitions, keyboard/screen-reader, light/dark/narrow/doubled text and live-update stability. Obtain applicable Business/operator comparators and owner acceptance.",
+      "master_ids": [
+        "U01",
+        "U02",
+        "U03",
+        "U04",
+        "U05",
+        "U06",
+        "U07",
+        "U08",
+        "X01"
+      ],
+      "implementation_evidence": "admin-visible-labels/README.md:icon-only field heading branch removed, labels and values visible on group/member operation cards. Selected three-file Dart analysis and sole-authority hygiene passed with stable source hashes. Existing widget checks and actual route/session/responsive/keyboard/screen-reader/Revolut comparator acceptance remain separate."
+    },
+    {
+      "id": "C18",
+      "task": "Approve financial and receipt semantics.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Implement the owner-delegated constrained recorded-savings receipt policy and verify its exact hosted financial evidence, eligible member/group allocation, snapshot/balance, consent/contact/disclosure, approved wording and language behavior. Broader external financial finality, fees/reversals/corrections, historical catch-up and real SMS segment/cost outcomes retain their separate unverified acceptance requirements. Preserve canonical journals, immutable snapshots and lifetime primary identity.",
+      "master_ids": [
+        "F01",
+        "F02",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "P09",
+        "P10"
+      ],
+      "implementation_evidence": "receipt-financial-policy/README.md: Owner directly authorized remediation and delegated conservative policy selection. Immutable private content policy2 records the exact instruction and selected recorded-savings, member-only, dated Kinyarwanda primary receipt, with explicit private English/French helpers. Actual v2 enqueue requires canonical allocation, recorded provider binding, exact balanced journal pair, snapshot and current consent/contact. Existing v1 immutable payloads and lifetime primary identity remain; new v1 send authority is refused and earlier armed uncertainty remains reconcilable.43/43 isolated SQL cases passed on exact source06 175 prerequisites plus this feature; 80 distinct selected Flutter cases and clean two-file analysis passed, with seven final fixture checks a subset, not additive. Sources unchanged and task container removed. No actual hosted/runtime/provider/translation/carrier finality proof, automatic dispatch grant, historical catch-up, correction/resend or whole-chain177 acceptance is claimed."
+    },
+    {
+      "id": "C19",
+      "task": "Implement safe pause/resume and missed-receipt reconciliation.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Hosted pre-foundation disabled SMS behavior skips creation. Current local foundation preserves eligible new paused work; deploy/accept dispatch pause, policy-approved historical catch-up and reconciliation without contacting opted-out/app-linked members or blindly sending historical receipts.",
+      "master_ids": [
+        "F01",
+        "O05",
+        "A08",
+        "A09"
+      ],
+      "implementation_evidence": "backend-foundation/README.md:79 isolated SQL cases preserve paused eligible new work; historical catch-up remains policy-pending and no dispatch is authorized. Financial content2 follow-up passed43 focused SQL cases and80 distinct selected Flutter cases; actual observed masked v2 snapshot preview is parsed without exposing full text or contact. New eligible v2 receipts are retained while SMS is disabled; no consent, disabled policy and linked-app exclusions preserve financial posting. Hosted, carrier and automatic recovery behavior remain unverified."
+    },
+    {
+      "id": "C20",
+      "task": "Create a dedicated unattended operational identity.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Separate device/human/supervisor credentials, define server-derived allowed scope, constrain every entity reference and revocation/renewal path, and deny financial authority, unrestricted SMS/SQL/shell/OTP access. Current manual platform-owner authority remains separate.",
+      "master_ids": [
+        "S01",
+        "S08",
+        "S09",
+        "S10",
+        "A04"
+      ],
+      "implementation_evidence": "receipt-supervisor-identity/README.md plus receipt-supervisor-journal/README.md:64 isolated SQL,55 selected Deno, later current combined139/139 Node cases across18 files with TSC and58 unchanged bound inputs, including26 crash/storage/overlap/lookup journal cases. Swift compiled and14 synthetic parsing checks; no Keychain access. Dedicated expiring/revocable fixed Shadow principal and signer/journal prepared; no real provisioning/install/scheduling/business authority."
+    },
+    {
+      "id": "C21",
+      "task": "Add committed business events and durable consumer acknowledgements.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Emit posting/late-allocation/reversal/actionable-failure events; use commit-safe progress or per-event ACK, bounded batches, partial recovery and periodic reconciliation. Creation-time pending pagination is not a durable acknowledgement contract.",
+      "master_ids": [
+        "F08",
+        "D03",
+        "O05",
+        "Q06"
+      ],
+      "implementation_evidence": "Committed UUID events/heads and actor-bound observed/deferred ACKs; business_handled and delivery remain false. Durable unattended business ACK remains open."
+    },
+    {
+      "id": "C22",
+      "task": "Add constrained ensure/enqueue-receipt services and MCP tools.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Accept only transaction ID, expected version and operational run reference; derive recipient/text/balances/policy server-side. Revalidate scope, posting, contact, consent, version, lease/fence, pause/caps and lifetime uniqueness; return stable business reason codes and existing receipt identity.",
+      "master_ids": [
+        "F01",
+        "F08",
+        "F09",
+        "S08",
+        "S09",
+        "A09"
+      ]
+    },
+    {
+      "id": "C23",
+      "task": "Add safe retry, cancellation, correction and intentional-resend operations.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Retry only definitely-unsent policy-eligible attempts with version/fence checks; investigate uncertainty without transport switching or blind replay. Restrict cancellation to safely unstarted work. Keep corrections/resends linked, reasoned and approved; template changes must not recreate primary receipts.",
+      "master_ids": [
+        "F08",
+        "F10",
+        "S09",
+        "O05",
+        "A09"
+      ],
+      "implementation_evidence": "safe-receipt-actions/README.md:147 isolated SQL cases for pristine unstarted cancellation. safe-receipt-audit-attribution/README.md:154 cases against an additive explicit executing-owner audit correction; original packet preserved. admin-receipt-cancellation/README.md:94 combined scoped client/investigation cases and1 real isolated browser checkpoint case. Fresh missing/in-progress/error outcomes keep original UUID even after seven days; no replay/replacement/send. Safe retry/correction/approved resend and real hosted acceptance remain open."
+    },
+    {
+      "id": "C24",
+      "task": "Add durable operational exception services.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Deduplicate bounded reason-coded exceptions by entity/event, track assignment/escalation/resolution and audit lineage, and expose minimal-data MCP actions without accepting raw untrusted SMS as instructions.",
+      "master_ids": [
+        "S07",
+        "A02",
+        "A09",
+        "O09"
+      ],
+      "implementation_evidence": "operational-exceptions/README.md:144 current isolated SQL cases with actual stale-action fencing and overlapping-batch lock tests. Acknowledgement and escalation requests do not resolve sources or deliver alerts; assignment/delivery/scheduler and MCP actions remain open."
+    },
+    {
+      "id": "C25",
+      "task": "Add an action-supervisor lease and validated completion contract.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Bind approved scope, principal, batch and every permitted side effect to an expiring fenced run; acknowledge only durable handled events and derive action/exception counters on the server. Manual health sampling is not event-processing completion.",
+      "master_ids": [
+        "S09",
+        "Q06",
+        "O05",
+        "O06"
+      ]
+    },
+    {
+      "id": "C26",
+      "task": "Enforce operating modes, limits and emergency stop.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Store/enforce Shadow, Dry-run, Live-limited, Live and Paused policies with per-run/group/device/global action/SMS caps and audited human resume. Pause blocks new dispatch authority while ingestion continues; it cannot recall carrier handoff.",
+      "master_ids": [
+        "S09",
+        "O05",
+        "O08",
+        "A08"
+      ],
+      "implementation_evidence": "unattended-operating-policy/README.md:116 isolated SQL cases; exact accepted migration SHA256 a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669. Governed future preferences default Paused/emergency_stop=true. Limits, approvals and schedule remain null/unconfigured; executable dispatch unavailable in every mode. Existing assisted flag and fixed signed Shadow authority are separate. Full approved action-bound enforcement and actual emergency stop remain open."
+    },
+    {
+      "id": "C27",
+      "task": "Choose and implement one approved automatic sender.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Implement organization-owned Android gateway OR authorized SMS-provider adapter. Bind short-lived authorization to receipt/attempt/payload/scope/device/fence; persist pre-send journal and callbacks, authenticate/idempotently process per-part results and preserve uncertainty. Current Android inbound receiver and assisted Apple Messages workflow are not unattended senders.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S01",
+        "O05",
+        "P04",
+        "P09"
+      ],
+      "implementation_evidence": "android-gateway-identity/README.md:86 isolated SQL and36 real synthetic signature Edge cases; android-gateway/README.md:38 native JVM and18 scoped Flutter cases with incremental native API compile. No APK, physical-device/carrier, signing, governed run-bound dispatch or whole acceptance. android-gateway-device-acceptance-2026-10-01:current39 native tests,9 device-runner and5 probe synthetic cases plus clean3-fileanalysis; no source drift. Actualadb haszero targets. One120sofflineGradlereadiness timed out, noAPK/build/install/liveSMS.79retainedfiles/rootreadbackverified. Physical/enrollment/carrieracceptance stillopen. Fresh owner-packet preflight10:12UTC still0 ADB targets with sealedrunner/pinnedADB; no device/backend/SMS mutation."
+    },
+    {
+      "id": "C28",
+      "task": "Implement sender enrollment, revocation and independent health.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Expose actual credentials/build/ownership, selected SIM/subscription where applicable, permission/telephony/internet, local journal/backlog and heartbeat; prove revoked devices cannot send and lost callbacks reconcile with the original journal/provider.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S08",
+        "S09",
+        "O06"
+      ],
+      "implementation_evidence": "android-gateway-identity/README.md:86 isolated SQL and36 real synthetic signature Edge cases; android-gateway/README.md:38 native JVM and18 scoped Flutter cases with incremental native API compile. No APK, physical-device/carrier, signing, governed run-bound dispatch or whole acceptance. android-gateway-device-acceptance-2026-10-01:current39 native tests,9 device-runner and5 probe synthetic cases plus clean3-fileanalysis; no source drift. Actualadb haszero targets. One120sofflineGradlereadiness timed out, noAPK/build/install/liveSMS.79retainedfiles/rootreadbackverified. Physical/enrollment/carrieracceptance stillopen. Fresh owner-packet preflight10:12UTC still0 ADB targets with sealedrunner/pinnedADB; no device/backend/SMS mutation."
+    },
+    {
+      "id": "C29",
+      "task": "Configure a real scheduler and recovery runner.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Choose a Collect-owned deterministic checker or supported always-on Codex runner; prove host availability, cadence/runtime/quota, overlap, bounded batches, stale runs, disconnections and recovery. Remote HTTP/OAuth is conditional on the chosen hosting. Existing push scheduling is separate from SMS/Codex scheduling.",
+      "master_ids": [
+        "S10",
+        "O05",
+        "O08",
+        "O09"
+      ]
+    },
+    {
+      "id": "C30",
+      "task": "Measure real latency, capacity, health and cost.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Finish pipeline/gateway/supervisor metric coverage, actionable alerts and operator drills; measure ingestion→posting→queue→sent, queue age, delivery coverage, unknowns, duplicate suppression, allocation/reconciliation differences, p95/p99/backlog drain and measured SMS/OTP/AI budgets. Existing database metrics need final integration and representative volume.",
+      "master_ids": [
+        "D01",
+        "D02",
+        "D04",
+        "D07",
+        "O06",
+        "O07",
+        "O08",
+        "O09"
+      ]
+    },
+    {
+      "id": "C31",
+      "task": "Execute the complete payment/receipt failure matrix.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Use representative authorized financial evidence and real allowlisted devices/providers: duplicates, concurrent posting, late allocation, multipart uncertainty, crash after send/lost ACK, journal restart, permission/network/power loss, queue repetition, pause, reversals, cross-scope access, prompt injection and restore. Prove normal payment/receipt processing when Codex is offline.",
+      "master_ids": [
+        "F01",
+        "F02",
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "Q06",
+        "Q10"
+      ]
+    },
+    {
+      "id": "C32",
+      "task": "Close privacy, financial, carrier/provider and distribution prerequisites.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Obtain accountable regulatory/privacy/vendor/hosting/inference/retention decisions and disclosures for actual flows, verified contacts/group totals and lawful processing. Confirm selected sender commercial terms, consent, rate/segment costs and applicable distribution/permission approval through actual owners.",
+      "master_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "M01",
+        "F02"
+      ]
+    },
+    {
+      "id": "C33",
+      "task": "Complete source trust, supply-chain, signing and store/device acceptance.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Refresh sharing/exposure and redacted secret scans; rotate evidenced exposed credentials. Regenerate locks/inventory/SBOM/provenance and license/asset reviews from frozen source; build/sign/install exact Android/iOS bytes, run real USSD/SMS/Integrity/push/privacy/key-loss journeys and refresh store-console evidence. Do not restore retired assets or diaspora/Stripe requirements.",
+      "master_ids": [
+        "G01",
+        "G02",
+        "G03",
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q07",
+        "Q08",
+        "Q09",
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06",
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "A05",
+        "A06",
+        "A07",
+        "X01",
+        "X02"
+      ],
+      "implementation_evidence": "release-tooling/checkpoint06/source-access-preflight/verification.json:seven authorized readonly GitHub GETs; private repo/main/admin access, main unprotected and base SHA matching captured06. Protection/rulesets403 plan restriction; code-scanning default setup403 Advanced Security required; security metadata unavailable. Dependabot alerts/fixes enabled. Seven retained files read back. Recognized-pattern source screening and provenance association only; no setting change, security audit/full supply-chain trust, signing or real-device/store acceptance. Authorized normal GitHub workflow-default change write/approvaltrue→read/approvalfalse independently readbackverified. FourCIworkflow files now disable persisted checkoutcredentials andcoverMCPCodeQL trigger. CurrentCIpolicy/tooling18 cases pass; hostedlatest run startup_failure/zerojobs, protection/code-security entitlementstillopen.78-filefollowup sealed/rootverified."
+    },
+    {
+      "id": "C34",
+      "task": "Prove actual disaster recovery and upgrade recovery.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Approve RPO/RTO; restore database, Auth, roles/grants/configuration, receipt/ledger evidence, independent Storage objects, sender journals/keys and external evidence in isolation. Reconcile balances and pending work, measure recovery time and verify off-site recovery and version compatibility.",
+      "master_ids": [
+        "O02",
+        "O03",
+        "D09",
+        "Q10",
+        "M05"
+      ],
+      "implementation_evidence": "synthetic-backup-restore/README.md:116/116 accepted synthetic subset checks;181 table row sets,3 sequence positions and14 catalog categories match after custom archive restore and read/replay/refusal checks. Both disposable targets removed.269 original retained files and271 published files independently read back. Byte-identical runner and packet publication are later than source06. Hosted Auth, real Storage, secrets/native journals, managed runtime and approved RPO/RTO remain open."
+    },
+    {
+      "id": "C35",
+      "task": "Complete accountable operations and incident runbooks.",
+      "status": "in_progress",
+      "acceptance": "open",
+      "closure": "Assign on-call/support/finance/security/release owners; rehearse sender/provider/OTP/Codex outages, stuck or corrupt queues, compromise, wrong allocation, uncertain sends, emergency pause and rollback. Retain operator handover, contacts, audit retention and evidence export procedures.",
+      "master_ids": [
+        "G10",
+        "O09",
+        "P10",
+        "A10"
+      ],
+      "implementation_evidence": "operations-rehearsal-preparation/README.md:seven drafted incident procedures with19 source snapshots and22 verified evidence files. All drills remain not_executed; current supported authority/uncertainty/pause boundaries are explicit. Owner-name question stays suppressed; no assignment, independent handover, live drill or release GO is invented."
+    },
+    {
+      "id": "C36",
+      "task": "Complete an allowlisted capped pilot and release decision.",
+      "status": "pending",
+      "acceptance": "open",
+      "closure": "Progress shadow→allowlisted sends→capped group pilot with daily independent reconciliation, support/monitoring, stop/rollback criteria and documented outcomes. Bind deployment/signed hashes/locks/tests/exclusions/policy decisions to one handover and obtain accountable GO before expansion.",
+      "master_ids": [
+        "O10",
+        "Q10",
+        "G07",
+        "G09",
+        "G10",
+        "A10"
+      ],
+      "implementation_evidence": "Direct owner authorized and approved remediation/release preparation without repeated owner-name questions. This does not attest exact signed/deployed bytes, a physical/carrier pilot, independent reconciliation, or a current exact-artifact GO. Followup matrix preserves36 tasks and102 originalmasteritems/101open; counts overlap."
+    }
+  ],
+  "selected_automatic_sender": "organization_owned_android_gateway",
+  "selection_source": "direct user answer in this goal",
+  "live_sends_enabled": false,
+  "operator_sign_in": {
+    "selected_email": "info@ikanisa.com",
+    "source": "direct user email migration instruction",
+    "scope": "Admin and manual MCP operator",
+    "member_auth_changed": false,
+    "local_email_cutover_implemented": true,
+    "hosted_account_exists_at_last_targeted_read": false,
+    "hosted_auth_config_readback_http_status": 403,
+    "hosted_email_delivery_verified": false,
+    "otp_requested": false,
+    "hosted_email_mode_enabled": false,
+    "local_email_sql_evidence": {
+      "cases": 68,
+      "packet": "email-auth/README.md",
+      "current_cutover_lock_race_tested": true,
+      "hosted_verified": false,
+      "manifest": "email-auth/MANIFEST-attempt8.json",
+      "private_target_removed": true
+    },
+    "hosted_public_auth_settings_http_status": 200,
+    "hosted_email_provider_enabled": false,
+    "public_settings_packet": "email-auth/public-auth-settings-readback.json",
+    "latest_readback": "email-auth/operator-email-readback-20261001.json",
+    "latest_readback_at": "2026-10-01T00:30:23.895064+00:00",
+    "latest_public_settings_readback": "owner-authorized-closure-20261001/public-auth-final.json",
+    "latest_public_settings_readback_at": "2026-10-01T10:33:29.271791+00:00",
+    "account_currently_rechecked_in_continuation": false,
+    "hosted_auth_access_readback": "owner-authorized-closure-20261001/hosted-email-apply-attempt1.json",
+    "connector_readback": "owner-authorized-closure-20261001/supabase-connector-access.json",
+    "configuration_update_attempted": false
+  },
+  "ownership_question_suppressed_by_user": true,
+  "evidence_scope_note": "Counts apply only to their recorded source hashes. The earlier 209 checks, snapshot02 build and162-case subset exclude later email/investigation/gateway changes. Hosted, provider, device, store and full design acceptance remain independent open gates.",
+  "local_migration_checkpoint": {
+    "packet": "source06-compatibility/README.md",
+    "source_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+    "captured_migrations": 175,
+    "application_ddl_executions": 350,
+    "scoped_sql_cases": 36,
+    "actual_schema_validations": 11,
+    "clean_application_replay": true,
+    "representative_populated124_to175": true,
+    "managed_host_privileges_verified": false,
+    "auth_provider_runtime_verified": false,
+    "deployed": false
+  },
+  "implementation_programme_status": "in_progress",
+  "goal_status_source": "get_goal live read in this continuation",
+  "direct_user_continuation": true,
+  "source_checkpoint06": {
+    "path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-06",
+    "files": 1905,
+    "bytes": 154222431,
+    "manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+    "capture_window_drift_observed": false,
+    "readback": "pass",
+    "reviewed": false,
+    "trusted_origin_accepted": false,
+    "atomic_frozen_candidate": false,
+    "production_release_accepted": false,
+    "configured_admin_bundle": {
+      "status": "pass",
+      "artifact_files": 155,
+      "bytes": 66349485,
+      "artifact_manifest_sha256": "109257ba0e3dcb621fba9d31d3cfb431931b8601075335cbdbcfa655a28a40ae",
+      "existing_scoped_regression_cases": 39,
+      "deployed": false,
+      "live_authentication_accepted": false
+    }
+  },
+  "owner_remediation_authorization": {
+    "received": true,
+    "packet": "owner-authorized-closure-20261001/owner-authorization.json",
+    "scope": [
+      "hosted email authentication",
+      "operator session",
+      "financial policies",
+      "real Android gateway tests",
+      "release acceptance"
+    ],
+    "policy_selection_delegated": true,
+    "repeat_approval_required": false,
+    "specific_artifact_release_GO_verified": false,
+    "manifest_sha256": "d9dd9582fe1d3950640875411da1d86daf7225d578e827745723a1a9a5395ce2",
+    "retained_files": 55,
+    "independent_readback": "pass",
+    "final_email_tests": 31,
+    "independent_review_manifest_sha256": "8b46ec5f452a79558b0c29e1b019a3418859a5cac375fcc989fb7590c9d857bd"
+  },
+  "delegated_financial_policy": {
+    "packet": "receipt-financial-policy/README.md",
+    "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+    "content_version": 2,
+    "collection_configuration_version": 1,
+    "owner_instruction_recorded": true,
+    "primary_language": "rw",
+    "disclosure": "member-only recorded-savings snapshot at Africa/Kigali date",
+    "new_v1_send_authority": "refused",
+    "prior_armed_v1_outcome_reconciliation": "retained",
+    "focused_sql_checks": 43,
+    "distinct_selected_flutter_checks": 80,
+    "final_fixture_subset_checks": 7,
+    "prerequisite_migrations": 175,
+    "feature_migrations": 1,
+    "whole_current_chain_verified": false,
+    "hosted_deployed": false,
+    "real_sms_verified": false
+  },
+  "source_checkpoint08": {
+    "path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-08",
+    "files": 1933,
+    "bytes": 154526055,
+    "manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+    "migration_inventory": 177,
+    "capture_window_drift_observed": false,
+    "independent_readback": "pass",
+    "reviewed": false,
+    "trusted_origin_accepted": false,
+    "atomic_frozen_candidate": false,
+    "production_release_accepted": false,
+    "general_owner_authorization_received": true,
+    "whole177_chain_accepted": false,
+    "configured_admin_bundle": {
+      "status": "pass",
+      "artifact_files": 155,
+      "bytes": 66349535,
+      "artifact_manifest_sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b",
+      "independent_artifact_readback": "pass",
+      "public_production_configuration_supplied": true,
+      "synthetic_evidence_mode": false,
+      "selected_build_source_unchanged": true,
+      "deployed": false,
+      "live_authentication_accepted": false,
+      "existing_checks_rerun": false,
+      "prior_check_sources_associated_separately": true
+    },
+    "packet_manifest_sha256": "94d8a47382449416964bf9d2ba8d81ed9fe365f72c720d60d9836351d804a021",
+    "packet_listed_files": 36,
+    "packet_independent_hash_readback": "pass",
+    "later_original_checkout_changes": {
+      "count": 9,
+      "receipt": "release-tooling/checkpoint08/later-current-source-hashes.json",
+      "captured_source_changed": false,
+      "replacement_performed": false,
+      "critical_pins_changed": false,
+      "current_original_tree_accepted": false
+    }
+  },
+  "source_checkpoint07_diagnostic": {
+    "packet": "release-tooling/checkpoint07/superseded-export-stop.json",
+    "export_completed": false,
+    "build_started": false,
+    "reason": "superseded email helper defects fixed before source08",
+    "retained_partial_files": 1933,
+    "retained_partial_bytes": 154499176
+  },
+  "owner_design_scope_amendment": {
+    "as_of": "2026-10-01",
+    "scope": "Sole revolut-design authority; separately named mobile checklist and its mandatory gates removed at owner request. Previous integrity claims for changed bytes are withdrawn. Existing technical observations retain their dated scope."
+  }
+}

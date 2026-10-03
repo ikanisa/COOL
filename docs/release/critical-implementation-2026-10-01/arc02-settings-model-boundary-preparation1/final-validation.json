@@ -1,0 +1,23 @@
+{
+  "status": "private_proposal_validated",
+  "maintained_before_sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+  "proposed_main_sha256": "5b71afad52aba4781e0b10f4250c1dbb6a0ca8fa46023a1def7d1db7e3fe238c",
+  "proposed_history_sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+  "main_lines": 1084,
+  "history_lines": 171,
+  "owned_files_pass_unchanged_1200_line_hard_gate": true,
+  "ci_policy_sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+  "exact_original_bytes_reconstructed": true,
+  "all_28_declaration_syntax_and_order_preserved": true,
+  "all_original_imports_preserved": true,
+  "same_dart_part_library_binding": true,
+  "syntax_elapsed_seconds": 2.8517235420004,
+  "bound_sources_unchanged": true,
+  "bound_source_count": 639,
+  "affected_consumer_file_count": 19,
+  "maintained_main_unchanged_and_new_module_absent": true,
+  "runtime_behavior_verified": false,
+  "strict_semantic_analysis_verified": false,
+  "root_integration_pending": true,
+  "arc02_full_acceptance": false
+}

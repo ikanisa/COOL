@@ -1,0 +1,80 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-gateway-enrollment-prior-attempt66",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-enrollment-prior-attempt66/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.18,
+      "stdout_sha256": "4d5228f07bd1ef03503ff9a1ae7276911ffc2b46224e6ec0a433d94fca41ba54",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.23,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "widgets",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 62.16,
+      "stdout_sha256": "628e76a7e366dd076753b14df00fdb7257061713d44224ae45be15226b177f20",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fatal-analysis",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "lib/gateway",
+        "lib/main_gateway.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 36.04,
+      "stdout_sha256": "f569d7e35a2dcaad5b1af89579a82b944a5de75c123f50faec036e82e7dbbc72",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

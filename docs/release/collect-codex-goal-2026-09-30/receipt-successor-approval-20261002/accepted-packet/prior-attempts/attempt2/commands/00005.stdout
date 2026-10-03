@@ -1,0 +1,46 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+Using language tag "en-US" for ICU locale "en_US.UTF-8".
+The database cluster will be initialized with this locale configuration:
+  locale provider:   icu
+  default collation: en-US
+  LC_COLLATE:  en_US.UTF-8
+  LC_CTYPE:    en_US.UTF-8
+  LC_MESSAGES: en_US.UTF-8
+  LC_MONETARY: en_US.UTF-8
+  LC_NUMERIC:  en_US.UTF-8
+  LC_TIME:     en_US.UTF-8
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/collect-rehearsal/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default "max_connections" ... 100
+selecting default "shared_buffers" ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    /nix/var/nix/profiles/default/bin/pg_ctl -D /var/lib/postgresql/collect-rehearsal/data -l logfile start
+
+waiting for server to start....2026-10-01 22:41:51.261 UTC [42] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:41:51.264 UTC [42] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:41:51.265 UTC [45] LOG:  database system was shut down at 2026-10-01 22:41:51 UTC
+2026-10-01 22:41:51.268 UTC [42] LOG:  database system is ready to accept connections
+2026-10-01 22:41:51.275 UTC [49] LOG:  pg_cron scheduler started
+ done
+server started
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/init-scripts
+
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/migrate.sh
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00-schema.sql

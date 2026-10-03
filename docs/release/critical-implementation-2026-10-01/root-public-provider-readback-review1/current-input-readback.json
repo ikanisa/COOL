@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-02T07:01:46.060335+00:00",
+  "dated_source_inputs": 70,
+  "current_source_drift": [
+    {
+      "path": "AGENTS.md",
+      "retained_sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+      "current_sha256": "12642acf1baacb3b50b791fcad543618f096ed9567e6afaa5c9a58dc6b870128"
+    }
+  ],
+  "current_artifact_files": 55,
+  "artifact_errors": [],
+  "public_responses_are_retained_dated_observations": true,
+  "live_deployment_acceptance": false
+}

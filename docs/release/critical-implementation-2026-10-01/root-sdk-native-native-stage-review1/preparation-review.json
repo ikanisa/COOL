@@ -1,0 +1,18 @@
+{
+  "all_flavor_ABI_complete": false,
+  "at_utc": "2026-10-02T08:27:28.825183+00:00",
+  "controller_sha256": "167d48b4e756043a87621feffcabccb41aca108232cfb943914b69fc5b090fe7",
+  "copied_guard2_and_168_bindings_exact": true,
+  "current_APP_or_SDK_not_inspected_by_this_preparation_review": true,
+  "narrow_test_receipt_scope": "synthetic admission fixtures only; no independent process-group claim for the narrow fixture runner",
+  "narrow_tests": 8,
+  "native_admitted": false,
+  "native_argv_env_2700_bound_and_JVM_classes_graphs_unchanged": true,
+  "only_declared_native_admission_and_parser_diff_reviewed": true,
+  "prepared_manifest_sha256": "a9345a6c699794117e6e3a9bb6e06d4c3e34f1db7fb680a79c7b09f45bcf3452",
+  "production_release_approval": false,
+  "safe_leaves_checked": 22,
+  "source_lock_attested": false,
+  "status": "pass",
+  "whole_guard2_app_lock_and_fresh_whole_export_binding_required": true
+}

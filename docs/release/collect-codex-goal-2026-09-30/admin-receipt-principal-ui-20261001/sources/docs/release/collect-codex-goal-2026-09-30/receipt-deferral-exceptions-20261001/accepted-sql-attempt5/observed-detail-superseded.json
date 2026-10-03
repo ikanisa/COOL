@@ -1,0 +1,20 @@
+{
+  "active": false,
+  "revision": 2,
+  "source_id": "fae5f145-8cf2-469a-a354-47c27dff3160",
+  "checked_at": "2026-10-01T12:10:21.767582Z",
+  "event_kind": "allocation_changed",
+  "receipt_id": null,
+  "disposition": "source_superseded",
+  "reason_code": "RECEIPT_OPERATION_SNAPSHOT_MISSING",
+  "send_action": false,
+  "source_kind": "receipt_event",
+  "current_code": "SOURCE_SUPERSEDED",
+  "exception_id": "04943cbb-2d23-4ae9-b186-2e37cb416274",
+  "original_code": "SNAPSHOT_MISSING",
+  "source_version": 1,
+  "business_handled": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T12:11:21.767582Z"
+}

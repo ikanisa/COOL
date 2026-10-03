@@ -1,0 +1,15 @@
+{
+  "captured_at": "2026-09-30T23:52:38.316941+00:00",
+  "purpose": "Independent synthetic request-validation repro only",
+  "network_called": false,
+  "rpc_implementation": "In-memory stub; no Supabase client or database",
+  "key_material": "Generated nonpersistent synthetic P-256 key only; private key not exported or retained",
+  "before_capture_source": ".cache/receipt-supervisor-preparation/handler.ts",
+  "before_capture_sha256": "ea7dee44637589bb0501430dee8c3dbd05842ccf348f39eb6eb94fdcb71206d6",
+  "after_capture_source": "supabase/functions/collect-receipt-supervisor/handler.ts",
+  "after_capture_sha256": "1649f602ae5c58ea22576a2328bca5104b88234d80b4e741386171e2813ea9aa",
+  "sql_observed_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+  "original_repro_sha256": "2f0ebb2881f7969aecf18038706953567081910ca613ceec38a2ebf53922c3cf",
+  "historical_selected_handler_observed_sha256": "613eb23cdee56362269be6af37b340d5e265802082686ca7ec3b9a1cd17d8227",
+  "historical_selected_handler_note": "Inspected before repair; not retained byte-for-byte. Before re-execution below uses the retained draft capture, identified separately."
+}

@@ -1,0 +1,4 @@
+ERROR:  55000: operations_run_fenced
+CONTEXT:  PL/pgSQL function collect_receipt_operations.require_run(uuid,bigint,uuid) line 7 at RAISE
+PL/pgSQL function public.gateway_arm_dispatch_v2(uuid,uuid,text,jsonb) line 20 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/current-source/scripts/tests/runtime_reachability_test.py"
+  ],
+  "current_actual_tests": 8,
+  "current_failures": 0,
+  "export_source_sha256": {
+    "scripts/qa/runtime_reachability.py": "1a3307ff527d5b0ce3c06511745145cb351168d536ac1f0402657e8aaa352e8c",
+    "scripts/tests/runtime_reachability_test.py": "aaa31f89580bc7535da14fed598d3859d2f9ed5073989c8d4d092461b4ff974e"
+  },
+  "original_source_unchanged": true,
+  "prior_actual_tests": 8,
+  "prior_failures": 4,
+  "proof_sha256": {
+    "before-source.json": "af2a78ed264a2e02ea000822cabb7d2c1f98ff4ce33399d8e43edc0c61b1964f",
+    "current-tests.stderr": "03efccb1675b7150f592d696f65fc91a6565375e9f607f70dead29a0b5ed5af4",
+    "current-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "prior-execution.json": "9a5e04b85aa0076500723488a0208af6c156e76f26d69e8e2ace7245cdfb66e0",
+    "prior-tests.stderr": "89eb192c0f622f43bc1372e516155d2b7f736aff2576cb8db6bced68aac88354",
+    "prior-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Copied source graph regressions covering actual declared Gateway entry point; no application/native build, assets or runtime acceptance",
+  "source_sha256": {
+    "scripts/qa/runtime_reachability.py": "1a3307ff527d5b0ce3c06511745145cb351168d536ac1f0402657e8aaa352e8c",
+    "scripts/tests/runtime_reachability_test.py": "aaa31f89580bc7535da14fed598d3859d2f9ed5073989c8d4d092461b4ff974e"
+  },
+  "status": "pass_scoped_gateway_graph"
+}

@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select not exists(select 1 from unnest(array['anon','authenticated','service_role'])r where has_schema_privilege(r,'collect_receipt_history','USAGE'))and not exists(select 1 from pg_proc p cross join unnest(array['anon','authenticated','service_role'])r where p.pronamespace='collect_receipt_history'::regnamespace and has_function_privilege(r,p.oid,'EXECUTE'));

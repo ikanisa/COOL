@@ -1,0 +1,292 @@
+{
+  "maintained": {
+    "scripts/tests/admin_receipt_operational_telemetry_test.dart": {
+      "sha256": "fc7e96f83d783c66f7e09ecb85312f44e8ab36494cf38ecd6d589269aff32526",
+      "bytes": 13803,
+      "mode": 420
+    },
+    "scripts/tests/admin_receipt_source_busy_test.dart": {
+      "sha256": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "bytes": 2318,
+      "mode": 420
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f",
+      "bytes": 17303,
+      "mode": 420
+    },
+    "lib/admin/core/admin_exception_workflow_models.dart": {
+      "sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85",
+      "bytes": 20540,
+      "mode": 420
+    },
+    "lib/admin/core/admin_receipt_operational_telemetry.dart": {
+      "sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+      "bytes": 15444,
+      "mode": 420
+    },
+    "lib/admin/core/admin_receipt_deferral_models.dart": {
+      "sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66",
+      "bytes": 6305,
+      "mode": 420
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e",
+      "bytes": 1975,
+      "mode": 420
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a",
+      "bytes": 116,
+      "mode": 420
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+      "bytes": 986,
+      "mode": 420
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "bytes": 3650,
+      "mode": 420
+    },
+    "analysis_options.yaml": {
+      "sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+      "bytes": 1156,
+      "mode": 448
+    },
+    "pubspec.yaml": {
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+      "bytes": 2425,
+      "mode": 448
+    },
+    "pubspec.lock": {
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "bytes": 39236,
+      "mode": 448
+    },
+    ".dart_tool/package_config.json": {
+      "sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+      "bytes": 33414
+    }
+  },
+  "external_package_inputs": {
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/crypto.dart": {
+      "sha256": "b40a054df79c99691aeca18db7a0c4bda1d99793538015841e858a59149b6935",
+      "bytes": 390
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/digest.dart": {
+      "sha256": "0aa3fc33d3f17661ba26881463ae30e63bef2dc3a70089a3b9369b79c574349d",
+      "bytes": 1490
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/digest_sink.dart": {
+      "sha256": "9912d304a55d1b9eb534ad49e9983eed9acf914e13444e1c51c7d3b71be40ca2",
+      "bytes": 862
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/hash.dart": {
+      "sha256": "6a896dc98a5de35ebf6a71deb41cd0af940e3468fec1912c24c17a5a65fdd45a",
+      "bytes": 1089
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/hash_sink.dart": {
+      "sha256": "2b0642541390cd748d257d0a7f774f4854cd737639ca4e0d7a1ec910c9e603c3",
+      "bytes": 6659
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/hmac.dart": {
+      "sha256": "5f7dd7c618144cc8c2dbdc7d2596922287214a7b25d17c9f89aaa0b41a43f6cd",
+      "bytes": 3158
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/md5.dart": {
+      "sha256": "64897cf616c0a1aacfd28ec28136676e6beac4ff34bb129a4a1a05b06cadcd2c",
+      "bytes": 4271
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/sha1.dart": {
+      "sha256": "a89f8a4cf77824ec2926636940b59be09ea3068702bc01be970a8fa584363e70",
+      "bytes": 2732
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/sha256.dart": {
+      "sha256": "64b2b537d597a8306c0ad77e69e8b2b2e3b97adef46c622fab681333813a3797",
+      "bytes": 5921
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/sha512.dart": {
+      "sha256": "3b7cb5dc57605acca7eec81e355ec93f652abf0f08fdcbb7c081108e7d1383ab",
+      "bytes": 2741
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/sha512_fastsinks.dart": {
+      "sha256": "9b5c69cf6a6d558f270496959b2c619dff422e2bf138613f468310df160f70b7",
+      "bytes": 7465
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/sha512_slowsinks.dart": {
+      "sha256": "8e7fe0aee8613520b9b193fb5f8ce3b679685cdf34149a875d817cd86eb1ce8c",
+      "bytes": 13869
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/lib/src/utils.dart": {
+      "sha256": "6894378a65f58f75948e070797584c326571c806500fc6f83d390a3a1b127c71",
+      "bytes": 748
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/crypto-3.0.7/pubspec.yaml": {
+      "sha256": "7e80694c991709360b161f4af801646902127f120b864286dbc413e4f667f712",
+      "bytes": 464
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib/src/typed_buffer.dart": {
+      "sha256": "bfa6446db29bb66c1a0b65f5e569927d63638f5ebc897028091c90c82e77c3f1",
+      "bytes": 12597
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib/src/typed_queue.dart": {
+      "sha256": "0ac58fe70939c03fa0e275127121f090e73c2b7e50d51306b6642521ef28de15",
+      "bytes": 26301
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib/typed_buffers.dart": {
+      "sha256": "84f1cfa516c6d51c549fbea2bc65306a61cfaaf1b30c19720983dd49b5191d29",
+      "bytes": 693
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib/typed_data.dart": {
+      "sha256": "f898e68142775920e82aae3d26a29fcaf1791e94c3bcc5c15b836b6aeb6aeac2",
+      "bytes": 361
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/typed_data-1.4.0/pubspec.yaml": {
+      "sha256": "a9f411c96b3904fdb471b2c34b5c88569b899bc5b6bcb74fd08d1abfcdc1c79f",
+      "bytes": 355
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/algorithms.dart": {
+      "sha256": "f196ef237842992131f7445c9bb7731bdd635199d438dc0f6b7222054fc2fadf",
+      "bytes": 425
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/collection.dart": {
+      "sha256": "c3ff78be4f875a5a4c73bb9725ddc0ada1047b7d236327ce44e3872d5e2c6ac7",
+      "bytes": 1006
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/equality.dart": {
+      "sha256": "82bfd25785799bf86a8ff7c30b1d03903ba22bb5808c85731b2758ac5c239de3",
+      "bytes": 345
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/iterable_zip.dart": {
+      "sha256": "82703b89da050ff8e63105eccd013a872cdc74283a1391c84de86d1fe58dee62",
+      "bytes": 349
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/priority_queue.dart": {
+      "sha256": "340f6ce79a62e7cffc222ef141ed89893ae044a6f880e2aea386792c3ed14e04",
+      "bytes": 351
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/algorithms.dart": {
+      "sha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+      "bytes": 16732
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/boollist.dart": {
+      "sha256": "673c2f300822f573b182c6a222c445d9ef5090a6dc6efdb7d1a32319bd874e96",
+      "bytes": 7899
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/canonicalized_map.dart": {
+      "sha256": "73922d659823fd3a3af583b402edada966577131e0478df3d0b752c471b9a6d7",
+      "bytes": 6461
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/combined_wrappers/combined_iterable.dart": {
+      "sha256": "9b9544ab3b6ac22876205d0af9ff4f83e204337a16ea27e69eabe80fb9100a11",
+      "bytes": 1437
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/combined_wrappers/combined_iterator.dart": {
+      "sha256": "8205cf365184783a0035a403698e37451d3768d2189e40e8ca0db16e33998e0f",
+      "bytes": 1191
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/combined_wrappers/combined_list.dart": {
+      "sha256": "1f00032ee6c4cfeee054218c9295d15f4b22a1c688cbcf4bed05ab7df41645a0",
+      "bytes": 2053
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/combined_wrappers/combined_map.dart": {
+      "sha256": "256fa6024cec549ce5ac30016f6d0be9ddc0a40f31e0001b75becef7d5307034",
+      "bytes": 3439
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/comparators.dart": {
+      "sha256": "100fb08a3bbb242f3e4a72eb0ac6e21bb3b609d56c5e47aaef07af4c7e37b862",
+      "bytes": 14564
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/empty_unmodifiable_set.dart": {
+      "sha256": "5ce991e62d44b70e22ad847144e3160ccae91894ec53fb52cb7d084e015d0e4d",
+      "bytes": 1510
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/equality.dart": {
+      "sha256": "2538528180ddb2af6ae6f9e2219f8512c91af3a3d03cf77368216892f6a5cc5e",
+      "bytes": 15531
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/equality_map.dart": {
+      "sha256": "64c1982d883236aeac1b53a22b2cf389d97de29a3cb970af083524837174b810",
+      "bytes": 1147
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/equality_set.dart": {
+      "sha256": "40e7bd18832039b82c7036de90d9610d4346f309c596226749d35f8ddf3f908b",
+      "bytes": 1139
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/functions.dart": {
+      "sha256": "b1bfc356e1f33ad184a650f650743c92a4faeb4369ae05f2ee364e4d194eda8a",
+      "bytes": 7463
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/iterable_extensions.dart": {
+      "sha256": "8ea68880f336beb62f144fe42315329ca5a5ec04367e4c4ff2660a7aa58a8f0a",
+      "bytes": 32199
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/iterable_zip.dart": {
+      "sha256": "4db41599c8dc991a17a071b4995ff4a247e8fb7ac544a619fed6574db4039dd7",
+      "bytes": 1772
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/list_extensions.dart": {
+      "sha256": "5b653255a53822d8936c58598b0d82b10c69ae672f8598b38531d6b0cc790214",
+      "bytes": 18548
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/priority_queue.dart": {
+      "sha256": "be7cad5178599b3d439b594ebf9bd9f558a61160ff39b7d7c0910e40891a4426",
+      "bytes": 16007
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/queue_list.dart": {
+      "sha256": "c0864a4a42c5d5c397aae3b04ab3796e9c413cdc2fbdd40d8cc3ec7a8be7df94",
+      "bytes": 8760
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/union_set.dart": {
+      "sha256": "5cbaaee17fb13a19481464db16769b02dae1859ab96ab79c4f9f183b492c826d",
+      "bytes": 3084
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/union_set_controller.dart": {
+      "sha256": "f6047a5a3ad9ab5fa612bf1e4dcc5b4fb2f78965ad6ab828a4f0af7030754b1b",
+      "bytes": 1965
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/unmodifiable_wrappers.dart": {
+      "sha256": "2883cefc2b550c909961d5eff7759062ab9569d5598b978df1f1aac0e1ee3114",
+      "bytes": 6685
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/utils.dart": {
+      "sha256": "3103ae95cf8ad7ee0433f75e3aaf3c5d53714db411ffce44db24f609e7718cb9",
+      "bytes": 895
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/src/wrappers.dart": {
+      "sha256": "98d3a14ec8ca76b0c77998f518eef40f1c0579ffefda713a5e670299c1a28363",
+      "bytes": 23013
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/lib/wrappers.dart": {
+      "sha256": "3a5f3c470301275131ab45037e1f4a5d068fa1543ba089d3cab398b4d92b5dc3",
+      "bytes": 423
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/collection-1.19.1/pubspec.yaml": {
+      "sha256": "0558412e31aacf6a97e6b226e0f9f6b10ab5ae95c57a8a562ff579ee1609f913",
+      "bytes": 335
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/flutter_lints-6.0.0/lib/flutter.yaml": {
+      "sha256": "9c7a9b1c32db465b9f89835041859be8b811d4d37708e9caba41ab764bf7bc08",
+      "bytes": 471
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/flutter_lints-6.0.0/pubspec.yaml": {
+      "sha256": "8b819dad320bf3f6a7464d3c10f98fe749e5687685cb097534f99e5be0032e9d",
+      "bytes": 504
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/lints-6.1.0/lib/core.yaml": {
+      "sha256": "4c5c5df5f390967c489347f75a1bcf4fe876b9141545fae543bd28bc9297ad06",
+      "bytes": 1369
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/lints-6.1.0/lib/recommended.yaml": {
+      "sha256": "f9bc3246e2a5ba49a0416aae21be1d140d517d065bcf79856270a2f869cfd0cf",
+      "bytes": 2464
+    },
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/lints-6.1.0/pubspec.yaml": {
+      "sha256": "45a12e5d281279d245741c002b33ed10b0af776074d457f4e342d46ced8431e6",
+      "bytes": 532
+    }
+  },
+  "scope": "Private proposal and isolated direct-Dart/analyzer proof only; no integrated source or SQL fixture execution claim"
+}

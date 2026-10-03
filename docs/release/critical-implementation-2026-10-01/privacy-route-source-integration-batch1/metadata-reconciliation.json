@@ -1,0 +1,38 @@
+{
+  "started_at_utc": "2026-10-02T00:40:36.776052+00:00",
+  "completed_at_utc": "2026-10-02T00:40:37.456411+00:00",
+  "command": [
+    "ruby",
+    "scripts/generate_product_capability_content.rb"
+  ],
+  "environment_overrides": {
+    "DART": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart"
+  },
+  "timeout_seconds": 300,
+  "actual_exit_code": 0,
+  "source_inputs_updated": {
+    "lib/app/router.dart": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb",
+    "lib/shared/repositories/collect_repository.dart": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+  },
+  "store_metadata_unchanged": {
+    "fastlane/metadata/en-GB/description.txt": "9b621473516ff0bb928b5ae255ec25eaaea0dae5e45a9bd289a1c162bc3a80e3",
+    "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+    "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+    "fastlane/metadata/en-GB/review_notes.txt": "93e0494e7f8eb53e563c9885035a4a3270900e514fc60b7161516af15475981b",
+    "fastlane/metadata/en-GB/release_notes.txt": "33601afa0354bfe201edaf88e1ee0a3850860d480d5d3c2d97e5f02b51878e28",
+    "fastlane/metadata/android/en-US/full_description.txt": "2f832a59908e33e505580134600f576fa1fb1837dd5725bb9467784ec083365d",
+    "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+  },
+  "capability_facts_actions_availability_approval_unchanged": true,
+  "generated_deltas_digest_only": true,
+  "fifteen_visible_route_hashes_unchanged": true,
+  "reviewed_source_input_count": 20,
+  "files_after": {
+    "content/product/collect_capabilities.json": "71d9288963e5cd13a78c6abd50f9c962081a5c841da3d5688849c8a36cadbefa",
+    "docs/release/public-website-current-content-contract.json": "c3a81d6067fc3533630b786e8b3a0ce125661d5c0fe7b5d41dfb2564747b50ee",
+    "lib/features/landing/public_marketing_page_content.dart": "91067ab43ef0d3da347494f9f429d0282122cab168225ed7a80313a32ae34ee0",
+    "lib/features/landing/public_capability_content.dart": "f326adac4467bd16bb5056836389a0ef28e0a2025a5b7f1de2b6498e6469ec46"
+  },
+  "current_full_public_runtime_accepted": false,
+  "production_approval": false
+}

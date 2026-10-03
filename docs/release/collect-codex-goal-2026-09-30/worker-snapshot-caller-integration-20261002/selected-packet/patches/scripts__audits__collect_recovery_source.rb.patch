@@ -1,0 +1,23 @@
+--- a/scripts/audits/collect_recovery_source.rb
++++ b/scripts/audits/collect_recovery_source.rb
+@@ -185,7 +185,7 @@
+   def options(argv, kind)
+     args = argv.dup
+     result = {}
+-    flags = kind == :backup ? %w[--roles-only] : %w[--rehearse-migrations]
++    flags = kind == :backup ? %w[--roles-only --worker-snapshot] : %w[--rehearse-migrations --worker-snapshot]
+     values = %w[--source-contract --source-contract-sha256]
+     values += %w[--database-report --roles-report --extension-metadata] if kind == :restore
+     positions = []
+@@ -213,6 +213,11 @@
+       raise Error, 'Current recovery contract requires explicit archive and extension inputs' if paired == 2 && explicit != 3
+       raise Error, 'Historical migration rehearsal cannot accept a current contract' if paired == 2 && result['--rehearse-migrations']
+     end
++    if result['--worker-snapshot']
++      raise Error, 'Worker snapshot requires an exact source contract' unless paired == 2
++      raise Error, 'Worker snapshot cannot capture global roles' if result['--roles-only']
++      raise Error, 'Worker snapshot cannot rehearse historical migrations' if result['--rehearse-migrations']
++    end
+     result['output'] = positions.last
+     result
+   end

@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-02T13:48:36.076875+00:00",
+  "status": "PASS",
+  "maintained_before_sha256": {
+    "scripts/audits/collect_schema_domain_map.py": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+    "scripts/tests/collect_schema_domain_map_test.py": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  },
+  "maintained_after_sha256": {
+    "scripts/audits/collect_schema_domain_map.py": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+    "scripts/tests/collect_schema_domain_map_test.py": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82"
+  },
+  "actual_maintained_tests": 57,
+  "new_cases": 8,
+  "actual_current209_generation": true,
+  "full_independent_semantic_recomputation": true,
+  "old_map_and_gaps_equal_after_only_additive_field_and_manifest_digest_removal": true,
+  "all_original_summary_counters_unchanged": true,
+  "unresolved_function_count": 127,
+  "application_unresolved_count": 36,
+  "platform_unresolved_count": 91,
+  "review_records_with_additive_candidates": 34,
+  "additive_candidate_records": 37,
+  "all_candidate_resolution_lineage_and_expected_body_flags_unproved": true,
+  "old_packets_unchanged": true,
+  "DB_native_provider_calls_run": false,
+  "BE08_closed": false,
+  "production_release_approval": false
+}

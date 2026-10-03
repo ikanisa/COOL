@@ -1,0 +1,1604 @@
+{
+  "status": "pass",
+  "scope": "Complete eight named client cohorts only. Parent remains failed on four missing archived investigation-view observation inputs; no entire Admin/current server/provider/audit closure.",
+  "cohorts": {
+    "test/admin_exception_sdk_provider_state_test.dart": [
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK exact target body and captured Bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK denied has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK 503 has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK lost response has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK missing receipt has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK extra private field has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK suppresses replaced session switchBack=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK suppresses replaced session switchBack=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK same-session refresh preserves pinned request token",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 actual SDK signed-out caller makes no request",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK exact target body and captured Bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK denied has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK 503 has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK lost response has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK missing receipt has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK extra private field has no fallback or mutation retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK suppresses replaced session switchBack=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK suppresses replaced session switchBack=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK same-session refresh preserves pinned request token",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 actual SDK signed-out caller makes no request",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider denies missing payments.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider denies missing notifications.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider denies missing system_health.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider redacts 42501 service failure",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider redacts PGRST202 service failure",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider denies missing payments.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider denies missing notifications.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider denies missing system_health.read before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider redacts 42501 service failure",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider redacts PGRST202 service failure",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_exception_models_test.dart": [
+      {
+        "name": "actual isolated SQL empty list passes exact v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL populated list passes exact v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL filtered list passes exact v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL cleared list passes exact v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL recorded-lookup passes actor-bound v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL unknown-lookup passes actor-bound v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual isolated SQL progress-lookup passes actor-bound v2 parser",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual v1 immutable action binds exact original UUID revision and action",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "typed linkage never interchanges payment allocation and raw SMS IDs",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects extra private field",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong version",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects floating version",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong scope",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects fake complete scan",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects fake delivery proof",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong TTL",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects noncanonical timestamp",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects impossible timestamp",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects extra row field",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects unknown reason",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong reason category",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects fake receipt SMS link",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong raw SMS link",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects integer string revision",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects revision beyond cap",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects source time after check",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects duplicate exception",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects wrong order",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects cursor without full page",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict list rejects mixed active filter",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "filter echo and paired cursor are exact and keyset excludes newest rows",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lookup wrong target and inconsistent outcome never return a receipt",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint contains only bounded reviewed references and binds authenticated owner",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_gateway_action_ui_sdk_test.dart": [
+      {
+        "name": "enroll enroll production dialog SDK success validates exact intent before refresh",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears permission draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after permission",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears role draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after role",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears loading draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears error draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears repository draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after repository",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears session draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after session",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK clears A-B-A draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK suppresses late ACK after A-B-A",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK denied redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK 503 redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK lost redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK wrong-request redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK private-extra redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll enroll production dialog SDK fresh actor permission denial prevents write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK success validates exact intent before refresh",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears permission draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after permission",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears role draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after role",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears loading draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears error draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears repository draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after repository",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears session draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after session",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK clears A-B-A draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK suppresses late ACK after A-B-A",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK denied redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK 503 redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK lost redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK wrong-request redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK private-extra redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK wrong-device redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate activate production dialog SDK fresh actor permission denial prevents write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK success validates exact intent before refresh",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears permission draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after permission",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears role draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after role",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears loading draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears error draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears repository draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after repository",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears session draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after session",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK clears A-B-A draft without write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK suppresses late ACK after A-B-A",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK denied redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK 503 redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK lost redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK wrong-request redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK private-extra redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK wrong-device redacts and preserves uncertainty",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke revoke production dialog SDK fresh actor permission denial prevents write",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_exception_repository_test.dart": [
+      {
+        "name": "actual SDK list uses current token exact filters paired UTC cursor and strict wire",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid limits cursor UUID and date avoid network",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual v1 action uses one exact nonretrying RPC and immutable receipt",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "mismatched target and false source/delivery claims reject without retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "403 and uncertain503 mutations perform one call each without retry",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bounded authority_busy lookup stays distinct and is not retried",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lookup exact requested UUID is read-only and wrong target is rejected",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "pending old-session receipt suppressed through owner switch return=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "pending old-session receipt suppressed through owner switch return=true",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_exception_page_test.dart": [
+      {
+        "name": "disposed inbox provider rejects pending old evidence before parsing",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "canonical exception route independently requires all three reads",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing payments.read avoids all read and mutation requests",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing notifications.read avoids all read and mutation requests",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing system_health.read avoids all read and mutation requests",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recorded source flags and incomplete scan never imply resolution or delivery",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "read-only capability displays visible disabled review actions",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "redacted distinct inbox state PostgrestException",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "redacted distinct inbox state UnsupportedError",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "redacted distinct inbox state FormatException",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "read TTL hides stale rows and controls without source rescan",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "server category and cleared filters reset cursor without global counts",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "paired keyset next previous and refresh preserve actual source IDs",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "review saves exact original checkpoint before one action and refreshes actual source",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint write failure prevents submission and remains redacted",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "source revision refusal clears unsent review checkpoint and never resolves source",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "current live capability loss prevents action after reviewed dialog",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "keyboard Escape cancels concrete review without storing or submitting",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session replacement closes reviewed dialog without writing",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "uncertain action retains original UUID across reload with manual lookup and no replay",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "in_progress recovery preserves original checkpoint and independent source read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "authority_busy recovery preserves original checkpoint and independent source read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fresh same-owner session recovers reference without automatic read or mutation",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "another actor cannot expose or look up saved original request",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px 2x dark labels and review controls remain reachable",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop dark synthetic exception capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px 2x light labels and review controls remain reachable",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop light synthetic exception capture",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_gateway_page_test.dart": [
+      {
+        "name": "gateway route requires both canonical read capabilities",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "active identity keeps permission network SIM pause and dispatch separate",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "read-only permissions expose evidence and no device mutations",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing notifications.read avoids all device requests",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing system_health.read avoids all device requests",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "distinct read state PostgrestException stays redacted",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "distinct read state UnsupportedError stays redacted",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "distinct read state FormatException stays redacted",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "list expiry hides identity health and action controls without refetch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fresh list with expired heartbeat hides measurements and disables activation only",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enrollment validates and reviews one UUID then acknowledges only pending identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke reviews exact identity fingerprints and prevents duplicate submission",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "uncertain enrollment checks same request read-only until exact result is resolved",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fresh actor permission loss before submission prevents mutation",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session replacement dismisses a reviewed enrollment before any write",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "disposed provider rejects late unvalidated device evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same owner session replacement hides pending old evidence before parsing",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "keyset pagination keeps order and refresh returns to newest window",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "additional: exact configured gateway icon and empty server menu are preserved",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "additional: empty current device read shows enrollment and no invented health",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "additional: request lookup failure keeps independent device observations",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "additional: heartbeat expiry inside fresh read hides individual measurements",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "additional: identity activation is independent of permission denial and never optimistic dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway shell denial identifies both required reads",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px 2x dark exposes responsive labels and enrollment form",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop dark synthetic gateway capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px 2x light exposes responsive labels and enrollment form",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop light synthetic gateway capture",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_receipt_overview_test.dart": [
+      {
+        "name": "exact aggregate contract preserves bigint value and Kigali interval",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "midnight Kigali follows next day while UTC remains previous date",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing, surplus, permissive scalar and fabricated zero responses fail closed",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "pending oldest/count and receipt authorization remain consistent",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "zero financial and empty queue are real available observations",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real-shaped measures distinguish posting, pending, failure and unknown sends",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "specialized Overview table headings have visible text and stable semantics",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "light queue metrics use readable surface foregrounds",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "backend permission denial remains distinct from unavailable service",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing permission avoids service reads and does not fabricate measurements",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "financial section survives receipt permission denial",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "health failure leaves financial and SMS gate measurements readable",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "partial metrics and SMS errors preserve allocations and independent health",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "stale observations hide values and show a usable refresh action",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "all three resolved measurement refresh actions only reread services",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "disposed pending measurement cannot publish a prior workspace value",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt alert navigates to an applied, validated queue filter",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "synthetic dark Overview at320px enlarged text remains scrollable",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "synthetic dark Overview capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "synthetic light Overview at320px enlarged text remains scrollable",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "synthetic light Overview capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "SDK request and session fence uses exact authenticated read and validates redacted response",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "SDK request and session fence unsupported country and signed-out request never reach service",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "SDK request and session fence malformed response is not empty or healthy data",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "SDK request and session fence same-owner session replacement suppresses delayed read",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "test/admin_investigation_test.dart": [
+      {
+        "name": "investigation exact decoder transaction preserves separate posting and current balances",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder transaction distinguishes missing and separately denied sections",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder receipt preserves separate posting and current balances",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder receipt distinguishes missing and separately denied sections",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects unknown version",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects missing field",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects raw body injected",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects unmasked destination",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects unmasked preview",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects preview missing snapshot",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects wrong target",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects cross payment",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects unsafe history total",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects fractional amount",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects money overflow",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects invalid calendar",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects year zero",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects naive timestamp",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects truncated history",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects duplicate history",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects outcome before send",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects journal delta mismatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects cross collection",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects cross member",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects cross snapshot",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects snapshot amount conflict",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects snapshot member balance conflict",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder rejects snapshot group balance conflict",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation exact decoder bounded newest50 history explicitly retains omitted total",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK synthetic dark investigation capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK synthetic light investigation capture",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK exact target body and current refreshed Bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK denial never invokes compatibility or another read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK valid envelope for a different kind is rejected",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK late session response is suppressed A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK late session response is suppressed A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK transport loss has one dispatch network=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK transport loss has one dispatch network=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 transaction locked SDK invalid target and logout never dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view actual detail consumer dispatches its bound joined read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view separate snapshot/current values and masked unknown outcome",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view missing current permission denies without HTTP",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view optional navigation requires its current capability",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view loading/error/revocation hides retained private evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view disposed pending read never publishes linked evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view mounted A-B-A hides departed response and accepts current evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view partial history states its bounded count without claiming completeness",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view stale reading hides evidence and explicit refresh restores it",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view missing remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view denied remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view unavailable remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation transaction production provider and view 320px at2x preserves readable scrollable evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK exact target body and current refreshed Bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK denial never invokes compatibility or another read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK valid envelope for a different kind is rejected",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK late session response is suppressed A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK late session response is suppressed A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK transport loss has one dispatch network=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK transport loss has one dispatch network=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_investigation_v1 receipt locked SDK invalid target and logout never dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view actual detail consumer dispatches its bound joined read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view separate snapshot/current values and masked unknown outcome",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view missing current permission denies without HTTP",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view optional navigation requires its current capability",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view loading/error/revocation hides retained private evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view disposed pending read never publishes linked evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view mounted A-B-A hides departed response and accepts current evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view partial history states its bounded count without claiming completeness",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view stale reading hides evidence and explicit refresh restores it",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view missing remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view denied remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view unavailable remains an explicit section/service state",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "investigation receipt production provider and view 320px at2x preserves readable scrollable evidence",
+        "result": "success",
+        "skipped": false
+      }
+    ]
+  },
+  "cohort_source_sha256": {
+    "test/admin_exception_sdk_provider_state_test.dart": "6f9ee018687088c43f0982b3e4d09823c0a43ccb85c0b9d6c0ce91a7cb958486",
+    "test/admin_exception_models_test.dart": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d",
+    "test/admin_gateway_action_ui_sdk_test.dart": "573773675d423311ffc3bd6f98a7e9d7b0eb2c4113d85f6dc20df7cb7409191f",
+    "test/admin_exception_repository_test.dart": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540",
+    "test/admin_exception_page_test.dart": "8747804976b839e05ae41f8361521c6ccb10d8ffb1f6adefaad1f8ee5b301f67",
+    "test/admin_gateway_page_test.dart": "8572384856863e284fd4385c07b9e7efc01d12279162bc808fd83925347de3ac",
+    "test/admin_receipt_overview_test.dart": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f",
+    "test/admin_investigation_test.dart": "ad13dc60b22527165586c539c8683cac6605931e2fca8c37d88575de7389bd73"
+  },
+  "runtime_source_sha256": {
+    "lib/admin/admin_app.dart": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9",
+    "lib/admin/admin_router.dart": "909def7d8559b0bdaf8112efdad081e74473b88143a80c0d6971ef7ea5a9a7d4",
+    "lib/admin/admin_shell.dart": "7ce7e3c99ec6378d72b3d31582e03d188bb63ab3f750d0c77b4abc68d2dad2c2",
+    "lib/admin/core/admin_action_contracts.dart": "240fe3f69ff211f7d4228a1ab8eaccaee75874c9732c11bd1f6f508515a91e6c",
+    "lib/admin/core/admin_auth_guard.dart": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c",
+    "lib/admin/core/admin_automations_page.dart": "27515fbbcbe9f81709f841791989f4908ac7703d7e879e414f36a24f1f62ab3e",
+    "lib/admin/core/admin_detail_formatters.dart": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+    "lib/admin/core/admin_detail_runtime.dart": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a",
+    "lib/admin/core/admin_detail_specs.dart": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea",
+    "lib/admin/core/admin_display_formatters.dart": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829",
+    "lib/admin/core/admin_email_otp.dart": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7",
+    "lib/admin/core/admin_error_boundary.dart": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f",
+    "lib/admin/core/admin_evidence_mode.dart": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+    "lib/admin/core/admin_exception_checkpoint.dart": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e",
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a",
+    "lib/admin/core/admin_exception_checkpoint_web.dart": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+    "lib/admin/core/admin_exception_models.dart": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1",
+    "lib/admin/core/admin_exception_page.dart": "0b6c745c254918d4a0fd2e76ee15bd6f8f1446f7b1613b8cf289098739ebb92d",
+    "lib/admin/core/admin_exception_runtime.dart": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2",
+    "lib/admin/core/admin_gateway_contracts.dart": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+    "lib/admin/core/admin_gateway_dialogs.dart": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e",
+    "lib/admin/core/admin_gateway_models.dart": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f",
+    "lib/admin/core/admin_gateway_page.dart": "1e631e33cdb40f9adadac0954610cd4e2b3316dad0ab52430c7ab17a846bc935",
+    "lib/admin/core/admin_gateway_runtime.dart": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2",
+    "lib/admin/core/admin_group_runtime.dart": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd",
+    "lib/admin/core/admin_investigation.dart": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398",
+    "lib/admin/core/admin_investigation_view.dart": "4e1a5218c8dc1a14bac1bac62aa54d56c39f6eff0ebcc40dbce98cdbf4d712b4",
+    "lib/admin/core/admin_list_paging.dart": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833",
+    "lib/admin/core/admin_list_runtime.dart": "1d4be604b5c5c19d88ce780bd6cd781b1ddd24ce8ecb869cafe2950d1ddaddd8",
+    "lib/admin/core/admin_list_specs.dart": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183",
+    "lib/admin/core/admin_login_runtime.dart": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd",
+    "lib/admin/core/admin_models.dart": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+    "lib/admin/core/admin_operation_components.dart": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c",
+    "lib/admin/core/admin_operation_tables.dart": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78",
+    "lib/admin/core/admin_operational_health.dart": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+    "lib/admin/core/admin_operator_approval.dart": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f",
+    "lib/admin/core/admin_overview_components.dart": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa",
+    "lib/admin/core/admin_overview_runtime.dart": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40",
+    "lib/admin/core/admin_payee_runtime.dart": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f",
+    "lib/admin/core/admin_platform_access.dart": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c",
+    "lib/admin/core/admin_read_contracts.dart": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+    "lib/admin/core/admin_receipt_overview.dart": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+    "lib/admin/core/admin_reconciliation_models.dart": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6",
+    "lib/admin/core/admin_reconciliation_runtime.dart": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667",
+    "lib/admin/core/admin_reconciliation_step_up.dart": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02",
+    "lib/admin/core/admin_repository_base.dart": "b2b947558aec6bd1393e2168c1e0fa3d110b2a8a31cb4d68f07bbc81b899f71f",
+    "lib/admin/core/admin_review_credentials.dart": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362",
+    "lib/admin/core/admin_roster_checkpoint.dart": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb",
+    "lib/admin/core/admin_roster_checkpoint_stub.dart": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db",
+    "lib/admin/core/admin_roster_checkpoint_web.dart": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59",
+    "lib/admin/core/admin_roster_dialog.dart": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8",
+    "lib/admin/core/admin_roster_import.dart": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+    "lib/admin/core/admin_roster_models.dart": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9",
+    "lib/admin/core/admin_runtime.dart": "b4037e7586459a48c217b174386e68f53b946d541cdb536700d203c172c54b63",
+    "lib/admin/core/admin_shadow_runs.dart": "63efcb042621d32fb82bc4e47d19f4575f6506fe98afa7a0d37864ad1e011102",
+    "lib/admin/core/admin_sms_queue_health.dart": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578",
+    "lib/admin/core/admin_transaction_lifecycle.dart": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d",
+    "lib/admin/core/roster_file_parser.dart": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+    "lib/admin/core/roster_xlsx_preflight.dart": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+    "lib/admin/shared/components/admin_confirm_dialog.dart": "1a966b281e36d87e8f60a114a84ed9fe0be2182a57f6f9d46737461969ec1814",
+    "lib/admin/shared/components/admin_data_table.dart": "c576ff90753838fc0cc5800efa7943354180d4a69eae43988cf9322c72cabf87",
+    "lib/admin/shared/components/admin_empty_state.dart": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265",
+    "lib/admin/shared/components/admin_filter_bar.dart": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425",
+    "lib/admin/shared/components/admin_loading_state.dart": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f",
+    "lib/admin/shared/components/admin_page.dart": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534",
+    "lib/admin/shared/components/admin_sensitive_data_gate.dart": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183",
+    "lib/admin/shared/components/admin_status_chip.dart": "ac955a6f8262abffededaba22596003e1301e65d8b90fd889283c7ee1ebd690a"
+  },
+  "machine_sha256": "10325684178ad8ba79506c925202d5ea8ebc645cc79249a6230ba58de9db2317",
+  "analysis_clean": true,
+  "analysis_sha256": "118f9138e8e3d03057a3ca6942b5bd27f288ba6ed2103e455fd715559584037e",
+  "parent_validation_sha256": "3211cacadf1cb25862a4f9de5ae43e02ef459eaead7eb8a20376611aaa124263",
+  "export_unchanged": true,
+  "dependencies_unchanged": true,
+  "sql_executed_here": false,
+  "provider_called": false
+}

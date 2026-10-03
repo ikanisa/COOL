@@ -1,0 +1,74 @@
+{
+  "payload_files": [
+    {
+      "bytes": 4177,
+      "path": "generated-current209/DOMAIN_MAP.md",
+      "sha256": "3d85b61f0df5eb2022752b902e94606d10d926b8813980f1f4111e3aafdcebab"
+    },
+    {
+      "bytes": 1400,
+      "path": "generated-current209/coverage.json",
+      "sha256": "045743fdf7fc88ff5a4adcde4415b339f2cd8a977c07658fd0417d41d29265b5"
+    },
+    {
+      "bytes": 527213,
+      "path": "generated-current209/gaps.json",
+      "sha256": "b3c898d0755433b3edc11980eb4991ab2a9156dbb2e28b3abeea37f8f31689df"
+    },
+    {
+      "bytes": 330394,
+      "path": "generated-current209/input-manifest.json",
+      "sha256": "40619f43c61969f38b760023126df35204eb937610f8812f0dd36440cae1ea98"
+    },
+    {
+      "bytes": 12530668,
+      "path": "generated-current209/schema-domain-map.json",
+      "sha256": "a78a096f8f455a951532728d10626fdbc84a78a8d8f0b972bfcc2de063200bdf"
+    },
+    {
+      "bytes": 1525,
+      "path": "generation.json",
+      "sha256": "87846690651c819c62c9b65abf6206fd9e1e3ad9fe9ae96c4fd656fcba3f326f"
+    },
+    {
+      "bytes": 0,
+      "path": "generation.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1280,
+      "path": "generation.stdout",
+      "sha256": "ca7f80ee9eaccde3ae13966228a95fecbaf44271b030b30bc2e9fdd261789580"
+    },
+    {
+      "bytes": 876,
+      "path": "independent-semantic-verification.json",
+      "sha256": "fc38ddcb55ba50ee92aace98dc11ad9c8d47c6ac3ce9b987869aa3ea643f45e1"
+    },
+    {
+      "bytes": 0,
+      "path": "independent-semantic-verification.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 369,
+      "path": "independent-semantic-verification.stdout",
+      "sha256": "5579f05fb873e0f4d65a6a214127ce6de6ce01c99427c21962299f0469baa4f8"
+    },
+    {
+      "bytes": 241014,
+      "path": "inputs-after.json",
+      "sha256": "00e2e5db4adf04e38ef7e0a12c37d7255dce07b6a220b2a3958b02fa58f19c84"
+    },
+    {
+      "bytes": 241014,
+      "path": "inputs-before.json",
+      "sha256": "00e2e5db4adf04e38ef7e0a12c37d7255dce07b6a220b2a3958b02fa58f19c84"
+    },
+    {
+      "bytes": 3332,
+      "path": "readback.json",
+      "sha256": "7f86a9c7747bb46ca55e3f4a764a2384cabdcf4cf2caee868bdf8e118af60ed5"
+    }
+  ]
+}

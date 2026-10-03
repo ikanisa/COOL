@@ -1,0 +1,12 @@
+{
+  "command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "status": "timeout",
+  "deadline_seconds": 30,
+  "accepted": false,
+  "scope": "optional global cache-inclusive scan; no canonical reference/theme/shared-component mutations",
+  "matching_orphan_processes": 0
+}

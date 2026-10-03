@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "failure_phase": "prior_execution_status_label_validation",
+  "application_source_mutated": false,
+  "preserved_prior_matches_live": true
+}

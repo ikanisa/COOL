@@ -1,0 +1,43 @@
+{
+  "after": {
+    "endpoint": "repos/ikanisa/COOL/actions/permissions/workflow",
+    "exit_code": 0,
+    "metadata": {
+      "can_approve_pull_request_reviews": false,
+      "default_workflow_permissions": "read"
+    },
+    "method": "GET"
+  },
+  "allowed_actions_changed": false,
+  "authorization": "Current user release-acceptance authorization; root explicitly authorized these two least-privilege settings after compatibility inventory",
+  "before": {
+    "endpoint": "repos/ikanisa/COOL/actions/permissions/workflow",
+    "exit_code": 0,
+    "metadata": {
+      "can_approve_pull_request_reviews": true,
+      "default_workflow_permissions": "write"
+    },
+    "method": "GET"
+  },
+  "mutation_receipts": [
+    {
+      "endpoint": "repos/ikanisa/COOL/actions/permissions/workflow",
+      "exit_code": 0,
+      "metadata": {},
+      "method": "PUT"
+    }
+  ],
+  "observed_at": "2026-10-01T09:44:08.702491+00:00",
+  "protection_rules_security_licensing_billing_or_environment_changed": false,
+  "raw_tokens_headers_errors_or_personal_identities_retained": false,
+  "readback_matches_requested": true,
+  "requested_settings": {
+    "can_approve_pull_request_reviews": false,
+    "default_workflow_permissions": "read"
+  },
+  "rollback_values": {
+    "can_approve_pull_request_reviews": true,
+    "default_workflow_permissions": "write"
+  },
+  "workflow_run_dispatched": false
+}

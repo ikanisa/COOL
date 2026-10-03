@@ -1,0 +1,53 @@
+{
+  "allowlisted_changes_reverse_to_exact_prior_bytes": true,
+  "changed_function_ASTs": [
+    "source_readback",
+    "main"
+  ],
+  "config_differences": {
+    "immutable_root_stage_admission_directory": {
+      "prior": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2",
+      "proposed": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review3"
+    }
+  },
+  "immutable_packets": {
+    "kotlin-sdk-candidate2-execution-batch1": {
+      "checked_leaves": 47,
+      "manifest_sha256": "e39ca4e70450d8f5b7bbb5926e9df043ba69377b49ef38119f09fb8dfbfbdf1e"
+    },
+    "kotlin-sdk-native-consumer-plan1": {
+      "checked_leaves": 2,
+      "manifest_sha256": "ff279d8dbeb0686e89407430dbcc60f6293694989fe8ff2e43b56d0b159fcb44"
+    },
+    "kotlin-sdk-native-consumer-preparation1": {
+      "checked_leaves": 33,
+      "manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc"
+    },
+    "kotlin-sdk-native-snapshot-preparation2": {
+      "checked_leaves": 56,
+      "manifest_sha256": "72aedc2004efaafe192f8e86a05dc08bf7df9425dcd68f08d9dd6898cf01c283"
+    }
+  },
+  "prior_controller_sha256": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+  "proposed_controller_sha256": "54ebc1233482d8471cd91496e043e0384fd319a37ff91df1dc2f0fb788aa7cbc",
+  "real_validate_commands_passed": true,
+  "source_fence_byte_identical": true,
+  "source_fence_sha256": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8",
+  "unchanged_function_ASTs": [
+    "load",
+    "reader",
+    "sha",
+    "save",
+    "packet",
+    "receipt_path",
+    "authorization",
+    "export_binding",
+    "protected_metadata",
+    "existing_volume",
+    "stop_group",
+    "run_process",
+    "require_pass",
+    "seed_raw_gradle",
+    "junit_and_classes"
+  ]
+}

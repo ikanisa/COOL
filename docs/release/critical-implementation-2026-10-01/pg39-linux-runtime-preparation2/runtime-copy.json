@@ -1,0 +1,15 @@
+{
+  "actual_seconds": 0.4969727080024313,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "cp",
+    "6c1b5f300ee7a76fe189a417bad4fb80c211b723875f5f83df9f52e676669955:/usr/local/.",
+    "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/usr-local"
+  ],
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "owned_process_group_absent": true,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

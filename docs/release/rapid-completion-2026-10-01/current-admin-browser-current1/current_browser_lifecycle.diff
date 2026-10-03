@@ -1,0 +1,171 @@
+--- a/scripts/qa/current_browser_lifecycle.mjs
++++ b/scripts/qa/current_browser_lifecycle.mjs
+@@ -9,13 +9,17 @@
+ import { fileURLToPath } from 'node:url';
+ import { createLocalBrowserFixture } from './local_browser_api_fixture.mjs';
+ 
+-const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
++const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
++// Read immutable candidate inputs while keeping mutable builds outside checkout.
++const root = resolve(process.env.COLLECT_BROWSER_SOURCE_ROOT || workspaceRoot);
+ const output = resolve(process.argv[2] || '');
+ const buildRoot = resolve(process.env.COLLECT_BROWSER_BUILD_ROOT || '');
++const retainedReportPath = process.env.COLLECT_BROWSER_RESUME_REPORT;
++const retainedReport = retainedReportPath ? JSON.parse(await readFile(retainedReportPath, 'utf8')) : null;
+ if (!process.argv[2] || !output.startsWith(join(root, '.cache') + sep) || existsSync(output)) {
+   throw Error('A new task-owned cache output directory is required');
+ }
+-if (!process.env.COLLECT_BROWSER_BUILD_ROOT || buildRoot === root || !existsSync(buildRoot)) {
++if (!process.env.COLLECT_BROWSER_BUILD_ROOT || buildRoot === workspaceRoot || !existsSync(buildRoot)) {
+   throw Error('A preserved isolated source export is required for the Admin build');
+ }
+ await mkdir(output, { recursive: true });
+@@ -50,14 +54,17 @@
+ const report = { status: 'running', started_at_utc: new Date().toISOString(),
+   scope: 'Normal current Admin email sign-in and tab-local memory sessions, actual service-worker lifecycle and separate Public artifact. Synthetic loopback transport; current database semantics, physical devices and design fidelity remain separate.',
+   source_scope: 'Current lib/web/assets/legal and complete local fork runtime/metadata; explicit upstream package QA/documentation roots excluded because neither entrypoint compiles them. Exact executing build/fixture/regression scripts retained.',
+-  sources_before: await snapshot(), commands: [], checks: [], errors: [], blocked_outbound_requests: [],
++  sources_before: await snapshot(), source_root: root, build_root: buildRoot,
++  executing_harness_sha256: hash(await readFile(fileURLToPath(import.meta.url))),
++  executing_fixture_sha256: hash(await readFile(join(workspaceRoot, 'scripts/qa/local_browser_api_fixture.mjs'))),
++  commands: [], checks: [], route_states: [], errors: [], blocked_outbound_requests: [],
+   database_calls: 0, hosted_calls: 0, provider_calls: 0,
+   coverage: { email_sign_in: false, reference_only_storage: false, reload_requires_sign_in: false,
+     tabs_do_not_adopt_sign_in: false, legacy_broadcast_refused: false, mismatched_departure_refused: false,
+     exact_departure_denies: false, private_logout: false, account_switch: false,
+     public_admin_separation: false, static_cache_privacy: false, warm_update: false,
+     failed_update: false, legacy_cache_migration: false, offline_signed_out: false,
+-    installed_pwa: false },
++    installed_pwa: false, signed_out_all_routes: false, authenticated_all_routes: false },
+ };
+ const fixture = createLocalBrowserFixture();
+ let server, publicServer, context, browser, active, failedAsset = false, pwaSession, installedId;
+@@ -184,9 +191,33 @@
+       await serve(request, response, active, true);
+     } catch (error) { report.errors.push('Loopback server: ' + error.message); response.writeHead(500); response.end('Local fixture error'); }
+   });
+-  await new Promise(yes => server.listen(0, '127.0.0.1', yes));
++  const retainedPort = retainedReport ? Number(new URL(retainedReport.admin_origin).port) : 0;
++  await new Promise((yes, no) => { server.once('error', no); server.listen(retainedPort, '127.0.0.1', yes); });
+   const origin = `http://127.0.0.1:${server.address().port}`; report.admin_origin = origin;
+   const flutter = process.env.COLLECT_BROWSER_FLUTTER || '/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter';
++  if (retainedReport) {
++    const compiledInput = name => /^(?:lib|web|assets|third_party)\//.test(name)
++      || ['pubspec.yaml', 'pubspec.lock', '.fvmrc', 'scripts/admin_pwa_release_build.sh',
++        'scripts/templates/admin_pwa_service_worker.js'].includes(name);
++    const now = await snapshot();
++    check('retained-build-compiler-inputs-unchanged', Object.entries(retainedReport.sources_before)
++      .filter(([name]) => compiledInput(name)).every(([name, digest]) => now[name] === digest)
++      && retainedReport.source_inputs_stable === true && retainedReport.admin_origin === origin);
++    const priorOutput = dirname(resolve(retainedReportPath));
++    for (const name of ['flutter-runtime', 'email-fixture-boundaries', 'worker-cache-regression', 'bundle-gate-regression', 'admin-build']) {
++      const command = retainedReport.commands.find(value => value.name === name && value.exit_code === 0);
++      if (!command || hash(await readFile(join(priorOutput, name + '.stdout'))) !== command.stdout_sha256
++        || hash(await readFile(join(priorOutput, name + '.stderr'))) !== command.stderr_sha256) {
++        throw Error('Retained zero-exit command receipt missing: ' + name);
++      }
++      report.commands.push({ ...command, reused_from: retainedReportPath });
++    }
++    report.retained_admin_bundle = { path: join(priorOutput, 'admin-build'),
++      files: await hashes(join(priorOutput, 'admin-build')), compiled_inputs: Object.fromEntries(
++        Object.entries(retainedReport.sources_before).filter(([name]) => compiledInput(name))) };
++    active = join(output, 'admin-build'); await cp(join(priorOutput, 'admin-build'), active, { recursive: true });
++    check('retained-admin-bundle-byte-identical', JSON.stringify(await hashes(active)) === JSON.stringify(report.retained_admin_bundle.files));
++  } else {
+   await run('flutter-runtime', flutter, ['--version', '--machine']);
+   const version = JSON.parse(await readFile(join(output, 'flutter-runtime.stdout'), 'utf8'));
+   check('pinned-flutter-runtime', version.frameworkVersion === JSON.parse(await readFile(join(root, '.fvmrc'), 'utf8')).flutter, version.frameworkVersion);
+@@ -198,6 +229,7 @@
+     SUPABASE_PRODUCTION_ANON_KEY: 'sb_publishable_synthetic_local_only', APP_PUBLIC_URL: 'http://127.0.0.1', ADMIN_APP_URL: origin,
+   }, buildRoot);
+   active = join(output, 'admin-build'); await cp(join(buildRoot, 'build/web'), active, { recursive: true });
++  }
+   await run('public-build', 'ruby', ['scripts/public_static_site_build.rb'], { PUBLIC_BUILD_DIR: join(output, 'public-build') });
+   const publicBuild = join(output, 'public-build');
+   publicServer = createServer((request, response) => serve(request, response, publicBuild, false).catch(error => {
+@@ -223,7 +255,84 @@
+   });
+   const page = await context.newPage(); const navigation = await page.goto(origin + '/#/admin/groups');
+   check('shipped-security-headers', !!navigation.headers()['content-security-policy'] && navigation.headers()['x-frame-options'] === 'DENY');
+-  await login(page); check('email-sign-in-keeps-admin-route', new URL(page.url()).hash.startsWith('#/admin'));
++  const routerSource = await readFile(join(root, 'lib/admin/admin_router.dart'), 'utf8');
++  const declaredBlock = routerSource.match(/const adminRoutePaths = <String>\[([\s\S]*?)\];/);
++  if (!declaredBlock) throw Error('Current Admin route declaration missing');
++  const declaredRoutes = [...declaredBlock[1].matchAll(/'([^']+)'/g)].map(value => value[1]);
++  const recordId = '99690000-0000-4000-8000-000000090001';
++  const readFailure = 'The admin request could not be completed.';
++  // Exact enabled route/state contract. Empty lists and deliberately unavailable
++  // synthetic reads prove recovery UI, not real server/populated/action outcomes.
++  const routeStates = {
++    '/admin/login': ['Collect admin login', 'login'],
++    '/admin/denied': ['Admin access required', 'denied'],
++    '/admin': ['Local synthetic receipts', 'synthetic-summary'],
++    '/admin/groups': ['No groups', 'empty'],
++    '/admin/groups/:id': [readFailure, 'unavailable-read'],
++    '/admin/users': ['No users', 'empty'],
++    '/admin/users/:id': [readFailure, 'unavailable-read'],
++    '/admin/members': ['No members', 'empty'],
++    '/admin/members/:id': [readFailure, 'unavailable-read'],
++    '/admin/payees': ['No payees', 'empty'],
++    '/admin/transactions': ['No transactions', 'empty'],
++    '/admin/transactions/:id': [readFailure, 'unavailable-read'],
++    '/admin/reconciliations': [readFailure, 'unavailable-read'],
++    '/admin/ledgers': ['No ledgers', 'empty'],
++    '/admin/sms-receipts': ['No sms receipts', 'empty'],
++    '/admin/sms-receipts/:id': [readFailure, 'unavailable-read'],
++    '/admin/notifications': ['No notifications', 'empty'],
++    '/admin/notifications/:id': [readFailure, 'unavailable-read'],
++    '/admin/audit-logs': ['No audit logs', 'empty'],
++    '/admin/audit-logs/entity/:kind/:id': ['Action history service unavailable', 'unavailable-read'],
++    '/admin/settings': ['No settings', 'empty'],
++    '/admin/feature-flags': ['No feature flags', 'empty'],
++    '/admin/system-health': [readFailure, 'unavailable-read'],
++    '/admin/automations': ['Receipt operations policy service is unavailable.', 'unavailable-policy'],
++    '/admin/sms-gateway': ['Gateway read failed', 'invalid-synthetic-read-refused'],
++    '/admin/exceptions': ['Exception read failed', 'invalid-synthetic-read-refused'],
++    '/admin/admin-users': ['No admin users', 'empty'],
++    '/admin/admin-users/:id': [readFailure, 'unavailable-read'],
++  };
++  check('current-route-contract-covers-declared28', declaredRoutes.length === 28
++    && JSON.stringify([...declaredRoutes].sort()) === JSON.stringify(Object.keys(routeStates).sort()));
++  function concreteRoute(pattern) {
++    const id = pattern === '/admin/transactions/:id' ? encodeURIComponent('momo:' + recordId) : recordId;
++    return pattern.replace(':kind', 'gateway_device').replace(':id', id);
++  }
++  async function navigateHash(path) {
++    await page.evaluate(value => { location.hash = value; }, path);
++  }
++  const beforeSignedOutRoutes = fixture.calls.length;
++  for (const pattern of declaredRoutes) {
++    await navigateHash(concreteRoute(pattern));
++    await page.waitForFunction(() => location.hash === '#/admin/login');
++    await visible(page, 'Collect admin login');
++    check('signed-out-route:' + pattern, noCredentials(await storage(page)));
++    report.route_states.push({ pattern, authority: 'signed-out', actual_path: new URL(page.url()).hash,
++      state: 'login', status: 'pass' });
++  }
++  check('signed-out-routes-dispatch-no-private-rpc', !fixture.calls.slice(beforeSignedOutRoutes)
++    .some(value => !['otp', 'verify', 'user', 'logout'].includes(value.action)));
++  report.coverage.signed_out_all_routes = true;
++  await navigateHash('/admin/groups');
++  await login(page);
++  for (const pattern of declaredRoutes) {
++    const path = concreteRoute(pattern), [expected, state] = routeStates[pattern];
++    const beforeCalls = fixture.calls.length;
++    await navigateHash(path);
++    await page.waitForFunction(value => decodeURIComponent(location.hash.slice(1)) === decodeURIComponent(value), path);
++    await visible(page, expected);
++    check('authenticated-route:' + pattern, noCredentials(await storage(page)), { state, expected });
++    report.route_states.push({ pattern, authority: 'authenticated-email-owner', actual_path: new URL(page.url()).hash,
++      state, expected, calls: fixture.calls.slice(beforeCalls).map(value => value.action), status: 'pass' });
++    if (['/admin/sms-gateway', '/admin/exceptions', '/admin/automations', '/admin/audit-logs/entity/:kind/:id'].includes(pattern)) {
++      await page.screenshot({ path: join(output, 'route-' + pattern.replace(/[^a-z0-9]/gi, '_') + '.png'), fullPage: true });
++    }
++  }
++  report.coverage.authenticated_all_routes = true;
++  await navigateHash('/admin/groups');
++  await visible(page, 'No groups');
++  check('email-sign-in-keeps-admin-route', new URL(page.url()).hash.startsWith('#/admin'));
+   report.coverage.email_sign_in = true;
+   check('confirmed-email-sign-in-stores-no-browser-credentials', noCredentials(await storage(page)));
+   await activate(page, 'button', 'Groups admin section'); await visible(page, 'Create group');

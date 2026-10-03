@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-09-30T21:59:20.977903+00:00",
+  "scope": "Email/scope SQL attempt4 only; source and evidence hashes",
+  "status": "pass",
+  "cases": 61,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+  },
+  "runner_sha256": "f1e815cec081b4eccd96510c35989438c3173e9db8f81c5ffea27534a18f9562",
+  "files": {
+    "hosted-auth-readback-attempt2.json": "9672d5c12da39188723c791222eccd91db7ce2252f1119b3d3d6e1fb1d8abdac",
+    "hosted-auth-readback.json": "c888ee1aa53dd4ac2e23b717f3b01c40e8778e3dd118d0cae70198395aa20cc0",
+    "prepared-hosted-plan.json": "2e5bd4944c35dac32f582d3ac47e6d55a580f1ea95c6add9ee6705125370759c",
+    "sql-attempt4/20260930213000_operator_email_auth.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt4/20260930230100_receipt_backlog_events.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt4/20260930230200_admin_receipt_overview.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt4/20260930230300_admin_transaction_lifecycle.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt4/console.log": "d43b69a2adea282c3ddc3ee6be8be0ecd80e71dc446970b201d1fc1c7f586fa5",
+    "sql-attempt4/executed-migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "sql-attempt4/executed-migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "sql-attempt4/executed-migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "sql-attempt4/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "sql-attempt4/executed-runner.py": "f1e815cec081b4eccd96510c35989438c3173e9db8f81c5ffea27534a18f9562",
+    "sql-attempt4/observed-scope-list.json": "f4f1af23d34c5324c1bdb3cfe6e55c0fbd9bb63e73d1b087174c7dc1fe8178bf",
+    "sql-attempt4/queries.log": "b7d0a54f477a8172a8ab1ce1f9909dacfd848731609f5bba23e60474138d88fa",
+    "sql-attempt4/result.json": "26a5f3e5191b53912c9b35157d3fdbcd236a506435fb0eeb9ad0fc8782e59cdd"
+  }
+}

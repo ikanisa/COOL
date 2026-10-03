@@ -1,0 +1,39 @@
+{
+  "rows": [
+    {
+      "action": "supervisor.activate",
+      "source": "supervisor_owner_request",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "9599237d-24a8-4c8c-807a-c802a84201d9",
+      "revision": null,
+      "request_id": "9599237d-24a8-4c8c-807a-c802a84201d9",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T01:10:35.396290Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.enroll",
+      "source": "supervisor_owner_request",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "d61f7048-0571-4e35-a5b8-f62f2f311203",
+      "revision": null,
+      "request_id": "d61f7048-0571-4e35-a5b8-f62f2f311203",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T01:10:35.251604Z",
+      "fence_version": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+  "checked_at": "2026-10-01T01:11:09.325258Z",
+  "entity_kind": "supervisor_identity",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T01:12:09.325258Z",
+  "historical_shadow_audit_backfilled": false
+}

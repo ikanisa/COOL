@@ -1,0 +1,15 @@
+--- before/android/app/build.gradle.kts
++++ after/android/app/build.gradle.kts
+@@ -471,7 +471,11 @@
+     ) {
+         enabled = false
+     }
+-    if (collectUnsignedLocalQa && name == "processProductionReleaseGoogleServices") {
++    if (
++        collectUnsignedLocalQa && name in setOf(
++            "processProductionReleaseGoogleServices", "processProductionDebugGoogleServices",
++        )
++    ) {
+         enabled = false
+     }
+ }

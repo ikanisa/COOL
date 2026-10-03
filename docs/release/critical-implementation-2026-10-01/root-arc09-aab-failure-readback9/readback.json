@@ -1,0 +1,58 @@
+{
+  "AAB_or_artifact_bound_SBOM_accepted": false,
+  "APP_SDK_protected_failure_checks_PASS": true,
+  "ARC09_closed": false,
+  "R8_metadata_warnings_retained": 5,
+  "actual_AAB_command_seconds": 159.1,
+  "actual_command_sha256": "654bd45e0e5a52ff75a10773878995880a37492fe678ec5e389021cd03e93d30",
+  "actual_result": "FAIL_missing_offline_lint_gradle32.0.1",
+  "captured_at_utc": "2026-10-02T14:30:18.897094+00:00",
+  "config_readback_PASS": true,
+  "exit_code": 1,
+  "fresh_observed_owned_absence": [
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 13156,
+      "pid": 13156
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 13177,
+      "pid": 13177
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 13791,
+      "pid": 13791
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 13820,
+      "pid": 13820
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 14251,
+      "pid": 14251
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 14267,
+      "pid": 14267
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 14881,
+      "pid": 14881
+    },
+    {
+      "fresh_PID_PGID_ESRCH": true,
+      "pgid": 14903,
+      "pid": 14903
+    }
+  ],
+  "fresh_runtime_compile_graphs_PASS": true,
+  "lint_enabled_not_suppressed": true,
+  "packet_sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d",
+  "production_release_approval": false
+}

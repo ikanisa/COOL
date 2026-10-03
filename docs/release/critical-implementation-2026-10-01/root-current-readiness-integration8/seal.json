@@ -1,0 +1,9 @@
+{
+  "closed_findings": 7,
+  "goal_status": "active",
+  "open_findings": 33,
+  "packet_files_sha256": "1af21cda84102aa88a34965ae5789c9176c09a60ebbe57690f6836fd2894903a",
+  "production_release_approval": false,
+  "receipt_sha256": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804",
+  "schema_version": 1
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "design_authority": "revolut-design",
+  "operation": "Removal of competing reference files and conflicting document guidance",
+  "deleted_files": [
+    "docs/admin/ADMIN_DESIGN_QA_2026-09-03.md",
+    "docs/release/LEGACY_DESIGN_ERADICATION_AUDIT_2026-08-05.md",
+    ".cache/native-hygiene-20260930/export-attempt1/docs/admin/ADMIN_DESIGN_QA_2026-09-03.md",
+    ".cache/native-hygiene-20260930/export-attempt1/docs/release/LEGACY_DESIGN_ERADICATION_AUDIT_2026-08-05.md",
+    "output/admin-redesign/concepts/01.png",
+    "output/admin-redesign/concepts/02.png",
+    "output/admin-redesign/concepts/03.png",
+    "output/admin-redesign/qa/reference-normalized-1440x1024.png",
+    "output/admin-redesign/qa/reference-vs-implementation-final.png",
+    "output/admin-redesign/qa/reference-vs-implementation-focus.png"
+  ],
+  "file_count": 10,
+  "absence_verified": true,
+  "design_acceptance": "unverified"
+}

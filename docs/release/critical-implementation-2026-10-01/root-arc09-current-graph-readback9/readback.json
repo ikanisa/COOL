@@ -1,0 +1,43 @@
+{
+  "OSV_query_repeated": false,
+  "OSV_result_is_retained_dated_query_only": true,
+  "captured_at_utc": "2026-10-02T14:20:57.073154+00:00",
+  "complete_packaged_SBOM_or_licence_acceptance": false,
+  "current_AAB_outcome": "running_unverified",
+  "exact157_module_versions_unchanged_since_retained_OSV_query": true,
+  "graphs": [
+    {
+      "JSON_deep_equality": true,
+      "byte_difference_only_serialization": true,
+      "counts": {
+        "artifacts": 141,
+        "components": 173,
+        "edges": 995
+      },
+      "exit_code": 0,
+      "fresh_graph_sha256": "5bdf562379c6473353d1e71c9509c988b54abc8d5fbf7f4772d6945325a4f00a",
+      "graph": "runtime",
+      "observer_error": null,
+      "owned_daemons_absent": true,
+      "previous_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+      "seconds": 41.251
+    },
+    {
+      "JSON_deep_equality": true,
+      "byte_difference_only_serialization": true,
+      "counts": {
+        "artifacts": 47,
+        "components": 64,
+        "edges": 296
+      },
+      "exit_code": 0,
+      "fresh_graph_sha256": "d8177619befcfb5bb8b735d6dc46c19f7a53264cf92fb9e65a1da85fb3199495",
+      "graph": "compile",
+      "observer_error": null,
+      "owned_daemons_absent": true,
+      "previous_graph_sha256": "e1b02a4614a72a7a1fe97beff81fc8306c55dba4e8279060fccf9293e84767fb",
+      "seconds": 36.259
+    }
+  ],
+  "production_release_approval": false
+}

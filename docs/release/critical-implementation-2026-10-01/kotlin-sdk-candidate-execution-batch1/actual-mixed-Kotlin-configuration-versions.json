@@ -1,0 +1,190 @@
+{
+  "actual_configurations": {
+    "kotlinCompilerClasspath": {
+      "actual_org_jetbrains_kotlin_modules": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-compat",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-cri-impl",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-impl",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-embeddable",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-runner",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-client",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-embeddable",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-reflect",
+          "version": "1.6.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-script-runtime",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-tooling-core",
+          "version": "2.4.20"
+        }
+      ],
+      "artifact_count": 14,
+      "module_count": 14
+    },
+    "runtimeClasspath": {
+      "actual_org_jetbrains_kotlin_modules": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "fus-statistics-gradle-plugin",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-statistics",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-runner",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-client",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-annotations",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-idea",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-idea-proto",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugins-bom",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-klib-commonizer-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-native-utils",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-common",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-jdk7",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-jdk8",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-tooling-core",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-io",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-klib",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-klib-metadata",
+          "version": "2.4.20"
+        }
+      ],
+      "artifact_count": 26,
+      "module_count": 29
+    }
+  },
+  "applied_core_JVM_plugin_version": "2.4.20",
+  "compiler_reflect_actual_version": "1.6.10",
+  "compiler_stdlib_actual_version": "2.4.20",
+  "critical_compiler_version": "2.4.20",
+  "critical_runtime_KGP_version": "2.4.20",
+  "full_runtime_graph_uniformly_2_4_20": false,
+  "runtime_stdlib_common_jdk7_jdk8_actual_version": "1.7.10",
+  "scope": "Exact critical KGP/compiler origin proven; all transitive runtime/advisory/license and ABI compatibility remains separate. No automatic stdlib/serialization/embeddedKotlin scope expansion.",
+  "unchanged_kotlinx_serialization_json": "1.4.0"
+}

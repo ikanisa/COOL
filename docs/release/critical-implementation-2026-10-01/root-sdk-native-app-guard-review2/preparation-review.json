@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T08:16:44.295256+00:00",
+  "packet_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "safe_leaves_checked": 33,
+  "guard_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+  "controller_sha256": "46203980f7c5a2f73a2a962f046a2e3058904698ddb8c0ccc8c99fa7d5155605",
+  "complete_new_membership_selection_and_omission_diff_reviewed": true,
+  "full168_pubspec_lock_config_membership_bound": true,
+  "new42_tests_and_whole_readonly_guard_proof_verified": true,
+  "test_process_receipt_scope": "Recorded exit0,42-case unittest summary and final tested guard audit; no separate test process-group receipt asserted.",
+  "reader_process_120_second_bound_and_absent_group_verified": true,
+  "input_before_after_file_and_node_maps_exact": true,
+  "controller_function_ASTs_and_fence_bytes_unchanged_from_reviewed_preparation1": true,
+  "source_fence_reused_byte_identically_after_unchanged_current12_readback": true,
+  "source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "controller_before_after_source_fence_comparison_remains_mandatory": true,
+  "old_actual_whole_app_lock_still_failed": true,
+  "native_stage_admission": false,
+  "source_lock_attested": false,
+  "production_release_approval": false
+}

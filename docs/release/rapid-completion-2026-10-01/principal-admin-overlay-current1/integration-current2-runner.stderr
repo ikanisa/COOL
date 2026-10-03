@@ -1,0 +1,4 @@
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/run-integration-current2.py", line 37
+    (OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'status':result['status'],'cases':len(cases),'reused':len(reused),'live_delta':live}),flush=True);raise SystemExit(0 if passed else1)
+                                                                                                                                                                                                              ^^^^^^^^^^^
+SyntaxError: expected 'else' after 'if' expression

@@ -1,0 +1,49 @@
+{
+  "kind": "manual_shadow_supervisor_isolated_schema_only",
+  "started_at": "2026-09-30T19:38:18.501447+00:00",
+  "production_written": false,
+  "provider_called": false,
+  "cases": [
+    {
+      "name": "migration installs in isolated schema-only database",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "source_metadata": {
+    "net": "0",
+    "cron": "off",
+    "count": 150,
+    "latest": "20260930180000"
+  },
+  "migration_sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+  "prerequisites": {
+    "20260930170000": {
+      "current_source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "installed_migration_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "normalized_installed_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "installed_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad"
+    },
+    "20260930180000": {
+      "current_source_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "installed_migration_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "normalized_installed_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd",
+      "installed_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd"
+    }
+  },
+  "database": "collect_shadow_uat_8cc5579fd5ef",
+  "source_schema_dump_sha256": "870d95bd2a3dcf84e22b0ce146a427803b5079eda1e7b56fc86602b9278a5c77",
+  "application_api_acl_sha256": "3283a589630eb16a99153cac80df0d10e19119a7c08eeb4947bca2de843e3885",
+  "restored_schema_dump_sha256": "870d95bd2a3dcf84e22b0ce146a427803b5079eda1e7b56fc86602b9278a5c77",
+  "install_exit_code": 0,
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T19:38:23.717067+00:00"
+}

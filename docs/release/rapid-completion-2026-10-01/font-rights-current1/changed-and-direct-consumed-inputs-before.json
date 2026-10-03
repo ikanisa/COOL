@@ -1,0 +1,22 @@
+{
+  "assets/marketing/SOURCE.json": "82d78be8910ff14f8f778b6f5edd4571a69b54d20da45aa027edbecc580cd6b1",
+  "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "docs/release/public-website-content-baseline.json": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+  "lib/app/theme/collect_runtime_typography.dart": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+  "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+  "lib/features/landing/collect_landing_page.dart": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+  "lib/features/landing/public_marketing_theme.dart": "72875b3b0a58a3aeb208a7303ae31f9a9460a52ce94c7e6fb312ea151518c75e",
+  "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "pubspec.yaml": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+  "scripts/public_static_site_build.rb": "d0326289f1c374dcd7456d9517ad263a037de8e8adebe9fb0f013d6e49472ace",
+  "scripts/qa/public_static_routes.rb": "4b430a62b8993953f116251fae33a6cf22497cda959f5b07a1651ef79d99cd51",
+  "scripts/tests/public_static_routes_test.rb": "cc2b5f9b45b5259019675c5472829ba131042c6381d0d95c2d8b6b22b5c24c8c",
+  "test/admin_reconciliation_ui_test.dart": "6baf814bcb2b45f69239adf5588486eb584a1c1900ea65c8cd84262697e3f8df",
+  "test/admin_roster_dialog_test.dart": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582",
+  "test/features/runtime_component_contract_test.dart": "ffac52e860613fa0f639941ea770a66185154e6df115824ba7be11442e7834d8",
+  "test/goldens/collect_core_surfaces_golden_test.dart": "6acbcbccb4bdbe521ed82b03a0cdb1f630f13d31770245a8b257abed3e3a8f8b",
+  "test/landing_page_test.dart": "95965c355a5a66bb527e2c98b2e518b0ba3b3e52b82b40be32f65e9b7b92bb4a",
+  "web/public/revolut.css": "80fa3251c493329c85e1382b07747864b34b6d57abf2b70b76a18b4c90fdf406"
+}

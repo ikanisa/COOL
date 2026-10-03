@@ -1,0 +1,74 @@
+{
+  "status": "fail",
+  "reviewed_at": "2026-10-01T00:10:38.501110+00:00",
+  "original_external_package_source_before_after_drift": {},
+  "actual_generated_firebase_native_copy_drift": {
+    "Package.swift": {
+      "declared": "44e23ebffc1c49d040dc6046a991dfb7621f10acb6674abf09a43a4226663eca",
+      "actual_compiled_copy": "0cdc3adc8fc92d4cc9decc7e00838407076a26bd18be1f0fc31fe253ab5eea3e"
+    }
+  },
+  "actual_generated_firebase_native_source_sha256": {
+    "Package.swift": "0cdc3adc8fc92d4cc9decc7e00838407076a26bd18be1f0fc31fe253ab5eea3e",
+    "Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+    "Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb",
+    "Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+  },
+  "native_generated_plugin_links": {
+    "integration_test": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/packages/integration_test/ios/integration_test",
+      "isolated_copy": false
+    },
+    "url_launcher_ios-6.4.1": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/url_launcher_ios-6.4.1/ios/url_launcher_ios",
+      "isolated_copy": false
+    },
+    "permission_handler_apple-9.5.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_apple-9.5.0/ios/permission_handler_apple",
+      "isolated_copy": false
+    },
+    "file_saver": {
+      "target": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/third_party/file_saver/ios/file_saver",
+      "isolated_copy": false
+    },
+    "shared_preferences_foundation-2.5.6": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_foundation-2.5.6/darwin/shared_preferences_foundation",
+      "isolated_copy": false
+    },
+    "mobile_scanner-7.4.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/mobile_scanner-7.4.0/darwin/mobile_scanner",
+      "isolated_copy": false
+    },
+    "firebase_messaging": {
+      "target": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging",
+      "isolated_copy": false
+    },
+    "share_plus-13.3.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/share_plus-13.3.0/ios/share_plus",
+      "isolated_copy": false
+    },
+    "app_links-7.2.1": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/app_links-7.2.1/ios/app_links",
+      "isolated_copy": false
+    },
+    "flutter_local_notifications-22.3.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_local_notifications-22.3.0/ios/flutter_local_notifications",
+      "isolated_copy": false
+    },
+    "file_picker_darwin-1.1.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_picker_darwin-1.1.0/darwin/file_picker_darwin",
+      "isolated_copy": false
+    },
+    "firebase_core-4.13.0": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_core-4.13.0/ios/firebase_core",
+      "isolated_copy": false
+    },
+    "image_picker_ios-0.8.13+6": {
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13+6/ios/image_picker_ios",
+      "isolated_copy": false
+    }
+  },
+  "source_before_map_sha256": "785ce9fb660892a8b257197ce6b8b7f23cebe2b0fcdbc5729a976cbf8bfa0479",
+  "artifact_verification_sha256": "3138e5d14557363760ff177b6451419ad79be32d4329e6a2625d60187a64fcdf",
+  "scope": "Actual original hosted/SDK package roots used by generated Swift links are compared to recorded prebuild maps, and generated local Firebase native copy to the declared export. Hosted compiler isolation remains false; no retrospective prelaunch map for generated Firebase copy or whole SDK claim."
+}

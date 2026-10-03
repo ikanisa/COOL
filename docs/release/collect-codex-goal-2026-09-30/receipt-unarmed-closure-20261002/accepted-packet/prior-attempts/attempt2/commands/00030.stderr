@@ -1,0 +1,4 @@
+NOTICE:  42701: column "collection_id" of relation "raw_payment_sms" already exists, skipping
+LOCATION:  check_for_column_name_collision, tablecmds.c:7471
+NOTICE:  42701: column "collection_id" of relation "parsed_payment_events" already exists, skipping
+LOCATION:  check_for_column_name_collision, tablecmds.c:7471

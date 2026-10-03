@@ -1,0 +1,74 @@
+{
+  "collect_hybrid.collection_balances": {
+    "rows": 4,
+    "sha256": "7b2da24b06bbca1db65c2eaf21d75297053c37f1da262e3985679282b72d939c"
+  },
+  "collect_hybrid.member_balances": {
+    "rows": 5,
+    "sha256": "f1ccf79271a0d2ee8fb19ec5839c0c8707af500817849543b801edb883974793"
+  },
+  "collect_hybrid.momo_balance_snapshots": {
+    "rows": 69,
+    "sha256": "ce7d1d14d461b8d4eed1e649f5de9c4c2df2f95dd00a397df035ada66b9e1c46"
+  },
+  "collect_hybrid.momo_journal_entries": {
+    "rows": 69,
+    "sha256": "bd95d75ef297663f51aa8839b79d1b49425c7792e51cdb627b32a728268a2a8a"
+  },
+  "collect_hybrid.momo_journal_lines": {
+    "rows": 138,
+    "sha256": "0ab96521c32a0790579eab3a988538077e5d3b201f4326846cb802e8f9d4ea18"
+  },
+  "collect_hybrid.sms_notification_attempts": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_notification_outbox": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_operator_heartbeats": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.reconciliation_reviews": {
+    "rows": 69,
+    "sha256": "b0b5824ae1badb38ca607a2059d804cf3e10b83ea79111780be6669e58b27f54"
+  },
+  "public.audit_logs": {
+    "rows": 276,
+    "sha256": "19d017cd243efe23b66a2d6d06ac87e733aa7eb65760a4ccef6aa5135da48d63"
+  },
+  "public.ledger_entries": {
+    "rows": 138,
+    "sha256": "58c5a7471a30d310547db238652b9957ffab65cc29e87752123516c101a8b688"
+  },
+  "public.notification_deliveries": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_delivery_attempts": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_events": {
+    "rows": 68,
+    "sha256": "52a97602997078d8724f62bcc9ebaa805ee7b8b72b3605483c62e0b232b33322"
+  },
+  "public.payment_allocations": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.payment_provider_confirmations": {
+    "rows": 69,
+    "sha256": "6821283afdeee256eb574878043d967d19417e4f4e22e7eadc41a341d77f26f3"
+  },
+  "public.payments": {
+    "rows": 70,
+    "sha256": "054c8805c187d84f12892b63db6ec47b6ad77e2f857c47c0ebed0167a4567f49"
+  },
+  "public.provider_finality_requests": {
+    "rows": 69,
+    "sha256": "b89ad71d9ed4057fdcaf35b21347e537b81f0abf2d550b5da0fc3453f98f7d34"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "scope": "Root integration wrapper schema read; no source, packet or register mutation",
+  "observed_exit_code": 1,
+  "observed_error": "KeyError: file_count",
+  "cause": "Root wrapper incorrectly assumed the execution manifest contained the preparation manifest count field. The actual sealed execution manifest has only files and scope.",
+  "correction": "Bind the exact independently supplied 47-leaf execution scope and manifest hash; derive the result count from the verified files mapping.",
+  "SDK_or_AI_verification_changed": false,
+  "original_acceptance_checks_removed": false
+}

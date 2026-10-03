@@ -1,6 +1,7 @@
 import 'package:collect_app/features/landing/collect_landing_page.dart';
 import 'package:collect_app/features/landing/public_marketing_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,12 @@ String visibleText() => find
     .toLowerCase();
 
 void main() {
+  setUpAll(() async {
+    await (FontLoader(
+      'Inter',
+    )..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'))).load();
+  });
+
   test('public marketing action distinguishes disabled and focused states', () {
     final theme = CollectPublicMarketingTheme.light();
     final style = theme.filledButtonTheme.style!;

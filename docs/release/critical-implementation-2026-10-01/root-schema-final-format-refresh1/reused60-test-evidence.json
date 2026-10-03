@@ -1,0 +1,26 @@
+{
+  "new_test_invocations": 0,
+  "previous_tests_passed": 60,
+  "records": [
+    {
+      "code_unchanged": true,
+      "current_sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4",
+      "previous_receipt": "docs/release/critical-implementation-2026-10-01/root-schema-invalidation-source-integration1/existing49.json",
+      "previous_receipt_sha256": "e20fce186844ea586e577de4b8f5f5578b29aa638112efc268d111e3bf54f202",
+      "previous_tests_passed": 49,
+      "rerun_performed": false,
+      "test_source": "scripts/tests/collect_schema_domain_map_test.py"
+    },
+    {
+      "code_unchanged": true,
+      "current_sha256": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a",
+      "previous_receipt": "docs/release/critical-implementation-2026-10-01/root-schema-invalidation-source-integration1/focused11.json",
+      "previous_receipt_sha256": "35f60ae03b1cc351cf419e6cfbcb1424bdd0e06ade2d342c589433ee025fea3b",
+      "previous_tests_passed": 11,
+      "rerun_performed": false,
+      "test_source": "scripts/tests/collect_schema_lineage_invalidation_test.py"
+    }
+  ],
+  "status": "pass",
+  "unchanged_mapper_sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+}

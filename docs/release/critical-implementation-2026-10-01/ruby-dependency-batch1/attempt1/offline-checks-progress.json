@@ -1,0 +1,80 @@
+[
+  {
+    "name": "ruby-version",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "--version"
+    ]
+  },
+  {
+    "name": "python-version",
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "--version"
+    ]
+  },
+  {
+    "name": "frozen-bundle-check",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "/work/bootstrap-gems/bin/bundle",
+      "check"
+    ]
+  },
+  {
+    "name": "fastlane-version",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "/work/bootstrap-gems/bin/bundle",
+      "exec",
+      "fastlane",
+      "--version"
+    ]
+  },
+  {
+    "name": "fastlane-lanes",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "/work/bootstrap-gems/bin/bundle",
+      "exec",
+      "fastlane",
+      "lanes"
+    ]
+  },
+  {
+    "name": "fastlane-action-load",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "/work/bootstrap-gems/bin/bundle",
+      "exec",
+      "ruby",
+      "-e",
+      "require \"fastlane\"; Fastlane.load_actions; [Fastlane::Actions::DeliverAction, Fastlane::Actions::PilotAction, Fastlane::Actions::SupplyAction, Fastlane::Actions::UploadAppPrivacyDetailsToAppStoreAction].each { |action| raise \"Missing action configuration\" unless action.available_options.any? }; puts \"DELIVERY_ACTIONS_LOADED\""
+    ]
+  },
+  {
+    "name": "rubyzip-security",
+    "exit_code": 0,
+    "command": [
+      "/usr/local/bin/ruby",
+      "/work/bootstrap-gems/bin/bundle",
+      "exec",
+      "ruby",
+      "scripts/tests/ruby_dependency_security_test.rb"
+    ]
+  },
+  {
+    "name": "ios-offline-contract",
+    "exit_code": 1,
+    "command": [
+      "python3",
+      "scripts/tests/ios_delivery_contract_test.py"
+    ]
+  }
+]

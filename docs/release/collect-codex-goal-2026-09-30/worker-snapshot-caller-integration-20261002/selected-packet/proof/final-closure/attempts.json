@@ -1,0 +1,50 @@
+[
+  {
+    "attempt": 1,
+    "status": "failed",
+    "error": "retained actual command failed: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb:25:in `fail!': Worker snapshot database dump failed (CollectReceiptWorkerSnapshot::Error)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb:299:in `dump'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb:344:in `capture'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:69:in `<main>'\n",
+    "result_sha256": "dbdb59fd599f01fead3f278b0053633f19b0a3781d2bf073074d681bc7c63c07",
+    "checks": 4,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  },
+  {
+    "attempt": 2,
+    "status": "failed",
+    "error": "retained actual command failed: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:13:in `check': closed original holder makes actual later snapshot import fail (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:114:in `<main>'\n",
+    "result_sha256": "756f31437a6fcc7230f56c63ebe0c1ec9f83b13e4bf15a8f605377adfdc96acc",
+    "checks": 4,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  },
+  {
+    "attempt": 3,
+    "status": "failed",
+    "error": "retained actual command failed: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:13:in `check': altered private page byte digest refuses restore input (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:37:in `refusal'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:121:in `<main>'\n",
+    "result_sha256": "4ff28a3bbb281cd6ae78f2fd56e44892473e7b9ea9f7aaeec1ed3853aa50173d",
+    "checks": 4,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  },
+  {
+    "attempt": 4,
+    "status": "passed",
+    "error": null,
+    "result_sha256": "c861d95e58793f1895ed8d9990e73e71a3a40f920b42fc75ef63ac7de81b1175",
+    "checks": 36,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  },
+  {
+    "attempt": 5,
+    "status": "failed",
+    "error": "retained actual command failed: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb:24:in `[]=': Duplicate recovery JSON key (CollectRecoverySource::Error)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb:139:in `<main>'\n",
+    "result_sha256": "20efc02cad3ceade71c907532b67f08aa8cc3f4e34b439db5a3ded4f4331cf9e",
+    "checks": 4,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  },
+  {
+    "attempt": 6,
+    "status": "passed",
+    "error": null,
+    "result_sha256": "05f90efceff4da12bd77dc03671ede107e27b8e86ae3e2cd43985ec561a59f24",
+    "checks": 38,
+    "scope": "sealed700 selected205 schema cohort; exact retained192 checkpoint plus real9 and430/500/600/700 graph. Privacy420/current newer sources excluded; no full-current replay, hosted/managed Vault/native/device/scheduler/RPO-RTO claim"
+  }
+]

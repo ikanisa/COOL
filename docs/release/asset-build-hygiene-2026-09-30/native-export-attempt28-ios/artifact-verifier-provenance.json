@@ -1,0 +1,6 @@
+{
+  "retained_verifier_sha256": "bfbfc5b9e2d8c53042573bb5066f162146532c9f4fdf2a55983d19dc8662b674",
+  "artifact_verification_sha256": "7f0e6f56875eec5a8268aa7ae96c5719b7fa396897f8fc0fec3b9bb35d702b70",
+  "bundle_manifest_sha256": "03f0b18ab0f9e6c21c244c899984f9d6775048203e8ff1b8fa0028b0de2ac917",
+  "scope": "Actual retained inspection code, successful complete native compile logs and bound unsigned artifact; original current checkout drift recorded"
+}

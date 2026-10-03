@@ -1,0 +1,53 @@
+{
+  "APP_mutation_performed": false,
+  "captured_utc": "2026-10-02T13:48:41.469385+00:00",
+  "fences": {
+    "android/app/build.gradle.kts": {
+      "maintained": {
+        "bytes": 24464,
+        "device": 16777247,
+        "inode": 2693286,
+        "mode": 448,
+        "mtime_ns": 1790932035753516377,
+        "nlink": 1,
+        "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+      },
+      "private_APP": {
+        "bytes": 24464,
+        "device": 16777232,
+        "inode": 60412968,
+        "mode": 448,
+        "mtime_ns": 1790940553031475746,
+        "nlink": 1,
+        "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+      }
+    },
+    "android/build.gradle.kts": {
+      "maintained": {
+        "bytes": 886,
+        "device": 16777247,
+        "inode": 2693278,
+        "mode": 448,
+        "mtime_ns": 1789031034000000000,
+        "nlink": 1,
+        "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+      },
+      "private_APP": {
+        "bytes": 886,
+        "device": 16777232,
+        "inode": 60413123,
+        "mode": 448,
+        "mtime_ns": 1790940553076627852,
+        "nlink": 1,
+        "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+      }
+    }
+  },
+  "maintained_and_APP_exact_bytes_equal": true,
+  "maintained_mutation_performed": false,
+  "schema_version": 1,
+  "write_boundary": [
+    "android/build.gradle.kts",
+    "android/app/build.gradle.kts"
+  ]
+}

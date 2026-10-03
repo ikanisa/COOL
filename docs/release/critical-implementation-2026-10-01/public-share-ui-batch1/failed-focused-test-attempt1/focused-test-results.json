@@ -1,0 +1,79 @@
+[
+  {
+    "test": "share-copy",
+    "status": "fail",
+    "summary": {
+      "runs": 3,
+      "assertions": 38,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "static-routes",
+    "status": "pass",
+    "summary": {
+      "runs": 7,
+      "assertions": 30,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "legal-security-rendering",
+    "status": "pass",
+    "summary": {
+      "runs": 9,
+      "assertions": 251,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "public-links",
+    "status": "pass",
+    "summary": {
+      "runs": 7,
+      "assertions": 21,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "capability-denials",
+    "status": "pass",
+    "summary": {
+      "runs": 8,
+      "assertions": 104,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "capability-content",
+    "status": "pass",
+    "summary": {
+      "runs": 21,
+      "assertions": 178,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  {
+    "test": "content-contract",
+    "status": "pass",
+    "summary": {
+      "runs": 24,
+      "assertions": 32,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  }
+]

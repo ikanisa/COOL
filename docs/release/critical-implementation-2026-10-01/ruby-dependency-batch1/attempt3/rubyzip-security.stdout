@@ -1,0 +1,1 @@
+{"status":"pass","ruby_version":"3.3.12","rubyzip_version":"3.4.0","api":"extract","cases":[{"id":"benign-default-extraction","passed":true},{"id":"sibling-prefix-upload_backup-denied","passed":true},{"id":"sibling-prefix-upload2-denied","passed":true}],"provider_calls":0,"real_customer_data":false}

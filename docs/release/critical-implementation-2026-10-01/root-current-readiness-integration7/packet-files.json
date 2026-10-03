@@ -1,0 +1,45 @@
+{
+  "files": [
+    {
+      "path": "attempt1-hash-transcription-failure.json",
+      "bytes": 637,
+      "sha256": "0dbc0466db0a192733db50969a586d2bb77485c7374331fa5864745bd68cb33a"
+    },
+    {
+      "path": "before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 32464,
+      "sha256": "e3ce942e30aebfbfed36ef373089b29a0650c72d8dacc06f149d4f9ef631b989"
+    },
+    {
+      "path": "before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 47616,
+      "sha256": "bdb7ed00ac3bce11c3155096a33d4e9730bd958f778c1817e8c0c20e3898c311"
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 12026,
+      "sha256": "c2d3481fc171ea4c6d0853eaeb68641706fca3f408fd062c9652bc8760e06883"
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 235505,
+      "sha256": "072f4becde5486049ad1fd567d4b29c635213da78c3532a8ee8349252bc1dc2e"
+    },
+    {
+      "path": "before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 170549,
+      "sha256": "096370dde01e5eda07bdbb5adc19cc0adee4d553cc1b83f4d8b9bcf1264aa431"
+    },
+    {
+      "path": "before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 359707,
+      "sha256": "1954b50d7b269ed2f24b0f16378f36dc32a07466fc1262d90a98bab5afe759df"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 3583,
+      "sha256": "f2faba095fc3b98aabfb6d2361dcf8ef11612803909f02287fdef84ef4cf85de"
+    }
+  ],
+  "scope": "Six-register native current update; failed transcription retained; original40/102/24 preserved"
+}

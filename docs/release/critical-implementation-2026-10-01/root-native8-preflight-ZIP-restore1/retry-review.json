@@ -1,0 +1,13 @@
+{
+  "APP_export_lock_and1114_proofs_reused_unchanged": true,
+  "existing_extracted_private_distribution_retained": true,
+  "no_global_caches_copied_or_mutated": true,
+  "only_owned_raw_published_archive_restored": true,
+  "original_protected_metadata": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "previous_native_failure_preserved": true,
+  "production_release_approval": false,
+  "root_native_review_sha256": "458bd1c90f39c79279f016a0cf19dd88c47c341b7a1c1fc5112a06474d442faf"
+}

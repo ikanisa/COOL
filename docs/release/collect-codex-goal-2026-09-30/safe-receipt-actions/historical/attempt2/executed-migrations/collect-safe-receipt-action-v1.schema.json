@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:collect:safe-receipt-action:v1",
+  "title": "Collect manually cancelled definitely unstarted receipt v1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/inspection"
+    },
+    {
+      "$ref": "#/$defs/actionReceipt"
+    },
+    {
+      "$ref": "#/$defs/lookup"
+    }
+  ],
+  "$defs": {
+    "inspectionReceipt": {
+      "type": "object",
+      "required": [
+        "outbox_id",
+        "revision",
+        "state",
+        "can_cancel",
+        "reason_code"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "outbox_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "state": {
+          "enum": [
+            "queued",
+            "awaiting_confirmation",
+            "send_started",
+            "observed_sent",
+            "failed_no_send",
+            "uncertain",
+            "suppressed"
+          ]
+        },
+        "can_cancel": {
+          "type": "boolean"
+        },
+        "reason_code": {
+          "enum": [
+            "eligible",
+            "state_not_queued",
+            "prior_transport_evidence",
+            "source_evidence_invalid",
+            "already_cancelled",
+            "revision_exhausted"
+          ]
+        }
+      }
+    },
+    "inspection": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "scope",
+        "checked_at",
+        "sample_valid_until",
+        "outbox_id",
+        "status",
+        "receipt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "scope": {
+          "const": "rw_receipt_manual_cancel"
+        },
+        "checked_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        },
+        "sample_valid_until": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        },
+        "outbox_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "receipt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/inspectionReceipt"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "available"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "receipt": {
+                "$ref": "#/$defs/inspectionReceipt"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "receipt": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "actionReceipt": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "scope",
+        "request_id",
+        "outbox_id",
+        "expected_revision",
+        "revision",
+        "action",
+        "reason_code",
+        "recorded_at",
+        "state_before",
+        "state_after",
+        "financial_action",
+        "send_action",
+        "provider_delivery_verified",
+        "primary_receipt_retained"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "scope": {
+          "const": "rw_receipt_manual_cancel"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "outbox_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999999999
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000000000
+        },
+        "action": {
+          "const": "cancel_unstarted"
+        },
+        "reason_code": {
+          "enum": [
+            "operator_cancelled",
+            "recipient_review_required",
+            "content_review_required"
+          ]
+        },
+        "recorded_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        },
+        "state_before": {
+          "const": "queued"
+        },
+        "state_after": {
+          "const": "suppressed"
+        },
+        "financial_action": {
+          "const": false
+        },
+        "send_action": {
+          "const": false
+        },
+        "provider_delivery_verified": {
+          "const": false
+        },
+        "primary_receipt_retained": {
+          "const": true
+        }
+      }
+    },
+    "lookup": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "scope",
+        "checked_at",
+        "sample_valid_until",
+        "request_id",
+        "status",
+        "receipt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "scope": {
+          "const": "rw_receipt_manual_cancel"
+        },
+        "checked_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        },
+        "sample_valid_until": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "status": {
+          "enum": [
+            "recorded",
+            "not_recorded",
+            "in_progress"
+          ]
+        },
+        "receipt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/actionReceipt"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "recorded"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "receipt": {
+                "$ref": "#/$defs/actionReceipt"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "receipt": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

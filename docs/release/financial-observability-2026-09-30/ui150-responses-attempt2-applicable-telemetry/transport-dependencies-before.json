@@ -1,0 +1,110 @@
+{
+  "functions_client": {
+    "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/functions_client-2.7.1",
+    "files": {
+      "lib/functions_client.dart": "5b6fc6fb88f913826b71824a7e25acf0d53697b44b4535bd0ec992cc7c390428",
+      "lib/src/constants.dart": "f13c66238863a2586d269a963c2a1f71d7a4c3f46ab160e0a2c6248cbb126410",
+      "lib/src/functions_client.dart": "bec237ad1e141a87717a81232e7c701d5fe547b0bb3eca11895c512a75f14492",
+      "lib/src/types.dart": "183cbb1e3a6904899f752cedbc10d9c4ca4faf55431e1212da739c8741eeb0b0",
+      "lib/src/version.dart": "e47a995b51e46c78f5cb5672ce46fc6f62b440b9750cb69ab5065a1608032c6c",
+      "pubspec.yaml": "fcaeb6cad1d9781c6b1d3cea7871fa69ae5fff82ae3dc2906119546ab8e17470"
+    }
+  },
+  "http": {
+    "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/http-1.6.0",
+    "files": {
+      "lib/browser_client.dart": "583d9ce60e3317163cf9f58be9ca89cc45e794d4eae79db97cc4a165a426f238",
+      "lib/http.dart": "24549df12986350e3422b952ee2177214211ecd51d0b168500c1e7cdd2f48753",
+      "lib/io_client.dart": "69ada3b2ff5439841b1591199c02e4909becb62985c85a29a34d06f9cb6582e7",
+      "lib/retry.dart": "c96e8af072ce9266c3b27dace12b220a0c56ff8b39fc4c64d33348146d4811cd",
+      "lib/src/abortable.dart": "dc9e047f295a543df477e82f670de6732f0fea68c5929b426792edbd102291f1",
+      "lib/src/base_client.dart": "b37fd7824949598fb69911dddc8b500c07e411c9a98d9224387d5366e050b608",
+      "lib/src/base_request.dart": "faefcac1dcabc3a6d48680719a9e1d3cca01ca97bbe41b93f223ce3459ed2a82",
+      "lib/src/base_response.dart": "ee41f26a27ab9bd5bd8572a9d1f2e56781eecac177d436852f520fbc17986928",
+      "lib/src/boundary_characters.dart": "eb6849edc040c42be731bc0678f260f907521681a677e43314ce392222ae21ac",
+      "lib/src/browser_client.dart": "aa4bebe611143318cf8f2ff68599fa4c8c07a8a7cdb0e4e6390eb36a7a432c27",
+      "lib/src/byte_stream.dart": "fb19d16de7c10cad4fda432488a688204b2b44271f1ede42e89e34d2ba659950",
+      "lib/src/client.dart": "56b4e930b3d7c5c176a7f7d0102a172b69f36fa51a14b18df24a507e37d626d4",
+      "lib/src/client_stub.dart": "9018650d811ff1c5f9c7a2bdb7ec5e40292bfb79d082c46cfb0a391a37348d8b",
+      "lib/src/exception.dart": "4b47d2f6299cff987567998093b2d5fc0b1f55057a074fb2d37cfc5e1f454610",
+      "lib/src/io_client.dart": "fceaee3aa9190704b390fd31ccb4422a73caf37f048371c7e9fb4a5739e315ed",
+      "lib/src/io_streamed_response.dart": "ae23e376611ad6045ec0e3c1b1b8b77a1803608e6f9695e1d985ec5a8de8345d",
+      "lib/src/mock_client.dart": "3e9d8d18a2be5c689b3a75576923eed6bba63b02c7e8c24949a69b05d405af23",
+      "lib/src/multipart_file.dart": "5c0a491186a2283eddfed509f722c333b4545dbc8b902d06562ea8291aca4a90",
+      "lib/src/multipart_file_io.dart": "d381b4d0b8467289648f8a1fdd6130024e2534832966188f17e690df595ccaa3",
+      "lib/src/multipart_file_stub.dart": "53bfd3e4202ec6b7b98b1c106f6e5c49f00ff5325dad800d202990df82f95511",
+      "lib/src/multipart_request.dart": "d67d902f9eab2cb104a8c94ab98915f0ff69817386e0f1edfcd42f9c47f742b5",
+      "lib/src/request.dart": "fe8f1fa595a2941924878e4aac1d2100c572f005214713af6aa5644cf408e4b7",
+      "lib/src/response.dart": "2467d8d97815a27b0c6ff566a67017e99e9184e674a2fbdb70e6b042e108c385",
+      "lib/src/streamed_request.dart": "f509792993498ef2774a2bd4becb7360d774ff9dc5ab5a9b11bcfb984d3498e6",
+      "lib/src/streamed_response.dart": "f18da6b3e6392b801a0639d6d1b642fad7d12ed900fcc3a7a9ea334397f3faed",
+      "lib/src/utils.dart": "0ce23e711ca29b34938e684cc51a6150beea6f87d4c46588ce5c4dbfb202ec38",
+      "lib/testing.dart": "668beb7ded7fb75d2c8279fe2315934704cea593e7ff40120beec359931c8b18",
+      "pubspec.yaml": "ab9b20099e285fcabbdb52188d8a9205adee7eeb9b51f00727206edeb1e72420"
+    }
+  },
+  "postgrest": {
+    "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/postgrest-2.9.1",
+    "files": {
+      "lib/postgrest.dart": "62c570f633d6bb1e3106c010bb60c7d84138f0b37ec09734b9a3fe04e4401551",
+      "lib/src/constants.dart": "a315e8e5179e9923a5aa1e9c5d24f0a6d88b3dcdc32be2e4a81e988f0f2edaf0",
+      "lib/src/postgrest.dart": "7c9029c9982da51d26ad3e04a0ecb258171da1b682e554f883ec318cfb818872",
+      "lib/src/postgrest_builder.dart": "c21ce110a2c4715edc00fc0b440604204252b6c03156573ccbd4f43d77291587",
+      "lib/src/postgrest_filter_builder.dart": "a8e7dbcea6f516e87ca42eb544a235315569f7fe3ae031bc60c8ed24537649bc",
+      "lib/src/postgrest_query_builder.dart": "5c6432dfb656312239276e227e024ddf213b2e3f951199a327bf082a3af83c95",
+      "lib/src/postgrest_rpc_builder.dart": "5e46428b3c95d3f1152b7621779a84c9db63e1622245d3641f35fc0b96f302bb",
+      "lib/src/postgrest_transform_builder.dart": "ee4b65f46a870090468401d055a82686c6277adb28bd5f6c37ab6e12c22202e6",
+      "lib/src/raw_postgrest_builder.dart": "7b13c8c04551973992478cbfb03af3a5964c0826bbaf0a7acd575b6d5264da9d",
+      "lib/src/response_postgrest_builder.dart": "d05cc3b00a9cffa7bdee91c7de36b37b1102a48d8faef7828af8b9e99dafa1b7",
+      "lib/src/types.dart": "6447395bce283f5c2c5c4b3699a2c05a7b963458dbeeb899086037ae9b1a7f88",
+      "lib/src/version.dart": "ac167a3b3c4606cd4e597c9eeed77d7b097dd922c4a3e1b779b74673907bbf91",
+      "pubspec.yaml": "07e902329f434a8e87b2f579080aa70436ae6b0303971ae430e7f57c6040227a"
+    }
+  },
+  "supabase": {
+    "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase-2.16.0",
+    "files": {
+      "lib/src/api_key.dart": "e6e0404236e0b4f57201783f5d29523ae9d084e30b363e48972ac78fc153ade1",
+      "lib/src/auth_http_client.dart": "685d647d24f1018ebf4fb29f6c3cddef5664aeade24e5aa8a3a230d390e09ac5",
+      "lib/src/auth_user.dart": "f4c5d5fe8665490c9fcafb695d9e64bb9b3073800e8c9da637d38e151f7fd126",
+      "lib/src/constants.dart": "30dd2c1737cb461a855b4675d657a057853acdfd6225788164a63ead8ba10921",
+      "lib/src/counter.dart": "5591a03ddbae4ec1b4cf634cbfc1e26b4d90616053e6804ac5d306ece6303635",
+      "lib/src/realtime_client_options.dart": "313c177634218dcc1974eac67b13d30491eb2b9be3eca0fb180260c5671cb617",
+      "lib/src/remove_subscription_result.dart": "0ffffa150e62b095e109fa5d89fec5efd90bbb7d99a6d7fb659d11a23f5f54a6",
+      "lib/src/supabase_client.dart": "b9958440b59a335ad96c240bf00d84f48ea459f85563a645233987e5ec764191",
+      "lib/src/supabase_client_options.dart": "dab12959e7b0c17277d774d3b302d4b7f1d425db31b6daaad3b294a946aba49b",
+      "lib/src/supabase_event_types.dart": "034cb7a89020a42d895094ce4116de8ca215b620037f3c47ad3fec331aa6ca36",
+      "lib/src/supabase_query_builder.dart": "240bc37bf064c72c42ce23485aa9988f8009796a9843b4ec0d1a4d706f25ab1b",
+      "lib/src/supabase_query_schema.dart": "b23fe37d326c6e91bfc510576c16bc17f27361889bdbc410afbbc7fdad667484",
+      "lib/src/supabase_realtime_error.dart": "625bf04b8288132fc6711105c5fa17affacb420ebcd6f3b0b095f64ed874642d",
+      "lib/src/supabase_stream_builder.dart": "c0b2be48e0b2c905ed1f59aa9f07c45fb9e1015e9d4f6d668b30e41b3992f8d5",
+      "lib/src/supabase_stream_filter_builder.dart": "db4ef8ebd4d2260b0b82395432e2ea972924adbd22a9ddb1bccf6d54ea7ff34c",
+      "lib/src/trace_http_client.dart": "13ee60978e2ab6cb3cfccc93a830c957e24bc72e247fc51df981c0a16e40cca8",
+      "lib/src/trace_propagation.dart": "6467225de5c62f628b59c8ac9940de1e1f69a1bb6a0580f6b3b79242d7f9d217",
+      "lib/src/version.dart": "c96af1781d2d80f67091851254c781ed57c062a65fb0a239e4a76d7f498ccd7c",
+      "lib/supabase.dart": "f8e985c9cd7176cd3b73ae7f805d57cf7c78d5198c0fa9a0de18f4de5dfea966",
+      "pubspec.yaml": "83b9ddaff2aa64900c4e1ed95b1c5503281d7a7b2cf2e30b4fc427c121436cad"
+    }
+  },
+  "supabase_common": {
+    "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase_common-0.1.2",
+    "files": {
+      "lib/src/base64url.dart": "c360c1f21803ecc87527dd6ed1ebbc92a755515111693587f5b2eda02ccc82db",
+      "lib/src/client_info.dart": "eaf70015ead35b7fe8e26ccb1379e38896fa130eaf1f8b234d4ffd86bdb36153",
+      "lib/src/fetch_options.dart": "29dcae51152d1f9ef4fb62ee791b786ab5f361b8dc3ad34f37aa0347d5a3d13c",
+      "lib/src/http_status.dart": "99043f02f541e45af5c239341941e27a8f31a0313cb63433685d9e92b6b0a3b3",
+      "lib/src/pkce.dart": "cad39fb836922b7d247d9a186497e96c48461e6ad10b04cc404e43a51c6bcb7c",
+      "lib/src/platform/platform_info.dart": "f34f27c49993db3ac8efe75fd1d03a24d5d08c7555c39dc89e5fab94bae78e85",
+      "lib/src/platform/platform_io.dart": "c8b63de9d6928db6a5a303278a2b402fb790f62261a7e4fa4af7f4d12242631b",
+      "lib/src/platform/platform_stub.dart": "015aee95f2da5faebc7a66446ea1ba597ad84c251fd16e5168f7ee0427525688",
+      "lib/src/replay_subject.dart": "8e71f40e28461c93c5a52813bfde0c9169d7e0e4a35bca9f459c89466557c62d",
+      "lib/src/retry.dart": "58a676a9a06037424b084c7a14d1395fded4c45bbd6d42777b13b78fc851b5aa",
+      "lib/src/snake_case.dart": "f9afa7f450c61bdc38c48b6ff64ad45e580c323124120cb96267ef10af921d19",
+      "lib/src/testing/local_stack.dart": "760d7dbdfc3e3bd6d5452650e48d9d9bb80d56661742dcfb10bcc09eaf3e3747",
+      "lib/src/uuid.dart": "060410756a53e56842d332e1c54ee6d42d2cea541e90a28264b6df221310c296",
+      "lib/supabase_common.dart": "2e4acbe4277583058ee72146217a3375c3070e2966db108a48ba3a55a4c50eb4",
+      "lib/testing.dart": "2327c68afc91297f046d2c18a85cb581d0348f5ba3aa19ae6d8c9e9d36fc3328",
+      "pubspec.yaml": "181a75de144334691a36a4ed24289154406f3693dd7d445984e27d2f63f53fe0"
+    }
+  }
+}

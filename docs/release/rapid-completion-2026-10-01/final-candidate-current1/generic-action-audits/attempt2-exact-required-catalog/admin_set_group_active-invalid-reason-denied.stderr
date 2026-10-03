@@ -1,0 +1,3 @@
+ERROR:  P0001: Lifecycle reason must be at least 8 characters
+CONTEXT:  PL/pgSQL function admin_set_group_active(uuid,boolean,text) line 9 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,0 +1,14 @@
+{
+  "started_at": "2026-09-30T23:57:41.899811+00:00",
+  "publisher_sha256": "748c4a4b63e7ea5bbdc4208ab95bdf2cd6d6c62191153daa756a15b4160f80e4",
+  "capture_report_sha256": "a4fe7d43840349ee92db0b0c1d191c99d349e925fc3fd2f4ed58640c8d36d14f",
+  "review_sha256": "b0ce737d640f92b7031e0f1aab24ccc2ca3d80d22026edebf38d6b0e45f957af",
+  "publication_packet": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt106",
+  "scope": "Byte-identical local preview/provenance publication only; prior media preserved, no hosting/native release acceptance.",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout_sha256": "daec6835f3f723efebe452b4ea5cd9eeb977f85965002a5c5c7c83896d6b4f17",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "publication_receipt_sha256": "1f88616a4bb239ba417e905b16ca62b2a933b5ec3aefa784678e44ff1f31a00f",
+  "finished_at": "2026-09-30T23:57:58.628164+00:00"
+}

@@ -1,0 +1,71 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "9c0298aefbe52cb5fe3dc071189db9838a348c5e93003e64ba57dca93d67892d"
+    },
+    {
+      "path": "generate_schema_domain_map.py",
+      "sha256": "5c643ed467c9c40debbf5a59acc13300765772a9ccaae9a2466d7ed19061bd92"
+    },
+    {
+      "path": "generated-current209/DOMAIN_MAP.md",
+      "sha256": "c943d4c9e1b95489c8b7d6d762c8a5bb4e2583e31d3d74b9273399aa0faf570a"
+    },
+    {
+      "path": "generated-current209/coverage.json",
+      "sha256": "d3f84c09a19fdff9256151ac1557cac5533852d48945916473025ff979f71ec3"
+    },
+    {
+      "path": "generated-current209/gaps.json",
+      "sha256": "d00a10acc7c3c3a224a69f388abb80d665de72c12dbd7263e17afe8c1db5a97d"
+    },
+    {
+      "path": "generated-current209/input-manifest.json",
+      "sha256": "ef3e9d0b589d376bbaae2a3bfd4ccf7630bba729cb8cad2c44d37f33777de5ea"
+    },
+    {
+      "path": "generated-current209/schema-domain-map.json",
+      "sha256": "76848568592c07517590bf9d78ae211a83be2cefb999a7f31bc3276313628299"
+    },
+    {
+      "path": "receipts/fresh-input-and-coverage-readback.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receipts/fresh-input-and-coverage-readback.stdout",
+      "sha256": "ee2b21d66b4d8d4b6aabe1d968dbf3b30d999dfaea82d0196bf4e08efe8c54d5"
+    },
+    {
+      "path": "receipts/generate-current209.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receipts/generate-current209.stdout",
+      "sha256": "40f469b2417a92665190f2406c36e3e3fa76a68fb6a448c57868ddf4d42888b6"
+    },
+    {
+      "path": "receipts/parser-admission-coverage-tests.stderr",
+      "sha256": "341e6e924eb20c93499802413fe156318ba7656951f5eab1902d37984b4141ab"
+    },
+    {
+      "path": "receipts/parser-admission-coverage-tests.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receipts/verification.json",
+      "sha256": "fe202a8995ff63d44fcce9593ba42ffd5a0d20cf9e1cfee75459422e90ed4120"
+    },
+    {
+      "path": "reviewed-caller-seams.json",
+      "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc"
+    },
+    {
+      "path": "test_schema_domain_map.py",
+      "sha256": "0f5242cc8ee03876c99985fff7a617b4942cb91128d59ab93df05606e04f3307"
+    }
+  ],
+  "packet_manifest_sha256": "972fc42286df5d89b5b9769a96edb91d8f825ecb5f11b1d3968cfaebc6abd194",
+  "sealed_leaves_verified": 16,
+  "status": "PASS"
+}

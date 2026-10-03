@@ -1,0 +1,5 @@
+{
+  "status": "failed_preserved",
+  "failure": "Original local JSON items do not all contain optional verified_progress. Markdown regeneration now uses original local_acceptance when that progress field is absent.",
+  "prior_five_registers_unchanged": true
+}

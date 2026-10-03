@@ -1,0 +1,37 @@
+{
+  "Python_executable_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "actual_seconds": 0.3160059159999946,
+  "actual_tests": 13,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/early-build-overlay-recovery4/test_android_overlay.py"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "kind": "private_pure_android_overlay_consumer_fixture_execution",
+  "proposed_manifest_fixtures_are_not_actual_APP_readback": true,
+  "real_process_metadata_probes_signals_Gradle_APP_SDK_cache_actions": false,
+  "source_after": {
+    "android_build_overlay.py": "3f66e7dde55dae7024bbc0d5ccbd5c05da353dcf01d0db9de175a5aab402af69",
+    "prepared-input-pins.json": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+    "reviewed-source-binding-delta.json": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6",
+    "reviewed-verification-plan.json": "8efdddd8c5ba2d730a9e2156f92e327d64d41ee100a031ed1d5f5acb2c7794c1",
+    "root-admission-template.json": "014a6264ec4a5931c9da19cff2d997b04f498b42f1edea1145ad2d5df28b82b2",
+    "run_selected_aab.py": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+    "test_android_overlay.py": "7ce8d1349542c3db32dcc3dc1543f3879ace11d38ac5b909d8c49d6460e2c995"
+  },
+  "source_before": {
+    "android_build_overlay.py": "3f66e7dde55dae7024bbc0d5ccbd5c05da353dcf01d0db9de175a5aab402af69",
+    "prepared-input-pins.json": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+    "reviewed-source-binding-delta.json": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6",
+    "reviewed-verification-plan.json": "8efdddd8c5ba2d730a9e2156f92e327d64d41ee100a031ed1d5f5acb2c7794c1",
+    "root-admission-template.json": "014a6264ec4a5931c9da19cff2d997b04f498b42f1edea1145ad2d5df28b82b2",
+    "run_selected_aab.py": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+    "test_android_overlay.py": "7ce8d1349542c3db32dcc3dc1543f3879ace11d38ac5b909d8c49d6460e2c995"
+  },
+  "stderr_sha256": "f835f52bacd1e98e3aff58abc534f5ededb63cea929bb7af44679a07c2cc2a8a",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "unchanged": true
+}

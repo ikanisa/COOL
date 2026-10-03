@@ -1,0 +1,22 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:50 GMT",
+    "ETag": "W/\"25ae0576b7c335c6f70a07706384ebdf717dcc12bc189d5af8c09541306cb22c\"",
+    "Last-Modified": "Mon, 20 Jul 2026 23:11:29 GMT",
+    "X-RateLimit-Remaining": "48",
+    "X-RateLimit-Reset": "1790890738"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.github.com/advisories?ecosystem=pip&affects=Pillow%4012.0.0&per_page=100&type=reviewed",
+  "requested_at": "2026-10-01T21:22:49.275930+00:00",
+  "response_bytes": 46698,
+  "response_path": "primary/github-affected-Pillow-12.0.0.response",
+  "response_sha256": "3c9646920801600ab6429a1fdc6d16ab685efcba625317c4849f936df83ef60c",
+  "response_url": "https://api.github.com/advisories?ecosystem=pip&affects=Pillow%4012.0.0&per_page=100&type=reviewed",
+  "retrieved_at": "2026-10-01T21:22:50.442241+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

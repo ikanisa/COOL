@@ -1,0 +1,33 @@
+{
+  "actual_execution_admissions": {
+    "foundation": false,
+    "sdk-lock": false,
+    "startup": false,
+    "app-export": false,
+    "app-lock": false,
+    "native": false
+  },
+  "derivative_capabilities_after_separate_root_review": ["app-export", "app-lock"],
+  "failed_APP_and_export_lock_controls_must_be_preserved_before_fresh_retry": true,
+  "fresh_source_fence_after_all_source_promotions_required": true,
+  "app_lock_requires_whole_fresh_export_under_same_packet": true,
+  "single_stage_only_receipt_required": true,
+  "separate_root_admission_directory": "root-sdk-native-app-guard-review1",
+  "required_root_receipt_fields": [
+    "packet_manifest_sha256", "checked_packet_leaves", "errors", "execution_stage_admissions",
+    "required_reviewed_guard_sha256", "current_source_export_authorized",
+    "strict_current_source_comparison_required", "private_snapshot_exclusive",
+    "source_scope_held_for_strict_export", "source_lock_attested",
+    "transient_write_and_restore_absence_attested", "required_source_fence_sha256",
+    "required_predecessor_terminal_sha256"
+  ],
+  "app_lock_additional_required_receipt_field": "required_app_export_binding_sha256",
+  "source_scope_held_for_strict_export": false,
+  "source_lock_attested": false,
+  "transient_write_and_restore_absence_attested": false,
+  "actual_app_lock_whole_stage_pass": false,
+  "native_execution_admitted": false,
+  "auto_advance": false,
+  "candidate_promoted": false,
+  "production_release_approval": false
+}

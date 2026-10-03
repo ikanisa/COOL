@@ -2,6 +2,8 @@
 // Isolated Admin fixture dialogs: open through semantics, inspect, then cancel.
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
+import {observeCollectDiagnostics, collectDiagnosticSourceSnapshot} from './collect_diagnostic_observer.mjs';
+const diagnosticObserverSourcesBefore=await collectDiagnosticSourceSnapshot(import.meta.url);
 const base=process.env.ADMIN_DESIGN_QA_URL || 'http://127.0.0.1:4189';
 if(!['localhost','127.0.0.1','[::1]'].includes(new URL(base).hostname)) throw Error('Local fixture build required');
 const out=resolve(process.env.ADMIN_DESIGN_QA_OUT || '.cache/revolut-design-20260905/exhaustive-admin-flows');
@@ -40,7 +42,7 @@ async function activate(page,name){
 await mkdir(join(out,'screenshots'),{recursive:true});
 const browser=await chromium.launch({headless:true,executablePath:process.env.ADMIN_PWA_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});const results=[];
 try{for(const viewport of viewports)for(const flow of flows.filter(f=>!process.env.ADMIN_DESIGN_QA_FLOW || f.name===process.env.ADMIN_DESIGN_QA_FLOW)){
- const context=await browser.newContext({viewport}),page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));let screenshot;let checks={};
+ const context=await browser.newContext({viewport}),page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));observeCollectDiagnostics(page,diagnostic=>errors.push('Collect diagnostic failure: '+JSON.stringify(diagnostic)));let screenshot;let checks={};
  try{
   await page.goto(base+'/#'+flow.route,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('flt-semantics-placeholder')||document.querySelectorAll('flt-semantics').length>5);
@@ -64,4 +66,6 @@ try{for(const viewport of viewports)for(const flow of flows.filter(f=>!process.e
  }catch(error){results.push({...flow,viewport:viewport.name,screenshot,status:'fail',checks,error:String(error)});}finally{await context.close();}
 }}
 finally{await browser.close();}
-const report={status:results.every(r=>r.status==='pass')?'pass':'fail',generatedAt:new Date().toISOString(),scope:process.env.ADMIN_DESIGN_QA_FLOW?'Partial diagnostic run':'Local fixture UI only; dialogs cancelled before mutations',results};await writeFile(join(out,'summary.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,count:results.length,failures:results.filter(r=>r.status!=='pass').map(r=>({name:r.name,viewport:r.viewport,checks:r.checks,error:r.error}))},null,2));process.exitCode=report.status==='pass'?0:1;
+const diagnosticObserverSourcesAfter=await collectDiagnosticSourceSnapshot(import.meta.url);
+const observerSourcesStable=JSON.stringify(diagnosticObserverSourcesBefore)===JSON.stringify(diagnosticObserverSourcesAfter);
+const report={status:observerSourcesStable&&results.every(r=>r.status==='pass')?'pass':'fail',diagnostic_observer_sources_before:diagnosticObserverSourcesBefore,diagnostic_observer_sources_after:diagnosticObserverSourcesAfter,observerSourcesStable,generatedAt:new Date().toISOString(),scope:process.env.ADMIN_DESIGN_QA_FLOW?'Partial diagnostic run':'Local fixture UI only; dialogs cancelled before mutations',results};await writeFile(join(out,'summary.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,count:results.length,failures:results.filter(r=>r.status!=='pass').map(r=>({name:r.name,viewport:r.viewport,checks:r.checks,error:r.error}))},null,2));process.exitCode=report.status==='pass'?0:1;

@@ -1,0 +1,10 @@
+{
+  "status": "in_progress",
+  "receipt": null,
+  "checked_at": "2026-10-01T14:49:55.064772Z",
+  "expires_at": "2026-10-01T14:49:51.914073Z",
+  "request_id": "b666ec7c-4c96-49ba-a9c7-a6aea7cda1bc",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T14:50:55.064772Z",
+  "request_fingerprint": "aad5ed254cadf20ac1f0a97ff8851f8ca9224dcfbbdfb275199d8e07a94d9ba9"
+}

@@ -1,0 +1,5 @@
+{
+  "source_sha256": "3945ac09976373c2585f92d4e9f8719512da84fb3a3a8e596a45a17e35a63e25",
+  "accepted_test_receipt_sha256": "9714bb6dd4d49acd71a0a0b352a311b2df59eba630de94b6de07b35ce827cd2e",
+  "scope": "Actual hosted compiler source copied into this Public export plus pinned SDK source byte maps; no registry authenticity or full toolchain attestation."
+}

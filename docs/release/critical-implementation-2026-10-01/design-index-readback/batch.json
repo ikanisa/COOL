@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T20:47:22.581547+00:00",
+  "findings": [
+    "PD-11",
+    "PD-12"
+  ],
+  "status": "local_route_and_index_reconciliation_current_visual_acceptance_unverified",
+  "owned_index_sha256": {
+    "docs/release/revolut-design/route-inventory.json": "9370881f8b22d8da7bc8888af330f3e78c4200e0b978997d62f927c172ed334d",
+    "docs/release/revolut-design/acceptance-status.json": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+  },
+  "route_declarations": {
+    "member_app": 37,
+    "admin": 28,
+    "public_flutter_fallback": 9,
+    "public_website": 18
+  },
+  "route_redirect_patterns": 2,
+  "route_comparators_unchanged": true,
+  "runtime_route_factory_consumer": {
+    "path": "docs/release/critical-implementation-2026-10-01/route-inventory-consumer.json",
+    "sha256": "79c0952e07687fa8d4c8b8bda89ee943ca488aed3cbc3c9d2421312249dc3dfa",
+    "passed": true,
+    "frozen_input_count": 819,
+    "current_source_readback": {
+      "entry_count": 819,
+      "matched_count": 819,
+      "changed_count": 0,
+      "missing_count": 0,
+      "status": "retained_entries_match",
+      "current_source_drift": []
+    }
+  },
+  "source_manifest_counts": {
+    "member_app": {
+      "entry_count": 357,
+      "matched_count": 355,
+      "changed_count": 2,
+      "missing_count": 0
+    },
+    "admin": {
+      "entry_count": 321,
+      "matched_count": 314,
+      "changed_count": 7,
+      "missing_count": 0
+    },
+    "native_ios": {
+      "entry_count": 465,
+      "matched_count": 463,
+      "changed_count": 2,
+      "missing_count": 0
+    },
+    "member_browser_media": {
+      "entry_count": 330,
+      "matched_count": 325,
+      "changed_count": 5,
+      "missing_count": 0
+    },
+    "public_content": {
+      "entry_count": 6,
+      "matched_count": 1,
+      "changed_count": 5,
+      "missing_count": 0
+    }
+  },
+  "external_entries_matched": 5168,
+  "retained_artifact_entries_matched": 852,
+  "validation_checks_passed": 17,
+  "negative_self_checks_passed": 4,
+  "font_distribution_rights": "unverified",
+  "current_visual_acceptance": "unverified",
+  "legal_release_approved": false,
+  "publication_approved": false,
+  "limits": [
+    "Readback compares every listed retained entry, not a freshly compiled current import graph or added-file census.",
+    "Retained artifact hashes preserve dated observations; source drift blocks promotion to a current candidate pass.",
+    "Public packet has a 55-file artifact inventory and six-input content binding, not a complete current generator/transitive input manifest.",
+    "No screenshots, browser/native/state matrices, device speech tasks, builds, hosted checks or visual comparison were executed.",
+    "Original installed native equality and network counts remain dated observations; installed bundle/device state is not re-read here.",
+    "No legal, font-rights, publication or whole-product fidelity approval is inferred."
+  ],
+  "evidence_sha256": {
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/README.md": "cf3a898603e9b127fe86033fe3c225fb10cd53ec18f794504f131e15d5a25ac8",
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/acceptance-status.before.json": "84f9c9e44f2f3563c56e4005f532e647da598e46c971572481427c69970ce184",
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/readback.json": "2aaaba1d1c810dec8e09ac543d0808ce7ef2c8566597b96b36d17ae19e076827",
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/readback.py": "a10b5ab27871f8e3d193917f53a4a1bb8276c6959d62f44c4fb6f6497ee91bce",
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/route-inventory.before.json": "0d30b89d4cac714460e0ff8c5fde0bb51b12250401b22650db26180aeddbbde8",
+    "docs/release/critical-implementation-2026-10-01/design-index-readback/validation.json": "6b6aec330cbdaa2888b22b9abd3e01806e722f1d4228ceb3c2fc4342d2848ffc"
+  }
+}

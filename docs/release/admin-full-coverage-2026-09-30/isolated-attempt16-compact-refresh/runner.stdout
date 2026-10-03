@@ -1,0 +1,118 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 444,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 43954,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.461,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_permission_refresh_test.dart",
+        "test/admin_bounded_loading_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_platform_access_test.dart",
+        "test/admin_header_accessibility_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 44009,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 14.843,
+      "sha256": "7aa53d2240eb18ac06279d1c5d5939449c9b22c4ee3ac18ecc8954de01f09f58"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_permission_refresh_test.dart",
+        "test/admin_bounded_loading_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_platform_access_test.dart",
+        "test/admin_header_accessibility_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 44306,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 3.296,
+      "sha256": "54dc36dcdb8fd4d01e1a3b9210b3c092b4ad021c809b9f9f263ebb0f515c4e0e"
+    }
+  ],
+  "test_files": [
+    "test/admin_permission_refresh_test.dart",
+    "test/admin_bounded_loading_test.dart",
+    "test/admin_automations_test.dart",
+    "test/admin_platform_access_test.dart",
+    "test/admin_header_accessibility_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 29,
+    "failed": 0,
+    "errors": 3,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "identity refresh hides old records until authorized resolves",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/source-export/test/admin_permission_refresh_test.dart"
+      },
+      {
+        "name": "identity refresh hides old records until revoked resolves",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/source-export/test/admin_permission_refresh_test.dart"
+      },
+      {
+        "name": "identity refresh hides old records until failure resolves",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/source-export/test/admin_permission_refresh_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "machine_test_log_sha256": "e221fbd14627390c8a123162fa970aa303a0aa24b79916c86d40d504daab379e",
+  "source_before_sha256": "5114249140acd9a9bfe01f7aab78a2c71d07bed793ce6a65149c86f7535db0c4",
+  "source_after_sha256": "5114249140acd9a9bfe01f7aab78a2c71d07bed793ce6a65149c86f7535db0c4"
+}

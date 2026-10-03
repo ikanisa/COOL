@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "bytes": 2340638,
+      "path": "native-preservation-plan.json",
+      "sha256": "938e74379f1631b53e83c4616b756a54d636afb5d11fd6f6b759d32fa081eb9f"
+    },
+    {
+      "bytes": 1482,
+      "path": "native-preservation-readback.json",
+      "sha256": "121d5e0c88b9b9a259408416f79e8df1a14c019347c57f9765e8993c777dc3ac"
+    },
+    {
+      "bytes": 7866,
+      "path": "preserve_native_failure.py",
+      "sha256": "e3c522373335dc361bcdc258a830d6419ab74deecf59c393e0fe3b156a3e3d11"
+    },
+    {
+      "bytes": 1018,
+      "path": "review-and-tests.json",
+      "sha256": "fbef0d169aa2deea3cd1d3b1c2c3e7095aca9365458cb277a0d012781c33953c"
+    },
+    {
+      "bytes": 11945,
+      "path": "run_stage.py",
+      "sha256": "719ca823862eae447b7b3a297ee0357b1fff4d6deb19a9c3595b7b420ddb1782"
+    },
+    {
+      "bytes": 4859,
+      "path": "test_stage_admission.py",
+      "sha256": "b3bb8bcf357bc341a8debae08138af9552695e78943eb4551bebd267b00acd9f"
+    }
+  ],
+  "leaf_count": 6
+}

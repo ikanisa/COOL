@@ -1,0 +1,12 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart
+00:00 +0: authenticated Settings route mounts retention through the actual repository
+00:01 +1: mounted original save uses one checkpoint and one non-retried RPC
+00:02 +2: uncertain mounted save retains its original without an automatic retry
+00:03 +3: mounted recovery submits exact retained UUID, fingerprint and intent
+00:04 +4: read-only, denied and expired mounted controls cannot create a request
+00:06 +5: identity loss fences a held mounted read and erases typed reason
+00:08 +6: mounted sender selection reorders only its allowlist through existing v2 policy
+00:09 +7: sender denial blocks configuration while independent emergency stop remains usable
+00:11 +8: sender evidence expiring during review prevents a policy request
+00:12 +9: duplicate pasted sender IDs remain visible and deny configuration without crashing
+00:13 +10: All tests passed!

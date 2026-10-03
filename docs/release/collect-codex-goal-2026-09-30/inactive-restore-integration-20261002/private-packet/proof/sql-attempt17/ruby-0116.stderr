@@ -1,0 +1,5 @@
+WARNING:  25001: there is already a transaction in progress
+LOCATION:  BeginTransactionBlock, xact.c:3903
+ERROR:  55000: restore_stop_replay_conflict
+CONTEXT:  PL/pgSQL function inline_code_block line 254 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

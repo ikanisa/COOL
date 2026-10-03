@@ -1,0 +1,11 @@
+{
+  "candidate_created": false,
+  "native_packet_selected_83_leaves_still_match": true,
+  "patch_hunks_reconstructed_in_memory_against_exact_primary_tagged_source": true,
+  "proposed_hashes_match_reconstructed_bytes": true,
+  "referenced_sdk_test_paths_present": true,
+  "sdk_mutated": false,
+  "sdk_unit_or_native_candidate_tests_run": false,
+  "status": "READ_ONLY_PROPOSAL_RECONSTRUCTION_PASS_NOT_SDK_TEST_PROOF",
+  "verified_preview_file_count": 3
+}

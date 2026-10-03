@@ -1,0 +1,41 @@
+{
+  "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "api_acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+  "metadata_before_and_after_capture": {
+    "net": "0",
+    "cron": "off",
+    "count": 153,
+    "latest": "20260930220000"
+  },
+  "authority_prerequisite": {
+    "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+    "relevant_function_source_parity": true,
+    "whole_migration_parity": true
+  },
+  "known_extra_migration_parity": {
+    "20260930200000": {
+      "normalized_source_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+      "normalized_installed_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+      "exact_normalized_parity": true
+    },
+    "20260930210000": {
+      "normalized_source_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+      "normalized_installed_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+      "exact_normalized_parity": true
+    },
+    "20260930220000": {
+      "normalized_source_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+      "normalized_installed_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+      "exact_normalized_parity": true
+    }
+  },
+  "source": "Retained attempt8 schema-only capture; quiet source not re-dumped",
+  "owner_normalization": "No-owner restore; API grants reconstructed from captured catalog",
+  "excluded_runtime": [
+    "pg_cron",
+    "pg_net",
+    "pg_graphql",
+    "pg_stat_statements"
+  ],
+  "not_attested": "Registry text parity is not universal deployed-function/body attestation"
+}

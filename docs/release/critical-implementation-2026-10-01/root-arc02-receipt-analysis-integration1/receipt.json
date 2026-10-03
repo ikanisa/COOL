@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-02T10:26:45.533003+00:00",
+  "status": "integrated_aggregate_pending",
+  "proposal_packet_sha256": "3f71b14de558597bf9f0ac8e3cc9565bacad752b13e916c025c6c1baa4418d27",
+  "files": [
+    {
+      "path": "scripts/tests/admin_receipt_operational_telemetry_test.dart",
+      "before_sha256": "fc7e96f83d783c66f7e09ecb85312f44e8ab36494cf38ecd6d589269aff32526",
+      "after_sha256": "de1c452df331937f7ce4efd9a262d27a97ea088f2f63780be4e8438ca49feb3b",
+      "before_bytes": 13803,
+      "after_bytes": 13870,
+      "mode": 420,
+      "only_exact_declared_transformations": true,
+      "all_other_bytes_and_assertions_preserved": true
+    },
+    {
+      "path": "scripts/tests/admin_receipt_source_busy_test.dart",
+      "before_sha256": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "after_sha256": "d195407bf6fa5bd9e4626d18e3b2ad9d0c24b7b02ec4e296a2b70826693f1073",
+      "before_bytes": 2318,
+      "after_bytes": 2338,
+      "mode": 420,
+      "only_exact_declared_transformations": true,
+      "all_other_bytes_and_assertions_preserved": true
+    }
+  ],
+  "prior_human_owner_latest_turn_completed_root_now_owns_only_narrow_import_integration": true,
+  "all_prior_human_edits_preserved": true,
+  "telemetry_private56_boundary_checks_pass_identical_to_baseline": true,
+  "source_busy_SQL_receipt_execution_pending": true,
+  "ARC02_closed": false
+}

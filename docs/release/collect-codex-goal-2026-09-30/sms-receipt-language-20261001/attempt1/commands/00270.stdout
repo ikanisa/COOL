@@ -1,0 +1,1 @@
+["id", "payment_id", "provider_network", "provider_confirmation_id", "transaction_id", "receiver_momo_number_hash", "amount_rwf", "currency", "confirmed_at", "evidence_sha256", "recorded_at"]

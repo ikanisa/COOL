@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "compile",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-sdk",
+        "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "src/unattended_keychain.swift",
+        "-o",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/swift-explicit-sdk/unattended-keychain-self-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "started_at": "2026-10-01T13:24:56.216305+00:00",
+      "completed_at": "2026-10-01T13:24:57.914633+00:00",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "self-test",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/swift-explicit-sdk/unattended-keychain-self-test",
+        "self-test"
+      ],
+      "timeout_seconds": 10,
+      "exit_code": 0,
+      "started_at": "2026-10-01T13:24:57.914777+00:00",
+      "completed_at": "2026-10-01T13:24:58.541177+00:00",
+      "log_sha256": "66858528fbaa10668faea0a3f0c9ac01ec3f92cf8b3ef03894424aa22335b70b",
+      "self_test": {
+        "checks": 24,
+        "key_created": false,
+        "keychain_called": false,
+        "status": "pass"
+      }
+    }
+  ],
+  "source_sdk_compiler_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_keychain.swift": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/SDKSettings.json": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/SDKSettings.plist": "90a738dbf3fd88e7f6d35646e19d3a8a716923b9773ce1b67260466d9ceed370",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_swift_checks.py": "e6493955df425a774c0f74238fa29d20a2d9371493f019ab9b96c48f6c5f387f"
+  },
+  "source_sdk_compiler_after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_keychain.swift": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/SDKSettings.json": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+    "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/SDKSettings.plist": "90a738dbf3fd88e7f6d35646e19d3a8a716923b9773ce1b67260466d9ceed370",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_swift_checks.py": "e6493955df425a774c0f74238fa29d20a2d9371493f019ab9b96c48f6c5f387f"
+  },
+  "source_copy_readback": true,
+  "successful_current_node_association": {
+    "leaf": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/checks-affected-final",
+    "tests": 180,
+    "source_count": 102,
+    "sources_match": true,
+    "node_log_match": true,
+    "dependencies_match": true,
+    "node_tool_match": true,
+    "executed_again": false
+  },
+  "whole_current_history_aggregate": "OPEN",
+  "keychain_called": false,
+  "real_key_created": false,
+  "hosted_called": false
+}

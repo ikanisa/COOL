@@ -2,7 +2,7 @@ part of 'collect_models.dart';
 
 // A transport-precision bound, not a product/payment limit. Larger amounts need
 // a versioned exact-integer transport before native and web can agree on them.
-const _summaryMaxExactInteger = 9007199254740991;
+const _summaryMaxExactInteger = maxExactJsonInteger;
 
 int _summaryInteger(Object? value, String field) {
   if (value is! num ||

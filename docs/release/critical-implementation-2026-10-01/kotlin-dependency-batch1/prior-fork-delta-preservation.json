@@ -1,0 +1,46 @@
+{
+  "changed_files": {
+    "android/build.gradle": {
+      "change_scope": "Only exact Kotlin version line changed",
+      "current_review_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4",
+      "previous_review_sha256": "d81ac67b597d40d5e01e8cabfbb97d745d943d7793fa032f4778a232d96755fc"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "75efe174be1c322ffb28c9af5ad3fdd3e0d5d73a97210192094312064380b320",
+      "previous_review_sha256": "75efe174be1c322ffb28c9af5ad3fdd3e0d5d73a97210192094312064380b320"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "08f52763c838ac2437ed47c84762c7c817ea66a67cd7a9b0ff6c4cbf5f734987",
+      "previous_review_sha256": "08f52763c838ac2437ed47c84762c7c817ea66a67cd7a9b0ff6c4cbf5f734987"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "6d914847169cb0fe06f5c1d1ecee2823545004c885c5955d53d0e8d391dd647c",
+      "previous_review_sha256": "6d914847169cb0fe06f5c1d1ecee2823545004c885c5955d53d0e8d391dd647c"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "856a63fba8a275c1c8dfe0b938eca34c21c0f2bc5601d77fa53c769a813e499a",
+      "previous_review_sha256": "856a63fba8a275c1c8dfe0b938eca34c21c0f2bc5601d77fa53c769a813e499a"
+    },
+    "ios/file_saver/Sources/file_saver/Dialog.swift": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+      "previous_review_sha256": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515"
+    },
+    "lib/src/utils/mime_types.dart": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+      "previous_review_sha256": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf"
+    },
+    "pubspec.yaml": {
+      "change_scope": "Exact previous reviewed fork bytes unchanged",
+      "current_review_sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+      "previous_review_sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3"
+    }
+  },
+  "dated_previous_packet": "docs/release/import-export-protection-2026-09-30/file-saver-fork-comparison.json",
+  "dated_previous_packet_sha256": "d8bec926a911e8b9d79e5890032e363084a1d5be6e286f47e910779002b83e66"
+}

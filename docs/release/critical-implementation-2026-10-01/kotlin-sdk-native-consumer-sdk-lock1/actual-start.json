@@ -1,0 +1,28 @@
+{
+  "actual_free_bytes": 227820167168,
+  "argv_configuration_sha256": "d9c92aab9c5ed4dc5009a571dedf8d307220e946a24b7f0330014667a894a189",
+  "no_provider_or_signing_variables_inherited": true,
+  "prepared_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "private_environment_exact": {
+    "ANDROID_HOME": "/Users/jeanbosco/Library/Android/sdk",
+    "ANDROID_SDK_ROOT": "/Users/jeanbosco/Library/Android/sdk",
+    "CI": "true",
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "FLUTTER_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "GIT_OPTIONAL_LOCKS": "0",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+    "HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/home",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PATH": "/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PUB_CACHE": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache",
+    "TMPDIR": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/tmp"
+  },
+  "protected_before": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "separate_root_receipt_sha256": "f27501095ec77a819b9835dd9b9ee48c9034e3219745105bd3247b5b6ef44ff3",
+  "stage": "sdk-lock"
+}

@@ -1,0 +1,20 @@
+{
+  "seeded": 1,
+  "status": "processed",
+  "cleared": 0,
+  "pending": 0,
+  "refused": 0,
+  "activated": 1,
+  "processed": 3,
+  "unchanged": 2,
+  "checked_at": "2026-10-01T21:46:14.758121Z",
+  "expires_at": "2026-10-01T21:47:54.607712Z",
+  "request_id": "442617ac-5178-4aad-8797-c97fc254dbb1",
+  "scan_epoch": 1,
+  "scan_phase": "receipt_event",
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "observations_added": 1,
+  "source_scan_complete": false
+}

@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "path": "after.gradle.kts",
+      "bytes": 24464,
+      "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+    },
+    {
+      "path": "before.gradle.kts",
+      "bytes": 24380,
+      "sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df"
+    },
+    {
+      "path": "change.diff",
+      "bytes": 438,
+      "sha256": "4b95090de65b3778b9aa23394ddd3ea53e0b5931dc071eddd7836176b0653d83"
+    },
+    {
+      "path": "integration.json",
+      "bytes": 783,
+      "sha256": "1c0d0ac01d847e11f94066832a50b9feb57edd534177ae6b8c3563415dd5fb6a"
+    }
+  ],
+  "status": "sealed"
+}

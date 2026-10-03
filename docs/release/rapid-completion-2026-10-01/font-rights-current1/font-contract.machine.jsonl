@@ -1,0 +1,9 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":32210,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/features/runtime_component_contract_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/features/runtime_component_contract_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":1,"time":4,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":6079}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":6081}
+{"test":{"id":3,"name":"Collect bundles licensed Inter for product and marketing roles","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":267,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/features/runtime_component_contract_test.dart"},"type":"testStart","time":6081}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":6228}
+{"success":true,"type":"done","time":6239}

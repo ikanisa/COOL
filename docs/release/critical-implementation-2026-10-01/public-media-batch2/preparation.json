@@ -1,0 +1,120 @@
+{
+  "status": "prepared_current_V4_delta_before_new_capture",
+  "observed_at_utc": "2026-10-01T23:19:01.857373+00:00",
+  "source_file_count": 338,
+  "prior_sealed_source_file_count": 333,
+  "runtime_sha256": "e5dbe2383ddeb6388859caeeec928e356b162ae4ddc17d623722c311e0fedf58",
+  "counts_by_top_level": {
+    ".fvmrc": 1,
+    ".metadata": 1,
+    "analysis_options.yaml": 1,
+    "assets": 95,
+    "lib": 153,
+    "pubspec.lock": 1,
+    "pubspec.yaml": 1,
+    "scripts": 4,
+    "test": 1,
+    "third_party": 64,
+    "tool": 1,
+    "web": 15
+  },
+  "delta": [
+    {
+      "path": "lib/core/logging/app_logger.dart",
+      "before_sha256": null,
+      "current_sha256": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+      "kind": "added"
+    },
+    {
+      "path": "lib/core/startup/collect_startup_controller.dart",
+      "before_sha256": null,
+      "current_sha256": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409",
+      "kind": "added"
+    },
+    {
+      "path": "lib/core/supabase/collect_supabase_bootstrap.dart",
+      "before_sha256": null,
+      "current_sha256": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0",
+      "kind": "added"
+    },
+    {
+      "path": "lib/core/supabase/supabase_module.dart",
+      "before_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+      "current_sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+      "kind": "changed"
+    },
+    {
+      "path": "scripts/public_app_media.rb",
+      "before_sha256": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+      "current_sha256": "1b11ea1d3796a74ac2d7822237fc987c27f10983425baeb46dbc309ea610c74b",
+      "kind": "changed"
+    },
+    {
+      "path": "scripts/qa/collect_diagnostic_observer.mjs",
+      "before_sha256": null,
+      "current_sha256": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+      "kind": "added"
+    },
+    {
+      "path": "scripts/qa/public_browser_app_media.mjs",
+      "before_sha256": null,
+      "current_sha256": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+      "kind": "added"
+    }
+  ],
+  "additional_verifier_inputs_before": {
+    "scripts/assets/publish_public_app_media.py": "9eaec1dbb1fcf117a0887d19c4813acb29c2aa285d9a9711125eb69d8f21b037",
+    "scripts/qa/public_browser_local_network.cjs": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3",
+    "scripts/public_website_route_rendered_qa.js": "fd169b169f63f0e0c77265697a977e21cd5e6c17462c3f68910bcbc7f02c0278",
+    "scripts/qa/public_capability_contract.rb": "965b9a2484a225703c2d108e64520b7871a5a3b08a092fbe2ae754abe816ce0c",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/public_website_quality_gate.sh": "0a64a2d5e66be824ae02052c6910546659a399dbcfe7f16d2a0c0786c1e712e8",
+    "scripts/public_static_site_build.rb": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+    "docs/release/public-website-current-content-contract.json": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "34bead86f83806bb6a4bfab88457c69afe03cbcec65e53dab323455d56c25cf1",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0"
+  },
+  "diagnostic_observer_expected": {
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc"
+  },
+  "compilation_recipe": {
+    "outside_source": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch2-attempt1",
+    "flutter": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "pub_command": [
+      "pub",
+      "get",
+      "--offline",
+      "--enforce-lockfile"
+    ],
+    "capture_node": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "capture_recorder": "scripts/qa/public_browser_app_media.mjs",
+    "capture_output": ".cache/public-media-current-20261002-batch2-attempt1",
+    "capture_env": {
+      "COLLECT_MEDIA_SOURCE": "explicit own outside-checkout immutable stage",
+      "FLUTTER": "pinned3.44.4",
+      "COLLECT_MEDIA_CHROME": "/Users/jeanbosco/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+      "PLAYWRIGHT_CORE_PATH": "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.js"
+    },
+    "build_flags": [
+      "build",
+      "web",
+      "--release",
+      "--no-pub",
+      "--no-wasm-dry-run",
+      "--no-web-resources-cdn",
+      "--target=tool/public_app_media_capture.dart",
+      "--dart-define=COLLECT_PUBLIC_MEDIA_CAPTURE=true",
+      "--output=<fresh capture build>"
+    ],
+    "binding_rule": "Own generated package config/plugin dependencies, exactbefore/after source/cohort/SDK/servedbytes/observerhelper/recorder hashes; no checkout generated bindings or reused old captures.",
+    "fixture_bootstrap": "Existing maintained exact Admin marker substitution only in fresh loopback fixture build; production source unchanged."
+  },
+  "native_acceptance": false,
+  "full_design_fidelity_verified": false,
+  "legal_release_approved": false,
+  "provider_calls_authorized": false,
+  "hosted_release_accepted": false,
+  "broad_release_export_accepted": false
+}

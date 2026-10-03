@@ -1,0 +1,22 @@
+{
+  "Gradle_Groovy_consumer_executed": false,
+  "cache_writes": 0,
+  "captured_at_utc": "2026-10-02T14:44:17.128590+00:00",
+  "files": [
+    {
+      "Python_AST_and_compile_only": "PASS",
+      "module_executed": false,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/read_publisher_provenance.py",
+      "sha256": "0e9f4ad268cd2faf5d3b427fee1a0fcdf596d9bd47837f4ed293873bebea81ae"
+    },
+    {
+      "Python_AST_and_compile_only": "PASS",
+      "module_executed": false,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/run_resolution.py",
+      "sha256": "7aacec28779a0c94302be789803958ae3d2ae28679c3ed4516131b93e9f719c3"
+    }
+  ],
+  "network_requests": 0,
+  "schema_version": 1,
+  "source_fences_sha256": "5aea3cf743b22c73a1c5cae4103c9fe8dbcf891e1a2ab99dd9fd6d843c9ecf25"
+}

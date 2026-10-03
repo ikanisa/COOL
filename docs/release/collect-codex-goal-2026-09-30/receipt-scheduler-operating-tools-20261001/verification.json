@@ -1,0 +1,49 @@
+{
+  "commands": {
+    "node-focused": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-concurrency=1",
+        "--test-timeout=30000",
+        "src/unattended_scheduler_control.test.ts",
+        "src/unattended_scheduler.test.ts"
+      ],
+      "elapsed_seconds": 44.71,
+      "exit_code": 1,
+      "timed_out": false
+    },
+    "python-preparation": {
+      "command": [
+        "/usr/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/unattended_launchd_preparation_test.py"
+      ],
+      "elapsed_seconds": 3.346,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    "tsc": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "elapsed_seconds": 1.191,
+      "exit_code": 0,
+      "timed_out": false
+    }
+  },
+  "dependencies_unchanged": true,
+  "dependency_inputs": 1608,
+  "dependency_links_unchanged": true,
+  "full_history_regression_executed": false,
+  "host_job_installed": false,
+  "host_job_started": false,
+  "hosted_calls": false,
+  "keychain_calls": false,
+  "pass": false,
+  "sender_actions": 0,
+  "source_inputs": 89,
+  "source_unchanged": true
+}

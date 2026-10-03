@@ -1,0 +1,35 @@
+{
+  "actual_seconds": 0.3949533330014674,
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/test_owned_metadata.py"
+  ],
+  "exit_code": 0,
+  "prior30_test_receipt_preserved": true,
+  "real_ps_lsof_Gradle_APP_SDK_or_provider_actions": false,
+  "reported_test_seconds": 0.277,
+  "runtime_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "scope": "final changed monitor/reuse private captured metadata fixtures only, including actual observe adoption; subprocess/signals and metadata interfaces stubbed; actual frozen doc inputs read and copied only to owned temporary output",
+  "source_after": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384",
+    "run_selected_aab.py": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "source_before": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384",
+    "run_selected_aab.py": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "source_unchanged": true,
+  "stderr_sha256": "f31db3281ae65b4a08a99acef0d64a6fd16239d7e63116f57fc1a2a5b1a203ad",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tests_count": 31,
+  "timeout_seconds": 30,
+  "unchanged_reader_tests_rerun": false
+}

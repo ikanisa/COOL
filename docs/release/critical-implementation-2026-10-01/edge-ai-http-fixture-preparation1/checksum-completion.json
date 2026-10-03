@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-10-02T02:31:30.757913+00:00",
+  "original_batch_sha256": "6723cced483eb9025e420b41f203616728c1eaaa1d5c931a0833a8c5f87b3461",
+  "original_checksum_sha256": "02c93f239a0a1326db993fe37cd05f1f0d5e980667113b0b90cffa7b59416fde",
+  "original_batch_leaf_count": 26,
+  "original_checksum_row_count": 26,
+  "original_checksums_all_match": true,
+  "original_batch_covers_all26_leaves": true,
+  "diagnostic": "Checksum writer excluded every filename SHA256SUMS, omitting exactly the nested failed-cohort/SHA256SUMS row. Cardinality readback failed. Its complete bytes/digest were already bound in the unchanged batch.",
+  "originals_preserved": true,
+  "resolution": "New packet-complete.json binds every existing leaf including prior batch/checksum and this receipt; SHA256SUMS.complete includes every exact relative path except itself. No prior file is modified, no behavior or acceptance execution."
+}

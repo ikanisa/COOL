@@ -1,0 +1,13 @@
+{
+  "actual_Gradle_or_source_cache_mutation": false,
+  "controller_sha256": "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69",
+  "existing36_reused": true,
+  "full_AAB_driver_unchanged": true,
+  "kind": "private_unexecuted_probe_only_review",
+  "original58_reused": true,
+  "production_release_approval": false,
+  "pure_fixture_exit_code": 0,
+  "pure_fixture_tests": 7,
+  "root_actual_current_manifest_fence_required_not_fabricated": true,
+  "unknown_provider_evidence_preserved": true
+}

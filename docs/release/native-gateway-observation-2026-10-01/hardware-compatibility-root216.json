@@ -1,0 +1,7 @@
+{
+  "source": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+  "sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+  "review": "FEATURE_TELEPHONY_MESSAGING was added at API33. Below33 retain the legacy telephony feature query; actual SEND_SMS/READ_PHONE_STATE, exact selected active SIM, SIM readiness and fresh service-state callback still gate readiness. No handset acceptance inferred.",
+  "primary_reference": "https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_TELEPHONY_MESSAGING",
+  "actual_native_gate_pending": "root197-correction/actual-native6-current-gateway"
+}

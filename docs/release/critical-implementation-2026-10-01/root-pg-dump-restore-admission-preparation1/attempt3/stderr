@@ -1,0 +1,56 @@
+test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok
+test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok
+test_credentials_and_loader_environment_are_absent_from_versions_and_operations (__main__.ArchiveAdmissionTest.test_credentials_and_loader_environment_are_absent_from_versions_and_operations) ... ok
+test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ok
+test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok
+test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok
+test_expired_operation_and_unbound_hash_refuse_before_tools (__main__.ArchiveAdmissionTest.test_expired_operation_and_unbound_hash_refuse_before_tools) ... ok
+test_forged_same_version_client_bytes_and_path_override_refuse_before_request (__main__.ArchiveAdmissionTest.test_forged_same_version_client_bytes_and_path_override_refuse_before_request) ... ok
+test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool (__main__.ArchiveAdmissionTest.test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool) ... ok
+test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok
+test_manifest_job_and_source_drift_refuse_before_first_request (__main__.ArchiveAdmissionTest.test_manifest_job_and_source_drift_refuse_before_first_request) ... ok
+test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok
+test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture) ... ok
+test_path_substitute_never_selected_and_explicit_overrides_refuse (__main__.ArchiveAdmissionTest.test_path_substitute_never_selected_and_explicit_overrides_refuse) ... ok
+test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ok
+test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok
+test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... ok
+test_restore_archive_and_receipt_drift_are_not_rebound_by_caller (__main__.ArchiveAdmissionTest.test_restore_archive_and_receipt_drift_are_not_rebound_by_caller) ... ok
+test_restore_argument_bypasses_refuse_before_list_server_or_write (__main__.ArchiveAdmissionTest.test_restore_argument_bypasses_refuse_before_list_server_or_write) ... ok
+test_restore_capture_binding_must_match_full_profile_and_source (__main__.ArchiveAdmissionTest.test_restore_capture_binding_must_match_full_profile_and_source) ... ok
+test_restore_same_bytes_inode_swap_after_server_read_stops_before_write (__main__.ArchiveAdmissionTest.test_restore_same_bytes_inode_swap_after_server_read_stops_before_write) ... ok
+test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse) ... ok
+test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) ... ok
+test_unsupported_cohort_and_operation_are_not_manifest_expandable (__main__.ArchiveAdmissionTest.test_unsupported_cohort_and_operation_are_not_manifest_expandable) ... ok
+test_version_state_drift_after_server_observation_refuses_before_operation (__main__.ArchiveAdmissionTest.test_version_state_drift_after_server_observation_refuses_before_operation) ... ok
+test_version_state_drift_before_first_remote_observation_is_refused (__main__.ArchiveAdmissionTest.test_version_state_drift_before_first_remote_observation_is_refused) ... ok
+test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound) ... ok
+test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ERROR
+
+======================================================================
+ERROR: test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py", line 226, in test_wrong_service_target_options_or_permissions_refuse_before_request
+    a=self.admit();self.set_service(self.targets[1])
+      ^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py", line 117, in admit
+    def admit(self):return archive.ArchiveAdmission.from_environment(self.env)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/qa/pg_archive_admission.py", line 215, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION'), env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION_SHA256'),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/qa/pg_archive_admission.py", line 190, in __init__
+    self.base = pg.Admission(self.value['base_admission']['path'], self.value['base_admission']['sha256'], self.env, 'query')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/qa/postgres_admission.py", line 196, in __init__
+    code, observed = bounded([str(self.client), '--version'], local_environment(), limits['version_seconds'], limit=1024)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/qa/postgres_admission.py", line 92, in bounded
+    raise Refused('PG_COMMAND_TIMEOUT')
+collect_archive_pinned_postgres_admission.Refused: PG_COMMAND_TIMEOUT
+
+----------------------------------------------------------------------
+Ran 28 tests in 40.929s
+
+FAILED (errors=1)

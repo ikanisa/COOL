@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/generated-current209",
+    "--verify"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 4.2051142919954145,
+  "deadline_seconds": 30,
+  "timed_out": false,
+  "python_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "owned_group_id": 20363,
+  "stdout_sha256": "5579f05fb873e0f4d65a6a214127ce6de6ce01c99427c21962299f0469baa4f8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "owned_source_hashes": {
+    "scripts/audits/collect_schema_domain_map.py": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4",
+    "scripts/tests/collect_schema_domain_map_test.py": "3bb435cd79cc23414039e8c447460be88487a2097ba24035d1233d007971b343"
+  },
+  "owned_group_absent": true,
+  "held1095inputs_after_match": true
+}

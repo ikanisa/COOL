@@ -1,0 +1,69 @@
+import { assert, assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
+import { elapsedReceiptMs, recordReceiptMetric } from "./operational_metrics.ts";
+Deno.test("telemetry passes only bounded enum and integer fields", async ()=>{
+  const seen = [];
+  assert(await recordReceiptMetric("receipt_ack_generated", 12, async (code, ms, signal)=>{
+    seen.push(code, ms, signal.aborted);
+    return true;
+  }));
+  assertEquals(seen, [
+    "receipt_ack_generated",
+    12,
+    false
+  ]);
+  assert(await recordReceiptMetric("receipt_processing_deferred", null, async ()=>true));
+});
+Deno.test("private/arbitrary metric names and invalid durations never invoke writer", async ()=>{
+  let calls = 0;
+  const writer = async ()=>{
+    calls++;
+    return true;
+  };
+  assertEquals(await recordReceiptMetric("secret-phone-250788123456", 1, writer), false);
+  for (const ms of [
+    -1,
+    0.5,
+    120001,
+    NaN,
+    Infinity
+  ]){
+    assertEquals(await recordReceiptMetric("receipt_rejected", ms, writer), false);
+  }
+  assertEquals(calls, 0);
+});
+Deno.test("missing malformed false and exceptional metric ACK cannot report a sample", async ()=>{
+  for (const result of [
+    null,
+    {},
+    "true",
+    false
+  ]){
+    assertEquals(await recordReceiptMetric("receipt_ack_generated", 0, async ()=>result), false);
+  }
+  assertEquals(await recordReceiptMetric("receipt_ack_generated", 0, ()=>{
+    throw new Error("secret-provider-credential-canary");
+  }), false);
+});
+Deno.test("a slow writer is aborted and ignored at bounded deadline", async ()=>{
+  let aborted = false;
+  const started = performance.now();
+  const result = await recordReceiptMetric("receipt_ack_generated", 0, (_code, _ms, signal)=>new Promise((_resolve, reject)=>{
+      signal.addEventListener("abort", ()=>{
+        aborted = true;
+        reject(new Error("synthetic timeout"));
+      }, {
+        once: true
+      });
+    }), 20);
+  assertEquals(result, false);
+  assert(aborted);
+  assert(performance.now() - started < 1000);
+});
+Deno.test("elapsed duration outside the bounded window stays unmeasured", ()=>{
+  assertEquals(elapsedReceiptMs(performance.now() + 1000), null);
+  assertEquals(elapsedReceiptMs(performance.now() - 121000), null);
+  assertEquals(elapsedReceiptMs(NaN), null);
+  assert(Number.isInteger(elapsedReceiptMs(performance.now())));
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZpbGU6Ly8vVm9sdW1lcy9QUk8tRzQwL1Byb2plY3RzL1JlY292ZXJlZC1HLVBSTy9DT09ML2RvY3MvcmVsZWFzZS9jcml0aWNhbC1pbXBsZW1lbnRhdGlvbi0yMDI2LTEwLTAxL3N1Y2Nlc3Nvci1vYnNlcnZlZC1maXh0dXJlLWltcG9ydC1wcm9wb3NhbDEvY2FuZGlkYXRlLXN0YWdlMS9zb3VyY2Uvc3VwYWJhc2UvZnVuY3Rpb25zL19zaGFyZWQvb3BlcmF0aW9uYWxfbWV0cmljc190ZXN0LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIGFzc2VydCxcbiAgYXNzZXJ0RXF1YWxzLFxufSBmcm9tIFwiaHR0cHM6Ly9kZW5vLmxhbmQvc3RkQDAuMjI0LjAvYXNzZXJ0L21vZC50c1wiO1xuaW1wb3J0IHtcbiAgZWxhcHNlZFJlY2VpcHRNcyxcbiAgUmVjZWlwdE1ldHJpY0NvZGUsXG4gIHJlY29yZFJlY2VpcHRNZXRyaWMsXG59IGZyb20gXCIuL29wZXJhdGlvbmFsX21ldHJpY3MudHNcIjtcblxuRGVuby50ZXN0KFwidGVsZW1ldHJ5IHBhc3NlcyBvbmx5IGJvdW5kZWQgZW51bSBhbmQgaW50ZWdlciBmaWVsZHNcIiwgYXN5bmMgKCkgPT4ge1xuICBjb25zdCBzZWVuOiB1bmtub3duW10gPSBbXTtcbiAgYXNzZXJ0KFxuICAgIGF3YWl0IHJlY29yZFJlY2VpcHRNZXRyaWMoXG4gICAgICBcInJlY2VpcHRfYWNrX2dlbmVyYXRlZFwiLFxuICAgICAgMTIsXG4gICAgICBhc3luYyAoY29kZSwgbXMsIHNpZ25hbCkgPT4ge1xuICAgICAgICBzZWVuLnB1c2goY29kZSwgbXMsIHNpZ25hbC5hYm9ydGVkKTtcbiAgICAgICAgcmV0dXJuIHRydWU7XG4gICAgICB9LFxuICAgICksXG4gICk7XG4gIGFzc2VydEVxdWFscyhzZWVuLCBbXCJyZWNlaXB0X2Fja19nZW5lcmF0ZWRcIiwgMTIsIGZhbHNlXSk7XG4gIGFzc2VydChcbiAgICBhd2FpdCByZWNvcmRSZWNlaXB0TWV0cmljKFxuICAgICAgXCJyZWNlaXB0X3Byb2Nlc3NpbmdfZGVmZXJyZWRcIixcbiAgICAgIG51bGwsXG4gICAgICBhc3luYyAoKSA9PiB0cnVlLFxuICAgICksXG4gICk7XG59KTtcbkRlbm8udGVzdChcInByaXZhdGUvYXJiaXRyYXJ5IG1ldHJpYyBuYW1lcyBhbmQgaW52YWxpZCBkdXJhdGlvbnMgbmV2ZXIgaW52b2tlIHdyaXRlclwiLCBhc3luYyAoKSA9PiB7XG4gIGxldCBjYWxscyA9IDA7XG4gIGNvbnN0IHdyaXRlciA9IGFzeW5jICgpID0+IHtcbiAgICBjYWxscysrO1xuICAgIHJldHVybiB0cnVlO1xuICB9O1xuICBhc3NlcnRFcXVhbHMoXG4gICAgYXdhaXQgcmVjb3JkUmVjZWlwdE1ldHJpYyhcbiAgICAgIFwic2VjcmV0LXBob25lLTI1MDc4ODEyMzQ1NlwiIGFzIFJlY2VpcHRNZXRyaWNDb2RlLFxuICAgICAgMSxcbiAgICAgIHdyaXRlcixcbiAgICApLFxuICAgIGZhbHNlLFxuICApO1xuICBmb3IgKGNvbnN0IG1zIG9mIFstMSwgMC41LCAxMjAwMDEsIE5hTiwgSW5maW5pdHldKSB7XG4gICAgYXNzZXJ0RXF1YWxzKFxuICAgICAgYXdhaXQgcmVjb3JkUmVjZWlwdE1ldHJpYyhcInJlY2VpcHRfcmVqZWN0ZWRcIiwgbXMsIHdyaXRlciksXG4gICAgICBmYWxzZSxcbiAgICApO1xuICB9XG4gIGFzc2VydEVxdWFscyhjYWxscywgMCk7XG59KTtcbkRlbm8udGVzdChcIm1pc3NpbmcgbWFsZm9ybWVkIGZhbHNlIGFuZCBleGNlcHRpb25hbCBtZXRyaWMgQUNLIGNhbm5vdCByZXBvcnQgYSBzYW1wbGVcIiwgYXN5bmMgKCkgPT4ge1xuICBmb3IgKGNvbnN0IHJlc3VsdCBvZiBbbnVsbCwge30sIFwidHJ1ZVwiLCBmYWxzZV0pIHtcbiAgICBhc3NlcnRFcXVhbHMoXG4gICAgICBhd2FpdCByZWNvcmRSZWNlaXB0TWV0cmljKFxuICAgICAgICBcInJlY2VpcHRfYWNrX2dlbmVyYXRlZFwiLFxuICAgICAgICAwLFxuICAgICAgICBhc3luYyAoKSA9PiByZXN1bHQgYXMgYm9vbGVhbixcbiAgICAgICksXG4gICAgICBmYWxzZSxcbiAgICApO1xuICB9XG4gIGFzc2VydEVxdWFscyhcbiAgICBhd2FpdCByZWNvcmRSZWNlaXB0TWV0cmljKFwicmVjZWlwdF9hY2tfZ2VuZXJhdGVkXCIsIDAsICgpID0+IHtcbiAgICAgIHRocm93IG5ldyBFcnJvcihcInNlY3JldC1wcm92aWRlci1jcmVkZW50aWFsLWNhbmFyeVwiKTtcbiAgICB9KSxcbiAgICBmYWxzZSxcbiAgKTtcbn0pO1xuRGVuby50ZXN0KFwiYSBzbG93IHdyaXRlciBpcyBhYm9ydGVkIGFuZCBpZ25vcmVkIGF0IGJvdW5kZWQgZGVhZGxpbmVcIiwgYXN5bmMgKCkgPT4ge1xuICBsZXQgYWJvcnRlZCA9IGZhbHNlO1xuICBjb25zdCBzdGFydGVkID0gcGVyZm9ybWFuY2Uubm93KCk7XG4gIGNvbnN0IHJlc3VsdCA9IGF3YWl0IHJlY29yZFJlY2VpcHRNZXRyaWMoXG4gICAgXCJyZWNlaXB0X2Fja19nZW5lcmF0ZWRcIixcbiAgICAwLFxuICAgIChfY29kZSwgX21zLCBzaWduYWwpID0+XG4gICAgICBuZXcgUHJvbWlzZTxib29sZWFuPigoX3Jlc29sdmUsIHJlamVjdCkgPT4ge1xuICAgICAgICBzaWduYWwuYWRkRXZlbnRMaXN0ZW5lcihcImFib3J0XCIsICgpID0+IHtcbiAgICAgICAgICBhYm9ydGVkID0gdHJ1ZTtcbiAgICAgICAgICByZWplY3QobmV3IEVycm9yKFwic3ludGhldGljIHRpbWVvdXRcIikpO1xuICAgICAgICB9LCB7IG9uY2U6IHRydWUgfSk7XG4gICAgICB9KSxcbiAgICAyMCxcbiAgKTtcbiAgYXNzZXJ0RXF1YWxzKHJlc3VsdCwgZmFsc2UpO1xuICBhc3NlcnQoYWJvcnRlZCk7XG4gIGFzc2VydChwZXJmb3JtYW5jZS5ub3coKSAtIHN0YXJ0ZWQgPCAxMDAwKTtcbn0pO1xuRGVuby50ZXN0KFwiZWxhcHNlZCBkdXJhdGlvbiBvdXRzaWRlIHRoZSBib3VuZGVkIHdpbmRvdyBzdGF5cyB1bm1lYXN1cmVkXCIsICgpID0+IHtcbiAgYXNzZXJ0RXF1YWxzKGVsYXBzZWRSZWNlaXB0TXMocGVyZm9ybWFuY2Uubm93KCkgKyAxMDAwKSwgbnVsbCk7XG4gIGFzc2VydEVxdWFscyhlbGFwc2VkUmVjZWlwdE1zKHBlcmZvcm1hbmNlLm5vdygpIC0gMTIxMDAwKSwgbnVsbCk7XG4gIGFzc2VydEVxdWFscyhlbGFwc2VkUmVjZWlwdE1zKE5hTiksIG51bGwpO1xuICBhc3NlcnQoTnVtYmVyLmlzSW50ZWdlcihlbGFwc2VkUmVjZWlwdE1zKHBlcmZvcm1hbmNlLm5vdygpKSkpO1xufSk7XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsU0FDRSxNQUFNLEVBQ04sWUFBWSxRQUNQLDhDQUE4QztBQUNyRCxTQUNFLGdCQUFnQixFQUVoQixtQkFBbUIsUUFDZCwyQkFBMkI7QUFFbEMsS0FBSyxJQUFJLENBQUMseURBQXlEO0VBQ2pFLE1BQU0sT0FBa0IsRUFBRTtFQUMxQixPQUNFLE1BQU0sb0JBQ0oseUJBQ0EsSUFDQSxPQUFPLE1BQU0sSUFBSTtJQUNmLEtBQUssSUFBSSxDQUFDLE1BQU0sSUFBSSxPQUFPLE9BQU87SUFDbEMsT0FBTztFQUNUO0VBR0osYUFBYSxNQUFNO0lBQUM7SUFBeUI7SUFBSTtHQUFNO0VBQ3ZELE9BQ0UsTUFBTSxvQkFDSiwrQkFDQSxNQUNBLFVBQVk7QUFHbEI7QUFDQSxLQUFLLElBQUksQ0FBQyw0RUFBNEU7RUFDcEYsSUFBSSxRQUFRO0VBQ1osTUFBTSxTQUFTO0lBQ2I7SUFDQSxPQUFPO0VBQ1Q7RUFDQSxhQUNFLE1BQU0sb0JBQ0osNkJBQ0EsR0FDQSxTQUVGO0VBRUYsS0FBSyxNQUFNLE1BQU07SUFBQyxDQUFDO0lBQUc7SUFBSztJQUFRO0lBQUs7R0FBUyxDQUFFO0lBQ2pELGFBQ0UsTUFBTSxvQkFBb0Isb0JBQW9CLElBQUksU0FDbEQ7RUFFSjtFQUNBLGFBQWEsT0FBTztBQUN0QjtBQUNBLEtBQUssSUFBSSxDQUFDLDZFQUE2RTtFQUNyRixLQUFLLE1BQU0sVUFBVTtJQUFDO0lBQU0sQ0FBQztJQUFHO0lBQVE7R0FBTSxDQUFFO0lBQzlDLGFBQ0UsTUFBTSxvQkFDSix5QkFDQSxHQUNBLFVBQVksU0FFZDtFQUVKO0VBQ0EsYUFDRSxNQUFNLG9CQUFvQix5QkFBeUIsR0FBRztJQUNwRCxNQUFNLElBQUksTUFBTTtFQUNsQixJQUNBO0FBRUo7QUFDQSxLQUFLLElBQUksQ0FBQyw0REFBNEQ7RUFDcEUsSUFBSSxVQUFVO0VBQ2QsTUFBTSxVQUFVLFlBQVksR0FBRztFQUMvQixNQUFNLFNBQVMsTUFBTSxvQkFDbkIseUJBQ0EsR0FDQSxDQUFDLE9BQU8sS0FBSyxTQUNYLElBQUksUUFBaUIsQ0FBQyxVQUFVO01BQzlCLE9BQU8sZ0JBQWdCLENBQUMsU0FBUztRQUMvQixVQUFVO1FBQ1YsT0FBTyxJQUFJLE1BQU07TUFDbkIsR0FBRztRQUFFLE1BQU07TUFBSztJQUNsQixJQUNGO0VBRUYsYUFBYSxRQUFRO0VBQ3JCLE9BQU87RUFDUCxPQUFPLFlBQVksR0FBRyxLQUFLLFVBQVU7QUFDdkM7QUFDQSxLQUFLLElBQUksQ0FBQyxnRUFBZ0U7RUFDeEUsYUFBYSxpQkFBaUIsWUFBWSxHQUFHLEtBQUssT0FBTztFQUN6RCxhQUFhLGlCQUFpQixZQUFZLEdBQUcsS0FBSyxTQUFTO0VBQzNELGFBQWEsaUJBQWlCLE1BQU07RUFDcEMsT0FBTyxPQUFPLFNBQVMsQ0FBQyxpQkFBaUIsWUFBWSxHQUFHO0FBQzFEIn0=
+// denoCacheMetadata=16809099387073923760,12765612788427607367

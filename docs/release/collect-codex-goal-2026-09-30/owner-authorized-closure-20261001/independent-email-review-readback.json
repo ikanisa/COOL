@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-01T10:32:58.372879+00:00",
+  "packet": "../operator-email-auth-review-20261001/README.md",
+  "manifest_sha256": "8b46ec5f452a79558b0c29e1b019a3418859a5cac375fcc989fb7590c9d857bd",
+  "listed_files": 30,
+  "files_plus_manifest": 31,
+  "root_hash_readback": "pass",
+  "errors": [],
+  "corrected_source_sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+  "owner_focused_tests": 31,
+  "independent_injected_guards": 5,
+  "counts_added": false,
+  "live_calls": 0
+}

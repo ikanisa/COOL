@@ -1,0 +1,32 @@
+[21:58:14]: [32m------------------------------[0m
+[21:58:14]: [32m--- Step: default_platform ---[0m
+[21:58:14]: [32m------------------------------[0m
+[33m
+--------- android---------
+[0m[32m----- fastlane android play_validate_local[0m
+Validate Google Play metadata and AAB paths without submitting to Play
+
+[32m----- fastlane android play_production_submit[0m
+Upload Collect production AAB and metadata to Google Play after credentials are available
+
+[33m
+--------- ios---------
+[0m[32m----- fastlane ios prepare_app_store_assets[0m
+Stage Collect App Store screenshots into Fastlane's upload layout
+
+[32m----- fastlane ios upload_metadata_screenshots[0m
+Upload Collect App Store metadata and screenshots without a binary or review submission
+
+[32m----- fastlane ios upload_existing_app_store_screenshots[0m
+Replace App Store screenshots with the already-reviewed repository assets
+
+[32m----- fastlane ios build_review_ipa[0m
+Build the production IPA without embedding App Review credentials
+
+[32m----- fastlane ios upload_review_build[0m
+Upload the latest signed IPA to TestFlight without submitting for App Review
+
+[32m----- fastlane ios upload_app_privacy_details[0m
+Upload App Privacy details using an Apple ID web session and a reviewed JSON answers file
+
+[33mExecute using `fastlane [lane_name]`[0m

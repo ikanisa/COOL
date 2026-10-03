@@ -1,0 +1,11 @@
+# History page candidate source review
+
+The existing unfiltered and deep history window scans are avoidable; the separate exact totals/revision aggregate must still inspect the complete authorized matching set. The proposed correction has two independently measured arms: four global partial sort indexes, then the same indexes with redundant leading cursor bounds. No production migration is published yet.
+
+The indexes cover only posted RWF payments and follow each existing source ordering, including date and UUID tie order. Existing per-collection and contributor indexes remain. Four indexes add storage and write-maintenance cost; this is justified only if the actual page plans demonstrate reduced work.
+
+For a non-null cursor, the existing newest keyset predicate admits dates less than the anchor or equal dates with a later UUID; it therefore implies date <= anchor. Oldest analogously implies date >= anchor. Highest and lowest similarly imply amount <= or >= the anchor, while preserving the entire original date/UUID tie predicate. With a null cursor, both the added guard and original predicate admit the first window. NULL comparisons cannot introduce a newly admitted row. These leading bounds let a B-tree seek near the cursor without changing authorized results.
+
+The candidate leaves authentication, readable-group membership, own-contribution access, private-title searching, hidden transaction IDs, supporter anonymity, integer-safe totals, exact revision hashing, invalid/stale-cursor refusal and projection fields unchanged. The real comparison requires complete catalog equality except four indexes and exactly four predicate prefixes in one function body. Its actual 108-window response matrix per arm must preserve all IDs, ties, counts, sums, own totals, cursor and privacy fields, followed by genuine writer stale/fresh checks for all four sorts.
+
+Rows examined and buffer work are the primary benefit measurements. Local timing samples do not establish production latency, device performance or an approved service objective. A passing synthetic comparison is followed by ordinary migration installation and current source/compatibility verification before claiming repo integration.

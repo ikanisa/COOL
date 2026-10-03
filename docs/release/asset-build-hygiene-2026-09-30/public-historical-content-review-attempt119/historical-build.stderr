@@ -1,0 +1,2 @@
+/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt113-historical-public-content/scripts/public_app_media.rb:41:in `screens': App screenshots need recapturing: runtime changed (RuntimeError)
+	from scripts/public_static_site_build.rb:2565:in `<main>'

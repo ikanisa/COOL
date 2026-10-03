@@ -1,0 +1,4 @@
+PASS single nested cause + suppressed detail + JSON roundtrip
+PASS actual Gradle 9.1.0 multi-cause full trace
+PASS proposed complete Gradle build script compilation only; no script execution or Gradle invocation
+PASS actual installed Gradle 9.1.0 attribute constants

@@ -1,0 +1,16 @@
+{
+  "terminal_exit_code": 1,
+  "passed_cases": 3,
+  "failed_cases": 1,
+  "same_owner_form_confirmation_receipt": true,
+  "logout_denied": true,
+  "refreshed_profile_denied_and_cache_cleared": true,
+  "build_phase_assertions_present": false,
+  "owner_switch_current_route": "/settings/account/delete",
+  "owner_switch_form_count": 1,
+  "owner_switch_verified_count": 0,
+  "owner_switch_submission_count": 0,
+  "observed_issue": "New owner full member reads finish before pending auth redirect settles; still-current privacy path can recapture the new owner. Old form fields are not proven transferred; route removal expectation fails.",
+  "broader_consumers_status": "HELD",
+  "production_source_edits_by_worker": false
+}

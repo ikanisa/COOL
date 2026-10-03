@@ -1,0 +1,1271 @@
+diff --git a/docs/architecture/postgres-admission.md b/docs/architecture/postgres-admission.md
+new file mode 100644
+--- /dev/null
++++ b/docs/architecture/postgres-admission.md
+@@ -0,0 +1,117 @@
++# PostgreSQL client and server admission
++
++This control binds a local `psql` executable and a reviewed compatibility
++matrix. It does not install a client, select one from PATH, create approval,
++authenticate a reviewer or certify a hosted database. No real reviewed
++PostgreSQL manifest is supplied by this implementation.
++
++Operators supply `COLLECT_POSTGRES_ADMISSION`, an absolute path to a regular
++single-link JSON file, and `COLLECT_POSTGRES_ADMISSION_SHA256`, the whole-file
++digest retained through the review process. `PSQL_BIN` may be absent or name
++that manifest's exact absolute executable path. A different override, changed
++bytes, symlink/parent symlink, hard link, unexpected version output, unbounded
++manifest, unknown schema or absent matrix fails before a database request.
++An unrelated PATH executable is never considered. Version probes receive a
++small environment without database/release credentials or loader overrides.
++
++The manifest has exactly these top-level fields:
++
++| Field | Required contents |
++| --- | --- |
++| `schema_version`, `kind` | Integer `1`, `collect_postgres_admission` |
++| `review_reference` | Nonempty ASCII review reference; metadata alone does not authenticate review |
++| `client` | Exact `path`, whole-file `sha256`, exact PostgreSQL `version` |
++| `server_matrix` | Bounded rows with that `client_version`, inclusive `server_version_num_min`/`server_version_num_max` in one server major, and applicable `query` or `migration` operations in the source cohort |
++| `targets` | At most eight exact host, port, user and database tuples; a Supabase target includes its project reference; local rehearsals are limited to explicit loopback targets |
++| `timeouts` | Finite positive `version_seconds` (maximum 10), `server_seconds` (maximum 30), `operation_seconds` (maximum 600) |
++
++The initial source cohort is deliberately restricted to exact `psql 17.6`,
++exact server version number `170006`, and `query`/`migration` operations. A
++manifest cannot expand that cohort to another client, server range or restore
++operation. That restriction follows the repository's PostgreSQL 17.6 database
++rehearsal family; it is an admission policy, not an attestation of installed
++client publisher provenance or a live-supported pair. A reviewer must still
++bind the client bytes, exact target and appropriate operation. No live
++compatibility approval or production server observation is provisioned.
++Further client/server versions and restore support require code and adapter
++review plus their own immutable migration/restore acceptance proof.
++
++The first server observation is this exact read-only query against the
++already bound target:
++
++```sql
++select current_setting('server_version_num')::integer as server_version_num;
++```
++
++The server cannot be observed before that first remote read. A single integer
++response must match a reviewed matrix row before caller SQL runs. Direct
++`psql` calls use the same owner-only service/password files for the read and
++the operation, reject connection argument overrides, and recheck files,
++manifest and client identity between the two. The service file may retain
++existing TLS and keepalive parameters, but connection/session substitutions
++such as `hostaddr`, another service or `options` are refused.
++
++Both the version query and subsequent operation use `-X` and `-w`: PostgreSQL
++documents that these disable startup files and password prompting. Arguments
++otherwise retain the repository's existing SQL/file/variable calling pattern.
++The wrapper is a toolchain/target control, not a SQL authorization sandbox.
++Its trusted callers still own reviewed SQL, source integrity and operation
++authorization. [PostgreSQL 17 psql documentation](https://www.postgresql.org/docs/17/app-psql.html)
++
++`server_version_num` is a PostgreSQL preset parameter intended for a numeric
++version comparison. Server names, project listing metadata and a successful
++client `--version` do not supply this observation. [PostgreSQL 17 preset options](https://www.postgresql.org/docs/17/runtime-config-preset.html)
++
++## Backend approval compatibility
++
++The existing backend approval schema and its target, source, reviewer/time,
++operation, Supabase main/companion and Deno bindings are retained. An
++edge-only approval keeps exactly the existing three toolchain members.
++Approvals containing `migrations` or `strict_production_readiness` additionally
++require this toolchain member:
++
++```json
++"postgresql": {"manifest_sha256": "<independently retained whole-file digest>"}
++```
++
++That placeholder is deliberately invalid. A pre-existing database approval
++without the new binding is refused before remote requests and requires
++review through the same existing approval process. The admission module is
++included in backend source integrity and is copied into the reviewed export.
++The controller checks the matrix before project visibility/migration reads,
++again before each mutating controller command, and through the management
++transport guard before each database request, including separate migrations
++in a management fallback batch. The guard's own exact version observation
++uses the same reviewed helper and bounded transport without recursively
++calling itself. It never applies SQL or retries an uncertain write.
++
++The delivery receipt records manifest/client digest, exact observed version,
++operation and the fact that a target-bound read occurred. It explicitly keeps
++human review authentication and release acceptance false. Existing metadata
++and mutation/readback guards remain active.
++
++Standalone production readiness admits the client and project before its
++first database observation, compares the observed server before its later
++checks, and uses the shared direct wrapper when a direct/fallback call is
++needed. Other direct scripts using `collect_psql_url_service` inherit the
++same client and pre-operation server checks. Consumers using a raw Docker
++client, `pg_dump`, or an embedded SQL client are not silently treated as
++covered by these helper changes.
++
++## Remaining acceptance
++
++No real manifest/client provenance or compatibility approval has been
++provisioned. This proposal's checks use synthetic executable clients and
++transports; they do not observe a hosted or local PostgreSQL server, run a
++migration/restore, invoke Docker, or establish installed tool provenance.
++Supabase CLI embedded database client/image provenance remains unverified.
++Local migration and restore rehearsals still need their immutable container
++identity and exact client/server observation bound to a reviewed matrix.
++`pg_dump` and restore archive compatibility need their own reviewed tool
++bindings. Source/test equality alone cannot close that ARC-08 acceptance.
++
++An observation preceding a write cannot eliminate a subsequent remote
++upgrade/connection race. TLS, endpoint authentication, approved topology,
++server change controls and transaction-level requirements remain separate
++operational controls. A digest binding cannot prove that an untrusted
++reviewer chose a genuine PostgreSQL binary or an appropriate matrix.
+diff --git a/scripts/qa/backend_release_delivery.py b/scripts/qa/backend_release_delivery.py
+--- a/scripts/qa/backend_release_delivery.py
++++ b/scripts/qa/backend_release_delivery.py
+@@ -23,6 +23,7 @@
+ sys.dont_write_bytecode = True
+ sys.path.insert(0, str(Path(__file__).parent))
+ import collect_release_candidate as candidate
++import postgres_admission
+ 
+ BASE_FILES = {
+     '.supabase-cli-version', '.dvmrc', 'supabase/config.toml',
+@@ -30,7 +31,7 @@
+     'scripts/supabase_deploy.sh', 'scripts/supabase_cli_helpers.sh',
+     'scripts/load_dotenv_strict.sh', 'scripts/edge_function_inventory.sh',
+     'scripts/edge_function_inventory.rb', 'scripts/qa/backend_release_delivery.py',
+-    'scripts/qa/collect_release_candidate.py',
++    'scripts/qa/collect_release_candidate.py', 'scripts/qa/postgres_admission.py',
+     'scripts/migrations/validate_supabase_migrations.sh',
+ }
+ READINESS_FILES = {
+@@ -47,7 +48,7 @@
+ MANAGEMENT_GUARD = '\n'.join([
+     '. "$1"',
+     'supabase_management_curl() {',
+-    '  "$COLLECT_BACKEND_PYTHON" -B "$COLLECT_BACKEND_GUARD_HELPER" guard --launcher-root "$COLLECT_BACKEND_LAUNCHER_ROOT" --execution-root "$COLLECT_BACKEND_EXECUTION_ROOT" || return $?',
++    '  "$COLLECT_BACKEND_PYTHON" -B "$COLLECT_BACKEND_GUARD_HELPER" guard --before-database-request --launcher-root "$COLLECT_BACKEND_LAUNCHER_ROOT" --execution-root "$COLLECT_BACKEND_EXECUTION_ROOT" || return $?',
+     '  collect_curl_secret_header Authorization "Bearer $SUPABASE_ACCESS_TOKEN" --max-time 60 "$@"',
+     '}',
+ ])
+@@ -222,6 +223,7 @@
+                        'candidate_manifest_sha256': args.manifest_sha256, 'approval_sha256': args.approval_sha256,
+                        'operations': [], 'readback': {}, 'human_identity_authenticated': False,
+                        'production_release_accepted': False, 'automatic_retries': 0}
++        self.pg = None
+         self.save()
+ 
+     def save(self):
+@@ -238,6 +240,8 @@
+         for name, path in self.tools.items():
+             if candidate.sha(path.read_bytes()) != self.approval['toolchain'][name]['binary_sha256']:
+                 raise Blocked('DEPLOY_TOOL_CHANGED')
++        if self.pg is not None:
++            self.pg.guard()
+         if self.stage:
+             runtime_metadata(self.stage, self.approval['target']['project_ref'])
+             report = candidate.verify_candidate(self.stage, expected_manifest_sha256=self.args.manifest_sha256)
+@@ -247,6 +251,9 @@
+ 
+     def command(self, name, argv, mutating=False, timeout=180, check=True):
+         self.guard()
++        if mutating and self.pg is not None:
++            self.admit_server()
++            self.guard()
+         if len(self.record['operations']) >= 128:
+             raise Blocked('DEPLOY_OPERATION_LIMIT')
+         op = {'name': name, 'mutating': mutating, 'status': 'started', 'started_at_utc': dt.datetime.now(dt.timezone.utc).isoformat()}
+@@ -281,6 +288,26 @@
+     def management(self, name, query):
+         return self.command(name, ['bash', '-c', MANAGEMENT_GUARD + '\nsupabase_management_query "$2"', 'bash', str(self.stage / 'scripts/supabase_cli_helpers.sh'), query])
+ 
++    def admit_server(self):
++        # This is a target-bound remote SELECT, not local evidence of a server.
++        _, raw, _ = self.management('postgres_server_compatibility', postgres_admission.SERVER_QUERY)
++        self.record['readback']['postgresql'] = self.pg.management_rows(raw, self.approval['target']['project_ref'])
++        self.save()
++
++    def guard_server_transport(self):
++        # Recheck immediately before each Management API query (including each
++        # migration in a fallback batch). Use the reviewed helper without its
++        # recursive transport guard for this exact read-only observation.
++        self.guard()
++        ref = self.approval['target']['project_ref']
++        self.pg.project(ref)
++        script = '. "$1"; supabase_management_curl() { collect_curl_secret_header Authorization "Bearer $SUPABASE_ACCESS_TOKEN" --connect-timeout 5 --max-time 20 "$@"; }; supabase_management_query "$2"'
++        code, raw = postgres_admission.bounded(['bash', '-c', script, 'bash', str(self.stage / 'scripts/supabase_cli_helpers.sh'), postgres_admission.SERVER_QUERY], os.environ.copy(), self.pg.value['timeouts']['server_seconds'], limit=16384)
++        if code:
++            raise postgres_admission.Refused('PG_SERVER_OBSERVATION_FAILED')
++        self.pg.management_rows(raw, ref)
++        self.guard()
++
+     def history(self, name):
+         _, raw, _ = self.management(name, HISTORY_QUERY); rows = json_data(raw)
+         if not isinstance(rows, list) or any(not isinstance(r, dict) or set(r) != {'version', 'name'} or not isinstance(r['version'], str) or not isinstance(r['name'], str) for r in rows):
+@@ -318,6 +345,8 @@
+         indexes = ['supabase/functions/' + row['name'] + '/index.ts' for row in self.edge['functions']]
+         self.command('frozen_cached_handler_closure', [str(self.tools['deno']), 'test', '--no-run', '--no-config', '--cached-only', '--no-prompt', '--frozen', '--lock=supabase/functions/deno.lock', *indexes])
+         ref, ops = self.approval['target']['project_ref'], self.approval['operations']
++        if self.pg is not None:
++            self.admit_server()
+         _, raw, _ = self.cli('project_visibility', ['projects', 'list', '-o', 'json']); projects = json_data(raw)
+         if not isinstance(projects, list) or not any(isinstance(p, dict) and ref in (p.get('id'), p.get('ref')) for p in projects):
+             raise Blocked('DEPLOY_PROJECT_NOT_VISIBLE')
+@@ -360,7 +389,9 @@
+             self.approval = approval_record(self.args, self.manifest, self.backend)
+             self.tools = {}
+             declared = self.approval['toolchain']
+-            if not isinstance(declared, dict) or set(declared) != {'supabase', 'supabase_go', 'deno'}:
++            database_scope = bool({'migrations', 'strict_production_readiness'} & set(self.approval['operations']))
++            required_tools = {'supabase', 'supabase_go', 'deno'} | ({'postgresql'} if database_scope else set())
++            if not isinstance(declared, dict) or set(declared) != required_tools:
+                 raise Blocked('DEPLOY_TOOLCHAIN_BINDING_INVALID')
+             for name, pin_file, override in [('supabase', '.supabase-cli-version', 'SUPABASE_BIN'),
+                                             ('supabase_go', '.supabase-cli-version', 'SUPABASE_GO_BINARY'),
+@@ -384,6 +415,11 @@
+                 if p.returncode or not matches:
+                     raise Blocked('DEPLOY_CLI_OR_DENO_DOES_NOT_MATCH_REPOSITORY_VERSION')
+                 self.tools[name] = path
++            if database_scope:
++                self.pg = postgres_admission.Admission.from_environment(operation='migration' if 'migrations' in self.approval['operations'] else 'query')
++                if declared['postgresql'] != {'manifest_sha256': self.pg.expected}:
++                    raise Blocked('DEPLOY_POSTGRES_MANIFEST_BINDING_INVALID')
++                self.pg.project(self.approval['target']['project_ref'])
+             self.edge = json_data(external_bytes(self.source / 'contracts/edge-functions.json'))
+             credential_names = ['SUPABASE_ACCESS_TOKEN']
+             if {'migrations', 'strict_production_readiness'} & set(self.approval['operations']):
+@@ -421,22 +457,22 @@
+                 self.record['execution'] = {'source': 'private verified copy of reviewed export', 'runtime_metadata': 'generated target-bound link plus explicitly validated CLI cache names', 'worktree_executed': False}; self.save()
+                 try:
+                     self.execute()
+-                except (Blocked, candidate.ReleaseError, OSError) as error:
+-                    self.record.update(status='partial_or_failed', error=str(error) if isinstance(error, (Blocked, candidate.ReleaseError)) else 'DEPLOY_IO_FAILURE')
++                except (Blocked, candidate.ReleaseError, postgres_admission.Refused, OSError) as error:
++                    self.record.update(status='partial_or_failed', error=str(error) if isinstance(error, (Blocked, candidate.ReleaseError, postgres_admission.Refused)) else 'DEPLOY_IO_FAILURE')
+                     if any(op['mutating'] for op in self.record['operations']):
+                         try:
+                             self.readback(final=False)
+-                        except (Blocked, candidate.ReleaseError, OSError) as read_error:
+-                            self.record['readback']['reconciliation'] = 'unavailable_or_blocked:' + (str(read_error) if isinstance(read_error, (Blocked, candidate.ReleaseError)) else 'DEPLOY_IO_FAILURE')
++                        except (Blocked, candidate.ReleaseError, postgres_admission.Refused, OSError) as read_error:
++                            self.record['readback']['reconciliation'] = 'unavailable_or_blocked:' + (str(read_error) if isinstance(read_error, (Blocked, candidate.ReleaseError, postgres_admission.Refused)) else 'DEPLOY_IO_FAILURE')
+                     else:
+                         self.record['readback']['reconciliation'] = 'not_needed; no mutation attempted'
+                     self.save(); raise
+             self.record['status'] = 'delivered_and_read_back'
+             return 0
+-        except (Blocked, candidate.ReleaseError, OSError, subprocess.SubprocessError, KeyError, TypeError, UnicodeError) as error:
++        except (Blocked, candidate.ReleaseError, postgres_admission.Refused, OSError, subprocess.SubprocessError, KeyError, TypeError, UnicodeError) as error:
+             if self.record['status'] == 'preflight': self.record['status'] = 'preflight_blocked'
+             elif self.record['status'] != 'partial_or_failed': self.record['status'] = 'blocked'
+-            self.record['error'] = str(error) if isinstance(error, (Blocked, candidate.ReleaseError)) else 'DEPLOY_INVALID_INPUT_OR_LOCAL_TOOL'
++            self.record['error'] = str(error) if isinstance(error, (Blocked, candidate.ReleaseError, postgres_admission.Refused)) else 'DEPLOY_INVALID_INPUT_OR_LOCAL_TOOL'
+             print('[supabase-deploy][FAIL] ' + self.record['error'], file=sys.stderr)
+             return 1
+         finally:
+@@ -450,6 +486,7 @@
+         parser.add_argument('--' + name.replace('_', '-'), default=os.environ.get('COLLECT_BACKEND_' + name.upper()))
+     parser.add_argument('--launcher-root', default=str(Path(__file__).resolve().parents[2]))
+     parser.add_argument('--execution-root')
++    parser.add_argument('--before-database-request', action='store_true')
+     args = parser.parse_args()
+     if not args.candidate or not args.manifest_sha256:
+         parser.error('Reviewed export and independently retained manifest hash are required')
+@@ -458,7 +495,7 @@
+             manifest = verified_export(args.candidate, args.manifest_sha256); backend = backend_files(manifest)
+             print(json.dumps({'candidate_manifest_sha256': args.manifest_sha256, 'backend_manifest_sha256': candidate.sha(candidate.canonical(backend)), 'backend_file_count': len(backend), 'operations_available': list(OPERATIONS), 'approvals_created': False}, indent=2))
+             return 0
+-        except (Blocked, candidate.ReleaseError, OSError) as error:
++        except (Blocked, candidate.ReleaseError, postgres_admission.Refused, OSError) as error:
+             print(str(error), file=sys.stderr); return 1
+     if not all((args.approval, args.approval_sha256, args.environment, args.receipt)):
+         parser.error('Approval record/hash, environment and fresh receipt path are required')
+@@ -472,11 +509,21 @@
+             delivery.manifest = verified_export(delivery.source, args.manifest_sha256)
+             delivery.backend = backend_files(delivery.manifest)
+             delivery.approval = approval_record(args, delivery.manifest, delivery.backend)
++            delivery.pg = None
++            if {'migrations', 'strict_production_readiness'} & set(delivery.approval['operations']):
++                delivery.pg = postgres_admission.Admission.from_environment(operation='migration' if 'migrations' in delivery.approval['operations'] else 'query')
++                if delivery.approval['toolchain'].get('postgresql') != {'manifest_sha256': delivery.pg.expected}:
++                    raise Blocked('DEPLOY_POSTGRES_MANIFEST_BINDING_INVALID')
++                delivery.pg.project(delivery.approval['target']['project_ref'])
+             delivery.tools = {name: Path(os.environ[key]).resolve(strict=True) for name, key in [('supabase', 'SUPABASE_BIN'), ('supabase_go', 'SUPABASE_GO_BINARY'), ('deno', 'DENO_BIN')]}
+             delivery.guard()
++            if args.before_database_request:
++                if delivery.pg is None:
++                    raise Blocked('DEPLOY_DATABASE_SCOPE_REQUIRED')
++                delivery.guard_server_transport()
+             return 0
+-        except (Blocked, candidate.ReleaseError, OSError, TypeError, KeyError) as error:
+-            print(str(error) if isinstance(error, (Blocked, candidate.ReleaseError)) else 'DEPLOY_GUARD_INVALID', file=sys.stderr)
++        except (Blocked, candidate.ReleaseError, postgres_admission.Refused, OSError, TypeError, KeyError) as error:
++            print(str(error) if isinstance(error, (Blocked, candidate.ReleaseError, postgres_admission.Refused)) else 'DEPLOY_GUARD_INVALID', file=sys.stderr)
+             return 1
+     try:
+         return Delivery(args).run()
+diff --git a/scripts/qa/postgres_admission.py b/scripts/qa/postgres_admission.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/qa/postgres_admission.py
+@@ -0,0 +1,332 @@
++#!/usr/bin/env python3
++"""Admit an externally reviewed PostgreSQL client/matrix; never create approval.
++
++No installer, PATH search, remote probe or database write runs during local
++admission. Server compatibility can only be observed after a target-bound read.
++The retained manifest digest is a binding, not authentication of its reviewer.
++"""
++from __future__ import annotations
++
++import argparse
++import configparser
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import selectors
++import signal
++import stat
++import subprocess
++import sys
++import time
++
++HASH = re.compile(r'[a-f0-9]{64}')
++VERSION = re.compile(r'(?:1[4-9]|[2-9][0-9])\.[0-9]{1,3}')
++REF = re.compile(r'[a-z0-9]{20}')
++SERVER_QUERY = "select current_setting('server_version_num')::integer as server_version_num;"
++MANIFEST_LIMIT = 16384
++OUTPUT_LIMIT = 2 * 1024 * 1024
++# Initial source-reviewed cohort only. A manifest cannot expand this set.
++SOURCE_CLIENT_VERSION = '17.6'
++SOURCE_SERVER_VERSION_NUM = 170006
++OPERATIONS = {'query', 'migration'}
++
++
++class Refused(ValueError):
++    pass
++
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def unique(pairs):
++    value = {}
++    for key, item in pairs:
++        if key in value:
++            raise Refused('PG_DUPLICATE_JSON_KEY')
++        value[key] = item
++    return value
++
++
++def regular(path, limit):
++    """Do not follow path substitutions, including a substituted parent."""
++    path = Path(path)
++    if not path.is_absolute() or '..' in path.parts:
++        raise Refused('PG_ABSOLUTE_PATH_REQUIRED')
++    try:
++        if any(p.is_symlink() for p in (path, *path.parents)):
++            raise Refused('PG_SYMLINK_REFUSED')
++        fd = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0))
++        with os.fdopen(fd, 'rb') as handle:
++            before = os.fstat(handle.fileno())
++            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > limit:
++                raise Refused('PG_REGULAR_SINGLE_LINK_INPUT_REQUIRED')
++            data = handle.read(limit + 1)
++            after = os.fstat(handle.fileno())
++        observed = path.lstat()
++        identity = lambda s: (s.st_dev, s.st_ino, s.st_size, s.st_mode, s.st_mtime_ns, s.st_nlink)
++        if len(data) > limit or identity(before) != identity(after) or identity(after) != identity(observed):
++            raise Refused('PG_INPUT_CHANGED_DURING_READ')
++        return data, identity(after)
++    except OSError as error:
++        raise Refused('PG_INPUT_UNAVAILABLE') from error
++
++
++def bounded(argv, env, timeout, limit=OUTPUT_LIMIT, inherit_stdin=False):
++    """Bound both output streams while running; never return raw tool stderr."""
++    process = None
++    failed = True
++    try:
++        process = subprocess.Popen(argv, env=env, stdin=None if inherit_stdin else subprocess.DEVNULL,
++                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
++        streams = {'stdout': bytearray(), 'stderr': bytearray()}
++        deadline = time.monotonic() + timeout
++        with selectors.DefaultSelector() as selector:
++            selector.register(process.stdout, selectors.EVENT_READ, 'stdout')
++            selector.register(process.stderr, selectors.EVENT_READ, 'stderr')
++            while selector.get_map():
++                left = deadline - time.monotonic()
++                if left <= 0:
++                    raise Refused('PG_COMMAND_TIMEOUT')
++                for key, _ in selector.select(min(left, 0.1)):
++                    chunk = os.read(key.fileobj.fileno(), 16384)
++                    if not chunk:
++                        selector.unregister(key.fileobj)
++                        continue
++                    streams[key.data].extend(chunk)
++                    if len(streams[key.data]) > limit:
++                        raise Refused('PG_COMMAND_OUTPUT_LIMIT')
++            try:
++                code = process.wait(timeout=max(0.001, deadline - time.monotonic()))
++            except subprocess.TimeoutExpired as error:
++                raise Refused('PG_COMMAND_TIMEOUT') from error
++        failed = False
++        return code, bytes(streams['stdout'])
++    except OSError as error:
++        raise Refused('PG_COMMAND_UNAVAILABLE') from error
++    finally:
++        if process is not None:
++            # Descendants which retain pipes share this new process group.
++            if failed or process.poll() is None:
++                try:
++                    os.killpg(process.pid, signal.SIGKILL)
++                except ProcessLookupError:
++                    pass
++                process.wait(timeout=5)
++            for stream in (process.stdout, process.stderr):
++                if stream is not None:
++                    stream.close()
++
++
++def local_environment():
++    # Never lend release/database credentials or loader injection variables to
++    # an executable's version probe. Selection is already an absolute path.
++    return {'PATH': os.defpath, 'LC_ALL': 'C', 'PYTHONDONTWRITEBYTECODE': '1'}
++
++
++class Admission:
++    def __init__(self, manifest, expected_sha256, env=None, operation='query'):
++        self.env = os.environ if env is None else env
++        self.path = Path(manifest or '')
++        self.expected = expected_sha256
++        self.operation = operation
++        if operation not in OPERATIONS:
++            raise Refused('PG_OPERATION_OUTSIDE_SOURCE_COHORT')
++        if not HASH.fullmatch(expected_sha256 or ''):
++            raise Refused('PG_MANIFEST_BINDING_REQUIRED')
++        raw, self.manifest_identity = regular(self.path, MANIFEST_LIMIT)
++        if sha(raw) != expected_sha256:
++            raise Refused('PG_MANIFEST_HASH_CHANGED')
++        try:
++            value = json.loads(raw, object_pairs_hook=unique)
++        except (ValueError, UnicodeError) as error:
++            raise Refused('PG_MANIFEST_JSON_INVALID') from error
++        keys = {'schema_version', 'kind', 'review_reference', 'client', 'server_matrix', 'targets', 'timeouts'}
++        if not isinstance(value, dict) or set(value) != keys or type(value['schema_version']) is not int or value['schema_version'] != 1 or value['kind'] != 'collect_postgres_admission':
++            raise Refused('PG_MANIFEST_SCHEMA_INVALID')
++        review = value['review_reference']
++        if not isinstance(review, str) or not re.fullmatch(r'[A-Za-z0-9._:/-]{1,160}', review):
++            raise Refused('PG_REVIEW_REFERENCE_REQUIRED')
++        client = value['client']
++        if not isinstance(client, dict) or set(client) != {'path', 'sha256', 'version'} or not isinstance(client['path'], str) or not HASH.fullmatch(client.get('sha256', '')) or not VERSION.fullmatch(client.get('version', '')):
++            raise Refused('PG_CLIENT_SCHEMA_INVALID')
++        if client['version'] != SOURCE_CLIENT_VERSION:
++            raise Refused('PG_CLIENT_OUTSIDE_SOURCE_COHORT')
++        self.client = Path(client['path'])
++        raw_client, self.client_identity = regular(self.client, 128 * 1024 * 1024)
++        if not os.access(self.client, os.X_OK) or sha(raw_client) != client['sha256']:
++            raise Refused('PG_CLIENT_HASH_CHANGED_OR_NOT_EXECUTABLE')
++        if self.env.get('PSQL_BIN') and self.env['PSQL_BIN'] != str(self.client):
++            raise Refused('PG_CLIENT_OVERRIDE_UNBOUND')
++        matrix = value['server_matrix']
++        if not isinstance(matrix, list) or not 1 <= len(matrix) <= 16:
++            raise Refused('PG_MATRIX_REQUIRED')
++        for row in matrix:
++            if not isinstance(row, dict) or set(row) != {'client_version', 'server_version_num_min', 'server_version_num_max', 'operations'}:
++                raise Refused('PG_MATRIX_INVALID')
++            low, high, ops = row['server_version_num_min'], row['server_version_num_max'], row['operations']
++            if low != SOURCE_SERVER_VERSION_NUM or high != SOURCE_SERVER_VERSION_NUM:
++                raise Refused('PG_SERVER_RANGE_OUTSIDE_SOURCE_COHORT')
++            if row['client_version'] != client['version'] or type(low) is not int or type(high) is not int or not 140000 <= low <= high <= 999999 or low // 10000 != high // 10000 or not isinstance(ops, list) or not ops or len(set(ops)) != len(ops) or any(op not in OPERATIONS for op in ops):
++                raise Refused('PG_MATRIX_INVALID')
++        targets = value['targets']
++        if not isinstance(targets, list) or not 1 <= len(targets) <= 8:
++            raise Refused('PG_TARGETS_REQUIRED')
++        for target in targets:
++            if not isinstance(target, dict) or set(target) != {'kind', 'project_ref', 'host', 'port', 'user', 'database'} or type(target['port']) is not int or not 1 <= target['port'] <= 65535:
++                raise Refused('PG_TARGET_INVALID')
++            if any(not isinstance(target[key], str) or not target[key] or len(target[key]) > 160 or any(ord(c) < 33 for c in target[key]) for key in ('host', 'user', 'database')):
++                raise Refused('PG_TARGET_INVALID')
++            if target['kind'] == 'supabase':
++                ref = target['project_ref']
++                bound = target['host'] == f'db.{ref}.supabase.co' or (target['host'].endswith('.pooler.supabase.com') and target['user'] == f'postgres.{ref}')
++                if not isinstance(ref, str) or not REF.fullmatch(ref) or not bound or target['database'] != 'postgres':
++                    raise Refused('PG_TARGET_INVALID')
++            elif target['kind'] != 'local_rehearsal' or target['project_ref'] is not None or target['host'] not in {'localhost', '127.0.0.1', '::1'}:
++                raise Refused('PG_TARGET_INVALID')
++        limits = value['timeouts']
++        if not isinstance(limits, dict) or set(limits) != {'version_seconds', 'server_seconds', 'operation_seconds'}:
++            raise Refused('PG_TIMEOUTS_INVALID')
++        for name, ceiling in [('version_seconds', 10), ('server_seconds', 30), ('operation_seconds', 600)]:
++            if type(limits[name]) not in (int, float) or not 0.05 <= limits[name] <= ceiling:
++                raise Refused('PG_TIMEOUTS_INVALID')
++        self.value = value
++        code, observed = bounded([str(self.client), '--version'], local_environment(), limits['version_seconds'], limit=1024)
++        if code or observed not in ((f"psql (PostgreSQL) {client['version']}\n").encode(), (f"psql (PostgreSQL) {client['version']}\r\n").encode()):
++            raise Refused('PG_CLIENT_VERSION_UNKNOWN_OR_WRONG')
++        self.guard()
++
++    @classmethod
++    def from_environment(cls, env=None, operation='query'):
++        env = os.environ if env is None else env
++        return cls(env.get('COLLECT_POSTGRES_ADMISSION'), env.get('COLLECT_POSTGRES_ADMISSION_SHA256'), env, operation)
++
++    def guard(self):
++        manifest, identity = regular(self.path, MANIFEST_LIMIT)
++        client, client_identity = regular(self.client, 128 * 1024 * 1024)
++        if sha(manifest) != self.expected or identity != self.manifest_identity:
++            raise Refused('PG_MANIFEST_CHANGED_AFTER_ADMISSION')
++        if sha(client) != self.value['client']['sha256'] or client_identity != self.client_identity:
++            raise Refused('PG_CLIENT_CHANGED_AFTER_ADMISSION')
++        if self.env.get('PSQL_BIN') and self.env['PSQL_BIN'] != str(self.client):
++            raise Refused('PG_CLIENT_OVERRIDE_UNBOUND')
++
++    def project(self, ref):
++        if not any(t['kind'] == 'supabase' and t['project_ref'] == ref for t in self.value['targets']):
++            raise Refused('PG_APPROVED_PROJECT_NOT_IN_MANIFEST')
++
++    def server(self, number):
++        self.guard()
++        if type(number) is not int or not any(r['server_version_num_min'] <= number <= r['server_version_num_max'] and self.operation in r['operations'] for r in self.value['server_matrix']):
++            raise Refused('PG_SERVER_MATRIX_REFUSED')
++        return {'manifest_sha256': self.expected, 'client_version': self.value['client']['version'],
++                'client_sha256': self.value['client']['sha256'], 'server_version_num': number,
++                'operation': self.operation, 'observed_after_target_bound_read': True,
++                'human_review_authenticated': False}
++
++    def management_rows(self, raw, ref):
++        self.project(ref)
++        try:
++            rows = json.loads(raw, object_pairs_hook=unique)
++        except (ValueError, UnicodeError) as error:
++            raise Refused('PG_SERVER_RESPONSE_INVALID') from error
++        if not isinstance(rows, list) or len(rows) != 1 or not isinstance(rows[0], dict) or set(rows[0]) != {'server_version_num'}:
++            raise Refused('PG_SERVER_RESPONSE_INVALID')
++        return self.server(rows[0]['server_version_num'])
++
++    def service(self, env):
++        raw, identity = regular(Path(env.get('PGSERVICEFILE', '')), 8192)
++        if identity[3] & 0o077:
++            raise Refused('PG_SERVICE_PERMISSIONS_INVALID')
++        parser = configparser.ConfigParser(interpolation=None, strict=True)
++        try:
++            parser.read_string(raw.decode())
++            if parser.sections() != ['collect_readiness'] or parser.defaults():
++                raise ValueError()
++            value = dict(parser['collect_readiness'])
++            port = int(value.get('port', '5432'))
++        except (ValueError, UnicodeError, configparser.Error) as error:
++            raise Refused('PG_SERVICE_INVALID') from error
++        # options/hostaddr/service/passfile can change the reviewed connection
++        # or session. Other existing libpq security/keepalive options remain.
++        allowed = {'host', 'dbname', 'port', 'user', 'sslmode', 'connect_timeout', 'channel_binding', 'application_name', 'target_session_attrs', 'gssencmode', 'sslrootcert', 'sslcert', 'sslkey', 'keepalives', 'keepalives_idle', 'keepalives_interval', 'keepalives_count'}
++        if set(value) - allowed:
++            raise Refused('PG_SERVICE_OPTIONS_UNBOUND')
++        matches = [t for t in self.value['targets'] if (t['host'], t['port'], t['user'], t['database']) == (value.get('host'), port, value.get('user'), value.get('dbname'))]
++        if len(matches) != 1:
++            raise Refused('PG_SERVICE_TARGET_UNBOUND')
++        if matches[0]['kind'] == 'supabase' and env.get('SUPABASE_PROJECT_REF') != matches[0]['project_ref']:
++            raise Refused('PG_SERVICE_PROJECT_MISMATCH')
++        return raw, identity
++
++    def psql(self, args, env):
++        if not args or args[0] != 'service=collect_readiness':
++            raise Refused('PG_BOUND_SERVICE_ARGUMENT_REQUIRED')
++        # Exclude every connection argument. SQL/file/variable/output flags
++        # retain their existing semantics; SQL authorization is caller-owned.
++        allowed = {'-Atq', '-At', '-q', '-X', '-A', '-t', '-v', '-c', '-f'}
++        index = 1
++        while index < len(args):
++            flag = args[index]
++            if flag not in allowed:
++                raise Refused('PG_CLIENT_ARGUMENT_UNBOUND')
++            index += 1
++            if flag in {'-v', '-c', '-f'}:
++                if index == len(args):
++                    raise Refused('PG_CLIENT_ARGUMENT_INVALID')
++                index += 1
++        service_raw, identity = self.service(env)
++        clean = dict(env)
++        for name in list(clean):
++            if name.startswith('PG') or name in {'BASH_ENV', 'ENV', 'LD_PRELOAD', 'PYTHONPATH', 'PYTHONHOME', 'SUPABASE_ACCESS_TOKEN', 'SUPABASE_DB_PASSWORD', 'DATABASE_URL', 'DATABASE_POOLER_URL', 'READINESS_DATABASE_URL', 'COLLECT_PSQL_URL'} or name.startswith('DYLD_'):
++                clean.pop(name, None)
++        clean.update(PGSERVICEFILE=env['PGSERVICEFILE'], PGCONNECT_TIMEOUT='15')
++        password = None
++        if env.get('PGPASSFILE'):
++            password, pass_identity = regular(Path(env['PGPASSFILE']), 8192)
++            if pass_identity[3] & 0o077:
++                raise Refused('PG_PASSWORD_FILE_PERMISSIONS_INVALID')
++            clean['PGPASSFILE'] = env['PGPASSFILE']
++        self.guard()
++        code, raw = bounded([str(self.client), 'service=collect_readiness', '-X', '-w', '-Atq', '-v', 'ON_ERROR_STOP=1', '-c', SERVER_QUERY], clean, self.value['timeouts']['server_seconds'], limit=1024)
++        if code or not re.fullmatch(rb'[0-9]{6}\r?\n', raw):
++            raise Refused('PG_SERVER_RESPONSE_INVALID')
++        self.server(int(raw))
++        if regular(Path(env['PGSERVICEFILE']), 8192) != (service_raw, identity):
++            raise Refused('PG_SERVICE_CHANGED_DURING_PROBE')
++        if password is not None and regular(Path(env['PGPASSFILE']), 8192) != (password, pass_identity):
++            raise Refused('PG_PASSWORD_FILE_CHANGED_DURING_PROBE')
++        self.guard()
++        code, data = bounded([str(self.client), *args, '-X', '-w'], clean, self.value['timeouts']['operation_seconds'], inherit_stdin=True)
++        if code:
++            raise Refused('PG_CLIENT_OPERATION_FAILED')
++        self.guard()
++        return data
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('action', choices=['local', 'project', 'psql'])
++    parser.add_argument('args', nargs=argparse.REMAINDER)
++    args = parser.parse_args()
++    try:
++        admission = Admission.from_environment()
++        if args.action == 'project':
++            if len(args.args) != 1:
++                raise Refused('PG_PROJECT_ARGUMENT_REQUIRED')
++            admission.project(args.args[0])
++        elif args.action == 'local':
++            print(f"psql (PostgreSQL) {admission.value['client']['version']}")
++        else:
++            argv = args.args[1:] if args.args[:1] == ['--'] else args.args
++            sys.stdout.buffer.write(admission.psql(argv, os.environ))
++        return 0
++    except (Refused, TypeError, KeyError, OSError) as error:
++        print('[postgres-admission][FAIL] ' + (str(error) if isinstance(error, Refused) else 'PG_INPUT_INVALID'), file=sys.stderr)
++        return 1
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/scripts/supabase_cli_helpers.sh b/scripts/supabase_cli_helpers.sh
+--- a/scripts/supabase_cli_helpers.sh
++++ b/scripts/supabase_cli_helpers.sh
+@@ -41,21 +41,15 @@
+   "$candidate" "$@"
+ }
+ 
++# The reviewed PostgreSQL binding chooses one exact local executable. No
++# override/PATH/Homebrew/installer fallback is admitted by this helper.
+ psql_cli() {
+-  local pgconnect_timeout="${PGCONNECT_TIMEOUT:-15}"
+-  if [[ -n "${PSQL_BIN:-}" ]]; then
+-    PGCONNECT_TIMEOUT="$pgconnect_timeout" "$PSQL_BIN" "$@"
+-  elif command -v psql >/dev/null 2>&1; then
+-    PGCONNECT_TIMEOUT="$pgconnect_timeout" psql "$@"
+-  elif [[ -x /usr/local/bin/psql ]]; then
+-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /usr/local/bin/psql "$@"
+-  elif [[ -x /opt/homebrew/bin/psql ]]; then
+-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /opt/homebrew/bin/psql "$@"
+-  elif [[ -x /Library/PostgreSQL/15/bin/psql ]]; then
+-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /Library/PostgreSQL/15/bin/psql "$@"
++  local admission_module
++  admission_module="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/qa/postgres_admission.py"
++  if [[ "$#" == "1" && ( "$1" == "--version" || "$1" == "-V" ) ]]; then
++    python3 -B "$admission_module" local
+   else
+-    printf '[supabase-cli][FAIL] Missing required command: psql. Install PostgreSQL client tools or provide PSQL_BIN.\n' >&2
+-    exit 1
++    python3 -B "$admission_module" psql -- "$@"
+   fi
+ }
+ 
+@@ -99,9 +93,10 @@
+   local client="${2:?PostgreSQL client is required}"
+   shift 2
+   umask 077
+-  local service_file password_file
+-  service_file="$(mktemp)"
+-  password_file="$(mktemp)"
++  local service_file password_file pg_temp_dir
++  pg_temp_dir="$(cd "${TMPDIR:-/tmp}" && pwd -P)"
++  service_file="$(mktemp "$pg_temp_dir/collect-pg-service.XXXXXXXX")"
++  password_file="$(mktemp "$pg_temp_dir/collect-pg-password.XXXXXXXX")"
+   chmod 600 "$service_file"
+   chmod 600 "$password_file"
+   local cleanup_command
+diff --git a/scripts/supabase_production_readiness.sh b/scripts/supabase_production_readiness.sh
+--- a/scripts/supabase_production_readiness.sh
++++ b/scripts/supabase_production_readiness.sh
+@@ -1290,12 +1290,28 @@
+ 
+ main() {
+   supabase_cli --version >/dev/null
+-  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
+-    psql_cli --version >/dev/null
+-  fi
+   require_cmd ruby
+   load_env
+   check_target_binding
++  # Require the reviewed client before any linked/direct/fallback requests.
++  psql_cli --version >/dev/null
++  python3 -B "$ROOT_DIR/scripts/qa/postgres_admission.py" project "$SUPABASE_PROJECT_REF"
++  local server_version
++  server_version="$(db_query "select current_setting('server_version_num')::integer as server_version_num;")"
++  COLLECT_POSTGRES_SERVER_VERSION="$server_version" python3 -B - "$ROOT_DIR/scripts/qa" <<'PY'
++import os, sys
++sys.path.insert(0, sys.argv[1])
++import postgres_admission as pg
++try:
++    admission = pg.Admission.from_environment()
++    admission.project(os.environ["SUPABASE_PROJECT_REF"])
++    value = os.environ["COLLECT_POSTGRES_SERVER_VERSION"]
++    if not pg.re.fullmatch(r"[0-9]{6}", value):
++        raise pg.Refused("PG_SERVER_RESPONSE_INVALID")
++    admission.server(int(value))
++except (pg.Refused, ValueError, KeyError):
++    sys.exit("[supabase-ready][FAIL] PostgreSQL admission or server matrix refused")
++PY
+ 
+   log "checking linked project $SUPABASE_PROJECT_REF"
+   if ! SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o json \
+diff --git a/scripts/tests/supabase_delivery_contract_test.py b/scripts/tests/supabase_delivery_contract_test.py
+--- a/scripts/tests/supabase_delivery_contract_test.py
++++ b/scripts/tests/supabase_delivery_contract_test.py
+@@ -22,6 +22,7 @@
+ args = sys.argv[1:]
+ if args == ["--version"]:
+     print(os.environ.get("MOCK_CLI_VERSION", "2.114.0")); sys.exit(0)
++with Path(os.environ["MOCK_EVENTS"]).open("a") as f: f.write(json.dumps({"kind":"supabase","args":args})+"\n")
+ with Path(os.environ["MOCK_CALLS"]).open("a") as f: f.write(json.dumps(args) + "\n")
+ with Path(os.environ["MOCK_CWD"]).open("a") as f:
+     f.write(json.dumps({"args":args,"cwd":os.getcwd(),"link":Path("supabase/.temp/project-ref").read_text(),"companion":os.environ.get("SUPABASE_GO_BINARY")})+"\n")
+@@ -40,6 +41,8 @@
+     functions[args[2]] = "--no-verify-jwt" not in args; state.write_text(json.dumps(functions))
+ elif args[:2] == ["db", "push"]:
+     if "--dry-run" in args:
++        if os.environ.get("MOCK_SERVER_DRIFT_PATH"):
++            Path(os.environ["MOCK_SERVER_DRIFT_PATH"]).write_text("170007")
+         if os.environ.get("MOCK_DRIFT_SOURCE"):
+             Path(os.environ["MOCK_DRIFT_SOURCE"]).write_text("changed after preflight")
+         if os.environ.get("MOCK_DRIFT_COMPANION"):
+@@ -77,6 +80,9 @@
+ with Path(os.environ["MOCK_PROBES"]).open("a") as f: f.write(json.dumps(args) + "\n")
+ if any("/database/query" in arg for arg in args):
+     query=json.loads(sys.stdin.read())["query"]
++    with Path(os.environ["MOCK_EVENTS"]).open("a") as f: f.write(json.dumps({"kind":"query","query":query})+"\n")
++    if "server_version_num" in query:
++        print(json.dumps([{ "server_version_num":int(Path(os.environ["MOCK_SERVER_DRIFT_PATH"]).read_text()) if os.environ.get("MOCK_SERVER_DRIFT_PATH") and Path(os.environ["MOCK_SERVER_DRIFT_PATH"]).exists() else int(os.environ.get("MOCK_PG_SERVER_VERSION","170006")) }])+"\n200");sys.exit(0)
+     path=Path(os.environ["MOCK_HISTORY"]);rows=json.loads(path.read_text()) if path.exists() else []
+     if "insert into supabase_migrations.schema_migrations" in query:
+         match=re.search(r"values \('([^']+)', array\[[^]]+\], '([^']+)'",query)
+@@ -136,6 +142,7 @@
+         self.executable(self.bin / "supabase-go", '#!/usr/bin/env python3\nprint("2.114.0")\n')
+         self.executable(self.bin / "curl", MOCK_CURL)
+         self.executable(self.bin / "deno", MOCK_DENO)
++        self.executable(self.bin / "psql", '#!/usr/bin/env python3\nprint("psql (PostgreSQL) 17.6")\n')
+         self.env = os.environ.copy()
+         self.env.pop("SUPABASE_GO_BINARY", None)
+         self.env.update({
+@@ -152,10 +159,11 @@
+             "MOCK_FUNCTION_STATE": str(self.base / "functions.json"),
+             "MOCK_CWD": str(self.base / "cwd.jsonl"),
+             "MOCK_CALLS": str(self.root / "calls.jsonl"),
++            "MOCK_EVENTS": str(self.base / "events.jsonl"),
+             "MOCK_PROBES": str(self.root / "probes.jsonl"),
+             "MOCK_READINESS": str(self.root / "readiness-strict.txt"),
+         })
+-        for name in ("qa/backend_release_delivery.py", "qa/collect_release_candidate.py"):
++        for name in ("qa/backend_release_delivery.py", "qa/collect_release_candidate.py", "qa/postgres_admission.py"):
+             (scripts / name).parent.mkdir(parents=True, exist_ok=True)
+             shutil.copy2(ROOT / "scripts" / name, scripts / name)
+         for name in ("supabase_schema_inventory.sh", "audits/collect_index_inventory.rb",
+@@ -178,6 +186,14 @@
+         (self.sdk / "bin/cache").mkdir(parents=True)
+         (self.sdk / "bin/flutter").write_text("synthetic launcher")
+         (self.sdk / "bin/cache/flutter.version.json").write_text(json.dumps({"frameworkVersion":"3.44.4","frameworkRevision":"synthetic","dartSdkVersion":"3.12.2"}))
++        postgres_manifest = {"schema_version":1,"kind":"collect_postgres_admission","review_reference":"synthetic-test-only/not-human-reviewed",
++            "client":{"path":str(self.bin/"psql"),"sha256":hashlib.sha256((self.bin/"psql").read_bytes()).hexdigest(),"version":"17.6"},
++            "server_matrix":[{"client_version":"17.6","server_version_num_min":170006,"server_version_num_max":170006,"operations":["query","migration"]}],
++            "targets":[{"kind":"supabase","project_ref":REF,"host":f"db.{REF}.supabase.co","port":5432,"user":"postgres","database":"postgres"}],
++            "timeouts":{"version_seconds":1,"server_seconds":3,"operation_seconds":10}}
++        self.pg_manifest_path=self.base/"postgres-admission.json"
++        self.pg_manifest_path.write_bytes(self.candidate.canonical(postgres_manifest))
++        self.env.update(COLLECT_POSTGRES_ADMISSION=str(self.pg_manifest_path),COLLECT_POSTGRES_ADMISSION_SHA256=hashlib.sha256(self.pg_manifest_path.read_bytes()).hexdigest(),PSQL_BIN=str(self.bin/"psql"))
+         self.attempt = 0
+         self.reviewed_fixture()
+ 
+@@ -198,6 +214,8 @@
+             "purpose":"remediation","operations":operations if operations is not None else list(self.delivery.OPERATIONS),
+             "toolchain":{name:{"version":version,"binary_sha256":self.candidate.sha((self.bin/binary).read_bytes())} for name,binary,version in [("supabase","supabase","2.114.0"),("supabase_go","supabase-go","2.114.0"),("deno","deno","2.5.6")]},
+         }
++        if {"migrations","strict_production_readiness"} & set(self.approval["operations"]):
++            self.approval["toolchain"]["postgresql"]={"manifest_sha256":self.env["COLLECT_POSTGRES_ADMISSION_SHA256"]}
+         self.env.update(COLLECT_BACKEND_CANDIDATE=str(export),COLLECT_BACKEND_MANIFEST_SHA256=result["manifest_sha256"],COLLECT_BACKEND_ENVIRONMENT=environment)
+         self.bind_approval()
+ 
+@@ -501,6 +519,89 @@
+         self.assertIn("DEPLOY_CURRENT_BACKEND_SOURCE_CHANGED", result.stderr)
+         self.assertEqual(self.calls(), [])
+ 
++    def test_legacy_edge_only_approval_succeeds_without_postgres_configuration(self):
++        self.reviewed_fixture(["edge_functions"],"staging")
++        self.assertEqual(set(self.approval["toolchain"]),{"supabase","supabase_go","deno"})
++        for name in ("COLLECT_POSTGRES_ADMISSION","COLLECT_POSTGRES_ADMISSION_SHA256","PSQL_BIN"):
++            self.env.pop(name,None)
++        (self.bin/"psql").unlink()
++        result=self.run_deploy();self.assertEqual(result.returncode,0,result.stderr)
++        self.assertFalse(any("server_version_num" in e.get("query","") for e in [json.loads(x) for x in Path(self.env["MOCK_EVENTS"]).read_text().splitlines()]))
++        self.assertFalse(self.receipt()["production_release_accepted"])
++
++    def test_legacy_edge_only_shape_still_refuses_changed_target_before_requests(self):
++        self.reviewed_fixture(["edge_functions"],"staging")
++        self.assertEqual(set(self.approval["toolchain"]),{"supabase","supabase_go","deno"})
++        self.env["SUPABASE_PROJECT_REF"]="z"*20
++        self.assert_no_remote(self.run_deploy())
++
++    def test_database_approval_without_postgres_binding_refuses_before_requests(self):
++        del self.approval["toolchain"]["postgresql"]
++        self.bind_approval()
++        self.assert_no_remote(self.run_deploy())
++
++    def test_wrong_postgres_manifest_hash_and_override_refuse_before_requests(self):
++        self.env["COLLECT_POSTGRES_ADMISSION_SHA256"]="0"*64
++        self.assert_no_remote(self.run_deploy())
++        self.env["COLLECT_POSTGRES_ADMISSION_SHA256"]=self.approval["toolchain"]["postgresql"]["manifest_sha256"]
++        self.env["PSQL_BIN"]=str(self.bin/"unapproved-client")
++        self.assert_no_remote(self.run_deploy())
++
++    def test_postgres_client_byte_drift_refuses_before_requests(self):
++        p=self.bin/"psql";p.write_text(p.read_text()+"\n# different bytes\n")
++        self.assert_no_remote(self.run_deploy())
++
++    def test_incompatible_server_is_observed_by_read_only_query_before_any_write(self):
++        self.env["MOCK_PG_SERVER_VERSION"]="150015"
++        result=self.run_deploy()
++        self.assertNotEqual(result.returncode,0)
++        self.assertEqual(self.calls(),[])
++        probes=[json.loads(x) for x in Path(self.env["MOCK_PROBES"]).read_text().splitlines()]
++        self.assertGreaterEqual(len(probes),1)
++        self.assertTrue(all(any("/database/query" in a for a in row) for row in probes))
++        self.assertIn("DEPLOY_OPERATION_FAILED:postgres_server_compatibility",result.stderr)
++        events=[json.loads(x) for x in Path(self.env["MOCK_EVENTS"]).read_text().splitlines()]
++        self.assertEqual(events,[{"kind":"query","query":"select current_setting(\'server_version_num\')::integer as server_version_num;"}])
++
++    def test_postgres_manifest_drift_after_dry_run_stops_first_write(self):
++        self.env["MOCK_DRIFT_SOURCE"]=str(self.pg_manifest_path)
++        result=self.run_deploy();self.assertNotEqual(result.returncode,0)
++        self.assertFalse(any(c[:2]==["functions","deploy"] or c[:2]==["functions","delete"] or c[:2]==["db","push"] and "--dry-run" not in c for c in self.calls()))
++        self.assertIn("PG_MANIFEST_CHANGED_AFTER_ADMISSION",result.stderr)
++
++    def test_postgres_client_drift_after_dry_run_stops_first_write(self):
++        self.env["MOCK_DRIFT_SOURCE"]=str(self.bin/"psql")
++        result=self.run_deploy();self.assertNotEqual(result.returncode,0)
++        self.assertFalse(any(c[:2]==["functions","deploy"] or c[:2]==["functions","delete"] or c[:2]==["db","push"] and "--dry-run" not in c for c in self.calls()))
++
++    def test_server_drift_after_dry_run_stops_first_write(self):
++        self.env["MOCK_SERVER_DRIFT_PATH"]=str(self.base/"changed-server-number")
++        result=self.run_deploy();self.assertNotEqual(result.returncode,0)
++        self.assertIn(["db","push","--dry-run","--skip-vault"],self.calls())
++        self.assertFalse(any(c[:2]==["functions","deploy"] or c[:2]==["functions","delete"] or c[:2]==["db","push"] and "--dry-run" not in c for c in self.calls()))
++
++    def test_server_read_precedes_every_release_mutation_and_management_migration(self):
++        result=self.run_deploy();self.assertEqual(result.returncode,0,result.stderr)
++        events=[json.loads(x) for x in Path(self.env["MOCK_EVENTS"]).read_text().splitlines()]
++        seen_server=False
++        first_write_seen=False
++        for event in events:
++            if event["kind"]=="query" and "server_version_num" in event["query"]:
++                seen_server=True
++            elif event["kind"]=="supabase" and (event["args"][:2] in [["functions","deploy"],["functions","delete"]] or event["args"][:2]==["db","push"] and "--dry-run" not in event["args"]):
++                self.assertTrue(seen_server)
++                seen_server=False
++                first_write_seen=True
++        self.assertTrue(first_write_seen)
++        self.assertEqual(self.receipt()["readback"]["postgresql"]["server_version_num"],170006)
++        self.assertFalse(self.receipt()["readback"]["postgresql"]["human_review_authenticated"])
++
++    def test_main_binary_drift_after_dry_run_stops_first_write(self):
++        self.env["MOCK_DRIFT_SOURCE"]=str(self.bin/"supabase")
++        result=self.run_deploy();self.assertNotEqual(result.returncode,0)
++        self.assertFalse(any(c[:2]==["functions","deploy"] or c[:2]==["functions","delete"] or c[:2]==["db","push"] and "--dry-run" not in c for c in self.calls()))
++        self.assertIn("DEPLOY_TOOL_CHANGED",result.stderr)
++
+     def test_make_tool_defaults_use_path_and_keep_explicit_overrides(self):
+         for name in ("flutter", "dart"):
+             self.executable(self.bin / name, f'#!/usr/bin/env bash\nprintf "{name}-from-path\\n"\n')
+diff --git a/scripts/tests/supabase_secret_transport_test.py b/scripts/tests/supabase_secret_transport_test.py
+--- a/scripts/tests/supabase_secret_transport_test.py
++++ b/scripts/tests/supabase_secret_transport_test.py
+@@ -2,6 +2,8 @@
+ """Exercise release secret transport without calling Supabase or a provider."""
+ 
+ import json
++import hashlib
++import sys
+ import os
+ from pathlib import Path
+ import shutil
+@@ -84,6 +86,8 @@
+ import stat
+ import sys
+ 
++if sys.argv[1:] == ["--version"]:
++    print("psql (PostgreSQL) 17.6");sys.exit(0)
+ service_file = Path(os.environ["PGSERVICEFILE"])
+ password_file = Path(os.environ["PGPASSFILE"]) if "PGPASSFILE" in os.environ else None
+ record = {
+@@ -98,7 +102,10 @@
+ (Path(os.environ["MOCK_LOG_DIR"]) / "psql.json").write_text(json.dumps(record))
+ if os.environ.get("MOCK_PSQL_FAIL") == "1":
+     sys.exit(9)
+-print("connected")
++if any("server_version_num" in a for a in sys.argv):
++    print("170006")
++else:
++    print("connected")
+ '''
+ 
+ 
+@@ -106,7 +113,7 @@
+     def setUp(self):
+         self.temp = tempfile.TemporaryDirectory()
+         self.addCleanup(self.temp.cleanup)
+-        self.root = Path(self.temp.name)
++        self.root = Path(self.temp.name).resolve()
+         self.log = self.root / "log"
+         self.log.mkdir()
+         self.mock_bin = self.root / "bin"
+@@ -133,6 +140,14 @@
+             }
+         )
+ 
++        manifest={"schema_version":1,"kind":"collect_postgres_admission","review_reference":"synthetic-test-only/not-human-reviewed",
++                  "client":{"path":str(self.mock_bin/"mock-psql"),"sha256":hashlib.sha256((self.mock_bin/"mock-psql").read_bytes()).hexdigest(),"version":"17.6"},
++                  "server_matrix":[{"client_version":"17.6","server_version_num_min":170006,"server_version_num_max":170006,"operations":["query"]}],
++                  "targets":[{"kind":"local_rehearsal","project_ref":None,"host":h,"port":5432,"user":"test_user","database":"test_db"} for h in ("localhost","::1")],
++                  "timeouts":{"version_seconds":1,"server_seconds":3,"operation_seconds":10}}
++        manifest_path=self.root/"postgres-admission.json";manifest_path.write_text(json.dumps(manifest,sort_keys=True)+"\n")
++        self.env.update(COLLECT_POSTGRES_ADMISSION=str(manifest_path),COLLECT_POSTGRES_ADMISSION_SHA256=hashlib.sha256(manifest_path.read_bytes()).hexdigest())
++
+     @staticmethod
+     def _executable(path, contents):
+         path.write_text(contents)
+@@ -252,7 +267,7 @@
+         self.assertEqual(run.returncode, 0, run.stderr)
+         self.assertIn("connected", run.stdout)
+         record = json.loads((self.log / "psql.json").read_text())
+-        self.assertEqual(record["argv"], ["service=collect_readiness", "-Atq", "-c", "select 1"])
++        self.assertEqual(record["argv"], ["service=collect_readiness", "-Atq", "-c", "select 1", "-X", "-w"])
+         self.assertEqual(record["service_mode"], 0o600)
+         self.assertNotIn("db_test_secret", record["service_content"])
+         self.assertEqual(record["password_mode"], 0o600)
+diff --git a/scripts/tests/test_postgres_admission.py b/scripts/tests/test_postgres_admission.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/tests/test_postgres_admission.py
+@@ -0,0 +1,299 @@
++#!/usr/bin/env python3
++"""Synthetic executable checks; no server, network, Docker or real approval."""
++from pathlib import Path
++import hashlib
++import json
++import os
++import signal
++import sys
++import tempfile
++import time
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(ROOT / 'scripts/qa'))
++import postgres_admission as pg
++
++REF = 'abcdefghijklmnopqrst'
++
++
++class PostgresAdmissionTest(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name).resolve()
++        self.client = self.root / 'psql'
++        self.calls = self.root / 'calls.jsonl'
++        self.manifest = self.root / 'manifest.json'
++        self.service = self.root / 'service.conf'
++        self.password = self.root / 'password.conf'
++        self.env = dict(os.environ, PSQL_BIN=str(self.client), PGSERVICEFILE=str(self.service), PGPASSFILE=str(self.password), SUPABASE_PROJECT_REF=REF)
++        self.program = f'''#!{sys.executable}
++import json,os,sys
++from pathlib import Path
++if sys.argv[1:]==['--version']:
++    if any(k in os.environ for k in ('PGPASSWORD','DATABASE_URL','SUPABASE_ACCESS_TOKEN','LD_PRELOAD','PYTHONPATH','BASH_ENV')):
++        sys.exit(99)
++    print('psql (PostgreSQL) 17.6');sys.exit(0)
++with Path({str(self.calls)!r}).open('a') as f:
++    f.write(json.dumps({{'argv':sys.argv[1:],'credential_environment':{{k:os.environ[k] for k in ('PGPASSWORD','DATABASE_URL','SUPABASE_ACCESS_TOKEN','COLLECT_PSQL_URL','PGOPTIONS') if k in os.environ}}}})+'\\n')
++if any('server_version_num' in a for a in sys.argv):
++    print(os.environ.get('SYNTHETIC_SERVER_NUMBER','170006'))
++else:
++    print('synthetic-result')
++'''
++        self.executable(self.program)
++        self.value = {'schema_version': 1, 'kind': 'collect_postgres_admission',
++            'review_reference': 'synthetic-only/not-human-reviewed',
++            'client': {'path': str(self.client), 'sha256': pg.sha(self.client.read_bytes()), 'version': '17.6'},
++            'server_matrix': [{'client_version': '17.6', 'server_version_num_min': 170006, 'server_version_num_max': 170006, 'operations': ['query', 'migration']}],
++            'targets': [{'kind': 'supabase', 'project_ref': REF, 'host': f'db.{REF}.supabase.co', 'port': 5432, 'user': 'postgres', 'database': 'postgres'}],
++            'timeouts': {'version_seconds': 1, 'server_seconds': 1, 'operation_seconds': 1}}
++        self.service.write_text(f'[collect_readiness]\nhost=db.{REF}.supabase.co\nport=5432\nuser=postgres\ndbname=postgres\nsslmode=require\n')
++        self.service.chmod(0o600)
++        self.password.write_text('*:*:*:*:synthetic-secret\n')
++        self.password.chmod(0o600)
++        self.bind()
++
++    def executable(self, text):
++        self.client.write_text(text)
++        self.client.chmod(0o700)
++
++    def bind(self):
++        self.manifest.write_text(json.dumps(self.value, sort_keys=True) + '\n')
++        self.env['COLLECT_POSTGRES_ADMISSION'] = str(self.manifest)
++        self.env['COLLECT_POSTGRES_ADMISSION_SHA256'] = pg.sha(self.manifest.read_bytes())
++
++    def admit(self, operation='query'):
++        return pg.Admission.from_environment(self.env, operation)
++
++    def rows(self):
++        return [json.loads(row) for row in self.calls.read_text().splitlines()] if self.calls.exists() else []
++
++    def no_request(self):
++        self.assertEqual(self.rows(), [])
++
++    def test_exact_client_and_matrix_then_first_read_and_operation(self):
++        admitted = self.admit()
++        self.assertEqual(admitted.psql(['service=collect_readiness', '-c', 'select 1'], self.env), b'synthetic-result\n')
++        rows = self.rows()
++        self.assertEqual(len(rows), 2)
++        self.assertEqual(rows[0]['argv'][-1], pg.SERVER_QUERY)
++        self.assertEqual(rows[1]['argv'], ['service=collect_readiness', '-c', 'select 1', '-X', '-w'])
++
++    def test_local_admission_scrubs_credentials_before_executable_version(self):
++        self.env.update(PGPASSWORD='synthetic-secret', DATABASE_URL='synthetic-secret', SUPABASE_ACCESS_TOKEN='synthetic-secret', BASH_ENV='synthetic-secret', PYTHONPATH='synthetic-secret')
++        self.admit()
++        self.no_request()
++
++    def test_request_environment_scrubs_unbound_credentials_and_options(self):
++        self.env.update(PGPASSWORD='synthetic-secret', DATABASE_URL='synthetic-secret', SUPABASE_ACCESS_TOKEN='synthetic-secret', COLLECT_PSQL_URL='synthetic-secret', PGOPTIONS='-c search_path=evil')
++        self.admit().psql(['service=collect_readiness', '-Atq'], self.env)
++        self.assertTrue(all(row['credential_environment'] == {} for row in self.rows()))
++
++    def test_unbound_manifest_no_client_or_network_request(self):
++        self.env.pop('COLLECT_POSTGRES_ADMISSION_SHA256')
++        with self.assertRaisesRegex(pg.Refused, 'PG_MANIFEST_BINDING_REQUIRED'):
++            self.admit()
++        self.no_request()
++
++    def test_wrong_manifest_digest_refuses_before_client_execution(self):
++        self.env['COLLECT_POSTGRES_ADMISSION_SHA256'] = '0' * 64
++        with self.assertRaisesRegex(pg.Refused, 'PG_MANIFEST_HASH_CHANGED'):
++            self.admit()
++        self.no_request()
++
++    def test_byte_different_forged_matching_version_is_not_admitted(self):
++        self.executable(self.program + '\n# unreviewed substitute still reports the same version\n')
++        with self.assertRaisesRegex(pg.Refused, 'PG_CLIENT_HASH_CHANGED'):
++            self.admit()
++        self.no_request()
++
++    def test_whole_hash_bound_wrong_version_is_not_admitted(self):
++        self.executable(self.program.replace('psql (PostgreSQL) 17.6', 'psql (PostgreSQL) 15.12'))
++        self.value['client']['sha256'] = pg.sha(self.client.read_bytes()); self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_CLIENT_VERSION_UNKNOWN_OR_WRONG'):
++            self.admit()
++        self.no_request()
++
++    def test_extra_version_output_refused_without_echoing_secret(self):
++        self.executable(self.program.replace("print('psql (PostgreSQL) 17.6')", "print('psql (PostgreSQL) 17.6\\nsynthetic-secret')"))
++        self.value['client']['sha256'] = pg.sha(self.client.read_bytes()); self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_CLIENT_VERSION_UNKNOWN_OR_WRONG') as caught:
++            self.admit()
++        self.assertNotIn('synthetic-secret', str(caught.exception))
++        self.no_request()
++
++    def test_explicit_override_of_reviewed_absolute_client_is_refused(self):
++        self.env['PSQL_BIN'] = str(self.root / 'unreviewed')
++        with self.assertRaisesRegex(pg.Refused, 'PG_CLIENT_OVERRIDE_UNBOUND'):
++            self.admit()
++        self.no_request()
++
++    def test_path_substitute_is_never_selected_or_executed(self):
++        directory = self.root / 'substitute'; directory.mkdir()
++        impostor = directory / 'psql'; impostor.write_text('#!/bin/sh\nexit 99\n'); impostor.chmod(0o700)
++        self.env['PATH'] = str(directory)
++        del self.env['PSQL_BIN']
++        self.assertEqual(self.admit().client, self.client)
++        self.no_request()
++
++    def test_symlink_client_and_symlink_parent_refused(self):
++        original = self.root / 'original'; self.client.rename(original); self.client.symlink_to(original)
++        with self.assertRaisesRegex(pg.Refused, 'PG_SYMLINK_REFUSED'):
++            self.admit()
++        self.client.unlink(); original.rename(self.client)
++        parent = self.root / 'alias'; parent.symlink_to(self.root, target_is_directory=True)
++        self.value['client']['path'] = str(parent / 'psql'); self.env['PSQL_BIN'] = str(parent / 'psql'); self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_SYMLINK_REFUSED'):
++            self.admit()
++        self.no_request()
++
++    def test_hardlinked_client_is_refused(self):
++        os.link(self.client, self.root / 'alias')
++        with self.assertRaisesRegex(pg.Refused, 'PG_REGULAR_SINGLE_LINK_INPUT_REQUIRED'):
++            self.admit()
++        self.no_request()
++
++    def test_client_drift_after_admission_refused_before_first_request(self):
++        admitted = self.admit(); self.client.write_text(self.program + '\n# drift\n')
++        with self.assertRaisesRegex(pg.Refused, 'PG_CLIENT_CHANGED_AFTER_ADMISSION'):
++            admitted.psql(['service=collect_readiness', '-c', 'select 1'], self.env)
++        self.no_request()
++
++    def test_manifest_content_drift_after_admission_refused(self):
++        admitted = self.admit(); self.manifest.write_bytes(self.manifest.read_bytes() + b' ')
++        with self.assertRaisesRegex(pg.Refused, 'PG_MANIFEST_CHANGED_AFTER_ADMISSION'):
++            admitted.psql(['service=collect_readiness', '-c', 'select 1'], self.env)
++        self.no_request()
++
++    def test_same_bytes_manifest_inode_substitution_is_refused_in_process(self):
++        admitted = self.admit(); new = self.root / 'replacement'; new.write_bytes(self.manifest.read_bytes()); new.replace(self.manifest)
++        with self.assertRaisesRegex(pg.Refused, 'PG_MANIFEST_CHANGED_AFTER_ADMISSION'):
++            admitted.guard()
++
++    def test_duplicate_json_keys_unknown_fields_and_overlarge_manifest_refused(self):
++        raw = self.manifest.read_text()
++        for malformed in [raw.replace('"schema_version": 1', '"schema_version": 1, "schema_version": 1'), raw[:-2] + ',"extra":true}\n', raw + ' ' * 16384]:
++            with self.subTest(length=len(malformed)):
++                self.manifest.write_text(malformed); self.env['COLLECT_POSTGRES_ADMISSION_SHA256'] = pg.sha(self.manifest.read_bytes())
++                with self.assertRaises(pg.Refused):
++                    self.admit()
++        self.no_request()
++
++    def test_claimed_unsupported_client_cannot_expand_source_cohort(self):
++        for version in ['14.12','15.12','18.1','99.1']:
++            with self.subTest(version=version):
++                self.value['client']['version']=version
++                self.value['server_matrix'][0]['client_version']=version
++                self.bind()
++                with self.assertRaisesRegex(pg.Refused,'PG_CLIENT_OUTSIDE_SOURCE_COHORT'):
++                    self.admit()
++                self.no_request()
++
++    def test_claimed_unsupported_server_or_restore_cannot_expand_source_cohort(self):
++        for low,high in [(150012,150012),(170006,170007),(180001,180001),(990001,990001)]:
++            with self.subTest(server=(low,high)):
++                self.value['server_matrix'][0]['server_version_num_min']=low
++                self.value['server_matrix'][0]['server_version_num_max']=high
++                self.bind()
++                with self.assertRaisesRegex(pg.Refused,'PG_SERVER_RANGE_OUTSIDE_SOURCE_COHORT'):
++                    self.admit()
++                self.no_request()
++        self.value['server_matrix'][0].update(server_version_num_min=170006,server_version_num_max=170006,operations=['query','restore']);self.bind()
++        with self.assertRaisesRegex(pg.Refused,'PG_MATRIX_INVALID'):
++            self.admit()
++        self.no_request()
++
++    def test_unknown_or_incompatible_server_stops_before_first_write(self):
++        for value in ['150012', '170007', '170006 forged', 'unknown']:
++            with self.subTest(server=value):
++                self.env['SYNTHETIC_SERVER_NUMBER'] = value
++                if self.calls.exists(): self.calls.unlink()
++                with self.assertRaises(pg.Refused):
++                    self.admit().psql(['service=collect_readiness', '-c', 'insert into sensitive values(1)'], self.env)
++                self.assertEqual(len(self.rows()), 1)
++                self.assertEqual(self.rows()[0]['argv'][-1], pg.SERVER_QUERY)
++
++    def test_changed_server_matrix_range_and_operation_are_refused(self):
++        self.value['server_matrix'][0]['operations'] = ['query']; self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_OPERATION_OUTSIDE_SOURCE_COHORT'):
++            self.admit('restore')
++        self.value['server_matrix'][0]['server_version_num_max'] = 180001; self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_SERVER_RANGE_OUTSIDE_SOURCE_COHORT'):
++            self.admit()
++
++    def test_wrong_service_target_and_project_refuse_before_request(self):
++        for content, ref in [(self.service.read_text().replace('dbname=postgres', 'dbname=other'), REF), (self.service.read_text(), 'z'*20)]:
++            self.service.write_text(content); self.env['SUPABASE_PROJECT_REF'] = ref
++            with self.assertRaises(pg.Refused):
++                self.admit().psql(['service=collect_readiness', '-Atq'], self.env)
++            self.no_request()
++
++    def test_connection_argument_override_is_refused_before_request(self):
++        for args in [['postgresql://synthetic-secret@host/db'], ['service=collect_readiness', '-h', 'evil'], ['service=collect_readiness', '--dbname=evil'], ['service=collect_readiness', 'user=evil']]:
++            with self.assertRaises(pg.Refused):
++                self.admit().psql(args, self.env)
++            self.no_request()
++
++    def test_service_permissions_and_unbound_connection_options_refused(self):
++        self.service.chmod(0o644)
++        with self.assertRaisesRegex(pg.Refused, 'PG_SERVICE_PERMISSIONS_INVALID'):
++            self.admit().psql(['service=collect_readiness'], self.env)
++        self.service.chmod(0o600); self.service.write_text(self.service.read_text() + 'hostaddr=127.0.0.1\n')
++        with self.assertRaisesRegex(pg.Refused, 'PG_SERVICE_OPTIONS_UNBOUND'):
++            self.admit().psql(['service=collect_readiness'], self.env)
++        self.no_request()
++
++    def test_management_target_and_exact_single_integer_row_required(self):
++        admitted = self.admit('migration')
++        self.assertEqual(admitted.management_rows(b'[{"server_version_num":170006}]', REF)['server_version_num'], 170006)
++        for raw in [b'[]', b'[{"server_version_num":"170006"}]', b'[{"server_version_num":170006,"other":1}]', b'[{"server_version_num":170006},{"server_version_num":170006}]', b'[{"server_version_num":true}]']:
++            with self.assertRaises(pg.Refused): admitted.management_rows(raw, REF)
++        with self.assertRaisesRegex(pg.Refused, 'PG_APPROVED_PROJECT_NOT_IN_MANIFEST'):
++            admitted.management_rows(b'[{"server_version_num":170006}]', 'z'*20)
++        self.no_request()
++
++    def test_local_version_timeout_is_bounded_and_makes_no_request(self):
++        self.executable(f'#!{sys.executable}\nimport time\ntime.sleep(20)\n')
++        self.value['client']['sha256'] = pg.sha(self.client.read_bytes()); self.value['timeouts']['version_seconds'] = 0.1; self.bind()
++        started = time.monotonic()
++        with self.assertRaisesRegex(pg.Refused, 'PG_COMMAND_TIMEOUT'):
++            self.admit()
++        self.assertLess(time.monotonic()-started, 3)
++        self.no_request()
++
++    def test_server_read_timeout_never_runs_write(self):
++        self.executable(self.program.replace("    print(os.environ.get('SYNTHETIC_SERVER_NUMBER','170006'))", '    import time; time.sleep(20)'))
++        self.value['client']['sha256'] = pg.sha(self.client.read_bytes()); self.value['timeouts']['server_seconds'] = 0.1; self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_COMMAND_TIMEOUT'):
++            self.admit().psql(['service=collect_readiness', '-c', 'insert into sensitive values(1)'], self.env)
++        self.assertEqual(len(self.rows()), 1)
++
++    def test_output_limit_refuses_without_raw_output_or_secrets(self):
++        self.executable(f'#!{sys.executable}\nprint("synthetic-secret"*10000)\n')
++        self.value['client']['sha256'] = pg.sha(self.client.read_bytes()); self.bind()
++        with self.assertRaisesRegex(pg.Refused, 'PG_COMMAND_OUTPUT_LIMIT') as caught:
++            self.admit()
++        self.assertNotIn('synthetic-secret', str(caught.exception))
++        self.no_request()
++
++    def test_descendant_holding_pipe_is_killed_on_timeout(self):
++        pidfile = self.root / 'child.pid'
++        script = f'#!/bin/sh\n/bin/sleep 20 &\nprintf "%s" "$!" > {str(pidfile)!r}\nexit 0\n'
++        self.executable(script)
++        started = time.monotonic()
++        with self.assertRaisesRegex(pg.Refused, 'PG_COMMAND_TIMEOUT'):
++            pg.bounded([str(self.client)], pg.local_environment(), 2, limit=1024)
++        self.assertLess(time.monotonic()-started, 5)
++        pid = int(pidfile.read_text())
++        # A killed child may remain a zombie until the OS reaps it. Its state
++        # is terminal; no process command receives a global kill or name match.
++        import subprocess
++        result = subprocess.run(['/bin/ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, timeout=2)
++        state = result.stdout.decode().strip()
++        self.assertTrue(not state or state.startswith('Z'), state)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -259,6 +259,7 @@
+ 	@./scripts/source_integrity_gate.sh --json
+ 
+ qa-tooling-test:
++	@python3 scripts/tests/test_postgres_admission.py
+ 	@python3 scripts/tests/supabase_secret_transport_test.py
+ 	@python3 scripts/tests/supabase_delivery_contract_test.py
+ 	@ruby scripts/tests/edge_function_inventory_test.rb

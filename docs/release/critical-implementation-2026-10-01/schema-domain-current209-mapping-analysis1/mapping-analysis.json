@@ -1,0 +1,2271 @@
+{
+  "BE08_complete": false,
+  "SQL_evaluated": false,
+  "application_gap_count": 34,
+  "business_owner_acceptance": false,
+  "catalog_categories": 20,
+  "catalog_function_count": 902,
+  "catalog_hash_scope_unchanged": true,
+  "catalog_sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c",
+  "categories": {
+    "receipt-exact-header-definition-copy": 2,
+    "receipt-exact-literal-body-patches": 5,
+    "roster-preserved-private-alias": 13,
+    "roster-public-guard-wrapper": 14
+  },
+  "format": "private-current209-function-source-analysis-v1",
+  "maintained_mapping_changed": false,
+  "mappings": [
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "_create_roster_import_source_v142_guarded_149",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+        "32f53003bf118584e70b864d04d7354f1fad3f25379c3eb2e505c77baada8d5b"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid._create_roster_import_source_v142_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "10fa9dd98ca9595fcbd959c2edbb21ff2380570bfb095259ff2c95977e58ec1f",
+        "line": 206,
+        "name": "create_roster_import_source",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text",
+          "text",
+          "text",
+          "text",
+          "bigint",
+          "boolean",
+          "text",
+          "jsonb"
+        ],
+        "static_lineage": [
+          {
+            "destination": "_create_roster_import_source_v142",
+            "line": 181,
+            "name": "create_roster_import_source",
+            "operation": "rename",
+            "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+            "schema": "public",
+            "signature_types": [
+              "uuid",
+              "uuid",
+              "uuid",
+              "text",
+              "text",
+              "bigint",
+              "text",
+              "text",
+              "text",
+              "text",
+              "bigint",
+              "boolean",
+              "text",
+              "jsonb"
+            ],
+            "statement_sha256": "790f69d0eb172e139580757e758d465f4bcb3ec9836563a68552fe27ce48cdd8",
+            "version": "20260930140000"
+          }
+        ],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare s collect_hybrid.roster_import_sources; result collect_hybrid.roster_import_results;\n fingerprint text; extraction uuid; replayed boolean:=false; ai boolean:=p_source_kind in ('pdf','image');\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n if p_request_id is null or p_source_kind is null or p_source_kind not in ('text','csv','txt','xlsx','pdf','image')\n   or p_original_sha256 is null or p_original_sha256 !~ '^[a-f0-9]{64}$'\n   or p_original_size is null or p_original_size not between 1 and (case when p_source_kind in ('text','csv','txt') then 512000 else 5242880 end)\n   or p_client_filename is null or p_client_filename !~ '^[A-Za-z0-9][A-Za-z0-9._ -]{0,159}$'\n   or p_declared_mime is null or length(p_declared_mime) not between 1 and 128 or p_declared_mime ~ '[[:cntrl:]]'\n   or p_detected_type is null\n   or (p_source_kind in ('text','txt') and p_detected_type<>'utf8_text')\n   or (p_source_kind='csv' and p_detected_type<>'utf8_csv')\n   or (p_source_kind='xlsx' and p_detected_type<>'zip_container')\n   or (p_source_kind='pdf' and p_detected_type<>'application/pdf')\n   or (p_source_kind='image' and p_detected_type not in ('image/png','image/jpeg','image/webp'))\n   or (p_source_kind='xlsx' and (p_derived_sha256 is null or p_derived_sha256 !~ '^[a-f0-9]{64}$' or p_derived_size is null or p_derived_size not between 1 and 512000))\n   or (p_source_kind<>'xlsx' and (p_derived_sha256 is not null or p_derived_size is not null))\n   or p_ai_consent is distinct from ai\n   or (not ai and (p_consent_version is not null or p_ai_metadata is not null)) then\n  raise exception 'roster_input_invalid' using errcode='22023'; end if;\n if ai then\n  if p_consent_version is distinct from 'roster-ai-extraction-v1' or p_ai_metadata is null\n    or jsonb_typeof(p_ai_metadata)<>'object' or p_ai_metadata->>'provider' is distinct from 'openai'\n    or p_ai_metadata->>'prompt_version' is distinct from 'roster-extraction-v1'\n    or jsonb_typeof(p_ai_metadata->'model') is distinct from 'string'\n    or length(btrim(p_ai_metadata->>'model')) not between 1 and 128 or (p_ai_metadata->>'model') ~ '[[:cntrl:]]'\n    or exists(select 1 from jsonb_object_keys(p_ai_metadata) k where k not in ('provider','model','prompt_version')) then\n   raise exception 'roster_input_invalid' using errcode='22023'; end if;\n end if;\n fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(p_actor_id,p_session_id,p_source_kind,p_original_sha256,p_original_size,\n   p_client_filename,p_declared_mime,p_detected_type,p_derived_sha256,p_derived_size,p_ai_consent,p_consent_version,p_ai_metadata));\n select * into s from collect_hybrid.roster_import_sources where request_id=p_request_id;\n if s.id is not null then\n  if s.input_sha256<>fingerprint then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  select * into result from collect_hybrid.roster_import_results where import_id=s.id;\n  if result.import_id is null then raise exception 'roster_import_in_progress' using errcode='55000'; end if;\n  replayed:=true;\n else\n  if (select count(*) from collect_hybrid.roster_import_sources where actor_id=p_actor_id and created_at>clock_timestamp()-interval '24 hours')>=100 then\n   raise exception 'roster_import_limit' using errcode='55000'; end if;\n  insert into collect_hybrid.roster_import_sources(request_id,actor_id,session_id,source_kind,source_sha256,source_size,\n   client_filename,declared_mime,detected_type,derived_sha256,derived_size,ai_consent,consent_version,input_sha256)\n  values(p_request_id,p_actor_id,p_session_id,p_source_kind,p_original_sha256,p_original_size,p_client_filename,p_declared_mime,\n   p_detected_type,p_derived_sha256,p_derived_size,p_ai_consent,p_consent_version,fingerprint) returning * into s;\n  if ai then\n   insert into collect_hybrid.roster_import_extractions(import_id,actor_id,session_id,provider,model,prompt_version,consent_version)\n   values(s.id,p_actor_id,p_session_id,'openai',p_ai_metadata->>'model','roster-extraction-v1',p_consent_version);\n  end if;\n end if;\n select id into extraction from collect_hybrid.roster_import_extractions where import_id=s.id;\n return jsonb_build_object('contract_version',1,'ok',true,'request_id',s.request_id,'import_id',s.id,\n  'source_sha256',s.source_sha256,'source_size',s.source_size,'source_kind',s.source_kind,'extraction_id',extraction,\n  'expires_at',s.expires_at,'derived_sha256',s.derived_sha256,'derived_assurance',case when s.source_kind='xlsx' then 'client_derived_tsv' end,\n  'state',coalesce(result.state,'awaiting_preview'),'replayed',replayed,\n  'completed_preview',collect_hybrid.roster_revision_receipt(result.revision_id),'error_code',result.error_code);\nend ",
+      "reconstructed_prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+      "transformation_steps": [
+        {
+          "destination": "_create_roster_import_source_v142",
+          "line": 181,
+          "name": "create_roster_import_source",
+          "operation": "rename",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "statement_sha256": "790f69d0eb172e139580757e758d465f4bcb3ec9836563a68552fe27ce48cdd8",
+          "version": "20260930140000"
+        },
+        {
+          "entrypoint": "_create_roster_import_source_v142",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "_create_roster_import_source_v142_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_commit_roster_import_guarded_149",
+        "p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+        "783b7e9189418ec08c7296c4d2538ebece8857532f47fd3c352672a9966bba51"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_commit_roster_import_guarded_149(p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9aaeee473d64e66fbddf5cf7b31efa0d45f5d143e8a13db81f30b07b854777ae",
+        "line": 364,
+        "name": "admin_commit_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "boolean",
+          "text",
+          "uuid",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; r collect_hybrid.roster_import_revisions;\n prior collect_hybrid.roster_import_commits; fingerprint text; result jsonb; group_result jsonb; roster_result jsonb;\n group_id uuid; title text:=btrim(p_title); reason text:=btrim(p_reason); validation jsonb;\nbegin\n sid:=collect_hybrid.require_roster_caller();\n if p_request_id is null or p_import_id is null or p_revision_id is null or p_reviewed_rows_sha256 is null\n  or p_reviewed_rows_sha256 !~ '^[a-f0-9]{64}$' or p_human_affirmed is distinct from true\n  or p_mode is null or p_mode not in ('create','existing') or reason is null or length(reason) not between 8 and 500 or reason ~ '[[:cntrl:]]'\n  or (p_mode='create' and (p_collection_id is not null or title is null or length(title) not between 3 and 120 or title ~ '[[:cntrl:]]'))\n  or (p_mode='existing' and (p_collection_id is null or p_title is not null)) then\n  raise exception 'roster_input_invalid' using errcode='22023'; end if;\n fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(p_import_id,p_revision_id,p_reviewed_rows_sha256,p_human_affirmed,\n  p_mode,p_collection_id,title,reason,auth.uid(),sid));\n select * into prior from collect_hybrid.roster_import_commits where request_id=p_request_id;\n if prior.request_id is not null then\n  if prior.input_sha256<>fingerprint then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  return prior.response||jsonb_build_object('replayed',true);\n end if;\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n if exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id) then raise exception 'roster_import_committed' using errcode='55000'; end if;\n if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n select * into r from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1;\n if r.id is null or r.id<>p_revision_id or r.processing_method<>'human_review' then raise exception 'roster_revision_superseded' using errcode='55000'; end if;\n validation:=collect_hybrid.roster_preview(r.normalized_rows,true);\n if r.reviewed_rows_sha256<>p_reviewed_rows_sha256 or collect_hybrid.roster_digest(validation->'normalized_rows')<>p_reviewed_rows_sha256 then\n  raise exception 'roster_request_conflict' using errcode='55000'; end if;\n begin\n if p_mode='create' then\n  group_result:=collect_hybrid.create_assisted_group_with_share(title,reason,gen_random_uuid());\n  group_id:=(group_result->>'collection_id')::uuid;\n else\n  group_id:=p_collection_id;\n  perform 1 from public.collections where id=group_id and currency='RWF' and creation_origin='admin_assisted'\n   and archived_at is null and visibility='private' and public_status='private' and not diaspora_enabled for update;\n  if not found then raise exception 'roster_collection_unavailable' using errcode='22023'; end if;\n end if;\n insert into public.collection_share_secrets(collection_id,rotated_by) values(group_id,auth.uid()) on conflict(collection_id) do nothing;\n roster_result:=collect_hybrid.add_roster(group_id,r.normalized_rows,gen_random_uuid(),reason);\n exception when sqlstate 'P0001' then\n  raise exception 'roster_commit_conflict' using errcode='55000';\n end;\n if roster_result->>'ok' is distinct from 'true' or roster_result->>'collection_id' is distinct from group_id::text\n   or jsonb_typeof(roster_result->'rows') is distinct from 'array'\n   or jsonb_array_length(roster_result->'rows')<>jsonb_array_length(r.normalized_rows) then\n  raise exception 'roster_commit_failed' using errcode='55000'; end if;\n result:=jsonb_build_object('contract_version',1,'ok',true,'request_id',p_request_id,'import_id',s.id,'revision_id',r.id,\n  'reviewed_rows_sha256',r.reviewed_rows_sha256,'collection_id',group_id,'mode',p_mode,'roster_count',jsonb_array_length(r.normalized_rows),\n  'share_code_ready',exists(select 1 from public.collection_share_secrets where collection_id=group_id),'replayed',false);\n insert into collect_hybrid.roster_import_commits(request_id,import_id,revision_id,collection_id,actor_id,session_id,input_sha256,response)\n values(p_request_id,s.id,r.id,group_id,auth.uid(),sid,fingerprint,result);\n perform public.create_audit_log('roster.import.committed','collection',group_id,jsonb_build_object('request_id',p_request_id,\n  'import_id',s.id,'revision_id',r.id,'source_sha256',s.source_sha256,'reviewed_rows_sha256',r.reviewed_rows_sha256,\n  'human_affirmed',true,'mode',p_mode,'row_count',jsonb_array_length(r.normalized_rows),'reason',reason));\n return result;\nend ",
+      "reconstructed_prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_commit_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_commit_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "boolean",
+            "text",
+            "uuid",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_execute_roster_import_intent_guarded_149",
+        "p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+        "bf71b701f7311b51ad63d2a316d6113c33647abbd13163ea55894ba08e7ade5f"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_execute_roster_import_intent_guarded_149(p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9c210cf56470b6cf2a91357154b9329739ee75a5f5ebeb40cf56309a3191ba31",
+        "line": 155,
+        "name": "admin_execute_roster_import_intent",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "text",
+          "boolean"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; i collect_hybrid.roster_import_recovery_intents; v jsonb; result jsonb; begin\n sid:=collect_hybrid.require_roster_caller();\n if p_human_affirmed is distinct from true then raise exception 'roster_confirmation_required' using errcode='22023'; end if;\n select * into i from collect_hybrid.roster_import_recovery_intents where request_id=p_request_id;\n if i.request_id is null or i.actor_id<>auth.uid() or i.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n if i.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n if i.payload_sha256 is distinct from p_payload_sha256 then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n v:=collect_hybrid.roster_recovery_payload(i.payload,i.payload_sha256,i.kind);\n if i.kind='review' then\n  result:=public.admin_review_roster_import(i.import_id,(v->>'p_parent_revision_id')::uuid,v->'p_rows',v->>'p_reason',i.request_id);\n else\n  result:=public.admin_commit_roster_import(i.request_id,i.import_id,(v->>'p_revision_id')::uuid,v->>'p_reviewed_rows_sha256',\n   (v->>'p_human_affirmed')::boolean,v->>'p_mode',(v->>'p_collection_id')::uuid,v->>'p_title',v->>'p_reason');\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'request_id',i.request_id,'import_id',i.import_id,\n  'kind',i.kind,'payload_sha256',i.payload_sha256,'result',result);\nend ",
+      "reconstructed_prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_execute_roster_import_intent",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_execute_roster_import_intent_guarded_149",
+          "signature_types": [
+            "uuid",
+            "text",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_get_roster_import_guarded_149",
+        "p_import_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+        "8ce4d4c3f8398be159fca32c6a2eb6786f6c1b166969fdf98b9bc96e22792855"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_get_roster_import_guarded_149(p_import_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "c90132eaadfddae45bff72088728d33d7802e4327e047f42b2733ee495fea226",
+        "line": 424,
+        "name": "admin_get_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; result collect_hybrid.roster_import_results;\n revision uuid; committed jsonb;\nbegin\n sid:=collect_hybrid.require_roster_caller();\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id;\n if s.id is null or s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n select * into result from collect_hybrid.roster_import_results where import_id=s.id;\n select id into revision from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1;\n select response into committed from collect_hybrid.roster_import_commits where import_id=s.id;\n return jsonb_build_object('contract_version',1,'ok',true,'import_id',s.id,\n  'state',case when committed is not null then 'committed' else coalesce(result.state,'awaiting_preview') end,\n  'expires_at',s.expires_at,'preview',collect_hybrid.roster_revision_receipt(revision),'commit',committed,'error_code',result.error_code);\nend ",
+      "reconstructed_prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_get_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_get_roster_import_guarded_149",
+          "signature_types": [
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_recover_roster_import_guarded_149",
+        "p_upload_request_id uuid, p_pending_request_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+        "ec76628286b9f6bac307aa0f33fe9a634b7f33a61ed0f7011146cf6c7bda8748"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_recover_roster_import_guarded_149(p_upload_request_id uuid, p_pending_request_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "a5996fc943ef75402dc0efa7d829e023f126c3cd3fa19d89725c65b85af2f2aa",
+        "line": 175,
+        "name": "admin_recover_roster_import",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; i collect_hybrid.roster_import_recovery_intents;\n d collect_hybrid.roster_import_editor_drafts; state jsonb; initial uuid; answer jsonb; intent jsonb; draft jsonb; phase text; begin\n sid:=collect_hybrid.require_roster_caller();\n if p_upload_request_id is null then raise exception 'roster_recovery_payload_invalid' using errcode='22023'; end if;\n select * into s from collect_hybrid.roster_import_sources where request_id=p_upload_request_id for update;\n if s.id is null then\n  -- No file bytes or unsent content can be reconstructed from this reference.\n  return jsonb_build_object('contract_version',1,'ok',true,'upload_request_id',p_upload_request_id,\n   'import_id',null,'source_sha256',null,'state','missing_source','initial_preview',null,'status',null,\n   'requested_intent_id',p_pending_request_id,'intent',null,'draft',null);\n end if;\n if s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n state:=public.admin_get_roster_import(s.id);\n phase:=state->>'state';\n select id into initial from collect_hybrid.roster_import_revisions where import_id=s.id and revision_number=1;\n if p_pending_request_id is not null then\n  select * into i from collect_hybrid.roster_import_recovery_intents where request_id=p_pending_request_id;\n  if i.request_id is not null then\n   if i.import_id<>s.id or i.actor_id<>auth.uid() or i.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n   if i.kind='review' then select collect_hybrid.roster_revision_receipt(id) into answer from collect_hybrid.roster_import_revisions where request_id=i.request_id;\n   else select response into answer from collect_hybrid.roster_import_commits where request_id=i.request_id; end if;\n   intent:=jsonb_build_object('request_id',i.request_id,'kind',i.kind,'payload_sha256',i.payload_sha256,\n    'payload',case when i.expires_at>clock_timestamp() then i.payload else null end,'result',answer,\n    'expired',i.expires_at<=clock_timestamp());\n  end if;\n end if;\n if s.expires_at<=clock_timestamp() and phase<>'committed' then\n  -- Original142 provenance remains intact, but expired recovery must not reopen editor rows.\n  phase:='expired'; state:=null; initial:=null; intent:=null;\n else\n  select * into d from collect_hybrid.roster_import_editor_drafts where import_id=s.id and expires_at>clock_timestamp();\n  if d.import_id is not null then\n   draft:=jsonb_build_object('checkpoint_id',d.checkpoint_id,'payload_sha256',d.payload_sha256,'payload',d.payload);\n  end if;\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'upload_request_id',s.request_id,'import_id',s.id,\n  'source_sha256',s.source_sha256,'state',phase,'initial_preview',collect_hybrid.roster_revision_receipt(initial),'status',state,\n  'requested_intent_id',p_pending_request_id,'intent',intent,'draft',draft);\nend ",
+      "reconstructed_prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_recover_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_recover_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_review_roster_import_guarded_149",
+        "p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+        "09da36fb2a05be968629c23fa6228572855bf22a9759637dea777cdd41b2fb59"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_review_roster_import_guarded_149(p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "6b6957219ff05da691622993cc0d8af7326929ffa06179c0f11768e2f983f104",
+        "line": 333,
+        "name": "admin_review_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "jsonb",
+          "text",
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; parent collect_hybrid.roster_import_revisions;\n prior collect_hybrid.roster_import_revisions; preview jsonb; fingerprint text; revision uuid; reason text:=btrim(p_reason);\nbegin\n sid:=collect_hybrid.require_roster_caller();\n if p_request_id is null or p_parent_revision_id is null or reason is null or length(reason) not between 8 and 500 or reason ~ '[[:cntrl:]]' then\n  raise exception 'roster_input_invalid' using errcode='22023'; end if;\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n preview:=collect_hybrid.roster_preview(p_rows,true);\n fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(s.id,p_parent_revision_id,preview->'normalized_rows',reason,auth.uid(),sid));\n select * into prior from collect_hybrid.roster_import_revisions where request_id=p_request_id;\n if prior.id is not null then\n  if prior.input_sha256<>fingerprint then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  return collect_hybrid.roster_revision_receipt(prior.id);\n end if;\n if exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id) then raise exception 'roster_import_committed' using errcode='55000'; end if;\n if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n select * into parent from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1;\n if parent.id is null or parent.id<>p_parent_revision_id then raise exception 'roster_revision_superseded' using errcode='55000'; end if;\n if parent.revision_number>=20 then raise exception 'roster_revision_limit' using errcode='55000'; end if;\n insert into collect_hybrid.roster_import_revisions(import_id,parent_revision_id,extraction_id,revision_number,request_id,\n  actor_id,session_id,processing_method,preview,normalized_rows,reviewed_rows_sha256,input_sha256,reason)\n values(s.id,parent.id,parent.extraction_id,parent.revision_number+1,p_request_id,auth.uid(),sid,'human_review',preview,\n  preview->'normalized_rows',collect_hybrid.roster_digest(preview->'normalized_rows'),fingerprint,reason) returning id into revision;\n perform public.create_audit_log('roster.import.reviewed','roster_import',s.id,\n  jsonb_build_object('revision_id',revision,'parent_revision_id',parent.id,'request_id',p_request_id,'row_count',preview->'row_count','reason',reason));\n return collect_hybrid.roster_revision_receipt(revision);\nend ",
+      "reconstructed_prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_review_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_review_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "jsonb",
+            "text",
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_save_roster_import_draft_guarded_149",
+        "p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+        "6cade0124744b63771c9651b158a826c66096574e8ba30ea366199cc0de652af"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_save_roster_import_draft_guarded_149(p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "85ab4232577f2bfa334c2b34c888a88b45d3b81f411731cde0c17af6f95fa76d",
+        "line": 98,
+        "name": "admin_save_roster_import_draft",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; d collect_hybrid.roster_import_editor_drafts; v jsonb; latest uuid; begin\n sid:=collect_hybrid.require_roster_caller();\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n if p_checkpoint_id is null then raise exception 'roster_recovery_payload_invalid' using errcode='22023'; end if;\n v:=collect_hybrid.roster_recovery_payload(p_payload,p_payload_sha256,'draft');\n select * into d from collect_hybrid.roster_import_editor_drafts where import_id=s.id for update;\n if d.checkpoint_id=p_checkpoint_id then\n  if d.payload<>p_payload or d.payload_sha256<>p_payload_sha256 then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n else\n  if d.checkpoint_id is distinct from p_previous_checkpoint_id then raise exception 'roster_draft_superseded' using errcode='55000'; end if;\n  if exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id) then raise exception 'roster_import_committed' using errcode='55000'; end if;\n  if d.import_id is null and ((select count(*) from collect_hybrid.roster_import_editor_drafts where actor_id=auth.uid() and expires_at>clock_timestamp())>=40\n    or (select count(*) from collect_hybrid.roster_import_editor_drafts where session_id=sid and expires_at>clock_timestamp())>=20) then raise exception 'roster_recovery_limit' using errcode='55000'; end if;\n  select id into latest from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1;\n  if latest is null or latest::text<>v->>'parent_revision_id' then raise exception 'roster_revision_superseded' using errcode='55000'; end if;\n  insert into collect_hybrid.roster_import_editor_drafts(import_id,checkpoint_id,actor_id,session_id,payload,payload_sha256,expires_at)\n   values(s.id,p_checkpoint_id,auth.uid(),sid,p_payload,p_payload_sha256,s.expires_at)\n   on conflict(import_id) do update set checkpoint_id=excluded.checkpoint_id,payload=excluded.payload,\n    payload_sha256=excluded.payload_sha256,updated_at=clock_timestamp();\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'import_id',s.id,'checkpoint_id',p_checkpoint_id,\n  'payload_sha256',p_payload_sha256,'expires_at',s.expires_at);\nend ",
+      "reconstructed_prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_save_roster_import_draft",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_save_roster_import_draft_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "admin_stage_roster_import_intent_guarded_149",
+        "p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+        "4920b4b855d9a5e8da6289946b61ae1031fcdea6a41c28c11552e512b4c52c01"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.admin_stage_roster_import_intent_guarded_149(p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "1015acfdeaf025ee22c2941f4f0ddab691be7855cd05aebe59c5e9f7cf4156eb",
+        "line": 126,
+        "name": "admin_stage_roster_import_intent",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\ndeclare sid uuid; s collect_hybrid.roster_import_sources; prior collect_hybrid.roster_import_recovery_intents; v jsonb; begin\n sid:=collect_hybrid.require_roster_caller();\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>auth.uid() or s.session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n if p_request_id is null or p_kind not in ('review','commit') or p_kind is null then raise exception 'roster_recovery_payload_invalid' using errcode='22023'; end if;\n v:=collect_hybrid.roster_recovery_payload(p_payload,p_payload_sha256,p_kind);\n if v->>'p_request_id' is distinct from p_request_id::text or v->>'p_import_id' is distinct from s.id::text then\n  raise exception 'roster_recovery_payload_invalid' using errcode='22023'; end if;\n select * into prior from collect_hybrid.roster_import_recovery_intents where request_id=p_request_id;\n if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n if prior.request_id is not null then\n  if prior.actor_id<>auth.uid() or prior.session_id<>sid or prior.import_id<>s.id or prior.kind<>p_kind\n   or prior.payload<>p_payload or prior.payload_sha256<>p_payload_sha256 then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n else\n  if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n  if exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id) then raise exception 'roster_import_committed' using errcode='55000'; end if;\n  if (select count(*) from collect_hybrid.roster_import_recovery_intents where import_id=s.id)>=40\n   or (select count(*) from collect_hybrid.roster_import_recovery_intents where actor_id=auth.uid() and expires_at>clock_timestamp())>=200\n   or (select count(*) from collect_hybrid.roster_import_recovery_intents where session_id=sid and expires_at>clock_timestamp())>=100 then raise exception 'roster_recovery_limit' using errcode='55000'; end if;\n  -- Staging is storage only. Frozen142 validates all authority and rows at execution.\n  insert into collect_hybrid.roster_import_recovery_intents(request_id,import_id,actor_id,session_id,kind,payload,payload_sha256,expires_at)\n   values(p_request_id,s.id,auth.uid(),sid,p_kind,p_payload,p_payload_sha256,s.expires_at);\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'import_id',s.id,'request_id',p_request_id,'kind',p_kind,\n  'payload_sha256',p_payload_sha256,'expires_at',s.expires_at);\nend ",
+      "reconstructed_prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_stage_roster_import_intent",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_stage_roster_import_intent_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "complete_roster_import_preview_guarded_149",
+        "p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+        "bbd03c09afc72ed4f3602da3c67cb36992c91585674b5e725b7faa05c2d98d8a"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.complete_roster_import_preview_guarded_149(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9bcd7e0a2c336f597642755635d4200219a8c76db104d7e4d65d8871f452a1db",
+        "line": 270,
+        "name": "complete_roster_import_preview",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "jsonb",
+          "jsonb"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare s collect_hybrid.roster_import_sources; prior collect_hybrid.roster_import_results; preview jsonb;\n fingerprint text; revision uuid; extraction uuid; method text;\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>p_actor_id or s.session_id<>p_session_id then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n method:=case when s.ai_consent then 'openai_structured_extraction' else 'deterministic' end;\n if p_processing_metadata is null or jsonb_typeof(p_processing_metadata)<>'object'\n  or p_processing_metadata->>'processing_method' is distinct from method\n  or not (p_processing_metadata ?& array['processing_method','provider_response_sha256','provider_response_id'])\n  or exists(select 1 from jsonb_object_keys(p_processing_metadata) k where k not in ('processing_method','provider_response_sha256','provider_response_id'))\n  or (not s.ai_consent and (p_processing_metadata->>'provider_response_sha256' is not null or p_processing_metadata->>'provider_response_id' is not null))\n  or (s.ai_consent and (jsonb_typeof(p_processing_metadata->'provider_response_sha256') is distinct from 'string'\n    or (p_processing_metadata->>'provider_response_sha256') !~ '^[a-f0-9]{64}$'\n    or jsonb_typeof(p_processing_metadata->'provider_response_id') is distinct from 'string'\n    or length(p_processing_metadata->>'provider_response_id') not between 1 and 256\n    or (p_processing_metadata->>'provider_response_id') ~ '[[:cntrl:]]')) then\n  raise exception 'roster_input_invalid' using errcode='22023'; end if;\n preview:=collect_hybrid.roster_preview(p_candidates,false);\n fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(p_candidates,p_processing_metadata));\n select * into prior from collect_hybrid.roster_import_results where import_id=s.id;\n if prior.import_id is not null then\n  if prior.state<>'preview_ready' or prior.input_sha256<>fingerprint then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  return collect_hybrid.roster_revision_receipt(prior.revision_id);\n end if;\n if s.expires_at<=clock_timestamp() then raise exception 'roster_import_expired' using errcode='55000'; end if;\n select id into extraction from collect_hybrid.roster_import_extractions where import_id=s.id;\n insert into collect_hybrid.roster_import_revisions(import_id,extraction_id,revision_number,actor_id,session_id,processing_method,\n  preview,normalized_rows,reviewed_rows_sha256,input_sha256)\n values(s.id,extraction,1,p_actor_id,p_session_id,method,preview,preview->'normalized_rows',\n  collect_hybrid.roster_digest(preview->'normalized_rows'),fingerprint) returning id into revision;\n insert into collect_hybrid.roster_import_results(import_id,actor_id,session_id,state,revision_id,processing_metadata,input_sha256)\n values(s.id,p_actor_id,p_session_id,'preview_ready',revision,p_processing_metadata,fingerprint);\n return collect_hybrid.roster_revision_receipt(revision);\nend ",
+      "reconstructed_prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+      "transformation_steps": [
+        {
+          "entrypoint": "complete_roster_import_preview",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "complete_roster_import_preview_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "jsonb",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "create_roster_import_source_guarded_149",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+        "a088ae8bc94353fd15b8e18f55b588f0cd9d79be62456578318262e6d07d0307"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.create_roster_import_source_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "21878069039d1c6dd0358127a8d71eaad4c8269a95a811daa291a3f17ce994ec",
+        "line": 185,
+        "name": "create_roster_import_source",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text",
+          "text",
+          "text",
+          "text",
+          "bigint",
+          "boolean",
+          "text",
+          "jsonb"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\ndeclare r collect_hybrid.roster_resource_reservations;\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n if not exists(select 1 from collect_hybrid.roster_import_sources where request_id=p_request_id) then\n  select * into r from collect_hybrid.roster_resource_reservations where request_id=p_request_id for update;\n  if r.id is null or r.actor_id<>p_actor_id or r.session_id<>p_session_id or r.source_sha256<>p_original_sha256\n   or r.source_kind<>p_source_kind or r.source_bytes<>p_original_size or r.derived_sha256 is distinct from p_derived_sha256\n   or r.expires_at<=clock_timestamp() or exists(select 1 from collect_hybrid.roster_resource_completions where reservation_id=r.id) then\n   raise exception 'roster_resource_unavailable' using errcode='42501'; end if;\n  if p_source_kind in ('xlsx','image','pdf') and not exists(select 1 from collect_hybrid.roster_source_verifications where reservation_id=r.id) then\n   raise exception 'roster_source_unverified' using errcode='42501'; end if;\n end if;\n return public._create_roster_import_source_v142(p_actor_id,p_session_id,p_request_id,p_source_kind,p_original_sha256,p_original_size,\n  p_client_filename,p_declared_mime,p_detected_type,p_derived_sha256,p_derived_size,p_ai_consent,p_consent_version,p_ai_metadata);\nend ",
+      "reconstructed_prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+      "transformation_steps": [
+        {
+          "entrypoint": "create_roster_import_source",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "create_roster_import_source_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "fail_roster_import_preview_guarded_149",
+        "p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+        "bcda2a37afbc28c830d08d796636153501abfc5456ec116e3dd214bb74d493e6"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.fail_roster_import_preview_guarded_149(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9f635de0058dfbcd452cce6da04b4461bd25016138f8c266119dd62d90cfa17e",
+        "line": 310,
+        "name": "fail_roster_import_preview",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\ndeclare s collect_hybrid.roster_import_sources; prior collect_hybrid.roster_import_results; replayed boolean:=false;\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n if p_error_code is null or p_error_code not in ('roster_extraction_failed','roster_extraction_timeout','roster_extraction_refused',\n  'roster_extraction_incomplete','roster_provider_response_invalid','roster_provider_response_too_large','roster_preview_invalid','roster_extraction_unavailable') then\n  raise exception 'roster_input_invalid' using errcode='22023'; end if;\n select * into s from collect_hybrid.roster_import_sources where id=p_import_id for update;\n if s.id is null or s.actor_id<>p_actor_id or s.session_id<>p_session_id then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n select * into prior from collect_hybrid.roster_import_results where import_id=s.id;\n if prior.import_id is not null then\n  if prior.state<>'failed' or prior.error_code<>p_error_code then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  replayed:=true;\n else\n  insert into collect_hybrid.roster_import_results(import_id,actor_id,session_id,state,error_code,input_sha256)\n  values(s.id,p_actor_id,p_session_id,'failed',p_error_code,collect_hybrid.roster_digest(to_jsonb(p_error_code)));\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'import_id',s.id,'state','failed','error_code',p_error_code,'replayed',replayed);\nend ",
+      "reconstructed_prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+      "transformation_steps": [
+        {
+          "entrypoint": "fail_roster_import_preview",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "fail_roster_import_preview_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "finish_roster_resources_guarded_149",
+        "p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+        "6ba06b73a4a49e1a9a085d70ac6af46c4573e900dfee60d4bc93ebd6b3e603a3"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.finish_roster_resources_guarded_149(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "1a988bfe16db1e52de365243bd0fb6bb149bf79b235b9b42c0b05ac4b49b05cb",
+        "line": 159,
+        "name": "finish_roster_resources",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\ndeclare r collect_hybrid.roster_resource_reservations; c collect_hybrid.roster_resource_completions;\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n select * into r from collect_hybrid.roster_resource_reservations where id=p_reservation_id for update;\n if r.id is null or r.actor_id<>p_actor_id or r.session_id<>p_session_id then raise exception 'roster_resource_unavailable' using errcode='42501'; end if;\n if p_outcome is null or p_outcome not in ('preview_ready','failed','ambiguous') then raise exception 'roster_input_invalid' using errcode='22023'; end if;\n select * into c from collect_hybrid.roster_resource_completions where reservation_id=r.id;\n if c.reservation_id is not null then\n  if c.outcome<>p_outcome then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n else\n  insert into collect_hybrid.roster_resource_completions values(r.id,p_outcome,clock_timestamp());\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'reservation_id',r.id,'outcome',p_outcome,'charged',true);\nend ",
+      "reconstructed_prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+      "transformation_steps": [
+        {
+          "entrypoint": "finish_roster_resources",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "finish_roster_resources_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_hybrid",
+        "reserve_roster_resources_guarded_149",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+        "239b88d12462cb074c6da821e5f28ed5236649401f032dd423bcf37d8312ebd8"
+      ],
+      "category": "roster-preserved-private-alias",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_hybrid.reserve_roster_resources_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9e94d991903b3bf64dd0b78237538800ff23cc6678ebdc5ea8619f236cc91696",
+        "line": 58,
+        "name": "reserve_roster_resources",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\ndeclare r collect_hybrid.roster_resource_reservations; policy collect_hybrid.roster_resource_policy;\n fingerprint text; replayed boolean:=false; finished boolean; cost bigint; boundary timestamptz:=clock_timestamp()-interval '24 hours';\nbegin\n perform public._lock_notification_session_gate();\n if auth.role() is distinct from 'service_role' then raise exception 'roster_service_required' using errcode='42501'; end if;\n perform collect_hybrid.require_roster_actor(p_actor_id,p_session_id);\n if p_request_id is null or p_source_sha256 is null or p_source_sha256 !~ '^[a-f0-9]{64}$' or p_source_kind is null\n  or p_source_kind not in ('text','csv','txt','xlsx','pdf','image') or p_source_bytes is null or p_source_bytes not between 1 and\n  (case when p_source_kind in ('text','csv','txt') then 512000 else 5242880 end)\n  or (p_source_kind='xlsx' and (p_derived_sha256 is null or p_derived_sha256 !~ '^[a-f0-9]{64}$'))\n  or (p_source_kind<>'xlsx' and p_derived_sha256 is not null) then raise exception 'roster_input_invalid' using errcode='22023'; end if;\n -- Serialize the entire quota decision, not a SELECT followed by a racy insert.\n -- Same Auth-first order as all roster operations. A singleton policy row makes\n -- concurrent actor/global changes atomic and auditable at policy_version.\n -- Same-value UPDATE creates a row-version fence. Under REPEATABLE READ\n -- an old waiter receives40001 instead of counting quota from a stale snapshot.\n update collect_hybrid.roster_resource_policy set version=version where id returning * into strict policy;\n fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(p_actor_id,p_session_id,p_source_sha256,p_source_kind,p_source_bytes,p_derived_sha256));\n select * into r from collect_hybrid.roster_resource_reservations where request_id=p_request_id;\n if r.id is not null then\n  if r.input_sha256<>fingerprint then raise exception 'roster_request_conflict' using errcode='55000'; end if;\n  select exists(select 1 from collect_hybrid.roster_resource_completions where reservation_id=r.id) into finished;\n  if not finished then\n   -- Repair a lost cleanup ACK from an already durable preview/failure; never\n   -- reacquire or redispatch an unknown decoder/provider attempt.\n   insert into collect_hybrid.roster_resource_completions(reservation_id,outcome)\n   select r.id,result.state from collect_hybrid.roster_import_sources source\n    join collect_hybrid.roster_import_results result on result.import_id=source.id\n    where source.request_id=r.request_id and source.actor_id=r.actor_id and source.session_id=r.session_id;\n   select exists(select 1 from collect_hybrid.roster_resource_completions where reservation_id=r.id) into finished;\n  end if;\n  if not finished then\n   raise exception 'roster_resource_in_progress' using errcode='55000';\n  end if;\n  replayed:=true;\n else\n  cost:=case when p_source_kind in ('image','pdf') then policy.ai_attempt_cost_units else 0 end;\n  if (select count(*) from collect_hybrid.roster_resource_reservations where actor_id=p_actor_id and reserved_at>boundary)>=policy.actor_daily_requests\n   or (select coalesce(sum(source_bytes),0) from collect_hybrid.roster_resource_reservations where actor_id=p_actor_id and reserved_at>boundary)+p_source_bytes>policy.actor_daily_bytes\n   or (select coalesce(sum(cost_units),0) from collect_hybrid.roster_resource_reservations where actor_id=p_actor_id and reserved_at>boundary)+cost>policy.actor_daily_cost_units\n   or (select count(*) from collect_hybrid.roster_resource_reservations where reserved_at>boundary)>=policy.global_daily_requests\n   or (select coalesce(sum(source_bytes),0) from collect_hybrid.roster_resource_reservations where reserved_at>boundary)+p_source_bytes>policy.global_daily_bytes\n   or (select coalesce(sum(cost_units),0) from collect_hybrid.roster_resource_reservations where reserved_at>boundary)+cost>policy.global_daily_cost_units then\n   raise exception 'roster_resource_limit' using errcode='55000'; end if;\n  if (select count(*) from collect_hybrid.roster_resource_reservations a where a.actor_id=p_actor_id and a.expires_at>clock_timestamp()\n   and not exists(select 1 from collect_hybrid.roster_resource_completions c where c.reservation_id=a.id and c.outcome<>'ambiguous'))>=policy.actor_active\n   or (select count(*) from collect_hybrid.roster_resource_reservations a where a.expires_at>clock_timestamp()\n   and not exists(select 1 from collect_hybrid.roster_resource_completions c where c.reservation_id=a.id and c.outcome<>'ambiguous'))>=policy.global_active then\n   raise exception 'roster_resource_limit' using errcode='55000'; end if;\n  insert into collect_hybrid.roster_resource_reservations(request_id,actor_id,session_id,source_sha256,source_kind,source_bytes,\n   derived_sha256,input_sha256,cost_units,policy_version,expires_at)\n  values(p_request_id,p_actor_id,p_session_id,p_source_sha256,p_source_kind,p_source_bytes,p_derived_sha256,fingerprint,cost,policy.version,\n   clock_timestamp()+interval '180 seconds') returning * into r;\n  finished:=false;\n end if;\n return jsonb_build_object('contract_version',1,'ok',true,'reservation_id',r.id,'request_id',r.request_id,'actor_id',r.actor_id,\n  'session_id',r.session_id,'source_sha256',r.source_sha256,'state',case when finished then 'finished' else 'reserved' end,\n  'replayed',replayed,'expires_at',r.expires_at);\nend ",
+      "reconstructed_prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+      "transformation_steps": [
+        {
+          "entrypoint": "reserve_roster_resources",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-preserved-private-alias",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "reserve_roster_resources_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_ops",
+        "capture_receipt_backlog_budget_refusal",
+        "",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+        "f56b64ac72d22f617cc4fdf92917364ebc8b052728dcee3663b078bcce305b95"
+      ],
+      "category": "receipt-exact-literal-body-patches",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_ops.capture_receipt_backlog_budget_refusal()",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "a9e60ff29afd6dd39921f83f428cc3112392ba827b1a668d324a6e5a8c92943b",
+        "line": 153,
+        "name": "capture_receipt_backlog_budget_refusal",
+        "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+        "prosrc_sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+        "routine_kind": "function",
+        "schema": "collect_ops",
+        "signature_types": [],
+        "version": "20261001140000"
+      },
+      "reconstructed_prosrc": "\ndeclare r collect_receipt_operations.runs;begin\n if new.action<>'reconcile_backlog'then return new;end if;\n -- Keep the original unconditional final current lease/policy/principal guard.\n -- The exact reserve_budget false candidate is inserted by the producer after\n -- its original request row exists; no later-clock/four-action-cap inference.\n r:=collect_receipt_operations.require_run((new.input->>'run_id')::uuid,(new.input->>'fence_version')::bigint,new.principal_id);\n return new;end",
+      "reconstructed_prosrc_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+      "transformation_steps": [
+        {
+          "after_prosrc_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+          "before_prosrc_sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+          "line": 125,
+          "needle": "\ndeclare r collect_receipt_operations.runs;p collect_receipt_operations.policy;s collect_hybrid.momo_balance_snapshots;begin\n if new.action<>'reconcile_backlog'then return new;end if;\n r:=collect_receipt_operations.require_run((new.input->>'run_id')::uuid,(new.input->>'fence_version')::bigint,new.principal_id);\n select * into p from collect_receipt_operations.policy where singleton;\n if p.catchup_enabled and r.mode in('Live','Live-limited')and(new.result->>'examined')::integer<(new.input->>'limit')::integer then\n  select * into s from collect_hybrid.momo_balance_snapshots snapshot\n   where snapshot.event_type='receipt'and snapshot.collection_id=any(r.collection_ids)\n    and snapshot.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n    and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=snapshot.payment_id and o.template_key='buri_munsi.payment_received')\n    and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=snapshot.id)\n   order by snapshot.captured_at,snapshot.id limit 1;\n  if s.id is not null and not collect_ops.receipt_exception_run_budget_available(r.id,s.collection_id)then\n   insert into collect_ops.receipt_backlog_budget_deferrals(request_id,run_id,snapshot_id)values(new.request_id,r.id,s.id);\n  end if;\n end if;return new;end",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "replacement": "\ndeclare r collect_receipt_operations.runs;begin\n if new.action<>'reconcile_backlog'then return new;end if;\n -- Keep the original unconditional final current lease/policy/principal guard.\n -- The exact reserve_budget false candidate is inserted by the producer after\n -- its original request row exists; no later-clock/four-action-cap inference.\n r:=collect_receipt_operations.require_run((new.input->>'run_id')::uuid,(new.input->>'fence_version')::bigint,new.principal_id);\n return new;end"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_ops",
+        "queue_receipt_exception_source",
+        "",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+        "094cb0311ea34370bb236b27cf8a5af8f546a74776bf8987b035b4337ffb9933"
+      ],
+      "category": "receipt-exact-literal-body-patches",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_ops.queue_receipt_exception_source()",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "e2f4baa9f5faf4a07ec332d5130247b5a2a3447bf0e38a9dfd14d8e9be7dcd84",
+        "line": 59,
+        "name": "queue_receipt_exception_source",
+        "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+        "prosrc_sha256": "8a1283f5172d8ce673aba5226244eb051789f050f07cad9b037039472cffec86",
+        "routine_kind": "function",
+        "schema": "collect_ops",
+        "signature_types": [],
+        "version": "20261001140000"
+      },
+      "reconstructed_prosrc": "begin\n if tg_table_name in('backlog_results','receipt_backlog_budget_deferrals')then\n  if tg_table_name='receipt_backlog_budget_deferrals'then\n   insert into collect_ops.receipt_backlog_sweep_sources(snapshot_id)values(new.snapshot_id)on conflict(snapshot_id)do nothing;\n  elsif not new.business_handled then\n   insert into collect_ops.receipt_backlog_sweep_sources(snapshot_id)values(new.snapshot_id)on conflict(snapshot_id)do nothing;\n  end if;\n  insert into collect_ops.receipt_exception_work(source_kind,source_id,origin)values('receipt_backlog',new.snapshot_id,'backlog');\n else\n  insert into collect_ops.receipt_exception_work(source_kind,source_id,origin)values('receipt_event',new.event_id,\n   case tg_table_name when 'event_deferrals'then 'deferral'else 'handled'end);\n end if;\n return new;end",
+      "reconstructed_prosrc_sha256": "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+      "transformation_steps": [
+        {
+          "after_prosrc_sha256": "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+          "before_prosrc_sha256": "8a1283f5172d8ce673aba5226244eb051789f050f07cad9b037039472cffec86",
+          "line": 48,
+          "needle": " if tg_table_name in('backlog_results','receipt_backlog_budget_deferrals')then\n  insert into collect_ops.receipt_exception_work",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "replacement": " if tg_table_name in('backlog_results','receipt_backlog_budget_deferrals')then\n  if tg_table_name='receipt_backlog_budget_deferrals'then\n   insert into collect_ops.receipt_backlog_sweep_sources(snapshot_id)values(new.snapshot_id)on conflict(snapshot_id)do nothing;\n  elsif not new.business_handled then\n   insert into collect_ops.receipt_backlog_sweep_sources(snapshot_id)values(new.snapshot_id)on conflict(snapshot_id)do nothing;\n  end if;\n  insert into collect_ops.receipt_exception_work"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_ops",
+        "receipt_exception_base_refresh_source",
+        "p_kind text, p_source uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "07af1e02b0dd5cbcc878a03171c9523bb3b77668a491d49b150187569b61cc66",
+        "190699cdb9f5797880384904a59fc78f211aed9b60e7c2b0e5ea817261cc5fd8"
+      ],
+      "category": "receipt-exact-header-definition-copy",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_ops.receipt_exception_base_refresh_source(p_kind text, p_source uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "5f582ba7df427274db2d9ec291421e54ac85b1aab9c1adddc2445fa332db4b75",
+        "line": 122,
+        "name": "refresh_source",
+        "path": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+        "prosrc_sha256": "07af1e02b0dd5cbcc878a03171c9523bb3b77668a491d49b150187569b61cc66",
+        "routine_kind": "function",
+        "schema": "collect_ops",
+        "signature_types": [
+          "text",
+          "uuid"
+        ],
+        "version": "20261001000100"
+      },
+      "reconstructed_prosrc": "\ndeclare sms public.raw_payment_sms;event public.parsed_payment_events;payment public.payments;\n receipt collect_hybrid.sms_notification_outbox;device collect_gateway.devices;\n health collect_gateway.health_observations;codes text[]:='{}';signature jsonb;\n confirmation public.payment_provider_confirmations;rejected boolean;fresh boolean;\nbegin\n if p_source is null then raise exception 'operational_exception_source_invalid' using errcode='22023';end if;\n -- Acquire the source lock before taking its current predicate snapshot.\n -- A refresh queued behind a committed change must not reopen old evidence.\n perform pg_advisory_xact_lock(hashtextextended('collect-ops-source:'||p_kind||':'||p_source::text,0));\n if p_kind='raw_sms' then\n  select * into sms from public.raw_payment_sms where id=p_source;\n  if sms.id is null then raise exception 'operational_exception_source_unavailable' using errcode='22023';end if;\n  if sms.parse_status='failed' and collect_security.rwanda_sms_scope(sms.id) then codes:=array['PARSING_FAILED'];end if;\n  signature:=jsonb_build_array(sms.parse_status,collect_security.rwanda_sms_scope(sms.id));\n elsif p_kind='allocation' then\n  select * into event from public.parsed_payment_events where id=p_source;\n  if event.id is null then raise exception 'operational_exception_source_unavailable' using errcode='22023';end if;\n  if event.allocation_status in('unallocated','ambiguous','needs_review') and collect_security.rwanda_sms_scope(event.raw_sms_id) then\n   codes:=array['ALLOCATION_REVIEW'];end if;\n  signature:=jsonb_build_array(event.allocation_status,event.collection_id,collect_security.rwanda_sms_scope(event.raw_sms_id));\n elsif p_kind='payment' then\n  select * into payment from public.payments where id=p_source;\n  if payment.id is null then raise exception 'operational_exception_source_unavailable' using errcode='22023';end if;\n  select * into confirmation from public.payment_provider_confirmations where payment_id=payment.id;\n  rejected:=exists(select 1 from collect_hybrid.payment_provider_rejections where payment_id=payment.id);\n  if collect_ops.payment_scope(payment.id) then\n   if rejected then codes:=array_append(codes,'VERIFICATION_REJECTED');end if;\n   if confirmation.id is not null and(rejected or confirmation.amount_rwf<>payment.amount_rwf\n    or confirmation.provider_network is distinct from payment.provider_network\n    or confirmation.receiver_momo_number_hash is distinct from payment.receiver_momo_number_hash\n    or upper(btrim(confirmation.transaction_id)) is distinct from upper(btrim(payment.transaction_id))) then\n    codes:=array_append(codes,'VERIFICATION_CONFLICT');\n   elsif payment.status='review' and confirmation.id is null and not rejected then codes:=array_append(codes,'VERIFICATION_PENDING');end if;\n   if payment.status='posted' and not exists(select 1 from collect_hybrid.sms_notification_outbox where payment_id=payment.id)\n    and exists(select 1 from collect_hybrid.member_records m\n     join collect_hybrid.sms_receipt_policies policy on policy.collection_id=payment.collection_id and policy.enabled\n     join collect_hybrid.sms_receipt_member_consents consent on consent.member_record_id=m.id and consent.enabled\n     where m.id=payment.member_record_id and m.lifecycle='active' and m.linked_user_id is null\n      and not exists(select 1 from collect_hybrid.member_momo_identities i where i.member_id=m.id)) then\n    codes:=array_append(codes,'CONTACT_MISSING');end if;\n  end if;\n  signature:=jsonb_build_array(payment.status,confirmation.id,rejected,codes,collect_ops.payment_scope(payment.id));\n elsif p_kind='receipt' then\n  select * into receipt from collect_hybrid.sms_notification_outbox where id=p_source;\n  if receipt.id is null then raise exception 'operational_exception_source_unavailable' using errcode='22023';end if;\n  if collect_ops.payment_scope(receipt.payment_id) then\n   codes:=case receipt.state when 'uncertain' then array['SEND_UNCERTAIN']\n    when 'failed_no_send' then array['SEND_FAILED_NO_SEND'] when 'suppressed' then array['RECEIPT_SUPPRESSED'] else '{}'::text[] end;\n  end if;\n  signature:=jsonb_build_array(receipt.state,receipt.fence_version,receipt.attempt_count,codes,collect_ops.payment_scope(receipt.payment_id));\n elsif p_kind='gateway' then\n  select * into device from collect_gateway.devices where id=p_source;\n  if device.id is null then raise exception 'operational_exception_source_unavailable' using errcode='22023';end if;\n  select * into health from collect_gateway.health_observations where device_id=device.id order by ingested_at desc,id desc limit 1;\n  fresh:=health.id is not null and clock_timestamp()<least(health.reported_at,health.ingested_at)+interval '120 seconds';\n  if device.state='active' then\n   if health.id is null then codes:=array['GATEWAY_UNOBSERVED'];\n   elsif not fresh then codes:=array['GATEWAY_STALE'];\n   else\n    if not health.sms_permission then codes:=array_append(codes,'GATEWAY_SMS_PERMISSION');end if;\n    if health.network<>'validated' then codes:=array_append(codes,'GATEWAY_NETWORK');end if;\n    if health.telephony<>'ready' then codes:=array_append(codes,'GATEWAY_TELEPHONY');end if;\n    if not health.sim_selected then codes:=array_append(codes,'GATEWAY_SIM');end if;\n   end if;\n  end if;\n  signature:=jsonb_build_array(device.state,health.id,fresh,codes);\n else raise exception 'operational_exception_source_invalid' using errcode='22023';end if;\n perform collect_ops.observe(p_kind,p_source,codes,signature);\nend",
+      "reconstructed_prosrc_sha256": "07af1e02b0dd5cbcc878a03171c9523bb3b77668a491d49b150187569b61cc66",
+      "transformation_steps": [
+        {
+          "destination_name": "receipt_exception_base_refresh_source",
+          "line": 79,
+          "operation": "exact-header-copy",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "source_name": "refresh_source",
+          "source_schema": "collect_ops"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_ops",
+        "receipt_exception_base_transaction_sms_id",
+        "p_kind text, p_source uuid",
+        "f",
+        "postgres",
+        true,
+        "s",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "1f51f99901caea83f44479442536d8dc1ed699e576be365bfbe5cb3becb39b2a",
+        "4afd4fc3bc11cb682e71998d3367887d61f98338313011c341763685332861bb"
+      ],
+      "category": "receipt-exact-header-definition-copy",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_ops.receipt_exception_base_transaction_sms_id(p_kind text, p_source uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "4e72b3561f5b71a9564133e9237b4b895e65205ae33f85f28dcac66133e663ad",
+        "line": 4,
+        "name": "transaction_sms_id",
+        "path": "supabase/migrations/20261001000300_admin_exception_reads.sql",
+        "prosrc_sha256": "1f51f99901caea83f44479442536d8dc1ed699e576be365bfbe5cb3becb39b2a",
+        "routine_kind": "function",
+        "schema": "collect_ops",
+        "signature_types": [
+          "text",
+          "uuid"
+        ],
+        "version": "20261001000300"
+      },
+      "reconstructed_prosrc": "\n select case p_kind\n  when 'raw_sms' then(select sms.id from public.raw_payment_sms sms\n   where sms.id=p_source and collect_security.rwanda_sms_scope(sms.id))\n  when 'allocation' then(select sms.id from public.parsed_payment_events e\n   join public.raw_payment_sms sms on sms.id=e.raw_sms_id\n   where e.id=p_source and collect_security.rwanda_sms_scope(sms.id))\n  when 'payment' then(select sms.id from public.payments p\n   join public.parsed_payment_events e on e.id=p.parsed_event_id\n   join public.raw_payment_sms sms on sms.id=e.raw_sms_id\n   where p.id=p_source and p.currency='RWF'\n    and e.receiver_user_id=p.receiver_user_id and e.network=p.provider_network\n    and sms.receiver_momo_number_hash=p.receiver_momo_number_hash\n    and collect_security.rwanda_sms_scope(sms.id))\n  else null::uuid end\n",
+      "reconstructed_prosrc_sha256": "1f51f99901caea83f44479442536d8dc1ed699e576be365bfbe5cb3becb39b2a",
+      "transformation_steps": [
+        {
+          "destination_name": "receipt_exception_base_transaction_sms_id",
+          "line": 81,
+          "operation": "exact-header-copy",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "source_name": "transaction_sms_id",
+          "source_schema": "collect_ops"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "collect_ops",
+        "receipt_exception_quota_available",
+        "p_kind text, p_source uuid",
+        "f",
+        "postgres",
+        false,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+        "ba5844229c42c5691ccca7445d9e2bf3ad4d98153b78524bbb45983b428d2e04"
+      ],
+      "category": "receipt-exact-literal-body-patches",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "collect_ops.receipt_exception_quota_available(p_kind text, p_source uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "0ceaea020c46ed8d04cab898e99ff1780a259542a6a6aed305e53c8c4822c8b0",
+        "line": 138,
+        "name": "receipt_exception_quota_available",
+        "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+        "prosrc_sha256": "72cdef85c2611a4e36107306dfe58a1740c3987aeb61e04a94469262bf738746",
+        "routine_kind": "function",
+        "schema": "collect_ops",
+        "signature_types": [
+          "text",
+          "uuid"
+        ],
+        "version": "20261001140000"
+      },
+      "reconstructed_prosrc": "declare run uuid;collection uuid;begin\n if p_kind='receipt_event'then\n  select e.collection_id into collection from collect_hybrid.receipt_business_events e where id=p_source;\n  select x.run_id into run from collect_receipt_operations.run_events x where x.event_id=p_source and x.code='QUOTA_EXHAUSTED'order by x.recorded_at desc,x.run_id desc limit 1;\n else\n  select s.collection_id into collection from collect_hybrid.momo_balance_snapshots s where id=p_source;\n  select x.run_id into run from(\n   (select b.run_id,b.recorded_at from collect_receipt_operations.backlog_results b where b.snapshot_id=p_source and b.code='QUOTA_EXHAUSTED'order by b.recorded_at desc,b.run_id desc limit 1)\n   union all(select b.run_id,b.recorded_at from collect_ops.receipt_backlog_budget_deferrals b where b.snapshot_id=p_source order by b.recorded_at desc,b.run_id desc limit 1))x order by x.recorded_at desc,x.run_id desc limit 1;\n end if;return collect_ops.receipt_exception_run_budget_available(run,collection);end",
+      "reconstructed_prosrc_sha256": "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+      "transformation_steps": [
+        {
+          "after_prosrc_sha256": "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+          "before_prosrc_sha256": "72cdef85c2611a4e36107306dfe58a1740c3987aeb61e04a94469262bf738746",
+          "line": 48,
+          "needle": "  select x.run_id into run from(\n   select b.run_id,b.recorded_at from collect_receipt_operations.backlog_results b where b.snapshot_id=p_source and b.code='QUOTA_EXHAUSTED'\n   union all select b.run_id,b.recorded_at from collect_ops.receipt_backlog_budget_deferrals b where b.snapshot_id=p_source)x order by x.recorded_at desc,x.run_id desc limit 1;",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "replacement": "  select x.run_id into run from(\n   (select b.run_id,b.recorded_at from collect_receipt_operations.backlog_results b where b.snapshot_id=p_source and b.code='QUOTA_EXHAUSTED'order by b.recorded_at desc,b.run_id desc limit 1)\n   union all(select b.run_id,b.recorded_at from collect_ops.receipt_backlog_budget_deferrals b where b.snapshot_id=p_source order by b.recorded_at desc,b.run_id desc limit 1))x order by x.recorded_at desc,x.run_id desc limit 1;"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "_create_roster_import_source_v142",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres"
+        ],
+        "ee7ba62a8a1584b3725f1b2ee8097f9f4e8a197d7e5a5034df0eb4bb15f64030",
+        "d81422f51e74e6ffd0af18afba7b68729bc1ba792610b83656b58a9baeea5bd5"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public._create_roster_import_source_v142(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "10fa9dd98ca9595fcbd959c2edbb21ff2380570bfb095259ff2c95977e58ec1f",
+        "line": 206,
+        "name": "create_roster_import_source",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text",
+          "text",
+          "text",
+          "text",
+          "bigint",
+          "boolean",
+          "text",
+          "jsonb"
+        ],
+        "static_lineage": [
+          {
+            "destination": "_create_roster_import_source_v142",
+            "line": 181,
+            "name": "create_roster_import_source",
+            "operation": "rename",
+            "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+            "schema": "public",
+            "signature_types": [
+              "uuid",
+              "uuid",
+              "uuid",
+              "text",
+              "text",
+              "bigint",
+              "text",
+              "text",
+              "text",
+              "text",
+              "bigint",
+              "boolean",
+              "text",
+              "jsonb"
+            ],
+            "statement_sha256": "790f69d0eb172e139580757e758d465f4bcb3ec9836563a68552fe27ce48cdd8",
+            "version": "20260930140000"
+          }
+        ],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery((select id from collect_hybrid.roster_import_sources where request_id=p_request_id)); return collect_hybrid._create_roster_import_source_v142_guarded_149(p_actor_id,p_session_id,p_request_id,p_source_kind,p_original_sha256,p_original_size,p_client_filename,p_declared_mime,p_detected_type,p_derived_sha256,p_derived_size,p_ai_consent,p_consent_version,p_ai_metadata); end ",
+      "reconstructed_prosrc_sha256": "ee7ba62a8a1584b3725f1b2ee8097f9f4e8a197d7e5a5034df0eb4bb15f64030",
+      "transformation_steps": [
+        {
+          "destination": "_create_roster_import_source_v142",
+          "line": 181,
+          "name": "create_roster_import_source",
+          "operation": "rename",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "statement_sha256": "790f69d0eb172e139580757e758d465f4bcb3ec9836563a68552fe27ce48cdd8",
+          "version": "20260930140000"
+        },
+        {
+          "entrypoint": "_create_roster_import_source_v142",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "_create_roster_import_source_v142_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_commit_roster_import",
+        "p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "b8991f3092d22c78f305979c8a166950601a4c15166740e256c17cef2a4fbd72",
+        "27494d9ec43843cf0e77faa43dae2bb4bc62d081a6c1d889452b0ae89584826a"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_commit_roster_import(p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9aaeee473d64e66fbddf5cf7b31efa0d45f5d143e8a13db81f30b07b854777ae",
+        "line": 364,
+        "name": "admin_commit_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "boolean",
+          "text",
+          "uuid",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf(p_import_id,true); return collect_hybrid.admin_commit_roster_import_guarded_149(p_request_id,p_import_id,p_revision_id,p_reviewed_rows_sha256,p_human_affirmed,p_mode,p_collection_id,p_title,p_reason); end ",
+      "reconstructed_prosrc_sha256": "b8991f3092d22c78f305979c8a166950601a4c15166740e256c17cef2a4fbd72",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_commit_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_commit_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "boolean",
+            "text",
+            "uuid",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_execute_roster_import_intent",
+        "p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "838b4b9b780d9807cb52f64d698f884f72df259cd1e4462ff31501451735b349",
+        "3ca1ecf213f33e088d024f7d33aa9f4596e9cfb2f78d369c2b20ad617a385d9b"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_execute_roster_import_intent(p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9c210cf56470b6cf2a91357154b9329739ee75a5f5ebeb40cf56309a3191ba31",
+        "line": 155,
+        "name": "admin_execute_roster_import_intent",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "text",
+          "boolean"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf((select import_id from collect_hybrid.roster_import_recovery_intents where request_id=p_request_id),true); return collect_hybrid.admin_execute_roster_import_intent_guarded_149(p_request_id,p_payload_sha256,p_human_affirmed); end ",
+      "reconstructed_prosrc_sha256": "838b4b9b780d9807cb52f64d698f884f72df259cd1e4462ff31501451735b349",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_execute_roster_import_intent",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_execute_roster_import_intent_guarded_149",
+          "signature_types": [
+            "uuid",
+            "text",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_get_roster_import",
+        "p_import_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "9e3c7d111739a7e7106e4b61e8d3f639af19a97acb918d6d96f57b890b07996b",
+        "66f2b6c9478fc2fef3c25a64fa3a5dd8265a9129aa9579cfa4fa4a6924dfec98"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_get_roster_import(p_import_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "c90132eaadfddae45bff72088728d33d7802e4327e047f42b2733ee495fea226",
+        "line": 424,
+        "name": "admin_get_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf(p_import_id,false);\n    if exists(select 1 from collect_hybrid.roster_import_sources s where s.id=p_import_id and s.expires_at<=clock_timestamp()\n      and not exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id)) then\n     perform collect_hybrid.require_roster_caller();\n     if not exists(select 1 from collect_hybrid.roster_import_sources where id=p_import_id and actor_id=auth.uid()\n      and session_id=(auth.jwt()->>'session_id')::uuid) then raise exception 'roster_import_unavailable' using errcode='42501'; end if;\n     return jsonb_build_object('contract_version',1,'ok',true,'import_id',p_import_id,'state','expired',\n      'expires_at',(select expires_at from collect_hybrid.roster_import_sources where id=p_import_id),'preview',null,'commit',null,'error_code',null);\n    end if;\n    return collect_hybrid.admin_get_roster_import_guarded_149(p_import_id); end ",
+      "reconstructed_prosrc_sha256": "9e3c7d111739a7e7106e4b61e8d3f639af19a97acb918d6d96f57b890b07996b",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_get_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_get_roster_import_guarded_149",
+          "signature_types": [
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_list_receipt_operation_evidence_v1",
+        "p_run_id uuid, p_section text, p_limit integer, p_before_at timestamp with time zone, p_before_id text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "423af9b26c85b6c92d67332fc5fb1fe580dd03d23340c11ffc0dc8aa6578bf8f",
+        "9555164163f678f70de69a7b68f1024774cd824d0458f04c4851fb28309766ba"
+      ],
+      "category": "receipt-exact-literal-body-patches",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_list_receipt_operation_evidence_v1(p_run_id uuid, p_section text, p_limit integer, p_before_at timestamp with time zone, p_before_id text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "43f06a35699e1093099d515d70deb0bff09aad752e54d0ef1a6b9e96d59c577b",
+        "line": 104,
+        "name": "admin_list_receipt_operation_evidence_v1",
+        "original_parser_signature_types": null,
+        "path": "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+        "private_signature_normalization": "explicit builtin timestamptz -> timestamp with time zone",
+        "prosrc_sha256": "e3aba82f32570be3d8987e75f3ac81113497af8165c46208c4e184558f96cbe9",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "text",
+          "integer",
+          "timestamp with time zone",
+          "text"
+        ],
+        "version": "20261002060000"
+      },
+      "reconstructed_prosrc": "\ndeclare at timestamptz;result jsonb;available boolean;rows jsonb;cursor jsonb;begin\n perform collect_ops.actor(false);\n if p_run_id is null or p_section is null or p_section not in('events','backlog_results','budget_refusals','reservations')then raise exception 'receipt_history_input_invalid'using errcode='22023';end if;\n perform collect_receipt_history.input(p_limit,p_before_at,p_before_id,p_section);at:=clock_timestamp();available:=collect_receipt_history.run_scope(p_run_id);\n if p_section='events'then\n  -- Bound both indexed assignment/outcome branches before deduplication/joins.\n  with candidates as materialized(\n   (select b.event_id,b.assigned_at recorded_at from collect_receipt_operations.run_batch_events b\n    where available and b.run_id=p_run_id and b.assigned_at<=at\n     and(p_before_at is null or(b.assigned_at,b.event_id)<(p_before_at,p_before_id::uuid))\n    order by b.assigned_at desc,b.event_id desc limit p_limit+1)\n   union all\n   (select o.event_id,o.recorded_at from collect_receipt_operations.run_events o where available and o.run_id=p_run_id and o.recorded_at<=at\n    and not exists(select 1 from collect_receipt_operations.run_batch_events b where b.run_id=o.run_id and b.event_id=o.event_id)\n    and(p_before_at is null or(o.recorded_at,o.event_id)<(p_before_at,p_before_id::uuid))order by o.recorded_at desc,o.event_id desc limit p_limit+1)),\n  page as materialized(select distinct event_id,recorded_at from candidates order by recorded_at desc,event_id desc limit p_limit+1),\n  shown as materialized(select *from page order by recorded_at desc,event_id desc limit p_limit)\n  select coalesce((select jsonb_agg(jsonb_build_object('evidence_id',s.event_id::text,'recorded_at',collect_ops.utc(s.recorded_at),\n   'event_id',s.event_id,'source_status',case when collect_operator_audit.exception_scope_v2('receipt_event',s.event_id)then 'available'else 'unavailable'end,\n   'payment_id',case when collect_operator_audit.exception_scope_v2('receipt_event',s.event_id)then e.payment_id end,\n   'transaction_sms_id',case when collect_operator_audit.exception_scope_v2('receipt_event',s.event_id)then collect_ops.transaction_sms_id(e.source_kind,e.source_id)end,\n   'receipt_id',case when collect_operator_audit.exception_scope_v2('receipt_event',s.event_id)and exists(select 1 from collect_hybrid.sms_notification_outbox j where j.id=coalesce(o.receipt_id,e.outbox_id)and collect_operator_audit.payment_scope(j.payment_id))then coalesce(o.receipt_id,e.outbox_id)end,\n   'exception_ids',case when collect_operator_audit.exception_scope_v2('receipt_event',s.event_id)then(select coalesce(jsonb_agg(x.id order by x.id),'[]'::jsonb)from collect_ops.exceptions x where x.source_kind='receipt_event'and x.source_id=s.event_id)else '[]'::jsonb end,\n   'assigned_at',case when b.event_id is not null then collect_ops.utc(b.assigned_at)end,\n   'outcome',case when o.event_id is not null then jsonb_build_object('source_version',o.source_version,'code',o.code,'business_handled',o.business_handled,'recorded_at',collect_ops.utc(o.recorded_at))end,\n   'first_handled',case when h.event_id is not null and h.handled_at<=at then jsonb_build_object('run_id',h.run_id,'source_version',h.source_version,'code',h.code,\n    'receipt_id',case when exists(select 1 from collect_hybrid.sms_notification_outbox j where j.id=h.receipt_id and collect_operator_audit.payment_scope(j.payment_id))then h.receipt_id end,'handled_at',collect_ops.utc(h.handled_at))end,\n   'current_deferral',case when d.event_id is not null then jsonb_build_object('code',d.code,'next_check_at',collect_ops.utc(d.next_check_at))end)\n   order by s.recorded_at desc,s.event_id desc)from shown s join collect_hybrid.receipt_business_events e on e.id=s.event_id\n   left join collect_receipt_operations.run_batch_events b on b.run_id=p_run_id and b.event_id=s.event_id\n   left join collect_receipt_operations.run_events o on o.run_id=p_run_id and o.event_id=s.event_id\n   left join collect_receipt_operations.handled_events h on h.event_id=s.event_id left join collect_receipt_operations.event_deferrals d on d.event_id=s.event_id),'[]'::jsonb),\n  case when(select count(*)from page)>p_limit then(select jsonb_build_object('recorded_at',collect_ops.utc(recorded_at),'evidence_id',event_id::text)from shown order by recorded_at,event_id limit 1)end into rows,cursor;\n elsif p_section in('backlog_results','budget_refusals')then\n  with candidates as materialized(\n   (select b.snapshot_id,b.snapshot_id::text collate \"C\" evidence_id,b.recorded_at,null::uuid request_id,b.code,b.business_handled,b.receipt_id\n    from collect_receipt_operations.backlog_results b where available and p_section='backlog_results'and b.run_id=p_run_id and b.recorded_at<=at\n    and(p_before_at is null or(b.recorded_at,b.snapshot_id::text collate \"C\")<(p_before_at,p_before_id collate \"C\"))order by b.recorded_at desc,b.snapshot_id::text collate \"C\" desc limit p_limit+1)\n   union all\n   (select b.snapshot_id,(b.request_id::text||':'||b.snapshot_id::text)collate \"C\",b.recorded_at,b.request_id,'QUOTA_EXHAUSTED',false,null::uuid\n    from collect_ops.receipt_backlog_budget_deferrals b where available and p_section='budget_refusals'and b.run_id=p_run_id and b.recorded_at<=at\n    and(p_before_at is null or(b.recorded_at,(b.request_id::text||':'||b.snapshot_id::text)collate \"C\")<(p_before_at,p_before_id collate \"C\"))\n    order by b.recorded_at desc,(b.request_id::text||':'||b.snapshot_id::text)collate \"C\" desc limit p_limit+1)),\n  page as materialized(select *from candidates order by recorded_at desc,evidence_id collate \"C\"desc limit p_limit+1),\n  shown as materialized(select *from page order by recorded_at desc,evidence_id collate \"C\"desc limit p_limit)\n  select coalesce((select jsonb_agg(jsonb_build_object('evidence_id',b.evidence_id,'recorded_at',collect_ops.utc(b.recorded_at),\n   'snapshot_id',b.snapshot_id,'request_id',b.request_id,'code',b.code,'business_handled',b.business_handled,\n   'source_status',case when collect_operator_audit.exception_scope_v2('receipt_backlog',b.snapshot_id)then 'available'else 'unavailable'end,\n   'payment_id',case when collect_operator_audit.exception_scope_v2('receipt_backlog',b.snapshot_id)then s.payment_id end,\n   'transaction_sms_id',case when collect_operator_audit.exception_scope_v2('receipt_backlog',b.snapshot_id)then collect_ops.transaction_sms_id('payment',s.payment_id)end,\n   'receipt_id',case when collect_operator_audit.exception_scope_v2('receipt_backlog',b.snapshot_id)and exists(select 1 from collect_hybrid.sms_notification_outbox j where j.id=b.receipt_id and collect_operator_audit.payment_scope(j.payment_id))then b.receipt_id end,\n   'exception_ids',case when collect_operator_audit.exception_scope_v2('receipt_backlog',b.snapshot_id)then(select coalesce(jsonb_agg(x.id order by x.id),'[]'::jsonb)from collect_ops.exceptions x where x.source_kind='receipt_backlog'and x.source_id=b.snapshot_id)else '[]'::jsonb end)\n   order by b.recorded_at desc,b.evidence_id collate \"C\"desc)from shown b join collect_hybrid.momo_balance_snapshots s on s.id=b.snapshot_id),'[]'::jsonb),\n   case when(select count(*)from page)>p_limit then(select jsonb_build_object('recorded_at',collect_ops.utc(recorded_at),'evidence_id',evidence_id)from shown order by recorded_at,evidence_id collate \"C\"limit 1)end into rows,cursor;\n else\n  with page as materialized(select q.* from collect_receipt_operations.reservations q where available and q.run_id=p_run_id and q.recorded_at<=at\n   and(p_before_at is null or(q.recorded_at,q.id)<(p_before_at,p_before_id::uuid))order by q.recorded_at desc,q.id desc limit p_limit+1),\n  shown as materialized(select *from page order by recorded_at desc,id desc limit p_limit)\n  select coalesce((select jsonb_agg(jsonb_build_object('evidence_id',id::text,'recorded_at',collect_ops.utc(recorded_at),'collection_id',collection_id,\n   'device_id',device_id,'fence_version',fence_version,'actions',actions,'sms_segments',sms_segments,\n   'snapshot_id',collect_receipt_operations.backlog_reservation_snapshot(shown.id,shown.run_id))order by recorded_at desc,id desc)from shown),'[]'::jsonb),\n  case when(select count(*)from page)>p_limit then(select jsonb_build_object('recorded_at',collect_ops.utc(recorded_at),'evidence_id',id::text)from shown order by recorded_at,id limit 1)end into rows,cursor;\n end if;\n result:=jsonb_build_object('contract_version',1,'scope','rw_receipt_operational_history','run_id',p_run_id,'section',p_section,\n  'status',case when available then 'partial'else 'unavailable'end,'checked_at',collect_ops.utc(at),'sample_valid_until',collect_ops.utc(at+interval '60 seconds'),\n  'limit',p_limit,'history_complete',false,'financial_action',false,'send_action',false,'rows',rows,'next_cursor',cursor);\n perform collect_ops.actor(false);return result;\n exception when lock_not_available then raise exception 'receipt_history_authority_busy'using errcode='55P03';end",
+      "reconstructed_prosrc_sha256": "423af9b26c85b6c92d67332fc5fb1fe580dd03d23340c11ffc0dc8aa6578bf8f",
+      "transformation_steps": [
+        {
+          "after_prosrc_sha256": "423af9b26c85b6c92d67332fc5fb1fe580dd03d23340c11ffc0dc8aa6578bf8f",
+          "before_prosrc_sha256": "e3aba82f32570be3d8987e75f3ac81113497af8165c46208c4e184558f96cbe9",
+          "line": 151,
+          "needle": "case when exists(select 1 from collect_hybrid.momo_balance_snapshots s where s.id=shown.id and collect_operator_audit.exception_scope_v2('receipt_backlog',s.id))then shown.id end",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "replacement": "collect_receipt_operations.backlog_reservation_snapshot(shown.id,shown.run_id)"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_recover_roster_import",
+        "p_upload_request_id uuid, p_pending_request_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "372fe6fe0ae4df8f303d2204b46d324d16dcb2bf02d81d1898a586e07c0a029b",
+        "83b8badc0c186e4bc17aaa2abbf762be9074112bcc50c10a0dbf4c79b9c05697"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_recover_roster_import(p_upload_request_id uuid, p_pending_request_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "a5996fc943ef75402dc0efa7d829e023f126c3cd3fa19d89725c65b85af2f2aa",
+        "line": 175,
+        "name": "admin_recover_roster_import",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf((select id from collect_hybrid.roster_import_sources where request_id=p_upload_request_id),false); return collect_hybrid.admin_recover_roster_import_guarded_149(p_upload_request_id,p_pending_request_id); end ",
+      "reconstructed_prosrc_sha256": "372fe6fe0ae4df8f303d2204b46d324d16dcb2bf02d81d1898a586e07c0a029b",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_recover_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_recover_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_review_roster_import",
+        "p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "935e3d11017b0f13615322d1f9ae48c678916b8d2cc1a05331e3db15fe49dff8",
+        "4a2ae8da9b3638ecc34e23d8a0ec7dd6feb9308ce74dfbeca66ebb483e44483b"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_review_roster_import(p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "6b6957219ff05da691622993cc0d8af7326929ffa06179c0f11768e2f983f104",
+        "line": 333,
+        "name": "admin_review_roster_import",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "jsonb",
+          "text",
+          "uuid"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf(p_import_id,true); return collect_hybrid.admin_review_roster_import_guarded_149(p_import_id,p_parent_revision_id,p_rows,p_reason,p_request_id); end ",
+      "reconstructed_prosrc_sha256": "935e3d11017b0f13615322d1f9ae48c678916b8d2cc1a05331e3db15fe49dff8",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_review_roster_import",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_review_roster_import_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "jsonb",
+            "text",
+            "uuid"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_save_roster_import_draft",
+        "p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "05300a9f0772dd14d3e9d4d55d8470faf31401f4d80df3488b6935c855245be8",
+        "8bfdee669bad7836541c84144322abc4dddac9fdd50212c1e48786a192bc9854"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_save_roster_import_draft(p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "85ab4232577f2bfa334c2b34c888a88b45d3b81f411731cde0c17af6f95fa76d",
+        "line": 98,
+        "name": "admin_save_roster_import_draft",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf(p_import_id,true); return collect_hybrid.admin_save_roster_import_draft_guarded_149(p_import_id,p_checkpoint_id,p_previous_checkpoint_id,p_payload,p_payload_sha256); end ",
+      "reconstructed_prosrc_sha256": "05300a9f0772dd14d3e9d4d55d8470faf31401f4d80df3488b6935c855245be8",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_save_roster_import_draft",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_save_roster_import_draft_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "admin_stage_roster_import_intent",
+        "p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "authenticated=X/postgres",
+          "postgres=X/postgres"
+        ],
+        "39654170c49a82a9fee202166aee5867c8b14cf43723f12512f04b9ba17a6b07",
+        "df9885201c88de9880bf867dee8a0127e8e9fd555599c441f452bb53488b977b"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.admin_stage_roster_import_intent(p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "1015acfdeaf025ee22c2941f4f0ddab691be7855cd05aebe59c5e9f7cf4156eb",
+        "line": 126,
+        "name": "admin_stage_roster_import_intent",
+        "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930120000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.require_roster_caller(); perform collect_hybrid.roster_recovery_leaf(p_import_id,true); return collect_hybrid.admin_stage_roster_import_intent_guarded_149(p_request_id,p_import_id,p_kind,p_payload,p_payload_sha256); end ",
+      "reconstructed_prosrc_sha256": "39654170c49a82a9fee202166aee5867c8b14cf43723f12512f04b9ba17a6b07",
+      "transformation_steps": [
+        {
+          "entrypoint": "admin_stage_roster_import_intent",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "admin_stage_roster_import_intent_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "complete_roster_import_preview",
+        "p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "dbd931c93ff2207c6cb7a9795fe41f5b116dcbc3aadb65cea27570bdd4e058c9",
+        "999b1084c8e4c0f0abb2a7deb36ee8451a905c22e871f61f6b62b1298f4f2c17"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.complete_roster_import_preview(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9bcd7e0a2c336f597642755635d4200219a8c76db104d7e4d65d8871f452a1db",
+        "line": 270,
+        "name": "complete_roster_import_preview",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "jsonb",
+          "jsonb"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery(p_import_id); return collect_hybrid.complete_roster_import_preview_guarded_149(p_import_id,p_actor_id,p_session_id,p_candidates,p_processing_metadata); end ",
+      "reconstructed_prosrc_sha256": "dbd931c93ff2207c6cb7a9795fe41f5b116dcbc3aadb65cea27570bdd4e058c9",
+      "transformation_steps": [
+        {
+          "entrypoint": "complete_roster_import_preview",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "complete_roster_import_preview_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "jsonb",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "create_roster_import_source",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "78523a6c25f1adf989fa7121cf2149b5abfaf88b01d6c32cd25a851379115e6c",
+        "852c8769ad58edaaaa4a27607c785145f84b81068671f22dc0b535fdf172d2ef"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.create_roster_import_source(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "21878069039d1c6dd0358127a8d71eaad4c8269a95a811daa291a3f17ce994ec",
+        "line": 185,
+        "name": "create_roster_import_source",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text",
+          "text",
+          "text",
+          "text",
+          "bigint",
+          "boolean",
+          "text",
+          "jsonb"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery((select id from collect_hybrid.roster_import_sources where request_id=p_request_id)); return collect_hybrid.create_roster_import_source_guarded_149(p_actor_id,p_session_id,p_request_id,p_source_kind,p_original_sha256,p_original_size,p_client_filename,p_declared_mime,p_detected_type,p_derived_sha256,p_derived_size,p_ai_consent,p_consent_version,p_ai_metadata); end ",
+      "reconstructed_prosrc_sha256": "78523a6c25f1adf989fa7121cf2149b5abfaf88b01d6c32cd25a851379115e6c",
+      "transformation_steps": [
+        {
+          "entrypoint": "create_roster_import_source",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "create_roster_import_source_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "fail_roster_import_preview",
+        "p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "83fa4c64a7359caecb87d98d9962fcded7d681d42e5ee37d3ba2f75388cf26ef",
+        "e1b3f5bfa6d60e361d300448c818ee3b7e8e7aaaa8ffca90a2be910993b3e965"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.fail_roster_import_preview(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9f635de0058dfbcd452cce6da04b4461bd25016138f8c266119dd62d90cfa17e",
+        "line": 310,
+        "name": "fail_roster_import_preview",
+        "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930100000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery(p_import_id); return collect_hybrid.fail_roster_import_preview_guarded_149(p_import_id,p_actor_id,p_session_id,p_error_code); end ",
+      "reconstructed_prosrc_sha256": "83fa4c64a7359caecb87d98d9962fcded7d681d42e5ee37d3ba2f75388cf26ef",
+      "transformation_steps": [
+        {
+          "entrypoint": "fail_roster_import_preview",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "fail_roster_import_preview_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "finish_roster_resources",
+        "p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "0e430001b9f494aff3595d9f68094d658b93f44bc5cc47585db3f1aa7e3ed5a2",
+        "47460a3c45ea76c76d9ba44156d6d7442015d335e157767418ba6a48cc93481e"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.finish_roster_resources(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "1a988bfe16db1e52de365243bd0fb6bb149bf79b235b9b42c0b05ac4b49b05cb",
+        "line": 159,
+        "name": "finish_roster_resources",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery((select s.id from collect_hybrid.roster_import_sources s join collect_hybrid.roster_resource_reservations r on r.request_id=s.request_id where r.id=p_reservation_id)); return collect_hybrid.finish_roster_resources_guarded_149(p_reservation_id,p_actor_id,p_session_id,p_outcome); end ",
+      "reconstructed_prosrc_sha256": "0e430001b9f494aff3595d9f68094d658b93f44bc5cc47585db3f1aa7e3ed5a2",
+      "transformation_steps": [
+        {
+          "entrypoint": "finish_roster_resources",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "finish_roster_resources_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "receipt_operations_execute_v2",
+        "p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "17834420c49b4bf171daa35755f3c40705e3ff18d13f9a6d1e07ac14ac48ee4b",
+        "82a6ac0e327a4096afda04584ae0d6c8d8cf3b0a57bfeb7b33a3075d95b7f73e"
+      ],
+      "category": "receipt-exact-literal-body-patches",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.receipt_operations_execute_v2(p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "73d485c7b9a02773d22da07544d716bc55c15fbaa6dcd929e3b001c1c3d53ec3",
+        "line": 331,
+        "name": "receipt_operations_execute_v2",
+        "original_parser_signature_types": null,
+        "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+        "private_signature_normalization": "explicit builtin timestamptz -> timestamp with time zone",
+        "prosrc_sha256": "5d7ec3beb3f4b8bfac9c7d9c58b5e7a49acbbe45c7ca03581b091a1b4d480ed1",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "timestamp with time zone",
+          "text",
+          "jsonb"
+        ],
+        "version": "20261001110000"
+      },
+      "reconstructed_prosrc": "\ndeclare identity collect_supervisor.identities;prior collect_receipt_operations.requests;r collect_receipt_operations.runs;p collect_receipt_operations.policy;\n event collect_hybrid.receipt_business_events;row jsonb;result jsonb;base jsonb;fence bigint;at timestamptz;rid uuid;fv bigint;lim integer;eid uuid;expected bigint;target uuid;\n snapshot collect_hybrid.momo_balance_snapshots;backlog_reservation uuid;backlog_refused_snapshot uuid;v_payment_id uuid;sid uuid;code text;handled boolean;receipt uuid;examined integer:=0;done integer:=0;deferred integer:=0;rows jsonb;more boolean;begin\n identity:=collect_receipt_operations.require_identity(p_principal_id,p_key_sha256,p_request_id,p_request_sha256,p_issued_at,p_action);\n if p_payload is null or jsonb_typeof(p_payload)<>'object'then raise exception 'operations_payload_invalid'using errcode='22023';end if;\n perform pg_advisory_xact_lock(hashtextextended('collect-operations-request:'||p_request_id::text,0));\n identity:=collect_receipt_operations.require_identity(p_principal_id,p_key_sha256,p_request_id,p_request_sha256,p_issued_at,p_action);\n if p_action='reconcile_request'then\n  perform collect_gateway.payload_keys(p_payload,array['target_request_id']);target:=collect_gateway.payload_uuid(p_payload,'target_request_id');\n  if target=p_request_id then raise exception 'operations_lookup_identity_invalid'using errcode='22023';end if;\n  more:=pg_try_advisory_xact_lock(hashtextextended('collect-operations-request:'||target::text,0));\n  select * into prior from collect_receipt_operations.requests where more and request_id=target and principal_id=p_principal_id;\n  return jsonb_build_object('contract_version',2,'target_request_id',target,'status',case when not more then 'in_progress'when prior.request_id is null then 'not_recorded'else 'recorded'end,'receipt',prior.result);end if;\n select * into prior from collect_receipt_operations.requests where request_id=p_request_id;\n if prior.request_id is not null then\n  if prior.principal_id<>p_principal_id or prior.action<>p_action or prior.request_sha256<>p_request_sha256 or prior.input is distinct from p_payload then raise exception 'operations_request_conflict'using errcode='22023';end if;return prior.result;end if;\n at:=clock_timestamp();base:=collect_receipt_operations.base(p_principal_id,p_request_id,p_action,at);\n if p_action='prove_key'then\n  perform collect_gateway.payload_keys(p_payload,array[]::text[]);\n  result:=base||jsonb_build_object('expires_at',collect_gateway.utc(identity.expires_at),'scope','rw_receipt_operations','business_handled',false,'financial_action',false,'send_action',false);\n elsif p_action='begin_run'then\n  perform collect_gateway.payload_keys(p_payload,array[]::text[]);select * into p from collect_receipt_operations.policy where singleton for update;\n  identity:=collect_receipt_operations.require_identity(p_principal_id,p_key_sha256,p_request_id,p_request_sha256,p_issued_at,p_action);at:=clock_timestamp();\n  code:=case when p.emergency_stop or p.mode='Paused'then 'OPERATIONS_PAUSED'when not p_principal_id=any(p.principal_ids)or cardinality(p.collection_ids)=0 then 'PRINCIPAL_SCOPE_UNCONFIGURED'\n   when exists(select 1 from collect_receipt_operations.runs where completed_at is null and expires_at>at and policy_revision=p.revision)then 'RUN_BUSY'else 'RUN_STARTED'end;\n  if code='RUN_STARTED'then\n   update collect_receipt_operations.fence set value=value+1 where singleton and value<1000000000 returning value into fence;\n   if fence is null then raise exception 'operations_fence_exhausted'using errcode='55000';end if;\n   insert into collect_receipt_operations.runs(request_id,principal_id,fence_version,policy_revision,mode,collection_ids,device_id,started_at,expires_at)\n   values(p_request_id,p_principal_id,fence,p.revision,p.mode,p.collection_ids,p.device_ids[1],at,least(at+interval '120 seconds',identity.expires_at))returning * into r;end if;\n  result:=collect_receipt_operations.base(p_principal_id,p_request_id,p_action,at)||jsonb_build_object('ok',code='RUN_STARTED','code',code,'run_id',r.id,'fence_version',r.fence_version,'mode',p.mode,'expires_at',case when r.id is not null then collect_gateway.utc(r.expires_at)end);\n else\n  rid:=collect_gateway.payload_uuid(p_payload,'run_id');fv:=collect_gateway.payload_int(p_payload,'fence_version',1,1000000000);\n  r:=collect_receipt_operations.require_run(rid,fv,p_principal_id);select * into p from collect_receipt_operations.policy where singleton;\n  base:=base||jsonb_build_object('run_id',r.id,'fence_version',r.fence_version);\n  if p_action='list_events'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   select coalesce(jsonb_agg(jsonb_build_object('event_id',e.id,'source_version',e.source_version,'event_kind',e.event_kind,'payment_id',e.payment_id,'collection_id',e.collection_id,'source_state',e.source_state)order by e.created_at,e.id),'[]'::jsonb),count(*)>lim into rows,more\n   from(select e.* from collect_hybrid.receipt_business_events e\n    where e.collection_id=any(r.collection_ids)and not exists(select 1 from collect_receipt_operations.handled_events h where h.event_id=e.id)\n    and not exists(select 1 from collect_receipt_operations.run_events h where h.run_id=r.id and h.event_id=e.id)\n    and not exists(select 1 from collect_receipt_operations.event_deferrals d where d.event_id=e.id and d.next_check_at>clock_timestamp())\n    order by e.created_at,e.id limit lim+1)e;\n   if more then rows:=rows-(jsonb_array_length(rows)-1);end if;\n   insert into collect_receipt_operations.run_batch_events select r.id,(value->>'event_id')::uuid,clock_timestamp()from jsonb_array_elements(rows)on conflict(run_id,event_id)do nothing;\n   update collect_receipt_operations.runs set scan_performed=true where id=r.id;\n   result:=base||jsonb_build_object('events',rows,'more',more);\n  elsif p_action='ensure_receipt'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','event_id','expected_source_version']);eid:=collect_gateway.payload_uuid(p_payload,'event_id');expected:=collect_gateway.payload_int(p_payload,'expected_source_version',1,1000000000);\n   select * into event from collect_hybrid.receipt_business_events where id=eid;\n   if event.id is null or not coalesce(event.collection_id=any(r.collection_ids),false)then raise exception 'operations_event_scope_refused'using errcode='42501';end if;\n   code:='SOURCE_CHANGED';handled:=false;receipt:=null;\n   if event.source_version=expected then\n    v_payment_id:=event.payment_id;\n    if v_payment_id is null and event.source_kind='allocation'then select p0.id into v_payment_id from public.payments p0 where p0.parsed_event_id=event.source_id and p0.collection_id=event.collection_id;end if;\n    select * into snapshot from collect_hybrid.momo_balance_snapshots where payment_id=v_payment_id and event_type='receipt'order by captured_at,id limit 1;\n    select jsonb_build_object('code',h.code,'business_handled',h.business_handled,'receipt_id',h.receipt_id)into row from collect_receipt_operations.run_events h where h.run_id=r.id and h.event_id=event.id;\n    if row is not null then code:=row->>'code';handled:=(row->>'business_handled')::boolean;receipt:=(row->>'receipt_id')::uuid;\n    elsif r.mode='Shadow'then code:='SHADOW_OBSERVED';\n    elsif r.mode='Dry-run'then row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true,false);code:=case when(row->>'business_handled')::boolean then 'DRY_RUN_ELIGIBLE'else row->>'code'end;\n    elsif not collect_receipt_operations.reserve_budget(r.id,r.fence_version,p_request_id,event.collection_id,r.device_id,1,0)then code:='QUOTA_EXHAUSTED';\n    else\n     if exists(select 1 from collect_hybrid.receipt_business_event_heads h join collect_hybrid.receipt_business_events newer on newer.source_kind=h.source_kind and newer.source_id=h.source_id and newer.source_version=h.version where h.source_kind=event.source_kind and h.source_id=event.source_id and h.version>event.source_version)then row:=jsonb_build_object('code','SOURCE_SUPERSEDED','business_handled',true,'receipt_id',null);\n     elsif event.event_kind='payment_reversed'and exists(select 1 from public.payments p0 where p0.id=v_payment_id and p0.status='reversed')then row:=jsonb_build_object('code','PAYMENT_REVERSED','business_handled',true,'receipt_id',null);\n     else row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);end if;\n     code:=row->>'code';handled:=(row->>'business_handled')::boolean;receipt:=(row->>'receipt_id')::uuid;\n    end if;\n   end if;\n   insert into collect_receipt_operations.run_events values(r.id,event.id,event.source_version,code,handled,receipt,clock_timestamp())on conflict(run_id,event_id)do nothing;\n   if handled then insert into collect_receipt_operations.handled_events values(event.id,r.id,p_principal_id,event.source_version,code,receipt,clock_timestamp())on conflict(event_id)do nothing;\n   elsif r.mode in('Live','Live-limited')then insert into collect_receipt_operations.event_deferrals values(event.id,clock_timestamp()+interval '60 seconds',code)on conflict(event_id)do update set next_check_at=excluded.next_check_at,code=excluded.code;end if;\n   result:=base||jsonb_build_object('event_id',event.id,'source_version',case when code='SOURCE_CHANGED'then expected else event.source_version end,'ok',handled,'code',code,'business_handled',handled,'receipt_id',receipt);\n  elsif p_action='reconcile_backlog'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   if p.catchup_enabled and r.mode in('Live','Live-limited')then\n    for snapshot in select s.* from collect_hybrid.momo_balance_snapshots s\n     where s.event_type='receipt'and s.collection_id=any(r.collection_ids)and s.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n     and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=s.payment_id and o.template_key='buri_munsi.payment_received')\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=s.id)\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.snapshot_id=s.id and b.business_handled)\n     order by s.captured_at,s.id limit lim loop\n     backlog_reservation:=collect_receipt_operations.backlog_inspection_id(r.id,snapshot.id);\n     -- Refuse unrelated/colliding charges and inconsistent legacy same-run\n     -- charges; never adopt, release, move or recharge an unknown old attempt.\n     if exists(select 1 from collect_receipt_operations.reservations where id=backlog_reservation)\n      or exists(select 1 from collect_receipt_operations.reservations where id=snapshot.id and run_id=r.id)then\n      raise exception 'operations_budget_conflict'using errcode='22023';end if;\n     if not collect_receipt_operations.reserve_budget(r.id,r.fence_version,backlog_reservation,snapshot.collection_id,r.device_id,1,0)then\n      backlog_refused_snapshot:=snapshot.id;exit;end if;\n     row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);examined:=examined+1;handled:=(row->>'business_handled')::boolean;\n     if handled then done:=done+1;else deferred:=deferred+1;end if;\n     insert into collect_receipt_operations.backlog_results values(r.id,snapshot.id,row->>'code',handled,(row->>'receipt_id')::uuid,clock_timestamp());\n     insert into collect_receipt_operations.backlog_attempts values(r.id,snapshot.id,backlog_reservation,p_request_id,clock_timestamp());\n    end loop;\n   end if;result:=base||jsonb_build_object('examined',examined,'handled',done,'deferred',deferred);\n  elsif p_action='complete_run'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version']);\n   update collect_receipt_operations.runs set completed_at=clock_timestamp()where id=r.id;\n   select count(*)filter(where business_handled),count(*)filter(where not business_handled)into done,deferred from collect_receipt_operations.run_events where run_id=r.id;\n   deferred:=deferred+(select count(*)from collect_receipt_operations.run_batch_events b where b.run_id=r.id and not exists(select 1 from collect_receipt_operations.run_events e where e.run_id=r.id and e.event_id=b.event_id));\n   done:=done+(select count(*)from collect_receipt_operations.backlog_results where run_id=r.id and business_handled);\n   deferred:=deferred+(select count(*)from collect_receipt_operations.backlog_results where run_id=r.id and not business_handled);\n   deferred:=deferred+(select count(distinct b.snapshot_id)from collect_ops.receipt_backlog_budget_deferrals b where b.run_id=r.id and not exists(select 1 from collect_receipt_operations.backlog_results x where x.run_id=r.id and x.snapshot_id=b.snapshot_id));\n   select coalesce(jsonb_build_object('action_count',sum(actions),'sms_segments',sum(sms_segments)),jsonb_build_object('action_count',0,'sms_segments',0))into row from collect_receipt_operations.reservations where run_id=r.id;\n   result:=base||jsonb_build_object('status','completed','handled_count',done,'deferred_count',deferred,'action_count',coalesce((row->>'action_count')::bigint,0),'sms_segments',coalesce((row->>'sms_segments')::bigint,0),'business_handled',r.mode in('Live','Live-limited')and r.scan_performed and deferred=0);\n  else raise exception 'operations_action_refused'using errcode='22023';end if;\n end if;\n insert into collect_receipt_operations.requests values(p_request_id,p_principal_id,p_action,p_request_sha256,p_payload,p_issued_at,clock_timestamp(),result);\n if backlog_refused_snapshot is not null then\n  insert into collect_ops.receipt_backlog_budget_deferrals(request_id,run_id,snapshot_id)values(p_request_id,r.id,backlog_refused_snapshot);end if;\n return result;\nend",
+      "reconstructed_prosrc_sha256": "17834420c49b4bf171daa35755f3c40705e3ff18d13f9a6d1e07ac14ac48ee4b",
+      "transformation_steps": [
+        {
+          "after_prosrc_sha256": "976035f110ddf0bc66db9740548cf5b596c0a4a4180d7a3d5dac727515b6d6bd",
+          "before_prosrc_sha256": "5d7ec3beb3f4b8bfac9c7d9c58b5e7a49acbbe45c7ca03581b091a1b4d480ed1",
+          "line": 177,
+          "needle": "deferred:=deferred+(select count(*)from collect_receipt_operations.backlog_results where run_id=r.id and not business_handled);",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "replacement": "deferred:=deferred+(select count(*)from collect_receipt_operations.backlog_results where run_id=r.id and not business_handled);\n   deferred:=deferred+(select count(distinct b.snapshot_id)from collect_ops.receipt_backlog_budget_deferrals b where b.run_id=r.id and not exists(select 1 from collect_receipt_operations.backlog_results x where x.run_id=r.id and x.snapshot_id=b.snapshot_id));"
+        },
+        {
+          "after_prosrc_sha256": "67cae1395e302f870ed654b368ea84658029ebca522a0a66c87e0efea63da798",
+          "before_prosrc_sha256": "976035f110ddf0bc66db9740548cf5b596c0a4a4180d7a3d5dac727515b6d6bd",
+          "line": 74,
+          "needle": "snapshot collect_hybrid.momo_balance_snapshots;v_payment_id uuid;",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "replacement": "snapshot collect_hybrid.momo_balance_snapshots;backlog_reservation uuid;backlog_refused_snapshot uuid;v_payment_id uuid;"
+        },
+        {
+          "after_prosrc_sha256": "513c42b08e80ae63f223f24a8822488967bea740f70f769b246b85953f35cff3",
+          "before_prosrc_sha256": "67cae1395e302f870ed654b368ea84658029ebca522a0a66c87e0efea63da798",
+          "line": 78,
+          "needle": "  elsif p_action='reconcile_backlog'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   if p.catchup_enabled and r.mode in('Live','Live-limited')then\n    for snapshot in select s.* from collect_hybrid.momo_balance_snapshots s\n     where s.event_type='receipt'and s.collection_id=any(r.collection_ids)and s.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n     and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=s.payment_id and o.template_key='buri_munsi.payment_received')\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=s.id)\n     order by s.captured_at,s.id limit lim loop\n     if not collect_receipt_operations.reserve_budget(r.id,r.fence_version,snapshot.id,snapshot.collection_id,r.device_id,1,0)then exit;end if;\n     row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);examined:=examined+1;handled:=(row->>'business_handled')::boolean;\n     if handled then done:=done+1;else deferred:=deferred+1;end if;\n     insert into collect_receipt_operations.backlog_results values(r.id,snapshot.id,row->>'code',handled,(row->>'receipt_id')::uuid,clock_timestamp());\n    end loop;\n   end if;result:=base||jsonb_build_object('examined',examined,'handled',done,'deferred',deferred);\n",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "replacement": "  elsif p_action='reconcile_backlog'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   if p.catchup_enabled and r.mode in('Live','Live-limited')then\n    for snapshot in select s.* from collect_hybrid.momo_balance_snapshots s\n     where s.event_type='receipt'and s.collection_id=any(r.collection_ids)and s.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n     and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=s.payment_id and o.template_key='buri_munsi.payment_received')\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=s.id)\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.snapshot_id=s.id and b.business_handled)\n     order by s.captured_at,s.id limit lim loop\n     backlog_reservation:=collect_receipt_operations.backlog_inspection_id(r.id,snapshot.id);\n     -- Refuse unrelated/colliding charges and inconsistent legacy same-run\n     -- charges; never adopt, release, move or recharge an unknown old attempt.\n     if exists(select 1 from collect_receipt_operations.reservations where id=backlog_reservation)\n      or exists(select 1 from collect_receipt_operations.reservations where id=snapshot.id and run_id=r.id)then\n      raise exception 'operations_budget_conflict'using errcode='22023';end if;\n     if not collect_receipt_operations.reserve_budget(r.id,r.fence_version,backlog_reservation,snapshot.collection_id,r.device_id,1,0)then\n      backlog_refused_snapshot:=snapshot.id;exit;end if;\n     row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);examined:=examined+1;handled:=(row->>'business_handled')::boolean;\n     if handled then done:=done+1;else deferred:=deferred+1;end if;\n     insert into collect_receipt_operations.backlog_results values(r.id,snapshot.id,row->>'code',handled,(row->>'receipt_id')::uuid,clock_timestamp());\n     insert into collect_receipt_operations.backlog_attempts values(r.id,snapshot.id,backlog_reservation,p_request_id,clock_timestamp());\n    end loop;\n   end if;result:=base||jsonb_build_object('examined',examined,'handled',done,'deferred',deferred);\n"
+        },
+        {
+          "after_prosrc_sha256": "17834420c49b4bf171daa35755f3c40705e3ff18d13f9a6d1e07ac14ac48ee4b",
+          "before_prosrc_sha256": "513c42b08e80ae63f223f24a8822488967bea740f70f769b246b85953f35cff3",
+          "line": 119,
+          "needle": " insert into collect_receipt_operations.requests values(p_request_id,p_principal_id,p_action,p_request_sha256,p_payload,p_issued_at,clock_timestamp(),result);",
+          "operation": "exact-once-literal-body-replacement",
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "replacement": " insert into collect_receipt_operations.requests values(p_request_id,p_principal_id,p_action,p_request_sha256,p_payload,p_issued_at,clock_timestamp(),result);\n if backlog_refused_snapshot is not null then\n  insert into collect_ops.receipt_backlog_budget_deferrals(request_id,run_id,snapshot_id)values(p_request_id,r.id,backlog_refused_snapshot);end if;"
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "reserve_roster_resources",
+        "p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "29bf94711090c577aa14948571409c1bc8cbaa5ee5b1dabc9ff809e4982212c4",
+        "fbd0fb0958d3a64538fcd098eafad7c96bb82c02ebd4648479270b3497cf3a80"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.reserve_roster_resources(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "9e94d991903b3bf64dd0b78237538800ff23cc6678ebdc5ea8619f236cc91696",
+        "line": 58,
+        "name": "reserve_roster_resources",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "bigint",
+          "text"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery((select id from collect_hybrid.roster_import_sources where request_id=p_request_id)); return collect_hybrid.reserve_roster_resources_guarded_149(p_actor_id,p_session_id,p_request_id,p_source_sha256,p_source_kind,p_source_bytes,p_derived_sha256); end ",
+      "reconstructed_prosrc_sha256": "29bf94711090c577aa14948571409c1bc8cbaa5ee5b1dabc9ff809e4982212c4",
+      "transformation_steps": [
+        {
+          "entrypoint": "reserve_roster_resources",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "reserve_roster_resources_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text"
+          ]
+        }
+      ]
+    },
+    {
+      "business_owner_acceptance": false,
+      "catalog_owner_observed": "postgres",
+      "catalog_row": [
+        "public",
+        "verify_roster_source_integrity",
+        "p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_decoder_receipt_sha256 text, p_decoder_build_sha256 text, p_policy_version text, p_toolchain jsonb, p_summary jsonb",
+        "f",
+        "postgres",
+        true,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "postgres=X/postgres",
+          "service_role=X/postgres"
+        ],
+        "e2b9e636df5062455346ade72bf7937683541647b5df4cb48d7d5009f1ee5419",
+        "1f093fffdc76b6855584257ef7f9d1a1c825dd69e056fc59cd08a332404d8dd4"
+      ],
+      "category": "roster-public-guard-wrapper",
+      "exact_final_catalog_prosrc_match": true,
+      "identity": "public.verify_roster_source_integrity(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_decoder_receipt_sha256 text, p_decoder_build_sha256 text, p_policy_version text, p_toolchain jsonb, p_summary jsonb)",
+      "maintained_mapping_changed": false,
+      "original_definition": {
+        "declaration_sha256": "4b312245c33cfcc9f31dcbc9d1e6260c79f6c38557061bd427680fc29838bf0e",
+        "line": 121,
+        "name": "verify_roster_source_integrity",
+        "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "prosrc_sha256": "f51cad9daa3496a69c8daead0773909632f51faffbe51f5aa70823f2d3876a37",
+        "routine_kind": "function",
+        "schema": "public",
+        "signature_types": [
+          "uuid",
+          "uuid",
+          "uuid",
+          "text",
+          "text",
+          "text",
+          "jsonb",
+          "jsonb"
+        ],
+        "static_lineage": [],
+        "version": "20260930140000"
+      },
+      "reconstructed_prosrc": "\n   begin perform collect_hybrid.guard_roster_service_recovery((select s.id from collect_hybrid.roster_import_sources s join collect_hybrid.roster_resource_reservations r on r.request_id=s.request_id where r.id=p_reservation_id)); return collect_hybrid.verify_roster_source_integrity_guarded_149(p_reservation_id,p_actor_id,p_session_id,p_decoder_receipt_sha256,p_decoder_build_sha256,p_policy_version,p_toolchain,p_summary); end ",
+      "reconstructed_prosrc_sha256": "e2b9e636df5062455346ade72bf7937683541647b5df4cb48d7d5009f1ee5419",
+      "transformation_steps": [
+        {
+          "entrypoint": "verify_roster_source_integrity",
+          "installer_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "line": 490,
+          "operation": "roster-public-guard-wrapper",
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "private_alias": "verify_roster_source_integrity_guarded_149",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text",
+            "jsonb",
+            "jsonb"
+          ]
+        }
+      ]
+    }
+  ],
+  "platform_gaps_remaining": 91,
+  "runtime_call_graph_complete": false,
+  "status": "exact-body-evidence-proposal-only"
+}

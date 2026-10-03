@@ -1,0 +1,211 @@
+{
+  "actual_required_consumers": "Complete compiler/test/validatePlugins/JAR/runtime graph invocation, full14top-level test source families including helper malformed-manifest/path/dependency cases and2.0.0/2.2.20/2.3.20 rejection +2.4.20acceptance.",
+  "actual_tests_ran_for_proposal": false,
+  "no_new_logic_dependency_or_template_delta": true,
+  "normalization_choice": "ABSOLUTE intentionally preserves authentic Gradle default for both file properties; no change to up-to-date input identity or cross-workspace cache claim.",
+  "source_analysis_limits": "No unmodified baseline compiler was run. Actual failure attribution is to exact unchanged publisher source bytes and real diagnostic locations under the reviewed3-file candidate.",
+  "source_bindings": {
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTaskHelper.kt": {
+      "SHA256": "2436cca453b4a1ac7720b3a951f6bce8fc668e966d577d4b256c2d8a96ff43f7",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "2d16640d324fd82bb8c0d1822fe46879214b36ab",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTaskHelper.kt",
+      "test_function_names_source_only": null
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTaskHelper.kt": {
+      "SHA256": "c09653face63e9e272d6280d1e95e6b170353cedef62019c36b9b71ff147fc39",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "700f070534d2918d28c9d676d9e5760d3560258d",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTaskHelper.kt",
+      "test_function_names_source_only": null
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTaskHelper.kt": {
+      "SHA256": "117ff398ef94af8ce4fe83ecb227da5ccb2a2d4e6bcdeb05f1392f7e5343ef22",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "1ff117da7566769e8b289cf58c3be18bb5d6b45b",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTaskHelper.kt",
+      "test_function_names_source_only": null
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/BaseFlutterTaskHelperTest.kt": {
+      "SHA256": "4e8c4947c8071539b01ffeb521fb2da86d7b521d5fa8fd0346f03a8ebeb58f8c",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "fd92b7ea6d261bc9ce2e8f352a0fe98049dac0a0",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/tasks/BaseFlutterTaskHelperTest.kt",
+      "test_function_names_source_only": [
+        [
+          "checkPreConditions throws a GradleException when sourceDir is null",
+          ""
+        ],
+        [
+          "checkPreConditions throws a GradleException when sourceDir is not a directory",
+          ""
+        ],
+        [
+          "checkPreConditions does not throw a GradleException and intermediateDir is valid",
+          ""
+        ],
+        [
+          "generateRuleNames returns correct rule names when buildMode is debug",
+          ""
+        ],
+        [
+          "generateRuleNames returns correct rule names when buildMode is not debug and deferredComponents is true",
+          ""
+        ],
+        [
+          "generateRuleNames returns correct rule names when buildMode is not debug and deferredComponents is false",
+          ""
+        ],
+        [
+          "createSpecActionFromTask creates the correct build configurations when properties are non-null",
+          ""
+        ],
+        [
+          "createSpecActionFromTask creates the correct build configurations when properties are null",
+          ""
+        ],
+        [
+          "buildBundle calls the correct methods",
+          ""
+        ],
+        [
+          "getDependencyFiles returns a FileCollection of dependency file(s)",
+          ""
+        ]
+      ]
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/DeepLinkJsonFromManifestTaskTest.kt": {
+      "SHA256": "596013e3cc19ca54766f42eb9371fa7e678da37b14e6dfd689c911692b0606eb",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "51ea7f41d780dd48d8c14312799022d50f9a4550",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/tasks/DeepLinkJsonFromManifestTaskTest.kt",
+      "test_function_names_source_only": [
+        [
+          "",
+          "createTempManifestFile"
+        ],
+        [
+          "",
+          "createAppLinkSettingsFileCreation"
+        ],
+        [
+          "",
+          "noApplicationInManifest"
+        ],
+        [
+          "",
+          "applicationNoDeepLinkingElements"
+        ],
+        [
+          "",
+          "metaDataDeepLinkingEnabledTrue"
+        ],
+        [
+          "",
+          "metaDataDeepLinkingEnabledFalse"
+        ],
+        [
+          "",
+          "metaDataDeepLinkingEnabledInvalidValue"
+        ],
+        [
+          "",
+          "metaDataDeepLinkingNoValue"
+        ],
+        [
+          "",
+          "basicDeepLink"
+        ],
+        [
+          "",
+          "deepLinkWithAutoVerify"
+        ],
+        [
+          "",
+          "multipleIntentFilters"
+        ],
+        [
+          "",
+          "multipleActivitiesWithDeepLinks"
+        ],
+        [
+          "",
+          "intentFilterMissingHostInData"
+        ],
+        [
+          "",
+          "malformedManifestXML"
+        ],
+        [
+          "",
+          "multiplePathTypes"
+        ],
+        [
+          "",
+          "generatePath"
+        ],
+        [
+          "",
+          "setNamespace"
+        ],
+        [
+          "",
+          "addActivity"
+        ],
+        [
+          "",
+          "addDeeplinks"
+        ],
+        [
+          "",
+          "setDeeplinkEnabled"
+        ],
+        [
+          "",
+          "setDeeplinkPathOverride"
+        ],
+        [
+          "",
+          "build"
+        ]
+      ]
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/FlutterTaskHelperTest.kt": {
+      "SHA256": "c52df12d70480e198217fc3a6cb1458172a7651d3d7776d0561e883bf9b0f86d",
+      "candidate_pristine_exact_upstream_match": true,
+      "official_Git_blob": "baa02e5e2bdd8a761d3d29b3b5f917d274b3e6ae",
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/tasks/FlutterTaskHelperTest.kt",
+      "test_function_names_source_only": [
+        [
+          "getAssetsDirectory returns correct path",
+          ""
+        ],
+        [
+          "getAssets returns correct CopySpec",
+          ""
+        ],
+        [
+          "getSnapshots returns correct CopySpec for release build",
+          ""
+        ],
+        [
+          "getSnapshots returns correct CopySpec for debug build",
+          ""
+        ],
+        [
+          "getSourceFiles returns files when dependenciesFile exists",
+          ""
+        ],
+        [
+          "getSourceFiles correctly replaces escaped spaces",
+          ""
+        ],
+        [
+          "getOutputFiles returns files when dependenciesFile exists",
+          ""
+        ]
+      ]
+    }
+  },
+  "task_behavior": "Base/Flutter helpers invoke local Flutter SDK/engine tooling and derive source dependencies from generated depfiles including pubspec; cache opt-in is not established. Deep-link task copies merged manifest and writes metadata; preserve current non-cacheable default."
+}

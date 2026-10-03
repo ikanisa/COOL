@@ -1,0 +1,7 @@
+{
+  "files": {
+    "README.md": "05ac1fc8af083783dbdab85c74af3f28c694d59169aa020fc67e013895e4ce39",
+    "read-only-consumer-prerequisites.json": "3d2f68a39fb6558d39dd3f01f4ef68519da3903da3888fdf3757877849d05e2a"
+  },
+  "scope": "Read-only proposal for a new physically isolated locked SDK/application native consumer; no expansion/bootstrap/build/selection executed."
+}

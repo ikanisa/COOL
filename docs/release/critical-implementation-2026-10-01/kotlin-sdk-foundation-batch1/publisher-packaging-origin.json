@@ -1,0 +1,51 @@
+{
+  "requests": {
+    "dev/bots/prepare_package.dart": {
+      "bytes": 5174,
+      "fetched_utc": "2026-10-02T00:05:31.024288+00:00",
+      "git_blob_sha1": "85ee41bd6f35fa09126e9fd82212fc1f3c68d4c4",
+      "http_status": 200,
+      "publisher_tree_exact_byte_match": true,
+      "retained_file": "packaging-prepare_package.dart",
+      "sha256": "64695fec76cd5992db6d140a75e79115452a1b3020c825d43f7fe42cc42b849c",
+      "source_path": "dev/bots/prepare_package.dart",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/dev/bots/prepare_package.dart"
+    },
+    "dev/bots/prepare_package/archive_creator.dart": {
+      "bytes": 20291,
+      "fetched_utc": "2026-10-02T00:05:31.024588+00:00",
+      "git_blob_sha1": "931a9e1237d9658f7386ba87762636d3bf86ed73",
+      "http_status": 200,
+      "publisher_tree_exact_byte_match": true,
+      "retained_file": "packaging-archive_creator.dart",
+      "sha256": "59ebf35584d66d64f9513e05eecf1b49276a5711f4152c64d25dde2fb185c1c8",
+      "source_path": "dev/bots/prepare_package/archive_creator.dart",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/dev/bots/prepare_package/archive_creator.dart"
+    },
+    "dev/bots/prepare_package/archive_publisher.dart": {
+      "bytes": 8172,
+      "fetched_utc": "2026-10-02T00:05:31.024662+00:00",
+      "git_blob_sha1": "081ed681fc180c2d9ddff6899a9e3e81fc286cd0",
+      "http_status": 200,
+      "publisher_tree_exact_byte_match": true,
+      "retained_file": "packaging-archive_publisher.dart",
+      "sha256": "b37bfffffda8dc29ad1bef84cf3d5f36626ef46909e3217373d871691770c13d",
+      "source_path": "dev/bots/prepare_package/archive_publisher.dart",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/dev/bots/prepare_package/archive_publisher.dart"
+    },
+    "dev/bots/prepare_package/common.dart": {
+      "bytes": 1569,
+      "fetched_utc": "2026-10-02T00:05:31.024713+00:00",
+      "git_blob_sha1": "4321b717bfb99aab1c70c25b448101798918f6e2",
+      "http_status": 200,
+      "publisher_tree_exact_byte_match": true,
+      "retained_file": "packaging-common.dart",
+      "sha256": "79908f634b8f8b0361211f33143c7fcace112215ced377df6f5e051fb5dfdd4f",
+      "source_path": "dev/bots/prepare_package/common.dart",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/dev/bots/prepare_package/common.dart"
+    }
+  },
+  "scope": "Pinned public packaging source identity and read-only purpose review only; not executed, and no implication it alone is a cryptographically verified LUCI recipe material.",
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "source_tree": "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa"
+}

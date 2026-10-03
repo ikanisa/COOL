@@ -1,0 +1,132 @@
+{
+  "mode": "Live-limited",
+  "scope": "receipt_operations_configured_collections",
+  "alerts": [
+    {
+      "id": "d5044011-61a7-49e4-8be3-3be10bc60c2c",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "ACTION_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "policy",
+      "exception_id": "04c87e2f-5abd-4d03-8215-29dd10a8b115",
+      "response_code": "review_limits"
+    },
+    {
+      "id": "615cfb3c-7a95-4695-ab2c-2b0aa34b31c4",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "BACKLOG_AGED",
+      "source_id": "64a58135-9d6c-41db-8071-7fc448f130b4",
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "business_event",
+      "exception_id": "2f0c8e95-07e6-4cfd-8c2e-491375740727",
+      "response_code": "investigate_backlog"
+    },
+    {
+      "id": "b7dc74eb-e6eb-4164-8d64-2f80ce86fae5",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "DELIVERY_CALLBACK_GAP",
+      "source_id": "3246c882-003d-4177-b85a-f1bb0f1a1158",
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "attempt",
+      "exception_id": "1b7391ac-644b-4c19-8a04-40b407e94727",
+      "response_code": "investigate_attempt"
+    },
+    {
+      "id": "3de70e56-cecd-452a-8f96-2a6d1e0b5995",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "HANDLING_LATENCY_HIGH",
+      "source_id": "c54cf9f5-9463-44d4-b580-91199dcb9830",
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "handled_event",
+      "exception_id": "fa39e863-e924-4bfd-836e-981d4d8c2b78",
+      "response_code": "investigate_handling"
+    },
+    {
+      "id": "5a273d9b-0b01-451b-8e8c-2f9ccfa3717b",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SEND_OUTCOME_UNKNOWN",
+      "source_id": "3246c882-003d-4177-b85a-f1bb0f1a1158",
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "attempt",
+      "exception_id": "2459fbf1-3e56-4649-8953-87f969edc15c",
+      "response_code": "reconcile_unknown"
+    },
+    {
+      "id": "ec35f97e-96d6-4916-83a5-4650bdd8eeb3",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SMS_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:41:56.334496Z",
+      "source_kind": "policy",
+      "exception_id": "050a32ba-bee7-471f-9cef-bd20f099ba93",
+      "response_code": "review_limits"
+    }
+  ],
+  "backlog": {
+    "due_deferrals": 1,
+    "unhandled_events": 9,
+    "source_busy_deferrals": 1,
+    "oldest_unhandled_age_seconds": 600
+  },
+  "budgets": {
+    "scope": "global_utc_day",
+    "actions_cap": 2,
+    "utc_day_start": "2026-10-01T00:00:00.000000Z",
+    "actions_reserved": 2,
+    "sms_segments_cap": 2,
+    "sms_segments_reserved": 2
+  },
+  "unknown": {
+    "uncertain_attempts": 1,
+    "callback_conflict_attempts": 1,
+    "started_without_all_sent_callbacks": 2,
+    "observed_sent_without_all_delivery_callbacks": 0
+  },
+  "handling": {
+    "latency_max_ms": 300000,
+    "latency_p50_ms": 124002,
+    "latency_p95_ms": 300000,
+    "events_created_24h": 11,
+    "events_handled_24h": 3
+  },
+  "callbacks": {
+    "expected_segments": 2,
+    "armed_attempts_24h": 1,
+    "conflicting_attempts": 1,
+    "covered_sent_segments": 1,
+    "covered_delivery_segments": 1,
+    "complete_delivery_callback_attempts": 0
+  },
+  "checked_at": "2026-10-01T22:41:56.334496Z",
+  "window_end": "2026-10-01T22:41:56.334496Z",
+  "send_action": false,
+  "window_start": "2026-09-30T22:41:56.334496Z",
+  "emergency_stop": false,
+  "window_seconds": 86400,
+  "policy_revision": 3,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T22:42:56.334496Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only"
+  ],
+  "configured_collection_count": 1
+}

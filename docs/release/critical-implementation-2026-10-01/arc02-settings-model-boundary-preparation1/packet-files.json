@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "scope": "Private history model capability extraction; root promotion pending",
+  "files": {
+    "README.md": {
+      "sha256": "c6383f44256ba49f5f72042bcb793e36a45cfa2c8b1013ec437f0742d4e22875",
+      "bytes": 3008,
+      "mode": 420
+    },
+    "affected-consumers.json": {
+      "sha256": "2bdf92117d4e36d6c573c5e4aca5d01811d2a436d82e2d91e072c8ae03092e4c",
+      "bytes": 4810,
+      "mode": 420
+    },
+    "before/lib/admin/core/admin_governed_settings_models.dart": {
+      "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+      "bytes": 38333,
+      "mode": 420
+    },
+    "candidate/lib/admin/core/admin_governed_settings_history_models.dart": {
+      "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+      "bytes": 5349,
+      "mode": 420
+    },
+    "candidate/lib/admin/core/admin_governed_settings_models.dart": {
+      "sha256": "6bc13f762c745e40ee4bc69201294715b14cb30423b0011612afbfc134f64085",
+      "bytes": 33085,
+      "mode": 420
+    },
+    "candidate-final/lib/admin/core/admin_governed_settings_history_models.dart": {
+      "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+      "bytes": 5349,
+      "mode": 420
+    },
+    "candidate-final/lib/admin/core/admin_governed_settings_models.dart": {
+      "sha256": "5b71afad52aba4781e0b10f4250c1dbb6a0ca8fa46023a1def7d1db7e3fe238c",
+      "bytes": 33084,
+      "mode": 420
+    },
+    "declaration-preservation.json": {
+      "sha256": "ed630437e39d0d743e5ec6a8b84a647dd0a136a5143f6d2d2515ab7c3aaf912e",
+      "bytes": 1916,
+      "mode": 420
+    },
+    "declaration-preservation.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 420
+    },
+    "declaration-preservation.stdout": {
+      "sha256": "d35eb59422360108c26196c19d2c7dcda6a25fe34977b113fb33841f96593d77",
+      "bytes": 283,
+      "mode": 420
+    },
+    "declaration_preservation.dart": {
+      "sha256": "096e240cab788c522b6a2f125d331dab37c9374b56ccd08664e5ac099e41fca9",
+      "bytes": 2169,
+      "mode": 420
+    },
+    "final-declaration-preservation.json": {
+      "sha256": "08ea19e721cab5cc5f28d7bff38cb7f0306dffa942e285cd7b90bc3bcb775b63",
+      "bytes": 1925,
+      "mode": 420
+    },
+    "final-declaration-preservation.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 420
+    },
+    "final-declaration-preservation.stdout": {
+      "sha256": "d35eb59422360108c26196c19d2c7dcda6a25fe34977b113fb33841f96593d77",
+      "bytes": 283,
+      "mode": 420
+    },
+    "final-syntax-inputs-after.json": {
+      "sha256": "a51473fc4cde49fddcb5bc87102405279933a4c6f13cae223dc231d23daad941",
+      "bytes": 135314,
+      "mode": 420
+    },
+    "final-syntax-inputs-before.json": {
+      "sha256": "a51473fc4cde49fddcb5bc87102405279933a4c6f13cae223dc231d23daad941",
+      "bytes": 135314,
+      "mode": 420
+    },
+    "final-validation.json": {
+      "sha256": "7e78feb586e08499f76c60cbe4668adb34999ef3b93a9ffe365fa884620dc52a",
+      "bytes": 1075,
+      "mode": 420
+    },
+    "package_config.json": {
+      "sha256": "f12b56fd30ace0ee74821024a4b35f175f1afda2d1ba172d274fee425632994b",
+      "bytes": 34367,
+      "mode": 420
+    },
+    "proposal-final.diff": {
+      "sha256": "1a413cc5824a088598dd0b22ce83cc68a94c9a9391ed25b27d9a20b5899e8557",
+      "bytes": 11518,
+      "mode": 420
+    },
+    "proposal-final.json": {
+      "sha256": "817c8110ff47983be881704fb0462a31e1cd60baaecda75358acdb471ee3e63a",
+      "bytes": 1404,
+      "mode": 420
+    },
+    "proposal.diff": {
+      "sha256": "f05925d975f68435e028abaaa5c5905ddee2600f0b528bcbe73c5a34d29ef58f",
+      "bytes": 11510,
+      "mode": 420
+    },
+    "proposal.json": {
+      "sha256": "75e9bba31cb9b1eb0862953524a475f6627e89ab69157272075851ed7f943d73",
+      "bytes": 1201,
+      "mode": 420
+    },
+    "syntax-inputs-after.json": {
+      "sha256": "59e859c388939e6bcf442a8f8458bdebfc4e3707519be9e0077c71c44397a4db",
+      "bytes": 133541,
+      "mode": 420
+    },
+    "syntax-inputs-before.json": {
+      "sha256": "59e859c388939e6bcf442a8f8458bdebfc4e3707519be9e0077c71c44397a4db",
+      "bytes": 133541,
+      "mode": 420
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "captured_at_utc": "2026-10-02T14:34:55.775636+00:00",
+  "before_sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "1a00c464b31709d210e067bd251342eb6e8be97deaf23dcccbc57852e6467ba1",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "5567a0be0fdb1cf6ecee212ac5db31b9beb72e1b1006514aa6ae9c4499d42340",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "d5e1e4808730a96574b47d1cd8d0784852ca516156cbefde030f1f71cc51526d",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "f344a29f5b7ab0a08c7a1cda24c8609a22f780c4ef0f57fd521ef20a85da7c86",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "9c0edad7b072e98837283b0e962008c047b43e68bcc54ac0cb11369f12d8659e",
+    "docs/release/local-implementation-register-2026-09-30.json": "b49c9392705a8b634fbb8e94778db989e5bd9574c5078eac446ca6e4e9e29a78",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "ee3280cd9beccc48868eb8e6a07e7e2a95eff627211d8d65f1e5e2aa3690466d"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "86f31f9af3274cd2adff3cfeb18959a2c16434f5143c1d16607ec1ed1246c10d",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "2d63e20d4c6116a98a7cf48fc67917cb22a7a32b81eaafd9c2453491384c5cb9",
+    "docs/release/local-implementation-register-2026-09-30.json": "485531ac36b949287f2ceedd81d1f8b5650d9e8f2f0c4b83c94a2a2d6f0f0961",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "ad6f9b6257aa0e409c9f671acb4d060688a8ac3172a1436eb3ead8329ca7363a",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a0b8b7672f13f600fbd3d3676688499ee29702f32957abdc13ef73148474341d",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "0ceae9d27cd33cfa7e9b0a03c74fe2f07e2c8a6bf39ad7084c337a3be4fafc18",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "e6a45b89f16e26c8b8d319b9845662e8267444b7fdd93d171e0b854b76b43734"
+  },
+  "contracts40_unchanged": true,
+  "legacy102_24_arrays_unchanged": true,
+  "historical_markdown_bodies_unchanged": true,
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-12",
+    "PD-14"
+  ],
+  "full_open": 33,
+  "PD12_scoped_original_criterion_closed": true,
+  "source_epoch": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+  "AAB9_result": "FAIL_missing_lint32.0.1_with_R8_compatibility_gap",
+  "production_release_decision": "NO-GO",
+  "goal_status": "active",
+  "new_references": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/packet-files.json",
+      "sha256": "e3404c6f538c788b3fcefc428d259acf5be1ab7b56119b72cc7dc72040896b7a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/status-note.json",
+      "sha256": "ede499b8a64e6fdb1362e15403305d65e1891a06c4a148dec54fbc6b691e3402"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-original-criterion-review1/review.json",
+      "sha256": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/packet-files.json",
+      "sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback9/readback.json",
+      "sha256": "9d37428faf8456d946b62e18ea746786cf15557f4d2ef433646845cfd8be3755"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-current-graph-readback9/readback.json",
+      "sha256": "03ede40616ca460ed9ae1df88068022ccb60212e59e9d9a27d4fcc065d78955d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-readonly-r8-kotlin-compatibility1/compatibility-readback.json",
+      "sha256": "466274700da49c1382d6618fdce963e79894604c09c342212b1e68df4f0b0ff2"
+    }
+  ]
+}

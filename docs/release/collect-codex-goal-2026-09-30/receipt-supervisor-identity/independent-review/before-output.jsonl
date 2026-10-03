@@ -1,0 +1,3 @@
+{"name":"invalidEscape","status":503,"body":{"ok":false,"code":"SUPERVISOR_AUTH_UNAVAILABLE"},"rpc_calls":0}
+{"name":"oversize","status":413,"body":{"ok":false,"code":"GATEWAY_BODY_TOO_LARGE"},"rpc_calls":0}
+{"name":"uppercase-request-uuid","status":502,"body":{"ok":false,"code":"SUPERVISOR_OUTCOME_UNKNOWN"},"service_observe_called":true}

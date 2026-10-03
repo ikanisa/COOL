@@ -1,0 +1,102 @@
+{
+  "observed_at": "2026-10-02T01:19:29.165965+00:00",
+  "entries": [
+    "supabase/functions/_shared/openai_roster_test.ts",
+    "supabase/functions/_shared/roster_response_policy_test.ts",
+    "supabase/functions/prepare-roster-import/handler_test.ts",
+    "scripts/tests/roster_extraction_evaluation_test.ts"
+  ],
+  "recursive_relative_import_closure": true,
+  "files": [
+    {
+      "path": ".dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3294,
+      "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 2468,
+      "sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a"
+    },
+    {
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 37689,
+      "sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f"
+    }
+  ]
+}

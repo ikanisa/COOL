@@ -1,0 +1,6 @@
+{
+  "failed_packet": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-attempt8/validation.json",
+  "finding": "Synthetic update stage reused already substituted bootstrap. Restore the single verified service-worker version constant to its production placeholder before rerunning the unchanged production postprocessor.",
+  "production_source_changed": false,
+  "authorization_gates_changed": false
+}

@@ -1,0 +1,10 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":26061,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1/test/shared/member_realtime_sdk_session_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1/test/shared/member_realtime_sdk_session_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":1}
+{"count":1,"time":42,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":29541}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":29544}
+{"test":{"id":3,"name":"actual member SDK retained rows stay stale when failed refresh has no readable cache","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":483,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1/test/shared/member_realtime_sdk_session_test.dart"},"type":"testStart","time":29544}
+{"testID":3,"error":"Expected: true\n  Actual: <false>\n","stackTrace":"package:matcher                                          expect\npackage:flutter_test/src/widget_tester.dart 473:18       expect\ntest/shared/member_realtime_sdk_session_test.dart 497:7  main.<fn>\n","isFailure":true,"type":"error","time":30468}
+{"testID":3,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":30524}
+{"success":false,"type":"done","time":30541}

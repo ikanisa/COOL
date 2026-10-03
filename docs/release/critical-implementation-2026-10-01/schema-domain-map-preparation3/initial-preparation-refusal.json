@@ -1,0 +1,4 @@
+{
+  "error": "Initial setup assumed dict manifest; actual prior files entry is a list. Refused before copying or testing. Corrected parser accepts both recorded shapes.",
+  "maintained_changes": false
+}

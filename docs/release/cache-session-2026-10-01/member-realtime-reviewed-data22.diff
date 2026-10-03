@@ -1,0 +1,22 @@
+--- accepted-data22/lib/shared/repositories/collect_repository.dart
++++ current/lib/shared/repositories/collect_repository.dart
+@@ -1713,13 +1713,17 @@
+     if (_realtimeSync != null && _realtimeOwnerId == userId) return;
+     _stopRealtimeSync();
+     _realtimeOwnerId = userId;
++    final session = _captureSession();
+     _realtimeSync = RealtimeInvalidationSubscription(
+       client: supabase,
+-      topic: 'collect:mobile:invalidation',
++      // The locked SDK matches channel messages by topic. A departed join's
++      // frame must not be routed into a replacement Auth scope's callback.
++      topic: 'collect:mobile:invalidation:${const Uuid().v4()}',
+       areas: collectMobileRealtimeAreas,
+       ownerUserId: userId,
+       onInvalidate: () async {
+-        if (mounted && supabase.auth.currentUser?.id == userId) {
++        if (_isCurrentSession(session) &&
++            supabase.auth.currentUser?.id == userId) {
+           await loadInitial();
+         }
+       },

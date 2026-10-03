@@ -1,0 +1,39 @@
+{
+  "changes": [
+    "Require all three successful immutable common-source gates before each native build",
+    "Bind explicit production and Gateway Dart targets",
+    "Verify expected unsigned APK diagnostic rather than accepting any verifier exit one",
+    "Check copied tooling as well as native inputs after builds",
+    "Report scoped checkout additions and deletions, including later test/tool changes"
+  ],
+  "kind": "prepared_native_runner_syntax_and_contract_review",
+  "scope": "Unlaunched runner syntax/readiness only. Actual Gradle/Xcode/APK checks remain pending a source window; these edits do not change product/runtime/native source.",
+  "sha256": {
+    ".cache/run-native-android-attempt53.py": {
+      "after_sha256": "e8f275df962824c430c2808381b6bca4943350871b8670a01463c8dada733bcf",
+      "before_sha256": "29799f86c9083329e8b0e28bdd840594db62e873e21fbf0a5b96645055e8cd86",
+      "syntax_parse": "pass"
+    },
+    ".cache/run-native-gateway-attempt63.py": {
+      "after_sha256": "8720254b3d0e061b5e5cb9eaa3b0f1edd933de23e58e7ca6afcbf33c2a40e699",
+      "before_sha256": "f46651f02362a0b6a9ed9e1be2f46ecac423875ad3705de2b7de7c141ebb9d3d",
+      "syntax_parse": "pass"
+    },
+    ".cache/run-native-ios-attempt52.py": {
+      "after_sha256": "7e4d1e721298c0f5cd9d47f97e7b7977c673432311cc1a5346953f76fdc8daec",
+      "before_sha256": "f953bfb74004879d9a7a4d53f8e5917ce8da83715f647b0d8449a81d5b8371f2",
+      "syntax_parse": "pass"
+    },
+    ".cache/run-observed-native-attempt65.py": {
+      "after_sha256": "9aaffc2bf5cb158f8188f5a8ac42dfc5e1b04f00bcbe5cc2286a80cb5d0d3830",
+      "before_sha256": "9aaffc2bf5cb158f8188f5a8ac42dfc5e1b04f00bcbe5cc2286a80cb5d0d3830",
+      "syntax_parse": "pass"
+    },
+    ".cache/verify-native-ios-attempt52.py": {
+      "after_sha256": "238e3ab38eb903b6e077694a09e4d9d297dfde295790f57a94f7ef3caa1fe0bc",
+      "before_sha256": "45ab9eab4c2dc9c4490d33f215da797a9a25c80d7ba4bf2f719c4b9b9c02e1b5",
+      "syntax_parse": "pass"
+    }
+  },
+  "status": "pass"
+}

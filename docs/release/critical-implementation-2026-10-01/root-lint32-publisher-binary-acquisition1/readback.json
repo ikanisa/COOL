@@ -1,0 +1,13 @@
+{
+  "started_utc": "2026-10-02T19:02:13.395448+00:00",
+  "actual_outer_seconds": 0.04505633399821818,
+  "owned_PID_PGID": 31334,
+  "owned_controller_group_absent": true,
+  "exit_code": 1,
+  "observation_timeout": false,
+  "status": "NO_TERMINAL_READBACK",
+  "actual_internal_readback": null,
+  "full_graph_admission": false,
+  "shared_Gradle_cache_writes": 0,
+  "production_release_approval": false
+}

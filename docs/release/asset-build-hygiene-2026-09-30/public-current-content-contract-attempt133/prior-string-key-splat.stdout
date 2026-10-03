@@ -1,0 +1,14 @@
+Run options: --seed 43131
+
+# Running:
+
+........F............
+
+Finished in 0.309336s, 67.8873 runs/s, 67.8873 assertions/s.
+
+  1) Failure:
+PublicContentContractTest#test_actual_reviewed_contract_preserves_historical_baseline [scripts/tests/public_content_contract_test.rb:56]:
+Expected: "pass"
+  Actual: "fail"
+
+21 runs, 21 assertions, 1 failures, 0 errors, 0 skips

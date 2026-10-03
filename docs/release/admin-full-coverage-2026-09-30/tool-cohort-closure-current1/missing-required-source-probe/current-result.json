@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/admin_matrix_report.py",
+    "--packet",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/tool-cohort-closure-current1/missing-required-source-probe",
+    "--inventory",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/tool-cohort-closure-current1/missing-required-source-probe/inventory.json",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/tool-cohort-closure-current1/missing-required-source-probe/current-report"
+  ],
+  "exit_code": 0,
+  "reported_source_match": false,
+  "required_missing": [
+    "lib/admin/new_enabled_provider.dart"
+  ],
+  "fix_verified": true
+}

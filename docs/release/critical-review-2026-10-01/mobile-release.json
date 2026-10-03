@@ -1,0 +1,210 @@
+{
+  "generated_at": "2026-10-01T17:33:14Z",
+  "status": "blocked",
+  "blocker_keys": [
+    "android_release_artifacts",
+    "android_release_artifact_signatures",
+    "android_release_signing_review"
+  ],
+  "failure_keys": [
+
+  ],
+  "android": {
+    "application_id": "app.cool.mobile",
+    "production_flavor": "production",
+    "restricted_sms_permissions_scope": "production_receive_only",
+    "artifacts": {
+      "android_release_apk": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/app/outputs/flutter-apk/app-production-release.apk",
+        "exists": false,
+        "bytes": null,
+        "mtime": null
+      },
+      "android_release_aab": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/app/outputs/bundle/productionRelease/app-production-release.aab",
+        "exists": false,
+        "bytes": null,
+        "mtime": null
+      }
+    }
+  },
+  "ios": {
+    "files": {
+      "info_plist": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Runner/Info.plist",
+        "exists": true,
+        "bytes": 3107,
+        "mtime": "2026-09-10T09:03:55Z"
+      },
+      "production_scheme": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme",
+        "exists": true,
+        "bytes": 4777,
+        "mtime": "2026-09-10T09:03:55Z"
+      },
+      "release_production_xcconfig": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Flutter/Release-production.xcconfig",
+        "exists": true,
+        "bytes": 209,
+        "mtime": "2026-09-10T09:03:55Z"
+      }
+    },
+    "release_scope": "pass"
+  },
+  "checks": {
+    "pubspec_version": {
+      "status": "pass",
+      "message": "pubspec version has semantic version plus build metadata.",
+      "version": "1.2.4+23"
+    },
+    "android_namespace": {
+      "status": "pass",
+      "message": "Android Gradle config contains namespace = \"app.cool.mobile\"."
+    },
+    "android_application_id": {
+      "status": "pass",
+      "message": "Android Gradle config contains applicationId = \"app.cool.mobile\"."
+    },
+    "production_flavor": {
+      "status": "pass",
+      "message": "Android Gradle config contains create(\"production\")."
+    },
+    "dev_suffix_isolated": {
+      "status": "pass",
+      "message": "Android Gradle config contains applicationIdSuffix = \".dev\"."
+    },
+    "internal_receiver_suffix_isolated": {
+      "status": "pass",
+      "message": "Android Gradle config contains applicationIdSuffix = \".receiver\"."
+    },
+    "version_code_from_flutter": {
+      "status": "pass",
+      "message": "Android Gradle config contains versionCode = flutter.versionCode."
+    },
+    "version_name_from_flutter": {
+      "status": "pass",
+      "message": "Android Gradle config contains versionName = flutter.versionName."
+    },
+    "java_17_source": {
+      "status": "pass",
+      "message": "Android Gradle config contains sourceCompatibility = JavaVersion.VERSION_17."
+    },
+    "java_17_target": {
+      "status": "pass",
+      "message": "Android Gradle config contains targetCompatibility = JavaVersion.VERSION_17."
+    },
+    "kotlin_jvm_17": {
+      "status": "pass",
+      "message": "Android Gradle config contains JvmTarget.JVM_17."
+    },
+    "production_internet_permission": {
+      "status": "pass",
+      "message": "Production Android manifest includes INTERNET for Supabase/network calls."
+    },
+    "base_manifest_restricted_sms_permissions_scoped": {
+      "status": "pass",
+      "message": "Base Android manifest limits restricted SMS access to RECEIVE_SMS."
+    },
+    "internal_receiver_sms_permissions_present": {
+      "status": "pass",
+      "message": "internal_receiver declares RECEIVE_SMS without inbox-history READ_SMS access."
+    },
+    "production_sms_permissions_minimized": {
+      "status": "pass",
+      "message": "Android production declares RECEIVE_SMS without inbox-history READ_SMS access."
+    },
+    "sms_telephony_feature_optional": {
+      "status": "pass",
+      "message": "Telephony hardware remains optional for MoMo receipt and USSD support."
+    },
+    "android_sms_runtime_permission_request": {
+      "status": "pass",
+      "message": "Android SMS access requests RECEIVE_SMS before enabling ingestion and does not request inbox history."
+    },
+    "android_release_artifacts": {
+      "status": "blocked",
+      "message": "Production Android release artifacts must be built before GO.",
+      "missing_artifacts": [
+        "android_release_apk",
+        "android_release_aab"
+      ],
+      "artifacts": {
+        "android_release_apk": {
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/app/outputs/flutter-apk/app-production-release.apk",
+          "exists": false,
+          "bytes": null,
+          "mtime": null
+        },
+        "android_release_aab": {
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/app/outputs/bundle/productionRelease/app-production-release.aab",
+          "exists": false,
+          "bytes": null,
+          "mtime": null
+        }
+      }
+    },
+    "android_release_artifact_signatures": {
+      "status": "blocked",
+      "message": "Production APK and AAB must be signed and signature-verified before release review.",
+      "apk": {
+        "status": "blocked",
+        "message": "Production APK is missing."
+      },
+      "aab": {
+        "status": "blocked",
+        "message": "Production AAB is missing."
+      }
+    },
+    "android_release_signing_review": {
+      "status": "blocked",
+      "message": "Android release signing / Play App Signing review must be explicitly recorded for the current artifact version in docs/release/RELEASE_APPROVALS.json.",
+      "current_artifact_version": "1.2.4+23",
+      "approved_artifact_version": "1.2.2+14",
+      "approval_record_valid": true,
+      "approval_version_current": false,
+      "approved_android_artifact_sha256": {
+        "apk": "abf5a610b6dee60227a33aa6de534622b130b0115d495a95df7a4146580dbe6f",
+        "aab": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f"
+      },
+      "current_android_artifact_sha256": {
+        "android_release_apk": null,
+        "android_release_aab": null
+      },
+      "approval_artifact_digests_current": false,
+      "approval_after_android_artifacts": null
+    },
+    "ios_release_files": {
+      "status": "pass",
+      "message": "iOS production scheme/config files exist.",
+      "files": {
+        "info_plist": {
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Runner/Info.plist",
+          "exists": true,
+          "bytes": 3107,
+          "mtime": "2026-09-10T09:03:55Z"
+        },
+        "production_scheme": {
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme",
+          "exists": true,
+          "bytes": 4777,
+          "mtime": "2026-09-10T09:03:55Z"
+        },
+        "release_production_xcconfig": {
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/ios/Flutter/Release-production.xcconfig",
+          "exists": true,
+          "bytes": 209,
+          "mtime": "2026-09-10T09:03:55Z"
+        }
+      }
+    },
+    "ios_release_scope": {
+      "status": "pass",
+      "message": "iOS release evidence is approved.",
+      "source": "release_approvals_manifest",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "reviewed_at": "2026-08-08T12:53:00Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md"
+    }
+  },
+  "secret_handling": "This gate records metadata, artifact paths, review notes, and blocker keys only; it must not print signing keys or secret values."
+}

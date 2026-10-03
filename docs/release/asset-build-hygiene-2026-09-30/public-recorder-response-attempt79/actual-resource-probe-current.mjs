@@ -1,0 +1,11 @@
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {createHash} from 'node:crypto';
+const pw=await import('/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.js');const {chromium}=pw.chromium?pw:pw.default;
+const build=resolve('.cache/public-app-media-attempt77/build');
+const mime={'.html':'text/html','.js':'text/javascript','.json':'application/json','.wasm':'application/wasm','.png':'image/png','.webp':'image/webp','.ttf':'font/ttf','.woff2':'font/woff2'};
+const server=createServer(async(req,res)=>{try{const p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const name=resolve(build,'.'+(p==='/'?'/index.html':p));if(!name.startsWith(build+'/'))throw Error();const b=await readFile(name);res.writeHead(200,{'content-type':mime[extname(name)]||'application/octet-stream','cache-control':'no-store'});res.end(b);}catch{res.writeHead(404);res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+const browser=await chromium.launch({executablePath:'/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--disable-background-networking','--disable-component-update','--disable-sync']});
+try{const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:3,colorScheme:'dark'});await context.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());const page=await context.newPage();const pending=[];page.on('framenavigated',frame=>console.log('NAV',frame.url().replace(origin,'')));page.on('requestfailed',r=>console.log('REQUEST_FAILED',new URL(r.url()).pathname,r.failure()?.errorText));page.on('response',r=>{if(r.status()!==200||new URL(r.url()).origin!==origin)return;const p=new URL(r.url()).pathname;pending.push((async()=>{try{const b=await r.body();console.log('BODY',p,b.length,createHash('sha256').update(b).digest('hex'));}catch(e){console.log('BODY_FAILED',p,e.message)}})());});await page.goto(origin+'/#/home',{waitUntil:'networkidle',timeout:90000});await page.waitForTimeout(5000);await Promise.all(pending);await context.close();}finally{await browser.close();await new Promise(r=>server.close(r));}

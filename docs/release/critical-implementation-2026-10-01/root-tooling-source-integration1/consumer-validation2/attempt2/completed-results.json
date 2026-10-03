@@ -1,0 +1,155 @@
+{
+  "all_commands_completed": true,
+  "all_exit_codes_zero": false,
+  "all_process_groups_absent": true,
+  "all_transitive_count": 403,
+  "results": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--version"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 0.053,
+      "exit_code": 0,
+      "output_limit_bytes": 4194304,
+      "pgid": 26374,
+      "pid": 26374,
+      "process_group_absent": true,
+      "residual_group_on_leader_completion": false,
+      "stderr": {
+        "bytes": 0,
+        "device": 16777247,
+        "inode": 17772680,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924126770701250,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9,
+        "device": 16777247,
+        "inode": 17772679,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924126789019300,
+        "sha256": "b7677d3ec37ee1897ba07dc2cfe8292fe421c9ac93396cca5bbece486d1a2a41"
+      },
+      "termination_reason": null,
+      "timeout_seconds": 5
+    },
+    {
+      "command": [
+        "/usr/bin/make",
+        "-n",
+        "qa-tooling-test"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 0.055,
+      "exit_code": 0,
+      "output_limit_bytes": 4194304,
+      "pgid": 26376,
+      "pid": 26376,
+      "process_group_absent": true,
+      "residual_group_on_leader_completion": false,
+      "stderr": {
+        "bytes": 0,
+        "device": 16777247,
+        "inode": 17772683,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924126824440626,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1567,
+        "device": 16777247,
+        "inode": 17772682,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924126864541921,
+        "sha256": "c0c7c73eb2bfb9d792ecdf82465dc9537035c1c81df5bed0ac5c0c3c816aeaa4"
+      },
+      "termination_reason": null,
+      "timeout_seconds": 15
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/consumer-cohort.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 138.827,
+      "exit_code": 1,
+      "output_limit_bytes": 4194304,
+      "pgid": 26377,
+      "pid": 26377,
+      "process_group_absent": true,
+      "residual_group_on_leader_completion": false,
+      "stderr": {
+        "bytes": 13545,
+        "device": 16777247,
+        "inode": 17772686,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924265762510020,
+        "sha256": "6188e08420cc0ff884ceeb2901fae91e6c325fd6fef34832148df2874a9aea39"
+      },
+      "stdout": {
+        "bytes": 0,
+        "device": 16777247,
+        "inode": 17772685,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924126880295219,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "termination_reason": null,
+      "timeout_seconds": 900
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/additional-ordering.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 12.945,
+      "exit_code": 1,
+      "output_limit_bytes": 4194304,
+      "pgid": 32037,
+      "pid": 32037,
+      "process_group_absent": true,
+      "residual_group_on_leader_completion": false,
+      "stderr": {
+        "bytes": 3813,
+        "device": 16777247,
+        "inode": 17773840,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924278665514738,
+        "sha256": "c02fd4daa135e0f549c5932f359aa40c05f99a15821d420d59c8c6a0f6cfae6b"
+      },
+      "stdout": {
+        "bytes": 0,
+        "device": 16777247,
+        "inode": 17773839,
+        "links": 1,
+        "mode": 420,
+        "mtime_ns": 1790924265773079354,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "termination_reason": null,
+      "timeout_seconds": 350
+    }
+  ],
+  "reviewed_input_count": 12,
+  "scope": "maintained offline consumers; no real approval/provider/database/release acceptance",
+  "source_identity_changes": [],
+  "source_identity_unchanged": true
+}

@@ -1,0 +1,16 @@
+{
+  "scope": "rw_receipt_retention_control_request",
+  "intent": null,
+  "status": "not_recorded",
+  "actor_id": "99780000-0000-4000-8000-000000000001",
+  "after_cron": null,
+  "checked_at": "2026-10-02T03:19:24.406354Z",
+  "request_id": "ca3b4e18-f087-4a06-b342-78506ce43332",
+  "session_id": "99780000-0000-4000-8000-000000010001",
+  "before_cron": null,
+  "recorded_at": null,
+  "contract_version": 1,
+  "fingerprint_sha256": "ab2000805e9e3bb3e8e3577892434e8210ec0fe4e0cac199b2f1702e2f82bce9",
+  "after_configuration": null,
+  "before_configuration": null
+}

@@ -1,0 +1,27 @@
+{
+  "bootstrap_key_rotated": false,
+  "comparison": {
+    "cron_history_preserved": true,
+    "cron_jobs_preserved": true,
+    "old_recorder_controls_directly_comparable": false,
+    "tables_preserved": true
+  },
+  "completed_at_utc": "2026-09-30T22:27:19.794129+00:00",
+  "guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "snapshot_sha256": "4ce32ddfc6f64e663e06b02c77d8f3fa5591c1e4db5aedf614df9c43bd9baf60",
+  "source_written": false,
+  "status": "pass",
+  "strong_catalog_sha256": "e00dd6fe9c852535bcc31438b0ef34c127e8e033d2319d484da2c1a59c178823",
+  "table_count": 153
+}

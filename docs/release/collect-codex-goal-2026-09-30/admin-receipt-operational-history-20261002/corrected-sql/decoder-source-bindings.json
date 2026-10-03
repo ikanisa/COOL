@@ -1,0 +1,30 @@
+{
+  "lib/admin/core/admin_receipt_operational_history_models.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/admin/core/admin_receipt_operational_history_models.dart",
+    "sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9"
+  },
+  "lib/admin/core/admin_receipt_operational_history_sdk.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/admin/core/admin_receipt_operational_history_sdk.dart",
+    "sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33"
+  },
+  "lib/admin/core/admin_entity_audit.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/admin/core/admin_entity_audit.dart",
+    "sha256": "17db9d8cc6d8cae563f829b166b95b090bfd675d397a2c4f374f15e3b816b53a"
+  },
+  "lib/admin/core/admin_models.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/admin/core/admin_models.dart",
+    "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+  },
+  "lib/admin/core/admin_transaction_lifecycle.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/admin/core/admin_transaction_lifecycle.dart",
+    "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+  },
+  "lib/core/data/exact_json_values.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/lib/core/data/exact_json_values.dart",
+    "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+  },
+  "scripts/tests/admin_receipt_operational_history_test.dart": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/validation-app/scripts/tests/admin_receipt_operational_history_test.dart",
+    "sha256": "27379089bde00cbb6a6e2b8ab9a1227fdf42f458a8b05eed684b0e11a104cf4d"
+  }
+}

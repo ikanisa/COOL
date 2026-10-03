@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-01T23:25:00.565202+00:00",
+  "packet_manifest_sha256": "4fef33b3391a9ba427dad5117a8dbbb7259935ef46f2bb959816244d3b6cd2e1",
+  "packet_members": 2588,
+  "canonical_bindings": 667,
+  "dependencies": 1464,
+  "all_drift": false,
+  "new_promotion_targets_absent": 21,
+  "root_source": {
+    "test/admin_receipt_successor_integration_test.dart": "3a2ae75633a2af6efe7aafc2023553a3a3bd92905dc086799371e9b26a095faf",
+    "lib/admin/core/admin_investigation_view.dart": "cad59f5d940b4ec7d75ea7c77666bb5248c94904e4793181db88f351a27ad255"
+  },
+  "legacy_inputs": {
+    "test/admin_investigation_view_test.dart": "b306b89700e2c207b487bbca9500f30938f47e269227e82a2a20c9ad746f1363",
+    "test/fixtures/admin_investigation_v1.json": "ba060571e5241e113acabd80919bd95563d25655003ec3d2683344f4b35be6dd",
+    "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-posted-transaction.json": "f362eca0365bbf09f180b495f83b559b752fe3470b69d6d2ffecba426249ca79",
+    "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-posted-receipt.json": "7bbde27b3b48b361dd275f3d53d5ef94112404d825b87d754a173914908d2792",
+    "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-reversed-transaction.json": "6955333f8542257f3725d3a8e15cf66cb071f6b087627284b697612bb540ebf9",
+    "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-empty.json": "ccb009c24c1b30f6eb924bc07858378c59cd9309a28eff1184bedb803a3cb4e0",
+    "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-bounded-history.json": "1583b0232c67364829bf97e3692d346ac4aacf7fac27c2e0184521b63895a3e1"
+  }
+}

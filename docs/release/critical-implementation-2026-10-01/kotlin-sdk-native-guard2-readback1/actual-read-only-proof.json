@@ -1,0 +1,1893 @@
+{
+  "SDK_app_control_or_maintained_writes": false,
+  "actual_pub_child_exit_code": 0,
+  "actual_pub_child_seconds": 294.027,
+  "actual_seconds": 41.989,
+  "actual_stage_or_Flutter_Gradle_build_execution": false,
+  "actual_whole_app_lock_stage_pass": false,
+  "all_preserved_input_identities_unchanged": true,
+  "authored_files_verified": 2510,
+  "candidate_promoted": false,
+  "copy_provenance": {
+    "firebase_messaging": {
+      "copy_entries": {
+        ".": {
+          "identity": {
+            "ctime_ns": 1790925219340459718,
+            "dev": 16777232,
+            "ino": 59957536,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 13,
+            "size": 416
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "CHANGELOG.md": {
+          "identity": {
+            "ctime_ns": 1790925219333417068,
+            "dev": 16777232,
+            "ino": 59957560,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 50020
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c8be4822e7f65b9e0bc17a723b26be5946a832ce0dcd84a0e390b69a477bea34"
+        },
+        "COLLECT_FORK.md": {
+          "identity": {
+            "ctime_ns": 1790925219333703479,
+            "dev": 16777232,
+            "ino": 59957561,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 2308
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8"
+        },
+        "LICENSE": {
+          "identity": {
+            "ctime_ns": 1790925219334088197,
+            "dev": 16777232,
+            "ino": 59957562,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1558
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8"
+        },
+        "README.md": {
+          "identity": {
+            "ctime_ns": 1790925219334366855,
+            "dev": 16777232,
+            "ino": 59957563,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 2083
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "b8114aa2c779eed5a3b1eb07b9c9b78c941eca3e81fdc9e55bafcfa332c47771"
+        },
+        "UPSTREAM-SHA256.json": {
+          "identity": {
+            "ctime_ns": 1790925219334572471,
+            "dev": 16777232,
+            "ino": 59957564,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 19741
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40"
+        },
+        "analysis_options.yaml": {
+          "identity": {
+            "ctime_ns": 1790925219334717219,
+            "dev": 16777232,
+            "ino": 59957565,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 197
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19"
+        },
+        "android": {
+          "identity": {
+            "ctime_ns": 1790925219340487567,
+            "dev": 16777232,
+            "ino": 59957537,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 7,
+            "size": 224
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/build.gradle": {
+          "identity": {
+            "ctime_ns": 1790925219334997753,
+            "dev": 16777232,
+            "ino": 59957567,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 2120
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c2598140aac8ffd58d42ad7d149c8d5b331c1c9b7e3eb3277e0386f35d2425c0"
+        },
+        "android/local-config.gradle": {
+          "identity": {
+            "ctime_ns": 1790925219335121823,
+            "dev": 16777232,
+            "ino": 59957568,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 141
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3afbe39a27f1155be33ec7397efdd43ea93342d1f5644d0dd282b9b2367f7cc0"
+        },
+        "android/settings.gradle": {
+          "identity": {
+            "ctime_ns": 1790925219335253315,
+            "dev": 16777232,
+            "ino": 59957569,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 287
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9413481279b0b27897c15d5517ef52e2c868c7ae32ae1107d3ccc7348cd8228d"
+        },
+        "android/src": {
+          "identity": {
+            "ctime_ns": 1790925219340516291,
+            "dev": 16777232,
+            "ino": 59957538,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main": {
+          "identity": {
+            "ctime_ns": 1790925219340541889,
+            "dev": 16777232,
+            "ino": 59957539,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/AndroidManifest.xml": {
+          "identity": {
+            "ctime_ns": 1790925219335512586,
+            "dev": 16777232,
+            "ino": 59957571,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1818
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "b73c67cd46b52377e4ddc8a8c2903d865dcd24cd401d2f2a47aa6830fbd68efb"
+        },
+        "android/src/main/java": {
+          "identity": {
+            "ctime_ns": 1790925219340568529,
+            "dev": 16777232,
+            "ino": 59957540,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io": {
+          "identity": {
+            "ctime_ns": 1790925219340599255,
+            "dev": 16777232,
+            "ino": 59957541,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter": {
+          "identity": {
+            "ctime_ns": 1790925219340629022,
+            "dev": 16777232,
+            "ino": 59957542,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins": {
+          "identity": {
+            "ctime_ns": 1790925219340656120,
+            "dev": 16777232,
+            "ino": 59957543,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase": {
+          "identity": {
+            "ctime_ns": 1790925219340683553,
+            "dev": 16777232,
+            "ino": 59957544,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging": {
+          "identity": {
+            "ctime_ns": 1790925219340710568,
+            "dev": 16777232,
+            "ino": 59957545,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 17,
+            "size": 544
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/ContextHolder.java": {
+          "identity": {
+            "ctime_ns": 1790925219335657793,
+            "dev": 16777232,
+            "ino": 59957572,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 639
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c2c227b6f06dcc6597b70428a79099ef15b812652100d6205cbf4117c104e28a"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseAppRegistrar.java": {
+          "identity": {
+            "ctime_ns": 1790925219335791327,
+            "dev": 16777232,
+            "ino": 59957573,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 764
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0b4ca575da655e5d0d72cb9ebe2e83ab22a1641d0b9de5e954fb06aad83ac528"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingBackgroundExecutor.java": {
+          "identity": {
+            "ctime_ns": 1790925219336002405,
+            "dev": 16777232,
+            "ino": 59957574,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 11246
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "bcf10f5b8ca7e1d40435891510c79ccd444309baf4afb97e58a779bb503345c3"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingBackgroundService.java": {
+          "identity": {
+            "ctime_ns": 1790925219336202518,
+            "dev": 16777232,
+            "ino": 59957575,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 5798
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3317dc53ca683cd6b985f3324808170c76d0f90269884e4c3d7a6c0ab07f891e"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingInitProvider.java": {
+          "identity": {
+            "ctime_ns": 1790925219336351060,
+            "dev": 16777232,
+            "ino": 59957576,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1690
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a6201bf53a1d117f93c28e7a4805537148cac761ebd63bcf3a554aaf735a8dca"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingPlugin.java": {
+          "identity": {
+            "ctime_ns": 1790925219336532996,
+            "dev": 16777232,
+            "ino": 59957577,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 23853
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "f34042efa7de3b65b3903d7190c01a3c7bc9b4d9e0fe5ccd32652a2a07cc7397"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingReceiver.java": {
+          "identity": {
+            "ctime_ns": 1790925219336686417,
+            "dev": 16777232,
+            "ino": 59957578,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 3956
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "71de409dfdd846076f6efdaf4323181acc2c6ddb5977fbb5f2bab9d81ef7e4fc"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingService.java": {
+          "identity": {
+            "ctime_ns": 1790925219336827788,
+            "dev": 16777232,
+            "ino": 59957579,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 822
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "7fb7ebeb524a5b3a160f621a904d4eded6381a640705eafced070f85e6ff5217"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingStore.java": {
+          "identity": {
+            "ctime_ns": 1790925219336998010,
+            "dev": 16777232,
+            "ino": 59957580,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 4993
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "cd0a7cd57743af48a8600d49c63ca936679b8dcdbb4c4304d89ab047d0f5a3b4"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingUtils.java": {
+          "identity": {
+            "ctime_ns": 1790925219337176736,
+            "dev": 16777232,
+            "ino": 59957581,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 9238
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0674026d9cb3a8c14f8572378989dd8091df1b0479904c3cd207b5d6a9d9884c"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebasePermissionManager.java": {
+          "identity": {
+            "ctime_ns": 1790925219337316731,
+            "dev": 16777232,
+            "ino": 59957582,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 2893
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "511499794bcf7a23ed25c427721a5e16344d49d51da9916b6a2c91b065eb58b7"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseRemoteMessageLiveData.java": {
+          "identity": {
+            "ctime_ns": 1790925219337455310,
+            "dev": 16777232,
+            "ino": 59957583,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 741
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3bbd7dc1c15888827a23597da4ef3c51dfa30aaf778de4b6eea5e23ce228a06a"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseTokenLiveData.java": {
+          "identity": {
+            "ctime_ns": 1790925219337593805,
+            "dev": 16777232,
+            "ino": 59957584,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 619
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "f4bf745f8af3c1a8056f3ce05c51fffc3f1fb5e0fbb3a6b4bbad74552bbee8e7"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/JobIntentService.java": {
+          "identity": {
+            "ctime_ns": 1790925219337807217,
+            "dev": 16777232,
+            "ino": 59957585,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 20901
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "6357ae41417a7a306b4b974ae5a52969a23e518ce4f85684c9852992d0e384c9"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/PluginRegistrantException.java": {
+          "identity": {
+            "ctime_ns": 1790925219337953467,
+            "dev": 16777232,
+            "ino": 59957586,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 587
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "400e9a909193d6c1d5ed64653ebdd618b66b14b6aef2a82f1ccab970cfeb415c"
+        },
+        "android/user-agent.gradle": {
+          "identity": {
+            "ctime_ns": 1790925219335376468,
+            "dev": 16777232,
+            "ino": 59957570,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 828
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "2f863f5e162c57ddeb66f6b91b9824bd7c35b4816a7415a006a508f66fe0159f"
+        },
+        "ios": {
+          "identity": {
+            "ctime_ns": 1790925219340735874,
+            "dev": 16777232,
+            "ino": 59957546,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790925219340762597,
+            "dev": 16777232,
+            "ino": 59957547,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging.podspec": {
+          "identity": {
+            "ctime_ns": 1790925219338086083,
+            "dev": 16777232,
+            "ino": 59957587,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1723
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a448567b1f132013b626ac76347e7f0f7182b7512e688681932e96a0990f26c3"
+        },
+        "ios/firebase_messaging/Package.swift": {
+          "identity": {
+            "ctime_ns": 1790925219342122575,
+            "dev": 16777232,
+            "ino": 59957588,
+            "mode": 33188,
+            "mtime_ns": 1790925219342122575,
+            "nlink": 1,
+            "size": 1308
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0cdc3adc8fc92d4cc9decc7e00838407076a26bd18be1f0fc31fe253ab5eea3e"
+        },
+        "ios/firebase_messaging/Sources": {
+          "identity": {
+            "ctime_ns": 1790925219340792489,
+            "dev": 16777232,
+            "ino": 59957548,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790925219340824007,
+            "dev": 16777232,
+            "ino": 59957549,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 5,
+            "size": 160
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
+          "identity": {
+            "ctime_ns": 1790925219338493856,
+            "dev": 16777232,
+            "ino": 59957589,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 51739
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72"
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/Resources": {
+          "identity": {
+            "ctime_ns": 1790925219340851481,
+            "dev": 16777232,
+            "ino": 59957550,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": {
+          "identity": {
+            "ctime_ns": 1790925219338663827,
+            "dev": 16777232,
+            "ino": 59957590,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 854
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb"
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/include": {
+          "identity": {
+            "ctime_ns": 1790925219340877746,
+            "dev": 16777232,
+            "ino": 59957551,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": {
+          "identity": {
+            "ctime_ns": 1790925219338833548,
+            "dev": 16777232,
+            "ino": 59957591,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 3932
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+        },
+        "lib": {
+          "identity": {
+            "ctime_ns": 1790925219340901718,
+            "dev": 16777232,
+            "ino": 59957552,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "lib/firebase_messaging.dart": {
+          "identity": {
+            "ctime_ns": 1790925219338973627,
+            "dev": 16777232,
+            "ino": 59957592,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1031
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba"
+        },
+        "lib/src": {
+          "identity": {
+            "ctime_ns": 1790925219340928399,
+            "dev": 16777232,
+            "ino": 59957553,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "lib/src/messaging.dart": {
+          "identity": {
+            "ctime_ns": 1790925219339149143,
+            "dev": 16777232,
+            "ino": 59957593,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 11245
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed"
+        },
+        "macos": {
+          "identity": {
+            "ctime_ns": 1790925219340953830,
+            "dev": 16777232,
+            "ino": 59957554,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790925219340980012,
+            "dev": 16777232,
+            "ino": 59957555,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging.podspec": {
+          "identity": {
+            "ctime_ns": 1790925219339308400,
+            "dev": 16777232,
+            "ino": 59957594,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 2819
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3479a72d24f7829860e7e92b07a14e4e0023ec2cf6d8ed04cd74f1288c7968a4"
+        },
+        "macos/firebase_messaging/Package.swift": {
+          "identity": {
+            "ctime_ns": 1790925219339440808,
+            "dev": 16777232,
+            "ino": 59957595,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1304
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9a3f2eb8a0f7b8bd366fa640d0a07395938318a01697c7c9d3dc7b2c28d0b680"
+        },
+        "macos/firebase_messaging/Sources": {
+          "identity": {
+            "ctime_ns": 1790925219341006068,
+            "dev": 16777232,
+            "ino": 59957556,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790925219341031708,
+            "dev": 16777232,
+            "ino": 59957557,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 5,
+            "size": 160
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
+          "identity": {
+            "ctime_ns": 1790925219340081045,
+            "dev": 16777232,
+            "ino": 59957596,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 51515
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c"
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/Resources": {
+          "identity": {
+            "ctime_ns": 1790925219341058223,
+            "dev": 16777232,
+            "ino": 59957558,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": {
+          "identity": {
+            "ctime_ns": 1790925219340247431,
+            "dev": 16777232,
+            "ino": 59957597,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 854
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb"
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/include": {
+          "identity": {
+            "ctime_ns": 1790925219341088990,
+            "dev": 16777232,
+            "ino": 59957559,
+            "mode": 16877,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": {
+          "identity": {
+            "ctime_ns": 1790925219340401018,
+            "dev": 16777232,
+            "ino": 59957598,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 3932
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+        },
+        "pubspec.yaml": {
+          "identity": {
+            "ctime_ns": 1790925219334854089,
+            "dev": 16777232,
+            "ino": 59957566,
+            "mode": 33188,
+            "mtime_ns": 1790924767000000000,
+            "nlink": 1,
+            "size": 1166
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88"
+        }
+      },
+      "copy_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/build/ios/SourcePackages/firebase_messaging",
+      "entries_verified": 63,
+      "only_rewritten_manifest": "ios/firebase_messaging/Package.swift",
+      "replacements": [
+        [
+          "\"../firebase_core\"",
+          "\"../firebase_core-4.13.0\""
+        ]
+      ],
+      "rewritten_manifest_sha256": "0cdc3adc8fc92d4cc9decc7e00838407076a26bd18be1f0fc31fe253ab5eea3e",
+      "source_entries": {
+        ".": {
+          "identity": {
+            "ctime_ns": 1790924767458949436,
+            "dev": 16777232,
+            "ino": 59931489,
+            "mode": 16877,
+            "mtime_ns": 1790924767458949436,
+            "nlink": 13,
+            "size": 416
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "CHANGELOG.md": {
+          "identity": {
+            "ctime_ns": 1790924767449140595,
+            "dev": 16777232,
+            "ino": 59931490,
+            "mode": 33188,
+            "mtime_ns": 1790924767449114095,
+            "nlink": 1,
+            "size": 50020
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c8be4822e7f65b9e0bc17a723b26be5946a832ce0dcd84a0e390b69a477bea34"
+        },
+        "COLLECT_FORK.md": {
+          "identity": {
+            "ctime_ns": 1790924767449354635,
+            "dev": 16777232,
+            "ino": 59931491,
+            "mode": 33188,
+            "mtime_ns": 1790924767449333677,
+            "nlink": 1,
+            "size": 2308
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8"
+        },
+        "LICENSE": {
+          "identity": {
+            "ctime_ns": 1790924767449544884,
+            "dev": 16777232,
+            "ino": 59931492,
+            "mode": 33188,
+            "mtime_ns": 1790924767449521175,
+            "nlink": 1,
+            "size": 1558
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8"
+        },
+        "README.md": {
+          "identity": {
+            "ctime_ns": 1790924767449742465,
+            "dev": 16777232,
+            "ino": 59931493,
+            "mode": 33188,
+            "mtime_ns": 1790924767449718424,
+            "nlink": 1,
+            "size": 2083
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "b8114aa2c779eed5a3b1eb07b9c9b78c941eca3e81fdc9e55bafcfa332c47771"
+        },
+        "UPSTREAM-SHA256.json": {
+          "identity": {
+            "ctime_ns": 1790924767449940464,
+            "dev": 16777232,
+            "ino": 59931494,
+            "mode": 33188,
+            "mtime_ns": 1790924767449913172,
+            "nlink": 1,
+            "size": 19741
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40"
+        },
+        "analysis_options.yaml": {
+          "identity": {
+            "ctime_ns": 1790924767450149587,
+            "dev": 16777232,
+            "ino": 59931495,
+            "mode": 33188,
+            "mtime_ns": 1790924767450125129,
+            "nlink": 1,
+            "size": 197
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19"
+        },
+        "android": {
+          "identity": {
+            "ctime_ns": 1790924767455858626,
+            "dev": 16777232,
+            "ino": 59931496,
+            "mode": 16877,
+            "mtime_ns": 1790924767455858626,
+            "nlink": 7,
+            "size": 224
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/build.gradle": {
+          "identity": {
+            "ctime_ns": 1790924767450397169,
+            "dev": 16777232,
+            "ino": 59931497,
+            "mode": 33188,
+            "mtime_ns": 1790924767450371877,
+            "nlink": 1,
+            "size": 2120
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c2598140aac8ffd58d42ad7d149c8d5b331c1c9b7e3eb3277e0386f35d2425c0"
+        },
+        "android/local-config.gradle": {
+          "identity": {
+            "ctime_ns": 1790924767450611334,
+            "dev": 16777232,
+            "ino": 59931498,
+            "mode": 33188,
+            "mtime_ns": 1790924767450589125,
+            "nlink": 1,
+            "size": 141
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3afbe39a27f1155be33ec7397efdd43ea93342d1f5644d0dd282b9b2367f7cc0"
+        },
+        "android/settings.gradle": {
+          "identity": {
+            "ctime_ns": 1790924767450776291,
+            "dev": 16777232,
+            "ino": 59931499,
+            "mode": 33188,
+            "mtime_ns": 1790924767450762374,
+            "nlink": 1,
+            "size": 287
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9413481279b0b27897c15d5517ef52e2c868c7ae32ae1107d3ccc7348cd8228d"
+        },
+        "android/src": {
+          "identity": {
+            "ctime_ns": 1790924767450944914,
+            "dev": 16777232,
+            "ino": 59931500,
+            "mode": 16877,
+            "mtime_ns": 1790924767450944914,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main": {
+          "identity": {
+            "ctime_ns": 1790924767451271995,
+            "dev": 16777232,
+            "ino": 59931501,
+            "mode": 16877,
+            "mtime_ns": 1790924767451271995,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/AndroidManifest.xml": {
+          "identity": {
+            "ctime_ns": 1790924767451010706,
+            "dev": 16777232,
+            "ino": 59931502,
+            "mode": 33188,
+            "mtime_ns": 1790924767450996747,
+            "nlink": 1,
+            "size": 1818
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "b73c67cd46b52377e4ddc8a8c2903d865dcd24cd401d2f2a47aa6830fbd68efb"
+        },
+        "android/src/main/java": {
+          "identity": {
+            "ctime_ns": 1790924767451299828,
+            "dev": 16777232,
+            "ino": 59931503,
+            "mode": 16877,
+            "mtime_ns": 1790924767451299828,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io": {
+          "identity": {
+            "ctime_ns": 1790924767451327203,
+            "dev": 16777232,
+            "ino": 59931504,
+            "mode": 16877,
+            "mtime_ns": 1790924767451327203,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter": {
+          "identity": {
+            "ctime_ns": 1790924767451353453,
+            "dev": 16777232,
+            "ino": 59931505,
+            "mode": 16877,
+            "mtime_ns": 1790924767451353453,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins": {
+          "identity": {
+            "ctime_ns": 1790924767451380036,
+            "dev": 16777232,
+            "ino": 59931506,
+            "mode": 16877,
+            "mtime_ns": 1790924767451380036,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase": {
+          "identity": {
+            "ctime_ns": 1790924767451407369,
+            "dev": 16777232,
+            "ino": 59931507,
+            "mode": 16877,
+            "mtime_ns": 1790924767451407369,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging": {
+          "identity": {
+            "ctime_ns": 1790924767455697211,
+            "dev": 16777232,
+            "ino": 59931508,
+            "mode": 16877,
+            "mtime_ns": 1790924767455697211,
+            "nlink": 17,
+            "size": 544
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/ContextHolder.java": {
+          "identity": {
+            "ctime_ns": 1790924767451473160,
+            "dev": 16777232,
+            "ino": 59931509,
+            "mode": 33188,
+            "mtime_ns": 1790924767451459494,
+            "nlink": 1,
+            "size": 639
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "c2c227b6f06dcc6597b70428a79099ef15b812652100d6205cbf4117c104e28a"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseAppRegistrar.java": {
+          "identity": {
+            "ctime_ns": 1790924767451737533,
+            "dev": 16777232,
+            "ino": 59931510,
+            "mode": 33188,
+            "mtime_ns": 1790924767451723867,
+            "nlink": 1,
+            "size": 764
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0b4ca575da655e5d0d72cb9ebe2e83ab22a1641d0b9de5e954fb06aad83ac528"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingBackgroundExecutor.java": {
+          "identity": {
+            "ctime_ns": 1790924767452046031,
+            "dev": 16777232,
+            "ino": 59931511,
+            "mode": 33188,
+            "mtime_ns": 1790924767452030614,
+            "nlink": 1,
+            "size": 11246
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "bcf10f5b8ca7e1d40435891510c79ccd444309baf4afb97e58a779bb503345c3"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingBackgroundService.java": {
+          "identity": {
+            "ctime_ns": 1790924767452364237,
+            "dev": 16777232,
+            "ino": 59931512,
+            "mode": 33188,
+            "mtime_ns": 1790924767452348612,
+            "nlink": 1,
+            "size": 5798
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3317dc53ca683cd6b985f3324808170c76d0f90269884e4c3d7a6c0ab07f891e"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingInitProvider.java": {
+          "identity": {
+            "ctime_ns": 1790924767452626443,
+            "dev": 16777232,
+            "ino": 59931513,
+            "mode": 33188,
+            "mtime_ns": 1790924767452612318,
+            "nlink": 1,
+            "size": 1690
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a6201bf53a1d117f93c28e7a4805537148cac761ebd63bcf3a554aaf735a8dca"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingPlugin.java": {
+          "identity": {
+            "ctime_ns": 1790924767452897774,
+            "dev": 16777232,
+            "ino": 59931514,
+            "mode": 33188,
+            "mtime_ns": 1790924767452883108,
+            "nlink": 1,
+            "size": 23853
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "f34042efa7de3b65b3903d7190c01a3c7bc9b4d9e0fe5ccd32652a2a07cc7397"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingReceiver.java": {
+          "identity": {
+            "ctime_ns": 1790924767453297271,
+            "dev": 16777232,
+            "ino": 59931515,
+            "mode": 33188,
+            "mtime_ns": 1790924767453282271,
+            "nlink": 1,
+            "size": 3956
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "71de409dfdd846076f6efdaf4323181acc2c6ddb5977fbb5f2bab9d81ef7e4fc"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingService.java": {
+          "identity": {
+            "ctime_ns": 1790924767453559519,
+            "dev": 16777232,
+            "ino": 59931516,
+            "mode": 33188,
+            "mtime_ns": 1790924767453544936,
+            "nlink": 1,
+            "size": 822
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "7fb7ebeb524a5b3a160f621a904d4eded6381a640705eafced070f85e6ff5217"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingStore.java": {
+          "identity": {
+            "ctime_ns": 1790924767453855184,
+            "dev": 16777232,
+            "ino": 59931517,
+            "mode": 33188,
+            "mtime_ns": 1790924767453840434,
+            "nlink": 1,
+            "size": 4993
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "cd0a7cd57743af48a8600d49c63ca936679b8dcdbb4c4304d89ab047d0f5a3b4"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingUtils.java": {
+          "identity": {
+            "ctime_ns": 1790924767454151306,
+            "dev": 16777232,
+            "ino": 59931518,
+            "mode": 33188,
+            "mtime_ns": 1790924767454137348,
+            "nlink": 1,
+            "size": 9238
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "0674026d9cb3a8c14f8572378989dd8091df1b0479904c3cd207b5d6a9d9884c"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebasePermissionManager.java": {
+          "identity": {
+            "ctime_ns": 1790924767454414138,
+            "dev": 16777232,
+            "ino": 59931519,
+            "mode": 33188,
+            "mtime_ns": 1790924767454399138,
+            "nlink": 1,
+            "size": 2893
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "511499794bcf7a23ed25c427721a5e16344d49d51da9916b6a2c91b065eb58b7"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseRemoteMessageLiveData.java": {
+          "identity": {
+            "ctime_ns": 1790924767454702010,
+            "dev": 16777232,
+            "ino": 59931520,
+            "mode": 33188,
+            "mtime_ns": 1790924767454678927,
+            "nlink": 1,
+            "size": 741
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3bbd7dc1c15888827a23597da4ef3c51dfa30aaf778de4b6eea5e23ce228a06a"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/FlutterFirebaseTokenLiveData.java": {
+          "identity": {
+            "ctime_ns": 1790924767454982633,
+            "dev": 16777232,
+            "ino": 59931521,
+            "mode": 33188,
+            "mtime_ns": 1790924767454967550,
+            "nlink": 1,
+            "size": 619
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "f4bf745f8af3c1a8056f3ce05c51fffc3f1fb5e0fbb3a6b4bbad74552bbee8e7"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/JobIntentService.java": {
+          "identity": {
+            "ctime_ns": 1790924767455418421,
+            "dev": 16777232,
+            "ino": 59931522,
+            "mode": 33188,
+            "mtime_ns": 1790924767455398380,
+            "nlink": 1,
+            "size": 20901
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "6357ae41417a7a306b4b974ae5a52969a23e518ce4f85684c9852992d0e384c9"
+        },
+        "android/src/main/java/io/flutter/plugins/firebase/messaging/PluginRegistrantException.java": {
+          "identity": {
+            "ctime_ns": 1790924767455739627,
+            "dev": 16777232,
+            "ino": 59931523,
+            "mode": 33188,
+            "mtime_ns": 1790924767455724211,
+            "nlink": 1,
+            "size": 587
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "400e9a909193d6c1d5ed64653ebdd618b66b14b6aef2a82f1ccab970cfeb415c"
+        },
+        "android/user-agent.gradle": {
+          "identity": {
+            "ctime_ns": 1790924767455895084,
+            "dev": 16777232,
+            "ino": 59931524,
+            "mode": 33188,
+            "mtime_ns": 1790924767455882085,
+            "nlink": 1,
+            "size": 828
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "2f863f5e162c57ddeb66f6b91b9824bd7c35b4816a7415a006a508f66fe0159f"
+        },
+        "ios": {
+          "identity": {
+            "ctime_ns": 1790924767456255332,
+            "dev": 16777232,
+            "ino": 59931525,
+            "mode": 16877,
+            "mtime_ns": 1790924767456255332,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790924767456626579,
+            "dev": 16777232,
+            "ino": 59931527,
+            "mode": 16877,
+            "mtime_ns": 1790924767456626579,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging.podspec": {
+          "identity": {
+            "ctime_ns": 1790924767456073666,
+            "dev": 16777232,
+            "ino": 59931526,
+            "mode": 33188,
+            "mtime_ns": 1790924767456058875,
+            "nlink": 1,
+            "size": 1723
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a448567b1f132013b626ac76347e7f0f7182b7512e688681932e96a0990f26c3"
+        },
+        "ios/firebase_messaging/Package.swift": {
+          "identity": {
+            "ctime_ns": 1790924767456361331,
+            "dev": 16777232,
+            "ino": 59931528,
+            "mode": 33188,
+            "mtime_ns": 1790924767456338164,
+            "nlink": 1,
+            "size": 1301
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "44e23ebffc1c49d040dc6046a991dfb7621f10acb6674abf09a43a4226663eca"
+        },
+        "ios/firebase_messaging/Sources": {
+          "identity": {
+            "ctime_ns": 1790924767456660120,
+            "dev": 16777232,
+            "ino": 59931529,
+            "mode": 16877,
+            "mtime_ns": 1790924767456660120,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790924767457258074,
+            "dev": 16777232,
+            "ino": 59931530,
+            "mode": 16877,
+            "mtime_ns": 1790924767457258074,
+            "nlink": 5,
+            "size": 160
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
+          "identity": {
+            "ctime_ns": 1790924767456739828,
+            "dev": 16777232,
+            "ino": 59931531,
+            "mode": 33188,
+            "mtime_ns": 1790924767456722995,
+            "nlink": 1,
+            "size": 51739
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72"
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/Resources": {
+          "identity": {
+            "ctime_ns": 1790924767457020909,
+            "dev": 16777232,
+            "ino": 59931532,
+            "mode": 16877,
+            "mtime_ns": 1790924767457020909,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": {
+          "identity": {
+            "ctime_ns": 1790924767457070575,
+            "dev": 16777232,
+            "ino": 59931533,
+            "mode": 33188,
+            "mtime_ns": 1790924767457053076,
+            "nlink": 1,
+            "size": 854
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb"
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/include": {
+          "identity": {
+            "ctime_ns": 1790924767457291615,
+            "dev": 16777232,
+            "ino": 59931534,
+            "mode": 16877,
+            "mtime_ns": 1790924767457291615,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "ios/firebase_messaging/Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": {
+          "identity": {
+            "ctime_ns": 1790924767457331698,
+            "dev": 16777232,
+            "ino": 59931535,
+            "mode": 33188,
+            "mtime_ns": 1790924767457317240,
+            "nlink": 1,
+            "size": 3932
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+        },
+        "lib": {
+          "identity": {
+            "ctime_ns": 1790924767457638113,
+            "dev": 16777232,
+            "ino": 59931536,
+            "mode": 16877,
+            "mtime_ns": 1790924767457638113,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "lib/firebase_messaging.dart": {
+          "identity": {
+            "ctime_ns": 1790924767457515114,
+            "dev": 16777232,
+            "ino": 59931537,
+            "mode": 33188,
+            "mtime_ns": 1790924767457502031,
+            "nlink": 1,
+            "size": 1031
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba"
+        },
+        "lib/src": {
+          "identity": {
+            "ctime_ns": 1790924767457667321,
+            "dev": 16777232,
+            "ino": 59931538,
+            "mode": 16877,
+            "mtime_ns": 1790924767457667321,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "lib/src/messaging.dart": {
+          "identity": {
+            "ctime_ns": 1790924767457742445,
+            "dev": 16777232,
+            "ino": 59931539,
+            "mode": 33188,
+            "mtime_ns": 1790924767457728362,
+            "nlink": 1,
+            "size": 11245
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed"
+        },
+        "macos": {
+          "identity": {
+            "ctime_ns": 1790924767458039276,
+            "dev": 16777232,
+            "ino": 59931540,
+            "mode": 16877,
+            "mtime_ns": 1790924767458039276,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790924767458271150,
+            "dev": 16777232,
+            "ino": 59931542,
+            "mode": 16877,
+            "mtime_ns": 1790924767458271150,
+            "nlink": 4,
+            "size": 128
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging.podspec": {
+          "identity": {
+            "ctime_ns": 1790924767457917902,
+            "dev": 16777232,
+            "ino": 59931541,
+            "mode": 33188,
+            "mtime_ns": 1790924767457905361,
+            "nlink": 1,
+            "size": 2819
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "3479a72d24f7829860e7e92b07a14e4e0023ec2cf6d8ed04cd74f1288c7968a4"
+        },
+        "macos/firebase_messaging/Package.swift": {
+          "identity": {
+            "ctime_ns": 1790924767458101859,
+            "dev": 16777232,
+            "ino": 59931543,
+            "mode": 33188,
+            "mtime_ns": 1790924767458088901,
+            "nlink": 1,
+            "size": 1304
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "9a3f2eb8a0f7b8bd366fa640d0a07395938318a01697c7c9d3dc7b2c28d0b680"
+        },
+        "macos/firebase_messaging/Sources": {
+          "identity": {
+            "ctime_ns": 1790924767458297899,
+            "dev": 16777232,
+            "ino": 59931544,
+            "mode": 16877,
+            "mtime_ns": 1790924767458297899,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging": {
+          "identity": {
+            "ctime_ns": 1790924767458783812,
+            "dev": 16777232,
+            "ino": 59931545,
+            "mode": 16877,
+            "mtime_ns": 1790924767458783812,
+            "nlink": 5,
+            "size": 160
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
+          "identity": {
+            "ctime_ns": 1790924767458374857,
+            "dev": 16777232,
+            "ino": 59931546,
+            "mode": 33188,
+            "mtime_ns": 1790924767458357441,
+            "nlink": 1,
+            "size": 51515
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c"
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/Resources": {
+          "identity": {
+            "ctime_ns": 1790924767458583647,
+            "dev": 16777232,
+            "ino": 59931547,
+            "mode": 16877,
+            "mtime_ns": 1790924767458583647,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": {
+          "identity": {
+            "ctime_ns": 1790924767458619188,
+            "dev": 16777232,
+            "ino": 59931548,
+            "mode": 33188,
+            "mtime_ns": 1790924767458605939,
+            "nlink": 1,
+            "size": 854
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb"
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/include": {
+          "identity": {
+            "ctime_ns": 1790924767458814603,
+            "dev": 16777232,
+            "ino": 59931549,
+            "mode": 16877,
+            "mtime_ns": 1790924767458814603,
+            "nlink": 3,
+            "size": 96
+          },
+          "kind": "directory",
+          "mode": 493
+        },
+        "macos/firebase_messaging/Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": {
+          "identity": {
+            "ctime_ns": 1790924767458850853,
+            "dev": 16777232,
+            "ino": 59931550,
+            "mode": 33188,
+            "mtime_ns": 1790924767458836437,
+            "nlink": 1,
+            "size": 3932
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+        },
+        "pubspec.yaml": {
+          "identity": {
+            "ctime_ns": 1790924767458984227,
+            "dev": 16777232,
+            "ino": 59931551,
+            "mode": 33188,
+            "mtime_ns": 1790924767458970977,
+            "nlink": 1,
+            "size": 1166
+          },
+          "kind": "regular",
+          "mode": 420,
+          "source_sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88"
+        }
+      },
+      "source_manifest_sha256": "44e23ebffc1c49d040dc6046a991dfb7621f10acb6674abf09a43a4226663eca",
+      "source_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/firebase_messaging"
+    }
+  },
+  "corrected_whole_app_guard_pass": true,
+  "derived_generated_link_count": 13,
+  "discovered_modern_plugin_pubspecs": 58,
+  "every_other_generated_symlink_or_special_file_refused": true,
+  "exact_generated_registrants": {
+    "ios/Runner/GeneratedPluginRegistrant.h": {
+      "bytes": 378,
+      "device": 16777232,
+      "inode": 59957525,
+      "mode": 420,
+      "mtime_ns": 1790925219310729193,
+      "nlink": 1,
+      "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+    },
+    "ios/Runner/GeneratedPluginRegistrant.m": {
+      "bytes": 3578,
+      "device": 16777232,
+      "inode": 59957526,
+      "mode": 420,
+      "mtime_ns": 1790925219311496627,
+      "nlink": 1,
+      "sha256": "3b2ac015fc041af99a572e0d9f0d698e1353dd6d1db75f2d024f38453e29dad6"
+    }
+  },
+  "exact_generated_symlink_observations": {
+    "ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1": {
+      "ctime_ns": 1790925219314843979,
+      "device": 16777232,
+      "inode": 59957529,
+      "mode": 41453,
+      "mtime_ns": 1790925219314825427,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1/ios/app_links"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0": {
+      "ctime_ns": 1790925219315318331,
+      "device": 16777232,
+      "inode": 59957530,
+      "mode": 41453,
+      "mtime_ns": 1790925219315303989,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0/darwin/file_picker_darwin"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/file_saver": {
+      "ctime_ns": 1790925219315523155,
+      "device": 16777232,
+      "inode": 59957531,
+      "mode": 41453,
+      "mtime_ns": 1790925219315511398,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver/ios/file_saver"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0": {
+      "ctime_ns": 1790925219315872185,
+      "device": 16777232,
+      "inode": 59957532,
+      "mode": 41453,
+      "mtime_ns": 1790925219315860804,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0/ios/firebase_core"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/firebase_messaging": {
+      "ctime_ns": 1790925219342229427,
+      "device": 16777232,
+      "inode": 59957599,
+      "mode": 41453,
+      "mtime_ns": 1790925219342215169,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0": {
+      "ctime_ns": 1790925219342621149,
+      "device": 16777232,
+      "inode": 59957600,
+      "mode": 41453,
+      "mtime_ns": 1790925219342603680,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0/ios/flutter_local_notifications"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6": {
+      "ctime_ns": 1790925219342892260,
+      "device": 16777232,
+      "inode": 59957601,
+      "mode": 41453,
+      "mtime_ns": 1790925219342878252,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6/ios/image_picker_ios"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/integration_test": {
+      "ctime_ns": 1790925219343252089,
+      "device": 16777232,
+      "inode": 59957602,
+      "mode": 41453,
+      "mtime_ns": 1790925219343240832,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test/ios/integration_test"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0": {
+      "ctime_ns": 1790925219343442155,
+      "device": 16777232,
+      "inode": 59957603,
+      "mode": 41453,
+      "mtime_ns": 1790925219343425770,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0/darwin/mobile_scanner"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0": {
+      "ctime_ns": 1790925219345116351,
+      "device": 16777232,
+      "inode": 59957604,
+      "mode": 41453,
+      "mtime_ns": 1790925219345097799,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0/ios/permission_handler_apple"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0": {
+      "ctime_ns": 1790925219345540174,
+      "device": 16777232,
+      "inode": 59957605,
+      "mode": 41453,
+      "mtime_ns": 1790925219345527334,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0/ios/share_plus"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6": {
+      "ctime_ns": 1790925219345829421,
+      "device": 16777232,
+      "inode": 59957606,
+      "mode": 41453,
+      "mtime_ns": 1790925219345817415,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6/darwin/shared_preferences_foundation"
+    },
+    "ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1": {
+      "ctime_ns": 1790925219346117084,
+      "device": 16777232,
+      "inode": 59957607,
+      "mode": 41453,
+      "mtime_ns": 1790925219346101992,
+      "target": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/ios/url_launcher_ios"
+    }
+  },
+  "method_channel_ios_plugins": 13,
+  "original_app_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "original_guard_refusal": "app unreviewed generated source/path: ios/Runner/GeneratedPluginRegistrant.h",
+  "production_release_approval": false,
+  "proof_scope": "read-only mandatory registrants/links and complete source-derived plugin membership on preserved failed candidate",
+  "protected_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "protected_before": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "retry_or_native_admission": false,
+  "reviewed_locked_package_pubspecs": 168,
+  "status": "PASS_READ_ONLY_GUARDS"
+}

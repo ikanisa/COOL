@@ -1,0 +1,21 @@
+{
+  "files": {
+    "README.md": "abfdfc715d707df5d9dc9b3edcc2c0df209c28b3874786217fddb8ace9431d86",
+    "actual-exclusive-expansion-and-exact8.json": "59fb180bf25ea6cdbf05e02a1881f5c9b77148820020f6c4c0c2b8f8f04f48ce",
+    "actual-exclusive-expansion-and-exact8.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-exclusive-expansion-and-exact8.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-foundation-assessment.json": "4c2f9b334e3f5b60ee24d71aa2afdb067bcf30151ebd90c44adb9817e9eaf7a8",
+    "actual-full-source-and-metadata.json": "b8a261f6ff4c2e8ab089ccf4be14ad639d5e498da7e43b10c462b7f1909ea734",
+    "actual-root-foundation-admission.json": "6c0a5990146965548066dad38137a44c99d44d61f1b0971909713178de590e3f",
+    "actual-start.json": "4e850ee1adc63ee5b9163bc4929e8dd101d78be1318367e8356db30a0b1f5861",
+    "actual-terminal.json": "cd987c5c877f3d3e6867dd0c84ef6531e9611c5e81288e763ac61ccb675da9cf",
+    "collect_foundation.py": "67d31df8b299a95546def8453200580b1ce8f2c90476ede1c134c4131f79a32e",
+    "controller-terminal.json": "4e591c7522c4372ab04a18bb6385cf978fff0a7b369d006b7c57c2139a934ee7",
+    "controller.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "controller.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "invocation-start.json": "a09d63ab82f15b985739dc6636d6312920ed905e3ba30f8721919ad8d80fa8be",
+    "pre-invocation.json": "b45d356beb007f0c59b11b09a1472c6abf013f3cbf9b8f2c0da9c2dda2028c87",
+    "sdk-lock-next-proposal.json": "9723cbf4d542a13a8428ff48c908813bd0ddf900651ccc1da4558ffa7031604d"
+  },
+  "scope": "Actual one-shot exclusive native-consumer foundation/full source+exact8+four publisher metadata+protected evidence only; no SDK/pub/startup/Gradle/app execution."
+}

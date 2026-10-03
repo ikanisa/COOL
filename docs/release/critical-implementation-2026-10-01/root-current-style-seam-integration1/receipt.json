@@ -1,0 +1,32 @@
+{
+  "files": {
+    "scripts/audits/collect_schema_domain_caller_seams.json": {
+      "after_sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+      "before_sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+      "reason": "Only unchanged admin-rpc-map method source hash and current line; no semantic seam target or authority changes."
+    },
+    "scripts/tests/admin_receipt_source_busy_test.dart": {
+      "after_sha256": "b341d0bcd5fed131d0f0a1d517f6da990eb278929aa941110f87152941ed1993",
+      "before_sha256": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+      "reason": "Fix actual strict analysis info; retain all assertions, branches, outputs and lazy top-level initialization."
+    },
+    "test/support/test_capture_paths.dart": {
+      "after_sha256": "1053c008625b9df2bcc9d661da0dd6d27b84312e6aaaf672025024d3ca2b37f1",
+      "before_sha256": "83a87fa37aa3934e625a627fbd12844d782f01f70b315083c4fa711ed06aea78",
+      "reason": "Fix actual strict analysis info; retain all assertions, branches, outputs and lazy top-level initialization."
+    }
+  },
+  "mapper_prior_failed_attempt_preserved": true,
+  "original_failed_consumer4_preserved": true,
+  "production_release_approval": false,
+  "two_changed_Dart_files_formatted_zero_additional_changes": true,
+  "format_argv": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart",
+    "format",
+    "--language-version",
+    "3.12",
+    "scripts/tests/admin_receipt_source_busy_test.dart",
+    "test/support/test_capture_paths.dart"
+  ],
+  "format_exit_code": 0
+}

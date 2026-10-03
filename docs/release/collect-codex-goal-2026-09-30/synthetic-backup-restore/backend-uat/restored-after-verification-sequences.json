@@ -1,0 +1,14 @@
+{
+  "auth.refresh_tokens_id_seq": {
+    "is_called": false,
+    "last_value": 1
+  },
+  "collect_security.signed_otp_evidence_id_seq": {
+    "is_called": false,
+    "last_value": 1
+  },
+  "supabase_functions.hooks_id_seq": {
+    "is_called": false,
+    "last_value": 1
+  }
+}

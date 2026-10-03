@@ -1,0 +1,95 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "64110436b9af941177812229367393a543b50fc444f93e9562c5dc9d423ed4b7",
+  "cases": [
+    {
+      "detail": true,
+      "name": "installation preserves all synthetic financial families",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private immutable receipt table has RLS and no API grants",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private helpers have no API execute grants",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot rotate invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot rotate invitation",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:20:17.542822+00:00",
+  "database": "collect_local_uat_ba79454d97e249f7",
+  "failure": "ERROR:  42501: group_share_group_unavailable\nCONTEXT:  PL/pgSQL function public.get_group_share_code(uuid) line 7 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+  "hosted_called": false,
+  "installed_in_shared_source": false,
+  "isolated_database_removed": true,
+  "kind": "group_share_rotation_actual_local_schema153",
+  "migration_sha256": "b4a13a9215b08dcdb6fe91780c3c0ab35ada1684d52b6ed090124c4f017a0d5e",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "runner_sha256": "b60e59094ac6f41fd0e482ab750ed65884ef63c65f80468950f9e7add9d58a04",
+  "schema_only_sha256": "4b196e06bf3d7168cf430066489365257b97b4f9ae66b20da89d4aec658a6270",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 153,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930220000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 153,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930220000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 152,
+  "started_at": "2026-09-30T21:20:13.658068+00:00",
+  "status": "failed"
+}

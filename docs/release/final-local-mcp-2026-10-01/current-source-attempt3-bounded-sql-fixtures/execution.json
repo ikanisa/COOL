@@ -1,0 +1,45 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt184-mcp/tools/collect-notification-mcp/node_modules/.bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0,
+      "seconds": 2.63,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-reporter=tap",
+        "src/keychain_store.test.ts",
+        "src/operational_client.test.ts",
+        "src/operational_health.test.ts",
+        "src/operational_transport.test.ts",
+        "src/operator_client.test.ts",
+        "src/operator_login.test.ts",
+        "src/preflight.test.ts",
+        "src/runtime_credentials.test.ts",
+        "src/server.test.ts",
+        "src/server_transport.test.ts",
+        "src/session_renewal.test.ts",
+        "src/shadow_cli_options.test.ts",
+        "src/shadow_client.test.ts",
+        "src/shadow_stdio.test.ts",
+        "src/shadow_supervisor.test.ts",
+        "src/stdio_preflight.test.ts",
+        "src/supervisor_client.test.ts",
+        "src/supervisor_journal.test.ts"
+      ],
+      "exit_code": 0,
+      "seconds": 32.461,
+      "log_sha256": "24c95f4417c254a8d2095e012af159e1589ab752bee0d7c9903eb71e3841d1c5"
+    }
+  ]
+}

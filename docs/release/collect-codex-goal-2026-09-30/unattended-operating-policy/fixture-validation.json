@@ -1,0 +1,17 @@
+[
+  {
+    "file": "contracts/collect-unattended-operating-policy-v1.fixture.json",
+    "status": "pass",
+    "sha256": "47fce725c5ef8ff9020d2622b000a9bca843611e7eb0048d0c4b46270261b42e"
+  },
+  {
+    "file": "contracts/collect-unattended-operating-policy-v1.receipt.fixture.json",
+    "status": "pass",
+    "sha256": "fbccebbe83a3a0cb5a40cc4d9f513c2a04165c1101103a7902f3a0af91d3afe6"
+  },
+  {
+    "file": "contracts/collect-unattended-operating-policy-v1.lookup.fixture.json",
+    "status": "pass",
+    "sha256": "2495869c246c0b6f24850554c2e01e88ae21046ca2c14d03daf90fafe5eda498"
+  }
+]

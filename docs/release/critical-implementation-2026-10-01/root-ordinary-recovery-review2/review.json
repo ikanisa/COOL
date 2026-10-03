@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-10-02T07:09:04.787568+00:00",
+  "checked_preparation_leaves": 20,
+  "checked_frozen_inputs": 220,
+  "original10_test_AST_unchanged": true,
+  "reviewed_entire_delta_and_new8_tests": true,
+  "focused18_tests_reused": true,
+  "role_fixture_exact_source30_membership23_settings8": true,
+  "all216_source_and4_reference_hashes_equal_attempt1": true,
+  "full_catalog_and_all18_projection_checks_unchanged": true,
+  "review_record_sha256": "65a51ab1a8cf944de93b1c330553b0076b75c82fb0728321cc87eaa3e0253fd3",
+  "original_failure_preserved": true,
+  "shipping_restore_admitted": false,
+  "human_release_approval": false,
+  "whole_bound_seconds": 600
+}

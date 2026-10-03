@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-10-02T01:31:33.179753+00:00",
+  "scope": "all indexed immutable minimization packet leaves plus its batch and index",
+  "prior_batch_sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e",
+  "prior_index_sha256": "4e11f895869b8f9d75d7ceb52ca7b33e63e225a55ac23f2491133565da854310",
+  "indexed_leaf_count": 77,
+  "errors": [],
+  "preserved": true,
+  "historical_full_handler_lint_failure_remains_in_original_packet": true
+}

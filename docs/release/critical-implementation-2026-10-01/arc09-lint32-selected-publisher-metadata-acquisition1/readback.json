@@ -1,0 +1,109 @@
+{
+  "acquisition": {
+    "bytes": 888425,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/completed-metadata-acquisition-readback.json",
+    "sha256": "30db69201c5ed4b18551f64c63f1568ea21da82885852295a1ddc923b84d964f"
+  },
+  "aggregate_phase_work_seconds": 33.98227520901128,
+  "all_owned_groups_absent": true,
+  "authoritative_two_format_completed_projections": [
+    {
+      "bytes": 2240,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/completed-component-results/javax.inject__javax.inject__1.json",
+      "sha256": "46c4d12db6a9908577b63fd2482e4a24f0a3295c1f4fd86c40e5b4268a68d672"
+    },
+    {
+      "bytes": 2222,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/completed-component-results/net.sf.kxml__kxml2__2.3.0.json",
+      "sha256": "407ae59fa309260b20fcf4ef6bb646f839b96c7bf167f09ddaf7f60f996437e5"
+    }
+  ],
+  "binary_acquisition_facts": {
+    "bytes": 131497,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/binary-acquisition-facts.json",
+    "sha256": "61e120f8479c4b0333c3ae265cfe1e5f149a5c8dbc52ef2bf4320ff8154ce037"
+  },
+  "counts": {
+    "HTTPS_requests": 217,
+    "POM_only_filenames_unprojected": 61,
+    "actual_intake_bytes": 604550,
+    "binaries_downloaded": 0,
+    "direct_variant_bindings": 7,
+    "exact_POMs_verified": 69,
+    "external_variant_bridge_bindings": 1,
+    "modules_verified": 8,
+    "official_module404": 61,
+    "shared_cache_writes": 0,
+    "unique_declared_file_plans": 7
+  },
+  "current_global_native_or_backend_pass_claim": false,
+  "filename_binding": {
+    "bytes": 79523,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/filename-binding-readback.json",
+    "sha256": "9842b38e7e84ab9bac7a99172da033656700eac10f5db5934bf450e4cbbde941"
+  },
+  "first_actual_phase": {
+    "requests": 215,
+    "seconds": 32.532773209008155,
+    "status": "original parser-incomplete receipt retained",
+    "work_bound_seconds": 180
+  },
+  "internal_packet": {
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/packet-files.json",
+    "payload_file_count": 1238,
+    "sha256": "3cd27713752e6482211f0706eb9121bae66f8d88d51eb0384fecd8e91332cbee"
+  },
+  "internal_seal": {
+    "bytes": 335,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/seal.json",
+    "sha256": "09d0e8a9bf50613897a9c84a9b5ee4a25ea6151b874fcd893e7cbcbf908f35fb"
+  },
+  "local_binding_checks": {
+    "meaningful_coverage": [
+      "all69actual POM/body/checksum matches",
+      "all217requests metadata-only/absence/size/proxy/config policy",
+      "filename origin/traversal/query/hash/size guards",
+      "Guava exact actual runtime variant attributes/capabilities",
+      "coroutines reciprocal bridge and target file base",
+      "original failure preservation and unprojected61POM-only filenames"
+    ],
+    "network_calls": 0,
+    "observed_exec_command_exit_code": 0,
+    "source": {
+      "bytes": 4896,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/binding_limited_test.py",
+      "sha256": "8426b3f3b231863a1ecc077dd779430ac52d12d78b02d83b7a3731c1d95db839"
+    },
+    "status": "PASS_LOCAL_BINDING_CHECKS",
+    "unittest_count": 6,
+    "unittest_reported_seconds": 0.028
+  },
+  "metadata3_qualified_reuse": {
+    "bytes": 1332,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1/qualified-metadata3-reuse.json",
+    "sha256": "5780ccb86fe90efbc5b4becc84dc53a52edc754735d9d2d626f43144d2ed5b76"
+  },
+  "owned_internal_directory": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-metadata1",
+  "production_release_approval": false,
+  "schema_version": 1,
+  "separate_named_completion_phase": {
+    "POM_or_sidecar_redownloads": 0,
+    "actual_seconds": 1.4579382499941858,
+    "all_owned_groups_absent": true,
+    "captured_at_utc": "2026-10-02T15:45:58.886368+00:00",
+    "requested_resources": "exact two module URLs not requested by original phase",
+    "requests": 2,
+    "separate_reap_seconds": 2,
+    "work_bound_seconds": 30
+  },
+  "status": "PASS_PUBLISHER_METADATA_ONLY_WITH_QUALIFIED_REUSE",
+  "sum_not_single_wall_clock180_claim": true,
+  "worker_and_request_policy": {
+    "credentials_proxy_curlconfig_redirects_and_retries": false,
+    "max_file_bytes": 2097152,
+    "max_total_bytes": 67108864,
+    "max_workers": 4,
+    "seconds_per_request": 30,
+    "separate_reap_seconds": 2
+  }
+}

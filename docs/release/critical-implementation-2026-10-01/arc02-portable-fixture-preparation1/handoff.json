@@ -1,0 +1,46 @@
+{
+  "APP_SDK_provider_SQL_writes": [],
+  "changed_dart_files": 10,
+  "excluded_other_owner_paths": [
+    "test/admin_route_access_test.dart",
+    "test/admin_pwa_test.dart",
+    "scripts/admin_pwa_browser_qa.mjs",
+    "scripts/admin_pwa_authenticated_render_smoke.sh"
+  ],
+  "existing_operations_receipts_reused": 4,
+  "kind": "collect_private_portable_current41_fixture_capture_handoff",
+  "maintained_write_boundary": [],
+  "new_capture_helper": 1,
+  "new_domain_provenance_records": 4,
+  "new_observed_receipts": 34,
+  "private_static_result": {
+    "all_declared_deltas_reconstruct_exact_proposed_bytes": true,
+    "assertion_registration_disposal_and_existing_capture_flags_preserved": true,
+    "byte_exact_selected_receipts": 34,
+    "changed_dart_files": 10,
+    "flutter_dart_sql_provider_or_sdk_invocations": 0,
+    "format_analysis_and_current41_runtime_proof": "Pending root integration and execution",
+    "input_bindings_checked": 59,
+    "kind": "collect_private_portable_fixture_static_preservation",
+    "maintained_writes": 0,
+    "new_capture_helper": 1,
+    "proposed_paths": 49,
+    "reused_operations_receipts": 4,
+    "status": "pass"
+  },
+  "proposed_paths": 49,
+  "root_remaining": [
+    "Batch Dart formatting with derived hash readback",
+    "Integrate only the 49 declared proposed paths after preimage validation",
+    "Capture source/export plan must include the new fixture JSON and shared helper",
+    "Run required actual current41 proof against root candidate; optional golden flags retain baseline/update semantics"
+  ],
+  "runtime_test_invocations": [],
+  "scope": "Root-owned integration proposal only; no production, visual acceptance or ARC02 closure claim.",
+  "shared_capture_helper_path": "proposed/test/support/test_capture_paths.dart",
+  "shared_capture_helper_sha256": "81260e7dbfa7d32a8e7c81e0ee8b7340436cccbe7dafa39abea736c2ccfd75f5",
+  "source_deltas_path": "evidence/source-deltas.json",
+  "source_deltas_sha256": "e17426693da9414ac312590657a755d8f697e31ef91fdb41d68c43e695d427ff",
+  "static_preservation_path": "evidence/static-preservation-live-inputs.json",
+  "static_preservation_sha256": "54289ad0078c44b83857f4daafb01d53e813216f07298ae5fcdf1e7b0bc1c557"
+}

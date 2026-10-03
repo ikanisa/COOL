@@ -5,6 +5,9 @@ import { instant, nonnegativeInteger, object, operationalHealth } from "./operat
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const states = ["queued", "awaiting_confirmation", "send_started", "observed_sent", "failed_no_send", "uncertain", "suppressed"];
 const attempts = ["send_started", "observed_sent", "failed_no_send", "uncertain"];
+// Immutable legacy receipts remain version1; the governed recorded-savings
+// snapshot uses version2. Neither version establishes delivery or settlement.
+const supportedTemplateVersion = (value: unknown) => value === 1 || value === 2;
 const suppressionCodes: Record<string, string> = {
   "Member authenticated the app with the exact verified MoMo number": "verified_member_app_active",
   "Consent, collection policy, destination or payment state changed before claim": "receipt_authorization_changed",
@@ -24,7 +27,7 @@ export function notificationStatus(value: unknown, expectedId: string) {
   const id = identifier(row.id);
   if (id !== expectedId.toLowerCase() || typeof row.state !== "string" || !states.includes(row.state) || row.channel !== "Assisted SMS operator" ||
       typeof row.authorization_current !== "boolean" || row.template_key !== "buri_munsi.payment_received" ||
-      row.template_version !== 1 || nonnegativeInteger(row.consent_revision) < 1 ||
+      !supportedTemplateVersion(row.template_version) || nonnegativeInteger(row.consent_revision) < 1 ||
       (row.latest_attempt_state !== null && (typeof row.latest_attempt_state !== "string" || !attempts.includes(row.latest_attempt_state)))) return responseInvalid();
   if (row.suppression_reason !== null && typeof row.suppression_reason !== "string") return responseInvalid();
   return {
@@ -46,7 +49,7 @@ export function notificationFailures(value: unknown, limit: number, offset: numb
     const row = object(raw), id = identifier(row.id);
     if (seen.has(id) || row.status !== status || row.channel !== "assisted_sms" || row.country_code !== "RW" ||
         typeof row.authorization_current !== "boolean" || row.template_key !== "buri_munsi.payment_received" ||
-        row.template_version !== 1 || nonnegativeInteger(row.consent_revision) < 1) return responseInvalid();
+        !supportedTemplateVersion(row.template_version) || nonnegativeInteger(row.consent_revision) < 1) return responseInvalid();
     seen.add(id);
     return {
       notification_id: id, state: status, channel: "assisted_sms", country_code: "RW",
@@ -75,7 +78,7 @@ function validateCredentials(environment: OperatorEnvironment, now: number) {
   } catch {throw new Error("COLLECT_CURRENT_USER_SESSION_REQUIRED");}
 }
 
-async function withinDeadline<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
+export async function withinDeadline<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
   signal.throwIfAborted();
   let rejectAborted: () => void = () => {};
   const aborted = new Promise<never>((_resolve, reject) => {
@@ -86,7 +89,7 @@ async function withinDeadline<T>(operation: Promise<T>, signal: AbortSignal): Pr
   finally {signal.removeEventListener("abort", rejectAborted);}
 }
 
-async function boundedJson(response: Response, signal: AbortSignal) {
+export async function boundedJson(response: Response, signal: AbortSignal) {
   const maximum = 256 * 1024;
   const length = response.headers.get("content-length");
   if ((length !== null && (!/^\d+$/.test(length) || Number(length) > maximum)) ||
@@ -110,6 +113,14 @@ async function boundedJson(response: Response, signal: AbortSignal) {
   } finally {void reader.cancel().catch(() => {});}
 }
 
+export async function resolvedOperationalEnvironment(environment: OperatorEnvironment | undefined, now: number) {
+  let resolved: OperatorEnvironment;
+  try {resolved = environment ?? operatorEnvironment(await runtimeCredentials());}
+  catch {throw new Error("COLLECT_CURRENT_USER_SESSION_REQUIRED");}
+  validateCredentials(resolved, now);
+  return resolved;
+}
+
 export async function callOperationalRead(
   action: "health" | "status" | "failures",
   input: Record<string, unknown>,
@@ -131,10 +142,7 @@ export async function callOperationalRead(
         typeof status !== "string" || !["failed_no_send", "uncertain"].includes(status)) throw new Error("COLLECT_ARGUMENTS_INVALID");
     rpc = "admin_list_hybrid_sms_receipts"; args = {p_search: null, p_status: status, p_limit: limit, p_offset: offset, p_sort: "created_at_desc"};
   } else throw new Error("COLLECT_ARGUMENTS_INVALID");
-  let resolved: OperatorEnvironment;
-  try {resolved = environment ?? operatorEnvironment(await runtimeCredentials());}
-  catch {throw new Error("COLLECT_CURRENT_USER_SESSION_REQUIRED");}
-  validateCredentials(resolved, now());
+  const resolved = await resolvedOperationalEnvironment(environment, now());
   if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 15_000) throw new Error("COLLECT_ARGUMENTS_INVALID");
   const deadline = new AbortController(), signal = deadline.signal;
   const timer = setTimeout(() => deadline.abort(), timeoutMs);

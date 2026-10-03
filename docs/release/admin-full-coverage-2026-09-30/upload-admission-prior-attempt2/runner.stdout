@@ -1,0 +1,270 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 489,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 43632,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.746,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_roster_upload_admission_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 43686,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 60.628,
+      "sha256": "7be594475804587a5722d01259ff7af00e6fb83711320d35a45e854c658c0506"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_roster_upload_admission_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 44900,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 46.656,
+      "sha256": "76a2c1c8d08e1f356b0e9f70e6f9464dce631a0dbe5d58acd9abcae09d264905"
+    }
+  ],
+  "test_files": [
+    "test/admin_roster_upload_admission_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 49,
+    "failed": 43,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "csv metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "csv admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "txt metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "txt admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "xlsx metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "xlsx admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "pdf metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "pdf admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "png metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "png admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpg metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpg admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpeg metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpeg admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "webp metadata rejects an oversized source before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "webp admitted chunks preserve exact source SHA and declared MIME",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "Roster.exe unsupported extension rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "Roster unsupported extension rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": ".csv unsupported extension rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "Roster.csv.exe unsupported extension rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "pdf without AI consent rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "png without AI consent rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpg without AI consent rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "jpeg without AI consent rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "webp without AI consent rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "invalid metadata length 0 rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "invalid metadata length -1 rejects before byte I/O",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "csv unknown length accepts its exact byte boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "csv unknown stream overrun cancels before any later chunk",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "txt unknown length accepts its exact byte boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "txt unknown stream overrun cancels before any later chunk",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "pdf unknown length accepts its exact byte boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "pdf unknown stream overrun cancels before any later chunk",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "png unknown length accepts its exact byte boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "png unknown stream overrun cancels before any later chunk",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "a single oversized chunk is rejected and its stream is cancelled",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "lying metadata length 1 cannot bind different source bytes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "lying metadata length 4 cannot bind different source bytes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "an empty unknown-length stream cannot produce an upload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "invalid UTF8 remains rejected after bounded reading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "stream errors close reading and expose no draft payload or server call",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "csv streamed resource rejection never reaches parser/server preparation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      },
+      {
+        "name": "xlsx streamed resource rejection never reaches parser/server preparation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/upload-admission-prior-attempt2/source-export/test/admin_roster_upload_admission_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "707e8b100e22e65e4daac471ba0a48af910f77ff36711281e45d8c5d9aa10baa",
+  "source_before_sha256": "5d72a31702ae90e63ce419ca127d391c740713c02bdddc68edde397182ee270c",
+  "source_after_sha256": "5d72a31702ae90e63ce419ca127d391c740713c02bdddc68edde397182ee270c"
+}

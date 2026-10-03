@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-02T01:33:57.614096+00:00",
+  "packets": [
+    {
+      "packet": "ai-import-minimization-batch1",
+      "batch_sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e",
+      "index_sha256": "4e11f895869b8f9d75d7ceb52ca7b33e63e225a55ac23f2491133565da854310",
+      "indexed_leaves": 77,
+      "errors": [],
+      "preserved": true
+    },
+    {
+      "packet": "ai-import-review-batch1",
+      "batch_sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933",
+      "index_sha256": "25dd5a4f9b5fb9d3d7d3ccd0ef0b3332c4eba9d505284129c67849cdc8006cbc",
+      "indexed_leaves": 9,
+      "errors": [],
+      "preserved": true
+    }
+  ],
+  "status": "pass",
+  "historical_original_full_lint_failure_unchanged": true
+}

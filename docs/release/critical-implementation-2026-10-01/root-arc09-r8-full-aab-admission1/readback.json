@@ -1,0 +1,48 @@
+{
+  "kind": "actual_root_full_AAB_admission_assembly",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-root-admission-preparation1/build_admission.py",
+    "--source-fence-sha256",
+    "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+    "--APP-manifest-sha256",
+    "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1",
+    "--settings-overlay-readback-sha256",
+    "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4",
+    "--aggregate-readback-sha256",
+    "1f6dc1acaeadada7ef8fbaedebb49543d3e3ad506c9f86f36e55feb5f17479ca",
+    "--r8-artifact-admission-sha256",
+    "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+    "--aab-output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation10"
+  ],
+  "started_utc": "2026-10-02T18:50:21.012015+00:00",
+  "actual_seconds": 0.07073795900214463,
+  "bound_seconds": 30,
+  "exit_code": 0,
+  "owned_PID": 29034,
+  "owned_process_group_absent": true,
+  "builder_sha256": "a6385843f0ad033c188b3e85866eaba189760234bb474cb6a9a8942c7e88cef4",
+  "input_pins": {
+    "--source-fence-sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+    "--APP-manifest-sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1",
+    "--settings-overlay-readback-sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4",
+    "--aggregate-readback-sha256": "1f6dc1acaeadada7ef8fbaedebb49543d3e3ad506c9f86f36e55feb5f17479ca",
+    "--r8-artifact-admission-sha256": "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651"
+  },
+  "admission": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+    "sha256": "edeafcf36f88f069e54013c6ba3bbf06793f8a1a13f029ab5371e750edc30cc0"
+  },
+  "AAB_execution_occurred": false,
+  "production_release_approval": false,
+  "prior_prespawn_pin_refusal": {
+    "reason": "compaction summary added a final df to the builder hash",
+    "actual_sealed_packet_matches_current_builder": true,
+    "prior_mutation_or_child_spawn": false
+  }
+}

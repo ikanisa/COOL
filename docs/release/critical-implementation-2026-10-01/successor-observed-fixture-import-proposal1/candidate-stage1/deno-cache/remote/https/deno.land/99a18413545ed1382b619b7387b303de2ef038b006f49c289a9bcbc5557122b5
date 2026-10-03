@@ -1,0 +1,29 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that actual is not null or undefined.
+ * If not then throw.
+ *
+ * @example
+ * ```ts
+ * import { assertExists } from "https://deno.land/std@$STD_VERSION/assert/assert_exists.ts";
+ *
+ * assertExists("something"); // Doesn't throw
+ * assertExists(undefined); // Throws
+ * ```
+ */
+export function assertExists<T>(
+  actual: T,
+  msg?: string,
+): asserts actual is NonNullable<T> {
+  if (actual === undefined || actual === null) {
+    const msgSuffix = msg ? `: ${msg}` : ".";
+    msg =
+      `Expected actual: "${actual}" to not be null or undefined${msgSuffix}`;
+    throw new AssertionError(msg);
+  }
+}
+
+// denoCacheMetadata={"headers":{"cross-origin-embedder-policy":"same-origin","cf-ray":"a43737c04a9999d3-AMS","access-control-allow-methods":"GET, HEAD","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","cache-control":"public, max-age=31536000, immutable","x-content-type-options":"nosniff","x-frame-options":"DENY","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=YRXYcGjlD%2F%2Bdp%2By4T%","content-length":"795","cf-cache-status":"HIT","cross-origin-opener-policy":"same-origin","access-control-allow-origin":"*","referrer-policy":"strict-origin-when-cross-origin","server-timing":"fetchSource;dur=17","last-modified":"Thu, 27 Aug 2026 16:21:31 GMT","accept-ranges":"bytes","cache-status":"deno; hit","content-type":"application/typescript; charset=utf-8","strict-transport-security":"max-age=63072000; includeSubDomains; preload","server":"cloudflare,deployd","cross-origin-resource-policy":"same-origin","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","access-control-allow-headers":"*","age":"293294","date":"Thu, 01 Oct 2026 00:05:48 GMT","x-deno-trace-id":"f1432f49fc8f2184067f0b8697ba3ad1","etag":"\"245a8b55754ef418a2be745fc618d894\"","via":"HTTP/2 ams.vultr.prod.deno-cluster.net"},"url":"https://deno.land/std@0.224.0/assert/assert_exists.ts","time":1790910996}

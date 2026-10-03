@@ -1,0 +1,16 @@
+{
+  "status": "complete_for_declared_tested_local_candidate",
+  "completed_at_utc": "2026-10-01T15:14:27.841210+00:00",
+  "requested_items_complete": 18,
+  "canonical_local_items_complete": 24,
+  "remaining_requested_items": [],
+  "production_release": "NO-GO",
+  "original_production_checks_open": 101,
+  "source_archive_sha256": "2525fe8e5ed34d8bcd858b6419d65f55eebef02fac6559c2f51e5e4fde6cdbd6",
+  "delivery_archive_sha256": "0e2d943112c97318ca55a06feb41075675ec268ace859b608b1981a480d51048",
+  "source_member_count": 2489,
+  "delivery_member_count": 2321,
+  "evidence_binding_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+  "register_integrity_sha256": "4061393fca1e3a16740100677feae60ce89a3290de416c66664fc298f689d6c1",
+  "source_root_currentness": "Later concurrent live-checkout edits are preserved and not accepted. See source readback and consumer drift in evidence-binding.json."
+}

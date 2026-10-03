@@ -1,0 +1,40 @@
+{
+  "url": "https://deno.land/std@0.224.0/assert/mod.ts",
+  "positive_lock_integrity": "48b8cb8a619ea0b7958ad7ee9376500fe902284bb36f0e32c598c3dc34cbd6f3",
+  "cached_module": {
+    "whole_cache_file_binding": {
+      "kind": "cache",
+      "path": "remote/https/deno.land/62eb5c167ff1c62be007a0b84b57d1db1ce9ea4af845c4a8b279cc105280971b",
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/deno-cache/remote/https/deno.land/62eb5c167ff1c62be007a0b84b57d1db1ce9ea4af845c4a8b279cc105280971b",
+      "copy": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/corrupt-lock-deno-cache/remote/https/deno.land/62eb5c167ff1c62be007a0b84b57d1db1ce9ea4af845c4a8b279cc105280971b",
+      "sha256": "e049598a5c440d81b6e7ff3966d3dad44fa5b88b6853e8aa0972a454fe2d5411",
+      "bytes": 3048,
+      "mode": 420,
+      "original_identity": [
+        16777247,
+        17176409,
+        420,
+        3048,
+        1790906015848079804,
+        1790906015848129429,
+        1
+      ],
+      "copy_identity": [
+        16777247,
+        17179999,
+        420,
+        3048,
+        1790906231003023878,
+        1790906231003089170,
+        1
+      ]
+    },
+    "module_body_prefix_byte_count": 1656,
+    "module_body_sha256": "48b8cb8a619ea0b7958ad7ee9376500fe902284bb36f0e32c598c3dc34cbd6f3",
+    "whole_cache_includes_additional_bytes": true
+  },
+  "negative_actual_diagnostic_actual_hash": "48b8cb8a619ea0b7958ad7ee9376500fe902284bb36f0e32c598c3dc34cbd6f3",
+  "Download_label_observed_in_negative": true,
+  "successful_network_transfer_claimed": false,
+  "reason": "Actual process executed under OS deny network* profile; independent socket probe produced EPERM. Real raw module prefix already exists in the hash-bound copied remote cache. Negative returned actual48b8 versus expected0, so Download progress label is not proof of transfer."
+}

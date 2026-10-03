@@ -1,0 +1,14 @@
+{
+  "scope": "Fresh rebuilt bytes versus sealed dated local static artifact, not reuse of prior execution.",
+  "prior_file_count": 55,
+  "fresh_file_count": 55,
+  "delta": [
+    {
+      "path": "version.json",
+      "prior_sha256": "f85b6de72ca7c3496032e44108b2d39181ffa0549212b22ede40bc7601bace9b",
+      "fresh_sha256": "914d196b5a4bce02915f8cc484779ef862d35f31cc740d92f35c0154d29405f6"
+    }
+  ],
+  "unchanged_file_count": 54,
+  "prior_packet_sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4"
+}

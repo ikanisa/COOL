@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "changed_at_utc": "2026-10-01T21:54:14.364714+00:00",
+  "scope": "Normalize two untracked local timestamp filenames by carrying overflow hours into the following calendar day; preserve exact ordered DDL bytes. No tracked migration/history or remote database changed.",
+  "mapping": [
+    {
+      "previous_local_path": "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql",
+      "canonical_local_path": "supabase/migrations/20261002000000_runtime_control_edit_eligibility.sql",
+      "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+      "previous_version": "20261001240000",
+      "canonical_version": "20261002000000",
+      "bytes": 7484,
+      "tracked_before": false
+    },
+    {
+      "previous_local_path": "supabase/migrations/20261001250000_sms_receipt_language_selection.sql",
+      "canonical_local_path": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "previous_version": "20261001250000",
+      "canonical_version": "20261002010000",
+      "bytes": 52641,
+      "tracked_before": false
+    }
+  ],
+  "all_current_local_migration_versions_valid": true,
+  "current_migrations": 196,
+  "maximum_version": "20261002010000",
+  "hosted_history_verified": false,
+  "hosted_read_only_attempt": {
+    "tool": "Supabase list_migrations",
+    "project_ref": "lhbowpbcpwoiparwnwgt",
+    "result": "permission denied",
+    "mutation_attempted": false
+  },
+  "release_accepted": false,
+  "remaining": "Authoritative hosted migration history and current-schema parity must be reconciled with this mapping before deployment acceptance; neither alias is assumed absent from a remote database."
+}

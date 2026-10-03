@@ -1,0 +1,48 @@
+{
+  "after_source_sha256": {
+    "lib/gateway/gateway_platform.dart": "faae7e52ee6f98e5270613806d2cd6e3865fc46b6b0debae8c7b8c4a5c9b8c91",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08"
+  },
+  "before_source_sha256": {
+    "lib/gateway/gateway_platform.dart": "5a96451b73a341128a19b228c6c210847354a4e1e66b78e6b48738fe447c2794",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08"
+  },
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_platform.dart",
+        "lib/main_gateway.dart"
+      ],
+      "exit_code": 1,
+      "name": "prior-format-check"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "lib/gateway/gateway_platform.dart",
+        "lib/main_gateway.dart"
+      ],
+      "exit_code": 0,
+      "name": "format"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_platform.dart",
+        "lib/main_gateway.dart"
+      ],
+      "exit_code": 0,
+      "name": "final-format-check"
+    }
+  ],
+  "scope": "Root-approved pinned formatter only, preserved prior bytes and checked pre-mutation source; no Gateway semantic/native behavior acceptance",
+  "status": "pass_nonsemantic_format"
+}

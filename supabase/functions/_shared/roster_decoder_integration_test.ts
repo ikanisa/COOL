@@ -4,6 +4,7 @@ import { decodeRosterSource } from "./roster_decoder.ts";
 import { readRosterSource, rosterSha256 } from "./roster_provenance.ts";
 import { createRosterImportHandler } from "../prepare-roster-import/handler.ts";
 import { normalizeRosterCandidates } from "./roster_import.ts";
+import { syntheticRosterAiApproval } from "./roster_ai_dispatch_test_fixture.ts";
 
 const endpoint = Deno.env.get("ROSTER_DECODER_TEST_URL");
 const secret = Deno.env.get("ROSTER_DECODER_TEST_SECRET");
@@ -96,6 +97,13 @@ Deno.test({
 // Actual Linux codec + signed HTTP + unmodified upload handler. Auth/SQL/provider
 // acknowledgements are recording fixtures; real SQL is tested separately by the
 // guarded146 packet, and these tests never reach a provider or hosted service.
+function fixturePromise<T>(body: () => T): Promise<T> {
+  try {
+    return Promise.resolve(body());
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 async function integratedHandler(input: Awaited<ReturnType<typeof source>>) {
   const actor = "99690000-0000-4000-8000-000000000001";
   const session = "99690000-0000-4000-8000-000000000011";
@@ -105,176 +113,185 @@ async function integratedHandler(input: Awaited<ReturnType<typeof source>>) {
   const hash = await rosterSha256(input.bytes);
   const derivedHash = input.derived ? await rosterSha256(input.derived) : null;
   let registered = false;
+  const approval = input.ai
+    ? await syntheticRosterAiApproval("synthetic-model", endpoint, buildSha256)
+    : {};
   const handler = createRosterImportHandler({
-    authenticate: async () => ({ id: actor }),
+    authenticate: () => fixturePromise(() => ({ id: actor })),
     configuration: () => ({
+      ...approval,
       model: "synthetic-model",
       apiKey: "synthetic-never-transmitted",
       decoderUrl: endpoint,
       decoderSecret: secret,
       decoderBuildSha256: buildSha256,
     }),
-    fetch: async (url) => {
-      calls.push("synthetic_provider");
-      assertEquals(url, "https://api.openai.com/v1/responses");
-      assertEquals(registered, true);
-      return new Response(JSON.stringify({
-        id: "resp_synthetic_fixture",
-        object: "response",
-        status: "completed",
-        error: null,
-        incomplete_details: null,
-        output: [{
-          id: "msg_synthetic_fixture",
-          type: "message",
-          role: "assistant",
+    fetch: (url, init) =>
+      fixturePromise(() => {
+        calls.push("synthetic_provider");
+        const headers = new Headers(init?.headers);
+        assertEquals(headers.get("OpenAI-Organization"), "org_synthetic");
+        assertEquals(headers.get("OpenAI-Project"), "proj_synthetic");
+        assertEquals(url, "https://api.openai.com/v1/responses");
+        assertEquals(registered, true);
+        return new Response(JSON.stringify({
+          id: "resp_synthetic_fixture",
+          object: "response",
           status: "completed",
-          content: [{
-            type: "output_text",
-            annotations: [],
-            text: JSON.stringify({
-              rows: [
-                {
-                  source_row: 1,
-                  member_name: "Élodie Niyonzima",
-                  momo_name: "ÉLODIE NIYONZIMA",
-                  momo_number: "0789969001",
-                  confidence: 1,
-                },
-                {
-                  source_row: 2,
-                  member_name: "Aline Uwase",
-                  momo_name: "ALINE UWASE",
-                  momo_number: "0789969002",
-                  confidence: 1,
-                },
-              ],
-            }),
+          error: null,
+          incomplete_details: null,
+          output: [{
+            id: "msg_synthetic_fixture",
+            type: "message",
+            role: "assistant",
+            status: "completed",
+            content: [{
+              type: "output_text",
+              annotations: [],
+              text: JSON.stringify({
+                rows: [
+                  {
+                    source_row: 1,
+                    member_name: "Élodie Niyonzima",
+                    momo_name: "ÉLODIE NIYONZIMA",
+                    momo_number: "0789969001",
+                    confidence: 1,
+                  },
+                  {
+                    source_row: 2,
+                    member_name: "Aline Uwase",
+                    momo_name: "ALINE UWASE",
+                    momo_number: "0789969002",
+                    confidence: 1,
+                  },
+                ],
+              }),
+            }],
           }],
-        }],
-      }));
-    },
-    rpc: async (name, args) => {
-      calls.push(name);
-      if (name === "reserve_roster_resources") {
+        }));
+      }),
+    rpc: (name, args) =>
+      fixturePromise(() => {
+        calls.push(name);
+        if (name === "reserve_roster_resources") {
+          return {
+            error: null,
+            data: {
+              contract_version: 1,
+              ok: true,
+              reservation_id: reservation,
+              request_id: input.requestId,
+              actor_id: actor,
+              session_id: session,
+              source_sha256: hash,
+              state: "reserved",
+              replayed: false,
+              expires_at: "2099-01-01T00:00:00Z",
+            },
+          };
+        }
+        if (name === "verify_roster_source_integrity") {
+          assertEquals(args.p_decoder_build_sha256, buildSha256);
+          assertEquals(typeof args.p_decoder_receipt_sha256, "string");
+          return {
+            error: null,
+            data: {
+              contract_version: 1,
+              ok: true,
+              reservation_id: reservation,
+              source_sha256: hash,
+              derived_sha256: derivedHash,
+              decoder_receipt_sha256: args.p_decoder_receipt_sha256,
+              verified: true,
+            },
+          };
+        }
+        if (name === "create_roster_import_source") {
+          assertEquals(calls.slice(0, 3), [
+            "reserve_roster_resources",
+            "verify_roster_source_integrity",
+            "create_roster_import_source",
+          ]);
+          registered = true;
+          return {
+            error: null,
+            data: {
+              contract_version: 1,
+              ok: true,
+              request_id: input.requestId,
+              import_id: importId,
+              source_sha256: hash,
+              source_size: input.bytes.length,
+              source_kind: input.kind,
+              extraction_id: extractionId,
+              expires_at: "2099-01-01T00:00:00Z",
+              derived_sha256: derivedHash,
+              derived_assurance: input.kind === "xlsx"
+                ? "client_derived_tsv"
+                : null,
+              state: "awaiting_preview",
+              replayed: false,
+              completed_preview: null,
+              error_code: null,
+            },
+          };
+        }
+        if (name === "finish_roster_resources") {
+          return {
+            error: null,
+            data: {
+              contract_version: 1,
+              ok: true,
+              reservation_id: reservation,
+              outcome: args.p_outcome,
+              charged: true,
+            },
+          };
+        }
+        assertEquals(name, "complete_roster_import_preview");
         return {
           error: null,
           data: {
             contract_version: 1,
             ok: true,
-            reservation_id: reservation,
-            request_id: input.requestId,
-            actor_id: actor,
-            session_id: session,
-            source_sha256: hash,
-            state: "reserved",
-            replayed: false,
-            expires_at: "2099-01-01T00:00:00Z",
-          },
-        };
-      }
-      if (name === "verify_roster_source_integrity") {
-        assertEquals(args.p_decoder_build_sha256, buildSha256);
-        assertEquals(typeof args.p_decoder_receipt_sha256, "string");
-        return {
-          error: null,
-          data: {
-            contract_version: 1,
-            ok: true,
-            reservation_id: reservation,
-            source_sha256: hash,
-            derived_sha256: derivedHash,
-            decoder_receipt_sha256: args.p_decoder_receipt_sha256,
-            verified: true,
-          },
-        };
-      }
-      if (name === "create_roster_import_source") {
-        assertEquals(calls.slice(0, 3), [
-          "reserve_roster_resources",
-          "verify_roster_source_integrity",
-          "create_roster_import_source",
-        ]);
-        registered = true;
-        return {
-          error: null,
-          data: {
-            contract_version: 1,
-            ok: true,
-            request_id: input.requestId,
             import_id: importId,
             source_sha256: hash,
-            source_size: input.bytes.length,
             source_kind: input.kind,
-            extraction_id: extractionId,
+            source_receipt: {
+              request_id: input.requestId,
+              source_size: input.bytes.length,
+              client_filename: input.filename,
+              declared_mime: input.mime,
+              detected_type: input.detected,
+              derived_sha256: derivedHash,
+              derived_assurance: input.kind === "xlsx"
+                ? "client_derived_tsv"
+                : null,
+              extraction_id: extractionId,
+              ai_consent: input.ai,
+              consent_version: input.ai ? "roster-ai-extraction-v1" : null,
+              parser_version: "collect-roster-parser-v1",
+              schema_version: "collect-roster-rows-v1",
+            },
+            revision_id: crypto.randomUUID(),
+            parent_revision_id: null,
+            revision_number: 1,
+            reviewed_rows_sha256: "a".repeat(64),
+            ...normalizeRosterCandidates(
+              args.p_candidates as Parameters<
+                typeof normalizeRosterCandidates
+              >[0],
+            ),
+            can_submit: false,
+            requires_human_review: true,
+            processing_method: input.ai
+              ? "openai_structured_extraction"
+              : "deterministic",
+            model: input.ai ? "synthetic-model" : null,
             expires_at: "2099-01-01T00:00:00Z",
-            derived_sha256: derivedHash,
-            derived_assurance: input.kind === "xlsx"
-              ? "client_derived_tsv"
-              : null,
-            state: "awaiting_preview",
-            replayed: false,
-            completed_preview: null,
-            error_code: null,
           },
         };
-      }
-      if (name === "finish_roster_resources") {
-        return {
-          error: null,
-          data: {
-            contract_version: 1,
-            ok: true,
-            reservation_id: reservation,
-            outcome: args.p_outcome,
-            charged: true,
-          },
-        };
-      }
-      assertEquals(name, "complete_roster_import_preview");
-      return {
-        error: null,
-        data: {
-          contract_version: 1,
-          ok: true,
-          import_id: importId,
-          source_sha256: hash,
-          source_kind: input.kind,
-          source_receipt: {
-            request_id: input.requestId,
-            source_size: input.bytes.length,
-            client_filename: input.filename,
-            declared_mime: input.mime,
-            detected_type: input.detected,
-            derived_sha256: derivedHash,
-            derived_assurance: input.kind === "xlsx"
-              ? "client_derived_tsv"
-              : null,
-            extraction_id: extractionId,
-            ai_consent: input.ai,
-            consent_version: input.ai ? "roster-ai-extraction-v1" : null,
-            parser_version: "collect-roster-parser-v1",
-            schema_version: "collect-roster-rows-v1",
-          },
-          revision_id: crypto.randomUUID(),
-          parent_revision_id: null,
-          revision_number: 1,
-          reviewed_rows_sha256: "a".repeat(64),
-          ...normalizeRosterCandidates(
-            args.p_candidates as Parameters<
-              typeof normalizeRosterCandidates
-            >[0],
-          ),
-          can_submit: false,
-          requires_human_review: true,
-          processing_method: input.ai
-            ? "openai_structured_extraction"
-            : "deterministic",
-          model: input.ai ? "synthetic-model" : null,
-          expires_at: "2099-01-01T00:00:00Z",
-        },
-      };
-    },
+      }),
   });
   const claims = base64(
     new TextEncoder().encode(
@@ -414,7 +431,7 @@ Deno.test({
     );
     const reservation = crypto.randomUUID(), calls: string[] = [];
     const handler = createRosterImportHandler({
-      authenticate: async () => ({ id: actor }),
+      authenticate: () => fixturePromise(() => ({ id: actor })),
       configuration: () => ({
         model: "synthetic-model",
         apiKey: "synthetic-never-used",
@@ -422,43 +439,45 @@ Deno.test({
         decoderSecret: secret,
         decoderBuildSha256: buildSha256,
       }),
-      fetch: async () => {
-        calls.push("provider");
-        throw new Error("Forbidden provider dispatch");
-      },
-      rpc: async (name, args) => {
-        calls.push(name);
-        if (name === "reserve_roster_resources") {
-          return {
-            error: null,
-            data: {
-              contract_version: 1,
-              ok: true,
-              reservation_id: reservation,
-              request_id: input.requestId,
-              actor_id: actor,
-              session_id: session,
-              source_sha256: args.p_source_sha256,
-              state: "reserved",
-              replayed: false,
-              expires_at: new Date(Date.now() + 180000).toISOString(),
-            },
-          };
-        }
-        if (name === "finish_roster_resources") {
-          return {
-            error: null,
-            data: {
-              contract_version: 1,
-              ok: true,
-              reservation_id: reservation,
-              outcome: args.p_outcome,
-              charged: true,
-            },
-          };
-        }
-        throw new Error("Unverified source reached durable create");
-      },
+      fetch: () =>
+        fixturePromise(() => {
+          calls.push("provider");
+          throw new Error("Forbidden provider dispatch");
+        }),
+      rpc: (name, args) =>
+        fixturePromise(() => {
+          calls.push(name);
+          if (name === "reserve_roster_resources") {
+            return {
+              error: null,
+              data: {
+                contract_version: 1,
+                ok: true,
+                reservation_id: reservation,
+                request_id: input.requestId,
+                actor_id: actor,
+                session_id: session,
+                source_sha256: args.p_source_sha256,
+                state: "reserved",
+                replayed: false,
+                expires_at: new Date(Date.now() + 180000).toISOString(),
+              },
+            };
+          }
+          if (name === "finish_roster_resources") {
+            return {
+              error: null,
+              data: {
+                contract_version: 1,
+                ok: true,
+                reservation_id: reservation,
+                outcome: args.p_outcome,
+                charged: true,
+              },
+            };
+          }
+          throw new Error("Unverified source reached durable create");
+        }),
     });
     const claims = base64(
       new TextEncoder().encode(

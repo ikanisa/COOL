@@ -1,0 +1,9 @@
+{
+  "captured_at_utc": "2026-10-02T00:12:28.246185+00:00",
+  "plan_receipt_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+  "bindings_checked": 20,
+  "unexplained_errors": [],
+  "patch_applied": false,
+  "installed_shared_sdk_patched": false,
+  "scope": "Readback of reviewed narrow3-file future Collect-only SDK patch plan. Fresh full bundle publisher SHA authentication is a distinct foundation prerequisite; extraction/source-tree/compiler/runtime/ABI/license/current app and packaged acceptance remain open."
+}

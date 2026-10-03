@@ -1,0 +1,6 @@
+{
+  "status": "source_review",
+  "at_utc": "2026-10-01T09:05:36.785900+00:00",
+  "before_sha256": "40cf27386b16c5647595e92f389b6aa4e2013e4c972315d4b238624d74988eed",
+  "scope": "Refresh synthetic normal-entrypoint transport and actual browser assertions for current confirmed email/approval and memory-only tab-local authentication. No database, provider, application auth or UI source mutation."
+}

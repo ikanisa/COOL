@@ -1,0 +1,161 @@
+{
+  "status": "pass",
+  "entrypoint": "lib/main_gateway.dart",
+  "paths": {
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_component_tokens.dart": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+    "lib/app/theme/collect_icons.dart": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/app/theme/collect_radius.dart": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+    "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+    "lib/app/theme/collect_runtime_tokens.dart": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+    "lib/app/theme/collect_runtime_typography.dart": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "lib/gateway/gateway_app.dart": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c",
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "lib/shared/models/collect_model_json_helpers.dart": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_payment_json.dart": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+    "lib/shared/models/collect_payment_models.dart": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/shared/models/collect_summary_json.dart": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+    "lib/shared/utils/collect_haptics.dart": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423"
+  },
+  "directives": {
+    "lib/main_gateway.dart": [
+      "package:flutter/material.dart",
+      "gateway/gateway_app.dart"
+    ],
+    "lib/gateway/gateway_app.dart": [
+      "dart:convert",
+      "package:flutter/material.dart",
+      "package:flutter/services.dart",
+      "../app/theme/collect_colors.dart",
+      "../app/theme/collect_motion.dart",
+      "../app/theme/collect_theme.dart",
+      "../app/theme/collect_spacing.dart",
+      "../shared/widgets/collect_chrome.dart",
+      "gateway_platform.dart"
+    ],
+    "lib/gateway/gateway_platform.dart": [
+      "package:flutter/services.dart"
+    ],
+    "lib/shared/widgets/collect_chrome.dart": [
+      "dart:math",
+      "package:flutter/material.dart",
+      "package:go_router/go_router.dart",
+      "../../app/theme/collect_colors.dart",
+      "../../app/theme/collect_icons.dart",
+      "../../app/theme/collect_radius.dart",
+      "../../app/theme/collect_spacing.dart",
+      "../../app/theme/collect_runtime_assets.dart",
+      "../../app/theme/collect_runtime_tokens.dart",
+      "../../app/theme/collect_typography.dart",
+      "../utils/collect_haptics.dart",
+      "collect_foundation.dart",
+      "collect_top_chrome.dart",
+      "collect_scaffold_chrome.dart"
+    ],
+    "lib/shared/widgets/collect_scaffold_chrome.dart": [],
+    "lib/shared/widgets/collect_top_chrome.dart": [],
+    "lib/shared/widgets/collect_foundation.dart": [
+      "package:flutter/material.dart",
+      "../../app/theme/collect_colors.dart",
+      "../../app/theme/collect_component_tokens.dart",
+      "../../app/theme/collect_icons.dart",
+      "../../app/theme/collect_motion.dart",
+      "../../app/theme/collect_radius.dart",
+      "../../app/theme/collect_spacing.dart",
+      "../../app/theme/collect_runtime_tokens.dart",
+      "../../app/theme/collect_typography.dart",
+      "../../app/theme/collect_universal_tokens.dart",
+      "../models/collect_models.dart",
+      "../utils/collect_haptics.dart",
+      "collect_chrome.dart"
+    ],
+    "lib/shared/utils/collect_haptics.dart": [
+      "package:flutter/services.dart"
+    ],
+    "lib/shared/models/collect_models.dart": [
+      "package:flutter/foundation.dart",
+      "../../core/data/exact_json_values.dart",
+      "collect_profile_country_rules.dart",
+      "collect_profile_country_rules.dart",
+      "collect_payment_models.dart",
+      "collect_payment_json.dart",
+      "collect_model_json_helpers.dart",
+      "collect_summary_json.dart"
+    ],
+    "lib/shared/models/collect_summary_json.dart": [],
+    "lib/shared/models/collect_model_json_helpers.dart": [],
+    "lib/shared/models/collect_payment_json.dart": [],
+    "lib/shared/models/collect_payment_models.dart": [],
+    "lib/shared/models/collect_profile_country_rules.dart": [],
+    "lib/core/data/exact_json_values.dart": [],
+    "lib/app/theme/collect_universal_tokens.dart": [
+      "dart:ui",
+      "package:flutter/material.dart",
+      "collect_colors.dart",
+      "collect_motion.dart",
+      "collect_radius.dart",
+      "collect_spacing.dart"
+    ],
+    "lib/app/theme/collect_spacing.dart": [
+      "package:flutter/widgets.dart"
+    ],
+    "lib/app/theme/collect_radius.dart": [
+      "package:flutter/material.dart"
+    ],
+    "lib/app/theme/collect_motion.dart": [
+      "package:flutter/material.dart"
+    ],
+    "lib/app/theme/collect_colors.dart": [
+      "package:flutter/material.dart"
+    ],
+    "lib/app/theme/collect_typography.dart": [
+      "package:flutter/material.dart",
+      "collect_runtime_typography.dart"
+    ],
+    "lib/app/theme/collect_runtime_typography.dart": [],
+    "lib/app/theme/collect_runtime_tokens.dart": [
+      "package:flutter/material.dart",
+      "collect_colors.dart",
+      "collect_radius.dart"
+    ],
+    "lib/app/theme/collect_icons.dart": [
+      "package:flutter/material.dart"
+    ],
+    "lib/app/theme/collect_component_tokens.dart": [
+      "package:flutter/material.dart",
+      "collect_colors.dart",
+      "collect_radius.dart",
+      "collect_spacing.dart",
+      "collect_runtime_tokens.dart",
+      "collect_universal_tokens.dart"
+    ],
+    "lib/app/theme/collect_runtime_assets.dart": [],
+    "lib/app/theme/collect_theme.dart": [
+      "package:flutter/material.dart",
+      "collect_colors.dart",
+      "collect_component_tokens.dart",
+      "collect_radius.dart",
+      "collect_spacing.dart",
+      "collect_typography.dart",
+      "collect_universal_tokens.dart"
+    ]
+  },
+  "external_packages": [
+    "flutter",
+    "go_router"
+  ],
+  "bootstrap": "gatewayMain only ensures Flutter bindings and runApp(CollectGatewayApp); reached Gateway platform uses its own native channel; no Firebase initialization/messaging or member bootstrap path."
+}

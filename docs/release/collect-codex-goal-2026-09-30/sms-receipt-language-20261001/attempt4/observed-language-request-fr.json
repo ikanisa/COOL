@@ -1,0 +1,17 @@
+{
+  "scope": "runtime_controls",
+  "family": "sms_receipt_policies",
+  "changed": true,
+  "identity": {
+    "collection_id": "99780000-0000-4000-8000-000000030001"
+  },
+  "revision": 4,
+  "expires_at": "2026-10-01T18:39:13.206178Z",
+  "request_id": "bfa11c9e-2f2e-4963-a389-645d665d2bc3",
+  "updated_at": "2026-10-01T18:37:33.217695Z",
+  "recorded_at": "2026-10-01T18:37:33.218612Z",
+  "content_sha256": "be186ef3a6f059a281e639cc131743f55c3d0b4c34f90e3a1cff46f28a70dec3",
+  "contract_version": 2,
+  "previous_revision": 3,
+  "request_fingerprint": "70c4c0c2c39d815674e266270c0098ce10ad37bc8e2054b29111637b44ac4967"
+}

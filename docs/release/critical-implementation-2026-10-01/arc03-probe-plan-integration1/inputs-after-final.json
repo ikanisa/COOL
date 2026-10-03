@@ -1,0 +1,218 @@
+[
+  {
+    "path": "contracts/edge-functions.json",
+    "bytes": 4243,
+    "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/edge_function_inventory.rb",
+    "bytes": 10855,
+    "sha256": "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/edge_function_inventory.sh",
+    "bytes": 1610,
+    "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/load_dotenv_strict.sh",
+    "bytes": 2479,
+    "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+    "mode": "0o700"
+  },
+  {
+    "path": "scripts/supabase_cli_helpers.sh",
+    "bytes": 13715,
+    "sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/supabase_production_readiness.sh",
+    "bytes": 62206,
+    "sha256": "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/tests/edge_function_inventory_test.rb",
+    "bytes": 16855,
+    "sha256": "3e149e13958f1552cdbf69ac0dd73e43a67011d8b2556f2abd018fe3ca472b95",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/tests/supabase_delivery_contract_test.py",
+    "bytes": 39094,
+    "sha256": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/config.toml",
+    "bytes": 16173,
+    "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/_shared/signed_sms_hook.ts",
+    "bytes": 1943,
+    "sha256": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/auth-send-whatsapp-otp/handler.ts",
+    "bytes": 11307,
+    "sha256": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/auth-send-whatsapp-otp/index.ts",
+    "bytes": 357,
+    "sha256": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/collect-android-gateway/archive_v3.ts",
+    "bytes": 5418,
+    "sha256": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-android-gateway/handler.ts",
+    "bytes": 27054,
+    "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-android-gateway/index.ts",
+    "bytes": 404,
+    "sha256": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-notification-operator/index.ts",
+    "bytes": 3051,
+    "sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-exception-worker/handler.ts",
+    "bytes": 10378,
+    "sha256": "a7707c8888178194c3f050fcdbdddd060d65e246fb2d7280e903faaebbb3cb99",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-exception-worker/index.ts",
+    "bytes": 600,
+    "sha256": "fd40a8d1058289b32141ecdc17693142dc14f3d408251ce3cbc736224b5df84e",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-successor-gateway/handler.ts",
+    "bytes": 9031,
+    "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-successor-gateway/index.ts",
+    "bytes": 417,
+    "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-successor-gateway/wire.ts",
+    "bytes": 13374,
+    "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+    "bytes": 18100,
+    "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-supervisor/index.ts",
+    "bytes": 411,
+    "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+    "bytes": 8735,
+    "sha256": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/dispatch-notifications/dispatcher.ts",
+    "bytes": 3673,
+    "sha256": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/dispatch-notifications/index.ts",
+    "bytes": 4960,
+    "sha256": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/ingest-payment-sms/index.ts",
+    "bytes": 3669,
+    "sha256": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/parse-payment-sms/index.ts",
+    "bytes": 6538,
+    "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/prepare-roster-import/handler.ts",
+    "bytes": 24077,
+    "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/prepare-roster-import/handler_test_fixture.ts",
+    "bytes": 13090,
+    "sha256": "93f9563d7d89b5a931ebf85e3b9bc307d03d65b57e3d186efaba294f53f1b395",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/prepare-roster-import/index.ts",
+    "bytes": 962,
+    "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/reconciliation-finalize/handler.ts",
+    "bytes": 3691,
+    "sha256": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/reconciliation-finalize/index.ts",
+    "bytes": 736,
+    "sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/send-notification/handler.ts",
+    "bytes": 7034,
+    "sha256": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+    "mode": "0o644"
+  },
+  {
+    "path": "supabase/functions/send-notification/index.ts",
+    "bytes": 558,
+    "sha256": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+    "mode": "0o700"
+  },
+  {
+    "path": "supabase/functions/verify-play-integrity/index.ts",
+    "bytes": 14989,
+    "sha256": "3e5f2fb1ba52241aa2906f6ce97c04a81b6a97e33479a06a12400bbc5137b7ed",
+    "mode": "0o700"
+  }
+]

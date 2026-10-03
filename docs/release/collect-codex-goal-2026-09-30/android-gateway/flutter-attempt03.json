@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "test/gateway/gateway_safety_test.dart",
+    "--reporter",
+    "expanded"
+  ],
+  "exit_code": 0,
+  "source_sha256": {
+    "lib/gateway/gateway_platform.dart": "6de008431269e10b53e56412031b5ef2a37dcb46db49661b5d57888bc1c19b4b",
+    "lib/gateway/gateway_app.dart": "d233c02d5d374039ca370b4ce13ff607caf3ac8478e40967efca73f2045ba7bf",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "test/gateway/gateway_safety_test.dart": "9ba17344b02debc0b4973cbb037e24b576958757225aa359ac323ad8f3d79294"
+  },
+  "source_changes": []
+}

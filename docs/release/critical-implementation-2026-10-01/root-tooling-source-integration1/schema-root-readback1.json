@@ -1,0 +1,8 @@
+{
+  "checked_at_utc": "2026-10-02T07:01:35.549242+00:00",
+  "seal_sha256": "428a7667fc331ed010dc79007847c10110ce5e0bd7ed15abeec46b47246baf1d",
+  "leaves_verified": 22,
+  "source_hashes_unchanged": true,
+  "full_semantic_comparison_observed": true,
+  "full_BE08_closed": false
+}

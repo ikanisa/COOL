@@ -1,0 +1,17 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "mode": "Paused",
+    "revision": 3,
+    "expires_at": "2026-10-01T11:38:30.677596Z",
+    "request_id": "50883567-9e9a-4d69-a6e3-5e417875680b",
+    "recorded_at": "2026-10-01T11:36:30.684911Z",
+    "emergency_stop": true,
+    "contract_version": 2
+  },
+  "checked_at": "2026-10-01T11:36:30.757799Z",
+  "expires_at": "2026-10-01T11:38:30.677596Z",
+  "request_id": "50883567-9e9a-4d69-a6e3-5e417875680b",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T11:37:30.757799Z"
+}

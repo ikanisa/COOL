@@ -1,0 +1,106 @@
+{
+  "observed_at": "2026-10-02T01:14:13.193759+00:00",
+  "reason": "Correct actual test location test/ and inspect current privacy-intake consumer; original before receipt preserved",
+  "files": [
+    {
+      "path": "lib/admin/core/admin_evidence_mode.dart",
+      "bytes": 22003,
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426"
+    },
+    {
+      "path": "supabase/migrations/20261002042000_privacy_current_request_status.sql",
+      "bytes": 1080,
+      "sha256": "5364235b6130348a89ca5f863f61ebb7e29bdd8e3f26015c966b3cc9ef80ce11"
+    },
+    {
+      "path": "test/admin_roster_authority_scope_test.dart",
+      "bytes": 10901,
+      "sha256": "0a16beac4864772af412e51b2f45f0051fad34010733477f2606f458f6d2dac2"
+    },
+    {
+      "path": "test/admin_roster_bookmark_browser_test.dart",
+      "bytes": 1114,
+      "sha256": "3aa226e963428dac35f5f1369bb77d1159143c4d675c93074af3f3a0d82eb75f"
+    },
+    {
+      "path": "test/admin_roster_calendar_test.dart",
+      "bytes": 6286,
+      "sha256": "6f8e8a29151005d59e5b48b840408d547c4d856decee2a976c083cf5c1c2d516"
+    },
+    {
+      "path": "test/admin_roster_declared_read_dispatch_test.dart",
+      "bytes": 7012,
+      "sha256": "413b66c38446e186bf40cabe92e1054f4a66e55b00a874ebccca4a0c5855480d"
+    },
+    {
+      "path": "test/admin_roster_dialog_test.dart",
+      "bytes": 14010,
+      "sha256": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582"
+    },
+    {
+      "path": "test/admin_roster_file_parser_test.dart",
+      "bytes": 1842,
+      "sha256": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746"
+    },
+    {
+      "path": "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+      "bytes": 3800,
+      "sha256": "e1ff2fb5e4fc6c5fcc94d75a851d61fc5e5b3ac1281163f54b77c1ca207ca43d"
+    },
+    {
+      "path": "test/admin_roster_fresh_auth_test.dart",
+      "bytes": 13421,
+      "sha256": "75300b969947cb1370334b7a3acaab8a8575e4e99b05e46501c2c208fbaa9d95"
+    },
+    {
+      "path": "test/admin_roster_gateway_expiry_test.dart",
+      "bytes": 12817,
+      "sha256": "899fee6f9df08c4b9efb61358fc04970f1011cbbc49668f88f6377c803f84769"
+    },
+    {
+      "path": "test/admin_roster_import_test.dart",
+      "bytes": 33183,
+      "sha256": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03"
+    },
+    {
+      "path": "test/admin_roster_reload_test.dart",
+      "bytes": 24256,
+      "sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2"
+    },
+    {
+      "path": "test/admin_roster_sql_receipts_test.dart",
+      "bytes": 4406,
+      "sha256": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac"
+    },
+    {
+      "path": "test/admin_roster_transport_test.dart",
+      "bytes": 3778,
+      "sha256": "22bd3dddd2898d93431225bdb5e7cc5bc0797b67a193929027f19dfcc7a3d078"
+    },
+    {
+      "path": "test/admin_roster_upload_admission_test.dart",
+      "bytes": 13004,
+      "sha256": "8fede243fe4718b231b8d642d4ab452e5d36c516e4922b48321d87b9275038a4"
+    },
+    {
+      "path": "test/admin_roster_xlsx_preflight_test.dart",
+      "bytes": 17017,
+      "sha256": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3"
+    },
+    {
+      "path": "test/features/member_roster_screen_test.dart",
+      "bytes": 7066,
+      "sha256": "3a879411ad616881129cd6c50715aedd78336d7b55ae68183be4ba6960fd319f"
+    },
+    {
+      "path": "test/shared/member_roster_test.dart",
+      "bytes": 8049,
+      "sha256": "ae20c66a6d78eca7a04027d5955fe5e81ca61c09d6b281d452b930211f05d4dc"
+    },
+    {
+      "path": "test/support/admin_roster_fixture.dart",
+      "bytes": 6092,
+      "sha256": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0"
+    }
+  ]
+}

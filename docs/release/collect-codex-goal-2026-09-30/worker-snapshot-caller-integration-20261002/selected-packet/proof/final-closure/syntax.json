@@ -1,0 +1,82 @@
+{
+  "source_bindings_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb": {
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb": {
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_encrypted_database_backup.rb": {
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb": {
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/docs/platform/CURRENT_CANDIDATE_RECOVERY.md": {
+      "bytes": 8784,
+      "sha256": "52f26823f6b3b7cafe67e44fc12bd25c62ab9a7e6997b335be630cbf8727a8ca"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/collect_worker_snapshot_test.rb": {
+      "bytes": 6050,
+      "sha256": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_encrypted_database_backup.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/collect_worker_snapshot_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": ""
+    }
+  ],
+  "source_unchanged": true,
+  "status": "passed"
+}

@@ -148,7 +148,7 @@ void main() {
     final payload = _snapshotPayload()..['collections'] = [42];
     expect(
       () => CollectOfflineSnapshot.fromJson(payload),
-      throwsA(isA<TypeError>()),
+      throwsFormatException,
     );
   });
   test(

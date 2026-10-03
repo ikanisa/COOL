@@ -8,7 +8,8 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(adminRealtimeTickProvider);
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
+    final identityRevision = ref.watch(_adminIdentityRevisionProvider);
     return AdminPage(
       title: 'Transaction detail',
       leading: IconButton(
@@ -52,19 +53,31 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
                 id: id,
                 data: data,
               ),
+              if (id.startsWith('momo:')) ...[
+                const SizedBox(height: 16),
+                AdminInvestigationView(
+                  kind: 'transaction',
+                  id: id.substring(5),
+                ),
+              ],
               if (rawSmsId.isNotEmpty &&
                   _adminHasPermission(identity, 'sms.raw.reveal')) ...[
                 const SizedBox(height: 16),
                 AdminSensitiveDataGate(
-                  key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
+                  key: ValueKey((
+                    id,
+                    ref.watch(adminAuthSessionScopeProvider),
+                    identityRevision,
+                  )),
                   label: 'Raw transaction message',
                   onReveal: (reason) async {
-                    final response = await ref
-                        .read(adminRepositoryProvider)
-                        .action('admin_reveal_raw_sms', {
-                          'p_sms_id': rawSmsId,
-                          'p_reason': reason,
-                        });
+                    final scope = _AdminActionScope(ref);
+                    if (!scope.isCurrent) throw const AdminSessionChanged();
+                    final response = await scope.repository.action(
+                      'admin_reveal_raw_sms',
+                      {'p_sms_id': rawSmsId, 'p_reason': reason},
+                    );
+                    if (!scope.isCurrent) throw const AdminSessionChanged();
                     return '${response['message'] ?? ''}';
                   },
                 ),
@@ -92,7 +105,8 @@ class AdminSmsDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(adminRealtimeTickProvider);
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
+    final identityRevision = ref.watch(_adminIdentityRevisionProvider);
     return AdminPage(
       title: 'SMS metadata detail',
       leading: backPath == null
@@ -136,15 +150,20 @@ class AdminSmsDetailPage extends ConsumerWidget {
               if (identity?.permissions.contains('sms.raw.reveal') == true) ...[
                 const SizedBox(height: 16),
                 AdminSensitiveDataGate(
-                  key: ValueKey(ref.watch(adminAuthSessionScopeProvider)),
+                  key: ValueKey((
+                    id,
+                    ref.watch(adminAuthSessionScopeProvider),
+                    identityRevision,
+                  )),
                   label: 'Raw MoMo receipt SMS',
                   onReveal: (reason) async {
-                    final response = await ref
-                        .read(adminRepositoryProvider)
-                        .action('admin_reveal_raw_sms', {
-                          'p_sms_id': id,
-                          'p_reason': reason,
-                        });
+                    final scope = _AdminActionScope(ref);
+                    if (!scope.isCurrent) throw const AdminSessionChanged();
+                    final response = await scope.repository.action(
+                      'admin_reveal_raw_sms',
+                      {'p_sms_id': id, 'p_reason': reason},
+                    );
+                    if (!scope.isCurrent) throw const AdminSessionChanged();
                     return (response['message'] as String?) ?? '';
                   },
                 ),
@@ -225,6 +244,10 @@ class AdminDetailPage extends ConsumerWidget {
                 id: id,
                 data: data,
               ),
+              if (rpcName == 'admin_get_hybrid_sms_receipt') ...[
+                const SizedBox(height: 16),
+                AdminInvestigationView(kind: 'receipt', id: id),
+              ],
             ],
           );
         },
@@ -274,7 +297,7 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
         })
         .toList(growable: false);
     final heading = _adminDetailHeading(rpcName, title, spec.heading, data);
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final colors = context.collectColors;
     return Semantics(
       container: true,
@@ -390,11 +413,11 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _AdminCollectionStatusActions(
                   collectionId: id,
-                  currentStatus: _detailValue(data, const [
-                    'public_status',
-                    'visibility',
-                    'status',
-                  ]),
+                  // Lifecycle decisions use the typed raw enum. The display
+                  // formatter humanizes public_requested and other statuses.
+                  currentStatus:
+                      '${data['public_status'] ?? data['visibility'] ?? data['status'] ?? ''}'
+                          .trim(),
                 ),
               ],
               if (rpcName == 'admin_get_collection' &&
@@ -496,9 +519,16 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
 }
 
 int _detailInt(Object? value) {
-  if (value is int) return value;
-  if (value is num) return value.toInt();
-  return int.tryParse('$value') ?? 0;
+  try {
+    return exactJsonInteger(
+      value,
+      field: 'action count',
+      minimum: 0,
+      allowDigitString: true,
+    );
+  } on FormatException {
+    return 0; // Unknown counts cannot enable a retry control.
+  }
 }
 
 String _adminActionErrorMessage(Object error) {

@@ -1,0 +1,182 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 474,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 98073,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.499,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_investigation_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 98102,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 10.45,
+      "sha256": "dbda6cd8e235291cdbb7c724875f5b339dc7e14ed1fa440c3366cefa83338bd9"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_investigation_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 99145,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 7.708,
+      "sha256": "6ac237143f5e4de28b38c95f199931bcf3e6e3badd24689b9bef6f9c4bed0801"
+    }
+  ],
+  "test_files": [
+    "test/admin_investigation_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 41,
+    "failed": 3,
+    "errors": 18,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "investigation exact decoder rejects cross collection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation exact decoder rejects cross member",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation exact decoder rejects cross snapshot",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view separate snapshot/current values and masked unknown outcome",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view optional navigation requires its current capability",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view loading/error/revocation hides retained private evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view late prior-session evidence never reaches the view",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view stale reading hides evidence and explicit refresh restores it",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view missing remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view denied remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view unavailable remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation transaction production provider and view 320px at2x preserves readable scrollable evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view separate snapshot/current values and masked unknown outcome",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view optional navigation requires its current capability",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view loading/error/revocation hides retained private evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view late prior-session evidence never reaches the view",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view stale reading hides evidence and explicit refresh restores it",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view missing remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view denied remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view unavailable remains an explicit section/service state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      },
+      {
+        "name": "investigation receipt production provider and view 320px at2x preserves readable scrollable evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/test/admin_investigation_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "3416a8de8f66b59f00e93cb41a85151ba53c8dd634db79851f452654173e76f8",
+  "source_before_sha256": "f6c7bb4cbc70e6e69b3f9da325392db59e62e1778ac27e32852b9a0854419fae",
+  "source_after_sha256": "f6c7bb4cbc70e6e69b3f9da325392db59e62e1778ac27e32852b9a0854419fae"
+}

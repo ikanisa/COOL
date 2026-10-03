@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Real Linux sandbox/HTTP malicious corpus; no DB/provider/hosted operations."""
 from __future__ import annotations
-import argparse,base64,hashlib,hmac,json,os,secrets,subprocess,time,uuid
+import argparse,base64,hashlib,hmac,json,os,re,secrets,signal,subprocess,sys,time,uuid
 from pathlib import Path
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
 
 ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'scripts/qa'))
+from roster_wheelhouse import prepare_build_context,verify_prepared_context
 SOURCES=[*sorted((ROOT/'tools/roster-decoder').glob('*.py')),*sorted((ROOT/'tools/roster-decoder').glob('requirements.*')),
- ROOT/'tools/roster-decoder/Dockerfile',Path(__file__),
+ ROOT/'tools/roster-decoder/Dockerfile',Path(__file__),ROOT/'scripts/qa/roster_wheelhouse.py',
+ ROOT/'scripts/tests/roster_wheelhouse_test.py',
  *[ROOT/p for p in [
  'supabase/functions/_shared/roster_decoder.ts','supabase/functions/_shared/roster_decoder_test.ts',
  'supabase/functions/_shared/roster_decoder_integration_test.ts','supabase/functions/_shared/roster_resource_budget.ts',
@@ -19,29 +22,78 @@ SOURCES=[*sorted((ROOT/'tools/roster-decoder').glob('*.py')),*sorted((ROOT/'tool
  'supabase/functions/_shared/openai_roster_test.ts','supabase/functions/_shared/production_contract.ts',
  'supabase/functions/_shared/cors.ts','supabase/functions/_shared/test_assert.ts',
  'supabase/functions/prepare-roster-import/handler.ts','supabase/functions/prepare-roster-import/handler_test.ts',
+ 'supabase/functions/prepare-roster-import/handler_test_fixture.ts','supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts',
  'supabase/functions/prepare-roster-import/index.ts','supabase/migrations/20260930140000_roster_resource_integrity.sql',
  'scripts/tests/roster_resource_integrity_uat.sql','scripts/tests/roster_resource_final_compatibility_uat.sql',
  'scripts/tests/roster_resource_concurrency_uat.rb','scripts/tests/roster_extraction_evaluation.ts',
  'scripts/tests/roster_extraction_evaluation_test.ts']]]
 def hashes():return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in SOURCES}
+def docker_build_command(image,context):
+ return ['docker','build','--network=none','--no-cache','-t',image,str(context)]
 def run(command,log,timeout=120,input=None):
- result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,input=input,timeout=timeout)
- log.write_text(result.stdout+result.stderr)
- if result.returncode:raise RuntimeError(f'Command failed; inspect {log.name}')
- return result.stdout
+ # Stream output to owned evidence before a real command deadline can expire.
+ # The isolated process group contains only this invocation's client children.
+ with log.open('x') as evidence:
+  process=subprocess.Popen(command,cwd=ROOT,text=True,
+   stdin=subprocess.PIPE if input is not None else subprocess.DEVNULL,
+   stdout=evidence,stderr=subprocess.STDOUT,start_new_session=True)
+  try:
+   process.communicate(input=input,timeout=timeout)
+  except subprocess.TimeoutExpired as error:
+   try:os.killpg(process.pid,signal.SIGTERM)
+   except ProcessLookupError:pass
+   try:process.communicate(timeout=2)
+   except subprocess.TimeoutExpired:
+    try:os.killpg(process.pid,signal.SIGKILL)
+    except ProcessLookupError:pass
+    process.communicate(timeout=2)
+   # Reap a client child even when its immediate parent exited after TERM.
+   try:os.killpg(process.pid,signal.SIGKILL)
+   except ProcessLookupError:pass
+   evidence.write(f'\nCOMMAND_TIMEOUT seconds={timeout} owned_parent_reaped={process.poll() is not None}\n')
+   evidence.flush()
+   raise RuntimeError(f'Command timed out after {timeout}s; inspect {log.name}') from error
+ output=log.read_text()
+ if process.returncode:raise RuntimeError(f'Command failed; inspect {log.name}')
+ return output
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--output',required=True);parser.add_argument('--python',required=True);args=parser.parse_args()
+ parser=argparse.ArgumentParser(allow_abbrev=False);parser.add_argument('--output',required=True);parser.add_argument('--python',required=True)
+ parser.add_argument('--wheel-source',type=Path,required=True)
+ parser.add_argument('--publisher-receipt',type=Path,required=True)
+ parser.add_argument('--publisher-sha256',required=True)
+ parser.add_argument('--metadata-directory',type=Path,required=True)
+ args=parser.parse_args()
  output=Path(args.output).resolve();output.mkdir(parents=True,exist_ok=False)
  before=hashes();name='collect_roster_decoder_'+uuid.uuid4().hex[:12];image=name+':qa'
  secret='synthetic-local-only-'+secrets.token_hex(24)
  result={'passed':False,'synthetic_only':True,'provider_accuracy_verified':False,'source_before':before,'cases':[]}
  started=False
  try:
+  result['wheelhouse']=prepare_build_context(decoder_directory=ROOT/'tools/roster-decoder',
+   wheel_source=args.wheel_source,publisher_receipt=args.publisher_receipt,
+   publisher_sha256=args.publisher_sha256,metadata_directory=args.metadata_directory,
+   destination=output/'build-context')
+  (output/'prepared-wheelhouse.json').write_text(json.dumps(result['wheelhouse'],indent=2)+'\n')
   run([args.python,'tools/roster-decoder/generate_fixtures.py',str(output/'fixtures')],output/'generation.log')
-  run(['docker','build','-t',image,'tools/roster-decoder'],output/'build.log',300)
+  verify_prepared_context(result['wheelhouse'])
+  result['wheelhouse_rechecked_before_build']=True
+  run(docker_build_command(image,output/'build-context'),output/'build.log',300)
   build_sha=hashlib.sha256(json.dumps({name:hashlib.sha256((ROOT/'tools/roster-decoder'/name).read_bytes()).hexdigest() for name in ['decoder.py','server.py','requirements.lock','Dockerfile']},sort_keys=True,separators=(',',':')).encode()).hexdigest()
   result['decoder_build_sha256']=build_sha
   result['image_id']=run(['docker','image','inspect',image,'--format','{{.Id}}'],output/'image.log').strip()
+  security_command=['docker','run','--rm','--name',name+'_dependency_security','--network','none',
+   '--read-only','--security-opt','no-new-privileges','--cap-drop','ALL','--memory','896m',
+   '--cpus','2','--pids-limit','32','--tmpfs','/tmp:rw,noexec,nosuid,size=16m',
+   '--mount',f'type=bind,src={ROOT / "tools/roster-decoder/test_dependency_security.py"},dst=/app/test_dependency_security.py,readonly',
+   result['image_id'],'python','-I','/app/test_dependency_security.py']
+  security_log=output/'dependency-security.log'
+  run(security_command,security_log,30)
+  security_text=security_log.read_text()
+  assert re.search(r'^Ran 6 tests in [0-9.]+s$',security_text,re.M)
+  assert re.search(r'^OK$',security_text,re.M) and 'skipped' not in security_text.lower()
+  result['dependency_security']={'tests_passed':6,'tests_failed':0,'tests_skipped':0,
+   'network_none_requested':True,'image_id':result['image_id'],'command':security_command,
+   'log_sha256':hashlib.sha256(security_log.read_bytes()).hexdigest()}
   (output/'state').mkdir()
   run(['docker','run','-d','--name',name,'--read-only','--security-opt','no-new-privileges','--cap-drop','ALL',
    '--memory','896m','--cpus','2','--pids-limit','32','--tmpfs','/tmp:rw,noexec,nosuid,size=16m',
@@ -73,7 +125,7 @@ def main():
     for key in ['request_id','reservation_id','nonce','source_sha256','kind','mime']:assert data[key]==body[key]
     assert data['decoder_build_sha256']==build_sha
     assert data['source_size']==len(base64.b64decode(body['content_base64']))
-    assert data['toolchain']=={'python':'3.12','pillow':'12.0.0','pypdfium2':'5.2.0','pypdf':'6.7.0','openpyxl':'3.1.5','defusedxml':'0.7.1'}
+    assert data['toolchain']=={'python':'3.12','pillow':'12.3.0','pypdfium2':'5.2.0','pypdf':'6.19.0','openpyxl':'3.1.5','defusedxml':'0.7.1'}
     if body['kind']=='xlsx':assert hashlib.sha256(data['derived_content'].encode()).hexdigest()==data['derived_sha256']
    else:assert set(data)=={'error'} and data['error'].startswith('roster_')
    return status,data
@@ -113,7 +165,7 @@ def main():
    'supabase/functions/_shared/roster_decoder_integration_test.ts'],cwd=ROOT,env=environment,capture_output=True,text=True,timeout=90)
   (output/'edge-decoder-integration.log').write_text(tested.stdout+tested.stderr)
   assert tested.returncode==0
-  regressions=['supabase/functions/_shared/'+n for n in ['roster_decoder_test.ts','roster_file_policy_test.ts','roster_response_policy_test.ts','roster_import_test.ts','openai_roster_test.ts']]+['supabase/functions/prepare-roster-import/handler_test.ts','scripts/tests/roster_extraction_evaluation_test.ts']
+  regressions=['supabase/functions/_shared/'+n for n in ['roster_decoder_test.ts','roster_file_policy_test.ts','roster_response_policy_test.ts','roster_import_test.ts','openai_roster_test.ts']]+['supabase/functions/prepare-roster-import/handler_test.ts','supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts','scripts/tests/roster_extraction_evaluation_test.ts']
   run(['deno','test',*regressions],output/'regressions.log')
   run(['deno','run','--allow-read='+str(output/'fixtures'),'--allow-write='+str(output/'evaluation.json'),
        'scripts/tests/roster_extraction_evaluation.ts',str(output/'fixtures'),str(output/'evaluation.json')],output/'evaluation.log')
@@ -124,6 +176,9 @@ def main():
   for p in SOURCES:
    target=snapshots/p.relative_to(ROOT);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(p.read_bytes())
   result['passed']=True
+ except Exception as error:
+  result['error']=str(error)
+  raise
  finally:
   if started:
    run(['docker','logs',name],output/'supervisor.log')

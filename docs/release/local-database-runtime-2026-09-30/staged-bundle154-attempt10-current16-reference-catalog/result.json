@@ -1,0 +1,342 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "carrier_or_native_attestation_tested": false,
+  "cases": [
+    {
+      "detail": true,
+      "name": "reviewed stage manifest covers every current uninstalled source version",
+      "status": "pass"
+    },
+    {
+      "detail": null,
+      "name": "schema-only clone restores exact baseline notification/payment permission catalog without actor grants",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "nonempty pending requests are created through actual member RPC",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930211605_android_gateway_identity.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930211605_android_gateway_identity.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930213000_operator_email_auth.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930213000_operator_email_auth.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930220527_operator_email_cutover_guard.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930220527_operator_email_cutover_guard.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230100_receipt_backlog_events.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230100_receipt_backlog_events.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230200_admin_receipt_overview.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230200_admin_receipt_overview.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230300_admin_transaction_lifecycle.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230300_admin_transaction_lifecycle.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230400_admin_investigation.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930230400_admin_investigation.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930233000_sensitive_admin_authority.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930233000_sensitive_admin_authority.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930234000_exact_request_amounts.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930234000_exact_request_amounts.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235000_exact_receipt_history_amounts.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235000_exact_receipt_history_amounts.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235500_operator_reason_whitespace.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235500_operator_reason_whitespace.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235600_runtime_control_reason_whitespace.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20260930235600_runtime_control_reason_whitespace.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000100_operational_exception_inbox.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000100_operational_exception_inbox.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000200_admin_gateway_reads.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000200_admin_gateway_reads.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000300_admin_exception_reads.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000300_admin_exception_reads.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000400_receipt_supervisor_identity.sql applies as ordinary clone owner",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "20261001000400_receipt_supervisor_identity.sql preserves financial rows and exact pending requests",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined email/security policy admits current masked operator approval read",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined receipt Overview query executes against actual staged columns",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined transaction list executes without receipt/provider data",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined Gateway read returns an authorized redacted empty page",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined Gateway absent owner request remains unknown",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined exception inbox reads without fabricated source completeness",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined exception v2 reads return bounded fresh redacted empty scope",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined exception owner request remains unrecorded without fabricated action",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "combined shadow supervisor request remains unrecorded without fabricated identity",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "existing pending contribution replay survives full staged bundle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "contribution_amount_not_exact",
+        "sqlstate": "22023"
+      },
+      "name": "exact request guard still rejects oversized amount after all stages",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all16 exact private Gateway/email/receipt/exception tables have RLS and no direct API DML",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current read smoke probes leave synthetic financial fingerprints unchanged",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all reviewed staged sources remain byte-identical",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "no unreviewed source migration appears during full staged integration",
+      "status": "pass"
+    }
+  ],
+  "clean_replay_tested": false,
+  "completed_at": "2026-10-01T00:02:50.851118+00:00",
+  "confirmed_status_fabricated": false,
+  "database": "collect_local_uat_43303cd289ba4a1a",
+  "hosted_called": false,
+  "hosted_registry_tested": false,
+  "isolated_database_removed": true,
+  "kind": "populated_synthetic154_reviewed_staged_bundle",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "33d7aa8b615f1d079e3320eb4f85633797ce8c20b657e6ed231ddb1ec441e1d2",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_migration_sha256": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+    "20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-10-01T00:02:22.803241+00:00",
+  "status": "pass"
+}

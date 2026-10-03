@@ -1,0 +1,34 @@
+{
+  "candidate_approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "copy_readback": {
+    "approvals": {
+      "frozen": false,
+      "owner_approved": false,
+      "production_release_accepted": false,
+      "reviewed": false,
+      "signed": false,
+      "trusted_source_verified": false
+    },
+    "changes": [],
+    "file_count": 1688,
+    "manifest_sha256": "4d49758c617893d96740bebc7ec9f34beac783c4d6019daadf754ed6e851a4fc",
+    "scope": "Exact bytes/modes/readback only; self-recorded hashes do not attest source trust",
+    "source_comparison_performed": false,
+    "status": "pass"
+  },
+  "file_count": 1688,
+  "flutter_commands": 0,
+  "kind": "unapproved_build_work_copy",
+  "manifest_sha256": "4d49758c617893d96740bebc7ec9f34beac783c4d6019daadf754ed6e851a4fc",
+  "scope": "Exact source copy only; generated bindings and build output will be separately recorded",
+  "source_candidate": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20260930-release-tooling-02",
+  "status": "pass",
+  "workspace": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20260930-admin-build-02"
+}

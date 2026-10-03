@@ -1,0 +1,18 @@
+{
+  "at_utc": "2026-10-02T06:14:29.225464+00:00",
+  "classification": "untrusted inert synthetic failure fixtures; not runtime or acceptance source",
+  "counts": {
+    "directories": 4391,
+    "other_types": 0,
+    "regular_bytes": 97750713,
+    "regular_files": 5562,
+    "regular_leaves_multiple_links": 12,
+    "symlinks": 24
+  },
+  "directory": "negative-fixtures",
+  "fixture_payloads_not_an_export_candidate": true,
+  "never_execute_or_extract_as_a_runtime": true,
+  "old_fixture_programs_not_executed": true,
+  "packet_leaf_seal_excludes_this_directory": true,
+  "preserved_without_mutation_or_deletion": true
+}

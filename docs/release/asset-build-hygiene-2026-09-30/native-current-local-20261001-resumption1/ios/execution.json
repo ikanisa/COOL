@@ -1,0 +1,90 @@
+{
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "elapsed_seconds": 0.06,
+      "exit_code": 0,
+      "name": "git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "elapsed_seconds": 0.79,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0c228122dabf70c0d5b77f7268a6c7f58aec9254b8da26ab98f079de74f68ae6"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 6.34,
+      "exit_code": 0,
+      "name": "pub-enforce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-version"
+      ],
+      "elapsed_seconds": 0.65,
+      "exit_code": 0,
+      "name": "xcode-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "694b44731d0b415c5b11d844151e466d7f5e200a95627efda377f232f1a6ab77"
+    },
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/ios/Pods",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Pods"
+      ],
+      "elapsed_seconds": 0.08,
+      "exit_code": 0,
+      "name": "clone-cached-pods",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "build",
+        "ios",
+        "--release",
+        "--flavor",
+        "production",
+        "--no-codesign",
+        "--no-pub",
+        "--config-only"
+      ],
+      "elapsed_seconds": 279.39,
+      "exit_code": 0,
+      "name": "unsigned-ios-config",
+      "stderr_sha256": "1622f660fd70d360f0ba6dedf36c9a4424428eeeca37f22e8297605dbb71faf6",
+      "stdout_sha256": "1f0b41a9d882969757c93da59c2b2f63f7d3240c2dba2ef726756da250736b1e"
+    }
+  ],
+  "error": "artifacts",
+  "pid": 67099,
+  "source_manifest_sha256": "38c1bd75691d7cd57ae1e66b8b0094be1d90ffdec768f7878e4ab84046f486a7",
+  "stage": "unsigned-ios-config",
+  "status": "fail"
+}

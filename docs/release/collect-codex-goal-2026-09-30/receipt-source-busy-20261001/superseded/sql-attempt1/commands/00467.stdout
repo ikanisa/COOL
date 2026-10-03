@@ -1,0 +1,4 @@
+1
+
+{"role":"service_role"}
+{"ok": false, "code": "SOURCE_BUSY", "action": "ensure_receipt", "run_id": "991d7fc0-65fb-4d14-8a39-fdcfe7a1c23a", "event_id": "f00bafb7-cc17-4fa6-9b03-8364ecb02ee9", "receipt_id": null, "request_id": "ede0dc39-1c2e-4c62-8b4a-fc001a2a13e9", "observed_at": "2026-10-01T21:44:52.362444Z", "principal_id": "0fc96c65-ed8b-4d37-8734-ade81abbd946", "fence_version": 1, "source_version": 1, "business_handled": false, "contract_version": 2}

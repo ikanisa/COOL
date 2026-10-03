@@ -1,0 +1,14 @@
+{
+  "status": "prepared_not_executed",
+  "at_utc": "2026-10-01T09:04:31.792612+00:00",
+  "old_runner_sha256": "b22bb7694dd4f67105c33f3d93ba9880c3a3f0080b39797684651474a9954969",
+  "new_runner": ".cache/run-observed-native-attempt170.py",
+  "new_runner_sha256": "6345e827949a7e485042388c5054d92cee723f55691262abe7a2724760696672",
+  "accepted_parent": "local-source-acceptance-attempt167",
+  "required_actual_builds": [
+    "native-export-attempt125-android",
+    "native-export-attempt126-gateway"
+  ],
+  "production_code_changed": false,
+  "scope": "Unlaunched actual Gradle runtime/compile graph, observed artifacts and reproducible CycloneDX verification recipe; execution remains dependent on both successful source-bound builds."
+}

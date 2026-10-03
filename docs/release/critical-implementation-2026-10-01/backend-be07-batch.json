@@ -1,0 +1,93 @@
+{
+  "finding": "BE-07",
+  "status": "local_code_and_scoped_sql_transport_checks_pass",
+  "created_at": "2026-10-01T20:46:47.912307+00:00",
+  "source_hashes": {
+    "supabase/functions/verify-play-integrity/index.ts": "3e5f2fb1ba52241aa2906f6ce97c04a81b6a97e33479a06a12400bbc5137b7ed",
+    "supabase/functions/_shared/integrity_admission.ts": "e199493ea1dc150bc3472ad38d2ea906ee118e102bc8631b035d8b52dbea077c",
+    "supabase/functions/_shared/integrity_admission_test.ts": "999c093490077ab1b16dea805ee3c8a7ab38359f1b3078aa283d0ca3395d138d",
+    "scripts/tests/play_integrity_handler_test.ts": "41f181641d75cb9b56460ded224df53f76581c9fe7fa1a36f1b79d38b3a419b6",
+    "scripts/tests/play_integrity_admission_uat.py": "7f775f2114b54fdb09480f6a6908f0e10e7ea146fcbee9fc2affb95643b92526",
+    "scripts/tests/play_integrity_admission_uat.sql": "1112a931bd339bf58b15e05f95deeccd5025798fbfd58d6c5ed3ca1620e0f8d9",
+    "supabase/migrations/20261001234000_play_integrity_admission.sql": "f7602666cdd6d1afa09250c74ae2f09afa0c051990074adc7b04900fc47de275",
+    "scripts/hardening/edge_http.test.cjs": "942c1577fb30a3ec70f3fbfd19666bc02be43f71673d135fbdafd3b8d966eb4a",
+    "scripts/hardening/run_edge_http_tests.py": "f3cbb9674c34f6ea16da238d530ee28b0c49f2b047fb7710adcea765765ea5aa",
+    "scripts/supabase_production_readiness.sh": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+  },
+  "sql_receipt": "docs/release/critical-implementation-2026-10-01/backend-be07-attempt5/result.json",
+  "sql_receipt_sha256": "fe4a8608c649148df2330da867cba23187566b7b613344f1a48c61f8ca58ef2c",
+  "sql_migrations": 192,
+  "sql_checks": 89,
+  "sql_inputs": 207,
+  "sql_source_current_at_finish": true,
+  "sql_container_removed": true,
+  "deno_version": "2.5.6",
+  "supabase_cli_version": "2.114.0",
+  "handler_helper_tests": 7,
+  "actual_handler_steps": 32,
+  "host_adapter_tests": 73,
+  "logs": {
+    "handler": {
+      "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch/handler.log",
+      "sha256": "7cf62fcd2b4f0b6e75d1f06764a01fd5f10b81fe6a3596a9b87a7cfd8b462703"
+    },
+    "host": {
+      "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch/host.log",
+      "sha256": "b2033fce90d6173a98ce840f7c0062a1b971b46c1ec4ba82eb0b22dfa630ee2a"
+    },
+    "types": {
+      "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch/types.log",
+      "sha256": "5dc737e07486cf807931cfe66d6750c9614dde80112126a6ba7ef9cd6f3c5aa7"
+    },
+    "lint": {
+      "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch/lint.log",
+      "sha256": "ff3955886a906e95785d1e49cc4d95e0db9f13b5f5312a5fa2895fe30443bab0"
+    },
+    "sql": {
+      "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch/sql.log",
+      "sha256": "4ae7c545aaa3e04366db5671f1e815c1f3245c5e21b0331607ea90e22deff85b"
+    }
+  },
+  "engineering_policy_defaults": {
+    "id": true,
+    "version": 1,
+    "actor_daily": 500,
+    "actor_active": 2,
+    "global_daily": 5000,
+    "global_active": 20,
+    "global_minute": 100,
+    "lease_seconds": 180,
+    "actor_action_minute": 10
+  },
+  "policy_approved": false,
+  "production_load_observed": false,
+  "provider_called": false,
+  "hosted_written": false,
+  "shared_database_written": false,
+  "final_acceptance": false,
+  "migration_creation": {
+    "cli_created": "20261001203501_play_integrity_admission.sql",
+    "fresh_empty_file_renamed_to_next_unapplied": "20261001234000_play_integrity_admission.sql",
+    "applied_history_rewritten": false
+  },
+  "rollout_order": [
+    "install new Edge admission first: missing RPC denies before Google",
+    "apply latest migration and verify effective grants/readiness",
+    "perform externally authorized provider/device/load/release acceptance"
+  ],
+  "past_attempts": {
+    "attempt1": "192 migration replay pass; synthetic receiver hash violated existing canonical hash constraint",
+    "attempt2": "fixture action substitution used group payload with SMS action: denied22023, expected55000; fixed fixture to valid SMS content before substitution",
+    "attempt3": "expired completion denied55000, fixture incorrectly expected22023; corrected expectation and canonical payload hash",
+    "attempt4": "84 SQL phases pass; runner/transport fixture changes during run correctly marked stale-source",
+    "handler_attempt1": "32 transport steps pass; actual Auth auto-refresh timers leaked in fixture; fixture releases only its created timers with leak sanitizer retained"
+  },
+  "remaining": [
+    "Google/provider/device signed Auth runtime and managed hosted grants/installer authority",
+    "human quota/policy approval and real traffic/peak/load measurements",
+    "operational durable history retention/storage planning and provider-side unknown work duration beyond local reservation lease",
+    "code-first coordinated rollout and post-rollout current readback",
+    "active historical SQL fixture reconciliation recorded separately"
+  ],
+  "lifecycle_observation": "Actual Supabase client creation installed Auth refresh intervals in isolated fixture. The fixture explicitly released its own timers; production shared supabase.ts remains unchanged for separate lifecycle review."
+}

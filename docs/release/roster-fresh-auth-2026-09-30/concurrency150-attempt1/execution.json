@@ -1,0 +1,11 @@
+{
+  "command": [
+    "ruby",
+    "-EUTF-8:UTF-8",
+    "scripts/tests/roster_fresh_auth_concurrency_uat.rb"
+  ],
+  "pid": 41608,
+  "return_code": 1,
+  "status": "terminal",
+  "timed_out": false
+}

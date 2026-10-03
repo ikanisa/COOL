@@ -1,0 +1,369 @@
+{
+  "status": "scoped_pass",
+  "test_source": "test/admin_operator_approval_sdk_matrix_test.dart",
+  "cases": [
+    {
+      "name": "operator approval separates approval=false from role=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval separates approval=false from role=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval separates approval=true from role=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval separates approval=true from role=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field contract_version",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field user_id",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field provider",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field mode",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field identity_masked",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field approved_at",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field expires_at",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field status",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field approved",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field role_granted",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field admin_access",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval requires exact nullable field access_status",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted contract_version=2",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted user_id=99430000-0000-4000-8000-000000000001",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted provider=sms",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted mode=unknown",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted identity_masked=operator@collect.example",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted status=unknown",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted approved=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted role_granted=1",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted admin_access=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted access_status=active",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted approved_at=0000-01-01T00:00:00Z",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted approved_at=2026-02-30T08:00:00Z",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted approved_at=2026-09-30T08:00:00",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval rejects malformed or substituted private_context=PRIVATE_CANARY",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval accepts valid UTC calendar and rejects non-forward expiry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval disables legacy controls after email-mode transition",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel success",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel cancel",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel invalid",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel denied",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel uncertain",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel permission-loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email approval production SDK panel late-session",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK email revocation production SDK panel selects exact operation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 pins current Bearer exact target request and receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 rejects missing receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 rejects wrong-target receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 rejects private-extra receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 permission is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 503 is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 network is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 suppresses departed session response A-B-A=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 suppresses departed session response A-B-A=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_get_operator_approval_v1 signed out cannot dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 pins current Bearer exact target request and receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 rejects missing receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 rejects wrong-target receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 rejects private-extra receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 permission is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 503 is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 network is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 suppresses departed session response A-B-A=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 suppresses departed session response A-B-A=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_approve_email_operator_v1 signed out cannot dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 pins current Bearer exact target request and receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 rejects missing receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 rejects wrong-target receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 rejects private-extra receipt without false acceptance",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 permission is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 503 is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 network is one SDK dispatch with no fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 suppresses departed session response A-B-A=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 suppresses departed session response A-B-A=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "operator approval actual SDK admin_revoke_email_operator_v1 signed out cannot dispatch",
+      "result": "success",
+      "skipped": false
+    }
+  ],
+  "case_count": 70,
+  "aggregate_status": "failed",
+  "aggregate_failure": "Flutter harness stream sink shutdown; one co-resident email-login widget case unfinished. No runtime assertion failure proved for that unfinished case.",
+  "packet": "docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt4",
+  "packet_validation_sha256": "270a81b77d560bc46402d7cb00060ec77cb9a89e64d6d0e41977c726e7a52bcb",
+  "machine_log_sha256": "2deb14a1c71b711db441a688feddf86269b8bb046e242de5d29796c33f97fbde",
+  "tested_source_sha256": "c5ce4184e821c2be4a1756ef5c39c37f1c26bd7714a53498ec7aaea48cdc1100",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "transport_dependencies_unchanged": true,
+  "database_called": false,
+  "provider_called": false,
+  "scope": "70 DTO, actual locked SDK request/session/error and production operator approval widget cases; synthetic HTTP/Auth; no current server, provider delivery or persisted audit proof."
+}

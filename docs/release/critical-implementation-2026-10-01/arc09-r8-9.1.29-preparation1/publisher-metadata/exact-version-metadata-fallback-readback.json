@@ -1,0 +1,65 @@
+{
+  "JAR_body_downloaded": false,
+  "failed_HEAD_attempt_preserved": true,
+  "google_exact_version_present": false,
+  "kind": "actual_bounded_official_metadata_reads",
+  "raw_maven_exact_POM_HTTP200": true,
+  "raw_sidecar_SHA_not_available": true,
+  "requests": [
+    {
+      "body_sha256": "d02d46d344c92ac56c139f0bb0e3bf38803e1089cdc4a3b954d970a570d0f731",
+      "duration_seconds": 1.256536,
+      "header_sha256": "3fb11f2a331ba4c60ea571addb4af7f9e50b4cf069590028a1502cbf67ac01b5",
+      "http_code": 200,
+      "label": "google-versions",
+      "result": "metadata HTTP result retained",
+      "ssl_verify_result": 0,
+      "stderr": "",
+      "url_effective": "https://dl.google.com/dl/android/maven2/com/android/tools/r8/maven-metadata.xml"
+    },
+    {
+      "body_sha256": "136af50c91e46198fc439f2e233094edd39c5d68df88f33045526b872a4a6e06",
+      "duration_seconds": 0.95417,
+      "header_sha256": "c0ed197934ed64376078863bbd8882b4de03ceb5d2e78d06dff924384c666843",
+      "http_code": 200,
+      "label": "raw-maven-pom",
+      "result": "metadata HTTP result retained",
+      "ssl_verify_result": 0,
+      "stderr": "",
+      "url_effective": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.pom"
+    },
+    {
+      "body_sha256": "aa46be3415463953215a1b16c5f63ea3a330aacc19686afbfdc37f0b7f5780b2",
+      "duration_seconds": 0.94262,
+      "header_sha256": "dbc379d06d0621e495bb6fe0b7ce8cb45bad953cff54907b915aa899f1708de1",
+      "http_code": 404,
+      "label": "raw-maven-jar-sha1",
+      "result": "metadata HTTP result retained",
+      "ssl_verify_result": 0,
+      "stderr": "",
+      "url_effective": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar.sha1"
+    },
+    {
+      "body_sha256": "90cfe23c6cd8b5443d92d391b9ad81e1f67043adac9787463325748f025b95c7",
+      "duration_seconds": 0.926427,
+      "header_sha256": "1c29503a6a79b5cc35b4da87a0108c7163687cc886dab42a0f84d7fb82adc045",
+      "http_code": 404,
+      "label": "raw-maven-jar-sha256",
+      "result": "metadata HTTP result retained",
+      "ssl_verify_result": 0,
+      "stderr": "",
+      "url_effective": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar.sha256"
+    },
+    {
+      "body_sha256": "441d1234b43004567900cadc1b9c4f2d041a68f5ac5dcc9afb2dee9eb46d6a65",
+      "duration_seconds": 0.949076,
+      "header_sha256": "441d1234b43004567900cadc1b9c4f2d041a68f5ac5dcc9afb2dee9eb46d6a65",
+      "http_code": 200,
+      "label": "raw-canonical-jar-headers",
+      "result": "HEAD headers observed but curl max-filesize56 refused declared JAR length; no JAR body acquired",
+      "ssl_verify_result": 0,
+      "stderr": "curl: (56) Maximum file size exceeded\n",
+      "url_effective": "https://storage.googleapis.com/r8-releases/raw/9.1.29/r8lib.jar"
+    }
+  ]
+}

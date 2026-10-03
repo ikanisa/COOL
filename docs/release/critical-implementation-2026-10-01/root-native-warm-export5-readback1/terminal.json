@@ -1,0 +1,12 @@
+{
+  "ARC09_closed": false,
+  "native_packages_built": false,
+  "production_release_approval": false,
+  "protected_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "stage": "app-export",
+  "stage_pass": true,
+  "warm_retry_script_sha256": "8393de20ff53653a1e6d3bef432c437903973271dcbe56e8a5462b5a22766f38"
+}

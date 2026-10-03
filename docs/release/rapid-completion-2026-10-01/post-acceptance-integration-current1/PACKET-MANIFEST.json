@@ -1,0 +1,1837 @@
+{
+  "candidate_manifest_sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a",
+  "captured_at_utc": "2026-10-01T16:23:31.529678+00:00",
+  "files": {
+    "INTEGRATION.md": {
+      "bytes": 6821,
+      "sha256": "2d4a496ef5e0040b71a159dda178a558d80ff5747fe9eee3cf50319e352c7de7"
+    },
+    "admin/README.md": {
+      "bytes": 4849,
+      "sha256": "124cf5bad59cb4b3ebfeca8fa4629da97d523febc374cadc17a155c5d91081ff"
+    },
+    "admin/SHA256SUMS.json": {
+      "bytes": 59362,
+      "sha256": "21a600c76dd2533f14ea17fa2506548e899c0bf9878e019e53f32dad315c0025"
+    },
+    "admin/admin_entity_audit_link.observed.diff": {
+      "bytes": 795,
+      "sha256": "17c3372c8b90b4205752ffefd6b8f46153d902e7a14b8c8ad5fb545bc11c6fd4"
+    },
+    "admin/admin_exception_workflow_card.observed.diff": {
+      "bytes": 8305,
+      "sha256": "f92ad7a2378d2e410a8082c1eef7f1565a283b8bdc543aa9ecd3529a60d890dc"
+    },
+    "admin/artifact-manifest.json": {
+      "bytes": 27476,
+      "sha256": "ddcb7eb977db1db56e80b8347334fe3044f20142b5e0c787dde158ae4256b07d"
+    },
+    "admin/artifacts/admin-build/.last_build_id": {
+      "bytes": 32,
+      "sha256": "8ea5946c6d45ec536abcb818a7db139e0ea74a78a1fa524973ebd18f6d24da04"
+    },
+    "admin/artifacts/admin-build/.well-known/apple-app-site-association": {
+      "bytes": 235,
+      "sha256": "ec409598c97bcdd9d2ce7a720b1f4ee908e1c6d41a337ada8f7801f7a084c118"
+    },
+    "admin/artifacts/admin-build/.well-known/assetlinks.json": {
+      "bytes": 442,
+      "sha256": "78aa941f4c5c7994abc197938fbe4f831150a9225fe31723c7c56b2a7b07d2d4"
+    },
+    "admin/artifacts/admin-build/_headers": {
+      "bytes": 1450,
+      "sha256": "57933e212c336a836cef0e2aa25572f6c28db32f5ed6ff74dc25110688f16977"
+    },
+    "admin/artifacts/admin-build/assets/AssetManifest.bin": {
+      "bytes": 14423,
+      "sha256": "f0e2f81cb9b8b7ec070ed9d7969b76b2830af9cdf68ae596ddb8d432623dcb6a"
+    },
+    "admin/artifacts/admin-build/assets/AssetManifest.bin.json": {
+      "bytes": 19234,
+      "sha256": "1608e90bd8d0e0eab0bc60928b77436c9f159ef53a3aa9d546930caa5be5df62"
+    },
+    "admin/artifacts/admin-build/assets/FontManifest.json": {
+      "bytes": 801,
+      "sha256": "3d3a47715bccbb89ec227092cb1d25f58c5e2b94a38c0c404b38e97a9b5ccf17"
+    },
+    "admin/artifacts/admin-build/assets/NOTICES": {
+      "bytes": 1462277,
+      "sha256": "e7e20c8a392c0d83c6e6b854e556c9f9e472b253b17e4e45b38020fea86a47fb"
+    },
+    "admin/artifacts/admin-build/assets/assets/brand/collect_runtime/app_icons/app-icon-rule.png": {
+      "bytes": 103231,
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": {
+      "bytes": 98740,
+      "sha256": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": {
+      "bytes": 151124,
+      "sha256": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": {
+      "bytes": 69836,
+      "sha256": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": {
+      "bytes": 133052,
+      "sha256": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": {
+      "bytes": 107440,
+      "sha256": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": {
+      "bytes": 117548,
+      "sha256": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": {
+      "bytes": 92776,
+      "sha256": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": {
+      "bytes": 77186,
+      "sha256": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": {
+      "bytes": 141452,
+      "sha256": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "bytes": 103282,
+      "sha256": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": {
+      "bytes": 68962,
+      "sha256": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": {
+      "bytes": 105844,
+      "sha256": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": {
+      "bytes": 110826,
+      "sha256": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": {
+      "bytes": 110940,
+      "sha256": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": {
+      "bytes": 92366,
+      "sha256": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": {
+      "bytes": 125592,
+      "sha256": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": {
+      "bytes": 65894,
+      "sha256": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": {
+      "bytes": 84244,
+      "sha256": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": {
+      "bytes": 71940,
+      "sha256": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": {
+      "bytes": 91120,
+      "sha256": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": {
+      "bytes": 51958,
+      "sha256": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": {
+      "bytes": 85336,
+      "sha256": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": {
+      "bytes": 57468,
+      "sha256": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": {
+      "bytes": 112830,
+      "sha256": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": {
+      "bytes": 64730,
+      "sha256": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": {
+      "bytes": 50120,
+      "sha256": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": {
+      "bytes": 80510,
+      "sha256": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": {
+      "bytes": 85256,
+      "sha256": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": {
+      "bytes": 74162,
+      "sha256": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": {
+      "bytes": 87730,
+      "sha256": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": {
+      "bytes": 124558,
+      "sha256": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": {
+      "bytes": 160882,
+      "sha256": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": {
+      "bytes": 109146,
+      "sha256": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": {
+      "bytes": 172526,
+      "sha256": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": {
+      "bytes": 90216,
+      "sha256": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": {
+      "bytes": 104332,
+      "sha256": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": {
+      "bytes": 94484,
+      "sha256": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "bytes": 77456,
+      "sha256": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": {
+      "bytes": 128152,
+      "sha256": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": {
+      "bytes": 87056,
+      "sha256": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": {
+      "bytes": 82244,
+      "sha256": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": {
+      "bytes": 76306,
+      "sha256": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": {
+      "bytes": 10758,
+      "sha256": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": {
+      "bytes": 13022,
+      "sha256": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": {
+      "bytes": 8668,
+      "sha256": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": {
+      "bytes": 11900,
+      "sha256": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": {
+      "bytes": 9242,
+      "sha256": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": {
+      "bytes": 9352,
+      "sha256": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": {
+      "bytes": 8624,
+      "sha256": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": {
+      "bytes": 9004,
+      "sha256": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": {
+      "bytes": 13522,
+      "sha256": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "bytes": 11292,
+      "sha256": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": {
+      "bytes": 8522,
+      "sha256": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": {
+      "bytes": 12380,
+      "sha256": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": {
+      "bytes": 10590,
+      "sha256": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": {
+      "bytes": 10680,
+      "sha256": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": {
+      "bytes": 9006,
+      "sha256": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": {
+      "bytes": 9336,
+      "sha256": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": {
+      "bytes": 7944,
+      "sha256": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": {
+      "bytes": 9264,
+      "sha256": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": {
+      "bytes": 9256,
+      "sha256": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": {
+      "bytes": 8782,
+      "sha256": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": {
+      "bytes": 7454,
+      "sha256": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": {
+      "bytes": 9740,
+      "sha256": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": {
+      "bytes": 7082,
+      "sha256": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": {
+      "bytes": 10960,
+      "sha256": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": {
+      "bytes": 7146,
+      "sha256": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": {
+      "bytes": 6796,
+      "sha256": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": {
+      "bytes": 9166,
+      "sha256": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": {
+      "bytes": 7750,
+      "sha256": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": {
+      "bytes": 8956,
+      "sha256": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": {
+      "bytes": 9474,
+      "sha256": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": {
+      "bytes": 10434,
+      "sha256": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": {
+      "bytes": 12170,
+      "sha256": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": {
+      "bytes": 9182,
+      "sha256": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": {
+      "bytes": 14456,
+      "sha256": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": {
+      "bytes": 9408,
+      "sha256": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": {
+      "bytes": 11604,
+      "sha256": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": {
+      "bytes": 9132,
+      "sha256": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "bytes": 7628,
+      "sha256": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": {
+      "bytes": 12852,
+      "sha256": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": {
+      "bytes": 10896,
+      "sha256": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": {
+      "bytes": 7966,
+      "sha256": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316"
+    },
+    "admin/artifacts/admin-build/assets/assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": {
+      "bytes": 9740,
+      "sha256": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/banking-together.png": {
+      "bytes": 2166126,
+      "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/community-savings.png": {
+      "bytes": 2426242,
+      "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/everyday-payments.png": {
+      "bytes": 1941761,
+      "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/kigali-hills.png": {
+      "bytes": 1897870,
+      "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/kigali-woman-hero.png": {
+      "bytes": 668684,
+      "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd"
+    },
+    "admin/artifacts/admin-build/assets/assets/marketing/rwanda/shared-goals.png": {
+      "bytes": 2159060,
+      "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82"
+    },
+    "admin/artifacts/admin-build/assets/assets/typefaces/Inter-Variable.ttf": {
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    "admin/artifacts/admin-build/assets/fonts/MaterialIcons-Regular.otf": {
+      "bytes": 32268,
+      "sha256": "767536a83ae716ac1a12c08db3b9dd1c9fa5b6722a5ffaa36e031bb23eaa67b2"
+    },
+    "admin/artifacts/admin-build/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": {
+      "bytes": 1472,
+      "sha256": "3d90c370aa4cf00dc57ee2b902f6652147c0f81e03e483df584a9c08b1687c9d"
+    },
+    "admin/artifacts/admin-build/assets/packages/flutter_local_notifications_web/web/notifications_service_worker.js": {
+      "bytes": 3407,
+      "sha256": "566f47dccc0f417f0164a3d0852334c340d0941472af43fc65ee50a314555058"
+    },
+    "admin/artifacts/admin-build/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf": {
+      "bytes": 1624,
+      "sha256": "0df29d6561467c7a3c263aaca7d95bfd17d74e6fd2d7a9e8ab7149cd787fce10"
+    },
+    "admin/artifacts/admin-build/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf": {
+      "bytes": 87340,
+      "sha256": "c6265ca5839938625a3c8c37a00cdcb2633d1ad6ab2c096c97b590a27162b67a"
+    },
+    "admin/artifacts/admin-build/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf": {
+      "bytes": 414664,
+      "sha256": "c1091147299a846195bbca8b26528de6c9af842f236e7db44a1c2e8c9df52372"
+    },
+    "admin/artifacts/admin-build/assets/shaders/ink_sparkle.frag": {
+      "bytes": 8890,
+      "sha256": "2dca5ab93d4ec29e963f996f3916320ba60825e9537dfb149a68008c7a16b026"
+    },
+    "admin/artifacts/admin-build/assets/shaders/stretch_effect.frag": {
+      "bytes": 6737,
+      "sha256": "ab412f07a5b9b50b67a885b24dbe16929738ae28630407d6490c924caf0a3220"
+    },
+    "admin/artifacts/admin-build/canvaskit/canvaskit.js": {
+      "bytes": 86859,
+      "sha256": "7361b744487f98262f77ac507006b3eae37830430048ab7811a626b79f34a52c"
+    },
+    "admin/artifacts/admin-build/canvaskit/canvaskit.js.symbols": {
+      "bytes": 1357066,
+      "sha256": "43dd0e78dfb29b1e3826c4ff987e9c5c982e51e1d28f40753f693f412dd1b298"
+    },
+    "admin/artifacts/admin-build/canvaskit/canvaskit.wasm": {
+      "bytes": 7229467,
+      "sha256": "6bdfaa51c76845c02ea90153d44f56f99da51de44a7ee0ea15ccaeb33ed8f476"
+    },
+    "admin/artifacts/admin-build/canvaskit/chromium/canvaskit.js": {
+      "bytes": 86496,
+      "sha256": "d2aceb0e24ead163ab289a165ca0e26a36fa26d7118f5a295b8854d59d892896"
+    },
+    "admin/artifacts/admin-build/canvaskit/chromium/canvaskit.js.symbols": {
+      "bytes": 1274971,
+      "sha256": "23a68c0f21677d699eaf86516fb2081556b313d1e429d61c4cb7fbfeb84d9986"
+    },
+    "admin/artifacts/admin-build/canvaskit/chromium/canvaskit.wasm": {
+      "bytes": 5760502,
+      "sha256": "c2fc2864763540922c71d464e983bebf97b3a5312fd01c6a8988969747d13314"
+    },
+    "admin/artifacts/admin-build/canvaskit/experimental_webparagraph/canvaskit.js": {
+      "bytes": 76497,
+      "sha256": "803f7bab5f280fb6793495573bc83e6f70110916f75878a79c41e30b86585df8"
+    },
+    "admin/artifacts/admin-build/canvaskit/experimental_webparagraph/canvaskit.js.symbols": {
+      "bytes": 1004464,
+      "sha256": "5746d266932128f390441e40139649b186e2c80322be100867b0aef69b34db0e"
+    },
+    "admin/artifacts/admin-build/canvaskit/experimental_webparagraph/canvaskit.wasm": {
+      "bytes": 4138344,
+      "sha256": "6b916e684369558b9a4fdd774fedf2717d7481cf0b7dffb28e084129512bbd3f"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm.js": {
+      "bytes": 63316,
+      "sha256": "e0316a798a929008cf9221d9ae0e8a4e0a5f07869ff2c0ad68a71f56ab9998a4"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm.js.symbols": {
+      "bytes": 1541208,
+      "sha256": "5e13d39db7315f06e6edd2cd3f4bf3a970bbf0cf33d128a38b6fccf4d25fec8b"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm.wasm": {
+      "bytes": 3580947,
+      "sha256": "084a99454e405ad9e396803f5c02369562c92210ad9ff83a053ca68a1047a8f4"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm_heavy.js": {
+      "bytes": 63429,
+      "sha256": "fbf1c3374cd28b38ea4c48f8189012263c40e78e0a55323a557443c97a58c58c"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm_heavy.js.symbols": {
+      "bytes": 1666301,
+      "sha256": "5dbcc8bc79d9af9aba141a682ac0378f17242ae62b2338be2b979361694c8ca2"
+    },
+    "admin/artifacts/admin-build/canvaskit/skwasm_heavy.wasm": {
+      "bytes": 5172643,
+      "sha256": "8b8279650b1847d8259ad4591c5cb7cb635b513134ec7565f85b1aa4271d896c"
+    },
+    "admin/artifacts/admin-build/canvaskit/wimp.js": {
+      "bytes": 58396,
+      "sha256": "3f2cc5ae040789508b6914897a9858389a496b3a7cadcc71ef120cca99f70586"
+    },
+    "admin/artifacts/admin-build/canvaskit/wimp.js.symbols": {
+      "bytes": 1801445,
+      "sha256": "76ff1d41e82f50d8a9c49fe952b6859f7c59ed5e3afac60b4a7cca701ebec17d"
+    },
+    "admin/artifacts/admin-build/canvaskit/wimp.wasm": {
+      "bytes": 3514508,
+      "sha256": "781cd10fd4a893f0c30529b5e2a58822f91082da2dc135e2be696dfff85c6a73"
+    },
+    "admin/artifacts/admin-build/custom-sw.js": {
+      "bytes": 12647,
+      "sha256": "cb989a743417227449449dd3d9261113e90b6b9a7f303d845b719f3b98d3f622"
+    },
+    "admin/artifacts/admin-build/flutter.js": {
+      "bytes": 9553,
+      "sha256": "a483fd28f51ed2fadd0da3fade5b672eba56310d549d736ce62eabf624a6a578"
+    },
+    "admin/artifacts/admin-build/flutter_bootstrap.js": {
+      "bytes": 10339,
+      "sha256": "8b81793b00990e9db485ae41796260705d0ccc34f3b4367d948baf9197b5346f"
+    },
+    "admin/artifacts/admin-build/flutter_service_worker.js": {
+      "bytes": 784,
+      "sha256": "a131df5ca46154cc4eb79044f7f5a14029c2f8bfccf8cef34e3ec3b5a9f5a88c"
+    },
+    "admin/artifacts/admin-build/icons/collect-web-512.png": {
+      "bytes": 92022,
+      "sha256": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9"
+    },
+    "admin/artifacts/admin-build/index.html": {
+      "bytes": 1236,
+      "sha256": "c50ca6434c8d2515bbec3eb3a508e07c557dc1a18e8019562b99d54d18e9f9b7"
+    },
+    "admin/artifacts/admin-build/main.dart.js": {
+      "bytes": 4371436,
+      "sha256": "1ee8dd69803ef532fd593f9f92808a391cdc51fb117f2a1e9b2fdd5a28669533"
+    },
+    "admin/artifacts/admin-build/manifest.json": {
+      "bytes": 409,
+      "sha256": "e26d8c0d191dcdc7812808c818947148d9ec3985aa6757361d2554a65e03775d"
+    },
+    "admin/artifacts/admin-build/public/app-screens/account-deletion-337d4042cdfe.png": {
+      "bytes": 71066,
+      "sha256": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8"
+    },
+    "admin/artifacts/admin-build/public/app-screens/capture-provenance.json": {
+      "bytes": 4415,
+      "sha256": "07da79f358782a3e7d39d982d9993948234aa9f5311554e43180dc82ea7b976f"
+    },
+    "admin/artifacts/admin-build/public/app-screens/group-detail-5b3e6f6b695c.png": {
+      "bytes": 170602,
+      "sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698"
+    },
+    "admin/artifacts/admin-build/public/app-screens/groups-a31269baf19b.png": {
+      "bytes": 1998002,
+      "sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb"
+    },
+    "admin/artifacts/admin-build/public/app-screens/home-368da90e69cc.png": {
+      "bytes": 295411,
+      "sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22"
+    },
+    "admin/artifacts/admin-build/public/app-screens/manifest.json": {
+      "bytes": 4860,
+      "sha256": "1e17c155b49da9683592d8a9458aec5b7d738061c8a15d9aba175501964cc6d0"
+    },
+    "admin/artifacts/admin-build/public/app-screens/privacy-57252d6e00f7.png": {
+      "bytes": 313941,
+      "sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb"
+    },
+    "admin/artifacts/admin-build/public/app-screens/security-39066e3af9a2.png": {
+      "bytes": 106735,
+      "sha256": "39066e3af9a2ea0b69d5cb354c0e2596b2ca3b70885a985e483b5a5abc275ab6"
+    },
+    "admin/artifacts/admin-build/public/app-screens/terms-71f5644e1234.png": {
+      "bytes": 319387,
+      "sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+    },
+    "admin/artifacts/admin-build/public/layout.css": {
+      "bytes": 12277,
+      "sha256": "cb93b4e274842aa6d05ba61a6233de9310d1347c80ddf595f8801cd3ae5f65e5"
+    },
+    "admin/artifacts/admin-build/public/photography/banking-together-4b392d8a72b7.webp": {
+      "bytes": 196234,
+      "sha256": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da"
+    },
+    "admin/artifacts/admin-build/public/photography/community-savings-acf6c9fee7c7.webp": {
+      "bytes": 318848,
+      "sha256": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa"
+    },
+    "admin/artifacts/admin-build/public/photography/everyday-payments-3aae7f653287.webp": {
+      "bytes": 167936,
+      "sha256": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46"
+    },
+    "admin/artifacts/admin-build/public/photography/kigali-hills-72bbebc09878.webp": {
+      "bytes": 205150,
+      "sha256": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5"
+    },
+    "admin/artifacts/admin-build/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp": {
+      "bytes": 134032,
+      "sha256": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761"
+    },
+    "admin/artifacts/admin-build/public/photography/manifest.json": {
+      "bytes": 7355,
+      "sha256": "9c4ec7255e5af56b8b33219cea9bf0b9f821c23eacfcfe6c6bfbe2644d8e92dc"
+    },
+    "admin/artifacts/admin-build/public/photography/shared-goals-dd2861c45187.webp": {
+      "bytes": 208760,
+      "sha256": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170"
+    },
+    "admin/artifacts/admin-build/public/revolut.css": {
+      "bytes": 21618,
+      "sha256": "80fa3251c493329c85e1382b07747864b34b6d57abf2b70b76a18b4c90fdf406"
+    },
+    "admin/artifacts/admin-build/robots.txt": {
+      "bytes": 26,
+      "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+    },
+    "admin/artifacts/admin-build/version.json": {
+      "bytes": 198,
+      "sha256": "1de9dd361b0685086fd02c3f4acffce5232ae5389c5135b6644d9c2872e3374e"
+    },
+    "admin/artifacts/public-build/.well-known/apple-app-site-association": {
+      "bytes": 235,
+      "sha256": "ec409598c97bcdd9d2ce7a720b1f4ee908e1c6d41a337ada8f7801f7a084c118"
+    },
+    "admin/artifacts/public-build/.well-known/assetlinks.json": {
+      "bytes": 442,
+      "sha256": "78aa941f4c5c7994abc197938fbe4f831150a9225fe31723c7c56b2a7b07d2d4"
+    },
+    "admin/artifacts/public-build/_headers": {
+      "bytes": 1191,
+      "sha256": "697d904099696c1aa4f50c357f4e01dd86657ea67119fc25335b5bbae9292068"
+    },
+    "admin/artifacts/public-build/_redirects": {
+      "bytes": 70,
+      "sha256": "4086472c5292173db288e8f6bf73af902ec1f16b3d3a7da4a25c616e2609569e"
+    },
+    "admin/artifacts/public-build/account-deletion/index.html": {
+      "bytes": 11828,
+      "sha256": "b14152e207897d0262037ce1d672a1b44738209187f0f303509b6c403e2362f3"
+    },
+    "admin/artifacts/public-build/app/index.html": {
+      "bytes": 6356,
+      "sha256": "3d28b88bc4442d920152cfba7897cfb1303277f77d1427266cc8a7df9de4ed1b"
+    },
+    "admin/artifacts/public-build/assets/app-screens/account-deletion-337d4042cdfe.png": {
+      "bytes": 71066,
+      "sha256": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8"
+    },
+    "admin/artifacts/public-build/assets/app-screens/group-detail-5b3e6f6b695c.png": {
+      "bytes": 170602,
+      "sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698"
+    },
+    "admin/artifacts/public-build/assets/app-screens/groups-a31269baf19b.png": {
+      "bytes": 1998002,
+      "sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb"
+    },
+    "admin/artifacts/public-build/assets/app-screens/home-368da90e69cc.png": {
+      "bytes": 295411,
+      "sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22"
+    },
+    "admin/artifacts/public-build/assets/app-screens/privacy-57252d6e00f7.png": {
+      "bytes": 313941,
+      "sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb"
+    },
+    "admin/artifacts/public-build/assets/app-screens/security-39066e3af9a2.png": {
+      "bytes": 106735,
+      "sha256": "39066e3af9a2ea0b69d5cb354c0e2596b2ca3b70885a985e483b5a5abc275ab6"
+    },
+    "admin/artifacts/public-build/assets/app-screens/terms-71f5644e1234.png": {
+      "bytes": 319387,
+      "sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+    },
+    "admin/artifacts/public-build/assets/brand/collect_runtime/app_icons/app-icon-rule.png": {
+      "bytes": 103231,
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/banking-together-4b392d8a72b7.webp": {
+      "bytes": 196234,
+      "sha256": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/banking-together.png": {
+      "bytes": 2166126,
+      "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/community-savings-acf6c9fee7c7.webp": {
+      "bytes": 318848,
+      "sha256": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/community-savings.png": {
+      "bytes": 2426242,
+      "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/everyday-payments-3aae7f653287.webp": {
+      "bytes": 167936,
+      "sha256": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/everyday-payments.png": {
+      "bytes": 1941761,
+      "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/kigali-hills-72bbebc09878.webp": {
+      "bytes": 205150,
+      "sha256": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/kigali-hills.png": {
+      "bytes": 1897870,
+      "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/kigali-woman-hero-eaa4bb6b9ba1.webp": {
+      "bytes": 134032,
+      "sha256": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/kigali-woman-hero.png": {
+      "bytes": 668684,
+      "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/shared-goals-dd2861c45187.webp": {
+      "bytes": 208760,
+      "sha256": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170"
+    },
+    "admin/artifacts/public-build/assets/marketing/rwanda/shared-goals.png": {
+      "bytes": 2159060,
+      "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82"
+    },
+    "admin/artifacts/public-build/assets/typefaces/Inter-Variable.ttf": {
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    "admin/artifacts/public-build/assets/typefaces/OFL-Inter.txt": {
+      "bytes": 4377,
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+    },
+    "admin/artifacts/public-build/c/index.html": {
+      "bytes": 6599,
+      "sha256": "9574130827624c3044cf8c2ef6af9b4e541ae21b13430521f2a4388d71b99f58"
+    },
+    "admin/artifacts/public-build/community-groups/index.html": {
+      "bytes": 10980,
+      "sha256": "e2141134710c6ed04c3b46828c081a11d56434c89bdf3fa355017b5c661c3a45"
+    },
+    "admin/artifacts/public-build/craas/index.html": {
+      "bytes": 12568,
+      "sha256": "2f2140e0e7e401853374d787dbe84dd618a9345811f9c24e1601eb1261237579"
+    },
+    "admin/artifacts/public-build/credit-readiness/index.html": {
+      "bytes": 12516,
+      "sha256": "493359dbdf75a2841af2b27ab5fde534c9ff020a044ca328369773e6f409ed86"
+    },
+    "admin/artifacts/public-build/data-deletion/index.html": {
+      "bytes": 13122,
+      "sha256": "91c018841fb1e578b729dca50cd6eb3130062f8e046f4816c0f37d1ccc3c1184"
+    },
+    "admin/artifacts/public-build/group-link/index.html": {
+      "bytes": 6599,
+      "sha256": "9574130827624c3044cf8c2ef6af9b4e541ae21b13430521f2a4388d71b99f58"
+    },
+    "admin/artifacts/public-build/group-savings/index.html": {
+      "bytes": 12736,
+      "sha256": "c949c1b7287b730424127010239303bab20b0a2bdc1f579d81ac672dc5bfa7ff"
+    },
+    "admin/artifacts/public-build/icons/collect.png": {
+      "bytes": 103231,
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    "admin/artifacts/public-build/index.html": {
+      "bytes": 13583,
+      "sha256": "1c3a21c093a6616006a9b31d211025539716b76f59d56e783819ff50cca916d0"
+    },
+    "admin/artifacts/public-build/insurance/index.html": {
+      "bytes": 11846,
+      "sha256": "5ca457b119c14064fe1625a2720b86942afc2bab74abfba83ebb77c909e25d9b"
+    },
+    "admin/artifacts/public-build/manifest.json": {
+      "bytes": 390,
+      "sha256": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281"
+    },
+    "admin/artifacts/public-build/our-partners/index.html": {
+      "bytes": 12163,
+      "sha256": "b4ddc8c6246e3e7dd48664ed6402b2fbbcff8b5824eba9e7da5bbc8943205973"
+    },
+    "admin/artifacts/public-build/partners/index.html": {
+      "bytes": 11833,
+      "sha256": "f2cb4cf42719b2c93bcedde0e19f4952cd36bf9f76b8fb0e18b1e5087d45e51f"
+    },
+    "admin/artifacts/public-build/privacy/index.html": {
+      "bytes": 28576,
+      "sha256": "8ab97996347ed9f46d29f58843e36a96a6631d2866ae617849eec18e61a2c05b"
+    },
+    "admin/artifacts/public-build/protection/index.html": {
+      "bytes": 10012,
+      "sha256": "f7c2cc44d9fbbbb2a88f936d5bb1e79c11628248c4f9a662ed2afcd34e384bd0"
+    },
+    "admin/artifacts/public-build/revolut.css": {
+      "bytes": 21933,
+      "sha256": "6f6939fca6ca40fb71ea2d564aedf98746e8ff9bf7ff2d6116e7804aeba846b2"
+    },
+    "admin/artifacts/public-build/robots.txt": {
+      "bytes": 72,
+      "sha256": "bdc8fa66acc54a60e3413ee05ba6b557162838778fbb33233cff3525a411f44a"
+    },
+    "admin/artifacts/public-build/sections.css": {
+      "bytes": 5931,
+      "sha256": "afb3ac9e2ac9da415b8816cc9d3dc9be282846be2234911b61ba9a7cbfe4a9e4"
+    },
+    "admin/artifacts/public-build/security/index.html": {
+      "bytes": 9844,
+      "sha256": "f2c8e19f087e3ef87d9af1600ec1514aad763b62dfc30671d078bcf3ab547792"
+    },
+    "admin/artifacts/public-build/site.js": {
+      "bytes": 6393,
+      "sha256": "45d44bf91a49f6d58cdcba0ff241e3f89ad2af3111a3c570e6da6de3508dd1df"
+    },
+    "admin/artifacts/public-build/sitemap.xml": {
+      "bytes": 1497,
+      "sha256": "f72d733d7a24495ad80e5d5f177486240110e70b31b5ca0dc00cbd6660e5c2cd"
+    },
+    "admin/artifacts/public-build/styles.css": {
+      "bytes": 4943,
+      "sha256": "0105bddaca5e3b339b261b33e7ce59febb519e85b8e2e8afa9a53ac81c6a9e17"
+    },
+    "admin/artifacts/public-build/terms/index.html": {
+      "bytes": 23718,
+      "sha256": "1aecad7531fc5a8beedf2eaefa27d90cc535af6f26acb2fcd31ce3fe2e93efd5"
+    },
+    "admin/artifacts/public-build/trust/index.html": {
+      "bytes": 10025,
+      "sha256": "1b187291d502dccff71f3dd99ac9eaa851a181cae594f9967709ffc9d295cdec"
+    },
+    "admin/artifacts/public-build/version.json": {
+      "bytes": 583,
+      "sha256": "562efb1bfce2691498fa6f713a3b8fd8ddb8c27c329952e79651fc0a8fce76a1"
+    },
+    "admin/bind-attempt1-failure.json": {
+      "bytes": 83878,
+      "sha256": "822f6c282143c30e72b141cb20cc6a391efc2617f28308ce3b33a31fce952c69"
+    },
+    "admin/bind-browser-current2.py": {
+      "bytes": 4628,
+      "sha256": "77cb261092a821377492ae46cc9beb37400cd6fdad5b0714e4a2df6a671ec2e1"
+    },
+    "admin/bind-current2.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/bind-current2.stdout": {
+      "bytes": 94,
+      "sha256": "91cac66bd590b4dc6d8c29b562063c6135862144ca6730244de12f8508a0c550"
+    },
+    "admin/bounded-readback.json": {
+      "bytes": 10800,
+      "sha256": "907342d1d251c4e2a37cdba3744dbbed82600b8f02bc17a99a61b6513411729a"
+    },
+    "admin/browser-acceptance.json": {
+      "bytes": 41916,
+      "sha256": "63e43fea1fdf2a189acd59b990827a12b52bba4fe1bcf81abd35fbf392789761"
+    },
+    "admin/browser-command.json": {
+      "bytes": 1343,
+      "sha256": "1c2b5264bea99ae18663e083977d68cc87bb0eba444591b320aeeb2e0bc1c2ac"
+    },
+    "admin/browser-evidence/admin-build.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/admin-build.stdout": {
+      "bytes": 1079,
+      "sha256": "25c006e37068165f935cdc8f151d429b500d176bb1287933b404e0f4626a8e13"
+    },
+    "admin/browser-evidence/bundle-gate-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/bundle-gate-regression.stdout": {
+      "bytes": 156,
+      "sha256": "b53d7928b4a3c43b8b6e2cf39584af15901b045e66c9348c58ade3557228ff70"
+    },
+    "admin/browser-evidence/email-fixture-boundaries.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/email-fixture-boundaries.stdout": {
+      "bytes": 179,
+      "sha256": "3ee30b6a8ad38ffc53c024c55f01a48f0f95a254e55ff75218ffc18a596e4ea4"
+    },
+    "admin/browser-evidence/flutter-runtime.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/flutter-runtime.stdout": {
+      "bytes": 693,
+      "sha256": "690199243b7b6ada03fbca643f341fb42bcd8a6a6831dce2878ffcc2d2cfb024"
+    },
+    "admin/browser-evidence/installed-signed-out.png": {
+      "bytes": 30834,
+      "sha256": "cedb872126c619314a204b4025fd525e67e923564d49004f2f17e5541df9742c"
+    },
+    "admin/browser-evidence/postprocessor.rb": {
+      "bytes": 4435,
+      "sha256": "9a0e586ba919610cde93a68d3d266ffc3183c4d7f116aa00432be01412f1d0f4"
+    },
+    "admin/browser-evidence/public-build.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/public-build.stdout": {
+      "bytes": 184,
+      "sha256": "3d4c164bb8879d02fd46a631b51de2d3152dcaeb19b4e58064f59343d6ca90a0"
+    },
+    "admin/browser-evidence/public-isolation.png": {
+      "bytes": 2364681,
+      "sha256": "f46226399d1b856fb37f1dad5df4b9841f8536dcda139b1f83dd899a2a4701bd"
+    },
+    "admin/browser-evidence/report.json": {
+      "bytes": 406246,
+      "sha256": "0f31baa0fb72506b20608d0306d6e7e2e4761d4d9aa81b928a38d68c387f592b"
+    },
+    "admin/browser-evidence/route-_admin_audit_logs_entity__kind__id.png": {
+      "bytes": 130115,
+      "sha256": "0de9cf8f19bbc44d07002feb5c7a300eabdf6f3b53f4e54b5435b17adec1e03b"
+    },
+    "admin/browser-evidence/route-_admin_automations.png": {
+      "bytes": 117220,
+      "sha256": "3732026a7c311d22dbd3039c3030dbafda8220b87820abe5ac88399494eb5b3e"
+    },
+    "admin/browser-evidence/route-_admin_exceptions.png": {
+      "bytes": 176141,
+      "sha256": "2f02f6a0312cacafbd3bad27aa4c1b014c09a4bb83b3f260b8f87488ab463747"
+    },
+    "admin/browser-evidence/route-_admin_sms_gateway.png": {
+      "bytes": 165835,
+      "sha256": "88f495027603950c8860efa7c3c386ade466b7a9d730dc96694942485c016adf"
+    },
+    "admin/browser-evidence/signed-out-admin.png": {
+      "bytes": 29690,
+      "sha256": "33d831d67d93bccfa5d8b69d9ad3a201704942adae36aee3e01f465a8901d8a2"
+    },
+    "admin/browser-evidence/version-b-postprocess.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/version-b-postprocess.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/version-failed-postprocess.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/version-failed-postprocess.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/worker-cache-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/browser-evidence/worker-cache-regression.stdout": {
+      "bytes": 38,
+      "sha256": "19f815f798331b72f00b53c2ed547df449779d1469255e0efe701085e7303eea"
+    },
+    "admin/browser-inputs.json": {
+      "bytes": 734765,
+      "sha256": "530c6fda32a3d015e58a71feae69f0347811eb8ac51289316d6f785116a3db42"
+    },
+    "admin/browser-packages-prepared.json": {
+      "bytes": 590781,
+      "sha256": "677beed2e9d968809910c6322d0c0387661edb5e59abda2f6ee9238569b6a69b"
+    },
+    "admin/browser-private-sdk-inputs.json": {
+      "bytes": 343042,
+      "sha256": "b771446415baaa5f004dd4c53094ecbbf40fce01117931e7684e28f440e865ae"
+    },
+    "admin/browser-sdk-prepared.json": {
+      "bytes": 342767,
+      "sha256": "d8b6db6281564c76487a750dbd160658be9f5307a30bb28d0ba0d56b780f9f94"
+    },
+    "admin/browser-stage-prepared.json": {
+      "bytes": 282260,
+      "sha256": "88a0560b9cc6bd921eae4d439bf1a577524fcc7088495b70a45fb700f3af10e0"
+    },
+    "admin/browser-tool-inputs.json": {
+      "bytes": 19364,
+      "sha256": "443c3de8d216d98f9d979392157aa927f87b3fb3d9d7daaf854ea5dbafb20320"
+    },
+    "admin/continuation-command-terminal.json": {
+      "bytes": 110317,
+      "sha256": "cd23edb6545864143f092158d6c5b1c5cd9501398637aac71645e0b0ef7fffe4"
+    },
+    "admin/corrected-browser-command.json": {
+      "bytes": 1396,
+      "sha256": "d83aa6bc26a834afbfec98440ef4b33fad778f2484f5968b672b05ce8a3b72fb"
+    },
+    "admin/corrected-build-browser-failure/admin-build.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/admin-build.stdout": {
+      "bytes": 1079,
+      "sha256": "25c006e37068165f935cdc8f151d429b500d176bb1287933b404e0f4626a8e13"
+    },
+    "admin/corrected-build-browser-failure/bundle-gate-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/bundle-gate-regression.stdout": {
+      "bytes": 156,
+      "sha256": "b53d7928b4a3c43b8b6e2cf39584af15901b045e66c9348c58ade3557228ff70"
+    },
+    "admin/corrected-build-browser-failure/corrected-browser-command.json": {
+      "bytes": 1396,
+      "sha256": "d83aa6bc26a834afbfec98440ef4b33fad778f2484f5968b672b05ce8a3b72fb"
+    },
+    "admin/corrected-build-browser-failure/email-fixture-boundaries.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/email-fixture-boundaries.stdout": {
+      "bytes": 179,
+      "sha256": "3ee30b6a8ad38ffc53c024c55f01a48f0f95a254e55ff75218ffc18a596e4ea4"
+    },
+    "admin/corrected-build-browser-failure/failure-0.html": {
+      "bytes": 39,
+      "sha256": "a7fe83ec64bb23eb28090598db3d166ed98e52e39d1afbbfd74c579553f93e4e"
+    },
+    "admin/corrected-build-browser-failure/failure-0.png": {
+      "bytes": 6489,
+      "sha256": "cb9c3b8047859412e8abcaed51ad9ecefb4bd820c8849af4992e593d500d1836"
+    },
+    "admin/corrected-build-browser-failure/failure-1.html": {
+      "bytes": 7012,
+      "sha256": "4acdfc0b5dbc9270d8bd22e219f0784574652d47731f588c512425e49b0d7c5b"
+    },
+    "admin/corrected-build-browser-failure/failure-1.png": {
+      "bytes": 32064,
+      "sha256": "5e693dd3770c08dd925042547b59f3c10b989b75734db8109205c37acf94ab4e"
+    },
+    "admin/corrected-build-browser-failure/flutter-runtime.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/flutter-runtime.stdout": {
+      "bytes": 693,
+      "sha256": "690199243b7b6ada03fbca643f341fb42bcd8a6a6831dce2878ffcc2d2cfb024"
+    },
+    "admin/corrected-build-browser-failure/lifecycle-corrected.stderr": {
+      "bytes": 48,
+      "sha256": "5c6340996f8cc7366cb38c00682fdc34da06ecbf257142acf877cfd66e66d0f2"
+    },
+    "admin/corrected-build-browser-failure/lifecycle-corrected.stdout": {
+      "bytes": 4370,
+      "sha256": "8f620354c2b66658655ef1a8a2ec1d9a2b645ee26f428a7ce770587dbc5aedf1"
+    },
+    "admin/corrected-build-browser-failure/public-build.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/public-build.stdout": {
+      "bytes": 184,
+      "sha256": "3d4c164bb8879d02fd46a631b51de2d3152dcaeb19b4e58064f59343d6ca90a0"
+    },
+    "admin/corrected-build-browser-failure/report.json": {
+      "bytes": 232419,
+      "sha256": "f4a63a453f5cdd4516c0724a25ab66d23a280ceff9d8afbe2f4521c8e3ce8c95"
+    },
+    "admin/corrected-build-browser-failure/route-_admin_audit_logs_entity__kind__id.png": {
+      "bytes": 127932,
+      "sha256": "00699d551c4b1697cab71ff9c37f30c1ad71a434a62d1a5da67c9bf847eb56eb"
+    },
+    "admin/corrected-build-browser-failure/route-_admin_automations.png": {
+      "bytes": 114883,
+      "sha256": "9242d59be966f9a9e3a8e1bff938f3f278eb9784f39d67d0d6362ccc359c0180"
+    },
+    "admin/corrected-build-browser-failure/route-_admin_exceptions.png": {
+      "bytes": 184241,
+      "sha256": "daef98f5536d920b2c9a24d6babab7d2d76a8cefd5a53b2c499f2ec6a24f12a7"
+    },
+    "admin/corrected-build-browser-failure/route-_admin_sms_gateway.png": {
+      "bytes": 172030,
+      "sha256": "c21970dbd01f8227010867f43e6ed3610d4050b250499c559b84f932035c7306"
+    },
+    "admin/corrected-build-browser-failure/worker-cache-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/corrected-build-browser-failure/worker-cache-regression.stdout": {
+      "bytes": 38,
+      "sha256": "19f815f798331b72f00b53c2ed547df449779d1469255e0efe701085e7303eea"
+    },
+    "admin/corrected-command-terminal.json": {
+      "bytes": 352,
+      "sha256": "bfd0ad87d58b2e9ec928820244e1069e4d2413786b741530c0c4f6aad5e5783d"
+    },
+    "admin/executed-consumers.json": {
+      "bytes": 166423,
+      "sha256": "36f17f135b79bb058a43d5ce1985b61670baf800ab611b565f335539dbc4e00d"
+    },
+    "admin/finalize-browser.py": {
+      "bytes": 12769,
+      "sha256": "77d4f6a02001ef3878fa0be2fd1fc5de1e108f9655ffefbc0ce1e6b212f7d802"
+    },
+    "admin/finalize.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/finalize.stdout": {
+      "bytes": 258,
+      "sha256": "b99be9099a32c58d36c0607ea45c7cb7f611f6547399d3cc1ad38b272a9cef79"
+    },
+    "admin/font-subset-blocking-observation.json": {
+      "bytes": 1054,
+      "sha256": "e3de9232253f5a7b68bff31bb845653072c90a830f371bef44ae1dccca7382b3"
+    },
+    "admin/font-subset-drain-logs/font-subset-igbxpqjh.json": {
+      "bytes": 1874,
+      "sha256": "7327ce4848b058b4fe57095b85a0cfeb77da49b97116a53980e874c425a79ef1"
+    },
+    "admin/font-subset-drain-logs/font-subset-np2yrbgr.json": {
+      "bytes": 1750,
+      "sha256": "79b51591c5f8eace37b66c159dcfd21ef606ab30fdd7026c723683afd026c38c"
+    },
+    "admin/font-subset-drain-logs/font-subset-p2_lud9u.json": {
+      "bytes": 1913,
+      "sha256": "cd2fe433d7035efd6d82124f023dfd4630dced01f9ab474809731f1e3c984b35"
+    },
+    "admin/font-subset-drain-wrapper.py": {
+      "bytes": 2625,
+      "sha256": "02abb6805f90dbdf79009e7624d01dc77c53b9160f7521bc364035c2782a407b"
+    },
+    "admin/font-subset-observation.txt": {
+      "bytes": 65564,
+      "sha256": "51ba07631e5d335837385e6f650c980fa0ddd6f53e3bd5e67570ca789694a7e9"
+    },
+    "admin/font-subset-sdk-excerpt.txt": {
+      "bytes": 1094,
+      "sha256": "33874cef3903b5557640e9f5848a672ac4f2bf18bdb0ce24ed163faeabb9528c"
+    },
+    "admin/lifecycle-before-focus-correction.mjs": {
+      "bytes": 37783,
+      "sha256": "272be89ba8dd3c56dced0d2848ae74466e21a07d435105be541521801b6b7b90"
+    },
+    "admin/lifecycle-continuation.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/lifecycle-continuation.stdout": {
+      "bytes": 5713,
+      "sha256": "b6180ac5b9270aef84b4070456d0177600eafa1abb2f7171f0e9acae85a93968"
+    },
+    "admin/lifecycle-corrected.stderr": {
+      "bytes": 48,
+      "sha256": "5c6340996f8cc7366cb38c00682fdc34da06ecbf257142acf877cfd66e66d0f2"
+    },
+    "admin/lifecycle-corrected.stdout": {
+      "bytes": 4370,
+      "sha256": "8f620354c2b66658655ef1a8a2ec1d9a2b645ee26f428a7ce770587dbc5aedf1"
+    },
+    "admin/lifecycle.stderr": {
+      "bytes": 19,
+      "sha256": "5758f7661c6c4b1b8fd1f8eaf04fbe9745d7c08d891f70956f21d51b73138eb6"
+    },
+    "admin/lifecycle.stdout": {
+      "bytes": 48,
+      "sha256": "7e7a884715a3ef65740a236c4fd29c1715af0919b773d78a0bd4309ac1561931"
+    },
+    "admin/live-executed-source-readback.json": {
+      "bytes": 262,
+      "sha256": "41a0d26a6bcb7ea23d0ee808340b7b98bb8242720e611fdc96a8303873e96bce"
+    },
+    "admin/original-build-failure/admin-build.stderr": {
+      "bytes": 2808,
+      "sha256": "3c364a371bfe73901a484493ec7cb8346d7bfa89f54d35fb9b25b1a0a6dc4708"
+    },
+    "admin/original-build-failure/admin-build.stdout": {
+      "bytes": 553,
+      "sha256": "6426b100051b8667ada31f17c9a9024b55f28a7f80f80c3c0fa8118567513576"
+    },
+    "admin/original-build-failure/browser-command.json": {
+      "bytes": 1343,
+      "sha256": "1c2b5264bea99ae18663e083977d68cc87bb0eba444591b320aeeb2e0bc1c2ac"
+    },
+    "admin/original-build-failure/bundle-gate-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/original-build-failure/bundle-gate-regression.stdout": {
+      "bytes": 155,
+      "sha256": "39b322a24b4bc97ea2f7800a3464863df95ede09e128f33a4bbf4663792988f3"
+    },
+    "admin/original-build-failure/email-fixture-boundaries.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/original-build-failure/email-fixture-boundaries.stdout": {
+      "bytes": 179,
+      "sha256": "3ee30b6a8ad38ffc53c024c55f01a48f0f95a254e55ff75218ffc18a596e4ea4"
+    },
+    "admin/original-build-failure/flutter-runtime.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/original-build-failure/flutter-runtime.stdout": {
+      "bytes": 678,
+      "sha256": "21ea8dae58e9cf8d530901342e74be612c9e0148604403b66da70fb80abaf7d1"
+    },
+    "admin/original-build-failure/lifecycle.stderr": {
+      "bytes": 19,
+      "sha256": "5758f7661c6c4b1b8fd1f8eaf04fbe9745d7c08d891f70956f21d51b73138eb6"
+    },
+    "admin/original-build-failure/lifecycle.stdout": {
+      "bytes": 48,
+      "sha256": "7e7a884715a3ef65740a236c4fd29c1715af0919b773d78a0bd4309ac1561931"
+    },
+    "admin/original-build-failure/report.json": {
+      "bytes": 170920,
+      "sha256": "3b740dc40f111c6e53b66bde9af7893b6829e64280818d22386e059bd429d7ec"
+    },
+    "admin/original-build-failure/worker-cache-regression.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/original-build-failure/worker-cache-regression.stdout": {
+      "bytes": 38,
+      "sha256": "19f815f798331b72f00b53c2ed547df449779d1469255e0efe701085e7303eea"
+    },
+    "admin/original-command-terminal.json": {
+      "bytes": 3245,
+      "sha256": "02ac3c86e8108b72ef347c83a3582b89fa7d82b5772485c8a86c543c08688593"
+    },
+    "admin/original-font-subset-termination.json": {
+      "bytes": 767,
+      "sha256": "61afa5207489d8eb5281a9a0c2a43ff40030a6b7f8ab93d7401fa1a48baf8611"
+    },
+    "admin/packaging-attempt1-failure.json": {
+      "bytes": 447,
+      "sha256": "36b8cea2c27ecdb0a29ac82675392cae777d0ebf50ed69aea1b09d7113ac95c8"
+    },
+    "admin/packaging-attempt1-finalize-browser.py": {
+      "bytes": 12273,
+      "sha256": "1a6422a2b19bcbc8c6ffebf4711926f87934f871571039a78353dc1877adc47c"
+    },
+    "admin/packaging-attempt1-finalize.stderr": {
+      "bytes": 1337,
+      "sha256": "f56f1053f19f8b96babce6971d1575e72f2277e229da40ccf262d1b6ab2f8f92"
+    },
+    "admin/packaging-attempt1-finalize.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admin/packaging-terminal.json": {
+      "bytes": 303,
+      "sha256": "dd9341e1c4d5c0d09a966659e4c0b96b4e8af8d6bd4f6a40313060987248b8f9"
+    },
+    "admin/prepare-browser.py": {
+      "bytes": 5665,
+      "sha256": "9be4550fad2ed46dc9722002480a442cb4f768bf2aa3406987b3d91a24b0bc88"
+    },
+    "admin/private-focus-and-retained-public.patch": {
+      "bytes": 5572,
+      "sha256": "625aa1fd64073094d619dbdb586237598159852d3bf5f79ac9b65f24fb7be34d"
+    },
+    "admin/private-harness-admission.json": {
+      "bytes": 747,
+      "sha256": "3b25c419e41de8ec0c761246d70dc7e8a07e9bdc40e73d0b05494d7b847fdb9b"
+    },
+    "admin/private-sdk-admission.json": {
+      "bytes": 1427,
+      "sha256": "291e205fb81edce391af46224c02b5918ca7156022605fab9c81057c35e34513"
+    },
+    "admin/seal-browser.py": {
+      "bytes": 1595,
+      "sha256": "a41b46c7f57f3102c85304d58ae13aa4b73fc82912a025203ae2ac723e9f2a97"
+    },
+    "admin/verification-selection.json": {
+      "bytes": 4383,
+      "sha256": "e080decbabbbec99c04970441f0cf25fe7d74773b45f8993da545aba20e29355"
+    },
+    "admin/wrapper-runtime-inputs.json": {
+      "bytes": 544,
+      "sha256": "9a7f6ea8c5c9bece8784aa11314d36c07580f22cb533ff63a8d4fce1565f52e7"
+    },
+    "candidate-current2-export.json": {
+      "bytes": 1755,
+      "sha256": "9ebb93af54f4523679f4c53b5bcd0124313821667d7cc41015c7f59f8f7dda01"
+    },
+    "candidate-export.json": {
+      "bytes": 1755,
+      "sha256": "ed15e2870aa7c53e07ca052c8204a30ccf15b4843860f1ec34af0e7cc5adc395"
+    },
+    "collect-integrated-browser-and-evidence.tar.gz": {
+      "bytes": 62312672,
+      "sha256": "46eca9f077bac2348b88beb0f10ae24dbe3b9f0e0e3b95886928d806dbe88b9e"
+    },
+    "collect-integrated-source-overlay.tar.gz": {
+      "bytes": 444232,
+      "sha256": "185e011117f03552b4bb66a1d9486b8564b8c3bbe457ca2865641cfa34de04b9"
+    },
+    "delivery-manifest.json": {
+      "bytes": 340058,
+      "sha256": "9b5af810ec0f965d7b36be95042cab85708fa71eb5596330dc70bd085f2196e5"
+    },
+    "delivery-readback.json": {
+      "bytes": 340809,
+      "sha256": "0f95d70c06f369129d33f05bcb669aaebc5246bd418d198b418722d1f953af30"
+    },
+    "final-source-readback.json": {
+      "bytes": 412,
+      "sha256": "d4a78b7c8bedc00f3587bc6d409f733b3f216ac95c5e4d3ca6143b592c41ee13"
+    },
+    "finalize_integration.py": {
+      "bytes": 22757,
+      "sha256": "88903041a28d7ec342d7572c69a4070844a7b5499661d08e6d543a559dffb15b"
+    },
+    "intake.json": {
+      "bytes": 425559,
+      "sha256": "0a3305bf83f22e9de3da18083026f9a36983da283f33287dda1b08847dc1fbb6"
+    },
+    "integration-acceptance.json": {
+      "bytes": 502022,
+      "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+    },
+    "known-open-parallel-review/MANIFEST.json": {
+      "bytes": 334,
+      "sha256": "d4078f03806ab1dcd8fdc9160e00d0be74239a2c5e50da9ae1c22589ee849f84"
+    },
+    "known-open-parallel-review/findings.json": {
+      "bytes": 5656,
+      "sha256": "191279632e1c93bf5a53fdaee69974815312b64678865f28496dbfc80d5ebcc4"
+    },
+    "latest-sql.diff": {
+      "bytes": 3586,
+      "sha256": "f0a019c066f83332adc8ff2a03bb40f3dc5b8c4f9699a92ff3708b3b63098c2f"
+    },
+    "mcp/before/tools/collect-notification-mcp/src/unattended_host_tick.ts": {
+      "bytes": 3972,
+      "sha256": "3d4853fc6f0e5e4d85a13320168818ce2adc0b9bac694d105965c306edee5199"
+    },
+    "mcp/before/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": {
+      "bytes": 41468,
+      "sha256": "5dc0aa6249bcbd435739c228add45e1293552c9f9263f8907c4ef968039d99d1"
+    },
+    "mcp/current-integrated-acceptance.json": {
+      "bytes": 39830,
+      "sha256": "fc8152e576c643195e42a72aa10847105a37d78d32a592c00ee4f3e6e95f4177"
+    },
+    "mcp/current-source-binding.json": {
+      "bytes": 22538,
+      "sha256": "f0f3baa97febcfdadac88c718f03205ba1244b873569719c9afce1d196d26718"
+    },
+    "mcp/patch-apply.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mcp/patch-apply.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mcp/patch-check.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mcp/patch-check.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mcp/patch-integration.json": {
+      "bytes": 988,
+      "sha256": "8a5670c9653c41984666b063d2e7f5ece1349387b996c9625a0b5e65c51a1a4c"
+    },
+    "mcp/read-only-input-comparison.json": {
+      "bytes": 43214,
+      "sha256": "863e216966824d8bae91c2b98cf16247e4ee98d3e82a65eb1744234132c72ec8"
+    },
+    "mcp/read-only-runtime-comparison.json": {
+      "bytes": 1587,
+      "sha256": "ff636455fb081f2093c75eedcf4adcbc1585fb3230a62fcc8ffb358e141f1e99"
+    },
+    "package_delivery.py": {
+      "bytes": 5533,
+      "sha256": "881a9bd9c9d9922a9981a1a716a1426a4758b1e369069631831d1cbfbe28928a"
+    },
+    "package_source_delta.py": {
+      "bytes": 7471,
+      "sha256": "a9f41473b10a370dc7aa70e78ffd337f9ae8e3a209c6d37335395e01dacabe25"
+    },
+    "register-integrity.json": {
+      "bytes": 1082,
+      "sha256": "0514d4abedfc7a3538b05be9ec755bdc79bf5969b9e126fd8d9f850879e89a96"
+    },
+    "registers-before-integration/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": {
+      "bytes": 16555,
+      "sha256": "916935ba029afca688cef7c1518f3a45a45774c6f4c699d3fc6712251e05c750"
+    },
+    "registers-before-integration/PRODUCTION_REMAINING_TASKS_2026-09-30.md": {
+      "bytes": 31689,
+      "sha256": "a3d2a4550823b04e333bd72393f8b82146a6342fd0d6bc3ce04e47d11de723fe"
+    },
+    "registers-before-integration/local-implementation-register-2026-09-30.json": {
+      "bytes": 122043,
+      "sha256": "05e1c64d659654cd6071c7bca21524259b8217b998dba4013a43d5865d0adc7f"
+    },
+    "registers-before-integration/production-remaining-tasks-2026-09-30.json": {
+      "bytes": 313754,
+      "sha256": "8f096a6fefcb062cd80f66312b1cc17e073d072a82106ea98ea23a3f09723a90"
+    },
+    "registers-before-integration/production-remaining-tasks-2026-09-30.validation.json": {
+      "bytes": 3390,
+      "sha256": "6f70b82cb9221e21f9569c21b829a41e2c3ca85d9719f55ccb74a0fb11e53fb4"
+    },
+    "root-admin-integration/before/lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "bytes": 20568,
+      "sha256": "a275cbec4c658c6503b3e295197f9d2a925252bb1a490ea2c1a21bbabe6e8f10"
+    },
+    "root-admin-integration/before/lib/admin/core/admin_exception_workflow_card.dart": {
+      "bytes": 40992,
+      "sha256": "f2cd5c7e4ca46d5e28a6ede63aa4afe97984b14a466b4eaba6d614c41e8d8c7d"
+    },
+    "root-admin-integration/before/test/admin_exception_assignment_test.dart": {
+      "bytes": 40324,
+      "sha256": "7a4a9e5000f6a09f48e2550df87ffce3bf0a9243581876a54444f6c9b6e96c0e"
+    },
+    "root-admin-integration/card-integration.json": {
+      "bytes": 467,
+      "sha256": "6227c786a6a58a872211a32d43b88c2b4a62d8e62ee27a21020e2c6d2365e7b4"
+    },
+    "root-admin-integration/model-and-widget-integration.json": {
+      "bytes": 1003,
+      "sha256": "3e95e8c0c0d87b11d0b96a427d48fcebd25bc44c083e9aebcb5548076c9690b1"
+    },
+    "source-overlay-manifest.json": {
+      "bytes": 564674,
+      "sha256": "572b1b58e9b39343cae4c712b394b072147a158d4aa38beee8f4832d4866f40e"
+    },
+    "source-overlay-readback.json": {
+      "bytes": 21671,
+      "sha256": "906c43a672ab7baae1a3a03706e8185daa6cf53da4ac3d8aaeb21e9ce85030e1"
+    },
+    "sql-ordinary-current-body/attempt2/changed-function-replacement.sql": {
+      "bytes": 5569,
+      "sha256": "b91b40c7283dc43eaa8b03dca1f0f22f273f88c923b47295f3b498627ea648c3"
+    },
+    "sql-ordinary-current-body/attempt2/command.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-ordinary-current-body/attempt2/command.stdout": {
+      "bytes": 1853,
+      "sha256": "cbe3cf3890b9365bc784748b2a3e07f69f2d83c8cc2c283113661f0b3a3a8ece"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/scripts/tests/exception_inbox_audit_v2_plan_uat.py": {
+      "bytes": 20295,
+      "sha256": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql": {
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql": {
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql": {
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": {
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": {
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    "sql-ordinary-current-body/attempt2/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 18961,
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+    },
+    "sql-ordinary-current-body/attempt2/new-authenticated-public-page.json": {
+      "bytes": 4239,
+      "sha256": "723f0063a812c7b145a511fe6cb06f976db33f27af6ba4febd6f68c30a1ee5d6"
+    },
+    "sql-ordinary-current-body/attempt2/new-catalog-after.json": {
+      "bytes": 249172,
+      "sha256": "fa846e29c252637c050cf4626cb239a01791cdcd7f0670c8f01c55003cd8da0f"
+    },
+    "sql-ordinary-current-body/attempt2/new-catalog-before.json": {
+      "bytes": 246459,
+      "sha256": "b81a43e31b41387eff9fa3b2ee925c9df4da7a3b2df22dda553879bdb7325bee"
+    },
+    "sql-ordinary-current-body/attempt2/new-current.install.log": {
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    "sql-ordinary-current-body/attempt2/new-private-read-refusal.log": {
+      "bytes": 326,
+      "sha256": "949d25fd6fc3ce16b95af81a341f717559edf1c982d46e54fcdfaa5664cadd05"
+    },
+    "sql-ordinary-current-body/attempt2/ordinary_body/container.log": {
+      "bytes": 16415,
+      "sha256": "088d95748b408c7b0cb93c8fa96b0cc6ae689c51b2759aa9ad93df1308afdb8b"
+    },
+    "sql-ordinary-current-body/attempt2/ordinary_body/queries.log": {
+      "bytes": 627,
+      "sha256": "3494a6cbfe24629e395649451311125fd188c66f2d4fb2c06d7e629b94a16762"
+    },
+    "sql-ordinary-current-body/attempt2/ordinary_body/queries.sql": {
+      "bytes": 916,
+      "sha256": "bc685f9155f08c2b628905c29bae00a9aa5eb90c1bb1b1f128f997d49c38d1e5"
+    },
+    "sql-ordinary-current-body/attempt2/queries.log": {
+      "bytes": 911307,
+      "sha256": "e912927640ba57234888990836329fce58f21139653e82129031697bbd0f97d1"
+    },
+    "sql-ordinary-current-body/attempt2/queries.sql": {
+      "bytes": 3691675,
+      "sha256": "a5be110679048382a4261dc001aac6543bc4127dd0117029bf22ad64f889abfd"
+    },
+    "sql-ordinary-current-body/attempt2/result.json": {
+      "bytes": 34629,
+      "sha256": "53087f7c117f7dff35c3010cff447621b1423aceb1a5fc1857220e0afd551064"
+    },
+    "sql-ordinary-current-body/attempt2/retained-authenticated-public-page.json": {
+      "bytes": 4239,
+      "sha256": "a9185577823cbd1fea9d84758ec6ff2bddc3fda121d6dfbb909591c16dc7ef03"
+    },
+    "sql-ordinary-current-body/attempt2/retained-catalog-after.json": {
+      "bytes": 249172,
+      "sha256": "fa846e29c252637c050cf4626cb239a01791cdcd7f0670c8f01c55003cd8da0f"
+    },
+    "sql-ordinary-current-body/attempt2/retained-catalog-before.json": {
+      "bytes": 249172,
+      "sha256": "fa846e29c252637c050cf4626cb239a01791cdcd7f0670c8f01c55003cd8da0f"
+    },
+    "sql-ordinary-current-body/attempt2/retained-current.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-ordinary-current-body/attempt2/retained-old.install.log": {
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    "sql-ordinary-current-body/attempt2/retained-private-read-refusal.log": {
+      "bytes": 326,
+      "sha256": "949d25fd6fc3ce16b95af81a341f717559edf1c982d46e54fcdfaa5664cadd05"
+    },
+    "sql-ordinary-current-body/attempt2/run-current-body.py": {
+      "bytes": 17889,
+      "sha256": "f47d6e2ca2e6f9a32f15d55b02004a972c0e53711e8f93dc8e6ed7e6b6c35450"
+    },
+    "sql-ordinary-current-body/changed-function-replacement.sql": {
+      "bytes": 5569,
+      "sha256": "b91b40c7283dc43eaa8b03dca1f0f22f273f88c923b47295f3b498627ea648c3"
+    },
+    "sql-ordinary-current-body/command.stderr": {
+      "bytes": 854,
+      "sha256": "f977dc65698c545b1d90d0c281a2451362e98c91313b8ee3c5e666b193176ed3"
+    },
+    "sql-ordinary-current-body/command.stdout": {
+      "bytes": 91,
+      "sha256": "b559d2a6feca3caa57287544a6e0e9c32293bf13e528c7f92e355566da291bb1"
+    },
+    "sql-ordinary-current-body/current-ordinary-body-acceptance.json": {
+      "bytes": 9206,
+      "sha256": "b421ce334661817d2803aaa111ef55a8325ee67345457c76f561f49738596288"
+    },
+    "sql-ordinary-current-body/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    "sql-ordinary-current-body/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    "sql-ordinary-current-body/executed-inputs/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    "sql-ordinary-current-body/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    "sql-ordinary-current-body/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    "sql-ordinary-current-body/executed-inputs/scripts/tests/exception_inbox_audit_v2_plan_uat.py": {
+      "bytes": 20295,
+      "sha256": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861"
+    },
+    "sql-ordinary-current-body/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    "sql-ordinary-current-body/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql": {
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql": {
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql": {
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": {
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": {
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    "sql-ordinary-current-body/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 18961,
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+    },
+    "sql-ordinary-current-body/fixture-correction.json": {
+      "bytes": 747,
+      "sha256": "27282772de801b2316024bd00124de5dc85f5e466359d7be7407c99c08c60b1a"
+    },
+    "sql-ordinary-current-body/ordinary_body/container.log": {
+      "bytes": 16830,
+      "sha256": "e8ad3c11f1d16afdade9c79769885373ebaa08a3e5d96104678a677a6c313bbe"
+    },
+    "sql-ordinary-current-body/ordinary_body/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "sql-ordinary-current-body/ordinary_body/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "sql-ordinary-current-body/queries.log": {
+      "bytes": 5387,
+      "sha256": "8607ff30f8580af33d48707e8770c53f0ab764e93b6517b6d100d451ef85a73b"
+    },
+    "sql-ordinary-current-body/queries.sql": {
+      "bytes": 1578415,
+      "sha256": "23b0cd74a152b4d54fc29750d1475b57319e5945c7e70058a837bf5234f108ba"
+    },
+    "sql-ordinary-current-body/result.json": {
+      "bytes": 7637,
+      "sha256": "7f8b8c0f0c035a9d1cb50ad1ac9c5619f816121209ab0fab17e618943a54c7bb"
+    },
+    "sql-ordinary-current-body/run-current-body.py": {
+      "bytes": 17587,
+      "sha256": "b40370cd9db7f6a109ae1d10a7980ff8258182a2997d3dc61fdeac14330285a5"
+    },
+    "unchanged-consumer-reuse/acceptance.json": {
+      "bytes": 21085,
+      "sha256": "1388d438e7e39ad10b948a7639cafbb95185c1204a0a86d46cb3a57a60a5dc19"
+    },
+    "unchanged-consumer-reuse/admission-artifact-tool-readback.json": {
+      "bytes": 16416,
+      "sha256": "865a87a793d307e1ab3e25f464fc513b77fff23f9ae7e40b3a61d0269493c626"
+    },
+    "unchanged-consumer-reuse/declared-supplement-physical-only-observation.json": {
+      "bytes": 39747,
+      "sha256": "ed89f7387e176f5a05338961fc10b8b6283b9b15f3c5db9641a66cf73ff71000"
+    },
+    "unchanged-consumer-reuse/declared-supplement-readback.json": {
+      "bytes": 91435,
+      "sha256": "637c276d37eeeb833c65ea3930b6b354acef4d27edecda06fa3bab7ebb52b444"
+    },
+    "unchanged-consumer-reuse/scope-input-readback.json": {
+      "bytes": 758658,
+      "sha256": "553eb57c0d3f67064b8b14125c349e8f0fe4a5344cdbbcc7e6cacb0f27b6be3c"
+    }
+  },
+  "kind": "sealed_integrated_local_delta_packet",
+  "known_open_parallel_findings": 6,
+  "members": 456,
+  "production_release_decision": "NO-GO",
+  "reference_errors": [],
+  "scope": "Exact current packet bytes, declared acceptance references, canonical criteria integrity and delivery archive readback. This does not certify source trust, whole-current-source regression or production acceptance.",
+  "status": "pass"
+}

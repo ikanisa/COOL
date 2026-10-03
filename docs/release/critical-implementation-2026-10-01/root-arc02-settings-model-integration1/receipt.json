@@ -1,0 +1,22 @@
+{
+  "status": "integrated_semantic_checks_pending",
+  "utc": "2026-10-02T10:11:08.980732+00:00",
+  "proposal_packet_sha256": "7d9039a0a304b9179123f0681e644c0f861da226dcacaece958d0595a093989c",
+  "before_sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+  "files": [
+    {
+      "path": "lib/admin/core/admin_governed_settings_models.dart",
+      "sha256": "5b71afad52aba4781e0b10f4250c1dbb6a0ca8fa46023a1def7d1db7e3fe238c",
+      "bytes": 33084,
+      "mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_history_models.dart",
+      "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+      "bytes": 5349,
+      "mode": 420
+    }
+  ],
+  "UI_or_policy_changed": false,
+  "ARC02_closed": false
+}

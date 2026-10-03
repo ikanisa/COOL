@@ -1,0 +1,125 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :gradle
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `2.2.0` that might work differently than in the requested version `2.2.20`.
+COLLECT_LOADED_KOTLIN_PLUGINS_BEGIN
+[{"root_name":"gradle","project":":","plugin_id":"org.jetbrains.kotlin.jvm","plugin_class":"org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper","package_implementation_version":"2.2.20-release-333","loaded_code_source":"file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.2.20/9c5953786765b9373d172097da74efe77ac90481/kotlin-gradle-plugin-2.2.20-gradle813.jar","scope":"Observed applied plugin class; source artifact publisher hashes are verified separately"}]
+COLLECT_LOADED_KOTLIN_PLUGINS_END
+
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+
+> Configure project :app
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.newDsl=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:173:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:292:32: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:293:7: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:301:28: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:343:1: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:438:5: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:439:5: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/app/build.gradle.kts:441:9: 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':app' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :android_file_picker
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':android_file_picker' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :app_links
+w: file:///Users/jeanbosco/.pub-cache/hosted/pub.dev/app_links-7.2.1/android/build.gradle.kts:26:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':app_links' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :file_saver
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':file_saver' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :firebase_core
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_core' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :firebase_messaging
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_messaging' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :flutter_local_notifications
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_local_notifications' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :flutter_plugin_android_lifecycle
+w: file:///Users/jeanbosco/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35/android/build.gradle.kts:26:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_plugin_android_lifecycle' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :image_picker_android
+w: file:///Users/jeanbosco/.pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19/android/build.gradle.kts:34:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':image_picker_android' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :integration_test
+w: file:///Volumes/PRO-G40/Development/Flutter/flutter/packages/integration_test/android/build.gradle.kts:34:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':integration_test' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :jni
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':jni' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+

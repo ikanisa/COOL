@@ -1,0 +1,21 @@
+{
+  "kind": "paired_copied_source_binding",
+  "data_packet": "docs/release/data-correctness-2026-09-30/immutable-attempt19-current-calendar",
+  "auth_packet": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar",
+  "shared_input_count": 804,
+  "shared_inputs_differ": [
+    "lib/admin/core/admin_evidence_mode.dart",
+    "lib/admin/core/admin_operator_approval.dart",
+    "lib/gateway/gateway_app.dart",
+    "lib/gateway/gateway_platform.dart",
+    "test/admin_platform_access_test.dart"
+  ],
+  "data_only_inputs": [
+    "scripts/supabase_production_readiness.sh",
+    "scripts/tests/data_correctness_gate.py",
+    "supabase/migrations/20260925190000_rwanda_momo_only.sql"
+  ],
+  "auth_only_inputs": [],
+  "whole_current_acceptance": false,
+  "note": "Immutable input comparison only; both runners still in progress and original live drift is decided by terminal validation."
+}

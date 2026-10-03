@@ -1,0 +1,139 @@
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicate": {
+    "buildType": "//bcid.corp.google.com/build_entry_point/luci/v1",
+    "builder": {
+      "id": "//bcid.corp.google.com/builders/luci"
+    },
+    "invocation": {
+      "configSource": {
+        "entryPoint": "packaging/packaging"
+      }
+    },
+    "materials": [
+      {
+        "digest": {
+          "cipd_instance_id": "IPh94ccwsJU3LX30ToP1bMhro4Z5IUwyft4I_WvC6eIC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/led/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "Ra0CJ3lDlvp6_nQmyfemgsWNcbksQSG6w9dsMHDpnZEC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/git-credential-luci/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "bRSgkQnmXkZRl73WuydgNirgy95IsKkahx_whUUnTYIC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/vpython3/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "_fhvlRervYUoy6GJzGdqj6tJIs6LDWnFyPwGeC9u47cC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/cas/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "_fhvlRervYUoy6GJzGdqj6tJIs6LDWnFyPwGeC9u47cC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/cas/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "XWXqVFZMFwJMGxw8xNuOuKw00Jmyhvh1LgTbNY0tpQ4C"
+        },
+        "uri": "cipd_package://prod/infra/3pp/tools/git/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "uOUoS8AvCx1pXHlnYdep2hmEYwftIafUhSwRZYVuUa0C"
+        },
+        "uri": "cipd_package://prod/infra/tools/git/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "WnRa3m19UWoalAGcMO6KEy2kDuAc6bvr9cdKSnJHnqIC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/bbagent/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "iNwaX2LAADIqihhOytCPzeHxfCIyCnq0Xrdk-gWjE6oC"
+        },
+        "uri": "cipd_package://prod/infra/tools/security/provenance_broker/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "jM_FJbduAykLDjUa2ANypyx4asuFiOIc91sGczRLPSgC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci-auth/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "wfllXMY8ugTOPjGzb6dVxOIK43rpnEWFiUf3KOuDkCIC"
+        },
+        "uri": "cipd_package://prod/flutter/recipe_bundles/flutter.googlesource.com/recipes"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "4V8hf7HCvSly4d7zxQW_MHTq55Jb4eynef0Rvni6rq0C"
+        },
+        "uri": "cipd_package://prod/infra/tools/prpc/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "eH4emLYiC0v4h64EqKgPtJOa08JMpuLndTVBBIyXIkoC"
+        },
+        "uri": "cipd_package://prod/infra/3pp/tools/cpython3/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "0quY5VaLxhpjdTrCJt5m0EcUfuilYmjtd3gAD1bxhGoC"
+        },
+        "uri": "cipd_package://prod/infra/tools/cloudtail/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "cp3c3P557lqQlqbqslRQ5MIV_qQiNt3F12oOUPbpkMYC"
+        },
+        "uri": "cipd_package://prod/infra/tools/rdb/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "QAgEw4X_M_4y5sHr3p2D9oNIfRonculrFpSvjnCLLKwC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/lucicfg/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "UUnOxK8Q8CLSHBXGxsrLDXF0XCiWLGdqMDdA5xiQRw4C"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/docker-credential-luci/mac-amd64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "rtK6vgoYaLhCZpzf30m5GYdaDKM01qerP4K4i4E4MmgC"
+        },
+        "uri": "cipd_package://prod/infra/tools/bb/mac-amd64"
+      }
+    ],
+    "metadata": {
+      "buildFinishedOn": "2026-06-24 23:35:23.020956316 +0000 UTC",
+      "buildInvocationId": "mac-664-g582.br.atl97.cr.dev@1782309631:1",
+      "buildStartedOn": "2026-06-24 23:15:47.669872 +0000 UTC",
+      "completeness": {}
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v0.2",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "32bca4386121042e827ff2d90edbd7c7fb47c514fc04d5a87db6e3202dafde5d"
+      },
+      "name": "_"
+    }
+  ]
+}

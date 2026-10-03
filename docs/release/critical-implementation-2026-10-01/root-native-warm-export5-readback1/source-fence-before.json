@@ -1,0 +1,31 @@
+{
+  "actual_seconds": 23.191,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/source_fence.py",
+    "verify",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--binding",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-review5/source-fence.json",
+    "--binding-sha256",
+    "2d36778f3eb21557a79d9885a565b8fba0986e476efe7cb3e81e8ef0064087c9",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/source-fence-before-output.json"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T10:29:36.532566+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 34295,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T10:29:13.342117+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "6b3be90e892900343c5c1cdc39d5c2b70ad38fb866540a8912803d66a6795507",
+  "timed_out": false
+}

@@ -1,0 +1,172 @@
+{
+  "status": "pass",
+  "validation_sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8",
+  "feature_flag_cases": [
+    {
+      "name": "featureFlag production UI success",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI cancel",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI invalid",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI revoked-draft",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI role-draft",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI loading-draft",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI error-draft",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI session-draft",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI late-ack",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI unknown-ack",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI denied",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-7",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-8",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-500",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-501",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-unicode-7",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "featureFlag production UI reason-scalar-8",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_custom_action_ui_test.dart",
+      "result": "success",
+      "skipped": false
+    }
+  ],
+  "default_and_focus_cases": [
+    {
+      "name": "reason rejects 1 code points",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason rejects 1001 code points",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason rejects 1001 code points",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason preserves 1000 code point input",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason preserves 1000 code point input",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason preserves 22 code point input",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "oversize reason is retained for correction and cancellation",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_bounds_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason remains editable with compact keyboard and large text",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_focus_test.dart",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "reason dialog restores focus to its triggering control",
+      "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-feature-reason-current1/test/admin_reason_dialog_focus_test.dart",
+      "result": "success",
+      "skipped": false
+    }
+  ],
+  "source_export_manifest_sha256": "8e02a656b6aaed2f4ee42e249817cadb0e156159d4e89d8a1d0f79b264fc96ac",
+  "sdk_manifest_sha256": "a51ff9b3ac2c8a55cf38054960ae8b358992d54ec09280570aae4309cac9dac0",
+  "package_manifest_sha256": "a058aa29ef6c7f80e54c71f05514c4723a4997d352877ba8a8c52ec304968d70",
+  "source_drift": {},
+  "export_drift": [],
+  "non_consumed_source_drift": [],
+  "production_modified_by_verification": false,
+  "test_modified_by_verification": false
+}

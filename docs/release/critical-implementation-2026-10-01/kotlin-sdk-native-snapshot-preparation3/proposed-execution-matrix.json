@@ -1,0 +1,152 @@
+{
+  "SDK_readback_commands": {
+    "after": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+        "startup",
+        "--output",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/SDK-source-after-startup.json"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+      "deadline_seconds": 300,
+      "live_free_floor_bytes": 4294967296,
+      "process_artifact_stem": "SDK-readback-after-startup"
+    },
+    "before": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+        "startup",
+        "--output",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/SDK-source-before-startup.json"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+      "deadline_seconds": 300,
+      "live_free_floor_bytes": 4294967296,
+      "process_artifact_stem": "SDK-readback-before-startup"
+    }
+  },
+  "admission_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review3/app-export-admission.json",
+  "app_lock_native_and_all_flavor_ABI_followthrough_require_later_independent_admissions": true,
+  "at_utc": "2026-10-02T06:39:57.263396+00:00",
+  "attempt1_remains_failed": true,
+  "candidate_promoted": false,
+  "controller_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/run_native_consumer.py",
+    "--stage",
+    "app-export",
+    "--prepared-manifest-sha256",
+    "ROOT_VERIFIED_FINAL_MANIFEST_SHA256",
+    "--root-review-sha256",
+    "ROOT_SEPARATE_APP_EXPORT_ADMISSION_SHA256"
+  ],
+  "controller_cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3",
+  "environment_exact": {
+    "ANDROID_HOME": "/Users/jeanbosco/Library/Android/sdk",
+    "ANDROID_SDK_ROOT": "/Users/jeanbosco/Library/Android/sdk",
+    "CI": "true",
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "FLUTTER_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "GIT_OPTIONAL_LOCKS": "0",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+    "HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/home",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PATH": "/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PUB_CACHE": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache",
+    "TMPDIR": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/tmp"
+  },
+  "exact_exporter_argv": {
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py",
+      "--root",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "export",
+      "--destination",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "--flutter-sdk",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+      "--report",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/source-export.json"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 300
+  },
+  "failed_candidate_reuse_admitted": false,
+  "full_fresh_export_required": true,
+  "future_candidate_immutability": "hash/mode/source-manifest binding and private ownership readbacks; no OS immutable flag or production freeze attestation",
+  "later_stage_admissions": {
+    "app-lock": false,
+    "foundation": false,
+    "native": false,
+    "sdk-lock": false,
+    "startup": false
+  },
+  "live_free_floor_bytes": 4294967296,
+  "no_retain_source_drift_no_auto_advance": true,
+  "not_executed": true,
+  "only_future_stage": "app-export",
+  "original_minimum_foundation_free_bytes_preserved": 20350276001,
+  "original_preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "owned_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+  "prerequisites_before_fresh_export": [
+    "Independently review all preparation3 sealed leaves and exact controller/config diffs.",
+    "Root preserve failed attempt1 candidate and complete control/logs separately without treating child pass as acceptance.",
+    "Exact original app-source and .control/app-export paths must both be absent after root preservation.",
+    "Reverify fixed private root, SDK/startup predecessor terminal, original immutable packets, exact tools and all 68,020 protected metadata paths.",
+    "Create new owner-only root-sdk-native-snapshot-review3; perform new 300-second capture with a 4 GiB floor read-only source fence capture there after review.",
+    "Independently verify fresh fence and issue separate app-export-only receipt with all three held/lock/transient claims false."
+  ],
+  "private_candidate": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "production_release_approval": false,
+  "review_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review3",
+  "root_export_admission_issued": false,
+  "source_capture_bounded_process_required": true,
+  "source_capture_child_output_name": "source-fence.json",
+  "source_capture_process_receipt_name": "source-fence-process",
+  "source_lock_attested": false,
+  "source_reader_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/source_fence.py",
+    "capture",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review3/source-fence.json"
+  ],
+  "source_reader_deadline_seconds": 300,
+  "source_reader_requires_fresh_root_review_first": true,
+  "source_scope_held_for_strict_export": false,
+  "stage_total_outer_deadline_not_added_or_attested": true,
+  "tools": {
+    "JDK_java_SHA256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+    "JDK_java_executable": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "Node_SHA256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "Node_executable": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "Python_SHA256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "Python_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3"
+  },
+  "transient_write_and_restore_absence_attested": false,
+  "unchanged_phase_deadlines_seconds": {
+    "SDK_source_after": 300,
+    "SDK_source_before": 300,
+    "actual_strict_export": 300,
+    "failure_SDK_diagnostic_if_needed": 300,
+    "source_fence_after": 300,
+    "source_fence_before": 300
+  }
+}

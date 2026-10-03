@@ -1,0 +1,32 @@
+NOTICE:  00000: policy "notification channels public enabled read" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification channels admin manage" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification event types public enabled read" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification event types admin manage" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification templates public enabled read" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification templates admin manage" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification template versions public published read" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification template versions admin manage" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

@@ -1,0 +1,71 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/admin_read_gateway_gate.py.before	2026-10-01 14:55:44
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/admin_read_gateway_gate.py	2026-10-01 16:02:49
+@@ -98,6 +98,9 @@
+           'test/admin_receipt_operations_runtime_test.dart',
+           'test/admin_receipt_operations_card_test.dart',
+           'test/admin_receipt_operations_checkpoint_test.dart']
++TESTS += ['test/admin_receipt_principal_models_test.dart',
++          'test/admin_receipt_principal_recovery_test.dart',
++          'test/admin_receipt_principal_integration_test.dart']
+ BROWSER_CHECKPOINT_CASES = {
+     'test/admin_receipt_cancel_checkpoint_browser_test.dart':
+         'actual same-tab storage persists exact original intent across adapter recreation and isolates owners',
+@@ -111,7 +114,28 @@
+         'actual browser localStorage adapter retains original across instances and isolates owners',
+ }
+ 
++# This enabled principal browser cohort contains ten cases, unlike the five
++# one-case checkpoint cohorts. Require every named execution explicitly.
++BROWSER_PRINCIPAL_CASES = {
++    'test/admin_receipt_principal_browser_test.dart': (
++        'real store reload uses original lookup only and retains resolved bytes',
++        'actual lock serializes exact-UUID concurrent publication and prevents overwrite',
++        'actual lock refuses distinct pending revoke UUIDs for one target',
++        'urgent different-target revoke can publish alongside original activation',
++        'authority-lost queued publication acquires no permission to write',
++        'five-second aborted lock acquisition never publishes after eventual release',
++        'controller timeout closes queued publication before lock becomes available',
++        'changed-original actual browser bytes fail closed on reload',
++        'changed-marker actual browser bytes fail closed on reload',
++        'orphan-marker actual browser bytes fail closed on reload',
++    ),
++}
++BROWSER_TEST_FILES = (*BROWSER_CHECKPOINT_CASES, *BROWSER_PRINCIPAL_CASES)
++BROWSER_REQUIRED_CASE_NAMES = (*BROWSER_CHECKPOINT_CASES.values(),
++    *(name for names in BROWSER_PRINCIPAL_CASES.values() for name in names))
+ 
++
++
+ def digest(path):
+     return hashlib.sha256(path.read_bytes()).hexdigest()
+ 
+@@ -277,7 +301,7 @@
+     browser_machine_log = output / 'browser-checkpoint.machine.jsonl'
+     if args.browser_checkpoint:
+         commands.append(('browser-checkpoint', [str(flutter), 'test', '--no-pub',
+-            '--platform=chrome', *BROWSER_CHECKPOINT_CASES,
++            '--platform=chrome', *BROWSER_TEST_FILES,
+             '--reporter=expanded', f'--file-reporter=json:{browser_machine_log}'], args.test_timeout))
+     if args.phase == 'acceptance':
+         dart = flutter.parent / 'cache/dart-sdk/bin/dart'
+@@ -305,10 +329,10 @@
+                       and bool(counts) and machine['passed'] == int(counts[-1]))
+     browser_machine = machine_summary(browser_machine_log) if args.browser_checkpoint else None
+     browser_passed = (browser_machine['runner_completed_successfully']
+-        and browser_machine['passed'] == len(BROWSER_CHECKPOINT_CASES)
++        and browser_machine['passed'] == len(BROWSER_REQUIRED_CASE_NAMES)
+         and not any(browser_machine[key] for key in ['failed', 'errors', 'unfinished', 'event_errors'])
+         and all(named_case_passed(browser_machine_log, title)
+-                for title in BROWSER_CHECKPOINT_CASES.values())
++                for title in BROWSER_REQUIRED_CASE_NAMES)
+         ) if args.browser_checkpoint else None
+     roster_receipt_required = bool(args.roster_sql_receipts) and 'test/admin_roster_fresh_auth_sql_receipts_test.dart' in tests
+     roster_receipt_passed = (named_case_passed(machine_log,
+@@ -327,6 +351,7 @@
+                   and (not args.browser_checkpoint or browser_passed),
+               'browser_checkpoint_passed': browser_passed,
+               'required_browser_checkpoint_cases': BROWSER_CHECKPOINT_CASES if args.browser_checkpoint else {},
++              'required_browser_principal_cases': BROWSER_PRINCIPAL_CASES if args.browser_checkpoint else {},
+               'browser_checkpoint_machine_summary': browser_machine,
+               'browser_checkpoint_machine_sha256': digest(browser_machine_log) if args.browser_checkpoint else None,
+               'actual_roster_sql149_decoder_required': roster_receipt_required,

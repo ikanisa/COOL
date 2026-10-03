@@ -1,0 +1,45 @@
+{
+  "all_required_preservation": "Existing reviewed helper/plan in review1 preserves failed APP and both old controls through three exact checked renames. Run only after root sees corrected full-reader PASS; every required retry destination must be absent.",
+  "app_export_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/run_native_consumer.py",
+    "--stage",
+    "app-export",
+    "--prepared-manifest-sha256",
+    "ROOT_PINNED_FINAL_PACKET_SHA256",
+    "--root-review-sha256",
+    "ROOT_PINNED_APP_EXPORT_RECEIPT_SHA256"
+  ],
+  "app_lock_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/run_native_consumer.py",
+    "--stage",
+    "app-lock",
+    "--prepared-manifest-sha256",
+    "ROOT_PINNED_FINAL_PACKET_SHA256",
+    "--root-review-sha256",
+    "ROOT_PINNED_APP_LOCK_RECEIPT_SHA256"
+  ],
+  "binding_rule": "Replace only these digest fields with root-reviewed exact file SHA256 values. Export and app-lock are separate invocations; do not chain or auto-advance.",
+  "generated_byte_bound": 8589934592,
+  "generated_entry_bound": 200000,
+  "limitations": [
+    "If source/QA/index/identity drifts, retain old fence and failure; do not reuse this fixed capture binding.",
+    "Every genuine child/reader/controller failure remains terminal; successful locked pub alone cannot pass app-lock.",
+    "No native stage, SDK promotion, tool download/upgrade, source lock, signing/provider or production approval is admitted."
+  ],
+  "live_free_floor_bytes": 4294967296,
+  "locked_pub_bound_seconds": 1200,
+  "original_exact_native_command_configuration": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/proposed-commands.json",
+  "prepared_manifest_digest_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/packet-files.json",
+  "reader_export_fence_bound_seconds": 300,
+  "review2_app_export_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review2/app-export-admission.json",
+  "review2_app_lock_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review2/app-lock-admission.json",
+  "review_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review2",
+  "scope": "Root execution only after preservation and separate review2 stage receipts. This file creates neither admissions nor stage state.",
+  "source_fence_required_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd"
+}

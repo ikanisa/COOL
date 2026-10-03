@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-01T10:30:34.613417+00:00",
+  "finished_at": "2026-10-01T10:30:35.592824+00:00",
+  "scope": "actual private worker startup rejects unsupported method before HTTP; local synthetic protocol",
+  "source_sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+  "python_executable": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+  "exit_code": 0,
+  "reply": {
+    "error": "TRANSPORT_OUTCOME_UNCONFIRMED"
+  },
+  "stderr_empty": true,
+  "credential_loaded": false,
+  "hosted_http_requests": 0,
+  "source_unchanged": true,
+  "included_in_31_test_count": false,
+  "private_environment": {
+    "PATH": "/usr/bin:/bin",
+    "PYTHONUTF8": "1"
+  }
+}

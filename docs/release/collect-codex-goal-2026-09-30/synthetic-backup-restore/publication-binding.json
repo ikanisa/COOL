@@ -1,0 +1,15 @@
+{
+  "published_at": "2026-10-01T08:47:40.240053+00:00",
+  "accepted_cache_manifest_sha256": "8c6d90562375adf3f68abee3ecd4ff4399be97e520e42bd7c64f7706fe57ed11",
+  "accepted_cache_files": 269,
+  "published_runner_path": "scripts/tests/collect_synthetic_backup_restore_uat.py",
+  "executed_cache_runner_path": ".cache/synthetic-backup-preparation/collect_synthetic_backup_restore_uat.py",
+  "runner_sha256": "890e1d7f477cd05c8867bda4862636dc2a66e42eb2e9f2b981168eebdac788d6",
+  "byte_identical_runner": true,
+  "accepted_packet_bytes_and_modes_preserved": true,
+  "selected_runner_published": true,
+  "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "included_in_source06": false,
+  "status": "116 accepted synthetic checks; publication only, no test rerun or new database work",
+  "earlier_scope_binding_is_historical_cache_state": true
+}

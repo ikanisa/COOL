@@ -1,0 +1,19 @@
+{
+  "scope": "synthetic standalone component",
+  "attempt": 9,
+  "opaque_light_dark_inspected": true,
+  "pixels": [
+    1440,
+    2200
+  ],
+  "narrow_test_pixels": [
+    320,
+    1800
+  ],
+  "text_scale": 2,
+  "hosted_auth": false,
+  "full_operator_route": false,
+  "screen_reader_device": false,
+  "revolut_comparator_complete": false,
+  "production_ready": false
+}

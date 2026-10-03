@@ -1,0 +1,19 @@
+{
+  "analysis": {
+    "command": "/Users/jeanbosco/Developer/flutter/bin/flutter analyze --no-pub",
+    "status": "pass",
+    "elapsed_seconds": 38.3,
+    "log": "flutter-analysis.log"
+  },
+  "tests": {
+    "command": "flutter test --no-pub --concurrency=2 --reporter=expanded [7 named files]",
+    "passed": 123,
+    "failed": 1,
+    "full_suite": false,
+    "failure": "public_home_desktop golden",
+    "different_percent": 23.36,
+    "different_pixels": 302702,
+    "log": "flutter-selected-tests.log"
+  },
+  "mutable_tree_limit": "Source changed during review; these are dated observations, not frozen final-set acceptance."
+}

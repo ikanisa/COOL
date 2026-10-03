@@ -1,0 +1,249 @@
+{
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "bound_inputs": {
+    "auth": {
+      "scripts/collect_operator_email_auth.py": {
+        "bytes": 16171,
+        "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05"
+      },
+      "scripts/load_dotenv_strict.sh": {
+        "bytes": 2479,
+        "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+      },
+      "scripts/supabase_apply_auth_hardening.sh": {
+        "bytes": 5534,
+        "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+      },
+      "scripts/supabase_cli_helpers.sh": {
+        "bytes": 12080,
+        "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+      },
+      "scripts/tests/supabase_secret_transport_test.py": {
+        "bytes": 14391,
+        "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+      },
+      "scripts/tests/test_collect_operator_email_auth.py": {
+        "bytes": 18028,
+        "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864"
+      },
+      "supabase/templates/collect_email_sign_in.html": {
+        "bytes": 854,
+        "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+      }
+    },
+    "financial": {
+      "contracts/collect-receipt-content-v2/CONTRACT.md": {
+        "bytes": 4077,
+        "sha256": "749cb19e3b06930795d864ed7a36498778d37b16d91e1d894ac2cc346c9cff46"
+      },
+      "contracts/collect-receipt-content-v2/observed-detail-v2.json": {
+        "bytes": 968,
+        "sha256": "4b105864f0850bbad0065ced6e4034eb9d2b18961151720c4f9a73a173b85ace"
+      },
+      "contracts/collect-receipt-content-v2/observed-investigation-v2.json": {
+        "bytes": 3172,
+        "sha256": "54dcd6a4c42d8486e906b8f5115ec443e7bc0e43fc8a5c59acf7b04b8b38850d"
+      },
+      "contracts/collect-receipt-content-v2/observed-language-copy.json": {
+        "bytes": 464,
+        "sha256": "17723e0ef8cd9b81a6d0b1912a72e51a6954f1d0395488d27a2abf2129addd7c"
+      },
+      "contracts/collect-receipt-content-v2/observed-list-v2.json": {
+        "bytes": 2269,
+        "sha256": "6bd2be957773cbcad4b7f8bbe5f9b2867f728e437160ec4ee515de689d752360"
+      },
+      "contracts/collect-receipt-content-v2/observed-policy.json": {
+        "bytes": 788,
+        "sha256": "18e8bb9023d2db90309c90a40cb05a4edf7712c31ac89d54c3800e6bd91db818"
+      },
+      "contracts/collect-receipt-content-v2/observed-prior-v1-unknown.json": {
+        "bytes": 116,
+        "sha256": "f981586e7c666e8bd41b86e9c1e406db8ca3ce9bd2b6bafcc674e9420dbfe230"
+      },
+      "contracts/collect-receipt-content-v2/policy.schema.json": {
+        "bytes": 2022,
+        "sha256": "053bf5aee2425baed83ea2244b87d39d7fb12ebc3d53bfacfab508e1004976a7"
+      },
+      "lib/admin/core/admin_investigation.dart": {
+        "bytes": 18098,
+        "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+      },
+      "scripts/tests/receipt_financial_policy_uat.py": {
+        "bytes": 20655,
+        "sha256": "94099eaa46e5c126f45dac3d4ae75900bc6e81d8abfc01a0c6c1414b6d3d2daa"
+      },
+      "supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+        "bytes": 35488,
+        "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+      },
+      "test/admin_receipt_content_v2_test.dart": {
+        "bytes": 1770,
+        "sha256": "7f2279fa6d1a6dde09a9bd645485a24a9f20aaae970a1feeb96e1bd63eb6c6c6"
+      }
+    }
+  },
+  "configuration_values_reported": false,
+  "critical_pin_inputs": {
+    ".dvmrc": {
+      "bytes": 6,
+      "mode": 448,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    ".fvmrc": {
+      "bytes": 26,
+      "mode": 448,
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    },
+    "Gemfile": {
+      "bytes": 92,
+      "mode": 448,
+      "sha256": "3f9baf66774f08c7dc206e8346f418faa3134e1b358e1f924c528bba9319a627"
+    },
+    "Gemfile.lock": {
+      "bytes": 6638,
+      "mode": 448,
+      "sha256": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed"
+    },
+    "android/app/build.gradle.kts": {
+      "bytes": 16213,
+      "mode": 448,
+      "sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9"
+    },
+    "android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "mode": 420,
+      "sha256": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957"
+    },
+    "android/build.gradle.kts": {
+      "bytes": 886,
+      "mode": 448,
+      "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+    },
+    "android/gradle/wrapper/gradle-wrapper.jar": {
+      "bytes": 45457,
+      "mode": 420,
+      "sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "bytes": 340,
+      "mode": 420,
+      "sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1"
+    },
+    "android/settings.gradle.kts": {
+      "bytes": 840,
+      "mode": 448,
+      "sha256": "838ccff354f21d1767a7770d9543134726c24d3d1c0b1f09268cf5f01fb3690e"
+    },
+    "ios/Podfile": {
+      "bytes": 2210,
+      "mode": 448,
+      "sha256": "59305a73dfde47d853f6f785d3878fd1038c5cec8527e0fb47303e797da8b5cb"
+    },
+    "ios/Podfile.lock": {
+      "bytes": 267,
+      "mode": 448,
+      "sha256": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e"
+    },
+    "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "bytes": 3685,
+      "mode": 448,
+      "sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+    },
+    "ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "bytes": 3685,
+      "mode": 448,
+      "sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+    },
+    "pubspec.lock": {
+      "bytes": 39236,
+      "mode": 448,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "pubspec.yaml": {
+      "bytes": 2425,
+      "mode": 448,
+      "sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+    },
+    "supabase/functions/deno.lock": {
+      "bytes": 7115,
+      "mode": 420,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    "tools/collect-notification-mcp/package.json": {
+      "bytes": 522,
+      "mode": 448,
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    "tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "bytes": 8909,
+      "mode": 448,
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    "tools/public-photography/package-lock.json": {
+      "bytes": 20193,
+      "mode": 448,
+      "sha256": "b9a364dd4c6983196641657d8adfe411bcae1ed872d3b543e4967117b3d5b38a"
+    },
+    "tools/roster-decoder/requirements.lock": {
+      "bytes": 660,
+      "mode": 420,
+      "sha256": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a"
+    }
+  },
+  "failed_attempt_retained": "pre-export-evidence-path-attempt1.json",
+  "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "observed_at_utc": "2026-10-01T10:31:24.927526+00:00",
+  "public_config_metadata": {
+    "bytes": 203,
+    "file_mode": "0600",
+    "key_form": "public_publishable_key",
+    "keys": [
+      "APP_ENVIRONMENT",
+      "ENABLE_ADMIN_PANEL",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_URL"
+    ],
+    "parent_mode": "0700",
+    "privileged_or_user_credentials_allowed": false,
+    "project_allowlist_match": true,
+    "remote_authentication_attested": false,
+    "sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+    "source_path": "/Users/jeanbosco/.cache/collect-release-config/admin-checkpoint04-public-defines.json"
+  },
+  "sdk_metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+  "source_bindings": {
+    "auth": {
+      "input_count": 7,
+      "path": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure-20261001/email-source-binding.json",
+      "sha256": "47a7cc867991cbc638e38a750b22935ef3f648417d32d8f78154d352d5e4b682"
+    },
+    "financial": {
+      "input_count": 12,
+      "path": "docs/release/collect-codex-goal-2026-09-30/receipt-financial-policy/selected-source-binding.json",
+      "sha256": "32c47ce5db7ea72dea37b5577e22df13120fff733184a20dea6de1c134f21c77"
+    }
+  },
+  "status": "pass",
+  "timing": "Fresh corrected check while export runs, before accepting completed capture or starting build",
+  "tools": {
+    "docs/release/collect-codex-goal-2026-09-30/release-tooling/prepare_admin_workcopy.py": {
+      "retained_path": "tooling/prepare_admin_workcopy.py",
+      "sha256": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/release-tooling/run_admin_checkpoint.py": {
+      "retained_path": "tooling/run_admin_checkpoint.py",
+      "sha256": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95"
+    },
+    "scripts/qa/collect_release_candidate.py": {
+      "retained_path": "tooling/collect_release_candidate.py",
+      "sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    }
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "source_sha256": "96cf4f5118887179ef408e18db8efa96a22c95c61ccfd80a8c18ae80ed60e833",
+  "observations": {
+    "control": {
+      "source": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+      "line": 235,
+      "sha256": "41a999353bacf531ecc47dc2053d5a00dde725422a0d303831bae7c9036e9127",
+      "data": {
+        "ok": true,
+        "scope": "runtime_controls",
+        "value": {
+          "key": "qa_runtime_current",
+          "label": "Synthetic reason",
+          "locale": "en",
+          "enabled": true,
+          "metadata": {},
+          "description": null,
+          "request_type": "account_deletion",
+          "display_order": 100
+        },
+        "exists": true,
+        "family": "account_request_reason_options",
+        "identity": {
+          "key": "qa_runtime_current",
+          "locale": "en",
+          "request_type": "account_deletion"
+        },
+        "redacted": false,
+        "revision": 1,
+        "can_manage": true,
+        "checked_at": "2026-10-01T17:17:35.150588Z",
+        "content_sha256": "3d07cba95d3c4bc9812bb84143586cc98d362ee08c6e7360b566d21a25b9a213",
+        "contract_version": 2,
+        "sample_valid_until": "2026-10-01T17:18:35.150588Z"
+      }
+    },
+    "catalog": {
+      "source": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+      "line": 239,
+      "sha256": "c3ca261c581d658f66ee648e29bedb7cad3063e47aabda3d04d50af4d3ca1b1e",
+      "data": {
+        "rows": [
+          {
+            "value": {
+              "key": "qa_runtime_current",
+              "label": "Synthetic reason",
+              "locale": "en",
+              "enabled": true,
+              "metadata": {},
+              "description": null,
+              "request_type": "account_deletion",
+              "display_order": 100
+            },
+            "exists": true,
+            "identity": {
+              "key": "qa_runtime_current",
+              "locale": "en",
+              "request_type": "account_deletion"
+            },
+            "redacted": false,
+            "revision": 1,
+            "content_sha256": "3d07cba95d3c4bc9812bb84143586cc98d362ee08c6e7360b566d21a25b9a213"
+          }
+        ],
+        "limit": 25,
+        "scope": "runtime_controls",
+        "family": "account_request_reason_options",
+        "checked_at": "2026-10-01T17:17:35.247150Z",
+        "descriptor": {
+          "can_manage": true,
+          "field_types": {
+            "key": "text",
+            "label": "text",
+            "locale": "text",
+            "enabled": "boolean",
+            "metadata": "jsonb",
+            "description": "text",
+            "request_type": "text",
+            "display_order": "integer"
+          },
+          "create_allowed": true,
+          "identity_fields": [
+            "request_type",
+            "locale",
+            "key"
+          ],
+          "nullable_fields": [
+            "description"
+          ],
+          "writable_fields": [
+            "label",
+            "description",
+            "display_order",
+            "enabled",
+            "metadata"
+          ],
+          "immutable_fields": []
+        },
+        "next_cursor": null,
+        "contract_version": 2,
+        "sample_valid_until": "2026-10-01T17:18:35.247150Z"
+      }
+    },
+    "receipt": {
+      "source": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+      "line": 243,
+      "sha256": "af1b163d58dfe814441ef04f9b52f9e94db31841978514b489599c785059d893",
+      "data": {
+        "scope": "runtime_controls",
+        "family": "account_request_reason_options",
+        "changed": true,
+        "identity": {
+          "key": "qa_runtime_current",
+          "locale": "en",
+          "request_type": "account_deletion"
+        },
+        "revision": 2,
+        "expires_at": "2026-10-01T17:19:05.265103Z",
+        "request_id": "3a25d527-9700-49db-bf40-d1040df80d4a",
+        "updated_at": "2026-10-01T17:17:35.353308Z",
+        "recorded_at": "2026-10-01T17:17:35.354262Z",
+        "content_sha256": "2e2a732c1b96f34f0f0531a6375a6442885a82a2ac94d778eaac3f66c573b812",
+        "contract_version": 2,
+        "previous_revision": 1,
+        "request_fingerprint": "b87d005ffc9d1c49150c1bd8875a2e5918c3e706c6f7c867fee880f8da7b177c"
+      }
+    },
+    "lookup": {
+      "source": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+      "line": 247,
+      "sha256": "c4636829804055c9162b00b82ce3a085435a3eb8cec7fcb6c118417c65ca2c75",
+      "data": {
+        "scope": "runtime_controls",
+        "family": "account_request_reason_options",
+        "status": "recorded",
+        "receipt": {
+          "scope": "runtime_controls",
+          "family": "account_request_reason_options",
+          "changed": true,
+          "identity": {
+            "key": "qa_runtime_current",
+            "locale": "en",
+            "request_type": "account_deletion"
+          },
+          "revision": 2,
+          "expires_at": "2026-10-01T17:19:05.265103Z",
+          "request_id": "3a25d527-9700-49db-bf40-d1040df80d4a",
+          "updated_at": "2026-10-01T17:17:35.353308Z",
+          "recorded_at": "2026-10-01T17:17:35.354262Z",
+          "content_sha256": "2e2a732c1b96f34f0f0531a6375a6442885a82a2ac94d778eaac3f66c573b812",
+          "contract_version": 2,
+          "previous_revision": 1,
+          "request_fingerprint": "b87d005ffc9d1c49150c1bd8875a2e5918c3e706c6f7c867fee880f8da7b177c"
+        },
+        "identity": {
+          "key": "qa_runtime_current",
+          "locale": "en",
+          "request_type": "account_deletion"
+        },
+        "checked_at": "2026-10-01T17:17:35.419744Z",
+        "expires_at": "2026-10-01T17:19:05.265103Z",
+        "request_id": "3a25d527-9700-49db-bf40-d1040df80d4a",
+        "contract_version": 2,
+        "sample_valid_until": "2026-10-01T17:18:35.419744Z",
+        "request_fingerprint": "b87d005ffc9d1c49150c1bd8875a2e5918c3e706c6f7c867fee880f8da7b177c"
+      }
+    },
+    "history": {
+      "source": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+      "line": 251,
+      "sha256": "3341d000b4b270748c89c1c2e79e368d745b89f4013d31d4c3043b1f66b9a80f",
+      "data": {
+        "rows": [
+          {
+            "actor_id": "99710000-0000-4000-8000-000000000001",
+            "event_id": "c597897b-1100-4e93-9a17-3aaf829ba50a",
+            "redacted": false,
+            "revision": 2,
+            "authority": "live_operator",
+            "operation": "update",
+            "new_sha256": "2e2a732c1b96f34f0f0531a6375a6442885a82a2ac94d778eaac3f66c573b812",
+            "old_sha256": "3d07cba95d3c4bc9812bb84143586cc98d362ee08c6e7360b566d21a25b9a213",
+            "request_id": "3a25d527-9700-49db-bf40-d1040df80d4a",
+            "recorded_at": "2026-10-01T17:17:35.353462Z",
+            "reason_sha256": "c39e6c45913a43e78d876c1b31407564dc824486dab9d0d261d9d2d00bb66379",
+            "changed_fields": [
+              "label"
+            ],
+            "previous_revision": 1,
+            "reason_characters": 34
+          },
+          {
+            "actor_id": null,
+            "event_id": "05d05079-de4c-4d81-80d1-13d19aa59d83",
+            "redacted": false,
+            "revision": 1,
+            "authority": "database_owner",
+            "operation": "insert",
+            "new_sha256": "3d07cba95d3c4bc9812bb84143586cc98d362ee08c6e7360b566d21a25b9a213",
+            "old_sha256": null,
+            "request_id": null,
+            "recorded_at": "2026-10-01T17:17:31.813539Z",
+            "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+            "changed_fields": [
+              "description",
+              "display_order",
+              "enabled",
+              "key",
+              "label",
+              "locale",
+              "metadata",
+              "request_type"
+            ],
+            "previous_revision": 0,
+            "reason_characters": 26
+          }
+        ],
+        "limit": 25,
+        "scope": "runtime_controls",
+        "family": "account_request_reason_options",
+        "identity": {
+          "key": "qa_runtime_current",
+          "locale": "en",
+          "request_type": "account_deletion"
+        },
+        "checked_at": "2026-10-01T17:17:35.474659Z",
+        "next_cursor": null,
+        "changes_only": true,
+        "contract_version": 2,
+        "history_complete": false,
+        "sample_valid_until": "2026-10-01T17:18:35.474659Z"
+      }
+    }
+  }
+}

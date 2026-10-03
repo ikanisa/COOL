@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 0.836515,
+  "curl_exit_code": 0,
+  "effective_URL": "https://google.github.io/osv.dev/post-v1-query/",
+  "exception": null,
+  "finished_utc": "2026-10-02T12:54:02.507988+00:00",
+  "http_status": 200,
+  "label": "osv-query",
+  "method": "GET",
+  "receipt_directory": "requests/001-osv-query",
+  "remote_IP": "185.199.111.153",
+  "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "request_performed": true,
+  "response_bytes_retained": 33101,
+  "response_complete": true,
+  "response_sha256": "35b087c74e8c1f322276dc193803e9a4142aa40649434224178c570b924a7cc9",
+  "ssl_verify_result": 0,
+  "started_utc": "2026-10-02T12:54:01.671533+00:00",
+  "url": "https://google.github.io/osv.dev/post-v1-query/"
+}

@@ -1,0 +1,2101 @@
+{
+  "acceptance_candidate": {
+    "approval": "unapproved; no production-release acceptance",
+    "capture": "2026-10-01T14:35Z",
+    "manifest_sha256": "dba11a4a0deb5822c528c92d770c79d50fa705037f5f23fbd8aed08bcc907fdd",
+    "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1",
+    "supplement": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/supplement-manifest.json",
+      "sha256": "e329a999d814cd2b865d880f1a7dea41af6ecd9b762b2734afa46d492e0e8557"
+    }
+  },
+  "captured_at_utc": "2026-10-01T16:21:37.797737+00:00",
+  "current_local_migration_count": 154,
+  "current_local_table_count": 153,
+  "goal_item_count": 24,
+  "historical_latest_verified_local_result": {
+    "counts": {
+      "otp_recovery_checks": 56,
+      "otp_recovery_races": 6,
+      "otp_v2_upgrade_checks": 9,
+      "recorder_corruption_tests": 8,
+      "resource_checks": 29,
+      "resource_races": 7,
+      "roster_reload_races": 6,
+      "scheduler_canary_races": 6,
+      "scheduler_normal_owner_checks": 32,
+      "scheduler_verification_races": 9
+    },
+    "manifest": "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+    "manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e",
+    "migration_count": 146,
+    "scope": "Actual isolated local143–146 installation, rollback, upgrade and blocking concurrency evidence",
+    "table_count": 143,
+    "whole_goal_complete": false
+  },
+  "items": [
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-roster-recovery-2026-09-30/validation.json",
+        "docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/validation.json",
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json",
+        "docs/release/roster-import-provenance-2026-09-30/runtime-verification.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 1,
+      "id": "L01",
+      "local_acceptance": "Implement144 server/client recovery with session-bound reference-only browser storage, exact serialized payload hashes, bounded private drafts/intents, explicit save/recovery/resumption, request replay, expiry/purge and CAS conflict tests. No private rows, reasons, titles, bytes or Auth tokens in browser storage.",
+      "parent_ids": "A01/P07",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Current normal browser email/memory-only Auth passes26 checks/16 cases withcurrent source/runtime bindings hash-bound in root218. Reference-only storage and fresh-sign-in reload denial are current; whole149 recovery/quota/CAS/final source acceptance remains separate."
+      },
+      "privacy_acceptance": "Reference-only browser storage, expired/departed session rejection and private checkpoint scrub accepted within the declared final candidate and browser inputs.",
+      "status": "complete",
+      "title": "Roster browser-reload recovery",
+      "verified_dependency_substeps": [
+        "142 guarded recovery restored131-table baseline",
+        "142 eleven real concurrency scenarios pass with baseline restoration",
+        "Actual SQL-to-Dart original/status receipts pass; terminal/status recovery implemented"
+      ],
+      "verified_progress": "Actual recovery/CAS/transfer/exact import audit and both final email-approval revocation orders are demonstrated. Production storage/session privacy is demonstrated within named captures. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-09-30T14:19:53.722641+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json"
+      ],
+      "completion_manifest_sha256": "e159e2f60c914f845ae7bc8b8fd4d917d86d74f6af72b49392fed5f2755b3f3e",
+      "goal_item": 2,
+      "id": "L02",
+      "local_acceptance": "Implement143 using owner cron APIs with ordinary installer privileges, immutable pause and postcommit observation/verification, real blocking concurrency and unchanged unrelated jobs/history/business fingerprints.",
+      "parent_ids": "X02/D09",
+      "status": "complete",
+      "title": "Normal-owner bank scheduler retirement",
+      "verified_progress": "Complete local normal-owner143 acceptance: populated history/adversarial rollback, separate postcommit observation/final verification71.034822seconds,6 canary+9 verification races,32 role/immutability checks, source reapply and current inactive canonical readback. Original productionX02 hosted acceptance remains open."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 3,
+      "id": "L03",
+      "local_acceptance": "Fence every Admin provider, request and dialog with session generation, pinned request authorization, A-to-B-to-A sticky invalidation, expiry and Auth-stream error/done handling. Clear stale private state and suppress old success/freshness side effects.",
+      "parent_ids": "S09/U06",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Actual SDK private-provider defects were corrected with70 accepted cases. The reproduced receipt identity mismatch is corrected by saved session/identity equality fences, now accepted in238 current receipt/policy/preference tests and4 actual Chrome checkpoints with972 source and SDK inputs unchanged. Full current provider/dialog/session integration remains."
+      },
+      "status": "complete",
+      "title": "Admin session isolation",
+      "verified_progress": "Session/dialog/departure suppression and legacy-private checkpoint scrub are proved in captured scope. Current principal integration executes exact request/session negatives and reuses unchanged named browser cases. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 4,
+      "id": "L04",
+      "local_acceptance": "Inventory every sensitive action and validate its exact response contract, typed fields, request-bound IDs/status and immutable route facts before success. Reject null/malformed/stale/mismatched responses and preserve uncertain outcomes.",
+      "parent_ids": "S09/A09",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Current238 receipt/policy/preference tests and4 browser checkpoints pass, including exact cancellation ACK/checkpoint recovery, uncertainty, late session/permission departure and policy expiry/refresh. One frame-wait fixture correction preserves the exact two-refresh-request assertion. Final complete action/audit/source integration remains."
+      },
+      "status": "complete",
+      "title": "Operation acknowledgements",
+      "verified_progress": "Exact operation parameters/ACK identity, owner lookup failure/uncertainty, replay/deadline and audit contracts are demonstrated by client and actual SQL cases. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 5,
+      "id": "L05",
+      "local_acceptance": "Enumerate every local route/action/data source and prove allowed, denied, revoked, loading, empty, failure and durable audited-result behavior. Include grant/export/reveal/retry/reason flows.",
+      "parent_ids": "U06",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Current source inventory18 enumerates28 routes,96 endpoints/79 active,38 providers,14 dialogs,212 callbacks and120 API sites. Full95 run52 has2863 pass/one raw-SMS pending-render failure/two dated receipt skips. Complete corrected raw-SMS file56 passes6 with real replacement-render waits and old evidence absence. Final215-file suite is separately running; no matrix-wide execution is inferred from references."
+      },
+      "status": "complete",
+      "title": "Complete Admin route/action matrix",
+      "verified_progress": "Existing28-route inventory/base browser execution and current principal loading, denial, expiry, redacted failure, paging, recovery and action cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/local-goal-closures-2026-09-30/attempt2-current-edge/validation.json"
+      ],
+      "completion_manifest_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+      "goal_item": 6,
+      "id": "L06",
+      "local_acceptance": "Implement durable single-send intent and evidence-bound accepted/not-sent/ambiguous/delivered recovery. Simulate timeout, response loss, late completion, replay and concurrent claims; unknown delivery must never trigger blind resend or release spent quota.",
+      "parent_ids": "S04",
+      "status": "complete",
+      "title": "Uncertain OTP recovery",
+      "verified_progress": "Corrected145 source;56 SQL rollback +9 v2-upgrade checks and6 real races; current signed-OTP handler in304 unit tests and actual71 frozen HTTP checks, with ambiguous outcomes never blind resent."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 7,
+      "id": "L07",
+      "local_acceptance": "Exercise secrets, phone/receipt data, provider/SQL details and malformed SDK errors across client/Edge/log/export surfaces. Verify only stable actionable messages and redacted structured telemetry reach users.",
+      "parent_ids": "S07",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Exposed local QA bootstrap key replacement is verified:old synthetic ciphertext no longer decrypts, fresh crypto succeeds, both files0600/postgres, same retained image/data volume, old container absent and no literal key in active startup. Independent readback preserves all153 shared tables/catalog/cron plus internal rows/schema; managed proof retains no keys. Full current client/Edge/log/export negative coverage remains."
+      },
+      "status": "complete",
+      "title": "Error redaction",
+      "verified_progress": "Client and Edge redacted error cases, malformed/private principal replies and fail-closed lookup are proved in their exact input scopes; local secret replacement remains historical source-backed evidence. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 8,
+      "id": "L08",
+      "local_acceptance": "Run anonymous/member/operator/service and cross-group negative tests, raw-SMS isolation, effective grants/RLS and both concurrent revocation orders against final local definitions.",
+      "parent_ids": "S08",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Current18 staged sensitive suite passes126 actual public RPC/role/ACL/reason/audit/retry checks and8 observed blocking authority races. Current18 RLS snapshot suite passes19/nine positives across legacy/email transition and email cutover; committed revocation refuses established snapshots with40001. Shared154/153tables/catalog/cron preserved; complete final cross-group/role/RLS scope remains."
+      },
+      "status": "complete",
+      "title": "Local role and cross-group authorization",
+      "verified_progress": "Actual email roster25 plus both observed revocation orders;92 current principal authorization/replay/deadline/audit cases. Historical126 sensitive API/8 races and19 RLS snapshot cases remain valid only in matched definitions. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+      "completion_evidence": [
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json",
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/local-goal-closures-2026-09-30/attempt2-current-edge/validation.json"
+      ],
+      "completion_manifest_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+      "goal_item": 9,
+      "id": "L09",
+      "local_acceptance": "Implement full bounded image/PDF validation or a validated sandbox with page/object/animation/decompression limits. Test corrupt/spoofed/polyglot/page-heavy/expansion inputs before vendor calls.",
+      "parent_ids": "A03",
+      "status": "complete",
+      "title": "Full upload decoding safety",
+      "verified_progress": "32 real Linux codec/auth/resource cases and actual signed adapter integrations coverPNG/JPEG/WebP/PDF/XLSX, malformed/spoofed/polyglot/animation/page/expansion limits and process sandbox."
+    },
+    {
+      "completed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/local-goal-closures-2026-09-30/attempt2-current-edge/validation.json"
+      ],
+      "completion_manifest_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+      "goal_item": 10,
+      "id": "L10",
+      "local_acceptance": "Implement actor/global concurrent and resource/cost reservations with idempotent recovery, timeouts, exhaustion, abuse and multiple-worker local tests.",
+      "parent_ids": "A03",
+      "status": "complete",
+      "title": "Durable concurrent upload/extraction limits",
+      "verified_progress": "146 normal-owner apply plus29 assertions and7 real two-session races, exact143-table restore; HTTP/handler budget ACK/replay/ambiguity tests, signed receipts before vendor work."
+    },
+    {
+      "completed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json",
+        "docs/release/local-goal-closures-2026-09-30/attempt2-current-edge/validation.json"
+      ],
+      "completion_manifest_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+      "goal_item": 11,
+      "id": "L11",
+      "local_acceptance": "Verify original workbook bytes against derived TSV using a trusted bounded parser. Reject inconsistent or substituted content and test workbook expansion, malformed relationships and row/cell limits.",
+      "parent_ids": "A03/A09",
+      "status": "complete",
+      "title": "Trusted XLSX transformation",
+      "verified_progress": "Original bounded workbook bytes verified against derived TSV; substituted client TSV rejected; actual146-to142-to144 compatibility and signed decoder handler integrations."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 12,
+      "id": "L12",
+      "local_acceptance": "Test formula injection, row/resource bounds, data minimization, redaction, permission denial, accountable reasons and durable import/export/reveal/grant/retry audit.",
+      "parent_ids": "A09",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Installed154 invitation40/6blocking races and QR save80 remain dated. Current13 email actions133 establish exact ACK/Unicode reason/audit/private-helper contracts. Current16 sensitive Unicode reproduction122PASS/4FAIL led to235700:127candidatePASS/8races, followed by126 integrated current18PASS/8races. Full current import/export resource/formula/permission/audit coverage remains."
+      },
+      "status": "complete",
+      "title": "Import/export and sensitive-action protection",
+      "verified_progress": "Exact roster import/commit/audit and principal permission/reason/replay/audit contracts are actual SQL tested; historical resource/formula/Unicode/sensitive action proofs remain available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-09-30T15:14:31.471964+00:00",
+      "completion_evidence": [
+        "docs/release/upload-integrity-2026-09-30/decoder-attempt5-object-streams/validation.json",
+        "docs/release/local-goal-closures-2026-09-30/attempt2-current-edge/validation.json"
+      ],
+      "completion_manifest_sha256": "4419ee7546d73dcd39cbd890d4799056b73cb25492963e086443f7cda63a932f",
+      "goal_item": 13,
+      "id": "L13",
+      "local_acceptance": "Create labeled multilingual/scanned/malformed/duplicate/ambiguous/prompt-injection fixtures and a reproducible local evaluation harness measuring error classes and safe rejection/correction.",
+      "parent_ids": "A02",
+      "status": "complete",
+      "title": "Multilingual/adversarial evaluation tooling",
+      "verified_progress": "Labeled multilingual/scanned/malformed/duplicate/ambiguous/prompt-injection corpus;155 deterministic/response/evaluation checks,5 labeled deterministic measurements and3 contract probes. Live-provider accuracy remains explicitly unmeasured."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 14,
+      "id": "L14",
+      "local_acceptance": "Benchmark realistic generated volumes, all sorts/scopes/page depths and concurrent paging. Correct ordering, excessive scanning, whole-history reconstruction, aggregation growth and queue-shrink behavior.",
+      "parent_ids": "D01-D04/D07",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "pending",
+        "verified_progress": "Same-dataset four-arm actual API comparison passes455 checks per1000/10000 volume. All432 windows per volume retain byte-equivalent authorized fields/totals/revisions;12 global windows examine below half baseline payment rows and strictly fewer buffers. Additive095000 publishes four partial indexes, exact seek/title function and integrity guard. Published frozen177 history runs at1000/10000 each pass146 checks, with exact pending counts, six notification pages, rollback-only zero queue and four concurrent sorts per volume; full exact-summary scan remains required."
+      },
+      "status": "complete",
+      "title": "Generated-dataset query benchmarks",
+      "verified_progress": "Genuine1k/10k actual history455 and146 per-volume proofs cover existing all432 windows/sorts/scopes/concurrent4 sorts/queue shrink. Current Admin104 additionally proves order, cursor, owner, health/action aggregation and Gateway count at both volumes. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 15,
+      "id": "L15",
+      "local_acceptance": "Audit every consumer and modern/legacy RPC/cache/input path for immutable identity, collision/forgery denial, complete versus partial/absent/stale/zero totals, exact integer bounds, aliases, IDs and valid calendar/timezone behavior.",
+      "parent_ids": "D05-D08",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Accepted Data22 has744VM/299actualChrome with clean scoped analysis; current21 actual postings/sort-cursor history pass72 with finalizer/triggers intact. Their actual SQL receipts pass6VM/6Chrome decoder bridges. Current consumer inventory indexes103 files/20 families and all71 symbol-reference files. Newly added Admin references and final common-source integration remain; shared154 is unchanged."
+      },
+      "status": "complete",
+      "title": "Identity/totals/money/ID/date correctness",
+      "verified_progress": "744 VM/299 actual Chrome correctness,72 actual postings/history and6VM/6Chrome SQL decoder bridge are preserved at matched scope; current principal immutable IDs/cursors/ACK fields and current query owner/count facts are separately tested. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 16,
+      "id": "L16",
+      "local_acceptance": "Automate duplicate/missed Realtime events, reconnect/offline revocation, bounded refresh, stale completion and account/session switching. No wrong-account private cache or misleading freshness.",
+      "parent_ids": "D10/P07",
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Actual lockedSDK/Phoenix loopback reproduced3 departed-frame refresh defects. Unique scoped topics and sticky callback fences pass18 cases/zero failures/errors/skips with fatal analysis clean and849source/6191export inputs unchanged. Four live runtime/test hashes and exactly3 repository substitutions are bound; common-source/full cache lifecycle integration remains."
+      },
+      "status": "complete",
+      "title": "Cache/reconnect/session isolation",
+      "verified_progress": "18 actual SDK/Phoenix duplicate/missed/reconnect/session cases reuse exact transitive inputs. One demonstrated no-readable-cache503 stale/freshness defect was corrected and15 affected SDK/coordinator/cache cases passed; final runtime736f0715… was captured before the final suites. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json",
+        "docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 17,
+      "id": "L17",
+      "local_acceptance": "Fix compact320x568/enlarged2x text, keyboard reachability, focus, semantic labels and financial/recovery wording through shared components. Preserve Collect workflows and test meaningful affected states.",
+      "parent_ids": "U02/U04/U05",
+      "previous_verification": {
+        "evidence_limit": "Dated scoped280-test/15-analysis pass with214 stable inputs; full per-item acceptance and final integration remain.",
+        "status": "in_progress",
+        "verified_progress": "Declared compact/shared correction is verified by120 widget tests,11 clean analyzer inputs and25 actual Chrome cases/205 assertions; 320x568 at1x/2x plus390x1x inspected. Prior-source whole-word negative reproduced. Remaining unsampled applicable local surface/state coverage and final integrated source bind remain."
+      },
+      "status": "complete",
+      "title": "Shared Revolut interface corrections",
+      "verified_progress": "Historical120 widgets/25 actual Chrome205 assertions plus13 affected current core/header/keyboard cases; actual licensed Inter8+1 tests and reviewed public golden2 pass. Current principal affected interface cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/report.json",
+        "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root218-attempt17/report.json",
+        "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root218-attempt17/validation.json",
+        "docs/release/local-progress-2026-09-30/current177-browser-closure-root222/browser-local-closure-proof.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 18,
+      "id": "L18",
+      "local_acceptance": "Build/serve distinct public/Admin artifacts and test route/auth/bundle isolation, updates/failures, offline, real multiple tabs, logout/revocation/session switch and cache invalidation in a local browser.",
+      "parent_ids": "U07/U08",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "complete",
+        "verified_progress": "Complete original local browser/PWA criterion: actual production Admin and separate Public builds pass26 checks/all16 lifecycle cases, including current email/memory-only Auth, reference-only bookmark, fresh-sign-in reload, multi-tab departure protocol, logout/A-B-A, offline installed PWA, warm/failed updates and legacy cache privacy.Current root218 normal Admin/Public rebuild and all captured source/runtime bytes are verified. Original broad wrapper failure is retained; no hosted/device/design or whole L01 acceptance inferred."
+      },
+      "status": "complete",
+      "title": "Actual local browser/PWA lifecycle",
+      "verified_progress": "Original full26-check/16-case production browser/PWA criterion is accepted in captured scope. Current base browser89 passes with exact source stability; principal15 actual browser cases are current/reused under stated conditions. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/financial-observability-2026-09-30/probe148-on146-attempt2/result.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 19,
+      "id": "L19",
+      "local_acceptance": "Implement queue age, ACK/parse/unmatched/reconciliation/reversal and push lease/completion/scheduler health metrics. Test redaction, alert thresholds, missing/stale health and local response procedures.",
+      "parent_ids": "O06",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Current150 acceptance passes180 alert assertions,5 metric-writer cases/4 races and6 health-authority races. Performance passes32 assertions/60 reads at1000,10000,50000 records and2000 metric writes, preserving17 business row families and rolling back all149 tables. Fresh actual150 receipt backs55 immutable UI tests/all13 read-only response/2x expiry cases. Full operator action-response and final integration remain."
+      },
+      "status": "complete",
+      "title": "Redacted financial/receipt/push observability",
+      "verified_progress": "180 alerts, metric and authority races,1k/10k/50k/2000-write diagnostics and55 read-only UI response/expiry cases are preserved with unchanged semantic SQL definitions. Current scheduler-control tail typechecks/tests PASS. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 20,
+      "id": "L20",
+      "local_acceptance": "Inventory dynamic settings/copy, validate types/ranges/versions, enforce caller permissions and audit updates/conflicts. Preserve stable application strings as code.",
+      "parent_ids": "A08",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Single-body Unicode-reason correction passes1330 actual contract checks. Current21 full26 runtime-family races pass108 assertions with78 observed blocking overlaps, exact actor/session/reason audit and shared153 preservation. Current238 receipt/policy/preference tests cover settings/preference recovery, policy TTL/permissions and exact ACK behavior. Full current feature-flag/copy consumer aggregate and source integration remain."
+      },
+      "status": "complete",
+      "title": "Mutable settings/copy governance",
+      "verified_progress": "Actual26-family108 assertion/78 observed blocking-race receipt PASS with unchanged21 migration bodies. FeatureFlag17+9 cases validate Unicode reason boundaries and preserved shared defaults; current principal and scheduler derivative cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/asset-build-hygiene-2026-09-30/L21-verification.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 21,
+      "historical_completion": {
+        "completed_at_utc": "2026-09-30T14:29:17.403776+00:00",
+        "completion_manifest_sha256": "9e787a758dd7d6bab813508b55e03a64f753259b1e801f9a738f9cbaf49f31ed"
+      },
+      "id": "L21",
+      "local_acceptance": "Produce reachability evidence, reconcile seven indexed missing assets and remove only demonstrably unused code/assets/dependencies. Preserve licensed/provenance decisions and run affected local regressions.",
+      "parent_ids": "A05/A07",
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Public seven-capture execution, byte-identical visual review transfer and publication pass; static rebuild passes55 and actual Public browser76 cases/181 captures pass. Additive166 binds actual158 served assets, correcting the dated scope label without rewriting159. Current168 proves242/242 reachable runtime Dart files across four entrypoints, zero unresolved assets/directives and deterministic688-component source SBOM. Final common-source cleanup/licence/reachability binding remains."
+      },
+      "status": "complete",
+      "title": "Proven asset/code/dependency cleanup",
+      "verified_progress": "Current264/264 reachability proof and licensed Inter/excluded Aeonik decision are available; seven missing asset reconciliation and actual158 served-asset/amended provenance proofs remain preserved. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/edge-dependency-lock-2026-09-30/generate-attempt3/validation.json",
+        "docs/release/edge-dependency-lock-2026-09-30/http-frozen-attempt1/report.json",
+        "docs/release/edge-dependency-lock-2026-09-30/unit-frozen-attempt1/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 22,
+      "id": "L22",
+      "local_acceptance": "Reconcile exact pinned-runtime locks and inventories, generate local SBOMs, fix formatting/analyzer/native lint including40 recorded warnings, and prove clean-checkout builds without undeclared ignored/private files.",
+      "parent_ids": "Q01/Q02/Q07",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Actual unsigned iOS127 compilation0 and199-file/41609096-byte postbuild verification remain accepted at their captured source; review190 individually reconciles23 warning strings/19 primary/4 duplicate renderings,14 compiler aliases,9 artifact relocations and13 pinned checkouts. Later source changes date broad currentness. Android125/126 compiled unsigned but full lint failed4 actual API/permission errors. Current flavor-only Gateway isolation removes privileged code from production and fresh production lint passes. Current production/Gateway APK, native JVM, individual warning review and observed graph/SBOM completion remain pending. Current48 Gateway pure JVM cases pass; whole native/release acceptance is open."
+      },
+      "status": "complete",
+      "title": "Locks/inventory/SBOM/build hygiene",
+      "verified_progress": "Current iOS unsigned artifact and462 real compiler inputs pass; enforced Dart/Edge locks, fatal selected analysis/format and current MCP347+terminal scheduler tail are available. Known vendor warnings require their individual dispositions, not a false zero-warning claim. Current reproducible source SBOM and all29-module390-case MCP aggregate pass; Android actual graph/artifact remains pending. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 23,
+      "id": "L23",
+      "local_acceptance": "Run final frozen migration-set clean and populated upgrades, rollback/roll-forward and incompatible-client tests. Execute full local Dart/native/Edge/database/browser suites and critical auth/ACK/finality/reversal/session concurrency/mutation coverage. Preserve financial/receipt baselines.",
+      "parent_ids": "D09/Q03/Q06",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Current23-stage clone passes86 checks with177 sources/26 protected private tables; later metadata-only policy-scope stage23 also passes86. Both177 ordinary clean/populated executions completed177 migrations/phase with18 predecessor projections preserved, no superuser/cronDML/net. The earlier peer source guard failure remains dated evidence; fresh ordinary177 attempt5 passes all32 checks/354 migrations with current bytes and both containers removed.400 Edge units,86 actual HTTP checks/all11 entrypoints and146 MCP tests/type checking pass in their source scopes. Full Flutter179 finished with4450 passes/17 failed/0 skipped/0 unfinished; original failures remain retained. Omitted export inputs, Gateway motion/typography, exact11-endpoint list and upstream dummy parser fixtures are corrected. Five intentional visual differences were individually reviewed and published; isolated13-capture/14-check regression passes without changing tolerance. Current48 Gateway JVM tests pass. Current affected12-file aggregate passes167 tests with no failures/skips/unfinished; three public-SDK Auth parser/JWKS rejection tests and fatal analysis pass. Current Android flavored build/lint/JVM/SBOM integration remains pending."
+      },
+      "status": "complete",
+      "title": "Final-set integrated local verification",
+      "verified_progress": "Current185 clean+populated ordinary installer PASS36/370 applications with canonical predecessor preservation. Terminal scoped Edge/MCP/principal/browser/iOS plus accepted auth/ACK/finality/reversal/concurrency proofs are available; initial Flutter and correction failures retained. All29 current MCP modules now have terminal390 unique cases with exact unchanged input bindings. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    },
+    {
+      "completed_at_utc": "2026-10-01T15:10:18.964417+00:00",
+      "completion_evidence": [
+        "docs/release/local-database-runtime-2026-09-30/attempt1/validation.json",
+        "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+        "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/ledger.json"
+      ],
+      "completion_manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+      "completion_scope": "Tested immutable candidate captured2026-10-01T14:35Z; later concurrent mutable-checkout edits are excluded and remain unaccepted.",
+      "evidence_limit": "Local criterion only; no hosted/provider/device/signing/store/owner approval or100 percent design fidelity acceptance.",
+      "goal_item": 24,
+      "id": "L24",
+      "local_acceptance": "Package source/lock/toolchain/build/test/log hashes and exact commands/exclusions against one final local source set. Preserve dated failures and earlier evidence, refresh this24-item register and reconcile historical versus current packets.",
+      "parent_ids": "G07/A10",
+      "post_acceptance_integrated_delta_evidence": {
+        "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+        "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+      },
+      "previous_verification": {
+        "status": "in_progress",
+        "verified_progress": "Original24 local and102 production acceptance criteria remain intact. New successful and failed browser/iOS/Swift/query/Admin/current23/Edge/MCP packets are hash-bound; only exact local L18 closure is added. Entire final source and production acceptance remain unverified."
+      },
+      "status": "complete",
+      "title": "Bound evidence and handover register",
+      "verified_progress": "Exact commands/source/dependency/toolchain/artifact hashes and dated failures are preserved in scoped packets. This18-item ledger records revision13 criteria without changing canonical status. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet."
+    }
+  ],
+  "known_open_parallel_work": {
+    "finding_receipt": {
+      "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/known-open-parallel-review/findings.json",
+      "sha256": "191279632e1c93bf5a53fdaee69974815312b64678865f28496dbfc80d5ebcc4"
+    },
+    "implementation_status": "Parallel owner preparing correction privately; no source write in this frozen pass.",
+    "open_findings": [
+      {
+        "boundary": "GatewaySignedBackend.mutation; GatewayJournalArchive.acknowledge",
+        "evidence": "Successful heartbeat mutations still call the legacy request-ACK archive; max256 requests and512KiB limit bound lifetime sender availability.",
+        "goal": 11,
+        "id": "RET-ANDROID-ACK",
+        "required": "Independent immutable ACK store, bounded legacy migration, archive/readback before hot pruning, actual signed-backend test beyond256 heartbeats.",
+        "state": "open"
+      },
+      {
+        "boundary": "GatewayEncryptedStore.coldAcknowledgedRequest/saveRequests",
+        "evidence": "coldAcknowledgedRequest derives lookup from the newly presented action and attempt_id, so an old compacted request UUID with another action or attempt can bypass native global identity detection. Backend identity controls do not establish native permanent reservation.",
+        "goal": 11,
+        "id": "RET-ANDROID-UUID",
+        "required": "Permanent requestUUID lookup independent of caller action/payload, exact-original conflict check, changed-action and changed-attempt tests.",
+        "state": "open"
+      },
+      {
+        "evidence": "Cold attempt indexes permit128 IDs per two-hex prefix. Late evidence has256 attempts and64 observations per attempt. Individual ciphertext export omits full control/index closure and is not a portable Keystore restore.",
+        "goal": 11,
+        "id": "RET-ANDROID-INDEX",
+        "required": "Expandable bounded indexes and late pages, unresolved retention, complete recovery with independent stop and key/re-enrollment controls.",
+        "state": "open"
+      },
+      {
+        "evidence": "Control512/diagnostics32768/journal32768 file admission limits fail closed but no integrated lossless maintenance/export/restore exists. History indexes retain dependencies on raw originals.",
+        "goal": 13,
+        "id": "RET-SCHEDULER-HOT",
+        "required": "Archive-aware permanent basename claims/read-through; bounded automatic maintenance pins incomplete/unknown/contradictory closure; exact inactive recovery.",
+        "state": "open"
+      },
+      {
+        "evidence": "Backlog sweep limits output to25 sources after DISTINCT over lifetime duplicate results/deferrals; latest worker and source-evidence orders lack matching indexes.",
+        "goal": 6,
+        "id": "RET-WORKER-SWEEP",
+        "required": "Exact-membership transactional source registry and matching indexes; original ACK/cursor/queue/finance semantics preserved. Full worker retention remains distinct.",
+        "state": "open"
+      },
+      {
+        "evidence": "Worker/scans/transport history has bounded request work and quotas, without lifetime history compaction or complete restore. Original IDs/ACKs/FK provenance cannot be removed.",
+        "goal": 13,
+        "id": "RET-WORKER-COLD",
+        "required": "Typed hot/cold closure with permanent anchors and unchanged lookup ACKs, bounded governed maintenance/export/restore.",
+        "state": "open"
+      }
+    ],
+    "owner_chat": "Connect Collect to Codex MCP",
+    "reported_gap": "Goals6/11/13: continuous ACK retention, permanent global request-ID reservation, expandable native recovery indexes, scheduler hot/cold maintenance, indexed worker source sweep and worker cold-history restore.",
+    "reported_source_bindings_match_candidate": true,
+    "root_independently_verified": false,
+    "scope": "Reported by the source owner after this frozen capture; continuous-retention and cross-action UUID guarantees are excluded from reused native proof and this integration acceptance.",
+    "thread_id": "01a0f32e-14a4-7d92-aa87-8ca1f381e41e"
+  },
+  "latest_verified_local_result": {
+    "clean_and_populated_migration_applications": 370,
+    "counts": {
+      "Chrome_component_cases": 15,
+      "Edge_HTTP_checks": 90,
+      "Edge_unit_cases": 552,
+      "Flutter_VM_cohorts": 227,
+      "Flutter_registered_VM_passes": 5014,
+      "MCP_modules": 29,
+      "MCP_unique_cases": 390,
+      "final_Gateway_Gradle_JVM_cases": 141,
+      "final_Gateway_standalone_cases_separate_suite": 190,
+      "generic_Admin_actual_audit_checks": 59,
+      "generic_Admin_mutations_audited": 12,
+      "iOS_bundle_files": 197,
+      "observed_Gateway_components": 187,
+      "observed_production_components": 200,
+      "ordinary_migration_applications": 370,
+      "ordinary_named_checks": 36,
+      "production_browser_checks": 88,
+      "production_native_JVM_cases": 12,
+      "source_SBOM_components": 686
+    },
+    "evidence_packets": [
+      {
+        "available": true,
+        "current_receipt_sha256": "592ce009d25c11a4a6dd69b55a832ec89e0dbe1a5f59521eef0b0e3ac902e80f",
+        "path": "docs/release/rapid-completion-2026-10-01/admin-essential-review.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Enabled exception dialog/session/checkpoint corrections only; not whole role/route/import matrix.",
+        "sha256": "592ce009d25c11a4a6dd69b55a832ec89e0dbe1a5f59521eef0b0e3ac902e80f"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190",
+        "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/admin-benchmark-terminal.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass_scoped",
+        "scope": "104 current Admin Gateway/Exceptions cases across genuine1k/10k fixtures; strict paging/order, owner/health/current actions/count and real CTE diagnostics; preserved setup failures.",
+        "sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "6931a7fcb6af3d49c0cf0a87df3adcbe00f74ba06dedd51253304ede3f3a81d1",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/admin-session-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "83 captured actual session/dialog tests; four-file scope and its exact source/dependency map.",
+        "sha256": "6931a7fcb6af3d49c0cf0a87df3adcbe00f74ba06dedd51253304ede3f3a81d1"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "bbbfdad645d68e3ea42219293ca6798647f397d6c95f1072fba4a6aa35d3b7c7",
+        "new_principal_runtime_excluded": true,
+        "path": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/browser-acceptance.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "89 current base route/lifecycle checks;28 signed-out/28 authenticated routes, declared principal runtime excluded; no all-route-state or fidelity claim.",
+        "sha256": "bbbfdad645d68e3ea42219293ca6798647f397d6c95f1072fba4a6aa35d3b7c7",
+        "source_inputs_stable": true
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "9103efb1697841719e51d4c1a6ed26217ea3015e9063cca31e1b600e5cf1b2f9",
+        "path": "docs/release/local-progress-2026-09-30/current177-browser-closure-root222/browser-local-closure-proof.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "complete",
+        "scope": "Original complete browser/PWA criterion,26 checks/16 lifecycle cases and distinct production Admin/Public at exact captured source.",
+        "sha256": "9103efb1697841719e51d4c1a6ed26217ea3015e9063cca31e1b600e5cf1b2f9"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776",
+        "path": "docs/release/cache-session-2026-10-01/accepted-current-proof.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass_scoped_current_member_realtime",
+        "scope": "Accepted member cache/session scope, no global currentness inferred.",
+        "sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "5702856e9f96ee5fc834914c0c07280e2d0ea46b196fba17c0a112877bc14b97",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-scrub-current4/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Eight actual legacy checkpoint scrub/quarantine cases, including capability and identity departure; no actor UUID retained.",
+        "sha256": "5702856e9f96ee5fc834914c0c07280e2d0ea46b196fba17c0a112877bc14b97"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/requested-task-evidence-ledger1/L23-COMPATIBILITY.md",
+        "sha256": "db7c2b330e5c341579dc58235dfcf9bfd63db0d0cef90e2660263f91010d1051"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "167502d5efe8fc4773c65fd0fdb056c9a74553cfe902549894c43f7de6cc6acf",
+        "export_drift": {},
+        "path": "docs/release/rapid-completion-2026-10-01/core-interface-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Seven changed coreview compact/enlarged cases, one Admin header and five keyboard focus cases; actual Inter loaded.",
+        "sha256": "167502d5efe8fc4773c65fd0fdb056c9a74553cfe902549894c43f7de6cc6acf"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/admin-inventory/validation.json",
+        "sha256": "a771a44c63e4b516411fa0f153d737327bb584015c2437d8b5ddbe2c82959c42"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/admin-inventory/route-action-acceptance.json",
+        "sha256": "0a31c3db3f72bbca633ae339cfda07c84c5fb980ef60e0b40215d4706c3b7779"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/current-edge-http-terminal1/current-source-rebind.json",
+        "sha256": "0d757b401446a75d4b977eaf19fabb0530a220b173c960811cf970db76cd2606"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/generic-action-audits/attempt4-json-scalar-contract/result.json",
+        "sha256": "47ac1f103fb3f6f666cc2b43b90bde7f49fa4a0392197a453198bdc900917c65"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/current-mcp-all-modules-terminal1/validation.json",
+        "sha256": "f00a5270358b61f1720dd6c9aa402c3316c3912bd16eeeac67fc7d807395d986"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "744 VM/299 actual Chrome correctness cases at captured source; bound transitive reuse and changed consumers handled separately.",
+        "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "387d0e7884c60f9677e33a70144089f27d290196f3e192628ee67485ef6f55ba",
+        "path": "docs/release/rapid-completion-2026-10-01/revolut-authority-current1.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "PASS sole Revolut authority hygiene; no visual fidelity certification.",
+        "sha256": "387d0e7884c60f9677e33a70144089f27d290196f3e192628ee67485ef6f55ba"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "a8ad47864833e08d9a0969584f4a8cfdd5919d2ba1ff55e7806eb45d5a240e3a",
+        "path": "docs/release/rapid-completion-2026-10-01/current-edge-units-resumption2-declared-fixtures/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "552 unit cases/29 files; enforced lock, declared decoder fixtures, exact unchanged source; no provider/SQL execution.",
+        "sha256": "a8ad47864833e08d9a0969584f4a8cfdd5919d2ba1ff55e7806eb45d5a240e3a",
+        "source_unchanged": true
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/feature-reason-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "17 production feature-flag reason cases plus nine shared default/focus cases.",
+        "sdk_unchanged": true,
+        "sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current2/browser-acceptance.json",
+        "sha256": "0013068d2b43e7907e35b8099fe137531aa88417746169ee843eb456fd0bf5e5"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current2/copied-inputs.json",
+        "sha256": "84381dc84a2cf03ef0788aec80eb1e4793026a0e83bb8ee2a74e42aa026e6b26"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/full-flutter-accepted-union1/validation.json",
+        "sha256": "01ddecb8bcefeea49c6620693d5c53b84a0e3e029a9ea08cd10bce814ea8286e"
+      },
+      {
+        "available": true,
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-current2-acceptance.json",
+        "sha256": "6dbc3dea3b06ef291eff37b8537ed9b47383943f4149a92efa574ae50b62d223"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "8e0a1326b0eb9f54f08e48e4b82645edaa9b0e581a08358102c4bcc102c87d04",
+        "export_drift": {},
+        "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/final-validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Two affected reviewed public golden/manifest tests PASS with unchanged tolerance; twelve other baselines unchanged.",
+        "sha256": "8e0a1326b0eb9f54f08e48e4b82645edaa9b0e581a08358102c4bcc102c87d04"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "910d4b3e79ad00cb50e5ae652698a4a6fb70b22df4e98a405f9d729789fe348f",
+        "export_drift": {},
+        "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass_pending_public_golden_review",
+        "scope": "Eight real Inter landing cases and single font contract/source-only Ruby case; initial public mismatch retained.",
+        "sha256": "910d4b3e79ad00cb50e5ae652698a4a6fb70b22df4e98a405f9d729789fe348f"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd",
+        "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/public-golden-review.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "visually_reviewed_and_published",
+        "scope": "Root inspected and accepted explicit Inter font difference before publishing only public baseline and manifest line.",
+        "sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "3d6a9bd1264b1ceb1cc4b9777195a7e41f91bb13fb98a2153faa186bfbbede11",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/full-flutter-unmet-continuation1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "fail",
+        "scope": "31 unmet VM files finished,606 passes/1 stale inventory expectation failure; no unfinished/source/SDK/binding drift. Original FAIL retained.",
+        "sha256": "3d6a9bd1264b1ceb1cc4b9777195a7e41f91bb13fb98a2153faa186bfbbede11"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "392fceb58019c420268ec74021524afcafab99b48611daa45f0d3c22fb1dfb75",
+        "path": "docs/release/rapid-completion-2026-10-01/full-flutter-current-resumption1/execution.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "running",
+        "scope": "Full immutable base command packet; terminal initial deadline supplied by root:4325 passes,14 known harness failures,1 unfinished. Final named-case/module union is root-owned.",
+        "sha256": "392fceb58019c420268ec74021524afcafab99b48611daa45f0d3c22fb1dfb75"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa",
+        "path": "docs/release/financial-observability-2026-09-30/alert-matrix150-rollback-attempt1/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "180 redacted health/threshold/stale/missing alert assertions; rollback preservation.",
+        "sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213",
+        "path": "docs/release/financial-observability-2026-09-30/health-authority-concurrency150-attempt1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Six health authority races in matched source scope.",
+        "sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213",
+        "source_unchanged": true
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c",
+        "path": "docs/release/financial-observability-2026-09-30/metric-concurrency150-attempt1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Five metric writer cases/four observed races in matched source scope.",
+        "sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c",
+        "source_unchanged": true
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3",
+        "path": "docs/release/financial-observability-2026-09-30/performance150-rollback-attempt1/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "32 assertions/60 actual reads at1k/10k/50k plus2000 metric writes;17 business families and149 tables preserved.",
+        "sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca",
+        "path": "docs/release/financial-observability-2026-09-30/ui150-responses-attempt3-consistent-age/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "55 immutable UI cases, all13 read-only response/2x expiry cases; changed current health consumers require exact scope binder.",
+        "sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass_scoped",
+        "scope": "146 published-history checks per1k/10k volume; exact pending counts, six notification pages, rollback queue shrink and four concurrent sorts.",
+        "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt3-root-title-lookup/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass_scoped",
+        "scope": "455 checks per genuine1k/10k volume, all432 byte-equivalent scope/sort/paging windows and actual scan/buffer reduction.",
+        "sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/accepted-candidate-readback.json",
+        "sha256": "460972f2158da5d20d1db938225419bfef1128932852534c94db1dbbb0246404"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "256a42c08e217c5313fc186711de2b7aa9c952af7ebdb06da1d70cc11cebb6db",
+        "path": "docs/release/rapid-completion-2026-10-01/supabase-inventory-correction1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Only exact inventory expectation correction plus existing restrictions;7 cases PASS, source current, base scope preserved.",
+        "sha256": "256a42c08e217c5313fc186711de2b7aa9c952af7ebdb06da1d70cc11cebb6db"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/artifact-verification.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Unsigned local QA iOS terminal artifact197 files/41,328,785 bytes,23 unique warning strings; broad unrelated root drift disclosed.",
+        "sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+        "source_unchanged": true
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/current-compiler-input-readback.json",
+        "reachable_or_native_source_drift": {},
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "462 actual compiler/resource inputs root-current,148-file native Dart closure excludes Admin; unrelated Android/Admin drift does not invalidate this iOS scope.",
+        "sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/final-source-readback.json",
+        "sha256": "af0efbac5de5ff93f9d5ce3fdb27b1608ef8351ab2389cdf6c08c7dab305ade6"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "0a134a4eecbaca5f90662fa9df1f3db5c1086f69a207ece410f7cca1f6af6374",
+        "path": "docs/release/rapid-completion-2026-10-01/current-mcp-terminal-rebind1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "347 named-case union/28 captured modules;231 unchanged runtime/decoder inputs; original timeout retained, scheduler tail separate.",
+        "sha256": "0a134a4eecbaca5f90662fa9df1f3db5c1086f69a207ece410f7cca1f6af6374"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "f00a5270358b61f1720dd6c9aa402c3316c3912bd16eeeac67fc7d807395d986",
+        "path": "docs/release/rapid-completion-2026-10-01/current-mcp-all-modules-terminal1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "All29 current Node modules PASS390 unique cases:347 base +43 actual current scheduler-control cases; typecheck0, unchanged runtime/Edge/SQL decoder input bindings, original timeout/tail failures preserved.",
+        "sha256": "f00a5270358b61f1720dd6c9aa402c3316c3912bd16eeeac67fc7d807395d986",
+        "source_unchanged_now": true
+      },
+      {
+        "available": true,
+        "current_input_drift": [],
+        "current_receipt_sha256": "d9294a42b686b416481fe16f5275f6a8b09a59a155cc7a2a30f23173d178ffc5",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/current-mcp-scheduler-tail4-current-links/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Terminal current scheduler-control derivative PASS typecheck and cases; exact capture/source input maps unchanged. Earlier tails1/2/3 retained.",
+        "sha256": "d9294a42b686b416481fe16f5275f6a8b09a59a155cc7a2a30f23173d178ffc5"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "6fe8dd1c6cf03656361f4ac3211237e5f60492ab1460db56e9c6d0e030a4e330",
+        "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/reuse-gap-manifest.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "member_freshness_fixed_current_Admin_1000_10000_actual_query_scope_pass_other_named_owner_release_gaps_retained",
+        "scope": "Historical member/data/query/health/runtime-family proof source/dependency relevance; runtime26 helper boolean is a reporting error and is superseded here by actual result fields.",
+        "sha256": "6fe8dd1c6cf03656361f4ac3211237e5f60492ab1460db56e9c6d0e030a4e330"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca",
+        "path": "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "18 actual locked SDK/Phoenix loopback cases, with unchanged transitive inputs and exact reconstruction of the two changed member files documented in member_scope.",
+        "sdk_unchanged": true,
+        "sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca"
+      },
+      {
+        "current_receipt_sha256": "2e9692471e3ef496526b09f88138f2044d44d8f7d1101262ce9db32986e4dd87",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/affected-archive-jvm/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "2e9692471e3ef496526b09f88138f2044d44d8f7d1101262ce9db32986e4dd87"
+      },
+      {
+        "current_receipt_sha256": "cd5975f5b4f79293951315037f1be60b98cb54e97d4019594ee0cad53d10c4d6",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/artifact-verification.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "cd5975f5b4f79293951315037f1be60b98cb54e97d4019594ee0cad53d10c4d6"
+      },
+      {
+        "current_receipt_sha256": "a180fb4cc56e225616c5375b1a28c0158882159a0109bda604490391c6185e17",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/current-compiler-input-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "a180fb4cc56e225616c5375b1a28c0158882159a0109bda604490391c6185e17"
+      },
+      {
+        "current_receipt_sha256": "eaebafc2751ea2d489496e7b1678f173a885a4b085337d0e8e56a09c43565dd1",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/execution.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "eaebafc2751ea2d489496e7b1678f173a885a4b085337d0e8e56a09c43565dd1"
+      },
+      {
+        "current_receipt_sha256": "5fac8ad45ee031b0d98e44f5fbc55c790ff0a8c6a03107fc7d8439fa905ae3a4",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/final-flat-native-inputs.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "5fac8ad45ee031b0d98e44f5fbc55c790ff0a8c6a03107fc7d8439fa905ae3a4"
+      },
+      {
+        "current_receipt_sha256": "e943d07ffa26111d78b0de83197c82d523e0daf6fec9c87be156d2ba6c917043",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/font-license-artifact-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "e943d07ffa26111d78b0de83197c82d523e0daf6fec9c87be156d2ba6c917043"
+      },
+      {
+        "current_receipt_sha256": "886809418bdb9b165a106425f7483e80c096833f632a167d681436620faf2ff2",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/warning-dispositions.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "886809418bdb9b165a106425f7483e80c096833f632a167d681436620faf2ff2"
+      },
+      {
+        "current_receipt_sha256": "8e8972dd17160f7cc0625f33e5cff99f7e882be374c339e9733fb6cbfa4fb9df",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/artifact-verification.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "8e8972dd17160f7cc0625f33e5cff99f7e882be374c339e9733fb6cbfa4fb9df"
+      },
+      {
+        "current_receipt_sha256": "17433ed17bf569e01ad8240ae03844edbc799cd3c656eb5c9c258700f6a3c2df",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/execution-recorder-continuation1.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "17433ed17bf569e01ad8240ae03844edbc799cd3c656eb5c9c258700f6a3c2df"
+      },
+      {
+        "current_receipt_sha256": "a34cda445da5240a7a4dcb327dd492d3dcd1cc1b1b504dcbdcb427349c5a3b84",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/gateway-standalone/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "a34cda445da5240a7a4dcb327dd492d3dcd1cc1b1b504dcbdcb427349c5a3b84"
+      },
+      {
+        "current_receipt_sha256": "3c583a6de484ca0f608de16122f86cb664b099e5aed654e4ca484ed29c211b4f",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/jvm-tests.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "3c583a6de484ca0f608de16122f86cb664b099e5aed654e4ca484ed29c211b4f"
+      },
+      {
+        "current_receipt_sha256": "ee6b557cb3fef05bdf6736ec195481581e6cdf8464b83d626538744c123a328f",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/observed-sbom-validation.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "ee6b557cb3fef05bdf6736ec195481581e6cdf8464b83d626538744c123a328f"
+      },
+      {
+        "current_receipt_sha256": "0e241337e9428c0f7f0d9b2ab241d5b8042587459c7ef10497aca823797c4b67",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/generated-native-input-classification/focused-tests.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "0e241337e9428c0f7f0d9b2ab241d5b8042587459c7ef10497aca823797c4b67"
+      },
+      {
+        "current_receipt_sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/artifact-verification.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9"
+      },
+      {
+        "current_receipt_sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/current-compiler-input-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e"
+      },
+      {
+        "current_receipt_sha256": "69f9448048398a9a22098c689135a06483c1d255735a4afa018aa5e6d2a77abe",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/execution-continuation1.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "69f9448048398a9a22098c689135a06483c1d255735a4afa018aa5e6d2a77abe"
+      },
+      {
+        "current_receipt_sha256": "53b48b8b7bfc35f3333a5805a1dfca212abd6044ec7add90f991d526fbf730d9",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/font-license-artifact-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "53b48b8b7bfc35f3333a5805a1dfca212abd6044ec7add90f991d526fbf730d9"
+      },
+      {
+        "current_receipt_sha256": "80a50031262b7dd1327bc91121b505ea11351bf22fa821f586bb313be474d3b3",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/warning-dispositions.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "80a50031262b7dd1327bc91121b505ea11351bf22fa821f586bb313be474d3b3"
+      },
+      {
+        "current_receipt_sha256": "fced15a0291843159012c06a2fc5ee72b0d9f932220b5102a63ae134889e4d6a",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/artifact-verification.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "fced15a0291843159012c06a2fc5ee72b0d9f932220b5102a63ae134889e4d6a"
+      },
+      {
+        "current_receipt_sha256": "4b74e21b99eed8e4c4278ecab0f18878ff124dc12d8d0de5ef395496da5eb187",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/current-compiler-input-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "4b74e21b99eed8e4c4278ecab0f18878ff124dc12d8d0de5ef395496da5eb187"
+      },
+      {
+        "current_receipt_sha256": "74775334916d42823900e30453a71f7608b2e4359562aa080c7891c8131aafb8",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/execution-recorder-continuation1.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "74775334916d42823900e30453a71f7608b2e4359562aa080c7891c8131aafb8"
+      },
+      {
+        "current_receipt_sha256": "4e476883e756d23cb00f23daa21e4ebf9221e04ec018ec67b75b205ade0a0305",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/observed-sbom-validation.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "4e476883e756d23cb00f23daa21e4ebf9221e04ec018ec67b75b205ade0a0305"
+      },
+      {
+        "current_receipt_sha256": "5259aac67367e89cca3a747066360deda2575712df63ebbf56a01dac18efd28e",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/warning-dispositions.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "5259aac67367e89cca3a747066360deda2575712df63ebbf56a01dac18efd28e"
+      },
+      {
+        "current_receipt_sha256": "d701b0ac383524e3aeb00a5bf81b2a142bc7c56f0f977979d2112a79e6a7dee7",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/declared-asset-readback.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "d701b0ac383524e3aeb00a5bf81b2a142bc7c56f0f977979d2112a79e6a7dee7"
+      },
+      {
+        "current_receipt_sha256": "431e394b61773dfff522b9a280a011aef6273bd11568f595c92745900a260b2e",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/final-source-dependency-equivalence.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "431e394b61773dfff522b9a280a011aef6273bd11568f595c92745900a260b2e"
+      },
+      {
+        "current_receipt_sha256": "7c7a2ad1ed119318a3f10b4c1e8d71cedb5a4c71ca301a5bc66776a8dcafab12",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/frozen-runtime-reachability.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "7c7a2ad1ed119318a3f10b4c1e8d71cedb5a4c71ca301a5bc66776a8dcafab12"
+      },
+      {
+        "current_receipt_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236"
+      },
+      {
+        "current_receipt_sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b"
+      },
+      {
+        "available": true,
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-acceptance.json",
+        "sha256": "3ecf31c736a246c7b1fbc7a491c6a9d8d4c5f846168ca9c9cf9dd03a652bfec1"
+      },
+      {
+        "all_task_containers_removed": true,
+        "available": true,
+        "current_receipt_sha256": "6aa1729f789d2df9ca1f3df586a5b915b246ca24dd8b0c882d1d4976007f6f9d",
+        "path": "docs/release/rapid-completion-2026-10-01/ordinary-installer-current-resumption3-private-platform/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "PASS36 checks,185 clean +185 populated actual migrations,370 applications; exact185 captured source map, canonical platform prerequisite and predecessor preservation; task containers removed.",
+        "sha256": "6aa1729f789d2df9ca1f3df586a5b915b246ca24dd8b0c882d1d4976007f6f9d"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/ordinary-transport-owner-review1/validation.json",
+        "sha256": "15f5509a0faf2578168f36559930b4bc98566a0c6d0aab6c0ebd5273664ba012"
+      },
+      {
+        "available": true,
+        "current_changed_inputs_match": true,
+        "current_receipt_sha256": "410784cbb2323350d3961a55210dd00fbe8dc3ee8d0d098ba152dd763e9b5303",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/principal-integration-current2/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Current principal integration: 46 executed cases; exact unchanged 436 prior remaining cases and 15 named actual browser cases reused with declared conditions; no whole mutable Admin/server claim.",
+        "sdk_unchanged": true,
+        "sha256": "410784cbb2323350d3961a55210dd00fbe8dc3ee8d0d098ba152dd763e9b5303"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "eec7672c4b89558057d5fe95f726406eece4a8f1bb1a7aab0a37bc4124f2439c",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "fail",
+        "scope": "Original overlay failure retained; successful cases require the later exact-input reuse/selected correction binding.",
+        "sdk_unchanged": true,
+        "sha256": "eec7672c4b89558057d5fe95f726406eece4a8f1bb1a7aab0a37bc4124f2439c"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13",
+        "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "92 actual additive enrollment/authority/replay/deadline/audit SQL cases; exact two migration hashes and prerequisite clone; no real signing/provider/hosted claim.",
+        "sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "c46a9c5f06443a5a0790499efb7d3de83f4be869304d2f8327454cc7602d1476",
+        "path": "docs/release/rapid-completion-2026-10-01/prior-proof-index.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": null,
+        "scope": "Immutable historical passes and failures with hashes, including initial Flutter4450/17 failure, native warning reviews and exact browser/visual/JVM scopes.",
+        "sha256": "c46a9c5f06443a5a0790499efb7d3de83f4be869304d2f8327454cc7602d1476"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "20987c951d866f0409ad93fb634b5690193485059e302229a951132dbb2f3eda",
+        "path": "docs/release/rapid-completion-2026-10-01/current-reachability-resumption2-vendor.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "audited",
+        "scope": "264/264 conservative declared runtime reachable sources, audited/current--check per root; no dynamic execution or deletion authorization.",
+        "sha256": "20987c951d866f0409ad93fb634b5690193485059e302229a951132dbb2f3eda"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "b8d9953db98cc605691c505f97fffb6695e949d4d264ee60fb5201ba8bf72064",
+        "path": "docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": null,
+        "scope": "Dated actual144 roster client/server reload proof; reuse within matched source scope only.",
+        "sha256": "b8d9953db98cc605691c505f97fffb6695e949d4d264ee60fb5201ba8bf72064",
+        "source_unchanged": true
+      },
+      {
+        "available": true,
+        "current_consumed_source_matches": true,
+        "current_receipt_sha256": "7de3991aed4ea7c2a3ce8e51994c6abd8d61dedb8a3c35ac6a7d2ebb03635dae",
+        "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "25 actual email-approved roster API/authority/recovery/CAS/audit cases and both observed revocation orders; exact accepted attempt5, not failed top-level setup result.",
+        "sha256": "7de3991aed4ea7c2a3ce8e51994c6abd8d61dedb8a3c35ac6a7d2ebb03635dae"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183",
+        "path": "docs/release/runtime-controls-2026-10-01/current21-full26-races-attempt1/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Actual PASS108 assertions/78 observed blocking overlaps/26 families; unchanged21 migration bodies; not whole client consumer acceptance.",
+        "sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "38b0e5ee7f7a0912b654928ba19d1f2f8e8898ef415aa09d0ccb634004f7b1a8",
+        "export_drift": [],
+        "path": "docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "fail",
+        "scope": "39 cases succeeded but packet status FAIL due fatal formatting check; do not promote the aggregate to PASS.",
+        "sdk_unchanged": true,
+        "sha256": "38b0e5ee7f7a0912b654928ba19d1f2f8e8898ef415aa09d0ccb634004f7b1a8"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/source-archive-readback.json",
+        "sha256": "65376c7c3b08b26f573523aebb40bbf70baefee76e80b373a59c90157917d53b"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/export.json",
+        "sha256": "8dc8745cd45bbfa8414b5510ffa6e729e8ddc8a7c260f7a80ccf51f71b224088"
+      },
+      {
+        "additional_inputs_unchanged": true,
+        "available": true,
+        "current_receipt_sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+        "inventory_sha256": "41567d4fbd4a109ce4672a92742e38090d3003cfd912e277ea7840cf6db6e129",
+        "native_source_unchanged": true,
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/validation.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "PASS reproducible declarations/assets/fork integrity +CycloneDX schema with exact stable native/additional input scope; actual Android graph/APK and iOS bundle remain separately bound, unknown license labels explicit.",
+        "sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+        "source_sbom_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236"
+      },
+      {
+        "available": true,
+        "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/supplement-manifest.json",
+        "sha256": "e329a999d814cd2b865d880f1a7dea41af6ecd9b762b2734afa46d492e0e8557"
+      },
+      {
+        "available": true,
+        "current_receipt_sha256": "df1fb753be6f9cb75052aa79272910d86bd7741b88699a40a56df8b69971cf68",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt24-current23-final-policy/result.json",
+        "receipt_bytes_match_ledger": true,
+        "reported_status": "pass",
+        "scope": "Dated current23/177-source86-check SQL staged and financial preservation scope; not a current185 functional suite.",
+        "sha256": "df1fb753be6f9cb75052aa79272910d86bd7741b88699a40a56df8b69971cf68"
+      }
+    ],
+    "later_live_source_readback": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/final-source-readback.json",
+      "sha256": "af0efbac5de5ff93f9d5ce3fdb27b1608ef8351ab2389cdf6c08c7dab305ade6"
+    },
+    "manifest": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json",
+    "manifest_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+    "retained_shared_installed_migration_count": 154,
+    "retained_shared_table_count": 153,
+    "scope": "All24 original local criteria complete against the declared tested immutable candidate; later concurrent edits are not accepted.",
+    "source_migration_count": 185,
+    "whole_goal_complete": true,
+    "whole_mutable_checkout_accepted": false
+  },
+  "local_open_items": [],
+  "locally_closed_goal_items": [
+    "L01",
+    "L02",
+    "L03",
+    "L04",
+    "L05",
+    "L06",
+    "L07",
+    "L08",
+    "L09",
+    "L10",
+    "L11",
+    "L12",
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
+    "L23",
+    "L24"
+  ],
+  "post_acceptance_integrated_delta": {
+    "candidate_manifest_sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a",
+    "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+    "scope": "Affected consumer proof is composed with matching unchanged inputs. No claim that657 is a full app suite,413 a fresh rerun, all v2 positive states were executed in the browser, or the latest187 SQL bodies were replayed twice. Synthetic loopback and isolated SQL results do not replace production acceptance.",
+    "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f",
+    "source_migrations": 187,
+    "status": "pass"
+  },
+  "previous_latest_verified_local_result": {
+    "evidence_packets": [
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/install154-attempt1-guarded/result.json",
+        "sha256": "cb128e6e263af26772c420d27f8fb7a692db010a770149153dd31c6e672beb0a"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/invitation-installed154-attempt6-function-name-binding/result.json",
+        "sha256": "812377621d4b69d93c44bb7a88bfc409390642b918e8da9b64290a5028ebe9b2"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/admin-rls154-attempt3-email-integration/result.json",
+        "sha256": "888480c351c7ca4232a2f1cb0a2f46221525e5aefa13c2f69ba86de4f58dfb58"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/admin-sensitive154-attempt3-rls-audit-effects/result.json",
+        "sha256": "4c7380e271f5d04c768d522cb22da34a4a14cb7107a3237ac1ccf089d671cfc9"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/admin-sensitive154-attempt4-current-nine/result.json",
+        "sha256": "d22c870b99ae94578603a910b7c34de9faa9679c09b0fb49f7beea1fff42ad8b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/invitation-save-final-attempt15/validation.json",
+        "sha256": "63d8fa1f1c3b38e6e948802a4f03615397cd3a39ed713133a341f3d72b95b8ff"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/validation.json",
+        "sha256": "8c850ca6326b68b318ecf3c807d05e2cd1c7457f3b1437f24428a569af0e7ef4"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/data-correctness-2026-09-30/sql154-attempt2/result.json",
+        "sha256": "73f0a3ac32574dab76b9c4e863831686f00200031c78c8445709ff735f7beba7"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/data-correctness-2026-09-30/sql154-attempt4-candidate234000/result.json",
+        "sha256": "a0b4878c82da8ef9ef037aaadffe9e2c774e01b5970a5c0077134f9144e245d4"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt3-exact-private-tables/result.json",
+        "sha256": "bb9ca4fddfdb7c33651b52087edacd5a9f4639d5afe684e2c9a6bef4a3adf363"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/local-qa-recovery-readback/restore-readback-attempt1.json",
+        "sha256": "76a7d31b1dee301cf146e4ca5f968c5b6d60dbbb89d8f6d7d200b6f2f40c2c8a"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/validation.json",
+        "sha256": "eaac36ec164286c63473771b444044ba3508fe6f0cd8507a148655f1061d5f19"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt2/validation.json",
+        "sha256": "d46b9af16a93ce323b69682777eea463523edd6a44424c5918c8c7386a824fd9"
+      },
+      {
+        "observed_status": "pass_scoped_gateway_graph",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/validation.json",
+        "sha256": "189d2353c2cc0bb525b0a67560505617d38a92e9f46f0ecba8353e881e81bb1c"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt7-exact-column-acl-all167/result.json",
+        "sha256": "f49403c79b16c7d82d82f74dfffa6b184a99c0a353347837c3a4d7cf851d70be"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-schema-acl-correction-2026-10-01/attempt3-exact-contracts/result.json",
+        "sha256": "8dd027dd33d60ed3b77b5ec15401d3706770e24012315962d011da9234db0ec3"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-09-30/email-action-bounds154-attempt2-current13-unicode-catalog/result.json",
+        "sha256": "517a00009323f53be542eef726659443eb84b188540694592c3e9ff0cd169f1a"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt21-current-calendar/validation.json",
+        "sha256": "9f69390535820215884f9d1de058da054d428219df539e7c55be5a982f0e21ee"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/inventory-attempt17-current-common83/validation.json",
+        "sha256": "9fd5a3d9ebcb86913ac73a40f244bb25345d86b8d00e8f60af3c657c297613bd"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/collect-codex-goal-2026-09-30/current-full-upgrade/result.json",
+        "sha256": "2782a39b3771c0fa493caeb579a9684b8a4eddaf3a633373f7efdc9216d2aae3"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt12-current18-cancel-integration/result.json",
+        "sha256": "07795cb27714975e25e19e70b5724b77763b959fc9352229d13753c83c798f9b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-10-01/admin-rls-current18-attempt1/result.json",
+        "sha256": "af012213137cfb88dfbfb617ae43283ce370d1f2ea807cdbf639f7284f61071c"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/import-export-protection-2026-10-01/sensitive-current16-unicode-attempt1/result.json",
+        "sha256": "202c4747ff3ac79dae21b9a4a47835df9835da390d7a58ce0260681488a4b439"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-10-01/sensitive-current16-unicode-attempt2-candidate/result.json",
+        "sha256": "56c51ec4327b4f780f678ef16ab782f88bcc03a87593643cd16b1ec6313524a2"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/import-export-protection-2026-10-01/sensitive-current18-unicode-attempt3-integrated/result.json",
+        "sha256": "b245de572e2fc41f16a585040fb37f75a9e8b715c80d70cee438f0d6a6385434"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/runtime-controls-2026-10-01/full26-current13-attempt1/result.json",
+        "sha256": "7c7f90cdf1a78aeb1a430cc385fd0d8207c02dfacec4683ec8a26be664363079"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/runtime-controls-2026-10-01/full26-current13-attempt2-reason-candidate/result.json",
+        "sha256": "5c2f12193d1bde98ce83e8d39a007c291d88065195f349d5c365da56e008dd27"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt5-candidate235000/result.json",
+        "sha256": "4ba0576df7222c21e315d39adc85cf7deb02fdec395afd5b1df8d5922259763d"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt6-full-current167/result.json",
+        "sha256": "b7cf118a6db0bfb3e62af5135d74ea379dfbddaa83b8215acad8d006d193075a"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge/validation.json",
+        "sha256": "a1270967b0dfacdd1061f2d2543126c7d76331d443df0f2a5c17082e5b0abeeb"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+        "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/private-provider-scoped-acceptance.json",
+        "sha256": "102a4c8347fb76f71f4f9365b12502896d4ce9e147c80d65d0e0aa8193f1b29a"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt13-current18-source-reference/result.json",
+        "sha256": "649372575e621f3cf3f2e89a840dab7c0a23aac5f80085a32e5aa1558b93a4ac"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt17-current20-shadow-lease/result.json",
+        "sha256": "dfb3ccc4e44efb62116db428f4a6eaa6fccefb8a58ae173821cf64dd27e0eb9b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/validation.json",
+        "sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca"
+      },
+      {
+        "observed_status": "pass_scoped_current_member_realtime",
+        "path": "docs/release/cache-session-2026-10-01/accepted-current-proof.json",
+        "sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/diagnostic-offline-attempt3-preflight/validation.json",
+        "sha256": "a9deae02c2d036f1f79bfaedb7ab00c6ff0e30c282b949d4814168bd7a59d038"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-current-content-contract-attempt133/validation.json",
+        "sha256": "b0725b585ca9219f72ecaf0f853ff50b76c1b5a1d7d06020372e631f1a5335d2"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt19-current21-cancellation-audit/result.json",
+        "sha256": "f6f08eb1525f273c741122fcd29a46dbeacc58362d979d670b296d9f9da38394"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/runtime-controls-2026-10-01/current21-full26-races-attempt1/result.json",
+        "sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/runtime-controls-2026-10-01/current21-cancellation-positive-attempt3-joined-contract/result.json",
+        "sha256": "61e093a4d87f46ceafd89efa561d0a823e21a042ee29aada67fd4a9fd17296aa"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt7-full-current175-all-sort-cursors/result.json",
+        "sha256": "67773629066d5064f2ea71e53a7fc813c149b7ee6a74ca7182cadc204b12bfab"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/data-correctness-2026-09-30/immutable-attempt23-current175-history-bridge-only/validation.json",
+        "sha256": "aef09eac80bc10de49e6046f62f53c4602ae263c645258d548d4c60423f3a0c3"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current20-attempt4-1000-10000/result.json",
+        "sha256": "aa35a017abb480ab5bffa8dcd3a7768f4d55d39a2872ad8ba7ac7dd48754d9bd"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current20-attempt4-source-inventory/validation.json",
+        "sha256": "e967ccabeb779df251fa15efe407f14e2834ea7b8870d6091319f9d16f9035a3"
+      },
+      {
+        "observed_status": "see_scoped_manifest",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current20-plan-growth-review1/plan-growth.json",
+        "sha256": "f475c07ac430b274d9ccb72089eb0de22f69728a1e248314e486ebeb6684fcd7"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt1-1000-10000/result.json",
+        "sha256": "926f3bfa59bb9f3265cfc6fc4e6d8f2609df66e3a38490256b64a4a359b2280c"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/four-complete-cohort-scoped-acceptance.json",
+        "sha256": "e61bff212239e09973a806cb8472018771d9b8429f8079f78af3408bd9aa2687"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-capture-execution-attempt154/execution.json",
+        "sha256": "7292c37beae5bd0b9d378ee2620f437a8bf241c96b8b2495e4787efc6f8238a8"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-media-visual-review-transfer-attempt155/validation.json",
+        "sha256": "ac3fe346af4e5b3d7db229804b89646ccd5f6e18c38aa71b4df313df10148c51"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt157/publication.json",
+        "sha256": "34f86b828244e5717fdf7d41d54ea7d57c8890145580c8a596ac5610a13fc82f"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-website-rebuild-attempt158/verification.json",
+        "sha256": "ebb252fdbf6900d62295644b465c6bab20e62a15ce377daa987f0a4ec4c32a18"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-browser-routes-attempt159/validation.json",
+        "sha256": "f05b093168c1cc375d1d9e98bc4a5a8ea3ab97cd5580e0be48155100a8bcbc24"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/public-browser-build-provenance-readback-attempt166/readback.json",
+        "sha256": "60a05fa875b29a85dcefae3d044989eb5d2fbfe81ccd2439c531e46489858fae"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/validation.json",
+        "sha256": "2a4a668579f6bd84744eafba534285b3e3980904c8d47783989dea4807c80e19"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt1/result.json",
+        "sha256": "c0667d6f6c08aabdd71435baa65839d4558442ea8018d28f159c85f2aeb5eea9"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt2-managed-cron-owner/result.json",
+        "sha256": "1ee9d856d2813c053518faef86497adad1e88aa9c145a76e045c215e21551912"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt3-retained-cron-api/result.json",
+        "sha256": "6f02ac0d49ffe0d207b196078d0822c69224d5c590bb48bd5ee8c772fad5a4d7"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-owner-correction-attempt2/quiet154-cron-api-prerequisite-readback.json",
+        "sha256": "80d23e219e7fa20b825d57c3544198190ac46f28a1c2f7a9fc1bccb1f03a2ec5"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt15-root/validation.json",
+        "sha256": "bbcfc092e590aa4ab8c8260a89ecd16b1fe1bc2a739a5e46e9bd7cf72eb2b934"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/validation.json",
+        "sha256": "07b538def17e7b038fa9fd388dc98f4090039e15986c3fdc6098fce3f11546eb"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current23-published-global-history-attempt2-independent-fixture-labels/result.json",
+        "sha256": "7f36eb5331cf5fb6fb3286eb3bd3be2e155ef826518ea0852e2b57b8d42f1ee0"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt3-root-title-lookup/result.json",
+        "sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2"
+      },
+      {
+        "observed_status": "published_pending_integrated_acceptance",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-keyset-root1/review.json",
+        "sha256": "7d7f394f8906891cbd60dba0f932f1011cce0c00a42b6f97fde9d67e78197cdd"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt20-current22-global-history/result.json",
+        "sha256": "d3e72deb9cdb44c28a0344eaf30c23146cbe399b065f1d98e685962aa76c3cae"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt21-current23-global-history-and-receipt-policy/result.json",
+        "sha256": "275fcb65a1de49d4476c54637cb5679cec1f9b7d0885bdd2a1ac72c0d711a268"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt22-current23-private-policy-inventory/result.json",
+        "sha256": "cae8ca62d7ae09ad41fd859779949fc4f79e90eb935f15ff4df0ea8a14866fe9"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt23-current23-policy-scope-metadata/result.json",
+        "sha256": "89e7860ecd63851460728be0fd2093b8400ced94243e9535b8021cd876e2a694"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt4-global-history-policy/result.json",
+        "sha256": "6b9c9ef14858b718678b55c94fd6ae95faf74f4444e76aa47a14906bd4790266"
+      },
+      {
+        "observed_status": "dated_scoped_execution_only",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt4-global-history-policy/currentness-failure-readback.json",
+        "sha256": "98087e5646a15a6efbe86bad2115ecbe24024bba7b87e976be7e9df706742871"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-attempt9/validation.json",
+        "sha256": "6c80af2c288c54e6513e4b3bd3d013cc7698fedd3ea312c762d6bad04e3085af"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-browser-lifecycle-2026-09-30/current-browser-source-scope-acceptance-root1/validation.json",
+        "sha256": "2738936bfeeffd3ded0841e43085fc3943a92ec6d4ff196e8c64ab7b08eb97dc"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt52-root-current95-permission-fixtures/validation.json",
+        "sha256": "182d15ce1aad10d07d3b803c7488fd67e6e8ea57e8bab4a7044fa379ea4f5ad3"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt56-root-raw-sms-rendered-refresh/validation.json",
+        "sha256": "a3e73d803d2d04d2fbdd323e4b001c842cfb915c837c6165711520fdd719967c"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/admin-full-coverage-2026-09-30/inventory-attempt18-root-current95/validation.json",
+        "sha256": "07b31a15ee08d007394fe752e100febb76cd77e2cc5a22c84f7adb794c47862b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-postbuild-verification1/artifact-verification.json",
+        "sha256": "761060ea6ad8558910f1b9f19382faa0e62415aef33ff158345867b35a4ac8f1"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/swift-cached-artifact-inputs-root177-workspace-order/validation.json",
+        "sha256": "8de8c11018aa7a6ee8d32ccf77cda1da25c8709a3b2c3284579097986248501b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/final-local-edge-2026-10-01/current177-unit-attempt1/validation.json",
+        "sha256": "ff5ea11fe761ef0adc123b616b9765d611df00baa143a33b68dd3452fcb8e375"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/final-local-edge-2026-10-01/current-http-attempt2-signed-endpoint-contracts/validation.json",
+        "sha256": "256c9e64821773ff2409bb8cc28f6eff963f4d469d1224471ac5836c7169809b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/final-local-edge-2026-10-01/current-http-attempt3-exact-start-count/validation.json",
+        "sha256": "00c52b3e6e8a95e9b6992720d06af130476143de1c5a85fd7d100069d7b585ab"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/final-local-mcp-2026-10-01/current-source-attempt1/validation.json",
+        "sha256": "f7f31676c24621a3ad7577503761ff609d01b1471703a63600d716a3eea61517"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/final-local-mcp-2026-10-01/current-source-attempt2-complete-imports/validation.json",
+        "sha256": "a0cd84499990ece5aef32eeb893720ed7488a12e73d8626fc43d51def7bb942b"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/final-local-mcp-2026-10-01/current-source-attempt3-bounded-sql-fixtures/validation.json",
+        "sha256": "1737d5516a0d7e3c5c781a3885fb8be12e70560ed298dd7e5c553cb81c74cbb9"
+      },
+      {
+        "observed_status": "failed",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/result.json",
+        "sha256": "b90134a378d5cc5266a9af8f33d795e8d3b8f491db4c7b5b2080e9deca0e3253"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/result.json",
+        "sha256": "10178d3d2cbcf3348b0a5296f9967cfbf841293f966c2f6d990ccaf1fc4212aa"
+      },
+      {
+        "observed_status": "pass_scoped",
+        "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+        "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt5-final-policy/result.json",
+        "sha256": "725ed7276dceaf3873e184385147a460892285cd7d1a65eb567b95af1309c664"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt24-current23-final-policy/result.json",
+        "sha256": "df1fb753be6f9cb75052aa79272910d86bd7741b88699a40a56df8b69971cf68"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/review.json",
+        "sha256": "ddf14c23fac3c17efc790fa99a3461ef7b2cce31c48089a229e2933d5f299f6d"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-progress-2026-09-30/accepted-qa-publication-root194/validation.json",
+        "sha256": "77eb77813c78457235903ed0c8c041133487f754fc248708cbf335f92785c6b6"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root218-attempt17/validation.json",
+        "sha256": "2a360b3686a5d1e563893efe1b39e27ce212f8105be563f3fcfce878fb127ec0"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root215-attempt16/validation.json",
+        "sha256": "44ddf5aed3ca8c0b718b86401d93394bc5c3e4210b50cd570cead02b1a0156c4"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root212-attempt15/validation.json",
+        "sha256": "dad8d037ca14dc3392e1bf33dcd1665016cfe56f1d71f15987b09e64be2109a8"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/validation.json",
+        "sha256": "106951c4e892cd5a480d15dfecb83fe824ddc7b7c8c13c4fdc58a43124d7fcc0"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/publication.json",
+        "sha256": "90e7558d2c4df4d24d9da330db64cd476422154effc62456e7b6c868eaaf35ce"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/native-gateway-observation-2026-10-01/current-pure-jvm-root210/validation.json",
+        "sha256": "7944edffbbcc6b8d6cc7c5d3add8ef479f1088855893775cc00a21cfdf0a0cd4"
+      },
+      {
+        "observed_status": "see_scoped_manifest",
+        "path": "docs/release/native-gateway-observation-2026-10-01/flavor-boundary-relocation-root206.json",
+        "sha256": "00b9a88a05d5393ffb39a09508eb3d775aadd65e906fc38c39026c942a26ae9b"
+      },
+      {
+        "observed_status": "fail",
+        "path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/validation.json",
+        "sha256": "dd008338c4e96a1d69b778970f3db255a70dc5e5cc27cbf589a3c22ec6368717"
+      },
+      {
+        "observed_status": "pass",
+        "path": "docs/release/gateway-reduced-motion-2026-10-01/root216-current-regressions/validation.json",
+        "sha256": "6397d671ac5b195d9b206cc71def2fd12c9f16c8d48e9b0917bf99f7db544eed"
+      },
+      {
+        "keys_retained": false,
+        "observed_status": "pass",
+        "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/state/plugins/codex-security/scans/local-qa-recovery-readback/artifacts-9695f9c8ce578ca8bc6c373da4f9f51094b3325c86b2d5d45318b79ccb0b6e6d/artifacts/02_discovery/validation_artifacts/local-qa-bootstrap/rotation1/result.json",
+        "sha256": "05b3d62ac8053bfa8c091ad6990459f84b33d3800ef49ae0d02ae366dd8e043e",
+        "storage": "persistent_security_plugin_collection"
+      },
+      {
+        "keys_retained": false,
+        "observed_status": "pass",
+        "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/state/plugins/codex-security/scans/local-qa-recovery-readback/artifacts-9695f9c8ce578ca8bc6c373da4f9f51094b3325c86b2d5d45318b79ccb0b6e6d/artifacts/02_discovery/validation_artifacts/local-qa-bootstrap/rotation1/independent-readback2.json",
+        "sha256": "b5b99afcef0cdc10938783278aa33dd66ea882bb415a13e57e53530c6ecf3613",
+        "storage": "persistent_security_plugin_collection"
+      }
+    ],
+    "migration_count": 154,
+    "readback": "docs/release/local-progress-2026-09-30/current177-browser-closure-root222/current-readback.json",
+    "readback_sha256": "57c71382c52009e10cc3a1881d813e8fafe3d68c37e106d3ce9c414376411ab0",
+    "scope": "Fresh154 readback and explicitly scoped packets; final whole-source acceptance unproven",
+    "table_count": 153,
+    "whole_goal_complete": false
+  },
+  "production_release_decision": "NO-GO; unchanged original register",
+  "schema_version": 1,
+  "scope": "All24 user-requested local implementation goals, without changing original production acceptance criteria",
+  "snapshot_revision": 15,
+  "source_migration_count": 187,
+  "staged_source_migrations": 33,
+  "verification_rule": "Close an item only with authoritative current source and complete matching-scope local implementation/runtime evidence; dated scoped passes do not imply whole-system acceptance.",
+  "critical_review_implementation_extension": {
+    "captured_at_utc": "2026-10-02T00:54:39.751865+00:00",
+    "ledger": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+    "sha256": "3ee0bd7d971d5c48ac6e475eeff093c6752beec46e611c4594168bc5ef2e7686",
+    "finding_count": 40,
+    "original_rows_preserved_sha256": "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980",
+    "owner_design_scope": "Sole revolut-design skill; separate mandatory mobile checklist/gates removed by direct owner instruction.",
+    "acceptance_note": "Extension records later mutable-source progress. Original row statuses, criteria and candidate completions are unchanged and do not accept this new checkout.",
+    "specialist_findings_closed": 1,
+    "closed_scope": "PD-14 sole-authority hygiene only; no original production acceptance rows closed",
+    "latest_scoped_evidence": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ruby-dependency-batch1/batch.json",
+        "sha256": "832e424c42ae1cb676ce1be9b635ee8a1c6bfcf016f425cff9f05c76cd636a5b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/batch.json",
+        "sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/batch.json",
+        "sha256": "0baeb0933a4c398e9e5f437611f364a350e6aa31abbd94b7f288ca1d7d815185"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/maintained-contracts/validation.json",
+        "sha256": "1f5011c7a3599bae5e384d5ca571df8ff890d33714c53b488cf0c660b1a566bb"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-current-readback.json",
+        "sha256": "8bf9bf8a6f0d05d58b3ee7cc5d061d4d80fae1f1a2f07366970dfb0e1c08f533"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-intake-batch1/batch.json",
+        "sha256": "c101808f4a0f2bb7ddc563eb5dac84336f554f450c4b8d18404c47432413dd4b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/batch.json",
+        "sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/startup-recovery-batch1/batch.json",
+        "sha256": "b1d7caf1ab6e81b9ebdfb5bbfeff725ce5b8cf09a36b467bd00c71c5c5baccdb"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-renewed-path-absence.json",
+        "sha256": "d288306c1bec0d751230b7bdf858386c11beb2ad0e12d0ef5a92b0ea35173b80"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/browser-diagnostics-acceptance-batch1/result.json",
+        "sha256": "6e8b0c272cc93742b765abb88738d535a1a799d24de06cbe1cf5f46c91645095"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+        "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/batch.json",
+        "sha256": "72fbd62ece5aae41660fa3fcbd4672da0986fb58d5f468646e94e89bda5d130b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-final-current-verification.json",
+        "sha256": "0750a3b579f555553688c157d17f744afaac659285e120cbbd0324b5c710d2d6"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/native-dependency-final-current-readback.json",
+        "sha256": "198a55a080118c388ed01bf3ac56115bdc32e80e95c9a66eda9277a4cc36d066"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/native-results.json",
+        "sha256": "b401af5e7c4cefd293d737e7ca5a62ed92ffd3f89f8992a33afd7628874c177d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-client-auth-batch2/batch.json",
+        "sha256": "218dc95d32302aa2898deca4a48c775ce5ddd5b032bad5003dfb46004ea5fa68"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-consumer-tests-batch1/batch.json",
+        "sha256": "f68f726c813a87e941678dc5e4e759282560714ea2625a58eea6aaaba82ce3d3"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/batch.json",
+        "sha256": "26b8cff46a752a11e0b55fedb0164629be417859b2638e00d78f70a640a3a849"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+        "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/public-media-batch2/batch.json",
+        "sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/batch.json",
+        "sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/batch.json",
+        "sha256": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-plan1/packet-files.json",
+        "sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-foundation-batch1/packet-files.json",
+        "sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/sealed-packets-readback.json",
+        "sha256": "1b77175c4e4cf9706925e855e72f39b691aff988d575227bff70d71462076fa2"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/exact-checkout-delta-review.json",
+        "sha256": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+        "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+        "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+        "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-resolved-batch1/batch.json",
+        "sha256": "951ba5f8ab1c826708c1a0f7415f4210f50856390527ab30e66637a979c37e1c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-current-preparation-batch1/batch.json",
+        "sha256": "d7e7aab3b84ea2861bbdb442e27fd96b52efa9e143841a650481e4decaf72051"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/arc01-resolved-packet-readback.json",
+        "sha256": "18bf44af9037cd38eb48392eff78d0c81405f2ab0e6c045b48496a96073bc6f8"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-expansion-admission-batch1/packet-files.json",
+        "sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-physical-foundation-batch1/packet-files.json",
+        "sha256": "15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/packet-files.json",
+        "sha256": "1a788b56e4c61299f1981bdc83dff5201f8d742880c987f0f8c49dd22c06f551"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/exact-expansion-admission-review.json",
+        "sha256": "fb47cf9ba888163d2b764bbc4509962ae87b8ac9bffe24d7584e2e6a36acacec"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/physical-foundation-readback.json",
+        "sha256": "494724fa2e7d0586544b231631b9750bac4cd4dc9e456a8e5c6a23d4be52ef99"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/candidate-preparation-readback.json",
+        "sha256": "d7e90aa36f58ec39cdc062b6dcbf16fe7d141e679525a5333aa172a296510e04"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/live-candidate-three-source-readback.json",
+        "sha256": "3974bea350f828a122538c03fd711ab51a77802913ed95957f024d2efc26695b"
+      }
+    ],
+    "current_integration_note": "The actual default-provider/global-router privacy renewal bug is fixed. Same-owner OTP/native reread, logout, owner departure with fresh clean reentry and denied-profile/cache clearing pass the four preserved assertions. The original136-case consumer execution records134 passes and two real Security heading failures. Adding only headingLevel1 corrects them; the37-case affected replay, analyzer and actual post-header authority pass with1345 inputs unchanged. The exact real-cache Home warning case also passes on its distinct pre-heading scope. These are separate receipts, not a newly executed full136-case run. Full approved erasure/retention/hold/Auth-principal/session/derivative/backups/financial-preservation acceptance remains open.\n\nCurrent capability bindings change two source hashes and two generated digests only; seven store files, public claims/actions/availability/approval flags and all fifteen visible route hashes remain unchanged. Previous public3 passes55 quality and104 browser cases for its dated source. Four later production changes require a fresh final public compilation/media/build/browser cohort, which is underway. Native task outcomes, exact Revolut comparators, rights/legal and hosted/provider/store approvals remain open.\n\nA genuine canonical Ubuntu amd64 Flutter/enforced-lock Pub bootstrap resolves language metadata. The full670-file maintained Make identifies exactly three format errors. The private three-file formatting candidate passes670/0; an untracked malformed fixture is rejected671/1, and the restored candidate passes670/0. The originals remain with their active write owner; a new preparatory source export has no current Make result and later source drift is recorded. Current clean-source acceptance is still open.\n\nTwo physically independent SDK foundations/candidates now verify all22415 paths and15660 source leaves with no shared SDK inodes. Root independently confirms the three approved candidate source changes and unchanged pristine originals. The real compiler, fourteen upstream test-class sources and runtime graph invocation is active under one2700-second deadline. The shared SDK and repository pins/locks stay unchanged, and no candidate compiler/runtime/ABI/shipped SBOM acceptance is claimed yet. The unchanged template/maxKnownKGP2.3.20 is an explicit Collect-only fork limit.\n\nThe earlier cold Edge download failure, archive relocation/independent restore and archive-free consumers, owner-populated migration/security/financial acceptance, font-rights decision, incident/provider/device/store and immutable final-artifact approval remain open. Production is NO-GO; only PD-14 sole-design-authority hygiene is closed, and the implementation goal remains active.\n"
+  }
+}

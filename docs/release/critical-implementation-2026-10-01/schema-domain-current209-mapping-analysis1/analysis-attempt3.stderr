@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 335, in <module>
+    main()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 324, in main
+    result = analyze(mapper)
+             ^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 309, in analyze
+    add(identity, 'receipt-exact-literal-body-patches', d, body, steps)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py", line 233, in add
+    if tuple(predecessor['signature_types']) != signature(mapper, row[2]) or row[3] != 'f':
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable

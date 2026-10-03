@@ -1,0 +1,8 @@
+{
+  "stage": "private_proposal_scope_matrix_generation",
+  "status": "failed_after_focused_tests_passed",
+  "reason": "KeyError: sql_scope; existing matrix key is sql_input_and_authority_matrix",
+  "correction": "Use the actual predecessor matrix key; reuse the unchanged hash-bound 18-test result",
+  "docker_executed": false,
+  "maintained_source_mutations": 0
+}

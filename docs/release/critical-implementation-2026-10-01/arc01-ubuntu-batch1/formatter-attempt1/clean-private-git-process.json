@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-20261002-deabfee579f3-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "git init --initial-branch=arc01-fixture\ngit config user.name 'Collect ARC01 synthetic formatter proof'\ngit config user.email 'arc01-fixture@synthetic.invalid'\ngit config core.autocrlf false\ngit config commit.gpgsign false\ngit add --force --all .\ngit commit --no-verify -m 'Exact reviewed formatter input fixture'\ngit status --porcelain=v1 --untracked-files=all\ngit rev-parse HEAD\ntest -z \"$(git status --porcelain=v1 --untracked-files=all)\"\ntest ! -f .git/objects/info/alternates\ntest ! -e .dart_tool/package_config.json\n"
+  ],
+  "deadline_seconds": 90,
+  "pid": 70538,
+  "started_at_utc": "2026-10-02T00:12:27.260317+00:00"
+}

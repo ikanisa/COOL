@@ -1,0 +1,124 @@
+{
+  "fonts": [
+    {
+      "asset": "assets/typefaces/Inter-Variable.ttf",
+      "family": "Inter",
+      "label": "font_inter",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/assets/typefaces/Inter-Variable.ttf",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "asset": "assets/typefaces/AeonikPro-Regular.ttf",
+      "family": "Aeonik Pro",
+      "label": "font_aeonik_regular",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/assets/typefaces/AeonikPro-Regular.ttf",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "asset": "assets/typefaces/AeonikPro-Medium.ttf",
+      "family": "Aeonik Pro",
+      "label": "font_aeonik_medium",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/assets/typefaces/AeonikPro-Medium.ttf",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    }
+  ],
+  "inputs": [
+    {
+      "label": "source_export",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+      "role": "source",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "strict_export_binding",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/export-source-binding.json",
+      "role": "source",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "native_terminal",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/root-native-admission.json",
+      "role": "native-build",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "sdk_before",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/SDK-source-before-built.json",
+      "role": "sdk",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "sdk_after",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/SDK-source-after-built.json",
+      "role": "sdk",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "app_source_before",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/APP-source-before.json",
+      "role": "source",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "app_source_after",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/APP-source-after.json",
+      "role": "source",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "pub_lock",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/pubspec.lock",
+      "role": "lock",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "gradle_production_lock",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/gradle.lockfile",
+      "role": "lock",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "resolved_packages",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/actual-app-packages.json",
+      "role": "packages",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "resolved_plugin_inputs",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/actual-plugin-bindings.json",
+      "role": "packages",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "production_runtime_graph",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph.json",
+      "role": "graph",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "production_compile_graph",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph.json",
+      "role": "graph",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "observed_android_SBOM",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-observed-sbom.cdx.json",
+      "role": "dependency-inventory",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "observed_android_inventory",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-observed-inventory.json",
+      "role": "dependency-inventory",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    },
+    {
+      "label": "completed_aab_build",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-release-aab.json",
+      "role": "build",
+      "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"
+    }
+  ],
+  "schema_version": 1
+}

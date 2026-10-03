@@ -1,0 +1,96 @@
+{
+  "Python_pinned_file_bytes": 18041888,
+  "old_failure_not_relabelled": true,
+  "only_changes": [
+    {
+      "after": {
+        "bytes": 16717,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/acquire_binaries.py",
+        "sha256": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d"
+      },
+      "before": {
+        "bytes": 16704,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py",
+        "sha256": "0d3633128cf1aecd9cf175267c87988fdc6c802da614e658669edf8ac4271ed2"
+      }
+    },
+    {
+      "after": {
+        "bytes": 218102,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/plan.json",
+        "sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593"
+      },
+      "before": {
+        "bytes": 218102,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/plan.json",
+        "sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593"
+      }
+    },
+    {
+      "after": {
+        "bytes": 3000,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/primary-fallback-contract.json",
+        "sha256": "f0675fb1c64b065960eda82fddbcf2bbf281eaee9ac2ca5a79edafc087702640"
+      },
+      "before": {
+        "bytes": 3000,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/primary-fallback-contract.json",
+        "sha256": "f0675fb1c64b065960eda82fddbcf2bbf281eaee9ac2ca5a79edafc087702640"
+      }
+    },
+    {
+      "after": {
+        "bytes": 3939,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/request_worker.py",
+        "sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4"
+      },
+      "before": {
+        "bytes": 3939,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/request_worker.py",
+        "sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "bytes": 2111,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/packet-files.json",
+      "sha256": "f0df21ebaa99a603942a231b9d14bfd0e0d3930fe68cfd003d4e0d4be221f642"
+    },
+    {
+      "bytes": 7203,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/static-readback.json",
+      "sha256": "bb27789151bf0d54dcf181f05057cf7c6008c865581da0a0895374fc8e330b43"
+    },
+    {
+      "bytes": 51014,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/source-fences.json",
+      "sha256": "0fc53638285d8d4a6ce46d909bdc4be6f134505cc50700432a222b09bc73fa9a"
+    },
+    {
+      "bytes": 16704,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py",
+      "sha256": "0d3633128cf1aecd9cf175267c87988fdc6c802da614e658669edf8ac4271ed2"
+    },
+    {
+      "bytes": 401,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-binary-acquisition1/readback.json",
+      "sha256": "ed7d8d84804ae9b8cbb09423de5ebe811c7251ef78590db60fc33beb49b3c7b6"
+    },
+    {
+      "bytes": 1266,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-binary-acquisition1/execution.json",
+      "sha256": "5f059ba7a2f091bc36d89461035702ddbe64d764b73325446456c17fe1fd085b"
+    },
+    {
+      "bytes": 1133,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-binary-acquisition1/stderr",
+      "sha256": "bff17f9d0cc8a00d51dae1e76572b126e66c7ae538cd517699eb1c2a10d5c915"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-binary-acquisition1/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

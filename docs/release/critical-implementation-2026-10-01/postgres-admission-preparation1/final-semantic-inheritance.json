@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T06:31:33.132099+00:00",
+  "changed_from_candidate2": [
+    "Makefile",
+    "scripts/tests/supabase_delivery_contract_test.py"
+  ],
+  "eight_production_module_doc_bytes_identical_except_new_test_assertion": true,
+  "exact_ast_difference": "one constant in only the added manifest-drift case: PG_MANIFEST_HASH_CHANGED -> PG_MANIFEST_CHANGED_AFTER_ADMISSION",
+  "all_other_test_semantics_identical": true,
+  "new_no_write_assertion_preserved": true,
+  "makefile_difference": "one added first command in qa-tooling-test; original 29 commands retained",
+  "final_eight_files_patch_sha256": "1d7d324ed209ab34f0d028a6093e57969db8d7175b9da5569d95f814d046fcfc",
+  "separate_wiring_patch_sha256": "38c834dbaf6908f32a1fce7213143d142fec29e7ee7393468674a9b9c852eb56"
+}

@@ -1,0 +1,3 @@
+ERROR:  55000: receipt_successor_source_changed
+CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 26 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

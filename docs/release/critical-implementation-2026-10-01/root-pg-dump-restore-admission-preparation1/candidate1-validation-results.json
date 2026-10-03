@@ -1,0 +1,689 @@
+{
+  "scope": "Private synthetic proposal validation only; actual failed cohorts retained and narrower scopes separately observed",
+  "current_source_test_methods": 30,
+  "broad_final_cohort_status": "failed_27_pass_1_setup_timeout",
+  "initial_cohort_status": "failed_23_pass_2_setup_timeouts",
+  "unchanged_original_AST_counts": {
+    "admission": 28,
+    "delivery": 45,
+    "secret_transport": 5
+  },
+  "original_maintained_files_unchanged": 19,
+  "original_partial_contract": {
+    "status": "pass",
+    "argv": [
+      "/usr/bin/ruby",
+      "docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/backup_export_contract_test.rb"
+    ],
+    "env": {
+      "PATH": "/bin:/usr/bin",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8"
+    },
+    "bound_seconds": 15,
+    "elapsed_seconds": 0.14406879199668765,
+    "exit_code": 0,
+    "outer_process_group_absent": true,
+    "original_test_file_sha256": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "candidate_test_byte_identical": true,
+    "stdout_sha256": "34d20b34596b516a528c21028ac3b89f8a8b93fd86a90448cb1c0dfeabfef2b2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ruby_sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+  },
+  "attempts": [
+    {
+      "receipt": "attempt1/result.json",
+      "receipt_sha256": "6ee22a81c7560756fab7572ba3b7e7a93ed59134358e4820fe9b7c2b60f3080c",
+      "status": "failed",
+      "total": 25,
+      "passed": 23,
+      "setup_timeouts": 2,
+      "elapsed_seconds": 33.00596283299819,
+      "exit_code": 1,
+      "case_lines": [
+        "test_credentials_and_loader_environment_are_absent_from_versions_and_operations (__main__.ArchiveAdmissionTest.test_credentials_and_loader_environment_are_absent_from_versions_and_operations) ... ok",
+        "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ok",
+        "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ERROR",
+        "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ERROR",
+        "test_expired_operation_and_unbound_hash_refuse_before_tools (__main__.ArchiveAdmissionTest.test_expired_operation_and_unbound_hash_refuse_before_tools) ... ok",
+        "test_forged_same_version_client_bytes_and_path_override_refuse_before_request (__main__.ArchiveAdmissionTest.test_forged_same_version_client_bytes_and_path_override_refuse_before_request) ... ok",
+        "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool (__main__.ArchiveAdmissionTest.test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool) ... ok",
+        "test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok",
+        "test_manifest_job_and_source_drift_refuse_before_first_request (__main__.ArchiveAdmissionTest.test_manifest_job_and_source_drift_refuse_before_first_request) ... ok",
+        "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture) ... ok",
+        "test_path_substitute_never_selected_and_explicit_overrides_refuse (__main__.ArchiveAdmissionTest.test_path_substitute_never_selected_and_explicit_overrides_refuse) ... ok",
+        "test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ok",
+        "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok",
+        "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... ok",
+        "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller (__main__.ArchiveAdmissionTest.test_restore_archive_and_receipt_drift_are_not_rebound_by_caller) ... ok",
+        "test_restore_argument_bypasses_refuse_before_list_server_or_write (__main__.ArchiveAdmissionTest.test_restore_argument_bypasses_refuse_before_list_server_or_write) ... ok",
+        "test_restore_capture_binding_must_match_full_profile_and_source (__main__.ArchiveAdmissionTest.test_restore_capture_binding_must_match_full_profile_and_source) ... ok",
+        "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write (__main__.ArchiveAdmissionTest.test_restore_same_bytes_inode_swap_after_server_read_stops_before_write) ... ok",
+        "test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse) ... ok",
+        "test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) ... ok",
+        "test_unsupported_cohort_and_operation_are_not_manifest_expandable (__main__.ArchiveAdmissionTest.test_unsupported_cohort_and_operation_are_not_manifest_expandable) ... ok",
+        "test_version_state_drift_after_server_observation_refuses_before_operation (__main__.ArchiveAdmissionTest.test_version_state_drift_after_server_observation_refuses_before_operation) ... ok",
+        "test_version_state_drift_before_first_remote_observation_is_refused (__main__.ArchiveAdmissionTest.test_version_state_drift_before_first_remote_observation_is_refused) ... ok",
+        "test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound) ... ok",
+        "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ok"
+      ],
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 10075,
+        "sha256": "f796030a4593a2a90e3d42b23dfcab231efc1996562a8eaf01e507c57c0e6525"
+      },
+      "outer_bound_seconds": 90,
+      "version_probe_seconds": 1,
+      "owned_outer_process_group_absent": true,
+      "maintained_inputs_unchanged": true,
+      "candidate_inputs_unchanged": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1"
+      }
+    },
+    {
+      "receipt": "attempt2/result.json",
+      "receipt_sha256": "416eafd31cc9369c33c2efd175d33c97a9f71f61676f216beff4cdd5aec1b114",
+      "status": "pass",
+      "total": 5,
+      "passed": 5,
+      "setup_timeouts": 0,
+      "elapsed_seconds": 6.931194917000539,
+      "exit_code": 0,
+      "case_lines": [
+        "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok",
+        "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok",
+        "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok",
+        "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok",
+        "test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok"
+      ],
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 991,
+        "sha256": "96fdf9e1ab7954912750570cce601c820d792d50291f6108ee91d4ff9891bdcc"
+      },
+      "outer_bound_seconds": 90,
+      "version_probe_seconds": 1,
+      "owned_outer_process_group_absent": true,
+      "maintained_inputs_unchanged": true,
+      "candidate_inputs_unchanged": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump",
+        "ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request",
+        "ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts",
+        "ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read",
+        "ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1"
+      }
+    },
+    {
+      "receipt": "attempt3/result.json",
+      "receipt_sha256": "6bef2dfad9eae8b73196a62f0d8a0188b513f303cb9c08df3dfa85c53c1180dd",
+      "status": "failed",
+      "total": 28,
+      "passed": 27,
+      "setup_timeouts": 1,
+      "elapsed_seconds": 41.01113583299593,
+      "exit_code": 1,
+      "case_lines": [
+        "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok",
+        "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok",
+        "test_credentials_and_loader_environment_are_absent_from_versions_and_operations (__main__.ArchiveAdmissionTest.test_credentials_and_loader_environment_are_absent_from_versions_and_operations) ... ok",
+        "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ok",
+        "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok",
+        "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok",
+        "test_expired_operation_and_unbound_hash_refuse_before_tools (__main__.ArchiveAdmissionTest.test_expired_operation_and_unbound_hash_refuse_before_tools) ... ok",
+        "test_forged_same_version_client_bytes_and_path_override_refuse_before_request (__main__.ArchiveAdmissionTest.test_forged_same_version_client_bytes_and_path_override_refuse_before_request) ... ok",
+        "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool (__main__.ArchiveAdmissionTest.test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool) ... ok",
+        "test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok",
+        "test_manifest_job_and_source_drift_refuse_before_first_request (__main__.ArchiveAdmissionTest.test_manifest_job_and_source_drift_refuse_before_first_request) ... ok",
+        "test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok",
+        "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture) ... ok",
+        "test_path_substitute_never_selected_and_explicit_overrides_refuse (__main__.ArchiveAdmissionTest.test_path_substitute_never_selected_and_explicit_overrides_refuse) ... ok",
+        "test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ok",
+        "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok",
+        "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... ok",
+        "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller (__main__.ArchiveAdmissionTest.test_restore_archive_and_receipt_drift_are_not_rebound_by_caller) ... ok",
+        "test_restore_argument_bypasses_refuse_before_list_server_or_write (__main__.ArchiveAdmissionTest.test_restore_argument_bypasses_refuse_before_list_server_or_write) ... ok",
+        "test_restore_capture_binding_must_match_full_profile_and_source (__main__.ArchiveAdmissionTest.test_restore_capture_binding_must_match_full_profile_and_source) ... ok",
+        "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write (__main__.ArchiveAdmissionTest.test_restore_same_bytes_inode_swap_after_server_read_stops_before_write) ... ok",
+        "test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse) ... ok",
+        "test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) ... ok",
+        "test_unsupported_cohort_and_operation_are_not_manifest_expandable (__main__.ArchiveAdmissionTest.test_unsupported_cohort_and_operation_are_not_manifest_expandable) ... ok",
+        "test_version_state_drift_after_server_observation_refuses_before_operation (__main__.ArchiveAdmissionTest.test_version_state_drift_after_server_observation_refuses_before_operation) ... ok",
+        "test_version_state_drift_before_first_remote_observation_is_refused (__main__.ArchiveAdmissionTest.test_version_state_drift_before_first_remote_observation_is_refused) ... ok",
+        "test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound) ... ok",
+        "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ERROR"
+      ],
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 7820,
+        "sha256": "b03c128256009c0cf57569dcff4348f0cbe098dd906cf19e02bbd8701ded42bd"
+      },
+      "outer_bound_seconds": 90,
+      "version_probe_seconds": 1,
+      "owned_outer_process_group_absent": true,
+      "maintained_inputs_unchanged": true,
+      "candidate_inputs_unchanged": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/attempt3/safe-traces"
+      }
+    },
+    {
+      "receipt": "attempt4/result.json",
+      "receipt_sha256": "7dc5ecbd348d944015846b096d08462cc03e37b81667bfb9efa0c8ca057803af",
+      "status": "pass",
+      "total": 2,
+      "passed": 2,
+      "setup_timeouts": 0,
+      "elapsed_seconds": 2.5965130839977064,
+      "exit_code": 0,
+      "case_lines": [
+        "test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request (__main__.ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request) ... ok",
+        "test_pinned_rootcert_drift_refuses_before_first_request (__main__.ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request) ... ok"
+      ],
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 446,
+        "sha256": "752896ee93b915b25805566160813d0c5aa5f39e4343c993fb0ada4e9bb49ecb"
+      },
+      "outer_bound_seconds": 90,
+      "version_probe_seconds": 1,
+      "owned_outer_process_group_absent": true,
+      "maintained_inputs_unchanged": true,
+      "candidate_inputs_unchanged": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request",
+        "ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/attempt4/safe-traces"
+      }
+    }
+  ],
+  "method_evidence_matrix": [
+    {
+      "case": "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_dump_argument_bypasses_refuse_before_server_or_dump",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ERROR"
+        },
+        {
+          "receipt": "attempt2/result.json",
+          "observed_case_line": "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_restore_argument_bypasses_refuse_before_list_server_or_write",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_restore_argument_bypasses_refuse_before_list_server_or_write (__main__.ArchiveAdmissionTest.test_restore_argument_bypasses_refuse_before_list_server_or_write) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_restore_argument_bypasses_refuse_before_list_server_or_write (__main__.ArchiveAdmissionTest.test_restore_argument_bypasses_refuse_before_list_server_or_write) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_forged_same_version_client_bytes_and_path_override_refuse_before_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_forged_same_version_client_bytes_and_path_override_refuse_before_request (__main__.ArchiveAdmissionTest.test_forged_same_version_client_bytes_and_path_override_refuse_before_request) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_forged_same_version_client_bytes_and_path_override_refuse_before_request (__main__.ArchiveAdmissionTest.test_forged_same_version_client_bytes_and_path_override_refuse_before_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_wrong_actual_version_even_when_tool_bytes_are_bound",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_version_state_drift_before_first_remote_observation_is_refused",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_version_state_drift_before_first_remote_observation_is_refused (__main__.ArchiveAdmissionTest.test_version_state_drift_before_first_remote_observation_is_refused) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_version_state_drift_before_first_remote_observation_is_refused (__main__.ArchiveAdmissionTest.test_version_state_drift_before_first_remote_observation_is_refused) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_version_state_drift_after_server_observation_refuses_before_operation",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_version_state_drift_after_server_observation_refuses_before_operation (__main__.ArchiveAdmissionTest.test_version_state_drift_after_server_observation_refuses_before_operation) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_version_state_drift_after_server_observation_refuses_before_operation (__main__.ArchiveAdmissionTest.test_version_state_drift_after_server_observation_refuses_before_operation) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_incompatible_or_forged_numeric_server_is_never_written",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_path_substitute_never_selected_and_explicit_overrides_refuse",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_path_substitute_never_selected_and_explicit_overrides_refuse (__main__.ArchiveAdmissionTest.test_path_substitute_never_selected_and_explicit_overrides_refuse) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_path_substitute_never_selected_and_explicit_overrides_refuse (__main__.ArchiveAdmissionTest.test_path_substitute_never_selected_and_explicit_overrides_refuse) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_manifest_job_and_source_drift_refuse_before_first_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_manifest_job_and_source_drift_refuse_before_first_request (__main__.ArchiveAdmissionTest.test_manifest_job_and_source_drift_refuse_before_first_request) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_manifest_job_and_source_drift_refuse_before_first_request (__main__.ArchiveAdmissionTest.test_manifest_job_and_source_drift_refuse_before_first_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_same_byte_client_inode_substitution_and_symlink_refuse",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_unsupported_cohort_and_operation_are_not_manifest_expandable",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_unsupported_cohort_and_operation_are_not_manifest_expandable (__main__.ArchiveAdmissionTest.test_unsupported_cohort_and_operation_are_not_manifest_expandable) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_unsupported_cohort_and_operation_are_not_manifest_expandable (__main__.ArchiveAdmissionTest.test_unsupported_cohort_and_operation_are_not_manifest_expandable) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_wrong_service_target_options_or_permissions_refuse_before_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request) ... ERROR"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_service_source_changes_during_read_never_reach_dump",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_credentials_and_loader_environment_are_absent_from_versions_and_operations",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_credentials_and_loader_environment_are_absent_from_versions_and_operations (__main__.ArchiveAdmissionTest.test_credentials_and_loader_environment_are_absent_from_versions_and_operations) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_credentials_and_loader_environment_are_absent_from_versions_and_operations (__main__.ArchiveAdmissionTest.test_credentials_and_loader_environment_are_absent_from_versions_and_operations) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool (__main__.ArchiveAdmissionTest.test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool (__main__.ArchiveAdmissionTest.test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_expired_operation_and_unbound_hash_refuse_before_tools",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_expired_operation_and_unbound_hash_refuse_before_tools (__main__.ArchiveAdmissionTest.test_expired_operation_and_unbound_hash_refuse_before_tools) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_expired_operation_and_unbound_hash_refuse_before_tools (__main__.ArchiveAdmissionTest.test_expired_operation_and_unbound_hash_refuse_before_tools) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller (__main__.ArchiveAdmissionTest.test_restore_archive_and_receipt_drift_are_not_rebound_by_caller) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_restore_archive_and_receipt_drift_are_not_rebound_by_caller (__main__.ArchiveAdmissionTest.test_restore_archive_and_receipt_drift_are_not_rebound_by_caller) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write (__main__.ArchiveAdmissionTest.test_restore_same_bytes_inode_swap_after_server_read_stops_before_write) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write (__main__.ArchiveAdmissionTest.test_restore_same_bytes_inode_swap_after_server_read_stops_before_write) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_restore_capture_binding_must_match_full_profile_and_source",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_restore_capture_binding_must_match_full_profile_and_source (__main__.ArchiveAdmissionTest.test_restore_capture_binding_must_match_full_profile_and_source) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_restore_capture_binding_must_match_full_profile_and_source (__main__.ArchiveAdmissionTest.test_restore_capture_binding_must_match_full_profile_and_source) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_real_descendant_holding_stdio_is_killed_with_its_owned_group",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_existing_artifact_and_output_directory_escape_refuse_without_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt1/result.json",
+          "observed_case_line": "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ERROR"
+        },
+        {
+          "receipt": "attempt2/result.json",
+          "observed_case_line": "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts",
+      "actual_evidence": [
+        {
+          "receipt": "attempt2/result.json",
+          "observed_case_line": "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read",
+      "actual_evidence": [
+        {
+          "receipt": "attempt2/result.json",
+          "observed_case_line": "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_output_directory_parent_symlink_substitution_refuses_before_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt2/result.json",
+          "observed_case_line": "test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok"
+        },
+        {
+          "receipt": "attempt3/result.json",
+          "observed_case_line": "test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt4/result.json",
+          "observed_case_line": "test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request (__main__.ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    },
+    {
+      "case": "test_pinned_rootcert_drift_refuses_before_first_request",
+      "actual_evidence": [
+        {
+          "receipt": "attempt4/result.json",
+          "observed_case_line": "test_pinned_rootcert_drift_refuses_before_first_request (__main__.ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request) ... ok"
+        }
+      ],
+      "whole_final_cohort_green_claim": false
+    }
+  ],
+  "fixture_timeout_diagnosis_sha256": "db1d463dfe26cb5919cba74b6bc812d0bae35cbdef171c6ebf47b8d172e159ce",
+  "semantic_reuse_sha256": "dbbd9d4ff20db73505d0c80735df592f6f9604fbc25c52158275cd6eb97a5903",
+  "no_bound_or_assertion_relaxed": true,
+  "providers_SQL_Docker_downloads_executed": false,
+  "real_approval_generated": false,
+  "full_recovery_acceptance": false,
+  "production_ready": false
+}

@@ -1,0 +1,25 @@
+{
+  "commands": [
+    {
+      "command": [
+        "dart",
+        "analyze",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_local_dispatch_test.dart"
+      ],
+      "returncode": 0
+    },
+    {
+      "command": [
+        "flutter",
+        "test",
+        "--no-pub",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_local_dispatch_test.dart",
+        "--reporter",
+        "json"
+      ],
+      "returncode": 0
+    }
+  ],
+  "changed_inputs": [],
+  "purpose": "affected owned gateway test file after semantics-handle lifecycle fix; prior455 positives reused"
+}

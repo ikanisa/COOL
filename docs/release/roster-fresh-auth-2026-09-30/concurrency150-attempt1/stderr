@@ -1,0 +1,9 @@
+scripts/tests/roster_fresh_auth_concurrency_uat.rb:784:in `<main>': Primary failure: RuntimeError: collect_roster_149_b stopped: ERROR:  cannot determine type of empty array (RuntimeError)
+LINE 2:       or (state<>'40001' and not message=any(array[]))
+                                                     ^
+HINT:  Explicitly cast to the desired type, for example ARRAY[]::integer[].
+QUERY:  not state=any(array['40001'])
+      or (state<>'40001' and not message=any(array[]))
+CONTEXT:  PL/pgSQL function inline_code_block line 4 at IF
+
+Cleanup failed: ERROR:  cannot ALTER TABLE "roster_import_sources" because it has pending trigger events

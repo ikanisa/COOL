@@ -1,0 +1,12 @@
+{
+  "status": "prepared_not_executed",
+  "bound_common_source": "local-source-acceptance-attempt167",
+  "receipt_semantic_acceptance": "receipt-policy-preference-current-attempt16-root-frame-refresh",
+  "source": {
+    ".cache/run-native-android-attempt125.py": "458296f380db5dd0878f16de1703759ae13dc0059454a13b1658ed7bd1019668",
+    ".cache/run-native-gateway-attempt126.py": "0ca31149443c68a3fc1b667c3dbc0f511263a89804225b9ae01a96a4608abd9d",
+    ".cache/run-native-ios-attempt127.py": "c09d7f8958e4d080748759ee0408d518c56a92eb659f62e3910614b5c4e57739",
+    ".cache/verify-native-ios-attempt127.py": "980e28874db0b053541493cc5d643449839ae0514518ac27336c746d9640d4f5"
+  },
+  "scope": "Prepared native scripts bind accepted current167 source and require actual copied binary compiler input relocation/verification before and after Xcode; no native build acceptance yet"
+}

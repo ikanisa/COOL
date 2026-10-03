@@ -1,0 +1,650 @@
+[
+  {
+    "category": "Correctness",
+    "errorLine1": "        android:name=\"android.permission.READ_EXTERNAL_STORAGE\"",
+    "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "Scoped storage is enforced on Android 10+ (or Android 11+ if using `requestLegacyExternalStorage`). In particular, `WRITE_EXTERNAL_STORAGE` will no longer provide write access to all files; it will provide the equivalent of `READ_EXTERNAL_STORAGE` instead.\n\nAs of Android 13, if you need to query or interact with MediaStore or media files on the shared storage, you should be using instead one or more new storage permissions:\n* `android.permission.READ_MEDIA_IMAGES`\n* `android.permission.READ_MEDIA_VIDEO`\n* `android.permission.READ_MEDIA_AUDIO`\n\nand then add `maxSdkVersion=\"33\"` to the older permission. See the developer guide for how to do this: https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions\n\nThe `MANAGE_EXTERNAL_STORAGE` permission can be used to manage all files, but it is rarely necessary and most apps on Google Play are not allowed to use it. Most apps should instead migrate to use scoped storage. To modify or delete files, apps should request write access from the user as described at https://goo.gle/android-mediastore-createwriterequest.\n\nTo learn more, read these resources: Play policy: https://goo.gle/policy-storage-help Allowable use cases: https://goo.gle/policy-storage-usecases",
+    "id": "ScopedStorage",
+    "locations": [
+      {
+        "column": "23",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/AndroidManifest.xml",
+        "line": "18"
+      }
+    ],
+    "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+    "priority": "8",
+    "severity": "Warning",
+    "summary": "Affected by scoped storage",
+    "url": "https://goo.gle/android-storage-usecases",
+    "urls": "https://goo.gle/android-storage-usecases"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "        android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"",
+    "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "Scoped storage is enforced on Android 10+ (or Android 11+ if using `requestLegacyExternalStorage`). In particular, `WRITE_EXTERNAL_STORAGE` will no longer provide write access to all files; it will provide the equivalent of `READ_EXTERNAL_STORAGE` instead.\n\nAs of Android 13, if you need to query or interact with MediaStore or media files on the shared storage, you should be using instead one or more new storage permissions:\n* `android.permission.READ_MEDIA_IMAGES`\n* `android.permission.READ_MEDIA_VIDEO`\n* `android.permission.READ_MEDIA_AUDIO`\n\nand then add `maxSdkVersion=\"33\"` to the older permission. See the developer guide for how to do this: https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions\n\nThe `MANAGE_EXTERNAL_STORAGE` permission can be used to manage all files, but it is rarely necessary and most apps on Google Play are not allowed to use it. Most apps should instead migrate to use scoped storage. To modify or delete files, apps should request write access from the user as described at https://goo.gle/android-mediastore-createwriterequest.\n\nTo learn more, read these resources: Play policy: https://goo.gle/policy-storage-help Allowable use cases: https://goo.gle/policy-storage-usecases",
+    "id": "ScopedStorage",
+    "locations": [
+      {
+        "column": "23",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/AndroidManifest.xml",
+        "line": "21"
+      }
+    ],
+    "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+    "priority": "8",
+    "severity": "Warning",
+    "summary": "Affected by scoped storage",
+    "url": "https://goo.gle/android-storage-usecases",
+    "urls": "https://goo.gle/android-storage-usecases"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "                .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true).commit()",
+    "errorLine2": "                                                                              ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "79",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "396"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()",
+    "errorLine2": "                                                                      ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "71",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "66"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()",
+    "errorLine2": "                                                                           ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "76",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "117"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()",
+    "errorLine2": "                                                                           ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "76",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "126"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "                                                                                     ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "86",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "182"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "                                                                             ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "78",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "188"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+    "errorLine2": "                                                                              ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "79",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "198"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "                                                                             ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "78",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "203"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+    "errorLine2": "                                                                              ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "79",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "221"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "                                                                             ~~~~~~~~",
+    "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+    "id": "ApplySharedPref",
+    "locations": [
+      {
+        "column": "78",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "224"
+      }
+    ],
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use `apply()` on `SharedPreferences`"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "        android:enableOnBackInvokedCallback=\"true\">",
+    "errorLine2": "        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).\n\nThis is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance or functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.\n\nNote: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `<tag>` element in layouts introduced in API 21.",
+    "id": "UnusedAttribute",
+    "locations": [
+      {
+        "column": "9",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/AndroidManifest.xml",
+        "line": "31"
+      }
+    ],
+    "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Attribute unused on older versions"
+  },
+  {
+    "category": "Correctness",
+    "errorLine1": "    coreLibraryDesugaring(\"com.android.tools:desugar_jdk_libs:2.1.4\")",
+    "errorLine2": "                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.",
+    "id": "GradleDependency",
+    "locations": [
+      {
+        "column": "27",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/build.gradle.kts",
+        "line": "453"
+      }
+    ],
+    "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+    "priority": "4",
+    "severity": "Warning",
+    "summary": "Obsolete Gradle Dependency"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+    "id": "IconLauncherShape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+      }
+    ],
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "The launcher icon shape should use a distinct silhouette"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+    "id": "IconLauncherShape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+      }
+    ],
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "The launcher icon shape should use a distinct silhouette"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+    "id": "IconLauncherShape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+      }
+    ],
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "The launcher icon shape should use a distinct silhouette"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+    "id": "IconLauncherShape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+      }
+    ],
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "The launcher icon shape should use a distinct silhouette"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+    "id": "IconLauncherShape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+      }
+    ],
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "The launcher icon shape should use a distinct silhouette"
+  },
+  {
+    "category": "Usability:Icons",
+    "explanation": "The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`.",
+    "id": "IconLocation",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/res/drawable/collect_launcher_icon.png"
+      }
+    ],
+    "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+    "priority": "5",
+    "severity": "Warning",
+    "summary": "Image defined in density-independent drawable folder",
+    "url": "https://developer.android.com/guide/practices/screens_support.html",
+    "urls": "https://developer.android.com/guide/practices/screens_support.html"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "395"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            val uri = Uri.parse(\"tel:${Uri.encode(code)}\")",
+    "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "23",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "437"
+      }
+    ],
+    "message": "Use the KTX extension function `String.toUri` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "        return if (prefs.edit().putInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, next).commit()) {",
+    "errorLine2": "                   ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "20",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "579"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()",
+    "errorLine2": "                ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "17",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "66"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)",
+    "errorLine2": "            ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "114"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)",
+    "errorLine2": "            ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "123"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "        val editor = prefs.edit()",
+    "errorLine2": "                     ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "22",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "129"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()",
+    "errorLine2": "        ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "9",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "150"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()",
+    "errorLine2": "        ~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "9",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "160"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            val editor = preferences().edit()",
+    "errorLine2": "                         ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "26",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "172"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "                    ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "21",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "182"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "188"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "198"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "203"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "        return preferences().edit()",
+    "errorLine2": "               ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "16",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "210"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "221"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  },
+  {
+    "category": "Productivity",
+    "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+    "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+    "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+    "id": "UseKtx",
+    "locations": [
+      {
+        "column": "13",
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "224"
+      }
+    ],
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "priority": "6",
+    "severity": "Warning",
+    "summary": "Use KTX extension function"
+  }
+]

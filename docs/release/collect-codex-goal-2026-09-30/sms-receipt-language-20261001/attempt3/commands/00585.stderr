@@ -1,0 +1,5 @@
+ERROR:  55000: gateway_dispatch_source_invalid
+CONTEXT:  PL/pgSQL function collect_gateway_dispatch.lock_source(uuid) line 18 at RAISE
+SQL statement "SELECT collect_gateway_dispatch.lock_source(o.id)"
+PL/pgSQL function public.gateway_arm_dispatch_v2(uuid,uuid,text,jsonb) line 32 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

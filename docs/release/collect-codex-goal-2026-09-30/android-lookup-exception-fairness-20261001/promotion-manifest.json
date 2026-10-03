@@ -1,0 +1,34 @@
+{
+  "status": "staged_only_root_promotion_required",
+  "canonical_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "files": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "old_sha256": "c7f4328a127f3d6c2e90eb63541fe29f8c5b5b7a3530f0204c1f92f4a500572e",
+      "new_sha256": "e130b07747dcf13ca18e96ce7be7cab99ab451608aa9fdf25d41c0e529cce6f8",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-lookup-exception-fairness-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "old_sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "new_sha256": "7f85fa1b2abb949d1b0f8ec5f0b1b8f4399e555640c4019d53d8c170281aba96",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-lookup-exception-fairness-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt"
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt",
+      "old_sha256": null,
+      "new_sha256": "6a17533df754e0072d0be0c04182cf56828f748ad26e82f7e34fd9a3185fbb3b",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-lookup-exception-fairness-20261001/accepted-packet/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt"
+    },
+    {
+      "path": "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "old_sha256": "a3e90aa0060f4dd63ba7b0827bec9b3b0a23935e4b799eda4cef50ffa011d27c",
+      "new_sha256": "4851cc39044484a1384b87690da5051291077845f5fc7cbfcf2c2266af1125f4",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-lookup-exception-fairness-20261001/accepted-packet/source/scripts/tests/android_gateway_attempt_archive_jvm.py"
+    }
+  ],
+  "native_validation_sha256": "6dd53e23f7a79c760d79d5c904a4b8e6576f0b685e05ab861a72d8f8878b9858",
+  "final_source_association_sha256": "40dedf7a9a17ad303470a3dcf306e886eb3c8e50dce2ba58ce9ba25e51cc887c",
+  "composed_case_count": 33,
+  "whole_current_new_suite_rerun": false
+}

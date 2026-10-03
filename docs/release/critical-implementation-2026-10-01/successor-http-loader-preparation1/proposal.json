@@ -1,0 +1,73 @@
+{
+  "base": {
+    "bytes": 48433,
+    "identity": [
+      16777247,
+      17214737,
+      448,
+      48433,
+      1790909078952455957,
+      1790909078952505290,
+      1
+    ],
+    "mode": 448,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/edge_http_runtime_uat.ts",
+    "sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9"
+  },
+  "blocking_dependencies": [
+    "Root Edge owner completes frozen140 cohort and releases current QA write boundary",
+    "Genuine ten declared observed fixtures with immutable source/origin/completion/hash proof",
+    "Root full-patch review and current exact base hash authorization",
+    "New final source freeze and full current canonical gate retaining every unit/HTTP/Linux/security obligation"
+  ],
+  "candidate": {
+    "bytes": 50849,
+    "identity": [
+      16777247,
+      17236887,
+      448,
+      50849,
+      1790909283904008486,
+      1790909283904027986,
+      1
+    ],
+    "mode": 448,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-http-loader-preparation1/candidate/source/scripts/qa/edge_http_runtime_uat.ts",
+    "sha256": "91a81690ba15582a9ff11b314dbd493c9f015eca03512334a15649287f3b4e42"
+  },
+  "case_invariants": "Exact refusal JSON includes send_authority:false, no CORS, no-store and zero dependency requests before key lookup; provider denial/start-once/cleanup unchanged",
+  "changed_paths": [
+    "scripts/qa/edge_http_runtime_uat.ts"
+  ],
+  "dynamic_unit_discovery": "Already includes successor; do not add an exclude/filter/fallback or hide its missing imports",
+  "handler_SQL_or_native_execution": false,
+  "hosted_or_provider_operations": false,
+  "input_count": 96,
+  "maintained_source_writes": 0,
+  "patch": {
+    "lines": 80,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-http-loader-preparation1/full-candidate.patch",
+    "sha256": "886f205107153ff17d9c54eafc03416be714510264299f6f4e52d2ebb168c4ab"
+  },
+  "planned_refusal_cases": [
+    "OPTIONS405",
+    "PUT405",
+    "empty JSON400",
+    "unsigned valid namespace400",
+    "bearer-only400",
+    "malformed dedicated signature400"
+  ],
+  "preferred_strategy": "Exact thirteenth literal registration retains frozen SDK redirect alias graph binding and exact source/config parity",
+  "prepared_at_utc": "2026-10-02T02:48:03.914352+00:00",
+  "real_missing_fixture_creation": false,
+  "status": "private_one_file_preparation_not_promoted_not_executed",
+  "test_plan": [
+    "Validate genuine fixtures as contained regular files with all ten declared names and immutable source/provenance receipts; no fabricated JSON or missing-import skips",
+    "Freeze final source/manifest/config and unchanged lock; discover counts from completed reports rather than declarations or earlier137/140 packets",
+    "Run maintained type closure, all dynamically discovered units and zero-ignored requirement; missing imports must fail before any acceptance",
+    "Run maintained run_edge_http_uat.py with original60s deadline/frozen cached-only lock and loopback-only dependencies, starting all13 real entrypoints once; six new unsigned checks must match exact shapes/zero RPC and all old assertions must pass",
+    "Require actual gateway fixture-driven P-256/six-action/route/replay/uncertainty tests to pass, retaining nonauthorizing response assertions; SQL/current hosted/device/carrier acceptance remains separate",
+    "Run original Linux codec/integration, security and regression phases in full canonical runner; preserve failures and original deadlines rather than weakening checks"
+  ],
+  "type_or_Deno_runtime_execution": false
+}

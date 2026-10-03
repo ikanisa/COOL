@@ -1,0 +1,60 @@
+--- previous/helper.diff
++++ proposed/helper.diff
+@@ -6,6 +6,10 @@
+ PATCH_PACKET_SHA256 = 'cc7fbb3d71e7b1edcf37b398948ab022dadd6948c14b52abfb7dd57e65e27445'
+ ORIGINAL_PINS_SHA256 = '771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e'
+ EXPECTED_FILES = {'android/build.gradle.kts', 'android/app/build.gradle.kts'}
++
++PROBE_RECOVERY_RELATIVE = 'arc09-aab-driver-preparation1/arc09-default-proguard-init-recovery1'
++PROBE_RECOVERY_PLAN_SHA256 = '1979fa05ee8e1924a071119cf193b39fa4f29414753eb368dc76a905fe0601cf'
++PROBE_RECOVERY_INIT_SHA256 = '2b66f2a0ef61b3f9c8c4a64ab2ae639c359ba406d9b628ff268cab0702e7cf8e'
+ 
+ 
+ def canonical(value):
+@@ -68,6 +72,38 @@
+         raise ValueError('prepared42 pins have changes beyond the one originally present Android row')
+ 
+ 
++def validate_probe_override(driver, supplied, original_plan):
++    """Allow one root-selected pinned init correction; every other plan field stays exact."""
++    if supplied is None:
++        return original_plan
++    recovery = driver.RELEASE / PROBE_RECOVERY_RELATIVE
++    expected = {
++        'plan': {'path': str(recovery / 'reviewed-verification-plan.json'),
++                 'sha256': PROBE_RECOVERY_PLAN_SHA256},
++        'init_script': {'path': str(recovery / 'verify-default-proguard.init.gradle'),
++                        'sha256': PROBE_RECOVERY_INIT_SHA256},
++    }
++    if supplied != expected:
++        raise ValueError('exact root-selected default ProGuard probe override pins differ')
++    replacement = driver.document(expected['plan']['path'], expected['plan']['sha256'])
++    driver.plain_read(expected['init_script']['path'], expected['init_script']['sha256'])
++    old_argv = original_plan['argv']; new_argv = replacement['argv']
++    if old_argv.count('--init-script') != 1 or new_argv.count('--init-script') != 1:
++        raise ValueError('exactly one original/replacement init-script argument required')
++    index = old_argv.index('--init-script') + 1
++    if (index >= len(old_argv) or index >= len(new_argv)
++            or old_argv[index] != str(driver.RELEASE / 'arc09-early-build-root-preparation1/verify-default-proguard.init.gradle')):
++        raise ValueError('original reviewed default ProGuard init-script path differs')
++    expected_argv = list(old_argv); expected_argv[index] = expected['init_script']['path']
++    if new_argv != expected_argv:
++        raise ValueError('probe override changes an argument beyond the pinned init-script path')
++    if ({key: value for key, value in replacement.items() if key != 'argv'}
++            != {key: value for key, value in original_plan.items() if key != 'argv'}
++            or replacement['deadline_seconds'] != 300 or replacement['cwd'] != str(driver.APP)):
++        raise ValueError('probe override changes original metadata, cwd or finite bound')
++    return replacement
++
++
+ def admit(driver, admission, records, export, pins):
+     supplied = admission['android_build_overlay']
+     if (set(supplied) != {'reviewed_patch_packet', 'archived_manifest', 'current_manifest',
+@@ -112,6 +148,7 @@
+     plan = driver.document(patch / 'verification-plan.json', packet['files']['verification-plan.json']['sha256'])
+     if plan['deadline_seconds'] != 300 or plan['cwd'] != str(driver.APP):
+         raise ValueError('original bounded configuration readback plan differs')
++    plan = validate_probe_override(driver, admission.get('default_proguard_probe_override'), plan)
+     result.update(current_APP_manifest_pin=new, archived_APP_manifest_pin=old,
+                   current_repository_source_fence_pin=fence_pin,
+                   current_repository_source_manifest_sha256=fence['source_manifest_sha256'],

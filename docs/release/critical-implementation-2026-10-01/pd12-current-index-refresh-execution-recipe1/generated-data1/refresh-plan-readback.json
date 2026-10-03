@@ -1,0 +1,17 @@
+{
+  "actual_new_reader_run": false,
+  "current_AAB_result_supplied": false,
+  "epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "external_integrator_cli_pins": {
+    "checkpoint": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804",
+    "review": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+  },
+  "facts": 114,
+  "file_sets": 32,
+  "historical_AAB9_retained": true,
+  "later_manual_integrator_decision": false,
+  "maintained_writes": false,
+  "original26_sets_retained": true,
+  "reader_grants_closure": false,
+  "status": "PRIVATE_UNAPPLIED_DATA_PREPARATION"
+}

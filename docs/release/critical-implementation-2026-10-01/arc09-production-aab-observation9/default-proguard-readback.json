@@ -1,0 +1,28 @@
+{
+  "actual_default_file_bytes": 3201,
+  "actual_default_file_sha256": "0c2037f6eca949ee82dad4ade741ad1e3fcb7a5d98e4b31d08be89b26cf0d7d0",
+  "all_release_proguard_paths": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/gradle/flutter_proguard_rules.pro",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/proguard-rules.pro",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/proguard-rules.pro"
+  ],
+  "app_build_directory": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app",
+  "configured_app_build_directory": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app",
+  "default_paths_and_producer_verified": true,
+  "default_proguard_file": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+  "kind": "collect_default_proguard_directory_readback",
+  "minify_enabled": true,
+  "package_or_release_acceptance": false,
+  "producer_outputs": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global"
+  ],
+  "producer_task": ":app:extractProguardFiles",
+  "r8_execution_verified": false,
+  "release_default_proguard_paths": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1"
+  ],
+  "shrink_resources": true
+}

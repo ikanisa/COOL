@@ -1,0 +1,61 @@
+{
+  "run": {
+    "mode": "Live-limited",
+    "state": "leased",
+    "device_id": "389d5dd2-7c07-4542-a10a-ad6dabc78acc",
+    "expires_at": "2026-10-02T01:23:47.209705Z",
+    "request_id": "53f596e6-57d3-4ea1-8644-cdaca869740f",
+    "started_at": "2026-10-02T01:23:42.338990Z",
+    "completed_at": null,
+    "principal_id": "a00540f5-1919-40c1-bc5a-44be317eadd4",
+    "fence_version": 21,
+    "collection_ids": [
+      "99780000-0000-4000-8000-000000030001"
+    ],
+    "scan_performed": false,
+    "policy_revision": 13
+  },
+  "scope": "rw_receipt_operational_history",
+  "run_id": "54fad7ad-0162-4e2c-bcd5-387f6e47ab28",
+  "status": "partial",
+  "checked_at": "2026-10-02T01:23:42.456484Z",
+  "completion": null,
+  "quota_usage": {
+    "scope": "immutable_reservations_through_lease_window",
+    "groups": [
+      {
+        "actions": 19,
+        "sms_segments": 2,
+        "collection_id": "99780000-0000-4000-8000-000000030001"
+      }
+    ],
+    "window_end": "2026-10-02T01:23:42.456484Z",
+    "run_actions": 0,
+    "window_start": "2026-10-02T00:00:00.000000Z",
+    "device_actions": 19,
+    "global_actions": 19,
+    "run_sms_segments": 0,
+    "device_sms_segments": 2,
+    "global_sms_segments": 2
+  },
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "historical_config": {
+    "caps": {
+      "run_actions": 10,
+      "group_actions": 100000,
+      "device_actions": 100000,
+      "global_actions": 100000,
+      "run_sms_segments": 20,
+      "group_sms_segments": 100000,
+      "device_sms_segments": 100000,
+      "global_sms_segments": 100000
+    },
+    "revision": 13,
+    "request_id": "b07a07cf-164f-4ade-a205-60169ac44158",
+    "recorded_at": "2026-10-02T01:23:42.278634Z"
+  },
+  "sample_valid_until": "2026-10-02T01:24:42.456484Z"
+}

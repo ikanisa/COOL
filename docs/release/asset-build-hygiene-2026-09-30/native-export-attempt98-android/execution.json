@@ -1,0 +1,32 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "java-version",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.95,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "dbda36612f632e4fd5e0ec62e9ec30b38c8388c090eaf3db8928353d7f62f1e8"
+    },
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-Ptarget=lib/main.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 1019.14,
+      "stdout_sha256": "b6cedc71415fc07b6ac9a1f24433272660933a43b7bca063b30352b14c5baff6",
+      "stderr_sha256": "6c62767da334723e31a61541c0edd345daa878fa9b79a9fb98d59a5443949aca"
+    }
+  ],
+  "scope": "Actual immutable source export unsigned local Android production-flavour build; no provider, signing, device or store acceptance"
+}

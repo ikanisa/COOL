@@ -1,0 +1,301 @@
+{
+  "sealed_at": "2026-10-02T00:28:22.161728+00:00",
+  "owner": "/root/admin_operational_history",
+  "canonical_writes": false,
+  "root_promotes_only": true,
+  "sql_sha256": "918a20bb19a8dca6b5de7701bd13f963c5fd25c65f0229bc7d5e13d82238eeff",
+  "files": [
+    {
+      "path": "contracts/collect-operator-entity-audit-v1.schema.json",
+      "kind": "modify",
+      "proposed_sha256": "530e766609e165114f5d9cc8b0548e00f4538bd2ea1fce54102fd3ab0ba5d7a9",
+      "base_sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60",
+      "canonical_sha256_at_seal": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60",
+      "patch": "patches/contracts__collect-operator-entity-audit-v1.schema.json.patch"
+    },
+    {
+      "path": "lib/admin/admin_router.dart",
+      "kind": "modify",
+      "proposed_sha256": "676448ed1be8bafaed380696d5306249d486323a7f09b71d5f5f08084ac55943",
+      "base_sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "canonical_sha256_at_seal": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "patch": "patches/lib__admin__admin_router.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_view.dart",
+      "kind": "modify",
+      "proposed_sha256": "3a2b989c3ced302a86dc7f1760c50bd1373b266d5b9fd2cf4bc3062c9b6c2884",
+      "base_sha256": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+      "canonical_sha256_at_seal": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+      "patch": "patches/lib__admin__core__admin_automatic_gateway_view.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_automations_page.dart",
+      "kind": "modify",
+      "proposed_sha256": "1d7924485ff1a84274639eba022661208055d61f401f6f9a4ec49b6314c84782",
+      "base_sha256": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+      "canonical_sha256_at_seal": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+      "patch": "patches/lib__admin__core__admin_automations_page.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit.dart",
+      "kind": "modify",
+      "proposed_sha256": "17db9d8cc6d8cae563f829b166b95b090bfd675d397a2c4f374f15e3b816b53a",
+      "base_sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335",
+      "canonical_sha256_at_seal": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335",
+      "patch": "patches/lib__admin__core__admin_entity_audit.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit_page.dart",
+      "kind": "modify",
+      "proposed_sha256": "67957725aa703b21313fc38e2beb55236e62313f11705e267b4a93c804942a3c",
+      "base_sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+      "canonical_sha256_at_seal": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+      "patch": "patches/lib__admin__core__admin_entity_audit_page.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_models.dart",
+      "kind": "add",
+      "proposed_sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_runtime.dart",
+      "kind": "add",
+      "proposed_sha256": "e6a661aa0e359bbbb43eadb1e548762a1ce584e8890c27af55fb2bca8466931e",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_sdk.dart",
+      "kind": "add",
+      "proposed_sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_view.dart",
+      "kind": "add",
+      "proposed_sha256": "1f9c80006a4d6234a588448897921fd864b84d1bbad6ee93f7c537566d34bad3",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "kind": "modify",
+      "proposed_sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+      "base_sha256": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+      "canonical_sha256_at_seal": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+      "patch": "patches/lib__admin__core__admin_receipt_repository.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "kind": "modify",
+      "proposed_sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c",
+      "base_sha256": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+      "canonical_sha256_at_seal": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+      "patch": "patches/lib__admin__core__admin_repository_base.dart.patch"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "kind": "modify",
+      "proposed_sha256": "7b8ccb9969714ebfe59e6fe9ed932cb9c0366760ec18b3a3291b5aa7f4550755",
+      "base_sha256": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "canonical_sha256_at_seal": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "patch": "patches/lib__admin__core__admin_runtime.dart.patch"
+    },
+    {
+      "path": "scripts/tests/admin_receipt_operational_history_test.dart",
+      "kind": "add",
+      "proposed_sha256": "27379089bde00cbb6a6e2b8ab9a1227fdf42f458a8b05eed684b0e11a104cf4d",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+      "kind": "add",
+      "proposed_sha256": "918a20bb19a8dca6b5de7701bd13f963c5fd25c65f0229bc7d5e13d82238eeff",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/admin_entity_audit_links_test.dart",
+      "kind": "modify",
+      "proposed_sha256": "f722a0812d08b88962743d047852c70c66340f883266858c915d4967a3c0a0d6",
+      "base_sha256": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee",
+      "canonical_sha256_at_seal": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee",
+      "patch": "patches/test__admin_entity_audit_links_test.dart.patch"
+    },
+    {
+      "path": "test/admin_receipt_operational_history_test.dart",
+      "kind": "add",
+      "proposed_sha256": "31fe829434cb217241211eb832951b5a2b7f970bdfe347c979dfbe974a10f520",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/SOURCE.json",
+      "kind": "add",
+      "proposed_sha256": "b35e9018521185fcda66ae87a2484ea02902752613a5a3b91a13c2b061edf248",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/audit-receipt_operation_run.json",
+      "kind": "add",
+      "proposed_sha256": "92b3f611502b4e48352e45f5ec56d59701ae1af7b9a028e4b050064511d74d95",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/audit-receipt_operations_policy.json",
+      "kind": "add",
+      "proposed_sha256": "7ce1b8ad5e3a65a3f741b44248a6c884f98600da885dab5ba61a686cc5398cd7",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/audit-supervisor_identity.json",
+      "kind": "add",
+      "proposed_sha256": "8d8fe9bafce0aa1efd57b2b22d43cc4fd582a511f06e1e5842ab5351995f8dff",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-backlog_results.json",
+      "kind": "add",
+      "proposed_sha256": "821910ffcd698dcd1b3504416b3b6f15b27d30e431d9351524958792fa49d16f",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-budget-refusals-with-exceptions.json",
+      "kind": "add",
+      "proposed_sha256": "f28496b1e1fe8f469b3c2f11ec7e6acd4aff641ed2a090f7698cd8a69f20a4fa",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-budget_refusals.json",
+      "kind": "add",
+      "proposed_sha256": "94b035680819f636966e9712ab3309a4c7ef0684323a871467ad24a861e76b61",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-events.json",
+      "kind": "add",
+      "proposed_sha256": "79a61e2358806e1e6045bfa2f58e82f80f80e046d098525e80cf0cbaf19b75ab",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-quota-events.json",
+      "kind": "add",
+      "proposed_sha256": "f901c62046d75bc6ba17326aa105fa5f987b81f1187c0b5a3cf93815be9a7fc7",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/evidence-reservations.json",
+      "kind": "add",
+      "proposed_sha256": "faba06d0e672a57095e8c974915e0c6e291a33c1d749c9825730af499341d7df",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/quota-first-tied.json",
+      "kind": "add",
+      "proposed_sha256": "673252d2dd99e7ba933011ec14ec91283429670c9eebc1418d9198251db7a9d4",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/quota-first.json",
+      "kind": "add",
+      "proposed_sha256": "d1f3d6608871c341b4a40269536e79f2e88876752b7ad2e01a45c0a54809d6cf",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/quota-last-tied.json",
+      "kind": "add",
+      "proposed_sha256": "17f4f670c1a737371ef5d12c4c539f806a321925eb9a2424f0d10c2c9a95761a",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/quota-last.json",
+      "kind": "add",
+      "proposed_sha256": "739d3dd1251cbbbae3fcaf3e818669c1eda77259569d0809f04205f5a19b3d42",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/run-closed.json",
+      "kind": "add",
+      "proposed_sha256": "974eba9d0dcc24e42b818946bcad54d370ae6b29c1e3611b1b6b2aa12f3a740a",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/run-config-unavailable.json",
+      "kind": "add",
+      "proposed_sha256": "55be9924dda11e1519843d761793834af3c9e17941cd7794ea792950ddadb149",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/run-quota-closed.json",
+      "kind": "add",
+      "proposed_sha256": "67db756b1095f374765bb62f8da056552a4a3828e1a2dfc1f20cc39c71557db5",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/run-short.json",
+      "kind": "add",
+      "proposed_sha256": "cdfd798c7ba97b57eed07804bdf7a123167290c60e1857a1d2c408adaa3cae51",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/run-unavailable.json",
+      "kind": "add",
+      "proposed_sha256": "d070e6e7cf879aecaab9c0618dfc319c8f1315ef1d60bfd33efcbe0aaec61dc8",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    },
+    {
+      "path": "test/fixtures/admin_receipt_operational_history_actual/starts-refused.json",
+      "kind": "add",
+      "proposed_sha256": "41366805fae5f7cff656180228ac95fc560fcbea8778d0c8f70935cf6ad33c47",
+      "base_sha256": null,
+      "canonical_sha256_at_seal": null
+    }
+  ],
+  "retained_sql_attempts": 11,
+  "owned_sql_targets_removed": 11,
+  "sql_final_checks": 44,
+  "sql_final_commands": 165,
+  "sql_scope": "retained synthetic192 checkpoint plus10 exact selected current definitions then600; actual NOSUPERUSER application install; not complete203 replay or private430 coverage",
+  "accepted_evidence": {
+    "SQL": "proof/sql-attempt11/result.json",
+    "DTO_SDK": "proof/decoder-accepted.log",
+    "history_and_automatic_views": "proof/flutter-fresh-links-attempt1.log",
+    "joined_routes": "proof/flutter-final-route-closure-attempt1.log",
+    "unchanged_affected_checks": "proof/flutter-affected-callers-attempt1.log",
+    "audit_page_models_recheck": "proof/flutter-affected-callers-attempt2.log",
+    "analysis": "proof/analyze-final.log",
+    "decoder_analysis": "proof/analyze-decoder-accepted.log",
+    "hygiene": "proof/revolut-authority-final.json"
+  },
+  "remaining_gates": [
+    "root review and promotion",
+    "combined later migrations not included",
+    "global snapshot reservation conflict recovery remains producer task06/18",
+    "full visual comparator/interaction coverage unverified",
+    "managed hosted JWT/vault/provider/device/store/deployment acceptance unverified"
+  ]
+}

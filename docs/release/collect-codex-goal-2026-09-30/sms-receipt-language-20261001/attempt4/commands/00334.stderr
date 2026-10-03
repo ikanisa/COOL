@@ -1,0 +1,12 @@
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_retirements" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_retirements" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_observations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_observations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_verifications" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_verifications" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

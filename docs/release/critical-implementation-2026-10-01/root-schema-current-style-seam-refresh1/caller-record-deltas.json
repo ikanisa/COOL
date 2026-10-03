@@ -1,0 +1,742 @@
+{
+  "actual_changed_caller_records": 48,
+  "all_actual_record_deltas": [
+    {
+      "fields": {
+        "expression": {
+          "before": "name, params: parameters, automaticRetry: false));",
+          "current": "name, params: parameters, automaticRetry: false),"
+        },
+        "line": {
+          "before": 13,
+          "current": 14
+        },
+        "offset": {
+          "before": 378,
+          "current": 389
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 20,
+          "current": 22
+        },
+        "offset": {
+          "before": 683,
+          "current": 702
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_receipt_overview_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 39,
+          "current": 41
+        },
+        "offset": {
+          "before": 1228,
+          "current": 1247
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_collect_investigation_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 53,
+          "current": 55
+        },
+        "offset": {
+          "before": 1698,
+          "current": 1717
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_inspect_unstarted_receipt_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 64,
+          "current": 66
+        },
+        "offset": {
+          "before": 2004,
+          "current": 2023
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_unattended_operating_policy_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 75,
+          "current": 77
+        },
+        "offset": {
+          "before": 2324,
+          "current": 2343
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_operations_policy_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 85,
+          "current": 87
+        },
+        "offset": {
+          "before": 2622,
+          "current": 2641
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_operational_telemetry_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 96,
+          "current": 98
+        },
+        "offset": {
+          "before": 2953,
+          "current": 2972
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_exception_worker_health_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 111,
+          "current": 113
+        },
+        "offset": {
+          "before": 3371,
+          "current": 3390
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_worker_transport_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 128,
+          "current": 130
+        },
+        "offset": {
+          "before": 3835,
+          "current": 3854
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_list_receipt_operations_identities_v3"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 140,
+          "current": 142
+        },
+        "offset": {
+          "before": 4225,
+          "current": 4244
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_operations_identity_v3"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 153,
+          "current": 155
+        },
+        "offset": {
+          "before": 4640,
+          "current": 4659
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 166,
+          "current": 168
+        },
+        "offset": {
+          "before": 5009,
+          "current": 5028
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_operations_enrollment_request_v3"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 184,
+          "current": 186
+        },
+        "offset": {
+          "before": 5630,
+          "current": 5649
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 198,
+          "current": 200
+        },
+        "offset": {
+          "before": 6010,
+          "current": 6029
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_receipt_operations_owner_request_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 211,
+          "current": 213
+        },
+        "offset": {
+          "before": 6420,
+          "current": 6439
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_cancel_unstarted_receipt_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 222,
+          "current": 224
+        },
+        "offset": {
+          "before": 6751,
+          "current": 6770
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_get_unstarted_receipt_action_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 180,
+          "current": 182
+        },
+        "offset": {
+          "before": 5476,
+          "current": 5495
+        }
+      },
+      "kind": "function-literal-reference",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_configure_receipt_operations_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 181,
+          "current": 183
+        },
+        "offset": {
+          "before": 5533,
+          "current": 5552
+        }
+      },
+      "kind": "function-literal-reference",
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "symbol": "admin_stop_receipt_operations_v2"
+    },
+    {
+      "fields": {
+        "expression": {
+          "before": "name, params: parameters, automaticRetry: false,",
+          "current": "name, params: parameters, automaticRetry: false),"
+        },
+        "line": {
+          "before": 302,
+          "current": 303
+        },
+        "offset": {
+          "before": 11788,
+          "current": 11796
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 416,
+          "current": 415
+        },
+        "offset": {
+          "before": 15050,
+          "current": 15045
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_current_user"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 424,
+          "current": 423
+        },
+        "offset": {
+          "before": 15334,
+          "current": 15329
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_overview"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 454,
+          "current": 453
+        },
+        "offset": {
+          "before": 16357,
+          "current": 16352
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 494,
+          "current": 493
+        },
+        "offset": {
+          "before": 17766,
+          "current": 17761
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 502,
+          "current": 501
+        },
+        "offset": {
+          "before": 17974,
+          "current": 17969
+        }
+      },
+      "kind": "edge-invoke",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "collect-notification-operator"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 542,
+          "current": 541
+        },
+        "offset": {
+          "before": 19281,
+          "current": 19276
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "list_collect_shadow_runs_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 564,
+          "current": 563
+        },
+        "offset": {
+          "before": 19815,
+          "current": 19810
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_get_operator_entity_audit_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 584,
+          "current": 583
+        },
+        "offset": {
+          "before": 20473,
+          "current": 20468
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_get_exception_entity_audit_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 600,
+          "current": 599
+        },
+        "offset": {
+          "before": 21026,
+          "current": 21021
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_list_exception_escalation_inbox_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 616,
+          "current": 615
+        },
+        "offset": {
+          "before": 21462,
+          "current": 21457
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_read_exception_escalation_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 633,
+          "current": 632
+        },
+        "offset": {
+          "before": 22031,
+          "current": 22026
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_get_queue_sla"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 651,
+          "current": 650
+        },
+        "offset": {
+          "before": 22544,
+          "current": 22539
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_runtime_config"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 665,
+          "current": 664
+        },
+        "offset": {
+          "before": 22953,
+          "current": 22948
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 674,
+          "current": 673
+        },
+        "offset": {
+          "before": 23231,
+          "current": 23226
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 704,
+          "current": 703
+        },
+        "offset": {
+          "before": 24117,
+          "current": 24112
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_list_gateway_devices_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 724,
+          "current": 723
+        },
+        "offset": {
+          "before": 24664,
+          "current": 24659
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_get_gateway_owner_request_v1"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 744,
+          "current": 743
+        },
+        "offset": {
+          "before": 25167,
+          "current": 25162
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_get_gateway_receipt_investigation_v3"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 774,
+          "current": 773
+        },
+        "offset": {
+          "before": 25897,
+          "current": 25892
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_list_gateway_device_attempts_v3"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 801,
+          "current": 800
+        },
+        "offset": {
+          "before": 26615,
+          "current": 26610
+        }
+      },
+      "kind": "edge-invoke",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "prepare-roster-import"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 831,
+          "current": 830
+        },
+        "offset": {
+          "before": 27607,
+          "current": 27602
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "list_payment_reconciliations_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 858,
+          "current": 857
+        },
+        "offset": {
+          "before": 28545,
+          "current": 28540
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "get_payment_reconciliation_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 905,
+          "current": 904
+        },
+        "offset": {
+          "before": 30054,
+          "current": 30049
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "propose_payment_reconciliation_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 931,
+          "current": 930
+        },
+        "offset": {
+          "before": 30934,
+          "current": 30929
+        }
+      },
+      "kind": "rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "approve_payment_reconciliation_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 956,
+          "current": 955
+        },
+        "offset": {
+          "before": 31763,
+          "current": 31758
+        }
+      },
+      "kind": "edge-invoke",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "reconciliation-finalize"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 986,
+          "current": 985
+        },
+        "offset": {
+          "before": 32649,
+          "current": 32644
+        }
+      },
+      "kind": "dynamic-rpc-call",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": null
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 455,
+          "current": 454
+        },
+        "offset": {
+          "before": 16380,
+          "current": 16375
+        }
+      },
+      "kind": "function-literal-reference",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "admin_list_country_scoped"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 992,
+          "current": 991
+        },
+        "offset": {
+          "before": 32984,
+          "current": 32979
+        }
+      },
+      "kind": "function-literal-reference",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "list_payment_reconciliations_v2"
+    },
+    {
+      "fields": {
+        "line": {
+          "before": 993,
+          "current": 992
+        },
+        "offset": {
+          "before": 33027,
+          "current": 33022
+        }
+      },
+      "kind": "function-literal-reference",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "symbol": "get_payment_reconciliation_v2"
+    }
+  ],
+  "caller_symbols_candidate_targets_resolution_groups_and_authorization_unchanged": true,
+  "changed_records_by_path": {
+    "lib/admin/core/admin_receipt_repository.dart": 19,
+    "lib/admin/core/admin_runtime.dart": 29
+  },
+  "expression_excerpt_changes": 2,
+  "inventory_expression_excerpt_scope": "The unchanged lexical mapper stores display excerpts which can differ when formatting changes punctuation/newline placement. These two excerpts are retained exactly; this review does not infer runtime equivalence or authorization.",
+  "source_location_changes": 48,
+  "status": "pass"
+}

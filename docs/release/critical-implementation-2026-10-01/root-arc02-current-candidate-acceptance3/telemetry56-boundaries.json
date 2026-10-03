@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 1.013,
+  "argv": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart",
+    "--packages=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.dart_tool/package_config.json",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/scripts/tests/admin_receipt_operational_telemetry_test.dart",
+    "--boundaries"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 60,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T10:33:54.221828+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 36584,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T10:33:53.208888+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "87ecd488f9fd7988839b160b6e34c7f9023883613e38bb95783caf64f8e069cd",
+  "timed_out": false
+}

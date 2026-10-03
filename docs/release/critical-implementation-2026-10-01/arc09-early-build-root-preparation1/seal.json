@@ -1,0 +1,10 @@
+{
+  "Gradle_or_probes_executed": false,
+  "actual_Gradle_readback": "unexecuted",
+  "maintained_or_APP_mutation": false,
+  "packet_files_sha256": "cc7fbb3d71e7b1edcf37b398948ab022dadd6948c14b52abfb7dd57e65e27445",
+  "payload_count": 11,
+  "production_release_approval": false,
+  "schema_version": 1,
+  "static_exact_two_file_replacement_checks": "pass"
+}

@@ -1,0 +1,157 @@
+{
+  "all_original_ids_preserved": true,
+  "canonical_output_sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "f0dafe0c8e4cfbe49a4a1872603467520acc3984d8674699f8ef37e64eee49f4",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "4fa6a81efe5e4ce9bdfcefad8b3d8ff708529a06e0eae8d128c8b8f3da97e753",
+    "local-implementation-register-2026-09-30.json": "6fb7677398e2007485ab3e70a182f6932d9d827b388b9cbeef66044863137e31",
+    "production-remaining-tasks-2026-09-30.json": "0ea0dc22e4a1969b0cce4dc4ed258f7d88177770b9cd373710279984411c96d6",
+    "production-remaining-tasks-2026-09-30.validation.json": "8e5b07940a34a699f47df40bdbbd9ba50ef30df91a8c9fb42057956df0645ed7"
+  },
+  "closed_ids": [
+    "G06"
+  ],
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "external_state_refreshed": false,
+  "full_current_source_acceptance": false,
+  "installed149150source_matches": true,
+  "installed_migration_count": 150,
+  "installed_table_count": 149,
+  "last_complete_clean_replay": 141,
+  "local_criteria_preserved": true,
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "local_snapshot_revision": 7,
+  "new_scoped_evidence_packets": [
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/install149-normal-owner-attempt1/result.json",
+      "sha256": "489b289f7fc41eaec530beb97708b5d1db59f772a9d133c26e0a7eb0f045c9a0"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/uat149-installed-rollback-attempt3-exact-ack/result.json",
+      "sha256": "f8d0f7b27d684412e945d9ccdb0adb6ec5252c4efacb948da86e4672633e293e"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/concurrency150-attempt2-typed-arrays/validation.json",
+      "sha256": "653e6c123dd5820e998fe440c65021ea11a3b431db5176b64e7b1d619ab1f7f4"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt5/validation.json",
+      "sha256": "7aa5a051d453b724e920c97a3e7ce4aa6d5ab276ad1c75ee23935ba993248664"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/install150-normal-owner-attempt1/result.json",
+      "sha256": "a94e392e9058fb9721c69814ce32567fef69a286744f3844d2ca6861bc8a14ae"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/health-authority-concurrency150-attempt1/validation.json",
+      "sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/alert-matrix150-rollback-attempt1/result.json",
+      "sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/metric-concurrency150-attempt1/validation.json",
+      "sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/validation.json",
+      "sha256": "64569b66bb2ec27d5b5f1bd00f6e9031ffa31a4fbe84031755233e57a5750c50"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-ios/artifact-verification.json",
+      "sha256": "7f0e6f56875eec5a8268aa7ae96c5719b7fa396897f8fc0fec3b9bb35d702b70"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-android-remaining/apk-verification.json",
+      "sha256": "0c2438aed4709506c8f40ff05775b541d5cb576c15a5ddd7dfdb7d9b80639bb0"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-android-remaining/jvm-tests.json",
+      "sha256": "59a0b49d91e3660a96abfada2cc59ab0def9233c6b0219199ac9d0bce1ddef37"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt30/publication.json",
+      "sha256": "a335cf5f936af5fb3becbfe51f4f4a2e5966646bbb7cee9b1ec2f2dc91898e59"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-provenance-coverage-attempt31/verification.json",
+      "sha256": "3f6ed735d313b0afa3a1604e110cf98c1a6846ae931633cd5d9231a934b8cf44"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt10-final-client/validation.json",
+      "sha256": "3aca05583c43159d0738c3ecfc9eb7eb03e2b8dd7421dd6efc843acaa68916d5"
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/client-acceptance.json",
+      "sha256": "fed3d6d564430dca971b0fd7118eb540516e3b31cb4bfabb3988942fdccee24e"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/performance150-rollback-attempt1/result.json",
+      "sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry/result.json",
+      "sha256": "95ea72adc43b0967959a8a6f7dbeb3f4822ad6577b68cbb29c8526de6349aa08"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/ui150-responses-attempt3-consistent-age/validation.json",
+      "sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca"
+    },
+    {
+      "path": "docs/release/runtime-control-governance-2026-09-30/inventory150-attempt2-helper-coverage/validation.json",
+      "sha256": "41c159e6536785bc7b6d36824505a342aed10b71eb585d824042449310795388"
+    },
+    {
+      "path": "docs/release/runtime-control-governance-2026-09-30/authority-review150.json",
+      "sha256": "1890548fc6011510f7141749ce58e6cc09b21b4e141c9a73229ccb40d8755d0f"
+    },
+    {
+      "path": "docs/release/runtime-control-governance-2026-09-30/authority150-attempt2-rehearsed-correction/validation.json",
+      "sha256": "1d1422a3a70c6722024da3938b048c5d807c89ab9818231b861a72c9acf2fb56"
+    }
+  ],
+  "original_criteria_preserved": true,
+  "prior_revision_preserved": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "fbf9cf3487faacd155cea4544acfc57946a58fcb503acdfe0ee079e2d0f8a788",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "9c7194d9ff0cbf4542fd4a8ccaecef82ab89234018245a1c244dc6218949d2f7",
+    "local-implementation-register-2026-09-30.json": "6e77620f371be47185334b5406e72074d617e04c998b57f022976c1ad0a84d64",
+    "production-remaining-tasks-2026-09-30.json": "cd6497f8edd1accfcbcb742e77f949d62c71e3926ff19bcd4abba17aa7f57475",
+    "production-remaining-tasks-2026-09-30.validation.json": "fee571130524949b9c3d47453c8601bf79a1e26d885cf45f4068d4c5c6ea54b8"
+  },
+  "priority_counts": {
+    "Crosscutting": 2,
+    "P0": 24,
+    "P1": 71,
+    "P2": 4
+  },
+  "refresh_script_sha256": "e186a78e98ae86a0f99438c29e8dd09943d5bdabb98b3d489c0d1c27358cc296",
+  "scope": "Original register integrity and scoped local evidence; not final whole-system acceptance",
+  "sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "f0dafe0c8e4cfbe49a4a1872603467520acc3984d8674699f8ef37e64eee49f4",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "4fa6a81efe5e4ce9bdfcefad8b3d8ff708529a06e0eae8d128c8b8f3da97e753",
+    "docs/release/local-implementation-register-2026-09-30.json": "6fb7677398e2007485ab3e70a182f6932d9d827b388b9cbeef66044863137e31",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "0ea0dc22e4a1969b0cce4dc4ed258f7d88177770b9cd373710279984411c96d6"
+  },
+  "snapshot_revision": 9,
+  "source_documents_match": true,
+  "source_migration_count": 153,
+  "staged_source_versions": [
+    "20260930200000",
+    "20260930210000",
+    "20260930220000"
+  ],
+  "status": "pass",
+  "unique_open_rows": 101,
+  "validated_at_utc": "2026-09-30T20:24:26.365356+00:00"
+}

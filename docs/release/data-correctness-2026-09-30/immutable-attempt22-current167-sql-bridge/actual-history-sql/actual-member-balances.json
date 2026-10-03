@@ -1,0 +1,35 @@
+[
+  {
+    "balances": [
+      {
+        "amount_raised_minor": 9007199254740981,
+        "currency": "RWF",
+        "current_user_balance_minor": 56
+      }
+    ],
+    "collection_id": "99640000-0000-4000-8000-000000020001",
+    "supporter_count": 2
+  },
+  {
+    "balances": [
+      {
+        "amount_raised_minor": 3,
+        "currency": "RWF",
+        "current_user_balance_minor": 0
+      }
+    ],
+    "collection_id": "99640000-0000-4000-8000-000000020002",
+    "supporter_count": null
+  },
+  {
+    "balances": [
+      {
+        "amount_raised_minor": 0,
+        "currency": "RWF",
+        "current_user_balance_minor": 0
+      }
+    ],
+    "collection_id": "99640000-0000-4000-8000-000000020004",
+    "supporter_count": 0
+  }
+]

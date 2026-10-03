@@ -1,0 +1,142 @@
+{
+  "comparison_to_previous_refresh": {
+    "before_caller_sites": 718,
+    "caller_records_equal_after_removing_only_line_field": false,
+    "caller_records_with_location_changes": 48,
+    "caller_symbols_candidate_targets_resolution_groups_and_authorization_unchanged": true,
+    "catalog_objects_unchanged": true,
+    "current_caller_sites": 718,
+    "gap_counts": {
+      "function_body_match_review": 127,
+      "functions_without_exact_body_match": 127,
+      "source_lineage_uncertainty": 84,
+      "sql_resolution_review": 318,
+      "unclassified_objects": 74,
+      "unrepresented_migration_sources": 0,
+      "unresolved_callers": 58
+    },
+    "grants_unchanged": true,
+    "input_hash_changes": [
+      {
+        "before_sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+        "current_sha256": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+        "kind": "maintained-caller-source",
+        "path": "lib/admin/core/admin_receipt_repository.dart"
+      },
+      {
+        "before_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+        "current_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+        "kind": "maintained-caller-source",
+        "path": "lib/admin/core/admin_runtime.dart"
+      },
+      {
+        "before_sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+        "current_sha256": "348ea14666444ca99a20b8ddc0a3afa835ebc2cfa4850d76eea319bc9ce28bc9",
+        "kind": "maintained-caller-source",
+        "path": "scripts/admin_pwa_browser_qa.mjs"
+      },
+      {
+        "before_sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+        "current_sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+        "kind": "reviewed-caller-seams",
+        "path": "scripts/audits/collect_schema_domain_caller_seams.json"
+      }
+    ],
+    "lexical_expression_excerpt_changes": 2,
+    "only_owner_reported_format_browser_and_exact_seam_binding_changes": true,
+    "sql_reference_sites_unchanged": true,
+    "strict_style_files_outside_mapper_input_scope": [
+      "scripts/tests/admin_receipt_source_busy_test.dart",
+      "test/support/test_capture_paths.dart"
+    ],
+    "summary_counts_and_gaps_unchanged": true
+  },
+  "generation_summary": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 775,
+    "functions_with_exact_static_lineage_body_hash_match": 0,
+    "functions_without_exact_body_hash_match": 127,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 36,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 666,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_lineage_uncertainty_records": 84,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4754,
+    "unclassified_objects": 74
+  },
+  "held_inputs_before_after_equal": true,
+  "independent_verification": {
+    "acceptance": "draft-with-open-mappings",
+    "catalog_categories_preserved": 20,
+    "catalog_matches_current_migration_names": true,
+    "catalog_objects_verified": 2543,
+    "grants_verified": 4157,
+    "input_files_verified": 1093,
+    "replayed_migration_bytes_match": true,
+    "semantic_output_files_verified": 5,
+    "status": "PASS",
+    "verification_method": "full-independent-recomputation"
+  },
+  "mapper_and_test_sources_unchanged": true,
+  "mapper_tests_SQL209_Linux39_replays": 0,
+  "outputs": {
+    "DOMAIN_MAP.md": {
+      "bytes": 4177,
+      "mode": 420,
+      "sha256": "b9c5211c5e190dcf860a38443a3a5929f3bf7d7ed86cb69e0eb960822c7ca50e"
+    },
+    "coverage.json": {
+      "bytes": 1400,
+      "mode": 420,
+      "sha256": "ccd1711d26c4ea9e053bcbcd9affc023a23ce90708a05ee5555d4d6825826f36"
+    },
+    "gaps.json": {
+      "bytes": 356585,
+      "mode": 420,
+      "sha256": "3022cb7894610bba4cf3cdd143370b04e40ab979470c3c79012ee8d4c2251f31"
+    },
+    "input-manifest.json": {
+      "bytes": 329912,
+      "mode": 420,
+      "sha256": "d4f62a27cf8807f6202f5e11f4bc02fb10f76bdda9cd0c986a5165c186ee2d20"
+    },
+    "schema-domain-map.json": {
+      "bytes": 12352604,
+      "mode": 420,
+      "sha256": "122bab064de521df81b92c27baa099d8639511f623cebe3efc72d1697ce91701"
+    }
+  },
+  "previous60_tests_reused": true,
+  "status": "pass"
+}

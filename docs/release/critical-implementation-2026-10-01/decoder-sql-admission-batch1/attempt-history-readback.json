@@ -1,0 +1,46 @@
+{
+  "observed_at_utc": "2026-10-01T22:16:55.453634+00:00",
+  "attempts": [
+    {
+      "attempt": 1,
+      "receipt": "attempt1/preflight-failure.json",
+      "receipt_sha256": "dc7cb84ac52055ffd14f54f8d8102fc3a1ec3ac657abcbb78234c5b969f93b35",
+      "original_status": "fail_closed_preflight",
+      "bound_artifacts_verified": 207,
+      "hash_mismatches": [],
+      "recorded_target_removed": null,
+      "reason": "Observed migration count exceeded frozen expected count; stopped before target/SQL."
+    },
+    {
+      "attempt": 2,
+      "receipt": "attempt2/preflight-failure.json",
+      "receipt_sha256": "1d2106759fc359e5f4981ff333db550e34f49d4a0689df00274ae784ec2f4db7",
+      "original_status": "fail_closed_preflight",
+      "bound_artifacts_verified": 208,
+      "hash_mismatches": [],
+      "recorded_target_removed": null,
+      "reason": "Observed migration count exceeded frozen expected count; stopped before target/SQL."
+    },
+    {
+      "attempt": 3,
+      "receipt": "attempt3/result.json",
+      "receipt_sha256": "3b920d5cd34dd8ae038c813fdd98af93d36e9a5923e2a8cbd9a62f0223205f25",
+      "original_status": "fail",
+      "bound_artifacts_verified": 411,
+      "hash_mismatches": [],
+      "recorded_target_removed": true,
+      "reason": "Affected current SQL UAT failed: scripts/tests/roster_resource_integrity_uat.sql"
+    },
+    {
+      "attempt": 4,
+      "receipt": "attempt4/result.json",
+      "receipt_sha256": "7214beeec3471a79596d945b08674c1f17cca551fdc9c52603fc9c9145f6c165",
+      "original_status": "fail",
+      "bound_artifacts_verified": 416,
+      "hash_mismatches": [],
+      "recorded_target_removed": true,
+      "reason": "actual-resource-concurrency failed; full logs and checkpoint retained"
+    }
+  ],
+  "observation_limit": "The attempt1 historical field new_concurrent_migration is preserved verbatim. The evidence proves a newly observed path between enumerations; origin and writing time were not established."
+}

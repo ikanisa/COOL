@@ -1,0 +1,874 @@
+{
+  "private_work_root": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/work",
+  "files": {
+    "api-classes/META-INF/main.kotlin_module": {
+      "sha256": "02d141c7f460b4139fd8b54a8df150709409acc286c3a7501c42764352edab2e",
+      "bytes": 231
+    },
+    "api-classes/app/cool/mobile/BuildConfig.class": {
+      "sha256": "46ef44ebd46c9306d3c28d8cad186ba30a6bd691739fd5250f0d7d8fa9f34dca",
+      "bytes": 778
+    },
+    "api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class": {
+      "sha256": "0f0031ac15bb9b37ea707865c824f4c03b55bc5eab8f2ead29184ee948c443f7",
+      "bytes": 8289
+    },
+    "api-classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+      "sha256": "444d88d8a349d31db6d4a9d69f377e6191007e2ca76c65f2b736e8c0f2867390",
+      "bytes": 1893
+    },
+    "api-classes/app/cool/mobile/gateway/CallbackKind.class": {
+      "sha256": "16282286f6edc96de47309b8e63dda0ab5e4ff5e2637cb7d2910200cb796a689",
+      "bytes": 1786
+    },
+    "api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+      "sha256": "b0d5f09411f1ebeb2348507a6aa94efb8a033d1b236b044f12a4d4e6cf05b379",
+      "bytes": 4661
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayActivity.class": {
+      "sha256": "b24147733d612019fbb8d63c4351d9a9c4db41d40a2b4df20216cfc9d0cec461",
+      "bytes": 2516
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class": {
+      "sha256": "ac6ac8b8b043092b738a5a9bff7afa26a402b5defc7a99e8828fcafce04a2792",
+      "bytes": 2380
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class": {
+      "sha256": "79cf1750c03b2b65fd48173dcaca152337a974c920ae1e3ca5eb74155ff3dff9",
+      "bytes": 10069
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class": {
+      "sha256": "0f61a8483d5e4391951d79fb0f3b40114e3e2c8fff9f81c8232e3ddebb2813f1",
+      "bytes": 1377
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class": {
+      "sha256": "9a38c20386e0441373f285b9e5653c56588f18746d9982286c35c0b088611fad",
+      "bytes": 1371
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class": {
+      "sha256": "2d66fab62f76173d25dabb9ae0bde5be5db57cfed01dbe63c3894728fe6e3a00",
+      "bytes": 1364
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class": {
+      "sha256": "515a5060998feb78ce3c1e86118919789d8880c0a72926fe25471378b302de9b",
+      "bytes": 1282
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class": {
+      "sha256": "7daa086f8b43549b85028bee74ec036a037ceda634f9d22d7c04b4cfa20ed616",
+      "bytes": 1343
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class": {
+      "sha256": "d30f814b898c7c02165c3b9f40a4c00e6b8e56880e0138de291e5aebea73a3c0",
+      "bytes": 8325
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class": {
+      "sha256": "925589dd258af7ccb43e0b06a6ab175712f4aa5b219ef969e6ce28eb330b1b72",
+      "bytes": 3295
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+      "sha256": "bddb1997e7ab3e62878424865375e8d0a8fc9cde3293817c9807fd2f7a83f304",
+      "bytes": 6371
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+      "sha256": "905af2358a4de3617e38c8c9dfc548a2998e3e8694c0a448facd4b18f21475c7",
+      "bytes": 2068
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+      "sha256": "fb2a2b75b314459c285986212e22ad4dc31ae840b2cbe457fcd7b307f78a66dc",
+      "bytes": 2163
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+      "sha256": "4859641c0b98ff75baa9fc5f5860e28111179062e651d3a972a4af95deb66370",
+      "bytes": 2351
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+      "sha256": "97ea848974de9deb3bbf769990b61b6a8eef35e0d17c034d46fd783cbfb69df7",
+      "bytes": 10217
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+      "sha256": "e363ddeabc139661d43632d218a156cbbd24ffce524d3ed74b6111a85e5c5d49",
+      "bytes": 16181
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+      "sha256": "9974910b2205693d5eb60e5b01de7be2e70fd6fff3409b940ade300dc94ce797",
+      "bytes": 6091
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+      "sha256": "295bad022dae782cf3429694bcba764c28fbcd6af4884d9eabedf16910b0dd1d",
+      "bytes": 10116
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+      "sha256": "f77129ca841840d485ddc72a10254c8abcd56a37731355aab72fce0a1f95fb8d",
+      "bytes": 4429
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+      "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+      "bytes": 1450
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackend.class": {
+      "sha256": "dbe0bb7b3df1f671acccc3366afc5d6c7090191785c0c2b4dcaa4abd02380555",
+      "bytes": 2493
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+      "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+      "bytes": 1465
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+      "sha256": "0e14b57febcba12fd753c617b51c58ed0f6aa9105bd156606d86255d893519f3",
+      "bytes": 8019
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class": {
+      "sha256": "6e016d5741d93453b39d75399824b7262bd749308e546cbd085b701f636c3800",
+      "bytes": 3592
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class": {
+      "sha256": "b70db3020343648c3ef789b33524a4faeb6696a1a13d042e81e80effbc645e32",
+      "bytes": 3423
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class": {
+      "sha256": "bf0c892874c76e0a271a942c34eefd42973b0dbb7c80dd67721a98d449266856",
+      "bytes": 6819
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class": {
+      "sha256": "4311475febe82a63566e42208d709b8f37ee139aa48d3681994a43c5792a40d6",
+      "bytes": 1343
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class": {
+      "sha256": "ad5696dd2512e4b93c03e784e03adb7dfa7f4d6f39bc6132ab961a0c3a92ab36",
+      "bytes": 1337
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class": {
+      "sha256": "c04c82d0855f50792f6055f792e97ead369ac9c72c2e35de865526455378494f",
+      "bytes": 1330
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class": {
+      "sha256": "b24817dccf00367b80849d6fee556bec97fd0a0302394126f4e33fd1199a0e9e",
+      "bytes": 1346
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class": {
+      "sha256": "ffd6bcaf70075f39397ad1263be9da78802a150ec0cd82e923448664a60d6a69",
+      "bytes": 849
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayBridge.class": {
+      "sha256": "b002d344e00cfdef67d3ad5a6055444adc963511b69d53a617e98d3f3004fb62",
+      "bytes": 26956
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCallback.class": {
+      "sha256": "b19ca9144c6821988878e2b4b9e2f3c16f5a60701d1b48197fa9a23b39838288",
+      "bytes": 6046
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+      "sha256": "b76c56f9d6c9ce1b12e2e623a87767de20c77218e65cea66d6e2d989625d5abc",
+      "bytes": 5540
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+      "sha256": "e8d54169a43f32dc31acbc1f17d8ea390ba7cd62fdbf6491de48be1c43728d93",
+      "bytes": 2191
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+      "sha256": "483c46343ee4ad519a52da7d6a7c9138d0bfa9f9eed7964793a9b5c018ae9082",
+      "bytes": 3407
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+      "sha256": "364cec1fabef8965fafd3ef85ffa1cfc62c1a47ede5db01dca5c7f68745204ec",
+      "bytes": 2973
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+      "sha256": "b3e00399e36964a69dca6403a4f435926b9a9a5b2139b9db469a53a4b4cad183",
+      "bytes": 3547
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+      "sha256": "1a0ceb164b94310bfbea985625aec411a4222fae64828a9bbe7d42f963c31726",
+      "bytes": 1708
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+      "sha256": "423c07967e2754502615e9ddf25b21e24f999a9f339e9eb59bf0a1d676826174",
+      "bytes": 2854
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+      "sha256": "a93add8b39cf21bcdc1da053bb1ad99492618933982d5c4e6c681db0a6ea81dc",
+      "bytes": 881
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+      "sha256": "7b36f0c96de2733d3df155ebd056033f01f01395be074d537d483730c0c8a13a",
+      "bytes": 3889
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+      "sha256": "f3a27b42543ff3bf80b6f7a18cd9941a6748600c7ed1b5dd05500e4b5247269c",
+      "bytes": 6450
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+      "sha256": "284da6ee87bb57789f87625483ba8b3ebfc3fb310434cca9c41d1d335b078a2a",
+      "bytes": 4373
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+      "sha256": "31fd1bcbfc1f123a9cffa2b4f8209f695d55aace4e9a60ae8257b0982826a27e",
+      "bytes": 13942
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+      "sha256": "75ff2f77e4784c65cf5aa3c8012282eac8aae3187f43f2f43f8574d1830d699f",
+      "bytes": 9852
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+      "sha256": "687a71c01893237f2b8ff84497e75f25e28b7d9f05bd3f8acd77b8fae7fb1af7",
+      "bytes": 3027
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+      "sha256": "8ff4e6039c9169e8ee1f76cd7e39bee5b7a0e31abf3fceaf21f30f280bdc5e2f",
+      "bytes": 5103
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+      "sha256": "134fceb2036327c7f68f69e182f6bb6c6995493be1c4ee8b51a8b919bb7d5082",
+      "bytes": 20274
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+      "sha256": "43e2576e473f51eb8e195a312bb1ea597a97a2b325b563340dd8f083c6227798",
+      "bytes": 1010
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+      "sha256": "34376b55a3604a402e16b862f9dfd183a52c70e82906e3a23029312d77a2b5a9",
+      "bytes": 54867
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+      "sha256": "eecd0f015af90dc297a715275b71b1097dba7569024b6bd26a1713987d2cd365",
+      "bytes": 2091
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+      "sha256": "7953e31393832fa2bae350599e5f702841395f543e0350633107157dc41ddc91",
+      "bytes": 3373
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+      "sha256": "9701df30db008ef6b1cb1e9a3a508ff37534662dbb6ccf0fbbf7ffe32b4686fd",
+      "bytes": 1089
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+      "sha256": "09c15839eb116049f0a04ad72b3a6b75ff57d48bbea50178fa9960fe39c11b86",
+      "bytes": 9722
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+      "sha256": "b10712e07a294e0f51dafda6769e746ce5399067338d972383b92355cab4327a",
+      "bytes": 3079
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+      "sha256": "e82e8ed67cb065aa31ee69e28c703b97d03523f4cef54bb7a1aa6ab96e369361",
+      "bytes": 1159
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournal.class": {
+      "sha256": "494d5a78e62e7f1f94b14f3f021c752ea215c31b1292f7f85a7ee5ce8e3b18fe",
+      "bytes": 14041
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+      "sha256": "878e16777b6a2a5db61fd5c63df4280c02253f00df3ad54e9971b98162574a69",
+      "bytes": 1288
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+      "sha256": "6142b8e95f832de4ff8786f49113037abcbd60379b20347fd96e186464683030",
+      "bytes": 1553
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+      "sha256": "dbcd9a5d7c51a8a00be37ee26818437a6cd5878a4296075918b3381829731660",
+      "bytes": 14108
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+      "sha256": "ade484de4bd555da207670e941089273bbe195f7379e59c593544ac1ad615ee8",
+      "bytes": 17798
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+      "sha256": "fa20e77559d5a22b2f01983c09448a060cc5512d9c3a6d0fced0fe941fb9ca11",
+      "bytes": 9606
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+      "sha256": "54e93c3d9cbbbe1a1313caed5321a225628b22f17c764f8f84a4f70628ced407",
+      "bytes": 3586
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+      "sha256": "32cb4055c1e74d142854bce0efc0e3c9893c32971528f4a29efd02084b87b0da",
+      "bytes": 2132
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+      "sha256": "b8f113492fba683e878a28238fd7801d0e1ddc82604b89f511fcea7b169a9e08",
+      "bytes": 2931
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+      "sha256": "1f6c25a2d32b4ac3a103588bf30ed12df630f4c8c07b608df9b0ced4849dcd35",
+      "bytes": 3194
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayObservations.class": {
+      "sha256": "053aaa695f7096fce320d7756f864d7b32d78cc7fa9a10351dbfe0211ba31d85",
+      "bytes": 5529
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+      "sha256": "3f1204487f7b1295ac30647e2fe9a42331587ec7b5ebab11efa2423b92bbc7ba",
+      "bytes": 3627
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+      "sha256": "cf09ba3fc38eef36f870f65be9141b443e6c97fae4fbc46e2d69b57aff2b8be5",
+      "bytes": 2672
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+      "sha256": "67d1579c78c519e2787f16738b85842d3c623139d1b1143ab338d3fec15537be",
+      "bytes": 3659
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+      "sha256": "44c885b6f794936cfa5c7ba6a3ef5603ea1ef072c55e1a527068fc82be6561f4",
+      "bytes": 1361
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+      "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+      "bytes": 1441
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+      "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+      "bytes": 1441
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+      "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+      "bytes": 1637
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+      "sha256": "a99d2229b620337bc3fed032a474e1ce1312250074ea28f88840b9c1a67a1ea3",
+      "bytes": 870
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+      "sha256": "79b0b0b23b455da686db230ee6c418f2b0522b0f6b9b40a41588344059df0681",
+      "bytes": 39522
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class": {
+      "sha256": "b5f8262da164d397d000b71257c45e30662914a07b22e7899e4d73ac75feca58",
+      "bytes": 977
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class": {
+      "sha256": "28e9a39077f5ffadf178e2138990630b008272e67f81924e42460336b3039b6b",
+      "bytes": 5537
+    },
+    "api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+      "sha256": "75a058213baba452f221bdd0393843d3adf4ebf4750a910167a41cde53b1e1eb",
+      "bytes": 1228
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayStateException.class": {
+      "sha256": "7d223819e96362dcae2dbee133de93e976a2c22b29382911047c5ff249a8aa1f",
+      "bytes": 1120
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+      "sha256": "04ac5386ee1fb389846cf709909b32793ae885d7ecf3980734b9aceb62e02c84",
+      "bytes": 5197
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+      "sha256": "69bb4611aece18b3b88e28b06190338fa5335ff11d4711ef67662b766743643b",
+      "bytes": 5658
+    },
+    "api-classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+      "sha256": "163ef04cdaf529bac255ee3d496e91187e43bc6afcf1aea7a4b3ad70fb1326ee",
+      "bytes": 6184
+    },
+    "api-classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+      "sha256": "ddb2cf1e7e70746438e3afbda3efb3825aa6579df0d35b78acb90fe5cf81ab29",
+      "bytes": 6977
+    },
+    "api-classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+      "sha256": "e9fcb14ffa5635b0bc796593a01a86b512117687a8e1fd1e1b99c515e7657e10",
+      "bytes": 1942
+    },
+    "classes/META-INF/gateway_product.kotlin_module": {
+      "sha256": "790c04a884cb2169820a82d7401525beeea9145158b3f00ca0a39122fbccdb21",
+      "bytes": 206
+    },
+    "classes/android/content/Context.class": {
+      "sha256": "0c3194f5baa98d63b5be1800cca775dc59aa1d414983da05b9858cb4f994ed5f",
+      "bytes": 1463
+    },
+    "classes/android/content/res/Resources.class": {
+      "sha256": "db86c15281983ca16e06adb596e253bb17a75e1a5b05f51f208e5530e3ff2f6a",
+      "bytes": 1031
+    },
+    "classes/android/security/keystore/KeyGenParameterSpec$Builder.class": {
+      "sha256": "902d0acf95083bee4b8a2a6be16ffd1057d655d7e58efc6764a93e408cb47f4c",
+      "bytes": 2557
+    },
+    "classes/android/security/keystore/KeyGenParameterSpec.class": {
+      "sha256": "36fb4cc6906b63aeaf8ea195a5d325c493d179bd324f545fd7d87baf4ebab966",
+      "bytes": 740
+    },
+    "classes/android/security/keystore/KeyProperties.class": {
+      "sha256": "6ab70f62d30e9daf298f8e65700e8dac90f965fb2df1b61742f04eb1cdeb430e",
+      "bytes": 1394
+    },
+    "classes/android/system/Os.class": {
+      "sha256": "0c7211ec84c7e18d6cc51c512b5c2eadd10935f9b68577684d5f4c887ddea957",
+      "bytes": 3417
+    },
+    "classes/android/system/OsConstants.class": {
+      "sha256": "77e28df01f7436310b73b5f616b5e025a38f5fd4cc8dc2c1783280f6090a3a19",
+      "bytes": 804
+    },
+    "classes/android/util/AtomicFile.class": {
+      "sha256": "25e9d723a4d5f154dc9fcf9f0a20cba883dc4454e6ecda684d542f1423eca950",
+      "bytes": 3285
+    },
+    "classes/android/util/AtomicFileFaults.class": {
+      "sha256": "2b4d6cdc5a915b249f39375885d079137a5100630d4e358ee524717a0a08e347",
+      "bytes": 971
+    },
+    "classes/android/util/Base64.class": {
+      "sha256": "2b779e86a3c9a792ee2d1f7a25b5639c09d17a11abc8154ef96cce5c23a05e82",
+      "bytes": 1741
+    },
+    "classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+      "sha256": "cc23e3183f2e0b30e4857d845178828c05359888545df17b157ff9d5a3249818",
+      "bytes": 1918
+    },
+    "classes/app/cool/mobile/gateway/CallbackKind.class": {
+      "sha256": "47ffc4dbc6f1b2687ac021ae6e377f2ffb5540488fba0206d63573280e3a8fb5",
+      "bytes": 1811
+    },
+    "classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+      "sha256": "55ec849300bacf638047ad85e9a4b4db7480a0613f7bf235259981ff69f0119b",
+      "bytes": 4689
+    },
+    "classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+      "sha256": "8e79eceaa0d8a226d9499ddaf49297c84be23940b44a558f83296cd8ad7f4a10",
+      "bytes": 6397
+    },
+    "classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+      "sha256": "02f866c5c8d67c225a131141101fd2d6e7d9e80f0d7edb81c18299a779b7ad0e",
+      "bytes": 2093
+    },
+    "classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+      "sha256": "fb2a2b75b314459c285986212e22ad4dc31ae840b2cbe457fcd7b307f78a66dc",
+      "bytes": 2163
+    },
+    "classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+      "sha256": "ef1a439f8e48eb22e11c0644f9ebed5ab4be77b8ee26af58139ee02f7a2a525c",
+      "bytes": 2376
+    },
+    "classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+      "sha256": "11f23917fde69396c50dc4f5a35e3a0352e641f8154cea4c5f1956be68cf9b23",
+      "bytes": 10243
+    },
+    "classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+      "sha256": "be63709ed1b8faf421bce75157edc33d2017d5f5f5252b193e7d33d5bb003371",
+      "bytes": 16207
+    },
+    "classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+      "sha256": "57277d4250ecb840be8e039126c1fc96893c67280ee33472cc9e514545d0b868",
+      "bytes": 6117
+    },
+    "classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+      "sha256": "103f98829630301e22820828ec4a87557578978f1bf46c54405b1b340eca8820",
+      "bytes": 10144
+    },
+    "classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+      "sha256": "a6642bd77ddf755acf2e1e1d05484cb8ff5109515624e151a22be6b9fb8af0e8",
+      "bytes": 4455
+    },
+    "classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+      "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+      "bytes": 1450
+    },
+    "classes/app/cool/mobile/gateway/GatewayBackend.class": {
+      "sha256": "7f6ef0a82c21bd5b20ed015ff52ab4f49f0d4a8526273900679cc5ecb2322851",
+      "bytes": 2521
+    },
+    "classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+      "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+      "bytes": 1465
+    },
+    "classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+      "sha256": "6faca8cfc92b3a866655ac881fa36e142f2dfba255965cf901a2409e1d65e4dd",
+      "bytes": 8044
+    },
+    "classes/app/cool/mobile/gateway/GatewayCallback.class": {
+      "sha256": "044d79dda85d95c788702335e7960a163cefb2829b3eb4d0b1b77f702fbfe1c3",
+      "bytes": 6071
+    },
+    "classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+      "sha256": "a44fe11dc25bfe87628ce238687baac82b90c7bf0dccea4ec323bc33177d3cda",
+      "bytes": 5565
+    },
+    "classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+      "sha256": "e8d54169a43f32dc31acbc1f17d8ea390ba7cd62fdbf6491de48be1c43728d93",
+      "bytes": 2191
+    },
+    "classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+      "sha256": "b3381fe69cebacbe82b7097c6d51a6c8b1d81fc44196b9b06f96d90c0ddee207",
+      "bytes": 3433
+    },
+    "classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+      "sha256": "e6d0415a9ca1fd4f70e6aa876b0f18e45465f77f04e5fce93d2d2bee04e9cc4b",
+      "bytes": 3001
+    },
+    "classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+      "sha256": "ee74cecead74a496c2b4b4eda075986cb5b89be1efe25952e0c86865f2dbc1bb",
+      "bytes": 3572
+    },
+    "classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+      "sha256": "762afc8fd8deae2aaa04823e2d3baf725e45d3dc8ba978b24cad31a21080e491",
+      "bytes": 1734
+    },
+    "classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+      "sha256": "86f7de0e3b0a8d5e457dfa414730e0c8e255fb92a5c6625aff2b2a1a1f3957ad",
+      "bytes": 2880
+    },
+    "classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+      "sha256": "49cd7542f8dc0f4c440eaa5e7eb5213807681e96d019e55c1ac917b8d3edd2ba",
+      "bytes": 909
+    },
+    "classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+      "sha256": "6b96252f4e64937f91f99d755daaaaa02fb7f39e715597dca39171534d673905",
+      "bytes": 3915
+    },
+    "classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+      "sha256": "c34251ab8edbd25a111f31f302700e3150ed2c211c17ca3cdad02c35b58dddfe",
+      "bytes": 6518
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+      "sha256": "06ef8e74b9472280f396e6753f39c4385e3270389875eabc144d8a6c35d25d84",
+      "bytes": 4399
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+      "sha256": "3167e320c45b679dc66e532c0ca1c1e8f4faf0ac7ec4659659883d7c337544eb",
+      "bytes": 13968
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+      "sha256": "c8d7cd26ca0bbce7cc3fe53c04266ec841c3f5583ebf6f8bb46dface97d1b29c",
+      "bytes": 9877
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+      "sha256": "6d50b7f1d24d86b90d105ad7c30bc95c1db21a6e57328895dc5688ffdd6784c2",
+      "bytes": 3055
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+      "sha256": "04ee09c7c7fc77a8ed1ff568ca9254dd26af0b4c6ef6e45875230878a45a5cdc",
+      "bytes": 5129
+    },
+    "classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+      "sha256": "9cca9c558492fd8f89517f18550fccd110c3c7cdc51c6c6e68302887387de762",
+      "bytes": 20299
+    },
+    "classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+      "sha256": "f2ad0757588a39c287178f40153d0be2b3bc2e78a5f9c67f97b10708bf55504d",
+      "bytes": 1035
+    },
+    "classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+      "sha256": "f687ede9b0c0895ca9dce53dd5431fcded5e43be90add9fc27619ebd4482aa43",
+      "bytes": 54949
+    },
+    "classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+      "sha256": "740bce854efeffa8651edc76476e9438e93a1b16e69e3c29748f9fa40d2f4ddc",
+      "bytes": 2116
+    },
+    "classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+      "sha256": "4fa971eedb75831ceb07b4097b9bb13d4bbe27e62a17d0213df4fb3510cd9453",
+      "bytes": 3399
+    },
+    "classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+      "sha256": "60d7ed991bafc00c0161a2ed7fea95e8e4f8d21e79b76e05da7a77a9842e32d5",
+      "bytes": 1115
+    },
+    "classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+      "sha256": "e4284cbc0369cf510b867d978494082e4cb12879c5fe770f2941b3d54dff778a",
+      "bytes": 9747
+    },
+    "classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+      "sha256": "5ca43d272958787fac728c51624425805afd96dcf9f1c9a7a48bb1af90954d22",
+      "bytes": 3104
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+      "sha256": "776b1563f4cc48e89a517740b31777460e375477f778276fd85b951254f84139",
+      "bytes": 1184
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournal.class": {
+      "sha256": "d1dbbc6216b2df668706dc3f4e207fbe319d39e62bcd8b6ba79a5fe1800689fa",
+      "bytes": 14066
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+      "sha256": "878e16777b6a2a5db61fd5c63df4280c02253f00df3ad54e9971b98162574a69",
+      "bytes": 1288
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+      "sha256": "78b768cf5bbe4fc28982d6f25019620c8334a63dc9c93760b1228619578212e2",
+      "bytes": 1581
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+      "sha256": "12089f6f7b4e552d15927af6e4afc22fb27dcdb9b776af79b5836eb4b2d5ecef",
+      "bytes": 14134
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+      "sha256": "a0534dfa5a4f6c6343b97d1b636c6ad28fe159477cc3ed62911f001f4fc81724",
+      "bytes": 17823
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+      "sha256": "afbb8322a5f8493480599d0fc79b2e7831bb63120984a5a0b03478ac66c48b03",
+      "bytes": 9634
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+      "sha256": "e92e627db540062bc77bae8d84f6e4312bfb2c6208d32e50443819f502d1d0f1",
+      "bytes": 3614
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+      "sha256": "32cb4055c1e74d142854bce0efc0e3c9893c32971528f4a29efd02084b87b0da",
+      "bytes": 2132
+    },
+    "classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+      "sha256": "07f9f2923027b6ee2a3852b80caf7b50866e1e72e2ce129a6766b817fe7d5142",
+      "bytes": 2956
+    },
+    "classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+      "sha256": "149d908aa878a700cbb50f915da9bd840a7a61cb0b7f58e500f8611ab6772070",
+      "bytes": 3219
+    },
+    "classes/app/cool/mobile/gateway/GatewayObservations.class": {
+      "sha256": "4e75013d7ff28c2506cfa7ba39d97a7c22c50ecd38564eb06c0853d040204664",
+      "bytes": 5557
+    },
+    "classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+      "sha256": "590c05ab8c836ceeb07679a40137b33d83a2a289734eb93c860b79745982edcd",
+      "bytes": 3655
+    },
+    "classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+      "sha256": "b4d3fad16861816432a7b885c0d608abdeeda67248857a178c474f3899bdf9cb",
+      "bytes": 2700
+    },
+    "classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+      "sha256": "7100b2765114da2ed2105be4261e8d6b60e1b7afaec23b53b610931921288e4d",
+      "bytes": 3684
+    },
+    "classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+      "sha256": "f357425afcfefff28063419121532b81e2fa3cd351da041800c383d2682be110",
+      "bytes": 1387
+    },
+    "classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+      "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+      "bytes": 1441
+    },
+    "classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+      "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+      "bytes": 1441
+    },
+    "classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+      "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+      "bytes": 1637
+    },
+    "classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+      "sha256": "0c8da326368214653c0f28095e51c8ca6ecfc4a1fde6daa1c88bcbf062d40b79",
+      "bytes": 898
+    },
+    "classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+      "sha256": "c162011d3acdd48b4a3ebb001e4eacd27b2788a3c1fd2c28bad681c10e2702f9",
+      "bytes": 39588
+    },
+    "classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+      "sha256": "e4d55b9fb69eaa68f33c431662cd4477fa1cfe5a8070acfa148d8bce85c61059",
+      "bytes": 1254
+    },
+    "classes/app/cool/mobile/gateway/GatewayStateException.class": {
+      "sha256": "fa1c43ed8d0d5fe155aeabf71e8457249d5ca59b1d04f56580d3c808a4c4de19",
+      "bytes": 1145
+    },
+    "classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+      "sha256": "a5f01a30614e3f9f378ea6f3782caa6a199099a97766ee22986ed87578d2926d",
+      "bytes": 5225
+    },
+    "classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+      "sha256": "bd48027381b77873058cc6e4095812569d3365dfab51fd65d078ed7651d55381",
+      "bytes": 5683
+    },
+    "classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+      "sha256": "141b82794e26c192eee30772474f90b01ffd1ca9a52bdd6f625d614e8676858b",
+      "bytes": 6210
+    },
+    "classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+      "sha256": "4afcaab0cc571b98ced3e2e5419f5fa388b41c703f4994ed838ebb716765b2af",
+      "bytes": 7002
+    },
+    "classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+      "sha256": "25d7b40e6d0e86a5019e7d2f85f3e083a2b3afcf1ad7f628dbe01720770de017",
+      "bytes": 1967
+    },
+    "test-classes-0/META-INF/gateway_tests_0.kotlin_module": {
+      "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+      "bytes": 24
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$Fixture$3$1.class": {
+      "sha256": "0f71d9370585bbce319cdbbcc659c763ff3a99cecaa4d2a4cfabc3b00db54d6c",
+      "bytes": 5407
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$Fixture.class": {
+      "sha256": "d363e34e4211935a5316dd45aa1e239638195d3d10617da188d899fa10be7acb",
+      "bytes": 13042
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$Response.class": {
+      "sha256": "acef5a8daa86eab17573c046facef68c4ed00aed619f31adffdda0a4f8201d96",
+      "bytes": 3064
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$TestContext.class": {
+      "sha256": "53687fee0651686e6e1b9bc854bdfb1708b998a9a8ee5ee7cc303799aa7dbd5f",
+      "bytes": 1289
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$dispatched$1.class": {
+      "sha256": "d6095f2001d85a65ec8e680d3236a879d01277e49a6237d08060bbee20c445f6",
+      "bytes": 1678
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest$sender$1.class": {
+      "sha256": "2880f501448d3a2f9c94c3af54c86eaa3b0819e5b0f3b176fb798d9450e4cd72",
+      "bytes": 3546
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.class": {
+      "sha256": "db97b0d4b684e49ed57dc5e43b773c625afedee6289424a225c261a3cb153d44",
+      "bytes": 36338
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveTest$Proof.class": {
+      "sha256": "95501ce36c4581716e25f8dd39f2523c9acc5976f3f19a8257262ac534adb9d4",
+      "bytes": 3416
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveTest$TestContext.class": {
+      "sha256": "7a978c906cb846c86f2c56fcc301e4e8320eac611c09c12331b64cb16987bc9e",
+      "bytes": 1261
+    },
+    "test-classes-0/app/cool/mobile/gateway/GatewayAttemptArchiveTest.class": {
+      "sha256": "7f46c589b333f795996559952c419e66e2d77e42b2044077716e71c98b668c2c",
+      "bytes": 53339
+    },
+    "test-classes-1/META-INF/gateway_tests_1.kotlin_module": {
+      "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+      "bytes": 24
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest$Fixture$transport$3$1.class": {
+      "sha256": "0d91e946635413ba1ae31a59307b9b69d78eba982e5fcd46482add593863e516",
+      "bytes": 5489
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest$Fixture.class": {
+      "sha256": "79ce2a4d331fbd440648e214b9fac66138abedfce2caa626bf9110bb4b1a230b",
+      "bytes": 12591
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest$Response.class": {
+      "sha256": "312ffe8ba1e14f725c0f3d03531ea8adb21dde311730532d38fb486c97833477",
+      "bytes": 3092
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest$TestContext.class": {
+      "sha256": "802c8b460ede575c14fff869c7eabf3159aa41fe8265abc8d73aa998f08789a8",
+      "bytes": 1305
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.class": {
+      "sha256": "c9a05cb9fb35752df100050e61e9ddd2f2020097cdcad947fee2ac951be874e5",
+      "bytes": 21743
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveStorageTest$TestContext.class": {
+      "sha256": "15d877b557189d560f79c14d114e6dca90f44d0c5fce4401a07668aa459cd9e7",
+      "bytes": 1266
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayArchiveStorageTest.class": {
+      "sha256": "df4fd663d545c857dea2c305305c7162b7aeca35eb6184064d27697ec8605aa3",
+      "bytes": 20728
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$Backend.class": {
+      "sha256": "8c7c7ce85571511fe930d6299e624c6529c203e405fd7c723709f149c705864c",
+      "bytes": 7732
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$Fixture$coordinator$2.class": {
+      "sha256": "2a9d1d5eaaff63c722b35810e64323ab5f940ec103b896a49274035ac6e35f98",
+      "bytes": 1517
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$Fixture$sender$1.class": {
+      "sha256": "99d16bce21c4acc35c3d539d1be9ec2705e78fa79e91d47e32b8be78b214c351",
+      "bytes": 2713
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$Fixture.class": {
+      "sha256": "f8ab4f7404785d8d19e1dae09ad84ea272e50baea6aa86bf849856058efc413b",
+      "bytes": 8617
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$Memory.class": {
+      "sha256": "4ce94e1f0ac9ccbbb5e5d860c7c7bf6fc74c0617851ce3c37ae91bc65ff3dfa7",
+      "bytes": 3108
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$stopReturnsOnlyAfterAlreadyAdmittedInvocationAndBlocksAnyLaterOne$delegate$1.class": {
+      "sha256": "0846a22e06891e945027328dbcd5f817e14a7438a0bd3f404330740447483d16",
+      "bytes": 3012
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest$stopReturnsOnlyAfterAlreadyAdmittedInvocationAndBlocksAnyLaterOne$guarded$1.class": {
+      "sha256": "f3d2ff76371b19dee0ef3a839994a061b55d034693250a61b1129bdc301e935f",
+      "bytes": 1520
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.class": {
+      "sha256": "0031db7fab643921ba6db0de8d85500b0f3b2b669507ff1843cf1a29074c3e7d",
+      "bytes": 26509
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture$3$1.class": {
+      "sha256": "9a06bd3d797b0fee7916755cf5681ab44be0530b122d18dfbee66a6386c7ec83",
+      "bytes": 5472
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture.class": {
+      "sha256": "83ce244fcc6094ae48530047ad71f57473c951d38d5eee5c01a52f72f28b3f68",
+      "bytes": 13197
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Response.class": {
+      "sha256": "64ddac02a7aca7ee18cf8e6d1a6c0e45ddac374de682df7ef4c9d896a7f282bb",
+      "bytes": 3099
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$TestContext.class": {
+      "sha256": "7424057f771073f727fcf032f68a74e0aedacda30dc57d20d9f0c1b803d084c3",
+      "bytes": 1309
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$lostArmResponseRetainsFsyncedOriginalUUIDAndNeverInvokesOrRearmsOnRead$2$2.class": {
+      "sha256": "92cab414a9ae6a3b83cc12672eb6acc97dd8729e72a468bfb3c9452b5de77d64",
+      "bytes": 1662
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$malformedArmResultCannotCrossSenderAndOriginalRequestRemainsUnknown$1$2.class": {
+      "sha256": "0ca617a0cdf146425c3bd30f0aa47141f28f4905844ab832c5ecc50f52dc778b",
+      "bytes": 1653
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$f$1.class": {
+      "sha256": "3ed77e5714ebf85421559407f1b429685a37848b30558b13431b49865085886a",
+      "bytes": 2154
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$record$2.class": {
+      "sha256": "1f569bf3161bdf327a6dce0ed5785724a316f2e8ca668a57358f9d145e83e963",
+      "bytes": 1669
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$sender$1.class": {
+      "sha256": "3f52cf89edc352ef3e8e9cb444b079e632f79485305d47b7750119aefe51e442",
+      "bytes": 3571
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.class": {
+      "sha256": "102ec2d8714fad86761494f154c9bcae4e6049ffbaa354725ae05ef1b656c226",
+      "bytes": 33518
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayDispatchWireTest.class": {
+      "sha256": "2cfdcd29fcd0e64907a62a1a889b476ef42b7642e46284959a307f5834c4e092",
+      "bytes": 27350
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayJournalArchiveTest$Memory.class": {
+      "sha256": "8e5fed6d7449df56e30d081758243120d38fe2bec0909a88ec544a929d17a7de",
+      "bytes": 7742
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewayJournalArchiveTest.class": {
+      "sha256": "95127033adaccf26df6b808d9aaabce5fb00e0de2c577614b2f0a35fa5284b43",
+      "bytes": 33728
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest$Backend.class": {
+      "sha256": "72aea1b45248a29c5c5e29c4518f1dea0f05529b607be4bafa56158b79e59b5e",
+      "bytes": 8074
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest$Memory.class": {
+      "sha256": "6f61b236d4fa1e87e9df2f3215554256344d4ccaa2a65b781cd9dcb0b19c7c33",
+      "bytes": 4807
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest$Sender.class": {
+      "sha256": "0f655a1d0f58c7411bb841d76f4402baa8cfb3ea675122f3c2188ada72555c7c",
+      "bytes": 4554
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest$engine$1.class": {
+      "sha256": "ed3ea57651c3491483fcf8520fa6ad915d2f90ec93b53778b7617b7b6042f7c9",
+      "bytes": 1877
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest$leaseConsumedByDurableCommitNeverInvokesAndReservationCannotBeReused$engine$1.class": {
+      "sha256": "6a1580603164ebe338e961a0d20a3223addd6e29aa754288a825ee239897109a",
+      "bytes": 1563
+    },
+    "test-classes-1/app/cool/mobile/gateway/GatewaySafetyTest.class": {
+      "sha256": "ef9cc4f8106b1e2bb845479ef5cf43c844dda913214ca42e0ba7756adc6d43f6",
+      "bytes": 33078
+    }
+  },
+  "count": 217
+}

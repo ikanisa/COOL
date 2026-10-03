@@ -1,0 +1,144 @@
+{
+  "files": [
+    {
+      "path": "APP-reader-after.json",
+      "sha256": "a02fea40cdb75d2f4a8be6561f07c2707e8a979384c69adead4fd8ded58abc2b",
+      "bytes": 1068
+    },
+    {
+      "path": "APP-reader-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-after.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-before.json",
+      "sha256": "5e9ed7e600ac2144b862d7528409256cf715165cc35c9897db6a6bf202c0139b",
+      "bytes": 1069
+    },
+    {
+      "path": "APP-reader-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-before.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-after-output.json",
+      "sha256": "ac393fc3da5c1b2627c366507d9f5ec89185bc8c9eba57eda470c9533cf2b730",
+      "bytes": 6880417
+    },
+    {
+      "path": "SDK-before-output.json",
+      "sha256": "22f44e67df20ace96522eba09a7fdcbf36d2905811227ece7c98a5c3eb37baae",
+      "bytes": 6880417
+    },
+    {
+      "path": "SDK-reader-after.json",
+      "sha256": "ed512cc5325a10b9c522d168b50426f87bfaa1a327974d5e6899879b9d97719b",
+      "bytes": 1156
+    },
+    {
+      "path": "SDK-reader-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-reader-after.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "SDK-reader-before.json",
+      "sha256": "3eaa0fca774683e7275e31200d8c41583b961e330e6d608c97a39e4564b9ac85",
+      "bytes": 1156
+    },
+    {
+      "path": "SDK-reader-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-reader-before.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "app-after.json",
+      "sha256": "28cdf7ebdba8c3418c11fd16dc4e4c900ee3696221d247cfdd5354b4718782ff",
+      "bytes": 2355206
+    },
+    {
+      "path": "app-before.json",
+      "sha256": "28cdf7ebdba8c3418c11fd16dc4e4c900ee3696221d247cfdd5354b4718782ff",
+      "bytes": 2355206
+    },
+    {
+      "path": "exact-size-gate.sh",
+      "sha256": "d99c3d5ccb77990ae092a9d25b87f96ad9a95328df1b082bfeb752800edfa911",
+      "bytes": 901
+    },
+    {
+      "path": "hard-size-gate.json",
+      "sha256": "244d8a929244eec251e2592092bcd241e5a4880b4438373a74fc8ad22250c640",
+      "bytes": 806
+    },
+    {
+      "path": "hard-size-gate.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "hard-size-gate.stdout",
+      "sha256": "0f7cc63586cca012b581eeec729f5150b65ae5c821b928e7b0c74afb01e57a64",
+      "bytes": 5890
+    },
+    {
+      "path": "packet-files.json",
+      "sha256": "35112c9b6f77be78ea4830b99d2e8ca7278bc1eba294aad905e0f5577b11dfbd",
+      "bytes": 465
+    },
+    {
+      "path": "plan-before-fresh-app-lock.json",
+      "sha256": "d694944bd7d8c5d25b01f3485e505a2f5a7f4351d591ae3f280b2979b4bfd0a7",
+      "bytes": 6256
+    },
+    {
+      "path": "plan.json",
+      "sha256": "ab64a6dc161497d47bb4421d25cba6a73caa913b873a45c6e0461a0c6bed06fe",
+      "bytes": 6256
+    },
+    {
+      "path": "run_checks.py",
+      "sha256": "c18d11433c0ed705041f9faee7b04f74022fa0875deb27339a9f22e6e10781ee",
+      "bytes": 10191
+    },
+    {
+      "path": "strict-analysis.json",
+      "sha256": "1dae1a7b6a53fa48b04ee269584d8e131d21d6c74ead9a7c3b6262efa4656bbb",
+      "bytes": 819
+    },
+    {
+      "path": "strict-analysis.stderr",
+      "sha256": "dd2a37d1dc79de70d8242dbbfe82ee02f712e252b56eb0721726b4414107a75e",
+      "bytes": 30
+    },
+    {
+      "path": "strict-analysis.stdout",
+      "sha256": "c640e7dcee7a5b0a9d9fff5860a8c344635e555ae33edba66572b9051ae21cf4",
+      "bytes": 402
+    },
+    {
+      "path": "terminal.json",
+      "sha256": "bb60924067af37f0bf543439f3284089ba187bcf9f433fbfc12e0b6de389dcf8",
+      "bytes": 7518
+    }
+  ]
+}

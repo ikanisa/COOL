@@ -1,0 +1,16 @@
+NOTICE:  00000: drop cascades to 8 other objects
+DETAIL:  drop cascades to table users
+drop cascades to table refresh_tokens
+drop cascades to table instances
+drop cascades to table audit_log_entries
+drop cascades to table schema_migrations
+drop cascades to function uid()
+drop cascades to function role()
+drop cascades to function email()
+LOCATION:  reportDependentObjects, dependency.c:1165
+NOTICE:  42P06: schema "extensions" already exists, skipping
+LOCATION:  CreateSchemaCommand, schemacmds.c:132
+NOTICE:  42710: extension "pgcrypto" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791
+NOTICE:  42710: extension "uuid-ossp" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791

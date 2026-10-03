@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/focused_tests.py"
+  ],
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "no_SQL_database_execution": true,
+  "owned_process_group_absent": true,
+  "seconds": 0.232,
+  "stderr_sha256": "dde4a8f54e3c0b65d3898b10c11e7293c9d0b803adc97349c87e5a1a538d2319",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

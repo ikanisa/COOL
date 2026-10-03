@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-02T13:39:56.928562+00:00",
+  "status": "actual_headroom_preflight_failure_preserved",
+  "packet_sha256": "412e108ffff217be5fb0fca8e415281f6596dc538aa2c1636f2bc8a13f1f367a",
+  "guard_command_sha256": "b45bdcca6a8982994325f78c6e48f7f198a29c80df05251be4720a8b3e5204f3",
+  "guard_exit_code": -15,
+  "AAB_command_spawned": false,
+  "daemon_observations": [],
+  "whole_source_after_guard_completed": false,
+  "failure_diagnostic_spawned": false,
+  "headroom_floor_preserved_bytes": 4294967296,
+  "headroom_recovery_receipt_sha256": "5edce55629da7fc47a8ae0ec8ce574542d5d5868cf60ef30a1d39df32fae42b9",
+  "fresh_external_free_bytes": 5065596928,
+  "APP_SDK_source_changes_performed": false,
+  "AAB_built": false,
+  "production_release_approval": false
+}

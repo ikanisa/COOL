@@ -1,0 +1,22 @@
+{
+  "kind": "current_inter_public_static_content_acceptance",
+  "started_at": "2026-10-01T13:06:57.675895+00:00",
+  "scope": "One new current static output, exact15 generated page/alias visible-copy hashes, reviewed builder-only font asset copy-list delta, unchanged historical baseline and no legal/publication/design/hosted approval.",
+  "build_output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt1",
+  "previous_failure_packet": "docs/release/asset-build-hygiene-2026-09-30/public-content-source-rebind-20261001-attempt1",
+  "commands": [
+    {
+      "name": "static-build",
+      "command": [
+        "ruby",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3a4a1f2acab565f28ee5b8d1fa55485dffd588b8f19e4f3085a86cf3e231d957"
+    }
+  ],
+  "status": "fail",
+  "error": "static-build failed: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_app_media.rb:173:in `screens': App screenshots need recapturing: runtime changed (RuntimeError)\n\tfrom scripts/public_static_site_build.rb:1910:in `<main>'\n",
+  "finished_at": "2026-10-01T13:06:58.102974+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "web/public/revolut.css": "919f09f7161b516e951ba6ec52880567526efd751eb7ae9569cbde52b3442961",
+  "scripts/public_static_site_build.rb": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+  "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+  "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+  "scripts/qa/public_browser_app_media.mjs": "c10a17008c7e3a1abf17156dd6e58cea49552e4000787415cdd6d9694693eeac",
+  "scripts/qa/public_capability_contract.rb": "965b9a2484a225703c2d108e64520b7871a5a3b08a092fbe2ae754abe816ce0c",
+  "scripts/public_website_quality_gate.sh": "0a64a2d5e66be824ae02052c6910546659a399dbcfe7f16d2a0c0786c1e712e8",
+  "scripts/public_website_route_rendered_qa.js": "fd169b169f63f0e0c77265697a977e21cd5e6c17462c3f68910bcbc7f02c0278",
+  "scripts/tests/public_capability_contract_test.rb": "bef233bb03754e02c176e0e262e30075f76f47da6b286a01dfb01314768b0529"
+}

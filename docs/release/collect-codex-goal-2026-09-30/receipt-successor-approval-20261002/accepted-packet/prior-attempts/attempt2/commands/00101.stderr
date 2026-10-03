@@ -1,0 +1,7 @@
+ERROR:  42501: roster_actor_unavailable
+CONTEXT:  PL/pgSQL function collect_hybrid.require_roster_actor_authority(uuid,uuid,text,text[]) line 38 at RAISE
+SQL statement "SELECT collect_hybrid.require_roster_actor_authority(auth.uid(),sid,'platform_owner',permissions)"
+PL/pgSQL function collect_receipt_actions.actor(boolean) line 8 at PERFORM
+SQL statement "SELECT collect_receipt_actions.actor(false)"
+PL/pgSQL function public.admin_inspect_receipt_successor_v1(uuid,text,uuid) line 3 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

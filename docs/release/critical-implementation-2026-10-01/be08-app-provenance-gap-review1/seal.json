@@ -1,0 +1,39 @@
+{
+  "format": "be08-private-review-seal-v1",
+  "sealed_at": "2026-10-02T12:16:28.379792+00:00",
+  "status": "source-grounded-proposal-only",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 8092,
+      "sha256": "9a03ab6363debdbf37b31d121e3ed5ec38b070ec5082f6c3a0cd65a80e6fb389"
+    },
+    {
+      "path": "classification.json",
+      "bytes": 118588,
+      "sha256": "9c0614ccfd3c7972a9aa80054393e672c67f3668d7fc4e402bca1308a124385b"
+    },
+    {
+      "path": "correction-proposal.md",
+      "bytes": 8683,
+      "sha256": "e0483fdeeaca2160e970590ad8f873aad95414c83dc8653193e1569ae57c6374"
+    },
+    {
+      "path": "source-binding.json",
+      "bytes": 8103,
+      "sha256": "d026d7cf03e66c47bb796b591bf2ad52e50ba2f3870c8a975548f22f3e4ee390"
+    }
+  ],
+  "application_function_count": 36,
+  "resolution_upgraded": false,
+  "static_lineage_claim": false,
+  "owner_financial_or_release_authority_inferred": false,
+  "mapper_tests_DB_provider_native_runs": 0,
+  "maintained_APP_SDK_DB_writes": 0,
+  "requirements": [
+    "root scopes later mapper write ownership after native input release",
+    "typed candidate classification must preserve original gap statuses",
+    "allowlisted deterministic reconstruction must start from proved source prestate and compare exact captured final body digest",
+    "unknown/intervening effects remain unresolved; no inferred business owner or financial authority"
+  ]
+}

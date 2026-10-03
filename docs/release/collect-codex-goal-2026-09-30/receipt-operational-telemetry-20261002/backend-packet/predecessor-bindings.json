@@ -1,0 +1,59 @@
+{
+  "inputs": {
+    "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "supabase/migrations/20261001230000_automatic_gateway_investigation.sql": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+    "stage/telemetry.sql.in": "ac6427af472528a18cbebf05b67df87f33223e31bd7ba929dc7b60dfcf1526f9"
+  },
+  "guards": [
+    [
+      "collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)",
+      "12912903ceedef3bfe389a0398d69c7e19a109b70cf4f72a57b4e839e2c4bd94"
+    ],
+    [
+      "collect_ops.receipt_exception_source(text,uuid)",
+      "405824c850f281a553361288a8ea846d0d64fe210d2818bd0ed76ffba89ad0ab"
+    ],
+    [
+      "collect_ops.observe(text,uuid,text[],jsonb)",
+      "f674207951a3fa0b545993425f9e805b545a93232e75059c56a7f40b0640a9b0"
+    ],
+    [
+      "collect_ops.refresh_source(text,uuid)",
+      "82b7cdce56bf7d3f44ec0a30daffce7ea5c839eb2804180fee79f768962553f0"
+    ],
+    [
+      "collect_ops.transaction_sms_id(text,uuid)",
+      "8eb31fb089aef24b5248e9a3b469c57851a8ce0405edef6c81d58cc330413679"
+    ],
+    [
+      "public.admin_list_operational_exceptions_v2(boolean,integer,timestamptz,uuid,text)",
+      "8e94687c361bad799b1f4fa6b3f16e83eeb95961bcf1fa4e4910fd4386a5bb3c"
+    ],
+    [
+      "collect_ops.workflow_projection(uuid)",
+      "84eee23dabb536076dfda7b4a20fb2558dd8d1209e1c2f00597c01f8a97a2d51"
+    ],
+    [
+      "public.admin_act_exception_workflow_v1(uuid,uuid,bigint,bigint,text,uuid,timestamptz,text,timestamptz)",
+      "bda39ff588f8e0ff360be1f71a5892afa900ebef738d5df51f322a094f568c52"
+    ],
+    [
+      "public.refresh_operational_exception_sources_v1(text,uuid[])",
+      "4bf30c4129eebaaa24829d9b0be951f4dfdef4f575d29fefd7c78370b9c20a3c"
+    ],
+    [
+      "collect_operator_audit.exception_scope_v2(text,uuid)",
+      "b94a1ede58c6b1153330534d2414fab0c48d2a9a7dbd814d7e68c91a93e089e9"
+    ]
+  ],
+  "expected_checks": {
+    "exceptions_source_kind_check": "CHECK ((source_kind = ANY (ARRAY['raw_sms'::text, 'allocation'::text, 'payment'::text, 'receipt'::text, 'gateway'::text, 'receipt_event'::text, 'receipt_backlog'::text])))",
+    "exceptions_reason_code_check": "CHECK ((reason_code = ANY (ARRAY['PARSING_FAILED'::text, 'ALLOCATION_REVIEW'::text, 'VERIFICATION_PENDING'::text, 'VERIFICATION_REJECTED'::text, 'VERIFICATION_CONFLICT'::text, 'CONTACT_MISSING'::text, 'SEND_UNCERTAIN'::text, 'SEND_FAILED_NO_SEND'::text, 'RECEIPT_SUPPRESSED'::text, 'GATEWAY_UNOBSERVED'::text, 'GATEWAY_STALE'::text, 'GATEWAY_SMS_PERMISSION'::text, 'GATEWAY_NETWORK'::text, 'GATEWAY_TELEPHONY'::text, 'GATEWAY_SIM'::text, 'RECEIPT_OPERATION_SOURCE_CHANGED'::text, 'RECEIPT_OPERATION_PAYMENT_NOT_POSTED'::text, 'RECEIPT_OPERATION_SNAPSHOT_MISSING'::text, 'RECEIPT_OPERATION_RECIPIENT_INELIGIBLE'::text, 'RECEIPT_OPERATION_POLICY_DISABLED'::text, 'RECEIPT_OPERATION_CONSENT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_POLICY_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CONSENT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CATCHUP_DISABLED'::text, 'RECEIPT_OPERATION_CATCHUP_WINDOW_EXCEEDED'::text, 'RECEIPT_OPERATION_CONTENT_REFUSED'::text, 'RECEIPT_OPERATION_LEGACY_CONTENT_REVIEW_REQUIRED'::text, 'RECEIPT_OPERATION_QUOTA_EXHAUSTED'::text, 'RECEIPT_OPERATION_SOURCE_BUSY'::text])))"
+  },
+  "migration_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c"
+}

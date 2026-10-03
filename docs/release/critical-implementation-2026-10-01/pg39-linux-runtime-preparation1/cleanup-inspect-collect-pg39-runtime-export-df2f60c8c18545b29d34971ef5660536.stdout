@@ -1,0 +1,202 @@
+[
+    {
+        "Id": "75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe",
+        "Created": "2026-10-02T10:15:52.836119459Z",
+        "Path": "/usr/local/bin/python3.12",
+        "Args": [
+            "-I",
+            "-B",
+            "-c",
+            "from pathlib import Path\nimport hashlib,json,os,stat\nroot=Path('/usr/local'); rows=[]\nfor path in sorted(root.rglob('*')):\n    info=path.lstat(); row={'path':str(path.relative_to(root)),'mode':stat.S_IMODE(info.st_mode)}\n    if stat.S_ISLNK(info.st_mode): row.update(kind='symlink',target=os.readlink(path))\n    elif stat.S_ISDIR(info.st_mode): row.update(kind='directory')\n    elif stat.S_ISREG(info.st_mode):\n        h=hashlib.sha256()\n        with path.open('rb') as handle:\n            while chunk:=handle.read(1024*1024):h.update(chunk)\n        row.update(kind='file',bytes=info.st_size,sha256=h.hexdigest())\n    else: raise RuntimeError('unsupported runtime inode')\n    rows.append(row)\nprint(json.dumps(rows,sort_keys=True,separators=(',',':')))\n"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-02T10:15:52.906675125Z",
+            "FinishedAt": "2026-10-02T10:15:53.619896542Z"
+        },
+        "Image": "sha256:75496575cd8e3aeb3fe561f0384f661d490c14770eda935d2302d61ca20a0b2d",
+        "ResolvConfPath": "/var/lib/docker/containers/75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe/hostname",
+        "HostsPath": "/var/lib/docker/containers/75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe/hosts",
+        "LogPath": "/var/lib/docker/containers/75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe/75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe-json.log",
+        "Name": "/collect-pg39-runtime-export-df2f60c8c18545b29d34971ef5660536",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 536870912,
+            "NanoCpus": 1000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 1073741824,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": 64,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "75aece89a52c396f58c0eab50785d31eb765e8b5b606b15c0eec130fdafcdcfe",
+                "LowerDir": "/var/lib/docker/overlay2/900e3510f80c1eb212300ec39a1184abeccea28a7397608df2e1e77dca0cc54a-init/diff:/var/lib/docker/overlay2/88a698c97b1c087e342590ef2b7c2d05fa872c5e3afa8abb17d2ec0708043d83/diff:/var/lib/docker/overlay2/fdfa129cbe76e943fe0c9d96f6a76ead9acfa94ab4260d0f6c65a8c7dc980e7d/diff:/var/lib/docker/overlay2/a68b6205c9f31bdeb2eae6f8c6fb8fcf8e6b0580cb5ccf342f3a81cd5f66b07f/diff:/var/lib/docker/overlay2/794c2c5bc0e6536f4d11c561a82b78046aa9c308f99e7c7b4d6f33ef12f6df86/diff",
+                "MergedDir": "/var/lib/docker/overlay2/900e3510f80c1eb212300ec39a1184abeccea28a7397608df2e1e77dca0cc54a/merged",
+                "UpperDir": "/var/lib/docker/overlay2/900e3510f80c1eb212300ec39a1184abeccea28a7397608df2e1e77dca0cc54a/diff",
+                "WorkDir": "/var/lib/docker/overlay2/900e3510f80c1eb212300ec39a1184abeccea28a7397608df2e1e77dca0cc54a/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "75aece89a52c",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.14",
+                "PYTHON_SHA256=5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a"
+            ],
+            "Cmd": [
+                "-I",
+                "-B",
+                "-c",
+                "from pathlib import Path\nimport hashlib,json,os,stat\nroot=Path('/usr/local'); rows=[]\nfor path in sorted(root.rglob('*')):\n    info=path.lstat(); row={'path':str(path.relative_to(root)),'mode':stat.S_IMODE(info.st_mode)}\n    if stat.S_ISLNK(info.st_mode): row.update(kind='symlink',target=os.readlink(path))\n    elif stat.S_ISDIR(info.st_mode): row.update(kind='directory')\n    elif stat.S_ISREG(info.st_mode):\n        h=hashlib.sha256()\n        with path.open('rb') as handle:\n            while chunk:=handle.read(1024*1024):h.update(chunk)\n        row.update(kind='file',bytes=info.st_size,sha256=h.hexdigest())\n    else: raise RuntimeError('unsupported runtime inode')\n    rows.append(row)\nprint(json.dumps(rows,sort_keys=True,separators=(',',':')))\n"
+            ],
+            "Image": "sha256:75496575cd8e3aeb3fe561f0384f661d490c14770eda935d2302d61ca20a0b2d",
+            "Volumes": null,
+            "WorkingDir": "/",
+            "Entrypoint": [
+                "/usr/local/bin/python3.12"
+            ],
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "162f38a9111ebf460add19c45ab093a5dd9b9e9e66261a9c47fb51d1ac655d60",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

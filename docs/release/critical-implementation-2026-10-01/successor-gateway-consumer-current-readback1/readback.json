@@ -1,0 +1,53 @@
+{
+  "actual_current_checks": {
+    "current-inventory-auth-check": {
+      "deadline_seconds": 20,
+      "exit_code": 1,
+      "timed_out": false
+    },
+    "current-readiness-shell-syntax": {
+      "deadline_seconds": 20,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    "current-ruby-inventory-tests": {
+      "deadline_seconds": 180,
+      "exit_code": 1,
+      "timed_out": false
+    }
+  },
+  "candidate_paths": {
+    "contracts/edge-functions.json": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/contracts/edge-functions.json",
+    "scripts/edge_function_inventory.rb": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/supabase_production_readiness.sh",
+    "scripts/tests/edge_function_inventory_test.rb": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/tests/edge_function_inventory_test.rb",
+    "scripts/tests/supabase_delivery_contract_test.py": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/candidate/source/scripts/tests/supabase_delivery_contract_test.py"
+  },
+  "command_source_drift_count": 0,
+  "current_inventory_failure_expected_until_consumer_promotion": true,
+  "errors": [],
+  "external_operations": false,
+  "five_base_hashes_match": true,
+  "handler_SQL_native_execution": false,
+  "intentional_QA_drift_count": 1,
+  "keyed_maintained_inputs": 385,
+  "maintained_source_writes": 0,
+  "observed_at_utc": "2026-10-02T02:43:03.577903+00:00",
+  "original_batch_sha256": "252b1e0310597fc36dc25ed7f41416ad47412ac66d68d6e64778bbad019957fd",
+  "original_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1",
+  "original_packet_writes": 0,
+  "other_drift_count": 0,
+  "private_recorded_tests": {
+    "errors": 0,
+    "failures": 0,
+    "python_cases": 34,
+    "ruby_assertions": 173,
+    "ruby_cases": 17,
+    "skips": 0
+  },
+  "shared_source_promotion": false,
+  "status": "read_only_current_reconciliation_complete",
+  "verified_artifacts": 814,
+  "verified_checksums": 815,
+  "whole_python_suite_rerun": false
+}

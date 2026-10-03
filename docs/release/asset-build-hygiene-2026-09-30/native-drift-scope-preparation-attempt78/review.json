@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "kind": "unlaunched_native_input_drift_scope_review",
+  "sources": {
+    ".cache/run-native-android-attempt53.py": {
+      "before_sha256": "e8f275df962824c430c2808381b6bca4943350871b8670a01463c8dada733bcf",
+      "after_sha256": "d45b763fe339881026688aa893dfc2fb874211dfe5f0c09ce460928573cf356e",
+      "syntax_parse": "pass"
+    },
+    ".cache/run-native-gateway-attempt63.py": {
+      "before_sha256": "8720254b3d0e061b5e5cb9eaa3b0f1edd933de23e58e7ca6afcbf33c2a40e699",
+      "after_sha256": "b982f7b706e95c76ac6fd9fe5fbaed1002146c5ca3a226ca4bfe99ba35676e42",
+      "syntax_parse": "pass"
+    },
+    ".cache/verify-native-ios-attempt52.py": {
+      "before_sha256": "238e3ab38eb903b6e077694a09e4d9d297dfde295790f57a94f7ef3caa1fe0bc",
+      "after_sha256": "6485bbb3c581425bb192e5371ee80dedcffd775cd27ccda7d94a3118d04e6e19",
+      "syntax_parse": "pass"
+    }
+  },
+  "scope": "Preserved prior runner bytes; only upcoming artifact reporting now separates actual app/native/build-caller drift from SQL/QA/test input changes. Full drift remains recorded. No native launch or source mutation."
+}

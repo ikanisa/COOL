@@ -1,0 +1,40 @@
+[
+  {
+    "stage": "sql-attempt1",
+    "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-attempt1",
+    "files": 184,
+    "executed_sources_retained_at_original": true
+  },
+  {
+    "stage": "sql-attempt2",
+    "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-attempt2",
+    "files": 190,
+    "executed_sources_retained_at_original": true
+  },
+  {
+    "stage": "edge-attempt1",
+    "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1",
+    "files": 5,
+    "executed_sources_retained_at_original": true
+  },
+  {
+    "stage": "native-attempt1",
+    "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-native-attempt1",
+    "files": 11,
+    "executed_sources_retained_at_original": true
+  },
+  {
+    "path": "diagnostics/native-attempt5-timeout",
+    "status": "Unit compiler exceeded the 480-second bound before tests. Only the task-owned redundant API child was terminated; exact captured inputs and logs retained. No test pass claimed."
+  },
+  {
+    "stage": "native-attempt4-timeout",
+    "path": "diagnostics/native-attempt4-timeout",
+    "status": "Unit compiler exceeded 360 seconds before tests. Task-owned redundant API child terminated; exact inputs/logs retained. No test pass claimed."
+  },
+  {
+    "stage": "native-attempt6-timeout",
+    "path": "diagnostics/native-attempt6-timeout",
+    "status": "Reduced nine-suite compilation exceeded480seconds before tests; owned runnable compiler diagnostic showed52secondsCPU over468secondswall. No tests/pass claimed. Only owned redundantAPI child terminated."
+  }
+]

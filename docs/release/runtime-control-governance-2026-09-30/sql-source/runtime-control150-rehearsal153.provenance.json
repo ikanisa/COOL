@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "scripts/tests/runtime_control_governance_uat.sql": "6e83bb6c16eb98f509ca12b70374458dbd296f5c8967ed7ac7bd8760ed0d434b",
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba"
+  },
+  "output_sha256": "a7df94ebd39e131d13d5e3251f98ec9d3a1a36db57db7e58c3b52fba2ecc5d4d",
+  "adaptations": [
+    "Exact installed guard147/latest20260930150000 to150/latest20260930180000",
+    "Candidate153 function DDL inside original rollback-only transaction"
+  ],
+  "hosted_called": false,
+  "provider_called": false
+}

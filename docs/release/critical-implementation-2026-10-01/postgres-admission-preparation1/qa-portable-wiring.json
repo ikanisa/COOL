@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 3.398,
+  "timeout_seconds": 120,
+  "source_scope": "existing portable-tool method with proposed Makefile; setUp retains complete candidate2 inputs; no other source or assertions changed"
+}

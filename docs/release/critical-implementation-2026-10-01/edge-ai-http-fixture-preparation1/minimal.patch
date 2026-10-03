@@ -1,0 +1,47 @@
+--- a/scripts/qa/edge_http_runtime_uat.ts
++++ b/scripts/qa/edge_http_runtime_uat.ts
+@@ -5,6 +5,7 @@
+ import { hmacSha256Hex } from "../../supabase/functions/_shared/hmac.ts";
+ import { normalizeRosterCandidates } from "../../supabase/functions/_shared/roster_import.ts";
+ import { ROSTER_DECODER_TOOLCHAIN } from "../../supabase/functions/_shared/roster_decoder.ts";
++import { syntheticRosterAiApproval } from "../../supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts";
+ 
+ // Literal imports let the frozen graph bind the same real handlers that are
+ // loaded after Deno.serve is redirected to the owned loopback listeners. A
+@@ -531,6 +532,22 @@
+ });
+ servers.push(decoder);
+ 
++// Synthetic approval only: bind the actual local fixture receipt tuple.
++// It represents no owner/vendor acceptance and does not enable provider access.
++const decoderUrl = `http://127.0.0.1:${decoder.addr.port}/decode`;
++const rosterModel = "synthetic-model";
++const rosterApproval = await syntheticRosterAiApproval(
++  rosterModel,
++  decoderUrl,
++  decoderBuild,
++);
++const rosterApprovalEnvironment = Object.freeze({
++  ROSTER_AI_APPROVAL_JSON: rosterApproval.aiApprovalJson,
++  ROSTER_AI_APPROVAL_SHA256: rosterApproval.aiApprovalSha256,
++  OPENAI_ORGANIZATION_ID: rosterApproval.openAiOrganizationId,
++  OPENAI_PROJECT_ID: rosterApproval.openAiProjectId,
++});
++
+ for (
+   const [key, value] of Object.entries({
+     SUPABASE_URL: `http://127.0.0.1:${backend.addr.port}`,
+@@ -544,10 +561,11 @@
+     WHATSAPP_AUTH_TEMPLATE_LANGUAGE: "en_US",
+     WHATSAPP_CLOUD_API_TOKEN: "qa-disabled-provider",
+     WHATSAPP_PHONE_NUMBER_ID: "1234",
+-    ROSTER_DECODER_URL: `http://127.0.0.1:${decoder.addr.port}/decode`,
++    ROSTER_DECODER_URL: decoderUrl,
+     ROSTER_DECODER_SECRET: decoderSecret,
+     ROSTER_DECODER_BUILD_SHA256: decoderBuild,
+-    OPENAI_ROSTER_MODEL: "synthetic-model",
++    OPENAI_ROSTER_MODEL: rosterModel,
++    ...rosterApprovalEnvironment,
+     WHATSAPP_AUTH_TEMPLATE_NAME: "qa_disabled_provider",
+   })
+ ) Deno.env.set(key, value);

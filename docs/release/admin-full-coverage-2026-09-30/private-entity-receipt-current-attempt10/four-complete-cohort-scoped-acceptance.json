@@ -1,0 +1,1237 @@
+{
+  "passed": true,
+  "scope": "Only complete passing VM files; failed receipt files and Entity page return case excluded. No aggregate or current server acceptance.",
+  "complete_cohorts": {
+    "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_private_provider_authority_test.dart": [
+      {
+        "name": "admin_runtime_config current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_runtime_config current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_runtime_config current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_runtime_config current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_runtime_config current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_runtime_config current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_user current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collect_transaction current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_notification current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_admin_user current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider pins exact target and SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider denies missing permission before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider waits for identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider suppresses late private SDK read after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider suppresses late private SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider suppresses late private SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_system_health current authority provider suppresses late private SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after A-B-A",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_collection production detail hides loaded private content after signed out",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after absent identity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after A-B-A",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "admin_get_member_record production detail hides loaded private content after signed out",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_entity_audit_models_test.dart": [
+      {
+        "name": "six copied observations retain exact original isolated SQL hashes",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual shadow SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual expiry SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual gateway SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual supervisor SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual exception SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "strict DTO accepts actual receipt SQL action evidence without renewal",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "current read expires at its exact boundary while old action time stays historical",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "extra private diagnostic cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong version cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fractional version cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong scope cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong kind cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong identity cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong echoed limit cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fractional echoed limit cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unknown status cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unavailable with actions cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "history completeness claim cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "historical backfill claim cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "financial claim cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "send claim cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "string false cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid leap day cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non UTC timestamp cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shorter TTL cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "longer TTL cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rows object cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "duplicate action IDs cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "reversed chronological order cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "cursor without a full page cannot become action evidence",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event source fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event action fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event actor_id fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event request_id fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event event_id fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event recorded_at fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event revision fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event fence_version fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event reason_code fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed event message_body fails the exact source relationship",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway original action IDs and nonnullable actor stay bound",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor original action IDs and nonnullable actor stay bound",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception original action IDs and nonnullable actor stay bound",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt original action IDs and nonnullable actor stay bound",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow may explicitly retain a missing actor without inventing one",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception and receipt reasons cannot cross their private sources",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "cursor pages retain strict boundary and the last shown event",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "equal timestamp ordering uses exact descending UUID keyset tie break",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unavailable and empty available reads remain distinct and incomplete",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "query rejects bad IDs, bounds and invalid UTC years before use",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_entity_audit_repository_test.dart": [
+      {
+        "name": "real pinned SDK reads actual shadow observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real pinned SDK reads actual expiry observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real pinned SDK reads actual gateway observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real pinned SDK reads actual supervisor observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real pinned SDK reads actual exception observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real pinned SDK reads actual receipt observation through one fixed RPC",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real SDK preserves paired cursor binding and does not scan another entity",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid query bounds IDs and cursor fail before any HTTP request",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "HTTP403 is never automatically retried or turned into empty history",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "HTTP500 is never automatically retried or turned into empty history",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "HTTP503 is never automatically retried or turned into empty history",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed successful server evidence fails without fallback or another read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "sticky real SDK session fence suppresses old audit result; switchBack=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "sticky real SDK session fence suppresses old audit result; switchBack=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same-session token refresh preserves the exact token of the original read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "departed provider or missing session cannot expose data or start HTTP",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/test/admin_entity_audit_authority_test.dart": [
+      {
+        "name": "shadow entity history provider binds kind target and pinned SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider denies role loss before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider denies audit.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider denies system_health.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider denies notifications.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses late SDK read after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses departed session A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history provider suppresses departed session A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history production page hides loaded actions after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history production page hides loaded actions after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history production page hides loaded actions after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history production page hides loaded actions after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "shadow entity history production page hides loaded actions after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider binds kind target and pinned SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider denies role loss before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider denies audit.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider denies system_health.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider denies notifications.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses late SDK read after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses departed session A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history provider suppresses departed session A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history production page hides loaded actions after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history production page hides loaded actions after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history production page hides loaded actions after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history production page hides loaded actions after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway entity history production page hides loaded actions after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider binds kind target and pinned SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider denies role loss before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider denies audit.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider denies system_health.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider denies notifications.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses late SDK read after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses departed session A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history provider suppresses departed session A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history production page hides loaded actions after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history production page hides loaded actions after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history production page hides loaded actions after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history production page hides loaded actions after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supervisor entity history production page hides loaded actions after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider binds kind target and pinned SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies role loss before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies audit.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies system_health.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies notifications.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider denies payments.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses late SDK read after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses departed session A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history provider suppresses departed session A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history production page hides loaded actions after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history production page hides loaded actions after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history production page hides loaded actions after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history production page hides loaded actions after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exception entity history production page hides loaded actions after session replacement",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider binds kind target and pinned SDK bearer",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies role loss before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies absent identity before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies audit.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies system_health.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies notifications.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider denies payments.read before private SDK read",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider waits for current identity before SDK dispatch",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses late SDK read after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses late SDK read after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses late SDK read after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses late SDK read after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses departed session A-B-A=false",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history provider suppresses departed session A-B-A=true",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history production page hides loaded actions after permission loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history production page hides loaded actions after role loss",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history production page hides loaded actions after identity loading",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history production page hides loaded actions after identity error",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt entity history production page hides loaded actions after session replacement",
+        "result": "success",
+        "skipped": false
+      }
+    ]
+  },
+  "accepted_test_count": 243,
+  "machine_sha256": "4987a95a94eed3842723a3195211174e61d0bfba6f7e8decc277e412f830e62f",
+  "aggregate_validation_sha256": "107c4c3add38e2cb1f04647278dc24cdd2339d62365d9d8d14d460f40825da33",
+  "analysis_clean": true,
+  "copied_inputs_sha256": "22f4ad90acdbc8a17f117ae3c59874c6e5d904998b8375ab3c7dd008f0e748ef",
+  "export_source_unchanged": true,
+  "SDK_source_unchanged": true,
+  "actual_browser_adapter_passed": true
+}

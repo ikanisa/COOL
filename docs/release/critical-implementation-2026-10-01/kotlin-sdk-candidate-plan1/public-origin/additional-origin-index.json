@@ -1,0 +1,47 @@
+{
+  "flutter-3.44.4-gradle-readme.md": {
+    "bytes": 2743,
+    "fetched_utc": "2026-10-01T23:35:54.813749+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/README.md",
+    "http_status": 200,
+    "retained_path": "flutter-3.44.4-gradle-readme.md",
+    "sha256": "a65724e262c6792b53f2bcb5398e851c361e784964e74d3ce72fb94de9ba09a6",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/README.md"
+  },
+  "flutter-3.44.4-gradle-settings.kts": {
+    "bytes": 165,
+    "fetched_utc": "2026-10-01T23:35:54.813794+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/settings.gradle.kts",
+    "http_status": 200,
+    "retained_path": "flutter-3.44.4-gradle-settings.kts",
+    "sha256": "56fe45270044d31615e1d9b8aa1410511a05b83ef431c24613b7907f225f9779",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/settings.gradle.kts"
+  },
+  "flutter-3.44.4-gradle-utils.dart": {
+    "bytes": 56296,
+    "fetched_utc": "2026-10-01T23:35:56.365973+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/lib/src/android/gradle_utils.dart",
+    "http_status": 200,
+    "retained_path": "flutter-3.44.4-gradle-utils.dart",
+    "sha256": "6dbeb30feb9169a6eb14ac13b558dfad1c268b603f520765048b685cc1a1472e",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/lib/src/android/gradle_utils.dart"
+  },
+  "flutter-archive-page.md": {
+    "bytes": 5945,
+    "fetched_utc": "2026-10-01T23:35:54.813683+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/website/main/sites/docs/src/content/install/archive.md",
+    "http_status": 200,
+    "retained_path": "flutter-archive-page.md",
+    "sha256": "3cda8c058f78cf10b1cf1290132fa84955afa2e56ef19fe7d93bf33723c8a5ea",
+    "url": "https://raw.githubusercontent.com/flutter/website/main/sites/docs/src/content/install/archive.md"
+  },
+  "flutter-bundles.md": {
+    "bytes": 3759,
+    "fetched_utc": "2026-10-01T23:35:54.813428+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/main/docs/infra/Flutter-Installation-Bundles.md",
+    "http_status": 200,
+    "retained_path": "flutter-bundles.md",
+    "sha256": "f383e5afcdbd4ba85311c8a4f2e3829ad25114ed58227111acc5a80dbf9fe2d7",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/main/docs/infra/Flutter-Installation-Bundles.md"
+  }
+}

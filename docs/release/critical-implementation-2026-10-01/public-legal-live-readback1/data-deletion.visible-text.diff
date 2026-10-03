@@ -1,0 +1,55 @@
+--- https://collect.ikanisa.com/data-deletion/
++++ .cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html
+@@ -4,21 +4,22 @@
+ Data we may retain
+ Products provided by partners
+ Need help?
+-Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
++Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
+ 12. Account deletion and data deletion
+ Delete your account in the Collect app
+-Open Collect
+-Go to Profile
+-Select Settings
+-Select Privacy and Security
+-Select Delete Account
+-Review the consequences
+-Verify your identity
+-Confirm your request
+-Delete your account through the website
+-Use the public account-deletion page. You do not need to reinstall the app to submit a deletion request.
+-Link:
+-/account-deletion
++Open Collect and sign in.
++Go to Settings.
++Select Security.
++Select Delete data.
++Select a reason for your request.
++Select Submit.
++Review the confirmation and select Submit.
++Settings → Security → Delete data
++Request deletion without the app
++Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.
++Open the account-deletion page
++Email:
++info@ikanisa.com
+ What happens after a deletion request
+ We verify that the request comes from the account holder
+ We explain any outstanding steps
+@@ -34,7 +35,6 @@
+ Complete or cancel an active credit-readiness handoff
+ Address an unresolved dispute or fraud investigation
+ What account deletion does not do
+-Close a bank account
+ Cancel a loan
+ Remove a repayment obligation
+ Cancel an insurance policy
+@@ -67,7 +67,7 @@
+ Ledger entries needed to protect the rights of other group members
+ Where a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.
+ Products provided by partners
+-To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
++To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
+ Need help?
+ Email:
+ info@ikanisa.com

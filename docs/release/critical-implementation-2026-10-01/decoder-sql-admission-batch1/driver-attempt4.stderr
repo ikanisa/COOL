@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/run_sql_acceptance_attempt4.py", line 241, in <module>
+    main()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/run_sql_acceptance_attempt4.py", line 215, in main
+    race("actual-resource-concurrency", True)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/run_sql_acceptance_attempt4.py", line 167, in race
+    raise ValueError(label + " failed; full logs and checkpoint retained")
+ValueError: actual-resource-concurrency failed; full logs and checkpoint retained

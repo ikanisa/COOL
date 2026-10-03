@@ -1,0 +1,346 @@
+{
+  "recorded_at": "2026-10-01T10:37:38.939388+00:00",
+  "scope": "owner authorization, final narrow email configuration source and scoped local tests; denied hosted access and exact source association",
+  "owner_authorization_received": true,
+  "release_decision": "NO_GO",
+  "configuration_changed": false,
+  "account_provisioned": false,
+  "otp_requested": false,
+  "live_sms_invoked": false,
+  "test_count": 31,
+  "counts_added_across_sources": false,
+  "file_count": 55,
+  "bytes": 309102,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 9289,
+      "mode": 420,
+      "sha256": "0e93a45f554278ffb07be4615bb7f75380a114e31cb1403cb50d43000e6f4e51"
+    },
+    {
+      "path": "android-device-current.json",
+      "bytes": 833,
+      "mode": 420,
+      "sha256": "7c1685bd82ff0ec8ef369b70767b813f351e3d833d971e7e3f083135532b3da2"
+    },
+    {
+      "path": "android-device-execution-binding.json",
+      "bytes": 646,
+      "mode": 420,
+      "sha256": "f1ea1f0f3b15b4dcd9ad82d5f9dc1c6063fd82517de9d9d1ed26dd0a8fff6a43"
+    },
+    {
+      "path": "browser-auth-current.json",
+      "bytes": 484,
+      "mode": 420,
+      "sha256": "f402d6b0935f16593a04c5f121e8c600c65225d080662b697180e0f2d3509fcf"
+    },
+    {
+      "path": "email-focused-tests.json",
+      "bytes": 2536,
+      "mode": 420,
+      "sha256": "3b0a0855058e586af805597aed1574163a7a9a221318978e9fe52f29351a538c"
+    },
+    {
+      "path": "email-focused-tests.log",
+      "bytes": 4334,
+      "mode": 420,
+      "sha256": "1a8d8bdd1815f306412929500e6383af5727e6b45f1fa9ea518756c85802c9fd"
+    },
+    {
+      "path": "email-source-binding.json",
+      "bytes": 1708,
+      "mode": 420,
+      "sha256": "47a7cc867991cbc638e38a750b22935ef3f648417d32d8f78154d352d5e4b682"
+    },
+    {
+      "path": "hosted-auth-current.json",
+      "bytes": 397,
+      "mode": 420,
+      "sha256": "c5863da34d781cbf0aeb741e099a8344d6558a7b22f74935b263bbce34a6fcd5"
+    },
+    {
+      "path": "hosted-email-apply-attempt1.json",
+      "bytes": 1104,
+      "mode": 420,
+      "sha256": "e82b8309f8b568cb2189d2250380beaf7ea1081d53a47e08618c34acb15e1b05"
+    },
+    {
+      "path": "independent-email-review-readback.json",
+      "bytes": 514,
+      "mode": 420,
+      "sha256": "a58dea6225ee620437ba128f6446f6624b0249992283a50e443825f065c16e9e"
+    },
+    {
+      "path": "independent-packet-readback.json",
+      "bytes": 1863,
+      "mode": 420,
+      "sha256": "f3eb58db8c40382bc7081fac18b4892776795ee7fac20dc33faf69255e86b115"
+    },
+    {
+      "path": "owner-authorization.json",
+      "bytes": 726,
+      "mode": 420,
+      "sha256": "71840927304b255504f3d8ba03a75c2b0a7401f2e360b51cc2b58ce35d6e6c86"
+    },
+    {
+      "path": "prior-helper19/email-focused-tests.json",
+      "bytes": 2055,
+      "mode": 420,
+      "sha256": "5bc34cfd7816e97e2173d90e037dcd9c87b34d12ba2a8bd8a1daff462ab31e31"
+    },
+    {
+      "path": "prior-helper19/email-focused-tests.log",
+      "bytes": 3749,
+      "mode": 420,
+      "sha256": "4b349c8760e3f7568010d84cf1adf97583a4f5657d232eb58dd84d7eae6cf44b"
+    },
+    {
+      "path": "prior-helper19/email-source-binding.json",
+      "bytes": 1706,
+      "mode": 420,
+      "sha256": "94b98adb7ac2658ad8537515a1734a79d0ae74bc6898332206c678fd10a5c41d"
+    },
+    {
+      "path": "prior-helper19/source/scripts/collect_operator_email_auth.py",
+      "bytes": 9335,
+      "mode": 420,
+      "sha256": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62"
+    },
+    {
+      "path": "prior-helper19/source/scripts/load_dotenv_strict.sh",
+      "bytes": 2479,
+      "mode": 448,
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+    },
+    {
+      "path": "prior-helper19/source/scripts/supabase_apply_auth_hardening.sh",
+      "bytes": 5534,
+      "mode": 448,
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+    },
+    {
+      "path": "prior-helper19/source/scripts/supabase_cli_helpers.sh",
+      "bytes": 12080,
+      "mode": 448,
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+    },
+    {
+      "path": "prior-helper19/source/scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 14391,
+      "mode": 420,
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+    },
+    {
+      "path": "prior-helper19/source/scripts/tests/test_collect_operator_email_auth.py",
+      "bytes": 7730,
+      "mode": 420,
+      "sha256": "3e0dc6cf045b8ae958ab18ca15aaa1c1f0f330595bee959da02cf6972030d5af"
+    },
+    {
+      "path": "prior-helper19/source/supabase/templates/collect_email_sign_in.html",
+      "bytes": 854,
+      "mode": 420,
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+    },
+    {
+      "path": "prior-helper29/email-focused-tests.json",
+      "bytes": 2431,
+      "mode": 420,
+      "sha256": "6ce1b8849bd987ac890c727db47a37fa350eb35970d8ba1cffe037c1ffc703f0"
+    },
+    {
+      "path": "prior-helper29/email-focused-tests.log",
+      "bytes": 4053,
+      "mode": 420,
+      "sha256": "ba9c04cb3ecdb62e7843bf3d9dcfa852b20c325203983b8f5504432085e590e2"
+    },
+    {
+      "path": "prior-helper29/email-source-binding.json",
+      "bytes": 1708,
+      "mode": 420,
+      "sha256": "fc81549545536cd990a39882d7fa6436debe7360c21ee7809f10f31800cfdac9"
+    },
+    {
+      "path": "prior-helper29/source/scripts/collect_operator_email_auth.py",
+      "bytes": 15436,
+      "mode": 420,
+      "sha256": "7ec80b574ed716f55528a2a46ace8efe233f6d48d9d961f9889ac492e42b9349"
+    },
+    {
+      "path": "prior-helper29/source/scripts/load_dotenv_strict.sh",
+      "bytes": 2479,
+      "mode": 420,
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+    },
+    {
+      "path": "prior-helper29/source/scripts/supabase_apply_auth_hardening.sh",
+      "bytes": 5534,
+      "mode": 420,
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+    },
+    {
+      "path": "prior-helper29/source/scripts/supabase_cli_helpers.sh",
+      "bytes": 12080,
+      "mode": 420,
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+    },
+    {
+      "path": "prior-helper29/source/scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 14391,
+      "mode": 420,
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+    },
+    {
+      "path": "prior-helper29/source/scripts/tests/test_collect_operator_email_auth.py",
+      "bytes": 15876,
+      "mode": 420,
+      "sha256": "dbb7dd14de90f5b060087f90d1411282181b7a803ae75435f28d83bd1f18cf8d"
+    },
+    {
+      "path": "prior-helper29/source/supabase/templates/collect_email_sign_in.html",
+      "bytes": 854,
+      "mode": 420,
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+    },
+    {
+      "path": "prior-helper30/email-focused-tests.json",
+      "bytes": 2489,
+      "mode": 420,
+      "sha256": "fa4df7875d522da9261f0cd205fd9b45dde2e08638c92dd44f1042a21f7d45c3"
+    },
+    {
+      "path": "prior-helper30/email-focused-tests.log",
+      "bytes": 4192,
+      "mode": 420,
+      "sha256": "7ab8e2bf64704dd78b4a21af7ab851986428667a36241ea27f4ae9c2c7613f04"
+    },
+    {
+      "path": "prior-helper30/email-source-binding.json",
+      "bytes": 1708,
+      "mode": 420,
+      "sha256": "3084027a0aaee13b1c68d572cbe4f33df71e199e7c3c7cad6381233857d23c79"
+    },
+    {
+      "path": "prior-helper30/source/scripts/collect_operator_email_auth.py",
+      "bytes": 15523,
+      "mode": 420,
+      "sha256": "a581f07a681ac0340c27cb9f99e932fabf70f19671119789ec9dec16f86a0b7c"
+    },
+    {
+      "path": "prior-helper30/source/scripts/load_dotenv_strict.sh",
+      "bytes": 2479,
+      "mode": 420,
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+    },
+    {
+      "path": "prior-helper30/source/scripts/supabase_apply_auth_hardening.sh",
+      "bytes": 5534,
+      "mode": 420,
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+    },
+    {
+      "path": "prior-helper30/source/scripts/supabase_cli_helpers.sh",
+      "bytes": 12080,
+      "mode": 420,
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+    },
+    {
+      "path": "prior-helper30/source/scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 14391,
+      "mode": 420,
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+    },
+    {
+      "path": "prior-helper30/source/scripts/tests/test_collect_operator_email_auth.py",
+      "bytes": 17008,
+      "mode": 420,
+      "sha256": "5165eaec6f58ca58f9939e00f6a0e3901548dcfe2a3af9e77565e74b919b1d23"
+    },
+    {
+      "path": "prior-helper30/source/supabase/templates/collect_email_sign_in.html",
+      "bytes": 854,
+      "mode": 420,
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+    },
+    {
+      "path": "private-worker-startup.json",
+      "bytes": 719,
+      "mode": 420,
+      "sha256": "27679f0a62355d9a8056360f2c35234004866b227d846a000f1448436ec060c7"
+    },
+    {
+      "path": "public-auth-current.json",
+      "bytes": 454,
+      "mode": 420,
+      "sha256": "05d9e1295f348ef971a0ba82ed4b3a08c8b271d42490d6dbb1992b253b09df49"
+    },
+    {
+      "path": "public-auth-final.json",
+      "bytes": 669,
+      "mode": 420,
+      "sha256": "fec18956abe2d15b2c40731456d05ecc6df6dccd942ee9fe1b59851a351e6423"
+    },
+    {
+      "path": "source/scripts/collect_operator_email_auth.py",
+      "bytes": 16171,
+      "mode": 420,
+      "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05"
+    },
+    {
+      "path": "source/scripts/load_dotenv_strict.sh",
+      "bytes": 2479,
+      "mode": 420,
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+    },
+    {
+      "path": "source/scripts/supabase_apply_auth_hardening.sh",
+      "bytes": 5534,
+      "mode": 420,
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+    },
+    {
+      "path": "source/scripts/supabase_cli_helpers.sh",
+      "bytes": 12080,
+      "mode": 420,
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+    },
+    {
+      "path": "source/scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 14391,
+      "mode": 420,
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+    },
+    {
+      "path": "source/scripts/tests/test_collect_operator_email_auth.py",
+      "bytes": 18028,
+      "mode": 420,
+      "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864"
+    },
+    {
+      "path": "source/supabase/templates/collect_email_sign_in.html",
+      "bytes": 854,
+      "mode": 420,
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+    },
+    {
+      "path": "source08-independent-readback.json",
+      "bytes": 1225,
+      "mode": 420,
+      "sha256": "d75488e9343dec1014f9300084c75e1dc793c40690bece41459eaa9c3e40066c"
+    },
+    {
+      "path": "supabase-changelog-read.json",
+      "bytes": 344,
+      "mode": 420,
+      "sha256": "d84343abf10728971dc3c9a14750682153742b824137b30160e8a5b48b3e5c26"
+    },
+    {
+      "path": "supabase-connector-access.json",
+      "bytes": 707,
+      "mode": 420,
+      "sha256": "98f88924559d7e2871fa63e83e7838762ceadc00072baff9c391d729312540d3"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "frozen_at": "2026-10-02T01:53:49.073566+00:00",
+  "successor_cases": 21,
+  "new_invocation_seconds": 33.799,
+  "legacy_wrapper_resolutions": 6,
+  "syntax_checks": 6,
+  "helper_refusal_checks": 5,
+  "actual_runner_refusals": 4,
+  "reused_api_module_count": 31,
+  "reused_runtime_binary_members": 371,
+  "reused_artifact_members": 308,
+  "selected_source_fixture_old_test_members": 83,
+  "promotion_file_count": 14,
+  "base_drift": [],
+  "canonical_written": false,
+  "no_network": true,
+  "no_runtime_copy": true,
+  "no_new_272_run": true,
+  "owned_target_created": false,
+  "failures_retained": true,
+  "normal_compile_path_freshly_executed": false
+}

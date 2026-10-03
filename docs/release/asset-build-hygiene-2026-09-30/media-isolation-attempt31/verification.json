@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "prior-public_media_source_binding_test",
+      "exit_code": 1,
+      "expected_exit_nonzero": true,
+      "prior_source_sha256": "ba6347f1d14439be17f52405538f3fd63c5ecb063e826e7a8ad1251a4bfa0b76",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b593a70882f591bb99bd9525c500481778cdaf09c788f39215e0b4d18cc2e2e4"
+    },
+    {
+      "name": "prior-public_media_publication_test",
+      "exit_code": 1,
+      "expected_exit_nonzero": true,
+      "prior_source_sha256": "ba6347f1d14439be17f52405538f3fd63c5ecb063e826e7a8ad1251a4bfa0b76",
+      "stdout_sha256": "2b85f0fa5ae220af9e543bcd1dfb9ba7a4a0e12e58b8afc67b18828a8e05b45a",
+      "stderr_sha256": "3dd1c1e0e0368887f04d63c526187e7b80df61f0bbe049b674be6dc6dbc2ed7c"
+    },
+    {
+      "name": "source-binding-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "121791c53ac07c13822c85bfba29c9f6d4dcac02deb3d553d9aaf9c3c0c7d602"
+    },
+    {
+      "name": "publication-workflow-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_media_publication_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "2b85f0fa5ae220af9e543bcd1dfb9ba7a4a0e12e58b8afc67b18828a8e05b45a",
+      "stderr_sha256": "a3c23329f7479441084eeb46d78e73c37ef6c6f6b0858110ef85837c173ff6e6"
+    },
+    {
+      "name": "public-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "14a3677870ca903248dd569b7da0cb770cc33e3d68ab00b99700524c709ab4d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recorder-syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sole-authority",
+      "command": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_sha256": {
+    "scripts/qa/public_browser_app_media.mjs": "d5c2d534a50a78db3d1555ff0e8d185eb96ad568d56fa4f1b5af072d7b79bf0f",
+    "scripts/assets/publish_public_app_media.py": "7bbb33ff8b14c1d11d405c177b7969872cc5bc363e702cce140d8ced312c9c3e",
+    "scripts/public_app_media.rb": "dad9c68a540f8e658e79535dce95b3a955f7314a91726c4c61ce13db4032e612",
+    "scripts/tests/public_app_media_test.rb": "1bd32f8503e25dd72dcc08526b1f9980577465e599c42a9149124b21a9136cea",
+    "scripts/tests/public_media_source_binding_test.py": "839fbd1755f953614b609ead11666c971104564689e60f7ef8f40b06616831b3",
+    "scripts/tests/public_media_publication_test.py": "60e58047db5c3b27fb9754458f7fd499241f64800317367d5a7fc8463a16248d"
+  },
+  "sources_unchanged": true,
+  "actual_current_test_count": 32,
+  "actual_current_ruby_assertions": 53,
+  "prior_source_negative_probes": 2,
+  "scope": "Actual local binding/file mutations and complete publication filesystem rollback workflow; prior source fails new assertions, current source passes; no screenshot, native visual or release acceptance"
+}

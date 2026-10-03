@@ -1,0 +1,127 @@
+[
+  {
+    "name": "actual delete route recovers only server pending-review receipt",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "pending initial read is loading and cannot invent success",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "status failure exposes fixed safe error and no local receipt",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "signed-out route cannot issue a status or mutation",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "OTP is bound to Auth phone, masked and obscured; no profile fallback",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "unavailable Auth phone does not use profile or MoMo phone",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "confirmation cancellation and dismissal never submit",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "explicit confirmation records receipt only after server response",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "malformed success remains unconfirmed instead of fake erasure",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "ambiguous result requires status read then explicit SAME UUID retry",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "ambiguous status recovery returns canonical receipt without replay",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "verification 429 uses fixed copy without raw credentials",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "verification 400 uses fixed copy without raw credentials",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "verification 500 uses fixed copy without raw credentials",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "configured CAPTCHA exposes assistance without editable backend token",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "configured CAPTCHA still recovers an existing server receipt",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "late verify after account switch cannot adopt or expose old draft",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "disposing route during verification refuses late session adoption",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "accepted receipt disappears on account switch before new recovery",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "switch while confirmation is open cannot submit for either owner",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "server fresh-session refusal requires another OTP before submission",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "320px 3x keyboard route and confirmation reachable dark=false contrast=false",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "320px 3x keyboard route and confirmation reachable dark=false contrast=true",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "320px 3x keyboard route and confirmation reachable dark=true contrast=false",
+    "result": "success",
+    "skipped": false
+  },
+  {
+    "name": "320px 3x keyboard route and confirmation reachable dark=true contrast=true",
+    "result": "success",
+    "skipped": false
+  }
+]

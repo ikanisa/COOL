@@ -1,0 +1,45 @@
+{
+  "cache_source_or_process_mutations_performed": false,
+  "cached_POM": {
+    "bytes": 1035,
+    "exact_publisher_bytes_equal": true,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/b62eb13ff28aeabdb6f454ae97b1e0986cff994b/r8-9.1.29.pom",
+    "sha256": "136af50c91e46198fc439f2e233094edd39c5d68df88f33045526b872a4a6e06"
+  },
+  "kind": "observed_readonly_r8_timeout_recovery_diagnosis",
+  "original_actual_seconds": 180.482,
+  "original_command_deadline_seconds": 180,
+  "original_exit_code": 143,
+  "original_timeout_pins": {
+    "exact-r8-9.1.29-resolution.daemon-readback.json": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution1/exact-r8-9.1.29-resolution.daemon-readback.json",
+      "sha256": "cbbf3c817632e4d1924846d696b072ac77ffb6222303b6d18e4df9613351e32f"
+    },
+    "exact-r8-9.1.29-resolution.json": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution1/exact-r8-9.1.29-resolution.json",
+      "sha256": "40a8a58642f121d4cf694d1313aa5af4353b586c2fa272bd830b355e2371f911"
+    },
+    "readback.json": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution1/readback.json",
+      "sha256": "786041534192a666e44ed911644c0b70e3a63237d053f4d19ba973ea82da64b0"
+    }
+  },
+  "owned_daemons_absent": true,
+  "partial_candidate": {
+    "bytes": 22965278,
+    "classification": "Retained temp file is consistent with a partial R8 transfer; elapsed-rate estimate is an inference, not a current fetch/progress claim.",
+    "device": 16777232,
+    "fraction_of_expected_56139715_bytes": 0.4090736477732386,
+    "inode": 60484688,
+    "linear_whole_stage_estimate_seconds": 441.1968382281285,
+    "live_progress_or_explicit_process_ownership_proven": false,
+    "mtime_ns": 1790952781205318260,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle_download7480746008158994249bin",
+    "prefix_SHA256": "4eba5730b8ec43d7773f032bf1fa89db179a37581e2e0013363e84347f7cbd34",
+    "prefix_bytes_compared": 65536,
+    "prefix_matches_actual_publisher_R8_JAR": true
+  },
+  "raw_JAR_at_module_filestore_still_absent": true,
+  "schema_version": 1,
+  "selected_graph_produced": false
+}

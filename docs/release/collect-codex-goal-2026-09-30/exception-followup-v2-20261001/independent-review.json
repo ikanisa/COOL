@@ -1,0 +1,18 @@
+{
+  "kind": "independent_read_only_review",
+  "findings": [],
+  "database_or_tests_run": false,
+  "migration_sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+  "v1_lifecycle_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+  "reviewed_surfaces": [
+    "explicit current email authority before and after",
+    "closed typed canonical fingerprint grammar",
+    "v1 unchanged replay and input binding",
+    "current actor-only bounded lookup",
+    "paired capped redacted directory",
+    "private helpers and public API ACLs"
+  ],
+  "limitations": [
+    "Read-only review; real SQL cases separately recorded"
+  ]
+}

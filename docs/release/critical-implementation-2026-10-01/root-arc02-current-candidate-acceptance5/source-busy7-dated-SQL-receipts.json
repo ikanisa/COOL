@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 1.008,
+  "argv": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart",
+    "--packages=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.dart_tool/package_config.json",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/scripts/tests/admin_receipt_source_busy_test.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-source-busy-20261001/accepted-sql"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 60,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T11:33:23.129991+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 71053,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T11:33:22.122118+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "a1fbf395874620241072df14c08252d93961ee11b6e84e37a9f122fc0b2d9da8",
+  "timed_out": false
+}

@@ -13,22 +13,23 @@ page:
     a repayment obligation or remove records independently held by a regulated partner.
   delete_in_app:
     heading: Delete in the app
-    path: Profile → Settings → Privacy and Security → Delete Account
+    path: Settings → Security → Delete data
     steps:
-    - Open Collect
-    - Go to Profile
-    - Select Settings
-    - Select Privacy and Security
-    - Select Delete Account
-    - Review the consequences
-    - Verify your identity
-    - Confirm your request
+    - Open Collect and sign in.
+    - Go to Settings.
+    - Select Security.
+    - Select Delete data.
+    - Select a reason for your request.
+    - Select Submit.
+    - Review the confirmation and select Submit.
   delete_without_app:
     heading: Delete without the app
-    copy: Complete the form below. You do not need to reinstall the app to submit a deletion request.
-  form:
+    copy: Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.
+    email: info@ikanisa.com
+  support_information:
     id: account-deletion-request
-    submit_label: Request Account Deletion
+    heading: Request Account Deletion
+    copy: Support may ask for the following information to verify and process your request.
     fields:
     - name: full_name
       label: Full name

@@ -1,0 +1,2 @@
+{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"ok": true, "family": "sms_receipt_policies", "changed": true, "identity": {"collection_id": "99780000-0000-4000-8000-000000030001"}, "revision": 5, "updated_at": "2026-10-01T22:41:59.186151+00:00", "content_sha256": "3af66d1f5627702da012e02355e35791a429629ce6d0cf498d51c7d19acf9da2", "contract_version": 1, "previous_revision": 4}

@@ -1,0 +1,8 @@
+{
+  "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+  "before_sha256": "235c140f52def63c71c8a8d96a917f9fea49e18f5384b60b0b6efdf10fb3c869",
+  "current_matches_full49_and_common51": true,
+  "finding": "Actual fatal analysis const_eval_for_element at line252: const list cannot contain dynamic for element. Remove only enclosing AdminIdentity const in the fixture. No production source edit.",
+  "after_sha256": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a",
+  "pinned_formatter_changes": 0
+}

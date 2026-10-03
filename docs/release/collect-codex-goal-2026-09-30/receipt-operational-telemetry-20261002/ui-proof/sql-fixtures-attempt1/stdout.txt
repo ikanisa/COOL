@@ -1,0 +1,67 @@
+PASS boundary sample distinguishes handling, budget and callback observations
+PASS sample expiry and checked time are enforced independently
+PASS private destination cannot enter the closed top-level DTO
+PASS missing section cannot be treated as zero
+PASS unknown limit code refuses a fabricated evidence claim
+PASS duplicate fixed evidence codes refuse
+PASS fixed evidence limits are mandatory
+PASS out-of-range JSON integer refuses before use
+PASS floating JSON count refuses
+PASS negative count refuses
+PASS impossible calendar dates refuse
+PASS naive timestamp refuses
+PASS window end must identify the same snapshot
+PASS window must be exactly twenty-four hours
+PASS sample validity must be exactly sixty seconds
+PASS global budget day must match snapshot UTC day
+PASS paused policy requires emergency stop
+PASS financial side effects cannot be claimed
+PASS send side effects cannot be claimed
+PASS nonempty backlog requires an actual age
+PASS zero backlog cannot retain an age
+PASS deferrals cannot exceed pending business events
+PASS handled cohort requires a latency observation
+PASS latency percentiles cannot be reordered
+PASS callback coverage cannot exceed the expected multipart plan
+PASS an armed attempt cannot have no expected segments
+PASS unknown alert code refuses
+PASS alert response must match its closed rule
+PASS nonpolicy alerts require an actual source UUID
+PASS future alert observations refuse
+PASS zero alert episode refuses
+PASS duplicate alert rules refuse
+PASS unavailable code cannot accompany apparent zero/healthy metrics
+PASS unconfigured sample preserves prior alert without inventing clearance
+PASS empty valid cohort retains nullable ages and latencies
+PASS superseded workflow is retained independently from resolution
+PASS superseded workflow cannot remain an active source
+PASS source-busy predecessor label is preserved
+PASS finite telemetry reason BACKLOG_AGED stays separate from a financial route
+PASS telemetry reason BACKLOG_AGED cannot invent a transaction link
+PASS telemetry reason BACKLOG_AGED cannot attach to an unrelated source kind
+PASS finite telemetry reason HANDLING_LATENCY_HIGH stays separate from a financial route
+PASS telemetry reason HANDLING_LATENCY_HIGH cannot invent a transaction link
+PASS telemetry reason HANDLING_LATENCY_HIGH cannot attach to an unrelated source kind
+PASS finite telemetry reason ACTION_BUDGET_EXHAUSTED stays separate from a financial route
+PASS telemetry reason ACTION_BUDGET_EXHAUSTED cannot invent a transaction link
+PASS telemetry reason ACTION_BUDGET_EXHAUSTED cannot attach to an unrelated source kind
+PASS finite telemetry reason SMS_BUDGET_EXHAUSTED stays separate from a financial route
+PASS telemetry reason SMS_BUDGET_EXHAUSTED cannot invent a transaction link
+PASS telemetry reason SMS_BUDGET_EXHAUSTED cannot attach to an unrelated source kind
+PASS finite telemetry reason DELIVERY_CALLBACK_GAP stays separate from a financial route
+PASS telemetry reason DELIVERY_CALLBACK_GAP cannot invent a transaction link
+PASS telemetry reason DELIVERY_CALLBACK_GAP cannot attach to an unrelated source kind
+PASS finite telemetry reason SEND_OUTCOME_UNKNOWN stays separate from a financial route
+PASS telemetry reason SEND_OUTCOME_UNKNOWN cannot invent a transaction link
+PASS telemetry reason SEND_OUTCOME_UNKNOWN cannot attach to an unrelated source kind
+PASS actual SQL telemetry no-configured-scope.json decodes without inferred delivery
+PASS actual SQL telemetry multipart-partial-callbacks.json decodes without inferred delivery
+PASS actual SQL telemetry conflicting-callbacks.json decodes without inferred delivery
+PASS actual SQL telemetry inactive-sampler.json decodes without inferred delivery
+PASS actual SQL telemetry active-six-alerts.json decodes without inferred delivery
+PASS actual SQL telemetry same-active-episodes.json decodes without inferred delivery
+PASS actual SQL telemetry real-time-window-rollover.json decodes without inferred delivery
+PASS actual SQL telemetry locked-measurement-unavailable.json decodes without inferred delivery
+PASS actual SQL telemetry deep-history-current-window.json decodes without inferred delivery
+PASS actual SQL telemetry timed-out-original-sample.json decodes without inferred delivery
+PASS actual SQL telemetry scope-unavailable-after-alerts.json decodes without inferred delivery

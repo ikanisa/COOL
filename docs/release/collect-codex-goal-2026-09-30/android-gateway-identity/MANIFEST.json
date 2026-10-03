@@ -1,0 +1,95 @@
+{
+  "kind": "local_gateway_identity_evidence",
+  "production_accepted": false,
+  "sql_cases": 86,
+  "edge_tests": 36,
+  "source_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "scripts/tests/android_gateway_identity_uat.py": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8",
+    "supabase/functions/collect-android-gateway/handler.ts": "bdd6bf6e0e94867b2715fb9216a582e2346fcd9065f58f5820a5ad3d10e49e70",
+    "supabase/functions/collect-android-gateway/index.ts": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+    "supabase/functions/collect-android-gateway/handler_test.ts": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801"
+  },
+  "files": {
+    "CONTRACT.md": {
+      "bytes": 5018,
+      "sha256": "6ec2d8f61dc3f94e7de7bdd48d8b23859230b080e97a85dec3726227b4ba9cf0"
+    },
+    "README.md": {
+      "bytes": 4417,
+      "sha256": "18fe18174a2dd12e5e0c579155f0b9886cefd833e531dafcb4abec394ee389e0"
+    },
+    "concurrency.log": {
+      "bytes": 1861,
+      "sha256": "e91fe0daf831998a10d43d1504800e46788c033f489c8b41019e1cc24fe6ccce"
+    },
+    "edge-checks.json": {
+      "bytes": 604,
+      "sha256": "156bf8eaa6f16e7dd1de0728310dbd49d6b718d8beb500ca004cb8129d046585"
+    },
+    "edge-tests.log": {
+      "bytes": 2748,
+      "sha256": "306949d6a6bb74cb86a40bd59c3e5e4bc823202e4c54cfa5834d2285c07fb4b7"
+    },
+    "edge-typecheck.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "migration-structure.log": {
+      "bytes": 37,
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60"
+    },
+    "observed-activation.json": {
+      "bytes": 212,
+      "sha256": "4098c742b6c5b796c5c16a97ee3f99df48b701adc1da9709b0a33e024433d78f"
+    },
+    "observed-callback.json": {
+      "bytes": 153,
+      "sha256": "2a241ecf78b692e2da828b5ad9927f8b1d1dd973592a259d90e2f7c304364d84"
+    },
+    "observed-dispatch-refusal.json": {
+      "bytes": 196,
+      "sha256": "d2b12c52f78ac23c40e59bd2cfea72007d94c9a3f413d7a12e2bc82ef7a43fb2"
+    },
+    "observed-enrollment.json": {
+      "bytes": 213,
+      "sha256": "ee71bd99a6a52c923a8f2d048d4bebe4b3c4f9ff22edf1e4021d78131e741943"
+    },
+    "observed-heartbeat.json": {
+      "bytes": 156,
+      "sha256": "123bde7ac3e63dc2d959119ef78cd94998fada1e952da0d4bf77ab6f30142919"
+    },
+    "observed-service-public-key.json": {
+      "bytes": 481,
+      "sha256": "422c56d67071d02d9e721105ab0ea33b439e09bdf1f3ced264784b8389ddd5df"
+    },
+    "queries.log": {
+      "bytes": 57633,
+      "sha256": "f7451250cf09b2683328ce75f40b66988a7adc057e80916ff739a5b4bcdea9e0"
+    },
+    "queries.sql": {
+      "bytes": 1539545,
+      "sha256": "14ecf6f3ac1d53bfd09498fe35237cde3c377c7d770ec073dc3571fb9155b40e"
+    },
+    "restore.log": {
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "result.json": {
+      "bytes": 21034,
+      "sha256": "3b47e8f7ef4aac10126b6fa22a9d15e677c0e83f1f8d525d81e6d6e39f3947e1"
+    },
+    "source-readback.json": {
+      "bytes": 976,
+      "sha256": "9dde26f356a00287dca2ba719f63d0b29ba0c205c9edf8575d84417af27cf5bb"
+    },
+    "synthetic-prior-arm.sql": {
+      "bytes": 420,
+      "sha256": "b532dfe64949e8186c05a2c5cc1b521c842260d887ad8205b66d5f8b86b2a03e"
+    }
+  }
+}

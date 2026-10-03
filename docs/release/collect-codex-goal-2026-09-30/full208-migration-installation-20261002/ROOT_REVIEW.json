@@ -1,0 +1,55 @@
+{
+  "status": "root_verified_and_copied",
+  "at": "2026-10-02T02:30:06.536829+00:00",
+  "packet_member_count": 1543,
+  "source_migrations": 208,
+  "applications": 416,
+  "checks": 50,
+  "projection_scope": "18 declared column projections across84 post124 migrations;7configuration vectors",
+  "v4_result": {
+    "approval_id": "c718b999-0164-4da4-b841-1e01b9935cbb",
+    "inserted": false,
+    "is_primary_receipt_id": false,
+    "result_kind": "denied",
+    "sqlstate": "42501",
+    "error_message": "receipt_action_current_email_owner_required",
+    "unavailable_response_claimed": false,
+    "not_materialized_claimed": false
+  },
+  "root_direct_target_absence": [
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_89428aca9da2",
+      "exit_code": 1,
+      "stderr_sha256": "c30234fc5716e7d44ae07971f98944512571671f5b445cf18dd89b80b3623307",
+      "absent": true
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_4e8acd224d33",
+      "exit_code": 1,
+      "stderr_sha256": "72e3e852ca851adf5b6333cfb8d2f23f037beedf7df9cf434b98d641f73e4707",
+      "absent": true
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_populated_40ff07238912",
+      "exit_code": 1,
+      "stderr_sha256": "d19179a399691ad17a3d99dc47d118ba66991929b9f14ee785460f04dfa12871",
+      "absent": true
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_295e2d67651a",
+      "exit_code": 1,
+      "stderr_sha256": "70b8f5b05ecae7777a301ca0a84aea108a1b6e1e7d967996ea1fd4753064d1bf",
+      "absent": true
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_populated_e8309a71f541",
+      "exit_code": 1,
+      "stderr_sha256": "c5b0009e0c57e91c0b21840d103b687de8bc2495ac86f0330f8668eab033b398",
+      "absent": true
+    }
+  ],
+  "source_graph_current": true,
+  "manifest_sha256": "cb7490907207b539d841a4974959914cf46c837825aac192b15cf236ec495a23",
+  "verification_sha256": "c59340e8450e6856c81881ad92b0d3898db1f384df4fc3a7bbb604368c240039",
+  "limits": "Privileged platform bootstrap; NOSUPERUSER installer retains CREATEDB/CREATEROLE/BYPASSRLS/inherited trusted roles; synthetic Auth/Storage; no hosted/runtime/full recovery/device/release GO"
+}

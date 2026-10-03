@@ -1,0 +1,85 @@
+{
+  "status": "integrated; affected acceptance passed",
+  "observed_at": "2026-10-02T19:01:45.328173+00:00",
+  "canonical_files": [
+    {
+      "path": "scripts/audits/collect_recovery_source.rb",
+      "bytes": 12861,
+      "sha256": "3a548f7b587234153496120d0b5883259b008fe1a45816fe3bd6d7117b0aaebe"
+    },
+    {
+      "path": "scripts/tests/production_archive_restore.rb",
+      "bytes": 25183,
+      "sha256": "087c9325a768d9b3551790525f974230458e40079d9eb787438b708a0544ac9d"
+    },
+    {
+      "path": "scripts/audits/collect_inactive_restore_overlay.rb",
+      "bytes": 11607,
+      "sha256": "f056cc9da956f6845a0fc003cf7bcecda45d48ebdcadf22fd76b611ec0b1953f"
+    },
+    {
+      "path": "scripts/sql/collect_inactive_restore_overlay.sql",
+      "bytes": 25680,
+      "sha256": "556ec1f13ae0d331d5495ac85c545a076b40946f082cceabf2b67738117384b3"
+    },
+    {
+      "path": "scripts/tests/collect_inactive_restore_overlay_test.rb",
+      "bytes": 6718,
+      "sha256": "4a3dceaa9b56cc28054c47cc4a23073ce3ca2eebe0603179e1626bdead773c81"
+    },
+    {
+      "path": "scripts/tests/collect_inactive_restore_caller_test.rb",
+      "bytes": 4019,
+      "sha256": "cde5dd0c5c3ec90f441b9037acbb55daa7b8ba6adc0a0d4660a9862e5e8fc7e9"
+    },
+    {
+      "path": "docs/platform/INACTIVE_RESTORE_OVERLAY.md",
+      "bytes": 6210,
+      "sha256": "2bad43001655698de9cfff6441dba23c632cf5890ba32729eed04390eb2d328f"
+    }
+  ],
+  "preserved_originals": [
+    {
+      "path": "scripts/audits/collect_recovery_source.rb",
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    {
+      "path": "scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    }
+  ],
+  "canonical_acceptance": {
+    "cases": 43,
+    "assertions": 210,
+    "syntax_checks": 13,
+    "captured_inputs": 227,
+    "input_drift": []
+  },
+  "private_sql": {
+    "checks": 78,
+    "separate_outer_binding_cleanup_checks": 2,
+    "source_scope": "Selected205 corpus plus exact420/440/800 deltas; current208 association;900 outside SQL rehearsal"
+  },
+  "private_manifest": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/MANIFEST.json",
+    "bytes": 1767664615,
+    "sha256": "b55d567580834f0205fa6b1fd91d3778c199682e452bab560f91aa692c2fa3ed",
+    "members": 14413,
+    "all_members_read_back": true
+  },
+  "all_bound_associations_verified": 488,
+  "distinct_bound_paths": 258,
+  "owned_targets_confirmed_absent": 17,
+  "current_migrations": 209,
+  "current209_unified_restore": "open",
+  "hosted_or_live_action": false,
+  "limits": [
+    "No full209 migration/archive restore",
+    "No joined native/scheduler/Vault/production-role recovery",
+    "No physical power-loss, RPO/RTO or live acceptance",
+    "Same-target postmaster restart within the same container/PGDATA lifetime only",
+    "Unknown response recovery reuses the original UUID; no automatic sender reactivation"
+  ]
+}

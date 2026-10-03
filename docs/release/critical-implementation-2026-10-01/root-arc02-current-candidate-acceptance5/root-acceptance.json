@@ -1,0 +1,12 @@
+{
+  "actual_dated_decoder_cases_successful_unskipped": 3,
+  "actual_terminal_sha256": "22d37a5f52394e344c9c14615274cb6158a5096af0efee0ef88438c9d6c49e0c",
+  "current209_SQL_producer_not_added_as_gate": true,
+  "original_ARC02_criterion_satisfied": true,
+  "original_failed_attempts_remain_failed": true,
+  "production_release_approval": false,
+  "source_files": 2561,
+  "source_generation_and_exactly_once_assertions_retained": true,
+  "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "whole_current_candidate_pass": true
+}

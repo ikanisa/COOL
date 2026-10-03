@@ -1,0 +1,77 @@
+{
+  "supabase/migrations/20260930160000_redacted_operational_health.sql": {
+    "reviewed_sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+    "current_sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+    "unchanged": true
+  },
+  "supabase/migrations/20260930180000_operational_health_authority.sql": {
+    "reviewed_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+    "current_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+    "unchanged": true
+  },
+  "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+    "reviewed_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "current_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+    "reviewed_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "current_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001000200_admin_gateway_reads.sql": {
+    "reviewed_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "current_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+    "reviewed_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "current_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+    "reviewed_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "current_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001130000_android_dispatch_authority.sql": {
+    "reviewed_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+    "current_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001150000_receipt_exception_worker.sql": {
+    "reviewed_sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+    "current_sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": {
+    "reviewed_sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "current_sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql": {
+    "reviewed_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+    "current_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+    "unchanged": true
+  },
+  "supabase/migrations/20261001230000_automatic_gateway_investigation.sql": {
+    "reviewed_sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+    "current_sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+    "unchanged": true
+  },
+  "tools/collect-notification-mcp/src/operational_health.ts": {
+    "reviewed_sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+    "current_sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+    "unchanged": true
+  },
+  "lib/admin/core/admin_receipt_worker_health.dart": {
+    "reviewed_sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019",
+    "current_sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019",
+    "unchanged": true
+  },
+  "lib/admin/core/admin_operational_health.dart": {
+    "reviewed_sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+    "current_sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+    "unchanged": true
+  }
+}

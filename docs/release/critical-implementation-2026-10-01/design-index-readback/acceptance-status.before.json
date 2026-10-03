@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "recorded_at": "2026-10-01T18:23:23.626751+00:00",
+  "design_authority": "revolut-design",
+  "authority_binding": "docs/release/revolut-design/authority.json",
+  "role": "Current product implementation and scoped artifact review evidence",
+  "implementation_status": "pass",
+  "open_material_implementation_findings": [],
+  "full_visual_acceptance": "unverified",
+  "percentage": null,
+  "acceptance_basis": "Current fixture routes, states and exact artifacts listed below; a whole-product fidelity percentage is not inferred from these checks.",
+  "declared_route_inventory": "docs/release/revolut-design/route-inventory.json",
+  "surfaces": {
+    "member_app": {
+      "status": "current_scoped_review_pass",
+      "route_cases_per_variant": 43,
+      "state_cases_per_variant": 56,
+      "variant_count": 3,
+      "case_executions": 297,
+      "capture_count": 467,
+      "workspace_input_count": 357,
+      "real_package_icon_faces": 4,
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/mobile-independent-visual-review.json",
+      "runtime_matrix": "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json",
+      "resolved_findings": [
+        "Confirmation label inside pill at enlarged text",
+        "Photo floating filter label clearance",
+        "Selected teal patterned Security header"
+      ],
+      "current_source_drift": []
+    },
+    "admin": {
+      "status": "current_scoped_review_pass",
+      "registered_routes": 28,
+      "viewports": 4,
+      "browser_case_count": 112,
+      "compiled_input_count": 321,
+      "matrix": "docs/release/revolut-design/verification/current-20261001/admin-browser-matrix.json",
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json",
+      "current_source_drift": []
+    },
+    "public_website": {
+      "status": "current_scoped_review_pass",
+      "html_routes": 18,
+      "route_viewport_cases": 60,
+      "share_cases": 16,
+      "quality_checks": 55,
+      "flat_contrast_samples": 3422,
+      "photography_regions": 84,
+      "matrix": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-matrix.json",
+      "quality": "docs/release/revolut-design/verification/current-20261001/public-complete-quality.json",
+      "unchanged_artifact_reuse": "docs/release/revolut-design/verification/current-20261001/public-artifact-reuse-proof.json",
+      "legal_rendering_delta": "docs/release/revolut-design/verification/current-legal-presentation-20261001/content-comparison.json",
+      "retained_screenshots": 181,
+      "superseded_wrapped_full_page_captures": 6,
+      "original_long_viewport_segments": 175,
+      "long_page_capture": "docs/release/revolut-design/verification/current-20261001/public-long-page-capture.json",
+      "internal_link_readback": "docs/release/revolut-design/verification/current-20261001/final-internal-link-readback.json",
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/final-current-visual-and-link-review.json",
+      "material_findings": []
+    }
+  },
+  "native_ios": {
+    "status": "current_debug_artifact_review_pass",
+    "capture_count": 7,
+    "compiler_native_input_count": 465,
+    "installed_bundle_files": 204,
+    "installed_equals_retained": true,
+    "network_attempts": 0,
+    "current_source_drift": [],
+    "capture_report": "docs/release/revolut-design/verification/current-20261001/native-capture-report.json",
+    "visual_review": "docs/release/revolut-design/verification/current-20261001/native-visual-review.json",
+    "installed_readback": "docs/release/revolut-design/verification/current-20261001/native-installed-bundle-readback.json",
+    "simulator_restored_shutdown": true
+  },
+  "marketing_typography": {
+    "status": "selected_full_faces_implemented",
+    "family": "Aeonik Pro",
+    "weights": [
+      400,
+      500
+    ],
+    "metadata": "docs/release/revolut-design/verification/current-20261001/marketing-font-metadata.json",
+    "native_operator_family": "Inter",
+    "whole_RWF_values": "Inter tabular numerals"
+  },
+  "current_website_media": {
+    "status": "fresh_separately_reviewed_published_local_packet",
+    "workspace_inputs": 330,
+    "runtime_fingerprint": "d7136f3bd1ffc4e1ddb5003e31d64ae8a1bf5285fb94f0050b52ce6b418bb89c",
+    "packet": "docs/release/revolut-design/verification/final-member-media-20261001"
+  },
+  "earlier_three_native_defects": {
+    "status": "disproved_by_original_pixel_decoding_and_OCR",
+    "diagnosis": "docs/release/revolut-design/verification/current-20261001/native-visual-diagnosis.json"
+  },
+  "source_currency": "docs/release/revolut-design/verification/current-20261001/final-source-readback.json",
+  "reference_cleanup": {
+    "deleted_competing_files": 10,
+    "record": "docs/release/revolut-design/reference-cleanup.json"
+  },
+  "verification_log_inventory": "docs/release/revolut-design/verification-log-inventory.json"
+}

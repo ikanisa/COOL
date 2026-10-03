@@ -1,0 +1,936 @@
+{
+  "kind": "manual_shadow_supervisor_isolated_schema_only",
+  "started_at": "2026-09-30T19:41:38.254448+00:00",
+  "production_written": false,
+  "provider_called": false,
+  "cases": [
+    {
+      "name": "migration installs in isolated schema-only database",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private tables have RLS and no API grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "public RPCs authenticated-only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private helpers deny all API roles",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot begin",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot begin",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "missing Auth session denied",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_session_required"
+      }
+    },
+    {
+      "name": "current authority requires unconfirmed phone rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires banned actor rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires anonymous actor rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires expired Auth session rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires session predates approval rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires revoked approval rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires revoked platform grant rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current authority requires session predates grant rejection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "both permissions cannot substitute for platform_owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "valid session belonging to different actor denied",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_session_required"
+      }
+    },
+    {
+      "name": "null request denied",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "invalid history arguments 0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "invalid history arguments 51",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "invalid history arguments null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "invalid history arguments 20,now(),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "invalid history arguments 20,'infinity','00000000-0000-0000-0000-000000000000'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "shadow_request_invalid"
+      }
+    },
+    {
+      "name": "current system_health.read permission required",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_permission_required"
+      }
+    },
+    {
+      "name": "current notifications.read permission required",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_permission_required"
+      }
+    },
+    {
+      "name": "authenticated begin creates120-second platform lease",
+      "status": "pass",
+      "detail": {
+        "ok": true,
+        "run": {
+          "run_id": "8bf77f99-a544-4fc1-b5f7-4c4a5762a256",
+          "status": "running",
+          "summary": null,
+          "request_id": "42934529-f72f-4494-8b08-3d9120000551",
+          "sampled_at": null,
+          "started_at": "2026-09-30T19:41:44.626053+00:00",
+          "completed_at": null,
+          "fence_version": 1,
+          "lease_expires_at": "2026-09-30T19:43:44.626053+00:00"
+        },
+        "mode": "shadow",
+        "scope": "collect_platform",
+        "outcome": "started",
+        "replayed": false,
+        "contract_version": 1
+      }
+    },
+    {
+      "name": "same request original session replays stable run",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "competing actor sees bounded busy without token",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "same actor new session cannot reuse request",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "shadow_request_conflict"
+      }
+    },
+    {
+      "name": "different actor cannot reuse request",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "shadow_request_conflict"
+      }
+    },
+    {
+      "name": "new session read-only reconciliation finds original request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "other actor request lookup is absent",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "finish requires actual persisted sample",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_sample_required"
+      }
+    },
+    {
+      "name": "wrong fence sample refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "shadow_fence_lost"
+      }
+    },
+    {
+      "name": "Repeatable Read cannot stamp an old health snapshot",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "sample derives real150 health and SMS aggregates",
+      "status": "pass",
+      "detail": {
+        "ok": true,
+        "mode": "shadow",
+        "scope": "collect_platform",
+        "run_id": "8bf77f99-a544-4fc1-b5f7-4c4a5762a256",
+        "sample": {
+          "summary": {
+            "sms_queue": {
+              "queued": 0,
+              "enabled": false,
+              "uncertain": 0,
+              "suppressed": 0,
+              "send_started": 0,
+              "active_workers": 0,
+              "awaiting_confirmation": 0
+            },
+            "alert_counts": {
+              "ok": 8,
+              "unknown": 0,
+              "attention": 0,
+              "not_applicable": 5
+            },
+            "health_status": "ok",
+            "provider_sends": 0,
+            "checks_recorded": 13,
+            "samples_recorded": 1,
+            "business_mutations": 0
+          },
+          "sample_id": "9abb6f49-121a-413c-89bf-8c4cc29af7c8",
+          "sms_queue": {
+            "queued": 0,
+            "enabled": false,
+            "uncertain": 0,
+            "suppressed": 0,
+            "observed_at": "2026-09-30T19:41:45.465982+00:00",
+            "send_started": 0,
+            "active_workers": 0,
+            "oldest_queued_at": null,
+            "awaiting_confirmation": 0
+          },
+          "checked_at": "2026-09-30T19:41:45.468836+00:00",
+          "system_health": {
+            "id": "system",
+            "auth": "authenticated",
+            "alerts": [
+              {
+                "code": "receipt_parse_backlog",
+                "state": "ok",
+                "metric": "sms_pending",
+                "threshold": 100
+              },
+              {
+                "code": "receipt_parse_age",
+                "state": "not_applicable",
+                "metric": "sms_pending_age_seconds",
+                "threshold": 300
+              },
+              {
+                "code": "receipt_parse_failure",
+                "state": "ok",
+                "metric": "sms_failed_24h",
+                "threshold": 1
+              },
+              {
+                "code": "receipt_parser_lease_expired",
+                "state": "ok",
+                "metric": "sms_expired_parse_leases",
+                "threshold": 1
+              },
+              {
+                "code": "payment_unmatched",
+                "state": "ok",
+                "metric": "unallocated_events",
+                "threshold": 1
+              },
+              {
+                "code": "payment_review_age",
+                "state": "not_applicable",
+                "metric": "payment_review_age_seconds",
+                "threshold": 3600
+              },
+              {
+                "code": "reconciliation_exception",
+                "state": "ok",
+                "metric": "reconciliation_open",
+                "threshold": 1
+              },
+              {
+                "code": "push_queue_age",
+                "state": "not_applicable",
+                "metric": "push_due_age_seconds",
+                "threshold": 120
+              },
+              {
+                "code": "push_expired_lease",
+                "state": "ok",
+                "metric": "push_expired_leases",
+                "threshold": 1
+              },
+              {
+                "code": "push_missing_lease",
+                "state": "ok",
+                "metric": "push_missing_leases",
+                "threshold": 1
+              },
+              {
+                "code": "push_attempt_failure",
+                "state": "ok",
+                "metric": "push_failed_24h",
+                "threshold": 5
+              },
+              {
+                "code": "receipt_telemetry_stale",
+                "state": "not_applicable",
+                "metric": "receipt_telemetry_age_seconds",
+                "threshold": 300
+              },
+              {
+                "code": "push_scheduler_stale",
+                "state": "not_applicable",
+                "metric": "push_scheduler_age_seconds",
+                "threshold": 180
+              }
+            ],
+            "metrics": {
+              "push_due": 0,
+              "push_failed": 0,
+              "push_queued": 0,
+              "sms_pending": 0,
+              "reversals_24h": 0,
+              "push_retry_24h": 0,
+              "sms_failed_24h": 0,
+              "sms_parsed_24h": 0,
+              "payments_review": 0,
+              "push_failed_24h": 0,
+              "push_processing": 0,
+              "push_attempts_24h": 0,
+              "unallocated_events": 0,
+              "finality_processing": 0,
+              "payments_posted_24h": 0,
+              "push_expired_leases": 0,
+              "push_latency_p95_ms": null,
+              "push_missing_leases": 0,
+              "reconciliation_open": 0,
+              "durable_receipts_24h": 0,
+              "push_due_age_seconds": null,
+              "receipt_rejected_24h": 0,
+              "finality_processed_24h": 0,
+              "sms_pending_age_seconds": null,
+              "sms_expired_parse_leases": 0,
+              "push_provider_accepts_24h": 0,
+              "receipt_ack_generated_24h": 0,
+              "payment_review_age_seconds": null,
+              "push_scheduler_age_seconds": null,
+              "receipt_ack_latency_mean_ms": null,
+              "receipt_telemetry_age_seconds": null
+            },
+            "database": "reachable",
+            "scheduler": {
+              "state": "disabled",
+              "configuration_verified": false
+            },
+            "checked_at": "2026-09-30T19:41:45.4567+00:00",
+            "health_status": "ok",
+            "window_seconds": 86400,
+            "evidence_limits": [
+              "ACK generation does not prove device receipt.",
+              "Provider acceptance does not prove user delivery.",
+              "Scheduler activation does not prove provider configuration."
+            ],
+            "contract_version": 1,
+            "failed_sms_parse": 0,
+            "threshold_version": 1,
+            "parser_pending_sms": 0,
+            "sample_valid_until": "2026-09-30T19:42:45.4567+00:00",
+            "unallocated_events": 0,
+            "failed_notifications": 0,
+            "queued_notifications": 0,
+            "processing_notifications": 0
+          },
+          "content_sha256": "4eb1cfcf8670f9986194862808afeb4fab9426111e597901e8555ed0caa81c07"
+        },
+        "outcome": "sampled",
+        "replayed": false,
+        "fence_version": 1,
+        "contract_version": 1
+      }
+    },
+    {
+      "name": "sample replay preserves immutable sample and hash",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "server SHA matches persisted canonical jsonb",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "even owner cannot rewrite immutable sample",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_history_immutable"
+      }
+    },
+    {
+      "name": "even owner cannot delete immutable sample",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_history_immutable"
+      }
+    },
+    {
+      "name": "server completion records existing sample",
+      "status": "pass",
+      "detail": {
+        "ok": true,
+        "run": {
+          "run_id": "8bf77f99-a544-4fc1-b5f7-4c4a5762a256",
+          "status": "completed",
+          "summary": {
+            "sms_queue": {
+              "queued": 0,
+              "enabled": false,
+              "uncertain": 0,
+              "suppressed": 0,
+              "send_started": 0,
+              "active_workers": 0,
+              "awaiting_confirmation": 0
+            },
+            "alert_counts": {
+              "ok": 8,
+              "unknown": 0,
+              "attention": 0,
+              "not_applicable": 5
+            },
+            "health_status": "ok",
+            "provider_sends": 0,
+            "checks_recorded": 13,
+            "samples_recorded": 1,
+            "business_mutations": 0
+          },
+          "request_id": "42934529-f72f-4494-8b08-3d9120000551",
+          "sampled_at": "2026-09-30T19:41:45.468836+00:00",
+          "started_at": "2026-09-30T19:41:44.626053+00:00",
+          "completed_at": "2026-09-30T19:41:45.877287+00:00",
+          "fence_version": 1,
+          "lease_expires_at": "2026-09-30T19:43:44.626053+00:00"
+        },
+        "mode": "shadow",
+        "scope": "collect_platform",
+        "outcome": "completed",
+        "replayed": false,
+        "contract_version": 1
+      }
+    },
+    {
+      "name": "completed original request replay stable",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "completed finish replay stable",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old completed finish does not clear newer lease",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "wrong session cannot sample another session lease",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_run_unavailable"
+      }
+    },
+    {
+      "name": "strict paired keyset produces no repeated rows",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "malformed source health null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health missing contract",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health null alerts",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health missing alert state",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health invalid alert state",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health missing valid until",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health infinite checked_at",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health null status",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health numeric checked_at",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health numeric valid until",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health wrong severity",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health unexpected sensitive field",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health unexpected nested metric",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health null metrics",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health array metrics",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health fraction metric",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "malformed source health unsafe metric",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "source health cannot be relabeled after expiry",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_health_stale"
+      }
+    },
+    {
+      "name": "public sampling refuses dependency null",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "public sampling refuses dependency missing status",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "public sampling refuses dependency redaction leak",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "public sampling refuses dependency malformed alerts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "finish refuses forged old source timestamp",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_integrity_unavailable"
+      }
+    },
+    {
+      "name": "initial finish refuses stale health before lease expiry",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_health_stale"
+      }
+    },
+    {
+      "name": "sample replay refuses stale source evidence",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_health_stale"
+      }
+    },
+    {
+      "name": "concurrent begins serialize exactly one new lease",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "history snapshot serializes concurrent finish",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "finish-first history observes coherent completion",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "physical lease write fences established RR waiter",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read-first authority locks block permission revocation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "committed permission revocation denies later history",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_permission_required"
+      }
+    },
+    {
+      "name": "revoke-first session deletion denies queued history",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "durable record survives deleted original session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new session cannot finish original completed run",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "shadow_run_unavailable"
+      }
+    },
+    {
+      "name": "expired same request cannot restart",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "expired lease sample refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_lease_expired"
+      }
+    },
+    {
+      "name": "expired lease finish refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_lease_expired"
+      }
+    },
+    {
+      "name": "takeover increments fence and expires prior owner",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old fence cannot complete after takeover",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "shadow_fence_lost"
+      }
+    },
+    {
+      "name": "fence cap cannot overflow independently of quota",
+      "status": "pass",
+      "detail": {
+        "below_quota": true,
+        "fence_version": 1000000000,
+        "sqlstate": "55000",
+        "reason": "shadow_limit_reached"
+      }
+    },
+    {
+      "name": "global rolling-hour60-run limit is enforced",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "shadow_limit_reached"
+      }
+    },
+    {
+      "name": "same timestamp keyset tie paging is stable",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "seven scoped payment journal outbox attempt heartbeat fingerprints unchanged",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "source_metadata": {
+    "net": "0",
+    "cron": "off",
+    "count": 150,
+    "latest": "20260930180000"
+  },
+  "migration_sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+  "prerequisites": {
+    "20260930170000": {
+      "current_source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "installed_migration_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "normalized_installed_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "installed_relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad"
+    },
+    "20260930180000": {
+      "current_source_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "installed_migration_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "whole_migration_parity": true,
+      "normalized_source_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "normalized_installed_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "relevant_function_source_parity": true,
+      "current_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd",
+      "installed_relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd"
+    }
+  },
+  "database": "collect_shadow_uat_802180c930f2",
+  "source_schema_dump_sha256": "9e35dfe5b5efb3f376394638dc53259848d2df4d49425512f6a76643afe09e8e",
+  "application_api_acl_sha256": "3283a589630eb16a99153cac80df0d10e19119a7c08eeb4947bca2de843e3885",
+  "restored_schema_dump_sha256": "9e35dfe5b5efb3f376394638dc53259848d2df4d49425512f6a76643afe09e8e",
+  "install_exit_code": 0,
+  "business_before": {
+    "journal": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "business_after": {
+    "journal": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T19:41:53.160735+00:00"
+}

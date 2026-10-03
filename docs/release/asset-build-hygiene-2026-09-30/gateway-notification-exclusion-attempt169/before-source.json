@@ -1,0 +1,5 @@
+{
+  "android/app/build.gradle.kts": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9",
+  "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java": "52d3ce636d308a5e39c95bb917407a46d6bad42c9f95a3073a44a0155f683bcd",
+  "android/app/src/internal_gateway/AndroidManifest.xml": "b2f1301a7ea3e5c69720df0eb813bbcd0b8e14b6bdd6e09b6ca272d4e8996995"
+}

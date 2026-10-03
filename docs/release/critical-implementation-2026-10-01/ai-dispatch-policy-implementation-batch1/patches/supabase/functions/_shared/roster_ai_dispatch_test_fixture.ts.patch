@@ -1,0 +1,60 @@
+--- /dev/null
++++ b/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts
+@@ -0,0 +1,57 @@
++import { rosterSha256 } from "./roster_provenance.ts";
++
++// Synthetic tests only. These values assert no actual owner/vendor approval.
++export const SYNTHETIC_ROSTER_AI_POLICY = {
++  "schema_version": 1,
++  "purpose": "collect_roster_pdf_image_extraction",
++  "enabled": true,
++  "status": "approved",
++  "approval_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
++  "approval_evidence_sha256":
++    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
++  "approved_at": "2020-01-01T00:00:00Z",
++  "valid_until": "2099-01-01T00:00:00Z",
++  "provider": "openai",
++  "organization_id": "org_synthetic",
++  "project_id": "proj_synthetic",
++  "responses_endpoint": "https://api.openai.com/v1/responses",
++  "model": "fixture-model",
++  "processing_region_evidence_ref": "synthetic-region-evidence",
++  "retention_evidence_ref": "synthetic-retention-evidence",
++  "decoder_processor_evidence_ref": "synthetic-decoder-processor",
++  "decoder_region_evidence_ref": "synthetic-decoder-region",
++  "decoder_retention_evidence_ref": "synthetic-decoder-retention",
++  "decoder_url": "http://localhost/decode",
++  "decoder_build_sha256":
++    "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
++};
++export const SYNTHETIC_ROSTER_AI_CONFIGURATION = Object.freeze({
++  aiApprovalJson:
++    '{"schema_version":1,"purpose":"collect_roster_pdf_image_extraction","enabled":true,"status":"approved","approval_id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","approval_evidence_sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","approved_at":"2020-01-01T00:00:00Z","valid_until":"2099-01-01T00:00:00Z","provider":"openai","organization_id":"org_synthetic","project_id":"proj_synthetic","responses_endpoint":"https://api.openai.com/v1/responses","model":"fixture-model","processing_region_evidence_ref":"synthetic-region-evidence","retention_evidence_ref":"synthetic-retention-evidence","decoder_processor_evidence_ref":"synthetic-decoder-processor","decoder_region_evidence_ref":"synthetic-decoder-region","decoder_retention_evidence_ref":"synthetic-decoder-retention","decoder_url":"http://localhost/decode","decoder_build_sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}',
++  aiApprovalSha256:
++    "e08fe77aef61ad8391c0807f1a74589246036651ede18a162751c838d2775a0e",
++  openAiOrganizationId: "org_synthetic",
++  openAiProjectId: "proj_synthetic",
++});
++export async function syntheticRosterAiApproval(
++  model: string,
++  decoderUrl: string | undefined,
++  decoderBuildSha256: string | undefined,
++  patch: Record<string, unknown> = {},
++) {
++  const aiApprovalJson = JSON.stringify({
++    ...SYNTHETIC_ROSTER_AI_POLICY,
++    model,
++    decoder_url: decoderUrl,
++    decoder_build_sha256: decoderBuildSha256,
++    ...patch,
++  });
++  return {
++    aiApprovalJson,
++    aiApprovalSha256: await rosterSha256(
++      new TextEncoder().encode(aiApprovalJson),
++    ),
++    openAiOrganizationId: "org_synthetic",
++    openAiProjectId: "proj_synthetic",
++  };
++}

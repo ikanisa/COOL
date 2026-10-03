@@ -1,0 +1,9 @@
+Private proposal for root integration.
+
+Only two scripts are proposed. Their package imports resolve the existing collect_app library through the standard package configuration. The duplicate-alert fixture adds an explicit Map<String, dynamic> cast at the same sound-typed call boundary; its clone and rejection assertion remain intact. No model, auth, session, financial, runtime, fixture, gate or analyzer configuration changes are proposed.
+
+Ownership: source_busy previously belonged to the human chat Connect Collect to Codex MCP. Root read-only inspection found its latest turn completed, and root owns only this narrow integration under an exact current preimage. All prior human edits are retained verbatim apart from the two import URI changes. Worker writes only this private proposal.
+
+The fixture consumers are standalone Dart main programs taking an explicit SQL fixture directory; telemetry also supports the existing --boundaries branch, which explicitly makes no SQL fixture claim. No canonical Make/QA runner currently names either script. Package imports support both plain dart invocation from the repository package and an explicit --packages configuration. Root must refresh combined strict analysis against the current captured candidate after promotion.
+
+Verification: both proposed scripts passed isolated Dart strict analysis with the unchanged repository analysis_options.yaml. Original and candidate telemetry direct-Dart --boundaries each passed 56 checks and produced byte-identical stdout. Maintained files, copied transitive source dependencies, five external package library inputs and the observed Dart/snapshot runtime inputs retained their exact before/after hashes. Each process completed inside its bound with its owned group absent. Source-busy actual SQL fixture execution was not run and remains pending. This is a private scoped proposal, not combined candidate acceptance or production readiness.

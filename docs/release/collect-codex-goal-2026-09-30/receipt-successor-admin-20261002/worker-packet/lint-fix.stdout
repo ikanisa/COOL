@@ -1,0 +1,34 @@
+Computing fixes in runtime...
+Applying fixes...
+
+lib/admin/core/admin_receipt_successor_checkpoint.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+lib/admin/core/admin_receipt_successor_checkpoint_web.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+lib/admin/core/admin_receipt_successor_controller.dart
+  curly_braces_in_flow_control_structures - 3 fixes
+
+lib/admin/core/admin_receipt_successor_host.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+lib/admin/core/admin_receipt_successor_models.dart
+  curly_braces_in_flow_control_structures - 15 fixes
+
+lib/admin/core/admin_receipt_successor_sdk.dart
+  curly_braces_in_flow_control_structures - 6 fixes
+
+lib/admin/core/admin_receipt_successor_view.dart
+  curly_braces_in_flow_control_structures - 7 fixes
+
+lib/core/startup/collect_startup_host.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+test/admin_receipt_successor_sdk_controller_test.dart
+  curly_braces_in_flow_control_structures - 2 fixes
+
+test/support/successor_fixture.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+38 fixes made in 10 files.

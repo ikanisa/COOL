@@ -1,0 +1,48 @@
+{
+  "root-current-combined-attempt1": {
+    "session_id": 5123,
+    "terminal_chunk": "44ee16",
+    "observed_exit_code": 0,
+    "actual_cases": 47
+  },
+  "root-current-analysis-attempt1": {
+    "session_id": 42121,
+    "terminal_chunk": "e42c15",
+    "observed_exit_code": 0,
+    "analysis_items": 16
+  },
+  "root-integration-attempt4": {
+    "session_id": 67701,
+    "terminal_chunk": "c9dc66",
+    "observed_exit_code": 0,
+    "actual_cases": 26,
+    "superseded_by": "root-current-combined-attempt1"
+  },
+  "root-integration-attempt1": {
+    "session_id": 1615,
+    "terminal_chunk": "db9de6",
+    "observed_driver_exit_code": 1,
+    "raw_flutter_exit_code": 0,
+    "accepted": false,
+    "reason": "owned interruption, no All tests passed, shutdown errors retained"
+  },
+  "root-integration-attempt2": {
+    "session_id": 12807,
+    "terminal_chunk": "668aba",
+    "observed_exit_code": 1,
+    "accepted": false
+  },
+  "root-integration-attempt3": {
+    "session_id": 21771,
+    "terminal_chunk": "b315b8",
+    "observed_exit_code": 1,
+    "accepted": false
+  },
+  "required-authority-attempt2": {
+    "session_id": 84114,
+    "terminal_chunk": "ebcf11",
+    "observed_exit_code": 0,
+    "captured_inputs": 37,
+    "accepted": true
+  }
+}

@@ -1,0 +1,78 @@
+PASS only retained synthetic operator session deadline renewed before original baseline
+PASS synthetic session preparation changes only original not_after
+PASS actual ordinary owner and cron EXECUTE without grant or fallback
+PASS retained fixture identity unexpired for genuine shipping producer setup
+PASS actual shipping begin_run before owner stop
+PASS exact accepted reused financial producer source
+PASS actual primary original grant for separate confirmed financial source
+PASS actual primary final arm before stop
+PASS actual successor grant uses permanently closed separate source
+PASS actual successor final arm before stop
+PASS explicit NOSUPERUSER gate denies same named superuser before catalog use and restores exact role/catalog baseline
+PASS actual already-false flag branch has no fabricated invalidation and exact one binding then fully rolls back
+PASS actual collect_admin_combined_roster conflict refuses all partial stop work
+PASS actual collect-receipt-trusted-worker conflict refuses all partial stop work
+PASS actual collect-receipt-history-maintenance conflict refuses all partial stop work
+PASS actual collect-ops-workflow conflict refuses all partial stop work
+PASS actual collect-receipt-telemetry-sampler conflict refuses all partial stop work
+PASS actual shipping worker configure overlap refuses stop with all pending producer evidence intact
+PASS actual shipping history prepare overlap refuses stop with all pending producer evidence intact
+PASS actual shipping owner policy publication overlap refuses stop with all pending producer evidence intact
+PASS actual shipping pending identity enrollment overlap refuses stop with all pending producer evidence intact
+PASS actual principal row contention rolls back earlier locks and stop
+PASS actual device row contention rolls back earlier locks and stop
+PASS actual policy row contention rolls back earlier locks and stop
+PASS actual fence row contention rolls back earlier locks and stop
+PASS actual successor config contention rolls back earlier locks and stop
+PASS actual worker config contention rolls back earlier locks and stop
+PASS actual history config contention rolls back earlier locks and stop
+PASS actual telemetry config contention rolls back earlier locks and stop
+PASS actual dispatch flag contention rolls back earlier locks and stop
+PASS actual runtime head contention rolls back earlier locks and stop
+PASS late actual cron API contention rolls back capsule config binding flag event and key revocations
+PASS actual changed source catalog refuses before durable changes
+PASS actual expired input cannot publish authority or capsule
+PASS actual null reason cannot publish authority or capsule
+PASS actual invalid target cannot publish authority or capsule
+PASS actual invalid digest cannot publish authority or capsule
+PASS actual ordinary helper invocation commits owner receipt
+PASS actual helper source resolved tools and query binding unchanged after owner execution
+PASS unchanged exact producer OID prosrc owner ACL
+PASS exact one new binding and flag invalidation row causally bound
+PASS new configuration binding exact revision payload bytes metadata and logical digest
+PASS both exact named cron IDs metadata preserved and inactive
+PASS every pre-existing financial/Auth/business/history and invalidation UUID row plus key metadata preserved
+PASS cold original worker UUID all original envelope and immutable receipt exact with fresh documented clocks
+PASS all execution controls inactive without financial or completion claim
+PASS genuine database-owner governed flag event and exact new worker config history
+PASS actual owner response timeout claims no success while exact committed stop remains
+PASS commit-before-response exact original UUID replay no duplicate revisions
+PASS exact private trigger enabled-state drift refuses replay and rolls back without guard bypass
+PASS exact private column collation drift refuses replay and rolls back
+PASS exact private column default drift refuses replay and rolls back
+PASS exact private index storage definition drift refuses replay and rolls back
+PASS exact private namespace owner ACL drift refuses replay and rolls back
+PASS original UUID conflict refuses without duplicate configuration
+PASS old revoked authority denied by actual public.receipt_operations_execute_v2
+PASS old revoked authority denied by actual public.gateway_dispatch_grant_v2
+PASS old revoked authority denied by actual public.gateway_receipt_successor_grant_v1
+PASS old revoked authority denied by actual public.gateway_arm_dispatch_v2
+PASS old revoked authority denied by actual public.gateway_receipt_successor_arm_v1
+PASS worker and history schedulers inactive without new execution
+PASS authenticated late primary callback original UUID replay retains evidence
+PASS late primary multipart framework observations preserve no carrier proof
+PASS late primary contradictory observation remains uncertain after stop
+PASS authenticated late successor callback original UUID replay retains evidence
+PASS late successor multipart framework observations preserve no carrier proof
+PASS late successor contradictory observation remains uncertain after stop
+PASS durable stop and immutable receipt survive same-target postmaster restart
+PASS same owned container host PID1 OS postgres and PGDATA across distinct restarted postmaster PID
+PASS original UUID replay and cold reconstruction remain exact after same-target restart
+PASS actual anon cannot access private owner capsule
+PASS actual authenticated cannot access private owner capsule
+PASS actual service_role cannot access private owner capsule
+PASS owner cannot rewrite capsule or reactivate original keys
+PASS owner cannot rewrite capsule or reactivate original keys
+PASS owner cannot rewrite capsule or reactivate original keys
+PASS owner cannot rewrite capsule or reactivate original keys
+PASS owner cannot rewrite capsule or reactivate original keys

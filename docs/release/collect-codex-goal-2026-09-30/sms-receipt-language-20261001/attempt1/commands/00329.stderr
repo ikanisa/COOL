@@ -1,0 +1,4 @@
+NOTICE:  42P06: schema "collect_security" already exists, skipping
+LOCATION:  CreateSchemaCommand, schemacmds.c:132
+NOTICE:  00000: trigger "reconciliation_review_immutable" for relation "collect_security.reconciliation_reviews" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

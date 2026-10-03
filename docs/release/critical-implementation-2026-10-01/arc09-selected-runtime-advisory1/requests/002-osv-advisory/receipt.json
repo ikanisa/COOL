@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 0.580904,
+  "curl_exit_code": 0,
+  "effective_URL": "https://google.github.io/osv.dev/get-v1-vulns/",
+  "exception": null,
+  "finished_utc": "2026-10-02T12:54:03.089474+00:00",
+  "http_status": 200,
+  "label": "osv-advisory",
+  "method": "GET",
+  "receipt_directory": "requests/002-osv-advisory",
+  "remote_IP": "2606:50c0:8002::153",
+  "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "request_performed": true,
+  "response_bytes_retained": 19961,
+  "response_complete": true,
+  "response_sha256": "b602254afdfffbdc21608d4aaeacd46e08282987fced22fc7e118af79c668379",
+  "ssl_verify_result": 0,
+  "started_utc": "2026-10-02T12:54:02.508591+00:00",
+  "url": "https://google.github.io/osv.dev/get-v1-vulns/"
+}

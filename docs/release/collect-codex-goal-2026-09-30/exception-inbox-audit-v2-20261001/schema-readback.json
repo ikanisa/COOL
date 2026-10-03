@@ -1,0 +1,125 @@
+{
+  "kind": "actual_isolated_synthetic_SQL_not_production",
+  "accepted_result": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/result.json",
+  "migration_sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+  "executed_runner_sha256": "001108fa11c8118fe27df3f8bce404f25eee972ecab26bbc434c0cbb11afaf12",
+  "schema_sha256": "b92d0c82c23cd3588c60f96fc8c635c43e9b812a0ee99f2548ea6be0a7818a4e",
+  "actual_sql_cases": 100,
+  "schema_readback_fixtures": 19,
+  "fixtures": [
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-after-pump-commit.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-after-pump-commit.json",
+      "sha256": "42c0ac58b22c6c5b39c11526dff3926724808bbbafbcff63d331e1a38d8b83e1",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-allocation-event.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-allocation-event.json",
+      "sha256": "12d00c0c1d3796b4c55997b92fb7cf686aa8472c535a7d3e3793b919349fe5f6",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-complete.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-complete.json",
+      "sha256": "44455fea1fb84ed5e8ecab7eb6a7db9d7ed4385b3784dcf1eebb0c176c858a78",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-final.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-final.json",
+      "sha256": "e2e1176858e0623fd38a18b85c751269181d4f82835beb769354d089647c5134",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-first.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-first.json",
+      "sha256": "87311b0a7c2970e82dd092f11b21ec5197779a77118a5bc84cf49ca71bdeec2b",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-last.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-last.json",
+      "sha256": "184fc1ee3e78b0766c73cc297aa42838a621d246d68d2c9bc71c9413481f53ea",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-legacy-target-refusal.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-legacy-target-refusal.json",
+      "sha256": "80955a36b55db78ad0a7080f9f87ecf29db59b80e51526326328e9df0da13913",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-obsolete-resolved.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-obsolete-resolved.json",
+      "sha256": "1f71bc31d891537339d6489139b542fc430100c8b2e101a18c9a9cb93053179f",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_backlog.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-receipt_backlog.json",
+      "sha256": "267927c1463c8678a0f0cf416e65d44972513acd5ad85c68310ee68a0a38b0f1",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_event.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-receipt_event.json",
+      "sha256": "5c3c413fe61333855d72dfc3250f498083306d43ce4673ad478844f8eb805b7f",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-retained.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-retained.json",
+      "sha256": "af9e65828014a76a21a018dcce5da482329c69ca18be9963162e0db9be5b4b06",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unavailable.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unavailable.json",
+      "sha256": "c3d948973836bc4eb4daa060616e444272d3cf92a3cc948115298f07b527c1e5",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unknown.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unknown.json",
+      "sha256": "f8c5c520f7e04af7caf60357b8d2046dc3b6e9f155616b9438e7e046f13ba5fc",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unscoped.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unscoped.json",
+      "sha256": "0580dfceb27f9d978fcd1dc146f7440c9dc7b758c116d5b87d3873e52a44f9b3",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-final.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-final.json",
+      "sha256": "9e923a6ebe7bf977bacb4827ace2dbf97a7c522a0c3d88dee657ecf40e0f3dd5",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-first.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-first.json",
+      "sha256": "ccc4814cc88a2d7433bde955cd5976c96352d39af389e12018b37f1b37dbf950",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-foreign.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-foreign.json",
+      "sha256": "af3c976e4a8a77dc2c9f0d040060f86e60540d5f3cdac684da646a84394da0b3",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-last.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-last.json",
+      "sha256": "384f2b3852702f858cac99934ffb57842daffb377dff5a7dc9c768d613fe9ba5",
+      "schema_valid": true
+    },
+    {
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-opened-ack.json",
+      "observed_source": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-opened-ack.json",
+      "sha256": "74b5593a3a30c78f116ea2a5534c75af2b3ad35adc55bbfa1253b528e3ebede5",
+      "schema_valid": true
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "captured_at_utc": "2026-10-02T11:40:36.972437+00:00",
+  "before_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "20d68633aabf56d447c2298d90ee8a25dc33c19da430bf935e2f2578bd62fe00",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "9a27dc5a13886a4958f627aee0e843b5255eb239d070a96dae43c00ee3ce7e2e",
+    "docs/release/local-implementation-register-2026-09-30.json": "2872b7b812d33f17db3c82fa57c1bfdce6591df81cd9bebee341d86a1874c7ea",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "c7ef5494337497c8b219a3fd89cafe59d4f8e6b7b808beb0a0cd3fcb29994857",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "5ff0db9c2e366fb38193058fe74987dc62bf5db013ff88db6e0b80105d923f28",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "a044c61de1c145366b0ef8bc37e8c2941eec81962b001e0ed06e754cdb893058"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "072f4becde5486049ad1fd567d4b29c635213da78c3532a8ee8349252bc1dc2e",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "1954b50d7b269ed2f24b0f16378f36dc32a07466fc1262d90a98bab5afe759df",
+    "docs/release/local-implementation-register-2026-09-30.json": "096370dde01e5eda07bdbb5adc19cc0adee4d553cc1b83f4d8b9bcf1264aa431",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "bdb7ed00ac3bce11c3155096a33d4e9730bd958f778c1817e8c0c20e3898c311",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "e3ce942e30aebfbfed36ef373089b29a0650c72d8dacc06f149d4f9ef631b989",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "c2d3481fc171ea4c6d0853eaeb68641706fca3f408fd062c9652bc8760e06883"
+  },
+  "contracts40_unchanged": true,
+  "original102_and24_arrays_equal": true,
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_open": 34,
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "references": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc01-current-format-preparation1/final-proof2/packet-files.json",
+      "sha256": "8035002b7108f93776afb83c6f3b2d9c4f9f32627c00a5e059e12ed7b2ac6d37"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc01-current-format-preparation1/current-style-readback1/packet-files.json",
+      "sha256": "88ef36bfe19d8f51f40834fa0c880046d099fe6b9bc87957baa3a99c81ecd496"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-portable-admin-integration1/packet-files.json",
+      "sha256": "8a160e33eaeadcd6cce454ee81ffa6073f110fef6c92a9fbc551b21c0f412640"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-style-seam-integration1/packet-files.json",
+      "sha256": "4a7124297524d06b664255fde90479605290ae291bd5605011e65099777759d0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be10-sql-ci-integration1/packet-files.json",
+      "sha256": "f5c7f5401801e82429cb7331d1e2105c6a521cb125aa5d760e965dd90c0202cd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/SHA256SUMS",
+      "sha256": "d794eda0e1fb64cd86c623f7b307e8b2b03b90df79490a56ef20247c4959bd12"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-backend-ci-composition-readback1/packet-files.json",
+      "sha256": "1f3d5578352c71b176c6c8a9320680f3e3bb50c2a5c404ecad4f3b3beecf46b8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/packet-files.json",
+      "sha256": "3ca42ee701ad57dc4ebc328153f4ebd8f81910117261a14d8149187e4ebee34d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/SHA256SUMS",
+      "sha256": "7595bf5a891ade7d85db6cecec2cb6fb742605713aa76acf695253574bb6256c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/packet-files.json",
+      "sha256": "4483449898ddfadfe0bc1c8c9bdcc0793e73f4aa24038052a10495528ad528c7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-lock8-readback1/packet-files.json",
+      "sha256": "fe240be06dfc6f280550c37357a852674f7b0803810ac760322bda168baa7599"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/execution-packet-files.json",
+      "sha256": "db514609ad4f2dfd434a822bfb279ab64875a52748366803680303d6e3e9de6e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/packet-files.json",
+      "sha256": "a853282708df66df69282191644966c8ddb6fbcbffdedf3e77d51b1a4cfb6219"
+    }
+  ]
+}

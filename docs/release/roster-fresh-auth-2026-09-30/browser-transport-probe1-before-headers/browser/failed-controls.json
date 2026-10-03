@@ -1,0 +1,56 @@
+[
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  },
+  {
+    "role": "checkbox",
+    "label": "I have reviewed all 1 rows and confirm these members and MoMo identities.\nSave the review before confirming. Editing a row requires a new saved review.",
+    "checked": "false",
+    "disabled": "true"
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  }
+]

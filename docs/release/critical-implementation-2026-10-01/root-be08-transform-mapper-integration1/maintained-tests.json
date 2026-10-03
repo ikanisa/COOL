@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 0.3142384169914294,
+  "deadline_seconds": 30,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "8e7c8144d94c1bb347acccec173ab93bbe9573ad2d9941e969d02e34a8adcc69"
+}

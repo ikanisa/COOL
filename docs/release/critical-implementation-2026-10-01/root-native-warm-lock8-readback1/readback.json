@@ -1,0 +1,11 @@
+{
+  "actual_terminal_sha256": "1f40b94a5ac8a0abcf8cb8102455d54d377f8aad98544fc351673a52ef004408",
+  "lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "native_admitted": false,
+  "production_release_approval": false,
+  "protected_metadata_paths_unchanged": 68020,
+  "source_files": 2561,
+  "stage": "app-lock",
+  "stage_pass": true,
+  "whole_guarded_stage_pass": true
+}

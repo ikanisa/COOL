@@ -1,0 +1,1116 @@
+[
+  {
+    "label": "same_owner_native_held",
+    "route": "/settings/account/delete",
+    "owner": null,
+    "is_loading": true,
+    "deletion_form_count": 1,
+    "code_verified_count": 1,
+    "submit_calls": 0,
+    "native_held": true,
+    "real_websocket_joins": 1,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      }
+    ]
+  },
+  {
+    "label": "same_owner_resumed",
+    "route": "/settings/account/delete",
+    "owner": "99020000-0000-4000-8000-000000000001",
+    "is_loading": false,
+    "deletion_form_count": 1,
+    "code_verified_count": 1,
+    "submit_calls": 0,
+    "native_held": false,
+    "real_websocket_joins": 2,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "label": "same_owner_submitted",
+    "route": "/settings/account/delete",
+    "owner": "99020000-0000-4000-8000-000000000001",
+    "is_loading": false,
+    "deletion_form_count": 1,
+    "code_verified_count": 0,
+    "submit_calls": 1,
+    "native_held": false,
+    "real_websocket_joins": 2,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 2
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "request_account_deletion_v1"
+      }
+    ]
+  },
+  {
+    "label": "logout_native_held",
+    "route": "/auth",
+    "owner": null,
+    "is_loading": false,
+    "deletion_form_count": 0,
+    "code_verified_count": 0,
+    "submit_calls": 0,
+    "native_held": true,
+    "real_websocket_joins": 1,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "native",
+        "method": "setEnabled"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "http",
+        "tail": "logout",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "route",
+        "uri": "/auth"
+      }
+    ]
+  },
+  {
+    "label": "owner_switch_native_held",
+    "route": "/settings/account/delete",
+    "owner": "99020000-0000-4000-8000-000000000002",
+    "is_loading": false,
+    "deletion_form_count": 1,
+    "code_verified_count": 0,
+    "submit_calls": 0,
+    "native_held": true,
+    "real_websocket_joins": 1,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000002",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      }
+    ]
+  },
+  {
+    "label": "profile_denied_after_native_resume",
+    "route": "/auth",
+    "owner": null,
+    "is_loading": false,
+    "deletion_form_count": 0,
+    "code_verified_count": 0,
+    "submit_calls": 0,
+    "native_held": false,
+    "real_websocket_joins": 1,
+    "events": [
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_user_collections",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_recent_intents",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_history_page",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "list_current_member_collection_balances",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "get_notification_preferences_v2",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "http",
+        "tail": "notification_events",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "repository",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "is_loading": false,
+        "has_error": false
+      },
+      {
+        "kind": "protected_cache",
+        "method": "write"
+      },
+      {
+        "kind": "real_websocket_join",
+        "count": 1
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "http",
+        "tail": "list_account_request_reasons",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000101"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "otp"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "get_current_account_deletion_request_status_v1"
+      },
+      {
+        "kind": "privacy",
+        "tail": "verify"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      },
+      {
+        "kind": "native",
+        "method": "suspendUnlessOwner"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": true,
+        "has_error": false
+      },
+      {
+        "kind": "http",
+        "tail": "get_current_member_profile",
+        "owner": "99020000-0000-4000-8000-000000000001",
+        "sid": "99020000-0000-4000-8000-000000000102"
+      },
+      {
+        "kind": "repository",
+        "owner": null,
+        "is_loading": false,
+        "has_error": true
+      },
+      {
+        "kind": "route",
+        "uri": "/settings/account/delete"
+      },
+      {
+        "kind": "protected_cache",
+        "method": "clear"
+      }
+    ]
+  }
+]

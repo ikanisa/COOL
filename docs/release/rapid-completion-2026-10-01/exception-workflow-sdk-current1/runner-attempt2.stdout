@@ -1,0 +1,5 @@
+pub 0
+format 0
+analysis 1
+cases39 0
+{"status": "fail", "case_count": 39, "sdk_unchanged": true, "current_owned_test_matches": true, "live_runtime_drift": ["lib/admin/core/admin_automations_page.dart", "lib/admin/core/admin_repository_base.dart", "lib/admin/core/admin_runtime.dart"]}

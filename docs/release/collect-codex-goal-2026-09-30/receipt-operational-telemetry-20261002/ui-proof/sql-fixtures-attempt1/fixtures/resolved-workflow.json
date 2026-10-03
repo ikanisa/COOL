@@ -1,0 +1,25 @@
+{
+  "due_at": "2026-10-01T22:41:57.895302Z",
+  "status": "resolved",
+  "overdue": false,
+  "checked_at": "2026-10-01T22:42:05.461714Z",
+  "assignee_id": "99780000-0000-4000-8000-000000000001",
+  "escalations": [
+    {
+      "id": "2569f375-6794-4253-8f5a-4f1dcbf5a276",
+      "state": "delivered",
+      "read_at": null,
+      "queued_at": "2026-10-01T22:41:58.304441Z",
+      "delivered_at": "2026-10-01T22:41:58.308509Z",
+      "recipient_id": "99780000-0000-4000-8000-000000000001",
+      "source_revision": 1
+    }
+  ],
+  "exception_id": "2f0c8e95-07e6-4cfd-8c2e-491375740727",
+  "source_active": false,
+  "source_revision": 2,
+  "contract_version": 1,
+  "workflow_revision": 2,
+  "sample_valid_until": "2026-10-01T22:43:05.461714Z",
+  "recipient_available": true
+}

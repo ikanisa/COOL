@@ -7,7 +7,7 @@ class _AdminGroupWorkspaceActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final canCreatePublic =
         _adminHasPermission(identity, 'collections.moderate') &&
         _adminHasPermission(identity, 'receivers.manage');
@@ -65,13 +65,23 @@ Future<void> createAdminAssistedGroup(
   required VoidCallback onDone,
   String? collectionId,
 }) async {
+  final scope = _AdminActionScope(ref);
   try {
-    final gateway = ref.read(adminRepositoryProvider).openRosterImport();
+    if (!scope.isCurrent ||
+        !scope.permissions.contains('collections.moderate') ||
+        !scope.permissions.contains('users.read')) {
+      return;
+    }
+    final gateway = scope.repository.openRosterImport();
     final result = await showAdminRosterImport(
       context,
       AdminRosterDraft(gateway, collectionId: collectionId),
+      dialogWrapper: (_, child) =>
+          _AdminSessionDialog(scope: scope, child: child),
     );
-    if (result == null || !context.mounted || !gateway.ownerStillCurrent) {
+    // The dialog has already disposed and closed its gateway. The validated
+    // result still belongs to the captured host authority, which must be current.
+    if (result == null || !context.mounted || !scope.isCurrent) {
       return;
     }
     onDone();
@@ -86,7 +96,7 @@ Future<void> createAdminAssistedGroup(
       ),
     );
   } catch (error) {
-    if (!context.mounted) return;
+    if (!context.mounted || !scope.isCurrent) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
@@ -110,9 +120,8 @@ Future<void> createAdminPublicGroup(
   var collectionType = 'ikimina';
   var network = 'mtn_momo';
 
-  final submitted = await showDialog<bool>(
+  final submitted = await _showAdminFormDialog<bool>(
     context: context,
-    animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => _AdminSessionDialog(
       scope: scope,
       child: StatefulBuilder(

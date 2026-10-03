@@ -1,3 +1,6 @@
+import '../../core/data/exact_json_values.dart';
+import 'admin_transaction_lifecycle.dart';
+
 class AdminIdentity {
   const AdminIdentity({
     required this.userId,
@@ -64,6 +67,12 @@ class AdminTableRowData {
   final Map<String, dynamic> extra;
 
   factory AdminTableRowData.fromJson(Map<String, dynamic> json) {
+    if (json['rail'] == 'rw_momo' && json.containsKey('lifecycle')) {
+      if (json['lifecycle'] == null) {
+        throw const FormatException('Missing transaction lifecycle evidence.');
+      }
+      AdminTransactionLifecycle.parse(json['lifecycle']);
+    }
     return AdminTableRowData(
       id: json['id'] as String,
       title: (json['title'] as String?) ?? 'Record',
@@ -73,7 +82,8 @@ class AdminTableRowData {
       createdAt: _dateTimeOrNull(json['created_at']),
       extra: {
         for (final entry in json.entries)
-          if (!_tableFieldNames.contains(entry.key)) entry.key: entry.value,
+          if (!_tableFieldNames.contains(entry.key))
+            entry.key: _tableExtraValue(entry.key, entry.value),
       },
     );
   }
@@ -121,13 +131,17 @@ class AdminListResult {
   /// Check the server window before showing any rows or page counters.
   /// Missing totals and short/truncated responses are not empty queues.
   AdminListResult validateWindow({required int limit, required int offset}) {
-    if (limit < 1) throw RangeError.range(limit, 1, null, 'limit');
-    if (offset < 0) throw RangeError.range(offset, 0, null, 'offset');
     final count = total;
-    if (count == null || count < 0) {
+    if (count == null || count < 0 || count > maxExactJsonInteger) {
       throw const FormatException(
         'Admin list is missing a valid server total.',
       );
+    }
+    if (limit < 1 || limit > maxExactJsonInteger) {
+      throw RangeError.range(limit, 1, maxExactJsonInteger, 'limit');
+    }
+    if (offset < 0 || offset > maxExactJsonInteger) {
+      throw RangeError.range(offset, 0, maxExactJsonInteger, 'offset');
     }
     final remaining = count - offset;
     final expected = remaining <= 0
@@ -309,25 +323,38 @@ List<String> _stringList(Object? value) {
 }
 
 DateTime? _dateTimeOrNull(Object? value) {
-  if (value is DateTime) return value;
-  if (value is String && value.isNotEmpty) return DateTime.tryParse(value);
-  return null;
+  return value == null ? null : exactJsonTimestamp(value, field: 'created_at');
 }
 
 int? _intOrNull(Object? value) {
-  final int? parsed;
-  if (value is int) {
-    parsed = value;
-  } else if (value is num &&
-      value.isFinite &&
-      value == value.truncateToDouble()) {
-    parsed = value.toInt();
-  } else if (value is String) {
-    parsed = int.tryParse(value.trim());
-  } else {
+  if (value == null) return null;
+  try {
+    return exactJsonInteger(
+      value is String ? value.trim() : value,
+      field: 'total',
+      minimum: 0,
+      allowDigitString: true,
+    );
+  } on FormatException {
     return null;
   }
-  return parsed != null && parsed >= 0 ? parsed : null;
+}
+
+Object? _tableExtraValue(String key, Object? value) {
+  if (value == null) return null;
+  return switch (key) {
+    'active_members' || 'active_groups' => exactJsonInteger(
+      value is String ? value.trim() : value,
+      field: key,
+      minimum: 0,
+      allowDigitString: true,
+    ),
+    'updated_at' => exactJsonTimestamp(value, field: key),
+    'lifecycle' => Map<String, dynamic>.unmodifiable(
+      Map<String, dynamic>.from(value as Map),
+    ),
+    _ => value,
+  };
 }
 
 List<Map<String, dynamic>> _mapList(Object? value) {

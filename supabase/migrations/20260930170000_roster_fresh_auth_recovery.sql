@@ -3,6 +3,69 @@ begin;
 -- Installed142/144/145 provenance is retained byte-for-byte in source/history.
 select pg_advisory_xact_lock(193517,141);
 
+-- Lock every authoritative approval/role/permission row, not only Auth.
+-- After a revocation wins, an established Repeatable Read snapshot must abort
+-- or reject; it cannot authorize a fresh recovery from an older unlocked EXISTS.
+create function collect_hybrid.require_roster_actor_authority(p_actor uuid,p_session uuid,p_role_name text,p_permission_names text[])
+returns void language plpgsql security definer set search_path='' as $$
+declare u auth.users; s auth.sessions; role_uuid uuid; permission text; begin
+ perform public._lock_notification_session_gate();
+ perform pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'));
+ if p_actor is null or p_session is null then raise exception 'roster_session_required' using errcode='42501'; end if;
+ if p_role_name is null or p_role_name !~ '^[a-z_]+$' or p_permission_names is null
+  or cardinality(p_permission_names) not between 1 and 30
+  or exists(select 1 from unnest(p_permission_names) n where n is null or n !~ '^[a-z_]+(\.[a-z_]+)+$') then
+  raise exception 'roster_actor_unavailable' using errcode='42501'; end if;
+ select * into u from auth.users where id=p_actor for share;
+ select * into s from auth.sessions where id=p_session and user_id=p_actor for share;
+ if u.id is null or s.id is null or s.created_at is null or not isfinite(s.created_at) or s.created_at>clock_timestamp()
+  or s.aal::text not in ('aal1','aal2') or s.aal is null
+  or (s.not_after is not null and (not isfinite(s.not_after) or s.not_after<=clock_timestamp()))
+  or u.deleted_at is not null or u.phone_confirmed_at is null or coalesce(u.is_anonymous,false)
+  or (u.banned_until is not null and u.banned_until>clock_timestamp()) then
+  raise exception 'roster_actor_unavailable' using errcode='42501'; end if;
+ select r.id into role_uuid from collect_admin_access.whatsapp_approvals a
+  join public.admin_user_roles ur on ur.user_id=a.user_id and ur.revoked_at is null
+  join public.admin_roles r on r.id=ur.role_id and r.name=p_role_name
+  where a.user_id=p_actor and a.revoked_at is null and a.phone_e164='+'||ltrim(u.phone,'+')
+   and (a.expires_at is null or a.expires_at>clock_timestamp())
+   and s.created_at>=a.approved_at and s.created_at>=ur.created_at
+  order by ur.created_at for share of a,ur,r;
+ if role_uuid is null then raise exception 'roster_actor_unavailable' using errcode='42501'; end if;
+ -- Sorted locks avoid opposite permission-row orders between authority users.
+ for permission in select distinct n from unnest(p_permission_names) n order by n loop
+  perform 1 from public.admin_role_permissions where role_id=role_uuid and permission_name=permission for share;
+  if not found then raise exception 'roster_actor_unavailable' using errcode='42501'; end if;
+ end loop;
+end $$;
+create or replace function collect_hybrid.require_roster_actor(p_actor uuid,p_session uuid) returns void
+language plpgsql security definer set search_path='' as $$
+declare enabled_flag boolean; begin
+ perform collect_hybrid.require_roster_actor_authority(p_actor,p_session,'platform_owner',array['collections.moderate','users.read']);
+ select enabled into enabled_flag from public.feature_flags where key='hybrid_member_onboarding' for share;
+ if enabled_flag is distinct from true then raise exception 'roster_feature_disabled' using errcode='55000'; end if;
+end $$;
+revoke all on function collect_hybrid.require_roster_actor_authority(uuid,uuid,text,text[]),
+ collect_hybrid.require_roster_actor(uuid,uuid) from public,anon,authenticated,service_role;
+
+-- Advisory serialization alone does not refresh a Repeatable Read snapshot.
+-- Every recovery quota decision also writes this private singleton. An older
+-- waiter receives40001 instead of counting descendants from a stale snapshot.
+create table collect_hybrid.roster_recovery_budget (
+ id boolean primary key default true check(id),
+ version integer not null check(version>0)
+);
+insert into collect_hybrid.roster_recovery_budget values(true,1);
+alter table collect_hybrid.roster_recovery_budget enable row level security;
+revoke all on collect_hybrid.roster_recovery_budget from public,anon,authenticated,service_role;
+create function collect_hybrid.lock_roster_recovery_budget() returns void
+language plpgsql security definer set search_path='' as $$ begin
+ perform public._lock_notification_session_gate();
+ perform pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'));
+ update collect_hybrid.roster_recovery_budget set version=version where id;
+ if not found then raise exception 'roster_recovery_budget_unavailable' using errcode='55000'; end if;
+end $$;
+
 create table collect_hybrid.roster_recovery_transfers (
  request_id uuid primary key,
  root_import_id uuid not null references collect_hybrid.roster_import_sources(id),
@@ -61,11 +124,18 @@ declare s collect_hybrid.roster_import_sources; root_source collect_hybrid.roste
  perform pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'));
  select * into s from collect_hybrid.roster_import_sources where id=p_import;
  if s.id is null then return; end if; -- Frozen entrypoint preserves its missing-source contract.
+ if auth.role()='authenticated' and s.actor_id is distinct from auth.uid() then
+  raise exception 'roster_import_unavailable' using errcode='42501'; end if;
  if exists(select 1 from collect_hybrid.roster_recovery_transfers where from_import_id=s.id) then
   raise exception 'roster_recovery_transferred' using errcode='55000'; end if;
  select * into root_source from collect_hybrid.roster_import_sources where id=collect_hybrid.roster_recovery_root(s.id);
  if s.id<>root_source.id then
-  perform collect_hybrid.require_roster_actor(root_source.actor_id,root_source.session_id);
+  -- Logout may legitimately delete the issued source session. Immutable
+  -- provenance records that issuance; current verified authority authorizes
+  -- this branch. The original SID never becomes a credential/dependency.
+  if auth.role()='authenticated' then
+   perform collect_hybrid.require_roster_actor(root_source.actor_id,(auth.jwt()->>'session_id')::uuid);
+  end if;
   if s.actor_id<>root_source.actor_id or s.expires_at<>root_source.expires_at then
    raise exception 'roster_recovery_lineage_invalid' using errcode='55000'; end if;
  end if;
@@ -80,7 +150,7 @@ create function collect_hybrid.roster_original_proof(p_root uuid) returns text
 language sql stable security definer set search_path='' as $$
  select jsonb_build_object('contract_version',1,'root_import_id',s.id,'upload_request_id',s.request_id,
   'actor_id',s.actor_id,'session_id',s.session_id,'source_kind',s.source_kind,'source_sha256',s.source_sha256,
-  'input_sha256',s.input_sha256,'expires_at',s.expires_at,
+  'input_sha256',s.input_sha256,'expires_at',to_char(s.expires_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
   'source_receipt',collect_hybrid.roster_revision_receipt_v149_frozen(r.id)->'source_receipt',
   'resource_reservation_id',res.id,'decoder_receipt_sha256',v.decoder_receipt_sha256,
   'decoder_build_sha256',v.decoder_build_sha256)::text
@@ -114,7 +184,7 @@ end $$;
 create function collect_hybrid.roster_interrupted_etag(p_import uuid,p_destination_session uuid) returns text
 language sql stable security definer set search_path='' as $$
  select collect_hybrid.roster_digest(jsonb_build_object('actor',s.actor_id,'destination_session',p_destination_session,
-  'root',collect_hybrid.roster_recovery_root(s.id),'leaf',s.id,'input_sha256',s.input_sha256,'expiry',s.expires_at,
+  'root',collect_hybrid.roster_recovery_root(s.id),'leaf',s.id,'input_sha256',s.input_sha256,'expiry',extract(epoch from s.expires_at),
   'revision',(select id from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1),
   'draft',(select jsonb_build_array(checkpoint_id,payload_sha256) from collect_hybrid.roster_import_editor_drafts where import_id=s.id),
   'intents',(select coalesce(jsonb_agg(jsonb_build_array(request_id,kind,payload_sha256,expires_at) order by request_id),'[]')
@@ -125,18 +195,16 @@ language sql stable security definer set search_path='' as $$
 $$;
 create function collect_hybrid.require_interrupted_roster(p_import uuid,p_destination uuid,p_etag text default null)
 returns collect_hybrid.roster_import_sources language plpgsql security definer set search_path='' as $$
-declare s collect_hybrid.roster_import_sources; old_auth auth.sessions; new_auth auth.sessions;
+declare s collect_hybrid.roster_import_sources; new_auth auth.sessions;
  root_source collect_hybrid.roster_import_sources; begin
  select * into s from collect_hybrid.roster_import_sources where id=p_import for update;
  if s.id is null or s.actor_id<>auth.uid() or s.session_id=p_destination then
   raise exception 'roster_import_unavailable' using errcode='42501'; end if;
  perform collect_hybrid.roster_recovery_leaf(s.id,true);
- perform collect_hybrid.require_roster_actor(s.actor_id,s.session_id);
+ perform collect_hybrid.require_roster_actor(s.actor_id,p_destination);
  select * into root_source from collect_hybrid.roster_import_sources where id=collect_hybrid.roster_recovery_root(s.id);
- select * into old_auth from auth.sessions where id=s.session_id and user_id=s.actor_id;
  select * into new_auth from auth.sessions where id=p_destination and user_id=s.actor_id;
- if new_auth.id is null or old_auth.id is null or new_auth.created_at<=old_auth.created_at
-  or new_auth.created_at<=s.created_at or new_auth.created_at<=root_source.created_at then
+ if new_auth.id is null or new_auth.created_at<=s.created_at or new_auth.created_at<=root_source.created_at then
   raise exception 'roster_fresh_auth_required' using errcode='42501'; end if;
  if exists(select 1 from collect_hybrid.roster_import_commits where import_id=s.id) then
   raise exception 'roster_import_committed' using errcode='55000'; end if;
@@ -171,21 +239,45 @@ declare sid uuid; s collect_hybrid.roster_import_sources; answer jsonb:='[]'; be
  return jsonb_build_object('contract_version',1,'ok',true,'actor_id',auth.uid(),'destination_session_id',sid,'items',answer);
 end $$;
 
+-- Serialize only the already-validated editor shape without jsonb's added
+-- whitespace. Replacing one UUID must not expand a valid512KB checkpoint.
+create function collect_hybrid.roster_compact_recovery_draft(p_value jsonb,p_parent uuid) returns text
+language sql immutable strict set search_path='' as $$
+ select '{"parent_revision_id":'||to_json(p_parent::text)::text||',"rows":['||
+  (select string_agg('{"member_name":'||to_json(x->>'member_name')::text||
+    ',"momo_name":'||to_json(x->>'momo_name')::text||
+    ',"momo_number":'||to_json(x->>'momo_number')::text||'}',',' order by ord)
+   from jsonb_array_elements(p_value->'rows') with ordinality a(x,ord))||
+  '],"title":'||to_json(p_value->>'title')::text||',"reason":'||to_json(p_value->>'reason')::text||'}'
+$$;
 create function collect_hybrid.roster_interrupted_draft(p_import uuid,p_parent uuid) returns text
 language plpgsql stable security definer set search_path='' as $$
 declare d collect_hybrid.roster_import_editor_drafts; r collect_hybrid.roster_import_revisions; v jsonb; begin
  select * into r from collect_hybrid.roster_import_revisions where import_id=p_import order by revision_number desc limit 1;
  select * into d from collect_hybrid.roster_import_editor_drafts where import_id=p_import and expires_at>statement_timestamp();
- if d.import_id is not null and d.payload::jsonb->>'parent_revision_id'=r.id::text then v:=d.payload::jsonb;
- else v:=jsonb_build_object('rows',(select jsonb_agg(jsonb_build_object('member_name',x->>'member_name',
-   'momo_name',x->>'momo_name','momo_number',x->>'momo_number') order by ord)
-   from jsonb_array_elements(r.preview->'rows') with ordinality a(x,ord)),'title','','reason',''); end if;
- return (v||jsonb_build_object('parent_revision_id',p_parent))::text;
+ if d.import_id is not null then
+  v:=collect_hybrid.roster_recovery_payload(d.payload,d.payload_sha256,'draft');
+  if not exists(select 1 from collect_hybrid.roster_import_revisions where import_id=p_import
+   and id=(v->>'parent_revision_id')::uuid) then
+   raise exception 'roster_recovery_lineage_invalid' using errcode='55000'; end if;
+  if v->>'parent_revision_id'=r.id::text then
+   if p_parent=r.id then return d.payload; end if; -- Inspection preserves exact acknowledged bytes/SHA.
+   return collect_hybrid.roster_compact_recovery_draft(v,p_parent);
+  end if;
+ else v:=jsonb_build_object('title','','reason',''); end if;
+ -- An acknowledged review supersedes stale editor rows. Preserve its saved
+ -- title/reason, but never reapply those older rows or their approval state.
+ v:=v||jsonb_build_object('rows',(select jsonb_agg(jsonb_build_object('member_name',x->>'member_name',
+  'momo_name',x->>'momo_name','momo_number',x->>'momo_number') order by ord)
+  from jsonb_array_elements(r.preview->'rows') with ordinality a(x,ord)));
+ return collect_hybrid.roster_compact_recovery_draft(v,p_parent);
 end $$;
 create function public.admin_inspect_interrupted_roster_import(p_import_id uuid,p_etag text) returns jsonb
 language plpgsql security definer set search_path='' as $$
 declare sid uuid; s collect_hybrid.roster_import_sources; initial uuid; latest uuid; payload text; begin
  sid:=collect_hybrid.require_fresh_roster_auth();
+ if p_etag is null or p_etag !~ '^[a-f0-9]{64}$' then
+  raise exception 'roster_draft_superseded' using errcode='55000'; end if;
  s:=collect_hybrid.require_interrupted_roster(p_import_id,sid,p_etag);
  select id into initial from collect_hybrid.roster_import_revisions where import_id=s.id and revision_number=1;
  select id into latest from collect_hybrid.roster_import_revisions where import_id=s.id order by revision_number desc limit 1;
@@ -216,6 +308,7 @@ declare sid uuid; s collect_hybrid.roster_import_sources; root_source collect_hy
  proof text; fingerprint text; destination uuid:=gen_random_uuid(); lookup_ref uuid:=gen_random_uuid();
  revision uuid:=gen_random_uuid(); checkpoint uuid:=gen_random_uuid(); payload text; preview jsonb; candidates jsonb; begin
  sid:=collect_hybrid.require_fresh_roster_auth();
+ perform collect_hybrid.lock_roster_recovery_budget();
  if p_request_id is null or p_import_id is null or p_etag is null or p_etag !~ '^[a-f0-9]{64}$' or p_human_affirmed is distinct from true then
   raise exception 'roster_confirmation_required' using errcode='22023'; end if;
  fingerprint:=collect_hybrid.roster_digest(jsonb_build_array(p_request_id,p_import_id,p_etag,true,auth.uid(),sid));
@@ -283,7 +376,7 @@ declare sid uuid; t collect_hybrid.roster_recovery_transfers; begin
  select * into t from collect_hybrid.roster_recovery_transfers where request_id=p_request_id;
  if t.request_id is null then return jsonb_build_object('contract_version',1,'ok',true,'state','missing','request_id',p_request_id); end if;
  if t.actor_id<>auth.uid() or t.to_session_id<>sid then raise exception 'roster_import_unavailable' using errcode='42501'; end if;
- perform collect_hybrid.require_roster_actor(t.actor_id,t.from_session_id);
+ perform collect_hybrid.require_roster_actor(t.actor_id,sid);
  return collect_hybrid.roster_transfer_ack(t.request_id);
 end $$;
 create function public.admin_get_interrupted_roster_commit_status(p_import_id uuid) returns jsonb
@@ -306,6 +399,7 @@ declare import_uuid uuid; root_uuid uuid; s collect_hybrid.roster_import_sources
  t collect_hybrid.roster_recovery_transfers; original collect_hybrid.roster_import_sources; begin
  perform public._lock_notification_session_gate();
  perform pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'));
+ perform collect_hybrid.lock_roster_recovery_budget();
  if tg_table_name='roster_import_sources' then
   select * into t from collect_hybrid.roster_recovery_transfers where to_import_id=new.id;
   if t.request_id is not null then
@@ -461,10 +555,11 @@ revoke all on function public.admin_add_assisted_roster(uuid,jsonb,uuid,text),
  public.admin_create_assisted_group_with_roster(text,jsonb,text,uuid,uuid),collect_hybrid.add_roster(uuid,jsonb,uuid,text),
  collect_hybrid.create_assisted_group_with_share(text,text,uuid) from public,anon,authenticated,service_role;
 
-revoke all on function collect_hybrid.roster_recovery_root(uuid),collect_hybrid.roster_recovery_sha(text),
+revoke all on function collect_hybrid.lock_roster_recovery_budget(),collect_hybrid.roster_recovery_root(uuid),collect_hybrid.roster_recovery_sha(text),
  collect_hybrid.require_fresh_roster_auth(),collect_hybrid.roster_recovery_leaf(uuid,boolean),collect_hybrid.roster_original_proof(uuid),
  collect_hybrid.roster_revision_receipt(uuid),collect_hybrid.roster_interrupted_etag(uuid,uuid),
- collect_hybrid.require_interrupted_roster(uuid,uuid,text),collect_hybrid.roster_interrupted_draft(uuid,uuid),
+ collect_hybrid.require_interrupted_roster(uuid,uuid,text),collect_hybrid.roster_compact_recovery_draft(jsonb,uuid),
+ collect_hybrid.roster_interrupted_draft(uuid,uuid),
  collect_hybrid.roster_transfer_ack(uuid),collect_hybrid.guard_roster_recovery_descendant(),collect_hybrid.guard_roster_service_recovery(uuid),
  public.admin_list_interrupted_roster_imports(),public.admin_inspect_interrupted_roster_import(uuid,text),
  public.admin_transfer_interrupted_roster_import(uuid,uuid,text,boolean),public.admin_get_roster_transfer_status(uuid),

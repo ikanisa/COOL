@@ -1,0 +1,92 @@
+{
+  "after_sha256": {
+    "Makefile": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b",
+    "docs/architecture/postgres-admission.md": "52201fccc5d975d6c8d93d1ab06d8f9ce88d090b7582a407f49447983c6d3b6a",
+    "scripts/audits/collect_schema_domain_caller_seams.json": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+    "scripts/audits/collect_schema_domain_map.py": "2f6cb23631a81d928bed61b2ceedd795f253da5a8c2fe92996579632b5785455",
+    "scripts/qa/backend_release_delivery.py": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+    "scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "scripts/supabase_cli_helpers.sh": "ce97076d3c0d8fc3e26a832a05e8b7705a964b03c039607e749dfa386abb839d",
+    "scripts/supabase_production_readiness.sh": "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40",
+    "scripts/tests/collect_schema_domain_map_test.py": "c31b92c3c635213d67169984ecc11a971da008f423ad8868b7ebefa996e849e9",
+    "scripts/tests/supabase_delivery_contract_test.py": "0f4e173328b51b3342fa34eb1c5440aef5c219bdf6c717cf070dbe5f3ac5e96f",
+    "scripts/tests/supabase_secret_transport_test.py": "da345c197a8c46cd7702222028d4c63092be4b737927c7924c62b0c730291dde",
+    "scripts/tests/test_postgres_admission.py": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13"
+  },
+  "at_utc": "2026-10-02T06:38:28.381839+00:00",
+  "before": {
+    "Makefile": {
+      "bytes": 17912,
+      "device": 16777247,
+      "inode": 2692299,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790883278787252837,
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860"
+    },
+    "docs/architecture/postgres-admission.md": {
+      "must_be_absent": true
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "bytes": 30962,
+      "device": 16777247,
+      "inode": 16026080,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790886720835998388,
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2"
+    },
+    "scripts/qa/postgres_admission.py": {
+      "must_be_absent": true
+    },
+    "scripts/supabase_cli_helpers.sh": {
+      "bytes": 13142,
+      "device": 16777247,
+      "inode": 2695361,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790883007900489551,
+      "sha256": "13f874017d890729e1f15c5c5cbc6f47a726a96f848a3c03c9bb381904ae7f1a"
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "bytes": 62426,
+      "device": 16777247,
+      "inode": 2695370,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790909056093629481,
+      "sha256": "b83f9ea65fd56c301c5c8df2de87f063affa754d9d365664e866e19b004edc4d"
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "bytes": 31471,
+      "device": 16777247,
+      "inode": 15904556,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790909056094120647,
+      "sha256": "6f2741778742e6fd13d7b9bf898bc83d91fb9651afa4bfe7e079d9e4eec2f926"
+    },
+    "scripts/tests/supabase_secret_transport_test.py": {
+      "bytes": 14544,
+      "device": 16777247,
+      "inode": 8592773,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790883084544879057,
+      "sha256": "01507a02613b404ee02ce7bd85330d664327abcd0af0dfc2e672282a07253fd1"
+    },
+    "scripts/tests/test_postgres_admission.py": {
+      "must_be_absent": true
+    }
+  },
+  "live_provider_or_database_requests": false,
+  "postgres_exact9_candidate_bytes_verified_before_schema_qa_wiring": true,
+  "postgres_seal_sha256": "d49051ab2fd2dadca0c3ef3af8170e3ad7b31b3c7bfcc25a70f23d8d636fdebc",
+  "prior_root_seal_reader_keyerror_occurred_before_writes": true,
+  "production_acceptance": false,
+  "required_post_integration_tests_pending": true,
+  "schema_path_changes_only": "one sidecar basename and one test import path",
+  "schema_qa_command_added": true,
+  "schema_seal_sha256": "96859d49551194c1dca0b2ea616135b7f1fe9329cce68434be298ee7f34f9a3e",
+  "source_integrated": true
+}

@@ -1,0 +1,64 @@
+{
+  "scope": "automatic receipt and device investigation DTO/SDK/UI; current affected local checks only",
+  "canonical_files": {
+    "lib/admin/core/admin_automatic_gateway_models.dart": "4d5c6d0d478a9b7fdebc29fbae0cb3891243ee8c1021e75143cc1e9ddc536c88",
+    "lib/admin/core/admin_automatic_gateway_runtime.dart": "c83452da32a8057ce733035317f0a73a951bd20287ccb6c83df3225b6d5f7ef0",
+    "lib/admin/core/admin_automatic_gateway_view.dart": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+    "lib/admin/core/admin_repository_base.dart": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+    "lib/admin/core/admin_runtime.dart": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+    "lib/admin/core/admin_gateway_page.dart": "e7436487b84d88a459e4264f9d79ca6b83fdc7ea7da926dd21c7d5bbafda3c98",
+    "lib/admin/core/admin_investigation_view.dart": "31c06dc7df0ec4a2758e29cb2b7318a3c86d876113497803eb3a69f347805f8b",
+    "test/admin_automatic_gateway_models_test.dart": "355a6ffb7c63629043ec203ef6256302f37efa9f280ffe850b8642eeb311f58f",
+    "test/admin_automatic_gateway_view_test.dart": "7715a36083a58d83d8795faeaef8b4862978d26b2b99fb2931e0f110b39b5c0a",
+    "test/admin_automatic_gateway_repository_test.dart": "e9c30edcd715f270a90e30d1fd1f30d4c8a4257a8d4b7e1fe2aebf4960718428",
+    "test/fixtures/admin_automatic_gateway_observed/admin-prior-grant-before-arm.json": "46b4f0bc198d2536719f5d6d2e267c5c080c67f10649b7199044ebf75dc38826",
+    "test/fixtures/admin_automatic_gateway_observed/SOURCE.json": "29e5782a6095705982289a48b343305be829e107a737f1a176949cf1644ffabe",
+    "test/fixtures/admin_automatic_gateway_observed/admin-directory-first.json": "47a0a9dff4d99da467db7e2ece798c722f5c59d78cbfbc798aad4faffe2bffa5",
+    "test/fixtures/admin_automatic_gateway_observed/admin-all-framework-callbacks-before-archive.json": "cb5911556037c562ebd599f5d0e0a0cf229b056c00aebc6523d0df0a6f80a3b4",
+    "test/fixtures/admin_automatic_gateway_observed/admin-current-receipt-before-automatic-grant.json": "0ea0c93472b9b09d7544917ccd1d9932893362896a3211dee48234e6cad6da25",
+    "test/fixtures/admin_automatic_gateway_observed/admin-missing-receipt-is-unavailable.json": "7361f8728130e364bee1ae36ca17792ead05f88f481e1155fa0a5a2e474b50e8",
+    "test/fixtures/admin_automatic_gateway_observed/admin-actual-terminal-archive-acknowledgement.json": "7ebe2c13a7540f52a55e19478152d0cd05175cfd8a8b9471d18a4465be66323f",
+    "test/fixtures/admin_automatic_gateway_observed/admin-filtered-empty-directory.json": "6cf92548741d6d47ea0ba7ba9e3083641a43a3cd4027f5e6d24dca16447436b2",
+    "test/fixtures/admin_automatic_gateway_observed/admin-late-contradictory-observation.json": "2c40a43d116b65f0e2b8f55106d214092c1054f8af3d375e8d32b57c929f8a8e",
+    "test/fixtures/admin_automatic_gateway_observed/admin-partial-multipart-observations.json": "ef9c2440167324abca1496c46155493a9622a3003ae1adcfebe829129d6d5677",
+    "test/fixtures/admin_automatic_gateway_observed/admin-arm-expected-callback-plan.json": "4d2d0628f34b07cd2421d7b39a106d366ca7deaa11a98518bf17723dcdd91a56",
+    "test/fixtures/admin_automatic_gateway_observed/admin-bounded-duplicate-heavy-history.json": "435239a213531f434a4f43fc245bd2c32acff660d996e2ebdc6fba2e83588856"
+  },
+  "checks": {
+    "first_execution": {
+      "tool_session": 17235,
+      "exit_code": 0,
+      "terminal": true,
+      "passed": 98,
+      "files": [
+        "test/admin_automatic_gateway_models_test.dart",
+        "test/admin_automatic_gateway_view_test.dart",
+        "test/admin_investigation_view_test.dart",
+        "test/admin_gateway_page_test.dart",
+        "test/admin_gateway_repository_test.dart"
+      ],
+      "evidence": "Actual exec/write_stdin output observed in this chat; raw standalone log was not captured for this execution"
+    },
+    "sdk_execution": {
+      "tool_session": 9647,
+      "passed": 6,
+      "captured_log": "captured-sdk-analysis-hygiene/command-0.log",
+      "exit_code": 0,
+      "terminal": true
+    },
+    "analysis": "captured-sdk-analysis-hygiene/command-1.log",
+    "authority_hygiene": "captured-sdk-analysis-hygiene/command-2.log"
+  },
+  "captured_unchanged_input_count": 438,
+  "consumer_closure_files": 200,
+  "subsequent_unrelated_changes": [
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart"
+  ],
+  "source_before_after_scope": "6-case SDK execution, analysis and hygiene; the 98-case earlier execution has direct tool observation and selected consumer association, not a newly captured runtime/dependency closure",
+  "sql_fixture_source": "../admin-automatic-gateway-investigation-20261001/canonical-source-association.json",
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false,
+  "full_candidate": false,
+  "full_visual_acceptance": false
+}

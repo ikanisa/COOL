@@ -1,0 +1,7 @@
+{
+  "bound_package_files": 6981,
+  "changes": {},
+  "packages": 164,
+  "scope": "Copied hosted compiler/plugin source, assets and native files; actual SDK package source bytes. Root examples/tests/docs/generated caches are excluded. No registry authenticity or complete SDK/toolchain attestation.",
+  "status": "pass"
+}

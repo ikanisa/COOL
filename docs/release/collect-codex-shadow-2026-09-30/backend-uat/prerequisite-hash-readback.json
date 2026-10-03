@@ -1,0 +1,23 @@
+{
+  "read_only": true,
+  "prerequisites": {
+    "20260930170000": {
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "installed_statement_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "byte_parity": true,
+      "normalized_source_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "normalized_installed_sha256": "acc4fe7556e5daad1ceeb5aa13e6b5d8c31f608b27d9dd5d0fa8b52dc84d8b71",
+      "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "relevant_function_source_parity": true
+    },
+    "20260930180000": {
+      "source_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "installed_statement_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "byte_parity": true,
+      "normalized_source_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "normalized_installed_sha256": "5a7d7f32beabe394340120647a0f5bcb3d98c858c4c67677473ce59ba664122c",
+      "relevant_function_sha256": "809bc86cf19ff168fe656d91c2204916b1e66b2b0a6b6efae03c4a8cf7ed42cd",
+      "relevant_function_source_parity": true
+    }
+  }
+}

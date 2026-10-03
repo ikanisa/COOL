@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {"label": "source_export", "role": "source", "path": "/absolute/frozen/export-manifest.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "sdk_snapshot", "role": "sdk", "path": "/absolute/frozen/sdk-readback.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "pub_lock", "role": "lock", "path": "/absolute/frozen/app/pubspec.lock", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "resolved_packages", "role": "packages", "path": "/absolute/frozen/package-inputs.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "production_compile_graph", "role": "graph", "path": "/absolute/frozen/production-compile-graph.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "production_runtime_graph", "role": "graph", "path": "/absolute/frozen/production-runtime-graph.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "completed_aab_build", "role": "build", "path": "/absolute/frozen/aab-build-terminal.json", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"}
+  ],
+  "fonts": [
+    {"label": "font_inter", "family": "Inter", "asset": "assets/typefaces/Inter-Variable.ttf", "path": "/absolute/frozen/app/assets/typefaces/Inter-Variable.ttf", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "font_aeonik_regular", "family": "Aeonik Pro", "asset": "assets/typefaces/AeonikPro-Regular.ttf", "path": "/absolute/frozen/app/assets/typefaces/AeonikPro-Regular.ttf", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"},
+    {"label": "font_aeonik_medium", "family": "Aeonik Pro", "asset": "assets/typefaces/AeonikPro-Medium.ttf", "path": "/absolute/frozen/app/assets/typefaces/AeonikPro-Medium.ttf", "sha256": "REPLACE_WITH_ACTUAL_LOWERCASE_SHA256"}
+  ]
+}

@@ -1,0 +1,6 @@
+test_actual_client_drift_after_observed_dry_run_blocks_first_write (__main__.ClientDriftTrace.test_actual_client_drift_after_observed_dry_run_blocks_first_write) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 13.168s
+
+OK

@@ -1,0 +1,23 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/admin_receipt_successor_execution_mount_test.dart",
+        "test/admin_receipt_successor_view_test.dart"
+      ],
+      "started_at": "2026-10-02T02:17:34.511089+00:00",
+      "finished_at": "2026-10-02T02:17:56.602931+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "bd25d7b78bf1212d3091d3fc17ed8bc8bc43d4cb6737566f775445bbd21bb4cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual canonical mounted caller and affected legacy review; real pinned SDK/Auth/HTTP with declared synthetic Auth/transport and adapted join fixtures; no hosted/full visual acceptance"
+}

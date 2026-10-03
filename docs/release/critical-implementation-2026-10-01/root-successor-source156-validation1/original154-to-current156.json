@@ -1,0 +1,25 @@
+{
+  "added": [
+    "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts",
+    "supabase/functions/prepare-roster-import/handler_test_fixture.ts"
+  ],
+  "changed": {
+    "Makefile": {
+      "current156_sha256": "8c578295aeb40de8a55563a0c9116deb554c71181d3b21bde0b66bc0e2df665c",
+      "original154_sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860"
+    },
+    "scripts/tests/verify_roster_decoder.py": {
+      "current156_sha256": "5de7df73cd8393968f4c1b98c90db1267942ba3deb653b745b492d8768bfb4f3",
+      "original154_sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5"
+    },
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "current156_sha256": "2053a7963db87f9a26dd72a8e204dcde03f22d69c6f95e2039022726a2eba734",
+      "original154_sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    }
+  },
+  "current156_source_count": 156,
+  "original154_source_count": 154,
+  "original_freeze_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/private-source-freeze.json",
+  "original_freeze_sha256": "b33684540125826c776262ef6596a9d37018bc2c4c37245487ffd6b2546b4f0d",
+  "production_handlers_and_locks_unchanged_from_original154": true
+}

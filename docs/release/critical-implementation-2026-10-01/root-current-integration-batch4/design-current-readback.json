@@ -1,0 +1,10 @@
+{
+  "at_utc": "2026-10-02T02:45:41.555075+00:00",
+  "recorded_removed_paths_checked": 141,
+  "remaining_removed_paths": [],
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "repository_agents_sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+  "old_checklist_absent": true,
+  "scope": "Current141-recorded-path readback only; prior protected/pruned/inaccessible/archive-format discovery limits remain. Competing UI/design only per owner clarification; technical/professional skills retained.",
+  "whole_computer_unconditional_absence": false
+}

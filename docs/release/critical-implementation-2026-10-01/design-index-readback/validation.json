@@ -1,0 +1,101 @@
+{
+  "recorded_at": "2026-10-01T20:46:44.604540+00:00",
+  "status": "pass",
+  "checks": [
+    {
+      "check": "all route declarations/counts/comparator mappings unchanged",
+      "status": "pass"
+    },
+    {
+      "check": "only source binding changed is reviewed legal builder",
+      "status": "pass"
+    },
+    {
+      "check": "all four source catalogue and factory checks pass",
+      "status": "pass"
+    },
+    {
+      "check": "runtime route consumer has 819 matching current inputs",
+      "status": "pass"
+    },
+    {
+      "check": "member_app drift is explicit and current candidate unverified",
+      "status": "pass"
+    },
+    {
+      "check": "admin drift is explicit and current candidate unverified",
+      "status": "pass"
+    },
+    {
+      "check": "public_website drift is explicit and current candidate unverified",
+      "status": "pass"
+    },
+    {
+      "check": "native drift explicit and original installed observation dated",
+      "status": "pass"
+    },
+    {
+      "check": "browser media drift explicit",
+      "status": "pass"
+    },
+    {
+      "check": "font rights and full visual/legal/publication acceptance remain unapproved",
+      "status": "pass"
+    },
+    {
+      "check": "852 retained artifact entries all match",
+      "status": "pass"
+    },
+    {
+      "check": "5168 external compiler/SDK/icon entries match",
+      "status": "pass"
+    },
+    {
+      "check": "current six-input legal binding still exact",
+      "status": "pass"
+    },
+    {
+      "check": "all exact retained manifest descriptors still match",
+      "status": "pass"
+    },
+    {
+      "check": "source-change/missing/malformed negative checks pass",
+      "status": "pass"
+    },
+    {
+      "check": "scoped diff whitespace check passes",
+      "status": "pass"
+    },
+    {
+      "check": "index/source hashes stable during validation",
+      "status": "pass"
+    }
+  ],
+  "index_sha256": {
+    "docs/release/revolut-design/route-inventory.json": "9370881f8b22d8da7bc8888af330f3e78c4200e0b978997d62f927c172ed334d",
+    "docs/release/revolut-design/acceptance-status.json": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+  },
+  "current_route_source_sha256": {
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/admin/admin_router.dart": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+    "lib/features/landing/public_page_content.dart": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4",
+    "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3"
+  },
+  "retained_manifest_sha256": {
+    "docs/release/revolut-design/verification/current-20261001/mobile-inputs-before.json": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+    "docs/release/revolut-design/verification/current-20261001/admin-current-source-binding.json": "99726b76d75f2eac5ccf3c428def4e0bc3c626916a60fcf47fa20144786bd158",
+    "docs/release/revolut-design/verification/current-20261001/native-compiled-input-binding.json": "c23398d044761af9089691274f5bd36a9feafefdaecc41002a1ba82d8530ea21",
+    "docs/release/revolut-design/verification/final-member-media-20261001/capture-report.json": "9c9c28e7b54cfbe554961a295e9cdada75eb43a463fa77c974c37f704af54dd6",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/before.json": "e7bf8bc1fb4ff77c898497388e9240070e1c36443a5bc00bd9a7e39580041dba",
+    "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json": "35ae6d824bdbeae1abc33dae179fe52391bfcbae68efd2efd02e6733b712fc26",
+    "docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json": "d38191a9ccd7ba17f9f4a98529713db2feba7d72db3f724ca7dd9bd76fde5409",
+    "docs/release/revolut-design/verification/current-20261001/native-capture-report.json": "527bf63f21c98ff8aafc026e00b46f8f9ed5bbb6bd6e9dadc939864cb52f7e5c",
+    "docs/release/revolut-design/verification/current-20261001/public-complete-browser-execution.json": "9b54989c2c32501d1195d2388a461d298a886c46c5a086c85803708f05ce4c07"
+  },
+  "readback_sha256": "2aaaba1d1c810dec8e09ac543d0808ce7ef2c8566597b96b36d17ae19e076827",
+  "readback_script_sha256": "a10b5ab27871f8e3d193917f53a4a1bb8276c6959d62f44c4fb6f6497ee91bce",
+  "self_check_stdout": "{\n  \"status\": \"pass\",\n  \"checks\": [\n    \"matching source\",\n    \"changed source\",\n    \"missing source\",\n    \"malformed digest\"\n  ]\n}\n",
+  "diff_stdout": "",
+  "diff_stderr": "",
+  "limits": "Local index and exact retained-entry readback validation; no new visual or release acceptance."
+}

@@ -1,0 +1,1674 @@
+{
+  "status": "pass",
+  "checkedAt": "2026-10-01T23:38:48.807Z",
+  "scope": "Actual loopback static /app/, /c/, /group-link/ entries at four viewports plus synthetic UA/app-invitation target denials. No native scheme/store links clicked; browser UA emulation proves local destinations only, no installed app/provider/hosted/redirect/store acceptance.",
+  "source_before": {
+    "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental_share_routes.mjs": "2a329639fa04b16999041461c4c7dac8f231bf6961917135d9dcb26ff0acc43d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_local_network.cjs": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3"
+  },
+  "source_after": {
+    "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental_share_routes.mjs": "2a329639fa04b16999041461c4c7dac8f231bf6961917135d9dcb26ff0acc43d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_local_network.cjs": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3"
+  },
+  "artifact_build": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-static-current-20261002-batch2-attempt1",
+  "blockedNetworkRequests": [],
+  "results": [
+    {
+      "scenario": "app-direct",
+      "route": "/app/",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_compact_320x740.png",
+      "screenshotSha256": "eb70636292144c99bda841ae47369f8610610a38fba258aa6f733850444e5960"
+    },
+    {
+      "scenario": "app-direct",
+      "route": "/app/",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_mobile_390x844.png",
+      "screenshotSha256": "2726f2e9699404073ddc6f4c655083b394e601c5388485db9e5e97ca7fa782a5"
+    },
+    {
+      "scenario": "app-direct",
+      "route": "/app/",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_tablet_834x1194.png",
+      "screenshotSha256": "7adf226d7b305ba722941ed9e91bad25ff48d0e30fa24a17c8670b7bf2cbe669"
+    },
+    {
+      "scenario": "app-direct",
+      "route": "/app/",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet Collect\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_desktop_1440x1000.png",
+      "screenshotSha256": "c750426bd50361f75fbce7a1d5bbd39f7b7d6673319447a47237728ce64223d9"
+    },
+    {
+      "scenario": "group-c-direct",
+      "route": "/c/",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/c/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/c/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-c-direct_compact_320x740.png",
+      "screenshotSha256": "7ac3960710e8e5c1a5cb9ae4f9fa8c4c430f969539f2bc5ab2b86867aa6eb6e5"
+    },
+    {
+      "scenario": "group-c-direct",
+      "route": "/c/",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/c/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/c/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-c-direct_mobile_390x844.png",
+      "screenshotSha256": "a8ae084c44f15ff56cee651922f8aeb6006b45dd213807201868843782391159"
+    },
+    {
+      "scenario": "group-c-direct",
+      "route": "/c/",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/c/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/c/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-c-direct_tablet_834x1194.png",
+      "screenshotSha256": "bff48179e44b919b997bd16bddab017f304cce83a24c406dcae21815723550c1"
+    },
+    {
+      "scenario": "group-c-direct",
+      "route": "/c/",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/c/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/c/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet Collect\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-c-direct_desktop_1440x1000.png",
+      "screenshotSha256": "44cbf9d1bdbeb2e9ca40fc933f7507ea673e885e2426d05d75e294229386fe62"
+    },
+    {
+      "scenario": "group-link-direct",
+      "route": "/group-link/",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/group-link/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/group-link/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_compact_320x740.png",
+      "screenshotSha256": "7ac3960710e8e5c1a5cb9ae4f9fa8c4c430f969539f2bc5ab2b86867aa6eb6e5"
+    },
+    {
+      "scenario": "group-link-direct",
+      "route": "/group-link/",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/group-link/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/group-link/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_mobile_390x844.png",
+      "screenshotSha256": "a8ae084c44f15ff56cee651922f8aeb6006b45dd213807201868843782391159"
+    },
+    {
+      "scenario": "group-link-direct",
+      "route": "/group-link/",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/group-link/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/group-link/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_tablet_834x1194.png",
+      "screenshotSha256": "bff48179e44b919b997bd16bddab017f304cce83a24c406dcae21815723550c1"
+    },
+    {
+      "scenario": "group-link-direct",
+      "route": "/group-link/",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": false,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "group",
+        "heading": "Open this Collect group",
+        "openHref": null,
+        "disabled": true,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect for this device",
+        "canonical": "http://127.0.0.1:59121/group-link/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/group-link/",
+        "code": "This group link is invalid.",
+        "status": "Ask the group member to share a new link.",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet Collect\n\nShared Collect link\n\nOpen this Collect group\n\nThis privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding.\n\nThis group link is invalid.\n\nCollect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.\n\nOpen in Collect\nGet Collect\nCopy link\n\nApp Store\n·\nGoogle Play\n\nAsk the group member to share a new link.\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 131.75,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open a Collect Group | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_desktop_1440x1000.png",
+      "screenshotSha256": "44cbf9d1bdbeb2e9ca40fc933f7507ea673e885e2426d05d75e294229386fe62"
+    },
+    {
+      "scenario": "app-invite-android",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-android_compact_320x740.png",
+      "screenshotSha256": "31e900bc24c2b72fec3c68d3d84ce945745d12dcf99d501664edcd4f6910114c"
+    },
+    {
+      "scenario": "app-invite-android",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-android_mobile_390x844.png",
+      "screenshotSha256": "888723bb2c4fbec9beac9e6b5e30f3da170d20ed6a93e7f1d06348ddd61b7610"
+    },
+    {
+      "scenario": "app-invite-android",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-android_tablet_834x1194.png",
+      "screenshotSha256": "801bc82949527f2e08a04a7621b5475ad3b92f8d6b969e82c0f7890b772b6826"
+    },
+    {
+      "scenario": "app-invite-android",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet it on Google Play\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-android_desktop_1440x1000.png",
+      "screenshotSha256": "782ebf0b85713444562bdef9cace6d614c799b807cdb6a719cc8e8ffad5cb1bd"
+    },
+    {
+      "scenario": "app-invite-ios",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-ios_compact_320x740.png",
+      "screenshotSha256": "85033bb0a4d1076e5d9caf82f73689be0de0c0ce97f0c4601132515a3e37b5d2"
+    },
+    {
+      "scenario": "app-invite-ios",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-ios_mobile_390x844.png",
+      "screenshotSha256": "266e615f6438cbe3ebe0a8b5d00bba9c6cad4de28175bfd8900adb470b0007d6"
+    },
+    {
+      "scenario": "app-invite-ios",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-ios_tablet_834x1194.png",
+      "screenshotSha256": "843adb0eee943a1cd344cda05adb5d9c985b6a9cd85d09753adc69858d341c02"
+    },
+    {
+      "scenario": "app-invite-ios",
+      "route": "/app/?publicId=QA_invite-01",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Join someone you know on Collect",
+        "openHref": "collect://invite/QA_invite-01",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/invite/QA_invite-01",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/invite/QA_invite-01",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet on the App Store\n\nShared Collect link\n\nJoin someone you know on Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invite-ios_desktop_1440x1000.png",
+      "screenshotSha256": "a1ba4e0d313ffa1e88c052b03657c19ec813cb08d895ae3da0d86540c3460c7b"
+    },
+    {
+      "scenario": "app-invalid-invite-ios",
+      "route": "/app/?publicId=%3Cscript%3E",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invalid-invite-ios_compact_320x740.png",
+      "screenshotSha256": "77b9494fbd1fb6d0478c85a12c7869bfcbf27e43aba7691b24eb3ce0c6499804"
+    },
+    {
+      "scenario": "app-invalid-invite-ios",
+      "route": "/app/?publicId=%3Cscript%3E",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invalid-invite-ios_mobile_390x844.png",
+      "screenshotSha256": "410bf7b7d49dee09b04fdb344fecebe953299e5d7d60893fa43a6846bd16c19f"
+    },
+    {
+      "scenario": "app-invalid-invite-ios",
+      "route": "/app/?publicId=%3Cscript%3E",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invalid-invite-ios_tablet_834x1194.png",
+      "screenshotSha256": "d87fe49f24ada29ab07bc87cfc3cfae93a8bf059a259dee27c207ca15dba067d"
+    },
+    {
+      "scenario": "app-invalid-invite-ios",
+      "route": "/app/?publicId=%3Cscript%3E",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://apps.apple.com/app/id6783960331",
+        "storeName": "Get Collect on the Apple App Store",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet on the App Store\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet on the App Store\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 204.4375,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invalid-invite-ios_desktop_1440x1000.png",
+      "screenshotSha256": "e96226a274b35142f225a14a19f2c9c48deae6e9146b2b03dd3e98bf403d3661"
+    },
+    {
+      "scenario": "app-oversized-invite-android",
+      "route": "/app/?publicId=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "viewport": "compact_320x740",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-oversized-invite-android_compact_320x740.png",
+      "screenshotSha256": "3ef59b6b9b517d3e51d443f699de12097a81d47e26bd8275b5318b077573c071"
+    },
+    {
+      "scenario": "app-oversized-invite-android",
+      "route": "/app/?publicId=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "viewport": "mobile_390x844",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-oversized-invite-android_mobile_390x844.png",
+      "screenshotSha256": "21665c85dcce666723f35dec48c056f827192518ecfd2a7c00386e0246becf41"
+    },
+    {
+      "scenario": "app-oversized-invite-android",
+      "route": "/app/?publicId=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "viewport": "tablet_834x1194",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nMenu\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-oversized-invite-android_tablet_834x1194.png",
+      "screenshotSha256": "69cfedc7658d85678e82000f529061ceb18b9b66aceb2a73c5e6bcfb34872ea5"
+    },
+    {
+      "scenario": "app-oversized-invite-android",
+      "route": "/app/?publicId=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "viewport": "desktop_1440x1000",
+      "userAgentEmulationOnly": true,
+      "checks": {
+        "actualHttp200": true,
+        "correctLandingKind": true,
+        "noHorizontalOverflow": true,
+        "titleAndHeading": true,
+        "exactNativeTarget": true,
+        "groupMissingCodeDenied": true,
+        "exactStoreDestination": true,
+        "namedStoreAction": true,
+        "exactCanonical": true,
+        "exactSmartBanner": true,
+        "visibleActions": true,
+        "noFalseInvitationAcceptance": true,
+        "noConsoleOrPageOrDiagnosticFailures": true
+      },
+      "failures": [],
+      "metrics": {
+        "landingKind": "app",
+        "heading": "Open Collect",
+        "openHref": "collect://app",
+        "disabled": false,
+        "storeHref": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+        "storeName": "Get Collect on Google Play",
+        "canonical": "http://127.0.0.1:59121/app/",
+        "smartBanner": "app-id=6783960331, app-argument=http://127.0.0.1:59121/app/",
+        "code": "Secure group invitation",
+        "status": "",
+        "bodyText": "Skip to content\nCollect\nby IKANISA\nGroup Savings\nTrust & Security\nGet it on Google Play\n\nShared Collect link\n\nOpen Collect\n\nContinue in the native Collect app. If Collect is not installed, use the official store for this phone.\n\nOpen in Collect\nGet it on Google Play\nCopy link\n\nApp Store\n·\nGoogle Play\n\nCOLLECT GROUP LINK\nPrivate details stay in the app.\n\nReceiver numbers, raw payment messages and member phone numbers are never placed in this public link.\n\nA link that survives onboarding\n\nCollect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n\nHaving a link does not expose payment credentials or confirm a payment.\n\nCollect by IKANISA\n\nIKANISA Ltd.\n\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\n\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n\n© 2026 IKANISA Ltd.. All rights reserved.\n\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+        "horizontalOverflow": false,
+        "actions": [
+          {
+            "width": 161.90625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 203.40625,
+            "height": 44,
+            "visible": true
+          },
+          {
+            "width": 116.859375,
+            "height": 44,
+            "visible": true
+          }
+        ],
+        "title": "Open Collect | Collect by IKANISA"
+      },
+      "consoleFailures": [],
+      "pageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-oversized-invite-android_desktop_1440x1000.png",
+      "screenshotSha256": "2a876b3e40d66cba571739b7e6f34acdea4e71eeda8ceb4d01fcfcf8fad39aae"
+    }
+  ],
+  "nativeAcceptance": false,
+  "providerAcceptance": false,
+  "hostedAcceptance": false
+}

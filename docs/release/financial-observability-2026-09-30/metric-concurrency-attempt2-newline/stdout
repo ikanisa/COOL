@@ -1,0 +1,108 @@
+{
+  "kind": "actual148_metric_concurrency",
+  "started_at": "2026-09-30T17:42:37Z",
+  "controls_before": "ada1cfadf4d18238c63acc3004ab6283496b291787a4fdd16878cc2999dddab6",
+  "source_sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+  "tracked_transaction_ids": [
+    "3249",
+    "3250",
+    "3251",
+    "3252",
+    "3253",
+    "3254",
+    "3255",
+    "3256",
+    "3257",
+    "3258"
+  ],
+  "failure": {
+    "class": "RuntimeError",
+    "message": "ERROR:  cannot cast type integer[] to json\nLINE 1: select pg_blocking_pids(943)::json;\n                                    ^\n"
+  },
+  "status": "fail",
+  "cases": [
+    {
+      "name": "holder_rollback_waiter_records_once",
+      "status": "pass",
+      "blocking": {
+        "pid": 943,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          936
+        ]
+      },
+      "observed": {
+        "events": 1,
+        "max_ms": 20,
+        "measured": 1,
+        "total_ms": 20
+      }
+    },
+    {
+      "name": "commit_then_unmeasured_waiter_rollback",
+      "status": "pass",
+      "blocking": {
+        "pid": 943,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          936
+        ]
+      },
+      "observed": {
+        "events": 2,
+        "max_ms": 10,
+        "measured": 1,
+        "total_ms": 10
+      },
+      "cleanup_attribution": [
+        {
+          "max": 10,
+          "code": "receipt_ack_generated",
+          "xmin": "3251",
+          "events": 1,
+          "duration": 10,
+          "measured": 1
+        }
+      ]
+    },
+    {
+      "name": "both_commits_preserve_count_duration_max",
+      "status": "pass",
+      "blocking": {
+        "pid": 943,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          936
+        ]
+      },
+      "observed": {
+        "events": 2,
+        "max_ms": 20,
+        "measured": 2,
+        "total_ms": 30
+      },
+      "cleanup_attribution": [
+        {
+          "max": 20,
+          "code": "receipt_ack_generated",
+          "xmin": "3255",
+          "events": 2,
+          "duration": 30,
+          "measured": 2
+        }
+      ]
+    }
+  ],
+  "cases_passed": 3,
+  "blocking_races": 3,
+  "all_tables_restored": true,
+  "all_controls_restored": true,
+  "worker_sessions_remaining": 0,
+  "finished_at": "2026-09-30T17:42:41Z",
+  "source_only": false,
+  "provider_called": false,
+  "hosted_called": false
+}

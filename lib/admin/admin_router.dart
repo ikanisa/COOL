@@ -33,10 +33,14 @@ const adminRoutePaths = <String>[
   '/admin/notifications',
   '/admin/notifications/:id',
   '/admin/audit-logs',
+  '/admin/audit-logs/entity/:kind/:id',
   '/admin/settings',
   '/admin/feature-flags',
   '/admin/system-health',
   '/admin/automations',
+  '/admin/automations/runs/:id',
+  '/admin/sms-gateway',
+  '/admin/exceptions',
   '/admin/admin-users',
   '/admin/admin-users/:id',
 ];
@@ -154,10 +158,16 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             title: 'Audit logs',
             rpcName: 'admin_list_audit_logs',
           ),
-          _listRoute(
-            '/admin/settings',
-            title: 'Settings',
-            rpcName: 'admin_list_settings',
+          GoRoute(
+            path: '/admin/audit-logs/entity/:kind/:id',
+            builder: (context, state) => AdminEntityAuditPage(
+              entityKind: state.pathParameters['kind']!,
+              entityId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: '/admin/settings',
+            builder: (context, state) => const AdminGovernedSettingsPage(),
           ),
           _listRoute(
             '/admin/feature-flags',
@@ -182,6 +192,20 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/admin/automations',
             builder: (context, state) => const AdminAutomationsPage(),
+          ),
+          GoRoute(
+            path: '/admin/automations/runs/:id',
+            builder: (context, state) => AdminReceiptOperationalRunPage(
+              runId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: '/admin/sms-gateway',
+            builder: (context, state) => const AdminGatewayPage(),
+          ),
+          GoRoute(
+            path: '/admin/exceptions',
+            builder: (context, state) => const AdminExceptionsPage(),
           ),
           _detailRoute(
             '/admin/admin-users/:id',
@@ -263,6 +287,7 @@ GoRoute _listRoute(
       rpcName: rpcName,
       detailPathPrefix: detailPathPrefix,
       actionKind: actionKind,
+      initialStatus: state.uri.queryParameters['status'],
     ),
   );
 }

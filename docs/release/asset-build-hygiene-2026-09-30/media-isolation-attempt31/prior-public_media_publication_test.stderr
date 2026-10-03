@@ -1,0 +1,22 @@
+FF.
+======================================================================
+FAIL: test_forced_final_validation_failure_restores_all_owned_original_bytes (__main__.PublicationTest.test_forced_final_validation_failure_restores_all_owned_original_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-prior-publication-y56sh4cf/scripts/tests/public_media_publication_test.py", line 79, in test_forced_final_validation_failure_restores_all_owned_original_bytes
+    self.assertEqual(self.before, self.snapshot())
+AssertionError: {'account-deletion-old.png': b'Synthetic pr[2580 chars]g\n'} != {'capture-provenance.json': b'{\n  "status"[8228 chars]g\n'}
+Diff is 17093 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_previous_traversal_and_duplicate_route_are_rejected_before_preservation (__main__.PublicationTest.test_previous_traversal_and_duplicate_route_are_rejected_before_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-prior-publication-y56sh4cf/scripts/tests/public_media_publication_test.py", line 107, in test_previous_traversal_and_duplicate_route_are_rejected_before_preservation
+    self.assertFalse(self.packet.exists())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.281s
+
+FAILED (failures=2)

@@ -1,0 +1,152 @@
+24820:
+2026-10-01 18:52:32
+Full thread dump OpenJDK 64-Bit Server VM (21.0.12.1+1-LTS mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x000000074ec966c0, length=11, elements={
+0x00000001033ea010, 0x0000000103406110, 0x00000007511ec000, 0x00000007511ec700,
+0x00000007511ece00, 0x00000007511ed500, 0x0000000103406a90, 0x00000007511f0000,
+0x00000007511edc00, 0x00000007511ee300, 0x0000000752310700
+}
+
+"main" #1 [8963] prio=5 os_prio=31 cpu=34899.33ms elapsed=204.16s tid=0x00000001033ea010 nid=8963 runnable  [0x000000016d371000]
+   java.lang.Thread.State: RUNNABLE
+	at sun.nio.ch.FileDispatcherImpl.force0(java.base@21.0.12.1/Native Method)
+	at sun.nio.ch.FileDispatcherImpl.force(java.base@21.0.12.1/FileDispatcherImpl.java:37)
+	at sun.nio.ch.FileChannelImpl.force(java.base@21.0.12.1/FileChannelImpl.java:525)
+	at android.system.Os.fsync(Os.kt:12)
+	- locked <0x000000033507ecf0> (a java.util.IdentityHashMap)
+	at app.cool.mobile.gateway.GatewayEncryptedStore.save(GatewayEncryptedStore.kt:70)
+	at app.cool.mobile.gateway.GatewayEncryptedStore.saveRequests(GatewayEncryptedStore.kt:472)
+	- locked <0x0000000335000c20> (a java.lang.Object)
+	at app.cool.mobile.gateway.GatewayAttemptArchive.compact(GatewayAttemptArchive.kt:100)
+	at app.cool.mobile.gateway.GatewayAttemptArchive.acknowledge(GatewayAttemptArchive.kt:81)
+	- locked <0x0000000335000c20> (a java.lang.Object)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.acknowledge(GatewayAttemptArchiveTest.kt:58)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.segmentedColdStorageSurvivesMoreThanOneHundredAttempts$lambda$0(GatewayAttemptArchiveTest.kt:273)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest$$Lambda/0x0000007001090880.invoke(Unknown Source)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.withStore(GatewayAttemptArchiveTest.kt:26)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.segmentedColdStorageSurvivesMoreThanOneHundredAttempts(GatewayAttemptArchiveTest.kt:271)
+	at java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.base@21.0.12.1/DirectMethodHandle$Holder)
+	at java.lang.invoke.LambdaForm$MH/0x0000007001019800.invoke(java.base@21.0.12.1/LambdaForm$MH)
+	at java.lang.invoke.Invokers$Holder.invokeExact_MT(java.base@21.0.12.1/Invokers$Holder)
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(java.base@21.0.12.1/DirectMethodHandleAccessor.java:153)
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(java.base@21.0.12.1/DirectMethodHandleAccessor.java:103)
+	at java.lang.reflect.Method.invoke(java.base@21.0.12.1/Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+	at org.junit.runner.JUnitCore.runMain(JUnitCore.java:77)
+	at org.junit.runner.JUnitCore.main(JUnitCore.java:36)
+
+"Reference Handler" #9 [28931] daemon prio=10 os_prio=31 cpu=0.33ms elapsed=204.16s tid=0x0000000103406110 nid=28931 waiting on condition  [0x000000016e576000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@21.0.12.1/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@21.0.12.1/Reference.java:246)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@21.0.12.1/Reference.java:208)
+
+"Finalizer" #10 [28675] daemon prio=8 os_prio=31 cpu=0.03ms elapsed=204.16s tid=0x00000007511ec000 nid=28675 in Object.wait()  [0x000000016e782000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait0(java.base@21.0.12.1/Native Method)
+	- waiting on <0x0000000335001098> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.Object.wait(java.base@21.0.12.1/Object.java:366)
+	at java.lang.Object.wait(java.base@21.0.12.1/Object.java:339)
+	at java.lang.ref.NativeReferenceQueue.await(java.base@21.0.12.1/NativeReferenceQueue.java:48)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@21.0.12.1/ReferenceQueue.java:158)
+	at java.lang.ref.NativeReferenceQueue.remove(java.base@21.0.12.1/NativeReferenceQueue.java:89)
+	- locked <0x0000000335001098> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@21.0.12.1/Finalizer.java:173)
+
+"Signal Dispatcher" #11 [28163] daemon prio=9 os_prio=31 cpu=0.14ms elapsed=204.16s tid=0x00000007511ec700 nid=28163 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #12 [27651] daemon prio=9 os_prio=31 cpu=0.86ms elapsed=204.16s tid=0x00000007511ece00 nid=27651 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #13 [24067] daemon prio=9 os_prio=31 cpu=7.55ms elapsed=204.16s tid=0x00000007511ed500 nid=24067 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #14 [24323] daemon prio=9 os_prio=31 cpu=2851.60ms elapsed=204.16s tid=0x0000000103406a90 nid=24323 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #17 [26627] daemon prio=9 os_prio=31 cpu=367.12ms elapsed=204.16s tid=0x00000007511f0000 nid=26627 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Notification Thread" #18 [24835] daemon prio=9 os_prio=31 cpu=0.01ms elapsed=204.15s tid=0x00000007511edc00 nid=24835 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #19 [26115] daemon prio=8 os_prio=31 cpu=0.37ms elapsed=204.15s tid=0x00000007511ee300 nid=26115 waiting on condition  [0x000000016f5d6000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@21.0.12.1/Native Method)
+	- parking to wait for  <0x00000003350018e8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@21.0.12.1/LockSupport.java:269)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(java.base@21.0.12.1/AbstractQueuedSynchronizer.java:1886)
+	at java.lang.ref.ReferenceQueue.await(java.base@21.0.12.1/ReferenceQueue.java:71)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@21.0.12.1/ReferenceQueue.java:143)
+	at java.lang.ref.ReferenceQueue.remove(java.base@21.0.12.1/ReferenceQueue.java:218)
+	at jdk.internal.ref.CleanerImpl.run(java.base@21.0.12.1/CleanerImpl.java:140)
+	at java.lang.Thread.runWith(java.base@21.0.12.1/Thread.java:1596)
+	at java.lang.Thread.run(java.base@21.0.12.1/Thread.java:1583)
+	at jdk.internal.misc.InnocuousThread.run(java.base@21.0.12.1/InnocuousThread.java:186)
+
+"Attach Listener" #28 [29475] daemon prio=9 os_prio=31 cpu=0.40ms elapsed=0.10s tid=0x0000000752310700 nid=29475 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"GC Thread#8" os_prio=31 cpu=19.56ms elapsed=203.10s tid=0x000000074ec17400 nid=41731 runnable  
+
+"GC Thread#7" os_prio=31 cpu=19.71ms elapsed=203.10s tid=0x000000074ec16c00 nid=34563 runnable  
+
+"GC Thread#6" os_prio=31 cpu=20.03ms elapsed=203.10s tid=0x000000074ec16400 nid=42243 runnable  
+
+"GC Thread#5" os_prio=31 cpu=20.52ms elapsed=203.10s tid=0x000000074ec15c00 nid=34307 runnable  
+
+"GC Thread#4" os_prio=31 cpu=20.83ms elapsed=203.10s tid=0x000000074ec15400 nid=33795 runnable  
+
+"GC Thread#3" os_prio=31 cpu=21.40ms elapsed=203.10s tid=0x000000074ec14c00 nid=33283 runnable  
+
+"GC Thread#2" os_prio=31 cpu=20.19ms elapsed=203.10s tid=0x000000074ec14400 nid=33027 runnable  
+
+"GC Thread#1" os_prio=31 cpu=19.52ms elapsed=203.10s tid=0x0000000750fabc00 nid=43267 runnable  
+
+"VM Thread" os_prio=31 cpu=19.25ms elapsed=204.16s tid=0x0000000750ccd400 nid=19971 runnable  
+
+"VM Periodic Task Thread" os_prio=31 cpu=44.53ms elapsed=204.16s tid=0x00000001033faa30 nid=20995 waiting on condition  
+
+"G1 Service" os_prio=31 cpu=2.92ms elapsed=204.16s tid=0x0000000750ccc000 nid=16643 runnable  
+
+"G1 Refine#0" os_prio=31 cpu=0.01ms elapsed=204.16s tid=0x0000000750c68500 nid=16387 runnable  
+
+"G1 Conc#0" os_prio=31 cpu=0.01ms elapsed=204.16s tid=0x00000001033f4ab0 nid=13571 runnable  
+
+"G1 Main Marker" os_prio=31 cpu=0.01ms elapsed=204.16s tid=0x00000001033f4010 nid=14339 runnable  
+
+"GC Thread#0" os_prio=31 cpu=20.11ms elapsed=204.16s tid=0x00000001033f15f0 nid=14595 runnable  
+
+JNI global refs: 11, weak refs: 0
+

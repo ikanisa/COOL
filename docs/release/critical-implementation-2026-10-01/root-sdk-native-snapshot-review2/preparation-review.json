@@ -1,0 +1,40 @@
+{
+  "status": "preparation_independently_reviewed_only",
+  "at_utc": "2026-10-02T06:20:36.927782+00:00",
+  "packet_manifest_sha256": "72aedc2004efaafe192f8e86a05dc08bf7df9425dcd68f08d9dd6898cf01c283",
+  "checked_packet_leaves": 56,
+  "controller_sha256": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+  "source_fence_helper_sha256": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8",
+  "changed_original_functions": [
+    "authorization",
+    "main"
+  ],
+  "reviewed": "Full125-line controller diff, full272-line source fence helper, all34 behavioral guard bodies, original regression/invariant receipts, all56 safe leaves and current42 source/tool identities in both suites.",
+  "source_bound_suites": [
+    {
+      "suite": "snapshot",
+      "tests": 34,
+      "source_tool_records": 42,
+      "all_input_identities_current": true
+    },
+    {
+      "suite": "original",
+      "tests": 31,
+      "source_tool_records": 42,
+      "all_input_identities_current": true
+    }
+  ],
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "private_destination_and_control_absent": true,
+  "source_scope_held_for_strict_export": false,
+  "source_lock_attested": false,
+  "transient_write_and_restore_absence_attested": false,
+  "production_release_approval": false,
+  "current_source_export_authorized": false,
+  "execution_stage_admissions": {
+    "app-export": false
+  },
+  "next_action": "Fresh current source fence and separate exact app-export admission after reviewed maintained integrations; preserve all existing stage/process bounds and no automatic advancement.",
+  "whole_stage_outer_deadline_not_attested": true,
+  "errors": []
+}

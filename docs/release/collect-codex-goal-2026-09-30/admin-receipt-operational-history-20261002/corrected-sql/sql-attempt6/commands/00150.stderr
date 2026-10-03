@@ -1,0 +1,5 @@
+ERROR:  22023: receipt_history_input_invalid
+CONTEXT:  PL/pgSQL function collect_receipt_history.input(integer,timestamp with time zone,text,text) line 7 at RAISE
+SQL statement "SELECT collect_receipt_history.input(p_limit,p_before_at,p_before_id,p_section)"
+PL/pgSQL function public.admin_list_receipt_operation_evidence_v1(uuid,text,integer,timestamp with time zone,text) line 5 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

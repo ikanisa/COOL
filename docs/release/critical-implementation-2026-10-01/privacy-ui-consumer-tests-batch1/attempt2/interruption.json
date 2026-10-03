@@ -1,0 +1,5 @@
+{
+  "at_utc": "2026-10-01T23:57:55.047996+00:00",
+  "owned_flutter_pid": 52096,
+  "reason": "Focused diagnostic remained pending under widget fake clock; preserve before adjusting SDK setup to existing real-isolate runAsync fixture pattern."
+}

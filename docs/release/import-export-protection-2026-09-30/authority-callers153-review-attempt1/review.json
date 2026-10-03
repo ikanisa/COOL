@@ -1,0 +1,1648 @@
+{
+  "guard": {
+    "net": "0",
+    "busy": 0,
+    "cron": "off",
+    "user": "postgres",
+    "count": 153,
+    "latest": "20260930220000",
+    "cron_dml": false,
+    "database": "postgres",
+    "superuser": false,
+    "stats_visible": true
+  },
+  "routine_count": 423,
+  "lexical_transitive_closure_count": 106,
+  "source_sha256": "4b228ee53ee19cd136f7bf858e6d248b33dbd0d3576f7cefa6bf085e16ca4606",
+  "scope": "Conservative lexical source-call review; requires runtime/API validation, not whole-system coverage",
+  "missing_nonvolatile": [
+    {
+      "identity": "collect_admin_access.approval_status(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.get_admin_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.list_admin_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "_admin_list_people_by_membership(boolean,text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_bank_allocation_request(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_destination(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_destination_change_request(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_evidence(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_transaction(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_transfer_intent(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_collect_transaction(text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_collection(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_hybrid_sms_receipt(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_journal_entry(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_member_record(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_payment(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_payment_event(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_payment_intent(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_queue_sla(text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_receiver(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_reconciliation_exception(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_reconciliation_run(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_sms_metadata(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_allocations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_audit_logs(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_bank_allocation_requests(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_destination_change_requests(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_destinations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_evidence(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_transactions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_transfer_intents(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_collect_ledgers(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_payees(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_reconciliations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_transactions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collections(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_hybrid_sms_receipts(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_journal_entries(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_ledger(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_members(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_notifications(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_payment_events(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payment_intents(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payments(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payments(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_platform_payee_candidates(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_receivers(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_reconciliation_exceptions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_reconciliation_runs(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_settings(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_sms_metadata(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_unallocated(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_overview()",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_admin_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_whatsapp_approval(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_admin_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collections(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_non_member_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_users(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    }
+  ],
+  "edges": [
+    {
+      "caller": "collect_admin_access.approval_status(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_admin_access.approve_whatsapp(uuid,text,text,timestamp with time zone,boolean)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_admin_access.get_admin_user(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_admin_access.list_admin_users(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_admin_access.revoke_whatsapp(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_admin_access.set_user_access(uuid,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_hybrid.assert_onboarding()",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "_admin_list_people_by_membership(boolean,text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_assign_hybrid_receiving_route(uuid,uuid,uuid,text,uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_create_collect_payee(uuid,text,text,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_create_platform_public_group(text,text,text,text,text,text,text,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_allocation_request(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_destination(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_destination_change_request(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_evidence(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_transaction(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_bank_transfer_intent(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_collect_transaction(text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_collection(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_hybrid_sms_receipt(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_journal_entry(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_member_record(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_notification(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_payment(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_payment_event(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_payment_intent(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_queue_sla(text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_receiver(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_reconciliation_exception(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_reconciliation_run(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_sms_metadata(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_get_user(uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_grant_user_role(uuid,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_import_bank_statement(text,text,date,date,jsonb,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_allocations(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_audit_logs(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_allocation_requests(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_destination_change_requests(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_destinations(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_evidence(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_transactions(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_bank_transfer_intents(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_collect_ledgers(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_collect_payees(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_collect_reconciliations(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_collect_transactions(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_collections(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_hybrid_sms_receipts(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_journal_entries(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_ledger(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_members(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_notifications(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_payment_events(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_payment_intents(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_payments(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_payments(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_platform_payee_candidates(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_receivers(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_reconciliation_exceptions(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_reconciliation_runs(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_settings(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_sms_metadata(text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_unallocated(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_list_users(text,text,integer,integer,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_manual_allocate_payment(uuid,uuid,uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_overview()",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_propose_bank_allocation(uuid,uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_propose_bank_destination(text,text,text,text,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_record_operator_note(text,uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_reopen_daily_bank_close(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_reparse_payment_event(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_resolve_reconciliation_exception(uuid,text,boolean)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_retry_notification(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_reveal_raw_bank_evidence(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_reveal_raw_sms(uuid,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_reverse_momo_payment(uuid,text,uuid)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_review_bank_allocation(uuid,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_review_bank_destination_change(uuid,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_revoke_user_role(uuid,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_run_bank_reconciliation(date,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_set_collect_payee_status(uuid,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_set_group_active(uuid,boolean,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_update_collect_payee(uuid,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_update_collection_support_status(uuid,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_update_platform_public_group(uuid,text,text,text,text,text,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "admin_update_platform_public_group_metadata(uuid,text,text,text,text,text,text,text)",
+      "target": "assert_admin_permission(text)"
+    },
+    {
+      "caller": "collect_hybrid.add_roster(uuid,jsonb,uuid,text)",
+      "target": "collect_hybrid.assert_onboarding()"
+    },
+    {
+      "caller": "collect_hybrid.create_assisted_group(text,text,uuid)",
+      "target": "collect_hybrid.assert_onboarding()"
+    },
+    {
+      "caller": "admin_approve_whatsapp(uuid,text,text,timestamp with time zone)",
+      "target": "collect_admin_access.approve_whatsapp(uuid,text,text,timestamp with time zone,boolean)"
+    },
+    {
+      "caller": "admin_bootstrap_whatsapp_approval(uuid,text,text)",
+      "target": "collect_admin_access.approve_whatsapp(uuid,text,text,timestamp with time zone,boolean)"
+    },
+    {
+      "caller": "admin_get_admin_user(uuid)",
+      "target": "collect_admin_access.get_admin_user(uuid)"
+    },
+    {
+      "caller": "admin_get_whatsapp_approval(uuid)",
+      "target": "collect_admin_access.approval_status(uuid)"
+    },
+    {
+      "caller": "admin_list_admin_users(text,text,integer,integer,text)",
+      "target": "collect_admin_access.list_admin_users(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_collections(text,text)",
+      "target": "admin_list_collections(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_collect_ledgers(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_collect_payees(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_collect_reconciliations(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_collect_transactions(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_collections(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_members(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_notifications(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "target": "admin_list_users(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_non_member_users(text,text,integer,integer,text)",
+      "target": "_admin_list_people_by_membership(boolean,text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_list_users(text,text)",
+      "target": "admin_list_users(text,text,integer,integer,text)"
+    },
+    {
+      "caller": "admin_revoke_whatsapp_approval(uuid,text)",
+      "target": "collect_admin_access.revoke_whatsapp(uuid,text)"
+    },
+    {
+      "caller": "admin_set_user_access(uuid,boolean,text)",
+      "target": "collect_admin_access.set_user_access(uuid,boolean,text)"
+    },
+    {
+      "caller": "collect_hybrid.admin_commit_roster_import_guarded_149(uuid,uuid,uuid,text,boolean,text,uuid,text,text)",
+      "target": "collect_hybrid.add_roster(uuid,jsonb,uuid,text)"
+    },
+    {
+      "caller": "collect_hybrid.create_assisted_group_with_share(text,text,uuid)",
+      "target": "collect_hybrid.create_assisted_group(text,text,uuid)"
+    },
+    {
+      "caller": "admin_commit_roster_import(uuid,uuid,uuid,text,boolean,text,uuid,text,text)",
+      "target": "collect_hybrid.admin_commit_roster_import_guarded_149(uuid,uuid,uuid,text,boolean,text,uuid,text,text)"
+    },
+    {
+      "caller": "admin_create_assisted_group(text,text,uuid)",
+      "target": "collect_hybrid.create_assisted_group_with_share(text,text,uuid)"
+    },
+    {
+      "caller": "collect_hybrid.admin_execute_roster_import_intent_guarded_149(uuid,text,boolean)",
+      "target": "admin_commit_roster_import(uuid,uuid,uuid,text,boolean,text,uuid,text,text)"
+    },
+    {
+      "caller": "admin_execute_roster_import_intent(uuid,text,boolean)",
+      "target": "collect_hybrid.admin_execute_roster_import_intent_guarded_149(uuid,text,boolean)"
+    }
+  ],
+  "closure": [
+    {
+      "identity": "assert_admin_permission(text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "collect_admin_access.approval_status(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.approve_whatsapp(uuid,text,text,timestamp with time zone,boolean)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "collect_admin_access.get_admin_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.list_admin_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.revoke_whatsapp(uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_admin_access.set_user_access(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_hybrid.assert_onboarding()",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "_admin_list_people_by_membership(boolean,text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_assign_hybrid_receiving_route(uuid,uuid,uuid,text,uuid)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_create_collect_payee(uuid,text,text,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_create_platform_public_group(text,text,text,text,text,text,text,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_bank_allocation_request(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_destination(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_destination_change_request(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_evidence(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_transaction(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_bank_transfer_intent(uuid)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_collect_transaction(text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_collection(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_hybrid_sms_receipt(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_journal_entry(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_member_record(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_notification(uuid)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_payment(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_payment_event(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_payment_intent(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_queue_sla(text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_receiver(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_reconciliation_exception(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_reconciliation_run(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_sms_metadata(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_get_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_grant_user_role(uuid,text,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_import_bank_statement(text,text,date,date,jsonb,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_allocations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_audit_logs(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_bank_allocation_requests(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_destination_change_requests(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_destinations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_evidence(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_transactions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_bank_transfer_intents(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_collect_ledgers(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_payees(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_reconciliations(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collect_transactions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collections(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_hybrid_sms_receipts(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_journal_entries(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_ledger(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_members(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_notifications(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_payment_events(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payment_intents(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payments(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_payments(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_platform_payee_candidates(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_receivers(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_reconciliation_exceptions(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_reconciliation_runs(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_settings(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_sms_metadata(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_unallocated(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_manual_allocate_payment(uuid,uuid,uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_overview()",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_propose_bank_allocation(uuid,uuid,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_propose_bank_destination(text,text,text,text,boolean,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_record_operator_note(text,uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_reopen_daily_bank_close(uuid,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_reparse_payment_event(uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_resolve_reconciliation_exception(uuid,text,boolean)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_retry_notification(uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_reveal_raw_bank_evidence(uuid,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_reveal_raw_sms(uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_reverse_momo_payment(uuid,text,uuid)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_review_bank_allocation(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_review_bank_destination_change(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_revoke_user_role(uuid,text,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_run_bank_reconciliation(date,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_set_collect_payee_status(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_set_group_active(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_update_collect_payee(uuid,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_update_collection_support_status(uuid,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_update_platform_public_group(uuid,text,text,text,text,text,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_update_platform_public_group_metadata(uuid,text,text,text,text,text,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "collect_hybrid.add_roster(uuid,jsonb,uuid,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_hybrid.create_assisted_group(text,text,uuid)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_approve_whatsapp(uuid,text,text,timestamp with time zone)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_bootstrap_whatsapp_approval(uuid,text,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_admin_user(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_get_whatsapp_approval(uuid)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_list_admin_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_collections(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_country_scoped(text,text,text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_non_member_users(text,text,integer,integer,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_list_users(text,text)",
+      "volatility": "s",
+      "authenticated": true,
+      "anon": false,
+      "service_role": true
+    },
+    {
+      "identity": "admin_revoke_whatsapp_approval(uuid,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_set_user_access(uuid,boolean,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_hybrid.admin_commit_roster_import_guarded_149(uuid,uuid,uuid,text,boolean,text,uuid,text,text)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_hybrid.create_assisted_group_with_share(text,text,uuid)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_commit_roster_import(uuid,uuid,uuid,text,boolean,text,uuid,text,text)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_create_assisted_group(text,text,uuid)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "collect_hybrid.admin_execute_roster_import_intent_guarded_149(uuid,text,boolean)",
+      "volatility": "v",
+      "authenticated": false,
+      "anon": false,
+      "service_role": false
+    },
+    {
+      "identity": "admin_execute_roster_import_intent(uuid,text,boolean)",
+      "volatility": "v",
+      "authenticated": true,
+      "anon": false,
+      "service_role": false
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+--- before/lib/features/settings/security_hub_header.dart
++++ current/lib/features/settings/security_hub_header.dart
+@@ -45,6 +45,7 @@
+           const SizedBox(height: 104),
+           Semantics(
+             header: true,
++            headingLevel: 1,
+             child: Padding(
+               padding: const EdgeInsets.only(bottom: 24),
+               child: Row(

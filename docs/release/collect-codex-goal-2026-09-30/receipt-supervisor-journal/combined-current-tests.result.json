@@ -1,0 +1,522 @@
+{
+  "actual_endpoint_calls": 0,
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "--experimental-strip-types",
+    "--test",
+    "--test-reporter=tap",
+    "--test-concurrency=2",
+    "src/keychain_store.test.ts",
+    "src/operational_client.test.ts",
+    "src/operational_health.test.ts",
+    "src/operational_transport.test.ts",
+    "src/operator_client.test.ts",
+    "src/operator_login.test.ts",
+    "src/preflight.test.ts",
+    "src/runtime_credentials.test.ts",
+    "src/server.test.ts",
+    "src/server_transport.test.ts",
+    "src/session_renewal.test.ts",
+    "src/shadow_cli_options.test.ts",
+    "src/shadow_client.test.ts",
+    "src/shadow_stdio.test.ts",
+    "src/shadow_supervisor.test.ts",
+    "src/stdio_preflight.test.ts",
+    "src/supervisor_client.test.ts",
+    "src/supervisor_journal.test.ts"
+  ],
+  "compiler_sha256": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+  "credential_free_environment": true,
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp",
+  "dependency_install_requested": false,
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-01T00:25:29Z",
+  "host_allowlist_changed": false,
+  "keychain_calls": 0,
+  "log_sha256": "cba6a1aa6078ca68802c6f42b6f6d90ffec6c8e84adcd835aadd43f570a46281",
+  "node_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "node_version": "v24.19.0",
+  "provider_sends": 0,
+  "real_key_or_profile_created": false,
+  "runner_sha256": "cd8d531d4bcc411771c1f727b7176bd961cd65dc8c6bd4192342a744bdd74e06",
+  "scope": "Current bridge synthetic regressions including new supervisor journal; separate from source05 evidence.",
+  "source_files_after": {
+    "contracts/collect-shadow-supervisor-v1.contract.md": {
+      "bytes": 6078,
+      "sha256": "19481c87093ac1c1d45ab80edf5e752c85ee3cd2dabd42f6d07bc7ebdf5cb754"
+    },
+    "contracts/collect-shadow-supervisor-v1.fixture.json": {
+      "bytes": 1241,
+      "sha256": "111a04468244ef0b70c118f7f6a5c1ec9ce74218b4db608c0ea7be836fcaf62f"
+    },
+    "contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json": {
+      "bytes": 8652,
+      "sha256": "d2e619cf344262e23e2ab40d571e50c74937203fde092b800756f67d49070954"
+    },
+    "contracts/collect-shadow-supervisor-v1.observed.fixture.json": {
+      "bytes": 2239,
+      "sha256": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87"
+    },
+    "contracts/collect-shadow-supervisor-v1.schema.json": {
+      "bytes": 26020,
+      "sha256": "bbc8173e6317975575e1e225fde285328fb50cb185fe4f1a642d82662347b854"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json": {
+      "bytes": 556,
+      "sha256": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json": {
+      "bytes": 396,
+      "sha256": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json": {
+      "bytes": 719,
+      "sha256": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9"
+    },
+    "supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "bytes": 16321,
+      "sha256": "1649f602ae5c58ea22576a2328bca5104b88234d80b4e741386171e2813ea9aa"
+    },
+    "supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "bytes": 11780,
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc"
+    },
+    "supabase/functions/collect-receipt-supervisor/index.ts": {
+      "bytes": 411,
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15"
+    },
+    "supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "bytes": 1169,
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d"
+    },
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "tools/collect-notification-mcp/package.json": {
+      "bytes": 522,
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    "tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "bytes": 8909,
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    "tools/collect-notification-mcp/src/keychain.swift": {
+      "bytes": 2065,
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "bytes": 2420,
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.ts": {
+      "bytes": 2562,
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224"
+    },
+    "tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "bytes": 8453,
+      "sha256": "6f974bd5710e8c901757f55521b36802aa1e4cc74eae7793323e18d236fddf87"
+    },
+    "tools/collect-notification-mcp/src/operational_client.ts": {
+      "bytes": 10713,
+      "sha256": "c77d7b8a0c308a72ac46aedebf23de32a1d2afd80c8dbd15c08227e0a6e14229"
+    },
+    "tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "bytes": 3536,
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b"
+    },
+    "tools/collect-notification-mcp/src/operational_health.ts": {
+      "bytes": 6985,
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8"
+    },
+    "tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "bytes": 8770,
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612"
+    },
+    "tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "bytes": 2603,
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7"
+    },
+    "tools/collect-notification-mcp/src/operator_client.ts": {
+      "bytes": 2798,
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9"
+    },
+    "tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "bytes": 3375,
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6"
+    },
+    "tools/collect-notification-mcp/src/operator_login.ts": {
+      "bytes": 6246,
+      "sha256": "41815f090404207ae2bd24fb336e6259975debd54b334c8d43ffaa752d537dfc"
+    },
+    "tools/collect-notification-mcp/src/preflight.test.ts": {
+      "bytes": 4043,
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428"
+    },
+    "tools/collect-notification-mcp/src/preflight.ts": {
+      "bytes": 4022,
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae"
+    },
+    "tools/collect-notification-mcp/src/queue_health.ts": {
+      "bytes": 862,
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "bytes": 1779,
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "bytes": 760,
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377"
+    },
+    "tools/collect-notification-mcp/src/server.test.ts": {
+      "bytes": 2560,
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab"
+    },
+    "tools/collect-notification-mcp/src/server.ts": {
+      "bytes": 10762,
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8"
+    },
+    "tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "bytes": 6965,
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "bytes": 9153,
+      "sha256": "a968bdc13e06f7fb505cef355c11c158eeb8b8dcacbc179d5c7d408137dc1225"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.ts": {
+      "bytes": 6465,
+      "sha256": "d06d81c0da55f8382597885cae8abe35cd9f01c03a81f4c67966d030969d2646"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "bytes": 1285,
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "bytes": 1143,
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "bytes": 7837,
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.ts": {
+      "bytes": 5247,
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    "tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "bytes": 10541,
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "bytes": 1748,
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "bytes": 5684,
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "bytes": 12412,
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "bytes": 5391,
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "bytes": 2755,
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "bytes": 4704,
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649"
+    },
+    "tools/collect-notification-mcp/src/supervisor_client.test.ts": {
+      "bytes": 9566,
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859"
+    },
+    "tools/collect-notification-mcp/src/supervisor_client.ts": {
+      "bytes": 9009,
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975"
+    },
+    "tools/collect-notification-mcp/src/supervisor_journal.test.ts": {
+      "bytes": 23237,
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0"
+    },
+    "tools/collect-notification-mcp/src/supervisor_journal.ts": {
+      "bytes": 23474,
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758"
+    },
+    "tools/collect-notification-mcp/src/supervisor_keychain.swift": {
+      "bytes": 9023,
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c"
+    },
+    "tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "bytes": 2871,
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "bytes": 2383,
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "bytes": 1135,
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77"
+    },
+    "tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "bytes": 5553,
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79"
+    },
+    "tools/collect-notification-mcp/tsconfig.json": {
+      "bytes": 333,
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84"
+    }
+  },
+  "source_files_before": {
+    "contracts/collect-shadow-supervisor-v1.contract.md": {
+      "bytes": 6078,
+      "sha256": "19481c87093ac1c1d45ab80edf5e752c85ee3cd2dabd42f6d07bc7ebdf5cb754"
+    },
+    "contracts/collect-shadow-supervisor-v1.fixture.json": {
+      "bytes": 1241,
+      "sha256": "111a04468244ef0b70c118f7f6a5c1ec9ce74218b4db608c0ea7be836fcaf62f"
+    },
+    "contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json": {
+      "bytes": 8652,
+      "sha256": "d2e619cf344262e23e2ab40d571e50c74937203fde092b800756f67d49070954"
+    },
+    "contracts/collect-shadow-supervisor-v1.observed.fixture.json": {
+      "bytes": 2239,
+      "sha256": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87"
+    },
+    "contracts/collect-shadow-supervisor-v1.schema.json": {
+      "bytes": 26020,
+      "sha256": "bbc8173e6317975575e1e225fde285328fb50cb185fe4f1a642d82662347b854"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json": {
+      "bytes": 556,
+      "sha256": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json": {
+      "bytes": 396,
+      "sha256": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da"
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json": {
+      "bytes": 719,
+      "sha256": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9"
+    },
+    "supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "bytes": 16321,
+      "sha256": "1649f602ae5c58ea22576a2328bca5104b88234d80b4e741386171e2813ea9aa"
+    },
+    "supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "bytes": 11780,
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc"
+    },
+    "supabase/functions/collect-receipt-supervisor/index.ts": {
+      "bytes": 411,
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15"
+    },
+    "supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "bytes": 1169,
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d"
+    },
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "tools/collect-notification-mcp/package.json": {
+      "bytes": 522,
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    "tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "bytes": 8909,
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    "tools/collect-notification-mcp/src/keychain.swift": {
+      "bytes": 2065,
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "bytes": 2420,
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.ts": {
+      "bytes": 2562,
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224"
+    },
+    "tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "bytes": 8453,
+      "sha256": "6f974bd5710e8c901757f55521b36802aa1e4cc74eae7793323e18d236fddf87"
+    },
+    "tools/collect-notification-mcp/src/operational_client.ts": {
+      "bytes": 10713,
+      "sha256": "c77d7b8a0c308a72ac46aedebf23de32a1d2afd80c8dbd15c08227e0a6e14229"
+    },
+    "tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "bytes": 3536,
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b"
+    },
+    "tools/collect-notification-mcp/src/operational_health.ts": {
+      "bytes": 6985,
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8"
+    },
+    "tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "bytes": 8770,
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612"
+    },
+    "tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "bytes": 2603,
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7"
+    },
+    "tools/collect-notification-mcp/src/operator_client.ts": {
+      "bytes": 2798,
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9"
+    },
+    "tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "bytes": 3375,
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6"
+    },
+    "tools/collect-notification-mcp/src/operator_login.ts": {
+      "bytes": 6246,
+      "sha256": "41815f090404207ae2bd24fb336e6259975debd54b334c8d43ffaa752d537dfc"
+    },
+    "tools/collect-notification-mcp/src/preflight.test.ts": {
+      "bytes": 4043,
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428"
+    },
+    "tools/collect-notification-mcp/src/preflight.ts": {
+      "bytes": 4022,
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae"
+    },
+    "tools/collect-notification-mcp/src/queue_health.ts": {
+      "bytes": 862,
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "bytes": 1779,
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "bytes": 760,
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377"
+    },
+    "tools/collect-notification-mcp/src/server.test.ts": {
+      "bytes": 2560,
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab"
+    },
+    "tools/collect-notification-mcp/src/server.ts": {
+      "bytes": 10762,
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8"
+    },
+    "tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "bytes": 6965,
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "bytes": 9153,
+      "sha256": "a968bdc13e06f7fb505cef355c11c158eeb8b8dcacbc179d5c7d408137dc1225"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.ts": {
+      "bytes": 6465,
+      "sha256": "d06d81c0da55f8382597885cae8abe35cd9f01c03a81f4c67966d030969d2646"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "bytes": 1285,
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "bytes": 1143,
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "bytes": 7837,
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.ts": {
+      "bytes": 5247,
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    "tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "bytes": 10541,
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "bytes": 1748,
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "bytes": 5684,
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "bytes": 12412,
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "bytes": 5391,
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "bytes": 2755,
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "bytes": 4704,
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649"
+    },
+    "tools/collect-notification-mcp/src/supervisor_client.test.ts": {
+      "bytes": 9566,
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859"
+    },
+    "tools/collect-notification-mcp/src/supervisor_client.ts": {
+      "bytes": 9009,
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975"
+    },
+    "tools/collect-notification-mcp/src/supervisor_journal.test.ts": {
+      "bytes": 23237,
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0"
+    },
+    "tools/collect-notification-mcp/src/supervisor_journal.ts": {
+      "bytes": 23474,
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758"
+    },
+    "tools/collect-notification-mcp/src/supervisor_keychain.swift": {
+      "bytes": 9023,
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c"
+    },
+    "tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "bytes": 2871,
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "bytes": 2383,
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "bytes": 1135,
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77"
+    },
+    "tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "bytes": 5553,
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79"
+    },
+    "tools/collect-notification-mcp/tsconfig.json": {
+      "bytes": 333,
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84"
+    }
+  },
+  "source_unchanged_during_run": true,
+  "started_at_utc": "2026-10-01T00:24:54Z",
+  "test_counts": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 139,
+    "skipped": 0,
+    "tests": 139,
+    "todo": 0
+  },
+  "test_file_count": 18
+}

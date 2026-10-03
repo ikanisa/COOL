@@ -1,0 +1,128 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T06:17:38.116232+00:00",
+  "actual_cases": 37,
+  "migrations": 209,
+  "source_inputs": 216,
+  "copied_files": 648,
+  "all_209_migrations_actual_NOSUPERUSER": true,
+  "authority_note": "Local postgres retains CREATE ROLE/CREATE DB/BYPASSRLS and trusted memberships. Explicit platform preparation precedes application migration1. Hosted authority parity unproved.",
+  "catalogs": [
+    {
+      "phase": "clean",
+      "boundary": "final",
+      "path": "ordinary_clean/final-effective-catalog.json",
+      "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c",
+      "canonical_sha256": "b7f6cedbfeac9561a771851ea33b1d641f70405c36c4a9106ea7bfc7c8327bab",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 209,
+      "counts": {
+        "roles": 30,
+        "types": 606,
+        "columns": 3756,
+        "indexes": 704,
+        "schemas": 38,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 369,
+        "functions": 902,
+        "relations": 997,
+        "extensions": 8,
+        "migrations": 209,
+        "constraints": 1720,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 9883,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    },
+    {
+      "phase": "populated",
+      "boundary": "predecessor",
+      "path": "ordinary_populated/predecessor-effective-catalog.json",
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d",
+      "canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 124,
+      "counts": {
+        "roles": 30,
+        "types": 308,
+        "columns": 2042,
+        "indexes": 360,
+        "schemas": 17,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 101,
+        "functions": 381,
+        "relations": 503,
+        "extensions": 8,
+        "migrations": 124,
+        "constraints": 712,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 4826,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    },
+    {
+      "phase": "populated",
+      "boundary": "final",
+      "path": "ordinary_populated/final-effective-catalog.json",
+      "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c",
+      "canonical_sha256": "b7f6cedbfeac9561a771851ea33b1d641f70405c36c4a9106ea7bfc7c8327bab",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 209,
+      "counts": {
+        "roles": 30,
+        "types": 606,
+        "columns": 3756,
+        "indexes": 704,
+        "schemas": 38,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 369,
+        "functions": 902,
+        "relations": 997,
+        "extensions": 8,
+        "migrations": 209,
+        "constraints": 1720,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 9883,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    }
+  ],
+  "preserved_projections": 18,
+  "source_drift": {},
+  "fresh_owned_container_absence": [
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_060b8e691e1c",
+      "absent": true,
+      "stderr": "Error response from daemon: No such container: collect_current_rehearsal_ordinary_clean_060b8e691e1c\n"
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_populated_19208dbed142",
+      "absent": true,
+      "stderr": "Error response from daemon: No such container: collect_current_rehearsal_ordinary_populated_19208dbed142\n"
+    }
+  ],
+  "current209_validator": {
+    "exit_code": 0,
+    "source_sha256": "cf5945321bdb688b3da0f2e605146a5ee9e020b5fa3ddf0cd0a86b16cf3939d3"
+  },
+  "full_BE08_closed": false,
+  "production_ready": false,
+  "remaining": [
+    "Domain/caller/owner mapping",
+    "Broader historical data and effective ACL preservation coverage",
+    "Committed predecessor backup/recovery and roll-forward",
+    "Hosted managed authority/runtime/provider acceptance"
+  ]
+}

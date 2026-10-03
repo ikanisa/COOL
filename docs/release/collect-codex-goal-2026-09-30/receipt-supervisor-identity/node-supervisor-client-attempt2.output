@@ -1,0 +1,39 @@
+✔ dedicated client and Edge verify real signed canonical bytes without operator credentials (291.47025ms)
+✔ key possession proof is explicit and creates no sender authority (4.996792ms)
+✔ client rejects send before signer or network (2.347625ms)
+✔ client rejects missing before signer or network (0.430792ms)
+✔ client rejects unknown before signer or network (0.45625ms)
+✔ client rejects invalid before signer or network (0.933875ms)
+✔ client rejects lookupMissing before signer or network (0.3675ms)
+✔ client rejects lookupOriginal before signer or network (0.361875ms)
+✔ client rejects null before signer or network (0.858583ms)
+✔ client rejects identity expired before signing (0.769333ms)
+✔ client rejects identity nearExpiry before signing (0.356542ms)
+✔ client rejects identity badKey before signing (0.297958ms)
+✔ client rejects identity badDate before signing (0.246583ms)
+✔ client rejects identity unknown before signing (0.110583ms)
+✔ local key mismatch never reaches endpoint (0.312875ms)
+✔ signature modification fails at real Edge verifier (1.548083ms)
+✔ unsafe or stale observation send preserves unknown outcome (96.88025ms)
+✔ unsafe or stale observation handled preserves unknown outcome (316.927458ms)
+✔ unsafe or stale observation finance preserves unknown outcome (6.912833ms)
+✔ unsafe or stale observation mode preserves unknown outcome (5.436334ms)
+✔ unsafe or stale observation destination preserves unknown outcome (7.513ms)
+✔ unsafe or stale observation expiredSample preserves unknown outcome (4.943792ms)
+✔ uncertain network outcome is never retried or replaced with a new UUID (1.072916ms)
+✔ signature timeout performs no HTTP request (23.050542ms)
+✔ response stream timeout keeps original request unresolved (33.40375ms)
+✔ manual lookup recorded retains original request and does not replay health (5.413459ms)
+✔ manual lookup not_recorded retains original request and does not replay health (2.333583ms)
+✔ manual lookup in_progress retains original request and does not replay health (1.719375ms)
+✔ lookup transport failure cannot be treated as a missing receipt (0.86175ms)
+✔ unrecognized server errors reveal no raw text (1.028125ms)
+✔ actual synthetic SQL health shape reaches client without timestamp renewal (3.511667ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1904.08975

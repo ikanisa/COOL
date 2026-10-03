@@ -1,4 +1,5 @@
 import '../models/collect_models.dart';
+import '../../core/data/exact_json_values.dart';
 
 const notificationPreferenceKeys = {
   'contribution_confirmations',
@@ -16,29 +17,12 @@ bool runtimeRevision(Object? value, {int minimum = 0}) =>
 
 bool runtimeReceiptTimestamp(Object? value) {
   if (value is! String) return false;
-  final match = RegExp(
-    r'^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,6})?(?:Z|[+-](\d{2}):(\d{2}))$',
-  ).firstMatch(value);
-  if (match == null) return false;
-  final parts = [for (var i = 1; i <= 6; i++) int.parse(match.group(i)!)];
-  final calendar = DateTime.utc(
-    parts[0],
-    parts[1],
-    parts[2],
-    parts[3],
-    parts[4],
-    parts[5],
-  );
-  return calendar.year == parts[0] &&
-      calendar.month == parts[1] &&
-      calendar.day == parts[2] &&
-      calendar.hour == parts[3] &&
-      calendar.minute == parts[4] &&
-      calendar.second == parts[5] &&
-      (match.group(7) == null ||
-          int.parse(match.group(7)!) <= 23 &&
-              int.parse(match.group(8)!) <= 59) &&
-      DateTime.tryParse(value) != null;
+  try {
+    exactJsonTimestamp(value, field: 'runtime receipt timestamp');
+    return true;
+  } on FormatException {
+    return false;
+  }
 }
 
 bool exactRuntimeKeys(Map<dynamic, dynamic> row, Set<String> expected) =>

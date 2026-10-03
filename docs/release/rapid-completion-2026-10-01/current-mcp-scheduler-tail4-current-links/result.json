@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "cases",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_scheduler_control.test.ts"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "current_input_drift": [],
+  "export_drift": [],
+  "capture_sha256": "665f922c1ab98918fbd83f82d7f8522dbd57dd2d28279dacb08b14bd9a0a157f",
+  "ended_at": "2026-10-01T14:19:44.247768+00:00"
+}

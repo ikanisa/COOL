@@ -1,0 +1,18 @@
+{
+  "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002043000_receipt_successor_execution.sql",
+  "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+  "identity": [
+    16777247,
+    17178132,
+    105502,
+    1790906145881161222,
+    1790906145881309473,
+    420,
+    1
+  ],
+  "first_job_origin_sha256": "3bee0ca12ebd6c1e42420eee3b001593276777a54a532120ecd100a44a1879f6",
+  "callback_archive_origin_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+  "current_matches_callback_archive_origin": true,
+  "current_SQL_executed": false,
+  "full_current_migration_chain_accepted": false
+}

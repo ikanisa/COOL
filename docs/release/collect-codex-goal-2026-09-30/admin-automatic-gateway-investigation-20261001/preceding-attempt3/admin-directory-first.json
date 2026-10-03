@@ -1,0 +1,35 @@
+{
+  "rows": [
+    {
+      "state": "granted",
+      "run_id": "a4abe82c-aa3b-44d0-ac98-7607efd107ae",
+      "device_id": "221bb315-060a-4b8e-a256-8a8a20b85b70",
+      "issued_at": "2026-10-01T17:30:54.593353Z",
+      "attempt_id": "f94d4f1a-72b9-4fc0-9676-d3aa00c2d8b1",
+      "expires_at": "2026-10-01T17:31:24.593353Z",
+      "receipt_id": "3be482e9-873e-478a-a444-3087edf3a983",
+      "updated_at": "2026-10-01T17:30:54.593353Z",
+      "principal_id": "48adb09d-ae74-4478-9e6f-ccceeabece5a",
+      "fence_version": 1,
+      "segment_count": 1,
+      "policy_revision": 2,
+      "grant_request_id": "c968a6d1-7817-4934-9dbe-7d188d4cf395",
+      "health_observation_id": "d2110549-a298-411f-8f73-4d075005f977"
+    }
+  ],
+  "limit": 1,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "available",
+  "device_id": "221bb315-060a-4b8e-a256-8a8a20b85b70",
+  "checked_at": "2026-10-01T17:31:00.544013Z",
+  "next_cursor": {
+    "issued_at": "2026-10-01T17:30:54.593353Z",
+    "attempt_id": "f94d4f1a-72b9-4fc0-9676-d3aa00c2d8b1"
+  },
+  "carrier_proof": false,
+  "scanned_count": 1,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "sample_valid_until": "2026-10-01T17:32:00.544013Z"
+}

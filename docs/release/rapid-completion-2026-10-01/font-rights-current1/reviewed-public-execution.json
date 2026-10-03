@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "--name=historical golden manifest covers every baseline exactly|public website compares historical desktop baseline",
+    "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/reviewed-public.machine.jsonl",
+    "test/goldens/collect_core_surfaces_golden_test.dart"
+  ],
+  "exit_code": 0,
+  "parent_exit_confirmed": true,
+  "process_group": 35295,
+  "seconds": 4.167,
+  "sha256": "5a592b6079c9faf9063045943aa186594d34ac185810cfd671007a058fcd79ca",
+  "termination_errors": [],
+  "timed_out": false
+}

@@ -1,0 +1,11 @@
+{
+  "actual_path": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure-20261001/email-source-binding.json",
+  "critical_tool_config_sdk_pin_checks_before_error": "passed",
+  "export_command_started_after_evidence_read_error": true,
+  "full_prerequisite_report_written": false,
+  "phase": "pre-export-evidence-binding",
+  "reason": "wrong_evidence_path",
+  "requested_path": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure/email-source-binding.json",
+  "scope": "Retained initial path failure; corrected fresh prerequisite read must pass before accepting capture or build.",
+  "status": "incomplete"
+}

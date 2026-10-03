@@ -1,0 +1,185 @@
+{
+  "android_gateway_selected": true,
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "candidate_manifest_sha256": "4d49758c617893d96740bebc7ec9f34beac783c4d6019daadf754ed6e851a4fc",
+  "evidence_build_report": "admin02-evidence-build.json",
+  "excluded_upstream_qa_fixture_count": 40,
+  "included_upstream_qa_fixture_count": 0,
+  "kind": "unapproved_snapshot_to_local_admin_artifacts",
+  "later_drift_report": "candidate02-later-current-drift.json",
+  "migration_count": 157,
+  "plain_build_report": "admin02-plain-build.json",
+  "production_ready": false,
+  "scope": "Exact retained source/artifact bindings with explicit current-tree drift; no reviewed/current production freeze",
+  "selected_scope_source_inputs": {
+    "contracts/collect-shadow-supervisor-v1.contract.md": {
+      "bytes": 6078,
+      "mode": 420,
+      "sha256": "19481c87093ac1c1d45ab80edf5e752c85ee3cd2dabd42f6d07bc7ebdf5cb754"
+    },
+    "contracts/collect-shadow-supervisor-v1.fixture.json": {
+      "bytes": 1241,
+      "mode": 420,
+      "sha256": "111a04468244ef0b70c118f7f6a5c1ec9ce74218b4db608c0ea7be836fcaf62f"
+    },
+    "contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json": {
+      "bytes": 8652,
+      "mode": 420,
+      "sha256": "d2e619cf344262e23e2ab40d571e50c74937203fde092b800756f67d49070954"
+    },
+    "contracts/collect-shadow-supervisor-v1.observed.fixture.json": {
+      "bytes": 2239,
+      "mode": 420,
+      "sha256": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87"
+    },
+    "contracts/collect-shadow-supervisor-v1.schema.json": {
+      "bytes": 26020,
+      "mode": 420,
+      "sha256": "bbc8173e6317975575e1e225fde285328fb50cb185fe4f1a642d82662347b854"
+    },
+    "lib/admin/core/admin_models.dart": {
+      "bytes": 10471,
+      "mode": 448,
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+    },
+    "lib/admin/core/admin_operation_tables.dart": {
+      "bytes": 27155,
+      "mode": 448,
+      "sha256": "5cfd920a7115c9fe6ea7cd921f6df893bfc05df4803930d4c3a0ef0854ccb8aa"
+    },
+    "lib/admin/core/admin_overview_components.dart": {
+      "bytes": 28760,
+      "mode": 448,
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+    },
+    "lib/admin/core/admin_overview_runtime.dart": {
+      "bytes": 34759,
+      "mode": 448,
+      "sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40"
+    },
+    "lib/admin/core/admin_receipt_overview.dart": {
+      "bytes": 4974,
+      "mode": 420,
+      "sha256": "6c5e3cace27247987f20c893b79035d39808d681a6b807d7729813abc5a5fb14"
+    },
+    "lib/admin/core/admin_reconciliation_models.dart": {
+      "bytes": 1919,
+      "mode": 420,
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    "lib/admin/core/admin_roster_models.dart": {
+      "bytes": 34658,
+      "mode": 420,
+      "sha256": "9289826c0d81b73dfa82ee7db39858aea16ad91f590bf09bfe3f39a061b292c3"
+    },
+    "lib/admin/core/admin_shadow_runs.dart": {
+      "bytes": 26195,
+      "mode": 420,
+      "sha256": "13ea07e079573fa0fc6ccc84ad35983f1e4836a9792f6cf81fdd8c50137206d4"
+    },
+    "lib/admin/core/admin_transaction_lifecycle.dart": {
+      "bytes": 3481,
+      "mode": 420,
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    "lib/admin/shared/components/admin_data_table.dart": {
+      "bytes": 19359,
+      "mode": 448,
+      "sha256": "c576ff90753838fc0cc5800efa7943354180d4a69eae43988cf9322c72cabf87"
+    },
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": {
+      "bytes": 12679,
+      "mode": 420,
+      "sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+    },
+    "supabase/migrations/20260930180000_operational_health_authority.sql": {
+      "bytes": 7435,
+      "mode": 420,
+      "sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747"
+    },
+    "supabase/migrations/20260930210000_shadow_supervisor_runs.sql": {
+      "bytes": 26516,
+      "mode": 420,
+      "sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424"
+    },
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "bytes": 2971,
+      "mode": 420,
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba"
+    },
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "mode": 420,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "mode": 420,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 9385,
+      "mode": 420,
+      "sha256": "9908b61b0aaa53b3e53ef4224df4f2bc7bbb7c02e1a5361c7b791b1d7a421a57"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "bytes": 1285,
+      "mode": 420,
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "bytes": 1143,
+      "mode": 420,
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "bytes": 7837,
+      "mode": 420,
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.ts": {
+      "bytes": 5247,
+      "mode": 420,
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    "tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "bytes": 10541,
+      "mode": 420,
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "bytes": 1748,
+      "mode": 420,
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "bytes": 5684,
+      "mode": 420,
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "bytes": 12412,
+      "mode": 420,
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "bytes": 5391,
+      "mode": 420,
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40"
+    }
+  },
+  "sms_provider_selected": false,
+  "snapshot": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20260930-release-tooling-02",
+  "source_file_count": 1688,
+  "source_manifest_sha256": "36671e1b1f27a61ed4286857539bab8907429158f879807ca040d6a7277e6a7e",
+  "source_snapshot_created_at_utc": "2026-09-30T21:00:18Z",
+  "status": "pass",
+  "total_source_bytes": 151719668
+}

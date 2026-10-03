@@ -1,0 +1,36 @@
+{
+  "observed_at_utc": "2026-10-01T22:31:15.233039+00:00",
+  "primary_sources_only": true,
+  "sources": [
+    {
+      "title": "Rwanda DPP Law, rights of data subjects, Article 23",
+      "url": "https://dpo.gov.rw/dpp-law/rights-of-the-data-subject",
+      "verified": "Primary HTML fetched HTTP200 and SHA-bound in primary-dpo-rights-fetch.json after web-tool timeout.",
+      "paraphrase": "Erasure is conditional on purpose, consent, objections or unlawful processing, subject to stated public-interest, research, legal-obligation and claims exceptions. Third parties must be told about requests to erase copies/links. The controller must inform the subject of erasure within 30 days of receipt. This investigation does not decide any particular record exemption."
+    },
+    {
+      "title": "Rwanda DPP Law, Articles 48-52",
+      "url": "https://dpo.gov.rw/dpp-law/sharing-transferstorage-and-retention-of-personal-data",
+      "verified": "Official DPO HTML read by web tool on 2026-10-01.",
+      "paraphrase": "Cross-border sharing requires an applicable statutory condition and contractual roles. Article 50 permits overseas storage only with the stated valid registration authorization. Article 52 ties retention to purpose with listed grounds for longer retention and requires destruction preventing intelligible reconstruction at its end. It supplies no single universal financial retention horizon."
+    },
+    {
+      "title": "Supabase official Auth user management",
+      "url": "https://supabase.com/docs/guides/auth/managing-user-data",
+      "verified": "Official documentation read by web tool on 2026-10-01.",
+      "paraphrase": "Auth hard deletion removes user, sessions and refresh capability, but issued JWTs remain valid until expiry; sensitive operations need a live-session check. Storage-object ownership can prevent Auth deletion until objects are deleted or reassigned. An application flag or temporary ban alone is not full account removal."
+    },
+    {
+      "title": "OpenAI API data controls",
+      "url": "https://developers.openai.com/api/docs/guides/your-data",
+      "verified": "Local request builder inspected first; official documentation read by web tool on 2026-10-01.",
+      "paraphrase": "Application-state controls and abuse-monitoring retention differ. Default content-containing abuse monitoring may last up to 30 days with stated exceptions. ZDR/MAM require approval and actual organization/project configuration; store:false does not establish these settings. Image/file safety review can retain flagged content even under those controls."
+    }
+  ],
+  "fetch_limits": [
+    "Web-tool DPO rights reopen timed out; direct bounded public TLS fetch succeeded and is separately preserved.",
+    "Official DPO PDF fetch and earlier incorrect HTML slug failed; no PDF retrieval or legal-clearance claim.",
+    "No authenticated provider, production, legal authority or customer file accessed."
+  ],
+  "use": "Technical operational design informed by official law/documentation; actual exemptions, schedule, contracts, registrations and owner decisions remain external governed inputs."
+}

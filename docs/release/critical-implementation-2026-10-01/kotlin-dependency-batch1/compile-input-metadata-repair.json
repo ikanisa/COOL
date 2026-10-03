@@ -1,0 +1,23 @@
+{
+  "all_names_match_isolated_package_config": true,
+  "all_nonroot_versions_match_frozen_pubspec_lock": true,
+  "copied_relative_path": ".dart_tool/package_graph.json",
+  "fields_present": [
+    "roots",
+    "packages",
+    "configVersion"
+  ],
+  "no_paths_credentials_or_private_configuration_in_metadata": true,
+  "package_count": 168,
+  "pubspec_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "pubspec_sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+  "reason": "Actual native compile attempt1 failed because isolated Flutter assembly needed generated package_graph.json. Reuse generated public dependency metadata with matching immutable pubspec and lock; no pub get or source edits.",
+  "recorded_utc": "2026-10-01T23:09:37.874266+00:00",
+  "row_fields_present": [
+    "name",
+    "version",
+    "dependencies",
+    "devDependencies"
+  ],
+  "source_public_generated_metadata_sha256": "b100222a6618c5ec5cad77806d61627d099c14857e11563ea43947cae2da20f1"
+}

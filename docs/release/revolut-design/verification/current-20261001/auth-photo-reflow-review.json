@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T17:51:53.601972+00:00",
+  "design_authority": "revolut-design",
+  "reviewer": "Codex implementation review",
+  "findings": [
+    {
+      "surface": "phone_confirmation",
+      "before": "At 3.2x the multiline label exceeded the painted stadium contour; real Inter geometry regression failed.",
+      "fix": "Center both labels; explicit 24px horizontal and 16px vertical padding preserves full scaled text inside the pill.",
+      "verification": "4 affected tests pass, including shape geometry and actual edit/confirm return values in both-theme consumers."
+    },
+    {
+      "surface": "group_photo_filter_labels",
+      "before": "At 3.2x the Theme floating label overlapped the preceding mode chip by 9.25px; scoped real Inter geometry assertion failed.",
+      "fix": "Both floating-filter gaps grow with the current text scaler, preserving the ordinary 12px spacing at 1x.",
+      "verification": "12 affected tests pass, including measured label clearance, search/select/confirm, empty recovery, narrow/landscape/keyboard layouts and offline saved-photo rendering."
+    }
+  ],
+  "inputs_sha256": {
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+    "test/features/auth_confirmation_reflow_test.dart": "5ece0e187dfc72b2ca03c06c8154f9a57db7569c5a122c6f25ff6f94cfb25260",
+    "test/features/photo_filter_label_spacing_test.dart": "b9f15a719592aebb43c836b4af5e406fdd0b8821f3ee9bef362cfed8566d1239"
+  },
+  "logs": [
+    {
+      "path": ".cache/revolut-design-20260930/auth-confirmation-before.log",
+      "sha256": "069fdb9e8a80141130f803988997b2a1970bc681765973f64752b249779f8481"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/auth-confirmation-final.log",
+      "sha256": "18dbe6afc5ff78ceb7a773d3541da769f4583931e1d94563d15e22baa97f2bb4"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/photo-label-before.log",
+      "sha256": "c67839b125cef8e75b35b1421e6757371b3e36e317e921e7301a657993bf92a1"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/photo-label-final.log",
+      "sha256": "45ea29c3746aa5d9987e7707915cfbdbd7f7cc2d24f8dafaa707a0de254f611f"
+    }
+  ],
+  "source_anchors": [
+    "references/component-contracts.md",
+    "references/mobile-patterns.md",
+    "references/pwa-and-accessibility.md"
+  ],
+  "comparison_kind": "Existing selected native sheet/control patterns with explicit enlarged-text adaptation",
+  "open_material_findings": [],
+  "analysis": {
+    "path": ".cache/revolut-design-20260930/auth-photo-final-analysis.log",
+    "result": "No issues found",
+    "sha256": "48883e3c71f03502e50b52fc41b7e8f19d69f869f757a7605d8ed9a9c2c4c64e"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "action": "operations.complete_run",
+      "source": "receipt_operations_service_request",
+      "actor_id": null,
+      "event_id": "10109e13-0c86-d86a-b0a8-596f6c0a2781",
+      "revision": null,
+      "request_id": "8493ef98-4250-4364-98c2-891f3a480cb3",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:46:55.531358Z",
+      "fence_version": 1
+    },
+    {
+      "action": "operations.reconcile_backlog",
+      "source": "receipt_operations_service_request",
+      "actor_id": null,
+      "event_id": "c86c7be4-b475-83ec-f813-d38eee04ee26",
+      "revision": null,
+      "request_id": "79594d40-9829-4904-9666-e842e780c1cf",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:46:55.456010Z",
+      "fence_version": 1
+    },
+    {
+      "action": "operations.ensure_receipt",
+      "source": "receipt_operations_service_request",
+      "actor_id": null,
+      "event_id": "be319cdc-66b2-9479-09e9-d537f942a512",
+      "revision": null,
+      "request_id": "f7a90171-6cb1-40fc-a05a-f19b414488a8",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:46:55.363945Z",
+      "fence_version": 1
+    },
+    {
+      "action": "operations.list_events",
+      "source": "receipt_operations_service_request",
+      "actor_id": null,
+      "event_id": "eae96445-c073-7ad0-8511-5fb1fba54704",
+      "revision": null,
+      "request_id": "80256c19-e199-47d4-8414-c34d8441e392",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:46:55.288027Z",
+      "fence_version": 1
+    },
+    {
+      "action": "operations.begin_run",
+      "source": "receipt_operations_service_request",
+      "actor_id": null,
+      "event_id": "5c68ee4c-6618-009e-0070-ecaa867e2a68",
+      "revision": null,
+      "request_id": "b2f2a156-72ed-478e-8301-b6ae4f35dd91",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:46:55.209014Z",
+      "fence_version": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "7168565d-69e8-4415-aa47-c59123ecaa3e",
+  "checked_at": "2026-10-02T00:47:02.965905Z",
+  "entity_kind": "receipt_operation_run",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:48:02.965905Z",
+  "historical_shadow_audit_backfilled": false
+}

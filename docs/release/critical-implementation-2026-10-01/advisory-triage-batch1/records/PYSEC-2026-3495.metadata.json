@@ -1,0 +1,18 @@
+{
+  "authentication": "none",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Thu, 01 Oct 2026 21:21:02 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.osv.dev/v1/vulns/PYSEC-2026-3495",
+  "requested_at": "2026-10-01T21:21:02.219346+00:00",
+  "response_bytes": 7141,
+  "response_path": "records/PYSEC-2026-3495.response",
+  "response_sha256": "358088555bad8210d801b9ba12d8b17b720fc2332d5349bc1c11e86b7735e66b",
+  "response_url": "https://api.osv.dev/v1/vulns/PYSEC-2026-3495",
+  "retrieved_at": "2026-10-01T21:21:02.962770+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

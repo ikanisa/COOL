@@ -1,0 +1,194 @@
+{
+  "generated_at": "2026-10-01T17:33:16Z",
+  "status": "blocked",
+  "manifest": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/RELEASE_APPROVALS.json",
+  "blocker_keys": [
+    "android_release_signing_review",
+    "release_owner_signoff"
+  ],
+  "failure_keys": [
+
+  ],
+  "approvals": {
+    "product_signoff": {
+      "approved": true,
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-06-21T12:54:05Z",
+      "evidence_reference": "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      "evidence_reference_valid": true,
+      "evidence_reference_in_scope": true,
+      "suggested_evidence_reference": "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      "suggested_evidence_reference_valid": true,
+      "current_artifact_version": null,
+      "approved_artifact_version": null,
+      "artifact_version_current": null,
+      "approved_android_artifact_sha256": null,
+      "current_android_artifacts": null,
+      "android_artifact_digests_current": null,
+      "approval_after_android_artifacts": null,
+      "sensitive_metadata_hits": [
+
+      ],
+      "blockers": [
+
+      ]
+    },
+    "android_sms_access_uat": {
+      "approved": true,
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-06-21T12:54:05Z",
+      "evidence_reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      "evidence_reference_valid": true,
+      "evidence_reference_in_scope": true,
+      "suggested_evidence_reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      "suggested_evidence_reference_valid": true,
+      "current_artifact_version": null,
+      "approved_artifact_version": null,
+      "artifact_version_current": null,
+      "approved_android_artifact_sha256": null,
+      "current_android_artifacts": null,
+      "android_artifact_digests_current": null,
+      "approval_after_android_artifacts": null,
+      "sensitive_metadata_hits": [
+
+      ],
+      "blockers": [
+
+      ]
+    },
+    "android_release_signing_review": {
+      "approved": false,
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-08-09T17:54:11Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "evidence_reference_valid": true,
+      "evidence_reference_in_scope": true,
+      "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "suggested_evidence_reference_valid": true,
+      "current_artifact_version": "1.2.4+23",
+      "approved_artifact_version": "1.2.2+14",
+      "artifact_version_current": false,
+      "approved_android_artifact_sha256": {
+        "apk": "abf5a610b6dee60227a33aa6de534622b130b0115d495a95df7a4146580dbe6f",
+        "aab": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f"
+      },
+      "current_android_artifacts": {
+        "apk": {
+          "path": "build/app/outputs/flutter-apk/app-production-release.apk",
+          "exists": false,
+          "sha256": null,
+          "mtime": null
+        },
+        "aab": {
+          "path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
+          "exists": false,
+          "sha256": null,
+          "mtime": null
+        }
+      },
+      "android_artifact_digests_current": false,
+      "approval_after_android_artifacts": null,
+      "sensitive_metadata_hits": [
+
+      ],
+      "blockers": [
+        "stale_artifact_version",
+        "android_release_artifacts_missing"
+      ]
+    },
+    "ios_release_scope": {
+      "approved": true,
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-08-08T12:53:00Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "evidence_reference_valid": true,
+      "evidence_reference_in_scope": true,
+      "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "suggested_evidence_reference_valid": true,
+      "current_artifact_version": null,
+      "approved_artifact_version": null,
+      "artifact_version_current": null,
+      "approved_android_artifact_sha256": null,
+      "current_android_artifacts": null,
+      "android_artifact_digests_current": null,
+      "approval_after_android_artifacts": null,
+      "sensitive_metadata_hits": [
+
+      ],
+      "blockers": [
+
+      ]
+    },
+    "release_owner_signoff": {
+      "approved": false,
+      "status": "pending",
+      "decision": "PENDING",
+      "reviewer": null,
+      "signed_at": null,
+      "evidence_reference": null,
+      "evidence_reference_valid": false,
+      "evidence_reference_in_scope": null,
+      "suggested_evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+      "suggested_evidence_reference_valid": true,
+      "current_artifact_version": "1.2.4+23",
+      "approved_artifact_version": "1.2.2+14",
+      "artifact_version_current": false,
+      "approved_android_artifact_sha256": {
+      },
+      "current_android_artifacts": {
+        "apk": {
+          "path": "build/app/outputs/flutter-apk/app-production-release.apk",
+          "exists": false,
+          "sha256": null,
+          "mtime": null
+        },
+        "aab": {
+          "path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
+          "exists": false,
+          "sha256": null,
+          "mtime": null
+        }
+      },
+      "android_artifact_digests_current": false,
+      "approval_after_android_artifacts": null,
+      "sensitive_metadata_hits": [
+
+      ],
+      "blockers": [
+        "status_decision",
+        "reviewer",
+        "signed_at",
+        "evidence_reference",
+        "stale_artifact_version",
+        "android_release_artifacts_missing",
+        "android_artifact_sha256"
+      ]
+    }
+  },
+  "checks": {
+    "artifact_version": {
+      "status": "pass",
+      "message": "Current release artifact version was read from pubspec.yaml.",
+      "current_artifact_version": "1.2.4+23"
+    },
+    "approval_packet": {
+      "status": "pass",
+      "message": "Approval manifest approval_packet reference exists.",
+      "reference": "docs/release/RELEASE_APPROVAL_PACKET.md"
+    },
+    "qa_summary": {
+      "status": "pass",
+      "message": "Approval manifest qa_summary reference exists.",
+      "reference": "docs/release/RELEASE_APPROVAL_PACKET.md"
+    }
+  },
+  "secret_handling": "This gate validates approval metadata and evidence-reference existence only. Do not include secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data."
+}

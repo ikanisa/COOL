@@ -1,0 +1,369 @@
+{
+  "tracked_paths": 10981,
+  "untracked_paths": 296509,
+  "roots": {
+    "lib": {
+      "files_present": 269,
+      "logical_bytes": 2505771,
+      "missing_paths": 0,
+      "untracked": 66,
+      "largest": [
+        [
+          65996,
+          "lib/shared/repositories/collect_repository.dart"
+        ],
+        [
+          56694,
+          "lib/admin/core/admin_roster_import.dart"
+        ],
+        [
+          46784,
+          "lib/admin/core/admin_runtime.dart"
+        ],
+        [
+          44244,
+          "lib/admin/admin_shell.dart"
+        ]
+      ]
+    },
+    "test": {
+      "files_present": 294,
+      "logical_bytes": 5237279,
+      "missing_paths": 0,
+      "untracked": 128,
+      "largest": [
+        [
+          1444404,
+          "test/goldens/baselines/public_home_desktop.png"
+        ],
+        [
+          375137,
+          "test/goldens/baselines/member_groups_dark.png"
+        ],
+        [
+          183122,
+          "test/goldens/baselines/admin_overview_desktop.png"
+        ],
+        [
+          86703,
+          "test/goldens/baselines/member_home_dark.png"
+        ]
+      ]
+    },
+    "integration_test": {
+      "files_present": 20,
+      "logical_bytes": 150575,
+      "missing_paths": 0,
+      "untracked": 2,
+      "largest": [
+        [
+          39577,
+          "integration_test/mobile_material_state_matrix_device_uat_test.dart"
+        ],
+        [
+          17236,
+          "integration_test/mobile_route_matrix_device_uat_test.dart"
+        ],
+        [
+          9631,
+          "integration_test/mobile_performance_device_uat_test.dart"
+        ],
+        [
+          9301,
+          "integration_test/mobile_native_keyboard_review_app.dart"
+        ]
+      ]
+    },
+    "supabase": {
+      "files_present": 277,
+      "logical_bytes": 2879301,
+      "missing_paths": 0,
+      "untracked": 63,
+      "largest": [
+        [
+          141383,
+          "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql"
+        ],
+        [
+          97254,
+          "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql"
+        ],
+        [
+          63024,
+          "supabase/migrations/20260930150000_runtime_control_governance.sql"
+        ],
+        [
+          56432,
+          "supabase/migrations/202605230001_collect_baseline.sql"
+        ]
+      ]
+    },
+    "scripts": {
+      "files_present": 576,
+      "logical_bytes": 6116500,
+      "missing_paths": 0,
+      "untracked": 154,
+      "largest": [
+        [
+          89916,
+          "scripts/public_static_site_build.rb"
+        ],
+        [
+          71456,
+          "scripts/tests/data_correctness_sql_positive_history_uat.py"
+        ],
+        [
+          71297,
+          "scripts/tests/roster_fresh_auth_concurrency_uat.rb"
+        ],
+        [
+          61611,
+          "scripts/supabase_production_readiness.sh"
+        ]
+      ]
+    },
+    "docs": {
+      "files_present": 305252,
+      "logical_bytes": 30939572481,
+      "missing_paths": 0,
+      "untracked": 295923,
+      "largest": [
+        [
+          96528208,
+          "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native4/prior-app-production-release.apk"
+        ],
+        [
+          96528208,
+          "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native4/prior-app-production-release-unsigned.apk"
+        ],
+        [
+          96528208,
+          "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native3/prior-app-production-release.apk"
+        ],
+        [
+          96528208,
+          "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native3/prior-app-production-release-unsigned.apk"
+        ]
+      ]
+    },
+    "third_party": {
+      "files_present": 167,
+      "logical_bytes": 1009582,
+      "missing_paths": 0,
+      "untracked": 1,
+      "largest": [
+        [
+          59198,
+          "third_party/gotrue/lib/src/gotrue_client.dart"
+        ],
+        [
+          51739,
+          "third_party/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m"
+        ],
+        [
+          51515,
+          "third_party/firebase_messaging/macos/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m"
+        ],
+        [
+          50020,
+          "third_party/firebase_messaging/CHANGELOG.md"
+        ]
+      ]
+    },
+    "assets": {
+      "files_present": 198,
+      "logical_bytes": 126212781,
+      "missing_paths": 0,
+      "untracked": 0,
+      "largest": [
+        [
+          2733099,
+          "assets/group_covers/rwanda/source/rw-32-shared-water-point-v1.png"
+        ],
+        [
+          2714871,
+          "assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png"
+        ],
+        [
+          2714009,
+          "assets/group_covers/rwanda/source/rw-34-tree-planting-neighbours-v1.png"
+        ],
+        [
+          2616339,
+          "assets/group_covers/rwanda/source/rw-09-wedding-committee-v2.png"
+        ]
+      ]
+    },
+    "tools": {
+      "files_present": 118,
+      "logical_bytes": 913338,
+      "missing_paths": 0,
+      "untracked": 75,
+      "largest": [
+        [
+          49712,
+          "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts"
+        ],
+        [
+          39201,
+          "tools/collect-notification-mcp/src/unattended_enrollment.test.ts"
+        ],
+        [
+          30374,
+          "tools/collect-notification-mcp/src/unattended_journal.test.ts"
+        ],
+        [
+          28630,
+          "tools/collect-notification-mcp/src/unattended_retention.test.ts"
+        ]
+      ]
+    },
+    "web": {
+      "files_present": 26,
+      "logical_bytes": 4653468,
+      "missing_paths": 1,
+      "untracked": 1,
+      "largest": [
+        [
+          1998002,
+          "web/public/app-screens/groups-a31269baf19b.png"
+        ],
+        [
+          319387,
+          "web/public/app-screens/terms-71f5644e1234.png"
+        ],
+        [
+          318848,
+          "web/public/photography/community-savings-acf6c9fee7c7.webp"
+        ],
+        [
+          313941,
+          "web/public/app-screens/privacy-57252d6e00f7.png"
+        ]
+      ]
+    },
+    "android": {
+      "files_present": 91,
+      "logical_bytes": 774157,
+      "missing_paths": 0,
+      "untracked": 40,
+      "largest": [
+        [
+          103231,
+          "android/app/src/main/res/drawable/collect_launcher_icon.png"
+        ],
+        [
+          57088,
+          "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt"
+        ],
+        [
+          45457,
+          "android/gradle/wrapper/gradle-wrapper.jar"
+        ],
+        [
+          31691,
+          "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt"
+        ]
+      ]
+    },
+    "ios": {
+      "files_present": 50,
+      "logical_bytes": 486784,
+      "missing_paths": 0,
+      "untracked": 0,
+      "largest": [
+        [
+          283450,
+          "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png"
+        ],
+        [
+          60963,
+          "ios/Runner.xcodeproj/project.pbxproj"
+        ],
+        [
+          16092,
+          "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png"
+        ],
+        [
+          14380,
+          "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png"
+        ]
+      ]
+    },
+    "fastlane": {
+      "files_present": 44,
+      "logical_bytes": 6257323,
+      "missing_paths": 0,
+      "untracked": 0,
+      "largest": [
+        [
+          587499,
+          "fastlane/metadata/android/en-US/images/tenInchScreenshots/01-home.jpg"
+        ],
+        [
+          542254,
+          "fastlane/metadata/android/en-US/images/tenInchScreenshots/02-groups.jpg"
+        ],
+        [
+          496113,
+          "fastlane/metadata/android/en-US/images/featureGraphic.png"
+        ],
+        [
+          421423,
+          "fastlane/screenshots/en-GB/iphone65-03-bank-details.png"
+        ]
+      ]
+    },
+    "contracts": {
+      "files_present": 55,
+      "logical_bytes": 249351,
+      "missing_paths": 0,
+      "untracked": 55,
+      "largest": [
+        [
+          29644,
+          "contracts/collect-android-dispatch-v2/schema.json"
+        ],
+        [
+          26020,
+          "contracts/collect-shadow-supervisor-v1.schema.json"
+        ],
+        [
+          21763,
+          "contracts/collect-exception-inbox-audit-v2.schema.json"
+        ],
+        [
+          17574,
+          "contracts/collect-android-dispatch-v2/validate_schema.py"
+        ]
+      ]
+    }
+  },
+  "dart_over_budget": [
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "lines": 1237
+    },
+    {
+      "path": "lib/admin/core/admin_roster_import.dart",
+      "lines": 1554
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "lines": 1438
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository.dart",
+      "lines": 1830
+    }
+  ],
+  "symlinks": [
+    "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/private-derivative/tools/collect-notification-mcp/node_modules",
+    "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/private-derivative/supabase"
+  ],
+  "release_evidence": {
+    "files": 305074,
+    "logical_bytes": 30936944971,
+    "source_snapshot_files": 28494
+  }
+}

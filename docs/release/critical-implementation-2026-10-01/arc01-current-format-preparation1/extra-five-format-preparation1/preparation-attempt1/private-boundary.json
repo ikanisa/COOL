@@ -1,0 +1,21 @@
+{
+  "expected_current_three_file_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+    "test/admin_receipt_history_labels_capture_test.dart": "237fb482065317736b3dafcb9b4f37c76da628dbd40c9bf6f185c6124c5f5baa",
+    "test/admin_sender_retention_browser_test.dart": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+    "test/admin_sender_retention_controller_test.dart": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+    "test/admin_sender_retention_models_test.dart": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0"
+  },
+  "formatter_language_version": "3.12",
+  "private_candidate_correction_paths": [
+    "lib/admin/core/admin_receipt_repository.dart",
+    "test/admin_receipt_history_labels_capture_test.dart",
+    "test/admin_sender_retention_browser_test.dart",
+    "test/admin_sender_retention_controller_test.dart",
+    "test/admin_sender_retention_models_test.dart"
+  ],
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-current-extra5-2b84032894104249a54d126cb477ca70",
+  "required_original_failed_packet_sha256": "c60ed37a21d9b59f5627d948cdc93ea3d5d69131c7f5331fa3120371ada3150e",
+  "root_checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_source_edits_authorized": false
+}

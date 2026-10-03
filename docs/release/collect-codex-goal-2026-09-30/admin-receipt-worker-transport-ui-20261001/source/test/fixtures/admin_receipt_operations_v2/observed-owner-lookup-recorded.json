@@ -1,0 +1,17 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "mode": "Shadow",
+    "revision": 2,
+    "expires_at": "2026-10-01T11:38:04.683095Z",
+    "request_id": "182cc7b9-88ca-45f8-9b70-37a807e2f095",
+    "recorded_at": "2026-10-01T11:36:24.860440Z",
+    "emergency_stop": false,
+    "contract_version": 2
+  },
+  "checked_at": "2026-10-01T11:36:24.949707Z",
+  "expires_at": "2026-10-01T11:38:04.683095Z",
+  "request_id": "182cc7b9-88ca-45f8-9b70-37a807e2f095",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T11:37:24.949707Z"
+}

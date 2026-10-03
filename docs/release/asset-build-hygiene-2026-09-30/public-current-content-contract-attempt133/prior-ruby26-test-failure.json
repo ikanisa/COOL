@@ -1,0 +1,9 @@
+{
+  "status": "fail",
+  "exit_code": 1,
+  "source_sha256": {
+    "scripts/qa/public_content_contract.rb": "69eff95c6ae721e719aa724e43bfa718cad3ed21f87074be162cd4381ab6b4b7",
+    "scripts/tests/public_content_contract_test.rb": "9fe7e9085ca20c308b6d17931dbabc9a265d81a424df19b21c2322b92e2e1413"
+  },
+  "reason": "Installed Ruby2.6 lacks Enumerable.filter_map; prior source and actual failure retained."
+}

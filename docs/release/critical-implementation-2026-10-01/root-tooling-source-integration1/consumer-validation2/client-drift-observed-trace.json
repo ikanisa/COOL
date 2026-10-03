@@ -1,0 +1,213 @@
+{
+  "exit_code": 1,
+  "stderr": "[supabase-deploy][FAIL] PG_CLIENT_CHANGED_AFTER_ADMISSION\n",
+  "calls": [
+    [
+      "projects",
+      "list",
+      "-o",
+      "json"
+    ],
+    [
+      "link",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "db",
+      "push",
+      "--dry-run",
+      "--skip-vault"
+    ]
+  ],
+  "events": [
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "projects",
+        "list",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "link",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "db",
+        "push",
+        "--dry-run",
+        "--skip-vault"
+      ]
+    }
+  ],
+  "controller_receipt": {
+    "approval_id": "0ed38041-51a8-4c04-9dbd-111eb7ff249a",
+    "approval_sha256": "92b9043330985d85d42a0a8f3ee9d7c759fa8dee4dd0ad84110b2343f331b7fe",
+    "approved_operations": [
+      "migrations",
+      "retired_functions",
+      "edge_functions",
+      "strict_production_readiness"
+    ],
+    "attempt_id": "edf10916-3c05-4aaa-8f85-94804c5e12ff",
+    "automatic_retries": 0,
+    "backend_manifest_sha256": "f421d445edc8ede88d2b394e71db8d42723d774083aaea3f882c79a2ab701840",
+    "candidate_manifest_sha256": "e33a738c549c54feef7f1ffc17b9cf50a5ea49978d6193302082961c90303e65",
+    "error": "PG_CLIENT_CHANGED_AFTER_ADMISSION",
+    "execution": {
+      "runtime_metadata": "generated target-bound link plus explicitly validated CLI cache names",
+      "source": "private verified copy of reviewed export",
+      "worktree_executed": false
+    },
+    "finished_at_utc": "2026-10-02T07:12:57.595990+00:00",
+    "human_identity_authenticated": false,
+    "kind": "collect_backend_delivery_receipt",
+    "migration_versions_before": [],
+    "operations": [
+      {
+        "elapsed_seconds": 0.075,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "edge_inventory",
+        "output_bytes": 97,
+        "output_sha256": "cde3cadd5b8dad14527950d5b8f43b799562a6e77a2f86ffdcb4e83988f38109",
+        "started_at_utc": "2026-10-02T07:12:48.610936+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.005,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_validation",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:12:49.199106+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.039,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "frozen_cached_handler_closure",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:12:49.715744+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.561,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:12:50.264136+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "project_visibility",
+        "output_bytes": 33,
+        "output_sha256": "56aa77eec8d16c0bd4601497e6d7594a93c082acefe2953b129eccfaabc8b01b",
+        "started_at_utc": "2026-10-02T07:12:53.354720+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "isolated_target_link",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:12:53.961177+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.111,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_pre_readback",
+        "output_bytes": 3,
+        "output_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "started_at_utc": "2026-10-02T07:12:54.587142+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.073,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_dry_run",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:12:57.226360+00:00",
+        "status": "acknowledged"
+      }
+    ],
+    "production_release_accepted": false,
+    "readback": {
+      "postgresql": {
+        "client_sha256": "9ca00291fda9ace9944905369d4711030bb42f00008c7e3dfb7fb4b5b2046abe",
+        "client_version": "17.6",
+        "human_review_authenticated": false,
+        "manifest_sha256": "b62cffddda212a8b4e27e34dd722d07abc6b91d68c751ca3c3e32fa61c627adf",
+        "observed_after_target_bound_read": true,
+        "operation": "migration",
+        "server_version_num": 170006
+      },
+      "reconciliation": "not_needed; no mutation attempted"
+    },
+    "schema_version": 1,
+    "started_at_utc": "2026-10-02T07:12:45.956793+00:00",
+    "status": "partial_or_failed",
+    "target": {
+      "environment": "production",
+      "project_ref": "abcdefghijklmnopqrst",
+      "url": "https://abcdefghijklmnopqrst.supabase.co"
+    },
+    "toolchain": {
+      "deno": {
+        "binary_sha256": "ac9da3a80bf94255aabed114f294aa83ec5dc7ae694395448f4de5644645a80b",
+        "version": "2.5.6"
+      },
+      "postgresql": {
+        "manifest_sha256": "b62cffddda212a8b4e27e34dd722d07abc6b91d68c751ca3c3e32fa61c627adf"
+      },
+      "supabase": {
+        "binary_sha256": "7483e49e5f433973ce491795564417c7640511e58935ba0ebb6491dce19251a6",
+        "version": "2.114.0"
+      },
+      "supabase_go": {
+        "binary_sha256": "56c064702b1c61b402fae12bd5551bf335d4e81195e20f39f41cdbe6737c61fa",
+        "version": "2.114.0"
+      }
+    }
+  },
+  "capture_position": "inside test body, before unittest cleanups",
+  "synthetic_target_and_approval_only": true
+}

@@ -1,0 +1,49 @@
+[
+    {
+        "Id": "sha256:9f7337c32d1c03ade6f785fb71e018c02cce33b8b88a2c14e3c8edae1328935e",
+        "RepoTags": [
+            "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800:proof2"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-02T00:31:06.720670676Z",
+        "Config": {
+            "User": "arc01",
+            "Env": [
+                "PATH=/opt/flutter/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "WorkingDir": "/work/checkout",
+            "Labels": {
+                "com.collect.arc01.owner": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 198347490,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/xtvyiir3tdlv1fi81y9ucpqff/diff:/var/lib/docker/overlay2/44nb4bo0rmqkx7ep2p5gnk985/diff:/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/fedos17bzrjl7e6vvkwf9i84q/merged",
+                "UpperDir": "/var/lib/docker/overlay2/fedos17bzrjl7e6vvkwf9i84q/diff",
+                "WorkDir": "/var/lib/docker/overlay2/fedos17bzrjl7e6vvkwf9i84q/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:65e5d715ea720349e6475f91651a0956279fc295a45fd73aa04f1cec046281a1",
+                "sha256:131c429c1ae9a708e7814e27265368d223f32cad5a17218bee171c10b8c3bb50",
+                "sha256:e3e432c0d298da1be38479995b426352a1733a97ee6373332278ea67b39c102e",
+                "sha256:b28704f83d8ec34f9a17a1878e3426e9ee2ff49d56f6328b071a5161eab2fda7"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-02T00:31:07.199018301Z"
+        }
+    }
+]

@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "status": "private_unapplied_proposal",
+  "prepared_at_utc": "2026-10-02T14:14:26.447056+00:00",
+  "inputs": "source-fences.json",
+  "ledger": {
+    "path": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+    "preserve_latest_checkpoint_as": "previous_checkpoint_before_update8",
+    "replace_latest_checkpoint_from": "checkpoint8.json",
+    "replace_captured_at_utc": "2026-10-02T14:14:26.447056+00:00",
+    "replace_candidate_status": "Original app/refactor/backend/SQL/native8 results retain exact captured scope. Current ARC03 and additive mapper tests pass; current209 map1095/668 preserves127 gaps. Reviewed Android fixes/current2563 source are unapproved; attempt8 stops at private probe and retry9 real graphs/AAB are pending. PD12 final index review remains pending. No package/release acceptance.",
+    "apply_item_updates_from": "ledger-item-updates.json",
+    "append_verified_current_readback_entries_without_rewriting_old_results": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/packet-files.json",
+        "sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/readback.json",
+        "sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/readback.json",
+        "sha256": "cd695eae9bd74b34fdd0910c67d709b13f38479e1d0fe9dc511f87ee64510a0e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/packet-files.json",
+        "sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readback.json",
+        "sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readability-correction1/erratum.json",
+        "sha256": "c38d4f50f73d40364233e1fa88553522d801779637d5d74e1fcf98cae64f92a9"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+        "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+        "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback7/readback.json",
+        "sha256": "2516e105405bafdc3053f52d86479dd195e31507406d7961cbd31f83bf28a74e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation7/packet-files.json",
+        "sha256": "d36422e5bedfed5295ccd09cf423c7fc15163b0da5dc701644059eed34499d44"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback8/readback.json",
+        "sha256": "88f503a1ef6cc96ec15dfe38fedc304e19f30613439010ab7655a86ad14f6b9b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8/packet-files.json",
+        "sha256": "281d1eade6d8728623a0108bc88bc68962e8b3345a75c6b157eb046fd3aa6cd6"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+        "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/current-repo-APP-difference.json",
+        "sha256": "471e4a30b4db4477a93e5670f14c9114a42ad5dbd4efe113b7b8fb8ae5cf3ef5"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+        "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/scripts-applied.json",
+        "sha256": "cc8d0687644b1dbe39d532a5ba8d4c2389594559dbe0dd78b98680533d4fab91"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/maintained-tests.json",
+        "sha256": "6195a9c0bdb8b65c03e863ef6393ecb9ea6ab57acb5a4963703cd235b1448e2c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.json",
+        "sha256": "75d3ef4e408db0718b63aa28420c7d928c80c0ba23fe2d462e9a6ac4a1240ef2"
+      }
+    ]
+  },
+  "legacy_extensions": {
+    "paths": [
+      "docs/release/production-remaining-tasks-2026-09-30.json",
+      "docs/release/local-implementation-register-2026-09-30.json"
+    ],
+    "pointer": "/critical_review_implementation_extension",
+    "preserve_latest_checkpoint_as": "previous_checkpoint_before_update8",
+    "replace_latest_checkpoint_from": "checkpoint8.json",
+    "captured_at_utc": "2026-10-02T14:14:26.447056+00:00",
+    "sha256": "ROOT_COMPUTES_FROM_FINAL_LEDGER_BYTES",
+    "append_unique_latest_scoped_evidence": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/packet-files.json",
+        "sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/readback.json",
+        "sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/readback.json",
+        "sha256": "cd695eae9bd74b34fdd0910c67d709b13f38479e1d0fe9dc511f87ee64510a0e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/packet-files.json",
+        "sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readback.json",
+        "sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readability-correction1/erratum.json",
+        "sha256": "c38d4f50f73d40364233e1fa88553522d801779637d5d74e1fcf98cae64f92a9"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+        "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+        "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback7/readback.json",
+        "sha256": "2516e105405bafdc3053f52d86479dd195e31507406d7961cbd31f83bf28a74e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation7/packet-files.json",
+        "sha256": "d36422e5bedfed5295ccd09cf423c7fc15163b0da5dc701644059eed34499d44"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback8/readback.json",
+        "sha256": "88f503a1ef6cc96ec15dfe38fedc304e19f30613439010ab7655a86ad14f6b9b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8/packet-files.json",
+        "sha256": "281d1eade6d8728623a0108bc88bc68962e8b3345a75c6b157eb046fd3aa6cd6"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+        "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/current-repo-APP-difference.json",
+        "sha256": "471e4a30b4db4477a93e5670f14c9114a42ad5dbd4efe113b7b8fb8ae5cf3ef5"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+        "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/scripts-applied.json",
+        "sha256": "cc8d0687644b1dbe39d532a5ba8d4c2389594559dbe0dd78b98680533d4fab91"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/maintained-tests.json",
+        "sha256": "6195a9c0bdb8b65c03e863ef6393ecb9ea6ab57acb5a4963703cd235b1448e2c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.json",
+        "sha256": "75d3ef4e408db0718b63aa28420c7d928c80c0ba23fe2d462e9a6ac4a1240ef2"
+      }
+    ],
+    "specialist_findings_closed": 6,
+    "finding_count": 40,
+    "current_integration_note": "ARC03 manifest probes locally verified; original native scope retained, AAB7 R8 failure/attempt8 probe failure preserved. Two reviewed Gradle fixes/new unapproved APP/current2563 source await corrected probe/graphs/AAB retry9. OSV157 scoped query has no known records. PD12 final index/root review pending.",
+    "current_schema_progress_note": "Additive mapper57 tests pass; current209 generation/independent verify1095 inputs/668 sources/718 callers;127 gaps and34 reviews/37 candidates exact. Eight position-only shifts; new index script adds no caller. BE02 route/policy/custody pending/uninstalled.",
+    "legacy_arrays_and_non_extension_fields_unchanged": true
+  },
+  "markdown_updates": "markdown-update-plan.json",
+  "root_integration_steps": [
+    "Verify7 current input hashes and all named evidence leaf hashes; drift requires rebase.",
+    "Preserve original six/doc bytes and old latest checkpoint history before writes.",
+    "Apply only reviewed field/paragraph deltas to in-memory copies; preserve40 identity tuples, original102/24 arrays and all history.",
+    "If retry9 or PD12 final proof changes status, root must amend this proposal from actual results before serialization. No automatic closure here.",
+    "Serialize final ledger; compute its actual SHA and update only both legacy extension ledger bindings.",
+    "Verify preservation/count/scoping invariants and record actual before/after hashes.",
+    "Replace only owned canonical/doc files under root ownership; record partial-write failures and preserved originals honestly."
+  ],
+  "no_canonical_mutation_in_preparation": true
+}

@@ -1,0 +1,25 @@
+--- original-reviewed/tools/roster-decoder/README.md
++++ root-current/tools/roster-decoder/README.md
+@@ -41,6 +41,22 @@
+ official PyPI release metadata, and the whole SHA256 of the separately reviewed
+ publisher-input receipt. The source pool may also contain Mac fixture wheels;
+ only the six receipt-selected Linux wheels enter the private build context.
++The explicit origin acquisition command captures the exact release metadata and
++lock-selected wheel bytes from PyPI into a fresh directory:
++
++```sh
++python3 -B scripts/qa/roster_wheelhouse.py --acquire \
++  --lock-file tools/roster-decoder/requirements.lock \
++  --lock-sha256 REVIEWED_WHOLE_LOCK_SHA256 \
++  --destination /absolute/path/to/fresh/publisher-inputs
++```
++
++This separately supervised acquisition worker has a 300-second deadline, at most
++twelve direct TLS requests, and no redirects or automatic retries. Metadata and
++wheel requests have 45/60-second deadlines. It publishes `publisher-inputs.json`
++only after all six locked wheels pass, retains primary metadata and failure
++diagnostics, and does not install packages or run Docker. Use its successful
++whole receipt hash, `wheels/` and `primary/` outputs for offline preparation.
+ Then run:
+ 
+ ```sh

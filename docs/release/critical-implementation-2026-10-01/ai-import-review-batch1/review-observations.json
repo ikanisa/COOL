@@ -1,0 +1,44 @@
+{
+  "scope": "Read-only BE13 roster source review",
+  "test_execution": "not run",
+  "source_mutations": [],
+  "live_provider_calls": 0,
+  "live_database_calls": 0,
+  "account_configuration_reads": 0,
+  "no_credentials_or_customer_body_reads": true,
+  "inspection_corrections": [
+    {
+      "kind": "overbroad archived filename listing",
+      "result": "truncated then abandoned; exact maintained file paths used; archived files not accepted as current inputs"
+    },
+    {
+      "kind": "initial wrong test/admin subdirectory",
+      "result": "no files at that path; corrected to actual test/admin_roster*.dart and recorded additional-source-before.json"
+    },
+    {
+      "kind": "absent macos/windows/linux directories",
+      "result": "bounded actual Android/iOS source scan completed; no native roster/OpenAI matches; other desktop targets not present"
+    },
+    {
+      "kind": "earlier unmatched shell legal glob",
+      "result": "corrected to exact two YAML paths"
+    }
+  ],
+  "approval_limits": {
+    "processor": false,
+    "region": false,
+    "retention": false,
+    "legal_transfer": false,
+    "provider_spend": false,
+    "provider_accuracy": false,
+    "hosted_deployment": false,
+    "production_acceptance": false
+  },
+  "disclosure_plan": {
+    "admin_owner_required": true,
+    "no_admin_edits": true,
+    "xlsx": "Describe current independent decoder reconstruction/exact TSV comparison while preserving conservative historical receipt labels",
+    "pdf_image": "Describe original processing by configured decoder followed by OpenAI; do not claim unknown vendor retention or region",
+    "legal_yaml": "No substantive mutation; named owner must approve processor notice/retention/transfer facts"
+  }
+}

@@ -1,0 +1,6 @@
+Analyzing 3 items...                                            
+
+   info • Can't use a relative path to import a library in 'lib'. Try fixing the relative path or changing the import to a 'package:' import • integration_test/gateway_device_no_send_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib'. Try fixing the relative path or changing the import to a 'package:' import • integration_test/gateway_device_probe.dart:5:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib'. Try fixing the relative path or changing the import to a 'package:' import • test/gateway/gateway_device_probe_test.dart:7:8 • avoid_relative_lib_imports
+

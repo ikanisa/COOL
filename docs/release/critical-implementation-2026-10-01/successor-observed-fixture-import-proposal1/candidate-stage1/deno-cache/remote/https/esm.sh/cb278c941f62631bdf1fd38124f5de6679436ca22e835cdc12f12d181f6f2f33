@@ -1,0 +1,4 @@
+/* esm.sh - @supabase/supabase-js@2.112.0/dist/tracingRegistry */
+var t=Symbol.for("@supabase/supabase-js.traceContextExtractor");function a(r){globalThis[t]=r}function o(){return globalThis[t]}export{a as n,o as t};
+//# sourceMappingURL=tracingRegistry.mjs.map
+// denoCacheMetadata={"headers":{"date":"Fri, 02 Oct 2026 03:16:35 GMT","cf-cache-status":"HIT","age":"5168024","content-type":"application/javascript; charset=utf-8","last-modified":"Mon, 03 Aug 2026 07:42:50 GMT","server":"cloudflare","access-control-allow-origin":"*","cf-ray":"a4408c998fa5142f-MBA","cache-control":"public, max-age=31536000, immutable"},"url":"https://esm.sh/@supabase/supabase-js@2.112.0/denonext/dist/tracingRegistry.mjs","time":1790910995}

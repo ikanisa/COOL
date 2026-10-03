@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "code": "RUN_STARTED",
+  "mode": "Live-limited",
+  "action": "begin_run",
+  "run_id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+  "expires_at": "2026-10-01T11:38:32.277484Z",
+  "request_id": "41180a5c-1807-4343-95a5-9f8116a02215",
+  "observed_at": "2026-10-01T11:36:32.277484Z",
+  "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+  "fence_version": 3,
+  "contract_version": 2
+}

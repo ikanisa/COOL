@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "actual_command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "exit_code": 0,
+  "source_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924"
+  },
+  "source_after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924"
+  },
+  "source_unchanged": true,
+  "scope": "Sole design authority hygiene only; no visual fidelity, native, legal, provider or release acceptance."
+}

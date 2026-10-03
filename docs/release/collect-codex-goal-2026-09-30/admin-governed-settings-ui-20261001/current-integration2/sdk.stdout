@@ -1,0 +1,15 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/settings-current-integration-proof-20261001-current-integration2/runtime/test/admin_governed_settings_sdk_test.dart
+00:00 +0: actual pinned SDK carries explicit bearer and exact catalog/detail/history RPC names and parameters
+00:00 +1: original mutation and recovery are separate exact calls without replayable recovery parameters
+00:00 +2: 503 original has one HTTP attempt with SDK retry disabled
+00:00 +3: prepared original under replaced session denies before HTTP
+00:00 +4: late typed read cannot publish after logout
+00:00 +5: late typed read cannot publish after switch
+00:00 +6: late typed read cannot publish after aba
+00:00 +7: late typed read cannot publish after provider
+00:00 +8: expired prepared request denies before HTTP and stale read DTO is refused
+00:00 +9: closed malformed acknowledged receipt remains refused
+00:00 +10: paired history cursor is forwarded before bounded page read
+00:00 +11: 15-second bounded timeout does not replay original RPC
+00:01 +12: foreign operator bookmark cannot make a lookup HTTP call
+00:01 +13: All tests passed!

@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "id": "3c543af2-3c09-4ee2-a977-0310215ddb61",
+      "active": true,
+      "revision": 1,
+      "source_id": "182c162c-c1be-4a50-a850-ba57f13bd444",
+      "reason_code": "RECEIPT_OPERATION_QUOTA_EXHAUSTED",
+      "source_kind": "receipt_event",
+      "acknowledged": false,
+      "source_sha256": "9b5f8c8c565d00cf80e22b4f05262715ed505d03299c21042ac01c8b8adfdd9c",
+      "last_changed_at": "2026-10-01T12:10:14.207484Z",
+      "first_observed_at": "2026-10-01T12:10:14.207484Z",
+      "transaction_sms_id": "99940000-0000-4000-8000-000000600002",
+      "escalation_requested": false
+    }
+  ],
+  "limit": 20,
+  "scope": "platform_global",
+  "active": true,
+  "checked_at": "2026-10-01T12:10:16.350098Z",
+  "next_cursor": null,
+  "source_kind": "receipt_event",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T12:11:16.350098Z",
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false
+}

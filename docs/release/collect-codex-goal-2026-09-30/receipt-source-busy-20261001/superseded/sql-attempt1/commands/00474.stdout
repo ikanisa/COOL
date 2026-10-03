@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"ok": true, "code": "RECEIPT_EXISTS", "action": "ensure_receipt", "run_id": "991d7fc0-65fb-4d14-8a39-fdcfe7a1c23a", "event_id": "370e2f3f-cf67-4fc7-ad3c-23369cae16d4", "receipt_id": "0f7e1221-968d-4b80-9195-f67bb0201651", "request_id": "43e5bdec-3f31-4f40-b613-272746b8ff67", "observed_at": "2026-10-01T21:44:52.603270Z", "principal_id": "0fc96c65-ed8b-4d37-8734-ade81abbd946", "fence_version": 1, "source_version": 1, "business_handled": true, "contract_version": 2}

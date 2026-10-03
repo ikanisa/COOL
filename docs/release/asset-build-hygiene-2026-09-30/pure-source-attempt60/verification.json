@@ -1,0 +1,362 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "asset-integrity-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_manifest_integrity_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.04,
+      "stdout_sha256": "652e13c3f545d75fd92e8111ad9c341da0a7a4eef158eb747cd0f2798497d3a6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asset-hygiene-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_hygiene_integration_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.29,
+      "stdout_sha256": "cada205d005c813b3d23e6788e8277b81c1a0ea479437b15996ec315713d92f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/runtime_reachability_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.19,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c86f3ac709257edea6b0ceff866946998b5807e569c1328898a9b01d528edcfc"
+    },
+    {
+      "name": "supply-source-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/supply_chain_source_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6e362a3b4ed529a31369d583f79f5b3c0e089d7a0ca830254f1bd10032b56f90"
+    },
+    {
+      "name": "public-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.41,
+      "stdout_sha256": "34c8ee98a8c4b828f824f928c613b7f66389a952f6c603f6cbf33aca4ad2bae4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-inventory-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/dart_format_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.55,
+      "stdout_sha256": "063c54d20ebd8e2a2c49ce4254fad3177404cb20b009c3c2ab971eb647fb6047",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "native-export-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/native_source_export_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4cb53a3310cb89b4d6a79e723f57cbdfcf5dabe800ca12031781692c706d873d"
+    },
+    {
+      "name": "native-provenance-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/native_build_provenance_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.39,
+      "stdout_sha256": "eddc6d4c621648496cc7dd8f56e1d2a922b1804416669575a9be25a4754fef07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "media-source-binding-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.19,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "77029796f72513e84e032895c21e14ade086a4959837c494a133e6989e8b988a"
+    },
+    {
+      "name": "media-publication-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/public_media_publication_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.23,
+      "stdout_sha256": "2b85f0fa5ae220af9e543bcd1dfb9ba7a4a0e12e58b8afc67b18828a8e05b45a",
+      "stderr_sha256": "81be4c4386c780bc3fa5cf089dd68f68b767d5d727944a5e7692e6aa48301916"
+    },
+    {
+      "name": "observed-native-sbom-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/gradle_observed_sbom_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da"
+    },
+    {
+      "name": "asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.65,
+      "stdout_sha256": "fe83227f03be880f5c2541f9cf389109e60d3a0230ac64a54bdf5e5d18643894",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "group-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-reachability",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/runtime-reachability.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.9,
+      "stdout_sha256": "87de1fdb62964d3b6bcc705f940a6e759203c34c55ba159f59c20334c7333193",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-inventory.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.35,
+      "stdout_sha256": "7b2e55516b20a95868bd9e0eb4050de58e89f08a16724c9ac385140d7272986d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.86,
+      "stdout_sha256": "fc03c0562761d84b8b2dbb0e0b858016f84c14934478a168efb5e5b3edd50792",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.99,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.92,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt60/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.8,
+      "stdout_sha256": "7874c2a128a91c2d5ea5bbe61bb551e5db1bbe39bd59c95680603a91224c9e0e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recorder-syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "tests": [
+    {
+      "name": "asset-integrity-tests",
+      "actual_tests": 40,
+      "actual_assertions": 107,
+      "ruby_failures_errors_skips": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "asset-hygiene-tests",
+      "actual_tests": 11,
+      "actual_assertions": 60,
+      "ruby_failures_errors_skips": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "reachability-tests",
+      "actual_tests": 8,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    },
+    {
+      "name": "supply-source-tests",
+      "actual_tests": 19,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    },
+    {
+      "name": "public-media-tests",
+      "actual_tests": 21,
+      "actual_assertions": 53,
+      "ruby_failures_errors_skips": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "format-inventory-tests",
+      "actual_tests": 4,
+      "actual_assertions": 53,
+      "ruby_failures_errors_skips": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "native-export-tests",
+      "actual_tests": 5,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    },
+    {
+      "name": "native-provenance-tests",
+      "actual_tests": 7,
+      "actual_assertions": 111,
+      "ruby_failures_errors_skips": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "media-source-binding-tests",
+      "actual_tests": 8,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    },
+    {
+      "name": "media-publication-tests",
+      "actual_tests": 3,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    },
+    {
+      "name": "observed-native-sbom-tests",
+      "actual_tests": 2,
+      "actual_assertions": null,
+      "ruby_failures_errors_skips": null
+    }
+  ],
+  "actual_tests": 128,
+  "actual_ruby_assertions": 384,
+  "source_file_count_before": 1410,
+  "source_file_count_after": 1411,
+  "source_before_sha256": "f13f23b5512e4f2cbb263f9b66569316a68af75b91f867c8a3a05e45104a2744",
+  "current_source_drift": {
+    "lib/admin/core/admin_action_contracts.dart": {
+      "before_sha256": "2785fa16f77f17e5bb6d14c8bf8aa429902e06c0ade11efdab92f6e9740be347",
+      "after_sha256": "b2ba55929125ca0dc146d844c19477fc6f9996934a6330c68fc93eec9dac9e06"
+    },
+    "lib/admin/core/admin_operator_approval.dart": {
+      "before_sha256": null,
+      "after_sha256": "524fd906e2eada1fb1a6ee427d86b75c730d2340034885d4a9787d64dedd562f"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "before_sha256": "fa4dac884d90523a16d91dea498512e1342b534e03596a40987286c57ddcde27",
+      "after_sha256": "87208108f8a7f0b3e60b044035d1df18dd28418919a3b608de3eae558a70d438"
+    },
+    "scripts/tests/collect_email_scope_uat.py": {
+      "before_sha256": "b06416e704844ca3394044d7481c23c1d701cd826147f1fe4c8909b204d3f5d5",
+      "after_sha256": "e1e77502b32fc66f95548da9ba3e73c83887d89fd70bbf4e473b17c45ccfbb09"
+    }
+  },
+  "current_source_acceptance": false,
+  "source_sbom_components": 688,
+  "reachability_report_sha256": "72d7ac0650896be39577013159de9f348c45064c0db4cf3233416ca4f3697c14",
+  "scope": "Independent dated local source/tooling regressions while application owners settle; deterministic source inventory/SBOM and exact drift reported; does not replace the final common application/native/media acceptance"
+}

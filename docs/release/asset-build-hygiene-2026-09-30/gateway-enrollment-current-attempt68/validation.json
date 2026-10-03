@@ -1,0 +1,111 @@
+{
+  "checkout_drift": {
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "after": "a2c2604420b813a1ebd7230ac701e5e4f013b32a5227410412c4ad37beb96124",
+      "before": "cb1ef2aef32fe74923437055b49fcce0265e75130033e2042fee7add7869879b"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": {
+      "after": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+      "before": "04f07176ec101a18c9d84e8c7a6e5b6dc38d90fa3f3092a96c2d5357cad9f11d"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "after": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "before": "53ab71f9d6d21cf688848ef37161c70cff4001d5d24fd73844c3c8128c986584"
+    },
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "after": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "before": "e566fe9ffeb4e04830013d21ceeba2960eaff868d51b748dd5689ee4ef8e32a0"
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "after": "4ea3dba7fbce5fe2e153408298becb9a8eefdcaef965e576fb4c52f47f4c1194",
+      "before": "2b77f50e50c6808cec41ee45ba009727a7bbecc24fcdc2cd71b1d1f27132b59f"
+    },
+    "test/admin_roster_upload_admission_test.dart": {
+      "after": "8fede243fe4718b231b8d642d4ab452e5d36c516e4922b48321d87b9275038a4",
+      "before": "74d0b0379a049e1ada02bef44c7c06315b91b1ad151673c852d5e9d9b0d31af1"
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-gateway-enrollment-current-attempt68",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-enrollment-current-attempt68/source-export.json"
+      ],
+      "elapsed_seconds": 20.33,
+      "exit_code": 0,
+      "name": "source-export",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7e61b9055fe3360ea841f0565ec2053ba2aecdccac559c8f3073253a0fa7d327"
+    },
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "elapsed_seconds": 0.08,
+      "exit_code": 0,
+      "name": "export-git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 7.29,
+      "exit_code": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart"
+      ],
+      "elapsed_seconds": 76.52,
+      "exit_code": 0,
+      "name": "widgets",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "5591693b5bdcc1e376c2b74dbb083cf66f83d03a789f3d92c0e977b3110cc06e"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings",
+        "lib/gateway",
+        "lib/main_gateway.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart"
+      ],
+      "elapsed_seconds": 78.43,
+      "exit_code": 0,
+      "name": "fatal-analysis",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "db4a8fdb5a3044f7531d94b0e5efa68513cee70370f66edef47b386174d1bb07"
+    }
+  ],
+  "export_source_changes": {},
+  "scope": "Actual production Gateway enrollment route/dialog/widget transitions with existing synthetic platform fixture; exact copied source, no SQL, Android dispatch, provider or complete application/native acceptance",
+  "source_export_sha256": "18c6d765f79609e9652e195814a4649169b626addf8dd009d0d68e719ac9dfbe",
+  "source_inputs": 970,
+  "status": "pass",
+  "tested_gateway_frontend_sha256": "8e1167d9e83e9f5dfa67e5cef50ba006c6d4a614cf2d5477a0763af76617256b"
+}

@@ -1,0 +1,43 @@
+{
+  "captured_at_utc": "2026-10-02T00:04:31.521456+00:00",
+  "rows": [
+    {
+      "packet": "privacy-client-auth-batch2",
+      "receipt_sha256": "24094deb0d6d04428962faf3ba7abc9fe8fb2e7fa200a4d800ad88a0aef38ec3",
+      "bound_paths_origin": "packet",
+      "bindings_checked": 930,
+      "same_path_bindings_match": 930,
+      "explicit_original_resolutions": [],
+      "unexplained_errors": []
+    },
+    {
+      "packet": "public-media-batch2",
+      "receipt_sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d",
+      "bound_paths_origin": "repo",
+      "bindings_checked": 469,
+      "same_path_bindings_match": 468,
+      "explicit_original_resolutions": [
+        {
+          "original_mutable_path": "docs/release/public-website-current-content-contract.json",
+          "expected": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+          "current": "758e36201378c6992fc53e43d85f3f03943539160258c486c27a6acce44217f8",
+          "preserved_original_path": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/public-content-contract-before.json",
+          "preserved_original_matches": true,
+          "reason": "Root-reviewed privacy/share content contract source reconciliation; previous packet is dated and cannot accept current contract."
+        }
+      ],
+      "unexplained_errors": []
+    },
+    {
+      "packet": "public-share-ui-batch1",
+      "receipt_sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7",
+      "bound_paths_origin": "packet",
+      "bindings_checked": 122,
+      "same_path_bindings_match": 122,
+      "explicit_original_resolutions": [],
+      "unexplained_errors": []
+    }
+  ],
+  "initial_reader_path_error": "First public check incorrectly joined repository-relative keys to the packet directory. Corrected explicit origins then observed the deliberately changed current content contract, whose exact old bytes are preserved and verified here. Neither stale binding nor path error is represented as current acceptance.",
+  "scope": "Independent original-byte readback only; dated packets do not accept subsequent source mutations."
+}

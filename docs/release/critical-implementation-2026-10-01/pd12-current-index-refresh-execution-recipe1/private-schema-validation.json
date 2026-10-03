@@ -1,0 +1,26 @@
+{
+  "actual_seconds": 0.018388374999631196,
+  "index_errors": [
+    {
+      "message": "'pointer' is a required property",
+      "path": [
+        "facts",
+        111
+      ]
+    },
+    {
+      "message": "'pending-actual-current-epoch-readback' is not one of ['unapplied-private-proposal', 'applied-pending-actual-readback', 'actual-index-readback-retained']",
+      "path": [
+        "integration_state"
+      ]
+    }
+  ],
+  "index_sha256": "21ae44c248fd508dccb38c26b5f6751f631fcc75e6259eabcd16c1ffce3be25a",
+  "kind": "actual_private_proposed_index_schema_validation",
+  "recorded_at_utc": "2026-10-02T15:34:00.025764+00:00",
+  "result": "FAIL",
+  "schema_check_passed": true,
+  "schema_sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e",
+  "scope": "Private proposed current index against private exact reviewed schema; no maintained reader execution or current manual closure decision.",
+  "validator": "Draft202012Validator"
+}

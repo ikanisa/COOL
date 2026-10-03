@@ -1,0 +1,15 @@
+{
+  "rows": [],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "4b3ec1e2-372e-40c6-a91e-0cca45957ba3",
+  "checked_at": "2026-10-01T15:28:22.900839Z",
+  "entity_kind": "exception",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 2,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T15:29:22.900839Z"
+}

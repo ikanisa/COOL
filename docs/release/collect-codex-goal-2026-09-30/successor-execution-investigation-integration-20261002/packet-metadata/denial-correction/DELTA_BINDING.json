@@ -1,0 +1,27 @@
+{
+  "canonical_graph_count": 181,
+  "modified_product_files": {
+    "lib/admin/core/admin_receipt_successor_execution_controller.dart": {
+      "accepted_predecessor_sha256": "9b2788b15eff991475cf4db4297ae220857c681c347475e9a83288dd44fe5e7c",
+      "corrected_sha256": "4ebb59646e5458ef03e3dfbb3877b5b89678fe39e02f7e3a45f5144f23d47c20"
+    },
+    "lib/admin/core/admin_receipt_successor_execution_sdk.dart": {
+      "accepted_predecessor_sha256": "f6438db5ca67c8f45b7ae2c44d60b5b7d4220181d63a239c453cd748f5ddfe1a",
+      "corrected_sha256": "4e6a7bca780b650008941c7227bd748c3f956f4e255bc3185ca4eee68446a517"
+    }
+  },
+  "new_test": {
+    "test/admin_receipt_successor_execution_access_denial_test.dart": "191a54d9e2b1f5a48d8effeffab1467cbfc07b1ca9324b37b9e8d450a9b80848"
+  },
+  "retained_fixture_sha256": {
+    "test/support/execution_api_fixture.dart": "a50fb029c5ef25923e191dbd07b73e498eb6e68c6460de3123a6fa2eb56d9313",
+    "test/support/execution_fixture.dart": "258a9650d3f5ada3ccab17e73b7ea3c21c3fe4af42ccdc756381a4034a525f5f"
+  },
+  "scope": "Native-VM import branches; no repeated unchanged browser/model/legacy/runtime baseline.",
+  "source_graph_count": 189,
+  "unchanged_product_files": {
+    "lib/admin/core/admin_receipt_successor_execution_host.dart": "04624bc7e88a5a37628a11a41da6a7194a3fdfeece9f99ba78808b9a8a9af99d",
+    "lib/admin/core/admin_receipt_successor_execution_models.dart": "5f75145e1a0e430ef9d3de7ebe6adf0c5f754ed80aa88bb8dbfc140a1230d6fc",
+    "lib/admin/core/admin_receipt_successor_execution_view.dart": "f541a811a19651153e3814b1259c3c0e760e89b6c9a185063e4f9b74375da96d"
+  }
+}

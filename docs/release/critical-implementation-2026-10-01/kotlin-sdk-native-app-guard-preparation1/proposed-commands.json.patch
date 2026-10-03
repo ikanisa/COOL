@@ -1,0 +1,17 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/proposed-commands.json
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/proposed-commands.json
+@@ -111,11 +111,12 @@
+   "exporter_Node_version_execution_disclosed": true,
+   "exporter_no_Flutter_execution_source_verified": true,
+   "foundation_deadline_seconds": 600,
+-  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review4",
++  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review1",
+   "later_stage_requires_root_pinned_predecessor_terminal": true,
+   "live_free_floor_bytes": 4294967296,
+   "minimum_free_bytes": 20350276001,
+-  "only_app_export_admitted_by_derivative": true,
++  "only_app_export_admitted_by_derivative": false,
++  "only_app_export_and_app_lock_admitted_by_derivative": true,
+   "production_release_approval": false,
+   "raw_Gradle_ZIP_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+   "raw_Gradle_ZIP_bytes": 232491070,

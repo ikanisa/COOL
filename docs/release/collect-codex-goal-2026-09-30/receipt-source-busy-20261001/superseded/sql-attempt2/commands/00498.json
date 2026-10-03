@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "-i",
+    "collect_current_rehearsal_source_busy_8a444a4fba23",
+    "psql",
+    "-XqAt",
+    "-U",
+    "postgres",
+    "-d",
+    "postgres",
+    "-v",
+    "ON_ERROR_STOP=1",
+    "-v",
+    "VERBOSITY=verbose"
+  ],
+  "input_sha256": "43304df9a2317814fd9b7772f24a0699ee2ff2579c39916d6aebed1482c8f9eb",
+  "started_at": "2026-10-01T21:46:19.975903Z",
+  "finished_at": "2026-10-01T21:46:21.581096Z",
+  "exit_code": 0,
+  "stdout_sha256": "5a0a2b76858bf8cc147613f783d84cd22c0047d142ba0d9ce13fcedf953b57ed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

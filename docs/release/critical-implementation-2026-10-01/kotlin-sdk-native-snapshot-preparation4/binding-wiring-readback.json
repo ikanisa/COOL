@@ -1,0 +1,38 @@
+{
+  "AUTH_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review4",
+  "SOURCE_FENCE": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review4/source-fence.json",
+  "admission_not_issued": true,
+  "all17_function_ASTs_identical": true,
+  "app_export_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review4/app-export-admission.json",
+  "no_stage_execution": true,
+  "non_app_export_stages_rejected_before_packet_or_execution": [
+    {
+      "error": "this separately reviewed derivative admits only app-export",
+      "stage": "foundation"
+    },
+    {
+      "error": "this separately reviewed derivative admits only app-export",
+      "stage": "sdk-lock"
+    },
+    {
+      "error": "this separately reviewed derivative admits only app-export",
+      "stage": "startup"
+    },
+    {
+      "error": "this separately reviewed derivative admits only app-export",
+      "stage": "app-lock"
+    },
+    {
+      "error": "this separately reviewed derivative admits only app-export",
+      "stage": "native"
+    }
+  ],
+  "only_runner_assignment_changed": "AUTH_DIR review3 to review4",
+  "real_original_config_predicate_passed": true,
+  "source_fence_not_captured": true,
+  "unchanged_other_Python_files": [
+    "test_phase_readbacks.py",
+    "seal_proposal.py",
+    "source_fence.py"
+  ]
+}

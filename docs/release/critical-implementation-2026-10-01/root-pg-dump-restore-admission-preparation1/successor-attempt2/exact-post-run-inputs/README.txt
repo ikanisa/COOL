@@ -1,0 +1,1 @@
+Exact candidate3 bytes captured after its genuine4/5 failed direct runner execution. Hashes equal contemporaneous before/after inputs. Owned overflow PID/group later observed absent; prior EPERM cause not proved.

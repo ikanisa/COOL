@@ -1,0 +1,2171 @@
+{
+  "artifact_verification_sha256": "cd5975f5b4f79293951315037f1be60b98cb54e97d4019594ee0cad53d10c4d6",
+  "blanket_suppression_added": false,
+  "compiler_stream_sha256": {
+    "stderr": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+    "stdout": "693bc72fc86725b5032c6029a06f8d5e140a7b28a4daaaa5f1160746fb0e87a0"
+  },
+  "compiler_warning_count": 19,
+  "compiler_warning_rows": [
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 8,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 12,
+      "message": "'class PhoneStateListener : Any' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 11,
+          "text": "import android.os.SystemClock"
+        },
+        {
+          "line": 12,
+          "text": "import android.telephony.PhoneStateListener"
+        },
+        {
+          "line": 13,
+          "text": "import android.telephony.ServiceState"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 27,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 20,
+      "message": "'class PhoneStateListener : Any' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 19,
+          "text": "    private val radio = GatewayRadioObservation()"
+        },
+        {
+          "line": 20,
+          "text": "    private var listener: PhoneStateListener? = null"
+        },
+        {
+          "line": 21,
+          "text": "    private var listenerManager: TelephonyManager? = null"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 41,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 37,
+      "message": "'class PhoneStateListener : Any' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 36,
+          "text": "                    ?.createForSubscriptionId(token.subscriptionId) ?: run { radio.clear(); return@post }"
+        },
+        {
+          "line": 37,
+          "text": "                val callback = object : PhoneStateListener() {"
+        },
+        {
+          "line": 38,
+          "text": "                    override fun onServiceStateChanged(serviceState: ServiceState?) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 41,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 37,
+      "message": "'constructor(): PhoneStateListener' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 36,
+          "text": "                    ?.createForSubscriptionId(token.subscriptionId) ?: run { radio.clear(); return@post }"
+        },
+        {
+          "line": 37,
+          "text": "                val callback = object : PhoneStateListener() {"
+        },
+        {
+          "line": 38,
+          "text": "                    override fun onServiceStateChanged(serviceState: ServiceState?) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 34,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 38,
+      "message": "This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 37,
+          "text": "                val callback = object : PhoneStateListener() {"
+        },
+        {
+          "line": 38,
+          "text": "                    override fun onServiceStateChanged(serviceState: ServiceState?) {"
+        },
+        {
+          "line": 39,
+          "text": "                        if (!closed && context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 25,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 48,
+      "message": "'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 47,
+          "text": "                listenerManager = manager"
+        },
+        {
+          "line": 48,
+          "text": "                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)"
+        },
+        {
+          "line": 49,
+          "text": "            } catch (_: Exception) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 42,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 48,
+      "message": "'class PhoneStateListener : Any' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 47,
+          "text": "                listenerManager = manager"
+        },
+        {
+          "line": 48,
+          "text": "                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)"
+        },
+        {
+          "line": 49,
+          "text": "            } catch (_: Exception) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 61,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 48,
+      "message": "'static field LISTEN_SERVICE_STATE: Int' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 47,
+          "text": "                listenerManager = manager"
+        },
+        {
+          "line": 48,
+          "text": "                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)"
+        },
+        {
+          "line": 49,
+          "text": "            } catch (_: Exception) {"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 27,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 62,
+      "message": "'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 61,
+          "text": "        if (callback != null && manager != null) {"
+        },
+        {
+          "line": 62,
+          "text": "            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }"
+        },
+        {
+          "line": 63,
+          "text": "        }"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 44,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 62,
+      "message": "'class PhoneStateListener : Any' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 61,
+          "text": "        if (callback != null && manager != null) {"
+        },
+        {
+          "line": 62,
+          "text": "            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }"
+        },
+        {
+          "line": 63,
+          "text": "        }"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 63,
+      "decision": "Retain the API24-compatible service-state callback with current permission, token and closed-state checks; the current source reads only the service-state enum. Modern callback replacement requires a separately verified version-specific adapter. No device readiness claim.",
+      "line": 62,
+      "message": "'static field LISTEN_NONE: Int' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "source_excerpt": [
+        {
+          "line": 61,
+          "text": "        if (callback != null && manager != null) {"
+        },
+        {
+          "line": 62,
+          "text": "            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }"
+        },
+        {
+          "line": 63,
+          "text": "        }"
+        }
+      ],
+      "source_sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final",
+      "column": 29,
+      "decision": "The deprecated API is the explicit pre31 fallback; API31+ uses createForSubscriptionId. Keep the API24-compatible exact-subscription path; no SMS/device delivery claim.",
+      "line": 15,
+      "message": "'static fun getSmsManagerForSubscriptionId(p0: Int): SmsManager!' is deprecated. Deprecated in Java.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "source_excerpt": [
+        {
+          "line": 14,
+          "text": "        return if (Build.VERSION.SDK_INT >= 31) context.getSystemService(SmsManager::class.java).createForSubscriptionId(subscription)"
+        },
+        {
+          "line": 15,
+          "text": "            else SmsManager.getSmsManagerForSubscriptionId(subscription)"
+        },
+        {
+          "line": 16,
+          "text": "    }"
+        }
+      ],
+      "source_sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 89,
+      "decision": "Redundant upstream null checks under the locked compiler types; retain locked package bytes because removing them is not required for native build correctness.",
+      "line": 79,
+      "message": "Elvis operator (?:) always returns the left operand of non-nullable type 'Uri'.",
+      "path": ".qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerDelegate.kt",
+      "source_excerpt": [
+        {
+          "line": 78,
+          "text": "            try {"
+        },
+        {
+          "line": 79,
+          "text": "                val savedUri = FileUtils.writeBytesData(context = activity, uri, bytes) ?: uri"
+        },
+        {
+          "line": 80,
+          "text": "                val renamedUri = maybeRenameGenericMimeDuplicate("
+        }
+      ],
+      "source_sha256": "c7557483d62977c8ebe24b59185874a0563dc3fd6c403f8d76a056c192680aab",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 49,
+      "decision": "Redundant upstream null checks under the locked compiler types; retain locked package bytes because removing them is not required for native build correctness.",
+      "line": 151,
+      "message": "Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.",
+      "path": ".qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt",
+      "source_excerpt": [
+        {
+          "line": 150,
+          "text": "                val type = resolveType(arguments?.get(\"fileType\") as String)"
+        },
+        {
+          "line": 151,
+          "text": "                val initialDirectory = arguments?.get(\"initialDirectory\") as String?"
+        },
+        {
+          "line": 152,
+          "text": "                val bytes = arguments?.get(\"bytes\") as ByteArray?"
+        }
+      ],
+      "source_sha256": "a319d65a4274abccd9731140b4759c034881d31fe70f8a9ee05bc835c6cfc07e",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 38,
+      "decision": "Redundant upstream null checks under the locked compiler types; retain locked package bytes because removing them is not required for native build correctness.",
+      "line": 152,
+      "message": "Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.",
+      "path": ".qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt",
+      "source_excerpt": [
+        {
+          "line": 151,
+          "text": "                val initialDirectory = arguments?.get(\"initialDirectory\") as String?"
+        },
+        {
+          "line": 152,
+          "text": "                val bytes = arguments?.get(\"bytes\") as ByteArray?"
+        },
+        {
+          "line": 153,
+          "text": "                val fileNameWithoutExtension = \"${arguments?.get(\"fileName\")}\""
+        }
+      ],
+      "source_sha256": "a319d65a4274abccd9731140b4759c034881d31fe70f8a9ee05bc835c6cfc07e",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 60,
+      "decision": "Redundant upstream null checks under the locked compiler types; retain locked package bytes because removing them is not required for native build correctness.",
+      "line": 153,
+      "message": "Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.",
+      "path": ".qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt",
+      "source_excerpt": [
+        {
+          "line": 152,
+          "text": "                val bytes = arguments?.get(\"bytes\") as ByteArray?"
+        },
+        {
+          "line": 153,
+          "text": "                val fileNameWithoutExtension = \"${arguments?.get(\"fileName\")}\""
+        },
+        {
+          "line": 154,
+          "text": "                val fileName ="
+        }
+      ],
+      "source_sha256": "a319d65a4274abccd9731140b4759c034881d31fe70f8a9ee05bc835c6cfc07e",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 70,
+      "decision": "Locked picker custom-extension channel cast can reject malformed arguments. Retain package bytes; bounded Collect upload admission remains separately tested, and this native compile is not a claim of general plugin argument safety.",
+      "line": 164,
+      "message": "Unchecked cast of 'Any?' to 'ArrayList<String>?'.",
+      "path": ".qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt",
+      "source_excerpt": [
+        {
+          "line": 163,
+          "text": "                val allowedExtensions ="
+        },
+        {
+          "line": 164,
+          "text": "                    getMimeTypes(arguments?.get(\"allowedExtensions\") as ArrayList<String>?)"
+        },
+        {
+          "line": 165,
+          "text": "                val androidSafOptions = arguments?.get(\"androidSafOptions\") as? java.util.HashMap<*, *>"
+        }
+      ],
+      "source_sha256": "a319d65a4274abccd9731140b4759c034881d31fe70f8a9ee05bc835c6cfc07e",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 52,
+      "decision": "Redundant upstream non-null assertion for compiler-inferred String; retain the locked package bytes and accepted caller session/cache guards.",
+      "line": 450,
+      "message": "Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.",
+      "path": ".qa_native_dependencies/shared_preferences_android/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt",
+      "source_excerpt": [
+        {
+          "line": 449,
+          "text": "      val value = preferences.getString(key, \"\")"
+        },
+        {
+          "line": 450,
+          "text": "      if (value!!.startsWith(LIST_PREFIX) && !value!!.startsWith(JSON_LIST_PREFIX)) {"
+        },
+        {
+          "line": 451,
+          "text": "        val transformed = transformPref(preferences.getString(key, \"\"), listEncoder)"
+        }
+      ],
+      "source_sha256": "e637bce801bddbe3193f723be621712691265a851523e275f8fc293ea5b1cd3f",
+      "warning_suppressed": false
+    },
+    {
+      "actual_compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+      "column": 20,
+      "decision": "Nullable environment value occurs in the retained legacy external-storage resolver. Neither the actual registered FileSaverPlugin nor its saveAs Dialog references this FileUtils resolver; Collect save receipt acceptance is separately bound. Keep this compiler warning visible, with no physical-storage claim.",
+      "line": 204,
+      "message": "Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'String?'.",
+      "path": "third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt",
+      "source_excerpt": [
+        {
+          "line": 203,
+          "text": "        // we'll start with secondary storage as this could be our (physically) removable sd card"
+        },
+        {
+          "line": 204,
+          "text": "        fullPath = System.getenv(\"SECONDARY_STORAGE\") + relativePath"
+        },
+        {
+          "line": 205,
+          "text": "        if (fileExists(fullPath)) {"
+        }
+      ],
+      "source_sha256": "856a63fba8a275c1c8dfe0b938eca34c21c0f2bc5601d77fa53c769a813e499a",
+      "warning_suppressed": false
+    }
+  ],
+  "configuration_warning_rows": [
+    {
+      "decision": "Required captured AGP9/Flutter plugin compatibility setting. AGP10 removal remains an upgrade task; no suppression or SDK/plugin source edit was made.",
+      "message": "WARNING: The option setting 'android.builtInKotlin=false' is deprecated.",
+      "warning_suppressed": false
+    },
+    {
+      "decision": "Required captured AGP9/Flutter plugin compatibility setting. AGP10 removal remains an upgrade task; no suppression or SDK/plugin source edit was made.",
+      "message": "WARNING: The option setting 'android.newDsl=false' is deprecated.",
+      "warning_suppressed": false
+    },
+    {
+      "decision": "Locked Flutter Gradle embedded Kotlin2.2.0/configured2.2.20 compatibility warning remains visible. This exact build compiler/lint/JVM acceptance supports only the captured toolchain, not future Gradle/Kotlin versions.",
+      "message": "WARNING: Unsupported Kotlin plugin version.",
+      "warning_suppressed": false
+    },
+    {
+      "decision": "Locked mobile_scanner still uses the legacy Android Kotlin plugin. Retain the package/toolchain accepted by this native build; a future Flutter compatibility upgrade requires its own source validation.",
+      "message": "WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): mobile_scanner",
+      "warning_suppressed": false
+    }
+  ],
+  "errors": 0,
+  "lint_xml_sha256": "da7265e3e11920346782e9355b604d5549c7a5aa04b97716138f53a7ba1b63f9",
+  "manifest_merger_warning_rows": [
+    {
+      "decision": "Retain explicit legacy permission removal for future dependency manifests; actual merged APK has no READ_EXTERNAL_STORAGE permission.",
+      "message": "uses-permission#android.permission.READ_EXTERNAL_STORAGE was tagged at AndroidManifest.xml:0 to remove other declarations but no other declaration present",
+      "path": "android/app/src/internal_gateway/AndroidManifest.xml",
+      "source_sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63",
+      "warning_suppressed": false
+    }
+  ],
+  "prior_review": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-android-remaining/warning-dispositions.json",
+  "prior_review_sha256": "ce7f2f3d3c1c05a3d9134d5eaf046c153a8a4526124294dcc3ffba801e748b98",
+  "rows": [
+    {
+      "category": "Correctness",
+      "disposition": "intentional permission removal directive; verify final merged manifest",
+      "errorLine1": "        android:name=\"android.permission.READ_EXTERNAL_STORAGE\"",
+      "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Scoped storage is enforced on Android 10+ (or Android 11+ if using `requestLegacyExternalStorage`). In particular, `WRITE_EXTERNAL_STORAGE` will no longer provide write access to all files; it will provide the equivalent of `READ_EXTERNAL_STORAGE` instead.\n\nAs of Android 13, if you need to query or interact with MediaStore or media files on the shared storage, you should be using instead one or more new storage permissions:\n* `android.permission.READ_MEDIA_IMAGES`\n* `android.permission.READ_MEDIA_VIDEO`\n* `android.permission.READ_MEDIA_AUDIO`\n\nand then add `maxSdkVersion=\"33\"` to the older permission. See the developer guide for how to do this: https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions\n\nThe `MANAGE_EXTERNAL_STORAGE` permission can be used to manage all files, but it is rarely necessary and most apps on Google Play are not allowed to use it. Most apps should instead migrate to use scoped storage. To modify or delete files, apps should request write access from the user as described at https://goo.gle/android-mediastore-createwriterequest.\n\nTo learn more, read these resources: Play policy: https://goo.gle/policy-storage-help Allowable use cases: https://goo.gle/policy-storage-usecases",
+      "id": "ScopedStorage",
+      "locations": [
+        {
+          "column": "23",
+          "line": "18",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+          "source_excerpt": [
+            {
+              "line": 16,
+              "text": "        android:required=\"false\" />"
+            },
+            {
+              "line": 17,
+              "text": "    <uses-permission"
+            },
+            {
+              "line": 18,
+              "text": "        android:name=\"android.permission.READ_EXTERNAL_STORAGE\""
+            },
+            {
+              "line": 19,
+              "text": "        tools:node=\"remove\" />"
+            },
+            {
+              "line": 20,
+              "text": "    <uses-permission"
+            }
+          ]
+        }
+      ],
+      "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+      "priority": "8",
+      "reason": "This source declaration has tools:node=remove. Deleting it would permit a dependency manifest to reintroduce obsolete storage permissions.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Affected by scoped storage",
+      "url": "https://goo.gle/android-storage-usecases",
+      "urls": "https://goo.gle/android-storage-usecases",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "intentional permission removal directive; verify final merged manifest",
+      "errorLine1": "        android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"",
+      "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Scoped storage is enforced on Android 10+ (or Android 11+ if using `requestLegacyExternalStorage`). In particular, `WRITE_EXTERNAL_STORAGE` will no longer provide write access to all files; it will provide the equivalent of `READ_EXTERNAL_STORAGE` instead.\n\nAs of Android 13, if you need to query or interact with MediaStore or media files on the shared storage, you should be using instead one or more new storage permissions:\n* `android.permission.READ_MEDIA_IMAGES`\n* `android.permission.READ_MEDIA_VIDEO`\n* `android.permission.READ_MEDIA_AUDIO`\n\nand then add `maxSdkVersion=\"33\"` to the older permission. See the developer guide for how to do this: https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions\n\nThe `MANAGE_EXTERNAL_STORAGE` permission can be used to manage all files, but it is rarely necessary and most apps on Google Play are not allowed to use it. Most apps should instead migrate to use scoped storage. To modify or delete files, apps should request write access from the user as described at https://goo.gle/android-mediastore-createwriterequest.\n\nTo learn more, read these resources: Play policy: https://goo.gle/policy-storage-help Allowable use cases: https://goo.gle/policy-storage-usecases",
+      "id": "ScopedStorage",
+      "locations": [
+        {
+          "column": "23",
+          "line": "21",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+          "source_excerpt": [
+            {
+              "line": 19,
+              "text": "        tools:node=\"remove\" />"
+            },
+            {
+              "line": 20,
+              "text": "    <uses-permission"
+            },
+            {
+              "line": 21,
+              "text": "        android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\""
+            },
+            {
+              "line": 22,
+              "text": "        tools:node=\"remove\" />"
+            },
+            {
+              "line": 23,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+      "priority": "8",
+      "reason": "This source declaration has tools:node=remove. Deleting it would permit a dependency manifest to reintroduce obsolete storage permissions.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Affected by scoped storage",
+      "url": "https://goo.gle/android-storage-usecases",
+      "urls": "https://goo.gle/android-storage-usecases",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "                .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true).commit()",
+      "errorLine2": "                                                                              ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "79",
+          "line": "396",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d",
+          "source_excerpt": [
+            {
+              "line": 394,
+              "text": "            // Android delivers its permission callback later."
+            },
+            {
+              "line": 395,
+              "text": "            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit()"
+            },
+            {
+              "line": 396,
+              "text": "                .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true).commit()"
+            },
+            {
+              "line": 397,
+              "text": "            return"
+            },
+            {
+              "line": 398,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Persist the stale permission-callback marker synchronously before returning without enabling capture; no success callback is emitted here. This is a small best-effort marker, not a claim that a checked persistence result exists.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()",
+      "errorLine2": "                                                                      ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "71",
+          "line": "66",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 64,
+              "text": "            }"
+            },
+            {
+              "line": 65,
+              "text": "            if (queue.length() >= maxItems) {"
+            },
+            {
+              "line": 66,
+              "text": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()"
+            },
+            {
+              "line": 67,
+              "text": "                return@synchronized AppendResult.FULL"
+            },
+            {
+              "line": 68,
+              "text": "            }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Persist the bounded queue-overflow marker before returning FULL; the existing queue remains intact. Return is deliberately failure/full rather than ingestion success.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()",
+      "errorLine2": "                                                                           ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "76",
+          "line": "117",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 115,
+              "text": "                .putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true)"
+            },
+            {
+              "line": 116,
+              "text": "                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, markPermissionRequested ||"
+            },
+            {
+              "line": 117,
+              "text": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()"
+            },
+            {
+              "line": 118,
+              "text": "            return false"
+            },
+            {
+              "line": 119,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Synchronously record disabled/unavailable status after queue/key failure, then return false without overwriting ciphertext.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()",
+      "errorLine2": "                                                                           ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "76",
+          "line": "126",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 124,
+              "text": "                .putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true)"
+            },
+            {
+              "line": 125,
+              "text": "                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, markPermissionRequested ||"
+            },
+            {
+              "line": 126,
+              "text": "                    prefs.getBoolean(SMS_PERMISSION_REQUESTED_KEY, false)).commit()"
+            },
+            {
+              "line": 127,
+              "text": "            return false"
+            },
+            {
+              "line": 128,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Record disabled/unavailable status before rejecting rebinding of a nonempty old-owner queue; preserve original evidence.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "                                                                                     ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "86",
+          "line": "182",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 180,
+              "text": "            val item = queue.optJSONObject(index)"
+            },
+            {
+              "line": 181,
+              "text": "                ?: run {"
+            },
+            {
+              "line": 182,
+              "text": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 183,
+              "text": "                    throw IllegalStateException(\"Secure receipt queue contains an invalid item\")"
+            },
+            {
+              "line": 184,
+              "text": "                }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Record unavailable state before throwing on invalid queue entry; no replacement queue is written.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "                                                                             ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "78",
+          "line": "188",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 186,
+              "text": "        }"
+            },
+            {
+              "line": 187,
+              "text": "        if (!SmsQueueOwnerPolicy.canRead(true, owner, owner, owners)) {"
+            },
+            {
+              "line": 188,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 189,
+              "text": "            throw IllegalStateException(\"Secure receipt queue contains another account's item\")"
+            },
+            {
+              "line": 190,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Record unavailable state before throwing on a mixed-owner queue; preserve ciphertext and deny read.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+      "errorLine2": "                                                                              ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "79",
+          "line": "198",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 196,
+              "text": "        return try {"
+            },
+            {
+              "line": 197,
+              "text": "            val queue = JSONArray(decrypt(encrypted))"
+            },
+            {
+              "line": 198,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()"
+            },
+            {
+              "line": 199,
+              "text": "            queue"
+            },
+            {
+              "line": 200,
+              "text": "        } catch (error: Exception) {"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Finish the availability status update before returning a successfully decrypted owner-bound queue.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "                                                                             ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "78",
+          "line": "203",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 201,
+              "text": "            // Keystore may be temporarily locked. Preserve ciphertext for retry;"
+            },
+            {
+              "line": 202,
+              "text": "            // corrupt data needs explicit, separately approved recovery, not deletion."
+            },
+            {
+              "line": 203,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 204,
+              "text": "            throw IllegalStateException(\"Secure receipt queue unavailable\", error)"
+            },
+            {
+              "line": 205,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Record unavailable state before throwing on decryption/key failure; preserve encrypted pending evidence.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+      "errorLine2": "                                                                              ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "79",
+          "line": "221",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 219,
+              "text": "            val queue = JSONArray(legacy)"
+            },
+            {
+              "line": 220,
+              "text": "            if (!writeLocked(queue)) throw IllegalStateException(\"Queue persistence failed\")"
+            },
+            {
+              "line": 221,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()"
+            },
+            {
+              "line": 222,
+              "text": "            return queue"
+            },
+            {
+              "line": 223,
+              "text": "        } catch (error: Exception) {"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Complete availability status after writeLocked has synchronously persisted the migrated encrypted queue; avoid returning recovery before its status write.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain explicit synchronous persistence",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "                                                                             ~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "Consider using `apply()` instead of `commit` on shared preferences. Whereas `commit` blocks and writes its data to persistent storage immediately, `apply` will handle it in the background.",
+      "id": "ApplySharedPref",
+      "locations": [
+        {
+          "column": "78",
+          "line": "224",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 222,
+              "text": "            return queue"
+            },
+            {
+              "line": 223,
+              "text": "        } catch (error: Exception) {"
+            },
+            {
+              "line": 224,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 225,
+              "text": "            throw IllegalStateException(\"Secure receipt queue unavailable\", error)"
+            },
+            {
+              "line": 226,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+      "priority": "6",
+      "reason": "Record migration unavailability before throwing; retain legacy data instead of discarding it.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use `apply()` on `SharedPreferences`",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain modern platform capability",
+      "errorLine1": "        android:enableOnBackInvokedCallback=\"true\">",
+      "errorLine2": "        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).\n\nThis is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance or functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.\n\nNote: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `<tag>` element in layouts introduced in API 21.",
+      "id": "UnusedAttribute",
+      "locations": [
+        {
+          "column": "9",
+          "line": "31",
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+          "source_excerpt": [
+            {
+              "line": 29,
+              "text": "        android:fullBackupContent=\"false\""
+            },
+            {
+              "line": 30,
+              "text": "        android:dataExtractionRules=\"@xml/data_extraction_rules\""
+            },
+            {
+              "line": 31,
+              "text": "        android:enableOnBackInvokedCallback=\"true\">"
+            },
+            {
+              "line": 32,
+              "text": "        <receiver"
+            },
+            {
+              "line": 33,
+              "text": "            android:name=\".receiver_sms.CollectSmsReceiver\""
+            }
+          ]
+        }
+      ],
+      "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+      "priority": "6",
+      "reason": "enableOnBackInvokedCallback opts into the Android13+ Back callback. Older supported APIs ignore the newer attribute; moving the application declaration into an API-only source manifest is not required.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Attribute unused on older versions",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain reviewed pinned version",
+      "errorLine1": "    coreLibraryDesugaring(\"com.android.tools:desugar_jdk_libs:2.1.4\")",
+      "errorLine2": "                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_pinned_coordinate_match": true,
+      "explanation": "This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.",
+      "full_build_source_changed": true,
+      "id": "GradleDependency",
+      "locations": [
+        {
+          "column": "27",
+          "line": "453",
+          "path": "android/app/build.gradle.kts",
+          "sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+          "source_excerpt": [
+            {
+              "line": 451,
+              "text": "    // the same pinned compiler version so lock generation observes it as well."
+            },
+            {
+              "line": 452,
+              "text": "    implementation(\"org.jetbrains.kotlin:kotlin-stdlib-common:2.3.20\")"
+            },
+            {
+              "line": 453,
+              "text": "    coreLibraryDesugaring(\"com.android.tools:desugar_jdk_libs:2.1.4\")"
+            },
+            {
+              "line": 454,
+              "text": "    implementation(\"com.google.android.play:integrity:1.6.0\")"
+            },
+            {
+              "line": 455,
+              "text": "    testImplementation(\"junit:junit:4.13.2\")"
+            }
+          ]
+        }
+      ],
+      "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+      "prior_statement": "coreLibraryDesugaring(\"com.android.tools:desugar_jdk_libs:2.1.4\")",
+      "priority": "4",
+      "reason": "desugar_jdk_libs2.1.4 is the existing reviewed build dependency. An available-version notice does not prove a defect; no upgrade or advisory clearance is asserted.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Obsolete Gradle Dependency",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Correctness",
+      "disposition": "retain optional configuration guard",
+      "errorLine1": "        val resource = context.resources.getIdentifier(\"collect_gateway_backend_host\", \"string\", context.packageName)",
+      "errorLine2": "                                         ~~~~~~~~~~~~~",
+      "explanation": "Discouraged APIs are allowed and are not deprecated, but they may be unfit for common use (e.g. due to slow performance or subtle behavior).",
+      "id": "DiscouragedApi",
+      "locations": [
+        {
+          "column": "42",
+          "line": "33",
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+          "sha256": "652e76751bef39e19c2be7a3ee857f4771d87d4da2c909cf0c531cd1e793f031",
+          "source_excerpt": [
+            {
+              "line": 31,
+              "text": ""
+            },
+            {
+              "line": 32,
+              "text": "    fun configured(): Boolean {"
+            },
+            {
+              "line": 33,
+              "text": "        val resource = context.resources.getIdentifier(\"collect_gateway_backend_host\", \"string\", context.packageName)"
+            },
+            {
+              "line": 34,
+              "text": "        return resource != 0 && context.getString(resource) == HOST && store.readEnrollment() != null"
+            },
+            {
+              "line": 35,
+              "text": "    }"
+            }
+          ]
+        }
+      ],
+      "message": "Use of this function is discouraged because resource reflection makes it harder to perform build optimizations and compile-time verification of code. It is much more efficient to retrieve resources by identifier (e.g. `R.foo.bar`) than by name (e.g. `getIdentifier(\"bar\", \"foo\", null)`).",
+      "priority": "2",
+      "reason": "The backend guard deliberately denies when the flavor resource is absent or does not match the governed host. The unsigned QA build supplied no collectGatewayHost and makes no configured-provider claim. Resource-name reflection warning remains visible.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Using discouraged APIs",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Performance",
+      "disposition": "retain explicit blank QA configuration",
+      "explanation": "Unused resources make applications larger and slow down builds.\n\n\nThe unused resource check can ignore tests. If you want to include resources that are only referenced from tests, consider packaging them in a test source set instead.\n\nYou can include test sources in the unused resource check by setting the system property lint.unused-resources.include-tests =true, and to exclude them (usually for performance reasons), use lint.unused-resources.exclude-tests =true.\n,",
+      "id": "UnusedResources",
+      "locations": [
+        {
+          "path": "android/app/build.gradle.kts",
+          "sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13"
+        }
+      ],
+      "message": "The resource `R.string.collect_gateway_backend_host` appears to be unused",
+      "priority": "3",
+      "reason": "Unsigned QA invocation intentionally supplies no collectGatewayHost. The empty optional resource is absent after shrink, so configured() denies; provider configuration is false in the marker. A governed nonblank-provider artifact is not certified by this build.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Unused resources",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "verified source correction in compiled unsigned artifact and full production lint",
+      "exact_prior_source_message_match": true,
+      "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+      "id": "IconLauncherShape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+          "sha256": "b4b0e16ece8b2956d6d6cec9a50b1a77f03a36e272c07bb07013ce57225454dc"
+        }
+      ],
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "priority": "6",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "The launcher icon shape should use a distinct silhouette",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "verified source correction in compiled unsigned artifact and full production lint",
+      "exact_prior_source_message_match": true,
+      "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+      "id": "IconLauncherShape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+          "sha256": "a9c2c7aac385f8ee3d90c6ffaaf50c3247bb29f62be4b8ad804f7adf37657480"
+        }
+      ],
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "priority": "6",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "The launcher icon shape should use a distinct silhouette",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "verified source correction in compiled unsigned artifact and full production lint",
+      "exact_prior_source_message_match": true,
+      "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+      "id": "IconLauncherShape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+          "sha256": "e54a25ce1870c493e3036949aa39a3907b9da4a3f93284c74537142c68c12a33"
+        }
+      ],
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "priority": "6",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "The launcher icon shape should use a distinct silhouette",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "verified source correction in compiled unsigned artifact and full production lint",
+      "exact_prior_source_message_match": true,
+      "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+      "id": "IconLauncherShape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+          "sha256": "c7fd47434b20b3756d4e105b10b61150d13fd8b1e1288e6df9c58c43163844bb"
+        }
+      ],
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "priority": "6",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "The launcher icon shape should use a distinct silhouette",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "verified source correction in compiled unsigned artifact and full production lint",
+      "exact_prior_source_message_match": true,
+      "explanation": "According to the Android Design Guide (https://d.android.com/r/studio-ui/designer/material/iconography) your launcher icons should \"use a distinct silhouette\", a \"three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.\"\n\nThe unique silhouette implies that your launcher icon should not be a filled square.",
+      "id": "IconLauncherShape",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+          "sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265"
+        }
+      ],
+      "message": "Launcher icon used as round icon did not have a circular shape",
+      "priority": "6",
+      "reason": "Remove optional roundIcon pointing to the square official bitmap. Use the normal official icon fallback without editing any image pixels.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "The launcher icon shape should use a distinct silhouette",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Usability:Icons",
+      "disposition": "retain canonical splash bitmap; verify resource references",
+      "exact_prior_source_message_match": true,
+      "explanation": "The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`.",
+      "id": "IconLocation",
+      "locations": [
+        {
+          "path": "android/app/src/main/res/drawable/collect_launcher_icon.png",
+          "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+        }
+      ],
+      "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+      "priority": "5",
+      "reason": "collect_launcher_icon.png is a splash drawable used by explicit160dp framed launch backgrounds and API31 splash styles, rather than the launcher mipmap asset. Keep official byte identity; native visual/device acceptance remains separate.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Image defined in density-independent drawable folder",
+      "url": "https://developer.android.com/guide/practices/screens_support.html",
+      "urls": "https://developer.android.com/guide/practices/screens_support.html",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit callback URI construction",
+      "errorLine1": "                .setData(Uri.parse(\"collect-gateway://callback/$id\"))",
+      "errorLine2": "                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "26",
+          "line": "29",
+          "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+          "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+          "source_excerpt": [
+            {
+              "line": 27,
+              "text": "            val intent = Intent(context, GatewaySmsCallbackReceiver::class.java)"
+            },
+            {
+              "line": 28,
+              "text": "                .setAction(\"app.cool.mobile.gateway.${kind.name}\")"
+            },
+            {
+              "line": 29,
+              "text": "                .setData(Uri.parse(\"collect-gateway://callback/$id\"))"
+            },
+            {
+              "line": 30,
+              "text": "                .putExtra(\"callback_id\", id).putExtra(\"device_id\", record.deviceId).putExtra(\"attempt_id\", record.attemptId)"
+            },
+            {
+              "line": 31,
+              "text": "                .putExtra(\"fence\", record.fence).putExtra(\"segment_index\", index).putExtra(\"nonce\", record.callbackNonce)"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `String.toUri` instead?",
+      "priority": "6",
+      "reason": "The existing Uri.parse call makes the exact one-shot callback identity explicit; the KTX extension suggestion does not correct a demonstrated native defect. Exact callback/grant tests are separately bound.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "395",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d",
+          "source_excerpt": [
+            {
+              "line": 393,
+              "text": "            // A revoked or signed-out request must never activate capture when"
+            },
+            {
+              "line": 394,
+              "text": "            // Android delivers its permission callback later."
+            },
+            {
+              "line": 395,
+              "text": "            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit()"
+            },
+            {
+              "line": 396,
+              "text": "                .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true).commit()"
+            },
+            {
+              "line": 397,
+              "text": "            return"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            val uri = Uri.parse(\"tel:${Uri.encode(code)}\")",
+      "errorLine2": "                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "23",
+          "line": "437",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d",
+          "source_excerpt": [
+            {
+              "line": 435,
+              "text": "        }"
+            },
+            {
+              "line": 436,
+              "text": "        try {"
+            },
+            {
+              "line": 437,
+              "text": "            val uri = Uri.parse(\"tel:${Uri.encode(code)}\")"
+            },
+            {
+              "line": 438,
+              "text": "            startActivity(Intent(Intent.ACTION_CALL, uri))"
+            },
+            {
+              "line": 439,
+              "text": "            result.success(true)"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `String.toUri` instead?",
+      "priority": "6",
+      "reason": "Keep explicit Uri.parse after Uri.encode of the validated USSD request; the optional toUri extension provides no correctness change.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "        return if (prefs.edit().putInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, next).commit()) {",
+      "errorLine2": "                   ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "20",
+          "line": "579",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+          "sha256": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d",
+          "source_excerpt": [
+            {
+              "line": 577,
+              "text": "        val previous = prefs.getInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, 0)"
+            },
+            {
+              "line": 578,
+              "text": "        val next = (previous % SMS_PERMISSION_REQUEST_CODE_SPAN) + 1"
+            },
+            {
+              "line": 579,
+              "text": "        return if (prefs.edit().putInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, next).commit()) {"
+            },
+            {
+              "line": 580,
+              "text": "            SMS_PERMISSION_REQUEST_CODE_BASE + next"
+            },
+            {
+              "line": 581,
+              "text": "        } else {"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()",
+      "errorLine2": "                ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "17",
+          "line": "66",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 64,
+              "text": "            }"
+            },
+            {
+              "line": 65,
+              "text": "            if (queue.length() >= maxItems) {"
+            },
+            {
+              "line": 66,
+              "text": "                prefs.edit().putBoolean(SMS_QUEUE_OVERFLOW_KEY, true).commit()"
+            },
+            {
+              "line": 67,
+              "text": "                return@synchronized AppendResult.FULL"
+            },
+            {
+              "line": 68,
+              "text": "            }"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)",
+      "errorLine2": "            ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "114",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 112,
+              "text": "            // A locked/lost key or damaged queue must not be overwritten by a"
+            },
+            {
+              "line": 113,
+              "text": "            // new empty queue when consent is resumed or the account changes."
+            },
+            {
+              "line": 114,
+              "text": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)"
+            },
+            {
+              "line": 115,
+              "text": "                .putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true)"
+            },
+            {
+              "line": 116,
+              "text": "                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, markPermissionRequested ||"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)",
+      "errorLine2": "            ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "123",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 121,
+              "text": "            // Do not rebind the old owner's ciphertext or make it visible to"
+            },
+            {
+              "line": 122,
+              "text": "            // a new account. An ordinary disable does not discard evidence."
+            },
+            {
+              "line": 123,
+              "text": "            prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false)"
+            },
+            {
+              "line": 124,
+              "text": "                .putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true)"
+            },
+            {
+              "line": 125,
+              "text": "                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, markPermissionRequested ||"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "        val editor = prefs.edit()",
+      "errorLine2": "                     ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "22",
+          "line": "129",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 127,
+              "text": "            return false"
+            },
+            {
+              "line": 128,
+              "text": "        }"
+            },
+            {
+              "line": 129,
+              "text": "        val editor = prefs.edit()"
+            },
+            {
+              "line": 130,
+              "text": "            .putBoolean(SMS_ACCESS_ENABLED_KEY, true)"
+            },
+            {
+              "line": 131,
+              "text": "            .putString(SMS_ACCESS_OWNER_USER_ID_KEY, cleanOwner)"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()",
+      "errorLine2": "        ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "9",
+          "line": "150",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 148,
+              "text": "            return@synchronized false"
+            },
+            {
+              "line": 149,
+              "text": "        }"
+            },
+            {
+              "line": 150,
+              "text": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()"
+            },
+            {
+              "line": 151,
+              "text": "    }"
+            },
+            {
+              "line": 152,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()",
+      "errorLine2": "        ~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "9",
+          "line": "160",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 158,
+              "text": "            return@synchronized true"
+            },
+            {
+              "line": 159,
+              "text": "        }"
+            },
+            {
+              "line": 160,
+              "text": "        prefs.edit().putBoolean(SMS_ACCESS_ENABLED_KEY, false).commit()"
+            },
+            {
+              "line": 161,
+              "text": "    }"
+            },
+            {
+              "line": 162,
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            val editor = preferences().edit()",
+      "errorLine2": "                         ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "26",
+          "line": "172",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 170,
+              "text": "            // consent revocation or sign-out, so pending receipts from an"
+            },
+            {
+              "line": 171,
+              "text": "            // earlier owner must remain encrypted for an authorized recovery."
+            },
+            {
+              "line": 172,
+              "text": "            val editor = preferences().edit()"
+            },
+            {
+              "line": 173,
+              "text": "                .putBoolean(SMS_PERMISSION_REQUESTED_KEY, true)"
+            },
+            {
+              "line": 174,
+              "text": "                .putBoolean(SMS_ACCESS_ENABLED_KEY, false)"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "                    ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "21",
+          "line": "182",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 180,
+              "text": "            val item = queue.optJSONObject(index)"
+            },
+            {
+              "line": 181,
+              "text": "                ?: run {"
+            },
+            {
+              "line": 182,
+              "text": "                    preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 183,
+              "text": "                    throw IllegalStateException(\"Secure receipt queue contains an invalid item\")"
+            },
+            {
+              "line": 184,
+              "text": "                }"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "188",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 186,
+              "text": "        }"
+            },
+            {
+              "line": 187,
+              "text": "        if (!SmsQueueOwnerPolicy.canRead(true, owner, owner, owners)) {"
+            },
+            {
+              "line": 188,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 189,
+              "text": "            throw IllegalStateException(\"Secure receipt queue contains another account's item\")"
+            },
+            {
+              "line": 190,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "198",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 196,
+              "text": "        return try {"
+            },
+            {
+              "line": 197,
+              "text": "            val queue = JSONArray(decrypt(encrypted))"
+            },
+            {
+              "line": 198,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()"
+            },
+            {
+              "line": 199,
+              "text": "            queue"
+            },
+            {
+              "line": 200,
+              "text": "        } catch (error: Exception) {"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "203",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 201,
+              "text": "            // Keystore may be temporarily locked. Preserve ciphertext for retry;"
+            },
+            {
+              "line": 202,
+              "text": "            // corrupt data needs explicit, separately approved recovery, not deletion."
+            },
+            {
+              "line": 203,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 204,
+              "text": "            throw IllegalStateException(\"Secure receipt queue unavailable\", error)"
+            },
+            {
+              "line": 205,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "        return preferences().edit()",
+      "errorLine2": "               ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "16",
+          "line": "210",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 208,
+              "text": "    private fun writeLocked(queue: JSONArray): Boolean {"
+            },
+            {
+              "line": 209,
+              "text": "        val encrypted = encrypt(queue.toString())"
+            },
+            {
+              "line": 210,
+              "text": "        return preferences().edit()"
+            },
+            {
+              "line": 211,
+              "text": "            .putString(ENCRYPTED_QUEUE_KEY, encrypted)"
+            },
+            {
+              "line": 212,
+              "text": "            .remove(LEGACY_QUEUE_KEY)"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "221",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 219,
+              "text": "            val queue = JSONArray(legacy)"
+            },
+            {
+              "line": 220,
+              "text": "            if (!writeLocked(queue)) throw IllegalStateException(\"Queue persistence failed\")"
+            },
+            {
+              "line": 221,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, false).commit()"
+            },
+            {
+              "line": 222,
+              "text": "            return queue"
+            },
+            {
+              "line": 223,
+              "text": "        } catch (error: Exception) {"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    },
+    {
+      "category": "Productivity",
+      "disposition": "retain explicit operation semantics",
+      "errorLine1": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()",
+      "errorLine2": "            ~~~~~~~~~~~~~~~~~~~~",
+      "exact_prior_source_message_match": true,
+      "explanation": "The Android KTX libraries decorates the Android platform SDK as well as various libraries with more convenient extension functions available from Kotlin, allowing you to use default parameters, named parameters, and more.",
+      "id": "UseKtx",
+      "locations": [
+        {
+          "column": "13",
+          "line": "224",
+          "path": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+          "sha256": "0843b21ed58d6626ab63e909a59157f25cbb1994f42060f96103d160e09e8386",
+          "source_excerpt": [
+            {
+              "line": 222,
+              "text": "            return queue"
+            },
+            {
+              "line": 223,
+              "text": "        } catch (error: Exception) {"
+            },
+            {
+              "line": 224,
+              "text": "            preferences().edit().putBoolean(SMS_QUEUE_UNAVAILABLE_KEY, true).commit()"
+            },
+            {
+              "line": 225,
+              "text": "            throw IllegalStateException(\"Secure receipt queue unavailable\", error)"
+            },
+            {
+              "line": 226,
+              "text": "        }"
+            }
+          ]
+        }
+      ],
+      "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+      "priority": "6",
+      "reason": "Keep explicit edit/commit result or ordered synchronous marker writes in this consent/owner/queue boundary; a style conversion must not erase Boolean persistence results. No warning suppression added.",
+      "runtime_acceptance_claimed": false,
+      "severity": "Warning",
+      "summary": "Use KTX extension function",
+      "warning_suppressed": false
+    }
+  ],
+  "scope": "Each actual current lint diagnostic has source bytes and an individual decision; exact previous source/message review reused where identical. No visual/device/provider/store acceptance.",
+  "status": "pass",
+  "unreviewed": [],
+  "warning_count": 40
+}

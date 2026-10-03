@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "logs",
+    "collect_current_rehearsal_successorclosure_87a172c25df4"
+  ],
+  "input_sha256": null,
+  "started_at": "2026-10-01T22:26:37.930343Z",
+  "finished_at": "2026-10-01T22:26:38.036273Z",
+  "exit_code": 0,
+  "stdout_sha256": "f3fa10857fc6bc489755f6044325750f713ad2b2c0c26a204bc750b6de12867c",
+  "stderr_sha256": "69f59d6126ea35d58fd0b3c79df4aa13e84dc4cdd34bd26883e34a84d46a67d7"
+}

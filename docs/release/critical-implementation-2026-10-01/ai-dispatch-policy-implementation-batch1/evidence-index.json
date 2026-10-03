@@ -1,0 +1,1071 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/README.md",
+      "bytes": 8999,
+      "sha256": "c9e489723cea4bafaa860046bcc7bfcb1a5ae95aa2da5bbab4622734fc945281"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "bytes": 6203,
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "bytes": 6485,
+      "sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "bytes": 2960,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16462,
+      "sha256": "5e3e39f9aded87d1dbad198a4e6212f45490826f004726a7e8dd704bf7f2b960"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 24077,
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 52361,
+      "sha256": "8c4f16096dd13e8396d1d28ef601040bbc5499864e6bc5b9f12c3260f28aa24b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate/source/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 962,
+      "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-format.stderr",
+      "bytes": 16,
+      "sha256": "6282b0c8c60b59178c7708a97629980b64fb748f4e0e7ab67f0b0e061bd64ed1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-format.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-lint.stderr",
+      "bytes": 3256,
+      "sha256": "9c2f58e8488a38d25b2044433daaf85f89f39747fbab38a1bfca4bd3801d3268"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-tests.stderr",
+      "bytes": 1076,
+      "sha256": "0318cc3854c6f7f8e8587dc48702389b564986795d52c461bc17fd4545e3ec7c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-tests.stdout",
+      "bytes": 17296,
+      "sha256": "1c58bd86debc5595490f376857405e89b833cb5e24239cb25c9f2c9eb7b4142c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-types.stderr",
+      "bytes": 1438,
+      "sha256": "77270565c51cf344018a7477627a137bd3d28891d12a82f2c1a691af3aa67dc4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/candidate-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "bytes": 2960,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16045,
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 52361,
+      "sha256": "8c4f16096dd13e8396d1d28ef601040bbc5499864e6bc5b9f12c3260f28aa24b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old/source/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 714,
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old-tests.stderr",
+      "bytes": 19,
+      "sha256": "4f229c116cbae2c6dff7f06196beb073c09053a73c31d9b53e0560bd21231525"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old-tests.stdout",
+      "bytes": 53660,
+      "sha256": "83b55b332c4e75b8aa8dac05dedfdbb60d9ea3fb0c759d2e1ea71bf30ef0beb2"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old-types.stderr",
+      "bytes": 691,
+      "sha256": "e15ca2463145c7744910383fc6ab217bb52375b0cfa0223bd969760a099cd617"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/old-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/runtime.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/verification.json",
+      "bytes": 50188,
+      "sha256": "2878d06912525a9b09446295d1dbaf25124fd5a75887f85f7ae98b20f45ea299"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt1/verify_private.py",
+      "bytes": 5357,
+      "sha256": "845f43c9d23ca00703708566053a4eb346cc8bd64b4a21a65111de09789557ef"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/baseline-integration-lint.stderr",
+      "bytes": 3213,
+      "sha256": "5f95c50f00b4916222b25d782da0b2f967fb27d35570627bec61ec4dae649c0f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/baseline-integration-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "bytes": 6203,
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "bytes": 6485,
+      "sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "bytes": 2960,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16462,
+      "sha256": "5e3e39f9aded87d1dbad198a4e6212f45490826f004726a7e8dd704bf7f2b960"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 24077,
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 54480,
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate/source/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 962,
+      "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-format.stderr",
+      "bytes": 16,
+      "sha256": "6282b0c8c60b59178c7708a97629980b64fb748f4e0e7ab67f0b0e061bd64ed1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-format.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-lint.stderr",
+      "bytes": 16,
+      "sha256": "90bb281892775eb70e831f46b665a508cbcff4949964d2254cee6056ef54d7a9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-tests.stderr",
+      "bytes": 1076,
+      "sha256": "0318cc3854c6f7f8e8587dc48702389b564986795d52c461bc17fd4545e3ec7c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-tests.stdout",
+      "bytes": 18211,
+      "sha256": "524b2e86c6c408de54f98ecf8cfc81a2356c2fb8d98d13bb3fe052522aab35c6"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-types.stderr",
+      "bytes": 1438,
+      "sha256": "77270565c51cf344018a7477627a137bd3d28891d12a82f2c1a691af3aa67dc4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/candidate-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "bytes": 2960,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16045,
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 54480,
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old/source/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 714,
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old-tests.stderr",
+      "bytes": 19,
+      "sha256": "4f229c116cbae2c6dff7f06196beb073c09053a73c31d9b53e0560bd21231525"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old-tests.stdout",
+      "bytes": 66575,
+      "sha256": "524efb3ef57e66f76e4c8a86315f9029a01ab60e289f1e6f94d7cfa27f5bf290"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old-types.stderr",
+      "bytes": 691,
+      "sha256": "e15ca2463145c7744910383fc6ab217bb52375b0cfa0223bd969760a099cd617"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/old-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/runtime.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/verification.json",
+      "bytes": 50576,
+      "sha256": "c28558c4412268e9b65fcaf763fd8aa38d2a9f0cad66d11654656624e9d2a557"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt2/verify_private.py",
+      "bytes": 5564,
+      "sha256": "158043c276c48383c71d87e90d73719cfd88be1c87f61e596da13ca25bd0d0f4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/baseline-integration-lint.stderr",
+      "bytes": 3213,
+      "sha256": "5f95c50f00b4916222b25d782da0b2f967fb27d35570627bec61ec4dae649c0f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/baseline-integration-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-format.stderr",
+      "bytes": 16,
+      "sha256": "6282b0c8c60b59178c7708a97629980b64fb748f4e0e7ab67f0b0e061bd64ed1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-format.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-lint.stderr",
+      "bytes": 16,
+      "sha256": "6282b0c8c60b59178c7708a97629980b64fb748f4e0e7ab67f0b0e061bd64ed1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-tests.stderr",
+      "bytes": 1076,
+      "sha256": "0318cc3854c6f7f8e8587dc48702389b564986795d52c461bc17fd4545e3ec7c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-tests.stdout",
+      "bytes": 18211,
+      "sha256": "a530527ce93d85e14c45f722d96fd6db57bad4e4571fdde4e172523ecf18f64b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-types.stderr",
+      "bytes": 1438,
+      "sha256": "77270565c51cf344018a7477627a137bd3d28891d12a82f2c1a691af3aa67dc4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/candidate-types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/runtime.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/attempt3/verification.json",
+      "bytes": 49062,
+      "sha256": "f0412d969abb65f2e7aa1651d15c015c61e0b5e50ec28125a71d430c6f2be864"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16045,
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38753,
+      "sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/before/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 714,
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "bytes": 6203,
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "bytes": 6485,
+      "sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "bytes": 2960,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 17140,
+      "sha256": "bab8e476b5e81875b6e4c6975cb900e8cf329f263df3909facb3b3b9cb975659"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 24077,
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 54480,
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/candidate/supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 962,
+      "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/full-candidate.patch",
+      "bytes": 56224,
+      "sha256": "920b476e03097439515b4f171f3c59827154c22e604c7ab818ce00414d51a9f1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/integration-fixture-lint-raw.patch",
+      "bytes": 2968,
+      "sha256": "c99a04e5fa807d65b2b7e203d9581f8e756662018e4b08dd1b69af121bc3b89c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/integration-fixture-lint.patch",
+      "bytes": 15372,
+      "sha256": "841d6bf2b4fb8f607e5839e6231b244983ac94b4f7661b68092c90186751ad90"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/integration-fixture-preservation-final.json",
+      "bytes": 17823,
+      "sha256": "c7ce6cb4f9103a7d34a2e97e0946f65847f265fa33d3141743794edee21ce2ad"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/integration-fixture-preservation.json",
+      "bytes": 16195,
+      "sha256": "fc7478272497e62dfe2c086e8969649810273ea79e5d79ac145fa3815d0b5855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/original-case-preservation.json",
+      "bytes": 399,
+      "sha256": "f2cda43b95f333e15825a341841b0d056ad43086de0241e2972586d1680f9b17"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/_shared/roster_ai_dispatch_policy.ts.patch",
+      "bytes": 6485,
+      "sha256": "8e3057a19299766a5e39e4bcec7c08d3718f363b78660cf3f3637d173f5afb7e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts.patch",
+      "bytes": 6786,
+      "sha256": "b4fb531717c497b0a75f2b76d96ccebbbeaa1e12c439f0939b272c1a9749a2a8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts.patch",
+      "bytes": 3116,
+      "sha256": "5b972a99d742bd59ec6745f01a863735af9660136c5b0f6f090aefc712124297"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/_shared/roster_decoder_integration_test.ts.patch",
+      "bytes": 15824,
+      "sha256": "ada9540ef86969fd6613e052496ebbe23eaea9e27eb752b6dc3de8b8f9797dca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/prepare-roster-import/handler.ts.patch",
+      "bytes": 6348,
+      "sha256": "d8e4b9a998daadd0b86acf53be65c16219ef6d4e0fec07480779070305744cd3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/prepare-roster-import/handler_test.ts.patch",
+      "bytes": 17080,
+      "sha256": "0cbd07608f1bf8c9c27636750e0fbba0e95a3bca7d554af68cfb776e70e46775"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/patches/supabase/functions/prepare-roster-import/index.ts.patch",
+      "bytes": 585,
+      "sha256": "9469b4935b9166827d2118af3dbc222200ab977d2fa3c02a5d03bca0f1a6bcfe"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prepare-review-attempt1-failure.json",
+      "bytes": 519,
+      "sha256": "c99cc17a67368b448a79a7fe768989cc4dad678529fd5686d5373e7595ade67b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prepare-review-attempt1.py",
+      "bytes": 5613,
+      "sha256": "7193dc77fed60b7f72e1a3fe2f75a884e31809d8829008a4b9e9079f84e99a9b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prepare-review-attempt2-failure.json",
+      "bytes": 502,
+      "sha256": "7dcf28af0222113d2b4253351c7d78a96ea3741952bf84517a842afcf7a9e143"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prepare-review-attempt2.py",
+      "bytes": 5607,
+      "sha256": "0d7f4fd7b9c95416f0056b619b3130cccd310d688486d9242b72e422a7542c48"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prepare_review.py",
+      "bytes": 5611,
+      "sha256": "1109c144abed258aed914037f8cb27ea747da8b55519afd450541857c311fb04"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/prior-packets-readback.json",
+      "bytes": 1303,
+      "sha256": "2eb3976f615fdf96bcee7aa314616285751e329f380fdb9ef7f83e82d430a4a0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/proposal.json",
+      "bytes": 8179,
+      "sha256": "bebd637d8a9bc41e13a0706b048bced774b2a989537dd6d608f7ef696fa49d27"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/root-normalization-review.txt",
+      "bytes": 429,
+      "sha256": "aec25910322dbe99a780952cd2f73136fa0562feeb1f50bddca52caea43958fd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/source-after-private-review.json",
+      "bytes": 4098,
+      "sha256": "441bb36561bfeac04a44ee69fe45af15179ee5485748a1d14fb0fff9a9ae18dc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/source-before.json",
+      "bytes": 7499,
+      "sha256": "9e88d7f2e9f484d76be9e51d17355b5e4c6fc71f81c0897146f2e1a16494d03e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/verify_packet.py",
+      "bytes": 4688,
+      "sha256": "34f73fe9aea2d50004f3c2addfc573626f7fa1a6b03fb94175aea3cdb829ab30"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-implementation-batch1/verify_private.py",
+      "bytes": 5495,
+      "sha256": "7b08dfff6d424ea910a03b37363a097c5e7b4aef45b295c115cd4b9400aa511e"
+    }
+  ],
+  "scan_scope": "new owned private-policy implementation packet only; preserved current source bytes and private test evidence, no archive/customer scan",
+  "errors": []
+}

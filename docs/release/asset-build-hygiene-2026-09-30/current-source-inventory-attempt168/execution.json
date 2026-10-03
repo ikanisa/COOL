@@ -1,0 +1,140 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "file-saver-fork-provenance",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/verify_file_saver_fork.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.61,
+      "stdout_sha256": "5c0ea4a02d458facf6c4fede14ffc7c5e21a9e9546a3e125271702aa8f770cef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.71,
+      "stdout_sha256": "82e7c10586a7973faa23715d001dcf826fdb4587422b57051ce7481e61829799",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-group-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.2,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-reachability",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/runtime-reachability.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.4,
+      "stdout_sha256": "87de1fdb62964d3b6bcc705f940a6e759203c34c55ba159f59c20334c7333193",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/runtime-reachability.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.37,
+      "stdout_sha256": "cf9ce759369db106bf33004531edd178c7453ac2e1cc558fd9564dea273992da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-source-inventory",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-inventory.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.74,
+      "stdout_sha256": "fa15deba467f419364f84909feeeec836a55183a424435324446cfd85842fef6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.96,
+      "stdout_sha256": "18d4fc79a45a88a6495705dc3562e4f9c99a769172e776d9c239dd1147e1b693",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-source-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.68,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.35,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "offline-schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt168/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.99,
+      "stdout_sha256": "71c326b8452d5bcbee5bb19645c5cf4d2c2ae93d4db32f5caa1e5ed930381c53",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

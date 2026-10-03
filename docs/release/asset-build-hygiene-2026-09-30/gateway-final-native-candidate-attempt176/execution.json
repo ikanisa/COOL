@@ -1,0 +1,72 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "final-native-security",
+      "argv": [
+        "./gradlew",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/json-runtime-proof.init.gradle",
+        ":app:assembleInternal_gatewayRelease",
+        ":app:lintInternal_gatewayRelease",
+        ":app:testInternal_gatewayDebugUnitTest",
+        "--tests",
+        "app.cool.mobile.gateway.GatewaySafetyTest",
+        "--tests",
+        "app.cool.mobile.gateway.GatewayDispatchArmTest",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayRelease",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayDebug",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 337.07,
+      "stdout_sha256": "f876314303a65bc81f239a192ed0b247141f77bc4c77c8f96fdf5247a1a72c3e",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    {
+      "name": "existing-dispatch-archive-harness",
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/scripts/tests/android_gateway_dispatch_jvm.py",
+        "--packet",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/standalone-dispatch-archive"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 63.9,
+      "stdout_sha256": "deac69dd1618c5d2c19cf7651b2be967a664ce09c30049892ea198a885a898f6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-apk-manifest",
+      "argv": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "0abe59b00d656e45b73635529192203c4f65686154c4897bbd95e1778a1582e3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-apk-unsigned",
+      "argv": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.3,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c"
+    }
+  ],
+  "verification_sha256": "5291edc6c827b35147e9f2a26525ec325e28cc15ddac83fde0fb33e309b45ed0"
+}

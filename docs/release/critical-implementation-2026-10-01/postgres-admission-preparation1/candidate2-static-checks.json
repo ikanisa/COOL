@@ -1,0 +1,34 @@
+[
+  {
+    "command": [
+      "git",
+      "apply",
+      "--check",
+      "--whitespace=error",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2.patch"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/supabase_cli_helpers.sh"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/supabase_production_readiness.sh"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

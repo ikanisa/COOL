@@ -1,0 +1,33 @@
+{
+  "files": {
+    "README.md": "9d79c3dc9379bbad329ae02d47d15fcd2c91b4d77cc5ef68e021b6c73abdc247",
+    "actual-SDK-pubspec.lock": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340",
+    "actual-SDK-readback-patched.json": "6ccab51ef2c46296f6f065131d01be9306edfe1209c5822fc9041e3b6c1b70f9",
+    "actual-SDK-readback-patched.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-SDK-readback-patched.stdout": "a562399dd76e619e2cae188bc8d698cbbd37b4d73b66c7482bd6cf8430fa9a4d",
+    "actual-SDK-readback-sdk-locked.json": "e3ba46686789c996081f2769c51a63fd3fcfe83603f15c87c0cbc31ec6725786",
+    "actual-SDK-readback-sdk-locked.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-SDK-readback-sdk-locked.stdout": "7aa65997848d92b9264c38b216a244ab27c1af831e247af4a8c20f623e6c3d7b",
+    "actual-SDK-source-patched.json": "e23efc46bc6d56b018aee9aadd45b3d8e7854db52fed6151fca3bb59bf722ae4",
+    "actual-SDK-source-sdk-locked.json": "8cea43256e6d1593d95af6a123ca41333a379ab604a92ee6461012f207425022",
+    "actual-actual-command.json": "6b0a4146d9961c8fd4828d1cb1a33db649a41b135125aeffe1f86bb00fc36a3b",
+    "actual-actual-command.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-actual-command.stdout": "ee40c005d3a452eb5c498e9731a35cc01147939fbf4a2be3d264722e55d47d66",
+    "actual-generated-package_config.json": "9b451c0351f86449142c03c4adb6ac9d4112778aa555d5febb8163b9a59f1eba",
+    "actual-generated-package_graph.json": "0556b989b49c30b96b083b5eeba860aeaf293eb24f4e56bd0f14fead46e5a75e",
+    "actual-owned-pub-cache-manifest.json": "3da3cd91974408db08a4c3dc61b61e5005f5c21f642b5e1bec2c7032c3481aba",
+    "actual-resolved-SDK-packages.json": "13e67d4f8a7ccdddac7e06472ee6efedba01d142a0d565930e552b79a661f4f2",
+    "actual-root-sdk-lock-admission.json": "f27501095ec77a819b9835dd9b9ee48c9034e3219745105bd3247b5b6ef44ff3",
+    "actual-sdk-lock-assessment.json": "7102639df20d62c7ee78cbcc59cdbf9d26bed91cf2903db9e34c2e2955ed5e26",
+    "actual-start.json": "7574b938a821d13c8f78399b3aa8c9a1ae798702c55f2d88b63eb5e6de2bc5c4",
+    "actual-terminal.json": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+    "collect_sdk_lock.py": "dbfb96cdef5be9d5f1e8fefa5064cfa0444e3470ca6a977088fd367eabda1d5d",
+    "controller-terminal.json": "7b059acd07f1f8c0cd2f69eab069851e7a20916a066ab874b1f0140eaea3fd1f",
+    "controller.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "controller.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "invocation-start.json": "091e6b80a337acd98772a2dc6f844a1263a21e53b733cb3da2cc0ef8ff5d07b4",
+    "pre-invocation.json": "38caedb0384e7c2bb3b47eca2f9aad362960a095619cf55d29d765014861bc8a",
+    "startup-next-proposal.json": "0ad5e9c7d7ac1045df30477f2e6922e2e0a1513a55e588b7fdcff26c96ad71ef"
+  },
+  "scope": "Actual one-shot private SDK enforced original-lock resolution/full source+exact8/four metadata/owned package/cache/protected readbacks. No Flutter startup/app/export/Gradle/native invocation or promotion."
+}

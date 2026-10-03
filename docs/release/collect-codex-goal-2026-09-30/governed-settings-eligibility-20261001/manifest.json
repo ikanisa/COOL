@@ -1,0 +1,326 @@
+{
+  "HANDOFF.md": {
+    "sha256": "b5ceedff23e9217e5716cbafdef555ec1d7d15d045c4ba98b27bb112cde41303",
+    "size": 1664
+  },
+  "proofs/sql240-attempt1/concurrency.log": {
+    "sha256": "bcc95398cc9e3867b4c6d526bb74882fbc6ccb53efe78b05228cfaa7f6e2d4fd",
+    "size": 1990
+  },
+  "proofs/sql240-attempt1/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+    "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "size": 143763
+  },
+  "proofs/sql240-attempt1/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+    "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "size": 1289085
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+    "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "size": 34672
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+    "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "size": 32062
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+    "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "size": 27945
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+    "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "size": 43343
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/runtime_control_edit_eligibility_uat.py": {
+    "sha256": "0a5b9a37089c11901861f030df33efd730255aebded3fc29860976d6e4794d1e",
+    "size": 26786
+  },
+  "proofs/sql240-attempt1/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+    "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "size": 41765
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+    "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "size": 63024
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+    "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "size": 20002
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+    "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "size": 2971
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+    "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "size": 3921
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+    "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "size": 5762
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+    "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "size": 6841
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+    "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "size": 25667
+  },
+  "proofs/sql240-attempt1/executed-inputs/supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": {
+    "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "size": 7484
+  },
+  "proofs/sql240-attempt1/install.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/sql240-attempt1/observed-eligibility.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/sql240-attempt1/queries.log": {
+    "sha256": "3c73fb1233721b5287b1cd912c4381a3ee908f3c4fb8cee7bb6030c5aed684c9",
+    "size": 1953481
+  },
+  "proofs/sql240-attempt1/queries.sql": {
+    "sha256": "b9288ab40702497632c3cf19e1d79b2b028a5b1f7d9d98be88269c85bc2eb6d2",
+    "size": 1691915
+  },
+  "proofs/sql240-attempt1/result.json": {
+    "sha256": "80f8189ecd444e56f2bfe1f3c95d8e8fdb7a042d3a5e5fe0afb082eefe195b11",
+    "size": 34929
+  },
+  "proofs/sql240-attempt1/settings_eligibility/container.log": {
+    "sha256": "08d5ab1cb58223111b17d7a971d11a0a421c4a6e28debed3557611442305316e",
+    "size": 90468
+  },
+  "proofs/sql240-attempt1/settings_eligibility/queries.log": {
+    "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+    "size": 617
+  },
+  "proofs/sql240-attempt1/settings_eligibility/queries.sql": {
+    "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+    "size": 906
+  },
+  "proofs/sql240-tail2/concurrency.log": {
+    "sha256": "63e73e39d6972628a764d7d0fbfbfc898ec1319a0e96da160ee7cdf034c5cfd1",
+    "size": 198
+  },
+  "proofs/sql240-tail2/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+    "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "size": 143763
+  },
+  "proofs/sql240-tail2/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+    "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "size": 1289085
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+    "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "size": 34672
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+    "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "size": 32062
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+    "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "size": 27945
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+    "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "size": 43343
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/runtime_control_edit_eligibility_uat.py": {
+    "sha256": "4cbb27255ff6bb3c7fbbb775834678c5b1493542468f83e6ba8f376bb32be83e",
+    "size": 26955
+  },
+  "proofs/sql240-tail2/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+    "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "size": 41765
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+    "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "size": 63024
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+    "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "size": 20002
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+    "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "size": 2971
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+    "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "size": 3921
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+    "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "size": 5762
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+    "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "size": 6841
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+    "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "size": 25667
+  },
+  "proofs/sql240-tail2/executed-inputs/supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": {
+    "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "size": 7484
+  },
+  "proofs/sql240-tail2/install.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/sql240-tail2/queries.log": {
+    "sha256": "7f01b3455f98c1c863183de4ae4b7ec6077cc0f2ca21e323b86815c28a52ff68",
+    "size": 1824952
+  },
+  "proofs/sql240-tail2/queries.sql": {
+    "sha256": "297ed91904f5d87fb7ad174922f4c4813c88d165d6a6aca0f754db8932172016",
+    "size": 1558224
+  },
+  "proofs/sql240-tail2/result.json": {
+    "sha256": "2e54e00d97a68b2f6645f1e0f47d4cd5b34727977d6574ffce3dc28061425751",
+    "size": 5954
+  },
+  "proofs/sql240-tail2/settings_eligibility/container.log": {
+    "sha256": "0d6c3f86e5ee7e7124e00b1fc454622c713c9e500eb1842d98a7b06d0a411194",
+    "size": 16094
+  },
+  "proofs/sql240-tail2/settings_eligibility/queries.log": {
+    "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+    "size": 617
+  },
+  "proofs/sql240-tail2/settings_eligibility/queries.sql": {
+    "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+    "size": 906
+  },
+  "proofs/sql240-tail3/concurrency.log": {
+    "sha256": "51c8fe5afd2544e958e546108dcdd0910768a32d999f3c6b23d2c06bae172b42",
+    "size": 863
+  },
+  "proofs/sql240-tail3/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+    "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "size": 143763
+  },
+  "proofs/sql240-tail3/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+    "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "size": 1289085
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+    "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "size": 34672
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+    "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "size": 32062
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+    "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "size": 27945
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+    "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "size": 43343
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/runtime_control_edit_eligibility_uat.py": {
+    "sha256": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238",
+    "size": 26950
+  },
+  "proofs/sql240-tail3/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+    "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "size": 41765
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+    "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "size": 63024
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+    "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "size": 20002
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+    "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "size": 2971
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+    "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "size": 3921
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+    "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "size": 5762
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+    "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "size": 6841
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+    "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "size": 25667
+  },
+  "proofs/sql240-tail3/executed-inputs/supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": {
+    "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "size": 7484
+  },
+  "proofs/sql240-tail3/install.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/sql240-tail3/queries.log": {
+    "sha256": "20d270853a0931a2ceb7ef57511d3ce2a935470c176efbd5853556779b308a01",
+    "size": 1828237
+  },
+  "proofs/sql240-tail3/queries.sql": {
+    "sha256": "2fdc263c4d874cce5c7dd0fa5ec2d7b2121858fbb4b0fedb52f315efae92a3f2",
+    "size": 1562520
+  },
+  "proofs/sql240-tail3/result.json": {
+    "sha256": "93ff96d4427570add6598e8f54055a3d1d7222ca01c4ae76702bba774338c37f",
+    "size": 6941
+  },
+  "proofs/sql240-tail3/settings_eligibility/container.log": {
+    "sha256": "095c68ef27a7d7354c3a3b96ed96404fe634c2f112f1662613b49534db41bef7",
+    "size": 16667
+  },
+  "proofs/sql240-tail3/settings_eligibility/queries.log": {
+    "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+    "size": 617
+  },
+  "proofs/sql240-tail3/settings_eligibility/queries.sql": {
+    "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+    "size": 906
+  },
+  "scoped-uploader-source-delta.patch": {
+    "sha256": "faddd51353bb1526d4dcc550f56df3f8e0dcfb3ce496807eede7eb8b40fc679a",
+    "size": 24897
+  },
+  "scripts/tests/runtime_control_edit_eligibility_uat.py": {
+    "sha256": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238",
+    "size": 26950
+  },
+  "sql240-attempt1-terminal.log": {
+    "sha256": "293f2d62b0c7b4ab188d04cd25873b2e8f1405fb03f82b7d883e4af7d9a5aef0",
+    "size": 7609
+  },
+  "sql240-tail2-terminal.log": {
+    "sha256": "a3deb14aa1e18fee76bbdcea59bd91b4776e7ecdebbd22a95e9a052d9a7984e7",
+    "size": 1668
+  },
+  "sql240-tail3-terminal.log": {
+    "sha256": "339e3004336c4795e52c086f3e5448735d4c06f88fb4233c309163b2302a4a11",
+    "size": 822
+  },
+  "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": {
+    "sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "size": 7484
+  },
+  "verification.json": {
+    "sha256": "95862f39e7be3266aaae3e4551bd8b2b6c53a19981c544829dfd6ecc9a2fe355",
+    "size": 18406
+  }
+}

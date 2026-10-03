@@ -1,0 +1,487 @@
+{
+  "resolved_package_binding_sha256": "785ce9fb660892a8b257197ce6b8b7f23cebe2b0fcdbc5729a976cbf8bfa0479",
+  "resolved_package_verification_sha256": "bf1a31d5849b1131e8c7dd683b94d4bac9000a76fba761f6e4857d498dd90152",
+  "resolved_package_inputs_unchanged": true,
+  "original_checkout_drift": {
+    "android/app/build.gradle.kts": {
+      "before_sha256": "804e394da2c29370560810560cac7bd17663b6eb5e78318d113aa5ea1cafc825",
+      "after_sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9"
+    },
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": {
+      "before_sha256": "f09c6b412dc9cae5cb00dc2a9ae97a9977f6ec5f0f78f0b4063fc900bbe2f534",
+      "after_sha256": "0bd98a4a669d4d5874822d9b86f5f8170f879ea8ccd9a1a317689df7cbb2d78f"
+    },
+    "lib/admin/admin_router.dart": {
+      "before_sha256": "6b5f9ecf848b303be2b6c5a7869f2583f209391ebc08bfe30ad2191d574d58c5",
+      "after_sha256": "909def7d8559b0bdaf8112efdad081e74473b88143a80c0d6971ef7ea5a9a7d4"
+    },
+    "lib/admin/admin_shell.dart": {
+      "before_sha256": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+      "after_sha256": "7ce7e3c99ec6378d72b3d31582e03d188bb63ab3f750d0c77b4abc68d2dad2c2"
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "before_sha256": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+      "after_sha256": "240fe3f69ff211f7d4228a1ab8eaccaee75874c9732c11bd1f6f508515a91e6c"
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "before_sha256": null,
+      "after_sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "before_sha256": null,
+      "after_sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "before_sha256": null,
+      "after_sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "before_sha256": null,
+      "after_sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1"
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "before_sha256": null,
+      "after_sha256": "a2dafbd81d7a3336f5c8477a5922574ac0842cdfe03a958a094b73336d7c6d26"
+    },
+    "lib/admin/core/admin_exception_runtime.dart": {
+      "before_sha256": null,
+      "after_sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+    },
+    "lib/admin/core/admin_operation_components.dart": {
+      "before_sha256": "e7194d76281ac2b0b3dfce76d459d65142ef56bf3faebae00d9c785fffabeab2",
+      "after_sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    "lib/admin/core/admin_operation_tables.dart": {
+      "before_sha256": "5cfd920a7115c9fe6ea7cd921f6df893bfc05df4803930d4c3a0ef0854ccb8aa",
+      "after_sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "before_sha256": "e1a95e05049ba6c53f25cb148f4d2a1505d3df937e4091b4b30b7ef6c63c6f4a",
+      "after_sha256": "b2b947558aec6bd1393e2168c1e0fa3d110b2a8a31cb4d68f07bbc81b899f71f"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "before_sha256": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551",
+      "after_sha256": "818f693a301485aad0be0f582f6d4a740839434a8fb03e68e440698eb9e55d5c"
+    },
+    "scripts/assets/publish_public_app_media.py": {
+      "before_sha256": "47ca3d839326c459a84930bb36ce1d982f6a35bb1ce413c9b77a60b7ea12e47c",
+      "after_sha256": "748c4a4b63e7ea5bbdc4208ab95bdf2cd6d6c62191153daa756a15b4160f80e4"
+    },
+    "scripts/public_website_quality_gate.sh": {
+      "before_sha256": "986c467134666fee2efa20dbcc0368da555e6438a82b10eb3957b27e5b61e832",
+      "after_sha256": "c21eca3a88bf3ae7bb068f0a0e49cb686399ce96f6fbd1ef0f529d3563fe8428"
+    },
+    "scripts/qa/collect_release_candidate.py": {
+      "before_sha256": "70b13a77df178e378883113db88112335892ff6101523f181556829037fe4f6e",
+      "after_sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "scripts/qa/public_browser_app_media.mjs": {
+      "before_sha256": "a8bd3f5eccf0a01e8f50f46dd7b63d460c92fdd4b667126790dea269219fa910",
+      "after_sha256": "64689409c566138e949d5d1712ac4f89e5a8c725b59e926b8425006564fd80e7"
+    },
+    "scripts/qa/resolved_native_package_inputs.py": {
+      "before_sha256": null,
+      "after_sha256": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a"
+    },
+    "scripts/tests/admin_exception_reads_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "d090475661c996e46cd48e093d617fd87f5ef2521cf34c17328b15bd1f5deddc"
+    },
+    "scripts/tests/admin_full_coverage_inventory.py": {
+      "before_sha256": "189f719b54baba575ea8f688c8aa85f17295e38ae74ace540205c82e8f6ca04e",
+      "after_sha256": "31e925e5413931ce30af7eda5cd2fddcdfe8e9ed69bab215716454a6b0fe1776"
+    },
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "before_sha256": "2c8786162ff1b4245e4753566f7ccd0e164f9013529fdb4e30906851872dd249",
+      "after_sha256": "97af103486a61f41fe9a3457ee10930a8dfda696fb1169d1e0f37d3eefa16f13"
+    },
+    "scripts/tests/admin_sensitive_authority_uat.py": {
+      "before_sha256": "21022c3eb4ac98dc2fe7bcacbb2b9a80b62f42b7017b85b5763c1d40c289cf22",
+      "after_sha256": "12e90ec7a733000afe0e45fe17ae531fe63703300baa7ba20a23de70bbd1c3ac"
+    },
+    "scripts/tests/current_generated_query_benchmark_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "cf3bb396c4c58804ac15994a41342aad53a289c0cb79f99e49ecf4e0ea9a1759"
+    },
+    "scripts/tests/current_runtime_control_bundle_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740"
+    },
+    "scripts/tests/data_correctness_gate.py": {
+      "before_sha256": "dbfcf5ccaf56b997b9e6700e845223f343b936c4256bfa9715465c2af047fc6d",
+      "after_sha256": "55613ad6ea41ed9e96560083082229a68b55e5ccb78e5cbeda85dd1168279de8"
+    },
+    "scripts/tests/data_correctness_post_run_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "e489cc6badf07241f6696247e144b463412a27d7596ac7b76cc4fe30147b94c2"
+    },
+    "scripts/tests/generate_runtime_reason_migration.py": {
+      "before_sha256": null,
+      "after_sha256": "c535440edcf0836113c7f7bbc46381440c83ea91634a83fdec5df826b8e290dc"
+    },
+    "scripts/tests/generate_sensitive_reason_migration.py": {
+      "before_sha256": null,
+      "after_sha256": "6d176ccd7f00003f0155a8746519ad6b07ec6764bb9d44f27b4aff1a9653b992"
+    },
+    "scripts/tests/public_browser_served_resource_test.mjs": {
+      "before_sha256": "0e55a1b85798f8224efac67b36df3adec6e3f5b4ce82f635d025af0ea8647acc",
+      "after_sha256": "10b610477d771d48afe73ef4139328ee5800b03bc03e630d9c5cf9dd38c6ed29"
+    },
+    "scripts/tests/public_native_media_publisher_test.py": {
+      "before_sha256": "81defebc123b07ce1d445095637e0894009d870fdff90b986950a6100236ae05",
+      "after_sha256": "7dd0f982ba424691190800e640d714fb2f3435e1b186550a779b37f1538910f5"
+    },
+    "scripts/tests/receipt_supervisor_identity_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "df62e12509f407928bf23d6531d77eb4fab29d7f8b26aaef2fefe01cb8b7a1aa"
+    },
+    "scripts/tests/refresh_local_progress_register.py": {
+      "before_sha256": "3b8b38ec7600baa98280c93597f2ce240ed58446bca06e56280e4509e681ea4d",
+      "after_sha256": "5a7e652a86ac35d484de3b8937576d511ec13269f2f46c6598f50a79268e8313"
+    },
+    "scripts/tests/resolved_native_package_inputs_test.py": {
+      "before_sha256": null,
+      "after_sha256": "8f8c564d0a9241a7800891b2eb4bc65c9155414f3f9532e6f7440afebc46cdad"
+    },
+    "scripts/tests/roster_fresh_auth_post_vm_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282"
+    },
+    "scripts/tests/staged_bundle_upgrade_uat.py": {
+      "before_sha256": "f9892e28f73e4c503718d3c875bb557c636b9be8ebde81a65cb98f854d1ecb08",
+      "after_sha256": "3c1cde1854485605a194120f28ee01e0b99ccb87ba9ed4ef2f98dfda42ecd6ea"
+    },
+    "scripts/tests/test_collect_release_candidate.py": {
+      "before_sha256": "a77d7d3a593255cc0ffa4231330809dd9ab9df250a2f23307d0fe3471f017db0",
+      "after_sha256": "5e3f5b062b7a533f8a3b81056fa77e75e1cef215e0bba8fc4912a96380e7c5da"
+    },
+    "test/admin_exception_checkpoint_browser_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "40af729ecc19d93ec9322c44a3f1eb258a4c6d898d2ef19b6595c3b9ec8f6641"
+    },
+    "test/admin_exception_models_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d"
+    },
+    "test/admin_exception_page_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "d525601a5982dd2b3f944e2a1d5c8344a48ecd958546fed6c44836db0be9c723"
+    },
+    "test/admin_exception_repository_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540"
+    },
+    "test/admin_gateway_action_ui_sdk_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "39fe7312b34ede1c1a9516efe206d325e43b4f714b299d56db39428e522ca509"
+    },
+    "test/admin_gateway_sdk_state_matrix_test.dart": {
+      "before_sha256": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a",
+      "after_sha256": "1088d6f87a6908e42878a7de1d6bb0690961341264c8e4eeb6ed189129673120"
+    },
+    "test/admin_private_provider_authority_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "31123e49adf065bac3bb9b87c849382ba51f02c0c21de4edc87542ea798ffa77"
+    },
+    "test/admin_pwa_test.dart": {
+      "before_sha256": "07ef78d50966cb387352fcbd5deaaf99f38f770498c3dc82d165b074fb3ddd26",
+      "after_sha256": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906"
+    },
+    "test/admin_roster_calendar_test.dart": {
+      "before_sha256": "c2d1d71e58830f795bc968379c18ae727a8a12e9f522f9a73670b684a8882c49",
+      "after_sha256": "6f8e8a29151005d59e5b48b840408d547c4d856decee2a976c083cf5c1c2d516"
+    },
+    "web/public/app-screens/capture-provenance.json": {
+      "before_sha256": "7c308e65f5e5a8d53c47ae9867648653365b59a37e9cf7d3df036a81d67b7a4a",
+      "after_sha256": "0616e72414fc4ac8995327e6444014c2f2ab8f22b24c3e3c8aa756c0928bf570"
+    },
+    "web/public/app-screens/manifest.json": {
+      "before_sha256": "9bd153ae488f00d5cdb6151770e71378819bad1c3fef75403dc133b8f417a7db",
+      "after_sha256": "ef33ba6da8bc8fc6f4e5eca91369ca52c3de56b56d4ee2428bea5d2584f293c8"
+    },
+    "web/public/app-screens/terms-377e5eed2d41.png": {
+      "before_sha256": "377e5eed2d41edd83b0c7b47382ec482251bcc348b66e64d27755ede95bea439",
+      "after_sha256": null
+    },
+    "web/public/app-screens/terms-71f5644e1234.png": {
+      "before_sha256": null,
+      "after_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+    }
+  },
+  "current_checkout_acceptance": false,
+  "build_execution_sha256": "6b37fff85ccd40eb04c9b8cd48de93b88d6501c721c7ec0a3fd58b039a1499d4",
+  "status": "pass",
+  "kind": "local_unsigned_ios_qa_artifact",
+  "bundle": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+  "bundle_file_count": 199,
+  "bundle_regular_file_bytes": 41608704,
+  "bundle_manifest_sha256": "f595d2df297a1bb86deb74bf394d703b60c5051293c37e9381b99e7077e72e85",
+  "main_executable_sha256": "618ff394acce8364e781321f4ae8c174e243dd43506177d2faf740903bcfb4f2",
+  "bundle_identifier": "app.cool.mobile",
+  "version": "1.2.4+23",
+  "sdk": "iphoneos27.0",
+  "compiled_platform": "iOS device arm64, generic destination",
+  "root_bundle_unsigned_verified": true,
+  "embedded_provisioning_profile_absent": true,
+  "declared_exported_sources_unchanged": true,
+  "source_file_count": 984,
+  "commands": [
+    {
+      "name": "app-signature",
+      "command": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "--deep",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ac77e58e4cb7af428c3050dbe46559b677104cdd794771f8f661a4852f364ae4"
+    },
+    {
+      "name": "app-signature-details",
+      "command": [
+        "codesign",
+        "--display",
+        "--verbose=4",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d7070760980c2c8e75066f5a9af809684d4836cbbd5ea4f4d1562482847b9bc0"
+    },
+    {
+      "name": "app-platform",
+      "command": [
+        "xcrun",
+        "vtool",
+        "-show-build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app/Collect"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f8496e43321eb556aea5e4517faa22ea875fe030575421f2646dae45b8c44b67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "marker": {
+    "kind": "local_unsigned_native_qa",
+    "signing": false,
+    "store_acceptance": false,
+    "provider_configuration": false
+  },
+  "scope": "Actual retained source export including all three forks, complete compilation and unsigned artifact inspection; no device/simulator, native visual, signed store, provider or current whole-runtime acceptance",
+  "total_bound_input_count": 1450,
+  "declared_exported_sources_and_tooling_unchanged": true,
+  "scope_drift_includes_additions_and_deletions": true,
+  "application_and_native_input_checkout_drift": {
+    "android/app/build.gradle.kts": {
+      "before_sha256": "804e394da2c29370560810560cac7bd17663b6eb5e78318d113aa5ea1cafc825",
+      "after_sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9"
+    },
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": {
+      "before_sha256": "f09c6b412dc9cae5cb00dc2a9ae97a9977f6ec5f0f78f0b4063fc900bbe2f534",
+      "after_sha256": "0bd98a4a669d4d5874822d9b86f5f8170f879ea8ccd9a1a317689df7cbb2d78f"
+    },
+    "lib/admin/admin_router.dart": {
+      "before_sha256": "6b5f9ecf848b303be2b6c5a7869f2583f209391ebc08bfe30ad2191d574d58c5",
+      "after_sha256": "909def7d8559b0bdaf8112efdad081e74473b88143a80c0d6971ef7ea5a9a7d4"
+    },
+    "lib/admin/admin_shell.dart": {
+      "before_sha256": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+      "after_sha256": "7ce7e3c99ec6378d72b3d31582e03d188bb63ab3f750d0c77b4abc68d2dad2c2"
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "before_sha256": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+      "after_sha256": "240fe3f69ff211f7d4228a1ab8eaccaee75874c9732c11bd1f6f508515a91e6c"
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "before_sha256": null,
+      "after_sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "before_sha256": null,
+      "after_sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "before_sha256": null,
+      "after_sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "before_sha256": null,
+      "after_sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1"
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "before_sha256": null,
+      "after_sha256": "a2dafbd81d7a3336f5c8477a5922574ac0842cdfe03a958a094b73336d7c6d26"
+    },
+    "lib/admin/core/admin_exception_runtime.dart": {
+      "before_sha256": null,
+      "after_sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+    },
+    "lib/admin/core/admin_operation_components.dart": {
+      "before_sha256": "e7194d76281ac2b0b3dfce76d459d65142ef56bf3faebae00d9c785fffabeab2",
+      "after_sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    "lib/admin/core/admin_operation_tables.dart": {
+      "before_sha256": "5cfd920a7115c9fe6ea7cd921f6df893bfc05df4803930d4c3a0ef0854ccb8aa",
+      "after_sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "before_sha256": "e1a95e05049ba6c53f25cb148f4d2a1505d3df937e4091b4b30b7ef6c63c6f4a",
+      "after_sha256": "b2b947558aec6bd1393e2168c1e0fa3d110b2a8a31cb4d68f07bbc81b899f71f"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "before_sha256": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551",
+      "after_sha256": "818f693a301485aad0be0f582f6d4a740839434a8fb03e68e440698eb9e55d5c"
+    },
+    "web/public/app-screens/capture-provenance.json": {
+      "before_sha256": "7c308e65f5e5a8d53c47ae9867648653365b59a37e9cf7d3df036a81d67b7a4a",
+      "after_sha256": "0616e72414fc4ac8995327e6444014c2f2ab8f22b24c3e3c8aa756c0928bf570"
+    },
+    "web/public/app-screens/manifest.json": {
+      "before_sha256": "9bd153ae488f00d5cdb6151770e71378819bad1c3fef75403dc133b8f417a7db",
+      "after_sha256": "ef33ba6da8bc8fc6f4e5eca91369ca52c3de56b56d4ee2428bea5d2584f293c8"
+    },
+    "web/public/app-screens/terms-377e5eed2d41.png": {
+      "before_sha256": "377e5eed2d41edd83b0c7b47382ec482251bcc348b66e64d27755ede95bea439",
+      "after_sha256": null
+    },
+    "web/public/app-screens/terms-71f5644e1234.png": {
+      "before_sha256": null,
+      "after_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+    }
+  },
+  "application_and_native_inputs_current": false,
+  "other_declared_input_drift": {
+    "scripts/assets/publish_public_app_media.py": {
+      "before_sha256": "47ca3d839326c459a84930bb36ce1d982f6a35bb1ce413c9b77a60b7ea12e47c",
+      "after_sha256": "748c4a4b63e7ea5bbdc4208ab95bdf2cd6d6c62191153daa756a15b4160f80e4"
+    },
+    "scripts/public_website_quality_gate.sh": {
+      "before_sha256": "986c467134666fee2efa20dbcc0368da555e6438a82b10eb3957b27e5b61e832",
+      "after_sha256": "c21eca3a88bf3ae7bb068f0a0e49cb686399ce96f6fbd1ef0f529d3563fe8428"
+    },
+    "scripts/qa/collect_release_candidate.py": {
+      "before_sha256": "70b13a77df178e378883113db88112335892ff6101523f181556829037fe4f6e",
+      "after_sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "scripts/qa/public_browser_app_media.mjs": {
+      "before_sha256": "a8bd3f5eccf0a01e8f50f46dd7b63d460c92fdd4b667126790dea269219fa910",
+      "after_sha256": "64689409c566138e949d5d1712ac4f89e5a8c725b59e926b8425006564fd80e7"
+    },
+    "scripts/qa/resolved_native_package_inputs.py": {
+      "before_sha256": null,
+      "after_sha256": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a"
+    },
+    "scripts/tests/admin_exception_reads_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "d090475661c996e46cd48e093d617fd87f5ef2521cf34c17328b15bd1f5deddc"
+    },
+    "scripts/tests/admin_full_coverage_inventory.py": {
+      "before_sha256": "189f719b54baba575ea8f688c8aa85f17295e38ae74ace540205c82e8f6ca04e",
+      "after_sha256": "31e925e5413931ce30af7eda5cd2fddcdfe8e9ed69bab215716454a6b0fe1776"
+    },
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "before_sha256": "2c8786162ff1b4245e4753566f7ccd0e164f9013529fdb4e30906851872dd249",
+      "after_sha256": "97af103486a61f41fe9a3457ee10930a8dfda696fb1169d1e0f37d3eefa16f13"
+    },
+    "scripts/tests/admin_sensitive_authority_uat.py": {
+      "before_sha256": "21022c3eb4ac98dc2fe7bcacbb2b9a80b62f42b7017b85b5763c1d40c289cf22",
+      "after_sha256": "12e90ec7a733000afe0e45fe17ae531fe63703300baa7ba20a23de70bbd1c3ac"
+    },
+    "scripts/tests/current_generated_query_benchmark_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "cf3bb396c4c58804ac15994a41342aad53a289c0cb79f99e49ecf4e0ea9a1759"
+    },
+    "scripts/tests/current_runtime_control_bundle_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740"
+    },
+    "scripts/tests/data_correctness_gate.py": {
+      "before_sha256": "dbfcf5ccaf56b997b9e6700e845223f343b936c4256bfa9715465c2af047fc6d",
+      "after_sha256": "55613ad6ea41ed9e96560083082229a68b55e5ccb78e5cbeda85dd1168279de8"
+    },
+    "scripts/tests/data_correctness_post_run_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "e489cc6badf07241f6696247e144b463412a27d7596ac7b76cc4fe30147b94c2"
+    },
+    "scripts/tests/generate_runtime_reason_migration.py": {
+      "before_sha256": null,
+      "after_sha256": "c535440edcf0836113c7f7bbc46381440c83ea91634a83fdec5df826b8e290dc"
+    },
+    "scripts/tests/generate_sensitive_reason_migration.py": {
+      "before_sha256": null,
+      "after_sha256": "6d176ccd7f00003f0155a8746519ad6b07ec6764bb9d44f27b4aff1a9653b992"
+    },
+    "scripts/tests/public_browser_served_resource_test.mjs": {
+      "before_sha256": "0e55a1b85798f8224efac67b36df3adec6e3f5b4ce82f635d025af0ea8647acc",
+      "after_sha256": "10b610477d771d48afe73ef4139328ee5800b03bc03e630d9c5cf9dd38c6ed29"
+    },
+    "scripts/tests/public_native_media_publisher_test.py": {
+      "before_sha256": "81defebc123b07ce1d445095637e0894009d870fdff90b986950a6100236ae05",
+      "after_sha256": "7dd0f982ba424691190800e640d714fb2f3435e1b186550a779b37f1538910f5"
+    },
+    "scripts/tests/receipt_supervisor_identity_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "df62e12509f407928bf23d6531d77eb4fab29d7f8b26aaef2fefe01cb8b7a1aa"
+    },
+    "scripts/tests/refresh_local_progress_register.py": {
+      "before_sha256": "3b8b38ec7600baa98280c93597f2ce240ed58446bca06e56280e4509e681ea4d",
+      "after_sha256": "5a7e652a86ac35d484de3b8937576d511ec13269f2f46c6598f50a79268e8313"
+    },
+    "scripts/tests/resolved_native_package_inputs_test.py": {
+      "before_sha256": null,
+      "after_sha256": "8f8c564d0a9241a7800891b2eb4bc65c9155414f3f9532e6f7440afebc46cdad"
+    },
+    "scripts/tests/roster_fresh_auth_post_vm_uat.py": {
+      "before_sha256": null,
+      "after_sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282"
+    },
+    "scripts/tests/staged_bundle_upgrade_uat.py": {
+      "before_sha256": "f9892e28f73e4c503718d3c875bb557c636b9be8ebde81a65cb98f854d1ecb08",
+      "after_sha256": "3c1cde1854485605a194120f28ee01e0b99ccb87ba9ed4ef2f98dfda42ecd6ea"
+    },
+    "scripts/tests/test_collect_release_candidate.py": {
+      "before_sha256": "a77d7d3a593255cc0ffa4231330809dd9ab9df250a2f23307d0fe3471f017db0",
+      "after_sha256": "5e3f5b062b7a533f8a3b81056fa77e75e1cef215e0bba8fc4912a96380e7c5da"
+    },
+    "test/admin_exception_checkpoint_browser_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "40af729ecc19d93ec9322c44a3f1eb258a4c6d898d2ef19b6595c3b9ec8f6641"
+    },
+    "test/admin_exception_models_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d"
+    },
+    "test/admin_exception_page_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "d525601a5982dd2b3f944e2a1d5c8344a48ecd958546fed6c44836db0be9c723"
+    },
+    "test/admin_exception_repository_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540"
+    },
+    "test/admin_gateway_action_ui_sdk_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "39fe7312b34ede1c1a9516efe206d325e43b4f714b299d56db39428e522ca509"
+    },
+    "test/admin_gateway_sdk_state_matrix_test.dart": {
+      "before_sha256": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a",
+      "after_sha256": "1088d6f87a6908e42878a7de1d6bb0690961341264c8e4eeb6ed189129673120"
+    },
+    "test/admin_private_provider_authority_test.dart": {
+      "before_sha256": null,
+      "after_sha256": "31123e49adf065bac3bb9b87c849382ba51f02c0c21de4edc87542ea798ffa77"
+    },
+    "test/admin_pwa_test.dart": {
+      "before_sha256": "07ef78d50966cb387352fcbd5deaaf99f38f770498c3dc82d165b074fb3ddd26",
+      "after_sha256": "450a5ce65b5500585f9302ec069604678615d424c98fbf2b0b8426c77305b906"
+    },
+    "test/admin_roster_calendar_test.dart": {
+      "before_sha256": "c2d1d71e58830f795bc968379c18ae727a8a12e9f522f9a73670b684a8882c49",
+      "after_sha256": "6f8e8a29151005d59e5b48b840408d547c4d856decee2a976c083cf5c1c2d516"
+    }
+  },
+  "currentness_scope": "All drift is retained. SQL/QA/test scripts are separate from application/native/build-caller inputs; no whole-repository currentness claim."
+}

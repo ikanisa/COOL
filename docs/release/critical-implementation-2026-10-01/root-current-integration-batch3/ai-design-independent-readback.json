@@ -1,0 +1,27 @@
+{
+  "AGENTS_sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+  "ai_audit_leaves": 9,
+  "ai_minimization_leaves": 77,
+  "checked_at_utc": "2026-10-02T01:31:30.371590+00:00",
+  "compile_and_test_exit_zero": true,
+  "corrected_tests": {
+    "failed": 0,
+    "passed": 109
+  },
+  "current_local_import_closure": 18,
+  "current_remote_dependency_bytes_checked": 87,
+  "design_removed_paths_checked": 141,
+  "errors": [],
+  "full_three_file_default_lint_exit": 1,
+  "old_production_source_same_tests": {
+    "failed": 2,
+    "passed": 107
+  },
+  "provider_calls": 0,
+  "remaining_removed_paths": [],
+  "retired_checklist_absent": true,
+  "scope_limits": "Recorded competing design paths and current selected instruction only; existing broad scan protected/pruned/inaccessible limits remain. Current AI minimization regression proof is separate from vendor, region, retention, hosted, spend, semantic accuracy and Admin disclosure approval. No whole-machine or production acceptance claim.",
+  "selected_revolut_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "unchanged_baseline_require_await_errors": 3,
+  "whole_BE13_closed": false
+}

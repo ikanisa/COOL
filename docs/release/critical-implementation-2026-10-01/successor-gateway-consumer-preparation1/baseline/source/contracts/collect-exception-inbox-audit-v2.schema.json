@@ -1,0 +1,718 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:collect:exception-inbox-audit:v2",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "scope",
+        "entity_kind",
+        "entity_id",
+        "status",
+        "checked_at",
+        "sample_valid_until",
+        "limit",
+        "history_complete",
+        "financial_action",
+        "send_action",
+        "rows",
+        "next_cursor"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "scope": {
+          "const": "rw_operator_entity_audit"
+        },
+        "entity_kind": {
+          "const": "exception"
+        },
+        "entity_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "format": "uuid"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "checked_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+          "format": "date-time"
+        },
+        "sample_valid_until": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+          "format": "date-time"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25
+        },
+        "history_complete": {
+          "const": false
+        },
+        "financial_action": {
+          "const": false
+        },
+        "send_action": {
+          "const": false
+        },
+        "rows": {
+          "type": "array",
+          "maxItems": 25,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "source",
+              "source_record_id",
+              "action",
+              "recorded_at",
+              "actor_kind",
+              "actor_id",
+              "request_id",
+              "revision",
+              "workflow_revision",
+              "escalation_id",
+              "reason_code",
+              "origin",
+              "assignee_id",
+              "due_at"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "format": "uuid"
+              },
+              "source": {
+                "enum": [
+                  "exception_action",
+                  "exception_workflow_request",
+                  "exception_escalation_event"
+                ]
+              },
+              "source_record_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "format": "uuid"
+              },
+              "action": {
+                "enum": [
+                  "exception.acknowledge",
+                  "exception.escalate",
+                  "exception.workflow.assign",
+                  "exception.workflow.escalate",
+                  "exception.workflow.resolve",
+                  "exception.escalation.queued",
+                  "exception.escalation.delivered",
+                  "exception.escalation.opened",
+                  "exception.escalation.obsolete",
+                  "exception.escalation.recipient_unavailable"
+                ]
+              },
+              "recorded_at": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                "format": "date-time"
+              },
+              "actor_kind": {
+                "enum": [
+                  "operator",
+                  "service",
+                  "unknown"
+                ]
+              },
+              "actor_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "request_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "workflow_revision": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "escalation_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "reason_code": {
+                "enum": [
+                  "review_started",
+                  "owner_review_required",
+                  "uncertain_send_review",
+                  "contact_review",
+                  "source_rechecked",
+                  "operator_escalation",
+                  "deadline_exceeded"
+                ]
+              },
+              "origin": {
+                "enum": [
+                  "immutable_request",
+                  "retained_source",
+                  "captured_transition"
+                ]
+              },
+              "assignee_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "due_at": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "actor_kind": {
+                      "const": "operator"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "actor_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "actor_id": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "source": {
+                      "const": "exception_action"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "exception.acknowledge",
+                        "exception.escalate"
+                      ]
+                    },
+                    "actor_kind": {
+                      "const": "operator"
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    },
+                    "workflow_revision": {
+                      "type": "null"
+                    },
+                    "escalation_id": {
+                      "type": "null"
+                    },
+                    "reason_code": {
+                      "enum": [
+                        "review_started",
+                        "owner_review_required",
+                        "uncertain_send_review",
+                        "contact_review"
+                      ]
+                    },
+                    "origin": {
+                      "const": "immutable_request"
+                    },
+                    "assignee_id": {
+                      "type": "null"
+                    },
+                    "due_at": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "source": {
+                      "const": "exception_workflow_request"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "exception.workflow.assign",
+                        "exception.workflow.escalate",
+                        "exception.workflow.resolve"
+                      ]
+                    },
+                    "actor_kind": {
+                      "const": "operator"
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    },
+                    "workflow_revision": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 1000000000
+                    },
+                    "reason_code": {
+                      "enum": [
+                        "review_started",
+                        "owner_review_required",
+                        "uncertain_send_review",
+                        "contact_review",
+                        "source_rechecked"
+                      ]
+                    },
+                    "origin": {
+                      "const": "immutable_request"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "action": {
+                      "const": "exception.workflow.assign"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "assignee_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    },
+                    "due_at": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                      "format": "date-time"
+                    },
+                    "escalation_id": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "assignee_id": {
+                      "type": "null"
+                    },
+                    "due_at": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "action": {
+                      "const": "exception.workflow.resolve"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "reason_code": {
+                      "const": "source_rechecked"
+                    },
+                    "escalation_id": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "action": {
+                      "const": "exception.workflow.escalate"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "escalation_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "source": {
+                      "const": "exception_escalation_event"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "exception.escalation.queued",
+                        "exception.escalation.delivered",
+                        "exception.escalation.opened",
+                        "exception.escalation.obsolete",
+                        "exception.escalation.recipient_unavailable"
+                      ]
+                    },
+                    "request_id": {
+                      "type": "null"
+                    },
+                    "workflow_revision": {
+                      "type": "null"
+                    },
+                    "escalation_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                      "format": "uuid"
+                    },
+                    "reason_code": {
+                      "enum": [
+                        "operator_escalation",
+                        "deadline_exceeded"
+                      ]
+                    },
+                    "origin": {
+                      "enum": [
+                        "retained_source",
+                        "captured_transition"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "origin": {
+                      "const": "retained_source"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "actor_kind": {
+                      "const": "unknown"
+                    },
+                    "request_id": {
+                      "type": "null"
+                    },
+                    "action": {
+                      "enum": [
+                        "exception.escalation.queued",
+                        "exception.escalation.delivered",
+                        "exception.escalation.opened",
+                        "exception.escalation.obsolete"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "recorded_at",
+                "event_id"
+              ],
+              "properties": {
+                "recorded_at": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                  "format": "date-time"
+                },
+                "event_id": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                  "format": "uuid"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unavailable"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "rows": {
+                "maxItems": 0
+              },
+              "next_cursor": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "channel",
+        "scope",
+        "recipient_id",
+        "checked_at",
+        "sample_valid_until",
+        "limit",
+        "rows",
+        "next_cursor"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "channel": {
+          "const": "admin_inbox"
+        },
+        "scope": {
+          "const": "current_operator"
+        },
+        "recipient_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "format": "uuid"
+        },
+        "checked_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+          "format": "date-time"
+        },
+        "sample_valid_until": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+          "format": "date-time"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25
+        },
+        "rows": {
+          "type": "array",
+          "maxItems": 25,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "escalation_id",
+              "exception_id",
+              "source_revision",
+              "reason_code",
+              "source_active",
+              "current_source_revision",
+              "delivered_at",
+              "read_at"
+            ],
+            "properties": {
+              "escalation_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "format": "uuid"
+              },
+              "exception_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "format": "uuid"
+              },
+              "source_revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "reason_code": {
+                "enum": [
+                  "operator_escalation",
+                  "deadline_exceeded"
+                ]
+              },
+              "source_active": {
+                "type": "boolean"
+              },
+              "current_source_revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "delivered_at": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                "format": "date-time"
+              },
+              "read_at": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "delivered_at",
+                "escalation_id"
+              ],
+              "properties": {
+                "delivered_at": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+                  "format": "date-time"
+                },
+                "escalation_id": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                  "format": "uuid"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "escalation_id",
+        "read_at",
+        "source_resolved"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "escalation_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "format": "uuid"
+        },
+        "read_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}Z$",
+          "format": "date-time"
+        },
+        "source_resolved": {
+          "const": false
+        }
+      }
+    }
+  ]
+}

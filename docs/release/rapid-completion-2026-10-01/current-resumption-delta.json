@@ -1,0 +1,149 @@
+{
+  "purpose": "Identify changed source/transitive inputs for reopened L01-L24 full acceptance",
+  "changed": {
+    "android/app/src/internal_gateway/AndroidManifest.xml": {
+      "captured": "b2f1301a7ea3e5c69720df0eb813bbcd0b8e14b6bdd6e09b6ca272d4e8996995",
+      "current": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": {
+      "captured": "e8ceb5ec21dce5799c54e377099f686e4a27d7de3d56b64617136c5f2317efe6",
+      "current": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "captured": "e6f93e13030ef2d19588e2e7e262256556d6980f0e8516c1abea7b46e1d23e4e",
+      "current": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "captured": "9ae91f8240decd514fe10c1bc2fc39367f91848d15399f3e1446175c32e40117",
+      "current": "31a57f3e5d4fc61b2b2401b57a61158a89c844a650cab9c52dfe91e21a10ee4c"
+    },
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt": {
+      "captured": "67a396f5889882d3a891fa1639c04c3b16bec11c5a9515963cc973093c351f26",
+      "current": "0d8725ce1ad940701cdfada084c7aae97a687c24499995967c0d8309a3ccc44a"
+    },
+    "lib/admin/core/admin_automations_page.dart": {
+      "captured": "4310cd4e02f23578b8bdcc05d0ef6cb4fd3e7900d2353b862e8e45f57ddf5b46",
+      "current": "f71732886a31b75b10dd8d7e2b3d3737834f493ce6677d2623141a72c53797b8"
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "captured": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1",
+      "current": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5"
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "captured": "478bca7ebaf7cb18f630abf6df4fd39a67acfdd0ed2f3d4404a9080637b3127c",
+      "current": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "captured": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d",
+      "current": "3b3e9f0f88196491aaf2bdb6b7fb4705fa15c18e549ac74b81f373eb04344c0e"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "captured": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0",
+      "current": "6809a42e49106b80d7ca7579e68cbc97014178093aee534e44297a8ebc1e5e1a"
+    },
+    "lib/gateway/gateway_app.dart": {
+      "captured": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c",
+      "current": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0"
+    },
+    "lib/gateway/gateway_platform.dart": {
+      "captured": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+      "current": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4"
+    },
+    "scripts/tests/android_dispatch_authority_uat.py": {
+      "captured": "4b0df63e78b1cdff26c6264a2fc1cfc8b219610d7c67c1157f4baeff3c11000e",
+      "current": "d9ee2821d26cda234441adac41a6b4dc8b630d459d35ae23acfaedfc6858df70"
+    },
+    "scripts/tests/receipt_deferral_exceptions_uat.py": {
+      "captured": "f3183bf13514af51eb7cdcb2b459348225e0883a84c4a44c23241859afc6545a",
+      "current": "122b6bcdd2b89ec8268aa5bb680a47349b9a5654ac5c6d80c1b9c19794d3e49c"
+    },
+    "scripts/tests/unattended_launchd_preparation_test.py": {
+      "captured": "65b6e7048a70d17ef7e00deca25b07e8b70a56a7470ec2be03b68291c4b7a92e",
+      "current": "5e547d507b35814091344dde6218f8674f534ea5f01f2df1560ccce62ec7f9c5"
+    },
+    "supabase/config.toml": {
+      "captured": "05b1c27a93ff98850dc1f65a6d0fb48b4f10e4ebfe296be2798981888d4003b5",
+      "current": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67"
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "captured": "39756c7e26fc67d82b1c129feb2c731be02d31c53092ba13380b5b749ebb3665",
+      "current": "553c061a97b0f212bb7bad9801bb180141e727a06eb02998c55ef50884d33464"
+    },
+    "supabase/migrations/20261001130000_android_dispatch_authority.sql": {
+      "captured": "a8cc4ab9b08cd781d972f7d9fddccec724c7e08376a0cd466f8744ff3b0ac82a",
+      "current": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c"
+    },
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": {
+      "captured": "59ec77c8ac25c75d207ac036b4d5fc68ff82b732935efab0e4af41258b6a999a",
+      "current": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    "test/admin_receipt_operations_card_test.dart": {
+      "captured": "e0229d8ed739bdc6641aae1af27868d377a7b7302251b36f5647848ca97f1b93",
+      "current": "23e00a1f86020ebeede67677126ff69fa5875608faa1c6dc1675fc665a958fa0"
+    },
+    "test/gateway/gateway_safety_test.dart": {
+      "captured": "cf9fccebb5f659df4f2c9144c45a93ac49e8cf5be2dfd3f34e4f3d67506ed50f",
+      "current": "13fd24c28fdf392c9e1b247b7dbc7ae80c743e457754f2aa0b7da7b265fd766c"
+    },
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "captured": "bc0743a5b6f7fac7fe0e370a8a9e7f00ff9f2b049487b1be9960d6ad10ea6685",
+      "current": "d402ace19597744dc7a45cea6d4b243879d991c5d2ee34223f1243fd1a0852da"
+    },
+    "tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "captured": "f521a68bcdb28fbfc51191f32546449142216eb38c818328ced9097938a481f9",
+      "current": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "captured": "24da01cfbe8c311da9bb622031a0f8a197dae8178e2d78c0fa6dc8830ab31b56",
+      "current": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c"
+    },
+    "tools/collect-notification-mcp/src/unattended_store.test.ts": {
+      "captured": "bdd12e08ec8b5cc26c0df6344025feeea4d45295e76751102ebe2cfe8e1ed86d",
+      "current": "799f39546ae752bea554477ba017475cbb72f110b2f4f02e80d95e6f0bf10ba3"
+    },
+    "tools/collect-notification-mcp/src/unattended_store.ts": {
+      "captured": "c4a0b8be056f0eab27d686e53c7c1edcc691b4aa4120470f9267331ad8d6c7f2",
+      "current": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7"
+    }
+  },
+  "new": [
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt",
+    "lib/admin/core/admin_receipt_deferral_card.dart",
+    "lib/admin/core/admin_receipt_deferral_models.dart",
+    "lib/admin/core/admin_receipt_worker_card.dart",
+    "lib/admin/core/admin_receipt_worker_health.dart",
+    "scripts/qa/receipt_operations_enrollment_workflow_uat.py",
+    "scripts/tests/android_attempt_archive_uat.py",
+    "scripts/tests/android_gateway_background_jvm.py",
+    "scripts/tests/receipt_exception_worker_edge_uat.py",
+    "scripts/tests/receipt_exception_worker_uat.py",
+    "scripts/tests/receipt_worker_transport_health_uat.py",
+    "supabase/functions/collect-android-gateway/archive_v3.ts",
+    "supabase/functions/collect-android-gateway/dispatch_observed_test.ts",
+    "supabase/functions/collect-receipt-exception-worker/README.md",
+    "supabase/functions/collect-receipt-exception-worker/deployment.toml",
+    "supabase/functions/collect-receipt-exception-worker/handler.ts",
+    "supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+    "supabase/functions/collect-receipt-exception-worker/index.ts",
+    "supabase/functions/collect-receipt-exception-worker/observed_test.ts",
+    "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+    "supabase/migrations/20261001170000_android_attempt_archive.sql",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql",
+    "test/admin_receipt_deferral_test.dart",
+    "test/admin_receipt_worker_health_test.dart",
+    "test/gateway/gateway_local_dispatch_test.dart",
+    "tools/collect-notification-mcp/src/unattended_enroll_cli.ts",
+    "tools/collect-notification-mcp/src/unattended_enrollment.ts",
+    "tools/collect-notification-mcp/src/unattended_enrollment_contract.ts",
+    "tools/collect-notification-mcp/src/unattended_enrollment_journal.ts",
+    "tools/collect-notification-mcp/src/unattended_enrollment_owner.ts",
+    "tools/collect-notification-mcp/src/unattended_history.test.ts",
+    "tools/collect-notification-mcp/src/unattended_history.ts",
+    "tools/collect-notification-mcp/src/unattended_profile_preparation.ts"
+  ]
+}

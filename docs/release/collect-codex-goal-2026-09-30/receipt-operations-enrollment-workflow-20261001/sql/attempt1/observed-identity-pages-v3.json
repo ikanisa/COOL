@@ -1,0 +1,433 @@
+[
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.853144Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "06c9a540007536ca2e2efd339c86fff7b023cea9c57842bc957da539e8cbd3f3",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "1407b859-4e91-452a-9848-9128305904db"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.773525Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "0ac347aebc981ca24abf40b841dbe7f11d2dd5beda69652a80abfcaa0c0c8e15",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "a8072db7-5c39-4c24-8e31-e36a4711944b"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.038751Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.773525Z",
+      "principal_id": "a8072db7-5c39-4c24-8e31-e36a4711944b"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.038751Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.712916Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "72cee13bfc5fac79d3d3e7491b4370893f92c39a15afc56e3d5721a2e3b2fc07",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "3026d465-095c-4d0b-8bef-537b6c66b8f8"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.631996Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "b14332d75d9881c4025a1177d1ee460c8084715b72bc7e5a20dcb0f2f54e8d54",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "3bfcd8d4-be1b-477a-83b7-1c029f8dcd87"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.105023Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.631996Z",
+      "principal_id": "3bfcd8d4-be1b-477a-83b7-1c029f8dcd87"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.105023Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.560671Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "71376cfc9124d62a220bd8fada2ca222187332c7320525b1647a8ffb06aa2812",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "efcfd07f-f3df-4174-a771-9a21347762a3"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.495134Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "517baec945a6c829d27ff327f126f3f10df4914a6eab5382b35479ec2d511e12",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "a446f2c5-8bcb-4107-bdf0-030f83178253"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.165749Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.495134Z",
+      "principal_id": "a446f2c5-8bcb-4107-bdf0-030f83178253"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.165749Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.428749Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "eba6f2877b17f76b12568e62b99d8adbd73a245e091d926e75b80a593a47af16",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "7646e42a-b7b5-47df-8cad-c86106e60f19"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.362277Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "a555004acf5170f8d6bf614dbcd8b8bdccfe1a979294e7e956ee15731ba65147",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "83e96096-75ee-4db0-a886-537080fa97d9"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.225100Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.362277Z",
+      "principal_id": "83e96096-75ee-4db0-a886-537080fa97d9"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.225100Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.289589Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "133135f8dfb2cbbbd6463f205d000151f902d851b5277ee2a048e9e07a2e7046",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "0868b2c1-ab2b-41bf-abd8-1f31856ac26b"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.222528Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "e49eaff2175ae178c28f0dc683c5ca66f33432374cfc7d5e2a3669081ba7278e",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "fd645361-3500-4caa-be29-3cdd195c50a2"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.290224Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.222528Z",
+      "principal_id": "fd645361-3500-4caa-be29-3cdd195c50a2"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.290224Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.143328Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "621a703ace23f732771fdbf0a3d8b1b2847773ac1eaeb79ef34d519196da22a2",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "0cdc3fae-ca35-4de0-871b-9874160dfbf6"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:25.068273Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "d16dfbb40c6c83b5ef7f86a16d9de29f1ae01ed48513d6b3b2a09e9b4f811976",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "fe68dcd1-ee77-483a-8b2e-07618b57898a"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.347884Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:25.068273Z",
+      "principal_id": "fe68dcd1-ee77-483a-8b2e-07618b57898a"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.347884Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.999327Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "e444e9f5d9e90fda3e473d3dc475d207333b064040cc05531d67afb5cd0fda54",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "a118b022-ed14-4288-b375-d872fe448923"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.942055Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "048e85600f22bbafb0f21b78ace76758f5f670ae3dbabe3aadc50f8002f7475c",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "2a070e81-fcc9-4ec9-89d3-61a3aecd4aa1"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.410477Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.942055Z",
+      "principal_id": "2a070e81-fcc9-4ec9-89d3-61a3aecd4aa1"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.410477Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.873567Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "9a52b24524764b1c6a936c7fc90c2359e61bb7f589e3ece15794664724181431",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "2d9f58fd-3931-4a6c-98bf-600519e372f0"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.793186Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "aa7abaf4c7693c57a531a924b6915a282e59e127bfcc960ae5960a7cff720b50",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "ce01162b-6d67-40e7-b6dc-274906cf169f"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.466038Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.793186Z",
+      "principal_id": "ce01162b-6d67-40e7-b6dc-274906cf169f"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.466038Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.732346Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "fd7c35f9f23ab11e82eeabd1bd111b377ce7a99f8de3bcfa39495e865e6e27db",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "2bd0901e-52ab-45a4-9e2d-a814d5f9a9bf"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.651745Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "3412a8f8f4ada5d3b74390c5b8552e214d7cf1f98939cbe669fd5a7c2a026267",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "00cfa695-1f56-462a-86fa-71441589842f"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.541403Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.651745Z",
+      "principal_id": "00cfa695-1f56-462a-86fa-71441589842f"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.541403Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.573668Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "c3e6ee05a811bd32a9acea1f93475ae5856136bc50e6c30a076196d36fd71fa1",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "5bc6a4d0-e147-4387-b697-848fffd64600"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.510640Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "1289bdf73517d3cf4345bf2c927d1aaf28838000d78aeb4f3faa590089070803",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "5a800cf4-2225-4d5c-964f-c3831e541d48"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.602261Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.510640Z",
+      "principal_id": "5a800cf4-2225-4d5c-964f-c3831e541d48"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.602261Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.451020Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "f6d6cc60e03c805adf96cdf35b42b71344bbfb8c17546b1acace6dd5727074a1",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "f113cd85-a1b1-4511-8cbc-acd866920966"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.390156Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "5203a19a2aaf8843c50f9056346feecdc19d61cce57646b84f833a04602bd4e5",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "1acabf8d-e50d-4eb9-9873-b34f8a3b0519"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.660717Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.390156Z",
+      "principal_id": "1acabf8d-e50d-4eb9-9873-b34f8a3b0519"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.660717Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.328902Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "c379f258d6ad972fdc80a8574dad37651dd58620a0ccd0808113be2ff6b37de9",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "b3c5990d-cef2-4cb6-bc61-6b9ac58fa354"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.268819Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "06bd70e0b4fcc9277de14317373dcf86f8fbeb48d8a52513f726059488c1d768",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "6c17dbe0-a7a0-4a7f-a702-b055a0b89feb"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.711997Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.268819Z",
+      "principal_id": "6c17dbe0-a7a0-4a7f-a702-b055a0b89feb"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.711997Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.194959Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "21af110aa3ea3b9705cc6374830ce5bda521d901c5215f88604cc78385845dc0",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "3e7412d0-59da-4c58-9299-492272cc1498"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:24.130327Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "f0f6a0003fd9e94ffb16e2206cfdf272ef2e8860d73f32704b5f365b45505138",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "2efbfd16-f9ad-4214-aaac-f355e61ecada"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.778164Z",
+    "next_cursor": {
+      "created_at": "2026-10-01T12:49:24.130327Z",
+      "principal_id": "2efbfd16-f9ad-4214-aaac-f355e61ecada"
+    },
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.778164Z"
+  },
+  {
+    "rows": [
+      {
+        "scope": "rw_receipt_operations",
+        "state": "pending",
+        "created_at": "2026-10-01T12:49:23.323836Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+        "revoked_at": null,
+        "activated_at": null,
+        "principal_id": "11873484-57d0-4d00-b0e4-694a44d02fc2"
+      },
+      {
+        "scope": "rw_receipt_operations",
+        "state": "active",
+        "created_at": "2026-10-01T12:49:15.410699Z",
+        "expires_at": "2026-10-02T12:49:14.682305Z",
+        "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+        "revoked_at": null,
+        "activated_at": "2026-10-01T12:49:23.176064Z",
+        "principal_id": "d384fae8-c7fd-4c91-a867-c1d35792a727"
+      }
+    ],
+    "checked_at": "2026-10-01T12:49:26.841472Z",
+    "next_cursor": null,
+    "contract_version": 3,
+    "sample_valid_until": "2026-10-01T12:50:26.841472Z"
+  }
+]

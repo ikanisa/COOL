@@ -1,0 +1,29 @@
+{
+  "check_completed_successfully": false,
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--timeout",
+    "30s",
+    "--reporter",
+    "expanded",
+    "--plain-name",
+    "dark and light local audit captures",
+    "test/admin_entity_audit_page_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+  "dependency_resolution": "installed package_config; --no-pub",
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-01T00:53:03.281816Z",
+  "hosted_auth_or_backend_calls_requested": false,
+  "live_sends_requested": false,
+  "log_sha256": "8f379fe78b2db42bdee7cf07b9ebe55eb74db0265362be364f820309a9c24355",
+  "production_acceptance": false,
+  "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+  "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+  "selected_source_unchanged": true,
+  "source_file_count": 181,
+  "started_at_utc": "2026-10-01T00:51:40.211859Z"
+}

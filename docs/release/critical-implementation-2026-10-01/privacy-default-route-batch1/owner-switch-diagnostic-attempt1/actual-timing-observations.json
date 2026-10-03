@@ -1,0 +1,156 @@
+[
+  {
+    "kind": "settled_notification",
+    "elapsed_us": 699235,
+    "requested_uri": "/",
+    "requested_state_id": 337901653,
+    "requested_state_type": "RouteInformationState<void>",
+    "navigation_type": "go",
+    "settled_uri": "/home",
+    "settled_configuration_id": 458086856,
+    "scheduler_phase": "persistentCallbacks"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 1341006,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 850815367,
+    "requested_state_type": "RouteInformationState<void>",
+    "navigation_type": "go",
+    "settled_uri": "/home",
+    "settled_configuration_id": 458086856,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "settled_notification",
+    "elapsed_us": 1345096,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 850815367,
+    "requested_state_type": "RouteInformationState<void>",
+    "navigation_type": "go",
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 805228167,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 2751142,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 805228167,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "owner_switch_before_sdk_recovery",
+    "elapsed_us": 2894615,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 805228167,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 2896533,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 805228167,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "settled_notification",
+    "elapsed_us": 2906025,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/auth",
+    "settled_configuration_id": 293755502,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "owner_switch_after_sdk_recovery",
+    "elapsed_us": 2906965,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/auth",
+    "settled_configuration_id": 293755502,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 2908263,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/auth",
+    "settled_configuration_id": 293755502,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "settled_notification",
+    "elapsed_us": 2910123,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/?holdSplash=1&next=%2Fsettings%2Faccount%2Fdelete",
+    "settled_configuration_id": 801029630,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 2915188,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/?holdSplash=1&next=%2Fsettings%2Faccount%2Fdelete",
+    "settled_configuration_id": 801029630,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "settled_notification",
+    "elapsed_us": 2916037,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 1050064759,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "requested_notification",
+    "elapsed_us": 2916936,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 1050064759,
+    "scheduler_phase": "idle"
+  },
+  {
+    "kind": "owner_switch_after_current_profile_and_frames",
+    "elapsed_us": 2979296,
+    "requested_uri": "/settings/account/delete",
+    "requested_state_id": 789965720,
+    "requested_state_type": "_Map<Object?, Object?>",
+    "navigation_type": null,
+    "settled_uri": "/settings/account/delete",
+    "settled_configuration_id": 1050064759,
+    "scheduler_phase": "idle"
+  }
+]

@@ -1,0 +1,106 @@
+{
+  "status": "prepared_only",
+  "docker_executed": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4908,
+      "sha256": "b6b22db065ce0d33952fa40ab1dcb699bfefaf0236db14b0eadbe05473cc6774"
+    },
+    {
+      "path": "command-scope-matrix.json",
+      "bytes": 34810,
+      "sha256": "085dcac619617e01152b5a4e4df2fef078c0b58500867dc26a5a9c9fdb53ed20"
+    },
+    {
+      "path": "focused-tests.json",
+      "bytes": 33485,
+      "sha256": "dc4ec54b6bee1a309739a472810d13382611cb93c3b0df2e99ec49ed327ee176"
+    },
+    {
+      "path": "focused-tests.stderr",
+      "bytes": 2263,
+      "sha256": "6ae1a14795f7f359a8fc087a89269dfb565d837018bdc030acbbd00f0f936041"
+    },
+    {
+      "path": "focused-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 32551,
+      "sha256": "f970c50632d0fa80cbfc850383b46d755304d48b053429aa1666c3194fbdd7fc"
+    },
+    {
+      "path": "preparation-readback.json",
+      "bytes": 66778,
+      "sha256": "510b6737225cad75d6dd8c111bc7f67786be074feb4f0a13affe9e092f40f95a"
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 6234,
+      "sha256": "58d39e990c8a4c95d0270c4d596faab96069f9ce063b042f011c4e0c8416f6b6"
+    },
+    {
+      "path": "preservation-after.json",
+      "bytes": 34722,
+      "sha256": "ddcde9d54a8fb183a136efe03b1015d097091292e3d80c42ada0e8047c494c52"
+    },
+    {
+      "path": "preservation-before.json",
+      "bytes": 34722,
+      "sha256": "ddcde9d54a8fb183a136efe03b1015d097091292e3d80c42ada0e8047c494c52"
+    },
+    {
+      "path": "rehearsal.py",
+      "bytes": 45526,
+      "sha256": "79389f5985e59dcb30395cf7634fa8d4b02e66817cb16bb96cb089b201020225"
+    },
+    {
+      "path": "rehearsal.py.diff",
+      "bytes": 13539,
+      "sha256": "b0c0892b5a0b30759a96934abcfc50b1ec1a3c027707634570d1edf1b3c87e39"
+    },
+    {
+      "path": "retained-failure-readback.json",
+      "bytes": 28928,
+      "sha256": "d33939d832dc7293ffe4552f9b4e99466a5e0476c1b2b40e2cd73d33975b2253"
+    },
+    {
+      "path": "role-globals-query.sql",
+      "bytes": 1314,
+      "sha256": "5ce8becd426f356612a7d9995c2be5b753c8b4e86717735b4f3767213efe0f02"
+    },
+    {
+      "path": "source-role-globals.json",
+      "bytes": 10520,
+      "sha256": "6ff05c4ffdb58ceb179d453eb215455dda761d9806a55037e78d619d190aa8ab"
+    },
+    {
+      "path": "source-role-prerequisite.sql",
+      "bytes": 139,
+      "sha256": "abbcd4f0cb136816f31bda2178b1679bd5fe6f6627aa41e17b384b30e43723e5"
+    },
+    {
+      "path": "test_rehearsal.py",
+      "bytes": 12418,
+      "sha256": "96c3732f02078184d9b8b40efe7b87693256075e3c73d8d97f1cb79544d70e86"
+    },
+    {
+      "path": "test_rehearsal.py.diff",
+      "bytes": 5185,
+      "sha256": "49076da3f9c073b842a2f57b914a369b619e24031f23345ead83bd7b6657d2f2"
+    },
+    {
+      "path": "validation-attempt1.json",
+      "bytes": 365,
+      "sha256": "e9f754f7b9757003cde41e68cb09c698f8930367bd57b1c31456c8e82d32d31d"
+    },
+    {
+      "path": "verify_preparation.py",
+      "bytes": 9608,
+      "sha256": "d006f885d26b8c343b04a6affe82d32b343977c34550a02d11dc6424682d4c41"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 1.01,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "scripts/tests/collect_schema_domain_map_test.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T06:39:38.504642+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 85437,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T06:39:37.494994+00:00",
+  "stderr_sha256": "a6e67149b0192f6af3858bd5cc95e7a6034e4c94b315b67ce9e8a2ed449d4b95",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

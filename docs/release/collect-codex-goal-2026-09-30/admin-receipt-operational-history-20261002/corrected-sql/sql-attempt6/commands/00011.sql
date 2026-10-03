@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select jsonb_build_object('cron',current_setting('cron.launch_active_jobs'),'net',current_setting('pg_net.batch_size'),'listen',current_setting('listen_addresses'),'server',current_setting('server_version'));

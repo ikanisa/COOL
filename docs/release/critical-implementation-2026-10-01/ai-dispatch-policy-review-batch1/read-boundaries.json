@@ -1,0 +1,22 @@
+{
+  "scope": "bounded source inspection, no runtime/deploy/provider/account read",
+  "source_mutations": [],
+  "live_calls": 0,
+  "search_read_errors": [
+    {
+      "path": "services/roster_decoder/README.md",
+      "cause": "assumed path absent; actual tools/roster-decoder/README.md subsequently inspected"
+    },
+    {
+      "path": "supabase/functions/.env.example",
+      "cause": "absent optional example; no real env opened"
+    },
+    {
+      "pattern": "scripts/supabase_release_*.sh",
+      "cause": "zsh unmatched optional glob; no command executed from it"
+    }
+  ],
+  "credentials_opened": false,
+  "official_docs_new_lookup": "only current Authentication project-selection detail not covered in prior retained AI data-controls research",
+  "other_human_chat_interaction": false
+}

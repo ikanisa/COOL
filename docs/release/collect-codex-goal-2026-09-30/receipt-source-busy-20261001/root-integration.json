@@ -1,0 +1,35 @@
+{
+  "integrated_at": "2026-10-01T22:09:07.909418+00:00",
+  "packet_members_verified": 5936,
+  "actual_SQL_cases": 36,
+  "terminal_SQL_command_receipts": 547,
+  "consumer_scopes": {
+    "edge": 31,
+    "mcp": 7,
+    "admin_models": 7,
+    "typecheck": "separate terminal0 tail"
+  },
+  "consumer_source_inputs_verified": 98,
+  "dependency_files_verified": 1608,
+  "symlink_targets_verified": 12,
+  "tools_verified": 3,
+  "runner_path_only_delta_verified": true,
+  "migration_path_association": {
+    "20261001240000_runtime_control_edit_eligibility.sql": "20261002000000_runtime_control_edit_eligibility.sql",
+    "20261001250000_sms_receipt_language_selection.sql": "20261002010000_sms_receipt_language_selection.sql",
+    "20261001260000_receipt_source_busy_deferral.sql": "20261002020000_receipt_source_busy_deferral.sql"
+  },
+  "canonical_sha256": {
+    "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+    "supabase/functions/collect-receipt-supervisor/operations_contract.ts": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+    "tools/collect-notification-mcp/src/unattended_contract.ts": "a26e4b8bfadb5fc787413d93d283916035240c44d615778a8b7ce3be6b11fa61",
+    "lib/admin/core/admin_exception_models.dart": "d5fc9be9c24266c2ad8d9e48ee78b0eb05485785e1e068f501225f21cbbbaa28",
+    "lib/admin/core/admin_receipt_deferral_models.dart": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66",
+    "tools/collect-notification-mcp/src/unattended_source_busy.test.ts": "588a07e3a53c4ad95e3a223a04e6c6f3d1e3a27d863581b728febcbec3e4dd2d",
+    "scripts/tests/admin_receipt_source_busy_test.dart": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+    "scripts/tests/receipt_source_busy_uat.py": "f6d3cbbb68eccdd60a101064afc261fe9052003029dd5e66227d5b1867025c57"
+  },
+  "backup_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/canonical-before-receipt-source-busy-20261001",
+  "complete_candidate": false,
+  "complete_rendered_Admin_acceptance": false
+}

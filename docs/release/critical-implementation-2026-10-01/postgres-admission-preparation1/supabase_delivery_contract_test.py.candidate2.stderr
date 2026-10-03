@@ -1,0 +1,13 @@
+..............................F..............
+======================================================================
+FAIL: test_postgres_manifest_drift_after_dry_run_stops_first_write (__main__.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/tests/supabase_delivery_contract_test.py", line 570, in test_postgres_manifest_drift_after_dry_run_stops_first_write
+    self.assertIn("PG_MANIFEST_HASH_CHANGED",result.stderr)
+AssertionError: 'PG_MANIFEST_HASH_CHANGED' not found in '[supabase-deploy][FAIL] PG_MANIFEST_CHANGED_AFTER_ADMISSION\n'
+
+----------------------------------------------------------------------
+Ran 45 tests in 831.936s
+
+FAILED (failures=1)

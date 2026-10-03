@@ -1,0 +1,16 @@
+{
+  "SDK_or_Gradle_executed": false,
+  "actual_app_export_executed": false,
+  "actual_bounded_process_receipt_created": false,
+  "actual_error_type": "FileExistsError",
+  "actual_execution_session_id": 23134,
+  "at_utc": "2026-10-02T03:35:46.936549+00:00",
+  "correction": "Derivative before/after capture paths now use -capture.json; process receipt uses .json. Added actual child/receipt regression. Fresh read-only capture2 has distinct output and process receipt names.",
+  "error": "process receipt path equals already-created source capture path",
+  "kind": "retained_read_only_wrapper_filename_collision",
+  "no_acceptance_from_incomplete_wrapper": true,
+  "source_capture_file_sha256": "50f27f55e335cf39955effb3d5c5ef9ca5be99c892b9baf9293b60f7e38ecea8",
+  "source_capture_stderr": "",
+  "source_capture_stdout": "{\"excluded_fixture_paths\": 41, \"production_release_approval\": false, \"selected_files\": 2488, \"source_identity_fence\": \"pass\", \"source_lock_attested\": false, \"source_manifest_sha256\": \"04db78734d43f683cfb637a2d153a344cc23e18f56ff35c85d58c9ac0171fa6d\"}\n",
+  "wrapper_exit_code": 1
+}

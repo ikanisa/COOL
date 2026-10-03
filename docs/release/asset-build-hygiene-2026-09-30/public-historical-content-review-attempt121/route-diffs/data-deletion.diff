@@ -1,0 +1,44 @@
+--- historical/data-deletion/
++++ current/data-deletion/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -19,14 +18,14 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
++Collect interface preview · Example data
+ On this page
+ 12. Account deletion and data deletion
+ What happens next
+ Data we may retain
+ Products provided by partners
+ Need help?
+-Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
++Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
+ 12. Account deletion and data deletion
+ Delete your account in the Collect app
+ Open Collect
+@@ -56,7 +55,6 @@
+ Complete or cancel an active credit-readiness handoff
+ Address an unresolved dispute or fraud investigation
+ What account deletion does not do
+-Close a bank account
+ Cancel a loan
+ Remove a repayment obligation
+ Cancel an insurance policy
+@@ -89,7 +87,7 @@
+ Ledger entries needed to protect the rights of other group members
+ Where a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.
+ Products provided by partners
+-To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
++To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
+ Need help?
+ Email:
+ info@ikanisa.com

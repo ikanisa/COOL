@@ -1,0 +1,15 @@
+{
+  "source": "20261001000519_safe_unstarted_receipt_cancel.sql",
+  "sha256": "c30ea26d0f4ac37b072927250c42603d36cdcc5d8d2e00b1d15c15cf2dc8b523",
+  "prior_attempt11_failed_closed_on_new_inventory": true,
+  "review_scope": [
+    "Explicit current-email platform-owner authority; original permissions retained",
+    "Bounded immutable cancellation request with owner-only replay and late authority recheck",
+    "Actual receipt source and prior-transport evidence required; row lock/revision CAS; no send/retry or financial rewrite",
+    "Two private RLS tables; outbox revisions implicit1 without install-time data writes",
+    "Retain final cancelled receipt, immutable primary evidence, API role grants explicit"
+  ],
+  "actual_positive_cancel_races_required": true,
+  "current_stage_count": 18,
+  "protected_private_tables": 21
+}

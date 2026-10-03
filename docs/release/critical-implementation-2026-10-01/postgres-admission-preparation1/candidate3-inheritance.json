@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-02T06:28:13.620167+00:00",
+  "parent_candidate2_fence_sha256": "ed02cd77fbdef516f95367178b436dbdffad83b02b1e76af31ea5d3b3a966463",
+  "changed_from_candidate2": [
+    "Makefile",
+    "scripts/tests/supabase_delivery_contract_test.py"
+  ],
+  "production_execution_modules_changed": false,
+  "cause": "only the new drift-case error-code assertion is corrected; Makefile wires the module test into existing QA/CI list",
+  "original_delivery_assertions_changed": false
+}

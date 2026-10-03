@@ -1,0 +1,19 @@
+{
+  "actual_ci_bootstrap": "flutter pub get --enforce-lockfile",
+  "actual_ci_gate": "make format-check",
+  "at_utc": "2026-10-02T00:19:42.998003+00:00",
+  "flutter_version": "3.44.4",
+  "mutated_source": false,
+  "sha256": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    ".github/workflows/ci.yml": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+    "Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "scripts/qa/dart_format.rb": "f5a1d8338c1f85d0959d494bb34480b84ce2ef70b179ca51d1bed2980ea90e4c",
+    "third_party/file_saver/pubspec.yaml": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+    "third_party/firebase_messaging/pubspec.yaml": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+    "third_party/gotrue/UPSTREAM-SHA256.json": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+    "third_party/gotrue/pubspec.yaml": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd"
+  }
+}

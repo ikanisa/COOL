@@ -1,0 +1,431 @@
+{
+  "schema_version": 2,
+  "recorded_at": "2026-10-01T18:23:23.646768+00:00",
+  "design_authority": "revolut-design",
+  "purpose": "Current source-bound implementation checks and separate historical attempts",
+  "current_evidence": [
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-browser-matrix.json",
+      "sha256": "144b9a5e31edc042b44bc7f3c54272a24913956a7e421c22fa6d204ee0ab84d6",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-current-source-binding.json",
+      "sha256": "99726b76d75f2eac5ccf3c428def4e0bc3c626916a60fcf47fa20144786bd158",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json",
+      "sha256": "d38191a9ccd7ba17f9f4a98529713db2feba7d72db3f724ca7dd9bd76fde5409",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-record-reflow-review-20261001.json",
+      "sha256": "5245f7956812d46163d6f7fa28e74b1c18cfe8e1ba7a3b53b3abad0cd4690243",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-source-readback-final.json",
+      "sha256": "9d4c38007efcb24181dbb2a9d399fcf5a692bc682a276cd20e51ae0ea1b4540c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/admin-table-reflow-final.log",
+      "sha256": "e0d4a3c9389617b53efb40579d9808009b10aa626e73362d2bf0467aedcc3929",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/android-dark-inputs-after.json",
+      "sha256": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/android-dark-test.stdout",
+      "sha256": "07b7a0766bff732902ddcbb8840454acc247aaadac46349dacaa5f0eb9ac19d4",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/auth-confirmation-final.log",
+      "sha256": "18dbe6afc5ff78ceb7a773d3541da769f4583931e1d94563d15e22baa97f2bb4",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/auth-photo-final-analysis.log",
+      "sha256": "48883e3c71f03502e50b52fc41b7e8f19d69f869f757a7605d8ed9a9c2c4c64e",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/auth-photo-reflow-review.json",
+      "sha256": "3bd8cb3148cb08a1aa7365f9df9b5592551280b531fe1744c055f7f4242e96fa",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/disabled-filled-theme-regression.log",
+      "sha256": "59f97980c7735bf98c42228f190e917451a780ae48e3e1c46165d951faed9720",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/final-current-visual-and-link-review.json",
+      "sha256": "9170752c3d635a709136d28a16056980912341e54218c08fa2dd731bc01ad6da",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/final-internal-link-readback.json",
+      "sha256": "0a6939805ac312ae462f9aec0d12b8776154d2220ece84b34ac94caeac2b9767",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/final-source-readback.json",
+      "sha256": "a03e603d989dba8ff4dea4b55dc05f7bd8e9ec10a0f12d2ffc1aabf3e2da6619",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/hero-quick-action-review-20261001.json",
+      "sha256": "e3df7bc87d52fab1f5f5adf4455bc3d982bc1a024438eae0acb5f9875df5bffa",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/hero-reflow-affected-final.log",
+      "sha256": "75fb181914017c568826dc6ce54e0b4d3f0b41d744d8be065a34451d285e9c4b",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/hero-reflow-analysis.log",
+      "sha256": "56f8496aec6885daaa6da2f033b78cf1f6dd317c911156bc32b19a554311dd41",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/ios-dark-inputs-after.json",
+      "sha256": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/ios-dark-test.stdout",
+      "sha256": "2e87f4acb6b8b2ffb4a47e75133f53fd7c5b7d9089e441bf2603268b6727d376",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/ios-light-large-inputs-after.json",
+      "sha256": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/ios-light-large-test.stdout",
+      "sha256": "7d1b10007b6dad401e2e9e99955f112873a83b80e5e923b4f1261175205ef02c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/marketing-font-final-affected.log",
+      "sha256": "84a9382a548dd0226023ca9525eb13101930fc4e241d971609c3b87b05602245",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/marketing-font-metadata.json",
+      "sha256": "a088d7ccca941ab3597a85201b24ee7c6606a8ca0ae6afa688ecada756106507",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/member-browser-final.log",
+      "sha256": "7d5a55477bb07378fb31721b49991a2f89dfeef4c15417c5d5b0b32e931360b7",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/member-media-final-publication.log",
+      "sha256": "daec6835f3f723efebe452b4ea5cd9eeb977f85965002a5c5c7c83896d6b4f17",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/mobile-independent-visual-review.json",
+      "sha256": "3d887ed6fe43cd7a9f75c3f76e0771d39bbfce539c3a262bdec34c7e43b51ed8",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/mobile-inputs-before.json",
+      "sha256": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json",
+      "sha256": "35ae6d824bdbeae1abc33dae179fe52391bfcbae68efd2efd02e6733b712fc26",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-capture-report.json",
+      "sha256": "527bf63f21c98ff8aafc026e00b46f8f9ed5bbb6bd6e9dadc939864cb52f7e5c",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-compiled-input-binding.json",
+      "sha256": "c23398d044761af9089691274f5bd36a9feafefdaecc41002a1ba82d8530ea21",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-installed-bundle-readback.json",
+      "sha256": "7a8861e0c6028f4d90cfc13518e5e21403b88639167c4b7b45d7e14ffac88b4d",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-original-pixel-ocr.json",
+      "sha256": "afbb41f3ce7fa56b5c9b3f050850bd5cc5e46f8da2b01ba073a49f54ad365635",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-source-export.json",
+      "sha256": "865f82e2c267907675d9d86faf421aa53354bb6c27e7d6eee341527fc3cb2141",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-visual-diagnosis.json",
+      "sha256": "c2c53a449b8e29fd57dcee55b3df1a62c4dfc8f284e61942270fe23035e22b5f",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/native-visual-review.json",
+      "sha256": "51b28789405527447b3fc83a0229876d7824fabb9bc1348867c10a43600c5b6d",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/original-native-pixel-ocr.json",
+      "sha256": "500b880e1054ee717798e544c6997677f42db83febaf7edde2649c62e970b2aa",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/photo-label-final.log",
+      "sha256": "45ea29c3746aa5d9987e7707915cfbdbd7f7cc2d24f8dafaa707a0de254f611f",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-artifact-reuse-proof.json",
+      "sha256": "b398be4a226edaddf7a311c62a657354e68f37aba5d42abdc74f1a0253b1460a",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-ci-gate-final.log",
+      "sha256": "e700e2dcb3ab3ba5ee984b6d871464d2efe9ab49d7279c3892863c4833352965",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-execution.json",
+      "sha256": "9b54989c2c32501d1195d2388a461d298a886c46c5a086c85803708f05ce4c07",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-matrix.json",
+      "sha256": "12bc8f5a740fc1a5e3a994fd15e1ce23670893a197aeff56a0a980af89f059f2",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-build.log",
+      "sha256": "d3940e3c665c002c965c0b628747cac77e12910702a2666dc67dc4f4f37cdb8e",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-contrast-execution.json",
+      "sha256": "504a2604930faa0d8ab11e8d0eba1dd00b99c1628fd4bac02cff02b204805e14",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-photo-contrast.json",
+      "sha256": "6ca155c9c1d5372337af49bda81df9aaad8374fa2cccd3dfd6033ebfb588b726",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-quality.json",
+      "sha256": "0fc3f52a43512cb30a640ab8cecb7041166106242fb6a44244fd759a96060717",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-complete-text-contrast.json",
+      "sha256": "73af791b6f9f484bae8bdb30f8f5b1a219c548ac8760b9458fbb585f03ebfea3",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-content-presentation-review.log",
+      "sha256": "2e60f4ee4118516569659c2808e5d0b3e25d685cd1cccd58353e5900905ff02e",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-current-content-tests.log",
+      "sha256": "76137274f582987fb0e0a5fb2329bf00332f37e1c3cedde76d41c7e3b9e28eae",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-legal-rendering-regressions.log",
+      "sha256": "70bc302deb4bb14fe14a57b026506f2cc838dc76d40fae05e17c7fc4a63f46da",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-legal-route-review.json",
+      "sha256": "1ea8a1e67cefbd453b6f86dcbffa9b5511e8ce33c66622d7bfa85290faf7b73d",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-long-execution.json",
+      "sha256": "65be3ae52f1304fb53a389fa36feb73b47dbeb058db0419ec5d486d5c5d18d58",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-long-page-capture.json",
+      "sha256": "586a5cf69dff790aecd77eba7e00b09e0cfed7def7e0619967aa56e8af5d9ba7",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/public-minifier-selector-regression.json",
+      "sha256": "6abddd0c3ebddfa9d5f7d366988b51bc30ddba4590bf115f195900b78a4d1cdb",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/security-header-final-test.stdout",
+      "sha256": "c2797a4383d2634c868a629069ae3cfe3da2a36986fca97be4d9fad2c9a92718",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-20261001/security-header-review.json",
+      "sha256": "32e4217d9acb7aa5b5c77122c4270da0617cf62e564c92a573f794c5c2209ed3",
+      "evidence_role": "current_scoped"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/capture-report.json",
+      "sha256": "9c9c28e7b54cfbe554961a295e9cdada75eb43a463fa77c974c37f704af54dd6",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/previous-browser-media/capture-provenance.json",
+      "sha256": "7e8097b5bb38ed0fb22c97a72bc22aec991e2e3dea5e0b47f9da2b55183beb1f",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/previous-browser-media/manifest.json",
+      "sha256": "4801939a6e04eeefe284526ca32e9257c6bf3485e3ed6b1b4a28da38df95b144",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/publication.json",
+      "sha256": "5961bf2113df97833b9c5bf38db345dc679bce2788115640b308ef808109e15f",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/replacement-media/capture-provenance.json",
+      "sha256": "d6f2b7d463db15a12b33dfa8499b958380b9943d89ffcd5a4e1d070921a5d865",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/replacement-media/manifest.json",
+      "sha256": "6439acbf8ffd3df400a7473a566d2d606e3e8bf3745c139191d598da744f8149",
+      "evidence_role": "current_member_media_publication"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/final-member-media-20261001/visual-review.json",
+      "sha256": "8bf74d3492792ba5db30b0929eca5dbf7a08ca65cd15b97ae175ce4be34253e0",
+      "evidence_role": "current_member_media_publication"
+    }
+  ],
+  "historical_evidence": [
+    {
+      "path": "docs/release/revolut-design/verification/RECOVERED_NATIVE_CAPTURE_88F.md",
+      "sha256": "b257d06baa9a24d57e6ae9acebb0f91be5a7a8bfe780b0d540b91182c41083ba",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/analyze-concurrent-admin.log",
+      "sha256": "b1456d11ba19646aa65a5839c976b947909bc325bc2a91fe66679c199db3eb29",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/analyze-current.log",
+      "sha256": "ac0cd8db2fb40d2dd06be462fbe4595fc78da992f9ffbd7f287e48068db796e9",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/analyze-final.log",
+      "sha256": "697c778f7d9650f8c4a31cfbde10de87a7eee07b00ec19ea09fafb5325aa2635",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/authority-close.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/authority-current.json",
+      "sha256": "743fb3136c761c1cdc1d79f9e06d71251ae5624fb63ab5044793e85a84ec6ced",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/authority-tests.log",
+      "sha256": "3e5da844f1824a82652941f99635e09a97f05c3845d2eabc98f1abf1df76a2c6",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/capture-report-88f-recovered.json",
+      "sha256": "6f885fc7fddd94fb53a6c995f29db90ef4bdab4ce646624cb4e7d50dcc8a5762",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-design-analysis.log",
+      "sha256": "83b30f5e655f414482fa7e9a9b3075c0d9e3a815242766a05efd9a819f96a151",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-public-affected-final.log",
+      "sha256": "6c9b43a2e289c96c9dd21316b3804865d94c6cabb3a64d701477c40704356a4d",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/focused-final.log",
+      "sha256": "bd82dc78d66e1b6bfeb615b28bf4cc004041d4c794c208361fb647dbd8a7359e",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/legacy-palette-guard.log",
+      "sha256": "c20911826e44326443cb046d443e58ec1f01ed51cda064514ee782f8c61b3072",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/native-provenance-tests.log",
+      "sha256": "dd31465c60950fde1106c934b42d8be7d4d5c0ff837fe215f9cb0675abba1334",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/native-publisher-tests.log",
+      "sha256": "be0aec48ca60e068f85f7a456193a06cf42e969d108e951857f26c2dfecf0c34",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/public-media-tests.log",
+      "sha256": "5a6b4f5b7ea1f91e9a5506c6d35449ca201f94919fe5f8c40d889714e914493b",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/public-navigation-tests.log",
+      "sha256": "e86b56474de024b28432cdd1b718950b890aa3117d0ebb70f7498eb85c93fe3b",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/public-photography-tests.log",
+      "sha256": "fb6c1357cd35571491274c3f78c7d6e50f9f1e66f3a5d0bff95b3e26e9bc4158",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/public-static-final-status.json",
+      "sha256": "8ccb42d12948783c2fa6de15fbcc58ffe42f29bbaa93e9e92d14c84d0de6d77a",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/source-binding-review-88f-recovered.json",
+      "sha256": "83a1803d3a7007f80373dfb0e3f47f44f71060a6783f75fbd3e9629e6a7b3673",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/source-integrity-before-media.json",
+      "sha256": "49f9148aeb534db329ab6529323f1709adf5f6a19c4b110f5774b904895a3954",
+      "evidence_role": "historical_attempt"
+    },
+    {
+      "path": "docs/release/revolut-design/verification/surface-focus-tests.log",
+      "sha256": "c1efc017489eba027c77dda6ed7f1673d80f06c184552b7fbf9ac1784df1ca82",
+      "evidence_role": "historical_attempt"
+    }
+  ],
+  "final_authority_check_log": ".cache/revolut-design-20260930/authority-final-complete.log"
+}

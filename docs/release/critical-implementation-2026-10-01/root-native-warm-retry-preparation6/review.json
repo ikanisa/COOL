@@ -1,0 +1,10 @@
+{
+  "scope": "Namespace-only successor; source must be captured after final maintained integration before any export admission.",
+  "script_sha256": "0e783769fba34a78c4174bdb1d6b1cd01036a4579a1a429aee7571294218ed4c",
+  "predecessor_script_sha256": "8393de20ff53653a1e6d3bef432c437903973271dcbe56e8a5462b5a22766f38",
+  "only_review_namespace_changed": true,
+  "seven_stage_admission_cases_reused_from_preparation4": true,
+  "new_admission_cases_executed": false,
+  "new_APP_SDK_or_native_stage_executed": false,
+  "production_release_approval": false
+}

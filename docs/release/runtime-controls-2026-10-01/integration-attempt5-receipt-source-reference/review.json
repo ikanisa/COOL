@@ -1,0 +1,16 @@
+{
+  "source": "20261001000519_safe_unstarted_receipt_cancel.sql",
+  "prior_sha256": "c30ea26d0f4ac37b072927250c42603d36cdcc5d8d2e00b1d15c15cf2dc8b523",
+  "current_sha256": "d3252ea09b91aa5d12aa20547e1a71dab056513fe4dc60bd0a1f2450926c0c50",
+  "exact_delta": "one predicate binds outbox reference to source transaction_id or payment UUID fallback",
+  "unchanged": [
+    "all function signatures and API grants",
+    "caller/session/permission gates",
+    "reason codes and revision CAS",
+    "delivery/transport predicates",
+    "stored financial or receipt rows"
+  ],
+  "new_source_receipt_positive_acceptance_required": true,
+  "prior_bundle12_kept_dated": true,
+  "benchmark_preflight_failed_before_clone_or_SQL": true
+}

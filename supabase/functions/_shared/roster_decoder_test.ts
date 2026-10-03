@@ -35,9 +35,9 @@ function fake(patch: Record<string, unknown>, tamper = false): typeof fetch {
       decoder_build_sha256: build,
       toolchain: {
         python: "3.12",
-        pillow: "12.0.0",
+        pillow: "12.3.0",
         pypdfium2: "5.2.0",
-        pypdf: "6.7.0",
+        pypdf: "6.19.0",
         openpyxl: "3.1.5",
         defusedxml: "0.7.1",
       },
@@ -81,6 +81,26 @@ for (
     wrong_policy: { policy_version: "client-claimed-safe" },
     wrong_build: { decoder_build_sha256: "e".repeat(64) },
     wrong_toolchain: { toolchain: { python: "3.12" } },
+    old_pillow: {
+      toolchain: {
+        python: "3.12",
+        pillow: "12.0.0",
+        pypdfium2: "5.2.0",
+        pypdf: "6.19.0",
+        openpyxl: "3.1.5",
+        defusedxml: "0.7.1",
+      },
+    },
+    old_pypdf: {
+      toolchain: {
+        python: "3.12",
+        pillow: "12.3.0",
+        pypdfium2: "5.2.0",
+        pypdf: "6.7.0",
+        openpyxl: "3.1.5",
+        defusedxml: "0.7.1",
+      },
+    },
     wrong_size: { source_size: 1 },
     extra_key: { approved: true },
     frames_exceeded: { frames: 21 },

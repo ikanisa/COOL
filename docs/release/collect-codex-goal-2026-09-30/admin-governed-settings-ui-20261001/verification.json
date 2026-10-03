@@ -1,0 +1,193 @@
+{
+  "status": "ready_for_root_integration",
+  "functional_scopes": {
+    "vm-sealed6": {
+      "result": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+          "test",
+          "--no-pub",
+          "--concurrency=1",
+          "--reporter=expanded",
+          "test/admin_governed_settings_models_test.dart",
+          "test/admin_governed_settings_controller_test.dart",
+          "test/admin_governed_settings_sdk_test.dart"
+        ],
+        "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+        "exit_code": 0,
+        "elapsed_seconds": 4.762564750000365,
+        "source_sha256": "db686c2304c0be1cdd9cccae01f7f849170fa0c0147b526f08182cbce0cf896a"
+      },
+      "cases_or_analysis_files": 40,
+      "bound_affected_inputs": {
+        "lib/admin/core/admin_governed_settings_models.dart": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+        "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+        "lib/admin/core/admin_governed_settings_runtime.dart": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+        "lib/admin/core/admin_governed_settings_controller.dart": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+        "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+        "lib/admin/core/admin_governed_settings_page.dart": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+        "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+        "lib/admin/core/admin_governed_settings_sdk.dart": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+        "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+        "test/admin_governed_settings_controller_test.dart": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+        "test/admin_governed_settings_sdk_test.dart": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+        "test/admin_governed_settings_models_test.dart": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+        "test/support/settings_fixture.dart": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+        "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+        "integration/admin_runtime.dart.patch": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+        "integration/admin_repository_base.dart.patch": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+        "integration/admin_router.dart.patch": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+      },
+      "full_source_manifest_sha256": "db686c2304c0be1cdd9cccae01f7f849170fa0c0147b526f08182cbce0cf896a"
+    },
+    "browser-sealed4": {
+      "result": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+          "test",
+          "--no-pub",
+          "--platform=chrome",
+          "--concurrency=1",
+          "--reporter=expanded",
+          "test/admin_governed_settings_checkpoint_browser_test.dart"
+        ],
+        "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+        "exit_code": 0,
+        "elapsed_seconds": 20.13199929099983,
+        "source_sha256": "db686c2304c0be1cdd9cccae01f7f849170fa0c0147b526f08182cbce0cf896a"
+      },
+      "cases_or_analysis_files": 6,
+      "bound_affected_inputs": {
+        "lib/admin/core/admin_governed_settings_models.dart": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+        "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+        "lib/admin/core/admin_governed_settings_runtime.dart": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+        "lib/admin/core/admin_governed_settings_controller.dart": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+        "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+        "lib/admin/core/admin_governed_settings_page.dart": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+        "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+        "lib/admin/core/admin_governed_settings_sdk.dart": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+        "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+        "test/admin_governed_settings_checkpoint_browser_test.dart": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+        "test/support/settings_fixture.dart": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+        "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+        "integration/admin_runtime.dart.patch": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+        "integration/admin_repository_base.dart.patch": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+        "integration/admin_router.dart.patch": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+      },
+      "full_source_manifest_sha256": "db686c2304c0be1cdd9cccae01f7f849170fa0c0147b526f08182cbce0cf896a"
+    },
+    "widgets-sealed9": {
+      "result": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+          "test",
+          "--no-pub",
+          "--concurrency=1",
+          "--reporter=expanded",
+          "test/admin_governed_settings_widget_test.dart"
+        ],
+        "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+        "exit_code": 0,
+        "elapsed_seconds": 7.984144875000311,
+        "source_sha256": "210a3b2b3af2840a33742f4cb2d76fbd23b98b1703ff52525d02f1639365d5cf"
+      },
+      "cases_or_analysis_files": 11,
+      "bound_affected_inputs": {
+        "lib/admin/core/admin_governed_settings_models.dart": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+        "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+        "lib/admin/core/admin_governed_settings_runtime.dart": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+        "lib/admin/core/admin_governed_settings_controller.dart": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+        "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+        "lib/admin/core/admin_governed_settings_page.dart": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+        "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+        "lib/admin/core/admin_governed_settings_sdk.dart": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+        "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+        "test/admin_governed_settings_widget_test.dart": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+        "test/support/settings_fixture.dart": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+        "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+        "integration/admin_runtime.dart.patch": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+        "integration/admin_repository_base.dart.patch": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+        "integration/admin_router.dart.patch": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+      },
+      "full_source_manifest_sha256": "210a3b2b3af2840a33742f4cb2d76fbd23b98b1703ff52525d02f1639365d5cf"
+    },
+    "analysis-sealed7": {
+      "result": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+          "analyze",
+          "--no-pub",
+          "lib/admin/core/admin_governed_settings_models.dart",
+          "lib/admin/core/admin_governed_settings_checkpoint_web.dart",
+          "lib/admin/core/admin_governed_settings_runtime.dart",
+          "lib/admin/core/admin_governed_settings_controller.dart",
+          "lib/admin/core/admin_governed_settings_checkpoint_stub.dart",
+          "lib/admin/core/admin_governed_settings_page.dart",
+          "lib/admin/core/admin_governed_settings_registry.dart",
+          "lib/admin/core/admin_governed_settings_sdk.dart",
+          "lib/admin/core/admin_governed_settings_checkpoint.dart",
+          "lib/admin/core/admin_runtime.dart",
+          "lib/admin/core/admin_repository_base.dart",
+          "lib/admin/admin_router.dart",
+          "test/admin_governed_settings_controller_test.dart",
+          "test/admin_governed_settings_sdk_test.dart",
+          "test/admin_governed_settings_checkpoint_browser_test.dart",
+          "test/admin_governed_settings_models_test.dart",
+          "test/admin_governed_settings_widget_test.dart",
+          "test/support/settings_fixture.dart"
+        ],
+        "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+        "exit_code": 0,
+        "elapsed_seconds": 3.689370625000265,
+        "source_sha256": "210a3b2b3af2840a33742f4cb2d76fbd23b98b1703ff52525d02f1639365d5cf"
+      },
+      "cases_or_analysis_files": 18,
+      "bound_affected_inputs": {
+        "lib/admin/core/admin_governed_settings_models.dart": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+        "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+        "lib/admin/core/admin_governed_settings_runtime.dart": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+        "lib/admin/core/admin_governed_settings_controller.dart": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+        "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+        "lib/admin/core/admin_governed_settings_page.dart": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+        "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+        "lib/admin/core/admin_governed_settings_sdk.dart": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+        "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+        "test/support/settings_fixture.dart": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+        "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+        "integration/admin_runtime.dart.patch": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+        "integration/admin_repository_base.dart.patch": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+        "integration/admin_router.dart.patch": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+      },
+      "full_source_manifest_sha256": "210a3b2b3af2840a33742f4cb2d76fbd23b98b1703ff52525d02f1639365d5cf"
+    }
+  },
+  "canonical_consumers": 646,
+  "external_dependencies": 1464,
+  "integration_old_new": {
+    "lib/admin/core/admin_runtime.dart": {
+      "old_sha256": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+      "new_sha256": "d3212228bcad6f53b131ecd2f7bd95a5dbdb8d79894f4271c61e003494bfbedb",
+      "patch_sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "old_sha256": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+      "new_sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+      "patch_sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1"
+    },
+    "lib/admin/admin_router.dart": {
+      "old_sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+      "new_sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "patch_sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+    }
+  },
+  "canonical_writes": false,
+  "new_module_count": 9,
+  "new_test_count": 5,
+  "copied_auth_test_is_support_only": true,
+  "limitations": [
+    "Interim conservative publication guards; contextual eligibility/publication workflows separate SQL240/UI follow-on.",
+    "SQL250 receipt language overlay separate; actual receipt SMS never generic notification_templates.",
+    "No build, hosted route, signed JWT, device/provider, deployment or full visual/reader acceptance.",
+    "Global design hygiene attempt timed out; scoped authority mismatch predecessor retained. Root reviewed authority metadata delta separately."
+  ]
+}

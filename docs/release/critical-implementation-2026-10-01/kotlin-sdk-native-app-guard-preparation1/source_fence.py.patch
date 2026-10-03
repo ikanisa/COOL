@@ -1,0 +1,22 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/source_fence.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/source_fence.py
+@@ -111,7 +111,8 @@
+                            strict_current_source_comparison_required_for_export=True,
+                            source_scope_held_for_strict_export=False,
+                            source_identity_index_membership_fixture_fences_required=True,
+-                           only_app_export_admitted_by_derivative=True)
++                           only_app_export_admitted_by_derivative=False,
++                           only_app_export_and_app_lock_admitted_by_derivative=True)
+     if config != expected_config:
+         raise ValueError('only declared snapshot admission fields may differ from original full configuration')
+     command = config['commands']['app-export']
+@@ -124,7 +125,8 @@
+             or config.get('strict_current_source_comparison_required_for_export') is not True
+             or config.get('source_scope_held_for_strict_export') is not False
+             or config.get('source_identity_index_membership_fixture_fences_required') is not True
+-            or config.get('only_app_export_admitted_by_derivative') is not True
++            or config.get('only_app_export_admitted_by_derivative') is not False
++            or config.get('only_app_export_and_app_lock_admitted_by_derivative') is not True
+             or config.get('immutable_root_stage_admission_directory') != str(auth)
+             or config.get('candidate_promoted') is not False or config.get('production_release_approval') is not False):
+         raise ValueError('honest strict-only app snapshot command/admission contract differs')

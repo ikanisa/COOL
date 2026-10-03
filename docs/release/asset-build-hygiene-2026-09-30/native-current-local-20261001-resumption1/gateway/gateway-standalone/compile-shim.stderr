@@ -1,0 +1,3 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/gateway-standalone/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt:36:38: warning: 'constructor(p0: String!): URL' is deprecated. Deprecated in Java.
+            val connection = connect(URL("https://$HOST/functions/v1/collect-android-gateway"))
+                                     ^^^

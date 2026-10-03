@@ -1,0 +1,133 @@
+{
+  "all42_original_bytes_modes_hashes_equal": true,
+  "no_old_results_reclassified": true,
+  "old_whole_driver_status": "fail",
+  "prepared_input_pins": {
+    "bytes": 10527,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/prepared-input-pins.json",
+    "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+  },
+  "prepared_reference_count": 42,
+  "preserved_packets": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/packet-files.json": {
+      "bytes_modes_hashes_unchanged": true,
+      "leaves": 8,
+      "sha256": "927741352a68aba1f7983123d46e0626ffe33868e71f87b89719434a315810a9"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/packet-files.json": {
+      "bytes_modes_hashes_unchanged": true,
+      "leaves": 9,
+      "sha256": "caab479ae6d1afd41d9471d146405fddfb8a071f05dfccd86012db1fad2e6851"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/packet-files.json": {
+      "bytes_modes_hashes_unchanged": true,
+      "leaves": 25,
+      "sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf"
+    }
+  },
+  "root_runtime_reuse_exact_inputs": {
+    "APP_source_failure": {
+      "bytes": 1425022,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/APP-source-failure.json",
+      "sha256": "5a8f2a530534678ea44f0df79f3e75adff17a5e23edf8ff9cecdbbe3e746013b"
+    },
+    "SDK_source_failure": {
+      "bytes": 6880418,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/SDK-source-failure.json",
+      "sha256": "29eaa3a2f5dcf11c21ef0373fcdb6941d1ab68189fce7667070ca6eebc26ca03"
+    },
+    "command": {
+      "bytes": 1374,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.json",
+      "sha256": "81dd393d5301347967fa90098627266cee5dd5cf7013c798013bfb26ceba0285"
+    },
+    "failed_packet": {
+      "bytes": 4631,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/packet-files.json",
+      "sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf"
+    },
+    "failure_guard_command": {
+      "bytes": 1254,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/actual-failure-guard-command.json",
+      "sha256": "dee5aebd610b77d11ed9dc86d9b61b460b3f72826dc4f3766de741c6fc17dd22"
+    },
+    "graph": {
+      "bytes": 403254,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    "protected_failure": {
+      "bytes": 104,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/protected-failure.json",
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59"
+    },
+    "root_readback": {
+      "bytes": 1580,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    },
+    "source_fence_before": {
+      "bytes": 921482,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/source-fence-before.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    "source_fence_command": {
+      "bytes": 1474,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/source-fence-before-command.json",
+      "sha256": "d1f37642f9c747aff812d5b68f29dde891e9afe371220526a9deee4fb717eab3"
+    },
+    "stderr": {
+      "bytes": 765,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stderr",
+      "sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    "stdout": {
+      "bytes": 268208,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stdout",
+      "sha256": "24f3c67e4f7ac4df0fa88162dc43c117399e685bd966ab11d98c91d3ce2fb27c"
+    },
+    "terminal": {
+      "bytes": 7803,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/terminal.json",
+      "sha256": "346e988f940f39528d32842152e5dd13971b5ba62c8c8b7606c970df0f4143a9"
+    }
+  },
+  "runtime_readback": {
+    "APP_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "SDK_source_deltas": 8,
+    "SDK_source_entries": 15660,
+    "SDK_zero_shared_inodes": true,
+    "actual_APP_strict_source_unchanged": true,
+    "actual_SDK_status": "EXACT_CANDIDATE_SOURCE_DELTA_AND_PHYSICAL_READBACK_PASS",
+    "command_bound_seconds": 300,
+    "command_exit_code": 0,
+    "command_seconds": 41.261,
+    "graph_artifacts": 141,
+    "graph_components": 173,
+    "graph_edges": 995,
+    "protected_unchanged": 68020,
+    "root_observed_absence": [
+      "PID87082",
+      "PID87105",
+      "PGID87082",
+      "PGID87105"
+    ],
+    "root_signals_sent": 0
+  },
+  "schema_version": 1,
+  "utc": "2026-10-02T12:53:10.996996+00:00"
+}

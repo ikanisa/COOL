@@ -1,0 +1,27 @@
+{
+  "at_utc": "2026-10-02T00:22:27.113631+00:00",
+  "headers": {
+    "Accept-Ranges": "bytes",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Expose-Headers": "Content-Type",
+    "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+    "Cache-Control": "public, max-age=3600",
+    "Connection": "close",
+    "Content-Length": "1543593524",
+    "Content-Type": "application/x-tar",
+    "Date": "Fri, 02 Oct 2026 00:22:27 GMT",
+    "ETag": "\"81d1d2304ffa4ba080111534fc617d35\"",
+    "Expires": "Fri, 02 Oct 2026 01:22:27 GMT",
+    "Last-Modified": "Wed, 24 Jun 2026 23:47:57 GMT",
+    "Server": "UploadServer",
+    "X-GUploader-UploadID": "AP6rU81_4-TAojg1-D_Purhor1ODspYpOE2LGagmd4jzlINC5T2kI-Mg2qvmCjDE15CZ9_gk",
+    "x-goog-generation": "1782344877588856",
+    "x-goog-hash": "crc32c=WbIP+Q==",
+    "x-goog-metageneration": "1",
+    "x-goog-storage-class": "STANDARD",
+    "x-goog-stored-content-encoding": "identity",
+    "x-goog-stored-content-length": "1543593524"
+  },
+  "status": 200,
+  "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.44.4-stable.tar.xz?generation=1782344877588856"
+}

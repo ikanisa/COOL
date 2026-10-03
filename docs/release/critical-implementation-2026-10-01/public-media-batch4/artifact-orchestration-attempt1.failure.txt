@@ -1,0 +1,7 @@
+Observed PTY terminal output retained from the actual owned wrapper invocation:
+{"step": "publication", "status": "pass", "exit_code": 0, "inputs_unchanged": true}
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/public-media-batch4/run_public_artifact.py", line 99, in <module>
+    assert row['alt'] == old_alt
+           ^^^^^^^^^^^^^^^^^^^^^
+AssertionError

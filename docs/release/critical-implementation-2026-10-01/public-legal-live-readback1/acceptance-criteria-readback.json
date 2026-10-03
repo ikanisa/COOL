@@ -1,0 +1,51 @@
+{
+  "registry_path": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+  "registry_sha256": "87ac3639c8e5e1b6e10175a65962d321bc2dfa62006d689b33d3697c4157c3eb",
+  "criteria_unchanged_by_this_readback": true,
+  "rows": [
+    {
+      "id": "PD-04",
+      "title": "High: public deletion page promises a form but renders a specification",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** either implement a real accessible, protected request flow with identity verification/acknowledgment/receipt/status and explicit retention, or make the currently supported support channel the primary truthful action and remove form promises. Do not collect sensitive identity documents without the actual protected workflow. **Owner:** privacy/product, web engineer. **Closure:** observed no-app synthetic request completes or reaches an explicit supported support channel; failure and duplicate-submit recovery work; confirmation identifies request vs completed deletion; applicable labels/error/privacy tests pass."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/legal-batch1/batch.json",
+          "sha256": "f11582f60fba34aafa71cf5d8e001a82a095bda52da72d6f9ca49bfe471dcd25"
+        }
+      ],
+      "next_action": "Canonical support-information content and real app deletion instructions now agree across YAML/rendered pages;40 tests/313 assertions pass. Verify actual supported no-app support request/acknowledgment/status and duplicate/failure outcomes; do not equate requesting deletion with completed erasure."
+    },
+    {
+      "id": "PD-05",
+      "title": "High: privacy policy emits links to intentionally absent destinations",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** repair destinations to working current pages/anchors/channels and revise the canonical legal bundle consistently, or implement the intentionally supported notices rather than resurrecting retired design references. Add link validation to the generated legal page graph. **Owner:** privacy/content and web engineer. **Closure:** every generated legal link resolves to intended content in the exact served build and public live GET/readback; privacy-request outcome works where promised."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/legal-batch1/batch.json",
+          "sha256": "f11582f60fba34aafa71cf5d8e001a82a095bda52da72d6f9ca49bfe471dcd25"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/packet-files.json",
+          "sha256": "e708bf9309e72c2b19e72058e98914a701f3571078633d89552de522e4599f5a"
+        }
+      ],
+      "next_action": "Existing privacy destinations/anchors and generated legal graph pass locally, including unique IDs. The earlier stale-media prerequisite is resolved in the dated public4 build, which has seven fresh compiled captures and bounded downstream evidence. Those captures do not prove every legal destination or privacy outcome. Bind every generated link to intended content in an exact served build, then obtain public live GET/readback and the promised privacy-request outcome. Legal/publication acceptance remains unverified."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "kind": "retained_local_python_parse_failure",
+  "exit_code": 1,
+  "reason": "SyntaxError before execution caused by missing whitespace in an inline conditional; corrected before the six capability requests ran.",
+  "external_requests_from_failed_local_attempt": 0,
+  "raw_private_data_reported": false
+}

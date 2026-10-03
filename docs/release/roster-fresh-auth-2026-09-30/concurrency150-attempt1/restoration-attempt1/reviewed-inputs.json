@@ -1,0 +1,5 @@
+{
+  "failed_checkpoint_sha256": "8b3e477b47af508b76acb2f8d183390e1d86e1c99e7c1bc4e0a85d3b0f512f11",
+  "harness_sha256": "f2d9f52d858a67759fa20eedee48207617388d9967174175166a0cafef2b37dc",
+  "restore_sha256": "093430c6afa3cd098f2cfdf3f8b4203bcd27cdb3d2f070f581caf5ed85bd084f"
+}

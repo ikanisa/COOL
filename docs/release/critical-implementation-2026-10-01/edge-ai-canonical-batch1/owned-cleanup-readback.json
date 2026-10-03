@@ -1,0 +1,78 @@
+{
+  "observed_at_utc": "2026-10-02T02:25:54.656236+00:00",
+  "command": [
+    "/bin/ps",
+    "-axo",
+    "pid=,ppid=,pgid=,stat=,lstart="
+  ],
+  "deadline_seconds": 15,
+  "exit_code": 0,
+  "owned_original_identities": {
+    "38998": {
+      "ppid": 38874,
+      "pgid": 38998,
+      "stat": "Ss",
+      "birth": "Fri Oct 2 04:20:14 2026"
+    },
+    "39049": {
+      "ppid": 38998,
+      "pgid": 38998,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:20:14 2026"
+    },
+    "39153": {
+      "ppid": 39049,
+      "pgid": 38998,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:20:15 2026"
+    },
+    "39248": {
+      "ppid": 38998,
+      "pgid": 38998,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:20:15 2026"
+    },
+    "39611": {
+      "ppid": 38998,
+      "pgid": 38998,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:20:18 2026"
+    },
+    "39755": {
+      "ppid": 39741,
+      "pgid": 38998,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:20:19 2026"
+    },
+    "39741": {
+      "ppid": 38998,
+      "pgid": 38998,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:20:19 2026"
+    },
+    "40114": {
+      "ppid": 40102,
+      "pgid": 38998,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:20:23 2026"
+    },
+    "40102": {
+      "ppid": 38998,
+      "pgid": 38998,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:20:23 2026"
+    }
+  },
+  "birth_matched_processes": {},
+  "live_owned_processes": {},
+  "original_cleanup": {
+    "owned_live_pids_before_cleanup": [],
+    "killed_owned_groups": []
+  },
+  "http_reported_closed_owned_listeners": 14,
+  "http_reported_cleanup_mode": "owned_listeners_aborted_after_scenario_responses",
+  "docker_build_started": false,
+  "linux_decoder_started": false,
+  "new_task_image_or_container_identity_allocated": false,
+  "no_image_existence_or_global_daemon_cleanup_claim": true
+}

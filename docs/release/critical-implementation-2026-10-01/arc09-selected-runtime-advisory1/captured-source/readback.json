@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-02T12:42:41.481966+00:00",
+  "status": "successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved",
+  "driver_terminal_sha256": "346e988f940f39528d32842152e5dd13971b5ba62c8c8b7606c970df0f4143a9",
+  "failed_output_packet_sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf",
+  "runtime_command_sha256": "81dd393d5301347967fa90098627266cee5dd5cf7013c798013bfb26ceba0285",
+  "runtime_stdout_sha256": "24f3c67e4f7ac4df0fa88162dc43c117399e685bd966ab11d98c91d3ce2fb27c",
+  "runtime_stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+  "runtime_exit_code": 0,
+  "runtime_seconds": 41.261,
+  "runtime_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+  "components": 173,
+  "edges": 995,
+  "artifacts": 141,
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 87082,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 87105,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 87082,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 87105,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "matching_live_process_rows": [],
+  "original_monitor_failure_preserved": true,
+  "failure_guard_summary": {
+    "APP-source": {
+      "readback_completed": true
+    },
+    "SDK-source": {
+      "readback_completed": true
+    },
+    "protected": {
+      "readback_completed": true
+    }
+  },
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

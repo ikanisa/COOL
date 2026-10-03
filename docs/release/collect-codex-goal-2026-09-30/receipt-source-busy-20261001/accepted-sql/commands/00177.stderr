@@ -1,0 +1,8 @@
+NOTICE:  00000: policy "profile country rules enabled read" for relation "public.profile_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: constraint "profiles_country_code_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_currency_code_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_name_length" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655

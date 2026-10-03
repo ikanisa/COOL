@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "command": "make revolut-design-authority",
+  "exit_code": 0,
+  "stdout": "[revolut-design-authority] pass\n",
+  "verified_at_utc": "2026-10-01T11:50:32.631146+00:00",
+  "source_sha256": {
+    "scripts/qa/revolut_design_authority.py": "86ed8bbba082c679ba7e03f48bf094daf851c42381aee6f5a3885930b02470d4",
+    "lib/app/theme/collect_runtime_typography.dart": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+    "lib/admin/shared/components/admin_confirm_dialog.dart": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f",
+    "web/public/revolut.css": "80fa3251c493329c85e1382b07747864b34b6d57abf2b70b76a18b4c90fdf406",
+    "pubspec.yaml": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+  },
+  "scope": "Sole design authority hygiene after shared component and font fallback changes; does not certify visual fidelity."
+}

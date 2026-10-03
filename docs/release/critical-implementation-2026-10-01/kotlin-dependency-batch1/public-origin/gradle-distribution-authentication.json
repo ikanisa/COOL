@@ -1,0 +1,10 @@
+{
+  "url": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+  "final_url": "https://downloads.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+  "official_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "observed_local_archive_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "matches_publisher_and_wrapper_pin": true,
+  "source": "Existing complete global wrapper archive rehashed against newly fetched official publisher checksum; no global extracted cache or module dependency reused.",
+  "isolated_archive_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "discarded_partial_download_bytes": 26388480
+}

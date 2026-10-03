@@ -1,0 +1,26 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:03 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:03 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:03 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:03 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:11 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:16 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:18 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:19 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:20 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:22 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:23 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:24 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:25 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+02:14 +13 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart [E]
+  Bad state: Cannot close sink while adding stream.
+  package:stream_channel/src/guarantee_channel.dart 180:7      _GuaranteeSink.close
+  package:flutter_tools/src/test/flutter_platform.dart 766:43  FlutterPlatform._startTest
+  
+02:14 +13 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline - did not complete [E]
+02:14 +13 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline (did not complete)
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart

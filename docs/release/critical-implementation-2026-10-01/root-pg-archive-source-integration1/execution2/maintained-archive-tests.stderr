@@ -1,0 +1,20 @@
+.............F.........................
+======================================================================
+FAIL: test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) (number='170007')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 239, in test_incompatible_or_forged_numeric_server_is_never_written
+    self.assertEqual([r['stage'] for r in self.requests()],['server'])
+AssertionError: Lists differ: [] != ['server']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'server'
+
+- []
++ ['server']
+
+----------------------------------------------------------------------
+Ran 39 tests in 48.990s
+
+FAILED (failures=1)

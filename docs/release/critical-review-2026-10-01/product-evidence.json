@@ -1,0 +1,211 @@
+{
+  "review_date_client": "2026-10-01",
+  "written_at_utc": "2026-10-01T17:35:30.487761+00:00",
+  "scope": "Targeted current source/generator/image review. No runtime modifications, credentials, provider actions or deployment. Hashes are readback, not acceptance.",
+  "fresh_checks": [
+    {
+      "name": "PublicAppMedia.screens read-only validation",
+      "exit_code": 2,
+      "result": "fail",
+      "message": "App screenshots need recapturing: runtime changed",
+      "current_browser_fingerprint": "f1d2cc0cf15008d3ae7da70ca8610fe70f7330f254b6f419105711f578c28a7f",
+      "published_fingerprint": "633f345f03320b803f45f2f594d2a212d8c32adb42318ccd25a88b73eb91bcb6"
+    },
+    {
+      "name": "Pure legal_page_html definition evaluation stopping before allowed_build_roots boundary",
+      "result": "confirmed_generated_output",
+      "deletion_copy_promises_form": true,
+      "form_tags": 0,
+      "input_select_textarea_tags": 0,
+      "submit_label_text_present": true,
+      "deletion_section_mailto": false,
+      "privacy_internal_links": [
+        "/subprocessors/",
+        "/privacy-request/",
+        "/account-deletion/",
+        "/cookies/"
+      ]
+    }
+  ],
+  "product_images": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_home_dark.png",
+      "sha256": "870a641f0dcacf7773ab7fe7f9623c359a187a74db19281ff284b5437abef3fe",
+      "bytes": 86703,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_groups_dark.png",
+      "sha256": "540ef124c21d98e50925c6303cc5b7ca1df26aec864e5aa52f8cb87242894382",
+      "bytes": 375137,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_contribution_review_dark.png",
+      "sha256": "61dcdfeaa8fa5e16df0bbfb643457b5c5c774890dcc3b183f9c92b431797b074",
+      "bytes": 45846,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/admin_overview_desktop.png",
+      "sha256": "aea3e63f14be1316b55d9ab49365d4d95a54defeca011d1c073dfc24220b119b",
+      "bytes": 183122,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/public_home_desktop.png",
+      "sha256": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4",
+      "bytes": 1444404,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_auth_dark.png",
+      "sha256": "aca6b5ee00ecd68d7869879feed04bd62c4125747fe5e3396c0b8d0fcce825d2",
+      "bytes": 36943,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_offline_dark.png",
+      "sha256": "a227be9ff104dff7c7710f6f3a9c7c6ba3be494a8332abdc201fd53f730789e7",
+      "bytes": 44764,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_profile_dark.png",
+      "sha256": "7ba1af0d137c9b5856f7093aa4a05ef4da1874335cd7252f0518ded992abd99b",
+      "bytes": 47343,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/goldens/baselines/member_appearance_dark.png",
+      "sha256": "feb125c79a6b9a5cb18ef38595f633a19fc334490d7b10090812877935fe5660",
+      "bytes": 44929,
+      "inspected_with_view_image": true
+    }
+  ],
+  "private_comparators": [
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/020-home-current-clean.jpg",
+      "sha256": "dbe799cc878a14cd7db4b04cdfce86f5eba42268743bfc2f33f06aba540837a5",
+      "bytes": 72647,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/030-revpoints-editorial-lower.jpg",
+      "sha256": "39c08a970199ef99339fccea0e2e03364a7ed3421331833c34aaaae8850ec97d",
+      "bytes": 80808,
+      "inspected_with_view_image": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/assets/public-business/enterprise.png",
+      "sha256": "cc4d984177ef14a987baa9c07ce6cdc36af6ffc9827b4431f2d5697eeba215dd",
+      "bytes": 389022,
+      "inspected_with_view_image": true
+    }
+  ],
+  "missing_historical_location": "/Users/jeanbosco/Desktop/Revolut/Cards.png",
+  "source_readback": {
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/admin/admin_router.dart": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+    "lib/features/landing/public_page_content.dart": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4",
+    "lib/app/theme/collect_runtime_typography.dart": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "lib/l10n/collect_localizations.dart": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+    "lib/features/payments/contribution_flow_screen.dart": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+    "lib/shared/widgets/collect_financial_amount_entry.dart": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+    "lib/shared/widgets/collect_confirmation_sheet.dart": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+    "lib/admin/shared/components/admin_data_table.dart": "3bc96731fea31559cb74eb95d5c42eb0021ce2db29654e37846b159328ecbe56",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/settings/settings_subscreens.dart": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "assets/marketing/SOURCE.json": "1b4326a79526fe2fd96eeb9e2dc0dd0ca86c8fb03181bfb29510c055ac264756",
+    "web/public/layout.css": "e04ba1c070b8a03941bc0c89dae1efe6c14338c44b90b7317390e169b0377e55",
+    "web/public/revolut.css": "fc0feb35fc7d278c5f1185222096f39ea4f33efed56fc401e3954165f768aa8b",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/manifest.json": "d738bf9fbeced427a87af363a938d5477f44b4c947b2f98f2bb5de1ebc5ecfca",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+    "scripts/public_static_site_build.rb": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90",
+    "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+    "scripts/public_website_quality_gate.sh": "e74b7fa2dd9839ea54b75635c81ad48d7cccb38a58faddc56bee938964f4fa36",
+    "content/legal/collect_delete_account.yaml": "c9dc4b93794c319151ae320bdae854abf19977784056e8b3520089db0828dbf1",
+    "content/legal/collect_privacy_policy.yaml": "f9b8bf803b63e7e2dd648dfd3520a5821097da79e2a1a73d726ace78f2913e20",
+    "docs/release/revolut-design/route-inventory.json": "5852d9d72bf3ae1046d315bf44d4af2844d08d0f8e349831f56ac4af00bca7b4",
+    "docs/release/revolut-design/acceptance-status.json": "03b9eaedd8f6c0a2ea1b20ad3c209eff41baddd9770828717623e9d6db93409e"
+  },
+  "root_packets_readback": {
+    "docs/release/critical-review-2026-10-01/public-live.json": "332277a87a8eb62bff06b12af4ca73c17c2c8195eb06553f123c48757bd517fd",
+    "docs/release/critical-review-2026-10-01/design-authority.json": "bd7c0f599f7dce6537c133cba8452f4141fbccf8f6d1dc93e933ee608a800382"
+  },
+  "report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-review-2026-10-01/product-design.md",
+  "finding_count": 14,
+  "operational_checklist_procedures": 60,
+  "native_design_acceptance": "unverified",
+  "whole_product_a11y_conformance": "unverified",
+  "affected_input_refreshes": [
+    {
+      "refreshed_at_utc": "2026-10-01T17:36:55Z",
+      "reason": "External generator/media/harness input drift while review was active",
+      "source_hashes": {
+        "scripts/public_static_site_build.rb": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90",
+        "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+        "web/public/app-screens/manifest.json": "4801939a6e04eeefe284526ca32e9257c6bf3485e3ed6b1b4a28da38df95b144",
+        "web/public/app-screens/capture-provenance.json": "7e8097b5bb38ed0fb22c97a72bc22aec991e2e3dea5e0b47f9da2b55183beb1f",
+        "scripts/public_website_route_rendered_qa.js": "857e2ed997d69bfffb9fcbee7ca1b34f68a22344452a8c89b7acd83fdfa8d418"
+      },
+      "root_initial_generator_sha256": "af090a720ec41f40f225e09f1d9be2750ad8794481fc46e56e2d658c70733e6a",
+      "previous_product_readback_generator_sha256": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90",
+      "generator_textual_delta_available": false,
+      "manifest_generated_at_utc": "2026-10-01T17:34:05.391Z",
+      "checks": [
+        {
+          "name": "PublicAppMedia.screens",
+          "exit_code": 0,
+          "result": "pass",
+          "current_browser_fingerprint": "f1d2cc0cf15008d3ae7da70ca8610fe70f7330f254b6f419105711f578c28a7f",
+          "published_fingerprint": "f1d2cc0cf15008d3ae7da70ca8610fe70f7330f254b6f419105711f578c28a7f",
+          "validated_screen_ids": [
+            "account-deletion",
+            "group-detail",
+            "groups",
+            "home",
+            "privacy",
+            "security",
+            "terms"
+          ]
+        },
+        {
+          "name": "Pure legal_page_html",
+          "result": "defects_persist",
+          "deletion_copy_promises_form": true,
+          "form_tags": 0,
+          "input_select_textarea_tags": 0,
+          "submit_label_text_present": true,
+          "deletion_section_mailto": false,
+          "privacy_internal_links": [
+            "/subprocessors/",
+            "/privacy-request/",
+            "/account-deletion/",
+            "/cookies/"
+          ]
+        }
+      ],
+      "finding_statuses": {
+        "PD-02": "local_provenance_prerequisite_corrected; downstream_static_rendered_native_acceptance_unverified",
+        "PD-04": "open; zero actual form/control tags persist",
+        "PD-05": "open; retired links remain in local generator; live404observations dated17:31:39UTC retained",
+        "PD-07": "open; reviewed current home/FAQ/insurance capability statements remain"
+      },
+      "scope": "Cheap read-only validators and affected source inspection only. No source/runtime edits, build, screenshot recapture or deployment by this reviewer."
+    }
+  ],
+  "finding_status_summary": {
+    "finding_count": 14,
+    "local_prerequisite_corrected_during_review": [
+      "PD-02"
+    ],
+    "complete_native_design_acceptance": "unverified"
+  }
+}

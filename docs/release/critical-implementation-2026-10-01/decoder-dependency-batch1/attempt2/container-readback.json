@@ -1,0 +1,28 @@
+{
+  "observed_at_utc": "2026-10-01T21:35:51.870999+00:00",
+  "executed_linux_image": "sha256:057e01a1e1cec280a89696ac30949bc6ac4c86f422f273ef3976164fb795ef04",
+  "image_platform": "linux/arm64",
+  "owned_container_absence": [
+    {
+      "container": "collect_decoder_dependency_7ebc97791ba1",
+      "currently_absent": true,
+      "exit_code": 0
+    },
+    {
+      "container": "collect_decoder_dependency_3e446b3560b6",
+      "currently_absent": true,
+      "exit_code": 0
+    },
+    {
+      "container": "collect_decoder_dependency_da7ef227910a",
+      "currently_absent": true,
+      "exit_code": 0
+    },
+    {
+      "container": "collect_roster_decoder_0c6ed7118861",
+      "currently_absent": true,
+      "exit_code": 0
+    }
+  ],
+  "other_containers_mutated": false
+}

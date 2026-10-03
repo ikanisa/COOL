@@ -1,0 +1,42 @@
+NOTICE:  00000: policy "brand entities public read active" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin read all" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin insert" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin update" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin delete" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels public read active" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin read all" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin insert" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin update" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin delete" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints public read active" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin read all" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin insert" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin update" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin delete" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

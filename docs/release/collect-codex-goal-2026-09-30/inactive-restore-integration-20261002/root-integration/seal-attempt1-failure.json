@@ -1,0 +1,7 @@
+{
+  "terminal": "770abb exit1",
+  "stage": "after source/hash validation and promotion map, at first exact target absence",
+  "target": "collect-recovery-inactive-d3cc399cb087",
+  "reason": "Docker inspect result did not match strict absence predicate; no completion seal produced",
+  "next": "inspect exact Docker response and preserve partial generated associations"
+}

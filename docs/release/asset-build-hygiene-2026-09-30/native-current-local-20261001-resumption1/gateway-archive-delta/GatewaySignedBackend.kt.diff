@@ -1,0 +1,35 @@
+--- android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt original candidate
++++ android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt final archive correction
+@@ -255,19 +255,24 @@
+     private fun archiveOneKnownAttempt() {
+         val candidates = store.read().attempts.filter { it.outcome() == AttemptOutcome.DELIVERY_CALLBACK_OBSERVED && attemptUsesV2(it.attemptId) }
+         for (attempt in candidates) {
+-            val rows = store.readRequests().getJSONArray("requests")
+-            if ((0 until rows.length()).any { val r = GatewayStoredRequest.parse(rows.getJSONObject(it));r.action == "archive_attempt" && requireUuid(r.envelope.getJSONObject("payload"), "attempt_id") == attempt.attemptId }) continue
+-            val payload = try { GatewayAttemptArchive(store).payload(attempt) } catch (e: GatewayStateException) {
+-                if (e.reasonCode == "gateway_archive_acknowledgement_pending") continue else throw e
+-            }
+-            val id = UUID.randomUUID().toString();val bytes = envelope("archive_attempt", payload, id, 3)
+-            synchronized(GatewayJournal.PROCESS_LOCK) {
++            // Bind current hot source, callback originals and the persisted
++            // archive request under one lock. A callback cannot change the
++            // chosen snapshot before pending-request conflict fencing exists.
++            val prepared = synchronized(GatewayJournal.PROCESS_LOCK) {
++                if (store.read().attempts.singleOrNull { it.attemptId == attempt.attemptId } != attempt) return@synchronized null
+                 val latest = store.readRequests().getJSONArray("requests")
++                if ((0 until latest.length()).any { val r = GatewayStoredRequest.parse(latest.getJSONObject(it));r.action == "archive_attempt" && requireUuid(r.envelope.getJSONObject("payload"), "attempt_id") == attempt.attemptId }) return@synchronized null
++                val payload = try { GatewayAttemptArchive(store).payload(attempt) } catch (e: GatewayStateException) {
++                    if (e.reasonCode == "gateway_archive_acknowledgement_pending") return@synchronized null else throw e
++                }
++                val id = UUID.randomUUID().toString();val bytes = envelope("archive_attempt", payload, id, 3)
+                 if (latest.length() >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_request_journal_limit")
+                 latest.put(JSONObject().put("request_id", id).put("action", "archive_attempt").put("state", "outcome_unknown").put("callback_id", JSONObject.NULL)
+                     .put("request_sha256", sha256(String(bytes, Charsets.UTF_8))).put("request_bytes_base64", Base64.encodeToString(bytes, Base64.NO_WRAP)))
+                 store.saveRequests(JSONObject().put("contract_version", 1).put("requests", latest))
+-            }
++                Triple(id, payload, bytes)
++            } ?: continue
++            val (id, payload, bytes) = prepared
+             val reply = transmitArchive("archive_attempt", id, payload, bytes)
+             if (strictBoolean(reply.getJSONObject("result"), "ok")) {
+                 synchronized(GatewayJournal.PROCESS_LOCK) {

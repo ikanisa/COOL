@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "actual_command": [
+    "ruby",
+    "scripts/tests/public_content_contract_test.rb"
+  ],
+  "exit_code": 0,
+  "observed_terminal_session": 5114,
+  "runs": 24,
+  "assertions": 32,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "source_sha256_at_readback": {
+    "scripts/tests/public_content_contract_test.rb": "154bd88005e9f373c5855dede2ccf3bd190693657635674113e22f53b39fafa3",
+    "scripts/qa/public_content_contract.rb": "8b60c03e5ae745437ab76f3e88c9e24b52e53fa76f29cb7747805bc5f020cf30",
+    "docs/release/public-website-current-content-contract.json": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb"
+  },
+  "scope": "Actual maintained public-content contract tests. Post-run hashes only; separate static/browser execution records bind their own before/after verifier inputs.",
+  "legal_release_approved": false,
+  "publication_approved": false
+}

@@ -1,0 +1,75 @@
+{
+  "observed_at": "2026-10-02T02:18:15.787609+00:00",
+  "status": "pass_scoped_original137",
+  "artifact_leaves": 519,
+  "checksum_rows": 520,
+  "original_sources": 137,
+  "fresh_cache_initial_files": 0,
+  "original_commands_exit_zero": true,
+  "actual_results": {
+    "canonical_elapsed_seconds": 39.387571708000905,
+    "runner_contract_tests": 77,
+    "type_files": 83,
+    "unit_files": 31,
+    "unit_tests": 565,
+    "unit_steps": 32,
+    "unit_failures": 0,
+    "unit_ignored": 0,
+    "unit_failed_steps": 0,
+    "unit_ignored_steps": 0,
+    "http_checks": 91,
+    "linux_cases": 32,
+    "linux_http": {
+      "tests_passed": 14,
+      "tests_failed": 0,
+      "tests_ignored": 0
+    },
+    "regressions": {
+      "tests_passed": 159,
+      "tests_failed": 0,
+      "tests_ignored": 0
+    },
+    "security": {
+      "tests_passed": 6,
+      "tests_failed": 0,
+      "tests_skipped": 0
+    },
+    "cold_cache_initial_files": 0,
+    "cold_cache_final_files": 353,
+    "cold_cache_final_bytes": 12188986,
+    "corrupt_lock_exit": 10,
+    "corrupt_lock_elapsed_seconds": 0.1413336250006978
+  },
+  "negative_result": "Actual frozen-lock integrity exit10 under OS network denial; unsupported-argument attempt retained and excluded.",
+  "original_cleanup_parser_error_retained": true,
+  "owned_cleanup_independently_verified": true,
+  "source_after_unchanged": true,
+  "current_changed_accepted_inputs": {
+    "supabase/config.toml": {
+      "accepted_sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+      "current_sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392"
+    },
+    "supabase/functions/_shared/roster_decoder_integration_test.ts": {
+      "accepted_sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+      "current_sha256": "bab8e476b5e81875b6e4c6975cb900e8cf329f263df3909facb3b3b9cb975659"
+    },
+    "supabase/functions/prepare-roster-import/handler.ts": {
+      "accepted_sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+      "current_sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+    },
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "accepted_sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d",
+      "current_sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    },
+    "supabase/functions/prepare-roster-import/index.ts": {
+      "accepted_sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+      "current_sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9"
+    }
+  },
+  "current_combined_checkout_acceptance": false,
+  "current_gateway": "Separate successor source/config exists; manifest and loader registration plus10 genuine fixtures remain incomplete.",
+  "new_ai_promotion": "Exact reviewed7 changes need a separately bound full signed Linux HTTP run.",
+  "current_sql_executed": false,
+  "provider_accuracy_verified": false,
+  "whole_production_acceptance": false
+}

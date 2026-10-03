@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:54 GMT",
+    "ETag": "W/\"c1bf9a7cd9d19f9ffba8c4a4e3adf7b6\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://github.com/denoland/std/security/advisories/GHSA-crjp-8r9q-2j9r",
+  "requested_at": "2026-10-01T21:22:53.589575+00:00",
+  "response_bytes": 209111,
+  "response_path": "primary/publisher-std-crjp.response",
+  "response_sha256": "9f46c1701455c69e6c9a914ff06b0a69f24b7baa0d3f55211423244bcc7289f0",
+  "response_url": "https://github.com/denoland/std/security/advisories/GHSA-crjp-8r9q-2j9r",
+  "retrieved_at": "2026-10-01T21:22:56.557597+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

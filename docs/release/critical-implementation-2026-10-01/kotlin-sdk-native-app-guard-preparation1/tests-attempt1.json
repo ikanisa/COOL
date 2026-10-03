@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/test_app_guard.py"
+  ],
+  "deadline_seconds": 120,
+  "actual_seconds": 0.398,
+  "exit_code": 1
+}

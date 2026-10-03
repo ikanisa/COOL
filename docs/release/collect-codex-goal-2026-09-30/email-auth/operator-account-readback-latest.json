@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-09-30T23:16:36Z",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "operator_email": "info@ikanisa.com",
+  "source": "Read-only aggregate auth.users query through approved Supabase connector",
+  "matching_email_accounts": 0,
+  "any_email_verified": false,
+  "account_created": false,
+  "otp_requested": false,
+  "credentials_read": false,
+  "hosted_mutations": false,
+  "provider_session_restored": false
+}

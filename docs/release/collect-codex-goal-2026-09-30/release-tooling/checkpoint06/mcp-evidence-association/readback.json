@@ -1,0 +1,13 @@
+{
+  "actual_log_sha256": "617a9ee9e52af3334f8f9aef50f930787aa816bbc97b5395f0c144845e0114b5",
+  "association_report_sha256": "5a655258fb036ea73402513cef0907c7bd51b68146e0bbf6ace1482fac59d9b9",
+  "checked_at_utc": "2026-10-01T08:50:04.205064+00:00",
+  "discovery_scope_files": 42,
+  "journal_scope_files": 58,
+  "original_evidence_modified": false,
+  "overlapping_union_distinct_files": 60,
+  "post_association_selected_copy_readback": true,
+  "scope": "Local metadata and copied-source association only; no production acceptance.",
+  "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "tests_typescript_or_discovery_rerun": false
+}

@@ -1,0 +1,21 @@
+{
+  "reviewed_at_utc": "2026-10-01T23:58:44.525742+00:00",
+  "before_sha256": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+  "after_sha256": "a6c4c0c824ccc5c69874520b1722a66d92d21bccc45022c6f89c4a126eda9599",
+  "changed_existing_source": "lib/features/status/account_legal_screens.dart",
+  "new_source_inputs": {
+    "lib/features/privacy/privacy_contract.dart": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d",
+    "lib/features/privacy/privacy_session.dart": "24110a65f7dfde6b9de71a51660ef7c785c5f8f3ae816222a53896f780bc4c7b",
+    "lib/features/privacy/privacy_transport.dart": "ebe5b3d225f574f5f6888e360bf2520d70a0a7ab4efe03591882a17e42eb81b9",
+    "lib/features/privacy/privacy_request_controller.dart": "527ce7d1a7b4ac8254e4303f42d1ba2e269e78e5d38c99b548f88e82f76696bf",
+    "lib/features/privacy/privacy_providers.dart": "1c3f4a7dbb5bce49c20aa5685b5a866c1518606787cdfcdc355dcd85629204b1",
+    "lib/features/privacy/privacy_request_screen.dart": "8a49063817dc5d4b3768da9fd066f5be214b5a9d9d7e8c3bc04f2315b884f405",
+    "lib/shared/repositories/collect_repository.dart": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e",
+    "lib/shared/repositories/collect_repository_providers.dart": "57ca1d19be818dfeb84b932ce91f28829cff7379922ad58b267ba744483c508b"
+  },
+  "review": "Replaced discarded legacy RPC result with live own-session reauthentication, idempotent request/status receipt, cancellation and pre-await logout fences. Required CAPTCHA without a solver remains unavailable with assistance. Supported assisted review path remains distinct from erasure. All availability states, public summaries, actions and external approvals preserved.",
+  "owner_approved": false,
+  "provider_approved": false,
+  "publication_approved": false,
+  "erasure_accepted": false
+}

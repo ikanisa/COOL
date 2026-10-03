@@ -1,0 +1,12 @@
+{
+  "scope": "rw_receipt_operations",
+  "action": "prove_key",
+  "expires_at": "2026-10-03T00:46:53.973322Z",
+  "request_id": "36cf4a3d-c9f8-4d9e-a251-c595da0d60b5",
+  "observed_at": "2026-10-02T00:46:54.047089Z",
+  "send_action": false,
+  "principal_id": "07eb4d13-d1c1-49b2-bb44-a3da7b9551fb",
+  "business_handled": false,
+  "contract_version": 2,
+  "financial_action": false
+}

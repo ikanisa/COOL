@@ -1,0 +1,39 @@
+{
+  "files": {
+    "observed-exception.json": {
+      "bytes": 1278,
+      "sha256": "a6a0b8f1596b75487eb0e1fa2734234381f7c103922198a6a6ee677578d0e4b0",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-exception.json"
+    },
+    "observed-expiry.json": {
+      "bytes": 855,
+      "sha256": "8d6110a9870ab629ef9392e44573e4834464b84aa86d5fb9b5f7dd2a4a4d09a1",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-expiry.json"
+    },
+    "observed-gateway.json": {
+      "bytes": 1257,
+      "sha256": "3edba86daafdfc25c2dab39563b94bcd3c6999a78541979c02416f21d9c7790b",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-gateway.json"
+    },
+    "observed-receipt.json": {
+      "bytes": 877,
+      "sha256": "e78aca5add288bd4c6920a6b2b68854cc071e95eb0746ffce357eddc780a1474",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-receipt.json"
+    },
+    "observed-shadow.json": {
+      "bytes": 1641,
+      "sha256": "9c43a632728a539341d282f501d35a7e160e3aa2a666c7bd7e5e171acbd3d684",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-shadow.json"
+    },
+    "observed-supervisor.json": {
+      "bytes": 1274,
+      "sha256": "2ee09edd617ad97af0ec74ce7c18d7dc3c29362986340bc30f13543263a00b2c",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-supervisor.json"
+    }
+  },
+  "kind": "exact_copies_of_actual_isolated_synthetic_sql_responses",
+  "private_customer_rows": false,
+  "signed_authentication_or_hosted_sources": false,
+  "source_migration": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+  "source_migration_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+}

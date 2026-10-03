@@ -1,0 +1,34 @@
+{
+  "actual_seconds": 0.40067037499829894,
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/test_owned_metadata.py"
+  ],
+  "exit_code": 0,
+  "real_ps_lsof_Gradle_APP_SDK_or_provider_actions": false,
+  "reported_test_seconds": 0.272,
+  "runtime_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "scope": "private actual-captured ownership/reuse fixture tests only; metadata/subprocess/signals stubbed; full actual frozen doc reuse copied only to owned temporary output",
+  "source_after": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "28cb9a34ff03a276ac8107b0d2f57118fe8ac29c4eaeeada5e5e9bdc440d8798",
+    "run_selected_aab.py": "4ecaf12401a4c380d49dc2df9eada52b875df2626eec942d0408218b34b78b8b",
+    "test_owned_metadata.py": "eee1b376f253122f70267cb8af5aac706b398290d4b2f350e5ec3a96d09dfb2f"
+  },
+  "source_before": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "28cb9a34ff03a276ac8107b0d2f57118fe8ac29c4eaeeada5e5e9bdc440d8798",
+    "run_selected_aab.py": "4ecaf12401a4c380d49dc2df9eada52b875df2626eec942d0408218b34b78b8b",
+    "test_owned_metadata.py": "eee1b376f253122f70267cb8af5aac706b398290d4b2f350e5ec3a96d09dfb2f"
+  },
+  "source_unchanged": true,
+  "stderr_sha256": "91415bf368c541775a425c849ab638e39aff87298d2c58550cd13114e4284722",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tests_count": 30,
+  "timeout_seconds": 30,
+  "unchanged_reader_tests_rerun": false
+}

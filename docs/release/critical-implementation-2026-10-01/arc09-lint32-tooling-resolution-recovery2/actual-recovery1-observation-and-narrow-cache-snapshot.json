@@ -1,0 +1,275 @@
+{
+  "artifact_or_filename_admission": false,
+  "captured_at_utc": "2026-10-02T15:21:46.782749+00:00",
+  "daemon_log_observation": {
+    "bytes": 23821,
+    "dependency_download_or_variant_failure_line_count": 0,
+    "full_log_not_copied": true,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25343.out.log",
+    "sha256": "90ac03019fea9f97297c4064af8ea515e5db44a809377f179cf183e6fedbab48"
+  },
+  "independent_absence_receipt": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint-recovery1-independent-absence1/readback.json",
+    "separate_later_observation": true,
+    "sha256": "fd7d863de1fc36b94fb56e59d690636cfc6513dded04531c43c53ba6b2004665"
+  },
+  "narrow_cache_inventory": [
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 4018,
+      "mtime_ns": 1790952386845721184,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint/32.0.1/a85f62bfe9ac865b4502c899342b7bc153e9a6f1/lint-32.0.1.pom",
+      "sha256": "d9683833f038bdffb77d035ba43c7e90a3cd25643ac39b9073c9c0854a2b37ed"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 4233,
+      "mtime_ns": 1790952388549947375,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/32.0.1/f693913b0ce3d36e40fef0c146cc75213a7f7786/lint-api-32.0.1.pom",
+      "sha256": "fa2fa5545530a2f6aaeaf250addf24064882d8b347e832027363e1ba5af0afad"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 3708,
+      "mtime_ns": 1790952389266184664,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/32.0.1/9d6289f610592f69884118d8988003b3bdab991c/lint-checks-32.0.1.pom",
+      "sha256": "2f906045c68af280b0bca01bf0f890aadaf42c9068b0d41b48afbfb33ef0ceb0"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2276,
+      "mtime_ns": 1790952385910701596,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-gradle/32.0.1/8d411bae69bf13d78eb2944475ca8dda245c8a40/lint-gradle-32.0.1.pom",
+      "sha256": "452063fcd5a803edad32ba898dc8ccfa8a3592b76e2fe2424653d5b95e70a619"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 175647,
+      "mtime_ns": 1790930235913794538,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-model/32.0.1/6cec8c011318f48fadf3aab30c1017b38deda4e1/lint-model-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2184,
+      "mtime_ns": 1790930162568266663,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-model/32.0.1/d75c37853deae774a1d8f6f66acdbda4e89f1c98/lint-model-32.0.1.pom",
+      "sha256": "f756bae5b3e490c4751a3c38f26ba6e7a6360de8a90f7ed20e212d0960fea840"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1491,
+      "mtime_ns": 1790930162780037715,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-typedef-remover/32.0.1/231b6e8d2a460521eef3d90a129e9e34700b38ce/lint-typedef-remover-32.0.1.pom",
+      "sha256": "3c7d5e76d6bbf97414ba8cd162f53e09834a77b7cc8373c52df18091b891c1a0"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 9554,
+      "mtime_ns": 1790930250139822507,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-typedef-remover/32.0.1/33f5d5dd14dd3c4525aa8dff70f7653f317136d1/lint-typedef-remover-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 10680,
+      "mtime_ns": 1790930283998758674,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/annotations/32.0.1/a9a04a78f42fdb0276a0fc7fd538890f856a9753/annotations-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 822,
+      "mtime_ns": 1790930193991914336,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/annotations/32.0.1/feacff630cbd5b72ee15c3f37de83901adffe408/annotations-32.0.1.pom",
+      "sha256": "2a34003cfd63c0db5e108de26b18fb5264cd08de1d7c4b4749c8d0cd0b5a3cc4"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1664,
+      "mtime_ns": 1790930184260385310,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/common/32.0.1/4f30c107ddbacf7987014e7abed2643777be8a9d/common-32.0.1.pom",
+      "sha256": "b1c92e02c1feb69434b687da18f5e261c9f24d50b332e970123241c031d75937"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 593269,
+      "mtime_ns": 1790930242594048322,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/common/32.0.1/a52916564e9e266511977593047df643e310f4c3/common-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1110,
+      "mtime_ns": 1790930189463489860,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/dvlib/32.0.1/c7df66f0ee04a8b19519e7a2625c0a02e5dfa401/dvlib-32.0.1.pom",
+      "sha256": "349b186a9ecb8120974489b6ea2382754fad87829064dc79411bc677a707283f"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 61019,
+      "mtime_ns": 1790930242230330529,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/dvlib/32.0.1/fdab6ded43b8df38e9fcdfcae627b8be0b093ff3/dvlib-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1128,
+      "mtime_ns": 1790952390703690235,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/play-sdk-proto/32.0.1/969e7b62f8856e901429aa168dfc6013b2d7f32d/play-sdk-proto-32.0.1.pom",
+      "sha256": "e7d40493e15a42309b6b3d98855e1b88314056f3eff17bcf696720e703fb0f14"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 267656,
+      "mtime_ns": 1790930235372578490,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/repository/32.0.1/3474db781889e615462157397b43c31fdc19ad24/repository-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2248,
+      "mtime_ns": 1790930160752357326,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/repository/32.0.1/6296fde4e307050569203d5553a8fd0888f6320f/repository-32.0.1.pom",
+      "sha256": "cbca1d08fd49d8c24b3bf1b98522df5a224a658836f72cc1fc48eb75026ced6c"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1780440,
+      "mtime_ns": 1790930234351370212,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdk-common/32.0.1/47b560b0f876ab9dcfbea37d5a748dd0689f2a01/sdk-common-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 4063,
+      "mtime_ns": 1790930160072651897,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdk-common/32.0.1/675cb9ffffc345a1fec09a0f324cb91f34cbf99b/sdk-common-32.0.1.pom",
+      "sha256": "f8df494750df7445bfcc856b84783e11aeb89d02ec8012cc6a02aad0e128648b"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2575,
+      "mtime_ns": 1790930160411507834,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdklib/32.0.1/847976977b18781e6d0d23d0c1c2d03dbc886b8e/sdklib-32.0.1.pom",
+      "sha256": "bbfd9caede08a62d8cc07e5929cab5abac1b44b7b7929368d9816471f89857df"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1793320,
+      "mtime_ns": 1790930234940219450,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdklib/32.0.1/a6a0aebfb98af763756ab0967bb9061bb841dd88/sdklib-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 14886,
+      "mtime_ns": 1790930249811045014,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/crash/32.0.1/83657cd3f57e8aa956b8cd923f5d327e7343653c/crash-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1873,
+      "mtime_ns": 1790930162036872209,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/crash/32.0.1/8f29da61fef35123feeb65e6f2d518a35eb493cd/crash-32.0.1.pom",
+      "sha256": "46097e3da04d88e0b72624ce842fdc78a87b995740496623cf5520cbc4e3e38e"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 9472433,
+      "mtime_ns": 1790930267923408788,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/protos/32.0.1/9c34962e3c99fb653218a524115e9c26b56a43ec/protos-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 1139,
+      "mtime_ns": 1790930195302271699,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/protos/32.0.1/ed95d9c417929b88676922564af003c5699e82c6/protos-32.0.1.pom",
+      "sha256": "564bbbd5c7067866e529573bbf14f5225508feae6a67e965e4947dfde87735b2"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2237,
+      "mtime_ns": 1790930162459894154,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/shared/32.0.1/947d98bdce7b070501a5b92f85ce265c7dda06c6/shared-32.0.1.pom",
+      "sha256": "d6436392bb35ac2a44535719cfcb334c5af12981f53c118bb6478eb2e7f54758"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 128686,
+      "mtime_ns": 1790930236729687901,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/shared/32.0.1/9c1a7eba0486e4ac60639d55f7e9418572905ca7/shared-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 47030,
+      "mtime_ns": 1790930235693724057,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/tracker/32.0.1/3d31c3f8cfa04ab6e52fb5ea2090dcadeb38e93e/tracker-32.0.1.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 2246,
+      "mtime_ns": 1790930209757387529,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/tracker/32.0.1/efed5c896151b41324c29f1d110b158ef741f982/tracker-32.0.1.pom",
+      "sha256": "0e7962e0f693c92b246b42201e4b1b1660921da44f4611b1a5fe8cef4fcc3583"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 9304,
+      "mtime_ns": 1790930184379904445,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava/33.3.1-jre/5a5628b34628748abcb73144a909ddbea2265ed9/guava-33.3.1-jre.pom",
+      "sha256": "313b67fc13eb3b0634eda715a1229971f5de9b8188bc280762815b83a275f193"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 3079289,
+      "mtime_ns": 1790930272526480548,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava/33.3.1-jre/852f8b363da0111e819460021ca693cacca3e8db/guava-33.3.1-jre.jar"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 7839,
+      "mtime_ns": 1790930186288817466,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava/33.3.1-jre/c99293bbf166d01849489fc6f94a101f79072aa7/guava-33.3.1-jre.module",
+      "sha256": "41858c84753fd96a6b7c51122fccef39558c91cc08264e08506bcf20e0e63733"
+    },
+    {
+      "attribution": "UNATTRIBUTED_existing_cache_file; no ownership or publisher admission inferred",
+      "bytes": 20206,
+      "mtime_ns": 1790930186030025369,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava-parent/33.3.1-jre/94729a0ed1dc35f623edd13afa6c1c2fe9a15d7c/guava-parent-33.3.1-jre.pom",
+      "sha256": "55441db27e8869dfefe053059bdf478bdc7e95585642bf391f0023345fd56287"
+    }
+  ],
+  "old_timeout_phase_not_proven": "stdout only task start; empty stderr; no graph. Metadata vs binaries stall cannot be attributed",
+  "original_command": {
+    "actual_seconds": 180.451,
+    "argv": [
+      "/bin/bash",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "-p",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution-recovery1/minimal-project",
+      "--no-daemon",
+      "--no-build-cache",
+      "--no-configuration-cache",
+      "--console=plain",
+      "--max-workers=1",
+      "-Dorg.gradle.internal.http.connectionTimeout=30000",
+      "-Dorg.gradle.internal.http.socketTimeout=30000",
+      "-PcollectLintGraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution-recovery1/selected-tooling-graph.json",
+      "resolveExactLintTooling"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution-recovery1/minimal-project",
+    "deadline_seconds": 180,
+    "exit_code": 143,
+    "finished_utc": "2026-10-02T15:03:58.056532+00:00",
+    "headroom_failure": false,
+    "owned_process_group_absent": true,
+    "pid": 25318,
+    "residual_process_group_required_stop": false,
+    "spawned": true,
+    "started_utc": "2026-10-02T15:00:57.602384+00:00",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "f281dc64b3df3e7cfe4330b0c47e6fb8a53d639780d14bf63dd467c653122f53",
+    "timed_out": true
+  },
+  "original_embedded_observer_error": {
+    "error": "Command '['/usr/sbin/lsof', '-a', '-p', '25343', '-Fpin']' timed out after 2 seconds",
+    "type": "ValueError"
+  },
+  "original_failed_tracker_not_relabelled": true,
+  "original_owned_daemons_absent": false,
+  "temporary_cache_prefixes_not_scanned_or_attributed": true
+}

@@ -1,0 +1,2 @@
+{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"mode": "Live-limited", "revision": 4, "expires_at": "2026-10-02T00:48:37.183115Z", "request_id": "e571b35a-8cc1-4e6c-8ce4-878644394a15", "recorded_at": "2026-10-02T00:46:57.188889Z", "emergency_stop": false, "contract_version": 2}

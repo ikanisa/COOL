@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-02T00:42:45.818054+00:00",
+  "owner": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+  "owner_container_listing_exit": 0,
+  "owner_container_listing_stdout": "",
+  "owner_container_listing_stderr": "",
+  "all_owned_containers_absent": true,
+  "sdk_git_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "dart_binary_sha256": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+  "SDK_archive_private_candidate_and_cache_retained": true
+}

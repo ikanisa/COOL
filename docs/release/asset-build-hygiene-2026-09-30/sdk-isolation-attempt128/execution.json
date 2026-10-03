@@ -1,0 +1,5 @@
+{
+  "status": "fail",
+  "reason": "Pre-copy critical input recipe required an unavailable optional macOS framework path; no SDK copy, source mutation or native launch occurred.",
+  "missing_input": "bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework/Versions/A/FlutterMacOS"
+}

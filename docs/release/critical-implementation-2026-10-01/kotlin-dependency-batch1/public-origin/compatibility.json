@@ -1,0 +1,27 @@
+{
+  "agp_minimum_jdk": "17",
+  "agp_primary_source": "https://developer.android.com/build/releases/agp-9-0-0-release-notes",
+  "agp_required_gradle": "9.1.0",
+  "checked_utc": "2026-10-01T21:43:03.374962+00:00",
+  "compatibility_source": "https://kotlinlang.org/docs/gradle-configure-project.html",
+  "installed_jdk_major": "21",
+  "kgp_fully_supported_agp": [
+    "8.5.2",
+    "9.3.1"
+  ],
+  "kgp_fully_supported_gradle": [
+    "7.6.3",
+    "9.7.0"
+  ],
+  "kotlin_plugin": "2.4.20",
+  "legacy_kotlin_opt_out_preserved": {
+    "android.builtInKotlin": "false",
+    "android.newDsl": "false"
+  },
+  "native_validation": "Retained separate genuine resolution/compile/unit attempts; this compatibility lookup alone is not native build acceptance.",
+  "observed_agp": "9.0.1",
+  "observed_gradle": "9.1.0",
+  "release_source": "https://kotlinlang.org/docs/releases.html",
+  "source_pins_within_publisher_ranges": true,
+  "stable_release_date": "2026-09-07"
+}

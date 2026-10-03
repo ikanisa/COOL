@@ -1,0 +1,121 @@
+--- a/lib/admin/core/admin_receipt_operations_card.dart
++++ b/lib/admin/core/admin_receipt_operations_card.dart
+@@ -92,6 +92,22 @@
+     return int.parse(value.trim());
+   }
+ 
++  static const _senderQuery = AdminGatewayQuery(limit: 50);
++
++  bool _senderEvidenceReady(DateTime now) {
++    final ids = _ids(_devices.text);
++    if (ids.isEmpty) return true;
++    final read = ref.read(adminGatewayDevicesProvider(_senderQuery));
++    if (read.isLoading || read.hasError) return false;
++    return AdminSenderPicker(
++      deviceIds: ids,
++      snapshot: read.asData?.value,
++      now: now,
++      enabled: false,
++      onChanged: (_) {},
++    ).evidenceReady;
++  }
++
+   Future<void> _act(
+     AdminReceiptOperationsPolicy policy,
+     AdminSessionScope scope, {
+@@ -103,6 +119,11 @@
+         !policy.isFresh(now) ||
+         ref.read(adminAuthSessionScopeProvider) != scope ||
+         (!stop && (_revision != policy.revision || _draftScope != scope))) {
++      return;
++    }
++    if (!stop && !_senderEvidenceReady(now)) {
++      setState(() => _error =
++          'Refresh current gateway evidence for every allowed device before applying policy.');
+       return;
+     }
+     try {
+@@ -156,6 +177,15 @@
+       return;
+     }
+     final currentNow = ref.read(adminClockProvider)();
++    if (!stop &&
++        (_draftScope != scope ||
++         _revision != policy.revision ||
++         _draftIdentityRevision != ref.read(_adminIdentityRevisionProvider) ||
++         !_senderEvidenceReady(currentNow))) {
++      setState(() => _error =
++          'Sender evidence or draft authority changed. Refresh and review the original draft.');
++      return;
++    }
+     if (!policy.isFresh(currentNow)) {
+       setState(
+         () => _error =
+@@ -229,6 +259,7 @@
+     final control = ref.watch(adminReceiptOperationsControllerProvider);
+     final now = ref.watch(adminClockProvider)();
+     final policy = ref.watch(adminReceiptOperationsPolicyProvider);
++    final senderRead = ref.watch(adminGatewayDevicesProvider(_senderQuery));
+     void refresh() => ref.invalidate(adminReceiptOperationsPolicyProvider);
+     final children = <Widget>[
+       Semantics(
+@@ -337,6 +368,8 @@
+             minLines: lines,
+             maxLines: lines == 1 ? 1 : 4,
+             decoration: InputDecoration(labelText: label),
++            onChanged: identical(controller, _devices)
++                ? (_) => setState(() {}) : null,
+           );
+           return Column(
+             crossAxisAlignment: CrossAxisAlignment.stretch,
+@@ -442,6 +475,41 @@
+               field('Collection IDs (one per line)', _collections, lines: 2),
+               const SizedBox(height: 12),
+               field('Gateway device IDs (one per line)', _devices, lines: 2),
++              const SizedBox(height: 12),
++              if (senderRead.isLoading)
++                const Text('Checking current Android sender evidence…'),
++              if (senderRead.hasError)
++                const Text('Gateway evidence is unavailable under current access. Existing IDs are retained.'),
++              AdminSenderPicker(
++                deviceIds: _ids(_devices.text),
++                snapshot: senderRead.isLoading || senderRead.hasError
++                    ? null : senderRead.asData?.value,
++                now: now,
++                enabled: canEdit,
++                onChanged: (ids) {
++                  if (!canEdit ||
++                      _draftScope != ref.read(adminAuthSessionScopeProvider) ||
++                      _draftIdentityRevision != ref.read(_adminIdentityRevisionProvider) ||
++                      !value.isFresh(ref.read(adminClockProvider)()) ||
++                      !_senderEvidenceReady(ref.read(adminClockProvider)()) ||
++                      ids.length != _ids(_devices.text).length ||
++                      ids.toSet().length != ids.length ||
++                      ids.toSet().difference(_ids(_devices.text).toSet()).isNotEmpty ||
++                      _ids(_devices.text).toSet().difference(ids.toSet()).isNotEmpty) {
++                    return;
++                  }
++                  setState(() => _devices.text = ids.join('\n'));
++                },
++              ),
++              Align(
++                alignment: Alignment.centerLeft,
++                child: TextButton.icon(
++                  onPressed: control.busy ? null
++                      : () => ref.invalidate(adminGatewayDevicesProvider(_senderQuery)),
++                  icon: const Icon(Icons.refresh),
++                  label: const Text('Refresh sender evidence'),
++                ),
++              ),
+               const SizedBox(height: 16),
+               Text(
+                 'Action and SMS segment limits',
+@@ -485,7 +553,7 @@
+               Align(
+                 alignment: Alignment.centerLeft,
+                 child: FilledButton(
+-                  onPressed: canEdit
++                  onPressed: canEdit && _senderEvidenceReady(now)
+                       ? () => _act(value, scope, stop: false)
+                       : null,
+                   child: const Text('Review and apply policy'),

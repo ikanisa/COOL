@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-01T10:39:50.992306+00:00",
+  "status": "pass",
+  "output": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-08/build/admin_configured",
+  "artifacts": 155,
+  "bytes": 66349535,
+  "artifact_manifest_sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b",
+  "candidate_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "errors": [],
+  "deployed": false,
+  "live_authentication_accepted": false,
+  "synthetic_evidence_mode": false,
+  "artifact_manifest_hash_independently_recomputed": true,
+  "computed_artifact_manifest_sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b"
+}

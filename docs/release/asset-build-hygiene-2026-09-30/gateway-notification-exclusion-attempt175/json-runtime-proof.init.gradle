@@ -1,0 +1,27 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import org.gradle.api.tasks.testing.Test
+gradle.projectsEvaluated {
+    def app = rootProject.findProject(':app')
+    if (app == null) return
+    app.tasks.withType(Test).configureEach {
+        if (name == 'testInternal_gatewayDebugUnitTest') {
+            jvmArgs('-Xlog:class+load=info:file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt175/jvm-class-load-%p.log')
+            doFirst {
+                def jsonJars = classpath.files.findAll { it.name == 'json-20250517.jar' }
+                assert jsonJars.size() == 1 : 'Expected one pinned realJSON test artifact'
+                def hash = MessageDigest.getInstance('SHA-256').digest(jsonJars[0].bytes).encodeHex().toString()
+                assert hash == '3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796' : 'Actual test JSON artifact differs from standalone bound runtime'
+                def jsonTest = app.configurations.getByName('testInternal_gatewayImplementation').dependencies.findAll { it.group == 'org.json' && it.name == 'json' }
+                assert jsonTest.size() == 1 && jsonTest[0].version == '20250517'
+                def runtimeJson = app.configurations.getByName('internal_gatewayReleaseRuntimeClasspath').allDependencies.findAll { it.group == 'org.json' && it.name == 'json' }
+                assert runtimeJson.empty : 'Test JSON leaked into Release runtime declarations'
+                new File('/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt175/actual-json-test-classpath.json').text = JsonOutput.prettyPrint(JsonOutput.toJson([
+                    task: name, coordinate: 'org.json:json:20250517', configuration: 'testInternal_gatewayImplementation',
+                    artifact: jsonJars[0].absolutePath, sha256: hash, runtime_declarations_absent: true,
+                    mockable_android_jars: classpath.files.findAll { it.name.contains('mockable') }.collect { it.absolutePath }
+                ])) + '\n'
+            }
+        }
+    }
+}

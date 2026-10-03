@@ -1,0 +1,18 @@
+{
+  "integrated_at": "2026-10-01T23:00:22.245779+00:00",
+  "canonical_file": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002041000_receipt_successor_approvals.sql",
+  "canonical_sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560",
+  "previously_absent": true,
+  "reviewed_packet_members": 1190,
+  "reviewed_packet_manifest_sha256": "6239b63b08ae6244bba855a8e02178319f3ceab85918f647c9c62bdb540e491b",
+  "current_prerequisite_bindings": 189,
+  "closure_dependency_sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+  "actual_focused_sql_checks": 54,
+  "accepted_attempt": 3,
+  "whole_candidate_pass": false,
+  "hosted_deployed": false,
+  "configuration_enabled": false,
+  "successor_jobs_or_send_authority": false,
+  "retained_scope": "189 exact source-bound retained/current prerequisites, sealed closure400 and staged approval410; focused synthetic offline PostgreSQL only, no sender or Admin consumer acceptance",
+  "current_candidate_migration_count": 201
+}

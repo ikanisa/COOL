@@ -1,0 +1,6 @@
+{
+  "status": "root_verifier_failed_before_admission_or_execution",
+  "error": "Verifier used focused-tests.json; actual sealed receipt is submitted-fixture-tests-result.json with held036d hash",
+  "payload_drift": false,
+  "user_inputs_modified": false
+}

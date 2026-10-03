@@ -1,0 +1,31 @@
+{
+  "integrated_at": "2026-10-01T21:42:40.737911+00:00",
+  "packet_members_verified": 199,
+  "fresh_current_methods": 40,
+  "terminal_commands_verified": 9,
+  "native_API_source_files": 25,
+  "source_files_verified": 45,
+  "unchanged_canonical_consumers_verified": 34,
+  "binary_inputs_verified": 14,
+  "jdk_runtime_entries_verified": 550,
+  "compiled_artifacts_verified": 230,
+  "consumer_only_shim_AST_delta_verified": true,
+  "canonical_promoted_sha256": {
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.kt": "7995fae82e44ee805cc34f46c9fe2ddad207ed4c0ebbdff0477f2704250aa1cf",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt": "2ef00317828578662c6e9e5b3aab7d26323cd0735aa0ad5d562b92adf5ddfb33",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt": "4af73ad30e75041e13fa23bcf28df2b20b605cf526954bf604eeef2f1a13a660",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "929bf916059126e8bbad1997ec63a100b884a8bc4b3fb7795291d4be516124da",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "7eadf5ee408f5d1ca9f90408fe0eb3c78cc5d91e88cc3b4453e6ea6af58bc184"
+  },
+  "backup_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-canonical-before-20261001",
+  "operator_workflow_included": false,
+  "same_key_realm_only": true,
+  "device_acceptance": false,
+  "root_integration_copy_error": "read-only packet directory copied as read-only; exact canonical files and old backups verified before adding root association; no source change"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "source_unchanged": true,
+  "source_sha256": {
+    "scripts/qa/swift_cached_artifact_inputs.py": "0984dd6c267b692340e66d01b519c5a6b4ce14f6a70ea573fd8647a63cbdedb1",
+    "scripts/tests/swift_cached_artifact_inputs_test.py": "315db0728f745bea2b9df8f62a05f2d7c5d570d7b8e4d0a24431f6c045531a28"
+  },
+  "scope": "Pure synthetic mutation controls for cached Swift binary artifact binding; real cached compiler inputs are validated separately before/after unsigned Xcode compilation",
+  "provider_called": false,
+  "completed_at": "2026-10-01T08:54:11.395878+00:00"
+}

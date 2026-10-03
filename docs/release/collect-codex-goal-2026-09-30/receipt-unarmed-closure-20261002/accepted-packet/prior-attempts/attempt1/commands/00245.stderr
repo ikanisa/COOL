@@ -1,0 +1,4 @@
+NOTICE:  00000: trigger "protect_raw_payment_sms_attestation_trigger" for relation "public.raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: index "payments_provider_transaction_unique" does not exist, skipping
+LOCATION:  DropErrorMsgNonExistent, tablecmds.c:1427

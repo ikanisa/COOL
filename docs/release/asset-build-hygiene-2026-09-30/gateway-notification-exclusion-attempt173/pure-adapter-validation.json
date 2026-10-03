@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "controls": 24,
+  "helper_sha256": "bee00b8b251d1355bb7d9694e5adc1d67733df738baa21ffcf134d030758a248",
+  "test_sha256": "342f6def2285834ce0fbd6fbb55f89f6edf7db6c59c9bbd13c058233f8edab13",
+  "actual_tool_generated_input_sha256": "52d3ce636d308a5e39c95bb917407a46d6bad42c9f95a3073a44a0155f683bcd",
+  "compiler": "Android Studio JBR javac --release17; java actual generated input"
+}

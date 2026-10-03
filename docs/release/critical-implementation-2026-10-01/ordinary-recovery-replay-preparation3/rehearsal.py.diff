@@ -1,0 +1,254 @@
+--- preparation2/rehearsal.py
++++ preparation3/rehearsal.py
+@@ -37,6 +37,26 @@
+                '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a']
+ SOURCE_ROLE_SQL = ('create role supabase_functions_admin with nosuperuser noinherit '
+                    'createrole nocreatedb login noreplication nobypassrls connection limit -1;')
++GRAPHQL_ID = ['graphql_public', 'graphql', '"operationName" text, query text, variables jsonb, extensions jsonb']
++GRAPHQL_FUNCTION = [*GRAPHQL_ID, 'f', 'supabase_admin', False, 'v', 'u', False, False,
++    ['=X/supabase_admin', 'anon=X/supabase_admin', 'authenticated=X/supabase_admin',
++     'postgres=X/supabase_admin', 'service_role=X/supabase_admin', 'supabase_admin=X/supabase_admin'],
++    '03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e',
++    '22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2']
++GRAPHQL_HOOK = ['extensions', 'grant_pg_graphql_access', '', 'f', 'supabase_admin',
++    False, 'v', 'u', False, False,
++    ['=X/supabase_admin', 'postgres=X*/supabase_admin', 'supabase_admin=X/supabase_admin'],
++    'ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a',
++    'c3a126f9bf8958b3af27e6bec128aca58627df257259003b59511fdd3af82333']
++GRAPHQL_SCHEMA = ['graphql_public', 'supabase_admin',
++    ['anon=U/supabase_admin', 'authenticated=U/supabase_admin', 'postgres=U*/supabase_admin',
++     'service_role=U/supabase_admin', 'supabase_admin=UC/supabase_admin']]
++GRAPHQL_DEPENDENCIES = [
++    ['e', 'function', 'graphql_public', 'graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)', 'extension', None, 'pg_graphql'],
++    ['n', 'function', 'graphql_public', 'graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)', 'schema', None, 'graphql_public']]
++GRAPHQL_TRIGGER = ['issue_pg_graphql_access', 'ddl_command_end', 'supabase_admin',
++                   'extensions.grant_pg_graphql_access()', 'O', ['CREATE FUNCTION']]
++GRAPHQL_MEMBERSHIP_SQL = 'alter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);'
+ 
+ 
+ class Refused(ValueError):
+@@ -224,21 +244,127 @@
+     return True
+ 
+ 
+-def restore_list(toc, catalog):
++def graphql_source_scope(schema_sql, catalog):
++    # Admit one declared function from the actual source catalog and the nested
++    # frozen hook, not an arbitrary wrapper SQL statement or dump ACL name.
++    identity = [row for row in catalog['functions'] if row[:2] == GRAPHQL_ID[:2]]
++    hooks = [row for row in catalog['functions'] if row[:2] == GRAPHQL_HOOK[:2]]
++    schemas = [row for row in catalog['schemas'] if row[0] == GRAPHQL_SCHEMA[0]]
++    triggers = [row for row in catalog['event_triggers'] if row[0] == GRAPHQL_TRIGGER[0]]
++    dependencies = [row for row in catalog['dependencies'] if row[1:3] == ['function', 'graphql_public'] and row[3].startswith('graphql_public.graphql(')]
++    if identity != [GRAPHQL_FUNCTION] or hooks != [GRAPHQL_HOOK] or schemas != [GRAPHQL_SCHEMA] or triggers != [GRAPHQL_TRIGGER] or dependencies != GRAPHQL_DEPENDENCIES:
++        raise Refused('EXACT_DECLARED_GRAPHQL_SOURCE_PROVENANCE_REQUIRED')
++    hook_pattern = r'^CREATE FUNCTION extensions\.grant_pg_graphql_access\(\) RETURNS event_trigger\n    LANGUAGE plpgsql\n    AS \$_\$(.*?)\$_\$;'
++    hooks = list(re.finditer(hook_pattern, schema_sql, re.M | re.S))
++    if len(hooks) != 1 or sha(hooks[0].group(1).encode()) != GRAPHQL_HOOK[11]:
++        raise Refused('EXACT_FROZEN_GRAPHQL_HOOK_REQUIRED')
++    wrappers = list(re.finditer(r'        create or replace function graphql_public\.graphql\(.*?        \$\$;', hooks[0].group(1), re.S))
++    if len(wrappers) != 1 or sha(wrappers[0].group(0).encode()) != 'f1a08a07934d7df8ab26d675093b2069d1ecfa23be2b331b4a1e84bd48091ea8':
++        raise Refused('EXACT_FROZEN_GRAPHQL_WRAPPER_REQUIRED')
++    wrapper = wrappers[0].group(0)
++    body = wrapper.split('as $$', 1)[1].rsplit('$$;', 1)[0]
++    if sha(body.encode()) != GRAPHQL_FUNCTION[11]:
++        raise Refused('SOURCE_GRAPHQL_BODY_HASH_CHANGED')
++    # CREATE alone refuses an unexpected concurrent definition. The definition
++    # returned by pg_get_functiondef still renders CREATE OR REPLACE canonically.
++    return dict(function=GRAPHQL_FUNCTION, hook=GRAPHQL_HOOK, schema=GRAPHQL_SCHEMA,
++        dependencies=GRAPHQL_DEPENDENCIES, event_trigger=GRAPHQL_TRIGGER,
++        source_hook_body_sha256=sha(hooks[0].group(1).encode()),
++        source_nested_wrapper_sql_sha256=sha(wrapper.encode()),
++        source_wrapper_body_sha256=sha(body.encode()),
++        source_function_definition_sha256=GRAPHQL_FUNCTION[12],
++        create_schema_sql='create schema graphql_public authorization supabase_admin;',
++        create_function_sql=wrapper.replace('create or replace function', 'create function', 1),
++        extension_membership_sql=GRAPHQL_MEMBERSHIP_SQL,
++        source_extension_membership_proven=True, source_hook_only=True,
++        wrapper_creation_provenance_not_inferred_from_ACL=True)
++
++
++def graphql_inventory_query(catalog_sql):
++    # The frozen CTEs and exact schema/function/dependency expressions remain
++    # intact. Unlike the full catalog, this needs no restored migration table.
++    marker = '\nSELECT jsonb_build_object('
++    if catalog_sql.count(marker) != 1:
++        raise Refused('EXACT_GRAPHQL_CATALOG_EXPRESSIONS_REQUIRED')
++    def fragment(start, end):
++        if catalog_sql.count(start) != 1 or catalog_sql.count(end) != 1:
++            raise Refused('EXACT_GRAPHQL_CATALOG_EXPRESSIONS_REQUIRED')
++        first, last = catalog_sql.index(start), catalog_sql.index(end)
++        if first >= last:
++            raise Refused('EXACT_GRAPHQL_CATALOG_EXPRESSIONS_REQUIRED')
++        return catalog_sql[first:last].rstrip().rstrip(',')
++    pieces = [fragment(" 'schemas',", " 'extensions',"),
++              fragment(" 'functions',", " 'policies',"),
++              fragment(" 'dependencies',", '\n);\nCOMMIT;')]
++    return catalog_sql[:catalog_sql.index(marker)] + marker + '\n' + ',\n'.join(pieces) + '\n);\nCOMMIT;\n'
++
++
++def graphql_state(value):
++    if not isinstance(value, dict) or set(value) != {'schemas', 'functions', 'dependencies'} or any(not isinstance(v, list) for v in value.values()):
++        raise Refused('GRAPHQL_INVENTORY_SCHEMA_INVALID')
++    if any(not isinstance(row, list) or len(row) != size for key, size in [('schemas', 3), ('functions', 13), ('dependencies', 7)] for row in value[key]):
++        raise Refused('GRAPHQL_INVENTORY_ROW_INVALID')
++    schemas = [row for row in value['schemas'] if row[0] == 'graphql_public']
++    functions = [row for row in value['functions'] if row[:2] == GRAPHQL_ID[:2]]
++    dependencies = [row for row in value['dependencies'] if row[1:3] == ['function', 'graphql_public'] and row[3].startswith('graphql_public.graphql(')]
++    if len(schemas) > 1 or any(len(row) != 13 for row in functions):
++        raise Refused('GRAPHQL_INVENTORY_IDENTITIES_INVALID')
++    return dict(schema=schemas[0] if schemas else None, functions=functions, dependencies=dependencies)
++
++
++def graphql_restore_plan(scope, state):
++    if (scope['function'] != GRAPHQL_FUNCTION or scope['hook'] != GRAPHQL_HOOK or
++            scope['schema'] != GRAPHQL_SCHEMA or scope['event_trigger'] != GRAPHQL_TRIGGER or
++            scope['dependencies'] != GRAPHQL_DEPENDENCIES or
++            scope['create_schema_sql'] != 'create schema graphql_public authorization supabase_admin;' or
++            scope['extension_membership_sql'] != GRAPHQL_MEMBERSHIP_SQL or
++            sha(scope['create_function_sql'].encode()) != '92366e4073786ea202bcbeed22c0f4b02c35eeab54aaa9be8757adba92f2edd4'):
++        raise Refused('EXACT_DECLARED_GRAPHQL_SOURCE_PROVENANCE_REQUIRED')
++    sql = []
++    if state['schema'] is None:
++        sql.append(scope['create_schema_sql'])
++    elif state['schema'][:2] != GRAPHQL_SCHEMA[:2]:
++        raise Refused('RESTORE_GRAPHQL_SCHEMA_OWNER_CHANGED')
++    functions = state['functions']
++    if not functions:
++        if state['dependencies']:
++            raise Refused('RESTORE_GRAPHQL_DEPENDENCY_CHANGED')
++        sql.extend([scope['create_function_sql'], scope['extension_membership_sql']])
++    else:
++        if len(functions) != 1 or state['schema'] is None:
++            raise Refused('UNADMITTED_RESTORE_GRAPHQL_WRAPPER')
++        row = functions[0]
++        # Source ACLs are applied by the untouched archive. This preliminary
++        # check permits only source ACLs or PostgreSQL's exact new-function ACL.
++        if row[:10] + row[11:] != GRAPHQL_FUNCTION[:10] + GRAPHQL_FUNCTION[11:] or row[10] not in (GRAPHQL_FUNCTION[10], ['=X/supabase_admin', 'supabase_admin=X/supabase_admin']):
++            raise Refused('RESTORE_GRAPHQL_FUNCTION_METADATA_CHANGED')
++        if state['dependencies'] == [GRAPHQL_DEPENDENCIES[1]]:
++            sql.append(scope['extension_membership_sql'])
++        elif state['dependencies'] != GRAPHQL_DEPENDENCIES:
++            raise Refused('RESTORE_GRAPHQL_DEPENDENCY_CHANGED')
++    return '\n'.join(sql)
++
++
++def restore_list(toc, catalog, graphql_scope=None):
+     # All data, original migration history, object definitions and ACL entries
+     # remain. Only exact preinstalled platform extension/schema CREATE entries
+     # and separately restored database control entries are omitted explicitly.
+     schemas = {row[2] for row in catalog['extensions']} - {'pg_catalog'}
+     extensions = {row[0] for row in catalog['extensions']}
+     lines, omitted, seen = [], [], set()
++    graphql_schema_count, graphql_acl_count = 0, 0
+     for line in toc.splitlines(keepends=True):
+         match = re.fullmatch(r'(\d+);\s+\d+\s+\d+\s+(EXTENSION|SCHEMA|DATABASE|DATABASE PROPERTIES) - (\S+)(?: ([^\s]+))?\s*', line)
+         skip = False
+         if match:
+-            _, kind, name, _ = match.groups()
++            _, kind, name, owner_name = match.groups()
+             skip = ((kind == 'EXTENSION' and name in extensions) or
+                     (kind == 'SCHEMA' and name in schemas) or
+                     (kind in {'DATABASE', 'DATABASE PROPERTIES'} and name == 'postgres'))
++            if graphql_scope is not None and kind == 'SCHEMA' and name == 'graphql_public':
++                if owner_name != 'supabase_admin':
++                    raise Refused('EXACT_GRAPHQL_SCHEMA_TOC_REQUIRED')
++                graphql_schema_count += 1; skip = True
+             if kind == 'EXTENSION':
+                 seen.add(name)
+         if skip:
+@@ -246,10 +372,17 @@
+             lines.append('; preinstalled exact frozen prerequisite: ' + line)
+         else:
+             lines.append(line)
++        if graphql_scope is not None and re.search(r'\b(?:FUNCTION graphql_public graphql|ACL graphql_public FUNCTION graphql)\(', line):
++            allowed_acl = r'\d+;\s+\d+\s+\d+\s+ACL graphql_public FUNCTION graphql\("operationName" text, query text, variables jsonb, extensions jsonb\) supabase_admin\s*'
++            if not re.fullmatch(allowed_acl, line):
++                raise Refused('UNADMITTED_GRAPHQL_WRAPPER_TOC')
++            graphql_acl_count += 1
+     if not seen or not seen.issubset(extensions) or not any('TABLE DATA supabase_migrations schema_migrations' in line for line in lines):
+         raise Refused('FULL_HISTORY_OR_EXTENSION_TOC_REQUIRED')
+     if not any('TABLE DATA auth users' in line for line in lines):
+         raise Refused('FULL_SYNTHETIC_AUTH_DATA_REQUIRED')
++    if graphql_scope is not None and (graphql_scope['function'] != GRAPHQL_FUNCTION or graphql_schema_count != 1 or graphql_acl_count != 1):
++        raise Refused('EXACT_GRAPHQL_SCHEMA_AND_RETAINED_ACL_TOC_REQUIRED')
+     return ''.join(lines), omitted
+ 
+ 
+@@ -346,7 +479,7 @@
+     review = admit_review(json.loads(review_body, object_pairs_hook=unique), sha(code_body), sha(inputs_body))
+     inputs = json.loads(inputs_body, object_pairs_hook=unique)
+     candidate = Path(inputs['candidate'])
+-    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate2')
++    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate3')
+     report = args.output.resolve()
+     if candidate != expected_candidate or report.exists() or not report.is_relative_to(candidate / 'docs/release'):
+         raise Refused('FRESH_PRIVATE_OWNED_OUTPUT_REQUIRED')
+@@ -394,6 +527,10 @@
+     # Validate the source-only role admission before any container can be made.
+     restore_role_plan(reference_globals, reference_globals)
+     (report / 'role-globals-query.sql').write_text(globals_query)
++    graphql_scope = graphql_source_scope(read(candidate / '.cache/receipt-foundation-attempt8/schema-only.sql').decode(), reference_pre)
++    graphql_query = graphql_inventory_query(read(candidate / CATALOG).decode())
++    (report / 'graphql-wrapper-query.sql').write_text(graphql_query)
++    record['graphql_wrapper_admitted_source_scope'] = graphql_scope
+     items = []
+     for row in reference['source_inventory']:
+         body = read(candidate / row['path'])
+@@ -536,6 +673,16 @@
+             memberships=len(result['memberships']), settings=len(result['settings']),
+             readonly=True, secrets_exported=False)
+         return result
++    def inventory_graphql(target, boundary):
++        raw = target.json(graphql_query)
++        state = graphql_state(raw)
++        body = (json.dumps(state, indent=2) + '\n').encode()
++        (target.report / (boundary + '-graphql-wrapper.json')).write_bytes(body)
++        target.evidence.setdefault('graphql_wrapper', {})[boundary] = dict(
++            sha256=sha(body), query_sha256=sha(graphql_query.encode()),
++            exact_catalog_expression_input_sha256=inputs['sources'][CATALOG],
++            readonly=True, ACLs_pending_archive=(target.phase == 'restore'))
++        return state
+     def platform(target):
+         shape, provenance = replay.platform_shape()
+         if sha(shape.encode()) != reference['platform_bootstrap']['extracted_platform_sha256']:
+@@ -591,6 +738,11 @@
+             committed_globals = inventory_roles(source, 'committed-predecessor')
+             case('readonly all30 source role attributes memberships settings equal frozen source',
+                  exact_role_globals(reference_globals, committed_globals))
++            # Whole committed equality precedes this dedicated source readback.
++            actual_graphql_scope = graphql_source_scope(read(candidate / '.cache/receipt-foundation-attempt8/schema-only.sql').decode(), committed)
++            source_graphql_state = inventory_graphql(source, 'committed-predecessor')
++            case('source GraphQL wrapper hook body definition owner and extension membership match frozen scope',
++                 actual_graphql_scope == graphql_scope and graphql_restore_plan(graphql_scope, source_graphql_state) == '')
+             safeguards(source)
+             dump = source.tool('pg_dump', ['--format=custom', '--compress=0', '--no-password', '--username=supabase_admin', '--dbname=postgres']).stdout
+             if not dump.startswith(b'PGDMP') or len(dump) > LIMIT:
+@@ -651,8 +803,26 @@
+             after_roles = inventory_roles(restored, 'after-source-role-prerequisite')
+             case('all30 restored role attributes memberships settings exactly equal committed source before pg_restore',
+                  exact_role_globals(committed_globals, after_roles))
++            # The retained candidate2 failure identifies an extension-member
++            # wrapper definition omitted by the archive. Install only this exact
++            # source schema/function before its intact archive ACL is restored.
++            before_graphql = inventory_graphql(restored, 'before-source-graphql-prerequisite')
++            graphql_sql = graphql_restore_plan(graphql_scope, before_graphql)
++            record['graphql_wrapper_restore_prerequisite'] = dict(
++                admitted_source_scope=graphql_scope, before=before_graphql,
++                sql=graphql_sql, sql_sha256=sha(graphql_sql.encode()),
++                source_extension_member_definition_omitted_by_archive=True,
++                source_schema_CREATE_TOC_explicitly_preinstalled=True,
++                all_wrapper_ACLs_restored_from_archive=True,
++                full_catalog_comparison_not_relaxed=True)
++            if graphql_sql:
++                restored.sql(graphql_sql, user='supabase_admin',
++                             label='exact frozen source GraphQL schema wrapper and proven extension membership prerequisite')
++            after_graphql = inventory_graphql(restored, 'after-source-graphql-prerequisite')
++            case('exact source GraphQL wrapper metadata and extension membership verified before archive ACL',
++                 graphql_restore_plan(graphql_scope, after_graphql) == '')
+             toc = restored.tool('pg_restore', ['--list'], read(dump_path)).stdout.decode()
+-            listing, omitted = restore_list(toc, committed)
++            listing, omitted = restore_list(toc, committed, graphql_scope)
+             list_path = report / 'full-restore-list.txt'; list_path.write_text(listing)
+             # The allow-list is copied only into this labelled, networkless
+             # container; the archive continues to arrive on stdin.

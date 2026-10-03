@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "scope": "Reviewable private Auth fixture proposal with actual isolated direct Dart proof. Not integrated; no canonical acceptance or release claim.",
+  "leaf_count": 14,
+  "files": [
+    {
+      "path": "REVIEW.md",
+      "sha256": "475212f827754f6f408fd81ef77e7ff6c442a20bf5e53a4dc8ab3d08e3ea94fd",
+      "bytes": 2106,
+      "mode": 420
+    },
+    {
+      "path": "auth_semantics_proof.dart",
+      "sha256": "0b341991002ec3355e16687fe7e32da272c1c33795e7716cd0328fc5b0664deb",
+      "bytes": 3200,
+      "mode": 420
+    },
+    {
+      "path": "execution1/inputs-after.json",
+      "sha256": "b0d3920aac5323fef8c21497cca20c6d9c55b36563ea1367746cbfde9e6dea30",
+      "bytes": 277475,
+      "mode": 420
+    },
+    {
+      "path": "execution1/inputs-before.json",
+      "sha256": "b0d3920aac5323fef8c21497cca20c6d9c55b36563ea1367746cbfde9e6dea30",
+      "bytes": 277475,
+      "mode": 420
+    },
+    {
+      "path": "execution1/package_config.json",
+      "sha256": "2bfb97e7f5831593a4475ee5bc93e628be5fb8f0fea8f784a17435664416140e",
+      "bytes": 3373,
+      "mode": 420
+    },
+    {
+      "path": "execution1/proof-plan.json",
+      "sha256": "75390f3f2939a618c2337b278d23ed7b2501d16e426f530350b572948ff66cc6",
+      "bytes": 1087,
+      "mode": 420
+    },
+    {
+      "path": "execution1/result.json",
+      "sha256": "37a4f6a3aa96580c5fbf5c005607ce08cd1c5b3ffc8b8a8cb4ec00e9373a4c70",
+      "bytes": 660,
+      "mode": 420
+    },
+    {
+      "path": "execution1/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 420
+    },
+    {
+      "path": "execution1/stdout.txt",
+      "sha256": "7314bd2bef2a52e29561daf74a2b0fffae56540bc81dd967c6b7e05d5f7f0382",
+      "bytes": 236,
+      "mode": 420
+    },
+    {
+      "path": "proposal/test/core/auth_fixture_token_test.dart",
+      "sha256": "9560bf6d52dd8882707795b76628cd5d125c77b4b452d6edcae78096b3501ebe",
+      "bytes": 2418,
+      "mode": 384
+    },
+    {
+      "path": "proposal/test/support/synthetic_jwt.dart",
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "bytes": 508,
+      "mode": 384
+    },
+    {
+      "path": "proposal.json",
+      "sha256": "365f693cb25a0a5266c3d2bf8552bd077276b8d14e89da7b6123dddde95f7cf0",
+      "bytes": 1582,
+      "mode": 420
+    },
+    {
+      "path": "snapshots/test/core/auth_fixture_token_test.dart",
+      "sha256": "68f7816ef4f012395f98e1519200feb27ae337e465afc3e57d7f53310b3c638d",
+      "bytes": 2437,
+      "mode": 384
+    },
+    {
+      "path": "snapshots/third_party/gotrue/test/synthetic_jwt.dart",
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "bytes": 508,
+      "mode": 384
+    }
+  ]
+}

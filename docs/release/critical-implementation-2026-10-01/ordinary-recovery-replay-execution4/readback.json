@@ -1,0 +1,1176 @@
+{
+  "status": "failed_actual_attempt_preserved",
+  "at_utc": "2026-10-02T07:56:00.803156+00:00",
+  "actual_files": [
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/commands.jsonl",
+      "bytes": 1346705,
+      "mode": 420,
+      "sha256": "f60906bf6e829a0ae8dc473e0b15d8b0b30c7780f9fd85209c202dcc413486bb"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/committed-synthetic-predecessor.dump",
+      "bytes": 2904699,
+      "mode": 384,
+      "sha256": "7e36ad4898fd621d20711ceeb7ad2d35f37f82aaf1c37c88f241ce7fb3749b7d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/full-restore-list.txt",
+      "bytes": 187512,
+      "mode": 420,
+      "sha256": "91c06676f9b40c6ec91a088fd5452b8c272302f0ece7710126c9399d88cf95b0"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/graphql-wrapper-query.sql",
+      "bytes": 2966,
+      "mode": 420,
+      "sha256": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/owned-targets.jsonl",
+      "bytes": 330,
+      "mode": 420,
+      "sha256": "a11caae579a354bf8b604e69fb7dda6093b6e2a1ffb4d4b08b15d66fb590b693"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260914165641_restore_member_roster_membership_boundary.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260914213600_atomic_otp_rate_limit.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260925190000_rwanda_momo_only.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928150000_relational_member_history_pages.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928160000_sms_observation_never_settles.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928170000_confirmed_momo_payer_posting.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928171000_strict_intent_sms_match.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928172000_allow_incomplete_rwanda_onboarding_profile.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260928174000_attested_receipt_v2_contract.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929110000_admin_notification_page_before_delivery_counts.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929120000_provider_finality_payment_lock_order.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929130000_provider_finality_content_binding.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929140000_notification_delivery_fencing.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929150000_notification_retry_eligibility.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929160000_notification_retry_schedule.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929170000_governed_reconciliation_workflow.log",
+      "bytes": 305,
+      "mode": 420,
+      "sha256": "0d76b1e58985e2d30a9ef82aaf4059cb10a1e272942d46cb13cd152695c4a64b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260929180000_notification_registration_sessions.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930100000_roster_import_provenance.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930110000_retire_legacy_bank_scheduler.log",
+      "bytes": 1339,
+      "mode": 420,
+      "sha256": "280fc3eda511e13769850189d1b2276e5fdc554b852c4c4e075556d62ea50d39"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930120000_roster_import_reload_recovery.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930130000_signed_otp_uncertain_recovery.log",
+      "bytes": 631,
+      "mode": 420,
+      "sha256": "4b8942f4b94f6a4b145679c019c63915419ce01ca68cbfc2232769343bf5fae3"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930140000_roster_resource_integrity.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930150000_runtime_control_governance.log",
+      "bytes": 2,
+      "mode": 420,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930160000_redacted_operational_health.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930170000_roster_fresh_auth_recovery.log",
+      "bytes": 1,
+      "mode": 420,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930180000_operational_health_authority.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930200000_admin_automation_navigation.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930210000_shadow_supervisor_runs.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930211605_android_gateway_identity.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930213000_operator_email_auth.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930220000_runtime_control_authority.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930220527_operator_email_cutover_guard.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930230000_group_share_rotation_receipts.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930230100_receipt_backlog_events.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930230200_admin_receipt_overview.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930230300_admin_transaction_lifecycle.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930230400_admin_investigation.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930233000_sensitive_admin_authority.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930234000_exact_request_amounts.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930235000_exact_receipt_history_amounts.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930235500_operator_reason_whitespace.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930235600_runtime_control_reason_whitespace.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20260930235700_sensitive_reason_whitespace.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20261001000100_operational_exception_inbox.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/20261001000200_admin_gateway_reads.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/after-negative-rollback-catalog.json",
+      "bytes": 2046395,
+      "mode": 420,
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/after-source-graphql-prerequisite-graphql-wrapper.json",
+      "bytes": 1059,
+      "mode": 420,
+      "sha256": "4f9b9c7e2bc4963933b78386ad160465cc5d8997fb4e0091d575446aed3c35df"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/after-source-role-prerequisite-role-globals.json",
+      "bytes": 10520,
+      "mode": 420,
+      "sha256": "6fe71b0c2fa030e680caddba7de12db81da3f646eb198980b37e842920975f8b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/before-compatibility-repairs-catalog.json",
+      "bytes": 2044270,
+      "mode": 420,
+      "sha256": "b4ae2ac11f2c6c55b0f9510a2e76ac0ba8e1d7b5f3f0a1e9741e14ef0c219846"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/before-source-graphql-prerequisite-graphql-wrapper.json",
+      "bytes": 62,
+      "mode": 420,
+      "sha256": "6c7faade00607530aa3a2f820a7cc64cf1d4a370a3c023e488f97b5eef6587b8"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/before-source-role-prerequisite-role-globals.json",
+      "bytes": 10289,
+      "mode": 420,
+      "sha256": "618872120b5e7a65fdc85bc6684069c9624c822ce39371fea0f57384479b9ebd"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/queries.log",
+      "bytes": 93724,
+      "mode": 420,
+      "sha256": "c41ef299bda6f2364697d807a6d64448fabacc72022b9253311ededdd455f2f4"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/queries.sql",
+      "bytes": 2425787,
+      "mode": 420,
+      "sha256": "670f281bcfd6c0bdab780acb8099d59f68901e565c2005c144b249e2eb93be9b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/restore/restored-predecessor-catalog.json",
+      "bytes": 2046395,
+      "mode": 420,
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/result.json",
+      "bytes": 189379,
+      "mode": 420,
+      "sha256": "c45b2065e944992dde7d26e03715d5eae27e254fa0058c1f34c988450ffecf4f"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/role-globals-query.sql",
+      "bytes": 1314,
+      "mode": 420,
+      "sha256": "5ce8becd426f356612a7d9995c2be5b753c8b4e86717735b4f3767213efe0f02"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230001_collect_baseline.log",
+      "bytes": 272,
+      "mode": 420,
+      "sha256": "54f942d03d5a682d5ff4ef9863908aef9b74c4ab241cb5c9fb635f3f94f931c7"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230002_fix_invite_rpc_lint.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230003_harden_rls_indexes.log",
+      "bytes": 180,
+      "mode": 420,
+      "sha256": "bbf89b8ade55a8704396fe844836438ef9c18ede9419514cb233c684a2feece8"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230004_restore_payment_intent_paid_rpc.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230005_restore_sms_collection_scope.log",
+      "bytes": 316,
+      "mode": 420,
+      "sha256": "7547003c70058603b2818084ff9327133bdfa241fbc41cc50be3ae5311c750ed"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230006_finalize_payment_intent_hardening.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230007_revoke_public_function_execute.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230008_admin_panel.log",
+      "bytes": 1625,
+      "mode": 420,
+      "sha256": "1cc6541d624f96f67fdf4f738b227353583602aaf15be00ef3992347c4bdee32"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230009_add_client_safe_views.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230010_grant_collection_receiver_read.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230011_fix_receiver_consent_execute_grant.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230012_admin_rpc_grants.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230013_admin_settings_flags.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230014_admin_review_hardening.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230015_admin_collection_moderation.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230016_drop_unowned_admin_helpers.log",
+      "bytes": 878,
+      "mode": 420,
+      "sha256": "029d46f03437830cb9f8313a711e2a4c5ce1844e46ed3a3402676001b27862fa"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605230017_admin_list_filter_contracts.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523203132_tighten_admin_role_permissions.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523204235_set_views_security_invoker.log",
+      "bytes": 345,
+      "mode": 420,
+      "sha256": "00ce36e12e36fcb0c08bc6550fffe7b2fe28818f5abe67e48538dcd61bfa9240"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523205502_set_helper_function_search_paths.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523210723_split_permissive_select_policies.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523212244_revoke_anon_platform_admin_helper.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260523213113_disable_graphql_introspection.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605250001_app_realtime_invalidation.log",
+      "bytes": 2598,
+      "mode": 420,
+      "sha256": "e7d316a57b7eeb696492bd4e710fbadddfcd83cc88f60ae6694f458a6ad67385"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/202605270001_sms_first_group_payment_intents.log",
+      "bytes": 155,
+      "mode": 420,
+      "sha256": "2bedd9dc9988ad0edea2240288b767101dbd5ea347ef11278da650081c6e6aa5"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260531162852_harden_sms_first_function_grants.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260531190000_mobile_production_state_support.log",
+      "bytes": 341,
+      "mode": 420,
+      "sha256": "879fca574aa085c92ed3ac175f909d21a2c6327b33cc337c551cf4bf08d09c59"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260601230000_preserve_contribution_sender_hash.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260602050000_harden_mobile_state_rls_initplan.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260607130500_update_collection_profile_rpc.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260608090000_native_notifications.log",
+      "bytes": 1381,
+      "mode": 420,
+      "sha256": "531899c91796b41d61b19b374bcdf5e1b9dbba42efca16c02237bcd23a2af1da"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260611111500_harden_mobile_profile_rpcs.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260611113000_harden_notification_rls_initplan.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260611114500_tighten_notification_rpc_grants.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260611171920_admin_whatsapp_operator_login.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260612103000_disable_browser_admin_bootstrap.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260612110000_admin_payment_event_server_paging.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260612111500_drop_legacy_payment_event_queue_overloads.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260612113000_revoke_anon_admin_queue_paging.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260619003000_profile_momo_pay_code.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260622090000_market_expansion_categories_stripe_foundation.log",
+      "bytes": 706,
+      "mode": 420,
+      "sha256": "9170f19c9e996b2473fde0b62f56cfc025b18a51b9c827b70d983cd68b8951f3"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260626193000_gate_notification_enqueue_by_preferences.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627143000_restrict_admin_permission_helper_probing.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627171000_harden_diaspora_stripe_table_grants.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627183000_add_admin_operator_note_rpc.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627184500_add_admin_queue_sla_policies.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627190000_add_admin_collection_status_rpc.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260627191000_add_admin_feature_flag_toggle_rpc.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260701090000_developer_account_seed_data.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260701100000_group_owner_controls.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260703170000_harden_developer_and_group_rpcs.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260703224559_collection_type_catalog_runtime.log",
+      "bytes": 2936,
+      "mode": 420,
+      "sha256": "19dbca12e08b26fca1dddd978399f5070280d8813e760e94ddd9ec5c71c2b1e3"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260703225455_notification_templates_runtime.log",
+      "bytes": 2880,
+      "mode": 420,
+      "sha256": "e3d4052d1a49673af3b809b34b31a4978d6bd13519f655aa02ec1b600cfde6c4"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260704100000_public_runtime_config.log",
+      "bytes": 3495,
+      "mode": 420,
+      "sha256": "2fecd47daaad47d2011ad6d93c07e70d2f9e986ad420690996ed727e9775378f"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260704110000_admin_runtime_metadata.log",
+      "bytes": 2768,
+      "mode": 420,
+      "sha256": "5a8d768cd63c8712d9a3f3a71314840512da78e4362b710f75e0a72caaa11668"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260704120000_policy_documents_account_reasons.log",
+      "bytes": 2434,
+      "mode": 420,
+      "sha256": "78aea085c9fa7ca90945b3cee2d114d4d0f3ce7952383bf04a5b1916315e4423"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260704133000_split_runtime_metadata_select_policies.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260730134500_grant_mobile_request_own_read.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260804150000_native_push_delivery.log",
+      "bytes": 1093,
+      "mode": 420,
+      "sha256": "0dc615356f0b51da88bfc64a5e93f93e23245fc1258142f55687c5d8fb3f15c8"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260805120000_android_fcm_push_delivery.log",
+      "bytes": 192,
+      "mode": 420,
+      "sha256": "203336132934f0654c9dccbc75909eb196ea346f343fbd70e80a698d4bb168e7"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260808093000_qualify_notification_token_digest.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260812073431_remove_legacy_mock_groups_and_classify_home.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260812080000_restore_mobile_notification_preferences_grants.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260812090000_expand_momo_pay_code_length.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260812100000_remove_developer_dummy_data.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260812110000_correct_momo_merchant_ussd_template.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815050900_harden_momo_sms_standalone_posting.log",
+      "bytes": 341,
+      "mode": 420,
+      "sha256": "8d1671dfb04d0f249b65b5c9840751459da52450c494a27bab21507eb25c69b5"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815051035_harden_group_creation_journey.log",
+      "bytes": 186,
+      "mode": 420,
+      "sha256": "c70365cafcb5378825fd6f5d48c83808d494fa4c95ca5720b4949666deaf2a5e"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815054500_close_group_journey_database_lint.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815062536_complete_admin_operations_control_plane.log",
+      "bytes": 346,
+      "mode": 420,
+      "sha256": "bcdbc765ed5cde2193c7f604f38a5109f5f73150e705c048b88c71df54b44a0d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815071500_bind_contribution_payer_identity.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815082500_close_group_authorization_privacy.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815083000_require_provider_finality.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815083500_claim_sms_parser_work.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815084000_atomic_sms_ingestion.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815084500_revoke_non_dml_table_privileges.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260815085000_atomic_provider_finality_gateway.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260820160000_restore_momo_sms_standalone.log",
+      "bytes": 163,
+      "mode": 420,
+      "sha256": "fd090095df7cfa37a177aa8c758c2374caa9aa5bf900ccfd75964a86f94e7903"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260820162240_bank_transfer_only_financial_control_plane.log",
+      "bytes": 1040,
+      "mode": 420,
+      "sha256": "a98eb9b4628655a307ebe147588b31ce788cf7e2e2d9bda88687f2a2007a068b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260820185500_revoke_direct_bank_transfer_intent_read.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260828100000_profile_country_session_independence.log",
+      "bytes": 652,
+      "mode": 420,
+      "sha256": "42cdb85a62b6051a85fcd7ed004e11523e7df2d7fb0928235021e73aafca688c"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260831084239_expand_admin_queue_sla_support.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260831084646_hybrid_geographic_payment_rails.log",
+      "bytes": 797,
+      "mode": 420,
+      "sha256": "12d4979053e33fb584ca10dbd208a6e70abecacbbf489eb99db52e99e47d6a13"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260831095454_collect_admin_operations_model.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901134820_platform_public_groups.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901135728_public_group_directory.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901141842_public_contribution_auto_membership.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901160000_collect_admin_payee_management.log",
+      "bytes": 191,
+      "mode": 420,
+      "sha256": "c8bd289345d5f920041e9a415c9ecbdd0f066a7eac17165f12f44bbe91bf64a7"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901183000_admin_operations_tables.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901193000_admin_group_lifecycle.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901194500_admin_users_and_members.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901200000_localize_public_group_payment_routes.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901210000_admin_single_access_role.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901220000_admin_country_scope_contract.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901223000_live_admin_uat_fixes.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260901230000_admin_people_detail_contract.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902073741_member_profile_numeric_identity.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902075721_member_collection_read_contract.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902081017_hybrid_admin_overview_metrics.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902081830_member_profile_read_allowlist.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902083940_member_cross_rail_history.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902090210_member_group_owner_controls.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902091314_member_group_roster.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902093609_member_history_query_plan.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902100046_member_bounded_history_pages.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902120435_hybrid_receipt_capture_contract.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902120555_hybrid_member_registry.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902134420_member_add_group_admin.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902140151_platform_admin_whatsapp_approval.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260902212721_revoke_official_payee_trigger_execute.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903083947_member_profile_rpc_only_writes.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903084000_hybrid_direct_ussd_financial_core.log",
+      "bytes": 323,
+      "mode": 420,
+      "sha256": "0f7be4649d0b525ed1b1e1d8a7560935b23e8666447f776002dd8a6d750a07f2"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903085000_hybrid_roster_import_control_plane.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903090000_hybrid_sms_notification_outbox.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903090500_admin_sms_receipt_queue.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903091000_hybrid_verified_account_claim.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903091500_hybrid_member_directory_views.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903092000_admin_sms_receipt_failed_filter.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903092500_revoke_hybrid_internal_function_execute.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903200322_hybrid_directory_presentation.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260903201326_geographic_member_profile_gates.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260906093000_member_profile_momo_code.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/20260906160000_group_cover_bank_and_atomic_creation_media.log",
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/before-seed-catalog.json",
+      "bytes": 2046395,
+      "mode": 420,
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/committed-predecessor-catalog.json",
+      "bytes": 2046395,
+      "mode": 420,
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/committed-predecessor-graphql-wrapper.json",
+      "bytes": 1358,
+      "mode": 420,
+      "sha256": "71acaeb810d04c8f57030d2159b02180475d6f39684c306e4ebf023a23657ad4"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/committed-predecessor-role-globals.json",
+      "bytes": 10520,
+      "mode": 420,
+      "sha256": "6fe71b0c2fa030e680caddba7de12db81da3f646eb198980b37e842920975f8b"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/preexisting-primary-receipts.json",
+      "bytes": 2529,
+      "mode": 420,
+      "sha256": "3cde84c7ab2b1e7a0e394a28222bee8f8cca266c10eaa1f7c4dafa4e4bb4053d"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/queries.log",
+      "bytes": 171743,
+      "mode": 420,
+      "sha256": "8a3b018d97049edae3b93adb5c0018dbe66c89916966e676a9ca4682c4743298"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/queries.sql",
+      "bytes": 2806558,
+      "mode": 420,
+      "sha256": "d35be82a22aeb228c5a69a1364b73d4b6441a33df6928d885515711af63e142c"
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/source/synthetic-seed.sql",
+      "bytes": 7741,
+      "mode": 420,
+      "sha256": "1be331c465174ad9a4d819932add3d78e7e57f0626c2778a35f01b3afb383986"
+    }
+  ],
+  "actual_result_sha256": "c45b2065e944992dde7d26e03715d5eae27e254fa0058c1f34c988450ffecf4f",
+  "elapsed_seconds": 124.90146304200607,
+  "passing_cases": 22,
+  "failure": "[Errno 35] Resource temporarily unavailable",
+  "both_owned_containers_removed": true,
+  "cleanup_errors": [],
+  "current216_source_hashes_unchanged": true,
+  "admitted222_files_unchanged": true,
+  "restored_predecessor_catalog_and_effective_ACLs_passed": true,
+  "forward85_complete": false,
+  "recovery_complete": false,
+  "production_ready": false
+}

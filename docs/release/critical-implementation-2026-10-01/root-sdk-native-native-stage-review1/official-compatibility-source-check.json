@@ -1,0 +1,27 @@
+{
+  "actual_warning": "Gradle embedded-kotlin/kotlin-dsl expects Kotlin2.2.0; selected plugin2.4.20",
+  "captured_at_utc": "2026-10-02T08:35:29.076591+00:00",
+  "inference": "The general KGP range includes Gradle9.1.0. It does not by itself certify the custom Flutter Kotlin DSL build-logic override or a production package. Retain the actual warning and require actual compilation/graphs/JVM outcomes plus artifact-level acceptance.",
+  "policy_or_dependency_changes_applied": false,
+  "production_release_approval": false,
+  "sources": [
+    {
+      "claim": "The current KGP compatibility table lists Kotlin2.4.20 with Gradle7.6.3 through9.7.0 and AGP8.5.2 through9.3.1.",
+      "url": "https://kotlinlang.org/docs/gradle-configure-project.html"
+    },
+    {
+      "claim": "Gradle advises using its corresponding Kotlin DSL plugin; arbitrary Kotlin DSL plugin/Gradle combinations are not guaranteed. Its embedded Kotlin and external KGP standard-library compatibility are distinct concerns.",
+      "url": "https://docs.gradle.org/current/userguide/kotlin_dsl.html"
+    },
+    {
+      "claim": "The current embedded-version table identifies Kotlin2.2.0 at Gradle9.0; later Gradle releases carry newer embedded Kotlin.",
+      "url": "https://docs.gradle.org/current/userguide/compatibility.html"
+    }
+  ],
+  "status": "observed_primary_guidance",
+  "version_specific_pages_unavailable": [
+    "https://docs.gradle.org/9.1.0/userguide/kotlin_dsl.html",
+    "https://docs.gradle.org/9.1.0/userguide/compatibility.html"
+  ],
+  "whole_native_pass_not_yet_observed": true
+}

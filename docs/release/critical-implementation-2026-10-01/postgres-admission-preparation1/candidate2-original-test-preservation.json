@@ -1,0 +1,62 @@
+[
+  {
+    "file": "supabase_delivery_contract_test.py",
+    "original_count": 34,
+    "final_count": 45,
+    "removed": [],
+    "unchanged_original_bodies": [
+      "test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness",
+      "test_wrong_cli_pin_stops_before_any_project_operation",
+      "test_missing_and_swapped_companion_are_refused_before_project_calls",
+      "test_unapproved_companion_override_is_refused",
+      "test_companion_drift_after_preflight_stops_before_first_write",
+      "test_missing_local_function_stops_before_any_project_operation",
+      "test_connectivity_fallback_preserves_strict_readiness",
+      "test_missing_approval_and_invalid_operation_scope_have_no_remote_effect",
+      "test_missing_strict_readiness_inputs_and_wrong_database_target_stop_before_remote",
+      "test_wrong_approval_hash_blocks_before_any_remote_call",
+      "test_expired_approval_with_matching_hash_is_still_refused",
+      "test_wrong_target_environment_and_url_are_refused",
+      "test_wrong_source_approval_binding_is_refused",
+      "test_unbound_candidate_manifest_is_refused",
+      "test_dirty_candidate_and_unlisted_candidate_source_are_refused",
+      "test_candidate_runtime_metadata_is_not_ignored_by_preflight",
+      "test_stale_worktree_helper_and_added_backend_source_are_refused",
+      "test_missing_transitive_module_is_refused_before_project_calls",
+      "test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect",
+      "test_mid_run_worktree_drift_stops_before_first_write",
+      "test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes",
+      "test_wrong_runtime_link_and_unapproved_dry_run_failure_stop_writes",
+      "test_partial_function_failure_keeps_receipt_and_stops_later_mutations",
+      "test_lost_migration_reply_is_reconciled_without_retry_or_function_mutation",
+      "test_management_partial_failure_retains_commits_and_stops_functions",
+      "test_management_mid_run_drift_stops_the_next_transport_request",
+      "test_staging_edge_scope_executes_export_without_production_acceptance",
+      "test_mandatory_migration_readback_failure_blocks_functions",
+      "test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret",
+      "test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs",
+      "test_missing_successor_endpoint_refuses_readiness",
+      "test_missing_successor_deploy_readback_stops_before_strict_readiness",
+      "test_missing_successor_local_source_refuses_before_any_project_operation",
+      "test_make_tool_defaults_use_path_and_keep_explicit_overrides"
+    ],
+    "changed_original_bodies": [],
+    "fixture_transition": "delivery toolchain fixture adds independently bound PostgreSQL manifest only for database scopes; no original delivery test assertions changed"
+  },
+  {
+    "file": "supabase_secret_transport_test.py",
+    "original_count": 5,
+    "final_count": 5,
+    "removed": [],
+    "unchanged_original_bodies": [
+      "test_auth_config_and_secret_retries_keep_values_out_of_argv",
+      "test_management_query_uses_stdin_and_rejects_header_injection",
+      "test_readiness_source_does_not_pass_auth_config_or_password_to_argv",
+      "test_failure_paths_remove_secret_files"
+    ],
+    "changed_original_bodies": [
+      "test_direct_database_url_is_only_in_owner_only_service_file"
+    ],
+    "fixture_transition": "one exact argv expectation adds mandatory -X and -w; remaining assertions and all five tests retained"
+  }
+]

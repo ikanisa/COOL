@@ -1,0 +1,9 @@
+{
+  "previous_script_sha256": "719ca823862eae447b7b3a297ee0357b1fff4d6deb19a9c3595b7b420ddb1782",
+  "script_sha256": "d22b1151badd7c17efbfa5f6e64e7c55df19f455adc9ff77e0088264987ffc37",
+  "correction": "Only three executable checksum reads now stream through original reader with retain=False; hashes and default1GiB bound unchanged. New review namespace prevents overwriting failed controls.",
+  "retained_failed_export_control": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/warm-export-20261002-attempt1-72d2c83751a54a16ad6e308ddc34b0eb",
+  "all_control_bytes_and_other_identities_preserved": true,
+  "prior_export_unexecuted": true,
+  "production_release_approval": false
+}

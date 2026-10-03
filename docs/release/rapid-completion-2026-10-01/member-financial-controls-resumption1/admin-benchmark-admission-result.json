@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "current_admin_query_benchmark_test"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests",
+  "exit_code": 0,
+  "seconds": 0.431,
+  "source_sha256": {
+    "scripts/tests/current_admin_query_benchmark_uat.py": "d3bcfe5a7ff74c055cd2eac006d83afea20d39c237b2920d3c97cdf275ae015f",
+    "scripts/tests/current_admin_query_benchmark_test.py": "64f3440be83176b95e310d8d3dae557c993bfff9daada6db0bff764d47a0aec3",
+    "scripts/tests/current_generated_query_benchmark_uat.py": "77165c4a2f3ceda97f1dd5a001e7b05959f7aa0d33cc926286c8d9ea1e5a6901",
+    "scripts/tests/current_generated_query_benchmark_test.py": "8751c50eddb820b43672640b33d3c7e87901ba9c09c556f874fee85ba80cba9f"
+  },
+  "source_stable": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "0d6653413f55f7cf64dbfab59b6b29c640ade8e63585414ab2a44a0892a5ed0a",
+  "sql_or_docker_executed": false,
+  "actual_1000_10000_benchmark_executed": false
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Final candidate5 exact four-file proposed integration; never applied",
+  "integration_diff_sha256": "7111663b1e1682eb6bb4e34dc8297acca1b24c0eac3e8eb833ca6473cd9b7412",
+  "runner_successor_diff_sha256": "3e129e0161c8d621e59c450d05c87c5b221b006148f14578a8c1272cee113696",
+  "changes": [
+    {
+      "path": "scripts/qa/pg_archive_admission.py",
+      "baseline_sha256": null,
+      "proposed_sha256": "48bd219d4aa40d888a87819f68764bb0dbf82c50a3e23de4333925da3a11c576"
+    },
+    {
+      "path": "scripts/tests/test_pg_archive_admission.py",
+      "baseline_sha256": null,
+      "proposed_sha256": "c53e619e2a7c734813e2564684fc25269810adc62f951c4e5fb8e0509643d322"
+    },
+    {
+      "path": "scripts/supabase_cli_helpers.sh",
+      "baseline_sha256": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+      "proposed_sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74"
+    },
+    {
+      "path": "scripts/supabase_logical_backup.sh",
+      "baseline_sha256": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e",
+      "proposed_sha256": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329"
+    }
+  ],
+  "unchanged_support_copies": [
+    "scripts/qa/postgres_admission.py",
+    "scripts/load_dotenv_strict.sh",
+    "scripts/tests/backup_export_contract_test.rb"
+  ],
+  "candidate_base_sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92"
+}

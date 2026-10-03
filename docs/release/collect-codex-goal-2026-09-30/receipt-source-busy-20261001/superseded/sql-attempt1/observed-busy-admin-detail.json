@@ -1,0 +1,20 @@
+{
+  "active": true,
+  "revision": 1,
+  "source_id": "f00bafb7-cc17-4fa6-9b03-8364ecb02ee9",
+  "checked_at": "2026-10-01T21:44:57.440029Z",
+  "event_kind": "payment_posted",
+  "receipt_id": null,
+  "disposition": "deferred",
+  "reason_code": "RECEIPT_OPERATION_SOURCE_BUSY",
+  "send_action": false,
+  "source_kind": "receipt_event",
+  "current_code": "SOURCE_BUSY",
+  "exception_id": "1f884c44-cca0-4d80-9e89-1a4f2a61deec",
+  "original_code": "SOURCE_BUSY",
+  "source_version": 1,
+  "business_handled": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T21:45:57.440029Z"
+}

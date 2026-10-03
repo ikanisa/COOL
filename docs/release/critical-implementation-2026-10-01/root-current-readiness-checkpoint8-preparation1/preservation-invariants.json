@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "identity_fields": [
+    "id",
+    "title",
+    "report",
+    "status",
+    "review_status",
+    "acceptance_requirement_from_report"
+  ],
+  "all40_identity_tuples_sha256_canonical_utf8": "4c61e46977345f9bc1cba07bb6d65df238a752d11ccdc819ddebd3051718fe9a",
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "closed_count": 6,
+  "open_count": 34,
+  "original_findings": 40,
+  "legacy_item_counts": [
+    102,
+    24
+  ],
+  "legacy_item_arrays_deep_equal_required": true,
+  "independent_canonical_utf8_items_sha256": [
+    "1682b757bba32bcf42d31145d588d0b9c7055da9ff633edf2c5124453547a9a3",
+    "230a14774b03f35baae2f6f57c064ca449e614e7416d987fc3ee4df849772aa6"
+  ],
+  "existing_original_rows_preserved_sha256_fields_do_not_change": [
+    "404b4e7bc68b609af872e02b9523e4d8713a476a1b7b25549c7748df38c9b56f",
+    "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980"
+  ],
+  "all_prior_checkpoint_and_other_history_preserved": true,
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "selection_names_count": 2607,
+  "observed_current_source_files_identity_count": 2563,
+  "source_count_schema_note": "Selection names include absent paths;2563 derives from actual source_files_identity."
+}

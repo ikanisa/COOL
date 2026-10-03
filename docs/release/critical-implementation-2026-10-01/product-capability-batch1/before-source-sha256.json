@@ -1,0 +1,21 @@
+{
+  "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3",
+  "lib/features/landing/public_marketing_page_content.dart": "06b465eea80b04e0d3c662a748cf12a69b1faf79a6dbf6a5e185e0b1689ee625",
+  "lib/features/landing/public_content.dart": "db904222faa1e96e183b3fee364743ecae98b61e58c58562e13da770d8240d71",
+  "lib/features/landing/collect_landing_page.dart": "7dbae0784268e481772f2eb9e67e018b77189f59a150f5b105f5741f6469a94f",
+  "scripts/qa/public_content_contract.rb": "45b78125fd4a979f94771cda20815f2d61b53028d738e1433fdffd1e9f8d8fa5",
+  "fastlane/metadata/en-GB/privacy_url.txt": "fd2a0d715d06266952031c6443b81d0d754e15902f278527e950bcd23aa0c307",
+  "fastlane/metadata/en-GB/subtitle.txt": "2ebb5db760239c10e67fbba04c3d2aa18b197a8e66dd6e230898d46d5db39177",
+  "fastlane/metadata/en-GB/support_url.txt": "52000daa764dc88cdc9c6b02b0c7c5ae333ff6b6d039fe213e6d204b15b42bce",
+  "fastlane/metadata/en-GB/keywords.txt": "8ac710ac64806ad439102048f2d59729414ab443c0a18fcfeac15f39b9524cf8",
+  "fastlane/metadata/en-GB/promotional_text.txt": "8906ead13d30a603a4bb70213db86e91f8068e8503ed04e8f3501dd7eaa36881",
+  "fastlane/metadata/en-GB/release_notes.txt": "5db84bbaae136acf7153606befb52c02a299f337c3ac304073e601b5a03badbb",
+  "fastlane/metadata/en-GB/review_notes.txt": "f0084616a6b37ec0962146c64d7001b3a100a20bcc0e8b9c129b817650b97c4f",
+  "fastlane/metadata/en-GB/marketing_url.txt": "52000daa764dc88cdc9c6b02b0c7c5ae333ff6b6d039fe213e6d204b15b42bce",
+  "fastlane/metadata/en-GB/description.txt": "ff043b1c8910316df4228b87ae32d493730b5297131609be95bf4db54274d2dd",
+  "fastlane/metadata/android/en-US/full_description.txt": "01239f54a3124cdf6c6be88c187df058093af83943fc3e57f08ef2f1901ea6e4",
+  "content/legal/collect_legal_pages_bundle.yaml": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94",
+  "content/legal/collect_terms_of_use.yaml": "71f1c395fbdcc94d903c0980ba597cfe959c69f8cb8d164e9b9caedf2aebcea7",
+  "content/legal/collect_delete_account.yaml": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f",
+  "content/legal/collect_privacy_policy.yaml": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540"
+}

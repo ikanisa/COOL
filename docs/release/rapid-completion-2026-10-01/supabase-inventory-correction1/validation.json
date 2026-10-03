@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "format",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "test/supabase_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 31262,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.444,
+      "sha256": "1685974b88bd671112e17334bdc2abb8ef350e01ae026547459ec7a8307375ec"
+    },
+    {
+      "name": "cases",
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/supabase-inventory-correction1/vm.machine.jsonl",
+        "test/supabase_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 31291,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 47.205,
+      "sha256": "016d237597310776669f19d5a49b01b6ae5e0050da8e1f73519164adfb21c8bc"
+    }
+  ],
+  "machine_summary": {
+    "runner_completed_successfully": true,
+    "passed": 7,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [],
+    "event_errors": []
+  },
+  "test_source_current_and_unchanged": true,
+  "base_export_scope_preserved": true
+}

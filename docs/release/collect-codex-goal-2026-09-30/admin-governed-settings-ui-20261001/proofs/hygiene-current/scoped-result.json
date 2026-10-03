@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "scripts/qa/revolut_design_authority.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+    "--verify-skill",
+    "--json"
+  ],
+  "exit_code": 1,
+  "scope": "isolated staged consumer snapshot and actual sole skill revision; global inventory not accepted",
+  "bindings": {
+    "AGENTS.md": "4f82e1bf6616014c90b7260ecc1653a3b96ce29de908faecadb6eed05c4f258e",
+    "docs/release/revolut-design/authority.json": "229390e967fc8f4299c047a52a9b44654ef6e1ae5f4005c68b675151bca54b8b",
+    "scripts/qa/revolut_design_authority.py": "86ed8bbba082c679ba7e03f48bf094daf851c42381aee6f5a3885930b02470d4"
+  }
+}

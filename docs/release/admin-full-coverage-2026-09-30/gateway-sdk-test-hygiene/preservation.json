@@ -1,0 +1,6 @@
+{
+  "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+  "before_sha256": "df42292fa4cae1c189f5013b6abeb7953ec39e58acebfc3f89aa443d369c52ac",
+  "scope": "Two brace and two const findings from immutable Gateway1 analysis; equivalent hygiene on newly authored fixture-only lines. No runtime or test assertion change.",
+  "current_source_guard": true
+}

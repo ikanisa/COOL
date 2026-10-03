@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "at": "2026-10-01T15:23:27.787501+00:00",
+  "error_type": "RuntimeError",
+  "reason": "Bounded official asset download failed"
+}

@@ -1,0 +1,18 @@
+{
+  "authentication": "none",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Thu, 01 Oct 2026 21:20:55 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.osv.dev/v1/vulns/GHSA-cfh3-3jmp-rvhc",
+  "requested_at": "2026-10-01T21:20:54.731578+00:00",
+  "response_bytes": 2092,
+  "response_path": "records/GHSA-cfh3-3jmp-rvhc.response",
+  "response_sha256": "1a296ce6e27e7c7ce033bb82ad41ac3b3e781d3b4e6e3d9474005dd8a5c158b2",
+  "response_url": "https://api.osv.dev/v1/vulns/GHSA-cfh3-3jmp-rvhc",
+  "retrieved_at": "2026-10-01T21:20:55.250769+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

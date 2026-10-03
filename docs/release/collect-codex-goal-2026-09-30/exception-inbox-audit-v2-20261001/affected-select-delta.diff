@@ -1,0 +1,37 @@
+--- accepted100-a835
++++ final-bounded-read
+@@ -140,22 +140,31 @@
+  with scope as materialized(select exists(select 1 from collect_ops.exceptions e where e.id=p_exception_id
+   and collect_operator_audit.exception_scope_v2(e.source_kind,e.source_id))available),
+  events as not materialized(
+-  select collect_operator_audit.exception_event_id('exception_action',r.request_id)event_id,
++  (select collect_operator_audit.exception_event_id('exception_action',r.request_id)event_id,
+    'exception_action'::text source,r.request_id source_record_id,'exception.'||r.action action,r.recorded_at,
+    'operator'::text actor_kind,r.actor_id,r.request_id,r.expected_revision revision,null::bigint workflow_revision,
+    null::uuid escalation_id,r.reason_code,'immutable_request'::text origin,null::uuid assignee_id,null::timestamptz due_at
+    from collect_ops.exception_actions r where r.exception_id=p_exception_id
+-  union all select collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id),
++    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample
++    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_action',r.request_id))<(p_before_at,p_before_event_id))
++   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_action',r.request_id)desc limit p_limit+1)
++  union all (select collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id),
+    'exception_workflow_request',r.request_id,'exception.workflow.'||r.action,r.recorded_at,'operator',r.actor_id,r.request_id,
+    r.expected_source_revision,(r.result->>'workflow_revision')::bigint,
+    case when r.action='escalate'then collect_operator_audit.safe_uuid(r.result->>'escalation_id')end,r.reason_code,
+    'immutable_request',case when r.action='assign'then r.assignee_id end,case when r.action='assign'then r.due_at end
+    from collect_ops.exception_workflow_requests r where r.exception_id=p_exception_id
+-  union all select collect_operator_audit.exception_event_id('exception_escalation_event',r.id),
++    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample
++    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id))<(p_before_at,p_before_event_id))
++   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id)desc limit p_limit+1)
++  union all (select collect_operator_audit.exception_event_id('exception_escalation_event',r.id),
+    'exception_escalation_event',r.id,'exception.escalation.'||r.action,r.recorded_at,r.actor_kind,r.actor_id,null::uuid,
+    r.source_revision,null::bigint,r.escalation_id,e.reason_code,r.origin,null::uuid,null::timestamptz
+    from collect_ops.exception_escalation_events r join collect_ops.exception_escalations e on e.id=r.escalation_id
+    where r.exception_id=p_exception_id
++    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample
++    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_escalation_event',r.id))<(p_before_at,p_before_event_id))
++   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_escalation_event',r.id)desc limit p_limit+1)
+  ),page as materialized(select * from events where(select available from scope)
+   and recorded_at>='0001-01-01T00:00:00Z'::timestamptz and recorded_at<=sample
+   and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))

@@ -1,0 +1,114 @@
+{
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "artifact_file_count": 155,
+  "artifact_manifest_sha256": "66cf116e6dd35260f7e80fceb3c9cdd48bed33585f08e81c9168925bcc1bdd5b",
+  "candidate": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-05",
+  "capture_classification": "unapproved_non_atomic_implementation_checkpoint",
+  "capture_interval": {
+    "copied_at_utc": "2026-09-30T23:33:51Z",
+    "source_observed_at_utc": "2026-09-30T23:38:13Z",
+    "started_at_utc": "2026-09-30T23:27:42Z"
+  },
+  "configured_admin_build": "pass",
+  "configured_output": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-05/build/admin_configured",
+  "deployment_verified": false,
+  "file_count": 1784,
+  "hosted_mutations": 0,
+  "hosted_tool_calls": 0,
+  "live_authentication_verified": false,
+  "manifest_sha256": "1e54a8ad509c48f412dff970cc0694c0ff40191a5e3e891c8cd7622287be43d9",
+  "mcp_enabled_tools": [
+    "collect_list_pending_receipts",
+    "collect_notification_health",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "mcp_registered_tools": 16,
+  "mcp_test_counts": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 80,
+    "skipped": 0,
+    "tests": 80,
+    "todo": 0
+  },
+  "mcp_typescript_check": "pass",
+  "otp_requests": 0,
+  "pristine_candidate_final_readback": "pass",
+  "production_ready": false,
+  "provider_sends": 0,
+  "recorded_drift": {
+    "current_indexed_absence": [],
+    "current_source_manifest_sha256": "5a2532696d75f5e33125104e3df1bbc32f10d3e466703609c940622b6a217066",
+    "excluded_upstream_fixtures": [],
+    "indexed_absence_paths": [],
+    "prior_indexed_absence": [],
+    "selected_files": [
+      {
+        "current": {
+          "bytes": 10975,
+          "mode": 420,
+          "sha256": "ea3e0fbe3f964d782912e7ecb5d2e7da51793570b0ac4942b8bfcac098229ef4"
+        },
+        "path": "scripts/qa/resolved_native_package_inputs.py",
+        "prior": {
+          "bytes": 10974,
+          "mode": 420,
+          "sha256": "8963e625bb8dde388a547de6d4337afa97b5f72c4664a900a5608fbf4c1a5a01"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current": {
+          "bytes": 18791,
+          "mode": 420,
+          "sha256": "5a7e652a86ac35d484de3b8937576d511ec13269f2f46c6598f50a79268e8313"
+        },
+        "path": "scripts/tests/refresh_local_progress_register.py",
+        "prior": {
+          "bytes": 18751,
+          "mode": 420,
+          "sha256": "0be1ea16f6213890a02d14b3c6fc9a557b6e0b54e98d400b45d370ec026e7385"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current": {
+          "bytes": 8913,
+          "mode": 420,
+          "sha256": "3ae84290fa9547661b422e66b1c9e35cecbd2214851d913ef9975792c194cdfc"
+        },
+        "path": "scripts/tests/resolved_native_package_inputs_test.py",
+        "prior": {
+          "bytes": 8357,
+          "mode": 420,
+          "sha256": "537e855d5f3c87742133cccc71fd54683277b101d3884c0fb10a786fa5b34ff1"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current": {
+          "bytes": 9547,
+          "mode": 420,
+          "sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282"
+        },
+        "path": "scripts/tests/roster_fresh_auth_post_vm_uat.py",
+        "prior": null,
+        "reason": "source_added"
+      }
+    ]
+  },
+  "scope": "Exact retained source checkpoint; original-tree later additions are separate and do not alter this snapshot.",
+  "selected_workcopy_source_unchanged": true,
+  "source_current_tree_accepted": false,
+  "status": "local_checkpoint_checks_pass",
+  "total_bytes": 152968562
+}

@@ -1,0 +1,10 @@
+{
+  "status": "reproduced",
+  "at_utc": "2026-10-01T09:17:17.571354+00:00",
+  "actual_failed_run_sha256": "27b5ebf7275258fe623c0d3d9887570d0f260f74197ccf55656867615470c795",
+  "failures": 8,
+  "raw_fixture_missing_permission": "payments.read",
+  "platform_user_detail_fixture_missing_permission": "users.read",
+  "production_private_read_gates_changed": false,
+  "scope": "Current production read gates correctly deny old under-authorized positive fixtures. Correct only positive fixture authority and retain all purpose/bearer/A-B-A/revocation/privacy/layout assertions."
+}

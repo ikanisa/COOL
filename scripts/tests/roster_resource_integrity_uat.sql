@@ -1,16 +1,16 @@
 \set ON_ERROR_STOP on
--- Root invokes on the isolated146 fixture only; all writes roll back.
+-- Root invokes on the isolated197 fixture only; all writes roll back.
 begin;
 set local statement_timeout='30s';set local lock_timeout='5s';
 do $$ begin
  if current_database()<>'postgres' or current_user<>'postgres'
   or current_setting('collect.roster_provenance_qa',true) is distinct from 'isolated_clone'
   or current_setting('cron.launch_active_jobs')<>'off' or current_setting('pg_net.batch_size')<>'0'
-  or (select count(*) from supabase_migrations.schema_migrations)<>146
-  or (select max(version) from supabase_migrations.schema_migrations)<>'20260930140000'
+  or (select count(*) from supabase_migrations.schema_migrations)<>197
+  or (select max(version) from supabase_migrations.schema_migrations)<>'20261002020000'
   or exists(select 1 from auth.users where id::text like '99690000-%')
   or exists(select 1 from collect_hybrid.roster_resource_reservations where request_id::text like '99690000-%') then
-  raise exception 'Exact isolated146 and unused9969 fixture required'; end if;
+  raise exception 'Exact isolated197 and unused9969 fixture required'; end if;
 end $$;
 create temp table integrity_checks(n integer);insert into integrity_checks values(0);
 create function pg_temp.expect(stmt text,code text) returns void language plpgsql as $$
@@ -50,13 +50,23 @@ do $$ declare r jsonb;id uuid;v jsonb;begin
  perform pg_temp.expect($s$select public.create_roster_import_source('99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',
  '99690000-0000-4000-8000-000000000101','image',repeat('a',64),100,'fixture.png','image/png','image/png',null,null,true,
  'roster-ai-extraction-v1','{"provider":"openai","model":"fixture-model","prompt_version":"roster-extraction-v1"}')$s$,'roster_source_unverified');
+ -- All binding fields, kind summary and active reservation are valid. Each
+ -- denial changes only one obsolete version and precedes the first admission.
+ perform pg_temp.expect(format($s$select public.verify_roster_source_integrity(%L,'99690000-0000-4000-8000-000000000001',
+ '99690000-0000-4000-8000-000000000011',repeat('b',64),repeat('d',64),'collect-roster-decoder-v1',
+ '{"python":"3.12","pillow":"12.0.0","pypdfium2":"5.2.0","pypdf":"6.19.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
+ '{"frames":1,"pages":0,"pixels":100,"expanded_bytes":400}')$s$,id),'roster_input_invalid');
+ perform pg_temp.expect(format($s$select public.verify_roster_source_integrity(%L,'99690000-0000-4000-8000-000000000001',
+ '99690000-0000-4000-8000-000000000011',repeat('b',64),repeat('d',64),'collect-roster-decoder-v1',
+ '{"python":"3.12","pillow":"12.3.0","pypdfium2":"5.2.0","pypdf":"6.7.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
+ '{"frames":1,"pages":0,"pixels":100,"expanded_bytes":400}')$s$,id),'roster_input_invalid');
  v:=public.verify_roster_source_integrity(id,'99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',repeat('b',64),repeat('d',64),
- 'collect-roster-decoder-v1','{"python":"3.12","pillow":"12.0.0","pypdfium2":"5.2.0","pypdf":"6.7.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
+ 'collect-roster-decoder-v1','{"python":"3.12","pillow":"12.3.0","pypdfium2":"5.2.0","pypdf":"6.19.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
  '{"frames":1,"pages":0,"pixels":100,"expanded_bytes":400}');
  if v->>'verified'<>'true' or v->>'source_sha256'<>repeat('a',64) then raise exception 'Integrity ACK invalid';end if;
  perform pg_temp.expect(format($s$select public.verify_roster_source_integrity(%L,'99690000-0000-4000-8000-000000000001',
  '99690000-0000-4000-8000-000000000011',repeat('c',64),repeat('d',64),'collect-roster-decoder-v1',
- '{"python":"3.12","pillow":"12.0.0","pypdfium2":"5.2.0","pypdf":"6.7.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
+ '{"python":"3.12","pillow":"12.3.0","pypdfium2":"5.2.0","pypdf":"6.19.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
  '{"frames":1,"pages":0,"pixels":100,"expanded_bytes":400}')$s$,id),'roster_request_conflict');
  perform public.finish_roster_resources(id,'99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011','ambiguous');
  -- Ambiguous completion retains full charge AND its active slot until expiry.
@@ -88,17 +98,50 @@ set local role service_role;
 select pg_temp.expect($s$select public.reserve_roster_resources('99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',
  '99690000-0000-4000-8000-000000000103',repeat('a',64),'image',100,null)$s$,'roster_resource_limit');
 reset role;
-update collect_hybrid.roster_resource_policy set actor_daily_cost_units=100000,global_daily_requests=2;
+-- Current governance requires actor ceilings <= global ceilings. A distinct
+-- authorized synthetic actor makes the global ceilings independently falsifiable
+-- without lowering an actor ceiling below its own prospective request.
+insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+values('99690000-0000-4000-8000-000000000002','authenticated','authenticated','250788969002',now(),'{}','{}');
+update public.profiles set country_code='RW',currency_code='RWF' where id='99690000-0000-4000-8000-000000000002';
+insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+values('99690000-0000-4000-8000-000000000002','+250788969002',now()-interval '2 minutes','Synthetic global quota actor approval');
+insert into public.admin_user_roles(user_id,role_id,reason,created_at)
+select '99690000-0000-4000-8000-000000000002',id,'Synthetic global quota actor role',now()-interval '1 minute'
+from public.admin_roles where name='platform_owner';
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
+values('99690000-0000-4000-8000-000000000021','99690000-0000-4000-8000-000000000002',now(),now(),now()+interval '1 hour','aal1');
+set local role service_role;
+select public.reserve_roster_resources('99690000-0000-4000-8000-000000000002','99690000-0000-4000-8000-000000000021',
+ '99690000-0000-4000-8000-000000000201',repeat('a',64),'image',100,null);
+reset role;
+do $$ begin
+ if (select count(*) from collect_hybrid.roster_resource_reservations where actor_id='99690000-0000-4000-8000-000000000001')<>2
+  or (select count(*) from collect_hybrid.roster_resource_reservations)<>3 then raise exception 'Independent global quota fixture invalid'; end if;
+end $$;
+update collect_hybrid.roster_resource_policy set actor_daily_cost_units=100000,actor_daily_requests=3,global_daily_requests=3;
 set local role service_role;
 select pg_temp.expect($s$select public.reserve_roster_resources('99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',
  '99690000-0000-4000-8000-000000000103',repeat('a',64),'image',100,null)$s$,'roster_resource_limit');
 reset role;
-update collect_hybrid.roster_resource_policy set global_daily_requests=1000,global_daily_bytes=5242880;
+update collect_hybrid.roster_resource_policy set actor_daily_requests=100,global_daily_requests=1000,
+ actor_daily_bytes=5242880,global_daily_bytes=5242880;
+do $$ begin
+ if (select sum(source_bytes) from collect_hybrid.roster_resource_reservations where actor_id='99690000-0000-4000-8000-000000000001')+5242630>5242880
+  or (select sum(source_bytes) from collect_hybrid.roster_resource_reservations)+5242630<=5242880 then
+  raise exception 'Global byte ceiling is not independent of actor ceiling'; end if;
+end $$;
 set local role service_role;
 select pg_temp.expect($s$select public.reserve_roster_resources('99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',
- '99690000-0000-4000-8000-000000000103',repeat('a',64),'image',5242880,null)$s$,'roster_resource_limit');
+ '99690000-0000-4000-8000-000000000103',repeat('a',64),'image',5242630,null)$s$,'roster_resource_limit');
 reset role;
-update collect_hybrid.roster_resource_policy set global_daily_bytes=1073741824,global_daily_cost_units=20000;
+update collect_hybrid.roster_resource_policy set actor_daily_bytes=104857600,global_daily_bytes=1073741824,
+ actor_daily_cost_units=30000,global_daily_cost_units=30000;
+do $$ begin
+ if (select sum(cost_units) from collect_hybrid.roster_resource_reservations where actor_id='99690000-0000-4000-8000-000000000001')+10000>30000
+  or (select sum(cost_units) from collect_hybrid.roster_resource_reservations)+10000<=30000 then
+  raise exception 'Global cost ceiling is not independent of actor ceiling'; end if;
+end $$;
 set local role service_role;
 select pg_temp.expect($s$select public.reserve_roster_resources('99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000011',
  '99690000-0000-4000-8000-000000000103',repeat('a',64),'image',100,null)$s$,'roster_resource_limit');

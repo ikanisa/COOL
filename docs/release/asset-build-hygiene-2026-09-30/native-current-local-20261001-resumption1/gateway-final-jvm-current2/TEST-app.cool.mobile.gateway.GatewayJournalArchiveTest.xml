@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayJournalArchiveTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-10-01T14:56:30.781Z" hostname="Jeans-Mac-mini.local" time="5.315">
+  <properties/>
+  <testcase name="refusalReceiptDoesNotCreateSendAuthority" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.017"/>
+  <testcase name="interruptedPruningRecoversFromDurableArchiveWithoutNetworkReplay" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.005"/>
+  <testcase name="fullyAcknowledgedAttemptArchiveKeepsOriginalActiveReservation" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.027"/>
+  <testcase name="localDeliveryCallbacksWithoutServerReceiptsNeverArchive" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.002"/>
+  <testcase name="conflictingSecondServerReceiptIsRefused" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.01"/>
+  <testcase name="unknownReconciliationNeverAllowsArchival" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.003"/>
+  <testcase name="encryptedArchiveTamperAndWrongFileContextFailClosed" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.069"/>
+  <testcase name="acknowledgedCallbackForWrongAttemptOrFenceCannotArchiveAttempt" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.037"/>
+  <testcase name="durableReconciliationCanArchiveTheOriginalRequest" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.004"/>
+  <testcase name="malformedArchiveOrDigestIsNeverAnEmptySuccessfulRead" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.003"/>
+  <testcase name="archiveFailureLeavesEveryActiveIdentityAndBody" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.006"/>
+  <testcase name="archivedAttemptIdentityCannotBeReservedAgainEvenWithoutActiveCopy" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.019"/>
+  <testcase name="duplicateAcknowledgementPreservesFirstReceiptAndIdentity" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.005"/>
+  <testcase name="malformedOrPrivateResultCannotAuthorizeCompaction" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.002"/>
+  <testcase name="acknowledgementCommitsArchiveBeforeFreeingOnlyAcknowledgedRequest" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.011"/>
+  <testcase name="legacyRecordedFlagAloneCannotCompact" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.001"/>
+  <testcase name="sameRequestChangedBodyDigestFailsBeforeArchiveOrPrune" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.002"/>
+  <testcase name="concurrentAcknowledgementsDoNotLoseEitherReceipt" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.004"/>
+  <testcase name="unknownAndInvocationExceptionAttemptsNeverArchive" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.001"/>
+  <testcase name="callbackReceiptsRemainActiveForExistingDuplicateAndLateEvidenceChecks" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.007"/>
+  <testcase name="byteCapacityFailureRetainsOriginalRequest" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.249"/>
+  <testcase name="archiveCapacityNeverEvictsOldEvidence" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="4.817"/>
+  <testcase name="mismatchedDeviceRequestOrActionAcknowledgementsAreRejected" classname="app.cool.mobile.gateway.GatewayJournalArchiveTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

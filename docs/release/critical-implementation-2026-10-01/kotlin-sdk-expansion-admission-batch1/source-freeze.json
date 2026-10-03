@@ -1,0 +1,16 @@
+{
+  "SDK_executed": false,
+  "admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "candidate_promoted": false,
+  "code_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "destination_absent": true,
+  "foundation_manifest_unchanged": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e",
+  "packet_leaf_files": 13,
+  "packet_manifest_sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed",
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T00:28:36.326293+00:00",
+  "root_review_unchanged": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d",
+  "source_patch_applied": false,
+  "status": "EXACT_ADMISSION_AND_PREPARED_WRITER_FROZEN__EXPANSION_NOT_STARTED",
+  "tests_sha256": "37f3e038f47fd5ada793fd0d7e5ee8d4df00466b74db5954fe61b8c1380b9ac5"
+}

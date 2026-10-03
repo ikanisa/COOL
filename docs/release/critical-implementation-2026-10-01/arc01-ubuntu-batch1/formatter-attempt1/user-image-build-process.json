@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "docker",
+    "build",
+    "--no-cache",
+    "--network",
+    "none",
+    "--progress",
+    "plain",
+    "--tag",
+    "collect-arc01-ubuntu-20261002-deabfee579f3:user-proof",
+    "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/ubuntu-user-context"
+  ],
+  "deadline_seconds": 60,
+  "pid": 70525,
+  "started_at_utc": "2026-10-02T00:12:25.919130+00:00"
+}

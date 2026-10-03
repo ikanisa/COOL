@@ -1,0 +1,200 @@
+--- preparation1/rehearsal.py
++++ preparation2/rehearsal.py
+@@ -32,6 +32,11 @@
+ OPERATIONS = ['local_synthetic_dump', 'local_synthetic_restore', 'ordinary_original_migration_replay']
+ ENV = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'PYTHONDONTWRITEBYTECODE': '1'}
+ LIMIT = 64 * 1024**2
++SOURCE_ROLE = ['supabase_functions_admin', False, False, True, False, True,
++               False, False, -1, None,
++               '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a']
++SOURCE_ROLE_SQL = ('create role supabase_functions_admin with nosuperuser noinherit '
++                   'createrole nocreatedb login noreplication nobypassrls connection limit -1;')
+ 
+ 
+ class Refused(ValueError):
+@@ -136,6 +141,87 @@
+         names = {'C': 'CREATE', 'T': 'TEMPORARY', 'c': 'CONNECT'}
+         sql.append('grant ' + ','.join(names[c] for c in permissions) + ' on database postgres to ' + role + ';')
+     return ''.join(sql)
++
++
++def role_inventory_query(catalog_sql):
++    # Reuse the exact admitted collector expressions. They need no application
++    # tables or extension CTEs and can run before pg_restore has created them.
++    start, end = " 'roles',", " 'relations',"
++    if catalog_sql.count(start) != 1 or catalog_sql.count(end) != 1:
++        raise Refused('EXACT_ROLE_CATALOG_EXPRESSIONS_REQUIRED')
++    first, last = catalog_sql.index(start), catalog_sql.index(end)
++    fragment = catalog_sql[first:last].rstrip()
++    if first >= last or not fragment.endswith(',') or fragment.count(" 'memberships',") != 1 or fragment.count(" 'settings',") != 1:
++        raise Refused('EXACT_ROLE_CATALOG_EXPRESSIONS_REQUIRED')
++    return ('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\n'
++            'SELECT jsonb_build_object(\n' + fragment[:-1] + '\n);\nCOMMIT;\n')
++
++
++def role_globals(value):
++    if not isinstance(value, dict) or set(value) != {'roles', 'memberships', 'settings'}:
++        raise Refused('ROLE_GLOBALS_SCHEMA_INVALID')
++    valid_name = lambda name: isinstance(name, str) and re.fullmatch(r'[a-z_][a-z0-9_]*', name)
++    roles = value['roles']
++    if not isinstance(roles, list):
++        raise Refused('ROLE_GLOBALS_SCHEMA_INVALID')
++    names = []
++    for row in roles:
++        if (not isinstance(row, list) or len(row) != 11 or not valid_name(row[0]) or
++                any(type(x) is not bool for x in row[1:8]) or type(row[8]) is not int or row[8] < -1 or
++                (row[9] is not None and not isinstance(row[9], str)) or
++                not isinstance(row[10], str) or not HASH.fullmatch(row[10])):
++            raise Refused('ROLE_ATTRIBUTES_SCHEMA_INVALID')
++        names.append(row[0])
++    if names != sorted(set(names)):
++        raise Refused('ROLE_IDENTITIES_DUPLICATE_OR_UNORDERED')
++    memberships = value['memberships']
++    if not isinstance(memberships, list):
++        raise Refused('ROLE_GLOBALS_SCHEMA_INVALID')
++    identities = []
++    for row in memberships:
++        if (not isinstance(row, list) or len(row) != 6 or
++                any(not valid_name(x) or x not in names for x in row[:3]) or
++                any(type(x) is not bool for x in row[3:])):
++            raise Refused('ROLE_MEMBERSHIP_SCHEMA_INVALID')
++        identities.append(tuple(row[:3]))
++    if identities != sorted(set(identities)):
++        raise Refused('ROLE_MEMBERSHIP_IDENTITIES_DUPLICATE_OR_UNORDERED')
++    settings = value['settings']
++    if not isinstance(settings, list):
++        raise Refused('ROLE_GLOBALS_SCHEMA_INVALID')
++    identities = []
++    for row in settings:
++        if (not isinstance(row, list) or len(row) != 3 or row[0] not in ('*', 'postgres') or
++                (row[1] != '*' and row[1] not in names) or
++                not isinstance(row[2], str) or not HASH.fullmatch(row[2])):
++            raise Refused('ROLE_SETTINGS_SCHEMA_INVALID')
++        identities.append(tuple(row[:2]))
++    if len(identities) != len(set(identities)):
++        raise Refused('ROLE_SETTINGS_IDENTITIES_DUPLICATE')
++    return value
++
++
++def restore_role_plan(source, restored):
++    source, restored = role_globals(source), role_globals(restored)
++    wanted = {row[0]: row for row in source['roles']}
++    observed = {row[0]: row for row in restored['roles']}
++    if len(wanted) != 30 or wanted.get(SOURCE_ROLE[0]) != SOURCE_ROLE:
++        raise Refused('EXACT_OBSERVED_SOURCE_ROLE_COHORT_REQUIRED')
++    missing = set(wanted) - set(observed)
++    if set(observed) - set(wanted) or missing not in (set(), {SOURCE_ROLE[0]}):
++        raise Refused('UNADMITTED_ROLE_IDENTITIES')
++    if any(row != wanted[name] for name, row in observed.items()):
++        raise Refused('SOURCE_ROLE_ATTRIBUTES_CHANGED')
++    if source['memberships'] != restored['memberships'] or source['settings'] != restored['settings']:
++        raise Refused('SOURCE_ROLE_MEMBERSHIPS_OR_SETTINGS_CHANGED')
++    return SOURCE_ROLE_SQL if missing else ''
++
++
++def exact_role_globals(source, restored):
++    role_globals(source); role_globals(restored)
++    if source != restored:
++        raise Refused('WHOLE_SOURCE_ROLE_GLOBALS_CHANGED')
++    return True
+ 
+ 
+ def restore_list(toc, catalog):
+@@ -260,7 +346,7 @@
+     review = admit_review(json.loads(review_body, object_pairs_hook=unique), sha(code_body), sha(inputs_body))
+     inputs = json.loads(inputs_body, object_pairs_hook=unique)
+     candidate = Path(inputs['candidate'])
+-    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate1')
++    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate2')
+     report = args.output.resolve()
+     if candidate != expected_candidate or report.exists() or not report.is_relative_to(candidate / 'docs/release'):
+         raise Refused('FRESH_PRIVATE_OWNED_OUTPUT_REQUIRED')
+@@ -303,6 +389,11 @@
+     reference_final = json.loads(reference_final_body)
+     if sha(reference_final_body) != FINAL_SHA or len(reference['preserved_columns']) != 18:
+         raise Refused('REFERENCE_BINDING_CHANGED')
++    globals_query = role_inventory_query(read(candidate / CATALOG).decode())
++    reference_globals = role_globals({key: reference_pre[key] for key in ('roles', 'memberships', 'settings')})
++    # Validate the source-only role admission before any container can be made.
++    restore_role_plan(reference_globals, reference_globals)
++    (report / 'role-globals-query.sql').write_text(globals_query)
+     items = []
+     for row in reference['source_inventory']:
+         body = read(candidate / row['path'])
+@@ -434,6 +525,17 @@
+             canonical_sha256=sha(json.dumps(result, sort_keys=True, separators=(',', ':')).encode()),
+             bytes=len(body), query_sha256=inputs['sources'][CATALOG], whole_catalog_and_effective_acls=True)
+         return result, body
++    def inventory_roles(target, boundary):
++        result = role_globals(target.json(globals_query))
++        body = (json.dumps(result, indent=2) + '\n').encode()
++        (target.report / (boundary + '-role-globals.json')).write_bytes(body)
++        target.evidence.setdefault('role_globals', {})[boundary] = dict(
++            sha256=sha(body), query_sha256=sha(globals_query.encode()),
++            exact_catalog_expression_input_sha256=inputs['sources'][CATALOG],
++            names=[row[0] for row in result['roles']], role_count=len(result['roles']),
++            memberships=len(result['memberships']), settings=len(result['settings']),
++            readonly=True, secrets_exported=False)
++        return result
+     def platform(target):
+         shape, provenance = replay.platform_shape()
+         if sha(shape.encode()) != reference['platform_bootstrap']['extracted_platform_sha256']:
+@@ -486,6 +588,9 @@
+             case('synthetic Auth rows have no password/token/session secrets', source.scalar("select not exists(select 1 from auth.users where id not in('99780000-0000-4000-8000-000000000001','99780000-0000-4000-8000-000000000002')or coalesce(encrypted_password,'')<>''or coalesce(confirmation_token,'')<>''or coalesce(recovery_token,'')<>''or coalesce(email_change_token_new,'')<>''or coalesce(email_change_token_current,'')<>''or coalesce(phone_change_token,'')<>''or coalesce(reauthentication_token,'')<>'')and not exists(select 1 from auth.sessions where id<>'99780000-0000-4000-8000-000000010001'or coalesce(refresh_token_hmac_key,'')<>'')and not exists(select 1 from auth.refresh_tokens);") == 't')
+             committed, _ = catalog(source, 'committed-predecessor', [i['version'] for i in items[:124]])
+             case('committed predecessor whole catalog remains exact reference', committed == reference_pre)
++            committed_globals = inventory_roles(source, 'committed-predecessor')
++            case('readonly all30 source role attributes memberships settings equal frozen source',
++                 exact_role_globals(reference_globals, committed_globals))
+             safeguards(source)
+             dump = source.tool('pg_dump', ['--format=custom', '--compress=0', '--no-password', '--username=supabase_admin', '--dbname=postgres']).stdout
+             if not dump.startswith(b'PGDMP') or len(dump) > LIMIT:
+@@ -497,7 +602,8 @@
+             record['dump_seal'] = dict(path=str(dump_path), bytes=len(dump), sha256=sha(dump), format='custom',
+                 full_database=True, filters=False, owner_or_acl_omission=False,
+                 pg_dump=source.tools['pg_dump'], dump_role='supabase_admin',
+-                role_globals_recreated_from_exact_image_fixture=True, real_rows_exported=False,
++                role_globals_excluded_by_pg_dump=True,
++                role_globals_require_exact_image_and_observed_source_prerequisite=True, real_rows_exported=False,
+                 committed_outside_seed_transaction=True)
+             case('durable full logical dump exists after committed seed in separate session', sha(read(dump_path)) == sha(dump))
+             case('source dump did not change18 projections', replay.fingerprints(source, reference['preserved_columns']) == preserved)
+@@ -522,6 +628,29 @@
+                 restored.sql('create extension if not exists "' + name + '" with schema ' + schema_name + " version '" + ext_version + "';", user=owner_name, label='exact source extension owner/version prerequisite')
+             restored.sql("alter function net.http_get(text,jsonb,jsonb,integer)security definer;alter function net.http_get(text,jsonb,jsonb,integer)set search_path=net;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)security definer;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)set search_path=net;", user='supabase_admin', label='explicit exact extension member metadata omitted by pg_dump')
+             restored.sql(database_acl_sql(d), label='exact source database owner-issued ACL prerequisite')
++            # The actual candidate1 failure proved the image fixture alone lacks
++            # a source role referenced by the net ACL. No roles are inferred from
++            # arbitrary dump text and no other missing role can be synthesized.
++            restored.sql('alter role postgres nosuperuser;', user='supabase_admin',
++                         label='finish extension owner prerequisites before readonly role-global comparison')
++            ordinary(restored)
++            before_roles = inventory_roles(restored, 'before-source-role-prerequisite')
++            role_sql = restore_role_plan(committed_globals, before_roles)
++            record['source_role_restore_prerequisite'] = dict(
++                role=SOURCE_ROLE[0], exact_observed_source_row=SOURCE_ROLE,
++                source_names=[row[0] for row in committed_globals['roles']],
++                restore_names_before=[row[0] for row in before_roles['roles']],
++                missing_roles=[SOURCE_ROLE[0]] if role_sql else [],
++                sql=role_sql, sql_sha256=sha(role_sql.encode()),
++                source_global_excluded_by_single_database_dump=True,
++                image_fixture_complete=False, unknown_roles_or_mismatches_refused=True,
++                secrets_exported=False, business_authority_inferred=False)
++            if role_sql:
++                restored.sql(role_sql, user='supabase_admin',
++                             label='exact admitted source-only supabase_functions_admin local restore prerequisite')
++            after_roles = inventory_roles(restored, 'after-source-role-prerequisite')
++            case('all30 restored role attributes memberships settings exactly equal committed source before pg_restore',
++                 exact_role_globals(committed_globals, after_roles))
+             toc = restored.tool('pg_restore', ['--list'], read(dump_path)).stdout.decode()
+             listing, omitted = restore_list(toc, committed)
+             list_path = report / 'full-restore-list.txt'; list_path.write_text(listing)
+@@ -532,7 +661,7 @@
+                 archive_sha256=sha(read(dump_path)), list_sha256=sha(listing.encode()),
+                 explicitly_preinstalled_toc_entries=omitted,
+                 all_application_objects_data_history_and_acls_retained=True,
+-                inherited_role_globals_and_extension_members_explicit_prerequisites=True,
++                image_and_source_role_globals_and_extension_members_explicit_prerequisites=True,
+                 shipping_postgres_admission_operations=['query', 'migration'], shipping_restore_not_admitted=True)
+             # Seal failure prevents sending corrupted archive bytes to a target.
+             corrupt = bytearray(read(dump_path)); corrupt[-1] ^= 1

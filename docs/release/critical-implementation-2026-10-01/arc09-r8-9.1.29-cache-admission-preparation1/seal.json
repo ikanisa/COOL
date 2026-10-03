@@ -1,0 +1,9 @@
+{
+  "SHA256SUMS_sha256": "f5029cfd6ee8660e5a76781984141e9e04f2fede91c01af372064a5bb70288e4",
+  "actual_Gradle_execution": false,
+  "cache_source_mutations": false,
+  "packet_sha256": "24e1531a6db14cddc935d9bd2802effd0af1410a9676b513b7d894b1f342792a",
+  "payload_file_count": 11,
+  "schema_version": 1,
+  "sealed_at_utc": "2026-10-02T15:00:01.499745+00:00"
+}

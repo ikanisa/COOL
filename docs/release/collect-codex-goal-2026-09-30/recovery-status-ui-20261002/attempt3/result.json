@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/gateway/gateway_recovery_test.dart"
+      ],
+      "started_at": "2026-10-02T03:18:49.480221+00:00",
+      "finished_at": "2026-10-02T03:18:53.242209+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "27752d31f9c4ae99ca73a19ecaf0572e731e5463651da23b5c825854cd7e60f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/gateway/gateway_recovery_page.dart",
+        "test/gateway/gateway_recovery_test.dart"
+      ],
+      "started_at": "2026-10-02T03:18:53.242242+00:00",
+      "finished_at": "2026-10-02T03:18:57.107126+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "80012e36448fc075b06518a66fa15f9afb23bc156db0a666ca0c31253082fd0e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Two changed recovery UI consumers; synthetic native transport; no handset, reader speech, source comparator or release-artifact acceptance",
+  "captured_inputs": 1130,
+  "input_drift": []
+}

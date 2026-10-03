@@ -1,0 +1,15 @@
+{
+  "actual_wrapper": "run_public_artifact.py",
+  "actual_wrapper_sha256": "d9c723d6f4c2f7b1a22f34889e449579665f6d17ebddf271f754f66f6d02b592",
+  "terminal_exit_code": 1,
+  "failure": "assert row[alt] == old_alt after strict publication PASS",
+  "publication_completed": true,
+  "publication_receipt_sha256": "a08dcbe14ab718c65c776d5860834f7f3b99b4f21cc89626ef9ee4c34942c714",
+  "actual_observed_alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action",
+  "old_assumption": "Collect account deletion screen before any reason or submission is selected",
+  "production_publisher_bug": false,
+  "production_or_gate_change": false,
+  "repeat_publication": false,
+  "continuation": "run_static_quality.py",
+  "source_before_after_publication_equal": true
+}

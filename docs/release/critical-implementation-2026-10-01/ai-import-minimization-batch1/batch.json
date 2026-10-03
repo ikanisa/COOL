@@ -1,0 +1,153 @@
+{
+  "id": "BE13-L03-ai-import-minimization-batch1",
+  "sealed_at": "2026-10-02T01:23:58.560341+00:00",
+  "status": "SCOPED_LOCAL_MINIMIZATION_VERIFIED_FULL_HANDLER_LINT_OPEN",
+  "review_receipt_sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933",
+  "evidence_index": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/evidence-index.json",
+    "sha256": "4e11f895869b8f9d75d7ceb52ca7b33e63e225a55ac23f2491133565da854310",
+    "leaves": 77
+  },
+  "readme": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/README.md",
+    "sha256": "8018af83cb0e8482f3f9ef1b36eecaf82ee8508401fc9a77feda86789e940fbc"
+  },
+  "source_current": [
+    {
+      "path": ".dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38170,
+      "sha256": "572d7d8b00ba433a4733ad452a2808f0e5d68c32d8f8804694ae717d2ce8222b"
+    }
+  ],
+  "changed_paths": [
+    "supabase/functions/_shared/openai_roster.ts",
+    "supabase/functions/_shared/openai_roster_test.ts",
+    "supabase/functions/prepare-roster-import/handler_test.ts"
+  ],
+  "source_current_verified": true,
+  "local_import_closure_count": 18,
+  "source_cache_count": 87,
+  "runtime_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "old_source_denial": {
+    "passed": 107,
+    "failed": 2,
+    "new_tests_identical_to_corrected": true
+  },
+  "corrected_tests": {
+    "passed": 109,
+    "failed": 0
+  },
+  "compiler": {
+    "status": "pass",
+    "command": "Pinned frozen cached-only test --no-run; type checks enabled"
+  },
+  "helper_and_helper_test_lint": "pass",
+  "three_owned_format": "pass",
+  "full_handler_lint": {
+    "status": "fail",
+    "same_baseline_require_await_findings": 3,
+    "new_findings": 0,
+    "suppressed": false
+  },
+  "source_and_tools_unchanged_during_checks": true,
+  "original_harness_failure_preserved": true,
+  "live_provider_calls": 0,
+  "database_calls": 0,
+  "admin_source_changes": false,
+  "policy_setting_changes": false,
+  "whole_BE13_closed": false,
+  "production_acceptance": false,
+  "remaining": [
+    "Admin workbook and processor disclosure",
+    "processor/project/region/transfer approval",
+    "retention/hold/deletion and backup/vendor evidence",
+    "invoice budget/account spend controls",
+    "real provider semantic/adversarial accuracy",
+    "preexisting handler fixture default lint"
+  ]
+}

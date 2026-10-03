@@ -1,0 +1,26 @@
+{
+  "files": {
+    "actual-assembly-readback.json": {
+      "bytes": 3564,
+      "sha256": "c337ce2890b0b23953205c281496db21012426b393a210fe399d0a018d2db8aa"
+    },
+    "actual-source-admission-proposal.json": {
+      "bytes": 16127,
+      "sha256": "68a1396919e5b6f7d2f01055659ebc7155ead70793c3bbfa4a52b5c33ec6e6c1"
+    },
+    "build_admission.py": {
+      "bytes": 7746,
+      "sha256": "a6385843f0ad033c188b3e85866eaba189760234bb474cb6a9a8942c7e88cef4"
+    },
+    "recipe.md": {
+      "bytes": 3741,
+      "sha256": "60cc1cd8ade80efc57a802fbdb75e3080abb21da472083a71c198b3362b4042d"
+    },
+    "review.json": {
+      "bytes": 663,
+      "sha256": "97c4f7a559807d73c4eae952143cebbf84b47d48de69c3d41025e62d2a3f31f4"
+    }
+  },
+  "kind": "sealed_private_actual_R8_source_admission_recipe",
+  "production_release_approval": false
+}

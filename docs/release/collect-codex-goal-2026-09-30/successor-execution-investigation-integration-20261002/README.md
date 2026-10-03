@@ -1,0 +1,24 @@
+# Successor execution investigation integration
+
+The bounded execution investigation is canonical. Root integrated the two authenticated v4 reads, five strict Admin modules, the corrected denial handling and one selected-approval mount. This finite capsule captures the final16 product/test files, three preserved originals, exact source associations, actual small command receipts and peer review. The capsule owner reran no product tests and changed no canonical source or tracker.
+
+One explicitly selected, validated approval mounts execution details beneath its retained original receipt. Closed summary14/execution9/page16/row12 shapes retain fixed-cutoff paging and strict causal identities. The observation total remains unknown/null. Journal acknowledgements establish retained evidence; carrier acceptance and delivery require their own evidence. The original five-read MCP and seven-action unattended profiles remain unchanged.
+
+The corrected SDK/controller and parent mount clear protected evidence, selected execution and pagination on authoritative permission/Auth/session denial and successful source-unavailable pages, including a locally cached identity. Departed generations cannot restore or clear a newer read. Authorized transient timeout retains the page; a successful explicit refresh can recover it. The mount uses the real pinned repository/Auth/PostgREST adapters with declared synthetic Auth/HTTP and explicitly adapted independent producer join fixtures.
+
+| Evidence scope | Actual result and limits |
+| --- | --- |
+| Private SQL440 |49 distinct completed cases composed from34 prefix +11 route tail +4 root-wait tail against selected191 prerequisites. The first two aggregate commands remain failed. This is no fresh49 aggregate or current208 rehearsal. |
+| First Admin packet |17 VM/widget cases,6 Chrome cases and clean10-item analysis retained as predecessor proof. |
+| SDK/controller denial correction |13 affected cases and clean8-item analysis; the earlier42501 reproduction remains failed. |
+| Current root mount |7 caller cases passed and strict2-item analysis passed in mounted-attempt4. The aggregate remains exit1 because its required authority check failed before the narrow checker correction. All415 current input hashes are unchanged. |
+| Affected legacy parent |8 cases passed in mounted-attempt2, whose aggregate remains failed on one new mount fixture. Exact current inputs match except the unrelated new mount test and runner. No fresh15-case aggregate was executed. |
+| Hygiene correction |A separate actual command passed12 checker regressions and make authority. The two original security fixture links and physical targets remain preserved. Only the exact inert sibling physical pubspec containing one plain package-name field is admitted; design declarations, outward links and normal reference links remain refused. Hygiene does not certify visual fidelity. |
+
+All four failed mounted aggregates are preserved: attempt1 exposed asynchronous SDK/clock/pending fixture problems; attempt2 retained14 passing cases and one failing new mount fixture; attempt3 passed the seven mount cases then failed strict analysis; attempt4 passed those cases and analysis then failed the required authority check. Actual fixture/source changes and separate corrected receipts are bound explicitly. The historical13-file plan and unformatted parent are retained separately from the final16-file association and formatted parent. The initial installation-review guard failure is also retained without a pass relabeling.
+
+Root and a read-only peer reviewed the corrected modules, selected-approval mount, request/route and async denial boundaries, and narrow hygiene change. Their review found no concrete defects within this slice. Backend49, Admin17/6, correction13, current caller7, reused legacy8 and hygiene12 are separate scopes; they must not be summed into an unexecuted aggregate.
+
+The208-migration source freeze records source identity. Root's independent full208 installation packet is referenced by exact hashes and remains a separate proof with synthetic platform fixtures and privileged installer limits. This capsule copies no large packets, runtimes, SQL dumps or provider data. Full authenticated UI route/state/comparator acceptance, hosted Auth/RLS/permission/flags/deployment, real Android sender/device/provider tests, signing/store, recovery/RPO/RTO and production release GO remain separate requirements. Later reasoned retry, conclusively reconciled approved resend and valid financial correction remain outside this first-job execution reader.
+
+Run `python3 verify_capsule.py --references` from this directory to validate the finite seal, source copies, copied command receipts and exact selected original references. This performs metadata/hash verification only.

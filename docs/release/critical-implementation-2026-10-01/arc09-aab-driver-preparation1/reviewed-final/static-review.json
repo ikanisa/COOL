@@ -1,0 +1,73 @@
+{
+  "actual_native_Gradle_builds": 0,
+  "concrete_static_blockers_remaining": 0,
+  "driver": {
+    "AST_valid": true,
+    "bytes": 42170,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/run_selected_aab.py",
+    "sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e"
+  },
+  "driver_imports_or_execution": 0,
+  "last_corrected_blocker": "root review restored original success criterion: after actual successful command, exact identity-verified bounded owned-daemon cleanup and proven PID/PGID absence are accepted; spontaneous shutdown is an observation only",
+  "maintained_APP_SDK_running_or_old_packet_writes": 0,
+  "new_synthetic_test_runs": 0,
+  "not_claimed": [
+    "complete package-level SBOM",
+    "font usage rights",
+    "complete advisory/license acceptance",
+    "cryptographic signing or unsignedness verification",
+    "device/store/provider release",
+    "ARC09 closure",
+    "production release approval"
+  ],
+  "other_corrected_items": [
+    "32 MiB prepared reference bound accommodates genuine 25.3 MiB protected metadata",
+    "native sealed 46-record list schema converted and exact packet paths pinned",
+    "actual SDK source records used rather than process receipts",
+    "held O_NOFOLLOW AAB FD plus before/after source/named/copy hashes within120seconds",
+    "separate daemon ancestry/private-home/log proof and bounded PID-only cleanup independent of wrapper group",
+    "captured owned wrapper spawn-registration failure cleaned and preserved",
+    "legitimate pinned Java GradleWrapperMain exec history retained at samePID/start/group",
+    "source/protected failure diagnostics bounded and retained",
+    "canonical graph markers parsed only once and in order",
+    "source/generated SDK cache identities retained separately"
+  ],
+  "peer_exact_final_hash_confirmed": true,
+  "peer_review_scope": "Exact final ae640dc...42170B and exactly the three declared original->final changes independently read; relocated path correct and original process success plus independently verified bounded daemon absence preserved; no new concrete static blocker. AST validity from separate static parse reused; no imports, executions, tests, probes or writes by peer.",
+  "peer_reviewer": "/root/arc02_roster_test_boundary/sbom_cli_review",
+  "provider_actions": 0,
+  "ps_lsof_or_daemon_actions": 0,
+  "remaining_actual_uncertainties": [
+    "macOS ps/lsof parsing and actual new-daemon observation under root execution",
+    "offline availability of selected production bundle dependencies",
+    "actual canonical graph artifacts and CycloneDX reproducibility/schema outputs",
+    "actual completed AAB ZIP/font/QA-marker/NOTICES readback"
+  ],
+  "root_acceptance_revision": {
+    "bounded_exact_owned_daemon_cleanup_accepted_only_after_original_command_pass": true,
+    "only_execution_condition_delta": "invoke uses owned_daemons_absent instead of spontaneous-only genuine_daemon_completion",
+    "original_driver_sha256": "2d02812554a5ff04d552c03f48175d8189bc3dd4e15e2f904656e663afd4360a",
+    "original_packet_sha256": "927741352a68aba1f7983123d46e0626ffe33868e71f87b89719434a315810a9",
+    "path_namespace_delta": "HERE.parents[1] preserves exact original RELEASE for fresh reviewed-final child",
+    "same_original_process_success_time_source_controls": true,
+    "spontaneous_daemon_shutdown_is_not_acceptance": true,
+    "unproven_reused_PID_signalling_not_permitted": true
+  },
+  "schema_version": 1,
+  "status": "root-reviewed-revision-static-only-unexecuted",
+  "unchanged_receipts_reused": {
+    "reader_submitted_tests": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/submitted-tests-result.json",
+      "scope": "unchanged actual reader/test sources only; not a new driver execution proof",
+      "sha256": "830b2241ab6673ebe8d6467cd567ae401a6c584b7689f627bc9f6aec3d94a48a",
+      "tests": 11
+    },
+    "warm8_original_admission_contract_tests": {
+      "original_tests_reused": 7,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/review.json",
+      "scope": "unchanged original warm8 admission contract only; new driver/daemon monitor remains static-only",
+      "sha256": "6729de6b7fe5b14099e0515c4de3e1154473e9e6f51d75b330f6a328de94dfe1"
+    }
+  },
+  "utc": "2026-10-02T12:33:57.659596+00:00"
+}

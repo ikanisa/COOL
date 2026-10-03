@@ -1,0 +1,149 @@
+{
+  "captured_at_utc": "2026-10-02T14:41:38.510559+00:00",
+  "context_artifacts": [
+    {
+      "bytes": 2905,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-repository-metadata-resolution1/run_resolution.py",
+      "sha256": "b63bb4e1d51dc549b09dacb4974bdee486d7cd5f0588c857289861bceaecf3cf"
+    },
+    {
+      "bytes": 866,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-repository-metadata-resolution1/readback.json",
+      "sha256": "8721232daadb123a8e300ce9d7b18b370201adc46f9fb9c97bc79d126fa73c0c"
+    },
+    {
+      "bytes": 3193,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-2.1.4-publisher-acquisition1/readback.json",
+      "sha256": "f9aa485fc4633c400b59de6e6ba15fdcc435f85174360d86c2e260aad8f8c7b1"
+    },
+    {
+      "bytes": 927,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-private-cache-admission1/readback.json",
+      "sha256": "d120acb0b7735e963bcc2703e11032a655c695cdc4773716e85917a4cff8737b"
+    },
+    {
+      "bytes": 7262,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/packet-files.json",
+      "sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d"
+    },
+    {
+      "bytes": 1183,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/production-release-aab.json",
+      "sha256": "654bd45e0e5a52ff75a10773878995880a37492fe678ec5e389021cd03e93d30"
+    },
+    {
+      "bytes": 3260,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/production-release-aab.stderr",
+      "sha256": "4f7edd1b8e7c99f75f19d72f4e5f41b0506ed50c68c08fc45cb3a10fcbefcf54"
+    },
+    {
+      "bytes": 1428,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback9/readback.json",
+      "sha256": "9d37428faf8456d946b62e18ea746786cf15557f4d2ef433646845cfd8be3755"
+    },
+    {
+      "bytes": 1435,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-current-graph-readback9/readback.json",
+      "sha256": "03ede40616ca460ed9ae1df88068022ccb60212e59e9d9a27d4fcc065d78955d"
+    },
+    {
+      "bytes": 1909,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+      "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+    }
+  ],
+  "current_APP_map_context": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+  "current_source_scope": "Only exact named resolver/runtime/wrapper/Android/lock/project inputs; full APP/SDK source verification stays with root. No native PASS is asserted for this epoch.",
+  "inputs": [
+    {
+      "bytes": 59166,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/run_selected_aab.py",
+      "sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8"
+    },
+    {
+      "bytes": 31226,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py",
+      "sha256": "167d48b4e756043a87621feffcabccb41aca108232cfb943914b69fc5b090fe7"
+    },
+    {
+      "bytes": 41565,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/consumer_guards.py",
+      "sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a"
+    },
+    {
+      "bytes": 5704,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/publisher_metadata.py",
+      "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+    },
+    {
+      "bytes": 6532,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json",
+      "sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353"
+    },
+    {
+      "bytes": 8618,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "sha256": "fb68debc1b1acf8ec55dc0d5e5495e1dedd0bd6b61f304bee61613eeb2bd9b92"
+    },
+    {
+      "bytes": 45457,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar",
+      "sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3"
+    },
+    {
+      "bytes": 340,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1"
+    },
+    {
+      "bytes": 39236,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/pubspec.lock",
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    {
+      "bytes": 15543,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/gradle.lockfile",
+      "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    {
+      "bytes": 24009,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/build.gradle.kts",
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    {
+      "bytes": 1380,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/build.gradle.kts",
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    {
+      "bytes": 390,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/settings.gradle",
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    {
+      "bytes": 8090,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+      "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+    },
+    {
+      "bytes": 840,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    {
+      "bytes": 23993,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/pubspec.lock",
+      "sha256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340"
+    },
+    {
+      "bytes": 840,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    }
+  ],
+  "kind": "private_unexecuted_exact_lint32_resolution_preparation",
+  "network_Gradle_cache_execution_performed": false,
+  "private_gradle_properties_present": false,
+  "production_release_approval": false,
+  "schema_version": 1
+}

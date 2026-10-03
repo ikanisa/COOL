@@ -1,0 +1,9 @@
+{
+  "captured_at_packet_retention": true,
+  "files": {
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "limitation": "Helper hashes recorded after execution; staged migration hashes were checked before and after execution. Exact retained schema153 dump/ACL and known prerequisite parity are recorded separately."
+}

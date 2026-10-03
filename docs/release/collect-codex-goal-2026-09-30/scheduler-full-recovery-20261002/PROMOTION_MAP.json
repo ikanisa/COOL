@@ -1,0 +1,53 @@
+{
+  "private_staging_only": true,
+  "root_is_sole_promoter": true,
+  "proof": "proof-final-02/result.json",
+  "predecessor": "predecessor-99/PROMOTION_MAP.json",
+  "files": [
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.ts",
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_recovery.ts",
+      "source_sha256": "81c486ebb6868c24f4cb1741b2e5f88674c75e81caea8dacd7f01dd30e9573fa",
+      "canonical_baseline_sha256": null,
+      "source_mode": "0644",
+      "target_mode": "0644",
+      "preserve_existing_target_mode": true
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts",
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_recovery.test.ts",
+      "source_sha256": "b5fc326416c2f5f1588afd92abbff6c0e92b7472ee9abfd8b27b4a9605248d8b",
+      "canonical_baseline_sha256": null,
+      "source_mode": "0644",
+      "target_mode": "0644",
+      "preserve_existing_target_mode": true
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "source_sha256": "0d4208a65f775bc68b45c6ba0e4ef69493778e309feabf52c26d87b1414afd2f",
+      "canonical_baseline_sha256": "1519670a43f654eb5ea986f28fda5645d00dbbe58bb5fb3a9668c2f5169477a3",
+      "source_mode": "0644",
+      "target_mode": "0644",
+      "preserve_existing_target_mode": true
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "source_sha256": "3b76b3cd0e0ecd9eca93a5ba9909165ac30acbfe67d70da464f29e0cced95b2f",
+      "canonical_baseline_sha256": "ca4ec88b7bfd04d5010cad62a2e8e654a4faa2892631225b7f0787d699e7eebd",
+      "source_mode": "0644",
+      "target_mode": "0644",
+      "preserve_existing_target_mode": true
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/package.json",
+      "target": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/package.json",
+      "source_sha256": "71696fcb31933a066c7de36bbe2d7260c13f4800e2887cb991c01012a2a7546c",
+      "canonical_baseline_sha256": "d8773681ef14a850e495e2bf3ff23b21b1cb31fb60c22834c32804715c6a27c7",
+      "source_mode": "0644",
+      "target_mode": "0700",
+      "preserve_existing_target_mode": true
+    }
+  ]
+}

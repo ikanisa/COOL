@@ -1,0 +1,36 @@
+{
+  "contract_version": 3,
+  "receipt_keys": [
+    "action",
+    "contract_version",
+    "identity_expires_at",
+    "key_sha256",
+    "principal_id",
+    "recorded_at",
+    "request_expires_at",
+    "request_id",
+    "scope",
+    "state_at_action"
+  ],
+  "lookup_keys": [
+    "action",
+    "checked_at",
+    "contract_version",
+    "receipt",
+    "request_expires_at",
+    "request_id",
+    "sample_valid_until",
+    "status"
+  ],
+  "identity_keys": [
+    "activated_at",
+    "created_at",
+    "expires_at",
+    "key_sha256",
+    "principal_id",
+    "revoked_at",
+    "scope",
+    "state"
+  ],
+  "fixture_source": "actual isolated SQL API outputs"
+}

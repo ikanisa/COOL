@@ -1,0 +1,10 @@
+{
+  "status": "reader_complete_with_overstrict_scope_flags",
+  "exit_code": 0,
+  "receipt": "readback-attempt3/summary.json",
+  "actual_source_drift": [],
+  "correction": "Filename discovery may safely hash stable regular hardlinked duplicates read-only; they are recorded with link counts and are not selected as import originals. The four chosen sealed packets and selected originals still require single-link files. Original producer finished_at is recorded at the last test inside its Target context; only the successful task-local logs/rm cleanup commands occur later and final result source fence/task_container_removed is recorded after cleanup. Validate those exact boundaries instead of claiming the test timestamp is process completion.",
+  "final_readback_output": "readback-attempt4/",
+  "runtime_tests_executed": 0,
+  "observations_imported": 0
+}

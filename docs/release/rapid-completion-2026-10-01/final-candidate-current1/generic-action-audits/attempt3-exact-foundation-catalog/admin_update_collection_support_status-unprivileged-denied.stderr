@@ -1,0 +1,5 @@
+ERROR:  42501: Admin permission public_requests.review required
+CONTEXT:  PL/pgSQL function public.assert_admin_permission(text) line 8 at RAISE
+SQL statement "SELECT public.assert_admin_permission('public_requests.review')"
+PL/pgSQL function admin_update_collection_support_status(uuid,text,text) line 11 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

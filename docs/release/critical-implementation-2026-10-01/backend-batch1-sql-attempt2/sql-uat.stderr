@@ -1,0 +1,14 @@
+NOTICE:  00000: ASSISTED_LOGOUT_CASES=9
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update auth.sessions set not_after=clock_timestamp()-interval '1 second' where id='99440000-0000-4000-8000-000000000011'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update auth.users set deleted_at=clock_timestamp()where id='99440000-0000-4000-8000-000000000001'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+ERROR:  23503: update or delete on table "profiles" violates foreign key constraint "sms_operator_heartbeats_operator_user_id_fkey" on table "sms_operator_heartbeats"
+DETAIL:  Key (id)=(99440000-0000-4000-8000-000000000001) is still referenced from table "sms_operator_heartbeats".
+CONTEXT:  SQL statement "delete from auth.users where id='99440000-0000-4000-8000-000000000001'"
+PL/pgSQL function inline_code_block line 10 at EXECUTE
+SCHEMA NAME:  collect_hybrid
+TABLE NAME:  sms_operator_heartbeats
+CONSTRAINT NAME:  sms_operator_heartbeats_operator_user_id_fkey
+LOCATION:  ri_ReportViolation, ri_triggers.c:2612

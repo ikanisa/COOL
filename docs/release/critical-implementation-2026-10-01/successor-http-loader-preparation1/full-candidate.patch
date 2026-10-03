@@ -1,0 +1,80 @@
+diff --git a/scripts/qa/edge_http_runtime_uat.ts b/scripts/qa/edge_http_runtime_uat.ts
+--- a/scripts/qa/edge_http_runtime_uat.ts
++++ b/scripts/qa/edge_http_runtime_uat.ts
+@@ -19,6 +19,8 @@
+     import("../../supabase/functions/collect-notification-operator/index.ts"),
+   "collect-receipt-exception-worker": () =>
+     import("../../supabase/functions/collect-receipt-exception-worker/index.ts"),
++  "collect-receipt-successor-gateway": () =>
++    import("../../supabase/functions/collect-receipt-successor-gateway/index.ts"),
+   "collect-receipt-supervisor": () =>
+     import("../../supabase/functions/collect-receipt-supervisor/index.ts"),
+   "dispatch-notifications": () =>
+@@ -709,6 +711,67 @@
+       names.every((slug) => starts[slug] === 1) && servers.length - infrastructureServerCount === names.length,
+   );
+   for (const slug of names) {
++    if (slug === "collect-receipt-successor-gateway") {
++      // The successor wire has its own audience/family and includes a false
++      // send-authority field even in schema/method refusals. These unsigned
++      // presence checks must stop before key lookup or any successor RPC.
++      const body = JSON.stringify({
++        contract_version: 1,
++        protocol_family: "receipt_successor",
++        audience: "collect-receipt-successor-gateway",
++        action: "dispatch_grant",
++        device_id: userId,
++        request_id: crypto.randomUUID(),
++        issued_at: new Date().toISOString(),
++        payload: {},
++      });
++      for (const method of ["OPTIONS", "PUT"]) {
++        const refusal = await request(
++          slug,
++          `${slug}: successor protocol refuses ${method}`,
++          { method },
++        );
++        check(
++          refusal.label,
++          refusal.http_status === 405 && refusal.cors === null &&
++            refusal.no_store && refusal.dependencies.length === 0 &&
++            JSON.stringify(refusal.response) === JSON.stringify({
++              ok: false,
++              code: "GATEWAY_POST_REQUIRED",
++              send_authority: false,
++            }),
++          refusal,
++        );
++      }
++      for (const [label, requestBody, headers] of [
++        ["empty unsigned envelope", "{}", {}],
++        ["unsigned successor envelope", body, {}],
++        ["bearer cannot replace successor signature", body, {
++          authorization: "Bearer qa-invalid",
++        }],
++        ["malformed successor signature", body, {
++          "X-Collect-Gateway-Key-Id": "a".repeat(64),
++          "X-Collect-Gateway-Signature": btoa("malformed"),
++        }],
++      ] as Array<[string, string, Record<string, string>]>) {
++        const refusal = await request(slug, `${slug}: ${label}`, {
++          body: requestBody,
++          headers,
++        });
++        check(
++          refusal.label,
++          refusal.http_status === 400 && refusal.cors === null &&
++            refusal.no_store && refusal.dependencies.length === 0 &&
++            JSON.stringify(refusal.response) === JSON.stringify({
++              ok: false,
++              code: "GATEWAY_REQUEST_INVALID",
++              send_authority: false,
++            }),
++          refusal,
++        );
++      }
++      continue;
++    }
+     if (slug === "collect-android-gateway" || slug === "collect-receipt-supervisor") {
+       // Dedicated signed protocols do not accept browser CORS or bearer Auth.
+       const supervisor = slug === "collect-receipt-supervisor";

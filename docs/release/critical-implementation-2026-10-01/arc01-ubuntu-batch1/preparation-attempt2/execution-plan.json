@@ -1,0 +1,14 @@
+{
+  "applicable_dart_count": 669,
+  "checkout": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/checkout",
+  "dart_zip_expected_sha256": "f82c83ece7d168047550dfd4a664e4071ac7c488bddb72dc43102c22d7e0b518",
+  "dart_zip_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.12.2/sdk/dartsdk-linux-arm64-release.zip",
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3",
+  "sdk_version": {
+    "date": "2026-06-09",
+    "revision": "d684a576a6aa954ae107a03b2b4e1d61c3bebe93",
+    "version": "3.12.2"
+  },
+  "source_inputs": 751,
+  "ubuntu_base": "ubuntu@sha256:11dc1ccb427f0464a2369e645454c272bb0baece7357c892ba69d313b3a332cf"
+}

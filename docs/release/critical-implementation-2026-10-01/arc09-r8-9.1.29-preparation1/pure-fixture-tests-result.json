@@ -1,0 +1,67 @@
+{
+  "R8_artifact_provider_probe_refusal_count": 23,
+  "actual_seconds": 0.31592641600582283,
+  "affected_overlay_and_driver_consumer_count": 13,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "deadline_seconds": 60,
+  "exact_executed_fixture_inputs": {
+    "driver/android_build_overlay.py": {
+      "bytes": 18954,
+      "sha256": "00ce52587ca4d43a617e9960f5935e04323fd0d9f1ef1fc85c12d3d2ede6472d"
+    },
+    "driver/prepared-input-pins.json": {
+      "bytes": 10527,
+      "sha256": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c"
+    },
+    "driver/run_selected_aab.py": {
+      "bytes": 61231,
+      "sha256": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc"
+    },
+    "r8-artifact-admission-template.json": {
+      "bytes": 936,
+      "sha256": "30e783d072152291dc1be76874084fb516f5a1941e809822b36de3bbb25a63e4"
+    },
+    "reviewed-verification-plan.json": {
+      "bytes": 3121,
+      "sha256": "333d7480f7aa44cad4baf060551eec519058df4448e605f8ed891098b38da6d9"
+    },
+    "root-admission-template.json": {
+      "bytes": 14595,
+      "sha256": "6d9e476ff812b95d79c9248d76f8f7c7d1006b8078447eb4dc421d06d532bbd3"
+    },
+    "source-binding-delta.json": {
+      "bytes": 1916,
+      "sha256": "9ec92dd37e74d6c243cff5660766bd9209f39f0c696c231f73519f689547329c"
+    },
+    "test_android_overlay.py": {
+      "bytes": 12299,
+      "sha256": "697ed5f26f300fdda809ef8a1e4b084f8db4d9c09629de234fceb6446024962d"
+    },
+    "test_r8_admission.py": {
+      "bytes": 7701,
+      "sha256": "732d26a38f759c55f892391c2493c333cb8c67c6a58546402e2fefde37a6ee41"
+    }
+  },
+  "exit_code": 0,
+  "kind": "actual_private_pure_R8_candidate3_fixtures",
+  "maintained_source_APP_SDK_cache_Gradle_process_probes_or_signals_performed": false,
+  "original58_tracker_reused": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/argv-fixture-tests-result.json",
+    "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+  },
+  "schema_version": 1,
+  "stderr_sha256": "539abfb36244baf276637a819d4e2752f47f181b8e5414e602163f92a08c3cac",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_count": 36
+}

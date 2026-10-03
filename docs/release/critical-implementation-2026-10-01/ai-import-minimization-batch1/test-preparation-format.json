@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "fmt",
+    "supabase/functions/_shared/openai_roster_test.ts",
+    "supabase/functions/prepare-roster-import/handler_test.ts"
+  ],
+  "exit_code": 0,
+  "runtime_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+  "scope": "Owned tests only, before old/corrected invariant runs"
+}

@@ -1,0 +1,374 @@
+{
+  "scope": "Final private synthetic candidate5 validation with all actual precursor attempts retained; no shipping/production acceptance",
+  "final_status": "pass_36_of_36",
+  "final_candidate": "candidate5",
+  "final_module_sha256": "48bd219d4aa40d888a87819f68764bb0dbf82c50a3e23de4333925da3a11c576",
+  "final_tests_sha256": "c53e619e2a7c734813e2564684fc25269810adc62f951c4e5fb8e0509643d322",
+  "final_attempt": "final-latest-attempt1/result.json",
+  "all_actual_cohorts": [
+    {
+      "receipt": "attempt1/result.json",
+      "sha256": "6ee22a81c7560756fab7572ba3b7e7a93ed59134358e4820fe9b7c2b60f3080c",
+      "status": "failed",
+      "method_count": 25,
+      "passed": 23,
+      "errors": 2,
+      "assertion_failures": 0,
+      "elapsed_seconds": 33.00596283299819,
+      "exit_code": 1,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 10075,
+        "sha256": "f796030a4593a2a90e3d42b23dfcab231efc1996562a8eaf01e507c57c0e6525"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "attempt2/result.json",
+      "sha256": "416eafd31cc9369c33c2efd175d33c97a9f71f61676f216beff4cdd5aec1b114",
+      "status": "pass",
+      "method_count": 5,
+      "passed": 5,
+      "errors": 0,
+      "assertion_failures": 0,
+      "elapsed_seconds": 6.931194917000539,
+      "exit_code": 0,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump",
+        "ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request",
+        "ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts",
+        "ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read",
+        "ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 991,
+        "sha256": "96fdf9e1ab7954912750570cce601c820d792d50291f6108ee91d4ff9891bdcc"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "attempt3/result.json",
+      "sha256": "6bef2dfad9eae8b73196a62f0d8a0188b513f303cb9c08df3dfa85c53c1180dd",
+      "status": "failed",
+      "method_count": 28,
+      "passed": 27,
+      "errors": 1,
+      "assertion_failures": 0,
+      "elapsed_seconds": 41.01113583299593,
+      "exit_code": 1,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/attempt3/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 7820,
+        "sha256": "b03c128256009c0cf57569dcff4348f0cbe098dd906cf19e02bbd8701ded42bd"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "attempt4/result.json",
+      "sha256": "7dc5ecbd348d944015846b096d08462cc03e37b81667bfb9efa0c8ca057803af",
+      "status": "pass",
+      "method_count": 2,
+      "passed": 2,
+      "errors": 0,
+      "assertion_failures": 0,
+      "elapsed_seconds": 2.5965130839977064,
+      "exit_code": 0,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request",
+        "ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/attempt4/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 446,
+        "sha256": "752896ee93b915b25805566160813d0c5aa5f39e4343c993fb0ada4e9bb49ecb"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "successor-attempt1/result.json",
+      "sha256": "5c4b25a2b279ad897f5e159bc44de7ff0dd8f8d75dd299d02b63c74c76f39567",
+      "status": "failed",
+      "method_count": 7,
+      "passed": 3,
+      "errors": 2,
+      "assertion_failures": 2,
+      "elapsed_seconds": 8.788080958001956,
+      "exit_code": 1,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group",
+        "ArchiveAdmissionTest.test_real_parent_completion_delivered_after_deadline_never_returns_success",
+        "ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order",
+        "ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts",
+        "ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt",
+        "ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt",
+        "ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/successor-attempt1/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 7935,
+        "sha256": "2629efcb832fe5a8be1762a88123aebbe81026c5852d229c1616439967428eac"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "successor-attempt2/result.json",
+      "sha256": "ae90d61f156db4ab1427dcf5b563f5e7dd3232fe226d5c4d4ef7b88b8a240622",
+      "status": "failed",
+      "method_count": 5,
+      "passed": 4,
+      "errors": 1,
+      "assertion_failures": 0,
+      "elapsed_seconds": 2.838959916996828,
+      "exit_code": 1,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate3/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group",
+        "ArchiveAdmissionTest.test_real_parent_completion_delivered_after_deadline_never_returns_success",
+        "ArchiveAdmissionTest.test_real_clean_stdio_completion_returns_exact_bytes_after_group_absence",
+        "ArchiveAdmissionTest.test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds",
+        "ArchiveAdmissionTest.test_real_stream_close_delivered_after_deadline_never_returns_success"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/successor-attempt2/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 3331,
+        "sha256": "60091a47b46d46935946bdb8da4447efdcd625d945663e8ddd50cdf3c49e2328"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "successor-attempt3/result.json",
+      "sha256": "d74f8c0e4ad17719e602602a0f595c81bb23c7bbd0da33f7c097aa863aabe7a8",
+      "status": "failed",
+      "method_count": 3,
+      "passed": 2,
+      "errors": 1,
+      "assertion_failures": 0,
+      "elapsed_seconds": 0.7728682910019415,
+      "exit_code": 1,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/tests/test_pg_archive_admission.py",
+        "-v",
+        "ArchiveAdmissionTest.test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds",
+        "ArchiveAdmissionTest.test_signal_permission_refusal_remains_fatal_while_owned_group_exists",
+        "ArchiveAdmissionTest.test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/successor-attempt3/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 2957,
+        "sha256": "a6340d955a8eb136b661cf95d91e28806fcec804631014dbb5b54f785352a5ae"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    },
+    {
+      "receipt": "final-latest-attempt1/result.json",
+      "sha256": "e25858574e328a964b6c147d32ba8165f22f254f410b34a1bcf16150650e73de",
+      "status": "pass",
+      "method_count": 36,
+      "passed": 36,
+      "errors": 0,
+      "assertion_failures": 0,
+      "elapsed_seconds": 43.67704324999795,
+      "exit_code": 0,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate5/scripts/tests/test_pg_archive_admission.py",
+        "-v"
+      ],
+      "clean_UTF8_env": {
+        "PATH": "/bin:/usr/bin",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/final-latest-attempt1/safe-traces"
+      },
+      "outer_seconds": 90,
+      "stream_limit_bytes": 4194304,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 6472,
+        "sha256": "2df44727756fea1f6c5286b390ae10ff763ae1478ea8424cf2352cd47c6c8c9d"
+      },
+      "owned_outer_process_group_absent": true,
+      "exact_before_after_inputs_in_receipt": true,
+      "predecessor_outcome_reclassified": false
+    }
+  ],
+  "original_partial_contract": {
+    "status": "pass",
+    "argv": [
+      "/usr/bin/ruby",
+      "docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/backup_export_contract_test.rb"
+    ],
+    "env": {
+      "PATH": "/bin:/usr/bin",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8"
+    },
+    "bound_seconds": 15,
+    "elapsed_seconds": 0.14406879199668765,
+    "exit_code": 0,
+    "outer_process_group_absent": true,
+    "original_test_file_sha256": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "candidate_test_byte_identical": true,
+    "stdout_sha256": "34d20b34596b516a528c21028ac3b89f8a8b93fd86a90448cb1c0dfeabfef2b2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ruby_sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+  },
+  "original19_and_78_AST_unchanged": true,
+  "fixture_bounds_relaxed": false,
+  "assertions_relaxed": false,
+  "originals_SQL_Docker_suites_rerun": false,
+  "real_approval_generated": false,
+  "providers_or_real_SQL_Docker_downloads_executed": false,
+  "hosted_restore_supported": false,
+  "full_recovery_acceptance": false,
+  "production_ready": false,
+  "cause_of_prior_setup_timeouts_or_signal_EPERM_proved": false,
+  "final_full_run_authorized_after_narrow_runner_change_and_native_terminal": true
+}

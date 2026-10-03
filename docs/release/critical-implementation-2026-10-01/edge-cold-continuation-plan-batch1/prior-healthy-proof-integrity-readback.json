@@ -1,0 +1,628 @@
+{
+  "at_utc": "2026-10-02T01:14:52.917419+00:00",
+  "scope": "Dated successful dependency acceptance receipt integrity plus current six core decoder source files only; no new runtime or canonical pass",
+  "receipt_path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/acceptance.json",
+  "receipt_sha256": "087aec8a83438cfd86b1efc77ecf8005a7f13686d29a3ef01be693301067b574",
+  "matches_sealed_parent_batch_receipt": true,
+  "declared_artifact_count": 96,
+  "artifact_readback": [
+    {
+      "path": "dependency-security.stderr",
+      "expected_sha256": "f29d8ac90dcb29ee69ac469a4d72ab42a67c6a684d17588f64db25367b89cb2f",
+      "actual_sha256": "f29d8ac90dcb29ee69ac469a4d72ab42a67c6a684d17588f64db25367b89cb2f",
+      "matches": true
+    },
+    {
+      "path": "dependency-security.stdout",
+      "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "installed-package-versions.stderr",
+      "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "installed-package-versions.stdout",
+      "expected_sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "actual_sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/build.log",
+      "expected_sha256": "90b6560e8701aaa1d444407b4d5c0d718e06b1bc57f75010fbd593f8b1d49d2e",
+      "actual_sha256": "90b6560e8701aaa1d444407b4d5c0d718e06b1bc57f75010fbd593f8b1d49d2e",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/concurrency-syntax.log",
+      "expected_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "actual_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/cpu-limit.log",
+      "expected_sha256": "54f0e47ca7ebef71c043030b36a4365217f7a32df97275f21461474e088e7280",
+      "actual_sha256": "54f0e47ca7ebef71c043030b36a4365217f7a32df97275f21461474e088e7280",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/credential-isolation.log",
+      "expected_sha256": "e7210eb9c7224c88c8bddc2de0c68e77f1a0163f2c1c73ad65ccb2c8ea38b5e0",
+      "actual_sha256": "e7210eb9c7224c88c8bddc2de0c68e77f1a0163f2c1c73ad65ccb2c8ea38b5e0",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/edge-decoder-integration.log",
+      "expected_sha256": "626692eeb830a16ed945d2bfbab516cd626376af627a8678e2d6cbb2b13bc73b",
+      "actual_sha256": "626692eeb830a16ed945d2bfbab516cd626376af627a8678e2d6cbb2b13bc73b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/evaluation.json",
+      "expected_sha256": "45d228f82ee42b332004e3284d4d5d70b6406cbbf202530b118a10fd3bbf24e3",
+      "actual_sha256": "45d228f82ee42b332004e3284d4d5d70b6406cbbf202530b118a10fd3bbf24e3",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/evaluation.log",
+      "expected_sha256": "e99afea79d7393d901cf9ee84d7955dd6d5206fc9d53c83c13c5b983f34211d6",
+      "actual_sha256": "e99afea79d7393d901cf9ee84d7955dd6d5206fc9d53c83c13c5b983f34211d6",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/ambiguous.csv",
+      "expected_sha256": "5cc49a4941133d80a617d0f53b26e7e78b82951609cbba9e1bf204630d90c67a",
+      "actual_sha256": "5cc49a4941133d80a617d0f53b26e7e78b82951609cbba9e1bf204630d90c67a",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/animation-21.png",
+      "expected_sha256": "f5b4a6fde43d50290a57b70e68259a10aa995872f07df79b48111104da7fca2c",
+      "actual_sha256": "f5b4a6fde43d50290a57b70e68259a10aa995872f07df79b48111104da7fca2c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/animation-21.webp",
+      "expected_sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c",
+      "actual_sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/animation-3.png",
+      "expected_sha256": "282766d00f70c617ba62c2c911b6c65add05e3db7f50cf7b9341445142074365",
+      "actual_sha256": "282766d00f70c617ba62c2c911b6c65add05e3db7f50cf7b9341445142074365",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/animation-3.webp",
+      "expected_sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c",
+      "actual_sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/attachment.pdf",
+      "expected_sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9",
+      "actual_sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/bad-crc.png",
+      "expected_sha256": "45af51ef01fe84b7420ac81a4f826e9e1a3b318ea938ef38fb64e236d50e2e93",
+      "actual_sha256": "45af51ef01fe84b7420ac81a4f826e9e1a3b318ea938ef38fb64e236d50e2e93",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/broken-xref.pdf",
+      "expected_sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1",
+      "actual_sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/compressed-objects.pdf",
+      "expected_sha256": "bcdf01402721a6ee5bdb129e03fd2d15bcdc48d94a2ebb87c0a54b2252d3966c",
+      "actual_sha256": "bcdf01402721a6ee5bdb129e03fd2d15bcdc48d94a2ebb87c0a54b2252d3966c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/dimension-bomb.png",
+      "expected_sha256": "7ce6bec85b52e4d860a64bf9b2194119b64bae1c96e5c472037544c19ae227b8",
+      "actual_sha256": "7ce6bec85b52e4d860a64bf9b2194119b64bae1c96e5c472037544c19ae227b8",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/encrypted.pdf",
+      "expected_sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c",
+      "actual_sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/english.csv",
+      "expected_sha256": "2c7c3f078bb4e86d2b3fe6f030186c77888168b1e0367f07acb50c451cb53b5d",
+      "actual_sha256": "2c7c3f078bb4e86d2b3fe6f030186c77888168b1e0367f07acb50c451cb53b5d",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/entity.xlsx",
+      "expected_sha256": "22d9e2436489404e2f70e0fa5d9f05f9e3cb0404c7adc6659f5ab03d24fdabe5",
+      "actual_sha256": "22d9e2436489404e2f70e0fa5d9f05f9e3cb0404c7adc6659f5ab03d24fdabe5",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/external.xlsx",
+      "expected_sha256": "1c2a7bcc6728e039bb2299d9269ce0bbbd61cecb13ff97016acff23c36d90c17",
+      "actual_sha256": "1c2a7bcc6728e039bb2299d9269ce0bbbd61cecb13ff97016acff23c36d90c17",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/flate-expansion.pdf",
+      "expected_sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836",
+      "actual_sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/formula.xlsx",
+      "expected_sha256": "26646d7424c27bfbb6ee27be309749802fda6b4fb860d43b7c427caf81728bb5",
+      "actual_sha256": "26646d7424c27bfbb6ee27be309749802fda6b4fb860d43b7c427caf81728bb5",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/french.csv",
+      "expected_sha256": "ad7d7e64f98f953171b3b7536396e459eec50c2de0ece16792c9dd8e9716d963",
+      "actual_sha256": "ad7d7e64f98f953171b3b7536396e459eec50c2de0ece16792c9dd8e9716d963",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/javascript.pdf",
+      "expected_sha256": "d4fa00dbae20da22396228884e83a6095242063878395f542d8680f51e5cbeaf",
+      "actual_sha256": "d4fa00dbae20da22396228884e83a6095242063878395f542d8680f51e5cbeaf",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/kinyarwanda.csv",
+      "expected_sha256": "e0dacdae04e9d5dc8e21770efdb78e5083ed8829b7e846b0fe9f5b23f5919aba",
+      "actual_sha256": "e0dacdae04e9d5dc8e21770efdb78e5083ed8829b7e846b0fe9f5b23f5919aba",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/malformed.csv",
+      "expected_sha256": "ac386bc0ee153be3cf32769bdb21684d07c63fa39dbdbb68b508abfa76265ce5",
+      "actual_sha256": "ac386bc0ee153be3cf32769bdb21684d07c63fa39dbdbb68b508abfa76265ce5",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/manifest.json",
+      "expected_sha256": "775bc01475a8456a2dd1c566d353478123351e62eb7318ee3b7e45ecef1eb88f",
+      "actual_sha256": "775bc01475a8456a2dd1c566d353478123351e62eb7318ee3b7e45ecef1eb88f",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/multilingual.xlsx",
+      "expected_sha256": "b0febc8661b5e5daefbd8f48770d24291e6e96c2af9c29620f9c10e7acc7b341",
+      "actual_sha256": "b0febc8661b5e5daefbd8f48770d24291e6e96c2af9c29620f9c10e7acc7b341",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/object-stream-expansion.pdf",
+      "expected_sha256": "c572d5fa178c99fc1047a06aadcaf8d502a9134718b04e40e596987710d8e29b",
+      "actual_sha256": "c572d5fa178c99fc1047a06aadcaf8d502a9134718b04e40e596987710d8e29b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/oversized-grid.xlsx",
+      "expected_sha256": "56cd7e4b1ec9822507786fd15c5426850464c9cfa76f4ce9c243631707558de0",
+      "actual_sha256": "56cd7e4b1ec9822507786fd15c5426850464c9cfa76f4ce9c243631707558de0",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/pages-2.pdf",
+      "expected_sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6",
+      "actual_sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/pages-21.pdf",
+      "expected_sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620",
+      "actual_sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/prompt-injection.txt",
+      "expected_sha256": "a3184535c1c5713574f1668a6279b9de4cfedd0193c929edf96e258e44a61941",
+      "actual_sha256": "a3184535c1c5713574f1668a6279b9de4cfedd0193c929edf96e258e44a61941",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/scanned-multilingual.jpg",
+      "expected_sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944",
+      "actual_sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/scanned-multilingual.pdf",
+      "expected_sha256": "86c4348d93b584734ab094980723d92e6ee2c77dd4d82656c8e80a531bebbd03",
+      "actual_sha256": "86c4348d93b584734ab094980723d92e6ee2c77dd4d82656c8e80a531bebbd03",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/scanned-multilingual.png",
+      "expected_sha256": "bd5b89c16285fb7aa3d62141af768aa96a620f9f8fa89fccf798ec4f0d6541f9",
+      "actual_sha256": "bd5b89c16285fb7aa3d62141af768aa96a620f9f8fa89fccf798ec4f0d6541f9",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/scanned-multilingual.webp",
+      "expected_sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c",
+      "actual_sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/swahili.csv",
+      "expected_sha256": "6b6d43401996916df12210bf9fe38c51f79a3f71fdfcb05709a48e2ee4c7064b",
+      "actual_sha256": "6b6d43401996916df12210bf9fe38c51f79a3f71fdfcb05709a48e2ee4c7064b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/truncated.jpg",
+      "expected_sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0",
+      "actual_sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/truncated.png",
+      "expected_sha256": "89462c991136998d2f8eda1f0d371e302d5a094a93077cdef57c6a991f0d7ac2",
+      "actual_sha256": "89462c991136998d2f8eda1f0d371e302d5a094a93077cdef57c6a991f0d7ac2",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/truncated.webp",
+      "expected_sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3",
+      "actual_sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/fixtures/zip-expansion.xlsx",
+      "expected_sha256": "57e975ece15d21f96ee5d63e1e1cbeded68f7545a273f721bd65c0556e916536",
+      "actual_sha256": "57e975ece15d21f96ee5d63e1e1cbeded68f7545a273f721bd65c0556e916536",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/generation.log",
+      "expected_sha256": "5dbe795bbd4236603038fd2212d3e1c710368a85cec58fcd1bd7b1999a75cb6e",
+      "actual_sha256": "5dbe795bbd4236603038fd2212d3e1c710368a85cec58fcd1bd7b1999a75cb6e",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/image.log",
+      "expected_sha256": "d2337be1b478ff520f2c4d68cc850cb7461cdabd01a93e28829ab8c1402606fe",
+      "actual_sha256": "d2337be1b478ff520f2c4d68cc850cb7461cdabd01a93e28829ab8c1402606fe",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/isolation.log",
+      "expected_sha256": "ddf57d2eb2bf9b2fb46ea96cd615e66f62d426f520f8e0abc7aa67d5bf4e5402",
+      "actual_sha256": "ddf57d2eb2bf9b2fb46ea96cd615e66f62d426f520f8e0abc7aa67d5bf4e5402",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/port.log",
+      "expected_sha256": "6e7efb2b5ed3dc4404b619e781a291b6c8e903f657487982d10ec0703237a0df",
+      "actual_sha256": "6e7efb2b5ed3dc4404b619e781a291b6c8e903f657487982d10ec0703237a0df",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/regressions.log",
+      "expected_sha256": "d59aa3bc6f53f1bb3add2d3d168cefb514a8afee7b45da47d63e943da4db269f",
+      "actual_sha256": "d59aa3bc6f53f1bb3add2d3d168cefb514a8afee7b45da47d63e943da4db269f",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/roster_extraction_evaluation.ts",
+      "expected_sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247",
+      "actual_sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/roster_extraction_evaluation_test.ts",
+      "expected_sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075",
+      "actual_sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/roster_resource_concurrency_uat.rb",
+      "expected_sha256": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+      "actual_sha256": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/roster_resource_final_compatibility_uat.sql",
+      "expected_sha256": "cf01acb18db68afd85d26cf11a241f796fa4649d2dbc4140237756bbe99cd777",
+      "actual_sha256": "cf01acb18db68afd85d26cf11a241f796fa4649d2dbc4140237756bbe99cd777",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/roster_resource_integrity_uat.sql",
+      "expected_sha256": "badb9cdf37e14e090a4bb9ea4ec2d6a06dc3621b15b721cd8cd6f2e28cdfc6f6",
+      "actual_sha256": "badb9cdf37e14e090a4bb9ea4ec2d6a06dc3621b15b721cd8cd6f2e28cdfc6f6",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/scripts/tests/verify_roster_decoder.py",
+      "expected_sha256": "2208aaf3239a22f79467583e8ea4a394dd13c6dd6e4820e810f93023c75ab73d",
+      "actual_sha256": "2208aaf3239a22f79467583e8ea4a394dd13c6dd6e4820e810f93023c75ab73d",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/cors.ts",
+      "expected_sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "actual_sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/openai_roster.ts",
+      "expected_sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780",
+      "actual_sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/openai_roster_test.ts",
+      "expected_sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a",
+      "actual_sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/production_contract.ts",
+      "expected_sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+      "actual_sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_decoder.ts",
+      "expected_sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb",
+      "actual_sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "expected_sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+      "actual_sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_decoder_test.ts",
+      "expected_sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e",
+      "actual_sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_file_policy.ts",
+      "expected_sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+      "actual_sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_file_policy_test.ts",
+      "expected_sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+      "actual_sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_import.ts",
+      "expected_sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+      "actual_sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_import_test.ts",
+      "expected_sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+      "actual_sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_provenance.ts",
+      "expected_sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+      "actual_sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_resource_budget.ts",
+      "expected_sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+      "actual_sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_response_policy.ts",
+      "expected_sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+      "actual_sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/roster_response_policy_test.ts",
+      "expected_sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+      "actual_sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/_shared/test_assert.ts",
+      "expected_sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+      "actual_sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/prepare-roster-import/handler.ts",
+      "expected_sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+      "actual_sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/prepare-roster-import/handler_test.ts",
+      "expected_sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f",
+      "actual_sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/functions/prepare-roster-import/index.ts",
+      "expected_sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+      "actual_sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "expected_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "actual_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/Dockerfile",
+      "expected_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "actual_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/decoder.py",
+      "expected_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "actual_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/generate_fixtures.py",
+      "expected_sha256": "8e53bdc5442866287ff8b37a0922de2c3044e3ce9a10c273805568f67991d109",
+      "actual_sha256": "8e53bdc5442866287ff8b37a0922de2c3044e3ce9a10c273805568f67991d109",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/requirements.in",
+      "expected_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "actual_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/requirements.lock",
+      "expected_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "actual_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/server.py",
+      "expected_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "actual_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/source-snapshot/tools/roster-decoder/test_dependency_security.py",
+      "expected_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "actual_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/start.log",
+      "expected_sha256": "7a6f545352515bd9309163631b4dbf3e2cb7ab8ccbf6351f83c986e5acbd5fe9",
+      "actual_sha256": "7a6f545352515bd9309163631b4dbf3e2cb7ab8ccbf6351f83c986e5acbd5fe9",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/state/nonces.sqlite3",
+      "expected_sha256": "4279ab3de511c3f3092e48c055f2a8f27f58f66ff2a0bcb12a688d88e5c26a4d",
+      "actual_sha256": "4279ab3de511c3f3092e48c055f2a8f27f58f66ff2a0bcb12a688d88e5c26a4d",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/stop.log",
+      "expected_sha256": "e23eac9cbe5393985707cb444227a9d02def09ab4ba62669358738e35abfc352",
+      "actual_sha256": "e23eac9cbe5393985707cb444227a9d02def09ab4ba62669358738e35abfc352",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/supervisor.log",
+      "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/types.log",
+      "expected_sha256": "3b94744a91e00e45670557d6b1607dcdf0247fa6f2f318ba7c445f6f63a12ff1",
+      "actual_sha256": "3b94744a91e00e45670557d6b1607dcdf0247fa6f2f318ba7c445f6f63a12ff1",
+      "matches": true
+    },
+    {
+      "path": "linux-acceptance/validation.json",
+      "expected_sha256": "09b015a87f96df00494458d0b776c289da99c00bb0ef1d7b41575e5f19c6223c",
+      "actual_sha256": "09b015a87f96df00494458d0b776c289da99c00bb0ef1d7b41575e5f19c6223c",
+      "matches": true
+    },
+    {
+      "path": "linux-deno-commands.jsonl",
+      "expected_sha256": "422d0128fa9e4a08d739523877061bc2c0974023d21ecedb1f8f191fd7dcfd68",
+      "actual_sha256": "422d0128fa9e4a08d739523877061bc2c0974023d21ecedb1f8f191fd7dcfd68",
+      "matches": true
+    },
+    {
+      "path": "maintained-linux.stderr",
+      "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "maintained-linux.stdout",
+      "expected_sha256": "6b2d67de2357a5709936734c45bbff801abbca502b2b3bc00300417e0d5c8c74",
+      "actual_sha256": "6b2d67de2357a5709936734c45bbff801abbca502b2b3bc00300417e0d5c8c74",
+      "matches": true
+    },
+    {
+      "path": "previous-pdf-negative.stderr",
+      "expected_sha256": "e7a149dd6847653627f017f17f3cd5bab4225e3fb3eafa60479e3372d5570d70",
+      "actual_sha256": "e7a149dd6847653627f017f17f3cd5bab4225e3fb3eafa60479e3372d5570d70",
+      "matches": true
+    },
+    {
+      "path": "previous-pdf-negative.stdout",
+      "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    }
+  ],
+  "all_declared_artifacts_match": true,
+  "current_core_decoder_source_readback": [
+    {
+      "path": "tools/roster-decoder/requirements.in",
+      "dated_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "current_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "matches": true
+    },
+    {
+      "path": "tools/roster-decoder/requirements.lock",
+      "dated_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "current_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "matches": true
+    },
+    {
+      "path": "tools/roster-decoder/decoder.py",
+      "dated_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "current_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "matches": true
+    },
+    {
+      "path": "tools/roster-decoder/server.py",
+      "dated_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "current_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "matches": true
+    },
+    {
+      "path": "tools/roster-decoder/Dockerfile",
+      "dated_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "current_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "matches": true
+    },
+    {
+      "path": "tools/roster-decoder/test_dependency_security.py",
+      "dated_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "current_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "matches": true
+    }
+  ],
+  "all_six_core_decoder_inputs_match_dated_image_source": true,
+  "runtime_container_or_32_14_157_cases_executed": false,
+  "production_release_approved": false
+}

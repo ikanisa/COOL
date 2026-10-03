@@ -2,11 +2,12 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
+import { createHash, webcrypto } from 'node:crypto';
 
 const origin = 'https://admin.example.test/';
 const template = readFileSync('scripts/templates/admin_pwa_service_worker.js', 'utf8');
 
-function worker({ name = 'collect-admin-current', redirectAsset = null } = {}) {
+function worker({ name = 'collect-admin-current', redirectAsset = null, mismatchAsset = null, delayedAsset = null } = {}) {
   const listeners = new Map();
   const stores = new Map();
   const requests = [];
@@ -47,6 +48,8 @@ function worker({ name = 'collect-admin-current', redirectAsset = null } = {}) {
     async keys() {
       return [...this.#entries.keys()];
     }
+
+    async delete(url) { return this.#entries.delete(url); }
   }
 
   const caches = {
@@ -64,26 +67,36 @@ function worker({ name = 'collect-admin-current', redirectAsset = null } = {}) {
     if (new URL(url).pathname === '/__private/account') {
       return { actor, url, ok: true, type: 'basic', redirected: false };
     }
+    if (url === delayedAsset) await new Promise((yes) => setTimeout(yes, 30));
     const redirected = url === redirectAsset;
+    const body = url === mismatchAsset ? 'wrong-build' : new URL(url).pathname === '/' ? '<title>Collect Admin</title>' : 'bundle';
     return {
       url: redirected ? origin + 'admin/login' : url,
       ok: true,
       status: 200,
       type: 'basic',
       redirected,
-      body: new URL(url).pathname === '/' ? '<title>Collect Admin</title>' : 'bundle',
+      body,
+      clone() { return { async arrayBuffer() { return new TextEncoder().encode(body).buffer; } }; },
     };
   };
 
   const source = template
     .replace('__COLLECT_ADMIN_CACHE_NAME__', JSON.stringify(name))
-    .replace('__COLLECT_ADMIN_CACHE_URLS__', JSON.stringify(['./', './main.dart.js']));
+    .replace('__COLLECT_ADMIN_CACHE_URLS__', JSON.stringify(['./', './main.dart.js']))
+    .replace('__COLLECT_ADMIN_CACHE_HASHES__', JSON.stringify({
+      './': createHash('sha256').update('<title>Collect Admin</title>').digest('hex'),
+      './main.dart.js': createHash('sha256').update('bundle').digest('hex'),
+    }));
   runInNewContext(source, {
     URL,
     Set,
     Promise,
     Error,
     Request: StaticRequest,
+    Response,
+    crypto: webcrypto,
+    Uint8Array,
     fetch,
     caches,
     self: {
@@ -121,7 +134,7 @@ function worker({ name = 'collect-admin-current', redirectAsset = null } = {}) {
 
 const normal = worker();
 await normal.lifecycle('install');
-assert.equal(normal.skipped, true);
+assert.equal(normal.skipped, false);
 assert.equal(normal.requests.length, 2);
 for (const request of normal.requests) {
   assert.equal(request.cache, 'reload');
@@ -151,7 +164,7 @@ for (const name of ['flutter-app-cache', 'flutter-temp-cache', 'flutter-app-mani
 await normal.caches.open('other-app-cache');
 await normal.caches.open('flutter-unrelated-application');
 await normal.lifecycle('activate');
-assert.equal(normal.claimed, true);
+assert.equal(normal.claimed, false);
 assert.deepEqual(await normal.caches.keys(), [
   'collect-admin-current', 'other-app-cache', 'flutter-unrelated-application',
 ]);
@@ -161,4 +174,20 @@ await assert.rejects(redirect.lifecycle('install'), /Failed to cache static Admi
 assert.deepEqual(await redirect.caches.keys(), []);
 assert.equal(redirect.skipped, false);
 
-console.log('Admin PWA worker cache boundary: PASS');
+const mismatch = worker({ name: 'collect-admin-mixed', mismatchAsset: origin + 'main.dart.js' });
+await assert.rejects(mismatch.lifecycle('install'), /bytes differ from this build/);
+assert.deepEqual(await mismatch.caches.keys(), []);
+
+const concurrent = worker({ name: 'collect-admin-partial', redirectAsset: origin, delayedAsset: origin + 'main.dart.js' });
+await assert.rejects(concurrent.lifecycle('install'), /Failed to cache static Admin asset/);
+assert.deepEqual(await concurrent.caches.keys(), []);
+await new Promise((yes) => setTimeout(yes, 40));
+assert.deepEqual(await concurrent.caches.keys(), []);
+
+await cache.delete(origin + 'main.dart.js');
+const networkBefore = normal.requests.length;
+const evicted = await normal.request('/main.dart.js');
+assert.equal(evicted.status, 503);
+assert.equal(normal.requests.length, networkBefore);
+assert.equal(evicted.headers.get('Cache-Control'), 'no-store');
+console.log('Admin PWA worker cache boundary, integrity and failed-cache cleanup: PASS');

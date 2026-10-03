@@ -1,0 +1,9 @@
+{
+  "sealed_at_utc": "2026-10-01T22:19:52.518716+00:00",
+  "batch_sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862",
+  "batch_artifacts_verified": 1691,
+  "actual_current_source_files_verified": 209,
+  "complete197_migration_path_and_hash_match": true,
+  "status": "sealed_actual_local_normalized_pass",
+  "scope": "Time-specific source and actual local acceptance closure; external production/hosted/provider gates remain unverified."
+}

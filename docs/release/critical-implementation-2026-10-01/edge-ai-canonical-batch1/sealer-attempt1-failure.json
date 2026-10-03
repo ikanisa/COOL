@@ -1,0 +1,8 @@
+{
+  "status": "failed_readback_only",
+  "canonical_rerun": false,
+  "script_sha256": "b22ca7e254354c8127058fae42ebc9b089792f2337e1801617a4a1f4a0a7e18e",
+  "completed_output_copy_count": 364,
+  "error": "Inventory imported the private run_edge_unit_tests module from Python sys.modules while inspecting root, yielding an out-of-root fixture path. Current-root observation did not complete and no current-acceptance claim was made.",
+  "repair": "Use a fresh Python process for every read-only source_paths discovery; reuse and verify already-completed immutable output copies."
+}

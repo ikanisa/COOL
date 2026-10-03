@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "scope": "Pinned nonsemantic Dart formatting of four exactly common114-bound source files. No policy, API, design or permission edits.",
+  "common_manifest_sha256": "4d7cab60f4f37486bde53b79ca9bfb2464cbbeb5bd8abf4b8583770feb5b2d7f",
+  "before": {
+    "lib/admin/admin_shell.dart": "7ce7e3c99ec6378d72b3d31582e03d188bb63ab3f750d0c77b4abc68d2dad2c2",
+    "lib/admin/core/admin_action_contracts.dart": "240fe3f69ff211f7d4228a1ab8eaccaee75874c9732c11bd1f6f508515a91e6c",
+    "lib/admin/core/admin_repository_base.dart": "b2b947558aec6bd1393e2168c1e0fa3d110b2a8a31cb4d68f07bbc81b899f71f",
+    "test/admin_exception_page_test.dart": "8747804976b839e05ae41f8361521c6ccb10d8ffb1f6adefaad1f8ee5b301f67"
+  },
+  "after": {
+    "lib/admin/admin_shell.dart": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+    "lib/admin/core/admin_action_contracts.dart": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253",
+    "lib/admin/core/admin_repository_base.dart": "6a4c09e0a29d119350f09b311f5d357360b5f3a61a124b1baf8103bbbf4b8cb9",
+    "test/admin_exception_page_test.dart": "737a42c6e13e5224ed0c913103bc4085967e1c3c959852c6433cc0a0a26e6f0c"
+  },
+  "source_guard_verified": true
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/fixture-index.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/fixture-index.json",
+    "sha256": "db3ba489058974d513d631572382e739568ebf14bf2e826f2c6da72c1df51fff"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/no-configured-scope.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/no-configured-scope.json",
+    "sha256": "9e21628a3cb4316141da7a2db6abd2fcb72d3c1b3cf04a949a1489b679e3ae66"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/multipart-partial-callbacks.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/multipart-partial-callbacks.json",
+    "sha256": "ab49a1b5cf0f6cef69526a84675f8aa76e1f1e339302f027e3c78f759ba14894"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/conflicting-callbacks.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/conflicting-callbacks.json",
+    "sha256": "1ea0a5368c24f75de89c3df28fb3b2b4ddc4894c7ec18812cf1a83e680211362"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/inactive-sampler.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/inactive-sampler.json",
+    "sha256": "77c22fc63e5beea32f5eee8d19a585685a745eeba29bc5625b8604702c14c91d"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/active-six-alerts.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/active-six-alerts.json",
+    "sha256": "c5be8b23ded572ec4eeec6b2d48ce32e5c5acbca7dccb63c3fceb72218ae0a92"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/same-active-episodes.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/same-active-episodes.json",
+    "sha256": "42b04fb409aecf3b8c2fc69b9acba9e8f8e547cd450748ff16a8fe411eef8b1b"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/real-time-window-rollover.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/real-time-window-rollover.json",
+    "sha256": "1ecac90b18dbbafa453efdcbfe287241bdfe076e65373acca41b638d640ea52b"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/locked-measurement-unavailable.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/locked-measurement-unavailable.json",
+    "sha256": "90e70f6748a637d5ab8bb437ee0ac643d01d83dd0eeba637b2424dcf2cb06379"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/deep-history-current-window.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/deep-history-current-window.json",
+    "sha256": "24f81f25a6c3551b76d33321e4bc15e3446ed572efd3efe11f7fe80a64393d46"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/timed-out-original-sample.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/timed-out-original-sample.json",
+    "sha256": "2d47b7b1da0547a5ffde3c1cf8899567451b3fea9a85ef1ce1ea59060edeaf48"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/scope-unavailable-after-alerts.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/scope-unavailable-after-alerts.json",
+    "sha256": "80fa4aec95f043d7971d93ae98c00a994f2dd655ce08108c9dc63272d578b0f6"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/backlog-source-cleared.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/backlog-source-cleared.json",
+    "sha256": "b3dc4d5d18b8a2131314a47e27d4e84b21cc7fe8480196f8c3e91fb96410af68"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/new-policy-scope.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/new-policy-scope.json",
+    "sha256": "cf6a3e4f3c35a6738b9ce4973b574cacd5f4596042bad9e53ee8f1c925519137"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/telemetry-inbox.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/telemetry-inbox.json",
+    "sha256": "f6eb3b693f5946bcdced5c8ddac4c47b205f0745cd4ebed0feb66d451b8b16e0"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/active-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/active-workflow.json",
+    "sha256": "6b53464eaea3d8244d01d67b3dbe609698351e7b2e4c7099462f294133508572"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/assigned-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/assigned-workflow.json",
+    "sha256": "d73fcb8cd3ef8aa6b058a7cea2e206d92934a798a3f179de99f76c0a47c4000a"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/escalated-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/escalated-workflow.json",
+    "sha256": "9ec74026e539f0744ef7c15f1f83590af8ee869829cf5b3813dd26c4b22e087b"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/source-cleared-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/source-cleared-workflow.json",
+    "sha256": "ca8328dd9e911ad270727c9e1a7b96a921e9ae08aecedc0f5661e9464506100f"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/resolved-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/resolved-workflow.json",
+    "sha256": "9ab4e6bfe5a9c5d9deb73e4ffcf091a966c6b788a44b8d8070b519626d6b9856"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt14/observations/superseded-workflow.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/fixtures/superseded-workflow.json",
+    "sha256": "1387744504a27c76ee0bbe72069f28e19d3059c92ed3b389e6a3b31edd79a6c7"
+  }
+]

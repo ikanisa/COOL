@@ -1,0 +1,142 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": {},
+      "name": "published function and four index catalogs exactly match the accepted candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses nullable collection",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses deferred foreign key",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses unvalidated foreign key",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses wrong delete action",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "all rejected prerequisite probes roll back catalog and genuine financial data",
+      "status": "pass"
+    },
+    {
+      "error": "{\"byte_equivalent_json_fields_and_query\": true, \"name\": \"history-newest-all-first\"}",
+      "name": "published-current history-newest-all-first",
+      "status": "failed"
+    }
+  ],
+  "database": "collect_local_uat_3129d31b48a24061",
+  "diagnostic_preflight": {
+    "actual": {
+      "actor": "99640000-0000-4000-8000-000000000001",
+      "api_role": "authenticated",
+      "preflight": true,
+      "session": "99640000-0000-4000-8000-000000010001",
+      "session_user": "postgres"
+    },
+    "attempted_before_dataset_posting": true,
+    "nested_plan_acceptance_claimed": false,
+    "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_stdout_sha256": "d4a3edd5358e34fa12b9491160f5fa1923a0f2a2e926714397dc5377d7a78509"
+  },
+  "failure": "Retained failed comparison; stop before further candidate mutation: published-current history-newest-all-first",
+  "genuine_fixture": {
+    "actual": {
+      "confirmations": 1000,
+      "disabled_user_triggers": 0,
+      "journal": 1000,
+      "ledger": 2000,
+      "posted": 1000,
+      "posted_active_ops": 0,
+      "unbalanced": 0
+    },
+    "direct_posted_write": false,
+    "independent_provider_truth": false,
+    "production_triggers_preserved": true,
+    "public_api_route": true,
+    "rows": 1000
+  },
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "e945ff3e2ae042e2d2821f61fac31d134c7100da9222a9b13e2c282725d0f914",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_generated_history_published_uat.py\", line 113, in main\n    current = C.matrix(db, count, rows, report, evidence, \"published-current\", old)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_generated_history_index_candidate_uat.py\", line 75, in matrix\n    raise RuntimeError('Retained failed comparison; stop before further candidate mutation: ' + arm + ' ' + name)\nRuntimeError: Retained failed comparison; stop before further candidate mutation: published-current history-newest-all-first\n",
+  "volume": 1000
+}

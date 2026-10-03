@@ -1,0 +1,9 @@
+{
+  "status": "reader_failed_before_final_source_readback",
+  "exit_code": 1,
+  "cause": "The canonical source tuple includes the imported ACTUAL_HANDLER_TEST name. ast.literal_eval correctly refuses names.",
+  "correction": "Parse only the maintained unit runner's literal ACTUAL_HANDLER_TEST declaration and require its exact known path; never execute or import either runner. A NEW readback-attempt3 output boundary is used.",
+  "retained_partial_outputs": "readback-attempt2/",
+  "runtime_tests_executed": 0,
+  "observations_imported": 0
+}

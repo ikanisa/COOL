@@ -1,0 +1,172 @@
+[
+  {
+    "test": {
+      "id": 78,
+      "name": "record request failure on /admin/settings can retry in place",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 174,
+      "column": 5,
+      "url": "package:flutter_test/src/widget_tester.dart",
+      "root_line": 268,
+      "root_column": 5,
+      "root_url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart"
+    },
+    "type": "testStart",
+    "time": 8969
+  },
+  {
+    "testID": 78,
+    "messageType": "print",
+    "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"The admin service could not be reached.\":\n[]>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart:321:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart line 321\nThe test description was:\n  record request failure on /admin/settings can retry in place\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+    "type": "print",
+    "time": 9314
+  },
+  {
+    "testID": 78,
+    "error": "Test failed. See exception logs above.\nThe test description was: record request failure on /admin/settings can retry in place",
+    "stackTrace": "",
+    "isFailure": false,
+    "type": "error",
+    "time": 9316
+  },
+  {
+    "testID": 78,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 9316
+  },
+  {
+    "test": {
+      "id": 94,
+      "name": "record request failure on /admin/automations/runs/:id can retry in place",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 174,
+      "column": 5,
+      "url": "package:flutter_test/src/widget_tester.dart",
+      "root_line": 268,
+      "root_column": 5,
+      "root_url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart"
+    },
+    "type": "testStart",
+    "time": 9860
+  },
+  {
+    "testID": 94,
+    "messageType": "print",
+    "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"The admin service could not be reached.\":\n[]>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart:321:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart line 321\nThe test description was:\n  record request failure on /admin/automations/runs/:id can retry in place\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+    "type": "print",
+    "time": 10001
+  },
+  {
+    "testID": 94,
+    "error": "Test failed. See exception logs above.\nThe test description was: record request failure on /admin/automations/runs/:id can retry in place",
+    "stackTrace": "",
+    "isFailure": false,
+    "type": "error",
+    "time": 10001
+  },
+  {
+    "testID": 94,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 10001
+  },
+  {
+    "test": {
+      "id": 102,
+      "name": "record request failure on /admin/exceptions can retry in place",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 174,
+      "column": 5,
+      "url": "package:flutter_test/src/widget_tester.dart",
+      "root_line": 268,
+      "root_column": 5,
+      "root_url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart"
+    },
+    "type": "testStart",
+    "time": 10233
+  },
+  {
+    "testID": 102,
+    "messageType": "print",
+    "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: no matching candidates\n  Actual: _TextWidgetFinder:<Found 1 widget with text \"Exception read failed\": [\n            Text(\"Exception read failed\", debugLabel: (englishLike titleMedium\n2021).merge((((whiteMountainView titleMedium).apply).apply).merge(unknown)), inherit: false, color:\nColor(alpha: 1.0000, red: 0.9569, green: 0.9569, blue: 0.9569, colorSpace: ColorSpace.sRGB), family:\nInter, size: 16.0, weight: 500, letterSpacing: 0.0, baseline: alphabetic, height: 1.5x,\nleadingDistribution: even, decoration: Color(alpha: 1.0000, red: 0.9569, green: 0.9569, blue:\n0.9569, colorSpace: ColorSpace.sRGB) TextDecoration.none, dependencies: [DefaultSelectionStyle,\nDefaultTextStyle, MediaQuery]),\n          ]>\n   Which: means one was found but none were expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart:330:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart line 330\nThe test description was:\n  record request failure on /admin/exceptions can retry in place\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+    "type": "print",
+    "time": 10579
+  },
+  {
+    "testID": 102,
+    "error": "Test failed. See exception logs above.\nThe test description was: record request failure on /admin/exceptions can retry in place",
+    "stackTrace": "",
+    "isFailure": false,
+    "type": "error",
+    "time": 10580
+  },
+  {
+    "testID": 102,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 10581
+  },
+  {
+    "test": {
+      "id": 149,
+      "name": "authenticated browser QA covers the current admin route matrix",
+      "suiteID": 124,
+      "groupIDs": [
+        126
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 584,
+      "column": 3,
+      "url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_pwa_test.dart"
+    },
+    "type": "testStart",
+    "time": 13915
+  },
+  {
+    "testID": 149,
+    "error": "Expected: <29>\n  Actual: <28>\n",
+    "stackTrace": "package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest/admin_pwa_test.dart 592:5                      main.<fn>\n",
+    "isFailure": true,
+    "type": "error",
+    "time": 13924
+  },
+  {
+    "testID": 149,
+    "result": "failure",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 13924
+  }
+]

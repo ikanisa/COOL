@@ -16,6 +16,8 @@ import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
 import 'shared/components/admin_loading_state.dart';
 
+part 'admin_shell_navigation.dart';
+
 class AdminShell extends ConsumerStatefulWidget {
   const AdminShell({required this.location, required this.child, super.key});
 
@@ -38,6 +40,8 @@ class _AdminShellState extends ConsumerState<AdminShell> {
       body: ColoredBox(
         color: context.collectUniversalTokens.adminWorkspace,
         child: identity.when(
+          skipLoadingOnRefresh: false,
+          skipLoadingOnReload: false,
           loading: () => const AdminLoadingState(
             title: 'Loading admin workspace',
             message: 'Checking access.',
@@ -78,10 +82,15 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                   )
                   ? widget.child
                   : AdminDeniedPage(
-                      requiredPermission: adminRequiredPermissionForPath(
-                        widget.location,
-                        runtimeConfig: config,
-                      ),
+                      requiredPermission:
+                          widget.location == '/admin/sms-gateway'
+                          ? 'notifications.read and system_health.read'
+                          : widget.location == '/admin/exceptions'
+                          ? 'payments.read, notifications.read and system_health.read'
+                          : adminRequiredPermissionForPath(
+                              widget.location,
+                              runtimeConfig: config,
+                            ),
                     ),
             );
 
@@ -90,30 +99,45 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                 final compact = constraints.maxWidth < 720;
                 const forcedCompactRail = false;
                 final collapsed = _railCollapsed || forcedCompactRail;
-                final content = Semantics(
-                  container: true,
-                  explicitChildNodes: true,
-                  label: 'Collect admin workspace',
-                  child: Column(
-                    children: [
-                      _AdminTopbar(
-                        envName: env.environmentName,
-                        identity: value,
-                        location: widget.location,
-                        destinations: destinations,
-                      ),
-                      const AdminSmsDispatchBanner(),
-                      // The nested Navigator's opaque route blocks preceding
-                      // semantics in its boundary. Keep that boundary inside
-                      // the page so the persistent header remains accessible.
-                      Expanded(
-                        child: Semantics(
-                          container: true,
-                          explicitChildNodes: true,
-                          child: page,
+                final content = LayoutBuilder(
+                  builder: (context, workspace) => Semantics(
+                    container: true,
+                    explicitChildNodes: true,
+                    label: 'Collect admin workspace',
+                    child: Column(
+                      children: [
+                        // Keep the page reachable when enlarged persistent
+                        // notices exceed the available workspace height.
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: workspace.maxHeight * 0.5,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                _AdminTopbar(
+                                  envName: env.environmentName,
+                                  identity: value,
+                                  location: widget.location,
+                                  destinations: destinations,
+                                ),
+                                const AdminSmsDispatchBanner(),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        // The nested Navigator's opaque route blocks preceding
+                        // semantics in its boundary. Keep that boundary inside
+                        // the page so the persistent header remains accessible.
+                        Expanded(
+                          child: Semantics(
+                            container: true,
+                            explicitChildNodes: true,
+                            child: page,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
                 if (compact) {
@@ -148,137 +172,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     );
   }
 }
-
-const _adminNavDestinations = <_AdminNavDestination>[
-  _AdminNavDestination(
-    'Overview',
-    Icons.home_rounded,
-    '/admin',
-    'overview.read',
-  ),
-  _AdminNavDestination(
-    'Groups',
-    Icons.folder_copy_outlined,
-    '/admin/groups',
-    'collections.read',
-  ),
-  _AdminNavDestination(
-    'Users',
-    Icons.person_outline,
-    '/admin/users',
-    'users.read',
-  ),
-  _AdminNavDestination(
-    'Members',
-    Icons.people_outline,
-    '/admin/members',
-    'users.read',
-  ),
-  _AdminNavDestination(
-    'Payees',
-    Icons.person_pin_circle_outlined,
-    '/admin/payees',
-    'receivers.read',
-  ),
-  _AdminNavDestination(
-    'Transactions',
-    Icons.receipt_long_outlined,
-    '/admin/transactions',
-    'payments.read',
-  ),
-  _AdminNavDestination(
-    'Reconciliations',
-    Icons.balance_outlined,
-    '/admin/reconciliations',
-    'payment_events.read',
-  ),
-  _AdminNavDestination(
-    'Ledgers',
-    Icons.menu_book_outlined,
-    '/admin/ledgers',
-    'ledger.read',
-  ),
-  _AdminNavDestination(
-    'SMS receipts',
-    Icons.sms_outlined,
-    '/admin/sms-receipts',
-    'notifications.read',
-  ),
-  _AdminNavDestination(
-    'Notifications',
-    Icons.notifications_outlined,
-    '/admin/notifications',
-    'notifications.read',
-  ),
-  _AdminNavDestination(
-    'Audit logs',
-    Icons.policy_outlined,
-    '/admin/audit-logs',
-    'audit.read',
-  ),
-  _AdminNavDestination(
-    'Settings',
-    Icons.tune_outlined,
-    '/admin/settings',
-    'settings.read',
-  ),
-  _AdminNavDestination(
-    'Feature flags',
-    Icons.flag_outlined,
-    '/admin/feature-flags',
-    'feature_flags.read',
-  ),
-  _AdminNavDestination(
-    'System health',
-    Icons.monitor_heart_outlined,
-    '/admin/system-health',
-    'system_health.read',
-  ),
-  _AdminNavDestination(
-    'Automations',
-    Icons.manage_search_outlined,
-    '/admin/automations',
-    'system_health.read',
-  ),
-  _AdminNavDestination(
-    'Admin users',
-    Icons.admin_panel_settings_outlined,
-    '/admin/admin-users',
-    'admin_users.read',
-  ),
-];
-
-class _AdminNavDestination {
-  const _AdminNavDestination(
-    this.label,
-    this.icon,
-    this.path,
-    this.requiredPermission,
-  );
-
-  final String label;
-  final IconData icon;
-  final String path;
-  final String requiredPermission;
-
-  factory _AdminNavDestination.fromConfig(AdminNavigationItemConfig config) {
-    return _AdminNavDestination(
-      config.label,
-      _adminIconForKey(config.iconKey),
-      config.path,
-      config.requiredPermission,
-    );
-  }
-}
-
-enum _AdminNavSection { workspace, people, operations, control }
-
-const _sectionLabels = <_AdminNavSection, String>{
-  _AdminNavSection.workspace: 'WORKSPACE',
-  _AdminNavSection.people: 'PEOPLE',
-  _AdminNavSection.operations: 'OPERATIONS',
-  _AdminNavSection.control: 'CONTROL',
-};
 
 class _AdminSidebar extends StatefulWidget {
   const _AdminSidebar({
@@ -612,6 +505,7 @@ class _NavItem extends StatelessWidget {
     final foreground = colors.onImagePrimary;
     final tile = ListTile(
       selected: selected,
+      selectedColor: foreground,
       selectedTileColor: colors.onImagePrimary.withValues(alpha: 0.10),
       tileColor: Colors.transparent,
       iconColor: foreground.withValues(alpha: selected ? 1 : 0.78),
@@ -658,10 +552,6 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-bool _isSelected(String path, String location) {
-  return path == '/admin' ? location == path : location.startsWith(path);
-}
-
 class _AdminTopbar extends ConsumerWidget {
   const _AdminTopbar({
     required this.envName,
@@ -694,6 +584,231 @@ class _AdminTopbar extends ConsumerWidget {
               final compact = constraints.maxWidth < 760;
               final showSearch = constraints.maxWidth >= 980;
               final showIdentity = constraints.maxWidth >= 900;
+              final headerItems = <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox.square(
+                            dimension: 48,
+                            child: IconButton(
+                              tooltip: 'Operations overview',
+                              onPressed: () => context.go('/admin'),
+                              icon: Icon(
+                                Icons.home_outlined,
+                                size: 19,
+                                color: colors.onImagePrimary.withValues(
+                                  alpha: 0.60,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 18,
+                            color: colors.onImagePrimary.withValues(
+                              alpha: 0.44,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Flexible(
+                            child: Text(
+                              _workspaceTitle(current),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary,
+                                    fontWeight: CollectTypography.weightBold,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (!compact) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.refresh_rounded,
+                              size: 15,
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.54,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              lastRefresh == null
+                                  ? 'Not refreshed'
+                                  : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali',
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary.withValues(
+                                      alpha: 0.62,
+                                    ),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (showSearch) ...[
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: constraints.maxWidth >= 1100 ? 280 : 210,
+                    height: 46,
+                    child: TextField(
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (query) => _openMatchingDestination(
+                        context,
+                        destinations,
+                        query,
+                      ),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: colors.onImagePrimary,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Search or press ⌘K',
+                        hintStyle: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.56,
+                              ),
+                            ),
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          color: colors.onImagePrimary.withValues(alpha: 0.62),
+                        ),
+                        filled: true,
+                        fillColor: colors.onImagePrimary.withValues(
+                          alpha: 0.04,
+                        ),
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: colors.onImagePrimary.withValues(
+                              alpha: 0.18,
+                            ),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: colors.onImagePrimary.withValues(
+                              alpha: 0.18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(width: 14),
+                _EnvironmentBadge(envName: envName),
+                const SizedBox(width: 8),
+                const _AdminCountryBadge(),
+                const SizedBox(width: 12),
+                Semantics(
+                  button: true,
+                  label: 'Operator menu',
+                  child: PopupMenuButton<String>(
+                    tooltip: 'Operator menu',
+                    onSelected: (value) async {
+                      if (value != 'sign-out') return;
+                      await ref.read(adminRepositoryProvider).signOut();
+                      if (!context.mounted) return;
+                      ref.invalidate(adminAuthStateProvider);
+                      ref.invalidate(adminAuthGuardProvider);
+                      ref.invalidate(adminIdentityProvider);
+                      if (context.mounted) context.go('/admin/login');
+                    },
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 'sign-out',
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(Icons.logout_rounded),
+                          title: Text('Sign out'),
+                        ),
+                      ),
+                    ],
+                    child: SizedBox(
+                      height: 48,
+                      width: showIdentity ? null : 48,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: colors.onImagePrimary.withValues(
+                              alpha: 0.10,
+                            ),
+                            foregroundColor: colors.onImagePrimary,
+                            child: Text(
+                              _initials(identity.displayName),
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary,
+                                    fontWeight: CollectTypography.weightBold,
+                                  ),
+                            ),
+                          ),
+                          if (showIdentity) ...[
+                            const SizedBox(width: 9),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 120),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    identity.displayName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          color: colors.onImagePrimary,
+                                          fontWeight:
+                                              CollectTypography.weightBold,
+                                        ),
+                                  ),
+                                  Text(
+                                    'Admin',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium
+                                        ?.copyWith(
+                                          color: colors.onImagePrimary
+                                              .withValues(alpha: 0.62),
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down_rounded,
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.56,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ];
               return Container(
                 constraints: BoxConstraints(minHeight: compact ? 64 : 88),
                 padding: EdgeInsets.symmetric(
@@ -707,238 +822,22 @@ class _AdminTopbar extends ConsumerWidget {
                     ),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                child: compact
+                    ? Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              SizedBox.square(
-                                dimension: 48,
-                                child: IconButton(
-                                  tooltip: 'Operations overview',
-                                  onPressed: () => context.go('/admin'),
-                                  icon: Icon(
-                                    Icons.home_outlined,
-                                    size: 19,
-                                    color: colors.onImagePrimary.withValues(
-                                      alpha: 0.60,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Icon(
-                                Icons.chevron_right_rounded,
-                                size: 18,
-                                color: colors.onImagePrimary.withValues(
-                                  alpha: 0.44,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Flexible(
-                                child: Text(
-                                  _workspaceTitle(current),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(
-                                        color: colors.onImagePrimary,
-                                        fontWeight:
-                                            CollectTypography.weightBold,
-                                      ),
-                                ),
-                              ),
-                            ],
+                          SizedBox(
+                            width: constraints.maxWidth - 28,
+                            child: (headerItems.first as Expanded).child,
                           ),
-                          if (!compact) ...[
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.refresh_rounded,
-                                  size: 15,
-                                  color: colors.onImagePrimary.withValues(
-                                    alpha: 0.54,
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  lastRefresh == null
-                                      ? 'Not refreshed'
-                                      : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali',
-                                  style: Theme.of(context).textTheme.labelMedium
-                                      ?.copyWith(
-                                        color: colors.onImagePrimary.withValues(
-                                          alpha: 0.62,
-                                        ),
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ...headerItems
+                              .skip(1)
+                              .where((item) => item is! SizedBox),
                         ],
-                      ),
-                    ),
-                    if (showSearch) ...[
-                      const SizedBox(width: 16),
-                      SizedBox(
-                        width: constraints.maxWidth >= 1100 ? 280 : 210,
-                        height: 46,
-                        child: TextField(
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (query) => _openMatchingDestination(
-                            context,
-                            destinations,
-                            query,
-                          ),
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: colors.onImagePrimary),
-                          decoration: InputDecoration(
-                            hintText: 'Search or press ⌘K',
-                            hintStyle: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: colors.onImagePrimary.withValues(
-                                    alpha: 0.56,
-                                  ),
-                                ),
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.62,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: colors.onImagePrimary.withValues(
-                              alpha: 0.04,
-                            ),
-                            contentPadding: EdgeInsets.zero,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: colors.onImagePrimary.withValues(
-                                  alpha: 0.18,
-                                ),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: colors.onImagePrimary.withValues(
-                                  alpha: 0.18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    const SizedBox(width: 14),
-                    _EnvironmentBadge(envName: envName),
-                    const SizedBox(width: 8),
-                    const _AdminCountryBadge(),
-                    const SizedBox(width: 12),
-                    Semantics(
-                      button: true,
-                      label: 'Operator menu',
-                      child: PopupMenuButton<String>(
-                        tooltip: 'Operator menu',
-                        onSelected: (value) async {
-                          if (value != 'sign-out') return;
-                          await ref.read(adminRepositoryProvider).signOut();
-                          if (!context.mounted) return;
-                          ref.invalidate(adminAuthStateProvider);
-                          ref.invalidate(adminAuthGuardProvider);
-                          ref.invalidate(adminIdentityProvider);
-                          if (context.mounted) context.go('/admin/login');
-                        },
-                        itemBuilder: (context) => const [
-                          PopupMenuItem(
-                            value: 'sign-out',
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Icon(Icons.logout_rounded),
-                              title: Text('Sign out'),
-                            ),
-                          ),
-                        ],
-                        child: SizedBox(
-                          height: 48,
-                          width: showIdentity ? null : 48,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundColor: colors.onImagePrimary
-                                    .withValues(alpha: 0.10),
-                                foregroundColor: colors.onImagePrimary,
-                                child: Text(
-                                  _initials(identity.displayName),
-                                  style: Theme.of(context).textTheme.labelLarge
-                                      ?.copyWith(
-                                        color: colors.onImagePrimary,
-                                        fontWeight:
-                                            CollectTypography.weightBold,
-                                      ),
-                                ),
-                              ),
-                              if (showIdentity) ...[
-                                const SizedBox(width: 9),
-                                ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 120,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        identity.displayName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(
-                                              color: colors.onImagePrimary,
-                                              fontWeight:
-                                                  CollectTypography.weightBold,
-                                            ),
-                                      ),
-                                      Text(
-                                        'Admin',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: colors.onImagePrimary
-                                                  .withValues(alpha: 0.62),
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: colors.onImagePrimary.withValues(
-                                    alpha: 0.56,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                      )
+                    : Row(children: headerItems),
               );
             },
           ),
@@ -1016,159 +915,4 @@ class AdminPageError extends StatelessWidget {
       ),
     );
   }
-}
-
-List<_AdminNavDestination> _adminNavDestinationsFor(
-  AdminIdentity identity, [
-  AdminRuntimeConfig? runtimeConfig,
-]) {
-  final configuredDestinations = runtimeConfig?.navigationItems
-      .map(_AdminNavDestination.fromConfig)
-      .toList();
-  final source = configuredDestinations ?? _adminNavDestinations;
-  return [
-    for (final destination in source)
-      if (adminIdentityAllows(identity, destination.requiredPermission) &&
-          adminCanOpenPath(
-            identity,
-            destination.path,
-            runtimeConfig: runtimeConfig,
-          ))
-        destination,
-  ];
-}
-
-bool adminCanOpenPath(
-  AdminIdentity identity,
-  String path, {
-  AdminRuntimeConfig? runtimeConfig,
-}) {
-  final baseline = adminRequiredPermissionForPath(path);
-  if (baseline != null && !adminIdentityAllows(identity, baseline)) {
-    return false;
-  }
-  for (final item
-      in runtimeConfig?.navigationItems ?? <AdminNavigationItemConfig>[]) {
-    if (_isSelected(item.path, path) &&
-        !adminIdentityAllows(identity, item.requiredPermission)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-bool adminIdentityAllows(AdminIdentity identity, String permission) {
-  return identity.permissions.contains(permission);
-}
-
-String? adminRequiredPermissionForPath(
-  String path, {
-  AdminRuntimeConfig? runtimeConfig,
-}) {
-  for (final destination in _adminNavDestinations.reversed) {
-    if (_isSelected(destination.path, path)) {
-      return destination.requiredPermission;
-    }
-  }
-  for (final item
-      in runtimeConfig?.navigationItems.reversed ??
-          <AdminNavigationItemConfig>[]) {
-    if (_isSelected(item.path, path)) return item.requiredPermission;
-  }
-  return null;
-}
-
-_AdminNavSection _sectionForPath(String path) {
-  if (path == '/admin') return _AdminNavSection.workspace;
-  if (path.startsWith('/admin/groups') ||
-      path.startsWith('/admin/users') ||
-      path.startsWith('/admin/members')) {
-    return _AdminNavSection.people;
-  }
-  if (path.startsWith('/admin/payees') ||
-      path.startsWith('/admin/transactions') ||
-      path.startsWith('/admin/reconciliations') ||
-      path.startsWith('/admin/ledgers') ||
-      path.startsWith('/admin/sms-receipts')) {
-    return _AdminNavSection.operations;
-  }
-  return _AdminNavSection.control;
-}
-
-_AdminNavDestination? _destinationForLocation(
-  String location,
-  List<_AdminNavDestination> destinations,
-) {
-  for (final destination in destinations.reversed) {
-    if (_isSelected(destination.path, location)) return destination;
-  }
-  return null;
-}
-
-void _openMatchingDestination(
-  BuildContext context,
-  List<_AdminNavDestination> destinations,
-  String query,
-) {
-  final normalized = query.trim().toLowerCase();
-  if (normalized.isEmpty) return;
-  for (final destination in destinations) {
-    if (destination.label.toLowerCase().contains(normalized)) {
-      context.go(destination.path);
-      return;
-    }
-  }
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('No admin section matches “${query.trim()}”.')),
-  );
-}
-
-String _initials(String name) {
-  final words = name
-      .trim()
-      .split(RegExp(r'\s+'))
-      .where((word) => word.isNotEmpty)
-      .toList();
-  if (words.isEmpty) return 'CA';
-  if (words.length == 1) return words.first.substring(0, 1).toUpperCase();
-  return '${words.first[0]}${words.last[0]}'.toUpperCase();
-}
-
-String _workspaceTitle(_AdminNavDestination? destination) {
-  if (destination == null) return 'Admin';
-  if (destination.path == '/admin') return 'Operations overview';
-  return destination.label;
-}
-
-IconData _adminIconForKey(String iconKey) {
-  return switch (iconKey.trim().toLowerCase()) {
-    'dashboard' || 'dashboard_outlined' => Icons.home_rounded,
-    'groups' || 'folder_copy' => Icons.folder_copy_outlined,
-    'person' || 'users' => Icons.person_outline,
-    'members' || 'people' => Icons.people_outline,
-    'payees' || 'person_pin_circle' => Icons.person_pin_circle_outlined,
-    'transactions' => Icons.receipt_long_outlined,
-    'reconciliations' => Icons.balance_outlined,
-    'ledgers' => Icons.menu_book_outlined,
-    'payments' || 'payment_intents' => Icons.payments_outlined,
-    'sms_parsing' || 'receipt_long' => Icons.receipt_long_outlined,
-    'allocations' || 'account_tree' => Icons.account_tree_outlined,
-    'exceptions' || 'call_split' => Icons.call_split_outlined,
-    'ledger' || 'account_balance' => Icons.account_balance_outlined,
-    'fact_check' => Icons.fact_check_outlined,
-    'balance' => Icons.balance_outlined,
-    'report_problem' => Icons.report_problem_outlined,
-    'rule' => Icons.rule_outlined,
-    'menu_book' => Icons.menu_book_outlined,
-    'receivers' || 'settings_phone' => Icons.settings_phone_outlined,
-    'sms' => Icons.sms_outlined,
-    'notifications' => Icons.notifications_outlined,
-    'audit' || 'policy' => Icons.policy_outlined,
-    'settings' || 'tune' => Icons.tune_outlined,
-    'feature_flags' || 'flag' => Icons.flag_outlined,
-    'system_health' || 'monitor_heart' => Icons.monitor_heart_outlined,
-    'admin_users' ||
-    'admin_panel_settings' => Icons.admin_panel_settings_outlined,
-    _ => Icons.admin_panel_settings_outlined,
-  };
 }

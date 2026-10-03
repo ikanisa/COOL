@@ -1,0 +1,29 @@
+{
+  "edge-tests": {
+    "command": [
+      "/Users/jeanbosco/.local/bin/deno",
+      "test",
+      "--no-config",
+      "supabase/functions/collect-android-gateway/handler_test.ts"
+    ],
+    "exit_code": 0,
+    "passed": 36,
+    "failed": 0
+  },
+  "edge-typecheck": {
+    "command": [
+      "/Users/jeanbosco/.local/bin/deno",
+      "check",
+      "--no-config",
+      "supabase/functions/collect-android-gateway/index.ts"
+    ],
+    "exit_code": 0
+  },
+  "migration-structure": {
+    "command": [
+      "bash",
+      "scripts/migrations/validate_supabase_migrations.sh"
+    ],
+    "exit_code": 0
+  }
+}

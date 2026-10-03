@@ -130,8 +130,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   skeletonCount: 3,
                 ),
               ]
-            : state.hasInitialLoadFailure ||
-                  (feed.error != null && feed.page == null)
+            : state.hasInitialLoadFailure || feed.page == null
             ? [
                 CollectDataLoadFailure(
                   onRetry: () async {
@@ -414,13 +413,15 @@ class _LedgerSheetPill<T> extends StatelessWidget {
                       : colors.textSecondary,
                 ),
                 CollectSpacing.gapW8,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: selected
-                        ? colors.selectedOnAccent
-                        : colors.textPrimary,
-                    fontWeight: CollectTypography.weightSemibold,
+                Flexible(
+                  child: Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: selected
+                          ? colors.selectedOnAccent
+                          : colors.textPrimary,
+                      fontWeight: CollectTypography.weightSemibold,
+                    ),
                   ),
                 ),
               ],

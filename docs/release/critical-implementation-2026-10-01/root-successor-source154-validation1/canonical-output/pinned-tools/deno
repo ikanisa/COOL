@@ -1,0 +1,12 @@
+#!/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-venv/bin/python
+import json,os,sys
+binary='/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno'
+trace='/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/source/.cache/canonical/linux-deno-commands.jsonl'
+args=sys.argv[1:]
+if not args or args[0] not in ('test','run','check'):
+ raise SystemExit('Only pinned test/run/check commands are permitted')
+flags=['--no-config','--frozen','--lock=supabase/functions/deno.lock']
+if args[0] in ('test','run'):flags+=['--cached-only','--no-prompt']
+command=[binary,args[0],*flags,*args[1:]]
+with open(trace,'a') as log:log.write(json.dumps(command)+'\n')
+os.execv(binary,command)

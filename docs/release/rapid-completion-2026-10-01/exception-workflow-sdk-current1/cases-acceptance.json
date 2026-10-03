@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "named_cases": 39,
+  "actual_sdk_cases_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/cases39.stdout",
+  "actual_sdk_cases_sha256": "5c06fabbcb38220469cfc94e5fec3b010a8fb262c8a0a1b4cc467914873d6d7c",
+  "all_cases_passed": true,
+  "failures": 0,
+  "skips": 0,
+  "runtime_inputs": "Immutable fullVM base, no production edits",
+  "original_six_body_sha256": "084fc4a6b50f05aefd100477defaca8a904ce4007a203c904382d73fbe87fdad",
+  "original_six_byte_identical": true,
+  "tested_test_sha256": "9901ce81235983eecb790a6d10088b05fd81e2a3ec44ffdc41df56b0c63caf09",
+  "current_test_sha256": "374b904e5835a2a07bed1d30e36af29ee89afcf12be9078945ca83b51ea780c6",
+  "later_test_delta": "One required brace only around the existing switchBack Auth call; captured diff. Current compiler/re-execution bound by ../principal-admin-overlay-current1.",
+  "selected_analysis_original": "One brace info retained; not falsely reported clean",
+  "original_failures_retained": 13
+}

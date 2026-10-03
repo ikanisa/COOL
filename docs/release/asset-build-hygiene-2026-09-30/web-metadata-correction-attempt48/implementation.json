@@ -1,0 +1,16 @@
+{
+  "status": "implemented",
+  "source_sha256": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+  "description": "Collect helps groups organize contributions, shared goals and contribution records.",
+  "html_description_count": 1,
+  "obsolete_EUR_SEPA_claims_absent": true,
+  "scope": "Narrow factual Flutter web/PWA metadata correction; no runtime UI, financial capability, provider or release approval added",
+  "authority_hygiene": {
+    "command": [
+      "make",
+      "revolut-design-authority"
+    ],
+    "exit_code": 0,
+    "scope": "Sole-design-authority hygiene only; no visual fidelity acceptance"
+  }
+}

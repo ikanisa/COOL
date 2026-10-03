@@ -251,53 +251,58 @@ class _CollectionManageScreenState
                 bottom: MediaQuery.viewInsetsOf(context).bottom,
               ),
               child: CollectBottomSheet(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: Theme.of(context).textTheme.titleLarge),
-                    CollectSpacing.gap8,
-                    Text(
-                      supportingText,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: context.collectColors.textSecondary,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                    ),
-                    CollectSpacing.gap16,
-                    CollectTextInput(
-                      controller: controller,
-                      label: 'Collect ID',
-                      helper: 'Six digits',
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => submit(),
-                    ),
-                    if (error != null) ...[
-                      CollectSpacing.gap12,
-                      Semantics(
-                        liveRegion: true,
-                        excludeSemantics: true,
-                        label: error,
-                        child: Text(
-                          error!,
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: context.collectColors.danger),
+                      CollectSpacing.gap8,
+                      Text(
+                        supportingText,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: context.collectColors.textSecondary,
                         ),
                       ),
+                      CollectSpacing.gap16,
+                      CollectTextInput(
+                        controller: controller,
+                        label: 'Collect ID',
+                        helper: 'Six digits',
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (_) => submit(),
+                      ),
+                      if (error != null) ...[
+                        CollectSpacing.gap12,
+                        Semantics(
+                          liveRegion: true,
+                          excludeSemantics: true,
+                          label: error,
+                          child: Text(
+                            error!,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: context.collectColors.danger),
+                          ),
+                        ),
+                      ],
+                      CollectSpacing.gap20,
+                      CollectButton(
+                        label: working ? 'Saving' : actionLabel,
+                        icon: destructive
+                            ? Icons.switch_account_rounded
+                            : CollectIcons.check,
+                        variant: destructive
+                            ? CollectButtonVariant.danger
+                            : CollectButtonVariant.primary,
+                        onPressed: working ? null : submit,
+                        expand: true,
+                      ),
                     ],
-                    CollectSpacing.gap20,
-                    CollectButton(
-                      label: working ? 'Saving' : actionLabel,
-                      icon: destructive
-                          ? Icons.switch_account_rounded
-                          : CollectIcons.check,
-                      variant: destructive
-                          ? CollectButtonVariant.danger
-                          : CollectButtonVariant.primary,
-                      onPressed: working ? null : submit,
-                      expand: true,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );

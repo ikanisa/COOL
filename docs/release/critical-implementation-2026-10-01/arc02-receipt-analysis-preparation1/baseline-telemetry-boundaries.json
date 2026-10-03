@@ -1,0 +1,19 @@
+{
+  "name": "baseline-telemetry-boundaries",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "--disable-dart-dev",
+    "--packages=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-receipt-analysis-preparation1/proof-candidate/.dart_tool/package_config.json",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-receipt-analysis-preparation1/proof-candidate/scripts/baseline/admin_receipt_operational_telemetry_test.dart",
+    "--boundaries"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-receipt-analysis-preparation1/proof-candidate",
+  "time_limit_seconds": 60,
+  "elapsed_seconds": 0.2793837089993758,
+  "exit_code": 0,
+  "timed_out": false,
+  "owned_group_absent": true,
+  "stdout_sha256": "87ecd488f9fd7988839b160b6e34c7f9023883613e38bb95783caf64f8e069cd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pass_": true
+}

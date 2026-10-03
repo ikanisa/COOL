@@ -1,0 +1,51 @@
+{
+  "scope": "synthetic engineering fixtures; no live approval, customer/Auth/SQL/provider execution",
+  "receipts": {
+    "output/database.dump.admission.json": {
+      "argv_profile": "full_custom",
+      "artifact": {
+        "bytes": 196618,
+        "path": "/private/tmp/collect-archive-admission-9e59s8mg/output/database.dump",
+        "sha256": "54d997472b11099be4ecf08fe74049f9e458b5d3cc5c515020c5db8e2c7398e2"
+      },
+      "client_version_num": 170006,
+      "clients": {
+        "pg_dump": {
+          "path": "/private/tmp/collect-archive-admission-9e59s8mg/pg_dump",
+          "sha256": "afe168265727d46accea41375ec816d2b1851e3061cff0fbd7ce5c55cd6cd480",
+          "version": "17.6"
+        },
+        "pg_restore": {
+          "path": "/private/tmp/collect-archive-admission-9e59s8mg/pg_restore",
+          "sha256": "afe168265727d46accea41375ec816d2b1851e3061cff0fbd7ce5c55cd6cd480",
+          "version": "17.6"
+        }
+      },
+      "encrypted_destination_verified": false,
+      "full_catalog_ACL_projection_recovery_accepted": false,
+      "human_review_authenticated": false,
+      "kind": "collect_pg_archive_client_receipt",
+      "manifest_sha256": "d5e1f1af7817558329a3e124c3b4555e8efbf65ed2e80191df142817b70dccd7",
+      "operation": "dump",
+      "operation_sha256": "fb8441218d4281951646278076e49af9d2bf623787dbfce38c1251c64e5ccbef",
+      "production_ready": false,
+      "profile": "full_custom",
+      "psql_sha256": "afe168265727d46accea41375ec816d2b1851e3061cff0fbd7ce5c55cd6cd480",
+      "server_version_num": 170006,
+      "source_binding": {
+        "path": "/private/tmp/collect-archive-admission-9e59s8mg/synthetic-source-binding.json",
+        "sha256": "b4421c3378814d441c9c644e414a0c800e16dd1205cb1f67076069dc29ca5e7a"
+      },
+      "source_contract_semantics_validated": false,
+      "status": "client_completed_artifact_bound",
+      "target": {
+        "database": "postgres",
+        "host": "127.0.0.1",
+        "kind": "local_rehearsal",
+        "port": 54321,
+        "project_ref": null,
+        "user": "postgres"
+      }
+    }
+  }
+}

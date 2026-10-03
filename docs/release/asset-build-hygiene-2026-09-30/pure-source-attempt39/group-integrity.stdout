@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "concepts": 42,
+  "runtime_files_verified": 84,
+  "runtime_bytes_verified": 4488758,
+  "source_approval_references_checked": 42,
+  "source_png_bytes_verified": false,
+  "image_decode_performed": false,
+  "dimensions_checked": "positive metadata values only; use image decoder separately",
+  "scope": "Rwanda group-cover runtime files, catalog and approval references only",
+  "asset_mutations": false,
+  "visual_approval": false
+}

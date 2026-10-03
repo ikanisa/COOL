@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "command": "python3 .cache/collect-recovery-status-ui-20261002/check.py attempt1",
+  "exit_code": 1,
+  "cause": "Dependency directive parser matched import/part words inside Flutter documentation prose; assertion refused nonexistent target before test or analysis execution.",
+  "product_test_executed": false,
+  "correction": "Strip comments and anchor directives at line start."
+}

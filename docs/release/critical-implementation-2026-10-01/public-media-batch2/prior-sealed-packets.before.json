@@ -1,0 +1,12 @@
+[
+  {
+    "packet": "public-media-batch1",
+    "batch_sha256_before": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4",
+    "report_sha256_before": "b76bb85537c6496d7836db8befb422ae0b4b16f27467f7173cfec21f56291b6b"
+  },
+  {
+    "packet": "archive-cleanup-batch1",
+    "batch_sha256_before": "72fbd62ece5aae41660fa3fcbd4672da0986fb58d5f468646e94e89bda5d130b",
+    "report_sha256_before": "979d9a18cecbfac5e3855392beb7c35ddead1e0b658446e4e581b1011c641d42"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "from_attempt": "attempt2",
+  "to_attempt": "attempt3",
+  "changed_inputs": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/app/router.dart",
+      "before_sha256": "fa3f8c155d0771ee8e5025c89d99d9ede9db7d595db059f951d10cc2f505794c",
+      "after_sha256": "4500268d87507a9fd8ec3fe0dd2a3105a935db937c75a45e73ba7ea9ec6a088c"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/shared/widgets/screen_scaffold.dart",
+      "before_sha256": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+      "after_sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    }
+  ],
+  "test_assertions_changed": false
+}

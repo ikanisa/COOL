@@ -1,0 +1,678 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values exact digit strings are compared before conversion
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-02-30T10:00:00Z
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2025-02-29T10:00:00Z
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-04-31T10:00:00+00
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T24:00:00Z
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:60Z
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00+24:00
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00+02:60
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00.1234567Z
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values leap date, PostgreSQL offsets and fractions retain the same instant
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 1.5 without truncation
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects -1 without truncation
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 0 without truncation
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 9007199254740992 without truncation
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects NaN without truncation
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects Infinity without truncation
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 10 without truncation
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts optional suggestion and exact maximum remain valid
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts missing or impossible collection time is never current time
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 9007199254740992
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 9007199254740992
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value -9007199254740992
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value -9007199254740992
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 1.5
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 1.5
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value NaN
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value NaN
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value Infinity
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value Infinity
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 100
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 100
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies -1
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 1.5
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 9007199254740992
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 1
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies true
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern signed safe boundary and unknown versus explicit zero count
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections duplicate immutable ID is denied without metadata
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents duplicate immutable ID is denied without metadata
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions duplicate immutable ID is denied without metadata
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects -1
+00:00 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 1.5
+00:00 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 9007199254740992
+00:00 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 1
+00:00 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects true
+00:00 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows unknown pending count clears prior known count instead of retaining it
+00:00 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows omitted legacy windows retain unknown aggregates
+00:00 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows decoded cache collections and windows are immutable
+00:00 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency partial page must not exceed the complete aggregate
+00:00 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency loaded ownership requires matching collection ID and own total
+00:00 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency complete history must equal complete totals and ownership IDs
+00:00 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency a display label never grants ownership
+00:00 +77 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency a display label never grants ownership [E]
+  Expected: 'You'
+    Actual: 'Collect member'
+     Which: is different.
+            Expected: You
+              Actual: Collect me ...
+                      ^
+             Differ at offset 0
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/data_correctness_contract_test.dart 393:7      main.<fn>.<fn>
+  
+00:00 +77 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency full page preserves server-owned historical ownership
+00:00 +78 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency ownership IDs cannot contain control characters
+00:00 +79 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart
+00:00 +79 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: unsafe input 0 makes no create RPC and publishes no intent
+00:00 +80 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: unsafe input -1 makes no create RPC and publishes no intent
+00:00 +81 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: unsafe input 9007199254740992 makes no create RPC and publishes no intent
+00:00 +82 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: valid map ACK is bound to submitted group and exact amount
+00:00 +82 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: valid map ACK is bound to submitted group and exact amount [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +82 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: valid singleton list ACK is bound to submitted group and exact amount
+00:00 +82 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: valid singleton list ACK is bound to submitted group and exact amount [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +82 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: wrong group ACK cannot enter client state or mark membership
+00:00 +82 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: wrong group ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: wrong amount ACK cannot enter client state or mark membership
+00:00 +82 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: wrong amount ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: multiple rows ACK cannot enter client state or mark membership
+00:00 +82 -6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: multiple rows ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: empty rows ACK cannot enter client state or mark membership
+00:00 +82 -7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: empty rows ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: null ACK cannot enter client state or mark membership
+00:00 +82 -8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: null ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: scalar ACK cannot enter client state or mark membership
+00:00 +82 -9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: scalar ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: inexact amount ACK cannot enter client state or mark membership
+00:00 +82 -10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: inexact amount ACK cannot enter client state or mark membership [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/contribution_intent_binding_test.dart 98:15  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 97:19  main.<fn>
+  
+00:00 +82 -10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: late create ACK denied after same-user new session with pinned old request authority
+00:00 +82 -11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: late create ACK denied after same-user new session with pinned old request authority [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/contribution_intent_binding_test.dart 121:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 116:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/contribution_intent_binding_test.dart 121:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 116:19  main.<fn>
+  
+00:00 +82 -11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: late create ACK denied after A to B to A original session with pinned old request authority
+00:00 +82 -12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: late create ACK denied after A to B to A original session with pinned old request authority [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/contribution_intent_binding_test.dart 121:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 116:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/contribution_intent_binding_test.dart 121:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 116:19  main.<fn>
+  
+00:00 +82 -12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: same-session token refresh retains valid intent authority
+00:00 +82 -13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: same-session token refresh retains valid intent authority [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +82 -13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: 503 makes one mutation POST per explicit caller
+00:00 +82 -14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: 503 makes one mutation POST per explicit caller [E]
+  Expected: throws <Instance of 'Exception'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 552:25       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/contribution_intent_binding_test.dart 170:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 161:17  main.<fn>
+                  
+            which is not an instance of 'Exception'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/contribution_intent_binding_test.dart 170:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 161:17  main.<fn>
+  
+00:00 +82 -14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: transport loss makes one mutation POST per explicit caller
+00:00 +83 -14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh foreign ID is denied without replacing the immutable request
+00:00 +83 -15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh foreign ID is denied without replacing the immutable request [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +83 -15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh extra row is denied without replacing the immutable request
+00:00 +83 -16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh extra row is denied without replacing the immutable request [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +83 -16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh inexact count is denied without replacing the immutable request
+00:00 +83 -17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh inexact count is denied without replacing the immutable request [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +83 -17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh changed group is denied without replacing the immutable request
+00:00 +83 -18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh changed group is denied without replacing the immutable request [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +83 -18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh changed amount is denied without replacing the immutable request
+00:00 +83 -19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: refresh changed amount is denied without replacing the immutable request [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +83 -19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: old-session refresh response cannot publish into fresh same-user state
+00:00 +83 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: old-session refresh response cannot publish into fresh same-user state [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<PaymentIntentModel>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/contribution_intent_binding_test.dart 230:23  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/contribution_intent_binding_test.dart 223:17  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/contribution_intent_binding_test.dart 230:23  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/contribution_intent_binding_test.dart 223:17  main.<fn>
+  
+00:00 +83 -20: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart
+00:01 +83 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts one amount
+00:01 +84 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts normal amount
+00:01 +85 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts whole double amount
+00:01 +86 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts safe maximum amount
+00:01 +87 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects missing amount
+00:01 +88 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects zero amount
+00:01 +89 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects negative amount
+00:01 +90 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects fraction amount
+00:01 +91 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects numeric string amount
+00:01 +92 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects boolean amount
+00:01 +93 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects not a number amount
+00:01 +94 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects infinity amount
+00:01 +95 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects negative infinity amount
+00:01 +96 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects outside exact range amount
+00:01 +97 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects object amount
+00:01 +98 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts legacy amount without current amount
+00:01 +99 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: current null preserves legacy compatibility
+00:01 +100 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: equal aliases accepted
+00:01 +101 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: conflicting aliases rejected
+00:01 +102 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: invalid alias cannot hide behind valid amount
+00:01 +103 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: errors do not echo received amounts
+00:01 +104 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects blank collection_id
+00:01 +105 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects control character in collection_id
+00:01 +106 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects blank id
+00:01 +107 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects control character in id
+00:01 +108 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects non-RWF
+00:01 +109 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects malformed currency
+00:01 +110 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: legacy absent currency remains RWF
+00:01 +111 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: missing created_at is never now
+00:01 +112 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: missing expires_at is never now
+00:01 +113 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts one amount
+00:01 +114 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts normal amount
+00:01 +115 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts whole double amount
+00:01 +116 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts safe maximum amount
+00:01 +117 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects missing amount
+00:01 +118 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects zero amount
+00:01 +119 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects negative amount
+00:01 +120 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects fraction amount
+00:01 +121 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects numeric string amount
+00:01 +122 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects boolean amount
+00:01 +123 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects not a number amount
+00:01 +124 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects infinity amount
+00:01 +125 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects negative infinity amount
+00:01 +126 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects outside exact range amount
+00:01 +127 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects object amount
+00:01 +128 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts legacy amount without current amount
+00:01 +129 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: current null preserves legacy compatibility
+00:01 +130 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: equal aliases accepted
+00:01 +131 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: conflicting aliases rejected
+00:01 +132 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: invalid alias cannot hide behind valid amount
+00:01 +133 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: errors do not echo received amounts
+00:01 +134 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects blank collection_id
+00:01 +135 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects control character in collection_id
+00:01 +136 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects blank payment_id
+00:01 +137 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects control character in payment_id
+00:01 +138 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects non-RWF
+00:01 +139 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects malformed currency
+00:01 +140 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: legacy absent currency remains RWF
+00:01 +141 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: missing posted_at is never now
+00:01 +142 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects impossible day
+00:01 +143 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects non-leap February
+00:01 +144 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects month zero
+00:01 +145 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects month thirteen
+00:01 +146 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects day zero
+00:01 +147 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects April 31
+00:01 +148 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects hour overflow
+00:01 +149 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects minute overflow
+00:01 +150 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects second overflow
+00:01 +151 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects offset hour overflow
+00:01 +152 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects offset minute overflow
+00:01 +153 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects naive timestamp
+00:01 +154 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects date only
+00:01 +155 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects numeric timestamp
+00:01 +156 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects overprecision
+00:01 +157 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects trailing newline
+00:01 +158 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects year zero
+00:01 +159 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects malformed timestamp
+00:01 +160 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts UTC
+00:01 +161 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts positive offset
+00:01 +162 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts negative offset
+00:01 +163 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts PostgreSQL short UTC offset
+00:01 +164 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts compact offset
+00:01 +165 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts space separator
+00:01 +166 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts leap day
+00:01 +167 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts milliseconds
+00:01 +168 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts microseconds
+00:01 +169 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts typed instant
+00:01 +170 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp errors do not leak input
+00:01 +171 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: missing is not pending
+00:01 +172 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: blank is not pending
+00:01 +173 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: non-string is not pending
+00:01 +174 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: future non-pending status remains non-actionable
+00:01 +175 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: expired intent retained as history, not made fresh
+00:01 +176 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent rejects equal lifetime
+00:01 +177 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent rejects inverted lifetime
+00:01 +178 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: lifetime compares actual instants across offsets
+00:01 +179 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution retains posting precedence over creation
+00:01 +180 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution uses legacy creation when posting absent
+00:01 +181 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: invalid posting does not fall back to valid creation
+00:01 +182 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: payment id precedence does not compare distinct identity schemas
+00:01 +183 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: legacy contribution id remains accepted
+00:01 +184 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: malformed ownership is not silently converted
+00:01 +185 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: missing ownership stays false
+00:01 +186 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: explicit foreign rail cannot masquerade as RWF MoMo
+00:01 +187 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: optional malformed metadata yields safe format error
+00:01 +188 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: valid metadata is preserved and input remains untouched
+00:01 +189 -20: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart
+00:01 +189 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding empty history and genuine zero totals remain valid
+00:01 +190 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty page is immutable including the cursor
+00:01 +191 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count Null: null
+00:01 +192 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count int: -1
+00:01 +193 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: 1.5
+00:01 +194 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count String: 3
+00:01 +195 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count bool: true
+00:01 +196 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: NaN
+00:01 +197 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: Infinity
+00:01 +198 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count int: 9007199254740992
+00:01 +199 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate Null: null
+00:01 +200 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate int: -1
+00:01 +201 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: 1.5
+00:01 +202 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate String: 30
+00:01 +203 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate bool: true
+00:01 +204 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: NaN
+00:01 +205 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: Infinity
+00:01 +206 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate int: 9007199254740992
+00:01 +207 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding accept common exact-integer maximum without coercion
+00:01 +208 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history cannot substitute missing totals with zero
+00:01 +209 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history cannot declare a zero total
+00:01 +210 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history must supply its own-total field
+00:01 +211 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject own aggregate greater than complete aggregate
+00:01 +212 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject duplicate payment IDs within one page
+00:01 +213 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject duplicate ownership IDs instead of silently deduplicating
+00:01 +214 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject count smaller than delivered records
+00:01 +215 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor after complete result
+00:01 +216 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor pointing to another payment
+00:01 +217 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject empty history with positive aggregate
+00:01 +218 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid payment amounts
+00:01 +219 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject untrimmed group IDs
+00:01 +220 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor revision mismatch
+00:01 +221 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding cursor error does not echo supplied metadata
+00:01 +222 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows valid partial first page
+00:01 +223 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject silent initial truncation
+00:01 +224 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject empty page for nonempty history
+00:01 +225 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject ignored selected-group filter
+00:01 +226 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject repeated anchor in continuation
+00:01 +227 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject response to an old revision
+00:01 +228 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject a window larger than its requested limit
+00:01 +229 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject unsupported sort
+00:01 +230 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce newest order
+00:01 +230 -21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce newest order [E]
+  FormatException: History rows exceed the complete total
+  package:collect_app/shared/models/member_history_page.dart 132:9  MemberHistoryPage._validate
+  package:collect_app/shared/models/member_history_page.dart 52:12  new MemberHistoryPage.fromJson
+  test/member_history_page_integrity_test.dart 46:25                _page
+  test/member_history_page_integrity_test.dart 276:9                main.<fn>.<fn>
+  
+00:01 +230 -21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce oldest order
+00:01 +230 -22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce oldest order [E]
+  FormatException: History rows exceed the complete total
+  package:collect_app/shared/models/member_history_page.dart 132:9  MemberHistoryPage._validate
+  package:collect_app/shared/models/member_history_page.dart 52:12  new MemberHistoryPage.fromJson
+  test/member_history_page_integrity_test.dart 46:25                _page
+  test/member_history_page_integrity_test.dart 276:9                main.<fn>.<fn>
+  
+00:01 +230 -22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce highest order
+00:01 +230 -23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce highest order [E]
+  FormatException: History rows exceed the complete total
+  package:collect_app/shared/models/member_history_page.dart 132:9  MemberHistoryPage._validate
+  package:collect_app/shared/models/member_history_page.dart 52:12  new MemberHistoryPage.fromJson
+  test/member_history_page_integrity_test.dart 46:25                _page
+  test/member_history_page_integrity_test.dart 276:9                main.<fn>.<fn>
+  
+00:01 +230 -23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce lowest order
+00:01 +230 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce lowest order [E]
+  FormatException: History rows exceed the complete total
+  package:collect_app/shared/models/member_history_page.dart 132:9  MemberHistoryPage._validate
+  package:collect_app/shared/models/member_history_page.dart 52:12  new MemberHistoryPage.fromJson
+  test/member_history_page_integrity_test.dart 46:25                _page
+  test/member_history_page_integrity_test.dart 276:9                main.<fn>.<fn>
+  
+00:01 +230 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows use payment ID ascending for tied timestamps and amounts
+00:01 +231 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging complete a multi-page result exactly once
+00:01 +232 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject an append after a terminal page
+00:01 +233 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject duplicate across pages without modifying existing history
+00:01 +234 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed aggregate despite identical revision and count
+00:01 +235 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed own aggregate
+00:01 +236 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed ownership group IDs
+00:01 +237 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging compare ownership sets by value rather than order
+00:01 +238 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed revision or count
+00:01 +239 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject prematurely terminal continuation
+00:01 +240 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject continuation after all advertised rows were received
+00:01 +241 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject out-of-order cross-page boundary
+00:01 +242 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject more rows than the complete count
+00:01 +243 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging immutable metadata survives a cache-style round trip
+00:01 +244 -24: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart
+00:02 +244 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: existing v4 serializer round-trips money and original instants
+00:02 +245 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: restored expired intent is not made actionable
+00:02 +246 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: invalid cached contribution is not silently dropped or zeroed
+00:02 +247 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: invalid cached intent does not become a pending zero intent
+00:02 +248 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: cache cannot replace missing payment time with current time
+00:02 +249 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: cache cannot invent pending status
+00:02 +250 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: valid serialized cache remains readable through preferences
+00:02 +251 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: existing fail-closed cache read rejects corrupted payment data
+00:02 +252 -24: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart
+00:02 +252 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: missing legacy balance omits only the damaged aggregate
+00:02 +253 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: fractional legacy total omits only the damaged aggregate
+00:02 +254 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: invalid count omits only the damaged aggregate
+00:02 +255 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: invalid currency metadata omits only the damaged aggregate
+00:02 +256 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: null modern balances omits only the damaged aggregate
+00:02 +257 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: malformed modern row omits only the damaged aggregate
+00:02 +258 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: non-string field key omits only the damaged aggregate
+00:02 +259 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: non-map summary omits only the damaged aggregate
+00:02 +260 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: null summary omits only the damaged aggregate
+00:02 +261 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: all unavailable summaries still preserve cached groups
+00:02 +262 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: a valid explicit zero aggregate is retained
+00:02 +263 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: known legacy total with omitted count remains available
+00:02 +264 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: valid summaries survive a full snapshot round trip
+00:02 +265 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: input maps are not mutated during summary recovery
+00:02 +266 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: summary recovery does not hide invalid non-summary records
+00:02 +267 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: cache read preserves other data and persists only validated aggregates
+00:02 +268 -24: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart
+00:02 +268 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: profile cache preserves number and leading-zero MoMo code
+00:03 +269 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: cached RWF summary survives and foreign totals are discarded
+00:03 +270 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: mixed legacy history does not erase cached Rwanda balances
+00:03 +271 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: legacy cached names are stripped without deleting the profile
+00:03 +272 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: default cache discards the retired payment snapshot
+00:03 +273 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: Rwanda cache round trip preserves MoMo route and receiver
+00:03 +274 -24: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart
+00:03 +274 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: fixture public groups use Rwanda MoMo
+00:03 +275 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: Rwanda contribution request creates a pending MoMo intent
+00:03 +276 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: active Rwanda MoMo request with same group and amount is reused
+00:03 +277 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: foreign profile cannot initiate a contribution
+00:03 +278 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: profile save cannot overwrite an account switched during SMS disable
+00:03 +279 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: member group creation stays private and uses MoMo receiver
+00:03 +280 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: non-Rwanda payment intent is rejected on parsing
+00:03 +281 -24: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart
+00:03 +281 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: append valid next page once and stop at complete history
+00:03 +282 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: concurrent load-more taps share the existing request
+00:03 +283 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: refresh supersedes an in-flight continuation
+00:03 +283 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: refresh supersedes an in-flight continuation [E]
+  FormatException: Complete history does not match its aggregates
+  package:collect_app/shared/models/member_history_page.dart 151:7  MemberHistoryPage._validate
+  package:collect_app/shared/models/member_history_page.dart 52:12  new MemberHistoryPage.fromJson
+  test/member_history_controller_integrity_test.dart 37:23          _page
+  test/member_history_controller_integrity_test.dart 117:20         main.<fn>
+  
+00:03 +283 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: duplicate refresh taps do not create concurrent refreshes
+00:03 +284 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: changed aggregates retain old page and require refresh before more
+00:03 +285 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: server revision-change error requires refresh
+00:03 +286 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: transport failure keeps old page and allows a retry
+00:03 +287 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: failed refresh exposes safe copy and permits another refresh
+00:03 +288 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: live refresh cannot publish a truncated terminal page
+00:03 +289 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: account change before a request clears former-owner records
+00:03 +290 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: account change while loading cannot publish former-owner history
+00:03 +291 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: disposed controller ignores completion and later callback invocations
+00:03 +292 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: disposed repository invalidates a still-mounted controller
+00:03 +293 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: repository replacement with an equal state tuple recreates provider
+00:04 +294 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: search debounce is cancelled on disposal before it invokes RPC
+00:04 +295 -25: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency a display label never grants ownership
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: refresh supersedes an in-flight continuation
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce highest order
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce lowest order
+  ... and 21 more

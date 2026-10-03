@@ -1,0 +1,132 @@
+{
+  "scope": "Shared handler fixture plus existing AI dispatch policy capability; explicit Linux regression/source inventory additions only",
+  "before": {
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "bytes": 54480,
+      "lines": 1616
+    },
+    "supabase/functions/prepare-roster-import/handler.ts": {
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134",
+      "bytes": 24077,
+      "lines": 700
+    },
+    "supabase/functions/_shared/roster_ai_dispatch_policy.ts": {
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75",
+      "bytes": 6203,
+      "lines": 188
+    },
+    "supabase/functions/_shared/roster_provenance.ts": {
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+      "bytes": 7593,
+      "lines": 223
+    },
+    "supabase/functions/_shared/roster_file_policy.ts": {
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+      "bytes": 8127,
+      "lines": 232
+    },
+    "supabase/functions/_shared/production_contract.ts": {
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+      "bytes": 5120,
+      "lines": 77
+    },
+    "supabase/functions/_shared/roster_import.ts": {
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+      "bytes": 7987,
+      "lines": 255
+    },
+    "supabase/functions/_shared/roster_resource_budget.ts": {
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+      "bytes": 1982,
+      "lines": 74
+    },
+    "supabase/functions/_shared/roster_decoder.ts": {
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb",
+      "bytes": 8205,
+      "lines": 265
+    },
+    "supabase/functions/_shared/roster_response_policy.ts": {
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+      "bytes": 8416,
+      "lines": 243
+    },
+    "supabase/functions/_shared/openai_roster.ts": {
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c",
+      "bytes": 3317,
+      "lines": 115
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "lines": 37
+    },
+    "supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts": {
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3",
+      "bytes": 2960,
+      "lines": 57
+    },
+    "supabase/functions/_shared/test_assert.ts": {
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+      "bytes": 326,
+      "lines": 7
+    },
+    "supabase/functions/deno.lock": {
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+      "bytes": 7115,
+      "lines": 81
+    },
+    ".dvmrc": {
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "bytes": 6,
+      "lines": 1
+    },
+    "scripts/tests/verify_roster_decoder.py": {
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "bytes": 13760,
+      "lines": 189
+    }
+  },
+  "proposed": {
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "sha256": "cc0e43e36d775bfec36919957f0de95d545017f59bed79b22a4ecc2482412134",
+      "bytes": 26503,
+      "lines": 821
+    },
+    "supabase/functions/prepare-roster-import/handler_test_fixture.ts": {
+      "sha256": "0ea5468f9723d67246f91daf720fe8a21d544ec9823ec7767a95baacbda59dcf",
+      "bytes": 13110,
+      "lines": 410
+    },
+    "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts": {
+      "sha256": "767a19320b9081f0878e292d1f7c0b8d1982a7c76a8dcc54cd8508f4a38c429b",
+      "bytes": 15800,
+      "lines": 444
+    },
+    "scripts/tests/verify_roster_decoder.py": {
+      "sha256": "5de7df73cd8393968f4c1b98c90db1267942ba3deb653b745b492d8768bfb4f3",
+      "bytes": 13969,
+      "lines": 190
+    }
+  },
+  "exact_preserved_segments": {
+    "core_registration_blocks": {
+      "sha256": "68ae930f040ddec69d07d351b86dc1632eac888d88ed888fcc9f09c6b58353ac",
+      "bytes": 25997,
+      "lines": 791
+    },
+    "ai_policy_registration_blocks_and_helpers": {
+      "sha256": "0bc04e9a40c1a64c2eead53614d7726417899f7b28fdaed9075072eee6a1baf2",
+      "bytes": 15461,
+      "lines": 426
+    },
+    "shared_fixture_declarations": {
+      "sha256": "aa1eb8fe84d3ce7d911b682b1baaa5cbc2752b89e1dbb263255164598865d248",
+      "bytes": 12434,
+      "lines": 378
+    }
+  },
+  "handler_unchanged": true,
+  "runtime_test_completion_pending": true,
+  "maintained_mutation": false
+}

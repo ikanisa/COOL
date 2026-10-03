@@ -1,0 +1,97 @@
+{
+  "format": "collect-inactive-restore-promotion-v1",
+  "owner": "/root/ensure_contention",
+  "canonical_promoter": "/root",
+  "scope": "seven finite helper/SQL/opt-in caller/test/docs files only; no migration or live configuration",
+  "files": [
+    {
+      "source": "promote/scripts/audits/collect_recovery_source.rb",
+      "target": "scripts/audits/collect_recovery_source.rb",
+      "new": {
+        "bytes": 12861,
+        "sha256": "3a548f7b587234153496120d0b5883259b008fe1a45816fe3bd6d7117b0aaebe"
+      },
+      "expected_old": {
+        "bytes": 12441,
+        "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+      },
+      "original": "originals/scripts/audits/collect_recovery_source.rb",
+      "diff": "diffs/scripts__audits__collect_recovery_source.rb.patch",
+      "diff_binding": {
+        "bytes": 1437,
+        "sha256": "e08b9851ae24bfb85d2b8260a06c4618a5ccd0c4f4e8e6b9c7124207258cc06d"
+      }
+    },
+    {
+      "source": "promote/scripts/tests/production_archive_restore.rb",
+      "target": "scripts/tests/production_archive_restore.rb",
+      "new": {
+        "bytes": 25183,
+        "sha256": "087c9325a768d9b3551790525f974230458e40079d9eb787438b708a0544ac9d"
+      },
+      "expected_old": {
+        "bytes": 24493,
+        "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+      },
+      "original": "originals/scripts/tests/production_archive_restore.rb",
+      "diff": "diffs/scripts__tests__production_archive_restore.rb.patch",
+      "diff_binding": {
+        "bytes": 2897,
+        "sha256": "0da1c13385122f2ee79fbf2b9b7411cd27bdab1762ef106700b90e190352054b"
+      }
+    },
+    {
+      "source": "promote/scripts/audits/collect_inactive_restore_overlay.rb",
+      "target": "scripts/audits/collect_inactive_restore_overlay.rb",
+      "new": {
+        "bytes": 11607,
+        "sha256": "f056cc9da956f6845a0fc003cf7bcecda45d48ebdcadf22fd76b611ec0b1953f"
+      },
+      "expected_old": "absent"
+    },
+    {
+      "source": "promote/scripts/sql/collect_inactive_restore_overlay.sql",
+      "target": "scripts/sql/collect_inactive_restore_overlay.sql",
+      "new": {
+        "bytes": 25680,
+        "sha256": "556ec1f13ae0d331d5495ac85c545a076b40946f082cceabf2b67738117384b3"
+      },
+      "expected_old": "absent"
+    },
+    {
+      "source": "promote/scripts/tests/collect_inactive_restore_overlay_test.rb",
+      "target": "scripts/tests/collect_inactive_restore_overlay_test.rb",
+      "new": {
+        "bytes": 6718,
+        "sha256": "4a3dceaa9b56cc28054c47cc4a23073ce3ca2eebe0603179e1626bdead773c81"
+      },
+      "expected_old": "absent"
+    },
+    {
+      "source": "promote/scripts/tests/collect_inactive_restore_caller_test.rb",
+      "target": "scripts/tests/collect_inactive_restore_caller_test.rb",
+      "new": {
+        "bytes": 4019,
+        "sha256": "cde5dd0c5c3ec90f441b9037acbb55daa7b8ba6adc0a0d4660a9862e5e8fc7e9"
+      },
+      "expected_old": "absent"
+    },
+    {
+      "source": "promote/docs/platform/INACTIVE_RESTORE_OVERLAY.md",
+      "target": "docs/platform/INACTIVE_RESTORE_OVERLAY.md",
+      "new": {
+        "bytes": 6210,
+        "sha256": "2bad43001655698de9cfff6441dba23c632cf5890ba32729eed04390eb2d328f"
+      },
+      "expected_old": "absent"
+    }
+  ],
+  "excluded_prerequisite": {
+    "path": "promote/scripts/sql/collect_recovery_source_catalog.sql",
+    "binding": {
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    "reason": "unchanged original source catalog dependency, not a promotion delta"
+  }
+}

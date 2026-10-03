@@ -106,6 +106,13 @@ platform :android do
   end
 end
 
+def collect_ios_delivery_guard(operation)
+  root = File.expand_path("..", __dir__)
+  UI.user_error!("Fastlane must execute in the reviewed iOS working copy") unless ENV["COLLECT_IOS_WORKDIR"].to_s == root
+  sh("python3 #{File.join(root, 'scripts/qa/ios_delivery_guard.py').shellescape} check --operation #{operation.shellescape}")
+  sh("python3 #{File.join(root, 'scripts/qa/ios_delivery_guard.py').shellescape} verify-environment --operation #{operation.shellescape}")
+end
+
 platform :ios do
   desc "Stage Collect App Store screenshots into Fastlane's upload layout"
   lane :prepare_app_store_assets do
@@ -144,10 +151,12 @@ platform :ios do
 
   desc "Upload Collect App Store metadata and screenshots without a binary or review submission"
   lane :upload_metadata_screenshots do
+    collect_ios_delivery_guard("metadata")
+    sh("#{File.expand_path("../scripts/ios_app_store_readiness_gate.sh", __dir__).shellescape} --json")
+    collect_ios_delivery_guard("metadata")
     api_key = collect_app_store_connect_api_key
     review_phone = collect_review_phone
     review_otp = collect_review_otp
-    prepare_app_store_assets
 
     review_notes = File.read("metadata/en-GB/review_notes.txt").strip
 
@@ -164,7 +173,7 @@ platform :ios do
       submit_for_review: false,
       run_precheck_before_submit: false,
       overwrite_screenshots: true,
-      automatic_release: true,
+      automatic_release: false,
       force: true,
       app_review_information: {
         first_name: "IKANISA",
@@ -180,6 +189,9 @@ platform :ios do
 
   desc "Replace App Store screenshots with the already-reviewed repository assets"
   lane :upload_existing_app_store_screenshots do
+    collect_ios_delivery_guard("screenshots")
+    sh("#{File.expand_path("../scripts/ios_app_store_readiness_gate.sh", __dir__).shellescape} --json")
+    collect_ios_delivery_guard("screenshots")
     api_key = collect_app_store_connect_api_key
     iphone_sources = Dir["screenshots/en-GB/iphone65-*.png"].sort
     ipad_sources = Dir["screenshots/en-GB/ipadPro129-*.png"].sort
@@ -198,13 +210,14 @@ platform :ios do
       submit_for_review: false,
       run_precheck_before_submit: false,
       overwrite_screenshots: true,
-      automatic_release: true,
+      automatic_release: false,
       force: true
     )
   end
 
   desc "Build the production IPA without embedding App Review credentials"
   lane :build_review_ipa do
+    collect_ios_delivery_guard("signed_candidate")
     supabase_url = collect_production_supabase_url
     supabase_anon_key = collect_production_supabase_anon_key
     public_url = ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com").to_s.strip
@@ -219,16 +232,24 @@ platform :ios do
     }))
     review_defines.close
 
-    collect_unbundled_sh("cd .. && flutter pub get")
     begin
+      collect_unbundled_sh("cd .. && flutter pub get --enforce-lockfile")
+      collect_ios_delivery_guard("signed_candidate")
       collect_unbundled_sh([
         "cd .. &&",
         "flutter build ipa",
         "--flavor production",
         "--release",
+        "--no-pub",
         "--export-options-plist=ios/ExportOptionsAppStore.plist",
         "--dart-define-from-file=#{review_defines.path.shellescape}"
       ].join(" "))
+      collect_ios_delivery_guard("signed_candidate")
+      ipa_files = Dir[File.expand_path("../build/ios/ipa/*.ipa", __dir__)]
+      UI.user_error!("Expected one signed IPA") unless ipa_files.length == 1
+      ENV["COLLECT_IOS_IPA"] = ipa_files.fetch(0)
+      inspection = collect_required_env("COLLECT_IOS_INSPECTION")
+      sh("python3 #{File.expand_path("../scripts/qa/ios_delivery_guard.py", __dir__).shellescape} inspect --output #{inspection.shellescape}")
     ensure
       review_defines.unlink
     end
@@ -236,12 +257,15 @@ platform :ios do
 
   desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
   lane :upload_review_build do
-    sh("./scripts/ios_app_store_readiness_gate.sh --json")
+    collect_ios_delivery_guard("testflight_internal")
+    sh("#{File.expand_path("../scripts/ios_app_store_readiness_gate.sh", __dir__).shellescape} --json")
+    collect_ios_delivery_guard("testflight_internal")
+    ipa_path = collect_required_env("COLLECT_IOS_IPA")
+    before_sha256 = Digest::SHA256.file(ipa_path).hexdigest
     api_key = collect_app_store_connect_api_key
-    # Upload the exact IPA produced by the reviewed build wrapper.
-    ipa_path = File.expand_path("../build/ios/ipa/Collect.ipa", __dir__)
-    UI.user_error!("Collect.ipa is missing. Run fastlane ios build_review_ipa first.") unless File.file?(ipa_path)
     release_notes = File.read("metadata/en-GB/release_notes.txt").strip
+    collect_ios_delivery_guard("testflight_internal")
+    UI.user_error!("Approved IPA changed before upload") unless Digest::SHA256.file(ipa_path).hexdigest == before_sha256
 
     pilot(
       api_key: api_key,
@@ -252,14 +276,17 @@ platform :ios do
       skip_waiting_for_build_processing: false,
       distribute_external: false
     )
+    UI.user_error!("Approved IPA changed during upload; reconcile Apple state before retry") unless Digest::SHA256.file(ipa_path).hexdigest == before_sha256
   end
 
   desc "Upload App Privacy details using an Apple ID web session and a reviewed JSON answers file"
   lane :upload_app_privacy_details do
+    collect_ios_delivery_guard("privacy_public")
     UI.user_error!("FASTLANE_USER must be the Apple ID email for App Store Connect") if ENV["FASTLANE_USER"].to_s.strip.empty?
     privacy_details_path = File.expand_path("app_privacy_details.json", __dir__)
     UI.user_error!("fastlane/app_privacy_details.json is required") unless File.exist?(privacy_details_path)
 
+    collect_ios_delivery_guard("privacy_public")
     upload_app_privacy_details_to_app_store(
       app_identifier: COLLECT_IOS_APP_IDENTIFIER,
       team_id: COLLECT_IOS_TEAM_ID,

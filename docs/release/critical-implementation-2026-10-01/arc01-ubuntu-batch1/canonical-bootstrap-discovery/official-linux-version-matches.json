@@ -1,0 +1,44 @@
+{
+  "at_utc": "2026-10-02T00:18:43.890170+00:00",
+  "url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json",
+  "http_status": 200,
+  "response_sha256": "788ed09021f8967228eb38276c7703dbb503de5aea3c8b9b8a21d5b1c823e609",
+  "response_bytes": 269143,
+  "headers": {
+    "X-GUploader-UploadID": "AP6rU82bm_PeyV9x8xWsMrlOp4Hofd0GbnS4BFS2P3cL-TzzdeXeLNhy0Ctd2N_DW5ZHNu6lzI6clzw",
+    "x-goog-generation": "1790881821656976",
+    "x-goog-metageneration": "1",
+    "x-goog-stored-content-encoding": "identity",
+    "x-goog-stored-content-length": "269143",
+    "x-goog-hash": "crc32c=BK+LXw==",
+    "x-goog-storage-class": "STANDARD",
+    "Accept-Ranges": "bytes",
+    "Content-Length": "269143",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Expose-Headers": "Content-Type",
+    "Server": "UploadServer",
+    "Date": "Fri, 02 Oct 2026 00:18:43 GMT",
+    "Expires": "Fri, 02 Oct 2026 00:19:43 GMT",
+    "Cache-Control": "max-age=60",
+    "Last-Modified": "Thu, 01 Oct 2026 19:10:21 GMT",
+    "ETag": "\"0eb368caecee5bb5c79838431f47b103\"",
+    "Content-Type": "application/json",
+    "Age": "0",
+    "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+    "Connection": "close"
+  },
+  "base_url": "https://storage.googleapis.com/flutter_infra_release/releases",
+  "matches": [
+    {
+      "hash": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+      "channel": "stable",
+      "version": "3.44.4",
+      "dart_sdk_version": "3.12.2",
+      "dart_sdk_arch": "x64",
+      "release_date": "2026-06-24T23:47:08.450467Z",
+      "archive": "stable/linux/flutter_linux_3.44.4-stable.tar.xz",
+      "sha256": "c853cda0312a162854c481fe6a1bc286d84fbb74bfab7037c39750061dc9b466"
+    }
+  ],
+  "elapsed_seconds": 1.0240463750014897
+}

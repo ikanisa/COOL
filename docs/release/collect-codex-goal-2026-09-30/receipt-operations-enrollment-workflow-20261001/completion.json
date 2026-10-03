@@ -1,0 +1,101 @@
+{
+  "scope": "Deadline-bound v3 receipt-operations identity enrollment, activation, revocation and local private profile preparation/rotation selection",
+  "sealed_at": "2026-10-01T13:26:18.010953+00:00",
+  "status": "FOCUSED_IMPLEMENTATION_VERIFIED",
+  "implemented": [
+    "Six actor-bound owner RPCs: enroll, activate, revoke, original lookup, current identity and bounded directory",
+    "Explicit guided CLI key creation/public read, original enroll/prove/activate workflow, resume, private exclusive profile publication and current validation",
+    "Profile-independent pending/stalled/expired identity revocation, original UUID/status/manual lookup and retained reason digest",
+    "Explicit replacement UUID key tags with preserved default/old keys and strict profile/signer/stdio propagation"
+  ],
+  "current_owned_sources": {
+    "tools/collect-notification-mcp/src/unattended_enrollment_contract.ts": "0a2bc6e8ce95c88b099e84a61c35fe492e074288fdd85c38519d6eaf14f75d8d",
+    "tools/collect-notification-mcp/src/unattended_enrollment_owner.ts": "81c263e59bf16a9853c78b93a032ba69abef6026a026be377bf5427dc93947b3",
+    "tools/collect-notification-mcp/src/unattended_enrollment_journal.ts": "890c063a707447730d37591eb967da4cbfbf888633cfc29a6077e362781f6abe",
+    "tools/collect-notification-mcp/src/unattended_profile_preparation.ts": "4b32b8b4e6b67e74aecd6b51ee5179427a99f676f673842f6715933fccb63f87",
+    "tools/collect-notification-mcp/src/unattended_enrollment.ts": "c081494a65b579f31a85f6c3b31b34bc13aca976a0286baebc74255c9497e07f",
+    "tools/collect-notification-mcp/src/unattended_revocation.ts": "7bac670c9078c0208538318f5dd98d1e96358f1f4f44928ee40807e3898dad14",
+    "tools/collect-notification-mcp/src/unattended_enroll_cli.ts": "e4ca680971333beb503940db39b127b3e47a60dd39898efcbe5dd813f63ce56b",
+    "tools/collect-notification-mcp/src/unattended_enrollment.test.ts": "9aaa6a709f7d5d59e68b2bc73984df22ce1f58210dc3ad66c8accc8565abd230",
+    "tools/collect-notification-mcp/src/unattended_enrollment_observed.test.ts": "423100c9c58551a54c41c6f85a6b75a393467771830e85685d29458bb3f3479d",
+    "tools/collect-notification-mcp/src/unattended_keychain.swift": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+    "tools/collect-notification-mcp/src/unattended_client.ts": "6aebbf046272783d7de1f75c1db7b36f140d5043aabf81dc01fc583b69549847",
+    "tools/collect-notification-mcp/src/unattended_profile.ts": "2d40f66e167bcb78ae94bb73039c075dcce81333fe9604ca548813d2cf14fcde",
+    "tools/collect-notification-mcp/src/unattended_server.ts": "781b478284153da218c203e0015905b15e35005e6bf65580e6b2fa650cc2fde6",
+    "tools/collect-notification-mcp/ENROLLMENT.md": "34f2cc644dc8c98f688a576612ac3f8918a65d129202af8087bbbfde37309d30",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+    "scripts/qa/receipt_operations_enrollment_workflow_uat.py": "c3c2bceba9918b621d5d371e37c7813768e11370dc05daa22a4f61cb2f67840a"
+  },
+  "node": {
+    "tests": 180,
+    "pass": 180,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "scope": "Nine current non-history unattended Node files",
+    "bound_source_inputs": 102,
+    "exact_source_dependency_tool_readback": true,
+    "receipt": "checks-affected-final/verification.json",
+    "overall_predecessor_status": "INCOMPLETE_ONLY_AT_IMPLICIT_SDK_SWIFT_COMPILATION",
+    "executed_again_after_pass": false
+  },
+  "typescript": {
+    "exit_code": 0,
+    "executed_at": "checks-final-attempt3",
+    "exact_prior_inputs_readback": 101,
+    "associated_without_repeating": true
+  },
+  "swift": {
+    "compile_exit_code": 0,
+    "self_test_checks": 24,
+    "keychain_called": false,
+    "key_created": false,
+    "explicit_sdk": "MacOSX27.0.sdk",
+    "receipt": "swift-explicit-sdk/verification.json"
+  },
+  "sql": {
+    "cases": 92,
+    "passing": 92,
+    "source08_prerequisites": 177,
+    "additional_migrations": [
+      "20261001110000",
+      "20261001180000"
+    ],
+    "migration_sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+    "child_seal_sha256": "a2a98b8a8e1d86ca2a82a187958c6a03cd586fac8bf49c0cb836919b27d86fe6",
+    "child_seal_file_count": 1147,
+    "child_seal_readback_mismatches": 0,
+    "container_removed": true,
+    "synthetic_authority_claims": true
+  },
+  "separate_scopes_not_added": true,
+  "retained_incomplete_attempts": [
+    "checks-final/setup-failure.json",
+    "checks-final-attempt2/verification.json",
+    "checks-final-attempt3/verification.json",
+    "checks-affected-final/swift-compile.log"
+  ],
+  "whole_current_history_regression": "OPEN: changed signer/profile transitive inputs; two bounded aggregate timeouts, no current146/201 pass claim",
+  "remaining": [
+    "Normal current owner-authenticated hosted installation/enrollment and actual Secure Enclave creation/possession/rotation/revocation drill",
+    "Admin operations-identity directory/current status/enrollment/revoke integration using six v3 APIs",
+    "Current allowlists/caps/mode and prepared scheduler activation acceptance with real identities; no scheduler installed/enabled here",
+    "Full current history/candidate regression after changed transitive helper/profile inputs",
+    "Current complete migration rehearsal/release candidate/build/deployment and device/carrier acceptance outside this focused source08-prerequisite SQL subset"
+  ],
+  "hosted_calls": false,
+  "real_credentials_used": false,
+  "real_keys_created": false,
+  "keychain_calls": false,
+  "profiles_installed": false,
+  "installed_host_allowlist_changed": false,
+  "scheduler_started": false,
+  "sms_sent": false,
+  "approvals": {
+    "owner_work_authorization": "Delegated preparation authorized in this task",
+    "artifact_owner_approved": false,
+    "reviewed_production_candidate": false,
+    "production_ready": false
+  }
+}

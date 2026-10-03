@@ -1,0 +1,35 @@
+{
+  "actual_process_probes_Gradle_network_signals_source_APP_SDK_cache_mutations": false,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-probe-only-preparation1",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "deadline_seconds": 60,
+  "exact_inputs": {
+    "run_probe_only.py": "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69",
+    "test_probe_only.py": "78c8fe34bcca8d26e3cca8534e149b5e6bfca6d19c7190de5ea4c3823e7055b5"
+  },
+  "existing36_artifact_provider_overlay_fixtures_reused": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/pure-fixture-tests-result.json",
+    "sha256": "a3e7bfdc1bad64290f6eb1a8184aa9a0f3169c399dca469435666c4c6c678471"
+  },
+  "exit_code": 0,
+  "kind": "actual_private_probe_only_fixtures",
+  "original58_tracker_fixtures_reused": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/argv-fixture-tests-result.json",
+    "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+  },
+  "outer_actual_seconds_retained": null,
+  "reported_unittest_seconds": 0.01,
+  "stderr_sha256": "ecb52376424c91b1972143a976880079e7606836f24214da26377d70fcc9fdd4",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_count": 7
+}

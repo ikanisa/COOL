@@ -1,0 +1,6 @@
+{
+  "third_party/gotrue/test/client_test.dart": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469",
+  "third_party/gotrue/test/get_claims_test.dart": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+  "third_party/gotrue/test/synthetic_jwt.dart": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+  "test/core/auth_fixture_token_test.dart": "68f7816ef4f012395f98e1519200feb27ae337e465afc3e57d7f53310b3c638d"
+}

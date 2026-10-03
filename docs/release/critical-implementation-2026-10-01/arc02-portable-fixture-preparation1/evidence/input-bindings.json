@@ -1,0 +1,297 @@
+[
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/result.json",
+    "role": "dated producer result reference only",
+    "sha256": "d43ac5cdeddf5b6d3e066a352ed187b5072012b750a40affe65fe3d27104d632"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-empty.json",
+    "role": "original observed receipt preserved",
+    "sha256": "da573fe1099c870d7030fffa1fcba253438d2207d2dae516ca09491568d916e5"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-populated.json",
+    "role": "original observed receipt preserved",
+    "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-filtered.json",
+    "role": "original observed receipt preserved",
+    "sha256": "026af1cd52b0b3466c5ac835480012d25832ebc2cc03ee5474448d234f8fdbd4"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-cleared.json",
+    "role": "original observed receipt preserved",
+    "sha256": "f4098e216968f91373491059310e9eb54a423a698df02ebd869288c4c234a9e7"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-unknown-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "414f30dc8588b4fec172d574408c74de61a2beb0afcf6e741296b0194448aeae"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-progress-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "18232f8ab20f43bd4441b5515d932f5125d3da3618d341a4050f3d676c969e6d"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-action-receipt.json",
+    "role": "original observed receipt preserved",
+    "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/result.json",
+    "role": "dated producer result reference only",
+    "sha256": "a1dbf79651211b66de2b0f6203f7321e9058914b5919e090c1f0f057d0f6f4c7"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-workflow.json",
+    "role": "original observed receipt preserved",
+    "sha256": "04fb9b76ef51c650d5ab1480bd140d1bffcaa95ce7c2a69ebc73b26f3e17bae7"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-inbox.json",
+    "role": "original observed receipt preserved",
+    "sha256": "a7d5090882a5e81509f8fdbc4c2084a04e6d03de9feaa4a3667708670fe06341"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned.json",
+    "role": "original observed receipt preserved",
+    "sha256": "5050c7c492b807ef313efcd83852e66e962aba02e142a74c052c31adcfb2a591"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned-resolved.json",
+    "role": "original observed receipt preserved",
+    "sha256": "e50a36c7d3062b6b12b9cb4608e8b35ac0e87aef9247bec68e93614431cabd57"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/result.json",
+    "role": "dated producer result reference only",
+    "sha256": "2d325998b1b85302f7d7da44d4350421930bf3e951c3987d71673f2a3b85ccf9"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-linked-rwanda-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "0239ef2f91d20a243929b4093f51b6e213d72f0dbb85e214f2e6ecee54ee1419"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-revision-exhausted-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "1b847da9a8e864b0138adbc95b8adc4a75d9ffe3afe287f7c4eb83b074f22d02"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-unavailable-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "0bc8824f687ce2ea235d2f2879349db66e74b9f00f6c48d15542fef456847eb4"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-prior-attempt-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "1ce9e947890213234a39e68cd62ebf4f8d3133a9c8f48fba029f2ea93dde3f11"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-unclassified-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "79c13bc4a1e7a3a62185c7b477c7e71e97f72d6c4707a0ef981ab053eec0dea3"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-cancelled-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "9727b45d814ca9e912d917b63e0ae73c16cc7439b52ed24ef9f633b00cb3db0f"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-preexisting-eligible-inspection.json",
+    "role": "original observed receipt preserved",
+    "sha256": "8aa92eed8d3fc9f9232139e0d2099cca6a074a51093b851e94e33bac7f5f0166"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-recorded-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "c4046b0031d213df5cbac874469ba4d06f1494def0b3b5d32742533c755f0304"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-in-progress-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "ae95aeb057c1112008c70ac01a2bdb4b408d054e2b6b0eab4a00e2fb3e939e3f"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-reauthenticated-original-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "e3f14d12c7faef679efee85f6640e185b70432d21994f9af9feb7b0b41367e02"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-not-recorded-lookup.json",
+    "role": "original observed receipt preserved",
+    "sha256": "15105aee43c8cf8b38bfa1993db25393327dd7b245a924484a0cb52484a50d68"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-cancelled-action.json",
+    "role": "original observed receipt preserved",
+    "sha256": "646a9787cdde36ff79cf6d15cca7c380a6222ed7fbb2df2fcd212549219770eb"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/result.json",
+    "role": "dated producer result reference only",
+    "sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-input-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-input-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-lookup-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-active-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-pages-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-revoked-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-expired-active-v3.json",
+    "role": "original observed receipt preserved",
+    "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-configure.json",
+    "role": "original operations receipt preserved",
+    "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6"
+  },
+  {
+    "path": "test/fixtures/admin_receipt_operations_v2/observed-owner-configure.json",
+    "role": "existing operations fixture reused",
+    "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-stop.json",
+    "role": "original operations receipt preserved",
+    "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad"
+  },
+  {
+    "path": "test/fixtures/admin_receipt_operations_v2/observed-owner-stop.json",
+    "role": "existing operations fixture reused",
+    "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-lookup-recorded.json",
+    "role": "original operations receipt preserved",
+    "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84"
+  },
+  {
+    "path": "test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-recorded.json",
+    "role": "existing operations fixture reused",
+    "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-policy-default.json",
+    "role": "original operations receipt preserved",
+    "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de"
+  },
+  {
+    "path": "test/fixtures/admin_receipt_operations_v2/observed-policy-default.json",
+    "role": "existing operations fixture reused",
+    "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de"
+  },
+  {
+    "path": "test/fixtures/admin_receipt_operations_v2/provenance.json",
+    "role": "existing operations provenance unchanged",
+    "sha256": "3ce75fced64bd2cda48b373e01de9cde89eb366c07197554a58fa3ce0691d6bc"
+  },
+  {
+    "path": "test/admin_exception_models_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d"
+  },
+  {
+    "path": "test/admin_exception_workflow_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f"
+  },
+  {
+    "path": "test/admin_receipt_cancel_models_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "65d46e4684d3d78d8da775f15f862d802ea500a176e9ee07a324cfdd6a7de5bf"
+  },
+  {
+    "path": "test/admin_receipt_operations_sdk_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e"
+  },
+  {
+    "path": "test/admin_receipt_principal_integration_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "c6d054fa1485f33dd079279cc8f9658f9e8e8f55773a7bf7e01938d2e7b4457f"
+  },
+  {
+    "path": "test/support/admin_exception_fixture.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "4f7ac29d058553965c7962016cde214b909d3425c702bf827cc5d5cf0efc2539"
+  },
+  {
+    "path": "test/core/notification_registration_recovery_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd"
+  },
+  {
+    "path": "test/admin_investigation_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "ad13dc60b22527165586c539c8683cac6605931e2fca8c37d88575de7389bd73"
+  },
+  {
+    "path": "test/admin_receipt_overview_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f"
+  },
+  {
+    "path": "test/admin_roster_dialog_test.dart",
+    "role": "maintained Dart preimage",
+    "sha256": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582"
+  },
+  {
+    "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/plan.json",
+    "role": "current41 consumer plan reference only",
+    "sha256": "ed7d8c14c95a9fc9c4560d566bfa3cc53c3d4aa599b343dbace8c781288fcfd4"
+  },
+  {
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/result.json",
+    "role": "dated operations producer result reference only",
+    "sha256": "2481db9232b645d3b0da2b7ac316ce719d907407790e56519f333c03f5897d19"
+  }
+]

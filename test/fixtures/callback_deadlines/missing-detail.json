@@ -1,0 +1,19 @@
+{
+  "head": null,
+  "items": [],
+  "limit": 20,
+  "scope": "receipt_callback_deadline_detail",
+  "status": "unavailable",
+  "case_id": "d1f73dd3-ccfc-4c52-8b77-defcd39cdfc4",
+  "checked_at": "2026-10-02T03:22:26.804904Z",
+  "send_action": false,
+  "carrier_proof": false,
+  "next_revision": null,
+  "scanned_count": 0,
+  "after_revision": null,
+  "cutoff_revision": null,
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-02T03:23:26.804904Z"
+}

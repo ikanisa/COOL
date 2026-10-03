@@ -1,0 +1,60 @@
+{
+  "checkout_drift_at_completion": [],
+  "controls": [
+    "bounded_nonblank_1000_Unicode_code_point_reason",
+    "captured_Bearer_and_sticky_Auth_generation_group_route_authority",
+    "fresh_server_invitation_read_before_export",
+    "exact_five_field_v2_rotation_receipt",
+    "deliberate_retry_false_and_one_request_measured_after_loss_503",
+    "stable_same_session_uncertain_request_replay_no_legacy_mutation_fallback",
+    "stale_QR_platform_dispatch_and_clipboard_fallback_suppressed",
+    "real_full_1080px_QR_PNG_decode",
+    "native_absolute_requested_PNG_receipt_required_before_saved_success",
+    "web_Downloads_dispatch_receipt_and_download_started_copy",
+    "actual_FileSaver_Android_MethodChannel_invalid_receipts_and_UI_late_error_cases"
+  ],
+  "export_source_changes": [],
+  "fatal_analysis": "clean_13_focused_runtime_and_test_paths",
+  "immutable_export_inputs": 938,
+  "limits": [
+    "Synthetic loopback HTTP/platform delay fixtures; actual locked SDK and production widgets/methods used",
+    "Old locked-SDK transport probes observed one request, not duplicate POSTs",
+    "No persisted SQL audit, provider, device, native plugin or signed build proof",
+    "Current full shared runtime/native/media acceptance held; source migrations153_154_155 remain root-owned",
+    "Confirmed native receipt is not physical filesystem/share/device acceptance; browser receipt means download dispatch, not verified saved disk bytes"
+  ],
+  "owned_live_drift_at_sealing": [
+    "lib/shared/repositories/collect_repository.dart"
+  ],
+  "owned_live_drift_disposition": "Shared repository remainder changed by L15 owner after completion; invitation methods remain exact. Final common runtime rebind remains required.",
+  "owned_repository_method_sha256": "e2a502b3cdc6eaca46d743898025e35e74364fb06c4e4042c52e0b10c28609d5",
+  "owned_repository_methods_live_match": true,
+  "owned_source_sha256": {
+    "lib/admin/shared/components/admin_confirm_dialog.dart": "1a966b281e36d87e8f60a114a84ed9fe0be2182a57f6f9d46737461969ec1814",
+    "lib/features/collections/group_invitation_transport.dart": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+    "lib/features/collections/group_share_service.dart": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+    "lib/features/collections/share_screen.dart": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+    "lib/shared/repositories/collect_invitation_protection.dart": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+    "lib/shared/repositories/collect_repository.dart": "abf763d90cc78f3ea775d5b7578f3afcf037b26a1a5353969da1fcea95fe5976",
+    "test/admin_reason_dialog_bounds_test.dart": "2989c43ec3ab85c4587b6071bc0740f499fcb6b50920ee6c39b7137164cbb63a",
+    "test/features/group_invitation_output_test.dart": "537b3e964925c8e0c8cef7093b562808033050a2f067ee6f7101817c3ae06285",
+    "test/features/group_invitation_save_receipt_test.dart": "09702bb25719f5849e8a2c087d1140f3ee03258e98a70faf98e4597810472fbb",
+    "test/shared/group_invitation_protection_test.dart": "eea79b77bc5cdd6b3d1518a497753587dd502b5f02ab3ee1cbbdf76383f32a36"
+  },
+  "proof_sha256": {
+    "invitation-current-attempt6/validation.json": "ec1875a2a5a9cc8b83466b328038ae26dd32f7cfeadf453a366360402c58a945",
+    "invitation-final-attempt10/validation.json": "da5e91b4f9696acc8dc5dbf79fae305cc235f69375797e159a937519a89769c7",
+    "invitation-prior-attempt5/validation.json": "cec0d61bd11b2fbc8650ec48062e1aacd1e08a0f28de9aa355aed4e375708f89",
+    "invitation-save-current-attempt14/validation.json": "9653866a08b15697cdd9dc968ee621b39a19688d3c2905c975e612c44fb62779",
+    "invitation-save-final-attempt15/validation.json": "63d8fa1f1c3b38e6e948802a4f03615397cd3a39ed713133a341f3d72b95b8ff",
+    "invitation-save-prior-attempt13/validation.json": "1f900ce50dc34774b7f32fbd60f4b3cb893b08c6b82aed6962acabd259a03f41",
+    "invitation-ui-attempt7/validation.json": "0970a5ca5d9d9d3637df79b73d5fc1908327c312c912dc91ff42f716d3e7788a",
+    "invitation-ui-attempt8/validation.json": "a9ea0a9c512838305bb17aa0b1c43c4827ddf04202b7dbcb081fd37276bebeb4",
+    "invitation-ui-attempt9/validation.json": "85150a1ce38a8c86fec2a054cbdcbb27f663b951983a149f5700b801314eb26d",
+    "reason-current-attempt3/validation.json": "94a48b67a0f0a71119067de87705e3504eaaa960d01c747bf7103e7124cee31e",
+    "reason-prior-attempt2/validation.json": "86cce07eebf343e0e27ec90304ea50976f20a89cbe12fdda78cb997aba9b4b5a"
+  },
+  "save_receipt_baseline": "Prior13 preserved eight failures after receipt seam extraction without receipt checking; original FileSaver dispatch unchanged, only actual platform handler substituted in tests",
+  "status": "accepted_export_scope_live_drift",
+  "test_cases": 80
+}

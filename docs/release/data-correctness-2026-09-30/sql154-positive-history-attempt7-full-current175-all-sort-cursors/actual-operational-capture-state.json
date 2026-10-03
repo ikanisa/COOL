@@ -1,0 +1,10 @@
+{
+  "action_count": 0,
+  "observation_count": 139,
+  "payment_trigger_enabled": true,
+  "posted_active_count": 0,
+  "posted_resolved_count": 69,
+  "source_payment_count": 70,
+  "unposted_financial_rows": 0,
+  "unposted_pending_count": 1
+}

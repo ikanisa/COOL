@@ -1,0 +1,86 @@
+--- preparation1/test_rehearsal.py
++++ preparation2/test_rehearsal.py
+@@ -134,4 +134,83 @@
+             self.assertEqual(runner.records[-1]['input_sha256'],r.sha(body))
+ 
+ 
++class SourceRoleTests(unittest.TestCase):
++    def fixture(self):
++        return json.loads((HERE / 'source-role-globals.json').read_text())
++
++    def test_observed_missing_role_has_one_exact_prerequisite(self):
++        source = self.fixture(); target = copy.deepcopy(source)
++        target['roles'].remove(r.SOURCE_ROLE)
++        self.assertEqual(r.restore_role_plan(source, target), r.SOURCE_ROLE_SQL)
++        self.assertEqual(r.SOURCE_ROLE_SQL, 'create role supabase_functions_admin with nosuperuser noinherit createrole nocreatedb login noreplication nobypassrls connection limit -1;')
++        target['roles'].append(list(r.SOURCE_ROLE)); target['roles'].sort(key=lambda x:x[0])
++        self.assertTrue(r.exact_role_globals(source, target))
++
++    def test_already_exact_roles_require_no_mutation(self):
++        source = self.fixture()
++        self.assertEqual(r.restore_role_plan(source, copy.deepcopy(source)), '')
++
++    def test_unknown_missing_and_extra_roles_refused(self):
++        source = self.fixture()
++        for name in ['pg_checkpoint', 'supabase_auth_admin']:
++            target = copy.deepcopy(source)
++            target['roles'] = [row for row in target['roles'] if row[0] != name]
++            with self.subTest(name=name), self.assertRaises(r.Refused):
++                r.restore_role_plan(source, target)
++        target = copy.deepcopy(source); row = list(r.SOURCE_ROLE); row[0] = 'unexpected_role'
++        target['roles'].append(row); target['roles'].sort(key=lambda x:x[0])
++        with self.assertRaisesRegex(r.Refused, 'UNADMITTED_ROLE_IDENTITIES'):
++            r.restore_role_plan(source, target)
++
++    def test_every_observed_role_attribute_mismatch_refused(self):
++        source = self.fixture()
++        for name in ['supabase_functions_admin', 'postgres', 'pg_checkpoint']:
++            for index in range(1, 11):
++                target = copy.deepcopy(source)
++                row = next(row for row in target['roles'] if row[0] == name)
++                row[index] = not row[index] if index < 8 else 0 if index == 8 else 'infinity' if index == 9 else 'a'*64
++                with self.subTest(name=name,index=index), self.assertRaisesRegex(r.Refused, 'SOURCE_ROLE_ATTRIBUTES_CHANGED'):
++                    r.restore_role_plan(source, target)
++
++    def test_unadmitted_source_role_attributes_refused(self):
++        source = self.fixture(); next(row for row in source['roles'] if row[0] == r.SOURCE_ROLE[0])[2] = True
++        with self.assertRaisesRegex(r.Refused, 'EXACT_OBSERVED_SOURCE_ROLE_COHORT_REQUIRED'):
++            r.restore_role_plan(source, copy.deepcopy(source))
++
++    def test_membership_and_setting_mismatches_refused(self):
++        source = self.fixture()
++        targets = []
++        for category in ('memberships','settings'):
++            target = copy.deepcopy(source); target[category].pop(); targets.append(target)
++        target = copy.deepcopy(source); target['memberships'][0][3] = True; targets.append(target)
++        target = copy.deepcopy(source); target['settings'][0][2] = 'a'*64; targets.append(target)
++        for target in targets:
++            with self.assertRaisesRegex(r.Refused, 'SOURCE_ROLE_MEMBERSHIPS_OR_SETTINGS_CHANGED'):
++                r.restore_role_plan(source, target)
++            with self.assertRaisesRegex(r.Refused, 'WHOLE_SOURCE_ROLE_GLOBALS_CHANGED'):
++                r.exact_role_globals(source, target)
++
++    def test_duplicate_malformed_and_unknown_global_rows_refused(self):
++        source = self.fixture(); targets = []
++        target = copy.deepcopy(source); target['roles'].insert(0,list(target['roles'][0])); targets.append(target)
++        target = copy.deepcopy(source); target['roles'][0][1] = 0; targets.append(target)
++        target = copy.deepcopy(source); target['memberships'][0][0] = 'unknown'; targets.append(target)
++        target = copy.deepcopy(source); target['settings'].append(list(target['settings'][0])); targets.append(target)
++        target = copy.deepcopy(source); target['unknown'] = []; targets.append(target)
++        for target in targets:
++            with self.assertRaises(r.Refused): r.role_globals(target)
++
++    def test_readonly_query_reuses_exact_bound_catalog_expressions(self):
++        inputs = json.loads((HERE / 'inputs.json').read_text())
++        body = (Path(inputs['candidate']) / r.CATALOG).read_text()
++        query = r.role_inventory_query(body)
++        fragment = body[body.index(" 'roles',"):body.index(" 'relations',")].rstrip()[:-1]
++        self.assertIn(fragment, query)
++        self.assertTrue(query.startswith('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;'))
++        self.assertTrue(query.endswith('COMMIT;\n'))
++        self.assertNotIn('schema_migrations', query)
++        for bad in [body.replace(" 'roles',", " 'renamed',"), body + " 'roles',", body.replace(" 'settings',", " 'renamed',")]:
++            with self.assertRaises(r.Refused): r.role_inventory_query(bad)
++
++
+ if __name__=='__main__':unittest.main()

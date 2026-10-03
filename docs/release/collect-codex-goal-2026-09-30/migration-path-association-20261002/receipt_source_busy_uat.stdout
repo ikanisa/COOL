@@ -1,0 +1,5 @@
+usage: receipt_source_busy_uat.py [-h] --report-dir REPORT_DIR
+
+options:
+  -h, --help            show this help message and exit
+  --report-dir REPORT_DIR

@@ -1,0 +1,58 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart	2026-10-01 15:47:27
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-integration-current2/test/admin_receipt_principal_integration_test.dart	2026-10-01 16:06:20
+@@ -222,9 +222,9 @@
+   'scope': 'rw_receipt_operations',
+   'key_sha256': binding.keySha256,
+   'identity_expires_at': operationsUtc(binding.identityExpiresAt),
+-  'recorded_at': operationsUtc(
+-    recordedAt ?? binding.createdAt.add(const Duration(microseconds: 1)),
+-  ),
++  // This declared immediate service double records at the captured clock.
++  // Its subsequent same-clock lookup must never precede its own receipt.
++  'recorded_at': operationsUtc(recordedAt ?? binding.createdAt),
+   'request_expires_at': operationsUtc(binding.requestExpiresAt),
+   if (binding.action == AdminReceiptPrincipalAction.revoke)
+     'reason_sha256': binding.reasonSha256,
+@@ -384,12 +384,30 @@
+   (widget) => widget is TextField && widget.decoration?.labelText == label,
+ );
+ Future<void> _tap(WidgetTester tester, String label) async {
++  // Text-controller listeners can rebuild a disabled confirmation control.
++  // Apply that frame before dispatching; a later pump cannot replay an ignored
++  // tap (notably the reason dialog's ValueListenableBuilder).
++  await tester.pump();
+   final finder = find.text(label).last;
+   await tester.ensureVisible(finder);
+   await tester.tap(finder);
+   await _settle(tester);
+ }
+ 
++Future<void> _until(
++  WidgetTester tester,
++  bool Function() reached,
++  String description,
++) async {
++  // Closing dialog/controller continuations and Riverpod invalidation can
++  // schedule a fresh read after the last settled frame. Wait only for the
++  // required observable side effect; failure retains the original assertion.
++  for (var attempt = 0; attempt < 10 && !reached(); attempt++) {
++    await _settle(tester);
++  }
++  expect(reached(), isTrue, reason: description);
++}
++
+ void main() {
+   group('Pinned SDK principal v3 contracts', () {
+     late _Sdk sdk;
+@@ -915,6 +933,11 @@
+         expect(find.text('Enrollment recorded: Pending'), findsOneWidget);
+         expect(find.textContaining('original action receipt'), findsOneWidget);
+         expect(find.text('Original identity request ID'), findsNothing);
++        await _until(
++          tester,
++          () => repository.queries.length >= 2,
++          'Durable enrollment must automatically refresh its directory.',
++        );
+         expect(repository.queries.length, greaterThanOrEqualTo(2));
+       },
+     );

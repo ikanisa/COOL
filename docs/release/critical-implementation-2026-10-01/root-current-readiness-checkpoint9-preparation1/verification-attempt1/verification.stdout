@@ -1,0 +1,49 @@
+{
+  "kind": "checkpoint9_exact_private_proposal_validation",
+  "admission_sha256": "81ab05146e1d7058e78ec3fb340af5b0b0ef110b8aaf57400ff6d222f8897b1b",
+  "invariants": {
+    "contracts40_unchanged": true,
+    "legacy102_24_arrays_and_non_extension_fields_unchanged": true,
+    "all_previous_checkpoints_preserved": true,
+    "historical_markdown_bodies_unchanged": true,
+    "closed_ids": [
+      "BE-10",
+      "ARC-01",
+      "ARC-02",
+      "ARC-04",
+      "PD-02",
+      "PD-12",
+      "PD-14"
+    ],
+    "full_open": 33,
+    "release_decision": "NO-GO",
+    "goal_status": "active",
+    "production_release_approval": false,
+    "named_evidence_refs": 26,
+    "live_affected_input_guards": 11
+  },
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "source_fence_sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+  "before_sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "ad6f9b6257aa0e409c9f671acb4d060688a8ac3172a1436eb3ead8329ca7363a",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a0b8b7672f13f600fbd3d3676688499ee29702f32957abdc13ef73148474341d",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "0ceae9d27cd33cfa7e9b0a03c74fe2f07e2c8a6bf39ad7084c337a3be4fafc18",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "e6a45b89f16e26c8b8d319b9845662e8267444b7fdd93d171e0b854b76b43734",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "86f31f9af3274cd2adff3cfeb18959a2c16434f5143c1d16607ec1ed1246c10d",
+    "docs/release/local-implementation-register-2026-09-30.json": "485531ac36b949287f2ceedd81d1f8b5650d9e8f2f0c4b83c94a2a2d6f0f0961",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "2d63e20d4c6116a98a7cf48fc67917cb22a7a32b81eaafd9c2453491384c5cb9"
+  },
+  "proposed_after_sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "77c32b461149f1927f9f53a21754494369c8c8f2ed4eb8d2eaafe0fe4243c69d",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "68a49fdf824ea42abda24abcf1c8b5a7f5bfb71f72b909ef7eda52b82edb8df6",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "1626c9c2da4f2f2a217e2d3b3709c559a098d42fc57f7aee45184996d15f9f10",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "3b57775ef65a1f3bea441751abb6c1b69b756f4727fa247a77d61da1d537e7b2",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "2c84fd7b9e319e4d210606b7d359fe3787466456a802c99d34f39f946ef34460",
+    "docs/release/local-implementation-register-2026-09-30.json": "efd4195f5f208645800cc6a9272f2a27ea707f1c77f026b0e57bcc0d89d1acb8",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "9883848d32e268d1f1c0933357ad7d11454296f8c4f846598d53a1efe623e32e"
+  },
+  "written_canonical_paths": [],
+  "canonical_apply_executed": false,
+  "cache_build_test_network_process_or_provider_calls": false,
+  "actual_seconds": 0.018063875002553686
+}

@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 14.068,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "scripts/tests/test_postgres_admission.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 120,
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T06:39:51.562085+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 85435,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T06:39:37.494808+00:00",
+  "stderr_sha256": "8b6e42db8225acfffa11c65b3098d6e47be4c984a7cd9d9d22cd720de9f82e8e",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

@@ -1,0 +1,9 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/admin_roster_fresh_auth_test.dart
+00:00 +0: lookup/inspection are read-only and transfer requires explicit affirmation
+00:01 +1: explicit recovery preserves upload proof and resets approval, with references-only bookmark
+00:02 +2: response loss only permits status read, never implicit transfer retry
+00:02 +3: missing transfer status cannot adopt or issue a second write
+00:02 +4: malformed missing transfer acknowledgements retain pending state without retry
+00:03 +5: Auth invalidation clears inspected private rows and prevents late adoption
+00:03 +6: lineage corruption cannot masquerade as an original upload or recovered source
+00:03 +7: All tests passed!

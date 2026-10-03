@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 174, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 121, in main
+    r=t.sql(('update collect_receipt_policy.content_evidence set language=\'en\''if operation=='update'else'delete from collect_receipt_policy.content_evidence')+'where outbox_id='+q(last_job['id'])+';',check=False);case('even owner cannot '+operation+' captured language evidence',r.returncode!=0 and 'receipt_content_evidence_immutable'in r.stderr)
+                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 42, in case
+    if not ok:raise AssertionError(name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: even owner cannot delete captured language evidence

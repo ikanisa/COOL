@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "affected_jvm_tests": 48,
+  "failures_errors_skips": 0,
+  "exact_48_case_selection_verified": true,
+  "real_json_class_loaded_in_actual_test_jvm": true,
+  "json_coordinate": "org.json:json:20250517",
+  "json_artifact_sha256": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
+  "json_gateway_test_only_not_release_runtime": true,
+  "previous174_50_passing_controls_reused": true,
+  "release173_artifact_lint_graph_font_proof_reused": true,
+  "release_apk_unchanged": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-gateway-notification-attempt173/app-internal_gateway-release-unsigned.apk",
+    "sha256": "7a66f1b847ec36ab3f34db98b48c993073fedfadb6e08863633000be2fe4423d",
+    "bytes": 82297842
+  },
+  "owned_gradle_sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+  "all_frozen173_native_inputs_unchanged_except_174_marker_and_175_test_dependency": true,
+  "minimal_frozen_candidate_overlay": [
+    "android/app/build.gradle.kts from this exact export; all other captured173 sources unchanged"
+  ],
+  "scope": "Complete captured E3 acceptance via173 Release assemble/lint/graphs/registrants/Inter/unsigned APK plus17450 unaffected JVM passes and17548 affected realJSON cases. Shared latest Gateway/backend/MCP source may differ and is not overlaid or certified; no new Release/lint/prod/iOS or broad graph run."
+}

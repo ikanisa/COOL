@@ -1,0 +1,3346 @@
+{
+    "schema_version": 1,
+    "root_requested": "com.android.tools.lint:lint-gradle:32.0.1",
+    "generated_utc": "2026-10-02T14:46:24.151079Z",
+    "repository_scope": [
+        "https://dl.google.com/dl/android/maven2/",
+        "https://repo.maven.apache.org/maven2/"
+    ],
+    "actual_artifact_repository_not_exposed_by_this_collector": true,
+    "components": [
+        {
+            "kind": "module",
+            "group": "com.android.tools.analytics-library",
+            "name": "protos",
+            "version": "32.0.1",
+            "id": "com.android.tools.analytics-library:protos:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.analytics-library",
+            "name": "shared",
+            "version": "32.0.1",
+            "id": "com.android.tools.analytics-library:shared:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.analytics-library",
+            "name": "tracker",
+            "version": "32.0.1",
+            "id": "com.android.tools.analytics-library:tracker:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.build",
+            "name": "aapt2-proto",
+            "version": "9.0.1-14304508",
+            "id": "com.android.tools.build:aapt2-proto:9.0.1-14304508",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.build",
+            "name": "builder-model",
+            "version": "9.0.1",
+            "id": "com.android.tools.build:builder-model:9.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.build",
+            "name": "manifest-merger",
+            "version": "32.0.1",
+            "id": "com.android.tools.build:manifest-merger:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.ddms",
+            "name": "ddmlib",
+            "version": "32.0.1",
+            "id": "com.android.tools.ddms:ddmlib:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.external.com-intellij",
+            "name": "intellij-core",
+            "version": "32.0.1",
+            "id": "com.android.tools.external.com-intellij:intellij-core:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.external.com-intellij",
+            "name": "kotlin-compiler",
+            "version": "32.0.1",
+            "id": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.external.org-jetbrains",
+            "name": "uast",
+            "version": "32.0.1",
+            "id": "com.android.tools.external.org-jetbrains:uast:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.layoutlib",
+            "name": "layoutlib-api",
+            "version": "32.0.1",
+            "id": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint-api",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint-api:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint-checks",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint-checks:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint-gradle",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint-gradle:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint-model",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint-model:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint-typedef-remover",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint-typedef-remover:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools.lint",
+            "name": "lint",
+            "version": "32.0.1",
+            "id": "com.android.tools.lint:lint:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "annotations",
+            "version": "32.0.1",
+            "id": "com.android.tools:annotations:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "common",
+            "version": "32.0.1",
+            "id": "com.android.tools:common:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "dvlib",
+            "version": "32.0.1",
+            "id": "com.android.tools:dvlib:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "play-sdk-proto",
+            "version": "32.0.1",
+            "id": "com.android.tools:play-sdk-proto:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "repository",
+            "version": "32.0.1",
+            "id": "com.android.tools:repository:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "sdk-common",
+            "version": "32.0.1",
+            "id": "com.android.tools:sdk-common:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.android.tools",
+            "name": "sdklib",
+            "version": "32.0.1",
+            "id": "com.android.tools:sdklib:32.0.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.google.code.gson",
+            "name": "gson",
+            "version": "2.11.0",
+            "id": "com.google.code.gson:gson:2.11.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.google.errorprone",
+            "name": "error_prone_annotations",
+            "version": "2.27.0",
+            "id": "com.google.errorprone:error_prone_annotations:2.27.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.google.jimfs",
+            "name": "jimfs",
+            "version": "1.1",
+            "id": "com.google.jimfs:jimfs:1.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.google.protobuf",
+            "name": "protobuf-java",
+            "version": "3.25.5",
+            "id": "com.google.protobuf:protobuf-java:3.25.5",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.sun.istack",
+            "name": "istack-commons-runtime",
+            "version": "3.0.8",
+            "id": "com.sun.istack:istack-commons-runtime:3.0.8",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "com.sun.xml.fastinfoset",
+            "name": "FastInfoset",
+            "version": "1.2.16",
+            "id": "com.sun.xml.fastinfoset:FastInfoset:1.2.16",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "commons-codec",
+            "name": "commons-codec",
+            "version": "1.17.1",
+            "id": "commons-codec:commons-codec:1.17.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 1.17.1 and 1.10"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "commons-io",
+            "name": "commons-io",
+            "version": "2.16.1",
+            "id": "commons-io:commons-io:2.16.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "commons-logging",
+            "name": "commons-logging",
+            "version": "1.2",
+            "id": "commons-logging:commons-logging:1.2",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "jakarta.activation",
+            "name": "jakarta.activation-api",
+            "version": "1.2.1",
+            "id": "jakarta.activation:jakarta.activation-api:1.2.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "jakarta.xml.bind",
+            "name": "jakarta.xml.bind-api",
+            "version": "2.3.2",
+            "id": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "javax.inject",
+            "name": "javax.inject",
+            "version": "1",
+            "id": "javax.inject:javax.inject:1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "net.java.dev.jna",
+            "name": "jna-platform",
+            "version": "5.6.0",
+            "id": "net.java.dev.jna:jna-platform:5.6.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "net.java.dev.jna",
+            "name": "jna",
+            "version": "5.6.0",
+            "id": "net.java.dev.jna:jna:5.6.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "net.sf.kxml",
+            "name": "kxml2",
+            "version": "2.3.0",
+            "id": "net.sf.kxml:kxml2:2.3.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.apache.commons",
+            "name": "commons-compress",
+            "version": "1.27.1",
+            "id": "org.apache.commons:commons-compress:1.27.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.apache.commons",
+            "name": "commons-lang3",
+            "version": "3.16.0",
+            "id": "org.apache.commons:commons-lang3:3.16.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.apache.httpcomponents",
+            "name": "httpclient",
+            "version": "4.5.6",
+            "id": "org.apache.httpcomponents:httpclient:4.5.6",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.apache.httpcomponents",
+            "name": "httpcore",
+            "version": "4.4.16",
+            "id": "org.apache.httpcomponents:httpcore:4.4.16",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 4.4.16 and 4.4.10"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.apache.httpcomponents",
+            "name": "httpmime",
+            "version": "4.5.6",
+            "id": "org.apache.httpcomponents:httpmime:4.5.6",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.bouncycastle",
+            "name": "bcpkix-jdk18on",
+            "version": "1.79",
+            "id": "org.bouncycastle:bcpkix-jdk18on:1.79",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.bouncycastle",
+            "name": "bcprov-jdk18on",
+            "version": "1.79",
+            "id": "org.bouncycastle:bcprov-jdk18on:1.79",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.bouncycastle",
+            "name": "bcutil-jdk18on",
+            "version": "1.79",
+            "id": "org.bouncycastle:bcutil-jdk18on:1.79",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.codehaus.groovy",
+            "name": "groovy",
+            "version": "3.0.22",
+            "id": "org.codehaus.groovy:groovy:3.0.22",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.glassfish.jaxb",
+            "name": "jaxb-runtime",
+            "version": "2.3.2",
+            "id": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.glassfish.jaxb",
+            "name": "txw2",
+            "version": "2.3.2",
+            "id": "org.glassfish.jaxb:txw2:2.3.2",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlin",
+            "name": "kotlin-reflect",
+            "version": "2.2.10",
+            "id": "org.jetbrains.kotlin:kotlin-reflect:2.2.10",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlin",
+            "name": "kotlin-stdlib-jdk7",
+            "version": "2.2.10",
+            "id": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONSTRAINT",
+                    "description": "constraint"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 2.2.10 and 1.8.0"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlin",
+            "name": "kotlin-stdlib-jdk8",
+            "version": "2.2.10",
+            "id": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONSTRAINT",
+                    "description": "constraint"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 2.2.10 and 1.8.0"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlin",
+            "name": "kotlin-stdlib",
+            "version": "2.2.10",
+            "id": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 2.2.10 and 2.0.0"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlinx",
+            "name": "kotlinx-coroutines-bom",
+            "version": "1.9.0",
+            "id": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlinx",
+            "name": "kotlinx-coroutines-core-jvm",
+            "version": "1.9.0",
+            "id": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains.kotlinx",
+            "name": "kotlinx-coroutines-core",
+            "version": "1.9.0",
+            "id": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jetbrains",
+            "name": "annotations",
+            "version": "23.0.0",
+            "id": "org.jetbrains:annotations:23.0.0",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                },
+                {
+                    "cause": "CONFLICT_RESOLUTION",
+                    "description": "between versions 23.0.0 and 13.0"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.jvnet.staxex",
+            "name": "stax-ex",
+            "version": "1.8.1",
+            "id": "org.jvnet.staxex:stax-ex:1.8.1",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.ow2.asm",
+            "name": "asm-analysis",
+            "version": "9.8",
+            "id": "org.ow2.asm:asm-analysis:9.8",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.ow2.asm",
+            "name": "asm-commons",
+            "version": "9.8",
+            "id": "org.ow2.asm:asm-commons:9.8",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.ow2.asm",
+            "name": "asm-tree",
+            "version": "9.8",
+            "id": "org.ow2.asm:asm-tree:9.8",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "module",
+            "group": "org.ow2.asm",
+            "name": "asm",
+            "version": "9.8",
+            "id": "org.ow2.asm:asm:9.8",
+            "selection_reasons": [
+                {
+                    "cause": "REQUESTED",
+                    "description": "requested"
+                }
+            ]
+        },
+        {
+            "kind": "isolated-root-project",
+            "id": "root project :"
+        }
+    ],
+    "edges": [
+        {
+            "from": "com.android.tools.analytics-library:protos:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "com.android.tools.analytics-library:protos:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:protos:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "com.google.code.gson:gson:2.11.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.11.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.code.gson:gson:2.11.0"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "net.java.dev.jna:jna-platform:5.6.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "5.6.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.java.dev.jna:jna-platform:5.6.0"
+        },
+        {
+            "from": "com.android.tools.analytics-library:shared:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.android.tools.analytics-library:protos:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:protos:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.android.tools.analytics-library:shared:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:shared:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools.analytics-library:tracker:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools.build:aapt2-proto:9.0.1-14304508",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools.build:builder-model:9.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools.build:builder-model:9.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "com.android.tools.build:manifest-merger:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.build:manifest-merger:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools.build:manifest-merger:32.0.1",
+            "requested": "com.android.tools:sdk-common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdk-common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.build:manifest-merger:32.0.1",
+            "requested": "com.google.code.gson:gson:2.11.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.11.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.code.gson:gson:2.11.0"
+        },
+        {
+            "from": "com.android.tools.build:manifest-merger:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "com.android.tools.ddms:ddmlib:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.ddms:ddmlib:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools.ddms:ddmlib:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools.ddms:ddmlib:32.0.1",
+            "requested": "org.jetbrains:annotations:23.0.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "23.0.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains:annotations:23.0.0"
+        },
+        {
+            "from": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "requested": "org.jetbrains:annotations:23.0.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "23.0.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains:annotations:23.0.0"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.lint:lint-model:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-model:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:intellij-core:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:intellij-core:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.external.org-jetbrains:uast:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.org-jetbrains:uast:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.build:manifest-merger:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.build:manifest-merger:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.layoutlib:layoutlib-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools:sdk-common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdk-common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "commons-io:commons-io:2.16.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.16.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "commons-io:commons-io:2.16.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-reflect:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-reflect:2.2.10"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "org.ow2.asm:asm:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm:9.8"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "org.ow2.asm:asm-commons:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm-commons:9.8"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "org.ow2.asm:asm-tree:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm-tree:9.8"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.android.tools.build:builder-model:9.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.build:builder-model:9.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-api:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools.lint:lint-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:intellij-core:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:intellij-core:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools.external.org-jetbrains:uast:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.org-jetbrains:uast:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.layoutlib:layoutlib-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools:play-sdk-proto:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:play-sdk-proto:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools:sdk-common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdk-common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.google.code.gson:gson:2.11.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.11.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.code.gson:gson:2.11.0"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools.lint:lint-checks:32.0.1",
+            "requested": "org.ow2.asm:asm-analysis:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm-analysis:9.8"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:intellij-core:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:intellij-core:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools.external.org-jetbrains:uast:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.org-jetbrains:uast:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools.lint:lint:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "com.android.tools.lint:lint-typedef-remover:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-typedef-remover:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-gradle:32.0.1",
+            "requested": "org.codehaus.groovy:groovy:3.0.22",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.0.22",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.codehaus.groovy:groovy:3.0.22"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "com.android.tools.build:builder-model:9.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.build:builder-model:9.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "com.android.tools:repository:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:repository:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "com.android.tools:sdk-common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdk-common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools.lint:lint-model:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools.lint:lint-typedef-remover:32.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint-typedef-remover:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.lint:lint-typedef-remover:32.0.1",
+            "requested": "org.ow2.asm:asm:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm:9.8"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.lint:lint-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.lint:lint-checks:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-checks:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:intellij-core:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:intellij-core:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.com-intellij:kotlin-compiler:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.external.org-jetbrains:uast:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.external.org-jetbrains:uast:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.analytics-library:protos:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:protos:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.analytics-library:shared:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:shared:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.analytics-library:tracker:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:tracker:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.build:manifest-merger:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.build:manifest-merger:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.layoutlib:layoutlib-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools:sdk-common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdk-common:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-reflect:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-reflect:2.2.10"
+        },
+        {
+            "from": "com.android.tools.lint:lint:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools:common:32.0.1",
+            "requested": "com.android.tools:annotations:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:annotations:32.0.1"
+        },
+        {
+            "from": "com.android.tools:common:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools:common:32.0.1",
+            "requested": "net.java.dev.jna:jna-platform:5.6.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "5.6.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.java.dev.jna:jna-platform:5.6.0"
+        },
+        {
+            "from": "com.android.tools:common:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools:dvlib:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools:play-sdk-proto:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "com.android.tools.analytics-library:shared:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:shared:32.0.1"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "com.google.jimfs:jimfs:1.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.jimfs:jimfs:1.1"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "org.apache.commons:commons-compress:1.27.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.27.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.commons:commons-compress:1.27.1"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools:repository:32.0.1",
+            "requested": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.9.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools.analytics-library:shared:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.analytics-library:shared:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools.build:aapt2-proto:9.0.1-14304508",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.0.1-14304508",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.build:aapt2-proto:9.0.1-14304508"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools.ddms:ddmlib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.ddms:ddmlib:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.layoutlib:layoutlib-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.android.tools:sdklib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:sdklib:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.google.code.gson:gson:2.11.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.11.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.code.gson:gson:2.11.0"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.google.guava:guava:33.3.1-jre",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "33.3.1-jre",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre."
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "com.google.protobuf:protobuf-java:3.25.5",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.25.5",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.protobuf:protobuf-java:3.25.5"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "javax.inject:javax.inject:1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "javax.inject:javax.inject:1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "net.sf.kxml:kxml2:2.3.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.sf.kxml:kxml2:2.3.0"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.apache.commons:commons-compress:1.27.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.27.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.commons:commons-compress:1.27.1"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.bouncycastle:bcpkix-jdk18on:1.79",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.79",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.bouncycastle:bcpkix-jdk18on:1.79"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.bouncycastle:bcprov-jdk18on:1.79",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.79",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.bouncycastle:bcprov-jdk18on:1.79"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-reflect:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-reflect:2.2.10"
+        },
+        {
+            "from": "com.android.tools:sdk-common:32.0.1",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "com.android.tools:repository:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:repository:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "com.android.tools:common:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:common:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "com.android.tools:dvlib:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools:dvlib:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "com.android.tools.layoutlib:layoutlib-api:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.layoutlib:layoutlib-api:32.0.1"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "com.google.code.gson:gson:2.11.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.11.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.code.gson:gson:2.11.0"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "org.apache.commons:commons-compress:1.27.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.27.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.commons:commons-compress:1.27.1"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "org.apache.httpcomponents:httpcore:4.4.16",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "4.4.16",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.httpcomponents:httpcore:4.4.16"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "org.apache.httpcomponents:httpmime:4.5.6",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "4.5.6",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.httpcomponents:httpmime:4.5.6"
+        },
+        {
+            "from": "com.android.tools:sdklib:32.0.1",
+            "requested": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+        },
+        {
+            "from": "com.google.code.gson:gson:2.11.0",
+            "requested": "com.google.errorprone:error_prone_annotations:2.27.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.27.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.google.errorprone:error_prone_annotations:2.27.0"
+        },
+        {
+            "from": "com.google.jimfs:jimfs:1.1",
+            "requested": "com.google.guava:guava:18.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "18.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "unresolved": "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:18.0."
+        },
+        {
+            "from": "com.sun.istack:istack-commons-runtime:3.0.8",
+            "requested": "jakarta.activation:jakarta.activation-api:1.2.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.activation:jakarta.activation-api:1.2.1"
+        },
+        {
+            "from": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2",
+            "requested": "jakarta.activation:jakarta.activation-api:1.2.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.activation:jakarta.activation-api:1.2.1"
+        },
+        {
+            "from": "net.java.dev.jna:jna-platform:5.6.0",
+            "requested": "net.java.dev.jna:jna:5.6.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "5.6.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "net.java.dev.jna:jna:5.6.0"
+        },
+        {
+            "from": "org.apache.commons:commons-compress:1.27.1",
+            "requested": "commons-codec:commons-codec:1.17.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.17.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "commons-codec:commons-codec:1.17.1"
+        },
+        {
+            "from": "org.apache.commons:commons-compress:1.27.1",
+            "requested": "commons-io:commons-io:2.16.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.16.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "commons-io:commons-io:2.16.1"
+        },
+        {
+            "from": "org.apache.commons:commons-compress:1.27.1",
+            "requested": "org.apache.commons:commons-lang3:3.16.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.16.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.commons:commons-lang3:3.16.0"
+        },
+        {
+            "from": "org.apache.httpcomponents:httpclient:4.5.6",
+            "requested": "org.apache.httpcomponents:httpcore:4.4.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "4.4.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.httpcomponents:httpcore:4.4.16"
+        },
+        {
+            "from": "org.apache.httpcomponents:httpclient:4.5.6",
+            "requested": "commons-logging:commons-logging:1.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "commons-logging:commons-logging:1.2"
+        },
+        {
+            "from": "org.apache.httpcomponents:httpclient:4.5.6",
+            "requested": "commons-codec:commons-codec:1.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "commons-codec:commons-codec:1.17.1"
+        },
+        {
+            "from": "org.apache.httpcomponents:httpmime:4.5.6",
+            "requested": "org.apache.httpcomponents:httpclient:4.5.6",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "4.5.6",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.apache.httpcomponents:httpclient:4.5.6"
+        },
+        {
+            "from": "org.bouncycastle:bcpkix-jdk18on:1.79",
+            "requested": "org.bouncycastle:bcprov-jdk18on:1.79",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.79",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.bouncycastle:bcprov-jdk18on:1.79"
+        },
+        {
+            "from": "org.bouncycastle:bcpkix-jdk18on:1.79",
+            "requested": "org.bouncycastle:bcutil-jdk18on:1.79",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.79",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.bouncycastle:bcutil-jdk18on:1.79"
+        },
+        {
+            "from": "org.bouncycastle:bcutil-jdk18on:1.79",
+            "requested": "org.bouncycastle:bcprov-jdk18on:1.79",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.79",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.bouncycastle:bcprov-jdk18on:1.79"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "org.glassfish.jaxb:txw2:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.glassfish.jaxb:txw2:2.3.2"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "com.sun.istack:istack-commons-runtime:3.0.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "3.0.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.sun.istack:istack-commons-runtime:3.0.8"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "org.jvnet.staxex:stax-ex:1.8.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.8.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jvnet.staxex:stax-ex:1.8.1"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "com.sun.xml.fastinfoset:FastInfoset:1.2.16",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2.16",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.sun.xml.fastinfoset:FastInfoset:1.2.16"
+        },
+        {
+            "from": "org.glassfish.jaxb:jaxb-runtime:2.3.2",
+            "requested": "jakarta.activation:jakarta.activation-api:1.2.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.activation:jakarta.activation-api:1.2.1"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-reflect:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.2.10",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "requested": "org.jetbrains:annotations:13.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "13.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains:annotations:23.0.0"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0",
+            "constraint": true,
+            "requested_version_constraint": {
+                "required": "1.8.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0",
+            "constraint": true,
+            "requested_version_constraint": {
+                "required": "1.8.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+            "requested": "org.jetbrains:annotations:23.0.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "23.0.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains:annotations:23.0.0"
+        },
+        {
+            "from": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+            "requested": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.9.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0"
+        },
+        {
+            "from": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+            "requested": "org.jetbrains.kotlin:kotlin-stdlib:2.0.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.0.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10"
+        },
+        {
+            "from": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0",
+            "requested": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.9.0",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0"
+        },
+        {
+            "from": "org.jvnet.staxex:stax-ex:1.8.1",
+            "requested": "jakarta.activation:jakarta.activation-api:1.2.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "1.2.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.activation:jakarta.activation-api:1.2.1"
+        },
+        {
+            "from": "org.jvnet.staxex:stax-ex:1.8.1",
+            "requested": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "2.3.2",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+        },
+        {
+            "from": "org.ow2.asm:asm-analysis:9.8",
+            "requested": "org.ow2.asm:asm-tree:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm-tree:9.8"
+        },
+        {
+            "from": "org.ow2.asm:asm-commons:9.8",
+            "requested": "org.ow2.asm:asm:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm:9.8"
+        },
+        {
+            "from": "org.ow2.asm:asm-commons:9.8",
+            "requested": "org.ow2.asm:asm-tree:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm-tree:9.8"
+        },
+        {
+            "from": "org.ow2.asm:asm-tree:9.8",
+            "requested": "org.ow2.asm:asm:9.8",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "9.8",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "org.ow2.asm:asm:9.8"
+        },
+        {
+            "from": "root project :",
+            "requested": "com.android.tools.lint:lint-gradle:32.0.1",
+            "constraint": false,
+            "requested_version_constraint": {
+                "required": "32.0.1",
+                "preferred": "",
+                "strict": "",
+                "rejected": [
+                    
+                ]
+            },
+            "selected": "com.android.tools.lint:lint-gradle:32.0.1"
+        }
+    ],
+    "artifacts": [
+        
+    ],
+    "poms": [
+        
+    ],
+    "errors": [
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:33.3.1-jre.",
+        "org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve com.google.guava:guava:18.0.",
+        "org.gradle.api.GradleException: Unresolved selected tooling dependencies"
+    ],
+    "complete_selected_tooling_graph": false,
+    "publisher_admission_complete": false,
+    "production_release_approval": false,
+    "counts": {
+        "components": 64,
+        "edges": 175,
+        "artifacts": 0,
+        "poms": 0
+    }
+}

@@ -1,0 +1,129 @@
+{
+  "all_guards_pass": true,
+  "at_utc": "2026-10-02T06:32:06.248926+00:00",
+  "exact_promotion_baselines": {
+    "Makefile": {
+      "bytes": 17912,
+      "device": 16777247,
+      "inode": 2692299,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790883278787252837,
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860"
+    },
+    "docs/architecture/postgres-admission.md": {
+      "must_be_absent": true
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "bytes": 30962,
+      "device": 16777247,
+      "inode": 16026080,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790886720835998388,
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2"
+    },
+    "scripts/qa/postgres_admission.py": {
+      "must_be_absent": true
+    },
+    "scripts/supabase_cli_helpers.sh": {
+      "bytes": 13142,
+      "device": 16777247,
+      "inode": 2695361,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790883007900489551,
+      "sha256": "13f874017d890729e1f15c5c5cbc6f47a726a96f848a3c03c9bb381904ae7f1a"
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "bytes": 62426,
+      "device": 16777247,
+      "inode": 2695370,
+      "links": 1,
+      "mode": 448,
+      "mtime_ns": 1790909056093629481,
+      "sha256": "b83f9ea65fd56c301c5c8df2de87f063affa754d9d365664e866e19b004edc4d"
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "bytes": 31471,
+      "device": 16777247,
+      "inode": 15904556,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790909056094120647,
+      "sha256": "6f2741778742e6fd13d7b9bf898bc83d91fb9651afa4bfe7e079d9e4eec2f926"
+    },
+    "scripts/tests/supabase_secret_transport_test.py": {
+      "bytes": 14544,
+      "device": 16777247,
+      "inode": 8592773,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790883084544879057,
+      "sha256": "01507a02613b404ee02ce7bd85330d664327abcd0af0dfc2e672282a07253fd1"
+    },
+    "scripts/tests/test_postgres_admission.py": {
+      "must_be_absent": true
+    }
+  },
+  "final_checks": [
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "--whitespace=error",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/final-eight-files.patch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "--whitespace=error",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/qa-tooling-wiring.patch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate3/scripts/supabase_cli_helpers.sh"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate3/scripts/supabase_production_readiness.sh"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "immutable_completed_attempts": {
+    "candidate": {
+      "changes": [],
+      "files": 399
+    },
+    "candidate2": {
+      "changes": [],
+      "files": 399
+    }
+  },
+  "maintained_source_changes": [],
+  "new_destination_conflicts": [],
+  "original_live_inputs": 396,
+  "promotion_performed": false
+}

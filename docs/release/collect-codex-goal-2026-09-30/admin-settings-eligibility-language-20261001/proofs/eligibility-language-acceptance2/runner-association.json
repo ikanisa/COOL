@@ -1,0 +1,7 @@
+{
+  "sha256": "c8e0c14de3e5fe311a74fc3ddedfdb764ad9f2e3d88a04b9033ada76baa7d0fe",
+  "captured_at": "2026-10-01T21:55:21.335264+00:00",
+  "capture_timing": "after terminal; runner was unchanged from acceptance1/acceptance2 invocation through this capture",
+  "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "python_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+}

@@ -1,0 +1,31 @@
+{
+  "backend_calls": 0,
+  "carrier_or_delivery_accepted": false,
+  "commands": [
+    {
+      "exit_code": 0,
+      "operation": [
+        "devices"
+      ],
+      "tool": "adb"
+    }
+  ],
+  "device_mutations": 0,
+  "enrollment_verified": false,
+  "kind": "read_only_gateway_device_preflight",
+  "observed_at_utc": "2026-10-01T09:41:30.362477+00:00",
+  "physical_device_accepted": false,
+  "production_ready": false,
+  "reason": "device_not_connected",
+  "sms_invocations": 0,
+  "status": "blocked",
+  "target_count": 0,
+  "targets": [],
+  "unobserved_dimensions": [
+    "signed native app network/SIM/radio/subscription observations",
+    "installed artifact signing/parity",
+    "approved enrollment and current server authority",
+    "physical Keystore/process-death/power-loss acceptance",
+    "carrier/provider acceptance"
+  ]
+}

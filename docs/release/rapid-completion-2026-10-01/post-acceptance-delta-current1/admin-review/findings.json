@@ -1,0 +1,33 @@
+{
+  "findings": [
+    {
+      "priority": "P2",
+      "title": "Recovery bytes decoded before resource admission",
+      "file": "lib/admin/core/admin_exception_workflow_card.dart",
+      "lines": [
+        154,
+        166
+      ],
+      "function": "_AdminExceptionWorkflowCardState.build storage recovery dispatch",
+      "canonical_entry": "lib/admin/core/admin_exception_checkpoint_web.dart:_BrowserStore.read line21 returns unbounded window.sessionStorage string",
+      "model_functions": "AdminExceptionFollowupBookmark.decode; AdminExceptionFollowupQuarantine.scrub/parse",
+      "impact": "Malformed or oversized stored checkpoint can allocate decoded JSON before admission; helper UTF8 conversion also allocated the whole oversized buffer. No data leakage, bypass or crash is claimed.",
+      "correction": "Private-only predecode16384 code-unit andUTF8-byte short circuit; helper2048/16384 code-unit guards before UTF8 encoding",
+      "proof": "Two oversized ASCII/multibyte recovery/reload cases passed; canonical recovery, corruption, uncertainty and exact proof semantics passed unchanged",
+      "status": "corrected_and_verified_in_private_derivative_only"
+    },
+    {
+      "priority": "test_fixture",
+      "title": "Purported foreign escalation UUID equals original",
+      "file": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "function": "new current-authority opening receipt binds original delivered escalation only",
+      "impact": "Negative fixture falsely failed a correct decoder because inboxRow(1) equals inboxExceptionId",
+      "correction": "Private fixture uses inboxRow(2) escalation UUID; imported helpers unchanged",
+      "proof": "Original321PASS/1FAIL preserved; affected inbox11PASS corrected selection",
+      "status": "private_test_fixture_corrected_no_runtime_defect"
+    }
+  ],
+  "no_other_concrete_authority_session_ack_history_privacy_defect_confirmed_in_captured_delta": true,
+  "strict_observed_sql_decoder_gap": "closed12actual-responsecases",
+  "later_live_delta": "not_accepted"
+}

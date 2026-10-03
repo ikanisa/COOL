@@ -1,0 +1,237 @@
+{
+  "actual_APP_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "actual_SDK_allowed_deltas": 8,
+  "actual_SDK_source_entries": 15660,
+  "actual_SDK_zero_shared_inodes": true,
+  "actual_protected_unchanged": 68020,
+  "compile_completed_scope": {
+    "artifacts": 47,
+    "components": 64,
+    "edges": 296,
+    "exit_code": 0,
+    "seconds": 46.298
+  },
+  "compile_reuse_inputs": {
+    "APP_source_failure": {
+      "bytes": 1425022,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/APP-source-failure.json",
+      "sha256": "11a5a457bdd5865834f74c87649b245e7642070a0bc49ef7f3e595f500f2222a"
+    },
+    "SDK_source_failure": {
+      "bytes": 6880417,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/SDK-source-failure.json",
+      "sha256": "c378c53878f923a07c08537dc20ff5945b9c505c29a86eaba17cbcb33e0d69ef"
+    },
+    "command": {
+      "bytes": 1374,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.json",
+      "sha256": "79e5c085dda45d173f3374aa2980335514ecb33346ae0f521abb771c38c3edca"
+    },
+    "failed_packet": {
+      "bytes": 5514,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/packet-files.json",
+      "sha256": "694631407bc6c6135313b0a2171c96485bb61152b626dca1201e05ddd474d8b3"
+    },
+    "failure_guard_command": {
+      "bytes": 1276,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/actual-failure-guard-command.json",
+      "sha256": "a89d52d795118efa2de6202ae96e4d4f2fe406e3d703974ab72ea5614e220f9a"
+    },
+    "graph": {
+      "bytes": 121467,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-compile-failure-readback1/production-compile-graph.json",
+      "sha256": "e1b02a4614a72a7a1fe97beff81fc8306c55dba4e8279060fccf9293e84767fb"
+    },
+    "lifecycle_probe": {
+      "bytes": 973,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-gradle-lifecycle-metadata1/observation.json",
+      "sha256": "770aff4b01df5d15ae573003b530fb7af7a5ef250058337685fca67fd884f356"
+    },
+    "protected_failure": {
+      "bytes": 104,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/protected-failure.json",
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59"
+    },
+    "root_readback": {
+      "bytes": 1766,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-compile-failure-readback1/readback.json",
+      "sha256": "f375e0b24fa9f849d9f72a87816097c816ac1e308284a611c42e30cbf6422a92"
+    },
+    "runtime_reuse_receipt": {
+      "bytes": 4129,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/runtime-graph-reuse.json",
+      "sha256": "93b4d2bdd83691c034ccc94f21bbe4fd8a5b9af1005050fbd91ba179b04faad7"
+    },
+    "source_fence_before": {
+      "bytes": 921482,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/source-fence-before.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    "source_fence_command": {
+      "bytes": 1474,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/source-fence-before-command.json",
+      "sha256": "5a6ee8059d6490705fb12f064666dca52710b95f5df02586ba7ec553ae1efb33"
+    },
+    "stderr": {
+      "bytes": 765,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.stderr",
+      "sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    "stdout": {
+      "bytes": 87361,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.stdout",
+      "sha256": "c3be317df25b83260ac7ecfb9f333504fee607c2e46b10a5d8eb18cbe3f164a5"
+    },
+    "terminal": {
+      "bytes": 11142,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/terminal.json",
+      "sha256": "ab118bbae1a033462efc0ec5d193e1358fc5795cdd711c9e9f70940a1e818400"
+    }
+  },
+  "no_old_whole_failure_reclassification": true,
+  "original42_bytes_modes_hashes_unchanged": true,
+  "prepared_original_input_count": 42,
+  "preserved_packets": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/packet-files.json": {
+      "all_bytes_modes_hashes_unchanged": true,
+      "leaves": 17,
+      "sha256": "992d00cf87b010ca01b88845bdc791d7f63e222d8734f87a8672dc6f83745981"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/packet-files.json": {
+      "all_bytes_modes_hashes_unchanged": true,
+      "leaves": 8,
+      "sha256": "927741352a68aba1f7983123d46e0626ffe33868e71f87b89719434a315810a9"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/packet-files.json": {
+      "all_bytes_modes_hashes_unchanged": true,
+      "leaves": 9,
+      "sha256": "caab479ae6d1afd41d9471d146405fddfb8a071f05dfccd86012db1fad2e6851"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/packet-files.json": {
+      "all_bytes_modes_hashes_unchanged": true,
+      "leaves": 25,
+      "sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/packet-files.json": {
+      "all_bytes_modes_hashes_unchanged": true,
+      "leaves": 30,
+      "sha256": "694631407bc6c6135313b0a2171c96485bb61152b626dca1201e05ddd474d8b3"
+    }
+  },
+  "root_controlled_probe": {
+    "bytes": 973,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-gradle-lifecycle-metadata1/observation.json",
+    "sha256": "770aff4b01df5d15ae573003b530fb7af7a5ef250058337685fca67fd884f356"
+  },
+  "root_controlled_probe_raw_ps": {
+    "bytes": 62,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-gradle-lifecycle-metadata1/before-reap.ps.stdout",
+    "sha256": "027e53731323b2d40a86b0e7240ebb4ab9ba1b03f2f13eeb92bd9677ada6e25e"
+  },
+  "runtime_completed_scope": {
+    "artifacts": 141,
+    "components": 173,
+    "edges": 995,
+    "exit_code": 0,
+    "seconds": 41.261
+  },
+  "runtime_reuse_inputs": {
+    "APP_source_failure": {
+      "bytes": 1425022,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/APP-source-failure.json",
+      "sha256": "5a8f2a530534678ea44f0df79f3e75adff17a5e23edf8ff9cecdbbe3e746013b"
+    },
+    "SDK_source_failure": {
+      "bytes": 6880418,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/SDK-source-failure.json",
+      "sha256": "29eaa3a2f5dcf11c21ef0373fcdb6941d1ab68189fce7667070ca6eebc26ca03"
+    },
+    "command": {
+      "bytes": 1374,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.json",
+      "sha256": "81dd393d5301347967fa90098627266cee5dd5cf7013c798013bfb26ceba0285"
+    },
+    "failed_packet": {
+      "bytes": 4631,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/packet-files.json",
+      "sha256": "5d12ac60d5b0485baaef4a3734707deabe8c22daf4cf0c1b95b21c695df55ccf"
+    },
+    "failure_guard_command": {
+      "bytes": 1254,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/actual-failure-guard-command.json",
+      "sha256": "dee5aebd610b77d11ed9dc86d9b61b460b3f72826dc4f3766de741c6fc17dd22"
+    },
+    "graph": {
+      "bytes": 403254,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    "protected_failure": {
+      "bytes": 104,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/failure-diagnostics/protected-failure.json",
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59"
+    },
+    "root_readback": {
+      "bytes": 1580,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    },
+    "source_fence_before": {
+      "bytes": 921482,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/source-fence-before.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    "source_fence_command": {
+      "bytes": 1474,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/source-fence-before-command.json",
+      "sha256": "d1f37642f9c747aff812d5b68f29dde891e9afe371220526a9deee4fb717eab3"
+    },
+    "stderr": {
+      "bytes": 765,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stderr",
+      "sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    "stdout": {
+      "bytes": 268208,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stdout",
+      "sha256": "24f3c67e4f7ac4df0fa88162dc43c117399e685bd966ab11d98c91d3ce2fb27c"
+    },
+    "terminal": {
+      "bytes": 7803,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/terminal.json",
+      "sha256": "346e988f940f39528d32842152e5dd13971b5ba62c8c8b7606c970df0f4143a9"
+    }
+  },
+  "schema_version": 1,
+  "utc": "2026-10-02T13:10:52.448098+00:00"
+}

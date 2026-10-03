@@ -1,0 +1,8 @@
+{
+  "status": "REFUSED",
+  "reason": "explicit YAML mapping reader initially refused legitimate indentless screenshot sequence in mobile_scanner pubspec",
+  "affected_packages": [
+    "mobile_scanner"
+  ],
+  "SDK_app_or_control_writes": false
+}

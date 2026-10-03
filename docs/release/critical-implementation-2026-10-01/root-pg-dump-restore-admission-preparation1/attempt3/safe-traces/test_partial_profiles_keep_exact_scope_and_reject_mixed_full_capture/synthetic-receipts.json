@@ -1,0 +1,97 @@
+{
+  "scope": "synthetic engineering fixtures; no live approval, customer/Auth/SQL/provider execution",
+  "receipts": {
+    "output/public_data.sql.admission.json": {
+      "argv_profile": "public_data",
+      "artifact": {
+        "bytes": 196638,
+        "path": "/private/tmp/collect-archive-admission-x12euhmq/output/public_data.sql",
+        "sha256": "a4a50269344a9238bb53da6ca472115615cf5bb97c9d50129c45f5bd2823d3e7"
+      },
+      "client_version_num": 170006,
+      "clients": {
+        "pg_dump": {
+          "path": "/private/tmp/collect-archive-admission-x12euhmq/pg_dump",
+          "sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+          "version": "17.6"
+        },
+        "pg_restore": {
+          "path": "/private/tmp/collect-archive-admission-x12euhmq/pg_restore",
+          "sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+          "version": "17.6"
+        }
+      },
+      "encrypted_destination_verified": false,
+      "full_catalog_ACL_projection_recovery_accepted": false,
+      "human_review_authenticated": false,
+      "kind": "collect_pg_archive_client_receipt",
+      "manifest_sha256": "5ff9d97eafb073656f66051456016cca2dcd9f14d370f1fd4474ed7ccbaeef59",
+      "operation": "dump",
+      "operation_sha256": "3336e42711d12917fa9a55021b254f4d45d89c91203479ac3dae8a4fe35e3eb6",
+      "production_ready": false,
+      "profile": "public_data",
+      "psql_sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+      "server_version_num": 170006,
+      "source_binding": {
+        "path": "/private/tmp/collect-archive-admission-x12euhmq/synthetic-source-binding.json",
+        "sha256": "b4421c3378814d441c9c644e414a0c800e16dd1205cb1f67076069dc29ca5e7a"
+      },
+      "source_contract_semantics_validated": false,
+      "status": "client_completed_artifact_bound",
+      "target": {
+        "database": "postgres",
+        "host": "127.0.0.1",
+        "kind": "local_rehearsal",
+        "port": 54321,
+        "project_ref": null,
+        "user": "postgres"
+      }
+    },
+    "output/public_schema.sql.admission.json": {
+      "argv_profile": "public_schema",
+      "artifact": {
+        "bytes": 196638,
+        "path": "/private/tmp/collect-archive-admission-x12euhmq/output/public_schema.sql",
+        "sha256": "a4a50269344a9238bb53da6ca472115615cf5bb97c9d50129c45f5bd2823d3e7"
+      },
+      "client_version_num": 170006,
+      "clients": {
+        "pg_dump": {
+          "path": "/private/tmp/collect-archive-admission-x12euhmq/pg_dump",
+          "sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+          "version": "17.6"
+        },
+        "pg_restore": {
+          "path": "/private/tmp/collect-archive-admission-x12euhmq/pg_restore",
+          "sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+          "version": "17.6"
+        }
+      },
+      "encrypted_destination_verified": false,
+      "full_catalog_ACL_projection_recovery_accepted": false,
+      "human_review_authenticated": false,
+      "kind": "collect_pg_archive_client_receipt",
+      "manifest_sha256": "5ff9d97eafb073656f66051456016cca2dcd9f14d370f1fd4474ed7ccbaeef59",
+      "operation": "dump",
+      "operation_sha256": "3336e42711d12917fa9a55021b254f4d45d89c91203479ac3dae8a4fe35e3eb6",
+      "production_ready": false,
+      "profile": "public_schema",
+      "psql_sha256": "99b29ae01edc1a6bc7bb34c77eeb3d443f246375e3f8b04270c3e11f02bd8605",
+      "server_version_num": 170006,
+      "source_binding": {
+        "path": "/private/tmp/collect-archive-admission-x12euhmq/synthetic-source-binding.json",
+        "sha256": "b4421c3378814d441c9c644e414a0c800e16dd1205cb1f67076069dc29ca5e7a"
+      },
+      "source_contract_semantics_validated": false,
+      "status": "client_completed_artifact_bound",
+      "target": {
+        "database": "postgres",
+        "host": "127.0.0.1",
+        "kind": "local_rehearsal",
+        "port": 54321,
+        "project_ref": null,
+        "user": "postgres"
+      }
+    }
+  }
+}

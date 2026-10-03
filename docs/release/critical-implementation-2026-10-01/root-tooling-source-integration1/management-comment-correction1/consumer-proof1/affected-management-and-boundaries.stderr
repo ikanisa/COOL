@@ -1,0 +1,8 @@
+test_management_fallback_checks_exact_version_before_each_sql_write (__main__.ActualManagementConsumer.test_management_fallback_checks_exact_version_before_each_sql_write) ... ok
+test_extra_begin_refuses_before_any_write (__main__.TransactionBoundaryRefusal.test_extra_begin_refuses_before_any_write) ... ok
+test_extra_commit_refuses_before_any_write (__main__.TransactionBoundaryRefusal.test_extra_commit_refuses_before_any_write) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 100.031s
+
+OK

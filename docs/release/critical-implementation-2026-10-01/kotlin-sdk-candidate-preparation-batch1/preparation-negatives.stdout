@@ -1,0 +1,14 @@
+test_all3_actual_before_one_byte_changes_rejected (__main__.CandidatePreparationNegatives.test_all3_actual_before_one_byte_changes_rejected) ... ok
+test_all3_actual_upstream_before_bytes_pass_only_pristine_phase (__main__.CandidatePreparationNegatives.test_all3_actual_upstream_before_bytes_pass_only_pristine_phase) ... ok
+test_derivative_is_only_exact_destination_change (__main__.CandidatePreparationNegatives.test_derivative_is_only_exact_destination_change) ... ok
+test_license_byte_loss_rejected_in_every_phase (__main__.CandidatePreparationNegatives.test_license_byte_loss_rejected_in_every_phase) ... ok
+test_prepared_code_creates_no_candidate_or_gradle_home (__main__.CandidatePreparationNegatives.test_prepared_code_creates_no_candidate_or_gradle_home) ... ok
+test_reviewed_source_preview_metadata_byte_drift_rejected (__main__.CandidatePreparationNegatives.test_reviewed_source_preview_metadata_byte_drift_rejected) ... ok
+test_unreviewed_license_CRLF_normalization_rejected (__main__.CandidatePreparationNegatives.test_unreviewed_license_CRLF_normalization_rejected) ... ok
+test_unreviewed_source_phase_rejected_before_any_root_access (__main__.CandidatePreparationNegatives.test_unreviewed_source_phase_rejected_before_any_root_access) ... ok
+test_writer_byte_drift_rejected_before_import_or_materialization (__main__.CandidatePreparationNegatives.test_writer_byte_drift_rejected_before_import_or_materialization) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.631s
+
+OK

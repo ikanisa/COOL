@@ -1,0 +1,45 @@
+--- prior/20261001000519_safe_unstarted_receipt_cancel.sql
++++ current/20261001000519_safe_unstarted_receipt_cancel.sql
+@@ -72,6 +72,14 @@
+   raise exception 'receipt_action_current_email_owner_required'using errcode='42501';end if;
+  return sid;end$$;
+ 
++create function collect_receipt_actions.rwanda_source(p_job collect_hybrid.sms_notification_outbox)
++returns boolean language sql stable security definer set search_path=''as $$
++ -- A receiving route alone cannot override a contradictory linked parser.
++ select exists(select 1 from public.payments p where p.id=p_job.payment_id
++  and collect_ops.payment_scope(p.id)
++  and(p.parsed_event_id is null or collect_ops.transaction_sms_id('payment',p.id)is not null))
++$$;
++
+ create function collect_receipt_actions.ineligible_reason(p_job collect_hybrid.sms_notification_outbox)
+ returns text language sql stable security definer set search_path=''as $$
+  select case
+@@ -89,8 +97,7 @@
+    join collect_hybrid.momo_balance_snapshots s on s.id=p_job.snapshot_id
+    join collect_hybrid.momo_journal_entries j on j.id=s.journal_entry_id
+    where p.id=p_job.payment_id and p.status='posted'and p.currency='RWF'
+-    and collect_ops.payment_scope(p.id)
+-    and(p.parsed_event_id is null or collect_ops.transaction_sms_id('payment',p.id)is not null)
++    and collect_receipt_actions.rwanda_source(p_job)
+     and p.collection_id=p_job.collection_id and p.member_record_id=p_job.member_record_id
+     and p.amount_rwf=p_job.amount_rwf
+     and p_job.reference=coalesce(nullif(btrim(p.transaction_id),''),p.id::text)
+@@ -132,7 +139,7 @@
+  with sample as materialized(select clock_timestamp()at),
+  source as materialized(select coalesce((select revision from collect_receipt_actions.revisions where outbox_id=job.id),1)revision,
+   collect_receipt_actions.ineligible_reason(job)reason
+-  where job.id is not null and collect_ops.payment_scope(job.payment_id)),
++  where job.id is not null and collect_receipt_actions.rwanda_source(job)),
+  data as materialized(select revision,case when revision=1000000000 then 'revision_exhausted'else reason end reason from source)
+  select jsonb_build_object('contract_version',1,'scope','rw_receipt_manual_cancel',
+   'checked_at',collect_ops.utc(sample.at),'sample_valid_until',collect_ops.utc(sample.at+interval '60 seconds'),
+@@ -165,7 +172,7 @@
+  -- all authority proof locks were already held before the request/outbox lock.
+  perform collect_receipt_actions.actor(true);
+  select coalesce((select revision from collect_receipt_actions.revisions where outbox_id=job.id),1)into before_revision;
+- if job.id is null or not collect_ops.payment_scope(job.payment_id)then
++ if job.id is null or not collect_receipt_actions.rwanda_source(job)then
+   raise exception 'receipt_action_unavailable'using errcode='55000';end if;
+  if before_revision<>p_expected_revision then raise exception 'receipt_action_source_changed'using errcode='55000';end if;
+  if collect_receipt_actions.ineligible_reason(job)is distinct from 'eligible'then

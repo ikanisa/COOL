@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "exit_code": 0,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt13-candidate-read/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt13-candidate-read/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt13-candidate-read/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "1200",
+    "--test-file",
+    "test/admin_declared_read_dispatch_test.dart"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt13-candidate-read/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "lib/admin/core/admin_automations_page.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_shadow_runs.dart",
+    "scripts/tests/admin_read_gateway_gate.py",
+    "test/admin_sensitive_permission_test.dart",
+    "test/admin_shadow_runs_repository_test.dart",
+    "test/admin_shadow_runs_test.dart"
+  ],
+  "input_count": 767,
+  "acceptance_sha256": "95d6811e1cece5d67d4e8c5f9dbd663ae1dc723980f0fcc7b9d5f238aed88c11",
+  "test_count": 150,
+  "analysis_clean": true,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

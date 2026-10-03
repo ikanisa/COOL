@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.9/assets/CupertinoIcons.ttf"
+  ],
+  "drain_errors": [],
+  "engine": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/cache/artifacts/engine/darwin-x64/font-subset.original",
+  "engine_exit_code": 0,
+  "font_outputs_not_modified_by_wrapper": true,
+  "original_engine_sha256": "fcd76cbd293f373b0da518d3ce6b1a438d37977a80c32310ed0497d217d3be2c",
+  "started_at_unix": 1790871050.106623,
+  "stderr_inherited_unchanged": true,
+  "stdin_inherited_unchanged": true,
+  "stdout_fully_drained": true,
+  "stdout_prefix_base64": "VXNpbmcgb3V0cHV0IGZpbGU6IC9Wb2x1bWVzL1BSTy1HNDAvUHJvamVjdHMvUmVjb3ZlcmVkLUctUFJPL0NPT0wvLmNhY2hlL2FkbWluLWludGVncmF0aW9uLWJyb3dzZXItYnVpbGQtY3VycmVudDEvYnVpbGQvd2ViL2Fzc2V0cy9wYWNrYWdlcy9jdXBlcnRpbm9faWNvbnMvYXNzZXRzL0N1cGVydGlub0ljb25zLnR0ZgpVc2luZyBzb3VyY2UgZmlsZTogL1VzZXJzL2plYW5ib3Njby8ucHViLWNhY2hlL2hvc3RlZC9wdWIuZGV2L2N1cGVydGlub19pY29ucy0xLjAuOS9hc3NldHMvQ3VwZXJ0aW5vSWNvbnMudHRmCldyb3RlIDE0NzIgYnl0ZXMgdG8gL1ZvbHVtZXMvUFJPLUc0MC9Qcm9qZWN0cy9SZWNvdmVyZWQtRy1QUk8vQ09PTC8uY2FjaGUvYWRtaW4taW50ZWdyYXRpb24tYnJvd3Nlci1idWlsZC1jdXJyZW50MS9idWlsZC93ZWIvYXNzZXRzL3BhY2thZ2VzL2N1cGVydGlub19pY29ucy9hc3NldHMvQ3VwZXJ0aW5vSWNvbnMudHRmCg==",
+  "stdout_prefix_bytes": 475,
+  "stdout_prefix_limit_bytes": 65536,
+  "stdout_sha256": "b5463f6cbb78de2f14df55b7993ea3aca9792a0ff14f04aa477bd8454d3d9b1a",
+  "stdout_total_bytes": 475,
+  "wrapper_sha256": "02abb6805f90dbdf79009e7624d01dc77c53b9160f7521bc364035c2782a407b"
+}

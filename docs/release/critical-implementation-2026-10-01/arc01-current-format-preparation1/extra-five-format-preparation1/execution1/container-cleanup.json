@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T11:00:54.350762+00:00",
+  "name": "collect-arc01-current-extra5-2b84032894104249a54d126cb477ca70-format",
+  "owner": "collect-arc01-current-extra5-2b84032894104249a54d126cb477ca70",
+  "owner_listing_exit": 0,
+  "owner_listing_stderr": "",
+  "owner_listing_stdout": "",
+  "readback_exit": 1,
+  "readback_stderr": "error: no such object: collect-arc01-current-extra5-2b84032894104249a54d126cb477ca70-format\n",
+  "readback_stdout": "[]\n",
+  "remove_exit": 0,
+  "removed": true,
+  "stop_exit": 0
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "collect-readonly-process-receipts-v1",
+  "recordedAt": "2026-10-02T06:34:06.887Z",
+  "records": [
+    {
+      "command": [
+        "env",
+        "-i",
+        "PATH=/usr/bin:/bin",
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "docs/release/critical-implementation-2026-10-01/cloudflare-cli-readback1/readback.cjs"
+      ],
+      "toolSessionId": 96707,
+      "initialChunkId": "f6384b",
+      "completionChunkId": "53b788",
+      "exitCode": 0,
+      "receiptFile": "readback.json",
+      "startedAt": "2026-10-02T06:31:26.393Z",
+      "finishedAt": "2026-10-02T06:31:28.479Z",
+      "durationMilliseconds": 2086
+    },
+    {
+      "command": [
+        "env",
+        "-i",
+        "PATH=/usr/bin:/bin",
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "docs/release/critical-implementation-2026-10-01/cloudflare-cli-readback1/source-worker-readback.cjs"
+      ],
+      "toolSessionId": 97016,
+      "initialChunkId": "48bba7",
+      "completionChunkId": "cdb534",
+      "exitCode": 0,
+      "receiptFile": "source-worker-readback.json",
+      "startedAt": "2026-10-02T06:32:54.586Z",
+      "finishedAt": "2026-10-02T06:32:56.053Z",
+      "durationMilliseconds": 1467
+    }
+  ],
+  "interpretation": "Exit0 records successful proof capture, not provider gate closure. HTTP statuses and filtered provider facts govern verification."
+}

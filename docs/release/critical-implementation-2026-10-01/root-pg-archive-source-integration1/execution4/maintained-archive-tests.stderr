@@ -1,0 +1,29 @@
+................E......................
+======================================================================
+ERROR: test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture (__main__.ArchiveAdmissionTest.test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 195, in test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture
+    self.job['profiles']=['public_schema','public_data'];self.bind();a=self.admit()
+                                                                       ^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 123, in admit
+    def admit(self):return archive.ArchiveAdmission.from_environment(self.env)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 270, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION'), env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION_SHA256'),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 265, in __init__
+    self.probe_clients()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 297, in probe_clients
+    out, _ = run([ref['path'], '--version'], pg.local_environment(), self.base.value['timeouts']['version_seconds'], 1024)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 140, in run
+    fail(left > 0, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+----------------------------------------------------------------------
+Ran 39 tests in 46.870s
+
+FAILED (errors=1)

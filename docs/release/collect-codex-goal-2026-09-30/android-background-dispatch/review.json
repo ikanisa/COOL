@@ -1,0 +1,23 @@
+{
+  "review_kind": "AI team subagent independent read-only source review; no external certification",
+  "reviewed_paths": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "31a57f3e5d4fc61b2b2401b57a61158a89c844a650cab9c52dfe91e21a10ee4c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt": "0b8b324a16fce099c981dca0581db0302550fe8ed213dcfdfb1d4e209dfd8c70"
+  },
+  "rotation_findings": "No concrete defect in reviewed paths. Unknown original UUID/bytes unchanged. Circular offset selects read targets only. Two read slots leave two callback uploads. Interrupted cycles may repeat safe reads because prior job extras remain; saved mutation/authority is never replayed.",
+  "earlier_findings_fixed": [
+    "onStopJob identity matched by stable jobId",
+    "closed Bridge and invocation admission fences",
+    "older local Allow intent fenced behind a newer pause/close epoch",
+    "post-heartbeat cancellation before grant consumption",
+    "actual invoker admission serialized with cancellation",
+    "emergency pause admitted during initial loading"
+  ],
+  "earlier_reviewed_paths": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb"
+  },
+  "executed_tests_or_builds_by_reviewer": false
+}

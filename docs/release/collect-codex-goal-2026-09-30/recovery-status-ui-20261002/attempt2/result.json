@@ -1,0 +1,22 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/gateway/gateway_recovery_test.dart"
+      ],
+      "started_at": "2026-10-02T03:18:06.370229+00:00",
+      "finished_at": "2026-10-02T03:18:12.560354+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "509c25459041aedbbfcad56cf652851faf30471ae6ecb42f42900de597b73297",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Two changed recovery UI consumers; synthetic native transport; no handset, reader speech, source comparator or release-artifact acceptance"
+}

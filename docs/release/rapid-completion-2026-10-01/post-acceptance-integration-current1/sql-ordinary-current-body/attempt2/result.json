@@ -1,0 +1,562 @@
+{
+  "all_task_containers_removed": true,
+  "baseline_sha256": {
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+  },
+  "cases": [
+    {
+      "name": "outside changed function and its signature/configuration are exact old accepted bytes",
+      "status": "pass"
+    },
+    {
+      "name": "application installer is actually postgres NOSUPERUSER before either feature context",
+      "status": "pass"
+    },
+    {
+      "name": "new starts with nonempty financial and retained lifecycle evidence",
+      "status": "pass"
+    },
+    {
+      "name": "new current source installs as postgres NOSUPERUSER",
+      "status": "pass"
+    },
+    {
+      "name": "new preserves all preexisting outside-body definitions owner ACL and configuration",
+      "status": "pass"
+    },
+    {
+      "name": "new installed security-definer owner is actual non-superuser postgres",
+      "status": "pass"
+    },
+    {
+      "name": "new actual authenticated RPC reads six joined review workflow lifecycle records",
+      "status": "pass"
+    },
+    {
+      "name": "new authenticated private direct read is refused",
+      "status": "pass"
+    },
+    {
+      "name": "new private helpers and evidence expose no direct API grants",
+      "status": "pass"
+    },
+    {
+      "name": "new install and read preserve exact nonempty financial and lifecycle fingerprints",
+      "status": "pass"
+    },
+    {
+      "name": "retained old accepted v2 installs as ordinary owner",
+      "status": "pass"
+    },
+    {
+      "name": "retained starts with nonempty financial and retained lifecycle evidence",
+      "status": "pass"
+    },
+    {
+      "name": "retained current source installs as postgres NOSUPERUSER",
+      "status": "pass"
+    },
+    {
+      "name": "retained preserves all preexisting outside-body definitions owner ACL and configuration",
+      "status": "pass"
+    },
+    {
+      "name": "retained installed security-definer owner is actual non-superuser postgres",
+      "status": "pass"
+    },
+    {
+      "name": "retained actual authenticated RPC reads six joined review workflow lifecycle records",
+      "status": "pass"
+    },
+    {
+      "name": "retained authenticated private direct read is refused",
+      "status": "pass"
+    },
+    {
+      "name": "retained private helpers and evidence expose no direct API grants",
+      "status": "pass"
+    },
+    {
+      "name": "retained install and read preserve exact nonempty financial and lifecycle fingerprints",
+      "status": "pass"
+    },
+    {
+      "name": "both contexts install identical normalized current function definition",
+      "status": "pass"
+    },
+    {
+      "name": "captured source helper and current live function migration remain exact",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-10-01T15:56:16.206271+00:00",
+  "fixture_limits": [
+    "Owner-normalized row-free schema153 plus captured18-stage predecessor setup before demotion.",
+    "Mock cron catalogs; no scheduler, Vault, net, Auth service or signed-JWT invocation.",
+    "Only the current v2 feature install/replacement and reads are fresh ordinary-owner acceptance."
+  ],
+  "hosted_called": false,
+  "kind": "ordinary_owner_changed_exception_audit_body",
+  "managed_hosted_owner_parity": false,
+  "phases": {
+    "new": {
+      "database": "ordinary_body_new_83a49dd748",
+      "financial_after": {
+        "collection_balances": {
+          "rows": 1,
+          "sha256": "a89680191918a598f1c79b641f56d001a5d99a1b0e3ebcc2f7672da4ed727725"
+        },
+        "journal": {
+          "rows": 2,
+          "sha256": "ade7ce804d8eef560fa215ce46815fc8651b2b50ce2eb218f74933c0d56b192c"
+        },
+        "member_balances": {
+          "rows": 1,
+          "sha256": "311e4a0fd6a7cc39a95e6c1212b84bd1d4498ac9e14260921bb3dbc0def8010f"
+        },
+        "momo_balance_snapshots": {
+          "rows": 2,
+          "sha256": "eb1abf10ee07b911a6852e0e343e1a85b0c68c07d7d1d19d6f04d9ee41fe1c75"
+        },
+        "momo_journal_lines": {
+          "rows": 4,
+          "sha256": "ed414c646f0e0f7cf239b608fbe1afe88681e304d91efd250718bf72edc24890"
+        },
+        "payment_allocations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payment_provider_confirmations": {
+          "rows": 2,
+          "sha256": "ab3e5c9e5acc89eef3037a420b6ebc6117d0f4fbd0bfc035382da610a19f1915"
+        },
+        "payment_provider_rejections": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payments": {
+          "rows": 2,
+          "sha256": "603ff99076570c14b1d26801f50e2fcda68e207454e3d39bff4ddd70477143f8"
+        },
+        "push_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "push_deliveries": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_heartbeats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_outbox": {
+          "rows": 1,
+          "sha256": "798a967ec287d6b5e9014b88c02b23a2f211deb902d8d0ead2daefa177f1bb36"
+        }
+      },
+      "financial_before": {
+        "collection_balances": {
+          "rows": 1,
+          "sha256": "a89680191918a598f1c79b641f56d001a5d99a1b0e3ebcc2f7672da4ed727725"
+        },
+        "journal": {
+          "rows": 2,
+          "sha256": "ade7ce804d8eef560fa215ce46815fc8651b2b50ce2eb218f74933c0d56b192c"
+        },
+        "member_balances": {
+          "rows": 1,
+          "sha256": "311e4a0fd6a7cc39a95e6c1212b84bd1d4498ac9e14260921bb3dbc0def8010f"
+        },
+        "momo_balance_snapshots": {
+          "rows": 2,
+          "sha256": "eb1abf10ee07b911a6852e0e343e1a85b0c68c07d7d1d19d6f04d9ee41fe1c75"
+        },
+        "momo_journal_lines": {
+          "rows": 4,
+          "sha256": "ed414c646f0e0f7cf239b608fbe1afe88681e304d91efd250718bf72edc24890"
+        },
+        "payment_allocations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payment_provider_confirmations": {
+          "rows": 2,
+          "sha256": "ab3e5c9e5acc89eef3037a420b6ebc6117d0f4fbd0bfc035382da610a19f1915"
+        },
+        "payment_provider_rejections": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payments": {
+          "rows": 2,
+          "sha256": "603ff99076570c14b1d26801f50e2fcda68e207454e3d39bff4ddd70477143f8"
+        },
+        "push_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "push_deliveries": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_heartbeats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_outbox": {
+          "rows": 1,
+          "sha256": "798a967ec287d6b5e9014b88c02b23a2f211deb902d8d0ead2daefa177f1bb36"
+        }
+      },
+      "function": {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+        "configuration": [
+          "search_path=\"\"",
+          "lock_timeout=100ms"
+        ],
+        "definition": "CREATE OR REPLACE FUNCTION public.admin_get_exception_entity_audit_v2(p_exception_id uuid, p_limit integer DEFAULT 20, p_before_at timestamp with time zone DEFAULT NULL::timestamp with time zone, p_before_event_id uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET lock_timeout TO '100ms'\nAS $function$\ndeclare sample timestamptz;result jsonb;begin\n perform collect_operator_audit.exception_actor_v2(true);\n if p_exception_id is null or p_limit is null or p_limit not between 1 and 25\n  or(p_before_at is null)is distinct from(p_before_event_id is null)\n  or(p_before_at is not null and(not isfinite(p_before_at)\n   or p_before_at<'0001-01-01T00:00:00Z'::timestamptz\n   or p_before_at>='10000-01-01T00:00:00Z'::timestamptz))then\n  raise exception 'exception_audit_input_invalid'using errcode='22023';end if;\n sample:=clock_timestamp();\n with scope as materialized(select exists(select 1 from collect_ops.exceptions e where e.id=p_exception_id\n  and collect_operator_audit.exception_scope_v2(e.source_kind,e.source_id))available),\n events as not materialized(\n  (select collect_operator_audit.exception_event_id('exception_action',r.request_id)event_id,\n   'exception_action'::text source,r.request_id source_record_id,'exception.'||r.action action,r.recorded_at,\n   'operator'::text actor_kind,r.actor_id,r.request_id,r.expected_revision revision,null::bigint workflow_revision,\n   null::uuid escalation_id,r.reason_code,'immutable_request'::text origin,null::uuid assignee_id,null::timestamptz due_at\n   from collect_ops.exception_actions r where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_action',r.request_id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_action',r.request_id)desc limit p_limit+1)\n  union all (select collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id),\n   'exception_workflow_request',r.request_id,'exception.workflow.'||r.action,r.recorded_at,'operator',r.actor_id,r.request_id,\n   r.expected_source_revision,(r.result->>'workflow_revision')::bigint,\n   case when r.action='escalate'then collect_operator_audit.safe_uuid(r.result->>'escalation_id')end,r.reason_code,\n   'immutable_request',case when r.action='assign'then r.assignee_id end,case when r.action='assign'then r.due_at end\n   from collect_ops.exception_workflow_requests r where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id)desc limit p_limit+1)\n  union all (select collect_operator_audit.exception_event_id('exception_escalation_event',r.id),\n   'exception_escalation_event',r.id,'exception.escalation.'||r.action,r.recorded_at,r.actor_kind,r.actor_id,null::uuid,\n   r.source_revision,null::bigint,r.escalation_id,e.reason_code,r.origin,null::uuid,null::timestamptz\n   from collect_ops.exception_escalation_events r join collect_ops.exception_escalations e on e.id=r.escalation_id\n   where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_escalation_event',r.id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_escalation_event',r.id)desc limit p_limit+1)\n ),page as materialized(select * from events where(select available from scope)\n  and recorded_at>='0001-01-01T00:00:00Z'::timestamptz and recorded_at<=sample\n  and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))\n  order by recorded_at desc,event_id desc limit p_limit+1),\n shown as materialized(select * from page order by recorded_at desc,event_id desc limit p_limit)\n select jsonb_build_object('contract_version',2,'scope','rw_operator_entity_audit','entity_kind','exception',\n  'entity_id',p_exception_id,'status',case when(select available from scope)then 'available'else 'unavailable'end,\n  'checked_at',collect_ops.utc(sample),'sample_valid_until',collect_ops.utc(sample+interval '60 seconds'),\n  'limit',p_limit,'history_complete',false,'financial_action',false,'send_action',false,\n  'rows',coalesce((select jsonb_agg(jsonb_build_object('event_id',event_id,'source',source,\n   'source_record_id',source_record_id,'action',action,'recorded_at',collect_ops.utc(recorded_at),\n   'actor_kind',actor_kind,'actor_id',actor_id,'request_id',request_id,'revision',revision,\n   'workflow_revision',workflow_revision,'escalation_id',escalation_id,'reason_code',reason_code,\n   'origin',origin,'assignee_id',assignee_id,'due_at',collect_ops.utc(due_at))order by recorded_at desc,event_id desc)from shown),'[]'::jsonb),\n  'next_cursor',case when(select count(*)from page)>p_limit then\n   (select jsonb_build_object('recorded_at',collect_ops.utc(recorded_at),'event_id',event_id)\n    from shown order by recorded_at,event_id limit 1)else null end)into result;\n perform collect_operator_audit.exception_actor_v2(true);\n return result;\nexception when lock_not_available then raise exception 'exception_audit_authority_busy'using errcode='55P03';end$function$\n",
+        "owner": "postgres",
+        "owner_superuser": false,
+        "security_definer": true
+      },
+      "function_definition_sha256": "4326b4d1c5b958ffc02845fa25cd63239f1eb89fc1a4129eb1a9a88ccd1c1019",
+      "installer_authority": {
+        "current_user": "postgres",
+        "superuser": false
+      },
+      "lifecycle_after": {
+        "exception_actions": {
+          "rows": 1,
+          "sha256": "b9c2d6150aa5ff8402984d6a3fb876d84bb6a711c96ee8feeb2b082135f48d3d"
+        },
+        "exception_escalations": {
+          "rows": 1,
+          "sha256": "161460c14d988b3efb8ffb011f2d8165df7fb498f0051b4952c3d9950f21267e"
+        },
+        "exception_inbox_deliveries": {
+          "rows": 1,
+          "sha256": "e8598588e3950a9c3345f5399572d025639522d8695f98c39a38c323d20ebb23"
+        },
+        "exception_inbox_reads": {
+          "rows": 1,
+          "sha256": "b6f7bbe3764b5392ed21752b0faf53888549052de1044b8c24456f11fc16dff7"
+        },
+        "exception_workflow_requests": {
+          "rows": 2,
+          "sha256": "b2632cd830886dfdc13d3b3413c8aec64b078eae9fbedd43d87eec390da65459"
+        },
+        "exceptions": {
+          "rows": 1,
+          "sha256": "d90693e2a18e6ae38720ca8ff5749b0cd2a3be25a888294d6abf0d894fb78d52"
+        }
+      },
+      "lifecycle_before": {
+        "exception_actions": {
+          "rows": 1,
+          "sha256": "b9c2d6150aa5ff8402984d6a3fb876d84bb6a711c96ee8feeb2b082135f48d3d"
+        },
+        "exception_escalations": {
+          "rows": 1,
+          "sha256": "161460c14d988b3efb8ffb011f2d8165df7fb498f0051b4952c3d9950f21267e"
+        },
+        "exception_inbox_deliveries": {
+          "rows": 1,
+          "sha256": "e8598588e3950a9c3345f5399572d025639522d8695f98c39a38c323d20ebb23"
+        },
+        "exception_inbox_reads": {
+          "rows": 1,
+          "sha256": "b6f7bbe3764b5392ed21752b0faf53888549052de1044b8c24456f11fc16dff7"
+        },
+        "exception_workflow_requests": {
+          "rows": 2,
+          "sha256": "b2632cd830886dfdc13d3b3413c8aec64b078eae9fbedd43d87eec390da65459"
+        },
+        "exceptions": {
+          "rows": 1,
+          "sha256": "d90693e2a18e6ae38720ca8ff5749b0cd2a3be25a888294d6abf0d894fb78d52"
+        }
+      },
+      "predecessor_stage_count": 18,
+      "privileged_setup_complete": true,
+      "stage": "complete",
+      "status": "pass"
+    },
+    "retained": {
+      "database": "ordinary_body_retained_8ce53abb86",
+      "financial_after": {
+        "collection_balances": {
+          "rows": 1,
+          "sha256": "794204aa50e7860dae5c03536d2dad8cced75244afbe468ee3fe251be48cb87f"
+        },
+        "journal": {
+          "rows": 2,
+          "sha256": "4e809a4fa1b4a28c5f66f05f57614611c337293657967df3d0a5a78a4febc3c4"
+        },
+        "member_balances": {
+          "rows": 1,
+          "sha256": "4d72d91ae24a474805cc8db43273c6e8c9d55103698c05f029b9d43bc2e4a1b5"
+        },
+        "momo_balance_snapshots": {
+          "rows": 2,
+          "sha256": "b317edb48e0d1a063c09e07bdd0fdb8d71ec1e215e090caa16d27afbca94231e"
+        },
+        "momo_journal_lines": {
+          "rows": 4,
+          "sha256": "65da8bbead6dfa0f4572a525ce007e108ca048efb176ed828e8712803572f36a"
+        },
+        "payment_allocations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payment_provider_confirmations": {
+          "rows": 2,
+          "sha256": "3576a379a718e6d1e84eb71691bc5b116fa4f627b73be9690a100145c64e45fb"
+        },
+        "payment_provider_rejections": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payments": {
+          "rows": 2,
+          "sha256": "d6ae745c9fc4103d47584d5bf5770c76eb17f6ed256d7f76cccd4a9b818b8d92"
+        },
+        "push_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "push_deliveries": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_heartbeats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_outbox": {
+          "rows": 1,
+          "sha256": "3b64e3b88f2139cd147c011b34786faa0bbd2aab8e523efdc725706cf6ac594f"
+        }
+      },
+      "financial_before": {
+        "collection_balances": {
+          "rows": 1,
+          "sha256": "794204aa50e7860dae5c03536d2dad8cced75244afbe468ee3fe251be48cb87f"
+        },
+        "journal": {
+          "rows": 2,
+          "sha256": "4e809a4fa1b4a28c5f66f05f57614611c337293657967df3d0a5a78a4febc3c4"
+        },
+        "member_balances": {
+          "rows": 1,
+          "sha256": "4d72d91ae24a474805cc8db43273c6e8c9d55103698c05f029b9d43bc2e4a1b5"
+        },
+        "momo_balance_snapshots": {
+          "rows": 2,
+          "sha256": "b317edb48e0d1a063c09e07bdd0fdb8d71ec1e215e090caa16d27afbca94231e"
+        },
+        "momo_journal_lines": {
+          "rows": 4,
+          "sha256": "65da8bbead6dfa0f4572a525ce007e108ca048efb176ed828e8712803572f36a"
+        },
+        "payment_allocations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payment_provider_confirmations": {
+          "rows": 2,
+          "sha256": "3576a379a718e6d1e84eb71691bc5b116fa4f627b73be9690a100145c64e45fb"
+        },
+        "payment_provider_rejections": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "payments": {
+          "rows": 2,
+          "sha256": "d6ae745c9fc4103d47584d5bf5770c76eb17f6ed256d7f76cccd4a9b818b8d92"
+        },
+        "push_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "push_deliveries": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_attempts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_heartbeats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sms_outbox": {
+          "rows": 1,
+          "sha256": "3b64e3b88f2139cd147c011b34786faa0bbd2aab8e523efdc725706cf6ac594f"
+        }
+      },
+      "function": {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+        "configuration": [
+          "search_path=\"\"",
+          "lock_timeout=100ms"
+        ],
+        "definition": "CREATE OR REPLACE FUNCTION public.admin_get_exception_entity_audit_v2(p_exception_id uuid, p_limit integer DEFAULT 20, p_before_at timestamp with time zone DEFAULT NULL::timestamp with time zone, p_before_event_id uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET lock_timeout TO '100ms'\nAS $function$\ndeclare sample timestamptz;result jsonb;begin\n perform collect_operator_audit.exception_actor_v2(true);\n if p_exception_id is null or p_limit is null or p_limit not between 1 and 25\n  or(p_before_at is null)is distinct from(p_before_event_id is null)\n  or(p_before_at is not null and(not isfinite(p_before_at)\n   or p_before_at<'0001-01-01T00:00:00Z'::timestamptz\n   or p_before_at>='10000-01-01T00:00:00Z'::timestamptz))then\n  raise exception 'exception_audit_input_invalid'using errcode='22023';end if;\n sample:=clock_timestamp();\n with scope as materialized(select exists(select 1 from collect_ops.exceptions e where e.id=p_exception_id\n  and collect_operator_audit.exception_scope_v2(e.source_kind,e.source_id))available),\n events as not materialized(\n  (select collect_operator_audit.exception_event_id('exception_action',r.request_id)event_id,\n   'exception_action'::text source,r.request_id source_record_id,'exception.'||r.action action,r.recorded_at,\n   'operator'::text actor_kind,r.actor_id,r.request_id,r.expected_revision revision,null::bigint workflow_revision,\n   null::uuid escalation_id,r.reason_code,'immutable_request'::text origin,null::uuid assignee_id,null::timestamptz due_at\n   from collect_ops.exception_actions r where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_action',r.request_id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_action',r.request_id)desc limit p_limit+1)\n  union all (select collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id),\n   'exception_workflow_request',r.request_id,'exception.workflow.'||r.action,r.recorded_at,'operator',r.actor_id,r.request_id,\n   r.expected_source_revision,(r.result->>'workflow_revision')::bigint,\n   case when r.action='escalate'then collect_operator_audit.safe_uuid(r.result->>'escalation_id')end,r.reason_code,\n   'immutable_request',case when r.action='assign'then r.assignee_id end,case when r.action='assign'then r.due_at end\n   from collect_ops.exception_workflow_requests r where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_workflow_request',r.request_id)desc limit p_limit+1)\n  union all (select collect_operator_audit.exception_event_id('exception_escalation_event',r.id),\n   'exception_escalation_event',r.id,'exception.escalation.'||r.action,r.recorded_at,r.actor_kind,r.actor_id,null::uuid,\n   r.source_revision,null::bigint,r.escalation_id,e.reason_code,r.origin,null::uuid,null::timestamptz\n   from collect_ops.exception_escalation_events r join collect_ops.exception_escalations e on e.id=r.escalation_id\n   where r.exception_id=p_exception_id\n    and r.recorded_at>='0001-01-01T00:00:00Z'::timestamptz and r.recorded_at<=sample\n    and(p_before_at is null or(r.recorded_at,collect_operator_audit.exception_event_id('exception_escalation_event',r.id))<(p_before_at,p_before_event_id))\n   order by r.recorded_at desc,collect_operator_audit.exception_event_id('exception_escalation_event',r.id)desc limit p_limit+1)\n ),page as materialized(select * from events where(select available from scope)\n  and recorded_at>='0001-01-01T00:00:00Z'::timestamptz and recorded_at<=sample\n  and(p_before_at is null or(recorded_at,event_id)<(p_before_at,p_before_event_id))\n  order by recorded_at desc,event_id desc limit p_limit+1),\n shown as materialized(select * from page order by recorded_at desc,event_id desc limit p_limit)\n select jsonb_build_object('contract_version',2,'scope','rw_operator_entity_audit','entity_kind','exception',\n  'entity_id',p_exception_id,'status',case when(select available from scope)then 'available'else 'unavailable'end,\n  'checked_at',collect_ops.utc(sample),'sample_valid_until',collect_ops.utc(sample+interval '60 seconds'),\n  'limit',p_limit,'history_complete',false,'financial_action',false,'send_action',false,\n  'rows',coalesce((select jsonb_agg(jsonb_build_object('event_id',event_id,'source',source,\n   'source_record_id',source_record_id,'action',action,'recorded_at',collect_ops.utc(recorded_at),\n   'actor_kind',actor_kind,'actor_id',actor_id,'request_id',request_id,'revision',revision,\n   'workflow_revision',workflow_revision,'escalation_id',escalation_id,'reason_code',reason_code,\n   'origin',origin,'assignee_id',assignee_id,'due_at',collect_ops.utc(due_at))order by recorded_at desc,event_id desc)from shown),'[]'::jsonb),\n  'next_cursor',case when(select count(*)from page)>p_limit then\n   (select jsonb_build_object('recorded_at',collect_ops.utc(recorded_at),'event_id',event_id)\n    from shown order by recorded_at,event_id limit 1)else null end)into result;\n perform collect_operator_audit.exception_actor_v2(true);\n return result;\nexception when lock_not_available then raise exception 'exception_audit_authority_busy'using errcode='55P03';end$function$\n",
+        "owner": "postgres",
+        "owner_superuser": false,
+        "security_definer": true
+      },
+      "function_definition_sha256": "4326b4d1c5b958ffc02845fa25cd63239f1eb89fc1a4129eb1a9a88ccd1c1019",
+      "installer_authority": {
+        "current_user": "postgres",
+        "superuser": false
+      },
+      "lifecycle_after": {
+        "exception_actions": {
+          "rows": 1,
+          "sha256": "1c82e9db1f975ce5ef60bb423d69629d36ae5a3a61a5110cab7ff584abee67ed"
+        },
+        "exception_escalations": {
+          "rows": 1,
+          "sha256": "2c4e6d4b76393cdcfd61b11d0ee92e3842e7f568143dc3cf3cb0850a2ba24712"
+        },
+        "exception_inbox_deliveries": {
+          "rows": 1,
+          "sha256": "d10e8fcf39c1ee678bcb004004074b76a558cffc9969e206aaca65d5640d3c00"
+        },
+        "exception_inbox_reads": {
+          "rows": 1,
+          "sha256": "b33c8bf02e81774ac817164b757c14541d1fcf50d4ea9711af1debd8f8047323"
+        },
+        "exception_workflow_requests": {
+          "rows": 2,
+          "sha256": "eca22de584652fc6068ab6021fd26ed983dea00eabccb67920503f8434268d80"
+        },
+        "exceptions": {
+          "rows": 1,
+          "sha256": "7c57949e4d1e332b6e0d50ec34d8f253fa8dab91fc0a4b4dd6c1424ec0258f7d"
+        }
+      },
+      "lifecycle_before": {
+        "exception_actions": {
+          "rows": 1,
+          "sha256": "1c82e9db1f975ce5ef60bb423d69629d36ae5a3a61a5110cab7ff584abee67ed"
+        },
+        "exception_escalations": {
+          "rows": 1,
+          "sha256": "2c4e6d4b76393cdcfd61b11d0ee92e3842e7f568143dc3cf3cb0850a2ba24712"
+        },
+        "exception_inbox_deliveries": {
+          "rows": 1,
+          "sha256": "d10e8fcf39c1ee678bcb004004074b76a558cffc9969e206aaca65d5640d3c00"
+        },
+        "exception_inbox_reads": {
+          "rows": 1,
+          "sha256": "b33c8bf02e81774ac817164b757c14541d1fcf50d4ea9711af1debd8f8047323"
+        },
+        "exception_workflow_requests": {
+          "rows": 2,
+          "sha256": "eca22de584652fc6068ab6021fd26ed983dea00eabccb67920503f8434268d80"
+        },
+        "exceptions": {
+          "rows": 1,
+          "sha256": "7c57949e4d1e332b6e0d50ec34d8f253fa8dab91fc0a4b4dd6c1424ec0258f7d"
+        }
+      },
+      "predecessor_stage_count": 18,
+      "privileged_setup_complete": true,
+      "stage": "complete",
+      "status": "pass"
+    }
+  },
+  "provider_called": false,
+  "query_plan37_repeated": false,
+  "replacement_sha256": "ab2dd135b164e5395a74767dd9ecc67939e7a2c38f29d47b615a6f0511d4ab41",
+  "reused_proofs": {
+    "current37_query_proof": {
+      "cases": 37,
+      "migration_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json",
+      "sha256": "b9437c27277c5e37cf75c7e20ad6323e1cbb524539af7486318cc28393f09df2"
+    },
+    "full187_structural_ordinary_installer": {
+      "applications": 374,
+      "checks": 36,
+      "migration_sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/validation.json",
+      "sha256": "e09a076aa7492f4d0632cdf9119a18c616948069c03b0d4eab4e6729967be20c"
+    }
+  },
+  "runner_sha256": "f47d6e2ca2e6f9a32f15d55b02004a972c0e53711e8f93dc8e6ed7e6b6c35450",
+  "shared_database_written": false,
+  "signed_jwt_tested": false,
+  "source_rows_copied": false,
+  "source_sha256": {
+    "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/exception_inbox_audit_v2_plan_uat.py": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+  },
+  "started_at": "2026-10-01T15:55:56.300637+00:00",
+  "status": "pass",
+  "target": {
+    "container_id": "c419d810fc003b1ea170b525216076119e748b313a617bbed97ab9d65ea2d5d5",
+    "container_name": "collect_current_rehearsal_ordinary_body_305f2b6b0a04",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "tools": {
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+    "python_path": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "python_sha256": "dff595035109e19c43c4b3e73ee08b5f4651e719f25f8b4713f819d28964dc19"
+  },
+  "whole187_current_body_replayed": false
+}

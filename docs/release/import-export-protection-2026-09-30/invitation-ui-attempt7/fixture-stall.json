@@ -1,0 +1,7 @@
+{
+  "utc": "2026-09-30T20:48:13.329390+00:00",
+  "diagnosis": "Actual PNG codec getNextFrame awaited outside tester.runAsync; fake test clock stalled final case after52 passed. Test fixture corrected; no prior aggregate pass claimed.",
+  "confirmed_owned_pid": 16915,
+  "confirmed_command": "16387 /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/cache/artifacts/engine/darwin-x64/flutter_tester --disable-vm-service --enable-checked-mode --verify-entry-points --enable-software-rendering --skia-deterministic-rendering --enable-dart-profiling --non-interactive --use-test-fonts --disable-asset-fonts --packages=/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/.dart_tool/package_config.json --flutter-assets-dir=/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/build/unit_test_assets /var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/flutter_tools.gizyAQ/flutter_test_listener.tT3fw7/listener.dart.dill",
+  "termination": "SIGTERM only confirmed owned flutter_tester; runner retains result and performs scoped analysis"
+}

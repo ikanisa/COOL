@@ -1,0 +1,239 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart
+00:00 +0: authenticated Settings route mounts retention through the actual repository
+00:01 +1: mounted original save uses one checkpoint and one non-retried RPC
+
+Warning: A call to tap() with finder "Found 1 widget with text "Record maintenance change": [
+  Text("Record maintenance change", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery, _ScrollableScope]),
+]" derived an Offset (Offset(243.0, 9.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+The finder corresponds to this RenderBox: RenderParagraph#1a185 relayoutBoundary=up26
+The hit test result at that offset is: HitTestResult(RenderPointerListener#25f22@Offset(243.0, 9.0), RenderSemanticsGestureHandler#0fe54@Offset(243.0, 9.0), RenderPointerListener#27e21@Offset(243.0, 9.0), _RenderScrollSemantics#4d18d@Offset(243.0, 9.0), RenderClipRect#39191@Offset(243.0, 9.0), RenderCustomMultiChildLayoutBox#5ddf3@Offset(243.0, 9.0), _RenderInkFeatures#ae3d8@Offset(243.0, 9.0), RenderPhysicalModel#ada09@Offset(243.0, 9.0), RenderSemanticsAnnotations#9d6bf@Offset(243.0, 9.0), RenderRepaintBoundary#79f88@Offset(243.0, 9.0), RenderIgnorePointer#ec7ab@Offset(243.0, 9.0), RenderAnimatedOpacity#dc860@Offset(243.0, 9.0), RenderAnimatedOpacity#f05b0@Offset(243.0, 9.0), _RenderColoredBox#42d96@Offset(243.0, 9.0), RenderAnimatedOpacity#f1d1a@Offset(243.0, 9.0), RenderIgnorePointer#3d15f@Offset(243.0, 9.0), RenderAnimatedOpacity#65788@Offset(243.0, 9.0), RenderRepaintBoundary#4ce57@Offset(243.0, 9.0), RenderSemanticsAnnotations#760af@Offset(243.0, 9.0), RenderOffstage#5126b@Offset(243.0, 9.0), RenderSemanticsAnnotations#ba97f@Offset(243.0, 9.0), _RenderTheater#a9928@Offset(243.0, 9.0), RenderAbsorbPointer#7bfb5@Offset(243.0, 9.0), RenderPointerListener#13af6@Offset(243.0, 9.0), RenderSemanticsAnnotations#6f540@Offset(243.0, 9.0), RenderCustomPaint#c7906@Offset(243.0, 9.0), RenderSemanticsAnnotations#59d27@Offset(243.0, 9.0), RenderSemanticsAnnotations#49333@Offset(243.0, 9.0), RenderSemanticsAnnotations#20f6f@Offset(243.0, 9.0), RenderTapRegionSurface#e8541@Offset(243.0, 9.0), RenderSemanticsAnnotations#56d4a@Offset(243.0, 9.0), RenderSemanticsAnnotations#c9765@Offset(243.0, 9.0), HitTestEntry<HitTestTarget>#a13a2(_ReusableRenderView#be6e9), HitTestEntry<HitTestTarget>#9c799(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      click (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:237:11)
+<asynchronous suspension>
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:291:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+#7      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: an object with length of <1>
+  Actual: []
+   Which: has length of <0>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:292:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart line 292
+The test description was:
+  mounted original save uses one checkpoint and one non-retried RPC
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:03 +1 -1: mounted original save uses one checkpoint and one non-retried RPC [E]
+  Test failed. See exception logs above.
+  The test description was: mounted original save uses one checkpoint and one non-retried RPC
+  
+00:03 +1 -1: uncertain mounted save retains its original without an automatic retry
+
+Warning: A call to tap() with finder "Found 1 widget with text "Record maintenance change": [
+  Text("Record maintenance change", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery, _ScrollableScope]),
+]" derived an Offset (Offset(243.0, 9.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+The finder corresponds to this RenderBox: RenderParagraph#f5593 relayoutBoundary=up26
+The hit test result at that offset is: HitTestResult(RenderPointerListener#1d458@Offset(243.0, 9.0), RenderSemanticsGestureHandler#433ad@Offset(243.0, 9.0), RenderPointerListener#6039a@Offset(243.0, 9.0), _RenderScrollSemantics#8998c@Offset(243.0, 9.0), RenderClipRect#bd63a@Offset(243.0, 9.0), RenderCustomMultiChildLayoutBox#f07d1@Offset(243.0, 9.0), _RenderInkFeatures#300f6@Offset(243.0, 9.0), RenderPhysicalModel#7435b@Offset(243.0, 9.0), RenderSemanticsAnnotations#9c0de@Offset(243.0, 9.0), RenderRepaintBoundary#8127d@Offset(243.0, 9.0), RenderIgnorePointer#fbf37@Offset(243.0, 9.0), RenderAnimatedOpacity#3102c@Offset(243.0, 9.0), RenderAnimatedOpacity#e24f2@Offset(243.0, 9.0), _RenderColoredBox#19370@Offset(243.0, 9.0), RenderAnimatedOpacity#de984@Offset(243.0, 9.0), RenderIgnorePointer#81b79@Offset(243.0, 9.0), RenderAnimatedOpacity#0f9e0@Offset(243.0, 9.0), RenderRepaintBoundary#80432@Offset(243.0, 9.0), RenderSemanticsAnnotations#f493a@Offset(243.0, 9.0), RenderOffstage#9286f@Offset(243.0, 9.0), RenderSemanticsAnnotations#e78d8@Offset(243.0, 9.0), _RenderTheater#adaf4@Offset(243.0, 9.0), RenderAbsorbPointer#affef@Offset(243.0, 9.0), RenderPointerListener#698cc@Offset(243.0, 9.0), RenderSemanticsAnnotations#0919d@Offset(243.0, 9.0), RenderCustomPaint#0224b@Offset(243.0, 9.0), RenderSemanticsAnnotations#23c7b@Offset(243.0, 9.0), RenderSemanticsAnnotations#16eaa@Offset(243.0, 9.0), RenderSemanticsAnnotations#b5668@Offset(243.0, 9.0), RenderTapRegionSurface#54673@Offset(243.0, 9.0), RenderSemanticsAnnotations#c3122@Offset(243.0, 9.0), RenderSemanticsAnnotations#60abb@Offset(243.0, 9.0), HitTestEntry<HitTestTarget>#c95c8(_ReusableRenderView#be6e9), HitTestEntry<HitTestTarget>#b6a04(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      click (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:237:11)
+<asynchronous suspension>
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:315:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+#7      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following _TypeError was thrown running a test:
+Null check operator used on a null value
+
+When the exception was thrown, this was the stack:
+#0      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:316:40)
+<asynchronous suspension>
+#1      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#2      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  uncertain mounted save retains its original without an automatic retry
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:04 +1 -2: uncertain mounted save retains its original without an automatic retry [E]
+  Test failed. See exception logs above.
+  The test description was: uncertain mounted save retains its original without an automatic retry
+  
+00:04 +1 -2: mounted recovery submits exact retained UUID, fingerprint and intent
+00:05 +2 -2: read-only, denied and expired mounted controls cannot create a request
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.widget (package:flutter_test/src/controller.dart:828:30)
+#2      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:363:14)
+<asynchronous suspension>
+#3      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#4      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  read-only, denied and expired mounted controls cannot create a request
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +2 -3: read-only, denied and expired mounted controls cannot create a request [E]
+  Test failed. See exception logs above.
+  The test description was: read-only, denied and expired mounted controls cannot create a request
+  
+00:06 +2 -3: identity loss fences a held mounted read and erases typed reason
+
+Warning: A call to tap() with finder "Found 1 widget with type "OutlinedButton" that are ancestors of widget with text "Refresh": [
+  OutlinedButton(dependencies: [IconTheme, InheritedCupertinoTheme, MediaQuery, _InheritedTheme, _LocalizationsScope-[GlobalKey#0143c], _ScrollableScope], state: _ButtonStyleState#7253f),
+]" derived an Offset (Offset(493.0, 24.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+The finder corresponds to this RenderBox: RenderSemanticsAnnotations#01632 relayoutBoundary=up15
+The hit test result at that offset is: HitTestResult(RenderPointerListener#b0b9b@Offset(493.0, 24.0), RenderSemanticsGestureHandler#02aaa@Offset(493.0, 24.0), RenderPointerListener#03db0@Offset(493.0, 24.0), _RenderScrollSemantics#17977@Offset(493.0, 24.0), RenderClipRect#f0dc0@Offset(493.0, 24.0), RenderCustomMultiChildLayoutBox#0b858@Offset(493.0, 24.0), _RenderInkFeatures#0b06a@Offset(493.0, 24.0), RenderPhysicalModel#90b4a@Offset(493.0, 24.0), RenderSemanticsAnnotations#61234@Offset(493.0, 24.0), RenderRepaintBoundary#27736@Offset(493.0, 24.0), RenderIgnorePointer#8af7b@Offset(493.0, 24.0), RenderAnimatedOpacity#66035@Offset(493.0, 24.0), RenderAnimatedOpacity#8e229@Offset(493.0, 24.0), _RenderColoredBox#d2d5b@Offset(493.0, 24.0), RenderAnimatedOpacity#3bd82@Offset(493.0, 24.0), RenderIgnorePointer#54592@Offset(493.0, 24.0), RenderAnimatedOpacity#e06e7@Offset(493.0, 24.0), RenderRepaintBoundary#4f1e7@Offset(493.0, 24.0), RenderSemanticsAnnotations#419ec@Offset(493.0, 24.0), RenderOffstage#d9117@Offset(493.0, 24.0), RenderSemanticsAnnotations#f2b9a@Offset(493.0, 24.0), _RenderTheater#e0d73@Offset(493.0, 24.0), RenderAbsorbPointer#2fd9f@Offset(493.0, 24.0), RenderPointerListener#0d38a@Offset(493.0, 24.0), RenderSemanticsAnnotations#d23ac@Offset(493.0, 24.0), RenderCustomPaint#5d186@Offset(493.0, 24.0), RenderSemanticsAnnotations#c2a15@Offset(493.0, 24.0), RenderSemanticsAnnotations#d4737@Offset(493.0, 24.0), RenderSemanticsAnnotations#80db9@Offset(493.0, 24.0), RenderTapRegionSurface#c6acf@Offset(493.0, 24.0), RenderSemanticsAnnotations#9da06@Offset(493.0, 24.0), RenderSemanticsAnnotations#68679@Offset(493.0, 24.0), HitTestEntry<HitTestTarget>#0f4cd(_ReusableRenderView#be6e9), HitTestEntry<HitTestTarget>#d5e15(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      click (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:237:11)
+<asynchronous suspension>
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:394:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+#7      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: true
+  Actual: <false>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:395:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart line 395
+The test description was:
+  identity loss fences a held mounted read and erases typed reason
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +2 -4: identity loss fences a held mounted read and erases typed reason [E]
+  Test failed. See exception logs above.
+  The test description was: identity loss fences a held mounted read and erases typed reason
+  
+00:07 +2 -4: mounted sender selection reorders only its allowlist through existing v2 policy
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.state (package:flutter_test/src/controller.dart:932:42)
+#2      WidgetTester.showKeyboard.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1125:42)
+#5      TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#6      WidgetTester.showKeyboard (package:flutter_test/src/widget_tester.dart:1124:27)
+#7      WidgetTester.enterText.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1160:13)
+#10     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#11     WidgetTester.enterText (package:flutter_test/src/widget_tester.dart:1159:27)
+#12     main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:445:15)
+<asynchronous suspension>
+#13     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#14     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+The test description was:
+  mounted sender selection reorders only its allowlist through existing v2 policy
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:08 +2 -5: mounted sender selection reorders only its allowlist through existing v2 policy [E]
+  Test failed. See exception logs above.
+  The test description was: mounted sender selection reorders only its allowlist through existing v2 policy
+  
+00:08 +2 -5: sender denial blocks configuration while independent emergency stop remains usable
+00:10 +3 -5: sender evidence expiring during review prevents a policy request
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.state (package:flutter_test/src/controller.dart:932:42)
+#2      WidgetTester.showKeyboard.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1125:42)
+#5      TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#6      WidgetTester.showKeyboard (package:flutter_test/src/widget_tester.dart:1124:27)
+#7      WidgetTester.enterText.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1160:13)
+#10     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#11     WidgetTester.enterText (package:flutter_test/src/widget_tester.dart:1159:27)
+#12     main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart:505:15)
+<asynchronous suspension>
+#13     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#14     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+The test description was:
+  sender evidence expiring during review prevents a policy request
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:11 +3 -6: sender evidence expiring during review prevents a policy request [E]
+  Test failed. See exception logs above.
+  The test description was: sender evidence expiring during review prevents a policy request
+  
+00:11 +3 -6: duplicate pasted sender IDs remain visible and deny configuration without crashing
+00:11 +4 -6: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: identity loss fences a held mounted read and erases typed reason
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: mounted original save uses one checkpoint and one non-retried RPC
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: mounted sender selection reorders only its allowlist through existing v2 policy
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: read-only, denied and expired mounted controls cannot create a request
+  ... and 2 more

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py", line 198, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py", line 174, in main
+    fences=json.loads(stable(HERE/'source-fences.json',a.source_fences_sha256));assert stable(PYTHON,fences['Python_SHA256'],8*1024**2)
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py", line 14, in stable
+    if before.st_size>max_bytes:raise ValueError('Input bound')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Input bound

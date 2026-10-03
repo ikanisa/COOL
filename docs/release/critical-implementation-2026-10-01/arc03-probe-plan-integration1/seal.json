@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "packet_files_sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26",
+  "readback_sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d",
+  "full_finding_closed": false,
+  "local_implemented_scope_pass": true
+}

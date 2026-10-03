@@ -1,0 +1,11 @@
+--- docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/current_browser_lifecycle.continuation3.mjs	2026-10-01 15:52:32
++++ scripts/qa/current_browser_lifecycle.mjs	2026-10-01 15:54:30
+@@ -277,7 +277,7 @@
+     '/admin/payees': ['No payees', 'empty'],
+     '/admin/transactions': ['No transactions', 'empty'],
+     '/admin/transactions/:id': [readFailure, 'unavailable-read'],
+-    '/admin/reconciliations': [readFailure, 'unavailable-read'],
++    '/admin/reconciliations': ['No payments awaiting review', 'empty-payment-queue'],
+     '/admin/ledgers': ['No ledgers', 'empty'],
+     '/admin/sms-receipts': ['No sms receipts', 'empty'],
+     '/admin/sms-receipts/:id': [readFailure, 'unavailable-read'],

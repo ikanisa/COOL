@@ -1,0 +1,81 @@
+{
+  "status": "pass",
+  "scope": "Actual pure legal HTML rendering; current full-page visible text recomposed only where prior legal fragment appears exactly once. No screenshot freshness bypass or hosted result.",
+  "routes": [
+    {
+      "route": "/trust/",
+      "legal_before_sha256": "b7726497bc296aa52df3454da03a3cfa23cceac881c9a6ef6ca75308811dc710",
+      "legal_after_sha256": "b7726497bc296aa52df3454da03a3cfa23cceac881c9a6ef6ca75308811dc710",
+      "visible_before_sha256": "eb90f23723841b872d603768002cae2a113a6b2c553c0dab395148a082662247",
+      "visible_after_sha256": "eb90f23723841b872d603768002cae2a113a6b2c553c0dab395148a082662247",
+      "contiguous_prior_fragment_count": 1,
+      "removed_lines": [
+
+      ],
+      "added_lines": [
+
+      ],
+      "composed_full_page_visible_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5"
+    },
+    {
+      "route": "/privacy/",
+      "legal_before_sha256": "b4ec8c97cd61c03984ee61f7f099138eb94839f846fb3f60a0b224b1ef022688",
+      "legal_after_sha256": "1cdf4cbb65330eba6b2ee034772f7c6bf39c81bd4e8d32abed2eab6f5c7c7a83",
+      "visible_before_sha256": "d6f52d1d8627bfc0d511725d9793215b4cd9d6e75c3d45040ab81cd954b98a3a",
+      "visible_after_sha256": "7e792f3514b34bb04133226b5e4419de03dc94c3acfa3974f8692fcba3deab10",
+      "contiguous_prior_fragment_count": 1,
+      "removed_lines": [
+        "You can manage optional cookies through Cookie Settings. See the separate Cookie Policy."
+      ],
+      "added_lines": [
+        "For questions about cookies and website technologies described in this notice, contact info@ikanisa.com."
+      ],
+      "composed_full_page_visible_sha256": "8abf7ac2f5ee37a3a478a36a8bc6f92c2ca3804ed9911e93c90790c26a567eac"
+    },
+    {
+      "route": "/terms/",
+      "legal_before_sha256": "4b743b035b0cb12649011ae745dadd26c47b4a914cdfd0735ea4a3d72abf934e",
+      "legal_after_sha256": "7e9b9afa089370a6ed5ed499a5e3ce22da0456ce2077956d0388325488c92a4f",
+      "visible_before_sha256": "a1504bb75b32c56fab318e8e6fb89a8b563d8f6856ab402463f49ddb81e36813",
+      "visible_after_sha256": "b2b60f22aff70ad63de663ee5f50583162c12e925014b4ffd4413ed6d62fca9b",
+      "contiguous_prior_fragment_count": 1,
+      "removed_lines": [
+        "In the app under Settings → Privacy and Security → Delete Account"
+      ],
+      "added_lines": [
+        "In the app under Settings → Security → Delete data"
+      ],
+      "composed_full_page_visible_sha256": "33576a761a30bb597abaf9102cbfdd63ecd59bb7d85c4623fa8e60b098517a1b"
+    },
+    {
+      "route": "/account-deletion/",
+      "legal_before_sha256": "b28d9b2228d9a19c23f51c02f390a44f994c55e1d278333bdd2399f0152b9d8e",
+      "legal_after_sha256": "b28d9b2228d9a19c23f51c02f390a44f994c55e1d278333bdd2399f0152b9d8e",
+      "visible_before_sha256": "4e0e589f77725faeffba5be7273dedfd7241da8463b761c9826cccecf8496b54",
+      "visible_after_sha256": "4e0e589f77725faeffba5be7273dedfd7241da8463b761c9826cccecf8496b54",
+      "contiguous_prior_fragment_count": 1,
+      "removed_lines": [
+
+      ],
+      "added_lines": [
+
+      ],
+      "composed_full_page_visible_sha256": "38beb124b64999c966b22987a988f402b6d5c9b514e261b11640f4aa10686902"
+    },
+    {
+      "route": "/data-deletion/",
+      "legal_before_sha256": "ad66e7d9d2a916b53f63ab0709c23ce45ff4402fd3613ea551362fd980795f98",
+      "legal_after_sha256": "66496b9fe8cfac66b04f9dffdc00bd352c89f600c67bfe910a7d4fc37cfeb5b2",
+      "visible_before_sha256": "7cf3d8cc6a70a06266d78bfaa7db3f4a75cc32b7fe3783c4239c7e0d2a8646d4",
+      "visible_after_sha256": "7cf3d8cc6a70a06266d78bfaa7db3f4a75cc32b7fe3783c4239c7e0d2a8646d4",
+      "contiguous_prior_fragment_count": 1,
+      "removed_lines": [
+
+      ],
+      "added_lines": [
+
+      ],
+      "composed_full_page_visible_sha256": "53a05f02fb862322f5a25322e15dbdb3a22435b5d764fd9e7f8bb30240d88341"
+    }
+  ]
+}

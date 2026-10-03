@@ -1,0 +1,66 @@
+--- a/supabase/functions/prepare-roster-import/handler_test.ts
++++ b/supabase/functions/prepare-roster-import/handler_test.ts
+@@ -127,6 +127,13 @@
+   throw new Error(`Expected ${code}`);
+ }
+ type Call = { name: string; args: Record<string, unknown> };
++function fixturePromise<T>(body: () => T): Promise<T> {
++  try {
++    return Promise.resolve(body());
++  } catch (error) {
++    return Promise.reject(error);
++  }
++}
+ function fixture() {
+   const calls: Call[] = [], events: string[] = [];
+   let original: Record<string, unknown> = {};
+@@ -146,11 +153,11 @@
+     replay: false,
+   };
+   const deps: RosterHandlerDependencies = {
+-    authenticate: async () => {
++    authenticate: () => fixturePromise(() => {
+       events.push("authenticate");
+       if (state.authError) throw new Error("Authentication required");
+       return { id: ACTOR };
+-    },
++    }),
+     configuration: () => ({
+       model: "fixture-model",
+       apiKey: state.apiKey,
+@@ -158,7 +165,7 @@
+       decoderSecret: DECODER_SECRET,
+       decoderBuildSha256: "d".repeat(64),
+     }),
+-    rpc: async (name, args) => {
++    rpc: (name, args) => fixturePromise(() => {
+       if (name === "reserve_roster_resources") {
+         return {
+           error: null,
+@@ -292,7 +299,7 @@
+         ...state.previewPatch,
+       };
+       return { data: cached, error: null };
+-    },
++    }),
+     // This fixture simulates an independently signed decoder receipt. Actual
+     // codec/workbook behavior is exercised against the Linux sandbox separately.
+     decoderFetch: async (_url, init) => {
+@@ -344,7 +351,7 @@
+       ].map((v) => v.toString(16).padStart(2, "0")).join("");
+       return new Response(JSON.stringify({ payload, signature }));
+     },
+-    fetch: async (_url, init) => {
++    fetch: (_url, init) => fixturePromise(() => {
+       events.push("provider");
+       assertEquals(calls[0].name, "create_roster_import_source");
+       assertEquals(calls[0].args.p_ai_consent, true);
+@@ -356,7 +363,7 @@
+       assertEquals(body.tools, undefined);
+       if (state.fetchError) throw state.fetchError;
+       return state.providerResponse();
+-    },
++    }),
+   };
+   return {
+     state,

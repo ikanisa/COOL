@@ -1,0 +1,805 @@
+{
+  "self_excluded": true,
+  "files": {
+    "HANDOFF.md": {
+      "sha256": "f703b83e39fe2287fbe564833f5c9c1aad16797bceeaecc4cd25905c219eccbb",
+      "bytes": 7589
+    },
+    "README.md": {
+      "sha256": "d1394222d0eb3127135eb733123f673f452827a0c4d774d73627785fe6be4c8f",
+      "bytes": 1315
+    },
+    "ROOT-README.md": {
+      "sha256": "7734cd5183a75bc8609a49a7eab28dd8798e6519cfab94ddb4b063f7381a15f6",
+      "bytes": 688
+    },
+    "acceptance.json": {
+      "sha256": "e6a966f283f89f620aeb05794dc7b25cb7a10bc86822cee59561dd20ceaf39ee",
+      "bytes": 8738
+    },
+    "authority-observation.diff": {
+      "sha256": "1350805ac45722b71df1ad80b01e6c2e4b0027e0b732764375c7e9c6647d41be",
+      "bytes": 7374
+    },
+    "baseline-bindings.json": {
+      "sha256": "305952f1370329a4262fb1f2dd7c99521fdfdfac5df82eb2b8e0eab4428487e8",
+      "bytes": 426
+    },
+    "canonical-source-association.json": {
+      "sha256": "1194c4d51c5e51ed4e0d1c297c71ba1595e8b358d8648a0ce1ac5c042053d216",
+      "bytes": 995
+    },
+    "case-bindings.json": {
+      "sha256": "5ac3bca3dbd5da2ca0f2831e8b83c8bd55dde9fba6e7e6cc441441e1d0978bb7",
+      "bytes": 515259
+    },
+    "executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "084cc224894466585871776972e1d29fc9ba6e817ab6f143fdc17cdec7bf9dcc",
+      "bytes": 46533
+    },
+    "executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667
+    },
+    "families.json": {
+      "sha256": "4cb6362026c7343fee9f3c045240ad601f9797b5c08229c59ab986021dd1f15d",
+      "bytes": 692
+    },
+    "manifest.json": {
+      "sha256": "de3caa11b12543f1f91d8424d794dbb6c8ef691ef3bf935432356c3d5538ef71",
+      "bytes": 28112
+    },
+    "promotion-files.json": {
+      "sha256": "7ce178d1764764de7a884834fa581e38e042f9ae8a909f93fdd59c9c800dd493",
+      "bytes": 769
+    },
+    "proofs/affected-attempt7/concurrency.log": {
+      "sha256": "8336abc3012c5f4415163d7c97fffbf97850ca3d661c24f880489bcda262971d",
+      "bytes": 7961
+    },
+    "proofs/affected-attempt7/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/affected-attempt7/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "6499141bedd0ccf715502ce745a549c2ea4503d3f515b161bdd8c7be09524d86",
+      "bytes": 41646
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/affected-attempt7/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/affected-attempt7/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667
+    },
+    "proofs/affected-attempt7/governed_settings/container.log": {
+      "sha256": "172795a647bb12195a3ef31aa7249eec27dc61089f0c872b771c2a761a7a3fa9",
+      "bytes": 93402
+    },
+    "proofs/affected-attempt7/governed_settings/queries.log": {
+      "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+      "bytes": 617
+    },
+    "proofs/affected-attempt7/governed_settings/queries.sql": {
+      "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+      "bytes": 906
+    },
+    "proofs/affected-attempt7/install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "proofs/affected-attempt7/queries.log": {
+      "sha256": "0d27b4b0a0d5c6eb26a3d3e5f55c4e90f4433f59d5c0dc557398591ebd4fc570",
+      "bytes": 1835913
+    },
+    "proofs/affected-attempt7/queries.sql": {
+      "sha256": "6b76efb4de5ac88255b7623125d6e789a0b757d8049d4772b02b3d62598167f8",
+      "bytes": 1650859
+    },
+    "proofs/affected-attempt7/result.json": {
+      "sha256": "91ec57bc59b81f4fdcc9bf57873d1fa7cf36945c7723abda6a9ac19f92cf34b7",
+      "bytes": 15735
+    },
+    "proofs/affected-attempt7.log": {
+      "sha256": "88dba88899140c0c12bce7ad2d1bd72f4399127282d4d071be0cc9ab758316ae",
+      "bytes": 4113
+    },
+    "proofs/affected-tail-attempt8/concurrency.log": {
+      "sha256": "ba4fbcdd745d2f0a8efa4581b0d3872a1bfc94ae8c7f143f5b7db437b71410a7",
+      "bytes": 1156
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "04c4ca53e564242ef861a7b1e20d71656eb9107f61edfee7750a56d0e8f3ef5d",
+      "bytes": 41804
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/affected-tail-attempt8/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667
+    },
+    "proofs/affected-tail-attempt8/governed_settings/container.log": {
+      "sha256": "984b39276fa844e2316cd9ee562cbce78d633ed7402d6296f23605c742b37f23",
+      "bytes": 26079
+    },
+    "proofs/affected-tail-attempt8/governed_settings/queries.log": {
+      "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+      "bytes": 617
+    },
+    "proofs/affected-tail-attempt8/governed_settings/queries.sql": {
+      "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+      "bytes": 906
+    },
+    "proofs/affected-tail-attempt8/install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "proofs/affected-tail-attempt8/queries.log": {
+      "sha256": "9a44bba87c39d73a1562e027ecb65a10e5d7d47af285f7ab8e252f8e4b649bb0",
+      "bytes": 1871814
+    },
+    "proofs/affected-tail-attempt8/queries.sql": {
+      "sha256": "e6a211a63f1b47e83f50bfea64d3dddb451782fee18ae89bf5a7acf031a00e69",
+      "bytes": 1576409
+    },
+    "proofs/affected-tail-attempt8/result.json": {
+      "sha256": "b4bdfe02914c99f4a23036d0e8b9a066d2119f2e14836c32764f3f0d646a2c84",
+      "bytes": 9109
+    },
+    "proofs/affected-tail-attempt8.log": {
+      "sha256": "675183fa5181953e1c995e561f90652ad4f66ad771ede37665732494560ca064",
+      "bytes": 4335
+    },
+    "proofs/attempt1/result.json": {
+      "sha256": "cd535efedac34c56bdb003504d5ef25a5040984f1013e2a55dfeab8aa026df9d",
+      "bytes": 1051
+    },
+    "proofs/attempt1.log": {
+      "sha256": "7b3ad35119e393dc5002dd11f0e308fbac58c27e4c7ed997299e653de5782906",
+      "bytes": 1478
+    },
+    "proofs/attempt2/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/attempt2/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "0a2b763e6a0b91814b6ec8a7d653853645003dfb346440d002970cf4ec5230f2",
+      "bytes": 21198
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/attempt2/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/attempt2/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "cdb31bc30ab98ef8e9b13287a99537b8e0a0f8d7878839c538c91e5123256d46",
+      "bytes": 24404
+    },
+    "proofs/attempt2/result.json": {
+      "sha256": "8fa265629805744c1bb685b6bf093bc461b744a5808af8bdadc50289a62121a4",
+      "bytes": 4375
+    },
+    "proofs/attempt2.log": {
+      "sha256": "f39c1ad869bfc462c2030dd8b0676fe19a13906f43571a4ba93627d8995aea3d",
+      "bytes": 1489
+    },
+    "proofs/attempt3/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/attempt3/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "2c24ccac435824c3de47a1896bb72322bb1834982ce985a4fcc362867c50ebc5",
+      "bytes": 39851
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/attempt3/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/attempt3/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "cdb31bc30ab98ef8e9b13287a99537b8e0a0f8d7878839c538c91e5123256d46",
+      "bytes": 24404
+    },
+    "proofs/attempt3/governed_settings/container.log": {
+      "sha256": "a2cad46176239d3cc6c72e02fd58c9a72462cce910600c45623fd35b501ea5f0",
+      "bytes": 17580
+    },
+    "proofs/attempt3/governed_settings/queries.log": {
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c",
+      "bytes": 444
+    },
+    "proofs/attempt3/governed_settings/queries.sql": {
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b",
+      "bytes": 782
+    },
+    "proofs/attempt3/queries.log": {
+      "sha256": "ba0432725c68ea835d53a5460bed8026be05047478af4f9a2d4b38f0a1ca059f",
+      "bytes": 2775
+    },
+    "proofs/attempt3/queries.sql": {
+      "sha256": "758779e10fca18b89ad58bd834edecdf70911a14240180a3f35f992980874e14",
+      "bytes": 1445151
+    },
+    "proofs/attempt3/result.json": {
+      "sha256": "e8806b6f637b087969d8b89719f3436eeed61f1a6746e43e7533dc3731df042a",
+      "bytes": 5281
+    },
+    "proofs/attempt3.log": {
+      "sha256": "1c953aff27ee80d8a80e91e1dae4fd0d8da6783e40cb2c05319787617f7f8c2b",
+      "bytes": 2138
+    },
+    "proofs/attempt4/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/attempt4/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "9580a342b1c6480690c62a34cf9b5214c15a63e5af79e08e29c208fe42561df6",
+      "bytes": 39851
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/attempt4/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/attempt4/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "cdb31bc30ab98ef8e9b13287a99537b8e0a0f8d7878839c538c91e5123256d46",
+      "bytes": 24404
+    },
+    "proofs/attempt4/governed_settings/container.log": {
+      "sha256": "c4184c6bc3238a29ca822c2aabe1f5f34d486930cad642156b1304ef1d3ed12f",
+      "bytes": 17052
+    },
+    "proofs/attempt4/governed_settings/queries.log": {
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c",
+      "bytes": 444
+    },
+    "proofs/attempt4/governed_settings/queries.sql": {
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b",
+      "bytes": 782
+    },
+    "proofs/attempt4/queries.log": {
+      "sha256": "977b5f6b34218f50552749492614659ec22389481086b9dcce73ef93d8b1a392",
+      "bytes": 7660
+    },
+    "proofs/attempt4/queries.sql": {
+      "sha256": "bc23391a1704f14922097fb81cf457ece4f241d2c1077c8cc540d523a1dbdce9",
+      "bytes": 1466872
+    },
+    "proofs/attempt4/result.json": {
+      "sha256": "68a2b2b31c5d4fa24405a75e5a3913b8b533c3f9316b4970fab8257dffc37c7b",
+      "bytes": 5087
+    },
+    "proofs/attempt4.log": {
+      "sha256": "f5450bdaa10d57950639b0c39da69af8e05aba00d663833a3f87494ef9f51289",
+      "bytes": 2055
+    },
+    "proofs/attempt5/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/attempt5/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "34226c4e7762dd9dd2554e9930811bbafc15b2f156eca2dfa63dd619532ca6e3",
+      "bytes": 39853
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/attempt5/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/attempt5/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "6fc0e110dc42bf2c12125470b8b0a800966e75986b5bc64e2701875d188e71f2",
+      "bytes": 25513
+    },
+    "proofs/attempt5/governed_settings/container.log": {
+      "sha256": "c9fd83cfe25e1f0ec33047e58628ad7679ea7c9e24963547d61016cc871126df",
+      "bytes": 16014
+    },
+    "proofs/attempt5/governed_settings/queries.log": {
+      "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+      "bytes": 617
+    },
+    "proofs/attempt5/governed_settings/queries.sql": {
+      "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+      "bytes": 906
+    },
+    "proofs/attempt5/install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "proofs/attempt5/queries.log": {
+      "sha256": "49393eb6d53f6d27ca480917541a460e5f497843cbb266e0e1e77808eb1b437b",
+      "bytes": 1791084
+    },
+    "proofs/attempt5/queries.sql": {
+      "sha256": "de64d82470a83d5c3ecb10e4d794d2b7a6b87ecedf4e0800fa2a7a5d6cb46ea3",
+      "bytes": 1549890
+    },
+    "proofs/attempt5/result.json": {
+      "sha256": "368a4dc02486ca56fe7418f93474606ca7d74f9d55d207297fcb8b39ebce474a",
+      "bytes": 5742
+    },
+    "proofs/attempt5.log": {
+      "sha256": "3e657c5f313ecbf04f79582c1f64cb85773e662dcd8df3d71894f896b6cdd468",
+      "bytes": 1619
+    },
+    "proofs/attempt6/concurrency.log": {
+      "sha256": "9dbe788fe9e376e5d3b13d06a4793ad65a3f7bb1fb9c4f2ebc26b6925ca5e5ea",
+      "bytes": 534
+    },
+    "proofs/attempt6/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/attempt6/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "d9b4e9ec5040b9f3c977e7ca09311f133d2f7fbc1d7e515739b9f3f823651291",
+      "bytes": 41183
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/attempt6/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/attempt6/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667
+    },
+    "proofs/attempt6/governed_settings/container.log": {
+      "sha256": "a0c0c2b40e3650e4150ca90874204d237edba7fd0765ccf6dc7156cd574a5952",
+      "bytes": 97404
+    },
+    "proofs/attempt6/governed_settings/queries.log": {
+      "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+      "bytes": 617
+    },
+    "proofs/attempt6/governed_settings/queries.sql": {
+      "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+      "bytes": 906
+    },
+    "proofs/attempt6/install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "proofs/attempt6/queries.log": {
+      "sha256": "96cf4f5118887179ef408e18db8efa96a22c95c61ccfd80a8c18ae80ed60e833",
+      "bytes": 1978129
+    },
+    "proofs/attempt6/queries.sql": {
+      "sha256": "e6c88185f373d257a0f6616e1fb2e71b5020bae5b4d6af89f87252ed6b573027",
+      "bytes": 1700381
+    },
+    "proofs/attempt6/result.json": {
+      "sha256": "dc0fd61193c94f63cfa177ad5a1298c787100650ec981c7b6e7f297bb0385414",
+      "bytes": 102466
+    },
+    "proofs/attempt6.log": {
+      "sha256": "27a08f660259ca614f382cf97ef0818ae87a187a48cfefa0c3705753318041ae",
+      "bytes": 14210
+    },
+    "proofs/final-only-attempt9/executed-inputs/.cache/receipt-foundation-attempt8/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "proofs/final-only-attempt9/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/current_runtime_control_bundle_uat.py": {
+      "sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "bytes": 27945
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/governed_settings_requests_uat.py": {
+      "sha256": "66042f95b363f257246ccbeb77a3255431da75e143dc8636c860851c9d16ea2b",
+      "bytes": 46255
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "proofs/final-only-attempt9/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841
+    },
+    "proofs/final-only-attempt9/executed-inputs/supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667
+    },
+    "proofs/final-only-attempt9/governed_settings/container.log": {
+      "sha256": "1fe2c710a37b9b5df02b8c6d502bb6e50760b520e8543055414943c77ee62485",
+      "bytes": 19817
+    },
+    "proofs/final-only-attempt9/governed_settings/queries.log": {
+      "sha256": "684269f76a8d4422e3c10bab68254695117cc9aaf5753222b1f021726bf51cc0",
+      "bytes": 617
+    },
+    "proofs/final-only-attempt9/governed_settings/queries.sql": {
+      "sha256": "66139b62033b9bf013ee92b56ecc02689ff28842c713a519285fecd0c99888cf",
+      "bytes": 906
+    },
+    "proofs/final-only-attempt9/install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "proofs/final-only-attempt9/queries.log": {
+      "sha256": "563db93fe1158eeec941078cd8415f1a524852c8358bbebd5be46e2130294f86",
+      "bytes": 1807060
+    },
+    "proofs/final-only-attempt9/queries.sql": {
+      "sha256": "b681e79df291cd22318adff36da1f9c5ac24a4e5cb0ca05c4be7570bc7d75f2a",
+      "bytes": 1562797
+    },
+    "proofs/final-only-attempt9/result.json": {
+      "sha256": "42dcc8738714c03658ba3a234d184a8c0b998b902cf98cfda778efd723b1cf5b",
+      "bytes": 9476
+    },
+    "proofs/final-only-attempt9.log": {
+      "sha256": "603095178c5764bb3897e87cdf0bcc133b19f17a3d5c07ff8f5b4ce26f7b387c",
+      "bytes": 1415
+    },
+    "retained-history-plan-query.sql": {
+      "sha256": "e68dfd625712d7d216af56ef18daff67a1f1bc83ffe1cee2aff333c75775e37a",
+      "bytes": 372
+    },
+    "retained-history-plan.json": {
+      "sha256": "2bda722ab8f5daefa558a5d0f069ae95b4033ebe6c7e28a9b69fdbc00f7fe541",
+      "bytes": 3529
+    },
+    "root-hash-case-readback.json": {
+      "sha256": "239743994b0642a7fd9045044171dd735a2227d88109984baa460561357e45cc",
+      "bytes": 502
+    },
+    "root-reproduce-runner-associations.py": {
+      "sha256": "bd587fc9f64c31d362fb7fb6511118a8c5915c35ba8c43fea63b5ef296c7c175",
+      "bytes": 4038
+    },
+    "runner-body-equivalence.json": {
+      "sha256": "6b1b36bb12daccaa4baacff03197e3c2e51e3836efba8ca000451895477baab2",
+      "bytes": 1698
+    },
+    "terminal-cleanup.json": {
+      "sha256": "c77aa50b3a94bff56b86ce13b635c16fb99d24a1a78d124d2a94c71bf05e9de5",
+      "bytes": 2647
+    }
+  }
+}

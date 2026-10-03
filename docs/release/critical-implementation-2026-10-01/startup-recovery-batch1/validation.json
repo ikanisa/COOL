@@ -1,0 +1,81 @@
+{
+  "captured_at_utc": "2026-10-01T23:05:51.378750+00:00",
+  "source_before": {
+    "lib/main.dart": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1",
+    "lib/main_admin.dart": "3400aa6f9f34a7048203c9a5b6974b0c3f06c0710d5dbd3f446bd75b35d97343",
+    "lib/core/logging/app_logger.dart": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+    "lib/core/startup/collect_startup_controller.dart": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409",
+    "lib/core/startup/collect_startup_host.dart": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b",
+    "lib/core/startup/collect_global_error_handlers.dart": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436",
+    "lib/core/supabase/collect_supabase_bootstrap.dart": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0",
+    "lib/core/supabase/supabase_module.dart": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+    "test/core/collect_startup_recovery_test.dart": "2838d4d7caa2e31cab13b0f16b371a5f1cb434ccaddb72d38c30eca0920e369f",
+    "test/core/collect_supabase_bootstrap_test.dart": "622529b7cdef1c75356835b3599cb9b3f2f79ef87911752221cab2aaf8c79a9c",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "source_after": {
+    "lib/main.dart": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1",
+    "lib/main_admin.dart": "3400aa6f9f34a7048203c9a5b6974b0c3f06c0710d5dbd3f446bd75b35d97343",
+    "lib/core/logging/app_logger.dart": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+    "lib/core/startup/collect_startup_controller.dart": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409",
+    "lib/core/startup/collect_startup_host.dart": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b",
+    "lib/core/startup/collect_global_error_handlers.dart": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436",
+    "lib/core/supabase/collect_supabase_bootstrap.dart": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0",
+    "lib/core/supabase/supabase_module.dart": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+    "test/core/collect_startup_recovery_test.dart": "2838d4d7caa2e31cab13b0f16b371a5f1cb434ccaddb72d38c30eca0920e369f",
+    "test/core/collect_supabase_bootstrap_test.dart": "622529b7cdef1c75356835b3599cb9b3f2f79ef87911752221cab2aaf8c79a9c",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "changed": [],
+  "commands": [
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/core/collect_startup_recovery_test.dart",
+        "test/core/collect_supabase_bootstrap_test.dart"
+      ],
+      "started_at_utc": "2026-10-01T23:04:52.342298+00:00",
+      "finished_at_utc": "2026-10-01T23:05:06.082139+00:00",
+      "exit_code": 0,
+      "log_sha256": "964adfb07fe7371e219308c2b910dd032005f7c194238d4ecb243baa6835e4e4"
+    },
+    {
+      "name": "analyze",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/main.dart",
+        "lib/main_admin.dart",
+        "lib/core/logging/app_logger.dart",
+        "lib/core/startup/collect_startup_controller.dart",
+        "lib/core/startup/collect_startup_host.dart",
+        "lib/core/startup/collect_global_error_handlers.dart",
+        "lib/core/supabase/collect_supabase_bootstrap.dart",
+        "lib/core/supabase/supabase_module.dart",
+        "test/core/collect_startup_recovery_test.dart",
+        "test/core/collect_supabase_bootstrap_test.dart"
+      ],
+      "started_at_utc": "2026-10-01T23:05:06.082525+00:00",
+      "finished_at_utc": "2026-10-01T23:05:51.374277+00:00",
+      "exit_code": 0,
+      "log_sha256": "6d6c58d04b81f79388ba27e04fc83023408788386d6eed40d2783525ecfa9dde"
+    }
+  ],
+  "status": "pass",
+  "scope": "Member/Admin startup redaction/recovery tests and focused static analysis; no hosted/provider/device/store/runtime release acceptance."
+}

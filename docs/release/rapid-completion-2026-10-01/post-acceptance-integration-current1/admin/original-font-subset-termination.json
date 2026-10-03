@@ -1,0 +1,8 @@
+{
+  "pid": 38934,
+  "signal": "SIGTERM",
+  "only_owned_blocked_font_subset_terminated": true,
+  "verified_command": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/cache/artifacts/engine/darwin-x64/font-subset /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf /Users/jeanbosco/.pub-cache/hosted/pub.dev/font_awesome_flutter-11.0.0/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+  "observed_at_unix": 1790870884.958924,
+  "reason": "Observed stdout pipe deadlock; root approved finite private tool-I/O correction. No parent Node/Flutter or shared process terminated."
+}

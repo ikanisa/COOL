@@ -1,0 +1,3 @@
+.cache/collect-native-recovery-custody-20261002/check-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt:57:44: warning: 'constructor(p0: String!): URL' is deprecated. Deprecated in Java.
+            val connection = try { connect(URL(if (successor) "https://$HOST/functions/v1/collect-receipt-successor-gateway" else "https://$HOST/functions/v1/collect-android-gateway")) }
+                                           ^^^

@@ -1,0 +1,22 @@
+{
+  "retained_at": "2026-09-30T23:59:49.940412+00:00",
+  "status": "pass_for_captured_scope",
+  "migration_count": 169,
+  "successful_migration_executions": 338,
+  "validation_cases": 19,
+  "pending_from_hosted_boundary": 45,
+  "captured_migration_hashes_verified": true,
+  "captured_source_hashes_still_match_at_retention": true,
+  "current_inventory_count_at_retention": 170,
+  "post_completion_additions_outside_replay": [
+    {
+      "path": "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql",
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef"
+    }
+  ],
+  "whole_current_inventory_compatibility_claimed": false,
+  "runner_source_matches_recorded_startup_hash": true,
+  "runner_copy_timing": "Retained after execution and hash-compared to runner startup hash; migration bytes were captured before execution by the runner",
+  "containers_removed": true,
+  "prior_packets_modified": false
+}

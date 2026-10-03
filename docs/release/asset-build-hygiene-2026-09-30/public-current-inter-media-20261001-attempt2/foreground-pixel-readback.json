@@ -1,0 +1,220 @@
+{
+  "home": {
+    "home_cell": {
+      "region": [
+        90,
+        2360,
+        290,
+        2490
+      ],
+      "foreground_pixel_count": 2515,
+      "foreground_bounds": [
+        139,
+        2360,
+        226,
+        2450
+      ]
+    },
+    "groups_cell": {
+      "region": [
+        350,
+        2360,
+        560,
+        2490
+      ],
+      "foreground_pixel_count": 1778,
+      "foreground_bounds": [
+        400,
+        2365,
+        501,
+        2453
+      ]
+    },
+    "activity_cell": {
+      "region": [
+        620,
+        2360,
+        830,
+        2490
+      ],
+      "foreground_pixel_count": 1426,
+      "foreground_bounds": [
+        666,
+        2365,
+        772,
+        2453
+      ]
+    },
+    "profile_cell": {
+      "region": [
+        885,
+        2360,
+        1095,
+        2490
+      ],
+      "foreground_pixel_count": 1864,
+      "foreground_bounds": [
+        944,
+        2360,
+        1032,
+        2447
+      ]
+    }
+  },
+  "groups": {
+    "home_cell": {
+      "region": [
+        90,
+        2360,
+        290,
+        2490
+      ],
+      "foreground_pixel_count": 1578,
+      "foreground_bounds": [
+        142,
+        2360,
+        222,
+        2447
+      ]
+    },
+    "groups_cell": {
+      "region": [
+        350,
+        2360,
+        560,
+        2490
+      ],
+      "foreground_pixel_count": 2545,
+      "foreground_bounds": [
+        396,
+        2363,
+        505,
+        2457
+      ]
+    },
+    "activity_cell": {
+      "region": [
+        620,
+        2360,
+        830,
+        2490
+      ],
+      "foreground_pixel_count": 1426,
+      "foreground_bounds": [
+        666,
+        2365,
+        772,
+        2453
+      ]
+    },
+    "profile_cell": {
+      "region": [
+        885,
+        2360,
+        1095,
+        2490
+      ],
+      "foreground_pixel_count": 1864,
+      "foreground_bounds": [
+        944,
+        2360,
+        1032,
+        2447
+      ]
+    }
+  },
+  "group-detail": {
+    "home_cell": {
+      "region": [
+        90,
+        2360,
+        290,
+        2490
+      ],
+      "foreground_pixel_count": 1578,
+      "foreground_bounds": [
+        142,
+        2360,
+        222,
+        2447
+      ]
+    },
+    "groups_cell": {
+      "region": [
+        350,
+        2360,
+        560,
+        2490
+      ],
+      "foreground_pixel_count": 2545,
+      "foreground_bounds": [
+        396,
+        2363,
+        505,
+        2457
+      ]
+    },
+    "activity_cell": {
+      "region": [
+        620,
+        2360,
+        830,
+        2490
+      ],
+      "foreground_pixel_count": 1426,
+      "foreground_bounds": [
+        666,
+        2365,
+        772,
+        2453
+      ]
+    },
+    "profile_cell": {
+      "region": [
+        885,
+        2360,
+        1095,
+        2490
+      ],
+      "foreground_pixel_count": 1864,
+      "foreground_bounds": [
+        944,
+        2360,
+        1032,
+        2447
+      ]
+    }
+  },
+  "terms": {
+    "back_arrow": {
+      "region": [
+        85,
+        151,
+        154,
+        214
+      ],
+      "foreground_pixel_count": 554,
+      "foreground_bounds": [
+        99,
+        171,
+        141,
+        212
+      ]
+    },
+    "collect_word": {
+      "region": [
+        90,
+        504,
+        262,
+        551
+      ],
+      "foreground_pixel_count": 1710,
+      "foreground_bounds": [
+        99,
+        510,
+        252,
+        546
+      ]
+    }
+  }
+}

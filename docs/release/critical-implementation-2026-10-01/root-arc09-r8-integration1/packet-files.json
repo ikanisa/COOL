@@ -1,0 +1,54 @@
+{
+  "payload_files": [
+    {
+      "bytes": 667,
+      "path": "actual-configuration-readback.json",
+      "sha256": "ebc477f01df383c743550b0e03f26e4c2fa8ada7c60d10f491fc5cc893a75d45"
+    },
+    {
+      "bytes": 1143,
+      "path": "aggregate-source-readback.json",
+      "sha256": "1f6dc1acaeadada7ef8fbaedebb49543d3e3ad506c9f86f36e55feb5f17479ca"
+    },
+    {
+      "bytes": 4760,
+      "path": "apply-settings.py",
+      "sha256": "0ceb1830761f640a71304cc0f2674775b23524cdb5878b2817f4ff40ab9ec320"
+    },
+    {
+      "bytes": 840,
+      "path": "before/maintained/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    {
+      "bytes": 440859,
+      "path": "before/privateAPP/.collect-release-candidate.json",
+      "sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7"
+    },
+    {
+      "bytes": 840,
+      "path": "before/privateAPP/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    {
+      "bytes": 922156,
+      "path": "final-current-source-fence.json",
+      "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+    },
+    {
+      "bytes": 16127,
+      "path": "probe-source-admission.json",
+      "sha256": "68a1396919e5b6f7d2f01055659ebc7155ead70793c3bbfa4a52b5c33ec6e6c1"
+    },
+    {
+      "bytes": 1452,
+      "path": "r8-artifact-admission.json",
+      "sha256": "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651"
+    },
+    {
+      "bytes": 1320,
+      "path": "settings-overlay-readback.json",
+      "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+    }
+  ]
+}

@@ -1,0 +1,545 @@
+{
+  "test_after_reader_failure_is_terminal_after_export": {
+    "actual_original_process_success_guard_used": true,
+    "actual_run_process_and_exception_terminal_branch_used": true,
+    "fixture_removed_after_test": true,
+    "injected_failure_observation": "after",
+    "logs": {
+      "SDK-readback-after-startup.stderr": "genuine synthetic reader exit 23\n",
+      "SDK-readback-after-startup.stdout": "synthetic SDK reader startup SDK-source-after-startup.json\n",
+      "SDK-readback-before-startup.stderr": "",
+      "SDK-readback-before-startup.stdout": "synthetic SDK reader startup SDK-source-before-startup.json\n",
+      "actual-command.stderr": "",
+      "actual-command.stdout": "synthetic app exporter\n",
+      "failure-source-readback.stderr": "",
+      "failure-source-readback.stdout": "synthetic SDK reader sdk-locked actual-failure-SDK-source.json\n",
+      "source-fence-after.stderr": "",
+      "source-fence-after.stdout": "synthetic source fence\n",
+      "source-fence-before.stderr": "",
+      "source-fence-before.stdout": "synthetic source fence\n"
+    },
+    "real_stage_execution": false,
+    "records": {
+      "SDK-readback-after-startup.json": {
+        "actual_seconds": 1.007,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/SDK-source-after-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader",
+        "deadline_seconds": 300,
+        "exit_code": 23,
+        "finished_utc": "2026-10-02T06:38:08.532092+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74015,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:07.524870+00:00",
+        "stderr_sha256": "f8c111252a0762334cbc56c147abce91b26b3d0b6b09f8b186f5f9d86c9978d7",
+        "stdout_sha256": "422b4fe629b8b631cfa2e2270f96cc3d071ff82627de1e04e8532fb34b6b2b85",
+        "timed_out": false
+      },
+      "SDK-readback-before-startup.json": {
+        "actual_seconds": 1.008,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/SDK-source-before-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:04.473340+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74004,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:03.465742+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "2edd1bb543bf21e42af4c2a05753186fd47565d0d9201a78afc35da474181915",
+        "timed_out": false
+      },
+      "SDK-source-before-startup.json": {
+        "output_name": "SDK-source-before-startup.json",
+        "phase": "startup",
+        "synthetic_only": true
+      },
+      "actual-command.json": {
+        "actual_seconds": 1.006,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/repo/scripts/qa/collect_release_candidate.py",
+          "--destination",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/app-source"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/repo",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:06.509383+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74006,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:05.503856+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8a2cb8da5140a0802447c390922c49de7a848ec76be78f2f240217759cb93e78",
+        "timed_out": false
+      },
+      "actual-failure-SDK-source.json": {
+        "output_name": "actual-failure-SDK-source.json",
+        "phase": "sdk-locked",
+        "synthetic_only": true
+      },
+      "exact-app-export-readback.json": {
+        "export_manifest_file_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_files_exact": {
+          "pubspec.lock": {
+            "sha256": "3ff72614bf38a1ba339c1b468d09bdb9fc14536458c5b4224e9c8084be4dfaea"
+          }
+        },
+        "source_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "failure-source-readback.json": {
+        "actual_seconds": 1.004,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader/verify_native_consumer_source.py",
+          "sdk-locked",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/actual-failure-SDK-source.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:09.539609+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74018,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:08.535269+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "de528d3b0c45d194567a176537d69fd7b1c9d91c903318edc52d19e85e391e8a",
+        "timed_out": false
+      },
+      "source-fence-after-capture.json": {
+        "synthetic_source_fence": true
+      },
+      "source-fence-after.json": {
+        "actual_seconds": 1.006,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/proposal/source_fence.py",
+          "verify",
+          "--root",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/repo",
+          "--binding",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/review/source-fence.json",
+          "--binding-sha256",
+          "47b09905e6a7c2ad9f86ff8b317adab9526106d0e1d79e582048e7b2d3c897fd",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/source-fence-after-capture.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/proposal",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:07.519394+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74009,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:06.512983+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "15170e9be8330e617e015ed61e682bf3ff261f8d874cbfb4ea9652f4dd66b967",
+        "timed_out": false
+      },
+      "source-fence-before-capture.json": {
+        "synthetic_source_fence": true
+      },
+      "source-fence-before.json": {
+        "actual_seconds": 1.003,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/proposal/source_fence.py",
+          "verify",
+          "--root",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/repo",
+          "--binding",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/review/source-fence.json",
+          "--binding-sha256",
+          "47b09905e6a7c2ad9f86ff8b317adab9526106d0e1d79e582048e7b2d3c897fd",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/source-fence-before-capture.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/proposal",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:05.499405+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74005,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:04.496584+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "15170e9be8330e617e015ed61e682bf3ff261f8d874cbfb4ea9652f4dd66b967",
+        "timed_out": false
+      },
+      "start.json": {
+        "actual_free_bytes": 151232421888,
+        "argv_configuration_sha256": "0ba7573ef40ea89e33c17d19e1e89147718cdedb5e61b18d7f2b0e445ffad971",
+        "no_provider_or_signing_variables_inherited": true,
+        "prepared_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "private_environment_exact": {
+          "FAIL_OBSERVATION": "after",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin:/bin"
+        },
+        "protected_before": {
+          "synthetic_fixture_only": true
+        },
+        "separate_root_receipt_sha256": "9b815a7deef27cd0acc4b48c77fb838806911d28ad939ef0c14c92841bec7747",
+        "stage": "app-export"
+      },
+      "terminal.json": {
+        "actual_error_type": "ValueError",
+        "actual_failure_diagnostics": {
+          "actual_failure_source_process": {
+            "actual_seconds": 1.004,
+            "argv": [
+              "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+              "-I",
+              "-B",
+              "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader/verify_native_consumer_source.py",
+              "sdk-locked",
+              "--output",
+              "/private/tmp/COOL-snapshot3-reader-jguiovd0/native-consumer/.control/app-export/actual-failure-SDK-source.json"
+            ],
+            "cwd": "/private/tmp/COOL-snapshot3-reader-jguiovd0/reader",
+            "deadline_seconds": 300,
+            "exit_code": 0,
+            "finished_utc": "2026-10-02T06:38:09.539609+00:00",
+            "headroom_failure": false,
+            "owned_process_group_absent": true,
+            "pid": 74018,
+            "residual_process_group_required_stop": false,
+            "spawned": true,
+            "started_utc": "2026-10-02T06:38:08.535269+00:00",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "de528d3b0c45d194567a176537d69fd7b1c9d91c903318edc52d19e85e391e8a",
+            "timed_out": false
+          },
+          "protected_after_failure": {
+            "synthetic_fixture_only": true
+          }
+        },
+        "candidate_promoted": false,
+        "partial_failure_preserved": true,
+        "production_release_approval": false,
+        "public_error": "genuine terminal stage failure; no next stage or acceptance",
+        "retry_or_next_stage_admitted": false,
+        "stage": "app-export",
+        "stage_pass": false
+      }
+    },
+    "synthetic_fixture_root": "/private/tmp/COOL-snapshot3-reader-jguiovd0",
+    "synthetic_overrides": [
+      "authorization",
+      "config validation",
+      "protected metadata",
+      "exporter and fence child programs",
+      "app readback",
+      "isolated roots/config/SDK lock"
+    ]
+  },
+  "test_before_reader_failure_is_terminal_before_export": {
+    "actual_original_process_success_guard_used": true,
+    "actual_run_process_and_exception_terminal_branch_used": true,
+    "fixture_removed_after_test": true,
+    "injected_failure_observation": "before",
+    "logs": {
+      "SDK-readback-before-startup.stderr": "genuine synthetic reader exit 23\n",
+      "SDK-readback-before-startup.stdout": "synthetic SDK reader startup SDK-source-before-startup.json\n",
+      "failure-source-readback.stderr": "",
+      "failure-source-readback.stdout": "synthetic SDK reader sdk-locked actual-failure-SDK-source.json\n"
+    },
+    "real_stage_execution": false,
+    "records": {
+      "SDK-readback-before-startup.json": {
+        "actual_seconds": 1.006,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-5pvvuhes/native-consumer/.control/app-export/SDK-source-before-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader",
+        "deadline_seconds": 300,
+        "exit_code": 23,
+        "finished_utc": "2026-10-02T06:38:10.589366+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74020,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:09.583764+00:00",
+        "stderr_sha256": "f8c111252a0762334cbc56c147abce91b26b3d0b6b09f8b186f5f9d86c9978d7",
+        "stdout_sha256": "2edd1bb543bf21e42af4c2a05753186fd47565d0d9201a78afc35da474181915",
+        "timed_out": false
+      },
+      "actual-failure-SDK-source.json": {
+        "output_name": "actual-failure-SDK-source.json",
+        "phase": "sdk-locked",
+        "synthetic_only": true
+      },
+      "failure-source-readback.json": {
+        "actual_seconds": 1.006,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader/verify_native_consumer_source.py",
+          "sdk-locked",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-5pvvuhes/native-consumer/.control/app-export/actual-failure-SDK-source.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:11.599178+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74029,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:10.593194+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "de528d3b0c45d194567a176537d69fd7b1c9d91c903318edc52d19e85e391e8a",
+        "timed_out": false
+      },
+      "start.json": {
+        "actual_free_bytes": 151230246912,
+        "argv_configuration_sha256": "6624f7e5b9789e23f23140c0b3ce69513fb89b2689d538f7e1d22b72c434fd35",
+        "no_provider_or_signing_variables_inherited": true,
+        "prepared_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "private_environment_exact": {
+          "FAIL_OBSERVATION": "before",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin:/bin"
+        },
+        "protected_before": {
+          "synthetic_fixture_only": true
+        },
+        "separate_root_receipt_sha256": "9b815a7deef27cd0acc4b48c77fb838806911d28ad939ef0c14c92841bec7747",
+        "stage": "app-export"
+      },
+      "terminal.json": {
+        "actual_error_type": "ValueError",
+        "actual_failure_diagnostics": {
+          "actual_failure_source_process": {
+            "actual_seconds": 1.006,
+            "argv": [
+              "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+              "-I",
+              "-B",
+              "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader/verify_native_consumer_source.py",
+              "sdk-locked",
+              "--output",
+              "/private/tmp/COOL-snapshot3-reader-5pvvuhes/native-consumer/.control/app-export/actual-failure-SDK-source.json"
+            ],
+            "cwd": "/private/tmp/COOL-snapshot3-reader-5pvvuhes/reader",
+            "deadline_seconds": 300,
+            "exit_code": 0,
+            "finished_utc": "2026-10-02T06:38:11.599178+00:00",
+            "headroom_failure": false,
+            "owned_process_group_absent": true,
+            "pid": 74029,
+            "residual_process_group_required_stop": false,
+            "spawned": true,
+            "started_utc": "2026-10-02T06:38:10.593194+00:00",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "de528d3b0c45d194567a176537d69fd7b1c9d91c903318edc52d19e85e391e8a",
+            "timed_out": false
+          },
+          "protected_after_failure": {
+            "synthetic_fixture_only": true
+          }
+        },
+        "candidate_promoted": false,
+        "partial_failure_preserved": true,
+        "production_release_approval": false,
+        "public_error": "genuine terminal stage failure; no next stage or acceptance",
+        "retry_or_next_stage_admitted": false,
+        "stage": "app-export",
+        "stage_pass": false
+      }
+    },
+    "synthetic_fixture_root": "/private/tmp/COOL-snapshot3-reader-5pvvuhes",
+    "synthetic_overrides": [
+      "authorization",
+      "config validation",
+      "protected metadata",
+      "exporter and fence child programs",
+      "app readback",
+      "isolated roots/config/SDK lock"
+    ]
+  },
+  "test_invalid_observation_refused_without_artifacts": {
+    "fixture_removed_after_test": true,
+    "invalid_observation_refused": true,
+    "logs": {},
+    "real_stage_execution": false,
+    "records": {},
+    "synthetic_fixture_root": "/private/tmp/COOL-snapshot3-reader-ze29h620"
+  },
+  "test_repeated_before_observation_still_refuses_reuse": {
+    "fixture_removed_after_test": true,
+    "logs": {
+      "SDK-readback-before-startup.stderr": "",
+      "SDK-readback-before-startup.stdout": "synthetic SDK reader startup SDK-source-before-startup.json\n"
+    },
+    "real_stage_execution": false,
+    "records": {
+      "SDK-readback-before-startup.json": {
+        "actual_seconds": 1.007,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-g0rl8dc2/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-g0rl8dc2/direct/SDK-source-before-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-g0rl8dc2/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:12.615146+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74031,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:11.607951+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "2edd1bb543bf21e42af4c2a05753186fd47565d0d9201a78afc35da474181915",
+        "timed_out": false
+      },
+      "SDK-source-before-startup.json": {
+        "output_name": "SDK-source-before-startup.json",
+        "phase": "startup",
+        "synthetic_only": true
+      }
+    },
+    "repeated_observation_refused": true,
+    "synthetic_fixture_root": "/private/tmp/COOL-snapshot3-reader-g0rl8dc2"
+  },
+  "test_same_startup_phase_has_distinct_before_after_artifacts": {
+    "distinct_paths": [
+      "SDK-readback-after-startup.json",
+      "SDK-readback-after-startup.stderr",
+      "SDK-readback-after-startup.stdout",
+      "SDK-readback-before-startup.json",
+      "SDK-readback-before-startup.stderr",
+      "SDK-readback-before-startup.stdout",
+      "SDK-source-after-startup.json",
+      "SDK-source-before-startup.json"
+    ],
+    "fixture_removed_after_test": true,
+    "live_floor_bytes": 4294967296,
+    "logs": {
+      "SDK-readback-after-startup.stderr": "",
+      "SDK-readback-after-startup.stdout": "synthetic SDK reader startup SDK-source-after-startup.json\n",
+      "SDK-readback-before-startup.stderr": "",
+      "SDK-readback-before-startup.stdout": "synthetic SDK reader startup SDK-source-before-startup.json\n"
+    },
+    "real_stage_execution": false,
+    "records": {
+      "SDK-readback-after-startup.json": {
+        "actual_seconds": 1.007,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-fkac1txe/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-fkac1txe/direct/SDK-source-after-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-fkac1txe/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:14.645055+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74037,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:13.638113+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "422b4fe629b8b631cfa2e2270f96cc3d071ff82627de1e04e8532fb34b6b2b85",
+        "timed_out": false
+      },
+      "SDK-readback-before-startup.json": {
+        "actual_seconds": 1.008,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/private/tmp/COOL-snapshot3-reader-fkac1txe/reader/verify_native_consumer_source.py",
+          "startup",
+          "--output",
+          "/private/tmp/COOL-snapshot3-reader-fkac1txe/direct/SDK-source-before-startup.json"
+        ],
+        "cwd": "/private/tmp/COOL-snapshot3-reader-fkac1txe/reader",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T06:38:13.631895+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 74036,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T06:38:12.624147+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "2edd1bb543bf21e42af4c2a05753186fd47565d0d9201a78afc35da474181915",
+        "timed_out": false
+      },
+      "SDK-source-after-startup.json": {
+        "output_name": "SDK-source-after-startup.json",
+        "phase": "startup",
+        "synthetic_only": true
+      },
+      "SDK-source-before-startup.json": {
+        "output_name": "SDK-source-before-startup.json",
+        "phase": "startup",
+        "synthetic_only": true
+      }
+    },
+    "synthetic_fixture_root": "/private/tmp/COOL-snapshot3-reader-fkac1txe"
+  }
+}

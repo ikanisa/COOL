@@ -1,0 +1,19 @@
+{
+  "android_root_build_file_was_not_original42_pin": "both Android files are bound explicitly by reviewed overlay instead of adding an unrelated or unreported pin",
+  "changed_existing_rows": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts": {
+      "after": {
+        "bytes": 24009,
+        "mode": 448,
+        "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+      },
+      "before": {
+        "bytes": 24464,
+        "mode": 448,
+        "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+      }
+    }
+  },
+  "original42_sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+  "rows": 42
+}

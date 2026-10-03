@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-10-01T08:38:54.868171+00:00",
+  "approved": false,
+  "incident_drills_executed": false,
+  "owner_names_requested": false,
+  "roles_assigned": false,
+  "release_go": false,
+  "source_candidate_frozen": false,
+  "scenarios": [
+    {
+      "id": "sender_outage",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "email_auth_codex_outage",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "uncertain_action_or_send",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "wrong_allocation_or_reversal",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "compromised_identity",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "pause_and_resume",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    },
+    {
+      "id": "rollback_and_recovery",
+      "status": "not_executed",
+      "observed_result": null,
+      "evidence": []
+    }
+  ]
+}

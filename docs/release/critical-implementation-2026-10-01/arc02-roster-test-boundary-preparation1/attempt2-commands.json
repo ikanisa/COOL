@@ -1,0 +1,80 @@
+[
+  {
+    "kind": "baseline",
+    "phase": "types",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "check",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "supabase/functions/prepare-roster-import/handler_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/baseline",
+    "exit_code": 0,
+    "elapsed_seconds": 0.5939976250010659
+  },
+  {
+    "kind": "baseline",
+    "phase": "registrations",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "run",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "--cached-only",
+      "--no-prompt",
+      "--allow-read=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/collect_registrations.ts",
+      "supabase/functions/prepare-roster-import/handler_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/baseline",
+    "exit_code": 0,
+    "elapsed_seconds": 0.08010583300347207
+  },
+  {
+    "kind": "candidate",
+    "phase": "types",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "check",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "exit_code": 0,
+    "elapsed_seconds": 0.3247315839980729
+  },
+  {
+    "kind": "candidate",
+    "phase": "registrations",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "run",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "--cached-only",
+      "--no-prompt",
+      "--allow-read=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/collect_registrations.ts",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04674575000535697
+  }
+]

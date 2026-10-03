@@ -1,0 +1,5 @@
+{
+  "status": "collector_refused",
+  "reason": "Read-only collector expected semicolon-separated Deno summary, but real logs use pipe separators. Actual canonical execution remained PASS; no test retry, gate change or input mutation occurred.",
+  "correction": "Match actual full anchored ok | N passed | 0 failed summary."
+}

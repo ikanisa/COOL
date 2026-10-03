@@ -1,0 +1,27 @@
+{
+  "execution_or_admission_granted": false,
+  "files": {
+    "README.md": {
+      "bytes": 8692,
+      "mode": 420,
+      "sha256": "d1ec88b66f99787bd2983f880c8d00a0f1d0f9ddbcf3c23e584c1af390694d00"
+    },
+    "command-wiring-proposal.json": {
+      "bytes": 14180,
+      "mode": 384,
+      "sha256": "f505ec55ff3ff9c7dfcb240bd21b10a6d25f2f2c983bfc490ead1c55f65d7735"
+    },
+    "input-bindings.json": {
+      "bytes": 6801,
+      "mode": 384,
+      "sha256": "7603e5af5f2fc1fb1b8c8436135646ef81ee64d6088293030cbdb57cb4760a45"
+    },
+    "source-evidence.json": {
+      "bytes": 7374,
+      "mode": 384,
+      "sha256": "b590452e148d6ade0c90645bdb08ce77392036275df91b40a558cdae203bf261"
+    }
+  },
+  "kind": "private_read_only_analysis_safe_leaf_seal",
+  "leaf_count": 4
+}

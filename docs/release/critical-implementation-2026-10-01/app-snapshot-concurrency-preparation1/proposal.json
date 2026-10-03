@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-10-02T03:04:48.132199+00:00",
+  "source_inputs": {
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py": "33788a5bb25509b02e555f5411216c0849fc2590a4b8f6c22176a97bf7afbd86",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/test_preparation.py": "e95c100c54b6faad81a30d3581fe536db9a03b980b2eafc2236f1f1fb6b456ea"
+  },
+  "scope": "Read-only current export algorithm review; no source/SKD/app/build execution or shared mutations.",
+  "observed_algorithm": [
+    "Default export captures all selected source bytes/modes and indexed absence before copy.",
+    "Every copy rechecks exact bytes/size/mode against that initial capture.",
+    "A complete second source capture and excluded-fixture/indexed-absence comparison rejects drift.",
+    "Final candidate verification again compares the exact exported payload to current source.",
+    "Retain-source-drift mode is explicitly weaker and is not selected by the native consumer commands."
+  ],
+  "proposed_followup": "A separately sealed controller derivative can replace its claim of an exclusive coordinated source hold with explicit required strict-source comparison and isolated candidate ownership, keeping the exact exporter SHA, zero-drift mode, successful predecessor/export receipt pins and all busy/tamper guards. Existing immutable controller/admissions remain unchanged.",
+  "evidence_limits": "These fences verify observed byte/mode equivalence across capture/copy/readback. They do not prove an OS exclusive source lock or absence of transient write-and-restore activity between captures.",
+  "actual_snapshot_executed": false,
+  "current_source_held": false,
+  "app_native_executed": false,
+  "SDK_selection_or_release_approval": false
+}

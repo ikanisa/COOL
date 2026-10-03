@@ -1,0 +1,15 @@
+# Governed Settings context and receipt language
+
+Ready for root review and exact-byte integration of 11 files listed in promotion-manifest.json. Root owns canonical promotion. The root current Settings baseline, its rebased router/runtime integration and existing receipt/exception mixins remain intact. No canonical changes were made by this worker.
+
+The actual eligibility RPC is carried through the strict 13-key model, pinned SDK and session/revision-fenced provider. Policy/template/section/version drafts use current parent context, allowed fields and statuses. Review checks the exact prospective draft again and expires with its 60 second observation. Draft, session or access changes discard delayed observations before publication. Loading, redacted failure and explicit retry remain visible; immutable published content and archived states keep their backend restrictions. Original-request storage, immutable preview, original lookup and no automatic resubmit are preserved.
+
+The approved receipt language is a three-option Kinyarwanda/English/Français chooser using exactly rw/en/fr. The SMS policy registry matches the actual closed language250 catalogue; unknown or padded variants are refused. Existing policy enablement stays a separate changed field. A missing policy has no guessed selector value. The backend continues to derive destinations, wording and balances; the frontend adds no recipient/body override.
+
+Final current proof is one bounded command with 19 actual new cases (9 model/SDK and 10 widget cases), plus analysis of 16 items with no issues. Both terminal codes are 0 and use identical final source/runtime/dependency vectors. Raw failures and superseded checks are retained without adding their counts. The final changed-draft test includes delayed blocker publication. The narrowed layout exercised 390px with 1.3 text scale; it does not establish screen-reader speech or full visual fidelity.
+
+Two immutable real DTO fixtures have explicit origin hashes. The eligibility fixture comes from 25 passing observations before the original SQL240 full command later failed its expiry expectation; the separately sealed SQL240 packet composes that corrected tail. The receipt catalogue comes from root's accepted 63-case language250 run. Behavioral fake responses adjust clocks, identifiers and permitted outcomes on those closed shapes. Actual pinned SDK HTTP uses a synthetic local MockClient; no hosted Auth, network provider, physical device or live send occurred.
+
+The selected Revolut skill is the sole design authority. Existing shared theme and controls implement this bounded operator form adaptation; current authenticated source comparison, complete route/keyboard/reader and visual acceptance remain unverified. Root must run make revolut-design-authority after shared-component integration. This hygiene check does not certify fidelity.
+
+Broader governed recipient/disclosure/sender/retention workflows and whole candidate regression remain part of the active goal. This packet is not a claim that all Admin Settings or production release acceptance is complete.

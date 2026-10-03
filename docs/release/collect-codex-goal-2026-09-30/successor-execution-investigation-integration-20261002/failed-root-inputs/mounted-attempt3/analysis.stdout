@@ -1,0 +1,5 @@
+Analyzing admin_receipt_successor_view.dart, admin_receipt_successor_execution_mount_test.dart...
+
+   info - test/admin_receipt_successor_execution_mount_test.dart:161:15 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+
+1 issue found.

@@ -1,0 +1,9 @@
+{
+  "executed_sql_sha256": "8f5bee6bb3614e2da97229ee3143b194261634e9a0bddf0e7424bbb9bb66b08b",
+  "full_baseline_restored": true,
+  "intended_guard_observed": true,
+  "name": "undeclared_table",
+  "rejection_observed": true,
+  "stderr_sha256": "c08a2db9a2e36bd6380b32de009d3351c2dbb0b42a08933f298885762bb81285",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

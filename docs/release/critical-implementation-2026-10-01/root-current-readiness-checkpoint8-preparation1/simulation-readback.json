@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-02T14:16:34.601042+00:00",
+  "status": "pass_in_memory_field_and_paragraph_simulation",
+  "all40_identity_tuples_unchanged": true,
+  "all_current_full_acceptance_flags_unchanged": true,
+  "legacy102_24_arrays_unchanged": true,
+  "all_history_preserved": true,
+  "closed": 6,
+  "open": 34,
+  "markdown_simulations": [
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "exact_replacements": 5,
+      "historical_body_preserved": true,
+      "simulated_before_sha256": "1a00c464b31709d210e067bd251342eb6e8be97deaf23dcccbc57852e6467ba1",
+      "simulated_after_sha256": "86819ff3f70897f11d066fd41c7f73ebe961787a3cc16f4dfce8045a91ed2701",
+      "simulation_only_not_root_final_bytes": true
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "exact_replacements": 5,
+      "historical_body_preserved": true,
+      "simulated_before_sha256": "5567a0be0fdb1cf6ecee212ac5db31b9beb72e1b1006514aa6ae9c4499d42340",
+      "simulated_after_sha256": "cdfe17c8c6dde07932597a6102a160d29a284266c4ef6cdba492813d264b46cd",
+      "simulation_only_not_root_final_bytes": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "exact_replacements": 7,
+      "historical_body_preserved": true,
+      "simulated_before_sha256": "d5e1e4808730a96574b47d1cd8d0784852ca516156cbefde030f1f71cc51526d",
+      "simulated_after_sha256": "7c2b1dad30a1885add4b2832d418cfe873dac51ba62e81effe49d527e63e42cd",
+      "simulation_only_not_root_final_bytes": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "exact_replacements": 9,
+      "historical_body_preserved": true,
+      "simulated_before_sha256": "f344a29f5b7ab0a08c7a1cda24c8609a22f780c4ef0f57fd521ef20a85da7c86",
+      "simulated_after_sha256": "910da89aa127cce0a7cd7c34ef42868ed901d417970195b7c2143430237f00ff",
+      "simulation_only_not_root_final_bytes": true
+    }
+  ],
+  "canonical_files_written": false,
+  "root_must_refresh_actual_retry9_and_PD12_result_before_final_serialization": true
+}

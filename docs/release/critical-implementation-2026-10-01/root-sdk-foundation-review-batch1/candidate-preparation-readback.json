@@ -1,0 +1,14 @@
+{
+  "checked_at_utc": "2026-10-02T00:48:01.359446+00:00",
+  "checked_packet_leaves": 10,
+  "errors": [],
+  "derivative_writer_exactly_fixed_destination_delta": true,
+  "full_new_observer_and_validator_and_test_code_read": true,
+  "command_refinements_reviewed": [
+    "no-configuration-cache",
+    "owned in-process compiler",
+    "actual compiler/test/runtime tasks in one invocation"
+  ],
+  "local_execution_admitted": true,
+  "scope": "Independent preparation code/digest and command review only; actual candidate compiler/runtime/consumer acceptance still required."
+}

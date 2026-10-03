@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web/assets/packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf",
+    "/Users/jeanbosco/.pub-cache/hosted/pub.dev/font_awesome_flutter-11.0.0/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf"
+  ],
+  "drain_errors": [],
+  "engine": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/cache/artifacts/engine/darwin-x64/font-subset.original",
+  "engine_exit_code": 0,
+  "font_outputs_not_modified_by_wrapper": true,
+  "original_engine_sha256": "fcd76cbd293f373b0da518d3ce6b1a438d37977a80c32310ed0497d217d3be2c",
+  "started_at_unix": 1790871050.111773,
+  "stderr_inherited_unchanged": true,
+  "stdin_inherited_unchanged": true,
+  "stdout_fully_drained": true,
+  "stdout_prefix_base64": "VXNpbmcgb3V0cHV0IGZpbGU6IC9Wb2x1bWVzL1BSTy1HNDAvUHJvamVjdHMvUmVjb3ZlcmVkLUctUFJPL0NPT0wvLmNhY2hlL2FkbWluLWludGVncmF0aW9uLWJyb3dzZXItYnVpbGQtY3VycmVudDEvYnVpbGQvd2ViL2Fzc2V0cy9wYWNrYWdlcy9mb250X2F3ZXNvbWVfZmx1dHRlci9saWIvZm9udHMvRm9udC1Bd2Vzb21lLTctQnJhbmRzLVJlZ3VsYXItNDAwLm90ZgpVc2luZyBzb3VyY2UgZmlsZTogL1VzZXJzL2plYW5ib3Njby8ucHViLWNhY2hlL2hvc3RlZC9wdWIuZGV2L2ZvbnRfYXdlc29tZV9mbHV0dGVyLTExLjAuMC9saWIvZm9udHMvRm9udC1Bd2Vzb21lLTctQnJhbmRzLVJlZ3VsYXItNDAwLm90ZgpXcm90ZSAxNjI0IGJ5dGVzIHRvIC9Wb2x1bWVzL1BSTy1HNDAvUHJvamVjdHMvUmVjb3ZlcmVkLUctUFJPL0NPT0wvLmNhY2hlL2FkbWluLWludGVncmF0aW9uLWJyb3dzZXItYnVpbGQtY3VycmVudDEvYnVpbGQvd2ViL2Fzc2V0cy9wYWNrYWdlcy9mb250X2F3ZXNvbWVfZmx1dHRlci9saWIvZm9udHMvRm9udC1Bd2Vzb21lLTctQnJhbmRzLVJlZ3VsYXItNDAwLm90Zgo=",
+  "stdout_prefix_bytes": 557,
+  "stdout_prefix_limit_bytes": 65536,
+  "stdout_sha256": "b059cecaea01b769497c5888c653fec7c3b2e86f9cffc9a96b034e4b02f4080b",
+  "stdout_total_bytes": 557,
+  "wrapper_sha256": "02abb6805f90dbdf79009e7624d01dc77c53b9160f7521bc364035c2782a407b"
+}

@@ -1,0 +1,43 @@
+{
+  "accepted_report": "consumer-attempt6/result.json",
+  "accepted_report_sha256": "dc8fe488bf0fd54c47301b760f024a8b80f2f8e26f32f8e5f121559f6ca9fb7c",
+  "analysis_report_sha256": "89d9d7e25d0a78bfd20ff05a513a2dbac6b89b8109ffa5e675dc8f8b92954641",
+  "canonical_dart_closure": 190,
+  "canonical_fixture_associations": 466,
+  "canonical_promotion_required": true,
+  "cases": {
+    "prior_model14_added": false,
+    "repository_backed_provider_cards": 8,
+    "sdk": 8,
+    "total_distinct_terminal_cases": 16
+  },
+  "created_at": "2026-10-02T01:16:03.595728+00:00",
+  "new_test_sha256": "fd9550934df8e320d44f78ade43048b4fc1385e89b58b9b8cebcbec27d6db54b",
+  "original_sql_fixture_index_sha256": "cc3a043b432c3b8337a4b16e6847ae0a6bc0d17e5775a84192bb4316c32ca254",
+  "product_fix_required": false,
+  "production_code_changed": false,
+  "resolved_packages": 168,
+  "retained_attempts": [
+    "consumer-attempt1: refused canonical drift, zero tests",
+    "consumer-attempt2: response.request fixture error and interrupted pending start, no terminal success",
+    "consumer-attempt3:8 SDK and2 session widget scopes passed;6 unsettled fixture assertions failed",
+    "consumer-attempt4: fake-zone future await interrupted, no terminal success",
+    "consumer-attempt5:16passed before test formatting and two additional actual runtime pins",
+    "consumer-attempt6: final formatted16passed, complete current runtime pins",
+    "analysis-attempt1: clean targeted analysis, same final source/runtime inventory"
+  ],
+  "scope_limits": [
+    "MockClient intercepts synthetic Supabase HTTP/Auth; no hosted PostgREST/GoTrue/cryptographic verification",
+    "55000 message/code/stderr are exact final12 SQL denials, while HTTP500/details envelope and private hint are explicitly synthetic",
+    "Original pre/post DTO bytes and freshness timestamps are unchanged; widget clock is frozen to observed SQL checked_at",
+    "Actual canonical600-integrated source is freshly copied, including current history view c8718d\u2026; earlier validation app is unused",
+    "Only these cards at820px are mounted; no full visual/responsive/browser/comparator acceptance",
+    "No original14 model-only checks duplicated; no new SQL proof claimed",
+    "Earlier source-drift, request-binding and fake-async fixture failures remain retained"
+  ],
+  "source_sql700_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+  "source_tool_dependency_fixture_inputs": 5835,
+  "status": "sealed-reviewable-consumer-proposal",
+  "targeted_analysis": "analysis-attempt1/result.json",
+  "unchanged_before_after": true
+}

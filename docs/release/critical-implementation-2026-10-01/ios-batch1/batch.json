@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "finding_id": "ARC-06",
+  "generated_at_utc": "2026-10-01T20:27:42.941151+00:00",
+  "status": "local_batch_verified_full_acceptance_open",
+  "source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "base_head_observed": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "reviewed_release_candidate": false,
+  "source_inputs_sha256": {
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    "fastlane/Fastfile": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86",
+    "scripts/qa/ios_delivery_guard.py": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "scripts/tests/ios_delivery_contract_test.py": "9a848f539a78da5e0078360820ab258e6dd9069e2b7bdbf8869a7ff12461d646",
+    "scripts/tests/ios_fastlane_offline_harness.rb": "3d27b7ae024d578391bd04c7e714193039440a336a006fe97643e61829f12f54",
+    "scripts/tests/ios_workflow_contract_test.py": "7b3b32e9a659c543eca76546a1865629d4acea07aac11b7171dd1d059410407d",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/ios_app_store_readiness_gate.sh": "e6ec88d25dead19daafe4d6a50b246e2d4a556b60943d9386d04f3337f5f1a3f",
+    "scripts/notification_readiness_gate.sh": "29092a35a2552d75a7de24e408bb863add731fbe01affee6491e3aeecdbe3dce",
+    "Gemfile": "3f9baf66774f08c7dc206e8346f418faa3134e1b358e1f924c528bba9319a627",
+    "Gemfile.lock": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "ios/ExportOptionsAppStore.plist": "ed749f37a5b6d27b4c3f2300c51291cfcbc87e980e55e526166ee204ac659218",
+    "ios/Runner/PrivacyInfo.xcprivacy": "6fa20a8d8a3d978aa23fcdea8c717a505c49b3da2699f44604670ee92d4c5da4",
+    "ios/Runner/Runner.entitlements": "7673c1da9e3c952f957fb4389623ef5c97a1793cc90906450334757bbfd68740"
+  },
+  "inputs_unchanged_during_final_verification": true,
+  "changed_input_paths": [],
+  "implementation_paths": [
+    ".github/workflows/ios-app-store.yml",
+    "fastlane/Fastfile",
+    "scripts/qa/ios_delivery_guard.py",
+    "scripts/tests/ios_delivery_contract_test.py",
+    "scripts/tests/ios_fastlane_offline_harness.rb",
+    "scripts/tests/ios_workflow_contract_test.py"
+  ],
+  "verification": {
+    "offline_contract": {
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "command": "python3 scripts/tests/ios_delivery_contract_test.py",
+      "transports": "Actual Python source guards and actual Fastlane lane fixtures; synthetic SDK, GitHub, Keychain, codesign, readiness and Apple upload transports."
+    },
+    "workflow_callers": {
+      "passed": 5,
+      "failed": 0,
+      "command": "python3 scripts/tests/ios_workflow_contract_test.py",
+      "scope": "YAML parser and caller policy checks, not hosted execution or actionlint."
+    },
+    "ruby_syntax": "pass Fastfile and offline harness",
+    "python_compilation": "pass helper and both Python suites",
+    "diff_check": "pass changed tracked implementation",
+    "codesign_requirement_syntax": "pass native csreq compilation; no actual signed app validation",
+    "android_lanes_preserved": "exact block SHA256 c23f01368faa01d4f1b478438e9096081d0f8aed874dc4c39ce6383279ac4b31"
+  },
+  "live_readback": {
+    "command": "gh api repos/ikanisa/COOL/environments --paginate",
+    "mutation": false,
+    "total_count": 0,
+    "policy_configured": false,
+    "receipt": "github-environments-readback.json"
+  },
+  "historical_failures": [
+    {
+      "receipt": "contract-test-attempt1.log",
+      "tests": 18,
+      "failures": 2,
+      "errors": 2,
+      "cause": "macOS allocator temp directory /var ancestor symlink; resolved only newly allocated inspection directory; user-supplied path refusal retained",
+      "superseded_by": "contract-test-final.log"
+    }
+  ],
+  "external_effects": {
+    "apple_credentials_imported": false,
+    "ipa_signed": false,
+    "build_or_upload": false,
+    "remote_environment_mutation": false,
+    "approval_created": false
+  },
+  "remaining_acceptance": [
+    "Parent integrated immutable release-candidate and affected existing Dart iOS security-hygiene consumer",
+    "GitHub environments/reviewers/main-only/self-review/no-bypass actual configuration and protected execution proof; observed environment count is zero",
+    "Real unsigned/signed build and Apple-anchored profile/certificate/entitlement/privacy inspection, approved exact IPA and inspection hashes",
+    "Provider public/ignored configuration prerequisites, pinned build environment and dependency integrity",
+    "Complete reviewed screenshots (current committed PNG count is two; required cohort counts remain five each), media/font rights and full readiness gate",
+    "Physical device/APNs/universal-link lifecycle and merged privacy API-usage/store-answer review",
+    "Actual Apple processing/delivery readback and artifact-bound human distribution decision; public binary submission remains unavailable"
+  ],
+  "evidence_sha256": {
+    "inputs-before.json": "ec1ba955d40abb247a00bdfb807051db35351635f460687f7a596115d8d99996",
+    "inputs-final-before.json": "3be02c7adb735eabf2c6404dd07d4389ebc20269b50bfe45844c72a7d38e2224",
+    "inputs-final-after.json": "124b3530ea4660ec015d6f2c78318b940b12f78b2b1520ef3a2dec55397005d5",
+    "toolchain.json": "e49656fe7a449b5346cfe6cd441fd908a035006556f4dfb7403eae8d508d5cd9",
+    "contract-test-attempt1.log": "9867f8665d6c8bbdef674c6d444d1fd68af34b9d0159931255980ad32bb8845d",
+    "contract-test-attempt2.log": "58e7658143df072e0851ae2ba40696c12ca5ab4def0bec6cedc0ea08504ca46e",
+    "contract-test-attempt3.log": "2f8da2be8edfce053a45b5d7a2466b15dd726419d340628a3c57a66b21f4f729",
+    "contract-test-attempt4.log": "1c2d3f4607da0d43d450aa9adf464a957ab1ceba702502b8af3e35e688cb8a4e",
+    "contract-test-final.log": "f5b8496549d23332c879721abe9fcb60697cf567ef57471f802c25885569a7dc",
+    "workflow-test.log": "a5a517765a6636169f71afdfd3af79ea8284e3008ad9a0d28e6221a324315012",
+    "ruby-syntax.log": "2b356811cf371f83ffe27f97cd8aa43d8e3f564d576c1c533b0500278ccf0283",
+    "codesign-requirement-syntax.log": "5cf9ad4fa5b176458ba0658f04432e9b1af34a096ef3fa13332be0cfebaa3930",
+    "github-environments-readback.json": "310b1231b21edb0dde47b2ee59b26a0fc9b4cdd801864140a03561f16fb03c9d",
+    "github-environments-readback-error.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "IMPLEMENTATION.md": "7d3589e4d8e43eea011447826d270509ce079a954975f7d5f48fe24efdbbcec6"
+  }
+}

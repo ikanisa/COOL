@@ -1,0 +1,10 @@
+{
+  "27_fixtures_actual_pass_reused": true,
+  "58_monitor_scope_unchanged": true,
+  "APP_manifest_source_fence_42pins_unchanged": true,
+  "all18_reviewed_payload_hashes_bytes_modes_verified": true,
+  "captured_at_utc": "2026-10-02T14:16:40.915136+00:00",
+  "driver_exact_same_as_attempt8": true,
+  "only_changed_probe_init_selection": "exact_physical_Collect_Android_root_before_app_lookup",
+  "production_release_approval": false
+}

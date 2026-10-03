@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "scope": "Actual strict publisher already retained the accurate deletion unavailable-state alt. No metadata/copy mutation performed.",
+  "current_alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action",
+  "metadata_changed_after_publisher": false,
+  "publisher_produced_manifest_sha256": "ac8b5891e8c127b6fd533b3199d83ea4791f8cc9f122564296ff812e25cc9d20",
+  "current_manifest_sha256": "ac8b5891e8c127b6fd533b3199d83ea4791f8cc9f122564296ff812e25cc9d20",
+  "final_preserved_manifest": "docs/release/critical-implementation-2026-10-01/public-media-batch4/publication/final-manifest-no-copy-change.json",
+  "final_preserved_manifest_sha256": "ac8b5891e8c127b6fd533b3199d83ea4791f8cc9f122564296ff812e25cc9d20",
+  "native_acceptance": false,
+  "publication_approval": false
+}

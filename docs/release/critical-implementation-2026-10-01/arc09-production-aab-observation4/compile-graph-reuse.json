@@ -1,0 +1,72 @@
+{
+  "APP_source_SDK_source_and_protected_failure_values_independently_checked": true,
+  "artifacts": 47,
+  "completed_compile_graph_reused": true,
+  "components": 64,
+  "daemon_PID": 92641,
+  "edges": 296,
+  "exact_root_binding_inputs": {
+    "APP_source_failure": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/APP-source-failure.json",
+      "sha256": "11a5a457bdd5865834f74c87649b245e7642070a0bc49ef7f3e595f500f2222a"
+    },
+    "SDK_source_failure": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/SDK-source-failure.json",
+      "sha256": "c378c53878f923a07c08537dc20ff5945b9c505c29a86eaba17cbcb33e0d69ef"
+    },
+    "command": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.json",
+      "sha256": "79e5c085dda45d173f3374aa2980335514ecb33346ae0f521abb771c38c3edca"
+    },
+    "failed_packet": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/packet-files.json",
+      "sha256": "694631407bc6c6135313b0a2171c96485bb61152b626dca1201e05ddd474d8b3"
+    },
+    "failure_guard_command": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/actual-failure-guard-command.json",
+      "sha256": "a89d52d795118efa2de6202ae96e4d4f2fe406e3d703974ab72ea5614e220f9a"
+    },
+    "graph": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-compile-failure-readback1/production-compile-graph.json",
+      "sha256": "e1b02a4614a72a7a1fe97beff81fc8306c55dba4e8279060fccf9293e84767fb"
+    },
+    "lifecycle_probe": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-gradle-lifecycle-metadata1/observation.json",
+      "sha256": "770aff4b01df5d15ae573003b530fb7af7a5ef250058337685fca67fd884f356"
+    },
+    "protected_failure": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/failure-diagnostics/protected-failure.json",
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59"
+    },
+    "root_readback": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-compile-failure-readback1/readback.json",
+      "sha256": "f375e0b24fa9f849d9f72a87816097c816ac1e308284a611c42e30cbf6422a92"
+    },
+    "runtime_reuse_receipt": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/runtime-graph-reuse.json",
+      "sha256": "93b4d2bdd83691c034ccc94f21bbe4fd8a5b9af1005050fbd91ba179b04faad7"
+    },
+    "source_fence_before": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/source-fence-before.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    "source_fence_command": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/source-fence-before-command.json",
+      "sha256": "5a6ee8059d6490705fb12f064666dca52710b95f5df02586ba7ec553ae1efb33"
+    },
+    "stderr": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.stderr",
+      "sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    "stdout": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/production-compile-graph-observation.stdout",
+      "sha256": "c3be317df25b83260ac7ecfb9f333504fee607c2e46b10a5d8eb18cbe3f164a5"
+    },
+    "terminal": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation2/terminal.json",
+      "sha256": "ab118bbae1a033462efc0ec5d193e1358fc5795cdd711c9e9f70940a1e818400"
+    }
+  },
+  "old_whole_driver_remains_failed": true,
+  "wrapper_PID": 92622
+}

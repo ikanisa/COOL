@@ -1,0 +1,65 @@
+[
+  {
+    "name": "collect_current_rehearsal_exception_history_6f0eb1cc5245",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_6f0eb1cc5245"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_38caffa72a6e",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt1/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_38caffa72a6e"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_4a5310d608ec",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt2/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_4a5310d608ec"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_89b260b3aac4",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt3/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_89b260b3aac4"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_4c9ed6a0533c",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt4/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_4c9ed6a0533c"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_621ffb9c616c",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt5/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_621ffb9c616c"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_32f5216c3aa9",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt6/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_32f5216c3aa9"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_8ac260fa6f93",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt7/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_8ac260fa6f93"
+  },
+  {
+    "name": "collect_current_rehearsal_exception_history_ca82545ce9f0",
+    "task_packet": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/result.json",
+    "actual_absence_checked": true,
+    "exit_code": 1,
+    "observed_stderr": "error: no such object: collect_current_rehearsal_exception_history_ca82545ce9f0"
+  }
+]

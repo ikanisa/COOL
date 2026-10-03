@@ -1,0 +1,10 @@
+{
+  "bytes": 96528208,
+  "jvm_test_count": 12,
+  "lint_warnings": 37,
+  "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/build/app/outputs/apk/production/release/app-production-release-unsigned.apk",
+  "scope": "Actual unsigned current source flavor compilation, permissions, lint and JVM semantics; no handset/carrier/provider/signing/store acceptance",
+  "sha256": "fd4eae394552d0725ffb971910d7f2ee58045aaf339dc0a42a7c3d707dffcf67",
+  "status": "pass",
+  "unsigned_rejection_verified": true
+}

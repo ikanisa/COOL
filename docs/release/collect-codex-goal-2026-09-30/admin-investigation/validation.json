@@ -1,0 +1,149 @@
+{
+  "date": "2026-09-30",
+  "slice": [
+    "C11",
+    "C13"
+  ],
+  "evidence": "local source, synthetic real-SDK/widget tests and component captures",
+  "unique_scoped_tests": 92,
+  "view_tests_passed": 15,
+  "sdk_tests_passed": 73,
+  "analysis": "8 files: no issues",
+  "sole_design_authority_hygiene": "pass",
+  "visual_match_percentage": null,
+  "production_acceptance": false,
+  "belongs_to_snapshot02": false,
+  "production_calls": false,
+  "history_limit": 50,
+  "isolated_sql_investigation_uat": {
+    "status": "pass",
+    "cases": 57,
+    "packet": "docs/release/collect-codex-goal-2026-09-30/investigation-backend/result.json",
+    "migration_sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "signed_auth_http_tested": false,
+    "hosted_tested": false
+  },
+  "files": [
+    {
+      "path": "lib/admin/core/admin_investigation.dart",
+      "sha256": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398",
+      "bytes": 17959
+    },
+    {
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "sha256": "4e1a5218c8dc1a14bac1bac62aa54d56c39f6eff0ebcc40dbce98cdbf4d712b4",
+      "bytes": 21843
+    },
+    {
+      "path": "lib/admin/core/admin_detail_runtime.dart",
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a",
+      "bytes": 38218
+    },
+    {
+      "path": "lib/admin/core/admin_detail_specs.dart",
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea",
+      "bytes": 12015
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "sha256": "94155cc1aec07445b5ed591ad7ec8f736c03463d8ece84c2a2c8758fcc52e1f7",
+      "bytes": 28645
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "sha256": "619a9f5a45c8d8493a09e1296f6539e36bd5e0ea9d9ac2ea2ca5e3713417cf34",
+      "bytes": 2858
+    },
+    {
+      "path": "supabase/migrations/20260930230400_admin_investigation.sql",
+      "sha256": "80b1785e2f44f71ce891272906b4b1fb75c4ddf74caf7d2f829b5499c631a952",
+      "bytes": 8375
+    },
+    {
+      "path": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "sha256": "0138c4d574913a7d872ffad801e232bb290cbcd06cb453b996e69bb1b0c666ae",
+      "bytes": 10903
+    },
+    {
+      "path": "test/admin_investigation_view_test.dart",
+      "sha256": "30d5d24f5895a01ab971b2f38519f08657f4ea791619399b7777ca50e1972719",
+      "bytes": 16201
+    },
+    {
+      "path": "test/admin_investigation_test.dart",
+      "sha256": "c29000a6642caf1bc1a7069d4da775c54fe2a339b855454cc427636617bbb097",
+      "bytes": 28806
+    },
+    {
+      "path": "test/fixtures/admin_investigation_v1.json",
+      "sha256": "ba060571e5241e113acabd80919bd95563d25655003ec3d2683344f4b35be6dd",
+      "bytes": 3500
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/README.md",
+      "sha256": "bab171198c5ecaf52092f80507ad662069ad24283497a2ae3f422fa3e5681f7b",
+      "bytes": 5176
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/view-tests-final2.log",
+      "sha256": "81dcdd70e66ee2496f9c2cd476475cf2048811999054cd8ee84d7b991f9d8640",
+      "bytes": 1326
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/sdk-tests-attempt11.log",
+      "sha256": "c61b66a5e6851135d9cfa9170b0fd8487abcf50ee99a053547fec945bca0f786",
+      "bytes": 7390
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/analysis-final.log",
+      "sha256": "a0f436b29f1d398cffcec8abd4ce57643603597bb71774b4357d045eba3a6695",
+      "bytes": 96
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/design-authority.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "bytes": 32
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/investigation-dark-synthetic.png",
+      "sha256": "f3055565bb657f5bcbbfb730c864058ccbe1391d5b7e9fbb6dfdab4f995c6827",
+      "bytes": 443145
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/investigation-light-synthetic.png",
+      "sha256": "6549787971fa841f558b7dd76dc5a7b3b852b6abc64984b5a1af189e588220ef",
+      "bytes": 439108
+    }
+  ],
+  "additional_actual_sql_dto_tests_passed": 4,
+  "source_binding_note": "Original files array describes the prior scoped source capture. Shared runtime/base/detail files have later concurrent and email changes; that binding is historical. Current owned SQL/observation-test updates are listed separately. Current production freeze and whole-system acceptance remain pending.",
+  "source_frozen": false,
+  "post_capture_updates": [
+    {
+      "path": "supabase/migrations/20260930230400_admin_investigation.sql",
+      "sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+      "bytes": 8376
+    },
+    {
+      "path": "test/admin_investigation_view_test.dart",
+      "sha256": "b306b89700e2c207b487bbca9500f30938f47e269227e82a2a20c9ad746f1363",
+      "bytes": 17017
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/README.md",
+      "sha256": "89c0b5f261e1b1a898df306522a57f51b7de33949228fcd17b16d96b3b8667a7",
+      "bytes": 5906
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/actual-sql-dto-tests.log",
+      "sha256": "5ceba07c1e937232153dd879c29649ca10ceef984d0f4e74b1a4eb9e08947772",
+      "bytes": 569
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/actual-sql-dto-smoke.log",
+      "sha256": "5bbd38e3c33a825ac328539d08524f8011c2f6b1f61af24008a67dcd7da6c632",
+      "bytes": 131
+    }
+  ],
+  "updated_at_utc": "2026-09-30T22:22:27.879267+00:00"
+}

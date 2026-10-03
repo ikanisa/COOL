@@ -1,0 +1,1 @@
+scripts/tests/ruby_dependency_security_test.rb:57:in `<main>': Sibling prefix ZIP traversal permitted (RuntimeError)

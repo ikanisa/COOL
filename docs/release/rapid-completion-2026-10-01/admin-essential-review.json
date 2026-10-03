@@ -1,0 +1,129 @@
+{
+  "blocked_reference_version": 3,
+  "checkpoint_packet": {
+    "captured_source": true,
+    "export_drift": [],
+    "passed": 12,
+    "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-current3/validation.json",
+    "sha256": "c946d4b1d921c9134f0ca80b087d685bce3540ea60bb80b419fe8b9596f1c44a",
+    "source_drift": {}
+  },
+  "checkpoint_scrub_packet": {
+    "export_drift": [],
+    "passed": 8,
+    "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-scrub-current4/validation.json",
+    "scope": "Exact affected legacy/private data scrub, durable blocked-reference recovery and recorded-outcome lookup only.",
+    "sha256": "5702856e9f96ee5fc834914c0c07280e2d0ea46b196fba17c0a112877bc14b97",
+    "source_drift": {}
+  },
+  "current_owned_source_sha256": {
+    "lib/admin/core/admin_exception_page.dart": "478bca7ebaf7cb18f630abf6df4fd39a67acfdd0ed2f3d4404a9080637b3127c",
+    "lib/admin/core/admin_exception_workflow_card.dart": "f5b87c324190fe01c9a4ea1341c781c107521d447dbd2aff445ade402577d7ee",
+    "lib/admin/core/admin_exception_workflow_models.dart": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+    "lib/admin/core/admin_repository_base.dart": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b",
+    "lib/admin/core/admin_runtime.dart": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d",
+    "test/admin_exception_page_test.dart": "66e218e0893e00a631bcb6b4cdfd86ba1870422f988114ac61c71a88da97e7e9",
+    "test/admin_exception_workflow_test.dart": "bc20786eef3191f1ef36ad0718cb268061280c8c9995b11539afb424986af9c1"
+  },
+  "dialog_packet": {
+    "captured_source": true,
+    "owned_inputs_changed_after_capture": {
+      "lib/admin/core/admin_exception_workflow_card.dart": {
+        "captured": "ff0f0eb89d92f528d2898cf6a85bbf986f94675c8036e8194a42db6cfbef0a6b",
+        "current": "b6304274ee9d7fac928a39687dd073027e5fa72ff165c9b9fa7f8e86103b4a95"
+      },
+      "lib/admin/core/admin_exception_workflow_models.dart": {
+        "captured": "3aea7413c451a7451c8a0b91ca3a7989a2e43d576ec6adbcb450358706d9fe89",
+        "current": "0e109aabcf23a39841ac389eeb5fe8fbc9f2284e0d6f4d4c552861be730d9552"
+      },
+      "test/admin_exception_workflow_test.dart": {
+        "captured": "92a532e466b61c19f3eb0a661b065441319694b5be109dedd1ea9159b0856f54",
+        "current": "33e36853608f16dfbc8ce99175b1f41cf5fbd37f4aa78f1646bab163ac2a1574"
+      }
+    },
+    "passed": 83,
+    "path": "docs/release/rapid-completion-2026-10-01/admin-session-current1/validation.json",
+    "sha256": "6931a7fcb6af3d49c0cf0a87df3adcbe00f74ba06dedd51253304ede3f3a81d1"
+  },
+  "initial_model_analyzer_failure_retained": "admin-checkpoint-current2/selected-analysis.log",
+  "legacy_actor_bytes_retained": false,
+  "no_browser_native_or_sql_builds": true,
+  "original_three_drifts": [
+    "lib/admin/core/admin_exception_page.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/core/admin_runtime.dart"
+  ],
+  "privacy_recovery_behavior": {
+    "exact_recorded_receipt_may_clear": true,
+    "failure_evidence_deleted": false,
+    "malformed_draft_retains_reference_free_block": true,
+    "negative_lookup_authorizes_resubmission": false,
+    "quarantine_is_submit_ready_intent": false,
+    "raw_operator_and_contact_payload_removed": true,
+    "replacement_write_failure_removes_rejected_bytes": true
+  },
+  "remaining_blockers": [
+    "Full essential E1 roster/import/export role and cross-group acceptance is outside this correction; no universal E1 closure inferred.",
+    "Blocked recovery requires an exact recorded receipt; negative/unknown outcomes remain blocked and never authorize blind replay.",
+    "Browser execution of the new scrub boundary has not been rerun; its actual browser storage adapter is unchanged, and focused tests execute the same store contract with memory/failing-store implementations."
+  ],
+  "reused_sql_packet": {
+    "cases": 41,
+    "database_removed": true,
+    "exact_nine_sources": {
+      "scripts/tests/exception_lifecycle_uat.py": {
+        "captured": "c525d54d7d7627c3fbfe43aac4168d021eb797f840f115ace4148dcc5537ee3c",
+        "current": "c525d54d7d7627c3fbfe43aac4168d021eb797f840f115ace4148dcc5537ee3c",
+        "matches": true
+      },
+      "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+        "captured": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "current": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "matches": true
+      },
+      "supabase/migrations/20260930213000_operator_email_auth.sql": {
+        "captured": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "current": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "matches": true
+      },
+      "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+        "captured": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "current": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "matches": true
+      },
+      "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+        "captured": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "current": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "matches": true
+      },
+      "supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+        "captured": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "current": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "matches": true
+      },
+      "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+        "captured": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "current": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "matches": true
+      },
+      "supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+        "captured": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "current": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "matches": true
+      },
+      "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+        "captured": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+        "current": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+        "matches": true
+      }
+    },
+    "installation_scope": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/result.json",
+    "rerun": false,
+    "sha256": "a1dbf79651211b66de2b0f6203f7321e9058914b5919e090c1f0f057d0f6f4c7",
+    "shared_database_written": false,
+    "status": "pass"
+  },
+  "scope": "Essential enabled exception follow-up/dialog/checkpoint correction only. E1 all-role/RLS/roster/import/export acceptance remains separate.",
+  "status": "pass"
+}

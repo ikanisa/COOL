@@ -1,0 +1,60 @@
+--- historical/account-deletion/
++++ current/account-deletion/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -19,8 +18,8 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
+-Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
++Collect interface preview · Example data
++Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
+ Delete In App
+ Heading
+ Delete in the app
+@@ -43,23 +42,23 @@
+ Submit Label
+ Request Account Deletion
+ Full name
+-Required field.
++Optional field.
+ Registered telephone number
+-Required field.
++Optional field.
+ Registered email address
+ Optional field.
+ Country
+-Required field.
++Optional field.
+ Reason for deletion
+ Optional field.
+ Identity-verification method
+-Required field.
++Optional field.
+ SMS verification
+ Email verification
+ Identity document verification
+ Support-assisted verification
+-I understand that deleting my Collect account does not cancel any bank account, loan, insurance policy, group obligation or other product provided by a third party.
+-Required field.
++I understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation or other product provided by a third party.
++Optional field.
+ What Happens Next
+ Heading
+ What happens next
+@@ -96,7 +95,7 @@
+ Heading
+ Products provided by partners
+ Copy
+-To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
++To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
+ Heading
+ Need help?
+ Email

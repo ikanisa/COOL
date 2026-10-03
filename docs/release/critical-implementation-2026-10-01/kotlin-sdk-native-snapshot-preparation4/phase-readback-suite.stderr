@@ -1,0 +1,10 @@
+test_after_reader_failure_is_terminal_after_export (__main__.PhaseReadbackTests.test_after_reader_failure_is_terminal_after_export) ... ok
+test_before_reader_failure_is_terminal_before_export (__main__.PhaseReadbackTests.test_before_reader_failure_is_terminal_before_export) ... ok
+test_invalid_observation_refused_without_artifacts (__main__.PhaseReadbackTests.test_invalid_observation_refused_without_artifacts) ... ok
+test_repeated_before_observation_still_refuses_reuse (__main__.PhaseReadbackTests.test_repeated_before_observation_still_refuses_reuse) ... ok
+test_same_startup_phase_has_distinct_before_after_artifacts (__main__.PhaseReadbackTests.test_same_startup_phase_has_distinct_before_after_artifacts) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 11.219s
+
+OK

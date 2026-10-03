@@ -1,0 +1,36 @@
+{
+  "command": [
+    "/usr/bin/ruby",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/normalization-diagnostic.rb",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002090000_governed_receipt_retention_controls.sql"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 0.108,
+  "exit_code": 0,
+  "output_limit_bytes": 4194304,
+  "pgid": 66113,
+  "pid": 66113,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17859503,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925195472123876,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 1031,
+    "device": 16777247,
+    "inode": 17859502,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925195536666586,
+    "sha256": "e77adc7feb8bd6be1fc341ed4de947d1ca53dd97c881918609fe56cc7769677f"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 15
+}

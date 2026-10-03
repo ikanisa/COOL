@@ -1,0 +1,63 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "candidate_installed_in_shared_source": false,
+  "cases": [
+    {
+      "name": "role committed revoke precedes established-snapshot RLS read",
+      "observed": "allowed",
+      "status": "fail"
+    },
+    {
+      "name": "Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "allowed",
+      "status": "fail"
+    },
+    {
+      "name": "approval committed revoke precedes established-snapshot RLS read",
+      "observed": "allowed",
+      "status": "fail"
+    }
+  ],
+  "completed_at": "2026-09-30T21:37:31.412643+00:00",
+  "database": "collect_local_uat_8e60d54db9eb4afe",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_admin_public_table_rls_snapshot",
+  "migration_sha256": "89be7df576b642f5137ca8875cbbc741eec5066bf8c457592e504cf2ca368199",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "positive_controls": 3,
+  "provider_called": false,
+  "schema_only_sha256": "804b17e33643ac085c33a688c0c3757263404a619c5539c746905ef79fb1674d",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "source_unchanged": true,
+  "started_at": "2026-09-30T21:37:23.978834+00:00",
+  "status": "failed"
+}

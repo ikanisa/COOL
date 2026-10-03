@@ -1,0 +1,42 @@
+{
+  "passed": false,
+  "exit_code": 1,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt11-final-client/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt11-final-client/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt11-final-client/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "1800"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt11-final-client/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/shared/widgets/collect_feature_surfaces.dart",
+    "lib/shared/widgets/collect_foundation.dart",
+    "scripts/tests/admin_read_gateway_gate.py",
+    "test/admin_action_contracts_test.dart",
+    "test/admin_action_ui_session_test.dart",
+    "test/admin_declared_read_dispatch_test.dart",
+    "test/features/collect_surface_keyboard_focus_test.dart"
+  ],
+  "input_count": 766,
+  "acceptance_sha256": "bdcfa81ea65af989ef988caddc2de5e439c2552c080a813b7a20f4390bb2d870",
+  "test_count": null,
+  "analysis_clean": false,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

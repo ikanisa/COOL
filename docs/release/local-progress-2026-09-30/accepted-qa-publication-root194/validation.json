@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "kind": "byte_identical_executed_qa_correction_publication",
+  "published_at": "2026-10-01T10:25:38.151662+00:00",
+  "files": [
+    {
+      "path": "scripts/tests/current_generated_history_published_uat.py",
+      "before_sha256": "bc0c9486770ad70fbe1446846b39d3dc3ac85f406605c10fa6859ef60d810b42",
+      "published_sha256": "9ad44cd91910b083ebc5bd2b29f0e0402589e4f8627fbad7ffc8c977d8a4d06b",
+      "exact_executed_candidate": ".cache/current_generated_history_published_frozen4.py",
+      "accepted_execution": "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/result.json",
+      "accepted_execution_sha256": "10178d3d2cbcf3348b0a5296f9967cfbf841293f966c2f6d990ccaf1fc4212aa"
+    },
+    {
+      "path": "scripts/qa/edge_http_runtime_uat.ts",
+      "before_sha256": "229b7631bc625ac7f280c8b4ffafefc052355f1c27b0d7e9be200c48cfc66e3d",
+      "published_sha256": "ad3a536a959a5adfd732b7d4757fa04314d20f600f619e0ea39c25dfc00e3d32",
+      "exact_executed_candidate": "docs/release/final-local-edge-2026-10-01/current-http-attempt3-exact-start-count/corrected-edge_http_runtime_uat.ts",
+      "accepted_execution": "docs/release/final-local-edge-2026-10-01/current-http-attempt3-exact-start-count/validation.json",
+      "accepted_execution_sha256": "00c52b3e6e8a95e9b6992720d06af130476143de1c5a85fd7d100069d7b585ab"
+    }
+  ],
+  "production_edge_or_database_function_changed": false,
+  "scope": "Publish the exact independently executed corrected QA sources; every original failed run and prior source byte sequence remains preserved. These QA changes do not provide whole source acceptance."
+}

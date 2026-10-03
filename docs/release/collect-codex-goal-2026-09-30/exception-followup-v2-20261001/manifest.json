@@ -1,0 +1,471 @@
+{
+  "kind": "scoped_followup_v2_packet",
+  "files": {
+    "CONTRACT.md": {
+      "sha256": "a356e360a154f1639d259b7615a11d922bd20c28b07045cc83d997a32a866ab4",
+      "bytes": 8401
+    },
+    "README.md": {
+      "sha256": "63ea89e41b953a87fa5ad07c417002001a76007ad10c1e28c06554549a6562a2",
+      "bytes": 4054
+    },
+    "attempt1/20260930211605_android_gateway_identity.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20260930213000_operator_email_auth.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20260930220527_operator_email_cutover_guard.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20260930230100_receipt_backlog_events.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20260930230200_admin_receipt_overview.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20260930230300_admin_transaction_lifecycle.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20261001000100_operational_exception_inbox.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20261001120000_operational_exception_lifecycle.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/20261001190000_exception_followup_v2.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt1/concurrency.log": {
+      "sha256": "00a9e8b5510646fb5b5b886fcd19e208e0505f37a64e353321d60deeee246ae6",
+      "bytes": 1929
+    },
+    "attempt1/exception_followup_v2/container.log": {
+      "sha256": "66328d0c99f984d14d6a8839ab690a31c4d47aa40c7be59bd728ead460be90d7",
+      "bytes": 38355
+    },
+    "attempt1/exception_followup_v2/queries.log": {
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c",
+      "bytes": 444
+    },
+    "attempt1/exception_followup_v2/queries.sql": {
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b",
+      "bytes": 782
+    },
+    "attempt1/executed-inputs/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "attempt1/executed-inputs/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "attempt1/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "attempt1/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "attempt1/executed-inputs/scripts/tests/exception_followup_v2_uat.py": {
+      "sha256": "cd1c93f7efe89d0fd3b1c10205ea39e6e0dba52f406e918a471ddeec297dabfb",
+      "bytes": 28632
+    },
+    "attempt1/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "attempt1/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "bytes": 37881
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "bytes": 3725
+    },
+    "attempt1/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "bytes": 11105
+    },
+    "attempt1/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "bytes": 24054
+    },
+    "attempt1/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "bytes": 21389
+    },
+    "attempt1/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+      "bytes": 9247
+    },
+    "attempt1/observed-after-commit-lookup.json": {
+      "sha256": "b576d1e7bd9d08770404212b72b75d7c01c21c5c71bedf8270fa4884eca3db4b",
+      "bytes": 851
+    },
+    "attempt1/observed-assignment-binding.json": {
+      "sha256": "9003e74abf8787f4e6d4cf2b2db9d538ef6a48aec5d96bbdae185f54e1f81df2",
+      "bytes": 371
+    },
+    "attempt1/observed-assignment-receipt.json": {
+      "sha256": "dc1c8c0fb7362fab8c3e5abdf7804fe96965420a1d951531d20a07a1ddb40e12",
+      "bytes": 461
+    },
+    "attempt1/observed-directory-first.json": {
+      "sha256": "b0fc48a5ee08f6ab34cd0fdeea645a06804ca99b94880611f74b7edefc070d8a",
+      "bytes": 4522
+    },
+    "attempt1/observed-directory-last.json": {
+      "sha256": "185eb862754659b54a24ae1374eda824c2daad502f1ed0a6a5454692c6a3cdbc",
+      "bytes": 1222
+    },
+    "attempt1/observed-expired-unrecorded-lookup.json": {
+      "sha256": "73c94597569ca3c1ec6ae39b3a2171183630fa2a6782cd45eb35437d06909aae",
+      "bytes": 373
+    },
+    "attempt1/observed-foreign-lookup.json": {
+      "sha256": "d4450bd761fd9e6935585be2eeaf236d8d4a1e8215005082d02aef17a22af56f",
+      "bytes": 373
+    },
+    "attempt1/observed-in-progress-lookup.json": {
+      "sha256": "032cf8a1733afb3fccd25b00276ca28ceccaec50e199b2d08ab0de8c85ccfc2a",
+      "bytes": 372
+    },
+    "attempt1/observed-recipient-revocation-race.json": {
+      "sha256": "cb121c308664987bb840ecc2d81162572fc05f268683862c71f47cb51bff3821",
+      "bytes": 699
+    },
+    "attempt1/observed-recorded-lookup.json": {
+      "sha256": "1225da6b0b31a739deb4910de6dccdd9307c2df609a68871b30fe241efc29f6e",
+      "bytes": 851
+    },
+    "attempt1/queries.log": {
+      "sha256": "1eab4300c0b107b7669fb7ab55532b79d568afa3265edd85233161ec3efc7040",
+      "bytes": 100884
+    },
+    "attempt1/queries.sql": {
+      "sha256": "9694c34ae3c9fedbc77b317e790acfda5aada399d37f8096cfdf42c86229980a",
+      "bytes": 1708503
+    },
+    "attempt1/result.json": {
+      "sha256": "07c8d1fa7b7859eb1a65fbb280ccddb5214e84c059295ea7df854ed9a0567a34",
+      "bytes": 17242
+    },
+    "attempt2/20260930211605_android_gateway_identity.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20260930213000_operator_email_auth.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20260930220527_operator_email_cutover_guard.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20260930230100_receipt_backlog_events.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20260930230200_admin_receipt_overview.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20260930230300_admin_transaction_lifecycle.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20261001000100_operational_exception_inbox.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20261001120000_operational_exception_lifecycle.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/20261001190000_exception_followup_v2.install.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "attempt2/concurrency.log": {
+      "sha256": "d506a530eae0bfa7bf807b01f440ec20010749ffed9adb7a74d18919868a8e96",
+      "bytes": 1929
+    },
+    "attempt2/exception_followup_v2/container.log": {
+      "sha256": "64a1d04b0d78ea5f0753090d5126e63606ec416087929ae081a42ac91a9247b0",
+      "bytes": 41909
+    },
+    "attempt2/exception_followup_v2/queries.log": {
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c",
+      "bytes": 444
+    },
+    "attempt2/exception_followup_v2/queries.sql": {
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b",
+      "bytes": 782
+    },
+    "attempt2/executed-inputs/api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "attempt2/executed-inputs/schema-only.sql": {
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+      "bytes": 1289085
+    },
+    "attempt2/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py": {
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "bytes": 34672
+    },
+    "attempt2/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    },
+    "attempt2/executed-inputs/scripts/tests/exception_followup_v2_uat.py": {
+      "sha256": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b",
+      "bytes": 30159
+    },
+    "attempt2/executed-inputs/scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "bytes": 43343
+    },
+    "attempt2/executed-inputs/scripts/tests/shadow_supervisor_uat.py": {
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "bytes": 41765
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "bytes": 37881
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "bytes": 3725
+    },
+    "attempt2/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "bytes": 11105
+    },
+    "attempt2/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "bytes": 24054
+    },
+    "attempt2/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "bytes": 21389
+    },
+    "attempt2/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+      "bytes": 9247
+    },
+    "attempt2/observed-after-commit-lookup.json": {
+      "sha256": "bfa7acc6f516409c716276bc6b9bd8f27a707f79b147ea777c50412d7d45755d",
+      "bytes": 851
+    },
+    "attempt2/observed-assignment-binding.json": {
+      "sha256": "cdc90013dbbd8aeb064db9ee5f1359fee0bf9fb536c1559d4c7e281fc85e27ce",
+      "bytes": 371
+    },
+    "attempt2/observed-assignment-receipt.json": {
+      "sha256": "eb521527c2b7c4b89ae33c0a532be7e5366215ddeb3e457a085604ee85e431b7",
+      "bytes": 461
+    },
+    "attempt2/observed-directory-first.json": {
+      "sha256": "516cc745e9e0567dedacef7d663d554878910cfcf60b12e6991226aedc000793",
+      "bytes": 4522
+    },
+    "attempt2/observed-directory-last.json": {
+      "sha256": "e29eb645b97833e0d5fc730a32cd7d99d97515fb70684b814c3555e8c8caf121",
+      "bytes": 1222
+    },
+    "attempt2/observed-expired-unrecorded-lookup.json": {
+      "sha256": "6096a7bcae9ffc676fa4946e6e5444dea5a8554ff447a09cb0cbeb2365d41a94",
+      "bytes": 373
+    },
+    "attempt2/observed-foreign-lookup.json": {
+      "sha256": "95de414b112de7a12a1bd9f6adbe69a96ae2f8e159925c3788615133f9b507e7",
+      "bytes": 373
+    },
+    "attempt2/observed-in-progress-lookup.json": {
+      "sha256": "965944534e8960aa8551dc91da92e70bd30b08ecb7f9c5e3e1ec9e768aa2d83b",
+      "bytes": 372
+    },
+    "attempt2/observed-recipient-revocation-race.json": {
+      "sha256": "cb121c308664987bb840ecc2d81162572fc05f268683862c71f47cb51bff3821",
+      "bytes": 699
+    },
+    "attempt2/observed-recorded-lookup.json": {
+      "sha256": "905dfcc6ae461118abe1f45418fbd1589459b4733183bd91a16557e772f58c94",
+      "bytes": 851
+    },
+    "attempt2/queries.log": {
+      "sha256": "107ae3e9577bee84b60195954e5bf2179e1fc25c2b1630be715a8a0c78063034",
+      "bytes": 114735
+    },
+    "attempt2/queries.sql": {
+      "sha256": "189f0f8efcffce332f329836d5675f4abcd6c7cb9b27bfe3736246d1b34b1d55",
+      "bytes": 1724286
+    },
+    "attempt2/result.json": {
+      "sha256": "7cdb8f962f10b6bc0959b9e7c6beab36724c0fc3ce93aa6a06a1a90ee0023cd1",
+      "bytes": 21781
+    },
+    "contract-validation-attempt1.json": {
+      "sha256": "5411481a0e47dd03807cb6894a1d3b3706e464cab802758542a2c5776a2f839a",
+      "bytes": 416
+    },
+    "contract-validation.json": {
+      "sha256": "b710db7d1236bd1710f2ee87e8a6995d0bd9622704d5b90c4a29648d43abe79e",
+      "bytes": 3144
+    },
+    "independent-review.json": {
+      "sha256": "1eb2971059de333b37d660972d0ec0719b631b664f7d642a7bc5e198b98a1a5b",
+      "bytes": 668
+    },
+    "publication.json": {
+      "sha256": "8b3c2039f55d8e915fe6caa416ac312935503aea72ee42068e6747d435c328ae",
+      "bytes": 1732
+    },
+    "published-contract/observed-after-commit-lookup.json": {
+      "sha256": "bfa7acc6f516409c716276bc6b9bd8f27a707f79b147ea777c50412d7d45755d",
+      "bytes": 851
+    },
+    "published-contract/observed-assignment-binding.json": {
+      "sha256": "cdc90013dbbd8aeb064db9ee5f1359fee0bf9fb536c1559d4c7e281fc85e27ce",
+      "bytes": 371
+    },
+    "published-contract/observed-assignment-receipt.json": {
+      "sha256": "eb521527c2b7c4b89ae33c0a532be7e5366215ddeb3e457a085604ee85e431b7",
+      "bytes": 461
+    },
+    "published-contract/observed-directory-first.json": {
+      "sha256": "516cc745e9e0567dedacef7d663d554878910cfcf60b12e6991226aedc000793",
+      "bytes": 4522
+    },
+    "published-contract/observed-directory-last.json": {
+      "sha256": "e29eb645b97833e0d5fc730a32cd7d99d97515fb70684b814c3555e8c8caf121",
+      "bytes": 1222
+    },
+    "published-contract/observed-expired-unrecorded-lookup.json": {
+      "sha256": "6096a7bcae9ffc676fa4946e6e5444dea5a8554ff447a09cb0cbeb2365d41a94",
+      "bytes": 373
+    },
+    "published-contract/observed-foreign-lookup.json": {
+      "sha256": "95de414b112de7a12a1bd9f6adbe69a96ae2f8e159925c3788615133f9b507e7",
+      "bytes": 373
+    },
+    "published-contract/observed-in-progress-lookup.json": {
+      "sha256": "965944534e8960aa8551dc91da92e70bd30b08ecb7f9c5e3e1ec9e768aa2d83b",
+      "bytes": 372
+    },
+    "published-contract/observed-recorded-lookup.json": {
+      "sha256": "905dfcc6ae461118abe1f45418fbd1589459b4733183bd91a16557e772f58c94",
+      "bytes": 851
+    },
+    "published-contract/provenance.json": {
+      "sha256": "cace8c4344574ca8acfa47edaba64f6218347e4a15f5ef7480020242ccd8bf96",
+      "bytes": 1074
+    },
+    "published-contract/schema.json": {
+      "sha256": "15db4e51d0006a7152fac8f82d6acc167b69322e59602682be5408686c263170",
+      "bytes": 7809
+    },
+    "validate-observed-attempt1.py": {
+      "sha256": "ace4a7acafd5ee1842b83dfb0c736d4e9926864f8d6e340b763d0ae62c5e0ac9",
+      "bytes": 3609
+    },
+    "validate-observed.py": {
+      "sha256": "0ba98374c33469bb70d2088da9216fb39016910c3abf4c2aa825f6062eb9d2fe",
+      "bytes": 3609
+    }
+  },
+  "selected_files": {
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+      "bytes": 9247
+    },
+    "scripts/tests/exception_followup_v2_uat.py": {
+      "sha256": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b",
+      "bytes": 30159
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-after-commit-lookup.json": {
+      "sha256": "bfa7acc6f516409c716276bc6b9bd8f27a707f79b147ea777c50412d7d45755d",
+      "bytes": 851
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-assignment-binding.json": {
+      "sha256": "cdc90013dbbd8aeb064db9ee5f1359fee0bf9fb536c1559d4c7e281fc85e27ce",
+      "bytes": 371
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-assignment-receipt.json": {
+      "sha256": "eb521527c2b7c4b89ae33c0a532be7e5366215ddeb3e457a085604ee85e431b7",
+      "bytes": 461
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-directory-first.json": {
+      "sha256": "516cc745e9e0567dedacef7d663d554878910cfcf60b12e6991226aedc000793",
+      "bytes": 4522
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-directory-last.json": {
+      "sha256": "e29eb645b97833e0d5fc730a32cd7d99d97515fb70684b814c3555e8c8caf121",
+      "bytes": 1222
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-expired-unrecorded-lookup.json": {
+      "sha256": "6096a7bcae9ffc676fa4946e6e5444dea5a8554ff447a09cb0cbeb2365d41a94",
+      "bytes": 373
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-foreign-lookup.json": {
+      "sha256": "95de414b112de7a12a1bd9f6adbe69a96ae2f8e159925c3788615133f9b507e7",
+      "bytes": 373
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-in-progress-lookup.json": {
+      "sha256": "965944534e8960aa8551dc91da92e70bd30b08ecb7f9c5e3e1ec9e768aa2d83b",
+      "bytes": 372
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-recorded-lookup.json": {
+      "sha256": "905dfcc6ae461118abe1f45418fbd1589459b4733183bd91a16557e772f58c94",
+      "bytes": 851
+    },
+    "scripts/tests/fixtures/exception_followup_v2/provenance.json": {
+      "sha256": "cace8c4344574ca8acfa47edaba64f6218347e4a15f5ef7480020242ccd8bf96",
+      "bytes": 1074
+    },
+    "scripts/tests/fixtures/exception_followup_v2/schema.json": {
+      "sha256": "15db4e51d0006a7152fac8f82d6acc167b69322e59602682be5408686c263170",
+      "bytes": 7809
+    }
+  }
+}

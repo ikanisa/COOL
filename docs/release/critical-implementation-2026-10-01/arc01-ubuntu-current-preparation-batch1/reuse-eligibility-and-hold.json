@@ -1,0 +1,41 @@
+{
+  "SDK_current_git_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "SDK_current_sha256": {
+    "bin/cache/dart-sdk/bin/dart": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+    "bin/dart": "446e63e382b331c327cd17b001b025c2cb11c18ceddd2b34bfcd65cfb8cdecc2",
+    "bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "SDK_expected_git_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "SDK_expected_sha256": {
+    "bin/cache/dart-sdk/bin/dart": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+    "bin/dart": "446e63e382b331c327cd17b001b025c2cb11c18ceddd2b34bfcd65cfb8cdecc2",
+    "bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "SDK_scripts_executed_again": false,
+  "actual_existing_generated_package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+  "applicable_dart_count": 670,
+  "at_utc": "2026-10-02T00:46:21.453902+00:00",
+  "canonical_pub_repeated": false,
+  "capture_at_utc": "2026-10-02T00:43:56.415220+00:00",
+  "captured_default_route_test_sha256": "9f4575aeb0bdde8c29d415a49423ef7ec177dd8ef23eb6a5ceed55e408fff2f2",
+  "current_root_acceptance": false,
+  "dependency_input_drift": {},
+  "dependency_input_paths_compared": 171,
+  "expected_existing_generated_package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+  "hold": "Parent requires final default-route test source freeze and safe other-chat owner integration of3 real formatter gaps before final capture/Make.",
+  "make_executed": false,
+  "new_current_checkout_has_no_Git_yet": true,
+  "new_current_checkout_has_no_generated_package_config": true,
+  "new_local_dependency_input_paths": [],
+  "prior_canonical_pub_result_sha256": "6175801cded11e55f4d7d20cad80a09a8206a545fe2a24cfbb5e59f8622865c4",
+  "private_pub_cache_file_count": 18287,
+  "private_pub_cache_link_count": 0,
+  "private_pub_cache_readback_sha256": "8adc5aebd5e06a35f50379f15e2d81f643b2147615d71c4d37b215e42e3c2aa6",
+  "reuse_eligible_for_exact_existing_sdk_and_canonical_pub_inputs": true,
+  "reused_generated_package_config_copied": false,
+  "root_or_private_source_formatted": false,
+  "source_inputs": 823,
+  "status": "CURRENT_SOURCE_PREPARED_FINAL_CAPTURE_AND_MAKE_HELD"
+}

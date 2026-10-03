@@ -1,0 +1,223 @@
+{
+  "candidate_manifest_sha256": "1e54a8ad509c48f412dff970cc0694c0ff40191a5e3e891c8cd7622287be43d9",
+  "copy_readback": "pass",
+  "file_count": 42,
+  "kind": "isolated_exact_snapshot_mcp_subset",
+  "node_modules_copied": false,
+  "scope": "Exact 42 bridge inputs from retained source05; full Admin source copy is separately verified. No current-tree/review/dependency trust attestation.",
+  "selected_files": {
+    "tools/collect-notification-mcp/.gitignore": {
+      "bytes": 14,
+      "mode": 448,
+      "sha256": "4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97"
+    },
+    "tools/collect-notification-mcp/README.md": {
+      "bytes": 16241,
+      "mode": 448,
+      "sha256": "3a66bc0c5c2d13d60f7a71728627203ca2baa833330fc22b908fd543e21c70be"
+    },
+    "tools/collect-notification-mcp/package.json": {
+      "bytes": 522,
+      "mode": 448,
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    "tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "bytes": 8909,
+      "mode": 448,
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    "tools/collect-notification-mcp/src/keychain.swift": {
+      "bytes": 2065,
+      "mode": 448,
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "bytes": 2420,
+      "mode": 448,
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6"
+    },
+    "tools/collect-notification-mcp/src/keychain_store.ts": {
+      "bytes": 2562,
+      "mode": 448,
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224"
+    },
+    "tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "bytes": 8453,
+      "mode": 420,
+      "sha256": "6f974bd5710e8c901757f55521b36802aa1e4cc74eae7793323e18d236fddf87"
+    },
+    "tools/collect-notification-mcp/src/operational_client.ts": {
+      "bytes": 10713,
+      "mode": 420,
+      "sha256": "c77d7b8a0c308a72ac46aedebf23de32a1d2afd80c8dbd15c08227e0a6e14229"
+    },
+    "tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "bytes": 3536,
+      "mode": 420,
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b"
+    },
+    "tools/collect-notification-mcp/src/operational_health.ts": {
+      "bytes": 6985,
+      "mode": 420,
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8"
+    },
+    "tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "bytes": 8770,
+      "mode": 420,
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612"
+    },
+    "tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "bytes": 2603,
+      "mode": 448,
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7"
+    },
+    "tools/collect-notification-mcp/src/operator_client.ts": {
+      "bytes": 2798,
+      "mode": 448,
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9"
+    },
+    "tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "bytes": 3375,
+      "mode": 448,
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6"
+    },
+    "tools/collect-notification-mcp/src/operator_login.ts": {
+      "bytes": 6246,
+      "mode": 448,
+      "sha256": "41815f090404207ae2bd24fb336e6259975debd54b334c8d43ffaa752d537dfc"
+    },
+    "tools/collect-notification-mcp/src/preflight.test.ts": {
+      "bytes": 4043,
+      "mode": 448,
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428"
+    },
+    "tools/collect-notification-mcp/src/preflight.ts": {
+      "bytes": 4022,
+      "mode": 448,
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae"
+    },
+    "tools/collect-notification-mcp/src/queue_health.ts": {
+      "bytes": 862,
+      "mode": 448,
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "bytes": 1779,
+      "mode": 448,
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a"
+    },
+    "tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "bytes": 760,
+      "mode": 448,
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377"
+    },
+    "tools/collect-notification-mcp/src/server.test.ts": {
+      "bytes": 2560,
+      "mode": 448,
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab"
+    },
+    "tools/collect-notification-mcp/src/server.ts": {
+      "bytes": 10762,
+      "mode": 448,
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8"
+    },
+    "tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "bytes": 6965,
+      "mode": 448,
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "bytes": 9153,
+      "mode": 448,
+      "sha256": "a968bdc13e06f7fb505cef355c11c158eeb8b8dcacbc179d5c7d408137dc1225"
+    },
+    "tools/collect-notification-mcp/src/session_renewal.ts": {
+      "bytes": 6465,
+      "mode": 448,
+      "sha256": "d06d81c0da55f8382597885cae8abe35cd9f01c03a81f4c67966d030969d2646"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "bytes": 1285,
+      "mode": 420,
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392"
+    },
+    "tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "bytes": 1143,
+      "mode": 420,
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "bytes": 7837,
+      "mode": 420,
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93"
+    },
+    "tools/collect-notification-mcp/src/shadow_client.ts": {
+      "bytes": 5247,
+      "mode": 420,
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    "tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "bytes": 10541,
+      "mode": 420,
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "bytes": 1748,
+      "mode": 420,
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114"
+    },
+    "tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "bytes": 5684,
+      "mode": 420,
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "bytes": 12412,
+      "mode": 420,
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248"
+    },
+    "tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "bytes": 5391,
+      "mode": 420,
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "bytes": 2755,
+      "mode": 448,
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51"
+    },
+    "tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "bytes": 4704,
+      "mode": 448,
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649"
+    },
+    "tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "bytes": 2871,
+      "mode": 420,
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "bytes": 2383,
+      "mode": 420,
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11"
+    },
+    "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "bytes": 1135,
+      "mode": 420,
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77"
+    },
+    "tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "bytes": 5553,
+      "mode": 448,
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79"
+    },
+    "tools/collect-notification-mcp/tsconfig.json": {
+      "bytes": 333,
+      "mode": 448,
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84"
+    }
+  },
+  "source": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-05",
+  "status": "pass",
+  "workspace": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-mcp-check-05"
+}

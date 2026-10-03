@@ -4,6 +4,45 @@ const adminReadActor = '99740000-0000-4000-8000-000000000001';
 const adminReadTarget = '99740000-0000-4000-8000-000000000002';
 const adminReadDate = '2026-09-30T08:10:00.123456+00:00';
 
+// Synthetic available measurement, including actual zero and pending/oldest
+// consistency. Date bounds are generated from the observed Kigali day.
+Map<String, dynamic> adminReceiptOverviewFixture(
+  DateTime observed, {
+  bool empty = false,
+}) {
+  final checked = observed.toUtc();
+  final local = checked.add(const Duration(hours: 2));
+  final start = DateTime.utc(
+    local.year,
+    local.month,
+    local.day,
+  ).subtract(const Duration(hours: 2));
+  return {
+    'contract_version': 1,
+    'scope': 'rwanda_momo',
+    'country_code': 'RW',
+    'timezone': 'Africa/Kigali',
+    'checked_at': checked.toIso8601String(),
+    'sample_valid_until': checked
+        .add(const Duration(seconds: 60))
+        .toIso8601String(),
+    'day_start': start.toIso8601String(),
+    'day_end': start.add(const Duration(days: 1)).toIso8601String(),
+    'posted': {'count': empty ? 0 : 2, 'value_rwf': empty ? '0' : '5000'},
+    'receipts_state': 'available',
+    'receipts': {
+      'queued': empty ? 0 : 1,
+      'awaiting_confirmation': 0,
+      'oldest_pending_at': empty
+          ? null
+          : checked.subtract(const Duration(minutes: 1)).toIso8601String(),
+      'failed_no_send': 0,
+      'uncertain': 0,
+      'send_started': 0,
+    },
+  };
+}
+
 Map<String, dynamic> adminIdentityFixture([String actor = adminReadActor]) => {
   'user_id': actor,
   'display_name': 'Collect ID 974001',

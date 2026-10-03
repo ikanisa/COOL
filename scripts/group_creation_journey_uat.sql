@@ -4,6 +4,24 @@
 
 begin;
 
+-- Synthetic verified verdicts only; real session admission/mint SQL executes.
+-- Historical pre-admission snapshots execute their original actual mint body.
+create function pg_temp.fixture_integrity_capability(p_actor uuid,p_session uuid,p_action text,
+ p_hash text,p_payload jsonb,p_receiver text)returns uuid language plpgsql as $$
+declare r jsonb;result jsonb;n uuid:=gen_random_uuid();begin
+ if to_regprocedure('public.reserve_play_integrity_admission_v1(uuid,uuid,uuid,text,text,text,text,jsonb)')is null then
+  return public.mint_native_action_capability(p_actor,p_action,p_hash,p_payload,p_receiver,
+   'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp());
+ end if;
+ r:=public.reserve_play_integrity_admission_v1(p_actor,p_session,n,p_action,p_hash,
+  encode(extensions.digest(n::text,'sha256'),'hex'),p_receiver,p_payload);
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'oauth');
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'decode');
+ result:=public.complete_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,
+  p_payload,'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp(),1,200);
+ return(result->>'native_capability')::uuid;
+end$$;
+
 create or replace function pg_temp.assert_true(condition boolean, message text)
 returns void
 language plpgsql
@@ -56,6 +74,11 @@ set country_code = 'RW',
     end
 where id in (:'owner_id', :'member_id', :'outsider_id', :'admin_id');
 
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
+values('81000000-0000-4000-8000-000000000093',:'owner_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1'),
+('81000000-0000-4000-8000-000000000094',:'member_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1'),
+('81000000-0000-4000-8000-000000000095',:'outsider_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');
+
 select public_id as member_public_id from public.profiles where id=:'member_id'
 \gset
 
@@ -74,8 +97,15 @@ from public.admin_roles role
 where role.name = 'platform_owner';
 insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
 values (:'admin_id','+250788100004',now()-interval '2 seconds','Synthetic group journey reviewer');
-insert into auth.sessions(id,user_id,created_at)
-values ('81000000-0000-4000-8000-000000000092',:'admin_id',clock_timestamp());
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
+values ('81000000-0000-4000-8000-000000000092',:'admin_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');
+do $$begin
+ if to_regclass('collect_admin_access.email_approvals')is not null then
+  update auth.users set email='journey-admin@example.test',email_confirmed_at=clock_timestamp()where id='81000000-0000-4000-8000-000000000004';
+  insert into collect_admin_access.email_approvals(user_id,email,approved_at,reason)values
+  ('81000000-0000-4000-8000-000000000004','journey-admin@example.test',clock_timestamp()-interval '2 seconds','Synthetic approved group journey reviewer');
+ end if;
+end$$;
 
 select pg_temp.assert_true(
   not exists (
@@ -91,7 +121,7 @@ select pg_temp.assert_true(
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'owner_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'owner_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000093','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 
@@ -140,8 +170,8 @@ select set_config(
   json_build_object('role', 'service_role')::text,
   true
 );
-select public.mint_native_action_capability(
-  :'owner_id',
+select pg_temp.fixture_integrity_capability(
+  :'owner_id', '81000000-0000-4000-8000-000000000093',
   'group.create',
   repeat('a', 64),
   jsonb_build_object(
@@ -155,11 +185,7 @@ select public.mint_native_action_capability(
     'group_purpose_label', 'Group savings',
     'group_is_public', false
   ),
-  encode(extensions.digest('+250788100001', 'sha256'), 'hex'),
-  'app.cool.mobile',
-  'PLAY_RECOGNIZED',
-  array['MEETS_DEVICE_INTEGRITY'],
-  now()
+  encode(extensions.digest('+250788100001', 'sha256'), 'hex')
 ) as native_capability
 \gset
 
@@ -167,7 +193,7 @@ reset role;
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'owner_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'owner_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000093','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 select set_config('collect.uat.native_capability', :'native_capability', true);
@@ -276,7 +302,7 @@ select pg_temp.assert_true(
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000094','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 select public.join_group_by_share_code(:'share_code');
@@ -312,7 +338,7 @@ values (:'collection_id', :'member_id', 'admin', 'active');
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000094','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 do $$
@@ -337,7 +363,7 @@ $$;
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000094','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 do $$
@@ -374,14 +400,13 @@ select now()::text as sms_device_time,
 \gset
 set local role service_role;
 select set_config('request.jwt.claims','{"role":"service_role"}',true);
-select public.mint_native_action_capability(
-  :'owner_id', 'sms.ingest', repeat('b',64),
+select pg_temp.fixture_integrity_capability(
+  :'owner_id', '81000000-0000-4000-8000-000000000093', 'sms.ingest', repeat('b',64),
   jsonb_build_object('receiver_momo_number_hash', :'sms_receiver_hash',
     'client_envelope_id', '81000000-0000-4000-8000-000000000091',
     'raw_sender', 'MTN MOMO', 'raw_body_sha256', :'sms_body_hash',
     'received_at_device', :'sms_device_time'),
-  :'sms_receiver_hash', 'app.cool.mobile', 'PLAY_RECOGNIZED',
-  array['MEETS_DEVICE_INTEGRITY'], now()
+  :'sms_receiver_hash'
 ) as sms_capability
 \gset
 select public.ingest_attested_raw_payment_sms(
@@ -466,7 +491,7 @@ select pg_temp.assert_true(
   'consumed attested SMS cannot finalize the matched payment'
 );
 select pg_temp.assert_true(
-  public.allocate_parsed_payment_event(:'event_id')='already_allocated'
+  public.allocate_parsed_payment_event(:'event_id')='awaiting_provider_confirmation'
   and exists (select 1 from public.payments
     where parsed_event_id=:'event_id' and status='review' and posted_at is null)
   and not exists (select 1 from public.ledger_entries entry
@@ -475,6 +500,48 @@ select pg_temp.assert_true(
   'allocation and SMS retries retain one unposted review candidate'
 );
 -- Synthetic independent provider fixture; the SMS body is not provider truth.
+reset role;
+select to_regprocedure('public.finalize_approved_reconciliation_v2(uuid)')is not null as governed_finality \gset
+\if :governed_finality
+-- Two explicit synthetic verified approvers; no live policy approval is claimed.
+reset role;
+insert into auth.users(id,aud,role,email,email_confirmed_at,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)values
+ ('99660000-0000-4000-8000-000000000001','authenticated','authenticated','fixture-proposer@example.test',clock_timestamp(),'250788996601',clock_timestamp(),'{}','{}'),
+ ('99660000-0000-4000-8000-000000000002','authenticated','authenticated','fixture-approver@example.test',clock_timestamp(),'250788996602',clock_timestamp(),'{}','{}');
+insert into public.admin_user_roles(user_id,role_id,reason,created_at)
+select u.id,r.id,'Synthetic independent financial fixture authority',clock_timestamp()-interval '1 minute'
+from auth.users u cross join public.admin_roles r where u.id::text like '99660000-%'and r.name='platform_owner';
+do $$begin
+ if to_regclass('collect_admin_access.email_approvals')is not null then
+  insert into collect_admin_access.email_approvals(user_id,email,approved_at,reason)
+  select id,email,clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ else
+  insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+  select id,'+'||ltrim(phone,'+'),clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ end if;
+end$$;
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)values
+ ('99660000-0000-4000-8000-000000000011','99660000-0000-4000-8000-000000000001',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2'),
+ ('99660000-0000-4000-8000-000000000021','99660000-0000-4000-8000-000000000002',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2');
+select (select id from public.payments where parsed_event_id=:'event_id') as fixture_payment_id \gset
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000011"}',true);
+select public.propose_payment_reconciliation_v2(:'fixture_payment_id',repeat('e',64),'PROVIDER-UAT-GROUP-001',clock_timestamp(),'Synthetic independently sourced provider evidence')as fixture_review_id \gset
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000021"}',true);
+select pg_temp.assert_true(public.approve_payment_reconciliation_v2(:'fixture_review_id','Synthetic independent approval of source evidence'),
+ 'independent synthetic approver reviews source evidence');
+select pg_temp.assert_true(public.authorize_reconciliation_finalization_v2(:'fixture_review_id'),
+ 'exact live synthetic approver authorizes finalization');
+reset role;
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select public.finalize_approved_reconciliation_v2(:'fixture_review_id')as provider_finality \gset
+\else
+-- Actual retained owner/service route on a pre-governed historical snapshot.
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select public.process_provider_finality_event(
   '81000000-0000-4000-8000-000000000099', 'payment.confirmed',
   repeat('d',64),
@@ -482,6 +549,7 @@ select public.process_provider_finality_event(
   'mtn_momo', 'GROUP-JOURNEY-UAT-001', 'PROVIDER-UAT-GROUP-001',
   :'sms_receiver_hash', 5000, now(), repeat('e',64), null, null
 ) as provider_finality \gset
+\endif
 select pg_temp.assert_true(
   :'provider_finality'::jsonb->>'replayed'='false',
   'separate synthetic provider event posts the candidate'
@@ -501,7 +569,7 @@ select pg_temp.assert_true(
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000094','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 select pg_temp.assert_true(
@@ -518,7 +586,7 @@ select pg_temp.assert_true(
 select set_config(
   'request.jwt.claims',
   json_build_object('sub', :'admin_id', 'role', 'authenticated',
-    'session_id','81000000-0000-4000-8000-000000000092')::text,
+    'session_id','81000000-0000-4000-8000-000000000092','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 do $$ begin
@@ -545,7 +613,7 @@ select pg_temp.assert_true(
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'outsider_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'outsider_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000095','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 
@@ -569,16 +637,26 @@ $$;
 
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'owner_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'owner_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000093','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
-select public.rotate_group_share_code(:'collection_id') as rotated_share_code
-\gset
+select to_regprocedure('public.rotate_group_share_code_v2(uuid,uuid)')is not null as identifiable_rotation \gset
+\if :identifiable_rotation
+select public.rotate_group_share_code_v2(:'collection_id','81000000-0000-4000-8000-000000000096')as rotation_receipt \gset
+select pg_temp.assert_true(
+ :'rotation_receipt'::jsonb->>'ok'='true'
+ and :'rotation_receipt'::jsonb->>'collection_id'=:'collection_id'
+ and public.rotate_group_share_code_v2(:'collection_id','81000000-0000-4000-8000-000000000096')=:'rotation_receipt'::jsonb,
+ 'an identifiable share rotation and exact acknowledgement retry return the same code');
+select :'rotation_receipt'::jsonb->>'share_code' as rotated_share_code \gset
+\else
+select public.rotate_group_share_code(:'collection_id') as rotated_share_code \gset
+\endif
 select set_config('collect.uat.rotated_share_code', :'rotated_share_code', true);
 
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'outsider_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'outsider_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000095','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 do $$
@@ -606,7 +684,7 @@ where collection_id = :'collection_id'
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated','session_id','81000000-0000-4000-8000-000000000094','exp',extract(epoch from clock_timestamp()+interval '1 hour')::bigint)::text,
   true
 );
 do $$

@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "final_flat_native_inputs": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/final-flat-native-inputs-after.json",
+  "all_80_candidate_android_inputs_match_except_owned_gradle": true,
+  "owned_gradle_sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+  "standalone_harness_sha256": "6eac08b9558a34ca6e60fc4e5c700d3b9e2e2bd4a315517ea559dc19621eec2e",
+  "actual_gateway_jvm_counts": {
+    "tests": 41,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint_errors": 0,
+  "lint_warnings": 40,
+  "unchanged_flutter_outputs_reused_no_flutter_pub_graph_rerun": true,
+  "apk": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-final-gateway-attempt176/app-internal_gateway-release-unsigned.apk",
+    "sha256": "a9fe16524f3b13f7bc85b40efb00875ab44bb17925a97163e5d9a12c364c3f1e",
+    "bytes": 82297842,
+    "unsigned_verified": true,
+    "post_notifications_absent": true,
+    "aeonik_absent": true,
+    "inter_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "qa_marker": {
+      "kind": "local_unsigned_native_qa",
+      "store_acceptance": false,
+      "provider_configuration": false,
+      "signing": false
+    }
+  },
+  "previous175_exact48_and174_50_controls_remain_separate": true,
+  "scope": "Final captured stronger native candidate plus owned marker/notification/testJSON Gradle adapter: incremental Gateway APK/lint, affected safety/arm JVM and existing standalone realJSON/SIM/fresh-clock/V2/AndroidAPI harness. No shared-runtime edit, unrelated peer overlay, production/iOS/device/provider/signing/store or whole-live-repository claim."
+}

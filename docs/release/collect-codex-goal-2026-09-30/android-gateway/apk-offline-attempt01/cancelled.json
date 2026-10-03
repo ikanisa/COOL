@@ -1,0 +1,5 @@
+{
+  "status": "cancelled_unaccepted_source_drift",
+  "reason": "Gateway local header navigation correction changed one selected Dart input after build capture. No Flutter source task had started; no artifact is accepted.",
+  "source_path": "lib/gateway/gateway_app.dart"
+}

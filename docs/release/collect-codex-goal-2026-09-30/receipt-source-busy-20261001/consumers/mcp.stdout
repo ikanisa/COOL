@@ -1,0 +1,15 @@
+✔ actual ordinary-owner SQL SOURCE_BUSY decodes through both closed contracts (2.216542ms)
+✔ signed actual Edge handler and MCP client preserve source contention without ACK or retry (37.84775ms)
+✔ SOURCE_BUSY rejects falseACK in both closed decoders (0.169625ms)
+✔ SOURCE_BUSY rejects wrongBusiness in both closed decoders (0.257709ms)
+✔ SOURCE_BUSY rejects fabricatedReceipt in both closed decoders (0.195125ms)
+✔ SOURCE_BUSY rejects privateExtra in both closed decoders (0.135792ms)
+✔ SOURCE_BUSY rejects arbitraryCode in both closed decoders (0.12ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 185.765208

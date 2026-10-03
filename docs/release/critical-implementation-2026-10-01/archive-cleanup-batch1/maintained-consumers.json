@@ -1,0 +1,3387 @@
+{
+  "schema_version": 1,
+  "scope": "Maintained source/test/runtime/CI release references; path/line inventory only, no file/customer/credential bodies copied.",
+  "source_roots": [
+    "scripts",
+    "lib",
+    "test",
+    "test_driver",
+    "tool",
+    "tools",
+    ".github",
+    "android",
+    "ios"
+  ],
+  "source_files_checked": 1359,
+  "consumer_file_count": 153,
+  "consumers": [
+    {
+      "consumer": ".github/workflows/public-website.yml",
+      "consumer_sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+      "references": [
+        {
+          "line": 25,
+          "reference": "docs/release/COLLECT_PUBLIC_WEBSITE_*.md",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 26,
+          "reference": "docs/release/public-website-content-baseline.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 47,
+          "reference": "docs/release/COLLECT_PUBLIC_WEBSITE_*.md",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 48,
+          "reference": "docs/release/public-website-content-baseline.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": ".gitignore",
+      "consumer_sha256": "02c80d42abdc2f5f106dd4e5e714d5388683613c2627f50cd39355b1f61b7517",
+      "references": [
+        {
+          "line": 129,
+          "reference": "docs/release/shared-ui-accessibility-2026-09-30/attempt*/artifact/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 130,
+          "reference": "docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/admin-build/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 131,
+          "reference": "docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/public-build/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 132,
+          "reference": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/*-module-cache/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/admin_pwa_live_gate.sh",
+      "consumer_sha256": "d0a7520c5f6d9472d65f758c91d602856d69980c841026a9bf04ef3c58e38edf",
+      "references": [
+        {
+          "line": 18,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 21,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/audits/collect_hybrid_edge_cutover.rb",
+      "consumer_sha256": "6fdfc79335a5447d5e8876d85e0364d88137324ca0e8f3d9cdc78c1cbf185b50",
+      "references": [
+        {
+          "line": 17,
+          "reference": "docs/release/SUPABASE_CONTINUATION_PREFLIGHT_V4_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 18,
+          "reference": "docs/release/HYBRID_PRIVILEGE_CUTOVER_READBACK_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 19,
+          "reference": "docs/release/HYBRID_EDGE_LOCAL_GATE_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/audits/collect_hybrid_privilege_cutover.rb",
+      "consumer_sha256": "8f2ec52878b1e74870a011fd992760fc59394f3668e5731d486812ce7da52afa",
+      "references": [
+        {
+          "line": 17,
+          "reference": "docs/release/SUPABASE_CONTINUATION_PREFLIGHT_V4_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 18,
+          "reference": "docs/release/PRODUCTION_COPY_UPGRADE_REHEARSAL_V23_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/audits/collect_hybrid_production_cutover.rb",
+      "consumer_sha256": "a68531ba132c4755950851d827b841bd58fa3da2857277c6877f08c55a303ec4",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release/SUPABASE_CONTINUATION_PREFLIGHT_V3_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 16,
+          "reference": "docs/release/PRODUCTION_COPY_UPGRADE_REHEARSAL_V21_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/audits/collect_production_cutover.rb",
+      "consumer_sha256": "fac9c12689846dde7d6bd54152d998fa38ee0d19302af1883271a32e011a7181",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/SUPABASE_PREFLIGHT_CURRENT_2026-09-02.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 15,
+          "reference": "docs/release/PRODUCTION_COPY_UPGRADE_REHEARSAL_V4_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/flutter_mobile_release_gate.sh",
+      "consumer_sha256": "ca3f88aecebc51beb305e94186c1667c3ecdf9dbb58abf4d83baa5f116897aed",
+      "references": [
+        {
+          "line": 79,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 85,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 86,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 215,
+          "reference": "docs/release/RELEASE_APPROVALS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 485,
+          "reference": "docs/release/RELEASE_APPROVALS.json.",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 544,
+          "reference": "docs/release/RELEASE_APPROVALS.json.",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/google_play_console_audit_packet.sh",
+      "consumer_sha256": "e65b6ea9a6520a960f0d79116f67944df388dccdee8722db8f9a29bbd24a9cfe",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/google_play_metadata_export.sh",
+      "consumer_sha256": "f6be7b5f6cf9e6bd9101ba6c65e6ddd19fa132600b29f23e041847e3024f4014",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/google_play_optimization_gate.sh",
+      "consumer_sha256": "3b3392e0a31106713a3a5cc6ffafea491510ea955373f464369717fa7a428354",
+      "references": [
+        {
+          "line": 132,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 133,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/google_play_production_upload.sh",
+      "consumer_sha256": "825d8b274453dc4fe4ce53af1e1d6f7fd6d5d423bd3ebe65bd9410e4e82ea0dd",
+      "references": [
+        {
+          "line": 297,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/collect_release_acceptance.py",
+      "consumer_sha256": "a2632387b7efb45d86b88928dda6b1d04bf734e1cb0182ad47336cf7e1edebb4",
+      "references": [
+        {
+          "line": 87,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/implementation-progress.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 88,
+          "reference": "docs/release/production-remaining-tasks-2026-09-30.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 89,
+          "reference": "docs/release/local-implementation-register-2026-09-30.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/collect_release_candidate.py",
+      "consumer_sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+      "references": [
+        {
+          "line": 124,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/dart_format.rb",
+      "consumer_sha256": "f5a1d8338c1f85d0959d494bb34480b84ce2ef70b179ca51d1bed2980ea90e4c",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/firebase_scene_callback_probe.py",
+      "consumer_sha256": "acecfcbb0552527f963633d5ae98fe1fe54de33c0b144a62d1a684c1dcd52d87",
+      "references": [
+        {
+          "line": 175,
+          "reference": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/source-snapshot/upstream-package",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/public_content_contract.rb",
+      "consumer_sha256": "8b60c03e5ae745437ab76f3e88c9e24b52e53fa76f29cb7747805bc5f020cf30",
+      "references": [
+        {
+          "line": 10,
+          "reference": "docs/release/public-website-content-baseline.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 11,
+          "reference": "docs/release/public-website-current-content-contract.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 12,
+          "reference": "docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 82,
+          "reference": "docs/release/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/receipt_operations_enrollment_workflow_uat.py",
+      "consumer_sha256": "c3c2bceba9918b621d5d371e37c7813768e11370dc05daa22a4f61cb2f67840a",
+      "references": [
+        {
+          "line": 22,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/revolut_design_authority.py",
+      "consumer_sha256": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924",
+      "references": [
+        {
+          "line": 38,
+          "reference": "docs/release/revolut-design/authority.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/qa/run_edge_unit_tests.py",
+      "consumer_sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "references": [
+        {
+          "line": 97,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/record_android_sms_uat_evidence.sh",
+      "consumer_sha256": "9bbfc11ab2c42c0d222298c7c980b45ff97cb9dbbd9e085092e04c2af1aaf478",
+      "references": [
+        {
+          "line": 23,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/record_release_approval.sh",
+      "consumer_sha256": "b58032fbe9e9f21ca9e761c4a8a22f771adcacd09019617da9084e5d21b6e17d",
+      "references": [
+        {
+          "line": 32,
+          "reference": "docs/release/RELEASE_APPROVALS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 48,
+          "reference": "docs/release/RELEASE_APPROVALS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 127,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 130,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 136,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 142,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 143,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 147,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/record_uat_evidence_signoff.sh",
+      "consumer_sha256": "5301ec62f4b5278d57296f01c9ced2812b2dd12999c2711c4573cb38f572fc10",
+      "references": [
+        {
+          "line": 11,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 22,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/release_approval_evidence_gate.sh",
+      "consumer_sha256": "eddc90c30e8e6751e0de975ad916c878b9f2ed19aef47e97392d786a4eda30d6",
+      "references": [
+        {
+          "line": 17,
+          "reference": "docs/release/RELEASE_APPROVALS.json}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 76,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 79,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 85,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 91,
+          "reference": "docs/release/RELEASE_STATUS",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 92,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 96,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/release_approval_packet.sh",
+      "consumer_sha256": "de3ab1c978c46e425e1bdc59276ae44ab005ae8f25e30d077d7f595e2f415e47",
+      "references": [
+        {
+          "line": 39,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 42,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 143,
+          "reference": "docs/release/RELEASE_APPROVALS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 196,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 213,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 218,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 231,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 249,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 253,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 267,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 284,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 288,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 293,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 309,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 310,
+          "reference": "docs/release/GO_NO_GO_DECISION.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 311,
+          "reference": "docs/release/RELEASE_BLOCKERS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 324,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 328,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 352,
+          "reference": "docs/release/RELEASE_APPROVALS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 353,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 358,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/release_evidence_index.sh",
+      "consumer_sha256": "c6f6366495b0bab4d0b1f51f310d1ec1deb51c7c3e5d152b1d19d42a5f05a430",
+      "references": [
+        {
+          "line": 214,
+          "reference": "docs/release/FULLSTACK_UAT_GO_LIVE_GOAL.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 215,
+          "reference": "docs/release/PRODUCTION_READINESS_CHECKLIST.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 216,
+          "reference": "docs/release/QA_TEST_REPORT.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 217,
+          "reference": "docs/release/UAT_EXECUTION_REPORT.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 218,
+          "reference": "docs/release/GO_NO_GO_DECISION.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 219,
+          "reference": "docs/release/RELEASE_BLOCKERS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 220,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 221,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 222,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 223,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 224,
+          "reference": "docs/release/PLAY_STORE_READINESS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/release_status.sh",
+      "consumer_sha256": "2be4d00c391aa00d20537c5f516e11250599ad8d499bfae548790bfca9b38a30",
+      "references": [
+        {
+          "line": 44,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 47,
+          "reference": "docs/release/LIVE_DEPLOYMENTS.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supabase_platform_go_live_packet.sh",
+      "consumer_sha256": "453f03d2d9459d1f5be93f3fef60487e6e271a6c311178f94b618174d7b08913",
+      "references": [
+        {
+          "line": 92,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 104,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 117,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 122,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 153,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supabase_post_operator_checklist.sh",
+      "consumer_sha256": "22716f9fa8f89a645272a523ade9f4e9a4f915aa64be4e2911c5752e18d57a46",
+      "references": [
+        {
+          "line": 100,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 111,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 123,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 128,
+          "reference": "docs/release/RELEASE_STATUS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 145,
+          "reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supply_chain/inventory.py",
+      "consumer_sha256": "b4ee5595f54dd67aaccbfd211d29a2de654b0d836c417d8be2fc29002ddd84e7",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/supply-chain-2026-09-28/candidate-inventory.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supply_chain/validate_source_sbom.py",
+      "consumer_sha256": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+      "references": [
+        {
+          "line": 16,
+          "reference": "docs/release/asset-build-hygiene-2026-09-30/schema",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supply_chain/verify_edge_lock.py",
+      "consumer_sha256": "138944168adaa9539f5c06bce43d387ccb3ad053b63a14cea20bf21db4589f0c",
+      "references": [
+        {
+          "line": 32,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/supply_chain/verify_file_saver_fork.py",
+      "consumer_sha256": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/file-saver-fork-comparison.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/admin_email_action_bounds_uat.py",
+      "consumer_sha256": "a5ad6702f49bc8d60b0d9420652f826cd384753084419f03ca154768076d1583",
+      "references": [
+        {
+          "line": 34,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/admin_gateway_reads_uat.py",
+      "consumer_sha256": "774f03f03706eb75a42ed58bddc697cd14af26fb4b1041a7edb714f57c551bb2",
+      "references": [
+        {
+          "line": 11,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/current-full-upgrade",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/admin_matrix_acceptance.py",
+      "consumer_sha256": "b884a1b14a0b6de676237f1d6e307968a5db1b0ee741aff8a8360a7a326b4072",
+      "references": [
+        {
+          "line": 26,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 27,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 29,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/20261001000200_admin_gateway_reads.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 30,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/collect-admin-gateway-v1.schema.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 31,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 32,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 35,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/{name}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 44,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/investigation-backend/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 45,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/investigation-backend/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 47,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/investigation-backend/captured-source/{name}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 76,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 77,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 84,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/executed-migrations/{name}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 100,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 102,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 104,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 106,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-{name}.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 115,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 273,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 295,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 325,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/investigation-backend",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 391,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 403,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-entity-audit",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 404,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-operating-policy",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 437,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/admin_rls_snapshot_uat.py",
+      "consumer_sha256": "d9adef8a6cc612b82dbdae2645dd945d8d443354f8f75dbf7dcc59e68962cd02",
+      "references": [
+        {
+          "line": 26,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/admin_sensitive_authority_uat.py",
+      "consumer_sha256": "12e90ec7a733000afe0e45fe17ae531fe63703300baa7ba20a23de70bbd1c3ac",
+      "references": [
+        {
+          "line": 42,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 50,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/android_gateway_archive_jvm.py",
+      "consumer_sha256": "f5a0082b67285328b9e72ce0ee12a2e6f6409189176cc74f39339f30d6bcbeec",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "consumer_sha256": "3e566f880c07201a7d152e0aac1816eb1b39177d703775e5b9e7554f3a296a53",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/android_gateway_background_jvm.py",
+      "consumer_sha256": "e4c27d5a4e38382190ec26e7cafb573c3f54ffb856bd52a6de37f0459869d637",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/android_gateway_dispatch_jvm.py",
+      "consumer_sha256": "47f3030d909b53f3b72a05bd75bb08750d62779052a8eacc7f63318591ed94c5",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/assisted_sms_session_fencing_uat.py",
+      "consumer_sha256": "5c7b5428214e33a23322b9efe33f7cd038237debb0d39b64dad88bc3bf6d6036",
+      "references": [
+        {
+          "line": 86,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 87,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "consumer_sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+      "references": [
+        {
+          "line": 148,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/backend-foundation/synthetic-seed.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 188,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/hosted-readback/metadata.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/collect_current_release_upgrade_uat.py",
+      "consumer_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/hosted-readback/metadata.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/collect_synthetic_backup_restore_uat.py",
+      "consumer_sha256": "890e1d7f477cd05c8867bda4862636dc2a66e42eb2e9f2b981168eebdac788d6",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/collect-codex-goal-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/combined_release_contract_test.rb",
+      "consumer_sha256": "83339f758239a3a57a86528872bff002df0d76653cb2fe64574c2e8805d82341",
+      "references": [
+        {
+          "line": 160,
+          "reference": "docs/release/COMBINED_CLEAN_REPLAY_2026-09-02.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_admin_query_benchmark_uat.py",
+      "consumer_sha256": "573f78fdf6c8ce926081f158ac364df8efb329068ab65290c12dcc5054409d92",
+      "references": [
+        {
+          "line": 33,
+          "reference": "docs/release/runtime-controls-2026-10-01/current21-full26-races-attempt1",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 509,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_generated_history_index_candidate_uat.py",
+      "consumer_sha256": "66e14596fbd194eefb3f37e84e5851e092984fde185cdc6223d689dfdfb096c5",
+      "references": [
+        {
+          "line": 246,
+          "reference": "docs/release/generated-query-benchmark-2026-10-01",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_generated_history_published_uat.py",
+      "consumer_sha256": "9ad44cd91910b083ebc5bd2b29f0e0402589e4f8627fbad7ffc8c977d8a4d06b",
+      "references": [
+        {
+          "line": 87,
+          "reference": "docs/release/generated-query-benchmark-2026-10-01",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_generated_query_benchmark_uat.py",
+      "consumer_sha256": "77165c4a2f3ceda97f1dd5a001e7b05959f7aa0d33cc926286c8d9ea1e5a6901",
+      "references": [
+        {
+          "line": 411,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_generated_query_diagnostic_gate.py",
+      "consumer_sha256": "6cee8cd8749aebc42323aff1295acc8047dacdce3c9f64627a0a980531748c75",
+      "references": [
+        {
+          "line": 16,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_ordinary_installer_rehearsal.py",
+      "consumer_sha256": "c00f627704762d92632b9de9bb8f9fc0a8e233efbb6204310598c1bfeac5e3a6",
+      "references": [
+        {
+          "line": 25,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_receipt_cancel_integration_uat.py",
+      "consumer_sha256": "1aeb8be14ea063c0b65c6b9c0bdb11e9b10552315f72fa29be2c20c2d246de68",
+      "references": [
+        {
+          "line": 31,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/current_runtime_control_bundle_uat.py",
+      "consumer_sha256": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+      "references": [
+        {
+          "line": 109,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/dart_format_test.rb",
+      "consumer_sha256": "3e08ffb2b61d0dcbd005319c9d4125839c60e25f01b02f07ccacbd075c91e27f",
+      "references": [
+        {
+          "line": 84,
+          "reference": "docs/release/prior/attempt1/source-snapshot/lib/source.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 85,
+          "reference": "docs/release/asset-build-hygiene-2026-09-30/removed-source/lib/unused.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 87,
+          "reference": "docs/release/admin-roster-reload-2026-09-30/sources-attempt1/lib/a.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 88,
+          "reference": "docs/release/admin-roster-reload-2026-09-30/sources-attempt2-actual144/test/b.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 89,
+          "reference": "docs/release/admin-roster-reload-2026-09-30/sources-attempt3-current-logout/lib/c.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 90,
+          "reference": "docs/release/local-browser-lifecycle-2026-09-30/logout-regression/source/test/d.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 91,
+          "reference": "docs/release/local-browser-lifecycle-2026-09-30/attempt4-uncaught-logout/source/lib/e.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 92,
+          "reference": "docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/source/tool/f.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 93,
+          "reference": "docs/release/shared-ui-accessibility-2026-09-30/attempt2/source/third_party/fork/lib/g.dart",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/data_correctness_gate.py",
+      "consumer_sha256": "fc8838c02c3cc80d10088020753762992e34c72aae46dbc037e068bf53b179cf",
+      "references": [
+        {
+          "line": 69,
+          "reference": "docs/release/data-correctness-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 123,
+          "reference": "docs/release/data-correctness-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 255,
+          "reference": "docs/release/data-correctness-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/data_correctness_post_run_uat.py",
+      "consumer_sha256": "87b971dda70f8655b2cc75d0057358e714d244c13bfe740039d1140025b76b71",
+      "references": [
+        {
+          "line": 21,
+          "reference": "docs/release/data-correctness-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/data_correctness_sql_positive_history_uat.py",
+      "consumer_sha256": "3b4b47f7c63a90619a5e90e69cc896176977dcf7056d26ddedeb2e0e37c13679",
+      "references": [
+        {
+          "line": 940,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/exception_followup_v2_uat.py",
+      "consumer_sha256": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b",
+      "references": [
+        {
+          "line": 45,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/exception_inbox_audit_v2_plan_uat.py",
+      "consumer_sha256": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861",
+      "references": [
+        {
+          "line": 11,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 30,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/exception_inbox_audit_v2_uat.py",
+      "consumer_sha256": "001108fa11c8118fe27df3f8bce404f25eee972ecab26bbc434c0cbb11afaf12",
+      "references": [
+        {
+          "line": 29,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/exception_lifecycle_uat.py",
+      "consumer_sha256": "c525d54d7d7627c3fbfe43aac4168d021eb797f840f115ace4148dcc5537ee3c",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/final_flutter_acceptance.py",
+      "consumer_sha256": "eb7035d7ec635f86c015ceb9afa42d8adf25066a2f825333a3a679a9e357b2d6",
+      "references": [
+        {
+          "line": 73,
+          "reference": "docs/release/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 89,
+          "reference": "docs/release/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 138,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-read-provenance.json",
+      "consumer_sha256": "38726f4e6305e2a970647883b09f52011c0fadf3035b73761c730f49dc3982f4",
+      "references": [
+        {
+          "line": 4,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 8,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/observed-public-small-page.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 13,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/observed-authenticated-public-page.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 18,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/observed-authenticated-public-older.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 23,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/observed-audit-final.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 28,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/observed-inbox-final.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/fixtures/exception_inbox_audit_v2/provenance.json",
+      "consumer_sha256": "162398912fceefeabc6f7885bfedd7a5ccb808b4a72ec9515969040301ad45b0",
+      "references": [
+        {
+          "line": 3,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/result.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 12,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-after-pump-commit.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 18,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-allocation-event.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 24,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-complete.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 30,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-final.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 36,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-first.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 42,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-last.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 48,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-legacy-target-refusal.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 54,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-obsolete-resolved.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 60,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-receipt_backlog.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 66,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-receipt_event.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 72,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-retained.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 78,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unavailable.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 84,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unknown.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 90,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-audit-unscoped.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 96,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-final.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 102,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-first.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 108,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-foreign.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 114,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-inbox-last.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 120,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/observed-opened-ack.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-helper.py",
+      "consumer_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/hosted-readback/metadata.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/fixtures/receipt_worker_observation_v1/inputs/executed-runner.py",
+      "consumer_sha256": "076f49062e05dbbc5453b293c0bca0dbcda901fd786085e6ce904975051144a9",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/inputs/20261001110000_receipt_operational_authority.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/fixtures/receipt_worker_observation_v1/manifest.json",
+      "consumer_sha256": "e5ed738a0aa4dc6cf870bf33352610074a6e46ab82705dd82440571b58a6a657",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/generate_exact_receipt_amount_migration.py",
+      "consumer_sha256": "d48c3391517e94f0c526378171b6b5bbafadc8e3f905e1e8d82f13f514a89623",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/data-correctness-2026-09-30/sql154-positive-history-precision-review/actual-minimum-functions.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/generate_runtime_reason_migration.py",
+      "consumer_sha256": "c535440edcf0836113c7f7bbc46381440c83ea91634a83fdec5df826b8e290dc",
+      "references": [
+        {
+          "line": 25,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/generate_sensitive_reason_migration.py",
+      "consumer_sha256": "6d176ccd7f00003f0155a8746519ad6b07ec6764bb9d44f27b4aff1a9653b992",
+      "references": [
+        {
+          "line": 26,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/governed_settings_requests_uat.py",
+      "consumer_sha256": "084cc224894466585871776972e1d29fc9ba6e817ab6f143fdc17cdec7bf9dcc",
+      "references": [
+        {
+          "line": 43,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/group_share_rotation_uat.py",
+      "consumer_sha256": "23d2e698cfb8f29b602d010a3a7d1852f73ed410f52df06dfe0c794eb51f50d2",
+      "references": [
+        {
+          "line": 35,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/local_database_evidence.py",
+      "consumer_sha256": "6c49b3a1a0fc0f437a05a3cdb6d1e5816c9e0c69ec1e6aae5be048a7a84a1cb9",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/local_offline_verification.py",
+      "consumer_sha256": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+      "references": [
+        {
+          "line": 240,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 241,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/member_realtime_sdk_gate.py",
+      "consumer_sha256": "835dfc9e28a91f7c03112fd9c8276cb2c47a636ae001e2d915a0f749aed71cdf",
+      "references": [
+        {
+          "line": 21,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/notification_ui_gate.py",
+      "consumer_sha256": "9dc6cf1b9b5488ddf13f879f6a3b6bb430b4b41c35f90537e8458c5f73c86c50",
+      "references": [
+        {
+          "line": 33,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/notification_upgrade_telemetry.py",
+      "consumer_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+      "references": [
+        {
+          "line": 22,
+          "reference": "docs/release/notification-session-fencing-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/operational_health_ui_gate.py",
+      "consumer_sha256": "3c8e695f4a351c6b002a3b50b93fecce8b91c5aaa704829c85bdbdc49bb8e8f7",
+      "references": [
+        {
+          "line": 63,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 95,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/platform_admin_access_evidence.rb",
+      "consumer_sha256": "b2f6de5baf6833ffed010a1df788dadb2cbff049d0c508d33c54d7daa63d1228",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release/ADMIN_WHATSAPP_PREAPPROVAL_2026-09-02.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 16,
+          "reference": "docs/release/CONTROLLED_ROLLOUT_2026-09-02.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/privacy_request_intake_uat.py",
+      "consumer_sha256": "fa81cab37516f52c7e38fd1fce441be8601b7c11519bbe72d2c23b3dad93c95f",
+      "references": [
+        {
+          "line": 129,
+          "reference": "docs/release/critical-implementation-2026-10-01/privacy-intake-batch1",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/product_capability_content_test.rb",
+      "consumer_sha256": "016db5723aa88f340f2b6d9243aca7cbe2fb12dc7277b2a3d0b7a5eae671780d",
+      "references": [
+        {
+          "line": 201,
+          "reference": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/before-source-sha256.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/production_archive_restore.rb",
+      "consumer_sha256": "3a29a39aea6eaaf7e4142c9a6db782bc0fbb7b261c52a859895545343df4db16",
+      "references": [
+        {
+          "line": 7,
+          "reference": "docs/release/ENCRYPTED_PRODUCTION_DATABASE_BACKUP_V2_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 8,
+          "reference": "docs/release/ENCRYPTED_PRODUCTION_ROLES_BACKUP_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 9,
+          "reference": "docs/release/SUPABASE_EXTENSION_RECOVERY_METADATA_2026-09-03.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/production_upgrade_rehearsal.rb",
+      "consumer_sha256": "257e910ba7b40559bd3b535b13c2a9167c44cbdcb42b79592a814307e193e915",
+      "references": [
+        {
+          "line": 9,
+          "reference": "docs/release/SUPABASE_PREFLIGHT_CURRENT_2026-09-02.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/public_content_contract_test.rb",
+      "consumer_sha256": "154bd88005e9f373c5855dede2ccf3bd190693657635674113e22f53b39fafa3",
+      "references": [
+        {
+          "line": 69,
+          "reference": "docs/release/current-legal-presentation-review.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 83,
+          "reference": "docs/release/current-legal-presentation-review.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/public_static_routes_test.rb",
+      "consumer_sha256": "cc2b5f9b45b5259019675c5472829ba131042c6381d0d95c2d8b6b22b5c24c8c",
+      "references": [
+        {
+          "line": 87,
+          "reference": "docs/release/public-website-content-baseline.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/receipt_deferral_exceptions_uat.py",
+      "consumer_sha256": "122b6bcdd2b89ec8268aa5bb680a47349b9a5654ac5c6d80c1b9c19794d3e49c",
+      "references": [
+        {
+          "line": 20,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/inputs/20261001110000_receipt_operational_authority.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/receipt_exception_worker_uat.py",
+      "consumer_sha256": "076f49062e05dbbc5453b293c0bca0dbcda901fd786085e6ce904975051144a9",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/inputs/20261001110000_receipt_operational_authority.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/receipt_worker_transport_health_uat.py",
+      "consumer_sha256": "4f2e1a4f7e5543e8c5e59f90f23319f22edca32fa2ae9e34ed907c9aad71bb5b",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/inputs/20261001110000_receipt_operational_authority.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 44,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/inputs",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/refresh_local_progress_register.py",
+      "consumer_sha256": "ed9d637be2f87062495d2240a7ef6cb4c9280f040c394056869d6854f42400e5",
+      "references": [
+        {
+          "line": 15,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/revolut_design_authority_test.py",
+      "consumer_sha256": "822434bc74bb489449bae7ed12299a41c819ae1bf1d62038eea15153f5f7b34a",
+      "references": [
+        {
+          "line": 29,
+          "reference": "docs/release/revolut-design/authority.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 44,
+          "reference": "docs/release/revolut-design/authority.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/roster_fresh_auth_gate.py",
+      "consumer_sha256": "283e7195f29f46cf948a2e8349efa89ac4416c1cf3016b64b691a035e4693894",
+      "references": [
+        {
+          "line": 182,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 373,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/roster_fresh_auth_post_vm_uat.py",
+      "consumer_sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282",
+      "references": [
+        {
+          "line": 28,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 150,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/roster_import_provenance_recovery_uat.rb",
+      "consumer_sha256": "666c66c853665fc2d993a87e42ea5e7cc83df9f7ee1b994e9ebfd69cd4cd8166",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release/roster-import-provenance-2026-09-30/sources/concurrency-attempt1-c2c49f80.rb",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/roster_resource_runtime_verification.py",
+      "consumer_sha256": "4abf9b37788a8c4d5939b9b238f94f4337a0be878f895a6d64984543f9bd0c3f",
+      "references": [
+        {
+          "line": 44,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 45,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/run_operational_metric_acceptance.py",
+      "consumer_sha256": "fd8b9fe736d54ed9e8a2cf4b84de561206b1b5e236d1c097041bfccb2ba3564b",
+      "references": [
+        {
+          "line": 60,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/run_roster_fresh_auth_acceptance.py",
+      "consumer_sha256": "13b44d66578673d9ea8655f3c08ed1034e445f17ad5d0a91948212cd23a66ca7",
+      "references": [
+        {
+          "line": 58,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/run_runtime_control_acceptance.py",
+      "consumer_sha256": "23f27d012f7b570a66dc09bae7386340fcba46f6447e1a30d8bc1ce7887aca72",
+      "references": [
+        {
+          "line": 29,
+          "reference": "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 43,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/runtime_control_client_gate.py",
+      "consumer_sha256": "9b8a30aff1bf3d829722b5b10038a5d5665c5f46dbf5b9b7185ac8ec9f93de7c",
+      "references": [
+        {
+          "line": 38,
+          "reference": "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/runtime_control_current_races_uat.py",
+      "consumer_sha256": "7547154ac53f734086aa45a8c88fd239f49c435f18d03d907c09c9369d4897d9",
+      "references": [
+        {
+          "line": 77,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/runtime_control_edit_eligibility_uat.py",
+      "consumer_sha256": "c3b1ec42adac59fa114b958cae430f32f106c8291696913e7d84a27dca582511",
+      "references": [
+        {
+          "line": 43,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/runtime_control_inventory.py",
+      "consumer_sha256": "8b2cbc5c43cc9dfe9c168039e09c46f6cff03a24b5e3fdb51aa640863159bf86",
+      "references": [
+        {
+          "line": 79,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/runtime_control_source_gate.py",
+      "consumer_sha256": "006380d1af415063be46e386090e715a9ad3abc4e83e3c327da60992f34dd9c1",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/runtime-controls-2026-09-30/source-candidate/control-spec.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 9,
+          "reference": "docs/release/runtime-controls-2026-09-30/contracts/client-contract-v2.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 11,
+          "reference": "docs/release/runtime-controls-2026-09-30/inventory146-attempt1/inventory.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/rwanda_release_scope_test.py",
+      "consumer_sha256": "38979cef68e89171feccd4ab5c21d8f3d3e7d37917b8d426f118386c4f59387f",
+      "references": [
+        {
+          "line": 12,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 59,
+          "reference": "docs/release/RELEASE_BLOCKERS.md",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/schema_clone_column_acl_uat.py",
+      "consumer_sha256": "1a8bac983bbfb8bbf53b81e6e4f0ab85fec6e97a61cd7dd94ba0ad98cbb0a362",
+      "references": [
+        {
+          "line": 47,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/signed_otp_recovery_fixture_restore.py",
+      "consumer_sha256": "9aac6b936c888052c7ecee16cf0bca9844e5964a631a7b38d05bff6e9b6dc47b",
+      "references": [
+        {
+          "line": 79,
+          "reference": "docs/release/otp-uncertain-recovery-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 96,
+          "reference": "docs/release/otp-uncertain-recovery-2026-09-30",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/signed_otp_recovery_upgrade_uat.py",
+      "consumer_sha256": "1e7b8fb9e78afac78e9bba1150f1ce352344fc9426651baddcf67b44fd9beb3c",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/otp-uncertain-recovery-2026-09-30/sources/legacy-signed-otp-limits-v2.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/staged_bundle_upgrade_uat.py",
+      "consumer_sha256": "f94280aadb4d4dd196f1f458ef294a5a4081e77787a90a88b09a218d1548d354",
+      "references": [
+        {
+          "line": 126,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/staged_runtime_installation.py",
+      "consumer_sha256": "7cdb12169f3d41ca35f5d21d10d450f12eb48487ce32fe70fc71c2503d6cfee0",
+      "references": [
+        {
+          "line": 203,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/staged_runtime_installation_guards.py",
+      "consumer_sha256": "214baf761d819abe39ae8cba2d9b3499fd66d2df2d4fd366f3dfde35d1497557",
+      "references": [
+        {
+          "line": 19,
+          "reference": "docs/release",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/test_collect_release_candidate.py",
+      "consumer_sha256": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592",
+      "references": [
+        {
+          "line": 76,
+          "reference": "docs/release/raw-customer.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/test_final_flutter_declared_inputs.py",
+      "consumer_sha256": "6edf2cdec5f1226de250ef174d285e11a2b48527605c08e4684f364935cc85ef",
+      "references": [
+        {
+          "line": 12,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 17,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 22,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 25,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 28,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 29,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 34,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 35,
+          "reference": "docs/release/admin-review/output-$name.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 41,
+          "reference": "docs/release/../../private.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": false,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/verify_financial_synthetic_restore.py",
+      "consumer_sha256": "89867adea04ef69223fc35a6beef0125a19e5007533c2469568a39416b93f44b",
+      "references": [
+        {
+          "line": 18,
+          "reference": "docs/release/financial-core-2026-09-28",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/verify_historical_financial_upgrade.py",
+      "consumer_sha256": "f035ac3256b541c513f632f12c9c1810fe6ce93c725c6b38c3ac3c73ea7b4d0a",
+      "references": [
+        {
+          "line": 10,
+          "reference": "docs/release/financial-core-2026-09-28",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/tests/verify_historical_notification_upgrade.py",
+      "consumer_sha256": "5f7820387201261059714f6a5d7ef86a2640ad384ecde0733957c43d9511dbdc",
+      "references": [
+        {
+          "line": 24,
+          "reference": "docs/release/admin-notification-paging-2026-09-29",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 87,
+          "reference": "docs/release/financial-core-2026-09-28/historical-post-snapshot.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/uat_evidence_gate.sh",
+      "consumer_sha256": "ea6ba5826042c5c7fdf2ba722147b5fadb7889cebe80e9506e7ee15d4ec18dc3",
+      "references": [
+        {
+          "line": 7,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "scripts/uat_signoff_gate.sh",
+      "consumer_sha256": "260090e1b9799ef9a7350c54e4dbfbcef13602f14179df86f4674709db0e1c3e",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/UAT_EVIDENCE_MANIFEST.json}",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_automations_test.dart",
+      "consumer_sha256": "bc1b507e90e2b3c7bda051f1efbe686fabe77e9ba34331f9ae94196204ebbcbb",
+      "references": [
+        {
+          "line": 381,
+          "reference": "docs/release/collect-codex-2026-09-30/automations-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_email_login_test.dart",
+      "consumer_sha256": "10c606e02a0c1adc902eac1d76c1b323ec53a913cea7f9d2f7aceeab49cd73ca",
+      "references": [
+        {
+          "line": 428,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-${brightness.name}-synthetic.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_email_submit_paint_test.dart",
+      "consumer_sha256": "44d47c16592accc299d90cade7f68cdc3e9eeb7da37c966cf0798ae1498c6c66",
+      "references": [
+        {
+          "line": 231,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-${verify",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_exception_history_v2_models_test.dart",
+      "consumer_sha256": "f0438ca77aa8feafeb43c5f3dcaef9023e770cc23b43e29fb56c023b4fed918e",
+      "references": [
+        {
+          "line": 288,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_exception_models_test.dart",
+      "consumer_sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d",
+      "references": [
+        {
+          "line": 13,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-$name.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_exception_page_test.dart",
+      "consumer_sha256": "66e218e0893e00a631bcb6b4cdfd86ba1870422f988114ac61c71a88da97e7e9",
+      "references": [
+        {
+          "line": 872,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-exceptions/exceptions-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_exception_workflow_test.dart",
+      "consumer_sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f",
+      "references": [
+        {
+          "line": 20,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-$name.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_gateway_observed_test.dart",
+      "consumer_sha256": "a9d6f28ae8ee97a87a65617df21b1ccb1290abe95c9766d6bd7d7b8f4e85ea66",
+      "references": [
+        {
+          "line": 11,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/observed-$name.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_gateway_page_test.dart",
+      "consumer_sha256": "fc24d77db70873757a6958bcb22390e24d65b9c4d48daa9669b15a036378c97f",
+      "references": [
+        {
+          "line": 862,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-gateway-recovery/gateway-recovery-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 1191,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/gateway-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_investigation_test.dart",
+      "consumer_sha256": "ad13dc60b22527165586c539c8683cac6605931e2fca8c37d88575de7389bd73",
+      "references": [
+        {
+          "line": 370,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/investigation-sdk-${brightness.name}-synthetic.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_investigation_view_test.dart",
+      "consumer_sha256": "b306b89700e2c207b487bbca9500f30938f47e269227e82a2a20c9ad746f1363",
+      "references": [
+        {
+          "line": 141,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/investigation-backend/$name.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 461,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-investigation/investigation-${brightness.name}-synthetic.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_operator_approval_test.dart",
+      "consumer_sha256": "3bcc640968fb445515d8b53031cb118ef62a2d9da3ab444e8aa69d7c11f4503d",
+      "references": [
+        {
+          "line": 469,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-approval-${brightness.name}-synthetic.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_cancel_card_test.dart",
+      "consumer_sha256": "c2404b34d89a0099d96a047778565149bbbac5a960f17521bf4e0782c9251318",
+      "references": [
+        {
+          "line": 776,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-receipt-cancellation/receipt-cancellation-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_cancel_models_test.dart",
+      "consumer_sha256": "65d46e4684d3d78d8da775f15f862d802ea500a176e9ee07a324cfdd6a7de5bf",
+      "references": [
+        {
+          "line": 10,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-$name.json",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_deferral_test.dart",
+      "consumer_sha256": "53f33ba35dedd5ff52e2fe58ba1930f9b4fd0f6186d6eb0a7a8a3c531503b98a",
+      "references": [
+        {
+          "line": 23,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_operations_sdk_test.dart",
+      "consumer_sha256": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e",
+      "references": [
+        {
+          "line": 18,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_overview_test.dart",
+      "consumer_sha256": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f",
+      "references": [
+        {
+          "line": 583,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/admin-overview/overview-${brightness.name}-synthetic.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_principal_integration_test.dart",
+      "consumer_sha256": "c6d054fa1485f33dd079279cc8f9658f9e8e8f55773a7bf7e01938d2e7b4457f",
+      "references": [
+        {
+          "line": 23,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_principal_models_test.dart",
+      "consumer_sha256": "8625411e67c710916afd486bf40f225d0e584bc7bab822ac0a46c18f26bb2945",
+      "references": [
+        {
+          "line": 10,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_worker_health_test.dart",
+      "consumer_sha256": "2b38cda849fed9d74ef3e853832e618b2dc63910b401d0fafbe129badf69e8f9",
+      "references": [
+        {
+          "line": 22,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_worker_transport_models_test.dart",
+      "consumer_sha256": "2072e85531e51748d8c466cd9849d2de86aef2aaa5ffb3c090f5954bfddb1de8",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_receipt_worker_transport_test.dart",
+      "consumer_sha256": "a6706bd5dbc4cfb762bd31bbda2e266f6937bcf7cc7b28e3b87df8a44b293eef",
+      "references": [
+        {
+          "line": 21,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 111,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_reconciliation_ui_test.dart",
+      "consumer_sha256": "6baf814bcb2b45f69239adf5588486eb584a1c1900ea65c8cd84262697e3f8df",
+      "references": [
+        {
+          "line": 215,
+          "reference": "docs/release/reconciliation-ui-2026-09-30/screens/$name.png",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_roster_dialog_test.dart",
+      "consumer_sha256": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582",
+      "references": [
+        {
+          "line": 113,
+          "reference": "docs/release/admin-roster-recovery-2026-09-30/feature-revoked.png",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 183,
+          "reference": "docs/release/admin-roster-provenance-2026-09-30/roster-page-2-light.png",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 236,
+          "reference": "docs/release/admin-roster-recovery-2026-09-30/uncertain-submission.png",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        },
+        {
+          "line": 376,
+          "reference": "docs/release/admin-roster-provenance-2026-09-30/roster-compact-2x-errors.png",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/admin_shadow_runs_test.dart",
+      "consumer_sha256": "954a4aecf2d4d9e6029e3aff3539da955aa9c72e11127e6d5a6ad0c37cc566e4",
+      "references": [
+        {
+          "line": 775,
+          "reference": "docs/release/collect-codex-shadow-2026-09-30/shadow-history-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/core/notification_registration_recovery_test.dart",
+      "consumer_sha256": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd",
+      "references": [
+        {
+          "line": 441,
+          "reference": "docs/release/notification-recovery-ui-2026-09-30/settings-${dark",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/features/contribution_amount_accessibility_test.dart",
+      "consumer_sha256": "86c6418dd9ab5f64ce188af7fae71514980d0448358bc0599abac366f0cf8bd6",
+      "references": [
+        {
+          "line": 79,
+          "reference": "docs/release/critical-implementation-2026-10-01/product-payment-captures",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/fixtures/admin_entity_audit/provenance.json",
+      "consumer_sha256": "97db2aa9784b144d048388865501e3be4053f60e2bef45ffcacc88f5259206bf",
+      "references": [
+        {
+          "line": 6,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-exception.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 11,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-expiry.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 16,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-gateway.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 21,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-receipt.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 26,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-shadow.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 31,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/joined-operator-audit/sql-attempt5/observed-supervisor.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/fixtures/admin_operational_health150.json",
+      "consumer_sha256": "01043761767eea5b558415106da96b91db433fd7aa866063dabb8b6040ca578e",
+      "references": [
+        {
+          "line": 142,
+          "reference": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "writer_or_other_reference_needs_review"
+        }
+      ]
+    },
+    {
+      "consumer": "test/fixtures/observed_runtime_v2.json",
+      "consumer_sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+      "references": [
+        {
+          "line": 5,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 38,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 105,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 129,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 169,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/governed-settings-request-v2-20261001/proofs/attempt6/queries.log",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/release_docs_test.dart",
+      "consumer_sha256": "506c3ed2b8a63f757afe5a90199d963087a6d0b6cd36751529eb7a7c696ce9f5",
+      "references": [
+        {
+          "line": 218,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/security_hygiene_test.dart",
+      "consumer_sha256": "ac6a28b3358f1613a181ea823726e80380aa281037eff6aaa517b3d2e539bae1",
+      "references": [
+        {
+          "line": 123,
+          "reference": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "test/support/admin_exception_fixture.dart",
+      "consumer_sha256": "4f7ac29d058553965c7962016cde214b909d3425c702bf827cc5d5cf0efc2539",
+      "references": [
+        {
+          "line": 14,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-${empty",
+          "dynamic_or_directory": true,
+          "exact_target_exists": null,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/provenance.json",
+      "consumer_sha256": "9f611082bece1cb1c07b45b0f5050f7169f36a13914fcca72f805f6702bee0e1",
+      "references": [
+        {
+          "line": 12,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-lookup-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 17,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 22,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-input-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 27,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-lookup-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 32,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 37,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-active-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 42,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-expired-active-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 47,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-pages-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 52,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-revoked-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 57,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-in-progress-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 62,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-not-recorded-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 67,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-expired-active-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 72,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-expired-pending-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 77,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-input-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 82,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-lookup-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        },
+        {
+          "line": 87,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-v3.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    },
+    {
+      "consumer": "tools/collect-notification-mcp/src/unattended_source_busy.test.ts",
+      "consumer_sha256": "588a07e3a53c4ad95e3a223a04e6c6f3d1e3a27d863581b728febcbec3e4dd2d",
+      "references": [
+        {
+          "line": 8,
+          "reference": "docs/release/collect-codex-goal-2026-09-30/receipt-source-busy-20261001/accepted-sql/observed-busy-ensure.json",
+          "dynamic_or_directory": false,
+          "exact_target_exists": true,
+          "role": "potential_reader_or_validation_contract"
+        }
+      ]
+    }
+  ],
+  "skips": [],
+  "limits": [
+    "Static literal/directory reference scan; dynamic concatenation, indirectly imported metadata and arbitrary text-only report links need explicit review.",
+    "rg default ignore rules retained; ignored dependencies and generated builds are not maintained-code consumers.",
+    "Potential writer/reader labels are heuristics; deletion cannot proceed from them alone."
+  ],
+  "removed_files": 0
+}

@@ -1,0 +1,18 @@
+{
+  "input_count_before": 587,
+  "input_count_after": 587,
+  "changed_input_count": 2,
+  "test_assertions_changed": false,
+  "changed_inputs": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/app/router.dart",
+      "before_sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "after_sha256": "fa3f8c155d0771ee8e5025c89d99d9ede9db7d595db059f951d10cc2f505794c"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/shared/repositories/collect_repository.dart",
+      "before_sha256": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e",
+      "after_sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    }
+  ]
+}

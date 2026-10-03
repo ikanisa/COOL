@@ -1,0 +1,6 @@
+{
+  "guarded_source_unchanged_before_edit": true,
+  "before_sha256": "4ea3dba7fbce5fe2e153408298becb9a8eefdcaef965e576fb4c52f47f4c1194",
+  "after_sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+  "change": "Explicit dart:typed_data import for BytesBuilder only"
+}

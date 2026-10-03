@@ -1,0 +1,27 @@
+{
+  "applicable_dart_count": 710,
+  "at_utc": "2026-10-02T11:00:49.184613+00:00",
+  "complete_make_proof_executed": false,
+  "current_root_acceptance": false,
+  "final_complete_source_capture_and_make_held_for_root_batch_integration": true,
+  "root_source_unchanged_during_preparation": true,
+  "root_source_written": false,
+  "source_inputs": 863,
+  "status": "FIVE_CURRENT_FILE_FORMAT_PROPOSALS_PREPARED_ONLY",
+  "three_before_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+    "test/admin_receipt_history_labels_capture_test.dart": "237fb482065317736b3dafcb9b4f37c76da628dbd40c9bf6f185c6124c5f5baa",
+    "test/admin_sender_retention_browser_test.dart": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+    "test/admin_sender_retention_controller_test.dart": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+    "test/admin_sender_retention_models_test.dart": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0"
+  },
+  "three_proposed_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+    "test/admin_receipt_history_labels_capture_test.dart": "2f1fcb08b049e07e1a4c8bd99a488cf4d15269b20092b7e8bb6a8dad543bf890",
+    "test/admin_sender_retention_browser_test.dart": "e0cf4e9786235771fe0ef4290e4ebda42efce173480819d3feb040314d4caf3c",
+    "test/admin_sender_retention_controller_test.dart": "bf2b5b73ac2caf35361177d327b8bf5eafcb1406f720aaa7833ebecd47a2548a",
+    "test/admin_sender_retention_models_test.dart": "51028525a6ebc57a74fc6b93aebf6b44367e419980269778fc02cdd26d714ec4"
+  },
+  "whole_execution_bound_seconds": 720,
+  "whole_execution_elapsed_seconds_before_cleanup": 6.823477917001583
+}

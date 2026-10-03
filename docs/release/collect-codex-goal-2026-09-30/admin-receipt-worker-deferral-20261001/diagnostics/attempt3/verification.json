@@ -1,0 +1,39 @@
+{
+  "scope": "current Admin receipt-worker health, Automations and receipt-deferral integration",
+  "commands": [
+    {
+      "command": [
+        "dart",
+        "analyze",
+        "lib/admin/core/admin_receipt_worker_card.dart",
+        "lib/admin/core/admin_receipt_worker_health.dart",
+        "lib/admin/core/admin_automations_page.dart",
+        "test/admin_receipt_worker_health_test.dart"
+      ],
+      "returncode": 0,
+      "duration_seconds": 7.3
+    },
+    {
+      "command": [
+        "flutter",
+        "test",
+        "--no-pub",
+        "test/admin_receipt_worker_health_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_receipt_deferral_test.dart",
+        "--reporter",
+        "json"
+      ],
+      "returncode": 0,
+      "duration_seconds": 158.17
+    }
+  ],
+  "inputs": 2490,
+  "changed_inputs": [],
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "full_candidate_regression": false,
+  "accepted": false,
+  "interrupted_by_owner": true,
+  "reason": "Confirmed owned Flutter process was waiting in missing-role fixture: real runAsync awaited identity Future created in widget fake clock. SIGINT ended runner with code0; incomplete case coverage is not a passing run."
+}

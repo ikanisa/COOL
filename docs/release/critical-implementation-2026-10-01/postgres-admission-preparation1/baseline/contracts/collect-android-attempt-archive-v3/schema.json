@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "collect-android-attempt-archive-v3",
+  "description": "Shape only. CONTRACT and runtime require original UUID/device/hash binding, exactly2\u00d7N sorted unique references and genuine authenticated authority.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/acknowledgement"
+    },
+    {
+      "$ref": "#/$defs/lookup"
+    }
+  ],
+  "$defs": {
+    "acknowledgement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "device_id",
+        "attempt_id",
+        "fence_version",
+        "ok",
+        "code",
+        "archive_ack_id",
+        "receipt_id",
+        "body_sha256",
+        "destination_sha256",
+        "segment_count",
+        "callback_requests",
+        "recorded_at",
+        "replay",
+        "evidence_kind",
+        "carrier_proof",
+        "delivery_proven",
+        "send_authority"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "device_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "fence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "archive_ack_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receipt_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "destination_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "segment_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "callback_requests": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 20,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "callback_id",
+                  "request_id",
+                  "request_sha256"
+                ],
+                "properties": {
+                  "callback_id": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                  },
+                  "request_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recorded_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z$"
+        },
+        "replay": {
+          "type": "boolean"
+        },
+        "evidence_kind": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "carrier_proof": {
+          "const": false
+        },
+        "delivery_proven": {
+          "const": false
+        },
+        "send_authority": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "ok": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "code": {
+                "type": "null"
+              },
+              "archive_ack_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "receipt_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "callback_requests": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 20,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "callback_id",
+                    "request_id",
+                    "request_sha256"
+                  ],
+                  "properties": {
+                    "callback_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "request_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  }
+                }
+              },
+              "evidence_kind": {
+                "const": "complete_framework_callback_observations"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "code": {
+                "enum": [
+                  "CALLBACK_EVIDENCE_INCOMPLETE",
+                  "CALLBACK_EVIDENCE_UNCERTAIN",
+                  "ATTEMPT_ALREADY_ACKNOWLEDGED"
+                ]
+              },
+              "archive_ack_id": {
+                "type": "null"
+              },
+              "receipt_id": {
+                "type": "null"
+              },
+              "callback_requests": {
+                "type": "null"
+              },
+              "evidence_kind": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lookup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_request_id",
+        "outcome",
+        "recorded_result"
+      ],
+      "properties": {
+        "target_request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "outcome": {
+          "enum": [
+            "unknown",
+            "recorded"
+          ]
+        },
+        "recorded_result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/acknowledgement"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "recorded_result": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "recorded_result": {
+                "$ref": "#/$defs/acknowledgement"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "archive_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_id",
+        "fence_version",
+        "body_sha256",
+        "destination_sha256",
+        "callback_requests"
+      ],
+      "properties": {
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "fence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "destination_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "callback_requests": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "callback_id",
+              "request_id",
+              "request_sha256"
+            ],
+            "properties": {
+              "callback_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "request_id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "request_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "lookup_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_request_id"
+      ],
+      "properties": {
+        "target_request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        }
+      }
+    }
+  }
+}

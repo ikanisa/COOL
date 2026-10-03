@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "original_manifest_sha256": "fd5ce31ab81750e40a40213fa82981e7f298b120de3e018b45a02460cb43251a",
+  "original_members_verified": 50,
+  "canonical_promoted_files_verified": 17,
+  "source_hashes_match_proven_inputs": true,
+  "unrelated_canonical_edits_replaced": 0,
+  "owned_proof_sessions_terminal": true,
+  "full_candidate_pass": false
+}

@@ -1,0 +1,11 @@
+{
+  "SHA256SUMS_sha256": "0f941e413fcb0f207cb1bbe1fdca6a7ea401861f10ebb02e8b994d659fa62a03",
+  "actual_gradle_not_run": true,
+  "kind": "private_preparation_hash_seal",
+  "maintained_APP_source_not_mutated": true,
+  "packet_sha256": "aab64b13e26369a4cd33d83e92b56f3801c254886b16b4c58e78c6f8713fcda2",
+  "payload_file_count": 71,
+  "production_release_approval": false,
+  "schema_version": 1,
+  "sealed_at_utc": "2026-10-02T14:49:12.896237+00:00"
+}

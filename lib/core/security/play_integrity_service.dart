@@ -4,6 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../data/exact_json_values.dart';
+
 class PlayIntegrityUnavailable implements Exception {
   const PlayIntegrityUnavailable(this.code, this.message);
 
@@ -25,9 +27,12 @@ class PlayIntegrityVerdict {
     return PlayIntegrityVerdict(
       status: (map['status'] as String?) ?? 'unknown',
       nativeCapability: map['native_capability'] as String?,
-      capabilityExpiresAt: DateTime.tryParse(
-        (map['capability_expires_at'] as String?) ?? '',
-      ),
+      capabilityExpiresAt: map['capability_expires_at'] == null
+          ? null
+          : exactJsonTimestamp(
+              map['capability_expires_at'],
+              field: 'native_capability.expires_at',
+            ),
     );
   }
 
@@ -117,9 +122,13 @@ class PlayIntegrityService {
     required String nonce,
     required String receiverMomoNumberHash,
     required Map<String, Object?> groupRequest,
+    String? accessToken,
   }) async {
     final response = await supabase.functions.invoke(
       'verify-play-integrity',
+      headers: accessToken == null
+          ? null
+          : {'Authorization': 'Bearer $accessToken'},
       body: {
         'action': 'group.create',
         'request_hash': requestHash,

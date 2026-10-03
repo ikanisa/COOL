@@ -1,0 +1,167 @@
+{
+  "observed_at_utc": "2026-10-02T03:04:13.051694+00:00",
+  "commands": [
+    {
+      "label": "supervisor",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "--type",
+        "container",
+        "6d2d7d9a335d1ed37f5c7f865a09a9649f88723632d32569a822f984c14437b7"
+      ],
+      "deadline_seconds": 15,
+      "exit_code": 1,
+      "confirmed_exact_absent": true,
+      "stderr": "Error response from daemon: No such container: 6d2d7d9a335d1ed37f5c7f865a09a9649f88723632d32569a822f984c14437b7\n",
+      "stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "stderr_sha256": "7468eff908a1d32f7478b96f7d4ac28a51e74e59ca6771762538bd63cc5bd75f"
+    },
+    {
+      "label": "security",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "--type",
+        "container",
+        "collect_roster_decoder_9ad9f7507801_dependency_security"
+      ],
+      "deadline_seconds": 15,
+      "exit_code": 1,
+      "confirmed_exact_absent": true,
+      "stderr": "Error response from daemon: No such container: collect_roster_decoder_9ad9f7507801_dependency_security\n",
+      "stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "stderr_sha256": "721c931e3662cb09ec433655f9baf4f033983394a587a7cfb0c5c8cf12aac811"
+    }
+  ],
+  "new_image_container_query": {
+    "command": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "ps",
+      "--all",
+      "--filter",
+      "ancestor=sha256:4a39d0295cfe755a1d94d347e78f9ef39d91e0ab084f78d70e6bd424ae104086",
+      "--format",
+      "{{.ID}}"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "deadline_seconds": 15
+  },
+  "original_cleanup": {
+    "owned_live_pids_before_cleanup": [],
+    "killed_owned_groups": []
+  },
+  "observed_original_process_identities": {
+    "8720": {
+      "ppid": 8640,
+      "pgid": 8720,
+      "stat": "Ss",
+      "birth": "Fri Oct 2 04:56:37 2026"
+    },
+    "8829": {
+      "ppid": 8757,
+      "pgid": 8720,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:56:38 2026"
+    },
+    "8757": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:37 2026"
+    },
+    "8886": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:39 2026"
+    },
+    "9188": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:56:43 2026"
+    },
+    "9273": {
+      "ppid": 9263,
+      "pgid": 8720,
+      "stat": "R",
+      "birth": "Fri Oct 2 04:56:44 2026"
+    },
+    "9263": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:44 2026"
+    },
+    "9513": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:47 2026"
+    },
+    "9523": {
+      "ppid": 9513,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:47 2026"
+    },
+    "9945": {
+      "ppid": 8720,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:53 2026"
+    },
+    "10115": {
+      "ppid": 9945,
+      "pgid": 10115,
+      "stat": "Ss",
+      "birth": "Fri Oct 2 04:56:54 2026"
+    },
+    "10136": {
+      "ppid": 10115,
+      "pgid": 10115,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:56:54 2026"
+    },
+    "10851": {
+      "ppid": 9945,
+      "pgid": 10851,
+      "stat": "Ss",
+      "birth": "Fri Oct 2 04:56:57 2026"
+    },
+    "13322": {
+      "ppid": 9945,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:57:08 2026"
+    },
+    "14394": {
+      "ppid": 9945,
+      "pgid": 8720,
+      "stat": "S",
+      "birth": "Fri Oct 2 04:57:12 2026"
+    },
+    "15812": {
+      "ppid": 9945,
+      "pgid": 15812,
+      "stat": "Rs",
+      "birth": "Fri Oct 2 04:57:17 2026"
+    },
+    "16229": {
+      "ppid": 9945,
+      "pgid": 16229,
+      "stat": "Rs",
+      "birth": "Fri Oct 2 04:57:19 2026"
+    }
+  },
+  "birth_matched_processes": {},
+  "live_owned_processes": {},
+  "http_reported_closed_listeners": 14,
+  "scoped_cleanup_pass": true,
+  "new_local_image_retained": true,
+  "global_daemon_cleanup_claimed": false,
+  "prior_cleanup_classifier_failure_retained": true
+}

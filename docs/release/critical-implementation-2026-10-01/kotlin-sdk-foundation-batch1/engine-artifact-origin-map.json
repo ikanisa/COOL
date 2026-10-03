@@ -1,0 +1,219 @@
+{
+  "engine_revision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+  "host_branch": "macOS arm64; all-platform override disabled; Android snapshot host archives intentionally darwin-x64 per exact upstream source",
+  "objects": {
+    "android-arm-profile/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-arm-profile/darwin-x64.zip",
+      "bytes": 1126,
+      "fetched_utc": "2026-10-01T23:52:50.096758+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "aGK2CQ==",
+        "custom_metadata": null,
+        "generation": "1782261100073228",
+        "md5Hash": "4ym/ogLLAI9SubAIEpBwZQ==",
+        "size": "5339289"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-arm-profile%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-arm-profile_darwin-x64.json",
+      "sha256": "767ce01f3609ede3640d0c2ece70943a564413ffca77d7fac08bcfe92b7e8537",
+      "source_archive_name": "android-arm-profile/darwin-x64.zip"
+    },
+    "android-arm-release/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-arm-release/darwin-x64.zip",
+      "bytes": 1126,
+      "fetched_utc": "2026-10-01T23:52:50.097149+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "h90vRg==",
+        "custom_metadata": null,
+        "generation": "1782260994546323",
+        "md5Hash": "1nxJz79Q5OQ9ETGR/hHy+g==",
+        "size": "4474504"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-arm-release%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-arm-release_darwin-x64.json",
+      "sha256": "43c0cb3c3837ce385a35af5f6c5eb6317f2f4fd705f869144c11ef81909794f5",
+      "source_archive_name": "android-arm-release/darwin-x64.zip"
+    },
+    "android-arm64-profile/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-arm64-profile/darwin-x64.zip",
+      "bytes": 1134,
+      "fetched_utc": "2026-10-01T23:52:50.548807+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "IZEg3Q==",
+        "custom_metadata": null,
+        "generation": "1782261090090065",
+        "md5Hash": "fFdTt3LQN1sfSx9Slb5xQA==",
+        "size": "5467477"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-arm64-profile%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-arm64-profile_darwin-x64.json",
+      "sha256": "95fcf18c6ce33cd56999e2ca023f58735651ebbed914e5ee7b7be1f4b6989e2c",
+      "source_archive_name": "android-arm64-profile/darwin-x64.zip"
+    },
+    "android-arm64-release/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-arm64-release/darwin-x64.zip",
+      "bytes": 1134,
+      "fetched_utc": "2026-10-01T23:52:50.606293+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "twd94g==",
+        "custom_metadata": null,
+        "generation": "1782261206472267",
+        "md5Hash": "mEi24K4QViKwLn/VFYtbaA==",
+        "size": "4599693"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-arm64-release%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-arm64-release_darwin-x64.json",
+      "sha256": "f1cc0c27791b45dc11a70229dc530f8656965695d5da6d900128d724091db85a",
+      "source_archive_name": "android-arm64-release/darwin-x64.zip"
+    },
+    "android-x64-profile/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-x64-profile/darwin-x64.zip",
+      "bytes": 1126,
+      "fetched_utc": "2026-10-01T23:52:50.606577+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "Dq9YAQ==",
+        "custom_metadata": null,
+        "generation": "1782261226116180",
+        "md5Hash": "3T4I3sOKhuLkQf9LQ1bb9A==",
+        "size": "5451344"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-x64-profile%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-x64-profile_darwin-x64.json",
+      "sha256": "242a69478fefa252efc563b5353d8ec411dd1b9f9024a6fe95d1df2c689c6a93",
+      "source_archive_name": "android-x64-profile/darwin-x64.zip"
+    },
+    "android-x64-release/darwin-x64.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/android-x64-release/darwin-x64.zip",
+      "bytes": 1126,
+      "fetched_utc": "2026-10-01T23:52:50.610172+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "IeORhQ==",
+        "custom_metadata": null,
+        "generation": "1782261037671650",
+        "md5Hash": "zNA/5vafeUq75Slb3Rdp/w==",
+        "size": "4582902"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fandroid-x64-release%2Fdarwin-x64.zip",
+      "retained_file": "engine-object-android-x64-release_darwin-x64.json",
+      "sha256": "76639b61a4010b45f54c676415c4c37bf4484b03e500feb0c5f9769e3b59b2b8",
+      "source_archive_name": "android-x64-release/darwin-x64.zip"
+    },
+    "darwin-arm64/artifacts.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/darwin-arm64/artifacts.zip",
+      "bytes": 1095,
+      "fetched_utc": "2026-10-01T23:52:50.042869+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "AEEy3Q==",
+        "custom_metadata": null,
+        "generation": "1782261087391248",
+        "md5Hash": "bSAqXrSInIDzsk02/Fl2Jw==",
+        "size": "35904435"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdarwin-arm64%2Fartifacts.zip",
+      "retained_file": "engine-object-darwin-arm64_artifacts.json",
+      "sha256": "a4cd62a34abe9204b92d463fa76e1e77ba4dd49fa371028a735b42394b41eba4",
+      "source_archive_name": "darwin-arm64/artifacts.zip"
+    },
+    "darwin-arm64/font-subset.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/darwin-arm64/font-subset.zip",
+      "bytes": 1102,
+      "fetched_utc": "2026-10-01T23:52:50.096284+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "NlTI9Q==",
+        "custom_metadata": null,
+        "generation": "1782261198193908",
+        "md5Hash": "z4dluKVJhNc69oOaSqiQzA==",
+        "size": "2320688"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdarwin-arm64%2Ffont-subset.zip",
+      "retained_file": "engine-object-darwin-arm64_font-subset.json",
+      "sha256": "e123aae586e871a2ad37a1294503a89cb68736d9ed42999ada477e2690e1cfe5",
+      "source_archive_name": "darwin-arm64/font-subset.zip"
+    },
+    "flutter_gpu.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_gpu.zip",
+      "bytes": 1044,
+      "fetched_utc": "2026-10-01T23:52:49.325135+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "MeU09A==",
+        "custom_metadata": null,
+        "generation": "1782260997054474",
+        "md5Hash": "LQ/4G8hdsZCUfYe01Sjscg==",
+        "size": "49085"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_gpu.zip",
+      "retained_file": "engine-object-flutter_gpu.json",
+      "sha256": "facd52b7f0f6ae1bbfac7d458ee3a7c173cafc127034c5fbf7c2225d40b9dfc4",
+      "source_archive_name": "flutter_gpu.zip"
+    },
+    "flutter_patched_sdk.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_patched_sdk.zip",
+      "bytes": 1078,
+      "fetched_utc": "2026-10-01T23:52:49.325422+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "hevZVg==",
+        "custom_metadata": null,
+        "generation": "1782260597244055",
+        "md5Hash": "Z8N62aObAj67JKJYcJLbfA==",
+        "size": "3970206"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_patched_sdk.zip",
+      "retained_file": "engine-object-flutter_patched_sdk.json",
+      "sha256": "c004644810fb1b18cf230f8c5dfe78f520ba9610d6dfaeee48821ca207481fe9",
+      "source_archive_name": "flutter_patched_sdk.zip"
+    },
+    "flutter_patched_sdk_product.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_patched_sdk_product.zip",
+      "bytes": 1110,
+      "fetched_utc": "2026-10-01T23:52:49.325514+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "0E6MxA==",
+        "custom_metadata": null,
+        "generation": "1782260196394293",
+        "md5Hash": "9wQC3YlPGCx0JToJxXsegQ==",
+        "size": "3970187"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_patched_sdk_product.zip",
+      "retained_file": "engine-object-flutter_patched_sdk_product.json",
+      "sha256": "8e8b0fdba10b0372e1c926a09f379f3615bd57d10d4a08f24edb0e62c2cf6cba",
+      "source_archive_name": "flutter_patched_sdk_product.zip"
+    },
+    "sky_engine.zip": {
+      "artifact_url": "https://storage.googleapis.com/flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/sky_engine.zip",
+      "bytes": 1042,
+      "fetched_utc": "2026-10-01T23:52:49.324360+00:00",
+      "http_status": 200,
+      "metadata": {
+        "crc32c": "jVPWNA==",
+        "custom_metadata": null,
+        "generation": "1782260990797307",
+        "md5Hash": "ur+pNjqWYDwvvjQt6kfEhw==",
+        "size": "1539321"
+      },
+      "object_metadata_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fsky_engine.zip",
+      "retained_file": "engine-object-sky_engine.json",
+      "sha256": "c33c783e7f9f41c771e9df75ba6b9d55102f6eb33d6601f25c5e5bafb2073a2d",
+      "source_archive_name": "sky_engine.zip"
+    }
+  },
+  "scope": "Primary object metadata only; standalone bodies not downloaded or authenticated. MD5/CRC32C fields are publisher metadata, not independent SHA256/signature proof or execution/ABI acceptance.",
+  "source_bindings": {
+    "android_gen_snapshot": "flutter_cache.dart:388-400,896-902",
+    "base_url": "cache.dart:1033-1046",
+    "common_host": "flutter_cache.dart:266-282",
+    "font_subset": "flutter_cache.dart:775-790",
+    "packages": "flutter_cache.dart:264"
+  },
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+}

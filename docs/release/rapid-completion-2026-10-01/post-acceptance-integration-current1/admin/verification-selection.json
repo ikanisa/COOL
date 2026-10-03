@@ -1,0 +1,69 @@
+{
+  "browser": {
+    "command_after_freeze": "COLLECT_BROWSER_SOURCE_ROOT=<newimmutablecandidate> COLLECT_BROWSER_BUILD_ROOT=<newisolatedbuildcopy> COLLECT_BROWSER_FLUTTER=<cachedSDK>/bin/flutter node <newisolatedbuildcopy>/scripts/qa/current_browser_lifecycle.mjs <newimmutablecandidate>/.cache/lifecycle-integration-current1",
+    "existing_check_count": 88,
+    "expected_existing_route_states": {
+      "authenticated-email-owner": 28,
+      "signed-out": 28
+    },
+    "harness": "scripts/qa/current_browser_lifecycle.mjs",
+    "one_lifecycle_command": true,
+    "one_production_admin_build": true,
+    "package_cache": ".cache/current-admin-browser-build-current2/.dart_tool/{package_config.json,package_graph.json}",
+    "prior_finalize": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current2/finalize.py",
+    "prior_prepare": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current2/prepare.py",
+    "prior_receipt": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current2/browser-acceptance.json",
+    "scope": "Current production Admin bundle plus tab/session/cache/offline/update/install lifecycle. New feature positive/uncertain semantics established by affected SDK/widget/SQL decoder cases. No external credentials.",
+    "sdk": ".cache/flutter-sdk-isolated-admin-browser-current1"
+  },
+  "explicit_limits": [
+    "No live file edits or test/build launch at this planning stage",
+    "Prior resource patch requires rebase onto peer sticky route guards",
+    "No changing-live/current artifact acceptance inferred from prepared plan",
+    "No browser/static source guard weakening; exact legal/Public manifests and library additions captured at freeze",
+    "No fullFlutter/native/SQL repeats"
+  ],
+  "known_fixture_correction_needed": {
+    "file": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+    "issue": "Purported other escalation equals inboxRow(1) original UUID; use a distinct valid UUID under owner release",
+    "line": 421
+  },
+  "required_critical_states": [
+    "oversized codeunit/UTF8 recovery bounds, sanitized reload/no dispatch",
+    "inbox collapse and reopen invalidate held ACK",
+    "history button disabled during opening; no competing read",
+    "actual router departure and return suppress delayed modal/history pushes",
+    "permissions/loading/session/A-B-A suppress retained private rows and reset paired cursors",
+    "exact original ACK/fingerprint/uncertainty remains bound to old request",
+    "actual SQL observed history/inbox pages and actor/delivery provenance"
+  ],
+  "reusable_prior_cohorts_pending_transitive_match": [
+    "test/admin_entity_audit_page_test.dart",
+    "test/admin_exception_followup_sdk_test.dart",
+    "test/admin_exception_followup_v2_models_test.dart",
+    "test/admin_exception_history_v2_sdk_test.dart",
+    "test/admin_exception_workflow_sdk_test.dart"
+  ],
+  "selected_tests": [
+    "test/admin_entity_audit_links_test.dart",
+    "test/admin_exception_assignment_test.dart",
+    "test/admin_exception_workflow_test.dart",
+    "test/admin_exception_history_v2_models_test.dart",
+    "test/admin_exception_escalation_inbox_v2_models_test.dart",
+    "test/admin_exception_history_v2_page_test.dart",
+    "test/admin_exception_escalation_inbox_v2_test.dart"
+  ],
+  "selection_rationale": "Refresh current SQL bridge DTO tests plus changed link/card consumers and two newly arrived history/inbox state cohorts. Reuse unchanged transport/model/page cases only after exact relevant source/helpers/SDK binding; refresh specific SDK cases if protocol source changes at freeze.",
+  "source_hygiene": {
+    "fatal_analysis": "dart analyze --fatal-infos lib/admin plus seven selected tests; transitive shared imports resolve on one captured candidate",
+    "formatter": "Nonwriting format on touched production/test files",
+    "no_full_flutter_suite": true
+  },
+  "sql_reuse": {
+    "bounded37": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-read-provenance.json",
+    "do_not_run_sql": true,
+    "original100": "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-current/readback.json",
+    "owner_result": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json"
+  },
+  "stage": "prepared_read_only_waiting_root_ownership_release_and_candidate_freeze"
+}

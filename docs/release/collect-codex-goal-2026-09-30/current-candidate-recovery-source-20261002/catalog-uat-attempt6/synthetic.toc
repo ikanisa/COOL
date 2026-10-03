@@ -1,0 +1,39 @@
+;
+; Archive created at 2026-10-02 00:26:09 UTC
+;     dbname: postgres
+;     TOC Entries: 29
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 17.6
+;     Dumped by pg_dump version: 17.6
+;
+;
+; Selected TOC Entries:
+;
+7; 2615 16395 SCHEMA - auth postgres
+8; 2615 16396 SCHEMA - receipt_worker_private postgres
+6; 2615 16387 SCHEMA - supabase_migrations postgres
+856; 1247 16399 TYPE receipt_worker_private outcome postgres
+859; 1247 16404 DOMAIN receipt_worker_private positive_amount postgres
+224; 1255 16427 FUNCTION receipt_worker_private guard() postgres
+3402; 0 0 ACL receipt_worker_private FUNCTION guard() postgres
+222; 1259 16412 TABLE public receipts postgres
+221; 1259 16406 TABLE receipt_worker_private events postgres
+3403; 0 0 ACL receipt_worker_private TABLE events postgres
+223; 1259 16429 VIEW public receipt_evidence postgres
+220; 1259 16388 TABLE supabase_migrations schema_migrations postgres
+3394; 0 16412 TABLE DATA public receipts postgres
+3393; 0 16406 TABLE DATA receipt_worker_private events postgres
+3392; 0 16388 TABLE DATA supabase_migrations schema_migrations postgres
+3241; 2606 16419 CONSTRAINT public receipts receipts_pkey postgres
+3238; 2606 16411 CONSTRAINT receipt_worker_private events events_pkey postgres
+3236; 2606 16394 CONSTRAINT supabase_migrations schema_migrations schema_migrations_pkey postgres
+3239; 1259 16425 INDEX public receipt_event_idx postgres
+3243; 2620 16428 TRIGGER public receipts guard postgres
+3242; 2606 16438 FK CONSTRAINT public receipts receipts_event_id_fkey postgres
+3390; 0 16406 ROW SECURITY receipt_worker_private events postgres
+3391; 3256 16426 POLICY receipt_worker_private events reader postgres
+2066; 826 16397 DEFAULT ACL receipt_worker_private DEFAULT PRIVILEGES FOR TABLES postgres

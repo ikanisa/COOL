@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-10-01T15:23:50.971268+00:00",
+  "preparer_exit_code": 1,
+  "bound_seconds": 300,
+  "archive_partial_bytes": 51019157,
+  "archive_partial_sha256": "c413129f5ffc2af8ef8e4eddb72a3910ed994be2bdf8f85578a9c6a486079ca4",
+  "archive_extracted": false,
+  "compiler_started": false,
+  "external_original_preserved": "/Users/jeanbosco/.codex/tmp/collect-android-native-proof-20261001",
+  "failure_detail": "staging-failure.json",
+  "transport_stderr": "attempt1-OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.12.1_1.tar.gz.fetch.stderr"
+}

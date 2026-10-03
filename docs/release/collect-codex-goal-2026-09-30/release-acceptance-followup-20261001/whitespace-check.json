@@ -1,0 +1,16 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check",
+    "--",
+    ".github",
+    "tools/collect-notification-mcp/src/session_renewal.ts",
+    "tools/collect-notification-mcp/src/session_renewal.test.ts",
+    "tools/collect-notification-mcp/src/operator_login.ts",
+    "tools/collect-notification-mcp/src/operational_client.ts",
+    "tools/collect-notification-mcp/src/operational_client.test.ts"
+  ],
+  "exit_code": 0,
+  "output_empty": true
+}

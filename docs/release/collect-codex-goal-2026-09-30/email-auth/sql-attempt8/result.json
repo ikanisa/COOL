@@ -1,0 +1,425 @@
+{
+  "kind": "current_email_scope_schema153_subset",
+  "started_at": "2026-09-30T22:29:09.344728+00:00",
+  "hosted_written": false,
+  "shared_source_written": false,
+  "source_rows_copied": false,
+  "otp_sent": false,
+  "signed_jwt_provider_tested": false,
+  "full_hosted_upgrade_tested": false,
+  "cases": [
+    {
+      "name": "supabase/migrations/20260930213000_operator_email_auth.sql preserves nonempty financial/receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930220527_operator_email_cutover_guard.sql preserves nonempty financial/receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230100_receipt_backlog_events.sql preserves nonempty financial/receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230200_admin_receipt_overview.sql preserves nonempty financial/receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves nonempty financial/receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "authenticated cannot invoke privileged email reservation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot invoke privileged email reservation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service cannot reserve another email/account",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "selected reservation does not verify email",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unverified reserved email has no approved identity",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old session predating email approval/grant is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "verified fresh approved email reads actual Overview contract",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual Admin identity uses email-approved owner authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reservation replay does not change approval age",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "versioned email approval read is exact, masked and active",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "legacy list state identifies approved email as active without a phone label",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unverified email with user_metadata claim cannot be approved",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "mismatched verified email cannot be approved",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "owner cannot approve own email again",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner cannot revoke own email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "verified target email approval is exact and normalized",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email approval replay preserves age and does not duplicate audit",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "different email account revocation has an exact bound receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email revoke cannot acknowledge an account with only WhatsApp approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "operator_email_approval_unavailable"
+      }
+    },
+    {
+      "name": "approval read requires its independent current permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "approval mutation requires its independent current permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "revocation mutation requires its independent current permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot inspect operator approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "approval read cannot enumerate an absent account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "revoked email record prevents legacy phone fallback during transition",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "legacy approval remains compatible only during transition",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email enrollment prevents new legacy approvals even during transition",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "another operator sees pending verification without granting access",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email changes denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email becomes unverified denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email approval revoked denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "approval expires denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "grant revoked denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "session expires denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "account banned denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "required permission revoked denies fresh email authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "queued legacy approval is refused after concurrent email cutover commits",
+      "status": "pass",
+      "detail": {
+        "actually_waited_on_lock": true,
+        "denied_after_cutover_commit": true,
+        "legacy_approval_unchanged": true
+      }
+    },
+    {
+      "name": "email-only cutover requires current verified email operator",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "verified email cutover succeeds",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old phone operator cannot access after cutover",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "email owner remains eligible after cutover",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "stale legacy approval dialog is refused after email cutover",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "operator_legacy_approval_disabled"
+      }
+    },
+    {
+      "name": "service bootstrap cannot restore WhatsApp approval after email cutover",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "email mode read explicitly disables legacy WhatsApp approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "sensitive reconciliation keeps aal2 requirement",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private approval/policy tables retain RLS and no API select",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "only bound Rwanda route observation is classified as a transaction",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pending source remains parsing/verification evidence only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private scope helper cannot be probed directly",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "journal unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payments unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "sms_outbox unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "sms_attempts unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "push_attempts unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "sms_heartbeats unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "push_deliveries unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "momo_journal_lines unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "momo_balance_snapshots unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "collection_balances unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "member_balances unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payment_provider_confirmations unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payment_provider_rejections unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "payment_allocations unchanged by email transition and read matrix",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "offline_target": {
+    "container_id": "99c99c61ee7f30de15207509945928b200df70f88422dc2c4ae08699d9b524c7",
+    "container_name": "collect_current_rehearsal_root_email_subset_14080933fd5f",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "target_guard_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+  },
+  "runner_sha256": "6563b3e60b6ad0ea4a1b536e161f84882e65f34fdea6f1383a4a59203830ccca",
+  "baseline": {
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "migration_count_at_capture": 153
+  },
+  "source_still_matches_executed_bytes": true,
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T22:30:56.063255+00:00"
+}

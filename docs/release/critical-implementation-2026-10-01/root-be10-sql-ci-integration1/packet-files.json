@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "before/.github/workflows/ci.yml",
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+      "bytes": 23831
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "92bad7d32d2b36ef98fe7405476319723d9c99f0dfe33bfa9e0aeb487e9ebc38",
+      "bytes": 1475
+    }
+  ]
+}

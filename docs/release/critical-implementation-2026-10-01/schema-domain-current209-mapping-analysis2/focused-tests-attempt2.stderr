@@ -1,0 +1,26 @@
+test_alias_normalization_refuses_qualified_quoted_and_custom_types_first (__main__.LineageTests.test_alias_normalization_refuses_qualified_quoted_and_custom_types_first) ... ok
+test_all49_original_test_bytes_and_assertion_ASTs_preserved (__main__.LineageTests.test_all49_original_test_bytes_and_assertion_ASTs_preserved) ... ok
+test_changed_reviewed_source_program_refuses (__main__.LineageTests.test_changed_reviewed_source_program_refuses) ... ok
+test_constant_copy_effect_scope_does_not_taint_unrelated_names (__main__.LineageTests.test_constant_copy_effect_scope_does_not_taint_unrelated_names) ... ok
+test_current209_retains_only_uninterrupted_fixture_case (__main__.LineageTests.test_current209_retains_only_uninterrupted_fixture_case) ... ok
+test_drop_before_installer_invalidates_predecessor (__main__.LineageTests.test_drop_before_installer_invalidates_predecessor) ... ok
+test_fragment_or_unknown_execute_effects_are_unbounded (__main__.LineageTests.test_fragment_or_unknown_execute_effects_are_unbounded) ... ok
+test_later_known_definition_replaces_derived_body (__main__.LineageTests.test_later_known_definition_replaces_derived_body) ... ok
+test_later_multi_target_drop_invalidates_all_derived_overloads (__main__.LineageTests.test_later_multi_target_drop_invalidates_all_derived_overloads) ... ok
+test_later_unknown_signature_invalidates_old_derived_name (__main__.LineageTests.test_later_unknown_signature_invalidates_old_derived_name) ... ok
+test_loaded_helper_is_exact_captured_manifest_bytes (__main__.LineageTests.test_loaded_helper_is_exact_captured_manifest_bytes) ... ok
+test_missing_or_overloaded_roster_predecessor_refuses (__main__.LineageTests.test_missing_or_overloaded_roster_predecessor_refuses) ... ok
+test_nonliteral_patch_or_unreviewed_escape_refuses (__main__.LineageTests.test_nonliteral_patch_or_unreviewed_escape_refuses) ... ok
+test_opaque_before_reviewed_program_withholds_transform (__main__.LineageTests.test_opaque_before_reviewed_program_withholds_transform) ... ok
+test_opaque_do_cannot_revive_matching_final_hash (__main__.LineageTests.test_opaque_do_cannot_revive_matching_final_hash) ... ok
+test_patch_absent_or_duplicate_needle_refuses (__main__.LineageTests.test_patch_absent_or_duplicate_needle_refuses) ... ok
+test_qualified_unknown_alter_invalidates_source_and_destination (__main__.LineageTests.test_qualified_unknown_alter_invalidates_source_and_destination) ... ok
+test_self_contained34_case_hashes_and_controlled_lineage (__main__.LineageTests.test_self_contained34_case_hashes_and_controlled_lineage) ... ok
+test_unclosed_or_unknown_do_syntax_refuses (__main__.LineageTests.test_unclosed_or_unknown_do_syntax_refuses) ... ok
+test_unknown_modes_types_and_quoted_or_duplicate_names_refuse (__main__.LineageTests.test_unknown_modes_types_and_quoted_or_duplicate_names_refuse) ... ok
+test_unknown_wrapper_branch_identifier_and_template_refuse (__main__.LineageTests.test_unknown_wrapper_branch_identifier_and_template_refuse) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 15.707s
+
+OK

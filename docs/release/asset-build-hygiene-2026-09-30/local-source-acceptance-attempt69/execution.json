@@ -1,0 +1,191 @@
+{
+  "kind": "dated_source_tooling_acceptance_while_owners_finish",
+  "status": "fail",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt69",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt69/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 36.27,
+      "stdout_sha256": "a72b3376ac3fd3c6a96a697b25e067f14434ab83fb6d142948804ef7c849eb43",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.11,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.78,
+      "stdout_sha256": "ca3ea62aecbcde586049908164758acda09b107d4169f72fdb45cc272817d02b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 18.82,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "ruby",
+        "scripts/qa/dart_format.rb",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 27.68,
+      "stdout_sha256": "4085992ee5ad36053d2450ae8f22254c8d48ce5c02f37c1f73e1ab2149798633",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fatal-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 249.56,
+      "stdout_sha256": "2927059dd1a4233dca287c80cc6d82e57f3c522afa715ffbde5282b3627e0c3e",
+      "stderr_sha256": "b5ad9043509cfdc4429e884be376cc1595bffebefb7b023754cd86bdcb62fd97"
+    },
+    {
+      "name": "public-copy-responsive-regressions",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 121.98,
+      "stdout_sha256": "3f2b4c784a0fceb41d25b98c9ff0048dbf67a6e946bb7aa2779922bd61969b58",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Current immutable source export, source-only QA without providers, credentials, signing or release acceptance",
+  "native_source_file_count": 971,
+  "public_tooling_source_count": 466,
+  "export_source_changes": {},
+  "export_tooling_source_changes": {},
+  "original_checkout_drift": {
+    "lib/admin/admin_router.dart": {
+      "before": "ca01c0e74cde9dcca2b5a9549861554963769f89d0d2697cf9646990efe57cce",
+      "after": "6b5f9ecf848b303be2b6c5a7869f2583f209391ebc08bfe30ad2191d574d58c5"
+    },
+    "lib/admin/admin_shell.dart": {
+      "before": "3669fd162f86a87781c0710e8b4b3415b13db0742b1b0f710071631b1c51dc7f",
+      "after": "7e115237c874740c59f1b1306e9ac51a8196061ce9195e3b8f8b8e54806d2e1c"
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "before": "f7b977903a94159414ad8e3131f543036a131eaed3f1aaf32ace565a6cbcde5a",
+      "after": "ccad98b50274f6758804e432137d224921148b0c27f8490ceaf0da7917597ef4"
+    },
+    "lib/admin/core/admin_gateway_contracts.dart": {
+      "before": null,
+      "after": "fda63ade55253295d425d341adae50486468df7c4c24cf33babe69ae5d8177bf"
+    },
+    "lib/admin/core/admin_gateway_dialogs.dart": {
+      "before": null,
+      "after": "17e2562b84b40696fde9858fccfecda71718f0516836ce7ea5f537b3a05763db"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "before": "16ab16c09caec18081e00855adc9f1c1b5b1f76238e2731455566090706a40cc",
+      "after": "e1a95e05049ba6c53f25cb148f4d2a1505d3df937e4091b4b30b7ef6c63c6f4a"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "before": "87208108f8a7f0b3e60b044035d1df18dd28418919a3b608de3eae558a70d438",
+      "after": "e9e1c1ffc2ce88ab778b140a14f7bb0f0946451a04b764064dfefddcd227c022"
+    },
+    "lib/gateway/gateway_app.dart": {
+      "before": "8e1167d9e83e9f5dfa67e5cef50ba006c6d4a614cf2d5477a0763af76617256b",
+      "after": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39"
+    },
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "before": "c5afd997bd3852ae8e14066c9d65f41a969a8ee87c4ac852048a011675ce9f74",
+      "after": "a919b6122b28fb0698b3fca2f5198487fe0d52596757e1d4992c7209cc70204d"
+    },
+    "scripts/tests/admin_rls_snapshot_uat.py": {
+      "before": "a31479b3c0fb33c8ac021745b88cf701e7e71f1c59d25896967537639e050a59",
+      "after": "348a665f98a772e0fc8b91a00ba4ddc495d66b017020b01c0802beca3fb33959"
+    },
+    "scripts/tests/admin_sensitive_authority_uat.py": {
+      "before": "b3f6c01cd27e4a3b1cefb60af0015147fd40b17260a1fe25191ac67a4ae017a8",
+      "after": "817fbc534afdcf40567565f6f12a2688c5a1ca4ae950128f329f47a34b089d93"
+    },
+    "scripts/tests/collect_email_scope_uat.py": {
+      "before": "3baa094658088dfa49213be19e7974c98dee67eddb3147c73db767282af8e612",
+      "after": "6563b3e60b6ad0ea4a1b536e161f84882e65f34fdea6f1383a4a59203830ccca"
+    },
+    "scripts/tests/data_correctness_gate.py": {
+      "before": "982518060d9cb9ced27e70389ef3d19cfa8be36bd286848cb054120addaa14a7",
+      "after": "59849ddd8c91370a49dfbdcd9865a7cbcafefb0ce91b586d671c1c7c28314060"
+    },
+    "scripts/tests/data_correctness_sql_positive_history_uat.py": {
+      "before": "35ea4eedba0d005818c31bf0b5bdcfeb34026b8c2469a4c187157ba9b2813259",
+      "after": "3f4809f7528fe982c71a88b10cc12aaae04fab72574dc099d939c363b56a8184"
+    },
+    "scripts/tests/refresh_local_progress_register.py": {
+      "before": "b62ae30ac2c63eedcc52629a951952b02b5dee9f39f74f3c1da48bccda0815aa",
+      "after": "9c0a8942e982386b477755716389e0ca4ffcdc6e4f050cef015531e5fd91c6af"
+    },
+    "scripts/tests/staged_bundle_upgrade_uat.py": {
+      "before": "86d40d196eb04e0259acf216f060aa06ed746794250b40ea8fd7a05e2775e417",
+      "after": "8bcf0b69f9ea382448526fc4747420765cd3180b98817ba9f41e16887271a528"
+    },
+    "test/admin_email_submit_paint_test.dart": {
+      "before": null,
+      "after": "a07f270770ce46d33a9c73e1387f7a6a625ab340f124fa2bfa5e2baee69ea926"
+    },
+    "test/admin_gateway_contracts_test.dart": {
+      "before": null,
+      "after": "9dd62d0f2ae397eeb2fd8fa2271f718a64723715f19dd6bd2aae271080bba4ae"
+    },
+    "test/gateway/gateway_capture_test.dart": {
+      "before": "62686422a24a035ee0810198db69dbb5060e6ba0f479d2669a735c5b0d59f62e",
+      "after": "5b6d53facfc640a698b3dc096fd2ce0e6e2750e8138e3a8ec4d1f64537d75966"
+    },
+    "test/gateway/gateway_safety_test.dart": {
+      "before": "cd438c8c5b42f002df7618ee3a8a130bfe705f0a54f4bbd965f54e53519a91d6",
+      "after": "cf9fccebb5f659df4f2c9144c45a93ac49e8cf5be2dfd3f34e4f3d67506ed50f"
+    }
+  },
+  "entire_declared_application_and_tooling_scope_current": false,
+  "scope_drift_includes_additions_and_deletions": true,
+  "generated_package_binding_sha256": "4c127589ca759a3d94dc3806c98a3e6b6eed4d8abc927095e0ed75da326ce199",
+  "generated_plugin_binding_sha256": "5df16df3ab09b8786876a54e28f57194431f16f6341cb6517620f6755071cee5"
+}

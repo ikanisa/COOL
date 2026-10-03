@@ -1,0 +1,28 @@
+--- a/minimal-project/build.gradle
++++ b/minimal-project/build.gradle
+@@ -5,6 +5,7 @@
+ import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+ import org.gradle.api.artifacts.component.ModuleComponentSelector
+ import org.gradle.api.artifacts.result.ResolvedDependencyResult
++import org.gradle.api.artifacts.result.UnresolvedComponentResult
+ import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+ import org.gradle.api.artifacts.result.ResolvedArtifactResult
+ import org.gradle.maven.MavenModule
+@@ -169,7 +170,7 @@
+             def modules = components.findAll { it.id instanceof ModuleComponentIdentifier }.collect { it.id }
+             def poms = dependencies.createArtifactResolutionQuery().forComponents(modules)
+                 .withArtifacts(MavenModule, MavenPomArtifact).execute()
+-            poms.components.sort { it.id.displayName }.each { component ->
++            poms.resolvedComponents.sort { it.id.displayName }.each { component ->
+                 component.getArtifacts(MavenPomArtifact).each { artifact ->
+                     if (artifact instanceof ResolvedArtifactResult) {
+                         def id = component.id
+@@ -177,7 +178,7 @@
+                     } else record.errors << ('Unresolved POM: ' + artifact.id.displayName + ': ' + artifact.failure)
+                 }
+             }
+-            poms.unresolvedComponents.each { record.errors << ('Unresolved POM component: ' + it.id.displayName + ': ' + it.failure) }
++            poms.components.findAll { it instanceof UnresolvedComponentResult }.each { record.errors << ('Unresolved POM component: ' + it.id.displayName + ': ' + it.failure) }
+             if (record.poms.size() != modules.size()) record.errors << 'Selected module/POM count differs'
+             persistCheckpoint(output, record, 'selected-POM-results')
+             if (record.errors) throw new GradleException('POM metadata coverage incomplete')

@@ -1,0 +1,7 @@
+{
+  "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+  "before_sha256": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a",
+  "finding": "Two actual test-zone errors originate at the injected Future.error before a replacement identity observer attaches. Observe the replacement identity failure explicitly before releasing the old SDK read; keep public no-data assertions and no production change.",
+  "after_sha256": "1088d6f87a6908e42878a7de1d6bb0690961341264c8e4eeb6ed189129673120",
+  "pinned_formatter_applied": true
+}

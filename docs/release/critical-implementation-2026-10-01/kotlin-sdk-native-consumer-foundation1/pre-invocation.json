@@ -1,0 +1,25 @@
+{
+  "SDK_execution_authorized": false,
+  "free_bytes": 232443592704,
+  "minimum_free_bytes": 20350276001,
+  "new_root_absent": true,
+  "observed_UTC": "2026-10-02T02:34:38.539642+00:00",
+  "one_invocation_no_retry": true,
+  "physical_device": 16777232,
+  "physical_existing_ancestor": "/Users/jeanbosco/Library/Caches",
+  "preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "producing_argv_exact": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py",
+    "--stage",
+    "foundation",
+    "--prepared-manifest-sha256",
+    "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+    "--root-review-sha256",
+    "6c0a5990146965548066dad38137a44c99d44d61f1b0971909713178de590e3f"
+  ],
+  "root_admission_sha256": "6c0a5990146965548066dad38137a44c99d44d61f1b0971909713178de590e3f",
+  "stage_process_deadline_seconds": 600
+}

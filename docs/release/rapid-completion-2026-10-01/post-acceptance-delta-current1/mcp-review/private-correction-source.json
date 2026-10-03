@@ -1,0 +1,15 @@
+{
+  "files": {
+    "tools/collect-notification-mcp/src/unattended_host_tick.ts": {
+      "after_sha256": "dbdc86dd69dbb778a57ede83829ca9e9c589a65866177e4a12f3f432561d3942",
+      "before_sha256": "3d4853fc6f0e5e4d85a13320168818ce2adc0b9bac694d105965c306edee5199"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": {
+      "after_sha256": "8483c516aa9bf01e78c42f7213c546382bd4354a4288b87d87641669e3325ef4",
+      "before_sha256": "5dc0aa6249bcbd435739c228add45e1293552c9f9263f8907c4ef968039d99d1"
+    }
+  },
+  "patch_sha256": "a7965787a7fd07a79c08d5ee63b86b6ca3d7d0b752147a5cfe0275fcde2bfcfe",
+  "scope": "Private derivative only; immutable delta/live source untouched",
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/private-derivative/tools/collect-notification-mcp"
+}

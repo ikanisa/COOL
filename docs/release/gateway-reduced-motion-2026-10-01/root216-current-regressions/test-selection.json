@@ -1,0 +1,14 @@
+[
+  "test/app_shell_test.dart",
+  "test/security_hygiene_test.dart",
+  "test/release_docs_test.dart",
+  "test/features/runtime_component_contract_test.dart",
+  "test/admin_receipt_content_v2_test.dart",
+  "test/supabase_contract_test.dart",
+  "test/core/auth_fixture_token_test.dart",
+  "test/goldens/collect_core_surfaces_golden_test.dart",
+  "test/gateway/gateway_capture_test.dart",
+  "test/gateway/gateway_device_probe_test.dart",
+  "test/gateway/gateway_enrollment_lifecycle_test.dart",
+  "test/gateway/gateway_safety_test.dart"
+]

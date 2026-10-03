@@ -1,0 +1,11 @@
+--- a/test/admin_exception_escalation_inbox_v2_models_test.dart
++++ b/test/admin_exception_escalation_inbox_v2_models_test.dart
+@@ -331,7 +331,7 @@
+       expect(receipt.readAt, DateTime.utc(2026, 10, 1, 19, 30));
+       for (final patch in [
+         {'contract_version': 1},
+-        {'escalation_id': inboxExceptionId},
++        {'escalation_id': inboxRow(2)['escalation_id']},
+         {'read_at': '2026-10-01T18:59:59.999999Z'},
+         {'source_resolved': true},
+         {'payload': 'PRIVATE'},

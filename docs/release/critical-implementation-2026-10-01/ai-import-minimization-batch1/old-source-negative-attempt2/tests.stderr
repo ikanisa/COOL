@@ -1,0 +1,5 @@
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-import-minimization-batch1/old-source-negative-attempt2/source/supabase/functions/prepare-roster-import/handler_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-import-minimization-batch1/old-source-negative-attempt2/source/supabase/functions/_shared/openai_roster_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-import-minimization-batch1/old-source-negative-attempt2/source/supabase/functions/_shared/roster_response_policy_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-import-minimization-batch1/old-source-negative-attempt2/source/scripts/tests/roster_extraction_evaluation_test.ts
+error: Test failed

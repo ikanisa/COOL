@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "code": "DISPATCH_ARMED",
+  "replay": false,
+  "armed_at": "2026-10-01T12:07:33.228815Z",
+  "device_id": "ef7d3f40-f052-424d-9eae-aee51190ef6f",
+  "attempt_id": "bb9414f7-6407-460a-b5e6-7ae1b7269588",
+  "expires_at": "2026-10-01T12:08:01.999580Z",
+  "request_id": "00f7750a-e141-4d04-bd49-1059333f5cc3",
+  "carrier_proof": false,
+  "fence_version": 1,
+  "reservation_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "failed_before_build",
+  "observed_terminal_exit_code": 1,
+  "failure": "ValueError: Unknown dependency input kind",
+  "xcode_compilation_executed": false,
+  "cached_config_components_preserved": true,
+  "at_utc": "2026-10-01T09:14:27.508393+00:00"
+}

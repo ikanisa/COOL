@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 3.7336595419910736,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_current_evidence_index.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--index",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.json"
+  ],
+  "build_DB_provider_run": false,
+  "error_count": 2,
+  "exit_code": 1,
+  "facts_count": 90,
+  "file_set_count": 26,
+  "finished_at_utc": "2026-10-02T14:08:56.225356+00:00",
+  "index_sha256": "2a2e56609d0408ba9c12d7b8abe6caa99d0cc11253f9faa60a6bc672056d477b",
+  "index_unchanged_during_actual_read": true,
+  "outer_deadline_seconds": 65,
+  "reader_sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+  "started_at_utc": "2026-10-02T14:08:52.491529+00:00",
+  "status": "binding-drift-or-contradiction",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "032da4a61c23b95fd39c4c4e66999d8bf93260c659842d7085bc70f44754fbf1",
+  "timed_out": false
+}

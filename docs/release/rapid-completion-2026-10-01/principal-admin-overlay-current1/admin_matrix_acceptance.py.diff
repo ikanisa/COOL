@@ -1,0 +1,26 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/admin_matrix_acceptance.py.before	2026-10-01 14:56:32
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/admin_matrix_acceptance.py	2026-10-01 16:02:49
+@@ -107,7 +107,23 @@
+       for name in ['detail-deferred', 'detail-source-cleared', 'detail-handled',
+                    'detail-superseded', 'detail-backlog-deferred', 'detail-backlog-handled',
+                    'event-inbox', 'backlog-inbox']],
++)
++
++# Exact principal v3 observed JSON projection inputs; fail closed if any is
++# absent. These fixtures establish client decoding only, not fresh SQL proof.
++CURRENT_ADMIN_DECODER_INPUTS += tuple(
++    'docs/release/collect-codex-goal-2026-09-30/'
++    'receipt-operations-enrollment-workflow-20261001/sql/attempt3/'
++    f'observed-{name}-v3.json'
++    for name in (
++        'activate-lookup', 'activate', 'enroll-input', 'enroll-lookup', 'enroll',
++        'identity-active', 'identity-expired-active', 'identity-pages',
++        'identity-revoked', 'in-progress', 'not-recorded',
++        'revoke-expired-active', 'revoke-expired-pending', 'revoke-input',
++        'revoke-lookup', 'revoke',
++    )
+ )
++
+ CONFIG += CURRENT_ADMIN_DECODER_INPUTS
+ 
+ 

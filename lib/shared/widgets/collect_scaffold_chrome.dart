@@ -527,32 +527,38 @@ class CollectHeroQuickActionRow extends StatelessWidget {
     final scaler = MediaQuery.textScalerOf(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        var useTwoColumns = scaler.scale(1) > 1.3;
-        if (!useTwoColumns && actions.length > 2) {
-          final itemWidth =
-              (constraints.maxWidth -
-                  CollectSpacing.x2 * (actions.length - 1)) /
-              actions.length;
-          final style = Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontWeight: CollectTypography.weightRegular,
-            letterSpacing: CollectTypography.trackingDefault,
-          );
-          // Keep whole words readable at compact widths without shrinking text.
-          // Multiword labels may still wrap at their natural spaces.
-          for (final action in actions) {
-            for (final word in action.label.trim().split(RegExp(r'\s+'))) {
-              final painter = TextPainter(
-                text: TextSpan(text: word, style: style),
-                textDirection: Directionality.of(context),
-                textScaler: scaler,
-              )..layout();
-              useTwoColumns |= painter.width > itemWidth;
-              painter.dispose();
+        final enlarged = scaler.scale(1) > 1.3;
+        var columns = enlarged && actions.length > 2 ? 2 : actions.length;
+        final style = Theme.of(context).textTheme.bodySmall?.copyWith(
+          fontWeight: CollectTypography.weightRegular,
+          letterSpacing: CollectTypography.trackingDefault,
+        );
+        var longestWordWidth = 0.0;
+        // Reduce columns until whole words fit, including at enlarged text.
+        // Labels retain natural wrapping and height rather than shrinking.
+        for (final action in actions) {
+          for (final word in action.label.trim().split(RegExp(r'\s+'))) {
+            final painter = TextPainter(
+              text: TextSpan(text: word, style: style),
+              textDirection: Directionality.of(context),
+              textScaler: scaler,
+            )..layout();
+            if (painter.width > longestWordWidth) {
+              longestWordWidth = painter.width;
             }
+            painter.dispose();
           }
         }
-        if (useTwoColumns) {
-          final itemWidth = (constraints.maxWidth - CollectSpacing.x2) / 2;
+        while (columns > 1 &&
+            longestWordWidth >
+                (constraints.maxWidth - CollectSpacing.x2 * (columns - 1)) /
+                    columns) {
+          columns = columns > 2 ? 2 : 1;
+        }
+        if (columns > 0 && (enlarged || columns < actions.length)) {
+          final itemWidth =
+              (constraints.maxWidth - CollectSpacing.x2 * (columns - 1)) /
+              columns;
           return Wrap(
             spacing: CollectSpacing.x2,
             runSpacing: CollectSpacing.x3,
@@ -636,8 +642,6 @@ class _CollectHeroQuickActionButton extends StatelessWidget {
                     fontWeight: CollectTypography.weightRegular,
                     letterSpacing: CollectTypography.trackingDefault,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

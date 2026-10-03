@@ -1,0 +1,24 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 1.78,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    }
+  ],
+  "completed_at": "2026-10-01T10:40:51.522288+00:00",
+  "failure": "Fresh native dependency destination required",
+  "provider_credentials_supplied": false,
+  "source_file_count": 1557,
+  "status": "fail"
+}

@@ -1,0 +1,31 @@
+{
+  "status": "missing_private_publisher_receipt",
+  "full_invocations": 1,
+  "elapsed_seconds": 17.494855417000508,
+  "runner_contracts": 77,
+  "frozen_dependency_cache": "passed",
+  "type_files": 86,
+  "type_result": "pass",
+  "unit_files": 32,
+  "unit_tests": 643,
+  "unit_steps": 32,
+  "unit_failed": 0,
+  "unit_ignored": 0,
+  "http_checks": 103,
+  "http_failed": 0,
+  "original91_order_retained": true,
+  "new12_approval_denials_passed": true,
+  "http_owned_listeners_reported_closed": 14,
+  "blocked_provider_attempts": [
+    "https://graph.facebook.com/v25.0/1234/messages",
+    "https://graph.facebook.com/v25.0/1234/messages",
+    "https://graph.facebook.com/v25.0/1234/messages"
+  ],
+  "Linux_preparation": "helper failed closed opening absent CLI publisher receipt before context/build/runtime",
+  "docker_build_linux_signed_regressions_security": "not reached",
+  "Linux_cases": 0,
+  "source_mutation": false,
+  "retry": false,
+  "prior_failures_preserved": true,
+  "new_input_preparation_required": "Physically copy the separately bound original authentic58ba03 receipt into a new private cohort and validate every real CLI input before any authorized fresh invocation."
+}

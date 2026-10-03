@@ -1,0 +1,22 @@
+{
+  "status": "documented_scoped_engineering_classification",
+  "updated_at_utc": "2026-10-01T20:33:36.431104+00:00",
+  "finding": "BE-11",
+  "source_hashes": {
+    "docs/PRIVACY_AND_COMPLIANCE_NOTES.md": "187b21b35819119bf929cf1ea68aebae6fd11001b89e8457a577259eee8c26e5",
+    "lib/core/security/hash_utils.dart": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+    "supabase/functions/_shared/hash.ts": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+    "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql": "f7f644d1d3c129d1b89c658737760db2d86fcd9b78bcb43b8225eb4b67ff1182",
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+  },
+  "change": "Existing canonical privacy notes classify phone hashes as personal/pseudonymous and inventory their current data classes/derivatives and open retention effects",
+  "identifier_or_runtime_change": false,
+  "legal_clearance": false,
+  "retention_schedule_approved": false,
+  "full_acceptance": false,
+  "remaining": [
+    "Approved per-class retention/holds and actual bounded erasure/redaction workflow",
+    "Processor/export/backup effects",
+    "Any justified HMAC migration requires explicit historical normalization/matching compatibility proof; none performed"
+  ]
+}

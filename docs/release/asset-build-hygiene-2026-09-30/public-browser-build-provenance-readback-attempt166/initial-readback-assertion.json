@@ -1,0 +1,5 @@
+{
+  "status": "fail",
+  "reason": "Initial additive-note validation incorrectly looked for a fully joined absolute BUILD string inside the preserved Python runner, which correctly constructs it from ROOT and a relative Path literal. Original159 receipt and all158 artifacts were untouched.",
+  "corrected_check": "Check exact BUILD=ROOT/.cache/public-website-build-attempt158 literal, actual browser JSON buildDir and identical158/159 build/served hash maps."
+}

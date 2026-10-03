@@ -1,0 +1,297 @@
+
+from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation1/minimal/scripts/qa/edge_http_runtime_uat.ts:
+  21 | -    import("../../supabase/functions/collect-receipt-exception-worker/index.ts"),
+  21 | +    import(
+  22 | +      "../../supabase/functions/collect-receipt-exception-worker/index.ts"
+  23 | +    ),
+ 669 | -  const loaderParity = names.length > 0 && new Set(names).size === names.length &&
+ 671 | +  const loaderParity = names.length > 0 &&
+ 672 | +    new Set(names).size === names.length &&
+ 709 | -      names.every((slug) => starts[slug] === 1) && servers.length - infrastructureServerCount === names.length,
+ 712 | +      names.every((slug) => starts[slug] === 1) &&
+ 713 | +      servers.length - infrastructureServerCount === names.length,
+ 712 | -    if (slug === "collect-android-gateway" || slug === "collect-receipt-supervisor") {
+ 716 | +    if (
+ 717 | +      slug === "collect-android-gateway" ||
+ 718 | +      slug === "collect-receipt-supervisor"
+ 719 | +    ) {
+ 717 | -      const body = JSON.stringify(supervisor ? {
+ 724 | +      const body = JSON.stringify(
+ 725 | +        supervisor
+ 726 | +          ? {
+ 718 | -        contract_version: 1, audience: "collect.receipt-supervisor.v1/lhbowpbcpwoiparwnwgt",
+ 727 | +            contract_version: 1,
+ 728 | +            audience: "collect.receipt-supervisor.v1/lhbowpbcpwoiparwnwgt",
+ 719 | -        action: "prove_key", principal_id: userId, request_id: crypto.randomUUID(),
+ 729 | +            action: "prove_key",
+ 730 | +            principal_id: userId,
+ 731 | +            request_id: crypto.randomUUID(),
+ 720 | -        issued_at: new Date().toISOString(), payload: {},
+ 732 | +            issued_at: new Date().toISOString(),
+ 733 | +            payload: {},
+ 721 | -      } : {
+ 734 | +          }
+ 735 | +          : {
+ 722 | -        contract_version: 1, action: "reconcile", device_id: userId,
+ 736 | +            contract_version: 1,
+ 737 | +            action: "reconcile",
+ 738 | +            device_id: userId,
+ 723 | -        request_id: crypto.randomUUID(), issued_at: new Date().toISOString(),
+ 739 | +            request_id: crypto.randomUUID(),
+ 740 | +            issued_at: new Date().toISOString(),
+ 724 | -        payload: {target_request_id: crypto.randomUUID()},
+ 741 | +            payload: { target_request_id: crypto.randomUUID() },
+ 725 | -      });
+ 742 | +          },
+ 743 | +      );
+ 727 | -        const refusal = await request(slug, `${slug}: signed protocol refuses ${method}`, {method});
+ 745 | +        const refusal = await request(
+ 746 | +          slug,
+ 747 | +          `${slug}: signed protocol refuses ${method}`,
+ 748 | +          { method },
+ 749 | +        );
+ 728 | -        check(refusal.label, refusal.http_status === 405 && refusal.cors === null &&
+ 750 | +        check(
+ 751 | +          refusal.label,
+ 752 | +          refusal.http_status === 405 && refusal.cors === null &&
+ 729 | -          refusal.no_store && refusal.dependencies.length === 0 &&
+ 753 | +            refusal.no_store && refusal.dependencies.length === 0 &&
+ 730 | -          JSON.stringify(refusal.response) === JSON.stringify({ok: false,
+ 754 | +            JSON.stringify(refusal.response) ===
+ 755 | +              JSON.stringify({
+ 756 | +                ok: false,
+ 731 | -            code: prefix + (supervisor ? "_METHOD_REFUSED" : "_POST_REQUIRED")}), refusal);
+ 757 | +                code: prefix +
+ 758 | +                  (supervisor ? "_METHOD_REFUSED" : "_POST_REQUIRED"),
+ 759 | +              }),
+ 760 | +          refusal,
+ 761 | +        );
+ 733 | -      for (const [label, headers] of [
+ 763 | +      for (
+ 764 | +        const [label, headers] of [
+ 734 | -        ["unsigned envelope", {}],
+ 765 | +          ["unsigned envelope", {}],
+ 735 | -        ["bearer cannot replace dedicated signature", {authorization: "Bearer qa-invalid"}],
+ 766 | +          ["bearer cannot replace dedicated signature", {
+ 767 | +            authorization: "Bearer qa-invalid",
+ 768 | +          }],
+ 736 | -        ["malformed dedicated signature", {
+ 769 | +          ["malformed dedicated signature", {
+ 737 | -          ["X-Collect-" + header + "-Key-Id"]: "a".repeat(64),
+ 770 | +            ["X-Collect-" + header + "-Key-Id"]: "a".repeat(64),
+ 738 | -          ["X-Collect-" + header + "-Signature"]: btoa("malformed"),
+ 771 | +            ["X-Collect-" + header + "-Signature"]: btoa("malformed"),
+ 739 | -        }],
+ 772 | +          }],
+ 740 | -      ] as Array<[string, Record<string, string>]>) {
+ 773 | +        ] as Array<[string, Record<string, string>]>
+ 774 | +      ) {
+ 741 | -        const refusal = await request(slug, `${slug}: ${label}`, {body, headers});
+ 775 | +        const refusal = await request(slug, `${slug}: ${label}`, {
+ 776 | +          body,
+ 777 | +          headers,
+ 778 | +        });
+ 742 | -        check(refusal.label, refusal.http_status === 400 && refusal.cors === null &&
+ 779 | +        check(
+ 780 | +          refusal.label,
+ 781 | +          refusal.http_status === 400 && refusal.cors === null &&
+ 743 | -          refusal.no_store && refusal.dependencies.length === 0 &&
+ 782 | +            refusal.no_store && refusal.dependencies.length === 0 &&
+ 744 | -          JSON.stringify(refusal.response) === JSON.stringify({ok: false, code: prefix + "_REQUEST_INVALID"}), refusal);
+ 783 | +            JSON.stringify(refusal.response) ===
+ 784 | +              JSON.stringify({ ok: false, code: prefix + "_REQUEST_INVALID" }),
+ 785 | +          refusal,
+ 786 | +        );
+ 755 | -        const refused = await request(slug, `${slug}: scheduler method ${method}`, { method });
+ 797 | +        const refused = await request(
+ 798 | +          slug,
+ 799 | +          `${slug}: scheduler method ${method}`,
+ 800 | +          { method },
+ 801 | +        );
+ 756 | -        check(refused.label, refused.http_status === 405 && refused.cors === null &&
+ 802 | +        check(
+ 803 | +          refused.label,
+ 804 | +          refused.http_status === 405 && refused.cors === null &&
+ 757 | -          refused.no_store && refused.dependencies.length === 0 &&
+ 805 | +            refused.no_store && refused.dependencies.length === 0 &&
+ 758 | -          JSON.stringify(refused.response) === JSON.stringify({ error: "METHOD_NOT_ALLOWED" }), refused);
+ 806 | +            JSON.stringify(refused.response) ===
+ 807 | +              JSON.stringify({ error: "METHOD_NOT_ALLOWED" }),
+ 808 | +          refused,
+ 809 | +        );
+ 760 | -      for (const [label, headers] of [
+ 811 | +      for (
+ 812 | +        const [label, headers] of [
+ 761 | -        ["missing worker credential", {}],
+ 813 | +          ["missing worker credential", {}],
+ 762 | -        ["bearer cannot configure loopback worker", { authorization: "Bearer qa-invalid" }],
+ 814 | +          ["bearer cannot configure loopback worker", {
+ 815 | +            authorization: "Bearer qa-invalid",
+ 816 | +          }],
+ 763 | -      ] as Array<[string, Record<string, string>]>) {
+ 817 | +        ] as Array<[string, Record<string, string>]>
+ 818 | +      ) {
+ 765 | -        check(refused.label, refused.http_status === 503 && refused.cors === null &&
+ 820 | +        check(
+ 821 | +          refused.label,
+ 822 | +          refused.http_status === 503 && refused.cors === null &&
+ 766 | -          refused.no_store && refused.dependencies.length === 0 &&
+ 823 | +            refused.no_store && refused.dependencies.length === 0 &&
+ 767 | -          JSON.stringify(refused.response) === JSON.stringify({ error: "WORKER_UNCONFIGURED" }), refused);
+ 824 | +            JSON.stringify(refused.response) ===
+ 825 | +              JSON.stringify({ error: "WORKER_UNCONFIGURED" }),
+ 826 | +          refused,
+ 827 | +        );
+ 859 | -        (r.payload as Record<string, unknown>)?.p_operator_session_id === sessionId
+ 919 | +        (r.payload as Record<string, unknown>)?.p_operator_session_id ===
+ 920 | +          sessionId
+
+
+from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation1/candidate/scripts/qa/edge_http_runtime_uat.ts:
+  21 | -    import("../../supabase/functions/collect-receipt-exception-worker/index.ts"),
+  21 | +    import(
+  22 | +      "../../supabase/functions/collect-receipt-exception-worker/index.ts"
+  23 | +    ),
+ 669 | -  const loaderParity = names.length > 0 && new Set(names).size === names.length &&
+ 671 | +  const loaderParity = names.length > 0 &&
+ 672 | +    new Set(names).size === names.length &&
+ 709 | -      names.every((slug) => starts[slug] === 1) && servers.length - infrastructureServerCount === names.length,
+ 712 | +      names.every((slug) => starts[slug] === 1) &&
+ 713 | +      servers.length - infrastructureServerCount === names.length,
+ 712 | -    if (slug === "collect-android-gateway" || slug === "collect-receipt-supervisor") {
+ 716 | +    if (
+ 717 | +      slug === "collect-android-gateway" ||
+ 718 | +      slug === "collect-receipt-supervisor"
+ 719 | +    ) {
+ 717 | -      const body = JSON.stringify(supervisor ? {
+ 724 | +      const body = JSON.stringify(
+ 725 | +        supervisor
+ 726 | +          ? {
+ 718 | -        contract_version: 1, audience: "collect.receipt-supervisor.v1/lhbowpbcpwoiparwnwgt",
+ 727 | +            contract_version: 1,
+ 728 | +            audience: "collect.receipt-supervisor.v1/lhbowpbcpwoiparwnwgt",
+ 719 | -        action: "prove_key", principal_id: userId, request_id: crypto.randomUUID(),
+ 729 | +            action: "prove_key",
+ 730 | +            principal_id: userId,
+ 731 | +            request_id: crypto.randomUUID(),
+ 720 | -        issued_at: new Date().toISOString(), payload: {},
+ 732 | +            issued_at: new Date().toISOString(),
+ 733 | +            payload: {},
+ 721 | -      } : {
+ 734 | +          }
+ 735 | +          : {
+ 722 | -        contract_version: 1, action: "reconcile", device_id: userId,
+ 736 | +            contract_version: 1,
+ 737 | +            action: "reconcile",
+ 738 | +            device_id: userId,
+ 723 | -        request_id: crypto.randomUUID(), issued_at: new Date().toISOString(),
+ 739 | +            request_id: crypto.randomUUID(),
+ 740 | +            issued_at: new Date().toISOString(),
+ 724 | -        payload: {target_request_id: crypto.randomUUID()},
+ 741 | +            payload: { target_request_id: crypto.randomUUID() },
+ 725 | -      });
+ 742 | +          },
+ 743 | +      );
+ 727 | -        const refusal = await request(slug, `${slug}: signed protocol refuses ${method}`, {method});
+ 745 | +        const refusal = await request(
+ 746 | +          slug,
+ 747 | +          `${slug}: signed protocol refuses ${method}`,
+ 748 | +          { method },
+ 749 | +        );
+ 728 | -        check(refusal.label, refusal.http_status === 405 && refusal.cors === null &&
+ 750 | +        check(
+ 751 | +          refusal.label,
+ 752 | +          refusal.http_status === 405 && refusal.cors === null &&
+ 729 | -          refusal.no_store && refusal.dependencies.length === 0 &&
+ 753 | +            refusal.no_store && refusal.dependencies.length === 0 &&
+ 730 | -          JSON.stringify(refusal.response) === JSON.stringify({ok: false,
+ 754 | +            JSON.stringify(refusal.response) ===
+ 755 | +              JSON.stringify({
+ 756 | +                ok: false,
+ 731 | -            code: prefix + (supervisor ? "_METHOD_REFUSED" : "_POST_REQUIRED")}), refusal);
+ 757 | +                code: prefix +
+ 758 | +                  (supervisor ? "_METHOD_REFUSED" : "_POST_REQUIRED"),
+ 759 | +              }),
+ 760 | +          refusal,
+ 761 | +        );
+ 733 | -      for (const [label, headers] of [
+ 763 | +      for (
+ 764 | +        const [label, headers] of [
+ 734 | -        ["unsigned envelope", {}],
+ 765 | +          ["unsigned envelope", {}],
+ 735 | -        ["bearer cannot replace dedicated signature", {authorization: "Bearer qa-invalid"}],
+ 766 | +          ["bearer cannot replace dedicated signature", {
+ 767 | +            authorization: "Bearer qa-invalid",
+ 768 | +          }],
+ 736 | -        ["malformed dedicated signature", {
+ 769 | +          ["malformed dedicated signature", {
+ 737 | -          ["X-Collect-" + header + "-Key-Id"]: "a".repeat(64),
+ 770 | +            ["X-Collect-" + header + "-Key-Id"]: "a".repeat(64),
+ 738 | -          ["X-Collect-" + header + "-Signature"]: btoa("malformed"),
+ 771 | +            ["X-Collect-" + header + "-Signature"]: btoa("malformed"),
+ 739 | -        }],
+ 772 | +          }],
+ 740 | -      ] as Array<[string, Record<string, string>]>) {
+ 773 | +        ] as Array<[string, Record<string, string>]>
+ 774 | +      ) {
+ 741 | -        const refusal = await request(slug, `${slug}: ${label}`, {body, headers});
+ 775 | +        const refusal = await request(slug, `${slug}: ${label}`, {
+ 776 | +          body,
+ 777 | +          headers,
+ 778 | +        });
+ 742 | -        check(refusal.label, refusal.http_status === 400 && refusal.cors === null &&
+ 779 | +        check(
+ 780 | +          refusal.label,
+ 781 | +          refusal.http_status === 400 && refusal.cors === null &&
+ 743 | -          refusal.no_store && refusal.dependencies.length === 0 &&
+ 782 | +            refusal.no_store && refusal.dependencies.length === 0 &&
+ 744 | -          JSON.stringify(refusal.response) === JSON.stringify({ok: false, code: prefix + "_REQUEST_INVALID"}), refusal);
+ 783 | +            JSON.stringify(refusal.response) ===
+ 784 | +              JSON.stringify({ ok: false, code: prefix + "_REQUEST_INVALID" }),
+ 785 | +          refusal,
+ 786 | +        );
+ 755 | -        const refused = await request(slug, `${slug}: scheduler method ${method}`, { method });
+ 797 | +        const refused = await request(
+ 798 | +          slug,
+ 799 | +          `${slug}: scheduler method ${method}`,
+ 800 | +          { method },
+ 801 | +        );
+ 756 | -        check(refused.label, refused.http_status === 405 && refused.cors === null &&
+ 802 | +        check(
+ 803 | +          refused.label,
+ 804 | +          refused.http_status === 405 && refused.cors === null &&
+ 757 | -          refused.no_store && refused.dependencies.length === 0 &&
+ 805 | +            refused.no_store && refused.dependencies.length === 0 &&
+ 758 | -          JSON.stringify(refused.response) === JSON.stringify({ error: "METHOD_NOT_ALLOWED" }), refused);
+ 806 | +            JSON.stringify(refused.response) ===
+ 807 | +              JSON.stringify({ error: "METHOD_NOT_ALLOWED" }),
+ 808 | +          refused,
+ 809 | +        );
+ 760 | -      for (const [label, headers] of [
+ 811 | +      for (
+ 812 | +        const [label, headers] of [
+ 761 | -        ["missing worker credential", {}],
+ 813 | +          ["missing worker credential", {}],
+ 762 | -        ["bearer cannot configure loopback worker", { authorization: "Bearer qa-invalid" }],
+ 814 | +          ["bearer cannot configure loopback worker", {
+ 815 | +            authorization: "Bearer qa-invalid",
+ 816 | +          }],
+ 763 | -      ] as Array<[string, Record<string, string>]>) {
+ 817 | +        ] as Array<[string, Record<string, string>]>
+ 818 | +      ) {
+ 765 | -        check(refused.label, refused.http_status === 503 && refused.cors === null &&
+ 820 | +        check(
+ 821 | +          refused.label,
+ 822 | +          refused.http_status === 503 && refused.cors === null &&
+ 766 | -          refused.no_store && refused.dependencies.length === 0 &&
+ 823 | +            refused.no_store && refused.dependencies.length === 0 &&
+ 767 | -          JSON.stringify(refused.response) === JSON.stringify({ error: "WORKER_UNCONFIGURED" }), refused);
+ 824 | +            JSON.stringify(refused.response) ===
+ 825 | +              JSON.stringify({ error: "WORKER_UNCONFIGURED" }),
+ 826 | +          refused,
+ 827 | +        );
+ 859 | -        (r.payload as Record<string, unknown>)?.p_operator_session_id === sessionId
+ 919 | +        (r.payload as Record<string, unknown>)?.p_operator_session_id ===
+ 920 | +          sessionId
+
+error: Found 2 not formatted files in 2 files

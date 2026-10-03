@@ -1,0 +1,12 @@
+{
+  "status": "fail",
+  "exit_code": 1,
+  "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt113-historical-public-content",
+  "build": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt113-historical-public-content/.cache/historical-public-build-attempt119",
+  "source_manifest_sha256": "162453052fd0b7fbfc6abd29252c1931810529a99affbaab749fdbf57094170d",
+  "source_git_commit": "f0b8b37a0e5c7e97a222127924fb3a7942e74ed2",
+  "source_unchanged": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "0987ac452f1664612623f5f535e3071f80ff20dee08bc91ae5f507977660c86f",
+  "scope": "Unmodified exact historical source with a valid isolated ignored output directory; content reconstruction only, not active design authority or production acceptance."
+}

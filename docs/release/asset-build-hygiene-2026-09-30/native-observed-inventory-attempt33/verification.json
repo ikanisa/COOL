@@ -1,0 +1,104 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "runtime",
+      "command": [
+        "./gradlew",
+        "-I",
+        "../scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "-PcollectInventoryConfiguration=productionReleaseRuntimeClasspath",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 72.94,
+      "stdout_sha256": "343fb22d22f407ac9a5ffeba05bd604917e6317ce9f7b4ffea1da0cd178e393d",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    {
+      "name": "compile",
+      "command": [
+        "./gradlew",
+        "-I",
+        "../scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:collectRuntimeGraph",
+        "-PcollectInventoryConfiguration=productionReleaseCompileClasspath",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 77.29,
+      "stdout_sha256": "d66313da67961c175b86dab763c42f9551c265a23c0344ac94fc431659d9f0b7",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    {
+      "name": "observed-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/gradle_observed_sbom.py",
+        "--runtime-graph",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/runtime-graph.json",
+        "--compile-graph",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/compile-graph.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/observed-sbom.cdx.json",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/observed-inventory.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "b262647c4c0966cb6fb3dbfa38d6a0e4878b4bfa8a8822e37a92d3c803f8af15",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/gradle_observed_sbom.py",
+        "--runtime-graph",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/runtime-graph.json",
+        "--compile-graph",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/compile-graph.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/observed-sbom.cdx.json",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/observed-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "b262647c4c0966cb6fb3dbfa38d6a0e4878b4bfa8a8822e37a92d3c803f8af15",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-observed-inventory-attempt33/observed-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.12,
+      "stdout_sha256": "bc37e746f9466fbebe13e12504b3329e596ebc6da4b4975924977715dc2eb649",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "input_sha256": {
+    "pubspec.yaml": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "android/app/build.gradle.kts": "3f8c04a499c3249c7131083d7f1db539ab33d63b9f49dd7817357716ee616a2b",
+    "android/app/gradle.lockfile": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957",
+    "android/gradle/wrapper/gradle-wrapper.properties": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1",
+    "android/gradle/wrapper/gradle-wrapper.jar": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3",
+    "scripts/supply_chain/gradle_runtime_inventory.init.gradle": "7dd3507cad77a951c53a0c914714000bfb8df71130fa2e776d32b90c1de58b51",
+    ".dart_tool/package_config.json": "4c127589ca759a3d94dc3806c98a3e6b6eed4d8abc927095e0ed75da326ce199",
+    ".flutter-plugins-dependencies": "732596ded581798e5833849de108a3b5433d91fc5611434441611b6cebdbe973"
+  },
+  "scope": "Actual observed offline locked dependency graphs from the retained Android source export; full current checkout and signed-artifact acceptance remain separate",
+  "actual_dependency_inputs_unchanged": true,
+  "observed_inventory_sha256": "6489a5290bc471ae1cc79cb9fd0b8a11795f1d1909c97dd6f06a6d75d69d4029",
+  "observed_sbom_sha256": "38275fd71656bb0b49461bbc9af4fcdbbb367d163c0868ba76218016fee7f3a9",
+  "current_graph_input_binding_matches": true
+}

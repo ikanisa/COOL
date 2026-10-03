@@ -1,0 +1,17 @@
+{
+  "actual_make_readiness_claim_owner": "root",
+  "expected_applicable_dart_count": 710,
+  "expected_current_three_file_sha256": {
+    "lib/admin/core/admin_runtime.dart": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+    "scripts/tests/admin_receipt_source_busy_test.dart": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+    "test/features/runtime_component_contract_test.dart": "2f6bd060508d7968afaffce62119fd38953238175b48c84a9444dd009fa64d4c"
+  },
+  "private_candidate_correction_paths": [],
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68",
+  "root_checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_integration_packet_sha256": {
+    "root-arc01-current-format-integration1": "b7e9221f26afea0312abbe6d21ae28e0309f46fdff4360b8154c8075b7524ae4",
+    "root-arc02-portable-admin-integration1": "8a160e33eaeadcd6cce454ee81ffa6073f110fef6c92a9fbc551b21c0f412640"
+  },
+  "root_source_edits_authorized": false
+}

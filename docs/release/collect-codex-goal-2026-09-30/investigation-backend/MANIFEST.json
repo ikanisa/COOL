@@ -1,0 +1,39 @@
+{
+  "kind": "current_investigation_backend_evidence",
+  "case_count": 57,
+  "status": "pass",
+  "database_removed": true,
+  "production_written": false,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b"
+  },
+  "runner_sha256": "06a92819e369f5dd29a8e607ab5465311c84bf02452e4267211cb4c372dbb208",
+  "files": {
+    "20260930213000_operator_email_auth.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "20260930230100_receipt_backlog_events.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "20260930230300_admin_transaction_lifecycle.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "20260930230400_admin_investigation.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "README.md": "16c59c7e8814483736742ce055c5ec70dc6135fcdba4d0c5c3ed24f244742753",
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "captured-source/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "captured-source/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "captured-source/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "captured-source/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "case-summary.txt": "3ff4dc37c63cb2565c80fc29e1c144263d32be583e50773bb4d6199c420ef61f",
+    "helper-source-readback.json": "1939a4b2777d05230d734351c6df1926ec48d3367644f54e7dd1e3543a1447a1",
+    "observed-bounded-history.json": "1583b0232c67364829bf97e3692d346ac4aacf7fac27c2e0184521b63895a3e1",
+    "observed-empty.json": "ccb009c24c1b30f6eb924bc07858378c59cd9309a28eff1184bedb803a3cb4e0",
+    "observed-posted-receipt.json": "7bbde27b3b48b361dd275f3d53d5ef94112404d825b87d754a173914908d2792",
+    "observed-posted-transaction.json": "f362eca0365bbf09f180b495f83b559b752fe3470b69d6d2ffecba426249ca79",
+    "observed-reversed-transaction.json": "6955333f8542257f3725d3a8e15cf66cb071f6b087627284b697612bb540ebf9",
+    "prerequisite-parity.json": "2e58e5185a3d37bc57432ffa9350f7830079da5663fffa8ddfc7877c2b6511b6",
+    "queries.log": "a822b78b198c532d07f83859d775602234227208c11b8b73521cf6dc12d71ee1",
+    "queries.sql": "c45635e805b85e9b906c94a026542a965a44ba7e3aa61aeb9922c16752ec1e8a",
+    "restore.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "result.json": "ba1aac56abad57444e8696429389cf2935a40aac70291abffe2ba1e0101a6ac0",
+    "synthetic-history.sql": "1721b46a61c301209626ce53154c7a97475ba5063b01c8f9280e12415bb17832"
+  }
+}

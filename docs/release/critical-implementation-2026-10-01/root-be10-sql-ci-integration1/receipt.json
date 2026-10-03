@@ -1,0 +1,34 @@
+{
+  "proposal_packet_sha256": "90d541c6e98c356c83d3d8577530825fdd1767f40206edaf53f849d8a07236bf",
+  "original13_jobs_and_top_policies_deep_equal": true,
+  "new_job": "ordinary-sql",
+  "actual_SQL_recipe_unrun": true,
+  "full_BE10_closed": false,
+  "production_release_approval": false,
+  "files": {
+    ".github/workflows/ci.yml": {
+      "before_sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+      "integrated_sha256": "70ed19155871dcc1086df65611da16f4153daa5d15103a59f4ec1b0e362ddb0f"
+    },
+    "scripts/qa/run_sql_ci.py": {
+      "before_sha256": null,
+      "integrated_sha256": "6713309fb0815edeba361ad66c8e1a28b3848662c6390f8b592db850c54ac34c"
+    },
+    "scripts/tests/sql_ci_runner_test.py": {
+      "before_sha256": null,
+      "integrated_sha256": "2b6ab97b11706f6a47781298255f4ca81130f928007eb206bff8b42278390997"
+    },
+    "scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql": {
+      "before_sha256": null,
+      "integrated_sha256": "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f"
+    },
+    "scripts/tests/fixtures/ordinary_installer_v1/predecessor.json": {
+      "before_sha256": null,
+      "integrated_sha256": "0a9ca2a20bcdb5f3b75ca485eaf2c32f48f0095f4c014ea5d6990e5ac504d8ab"
+    },
+    "scripts/tests/fixtures/ordinary_installer_v1/manifest.json": {
+      "before_sha256": null,
+      "integrated_sha256": "062f1f21d8ab847b4c94db4e4c86dc84af668157904e341e92bd9e6385c5f04d"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "sdk",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_sdk_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/settings-current-integration-proof-20261001/runtime",
+  "pid": 20325,
+  "started_at": "2026-10-01T21:44:43.240229+00:00",
+  "finished_at": "2026-10-01T21:44:44.095746+00:00",
+  "elapsed_seconds": 0.8549292080006126,
+  "exit_code": 1,
+  "owned_child_reaped": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "a25a11cc8280b9e6aaa7acdcbf0ddf5a11a4d5999b5fc82c91a34c6cbd686e7b",
+  "source_manifest_sha256": "59f5cdbca68a51c8e2ab594e6a25e12a7daa11bccf5572286a993ed1213ecbe3"
+}

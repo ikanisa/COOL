@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T00:40:37.535527+00:00",
+  "name": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+  "owner": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+  "owner_listing_exit": 0,
+  "owner_listing_stderr": "",
+  "owner_listing_stdout": "",
+  "readback_exit": 1,
+  "readback_stderr": "error: no such object: collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format\n",
+  "readback_stdout": "[]\n",
+  "remove_exit": 0,
+  "removed": true,
+  "stop_exit": 0
+}

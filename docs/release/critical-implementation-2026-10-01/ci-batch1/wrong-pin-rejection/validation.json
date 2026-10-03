@@ -1,0 +1,20 @@
+{
+  "status": "fail",
+  "started_at": "2026-10-01T19:57:56.013846+00:00",
+  "required_phases": [
+    "runner_contract",
+    "types",
+    "units",
+    "edge_http",
+    "linux_decoder"
+  ],
+  "phases": {},
+  "provider_calls": 0,
+  "current_sql_executed": false,
+  "sql_scope": "Immutable dated synthetic observation decoder contract; current SQL is a separate gate",
+  "integration_file": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+  "error": "Deno must exactly match .dvmrc",
+  "source_after": {},
+  "source_unchanged": false,
+  "finished_at": "2026-10-01T19:57:56.069424+00:00"
+}

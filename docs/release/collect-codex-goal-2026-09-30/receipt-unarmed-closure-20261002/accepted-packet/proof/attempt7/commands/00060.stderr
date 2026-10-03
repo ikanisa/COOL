@@ -1,0 +1,5 @@
+NOTICE:  00000: truncate cascades to table "original_closures"
+LOCATION:  ExecuteTruncateGuts, tablecmds.c:1958
+ERROR:  55000: receipt_successor_evidence_immutable
+CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,0 +1,28 @@
+{
+  "individual_path_entries": 296704,
+  "status_counts": {
+    " M": 201,
+    " D": 1,
+    "??": 296502
+  },
+  "by_root": {
+    ".github": 4,
+    "Makefile": 1,
+    "README.md": 1,
+    "android": 41,
+    "assets": 2,
+    "docs": 295874,
+    "integration_test": 4,
+    "lib": 137,
+    "pubspec.yaml": 1,
+    "scripts": 195,
+    "supabase": 65,
+    "test": 167,
+    "third_party": 8,
+    "tool": 2,
+    "tools": 87,
+    "web": 7,
+    "contracts": 55,
+    "\"docs": 53
+  }
+}

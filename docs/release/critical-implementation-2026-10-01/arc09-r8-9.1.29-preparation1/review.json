@@ -1,0 +1,45 @@
+{
+  "actual_Gradle_execution_by_preparation": false,
+  "actual_compiler_classloader_provider_verified": false,
+  "actual_publisher_JAR_SHA256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+  "actual_publisher_receipt_SHA256": "401f7a88d479e7c9014990b7a5c312bfc5cd4790aae2539a70bd34a592b49c9d",
+  "candidate3_changed_rows": 3,
+  "current_APP_manifest_and_maintained_fence_await_root_actual_capture": true,
+  "current_maintained_APP_named_source_fences_unchanged": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/build.gradle.kts",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/gradle.lockfile",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/build.gradle.kts",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/pubspec.lock",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/gradle.lockfile",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/build.gradle.kts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/pubspec.lock"
+  ],
+  "driver_unchanged_sha256": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+  "fixture_result_sha256": "a3e7bfdc1bad64290f6eb1a8184aa9a0f3169c399dca469435666c4c6c678471",
+  "helper_sha256": "00ce52587ca4d43a617e9960f5935e04323fd0d9f1ef1fc85c12d3d2ede6472d",
+  "kind": "sealed_private_unapplied_R8_candidate3_proposal",
+  "new_source_file_proposal_count": 1,
+  "old_R8_receipt_preserved": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-readonly-r8-kotlin-compatibility1/packet-files.json",
+    "sha256": "779352c9d2cdefc86cee00462d4d9e29a702ddb293c86abe1fbf4b1a1ee1fc15"
+  },
+  "original_42_current_pins_preserved": true,
+  "preserved_versions": [
+    "KGP2.4.20",
+    "AGP9.0.1",
+    "Gradle9.1.0",
+    "kotlin-stdlib2.4.20 locks"
+  ],
+  "production_release_approval": false,
+  "proposed_settings_sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a",
+  "python_AST_parses": 5,
+  "readback_deadline_seconds": 300,
+  "resolver_command_deadline_seconds": 180,
+  "schema_version": 1,
+  "source_APP_SDK_cache_register_index_canonical_mutations_by_preparation": false,
+  "source_rows_archived": 2561,
+  "source_rows_unchanged": 2558
+}

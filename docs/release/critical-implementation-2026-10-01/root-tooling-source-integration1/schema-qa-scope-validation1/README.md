@@ -1,0 +1,15 @@
+# Maintained schema inventory QA scope validation
+
+The actual maintained 32-test suite, current209 generation and independent full semantic readback passed after removing the blanket `qa` directory exclusion. This validation writes only this private proof directory and the fresh sibling `generated-current209-complete-qa` output. The sibling `generated-current209` historical output remains byte-for-byte unchanged.
+
+All three commands used the exact absolute `/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3` interpreter with `-I -B`, a fresh owned process group, a 120-second deadline and a clean environment containing only `PATH=/usr/bin:/bin:/usr/sbin:/sbin`. All process groups were absent after completion. The command receipts preserve argv, actual duration, exit code, timeout/cleanup status and stdout/stderr hashes.
+
+The twelve authoritative source hashes from `current-source-after-review-corrections.json` matched before and after. An independent before/after snapshot of every generator input matched the generated transitive manifest exactly: 1,091 admitted input records, including the two sealed current209 clean/populated catalogs and all 209 maintained original/replayed migration byte pairs. The manifest admits the actual `scripts/qa/backend_release_delivery.py` and `scripts/qa/postgres_admission.py` consumers. It preserves the generator's remaining test/fixture/generated/archive/cache exclusions.
+
+The fresh result contains 664 maintained source files and 718 caller sites: 117 RPC call sites, 527 function-literal references, 38 dynamic RPC sites, 7 dynamic symbol templates, 14 Edge HTTP route references, 7 Edge SDK invocations, 7 relation SDK sites and 1 realtime table reference. A literal reference remains a candidate rather than runtime execution proof.
+
+Catalog inventory remains 2,543 objects (38 schemas, 997 relations, 902 functions and 606 types), all 20 catalog categories and 4,157 normalized grant entries. Full recomputation verified all five generated artifacts. The map retains 18 reviewed seams, 775 exact function-body source matches and 4,754 SQL reference candidates.
+
+Acceptance is still `draft-with-open-mappings`. Open mappings remain 74 unclassified objects, 58 dynamic/ambiguous/unresolved caller sites, 127 effective functions without an exact source-body match and 309 functions without a literal or matched-body SQL caller candidate. Runtime graph completeness and verified business ownership remain false. This validation does not close BE-08 or establish deployed backend, provider or production approval status.
+
+Use `result.json` for the consolidated actual result, `source12-{before,after}.json` for the authoritative source check, `transitive-inputs-{before,after}.json` for the full input binding, and the three command receipt/stdout/stderr groups for execution evidence. `historical-output-before.json` and the consolidated result record preservation of all five historical generated files. The fresh five-file output is `../generated-current209-complete-qa`.

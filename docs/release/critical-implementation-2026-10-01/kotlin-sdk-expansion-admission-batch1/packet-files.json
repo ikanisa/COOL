@@ -1,0 +1,18 @@
+{
+  "files": {
+    "README.md": "0dad3c818230f6d3e553e17f211966ef9c99a654f61a258e907d7884bb68e16f",
+    "admission-negatives.stdout": "7b929a54dbff2e5f19eca43d5478f60939e9f01195bc4873ae2daf76fc8adba1",
+    "admission_negative_tests.py": "37f3e038f47fd5ada793fd0d7e5ee8d4df00466b74db5954fe61b8c1380b9ac5",
+    "authenticated_sdk_expansion.py": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+    "exact-admission-validation.json": "4c94ce01a285d48842430960ed42aa500b9730a85c5f393126d663602a1458c0",
+    "exact-admission.stdout": "827c40bd1f26fd20703f1e88d5391069f36778840f90b36665ceb29b0ace33f8",
+    "exact-archive-admission.json": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+    "negative-tests-results.json": "b8970b99117dcb321c1fd36f5fdc3207e4c6020b2e251db6102131e63db3d3c4",
+    "prepared-expansion-plan.json": "0cf7879d1a70dd5a8f90b81a1ef75545b42684ddac706da2acb6be2e8a39126a",
+    "preservation-readback.json": "e1bd429002952545e3ac2979121571805b2335c3e63293d55d16d5174d88ff0d",
+    "read-only-admission-attempt1.json": "f570a98fe812783405c4bda247d1b0ca561ba35b5c78a4f35b724d9f4584e080",
+    "read-only-admission-attempt1.stdout": "952aada9cd34d7a7cb388c07d39ddccdf76c47fdc5019714e80cee1927b96b3b",
+    "read-only-admission-attempt2-start.json": "3d98851f4d60a9246a8053fbfdf7e40fcd36083f115f1806c912a5328999388e"
+  },
+  "scope": "Exact read-only admission, rejection validation and prepared unexecuted independent expansion/readback code."
+}

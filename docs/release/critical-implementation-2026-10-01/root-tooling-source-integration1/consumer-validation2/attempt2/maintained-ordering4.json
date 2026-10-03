@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/additional-ordering.py",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 12.945,
+  "exit_code": 1,
+  "output_limit_bytes": 4194304,
+  "pgid": 32037,
+  "pid": 32037,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 3813,
+    "device": 16777247,
+    "inode": 17773840,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924278665514738,
+    "sha256": "c02fd4daa135e0f549c5932f359aa40c05f99a15821d420d59c8c6a0f6cfae6b"
+  },
+  "stdout": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17773839,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924265773079354,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 350
+}

@@ -1,0 +1,49 @@
+{
+  "all_five_present": true,
+  "expected_five_outputs": [
+    "DOMAIN_MAP.md",
+    "coverage.json",
+    "gaps.json",
+    "input-manifest.json",
+    "schema-domain-map.json"
+  ],
+  "independent_verification_summary": {
+    "acceptance": "draft-with-open-mappings",
+    "catalog_categories_preserved": 20,
+    "catalog_matches_current_migration_names": true,
+    "catalog_objects_verified": 2543,
+    "grants_verified": 4157,
+    "input_files_verified": 1094,
+    "replayed_migration_bytes_match": true,
+    "semantic_output_files_verified": 5,
+    "status": "PASS",
+    "verification_method": "full-independent-recomputation"
+  },
+  "outputs": {
+    "DOMAIN_MAP.md": {
+      "bytes": 4177,
+      "mode": 420,
+      "sha256": "fd6a9ea1e15abbd75f6b06abfe53d72b0f1c64c9e7e6d92d3460df2d561de6a6"
+    },
+    "coverage.json": {
+      "bytes": 1400,
+      "mode": 420,
+      "sha256": "2947a5bb501230071e2f08142fd1b1aa21ac2f20c41f0a9d44fb6df721e6c5f4"
+    },
+    "gaps.json": {
+      "bytes": 356585,
+      "mode": 420,
+      "sha256": "3022cb7894610bba4cf3cdd143370b04e40ab979470c3c79012ee8d4c2251f31"
+    },
+    "input-manifest.json": {
+      "bytes": 330141,
+      "mode": 420,
+      "sha256": "47c5ff28b3172c5cdb38683bc14c46c5afb1fade6f036b936df1e9bbad055ae4"
+    },
+    "schema-domain-map.json": {
+      "bytes": 12352604,
+      "mode": 420,
+      "sha256": "9a444ae4e547cd5b5f52ae3c6d03e565876b8313fb88395065ebd82a32eeb55e"
+    }
+  }
+}

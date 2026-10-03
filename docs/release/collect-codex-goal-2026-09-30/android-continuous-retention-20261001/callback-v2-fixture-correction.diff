@@ -1,0 +1,12 @@
+--- attempt-7/GatewayAttemptArchiveTest.kt
++++ current/GatewayAttemptArchiveTest.kt
+@@ -328,6 +328,9 @@
+         for (row in callbacks) {
+             val original = GatewayStoredRequest.parse(row)
+             val result = JSONObject().put("callback_id", original.callbackId).put("recorded_at", at).put("replay", false).put("carrier_proof", false)
++                .put("state", "observed_sent").put("sent_observations", 1)
++                .put("delivery_observations", if (original.envelope.getJSONObject("payload").getString("callback_kind") == "delivery") 1 else 0)
++                .put("conflicting_observations", false)
+             val reply = JSONObject().put("contract_version", 2).put("action", "callback").put("device_id", device).put("request_id", original.requestId).put("result", result)
+             GatewayJournalArchive(store).acknowledge(GatewayArchiveAcknowledgement.direct(original, reply))
+         }

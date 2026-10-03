@@ -1,0 +1,11 @@
+{
+  "preceding_inventory": 208,
+  "preceding_drift": [],
+  "added": [
+    {
+      "path": "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+      "sha256": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d"
+    }
+  ],
+  "scope": "Source readback only. Full208 installation remains scoped to its earlier candidate; fresh209 chronological and populated consumer rehearsal remains open."
+}

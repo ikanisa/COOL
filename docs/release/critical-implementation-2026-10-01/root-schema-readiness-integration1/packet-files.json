@@ -1,0 +1,75 @@
+{
+  "status": "sealed",
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/reconcile_registers.py",
+      "bytes": 13606,
+      "sha256": "29ab3e02eda11cc1895159e8e94d0cdf7f38a2467aaa196f7d14267a479693f5"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/register-reconciliation.json",
+      "bytes": 2288,
+      "sha256": "298e423b08c2a654df843d8cd9d30ca3f631c97e3f4383adabc9aec71fdeb5f7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 24387,
+      "sha256": "3c864fa8310b90a79e5b41fe16a2fa4af4e3e3439a1d43a42828c1bbaf47aa21"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 39539,
+      "sha256": "3e58411b806d39795060e44049a29a9a5cfa0ca88a8c96c128b5cfc97f01ae98"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 58816,
+      "sha256": "189f521b9905e5b92b7a4067d49474f106a0f90d29142edc97c8e7074aa431eb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 164476,
+      "sha256": "87ac3639c8e5e1b6e10175a65962d321bc2dfa62006d689b33d3697c4157c3eb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 156442,
+      "sha256": "325831bdcaf78607bd0e25c5a4bbd7eb496e5d62888f63e8ac3cd063ac52c7f3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-after/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 345600,
+      "sha256": "12679ba5f9aaba205a3ef3748291fbd9d288a16c8d7e254c0aa55c317c3e7539"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 22528,
+      "sha256": "436fa817a48307e80289ee39983b80c4c1066e1941fe94c988dda3fe7c3ed0a8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 37680,
+      "sha256": "c114626d22bec85828fd17089270b40fd1041ed5f0ddc866db850b74c6cbe200"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 54858,
+      "sha256": "835d3b1400fdd50481bf34e990b57794dd9c0e1921ef6ae2d164b5b91d7c2bb0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 156799,
+      "sha256": "54cbf430bc6498498c939a9120f143d246b091c2ecfc3511fc878923d8b70934"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 152719,
+      "sha256": "0d525637a288cc98e16a001c0f2bee04bec8e76aace6de4ef8a4c5a3833911d0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-readiness-integration1/registers-before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 341877,
+      "sha256": "ae06b13a14209553b8d0c912275438261ad1d46a40829ea33711dc1385fd50dd"
+    }
+  ]
+}

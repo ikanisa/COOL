@@ -114,12 +114,18 @@ class _AdminDetailSpec {
           _AdminDetailFieldSpec('Group', ['collection_title', 'collection_id']),
           _AdminDetailFieldSpec('Destination', ['destination_masked']),
           _AdminDetailFieldSpec('Amount RWF', ['amount_rwf']),
-          _AdminDetailFieldSpec('Member balance RWF', ['member_balance_rwf']),
-          _AdminDetailFieldSpec('Group balance RWF', ['group_balance_rwf']),
+          _AdminDetailFieldSpec('Member balance at receipt posting RWF', [
+            'member_balance_rwf',
+          ]),
+          _AdminDetailFieldSpec('Group balance at receipt posting RWF', [
+            'group_balance_rwf',
+          ]),
           _AdminDetailFieldSpec('Reference', ['reference']),
           _AdminDetailFieldSpec('Template', ['template_key']),
           _AdminDetailFieldSpec('Template version', ['template_version']),
-          _AdminDetailFieldSpec('Message body', ['message_body']),
+          _AdminDetailFieldSpec('Claim-protected original message', [
+            'message_body',
+          ]),
           _AdminDetailFieldSpec('Attempts', ['attempt_count']),
           _AdminDetailFieldSpec('Latest attempt', ['latest_attempt_state']),
           _AdminDetailFieldSpec('Suppression reason', ['suppression_reason']),

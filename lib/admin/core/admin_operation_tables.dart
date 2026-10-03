@@ -8,8 +8,23 @@ class _AdminTransactionWorkspace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final allocated = rows.where((row) => row.status == 'allocated').length;
-    final review = rows.where((row) => row.status != 'allocated').length;
+    final allocated = rows
+        .where(
+          (row) =>
+              AdminTransactionLifecycle.parse(
+                row.extra['lifecycle'],
+              )?.allocation ==
+              'allocated',
+        )
+        .length;
+    final review = rows.where((row) {
+      final lifecycle = AdminTransactionLifecycle.parse(row.extra['lifecycle']);
+      return lifecycle == null ||
+          lifecycle.allocation != 'allocated' ||
+          lifecycle.verification != 'confirmation_recorded' ||
+          !{'posted', 'reversed'}.contains(lifecycle.ledger) ||
+          {'failed_no_send', 'uncertain'}.contains(lifecycle.notification);
+    }).length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,7 +60,7 @@ class _AdminTransactionWorkspace extends StatelessWidget {
             builder: (context, constraints) {
               // Readable status text needs room beside the remaining columns
               // and the row action; use cards before the action moves offscreen.
-              if (constraints.maxWidth < 1180) {
+              if (constraints.maxWidth < 1760) {
                 return _AdminTransactionCards(rows: rows, onOpen: onOpen);
               }
               return _AdminTransactionTable(rows: rows, onOpen: onOpen);
@@ -197,7 +212,7 @@ class _AdminTransactionTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdminPremiumTable(
-      minimumWidth: 1120,
+      minimumWidth: 1700,
       columns: const [
         DataColumn(
           label: _AdminColumnLabel(
@@ -214,7 +229,7 @@ class _AdminTransactionTable extends StatelessWidget {
         DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.phone_android_outlined,
-            label: 'MoMo number',
+            label: 'Receipt sender',
           ),
         ),
         DataColumn(
@@ -226,7 +241,25 @@ class _AdminTransactionTable extends StatelessWidget {
         DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.fact_check_outlined,
-            label: 'Status',
+            label: 'Verification',
+          ),
+        ),
+        DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.account_tree_outlined,
+            label: 'Allocation',
+          ),
+        ),
+        DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.balance_outlined,
+            label: 'Ledger',
+          ),
+        ),
+        DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.sms_outlined,
+            label: 'Notification',
           ),
         ),
         DataColumn(
@@ -246,7 +279,6 @@ class _AdminTransactionTable extends StatelessWidget {
           label: _AdminColumnLabel(
             icon: Icons.open_in_new_outlined,
             label: 'Open',
-            iconOnly: true,
           ),
         ),
       ],
@@ -285,7 +317,13 @@ class _AdminTransactionTable extends StatelessWidget {
                   maxWidth: 190,
                 ),
               ),
-              DataCell(AdminStatusChip(label: row.status)),
+              for (final stage in const [
+                'verification',
+                'allocation',
+                'ledger',
+                'notification',
+              ])
+                DataCell(_AdminTransactionStateCell(row: row, stage: stage)),
               DataCell(
                 _AdminSingleValue(
                   _transactionDisplayAmount(row),
@@ -359,7 +397,6 @@ class _AdminGroupTable extends StatelessWidget {
           label: _AdminColumnLabel(
             icon: Icons.open_in_new_outlined,
             label: 'Manage',
-            iconOnly: true,
           ),
         ),
       ],
@@ -389,7 +426,10 @@ class _AdminGroupTable extends StatelessWidget {
                     : const SizedBox.shrink(),
               ),
               DataCell(
-                _AdminSingleValue('${_groupMemberCount(row)}', alignEnd: true),
+                _AdminSingleValue(
+                  '${_groupMemberCount(row) ?? '—'}',
+                  alignEnd: true,
+                ),
               ),
               DataCell(_AdminGroupRouteLabel(row: row)),
               DataCell(
@@ -445,7 +485,6 @@ class _AdminMemberTable extends StatelessWidget {
               : const _AdminColumnLabel.brand(
                   brandIcon: FontAwesomeIcons.whatsapp,
                   label: 'WhatsApp',
-                  iconOnly: true,
                 ),
         ),
         if (showGroups)
@@ -459,14 +498,12 @@ class _AdminMemberTable extends StatelessWidget {
           label: _AdminColumnLabel(
             icon: Icons.public_outlined,
             label: 'Country',
-            iconOnly: true,
           ),
         ),
         const DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.account_balance_wallet_outlined,
             label: 'Payment profile',
-            iconOnly: true,
           ),
         ),
         if (showGroups)
@@ -475,7 +512,6 @@ class _AdminMemberTable extends StatelessWidget {
             label: _AdminColumnLabel(
               icon: Icons.groups_outlined,
               label: 'Groups',
-              iconOnly: true,
             ),
           ),
         if (showAdminState)
@@ -495,7 +531,6 @@ class _AdminMemberTable extends StatelessWidget {
           label: _AdminColumnLabel(
             icon: Icons.open_in_new_outlined,
             label: 'Open',
-            iconOnly: true,
           ),
         ),
       ],
@@ -532,7 +567,7 @@ class _AdminMemberTable extends StatelessWidget {
               if (showGroups)
                 DataCell(
                   _AdminSingleValue(
-                    '${_extraInt(row, 'active_groups')}',
+                    '${_extraInt(row, 'active_groups') ?? '—'}',
                     alignEnd: true,
                   ),
                 ),
@@ -579,15 +614,14 @@ class _AdminTransactionCards extends StatelessWidget {
             leading: _AdminRailIcon(rail: _rail(row)),
             title: _transactionReference(row),
             subtitle: '',
-            iconOnlyFields: true,
-            status: row.status == 'allocated' ? '' : row.status,
+            status: '',
             onOpen: onOpen == null ? null : () => onOpen!(row),
             openLabel: 'Open transaction ${_transactionReference(row)}',
             fields: [
               if (_rail(row) == 'rw_momo')
                 _AdminOperationsFieldData(
                   Icons.phone_android_outlined,
-                  'MoMo number',
+                  'Receipt sender',
                   _momoSender(row),
                 ),
               _AdminOperationsFieldData(
@@ -604,6 +638,26 @@ class _AdminTransactionCards extends StatelessWidget {
                 ),
               ),
               _AdminOperationsFieldData(
+                Icons.fact_check_outlined,
+                'Verification',
+                _transactionLifecycleLabel(row, 'verification'),
+              ),
+              _AdminOperationsFieldData(
+                Icons.account_tree_outlined,
+                'Allocation',
+                _transactionLifecycleLabel(row, 'allocation'),
+              ),
+              _AdminOperationsFieldData(
+                Icons.balance_outlined,
+                'Ledger',
+                _transactionLifecycleLabel(row, 'ledger'),
+              ),
+              _AdminOperationsFieldData(
+                Icons.sms_outlined,
+                'Notification',
+                _transactionLifecycleLabel(row, 'notification'),
+              ),
+              _AdminOperationsFieldData(
                 Icons.payments_outlined,
                 'Amount',
                 _transactionDisplayAmount(row),
@@ -616,6 +670,63 @@ class _AdminTransactionCards extends StatelessWidget {
             ],
           ),
       ],
+    );
+  }
+}
+
+String? _transactionLifecycleState(AdminTableRowData row, String stage) {
+  final observation = AdminTransactionLifecycle.parse(row.extra['lifecycle']);
+  return switch (stage) {
+    'verification' => observation?.verification,
+    'allocation' => observation?.allocation,
+    'ledger' => observation?.ledger,
+    'notification' => observation?.notification,
+    _ => null,
+  };
+}
+
+String _transactionLifecycleLabel(AdminTableRowData row, String stage) =>
+    AdminTransactionLifecycle.label(_transactionLifecycleState(row, stage));
+
+class _AdminTransactionStateCell extends StatelessWidget {
+  const _AdminTransactionStateCell({required this.row, required this.stage});
+  final AdminTableRowData row;
+  final String stage;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = _transactionLifecycleState(row, stage);
+    final tone = switch (state) {
+      'posted' || 'allocated' => CollectStatusTone.success,
+      'rejection_recorded' ||
+      'evidence_conflict' ||
+      'parse_failed' ||
+      'failed_no_send' ||
+      'evidence_missing' => CollectStatusTone.danger,
+      'pending' ||
+      'pending_parse' ||
+      'unallocated' ||
+      'ambiguous' ||
+      'needs_review' ||
+      'not_posted' ||
+      'uncertain' => CollectStatusTone.warning,
+      _ => CollectStatusTone.info,
+    };
+    final label = AdminTransactionLifecycle.label(state);
+    return Semantics(
+      label: '$stage: $label',
+      child: ExcludeSemantics(
+        child: AdminStatusChip(
+          label: label,
+          tone: tone,
+          icon: switch (tone) {
+            CollectStatusTone.success => Icons.check_circle_outline,
+            CollectStatusTone.danger => Icons.error_outline,
+            CollectStatusTone.warning => Icons.schedule_outlined,
+            _ => Icons.info_outline,
+          },
+        ),
+      ),
     );
   }
 }
@@ -638,7 +749,6 @@ class _AdminGroupCards extends StatelessWidget {
             title: row.title,
             subtitle: _groupPurpose(row),
             subtitleIcon: _groupPurposeIcon(row),
-            iconOnlyFields: true,
             status: _isArchivedGroup(row) ? 'archived' : 'active',
             onOpen: onOpen == null ? null : () => onOpen!(row),
             openLabel: 'Open ${row.title}',
@@ -646,7 +756,7 @@ class _AdminGroupCards extends StatelessWidget {
               _AdminOperationsFieldData(
                 Icons.groups_outlined,
                 'Members',
-                '${_groupMemberCount(row)}',
+                '${_groupMemberCount(row) ?? '—'}',
               ),
               _AdminOperationsFieldData(
                 Icons.dialpad_outlined,
@@ -693,7 +803,6 @@ class _AdminMemberCards extends StatelessWidget {
             subtitle: showGroups
                 ? _extraText(row, 'display_name', fallback: '')
                 : '',
-            iconOnlyFields: true,
             status: row.status == 'admin' ? row.status : '',
             onOpen: onOpen == null ? null : () => onOpen!(row),
             openLabel: showGroups
@@ -726,7 +835,7 @@ class _AdminMemberCards extends StatelessWidget {
                 _AdminOperationsFieldData(
                   Icons.groups_outlined,
                   'Groups',
-                  '${_extraInt(row, 'active_groups')}',
+                  '${_extraInt(row, 'active_groups') ?? '—'}',
                 ),
             ],
           ),

@@ -1,0 +1,16 @@
+The first direct test invocation failed before executing any behavioral test:
+
+Command: /Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter test --no-pub --reporter expanded test/features/privacy/privacy_default_route_integration_test.dart
+Terminal session 26853, exit code 1.
+
+test/features/privacy/privacy_default_route_integration_test.dart:329:27: Error: The argument type 'ThemeData Function()' can't be assigned to the parameter type 'ThemeData?'.
+          theme: AppTheme.light,
+                          ^
+
+The worker corrected this new test-only initializer to AppTheme.light(). The
+initial formatted test source is retained in initial-test-compilation-source.dart.
+This file records the exact reported compiler error and terminal outcome from
+the tool response; it is not represented as an independently captured full log.
+No source-before receipt was created before that first direct command.
+The actual behavioral failure is a separate subsequent run with independently
+captured full stdout/stderr, test source and before/after source/tool identities.

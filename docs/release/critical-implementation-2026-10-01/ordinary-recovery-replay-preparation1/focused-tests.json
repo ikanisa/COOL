@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T06:48:39.511359+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation1/test_rehearsal.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "test_count": 10,
+  "docker_called": false,
+  "source": {
+    "prepare.py": {
+      "sha256": "52a89fe61a0dcd1f0d1db7e13a6619799252d6a71a9af1a0cb32d96559db5b90",
+      "bytes": 3890,
+      "ast_parse": "pass"
+    },
+    "rehearsal.py": {
+      "sha256": "b6e4c7889acc1248ee8a4bbba2dfe330b4087d8cd6c7198a56e4eac87379a2c0",
+      "bytes": 37854,
+      "ast_parse": "pass"
+    },
+    "test_rehearsal.py": {
+      "sha256": "0d436c4292b4faa402e59d8cc32b0356c0770baa8c6fa2c31e23dbf4bd1e5aa4",
+      "bytes": 7526,
+      "ast_parse": "pass"
+    }
+  },
+  "inputs_sha256": "d3d2bf7563ec5323a4a5ebd23cb7deabafcfa3bf4d0d0008c5df36d7ab61ccdc",
+  "preparation_only": true
+}

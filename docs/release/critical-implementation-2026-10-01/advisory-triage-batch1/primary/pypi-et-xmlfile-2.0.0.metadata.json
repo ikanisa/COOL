@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:51 GMT",
+    "content-type": "application/json",
+    "etag": "\"H7c9y0TZGzsUYQjRcW2xrg\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/et-xmlfile/2.0.0/json",
+  "requested_at": "2026-10-01T21:22:51.204176+00:00",
+  "response_bytes": 4816,
+  "response_path": "primary/pypi-et-xmlfile-2.0.0.response",
+  "response_sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+  "response_url": "https://pypi.org/pypi/et-xmlfile/2.0.0/json",
+  "retrieved_at": "2026-10-01T21:22:51.813933+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

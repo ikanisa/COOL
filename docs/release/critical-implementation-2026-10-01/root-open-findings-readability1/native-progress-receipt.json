@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-02T12:23:31.024197+00:00",
+  "before_sha256": "70a7bf33b4556e2579d331ef65f6679884cc48d2b59d55ab0012ee90b28ef5b4",
+  "after_sha256": "d5e1e4808730a96574b47d1cd8d0784852ca516156cbefde030f1f71cc51526d",
+  "native_success_packet_sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e",
+  "native_readback_sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de",
+  "finding_ids_and_count_unchanged": true,
+  "full_open": 34,
+  "release_decision": "NO-GO",
+  "goal_status": "active"
+}

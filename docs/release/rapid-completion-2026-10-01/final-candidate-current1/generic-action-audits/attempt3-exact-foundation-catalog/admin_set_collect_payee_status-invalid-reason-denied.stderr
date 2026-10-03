@@ -1,0 +1,3 @@
+ERROR:  P0001: Status reason must be at least 8 characters
+CONTEXT:  PL/pgSQL function admin_set_collect_payee_status(uuid,boolean,text) line 8 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

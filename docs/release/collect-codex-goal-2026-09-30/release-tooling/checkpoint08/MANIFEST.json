@@ -1,0 +1,220 @@
+{
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "artifact_map_sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b",
+  "candidate_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "capture_classification": "unapproved_non_atomic_implementation_checkpoint",
+  "configured_build": "pass",
+  "credential_values_in_packet": false,
+  "deployment_verified": false,
+  "file_count": 36,
+  "files": {
+    "PLAN.md": {
+      "bytes": 3516,
+      "mode": 420,
+      "sha256": "8d1cdb823c6aae096f0e5946e15f9e0f907aed7ce1def8fb5017e11f0e41ddce"
+    },
+    "README.md": {
+      "bytes": 7963,
+      "mode": 420,
+      "sha256": "c61128388e40c977105d4534a7498b1d748edce6e5bfa9d4468efa0155cbb79d"
+    },
+    "admin08-configured-build.json": {
+      "bytes": 27584,
+      "mode": 420,
+      "sha256": "11619711122e0729e633851081d08963bb5c8b72e12eb72ae4a1d0d93198aa12"
+    },
+    "admin08-configured-build.log": {
+      "bytes": 808,
+      "mode": 420,
+      "sha256": "8fdfc424d9cc7fe68499c98b24cfa1c2c135299e0984c1155b8c70429448d7e4"
+    },
+    "admin08-configured-build.result.json": {
+      "bytes": 1682,
+      "mode": 420,
+      "sha256": "591089a94a5264cc7f51c527ac28142810104193314522b607329c09f5cab398"
+    },
+    "admin08-dependency-binding.json": {
+      "bytes": 941,
+      "mode": 420,
+      "sha256": "7da3cdff635b4057ed195f6a6e546e889957b4be7b635005585c926bf70ddddf"
+    },
+    "admin08-pub-offline.log": {
+      "bytes": 208,
+      "mode": 420,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    "admin08-pub-offline.result.json": {
+      "bytes": 1188,
+      "mode": 420,
+      "sha256": "f21412d9b297731c50a45009da2b1fd4539a4f79617d6459b31db22c8f5fe4be"
+    },
+    "admin08-runner-command.log": {
+      "bytes": 1403,
+      "mode": 420,
+      "sha256": "d52bd418d3a667982501cf7790496638de94dd38eb1db79343a91bc3661a4c18"
+    },
+    "artifact-manifest.json": {
+      "bytes": 23723,
+      "mode": 420,
+      "sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b"
+    },
+    "artifact-readback-attempt1.json": {
+      "bytes": 253,
+      "mode": 420,
+      "sha256": "60a53881df3f843f5027efdd250882c97f72084bb3fdb25f7798a46907d3e322"
+    },
+    "artifact-readback.json": {
+      "bytes": 424,
+      "mode": 420,
+      "sha256": "1926ecea8feb55645e7d25972b077f6b65069fa104e59d84dd9512964bad7f99"
+    },
+    "binding-table-attempt1.json": {
+      "bytes": 392,
+      "mode": 420,
+      "sha256": "bd1288df91e7ac463a91376ba53a79d08f97d986ad3f87f8d92c723f5d73705d"
+    },
+    "captured-source-manifest.json": {
+      "bytes": 331567,
+      "mode": 420,
+      "sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80"
+    },
+    "completion.json": {
+      "bytes": 11414,
+      "mode": 420,
+      "sha256": "832b57c23886190236267b388f95ddcfb760141520f84b410fe0cc4bd919b0e5"
+    },
+    "immediate-prebuild-runtime-check.json": {
+      "bytes": 960,
+      "mode": 420,
+      "sha256": "6dfec97a1dd987252239338dbe0723e7cad091ed8d523571c11de0ccc28c38f6"
+    },
+    "later-current-source-compare-command.log": {
+      "bytes": 1331,
+      "mode": 420,
+      "sha256": "3e8d4b82cbab2a692f1dc3b9da710ce279328635138b4a16288711f58517c8b7"
+    },
+    "later-current-source-compare.json": {
+      "bytes": 1272,
+      "mode": 420,
+      "sha256": "69d9d0d8963ea7708c7b5462215855a86ff90b9e4c5b2c04330d687317ee301a"
+    },
+    "later-current-source-hashes.json": {
+      "bytes": 4471,
+      "mode": 420,
+      "sha256": "425d17f3fa513251cb974893237d7c95cd4dc7a01b99bd9b3d551936546aa2bf"
+    },
+    "plan-preflight.json": {
+      "bytes": 1552,
+      "mode": 420,
+      "sha256": "45ee5d49cedb3c5a87973885910b1734b50c63f82375129bb48ae6fc0cd74c75"
+    },
+    "postbuild-tool-sdk-readback.json": {
+      "bytes": 845,
+      "mode": 420,
+      "sha256": "e93166bf8f885c276ab46d36ef3f0108195dedac3d2799dc5e3e5c29ec82963a"
+    },
+    "pre-export-evidence-path-attempt1.json": {
+      "bytes": 639,
+      "mode": 420,
+      "sha256": "8733920305c76eaf550793b4aca55aa2d17a9ef251cc04595bdb1d612f6f8856"
+    },
+    "preaccept-prerequisites.json": {
+      "bytes": 9535,
+      "mode": 420,
+      "sha256": "f35d00c428bac9b1fcc8a6322fd9ba332eccecfadbe15d365792014cffad6b88"
+    },
+    "prebuild-tool-runtime-check.json": {
+      "bytes": 954,
+      "mode": 420,
+      "sha256": "545fd7f9808b78eee368f3c863a08c2e827532d4e298aa19b5efa8b95e498657"
+    },
+    "source-bindings/auth-source-binding.json": {
+      "bytes": 1708,
+      "mode": 420,
+      "sha256": "47a7cc867991cbc638e38a750b22935ef3f648417d32d8f78154d352d5e4b682"
+    },
+    "source-bindings/financial-source-binding.json": {
+      "bytes": 2476,
+      "mode": 420,
+      "sha256": "32c47ce5db7ea72dea37b5577e22df13120fff733184a20dea6de1c134f21c77"
+    },
+    "source-export-command.log": {
+      "bytes": 1655,
+      "mode": 420,
+      "sha256": "6688084e13b5023098d88053b4776ec4994e28e69101ff82ecd8b4847857e0a0"
+    },
+    "source-export.json": {
+      "bytes": 1579,
+      "mode": 420,
+      "sha256": "9411b50281fad3a4dc0a7db5dda31bf7adbdbaeb4633607870904cc054abb7e4"
+    },
+    "source-readback-command.log": {
+      "bytes": 437,
+      "mode": 420,
+      "sha256": "c2d28815ae42aef0cb53b65814f30ae6b56c56b79cba972e53e4d17e32d843c3"
+    },
+    "source-readback.json": {
+      "bytes": 413,
+      "mode": 420,
+      "sha256": "d2f28a45ad50689362ce99c656f088d979182250bafb9595d5c267b067afe2d2"
+    },
+    "source08-input-binding.json": {
+      "bytes": 10135,
+      "mode": 420,
+      "sha256": "ef617328b2c394fb3a6ed38994df87d3a6834eb60c4bc56fcbc2355600dd7d0b"
+    },
+    "tooling/collect_release_candidate.py": {
+      "bytes": 40647,
+      "mode": 420,
+      "sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "tooling/prepare_admin_workcopy.py": {
+      "bytes": 3883,
+      "mode": 420,
+      "sha256": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2"
+    },
+    "tooling/run_admin_checkpoint.py": {
+      "bytes": 19075,
+      "mode": 420,
+      "sha256": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95"
+    },
+    "workcopy-prepare-command.log": {
+      "bytes": 1133,
+      "mode": 420,
+      "sha256": "e1cfeb85d10669b92754128b08dae44405b6b4a97cb73e28ed449b2904c2bd11"
+    },
+    "workcopy-prepare.json": {
+      "bytes": 1257,
+      "mode": 420,
+      "sha256": "55067c95e74aa4afe2f8ed1ef2c3f20dc3b23977f6991c1acd6eb0df82f336f1"
+    }
+  },
+  "files_excluded_from_self_table": [
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ],
+  "general_owner_work_authorization_received": true,
+  "hosted_mutations": 0,
+  "kind": "source08_configured_admin_local_checkpoint_packet",
+  "later_original_tree_delta_preserved": true,
+  "live_authentication_verified": false,
+  "otp_requests": 0,
+  "owner_approved_field_means_specific_artifact_acceptance": true,
+  "physical_device_acceptance": false,
+  "prior_scoped_or_historical_tests_aggregated": false,
+  "production_ready": false,
+  "provider_sends": 0,
+  "scope": "Exact retained local capture/readback/configured compiler evidence. This manifest and external hash file are excluded from their own table. No new test suite executed.",
+  "sealed_at_utc": "2026-10-01T10:43:59.737425+00:00",
+  "source_current_tree_accepted": false,
+  "tests_executed_for_this_checkpoint": 0,
+  "total_bytes": 519023,
+  "whole_admin_acceptance": false
+}

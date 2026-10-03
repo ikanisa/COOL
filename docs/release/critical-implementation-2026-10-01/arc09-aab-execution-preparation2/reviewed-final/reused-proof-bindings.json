@@ -1,0 +1,34 @@
+{
+  "reader": {
+    "actual_prior_synthetic_tests_passed": 11,
+    "helper": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py",
+      "sha256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f"
+    },
+    "historical_final_tests_receipt": "Retained earlier final-tests-result.json covers different precursor hashes; the submitted-tests-result.json is the exact current helper/test binding.",
+    "new_test_invocations": 0,
+    "test": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/test_aab_readback.py",
+      "sha256": "046aa42d82068f757e1c2735e71515a35a67ee04c8f26ba772cca7aeb683d457"
+    },
+    "valid_unchanged_receipt": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/submitted-tests-result.json",
+      "sha256": "830b2241ab6673ebe8d6467cd567ae401a6c584b7689f627bc9f6aec3d94a48a"
+    }
+  },
+  "warm8": {
+    "inheritance_receipt": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation7/review.json",
+      "sha256": "04fd5792ca40e7cdc9bc51129fb803f6fef17757908b8a662dcb0f4d6c53f25e"
+    },
+    "prior_seven_admission_test_receipt": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation4/review-and-tests.json",
+      "sha256": "af361db731d2be4b40e3f88ba734d9c95645f16660e370c0cee6cdd85a6179a4"
+    },
+    "review": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/review.json",
+      "sha256": "6729de6b7fe5b14099e0515c4de3e1154473e9e6f51d75b330f6a328de94dfe1"
+    },
+    "scope": "Warm8 retains seven prior original admission tests as stated in its exact review; native-only --rerun-tasks removal was reviewed separately. This proposal reuses boundary functions, with no new synthetic test run or overall native PASS claim."
+  }
+}

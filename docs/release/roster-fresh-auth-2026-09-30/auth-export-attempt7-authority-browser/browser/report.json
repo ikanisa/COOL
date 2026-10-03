@@ -1,0 +1,476 @@
+{
+  "status": "pass",
+  "kind": "actual_Chrome_real_vendored_GoTrue_loopback_fixture",
+  "origin": "http://127.0.0.1:50092",
+  "bundle_sha256": "bd443706c46469de024258c20076eac4112d7a292168c724bdb0e4873609c43f",
+  "bundle_unchanged": true,
+  "checks": [
+    {
+      "id": "explicit-sign-in-authenticates-only-initiating-tab",
+      "pass": true
+    },
+    {
+      "id": "refresh-does-not-authenticate-peer",
+      "pass": true
+    },
+    {
+      "id": "sign-in-refresh-send-no-channel-credentials",
+      "pass": true
+    },
+    {
+      "id": "full-page-reload-remains-signed-out-after-peer-refresh",
+      "pass": true
+    },
+    {
+      "id": "legacy-token-message-is-never-adopted",
+      "pass": true
+    },
+    {
+      "id": "old-A-invalidation-cannot-remove-new-B",
+      "pass": true
+    },
+    {
+      "id": "foreign-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "expired-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "future-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "wrong-version-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "nested-credentials-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "array-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "malformed-input-does-not-invalidate-B",
+      "pass": true
+    },
+    {
+      "id": "matching-session-revocation-clears-only-B",
+      "pass": true,
+      "a": {
+        "authenticated": true,
+        "actor": "99890000-0000-4000-8000-000000000001",
+        "session": "99890000-0000-4000-8000-000000000011",
+        "events": [
+          {
+            "event": "signedIn",
+            "from_broadcast": false,
+            "reason": null
+          },
+          {
+            "event": "tokenRefreshed",
+            "from_broadcast": false,
+            "reason": null
+          },
+          {
+            "event": "tokenRefreshed",
+            "from_broadcast": false,
+            "reason": null
+          },
+          {
+            "event": "signedOut",
+            "from_broadcast": true,
+            "reason": null
+          },
+          {
+            "event": "signedIn",
+            "from_broadcast": false,
+            "reason": null
+          }
+        ],
+        "barrier": false,
+        "web_enabled": true,
+        "observations": [
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          }
+        ]
+      },
+      "b": {
+        "authenticated": false,
+        "actor": null,
+        "session": null,
+        "events": [
+          {
+            "event": "signedIn",
+            "from_broadcast": false,
+            "reason": null
+          },
+          {
+            "event": "signedOut",
+            "from_broadcast": true,
+            "reason": null
+          }
+        ],
+        "barrier": false,
+        "web_enabled": true,
+        "observations": [
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          },
+          {
+            "keys": [
+              "protocol",
+              "version",
+              "event",
+              "project",
+              "actor",
+              "session",
+              "issued",
+              "expires"
+            ],
+            "accepts": false,
+            "issued_type": "int"
+          }
+        ]
+      }
+    },
+    {
+      "id": "genuine-logout-clears-same-session-peer",
+      "pass": true
+    },
+    {
+      "id": "logout-channel-shape-is-flat-reference-only",
+      "pass": true
+    },
+    {
+      "id": "late-old-logout-keeps-new-B-sdk-session",
+      "pass": true
+    },
+    {
+      "id": "late-old-logout-invalidates-departed-A-peer",
+      "pass": true
+    },
+    {
+      "id": "late-old-logout-emits-no-spurious-local-B-signedOut",
+      "pass": true
+    },
+    {
+      "id": "same-session-refresh-cannot-undo-pending-logout",
+      "pass": true
+    },
+    {
+      "id": "actual-server-refresh-revocation-clears-current-and-peer",
+      "pass": true
+    },
+    {
+      "id": "server-revocation-retains-sessionExpired-event-reason",
+      "pass": true
+    },
+    {
+      "id": "actual-owned-legacy-keys-cleaned-with-unrelated-values-preserved",
+      "pass": true
+    },
+    {
+      "id": "actual-sandboxed-storage-denial-prevents-auth-initialization",
+      "pass": true
+    },
+    {
+      "id": "tab0-no-persisted-browser-auth-credentials",
+      "pass": true
+    },
+    {
+      "id": "tab1-no-persisted-browser-auth-credentials",
+      "pass": true
+    },
+    {
+      "id": "tab2-no-persisted-browser-auth-credentials",
+      "pass": true
+    },
+    {
+      "id": "no-unhandled-runtime-errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/fixture-control/reject-refresh"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/fixture.js"
+    }
+  ],
+  "hosted_calls": 0,
+  "provider_calls": 0,
+  "database_calls": 0
+}

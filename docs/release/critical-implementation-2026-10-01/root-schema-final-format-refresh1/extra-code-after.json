@@ -1,0 +1,22 @@
+{
+  "scripts/audits/collect_schema_domain_caller_seams.json": {
+    "bytes": 13792,
+    "mode": 420,
+    "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc"
+  },
+  "scripts/audits/collect_schema_domain_map.py": {
+    "bytes": 55616,
+    "mode": 420,
+    "sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+  },
+  "scripts/tests/collect_schema_domain_map_test.py": {
+    "bytes": 31057,
+    "mode": 420,
+    "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  },
+  "scripts/tests/collect_schema_lineage_invalidation_test.py": {
+    "bytes": 7013,
+    "mode": 420,
+    "sha256": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+  }
+}

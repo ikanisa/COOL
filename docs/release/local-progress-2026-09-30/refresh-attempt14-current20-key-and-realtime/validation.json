@@ -1,0 +1,286 @@
+{
+  "all_original_ids_preserved": true,
+  "closed_ids": [
+    "G06"
+  ],
+  "external_state_refreshed": false,
+  "final_current_clean_replay_verified": false,
+  "full_current_source_acceptance": false,
+  "installed_migration_count": 154,
+  "installed_table_count": 153,
+  "last_complete_clean_replay": 141,
+  "last_complete_clean_replay_scope": "Historical normal-owner fixture only; not latest owner-normalized DDL replay",
+  "latest_owner_normalized_ddl_replay": 163,
+  "local_criteria_preserved": true,
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "local_snapshot_revision": 11,
+  "new_scoped_evidence_packets": [
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/install154-attempt1-guarded/result.json",
+      "sha256": "cb128e6e263af26772c420d27f8fb7a692db010a770149153dd31c6e672beb0a"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/invitation-installed154-attempt6-function-name-binding/result.json",
+      "sha256": "812377621d4b69d93c44bb7a88bfc409390642b918e8da9b64290a5028ebe9b2"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/admin-rls154-attempt3-email-integration/result.json",
+      "sha256": "888480c351c7ca4232a2f1cb0a2f46221525e5aefa13c2f69ba86de4f58dfb58"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/admin-sensitive154-attempt3-rls-audit-effects/result.json",
+      "sha256": "4c7380e271f5d04c768d522cb22da34a4a14cb7107a3237ac1ccf089d671cfc9"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/admin-sensitive154-attempt4-current-nine/result.json",
+      "sha256": "d22c870b99ae94578603a910b7c34de9faa9679c09b0fb49f7beea1fff42ad8b"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/invitation-save-final-attempt15/validation.json",
+      "sha256": "63d8fa1f1c3b38e6e948802a4f03615397cd3a39ed713133a341f3d72b95b8ff"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/validation.json",
+      "sha256": "8c850ca6326b68b318ecf3c807d05e2cd1c7457f3b1437f24428a569af0e7ef4"
+    },
+    {
+      "observed_status": "failed",
+      "path": "docs/release/data-correctness-2026-09-30/sql154-attempt2/result.json",
+      "sha256": "73f0a3ac32574dab76b9c4e863831686f00200031c78c8445709ff735f7beba7"
+    },
+    {
+      "observed_status": "pass_scoped",
+      "path": "docs/release/data-correctness-2026-09-30/sql154-attempt4-candidate234000/result.json",
+      "sha256": "a0b4878c82da8ef9ef037aaadffe9e2c774e01b5970a5c0077134f9144e245d4"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt3-exact-private-tables/result.json",
+      "sha256": "bb9ca4fddfdb7c33651b52087edacd5a9f4639d5afe684e2c9a6bef4a3adf363"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/local-qa-recovery-readback/restore-readback-attempt1.json",
+      "sha256": "76a7d31b1dee301cf146e4ca5f968c5b6d60dbbb89d8f6d7d200b6f2f40c2c8a"
+    },
+    {
+      "observed_status": "see_scoped_manifest",
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/validation.json",
+      "sha256": "eaac36ec164286c63473771b444044ba3508fe6f0cd8507a148655f1061d5f19"
+    },
+    {
+      "observed_status": "see_scoped_manifest",
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt2/validation.json",
+      "sha256": "d46b9af16a93ce323b69682777eea463523edd6a44424c5918c8c7386a824fd9"
+    },
+    {
+      "observed_status": "pass_scoped_gateway_graph",
+      "path": "docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/validation.json",
+      "sha256": "189d2353c2cc0bb525b0a67560505617d38a92e9f46f0ecba8353e881e81bb1c"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt7-exact-column-acl-all167/result.json",
+      "sha256": "f49403c79b16c7d82d82f74dfffa6b184a99c0a353347837c3a4d7cf851d70be"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-schema-acl-correction-2026-10-01/attempt3-exact-contracts/result.json",
+      "sha256": "8dd027dd33d60ed3b77b5ec15401d3706770e24012315962d011da9234db0ec3"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-09-30/email-action-bounds154-attempt2-current13-unicode-catalog/result.json",
+      "sha256": "517a00009323f53be542eef726659443eb84b188540694592c3e9ff0cd169f1a"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt21-current-calendar/validation.json",
+      "sha256": "9f69390535820215884f9d1de058da054d428219df539e7c55be5a982f0e21ee"
+    },
+    {
+      "observed_status": "see_scoped_manifest",
+      "path": "docs/release/admin-full-coverage-2026-09-30/inventory-attempt17-current-common83/validation.json",
+      "sha256": "9fd5a3d9ebcb86913ac73a40f244bb25345d86b8d00e8f60af3c657c297613bd"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/collect-codex-goal-2026-09-30/current-full-upgrade/result.json",
+      "sha256": "2782a39b3771c0fa493caeb579a9684b8a4eddaf3a633373f7efdc9216d2aae3"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt12-current18-cancel-integration/result.json",
+      "sha256": "07795cb27714975e25e19e70b5724b77763b959fc9352229d13753c83c798f9b"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-10-01/admin-rls-current18-attempt1/result.json",
+      "sha256": "af012213137cfb88dfbfb617ae43283ce370d1f2ea807cdbf639f7284f61071c"
+    },
+    {
+      "observed_status": "failed",
+      "path": "docs/release/import-export-protection-2026-10-01/sensitive-current16-unicode-attempt1/result.json",
+      "sha256": "202c4747ff3ac79dae21b9a4a47835df9835da390d7a58ce0260681488a4b439"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-10-01/sensitive-current16-unicode-attempt2-candidate/result.json",
+      "sha256": "56c51ec4327b4f780f678ef16ab782f88bcc03a87593643cd16b1ec6313524a2"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/import-export-protection-2026-10-01/sensitive-current18-unicode-attempt3-integrated/result.json",
+      "sha256": "b245de572e2fc41f16a585040fb37f75a9e8b715c80d70cee438f0d6a6385434"
+    },
+    {
+      "observed_status": "failed",
+      "path": "docs/release/runtime-controls-2026-10-01/full26-current13-attempt1/result.json",
+      "sha256": "7c7f90cdf1a78aeb1a430cc385fd0d8207c02dfacec4683ec8a26be664363079"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/runtime-controls-2026-10-01/full26-current13-attempt2-reason-candidate/result.json",
+      "sha256": "5c2f12193d1bde98ce83e8d39a007c291d88065195f349d5c365da56e008dd27"
+    },
+    {
+      "observed_status": "pass_scoped",
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt5-candidate235000/result.json",
+      "sha256": "4ba0576df7222c21e315d39adc85cf7deb02fdec395afd5b1df8d5922259763d"
+    },
+    {
+      "observed_status": "pass_scoped",
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt6-full-current167/result.json",
+      "sha256": "b7cf118a6db0bfb3e62af5135d74ea379dfbddaa83b8215acad8d006d193075a"
+    },
+    {
+      "observed_status": "fail",
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge/validation.json",
+      "sha256": "a1270967b0dfacdd1061f2d2543126c7d76331d443df0f2a5c17082e5b0abeeb"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+      "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/private-provider-scoped-acceptance.json",
+      "sha256": "102a4c8347fb76f71f4f9365b12502896d4ce9e147c80d65d0e0aa8193f1b29a"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt13-current18-source-reference/result.json",
+      "sha256": "649372575e621f3cf3f2e89a840dab7c0a23aac5f80085a32e5aa1558b93a4ac"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt17-current20-shadow-lease/result.json",
+      "sha256": "dfb3ccc4e44efb62116db428f4a6eaa6fccefb8a58ae173821cf64dd27e0eb9b"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/validation.json",
+      "sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca"
+    },
+    {
+      "observed_status": "pass_scoped_current_member_realtime",
+      "path": "docs/release/cache-session-2026-10-01/accepted-current-proof.json",
+      "sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/generated-query-benchmark-2026-10-01/diagnostic-offline-attempt3-preflight/validation.json",
+      "sha256": "a9deae02c2d036f1f79bfaedb7ab00c6ff0e30c282b949d4814168bd7a59d038"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/asset-build-hygiene-2026-09-30/public-current-content-contract-attempt133/validation.json",
+      "sha256": "b0725b585ca9219f72ecaf0f853ff50b76c1b5a1d7d06020372e631f1a5335d2"
+    },
+    {
+      "keys_retained": false,
+      "observed_status": "pass",
+      "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/state/plugins/codex-security/scans/local-qa-recovery-readback/artifacts-9695f9c8ce578ca8bc6c373da4f9f51094b3325c86b2d5d45318b79ccb0b6e6d/artifacts/02_discovery/validation_artifacts/local-qa-bootstrap/rotation1/result.json",
+      "sha256": "05b3d62ac8053bfa8c091ad6990459f84b33d3800ef49ae0d02ae366dd8e043e",
+      "storage": "persistent_security_plugin_collection"
+    },
+    {
+      "keys_retained": false,
+      "observed_status": "pass",
+      "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/state/plugins/codex-security/scans/local-qa-recovery-readback/artifacts-9695f9c8ce578ca8bc6c373da4f9f51094b3325c86b2d5d45318b79ccb0b6e6d/artifacts/02_discovery/validation_artifacts/local-qa-bootstrap/rotation1/independent-readback2.json",
+      "sha256": "b5b99afcef0cdc10938783278aa33dd66ea882bb415a13e57e53530c6ecf3613",
+      "storage": "persistent_security_plugin_collection"
+    }
+  ],
+  "original_criteria_preserved": true,
+  "owner_normalized_ddl_installer_superuser": true,
+  "prior_revision_preserved": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "5dddea5194e530a49832e55d830772d9ffb794e09749a23f9a8cf7fce5a8bcd2",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "7fbcf007cc574c2a9f51f4be4f4d3b9b689c39c75721a9271cdd2480f16565b2",
+    "local-implementation-register-2026-09-30.json": "7a866f3e9479149854033c503b8909a20264af9ee936ed408e0811bc8b2196d1",
+    "production-remaining-tasks-2026-09-30.json": "34274f93ff3afc93d3d6a23bd86721c9a5c2377e00e426573f2aac0463a9dd87",
+    "production-remaining-tasks-2026-09-30.validation.json": "1d304cac1f2cacb9a7544bb4444597316c1860bf58064512ee1d636e05a686ab"
+  },
+  "priority_counts": {
+    "Crosscutting": 2,
+    "P0": 24,
+    "P1": 71,
+    "P2": 4
+  },
+  "published_sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "9cdd0824536640581b37ac46b939aa4d4c52870b42af2d29257ed36a7fdf5aae",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a91fae884afda9114b7618f87d814d58d5eb08857b75b86ac1de43414a481dc8",
+    "local-implementation-register-2026-09-30.json": "3ec42d7d54449cba510f32f71c0bcc0b2d946869babf5ed71af8b34d4ad472db",
+    "production-remaining-tasks-2026-09-30.json": "cf4c426748a67be8cc042dc400d7c443c9d8520370e4273b59cb8a829f624508",
+    "production-remaining-tasks-2026-09-30.validation.json": "59fc723474dc07cbb3237f8d668ea01c40318e3adc0ca7a1965674b9b05bb8ce"
+  },
+  "scope": "Register integrity and scoped154 progress only; not whole-system acceptance",
+  "sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "9cdd0824536640581b37ac46b939aa4d4c52870b42af2d29257ed36a7fdf5aae",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a91fae884afda9114b7618f87d814d58d5eb08857b75b86ac1de43414a481dc8",
+    "local-implementation-register-2026-09-30.json": "3ec42d7d54449cba510f32f71c0bcc0b2d946869babf5ed71af8b34d4ad472db",
+    "production-remaining-tasks-2026-09-30.json": "cf4c426748a67be8cc042dc400d7c443c9d8520370e4273b59cb8a829f624508"
+  },
+  "snapshot_revision": 13,
+  "source_migration_count": 174,
+  "staged_source_versions": [
+    "20260930211605",
+    "20260930213000",
+    "20260930220527",
+    "20260930230100",
+    "20260930230200",
+    "20260930230300",
+    "20260930230400",
+    "20260930233000",
+    "20260930234000",
+    "20260930235000",
+    "20260930235500",
+    "20260930235600",
+    "20260930235700",
+    "20261001000100",
+    "20261001000200",
+    "20261001000300",
+    "20261001000400",
+    "20261001000519",
+    "20261001001457",
+    "20261001003338"
+  ],
+  "status": "pass",
+  "unique_open_rows": 101,
+  "validated_at_utc": "2026-10-01T00:41:21.545128+00:00"
+}

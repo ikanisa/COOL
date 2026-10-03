@@ -1,0 +1,37 @@
+{
+  "SQL_executed": false,
+  "actual_seconds": 5.471,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/generated-current209-successor3",
+    "--verify",
+    "--require-current"
+  ],
+  "code_after": {
+    "scripts/audits/collect_schema_domain_map.py": "a31c33c076cfa417cdea274528d2ab559aaf1ea1659975e8d5afad5af57b6901",
+    "scripts/audits/collect_schema_function_lineage.py": "c7f7c3edcc5af3ed926a1435f54223e9668c5b96e45c480bd69d50827c2b346a",
+    "scripts/tests/collect_schema_function_lineage_cases.json": "ac15629aae49bc8fb735dfa8ae6617dd6e514f6a338d92a9a5c1e13681103998",
+    "scripts/tests/collect_schema_function_lineage_test.py": "3c2f995fc35cbf3e47a0a65f07c7a1af8ea735ec81dd270428663a3752d4829d"
+  },
+  "code_before": {
+    "scripts/audits/collect_schema_domain_map.py": "a31c33c076cfa417cdea274528d2ab559aaf1ea1659975e8d5afad5af57b6901",
+    "scripts/audits/collect_schema_function_lineage.py": "c7f7c3edcc5af3ed926a1435f54223e9668c5b96e45c480bd69d50827c2b346a",
+    "scripts/tests/collect_schema_function_lineage_cases.json": "ac15629aae49bc8fb735dfa8ae6617dd6e514f6a338d92a9a5c1e13681103998",
+    "scripts/tests/collect_schema_function_lineage_test.py": "3c2f995fc35cbf3e47a0a65f07c7a1af8ea735ec81dd270428663a3752d4829d"
+  },
+  "code_unchanged": true,
+  "deadline_seconds": 30,
+  "environment": {
+    "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+  },
+  "exit_code": 0,
+  "group_absent": true,
+  "maintained_changes": false,
+  "timed_out": false
+}

@@ -1,0 +1,13 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/test_preparation.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/test_original_guards.py
+@@ -15,8 +15,8 @@
+ import zipfile
+ from pathlib import Path
+ 
+-HERE = Path(__file__).resolve().parent
+-FIXTURES = HERE / 'negative-fixtures/preparation-attempt4'
++HERE = Path(__file__).resolve().parent.parent / 'kotlin-sdk-native-consumer-preparation1'
++FIXTURES = Path(__file__).resolve().parent / 'negative-fixtures/regression-attempt1'
+ 
+ 
+ def module(file, name):

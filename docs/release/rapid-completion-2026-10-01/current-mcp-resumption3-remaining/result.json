@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "other-files",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/keychain_store.test.ts",
+        "src/operational_client.test.ts",
+        "src/operational_health.test.ts",
+        "src/operational_transport.test.ts",
+        "src/operator_client.test.ts",
+        "src/operator_login.test.ts",
+        "src/preflight.test.ts",
+        "src/runtime_credentials.test.ts",
+        "src/server.test.ts",
+        "src/server_transport.test.ts",
+        "src/session_renewal.test.ts",
+        "src/shadow_cli_options.test.ts",
+        "src/shadow_client.test.ts",
+        "src/shadow_stdio.test.ts",
+        "src/shadow_supervisor.test.ts",
+        "src/stdio_preflight.test.ts",
+        "src/supervisor_client.test.ts",
+        "src/supervisor_journal.test.ts",
+        "src/unattended_client.test.ts",
+        "src/unattended_enrollment.test.ts",
+        "src/unattended_enrollment_observed.test.ts",
+        "src/unattended_journal.test.ts",
+        "src/unattended_profile.test.ts",
+        "src/unattended_runner.test.ts",
+        "src/unattended_scheduler.test.ts",
+        "src/unattended_stdio.test.ts",
+        "src/unattended_store.test.ts"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "history-tail",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-name-pattern=^(large legacy history migration is bounded, durable and resumes without reusing a mutation UUID|history names reject invalid sequence/key/principal before any evidence access|a plan prepared during previous backoff is not confused with its later claim time|head source changed during index publication cannot be accepted as a current-head proof)$",
+        "src/unattended_history.test.ts"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "export_drift": [],
+  "scope": "All other27 modules terminal run and four unmet history cases; prior17 named history successes remain bound to exact unchanged immutable source. Original whole600s deadline retained.",
+  "prior_packet": "current-mcp-resumption2-project-layout",
+  "ended_at": "2026-10-01T13:56:28.796389+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "telemetry": [
+    "no-configured-scope.json",
+    "multipart-partial-callbacks.json",
+    "conflicting-callbacks.json",
+    "inactive-sampler.json",
+    "active-six-alerts.json",
+    "same-active-episodes.json",
+    "real-time-window-rollover.json",
+    "locked-measurement-unavailable.json",
+    "deep-history-current-window.json",
+    "timed-out-original-sample.json",
+    "scope-unavailable-after-alerts.json",
+    "backlog-source-cleared.json",
+    "new-policy-scope.json"
+  ],
+  "exception_inbox": [
+    "telemetry-inbox.json"
+  ],
+  "workflow": [
+    "active-workflow.json",
+    "assigned-workflow.json",
+    "escalated-workflow.json",
+    "source-cleared-workflow.json",
+    "resolved-workflow.json",
+    "superseded-workflow.json"
+  ]
+}

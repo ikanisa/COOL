@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "exit_code": 0,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "900",
+    "--test-file",
+    "test/admin_sensitive_permission_test.dart",
+    "--test-file",
+    "test/admin_data_sync_test.dart"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+    "test/admin_shadow_runs_repository_test.dart"
+  ],
+  "input_count": 771,
+  "acceptance_sha256": "f659a787c4c5901efc7e197ad395822fa8c3ae5c3747c8922d1a16bd53bbe9fc",
+  "test_count": 7,
+  "analysis_clean": true,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

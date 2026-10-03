@@ -1,0 +1,278 @@
+[
+  {
+    "route": "/",
+    "live_url": "https://collect.ikanisa.com/",
+    "live_status": 200,
+    "live_sha256": "2d7ab66c36d26f41a29edfc51ff82945960c37cf24aefbe2ddf3769a74bb9b60",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+    "candidate_sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+    "bytes_equal": false,
+    "root_visible_text_equal": false,
+    "live_canonical": "https://collect.ikanisa.com/",
+    "candidate_canonical": "https://collect.ikanisa.com/",
+    "canonical_equal": true,
+    "live_h1": "Microsavings and group savings for daily earners",
+    "candidate_h1": "Microsavings and group savings for daily earners",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/marketing/rwanda/kigali-woman-hero.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/marketing/rwanda/community-savings.png",
+        "alt": "A community planning its savings together"
+      },
+      {
+        "src": "/assets/marketing/rwanda/everyday-payments.png",
+        "alt": "A shop owner and customer using their phones"
+      },
+      {
+        "src": "/assets/marketing/rwanda/banking-together.png",
+        "alt": "A business owner discussing a financial plan"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/marketing/rwanda/kigali-woman-hero.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/marketing/rwanda/community-savings.png",
+        "alt": "A community planning its savings together"
+      },
+      {
+        "src": "/assets/marketing/rwanda/everyday-payments.png",
+        "alt": "A shop owner and customer using their phones"
+      },
+      {
+        "src": "/assets/marketing/rwanda/banking-together.png",
+        "alt": "A business owner discussing a financial plan"
+      }
+    ],
+    "visible_text_diff": "root.visible-text.diff"
+  },
+  {
+    "route": "/privacy/",
+    "live_url": "https://collect.ikanisa.com/privacy/",
+    "live_status": 200,
+    "live_sha256": "72cf11807b11c2e94e69d942e5c51426471ca6ee2778ab6400f05a47e5e28e06",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+    "candidate_sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+    "bytes_equal": false,
+    "legal_visible_text_equal": false,
+    "live_canonical": "https://collect.ikanisa.com/privacy/",
+    "candidate_canonical": "https://collect.ikanisa.com/privacy/",
+    "canonical_equal": true,
+    "live_h1": "Your data. Your choice. Your financial journey.",
+    "candidate_h1": "Your data. Your choice. Your financial journey.",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/privacy-57252d6e00f7.png",
+        "alt": "The Privacy Policy screen in the Collect app"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/privacy-7b76225f8802.png",
+        "alt": "The Privacy Policy screen in the Collect app"
+      }
+    ],
+    "visible_text_diff": "privacy.visible-text.diff"
+  },
+  {
+    "route": "/terms/",
+    "live_url": "https://collect.ikanisa.com/terms/",
+    "live_status": 200,
+    "live_sha256": "937463944c5d0d758932d360c5206cfef3d5607b55bd719f706c993186cacc23",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+    "candidate_sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+    "bytes_equal": false,
+    "legal_visible_text_equal": false,
+    "live_canonical": "https://collect.ikanisa.com/terms/",
+    "candidate_canonical": "https://collect.ikanisa.com/terms/",
+    "canonical_equal": true,
+    "live_h1": "Clear rules for using Collect.",
+    "candidate_h1": "Clear rules for using Collect.",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/terms-71f5644e1234.png",
+        "alt": "The Terms and Conditions screen in the Collect app"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/terms-f670cece7e23.png",
+        "alt": "The Terms and Conditions screen in the Collect app"
+      }
+    ],
+    "visible_text_diff": "terms.visible-text.diff"
+  },
+  {
+    "route": "/account-deletion/",
+    "live_url": "https://collect.ikanisa.com/account-deletion/",
+    "live_status": 200,
+    "live_sha256": "960f8bda950c9b1a057c6bdabea5b7c488730c9c46e462b05f731cd71fb4cccd",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+    "candidate_sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+    "bytes_equal": false,
+    "legal_visible_text_equal": false,
+    "live_canonical": "https://collect.ikanisa.com/account-deletion/",
+    "candidate_canonical": "https://collect.ikanisa.com/account-deletion/",
+    "canonical_equal": true,
+    "live_h1": "Delete your Collect account.",
+    "candidate_h1": "Delete your Collect account.",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+        "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/account-deletion-832163ce2213.png",
+        "alt": "Collect account deletion screen before any reason or submission is selected"
+      }
+    ],
+    "visible_text_diff": "account-deletion.visible-text.diff"
+  },
+  {
+    "route": "/data-deletion/",
+    "live_url": "https://collect.ikanisa.com/data-deletion/",
+    "live_status": 200,
+    "live_sha256": "7ae88bf153dc8a710b6662598d7df9fe2acece6ddca5ad8a98c53139e670e04f",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+    "candidate_sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+    "bytes_equal": false,
+    "legal_visible_text_equal": false,
+    "live_canonical": "https://collect.ikanisa.com/data-deletion/",
+    "candidate_canonical": "https://collect.ikanisa.com/data-deletion/",
+    "canonical_equal": true,
+    "live_h1": "Data deletion and retention",
+    "candidate_h1": "Data deletion and retention",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+        "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/account-deletion-832163ce2213.png",
+        "alt": "Collect account deletion screen before any reason or submission is selected"
+      }
+    ],
+    "visible_text_diff": "data-deletion.visible-text.diff"
+  },
+  {
+    "route": "/trust/",
+    "live_url": "https://collect.ikanisa.com/trust/",
+    "live_status": 200,
+    "live_sha256": "7af7bf9f3b735918143045a122ed53c7a2a5e7a7bc88a3a11744f0868ed3a06f",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+    "candidate_sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+    "bytes_equal": false,
+    "legal_visible_text_equal": true,
+    "live_canonical": "https://collect.ikanisa.com/trust/",
+    "candidate_canonical": "https://collect.ikanisa.com/trust/",
+    "canonical_equal": true,
+    "live_h1": "Security and trust",
+    "candidate_h1": "Security and trust",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/security-cee237570184.png",
+        "alt": "Collect security settings and MoMo payment safety information"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/security-ab4cafded6f0.png",
+        "alt": "Collect security settings and MoMo payment safety information"
+      }
+    ],
+    "visible_text_diff": "trust.visible-text.diff"
+  },
+  {
+    "route": "/security/",
+    "live_url": "https://collect.ikanisa.com/security/",
+    "live_status": 200,
+    "live_sha256": "a6b089c21868edf871fdf7b7de20edca2b1c5ec656d70741c911ede43189fe51",
+    "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+    "candidate_sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+    "bytes_equal": false,
+    "legal_visible_text_equal": true,
+    "live_canonical": "https://collect.ikanisa.com/security/",
+    "candidate_canonical": "https://collect.ikanisa.com/security/",
+    "canonical_equal": true,
+    "live_h1": "Security, privacy and trust controls.",
+    "candidate_h1": "Security, privacy and trust controls.",
+    "candidate_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/security-cee237570184.png",
+        "alt": "Collect security settings and MoMo payment safety information"
+      }
+    ],
+    "live_hero_images": [
+      {
+        "src": "/icons/collect.png",
+        "alt": ""
+      },
+      {
+        "src": "/assets/app-screens/security-ab4cafded6f0.png",
+        "alt": "Collect security settings and MoMo payment safety information"
+      }
+    ],
+    "visible_text_diff": "security.visible-text.diff"
+  }
+]

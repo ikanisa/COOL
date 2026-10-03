@@ -1,0 +1,90 @@
+{
+  "files": [
+    {
+      "bytes": 1103,
+      "path": "SDK-readback-after-built.json",
+      "sha256": "2c3c19dcd5bb94fad3d43c30247411333ee5afd057446ce9a36f82789a9859c3"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-after-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-after-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 1104,
+      "path": "SDK-readback-before-built.json",
+      "sha256": "f6c8d28d39bb067d5b6586d79b437d999b56e75ba6db819b0069f667d4b00b1c"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-before-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-before-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-after-built.json",
+      "sha256": "c3d63e3cac6ffa789aa96c2d52ceb892f848509cf0e5a8eabf114e28cf2d86f5"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-before-built.json",
+      "sha256": "40ee30fadeca08e81cf3dcae704a595b978f07c89ff5dc2cb08dde4786c95835"
+    },
+    {
+      "bytes": 60531,
+      "path": "actual-app-packages.json",
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2"
+    },
+    {
+      "bytes": 892247,
+      "path": "actual-app-source.json",
+      "sha256": "08ab6c7d635f266972a971333439543b7aa208eb641bde6d415bef8e57cea509"
+    },
+    {
+      "bytes": 791,
+      "path": "actual-command.json",
+      "sha256": "ee0428136d1d6a4e7820ab2ee5fa6754f1545806b7ada9740a9748f5b63f2baa"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 3349,
+      "path": "actual-command.stdout",
+      "sha256": "44060f88af324595dd0d9c0e9f238a8c0a781971788fef01aea77e5ac26cd428"
+    },
+    {
+      "bytes": 117582,
+      "path": "actual-plugin-bindings.json",
+      "sha256": "246abf00862c69ef045b04af5da3888b5ced919f15248c4cafb13887406c4bbc"
+    },
+    {
+      "bytes": 514,
+      "path": "readback.json",
+      "sha256": "c55a78c096bdd6c5f850e2e20789dd4c1c8bc30f45f60df04f62ea51a2f6c250"
+    },
+    {
+      "bytes": 417,
+      "path": "start.json",
+      "sha256": "11d0a4733da75be6406cf54dca487001b98f1e79b8b59701e8b772857b7d10c1"
+    },
+    {
+      "bytes": 377,
+      "path": "terminal.json",
+      "sha256": "76154071fe5c4d687bdd3b0d76ad0fd9ff51b25db66f4b9f730719ac27bab732"
+    }
+  ],
+  "leaf_count": 17
+}

@@ -83,13 +83,13 @@ class Dialog(private val activity: Activity) : PluginRegistry.ActivityResultList
                     result = null
                 }
             } catch (e: SecurityException) {
-                Log.d(TAG, "Security Exception while saving file" + e.message)
+                Log.d(TAG, "File save denied")
                 withContext(Dispatchers.Main) {
                     result?.error("Security Exception", e.localizedMessage, e)
                     result = null
                 }
             } catch (e: Exception) {
-                Log.d(TAG, "Exception while saving file" + e.message)
+                Log.d(TAG, "File save failed")
                 withContext(Dispatchers.Main) {
                     result?.error("Error", e.localizedMessage, e)
                     result = null

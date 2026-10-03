@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-09-30T21:49:07.817787+00:00",
+  "scope": "Owned gateway inputs only; no whole source release acceptance",
+  "source_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "scripts/tests/android_gateway_identity_uat.py": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8",
+    "supabase/functions/collect-android-gateway/handler.ts": "bdd6bf6e0e94867b2715fb9216a582e2346fcd9065f58f5820a5ad3d10e49e70",
+    "supabase/functions/collect-android-gateway/index.ts": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+    "supabase/functions/collect-android-gateway/handler_test.ts": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801"
+  },
+  "config_entry": "[functions.collect-android-gateway]\nverify_jwt = false",
+  "config_entry_sha256": "f47d85c9552c5452f99a426907b8f9f714f921e5710dc8e9c579ca690f782af0"
+}

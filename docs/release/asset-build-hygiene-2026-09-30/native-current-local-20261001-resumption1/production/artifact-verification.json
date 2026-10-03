@@ -1,0 +1,98 @@
+{
+  "aeonik_absent": true,
+  "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-production/app-production-release-unsigned.apk",
+  "artifact_sha256": "f02d1f96cc3823e76ebea44ef9ebb78fc5947c19cf58e19ce0e49f2843e21a0a",
+  "bytes": 96406209,
+  "captured_native_inputs_current": false,
+  "commands": [
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 1,
+      "name": "artifact-signature",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 0,
+      "name": "artifact-manifest",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "1f57a6058495182a16b35b60c2f410778b418af06037ca477a8047f7226dcefe"
+    }
+  ],
+  "inter_font_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "inter_license_sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "jvm_counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "kind": "local_unsigned_native_qa_artifact",
+  "lint_errors": 0,
+  "lint_warning_count": 37,
+  "live_captured_native_input_drift": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": {
+      "candidate": "7ff291403e64467543541296d56062e015ff19cfeb3ee27ece62120a173c40ef",
+      "live": "e6bc27a704fe9ac5ce27b74479c92617dedd7baeca4487cda1a82e155057fe13"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "candidate": "d2408cf66dc3c1333eab085c7b946aca032f6a743d05968ad9b3f7a11aa907df",
+      "live": "9fbf5e35d032b33aad134ed87a3bb9f1b2391a6f4654b5070bcb7a5b65366495"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "candidate": "75fe1313605c380aaf86756b59cfd26bf0347d36894709a1e22eaf1fa3de330f",
+      "live": "367c7c90c7c0536cede856eb243656dfb23de02d2ab488b53c108f042a111911"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "candidate": "f269cd60e940734cd86f42816c89cd44fe38bfea1d41fd718749f52076d50cb1",
+      "live": "652e76751bef39e19c2be7a3ee857f4771d87d4da2c909cf0c531cd1e793f031"
+    },
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt": {
+      "candidate": "fe6d54b57616d1c9414131286560f218ed09e272ff511acc844db1260925ab23",
+      "live": "0c264f9f8dace9b126b0529b60f69c84c41281906bc5258a1965d4c80c5d2947"
+    },
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": {
+      "candidate": "efb528b66fe9c677d11295fb5c94682fd23a604b25d952eebb12eaa423b806b5",
+      "live": "d9cf53edc830b0ce9b3d564454aa00fc0c7be42f68d4c8df20d82abd2986c3e5"
+    },
+    "lib/admin/core/admin_automations_page.dart": {
+      "candidate": "36ca21c52aa7ea9311d74de04da041b459bddd3a0f70586957cd5b2a6aff0432",
+      "live": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "candidate": "21995741a267497737654e4b75ab221c17abf29fa0094dc66a6479aed3c79939",
+      "live": "21b62b7f5490beceed7b7d8d954b4275a27459bcfceb18d8c2ede292a1fb9ccf"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "candidate": "2b5f4fd442a6c62e6b7567b13393e3f7f91e1c9032937f936c44c27612c48e5f",
+      "live": "87b48d375cf3324bb4ea24d41ab6dc89417c0d4e1a7458cd08c82e1b4bee1973"
+    }
+  },
+  "native_execution": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/execution-recorder-continuation1.json",
+  "native_execution_sha256": "74775334916d42823900e30453a71f7608b2e4359562aa080c7891c8131aafb8",
+  "observed_runtime_component_count": 173,
+  "platform": "production",
+  "qa_marker": {
+    "kind": "local_unsigned_native_qa",
+    "provider_configuration": false,
+    "signing": false,
+    "store_acceptance": false
+  },
+  "scope": "Exact frozen root candidate and recorded generated/cache compiler inputs. No signed release, device/provider/hosted/store or whole mutable-repository acceptance.",
+  "source_export_sha256": "38b66dccd8608edc7a765dcd3335beee353c211150f0507a5e3c604924b9558d",
+  "source_file_count": 1103,
+  "source_unchanged": true,
+  "status": "pass",
+  "unsigned_verified": true
+}

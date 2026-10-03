@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 
 import 'utils.dart';
+import 'synthetic_jwt.dart';
 
 void main() {
   final env = DotEnv();
@@ -21,9 +22,7 @@ void main() {
 
     setUp(() async {
       final response = await http.post(
-        Uri.parse(
-          resetAuthDataUrl,
-        ),
+        Uri.parse(resetAuthDataUrl),
         headers: {
           'x-forwarded-for': '127.0.0.1',
           'apikey': getServiceRoleToken(env),
@@ -38,10 +37,7 @@ void main() {
 
       client = GoTrueClient(
         url: gotrueUrl,
-        headers: {
-          'Authorization': 'Bearer $anonToken',
-          'apikey': anonToken,
-        },
+        headers: {'Authorization': 'Bearer $anonToken', 'apikey': anonToken},
         asyncStorage: asyncStorage,
         flowType: AuthFlowType.implicit,
       );
@@ -49,10 +45,7 @@ void main() {
 
     test('getClaims() with valid JWT from current session', () async {
       // Sign up a user first
-      final response = await client.signUp(
-        email: newEmail,
-        password: password,
-      );
+      final response = await client.signUp(email: newEmail, password: password);
 
       expect(response.session, isNotNull);
 
@@ -70,10 +63,7 @@ void main() {
 
     test('getClaims() with explicit JWT parameter', () async {
       // Sign up a user first
-      final response = await client.signUp(
-        email: newEmail,
-        password: password,
-      );
+      final response = await client.signUp(email: newEmail, password: password);
 
       expect(response.session, isNotNull);
       final accessToken = response.session!.accessToken;
@@ -109,19 +99,20 @@ void main() {
 
     test('getClaims() throws with expired JWT', () async {
       // This is an expired JWT token (exp is in the past)
-      const expiredJwt =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNTE2MjM5MDIyfQ.4Adcj0vVzr2Nzz_KKAKrVZsLZyTBGv9-Ey8SN0p7Kzs';
-
-      expect(
-        () => client.getClaims(expiredJwt),
-        throwsA(isA<AuthException>()),
+      final expiredJwt = syntheticJwt(
+        {"alg": "HS256", "typ": "JWT"},
+        {"sub": "1234567890", "exp": 1516239022},
       );
+
+      expect(() => client.getClaims(expiredJwt), throwsA(isA<AuthException>()));
     });
 
     test('getClaims() with allowExpired option allows expired JWT', () async {
       // This is an expired JWT token (exp is in the past)
-      const expiredJwt =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNTE2MjM5MDIyfQ.4Adcj0vVzr2Nzz_KKAKrVZsLZyTBGv9-Ey8SN0p7Kzs';
+      final expiredJwt = syntheticJwt(
+        {"alg": "HS256", "typ": "JWT"},
+        {"sub": "1234567890", "exp": 1516239022},
+      );
 
       // With allowExpired, we should be able to decode the JWT
       // Note: This will still fail at getUser() because the token is invalid on the server
@@ -140,10 +131,7 @@ void main() {
     });
 
     test('getClaims() with options parameter (allowExpired false)', () async {
-      final response = await client.signUp(
-        email: newEmail,
-        password: password,
-      );
+      final response = await client.signUp(email: newEmail, password: password);
 
       expect(response.session, isNotNull);
 
@@ -158,10 +146,7 @@ void main() {
 
     test('getClaims() verifies JWT with server', () async {
       // Sign up a user
-      final response = await client.signUp(
-        email: newEmail,
-        password: password,
-      );
+      final response = await client.signUp(email: newEmail, password: password);
 
       expect(response.session, isNotNull);
       final accessToken = response.session!.accessToken;
@@ -174,10 +159,7 @@ void main() {
     });
 
     test('getClaims() contains all standard JWT claims', () async {
-      final response = await client.signUp(
-        email: newEmail,
-        password: password,
-      );
+      final response = await client.signUp(email: newEmail, password: password);
 
       expect(response.session, isNotNull);
 
@@ -223,10 +205,7 @@ void main() {
 
       client = GoTrueClient(
         url: gotrueUrl,
-        headers: {
-          'Authorization': 'Bearer $anonToken',
-          'apikey': anonToken,
-        },
+        headers: {'Authorization': 'Bearer $anonToken', 'apikey': anonToken},
         asyncStorage: asyncStorage,
         flowType: AuthFlowType.implicit,
       );
@@ -240,8 +219,17 @@ void main() {
         // Header: {"alg":"RS256","typ":"JWT","kid":"test-key-id"}
         // Payload: {"sub":"1234567890","aud":"authenticated","exp":9999999999,"iat":1516239022,"email":"test@example.com","role":"authenticated"}
         // Signature: dummy base64url encoded signature (not cryptographically valid, but structurally valid)
-        const rs256Jwt =
-            'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRlc3Qta2V5LWlkIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoiYXV0aGVudGljYXRlZCIsImV4cCI6OTk5OTk5OTk5OSwiaWF0IjoxNTE2MjM5MDIyLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJyb2xlIjoiYXV0aGVudGljYXRlZCJ9.SW52YWxpZFNpZ25hdHVyZURhdGFIZXJlVGhhdElzTm90UmVhbEJ1dFZhbGlkQmFzZTY0VXJs';
+        final rs256Jwt = syntheticJwt(
+          {"alg": "RS256", "typ": "JWT", "kid": "test-key-id"},
+          {
+            "sub": "1234567890",
+            "aud": "authenticated",
+            "exp": 9999999999,
+            "iat": 1516239022,
+            "email": "test@example.com",
+            "role": "authenticated",
+          },
+        );
 
         // Before the fix, this would crash with:
         // "Null check operator used on a null value"
@@ -268,8 +256,15 @@ void main() {
   group('JWT helper functions', () {
     test('decodeJwt() successfully decodes valid JWT', () {
       // A sample JWT with known values
-      final jwt =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRlc3Qta2lkIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.XyI0rWcOYLpz3R8G8qHWmg7U-tWMHJqzN_e1oDQKzgc';
+      final jwt = syntheticJwt(
+        {"alg": "HS256", "typ": "JWT", "kid": "test-kid"},
+        {
+          "sub": "1234567890",
+          "name": "John Doe",
+          "iat": 1516239022,
+          "exp": 9999999999,
+        },
+      );
 
       final decoded = decodeJwt(jwt);
 
@@ -311,8 +306,15 @@ void main() {
     });
 
     test('decodeJwtPayload() successfully decodes valid JWT', () {
-      final jwt =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRlc3Qta2lkIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.XyI0rWcOYLpz3R8G8qHWmg7U-tWMHJqzN_e1oDQKzgc';
+      final jwt = syntheticJwt(
+        {"alg": "HS256", "typ": "JWT", "kid": "test-kid"},
+        {
+          "sub": "1234567890",
+          "name": "John Doe",
+          "iat": 1516239022,
+          "exp": 9999999999,
+        },
+      );
 
       final payload = decodeJwtPayload(jwt);
 
@@ -345,10 +347,7 @@ void main() {
       final pastTime = DateTime.now().subtract(Duration(hours: 1));
       final exp = pastTime.millisecondsSinceEpoch ~/ 1000;
 
-      expect(
-        () => validateExp(exp),
-        throwsA(isA<AuthException>()),
-      );
+      expect(() => validateExp(exp), throwsA(isA<AuthException>()));
     });
 
     test('validateExp() succeeds on valid token', () {
@@ -359,10 +358,7 @@ void main() {
     });
 
     test('validateExp() throws on null exp', () {
-      expect(
-        () => validateExp(null),
-        throwsA(isA<AuthException>()),
-      );
+      expect(() => validateExp(null), throwsA(isA<AuthException>()));
     });
   });
 }

@@ -1,0 +1,63 @@
+{
+  "valid": true,
+  "concepts": 44,
+  "families": {
+    "savings_livelihoods": 9,
+    "weddings": 6,
+    "faith_giving": 7,
+    "family_solidarity": 6,
+    "education": 4,
+    "community_projects": 4,
+    "sport_culture": 6,
+    "diaspora": 2
+  },
+  "source_pngs_saved": 44,
+  "runtime_ready": 0,
+  "scope": "Asset bank preparation; not mobile acceptance",
+  "active_unique_hashes": 44,
+  "byte_identical_returned_originals": 44,
+  "png_crc_and_stream_integrity": 44,
+  "prompt_sha_matches": 44,
+  "http_200_exact_bytes": 44,
+  "dimensions": {
+    "(1086, 1448)": 44
+  },
+  "source_files_including_previous_versions": 50,
+  "previous_wedding_versions_preserved": 6,
+  "active_source_bytes": 98796942,
+  "all_source_bytes": 113087135,
+  "filter_checks": {
+    "named_buri_munsi": 1,
+    "named_gikundiro": 1,
+    "all_general_with_explicit_contexts": 42,
+    "church": 5,
+    "sport_generic": 4,
+    "weddings": 6,
+    "named_groups_not_inferred_from_query": true
+  },
+  "browser_review": {
+    "scope": "Read-only local gallery at 4194, CUA screenshots and accessibility state; not native app acceptance",
+    "observed": [
+      "44 of 44 saved",
+      "Buri munsi dedicated filter and tall card",
+      "Gikundiro dedicated filter, tall card and circular crop",
+      "All six wedding version 2 tall cards and landscape crops",
+      "Wedding concept 13 version 2 retains faces and gifts in the sampled landscape crop",
+      "Church filter has five options including 43",
+      "General sport filter has four options including 44 and excludes Gikundiro",
+      "All images button shows 44 matching images with Buri munsi and Gikundiro first; gallery left open as deliverable"
+    ]
+  },
+  "remaining": [
+    "cultural and language review",
+    "final native crop and accessibility acceptance",
+    "optimised runtime derivatives",
+    "picker integration and durable persistence",
+    "named public-group assignment"
+  ],
+  "checks": {
+    "python_helpers_compile": "passed",
+    "scoped_git_diff_check": "passed",
+    "production_records": 50
+  }
+}

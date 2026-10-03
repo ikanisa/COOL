@@ -1,0 +1,28 @@
+NOTICE:  00000: policy "policy documents public published read" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy documents admin manage" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy sections public published read" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy sections admin manage" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy acceptance own read" for relation "policy_acceptance_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy acceptance own insert" for relation "policy_acceptance_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "account request reasons public enabled read" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "account request reasons admin manage" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

@@ -1,0 +1,6 @@
+{
+  "file": "test/admin_email_login_test.dart",
+  "sha256": "1cae595162ee36979b63057f64665865a79dc6da20e437253cdfe5052e63bb07",
+  "source_stable_during_preservation": true,
+  "scope": "Root-authorized fixture-only denied verification regression; no runtime semantic edit."
+}

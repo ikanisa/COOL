@@ -1,0 +1,7 @@
+supabase/functions/collect-receipt-supervisor/handler.ts(85,13): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(85,26): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(85,49): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(86,44): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(87,15): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(88,15): error TS2532: Object is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(89,56): error TS2532: Object is possibly 'undefined'.

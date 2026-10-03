@@ -1,0 +1,35 @@
+{
+  "kind": "accepted_scoped_local_sql_publication",
+  "status": "pass",
+  "migration_path": "supabase/migrations/20261001190000_exception_followup_v2.sql",
+  "migration_sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+  "runner_path": "scripts/tests/exception_followup_v2_uat.py",
+  "runner_sha256": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b",
+  "schema_sha256": "15db4e51d0006a7152fac8f82d6acc167b69322e59602682be5408686c263170",
+  "accepted_sql_cases": 83,
+  "contract_validation_checks": 25,
+  "source_unchanged": true,
+  "task_container_removed": true,
+  "candidate_inventory_at_seal": 186,
+  "whole_candidate_tested": false,
+  "cli_creation": {
+    "path": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+    "sha256": "ff98309522fb619ef7d0a1e65bba597bcd2298cca98657b3b16eaf1f94fa8ab6",
+    "version": "2.84.2",
+    "generated": "supabase/migrations/20261001144443_exception_followup_v2.sql",
+    "renamed_to": "supabase/migrations/20261001190000_exception_followup_v2.sql"
+  },
+  "deployment_performed": false,
+  "hosted_called": false,
+  "full185_installer_blocker_resolved": false,
+  "scoped_limitations": [
+    "Local installer postgres superuser normalization",
+    "Owner-normalized retained schema153 plus captured additive subset",
+    "SET LOCAL authenticated role and synthetic JWT claims; no signed JWT",
+    "Mock cron catalog only; scheduler/net/provider runtime untested"
+  ],
+  "failed_attempts_retained": [
+    "attempt1:76 passes then source-fixture baseline comparison failure; target removed",
+    "contract-validation-attempt1: ancestor fixture path error before validation; corrected validator has25 readback passes"
+  ]
+}

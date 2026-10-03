@@ -1,0 +1,6 @@
+{
+  "task_owned_parent_pid": 78612,
+  "terminated_task_owned_child_pid": 89706,
+  "reason": "First captured shim compiler exceeded480seconds; no tests executed. Stop redundant API-only follow-up; change compilation to executed suites, preserving all affected tests.",
+  "other_processes_touched": false
+}

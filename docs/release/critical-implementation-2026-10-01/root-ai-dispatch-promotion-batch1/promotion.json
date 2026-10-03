@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-02T02:16:52.652209+00:00",
+  "status": "applied_exact_reviewed_seven",
+  "before": {
+    "supabase/functions/_shared/roster_ai_dispatch_policy.ts": null,
+    "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts": null,
+    "supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts": null,
+    "supabase/functions/_shared/roster_decoder_integration_test.ts": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+    "supabase/functions/prepare-roster-import/handler.ts": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+    "supabase/functions/prepare-roster-import/handler_test.ts": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d",
+    "supabase/functions/prepare-roster-import/index.ts": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+  },
+  "applied": [
+    "supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+    "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+    "supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+    "supabase/functions/_shared/roster_decoder_integration_test.ts",
+    "supabase/functions/prepare-roster-import/handler.ts",
+    "supabase/functions/prepare-roster-import/handler_test.ts",
+    "supabase/functions/prepare-roster-import/index.ts"
+  ]
+}

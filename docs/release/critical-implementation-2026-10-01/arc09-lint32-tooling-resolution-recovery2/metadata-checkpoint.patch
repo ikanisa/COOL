@@ -1,0 +1,202 @@
+--- a/minimal-project/build.gradle
++++ b/minimal-project/build.gradle
+@@ -1,5 +1,7 @@
+ import groovy.json.JsonOutput
+ import java.security.MessageDigest
++import java.nio.file.Files
++import java.nio.file.StandardCopyOption
+ import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+ import org.gradle.api.artifacts.component.ModuleComponentSelector
+ import org.gradle.api.artifacts.result.ResolvedDependencyResult
+@@ -62,8 +64,41 @@
+     }
+ }
+ 
++def variantRecord = { variant ->
++    def external = variant.externalVariant
++    [name: variant.displayName, owner: variant.owner.displayName,
++        attributes: attributeRecords(variant.attributes),
++        capabilities: variant.capabilities.collect { [group: it.group, name: it.name, version: it.version] },
++        external_variant: external.present ? [name: external.get().displayName,
++            owner: external.get().owner.displayName, attributes: attributeRecords(external.get().attributes),
++            capabilities: external.get().capabilities.collect { [group: it.group, name: it.name, version: it.version] },
++            further_external_variant_present: external.get().externalVariant.present] : null]
++}
++// Each completed checkpoint has its own immutable leaf. The latest output is
++// atomically replaced from the same directory, so interruption cannot erase it.
++def persistCheckpoint = { File output, Map record, String phase ->
++    int sequence = record.checkpoints.size()
++    if (sequence >= 8) throw new GradleException('Checkpoint count bound exceeded')
++    def leaf = new File(output.parentFile, output.name + '.checkpoint-' + sequence + '.json')
++    if (leaf.exists()) throw new GradleException('Checkpoint leaf already exists')
++    record.phase = phase
++    record.counts = [components: record.components.size(), edges: record.edges.size(),
++        artifacts: record.artifacts.size(), poms: record.poms.size()]
++    record.checkpoints << [sequence: sequence, phase: phase, path: leaf.canonicalPath]
++    byte[] encoded = (JsonOutput.prettyPrint(JsonOutput.toJson(record)) + '\n').getBytes('UTF-8')
++    def saved = new FileOutputStream(leaf)
++    try { saved.write(encoded); saved.flush(); saved.getFD().sync() } finally { saved.close() }
++    def pending = new File(output.parentFile, output.name + '.pending-' + sequence)
++    if (pending.exists()) throw new GradleException('Pending checkpoint leaf already exists')
++    Files.copy(leaf.toPath(), pending.toPath())
++    Files.move(pending.toPath(), output.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
++}
++
+ tasks.register('resolveExactLintTooling') {
+     doLast {
++        def mode = providers.gradleProperty('collectLintMetadataOnly').getOrElse('false')
++        if (!(mode in ['true', 'false'])) throw new GradleException('Unknown metadata-only mode')
++        boolean metadataOnly = mode == 'true'
+         def target = providers.gradleProperty('collectLintGraphOutput').get()
+         def output = new File(target)
+         if (!output.isAbsolute() || output.exists() || !output.parentFile.isDirectory()) {
+@@ -75,8 +110,13 @@
+             actual_artifact_repository_not_exposed_by_this_collector: true,
+             components: [], edges: [], artifacts: [], poms: [], errors: [], failure_details: [],
+             requested_consumer_attributes: attributeRecords(configurations.exactLintTooling.attributes),
++            metadata_only_requested: metadataOnly, complete_selected_tooling_metadata: false,
+             complete_selected_tooling_graph: false, publisher_admission_complete: false,
++            selected_variant_filenames_inferred: false,
++            artifact_filename_admission: 'Requires selected variant owner/name/attributes plus exact publisher module/POM file evidence; default JAR names are not projected',
++            checkpoints: [],
+             production_release_approval: false]
++        persistCheckpoint(output, record, 'before-selected-metadata-resolution')
+         try {
+             def result = configurations.exactLintTooling.incoming.resolutionResult
+             def components = result.allComponents.sort { it.id.displayName }
+@@ -86,12 +126,14 @@
+                 if (id instanceof ModuleComponentIdentifier) {
+                     if (!fixedVersion(id.version)) throw new GradleException('Nonfixed selected module: ' + id)
+                     record.components << [kind: 'module', group: id.group, name: id.module, version: id.version,
+-                        id: id.displayName, selection_reasons: component.selectionReason.descriptions.collect {
++                        id: id.displayName, selected_variants: component.variants.collect { variantRecord(it) },
++                        selection_reasons: component.selectionReason.descriptions.collect {
+                             [cause: it.cause.toString(), description: it.description]
+                         }]
+                 } else {
+                     if (component != result.rootComponent.get()) throw new GradleException('Unexpected transitive project component: ' + id)
+-                    record.components << [kind: 'isolated-root-project', id: id.displayName]
++                    record.components << [kind: 'isolated-root-project', id: id.displayName,
++                        selected_variants: component.variants.collect { variantRecord(it) }]
+                 }
+                 component.dependencies.each { edge ->
+                     if (record.edges.size() >= 1024) throw new GradleException('Selected dependency edge bound exceeded')
+@@ -109,8 +151,7 @@
+                     }
+                     if (edge instanceof ResolvedDependencyResult) {
+                         row.selected = edge.selected.id.displayName
+-                        row.selected_variant = [name: edge.resolvedVariant.displayName,
+-                            attributes: attributeRecords(edge.resolvedVariant.attributes)]
++                        row.selected_variant = variantRecord(edge.resolvedVariant)
+                     }
+                     else if (edge instanceof UnresolvedDependencyResult) {
+                         row.unresolved = edge.failure.toString(); record.errors << row.unresolved
+@@ -121,18 +162,10 @@
+                     record.edges << row
+                 }
+             }
++            persistCheckpoint(output, record, 'selected-components-edges-variants')
+             if (record.errors) throw new GradleException('Unresolved selected tooling dependencies')
+             def roots = record.components.findAll { it.kind == 'module' && it.group == 'com.android.tools.lint' && it.name == 'lint-gradle' }
+             if (roots.size() != 1 || roots.first().version != '32.0.1') throw new GradleException('Exact lint root changed')
+-            def artifacts = configurations.exactLintTooling.resolvedConfiguration.resolvedArtifacts.sort { it.id.displayName }
+-            if (artifacts.size() > 192) throw new GradleException('Selected artifact bound exceeded')
+-            artifacts.each { artifact ->
+-                def id = artifact.moduleVersion.id
+-                if (!fixedVersion(id.version)) throw new GradleException('Nonfixed selected artifact')
+-                record.artifacts << fileRecord(artifact.file) + [group: id.group, name: id.name,
+-                    version: id.version, classifier: artifact.classifier, type: artifact.type,
+-                    extension: artifact.extension, id: artifact.id.displayName]
+-            }
+             def modules = components.findAll { it.id instanceof ModuleComponentIdentifier }.collect { it.id }
+             def poms = dependencies.createArtifactResolutionQuery().forComponents(modules)
+                 .withArtifacts(MavenModule, MavenPomArtifact).execute()
+@@ -146,15 +179,27 @@
+             }
+             poms.unresolvedComponents.each { record.errors << ('Unresolved POM component: ' + it.id.displayName + ': ' + it.failure) }
+             if (record.poms.size() != modules.size()) record.errors << 'Selected module/POM count differs'
++            persistCheckpoint(output, record, 'selected-POM-results')
+             if (record.errors) throw new GradleException('POM metadata coverage incomplete')
++            record.complete_selected_tooling_metadata = true
++            persistCheckpoint(output, record, 'selected-metadata-complete-before-binaries')
++            if (metadataOnly) return
++            def artifacts = configurations.exactLintTooling.resolvedConfiguration.resolvedArtifacts.sort { it.id.displayName }
++            if (artifacts.size() > 192) throw new GradleException('Selected artifact bound exceeded')
++            artifacts.each { artifact ->
++                def id = artifact.moduleVersion.id
++                if (!fixedVersion(id.version)) throw new GradleException('Nonfixed selected artifact')
++                record.artifacts << fileRecord(artifact.file) + [group: id.group, name: id.name,
++                    version: id.version, classifier: artifact.classifier, type: artifact.type,
++                    extension: artifact.extension, id: artifact.id.displayName]
++            }
+             record.complete_selected_tooling_graph = true
+         } catch (Throwable failure) {
+             record.errors << failure.toString()
+             record.failure_details << [phase: 'selected-tooling-collection', detail: failureDetails(failure)]
+             throw failure
+         } finally {
+-            record.counts = [components: record.components.size(), edges: record.edges.size(), artifacts: record.artifacts.size(), poms: record.poms.size()]
+-            output.text = JsonOutput.prettyPrint(JsonOutput.toJson(record)) + '\n'
++            persistCheckpoint(output, record, 'finished')
+         }
+         println('EXACT_LINT_TOOLING_GRAPH ' + output.canonicalPath + ' SHA256=' + hash(output, 'SHA-256'))
+     }
+--- a/run_resolution.py
++++ b/run_resolution.py
+@@ -27,6 +27,7 @@
+     parser = argparse.ArgumentParser()
+     parser.add_argument('--source-fences-sha256', required=True)
+     parser.add_argument('--output', required=True, type=Path)
++    parser.add_argument('--metadata-only', action='store_true')
+     args = parser.parse_args()
+     raw = DRIVER.read_bytes()
+     if digest(raw) != DRIVER_SHA:
+@@ -75,12 +76,13 @@
+             os.fchmod(copied.fileno(), 0o600)
+             copied.write(body); copied.flush(); os.fsync(copied.fileno())
+         project_sources[leaf] = digest(body)
+-    label = 'exact-lint32-tooling-resolution'
++    label = 'exact-lint32-tooling-metadata' if args.metadata_only else 'exact-lint32-tooling-resolution'
+     argv = ['/bin/bash', str(APP / 'android/gradlew'), '-p', str(project),
+         '--no-daemon', '--no-build-cache', '--no-configuration-cache', '--console=plain',
+         '--max-workers=1', '-Dorg.gradle.internal.http.connectionTimeout=30000',
+         '-Dorg.gradle.internal.http.socketTimeout=30000',
+-        '-PcollectLintGraphOutput=' + str(output / 'selected-tooling-graph.json'), 'resolveExactLintTooling']
++        '-PcollectLintGraphOutput=' + str(output / 'selected-tooling-graph.json'),
++        '-PcollectLintMetadataOnly=' + ('true' if args.metadata_only else 'false'), 'resolveExactLintTooling']
+     wrapper_rows = {relative: rows[str(APP / relative)] for relative in
+                     ('android/gradlew', 'android/gradle/wrapper/gradle-wrapper.jar')}
+     ctx = types.SimpleNamespace(config=config, controller=controller, guards=guards,
+@@ -133,15 +135,30 @@
+         graph = json.loads(graph_raw)
+         graph_row = {'path': str(graph_path), 'sha256': digest(graph_raw), 'bytes': len(graph_raw),
+                      'counts': graph.get('counts')}
+-        if graph.get('complete_selected_tooling_graph') is not True or graph.get('errors'):
++        required_complete = 'complete_selected_tooling_metadata' if args.metadata_only else 'complete_selected_tooling_graph'
++        if graph.get(required_complete) is not True or graph.get('metadata_only_requested') is not args.metadata_only or graph.get('errors'):
+             errors.append({'error': 'Selected graph incomplete', 'actual_graph_errors': graph.get('errors')})
+     else: errors.append({'error': 'No selected graph produced'})
++    checkpoints = []
++    checkpoint_paths = sorted(output.glob('selected-tooling-graph.json.checkpoint-*.json'))
++    if len(checkpoint_paths) > 8:
++        errors.append({'error': 'Checkpoint count exceeds reviewed bound'})
++    else:
++        for path in checkpoint_paths:
++            checkpoint_raw = driver.plain_read(path)
++            checkpoint = json.loads(checkpoint_raw)
++            checkpoints.append({'path': str(path), 'sha256': digest(checkpoint_raw), 'bytes': len(checkpoint_raw),
++                'phase': checkpoint.get('phase'), 'counts': checkpoint.get('counts'),
++                'complete_selected_tooling_metadata': checkpoint.get('complete_selected_tooling_metadata'),
++                'complete_selected_tooling_graph': checkpoint.get('complete_selected_tooling_graph')})
+     driver.save(output / 'readback.json', {'schema_version': 1,
+         'status': 'PASS' if not errors else 'FAIL_OR_INCOMPLETE',
+         'captured_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+         'root_requested': 'com.android.tools.lint:lint-gradle:32.0.1', 'argv': argv,
+         'source_fences_sha256': args.source_fences_sha256, 'command': command,
+-        'daemon_readback': daemon, 'selected_graph': graph_row, 'errors': errors,
++        'daemon_readback': daemon, 'selected_graph': graph_row, 'checkpoints': checkpoints, 'errors': errors,
++        'metadata_only_requested': args.metadata_only,
++        'metadata_only_success_is_not_full_graph_or_publisher_admission': True,
+         'cache_population_is_not_publisher_admission': True, 'publisher_admission_complete': False,
+         'Gradle_transport_retry_policy_not_asserted': True,
+         'historical_native_pass_not_relabelled_current': True,

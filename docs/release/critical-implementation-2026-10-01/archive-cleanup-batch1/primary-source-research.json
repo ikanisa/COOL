@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "researched_at_utc": "2026-10-01T23:10:58.018020+00:00",
+  "sources": [
+    {
+      "url": "https://restic.readthedocs.io/en/stable/100_references.html",
+      "claim": "Official design documents content-addressed repository storage, encrypted/authenticated blob and metadata formats, and snapshot content/metadata.",
+      "application": "Prefer a maintained encrypted engine with original whole-file SHA catalog, not hand-built encryption or one plain hash directory.",
+      "words_derived_at_most": 65
+    },
+    {
+      "url": "https://restic.readthedocs.io/en/stable/045_working_with_repos.html#checking-integrity-and-consistency",
+      "claim": "Default check is structural; check --read-data also reads actual stored packs.",
+      "application": "Require full data integrity read before independent restore; sampled structural checks do not fulfill this first-batch gate.",
+      "words_derived_at_most": 55
+    },
+    {
+      "url": "https://restic.readthedocs.io/en/stable/050_restore.html",
+      "claim": "Restore can select a specific snapshot into an explicit target; path layout should be verified against the snapshot listing.",
+      "application": "Restore an exact snapshot into a fresh outside-checkout directory, then independently compare all original relative paths, whole-file hashes, sizes and metadata.",
+      "words_derived_at_most": 55
+    }
+  ],
+  "observed_official_stable_documentation_version": "0.19.1",
+  "engine_selected_or_installed_by_this_task": false,
+  "restic_on_PATH_at_readback": false,
+  "limits": [
+    "Technical backup-engine research only; no legal retention duration, provider transfer authorization, cryptographic deployment approval or current installed engine acceptance inferred."
+  ]
+}

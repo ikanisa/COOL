@@ -138,6 +138,17 @@ void main() {
     container.read(adminRealtimeTickProvider.notifier).state += 1;
   }
 
+  Future<void> applyActivity(WidgetTester tester) async {
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(const Key('admin-apply-new-activity')),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('admin-apply-new-activity')));
+    await tester.pumpAndSettle();
+    expect(find.text('New activity available'), findsNothing);
+  }
+
   testWidgets('a vanished page is refetched at its real last offset', (
     tester,
   ) async {
@@ -158,6 +169,9 @@ void main() {
     final before = repository.requests.length;
     invalidate(tester);
     await tester.pumpAndSettle();
+    expect(repository.requests, hasLength(before));
+    expect(find.text('Showing 101-125 of 125'), findsOneWidget);
+    await applyActivity(tester);
     expect(repository.requests.skip(before).map((r) => r.offset), [100, 50]);
     expect(find.text('Showing 51-53 of 53'), findsOneWidget);
     expect(find.text('No groups in Rwanda'), findsNothing);
@@ -179,12 +193,17 @@ void main() {
     );
     await nextPage(tester);
     repository.total = 0;
+    final beforeEmpty = repository.requests.length;
     invalidate(tester);
     await tester.pumpAndSettle();
+    expect(repository.requests, hasLength(beforeEmpty));
+    await applyActivity(tester);
     expect(find.text('No groups in Rwanda'), findsOneWidget);
     repository.total = 27;
     invalidate(tester);
     await tester.pumpAndSettle();
+    expect(find.text('No groups in Rwanda'), findsOneWidget);
+    await applyActivity(tester);
     expect(repository.requests.last.offset, 0);
     expect(find.text('Showing 1-25 of 27'), findsOneWidget);
     expect(tester.takeException(), isNull);

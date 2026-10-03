@@ -1,0 +1,4 @@
+test/shared/contribution_intent_binding_test.dart:270:30: Error: A non-null value must be returned since the return type 'Response' doesn't allow null.
+ - 'Response' is from 'package:http/src/response.dart' ('.cache/pub-cache-hygiene-20260930/hosted/pub.dev/http-1.6.0/lib/src/response.dart').
+      httpClient: MockClient((r) async {
+                             ^

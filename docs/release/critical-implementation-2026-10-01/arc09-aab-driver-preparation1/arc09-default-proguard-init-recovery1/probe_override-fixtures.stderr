@@ -1,0 +1,19 @@
+test_additional_plan_metadata_is_refused (__main__.ProbeOverrideFixtures.test_additional_plan_metadata_is_refused) ... ok
+test_another_script_path_is_refused_before_read (__main__.ProbeOverrideFixtures.test_another_script_path_is_refused_before_read) ... ok
+test_changed_cwd_is_refused (__main__.ProbeOverrideFixtures.test_changed_cwd_is_refused) ... ok
+test_changed_finite_bound_is_refused (__main__.ProbeOverrideFixtures.test_changed_finite_bound_is_refused) ... ok
+test_changed_offline_flag_is_refused (__main__.ProbeOverrideFixtures.test_changed_offline_flag_is_refused) ... ok
+test_changed_task_is_refused (__main__.ProbeOverrideFixtures.test_changed_task_is_refused) ... ok
+test_duplicate_init_script_is_refused (__main__.ProbeOverrideFixtures.test_duplicate_init_script_is_refused) ... ok
+test_explicit_exact_override_changes_only_init_script_argument (__main__.ProbeOverrideFixtures.test_explicit_exact_override_changes_only_init_script_argument) ... ok
+test_extra_argument_is_refused (__main__.ProbeOverrideFixtures.test_extra_argument_is_refused) ... ok
+test_extra_selector_key_is_refused (__main__.ProbeOverrideFixtures.test_extra_selector_key_is_refused) ... ok
+test_no_selector_preserves_original_plan_without_any_override_reads (__main__.ProbeOverrideFixtures.test_no_selector_preserves_original_plan_without_any_override_reads) ... ok
+test_original_plan_with_another_script_is_refused (__main__.ProbeOverrideFixtures.test_original_plan_with_another_script_is_refused) ... ok
+test_wrong_init_hash_is_refused_before_read (__main__.ProbeOverrideFixtures.test_wrong_init_hash_is_refused_before_read) ... ok
+test_wrong_plan_hash_is_refused_before_read (__main__.ProbeOverrideFixtures.test_wrong_plan_hash_is_refused_before_read) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.002s
+
+OK

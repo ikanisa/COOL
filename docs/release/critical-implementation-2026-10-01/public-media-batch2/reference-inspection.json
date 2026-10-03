@@ -1,0 +1,51 @@
+{
+  "design_authority": "revolut-design",
+  "inspected_at_utc": "2026-10-01T23:23:57.546410+00:00",
+  "references": [
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/020-home-current-clean.jpg",
+      "sha256": "dbe799cc878a14cd7db4b04cdfce86f5eba42268743bfc2f33f06aba540837a5",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/021-invest-overview.jpg",
+      "sha256": "c8f3e0ad366fdf575f55fd328ef5707453cbb32c6feac440a7b722ea2f6f697a",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/048-card-control-detail.jpg",
+      "sha256": "faf18a597d26349533a8b3a836a12024389b8d24640695089974a25fa070fe9f",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/013-security-hub.jpg",
+      "sha256": "274df6617b36d555e1b1c21fd82b273aaba32674ecce216577bc5f111676ee5e",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/049-card-more-menu.jpg",
+      "sha256": "6ac0bc8dde9ac1acb1025c15c1e954e9d3acbdb408f8f5d27523dff4072edf9b",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg",
+      "sha256": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606",
+      "original_reinspected_in_batch2": true,
+      "platform": "native iOS current September2026 Dark Glow private reference",
+      "published_or_copied_into_product": false
+    }
+  ],
+  "scope": "Native Home/detail/actions/security/quiet utility/disabled form patterns only; exact group/privacy/terms/delete comparators absent. No private reference pixels or account data copied into product.",
+  "native_acceptance": false,
+  "full_visual_fidelity_verified": false
+}

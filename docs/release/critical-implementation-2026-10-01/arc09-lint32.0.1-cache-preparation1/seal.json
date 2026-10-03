@@ -1,0 +1,12 @@
+{
+  "actual_network_or_Gradle_or_cache_execution": false,
+  "packet_files_filename": "packet-files.json",
+  "packet_files_sha256": "f197dfac9ab0f2ed412074a16f1bb1eea88b538762be3378d9632ea4b860b12b",
+  "payload_files": 8,
+  "production_release_approval": false,
+  "schema_version": 1,
+  "sealed_at_utc": "2026-10-02T14:44:45.457088+00:00",
+  "source_fences_filename": "source-fences.json",
+  "source_fences_sha256": "5aea3cf743b22c73a1c5cae4103c9fe8dbcf891e1a2ab99dd9fd6d843c9ecf25",
+  "status": "UNEXECUTED_PREPARATION_ONLY"
+}

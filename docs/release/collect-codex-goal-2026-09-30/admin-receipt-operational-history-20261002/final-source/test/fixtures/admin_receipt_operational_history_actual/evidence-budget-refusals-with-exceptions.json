@@ -1,0 +1,46 @@
+{
+  "rows": [
+    {
+      "code": "QUOTA_EXHAUSTED",
+      "payment_id": "b72b54d2-540d-45da-8869-58b32c9b9f81",
+      "receipt_id": null,
+      "request_id": "ddd4628e-8cbc-4526-a50f-bf9eb77270cc",
+      "evidence_id": "ddd4628e-8cbc-4526-a50f-bf9eb77270cc:138f5ec6-b29a-4457-bcce-da66182f44b5",
+      "recorded_at": "2026-10-02T00:14:48.541309Z",
+      "snapshot_id": "138f5ec6-b29a-4457-bcce-da66182f44b5",
+      "exception_ids": [
+        "236dcd37-d7ef-4ef1-b134-cbd18f44ef7b"
+      ],
+      "source_status": "available",
+      "business_handled": false,
+      "transaction_sms_id": "34532fa5-e193-44c7-afb5-c51b1aea4b79"
+    },
+    {
+      "code": "QUOTA_EXHAUSTED",
+      "payment_id": "b72b54d2-540d-45da-8869-58b32c9b9f81",
+      "receipt_id": null,
+      "request_id": "807727a1-f2b5-46da-8008-9ddfc0ba9220",
+      "evidence_id": "807727a1-f2b5-46da-8008-9ddfc0ba9220:138f5ec6-b29a-4457-bcce-da66182f44b5",
+      "recorded_at": "2026-10-02T00:14:48.469190Z",
+      "snapshot_id": "138f5ec6-b29a-4457-bcce-da66182f44b5",
+      "exception_ids": [
+        "236dcd37-d7ef-4ef1-b134-cbd18f44ef7b"
+      ],
+      "source_status": "available",
+      "business_handled": false,
+      "transaction_sms_id": "34532fa5-e193-44c7-afb5-c51b1aea4b79"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "be31d370-d43c-428b-9973-d5fe01098596",
+  "status": "partial",
+  "section": "budget_refusals",
+  "checked_at": "2026-10-02T00:14:49.879663Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:49.879663Z"
+}

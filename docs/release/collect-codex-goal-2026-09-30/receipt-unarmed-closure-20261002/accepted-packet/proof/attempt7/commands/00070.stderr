@@ -1,0 +1,5 @@
+ERROR:  40001: receipt_action_snapshot_retry
+CONTEXT:  PL/pgSQL function collect_receipt_actions.actor(boolean) line 4 at RAISE
+SQL statement "SELECT collect_receipt_actions.actor(false)"
+PL/pgSQL function public.admin_inspect_unarmed_receipt_closure_v1(uuid) line 2 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

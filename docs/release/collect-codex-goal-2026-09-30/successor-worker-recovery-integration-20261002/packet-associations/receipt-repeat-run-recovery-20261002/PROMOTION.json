@@ -1,0 +1,26 @@
+{
+  "files": {
+    "lib/admin/core/admin_receipt_operational_history_models.dart": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c",
+    "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+    "test/admin_receipt_operational_history_recovery_test.dart": "ad81fc450100702b2434bc2fbd156c0bedaa1a80da449742f2febd5093dc7853",
+    "test/fixtures/admin_receipt_operational_recovery_actual/legacy-backlog-after-handling.json": "2fdd066fa17c7f7653b5026a323080973ef85e95d4274317d0fd1c89340bbb37",
+    "test/fixtures/admin_receipt_operational_recovery_actual/legacy-reservations.json": "32221f96a33109537ab1351408ea228c0b717b82e625a4317da7e5b9cdba2e40",
+    "test/fixtures/admin_receipt_operational_recovery_actual/mapped-backlog.json": "a76401360401420db80af15c170f4f3ae21be323fdbf300bacc786b4df3d9329",
+    "test/fixtures/admin_receipt_operational_recovery_actual/mapped-reservations.json": "b3fcf61a24231304483dd290aec3d72a19329ef2a1950b5241efe9be68975b70",
+    "test/fixtures/admin_receipt_operational_recovery_actual/partial-refused-budget.json": "8c59ce939e3ebb80f8d601ec37ddde840c28ee227521804369c6495e2a9187bd",
+    "test/fixtures/admin_receipt_operational_recovery_actual/short-principal-run.json": "15030d7e8983b00ad0bf49e80cc8fb0068c9603a00769771f33746e309ed3b94",
+    "test/fixtures/admin_receipt_operational_recovery_actual/zero-sms-budget-refusal.json": "34caf47df7db4d82bea3a8fd380a1e38e7a5f29adb3e40280297e2310c05b8e1"
+  },
+  "base_aware_model": {
+    "base": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_operational_history_models.dart",
+    "base_sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9",
+    "proposed_sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c",
+    "sql_namespace": "c1c49625-b8d9-4278-998e-6758a0b945d4",
+    "legacy_rule_preserved": true,
+    "new_mapped_actions": 1,
+    "new_mapped_sms_segments": 0
+  },
+  "root_promotes": true,
+  "additions": 9,
+  "modifications": 1
+}

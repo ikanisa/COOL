@@ -1,0 +1,215 @@
+{
+  "at_utc": "2026-10-02T01:14:02.592571+00:00",
+  "frozen_prior_input_bindings": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+      "sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d",
+      "size": 129547
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/README.md",
+      "sha256": "7db7586cca7cb75e6e8ba191fbe22ec647bb4d3e91dedf434d0673ecdf807dc6",
+      "size": 981
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt1/canonical-batch.json",
+      "sha256": "8fafe28d169407371cdf9c91b5f69349c652ef3fbae614816071c1719ac1e400",
+      "size": 111051
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/canonical-batch.json",
+      "sha256": "57d5e7c444eaf9077fc4430a4935eed095ca60bcc652ef98bc56e2e5070d6067",
+      "size": 111161
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/validation.json",
+      "sha256": "1df80296cbba6bda6053cdfac0818ad3abf9fe5c56581040a169d026e801a1d2",
+      "size": 50140
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/linux-decoder/validation.json",
+      "sha256": "a1a9826ffb4034f2d9acf2c8c4e402fe2c1a993caccd74f7ec929c352d7624ca",
+      "size": 4417
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/linux-decoder/build.log",
+      "sha256": "e4ac904b2855cbf51123960c25795774d35731849584d97e3f68e074937aa0a7",
+      "size": 1566
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+      "sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792",
+      "size": 1308
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/probe.py",
+      "sha256": "ecfb4d6f23459ae41b81cec944f99fad71b84219d46d87aaae7f8e4bf9cf2949",
+      "size": 620
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/batch.json",
+      "sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d",
+      "size": 27147
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/acceptance.json",
+      "sha256": "087aec8a83438cfd86b1efc77ecf8005a7f13686d29a3ef01be693301067b574",
+      "size": 55470
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/installed-package-versions.stdout",
+      "sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "size": 164
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/validation.json",
+      "sha256": "09b015a87f96df00494458d0b776c289da99c00bb0ef1d7b41575e5f19c6223c",
+      "size": 18976
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/edge-decoder-integration.log",
+      "sha256": "626692eeb830a16ed945d2bfbab516cd626376af627a8678e2d6cbb2b13bc73b",
+      "size": 1659
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/regressions.log",
+      "sha256": "d59aa3bc6f53f1bb3add2d3d168cefb514a8afee7b45da47d63e943da4db269f",
+      "size": 14089
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/wheel-provenance.json",
+      "sha256": "24e0069f93225e2669c0d627389624105313092607b68faf652159acfb266f54",
+      "size": 5740
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/fixture-generator-environment.json",
+      "sha256": "9c76826483bc0c9ea4fb63769a53da4e6108ed388896b77efe915fb362462845",
+      "size": 2746
+    }
+  ],
+  "canonical_terminal_observation": {
+    "started_at_utc": "2026-10-01T22:30:26.660310+00:00",
+    "finished_at_utc": "2026-10-01T22:36:00.073251+00:00",
+    "elapsed_seconds": 333.291,
+    "status": "fail",
+    "exit_code": 1,
+    "error": "linux_decoder command failed; inspect its evidence",
+    "initial_dependency_cache_file_count": 0,
+    "current_root_source_unchanged": true,
+    "stage_source_unchanged": true,
+    "phase_counts": {
+      "runner_contract": {
+        "status": "pass",
+        "exit_code": 0
+      },
+      "frozen_dependency_cache": {
+        "status": "pass",
+        "exit_code": 0
+      },
+      "types": {
+        "status": "pass",
+        "exit_code": 0,
+        "files_checked": 83
+      },
+      "units": {
+        "status": "pass",
+        "exit_code": 0,
+        "test_files": 31,
+        "tests": 563,
+        "steps": 32,
+        "ignored": 0
+      },
+      "edge_http": {
+        "status": "pass",
+        "exit_code": 0,
+        "checks": 91
+      },
+      "linux_decoder": {
+        "status": "fail",
+        "exit_code": 1
+      }
+    },
+    "linux_cases": 0,
+    "linux_error": "Command timed out after 300s; inspect build.log",
+    "linux_log_sha_matches_own_receipt": true
+  },
+  "transport_observation": {
+    "schema_version": 1,
+    "started_at_utc": "2026-10-01T22:40:04.177668+00:00",
+    "status": "observed",
+    "public_package_origin_only": true,
+    "installed_packages": false,
+    "provider_calls": 0,
+    "production_mutations": false,
+    "artifact_metadata_sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+    "public_wheel_filename": "pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+    "public_wheel_sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+    "checks": {
+      "host": {
+        "exit_code": null,
+        "deadline_expired": true
+      },
+      "docker_default_network": {
+        "exit_code": null,
+        "deadline_expired": true
+      }
+    },
+    "owned_container_cleanup_verified": true,
+    "finished_at_utc": "2026-10-01T22:41:34.419391+00:00",
+    "artifacts": {
+      "docker_default_network.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "docker_default_network.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "probe.py": "ecfb4d6f23459ae41b81cec944f99fad71b84219d46d87aaae7f8e4bf9cf2949"
+    }
+  },
+  "transport_observation_limits": [
+    "Host/container stdout/stderr were empty; probe prints only completion/failure summaries, not progress. Zero downloaded bytes cannot be inferred.",
+    "No phase-level resolver/TLS/connect/first-byte/body trace or complete outer command argv was retained in this packet.",
+    "Outer45-second deadlines are reported by the dated maintained register; probe uses urlopen timeout30 and an unbounded-per-total chunk loop. This cannot isolate network cause."
+  ],
+  "dated_healthy_dependency_acceptance": {
+    "platform": "Linux ARM64 / Python3.12.14",
+    "accepted_execution_finished_at_utc": "2026-10-01T21:35:01.566144+00:00",
+    "linux": {
+      "image_id": "sha256:057e01a1e1cec280a89696ac30949bc6ac4c86f422f273ef3976164fb795ef04",
+      "cases": 32,
+      "integration": {
+        "tests_passed": 14,
+        "tests_failed": 0,
+        "tests_ignored": 0
+      },
+      "regressions": {
+        "tests_passed": 157,
+        "tests_failed": 0,
+        "tests_ignored": 0
+      },
+      "decoder_build_sha256": "3665603965897f12153e1232e1279181cf174927e00669de0d342d2f24d2af6d"
+    },
+    "installed_linux_versions": {
+      "python": "3.12.14",
+      "packages": {
+        "Pillow": "12.3.0",
+        "pypdf": "6.19.0",
+        "pypdfium2": "5.2.0",
+        "openpyxl": "3.1.5",
+        "defusedxml": "0.7.1",
+        "et-xmlfile": "2.0.0"
+      }
+    },
+    "dependency_security_tests": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Actual tiny hostile PDFs and signed-coordinate API inputs under production isolate limits"
+    },
+    "limits": [
+      "Dated exact local execution, not hosted deployment or production authorization",
+      "Captured advisory database matches only, not vulnerability absence",
+      "Six focused security cases do not exercise every advisory mechanism",
+      "Reused frozen Deno cache and Docker build cache; no fresh empty-cache claim"
+    ]
+  },
+  "no_gate_rerun_no_download_no_install_no_source_mutation": true
+}

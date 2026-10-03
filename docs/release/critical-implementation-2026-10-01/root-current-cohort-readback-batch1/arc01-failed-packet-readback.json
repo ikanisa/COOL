@@ -1,0 +1,10 @@
+{
+  "checked_at_utc": "2026-10-02T00:22:28.314710+00:00",
+  "packet": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-batch1/batch.json",
+  "packet_sha256": "285b631f5ff23eaad52570fc7f6299c715b2bfe612df8ba5c3775ba19ebf32f6",
+  "seal_sha256": "7e2102592e9e38d1b0184baa7c630e84e95ef366a590a756399bc3ce8234d435",
+  "artifacts": 85,
+  "errors": [],
+  "scope": "Actual failed clean Ubuntu cohort and diagnostics; no malformed fixture or final source acceptance.",
+  "initial_reader_diagnostic": "Reader initially assumed JSON seal filename; no verification performed. Corrected to actual plaintext SHA256SUMS without changing packet."
+}

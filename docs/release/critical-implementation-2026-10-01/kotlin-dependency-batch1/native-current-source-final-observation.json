@@ -1,0 +1,272 @@
+{
+  "added_current_repository_public_lib_or_android_source": [
+    {
+      "current_repository_sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+      "path": "lib/admin/core/admin_governed_settings_checkpoint.dart"
+    },
+    {
+      "current_repository_sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+      "path": "lib/admin/core/admin_governed_settings_checkpoint_stub.dart"
+    },
+    {
+      "current_repository_sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+      "path": "lib/admin/core/admin_governed_settings_checkpoint_web.dart"
+    },
+    {
+      "current_repository_sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+      "path": "lib/admin/core/admin_governed_settings_controller.dart"
+    },
+    {
+      "current_repository_sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+      "path": "lib/admin/core/admin_governed_settings_models.dart"
+    },
+    {
+      "current_repository_sha256": "477bd223943ca17cb84ec8f005e50697c5d724ecc3577e7ab002509c7348b90b",
+      "path": "lib/admin/core/admin_governed_settings_page.dart"
+    },
+    {
+      "current_repository_sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+      "path": "lib/admin/core/admin_governed_settings_registry.dart"
+    },
+    {
+      "current_repository_sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+      "path": "lib/admin/core/admin_governed_settings_runtime.dart"
+    },
+    {
+      "current_repository_sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+      "path": "lib/admin/core/admin_governed_settings_sdk.dart"
+    },
+    {
+      "current_repository_sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+      "path": "lib/admin/core/admin_receipt_operational_telemetry.dart"
+    },
+    {
+      "current_repository_sha256": "2489e5656cbd83ef09378137836f93c942a358572091a5fedb68567a3fb14bdb",
+      "path": "lib/admin/core/admin_receipt_telemetry_card.dart"
+    },
+    {
+      "current_repository_sha256": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436",
+      "path": "lib/core/startup/collect_global_error_handlers.dart"
+    },
+    {
+      "current_repository_sha256": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409",
+      "path": "lib/core/startup/collect_startup_controller.dart"
+    },
+    {
+      "current_repository_sha256": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b",
+      "path": "lib/core/startup/collect_startup_host.dart"
+    },
+    {
+      "current_repository_sha256": "d34bd13df0be517db383da96e676f2d8fec271a3e7e58fd47239c7ac4dab2bf0",
+      "path": "lib/core/supabase/collect_supabase_bootstrap.dart"
+    },
+    {
+      "current_repository_sha256": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d",
+      "path": "lib/features/privacy/privacy_contract.dart"
+    },
+    {
+      "current_repository_sha256": "3c99cbbfc7d8ec8cfc1f15db1b34e2134e991e392b2c4c7c5836a8ce9cd7a625",
+      "path": "lib/features/privacy/privacy_providers.dart"
+    },
+    {
+      "current_repository_sha256": "bce67ade8108a4468918425277c8852e9058861c5f962ba17cf4a4dec18d8806",
+      "path": "lib/features/privacy/privacy_request_controller.dart"
+    },
+    {
+      "current_repository_sha256": "3f55b70e4ce2d9c080dc60d47d03c3437f8faf3e6eb9a54b7bbe352c63d258be",
+      "path": "lib/features/privacy/privacy_session.dart"
+    },
+    {
+      "current_repository_sha256": "5087963caacdece4fc6e1c133c4ab57e28a26646b2023289ee8d92046ae24c3b",
+      "path": "lib/features/privacy/privacy_transport.dart"
+    },
+    {
+      "current_repository_sha256": "7f2895cfd173cab6f766db707c33199c8581b3b05ce0319f1932ae5de16e3087",
+      "path": "lib/gateway/gateway_recovery_page.dart"
+    },
+    {
+      "current_repository_sha256": "1ab4512869b4b578fe3e4a1706f9126b9aef8405a192d411804220721d788a57",
+      "path": "lib/gateway/gateway_recovery_platform.dart"
+    },
+    {
+      "current_repository_sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt"
+    },
+    {
+      "current_repository_sha256": "5ccc2dea20a95251269fabba9cda491022300de0b892379b9a001603b7d9fa56",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryAdmission.kt"
+    },
+    {
+      "current_repository_sha256": "3b3cbca7704f79f1e15868c3933b5723571de6ba5270de6decbc7657d07e99de",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt"
+    },
+    {
+      "current_repository_sha256": "7edd33a1276819403d4a4f5c2c368f57a7bcf79943c1ce24ffceab3e53743e89",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryPause.kt"
+    },
+    {
+      "current_repository_sha256": "108b99822f3392359a7527e45baab45f78749eb1533cec2a50634da094b955d6",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransfer.kt"
+    },
+    {
+      "current_repository_sha256": "7995fae82e44ee805cc34f46c9fe2ddad207ed4c0ebbdff0477f2704250aa1cf",
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.kt"
+    },
+    {
+      "current_repository_sha256": "2ef00317828578662c6e9e5b3aab7d26323cd0735aa0ad5d562b92adf5ddfb33",
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt"
+    },
+    {
+      "current_repository_sha256": "b71574f87447eefc31d3ae26a8b2e715af8238d68b1d4d307c831ffce86fa484",
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransferTest.kt"
+    }
+  ],
+  "changed_current_repository_selected_inputs": [
+    {
+      "current_repository_sha256": "d0491fa8513c12e19d88d1274bb2343bfaa8d505b05f9f08ddc6ed37402677ff",
+      "native_snapshot_sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt"
+    },
+    {
+      "current_repository_sha256": "4af73ad30e75041e13fa23bcf28df2b20b605cf526954bf604eeef2f1a13a660",
+      "native_snapshot_sha256": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt"
+    },
+    {
+      "current_repository_sha256": "929bf916059126e8bbad1997ec63a100b884a8bc4b3fb7795291d4be516124da",
+      "native_snapshot_sha256": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt"
+    },
+    {
+      "current_repository_sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+      "native_snapshot_sha256": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt"
+    },
+    {
+      "current_repository_sha256": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+      "native_snapshot_sha256": "59c6a55ff807929aedcdc612e2d45b663cced98f46fa3f005b765d8da235d348",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt"
+    },
+    {
+      "current_repository_sha256": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+      "native_snapshot_sha256": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt"
+    },
+    {
+      "current_repository_sha256": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c",
+      "native_snapshot_sha256": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt"
+    },
+    {
+      "current_repository_sha256": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+      "native_snapshot_sha256": "e130b07747dcf13ca18e96ce7be7cab99ab451608aa9fdf25d41c0e529cce6f8",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt"
+    },
+    {
+      "current_repository_sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "native_snapshot_sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+      "path": "lib/admin/admin_router.dart"
+    },
+    {
+      "current_repository_sha256": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+      "native_snapshot_sha256": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31",
+      "path": "lib/admin/core/admin_automations_page.dart"
+    },
+    {
+      "current_repository_sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f",
+      "native_snapshot_sha256": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5",
+      "path": "lib/admin/core/admin_exception_models.dart"
+    },
+    {
+      "current_repository_sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7",
+      "native_snapshot_sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116",
+      "path": "lib/admin/core/admin_exception_workflow_card.dart"
+    },
+    {
+      "current_repository_sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85",
+      "native_snapshot_sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+      "path": "lib/admin/core/admin_exception_workflow_models.dart"
+    },
+    {
+      "current_repository_sha256": "a0373df0ab1956fd42201007b808a739b6611f892d5484bd90b1c894cf95ec87",
+      "native_snapshot_sha256": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+      "path": "lib/admin/core/admin_overview_runtime.dart"
+    },
+    {
+      "current_repository_sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66",
+      "native_snapshot_sha256": "de0973a727b0c56cba30fe25a8e5ed209f795b4fbd2ef8ff3f9defd2f29004e9",
+      "path": "lib/admin/core/admin_receipt_deferral_models.dart"
+    },
+    {
+      "current_repository_sha256": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+      "native_snapshot_sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "path": "lib/admin/core/admin_receipt_repository.dart"
+    },
+    {
+      "current_repository_sha256": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+      "native_snapshot_sha256": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+      "path": "lib/admin/core/admin_repository_base.dart"
+    },
+    {
+      "current_repository_sha256": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "native_snapshot_sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+      "path": "lib/admin/core/admin_runtime.dart"
+    },
+    {
+      "current_repository_sha256": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+      "native_snapshot_sha256": "fb114d1e6e4b26f4a6076a021480813dee725fc1a98afac5b0494fa683aadc82",
+      "path": "lib/core/logging/app_logger.dart"
+    },
+    {
+      "current_repository_sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df",
+      "native_snapshot_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+      "path": "lib/core/supabase/supabase_module.dart"
+    },
+    {
+      "current_repository_sha256": "a847a14f9a2f7e1387f091a1385f7245b9481bb0aa5417b9fe09633cb320cea3",
+      "native_snapshot_sha256": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0",
+      "path": "lib/gateway/gateway_app.dart"
+    },
+    {
+      "current_repository_sha256": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1",
+      "native_snapshot_sha256": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+      "path": "lib/main.dart"
+    },
+    {
+      "current_repository_sha256": "3400aa6f9f34a7048203c9a5b6974b0c3f06c0710d5dbd3f446bd75b35d97343",
+      "native_snapshot_sha256": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381",
+      "path": "lib/main_admin.dart"
+    },
+    {
+      "current_repository_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+      "native_snapshot_sha256": "0298311983392a6060d2bbfb9d919f66c334e7a9c33b7c6d4e8b7dfe0b265f6a",
+      "path": "third_party/file_saver/COLLECT_FORK.md"
+    },
+    {
+      "current_repository_sha256": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+      "native_snapshot_sha256": "cbbf3814d876e05710383949ad693ad04dee1c663b9fb5eab820d450a90cc1e8",
+      "path": "third_party/file_saver/COLLECT_FORK_DELTA.json"
+    }
+  ],
+  "current_production_main_production_test_source_drift": [],
+  "explicitly_remapped_generated_metadata": [
+    ".dart_tool/package_config.json",
+    ".flutter-plugins-dependencies"
+  ],
+  "installed_sdk_gradle_source_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+  "isolated_selected_input_drift": [],
+  "isolated_selected_inputs": 752,
+  "missing_current_repository_selected_inputs": [],
+  "owned_source_sha256": {
+    "android/app/build.gradle.kts": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+    "android/app/gradle.lockfile": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+    "android/settings.gradle.kts": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/COLLECT_FORK_DELTA.json": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+    "third_party/file_saver/android/build.gradle": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+  },
+  "recorded_utc": "2026-10-01T23:32:36.854168+00:00",
+  "scope": "The successful compile and 12 JVM tests bind the unchanged frozen copy. Current Android main/production/test consumers and reviewed dependency files match; independent current gateway and Dart/product edits are observed and are not accepted by this native snapshot. Provider/signing configuration is not read or copied."
+}

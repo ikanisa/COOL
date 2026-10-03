@@ -1,0 +1,37 @@
+{
+  "files": {
+    "independent-suite-readback.json": {
+      "sha256": "ee974054377afef82c8e305b3dc1f6f07610fcb93a55170807a0218f534c3988",
+      "bytes": 11337,
+      "mode": 256
+    },
+    "private-fixtures.json": {
+      "sha256": "4f6c8b4ec712ae8bc12649742f5870fd38439fe14c95cc7846b8be6ce7405b57",
+      "bytes": 1001,
+      "mode": 256
+    },
+    "private-fixtures.stderr": {
+      "sha256": "5ba66fa987b96666f51c259a53305ddc6f354ff6d307c07672f0ae1b874d26a8",
+      "bytes": 9014,
+      "mode": 256
+    },
+    "private-fixtures.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "scripts/audits/collect_schema_domain_map.py": {
+      "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+      "bytes": 67708,
+      "mode": 256
+    },
+    "scripts/tests/collect_schema_domain_map_test.py": {
+      "sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82",
+      "bytes": 42318,
+      "mode": 256
+    }
+  },
+  "file_count": 6,
+  "status": "private_proposal_tests_pass_not_applied",
+  "BE08_closed": false
+}

@@ -1,0 +1,55 @@
+{
+  "added_android_source": [
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.kt",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransferTest.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransfer.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryPause.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryAdmission.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt"
+  ],
+  "changed_android_source": [
+    {
+      "current_repository_sha256": "d0491fa8513c12e19d88d1274bb2343bfaa8d505b05f9f08ddc6ed37402677ff",
+      "native_snapshot_sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt"
+    },
+    {
+      "current_repository_sha256": "4af73ad30e75041e13fa23bcf28df2b20b605cf526954bf604eeef2f1a13a660",
+      "native_snapshot_sha256": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt"
+    },
+    {
+      "current_repository_sha256": "929bf916059126e8bbad1997ec63a100b884a8bc4b3fb7795291d4be516124da",
+      "native_snapshot_sha256": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt"
+    },
+    {
+      "current_repository_sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+      "native_snapshot_sha256": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt"
+    },
+    {
+      "current_repository_sha256": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+      "native_snapshot_sha256": "59c6a55ff807929aedcdc612e2d45b663cced98f46fa3f005b765d8da235d348",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt"
+    },
+    {
+      "current_repository_sha256": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+      "native_snapshot_sha256": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt"
+    },
+    {
+      "current_repository_sha256": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c",
+      "native_snapshot_sha256": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt"
+    },
+    {
+      "current_repository_sha256": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+      "native_snapshot_sha256": "e130b07747dcf13ca18e96ce7be7cab99ab451608aa9fdf25d41c0e529cce6f8",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt"
+    }
+  ],
+  "scope": "Read-only current repository comparison against active isolated native input snapshot; no source copied during running Gradle attempt."
+}

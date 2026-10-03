@@ -1,0 +1,55 @@
+{
+  "scope": "one genuine private shell descendant diagnosis; only exact group scalar ps fields; no Docker/network/SQL/APP/SDK",
+  "observations": [
+    {
+      "parent_pid": 59912,
+      "parent_exit": 0,
+      "descendant_pid": 59913
+    },
+    {
+      "label": "before_stop",
+      "group_signal_zero": {
+        "exists": true
+      },
+      "exact_group_ps_exit": 0,
+      "exact_group_ps_scalars": "59913     1 59912   501 S",
+      "ps_stderr": ""
+    },
+    {
+      "group_SIGKILL": "success"
+    },
+    {
+      "label": "after_0.02",
+      "group_signal_zero": {
+        "errno": 3,
+        "exception": "ProcessLookupError"
+      },
+      "exact_group_ps_exit": 1,
+      "exact_group_ps_scalars": "",
+      "ps_stderr": ""
+    },
+    {
+      "label": "after_0.1",
+      "group_signal_zero": {
+        "errno": 3,
+        "exception": "ProcessLookupError"
+      },
+      "exact_group_ps_exit": 1,
+      "exact_group_ps_scalars": "",
+      "ps_stderr": ""
+    },
+    {
+      "label": "after_0.5",
+      "group_signal_zero": {
+        "errno": 3,
+        "exception": "ProcessLookupError"
+      },
+      "exact_group_ps_exit": 1,
+      "exact_group_ps_scalars": "",
+      "ps_stderr": ""
+    },
+    {
+      "descendant_zero_errno": 3
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+do $$begin if not exists(select 1 from pg_roles where rolname='supabase_functions_admin')then create user supabase_functions_admin noinherit createrole login noreplication;end if;end$$;

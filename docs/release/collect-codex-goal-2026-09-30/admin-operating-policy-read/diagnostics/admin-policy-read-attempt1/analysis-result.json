@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "analyze",
+    "lib/admin/core/admin_operating_policy_models.dart",
+    "lib/admin/core/admin_operating_policy_runtime.dart",
+    "lib/admin/core/admin_operating_policy_card.dart",
+    "lib/admin/core/admin_automations_page.dart",
+    "test/admin_operating_policy_models_test.dart",
+    "test/admin_operating_policy_runtime_test.dart",
+    "test/support/admin_operating_policy_fixture.dart"
+  ],
+  "exit_code": 3,
+  "elapsed_seconds": 9.879087686538696,
+  "bound_inputs": 148,
+  "source_unchanged": true
+}

@@ -1,0 +1,7 @@
+{
+  "cause": "Fresh private validation copy lacked three retained fixture families: contracts, docs backend observations and scripts exception history fixtures",
+  "product_source_changed_to_fix": false,
+  "original_terminal_command_status": "failed",
+  "completed_prefix": 26,
+  "scope": "Retained history26 completed; joined44 fixture-dependent navigation requires actual rerun"
+}

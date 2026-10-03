@@ -1,0 +1,7 @@
+{
+  "payload_files": 25,
+  "packet_sha256": "8054ff5e000be20a5a1f4151aaed13f673490231c62b2faa9b5cb37f86da8928",
+  "SHA256SUMS_sha256": "3dbf45439f6a1f3907323ae13359f717d3a4d29ce761a553f1088f716701c879",
+  "canonical_writes": false,
+  "all_file_modes": "0400"
+}

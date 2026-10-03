@@ -1,0 +1,15 @@
+{
+  "container": "supabase_db_collect_fin_concurrency_qa_20260929",
+  "state": "exited",
+  "exit_code": 137,
+  "project_verified": true,
+  "port_verified": true,
+  "persisted_quiet_settings": {
+    "/var/lib/postgresql/data/postgresql.auto.conf": {
+      "cron.launch_active_jobs": "off",
+      "pg_net.batch_size": "0"
+    },
+    "/etc/postgresql/postgresql.conf": {}
+  },
+  "started": false
+}

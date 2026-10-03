@@ -1,0 +1,188 @@
+{
+  "status": "unsealed_preparation_only_awaiting_root_final_association",
+  "scope": "Only immutable selected packet metadata/log/result copies. No runtime/large packet/dump duplication; no product tests.",
+  "rows": [
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/MANIFEST.json",
+      "capsule_path": "packet-metadata/backend/MANIFEST.json",
+      "bytes": 365313,
+      "sha256": "d9c3f928a20fd922378c19d9669b3cdf7649cfbeda9f02168c5ac0fc963775a2",
+      "scope": "backend"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/VERIFICATION.json",
+      "capsule_path": "packet-metadata/backend/VERIFICATION.json",
+      "bytes": 29946,
+      "sha256": "74495cc857732d6b8f079ca0ea15dbb978f35775e73de391f922aa8b107a1b8c",
+      "scope": "backend"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt3/result.json",
+      "capsule_path": "packet-metadata/backend/proof/attempt3/result.json",
+      "bytes": 34185,
+      "sha256": "380a02c9bad06348873b7a3e256ee3965e89f0a8d72ef4a4c39ea7e83cfd6bf8",
+      "scope": "backend"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt4_tail/result.json",
+      "capsule_path": "packet-metadata/backend/proof/attempt4_tail/result.json",
+      "bytes": 31633,
+      "sha256": "b2c4c21eb99278c5dc0de76b57db43c274bfb0ad1ff8812310af90ca59dafb81",
+      "scope": "backend"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt5_wait_tail/result.json",
+      "capsule_path": "packet-metadata/backend/proof/attempt5_wait_tail/result.json",
+      "bytes": 30871,
+      "sha256": "40e24bb16b685ada8f1147953cc0c2f4adb89d69683ab14fb4f54707aa9427f9",
+      "scope": "backend"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/MANIFEST.json",
+      "capsule_path": "packet-metadata/admin-predecessor/MANIFEST.json",
+      "bytes": 75371,
+      "sha256": "7544c5cdd15606e03ce42246fbf227f148d8a6b637025741e4c96498e2924e71",
+      "scope": "admin-predecessor"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/VERIFICATION.json",
+      "capsule_path": "packet-metadata/admin-predecessor/VERIFICATION.json",
+      "bytes": 26770,
+      "sha256": "9fbcea478b377a8e407b2c47882cb19a9eeaffb281821353502cda15bee88056",
+      "scope": "admin-predecessor"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/INTEGRATION.md",
+      "capsule_path": "packet-metadata/admin-predecessor/INTEGRATION.md",
+      "bytes": 3405,
+      "sha256": "6125ef04612af058bb5efe78a338048a99b7d4f66eb5e1fb723025748844f593",
+      "scope": "admin-predecessor"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/producer-association.json",
+      "capsule_path": "packet-metadata/admin-predecessor/producer-association.json",
+      "bytes": 4997,
+      "sha256": "a21d61ef580ce2287135c748c262fb97d51996d49d22ad9d36c136cb0d0769d6",
+      "scope": "admin-predecessor"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/MANIFEST.json",
+      "capsule_path": "packet-metadata/denial-correction/MANIFEST.json",
+      "bytes": 8267,
+      "sha256": "19d240d01bc1c13ca9bd40bde9e37d6a26df052d0e06da20fd8dbdc69ae5023a",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/VERIFICATION.json",
+      "capsule_path": "packet-metadata/denial-correction/VERIFICATION.json",
+      "bytes": 25039,
+      "sha256": "af864f046d9e91ca4a5531abebca3fd89b5320731ed3879076c073fc1d411a28",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/INTEGRATION.md",
+      "capsule_path": "packet-metadata/denial-correction/INTEGRATION.md",
+      "bytes": 2219,
+      "sha256": "b3814abcfb244260b57994fa6f5e923749531134ec188f6a833183d97762dab1",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/DELTA_BINDING.json",
+      "capsule_path": "packet-metadata/denial-correction/DELTA_BINDING.json",
+      "bytes": 1609,
+      "sha256": "b9b7cc103ebdc1d264a1ad4dfb1c542c9fc6d387fcf2aaa0e8e45b3c43e18bd1",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/PREDECESSOR_BINDING.json",
+      "capsule_path": "packet-metadata/denial-correction/PREDECESSOR_BINDING.json",
+      "bytes": 819,
+      "sha256": "b1a3eefa955a9c2f2378ef2a120b07331adf6dc50cb25086b28fa009bdb137d1",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/result.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/result.json",
+      "bytes": 23513,
+      "sha256": "5db2eee4f38031b509200e8185fb163420942ed950689507c0122d475e01fa95",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/stdout.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/stdout.log",
+      "bytes": 1137,
+      "sha256": "8a52540ba16fe1867ebd6ea7010b50a77fe04970957b24b62e094ed6ce8bc32a",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/stderr.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/terminal.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/terminal.json",
+      "bytes": 230,
+      "sha256": "c04dc7cbd6cb7342616141205705ee64f192356fa881ed941d4a51d62dada341",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/result.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/result.json",
+      "bytes": 23392,
+      "sha256": "2459d43ad2213376aa21b7913dfab78dc35132688a2ad53d8cac457fb33d61f5",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/stdout.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/stdout.log",
+      "bytes": 1393,
+      "sha256": "bfd1c88405ce6203d4e219091490e6f1e2b7e5b793c654de5f71522e5b11dd47",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/stderr.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/terminal.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/terminal.json",
+      "bytes": 103,
+      "sha256": "3da22b2c939f50c03435cc36128a63dec0508590fcb3d641d5d174336aa3c6c0",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/result.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/result.json",
+      "bytes": 23776,
+      "sha256": "5dab1ed92c84e25409d3e524525311d44a41ec38dec162d6845113221c732f52",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/stdout.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/stdout.log",
+      "bytes": 96,
+      "sha256": "c0b9406072c2f37b51f72c80afa86d6b41be1a0be3b6f6b1853b393c2a58b7e3",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/stderr.log",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "denial-correction"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/terminal.json",
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/terminal.json",
+      "bytes": 103,
+      "sha256": "694716f16e3dabd04f70a955b3e07aa2098b8ea37a79cb5d6d78f74d943f41d2",
+      "scope": "denial-correction"
+    }
+  ]
+}

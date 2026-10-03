@@ -1,0 +1,29 @@
+{
+  "actual_seconds": 11.220096,
+  "errors": 0,
+  "failures": 0,
+  "fixture_parent": "/private/tmp",
+  "fixtures_removed": true,
+  "live_floor_bytes": 4294967296,
+  "per_reader_deadline_seconds": 300,
+  "real_stage_execution": false,
+  "skips": 0,
+  "source_hashes_after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/consumer_guards.py": "f8ab32c78b0b499f8822b62ba79a8491effc67fad810187a22ac38d5ea2023aa",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/proposed-commands.json": "4f626fcdaddc9b23e126f655cbe4443e7c25d6b101803bb4863552578bef4ba2",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/run_native_consumer.py": "54ebc1233482d8471cd91496e043e0384fd319a37ff91df1dc2f0fb788aa7cbc",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/source_fence.py": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/test_phase_readbacks.py": "32b110779403f82d20f85a35b69c8f32ba16e7b9167f80e19b1ab5f1b59c7d5d"
+  },
+  "source_hashes_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/consumer_guards.py": "f8ab32c78b0b499f8822b62ba79a8491effc67fad810187a22ac38d5ea2023aa",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/proposed-commands.json": "4f626fcdaddc9b23e126f655cbe4443e7c25d6b101803bb4863552578bef4ba2",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/run_native_consumer.py": "54ebc1233482d8471cd91496e043e0384fd319a37ff91df1dc2f0fb788aa7cbc",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/source_fence.py": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/test_phase_readbacks.py": "32b110779403f82d20f85a35b69c8f32ba16e7b9167f80e19b1ab5f1b59c7d5d"
+  },
+  "source_inputs_unchanged": true,
+  "tests_run": 5
+}

@@ -1,0 +1,115 @@
+{
+  "at_utc": "2026-10-02T11:05:29.979828+00:00",
+  "current_root_acceptance": false,
+  "fixture_removed": true,
+  "full_applicable_dart_count": 710,
+  "integrated_formatter_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+    "lib/admin/core/admin_runtime.dart": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+    "scripts/tests/admin_receipt_source_busy_test.dart": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+    "test/admin_receipt_history_labels_capture_test.dart": "2f1fcb08b049e07e1a4c8bd99a488cf4d15269b20092b7e8bb6a8dad543bf890",
+    "test/admin_sender_retention_browser_test.dart": "e0cf4e9786235771fe0ef4290e4ebda42efce173480819d3feb040314d4caf3c",
+    "test/admin_sender_retention_controller_test.dart": "bf2b5b73ac2caf35361177d327b8bf5eafcb1406f720aaa7833ebecd47a2548a",
+    "test/admin_sender_retention_models_test.dart": "51028525a6ebc57a74fc6b93aebf6b44367e419980269778fc02cdd26d714ec4",
+    "test/features/runtime_component_contract_test.dart": "2f6bd060508d7968afaffce62119fd38953238175b48c84a9444dd009fa64d4c"
+  },
+  "maintained_source_unchanged": true,
+  "malformed_fixture_actual_rejection": {
+    "applicable_dart_count": 711,
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "exec",
+      "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+      "/bin/bash",
+      "-euo",
+      "pipefail",
+      "-c",
+      "make format-check"
+    ],
+    "completed_at_utc": "2026-10-02T11:05:26.211814+00:00",
+    "deadline_seconds": 120,
+    "elapsed_seconds": 3.3920595420058817,
+    "exit_code": 2,
+    "log_sha256": "a00cd61a98c3a58f26aa935be9d1b0e4c77fae5f3d33070c03a95576c3caad0e",
+    "started_at_utc": "2026-10-02T11:05:22.819792+00:00",
+    "timed_out": false,
+    "would_change_paths": [
+      "tool/qa/arc01_malformed_formatter_fixture.dart"
+    ]
+  },
+  "network": "none",
+  "only_private_correction_paths": [],
+  "original_reviewed_current_source_actual_pass": {
+    "applicable_dart_count": 710,
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "exec",
+      "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+      "/bin/bash",
+      "-euo",
+      "pipefail",
+      "-c",
+      "make format-check"
+    ],
+    "completed_at_utc": "2026-10-02T11:05:22.181050+00:00",
+    "deadline_seconds": 120,
+    "elapsed_seconds": 3.3490962500000023,
+    "exit_code": 0,
+    "log_sha256": "80bffe5cf5566850dd86a653408c18c072b36661f359b21debce631b96a1279c",
+    "started_at_utc": "2026-10-02T11:05:18.831986+00:00",
+    "timed_out": false,
+    "would_change_paths": []
+  },
+  "private_candidate_actual_pass": {
+    "applicable_dart_count": 710,
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "exec",
+      "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+      "/bin/bash",
+      "-euo",
+      "pipefail",
+      "-c",
+      "make format-check"
+    ],
+    "completed_at_utc": "2026-10-02T11:05:22.181050+00:00",
+    "deadline_seconds": 120,
+    "elapsed_seconds": 3.3490962500000023,
+    "exit_code": 0,
+    "log_sha256": "80bffe5cf5566850dd86a653408c18c072b36661f359b21debce631b96a1279c",
+    "started_at_utc": "2026-10-02T11:05:18.831986+00:00",
+    "timed_out": false,
+    "would_change_paths": []
+  },
+  "restored_reviewed_candidate_actual_pass": {
+    "applicable_dart_count": 710,
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "exec",
+      "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+      "/bin/bash",
+      "-euo",
+      "pipefail",
+      "-c",
+      "make format-check"
+    ],
+    "completed_at_utc": "2026-10-02T11:05:29.919341+00:00",
+    "deadline_seconds": 120,
+    "elapsed_seconds": 3.397501874998852,
+    "exit_code": 0,
+    "log_sha256": "e3ad2d19a504023635e4935a41296822bcf316789814ee87c39218e7b210a9ba",
+    "started_at_utc": "2026-10-02T11:05:26.521874+00:00",
+    "timed_out": false,
+    "would_change_paths": []
+  },
+  "root_integration_packet_sha256": {
+    "root-arc01-current-format-integration1": "b7e9221f26afea0312abbe6d21ae28e0309f46fdff4360b8154c8075b7524ae4",
+    "root-arc01-extra-five-integration1": "c0090dda2fded9b79639b045309b1eafdd5eb8364d02f8d8c6ae5b13b7129172",
+    "root-arc02-portable-admin-integration1": "8a160e33eaeadcd6cce454ee81ffa6073f110fef6c92a9fbc551b21c0f412640"
+  },
+  "root_integration_readback_required": true,
+  "root_source_written": false,
+  "status": "REVIEWED_CURRENT_SOURCE_ORIGINAL_MAKE_PASS",
+  "whole_execution_bound_seconds": 720,
+  "whole_execution_elapsed_seconds_before_cleanup": 17.60997104099806
+}

@@ -1,0 +1,24 @@
+--- android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt original candidate
++++ android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt final archive correction
+@@ -61,6 +61,8 @@
+     fun unresolvedArchivedEvidence(): Boolean = false
+     fun recordArchivedCallback(callback: GatewayCallback): Boolean = false
+     fun terminalArchivedAttempt(attemptId: String): Boolean = false
++    fun archiveCompactionPending(attemptId: String): Boolean = false
++    fun stopArchiveUncertainty() = Unit
+ }
+ 
+ internal data class GatewayCallback(
+@@ -154,9 +156,11 @@
+         val nextSegments = attempt.segments.toMutableList().also { it[callback.segmentIndex] = next }
+         val updated = attempt.copy(segments = nextSegments)
+         val nextAttempts = state.attempts.toMutableList().also { it[index] = updated }
++        val archiveConflict = updated.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED && storage.archiveCompactionPending(attempt.attemptId)
++        if (archiveConflict) storage.stopArchiveUncertainty()
+         // Paused/revoked enrollment does not discard evidence for an already
+         // armed attempt. It never grants permission for another invocation.
+-        storage.commit(state.copy(attempts = nextAttempts))
++        storage.commit(state.copy(emergencyPaused = state.emergencyPaused || archiveConflict, attempts = nextAttempts))
+         true
+     }
+ 

@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 6.488708,
+  "curl_exit_code": 0,
+  "effective_URL": "https://ossf.github.io/osv-schema/",
+  "exception": null,
+  "finished_utc": "2026-10-02T12:54:09.578841+00:00",
+  "http_status": 200,
+  "label": "osv-schema",
+  "method": "GET",
+  "receipt_directory": "requests/003-osv-schema",
+  "remote_IP": "185.199.110.153",
+  "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "request_performed": true,
+  "response_bytes_retained": 226247,
+  "response_complete": true,
+  "response_sha256": "0a1ead4f8ca92fe9f7e3f9f2bfe7f7f3ed416fb4e6efee91e9ae58fff7c1dc14",
+  "ssl_verify_result": 0,
+  "started_utc": "2026-10-02T12:54:03.090183+00:00",
+  "url": "https://ossf.github.io/osv-schema/"
+}

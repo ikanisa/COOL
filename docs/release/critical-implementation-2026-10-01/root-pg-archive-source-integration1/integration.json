@@ -1,0 +1,39 @@
+{
+  "at_utc": "2026-10-02T09:23:33.646242+00:00",
+  "proposal_packet_sha256": "43a05141bde884ac4de5680a1533c6988d117f910c22f9ea3b724deb86852fea",
+  "changes": [
+    {
+      "path": "scripts/qa/pg_archive_admission.py",
+      "before_sha256": null,
+      "after_sha256": "95f5c3d24bc723d4e570699a6a71af113bdcb5c6af91555e4f6c63f01076eb80",
+      "mode": 420
+    },
+    {
+      "path": "scripts/tests/test_pg_archive_admission.py",
+      "before_sha256": null,
+      "after_sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6",
+      "mode": 420
+    },
+    {
+      "path": "scripts/supabase_cli_helpers.sh",
+      "before_sha256": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+      "after_sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74",
+      "mode": 420
+    },
+    {
+      "path": "scripts/supabase_logical_backup.sh",
+      "before_sha256": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e",
+      "after_sha256": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329",
+      "mode": 448
+    },
+    {
+      "path": "Makefile",
+      "before_sha256": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b",
+      "after_sha256": "36cd23c1b3efc7d5064268f0306989558f0feeb40a83a98854b14e3ac5ace78a"
+    }
+  ],
+  "root_review": "Independent precursor review identified first-probe cleanup; root reviewed isolated bridge, meaningful constructor regression, exact original19 preservation and all88 sealed leaves.",
+  "maintained_validation_pending": true,
+  "production_release_approval": false,
+  "full_recovery_accepted": false
+}

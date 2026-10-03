@@ -1,0 +1,671 @@
+{
+  "design_authority": "revolut-design",
+  "reviewer": "typography_media independent actual-pixel review",
+  "reviewed_at": "2026-10-01T18:02:57.639592+00:00",
+  "status": "review_complete_no_material_findings_in_declared_scope",
+  "scope": "Actual deterministic Admin evidence-mode 28 route defaults at 320x740,390x844,834x1194 and1440x900; 112 actual screenshots with accompanying real route/control/keyboard browser assertions.",
+  "matrix": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/admin_browser_qa.json",
+    "sha256": "144b9a5e31edc042b44bc7f3c54272a24913956a7e421c22fa6d204ee0ab84d6"
+  },
+  "current_source_binding": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/current-source-readback-final.json",
+    "sha256": "9d4c38007efcb24181dbb2a9d399fcf5a692bc682a276cd20e51ae0ea1b4540c"
+  },
+  "build_source_fingerprint": "89873857d0d07e88d041b1318c3840bc38108567a8134f16061d630ba55784ee",
+  "route_count": 28,
+  "viewport_count": 4,
+  "image_count": 112,
+  "new_current_images_inspected": 46,
+  "exact_image_hash_reuse": 66,
+  "images": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_99740000-0000-4000-8000-000000000001_compact_320x740.png",
+      "sha256": "51b8c37e7f15c20e1571637abaf9a136459d740a2a592b813f45e7fd61a7ccdf",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_admin-users_99740000-0000-4000-8000-000000000001_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_99740000-0000-4000-8000-000000000001_compact_390x844.png",
+      "sha256": "7ef4aac2e8d473678f8a3800a6c9a3af4daf256e764489894c9cb66faa7727e4",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_99740000-0000-4000-8000-000000000001_desktop_1440x900.png",
+      "sha256": "bbacc9d8e6fd788e8d141ab7d32e3abad0d42f940286c232a5daf3d24b76ca23",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_99740000-0000-4000-8000-000000000001_tablet_834x1194.png",
+      "sha256": "188c0704845b865afcc2d83a6a11d358d279a3278e4f9ed908c5e08a6824f2d2",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_compact_320x740.png",
+      "sha256": "9c9c704fde0ea1f9506b6836e9c50e80792f94213d761761ff29fe39a9997445",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_admin-users_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_compact_390x844.png",
+      "sha256": "f884bce2fe77e666b943a745a81051449df37be8c144a5091c2369ba61233010",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_admin-users_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_desktop_1440x900.png",
+      "sha256": "748f7cc1120e6ef0e22000b826617bbd518f3d75fbb93c03907d1f88b0a48066",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_admin-users_tablet_834x1194.png",
+      "sha256": "14859e6f9e2b7b56bb2460494da28d14824082f2665697ed523a766caadf7154",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_compact_320x740.png",
+      "sha256": "33179790b1efe0f56d601764329d77240222e5303896c87e5a59c04bb6e2b46f",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_audit-logs_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_compact_390x844.png",
+      "sha256": "ed61f800b67d79c98e698f07d6797de410fbee45f3989fe19b4fd045fb834b3a",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_audit-logs_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_desktop_1440x900.png",
+      "sha256": "1dd44d42f994bc1b6d3b49a7e80dbf782f5f5c3f2852f8a4fdd87c52e5f43fa4",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_compact_320x740.png",
+      "sha256": "35226124939abf6c96c353b7620f655e06272a4a183bbe2acc40b1f1a2563982",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_compact_390x844.png",
+      "sha256": "a0cd9fc53a08cd94532f50a9cb86ad55913d31e10376586e5eba787b254f1227",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_desktop_1440x900.png",
+      "sha256": "7396e4cd86f4c80367826b115822edb4a19d76c3e36b608a38b561c2da609b61",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_entity_gateway_device_99810000-0000-4000-8000-000000000001_tablet_834x1194.png",
+      "sha256": "1b6b6c0079529b054d4a3dd500ef93f416dec10c4055cf25480316c773bc992b",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_audit-logs_tablet_834x1194.png",
+      "sha256": "2e91f24372aaae434ff0c54510566a7b79b0edb04810ac0e83287c6e7ad9962e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_automations_compact_320x740.png",
+      "sha256": "9e7899754ab8c6969e1ace9eec20dad174d8cad39a93200b5198ec67153e1b50",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_automations_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_automations_compact_390x844.png",
+      "sha256": "e3b1735f021b657a57a88fc46a49689ed194321961bfd19f69c4ac94f7bdabe6",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_automations_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_automations_desktop_1440x900.png",
+      "sha256": "05aad6336bbf157b7ae0bbc8f4045c72336b9651ca50e84da37c22806a501280",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_automations_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_automations_tablet_834x1194.png",
+      "sha256": "d5cb7ef6f21f8ed4bbe2e43e7c4cca0243d6e4a96d42651c1c036b8ea8f9dd10",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_denied_compact_320x740.png",
+      "sha256": "88491fc983398dd0edc08a1493b7378e52df2a83baaaaddf992de58f2bba2415",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_denied_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_denied_compact_390x844.png",
+      "sha256": "34d4987a5c43fadd70fc0b86cb7ac0a0479532b8b00cad50b7002e8c8634e756",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_denied_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_denied_desktop_1440x900.png",
+      "sha256": "90dc661a7f732b7cd2ceae540a24f25ddd2785880bbde08279e7c5a85f7a1aa5",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_denied_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_denied_tablet_834x1194.png",
+      "sha256": "02b0b889f9783288d2fa37831a873d10b9b26b103c7855f4435e2f684b3e485e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_exceptions_compact_320x740.png",
+      "sha256": "9d4d6becbc78cac485f712b432526b4e3f6aaed662e055c0feebe156fd0e69b5",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_exceptions_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_exceptions_compact_390x844.png",
+      "sha256": "b371bd05fca59f3a3fcaa713ebeb56b7f662a85e2e0e2bb6d8175d1a792117f0",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_exceptions_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_exceptions_desktop_1440x900.png",
+      "sha256": "6d73a0a7c591e55b1d24462466ebde8b4ee143a47c4bed4adc297dda00df93a2",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_exceptions_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_exceptions_tablet_834x1194.png",
+      "sha256": "a18da948eb2914e5b5fe9f086f00856248a2570947ce09d0e06e879189b7e26e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_feature-flags_compact_320x740.png",
+      "sha256": "4511c9ef09e60d069ea7d56b444e2fe7c398ac35f6e919dc94aa4414538734c2",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_feature-flags_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_feature-flags_compact_390x844.png",
+      "sha256": "dbd9706c4cb14fa38e93d4bd32dff2d1a9f6cbac101f7643c64cfc150ce32239",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_feature-flags_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_feature-flags_desktop_1440x900.png",
+      "sha256": "2c1c85b9424d360efc3ff08cf1de57b16cbf398358f652fb2899dd152248a083",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_feature-flags_tablet_834x1194.png",
+      "sha256": "5740eed1cca173e694343c593af91bf8b4d0877f65201cdaa15fb2ac0f48eb2b",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_collection-1_compact_320x740.png",
+      "sha256": "49db8e3e7d22c85b88e3b2fa16e8b4fd78648bc0f44baac6126e803791510c25",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_groups_collection-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_collection-1_compact_390x844.png",
+      "sha256": "cada1dbec3ffc7c27c77f576f393e44e310afff588bf0a942e16c7593d9f9f9c",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_groups_collection-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_collection-1_desktop_1440x900.png",
+      "sha256": "a3154e4af46a555f992e00fa93e5b08d1ff441b402e423ac2d8524856a2fbf41",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_groups_collection-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_collection-1_tablet_834x1194.png",
+      "sha256": "07e3e52667a161b151eb52966acb2b661b9f98d9ff307a2bfb83bc4945e58557",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_compact_320x740.png",
+      "sha256": "e06c6b542802ed2f1f7d7b0fe5ab1a2e52dc76d41bf41a81b1f1d84918461df9",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_groups_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_compact_390x844.png",
+      "sha256": "46d5205b638b6a1dadfead66f6ea2aba8f8f08e630dddb95002f78b47710bb5a",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_groups_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_desktop_1440x900.png",
+      "sha256": "62c3e5e719f8e4ec7e91bb460e96791cd503ec5acbbc14556429649c599ece66",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_groups_tablet_834x1194.png",
+      "sha256": "7165e2e9e72b0112e3f4fc41e0988e4234c97bc4066cd508cfb125a70c26f703",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_ledgers_compact_320x740.png",
+      "sha256": "aa42c603bfab4c30506a2397a23e8e53b39cbdb4a6a3aa1653dcfecfbb92178e",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_ledgers_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_ledgers_compact_390x844.png",
+      "sha256": "ecb3403984492d628023275e9cb188f70ada31aa60bd8b7acbd870ac4a083bce",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_ledgers_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_ledgers_desktop_1440x900.png",
+      "sha256": "b393aca48b61984f8ea87be7bc33b83a19792b0103e3729790c84a53c525f8dd",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_ledgers_tablet_834x1194.png",
+      "sha256": "3de38fcc8c26ec18250f35883a78a1b4cb95b12fe9289765b85cbc8a06a12d61",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_login_compact_320x740.png",
+      "sha256": "700c5eba78bbb4e00b4c6017aacd0ac682f98e73dea25dcb360c11dbcb35d1ef",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_login_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_login_compact_390x844.png",
+      "sha256": "2ac7e0485e636c466f53ee02f2ef30318526b622095cddad85910ca818d752e8",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_login_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_login_desktop_1440x900.png",
+      "sha256": "9f6de44769e40f4466c4b6467b125288485144443eb1e6f729322a3915ce1880",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_login_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_login_tablet_834x1194.png",
+      "sha256": "b8b32f6c70a4045dc853a4497281318eedef1eb36d1215273d1c5f1283b1a9cd",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_compact_320x740.png",
+      "sha256": "63fa65ea5a6da99a85c0046822ecd758ae0d6191497c20677cd9915b19a8b5db",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_members_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_compact_390x844.png",
+      "sha256": "1d083f9751269789307efa331af90e8fff6d80b8ada08c49b70aa3b6af0eeac1",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_members_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_desktop_1440x900.png",
+      "sha256": "928a6b94d0f139d01954152a82d9982d904a2acdb3e1b9537f5ab81cf30b9e1d",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_tablet_834x1194.png",
+      "sha256": "b286b275b88a621199d508ed1aa670db65960b52946a64df78ef8977c663ef12",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_user-1_compact_320x740.png",
+      "sha256": "06d4ea9e7ff6e4ffa7afb21394a48e21130a460ef86aea9048d028af06b7d0dd",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_members_user-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_user-1_compact_390x844.png",
+      "sha256": "478f20ded9d59b2b38ecc8fa236585a5120dd44f57c6ed7bb0f9190f69b7ab31",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_members_user-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_user-1_desktop_1440x900.png",
+      "sha256": "4ad749e617023feeebf7a8fac3fece3c52276e63e546a5245aae802d25ebdc08",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_members_user-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_members_user-1_tablet_834x1194.png",
+      "sha256": "8f822d31f3e94bb7e1f626603df711f710b6264b1a70efa22a3b4854561a5361",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_compact_320x740.png",
+      "sha256": "f0833af0c3d9fc8e03719e99a060c3bc3179b127ca96905e80c842c6dde3d608",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_notifications_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_compact_390x844.png",
+      "sha256": "87b3c14d4cdfd3ed133572cbbeb42d7d4b33ab5c5b3e4e391a8a4ab5ccb1c351",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_notifications_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_desktop_1440x900.png",
+      "sha256": "e2f2b28f06d42de4c4de56e800090addbc6e5c0690317aa837357bd7a0f84c5f",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_notification-1_compact_320x740.png",
+      "sha256": "3d1cf2bf1702e6b62263527a102661d4ec9b3d8dbb6c3274f9cd301f7d67d0de",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_notifications_notification-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_notification-1_compact_390x844.png",
+      "sha256": "e13551175fe4f9e61f38541ee169260ffe802b4b58df65985eae52123b3c7ba0",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_notifications_notification-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_notification-1_desktop_1440x900.png",
+      "sha256": "f9e7bd4ec87fd9b7b4d1e9f692ac9fd4846b1a0908b15a68a995da80ae4345e6",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_notifications_notification-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_notification-1_tablet_834x1194.png",
+      "sha256": "cec79a9df06d2578134bad933b19d6412fb281f9ac76889a5bc4a633473f6085",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_notifications_tablet_834x1194.png",
+      "sha256": "cb951d5c3cda0d89647045c59fc064ee31ffb33eea964ea4908b4aba74828226",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_payees_compact_320x740.png",
+      "sha256": "149dbb7bc867a14031665dde47a1b646502eaabb7159a56de51acdf1f173137b",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_payees_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_payees_compact_390x844.png",
+      "sha256": "25c412400e30fabfa5f0abfa150f253710f7befc1d65d76ffb037830beaa2490",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_payees_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_payees_desktop_1440x900.png",
+      "sha256": "075f84899a803612f425990139da760e7454145bb12385c71843cbe28508dfdf",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_payees_tablet_834x1194.png",
+      "sha256": "f93d7c10e063e7a65f6085660a989dafd6fdf06bc89f94589c7b4416df9dc97e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_reconciliations_compact_320x740.png",
+      "sha256": "815527cfaeea84fa73bdedb308932b99fe9a361e6a3c7be845a8e34ba39c44a5",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_reconciliations_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_reconciliations_compact_390x844.png",
+      "sha256": "d4b21a590d800b3abddadc4d57c3cf16a930130216845761b8daf63f0dde5173",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_reconciliations_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_reconciliations_desktop_1440x900.png",
+      "sha256": "346b8bd63d767687fc5ddd8130aa9c85b8e4b2af7be8319e29410ab705a4d084",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_reconciliations_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_reconciliations_tablet_834x1194.png",
+      "sha256": "4f412e3501be29ab306a20ef07b229c197ae8771302e91794a00822bad5618cc",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_settings_compact_320x740.png",
+      "sha256": "957530456512f0e4a407fae7b5465dec5b578641308a1c4a49b95c2424a53545",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_settings_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_settings_compact_390x844.png",
+      "sha256": "e2965fac8c64e1b0a4d957eddd4ed9d78aefaecb3860c5b77b487fe06cd3250e",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_settings_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_settings_desktop_1440x900.png",
+      "sha256": "e0d48ec9e35c8de327cfa75203daf9947dabaa1b8a03c786cd1e059c4364368f",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_settings_tablet_834x1194.png",
+      "sha256": "246b4cc9633ab932bacaae16552394e7d4d7749b446f44983f22316fb8bc0be2",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-gateway_compact_320x740.png",
+      "sha256": "529206183dc6f13ef71b11c331dab9653b325337122c2829069a1500c308d536",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-gateway_compact_390x844.png",
+      "sha256": "722339d5c6047063d5e1c37992fb08ca7f4694ee9d9eca352ea09519eb5fee72",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-gateway_desktop_1440x900.png",
+      "sha256": "2b9ab780ae7dfaee7b31c73eb862733ea6e7b71a459475bb5b475ddc6c6f047e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-gateway_tablet_834x1194.png",
+      "sha256": "57b29f57f0e4fa68609a6ad5c16f41e5e872a403c6e6604d7bedebea1dac79f4",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_compact_320x740.png",
+      "sha256": "34b96ef56549225f765d75cdfc19eda41b51d21bc40e4539ccb187ed487e1364",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_sms-receipts_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_compact_390x844.png",
+      "sha256": "f610b2679591739523cb21c88976c7be14f3fdf863c3c7654c094adf346234a1",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_sms-receipts_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_desktop_1440x900.png",
+      "sha256": "b462868ea7d09147833e92e4160966200610baa3a6c03e22c618636e1e7ad1dd",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_sms-receipt-1_compact_320x740.png",
+      "sha256": "bbd4551735ffd06938e7c030403482ce14bfe10f4352f5657b282a050de651eb",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_sms-receipts_sms-receipt-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_sms-receipt-1_compact_390x844.png",
+      "sha256": "c83e3b1521bdac2090eed8b5eb27770ac693a9d2f51d13f2cd9f9e9342067869",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_sms-receipts_sms-receipt-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_sms-receipt-1_desktop_1440x900.png",
+      "sha256": "e496cfe944f62ca8999383bd72dddc399b2c796b51687e8dab5a8ab413762b7c",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_sms-receipts_sms-receipt-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_sms-receipt-1_tablet_834x1194.png",
+      "sha256": "9c543dee118b248e6ba52fe3204763d985c3110b80bcb7845673747b9bd8731e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_sms-receipts_tablet_834x1194.png",
+      "sha256": "08fa27560a3137d3d5393fa2078223dd365c37990f5e4fa8955a930604d4264a",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_system-health_compact_320x740.png",
+      "sha256": "cc3e939dc470d683767dd1e3fa3240b34792ac2c7b25d1becf2edb6c9e483bb7",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_system-health_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_system-health_compact_390x844.png",
+      "sha256": "3ffd1c9488c1d82dca5969150ece79f0b61b44520a96b6aafe45a04f397554dd",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_system-health_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_system-health_desktop_1440x900.png",
+      "sha256": "4cc6401a5aeb71588fac98908f144069208ee5437787209ab821d52ec5595d71",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_system-health_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_system-health_tablet_834x1194.png",
+      "sha256": "38eba564346b30e27b205aeabf49dcf5b8c775cf39c29bd7e9d3f5b24128fba1",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_compact_320x740.png",
+      "sha256": "979e9fac73be296951dda3bc2b9d47ce3def00e873cf06656c22cbd051b142d9",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_transactions_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_compact_390x844.png",
+      "sha256": "800cb5e9125b24dc18758c93e8dacb83f7303510c5015789e799254691b88eba",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_transactions_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_desktop_1440x900.png",
+      "sha256": "7ab06db2d0d52a70759f64823621f159998dda1c5d128993d135120493cd97ee",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_momo:transaction-1_compact_320x740.png",
+      "sha256": "ec05ee3f472ebb6c951c977a223843c550422c7797ad15347596861ad56ff4d7",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_transactions_momo:transaction-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_momo:transaction-1_compact_390x844.png",
+      "sha256": "bced822aac044d925eaba8b1e3a443408f41633f37298f0ebc882304d6384341",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_transactions_momo:transaction-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_momo:transaction-1_desktop_1440x900.png",
+      "sha256": "a8ad9b71decdc53aeffb01b21d5ea2f583aa7d00ec36e051f810e3b057113c81",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_transactions_momo:transaction-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_momo:transaction-1_tablet_834x1194.png",
+      "sha256": "cb01ff305b59ccbd700d5acbb1a225ee8577996a1a037c8952235b20ef8cc817",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_transactions_tablet_834x1194.png",
+      "sha256": "2273569426614ca54ffc24e4e808c53c10b0d6c3797859f4709406a2b570a08e",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_compact_320x740.png",
+      "sha256": "f3ad90aa3a03d9fc92b7bcef7d31bf28c07e6d0509f4709204f903ccbc28d2e3",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_users_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_compact_390x844.png",
+      "sha256": "d8745e858f4fbf5572bfb35694e9d483a9930a11baa0d8f377a2c7a00c632d41",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_users_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_desktop_1440x900.png",
+      "sha256": "4df2488927da186653817a7a4036391ba7edfcb5a0aaf5c7d4dcff2a39e86da3",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_tablet_834x1194.png",
+      "sha256": "33b56abe1f14dcc46c5e6c882a1232746caae464f89f4945559178c6dd863cea",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_user-1_compact_320x740.png",
+      "sha256": "366d9a5458dde5e8b1d856e13722c5a272b47a39b200c3b539342e933599aba5",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/admin_users_user-1_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_user-1_compact_390x844.png",
+      "sha256": "07a59f8bb502cbd5f65974cc49194f91271154c6a45fc63aca5d8e472530485b",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_users_user-1_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_user-1_desktop_1440x900.png",
+      "sha256": "921857b3ba648481b2135a2cc3968f0e14e37b2ab89cd1541dcbe3611b820de9",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/admin_users_user-1_desktop_1440x900.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/admin_users_user-1_tablet_834x1194.png",
+      "sha256": "cbbb030b62e2315e3ab75e5a6d7e226667d7df7f19e23d4d8d17d13562fd4aa8",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/overview_compact_320x740.png",
+      "sha256": "e6e0d8645a11faaec5eb3b76a3b030e50910320103cee64405ac3d4dd05e3d35",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-final/browser/screenshots/overview_compact_320x740.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/overview_compact_390x844.png",
+      "sha256": "a09fab4dca8c279d491caa4ebb5878710c635e28162179713bec2004cb8308b1",
+      "previously_inspected_identical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current/browser/screenshots/overview_compact_390x844.png"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/overview_desktop_1440x900.png",
+      "sha256": "e3fd7f7f91c4d1c7f370d5632b25cacf85776b0b219bcfe4da87485294308eae",
+      "previously_inspected_identical": null
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/screenshots/overview_tablet_834x1194.png",
+      "sha256": "fba664b081bc73030773c2f671d39cbf24f26d7c09b50bb94f7dbe3a4b25061c",
+      "previously_inspected_identical": null
+    }
+  ],
+  "current_contact_pages_inspected": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-01.png",
+      "sha256": "9c0290417e37f2458e29c4ba37c3b185d005eefc35372132de362f09c765fe57"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-02.png",
+      "sha256": "c06b1de6296b7a9a90ac60057aab4f2c58a16deacada72ac41c9a897a4603064"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-03.png",
+      "sha256": "b72eb085d8642dd1787be7b818fed5ac832d7623267ed004f7dd99d69d750e58"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-04.png",
+      "sha256": "a923a580dd1ac25d844ca36e63875ef4a0f576b59d9d58fb2087f27e5a6be13d"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-05.png",
+      "sha256": "86bb7d44bafe0bb66f1ede90fae3446ed22781cd615d1794987d26741792d4ce"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-06.png",
+      "sha256": "061762882ab6856ba600c17b246ae96067ed785a857b2f2cb957cc80ace6b176"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-07.png",
+      "sha256": "142d3e340aebee297e363d4f8e798880d38f72288e5ecd40582a7b9376075be1"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-08.png",
+      "sha256": "5b2ecd88dd4efa898c20433c3a988ff752cbae76d4f588ec9ffe607e3b96c27a"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-09.png",
+      "sha256": "2ab7424f1862066410a20f31d7e13c94013647ee6a5ce1796279f020e5a130fe"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-10.png",
+      "sha256": "37105f4085720251ee20dc7dd6e0459b60b78c395505a50b80b6eab03099922f"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-11.png",
+      "sha256": "ef2fecb55595ce3467ece1535fdf4a1d6bb06a1618fedfba3cbe882eaae0a193"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/browser/independent-inspection/current-12.png",
+      "sha256": "f2268b565d678fcd5451f2f182456d33b9241486e8cdf5dcbcc49441d18221c5"
+    }
+  ],
+  "source_references_inspected": [
+    {
+      "id": "POS-WEB-orders",
+      "role": "Operator rail, grouped worklists and toolbar; source light POS cohort, target uses selected dark Business canvas.",
+      "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/assets/reference-pos/pos-web-orders.png",
+      "sha256": "90cb24046f88f9f2c98cc5f4890f590446c028289a1f6ff1e06f04e8d16a622d"
+    },
+    {
+      "id": "POS-WEB-bulk-import",
+      "role": "Operator editing controls, label hierarchy and rounded contained surfaces.",
+      "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/assets/reference-pos/pos-web-bulk-import.png",
+      "sha256": "ae80eba5eafa2902b923b98ceb03fe2bb149e8ed940631688e1147d06736b46c"
+    },
+    {
+      "id": "BUSINESS-MAC-receipt-processing",
+      "role": "Selected dark Business operations shell, rounded charcoal panels, white foreground and contained controls.",
+      "path": "/Volumes/PRO-G40/Projects/ChatGPT/Revolut/private/qa/source-mac-20260906/receipt-processing.png",
+      "sha256": "ec04906b272e09608ed2389d12fea3f544026f90be55ec1dc7c6889ba75209bd"
+    },
+    {
+      "id": "BUSINESS-MAC-analytics",
+      "role": "Business rail, heading hierarchy, muted labels and analytics panel density.",
+      "path": "/Volumes/PRO-G40/Projects/ChatGPT/Revolut/private/qa/source-mac-20260906/analytics-desktop-photo.png",
+      "sha256": "a9fbb5ec32edc96ce77883ee5e98f887dfdca1352175a8b21c8d56d8e89be087"
+    }
+  ],
+  "adaptations": [
+    "Collect identity, Rwanda operations, MoMo workflows and masked synthetic data replace source financial content.",
+    "Business dark shell supplies canvas/surface/foreground roles; POS examples supply operator table/action hierarchy. These are distinct from native and marketing references.",
+    "834px keeps an operator rail and stacks row fields; compact widths use named menu navigation and scrollable stacked cards. Table semantics retain field names.",
+    "Real unavailable and permission-required fixture states remain visible. Reconciliation Refresh is named, disabled and nonfocusable, as required by actual access control.",
+    "Enabled controls remain named, measured for minimum targets and checked with actual keyboard/action assertions; disabled controls are checked for inert semantics."
+  ],
+  "material_findings": [],
+  "evidence_limits": [
+    "This review covers current synthetic route defaults and the declared actual browser interactions. It does not attest backend service availability, live customer data or every privileged production workflow.",
+    "No claim of identical pixels across differently sized source and target screenshots or of platform-native mobile acceptance."
+  ]
+}

@@ -1,0 +1,22 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_offline
+00:10 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway light_offline
+00:14 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_failure
+00:15 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_loading
+00:18 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_capture_test.dart: capture synthetic gateway dark_enrollment
+00:26 +5: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_enrollment_lifecycle_test.dart
+00:37 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_enrollment_lifecycle_test.dart: Close preserves editable input through the real exit frames
+00:56 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_enrollment_lifecycle_test.dart: fast enrollment ACK does not dispose the animating input
+00:59 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_enrollment_lifecycle_test.dart: delayed ACK leaves one exact enrollment request after exit
+01:06 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_enrollment_lifecycle_test.dart: late enrollment failure after route removal stays redacted
+01:10 +9: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart
+01:21 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: strict native observations never coerce booleans or numbers
+01:21 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: unknown keys and oversized aggregates fail closed
+01:21 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: delivery and network evidence contradictions fail closed
+01:21 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: unknown attempts remain independent from framework sent evidence
+01:21 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: initial offline installation disables all network operations and exposes no send override
+01:33 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: emergency pause remains reachable during loading
+01:36 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: initial native failure keeps emergency pause and redacts private errors
+01:37 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: narrow layout and large text keep independent observations readable
+01:38 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_safety_test.dart: public enrollment UI has no body, recipient or arbitrary host controls
+01:44 +18: All tests passed!

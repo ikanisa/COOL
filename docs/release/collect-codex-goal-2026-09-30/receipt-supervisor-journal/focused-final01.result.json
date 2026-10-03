@@ -1,0 +1,40 @@
+{
+  "actual_endpoint_calls": 0,
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "--experimental-strip-types",
+    "--test",
+    "tools/collect-notification-mcp/src/supervisor_journal.test.ts"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "dependency_install_requested": false,
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-01T00:16:28Z",
+  "host_allowlist_changed": false,
+  "keychain_calls": 0,
+  "log_sha256": "07e2e86c1291b9a4e48fd8ec5c55c8e36a9222ad2289657de8d1407e4f7f9e61",
+  "node_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "node_version": "v24.19.0",
+  "provider_sends": 0,
+  "real_key_or_profile_created": false,
+  "source_sha256": {
+    "supabase/functions/collect-receipt-supervisor/handler.ts": "1649f602ae5c58ea22576a2328bca5104b88234d80b4e741386171e2813ea9aa",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "tools/collect-notification-mcp/package.json": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d",
+    "tools/collect-notification-mcp/pnpm-lock.yaml": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+    "tools/collect-notification-mcp/src/supervisor_client.ts": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975",
+    "tools/collect-notification-mcp/src/supervisor_journal.test.ts": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0",
+    "tools/collect-notification-mcp/src/supervisor_journal.ts": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758",
+    "tools/collect-notification-mcp/src/supervisor_keychain.swift": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c"
+  },
+  "source_unchanged_during_run": true,
+  "started_at_utc": "2026-10-01T00:16:23Z",
+  "test_counts": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 26,
+    "skipped": 0,
+    "tests": 26,
+    "todo": 0
+  }
+}

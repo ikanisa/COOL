@@ -1,0 +1,10 @@
+{
+  "action": null,
+  "status": "not_recorded",
+  "receipt": null,
+  "checked_at": "2026-10-01T13:02:57.232119Z",
+  "request_id": "683d3969-83f6-4969-ba2a-c8d75a17090b",
+  "contract_version": 3,
+  "request_expires_at": null,
+  "sample_valid_until": "2026-10-01T13:03:57.232119Z"
+}

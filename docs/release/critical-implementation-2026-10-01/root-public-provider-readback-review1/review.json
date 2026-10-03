@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-10-02T06:58:06.878383+00:00",
+  "checks": [
+    {
+      "folder": "cloudflare-cli-readback1",
+      "seal_sha256": "093c80c83d61a8a62c797c9f2dc00bfd93a346eabd07a30366b0c859cc0176eb",
+      "leaves_verified": 6
+    },
+    {
+      "folder": "public-legal-live-readback1",
+      "seal_sha256": "a128caf2269b6dc406901be7c46ab09ae6207b03d8ae9766c7fa2ad0112b416c",
+      "leaves_verified": 40
+    }
+  ],
+  "source_claims_are_dated_readbacks": true,
+  "provider_domain_binding_verified": false,
+  "current_artifact_published": false,
+  "anonymous_legal_404_targets": 3,
+  "promised_request_outcome_verified": false,
+  "ui_comparator_verified": false,
+  "production_release_approved": false
+}

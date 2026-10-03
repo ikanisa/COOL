@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation-recovery2/integrate_checkpoint9.py",
+    "--controller-sha256",
+    "5a300638a250952f3114cf5b78ba788cfbd451f535eaf00a8044c69accd51aff",
+    "--admission-sha256",
+    "4d1afdde97c7437bd56c74ccc009f9874e2601f2ea1e4f5ff40b081c44e7eb64",
+    "--apply",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-integration9"
+  ],
+  "started_utc": "2026-10-02T19:19:42.136418+00:00",
+  "actual_seconds": 0.08300625000265427,
+  "bound_seconds": 60,
+  "exit_code": 0,
+  "owned_PID_PGID": 35427,
+  "owned_group_absent": true,
+  "actual_receipt": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-integration9/receipt.json",
+    "sha256": "a2bf4565be788fe60fbc24363fb72076042a9bbadd40b6bbd1c1b564bd047c57"
+  },
+  "canonical_apply_executed": true,
+  "production_release_approval": false
+}

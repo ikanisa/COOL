@@ -1,0 +1,140 @@
+{
+  "status": "pass",
+  "design_authority": "revolut-design",
+  "capture_report_sha256": "5c05b9869c8b1e25e4cd1c9748d66ea0f594d10de15d6d7d699e0862b7535b48",
+  "build_manifest_sha256": "02bca2ac7a5f752549d11ef4e3a768026f27c4d759e0a54e24a2586ac6b7d870",
+  "runtime_sha256": "4dd7f2add4be7a33fbf9419b35bff7f39c09ddfe9099a78db40420d1d7e9b168",
+  "reviewed_at": "2026-10-02T00:56:46.157484+00:00",
+  "reviewer": "Codex scoped local implementation review",
+  "native_acceptance": false,
+  "scope": "Seven freshly compiled and captured real synthetic Flutter route previews for unchanged local website media. Exact current source/diagnostic/build/browser lineage and stated applicable patterns only; no full visual, navigation, interaction, native, rights, legal, provider, hosted or release acceptance.",
+  "review_method": "All seven fresh original PNGs directly viewed; six relevant native originals reopened and independently hashed. Tall images were automatically resized by the viewer. Original pixels were not altered. Hash comparison to dated originals does not substitute for the fresh execution or full visual acceptance.",
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-020",
+      "notes": "Fresh original shows the blue Collect summary, synthetic RWF contribution record amount, three group actions/activity and four named destinations. Relevant Home hierarchy/action/list pattern inspected; no exact native geometry or bank/custody capability equality."
+    },
+    {
+      "id": "groups",
+      "sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-020/LIVE-021 and LIVE-049 grouping",
+      "notes": "Fresh original shows search/filter, title and Collect group photographs/facts. Bottom navigation visibly labels Home and Groups in this route, whereas Home/detail show four destinations; this static packet does not accept navigation consistency or all-route fidelity."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-048 and LIVE-049",
+      "notes": "Fresh original shows group header, synthetic contribution amount/count, four actions, confirmed record balance and activity rows. Exact native group comparator is absent; no provider actions executed."
+    },
+    {
+      "id": "security",
+      "sha256": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-013",
+      "notes": "Fresh original shows wave/shield header, MoMo PIN safety warning and four grouped security rows including Delete data. The root headingLevel amendment changes semantics, without asserting native device or full interaction acceptance."
+    },
+    {
+      "id": "privacy",
+      "sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-049 quiet utility pattern only",
+      "notes": "Fresh original shows the readable policy heading and initial RW/RWF/member-information sections. The complete policy extends below viewport. Full scrolling, substantive legal authority and exact native comparator remain unverified."
+    },
+    {
+      "id": "terms",
+      "sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-049 quiet utility pattern only",
+      "notes": "Fresh tall original shows the Terms title and contribution/group sections. The opening first line appears partly omitted in this viewer presentation, consistent with the dated original. Its complete readable rendering is not accepted; document/fidelity/legal gaps remain open."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "reviewed_for_website": true,
+      "original_inspected": true,
+      "reference_scope": "LIVE-049 quiet recovery pattern; no exact deletion comparator",
+      "notes": "Fresh original truthfully shows Delete request, Request service unavailable and Get help for the intentionally null-client fixture. It does not show a submitted form or accept authenticated intake/erasure/native lifecycle."
+    }
+  ],
+  "source_stage_kind": "unapproved_current_media_fixture_source_stage",
+  "broad_strict_release_export_required": true,
+  "image_pixels_edited": false,
+  "inspection_regions_publication_allowed": false,
+  "reference_evidence": "docs/release/critical-implementation-2026-10-01/public-media-batch4/reference-inspection.json",
+  "remaining_differences": [
+    "Browser captures do not prove OS/status/keyboard/safe area/native rendering.",
+    "Exact native group, privacy, terms and deletion comparators remain absent.",
+    "Groups list shows two named destinations while Home/detail show four; all-route navigation consistency is not accepted by these static previews.",
+    "Terms opening line appears partly omitted in the tall image presentation; complete glyph/document rendering remains unverified.",
+    "Full scroll, scaled text, interaction/modal/loading/failure/provider states are outside this media acceptance.",
+    "Font/photography rights and owner/legal/publication gates remain unresolved.",
+    "Deletion preview is service-unavailable recovery only, not authenticated re-auth/intake/retention/erasure evidence."
+  ],
+  "diagnostic_observer_sources_before": {
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "0bbb116f123b4a856f469a5635cd3eecc7275ec643560f9f0fd684346b0a7956"
+  },
+  "diagnostic_observer_sources_after": {
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "0bbb116f123b4a856f469a5635cd3eecc7275ec643560f9f0fd684346b0a7956"
+  },
+  "previous_visual_review_sha256": "0012f089ac6b04eb40e1d08cc0aebe58b6109f90118d3d5bff9cd79f36097652",
+  "prior_originals_exactly_identical": true,
+  "pixel_comparison": [
+    {
+      "id": "home",
+      "prior_sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+      "current_sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+      "byte_equal": true
+    },
+    {
+      "id": "groups",
+      "prior_sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+      "current_sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+      "byte_equal": true
+    },
+    {
+      "id": "group-detail",
+      "prior_sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+      "current_sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+      "byte_equal": true
+    },
+    {
+      "id": "security",
+      "prior_sha256": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+      "current_sha256": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+      "byte_equal": true
+    },
+    {
+      "id": "privacy",
+      "prior_sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+      "current_sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+      "byte_equal": true
+    },
+    {
+      "id": "terms",
+      "prior_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+      "current_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+      "byte_equal": true
+    },
+    {
+      "id": "account-deletion",
+      "prior_sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "current_sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "byte_equal": true
+    }
+  ],
+  "pixel_delta_from_batch3": [],
+  "source_change": "Exactly four root-reviewed production router/repository/scaffold/header amendments are bound in the fresh V4 cohort. Separate registry/current content review inputs are current; no old compiled build, capture or review acceptance reused."
+}

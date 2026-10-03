@@ -1,0 +1,70 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/admin_sender_retention_models_test.dart",
+        "test/admin_sender_retention_controller_test.dart",
+        "test/admin_sender_retention_view_test.dart",
+        "test/admin_sender_retention_mount_test.dart",
+        "test/admin_governed_settings_widget_test.dart",
+        "test/admin_receipt_operations_card_test.dart"
+      ],
+      "started_at": "2026-10-02T04:10:17.025898+00:00",
+      "finished_at": "2026-10-02T04:10:44.710113+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "346494b8c63753c4cb2fea22c712b9ed6c1e81e1a93d6488dbae14696a52ddfc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_sender_picker.dart",
+        "lib/admin/core/admin_sender_retention_models.dart",
+        "lib/admin/core/admin_sender_retention_sdk.dart",
+        "lib/admin/core/admin_sender_retention_controller.dart",
+        "lib/admin/core/admin_sender_retention_host.dart",
+        "lib/admin/core/admin_sender_retention_view.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+        "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_governed_settings_page.dart",
+        "lib/admin/core/admin_receipt_operations_card.dart",
+        "test/admin_sender_retention_models_test.dart",
+        "test/admin_sender_retention_controller_test.dart",
+        "test/admin_sender_retention_view_test.dart",
+        "test/admin_sender_retention_mount_test.dart",
+        "test/admin_governed_settings_widget_test.dart",
+        "test/admin_receipt_operations_card_test.dart"
+      ],
+      "started_at": "2026-10-02T04:10:44.710279+00:00",
+      "finished_at": "2026-10-02T04:10:48.095527+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "282074dfdfc76634ff94424fa4db7a5e30f4a71e24760b6275b0a23539aa1630",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "design-authority",
+      "argv": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "started_at": "2026-10-02T04:10:48.095555+00:00",
+      "finished_at": "2026-10-02T04:11:46.723707+00:00",
+      "exit_code": 2,
+      "stdout_sha256": "c7899b72960d32e8edacd7c8f570bd2add85114b142aa60e1a1bf8a7ce0221d9",
+      "stderr_sha256": "451e1dec99e6c644ef76bb45c7a7935aa950a838970ac6d9e48965bc21b421c3"
+    }
+  ],
+  "scope": "Canonical Settings and receipt operations mounts, retained producer DTOs with explicitly synthetic Auth/HTTP and adapted sender fixture; no hosted service, real sender, reader speech, comparator parity or release artifact acceptance"
+}

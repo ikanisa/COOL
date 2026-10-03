@@ -1,0 +1,2 @@
+NOTICE:  00000: trigger "collection_receivers_official_route_immutable" for relation "public.collection_receivers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

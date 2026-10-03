@@ -1,0 +1,13 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/test.cases39.dart	2026-10-01 15:56:56
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_exception_workflow_sdk_test.dart	2026-10-01 15:57:25
+@@ -735,8 +735,9 @@
+             );
+             await tester.runAsync(() async {
+               await auth.session(client, 'workflow-b');
+-              if (switchBack)
++              if (switchBack) {
+                 await auth.session(client, 'workflow-a', nonce: 4);
++              }
+             });
+             await _settleSdk(tester);
+             held.complete(auth.response(acknowledgement));

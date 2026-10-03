@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 
+import '../data/exact_json_values.dart';
+
 class MomoUssdLauncher {
   const MomoUssdLauncher();
 
@@ -10,7 +12,9 @@ class MomoUssdLauncher {
     required int amountRwf,
     required String provider,
   }) async {
-    if (!RegExp(r'^[0-9]{4,12}$').hasMatch(receiver) || amountRwf <= 0) {
+    if (!RegExp(r'^[0-9]{4,12}$').hasMatch(receiver) ||
+        amountRwf <= 0 ||
+        amountRwf > maxExactJsonInteger) {
       throw const FormatException('Invalid MoMo USSD request.');
     }
     if (!const {'mtn_momo', 'airtel_money'}.contains(provider)) {

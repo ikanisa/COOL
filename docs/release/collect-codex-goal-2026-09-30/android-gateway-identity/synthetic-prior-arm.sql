@@ -1,0 +1,2 @@
+-- Synthetic local-only arm; no sender authority issued through an API.
+insert into collect_gateway.dispatch_arms(device_id,attempt_id,fence_version,body_sha256,destination_sha256,segment_count) values('7d822ff3-fcd7-452c-aa24-ec73a5ee4839','8c1a15be-3994-447b-8227-df74217f3277',1,'bb281ceaa551bad986f71063fb915e0d7e0f1c91f5e9240f9c344a4c9638426c','8cc0b87fb6c94510ba8bc138aa1e0b14cbf1a09ad47a4c1fefc25e2917001db6',1);

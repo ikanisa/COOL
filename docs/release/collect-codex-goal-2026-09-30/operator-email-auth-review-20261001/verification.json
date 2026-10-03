@@ -1,0 +1,128 @@
+{
+  "kind": "independent_email_auth_review_final_association",
+  "verified_at": "2026-10-01T10:31:09.662745+00:00",
+  "review_status": "No additional actionable defect found in the corrected narrow helper after the reported guards were fixed",
+  "corrected_helper_sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+  "original_helper_sha256": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62",
+  "owner_final_test_scope": {
+    "test_count": 31,
+    "exit_code": 0,
+    "started_at": "2026-10-01T10:27:46.187482+00:00",
+    "finished_at": "2026-10-01T10:28:01.394443+00:00",
+    "source_inputs": 7,
+    "source_before_after_unchanged": true,
+    "command": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "scripts/tests/test_collect_operator_email_auth.py",
+      "scripts/tests/supabase_secret_transport_test.py",
+      "-v"
+    ],
+    "executed_by": "root owner; actual retained log/receipt copied, not rerun by reviewer"
+  },
+  "source_association": [
+    {
+      "source": "scripts/collect_operator_email_auth.py",
+      "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "copy": "owner-final31/source/scripts/collect_operator_email_auth.py",
+      "owner_copy_sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "scripts/tests/test_collect_operator_email_auth.py",
+      "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "copy": "owner-final31/source/scripts/tests/test_collect_operator_email_auth.py",
+      "owner_copy_sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "scripts/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "copy": "owner-final31/source/scripts/supabase_apply_auth_hardening.sh",
+      "owner_copy_sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "scripts/tests/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "copy": "owner-final31/source/scripts/tests/supabase_secret_transport_test.py",
+      "owner_copy_sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "scripts/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "copy": "owner-final31/source/scripts/supabase_cli_helpers.sh",
+      "owner_copy_sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "scripts/load_dotenv_strict.sh",
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+      "copy": "owner-final31/source/scripts/load_dotenv_strict.sh",
+      "owner_copy_sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+      "current_source_readback_exact": true
+    },
+    {
+      "source": "supabase/templates/collect_email_sign_in.html",
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+      "copy": "owner-final31/source/supabase/templates/collect_email_sign_in.html",
+      "owner_copy_sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+      "current_source_readback_exact": true
+    }
+  ],
+  "copied_owner_receipts": [
+    {
+      "original": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure-20261001/email-focused-tests.json",
+      "copy": "owner-final31/email-focused-tests.json",
+      "sha256": "3b0a0855058e586af805597aed1574163a7a9a221318978e9fe52f29351a538c",
+      "bytes": 2536
+    },
+    {
+      "original": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure-20261001/email-focused-tests.log",
+      "copy": "owner-final31/email-focused-tests.log",
+      "sha256": "1a8d8bdd1815f306412929500e6383af5727e6b45f1fa9ea518756c85802c9fd",
+      "bytes": 4334
+    },
+    {
+      "original": "docs/release/collect-codex-goal-2026-09-30/owner-authorized-closure-20261001/email-source-binding.json",
+      "copy": "owner-final31/email-source-binding.json",
+      "sha256": "47a7cc867991cbc638e38a750b22935ef3f648417d32d8f78154d352d5e4b682",
+      "bytes": 1708
+    }
+  ],
+  "independent_guard_scope": {
+    "count": 5,
+    "all_pass": true,
+    "actual_receipt": "corrected-reproduction.json",
+    "scope": "Injected synthetic guards; separate from owner31 suite"
+  },
+  "historical_scope": {
+    "original_three_defect_reproductions": "original-reproduction.json",
+    "original_test_scope": 19,
+    "owner_prior_test_scopes": [
+      19,
+      29,
+      30
+    ],
+    "counts_added_across_versions_or_scopes": false
+  },
+  "preserved_original_binding_note": "subject-bindings.json contains historical copy_only_unreviewed_candidate metadata; these are review-subject copies, not a release candidate or production freeze",
+  "review_limits": [
+    "Selected fields only, not full required Management response validation",
+    "Legacy hardening shell has no whole-operation HTTP deadline or independent Auth GET readback and performs a prior Edge-secret operation; it is not the narrow email acceptance route",
+    "SMTP/hook metadata does not prove email delivery, code receipt or owner session",
+    "No hosted configuration/account/send/scheduler/approval operation was performed by this reviewer"
+  ],
+  "reviewer_actions": {
+    "product_source_edits": 0,
+    "credential_accesses": 0,
+    "hosted_calls": 0,
+    "otp_requests": 0,
+    "live_sends": 0
+  },
+  "production_acceptance": false,
+  "source_freeze": false,
+  "owner_identity_verified": false
+}

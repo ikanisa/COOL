@@ -1,0 +1,12 @@
+{
+  "migration_count": 195,
+  "max_version": "20261001250000",
+  "source_sha256": {
+    "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+    "scripts/tests/roster_fresh_auth_recovery_uat.sql": "9c42322295c66f2efdc8536b07e280f7fecd9aa53b15155c953243b8be919732",
+    "scripts/tests/roster_resource_concurrency_uat.rb": "f36d09ccbf5336d9eaa2ab4cbe7e25c825f44c40d0508fcc01a49090e1cc266c",
+    "scripts/tests/roster_resource_final_compatibility_uat.sql": "cc76b8cd1aa73af6b25fab4dbd0731dc211826d552d47832c0482461d400e568",
+    "scripts/tests/roster_resource_integrity_uat.sql": "f1983f22c76d1fa7be97969389639c784cc1012ab9a57609cece1362a5f5c699"
+  },
+  "driver_sha256": "5fac8e75062f38b924e0d537e597d0761dfb32af18a9954c1c24383763ce0e92"
+}

@@ -1,0 +1,763 @@
+{
+  "kind": "gateway_identity_schema153_isolated",
+  "production_written": false,
+  "source_written": false,
+  "real_device_enrolled": false,
+  "carrier_called": false,
+  "provider_called": false,
+  "db_signature_verification": false,
+  "cases": [
+    {
+      "name": "gateway install preserves nonempty prior financial receipt and attempt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "six gateway tables have RLS and no API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "gateway private schema and helpers expose no API usage or execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "owner RPCs grant only authenticated execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "five service RPCs deny anon and authenticated execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot enroll handset owner identity",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot enroll handset owner identity",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "missing current owner session cannot enroll",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner enrollment denies expired owner session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner enrollment denies revoked owner grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner enrollment denies revoked current approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner enrollment denies missing notification management",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "owner enrollment denies missing system health",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "enrollment refuses wrong key SHA",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_enrollment_invalid"
+      }
+    },
+    {
+      "name": "enrollment refuses invalid certificate SHA",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_enrollment_invalid"
+      }
+    },
+    {
+      "name": "enrollment refuses off-curve public point",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_enrollment_invalid"
+      }
+    },
+    {
+      "name": "enrollment refuses non-SPKI key bytes",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_enrollment_invalid"
+      }
+    },
+    {
+      "name": "valid synthetic public curve point enrolls pending only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "owner enrollment exact replay retains same immutable device",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "installation cannot silently enroll a replacement key",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_installation_already_enrolled"
+      }
+    },
+    {
+      "name": "owner request UUID cannot change installation binding",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_owner_request_conflict"
+      }
+    },
+    {
+      "name": "other approved owner cannot replay original owner request",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_owner_request_conflict"
+      }
+    },
+    {
+      "name": "activation requires signed-service recent key possession",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_key_possession_required"
+      }
+    },
+    {
+      "name": "service lookup exposes only public key identity metadata",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot read service gateway key endpoint",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated cannot read service gateway key endpoint",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "pending identity records immutable typed device observation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "heartbeat request replay never advances observation time or row count",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "heartbeat digest collision is refused without overwritten observation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_request_conflict"
+      }
+    },
+    {
+      "name": "health rejects missing field",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects string bool",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects unknown network",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects null SIM selected",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects hash on unselected SIM",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects unknown field",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects wrong timestamp type",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects invalid UTC date",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "health rejects stale report",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": null
+      }
+    },
+    {
+      "name": "activation exact key/cert fingerprints are required",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_identity_mismatch"
+      }
+    },
+    {
+      "name": "stale server/client health cannot activate identity",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_key_possession_required"
+      }
+    },
+    {
+      "name": "current approved owner activates only after recent service health",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "activation exact request replay is stable",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "active identity cannot obtain body destination or dispatch grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "dispatch refusal exact replay never manufactures grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "client dispatch body destination balance and counts are refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_payload_invalid"
+      }
+    },
+    {
+      "name": "reconciliation reads original durable authority refusal",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unknown request reconciliation stays unknown without replaying action",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "other device cannot discover first device request outcome",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent exact heartbeat request creates one immutable observation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent heartbeat repeat returns replay rather than a new timestamp",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "signed-service callback without prior arm is denied",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "authenticated cannot insert private dispatch arm",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot insert private dispatch arm",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "prior arm refuses stale fence",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "prior arm refuses wrong body",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "prior arm refuses wrong destination",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "prior arm refuses invented segment count",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "prior arm refuses out-of-range segment",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "prior arm refuses unknown attempt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "other device cannot attach a prior arm callback",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_prior_arm_required"
+      }
+    },
+    {
+      "name": "rolled-back callback leaves neither request result nor segment evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent callback replay records exactly one segment and one request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent callback repeat returns original immutable callback result",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "paused existing arm records raw callback without delivery conclusion",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "callback exact UUID/request replay records one immutable segment",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "same callback UUID under new request cannot change journal identity",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_callback_conflict"
+      }
+    },
+    {
+      "name": "second sent callback UUID cannot overwrite a segment outcome",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "gateway_callback_conflict"
+      }
+    },
+    {
+      "name": "gateway identity health refusal and callbacks preserve all sixteen business tables",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "admin_requests observations reject mutation even from local fixture owner",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_evidence_immutable"
+      }
+    },
+    {
+      "name": "requests observations reject mutation even from local fixture owner",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_evidence_immutable"
+      }
+    },
+    {
+      "name": "health_observations observations reject mutation even from local fixture owner",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_evidence_immutable"
+      }
+    },
+    {
+      "name": "dispatch_arms observations reject mutation even from local fixture owner",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_evidence_immutable"
+      }
+    },
+    {
+      "name": "segment_callbacks observations reject mutation even from local fixture owner",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_evidence_immutable"
+      }
+    },
+    {
+      "name": "retained device cannot be reset to a different key",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_identity_immutable"
+      }
+    },
+    {
+      "name": "retained device cannot be deleted",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_identity_retained"
+      }
+    },
+    {
+      "name": "current device health prevents revoke crossing its row lock",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "revoked device retains public identity for reconciliation only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "revoked identity denies new heartbeat",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_device_revoked"
+      }
+    },
+    {
+      "name": "revoked identity denies dispatch even for old refusal request",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "gateway_device_revoked"
+      }
+    },
+    {
+      "name": "revoked identity cannot be reactivated",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "gateway_activation_state_invalid"
+      }
+    },
+    {
+      "name": "revoked identity reconciles an old heartbeat request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "prior arm callback after pause and revocation is durable OS evidence only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "even OS delivery callback leaves existing SMS attempt send_started",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "callback journals survive deletion of original enrollment session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "device evidence tables have no Auth/session deletion foreign keys",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all gateway work leaves original nonempty canonical finance receipt and attempt unchanged",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "baseline": {
+    "metadata": {
+      "count": 153,
+      "latest": "20260930220000"
+    },
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "owners_normalized": true,
+    "excluded_runtime": [
+      "pg_cron",
+      "pg_net",
+      "pg_graphql",
+      "pg_stat_statements"
+    ],
+    "source": "Frozen attempt8 schema-only capture; no source rows or current catalog copied"
+  },
+  "migration_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+  "runner_sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8",
+  "database": "collect_gateway_identity_1ee4406ec1bc",
+  "business_before_install": {
+    "journal": {
+      "rows": 2,
+      "sha256": "10f18f2936baa59d47817318b9cbe71c444221f457bf496d8647e0180478e0c1"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "82e1547d960bbcd6ebc8c4c9cdc9d1a8f65d29d7313015063bbe26671e80cf1d"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "a68222f02e33fd0a95102d54b3242718e0bc313ecd49978bb8d59c96e310dbc6"
+    },
+    "sms_attempts": {
+      "rows": 1,
+      "sha256": "614c2f1b7df381267ff5c352f3d412164586070043ed8807b3e97d559d2233ad"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "b075303cd10ffaec54e3834942ad56c40e471ac2668e9aed13cdc3008884e545"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "586e266cefb032465eeb7957988411181aa90b95043a5cbfe7834114e107b933"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "7e93bdf4377768f9af759c47031e624e35abc04318526e6afe89fd58ff31263c"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "66a8250acbcd52a57eae37b150886eb292904100e8ec4a44b0652001b324c6fc"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "3f8f79cd5224daea4c9a4e2e5785ce93851b821718352266efc22cc679a21050"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "synthetic_device_id": "7d822ff3-fcd7-452c-aa24-ec73a5ee4839",
+  "business_after_gateway": {
+    "journal": {
+      "rows": 2,
+      "sha256": "10f18f2936baa59d47817318b9cbe71c444221f457bf496d8647e0180478e0c1"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "82e1547d960bbcd6ebc8c4c9cdc9d1a8f65d29d7313015063bbe26671e80cf1d"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "a68222f02e33fd0a95102d54b3242718e0bc313ecd49978bb8d59c96e310dbc6"
+    },
+    "sms_attempts": {
+      "rows": 1,
+      "sha256": "614c2f1b7df381267ff5c352f3d412164586070043ed8807b3e97d559d2233ad"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "b075303cd10ffaec54e3834942ad56c40e471ac2668e9aed13cdc3008884e545"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "586e266cefb032465eeb7957988411181aa90b95043a5cbfe7834114e107b933"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "7e93bdf4377768f9af759c47031e624e35abc04318526e6afe89fd58ff31263c"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "66a8250acbcd52a57eae37b150886eb292904100e8ec4a44b0652001b324c6fc"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "3f8f79cd5224daea4c9a4e2e5785ce93851b821718352266efc22cc679a21050"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "limits": [
+    "Frozen schema153 plus this gateway migration only; not clean install/full hosted upgrade",
+    "Database service role is trusted signature boundary; cryptographic signatures tested separately in Edge unit suite",
+    "Known synthetic public points and owner fixtures only; no real enrollment/key/app-certificate/carrier attestation",
+    "Synthetic prior arm inserted by isolated fixture owner solely to prove delayed callback handling; no API issuer exists",
+    "No Auth credential, SMS send, provider, unattended principal, scheduler, cap/policy grant or outbox/attempt outcome mutation"
+  ],
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T21:45:22.755117+00:00",
+  "case_count": 86
+}

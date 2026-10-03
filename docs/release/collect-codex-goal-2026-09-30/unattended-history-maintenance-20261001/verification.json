@@ -1,0 +1,50 @@
+{
+  "kind": "T13_source_bound_history_maintenance",
+  "sealed_at": "2026-10-01T12:22:47.150270+00:00",
+  "source_inputs": 82,
+  "source_copy_readback": "PASS",
+  "source_before_after_unchanged": true,
+  "toolchain_unchanged": true,
+  "executed_scope": "Eight unattended client/journal/profile/runner/scheduler/stdio/store/history Node files plus TypeScript scope",
+  "counts": {
+    "tests": 146,
+    "pass": 146,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "typescript_exit_code": 0,
+  "changed_paths": [
+    "tools/collect-notification-mcp/src/unattended_history.ts",
+    "tools/collect-notification-mcp/src/unattended_history.test.ts",
+    "tools/collect-notification-mcp/src/unattended_store.ts",
+    "tools/collect-notification-mcp/src/unattended_store.test.ts",
+    "tools/collect-notification-mcp/src/unattended_runner.ts",
+    "tools/collect-notification-mcp/src/unattended_scheduler.ts"
+  ],
+  "bounds": {
+    "segment_transitions": 128,
+    "legacy_migration_transitions_per_invocation": 4096,
+    "maximum_index_sequence": 1000000000
+  },
+  "limits": [
+    "Older segments retain captured digest evidence; entire archive is not reread on each tick.",
+    "Synthetic historical seed batches are not executed backend batches.",
+    "A hard crash leaving a multiply-linked temporary requires manual local integrity recovery; no orphan evidence is deleted.",
+    "Installed dependency tree publisher provenance and whole-system acceptance are not attested."
+  ],
+  "historical_packets_modified": false,
+  "hosted_calls": 0,
+  "keychain_calls": 0,
+  "otp_requests": 0,
+  "live_sender_calls": 0,
+  "installed_allowlist_changed": false,
+  "approvals": {
+    "reviewed": false,
+    "frozen": false,
+    "trusted": false,
+    "owner_approved": false,
+    "production_accepted": false
+  }
+}

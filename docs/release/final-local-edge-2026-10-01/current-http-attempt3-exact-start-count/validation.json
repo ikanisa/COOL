@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "actual_http_status": "pass",
+  "source_drift": {},
+  "actual_checks": 86,
+  "actual_configured_entrypoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "source_inputs_unchanged": true,
+  "production_sources_changed": false,
+  "root_qa_correction_pending_publication": true,
+  "scope": "Source-bound isolated actual HTTP loopback with frozen2.5.6 runtime, fixed provider network denial and synthetic Auth/PostgREST; no SQL/hosted/provider/device acceptance",
+  "completed_at": "2026-10-01T10:10:11.049607+00:00"
+}

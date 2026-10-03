@@ -1,0 +1,18 @@
+{
+  "at_utc": "2026-10-02T00:53:33.133183+00:00",
+  "code_paths_unused_before_task": true,
+  "original_objects_archived_restored_moved_removed": false,
+  "owned_source_paths": [
+    "scripts/audits/collect_evidence_resolver.py",
+    "scripts/tests/test_collect_evidence_resolver.py"
+  ],
+  "source_inputs_sha256": {
+    "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/consumer-repair-matrix.json": "c1b418ecf169aaafa9525acbbfb5bebd2cbdbaf04a0bf0e114551a8cb2a38aeb",
+    "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/exact-index-consumers.json": "46abc65d797ff8c018e5a480e3320dcc319adc81e438fc652d77663de9e6bf5d",
+    "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/first-batch-candidate-manifest.json": "da7af8d83064ab7311940d3bdf361d6e64e55013fb680048284a4805976f9408",
+    "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/first-batch-plan.json": "db8b85bb05ca29f44c834ccc7ea4571520311679547f8a21e62519a3e19d7122",
+    "scripts/audits/collect_encrypted_database_backup.rb": "563697906caeec76fe1da346cc6fac8b4bb0f1c54320c382c9262bec5c2ef742",
+    "scripts/audits/collect_recovery_source.rb": "4a6a0d7f80628781bf18e6b7aa00ced630943f3af612247126e0bf21c3c760cc",
+    "scripts/tests/production_archive_restore.rb": "b4eb514956df738056479ed711b9e42a66e91d5d479ca01e9f68b0517a37c415"
+  }
+}

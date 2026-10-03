@@ -1,0 +1,6 @@
+{
+  "before_sha256": "78dd59093e29597dd734981935e82133bd72c048fc0697a2a9c5a52cb97d3a2f",
+  "after_sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956",
+  "prior_source_binding": "receipt-policy-preference-prior-attempt13/copied-inputs.json",
+  "scope": "Both receipt read providers require nonnull captured session and matching identity user before SDK dispatch. Existing role/capability/wire/session guards preserved; no write/financial/provider policy change."
+}

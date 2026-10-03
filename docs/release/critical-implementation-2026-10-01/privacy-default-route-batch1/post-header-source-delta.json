@@ -1,0 +1,35 @@
+{
+  "common_input_count": 1344,
+  "old_input_count": 1344,
+  "new_input_count": 1345,
+  "differences": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/run_consumers.py",
+      "before_sha256": "189d49f701aaf63d1ac106343710fe5c784ed47272fd0ff832128f95625bc944",
+      "after_sha256": "bdc323afc79e2e4b306961852623951fe74e24fe3c350a0e8da106c45af83f67"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/features/settings/security_hub_header.dart",
+      "before_sha256": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+      "after_sha256": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/security_hub_header_test.dart",
+      "before_sha256": null,
+      "after_sha256": "2770229723d9def98b37ec72b0f024ee682bcbdb55e28817cc60f1bbbd738cd9"
+    }
+  ],
+  "only_existing_production_change": "lib/features/settings/security_hub_header.dart",
+  "production_edits_owner": "root",
+  "property": "headingLevel: 1",
+  "layout_change": false,
+  "new_test_input": "test/features/security_hub_header_test.dart",
+  "owned_executed_verifier_extension": {
+    "pre_header_sha256": "189d49f701aaf63d1ac106343710fe5c784ed47272fd0ff832128f95625bc944",
+    "post_header_sha256": "bdc323afc79e2e4b306961852623951fe74e24fe3c350a0e8da106c45af83f67",
+    "old_bytes_reconstructed_and_sha_verified": true,
+    "reconstruction_is_not_a_new_execution": true
+  },
+  "prior_134_passes_not_rerun_as_final_136": true,
+  "stale_home_pre_header_pass_retained": true
+}

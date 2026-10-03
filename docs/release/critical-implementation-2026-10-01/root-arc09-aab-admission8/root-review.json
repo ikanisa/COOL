@@ -1,0 +1,11 @@
+{
+  "captured_at_utc": "2026-10-02T14:06:41.397969+00:00",
+  "prepared_packet_all15_hash_bytes_mode_verified": true,
+  "prepared42pins_current_matched": true,
+  "actual_changed_consumer_tests": 13,
+  "old58scope": "unchanged tracker reused",
+  "exact_two_Android_only_APP_overlay": true,
+  "fresh_configuration_and_graphs_required": true,
+  "production_release_approval": false,
+  "output_exists_before": false
+}

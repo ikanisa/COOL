@@ -7,17 +7,17 @@ do $$ begin
  if current_user<>'postgres' or current_database()<>'postgres'
   or current_setting('collect.roster_provenance_qa',true) is distinct from 'isolated_clone'
   or current_setting('cron.launch_active_jobs')<>'off' or current_setting('pg_net.batch_size')<>'0'
-  or (select count(*) from supabase_migrations.schema_migrations)<>146
-  or (select max(version) from supabase_migrations.schema_migrations)<>'20260930140000'
+  or (select count(*) from supabase_migrations.schema_migrations)<>197
+  or (select max(version) from supabase_migrations.schema_migrations)<>'20261002020000'
   or exists(select 1 from auth.users where id::text like '99710000-%')
   or exists(select 1 from collect_hybrid.roster_resource_reservations where request_id::text like '99710000-%') then
-  raise exception 'Exact isolated146 and unused9971 namespace required';end if;
+  raise exception 'Exact isolated197 and unused9971 namespace required';end if;
 end $$;
 insert into auth.users(id,aud,role,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)
-values('99710000-0000-4000-8000-000000000001','authenticated','authenticated','250788971001',now(),'{}','{}');
+values('99710000-0000-4000-8000-000000000001','authenticated','authenticated','250788971101',now(),'{}','{}');
 update public.profiles set country_code='RW',currency_code='RWF' where id='99710000-0000-4000-8000-000000000001';
 insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
-values('99710000-0000-4000-8000-000000000001','+250788971001',now()-interval '2 minutes','Synthetic final146 compatibility');
+values('99710000-0000-4000-8000-000000000001','+250788971101',now()-interval '2 minutes','Synthetic final146 compatibility');
 insert into public.admin_user_roles(user_id,role_id,reason,created_at)
 select '99710000-0000-4000-8000-000000000001',id,'Synthetic final146 role',now()-interval '1 minute' from public.admin_roles where name='platform_owner';
 insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
@@ -31,7 +31,7 @@ do $$ declare b jsonb;s jsonb;p jsonb;begin
   '99710000-0000-4000-8000-000000000101',repeat('a',64),'xlsx',100,repeat('b',64));
  perform public.verify_roster_source_integrity((b->>'reservation_id')::uuid,'99710000-0000-4000-8000-000000000001',
   '99710000-0000-4000-8000-000000000011',repeat('c',64),repeat('d',64),'collect-roster-decoder-v1',
-  '{"python":"3.12","pillow":"12.0.0","pypdfium2":"5.2.0","pypdf":"6.7.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
+  '{"python":"3.12","pillow":"12.3.0","pypdfium2":"5.2.0","pypdf":"6.19.0","openpyxl":"3.1.5","defusedxml":"0.7.1"}',
   '{"frames":0,"pages":0,"pixels":0,"expanded_bytes":1000}');
  s:=public.create_roster_import_source('99710000-0000-4000-8000-000000000001','99710000-0000-4000-8000-000000000011',
   '99710000-0000-4000-8000-000000000101','xlsx',repeat('a',64),100,'synthetic.xlsx',

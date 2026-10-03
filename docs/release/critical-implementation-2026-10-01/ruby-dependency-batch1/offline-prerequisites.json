@@ -1,0 +1,26 @@
+{
+  "captured_at_utc": "2026-10-01T21:53:49.247513+00:00",
+  "artifacts": [
+    {
+      "role": "Offline fixture validator Node only",
+      "version": "24.19.0",
+      "url": "https://nodejs.org/dist/v24.19.0/node-v24.19.0-linux-arm64.tar.xz",
+      "checksum_url": "https://nodejs.org/dist/v24.19.0/SHASUMS256.txt",
+      "sha256": "01443c1e1a29e531ccad5a46fefa6df490d2189c49f7955904aecdbb0fe86fdc",
+      "bytes": 30553480,
+      "publisher_signature_verified": false,
+      "authority": "Official HTTPS publication and published checksum; local archive exact match",
+      "global_install": false
+    },
+    {
+      "role": "Dated vulnerable comparison only; excluded from current bundle",
+      "version": "2.4.1",
+      "url": "https://rubygems.org/downloads/rubyzip-2.4.1.gem",
+      "metadata_url": "https://rubygems.org/api/v2/rubygems/rubyzip/versions/2.4.1.json",
+      "sha256": "8577c88edc1fde8935eb91064c5cb1aef9ad5494b940cf19c775ee833e075615",
+      "bytes": 41984,
+      "global_install": false
+    }
+  ],
+  "provider_or_signing_effects": false
+}

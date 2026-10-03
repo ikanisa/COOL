@@ -1,0 +1,15 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt180-mcp/node_modules/.bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 1,
+      "seconds": 2.059,
+      "log_sha256": "ec1a0799b16a7e0112ade1eecc0ef742ebce4bfd247bba48e17ed60f50aa8f46"
+    }
+  ]
+}

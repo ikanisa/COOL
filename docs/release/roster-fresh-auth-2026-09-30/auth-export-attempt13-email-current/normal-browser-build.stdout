@@ -1,0 +1,6 @@
+Compiling tool/qa/roster_fresh_auth_browser_fixture.dart for the Web...     
+Font asset "MaterialIcons-Regular.otf" was tree-shaken, reducing it from 1645184 to 30612 bytes (98.1% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "CupertinoIcons.ttf" was tree-shaken, reducing it from 257628 to 1472 bytes (99.4% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "Font-Awesome-7-Brands-Regular-400.otf" was tree-shaken, reducing it from 215132 to 1624 bytes (99.2% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Compiling tool/qa/roster_fresh_auth_browser_fixture.dart for the Web...       189.8s
+✓ Built ../normal-admin-web

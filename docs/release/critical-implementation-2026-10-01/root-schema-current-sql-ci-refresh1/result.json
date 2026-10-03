@@ -1,0 +1,102 @@
+{
+  "actual_generation_summary": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 775,
+    "functions_with_exact_static_lineage_body_hash_match": 0,
+    "functions_without_exact_body_hash_match": 127,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 36,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 667,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_lineage_uncertainty_records": 84,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4754,
+    "unclassified_objects": 74
+  },
+  "actual_verification_summary": {
+    "acceptance": "draft-with-open-mappings",
+    "catalog_categories_preserved": 20,
+    "catalog_matches_current_migration_names": true,
+    "catalog_objects_verified": 2543,
+    "grants_verified": 4157,
+    "input_files_verified": 1094,
+    "replayed_migration_bytes_match": true,
+    "semantic_output_files_verified": 5,
+    "status": "PASS",
+    "verification_method": "full-independent-recomputation"
+  },
+  "all_bound_input_bytes_modes_unchanged_during_run": true,
+  "all_five_outputs_present": true,
+  "comparison_to_previous_refresh": {
+    "caller_sites_before": 718,
+    "caller_sites_current": 718,
+    "caller_sites_unchanged": true,
+    "coverage_changed_fields": {
+      "maintained_source_files": {
+        "before": 666,
+        "current": 667
+      }
+    },
+    "document_changed_top_level_fields": [
+      "input_manifest_sha256",
+      "summary"
+    ],
+    "gaps_deep_equal": true,
+    "grants_unchanged": true,
+    "new_SQL_runner_caller_sites": [],
+    "objects_unchanged": true,
+    "reviewed_seams_unchanged": true,
+    "sql_reference_sites_unchanged": true
+  },
+  "extra_source_bytes_modes_unchanged": true,
+  "full_independent_five_output_verification": true,
+  "generation_exit_code": 0,
+  "generation_seconds": 3.511386250000214,
+  "input_drift": [],
+  "input_entries": 1094,
+  "maintained_APP_SDK_DB_writes": 0,
+  "maintained_source_files": 667,
+  "maintained_source_set_unchanged": true,
+  "mapper_test_SQL37_SQL27_PG39_replays": 0,
+  "new_SQL_CI_recipe_executed": false,
+  "new_manifest_exact_baseline_plus_one_input": true,
+  "only_input_addition": "scripts/qa/run_sql_ci.py",
+  "previous60_tests_reused": true,
+  "prior1093_byte_hashes_unchanged": true,
+  "release_approval": false,
+  "status": "pass",
+  "verification_exit_code": 0,
+  "verification_seconds": 3.9169839579990366,
+  "whole_deadline_seconds": 80,
+  "whole_seconds": 7.814404707998619
+}

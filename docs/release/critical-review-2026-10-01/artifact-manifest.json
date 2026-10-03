@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-01T17:43:30.349413+00:00",
+  "kind": "completed_review_deliverables_with_owner_design_scope_amendment",
+  "main_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/PRODUCTION_CRITICAL_REVIEW_2026-10-01.md",
+  "application_remediation_performed": false,
+  "release_decision": "NO-GO",
+  "artifacts": [
+    {
+      "path": "docs/release/PRODUCTION_CRITICAL_REVIEW_2026-10-01.md",
+      "bytes": 45125,
+      "sha256": "80b10d1a81c8c72362030d21306a530ebf093448e0504fc0a9f3cd95cef9a6eb",
+      "original_review_sha256": "9007485fa09dbe3a86d10a30da828322989cb77d9f6105ff3200b72aa2143bc0",
+      "amendment": "owner design scope correction; original observations remain dated"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/admin-live.json",
+      "bytes": 8334,
+      "sha256": "9997edfc9b01239e0175f3ca7166087fa595220608a8c4c0e83abe88e8b73407"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/admin-live.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/approval-evidence.json",
+      "bytes": 6685,
+      "sha256": "71046a3a542631593e3268cd40f5ce035388f40780151666aef8b4a4aea425fa"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/approval-evidence.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "bytes": 34333,
+      "sha256": "c4bda181a539262366ab786d0d9fde6bfd7280cdd5693aa2908d38efcb17e46e"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-inventory.json",
+      "bytes": 9502,
+      "sha256": "a0de36cc91d86ce19b230118ede249fff195c425d7ca9f937b3027d9132084e1"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-mcp-check.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-mcp-targeted-tests.txt",
+      "bytes": 2386,
+      "sha256": "ab63abbd31329dcd68af65e367137ec4a9ea46c15cd21c595872bcd7d385679f"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-mcp-targeted-verification.json",
+      "bytes": 17794,
+      "sha256": "78dd20cf727986b37ad768eacd05c2744b4c3f87b0caa0eeda588888e88148db"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-mcp-test.txt",
+      "bytes": 23294,
+      "sha256": "5120696c38457def549a02076257ac0fd6820099058f93f97fcfa3520bf75df2"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-mcp-verification.json",
+      "bytes": 9207,
+      "sha256": "df634d29740be84d4ae2fd66703346a2ce1938f2832a05983afde3d7233f1031"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/architecture-static-verification.json",
+      "bytes": 5598,
+      "sha256": "4591da6e0b35d880c5303433a8fefdd4f04e8c944e2d134fecc9d787799e39d9"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-edge-auth-static.log",
+      "bytes": 1205,
+      "sha256": "18c9cc78035796a2a6245aee7eda2fb756b6ed3081bc17bf5859b485890867b2"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-inventory.json",
+      "bytes": 78918,
+      "sha256": "87e899985450a429d3384bcc2abefb51ae10788bed48d6226c33c23a6405a923"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-migration-static.log",
+      "bytes": 37,
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "bytes": 32624,
+      "sha256": "b0a38382fb1b286626146791b6fd0b58cdacba1729fdead80f225555a79bb3c6"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-static.json",
+      "bytes": 1604,
+      "sha256": "9bcad231c9780fc8101b0ba27d6715ca5ac00ba8f43ca766b52ba2143b3c1fe7"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-unit.json",
+      "bytes": 3313,
+      "sha256": "b2921c1243e0a4833aebfc5a7899384792b72e588571ec76760039e036961a97"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-unit.log",
+      "bytes": 13523,
+      "sha256": "065cb83005c580f19bfa663d4e81d2cd2e8d6fc2e2038429a33d85f0a3019169"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/design-authority.json",
+      "bytes": 586,
+      "sha256": "bd7c0f599f7dce6537c133cba8452f4141fbccf8f6d1dc93e933ee608a800382"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/design-authority.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/external-readback-summary.json",
+      "bytes": 1010,
+      "sha256": "bc806e94443a3b52e897566f9b0adabe4b938f5e068c7c4da38012ac16d211fb"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/flutter-analysis.log",
+      "bytes": 97,
+      "sha256": "00981c7de1cd39d7d2805515b047757c8e0c5cd8df4a44a89b9555fe6bb7840c"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/flutter-selected-tests.log",
+      "bytes": 23898,
+      "sha256": "3b0a3a98c2cb7ec10dc6052bc96eb6fe006f1eb272a3750a3a1e862d99249827"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/flutter-verification.json",
+      "bytes": 631,
+      "sha256": "48e9fc7380bfae2f706dfd9a66b97de8c6953e0e70215cc02e51627d4cf9df79"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/gate-results.json",
+      "bytes": 1690,
+      "sha256": "412eafce0b476f959e531698c278ea4a52100f313242a06a3b5ef6da3dd938d2"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/git-status-before.txt.gz",
+      "bytes": 2393168,
+      "sha256": "ee1713c506092ef90cee36c506c8d719c582d4aa5e096ae9fd89f266900cd5e9"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/git-status-summary.json",
+      "bytes": 473,
+      "sha256": "b28a2cc0c20e41e800d8227ba39606bcb4b0ceaae3ffdcaafc193c9cdbc64c66"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/github-protection.json",
+      "bytes": 205,
+      "sha256": "679d5e86a2d0420e39e3231784b69b41386d12599f70ff4fc4ed7c0438095272"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/github-protection.stderr.txt",
+      "bytes": 92,
+      "sha256": "dbf87ea4a345f4e73a9582fd3cefce7cc3f1871e16dba5e56523eff7fdf6cca4"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/ios-readiness.json",
+      "bytes": 149,
+      "sha256": "3b28062e851a0144e838a7933c0b3587339b3f5fb40cc3518f9732f2a1b0653c"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/ios-readiness.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/live-gate-results.json",
+      "bytes": 627,
+      "sha256": "29aa7c169fdc9b348490d788abafce5efd35d50fab1f8d3c3697726162cd206b"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/mobile-release.json",
+      "bytes": 7732,
+      "sha256": "81706e3c45e8b7f3693c015dccf7064b2fe00f6285731d159ef59bee965c53ee"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/mobile-release.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/prior-evidence-readback.json",
+      "bytes": 91582,
+      "sha256": "57caf65b8f41c1ae5bbfc38272780e7c3d2a482d70d9a22ccb54ff887db59fb9"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/product-design.md",
+      "bytes": 52965,
+      "sha256": "dd57786c230fb43501c5dfba66644f8d809ce1b46640f037a87ef698dd75c3f3",
+      "original_review_sha256": "128b44ca5489ae645c41270126f1400a7aab5627fcd7c5dfbbba7a54c6d0ae8d",
+      "amendment": "owner design scope correction; original observations remain dated"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/product-evidence.json",
+      "bytes": 11366,
+      "sha256": "d219beabed90f4052df6a04245075bf912762f45655c158f9f3be23d97ddf62b"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/production-checklist-102.csv",
+      "bytes": 81633,
+      "sha256": "bd7da23dc6d27464cf194f5cefc2e7a2944d7d94b8eacf3479489254c5649b0c"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/production-register-snapshot.json",
+      "bytes": 318108,
+      "sha256": "c7d83a3f553f30ee0a09e020c4a76151f9a63b93668785e574cff37d77a22c10"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/public-live.json",
+      "bytes": 11255,
+      "sha256": "332277a87a8eb62bff06b12af4ca73c17c2c8195eb06553f123c48757bd517fd"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/public-live.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/repository-inventory.json.gz",
+      "bytes": 3951325,
+      "sha256": "1ee1717553388d220dd1b6dc98b2b5cb2114fb7099994796117d1c22eea4e863"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/repository-summary.json",
+      "bytes": 3940,
+      "sha256": "2f8a51dad060f4049cc5f5595c58cd14ac37ab7376850fdcaccaa8a407f15b6f"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/source-baseline.json",
+      "bytes": 368878,
+      "sha256": "e08755da559d773fa63273e68d57a0b3d48b6befd582e866fc637bd78d9e386a"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/source-final-readback.json",
+      "bytes": 2662,
+      "sha256": "04edd30b195fef570caeac4f56ba4fca370f8368f29225f3df92247540425631"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/source-readback.json",
+      "bytes": 3008,
+      "sha256": "de8512d7b9cf4136f556de7971de36dca224a23c2b70c3961246cd061f5d7cd2"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/specialist-findings.json",
+      "bytes": 10193,
+      "sha256": "5e3221a7b64e36a440c3d82b6fd2a6c3b466736944f074a18a5389870cb14535"
+    }
+  ],
+  "owner_scope_amended_utc": "2026-10-01T19:40:15.786155+00:00"
+}

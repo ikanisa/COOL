@@ -1,0 +1,260 @@
+{
+  "PD12_closed_by_this_agent": false,
+  "actual_facts": 101,
+  "actual_file_sets": 26,
+  "actual_reader_exit": 1,
+  "actual_reader_seconds": 4.36327883299964,
+  "actual_tests": 14,
+  "archived_test_source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "at_utc": "2026-10-02T14:22:23.108617+00:00",
+  "build_deploy_DB_provider_run": false,
+  "coverage_limits": [
+    "Captured selected source lists are explicit scopes, not a whole repository/OS lock or complete added/unlisted compiler graph.",
+    "Public observed66+3 transitive inputs and exact55 local artifacts are verified; whole current visual/public generator graph, Aeonik rights, legal/publication and hosted/provider parity remain unverified.",
+    "Original native12 JVM tests/20 release classes remain archived2561/abf; Android2 and current privateAPP/f997 are a later epoch without wholesale current native test acceptance.",
+    "Original SDK physical/source/allowed8 proof is pinned; no full4.24GB SDK re-read or directory/link/inode proof reconstructed.",
+    "Exact157 empty OSV query scope and graph173/995/141 records do not grant complete packaged SBOM, licence/security acceptance or future AAB result."
+  ],
+  "current_APP_after_Android2_source_manifest_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+  "current_declared_selected_source_manifest_sha256": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+  "design_authority_reference_hygiene": "pass_authorized_retry_initial_capture_unverified_retained",
+  "exact_errors": [
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/app/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    },
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    }
+  ],
+  "fact_mismatches": [],
+  "file_sets": {
+    "ARC03-actual24leaves": {
+      "entries": 24,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 24,
+      "scope": "Exact meaningful Ruby22/Python3 local probe evidence and retained initial setup failure; no provider execution or original external ARC03 acceptance.",
+      "unknown_entries": []
+    },
+    "BE08-actual17leaves": {
+      "entries": 17,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 17,
+      "scope": "Exact sealed actual BE08 maintained tests/generation/semantic recomputation and outputs; all127 original resolution gaps remain unproved.",
+      "unknown_entries": []
+    },
+    "app-authored2561": {
+      "entries": 2559,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2559,
+      "scope": "Archived test source2559 unchanged privateAPP leaves after excluding exactly Android2; two original files are independently retained and checked below. This materialized original view is not a current whole native test pass.",
+      "unknown_entries": []
+    },
+    "app-execution41leaves": {
+      "entries": 41,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 41,
+      "scope": "41 retained execution packet leaves; this count is distinct from41 affected suites.",
+      "unknown_entries": []
+    },
+    "app-external-library3337": {
+      "entries": 3337,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 3337,
+      "scope": "Exact3337 captured external library file paths. No library resolution performed by index; added package/graph completeness remains unknown.",
+      "unknown_entries": []
+    },
+    "archived-Android2-originals": {
+      "entries": 2,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2,
+      "scope": "Actual preserved original Android2 bytes match archived2561/abf source before the reviewed build-directory overlay; not post-overlay native test acceptance.",
+      "unknown_entries": []
+    },
+    "archived-abf-vs-current-liveAPP2561": {
+      "entries": 2561,
+      "failed": [
+        {
+          "path": "android/app/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        },
+        {
+          "path": "android/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        }
+      ],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2559,
+      "scope": "Direct actual comparison of old2561/abf input expectations with current live privateAPP after Android2. Preserve observed two-row drift; matching preserved original bytes in a separate set does not erase live drift or grant current native acceptance.",
+      "unknown_entries": []
+    },
+    "backend156-composition": {
+      "entries": 156,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 156,
+      "scope": "Original backend156 capture plus exactly one independently retained CI composition digest. Original backend pass and old CI bytes remain historical facts.",
+      "unknown_entries": []
+    },
+    "backend559leaves": {
+      "entries": 559,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 559,
+      "scope": "Exact559 sealed checksum rows, including actual canonical report,513 copied output files and original source snapshots; no generated state used as active source.",
+      "unknown_entries": []
+    },
+    "current-declared-selected2563": {
+      "entries": 2563,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2563,
+      "scope": "Exact root current captured selected2563 leaves at source epoch1c55; actual reader must hash current leaf bytes. Declared root source selection, not OS lock/entire repository/whole native or deployed acceptance.",
+      "unknown_entries": []
+    },
+    "current-known-captured2556": {
+      "entries": 2556,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 2556,
+      "scope": "Actual current2556 known captured leaves excluding only named tooling5, with exactly Android2 current digests bound to the actual overlay receipt. No entire current repo equals archivedabf or post-overlay native test claim.",
+      "unknown_entries": []
+    },
+    "liveGET40leaves": {
+      "entries": 40,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 40,
+      "scope": "Exact retained anonymous public GET request/response bytes; dated404/local-live differences do not certify a hosted candidate.",
+      "unknown_entries": []
+    },
+    "native46leaves": {
+      "entries": 46,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 46,
+      "scope": "Raw JVM XML,20 release class files, three dated flat native graphs and exact readback leaves.",
+      "unknown_entries": []
+    },
+    "public3-static-toolchain": {
+      "entries": 3,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 3,
+      "scope": "Three explicitly recorded Python/bash/Ruby executable path digests. Symlink target identity is unproved by digest-only rows; index does not follow them.",
+      "unknown_entries": []
+    },
+    "public344media-source": {
+      "entries": 344,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 344,
+      "scope": "Captured344 media inputs for private synthetic public4 scope. If current source changed later, retain pass while reporting drift.",
+      "unknown_entries": []
+    },
+    "public4-private-resolution": {
+      "entries": 4,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 4,
+      "scope": "Four private pub resolution/runtime leaves only; complete resolution/transitive compiler closure not inferred.",
+      "unknown_entries": []
+    },
+    "public4-reviewed-production-leaves": {
+      "entries": 4,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 4,
+      "scope": "Only four explicitly reviewed production leaves; whole current application equivalence was not accepted.",
+      "unknown_entries": []
+    },
+    "public55-static-artifacts": {
+      "entries": 55,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 55,
+      "scope": "Exact local public static artifact55 files. No hosted parity, legal acceptance or whole visual match.",
+      "unknown_entries": []
+    },
+    "public66-static-inputs": {
+      "entries": 66,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 66,
+      "scope": "66 explicitly observed static generator inputs at the completed public4 execution. Added/unlisted inputs remain unknown.",
+      "unknown_entries": []
+    },
+    "public704-evidence-leaves": {
+      "entries": 704,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 704,
+      "scope": "Exact704 retained local evidence leaves including original PNGs/build/browser/static records; no edits to originals.",
+      "unknown_entries": []
+    },
+    "selectedOSV51payloads": {
+      "entries": 51,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 51,
+      "scope": "Exact public docs/request/response/query mapping capture for157 selected Maven coordinates;16 local projects explicitly unqueryable.",
+      "unknown_entries": []
+    },
+    "separate-named-tooling5": {
+      "entries": 5,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 5,
+      "scope": "Five actual maintained BE08/ARC03 tooling leaf hashes bound to preserved originalabf bytes, reviewed patches, actual diff and meaningful57/22+3 integration tests; other source changes are not exempted.",
+      "unknown_entries": []
+    },
+    "sql219inputs": {
+      "entries": 219,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 219,
+      "scope": "Exact219 inputs to completed local clean/populated ordinary SQL recipe,209 migrations; neither219 migrations nor hosted SQL acceptance.",
+      "unknown_entries": []
+    },
+    "sql669leaves": {
+      "entries": 669,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 669,
+      "scope": "Exact669 packet artifacts for original37 local cases/418 migration applications; external CI and hosted/provider acceptance remain separate.",
+      "unknown_entries": []
+    },
+    "tooling5-original-bytes": {
+      "entries": 5,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 5,
+      "scope": "Exact original before bytes for the five actual tooling changes, each SHA matches archivedabf source and root integration provenance.",
+      "unknown_entries": []
+    },
+    "typography-leaves": {
+      "entries": 7,
+      "failed": [],
+      "inventory_status": "unknown-captured-list-only",
+      "matched": 7,
+      "scope": "Exact current font declarations and supplied font/OFL files. Bytes alone do not establish distribution rights or loaded output.",
+      "unknown_entries": []
+    }
+  },
+  "ledger_canonical6_open_count_changed": false,
+  "original_PD12_criterion_interpretation": "Appears satisfied for the declared current-index scope: actual relevant selected source/transitive/artifact checks, preserved historical outcomes and explicitly unverified areas with reconciled current summaries. Expected archived-current drift does not require zero-error or external PD01/03/05 acceptance. Root release/QA integrator must decide original criterion closure; no automatic closure performed.",
+  "physical_unknown_entries": 0,
+  "result": "actual_current_index_integrated_with_explicit_archived_Android2_drift",
+  "schema_validation": "pass",
+  "source_scripts_mutated_after_root_freeze": false,
+  "test_status": "pass"
+}

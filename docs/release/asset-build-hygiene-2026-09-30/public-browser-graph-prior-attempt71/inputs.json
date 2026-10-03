@@ -1,0 +1,11 @@
+{
+  "kind": "prior_broad_browser_source_contract",
+  "source_sha256": {
+    "scripts/public_app_media.rb": "dad9c68a540f8e658e79535dce95b3a955f7314a91726c4c61ce13db4032e612",
+    "scripts/qa/public_browser_app_media.mjs": "d5c2d534a50a78db3d1555ff0e8d185eb96ad568d56fa4f1b5af072d7b79bf0f",
+    "scripts/assets/publish_public_app_media.py": "7bbb33ff8b14c1d11d405c177b7969872cc5bc363e702cce140d8ced312c9c3e",
+    "scripts/tests/public_app_media_test.rb": "1bd32f8503e25dd72dcc08526b1f9980577465e599c42a9149124b21a9136cea",
+    "scripts/tests/public_media_source_binding_test.py": "839fbd1755f953614b609ead11666c971104564689e60f7ef8f40b06616831b3"
+  },
+  "scope": "Preserved prior broad runtime/native browser provenance before the approved conservative graph correction; legacy/native contracts remain"
+}

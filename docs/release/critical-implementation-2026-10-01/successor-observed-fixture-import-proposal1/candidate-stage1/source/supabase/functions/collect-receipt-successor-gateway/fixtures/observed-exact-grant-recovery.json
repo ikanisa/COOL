@@ -1,0 +1,29 @@
+{
+  "outcome": "recorded",
+  "carrier_proof": false,
+  "recorded_route": {
+    "route_kind": "receipt_successor",
+    "approval_id": "cbd7b64f-959b-4cd7-980e-277a03cc6ca0",
+    "route_version": 1,
+    "dispatch_job_id": "4b6097f9-b3fb-45a3-8322-ca904a595263",
+    "primary_receipt_id": "9cdab0be-80ec-4391-9389-b6dfc785a152"
+  },
+  "send_authority": false,
+  "delivery_proven": false,
+  "protocol_family": "receipt_successor",
+  "recorded_action": "dispatch_grant",
+  "recorded_result": {
+    "ok": false,
+    "code": "ORIGINAL_REQUEST_RECORDED",
+    "replay": true,
+    "device_id": "516c3c07-d217-44e1-8968-9ba3a1635732",
+    "request_id": "c97f8630-adb9-4a23-9b16-6062075bbeac",
+    "carrier_proof": false,
+    "send_authority": false,
+    "delivery_proven": false,
+    "protocol_family": "receipt_successor",
+    "contract_version": 1
+  },
+  "contract_version": 1,
+  "target_request_id": "c97f8630-adb9-4a23-9b16-6062075bbeac"
+}

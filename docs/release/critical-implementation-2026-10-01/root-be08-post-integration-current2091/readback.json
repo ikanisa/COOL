@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-02T14:04:29.185049+00:00",
+  "status": "PASS_current209_read_only_generation_and_independent_verify",
+  "original_command_argv_and_bounds_preserved_except_output": true,
+  "actual_generation_seconds": 3.598863,
+  "actual_independent_verify_seconds": 4.040712,
+  "source_snapshot_count": 1094,
+  "source_before_after_unchanged": true,
+  "old_mapper_input_count": 1094,
+  "mapper_input_count": 1095,
+  "old_caller_sites": 718,
+  "caller_sites": 718,
+  "summary_counters": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 775,
+    "functions_with_exact_static_lineage_body_hash_match": 0,
+    "functions_without_exact_body_hash_match": 127,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 36,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 668,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_lineage_uncertainty_records": 84,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4754,
+    "unclassified_objects": 74
+  },
+  "changed_summary_counters": {
+    "maintained_source_files": {
+      "before": 667,
+      "after": 668
+    }
+  },
+  "actual_input_changes_from_prior_generation": {
+    "scripts/audits/collect_current_evidence_index.py": {
+      "before": null,
+      "after": [
+        "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+        "maintained-caller-source"
+      ]
+    },
+    "scripts/edge_function_inventory.rb": {
+      "before": [
+        "f73326cc6f05b4df37bdacc2500f480fbccc8850bd3842ae9b723945905e7d6d",
+        "maintained-caller-source"
+      ],
+      "after": [
+        "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99",
+        "maintained-caller-source"
+      ]
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "before": [
+        "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40",
+        "maintained-caller-source"
+      ],
+      "after": [
+        "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd",
+        "maintained-caller-source"
+      ]
+    }
+  },
+  "unresolved_function_list_exact_parity": true,
+  "function_review_and_transformation_candidates_exact_parity": true,
+  "unresolved_function_count": 127,
+  "application_unresolved_count": 36,
+  "platform_unresolved_count": 91,
+  "review_records_with_additive_candidates": 34,
+  "additive_candidate_records": 37,
+  "BE08_closed": false,
+  "backend_tests_DB_provider_Gradle_calls": false,
+  "production_release_approval": false,
+  "caller_site_semantic_parity_excluding_only_positions": true,
+  "caller_site_position_changes": 8,
+  "position_change_paths": [
+    "scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh"
+  ],
+  "new_evidence_index_database_caller_sites": 0
+}

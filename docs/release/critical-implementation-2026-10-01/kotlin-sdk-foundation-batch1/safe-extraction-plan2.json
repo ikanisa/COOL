@@ -1,0 +1,125 @@
+{
+  "acceptance_boundary": "Authenticated source/bundle foundation only. The reviewed three-file patch and compiler/runtime/ABI/current consumer/advisory/license acceptance remain separate future work.",
+  "actual_central_directory": {
+    "competing_UI_design_skill_count": 0,
+    "compression_counts": {
+      "0": 4859,
+      "8": 17556
+    },
+    "entries": 22415,
+    "expanded_bytes": 4244148641,
+    "free_bytes": 41674301440,
+    "maximum_member_bytes": 500999381,
+    "required_with_headroom": 6391632289,
+    "root": "flutter",
+    "source_licenses_exact": 28,
+    "technical_skill_paths": [
+      "flutter/.agents/skills/find-release/SKILL.md"
+    ]
+  },
+  "archive": {
+    "bytes": 2210831302,
+    "generation": "1782343628635421",
+    "required_state_before_reading": "authenticated with complete readback and frozen metadata equality",
+    "sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+    "task_local_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/flutter_macos_arm64_3.44.4-stable.zip",
+    "transfer_receipt": "bundle-transfer-attempt1.json"
+  },
+  "destination": {
+    "archive_root_prefix": "Derive and review one canonical root from authenticated central directory before writes; require exactly the publisher SDK root. Never infer paths from current cache.",
+    "fresh_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1",
+    "must_be_outside_repo_and_all_Codex_skill_roots": true,
+    "must_not_exist": true,
+    "separate_from_installed_sdk": "/Volumes/PRO-G40/Development/Flutter/flutter"
+  },
+  "exact_expected_checkout_deltas": {
+    "classification": "Pinned Git attributes require exact CRLF checkout for Windows files; canonical blobs and inverse transformation match. Source review pending before admission.",
+    "count": 33,
+    "manifest": "publisher-checkout-eol-deltas.json"
+  },
+  "explicit_parent_reviewed_framework_links": {
+    "all_actual_recursive_targets_inside_same_framework": true,
+    "count": 15,
+    "manifest": "reviewed-framework-links.json",
+    "manifest_sha256": "69dba636e0276c26b935101770a9f45f24ac135fe010043d75646f1fe19bb774",
+    "no_broad_signed_bundle_link_exception": true
+  },
+  "full_manifest": {
+    "every_expanded_entry": "Path, type, source ZIP identity/CRC/declared sizes/mode, actual length, SHA256; target bytes and resolved path for links; actual dev/inode/nlink/mode recorded in local containment receipt.",
+    "tracked_source_comparison": {
+      "all_regular_blobs": 15658,
+      "all_tracked_paths_and_modes_required": true,
+      "expected_regular_blob_bytes": 149802058,
+      "gitlinks": 0,
+      "publisher_tree_sha": "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa",
+      "readback_after_write": "Independently reread every regular tracked file, verify Git blob SHA1+size to official tree and SHA256 to extracted manifest. Missing/changed/license drift fails; never auto-learn or silently omit source.",
+      "symlinks": 2,
+      "untracked_bundle_members": "Retain exact signed-bundle inventory separately for bin/cache/bundled Git metadata/binary licenses; their bytes derive from authenticated publisher bundle, not upstream tracked-source equivalence."
+    }
+  },
+  "git_and_instruction_safety": {
+    "global_git_config_credentials_disabled": true,
+    "never_execute_bundled_hooks": true,
+    "reject_bundled_git_alternates_or_worktree_external_links": true,
+    "upstream_agent_skill_files": "Inert publisher source outside registered Codex/agent skill roots; never installed, discovered as governing instructions, executed, or used as another design authority."
+  },
+  "no_actions_in_this_plan": [
+    "extraction",
+    "bootstrap",
+    "SDK execution",
+    "preview patch application",
+    "candidate promotion",
+    "repo pin/lock changes",
+    "hosted/provider/signing/deployment actions"
+  ],
+  "original_plan_sha256": "c59b5d1fd4aaec5f59fed6304d7ba05979c9882cbf7ab8ce8fddf7a32711e64b",
+  "physical_independence": {
+    "all_regular_nlink_must_equal": 1,
+    "compare_installed_SDK": "Read-only dev/inode pairs for every same relative regular path, plus resolve all links; any shared inode/external pointer fails. Copied fresh archive bytes may share APFS storage extents but never writable inodes.",
+    "metadata": "Bind original archive stat/SHA before and after; stable source manifest; no shared SDK file writes.",
+    "no_object_store_alternates": true,
+    "no_reference_repository_or_shared_object_store": true
+  },
+  "preflight": {
+    "all_preflight_before_any_expansion": true,
+    "allowed_compression_methods": [
+      "stored",
+      "deflate"
+    ],
+    "fixed_actual_deadline_seconds": 600,
+    "free_space_requirement": "Declared expanded sum plus2GiB headroom, measured again before creating destination",
+    "max_archive_entries": 200000,
+    "max_compression_ratio": 1000,
+    "max_one_member_bytes": 1073741824,
+    "max_total_expanded_bytes": 12884901888,
+    "reject_encrypted_entries": true,
+    "reject_paths": [
+      "absolute, drive/UNC, backslash, NUL/control chars, dot/parent/empty components",
+      "duplicate canonical file or directory identities",
+      "NFC/casefold aliases",
+      "file/directory or symlink/descendant collisions",
+      "multiple/unreviewed top roots, paths outside fresh root"
+    ],
+    "reject_special_members": [
+      "FIFO",
+      "socket",
+      "block/character device",
+      "unrecognized Unix file type",
+      "external symlinks or unreviewed link chains"
+    ],
+    "symlinks": "Only2 exact official source-tree links and15 explicitly reviewed framework aliases listed with exact targets in reviewed-framework-links.json, after actual recursive same-framework containment/no-loop/target-existence/collision checks. No arbitrary archive link acceptance."
+  },
+  "prepared_utc": "2026-10-01T23:58:22.755864+00:00",
+  "prepared_writer": "prepare_safe_expansion.py:expand_previously_authorized_archive",
+  "schema_version": 1,
+  "status": "READ_ONLY_BOUNDED_PLAN2_NOT_EXECUTED__SOURCE_CHECKOUT_DELTA_REVIEW_PENDING",
+  "write_algorithm": {
+    "create_directories_first": "Every ancestor lstat confirms a real directory inside the fresh physical root; no links traversed. Create owned fresh dirs only.",
+    "failure": "Retain failure and partial owned candidate for audit; never rename it accepted or update shared source/SDK/pins.",
+    "links_last": "Create only authenticated allowed target links after all regular files are verified and destinations contained; lstat and resolve every final link, reject external/loop/sharedSDK targets.",
+    "no_extractall": true,
+    "permissions": "Preserve authenticated executable distinction for tracked source; strip setuid/setgid and unexpected write permissions. Record publisher ZIP mode and actual mode separately.",
+    "regular_files": "Exclusive create with O_EXCL/O_NOFOLLOW, stream bounded chunks, recompute actual expanded SHA256 and Git blob SHA1, verify zip CRC and exact declared length, fsync; never copy or hardlink installed/cache files."
+  },
+  "writer_executed": false
+}

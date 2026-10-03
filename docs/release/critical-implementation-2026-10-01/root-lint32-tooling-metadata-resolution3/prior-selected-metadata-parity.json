@@ -1,0 +1,11 @@
+{
+  "captured_at_utc": "2026-10-02T15:49:33.961978+00:00",
+  "old_failed_metadata2_sha256": "96b5948e34520b67226745ea94e1ca78bd3cdf1bd050378b2893694d424abb26",
+  "actual_metadata3_sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d",
+  "all70_components_selected_variants_181edges_69POMs_exactly_equal": true,
+  "metadata3_complete": true,
+  "old_failure_not_relabelled_PASS": true,
+  "complete_actual_binary_graph": false,
+  "publisher_artifact_admission": false,
+  "production_release_approval": false
+}

@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/client-drift-trace.py",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 13.269,
+  "exit_code": 0,
+  "output_limit_bytes": 4194304,
+  "pgid": 65384,
+  "pid": 65384,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 267,
+    "device": 16777247,
+    "inode": 17859376,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925177637405753,
+    "sha256": "92d84e9954dfd4df71c3d72961691cca1d5df6e087cadcc6360decdb3206a768"
+  },
+  "stdout": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17859375,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925164422041013,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 120
+}

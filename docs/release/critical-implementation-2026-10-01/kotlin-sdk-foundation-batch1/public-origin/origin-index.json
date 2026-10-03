@@ -1,0 +1,62 @@
+{
+  "artifact_updater.dart": {
+    "error": "HTTPError",
+    "fetched_utc": "2026-10-01T23:43:58.537304+00:00",
+    "http_status": 404,
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/artifact_updater.dart"
+  },
+  "cache.dart": {
+    "bytes": 59517,
+    "fetched_utc": "2026-10-01T23:43:58.527139+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/cache.dart",
+    "http_status": 200,
+    "retained_file": "cache.dart",
+    "sha256": "ff6a424aa26083ac95204a3704aca2d72540fdc227d02fb2510d79fb93d63e0d",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/cache.dart"
+  },
+  "engine.version": {
+    "bytes": 41,
+    "fetched_utc": "2026-10-01T23:43:57.734259+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/engine.version",
+    "http_status": 200,
+    "retained_file": "engine.version",
+    "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/engine.version"
+  },
+  "official-commit.json": {
+    "bytes": 2596,
+    "fetched_utc": "2026-10-01T23:43:57.733304+00:00",
+    "final_url": "https://api.github.com/repos/flutter/flutter/git/commits/ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "http_status": 200,
+    "retained_file": "official-commit.json",
+    "sha256": "ae1470975c951b94319dc1d56205eb54041be280b0935988cbb0cb19e0c26449",
+    "url": "https://api.github.com/repos/flutter/flutter/git/commits/ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+  },
+  "sdk-archive.html": {
+    "bytes": 149422,
+    "fetched_utc": "2026-10-01T23:43:58.537463+00:00",
+    "final_url": "https://docs.flutter.dev/install/archive",
+    "http_status": 200,
+    "retained_file": "sdk-archive.html",
+    "sha256": "2776cf1baa7d230cc8ad223c1670d3ff764408ca27a8fc3ee67756e11596cc3f",
+    "url": "https://docs.flutter.dev/install/archive"
+  },
+  "update_dart_sdk.sh": {
+    "bytes": 5941,
+    "fetched_utc": "2026-10-01T23:43:57.733987+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_dart_sdk.sh",
+    "http_status": 200,
+    "retained_file": "update_dart_sdk.sh",
+    "sha256": "730d3f3145d0c652147043fa914ac54679ab2b4ac94f8f983e4d44f1e17cb6f7",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_dart_sdk.sh"
+  },
+  "update_engine_version.sh": {
+    "bytes": 3112,
+    "fetched_utc": "2026-10-01T23:43:57.734181+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_engine_version.sh",
+    "http_status": 200,
+    "retained_file": "update_engine_version.sh",
+    "sha256": "6d71ef5d911243afdc83a4238b65159aad7905d7b19cb2464db40e347536ebb4",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_engine_version.sh"
+  }
+}

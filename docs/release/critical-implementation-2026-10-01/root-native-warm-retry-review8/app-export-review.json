@@ -1,0 +1,8 @@
+{
+  "export_binding_sha256": null,
+  "predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "production_release_approval": false,
+  "script_sha256": "803bf024a36e008c390aec7bd7405836afd6831a85008bad606b0ae0e556b93c",
+  "source_fence_sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4",
+  "stage": "app-export"
+}

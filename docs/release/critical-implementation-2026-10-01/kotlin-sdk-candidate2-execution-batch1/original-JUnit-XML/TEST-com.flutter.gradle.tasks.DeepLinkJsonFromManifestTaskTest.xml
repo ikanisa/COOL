@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:35.493Z" hostname="Jeans-Mac-mini.local" time="0.61">
+  <properties/>
+  <testcase name="metaDataDeepLinkingEnabledTrue()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.329"/>
+  <testcase name="deepLinkWithAutoVerify()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.015"/>
+  <testcase name="metaDataDeepLinkingEnabledFalse()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.009"/>
+  <testcase name="basicDeepLink()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.009"/>
+  <testcase name="noApplicationInManifest()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.007"/>
+  <testcase name="metaDataDeepLinkingEnabledInvalidValue()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.007"/>
+  <testcase name="metaDataDeepLinkingNoValue()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.004"/>
+  <testcase name="multipleIntentFilters()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.005"/>
+  <testcase name="applicationNoDeepLinkingElements()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.007"/>
+  <testcase name="malformedManifestXML()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.029"/>
+  <testcase name="multipleActivitiesWithDeepLinks()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.009"/>
+  <testcase name="createAppLinkSettingsFileCreation()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.148"/>
+  <testcase name="intentFilterMissingHostInData()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.004"/>
+  <testcase name="multiplePathTypes()" classname="com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Fatal Error] AndroidManifestTest7683401808162271198.xml:1:48: XML document structures must start and end within the same entity.
+]]></system-err>
+</testsuite>

@@ -1,0 +1,53 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": true,
+      "name": "installed owner positive control has a real existing secret",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:33:51.855283+00:00",
+  "database": "collect_local_uat_e17d587644f84e52",
+  "failure": "False",
+  "hosted_called": false,
+  "installed_in_shared_source": true,
+  "isolated_database_removed": true,
+  "kind": "group_share_rotation_actual_local_installed154",
+  "migration_sha256": "cd03ad8b7715bcc70e62264fa806a1d97ebef88fad936607a29259ae4e11bf07",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "runner_sha256": "649a1691cf53e846055752befcc3e911441e314a88a2704fda18df1e57707462",
+  "schema_only_sha256": "46109f0634f67506230f35d9ad5b8d536374bb70529e4af99b042aa0b8c49065",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T21:33:45.506380+00:00",
+  "status": "failed"
+}

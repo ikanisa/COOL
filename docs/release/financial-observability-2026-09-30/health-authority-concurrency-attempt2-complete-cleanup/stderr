@@ -1,0 +1,1 @@
+scripts/tests/operational_health_authority_concurrency.rb:172:in `<main>': Health authority acceptance failed; retain observed cases and restoration evidence (RuntimeError)

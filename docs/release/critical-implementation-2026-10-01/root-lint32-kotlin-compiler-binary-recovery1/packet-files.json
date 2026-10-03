@@ -1,0 +1,27 @@
+{
+  "OS_immutable_flag_or_global_freeze_attested": false,
+  "files": {
+    "execution.json": {
+      "bytes": 4685,
+      "mode": 256,
+      "sha256": "f94ebdb8000bebce0ffa42b01e94390f883e5f6cb0346e9eef1355bb26771f6e"
+    },
+    "readback.json": {
+      "bytes": 3630,
+      "mode": 256,
+      "sha256": "3143b0a358b20d1b3a21a7aee52fbe15e688a8c0c5fa110f277b58ffebbab9b1"
+    },
+    "stderr": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 1513,
+      "mode": 256,
+      "sha256": "b623067a6a05c1e5edac38cc382f5ece1f2c3d27d363cad1c92f7284eba0bbdb"
+    }
+  },
+  "kind": "root_observed_publisher_intake_scoped_packet",
+  "production_release_approval": false
+}

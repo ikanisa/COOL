@@ -12,11 +12,13 @@ def health_write(w,code,duration,marker)
  start(w,health_service+"select 'RESULT:'||public.record_operational_metric_v1(#{lit(code)},#{duration.nil? ? 'null' : duration})::text; select '#{marker}';")
 end
 def health_finish(w,command,marker)
- write(w,"#{command}; reset role; select '#{marker}';")
+ # psql consumes a complete input line. Without this newline it waits for
+ # another command while the peer remains blocked on the open transaction.
+ write(w,"#{command}; reset role; select '#{marker}';\n")
  read_until(w,marker)
 end
 def health_row(w,code,marker)
- write(w,"reset role; select 'METRIC:'||jsonb_build_object('events',sum(event_count),'measured',sum(measured_count),'total_ms',sum(duration_total_ms),'max_ms',max(duration_max_ms))::text from #{METRIC_TABLE} where event_code=#{lit(code)}; select '#{marker}';")
+ write(w,"reset role; select 'METRIC:'||jsonb_build_object('events',sum(event_count),'measured',sum(measured_count),'total_ms',sum(duration_total_ms),'max_ms',max(duration_max_ms))::text from #{METRIC_TABLE} where event_code=#{lit(code)}; select '#{marker}';\n")
  line=read_until(w,marker).find {|s|s.start_with?('METRIC:')};raise 'Missing actual metric aggregation' unless line
  JSON.parse(line.delete_prefix('METRIC:'))
 end
@@ -41,6 +43,9 @@ if __FILE__==$PROGRAM_NAME
  raise 'Explicit root fixture authorization required' unless ENV['COLLECT_OPERATIONAL_METRICS_QA']=='isolated_clone'
  raise 'New absolute checkpoint required' unless CHECKPOINT_PATH && CHECKPOINT_PATH.start_with?('/') && !File.exist?(CHECKPOINT_PATH)
  reviewed=ENV.fetch('COLLECT_OPERATIONAL_HEALTH_SHA','')
+ schema_count=Integer(ENV.fetch('COLLECT_HEALTH_SCHEMA_COUNT','148'))
+ latest={148=>'20260930160000',150=>'20260930180000'}[schema_count]
+ raise 'Only exact reviewed148 or150 supported' unless latest
  raise 'Exact reviewed148 source required' unless reviewed.match?(/\A[a-f0-9]{64}\z/) && Digest::SHA256.file(File.join(ROOT,HEALTH_MIGRATION)).hexdigest==reviewed
  raw,error,success=Open3.capture3('docker','inspect',CONTAINER);raise error unless success.success?
  c=JSON.parse(raw).first;labels=c.fetch('Config').fetch('Labels');ports=c.fetch('HostConfig').fetch('PortBindings').fetch('5432/tcp')
@@ -48,14 +53,14 @@ if __FILE__==$PROGRAM_NAME
  query(<<~SQL)
   do $$ begin
    if current_user<>'postgres' or current_database()<>'postgres' or current_setting('cron.launch_active_jobs')<>'off' or current_setting('pg_net.batch_size')<>'0'
-    or (select count(*) from supabase_migrations.schema_migrations)<>148 or (select max(version) from supabase_migrations.schema_migrations)<>'20260930160000'
+    or (select count(*) from supabase_migrations.schema_migrations)<>#{schema_count} or (select max(version) from supabase_migrations.schema_migrations)<>#{lit(latest)}
     or exists(select 1 from #{METRIC_TABLE})
     or (select encode(extensions.digest(statements[1],'sha256'),'hex') from supabase_migrations.schema_migrations where version='20260930160000')<>#{lit(reviewed)} then
     raise exception 'Exact quiet148 empty telemetry baseline required';end if;
   end $$;
  SQL
  tables=snapshot_tables;before=JSON.parse(query(fingerprints_sql(tables)));controls=query(controls_sql)
- CHECKPOINT.merge!({'kind'=>'actual148_metric_concurrency','started_at'=>Time.now.utc.iso8601,'before'=>before,'controls_before'=>controls,'source_sha256'=>reviewed});save_checkpoint
+ CHECKPOINT.merge!({'kind'=>"actual#{schema_count}_metric_concurrency",'installed_count'=>schema_count,'started_at'=>Time.now.utc.iso8601,'before'=>before,'controls_before'=>controls,'source_sha256'=>reviewed});save_checkpoint
  workers=[];cases=[];failure=nil
  begin
   a=worker_start('collect_health148_a',workers);b=worker_start('collect_health148_b',workers)
@@ -90,7 +95,7 @@ if __FILE__==$PROGRAM_NAME
   health_clock_window
   health_write(a,code,10,'A_WRITE');read_until(a,'A_WRITE')
   health_write(b,'receipt_rejected',nil,'B_WRITE');read_until(b,'B_WRITE')
-  blocked_by=JSON.parse(query("select pg_blocking_pids(#{b[:pid]})::json;"));raise 'Unrelated fixed codes serialized globally' unless blocked_by.empty?
+  blocked_by=JSON.parse(query("select to_json(pg_blocking_pids(#{b[:pid]}));"));raise 'Unrelated fixed codes serialized globally' unless blocked_by.empty?
   row=health_row(b,'receipt_rejected','B_ROW');raise 'Independent unmeasured event malformed' unless row=={'events'=>1,'measured'=>0,'total_ms'=>0,'max_ms'=>0}
   health_finish(a,'rollback','A_ROLLBACK');health_finish(b,'rollback','B_ROLLBACK');health_clean
   cases<<{name:'independent_codes_do_not_block',status:'pass',blocking_pids:blocked_by,observed:row}

@@ -1,0 +1,8 @@
+{
+  "status": "saved_pending_verification",
+  "prior_frontend_sha256": "cb046b3e5c1ddde2f18d5432c7ae3955239a506e74aee29461894de9d00376f7",
+  "prior_validation_sha256": "f345e5119f3d9449cd8fd7f406d16027fcd42c88c501f51378a717cbd258bf09",
+  "preserved_dialog_body_sha256": "c65a5de4589a7bdd55f5c2bc472c19b61518ec557d67f7f78503f7dd7c0f2e50",
+  "corrected_preformat_sha256": "c0000f6f8464bcef6525b50dafe4ec6bfe83500c6354051249c986705eaf67aa",
+  "scope": "Controller allocation/disposal moved into dialog-owned State; identical extracted enrollment input/render/validation body and existing parent provision/exception policy retained"
+}

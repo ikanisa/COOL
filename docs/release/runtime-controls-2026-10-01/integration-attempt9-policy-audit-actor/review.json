@@ -1,0 +1,7 @@
+{
+  "status": "reviewed_pending_execution",
+  "source_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+  "prior_source_sha256": "536cd9175de966b1c14f4468385bea2c1ad7bc1a0706d9c7591e013a3b85e781",
+  "delta": "Only public.create_audit_log actor argument null becomes auth.uid(). Existing request, policy/CAS/mode/permissions, ACK, scope and signatures unchanged. Combined rehearsal now checks stored actor/entity/request/revisions and non-dispatch audit flags.",
+  "source_unchanged_after_capture": true
+}

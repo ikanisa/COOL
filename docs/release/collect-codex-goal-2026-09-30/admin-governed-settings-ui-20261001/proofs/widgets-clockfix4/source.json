@@ -1,0 +1,21 @@
+{
+  "lib/admin/core/admin_governed_settings_models.dart": "61125c8e4e6a559689fddf73ed9962ffecb02abe0b29e0986e95790f54520828",
+  "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "3d5ea3ac7c241b2c0b557536aff81430c5f8a4312b9c730d04ff23a7c267df80",
+  "lib/admin/core/admin_governed_settings_runtime.dart": "2c70de815b2c1a30c4f4dc9a96b22dbe848ff7f3cbb45420afa985722d93ecf4",
+  "lib/admin/core/admin_governed_settings_controller.dart": "9f9c87f151ad188aa1c6bfe408d962983f0e074c08150a3685d2d706af6b2dd8",
+  "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+  "lib/admin/core/admin_governed_settings_page.dart": "5faac48af8487a0078f4386f99aedaa52735835e9bb49cd0e48239225ec17d0b",
+  "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+  "lib/admin/core/admin_governed_settings_sdk.dart": "d298065db0eff0e0f221f21c19fd2477b21fb5ed2609e7ae381e70e02c151f51",
+  "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+  "test/admin_governed_settings_controller_test.dart": "755d336d6f6944f60ab1aed321a1ba5eb81462ca9f0f5892b9c8e98a0eed4b1d",
+  "test/admin_governed_settings_sdk_test.dart": "0d97a82c5b4384c514fc566a5dcfe9d8a48a6b6165695d0e0d041b145252f3c7",
+  "test/admin_action_session_test.dart": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+  "test/admin_governed_settings_models_test.dart": "39fc9d2400d63b9ce724c9fc68375304692cdb7abd69aec6fb146e307991e410",
+  "test/admin_governed_settings_widget_test.dart": "9f3e9997d863627c38ee02b6f85f45162e6dbc3e542ed9c484aadff107eef155",
+  "test/support/settings_fixture.dart": "e909cd56957029df6e494ec1c050eccb511d5c5df52567b6db12d46fae999fec",
+  "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+  "integration/admin_runtime.dart.patch": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+  "integration/admin_repository_base.dart.patch": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+  "integration/admin_router.dart.patch": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294"
+}

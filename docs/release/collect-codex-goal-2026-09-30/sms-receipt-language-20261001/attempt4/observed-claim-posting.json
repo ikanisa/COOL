@@ -1,0 +1,13 @@
+{
+  "posting": {
+    "exit_code": 0,
+    "stdout": "language-normal-post\n{\"role\":\"service_role\"}\n1\n\n847ab9be-6ea5-41b9-9ef8-12ca1999c954\n",
+    "stderr": ""
+  },
+  "claim": {
+    "exit_code": 0,
+    "stdout": "language-account-claim\n{\"sub\": \"89aca4ba-7ff0-4fb1-a855-f6e23ed7688f\", \"session_id\": \"0fa2ea38-a1d5-4741-80ee-dd74237aa208\", \"role\": \"authenticated\", \"aal\": \"aal1\"}\n{\"ok\": true, \"status\": \"claimed\", \"collect_id\": \"978201\", \"member_record_id\": \"99780000-0000-4000-8000-000000040001\", \"payments_attached\": 13, \"sms_jobs_suppressed\": 6}\n",
+    "stderr": ""
+  },
+  "actual_wait_observed": true
+}

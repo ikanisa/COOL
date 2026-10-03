@@ -1,0 +1,61 @@
+{
+  "actual_changed_file_format_check": {
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "exec",
+      "collect-arc01-current-style-45f655ec29454ed290b2cfd0823b86b1-format",
+      "/bin/bash",
+      "-euo",
+      "pipefail",
+      "-c",
+      "exec /opt/flutter/flutter/bin/cache/dart-sdk/bin/dart format --output=none --set-exit-if-changed --language-version=3.12 scripts/tests/admin_receipt_source_busy_test.dart test/support/test_capture_paths.dart"
+    ],
+    "completed_at_utc": "2026-10-02T11:23:40.232710+00:00",
+    "deadline_seconds": 30,
+    "elapsed_seconds": 0.25883954200253356,
+    "exit_code": 0,
+    "log_sha256": "11a57d97889bc161aad83f19055424c45a757ed0654809f75c0ad99f31bb11b7",
+    "started_at_utc": "2026-10-02T11:23:39.973892+00:00",
+    "timed_out": false
+  },
+  "actual_linux_changed_file_count": 0,
+  "actual_linux_checked_file_count": 2,
+  "at_utc": "2026-10-02T11:23:46.617350+00:00",
+  "changed_current_sha256": {
+    "scripts/tests/admin_receipt_source_busy_test.dart": "b341d0bcd5fed131d0f0a1d517f6da990eb278929aa941110f87152941ed1993",
+    "test/support/test_capture_paths.dart": "1053c008625b9df2bcc9d661da0dd6d27b84312e6aaaf672025024d3ca2b37f1"
+  },
+  "current_applicable_dart_count": 710,
+  "current_closure_decision_owner": "root",
+  "elapsed_before_cleanup_seconds": 17.181035875000816,
+  "formatter_control_paths_unchanged": [
+    ".fvmrc",
+    ".gitignore",
+    "Makefile",
+    "analysis_options.yaml",
+    "pubspec.lock",
+    "pubspec.yaml",
+    "scripts/qa/dart_format.rb",
+    "third_party/file_saver/analysis_options.yaml",
+    "third_party/file_saver/pubspec.yaml",
+    "third_party/firebase_messaging/analysis_options.yaml",
+    "third_party/firebase_messaging/pubspec.yaml",
+    "third_party/gotrue/UPSTREAM-SHA256.json",
+    "third_party/gotrue/analysis_options.yaml",
+    "third_party/gotrue/pubspec.yaml"
+  ],
+  "full_make_repeated": false,
+  "language_version": "3.12",
+  "maintained_source_written": false,
+  "negative_or_restored_make_repeated": false,
+  "preserved_full_make_and_negative_restored_packet_sha256": "8035002b7108f93776afb83c6f3b2d9c4f9f32627c00a5e059e12ed7b2ac6d37",
+  "previous_sha256": {
+    "scripts/tests/admin_receipt_source_busy_test.dart": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+    "test/support/test_capture_paths.dart": "83a87fa37aa3934e625a627fbd12844d782f01f70b315083c4fa711ed06aea78"
+  },
+  "sdk_app_native_cache_changes": false,
+  "source_before_after_unchanged": true,
+  "status": "CURRENT_710_FORMAT_APPLICABILITY_COMPOSITION_PASS",
+  "unchanged_applicable_dart_count": 708,
+  "whole_bound_seconds": 180
+}

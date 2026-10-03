@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-02T13:44:11.829164+00:00",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-private-proposal-review1/scripts/tests/collect_current_evidence_index_test.py"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 0.08390116698865313,
+  "proposal_packet_sha256": "743b43f6630d8d58537abfde5b011682453c06588dbf31300ec616d590d2609d",
+  "reader_sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+  "test_sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "c1de4e59a9d813b1203e8e562ffdf1481c4f06a6289fe517018de4437d48ca2e",
+  "maintained_source_modified": false,
+  "PD12_closed": false
+}

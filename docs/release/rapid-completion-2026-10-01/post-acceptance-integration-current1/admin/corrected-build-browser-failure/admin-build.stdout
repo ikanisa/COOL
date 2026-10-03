@@ -1,0 +1,8 @@
+Compiling lib/main_admin.dart for the Web...                    
+Font asset "Font-Awesome-7-Brands-Regular-400.otf" was tree-shaken, reducing it from 215132 to 1624 bytes (99.2% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "CupertinoIcons.ttf" was tree-shaken, reducing it from 257628 to 1472 bytes (99.4% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "MaterialIcons-Regular.otf" was tree-shaken, reducing it from 1645184 to 32268 bytes (98.0% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Compiling lib/main_admin.dart for the Web...                       31.0s
+✓ Built build/web
+[admin-pwa-gate] pass build_dir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web
+[admin-pwa-hosting] status=pass build_dir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web

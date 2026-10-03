@@ -1,0 +1,35 @@
+--- android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt original candidate
++++ android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt final archive correction
+@@ -13,6 +13,7 @@
+     fun appendColdConflict(attempt: GatewayAttempt, callback: GatewayCallback)
+     fun coldPendingCallbacks(): List<Pair<GatewayAttempt, GatewayCallback>>
+     fun exportColdAttempt(attemptId: String): GatewayColdArchiveExport
++    fun retainUncompactableAck(original: GatewayStoredRequest, ack: JSONObject)
+ }
+ 
+ internal class GatewayColdArchiveExport(val attemptId: String, val encryptedParts: Map<String, ByteArray>) {
+@@ -24,6 +25,7 @@
+     fun payload(attempt: GatewayAttempt): JSONObject = synchronized(GatewayJournal.PROCESS_LOCK) {
+         validateAttempt(attempt)
+         if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED) throw GatewayStateException("gateway_archive_attempt_unresolved")
++        if (store.read().attempts.singleOrNull { it.attemptId == attempt.attemptId } != attempt) throw GatewayStateException("gateway_archive_source_conflict")
+         val requests = store.readRequests().getJSONArray("requests")
+         val refs = JSONArray()
+         for ((index, segment) in attempt.segments.withIndex()) for (kind in CallbackKind.entries) {
+@@ -55,8 +57,15 @@
+             compact(id, cold);return@synchronized
+         }
+         val attempt = store.read().attempts.firstOrNull { it.attemptId == id } ?: throw GatewayStateException("gateway_attempt_missing")
+-        if (!archiveJsonEqual(payload(attempt), payload)) throw GatewayStateException("gateway_archive_source_conflict")
+         if (requireUuid(ack, "receipt_id") != attempt.jobId || original.deviceId != attempt.deviceId) invalidArchive()
++        if (strictInteger(payload, "fence_version") != attempt.fence || strictString(payload, "body_sha256") != attempt.bodySha256 ||
++            strictString(payload, "destination_sha256") != attempt.destinationSha256) invalidArchive()
++        // A callback can contradict the local snapshot while the authenticated
++        // ACK is in flight. Retain both facts without pruning or starving that
++        // new callback behind repeated ACK lookups.
++        if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED || !archiveJsonEqual(payload(attempt), payload)) {
++            store.retainUncompactableAck(original, ack);return@synchronized
++        }
+         val refs = payload.getJSONArray("callback_requests");val requests = store.readRequests().getJSONArray("requests")
+         val copy = JSONArray()
+         for (i in 0 until refs.length()) {

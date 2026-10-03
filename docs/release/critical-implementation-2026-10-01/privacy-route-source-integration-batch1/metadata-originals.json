@@ -1,0 +1,26 @@
+{
+  "captured_at_utc": "2026-10-02T00:30:49.099518+00:00",
+  "files": [
+    {
+      "path": "content/product/collect_capabilities.json",
+      "sha256": "a6c4c0c824ccc5c69874520b1722a66d92d21bccc45022c6f89c4a126eda9599",
+      "preserved_as": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/before/content/product/collect_capabilities.json"
+    },
+    {
+      "path": "docs/release/public-website-current-content-contract.json",
+      "sha256": "758e36201378c6992fc53e43d85f3f03943539160258c486c27a6acce44217f8",
+      "preserved_as": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/before/docs/release/public-website-current-content-contract.json"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "sha256": "97b15eaf956d935db0575a20b068d90b706406aa32f8d7cfea880d0b9df25142",
+      "preserved_as": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/before/lib/features/landing/public_marketing_page_content.dart"
+    },
+    {
+      "path": "lib/features/landing/public_capability_content.dart",
+      "sha256": "d4e317dde5f2895fbc85da662dd1fd11c7e90b44e6a3c30c843fa1e40a0b3672",
+      "preserved_as": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/before/lib/features/landing/public_capability_content.dart"
+    }
+  ],
+  "scope": "Exact current public3/first privacy integration metadata preserved before affected-consumer source-binding review; no copy or approval changes."
+}

@@ -1,0 +1,3 @@
+ERROR:  42501: gateway_device_not_active
+CONTEXT:  PL/pgSQL function public.gateway_receipt_successor_grant_v1(uuid,uuid,text,jsonb) line 8 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

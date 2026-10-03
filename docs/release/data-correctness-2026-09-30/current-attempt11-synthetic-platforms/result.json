@@ -1,0 +1,312 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/features/contribution_flow_session_test.dart",
+      "test/shared/member_mutation_session_test.dart",
+      "test/features/member_data_unknown_states_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt11-synthetic-platforms/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T21:02:43.268596+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 63440,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 12.071,
+    "stdout_sha256": "598c3f48f28784c37670faf38244816594bc553120375a027e7569ea64d65e9e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 45,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "replacement same-user session clears completed prepared payment",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "old preparation reply cannot rebuild a payment after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "old preflight reply cannot launch USSD after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "current captured session completes existing payment workflow",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "create current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "create rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "create rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "group profile current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "group profile rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "group profile rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "join current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "join rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "join rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "promote current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "promote rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "promote rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "archive current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "archive rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "archive rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "transfer current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "transfer rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "transfer rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification current production SDK workflow remains valid and pinned",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification rejects late ACK after replacement session with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification rejects late ACK after A to B to A with original Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile ACK cannot forge immutable id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile ACK cannot forge immutable public_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile ACK cannot forge immutable whatsapp_phone",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "create scoped fetch cannot return a forged group owner",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "group profile scoped fetch cannot return a forged group owner",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "join scoped fetch must confirm current membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "creation stops after native permission await changes session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "creation capability calendar 2030-02-30T12:00:00Z fails before create RPC",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "creation capability calendar 2030-01-01T00:00:00 fails before create RPC",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "creation capability calendar 0000-01-01T00:00:00Z fails before create RPC",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification optimistic state cannot relabel a foreign event",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent complete aggregates remain unknown despite partial owned rows",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks empty partial ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks partial positive ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent group ledger page cannot claim no confirmed activity",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent group activity page cannot claim no contributions",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent activity page cannot be shown as zero confirmed history",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refreshing retained roster removes previous IDs and amounts before reply",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

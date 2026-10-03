@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/finalize-browser.py", line 55, in <module>
+    if sha(LIFECYCLE / (command['name'] + '.' + stream)) != command[stream + '_sha256']]
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/finalize-browser.py", line 20, in sha
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current3/flutter-runtime.stdout'

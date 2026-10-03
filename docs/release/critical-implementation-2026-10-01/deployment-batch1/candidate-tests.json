@@ -1,0 +1,16 @@
+{
+  "name": "candidate-export-regression-and-cli-pin",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/tests/test_collect_release_candidate.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 4.581,
+  "source_sha256": {
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/test_collect_release_candidate.py": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592"
+  },
+  "log": "candidate-export-tests.log"
+}

@@ -1,0 +1,2 @@
+ERROR:  Original row removed or changed in public.app_realtime_events
+CONTEXT:  PL/pgSQL function inline_code_block line 4 at RAISE

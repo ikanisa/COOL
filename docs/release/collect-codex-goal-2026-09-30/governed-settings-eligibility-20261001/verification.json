@@ -1,0 +1,512 @@
+{
+  "association": [
+    {
+      "case_index": 0,
+      "name": "feature installer is actual postgres NOSUPERUSER",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 1,
+      "name": "additive v2 installs as ordinary owner",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 2,
+      "name": "all preexisting function OIDs bodies owners ACL and configuration preserved",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 3,
+      "name": "install preserves nonempty financial evidence",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 4,
+      "name": "private original requests have RLS and no API grants",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 5,
+      "name": "all seven predecessor private helpers retain no direct API execution",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 6,
+      "name": "account_request_reason_options closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 7,
+      "name": "admin_navigation_items closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 8,
+      "name": "admin_queue_filter_options closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 9,
+      "name": "admin_queue_signals closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 10,
+      "name": "admin_queue_sla_policies closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 11,
+      "name": "admin_queue_specs closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 12,
+      "name": "brand_entities closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 13,
+      "name": "collection_category_subtypes closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 14,
+      "name": "collection_purpose_templates closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 15,
+      "name": "collection_type_catalog closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 16,
+      "name": "collection_type_country_rules closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 17,
+      "name": "feature_flags closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 18,
+      "name": "notification_channels closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 19,
+      "name": "notification_event_types closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 20,
+      "name": "notification_template_versions closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 21,
+      "name": "notification_templates closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 22,
+      "name": "otp_policy closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 23,
+      "name": "payment_entrypoints closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 24,
+      "name": "policy_document_sections closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 25,
+      "name": "policy_documents closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 26,
+      "name": "roster_resource_policy closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 27,
+      "name": "sms_receipt_member_consents closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 28,
+      "name": "sms_receipt_policies closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 29,
+      "name": "support_channels closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 30,
+      "name": "system_settings closed fresh eligibility with exact raw discovery digest",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 31,
+      "name": "actual draft sections are editable with immutable wiring excluded",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 32,
+      "name": "actual all-draft template admits locale/event/metadata edits",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 33,
+      "name": "policy with actual sections admits publication",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 34,
+      "name": "version with actual template admits publication",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 35,
+      "name": "new section requires a prospective exact parent",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 36,
+      "name": "missing exact prospective section parent is refused",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 37,
+      "name": "new section with actual draft parent admits immutable wiring at creation",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 38,
+      "name": "new version with missing prospective template is refused",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 39,
+      "name": "eligibility binds exact UTF8 whitespace and text bytes",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 40,
+      "name": "stale requested revision is refused",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 41,
+      "name": "invalid raw patch refused 3",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 42,
+      "name": "invalid raw patch refused 13",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 43,
+      "name": "invalid raw patch refused 8",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 44,
+      "name": "invalid raw patch refused 65537",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 45,
+      "name": "anon eligibility execution denied",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 46,
+      "name": "service_role eligibility execution denied",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 47,
+      "name": "member-owned preferences are excluded",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 48,
+      "name": "repeatable read eligibility refused",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 49,
+      "name": "read-authorized missing manage is exact false capability without fields",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 50,
+      "name": "missing family read denies eligibility",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 51,
+      "name": "eligibility requires family read independently of audit",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 52,
+      "name": "independent audit history unaffected by missing settings read",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 53,
+      "name": "revoked approval refuses eligibility rather than false capability",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 54,
+      "name": "expired Auth refuses eligibility rather than false capability",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 55,
+      "name": "revoked role refuses eligibility rather than false capability",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 56,
+      "name": "actual v2 mutation admits supported draft section edit",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 57,
+      "name": "eligibility cannot override changed current revision",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 58,
+      "name": "draft template contextual edit then original v2 mutation is supported",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 59,
+      "name": "approved existing version publication goes through unchanged v2 final guards",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 60,
+      "name": "any actual non-draft version restricts template to enabled only",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 61,
+      "name": "published version exposes status-only permitted transitions",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 62,
+      "name": "published version cannot return to draft",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 63,
+      "name": "published version content cannot be edited",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 64,
+      "name": "archived version cannot unarchive",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 65,
+      "name": "actual policy publication with sections is supported by final v2 guard",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 66,
+      "name": "section eligibility changes immediately after actual parent publication",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 67,
+      "name": "stale draft eligibility cannot bypass final parent publication guard",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 68,
+      "name": "archived policy cannot unarchive",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 69,
+      "name": "empty draft policy cannot publish without sections",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 70,
+      "name": "requested empty policy publication returns redacted sections blocker",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 71,
+      "name": "concurrent version insertion predicate writer refuses eligibility NOWAIT",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 72,
+      "name": "actual parent writer waits behind retained eligibility context fence",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 73,
+      "name": "parent change commits after eligibility transaction release",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 74,
+      "name": "new eligibility rejects superseded parent revision",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 75,
+      "name": "actual eligibility head wait observed",
+      "proof": "proofs/sql240-attempt1/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 7,
+      "name": "approval expiry after actual head wait denies instead of publishing stale observation",
+      "proof": "proofs/sql240-tail3/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 8,
+      "name": "read-only eligibility and governed mutations preserve financial evidence",
+      "proof": "proofs/sql240-tail3/result.json",
+      "status": "pass"
+    },
+    {
+      "case_index": 9,
+      "name": "captured exact source inputs unchanged",
+      "proof": "proofs/sql240-tail3/result.json",
+      "status": "pass"
+    }
+  ],
+  "kind": "composed_scoped_actual_sql",
+  "limits": [
+    "Retained row-free schema153/ACL, current scoped prerequisites and all26 existing synthetic control fixtures.",
+    "Fresh feature DDL and API SQL execute as actual postgres NOSUPERUSER; original v1 catalog/body preserved.",
+    "Platform/Auth schema is owner-normalized; mock cron; no hosted or signed-JWT acceptance; not whole-candidate migration replay."
+  ],
+  "migration_sha256": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+  "prior_failure": "Original full command77caseevents:76passed; expiry safely denied42501permission_required but test expected onlysession_required. Original failed command preserved. Tail2 setup pass then fixturehelper scope error preserved. Final-only tail3 has10actualpasses;7duplicates are not added.",
+  "source_scope": {
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/current_runtime_control_bundle_uat.py": "ae8a6bc3b208e6d0c87cdd9079d8043d2cfb7504608a027df98cadc6ba254740",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/runtime_control_edit_eligibility_uat.py": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "supabase/migrations/20261001220000_governed_settings_requests.sql": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4"
+  },
+  "source_vector_unchanged_except_scoped_uat": true,
+  "status": "ready_for_root_review",
+  "terminal_readback": {
+    "matching_containers": [],
+    "matching_processes": [],
+    "observed_at": "2026-10-01T21:45:29.463843+00:00",
+    "old_reported_handle96266": "write_stdin authoritatively returned Unknown process id; retained completed pass artifact, no invented process exit code"
+  },
+  "uat_sha256": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238",
+  "unique_passing_case_names": 79
+}

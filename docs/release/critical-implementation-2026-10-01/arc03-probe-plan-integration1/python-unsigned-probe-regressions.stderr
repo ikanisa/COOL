@@ -1,0 +1,53 @@
+EEE
+======================================================================
+ERROR: test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret (__main__.SupabaseDeliveryContractTest.test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs (__main__.SupabaseDeliveryContractTest.test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_missing_successor_endpoint_refuses_readiness (__main__.SupabaseDeliveryContractTest.test_missing_successor_endpoint_refuses_readiness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.098s
+
+FAILED (errors=3)

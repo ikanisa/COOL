@@ -1,0 +1,20 @@
+{
+  "all39_qa_pass": false,
+  "completed": [
+    "exact copied /usr/local inventory",
+    "exact API/test imports and Bash/Ruby URI/ps tool smoke; zero39 execution"
+  ],
+  "failure": null,
+  "macos_qa_resolved": false,
+  "owned_containers_absent": true,
+  "pinned_python_image": "sha256:75496575cd8e3aeb3fe561f0384f661d490c14770eda935d2302d61ca20a0b2d",
+  "pinned_ubuntu_image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+  "provider_or_postgres_execution": false,
+  "runtime_directory": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/usr-local",
+  "scope": "private Linux runtime preparation/import smoke only",
+  "shipping_matrix_accepted": false,
+  "source_directory": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/source",
+  "source_inputs_unchanged": true,
+  "status": "pass",
+  "tests_executed": 0
+}

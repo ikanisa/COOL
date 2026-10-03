@@ -1,0 +1,44 @@
+{
+  "started_at": "2026-10-01T10:08:14.141231+00:00",
+  "inputs_captured_before_final_fixture_tests": true,
+  "flutter": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+  "default_symlink_resolves_same_runtime": true,
+  "rows": [
+    {
+      "path": "lib/admin/core/admin_investigation.dart",
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b",
+      "bytes": 18098
+    },
+    {
+      "path": "test/admin_receipt_content_v2_test.dart",
+      "sha256": "7f2279fa6d1a6dde09a9bd645485a24a9f20aaae970a1feeb96e1bd63eb6c6c6",
+      "bytes": 1770
+    },
+    {
+      "path": "contracts/collect-receipt-content-v2/observed-investigation-v2.json",
+      "sha256": "54dcd6a4c42d8486e906b8f5115ec443e7bc0e43fc8a5c59acf7b04b8b38850d",
+      "bytes": 3172
+    },
+    {
+      "path": "test/fixtures/admin_investigation_v1.json",
+      "sha256": "ba060571e5241e113acabd80919bd95563d25655003ec3d2683344f4b35be6dd",
+      "bytes": 3500
+    },
+    {
+      "path": "pubspec.yaml",
+      "sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8",
+      "bytes": 2425
+    },
+    {
+      "path": "pubspec.lock",
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "bytes": 39236
+    }
+  ],
+  "finished_at": "2026-10-01T10:09:38.124650+00:00",
+  "source_unchanged": true,
+  "analysis_clean": true,
+  "combined_existing_and_new_tests_passed": 80,
+  "final_published_fixture_checks_passed": 7,
+  "distinct_test_count": 80
+}

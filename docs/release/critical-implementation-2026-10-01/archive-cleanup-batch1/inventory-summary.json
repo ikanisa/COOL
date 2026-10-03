@@ -1,0 +1,1924 @@
+{
+  "schema_version": 1,
+  "status": "metadata_inventory_complete_with_explicit_limits",
+  "started_at_utc": "2026-10-01T22:55:11.979047+00:00",
+  "finished_at_utc": "2026-10-01T22:57:12.781335+00:00",
+  "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release",
+  "regular_file_count": 361062,
+  "directory_count": 64276,
+  "logical_bytes": 35754404784,
+  "allocated_bytes_sum_not_physical_unique": 36575031296,
+  "classes": {
+    "authored_or_copied_code_unclassified": {
+      "files": 181061,
+      "logical_bytes": 2636029319,
+      "allocated_bytes": 3059068928
+    },
+    "binary_archive_or_generated_component": {
+      "files": 2376,
+      "logical_bytes": 2164921523,
+      "allocated_bytes": 2170281984
+    },
+    "compiled_or_packaged_artifact": {
+      "files": 1033,
+      "logical_bytes": 433182063,
+      "allocated_bytes": 435634176
+    },
+    "copied_source_or_candidate_tree": {
+      "files": 37279,
+      "logical_bytes": 14007157843,
+      "allocated_bytes": 14086578176
+    },
+    "dependency_or_compiler_cache": {
+      "files": 2709,
+      "logical_bytes": 1579925110,
+      "allocated_bytes": 1586413568
+    },
+    "execution_log_or_text_evidence": {
+      "files": 40017,
+      "logical_bytes": 1520290222,
+      "allocated_bytes": 1571532800
+    },
+    "image_or_visual_evidence": {
+      "files": 25553,
+      "logical_bytes": 4686674272,
+      "allocated_bytes": 4744855552
+    },
+    "other_unclassified": {
+      "files": 18280,
+      "logical_bytes": 7203477594,
+      "allocated_bytes": 7250042880
+    },
+    "report_document_or_page": {
+      "files": 11287,
+      "logical_bytes": 80823108,
+      "allocated_bytes": 108638208
+    },
+    "structured_report_manifest_or_data": {
+      "files": 41467,
+      "logical_bytes": 1441923730,
+      "allocated_bytes": 1561985024
+    }
+  },
+  "top_level_cohorts": {
+    "ADMIN_PWA_CUTOVER_LIVE_GATE_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7999
+    },
+    "ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md": {
+      "files": 1,
+      "logical_bytes": 6730
+    },
+    "ADMIN_WHATSAPP_PREAPPROVAL_2026-09-02.md": {
+      "files": 1,
+      "logical_bytes": 12034
+    },
+    "ANDROID_SIGNING_PREFLIGHT_1.2.4_23_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1060
+    },
+    "APP_STORE_READINESS.md": {
+      "files": 1,
+      "logical_bytes": 13762
+    },
+    "ASSET_MANIFEST_INTEGRITY_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 3275
+    },
+    "AUTH_REDIRECT_CUTOVER_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 769
+    },
+    "BACKUP_NETWORK_PREFLIGHT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 775
+    },
+    "COLLECT_REPOSITORY_REPAIR_2026-09-10.md": {
+      "files": 1,
+      "logical_bytes": 4942
+    },
+    "COMBINED_CLEAN_REPLAY_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 26136
+    },
+    "COMBINED_RECOVERY_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 18328
+    },
+    "COMBINED_UAT_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 956
+    },
+    "CONTINUATION_2026-09-02.md": {
+      "files": 1,
+      "logical_bytes": 5891
+    },
+    "CONTINUATION_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 10618
+    },
+    "CONTROLLED_ROLLOUT_2026-09-02.md": {
+      "files": 1,
+      "logical_bytes": 10646
+    },
+    "CURRENT_RELEASE_CLEAN_REPLAY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 26138
+    },
+    "CUTOVER_API_MEMBER_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1092
+    },
+    "DIRECTORY_PREDEPLOY_DEFINITIONS_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 8476
+    },
+    "DIRECTORY_PRESENTATION_DEPLOYMENT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 996
+    },
+    "DIRECTORY_PRESENTATION_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 896
+    },
+    "DRIVE_COMPLETE_COMPARATIVE_INTEGRATION_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 22891
+    },
+    "DRIVE_INCORPORATED_FILES_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 16476
+    },
+    "DRIVE_INCORPORATED_FILES_2026-09-28.tsv": {
+      "files": 1,
+      "logical_bytes": 30554
+    },
+    "ENCRYPTED_PRODUCTION_DATABASE_BACKUP_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2536
+    },
+    "ENCRYPTED_PRODUCTION_DATABASE_BACKUP_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2661
+    },
+    "ENCRYPTED_PRODUCTION_ROLES_BACKUP_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2630
+    },
+    "ENCRYPTED_VAULT_REHEARSAL_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1818
+    },
+    "EXTERNAL_COMPLETION_HANDOFF_2026-08-05.md": {
+      "files": 1,
+      "logical_bytes": 2660
+    },
+    "EXTERNAL_REVIEW_EVIDENCE_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 1124
+    },
+    "FIRST_OPERATOR_CUTOVER_ACTIVATION_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 523
+    },
+    "FIRST_OPERATOR_CUTOVER_CHECK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 439
+    },
+    "FIRST_OPERATOR_CUTOVER_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 623
+    },
+    "FULLSTACK_AUDIT_2026-08-04.md": {
+      "files": 1,
+      "logical_bytes": 8798
+    },
+    "FULLSTACK_EMULATOR_UAT_2026-08-05.md": {
+      "files": 1,
+      "logical_bytes": 9957
+    },
+    "FULLSTACK_UAT_GO_LIVE_GOAL.md": {
+      "files": 1,
+      "logical_bytes": 4963
+    },
+    "FULL_AUTHORITY_RELEASE_EXECUTION_2026-08-05.md": {
+      "files": 1,
+      "logical_bytes": 2725
+    },
+    "GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json": {
+      "files": 1,
+      "logical_bytes": 20129
+    },
+    "GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json": {
+      "files": 1,
+      "logical_bytes": 3741
+    },
+    "GOOGLE_PLAY_SUBMISSION_1.2.4_23_2026-09-07.md": {
+      "files": 1,
+      "logical_bytes": 4230
+    },
+    "GO_LIVE_AUDIT_REPORT.md": {
+      "files": 1,
+      "logical_bytes": 9087
+    },
+    "GO_NO_GO_DECISION.md": {
+      "files": 1,
+      "logical_bytes": 3124
+    },
+    "GROUP_SUMMARY_INTEGRITY_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 4906
+    },
+    "HISTORICAL_MIGRATION_REVIEW_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 1675
+    },
+    "HISTORICAL_MIGRATION_REVIEW_DETAIL_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 2470
+    },
+    "HISTORY_INTEGRITY_2026-09-27.md": {
+      "files": 1,
+      "logical_bytes": 5916
+    },
+    "HYBRID_ADMIN_BROWSER_QA_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 3437
+    },
+    "HYBRID_AUTHENTICATED_ADMIN_UAT_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 8817
+    },
+    "HYBRID_CONTINUATION_DEPLOYED_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 10450
+    },
+    "HYBRID_EDGE_CUTOVER_APPLY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 13079
+    },
+    "HYBRID_EDGE_CUTOVER_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1147
+    },
+    "HYBRID_EDGE_CUTOVER_PLAN_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1662
+    },
+    "HYBRID_EDGE_CUTOVER_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7174
+    },
+    "HYBRID_EDGE_LOCAL_GATE_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7544
+    },
+    "HYBRID_EDGE_UNAUTHENTICATED_SMOKE_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2698
+    },
+    "HYBRID_NOTIFICATION_CLAIM_CLEAN_REPLAY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1200
+    },
+    "HYBRID_OPERATOR_PREFLIGHT_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 6312
+    },
+    "HYBRID_PRIVILEGE_CUTOVER_APPLY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3702
+    },
+    "HYBRID_PRIVILEGE_CUTOVER_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 730
+    },
+    "HYBRID_PRIVILEGE_CUTOVER_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1549
+    },
+    "HYBRID_PRODUCTION_CUTOVER_APPLY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3961
+    },
+    "HYBRID_PRODUCTION_CUTOVER_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2186
+    },
+    "HYBRID_PRODUCTION_CUTOVER_READBACK_DIAGNOSTIC_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 602
+    },
+    "HYBRID_SESSION_RENEWAL_2026-09-04.md": {
+      "files": 1,
+      "logical_bytes": 4672
+    },
+    "HYBRID_SMS_FILTER_CLEAN_REPLAY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 564
+    },
+    "HYBRID_SMS_FILTER_CLEAN_UAT_REPLAY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 558
+    },
+    "INCREMENT_11_BRANCH_RECONCILIATION_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 3947
+    },
+    "INDEPENDENT_REMAINING_TASKS_2026-10-01.md": {
+      "files": 1,
+      "logical_bytes": 45932
+    },
+    "INTEGRATION_RECONCILIATION_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 5605
+    },
+    "IOS_APP_AUDIT_2026-08-04.md": {
+      "files": 1,
+      "logical_bytes": 12906
+    },
+    "LINKED_PRODUCTION_ROLLBACK_UAT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2495
+    },
+    "LIVE_DEPLOYMENTS.json": {
+      "files": 1,
+      "logical_bytes": 2744
+    },
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": {
+      "files": 1,
+      "logical_bytes": 18464
+    },
+    "LOCAL_SECURITY_AND_AMOUNT_CORRECTIONS_2026-10-01.md": {
+      "files": 1,
+      "logical_bytes": 16410
+    },
+    "MEMBER_PROFILE_WRITE_CUTOVER_APPLY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3691
+    },
+    "MEMBER_PROFILE_WRITE_CUTOVER_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2068
+    },
+    "MEMBER_PROFILE_WRITE_CUTOVER_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1112
+    },
+    "NATIVE_CUTOVER_ARTIFACTS_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 54670
+    },
+    "NATIVE_CUTOVER_ARTIFACTS_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 54670
+    },
+    "PAYMENT_DECODING_2026-09-27.md": {
+      "files": 1,
+      "logical_bytes": 6279
+    },
+    "PAYMENT_INTENT_DECODING_2026-09-27.md": {
+      "files": 1,
+      "logical_bytes": 5226
+    },
+    "PLAY_STORE_READINESS.md": {
+      "files": 1,
+      "logical_bytes": 3394
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1355
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1536
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V3_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1604
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V4_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2055
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V5_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2278
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V6_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2278
+    },
+    "PRODUCTION_ARCHIVE_RESTORE_V7_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2625
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6197
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V10_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2649
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V11_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7792
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V12_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7899
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V13_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7901
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V14_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 8948
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V15_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 8944
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V20_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 8946
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V21_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 8945
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V22_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 9044
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V23_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 9180
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6640
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V3_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6672
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V4_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6672
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V5_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7116
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V6_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7090
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V7_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7214
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V8_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7128
+    },
+    "PRODUCTION_COPY_UPGRADE_REHEARSAL_V9_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7536
+    },
+    "PRODUCTION_CRITICAL_REVIEW_2026-10-01.md": {
+      "files": 1,
+      "logical_bytes": 45125
+    },
+    "PRODUCTION_CUTOVER_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 7902
+    },
+    "PRODUCTION_CUTOVER_APPLY_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3882
+    },
+    "PRODUCTION_CUTOVER_APPLY_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 5580
+    },
+    "PRODUCTION_CUTOVER_PLAN_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3777
+    },
+    "PRODUCTION_CUTOVER_READBACK_FINAL_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 935
+    },
+    "PRODUCTION_CUTOVER_READBACK_V1_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 23405
+    },
+    "PRODUCTION_CUTOVER_READBACK_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 875
+    },
+    "PRODUCTION_GO_TECHNICAL_READINESS_2026-09-03.md": {
+      "files": 1,
+      "logical_bytes": 6414
+    },
+    "PRODUCTION_IMPLEMENTATION_GOAL_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 6654
+    },
+    "PRODUCTION_POST_REHEARSAL_READBACK_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 774
+    },
+    "PRODUCTION_READINESS_CHECKLIST.md": {
+      "files": 1,
+      "logical_bytes": 2365
+    },
+    "PRODUCTION_READINESS_REMAINING_TASKS_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 55542
+    },
+    "PRODUCTION_REMAINING_TASKS_2026-09-29.md": {
+      "files": 1,
+      "logical_bytes": 36348
+    },
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": {
+      "files": 1,
+      "logical_bytes": 33616
+    },
+    "PRODUCTION_TASK_IMPLEMENTATION_AUDIT_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 49240
+    },
+    "PUBLIC_WEBSITE_READINESS.md": {
+      "files": 1,
+      "logical_bytes": 945
+    },
+    "QA_TEST_REPORT.md": {
+      "files": 1,
+      "logical_bytes": 1143
+    },
+    "RECOVERY_AND_LAZY_LISTS_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 3891
+    },
+    "RECOVERY_INTEGRITY_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 4742
+    },
+    "RECOVERY_RECONCILIATION_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 3913
+    },
+    "RELEASE_APPROVALS.example.json": {
+      "files": 1,
+      "logical_bytes": 2650
+    },
+    "RELEASE_APPROVALS.json": {
+      "files": 1,
+      "logical_bytes": 4053
+    },
+    "RELEASE_APPROVAL_PACKET.md": {
+      "files": 1,
+      "logical_bytes": 9573
+    },
+    "RELEASE_BLOCKERS.md": {
+      "files": 1,
+      "logical_bytes": 8486
+    },
+    "RELEASE_STATUS.md": {
+      "files": 1,
+      "logical_bytes": 11850
+    },
+    "ROBUST_LIVE_RELEASE_GOAL_2026-08-04.md": {
+      "files": 1,
+      "logical_bytes": 5606
+    },
+    "RUNTIME_ASSET_VERIFICATION_2026-09-26.md": {
+      "files": 1,
+      "logical_bytes": 3067
+    },
+    "SCREEN_BY_SCREEN_UX_AUDIT_2026-08-04.md": {
+      "files": 1,
+      "logical_bytes": 10835
+    },
+    "SECOND_ADMIN_WHATSAPP_APPROVAL_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1555
+    },
+    "SECURITY_PRIVACY_REVIEW.md": {
+      "files": 1,
+      "logical_bytes": 3631
+    },
+    "SIGNED_NATIVE_ARTIFACTS_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 58081
+    },
+    "SIGNED_NATIVE_ARTIFACTS_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 58281
+    },
+    "SIGNED_NATIVE_ARTIFACTS_V3_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 58281
+    },
+    "SMS_EDGE_CUTOVER_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 3014
+    },
+    "SOURCE_PRESERVATION_AND_TRUST_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 3452
+    },
+    "SUMMARY_DECODING_2026-09-27.md": {
+      "files": 1,
+      "logical_bytes": 5157
+    },
+    "SUPABASE_ACCESS_AND_DEPLOYMENT_PREFLIGHT_2026-09-02.md": {
+      "files": 1,
+      "logical_bytes": 6994
+    },
+    "SUPABASE_ADVISOR_DETAIL_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 346411
+    },
+    "SUPABASE_CONTINUATION_PREFLIGHT_V2_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7905
+    },
+    "SUPABASE_CONTINUATION_PREFLIGHT_V3_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 7943
+    },
+    "SUPABASE_CONTINUATION_PREFLIGHT_V4_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6345
+    },
+    "SUPABASE_CONTINUATION_PREFLIGHT_V5_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6593
+    },
+    "SUPABASE_CUTOVER_PREFLIGHT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 9695
+    },
+    "SUPABASE_EXTENSION_RECOVERY_METADATA_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 2256
+    },
+    "SUPABASE_GRAPHQL_RECOVERY_METADATA_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 1517
+    },
+    "SUPABASE_POST_CUTOVER_PREFLIGHT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6019
+    },
+    "SUPABASE_POST_PROFILE_CUTOVER_PREFLIGHT_2026-09-03.json": {
+      "files": 1,
+      "logical_bytes": 6293
+    },
+    "SUPABASE_PREFLIGHT_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 9411
+    },
+    "SUPABASE_PREFLIGHT_CURRENT_2026-09-02.json": {
+      "files": 1,
+      "logical_bytes": 9695
+    },
+    "SUPABASE_PRODUCTION_AUDIT_2026-08-09.md": {
+      "files": 1,
+      "logical_bytes": 3717
+    },
+    "UAT_EVIDENCE_MANIFEST.example.json": {
+      "files": 1,
+      "logical_bytes": 3193
+    },
+    "UAT_EVIDENCE_MANIFEST.json": {
+      "files": 1,
+      "logical_bytes": 4941
+    },
+    "UAT_EXECUTION_REPORT.md": {
+      "files": 1,
+      "logical_bytes": 1036
+    },
+    "UAT_OWNER_WAIVER_EVIDENCE_2026-08-05.md": {
+      "files": 1,
+      "logical_bytes": 1177
+    },
+    "UAT_TEST_PLAN.md": {
+      "files": 1,
+      "logical_bytes": 7261
+    },
+    "VISUAL_CANDIDATE_REVIEW_2026-09-28.md": {
+      "files": 1,
+      "logical_bytes": 4143
+    },
+    "admin-ci-build-2026-09-29": {
+      "files": 2,
+      "logical_bytes": 14236
+    },
+    "admin-full-coverage-2026-09-30": {
+      "files": 95029,
+      "logical_bytes": 19081744863
+    },
+    "admin-notification-paging-2026-09-29": {
+      "files": 6,
+      "logical_bytes": 43545
+    },
+    "admin-paging-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 5786
+    },
+    "admin-pwa-cache-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 3056
+    },
+    "admin-roster-provenance-2026-09-30": {
+      "files": 35,
+      "logical_bytes": 308076
+    },
+    "admin-roster-recovery-2026-09-30": {
+      "files": 24,
+      "logical_bytes": 265700
+    },
+    "admin-roster-reload-2026-09-30": {
+      "files": 728,
+      "logical_bytes": 10727620
+    },
+    "admin-session-actions-2026-09-30": {
+      "files": 673,
+      "logical_bytes": 9664585
+    },
+    "asset-build-hygiene-2026-09-30": {
+      "files": 3341,
+      "logical_bytes": 295507232
+    },
+    "auth-fixture-hygiene-2026-10-01": {
+      "files": 2,
+      "logical_bytes": 2050
+    },
+    "cache-session-2026-10-01": {
+      "files": 25302,
+      "logical_bytes": 1128003603
+    },
+    "collect-codex-2026-09-30": {
+      "files": 15,
+      "logical_bytes": 424531
+    },
+    "collect-codex-goal-2026-09-30": {
+      "files": 45398,
+      "logical_bytes": 1521450221
+    },
+    "collect-codex-production-2026-09-30": {
+      "files": 4,
+      "logical_bytes": 371648
+    },
+    "collect-codex-shadow-2026-09-30": {
+      "files": 39,
+      "logical_bytes": 547194
+    },
+    "critical-implementation-2026-10-01": {
+      "files": 14770,
+      "logical_bytes": 532409561
+    },
+    "critical-review-2026-10-01": {
+      "files": 49,
+      "logical_bytes": 7596188
+    },
+    "data-correctness-2026-09-30": {
+      "files": 63221,
+      "logical_bytes": 3456811790
+    },
+    "drive-evidence": {
+      "files": 5,
+      "logical_bytes": 321097
+    },
+    "edge-dependency-lock-2026-09-30": {
+      "files": 326,
+      "logical_bytes": 2130975
+    },
+    "edge-error-audit-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 6628
+    },
+    "final-local-edge-2026-10-01": {
+      "files": 236,
+      "logical_bytes": 2049796
+    },
+    "final-local-flutter-2026-10-01": {
+      "files": 18,
+      "logical_bytes": 5219076
+    },
+    "final-local-mcp-2026-10-01": {
+      "files": 25,
+      "logical_bytes": 884832
+    },
+    "financial-concurrency-2026-09-29": {
+      "files": 21,
+      "logical_bytes": 133750
+    },
+    "financial-content-binding-2026-09-29": {
+      "files": 26,
+      "logical_bytes": 122261
+    },
+    "financial-core-2026-09-28": {
+      "files": 16,
+      "logical_bytes": 89330
+    },
+    "financial-observability-2026-09-30": {
+      "files": 3722,
+      "logical_bytes": 656310822
+    },
+    "full-flutter-check-2026-09-29": {
+      "files": 2,
+      "logical_bytes": 364340
+    },
+    "gateway-reduced-motion-2026-10-01": {
+      "files": 134,
+      "logical_bytes": 11802443
+    },
+    "generated-query-benchmark-2026-10-01": {
+      "files": 7072,
+      "logical_bytes": 1604432334
+    },
+    "git-publication-2026-09-30": {
+      "files": 1,
+      "logical_bytes": 247166
+    },
+    "governed-reconciliation-2026-09-30": {
+      "files": 27,
+      "logical_bytes": 189645
+    },
+    "historical-bank-boundary-2026-09-29": {
+      "files": 2,
+      "logical_bytes": 2235
+    },
+    "historical-bank-upgrade-2026-09-29": {
+      "files": 6,
+      "logical_bytes": 35434
+    },
+    "history-pagination-2026-09-28": {
+      "files": 4,
+      "logical_bytes": 22646
+    },
+    "hosted-readback-2026-09-30": {
+      "files": 13,
+      "logical_bytes": 509394
+    },
+    "import-export-protection-2026-09-30": {
+      "files": 768,
+      "logical_bytes": 58720323
+    },
+    "import-export-protection-2026-10-01": {
+      "files": 279,
+      "logical_bytes": 25389039
+    },
+    "increment-11-adapted-review-2026-09-29": {
+      "files": 4,
+      "logical_bytes": 51643
+    },
+    "legacy-bank-scheduler-normal-owner-2026-09-30": {
+      "files": 127,
+      "logical_bytes": 2491816
+    },
+    "legacy-bank-scheduler-postsql-correction-2026-09-30": {
+      "files": 18,
+      "logical_bytes": 54506
+    },
+    "legacy-bank-scheduler-retirement-2026-09-30": {
+      "files": 30,
+      "logical_bytes": 105659
+    },
+    "local-browser-lifecycle-2026-09-30": {
+      "files": 1550,
+      "logical_bytes": 379494721
+    },
+    "local-database-runtime-2026-09-30": {
+      "files": 3860,
+      "logical_bytes": 109932100
+    },
+    "local-goal-closures-2026-09-30": {
+      "files": 13,
+      "logical_bytes": 646766
+    },
+    "local-implementation-register-2026-09-30.json": {
+      "files": 1,
+      "logical_bytes": 131164
+    },
+    "local-progress-2026-09-30": {
+      "files": 157,
+      "logical_bytes": 6675396
+    },
+    "local-schema-acl-correction-2026-10-01": {
+      "files": 34,
+      "logical_bytes": 9998541
+    },
+    "migration-version-validation-2026-09-30": {
+      "files": 4,
+      "logical_bytes": 5685
+    },
+    "mobile-design": {
+      "files": 4,
+      "logical_bytes": 268792
+    },
+    "momo-prelaunch-recheck-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 1856
+    },
+    "native-gateway-observation-2026-10-01": {
+      "files": 97,
+      "logical_bytes": 859811860
+    },
+    "native-static-analysis-2026-09-29": {
+      "files": 1,
+      "logical_bytes": 2681
+    },
+    "notification-fencing-2026-09-29": {
+      "files": 29,
+      "logical_bytes": 29829
+    },
+    "notification-protocol2-2026-09-29": {
+      "files": 28,
+      "logical_bytes": 29893
+    },
+    "notification-recovery-ui-2026-09-30": {
+      "files": 8,
+      "logical_bytes": 104156
+    },
+    "notification-session-fencing-2026-09-30": {
+      "files": 63,
+      "logical_bytes": 378455
+    },
+    "otp-uncertain-recovery-2026-09-30": {
+      "files": 197,
+      "logical_bytes": 3429611
+    },
+    "payer-identity-adversarial-2026-09-29": {
+      "files": 4,
+      "logical_bytes": 3213
+    },
+    "production-remaining-tasks-2026-09-29.json": {
+      "files": 1,
+      "logical_bytes": 134416
+    },
+    "production-remaining-tasks-2026-09-30.json": {
+      "files": 1,
+      "logical_bytes": 320369
+    },
+    "production-remaining-tasks-2026-09-30.validation.json": {
+      "files": 1,
+      "logical_bytes": 3368
+    },
+    "public-website-content-baseline.json": {
+      "files": 1,
+      "logical_bytes": 1900
+    },
+    "public-website-current-content-contract.json": {
+      "files": 1,
+      "logical_bytes": 7971
+    },
+    "push-account-isolation-2026-09-29": {
+      "files": 4,
+      "logical_bytes": 10886
+    },
+    "rapid-completion-2026-10-01": {
+      "files": 5412,
+      "logical_bytes": 671879055
+    },
+    "realtime-cache-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 3617
+    },
+    "reconciliation-ui-2026-09-30": {
+      "files": 49,
+      "logical_bytes": 370418
+    },
+    "remaining-task-snapshots-2026-09-30": {
+      "files": 3,
+      "logical_bytes": 238142
+    },
+    "repository-session-fencing-2026-09-30": {
+      "files": 6,
+      "logical_bytes": 17728
+    },
+    "revolut-design": {
+      "files": 188,
+      "logical_bytes": 27484967
+    },
+    "roster-fresh-auth-2026-09-30": {
+      "files": 83009,
+      "logical_bytes": 4413936035
+    },
+    "roster-import-provenance-2026-09-30": {
+      "files": 57,
+      "logical_bytes": 1448883
+    },
+    "roster-input-response-hardening-2026-09-29": {
+      "files": 10,
+      "logical_bytes": 21772
+    },
+    "roster-provenance-edge-2026-09-30": {
+      "files": 10,
+      "logical_bytes": 31365
+    },
+    "roster-provenance-edge-postreview-2026-09-30": {
+      "files": 11,
+      "logical_bytes": 41866
+    },
+    "roster-xlsx-hardening-2026-09-30": {
+      "files": 8,
+      "logical_bytes": 16274
+    },
+    "runtime-control-governance-2026-09-30": {
+      "files": 132,
+      "logical_bytes": 4653543
+    },
+    "runtime-controls-2026-09-30": {
+      "files": 522,
+      "logical_bytes": 7038769
+    },
+    "runtime-controls-2026-10-01": {
+      "files": 334,
+      "logical_bytes": 22381248
+    },
+    "security-amount-review-2026-10-01": {
+      "files": 6,
+      "logical_bytes": 31795
+    },
+    "security-threat-model-2026-09-28": {
+      "files": 3,
+      "logical_bytes": 33955
+    },
+    "shared-ui-accessibility-2026-09-30": {
+      "files": 2937,
+      "logical_bytes": 804587053
+    },
+    "sms-finality-containment-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 2758
+    },
+    "sms-queue-durability-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 5304
+    },
+    "supply-chain-2026-09-28": {
+      "files": 5,
+      "logical_bytes": 256839
+    },
+    "ui-truth-corrections-2026-09-28": {
+      "files": 1,
+      "logical_bytes": 1172
+    },
+    "upload-integrity-2026-09-30": {
+      "files": 587,
+      "logical_bytes": 5390051
+    },
+    "visual-regression-review-2026-10-01": {
+      "files": 16,
+      "logical_bytes": 1954297
+    },
+    "visual-review-2026-09-28": {
+      "files": 6,
+      "logical_bytes": 1762313
+    }
+  },
+  "largest_depth3_cohorts": [
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge/source-export",
+      "files": 6300,
+      "logical_bytes": 373818090
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt21-current-calendar/source-export",
+      "files": 6295,
+      "logical_bytes": 372780292
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt16-current-client/source-export",
+      "files": 6271,
+      "logical_bytes": 369632012
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt14-final-current/source-export",
+      "files": 6327,
+      "logical_bytes": 343372312
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt13-email-current/source-export",
+      "files": 6313,
+      "logical_bytes": 342961863
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt7-authority-browser/source-export",
+      "files": 6266,
+      "logical_bytes": 342060391
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt10-final-client/source-export",
+      "files": 6269,
+      "logical_bytes": 342060186
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt9-normal-privacy/source-export",
+      "files": 6268,
+      "logical_bytes": 342051950
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt6-normal-browser/source-export",
+      "files": 6265,
+      "logical_bytes": 336985870
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt23-current175-history-bridge-only/source-export",
+      "files": 6355,
+      "logical_bytes": 321431697
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt14-current-client/source-export",
+      "files": 6263,
+      "logical_bytes": 309008613
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt8-partial-response/source-export",
+      "files": 6237,
+      "logical_bytes": 285466463
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export",
+      "files": 6275,
+      "logical_bytes": 282629193
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt11-final-current-client/source-export",
+      "files": 6272,
+      "logical_bytes": 282587466
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt5/source-export",
+      "files": 6230,
+      "logical_bytes": 282059627
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export",
+      "files": 6271,
+      "logical_bytes": 281552423
+    },
+    {
+      "path": "cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/source-export",
+      "files": 6320,
+      "logical_bytes": 279874365
+    },
+    {
+      "path": "cache-session-2026-10-01/member-realtime-attempt3-current-unique-topic/source-export",
+      "files": 6320,
+      "logical_bytes": 279865166
+    },
+    {
+      "path": "cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export",
+      "files": 6317,
+      "logical_bytes": 279843823
+    },
+    {
+      "path": "cache-session-2026-10-01/member-realtime-attempt1-prior/source-export",
+      "files": 6313,
+      "logical_bytes": 279804551
+    },
+    {
+      "path": "data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export",
+      "files": 6269,
+      "logical_bytes": 279354745
+    },
+    {
+      "path": "roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export",
+      "files": 6079,
+      "logical_bytes": 277672473
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt52-root-current95-permission-fixtures/source-export",
+      "files": 1102,
+      "logical_bytes": 276702402
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt51-root-current95-cohorts/source-export",
+      "files": 1102,
+      "logical_bytes": 276697740
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/source-export",
+      "files": 1102,
+      "logical_bytes": 276419814
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt15-root/source-export",
+      "files": 1102,
+      "logical_bytes": 276410547
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/route-receipt-policy-current-attempt11/source-export",
+      "files": 1099,
+      "logical_bytes": 274885541
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export",
+      "files": 1074,
+      "logical_bytes": 274733698
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/source-export",
+      "files": 1100,
+      "logical_bytes": 274423438
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/route-private-investigation-current-attempt7/source-export",
+      "files": 1028,
+      "logical_bytes": 273976450
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/private-loaded-current-attempt8/source-export",
+      "files": 1068,
+      "logical_bytes": 273881949
+    },
+    {
+      "path": "collect-codex-goal-2026-09-30/receipt-operational-telemetry-20261002/backend-packet",
+      "files": 30,
+      "logical_bytes": 235708177
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-exceptions-tail-current-attempt6/source-export",
+      "files": 1018,
+      "logical_bytes": 230259160
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt9-permission-prior/source-export",
+      "files": 914,
+      "logical_bytes": 229581089
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/receipt-policy-preference-prior-attempt13/source-export",
+      "files": 1099,
+      "logical_bytes": 229189949
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt48-current-admin-email/source-export",
+      "files": 958,
+      "logical_bytes": 228536511
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt49-current-admin-gateway/source-export",
+      "files": 983,
+      "logical_bytes": 227862995
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/source-export",
+      "files": 946,
+      "logical_bytes": 227492471
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt55-root-raw-sms-state-diagnostic/source-export",
+      "files": 1101,
+      "logical_bytes": 227093010
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt56-root-raw-sms-rendered-refresh/source-export",
+      "files": 1101,
+      "logical_bytes": 227091472
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt54-root-raw-sms-icon-subtype/source-export",
+      "files": 1101,
+      "logical_bytes": 227086765
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt53-root-raw-sms-refresh/source-export",
+      "files": 1101,
+      "logical_bytes": 227086617
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/receipt-sdk-prior-attempt12/source-export",
+      "files": 1099,
+      "logical_bytes": 227045422
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export",
+      "files": 970,
+      "logical_bytes": 226867830
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export",
+      "files": 1067,
+      "logical_bytes": 226739495
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-current-attempt1/source-export",
+      "files": 967,
+      "logical_bytes": 226121732
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export",
+      "files": 988,
+      "logical_bytes": 225927294
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt4/source-export",
+      "files": 988,
+      "logical_bytes": 225926542
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-private-authority-prior-attempt3/source-export",
+      "files": 988,
+      "logical_bytes": 225918935
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/source-export",
+      "files": 987,
+      "logical_bytes": 225909402
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/source-export",
+      "files": 986,
+      "logical_bytes": 225875232
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/email-submit-current-attempt3/source-export",
+      "files": 971,
+      "logical_bytes": 225689599
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt43-current-utc-routes/source-export",
+      "files": 935,
+      "logical_bytes": 225540600
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-sdk-current-attempt4/source-export",
+      "files": 976,
+      "logical_bytes": 225512094
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/gateway-sdk-current-attempt3/source-export",
+      "files": 976,
+      "logical_bytes": 225511747
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export",
+      "files": 932,
+      "logical_bytes": 225399197
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/email-submit-paint-prior-attempt2/source-export",
+      "files": 964,
+      "logical_bytes": 225377872
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/operator-targeted-attempt3/source-export",
+      "files": 956,
+      "logical_bytes": 225325950
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/operator-targeted-attempt4/source-export",
+      "files": 954,
+      "logical_bytes": 225257196
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt36-values-aggregate/source-export",
+      "files": 914,
+      "logical_bytes": 225156132
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/operator-targeted-attempt1/source-export",
+      "files": 949,
+      "logical_bytes": 225115975
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export",
+      "files": 947,
+      "logical_bytes": 225101175
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt30-final-client/source-export",
+      "files": 909,
+      "logical_bytes": 225087496
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt31-final-client/source-export",
+      "files": 909,
+      "logical_bytes": 225086789
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/email-submit-paint-prior-attempt1/source-export",
+      "files": 954,
+      "logical_bytes": 225063588
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt18-current-client/source-export",
+      "files": 904,
+      "logical_bytes": 225018250
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt46-investigation-lifecycle/source-export",
+      "files": 938,
+      "logical_bytes": 224950236
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt45-investigation-current/source-export",
+      "files": 938,
+      "logical_bytes": 224948716
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/email-targeted-attempt2/source-export",
+      "files": 945,
+      "logical_bytes": 224940086
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/source-export",
+      "files": 904,
+      "logical_bytes": 224908660
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export",
+      "files": 937,
+      "logical_bytes": 224897682
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt12-expanded-client/source-export",
+      "files": 896,
+      "logical_bytes": 224861421
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt11-final-client/source-export",
+      "files": 895,
+      "logical_bytes": 224836091
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export",
+      "files": 895,
+      "logical_bytes": 224822711
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt40-targeted-current-sdk/source-export",
+      "files": 930,
+      "logical_bytes": 224685238
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt39-targeted-sdk-values/source-export",
+      "files": 929,
+      "logical_bytes": 224671598
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt41-realtime-current/source-export",
+      "files": 930,
+      "logical_bytes": 224650886
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt34-current-value-screens/source-export",
+      "files": 914,
+      "logical_bytes": 224443763
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt35-current-value-screens/source-export",
+      "files": 914,
+      "logical_bytes": 224427483
+    },
+    {
+      "path": "admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/source-export",
+      "files": 904,
+      "logical_bytes": 224404181
+    }
+  ],
+  "largest_files": [
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operational-telemetry-20261002/backend-packet/raw-evidence.tar.gz",
+      "logical_bytes": 233111441
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/collect-unsigned-builds-and-evidence.tar.gz",
+      "logical_bytes": 197836074
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/collect-accepted-local-source.tar.gz",
+      "logical_bytes": 142024221
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native4/prior-app-production-release.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native4/prior-app-production-release-unsigned.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native3/prior-app-production-release.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native3/prior-app-production-release-unsigned.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native2/prior-app-production-release.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native2/prior-app-production-release-unsigned.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native1/prior-app-production-release.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native1/prior-app-production-release-unsigned.apk",
+      "logical_bytes": 96528208
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge/source-export/build/test_cache/build/84c4188175dfe087e452a1937d52e130.cache.dill.track.dill",
+      "logical_bytes": 83143448
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt21-current-calendar/source-export/build/test_cache/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill",
+      "logical_bytes": 83132592
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/source-export/build/test_cache/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill",
+      "logical_bytes": 83128304
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt14-current-client/source-export/build/test_cache/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill",
+      "logical_bytes": 83124632
+    },
+    {
+      "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native5-current-gateway/retained-prior-gateway-unsigned.apk",
+      "logical_bytes": 82584981
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-attempt4-candidate234000/queries.log",
+      "logical_bytes": 71162592
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt7-full-current175-all-sort-cursors/queries.log",
+      "logical_bytes": 68894862
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt6-full-current167/queries.log",
+      "logical_bytes": 68050173
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/admin-current-candidate-volumes4-batched10000/volume-10000/schema154_private/container.log",
+      "logical_bytes": 67756559
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-attempt3-candidate234000/queries.log",
+      "logical_bytes": 66546456
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/admin-current-candidate-volumes3/volume-1000/schema154_private/container.log",
+      "logical_bytes": 65090120
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge/source-export/build/84c4188175dfe087e452a1937d52e130.cache.dill.track.dill",
+      "logical_bytes": 63840984
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt5-candidate235000/queries.log",
+      "logical_bytes": 63575613
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt21-current-calendar/source-export/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill",
+      "logical_bytes": 63346944
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt52-root-current95-permission-fixtures/source-export/build/test_cache/build/ecfba6125e4e3aa2661f3a9071b143bc.cache.dill.track.dill",
+      "logical_bytes": 62921824
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt51-root-current95-cohorts/source-export/build/test_cache/build/a902d8dfa5ea1662a4a7d718f248c7df.cache.dill.track.dill",
+      "logical_bytes": 62918608
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/source-export/build/test_cache/build/a29d2ac2730d2ff083e88df821933072.cache.dill.track.dill",
+      "logical_bytes": 62638096
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt15-root/source-export/build/test_cache/build/730d6974e850c70217bdf23c945f2ec6.cache.dill.track.dill",
+      "logical_bytes": 62634640
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-prior-attempt13/source-export/build/test_cache/build/061355f6f49b87e1755a5a6b5105a5ce.cache.dill.track.dill",
+      "logical_bytes": 62627840
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/collect-integrated-browser-and-evidence.tar.gz",
+      "logical_bytes": 62312672
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/private-entity-receipt-current-attempt10/source-export/build/test_cache/build/10251c0ab62faff35b6eaa2ad66d199f.cache.dill.track.dill",
+      "logical_bytes": 61226576
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/route-receipt-policy-current-attempt11/source-export/build/test_cache/build/c39dbf5231ac6f43c1b996e216366944.cache.dill.track.dill",
+      "logical_bytes": 61157728
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-exceptions-tail-current-attempt6/source-export/build/test_cache/build/c2505573497ca7e4c4db6070e780e0c2.cache.dill.track.dill",
+      "logical_bytes": 61035664
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/route-private-investigation-current-attempt7/source-export/build/test_cache/build/3ee902c14b6b877198b94285704537fd.cache.dill.track.dill",
+      "logical_bytes": 60999904
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt49-current-admin-gateway/source-export/build/test_cache/build/28cc0cc8f759624e4664a16fca8dd08e.cache.dill.track.dill",
+      "logical_bytes": 60927880
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/build/test_cache/build/4d520e34bf7f10e87ef0179a658eed22.cache.dill.track.dill",
+      "logical_bytes": 60894304
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt1/source-export/build/test_cache/build/1ec949368a7d0304badb60e563f143ac.cache.dill.track.dill",
+      "logical_bytes": 60880352
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt48-current-admin-email/source-export/build/test_cache/build/4b853f284df3b9f23d4a4f48917c258e.cache.dill.track.dill",
+      "logical_bytes": 60771392
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt4-candidate235000/queries.log",
+      "logical_bytes": 60771283
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/source-export/build/test_cache/build/feb26c54b21b89794cf003bff1ee529d.cache.dill.track.dill",
+      "logical_bytes": 60746736
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/source-export/build/test_cache/build/f1c0c56d39f18f192f5fdef49a97b9ec.cache.dill.track.dill",
+      "logical_bytes": 60668184
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt43-current-utc-routes/source-export/build/test_cache/build/b27b3ce8a5a2242952655aa435120871.cache.dill.track.dill",
+      "logical_bytes": 60644872
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/build/test_cache/build/a31a0900c11684fd8ab38f11596ccdee.cache.dill.track.dill",
+      "logical_bytes": 60551312
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt55-root-raw-sms-state-diagnostic/source-export/build/test_cache/build/33ae5a23043c68b24e2fc3bd5118d051.cache.dill.track.dill",
+      "logical_bytes": 60501152
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt56-root-raw-sms-rendered-refresh/source-export/build/test_cache/build/4bd03ec08738b531b3302f5ef6bbbd70.cache.dill.track.dill",
+      "logical_bytes": 60500432
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt36-values-aggregate/source-export/build/test_cache/build/beb75870ffc7c114b7fdabcef28f3276.cache.dill.track.dill",
+      "logical_bytes": 60499472
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt54-root-raw-sms-icon-subtype/source-export/build/test_cache/build/58e70acffe928a736dfa2e651fc1ccc9.cache.dill.track.dill",
+      "logical_bytes": 60498728
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt53-root-raw-sms-refresh/source-export/build/test_cache/build/8c7ca0fe3186ed2aff51807501f68d78.cache.dill.track.dill",
+      "logical_bytes": 60497288
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-sdk-prior-attempt12/source-export/build/test_cache/build/0841cf9a19bd96843ee78a3f63e00338.cache.dill.track.dill",
+      "logical_bytes": 60485416
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt31-final-client/source-export/build/test_cache/build/ec420729d3c38cd313364ac445d001fd.cache.dill.track.dill",
+      "logical_bytes": 60481808
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt30-final-client/source-export/build/test_cache/build/0792efa2f1225fc263e1c910be864024.cache.dill.track.dill",
+      "logical_bytes": 60481808
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt18-current-client/source-export/build/test_cache/build/1356cd32905e005372c5a452597fe33a.cache.dill.track.dill",
+      "logical_bytes": 60473608
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/source-export/build/test_cache/build/76e114787447f15823f8c9a7a3b4af7c.cache.dill.track.dill",
+      "logical_bytes": 60454408
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt16-current-client/source-export/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill",
+      "logical_bytes": 60453792
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/private-loaded-current-attempt8/source-export/build/test_cache/build/5355555e37f7f697d88db9d04942f741.cache.dill.track.dill",
+      "logical_bytes": 60451904
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt12-expanded-client/source-export/build/test_cache/build/a0943f9538d398256203c27f29e21daa.cache.dill.track.dill",
+      "logical_bytes": 60403656
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt5/source-export/build/test_cache/build/28e6fc3ada4ebd52a78f8da0f6b6c430.cache.dill.track.dill",
+      "logical_bytes": 60403048
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-current-attempt4/source-export/build/test_cache/build/a70ab38256630c94b31fc31af75ea243.cache.dill.track.dill",
+      "logical_bytes": 60403048
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/source-export/build/test_cache/build/c28744a9d9c95cc185ea4970b964d908.cache.dill.track.dill",
+      "logical_bytes": 60398720
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-private-authority-prior-attempt3/source-export/build/test_cache/build/addb3bf2010ab3416f0dd4e185572c36.cache.dill.track.dill",
+      "logical_bytes": 60397600
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt11-final-client/source-export/build/test_cache/build/562848180a9db2dc2124f2d558271848.cache.dill.track.dill",
+      "logical_bytes": 60394872
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt1/source-export/build/test_cache/build/ece562324822f1643b5fbb6ef88fbd1a.cache.dill.track.dill",
+      "logical_bytes": 60392184
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export/build/test_cache/build/a3f8b88a0de98ab7610b6d42043e8452.cache.dill.track.dill",
+      "logical_bytes": 60388584
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt16-compact-refresh/source-export/build/test_cache/build/2fa22ef079c1564192f2c8005dde9fee.cache.dill.track.dill",
+      "logical_bytes": 60374176
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt14-final-current/source-export/build/test_cache/build/36e3a9dd29eaa3b08dcafef8b587b0e9.cache.dill.track.dill",
+      "logical_bytes": 60239088
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-submit-current-attempt3/source-export/build/test_cache/build/503bf0b20fb92d3dbfb5ceb5a6bb842a.cache.dill.track.dill",
+      "logical_bytes": 60192792
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-sdk-current-attempt4/source-export/build/test_cache/build/61bc54613417cd0ede0b66bc45dd46dc.cache.dill.track.dill",
+      "logical_bytes": 60121784
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/gateway-sdk-current-attempt3/source-export/build/test_cache/build/2bf9b3b9e46c920c627f4358e789ecd3.cache.dill.track.dill",
+      "logical_bytes": 60120616
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt13-email-current/source-export/build/test_cache/build/b8b1c24553193fc6039f0003160f7964.cache.dill.track.dill",
+      "logical_bytes": 60097040
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt4/source-export/build/test_cache/build/7e773ef9de3db7bf21f2c06dfd564aaf.cache.dill.track.dill",
+      "logical_bytes": 60092304
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt3/source-export/build/test_cache/build/b4f3962d41c40cbc3dd1121d6e8acf6c.cache.dill.track.dill",
+      "logical_bytes": 60088936
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt1/source-export/build/test_cache/build/460e2ec2a764b12286931f7a59e17398.cache.dill.track.dill",
+      "logical_bytes": 60054248
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-submit-paint-prior-attempt2/source-export/build/test_cache/build/96ee0637c765200b84cd1a2a714d8340.cache.dill.track.dill",
+      "logical_bytes": 60025456
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/build/test_cache/build/d97101ce1878ae6c56c51b483065af5a.cache.dill.track.dill",
+      "logical_bytes": 60018320
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt46-investigation-lifecycle/source-export/build/test_cache/build/a6270184a258da16a1417d61d5008921.cache.dill.track.dill",
+      "logical_bytes": 59997376
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt45-investigation-current/source-export/build/test_cache/build/e8740148524b9ec2d393f19efff9214e.cache.dill.track.dill",
+      "logical_bytes": 59996096
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt44-investigation-prior/source-export/build/test_cache/build/20ef7e198bdb04201dc6e382f22810ae.cache.dill.track.dill",
+      "logical_bytes": 59968240
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-submit-paint-prior-attempt1/source-export/build/test_cache/build/e4e08bc3f070fa09518678bd41bcec10.cache.dill.track.dill",
+      "logical_bytes": 59953056
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt2/source-export/build/test_cache/build/42fd12a22c45ef590a287d090813c721.cache.dill.track.dill",
+      "logical_bytes": 59933384
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt10-final-client/source-export/build/test_cache/build/a95eb1db56c63600bb5933b878881ee8.cache.dill.track.dill",
+      "logical_bytes": 59868440
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt8-partial-response/source-export/build/test_cache/build/0938bfb748957741a827049ed2a9bb51.cache.dill.track.dill",
+      "logical_bytes": 59867208
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt7-authority-browser/source-export/build/test_cache/build/095033e5695be9fcc1c94612e0b4ca3d.cache.dill.track.dill",
+      "logical_bytes": 59866064
+    },
+    {
+      "path": "docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt9-normal-privacy/source-export/build/test_cache/build/432b7d661fc6cf389fffb7380c7091e8.cache.dill.track.dill",
+      "logical_bytes": 59864304
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt40-targeted-current-sdk/source-export/build/test_cache/build/687413d838624a0bfb1667f19c2bed45.cache.dill.track.dill",
+      "logical_bytes": 59863864
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt39-targeted-sdk-values/source-export/build/test_cache/build/7100ffbf57d61306e07a1bd1d2eb44f7.cache.dill.track.dill",
+      "logical_bytes": 59863192
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt17-retained-identity-prior/source-export/build/test_cache/build/8717619246d584ba3d563a5a5909d504.cache.dill.track.dill",
+      "logical_bytes": 59862048
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt41-realtime-current/source-export/build/test_cache/build/5fa63894296a822e5a203481be43f94d.cache.dill.track.dill",
+      "logical_bytes": 59823256
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt29-profile-feature/source-export/build/test_cache/build/dc8a40707cde460806d4bd8fcb10f92b.cache.dill.track.dill",
+      "logical_bytes": 59797008
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt28-custom-actions/source-export/build/test_cache/build/ccbdcb19283c587cfd7690f76ae8f066.cache.dill.track.dill",
+      "logical_bytes": 59789552
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt27-custom-actions/source-export/build/test_cache/build/06178c47e94480cfa603c606b1a69be4.cache.dill.track.dill",
+      "logical_bytes": 59788488
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt34-current-value-screens/source-export/build/test_cache/build/a288f2ca874a293b724ae3151f09e66d.cache.dill.track.dill",
+      "logical_bytes": 59787776
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt26-dialog-real-clock/source-export/build/test_cache/build/1bc2c29ce699710232913cdabe110744.cache.dill.track.dill",
+      "logical_bytes": 59787432
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt25-dialog-trace/source-export/build/test_cache/build/d98937d1087bede9fa02a71ed72ed691.cache.dill.track.dill",
+      "logical_bytes": 59780752
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt23-dialog-lifetime/source-export/build/test_cache/build/7e41772ee00ef1d4ba86f53abd862051.cache.dill.track.dill",
+      "logical_bytes": 59780176
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt24-dialog-first/source-export/build/test_cache/build/183be3d05c2ec60116394d7c0d50deed.cache.dill.track.dill",
+      "logical_bytes": 59779728
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt22-custom-actions/source-export/build/test_cache/build/ce96793fab2abfa03b1e4cb17b5a4aad.cache.dill.track.dill",
+      "logical_bytes": 59777288
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt35-current-value-screens/source-export/build/test_cache/build/35ae9748567813346344c12cb9828d6b.cache.dill.track.dill",
+      "logical_bytes": 59770816
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt15-sensitive-paging/source-export/build/test_cache/build/33f572e94e799996e76960ca63864586.cache.dill.track.dill",
+      "logical_bytes": 59744832
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt20-explicit-transport/source-export/build/test_cache/build/a6bfa8cfb560915e3566efbefef12653.cache.dill.track.dill",
+      "logical_bytes": 59726200
+    }
+  ],
+  "symlink_count": 2,
+  "symlinks": [
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/private-derivative/supabase",
+      "target_text_sha256": "ff64dd3125e01bedef638325cd54272d16a54f5764e0e729715381a8ca71f058",
+      "target_is_absolute": true,
+      "target_exists_at_readback": true,
+      "followed": false
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/private-derivative/tools/collect-notification-mcp/node_modules",
+      "target_text_sha256": "d218fb6bf8e672000dea5058b2bec83cc0fa8aab1891f8a90970da2661a42587",
+      "target_is_absolute": true,
+      "target_exists_at_readback": true,
+      "followed": false
+    }
+  ],
+  "special_entries": [],
+  "read_errors": [],
+  "excluded_paths": [
+    "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1"
+  ],
+  "limits": [
+    "Single live metadata census; other workers can create/modify evidence during traversal.",
+    "Symlink targets inventoried by hash/existence but never traversed.",
+    "File bodies not opened; no blanket content hashes, customer/secret scan, ownership or retention classification inferred.",
+    "Allocated bytes can double count hardlinks/APFS clones; logical bytes do not equal space safely reclaimable.",
+    "Own packet excluded to avoid self-counting; Git ignored content included."
+  ],
+  "inventory_sha256": "36ea95cba947e5e9a192fc4060bb120a1c0bcb9f1529f73aea0131f840ceee16",
+  "removed_files": 0
+}

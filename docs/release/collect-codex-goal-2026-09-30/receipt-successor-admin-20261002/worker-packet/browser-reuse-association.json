@@ -1,0 +1,17 @@
+{
+  "source_command": "proofs/browser-attempt1/result.json",
+  "current_command": "proofs/acceptance-current1/result.json",
+  "browser_local_inputs": {
+    "lib/admin/core/admin_receipt_cancel_models.dart": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7",
+    "lib/admin/core/admin_receipt_successor_checkpoint.dart": "3ab0bf747354349d1b2ff375994599fc5153b0a8750a8b7e994f2c1614648762",
+    "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0",
+    "lib/admin/core/admin_receipt_successor_checkpoint_web.dart": "2aa002583e641648c5cddf7ecc116357f1c51ff6a898475cccfcfc8f74d653f3",
+    "lib/admin/core/admin_receipt_successor_models.dart": "fa80e93d179436d21244006268ad7affb2cec2e97a6d5cc9b2991c23d26880c3",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "test/admin_receipt_successor_checkpoint_browser_test.dart": "c03ea538e86c8ca3a4611b5c0476b01b887e820608dcd3b649cec793b0b1349d"
+  },
+  "local_input_count": 7,
+  "external_dependency_vector_equal": true,
+  "actual_case_count": 2,
+  "reason": "Only other VM/widget/transitive logger/startup files changed; browser checkpoint graph and exact current Chrome binaries remain unchanged."
+}

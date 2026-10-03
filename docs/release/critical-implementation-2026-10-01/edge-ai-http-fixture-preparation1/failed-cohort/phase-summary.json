@@ -1,0 +1,25 @@
+{
+  "canonical_status": "fail",
+  "elapsed_seconds": 15.269070709000516,
+  "runner_contract_tests": 77,
+  "types": 86,
+  "unit_files": 32,
+  "unit_tests": 643,
+  "unit_steps": 32,
+  "unit_failed": 0,
+  "unit_ignored": 0,
+  "http_checks": 91,
+  "http_passed": 84,
+  "http_failed": 7,
+  "linux_decoder": "not reached",
+  "signed_linux_http": "not reached",
+  "decoder_regressions": "not reached",
+  "same_image_security": "not reached",
+  "whole_build_linux_deadlines": [
+    1200,
+    300,
+    600
+  ],
+  "full_invocations": 1,
+  "unit_summary_source": "canonical/units/validation.json"
+}

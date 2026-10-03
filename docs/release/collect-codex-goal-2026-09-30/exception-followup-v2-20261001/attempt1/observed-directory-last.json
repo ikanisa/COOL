@@ -1,0 +1,40 @@
+{
+  "rows": [
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000006",
+      "display_label": "Collect ID 553544"
+    },
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000005",
+      "display_label": "Collect ID 768549"
+    },
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000004",
+      "display_label": "Collect ID 813717"
+    },
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000003",
+      "display_label": "Collect ID 538730"
+    },
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000002",
+      "display_label": "Collect ID 788882"
+    },
+    {
+      "created_at": "2026-09-30T14:48:43.000000Z",
+      "operator_id": "99880000-0000-4000-8000-000000000001",
+      "display_label": "Collect ID 874579"
+    }
+  ],
+  "limit": 25,
+  "scope": "platform_global",
+  "checked_at": "2026-10-01T14:48:45.354691Z",
+  "next_cursor": null,
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T14:49:45.354691Z"
+}

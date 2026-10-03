@@ -1,0 +1,144 @@
+{
+  "observed_at_utc": "2026-10-02T03:06:37.408801+00:00",
+  "physical_manifest_copies": [
+    {
+      "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/dated12-edge-functions.json",
+      "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/endpoint-inventory/datetime-bound12-edge-functions.json",
+      "before": {
+        "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+        "bytes": 3836,
+        "mode": 420,
+        "identity": [
+          16777247,
+          17239684,
+          420,
+          3836,
+          1790909517579084024,
+          1790909517579100357,
+          1
+        ]
+      },
+      "copied": {
+        "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+        "bytes": 3836,
+        "mode": 420,
+        "identity": [
+          16777247,
+          17269397,
+          420,
+          3836,
+          1790910397407159609,
+          1790910397407188109,
+          1
+        ]
+      },
+      "after": {
+        "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+        "bytes": 3836,
+        "mode": 420,
+        "identity": [
+          16777247,
+          17239684,
+          420,
+          3836,
+          1790909517579084024,
+          1790909517579100357,
+          1
+        ]
+      }
+    },
+    {
+      "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/contracts/edge-functions.json",
+      "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/endpoint-inventory/current13-edge-functions.json",
+      "before": {
+        "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2",
+        "bytes": 4243,
+        "mode": 420,
+        "identity": [
+          16777247,
+          15904058,
+          420,
+          4243,
+          1790909056093043356,
+          1790909056093089315,
+          1
+        ]
+      },
+      "copied": {
+        "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2",
+        "bytes": 4243,
+        "mode": 420,
+        "identity": [
+          16777247,
+          17269398,
+          420,
+          4243,
+          1790910397407496443,
+          1790910397407518610,
+          1
+        ]
+      },
+      "after": {
+        "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2",
+        "bytes": 4243,
+        "mode": 420,
+        "identity": [
+          16777247,
+          15904058,
+          420,
+          4243,
+          1790909056093043356,
+          1790909056093089315,
+          1
+        ]
+      }
+    }
+  ],
+  "private_source_count": 140,
+  "private_config_sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+  "private_dated_endpoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "private_runtime_loader_count": 12,
+  "current_source_count": 144,
+  "current_config_sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+  "current_intended_endpoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "current_typed_manifest_count": 13,
+  "current_added_source_paths": [
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts",
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts",
+    "supabase/functions/collect-receipt-successor-gateway/index.ts",
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts"
+  ],
+  "current_changed_source_paths": [
+    "supabase/config.toml"
+  ],
+  "current_intended_gateway_execution_claimed": false,
+  "hosted_active_endpoint_inventory_verified": false,
+  "current_checkout_whole_acceptance": false
+}

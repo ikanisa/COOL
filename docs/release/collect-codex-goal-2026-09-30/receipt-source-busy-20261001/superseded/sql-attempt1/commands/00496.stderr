@@ -1,0 +1,77 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 21:44:06.421 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 21:44:06.424 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 21:44:06.426 UTC [177] LOG:  database system was shut down at 2026-10-01 21:44:06 UTC
+2026-10-01 21:44:06.428 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 21:44:06.431 UTC [181] LOG:  pg_cron scheduler started
+2026-10-01 21:44:45.876 UTC [3250] WARNING:  there is already a transaction in progress
+2026-10-01 21:44:45.877 UTC [3250] ERROR:  receipt_source_busy_predecessor_drift:collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)
+2026-10-01 21:44:45.877 UTC [3250] CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+2026-10-01 21:44:45.877 UTC [3250] STATEMENT:  do $guard$ declare expected record;oid_value oid;actual_constraint text;begin
+	 for expected in select * from(values
+	 ('collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)','e0caafdfd15bf90a5c91af49f6394432aacf4d48c083ee731e601dcc883021ea'),
+	 ('collect_ops.receipt_exception_source(text,uuid)','e5fa8846cd39550b3f5a4ef51a1e3409a149304a09abd84cb007fc543ec86c3a')
+	 )v(signature,body_sha256)loop
+	  oid_value:=to_regprocedure(expected.signature);
+	  if oid_value is null or (select encode(extensions.digest(prosrc,'sha256'),'hex')from pg_proc where oid=oid_value)
+	   is distinct from expected.body_sha256 then
+	   raise exception 'receipt_source_busy_predecessor_drift:%',expected.signature using errcode='55000';end if;
+	 end loop;
+	 select pg_get_constraintdef(oid)into actual_constraint from pg_constraint
+	 where conrelid='collect_ops.exceptions'::regclass and conname='exceptions_reason_code_check'
+	  and contype='c'and convalidated and not connoinherit;
+	 if actual_constraint is distinct from $expected$CHECK ((reason_code = ANY (ARRAY['PARSING_FAILED'::text, 'ALLOCATION_REVIEW'::text, 'VERIFICATION_PENDING'::text, 'VERIFICATION_REJECTED'::text, 'VERIFICATION_CONFLICT'::text, 'CONTACT_MISSING'::text, 'SEND_UNCERTAIN'::text, 'SEND_FAILED_NO_SEND'::text, 'RECEIPT_SUPPRESSED'::text, 'GATEWAY_UNOBSERVED'::text, 'GATEWAY_STALE'::text, 'GATEWAY_SMS_PERMISSION'::text, 'GATEWAY_NETWORK'::text, 'GATEWAY_TELEPHONY'::text, 'GATEWAY_SIM'::text, 'RECEIPT_OPERATION_SOURCE_CHANGED'::text, 'RECEIPT_OPERATION_PAYMENT_NOT_POSTED'::text, 'RECEIPT_OPERATION_SNAPSHOT_MISSING'::text, 'RECEIPT_OPERATION_RECIPIENT_INELIGIBLE'::text, 'RECEIPT_OPERATION_POLICY_DISABLED'::text, 'RECEIPT_OPERATION_CONSENT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_POLICY_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CONSENT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CATCHUP_DISABLED'::text, 'RECEIPT_OPERATION_CATCHUP_WINDOW_EXCEEDED'::text, 'RECEIPT_OPERATION_CONTENT_REFUSED'::text, 'RECEIPT_OPERATION_LEGACY_CONTENT_REVIEW_REQUIRED'::text, 'RECEIPT_OPERATION_QUOTA_EXHAUSTED'::text])))$expected$then
+	  raise exception 'receipt_source_busy_constraint_drift'using errcode='55000';end if;
+	end $guard$;
+2026-10-01 21:44:46.143 UTC [3271] WARNING:  there is already a transaction in progress
+2026-10-01 21:44:46.145 UTC [3271] ERROR:  receipt_source_busy_predecessor_drift:collect_ops.receipt_exception_source(text,uuid)
+2026-10-01 21:44:46.145 UTC [3271] CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+2026-10-01 21:44:46.145 UTC [3271] STATEMENT:  do $guard$ declare expected record;oid_value oid;actual_constraint text;begin
+	 for expected in select * from(values
+	 ('collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)','e0caafdfd15bf90a5c91af49f6394432aacf4d48c083ee731e601dcc883021ea'),
+	 ('collect_ops.receipt_exception_source(text,uuid)','e5fa8846cd39550b3f5a4ef51a1e3409a149304a09abd84cb007fc543ec86c3a')
+	 )v(signature,body_sha256)loop
+	  oid_value:=to_regprocedure(expected.signature);
+	  if oid_value is null or (select encode(extensions.digest(prosrc,'sha256'),'hex')from pg_proc where oid=oid_value)
+	   is distinct from expected.body_sha256 then
+	   raise exception 'receipt_source_busy_predecessor_drift:%',expected.signature using errcode='55000';end if;
+	 end loop;
+	 select pg_get_constraintdef(oid)into actual_constraint from pg_constraint
+	 where conrelid='collect_ops.exceptions'::regclass and conname='exceptions_reason_code_check'
+	  and contype='c'and convalidated and not connoinherit;
+	 if actual_constraint is distinct from $expected$CHECK ((reason_code = ANY (ARRAY['PARSING_FAILED'::text, 'ALLOCATION_REVIEW'::text, 'VERIFICATION_PENDING'::text, 'VERIFICATION_REJECTED'::text, 'VERIFICATION_CONFLICT'::text, 'CONTACT_MISSING'::text, 'SEND_UNCERTAIN'::text, 'SEND_FAILED_NO_SEND'::text, 'RECEIPT_SUPPRESSED'::text, 'GATEWAY_UNOBSERVED'::text, 'GATEWAY_STALE'::text, 'GATEWAY_SMS_PERMISSION'::text, 'GATEWAY_NETWORK'::text, 'GATEWAY_TELEPHONY'::text, 'GATEWAY_SIM'::text, 'RECEIPT_OPERATION_SOURCE_CHANGED'::text, 'RECEIPT_OPERATION_PAYMENT_NOT_POSTED'::text, 'RECEIPT_OPERATION_SNAPSHOT_MISSING'::text, 'RECEIPT_OPERATION_RECIPIENT_INELIGIBLE'::text, 'RECEIPT_OPERATION_POLICY_DISABLED'::text, 'RECEIPT_OPERATION_CONSENT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_POLICY_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CONSENT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CATCHUP_DISABLED'::text, 'RECEIPT_OPERATION_CATCHUP_WINDOW_EXCEEDED'::text, 'RECEIPT_OPERATION_CONTENT_REFUSED'::text, 'RECEIPT_OPERATION_LEGACY_CONTENT_REVIEW_REQUIRED'::text, 'RECEIPT_OPERATION_QUOTA_EXHAUSTED'::text])))$expected$then
+	  raise exception 'receipt_source_busy_constraint_drift'using errcode='55000';end if;
+	end $guard$;
+2026-10-01 21:44:46.409 UTC [3285] WARNING:  there is already a transaction in progress
+2026-10-01 21:44:46.412 UTC [3285] ERROR:  receipt_source_busy_constraint_drift
+2026-10-01 21:44:46.412 UTC [3285] CONTEXT:  PL/pgSQL function inline_code_block line 15 at RAISE
+2026-10-01 21:44:46.412 UTC [3285] STATEMENT:  do $guard$ declare expected record;oid_value oid;actual_constraint text;begin
+	 for expected in select * from(values
+	 ('collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)','e0caafdfd15bf90a5c91af49f6394432aacf4d48c083ee731e601dcc883021ea'),
+	 ('collect_ops.receipt_exception_source(text,uuid)','e5fa8846cd39550b3f5a4ef51a1e3409a149304a09abd84cb007fc543ec86c3a')
+	 )v(signature,body_sha256)loop
+	  oid_value:=to_regprocedure(expected.signature);
+	  if oid_value is null or (select encode(extensions.digest(prosrc,'sha256'),'hex')from pg_proc where oid=oid_value)
+	   is distinct from expected.body_sha256 then
+	   raise exception 'receipt_source_busy_predecessor_drift:%',expected.signature using errcode='55000';end if;
+	 end loop;
+	 select pg_get_constraintdef(oid)into actual_constraint from pg_constraint
+	 where conrelid='collect_ops.exceptions'::regclass and conname='exceptions_reason_code_check'
+	  and contype='c'and convalidated and not connoinherit;
+	 if actual_constraint is distinct from $expected$CHECK ((reason_code = ANY (ARRAY['PARSING_FAILED'::text, 'ALLOCATION_REVIEW'::text, 'VERIFICATION_PENDING'::text, 'VERIFICATION_REJECTED'::text, 'VERIFICATION_CONFLICT'::text, 'CONTACT_MISSING'::text, 'SEND_UNCERTAIN'::text, 'SEND_FAILED_NO_SEND'::text, 'RECEIPT_SUPPRESSED'::text, 'GATEWAY_UNOBSERVED'::text, 'GATEWAY_STALE'::text, 'GATEWAY_SMS_PERMISSION'::text, 'GATEWAY_NETWORK'::text, 'GATEWAY_TELEPHONY'::text, 'GATEWAY_SIM'::text, 'RECEIPT_OPERATION_SOURCE_CHANGED'::text, 'RECEIPT_OPERATION_PAYMENT_NOT_POSTED'::text, 'RECEIPT_OPERATION_SNAPSHOT_MISSING'::text, 'RECEIPT_OPERATION_RECIPIENT_INELIGIBLE'::text, 'RECEIPT_OPERATION_POLICY_DISABLED'::text, 'RECEIPT_OPERATION_CONSENT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_MISSING'::text, 'RECEIPT_OPERATION_CONTACT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_POLICY_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CONSENT_HISTORY_UNPROVEN'::text, 'RECEIPT_OPERATION_CATCHUP_DISABLED'::text, 'RECEIPT_OPERATION_CATCHUP_WINDOW_EXCEEDED'::text, 'RECEIPT_OPERATION_CONTENT_REFUSED'::text, 'RECEIPT_OPERATION_LEGACY_CONTENT_REVIEW_REQUIRED'::text, 'RECEIPT_OPERATION_QUOTA_EXHAUSTED'::text])))$expected$then
+	  raise exception 'receipt_source_busy_constraint_drift'using errcode='55000';end if;
+	end $guard$;
+2026-10-01 21:44:57.590 UTC [3703] ERROR:  invalid input syntax for type timestamp with time zone: "receipt_event" at character 60
+2026-10-01 21:44:57.590 UTC [3703] STATEMENT:  select public.admin_list_operational_exceptions_v2(true,20,'receipt_event',null,null);

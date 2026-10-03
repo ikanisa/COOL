@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T02:55:52.208508+00:00",
+  "preparation_sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288",
+  "matrix_sha256": "7aa445535904a39a3fda095cbd8a8ee5a4993c0407e92f251a84960485cb1794",
+  "independently_checked_packet_leaves": 6,
+  "independently_checked_current_matrix_file_rows": 158,
+  "source_files": 140,
+  "all_offline_inputs": 13,
+  "publisher_receipt_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "initial_cache_files": 0,
+  "output_absent": true,
+  "admitted": "One complete frozen140 canonical run, unchanged tests/deadlines/network/provider denial; explicit13 offline inputs and original reviewed helper. No current144/13whole or production acceptance inferred.",
+  "errors": []
+}

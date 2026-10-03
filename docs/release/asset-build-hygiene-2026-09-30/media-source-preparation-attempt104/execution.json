@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "checked_at": "2026-09-30T23:51:20.789789+00:00",
+  "accepted_runtime_packet_sha256": "31a1ce731e7fa7224a617dfa08802c799391aba26a7ad5c5f1b6ef98cd5dbcda",
+  "accepted_preparation_packet_sha256": "79a7c21172f7ef65c01b9bc24592352e9fed01a3848e6f49bb5a5c781a73a18b",
+  "current_tooling_receipt_sha256": "20b5a93c485e8064ada0667aea703b551b7e99be3df970fe160be59c74c90c66",
+  "prior_successful_compilation_report_sha256": "ed10aed8f5e9b8a10de05242a95c07ba747ae523f662ddf7e05f0801c05985e4",
+  "source_file_count": 329,
+  "complete_current_browser_graph_matches_accepted_export": true,
+  "generated_bindings_match_actual_compilation": true,
+  "critical_sdk_bytes_unchanged": true,
+  "historical_export_mutated": false,
+  "scope": "Current independent Public fixture graph acceptance and strict compiler reuse preconditions; no full application/native or visual acceptance"
+}

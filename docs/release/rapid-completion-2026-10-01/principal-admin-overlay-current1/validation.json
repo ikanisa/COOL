@@ -1,0 +1,3203 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "label": "pub",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1",
+      "exit_code": 0,
+      "seconds": 9.416,
+      "stdout_sha256": "df36ba3f394f70ab1d9d44b0af31ed83e767734e12dd63b9daeba06fecb3024f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "format",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/core/admin_automations_page.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+        "lib/admin/core/admin_receipt_principal_runtime.dart",
+        "lib/admin/core/admin_receipt_principal_card.dart",
+        "lib/admin/core/admin_receipt_principal_models.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+        "lib/admin/core/admin_receipt_principal_controller.dart",
+        "test/admin_receipt_principal_models_test.dart",
+        "test/admin_receipt_principal_recovery_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_exception_workflow_test.dart",
+        "test/admin_exception_workflow_sdk_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_route_access_test.dart",
+        "test/admin_declared_route_states_test.dart",
+        "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+        "test/admin_exception_checkpoint_browser_test.dart",
+        "test/admin_gateway_checkpoint_browser_test.dart",
+        "test/admin_roster_bookmark_browser_test.dart",
+        "test/admin_receipt_operations_checkpoint_browser_test.dart",
+        "test/admin_receipt_principal_browser_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1",
+      "exit_code": 1,
+      "seconds": 1.406,
+      "stdout_sha256": "5b57ec2ff0b1ba8d4ae7218a73fdcb726b8e1c1e2d45c347d7e862a460006061",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "analysis",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/admin/core/admin_automations_page.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+        "lib/admin/core/admin_receipt_principal_runtime.dart",
+        "lib/admin/core/admin_receipt_principal_card.dart",
+        "lib/admin/core/admin_receipt_principal_models.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+        "lib/admin/core/admin_receipt_principal_controller.dart",
+        "test/admin_receipt_principal_models_test.dart",
+        "test/admin_receipt_principal_recovery_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_exception_workflow_test.dart",
+        "test/admin_exception_workflow_sdk_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_route_access_test.dart",
+        "test/admin_declared_route_states_test.dart",
+        "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+        "test/admin_exception_checkpoint_browser_test.dart",
+        "test/admin_gateway_checkpoint_browser_test.dart",
+        "test/admin_roster_bookmark_browser_test.dart",
+        "test/admin_receipt_operations_checkpoint_browser_test.dart",
+        "test/admin_receipt_principal_browser_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1",
+      "exit_code": 0,
+      "seconds": 48.61,
+      "stdout_sha256": "201b20aafb2a550344997ac8a3773dc4a4114f1552f00166b93540b31e8c0052",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "vm",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=json",
+        "--concurrency=1",
+        "test/admin_receipt_principal_models_test.dart",
+        "test/admin_receipt_principal_recovery_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_exception_workflow_test.dart",
+        "test/admin_exception_workflow_sdk_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_route_access_test.dart",
+        "test/admin_declared_route_states_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1",
+      "exit_code": 1,
+      "seconds": 461.753,
+      "stdout_sha256": "1a54a0e0452e92eb2059409f51587e05c3acf7c5b61b6953b26341a57d33497b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "chrome",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--platform=chrome",
+        "--reporter=json",
+        "--concurrency=1",
+        "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+        "test/admin_exception_checkpoint_browser_test.dart",
+        "test/admin_gateway_checkpoint_browser_test.dart",
+        "test/admin_roster_bookmark_browser_test.dart",
+        "test/admin_receipt_operations_checkpoint_browser_test.dart",
+        "test/admin_receipt_principal_browser_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1",
+      "exit_code": 0,
+      "seconds": 43.777,
+      "stdout_sha256": "d1fc0b51c427ab9a1c2d2ba4fe9528c47595c4963d7e797ed0a3b74b94a06f59",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "vm": {
+    "cases": [
+      {
+        "name": "public text accepts bounded flat metadata and normalized JSON escapes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "public text rejects duplicate decoded keys nesting private fields and non-JSON forms",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual CLI public metadata validates canonical P256 and fingerprint",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "public metadata refuses private material unsupported scope and altered bytes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "correct canonical DER and digest still refuse an off-curve public point",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll bookmark roundtrip retains only immutable original metadata",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "enroll intent emits exactly the existing v3 RPC parameters",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate bookmark roundtrip retains only immutable original metadata",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "activate intent emits exactly the existing v3 RPC parameters",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke bookmark roundtrip retains only immutable original metadata",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoke intent emits exactly the existing v3 RPC parameters",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmarks refuse malformed bindings private fields and incompatible actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "new intents enforce 120-second original windows and enrollment lifetime",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revocation reason is bounded control-free input with only its digest in binding",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expired pending and expired active identities remain revocable but activation refuses expiry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 0 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 1 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 2 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 3 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 4 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 5 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 6 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 7 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 8 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 9 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 10 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 11 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 12 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 13 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL directory page 14 binds paired descending keyset and next cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "directory queries validate limits paired keys and immutable equality for provider families",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "directory refuses duplicate IDs order reversal extra rows and unbound continuation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "equal timestamp pages use strict UUID tie-breaking without offset guessing",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual identity-active observation retains lifecycle independently of expiry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual identity-expired-active observation retains lifecycle independently of expiry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual identity-revoked observation retains lifecycle independently of expiry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "current missing identity never invents a principal and binds queried IDs",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "identity lifecycle and observed timestamps reject incompatible fabricated states",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exact read schemas reject each missing key and private/freeform additions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "v3 read freshness matches sixty-second TTL and ten-second future-clock tolerance",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual enroll immutable receipt binds original action key principal and deadlines",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual activate immutable receipt binds original action key principal and deadlines",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual revoke immutable receipt binds original action key principal and deadlines",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual revoke-expired-active immutable receipt binds original action key principal and deadlines",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual revoke-expired-pending immutable receipt binds original action key principal and deadlines",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "receipt original binding cannot be changed by unsupported state key deadline or reason",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual enroll original lookup survives metadata-only bookmark restoration",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual activate original lookup survives metadata-only bookmark restoration",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual revoke original lookup survives metadata-only bookmark restoration",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual not-recorded lookup retains uncertainty before its original deadline",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual in-progress lookup retains uncertainty before its original deadline",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lookup refuses wrong original cross-action unbound receipt and private output",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "only fresh server absence after the retained enforced deadline closes an unknown original",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_models_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark isolates owner and retains only safe original binding, never mutation material",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid action and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid request_id and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid principal_id and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid key_sha256 and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid identity_expires_at and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid created_at and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid request_expires_at and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark refuses invalid reason_sha256 and exact JSON representation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "duplicate keys, extra private payload and oversized bookmark refuse",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "durable original exists and is read back before the only send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unavailable recovery storage prevents all transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "write recovery storage prevents all transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "drop recovery storage prevents all transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "corrupt recovery storage prevents all transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "reload restores binding only and manually reconciles original without any send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "uncertain send preserves original across reload and blocks enrollment/activation replay",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "urgent revoke proceeds beside pending activation but duplicate target revoke is blocked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "urgent revoke can run while unrelated original HTTP is still outstanding",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "different controllers cannot publish a duplicate target pending revoke",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "not_recorded before deadline keeps original pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "in_progress before deadline keeps original pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "server check past deadline cannot close absence while local deadline is still open",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fresh absence at retained deadline closes marker without deleting original or replay",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "stale lookup cannot resolve an original",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong-key lookup cannot resolve an original",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unexpected-field lookup cannot resolve an original",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "resolution persistence failure retains unknown original and no recorded UI receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "authority departure and A-B-A suppress late acknowledgement permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "preflight refusal and expired deadline never publish or send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "deadline is checked again after durable write and before transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bounded transport timeout retains original and ignores late success",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timed out queued publication cannot write later or reach transport",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expired identity is retained for revocation but not accepted as an activation draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bounded pending inventory and changed marker fail closed on reload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts enroll uses exact RPC parameters and one authenticated dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts activate uses exact RPC parameters and one authenticated dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts revoke uses exact RPC parameters and one authenticated dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts directory sends the paired original keyset cursor and bounded limit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts current identity read binds the exact target ID",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts owner lookup sends only the original immutable request ID",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts 403 rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts 503 rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts lost rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts private rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts wrong_original rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts wrong_deadline rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts wrong_fingerprint rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts wrong_reason rejects original lookup without retry or unbound fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts invalid target ID is rejected before HTTP",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts signed-out owner request is denied before dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts same-user replacement suppresses a late original owner result",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Pinned SDK principal v3 contracts unresolved owner read times out at 15 seconds without retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow missing platform_owner prevents all principal reads and actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow missing admin_users.manage prevents all principal reads and actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow missing notifications.manage prevents all principal reads and actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow missing system_health.read prevents all principal reads and actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow another-user identity cannot reveal the owner directory",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow directory paging carries the paired cursor and returns safely",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow expired directory hides IDs and disables enrollment",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow private directory evidence fails closed without raw output",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow loading and redacted failure allow an explicit fresh retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow revoked keeps identity state distinct from permitted actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow expired-active keeps identity state distinct from permitted actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow expired-pending keeps identity state distinct from permitted actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow public enrollment saves and verifies metadata before one send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow unavailable recovery storage prevents enrollment and sends",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow expired detail removes its fingerprint and mutation controls",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow pending enrollment leaves investigation and urgent revoke usable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow activation proof refusal retains original and only manual lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow revoked fresh preflight prevents stale activation submission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow key fresh preflight prevents stale activation submission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow expiry fresh preflight prevents stale activation submission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow unknown revocation keeps reason hash and manually recovers once",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow restored original permits lookup and never reconstructs a send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow absence clears only with fresh proof after retained deadline",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow same-user A-B-A replacement closes enrollment and suppresses draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow role departure closes current detail before role restoration",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow late identity read cannot resurrect a departed A-B-A modal",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow authority loss during async publication commits no original or send",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Current-owner principal Admin workflow 320px twice-text detail keeps named semantic controls usable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "SMS sample validates counts, UTC dates, consistency and expiry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Automations route retains canonical system-health permission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real service samples remain distinct; unavailable telemetry is explicit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "resolved status can refresh both services without writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expiry hides old numbers and automatic tick never refetches or writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "partial SMS failure retains scheduler and hides raw errors",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "permission denial does not read SMS or health services",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "global gate banner loads, closes and expires without implying a pause of ingestion",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop light rendering uses synthetic service samples",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "desktop dark rendering uses synthetic service samples",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px doubled text remains scrollable through every section",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "persistent shell and SMS gate reflow at 320px doubled text",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_automations_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL workflow and inbox projections parse without dropping evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual unassigned and resolved unassigned SQL evidence parse",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects floating contract",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects floating revision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects unknown field",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects wrong exception",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects active resolved",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects false delivery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects wrong freshness",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects duplicate escalation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a fresh negative lookup before expiry never clears an unknown request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint privacy stores self without persisting operator identity",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint privacy rejects actor-bearing legacy and forged forms",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint privacy never rebinds assignment to another fresh actor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint privacy retains null assignee for resolution",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint privacy rejects a null-assignee assignment marker",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "negative lookup after expiry closes only while the observation is fresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "persisted reviewed assignment precedes submission and clears after bound receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unknown response survives widget recreation and reconciles original request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint recovery conceals pending references during capability or identity departure and rereads after fresh authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint recovery fails closed for legacy actor-bearing storage",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization never converts a forged actor draft into an intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization survives reload and only an exact recorded receipt releases the block",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization never clears an expired reference on a negative lookup",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization scrubs malformed private data to a durable block without a request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization removes rejected private bytes when replacement storage fails",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery sanitization suppresses a recorded lookup after session departure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "storage failure prevents submission and further actions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session replacement during identity recheck prevents old submission",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expired observation disables follow-up mutations",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "compact follow-up reflows and keeps named controls",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recipient inbox reads lazily and presents delivered evidence",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recipient read acknowledgement opens a guarded dialog and session departure closes it",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recipient inbox rejects an acknowledgement for another delivery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session departure during inbox read prevents opening old delivery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK reads strict workflow with current session header",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK binds expiring action to exact source and workflow revisions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "denial and uncertain server response each perform one mutation attempt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "false send and mismatched receipt claims reject without retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session replacement suppresses a pending old action response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request lookup is a single read and never replays original action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 pins exact POST body and captured recipient Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 denied makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 503 makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 response-loss makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 same-session refresh keeps the original request Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 signed-out caller makes no SDK request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 pins exact POST body and captured recipient Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 denied makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 503 makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 response-loss makes one SDK request without fallback",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 same-session refresh keeps the original request Bearer",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 signed-out caller makes no SDK request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints read acknowledgement refuses malformed delivery ID before SDK dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider denies missing payments.read before actual SDK read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider denies missing notifications.read before actual SDK read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider denies missing system_health.read before actual SDK read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after permission-loss",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after identity-loading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints escalation provider rejects contradictory SDK projection and private extras",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox opens only after matching actual SDK read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-delivery read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK resolved-source read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK private-extra read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK before-delivery read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-version read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK missing-ACK read ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox loses actual SDK response without opening or automatic replay",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_exception_workflow_sdk_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "read suppresses same-user session change; switch-back=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "read suppresses same-user session change; switch-back=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "action suppresses same-user session change; switch-back=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "action suppresses same-user session change; switch-back=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "identity suppresses same-user session change; switch-back=false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "identity suppresses same-user session change; switch-back=true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same-session token refresh allows completion with pinned request token",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "old-session backend error is replaced with safe session boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out request is denied before HTTP dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "nullable identity/detail and explicit absent SLA policy stay supported",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response {}",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response []",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response {ok: true}",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response {ok: true, status: queued, delivery_count: 1}",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "notification action rejects unconfirmed response {ok: true, status: queued, delivery_count: 0}",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request parameters are frozen across an awaited response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "provider generation recreates repository and denies previously captured repository",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh freshness resets on replacement login and logout",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "reconciliation scope cannot revive after a coalesced A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Auth stream error denies cached session and in-flight request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Auth stream done denies cached session and in-flight request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session expiry clears authorization without an Auth event",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_action_session_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Admin identity never exposes the previous operator after a switch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_session_scope_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Admin repository state is recreated for a different auth user",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_session_scope_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/groups stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/groups denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/groups",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/groups can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/groups/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/groups/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/groups/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/groups/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/users stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/users denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/users",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/users can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/users/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/users/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/users/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/users/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/members stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/members denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/members",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/members can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/members/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/members/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/members/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/members/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/payees stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/payees denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/payees",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/payees can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/transactions stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/transactions denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/transactions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/transactions can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/transactions/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/transactions/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/transactions/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/transactions/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/reconciliations stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/reconciliations denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/reconciliations",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/reconciliations can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/ledgers stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/ledgers denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/ledgers",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/ledgers can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/sms-receipts stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/sms-receipts denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/sms-receipts",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/sms-receipts can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/sms-receipts/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/sms-receipts/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/sms-receipts/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/sms-receipts/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/notifications stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/notifications denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/notifications can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/notifications/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/notifications/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/notifications/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/notifications/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/audit-logs stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/audit-logs denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/audit-logs",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/audit-logs can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/audit-logs/entity/:kind/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/audit-logs/entity/:kind/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/audit-logs/entity/:kind/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/audit-logs/entity/:kind/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/settings stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/settings denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/settings",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/settings can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/feature-flags stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/feature-flags denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/feature-flags",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/feature-flags can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/system-health stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/system-health denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/system-health",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/system-health can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/automations stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/automations denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/automations",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/automations can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/sms-gateway stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/sms-gateway denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/sms-gateway",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/sms-gateway can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/exceptions stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/exceptions denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/exceptions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/exceptions can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/admin-users stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/admin-users denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/admin-users",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/admin-users can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "signed-out deep link /admin/admin-users/:id stays at login without data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-Admin deep link /admin/admin-users/:id denies before reading records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity without capabilities cannot open /admin/admin-users/:id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "record request failure on /admin/admin-users/:id can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "identity loading keeps a protected deep link free of data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "an identity outage can retry and recover the requested route",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "identity retry stays denied when server access was revoked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_route_access_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "all declared protected routes have explicit state fixtures",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/groups uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/groups cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/groups shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/groups is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/groups removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/groups/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/groups/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/groups/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/groups/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/groups/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/users uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/users cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/users shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/users is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/users removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/users/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/users/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/users/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/users/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/users/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/members uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/members cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/members shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/members is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/members removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/members/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/members/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/members/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/members/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/members/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/payees uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/payees cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/payees shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/payees is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/payees removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/transactions uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/transactions cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/transactions shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/transactions is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/transactions removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/transactions/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/transactions/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/transactions/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/transactions/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/transactions/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/reconciliations uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/reconciliations cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/reconciliations shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/reconciliations is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/reconciliations removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/ledgers uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/ledgers cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/ledgers shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/ledgers is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/ledgers removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/sms-receipts uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/sms-receipts cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/sms-receipts shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/sms-receipts is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/sms-receipts removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/sms-receipts/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/sms-receipts/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/sms-receipts/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/sms-receipts/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/sms-receipts/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/notifications uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/notifications cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/notifications shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/notifications is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/notifications removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/notifications/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/notifications/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/notifications/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/notifications/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/notifications/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/sms-gateway uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/sms-gateway cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/sms-gateway shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/sms-gateway is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/sms-gateway removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/exceptions uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/exceptions cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/exceptions shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/exceptions is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/exceptions removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/audit-logs uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/audit-logs cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/audit-logs shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/audit-logs is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/audit-logs removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/audit-logs/entity/:kind/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/audit-logs/entity/:kind/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/audit-logs/entity/:kind/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/audit-logs/entity/:kind/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/audit-logs/entity/:kind/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/settings uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/settings cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/settings shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/settings is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/settings removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/feature-flags uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/feature-flags cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/feature-flags shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/feature-flags is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/feature-flags removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/system-health uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/system-health cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/system-health shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/system-health removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/automations uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/automations cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/automations shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/automations removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/admin-users uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/admin-users cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/admin-users shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/admin-users is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/admin-users removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "allowed /admin/admin-users/:id uses its declared data provider",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /admin/admin-users/:id cannot present pending records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "failure /admin/admin-users/:id shows a redacted explicit read failure",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty /admin/admin-users/:id is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revoked /admin/admin-users/:id removes previously authorized content",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_declared_route_states_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "count": 482,
+    "passed": 478,
+    "errors": [
+      {
+        "testID": 129,
+        "error": "Test failed. See exception logs above.\nThe test description was: public enrollment saves and verifies metadata before one send",
+        "stackTrace": "",
+        "isFailure": false,
+        "type": "error",
+        "time": 114508
+      },
+      {
+        "testID": 132,
+        "error": "Test failed. See exception logs above.\nThe test description was: pending enrollment leaves investigation and urgent revoke usable",
+        "stackTrace": "",
+        "isFailure": false,
+        "type": "error",
+        "time": 121282
+      },
+      {
+        "testID": 133,
+        "error": "Test failed. See exception logs above.\nThe test description was: activation proof refusal retains original and only manual lookup",
+        "stackTrace": "",
+        "isFailure": false,
+        "type": "error",
+        "time": 124120
+      },
+      {
+        "testID": 137,
+        "error": "Test failed. See exception logs above.\nThe test description was: unknown revocation keeps reason hash and manually recovers once",
+        "stackTrace": "",
+        "isFailure": false,
+        "type": "error",
+        "time": 130474
+      }
+    ],
+    "runner_success": false
+  },
+  "chrome": {
+    "cases": [
+      {
+        "name": "actual same-tab storage persists exact original intent across adapter recreation and isolates owners",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_cancel_checkpoint_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real browser sessionStorage retains only owner-bound same-tab reviewed references across adapter recreation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_exception_checkpoint_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real same-tab browser adapter retains reviewed fingerprints after recreation and isolates owners",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_gateway_checkpoint_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual browser sessionStorage retains only bounded schema references across adapter recreation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_roster_bookmark_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual browser localStorage adapter retains original across instances and isolates owners",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_operations_checkpoint_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real store reload uses original lookup only and retains resolved bytes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual lock serializes exact-UUID concurrent publication and prevents overwrite",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual lock refuses distinct pending revoke UUIDs for one target",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "urgent different-target revoke can publish alongside original activation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "authority-lost queued publication acquires no permission to write",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "five-second aborted lock acquisition never publishes after eventual release",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "controller timeout closes queued publication before lock becomes available",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "changed-original actual browser bytes fail closed on reload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "changed-marker actual browser bytes fail closed on reload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "orphan-marker actual browser bytes fail closed on reload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/admin_receipt_principal_browser_test.dart.js",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "count": 15,
+    "passed": 15,
+    "errors": [],
+    "runner_success": true
+  },
+  "required_browser_cases_passed": {
+    "actual same-tab storage persists exact original intent across adapter recreation and isolates owners": true,
+    "real browser sessionStorage retains only owner-bound same-tab reviewed references across adapter recreation": true,
+    "real same-tab browser adapter retains reviewed fingerprints after recreation and isolates owners": true,
+    "actual browser sessionStorage retains only bounded schema references across adapter recreation": true,
+    "actual browser localStorage adapter retains original across instances and isolates owners": true,
+    "real store reload uses original lookup only and retains resolved bytes": true,
+    "actual lock serializes exact-UUID concurrent publication and prevents overwrite": true,
+    "actual lock refuses distinct pending revoke UUIDs for one target": true,
+    "urgent different-target revoke can publish alongside original activation": true,
+    "authority-lost queued publication acquires no permission to write": true,
+    "five-second aborted lock acquisition never publishes after eventual release": true,
+    "controller timeout closes queued publication before lock becomes available": true,
+    "changed-original actual browser bytes fail closed on reload": true,
+    "changed-marker actual browser bytes fail closed on reload": true,
+    "orphan-marker actual browser bytes fail closed on reload": true
+  },
+  "export_drift": [],
+  "sdk_unchanged": true,
+  "current_overlay_drift": [
+    "test/admin_receipt_principal_integration_test.dart"
+  ],
+  "current_overlay_matches": false,
+  "all_live_Admin_source_claim": false,
+  "source_scope": "Immutable fullVM base + exact three changed/seven added principal runtime files, four principal tests, corrected owned workflow/Overview fixtures and16dated principal JSON decoder inputs. This is source-bound affected acceptance, not a whole live-tree/backend/provider/design claim."
+}

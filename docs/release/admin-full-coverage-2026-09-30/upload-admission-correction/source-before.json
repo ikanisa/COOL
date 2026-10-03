@@ -1,0 +1,6 @@
+{
+  "path": "lib/admin/core/admin_roster_import.dart",
+  "sha256": "2b77f50e50c6808cec41ee45ba009727a7bbecc24fcdc2cd71b1d1f27132b59f",
+  "prior_packet": "upload-admission-prior-attempt2",
+  "change_scope": "AdminRosterUpload.file and its shared extension/mime/admission helper only"
+}

@@ -1,0 +1,76 @@
+test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group (__main__.ArchiveAdmissionTest.test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group) ... ok
+test_real_parent_completion_delivered_after_deadline_never_returns_success (__main__.ArchiveAdmissionTest.test_real_parent_completion_delivered_after_deadline_never_returns_success) ... ok
+test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order) ... ERROR
+test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... FAIL
+test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt) ... FAIL
+test_real_operation_timeout_and_early_exit_are_bounded_without_receipt (__main__.ArchiveAdmissionTest.test_real_operation_timeout_and_early_exit_are_bounded_without_receipt) ... ok
+test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group) ... ERROR
+
+======================================================================
+ERROR: test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order (__main__.ArchiveAdmissionTest.test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 135, in test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order
+    receipt=self.dump();body=(self.output/'database.dump').read_bytes()
+            ^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 124, in dump
+    def dump(self):return self.admit().execute(self.args(),self.env)
+                          ^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 118, in admit
+    def admit(self):return archive.ArchiveAdmission.from_environment(self.env)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/qa/pg_archive_admission.py", line 243, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION'), env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION_SHA256'),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/qa/pg_archive_admission.py", line 238, in __init__
+    self.probe_clients()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/qa/pg_archive_admission.py", line 270, in probe_clients
+    out, _ = run([ref['path'], '--version'], pg.local_environment(), self.base.value['timeouts']['version_seconds'], 1024)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/qa/pg_archive_admission.py", line 127, in run
+    fail(left > 0, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+======================================================================
+ERROR: test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 299, in test_real_descendant_holding_stdio_is_killed_with_its_owned_group
+    result=subprocess.run(['/bin/ps','-o','stat=','-p',pidfile.read_text()],capture_output=True,timeout=2)
+                                                       ^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/collect-archive-admission-yzjsi0ev/descendant.pid'
+
+======================================================================
+FAIL: test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 316, in test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts
+    self.assertEqual(result.returncode,0,result.stderr.decode())
+AssertionError: 1 != 0 : [pg-archive-admission][REFUSED] PG_COMMAND_TIMEOUT
+
+
+======================================================================
+FAIL: test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt (__main__.ArchiveAdmissionTest.test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt)
+----------------------------------------------------------------------
+collect_archive_pinned_postgres_admission.Refused: PG_COMMAND_TIMEOUT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate2/scripts/tests/test_pg_archive_admission.py", line 280, in test_real_stdout_overflow_and_stderr_warning_leave_no_artifact_or_receipt
+    with self.assertRaisesRegex(archive.Refused,'STDOUT_LIMIT'):self.dump()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "STDOUT_LIMIT" does not match "PG_COMMAND_TIMEOUT"
+
+----------------------------------------------------------------------
+Ran 7 tests in 8.712s
+
+FAILED (failures=2, errors=2)

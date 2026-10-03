@@ -1,0 +1,126 @@
+test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness) ... FAIL
+test_wrong_cli_pin_stops_before_any_project_operation (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_cli_pin_stops_before_any_project_operation) ... ok
+test_missing_and_swapped_companion_are_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_and_swapped_companion_are_refused_before_project_calls) ... ok
+test_unapproved_companion_override_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_unapproved_companion_override_is_refused) ... ok
+test_companion_drift_after_preflight_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_companion_drift_after_preflight_stops_before_first_write) ... FAIL
+test_wrong_approval_hash_blocks_before_any_remote_call (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_approval_hash_blocks_before_any_remote_call) ... ok
+test_wrong_target_environment_and_url_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_target_environment_and_url_are_refused) ... ok
+test_wrong_source_approval_binding_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_source_approval_binding_is_refused) ... ok
+test_dirty_candidate_and_unlisted_candidate_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_dirty_candidate_and_unlisted_candidate_source_are_refused) ... ok
+test_stale_worktree_helper_and_added_backend_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_stale_worktree_helper_and_added_backend_source_are_refused) ... ok
+test_missing_transitive_module_is_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_transitive_module_is_refused_before_project_calls) ... ok
+test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect) ... ok
+test_mid_run_worktree_drift_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_worktree_drift_stops_before_first_write) ... FAIL
+test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes) ... ok
+test_staging_edge_scope_executes_export_without_production_acceptance (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_staging_edge_scope_executes_export_without_production_acceptance) ... FAIL
+test_legacy_edge_only_approval_succeeds_without_postgres_configuration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_approval_succeeds_without_postgres_configuration) ... FAIL
+test_legacy_edge_only_shape_still_refuses_changed_target_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_shape_still_refuses_changed_target_before_requests) ... ok
+test_database_approval_without_postgres_binding_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_database_approval_without_postgres_binding_refuses_before_requests) ... ok
+test_wrong_postgres_manifest_hash_and_override_refuse_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_postgres_manifest_hash_and_override_refuse_before_requests) ... ok
+test_postgres_client_byte_drift_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_byte_drift_refuses_before_requests) ... ok
+test_incompatible_server_is_observed_by_read_only_query_before_any_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_incompatible_server_is_observed_by_read_only_query_before_any_write) ... ERROR
+test_postgres_manifest_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write) ... FAIL
+test_postgres_client_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_drift_after_dry_run_stops_first_write) ... ok
+test_server_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_drift_after_dry_run_stops_first_write) ... FAIL
+test_server_read_precedes_every_release_mutation_and_management_migration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_read_precedes_every_release_mutation_and_management_migration) ... FAIL
+test_main_binary_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_main_binary_drift_after_dry_run_stops_first_write) ... FAIL
+test_make_tool_defaults_use_path_and_keep_explicit_overrides (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_make_tool_defaults_use_path_and_keep_explicit_overrides) ... ok
+
+======================================================================
+ERROR: test_incompatible_server_is_observed_by_read_only_query_before_any_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_incompatible_server_is_observed_by_read_only_query_before_any_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 562, in test_incompatible_server_is_observed_by_read_only_query_before_any_write
+    probes=[json.loads(x) for x in Path(self.env["MOCK_PROBES"]).read_text().splitlines()]
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/tmpip5bsjs6/repo/probes.jsonl'
+
+======================================================================
+FAIL: test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 245, in test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+======================================================================
+FAIL: test_companion_drift_after_preflight_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_companion_drift_after_preflight_stops_before_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 284, in test_companion_drift_after_preflight_stops_before_first_write
+    self.assertIn("DEPLOY_TOOL_CHANGED",result.stderr)
+AssertionError: 'DEPLOY_TOOL_CHANGED' not found in '[supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory\n'
+
+======================================================================
+FAIL: test_mid_run_worktree_drift_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_worktree_drift_stops_before_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 390, in test_mid_run_worktree_drift_stops_before_first_write
+    self.assertIn(["db","push","--dry-run","--skip-vault"],self.calls())
+AssertionError: ['db', 'push', '--dry-run', '--skip-vault'] not found in []
+
+======================================================================
+FAIL: test_staging_edge_scope_executes_export_without_production_acceptance (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_staging_edge_scope_executes_export_without_production_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 451, in test_staging_edge_scope_executes_export_without_production_acceptance
+    result=self.run_deploy();self.assertEqual(result.returncode,0,result.stderr)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+======================================================================
+FAIL: test_legacy_edge_only_approval_succeeds_without_postgres_configuration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_approval_succeeds_without_postgres_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 531, in test_legacy_edge_only_approval_succeeds_without_postgres_configuration
+    result=self.run_deploy();self.assertEqual(result.returncode,0,result.stderr)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+======================================================================
+FAIL: test_postgres_manifest_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 573, in test_postgres_manifest_drift_after_dry_run_stops_first_write
+    self.assertIn("PG_MANIFEST_CHANGED_AFTER_ADMISSION",result.stderr)
+AssertionError: 'PG_MANIFEST_CHANGED_AFTER_ADMISSION' not found in '[supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory\n'
+
+======================================================================
+FAIL: test_server_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 583, in test_server_drift_after_dry_run_stops_first_write
+    self.assertIn(["db","push","--dry-run","--skip-vault"],self.calls())
+AssertionError: ['db', 'push', '--dry-run', '--skip-vault'] not found in []
+
+======================================================================
+FAIL: test_server_read_precedes_every_release_mutation_and_management_migration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_read_precedes_every_release_mutation_and_management_migration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 587, in test_server_read_precedes_every_release_mutation_and_management_migration
+    result=self.run_deploy();self.assertEqual(result.returncode,0,result.stderr)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+======================================================================
+FAIL: test_main_binary_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_main_binary_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 606, in test_main_binary_drift_after_dry_run_stops_first_write
+    self.assertIn("DEPLOY_TOOL_CHANGED",result.stderr)
+AssertionError: 'DEPLOY_TOOL_CHANGED' not found in '[supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory\n'
+
+----------------------------------------------------------------------
+Ran 27 tests in 138.771s
+
+FAILED (failures=9, errors=1)

@@ -1,0 +1,21 @@
+{
+  "caller_sites_before": 718,
+  "caller_sites_current": 718,
+  "caller_sites_unchanged": true,
+  "coverage_changed_fields": {
+    "maintained_source_files": {
+      "before": 666,
+      "current": 667
+    }
+  },
+  "document_changed_top_level_fields": [
+    "input_manifest_sha256",
+    "summary"
+  ],
+  "gaps_deep_equal": true,
+  "grants_unchanged": true,
+  "new_SQL_runner_caller_sites": [],
+  "objects_unchanged": true,
+  "reviewed_seams_unchanged": true,
+  "sql_reference_sites_unchanged": true
+}

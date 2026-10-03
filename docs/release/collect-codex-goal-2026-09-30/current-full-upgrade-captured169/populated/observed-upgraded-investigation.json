@@ -1,0 +1,82 @@
+{
+  "kind": "transaction",
+  "scope": "rwanda_momo",
+  "payment": {
+    "times": {
+      "ingested_at": "2026-09-30T23:56:04.805475+00:00",
+      "payment_posted_at": "2026-09-30T23:56:04.935512+00:00",
+      "parsed_recorded_at": "2026-09-30T23:56:04.805475+00:00",
+      "received_at_device": "2026-09-29T23:56:04.828329+00:00",
+      "provider_confirmed_at": "2026-09-30T23:56:04.935512+00:00",
+      "rejection_occurred_at": null,
+      "rejection_recorded_at": null,
+      "allocation_recorded_at": null,
+      "confirmation_recorded_at": "2026-09-30T23:56:04.928116+00:00"
+    },
+    "event_id": "99780000-0000-4000-8000-000000070001",
+    "journals": [
+      {
+        "id": "a38bbdd7-002e-4fc4-a095-96df036df02a",
+        "snapshot": {
+          "id": "007ac904-91e7-4e11-840b-655241069d29",
+          "delta_rwf": "300",
+          "captured_at": "2026-09-30T23:56:04.928116+00:00",
+          "group_balance_rwf": "300",
+          "member_balance_rwf": "300"
+        },
+        "posted_at": "2026-09-30T23:56:04.928116+00:00",
+        "amount_rwf": "300",
+        "entry_type": "receipt"
+      }
+    ],
+    "lifecycle": {
+      "ledger": "posted",
+      "allocation": "allocated",
+      "notification": "queued",
+      "verification": "confirmation_recorded",
+      "evidence_limit": "confirmation_record_is_not_external_settlement_proof",
+      "contract_version": 1
+    },
+    "payment_id": "99780000-0000-4000-8000-000000050001",
+    "raw_sms_id": "99780000-0000-4000-8000-000000060001",
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "current_balances": {
+      "group_rwf": "850",
+      "member_rwf": "850",
+      "group_updated_at": "2026-09-30T23:56:05.293539+00:00",
+      "member_updated_at": "2026-09-30T23:56:05.293539+00:00"
+    },
+    "member_record_id": "99780000-0000-4000-8000-000000040001"
+  },
+  "receipt": {
+    "id": "11b6790c-9ce2-4c4d-8ac8-404d9e9607c7",
+    "state": "queued",
+    "attempts": [],
+    "approvals": [],
+    "amount_rwf": "300",
+    "created_at": "2026-09-30T23:56:04.928116+00:00",
+    "payment_id": "99780000-0000-4000-8000-000000050001",
+    "updated_at": "2026-09-30T23:56:04.928116+00:00",
+    "snapshot_id": "007ac904-91e7-4e11-840b-655241069d29",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_total": 0,
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "approval_total": 0,
+    "preview_source": "immutable_posting_snapshot",
+    "member_record_id": "99780000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 1,
+    "group_balance_rwf": "300",
+    "masked_destination": "+250\u2022\u2022\u2022201",
+    "member_balance_rwf": "300",
+    "snapshot_captured_at": "2026-09-30T23:56:04.928116+00:00",
+    "masked_snapshot_preview": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 300 RWF. Balance yawe: 300 RWF; balance y'itsinda: 300 RWF. Ref: snapshot-41069d29."
+  },
+  "target_id": "99780000-0000-4000-8000-000000060001",
+  "checked_at": "2026-09-30T23:57:11.600984+00:00",
+  "history_limit": 50,
+  "payment_state": "available",
+  "receipt_state": "available",
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T23:58:11.600984+00:00"
+}

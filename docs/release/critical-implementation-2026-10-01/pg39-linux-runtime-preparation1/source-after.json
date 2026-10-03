@@ -1,0 +1,44 @@
+[
+  {
+    "bytes": 17725,
+    "mode": 420,
+    "path": "scripts/qa/postgres_admission.py",
+    "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92"
+  },
+  {
+    "bytes": 27208,
+    "mode": 420,
+    "path": "scripts/qa/pg_archive_admission.py",
+    "sha256": "95f5c3d24bc723d4e570699a6a71af113bdcb5c6af91555e4f6c63f01076eb80"
+  },
+  {
+    "bytes": 35649,
+    "mode": 420,
+    "path": "scripts/tests/test_pg_archive_admission.py",
+    "sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6"
+  },
+  {
+    "bytes": 2364,
+    "mode": 448,
+    "path": "scripts/supabase_logical_backup.sh",
+    "sha256": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329"
+  },
+  {
+    "bytes": 13715,
+    "mode": 420,
+    "path": "scripts/supabase_cli_helpers.sh",
+    "sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74"
+  },
+  {
+    "bytes": 2479,
+    "mode": 448,
+    "path": "scripts/load_dotenv_strict.sh",
+    "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+  },
+  {
+    "bytes": 8,
+    "mode": 420,
+    "path": ".supabase-cli-version",
+    "sha256": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3"
+  }
+]

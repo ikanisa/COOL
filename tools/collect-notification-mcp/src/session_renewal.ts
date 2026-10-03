@@ -1,3 +1,5 @@
+import {instant} from "./operational_health.ts";
+
 export const productionOrigin = "https://lhbowpbcpwoiparwnwgt.supabase.co";
 const reauthenticate = () => new Error("OPERATOR_SESSION_REAUTHENTICATION_REQUIRED");
 
@@ -33,6 +35,56 @@ export interface SessionStore {
   write(value: Record<string, unknown>): Promise<void>;
 }
 
+// This is an authoritative current GoTrue read, not a claim that a locally
+// decoded token's email or a prior approved phone identifies the chosen user.
+export async function requireCurrentEmailIdentity(
+  session: Session, expectedSubject: string, expectedEmail: string,
+  fetcher: typeof fetch = fetch, now: () => number = Date.now, timeoutMs = 5000,
+) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(expectedEmail) ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(expectedSubject) ||
+      session.origin !== productionOrigin || !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 5000) throw reauthenticate();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let abort: () => void = () => {};
+  const aborted = new Promise<never>((_resolve, reject) => {
+    abort = () => reject(reauthenticate());
+    controller.signal.addEventListener("abort", abort, {once: true});
+  });
+  try {
+    const response = await Promise.race([fetcher(`${productionOrigin}/auth/v1/user`, {
+      method: "GET", redirect: "error", cache: "no-store", signal: controller.signal,
+      headers: {apikey: session.anon_key, Authorization: `Bearer ${session.access_token}`, Accept: "application/json"},
+    }), aborted]);
+    const length = response.headers.get("content-length");
+    if (!response.ok || response.redirected || !response.headers.get("content-type")?.toLowerCase().startsWith("application/json") ||
+        (length !== null && (!/^\d+$/.test(length) || Number(length) > 65536)) || !response.body) {
+      void response.body?.cancel().catch(() => {});
+      throw reauthenticate();
+    }
+    const reader = response.body.getReader();
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    try {
+      for (;;) {
+        const result = await Promise.race([reader.read(), aborted]);
+        if (result.done) break;
+        size += result.value.byteLength;
+        if (size > 65536) throw reauthenticate();
+        chunks.push(result.value);
+      }
+    } finally {void reader.cancel().catch(() => {});}
+    const identity: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    if (!identity || typeof identity !== "object" || Array.isArray(identity)) throw reauthenticate();
+    const user = identity as Record<string, unknown>;
+    const confirmed = Date.parse(instant(user.email_confirmed_at));
+    if (user.id !== expectedSubject || typeof user.email !== "string" ||
+        user.email.trim().toLowerCase() !== expectedEmail.trim().toLowerCase() ||
+        !Number.isFinite(confirmed) || confirmed > now()) throw reauthenticate();
+  } catch {throw reauthenticate();}
+  finally {clearTimeout(timer);controller.signal.removeEventListener("abort", abort);}
+}
+
 function renewable(value: unknown, environment: NodeJS.ProcessEnv) {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw reauthenticate();
   const row = value as Record<string, unknown>;
@@ -61,7 +113,7 @@ export async function resolveStoredSession(
   environment: NodeJS.ProcessEnv,
   fetcher: typeof fetch = fetch,
   now: () => number = Date.now,
-  options: {allowRefresh?: boolean; refreshNow?: boolean} = {},
+  options: {allowRefresh?: boolean; refreshNow?: boolean; requiredEmail?: string} = {},
 ): Promise<NodeJS.ProcessEnv> {
   const stored = await store.read();
   if (!stored || typeof stored !== "object" || Array.isArray(stored)) throw reauthenticate();
@@ -69,11 +121,18 @@ export async function resolveStoredSession(
   if (row.refresh_pending === true) throw reauthenticate();
   if (!Object.hasOwn(row, "refresh_token")) {
     if (options.refreshNow) throw reauthenticate();
-    return scopedRuntime(stored, environment, now());
+    const runtime = scopedRuntime(stored, environment, now());
+    if (options.requiredEmail !== undefined) {
+      const current = checkedSession(stored, environment);
+      await requireCurrentEmailIdentity(current.session, current.claims.sub, options.requiredEmail, fetcher, now);
+    }
+    return runtime;
   }
   const prior = renewable(stored, environment);
   if (!options.refreshNow && prior.claims.exp > Math.floor(now() / 1000) + 120) {
-    return scopedRuntime(prior.session, environment, now());
+    const runtime = scopedRuntime(prior.session, environment, now());
+    if (options.requiredEmail !== undefined) await requireCurrentEmailIdentity(prior.session, prior.claims.sub, options.requiredEmail, fetcher, now);
+    return runtime;
   }
   if (options.allowRefresh === false) throw reauthenticate();
 
@@ -95,6 +154,9 @@ export async function resolveStoredSession(
       throw reauthenticate();
     }
     const runtime = scopedRuntime(checked.session, environment, now());
+    if (options.requiredEmail !== undefined) {
+      await requireCurrentEmailIdentity(checked.session, checked.claims.sub, options.requiredEmail, fetcher, now);
+    }
     // A refreshed login is not an Admin grant. Recheck the current bounded permission.
     const health = await fetcher(`${productionOrigin}/functions/v1/collect-notification-operator`, {
       method: "POST", redirect: "error", cache: "no-store", signal: AbortSignal.timeout(5000),

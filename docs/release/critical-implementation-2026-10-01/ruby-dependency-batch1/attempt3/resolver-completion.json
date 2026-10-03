@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "ruby_version": "3.3.12",
+  "lock_sha256": "bc7fc3647cf9661fac7f481f6017881d3118d64ce570ed6b9189f8cbde914745",
+  "bootstrap_bundler": "2.7.2",
+  "source_versions": {
+    "fastlane": "2.240.1",
+    "rubyzip": "3.4.0"
+  },
+  "network_scope": "Public RubyGems dependency resolution/download only; no repository/private configuration mounted",
+  "provider_or_signing_effects": false
+}

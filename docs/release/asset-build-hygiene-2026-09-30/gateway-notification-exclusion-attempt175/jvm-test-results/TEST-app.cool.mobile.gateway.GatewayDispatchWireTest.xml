@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayDispatchWireTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-10-01T12:19:26.272Z" hostname="Jeans-Mac-mini.local" time="0.231">
+  <properties/>
+  <testcase name="initialGrantMapsExistingNativeGrantAndRetainsRunPolicySimLease" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.075"/>
+  <testcase name="exactV2ResponseEnvelopeAndUtf8BoundRemainRequired" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.061"/>
+  <testcase name="multipartPlanRequiresContiguousGloballyDistinctCallbackIds" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.013"/>
+  <testcase name="numericStringsFractionsBooleansAndOverflowAreNeverCoerced" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.018"/>
+  <testcase name="statusRequiresExactAttemptFenceCountsAndNoArchiveAcknowledgement" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.002"/>
+  <testcase name="duplicateEscapedKeysAndPermissiveJsonExtensionsAreRejectedBeforeJsonObject" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.007"/>
+  <testcase name="recordedLookupCannotRecoverGrantBodyOrArmPermit" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.003"/>
+  <testcase name="grantRejectsExpiredAndExtendedThirtySecondAuthority" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.007"/>
+  <testcase name="exactRefusalsNeverCreateGrantOrArmAuthority" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.008"/>
+  <testcase name="sentSuccessRequiresAllSegmentsAndNoConflictWithNoDeliveryConclusion" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.013"/>
+  <testcase name="grantRejectsChangedContentDestinationIdentityAndInventedFields" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.007"/>
+  <testcase name="lostArmReplyAndUnknownLookupNeverReturnAReusablePermit" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.002"/>
+  <testcase name="lookupValidatesNestedCallbacksStatusAndNullUnknownEvidence" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.002"/>
+  <testcase name="armBindsAttemptFenceReservationAndOriginalGrantExpiry" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.004"/>
+  <testcase name="normalizedUuidIdentityIsBoundWithoutChangingHashes" classname="app.cool.mobile.gateway.GatewayDispatchWireTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

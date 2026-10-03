@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CycloneDX inventory of observed locked Android graphs and external artifact bytes."""
+"""CycloneDX inventory of exact observed Android flavor graphs and artifact bytes."""
 import argparse
 import hashlib
 import json
@@ -8,6 +8,10 @@ import re
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[2]
+FLAVOR_CONFIGURATIONS = {
+    "production": {"productionReleaseRuntimeClasspath", "productionReleaseCompileClasspath"},
+    "internal_gateway": {"internal_gatewayReleaseRuntimeClasspath", "internal_gatewayReleaseCompileClasspath"},
+}
 
 
 def identity(record):
@@ -18,9 +22,10 @@ def identity(record):
     raise ValueError("Unknown observed Gradle component identity")
 
 
-def build(graphs, evidence):
-    if {g.get("configuration") for g in graphs} != {"productionReleaseRuntimeClasspath", "productionReleaseCompileClasspath"}:
-        raise ValueError("Both exact production graphs are required")
+def build(graphs, evidence, flavor="production"):
+    expected = FLAVOR_CONFIGURATIONS.get(flavor)
+    if expected is None or len(graphs) != 2 or {g.get("configuration") for g in graphs} != expected:
+        raise ValueError("Both exact graphs for the declared Android flavor are required")
     components, hashes, dependencies, constraints, artifacts = {}, {}, {}, [], []
     for graph in graphs:
         ids = [identity(c) for c in graph["components"]]
@@ -55,12 +60,17 @@ def build(graphs, evidence):
         if component.get("purl"):
             component["properties"] = [{"name": "collect:license-evidence", "value": "unknown"},
                                        {"name": "collect:artifact-scope", "value": "Observed external AAR/JAR bytes" if ref in hashes else "Selected metadata/platform module; no AAR/JAR bytes reported"}]
-    inventory = {"kind": "observed_locked_android_graph_inventory", "scope": "Selected compile/runtime graphs and external artifacts; no signed APK/AAB contents, license approval, advisory or device acceptance",
+    scope = "Selected compile/runtime graphs and external artifacts; no signed APK/AAB contents, license approval, advisory or device acceptance"
+    if flavor == "internal_gateway":
+        scope += "; Gateway graph observation does not establish the separately reviewed production dependency lock"
+    inventory = {"kind": "observed_locked_android_graph_inventory" if flavor == "production" else "observed_android_gateway_graph_inventory", "scope": scope,
+                 "flavor": flavor, "configurations": sorted(expected),
                  "evidence_sha256": evidence, "components": len(components), "external_artifact_occurrences": len(artifacts),
                  "constraints": constraints, "artifacts": artifacts}
     bom = {"bomFormat": "CycloneDX", "specVersion": "1.6", "version": 1,
            "metadata": {"properties": [{"name": "collect:scope", "value": inventory["scope"]},
                                         {"name": "collect:evidence-sha256", "value": json.dumps(evidence, sort_keys=True, separators=(",", ":"))},
+                                        {"name": "collect:android-flavor", "value": flavor},
                                         {"name": "collect:constraint-edges", "value": str(len(constraints))}]},
            "components": [components[ref] for ref in sorted(components)],
            "dependencies": [{"ref": ref, "dependsOn": sorted(dependencies[ref])} for ref in sorted(dependencies)]}
@@ -73,11 +83,12 @@ def main():
     parser.add_argument("--compile-graph", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--inventory", type=Path, required=True)
+    parser.add_argument("--flavor", choices=sorted(FLAVOR_CONFIGURATIONS), default="production")
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     paths = [args.runtime_graph, args.compile_graph]
     evidence = {p.resolve().relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
-    bom, inventory = build([json.loads(p.read_text()) for p in paths], evidence)
+    bom, inventory = build([json.loads(p.read_text()) for p in paths], evidence, args.flavor)
     for path, data in [(args.output, bom), (args.inventory, inventory)]:
         text = json.dumps(data, sort_keys=True, indent=2) + "\n"
         if args.check:

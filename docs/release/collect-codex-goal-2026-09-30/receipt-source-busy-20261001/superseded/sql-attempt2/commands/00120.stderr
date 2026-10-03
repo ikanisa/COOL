@@ -1,0 +1,32 @@
+NOTICE:  00000: policy "collection type catalog public enabled read" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type catalog admin manage" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection category subtypes public enabled read" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection category subtypes admin manage" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection purpose templates public enabled read" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection purpose templates admin manage" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type country rules public enabled read" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type country rules admin manage" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

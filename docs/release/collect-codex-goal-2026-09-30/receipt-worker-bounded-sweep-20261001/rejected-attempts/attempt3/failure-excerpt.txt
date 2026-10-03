@@ -1,0 +1,6 @@
+receipt_backlog_unhandled_source_latest": "CREATE INDEX receipt_backlog_unhandled_source_latest ON collect_receipt_operations.backlog_results USING btree (snapshot_id, recorded_at DESC, run_id DESC) WHERE (NOT business_handled)"}
+{"label": "2000 declared immutable worker/query-only history fixtures", "sql_sha256": "b585d801a00421b65828096e76ac2acfed9bcd84a10bea35ae1991db8b3c328d", "exit_code": 3}
+ERROR:  42601: syntax error at or near ")"
+LINE 1: ...alized(select clock_timestamp()-interval '1 day'at)insert in...
+                                                             ^
+LOCATION:  scanner_yyerror, scan.l:1244

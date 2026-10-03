@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-01T12:52:00.349346+00:00",
+  "files_checked": 379,
+  "mismatches": [],
+  "seal_sha256": "b589b6ea9f175e3d4c61110c6f74e963b3a475b1f0dfeb46ea0668037d317412",
+  "current_source": {
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "d73b57106b767ce3bcdecd58059a311b7b2ea390755324963fc7a548e708a20e",
+    "scripts/qa/receipt_operations_enrollment_workflow_uat.py": "b14f287efdc7efb274817007f948f2282b7687afc887da4ae288cf855489c2d6"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        "scripts/tests/public_static_routes_test.rb",
+        "--name=test_repository_static_routes_match_product_baseline_and_include_entry_paths"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "single-static-source-route-case-fixture-corrected",
+      "parent_exit_confirmed": true,
+      "process_group": 33677,
+      "seconds": 0.185,
+      "sha256": "e3a344cf66c9e37c2cbf0205ab2c5da1ebd038de2c94887341c8da2b2ee3d864",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--plain-name=public website compares historical desktop baseline",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/public-candidate.machine.jsonl",
+        "test/goldens/collect_core_surfaces_golden_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "single-public-inter-golden-candidate",
+      "parent_exit_confirmed": true,
+      "process_group": 33687,
+      "seconds": 6.18,
+      "sha256": "2de590b5b1105f1f4bdf6e62047fdf64418281428f6074f50c94f569fd5ab442",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ]
+}

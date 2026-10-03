@@ -1,0 +1,10 @@
+{
+  "diagnostic_only": true,
+  "command": [
+    "make",
+    "format-check"
+  ],
+  "exit_code": 2,
+  "log_sha256": "dd6cfa4908ecda88aa9e73de260e832563c13ce00ede6664ce4d75bd860a939c",
+  "not_ubuntu_acceptance": true
+}

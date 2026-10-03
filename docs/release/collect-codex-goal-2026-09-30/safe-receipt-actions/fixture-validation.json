@@ -1,0 +1,17 @@
+[
+  {
+    "file": "contracts/collect-safe-receipt-action-v1.fixture.json",
+    "sha256": "646a9787cdde36ff79cf6d15cca7c380a6222ed7fbb2df2fcd212549219770eb",
+    "status": "pass"
+  },
+  {
+    "file": "contracts/collect-safe-receipt-action-v1.inspection.fixture.json",
+    "sha256": "8aa92eed8d3fc9f9232139e0d2099cca6a074a51093b851e94e33bac7f5f0166",
+    "status": "pass"
+  },
+  {
+    "file": "contracts/collect-safe-receipt-action-v1.lookup.fixture.json",
+    "sha256": "c4046b0031d213df5cbac874469ba4d06f1494def0b3b5d32742533c755f0304",
+    "status": "pass"
+  }
+]

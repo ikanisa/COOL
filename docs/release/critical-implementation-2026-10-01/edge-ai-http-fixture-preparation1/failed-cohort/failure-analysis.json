@@ -1,0 +1,144 @@
+{
+  "actual_checks": 91,
+  "passed": 84,
+  "failed": 7,
+  "failures": [
+    {
+      "label": "roster: roster_quota enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: roster_bad_budget enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: roster_bad_nonce enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: roster_bad_signature enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: roster_decoder_reject enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: roster_bad_verification enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    },
+    {
+      "label": "roster: normal enforces verification before transmission",
+      "status": "fail",
+      "http_status": 503,
+      "response": {
+        "error": "roster_extraction_unavailable"
+      },
+      "cors": "*",
+      "dependencies": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET",
+          "payload": null,
+          "identity": "synthetic_user"
+        }
+      ],
+      "no_store": true
+    }
+  ],
+  "blocked_provider_attempts": [
+    "https://graph.facebook.com/v25.0/1234/messages",
+    "https://graph.facebook.com/v25.0/1234/messages",
+    "https://graph.facebook.com/v25.0/1234/messages"
+  ],
+  "observed_boundary": "All seven AI image cases authenticated, then failed with fixed 503 before reservation or decoder work.",
+  "source_causality": "The promoted handler requires tuple-bound AI policy before reservation. The unchanged dated HTTP fixture supplies model/decoder identity but no policy JSON/hash or organization/project identifiers.",
+  "production_policy_changed": false,
+  "approval_validity_or_provider_acceptance_claimed": false,
+  "Linux_full_phase": "not reached",
+  "identical_retry": false
+}

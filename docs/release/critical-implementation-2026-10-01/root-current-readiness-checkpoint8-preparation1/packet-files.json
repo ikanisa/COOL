@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "private_unapplied_checkpoint8_delta_plan",
+  "payload_count": 10,
+  "files": {
+    "README.md": {
+      "bytes": 2764,
+      "sha256": "693ecaaad4a3771227ea4710a0a525f273fa9e0865b05f8393791188349076b6"
+    },
+    "checkpoint8-update-plan.json": {
+      "bytes": 11405,
+      "sha256": "c403f926e2175fcb306352cec606dc9a1d4238576f48390bd6903d5576e3844b"
+    },
+    "checkpoint8.json": {
+      "bytes": 13805,
+      "sha256": "c416567f1c3c33eb15353880ca70a34f0f3da4aafa7c2234f1d9ff990be2b3a7"
+    },
+    "ledger-item-updates.json": {
+      "bytes": 8402,
+      "sha256": "e92cd3ffc21c2981943d7541ba85a17345c13e602162984c5602a239c5fe1ad4"
+    },
+    "markdown-update-plan.json": {
+      "bytes": 24733,
+      "sha256": "38cd7cc7ed31818ae9ab379fc6f93ff542f8b3d582dc3e09c9cc31bc3621fdd4"
+    },
+    "preservation-invariants.json": {
+      "bytes": 1288,
+      "sha256": "d5d01a0031d47844fce354e307c9b0b546cb1e72fdb9f87092a55033ee61fa06"
+    },
+    "prewrite-attempt1-refusal.json": {
+      "bytes": 308,
+      "sha256": "bc20f0051c2525978c7a90c5b387f1de524425d6c22d494cea0b29a054d734ce"
+    },
+    "proposal-readback.json": {
+      "bytes": 342,
+      "sha256": "f4e80ba06088555b91ecf13e2752581017163c4613b22537a411e59a193994bd"
+    },
+    "simulation-readback.json": {
+      "bytes": 2173,
+      "sha256": "e6b214b4dc7c71613b4eef8ec5e23e663f43bc87f2d501ca0bc084442c325cfd"
+    },
+    "source-fences.json": {
+      "bytes": 5433,
+      "sha256": "dbbd0920f4379422399ca04d90c937649d7970479590ba354e0eb51858c30a4c"
+    }
+  }
+}

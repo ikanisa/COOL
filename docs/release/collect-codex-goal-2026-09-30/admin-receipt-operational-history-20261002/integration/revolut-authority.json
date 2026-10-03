@@ -1,0 +1,13 @@
+{
+  "command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "exec_session": 86088,
+  "terminal_exit_code": 0,
+  "terminal_stdout": "[revolut-design-authority] pass\n",
+  "checked_after_promotion": true,
+  "scope": "Required sole design-authority hygiene; does not certify visual fidelity",
+  "authority_json_sha256": "688fb530bd218f387691291f0ba9fbcfbaf69c865bc1d0c7896e57777fb9e731",
+  "skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50"
+}

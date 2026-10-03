@@ -1,0 +1,17 @@
+{
+  "reviewed_at": "2026-10-01T23:10:25.202442+00:00",
+  "reaped_exec_session_id": 78777,
+  "observed_terminal_chunk_id": "8d654d",
+  "observed_terminal_exit_code": 0,
+  "result_sha256": "fcafe0670591d13fdfdd8050951382f90c77764425d3b332470f0aebd1298ea9",
+  "execution_sha256": "b22268623acd92b449cf124c1b6425c6c2f0bba88bd531fee4948979d222d7aa",
+  "selected_migrations": 201,
+  "migration_applications": 402,
+  "actual_unique_preservation_checks": 36,
+  "captured_sources_and_tools_still_current": true,
+  "task_containers_removed": true,
+  "application_installer": "postgres NOSUPERUSER with retained local CREATEDB/CREATEROLE/BYPASSRLS; explicit prior platform-owner setup",
+  "complete_runtime_regression": false,
+  "managed_hosted_owner_parity": false,
+  "whole_goal_achieved": false
+}

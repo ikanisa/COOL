@@ -1,0 +1,19 @@
+{
+  "arm": null,
+  "rows": [],
+  "limit": 20,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "unavailable",
+  "attempt": null,
+  "checked_at": "2026-10-01T17:30:52.490355Z",
+  "receipt_id": "f17ea812-6a75-4fe2-a1b3-65d7eeeef7cf",
+  "archive_ack": null,
+  "next_cursor": null,
+  "carrier_proof": false,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "history_complete": false,
+  "expected_callbacks": [],
+  "sample_valid_until": "2026-10-01T17:31:52.490355Z"
+}

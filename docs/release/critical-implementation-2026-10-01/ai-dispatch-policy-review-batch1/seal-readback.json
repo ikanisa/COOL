@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "observed_at": "2026-10-02T01:46:10.900509+00:00",
+  "indexed_leaves": 46,
+  "current_source_inputs": 32,
+  "preserved_prior_leaves": 162,
+  "batch_sha256": "4296a3a89cb186bf7b02a37332418e85670659b97fcc5efd8e5f34a8d6d7ad4e",
+  "index_sha256": "cdfece9f2ec37e7fcab797072b3266ba2c7e264ed4dc1eb7bdd498e93fde0a3b",
+  "report_sha256": "393aa9c23fd40cc1cbf7cc942112bd2fef68ca0585978ce782a275822b387ea3",
+  "proposal_sha256": "15d7444f5e85b4a9dabf7cf6502ea40eb46f285e8e27e6cd42bf55d0faf185d5",
+  "schema_sha256": "07e8c38ad0d0720350d8afc2a3fe52282dcf7b097ee4405a4278f362df236d37",
+  "exact_root_owned_doc_drift_preserved": true,
+  "errors": [],
+  "guard_implementation_accepted": false,
+  "approval_acceptance": false,
+  "production_acceptance": false
+}

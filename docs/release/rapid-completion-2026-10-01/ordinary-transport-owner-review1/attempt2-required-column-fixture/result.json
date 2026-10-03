@@ -1,0 +1,158 @@
+{
+  "status": "failed",
+  "scope": "Only proposed ordinary-owner index preflight, exact type/index/column ACL validator, and original bounded sample function. Not full16:00migration/185replay or auth/server acceptance.",
+  "shared_database_written": false,
+  "hosted_called": false,
+  "provider_called": false,
+  "source_files_written": false,
+  "cases": [
+    {
+      "name": "actual retained pg_net0.20.0 and response table remain platform owned",
+      "status": "pass"
+    },
+    {
+      "name": "candidate installer is postgres NOSUPERUSER without response ownership",
+      "status": "pass"
+    },
+    {
+      "name": "missing platform index refuses with55000 and never escalates installer",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary candidate accepts existing compatible index without CREATE INDEX owner failure",
+      "status": "pass"
+    },
+    {
+      "name": "clone-only restrictive ACL fixture has no inherited all-data read authority",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects absent required read privileges",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary migration preflight refuses missing read ACL with55000",
+      "status": "pass"
+    },
+    {
+      "name": "strict type index and actual definer read privilege validation passes",
+      "status": "pass"
+    },
+    {
+      "name": "proposed ordinary validator preflight now passes",
+      "status": "pass"
+    },
+    {
+      "name": "column-only proposal adds no table SELECT raw headers queue body DML or client reads",
+      "status": "pass"
+    },
+    {
+      "name": "bounded sampler runs as ordinary postgres definer with empty search path",
+      "status": "pass"
+    },
+    {
+      "name": "actual empty sample reads queue.id without requiring whole queue SELECT",
+      "status": "pass"
+    },
+    {
+      "name": "actual original sampler consumes six permitted response columns and emits bounded metadata",
+      "status": "pass"
+    },
+    {
+      "name": "required nonunique index preserves duplicate conflict detection",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects wrong-column index",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary preflight refuses wrong-column without altering platform index",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects partial index",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary preflight refuses partial without altering platform index",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects expression index",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary preflight refuses expression without altering platform index",
+      "status": "pass"
+    }
+  ],
+  "retained_original_denial": "docs/release/rapid-completion-2026-10-01/platform-owned-index-preflight1/result.json",
+  "started_at": "2026-10-01T13:17:25.315581+00:00",
+  "owned_target": {
+    "container_id": "7f55ddd10f833dc99c2112cb7618e8cebe8778d3f4e20443f732dd0988244021",
+    "container_name": "collect_current_rehearsal_owned_probe_6fa1334a3cea",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "platform": {
+    "schema": "extensions",
+    "version": "0.20.0",
+    "response_owner": "supabase_admin",
+    "extension_owner": "supabase_admin"
+  },
+  "ordinary": {
+    "superuser": false,
+    "current_user": "postgres",
+    "owns_response": false
+  },
+  "missing_index_error": {
+    "exit_code": 3,
+    "stderr": "ERROR:  55000: receipt_transport_platform_index_prerequisite\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+  },
+  "initial_read_privileges": {
+    "schema_usage": true,
+    "headers_select": true,
+    "queue_body_select": true,
+    "queue_table_select": true,
+    "response_table_select": true
+  },
+  "minimal_acl": {
+    "queue_dml": false,
+    "response_dml": false,
+    "headers_select": false,
+    "queue_body_select": false,
+    "queue_table_select": false,
+    "client_column_select": false,
+    "response_table_select": false
+  },
+  "definer_owner": {
+    "owner": "postgres",
+    "definer": true,
+    "search_path": [
+      "search_path=\"\""
+    ]
+  },
+  "bounded_sample": {
+    "outcome": "AUTH_REFUSED",
+    "http_status": 403,
+    "response_at": "2026-10-01T13:17:37.133147Z",
+    "worker_error_code": "WORKER_AUTH_REQUIRED",
+    "transport_terminal": true,
+    "response_rows_observed": 1
+  },
+  "failure": "clone-only individual required column ACL refusal: ERROR:  42601: syntax error at or near \"postgres\"\nLINE 1: revoke select(content)on net._http_responsefrom postgres;\n                                                        ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+  "owned_container_removed": true,
+  "source_drift": [],
+  "migration_source_unchanged": true,
+  "completed_at": "2026-10-01T13:17:42.483025+00:00"
+}

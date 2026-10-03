@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "scope": "Exact one-field owner-authorized account-deletion alt correction after strict publication. No source, pixels, capture/provenance, rights or new approval change.",
+  "path": "web/public/app-screens/manifest.json",
+  "field": "screens[id=account-deletion].alt",
+  "before": "Collect account deletion screen before any reason or submission is selected",
+  "after": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action",
+  "one_field_only": true,
+  "publisher_produced_manifest": "docs/release/critical-implementation-2026-10-01/public-media-batch3/publication/publisher-produced-manifest-before-alt.json",
+  "publisher_produced_manifest_sha256": "5fe5fd766c4e30d5e0ba420fe5992be935f337746cd0b3a72e9900f422d6ef58",
+  "current_manifest_sha256": "5902fc8baf2a1323883d6a3a0c9772b835107c7a48b4cdcefed73c723174f234",
+  "final_preserved_manifest": "docs/release/critical-implementation-2026-10-01/public-media-batch3/publication/final-manifest-after-alt.json",
+  "final_preserved_manifest_sha256": "5902fc8baf2a1323883d6a3a0c9772b835107c7a48b4cdcefed73c723174f234",
+  "native_acceptance": false,
+  "publication_approval": false
+}

@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-10-01T23:35:04.897512+00:00",
+  "command": [
+    "/usr/bin/make",
+    "revolut-design-authority"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "scope": "actual required sole-authority hygiene; selected control/component/tool inputs captured; independently changing proof outputs are outside final candidate freeze",
+  "input_count": 37,
+  "exit_code": 0,
+  "visual_acceptance": "unverified",
+  "elapsed_seconds": 76.075214417,
+  "completed_at": "2026-10-01T23:36:20.972865+00:00",
+  "captured_inputs_unchanged": true,
+  "accepted": true
+}

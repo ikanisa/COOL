@@ -1,0 +1,1 @@
+{"status": "fail", "phases": {"runner_contract": {"status": "pass"}, "frozen_dependency_cache": {"status": "pass"}, "types": {"status": "fail"}}, "error": "types command failed; inspect its evidence", "report": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/source/.cache/canonical/validation.json"}

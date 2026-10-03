@@ -1,0 +1,1757 @@
+{
+  "kind": "collect_local_recovery_command_scope_proposal_v1",
+  "status": "prepared_only",
+  "docker_execution_done": false,
+  "execution_requires_parent_code_scope_review": true,
+  "code_sha256": "c5638cd21b30b5ac66c92682801ba9df01724a0c66423c9a462f28d9f67d6ec7",
+  "inputs_sha256": "96edb560734ec9d0b0a0bf3d4ddd63fded27b103e8866a818dd1759d34293fc3",
+  "private_candidate": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate5",
+  "whole_program_seconds": 600,
+  "execution_budget_seconds": 540,
+  "cleanup_budget_seconds": 60,
+  "bounds": {
+    "tool_input_bytes": 67108864,
+    "stdout_bytes": 67108864,
+    "stderr_bytes": 1048576,
+    "tool_seconds_max": 120,
+    "metadata_and_cleanup_seconds_max": 15,
+    "all_tools_clamped_to_remaining_budget": true
+  },
+  "commands": [
+    {
+      "stage": "docker_context",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "context",
+        "inspect",
+        "--format",
+        "{{.Endpoints.docker.Host}}"
+      ],
+      "scope": "read metadata only; reject non-unix socket"
+    },
+    {
+      "stage": "cached_image",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+        "--format",
+        "{{.Id}}"
+      ],
+      "scope": "read cached immutable image only; no pull/download"
+    },
+    {
+      "stage": "owned_create",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--label",
+        "collect.recovery.owner=<owned-name>",
+        "--detach",
+        "--pull=never",
+        "--name",
+        "<owned-name>",
+        "--label",
+        "collect.rehearsal.owner=<owned-name>",
+        "--network",
+        "none",
+        "--tmpfs",
+        "/var/lib/postgresql/collect-rehearsal:rw,size=1073741824",
+        "-e",
+        "POSTGRES_PASSWORD=<random-unlogged>",
+        "-e",
+        "PGDATA=/var/lib/postgresql/collect-rehearsal/data",
+        "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+        "postgres",
+        "-D",
+        "/var/lib/postgresql/collect-rehearsal/data",
+        "-c",
+        "shared_preload_libraries=pg_cron,pg_net,pg_stat_statements",
+        "-c",
+        "wal_level=logical",
+        "-c",
+        "cron.database_name=postgres",
+        "-c",
+        "cron.launch_active_jobs=off",
+        "-c",
+        "cron.log_run=on",
+        "-c",
+        "cron.timezone=UTC",
+        "-c",
+        "pg_net.batch_size=0",
+        "-c",
+        "listen_addresses="
+      ],
+      "scope": "write independently owned local tmpfs only; source and restore unique names"
+    },
+    {
+      "stage": "init_readiness_logs",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "<owned-name>"
+      ],
+      "scope": "read owned init logs; export output hash/bytes only"
+    },
+    {
+      "stage": "init_readiness_probe",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "pg_isready",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres"
+      ],
+      "scope": "read local unix readiness only; no application SQL"
+    },
+    {
+      "stage": "init_scope_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "<owned-name>",
+        "--format",
+        "{{json .HostConfig}}"
+      ],
+      "scope": "read exact image/owner/network/ports/tmpfs scope"
+    },
+    {
+      "stage": "init_label_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "<owned-name>",
+        "--format",
+        "{{json .Config.Labels}}"
+      ],
+      "scope": "read owned labels"
+    },
+    {
+      "stage": "owned_full_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "container",
+        "inspect",
+        "<owned-name>"
+      ],
+      "scope": "read metadata; retain digest only, never ephemeral password"
+    },
+    {
+      "stage": "tool_resolution",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "/bin/sh",
+        "-c",
+        "command -v <fixed-tool>"
+      ],
+      "scope": "fixed shell text only for psql,pg_dump,pg_restore,postgres; no caller/source expansion"
+    },
+    {
+      "stage": "tool_canonical_path",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "readlink",
+        "-f",
+        "<resolved-tool>"
+      ],
+      "scope": "read fixed in-image absolute executable mapping"
+    },
+    {
+      "stage": "tool_hash",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "sha256sum",
+        "<absolute-tool>"
+      ],
+      "scope": "read actual executable bytes hash; fresh before use"
+    },
+    {
+      "stage": "tool_version",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "<absolute-tool>",
+        "--version"
+      ],
+      "scope": "read actual 17.6 version; reject unsupported clients/server"
+    },
+    {
+      "stage": "platform_init",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<owned-name>",
+        "psql",
+        "-XqAt",
+        "-U",
+        "<fixture-role>",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "scope": "pre-discovery image-only local installer normalization/safeguard queries; no application migration"
+    },
+    {
+      "stage": "bound_sql",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<owned-name>",
+        "<absolute-psql>",
+        "-XqAt",
+        "-U",
+        "<fixture-role>",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "scope": "stdin exact fixture/SQL/catalog/original migration or registry insert; all app migrations current_user/current_role postgres NOSUPERUSER"
+    },
+    {
+      "stage": "dump",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<source-owned-name>",
+        "<absolute-pg_dump>",
+        "--format=custom",
+        "--compress=0",
+        "--no-password",
+        "--username=supabase_admin",
+        "--dbname=postgres"
+      ],
+      "scope": "read committed complete synthetic DB to bounded stdin-independent dump; no filters/no owner/no ACL omissions"
+    },
+    {
+      "stage": "database_control",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-psql>",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "template1",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "scope": "drop only owned target postgres with force; recreate from template0 with exact retained locale/owner"
+    },
+    {
+      "stage": "archive_toc",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-pg_restore>",
+        "--list"
+      ],
+      "scope": "read seal-verified synthetic archive stdin; record exact explicitly preinstalled entries"
+    },
+    {
+      "stage": "restore_list_copy",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "cp",
+        "<private-output>/full-restore-list.txt",
+        "<restore-owned-name>:/tmp/collect-full-restore-list.txt"
+      ],
+      "scope": "write one sealed TOC list inside owned target container only"
+    },
+    {
+      "stage": "restore",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-pg_restore>",
+        "--exit-on-error",
+        "--no-password",
+        "--username=supabase_admin",
+        "--dbname=postgres",
+        "--use-list=/tmp/collect-full-restore-list.txt"
+      ],
+      "scope": "write seal-verified synthetic archive inside independently owned local fixture; local restore proposal only"
+    },
+    {
+      "stage": "cleanup",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "rm",
+        "--force",
+        "--volumes",
+        "<owned-name>"
+      ],
+      "scope": "remove only freshly inspected exact label/image/network/tmpfs owned target; verify absent"
+    }
+  ],
+  "sql_input_and_authority_matrix": [
+    {
+      "stage": "source_platform",
+      "inputs": [
+        "sealed platform_shape() extraction from baseline hash77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+        "scripts/sql/receipt_transport_platform_prerequisites.sql",
+        "explicit retained pg_cron/pg_net owner/member/cron API prerequisite statements"
+      ],
+      "role": "postgres initial fixture superuser / supabase_admin platform owner; demote before application migration1"
+    },
+    {
+      "stage": "predecessor_original_migrations",
+      "inputs": [
+        "supabase/migrations/202605230001_collect_baseline.sql",
+        "supabase/migrations/202605230002_fix_invite_rpc_lint.sql",
+        "supabase/migrations/202605230003_harden_rls_indexes.sql",
+        "supabase/migrations/202605230004_restore_payment_intent_paid_rpc.sql",
+        "supabase/migrations/202605230005_restore_sms_collection_scope.sql",
+        "supabase/migrations/202605230006_finalize_payment_intent_hardening.sql",
+        "supabase/migrations/202605230007_revoke_public_function_execute.sql",
+        "supabase/migrations/202605230008_admin_panel.sql",
+        "supabase/migrations/202605230009_add_client_safe_views.sql",
+        "supabase/migrations/202605230010_grant_collection_receiver_read.sql",
+        "supabase/migrations/202605230011_fix_receiver_consent_execute_grant.sql",
+        "supabase/migrations/202605230012_admin_rpc_grants.sql",
+        "supabase/migrations/202605230013_admin_settings_flags.sql",
+        "supabase/migrations/202605230014_admin_review_hardening.sql",
+        "supabase/migrations/202605230015_admin_collection_moderation.sql",
+        "supabase/migrations/202605230016_drop_unowned_admin_helpers.sql",
+        "supabase/migrations/202605230017_admin_list_filter_contracts.sql",
+        "supabase/migrations/20260523203132_tighten_admin_role_permissions.sql",
+        "supabase/migrations/20260523204235_set_views_security_invoker.sql",
+        "supabase/migrations/20260523205502_set_helper_function_search_paths.sql",
+        "supabase/migrations/20260523210723_split_permissive_select_policies.sql",
+        "supabase/migrations/20260523212244_revoke_anon_platform_admin_helper.sql",
+        "supabase/migrations/20260523213113_disable_graphql_introspection.sql",
+        "supabase/migrations/202605250001_app_realtime_invalidation.sql",
+        "supabase/migrations/202605270001_sms_first_group_payment_intents.sql",
+        "supabase/migrations/20260531162852_harden_sms_first_function_grants.sql",
+        "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+        "supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql",
+        "supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql",
+        "supabase/migrations/20260607130500_update_collection_profile_rpc.sql",
+        "supabase/migrations/20260608090000_native_notifications.sql",
+        "supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql",
+        "supabase/migrations/20260611113000_harden_notification_rls_initplan.sql",
+        "supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql",
+        "supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql",
+        "supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql",
+        "supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql",
+        "supabase/migrations/20260612110000_admin_payment_event_server_paging.sql",
+        "supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql",
+        "supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql",
+        "supabase/migrations/20260619003000_profile_momo_pay_code.sql",
+        "supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql",
+        "supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql",
+        "supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql",
+        "supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql",
+        "supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql",
+        "supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql",
+        "supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql",
+        "supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql",
+        "supabase/migrations/20260701090000_developer_account_seed_data.sql",
+        "supabase/migrations/20260701100000_group_owner_controls.sql",
+        "supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql",
+        "supabase/migrations/20260703224559_collection_type_catalog_runtime.sql",
+        "supabase/migrations/20260703225455_notification_templates_runtime.sql",
+        "supabase/migrations/20260704100000_public_runtime_config.sql",
+        "supabase/migrations/20260704110000_admin_runtime_metadata.sql",
+        "supabase/migrations/20260704120000_policy_documents_account_reasons.sql",
+        "supabase/migrations/20260704133000_split_runtime_metadata_select_policies.sql",
+        "supabase/migrations/20260730134500_grant_mobile_request_own_read.sql",
+        "supabase/migrations/20260804150000_native_push_delivery.sql",
+        "supabase/migrations/20260805120000_android_fcm_push_delivery.sql",
+        "supabase/migrations/20260808093000_qualify_notification_token_digest.sql",
+        "supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql",
+        "supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql",
+        "supabase/migrations/20260812090000_expand_momo_pay_code_length.sql",
+        "supabase/migrations/20260812100000_remove_developer_dummy_data.sql",
+        "supabase/migrations/20260812110000_correct_momo_merchant_ussd_template.sql",
+        "supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql",
+        "supabase/migrations/20260815051035_harden_group_creation_journey.sql",
+        "supabase/migrations/20260815054500_close_group_journey_database_lint.sql",
+        "supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql",
+        "supabase/migrations/20260815071500_bind_contribution_payer_identity.sql",
+        "supabase/migrations/20260815082500_close_group_authorization_privacy.sql",
+        "supabase/migrations/20260815083000_require_provider_finality.sql",
+        "supabase/migrations/20260815083500_claim_sms_parser_work.sql",
+        "supabase/migrations/20260815084000_atomic_sms_ingestion.sql",
+        "supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql",
+        "supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql",
+        "supabase/migrations/20260820160000_restore_momo_sms_standalone.sql",
+        "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+        "supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql",
+        "supabase/migrations/20260828100000_profile_country_session_independence.sql",
+        "supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql",
+        "supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql",
+        "supabase/migrations/20260831095454_collect_admin_operations_model.sql",
+        "supabase/migrations/20260901134820_platform_public_groups.sql",
+        "supabase/migrations/20260901135728_public_group_directory.sql",
+        "supabase/migrations/20260901141842_public_contribution_auto_membership.sql",
+        "supabase/migrations/20260901160000_collect_admin_payee_management.sql",
+        "supabase/migrations/20260901183000_admin_operations_tables.sql",
+        "supabase/migrations/20260901193000_admin_group_lifecycle.sql",
+        "supabase/migrations/20260901194500_admin_users_and_members.sql",
+        "supabase/migrations/20260901200000_localize_public_group_payment_routes.sql",
+        "supabase/migrations/20260901210000_admin_single_access_role.sql",
+        "supabase/migrations/20260901220000_admin_country_scope_contract.sql",
+        "supabase/migrations/20260901223000_live_admin_uat_fixes.sql",
+        "supabase/migrations/20260901230000_admin_people_detail_contract.sql",
+        "supabase/migrations/20260902073741_member_profile_numeric_identity.sql",
+        "supabase/migrations/20260902075721_member_collection_read_contract.sql",
+        "supabase/migrations/20260902081017_hybrid_admin_overview_metrics.sql",
+        "supabase/migrations/20260902081830_member_profile_read_allowlist.sql",
+        "supabase/migrations/20260902083940_member_cross_rail_history.sql",
+        "supabase/migrations/20260902090210_member_group_owner_controls.sql",
+        "supabase/migrations/20260902091314_member_group_roster.sql",
+        "supabase/migrations/20260902093609_member_history_query_plan.sql",
+        "supabase/migrations/20260902100046_member_bounded_history_pages.sql",
+        "supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql",
+        "supabase/migrations/20260902120555_hybrid_member_registry.sql",
+        "supabase/migrations/20260902134420_member_add_group_admin.sql",
+        "supabase/migrations/20260902140151_platform_admin_whatsapp_approval.sql",
+        "supabase/migrations/20260902212721_revoke_official_payee_trigger_execute.sql",
+        "supabase/migrations/20260903083947_member_profile_rpc_only_writes.sql",
+        "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+        "supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql",
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+        "supabase/migrations/20260903090500_admin_sms_receipt_queue.sql",
+        "supabase/migrations/20260903091000_hybrid_verified_account_claim.sql",
+        "supabase/migrations/20260903091500_hybrid_member_directory_views.sql",
+        "supabase/migrations/20260903092000_admin_sms_receipt_failed_filter.sql",
+        "supabase/migrations/20260903092500_revoke_hybrid_internal_function_execute.sql",
+        "supabase/migrations/20260903200322_hybrid_directory_presentation.sql",
+        "supabase/migrations/20260903201326_geographic_member_profile_gates.sql",
+        "supabase/migrations/20260906093000_member_profile_momo_code.sql",
+        "supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql"
+      ],
+      "role": "postgres NOSUPERUSER; every original migration and exact original statement registry committed"
+    },
+    {
+      "stage": "synthetic_seed",
+      "inputs": [
+        "captured collect_current_release_upgrade_uat.seed_populated/bootstrap_owner helper; no external rows"
+      ],
+      "role": "postgres NOSUPERUSER and transaction-local synthetic service_role claims; no provider"
+    },
+    {
+      "stage": "source_backup",
+      "inputs": [
+        "committed registry124",
+        "fresh all18 fingerprints",
+        "whole source catalog",
+        "actual pg_dump17.6"
+      ],
+      "role": "supabase_admin read full DB in separate session"
+    },
+    {
+      "stage": "target_restore_prerequisites",
+      "inputs": [
+        "exact admitted image globals plus only observed source supabase_functions_admin prerequisite; complete readonly30-role/23-membership/8-setting equality before pg_restore",
+        "source database template0 identity and owner ACL",
+        "source extension versions/owners and retained trusted net member metadata"
+      ],
+      "role": "explicit local-only supabase_admin platform restore; postgres fixture owner for trusted extensions/database ACL"
+    },
+    {
+      "stage": "readonly_source_and_restore_role_globals",
+      "query": "BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\nSELECT jsonb_build_object(\n 'roles',(SELECT coalesce(jsonb_agg(jsonb_build_array(rolname,rolsuper,rolinherit,rolcreaterole,\n   rolcreatedb,rolcanlogin,rolreplication,rolbypassrls,rolconnlimit,rolvaliduntil::text,\n   encode(sha256(convert_to(ARRAY(SELECT x FROM unnest(rolconfig) x ORDER BY x COLLATE \"C\")::text,'UTF8')),'hex'))\n   ORDER BY rolname COLLATE \"C\"),'[]') FROM pg_roles),\n 'memberships',(SELECT coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(roleid),\n   pg_get_userbyid(member),pg_get_userbyid(grantor),admin_option,inherit_option,set_option)\n   ORDER BY pg_get_userbyid(roleid) COLLATE \"C\",pg_get_userbyid(member) COLLATE \"C\",\n   pg_get_userbyid(grantor) COLLATE \"C\"),'[]') FROM pg_auth_members),\n 'settings',(SELECT coalesce(jsonb_agg(jsonb_build_array(\n   CASE WHEN setdatabase=0 THEN '*' ELSE current_database() END,\n   CASE WHEN setrole=0 THEN '*' ELSE pg_get_userbyid(setrole) END,\n   encode(sha256(convert_to(ARRAY(SELECT x FROM unnest(setconfig) x ORDER BY x COLLATE \"C\")::text,'UTF8')),'hex'))\n   ORDER BY setdatabase=0,CASE WHEN setrole=0 THEN '*' ELSE pg_get_userbyid(setrole) END COLLATE \"C\"),'[]')\n   FROM pg_db_role_setting WHERE setdatabase=0 OR setdatabase=(SELECT oid FROM pg_database WHERE datname=current_database()))\n);\nCOMMIT;\n",
+      "query_sha256": "5ce8becd426f356612a7d9995c2be5b753c8b4e86717735b4f3767213efe0f02",
+      "exact_frozen_catalog_expressions": true,
+      "role": "postgres NOSUPERUSER; read-only repeatable read before pg_restore",
+      "source_role_count": 30,
+      "source_membership_count": 23,
+      "source_settings_count": 8,
+      "unknown_missing_extra_or_differing_role_attrs_memberships_settings_refused": true
+    },
+    {
+      "stage": "target_exact_source_role_prerequisite",
+      "sql": "create role supabase_functions_admin with nosuperuser noinherit createrole nocreatedb login noreplication nobypassrls connection limit -1;",
+      "sql_sha256": "cb1cf5f924a3c4ff938ec0c2f56eedd9a8aa7d074c0a70e6db9f2de2424572e1",
+      "exact_observed_source_role": [
+        "supabase_functions_admin",
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        -1,
+        null,
+        "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      ],
+      "role": "supabase_admin; exact local synthetic-only source global; before pg_restore",
+      "allowed_missing_roles": [
+        "supabase_functions_admin"
+      ],
+      "no_SQL_if_already_exact": true,
+      "image_fixture_complete": false,
+      "single_database_dump_excludes_source_role_globals": true,
+      "all30_roles_memberships_settings_rechecked_before_archive_restore": true
+    },
+    {
+      "stage": "exact_source_GraphQL_schema_wrapper_extension_membership_prerequisite",
+      "admitted_source_scope": {
+        "function": [
+          "graphql_public",
+          "graphql",
+          "\"operationName\" text, query text, variables jsonb, extensions jsonb",
+          "f",
+          "supabase_admin",
+          false,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+          "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2"
+        ],
+        "hook": [
+          "extensions",
+          "grant_pg_graphql_access",
+          "",
+          "f",
+          "supabase_admin",
+          false,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "postgres=X*/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+          "c3a126f9bf8958b3af27e6bec128aca58627df257259003b59511fdd3af82333"
+        ],
+        "schema": [
+          "graphql_public",
+          "supabase_admin",
+          [
+            "anon=U/supabase_admin",
+            "authenticated=U/supabase_admin",
+            "postgres=U*/supabase_admin",
+            "service_role=U/supabase_admin",
+            "supabase_admin=UC/supabase_admin"
+          ]
+        ],
+        "dependencies": [
+          [
+            "e",
+            "function",
+            "graphql_public",
+            "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "n",
+            "function",
+            "graphql_public",
+            "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+            "schema",
+            null,
+            "graphql_public"
+          ]
+        ],
+        "event_trigger": [
+          "issue_pg_graphql_access",
+          "ddl_command_end",
+          "supabase_admin",
+          "extensions.grant_pg_graphql_access()",
+          "O",
+          [
+            "CREATE FUNCTION"
+          ]
+        ],
+        "source_hook_body_sha256": "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+        "source_nested_wrapper_sql_sha256": "f1a08a07934d7df8ab26d675093b2069d1ecfa23be2b331b4a1e84bd48091ea8",
+        "source_wrapper_body_sha256": "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+        "source_function_definition_sha256": "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2",
+        "create_schema_sql": "create schema graphql_public authorization supabase_admin;",
+        "create_function_sql": "        create function graphql_public.graphql(\n            \"operationName\" text default null,\n            query text default null,\n            variables jsonb default null,\n            extensions jsonb default null\n        )\n            returns jsonb\n            language sql\n        as $$\n            select graphql.resolve(\n                query := query,\n                variables := coalesce(variables, '{}'),\n                \"operationName\" := \"operationName\",\n                extensions := extensions\n            );\n        $$;",
+        "extension_membership_sql": "alter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);",
+        "source_extension_membership_proven": true,
+        "source_hook_only": true,
+        "wrapper_creation_provenance_not_inferred_from_ACL": true
+      },
+      "sql": "create schema graphql_public authorization supabase_admin;\n        create function graphql_public.graphql(\n            \"operationName\" text default null,\n            query text default null,\n            variables jsonb default null,\n            extensions jsonb default null\n        )\n            returns jsonb\n            language sql\n        as $$\n            select graphql.resolve(\n                query := query,\n                variables := coalesce(variables, '{}'),\n                \"operationName\" := \"operationName\",\n                extensions := extensions\n            );\n        $$;\nalter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);\n",
+      "sql_sha256": "f461df9b4171e8abfc7c77d35b62afe0677bf0c428a2b53679a24c5e5c69adda",
+      "query": "-- PostgreSQL17 read-only recovery identity. Names replace OIDs; source/default/\n-- configuration values are hashed. This does not read business or Auth rows.\n-- Full archive data, schema and role comparisons remain separate requirements.\n-- NULL ACLs expand to PostgreSQL defaults: pg_dump may omit redundant default\n-- ACL entries. Explicit empty ACLs retain zero grants; all entries remain intact.\nBEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\nSET LOCAL search_path = pg_catalog;\nSET LOCAL timezone = 'UTC';\nSET LOCAL statement_timeout = '120s';\nWITH ns AS (\n  SELECT * FROM pg_namespace WHERE left(nspname,3) <> 'pg_' AND nspname <> 'information_schema'\n), rel AS (\n  SELECT c.*, n.nspname FROM pg_class c JOIN ns n ON n.oid=c.relnamespace\n), routine AS (\n  SELECT p.*, n.nspname FROM pg_proc p JOIN ns n ON n.oid=p.pronamespace\n), dependency AS (\n  SELECT d.deptype, a.type AS object_type, a.schema AS object_schema,\n    a.identity AS object_identity, b.type AS referenced_type,\n    b.schema AS referenced_schema, b.identity AS referenced_identity\n  FROM pg_depend d\n  CROSS JOIN LATERAL pg_identify_object(d.classid,d.objid,d.objsubid) a\n  CROSS JOIN LATERAL pg_identify_object(d.refclassid,d.refobjid,d.refobjsubid) b\n  WHERE (a.schema IN (SELECT nspname FROM ns) OR b.schema IN (SELECT nspname FROM ns))\n    -- Rebuilt TOAST names and internal FK trigger names contain source OIDs.\n    -- Their logical table/column/constraint definitions are compared above.\n    AND (a.schema IS NULL OR left(a.schema,3) <> 'pg_')\n    AND NOT (d.classid='pg_trigger'::regclass AND EXISTS (\n      SELECT 1 FROM pg_trigger t WHERE t.oid=d.objid AND t.tgisinternal))\n)\nSELECT jsonb_build_object(\n 'schemas',(SELECT coalesce(jsonb_agg(jsonb_build_array(nspname,pg_get_userbyid(nspowner),\n   to_jsonb(ARRAY(SELECT x::text FROM unnest(coalesce(nspacl,acldefault('n',nspowner))) x ORDER BY x::text COLLATE \"C\")))\n   ORDER BY nspname COLLATE \"C\"),'[]') FROM ns),\n 'functions',(SELECT coalesce(jsonb_agg(jsonb_build_array(nspname,proname,\n   pg_get_function_identity_arguments(oid),prokind,pg_get_userbyid(proowner),\n   prosecdef,provolatile,proparallel,proleakproof,proisstrict,\n   to_jsonb(ARRAY(SELECT x::text FROM unnest(coalesce(proacl,acldefault('f',proowner))) x ORDER BY x::text COLLATE \"C\")),\n   encode(sha256(convert_to(prosrc,'UTF8')),'hex'),\n   CASE WHEN prokind <> 'a' THEN encode(sha256(convert_to(pg_get_functiondef(oid),'UTF8')),'hex') END)\n   ORDER BY nspname COLLATE \"C\",proname COLLATE \"C\",pg_get_function_identity_arguments(oid) COLLATE \"C\"),'[]') FROM routine),\n 'dependencies',(SELECT coalesce(jsonb_agg(jsonb_build_array(deptype,object_type,object_schema,\n   object_identity,referenced_type,referenced_schema,referenced_identity)\n   ORDER BY deptype,object_type COLLATE \"C\",object_schema COLLATE \"C\",object_identity COLLATE \"C\",\n   referenced_type COLLATE \"C\",referenced_schema COLLATE \"C\",referenced_identity COLLATE \"C\"),'[]') FROM dependency)\n);\nCOMMIT;\n",
+      "query_sha256": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc",
+      "role": "readonly postgres NOSUPERUSER inventory; fixed prerequisite SQL as local synthetic supabase_admin",
+      "newly_preinstalled_schema_CREATE_TOC_only": true,
+      "every_wrapper_schema_and_other_ACL_retained": true,
+      "unknown_source_or_restore_identity_body_owner_definition_dependency_provenance_refused": true,
+      "preliminary_ACL_cohorts": [
+        "exact_new_function_default",
+        "exact_final_source"
+      ],
+      "full_predecessor_and_final_catalog_comparison_unchanged": true
+    },
+    {
+      "stage": "target_archive_restore",
+      "inputs": [
+        "actual fsynced dump bytes+SHA",
+        "exact full TOC with only preinstalled extension/schema CREATE and separately satisfied DB controls commented"
+      ],
+      "role": "local fixture-only supabase_admin; no shipping restore admission"
+    },
+    {
+      "stage": "post_archive_exact_captured_source_compatibility_repairs",
+      "admitted_source_scope": {
+        "source_catalog_canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+        "captured_restored_catalog_canonical_sha256": "4f5fb4d590dc8aa6eebd0127b5bec74098be649f3fd68cf05a0832e5c08eb90b",
+        "graphql_functions": [
+          [
+            "graphql",
+            "_internal_resolve",
+            "query text, variables jsonb, \"operationName\" text, extensions jsonb",
+            "f",
+            "supabase_admin",
+            false,
+            "v",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "0fa51aee6e6b7004d1a5b03071fc7bf5fc0acf4827f48bd1d159a8d634f5d488",
+            "3212c591a402bc9f92b82bfcea4fc3d77d0690a25b59d1a4e2c4f38fd6ca2a9e"
+          ],
+          [
+            "graphql",
+            "comment_directive",
+            "comment_ text",
+            "f",
+            "supabase_admin",
+            false,
+            "i",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "330b0e556c68aa9b58e5e7b3aa9e3c5c3c8d1c645f74e81d8172b3de067f3ba9",
+            "be14e0b553144a2c04e964a2c2301a2c4a88137f2d0f2fbc390751c5d74f9493"
+          ],
+          [
+            "graphql",
+            "exception",
+            "message text",
+            "f",
+            "supabase_admin",
+            false,
+            "v",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "f48fab09868d4e101a15d6489e198cf50970a607ea3ae021cc2628e70686e586",
+            "7194a5c5d833782c38bc2efa78f7d0af1c133c0e5b30abc110705cc1d69e03b9"
+          ],
+          [
+            "graphql",
+            "get_schema_version",
+            "",
+            "f",
+            "supabase_admin",
+            true,
+            "v",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "cbd60912c4e7b980f7fd064bf3cb177504bd2de34e43a6ff0c98e3f641494957",
+            "f61f2f82caf3e62d73892d1767b3419fa1ce354371acca1636afd73f9f3b4840"
+          ],
+          [
+            "graphql",
+            "increment_schema_version",
+            "",
+            "f",
+            "supabase_admin",
+            true,
+            "v",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "b2e1b55c1cfab184da3d911c52f1f732cb4847dc1f5840c68297b2f0dd51155b",
+            "0e461d6c599638cc70f1e14d4175b3f002709e08b55e27b16b7b17245e9f00b8"
+          ],
+          [
+            "graphql",
+            "resolve",
+            "query text, variables jsonb, \"operationName\" text, extensions jsonb",
+            "f",
+            "supabase_admin",
+            false,
+            "v",
+            "u",
+            false,
+            false,
+            [
+              "=X/supabase_admin",
+              "anon=X/supabase_admin",
+              "authenticated=X/supabase_admin",
+              "postgres=X/supabase_admin",
+              "service_role=X/supabase_admin",
+              "supabase_admin=X/supabase_admin"
+            ],
+            "d6e7be2302c539d88c04e133ed3fd7c58c00e7071f42c8b4d51b76dff34166bd",
+            "c803c776eda03951b596200e46e39059c1c674b469be9a903d09366c379895a6"
+          ]
+        ],
+        "graphql_schemas": [
+          [
+            "graphql",
+            "supabase_admin",
+            [
+              "anon=U/supabase_admin",
+              "authenticated=U/supabase_admin",
+              "postgres=U*/supabase_admin",
+              "service_role=U/supabase_admin",
+              "supabase_admin=UC/supabase_admin"
+            ]
+          ],
+          [
+            "graphql_public",
+            "supabase_admin",
+            [
+              "anon=U/supabase_admin",
+              "authenticated=U/supabase_admin",
+              "postgres=U*/supabase_admin",
+              "service_role=U/supabase_admin",
+              "supabase_admin=UC/supabase_admin"
+            ]
+          ]
+        ],
+        "graphql_sequence": [
+          [
+            "graphql",
+            "seq_schema_version",
+            "S",
+            "p",
+            "supabase_admin",
+            false,
+            false,
+            [
+              "anon=rwU/supabase_admin",
+              "authenticated=rwU/supabase_admin",
+              "postgres=rwU/supabase_admin",
+              "service_role=rwU/supabase_admin",
+              "supabase_admin=rwU/supabase_admin"
+            ],
+            [],
+            null
+          ]
+        ],
+        "graphql_extension_function_members": [
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql._internal_resolve(pg_catalog.text,pg_catalog.jsonb,pg_catalog.text,pg_catalog.jsonb)",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql.comment_directive(pg_catalog.text)",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql.exception(pg_catalog.text)",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql.get_schema_version()",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql.increment_schema_version()",
+            "extension",
+            null,
+            "pg_graphql"
+          ],
+          [
+            "e",
+            "function",
+            "graphql",
+            "graphql.resolve(pg_catalog.text,pg_catalog.jsonb,pg_catalog.text,pg_catalog.jsonb)",
+            "extension",
+            null,
+            "pg_graphql"
+          ]
+        ],
+        "source_index_rows": {
+          "columns": [
+            [
+              "net",
+              "collect_receipt_http_response_id",
+              1,
+              "id",
+              "bigint",
+              false,
+              "",
+              "",
+              [],
+              null,
+              null
+            ]
+          ],
+          "relations": [
+            [
+              "net",
+              "collect_receipt_http_response_id",
+              "i",
+              "u",
+              "supabase_admin",
+              false,
+              false,
+              [
+                "supabase_admin=arwdDxtm/supabase_admin"
+              ],
+              [],
+              null
+            ]
+          ],
+          "indexes": [
+            [
+              "net",
+              "collect_receipt_http_response_id",
+              true,
+              true,
+              true,
+              "9328daab9410518dca5727ad8889381de3d298d548b204d8bed7fd1437a90df3"
+            ]
+          ]
+        },
+        "source_index_dependencies": [
+          [
+            "a",
+            "index",
+            "net",
+            "net.collect_receipt_http_response_id",
+            "table column",
+            "net",
+            "net._http_response.id"
+          ]
+        ],
+        "underlying_table_extension_membership": [
+          "e",
+          "table",
+          "net",
+          "net._http_response",
+          "extension",
+          null,
+          "pg_net"
+        ],
+        "source_constraints": [
+          [
+            "public",
+            "public.notification_events",
+            "notification_events_copy_length_check",
+            "c",
+            false,
+            false,
+            false,
+            "d39f28d2b96e15bb3abe3c66ef153a22ec19a6381e78c24db1965407925a9e87"
+          ],
+          [
+            "public",
+            "public.provider_finality_requests",
+            "provider_finality_requests_provider_network_check",
+            "c",
+            true,
+            false,
+            false,
+            "05c313d4a8d16cf1745983feb6df49956260bf6fa1dc8eaf65ccc10630086d51"
+          ]
+        ],
+        "exact_admitted_restored_constraints": [
+          [
+            "public",
+            "public.notification_events",
+            "notification_events_copy_length_check",
+            "c",
+            false,
+            false,
+            false,
+            "74e42a847ff75a14e384b3eaaca4ce27961584e94628a4dadeb2b76bd0a7275e"
+          ],
+          [
+            "public",
+            "public.provider_finality_requests",
+            "provider_finality_requests_provider_network_check",
+            "c",
+            true,
+            false,
+            false,
+            "04d7111057711ab49ddb4d03ef63af3f3fe4fae5b66822a288bfad9ab74aa678"
+          ]
+        ],
+        "notification_original_expression": "\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500",
+        "provider_original_expression": "\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )",
+        "admin_sql": "begin;\ngrant usage on schema graphql,graphql_public to postgres,anon,authenticated,service_role;\ngrant usage on schema graphql,graphql_public to postgres with grant option;\ngrant execute on function graphql._internal_resolve(text,jsonb,text,jsonb),graphql.comment_directive(text),graphql.exception(text),graphql.get_schema_version(),graphql.increment_schema_version(),graphql.resolve(text,jsonb,text,jsonb) to postgres,anon,authenticated,service_role;\ngrant select,update,usage on sequence graphql.seq_schema_version to postgres,anon,authenticated,service_role;\ncreate index if not exists collect_receipt_http_response_id on net._http_response(id);\ncommit;",
+        "postgres_sql": "begin;\nalter table public.notification_events drop constraint notification_events_copy_length_check;\nalter table public.notification_events add constraint notification_events_copy_length_check check (\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500\n  ) not valid;\nalter table public.provider_finality_requests drop constraint provider_finality_requests_provider_network_check;\nalter table public.provider_finality_requests add constraint provider_finality_requests_provider_network_check check (\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )\n  );\ncommit;",
+        "schema_or_function_rewrite": false,
+        "generic_GRANT_ALL": false,
+        "full_catalog_comparator_unchanged": true,
+        "graphql_public_nonpostgres_usage_grants_proven_by_captured_schema_ACL": true
+      },
+      "admitted_target_canonical_sha256": "4f5fb4d590dc8aa6eebd0127b5bec74098be649f3fd68cf05a0832e5c08eb90b",
+      "source_canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+      "archive_omission_proof": {
+        "index_name_occurrences_in_uncompressed_archive": 0,
+        "index_name_occurrences_in_TOC": 0,
+        "six_graphql_extension_function_definitions_and_ACLs_absent_from_TOC": true,
+        "sequence_definition_and_ACL_absent_from_TOC": true,
+        "sequence_extension_membership": [
+          "e",
+          "sequence",
+          "graphql",
+          "graphql.seq_schema_version",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        "no_archive_line_omitted_or_rewritten_by_this_proof": true
+      },
+      "admin_sql": "begin;\ngrant usage on schema graphql,graphql_public to postgres,anon,authenticated,service_role;\ngrant usage on schema graphql,graphql_public to postgres with grant option;\ngrant execute on function graphql._internal_resolve(text,jsonb,text,jsonb),graphql.comment_directive(text),graphql.exception(text),graphql.get_schema_version(),graphql.increment_schema_version(),graphql.resolve(text,jsonb,text,jsonb) to postgres,anon,authenticated,service_role;\ngrant select,update,usage on sequence graphql.seq_schema_version to postgres,anon,authenticated,service_role;\ncreate index if not exists collect_receipt_http_response_id on net._http_response(id);\ncommit;",
+      "admin_sql_sha256": "326966a8d55a2023b81d698a29d3009ad11b0872bcda1a65694157fd301b4948",
+      "admin_role": "exact local synthetic supabase_admin",
+      "postgres_sql": "begin;\nalter table public.notification_events drop constraint notification_events_copy_length_check;\nalter table public.notification_events add constraint notification_events_copy_length_check check (\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500\n  ) not valid;\nalter table public.provider_finality_requests drop constraint provider_finality_requests_provider_network_check;\nalter table public.provider_finality_requests add constraint provider_finality_requests_provider_network_check check (\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )\n  );\ncommit;",
+      "postgres_sql_sha256": "dbb21ec141a4b4723dd994769a17970f92fadcee1f404e356972d634989a3f78",
+      "postgres_role": "postgres NOSUPERUSER",
+      "fresh18_projection_parity_immediately_before_and_after_both_transactions": true,
+      "exact_source_CHECK_identity_flags_definition_hashes_required_before_continuing": true,
+      "unknown_metadata_or_source_SQL_or_additional_difference_refused": true,
+      "full_predecessor_and_final209_catalog_comparison_unchanged": true,
+      "all85_original_forward_migrations_unchanged": true,
+      "schema_or_function_rewrite": false,
+      "generic_GRANT_ALL": false,
+      "CHECK_hash_normalization": false
+    },
+    {
+      "stage": "restored_boundary",
+      "inputs": [
+        "unmodified full catalog query",
+        "all18 fresh predecessor projection cohort"
+      ],
+      "role": "postgres NOSUPERUSER before first forward migration; compare exact whole predecessor"
+    },
+    {
+      "stage": "negative_acl",
+      "inputs": [
+        "BEGIN; GRANT SELECT ON public.payments TO anon; full catalog query; ROLLBACK; full catalog readback"
+      ],
+      "role": "postgres NOSUPERUSER; rollback only deliberate ACL fault, not backup/restore"
+    },
+    {
+      "stage": "forward_original_migrations",
+      "inputs": [
+        "supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql",
+        "supabase/migrations/20260914213600_atomic_otp_rate_limit.sql",
+        "supabase/migrations/20260925190000_rwanda_momo_only.sql",
+        "supabase/migrations/20260928150000_relational_member_history_pages.sql",
+        "supabase/migrations/20260928160000_sms_observation_never_settles.sql",
+        "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql",
+        "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+        "supabase/migrations/20260928172000_allow_incomplete_rwanda_onboarding_profile.sql",
+        "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql",
+        "supabase/migrations/20260929110000_admin_notification_page_before_delivery_counts.sql",
+        "supabase/migrations/20260929120000_provider_finality_payment_lock_order.sql",
+        "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+        "supabase/migrations/20260929140000_notification_delivery_fencing.sql",
+        "supabase/migrations/20260929150000_notification_retry_eligibility.sql",
+        "supabase/migrations/20260929160000_notification_retry_schedule.sql",
+        "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+        "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+        "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+        "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql",
+        "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "supabase/migrations/20260930150000_runtime_control_governance.sql",
+        "supabase/migrations/20260930160000_redacted_operational_health.sql",
+        "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+        "supabase/migrations/20260930180000_operational_health_authority.sql",
+        "supabase/migrations/20260930200000_admin_automation_navigation.sql",
+        "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+        "supabase/migrations/20260930211605_android_gateway_identity.sql",
+        "supabase/migrations/20260930213000_operator_email_auth.sql",
+        "supabase/migrations/20260930220000_runtime_control_authority.sql",
+        "supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+        "supabase/migrations/20260930230000_group_share_rotation_receipts.sql",
+        "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+        "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+        "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+        "supabase/migrations/20260930230400_admin_investigation.sql",
+        "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+        "supabase/migrations/20260930234000_exact_request_amounts.sql",
+        "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+        "supabase/migrations/20260930235500_operator_reason_whitespace.sql",
+        "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql",
+        "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql",
+        "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+        "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+        "supabase/migrations/20261001000300_admin_exception_reads.sql",
+        "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+        "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+        "supabase/migrations/20261001001457_joined_operator_audit.sql",
+        "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+        "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+        "supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql",
+        "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+        "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+        "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+        "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+        "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+        "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+        "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+        "supabase/migrations/20261001170000_android_attempt_archive.sql",
+        "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql",
+        "supabase/migrations/20261001190000_exception_followup_v2.sql",
+        "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+        "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "supabase/migrations/20261001220000_governed_settings_requests.sql",
+        "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+        "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+        "supabase/migrations/20261001234000_play_integrity_admission.sql",
+        "supabase/migrations/20261001235000_admin_audit_read_api_only.sql",
+        "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+        "supabase/migrations/20261002000000_runtime_control_edit_eligibility.sql",
+        "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+        "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+        "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+        "supabase/migrations/20261002031500_privacy_request_intake.sql",
+        "supabase/migrations/20261002040000_receipt_unarmed_closure.sql",
+        "supabase/migrations/20261002041000_receipt_successor_approvals.sql",
+        "supabase/migrations/20261002042000_privacy_current_request_status.sql",
+        "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+        "supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+        "supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+        "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+        "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+        "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+        "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql"
+      ],
+      "role": "postgres NOSUPERUSER; each original statement+registry committed; all18 before/after hashes equal fresh predecessor"
+    },
+    {
+      "stage": "final_reference_comparison",
+      "inputs": [
+        "complete effective catalog and all ACLs",
+        "sealed current209 final catalog4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+      ],
+      "role": "postgres NOSUPERUSER; whole catalog byte/canonical equality; historic randomized row hashes not compared"
+    }
+  ],
+  "proposed_execution_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation5/rehearsal.py",
+    "--inputs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation5/inputs.json",
+    "--review-record",
+    "<separately-reviewed-record-path>",
+    "--review-record-sha256",
+    "<actual-record-sha256>",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate5/docs/release/committed-recovery5"
+  ],
+  "review_record_schema": {
+    "kind": "literal collect_local_synthetic_recovery_review_v1",
+    "decision": "reviewer supplied admit or refuse; no decision created by preparation",
+    "review_reference": "reviewer supplied retained reference",
+    "code_sha256": "c5638cd21b30b5ac66c92682801ba9df01724a0c66423c9a462f28d9f67d6ec7",
+    "inputs_sha256": "96edb560734ec9d0b0a0bf3d4ddd63fded27b103e8866a818dd1759d34293fc3",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "client_version": "17.6",
+    "server_version_num": 170006,
+    "operations": [
+      "local_synthetic_dump",
+      "local_synthetic_restore",
+      "ordinary_original_migration_replay"
+    ],
+    "scope": "owned_networkless_synthetic_fixture_only"
+  },
+  "shipping_restore_admission": false,
+  "shipping_query_migration_policy_changed": false,
+  "production_ready": false,
+  "full_BE08_closed": false,
+  "ARC08_restore_adapter_closed": false,
+  "ARC11_closed": false,
+  "source_role_global_prerequisite": {
+    "stage": "target_exact_source_role_prerequisite",
+    "sql": "create role supabase_functions_admin with nosuperuser noinherit createrole nocreatedb login noreplication nobypassrls connection limit -1;",
+    "sql_sha256": "cb1cf5f924a3c4ff938ec0c2f56eedd9a8aa7d074c0a70e6db9f2de2424572e1",
+    "exact_observed_source_role": [
+      "supabase_functions_admin",
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      -1,
+      null,
+      "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    ],
+    "role": "supabase_admin; exact local synthetic-only source global; before pg_restore",
+    "allowed_missing_roles": [
+      "supabase_functions_admin"
+    ],
+    "no_SQL_if_already_exact": true,
+    "image_fixture_complete": false,
+    "single_database_dump_excludes_source_role_globals": true,
+    "all30_roles_memberships_settings_rechecked_before_archive_restore": true
+  },
+  "retained_failure_readback_sha256": "d33939d832dc7293ffe4552f9b4e99466a5e0476c1b2b40e2cd73d33975b2253",
+  "source_graphql_wrapper_prerequisite": {
+    "stage": "exact_source_GraphQL_schema_wrapper_extension_membership_prerequisite",
+    "admitted_source_scope": {
+      "function": [
+        "graphql_public",
+        "graphql",
+        "\"operationName\" text, query text, variables jsonb, extensions jsonb",
+        "f",
+        "supabase_admin",
+        false,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "=X/supabase_admin",
+          "anon=X/supabase_admin",
+          "authenticated=X/supabase_admin",
+          "postgres=X/supabase_admin",
+          "service_role=X/supabase_admin",
+          "supabase_admin=X/supabase_admin"
+        ],
+        "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+        "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2"
+      ],
+      "hook": [
+        "extensions",
+        "grant_pg_graphql_access",
+        "",
+        "f",
+        "supabase_admin",
+        false,
+        "v",
+        "u",
+        false,
+        false,
+        [
+          "=X/supabase_admin",
+          "postgres=X*/supabase_admin",
+          "supabase_admin=X/supabase_admin"
+        ],
+        "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+        "c3a126f9bf8958b3af27e6bec128aca58627df257259003b59511fdd3af82333"
+      ],
+      "schema": [
+        "graphql_public",
+        "supabase_admin",
+        [
+          "anon=U/supabase_admin",
+          "authenticated=U/supabase_admin",
+          "postgres=U*/supabase_admin",
+          "service_role=U/supabase_admin",
+          "supabase_admin=UC/supabase_admin"
+        ]
+      ],
+      "dependencies": [
+        [
+          "e",
+          "function",
+          "graphql_public",
+          "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "n",
+          "function",
+          "graphql_public",
+          "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+          "schema",
+          null,
+          "graphql_public"
+        ]
+      ],
+      "event_trigger": [
+        "issue_pg_graphql_access",
+        "ddl_command_end",
+        "supabase_admin",
+        "extensions.grant_pg_graphql_access()",
+        "O",
+        [
+          "CREATE FUNCTION"
+        ]
+      ],
+      "source_hook_body_sha256": "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+      "source_nested_wrapper_sql_sha256": "f1a08a07934d7df8ab26d675093b2069d1ecfa23be2b331b4a1e84bd48091ea8",
+      "source_wrapper_body_sha256": "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+      "source_function_definition_sha256": "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2",
+      "create_schema_sql": "create schema graphql_public authorization supabase_admin;",
+      "create_function_sql": "        create function graphql_public.graphql(\n            \"operationName\" text default null,\n            query text default null,\n            variables jsonb default null,\n            extensions jsonb default null\n        )\n            returns jsonb\n            language sql\n        as $$\n            select graphql.resolve(\n                query := query,\n                variables := coalesce(variables, '{}'),\n                \"operationName\" := \"operationName\",\n                extensions := extensions\n            );\n        $$;",
+      "extension_membership_sql": "alter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);",
+      "source_extension_membership_proven": true,
+      "source_hook_only": true,
+      "wrapper_creation_provenance_not_inferred_from_ACL": true
+    },
+    "sql": "create schema graphql_public authorization supabase_admin;\n        create function graphql_public.graphql(\n            \"operationName\" text default null,\n            query text default null,\n            variables jsonb default null,\n            extensions jsonb default null\n        )\n            returns jsonb\n            language sql\n        as $$\n            select graphql.resolve(\n                query := query,\n                variables := coalesce(variables, '{}'),\n                \"operationName\" := \"operationName\",\n                extensions := extensions\n            );\n        $$;\nalter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);\n",
+    "sql_sha256": "f461df9b4171e8abfc7c77d35b62afe0677bf0c428a2b53679a24c5e5c69adda",
+    "query": "-- PostgreSQL17 read-only recovery identity. Names replace OIDs; source/default/\n-- configuration values are hashed. This does not read business or Auth rows.\n-- Full archive data, schema and role comparisons remain separate requirements.\n-- NULL ACLs expand to PostgreSQL defaults: pg_dump may omit redundant default\n-- ACL entries. Explicit empty ACLs retain zero grants; all entries remain intact.\nBEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\nSET LOCAL search_path = pg_catalog;\nSET LOCAL timezone = 'UTC';\nSET LOCAL statement_timeout = '120s';\nWITH ns AS (\n  SELECT * FROM pg_namespace WHERE left(nspname,3) <> 'pg_' AND nspname <> 'information_schema'\n), rel AS (\n  SELECT c.*, n.nspname FROM pg_class c JOIN ns n ON n.oid=c.relnamespace\n), routine AS (\n  SELECT p.*, n.nspname FROM pg_proc p JOIN ns n ON n.oid=p.pronamespace\n), dependency AS (\n  SELECT d.deptype, a.type AS object_type, a.schema AS object_schema,\n    a.identity AS object_identity, b.type AS referenced_type,\n    b.schema AS referenced_schema, b.identity AS referenced_identity\n  FROM pg_depend d\n  CROSS JOIN LATERAL pg_identify_object(d.classid,d.objid,d.objsubid) a\n  CROSS JOIN LATERAL pg_identify_object(d.refclassid,d.refobjid,d.refobjsubid) b\n  WHERE (a.schema IN (SELECT nspname FROM ns) OR b.schema IN (SELECT nspname FROM ns))\n    -- Rebuilt TOAST names and internal FK trigger names contain source OIDs.\n    -- Their logical table/column/constraint definitions are compared above.\n    AND (a.schema IS NULL OR left(a.schema,3) <> 'pg_')\n    AND NOT (d.classid='pg_trigger'::regclass AND EXISTS (\n      SELECT 1 FROM pg_trigger t WHERE t.oid=d.objid AND t.tgisinternal))\n)\nSELECT jsonb_build_object(\n 'schemas',(SELECT coalesce(jsonb_agg(jsonb_build_array(nspname,pg_get_userbyid(nspowner),\n   to_jsonb(ARRAY(SELECT x::text FROM unnest(coalesce(nspacl,acldefault('n',nspowner))) x ORDER BY x::text COLLATE \"C\")))\n   ORDER BY nspname COLLATE \"C\"),'[]') FROM ns),\n 'functions',(SELECT coalesce(jsonb_agg(jsonb_build_array(nspname,proname,\n   pg_get_function_identity_arguments(oid),prokind,pg_get_userbyid(proowner),\n   prosecdef,provolatile,proparallel,proleakproof,proisstrict,\n   to_jsonb(ARRAY(SELECT x::text FROM unnest(coalesce(proacl,acldefault('f',proowner))) x ORDER BY x::text COLLATE \"C\")),\n   encode(sha256(convert_to(prosrc,'UTF8')),'hex'),\n   CASE WHEN prokind <> 'a' THEN encode(sha256(convert_to(pg_get_functiondef(oid),'UTF8')),'hex') END)\n   ORDER BY nspname COLLATE \"C\",proname COLLATE \"C\",pg_get_function_identity_arguments(oid) COLLATE \"C\"),'[]') FROM routine),\n 'dependencies',(SELECT coalesce(jsonb_agg(jsonb_build_array(deptype,object_type,object_schema,\n   object_identity,referenced_type,referenced_schema,referenced_identity)\n   ORDER BY deptype,object_type COLLATE \"C\",object_schema COLLATE \"C\",object_identity COLLATE \"C\",\n   referenced_type COLLATE \"C\",referenced_schema COLLATE \"C\",referenced_identity COLLATE \"C\"),'[]') FROM dependency)\n);\nCOMMIT;\n",
+    "query_sha256": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc",
+    "role": "readonly postgres NOSUPERUSER inventory; fixed prerequisite SQL as local synthetic supabase_admin",
+    "newly_preinstalled_schema_CREATE_TOC_only": true,
+    "every_wrapper_schema_and_other_ACL_retained": true,
+    "unknown_source_or_restore_identity_body_owner_definition_dependency_provenance_refused": true,
+    "preliminary_ACL_cohorts": [
+      "exact_new_function_default",
+      "exact_final_source"
+    ],
+    "full_predecessor_and_final_catalog_comparison_unchanged": true
+  },
+  "retained_failure2_readback_sha256": "03783dfd9540f3900fb0020466e9cef50f874a797aa8aa909bf1df5715faa0f4",
+  "TOC_derivation_readback": {
+    "status": "pass",
+    "actual3_TOC_sha256": "b8b90b019060f71288c8b506e4061da69960cf81741bd1576d9ae44ec029d8c4",
+    "proposal_sha256": "b8b90b019060f71288c8b506e4061da69960cf81741bd1576d9ae44ec029d8c4",
+    "restore_list_AST_unchanged": true,
+    "every_line_unchanged": true,
+    "additional_commented_entries": [],
+    "every_ACL_data_history_and_other_DDL_entry_retained": true,
+    "explicit_existing_preinstalled_CREATE_entries": [
+      "7; 3079 17158 EXTENSION - pg_cron",
+      "13; 2615 16394 SCHEMA - extensions postgres",
+      "25; 2615 16574 SCHEMA - graphql supabase_admin",
+      "24; 2615 16563 SCHEMA - graphql_public supabase_admin",
+      "8; 3079 17209 EXTENSION - pg_net",
+      "22; 2615 16603 SCHEMA - vault supabase_admin",
+      "6; 3079 16639 EXTENSION - pg_graphql",
+      "4; 3079 16515 EXTENSION - pg_stat_statements",
+      "3; 3079 16406 EXTENSION - pgcrypto",
+      "5; 3079 16604 EXTENSION - supabase_vault",
+      "2; 3079 16395 EXTENSION - uuid-ossp"
+    ],
+    "exact_archive_omission_proof": {
+      "index_name_occurrences_in_uncompressed_archive": 0,
+      "index_name_occurrences_in_TOC": 0,
+      "six_graphql_extension_function_definitions_and_ACLs_absent_from_TOC": true,
+      "sequence_definition_and_ACL_absent_from_TOC": true,
+      "sequence_extension_membership": [
+        "e",
+        "sequence",
+        "graphql",
+        "graphql.seq_schema_version",
+        "extension",
+        null,
+        "pg_graphql"
+      ],
+      "no_archive_line_omitted_or_rewritten_by_this_proof": true
+    },
+    "archive_sha256": "b3875e92a841cedc8a202628bd0c5db2e423223d3a1ebd05bfbcecdf5ff25a33",
+    "docker_executed": false
+  },
+  "exact_compatibility_repair_scope": {
+    "stage": "post_archive_exact_captured_source_compatibility_repairs",
+    "admitted_source_scope": {
+      "source_catalog_canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+      "captured_restored_catalog_canonical_sha256": "4f5fb4d590dc8aa6eebd0127b5bec74098be649f3fd68cf05a0832e5c08eb90b",
+      "graphql_functions": [
+        [
+          "graphql",
+          "_internal_resolve",
+          "query text, variables jsonb, \"operationName\" text, extensions jsonb",
+          "f",
+          "supabase_admin",
+          false,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "0fa51aee6e6b7004d1a5b03071fc7bf5fc0acf4827f48bd1d159a8d634f5d488",
+          "3212c591a402bc9f92b82bfcea4fc3d77d0690a25b59d1a4e2c4f38fd6ca2a9e"
+        ],
+        [
+          "graphql",
+          "comment_directive",
+          "comment_ text",
+          "f",
+          "supabase_admin",
+          false,
+          "i",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "330b0e556c68aa9b58e5e7b3aa9e3c5c3c8d1c645f74e81d8172b3de067f3ba9",
+          "be14e0b553144a2c04e964a2c2301a2c4a88137f2d0f2fbc390751c5d74f9493"
+        ],
+        [
+          "graphql",
+          "exception",
+          "message text",
+          "f",
+          "supabase_admin",
+          false,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "f48fab09868d4e101a15d6489e198cf50970a607ea3ae021cc2628e70686e586",
+          "7194a5c5d833782c38bc2efa78f7d0af1c133c0e5b30abc110705cc1d69e03b9"
+        ],
+        [
+          "graphql",
+          "get_schema_version",
+          "",
+          "f",
+          "supabase_admin",
+          true,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "cbd60912c4e7b980f7fd064bf3cb177504bd2de34e43a6ff0c98e3f641494957",
+          "f61f2f82caf3e62d73892d1767b3419fa1ce354371acca1636afd73f9f3b4840"
+        ],
+        [
+          "graphql",
+          "increment_schema_version",
+          "",
+          "f",
+          "supabase_admin",
+          true,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "b2e1b55c1cfab184da3d911c52f1f732cb4847dc1f5840c68297b2f0dd51155b",
+          "0e461d6c599638cc70f1e14d4175b3f002709e08b55e27b16b7b17245e9f00b8"
+        ],
+        [
+          "graphql",
+          "resolve",
+          "query text, variables jsonb, \"operationName\" text, extensions jsonb",
+          "f",
+          "supabase_admin",
+          false,
+          "v",
+          "u",
+          false,
+          false,
+          [
+            "=X/supabase_admin",
+            "anon=X/supabase_admin",
+            "authenticated=X/supabase_admin",
+            "postgres=X/supabase_admin",
+            "service_role=X/supabase_admin",
+            "supabase_admin=X/supabase_admin"
+          ],
+          "d6e7be2302c539d88c04e133ed3fd7c58c00e7071f42c8b4d51b76dff34166bd",
+          "c803c776eda03951b596200e46e39059c1c674b469be9a903d09366c379895a6"
+        ]
+      ],
+      "graphql_schemas": [
+        [
+          "graphql",
+          "supabase_admin",
+          [
+            "anon=U/supabase_admin",
+            "authenticated=U/supabase_admin",
+            "postgres=U*/supabase_admin",
+            "service_role=U/supabase_admin",
+            "supabase_admin=UC/supabase_admin"
+          ]
+        ],
+        [
+          "graphql_public",
+          "supabase_admin",
+          [
+            "anon=U/supabase_admin",
+            "authenticated=U/supabase_admin",
+            "postgres=U*/supabase_admin",
+            "service_role=U/supabase_admin",
+            "supabase_admin=UC/supabase_admin"
+          ]
+        ]
+      ],
+      "graphql_sequence": [
+        [
+          "graphql",
+          "seq_schema_version",
+          "S",
+          "p",
+          "supabase_admin",
+          false,
+          false,
+          [
+            "anon=rwU/supabase_admin",
+            "authenticated=rwU/supabase_admin",
+            "postgres=rwU/supabase_admin",
+            "service_role=rwU/supabase_admin",
+            "supabase_admin=rwU/supabase_admin"
+          ],
+          [],
+          null
+        ]
+      ],
+      "graphql_extension_function_members": [
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql._internal_resolve(pg_catalog.text,pg_catalog.jsonb,pg_catalog.text,pg_catalog.jsonb)",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql.comment_directive(pg_catalog.text)",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql.exception(pg_catalog.text)",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql.get_schema_version()",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql.increment_schema_version()",
+          "extension",
+          null,
+          "pg_graphql"
+        ],
+        [
+          "e",
+          "function",
+          "graphql",
+          "graphql.resolve(pg_catalog.text,pg_catalog.jsonb,pg_catalog.text,pg_catalog.jsonb)",
+          "extension",
+          null,
+          "pg_graphql"
+        ]
+      ],
+      "source_index_rows": {
+        "columns": [
+          [
+            "net",
+            "collect_receipt_http_response_id",
+            1,
+            "id",
+            "bigint",
+            false,
+            "",
+            "",
+            [],
+            null,
+            null
+          ]
+        ],
+        "relations": [
+          [
+            "net",
+            "collect_receipt_http_response_id",
+            "i",
+            "u",
+            "supabase_admin",
+            false,
+            false,
+            [
+              "supabase_admin=arwdDxtm/supabase_admin"
+            ],
+            [],
+            null
+          ]
+        ],
+        "indexes": [
+          [
+            "net",
+            "collect_receipt_http_response_id",
+            true,
+            true,
+            true,
+            "9328daab9410518dca5727ad8889381de3d298d548b204d8bed7fd1437a90df3"
+          ]
+        ]
+      },
+      "source_index_dependencies": [
+        [
+          "a",
+          "index",
+          "net",
+          "net.collect_receipt_http_response_id",
+          "table column",
+          "net",
+          "net._http_response.id"
+        ]
+      ],
+      "underlying_table_extension_membership": [
+        "e",
+        "table",
+        "net",
+        "net._http_response",
+        "extension",
+        null,
+        "pg_net"
+      ],
+      "source_constraints": [
+        [
+          "public",
+          "public.notification_events",
+          "notification_events_copy_length_check",
+          "c",
+          false,
+          false,
+          false,
+          "d39f28d2b96e15bb3abe3c66ef153a22ec19a6381e78c24db1965407925a9e87"
+        ],
+        [
+          "public",
+          "public.provider_finality_requests",
+          "provider_finality_requests_provider_network_check",
+          "c",
+          true,
+          false,
+          false,
+          "05c313d4a8d16cf1745983feb6df49956260bf6fa1dc8eaf65ccc10630086d51"
+        ]
+      ],
+      "exact_admitted_restored_constraints": [
+        [
+          "public",
+          "public.notification_events",
+          "notification_events_copy_length_check",
+          "c",
+          false,
+          false,
+          false,
+          "74e42a847ff75a14e384b3eaaca4ce27961584e94628a4dadeb2b76bd0a7275e"
+        ],
+        [
+          "public",
+          "public.provider_finality_requests",
+          "provider_finality_requests_provider_network_check",
+          "c",
+          true,
+          false,
+          false,
+          "04d7111057711ab49ddb4d03ef63af3f3fe4fae5b66822a288bfad9ab74aa678"
+        ]
+      ],
+      "notification_original_expression": "\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500",
+      "provider_original_expression": "\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )",
+      "admin_sql": "begin;\ngrant usage on schema graphql,graphql_public to postgres,anon,authenticated,service_role;\ngrant usage on schema graphql,graphql_public to postgres with grant option;\ngrant execute on function graphql._internal_resolve(text,jsonb,text,jsonb),graphql.comment_directive(text),graphql.exception(text),graphql.get_schema_version(),graphql.increment_schema_version(),graphql.resolve(text,jsonb,text,jsonb) to postgres,anon,authenticated,service_role;\ngrant select,update,usage on sequence graphql.seq_schema_version to postgres,anon,authenticated,service_role;\ncreate index if not exists collect_receipt_http_response_id on net._http_response(id);\ncommit;",
+      "postgres_sql": "begin;\nalter table public.notification_events drop constraint notification_events_copy_length_check;\nalter table public.notification_events add constraint notification_events_copy_length_check check (\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500\n  ) not valid;\nalter table public.provider_finality_requests drop constraint provider_finality_requests_provider_network_check;\nalter table public.provider_finality_requests add constraint provider_finality_requests_provider_network_check check (\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )\n  );\ncommit;",
+      "schema_or_function_rewrite": false,
+      "generic_GRANT_ALL": false,
+      "full_catalog_comparator_unchanged": true,
+      "graphql_public_nonpostgres_usage_grants_proven_by_captured_schema_ACL": true
+    },
+    "admitted_target_canonical_sha256": "4f5fb4d590dc8aa6eebd0127b5bec74098be649f3fd68cf05a0832e5c08eb90b",
+    "source_canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+    "archive_omission_proof": {
+      "index_name_occurrences_in_uncompressed_archive": 0,
+      "index_name_occurrences_in_TOC": 0,
+      "six_graphql_extension_function_definitions_and_ACLs_absent_from_TOC": true,
+      "sequence_definition_and_ACL_absent_from_TOC": true,
+      "sequence_extension_membership": [
+        "e",
+        "sequence",
+        "graphql",
+        "graphql.seq_schema_version",
+        "extension",
+        null,
+        "pg_graphql"
+      ],
+      "no_archive_line_omitted_or_rewritten_by_this_proof": true
+    },
+    "admin_sql": "begin;\ngrant usage on schema graphql,graphql_public to postgres,anon,authenticated,service_role;\ngrant usage on schema graphql,graphql_public to postgres with grant option;\ngrant execute on function graphql._internal_resolve(text,jsonb,text,jsonb),graphql.comment_directive(text),graphql.exception(text),graphql.get_schema_version(),graphql.increment_schema_version(),graphql.resolve(text,jsonb,text,jsonb) to postgres,anon,authenticated,service_role;\ngrant select,update,usage on sequence graphql.seq_schema_version to postgres,anon,authenticated,service_role;\ncreate index if not exists collect_receipt_http_response_id on net._http_response(id);\ncommit;",
+    "admin_sql_sha256": "326966a8d55a2023b81d698a29d3009ad11b0872bcda1a65694157fd301b4948",
+    "admin_role": "exact local synthetic supabase_admin",
+    "postgres_sql": "begin;\nalter table public.notification_events drop constraint notification_events_copy_length_check;\nalter table public.notification_events add constraint notification_events_copy_length_check check (\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500\n  ) not valid;\nalter table public.provider_finality_requests drop constraint provider_finality_requests_provider_network_check;\nalter table public.provider_finality_requests add constraint provider_finality_requests_provider_network_check check (\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )\n  );\ncommit;",
+    "postgres_sql_sha256": "dbb21ec141a4b4723dd994769a17970f92fadcee1f404e356972d634989a3f78",
+    "postgres_role": "postgres NOSUPERUSER",
+    "fresh18_projection_parity_immediately_before_and_after_both_transactions": true,
+    "exact_source_CHECK_identity_flags_definition_hashes_required_before_continuing": true,
+    "unknown_metadata_or_source_SQL_or_additional_difference_refused": true,
+    "full_predecessor_and_final209_catalog_comparison_unchanged": true,
+    "all85_original_forward_migrations_unchanged": true,
+    "schema_or_function_rewrite": false,
+    "generic_GRANT_ALL": false,
+    "CHECK_hash_normalization": false
+  },
+  "retained_failure3_readback_sha256": "942ef69f9e94ac03a1be6431d214ec7f499b7f1728e0807ae3326a3bd9edaa2b",
+  "frozen_input_counts": {
+    "sources": 216,
+    "references": 6,
+    "original_reference_hashes_unchanged": 4,
+    "original_migrations": 209
+  },
+  "retained_failure4_result_sha256": "c45b2065e944992dde7d26e03715d5eae27e254fa0058c1f34c988450ffecf4f",
+  "Runner_IO_change": {
+    "nonblocking_read_and_write_retry_only": [
+      "EAGAIN",
+      "EWOULDBLOCK"
+    ],
+    "offset_only_changes_after_successful_write": true,
+    "streams_remain_registered_on_retry": true,
+    "original_monotonic_bounds_unchanged": true,
+    "BrokenPipe_and_other_IO_and_output_and_process_group_guards_unchanged": true
+  }
+}

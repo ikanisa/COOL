@@ -1,0 +1,2 @@
+WARNING:  no privileges were granted for "pg_temp_43"
+NOTICE:  HEALTH_METRIC_WRITER_PERFORMANCE|{"calls": 2000, "elapsed_ms": 62.954000}

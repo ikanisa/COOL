@@ -1,0 +1,12 @@
+{
+  "ensure": {
+    "exit_code": 0,
+    "stdout": "1\n\n{\"role\":\"service_role\"}\n{\"ok\": false, \"code\": \"SOURCE_BUSY\", \"action\": \"ensure_receipt\", \"run_id\": \"991d7fc0-65fb-4d14-8a39-fdcfe7a1c23a\", \"event_id\": \"f00bafb7-cc17-4fa6-9b03-8364ecb02ee9\", \"receipt_id\": null, \"request_id\": \"ede0dc39-1c2e-4c62-8b4a-fc001a2a13e9\", \"observed_at\": \"2026-10-01T21:44:52.362444Z\", \"principal_id\": \"0fc96c65-ed8b-4d37-8734-ade81abbd946\", \"fence_version\": 1, \"source_version\": 1, \"business_handled\": false, \"contract_version\": 2}\n",
+    "stderr": ""
+  },
+  "claim": {
+    "exit_code": 0,
+    "stdout": "{\"sub\": \"ea70b07a-004f-423c-a3f2-ed88b34851fc\", \"session_id\": \"65774493-6d4e-4fa6-8abb-69e0d653f2ee\", \"role\": \"authenticated\", \"aal\": \"aal1\"}\n{\"ok\": true, \"status\": \"claimed\", \"collect_id\": \"978201\", \"member_record_id\": \"99780000-0000-4000-8000-000000040001\", \"payments_attached\": 5, \"sms_jobs_suppressed\": 3}\n",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,54 @@
+e: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/build.gradle.kts:42:50: Unresolved reference 'nio'.
+e: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/build.gradle.kts:45:59: Unresolved reference 'nio'.
+e: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/build.gradle.kts:268:49: Unresolved reference 'nio'.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/build.gradle.kts' line: 42
+
+* What went wrong:
+Script compilation errors:
+
+  Line 042:         check(files == listOf(original) && !java.nio.file.Files.isSymbolicLink(original.toPath())) {
+                                                             ^ Unresolved reference 'nio'.
+
+  Line 045:         check(originalDirectory.walkTopDown().none { java.nio.file.Files.isSymbolicLink(it.toPath()) }) {
+                                                                      ^ Unresolved reference 'nio'.
+
+  Line 172: android {
+            ^ 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+  Line 268: check(collectPluginMetadataFile.isFile && !java.nio.file.Files.isSymbolicLink(collectPluginMetadataFile.toPath())) {
+                                                            ^ Unresolved reference 'nio'.
+
+  Line 287: val collectNonGatewayFlavors = android.productFlavors.filter { it.name != "internal_gateway" }
+                                           ^ 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                                               This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+  Line 288: check(android.productFlavors.any { it.name == "internal_gateway" } && collectNonGatewayFlavors.isNotEmpty()) {
+                  ^ 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                      This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+  Line 294: val collectBuildTypeApis = android.buildTypes.map { "${it.name}Api" }.toSet()
+                                       ^ 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                                           This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+  Line 315: android.sourceSets.named("main") {
+            ^ 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+  Line 410:     android.sourceSets.getByName("production").assets.srcDir(markerDir.get().asFile)
+                ^ 'val Project.android: BaseAppModuleExtension' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+                    This class is not used for the public extensions in AGP when android.newDsl=true, which is the default in AGP 9.0, and will be removed in AGP 10.0.
+
+9 errors
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 43s

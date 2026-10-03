@@ -1,0 +1,17 @@
+{
+  "container_id": "ad950b6ecdafe18d1e5300199151fe28a6e5e7338ffdaf7e3c89ecedf924d2cc",
+  "container_name": "collect_current_rehearsal_platform_owned_index_probe_4b326b9751a0",
+  "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+  "guard": {
+    "network": "none",
+    "published_ports": false,
+    "labels_verified": true,
+    "net": "0",
+    "cron": "off",
+    "listen": "",
+    "server": "17.6"
+  },
+  "ordinary_existing_index_exit": 3,
+  "ordinary_existing_index_error": "ERROR:  42501: must be owner of table _http_response\nLOCATION:  aclcheck_error, aclchk.c:2981\n",
+  "task_container_removed": true
+}

@@ -1,0 +1,212 @@
+{
+  "kind": "native_original_pixel_diagnosis",
+  "status": "reported_glyph_defects_disproved",
+  "generated_at": "2026-10-01T17:11:04.600123+00:00",
+  "finding": "The image viewer intermittently omits navigation and paragraph glyphs even when displaying original PNGs or their lossless crops. Unchanged source PNG pixel inspection and Apple Vision OCR prove all three originally reported defects are presentation artifacts.",
+  "ocr_method": "Apple Vision accurate English OCR on the unchanged original PNGs",
+  "ocr_report_sha256": "500b880e1054ee717798e544c6997677f42db83febaf7edde2649c62e970b2aa",
+  "ocr_script_sha256": "7fb634b78753b3c05aedd2297c54116608f52262d8d1c76124fba8b220bd8184",
+  "navigation_regions": {
+    "historical88f": {
+      "original_png": ".cache/revolut-design-20260930/native-media/screenshots-88f/group-detail.png",
+      "original_png_sha256": "aa0624e7c7d5190245977bb0e37688a2504794498b367b6514a9344c7b759b1e",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "9f0e47c302695b45d6c2d39abd99e904b0c655712362d6e197bd77e8b2b8a95e",
+      "foreground_pixels": {
+        "Home": 1283,
+        "Groups": 2273,
+        "Activity": 1209,
+        "Profile": 1782
+      }
+    },
+    "current_before_probe": {
+      "original_png": ".cache/revolut-design-20260930/native-media/display-current-20261001-attempt5/screenshots/group-detail.png",
+      "original_png_sha256": "60092ca3d15a9179422c3b22b2f46255fd76b6144ba0d785dd7f081f6e175288",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "9f0e47c302695b45d6c2d39abd99e904b0c655712362d6e197bd77e8b2b8a95e",
+      "foreground_pixels": {
+        "Home": 1283,
+        "Groups": 2273,
+        "Activity": 1209,
+        "Profile": 1782
+      }
+    },
+    "current_after_probe": {
+      "original_png": ".cache/revolut-design-20260930/native-media/display-navigation-fix-20261001-attempt6/screenshots/group-detail.png",
+      "original_png_sha256": "039ef2105546882ff06c3c60a539a1631b64f03bdb8d38b6f9df0319f668dc00",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "9f0e47c302695b45d6c2d39abd99e904b0c655712362d6e197bd77e8b2b8a95e",
+      "foreground_pixels": {
+        "Home": 1283,
+        "Groups": 2273,
+        "Activity": 1209,
+        "Profile": 1782
+      }
+    }
+  },
+  "ocr_navigation_labels": [
+    {
+      "original_png": ".cache/revolut-design-20260930/native-media/screenshots-88f/groups.png",
+      "labels": [
+        {
+          "text": "Home",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11949685629618628,
+            0.05813953504809399,
+            0.07547169872838208,
+            0.010174418324354506
+          ]
+        },
+        {
+          "text": "Groups",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.33647798655994643,
+            0.055232558322521164,
+            0.0974842756222456,
+            0.013081395418911401
+          ]
+        },
+        {
+          "text": "Activity",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930813398206,
+            0.055232558031823364,
+            0.0974842756222456,
+            0.013081395418911401
+          ]
+        },
+        {
+          "text": "Profile",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8016308398275308,
+            0.05628967367281912,
+            0.08227291270198978,
+            0.012420652790280484
+          ]
+        }
+      ]
+    },
+    {
+      "original_png": ".cache/revolut-design-20260930/native-media/screenshots-88f/group-detail.png",
+      "labels": [
+        {
+          "text": "Home",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11609068642669207,
+            0.0562969614450235,
+            0.07913938343015492,
+            0.012406077241822189
+          ]
+        },
+        {
+          "text": "Groups",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.33333333322386177,
+            0.05377906976593605,
+            0.10062892946422614,
+            0.014534883966189849
+          ]
+        },
+        {
+          "text": "Activity",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930836955599,
+            0.05377906971748647,
+            0.10062892946422608,
+            0.014534883966189738
+          ]
+        },
+        {
+          "text": "Profile",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8018046204845846,
+            0.05656153600575797,
+            0.08192535139556623,
+            0.011876928109505025
+          ]
+        }
+      ]
+    },
+    {
+      "original_png": ".cache/revolut-design-20260930/native-media/display-current-20261001-attempt5/screenshots/group-detail.png",
+      "labels": [
+        {
+          "text": "Home",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11609068642669207,
+            0.0562969614450235,
+            0.07913938343015492,
+            0.012406077241822189
+          ]
+        },
+        {
+          "text": "Groups",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.33333333322386177,
+            0.05377906976593605,
+            0.10062892946422614,
+            0.014534883966189849
+          ]
+        },
+        {
+          "text": "Activity",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930836955599,
+            0.05377906971748647,
+            0.10062892946422608,
+            0.014534883966189738
+          ]
+        },
+        {
+          "text": "Profile",
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8018046204845846,
+            0.05656153600575797,
+            0.08192535139556623,
+            0.011876928109505025
+          ]
+        }
+      ]
+    }
+  ],
+  "ocr_terms_opening": [
+    {
+      "original_png": ".cache/revolut-design-20260930/native-media/screenshots-88f/terms.png",
+      "lines": [
+        {
+          "text": "Collect helps groups organize",
+          "confidence": 1
+        }
+      ]
+    }
+  ],
+  "runtime_probe_resolution": "Unnecessary ClipRRect probe removed; canonical collect_shell.dart source restored. Probe changed none of the measured navigation RGBA pixels.",
+  "scope": "Original Groups and group-detail navigation and Terms opening readability; this diagnostic does not certify full visual-design fidelity."
+}

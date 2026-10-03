@@ -1,0 +1,13 @@
+test_concurrent_input_and_output (unchanged_original_tests.RunnerTests.test_concurrent_input_and_output) ... ok
+test_tool_output_and_wall_time_are_bounded (unchanged_original_tests.RunnerTests.test_tool_output_and_wall_time_are_bounded) ... ok
+test_backpressured_stdin_timeout_retains_deadline_and_group_cleanup (focused_io_tests.PipeIOTests.test_backpressured_stdin_timeout_retains_deadline_and_group_cleanup) ... ok
+test_early_child_exit_preserves_brokenpipe_and_nonzero_exit_contract (focused_io_tests.PipeIOTests.test_early_child_exit_preserves_brokenpipe_and_nonzero_exit_contract) ... ok
+test_other_io_errors_remain_fatal_and_cleanup_is_preserved (focused_io_tests.PipeIOTests.test_other_io_errors_remain_fatal_and_cleanup_is_preserved) ... ok
+test_real_stdin_backpressure_and_kernel_shortwrites_preserve_exact_body (focused_io_tests.PipeIOTests.test_real_stdin_backpressure_and_kernel_shortwrites_preserve_exact_body) ... ok
+test_real_stdout_readiness_race_retries_without_losing_output (focused_io_tests.PipeIOTests.test_real_stdout_readiness_race_retries_without_losing_output) ... ok
+test_retained_original_runner_refuses_same_actual_backpressure (focused_io_tests.PipeIOTests.test_retained_original_runner_refuses_same_actual_backpressure) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.359s
+
+OK

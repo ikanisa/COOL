@@ -1,0 +1,61 @@
+{
+  "kind": "bounded_offline_unattended_client_history_regression",
+  "captured_at": "2026-10-01T12:20:50.716470+00:00",
+  "commands": [
+    {
+      "name": "typescript",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "started_at": "2026-10-01T12:20:22.831718+00:00",
+      "finished_at": "2026-10-01T12:20:23.123183+00:00",
+      "exit_code": 0,
+      "timeout_seconds": 60
+    },
+    {
+      "name": "node",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_client.test.ts",
+        "src/unattended_history.test.ts",
+        "src/unattended_journal.test.ts",
+        "src/unattended_profile.test.ts",
+        "src/unattended_runner.test.ts",
+        "src/unattended_scheduler.test.ts",
+        "src/unattended_stdio.test.ts",
+        "src/unattended_store.test.ts"
+      ],
+      "started_at": "2026-10-01T12:20:23.123587+00:00",
+      "finished_at": "2026-10-01T12:20:50.650524+00:00",
+      "exit_code": 0,
+      "timeout_seconds": 180
+    }
+  ],
+  "source_inputs": 82,
+  "source_unchanged": true,
+  "source_delta": [],
+  "tools_before": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd"
+  },
+  "tools_after": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd"
+  },
+  "toolchain_unchanged": true,
+  "environment_keys": [
+    "LANG",
+    "PATH",
+    "PYTHONDONTWRITEBYTECODE"
+  ],
+  "hosted_calls": 0,
+  "keychain_calls": 0,
+  "otp_requests": 0,
+  "live_sender_calls": 0,
+  "source_freeze": false,
+  "production_acceptance": false
+}

@@ -1,0 +1,494 @@
+{
+  "archive_sha256": "55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751",
+  "archive_url": "https://pub.dev/api/archives/firebase_messaging-16.5.0.tar.gz",
+  "delta": {
+    "added": {
+      "COLLECT_FORK.md": {
+        "fork_sha256": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
+        "rationale": "Retain local fork provenance, bounded changes and explicit behavior/provider/license evidence limitations; this document grants no release approval."
+      },
+      "UPSTREAM-SHA256.json": {
+        "fork_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+        "rationale": "Retain exact per-file hashes of the original cached upstream package; this verifier independently requires equality with every file in the authenticated official archive."
+      },
+      "analysis_options.yaml": {
+        "fork_sha256": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19",
+        "rationale": "Inherit the app analyzer configuration for the retained fork runtime; explicitly ignore only prefer_final_fields/prefer_final_locals style findings. This is analyzer configuration, not excluded runtime or behavioral acceptance."
+      }
+    },
+    "changed": {
+      "ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
+        "fork_sha256": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+        "rationale": "Return BOOL from scene:willConnectToSession:options: to match the pinned Flutter scene delegate; return true only for existing FCM gcm.message_id handling. Preserve the notification setup body and allow empty/non-FCM connection options to reach subsequent plugins and Flutter deep links.",
+        "upstream_sha256": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c"
+      },
+      "pubspec.yaml": {
+        "fork_sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+        "rationale": "Remove only resolution: workspace so the unchanged package/version and dependency constraints can resolve through the Collect path override.",
+        "upstream_sha256": "fa38e601e3b5e32ce3ed07b89fcee01b22219080a58df1b4566d9f5255a8572f"
+      }
+    },
+    "omitted": {
+      "example/README.md": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "1ce3f0f826fa2f2e6e2fdbc2eca35b3cb971373653e02b4e82079906a6118495"
+      },
+      "example/analysis_options.yaml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "d9368b86aefd728579378b9a87eaf3fd41b9cd1119e95d453a94a65180f6386b"
+      },
+      "example/android/app/build.gradle": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "ad8d1538fa1441a51f7e491c9c9b3a67dc27e011e0e8045a18420c50d0cdddde"
+      },
+      "example/android/app/src/debug/AndroidManifest.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "30b0832ed8b92dfbd6ae2abfa939ccf26333d37600056b1572bd4a397a18a74b"
+      },
+      "example/android/app/src/main/AndroidManifest.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "2f2a5c9461a64c873824237eed515f831166f0428e67d05e1f464fe36e954ae6"
+      },
+      "example/android/app/src/main/kotlin/io/flutter/plugins/firebase/messaging/example/MainActivity.kt": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "0b1de1be25355766900ad2a8d1f2182d9492f02d5166f882570d1ca6a3d9e3b6"
+      },
+      "example/android/app/src/main/res/drawable-v21/launch_background.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7ca6d5cec2169c5a98661a119db23a6f3399c8fef2256ff04f3a642831282478"
+      },
+      "example/android/app/src/main/res/drawable/launch_background.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "94433756fe10005ddd6fc55cc5c0b1e9f3c10b66a08ceac795ece6713d34e28a"
+      },
+      "example/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6a7c8f0d703e3682108f9662f813302236240d3f8f638bb391e32bfb96055fef"
+      },
+      "example/android/app/src/main/res/mipmap-mdpi/ic_launcher.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "c7c0c0189145e4e32a401c61c9bdc615754b0264e7afae24e834bb81049eaf81"
+      },
+      "example/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "e14aa40904929bf313fded22cf7e7ffcbf1d1aac4263b5ef1be8bfce650397aa"
+      },
+      "example/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "4d470bf22d5c17d84edc5f82516d1ba8a1c09559cd761cefb792f86d9f52b540"
+      },
+      "example/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "3c34e1f298d0c9ea3455d46db6b7759c8211a49e9ec6e44b635fc5c87dfb4180"
+      },
+      "example/android/app/src/main/res/values-night/styles.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "8c5bad5152f217e837519f9c15211d19f39bd45f5f67faf6dd81cb4b299e518f"
+      },
+      "example/android/app/src/main/res/values/styles.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "937d7c82f539c72eb94fd3a3773f29b3d3fef1997213c92cb632298cedf4bda9"
+      },
+      "example/android/app/src/profile/AndroidManifest.xml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "30b0832ed8b92dfbd6ae2abfa939ccf26333d37600056b1572bd4a397a18a74b"
+      },
+      "example/android/build.gradle": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "37bb5e2370be94561043add48ffcc5a939b438f226fc0666a6a1e6a826794d1a"
+      },
+      "example/android/gradle.properties": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "b0f4154f8b675b48de2bdd33f58684afdc010eec6745356440ce982f48c063ac"
+      },
+      "example/android/gradle/wrapper/gradle-wrapper.properties": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "0bb54ba7e58a9fbb012d10c5df2a63439a14e6291ed372e2a28c74d8b9e7129b"
+      },
+      "example/android/settings.gradle": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "f21217811fd302018329cce90c00007d7ea3a818bfe4cc8febd29b7f68dc5440"
+      },
+      "example/bundled-service-worker/firebase-messaging-sw.ts": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "fa9f2426b9ddf2f964335d99a371d30117c6d9505d20a4e6e3cde6d0fd3c0bf4"
+      },
+      "example/bundled-service-worker/package.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7d97a25b265549aa8b33672f86b692430e5a8c16b744890544c55b0dc4ff7d13"
+      },
+      "example/bundled-service-worker/tsconfig.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "55be667fb9f844a843f25de7d638492f75668e270a7081228a0258c8ce6d7d82"
+      },
+      "example/bundled-service-worker/yarn.lock": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "22d15f34446d38f4bad1f13da183297914016e9b98a223179e595ceb294b511f"
+      },
+      "example/ios/Flutter/AppFrameworkInfo.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "c3bfa22bee6f338dcf46d9ce70fe8dfd26ee7a33c2cea8d9c5527d24f73b6e9f"
+      },
+      "example/ios/Flutter/Debug.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "51dbac42fc0d48363442df1b5a0c4a63ac14f8a28b89916e8657362c72e09c7f"
+      },
+      "example/ios/Flutter/Release.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "d67cefeee792bd4e3b2242c4f871f0ad17a15e54684b733c8e10a249cea665c7"
+      },
+      "example/ios/Podfile": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "b2cfbbb58f3ce5024a2ee54d13de8e0fc4ae63fa696850e0651da0b5522bdc5d"
+      },
+      "example/ios/Runner.xcodeproj/project.pbxproj": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6b7de10d8ad91f8e396f1d2ded1babbab330073cad3425e2c32ccd882625eb12"
+      },
+      "example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f"
+      },
+      "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+      },
+      "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+      },
+      "example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "08cbad91e1c12bf64894769614688e749b225a12b9fea94d9fbb7d159512c8ed"
+      },
+      "example/ios/Runner.xcworkspace/contents.xcworkspacedata": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "465e6de5660384eb6832e8078920ba6cd5305c445cb29a24a86a2fda4aa6b67e"
+      },
+      "example/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+      },
+      "example/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+      },
+      "example/ios/Runner/AppDelegate.h": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "ea3671d16fe8415ca0c9fc6312a12f7bc38f1dbdc17486ea37f64f7d0ad1bee8"
+      },
+      "example/ios/Runner/AppDelegate.m": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "2d85ca9814d3a434d7da426e95ab2beeab93ed84532ce6fcb82def9332c9417f"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "63110500d844462f0149fe852ea131b18dd2da7fde832152ad07fbcaab18e650"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-1024.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "fb244c9a0926770e19e9670bfc49078e6ab92b9f1655cd48378f33c24978abd9"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "621c602c21dc56f6ab89801afaa92dea6ed5761537199a6077a1c9630a013316"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "c41afd85887271008c64745db4d4e3baa2b57352f9c5d9ff92d8368cc8b3bc11"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-20@3x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "e0f153708b61bd81e99e109dd7345ff1cc7aa9342f30e53ab27c6f0f1450d221"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "b098fc0a1e82ff06ddf6a0a65a5f7f8bcb2f7be62595988cd172d201c3b134c5"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "d8df8c9e07f1f4de9b714da7ba1fd6e76db4ea8f0d2ad0b48248bed498eedf16"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-29@3x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "0c2099bc833e5c4033d9298454bb1c61155c8382f32189a68fc7db6f57416761"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "c41afd85887271008c64745db4d4e3baa2b57352f9c5d9ff92d8368cc8b3bc11"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "414f016c36a069ea8558bc96071b160cc6d8b2760e835a2535755df4d69d29c7"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-40@3x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "52873780a04d985da3245adbd111c82790166fdf1b29c49028cf69712a4ec2a4"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-60@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "52873780a04d985da3245adbd111c82790166fdf1b29c49028cf69712a4ec2a4"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-60@3x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "9aabd78ad983ebb4f97f433788e24e5b42173c45e952c574e4d372ce951bd051"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-76.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "e47551b7e4dc428b55850052791530f224d308a86c76cdee4a334cc16dbbf1f1"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-76@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "e4345780c1447f04a3cc250e6398db3b7af66cf6be0fbfeef39ff2f013984500"
+      },
+      "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-83.5@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "487e78c2a599bbab6bd116426d0922e62407ee70c834fdecc45b11a8e62b640e"
+      },
+      "example/ios/Runner/Assets.xcassets/Contents.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "0fd49ba3c3585c709678e0046a821c3c60685ec7063720d30d3a3448be3a208b"
+      },
+      "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "ccc7950fd5f5b82067c85f667940a9d59189151460761ece8098ca78daa19469"
+      },
+      "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+      },
+      "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+      },
+      "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+      },
+      "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "a985b626c4f7546a8ba392d135e9226c3547c8e2b46895f5f2bdf40d7b14ef9f"
+      },
+      "example/ios/Runner/Base.lproj/LaunchScreen.storyboard": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "857e61203b3deafb05766d8fcda898b86a7cb6f3d5e385ecc9926c4d698215e9"
+      },
+      "example/ios/Runner/Base.lproj/Main.storyboard": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "fd367b6c43006d61b730f674970dd48b9f662c8f2264e52ffc1558102a2c9f2d"
+      },
+      "example/ios/Runner/Firebase Cloud Messaging Example.entitlements": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7bf8e813b39b5382f98ced7ed4953167133f1549202cfa1583ac9ec795151059"
+      },
+      "example/ios/Runner/Info.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "b0c3ccc338a744e2b32d794679515da4091216742817fc0dcaa22a347f05ee40"
+      },
+      "example/ios/Runner/main.m": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "3c0819ab0d1650de7a5f33cfe519bf0ffd1c1e13354d8337532a731951aa060e"
+      },
+      "example/ios/firebase_app_id_file.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "55e18a1130a01705b9a26ab95e00546ccf88bbe6a70b596265f0a94cac86f13d"
+      },
+      "example/lib/main.dart": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "305482ac1d03910f2219c029e2de44c8346387bf0e32ba8c53fa44630910713b"
+      },
+      "example/lib/message.dart": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dc6aa19441c210e2d57428218c552054fcf12326e6ec2b4d5db80b6d302581a8"
+      },
+      "example/lib/message_list.dart": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "f603a968c59a702277115c37b28bce5aced9c3a4793353766dea77fe4b1cdd14"
+      },
+      "example/lib/permissions.dart": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "90d316c33e4d9f27491577dc977a87acc8496876ff14a485815edb1f8f86e8af"
+      },
+      "example/lib/token_monitor.dart": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "eb413dcd6ff430ac2aa84d196e3b267512497d59ed26452fc67263bf954f2a8c"
+      },
+      "example/macos/Flutter/Flutter-Debug.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "751a5303f4e363454c6da3e7651a73509b70b86ad32596e643a92cdc59a251f2"
+      },
+      "example/macos/Flutter/Flutter-Release.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "48f5eaf41bcb51a055c438f9b52d68d95e0049bf993e7d82fe6a73d878cdb29a"
+      },
+      "example/macos/Podfile": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "3c88490591c27fd84832e68a0ecede1fc9a79c6d49a341acc5ee1a5ea7ec5687"
+      },
+      "example/macos/Runner.xcodeproj/project.pbxproj": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "75d6944bec60b607a8f73439d9ad2f1a6e374b20e771655a1e9f276d0439fe9a"
+      },
+      "example/macos/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "2bac1f594bc4193f04d6b484c1a76a066f20ea902853d70db4f766510c0d7da3"
+      },
+      "example/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+      },
+      "example/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6e1b1f7a1a33d8fe101f02742b47d7e5e330cfc9b4f0f73c1741970c9f4b606a"
+      },
+      "example/macos/Runner.xcworkspace/contents.xcworkspacedata": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "465e6de5660384eb6832e8078920ba6cd5305c445cb29a24a86a2fda4aa6b67e"
+      },
+      "example/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+      },
+      "example/macos/Runner/AppDelegate.swift": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "ce9dbe45a57c59e85519da50a26c471615b9c8cdd85a8f4a39d2e480e62a4af4"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "8c468bb5be95d591c5597edba5aa004263d8cb49ddd855aad7223cb084865663"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-1024.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "fb244c9a0926770e19e9670bfc49078e6ab92b9f1655cd48378f33c24978abd9"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-128.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "a2d64b1dfd8eecc97e2a6fc2300d808ee888acf7c0590897bdd85c4ea2390bdb"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-16.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "dc9487df7b5956db758d2f9674f59370aca106a9c86b3439da7354209a6e9cc8"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-256.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6e28b80fcf8135a2a9c913a41934f81307246450ab1cc116613a3639ae4cf501"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-32.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7b0b3c4349a41c49937ab8b53c9b0e1d060f0b659dd2f617fbb8506cc5c8cd8f"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-512.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "cfb639b94836e1c882b12431dd030016fece7ec489e133a7b3d3ad89be3be456"
+      },
+      "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Firebase Cloud Messaging (1- Icon, Light)-64.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "ebccba2c0153cffb81d892bada605aa21ab844cbcc0049872bd22849370a7a70"
+      },
+      "example/macos/Runner/Base.lproj/MainMenu.xib": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6a7da624e26289678f9a5659e0bce819c5ba7765d42ddc271346626882baf5d1"
+      },
+      "example/macos/Runner/Configs/AppInfo.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "72bc39b4381a42cc1f29536276652a7d85780d20981a0ee5c9657ff5b4a0e16a"
+      },
+      "example/macos/Runner/Configs/Debug.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "8067d533ef6593760baad9a9855a786a7a77470fcc3f0925ec04fe43bc1ac4b0"
+      },
+      "example/macos/Runner/Configs/Release.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7a6a4b4d973a23052fa0a0388dd261e32d311d7b66ba1bfc3b914b361808ac61"
+      },
+      "example/macos/Runner/Configs/Warnings.xcconfig": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "0e341a392b16ad302d12890aa3dac9257a6c10ece685437604259a85341645a3"
+      },
+      "example/macos/Runner/DebugProfile.entitlements": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "4132b09d213ead5a1a1d6c4c8affedd76c8293d148f18746186cdd0c1ed60864"
+      },
+      "example/macos/Runner/Info.plist": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "45a4b556aee5d09225c0089c90a737432e829997a7542bc8cb888680afd6fa4a"
+      },
+      "example/macos/Runner/MainFlutterWindow.swift": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "539813d1b268f5f3fcb53bf9e2858851558a43269732f049f46773a0c6771b0e"
+      },
+      "example/macos/Runner/Release.entitlements": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "97704a8960b4facceef54397a08fb5d0a456247c3627359215aa2a27df22656c"
+      },
+      "example/macos/firebase_app_id_file.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "55e18a1130a01705b9a26ab95e00546ccf88bbe6a70b596265f0a94cac86f13d"
+      },
+      "example/pubspec.yaml": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "41f8758782896bb348a047c72d2cee748bda46af7b4b30ee8d7042ca485e3691"
+      },
+      "example/scripts/package.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "31dbdd9e1dad361dadc7d5c99d42e985391dfc4472c96429e5db377ba5d71986"
+      },
+      "example/scripts/send-message.js": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "b6ee802f3b64951ffa7c59f7fefdaf5e5611c376b163d5d0aad3a9c52dcc182f"
+      },
+      "example/web/favicon.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+      },
+      "example/web/firebase-messaging-sw.js": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "4ea711d96c93af78b398bd61b328bc35b6f1c42e3e9cdad3fd3511a06936b1ba"
+      },
+      "example/web/icons/Icon-192.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+      },
+      "example/web/icons/Icon-512.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+      },
+      "example/web/icons/Icon-maskable-192.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+      },
+      "example/web/icons/Icon-maskable-512.png": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+      },
+      "example/web/index.html": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "1f72653e8ed676dcf5ffbe3a08341ef9e3fd4d31132991d35d29658130e30ad8"
+      },
+      "example/web/manifest.json": {
+        "rationale": "Omit the upstream demonstration application from the active package; exact original bytes remain authenticated in the official archive. No package runtime/platform file is omitted.",
+        "upstream_sha256": "6f3db2f49823acdc0381619355e89a3c1a97d6e3de94da79d03e2a3630d8827e"
+      },
+      "test/firebase_messaging_test.dart": {
+        "rationale": "Omit the upstream Firebase test cohort from the active package; exact original bytes remain authenticated in the official archive. No upstream test execution is claimed.",
+        "upstream_sha256": "d14c8f5ed12cdf32514fb8d8ddc774e002cb9120db167f5bcee70cc13baca649"
+      },
+      "test/mock.dart": {
+        "rationale": "Omit the upstream Firebase test cohort from the active package; exact original bytes remain authenticated in the official archive. No upstream test execution is claimed.",
+        "upstream_sha256": "46a0e464eb5d7eebc31278f9dfd469f92376cca305794bec9769401732127ecc"
+      }
+    }
+  },
+  "fork_path": "third_party/firebase_messaging",
+  "license": {
+    "path": "LICENSE",
+    "sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8",
+    "upstream_text_unchanged": true
+  },
+  "metadata_url": "https://pub.dev/api/packages/firebase_messaging/versions/16.5.0",
+  "package": "firebase_messaging",
+  "review_scope": "Exact-byte origin and engineering-purpose review of the existing retained fork; not behavior/device/provider/advisory/distribution-rights/release approval.",
+  "schema_version": 1,
+  "upstream_manifest_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+  "version": "16.5.0"
+}

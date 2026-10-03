@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select jsonb_agg(jsonb_build_object('signature',oid::regprocedure::text,'sha',encode(extensions.digest(prosrc,'sha256'),'hex'),'owner',proowner,'acl',proacl)order by oid)from pg_proc where pronamespace in('collect_receipt_operations'::regnamespace,'collect_receipt_source_projection'::regnamespace,'collect_gateway_dispatch'::regnamespace)or oid='public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamptz,text,jsonb)'::regprocedure;

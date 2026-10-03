@@ -1,0 +1,6 @@
+test_incompatible_or_forged_numeric_server_is_never_written (__main__.ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.898s
+
+OK

@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "make format-check"
+  ],
+  "completed_at_utc": "2026-10-02T11:05:22.181050+00:00",
+  "deadline_seconds": 120,
+  "elapsed_seconds": 3.3490962500000023,
+  "exit_code": 0,
+  "log_sha256": "80bffe5cf5566850dd86a653408c18c072b36661f359b21debce631b96a1279c",
+  "started_at_utc": "2026-10-02T11:05:18.831986+00:00",
+  "timed_out": false
+}

@@ -1,0 +1,249 @@
+[
+    {
+        "Id": "df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f",
+        "Created": "2026-10-02T10:23:52.670869584Z",
+        "Path": "/usr/local/bin/python3.12",
+        "Args": [
+            "-I",
+            "-B",
+            "/source/scripts/tests/test_pg_archive_admission.py"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-02T10:23:52.729340667Z",
+            "FinishedAt": "2026-10-02T10:24:34.359345131Z"
+        },
+        "Image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+        "ResolvConfPath": "/var/lib/docker/containers/df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f/hostname",
+        "HostsPath": "/var/lib/docker/containers/df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f/hosts",
+        "LogPath": "/var/lib/docker/containers/df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f/df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f-json.log",
+        "Name": "/collect-pg39-linux-root-119c96e7564b43339a3e95e8e635b4bb",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "Tmpfs": {
+                "/tmp": "rw,exec,nosuid,nodev,mode=1777,size=67108864"
+            },
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 536870912,
+            "NanoCpus": 1000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 1073741824,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": 64,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/usr-local",
+                    "Target": "/usr/local",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/source",
+                    "Target": "/source",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/root-qa39-output",
+                    "Target": "/control"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ],
+            "Init": true
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f",
+                "LowerDir": "/var/lib/docker/overlay2/cb06f9d746c4011d066820b0c0e3e316c33b4394f10c18a86e7e285020506c71-init/diff:/var/lib/docker/overlay2/y77x0jhsguv6htqnxiwe09zj5/diff:/var/lib/docker/overlay2/nk1deud1oujz2a22d4yamve07/diff:/var/lib/docker/overlay2/bff956jvd3jo6mvpeys8n8gj0/diff:/var/lib/docker/overlay2/5r7slvqmsifcmhgomobfq1ez3/diff:/var/lib/docker/overlay2/c14kistq8ji2i13q05f18ufx5/diff:/var/lib/docker/overlay2/de15bbc473fbc4be7e28ec0de371231c000923515c6e3ef093f93f522ff9d0ee/diff",
+                "MergedDir": "/var/lib/docker/overlay2/cb06f9d746c4011d066820b0c0e3e316c33b4394f10c18a86e7e285020506c71/merged",
+                "UpperDir": "/var/lib/docker/overlay2/cb06f9d746c4011d066820b0c0e3e316c33b4394f10c18a86e7e285020506c71/diff",
+                "WorkDir": "/var/lib/docker/overlay2/cb06f9d746c4011d066820b0c0e3e316c33b4394f10c18a86e7e285020506c71/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/usr-local",
+                "Destination": "/usr/local",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/source",
+                "Destination": "/source",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/jeanbosco/Library/Caches/COOL-PG39/linux-runtime-9e8538ad3fe24a6890f5bc5993460d6e/root-qa39-output",
+                "Destination": "/control",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "df20c078d085",
+            "Domainname": "",
+            "User": "arc01",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "COLLECT_ARCHIVE_TEST_TRACE_DIR=/control/synthetic-traces",
+                "PATH=/opt/dart/dart-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "-I",
+                "-B",
+                "/source/scripts/tests/test_pg_archive_admission.py"
+            ],
+            "Image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+            "Volumes": null,
+            "WorkingDir": "/source",
+            "Entrypoint": [
+                "/usr/local/bin/python3.12"
+            ],
+            "Labels": {
+                "com.collect.arc01.owner": "collect-arc01-ubuntu-20261002-deabfee579f3",
+                "com.collect.pg39.owner": "root-pg39-linux-execution1",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "162f38a9111ebf460add19c45ab093a5dd9b9e9e66261a9c47fb51d1ac655d60",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

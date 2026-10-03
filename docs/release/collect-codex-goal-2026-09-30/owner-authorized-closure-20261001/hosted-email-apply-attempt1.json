@@ -1,0 +1,35 @@
+{
+  "kind": "narrow_hosted_operator_email_auth",
+  "captured_at": "2026-10-01T09:39:59.581113+00:00",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "mode": "apply",
+  "selected_operator_email": "info@ikanisa.com",
+  "configuration_update_attempted": false,
+  "configuration_update_verified": false,
+  "configuration_outcome_uncertain": false,
+  "account_provisioned": false,
+  "otp_requests": 0,
+  "operator_session_established": false,
+  "credentials_printed": false,
+  "raw_config_saved": false,
+  "live_sms_enabled": false,
+  "template_sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+  "patch_fields": [
+    "external_email_enabled",
+    "mailer_allow_unverified_email_sign_ins",
+    "mailer_autoconfirm",
+    "mailer_otp_exp",
+    "mailer_otp_length",
+    "mailer_subjects_magic_link",
+    "mailer_templates_magic_link_content",
+    "smtp_max_frequency"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "http_status": 403,
+      "response_sha256": "8b87bfe64a40e4ec6dbfc28d69cced775557e68906f648f4c3d9cd7cd17cc8fd"
+    }
+  ],
+  "status": "MANAGEMENT_ACCESS_DENIED"
+}

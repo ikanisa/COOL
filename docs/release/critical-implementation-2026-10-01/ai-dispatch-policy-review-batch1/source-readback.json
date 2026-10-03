@@ -1,0 +1,204 @@
+{
+  "observed_at": "2026-10-02T01:44:20.991580+00:00",
+  "status": "source_drift_observed",
+  "source_inputs": 32,
+  "source_current_after": [
+    {
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 714,
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38753,
+      "sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16045,
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "supabase/config.toml",
+      "bytes": 16032,
+      "sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": ".dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "bytes": 38882,
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+    },
+    {
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "bytes": 17752,
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b"
+    },
+    {
+      "path": "scripts/supabase_production_readiness.sh",
+      "bytes": 62358,
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+    },
+    {
+      "path": "scripts/supabase_deploy.sh",
+      "bytes": 345,
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886"
+    },
+    {
+      "path": "scripts/edge_function_inventory.rb",
+      "bytes": 6127,
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9"
+    },
+    {
+      "path": "scripts/edge_function_inventory.sh",
+      "bytes": 1610,
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8"
+    },
+    {
+      "path": "contracts/edge-functions.json",
+      "bytes": 3836,
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28"
+    },
+    {
+      "path": "scripts/tests/supabase_delivery_contract_test.py",
+      "bytes": 28103,
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d"
+    },
+    {
+      "path": "scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 14544,
+      "sha256": "01507a02613b404ee02ce7bd85330d664327abcd0af0dfc2e672282a07253fd1"
+    },
+    {
+      "path": "scripts/tests/verify_roster_decoder.py",
+      "bytes": 13760,
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/ENVIRONMENT.md",
+      "bytes": 2892,
+      "sha256": "ac05f44aaa94d92444b62670ab98c112530688e46c85f23621b694c93e878d31"
+    },
+    {
+      "path": "docs/SUPABASE_FUNCTIONS.md",
+      "bytes": 1806,
+      "sha256": "1ddca0787dfb41ff85167bf5ff25f7eeaaa0b8a31ca2ae5f01e03f834941f5cc"
+    },
+    {
+      "path": "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md",
+      "bytes": 13674,
+      "sha256": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e"
+    },
+    {
+      "path": "tools/roster-decoder/README.md",
+      "bytes": 7074,
+      "sha256": "6012e40affbe5c7f9e3ae5f886cf0603d043c2747fc093f546d134924553cf00"
+    },
+    {
+      "path": "scripts/qa/backend_release_delivery.py",
+      "bytes": 30962,
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2"
+    }
+  ],
+  "drift": [
+    {
+      "path": "tools/roster-decoder/README.md",
+      "before": "4ac4603360e7b0573e69bca8b27682515a27412c5ff4b87685ecfb7014d87432",
+      "after": "6012e40affbe5c7f9e3ae5f886cf0603d043c2747fc093f546d134924553cf00"
+    }
+  ],
+  "source_unchanged": false,
+  "preserved_prior_packets": [
+    {
+      "path": "ai-import-review-batch1",
+      "batch_sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933",
+      "index_sha256": "25dd5a4f9b5fb9d3d7d3ccd0ef0b3332c4eba9d505284129c67849cdc8006cbc",
+      "indexed_leaves": 9,
+      "errors": []
+    },
+    {
+      "path": "ai-import-minimization-batch1",
+      "batch_sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e",
+      "index_sha256": "4e11f895869b8f9d75d7ceb52ca7b33e63e225a55ac23f2491133565da854310",
+      "indexed_leaves": 77,
+      "errors": []
+    },
+    {
+      "path": "ai-import-fixture-lint-batch1",
+      "batch_sha256": "b3ff1456d00f31f742433e166b60733c2a312ce11b251f44ba18b4fb396df352",
+      "index_sha256": "50c780f71ae41e27da3f34dc0e7ef9b2bb6c88f8ee86eb4d9925bff3620635cd",
+      "indexed_leaves": 76,
+      "errors": []
+    }
+  ],
+  "preserved_prior_leaves": 162,
+  "product_source_mutations": [],
+  "new_policy_tests_run": false,
+  "policy_values_selected": false,
+  "approval_acceptance": false,
+  "production_acceptance": false
+}

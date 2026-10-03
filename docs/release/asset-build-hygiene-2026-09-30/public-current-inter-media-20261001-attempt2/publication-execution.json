@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "started_at": "2026-10-01T13:16:14.715210+00:00",
+  "finished_at": "2026-10-01T13:16:22.857475+00:00",
+  "command": [
+    "python3",
+    "scripts/assets/publish_public_app_media.py",
+    "--capture-report",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-media-20261001-attempt2/capture-report.json",
+    "--visual-review",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-media-20261001-attempt2/visual-review.json",
+    "--packet",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/public-current-inter-media-20261001-attempt2/publication"
+  ],
+  "exit_code": 0,
+  "publisher_sha256": "748c4a4b63e7ea5bbdc4208ab95bdf2cd6d6c62191153daa756a15b4160f80e4",
+  "capture_report_sha256": "38efa22d0369c4e8083a706b2ec5e9e443120145cdd186c67a25597c7afc034f",
+  "visual_review_sha256": "84ecdbc89e7f5786ce91e2c558955109c62d083011b0de5b7441914a0112cf4a",
+  "stdout_sha256": "daec6835f3f723efebe452b4ea5cd9eeb977f85965002a5c5c7c83896d6b4f17",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "publication_receipt_sha256": "34edba3a99e782b1a32c4b669fa800f7cfba0d72d6e95d6ae1d8479bf287bbb5"
+}

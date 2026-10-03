@@ -1,0 +1,40 @@
+{
+  "format": "collect-be08-private-patch-readback-v1",
+  "maintained_mutations": 0,
+  "write_boundary": [
+    {
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "before_sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+      "after_sha256": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4",
+      "before_bytes": 67708,
+      "after_bytes": 78306,
+      "private_proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/audits/collect_schema_domain_map.py"
+    },
+    {
+      "path": "scripts/tests/collect_schema_domain_map_test.py",
+      "before_sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82",
+      "after_sha256": "3bb435cd79cc23414039e8c447460be88487a2097ba24035d1233d007971b343",
+      "before_bytes": 42318,
+      "after_bytes": 54727,
+      "private_proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/tests/collect_schema_domain_map_test.py"
+    }
+  ],
+  "patch_sha256": "9c45a4bf5004a897beff4212ce01370b32d0afc27ad078e6a83d4627def7a6f0",
+  "old_test_methods_preserved": 57,
+  "new_test_methods": [
+    "LiteralReplacementCandidateTests.test_ambiguous_missing_and_later_literal_predecessors_fail_closed",
+    "LiteralReplacementCandidateTests.test_computed_hash_match_artifact_tamper_is_rejected_by_semantic_recomputation",
+    "LiteralReplacementCandidateTests.test_e_strings_singlequotes_branches_loops_and_dynamic_effects_are_rejected",
+    "LiteralReplacementCandidateTests.test_exact_signature_selects_only_its_literal_predecessor",
+    "LiteralReplacementCandidateTests.test_expected_body_hash_mismatch_remains_a_computed_unresolved_candidate",
+    "LiteralReplacementCandidateTests.test_full_body_declaration_recipe_and_occurrence_guard_preserve_exact_bytes",
+    "LiteralReplacementCandidateTests.test_missing_or_duplicate_needle_and_empty_needle_are_not_computed",
+    "LiteralReplacementCandidateTests.test_multiple_straightline_recipes_do_not_share_reassigned_literal_state",
+    "LiteralReplacementCandidateTests.test_partial_raw_body_candidate_matches_catalog_without_resolving_lineage",
+    "LiteralReplacementCandidateTests.test_recipe_span_value_signature_and_migration_drift_fail_source_rebinding",
+    "LiteralReplacementCandidateTests.test_singlequoted_and_inexact_predecessor_source_bytes_fail_closed",
+    "LiteralReplacementCandidateTests.test_unknown_intervening_do_keeps_source_review_and_existing_counters_unresolved"
+  ],
+  "total_test_methods": 69,
+  "unchanged_support_copy": "proposal/scripts/audits/collect_schema_domain_caller_seams.json"
+}

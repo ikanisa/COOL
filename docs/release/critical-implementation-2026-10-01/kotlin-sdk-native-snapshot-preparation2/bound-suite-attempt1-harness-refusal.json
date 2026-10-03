@@ -1,0 +1,12 @@
+{
+  "actual_app_export_SDK_Gradle_native_executed": false,
+  "actual_error": "/usr/bin/git is a macOS system executable with multiple links; private-source single-link classifier was too broad",
+  "actual_exit_code": 1,
+  "actual_process_record": "bound-guard-snapshot.json",
+  "actual_stderr": "bound-guard-snapshot.stderr",
+  "at_utc": "2026-10-02T06:11:52.780099+00:00",
+  "attempt1_reused_or_erased": false,
+  "correction": "Only the root-owned exact /usr/bin/git input may have several links; every source/proposal leaf still must be single-link and every tool hash/FD/named identity is checked before and after. No source/controller/helper/test changes.",
+  "kind": "source_bound_harness_pretest_refusal",
+  "tests_run": 0
+}

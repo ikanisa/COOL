@@ -1,0 +1,7 @@
+{
+  "completed": false,
+  "classification": "Explicitly interrupted synthetic test run; no pass inferred from Flutter exit code 0.",
+  "reason": "One test-only identity-error assertion stalled inside fake asynchronous time.",
+  "log_retained": true,
+  "automatic_replay_or_live_calls": false
+}

@@ -1,0 +1,59 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart
+00:00 +0: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late read rejects account completion
+00:00 +1: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late read rejects session completion
+00:00 +2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late read rejects A-B-A completion
+00:00 +3: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late rotate rejects account completion
+00:00 +4: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late rotate rejects session completion
+00:00 +5: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: late rotate rejects A-B-A completion
+00:00 +6: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: share read rejects malformed code 
+00:00 +7: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: share read rejects malformed code bad-code
+00:00 +8: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: share read rejects malformed code https://attacker.invalid
+00:00 +9: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: share read rejects malformed code   40000000-0000-4000-8000-000000000001
+00:00 +10: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: share read rejects malformed code 40000000-0000-4000-8000-000000000001x
+00:00 +11: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation has one actual SDK mutation request after lost
+00:00 +12: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation has one actual SDK mutation request after 503
+00:00 +13: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect empty
+00:00 +14: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect extra
+00:00 +15: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect target
+00:00 +16: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect request
+00:00 +17: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect code
+00:00 +18: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect boolean
+00:00 +19: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: rotation rejects exact receipt defect version
+00:00 +20: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/group_invitation_protection_test.dart: valid rotation binds exact request and captured Bearer
+00:03 +21: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Save QR cancels delayed export after account
+00:03 +22: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Save QR cancels delayed export after account
+00:03 +23: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Save QR cancels delayed export after account
+00:05 +24: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/shared/collect_share_origin_test.dart: native share origin is non-empty and inside the rendered view
+00:05 +25: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:05 +26: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:05 +27: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:05 +28: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:06 +29: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:06 +30: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:06 +31: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1 code points
+00:06 +32: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:06 +33: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:06 +34: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:06 +35: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:06 +36: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+00:06 +37: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+00:06 +38: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason dialog restores focus to its triggering control
+00:06 +39: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_focus_test.dart: reason dialog restores focus to its triggering control
+00:06 +40: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:06 +41: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:06 +42: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Share QR code cancels delayed export after covered-returned
+00:07 +43: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:07 +44: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Share QR code cancels delayed export after disposed
+00:07 +45: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason preserves 22 code point input
+00:07 +46: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: reason preserves 22 code point input
+00:07 +47: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Share QR code still exports the current invitation once
+00:07 +48: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/admin_reason_dialog_bounds_test.dart: oversize reason is retained for correction and cancellation
+00:07 +49: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Share QR code never copies stale link after platform share failure
+00:07 +50: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: Share link never copies stale link after platform share failure
+00:07 +51: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: current failed share retains explicit clipboard fallback
+00:07 +52: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: real QR renderer produces a full1080px PNG
+01:40 +52: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: real QR renderer produces a full1080px PNG - did not complete [E]
+01:40 +52: Some tests failed.
+
+Failing tests:
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-ui-attempt7/test/features/group_invitation_output_test.dart: real QR renderer produces a full1080px PNG (did not complete)

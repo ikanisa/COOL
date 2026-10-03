@@ -1,0 +1,6 @@
+{
+  "status": "fail_before_output",
+  "cause": "Exact original line numbers incorrectly rejected the unchanged pinned desugar version review after additional Gradle build configuration shifted its source from226to290",
+  "correction": "Match unique ID/message/path first, disambiguate repeated diagnostics with exact locations, and retain current source context/hash",
+  "product_or_warning_flags_changed": false
+}

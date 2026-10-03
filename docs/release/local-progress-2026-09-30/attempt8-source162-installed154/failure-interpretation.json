@@ -1,0 +1,6 @@
+{
+  "status": "failed_preserved",
+  "failure": "Harness compared raw source inventory against the same inventory enriched with installed/parity fields. This is not proof of source drift.",
+  "migration_hashes_still_match_at_followup": true,
+  "prior_five_registers_unchanged": true
+}

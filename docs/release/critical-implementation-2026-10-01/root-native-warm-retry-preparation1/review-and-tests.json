@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-02T09:42:24.636729+00:00",
+  "script_sha256": "719ca823862eae447b7b3a297ee0357b1fff4d6deb19a9c3595b7b420ddb1782",
+  "independent_reviewer": "schema_domain_map",
+  "review": "Scoped read-only PASS after captured-module wiring and actual runtime identity corrections; original argv/env300/1200/2700, predecessor/binding checks, raw ZIP provenance, group cleanup/failure receipts and JVM/classes guards preserved. No execution or release approval inferred.",
+  "admission_tests": {
+    "cases": 6,
+    "actual_unittest_seconds": 0.036,
+    "observed_terminal_exit_code": 0,
+    "scope": "actual interpreter mismatch, failed predecessor, different retry/fence, approval/extra fields, captured validation/no path reload and process-residue refusal; no actual stage or SDK write"
+  },
+  "preserved_failed_native_archive": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/native-20261002-attempt1-4f29efa7b455497ca02031e23d0f8b54",
+  "production_release_approval": false
+}

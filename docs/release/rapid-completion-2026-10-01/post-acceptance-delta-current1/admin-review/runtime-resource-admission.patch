@@ -1,0 +1,42 @@
+--- a/lib/admin/core/admin_exception_workflow_card.dart
++++ b/lib/admin/core/admin_exception_workflow_card.dart
+@@ -156,7 +156,9 @@
+           if (saved != null) {
+             Object? decoded;
+             try {
+-              decoded = jsonDecode(saved);
++              if (saved.length <= 16384 && utf8.encode(saved).length <= 16384) {
++                decoded = jsonDecode(saved);
++              }
+             } catch (_) {
+               // Unknown bytes remain blocked after privacy sanitization.
+             }
+--- a/lib/admin/core/admin_exception_followup_v2_models.dart
++++ b/lib/admin/core/admin_exception_followup_v2_models.dart
+@@ -184,7 +184,7 @@
+     String exceptionId,
+   ) {
+     _owner(ownerDigest, currentActorId, exceptionId);
+-    if (utf8.encode(encoded).length > 2048) {
++    if (encoded.length > 2048 || utf8.encode(encoded).length > 2048) {
+       exceptionInvalid();
+     }
+     final row = exceptionObject(jsonDecode(encoded), {
+@@ -249,7 +249,7 @@
+     String? requestId;
+     AdminExceptionFollowupReference? reference;
+     try {
+-      if (utf8.encode(encoded).length <= 16384) {
++      if (encoded.length <= 16384 && utf8.encode(encoded).length <= 16384) {
+         final row = jsonDecode(encoded);
+         if (row is Map &&
+             row['version'] is int &&
+@@ -300,7 +300,7 @@
+       currentActorId,
+       exceptionId,
+     );
+-    if (utf8.encode(encoded).length > 2048) {
++    if (encoded.length > 2048 || utf8.encode(encoded).length > 2048) {
+       exceptionInvalid();
+     }
+     final row = exceptionObject(jsonDecode(encoded), {

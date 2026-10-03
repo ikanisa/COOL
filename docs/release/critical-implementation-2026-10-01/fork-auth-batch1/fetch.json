@@ -1,0 +1,33 @@
+{
+  "artifact_license_approval": false,
+  "behavior_verified": false,
+  "limitations": [
+    "HTTPS pub.dev metadata and pinned archive hashes authenticate this registry origin; no independent publisher signature attestation.",
+    "Source comparison does not prove callback/auth behavior, provider/device acceptance, resolved signed-artifact contents, current advisory clearance or redistribution approval."
+  ],
+  "network_used": true,
+  "packages": [
+    {
+      "archive_sha256": "55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751",
+      "archive_url": "https://pub.dev/api/archives/firebase_messaging-16.5.0.tar.gz",
+      "metadata_sha256": "f93033bece576030ac074ab8f3c29ad606accf64d84513ebc32c2c0de6693939",
+      "metadata_url": "https://pub.dev/api/packages/firebase_messaging/versions/16.5.0",
+      "package": "firebase_messaging"
+    },
+    {
+      "archive_sha256": "f6f42ea035953b2439664c1afb46630460edbb917093843a3a0618bfa45619f6",
+      "archive_url": "https://pub.dev/api/archives/gotrue-2.27.1.tar.gz",
+      "metadata_sha256": "e38d3bbc5fcdbc8244b70ccfb8df95555e6b0601ba5c3bd0b3918f1cc139c17b",
+      "metadata_url": "https://pub.dev/api/packages/gotrue/versions/2.27.1",
+      "package": "gotrue"
+    }
+  ],
+  "release_approved": false,
+  "reviewed_delta_sha256": {
+    "firebase_messaging": "8be8ea9ed092ac70edf9ff3742a9e86bcf62e361a2f474969f7708373bd52e65",
+    "gotrue": "6a51bbd13f38593836bb197ffe1479fe501869b28e679c15b710feee2c9a4fcb"
+  },
+  "schema_version": 1,
+  "status": "fetched_verified_public_archives",
+  "verifier_sha256": "0eca1a823a766157a4d764e624dd2c6ab04360c65ca44f20378de9611cfe8260"
+}

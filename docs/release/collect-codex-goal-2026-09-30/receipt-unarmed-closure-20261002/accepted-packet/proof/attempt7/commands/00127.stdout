@@ -1,0 +1,4 @@
+successor-race-close
+{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"scope": "rw_receipt_successors", "action": "close_unarmed", "outbox_id": "a33a89a5-4e1b-4170-9061-56236d100b9f", "closure_id": "582f9ad2-8ece-439d-bdfb-eea9916e7695", "request_id": "b4ca1459-2359-4964-ae7b-f7caeb8c3081", "proof_class": "never_armed_closed", "reason_code": "definitely_not_invoked", "recorded_at": "2026-10-01T22:32:00.374659Z", "send_action": false, "proof_sha256": "5898bcc21d1adb0269e1186a35b9014c767756051d51e927fb6d0bed42c52c07", "carrier_proof": false, "root_revision": 2, "delivery_proven": false, "contract_version": 1, "financial_action": false, "lineage_revision": 3, "expected_root_revision": 1, "primary_receipt_retained": true, "expected_lineage_revision": 2}
+

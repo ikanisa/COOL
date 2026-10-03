@@ -1,0 +1,33 @@
+name: Hardening Contracts
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Install isolated compiler
+        run: npm install --global typescript@5.8.3 --ignore-scripts
+      - name: Run actual boundary behavior tests
+        run: python3 scripts/hardening/run_contract_tests.py
+      - name: Run real handlers with isolated HTTP dependencies
+        run: python3 scripts/hardening/run_edge_http_tests.py
+      - name: Run release-evidence validator regression
+        run: python3 scripts/hardening/release_gate_test.py
+      - name: Verify source wiring
+        run: python3 scripts/hardening/source_integration_test.py
+
+      - name: Verify protected-cache and financial-view wiring
+        run: python3 scripts/hardening/v2_source_test.py
+
+      - name: Verify Admin header installation does not weaken existing policy
+        run: python3 scripts/hardening/admin_headers_test.py

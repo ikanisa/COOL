@@ -1,0 +1,16 @@
+{
+  "BE08_complete": false,
+  "existing1091_inputs_still_exact": true,
+  "final_focused12_receipt": "focused-tests-attempt3.json",
+  "full5_verification_receipt": "verification-attempt1.json",
+  "maintained12_still_exact": true,
+  "maintained_or_canonical_write": false,
+  "mapper49_proof_reused": true,
+  "original49_ASTs_and_bytes_preserved": true,
+  "private1092_generated_inputs_still_exact": true,
+  "proposed_body_matches": 811,
+  "provider_action": false,
+  "remaining_platform_body_gaps": 91,
+  "runtime_acceptance": false,
+  "status": "PASS_PRIVATE_READBACK"
+}

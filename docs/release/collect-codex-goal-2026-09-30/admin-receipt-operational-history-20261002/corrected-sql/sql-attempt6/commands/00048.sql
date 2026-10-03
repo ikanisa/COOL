@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select jsonb_agg(column_name order by ordinal_position)from information_schema.columns where table_schema='collect_receipt_operations' and table_name='handled_events';

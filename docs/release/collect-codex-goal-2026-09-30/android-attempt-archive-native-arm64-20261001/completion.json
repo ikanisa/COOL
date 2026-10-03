@@ -1,0 +1,43 @@
+{
+  "scope": "Goal11 final native terminal-attempt archive corrections: exact selected native JVM/API proof only",
+  "status": "pass",
+  "finished_at": "2026-10-01T15:35:50.444284+00:00",
+  "junit_tests_passed": 145,
+  "suite_count": 9,
+  "full_api_compile": true,
+  "commands_completed": 5,
+  "compiled_artifact_count": 217,
+  "selected_source_count": 36,
+  "original_binary_pin_count": 14,
+  "jdk_runtime_files": 459,
+  "copy_and_original_drift": {
+    "original_source": [],
+    "copied_source": [],
+    "original_binary": [],
+    "copied_binary": [],
+    "shims": [],
+    "tools": [],
+    "native_source_inventory": []
+  },
+  "proof_duration_seconds": 33.049909,
+  "single_serial_attempt": true,
+  "periodic_thread_heap_samples": "Scheduled at60s; no new stage reached60s. CPU resources and five GC logs retained; preceding timeout thread dump retained separately.",
+  "physical_device_or_hosted_acceptance": false,
+  "global_java_or_project_config_changed": false,
+  "product_files_changed": false,
+  "historical_sql_edge_native_counts_are_not_added": true,
+  "prior_failed_download_preserved": true,
+  "archive_supply_chain": "Official HTTPS checksum+metadata digest matched complete asset before extraction; no independent signature/reproducibility attestation.",
+  "toolchain_change": "Android Studio JBR21.0.8 x86_64/external inputs -> private Temurin21.0.12.1+1 arm64/internal APFS. Vendor, patch, architecture and staging changed; success does not establish a sole timeout cause.",
+  "validation_sha256": "bce59b032f4f4a56dbc1e402e1ec283129f2d5ee8d287ebd96c4e71525fbce94",
+  "runtime_closure_sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a",
+  "compiled_artifact_map_sha256": "e48e4cbf04f83e13e1ea3126e1ba261b339464607dfa82e2d2c58f2c6afa2b39",
+  "remaining": [
+    "Synthetic local AES/filesystem/backend seams; no physical Keystore/device/SMS/carrier/backend/host acceptance.",
+    "Direct native source/API compile; no Gradle/APK/merged-manifest/lint/signing proof.",
+    "New Temurin arm64 JDK21 vendor/patch plus internal staging is an explicitly different proof runtime, not a proven sole-cause fix.",
+    "Current Gradle/APK/manifest/lint/signing acceptance, physical Keystore/boot/Doze/force-stop/power-loss/multipart carrier drills, managed migrations/Edge activation and hosted release remain separate gates.",
+    "Cold evidence capacity, approved retention/deletion policy, portable Keystore recovery and user export UI remain outside this proof.",
+    "Retained Java/Android deprecation warnings require normal SDK-maintenance review; no source fix was made by this proof."
+  ]
+}

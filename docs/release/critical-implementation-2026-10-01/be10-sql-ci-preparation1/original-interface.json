@@ -1,0 +1,30 @@
+{
+  "current_runner": "scripts/tests/current_ordinary_installer_rehearsal.py",
+  "argv": [
+    "--output",
+    "fresh candidate-contained docs/release output"
+  ],
+  "helper_source_unchanged": [
+    "scripts/tests/current_ordinary_installer_rehearsal.py",
+    "scripts/tests/collect_current_release_upgrade_uat.py",
+    "scripts/sql/receipt_transport_platform_prerequisites.sql",
+    "scripts/sql/collect_recovery_source_catalog.sql"
+  ],
+  "original_resource_controls": {
+    "tmpfs_bytes": 1073741824,
+    "network": "none",
+    "published_ports": false,
+    "cron.launch_active_jobs": "off",
+    "pg_net.batch_size": 0,
+    "command_timeout_seconds": 120,
+    "original_outer_whole_deadline_seconds": 600
+  },
+  "new_adapter_only": [
+    "explicit hash-bound Docker path",
+    "local Unix socket and empty credential config",
+    "exact configID/platform preflight",
+    "pinned extracted platform fixture",
+    "historical124-only metadata fixture",
+    "fresh captured candidate, before/after source binding, original main call and owned cleanup"
+  ]
+}

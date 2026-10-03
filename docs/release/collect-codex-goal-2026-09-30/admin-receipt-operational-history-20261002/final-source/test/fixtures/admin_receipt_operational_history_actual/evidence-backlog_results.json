@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "code": "RECEIPT_ENQUEUED",
+      "payment_id": "99780000-0000-4000-8000-000000050003",
+      "receipt_id": "9b611bb5-fad8-44cc-b4eb-65104150cd90",
+      "request_id": null,
+      "evidence_id": "e2c95b67-1c9d-4d52-ad9a-76e4d7220ea3",
+      "recorded_at": "2026-10-02T00:14:46.564953Z",
+      "snapshot_id": "e2c95b67-1c9d-4d52-ad9a-76e4d7220ea3",
+      "exception_ids": [],
+      "source_status": "available",
+      "business_handled": true,
+      "transaction_sms_id": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "c0574327-4eeb-4cd4-a43a-e5ad1d918135",
+  "status": "partial",
+  "section": "backlog_results",
+  "checked_at": "2026-10-02T00:14:46.992944Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:46.992944Z"
+}

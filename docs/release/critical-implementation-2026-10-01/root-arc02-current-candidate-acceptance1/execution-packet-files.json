@@ -1,0 +1,125 @@
+{
+  "status": "actual_hard_gate_failed_analysis_and_tests_unrun",
+  "files": [
+    {
+      "path": "APP-reader-after.json",
+      "sha256": "836d57c01ba2051102b29231bdd99c50ba11b17c27a68bab0ead62d17dfc29ba",
+      "bytes": 1067
+    },
+    {
+      "path": "APP-reader-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-after.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-before.json",
+      "sha256": "6bc7fa3ead8fa9319fb05f8e3041152101dabb7ac8dd25a83f07d39ffea69fd4",
+      "bytes": 1069
+    },
+    {
+      "path": "APP-reader-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "APP-reader-before.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-after-output.json",
+      "sha256": "c3d63e3cac6ffa789aa96c2d52ceb892f848509cf0e5a8eabf114e28cf2d86f5",
+      "bytes": 6880417
+    },
+    {
+      "path": "SDK-before-output.json",
+      "sha256": "c3d63e3cac6ffa789aa96c2d52ceb892f848509cf0e5a8eabf114e28cf2d86f5",
+      "bytes": 6880417
+    },
+    {
+      "path": "SDK-reader-after.json",
+      "sha256": "7e8e07868f4cfe8461ba9bcd6d35e8f0090bf0bfce38ac23b6d0282738f4220d",
+      "bytes": 1155
+    },
+    {
+      "path": "SDK-reader-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-reader-after.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "SDK-reader-before.json",
+      "sha256": "4e03473a1d6f1647001cb01c6d8e44d841ec05a7b6c2c6b48d9c3409ebed7d11",
+      "bytes": 1156
+    },
+    {
+      "path": "SDK-reader-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-reader-before.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "app-after.json",
+      "sha256": "4fc75b434cc8907aacc5638ac55723e20fdc7197e11ed82a7d831b0cb549a341",
+      "bytes": 2340937
+    },
+    {
+      "path": "app-before.json",
+      "sha256": "4fc75b434cc8907aacc5638ac55723e20fdc7197e11ed82a7d831b0cb549a341",
+      "bytes": 2340937
+    },
+    {
+      "path": "exact-size-gate.sh",
+      "sha256": "d99c3d5ccb77990ae092a9d25b87f96ad9a95328df1b082bfeb752800edfa911",
+      "bytes": 901
+    },
+    {
+      "path": "hard-size-gate.json",
+      "sha256": "0ae3de8593403b3a91fcbf48b0bd1e02f1400c9f816199ce4f225d93cc1e2936",
+      "bytes": 806
+    },
+    {
+      "path": "hard-size-gate.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "hard-size-gate.stdout",
+      "sha256": "197d7e3a191b27e8f5b5567195655926a0845dd59db5bf6789371b1348a29562",
+      "bytes": 5889
+    },
+    {
+      "path": "packet-files.json",
+      "sha256": "72e379a39a933a604dd407a3ff75a54d397b7eda7be0a6c4f78c2eaf8fb8837f",
+      "bytes": 483
+    },
+    {
+      "path": "plan.json",
+      "sha256": "4020eb16fb1e3045e59db14bb8f6de0d0a2f62a24fe5917ff276b2e1576f0488",
+      "bytes": 4198
+    },
+    {
+      "path": "run_checks.py",
+      "sha256": "2cdbf4b9d16dcb5e77c5d52289c8a1995aa368533b2e7d4c801f3737398a231a",
+      "bytes": 9239
+    },
+    {
+      "path": "terminal.json",
+      "sha256": "dc77cbcbbdbc200bea0e0600083eabdb32794cda823d88adf087ddbc9c7a9c21",
+      "bytes": 6813
+    }
+  ]
+}

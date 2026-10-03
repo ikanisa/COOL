@@ -6,6 +6,7 @@ class CollectRuntimeTypography {
   static const String fontFamily = 'Inter';
   static const String displayFontFamily = fontFamily;
   static const String financialFontFamily = fontFamily;
-  // Owner-selected September 2026 public web cohort only.
+  // Supplied Aeonik Pro 400/500 faces match the selected September 2026
+  // marketing roles. Native, operator and financial roles retain Inter.
   static const String marketingFontFamily = 'Aeonik Pro';
 }

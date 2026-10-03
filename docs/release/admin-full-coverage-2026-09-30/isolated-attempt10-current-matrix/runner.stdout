@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export/scripts/tests/admin_read_gateway_gate.py", line 54, in run_command
+    process.wait(timeout=timeout)
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart', 'analyze', 'lib/admin/core/admin_runtime.dart', 'lib/admin/core/admin_read_contracts.dart', 'lib/admin/admin_shell.dart', 'lib/admin/core/admin_detail_specs.dart', 'lib/admin/core/admin_action_contracts.dart', 'lib/admin/core/admin_reconciliation_models.dart', 'lib/admin/core/admin_roster_import.dart', 'lib/admin/core/admin_auth_guard.dart', 'test/support/admin_read_fixture.dart', 'test/admin_action_ui_session_test.dart', 'test/admin_declared_route_states_test.dart', 'test/admin_route_access_test.dart', 'test/admin_runtime_control_gap_test.dart', 'test/admin_declared_action_dispatch_test.dart', 'test/admin_declared_read_dispatch_test.dart', 'test/admin_read_contracts_test.dart']' timed out after 90 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export/scripts/tests/admin_read_gateway_gate.py", line 159, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export/scripts/tests/admin_read_gateway_gate.py", line 131, in main
+    result = run_command(argv, ROOT, log, timeout)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt10-current-matrix/source-export/scripts/tests/admin_read_gateway_gate.py", line 69, in run_command
+    os.killpg(process.pid, signal.SIGKILL)
+PermissionError: [Errno 1] Operation not permitted

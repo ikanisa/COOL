@@ -1,0 +1,101 @@
+{
+  "status": "fail",
+  "sequence_elapsed_seconds": 401.66,
+  "native_assemble_succeeded": true,
+  "jvm_test_task_reached": false,
+  "lint_errors": [
+    {
+      "id": "NotificationPermission",
+      "severity": "Error",
+      "message": "When targeting Android 13 or higher, posting a permission requires holding the `POST_NOTIFICATIONS` permission (usage from com.google.firebase.messaging.DisplayNotification)",
+      "locations": [
+        {
+          "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/src/main/AndroidManifest.xml"
+        }
+      ]
+    }
+  ],
+  "lint_warning_count": 40,
+  "focused_dependency_proof_sha256": "8f1678b9e1cb5dc0d93420d4427e545c21a72aa506d175e5160aed39a2a504dc",
+  "gateway_flutter_local_notifications_absent_compile_runtime_registrant_and_dex": true,
+  "gateway_firebase_messaging_retained_and_notifying_dependency_lint_failed": true,
+  "non_gateway_generated_registrant_byte_identical": true,
+  "original_generated_registrant_sha256": "52d3ce636d308a5e39c95bb917407a46d6bad42c9f95a3073a44a0155f683bcd",
+  "source_inputs_count": 1051,
+  "export_selected_source_inputs_unchanged_except_declared_adapter": true,
+  "owned_source_sha256": {
+    "android/app/build.gradle.kts": "607164835200efa56f26fca8ac0d7829009ef0d6dcda570195223f6e34534860",
+    "android/gradle/CollectPluginRegistrant.java": "66f330f0c98b048013259a7a8cc211224a91381366e972673a2676421c5f4551",
+    "scripts/qa/gateway_notification_dependencies.init.gradle": "12a503e6a3753a6fc47e7032c0a809b3501c2c0db8d76a02b4c6257d47ba2be2"
+  },
+  "apk": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk",
+    "sha256": "ce93d5d41b9d56bd7686f967f3a8a8ce5905b4591651a509f68f5016b6297ae9",
+    "bytes": 82473945,
+    "unsigned_verified": true,
+    "post_notifications_absent": true,
+    "qa_marker": {
+      "kind": "local_unsigned_native_qa",
+      "store_acceptance": false,
+      "provider_configuration": false,
+      "signing": false
+    },
+    "dex_files": [
+      "classes.dex",
+      "classes2.dex"
+    ],
+    "firebase_messaging_dex_present": true,
+    "unlicensed_aeonik_payload": [
+      {
+        "entry": "assets/flutter_assets/assets/typefaces/AeonikPro-Medium.ttf",
+        "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+        "bytes": 159752
+      },
+      {
+        "entry": "assets/flutter_assets/assets/typefaces/AeonikPro-Regular.ttf",
+        "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+        "bytes": 134268
+      }
+    ]
+  },
+  "readback_commands": [
+    {
+      "name": "compiled-gateway-registrant",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/javap",
+        "-classpath",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/intermediates/javac/internal_gatewayRelease/compileInternal_gatewayReleaseJavaWithJavac/classes",
+        "-c",
+        "io.flutter.plugins.GeneratedPluginRegistrant"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "ae7dc063cc7fc66d6af06556a63c60c8be85818c786ddab90709fbcd872d7589",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gateway-manifest",
+      "argv": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "4d468f1d4fbe4ad23f687bd9158840caa478057cce00cdc29a3e20a83b0b309c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gateway-unsigned-verification",
+      "argv": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c"
+    }
+  ],
+  "scope": "Preserved failed E3 attempt172: exact frozen retained export source, assembled unsigned pre-font Gateway QA artifact, adapter/dependency/source/compiled/APK readback. Lint remains failed on Firebase Messaging; JVM task was not reached. This APK retains Aeonik and is not a final licensed candidate or current whole-app acceptance."
+}

@@ -1,0 +1,31 @@
+{
+  "actual_seconds": 19.119,
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/minimal-project",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=1",
+    "-Dorg.gradle.internal.http.connectionTimeout=30000",
+    "-Dorg.gradle.internal.http.socketTimeout=30000",
+    "-PcollectLintGraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/selected-tooling-graph.json",
+    "resolveExactLintTooling"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution1/minimal-project",
+  "deadline_seconds": 180,
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T14:46:33.086447+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 20870,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T14:46:13.967006+00:00",
+  "stderr_sha256": "e2864869f657516e1ea84746500a9c867e868f95c9d359e84917a6121ca2fc40",
+  "stdout_sha256": "c85222193781192fd05cfd0b1ece96db0589848daa8d7410c07a193da5603636",
+  "timed_out": false
+}

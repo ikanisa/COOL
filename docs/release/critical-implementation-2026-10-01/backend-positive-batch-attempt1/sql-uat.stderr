@@ -1,0 +1,8 @@
+ERROR:  P0001: FAIL: replacement session cannot inherit old claim capability
+CONTEXT:  PL/pgSQL function pg_temp_92.assisted_assert(boolean,text) line 2 at RAISE
+SQL statement "SELECT pg_temp.assisted_assert(caught=state,label)"
+PL/pgSQL function pg_temp_92.assisted_deny(text,text,text) line 4 at PERFORM
+SQL statement "SELECT pg_temp.assisted_deny(format('select public.collect_get_claimed_receipt_v2(%L,%L,%L,%L,%s)',
+  actor,other_sid,job->>'id',claim->>'claim_token',claim->>'fence_version'),'42501','replacement session cannot inherit old claim capability')"
+PL/pgSQL function inline_code_block line 20 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

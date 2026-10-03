@@ -1,0 +1,22 @@
+PASS outside changed function and its signature/configuration are exact old accepted bytes
+PASS application installer is actually postgres NOSUPERUSER before either feature context
+PASS new starts with nonempty financial and retained lifecycle evidence
+PASS new current source installs as postgres NOSUPERUSER
+PASS new preserves all preexisting outside-body definitions owner ACL and configuration
+PASS new installed security-definer owner is actual non-superuser postgres
+PASS new actual authenticated RPC reads six joined review workflow lifecycle records
+PASS new authenticated private direct read is refused
+PASS new private helpers and evidence expose no direct API grants
+PASS new install and read preserve exact nonempty financial and lifecycle fingerprints
+PASS retained old accepted v2 installs as ordinary owner
+PASS retained starts with nonempty financial and retained lifecycle evidence
+PASS retained current source installs as postgres NOSUPERUSER
+PASS retained preserves all preexisting outside-body definitions owner ACL and configuration
+PASS retained installed security-definer owner is actual non-superuser postgres
+PASS retained actual authenticated RPC reads six joined review workflow lifecycle records
+PASS retained authenticated private direct read is refused
+PASS retained private helpers and evidence expose no direct API grants
+PASS retained install and read preserve exact nonempty financial and lifecycle fingerprints
+PASS both contexts install identical normalized current function definition
+PASS captured source helper and current live function migration remain exact
+{"status": "pass", "cases": 21, "result": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/sql-ordinary-current-body/attempt2/result.json", "all_task_containers_removed": true}

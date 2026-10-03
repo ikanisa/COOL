@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"ok": false, "code": "POLICY_HISTORY_UNPROVEN", "action": "ensure_receipt", "run_id": "55779298-3772-4c82-ab50-25ac6766b784", "event_id": "a8e10b51-feff-4a78-ae6e-6e54021a8171", "receipt_id": null, "request_id": "2dc05b25-7640-4af8-846f-62639b85f834", "observed_at": "2026-10-02T00:46:57.383522Z", "principal_id": "07eb4d13-d1c1-49b2-bb44-a3da7b9551fb", "fence_version": 2, "source_version": 1, "business_handled": false, "contract_version": 2}

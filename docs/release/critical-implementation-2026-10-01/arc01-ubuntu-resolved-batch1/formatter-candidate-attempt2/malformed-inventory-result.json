@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "ruby /opt/arc01/inventory.rb"
+  ],
+  "completed_at_utc": "2026-10-02T00:40:20.689277+00:00",
+  "deadline_seconds": 30,
+  "elapsed_seconds": 0.3519144999991113,
+  "exit_code": 0,
+  "log_sha256": "80443dc52df8f22eb45eb82afad6c2af58d448a79504e6e7a5ec49d21a486f76",
+  "started_at_utc": "2026-10-02T00:40:20.337390+00:00",
+  "timed_out": false
+}

@@ -1,6 +1,8 @@
 SHELL := /bin/bash
-FLUTTER ?= /Users/jeanbosco/Developer/flutter/bin/flutter
-DART ?= /Users/jeanbosco/Developer/flutter/bin/dart
+FLUTTER ?= flutter
+DART ?= dart
+# Keep command-line/environment overrides available to the script entry points.
+export FLUTTER DART
 
 .PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
@@ -257,7 +259,13 @@ source-integrity-json:
 	@./scripts/source_integrity_gate.sh --json
 
 qa-tooling-test:
+	@python3 scripts/tests/test_postgres_admission.py
+	@python3 scripts/tests/test_pg_archive_admission.py
+	@python3 scripts/tests/collect_schema_domain_map_test.py
+	@python3 scripts/tests/collect_schema_lineage_invalidation_test.py
 	@python3 scripts/tests/supabase_secret_transport_test.py
+	@python3 scripts/tests/supabase_delivery_contract_test.py
+	@ruby scripts/tests/edge_function_inventory_test.rb
 	@python3 scripts/tests/candidate_runner_test.py
 	@python3 scripts/tests/integrated_candidate_runner_test.py
 	@python3 scripts/tests/recovery_list_source_test.py
@@ -275,6 +283,7 @@ qa-tooling-test:
 	@ruby scripts/tests/collect_edge_function_local_gate_test.rb
 	@ruby scripts/tests/lcov_coverage_test.rb
 	@ruby scripts/tests/dart_format_test.rb
+	@ruby scripts/tests/native_build_provenance_test.rb
 	@ruby scripts/tests/fullstack_database_test.rb
 	@ruby scripts/tests/fullstack_database_sql_test.rb
 	@ruby scripts/tests/fullstack_database_http_test.rb

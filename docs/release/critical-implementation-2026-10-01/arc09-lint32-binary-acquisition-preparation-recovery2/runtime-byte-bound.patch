@@ -1,0 +1,11 @@
+--- a/acquire_binaries.py
++++ b/acquire_binaries.py
+@@ -171,7 +171,7 @@
+ def main():
+  p=argparse.ArgumentParser();p.add_argument('--plan-sha256',required=True);p.add_argument('--source-fences-sha256',required=True);p.add_argument('--output',required=True,type=Path);a=p.parse_args()
+  if Path(sys.executable).resolve()!=PYTHON.resolve():raise ValueError('Pinned Python differs')
+- fences=json.loads(stable(HERE/'source-fences.json',a.source_fences_sha256));assert stable(PYTHON,fences['Python_SHA256'],8*1024**2)
++ fences=json.loads(stable(HERE/'source-fences.json',a.source_fences_sha256));assert stable(PYTHON,fences['Python_SHA256'],fences['Python_bytes'])
+  for r in fences['inputs']:stable(r['path'],r['sha256'],max(8*1024**2,r['bytes']))
+  plan=json.loads(stable(HERE/'plan.json',a.plan_sha256));graph=json.loads(stable(plan['actual_metadata3_graph']['path'],plan['actual_metadata3_graph']['sha256']));facts=json.loads(stable(plan['sealed_binary_facts']['path'],plan['sealed_binary_facts']['sha256']));
+  if plan['counts']!={'unique_JARs':67,'module_declared':7,'Maven_fallback':60,'selected_modules':69,'excluded_duplicate_or_POM_components':2} or len(plan['items'])!=67 or len({r['publisher_binary_URL'] for r in plan['items']})!=67:raise ValueError('Exact67-item plan differs')

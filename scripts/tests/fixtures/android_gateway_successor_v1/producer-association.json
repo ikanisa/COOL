@@ -1,0 +1,12 @@
+{
+  "producer_result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+  "producer_manifest_sha256": "b6f2e1f2c08d7cd3af071c85c8b1e5543b2cae2153ad24867a6d75b498a51885",
+  "fixtures": {
+    "observed-successor-grant.json": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+    "observed-successor-arm.json": "4c8d914824ad403986114fc2bae8317c08ab8ae301c5a52a8ca6b1d500c96c23",
+    "observed-multipart-callbacks.json": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+    "observed-exact-successor-archive-ack.json": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+    "observed-late-original-request-recovery.json": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+    "observed-late-conflicting-status.json": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde"
+  }
+}

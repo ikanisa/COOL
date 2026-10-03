@@ -1,0 +1,80 @@
+{
+  "status": "scoped_pass",
+  "scope": "Production Admin email login, send and verify light/dark states, plus retained light-dark-light themes; synthetic email responses and actual Flutter rendering. No runtime paint edit.",
+  "packet": "docs/release/admin-full-coverage-2026-09-30/email-submit-current-attempt3",
+  "validation_sha256": "2b47c20fe59a2bf69620e31c679fbdd2af1f1c562530b8f53897cb95d53f89c8",
+  "tests": 23,
+  "paint_tests": 5,
+  "analysis_clean": true,
+  "login_source_sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd",
+  "live_login_matches_tested_input": true,
+  "images": {
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-send-dark-synthetic.png": {
+      "sha256": "09582fbafdee937eaf9f586c7179173770c2e7e4a8ac5a03c37130f09e3790e7",
+      "inspected": true,
+      "observation": "White submit label and action glyph are visibly readable on the black action surface; own Collect terminology retained."
+    },
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-send-light-synthetic.png": {
+      "sha256": "3b903597939d5d93d42b3cd36677453d3f5b11b1f99b8509bc9ecb2daff0cf20",
+      "inspected": true,
+      "observation": "White submit label and action glyph are visibly readable on the black action surface; own Collect terminology retained."
+    },
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-verify-dark-synthetic.png": {
+      "sha256": "4310fc1f54bdc603e5f0eeba1b5a04de4870c67c2b85951501ee18638bbea777",
+      "inspected": true,
+      "observation": "White submit label and action glyph are visibly readable on the black action surface; own Collect terminology retained."
+    },
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-verify-light-synthetic.png": {
+      "sha256": "8fcccfff7e12d440cde1d7034a77db14a35b334c385e8adc8ce186479f5c5ea1",
+      "inspected": true,
+      "observation": "White submit label and action glyph are visibly readable on the black action surface; own Collect terminology retained."
+    }
+  },
+  "retracted_finding": {
+    "prior_statement": "Light Send code button appeared blank.",
+    "correction": "Direct reinspection shows readable white label and icon in the same SHA256 image as the earlier operator3 capture. Current actual contrast and painted-glyph assertions pass in all four states and retained-theme transitions. The earlier visual interpretation was incorrect; no rendering defect was reproduced.",
+    "runtime_changed": false
+  },
+  "criteria": [
+    {
+      "id": "V05",
+      "result": "scoped_pass",
+      "evidence": "Actual render paragraph contrast >=4.5 and >8 visible foreground pixels in each label and icon region, light/dark send/verify and retained form themes."
+    },
+    {
+      "id": "F03",
+      "result": "scoped_pass",
+      "evidence": "Current email cohort verifies safe denied/unapproved outcomes, code change/resend cooldown, disposed request and successful navigation using synthetic Auth; actual email delivery is excluded."
+    },
+    {
+      "id": "A02",
+      "result": "scoped_pass",
+      "evidence": "Current co-resident light/dark320px2x mounted login cases pass without overflow."
+    },
+    {
+      "id": "W05",
+      "result": "scoped_pass",
+      "evidence": "Unapproved verified account signs out and stays on login; existing independent native transport/session packet remains separate."
+    }
+  ],
+  "comparators": [
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/research/public-desktop-20260905/GWEB-04.png",
+      "sha256": "7db7b1c67fd511d641d2a3a7b748ec3604d4cfa33160f1f60034d4471cd42427",
+      "context": "Third-party public desktop login preview, publisher April2025; inspected September2026; visible static quiet-form pattern only."
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/assets/public-business/bills-preview.png",
+      "sha256": "d142f7fcb0fd7098e2574e98bad74da84c4d4a849d48d65ce9de9cc0fc56e849",
+      "context": "Official Business promotional receipt workspace; distinct from public signed-out login and private authenticated operator UI."
+    }
+  ],
+  "sole_authority": "revolut-design skill; this report is product evidence, not a design reference",
+  "full_revolut_fidelity_verified": false,
+  "exclusions": [
+    "Authenticated source comparator and complete current route/state geometric comparison",
+    "Hosted email configuration and delivery",
+    "Unaided physical screen reader/device acceptance",
+    "Current whole-application source acceptance; Gateway/test/tool drift is explicitly recorded in the wrapper"
+  ]
+}

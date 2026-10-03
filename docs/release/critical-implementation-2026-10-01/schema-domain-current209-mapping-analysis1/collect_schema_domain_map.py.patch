@@ -1,0 +1,92 @@
+--- maintained/scripts/audits/collect_schema_domain_map.py
++++ proposed/scripts/audits/collect_schema_domain_map.py
+@@ -4,6 +4,7 @@
+ import collections
+ import dataclasses
+ import hashlib
++import importlib.util
+ import json
+ import os
+ from pathlib import Path
+@@ -511,7 +512,7 @@
+         raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+-    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; versions=[]
++    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; versions=[]; migration_sources={}
+     for path in migration_files:
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+@@ -520,6 +521,7 @@
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"original-migration","version":version,"represented_in_catalog":version in catalog["migrations"]})
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
+         alterations.extend(sql_static_alterations(raw.decode("utf-8"),relative,version))
++        migration_sources[relative]={"text":raw.decode("utf-8"),"version":version,"sha256":sha(raw)}
+     if versions != sorted(set(versions)): raise ValueError("migration source ordering/duplicates")
+     replay_bound=None
+     if replay_migrations is not None:
+@@ -534,26 +536,45 @@
+     by_body=collections.defaultdict(list)
+     admitted_definitions=[d for d in definitions if d["version"] in catalog["migrations"]]
+     lineage=sql_static_lineage(admitted_definitions,[a for a in alterations if a["version"] in catalog["migrations"]])
++    helper_path=Path(__file__).resolve().with_name("collect_schema_function_lineage.py")
++    helper_raw=required_bytes(helper_path)
++    helper_spec=importlib.util.spec_from_file_location("reviewed_function_lineage",helper_path)
++    helper=importlib.util.module_from_spec(helper_spec);helper_spec.loader.exec_module(helper)
++    transforms=helper.reviewed_transform_lineage(sys.modules[__name__],
++        {p:s for p,s in migration_sources.items() if s["version"] in catalog["migrations"]},
++        admitted_definitions,[a for a in alterations if a["version"] in catalog["migrations"]])
++    transform_matches=[]
+     for d in definitions:
+         if d["version"] in catalog["migrations"]: by_body[(d["schema"],d["name"],d["prosrc_sha256"])].append(d)
+     for obj in objects:
+         if obj["kind"]!="function":continue
+         matches=by_body[(obj["schema"],obj["name"],obj["prosrc_sha256"])]
+         literal_match=bool(matches)
++        transform_match=False
+         if not matches:
+             signature_tokens=lex("("+obj["catalog_row"][2]+")",sql=True)
+             signature,_=sql_signature("("+obj["catalog_row"][2]+")",signature_tokens,0)
+             candidates=[d for (schema,name,types),d in lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and obj["catalog_row"][3]=="f" and signature is not None and types==signature]
+             matches=[d for d in candidates if d["prosrc_sha256"]==obj["prosrc_sha256"]]
++            if matches:lineage_matches.append(obj["identity"])
++            if not matches and obj["catalog_row"][3]=="f" and signature is not None:
++                transformed=[d for (schema,name,types),d in transforms.items()
++                    if (schema,name)==(obj["schema"],obj["name"]) and types==signature]
++                matches=[d for d in transformed if d["prosrc_sha256"]==obj["prosrc_sha256"]]
++                transform_match=bool(matches)
++                if matches:transform_matches.append(obj["identity"])
+             review=function_source_review(obj,admitted_definitions,candidates,matches)
++            if transform_match:
++                review["reason"]="exact-reviewed-transform-lineage-body-match"
++                review["reviewed_transform_candidates"]=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}} for d in matches]
+             obj["source_match_review"]=review;source_reviews.append(review)
+-            if matches:lineage_matches.append(obj["identity"])
+         obj["matched_body_sources"]=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}} for d in matches]
+-        obj["source_status"]="catalog-prosrc-hash-matched" if literal_match else "catalog-prosrc-hash-matched-static-lineage" if matches else "no-exact-body-source-match"
++        obj["source_status"]="catalog-prosrc-hash-matched" if literal_match else "catalog-prosrc-hash-matched-reviewed-transform" if transform_match else "catalog-prosrc-hash-matched-static-lineage" if matches else "no-exact-body-source-match"
+         if matches:
+             d=matches[-1]
+             for site in sql_sites(d,catalog):
+-                sql_references.append({"caller_function":obj["identity"],"source_path":d["path"],"source_line":d["line"],**site})
++                sql_references.append({"caller_function":obj["identity"],"source_path":d["path"],"source_line":d["line"],**site,
++                    **({"source_basis":"reviewed-reconstructed-function-body"} if d.get("source_transformations") else {})})
+             matched.append(obj["identity"])
+     config_path=root/"supabase/config.toml"; config_raw=required_bytes(config_path); config=tomllib.loads(config_raw.decode())
+     inputs.append({"path":"supabase/config.toml","sha256":sha(config_raw),"kind":"local-platform-config"})
+@@ -562,6 +583,7 @@
+         if p.exists(): inputs.append({"path":relative,"sha256":sha(required_bytes(p)),"kind":"catalog-or-platform-setup"})
+     this_script=Path(__file__).resolve()
+     inputs.append({"path":this_script.relative_to(root).as_posix() if this_script.is_relative_to(root) else str(this_script),"sha256":sha(required_bytes(this_script)),"kind":"generator-proposal"})
++    inputs.append({"path":helper_path.relative_to(root).as_posix() if helper_path.is_relative_to(root) else str(helper_path),"sha256":sha(helper_raw),"kind":"reviewed-function-lineage-helper"})
+     reviewed=[];seams_path=this_script.with_name("collect_schema_domain_caller_seams.json")
+     if this_script.is_relative_to(root):
+         seams_raw=required_bytes(seams_path);seams=json.loads(seams_raw)
+@@ -592,6 +614,7 @@
+              "maintained_source_files":len(sources),"caller_sites_by_kind":dict(collections.Counter(s["kind"] for s in sites)),
+              "functions_with_exact_body_hash_match":len(matched),"functions_without_exact_body_hash_match":len(catalog["functions"])-len(matched),
+              "functions_with_exact_static_lineage_body_hash_match":len(lineage_matches),"function_body_match_review_records":len(source_reviews),
++             "functions_with_exact_reviewed_transform_body_hash_match":len(transform_matches),
+              "functions_without_exact_body_hash_match_by_scope":dict(collections.Counter(r["source_scope"] for r in source_reviews if not r["resolved"])),
+              "sql_reference_sites":len(sql_references),"unclassified_objects":sum(o["domain"]=="unclassified" for o in objects),
+              "function_objects_without_literal_caller_or_sql_candidate":sum(o["kind"]=="function" and not o["caller_site_indexes"] and not o["sql_reference_indexes"] for o in objects),

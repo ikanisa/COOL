@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-10-01T11:33:11.667682+00:00",
+  "status": "pass",
+  "executed_current_inputs": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": "14cea4da601a544673dadd20cd2d7ffcdaf094e07440ea25adbc3875d10b01bf",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "e1ac36dd6fe7b4356bb38aa879b67f1d050ade14bc34a6b2cd8e1cf0992ef9bb",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "40e51f2c8325a4eb902178025a4ec53e0b541b6f8f704c4377771aee2e9f8c9c",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": "57442edd79cfe59ef9a224a4cd87156952b328bb82bc0ad450c4a44be12cbe90",
+    "scripts/tests/android_gateway_archive_jvm.py": "f5a0082b67285328b9e72ce0ee12a2e6f6409189176cc74f39339f30d6bcbeec",
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6"
+  },
+  "companion_contract_sha256": "0d51ffa0de919bccf692339129b5b4abdad39f77bd77bdced2db13c4ff4fed93",
+  "scope": "Final retained integrated87 source equals the selected task-owned source. Companion contract is documentation, not executed input; previous checkpoints/failed/interrupted attempts retain different bytes."
+}

@@ -1,0 +1,79 @@
+{
+  "status": "fail",
+  "actual_browser_return_code": 1,
+  "report_sha256": "9cfca6652f8ab973e6ade5c8061cfce8d36c828e5d344ff865d0c220acee2f43",
+  "commands": [
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt175-current-browser",
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt175-current-browser",
+      "exit_code": 0,
+      "elapsed_seconds": 5.14,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-current-browser",
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-attempt8"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 1,
+      "elapsed_seconds": 263.18,
+      "stdout_sha256": "82ce3e1edab8b67747a1981e84f9cecb40285d8b076dcbfd7c39da708d9359b5",
+      "stderr_sha256": "4b9b74582a6534c8ac573559abc280375cc138c0dc94a2a66b89a98b52ec7a00"
+    }
+  ],
+  "export_drift": {},
+  "checkout_input_drift": {},
+  "actual_browser_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-attempt8/report.json",
+  "retained_source_binding_sha256": "b6d05083d2094a2997011cde495fbf9b79f53e30e8cc85cc69afb809b27d36c3",
+  "coverage": {
+    "email_sign_in": true,
+    "reference_only_storage": true,
+    "reload_requires_sign_in": true,
+    "tabs_do_not_adopt_sign_in": true,
+    "legacy_broadcast_refused": true,
+    "mismatched_departure_refused": true,
+    "exact_departure_denies": true,
+    "private_logout": true,
+    "account_switch": true,
+    "public_admin_separation": true,
+    "static_cache_privacy": true,
+    "warm_update": false,
+    "failed_update": false,
+    "legacy_cache_migration": false,
+    "offline_signed_out": false,
+    "installed_pwa": false
+  },
+  "checks": 18,
+  "errors": 1,
+  "synthetic_browser_profile_excluded_from_repo": true,
+  "database_calls": 0,
+  "hosted_calls": 0,
+  "provider_calls": 0,
+  "whole_L01_complete": false,
+  "whole_L18_complete": false,
+  "scope": "Actual current normal Admin/Public build and local browser lifecycle; saved149 recovery, current SQL authorization and broader final-source integration retain their separate evidence"
+}

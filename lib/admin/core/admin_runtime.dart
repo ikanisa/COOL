@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_motion.dart';
@@ -14,9 +15,9 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_typography.dart';
 import '../../app/theme/collect_universal_tokens.dart';
 import '../../core/security/phone_normalizer.dart';
+import '../../core/data/exact_json_values.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
-import '../../core/utils/money_format.dart';
 import '../../shared/widgets/collect_state_panels.dart';
 import 'admin_display_formatters.dart';
 import 'admin_list_paging.dart';
@@ -38,8 +39,50 @@ import 'admin_reconciliation_step_up.dart';
 import 'admin_roster_import.dart';
 import 'admin_roster_dialog.dart';
 import 'admin_operational_health.dart';
+import 'admin_receipt_overview.dart';
 import 'admin_sms_queue_health.dart';
+import 'admin_shadow_runs.dart';
+import 'admin_transaction_lifecycle.dart';
+import 'admin_investigation.dart';
+import 'admin_investigation_view.dart';
+import 'admin_email_otp.dart';
+import 'admin_operator_approval.dart';
+import 'admin_gateway_contracts.dart';
+import 'admin_gateway_models.dart';
+import 'admin_automatic_gateway_models.dart';
+import 'admin_automatic_gateway_view.dart';
+import 'admin_gateway_checkpoint.dart';
+import 'admin_receipt_cancel_models.dart';
+import 'admin_receipt_cancel_checkpoint.dart';
+import 'admin_exception_models.dart';
+import 'admin_exception_workflow_models.dart';
+import 'admin_exception_followup_v2_models.dart';
+import 'admin_receipt_deferral_models.dart';
+import 'admin_receipt_worker_health.dart';
+import 'admin_receipt_operational_telemetry.dart';
+import 'admin_receipt_callback_deadline_view.dart';
+import 'admin_receipt_operational_history_models.dart';
+import 'admin_receipt_operational_history_sdk.dart';
+import 'admin_receipt_worker_transport_models.dart';
+import 'admin_exception_checkpoint.dart';
+import 'admin_entity_audit.dart';
+import 'admin_exception_history_v2_models.dart';
+import 'admin_exception_escalation_inbox_v2_models.dart';
+import 'admin_operating_policy_models.dart';
+import 'admin_receipt_operations_models.dart';
+import 'admin_receipt_operations_checkpoint.dart';
+import 'admin_receipt_principal_models.dart';
+import 'admin_receipt_principal_checkpoint.dart';
+import 'admin_receipt_principal_controller.dart';
+import 'admin_governed_settings_models.dart';
+import 'admin_governed_settings_sdk.dart';
+import 'admin_governed_settings_checkpoint.dart';
+import 'admin_governed_settings_controller.dart';
+import 'admin_sender_retention_host.dart';
+import 'admin_sender_picker.dart';
 
+part 'admin_governed_settings_runtime.dart';
+part 'admin_governed_settings_page.dart';
 part 'admin_login_runtime.dart';
 part 'admin_overview_runtime.dart';
 part 'admin_overview_components.dart';
@@ -53,7 +96,35 @@ part 'admin_payee_runtime.dart';
 part 'admin_detail_specs.dart';
 part 'admin_detail_runtime.dart';
 part 'admin_platform_access.dart';
+part 'admin_gateway_dialogs.dart';
+part 'admin_gateway_runtime.dart';
+part 'admin_automatic_gateway_runtime.dart';
+part 'admin_gateway_page.dart';
+part 'admin_receipt_cancel_runtime.dart';
+part 'admin_receipt_cancel_card.dart';
+part 'admin_exception_runtime.dart';
+part 'admin_exception_page.dart';
+part 'admin_exception_workflow_card.dart';
+part 'admin_exception_assignment_dialog.dart';
+part 'admin_receipt_deferral_card.dart';
+part 'admin_receipt_worker_card.dart';
+part 'admin_receipt_telemetry_card.dart';
+part 'admin_receipt_operational_history_runtime.dart';
+part 'admin_receipt_operational_history_view.dart';
+part 'admin_receipt_worker_transport_card.dart';
+part 'admin_receipt_principal_runtime.dart';
+part 'admin_receipt_principal_card.dart';
+part 'admin_entity_audit_runtime.dart';
+part 'admin_exception_history_runtime.dart';
+part 'admin_entity_audit_page.dart';
+part 'admin_entity_audit_link.dart';
+part 'admin_operating_policy_runtime.dart';
+part 'admin_operating_policy_card.dart';
+part 'admin_receipt_operations_runtime.dart';
+part 'admin_receipt_operations_card.dart';
 part 'admin_detail_formatters.dart';
+part 'admin_receipt_repository.dart';
+part 'admin_exception_repository.dart';
 
 final adminRepositoryProvider = Provider<AdminRepositoryBase>((ref) {
   ref.watch(adminAuthUserIdProvider);
@@ -76,6 +147,25 @@ final adminIdentityProvider = FutureProvider<AdminIdentity?>((ref) async {
   final identity = await ref.watch(adminRepositoryProvider).currentIdentity();
   return identity?.userId == userId ? identity : null;
 });
+
+// AsyncData may retain a prior value while isLoading is true. That value is
+// display history, not current authority for a protected control or intent.
+AdminIdentity? _adminResolvedIdentity(AsyncValue<AdminIdentity?> value) =>
+    value.isLoading || value.hasError ? null : value.asData?.value;
+
+class _AdminIdentityRevision extends StateNotifier<int> {
+  _AdminIdentityRevision() : super(0);
+  void changed() => state += 1;
+}
+
+// Keep observed capability/loading transitions, including A-B-A, even when an
+// action is awaiting its response and its reason dialog has already closed.
+final _adminIdentityRevisionProvider =
+    StateNotifierProvider<_AdminIdentityRevision, int>((ref) {
+      final revision = _AdminIdentityRevision();
+      ref.listen(adminIdentityProvider, (_, _) => revision.changed());
+      return revision;
+    });
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
 final adminClockProvider = Provider<DateTime Function()>((_) => DateTime.now);
@@ -121,15 +211,58 @@ bool adminRowMatchesCountryScope(
   return explicit == 'RW' || (explicit.isEmpty && rail == 'rw_momo');
 }
 
-final adminRuntimeConfigProvider = FutureProvider<AdminRuntimeConfig?>((ref) {
+class _AdminPrivateReadDenied implements Exception {
+  const _AdminPrivateReadDenied();
+}
+
+String? _adminDetailReadPermission(String rpc) => switch (rpc) {
+  'admin_get_collection' || 'admin_get_receiver' => 'collections.read',
+  'admin_get_user' || 'admin_get_member_record' => 'users.read',
+  'admin_get_collect_transaction' ||
+  'admin_get_payment' ||
+  'admin_get_payment_event' ||
+  'admin_get_payment_intent' => 'payments.read',
+  'admin_get_hybrid_sms_receipt' ||
+  'admin_get_notification' ||
+  'admin_get_sms_metadata' => 'notifications.read',
+  'admin_get_admin_user' => 'admin_users.read',
+  'admin_system_health' => 'system_health.read',
+  _ => null,
+};
+
+final adminRuntimeConfigProvider = FutureProvider<AdminRuntimeConfig?>((
+  ref,
+) async {
+  ref.watch(adminAuthSessionScopeProvider);
   ref.watch(adminRealtimeTickProvider);
-  return ref.watch(adminRepositoryProvider).runtimeConfig();
+  final repository = ref.watch(adminRepositoryProvider);
+  var current = true;
+  ref.onDispose(() => current = false);
+  final identity = await ref.watch(adminIdentityProvider.future);
+  if (!current) throw const AdminSessionChanged();
+  if (identity == null) throw const _AdminPrivateReadDenied();
+  final result = await repository.runtimeConfig();
+  if (!current) throw const AdminSessionChanged();
+  return result;
 });
 
 final adminDetailRecordProvider = FutureProvider.autoDispose
-    .family<Map<String, dynamic>, ({String rpc, String id})>((ref, key) {
+    .family<Map<String, dynamic>, ({String rpc, String id})>((ref, key) async {
+      ref.watch(adminAuthSessionScopeProvider);
       ref.watch(adminRealtimeTickProvider);
-      return ref.watch(adminRepositoryProvider).detail(key.rpc, key.id);
+      final repository = ref.watch(adminRepositoryProvider);
+      var current = true;
+      ref.onDispose(() => current = false);
+      final identity = await ref.watch(adminIdentityProvider.future);
+      if (!current) throw const AdminSessionChanged();
+      final permission = _adminDetailReadPermission(key.rpc);
+      if (permission == null ||
+          identity?.permissions.contains(permission) != true) {
+        throw const _AdminPrivateReadDenied();
+      }
+      final result = await repository.detail(key.rpc, key.id);
+      if (!current) throw const AdminSessionChanged();
+      return result;
     });
 
 final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
@@ -139,7 +272,9 @@ final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
   var current = true;
   final subscription = RealtimeInvalidationSubscription(
     client: client,
-    topic: 'collect:admin:invalidation',
+    // The locked SDK routes data frames by topic rather than join_ref. A new
+    // provider scope needs its own topic to exclude departed scope frames.
+    topic: 'collect:admin:invalidation:${const Uuid().v4()}',
     areas: collectAdminRealtimeAreas,
     onInvalidate: () {
       if (!current ||
@@ -156,11 +291,21 @@ final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
   });
 });
 
-class AdminRepository extends AdminRepositoryBase {
+class AdminRepository extends AdminRepositoryBase
+    with _AdminReceiptRepository, _AdminExceptionRepository {
   const AdminRepository(this._supabase, {this.isCurrent});
 
   final SupabaseClient? _supabase;
   final bool Function()? isCurrent;
+
+  @override
+  AdminGovernedSettingsApi get governedSettings => AdminGovernedSettingsSdk(
+    rpc: (name, parameters) =>
+        rpcMap(name, params: parameters, automaticRetry: false),
+    isCurrent: () => isCurrent?.call() != false,
+    now: DateTime.now,
+    currentSession: () => adminSessionKey(_requireClient().auth.currentSession),
+  );
 
   Future<T> _withSession<T>(
     Future<T> Function(AdminRequestSession) operation, {
@@ -204,6 +349,36 @@ class AdminRepository extends AdminRepositoryBase {
       channel: OtpChannel.whatsapp,
       shouldCreateUser: false,
     );
+  }
+
+  @override
+  Future<void> sendEmailOtp({required String email}) async {
+    final normalized = normalizeAdminEmail(email);
+    await _requireClient().auth.signInWithOtp(
+      email: normalized,
+      shouldCreateUser: false,
+    );
+  }
+
+  @override
+  Future<AdminIdentity?> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final normalized = normalizeAdminEmail(email);
+    final token = normalizeAdminEmailOtp(otp);
+    final client = _requireClient();
+    final response = await client.auth.verifyOTP(
+      email: normalized,
+      token: token,
+      type: OtpType.email,
+    );
+    if (response.session == null) {
+      throw const AuthException(
+        'Admin email verification did not create a session.',
+      );
+    }
+    return AdminRepository(client).currentIdentity();
   }
 
   @override
@@ -264,7 +439,9 @@ class AdminRepository extends AdminRepositoryBase {
     if (pageSize < 1 || pageSize > 100) {
       throw RangeError.range(pageSize, 1, 100, 'limit');
     }
-    if (pageOffset < 0) throw RangeError.range(pageOffset, 0, null, 'offset');
+    if (pageOffset < 0 || pageOffset > maxExactJsonInteger) {
+      throw RangeError.range(pageOffset, 0, maxExactJsonInteger, 'offset');
+    }
     final trimmedSearch = search?.trim();
     final trimmedStatus = status?.trim();
     final trimmedSort = sortBy?.trim();
@@ -344,6 +521,108 @@ class AdminRepository extends AdminRepositoryBase {
   });
 
   @override
+  Future<Map<String, dynamic>> shadowRuns({
+    int limit = 20,
+    DateTime? beforeStartedAt,
+    String? beforeRunId,
+  }) async {
+    if (limit < 1 || limit > 50) {
+      throw RangeError.range(limit, 1, 50, 'limit');
+    }
+    if ((beforeStartedAt == null) != (beforeRunId == null) ||
+        (beforeRunId != null &&
+            !RegExp(
+              r'^[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$',
+            ).hasMatch(beforeRunId))) {
+      throw const FormatException(
+        'A complete shadow history cursor is required.',
+      );
+    }
+    final cursorId = beforeRunId?.toLowerCase();
+    final data = await rpcMap(
+      'list_collect_shadow_runs_v1',
+      params: {
+        'p_limit': limit,
+        'p_before_started_at': beforeStartedAt?.toUtc().toIso8601String(),
+        'p_before_run_id': cursorId,
+      },
+    );
+    AdminShadowRunsSnapshot.parse(
+      data,
+      limit: limit,
+      beforeStartedAt: beforeStartedAt,
+      beforeRunId: cursorId,
+    );
+    return data;
+  }
+
+  @override
+  Future<Map<String, dynamic>> operatorEntityAudit(
+    AdminEntityAuditQuery query,
+  ) async {
+    query.validate();
+    final data = await rpcMap(
+      'admin_get_operator_entity_audit_v1',
+      params: {
+        'p_entity_kind': query.kind.wire,
+        'p_entity_id': query.id,
+        'p_limit': query.limit,
+        'p_before_at': query.before?.recordedAt.toUtc().toIso8601String(),
+        'p_before_event_id': query.before?.eventId,
+      },
+      automaticRetry: false,
+    ).timeout(const Duration(seconds: 15));
+    AdminEntityAuditSnapshot.parse(data, query: query);
+    return data;
+  }
+
+  @override
+  Future<Map<String, dynamic>> exceptionEntityAudit(
+    AdminEntityAuditQuery query,
+  ) async {
+    final parameters = adminExceptionHistoryParameters(query);
+    final data = await rpcMap(
+      'admin_get_exception_entity_audit_v2',
+      params: parameters,
+      automaticRetry: false,
+    ).timeout(const Duration(seconds: 15));
+    AdminExceptionHistorySnapshot.parse(data, query: query);
+    return data;
+  }
+
+  @override
+  Future<Map<String, dynamic>> exceptionEscalationInboxPage(
+    AdminExceptionEscalationInboxQuery query,
+  ) async {
+    final parameters = query.parameters;
+    final recipient = _requireClient().auth.currentUser?.id;
+    if (recipient == null) throw const AdminSessionChanged();
+    final data = await rpcMap(
+      'admin_list_exception_escalation_inbox_v2',
+      params: parameters,
+      automaticRetry: false,
+    ).timeout(const Duration(seconds: 15));
+    AdminExceptionEscalationInboxSnapshot.parse(
+      data,
+      query: query,
+      recipientId: recipient,
+    );
+    return data;
+  }
+
+  @override
+  Future<Map<String, dynamic>> readExceptionEscalationCurrent(String id) async {
+    exceptionUuid(id);
+    final data = await rpcMap(
+      'admin_read_exception_escalation_v2',
+      params: {'p_escalation_id': id},
+      automaticRetry: false,
+    ).timeout(const Duration(seconds: 15));
+    AdminExceptionEscalationReadReceipt.parse(data, escalationId: id);
+    return data;
+  }
+
+  @override
   Future<AdminQueueSla?> queueSla(String queueKey) async {
     if (_supabase == null) return null;
     final normalized = validateAdminQueueSlaRequest(queueKey);
@@ -383,8 +662,130 @@ class AdminRepository extends AdminRepositoryBase {
     Map<String, dynamic> params,
   ) async {
     final frozen = Map<String, dynamic>.unmodifiable(params);
-    final result = await rpcMap(rpcName, params: frozen);
+    final result = await rpcMap(rpcName, params: frozen, automaticRetry: false);
     validateAdminActionReceipt(rpcName, frozen, result);
+    return result;
+  }
+
+  @override
+  Future<AdminGatewayActionReceipt> gatewayOwnerAction(
+    AdminGatewayOwnerIntent intent,
+  ) async {
+    final result = await rpcMap(
+      intent.action.rpc,
+      params: intent.parameters,
+      automaticRetry: false,
+    );
+    return AdminGatewayActionReceipt.parse(
+      result,
+      requestId: intent.requestId,
+      action: intent.action,
+      deviceId: intent.deviceId,
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>> gatewayDevices({
+    int limit = 20,
+    DateTime? beforeEnrolledAt,
+    String? beforeDeviceId,
+  }) async {
+    if (limit < 1 || limit > 50) {
+      throw RangeError.range(limit, 1, 50, 'limit');
+    }
+    if ((beforeEnrolledAt == null) != (beforeDeviceId == null) ||
+        beforeEnrolledAt != null &&
+            (beforeEnrolledAt.year < 1 || beforeEnrolledAt.year > 9999)) {
+      throw const FormatException(
+        'A complete gateway device cursor is required.',
+      );
+    }
+    if (beforeDeviceId != null) gatewayUuid(beforeDeviceId);
+    final result = await rpcMap(
+      'admin_list_gateway_devices_v1',
+      params: {
+        'p_limit': limit,
+        'p_before_enrolled_at': beforeEnrolledAt?.toUtc().toIso8601String(),
+        'p_before_device_id': beforeDeviceId,
+      },
+    );
+    AdminGatewaySnapshot.parse(
+      result,
+      limit: limit,
+      beforeEnrolledAt: beforeEnrolledAt,
+      beforeDeviceId: beforeDeviceId,
+    );
+    return result;
+  }
+
+  @override
+  Future<Map<String, dynamic>> gatewayOwnerRequest(String requestId) async {
+    gatewayUuid(requestId);
+    final result = await rpcMap(
+      'admin_get_gateway_owner_request_v1',
+      params: {'p_request_id': requestId},
+    );
+    AdminGatewayRequestSnapshot.parse(result, requestId: requestId);
+    return result;
+  }
+
+  @override
+  Future<Map<String, dynamic>> automaticReceiptEvidence(
+    String receiptId, {
+    int limit = 20,
+    AdminAutomaticHistoryCursor? before,
+  }) async {
+    _automaticGatewayInput(
+      receiptId,
+      limit,
+      before?.recordedAt,
+      before?.requestId,
+    );
+    final result = await rpcMap(
+      'admin_get_gateway_receipt_investigation_v3',
+      params: {
+        'p_receipt_id': receiptId,
+        'p_limit': limit,
+        'p_before_at': before?.recordedAt.toUtc().toIso8601String(),
+        'p_before_request_id': before?.requestId,
+      },
+    );
+    AdminAutomaticReceiptEvidence.parse(
+      result,
+      receiptId: receiptId,
+      limit: limit,
+      before: before,
+    );
+    return result;
+  }
+
+  @override
+  Future<Map<String, dynamic>> automaticDeviceAttempts(
+    String deviceId, {
+    int limit = 20,
+    AdminAutomaticDeviceCursor? before,
+  }) async {
+    _automaticGatewayInput(
+      deviceId,
+      limit,
+      before?.issuedAt,
+      before?.attemptId,
+    );
+    final result = await rpcMap(
+      'admin_list_gateway_device_attempts_v3',
+      params: {
+        'p_device_id': deviceId,
+        'p_limit': limit,
+        'p_before_at': before?.issuedAt.toUtc().toIso8601String(),
+        'p_before_attempt_id': before?.attemptId,
+      },
+    );
+    AdminAutomaticDeviceEvidence.parse(
+      result,
+      deviceId: deviceId,
+      limit: limit,
+      before: before,
+    );
     return result;
   }
 
@@ -502,6 +903,7 @@ class AdminRepository extends AdminRepositoryBase {
     final result = await _withSession(
       (session) => _requireClient()
           .rpc<dynamic>('propose_payment_reconciliation_v2', params: evidence)
+          .retry(enabled: false)
           .setHeader('Authorization', 'Bearer ${session.token}'),
       reconciliation: true,
     );
@@ -530,6 +932,7 @@ class AdminRepository extends AdminRepositoryBase {
             'approve_payment_reconciliation_v2',
             params: {'p_review_id': reviewId, 'p_reason': reason},
           )
+          .retry(enabled: false)
           .setHeader('Authorization', 'Bearer ${session.token}'),
       reconciliation: true,
     );
@@ -572,13 +975,18 @@ class AdminRepository extends AdminRepositoryBase {
     );
   }
 
+  @override
   Future<Map<String, dynamic>> rpcMap(
     String rpcName, {
     Map<String, dynamic>? params,
+    bool automaticRetry = true,
   }) async {
     final response = await _withSession(
       (session) => _requireClient()
           .rpc<dynamic>(rpcName, params: params)
+          // An uncertain reply requires an explicit operator decision. A
+          // transport retry must never repeat a write or an audited reveal.
+          .retry(enabled: automaticRetry)
           .setHeader('Authorization', 'Bearer ${session.token}'),
       reconciliation: const {
         'list_payment_reconciliations_v2',
@@ -616,16 +1024,68 @@ class AdminRepository extends AdminRepositoryBase {
   }
 }
 
+Future<T?> _showAdminFormDialog<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+}) async {
+  ModalRoute<T>? route;
+  final result = await showDialog<T>(
+    context: context,
+    animationStyle: CollectMotion.animationStyle(context),
+    builder: (dialogContext) {
+      route = ModalRoute.of<T>(dialogContext);
+      return builder(dialogContext);
+    },
+  );
+  // push() resolves at pop; completed resolves after the closing transition
+  // and overlay removal. External form controllers remain owned until then.
+  await route?.completed;
+  return result;
+}
+
 class _AdminActionScope {
   _AdminActionScope(this.ref)
     : repository = ref.read(adminRepositoryProvider),
-      session = ref.read(adminAuthSessionScopeProvider);
+      session = ref.read(adminAuthSessionScopeProvider),
+      actorId = _adminResolvedIdentity(ref.read(adminIdentityProvider))?.userId,
+      identityRevision = ref.read(_adminIdentityRevisionProvider),
+      roles = Set.of(
+        _adminResolvedIdentity(ref.read(adminIdentityProvider))?.roles ??
+            const <String>[],
+      ),
+      permissions = Set.of(
+        _adminResolvedIdentity(ref.read(adminIdentityProvider))?.permissions ??
+            const <String>[],
+      );
   final WidgetRef ref;
   final AdminRepositoryBase repository;
   final AdminSessionScope? session;
-  bool get isCurrent =>
-      identical(repository, ref.read(adminRepositoryProvider)) &&
-      ref.read(adminAuthSessionScopeProvider) == session;
+  final String? actorId;
+  final int identityRevision;
+  final Set<String> roles, permissions;
+  bool _valid = true;
+
+  bool get isCurrent {
+    if (!_valid || !ref.context.mounted) {
+      _valid = false;
+      return false;
+    }
+    final identity = _adminResolvedIdentity(ref.read(adminIdentityProvider));
+    final current =
+        actorId != null &&
+        ref.read(_adminIdentityRevisionProvider) == identityRevision &&
+        identity?.userId == actorId &&
+        identity!.roles.length == roles.length &&
+        roles.containsAll(identity.roles) &&
+        identity.permissions.length == permissions.length &&
+        permissions.containsAll(identity.permissions) &&
+        identical(repository, ref.read(adminRepositoryProvider)) &&
+        ref.read(adminAuthSessionScopeProvider) == session;
+    // Once an observed identity, capability or session change invalidates an
+    // intent, a later restoration must not resurrect that old draft or ACK.
+    if (!current) _valid = false;
+    return _valid;
+  }
 }
 
 class _AdminSessionDialog extends ConsumerWidget {
@@ -634,9 +1094,11 @@ class _AdminSessionDialog extends ConsumerWidget {
   final Widget child;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final current =
-        ref.watch(adminAuthSessionScopeProvider) == scope.session &&
-        identical(ref.watch(adminRepositoryProvider), scope.repository);
+    ref.watch(adminAuthSessionScopeProvider);
+    ref.watch(adminRepositoryProvider);
+    ref.watch(adminIdentityProvider);
+    ref.watch(_adminIdentityRevisionProvider);
+    final current = scope.isCurrent;
     if (!current) {
       final route = ModalRoute.of(context);
       WidgetsBinding.instance.addPostFrameCallback((_) {

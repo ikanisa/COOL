@@ -1,0 +1,47 @@
+{
+  "captured_at": "2026-10-01T11:54:51.581174+00:00",
+  "stage": "attempt1",
+  "commands": [
+    {
+      "name": "analysis",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_receipt_operations_checkpoint.dart",
+        "lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+        "lib/admin/core/admin_receipt_operations_runtime.dart",
+        "lib/admin/core/admin_receipt_operations_models.dart",
+        "lib/admin/core/admin_receipt_operations_card.dart",
+        "lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+        "test/admin_receipt_operations_card_test.dart",
+        "test/admin_receipt_operations_checkpoint_test.dart",
+        "test/admin_receipt_operations_models_test.dart",
+        "test/admin_receipt_operations_sdk_test.dart",
+        "test/admin_receipt_operations_runtime_test.dart",
+        "test/admin_receipt_operations_checkpoint_browser_test.dart",
+        "test/support/admin_receipt_operations_fixture.dart"
+      ],
+      "started_at": "2026-10-01T11:54:47.022029+00:00",
+      "finished_at": "2026-10-01T11:54:51.574065+00:00",
+      "exit_code": 2,
+      "timeout_seconds": 60
+    }
+  ],
+  "source_inputs": 133,
+  "source_unchanged": true,
+  "source_delta": [],
+  "dart_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+  "flutter_launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "environment_keys": [
+    "HOME",
+    "LANG",
+    "PATH",
+    "PUB_CACHE",
+    "PYTHONDONTWRITEBYTECODE"
+  ],
+  "hosted_calls": 0,
+  "live_otp_requests": 0,
+  "live_sender_calls": 0,
+  "production_accepted": false,
+  "source_freeze": false
+}

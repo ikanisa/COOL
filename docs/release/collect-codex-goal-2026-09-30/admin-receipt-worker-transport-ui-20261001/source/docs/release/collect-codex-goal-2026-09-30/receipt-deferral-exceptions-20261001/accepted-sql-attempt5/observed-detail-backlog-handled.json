@@ -1,0 +1,20 @@
+{
+  "active": false,
+  "revision": 2,
+  "source_id": "e08f7637-28b4-4759-ade0-e112a9fbe205",
+  "checked_at": "2026-10-01T12:10:26.065217Z",
+  "event_kind": null,
+  "receipt_id": "c262f910-1a92-4e88-8db0-0d9fcc7b36d7",
+  "disposition": "durably_handled",
+  "reason_code": "RECEIPT_OPERATION_QUOTA_EXHAUSTED",
+  "send_action": false,
+  "source_kind": "receipt_backlog",
+  "current_code": "RECEIPT_ENQUEUED",
+  "exception_id": "a25786d7-ff55-4c30-b838-75b3ac412b39",
+  "original_code": "QUOTA_EXHAUSTED",
+  "source_version": null,
+  "business_handled": true,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T12:11:26.065217Z"
+}

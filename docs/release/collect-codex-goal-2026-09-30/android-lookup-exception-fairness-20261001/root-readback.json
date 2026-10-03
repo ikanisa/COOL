@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "manifest_members": 88,
+  "final_source_inputs": 42,
+  "original_private_dependencies": 14,
+  "JDK_entries": 550,
+  "compiled_artifacts": 255,
+  "current_terminal_commands": 7,
+  "unchanged_source_bound_prior_methods": 6,
+  "current_actual_method_events": 27,
+  "composed_unique_method_events": 33,
+  "whole_new_suite_relabelled": false,
+  "selector_AST_only_insertions": 2,
+  "promotion_files": 4,
+  "canonical_promoted": false
+}

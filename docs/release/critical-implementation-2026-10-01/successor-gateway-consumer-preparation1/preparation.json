@@ -1,0 +1,154 @@
+{
+  "compared_prior_source_inputs": {
+    "contracts/edge-functions.json": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/audits/collect_edge_function_local_gate.rb": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/edge_function_inventory.rb": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/edge_function_inventory.sh": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/qa/run_edge_ci.py": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/qa/run_edge_http_uat.py": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/qa/run_edge_unit_tests.py": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/supabase_deploy.sh": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/config.toml": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/_shared/supabase.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    },
+    "supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "same_bytes": true,
+      "same_mode": true
+    }
+  },
+  "copied_stage_count": 2,
+  "handler_tests_executed": false,
+  "maintained_input_count": 385,
+  "maintained_writes": 0,
+  "missing_declared_fixtures": {
+    "./fixtures/observed-armed-status.json": false,
+    "./fixtures/observed-exact-grant-recovery.json": false,
+    "./fixtures/observed-exact-successor-archive-ack.json": false,
+    "./fixtures/observed-first-successor-arm.json": false,
+    "./fixtures/observed-first-successor-grant.json": false,
+    "./fixtures/observed-incomplete-archive.json": false,
+    "./fixtures/observed-late-conflicting-status.json": false,
+    "./fixtures/observed-late-original-request-recovery.json": false,
+    "./fixtures/observed-multipart-callbacks.json": false,
+    "./fixtures/observed-successor-grant.json": false
+  },
+  "network_or_hosted_operations": false,
+  "prepared_at_utc": "2026-10-02T02:25:23.134604+00:00",
+  "source_entries": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "source_only": true
+}

@@ -9,6 +9,26 @@ void main() {
     selection: TextSelection.collapsed(offset: cursor ?? text.length),
   );
 
+  test('unsafe digit input is rejected before web parsing or regrouping', () {
+    final old = value('1,234');
+    for (final digits in [
+      '9007199254740992',
+      '9007199254740993',
+      '18446744073709551616',
+      '9,007,199,254,740,993',
+    ]) {
+      expect(formatter.formatEditUpdate(old, value(digits)), old);
+    }
+    expect(
+      formatter.formatEditUpdate(value(''), value('0009007199254740991')).text,
+      '9,007,199,254,740,991',
+    );
+    expect(
+      formatter.formatEditUpdate(value(''), value('9007199254740991')).text,
+      '9,007,199,254,740,991',
+    );
+  });
+
   test('groups digits as the user types', () {
     var current = value('');
     for (final digit in '1234567'.split('')) {
@@ -97,11 +117,9 @@ void main() {
     expect(result.selection.extentOffset, 1);
   });
 
-  test('does not round long numeric input', () {
-    expect(
-      formatter.formatEditUpdate(value(''), value('9007199254740993')).text,
-      '9,007,199,254,740,993',
-    );
+  test('does not round unsafe long input into another amount', () {
+    final old = value('1,234');
+    expect(formatter.formatEditUpdate(old, value('9007199254740993')), old);
   });
 
   test('does not modify active IME composition', () {

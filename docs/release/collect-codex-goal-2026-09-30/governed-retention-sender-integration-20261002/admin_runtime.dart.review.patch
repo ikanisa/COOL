@@ -1,0 +1,11 @@
+--- original/lib/admin/core/admin_runtime.dart
++++ lib/admin/core/admin_runtime.dart
+@@ -77,6 +77,8 @@
+ import 'admin_governed_settings_sdk.dart';
+ import 'admin_governed_settings_checkpoint.dart';
+ import 'admin_governed_settings_controller.dart';
++import 'admin_sender_retention_host.dart';
++import 'admin_sender_picker.dart';
+ 
+ part 'admin_governed_settings_runtime.dart';
+ part 'admin_governed_settings_page.dart';

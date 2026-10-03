@@ -1,0 +1,22 @@
+{
+  "all_original_table_catalog_cron_fingerprints_restored": true,
+  "failed_checkpoint_unchanged": true,
+  "guard": {
+    "busy": 0,
+    "count": 150,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930180000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "hosted_called": false,
+  "provider_called": false,
+  "return_code": 0,
+  "sequences_restored": false,
+  "source_unchanged": true,
+  "status": "pass"
+}

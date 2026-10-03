@@ -1,0 +1,32 @@
+test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds (__main__.ArchiveAdmissionTest.test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds) ... /Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:1127: ResourceWarning: subprocess 53490 is still running
+  _warn("subprocess %s is still running" % self.pid,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ERROR
+test_signal_permission_refusal_remains_fatal_while_owned_group_exists (__main__.ArchiveAdmissionTest.test_signal_permission_refusal_remains_fatal_while_owned_group_exists) ... ok
+test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group (__main__.ArchiveAdmissionTest.test_real_success_parent_with_detached_stdio_descendant_refuses_and_removes_group) ... ok
+
+======================================================================
+ERROR: test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds (__main__.ArchiveAdmissionTest.test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/qa/pg_archive_admission.py", line 151, in run
+    fail(count <= limit, 'PG_ARCHIVE_STDOUT_LIMIT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_STDOUT_LIMIT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/tests/test_pg_archive_admission.py", line 371, in test_real_minimal_stdio_overflow_warning_and_timeout_keep_original_bounds
+    archive.run(['/bin/sh','-c','printf 123456789'],archive.pg.local_environment(),1,4)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/qa/pg_archive_admission.py", line 173, in run
+    cleanup_group(process)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate4/scripts/qa/pg_archive_admission.py", line 95, in cleanup_group
+    os.killpg(process.pid, signal.SIGKILL)
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.706s
+
+FAILED (errors=1)

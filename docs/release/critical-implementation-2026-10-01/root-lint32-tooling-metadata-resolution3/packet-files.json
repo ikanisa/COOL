@@ -1,0 +1,76 @@
+{
+  "no_binary_graph_or_publisher_admission": true,
+  "payload_files": [
+    {
+      "bytes": 12833,
+      "path": "exact-lint32-tooling-metadata.daemon-readback.json",
+      "sha256": "03618278099e02a762ac5b011973b22667069704cc93c1d6e798e377dcd1b454"
+    },
+    {
+      "bytes": 1488,
+      "path": "exact-lint32-tooling-metadata.json",
+      "sha256": "97d6aaf0edeae985214001633cba3e4a172d1ca11c3f58f254019bffe8bfde72"
+    },
+    {
+      "bytes": 0,
+      "path": "exact-lint32-tooling-metadata.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 368,
+      "path": "exact-lint32-tooling-metadata.stdout",
+      "sha256": "93386e3c2e053690cf0d48764fbb731366ffa73f2ce1bbc4fe8ffa04c9774bec"
+    },
+    {
+      "bytes": 13097,
+      "path": "minimal-project/build.gradle",
+      "sha256": "d205c5246f02e110913384e4f249b0855801461b1a1d809b3843fd0041fd1b65"
+    },
+    {
+      "bytes": 390,
+      "path": "minimal-project/settings.gradle",
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    {
+      "bytes": 529,
+      "path": "prior-selected-metadata-parity.json",
+      "sha256": "c13012f49bbf5677ab58de3bfaa1471c8148006bfe970f3043f4aab314c027b0"
+    },
+    {
+      "bytes": 19703,
+      "path": "readback.json",
+      "sha256": "bf5d27df07af9172651d6e7ea0ce162d8a7188d09b7b7c56a330e0e213c1d37f"
+    },
+    {
+      "bytes": 377894,
+      "path": "selected-tooling-graph.json",
+      "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+    },
+    {
+      "bytes": 1871,
+      "path": "selected-tooling-graph.json.checkpoint-0.json",
+      "sha256": "7e4c27aadb422000e2f9e7a3819c64a46efc947fea227a62fa655938ff338057"
+    },
+    {
+      "bytes": 339659,
+      "path": "selected-tooling-graph.json.checkpoint-1.json",
+      "sha256": "8cc5fc170abfab198b1973619fc3067fca027ca953f2ccd47b4db89dfa815c11"
+    },
+    {
+      "bytes": 377303,
+      "path": "selected-tooling-graph.json.checkpoint-2.json",
+      "sha256": "005c5f6a7d214f80da9b4e3393d9183f1ca8f09569a68488e152079eb7482709"
+    },
+    {
+      "bytes": 377643,
+      "path": "selected-tooling-graph.json.checkpoint-3.json",
+      "sha256": "1ced0233c0b1f995bdad35db82676005df5e57a85c94ca4d46b19e625ea3f4f6"
+    },
+    {
+      "bytes": 377894,
+      "path": "selected-tooling-graph.json.checkpoint-4.json",
+      "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+    }
+  ],
+  "status": "ACTUAL_METADATA_ONLY_PASS"
+}

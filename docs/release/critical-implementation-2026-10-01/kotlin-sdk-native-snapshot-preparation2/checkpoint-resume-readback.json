@@ -1,0 +1,151 @@
+{
+  "at_utc": "2026-10-02T06:09:40.455768+00:00",
+  "changed_inputs": [],
+  "checked_non_fixture_files": 28,
+  "checkpoint_inventory_sha256": "657e3f93b4decc04f2a15d7c1577795b2a4ce8251effc492f4968b2346df33f1",
+  "checkpoint_unchanged": true,
+  "files": [
+    {
+      "bytes": 2211,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/actual-prerequisite-readback.json",
+      "sha256": "8ce3b3c9f1a9e7ed9fbc030be24520463eb9691b9b51c37f59d0b971ad0cb83e"
+    },
+    {
+      "bytes": 399,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-read-only-inputs3-after.json",
+      "sha256": "7a5f837c246922507c98839677dac3c954aa53add4613592de9f6ffd251f626e"
+    },
+    {
+      "bytes": 378,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-read-only-inputs3.json",
+      "sha256": "8b5a57bc3169e2a2866ae39219a50dd7741ae7fc445ddd4b37b21b82951353bb"
+    },
+    {
+      "bytes": 895315,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-attempt1.json",
+      "sha256": "50f27f55e335cf39955effb3d5c5ef9ca5be99c892b9baf9293b60f7e38ecea8"
+    },
+    {
+      "bytes": 0,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-attempt1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-attempt1.stdout",
+      "sha256": "a80ecbba1c5dc04dd107ed0fde4789505c30970e0650d4eb79cf4e6a3c97d817"
+    },
+    {
+      "bytes": 895315,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-capture2.json",
+      "sha256": "50f27f55e335cf39955effb3d5c5ef9ca5be99c892b9baf9293b60f7e38ecea8"
+    },
+    {
+      "bytes": 895315,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-capture3.json",
+      "sha256": "eec0d440af64cad3fde0fe1a08ebd11adddaba574e31b80e58dd387b6a5c60fc"
+    },
+    {
+      "bytes": 1220,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process2.json",
+      "sha256": "76b5b6fdad8fcbd4ac02bf15b4f323d1f763a0535544c291d9fb63c403254060"
+    },
+    {
+      "bytes": 0,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process2.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process2.stdout",
+      "sha256": "a80ecbba1c5dc04dd107ed0fde4789505c30970e0650d4eb79cf4e6a3c97d817"
+    },
+    {
+      "bytes": 1220,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process3.json",
+      "sha256": "221c30c7dc2afa50517c59c9b2aef8bbf7fe1a74dea99fd27f6d23da26506601"
+    },
+    {
+      "bytes": 0,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process3.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process3.stdout",
+      "sha256": "322c1290878eb59171d86743eb2a1f5af25766a532fcfd7c018c771a6d7bbb58"
+    },
+    {
+      "bytes": 4361,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/original-guard-regression-attempt1.stderr",
+      "sha256": "2f8e4e3ff4884067e25f411ca00b35b861fe084e795f79069f7e94c768cb187e"
+    },
+    {
+      "bytes": 0,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/original-guard-regression-attempt1.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 6417,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/proposed-commands.json",
+      "sha256": "d3df58cdf3f06fe138fa00491b8cb90bda0b6bbb4745ca1233d79b02ece34893"
+    },
+    {
+      "bytes": 1119,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/read-only-wrapper-attempt1-collision-audit.json",
+      "sha256": "3e4e71881cb6674035cc12046c09dabe3cd081d011ec3959cc4a4d6a91b2f523"
+    },
+    {
+      "bytes": 28769,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_native_consumer.py",
+      "sha256": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0"
+    },
+    {
+      "bytes": 4429,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt1.stderr",
+      "sha256": "32df11ccf13d2b4fbcb9ba523b7706d50e69aca8f3e2cc362880c8128dcc9891"
+    },
+    {
+      "bytes": 496,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt1.stdout",
+      "sha256": "0364fdedfe2d516a266ac843578a643de40f893be8ad3a272bd9bdd80a0e00ba"
+    },
+    {
+      "bytes": 4594,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt2.stderr",
+      "sha256": "ad7bae05c7fe919ac2032753317e6db17c3419a191ed5cfdc980682d9a927c62"
+    },
+    {
+      "bytes": 496,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt2.stdout",
+      "sha256": "0364fdedfe2d516a266ac843578a643de40f893be8ad3a272bd9bdd80a0e00ba"
+    },
+    {
+      "bytes": 4762,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt3.stderr",
+      "sha256": "c24e7c81ba48b9d9d07d5951bf6be1b754b949bbbada04d0cda6e11c8761ce7e"
+    },
+    {
+      "bytes": 496,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-guard-attempt3.stdout",
+      "sha256": "0364fdedfe2d516a266ac843578a643de40f893be8ad3a272bd9bdd80a0e00ba"
+    },
+    {
+      "bytes": 13961,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/source_fence.py",
+      "sha256": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8"
+    },
+    {
+      "bytes": 25061,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/test_original_guards.py",
+      "sha256": "5af7041b9884da6d7d9a76d22742d4b97818448fd5c36f38a1f9d719b454300f"
+    },
+    {
+      "bytes": 18443,
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/test_snapshot_guards.py",
+      "sha256": "baf00ce081f39533d96bba83bc4cfcb98016d18014e1002aedaf87aae75238ba"
+    }
+  ],
+  "negative_fixtures_not_executed": true,
+  "source_fence_capture3_is_historical_and_not_an_export_admission": true
+}

@@ -1,0 +1,18 @@
+{
+  "lib/core/logging/app_logger.dart": {
+    "captured": "c2d9869b4fa278d7f44c79ace88a91d29d5f4e5446d5689849ddb8eab97a70a7",
+    "current": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2"
+  },
+  "lib/core/startup/collect_global_error_handlers.dart": {
+    "captured": "8b440132bd47ee4242c702aa2e12a9775c2bf8a4bb46df8ed2172419bec821d2",
+    "current": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436"
+  },
+  "lib/core/startup/collect_startup_controller.dart": {
+    "captured": "33c79e3d8a54b7a6b6ccd20de0851a9aa5688b16c8cc2fc11fe6a67f1462cab9",
+    "current": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409"
+  },
+  "lib/core/startup/collect_startup_host.dart": {
+    "captured": "42e4b1886315df319763b642e922e84710e4670391460d1ccbf13425a23635f2",
+    "current": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "actual_prior_whole_app_lock_failed": true,
+  "captured_at_utc": "2026-10-02T08:30:49.023853+00:00",
+  "current_whole_app_lock_separate_packet": "kotlin-sdk-native-app-lock2",
+  "full_ARC09_closed": false,
+  "native_admitted": false,
+  "native_packages_built": false,
+  "prepared_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "production_release_approval": false,
+  "reader": {
+    "actual_seconds": 43.295,
+    "deadline_seconds": 120,
+    "owned_process_group_absent": true,
+    "stage_pass": true
+  },
+  "scope": "Root readback of sealed guard2 preparation and prior isolated reader proof; not an actual app-lock or native-stage result",
+  "status": "pass",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 42,
+    "skipped": 0,
+    "total": 42
+  },
+  "tests_rerun": false
+}

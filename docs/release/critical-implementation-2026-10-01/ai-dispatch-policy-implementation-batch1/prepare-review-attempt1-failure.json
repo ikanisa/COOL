@@ -1,0 +1,9 @@
+{
+  "status": "actual-harness-failure",
+  "error": "AssertionError at len(newcallbacks)==6; parser failed to consume same-line space before fixturePromise in two expression-body Auth callbacks",
+  "runner_sha256": "7193dc77fed60b7f72e1a3fe2f75a884e31809d8829008a4b9e9079f84e99a9b",
+  "production_test_assertions_changed": false,
+  "source_changed_by_parser": false,
+  "corrective_action": "consume whitespace after callback arrow; retain all six body comparisons",
+  "observed_at": "2026-10-02T02:06:49.745660+00:00"
+}

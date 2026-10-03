@@ -1,0 +1,53 @@
+{
+  "700_packet_modified": false,
+  "canonical_written": false,
+  "entries": [
+    {
+      "canonical": "test/admin_worker_cold_consumer_test.dart",
+      "new": true,
+      "sha256": "fd9550934df8e320d44f78ade43048b4fc1385e89b58b9b8cebcbec27d6db54b",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    {
+      "canonical": "test/fixtures/receipt-worker-cold/actual-admin-detail-after.json",
+      "new": true,
+      "sha256": "4713e5a036e21223b83045565168fbbdd9059ddfd138d6ffc90db3c530a4ab14",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/fixtures/receipt-worker-cold/actual-admin-detail-after.json"
+    },
+    {
+      "canonical": "test/fixtures/receipt-worker-cold/actual-admin-detail-before-transport-cold.json",
+      "new": true,
+      "sha256": "8a01a9976775e46aa63109103c4bf25ff4c928c884ed641824f80aa6f14e245e",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/fixtures/receipt-worker-cold/actual-admin-detail-before-transport-cold.json"
+    },
+    {
+      "canonical": "test/fixtures/receipt-worker-cold/actual-admin-health-after.json",
+      "new": true,
+      "sha256": "a104f0103f007a73aa8d2629c7e077bde96f013b5d4542fddb4a9018c2c35586",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/fixtures/receipt-worker-cold/actual-admin-health-after.json"
+    },
+    {
+      "canonical": "test/fixtures/receipt-worker-cold/actual-admin-health-before-transport-cold.json",
+      "new": true,
+      "sha256": "acae11ab801f23967a6cffa54b5cd429816d8a71ae1dd15a782fd51d524c745c",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/fixtures/receipt-worker-cold/actual-admin-health-before-transport-cold.json"
+    },
+    {
+      "canonical": "test/fixtures/receipt-worker-cold/actual-cold-integrity-errors.json",
+      "new": true,
+      "sha256": "1b65cdf62fe457518388fb534137cbbb4054178fa7a51389a270fd0643b54388",
+      "staged": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/fixtures/receipt-worker-cold/actual-cold-integrity-errors.json"
+    }
+  ],
+  "kind": "new-test-and-exact-observed-fixtures-only",
+  "owner": "/root",
+  "private_runner": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/run_consumer_proof.py",
+  "production_source_fixes": [],
+  "scope": "Current actual repository/provider/cards; synthetic HTTP/Auth wire adapter, original observed SQL data unchanged",
+  "test_command": [
+    "flutter",
+    "test",
+    "--no-pub",
+    "test/admin_worker_cold_consumer_test.dart"
+  ]
+}

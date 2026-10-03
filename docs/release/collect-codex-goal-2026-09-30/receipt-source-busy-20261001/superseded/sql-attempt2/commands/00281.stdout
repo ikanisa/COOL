@@ -1,0 +1,1 @@
+["id", "outbox_id", "confirmation_id", "operator_user_id", "worker_id", "claim_token", "fence_version", "attempt_number", "destination_sha256", "destination_revision", "body_sha256", "state", "send_started_at", "outcome_at", "evidence_reference", "outcome_note"]

@@ -1,0 +1,102 @@
+{
+  "kind": "isolated_current_source_tooling_acceptance",
+  "status": "pass",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt23/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.52,
+      "stdout_sha256": "6fe02291860fbecc9277ef408d9dcb4649b906e64035b1ba4956e11a1a866352",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.12,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6,
+      "stdout_sha256": "ca3ea62aecbcde586049908164758acda09b107d4169f72fdb45cc272817d02b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.83,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "ruby",
+        "scripts/qa/dart_format.rb",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 31.7,
+      "stdout_sha256": "e1074af08f9748a31a901395b15601ada212f0d8458e0e3c03478c67ee47805e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fatal-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 246.85,
+      "stdout_sha256": "830a82e4bf7dae1fb8907c37b97290ad872500c56a5193a21b013cb0ae1e9b1a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Current immutable source export, source-only QA without providers, credentials, signing or release acceptance",
+  "native_source_file_count": 892,
+  "public_tooling_source_count": 430,
+  "export_source_changes": {},
+  "original_checkout_drift": {
+    "lib/admin/core/admin_runtime.dart": {
+      "before": "eb26723c144e34f2210bba076ef370e8803e2bcbbc8e890306d9ac1b5da7a307",
+      "after": "6235794041020ef999d8ea363131fe4f18c5df507b77174b5883df20f5c3bac5"
+    },
+    "test/admin_declared_read_dispatch_test.dart": {
+      "before": "3e98318e5e077ea4c7a620e4b1a7b0506c0f0113a990fdceaea1bacfd3efe3f8",
+      "after": "79a5d61b02b4a0c858d6722537f7eaf22a3390013c4792870030014c392133b7"
+    }
+  },
+  "entire_checkout_current_acceptance": false,
+  "generated_package_binding_sha256": "4c127589ca759a3d94dc3806c98a3e6b6eed4d8abc927095e0ed75da326ce199",
+  "generated_plugin_binding_sha256": "732596ded581798e5833849de108a3b5433d91fc5611434441611b6cebdbe973"
+}

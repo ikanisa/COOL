@@ -1,0 +1,41 @@
+{
+  "captured_at_utc": "2026-10-02T15:37:45.574032+00:00",
+  "before": {
+    "current-candidate-evidence-index.json": {
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca",
+      "bytes": 72863,
+      "mode": 420
+    },
+    "current-candidate-evidence-index.schema.json": {
+      "sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244",
+      "bytes": 10061,
+      "mode": 420
+    },
+    "acceptance-status.json": {
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89",
+      "bytes": 23201,
+      "mode": 420
+    }
+  },
+  "after": {
+    "current-candidate-evidence-index.json": {
+      "sha256": "ce06b7c494b19a9d205c96c73eb5d1f15b9e318592d78f38f859a6c5a7950b19",
+      "bytes": 95057,
+      "mode": 420
+    },
+    "current-candidate-evidence-index.schema.json": {
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e",
+      "bytes": 11498,
+      "mode": 420
+    },
+    "acceptance-status.json": {
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e",
+      "bytes": 24810,
+      "mode": 420
+    }
+  },
+  "only3_data_schema_status_writes": true,
+  "reader18tests_reused": true,
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "production_release_approval": false
+}

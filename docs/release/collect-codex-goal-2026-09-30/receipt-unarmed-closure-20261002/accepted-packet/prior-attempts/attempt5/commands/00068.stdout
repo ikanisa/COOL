@@ -1,0 +1,2 @@
+{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"scope": "rw_receipt_operations", "request_id": "7eb246a9-4072-4b57-af73-f2c4bf4a7193", "recorded_at": "2026-10-01T22:27:10.179859Z", "principal_id": "89ffc612-632a-48dd-9809-7bea140ad7f3", "state_at_action": "active", "contract_version": 2}

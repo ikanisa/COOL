@@ -1,0 +1,79 @@
+{
+  "all_copied_sources_unchanged": true,
+  "consumers": {
+    "contracts/edge-functions.json": {
+      "bytes": 3836,
+      "identity": [
+        16777247,
+        15904058,
+        420,
+        3836,
+        1790883007901237634,
+        1790883007901237634,
+        1
+      ],
+      "mode": 420,
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28"
+    },
+    "scripts/edge_function_inventory.rb": {
+      "bytes": 6127,
+      "identity": [
+        16777247,
+        15904059,
+        420,
+        6127,
+        1790883007901887093,
+        1790883007901887093,
+        1
+      ],
+      "mode": 420,
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9"
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "bytes": 62358,
+      "identity": [
+        16777247,
+        2695370,
+        448,
+        62358,
+        1790887432474607839,
+        1790887432474607839,
+        1
+      ],
+      "mode": 448,
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "bytes": 3844,
+      "identity": [
+        16777247,
+        15904555,
+        420,
+        3844,
+        1790883186030693847,
+        1790883186030693847,
+        1
+      ],
+      "mode": 420,
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b"
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "bytes": 28103,
+      "identity": [
+        16777247,
+        15904556,
+        420,
+        28103,
+        1790886748558280886,
+        1790886748558280886,
+        1
+      ],
+      "mode": 420,
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d"
+    }
+  },
+  "drift": {},
+  "five_consumer_bases_unchanged": true,
+  "maintained_inputs": 385,
+  "observed_at_utc": "2026-10-02T02:33:59.924591+00:00"
+}

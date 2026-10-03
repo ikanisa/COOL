@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "flutter pub get --enforce-lockfile"
+  ],
+  "deadline_seconds": 420,
+  "pid": 31683,
+  "started_at_utc": "2026-10-02T00:36:35.448252+00:00"
+}

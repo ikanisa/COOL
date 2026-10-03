@@ -1,0 +1,42 @@
+{
+  "accepted_cases": 322,
+  "actual_sql_decoder_bridge_cases": 12,
+  "cohorts": {
+    "test/admin_entity_audit_links_test.dart": 34,
+    "test/admin_entity_audit_page_test.dart": 32,
+    "test/admin_exception_assignment_test.dart": 44,
+    "test/admin_exception_escalation_inbox_v2_models_test.dart": 11,
+    "test/admin_exception_followup_sdk_test.dart": 23,
+    "test/admin_exception_followup_v2_models_test.dart": 45,
+    "test/admin_exception_history_v2_models_test.dart": 29,
+    "test/admin_exception_history_v2_sdk_test.dart": 30,
+    "test/admin_exception_workflow_sdk_test.dart": 39,
+    "test/admin_exception_workflow_test.dart": 35
+  },
+  "consumed_input_count": 952,
+  "consumed_inputs_sha256": "b55e1311b11061594936f3e6b206892b673d3611bff00250465e0a4a9f66f001",
+  "current_inbox_cases": 11,
+  "known_nonconsumed_composite_drift": [
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql"
+  ],
+  "limits": [
+    "Frozen2146selected source plus371supplementary inputs; later peer features outside captured delta untested",
+    "Resource correction private only, requires peer integration under source guard",
+    "SQL decoder uses exact actual observed responses; rootSQL100 subset and installer limits retained separately",
+    "New joined-history/inbox widget/SDK/projection tests do not prove every possible provider/action/state combination",
+    "No browser production bundle or PWA visual acceptance for new delta"
+  ],
+  "live_runtime_or_test_writes": false,
+  "named_cases_sha256": "2d21ce91e4a1e388aa2a9d4bec402139ea6158c8df42078e2a83024c4ce5b2ce",
+  "new_resource_admission_widget_cases": 2,
+  "packages_unchanged": true,
+  "private_export_inputs_unchanged": true,
+  "resource_patch_sha256": "dcbf5675087362e8742e1c0f026af620c5eeab75b67bc0d32532ba07fedbec5b",
+  "reused_unchanged_cases": 311,
+  "sdk_unchanged": true,
+  "selected_analysis": "clean --fatal-infos",
+  "selected_format": "clean private derivative; original8-file hygiene failure retained",
+  "server_or_browser_or_native_execution": false,
+  "status": "pass_scoped",
+  "whole_composite_or_live_current_accepted": false
+}

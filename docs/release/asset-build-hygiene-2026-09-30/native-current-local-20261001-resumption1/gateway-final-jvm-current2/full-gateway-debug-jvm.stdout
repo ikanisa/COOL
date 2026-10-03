@@ -1,0 +1,571 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :gradle
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `2.2.0` that might work differently than in the requested version `2.2.20`.
+
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+
+> Configure project :app
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.newDsl=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':app' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :android_file_picker
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':android_file_picker' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :app_links
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':app_links' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :file_saver
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':file_saver' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :firebase_core
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_core' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :firebase_messaging
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':firebase_messaging' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :flutter_local_notifications
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_local_notifications' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :flutter_plugin_android_lifecycle
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':flutter_plugin_android_lifecycle' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :image_picker_android
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':image_picker_android' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :integration_test
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':integration_test' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :jni
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':jni' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :jni_flutter
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':jni_flutter' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :mobile_scanner
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':mobile_scanner' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :permission_handler_android
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':permission_handler_android' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :share_plus
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':share_plus' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :shared_preferences_android
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':shared_preferences_android' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Configure project :url_launcher_android
+w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
+The 'org.jetbrains.kotlin.android' plugin in project ':url_launcher_android' is no longer required for Kotlin support since AGP 9.0.
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+
+> Task :android_file_picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :android_file_picker:preBuild UP-TO-DATE
+> Task :android_file_picker:preDebugBuild UP-TO-DATE
+> Task :android_file_picker:generateDebugResources
+> Task :android_file_picker:packageDebugResources
+> Task :android_file_picker:processDebugNavigationResources
+> Task :android_file_picker:javaPreCompileDebug
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :android_file_picker:parseDebugLocalResources
+> Task :app:generateCollectInternal_gatewayDebugPluginRegistrant
+> Task :app:preBuild UP-TO-DATE
+> Task :app:writeCollectUnsignedLocalQaMarker UP-TO-DATE
+> Task :app:preInternal_gatewayDebugBuild UP-TO-DATE
+> Task :app:generateInternal_gatewayDebugBuildConfig
+> Task :app:cleanMergeInternal_gatewayDebugAssets
+> Task :android_file_picker:generateDebugAssets UP-TO-DATE
+> Task :android_file_picker:generateDebugRFile
+> Task :android_file_picker:mergeDebugAssets
+> Task :app:generateInternal_gatewayDebugAssets UP-TO-DATE
+> Task :app_links:generateDebugAssets UP-TO-DATE
+> Task :app_links:preBuild UP-TO-DATE
+> Task :app_links:preDebugBuild UP-TO-DATE
+> Task :app_links:mergeDebugAssets
+> Task :file_saver:generateDebugAssets UP-TO-DATE
+> Task :file_saver:preBuild UP-TO-DATE
+> Task :file_saver:preDebugBuild UP-TO-DATE
+> Task :file_saver:mergeDebugAssets
+> Task :firebase_core:generateDebugAssets UP-TO-DATE
+> Task :firebase_core:preBuild UP-TO-DATE
+> Task :firebase_core:preDebugBuild UP-TO-DATE
+> Task :firebase_core:mergeDebugAssets
+> Task :flutter_plugin_android_lifecycle:generateDebugAssets UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:preBuild UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:preDebugBuild UP-TO-DATE
+> Task :flutter_plugin_android_lifecycle:mergeDebugAssets
+> Task :image_picker_android:generateDebugAssets UP-TO-DATE
+> Task :image_picker_android:preBuild UP-TO-DATE
+> Task :image_picker_android:preDebugBuild UP-TO-DATE
+> Task :image_picker_android:mergeDebugAssets
+> Task :integration_test:generateDebugAssets UP-TO-DATE
+> Task :integration_test:preBuild UP-TO-DATE
+> Task :integration_test:preDebugBuild UP-TO-DATE
+> Task :integration_test:mergeDebugAssets
+> Task :jni:generateDebugAssets UP-TO-DATE
+> Task :jni:preBuild UP-TO-DATE
+> Task :jni:preDebugBuild UP-TO-DATE
+> Task :jni:mergeDebugAssets
+> Task :jni_flutter:generateDebugAssets UP-TO-DATE
+> Task :jni_flutter:preBuild UP-TO-DATE
+> Task :jni_flutter:preDebugBuild UP-TO-DATE
+> Task :jni_flutter:mergeDebugAssets
+> Task :mobile_scanner:generateDebugAssets UP-TO-DATE
+> Task :mobile_scanner:preBuild UP-TO-DATE
+> Task :mobile_scanner:preDebugBuild UP-TO-DATE
+> Task :mobile_scanner:mergeDebugAssets
+> Task :permission_handler_android:generateDebugAssets UP-TO-DATE
+> Task :permission_handler_android:preBuild UP-TO-DATE
+> Task :permission_handler_android:preDebugBuild UP-TO-DATE
+> Task :permission_handler_android:mergeDebugAssets
+> Task :share_plus:generateDebugAssets UP-TO-DATE
+> Task :share_plus:preBuild UP-TO-DATE
+> Task :share_plus:preDebugBuild UP-TO-DATE
+> Task :share_plus:mergeDebugAssets
+> Task :shared_preferences_android:generateDebugAssets UP-TO-DATE
+> Task :shared_preferences_android:preBuild UP-TO-DATE
+> Task :shared_preferences_android:preDebugBuild UP-TO-DATE
+> Task :shared_preferences_android:mergeDebugAssets
+> Task :url_launcher_android:generateDebugAssets UP-TO-DATE
+> Task :url_launcher_android:preBuild UP-TO-DATE
+> Task :url_launcher_android:preDebugBuild UP-TO-DATE
+> Task :url_launcher_android:mergeDebugAssets
+> Task :app:mergeInternal_gatewayDebugAssets
+> Task :app:copyFlutterAssetsInternal_gatewayDebug NO-SOURCE
+> Task :app:generateInternal_gatewayDebugResValues
+> Task :app:generateInternal_gatewayDebugResources
+> Task :app:processInternal_gatewayDebugGoogleServices SKIPPED
+> Task :app:packageInternal_gatewayDebugResources
+> Task :app_links:processDebugNavigationResources
+> Task :file_saver:processDebugNavigationResources
+> Task :firebase_core:processDebugNavigationResources
+> Task :flutter_plugin_android_lifecycle:processDebugNavigationResources
+> Task :image_picker_android:processDebugNavigationResources
+> Task :integration_test:processDebugNavigationResources
+> Task :jni:processDebugNavigationResources
+> Task :jni_flutter:processDebugNavigationResources
+> Task :mobile_scanner:processDebugNavigationResources
+> Task :permission_handler_android:processDebugNavigationResources
+> Task :share_plus:processDebugNavigationResources
+> Task :shared_preferences_android:processDebugNavigationResources
+> Task :url_launcher_android:processDebugNavigationResources
+> Task :app:processInternal_gatewayDebugNavigationResources
+> Task :app:parseInternal_gatewayDebugLocalResources
+> Task :app:generateInternal_gatewayDebugRFile
+> Task :app_links:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app_links:generateDebugResources
+> Task :app_links:packageDebugResources
+> Task :app_links:parseDebugLocalResources
+> Task :app_links:generateDebugRFile
+> Task :app_links:compileDebugKotlin NO-SOURCE
+> Task :app_links:javaPreCompileDebug
+> Task :app_links:compileDebugJavaWithJavac
+> Task :app_links:bundleLibCompileToJarDebug
+> Task :file_saver:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :file_saver:generateDebugResources
+> Task :file_saver:packageDebugResources
+> Task :file_saver:parseDebugLocalResources
+> Task :file_saver:generateDebugRFile
+> Task :android_file_picker:compileDebugKotlin
+
+> Task :file_saver:compileDebugKotlin
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt:204:20 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'String?'.
+
+> Task :file_saver:javaPreCompileDebug
+> Task :file_saver:compileDebugJavaWithJavac NO-SOURCE
+> Task :file_saver:bundleLibCompileToJarDebug
+> Task :firebase_core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :firebase_core:generateDebugBuildConfig
+> Task :firebase_core:generateDebugResources
+> Task :firebase_core:packageDebugResources
+> Task :firebase_core:parseDebugLocalResources
+> Task :firebase_core:generateDebugRFile
+> Task :firebase_core:compileDebugKotlin NO-SOURCE
+> Task :firebase_core:javaPreCompileDebug
+
+> Task :android_file_picker:compileDebugKotlin
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerDelegate.kt:79:89 Elvis operator (?:) always returns the left operand of non-nullable type 'Uri'.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:151:49 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:152:38 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:153:60 Unnecessary safe call on a non-null receiver of type 'HashMap<*, *>'.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/kotlin/com/mr/flutter/plugin/filepicker/FilePickerPlugin.kt:164:70 Unchecked cast of 'Any?' to 'ArrayList<String>?'.
+
+> Task :firebase_core:compileDebugJavaWithJavac
+> Task :android_file_picker:compileDebugJavaWithJavac NO-SOURCE
+> Task :android_file_picker:bundleLibRuntimeToJarDebug
+> Task :android_file_picker:processDebugJavaRes
+> Task :android_file_picker:bundleLibCompileToJarDebug
+> Task :flutter_plugin_android_lifecycle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :firebase_core:bundleLibCompileToJarDebug
+> Task :flutter_plugin_android_lifecycle:generateDebugResources
+> Task :flutter_plugin_android_lifecycle:packageDebugResources
+> Task :flutter_plugin_android_lifecycle:parseDebugLocalResources
+> Task :flutter_plugin_android_lifecycle:javaPreCompileDebug
+> Task :image_picker_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :image_picker_android:generateDebugResources
+> Task :flutter_plugin_android_lifecycle:generateDebugRFile
+> Task :flutter_plugin_android_lifecycle:compileDebugKotlin NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:compileDebugJavaWithJavac
+> Task :flutter_plugin_android_lifecycle:bundleLibCompileToJarDebug
+> Task :image_picker_android:packageDebugResources
+> Task :image_picker_android:javaPreCompileDebug
+> Task :integration_test:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :integration_test:generateDebugResources
+> Task :image_picker_android:parseDebugLocalResources
+> Task :integration_test:packageDebugResources
+> Task :image_picker_android:generateDebugRFile
+> Task :integration_test:parseDebugLocalResources
+> Task :integration_test:generateDebugRFile
+> Task :integration_test:compileDebugKotlin NO-SOURCE
+> Task :integration_test:javaPreCompileDebug
+> Task :integration_test:compileDebugJavaWithJavac
+> Task :integration_test:bundleLibCompileToJarDebug
+> Task :jni:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :jni:generateDebugResources
+> Task :jni:packageDebugResources
+> Task :jni:parseDebugLocalResources
+> Task :jni:generateDebugRFile
+> Task :jni:compileDebugKotlin NO-SOURCE
+> Task :jni:javaPreCompileDebug
+> Task :jni:compileDebugJavaWithJavac
+> Task :jni:bundleLibCompileToJarDebug
+> Task :jni_flutter:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :jni_flutter:generateDebugResources
+> Task :jni_flutter:packageDebugResources
+> Task :jni_flutter:parseDebugLocalResources
+> Task :jni_flutter:generateDebugRFile
+> Task :jni_flutter:compileDebugKotlin NO-SOURCE
+> Task :jni_flutter:javaPreCompileDebug
+> Task :jni_flutter:compileDebugJavaWithJavac
+> Task :jni_flutter:bundleLibCompileToJarDebug
+> Task :mobile_scanner:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :mobile_scanner:generateDebugResources
+> Task :mobile_scanner:packageDebugResources
+> Task :mobile_scanner:parseDebugLocalResources
+> Task :mobile_scanner:generateDebugRFile
+> Task :image_picker_android:compileDebugKotlin
+> Task :image_picker_android:compileDebugJavaWithJavac
+> Task :image_picker_android:bundleLibCompileToJarDebug
+> Task :mobile_scanner:javaPreCompileDebug
+> Task :permission_handler_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :permission_handler_android:generateDebugResources
+> Task :permission_handler_android:packageDebugResources
+> Task :permission_handler_android:parseDebugLocalResources
+> Task :permission_handler_android:generateDebugRFile
+> Task :permission_handler_android:compileDebugKotlin NO-SOURCE
+> Task :permission_handler_android:javaPreCompileDebug
+> Task :permission_handler_android:compileDebugJavaWithJavac
+> Task :permission_handler_android:bundleLibCompileToJarDebug
+> Task :share_plus:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :share_plus:generateDebugResources
+> Task :share_plus:packageDebugResources
+> Task :share_plus:parseDebugLocalResources
+> Task :share_plus:generateDebugRFile
+> Task :mobile_scanner:compileDebugKotlin
+> Task :mobile_scanner:compileDebugJavaWithJavac NO-SOURCE
+> Task :mobile_scanner:bundleLibCompileToJarDebug
+> Task :share_plus:javaPreCompileDebug
+> Task :shared_preferences_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared_preferences_android:generateDebugResources
+> Task :shared_preferences_android:packageDebugResources
+> Task :shared_preferences_android:parseDebugLocalResources
+> Task :shared_preferences_android:generateDebugRFile
+> Task :share_plus:compileDebugKotlin
+> Task :share_plus:compileDebugJavaWithJavac NO-SOURCE
+> Task :share_plus:bundleLibCompileToJarDebug
+> Task :shared_preferences_android:javaPreCompileDebug
+> Task :url_launcher_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :url_launcher_android:generateDebugBuildConfig
+> Task :url_launcher_android:generateDebugResources
+> Task :url_launcher_android:packageDebugResources
+> Task :url_launcher_android:parseDebugLocalResources
+> Task :url_launcher_android:generateDebugRFile
+> Task :url_launcher_android:compileDebugKotlin
+> Task :url_launcher_android:javaPreCompileDebug
+> Task :url_launcher_android:compileDebugJavaWithJavac
+> Task :url_launcher_android:bundleLibCompileToJarDebug
+> Task :app:javaPreCompileInternal_gatewayDebug
+> Task :android_file_picker:compileDebugLibraryResources
+> Task :android_file_picker:writeDebugAarMetadata
+> Task :app_links:writeDebugAarMetadata
+> Task :file_saver:writeDebugAarMetadata
+> Task :firebase_core:writeDebugAarMetadata
+> Task :flutter_plugin_android_lifecycle:writeDebugAarMetadata
+> Task :image_picker_android:writeDebugAarMetadata
+> Task :integration_test:writeDebugAarMetadata
+> Task :jni:writeDebugAarMetadata
+> Task :jni_flutter:writeDebugAarMetadata
+> Task :mobile_scanner:writeDebugAarMetadata
+> Task :permission_handler_android:writeDebugAarMetadata
+> Task :share_plus:writeDebugAarMetadata
+> Task :shared_preferences_android:writeDebugAarMetadata
+> Task :url_launcher_android:writeDebugAarMetadata
+> Task :app:checkInternal_gatewayDebugAarMetadata
+> Task :app:compileInternal_gatewayDebugNavigationResources
+> Task :app:mapInternal_gatewayDebugSourceSetPaths
+
+> Task :shared_preferences_android:compileDebugKotlin
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/shared_preferences_android/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt:450:52 Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.
+
+> Task :shared_preferences_android:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:mergeInternal_gatewayDebugResources
+> Task :app:createInternal_gatewayDebugCompatibleScreenManifests
+> Task :shared_preferences_android:bundleLibCompileToJarDebug
+> Task :android_file_picker:extractDeepLinksDebug
+
+> Task :android_file_picker:processDebugManifest
+package="com.mr.flutter.plugin.filepicker" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.mr.flutter.plugin.filepicker" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/android_file_picker/android/src/main/AndroidManifest.xml.
+
+> Task :app:extractDeepLinksInternal_gatewayDebug
+> Task :app_links:extractDeepLinksDebug
+
+> Task :app_links:processDebugManifest
+package="com.llfbandit.app_links" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/app_links/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.llfbandit.app_links" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/app_links/android/src/main/AndroidManifest.xml.
+
+> Task :file_saver:extractDeepLinksDebug
+
+> Task :file_saver:processDebugManifest
+package="com.incrediblezayed.file_saver" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/third_party/file_saver/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.incrediblezayed.file_saver" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/third_party/file_saver/android/src/main/AndroidManifest.xml.
+
+> Task :firebase_core:extractDeepLinksDebug
+
+> Task :firebase_core:processDebugManifest
+package="io.flutter.plugins.firebase.core" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/firebase_core/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.firebase.core" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/firebase_core/android/src/main/AndroidManifest.xml.
+
+> Task :flutter_plugin_android_lifecycle:extractDeepLinksDebug
+
+> Task :flutter_plugin_android_lifecycle:processDebugManifest
+package="io.flutter.plugins.flutter_plugin_android_lifecycle" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/flutter_plugin_android_lifecycle/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.flutter_plugin_android_lifecycle" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/flutter_plugin_android_lifecycle/android/src/main/AndroidManifest.xml.
+
+> Task :image_picker_android:extractDeepLinksDebug
+
+> Task :image_picker_android:processDebugManifest
+package="io.flutter.plugins.imagepicker" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/image_picker_android/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.imagepicker" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/image_picker_android/android/src/main/AndroidManifest.xml.
+
+> Task :integration_test:extractDeepLinksDebug
+
+> Task :integration_test:processDebugManifest
+package="dev.flutter.integration_test" found in source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/packages/integration_test/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="dev.flutter.integration_test" from the source AndroidManifest.xml: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/packages/integration_test/android/src/main/AndroidManifest.xml.
+
+> Task :jni:extractDeepLinksDebug
+
+> Task :jni:processDebugManifest
+package="com.github.dart_lang.jni" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/jni/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.github.dart_lang.jni" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/jni/android/src/main/AndroidManifest.xml.
+
+> Task :jni_flutter:extractDeepLinksDebug
+
+> Task :jni_flutter:processDebugManifest
+package="com.github.dart_lang.jni_flutter" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/jni_flutter/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.github.dart_lang.jni_flutter" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/jni_flutter/android/src/main/AndroidManifest.xml.
+
+> Task :mobile_scanner:extractDeepLinksDebug
+> Task :mobile_scanner:processDebugManifest
+> Task :permission_handler_android:extractDeepLinksDebug
+
+> Task :permission_handler_android:processDebugManifest
+package="com.baseflow.permissionhandler" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/permission_handler_android/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.baseflow.permissionhandler" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/permission_handler_android/android/src/main/AndroidManifest.xml.
+
+> Task :share_plus:extractDeepLinksDebug
+
+> Task :share_plus:processDebugManifest
+package="dev.fluttercommunity.plus.share" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/share_plus/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="dev.fluttercommunity.plus.share" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/share_plus/android/src/main/AndroidManifest.xml.
+
+> Task :shared_preferences_android:extractDeepLinksDebug
+
+> Task :shared_preferences_android:processDebugManifest
+package="io.flutter.plugins.sharedpreferences" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/shared_preferences_android/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.sharedpreferences" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/shared_preferences_android/android/src/main/AndroidManifest.xml.
+
+> Task :url_launcher_android:extractDeepLinksDebug
+
+> Task :url_launcher_android:processDebugManifest
+package="io.flutter.plugins.urllauncher" found in source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/url_launcher_android/android/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.urllauncher" from the source AndroidManifest.xml: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/.qa_native_dependencies/url_launcher_android/android/src/main/AndroidManifest.xml.
+
+> Task :app:processInternal_gatewayDebugMainManifest
+/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/debug/AndroidManifest.xml Warning:
+	uses-permission#android.permission.READ_EXTERNAL_STORAGE was tagged at AndroidManifest.xml:0 to remove other declarations but no other declaration present
+
+> Task :app:outputInternal_gatewayDebugAppLinkSettings
+> Task :app:processInternal_gatewayDebugManifest
+> Task :app:processInternal_gatewayDebugManifestForPackage
+> Task :app_links:compileDebugLibraryResources
+> Task :file_saver:compileDebugLibraryResources
+> Task :firebase_core:compileDebugLibraryResources
+> Task :flutter_plugin_android_lifecycle:compileDebugLibraryResources
+> Task :image_picker_android:compileDebugLibraryResources
+> Task :integration_test:compileDebugLibraryResources
+> Task :jni:compileDebugLibraryResources
+> Task :jni_flutter:compileDebugLibraryResources
+> Task :mobile_scanner:compileDebugLibraryResources
+> Task :permission_handler_android:compileDebugLibraryResources
+> Task :share_plus:compileDebugLibraryResources
+> Task :shared_preferences_android:compileDebugLibraryResources
+> Task :url_launcher_android:compileDebugLibraryResources
+> Task :app:processInternal_gatewayDebugResources
+> Task :app:preInternal_gatewayDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileInternal_gatewayDebugUnitTest
+> Task :app_links:bundleLibRuntimeToJarDebug
+> Task :app_links:processDebugJavaRes NO-SOURCE
+> Task :file_saver:bundleLibRuntimeToJarDebug
+> Task :file_saver:processDebugJavaRes
+> Task :firebase_core:bundleLibRuntimeToJarDebug
+> Task :firebase_core:processDebugJavaRes NO-SOURCE
+> Task :flutter_plugin_android_lifecycle:bundleLibRuntimeToJarDebug
+> Task :flutter_plugin_android_lifecycle:processDebugJavaRes NO-SOURCE
+> Task :image_picker_android:bundleLibRuntimeToJarDebug
+> Task :image_picker_android:processDebugJavaRes
+> Task :integration_test:bundleLibRuntimeToJarDebug
+> Task :integration_test:processDebugJavaRes NO-SOURCE
+> Task :jni:bundleLibRuntimeToJarDebug
+> Task :jni:processDebugJavaRes NO-SOURCE
+> Task :jni_flutter:bundleLibRuntimeToJarDebug
+> Task :jni_flutter:processDebugJavaRes NO-SOURCE
+> Task :mobile_scanner:bundleLibRuntimeToJarDebug
+> Task :mobile_scanner:processDebugJavaRes
+> Task :permission_handler_android:bundleLibRuntimeToJarDebug
+> Task :permission_handler_android:processDebugJavaRes NO-SOURCE
+> Task :share_plus:bundleLibRuntimeToJarDebug
+> Task :share_plus:processDebugJavaRes
+> Task :shared_preferences_android:bundleLibRuntimeToJarDebug
+> Task :shared_preferences_android:processDebugJavaRes
+> Task :url_launcher_android:bundleLibRuntimeToJarDebug
+> Task :url_launcher_android:processDebugJavaRes
+
+> Task :app:compileInternal_gatewayDebugKotlin
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:12:8 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:20:27 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:37:41 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:37:41 'constructor(): PhoneStateListener' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:38:34 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:25 'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:42 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:61 'static field LISTEN_SERVICE_STATE: Int' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:27 'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:44 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:63 'static field LISTEN_NONE: Int' is deprecated. Deprecated in Java.
+w: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt:15:29 'static fun getSmsManagerForSubscriptionId(p0: Int): SmsManager!' is deprecated. Deprecated in Java.
+
+> Task :app:compileInternal_gatewayDebugJavaWithJavac
+> Task :app:bundleInternal_gatewayDebugClassesToRuntimeJar
+> Task :app:bundleInternal_gatewayDebugClassesToCompileJar
+> Task :app:processInternal_gatewayDebugJavaRes
+> Task :app:compileInternal_gatewayDebugUnitTestKotlin
+> Task :app:compileInternal_gatewayDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processInternal_gatewayDebugUnitTestJavaRes
+> Task :app:testInternal_gatewayDebugUnitTest
+
+[Incubating] Problems report is available at: file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 4m 37s
+243 actionable tasks: 238 executed, 5 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.1.0/userguide/configuration_cache_enabling.html

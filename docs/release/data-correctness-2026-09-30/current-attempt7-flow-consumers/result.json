@@ -1,0 +1,180 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/features/contribution_flow_session_test.dart",
+      "test/features/member_data_unknown_states_test.dart",
+      "test/shared/pending_shared_group_intent_store_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt7-flow-consumers/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:53:23.131842+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 38330,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 10.815,
+    "stdout_sha256": "84a01f84045216abbb15415c40e17b154b94d9b280796242be7ce0ff221fd8ae",
+    "stderr_sha256": "d49544a634e5070c000e49a09a128491fea7ab110e70d2cbc0e1dd760c82f2f8"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 23,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart",
+        "source": null,
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "absent complete aggregates remain unknown despite partial owned rows",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks empty partial ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks partial positive ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent group ledger page cannot claim no confirmed activity",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent activity page cannot be shown as zero confirmed history",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refreshing retained roster removes previous IDs and amounts before reply",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-02-30T12:00:00Z cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28T11:00:00 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 0000-07-28T11:00:00Z cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid invitation timestamp 2026-07-28T11:00:00+24:00 cannot acquire a fresh TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "impossible calendar date cannot normalize into the current TTL window",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "writing a DateTime instant serializes UTC and preserves exact TTL",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "pending group intent survives a store and controller recreation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a signed-out invitation binds once and rejects another account",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a stale same-slug completion cannot clear a later invitation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "duplicate warm App Links keep the visible intent generation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "stale, malformed, and oversized pending intents fail closed",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "only the matching completed intent can clear persisted recovery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a persistence failure does not expose an in-memory-only intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "slug normalization accepts only bounded canonical URL segments",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "external app links accept only the canonical Collect group origin",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "app sharing links route only canonical app and invite targets",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

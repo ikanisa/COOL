@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:51 GMT",
+    "content-type": "application/json",
+    "etag": "\"qBkZxKn5XSIKmQ3oNoFgLg\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/defusedxml/0.7.1/json",
+  "requested_at": "2026-10-01T21:22:50.720079+00:00",
+  "response_bytes": 35962,
+  "response_path": "primary/pypi-defusedxml-0.7.1.response",
+  "response_sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+  "response_url": "https://pypi.org/pypi/defusedxml/0.7.1/json",
+  "retrieved_at": "2026-10-01T21:22:51.563115+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

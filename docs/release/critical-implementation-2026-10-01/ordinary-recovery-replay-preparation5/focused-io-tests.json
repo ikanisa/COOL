@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation5/run_focused.py"
+  ],
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation5",
+  "started_at_utc": "2026-10-02T08:03:28.983279+00:00",
+  "actual_seconds": 1.598,
+  "deadline_seconds": 20,
+  "exit_code": 0,
+  "timed_out": false,
+  "pid": 27823,
+  "owned_process_group_absent": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "2a9cda282dc5f08c0e80a7de55390d5d1a93ee572547cac486cfa66a9e78ae0f"
+}

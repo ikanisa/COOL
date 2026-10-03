@@ -1,0 +1,6 @@
+{
+  "changes": {},
+  "compiler_packages": 13,
+  "scope": "Actual generated plugin Swift compiler roots and aliases bound before Xcode; hosted aliases redirected to immutable export copies. Only exact declared relative plugin-version rewrites are permitted in generated platform copies. Generated scaffolds are byte bound; no complete Xcode/SDK cache attestation.",
+  "status": "pass"
+}

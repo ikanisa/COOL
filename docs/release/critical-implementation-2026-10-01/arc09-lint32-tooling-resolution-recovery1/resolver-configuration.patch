@@ -1,0 +1,84 @@
+--- a/minimal-project/build.gradle
++++ b/minimal-project/build.gradle
+@@ -7,9 +7,20 @@
+ import org.gradle.api.artifacts.result.ResolvedArtifactResult
+ import org.gradle.maven.MavenModule
+ import org.gradle.maven.MavenPomArtifact
++import org.gradle.api.attributes.Usage
++import org.gradle.api.attributes.java.TargetJvmEnvironment
+ 
+ // No plugin, Android project, source set, compilation, lint execution or lock writer.
+-configurations { exactLintTooling { transitive = true } }
++configurations {
++    exactLintTooling {
++        transitive = true
++        attributes {
++            attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
++            attribute(TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,
++                objects.named(TargetJvmEnvironment, TargetJvmEnvironment.STANDARD_JVM))
++        }
++    }
++}
+ dependencies { exactLintTooling 'com.android.tools.lint:lint-gradle:32.0.1' }
+ 
+ def fixedVersion = { String value ->
+@@ -34,6 +45,23 @@
+     [path: input.canonicalPath, bytes: input.length(), sha256: hash(input, 'SHA-256'), sha1: hash(input, 'SHA-1')]
+ }
+ 
++// Throwable/Gradle multi-cause printing retains the full nested failure trace.
++// Preserve the original terse error fields as well for existing readers.
++def failureDetails = { Throwable failure ->
++    def text = new StringWriter()
++    def writer = new PrintWriter(text)
++    failure.printStackTrace(writer)
++    writer.flush()
++    [type: failure.class.name, message: failure.message, full_stack_trace: text.toString()]
++}
++def attributeRecords = { attributes ->
++    attributes.keySet().sort { it.name }.collect { key ->
++        def value = attributes.getAttribute(key)
++        [name: key.name, type: key.type.name,
++            value: value instanceof org.gradle.api.Named ? value.name : String.valueOf(value)]
++    }
++}
++
+ tasks.register('resolveExactLintTooling') {
+     doLast {
+         def target = providers.gradleProperty('collectLintGraphOutput').get()
+@@ -45,7 +73,8 @@
+             generated_utc: java.time.Instant.now().toString(),
+             repository_scope: ['https://dl.google.com/dl/android/maven2/', 'https://repo.maven.apache.org/maven2/'],
+             actual_artifact_repository_not_exposed_by_this_collector: true,
+-            components: [], edges: [], artifacts: [], poms: [], errors: [],
++            components: [], edges: [], artifacts: [], poms: [], errors: [], failure_details: [],
++            requested_consumer_attributes: attributeRecords(configurations.exactLintTooling.attributes),
+             complete_selected_tooling_graph: false, publisher_admission_complete: false,
+             production_release_approval: false]
+         try {
+@@ -78,9 +107,16 @@
+                             throw new GradleException('Refused nonfixed version constraint: ' + edge.requested)
+                         }
+                     }
+-                    if (edge instanceof ResolvedDependencyResult) row.selected = edge.selected.id.displayName
++                    if (edge instanceof ResolvedDependencyResult) {
++                        row.selected = edge.selected.id.displayName
++                        row.selected_variant = [name: edge.resolvedVariant.displayName,
++                            attributes: attributeRecords(edge.resolvedVariant.attributes)]
++                    }
+                     else if (edge instanceof UnresolvedDependencyResult) {
+                         row.unresolved = edge.failure.toString(); record.errors << row.unresolved
++                        row.failure_details = failureDetails(edge.failure)
++                        record.failure_details << [from: row.from, requested: row.requested,
++                            detail: row.failure_details]
+                     } else throw new GradleException('Unknown dependency result type')
+                     record.edges << row
+                 }
+@@ -114,6 +150,7 @@
+             record.complete_selected_tooling_graph = true
+         } catch (Throwable failure) {
+             record.errors << failure.toString()
++            record.failure_details << [phase: 'selected-tooling-collection', detail: failureDetails(failure)]
+             throw failure
+         } finally {
+             record.counts = [components: record.components.size(), edges: record.edges.size(), artifacts: record.artifacts.size(), poms: record.poms.size()]

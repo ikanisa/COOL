@@ -1,0 +1,93 @@
+{
+  "APP_SDK_control_inspected": false,
+  "actual_original_criterion": {
+    "acceptance_requirement_from_report": [
+      "**Acceptance:** upstream licence and published archive provenance, exact allowed deltas, frozen dependency verification, authenticated advisory triage and packaged AAB/IPA/web SBOM reconciliation. Current inventory/schema validators are useful evidence, not vulnerability or licence acceptance."
+    ],
+    "id": "ARC-09",
+    "ledger_sha256_when_read": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+    "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md"
+  },
+  "build_network_test_admission_controller_actions": false,
+  "captured_at": "2026-10-02T08:45:23.435390+00:00",
+  "conditional_gateway_cohort": {
+    "artifact": "Selected gateway APK",
+    "consumer": "internal_gateway Release",
+    "current_native_contract_tests": "Choose actual affected current cases, no all-mode requirement",
+    "entry": "lib/main_gateway.dart",
+    "graphs": [
+      "internal_gatewayReleaseCompileClasspath",
+      "internal_gatewayReleaseRuntimeClasspath"
+    ],
+    "include_when": "Current owner distribution scope or affected adapter consumer warrants it"
+  },
+  "distribution_scope_unresolved": [
+    "Actual shipped Android flavors and ABIs",
+    "Current distribution of internal_gateway/internal_receiver artifacts",
+    "Selected production/staging IPA",
+    "Whether web reconciliation covers Admin, public static site or both"
+  ],
+  "kind": "dated_scope_correction_read_only_NOT_admission",
+  "minimal_selected_android_proposal": {
+    "AAB_only_child_argv_proposal": [
+      "/bin/bash",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "-p",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+      "--no-daemon",
+      "--no-build-cache",
+      "--no-configuration-cache",
+      "--console=plain",
+      "--max-workers=2",
+      "--rerun-tasks",
+      "-I",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+      "-PcollectUnsignedLocalQa=true",
+      "-Ptarget-platform=android-arm,android-arm64,android-x64",
+      "-Ptarget=lib/main.dart",
+      "-Pandroid.builder.sdkDownload=false",
+      ":app:bundleProductionRelease"
+    ],
+    "consumer": "production Release",
+    "graphs": [
+      "productionReleaseCompileClasspath",
+      "productionReleaseRuntimeClasspath"
+    ],
+    "local_QA_AAB_not_equivalent_to_differently_configured_final_shipping_AAB": true,
+    "not_admitted_or_frozen": true,
+    "optional_companion_APK_child_argv_proposal": [
+      "/bin/bash",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "-p",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+      "--no-daemon",
+      "--no-build-cache",
+      "--no-configuration-cache",
+      "--console=plain",
+      "--max-workers=2",
+      "--rerun-tasks",
+      "-I",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+      "-PcollectUnsignedLocalQa=true",
+      "-Ptarget-platform=android-arm,android-arm64,android-x64",
+      "-Ptarget=lib/main.dart",
+      "-Pandroid.builder.sdkDownload=false",
+      ":app:assembleProductionRelease",
+      ":app:bundleProductionRelease"
+    ],
+    "signing_provider_configuration_store_claims": false
+  },
+  "no_whole_native_result_claimed": true,
+  "prior_analysis_preserved": {
+    "leaves_exact_unchanged": 4,
+    "packet_sha256": "5ea6cce0e48e0a3dcbfb1723e978b19dec8d30ddb6afc08a668009a8b292be27"
+  },
+  "scope_correction": {
+    "12_flavor_mode_pairs_mandatory": false,
+    "24_graphs_mandatory": false,
+    "four_APKs_mandatory": false,
+    "generated_plan_role": "Coverage proposal/evidence; no authority created by filename",
+    "owner_may_select_relevant_validation": true
+  },
+  "source_lock_held_transient_absence_claims": false
+}

@@ -1,0 +1,20 @@
+{
+  "at_utc": "2026-10-02T11:23:39.589510+00:00",
+  "canonical_generated_package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+  "collect_language_version": "3.12",
+  "full_make_repeated": false,
+  "full_original_make_independent_readback_sha256": "8e4032424b810e03e50e68098832c533b7d6d54b30ebb9e25a49da0a44e435c7",
+  "full_original_make_packet_sha256": "8035002b7108f93776afb83c6f3b2d9c4f9f32627c00a5e059e12ed7b2ac6d37",
+  "full_original_make_result_sha256": "d05e2cda03f6044091f6820c357d3069bbc47dd4d52f13c94800e9539ff4ca05",
+  "malformed_and_restored_make_proof_repeated": false,
+  "private_checkout": "/Volumes/PRO-G40/Temporary/collect-arc01-current-style-45f655ec29454ed290b2cfd0823b86b1/checkout",
+  "private_copied_generated_package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+  "sdk_sha256": {
+    "bin/cache/dart-sdk/bin/dart": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+    "bin/dart": "446e63e382b331c327cd17b001b025c2cb11c18ceddd2b34bfcd65cfb8cdecc2",
+    "bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "verified_readonly_cache_file_count": 18287,
+  "verified_readonly_cache_link_count": 0
+}

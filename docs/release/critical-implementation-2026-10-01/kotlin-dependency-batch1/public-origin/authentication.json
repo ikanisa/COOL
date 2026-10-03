@@ -1,0 +1,22 @@
+{
+  "highest_plugin_API_variant_not_newer_than_Gradle9_1": "gradle813",
+  "jar_sha256": "53108937eb21542870ce531dd20dccc70bfdf4ff442572ac4b7954494c11e807",
+  "main_jar_matches_published_sha256_sha512": true,
+  "module_status": "release",
+  "package": "org.jetbrains.kotlin:kotlin-gradle-plugin",
+  "plugin_marker_dependencies": [
+    {
+      "artifactId": "kotlin-gradle-plugin",
+      "groupId": "org.jetbrains.kotlin",
+      "version": "2.4.20"
+    }
+  ],
+  "pom_and_marker_match_published_sha1": true,
+  "selected_variant_final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.4.20/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+  "selected_variant_matches_published_sha256_sha512": true,
+  "selected_variant_sha256": "e9b18ac15c81b55d6d336356f9197aa1fb9f9371e0e76fbd2b06871cb5cf46b2",
+  "selected_variant_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.4.20/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+  "sha256_checksum_source": "Exact Maven Central Gradle module metadata file descriptors",
+  "sha256_sidecar_available": false,
+  "version": "2.4.20"
+}

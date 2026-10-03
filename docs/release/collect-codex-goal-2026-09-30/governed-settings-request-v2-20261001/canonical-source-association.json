@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "integrated_at": "2026-10-01T17:57:46.378572+00:00",
+  "scope": "additive governed Settings v2 request/catalog/detail/recovery/history backend; no full SMS policy propagation or typed editor yet",
+  "accepted_worker_manifest_sha256": "de3caa11b12543f1f91d8424d794dbb6c8ef691ef3bf935432356c3d5538ef71",
+  "accepted_worker_members": 195,
+  "root_verified_case_events": 223,
+  "root_verified_recovered_EXPLAIN": 1,
+  "original_whole_runs_relabelled": false,
+  "canonical_files": {
+    "supabase/migrations/20261001220000_governed_settings_requests.sql": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+    "scripts/tests/governed_settings_requests_uat.py": "084cc224894466585871776972e1d29fc9ba6e817ab6f143fdc17cdec7bf9dcc"
+  },
+  "root_verified_blocking_observations": 9,
+  "root_verified_runner_equivalences": 7,
+  "all_owned_targets_absent": true,
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false,
+  "complete_candidate": false
+}

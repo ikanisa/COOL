@@ -1,0 +1,26 @@
+{
+  "lib/shared/repositories/collect_repository.dart": {
+    "source_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+    "export_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2"
+  },
+  "test/shared/member_realtime_sdk_session_test.dart": {
+    "source_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc",
+    "export_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc"
+  },
+  "test/shared/realtime_invalidation_recovery_test.dart": {
+    "source_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b",
+    "export_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b"
+  },
+  "test/shared/collect_offline_cache_test.dart": {
+    "source_sha256": "85cbb0180dd17eeb915440a63629920b6a364dbb2260e78c0d0a8129fca84e29",
+    "export_sha256": "85cbb0180dd17eeb915440a63629920b6a364dbb2260e78c0d0a8129fca84e29"
+  },
+  "pubspec.yaml": {
+    "source_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+    "export_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+  },
+  "pubspec.lock": {
+    "source_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "export_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  }
+}

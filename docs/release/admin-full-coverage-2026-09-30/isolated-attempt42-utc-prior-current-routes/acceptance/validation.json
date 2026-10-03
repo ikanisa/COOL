@@ -1,0 +1,131 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 470,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 69202,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.499,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_utc_observation_timestamp_test.dart",
+        "test/admin_realtime_sdk_provider_test.dart",
+        "test/admin_declared_route_states_test.dart",
+        "test/admin_route_access_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 69231,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 32.858,
+      "sha256": "113f878e006deee9a9c177aa9b423e53bda14a18c4a36f4b7b08999773294910"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_utc_observation_timestamp_test.dart",
+        "test/admin_realtime_sdk_provider_test.dart",
+        "test/admin_declared_route_states_test.dart",
+        "test/admin_route_access_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 69875,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 3.762,
+      "sha256": "1cbc6656610adbc13499984af0857acd37668851cbb5d7a839a5c6785890d842"
+    }
+  ],
+  "test_files": [
+    "test/admin_utc_observation_timestamp_test.dart",
+    "test/admin_realtime_sdk_provider_test.dart",
+    "test/admin_declared_route_states_test.dart",
+    "test/admin_route_access_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 199,
+    "failed": 4,
+    "errors": 2,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "operational health rejects coherent year0000 UTC observation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_utc_observation_timestamp_test.dart"
+      },
+      {
+        "name": "receipt overview rejects coherent year0000 UTC observation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_utc_observation_timestamp_test.dart"
+      },
+      {
+        "name": "SMS queue rejects coherent year0000 UTC observation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_utc_observation_timestamp_test.dart"
+      },
+      {
+        "name": "shadow history rejects coherent year0000 UTC observation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_utc_observation_timestamp_test.dart"
+      },
+      {
+        "name": "empty /admin is explicit after a successful read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_declared_route_states_test.dart"
+      },
+      {
+        "name": "record request failure on /admin can retry in place",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt42-utc-prior-current-routes/source-export/test/admin_route_access_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "abb9823fd8be8183b3ffd92bf036a8f8807edd6f3a81ef8191bbfa17a568a1ee",
+  "source_before_sha256": "49770c839f132d62e3aa7c57867780aaf06e01ae7dd079037439c081d60e16d7",
+  "source_after_sha256": "49770c839f132d62e3aa7c57867780aaf06e01ae7dd079037439c081d60e16d7"
+}

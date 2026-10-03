@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/supabase/supabase_module.dart';
 import '../core/widgets/collect_shell.dart';
 import '../features/activity/activity_screen.dart';
 import '../features/auth/auth_screen.dart';
@@ -30,11 +32,15 @@ import '../shared/widgets/collect_components.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _CollectRouterRefresh();
+  String? privacyRouteOwner;
+  var privacyRouteInvalidated = false;
+  Object? lastPrivacyNavigation;
   ref.onDispose(refresh.dispose);
+  ref.listen(collectAuthenticatedUserIdProvider, (_, _) => refresh.notify());
   ref.listen(
     collectRepositoryProvider.select(
       (state) => (
-        state.currentProfile != null,
+        state.currentProfile?.id,
         state.currentProfile?.countryCode,
         state.isLoading,
       ),
@@ -42,10 +48,39 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     (_, _) => refresh.notify(),
   );
 
-  return createAppRouter(
+  final router = createAppRouter(
     refreshListenable: refresh,
     routeRedirect: (state) {
       final collectState = ref.read(collectRepositoryProvider);
+      if (state.uri.path == '/settings/account/delete') {
+        if (privacyRouteInvalidated) return '/auth';
+        final liveOwner = ref
+            .read(supabaseClientProvider)
+            ?.auth
+            .currentUser
+            ?.id;
+        final profileOwner = collectState.currentProfile?.id;
+        if (privacyRouteOwner != null &&
+            (liveOwner != privacyRouteOwner ||
+                (profileOwner != privacyRouteOwner &&
+                    !collectState.isLoading))) {
+          privacyRouteInvalidated = true;
+          privacyRouteOwner = null;
+          return '/auth';
+        }
+        if (profileOwner != null && profileOwner == liveOwner) {
+          privacyRouteOwner = profileOwner;
+        }
+        // Keep only the already-owned privacy form during a pending same-owner
+        // reread. Other routes still use the financial profile/loading guard.
+        // A denied completed read, logout or account switch removes this view.
+        if (privacyRouteOwner != null &&
+            privacyRouteOwner == liveOwner &&
+            (profileOwner == privacyRouteOwner || collectState.isLoading)) {
+          return null;
+        }
+        privacyRouteOwner = null;
+      }
       return collectAuthenticationRedirect(
         uri: state.uri,
         hasProfile: collectState.currentProfile != null,
@@ -53,6 +88,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       );
     },
   );
+  // A settled redirect can precede the framework's route-information report.
+  // Auth refreshes may therefore reparse the departed owner's unchanged request.
+  // Only a new explicit navigation from outside this page admits a fresh form;
+  // an encoded restoration/refresh never releases an invalidated request.
+  void observePrivacyNavigation() {
+    final information = router.routeInformationProvider.value;
+    final navigation = information.state;
+    if (information.uri.path == '/settings/account/delete' &&
+        navigation is RouteInformationState &&
+        navigation.type != NavigatingType.restore &&
+        !identical(navigation, lastPrivacyNavigation)) {
+      lastPrivacyNavigation = navigation;
+      if (router.routerDelegate.currentConfiguration.uri.path !=
+          '/settings/account/delete') {
+        privacyRouteOwner = null;
+        privacyRouteInvalidated = false;
+      }
+    }
+  }
+
+  router.routeInformationProvider.addListener(observePrivacyNavigation);
+  ref.onDispose(
+    () => router.routeInformationProvider.removeListener(
+      observePrivacyNavigation,
+    ),
+  );
+  return router;
 });
 
 const collectRoutePaths = <String>[
@@ -521,7 +583,30 @@ Uri? _safeInternalRoute(String? rawRoute) {
 }
 
 class _CollectRouterRefresh extends ChangeNotifier {
-  void notify() => notifyListeners();
+  bool _scheduled = false;
+  bool _disposed = false;
+
+  void notify() {
+    if (_disposed) return;
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      if (_scheduled) return;
+      _scheduled = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scheduled = false;
+        if (!_disposed) notifyListeners();
+      });
+      WidgetsBinding.instance.ensureVisualUpdate();
+      return;
+    }
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 }
 
 enum _CollectRouteTransition {

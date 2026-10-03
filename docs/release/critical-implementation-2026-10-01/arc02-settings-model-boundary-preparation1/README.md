@@ -1,0 +1,15 @@
+# Governed Settings history model boundary
+
+This private proposal extracts the complete change-history capability from the 1,252-line model library. `AdminSettingsHistoryCursor`, `AdminSettingsHistoryEvent` and `AdminSettingsHistory` move into `admin_governed_settings_history_models.dart` as a Dart part of the original library. The original import URI continues to provide every public type, with the same library-private validators and constructors.
+
+Promote only the two files under `candidate-final/`, after verifying the maintained original SHA-256 `be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026` and that the new maintained part path is still absent. `proposal-final.diff` is the reviewed candidate diff. `candidate/` is the retained first draft, whose only final difference is one trailing empty line removed from the main file.
+
+The final main library is 1,084 lines and the new history part is 171 lines. The existing 1,200-line hard gate and its 500-line warning remain unchanged. The main library continues to exceed the warning threshold; this proposal addresses the actual hard failure without modifying that policy or excluding source files.
+
+All declaration bodies remain byte-for-byte unchanged. Removing the inserted `part` directive from the final main, restoring its one boundary empty line, and concatenating the history body after its `part of` directive exactly reconstructs the original source. The isolated analyzer syntax comparison validates all 28 original top-level declarations in their original order, all original imports, both part directives, and absence of syntax diagnostics. This is syntax and exact-source preservation evidence; full semantic analysis and behavior validation belong to the root-owned captured candidate.
+
+The extracted capability retains strict history scope and identity binding, closed DTO keys, nullable owner actor/request identifiers, revision increments, authority restrictions, redaction hashes, immutable event collections, sample freshness inputs, timestamp/event-ID tie ordering, exclusive cursor bounds and pagination receipt rules. No settings permissions, money representation, mutation intents, receipt fingerprints, nullable field rules, serialization keys or UI behavior changes.
+
+The parser runs the Dart executable directly with a private package configuration and already cached analyzer dependencies. It invokes no Flutter or Pub command. Bound source bytes are verified before and after. `affected-consumers.json` gives exact hashes and the relevant existing model, SDK and widget test recommendations. No new behavior tests are required for this exact declaration extraction. The root should include the new part in its next captured source and run the affected current-candidate checks before reporting integration or ARC-02 acceptance.
+
+Only this preparation directory was written. Maintained library, CI configuration, SDK, APP, native build state, canonical registers and provider state were left untouched.

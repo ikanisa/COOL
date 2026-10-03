@@ -1,0 +1,29 @@
+{
+  "state": "unknown",
+  "alerts": [
+    "ORIGINAL_OUTCOME_UNKNOWN",
+    "WORKER_QUOTA_EXHAUSTED"
+  ],
+  "enabled": true,
+  "checked_at": "2026-10-01T12:34:09.566846Z",
+  "send_action": false,
+  "day_jobs_cap": 1,
+  "last_outcome": "completed",
+  "external_send": false,
+  "last_created_at": "2026-10-01T12:32:39.400442Z",
+  "last_expires_at": "2026-10-01T12:34:09.400442Z",
+  "last_request_id": "f9cfec2f-89bc-4b51-a5d7-256eae79b8c6",
+  "pending_sources": 0,
+  "contract_version": 1,
+  "financial_action": false,
+  "last_recorded_at": "2026-10-01T12:32:36.129981Z",
+  "day_jobs_reserved": 4,
+  "sample_valid_until": "2026-10-01T12:35:09.566846Z",
+  "day_escalations_cap": 20,
+  "day_scan_sources_cap": 25,
+  "source_scan_complete": false,
+  "transport_configured": true,
+  "configuration_revision": 4,
+  "day_escalations_reserved": 80,
+  "day_scan_sources_reserved": 100
+}

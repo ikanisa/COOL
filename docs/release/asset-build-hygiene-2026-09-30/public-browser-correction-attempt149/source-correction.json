@@ -1,0 +1,24 @@
+{
+  "status": "saved_pending_current_browser",
+  "saved_at": "2026-10-01T00:48:45.068939+00:00",
+  "prior_browser_receipt_sha256": "77035d6e1695db606ced2735049c8215eb6889f06e4c0b8dc84f990112c96e5f",
+  "actual_prior_diagnosis_sha256": "8554c54fc3745c772f783704708431d3a782b430f64843d9ad8f8121fdc502f8",
+  "source_sha256": {
+    "web/public/revolut.css": "eeeb929ce9a48dd61de25b614b2440fe58097d87cab79b863839c01bc8435143",
+    "scripts/public_website_route_rendered_qa.js": "f6fc7874d12f26f4fa7db2924ca39feac9d1ca5035c0498c4840e3afb24f50d0"
+  },
+  "scope": "Smallest existing selected-marketing adapter mobile one-column/padding/text/wrap extension to real CRaaS benefit panels. Desktop QA geometry accepts current readable2-column sections; share QA selects actual visible hero action. No product workflow/capability/text/builder/legal/brand change or complete visual certification.",
+  "sole_design_authority": {
+    "command": [
+      "make",
+      "revolut-design-authority"
+    ],
+    "observed_exit_code": 0,
+    "observed_output": "[revolut-design-authority] pass",
+    "meaning": "Sole-authority hygiene after shared adapter correction; no visual/comparator certification."
+  },
+  "conservative_media_follow_up": {
+    "failure_retained": "docs/release/asset-build-hygiene-2026-09-30/public-website-rebuild-attempt150/execution.json",
+    "reason": "Conservative Public capture source map includes changed marketing CSS. Static150 refused old139 manifest; fresh153/154 compiler/capture requested rather than weakening source graph."
+  }
+}

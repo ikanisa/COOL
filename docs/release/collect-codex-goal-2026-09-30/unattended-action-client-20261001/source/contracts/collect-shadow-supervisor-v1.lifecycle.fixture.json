@@ -1,0 +1,293 @@
+{
+  "provenance": {
+    "synthetic_only": true,
+    "source_health_fixture": "test/fixtures/admin_operational_health148.json",
+    "migration": "20260930210000_shadow_supervisor_runs.sql",
+    "provider_called": false,
+    "sha256_placeholder": true
+  },
+  "begin": {
+    "contract_version": 1,
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "ok": true,
+    "outcome": "started",
+    "replayed": false,
+    "run": {
+      "run_id": "11111111-1111-4111-8111-111111111111",
+      "request_id": "22222222-2222-4222-8222-222222222222",
+      "fence_version": 1,
+      "status": "running",
+      "started_at": "2026-09-30T18:00:00+00:00",
+      "lease_expires_at": "2026-09-30T18:02:00+00:00",
+      "sampled_at": null,
+      "completed_at": null,
+      "summary": null
+    }
+  },
+  "sample": {
+    "contract_version": 1,
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "ok": true,
+    "outcome": "sampled",
+    "replayed": false,
+    "run_id": "11111111-1111-4111-8111-111111111111",
+    "fence_version": 1,
+    "sample": {
+      "sample_id": "33333333-3333-4333-8333-333333333333",
+      "checked_at": "2026-09-30T18:00:02+00:00",
+      "system_health": {
+        "id": "system",
+        "auth": "authenticated",
+        "alerts": [
+          {
+            "code": "receipt_parse_backlog",
+            "state": "ok",
+            "metric": "sms_pending",
+            "threshold": 100
+          },
+          {
+            "code": "receipt_parse_age",
+            "state": "ok",
+            "metric": "sms_pending_age_seconds",
+            "threshold": 300
+          },
+          {
+            "code": "receipt_parse_failure",
+            "state": "ok",
+            "metric": "sms_failed_24h",
+            "threshold": 1
+          },
+          {
+            "code": "receipt_parser_lease_expired",
+            "state": "ok",
+            "metric": "sms_expired_parse_leases",
+            "threshold": 1
+          },
+          {
+            "code": "payment_unmatched",
+            "state": "ok",
+            "metric": "unallocated_events",
+            "threshold": 1
+          },
+          {
+            "code": "payment_review_age",
+            "state": "not_applicable",
+            "metric": "payment_review_age_seconds",
+            "threshold": 3600
+          },
+          {
+            "code": "reconciliation_exception",
+            "state": "ok",
+            "metric": "reconciliation_open",
+            "threshold": 1
+          },
+          {
+            "code": "push_queue_age",
+            "state": "not_applicable",
+            "metric": "push_due_age_seconds",
+            "threshold": 120
+          },
+          {
+            "code": "push_expired_lease",
+            "state": "ok",
+            "metric": "push_expired_leases",
+            "threshold": 1
+          },
+          {
+            "code": "push_missing_lease",
+            "state": "ok",
+            "metric": "push_missing_leases",
+            "threshold": 1
+          },
+          {
+            "code": "push_attempt_failure",
+            "state": "ok",
+            "metric": "push_failed_24h",
+            "threshold": 5
+          },
+          {
+            "code": "receipt_telemetry_stale",
+            "state": "unknown",
+            "metric": "receipt_telemetry_age_seconds",
+            "threshold": 300
+          },
+          {
+            "code": "push_scheduler_stale",
+            "state": "not_applicable",
+            "metric": "push_scheduler_age_seconds",
+            "threshold": 180
+          }
+        ],
+        "metrics": {
+          "push_due": 0,
+          "push_failed": 0,
+          "push_queued": 0,
+          "sms_pending": 1,
+          "reversals_24h": 0,
+          "push_retry_24h": 0,
+          "sms_failed_24h": 0,
+          "sms_parsed_24h": 0,
+          "payments_review": 0,
+          "push_failed_24h": 0,
+          "push_processing": 0,
+          "push_attempts_24h": 0,
+          "unallocated_events": 0,
+          "finality_processing": 0,
+          "payments_posted_24h": 1,
+          "push_expired_leases": 0,
+          "push_latency_p95_ms": null,
+          "push_missing_leases": 0,
+          "reconciliation_open": 0,
+          "durable_receipts_24h": 1,
+          "push_due_age_seconds": null,
+          "receipt_rejected_24h": 0,
+          "finality_processed_24h": 0,
+          "sms_pending_age_seconds": 0,
+          "sms_expired_parse_leases": 0,
+          "push_provider_accepts_24h": 0,
+          "receipt_ack_generated_24h": 0,
+          "payment_review_age_seconds": null,
+          "push_scheduler_age_seconds": null,
+          "receipt_ack_latency_mean_ms": null,
+          "receipt_telemetry_age_seconds": null
+        },
+        "database": "reachable",
+        "scheduler": {
+          "state": "disabled",
+          "configuration_verified": false
+        },
+        "checked_at": "2026-09-30T18:00:01+00:00",
+        "health_status": "unknown",
+        "window_seconds": 86400,
+        "evidence_limits": [
+          "ACK generation does not prove device receipt.",
+          "Provider acceptance does not prove user delivery.",
+          "Scheduler activation does not prove provider configuration."
+        ],
+        "contract_version": 1,
+        "failed_sms_parse": 0,
+        "threshold_version": 1,
+        "parser_pending_sms": 1,
+        "sample_valid_until": "2026-09-30T18:01:01+00:00",
+        "unallocated_events": 0,
+        "failed_notifications": 0,
+        "queued_notifications": 0,
+        "processing_notifications": 0
+      },
+      "sms_queue": {
+        "enabled": false,
+        "queued": 0,
+        "awaiting_confirmation": 0,
+        "send_started": 0,
+        "uncertain": 0,
+        "suppressed": 0,
+        "active_workers": 0,
+        "oldest_queued_at": null,
+        "observed_at": "2026-09-30T18:00:01.5+00:00"
+      },
+      "summary": {
+        "health_status": "unknown",
+        "alert_counts": {
+          "ok": 9,
+          "unknown": 1,
+          "attention": 0,
+          "not_applicable": 3
+        },
+        "sms_queue": {
+          "enabled": false,
+          "queued": 0,
+          "awaiting_confirmation": 0,
+          "send_started": 0,
+          "uncertain": 0,
+          "suppressed": 0,
+          "active_workers": 0
+        },
+        "checks_recorded": 13,
+        "samples_recorded": 1,
+        "business_mutations": 0,
+        "provider_sends": 0
+      },
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "finish": {
+    "contract_version": 1,
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "ok": true,
+    "outcome": "completed",
+    "replayed": false,
+    "run": {
+      "run_id": "11111111-1111-4111-8111-111111111111",
+      "request_id": "22222222-2222-4222-8222-222222222222",
+      "fence_version": 1,
+      "status": "completed",
+      "started_at": "2026-09-30T18:00:00+00:00",
+      "lease_expires_at": "2026-09-30T18:02:00+00:00",
+      "sampled_at": "2026-09-30T18:00:02+00:00",
+      "completed_at": "2026-09-30T18:00:03+00:00",
+      "summary": {
+        "health_status": "unknown",
+        "alert_counts": {
+          "ok": 9,
+          "unknown": 1,
+          "attention": 0,
+          "not_applicable": 3
+        },
+        "sms_queue": {
+          "enabled": false,
+          "queued": 0,
+          "awaiting_confirmation": 0,
+          "send_started": 0,
+          "uncertain": 0,
+          "suppressed": 0,
+          "active_workers": 0
+        },
+        "checks_recorded": 13,
+        "samples_recorded": 1,
+        "business_mutations": 0,
+        "provider_sends": 0
+      }
+    }
+  },
+  "get": {
+    "contract_version": 1,
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "found": true,
+    "run": {
+      "run_id": "11111111-1111-4111-8111-111111111111",
+      "request_id": "22222222-2222-4222-8222-222222222222",
+      "fence_version": 1,
+      "status": "completed",
+      "started_at": "2026-09-30T18:00:00+00:00",
+      "lease_expires_at": "2026-09-30T18:02:00+00:00",
+      "sampled_at": "2026-09-30T18:00:02+00:00",
+      "completed_at": "2026-09-30T18:00:03+00:00",
+      "summary": {
+        "health_status": "unknown",
+        "alert_counts": {
+          "ok": 9,
+          "unknown": 1,
+          "attention": 0,
+          "not_applicable": 3
+        },
+        "sms_queue": {
+          "enabled": false,
+          "queued": 0,
+          "awaiting_confirmation": 0,
+          "send_started": 0,
+          "uncertain": 0,
+          "suppressed": 0,
+          "active_workers": 0
+        },
+        "checks_recorded": 13,
+        "samples_recorded": 1,
+        "business_mutations": 0,
+        "provider_sends": 0
+      }
+    }
+  }
+}

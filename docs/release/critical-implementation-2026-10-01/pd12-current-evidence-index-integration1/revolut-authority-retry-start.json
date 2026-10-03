@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "deadline_seconds": 120,
+  "original_failed_or_unknown_capture_retained": true,
+  "pgid": 13114,
+  "pid": 13114,
+  "retry_authorized_by_root": true,
+  "started_at_utc": "2026-10-02T14:16:40.506051+00:00"
+}

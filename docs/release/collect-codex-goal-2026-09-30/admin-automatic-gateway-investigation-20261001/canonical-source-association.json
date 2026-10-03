@@ -1,0 +1,33 @@
+{
+  "scope": "scoped automatic Admin evidence reader; not full migration replay or hosted/device acceptance",
+  "accepted_execution": "accepted-sql-attempt5/result.json",
+  "total_check_events": 85,
+  "admin_reader_checks": 44,
+  "producer_fixture_checks": 41,
+  "canonical_files": [
+    {
+      "canonical_path": "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+      "sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+      "bytes": 11344,
+      "preceding_path": null
+    },
+    {
+      "canonical_path": "scripts/tests/automatic_gateway_investigation_uat.py",
+      "sha256": "d87a9d8b0cba5d84fcfe3c9c121de54b5f982d3e6e5daba9ac57024cfde4d8f9",
+      "bytes": 38610,
+      "preceding_path": null
+    }
+  ],
+  "terminal_tool_session": 43131,
+  "terminal_exit_code": 0,
+  "all_created_targets_removed": true,
+  "retained_callback_rows": 1005,
+  "actual_history_index_rows": 21,
+  "actual_variant_index_rows_per_binding": 1,
+  "history_complete": false,
+  "carrier_proof": false,
+  "delivery_proven": false,
+  "send_authority": false,
+  "previous_candidate_migrations": 188,
+  "current_checkout_migrations": 189
+}

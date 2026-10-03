@@ -1,0 +1,1 @@
+These exact inputs were reconstructed after attempt4 by removing only the added hosted fixture helper and two TLS tests from current test source. Every byte SHA matches attempt3 contemporaneous before/after receipts. This is not a contemporaneous snapshot; actual attempt3 outputs remain unchanged. All other copied source bytes are unchanged.

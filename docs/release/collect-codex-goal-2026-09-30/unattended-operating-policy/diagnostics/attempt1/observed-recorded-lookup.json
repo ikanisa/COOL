@@ -1,0 +1,32 @@
+{
+  "scope": "platform_global",
+  "status": "recorded",
+  "receipt": {
+    "scope": "platform_global",
+    "action": "configure_unattended_policy",
+    "changed": true,
+    "revision": 2,
+    "policy_id": "b643f2a4-d337-4e8c-aa45-587739c7768c",
+    "mode_after": "Shadow",
+    "request_id": "0844453b-5010-4ff9-b680-d4428bc71f66",
+    "mode_before": "Paused",
+    "reason_code": "operator_reviewed_configuration",
+    "recorded_at": "2026-10-01T00:40:38.530299Z",
+    "send_action": false,
+    "approval_granted": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "schedule_changed": false,
+    "expected_revision": 1,
+    "carrier_work_changed": false,
+    "emergency_stop_after": false,
+    "emergency_stop_before": true,
+    "assisted_dispatch_changed": false,
+    "unattended_dispatch_available": false,
+    "signed_shadow_observation_changed": false
+  },
+  "checked_at": "2026-10-01T00:40:38.571392Z",
+  "request_id": "0844453b-5010-4ff9-b680-d4428bc71f66",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T00:41:38.571392Z"
+}

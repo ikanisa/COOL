@@ -1,0 +1,14 @@
+{
+  "actual_binding_sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c",
+  "actual_terminal_sha256": "5e198ef0e07dd6b4e79e72f5d430074490659a4c40d25b18f0404b617518844a",
+  "all_owned_groups_absent": true,
+  "native_packages_built": false,
+  "original_protected_paths_unchanged": 68020,
+  "production_release_approval": false,
+  "source_files": 2561,
+  "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "stage": "app-export",
+  "stage_pass": true,
+  "status": "pass",
+  "whole_strict_export_and_both_source_fences_pass": true
+}

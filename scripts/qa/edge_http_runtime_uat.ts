@@ -5,6 +5,39 @@ import { Webhook } from "npm:standardwebhooks@1.0.0";
 import { hmacSha256Hex } from "../../supabase/functions/_shared/hmac.ts";
 import { normalizeRosterCandidates } from "../../supabase/functions/_shared/roster_import.ts";
 import { ROSTER_DECODER_TOOLCHAIN } from "../../supabase/functions/_shared/roster_decoder.ts";
+import { syntheticRosterAiApproval } from "../../supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts";
+
+// Literal imports let the frozen graph bind the same real handlers that are
+// loaded after Deno.serve is redirected to the owned loopback listeners. A
+// computed URL leaves SDK redirect aliases undiscovered by Deno 2.5.6's graph.
+const entrypointLoaders: Record<string, () => Promise<unknown>> = {
+  "auth-send-whatsapp-otp": () =>
+    import("../../supabase/functions/auth-send-whatsapp-otp/index.ts"),
+  "collect-android-gateway": () =>
+    import("../../supabase/functions/collect-android-gateway/index.ts"),
+  "collect-notification-operator": () =>
+    import("../../supabase/functions/collect-notification-operator/index.ts"),
+  "collect-receipt-exception-worker": () =>
+    import("../../supabase/functions/collect-receipt-exception-worker/index.ts"),
+  "collect-receipt-successor-gateway": () =>
+    import("../../supabase/functions/collect-receipt-successor-gateway/index.ts"),
+  "collect-receipt-supervisor": () =>
+    import("../../supabase/functions/collect-receipt-supervisor/index.ts"),
+  "dispatch-notifications": () =>
+    import("../../supabase/functions/dispatch-notifications/index.ts"),
+  "ingest-payment-sms": () =>
+    import("../../supabase/functions/ingest-payment-sms/index.ts"),
+  "parse-payment-sms": () =>
+    import("../../supabase/functions/parse-payment-sms/index.ts"),
+  "prepare-roster-import": () =>
+    import("../../supabase/functions/prepare-roster-import/index.ts"),
+  "reconciliation-finalize": () =>
+    import("../../supabase/functions/reconciliation-finalize/index.ts"),
+  "send-notification": () =>
+    import("../../supabase/functions/send-notification/index.ts"),
+  "verify-play-integrity": () =>
+    import("../../supabase/functions/verify-play-integrity/index.ts"),
+};
 
 const userId = "98600000-0000-4000-8000-000000000001";
 const sessionId = "98600000-0000-4000-8000-000000000011";
@@ -40,6 +73,7 @@ const controllers: AbortController[] = [];
 const records: Array<Record<string, unknown>> = [];
 const checks: Array<Record<string, unknown>> = [];
 const entrypoints: Record<string, string> = {};
+const starts: Record<string, number> = {};
 let mode = "normal";
 let counter = 0;
 const otpAttempts = new Map<string, Record<string, unknown>>();
@@ -391,7 +425,7 @@ const backend = realServe({
     return json(source.completed_preview);
   }
   if (path === "/rest/v1/rpc/claim_notification_deliveries") return json([]);
-  if (path === "/rest/v1/rpc/collect_notification_health") {
+  if (path === "/rest/v1/rpc/collect_notification_health_v2") {
     return json({ pending: 0 });
   }
   if (path === "/rest/v1/rpc/attested_sms_contract_version") {
@@ -500,6 +534,22 @@ const decoder = realServe({
 });
 servers.push(decoder);
 
+// Synthetic approval only: bind the actual local fixture receipt tuple.
+// It represents no owner/vendor acceptance and does not enable provider access.
+const decoderUrl = `http://127.0.0.1:${decoder.addr.port}/decode`;
+const rosterModel = "synthetic-model";
+const rosterApproval = await syntheticRosterAiApproval(
+  rosterModel,
+  decoderUrl,
+  decoderBuild,
+);
+const rosterApprovalEnvironment = Object.freeze({
+  ROSTER_AI_APPROVAL_JSON: rosterApproval.aiApprovalJson,
+  ROSTER_AI_APPROVAL_SHA256: rosterApproval.aiApprovalSha256,
+  OPENAI_ORGANIZATION_ID: rosterApproval.openAiOrganizationId,
+  OPENAI_PROJECT_ID: rosterApproval.openAiProjectId,
+});
+
 for (
   const [key, value] of Object.entries({
     SUPABASE_URL: `http://127.0.0.1:${backend.addr.port}`,
@@ -513,10 +563,11 @@ for (
     WHATSAPP_AUTH_TEMPLATE_LANGUAGE: "en_US",
     WHATSAPP_CLOUD_API_TOKEN: "qa-disabled-provider",
     WHATSAPP_PHONE_NUMBER_ID: "1234",
-    ROSTER_DECODER_URL: `http://127.0.0.1:${decoder.addr.port}/decode`,
+    ROSTER_DECODER_URL: decoderUrl,
     ROSTER_DECODER_SECRET: decoderSecret,
     ROSTER_DECODER_BUILD_SHA256: decoderBuild,
-    OPENAI_ROSTER_MODEL: "synthetic-model",
+    OPENAI_ROSTER_MODEL: rosterModel,
+    ...rosterApprovalEnvironment,
     WHATSAPP_AUTH_TEMPLATE_NAME: "qa_disabled_provider",
   })
 ) Deno.env.set(key, value);
@@ -611,10 +662,22 @@ try {
   }
   sourceNames.sort();
   report.source_entrypoints = sourceNames;
+  const loaderNames = Object.keys(entrypointLoaders).sort();
+  report.literal_loader_entrypoints = loaderNames;
   check(
     "configured functions exactly match existing executable entrypoints",
     JSON.stringify(names) === JSON.stringify(sourceNames),
   );
+  const loaderParity = names.length > 0 && new Set(names).size === names.length &&
+    JSON.stringify(loaderNames) === JSON.stringify(names) &&
+    JSON.stringify(loaderNames) === JSON.stringify(sourceNames);
+  check(
+    "literal loaders exactly match unique configured source entrypoints",
+    loaderParity,
+  );
+  if (!loaderParity) {
+    throw new Error("Literal loader/config/source entrypoint parity required");
+  }
   check(
     "external provider network denied",
     (await Deno.permissions.query({
@@ -622,6 +685,7 @@ try {
       host: "graph.facebook.com:443",
     })).state === "denied",
   );
+  const infrastructureServerCount = servers.length;
   for (const slug of names) {
     // Change only the listening address. The repository's actual handler runs.
     Deno.serve = ((handler: Deno.ServeHandler<Deno.NetAddr>) => {
@@ -634,30 +698,139 @@ try {
         onListen() {},
       }, handler);
       servers.push(server);
+      starts[slug] = (starts[slug] ?? 0) + 1;
       entrypoints[slug] = `http://127.0.0.1:${server.addr.port}`;
       return server;
     }) as typeof Deno.serve;
-    await import(
-      new URL(`../../supabase/functions/${slug}/index.ts`, import.meta.url).href
-    );
+    await entrypointLoaders[slug]();
   }
   Deno.serve = realServe;
   check(
     "every configured entrypoint started exactly once",
-    JSON.stringify(names) ===
-        JSON.stringify([
-          "auth-send-whatsapp-otp",
-          "collect-notification-operator",
-          "dispatch-notifications",
-          "ingest-payment-sms",
-          "parse-payment-sms",
-          "prepare-roster-import",
-          "reconciliation-finalize",
-          "send-notification",
-          "verify-play-integrity",
-        ]) && Object.keys(entrypoints).length === names.length,
+    JSON.stringify(Object.keys(entrypoints).sort()) === JSON.stringify(names) &&
+      names.every((slug) => starts[slug] === 1) && servers.length - infrastructureServerCount === names.length,
   );
   for (const slug of names) {
+    if (slug === "collect-receipt-successor-gateway") {
+      // The successor wire has its own audience/family and includes a false
+      // send-authority field even in schema/method refusals. These unsigned
+      // presence checks must stop before key lookup or any successor RPC.
+      const body = JSON.stringify({
+        contract_version: 1,
+        protocol_family: "receipt_successor",
+        audience: "collect-receipt-successor-gateway",
+        action: "dispatch_grant",
+        device_id: userId,
+        request_id: crypto.randomUUID(),
+        issued_at: new Date().toISOString(),
+        payload: {},
+      });
+      for (const method of ["OPTIONS", "PUT"]) {
+        const refusal = await request(
+          slug,
+          `${slug}: successor protocol refuses ${method}`,
+          { method },
+        );
+        check(
+          refusal.label,
+          refusal.http_status === 405 && refusal.cors === null &&
+            refusal.no_store && refusal.dependencies.length === 0 &&
+            JSON.stringify(refusal.response) === JSON.stringify({
+              ok: false,
+              code: "GATEWAY_POST_REQUIRED",
+              send_authority: false,
+            }),
+          refusal,
+        );
+      }
+      for (const [label, requestBody, headers] of [
+        ["empty unsigned envelope", "{}", {}],
+        ["unsigned successor envelope", body, {}],
+        ["bearer cannot replace successor signature", body, {
+          authorization: "Bearer qa-invalid",
+        }],
+        ["malformed successor signature", body, {
+          "X-Collect-Gateway-Key-Id": "a".repeat(64),
+          "X-Collect-Gateway-Signature": btoa("malformed"),
+        }],
+      ] as Array<[string, string, Record<string, string>]>) {
+        const refusal = await request(slug, `${slug}: ${label}`, {
+          body: requestBody,
+          headers,
+        });
+        check(
+          refusal.label,
+          refusal.http_status === 400 && refusal.cors === null &&
+            refusal.no_store && refusal.dependencies.length === 0 &&
+            JSON.stringify(refusal.response) === JSON.stringify({
+              ok: false,
+              code: "GATEWAY_REQUEST_INVALID",
+              send_authority: false,
+            }),
+          refusal,
+        );
+      }
+      continue;
+    }
+    if (slug === "collect-android-gateway" || slug === "collect-receipt-supervisor") {
+      // Dedicated signed protocols do not accept browser CORS or bearer Auth.
+      const supervisor = slug === "collect-receipt-supervisor";
+      const prefix = supervisor ? "SUPERVISOR" : "GATEWAY";
+      const header = supervisor ? "Supervisor" : "Gateway";
+      const body = JSON.stringify(supervisor ? {
+        contract_version: 1, audience: "collect.receipt-supervisor.v1/lhbowpbcpwoiparwnwgt",
+        action: "prove_key", principal_id: userId, request_id: crypto.randomUUID(),
+        issued_at: new Date().toISOString(), payload: {},
+      } : {
+        contract_version: 1, action: "reconcile", device_id: userId,
+        request_id: crypto.randomUUID(), issued_at: new Date().toISOString(),
+        payload: {target_request_id: crypto.randomUUID()},
+      });
+      for (const method of ["OPTIONS", "PUT"]) {
+        const refusal = await request(slug, `${slug}: signed protocol refuses ${method}`, {method});
+        check(refusal.label, refusal.http_status === 405 && refusal.cors === null &&
+          refusal.no_store && refusal.dependencies.length === 0 &&
+          JSON.stringify(refusal.response) === JSON.stringify({ok: false,
+            code: prefix + (supervisor ? "_METHOD_REFUSED" : "_POST_REQUIRED")}), refusal);
+      }
+      for (const [label, headers] of [
+        ["unsigned envelope", {}],
+        ["bearer cannot replace dedicated signature", {authorization: "Bearer qa-invalid"}],
+        ["malformed dedicated signature", {
+          ["X-Collect-" + header + "-Key-Id"]: "a".repeat(64),
+          ["X-Collect-" + header + "-Signature"]: btoa("malformed"),
+        }],
+      ] as Array<[string, Record<string, string>]>) {
+        const refusal = await request(slug, `${slug}: ${label}`, {body, headers});
+        check(refusal.label, refusal.http_status === 400 && refusal.cors === null &&
+          refusal.no_store && refusal.dependencies.length === 0 &&
+          JSON.stringify(refusal.response) === JSON.stringify({ok: false, code: prefix + "_REQUEST_INVALID"}), refusal);
+      }
+      continue;
+    }
+    if (slug === "collect-receipt-exception-worker") {
+      // This is a scheduler-only endpoint, not a browser/Auth endpoint. Its
+      // production index refuses to configure a worker credential for the
+      // loopback SUPABASE_URL. Preserve that binding and test its exact
+      // unconfigured refusal; configured worker/HTTP/ACK paths have their
+      // separately bound actual handler and observed SQL decoder suite.
+      for (const method of ["OPTIONS", "PUT"]) {
+        const refused = await request(slug, `${slug}: scheduler method ${method}`, { method });
+        check(refused.label, refused.http_status === 405 && refused.cors === null &&
+          refused.no_store && refused.dependencies.length === 0 &&
+          JSON.stringify(refused.response) === JSON.stringify({ error: "METHOD_NOT_ALLOWED" }), refused);
+      }
+      for (const [label, headers] of [
+        ["missing worker credential", {}],
+        ["bearer cannot configure loopback worker", { authorization: "Bearer qa-invalid" }],
+      ] as Array<[string, Record<string, string>]>) {
+        const refused = await request(slug, `${slug}: ${label}`, { headers });
+        check(refused.label, refused.http_status === 503 && refused.cors === null &&
+          refused.no_store && refused.dependencies.length === 0 &&
+          JSON.stringify(refused.response) === JSON.stringify({ error: "WORKER_UNCONFIGURED" }), refused);
+      }
+      continue;
+    }
     const preflight = await request(slug, `${slug}: preflight`, {
       method: "OPTIONS",
     });
@@ -744,8 +917,9 @@ try {
     health.label,
     health.http_status === 200 && health.no_store &&
       health.dependencies.some((r) =>
-        r.path === "/rest/v1/rpc/collect_notification_health" &&
-        (r.payload as Record<string, unknown>)?.p_operator_user_id === userId
+        r.path === "/rest/v1/rpc/collect_notification_health_v2" &&
+        (r.payload as Record<string, unknown>)?.p_operator_user_id === userId &&
+        (r.payload as Record<string, unknown>)?.p_operator_session_id === sessionId
       ),
     health,
   );
@@ -1164,6 +1338,69 @@ try {
     );
   }
   mode = "normal";
+  // Appended after every original HTTP assertion; synthetic policy only.
+  // Each well-hashed tuple mismatch must fail before reserve/decode/provider.
+  for (
+    const [scenario, policyPatch, environmentPatch] of [
+      ["missing policy", {}, { ROSTER_AI_APPROVAL_JSON: undefined }],
+      ["missing hash", {}, { ROSTER_AI_APPROVAL_SHA256: undefined }],
+      ["tampered hash", {}, { ROSTER_AI_APPROVAL_SHA256: "0".repeat(64) }],
+      ["wrong model", { model: "synthetic-other-model" }, {}],
+      ["wrong decoder URL", { decoder_url: "http://127.0.0.1:1/decode" }, {}],
+      ["wrong decoder build", { decoder_build_sha256: "e".repeat(64) }, {}],
+      ["wrong organization", { organization_id: "org_other_synthetic" }, {}],
+      ["wrong project", { project_id: "proj_other_synthetic" }, {}],
+      ["disabled policy", { enabled: false }, {}],
+      ["revoked policy", { status: "revoked" }, {}],
+      ["expired policy", { valid_until: "2021-01-01T00:00:00Z" }, {}],
+      ["future approval", { approved_at: "2098-01-01T00:00:00Z" }, {}],
+    ] as const
+  ) {
+    const negativeApproval = await syntheticRosterAiApproval(
+      rosterModel,
+      decoderUrl,
+      decoderBuild,
+      policyPatch,
+    );
+    const negativeEnvironment: Record<string, string | undefined> = {
+      ROSTER_AI_APPROVAL_JSON: negativeApproval.aiApprovalJson,
+      ROSTER_AI_APPROVAL_SHA256: negativeApproval.aiApprovalSha256,
+      OPENAI_ORGANIZATION_ID: negativeApproval.openAiOrganizationId,
+      OPENAI_PROJECT_ID: negativeApproval.openAiProjectId,
+    };
+    for (const [key, value] of Object.entries(environmentPatch)) {
+      negativeEnvironment[key] = value;
+    }
+    const before = providerAttempts.length;
+    try {
+      for (const [key, value] of Object.entries(negativeEnvironment)) {
+        if (typeof value === "string") Deno.env.set(key, value);
+        else Deno.env.delete(key);
+      }
+      const result = await request(
+        "prepare-roster-import",
+        `roster AI approval: ${scenario} refuses before work`,
+        {
+          headers: { authorization: userAuthorization },
+          body: JSON.stringify(rosterImage()),
+        },
+      );
+      check(
+        result.label,
+        result.http_status === 503 &&
+          (result.response as Record<string, unknown>)?.error ===
+            "roster_extraction_unavailable" &&
+          JSON.stringify(result.dependencies.map((r) => r.path)) ===
+            JSON.stringify(["/auth/v1/user"]) &&
+          providerAttempts.length === before && result.no_store === true,
+        result,
+      );
+    } finally {
+      for (const [key, value] of Object.entries(rosterApprovalEnvironment)) {
+        Deno.env.set(key, value);
+      }
+    }
+  }
   report.status = checks.every((r) => r.status === "pass") ? "pass" : "fail";
 } catch (error) {
   report.status = "fail";

@@ -1,0 +1,19 @@
+{
+  "scope": "Source reasoning for an unpublished candidate; actual full-volume acceptance is still running",
+  "candidate_published": false,
+  "runtime_acceptance_complete": false,
+  "inputs": [
+    {
+      "path": ".cache/history-query-performance-candidates/global-four-sort-indexes.sql",
+      "sha256": "f1d8514669ce59790ae74bda74d6f03aa0124b453c72b190dff92093dfcfa9d6"
+    },
+    {
+      "path": ".cache/history-query-performance-candidates/history-primary-seek-guards.sql",
+      "sha256": "356d5debd5ee9a74e338f00cdf02c55f46a7371d2b2b6f71eb2eda7f87e6b4bd"
+    },
+    {
+      "path": "scripts/tests/current_generated_history_index_candidate_uat.py",
+      "sha256": "215e6b17aac4b5b9b0edc65d3bb77ce1b155311c6f28c9c6c9ccf36e14e89555"
+    }
+  ]
+}

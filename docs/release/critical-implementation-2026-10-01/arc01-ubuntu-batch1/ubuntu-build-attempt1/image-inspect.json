@@ -1,0 +1,48 @@
+{
+  "Id": "sha256:a0859993b43342eabcb9eea0d7c594c04838081fda636eb5b66269e91dce6360",
+  "RepoTags": [
+    "collect-arc01-ubuntu-20261002-deabfee579f3:proof"
+  ],
+  "RepoDigests": [],
+  "Comment": "buildkit.dockerfile.v0",
+  "Created": "2026-10-02T00:11:05.662451634Z",
+  "Config": {
+    "Env": [
+      "PATH=/opt/dart/dart-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "Cmd": [
+      "/bin/bash"
+    ],
+    "WorkingDir": "/work/checkout",
+    "Labels": {
+      "com.collect.arc01.owner": "collect-arc01-ubuntu-20261002-deabfee579f3",
+      "org.opencontainers.image.version": "24.04"
+    },
+    "ArgsEscaped": true
+  },
+  "Architecture": "arm64",
+  "Os": "linux",
+  "Size": 281500921,
+  "GraphDriver": {
+    "Data": {
+      "LowerDir": "/var/lib/docker/overlay2/bff956jvd3jo6mvpeys8n8gj0/diff:/var/lib/docker/overlay2/5r7slvqmsifcmhgomobfq1ez3/diff:/var/lib/docker/overlay2/c14kistq8ji2i13q05f18ufx5/diff:/var/lib/docker/overlay2/de15bbc473fbc4be7e28ec0de371231c000923515c6e3ef093f93f522ff9d0ee/diff",
+      "MergedDir": "/var/lib/docker/overlay2/nk1deud1oujz2a22d4yamve07/merged",
+      "UpperDir": "/var/lib/docker/overlay2/nk1deud1oujz2a22d4yamve07/diff",
+      "WorkDir": "/var/lib/docker/overlay2/nk1deud1oujz2a22d4yamve07/work"
+    },
+    "Name": "overlay2"
+  },
+  "RootFS": {
+    "Type": "layers",
+    "Layers": [
+      "sha256:8edaba05454265cd17270d38ec146446c640d1d25637413c3da64a3eff296c36",
+      "sha256:a9fffbb378d627a84b789b0286caac94e01d718b787a3d88672295c24845a860",
+      "sha256:eeb4232a0bc8d5595a8e31d9ad1e26b2abb6a5fc67152ee972076e55695a23da",
+      "sha256:74eed866fb86e72d0fa9bb32d84221f348eb4a051f95fbfa63184f61c27089b2",
+      "sha256:95297598b176e1a758838f205277690df2b872cd45ea4af2552a1f94d97ab5d6"
+    ]
+  },
+  "Metadata": {
+    "LastTagTime": "2026-10-02T00:11:06.187605217Z"
+  }
+}

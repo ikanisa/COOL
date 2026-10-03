@@ -1,0 +1,5 @@
+{
+  "baseline_restored": true,
+  "message": "SQL failed; preserve output and inspect authoritative state before retrying",
+  "status": "failed"
+}

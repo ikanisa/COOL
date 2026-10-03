@@ -1,0 +1,5 @@
+{
+  "reason": "Unit compilation already exceeded480seconds before tests; terminating only this task-owned redundant API compiler, preserving failed result/logs",
+  "pid": 109,
+  "parent": 91206
+}

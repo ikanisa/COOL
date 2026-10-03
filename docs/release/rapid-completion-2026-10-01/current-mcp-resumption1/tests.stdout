@@ -1,0 +1,369 @@
+✔ overlapping calls serialize session access and release only their own empty lock (194.039125ms)
+✔ a separate Node process cannot enter a held session lock (5596.484042ms)
+✔ public operational RPC is fixed, session-authenticated and never caller-overridden (53.514292ms)
+✔ status and failure outputs remove recipient, financial and arbitrary diagnostic data (1.197375ms)
+✔ immutable legacy and recorded-savings receipt versions project the same bounded operational facts (0.180666ms)
+✔ receipt template versions remain an explicit integer allowlist with no future-version or type coercion (0.197417ms)
+✔ failure listing has bounded fixed statuses and no search or arbitrary recipients (0.512083ms)
+✔ expired, anonymous, service-role and foreign-session credentials never reach the backend (1.977625ms)
+✔ permission errors and raw backend exceptions stay fixed and secret-free (2.187792ms)
+✔ malformed, oversized, non-JSON and injected successful responses fail closed (304.970666ms)
+✔ a hung fetch and stalled streaming body have one bounded deadline without retry (73.346625ms)
+✔ operational health preserves verified current measurements and fixed evidence limits (2.975833ms)
+✔ health becomes unknown at exact expiry or excessive future clock skew (0.618917ms)
+✔ a missing age sample with a nonempty queue remains unknown (0.434542ms)
+✔ attention states match the versioned thresholds exactly (1.553333ms)
+✔ malformed, invented or inconsistent health measurements never become healthy (1.764625ms)
+✔ actual MCP initialize/catalog/read calls use fixed public RPCs and redact sensitive rows (2278.922333ms)
+✔ operational tool schemas reject overrides, recipients, write statuses and invalid paging before HTTP (1819.705291ms)
+✔ live-shaped transport preserves stale health as unknown and hides denied backend errors (2160.782292ms)
+✔ operational RPC redirects cannot forward current-user authorization (1776.201959ms)
+✔ actual stdio health RPC has a bounded 15-second deadline and no replay (16258.380333ms)
+✔ optional operations stdio preflight prints only validated aggregates (1897.613375ms)
+✔ client sends only the selected command through the operator edge boundary (31.676416ms)
+✔ client rejects action overrides and unknown operations before transport (0.562375ms)
+✔ credentials are sent only to a configured origin without embedded user info or paths (0.55625ms)
+✔ client fails closed on authorization or backend errors (0.633625ms)
+✔ operator OTP flow is pinned to the configured Auth origin and never follows redirects (168.002ms)
+✔ operator verification uses only the fixed email OTP type without signup or phone (1.409167ms)
+✔ successful Auth JSON must bind the fixed email, UUID user and token subject (4.657375ms)
+✔ invalid email OTP tokens never invoke Auth and are never echoed (0.560167ms)
+✔ auth errors never expose provider body or token and do not retry (0.882833ms)
+✔ missing runtime reports names only and performs no network request (1.109583ms)
+✔ readiness rejects secret keys, non-user tokens, wrong projects and stale sessions (2.396041ms)
+✔ default preflight never connects even with complete runtime (0.31275ms)
+✔ live preflight calls only health and one bounded list and redacts private rows (183.302667ms)
+✔ remote failures are sanitized and do not trigger a retry (0.505208ms)
+✔ invalid response shape fails closed before listing (1.535209ms)
+✔ scoped user session can supply only its project's runtime credentials (3.345583ms)
+✔ wrong origin, expired, privileged or persistent refresh credentials fail closed (0.345542ms)
+✔ missing opt-in leaves current environment untouched (0.071042ms)
+✔ complete explicit runtime does not access Keychain (0.054666ms)
+✔ real stdio server exposes sixteen tools and fails closed without credentials (1715.262583ms)
+✔ all nine tools preserve command and fencing fields over real stdio and HTTP (2435.024958ms)
+✔ invalid tool names, unconfirmed receipts and invalid fencing never reach HTTP (2108.626083ms)
+✔ real transport refuses redirects and preserves backend failure without retry (2217.083333ms)
+✔ a slow mutating command times out once without replaying the HTTP request (16162.987417ms)
+✔ renewal saves a tombstone before transport, checks current authority and persists rotation (246.648125ms)
+✔ fresh renewable session performs no write or network call (0.290083ms)
+✔ offline preflight never refreshes, writes or makes an Auth request (0.517125ms)
+✔ explicit renew verifies an actual rotation without altering the clock or token (0.818208ms)
+✔ legacy expired session cannot invent a refresh token (88.49325ms)
+✔ refresh requires opt-in, version, session identity and nonprivileged project-bound credentials (1.078583ms)
+✔ timeout, redirect, revoked refresh and malformed responses fail closed without token replay (48.62375ms)
+✔ refreshed tokens cannot change operator, session, project, role or bypass expiry (12.307667ms)
+✔ revoked Admin authorization or invalid health never persists the renewed session (51.798166ms)
+✔ Keychain write failures do not return credentials or repeat an uncertain refresh (1.2795ms)
+✔ OTP login retains renewal only with explicit opt-in and a valid session id (9.736541ms)
+✔ selected-email renew checks current GoTrue identity before health and rotated-token persistence (9.846333ms)
+✔ wrong email, old approved phone, unconfirmed email and changed Auth subject retain the tombstone without replay (6.819834ms)
+✔ a selected-email fresh session still needs the current Auth identity and performs no renewal writes (0.725041ms)
+✔ current-email identity refuses redirects, revoked auth, oversized or malformed bodies with one safe failure (1.054375ms)
+✔ current-email identity timeout and stalled body are bounded and never retried (33.951042ms)
+✔ manual shadow CLI requires one explicit mode and retained request ID (2.370291ms)
+✔ missing, duplicate, conflicting, arbitrary and unsafe shadow args fail before any runtime work (0.442833ms)
+✖ shadow bridge accepts the backend-owned lifecycle fixture with bounded safe projection (1.301667ms)
+✔ all shadow actions use fixed public RPCs and refuse caller-supplied scope, count, content and fences (38.310042ms)
+✔ strict shadow results reject inconsistent counts, identities, leases, states and injected fields (297.917333ms)
+✔ projected freshness can expire in transit and an explicit false never becomes true (11.037541ms)
+✔ assisted-SMS uncertainty or send-start elevates shadow summary independently of database alert counts (0.635334ms)
+✔ known revocation, expired/stale fence and SQL conflict responses are safe and never retried (129.766417ms)
+✔ timeout, redirect, malformed success and unknown transport failures preserve mutation uncertainty (125.103083ms)
+✔ manual shadow transport initializes actual newline stdio and closes its isolated process (587.189167ms)
+✔ malformed, oversized, foreign and terminated stdio replies never expose raw diagnostics (934.362334ms)
+✔ request and whole-run stdio deadlines close safely without replay (477.374541ms)
+✔ bad manual CLI inputs perform no process, auth or telemetry work (1.54775ms)
+✔ manual CLI makes exactly three sequential telemetry calls with retained identity and safe aggregates (3.646916ms)
+✔ BUSY and terminal request replay never sample, complete or restart (0.376417ms)
+✔ deadline, malformed success and stale/fenced refusals never retry or complete after uncertainty (43.939167ms)
+✔ malformed success at every lifecycle stage remains unknown with the supplied request retained (26.7745ms)
+✔ status mode reconciles one request by read only and does not acquire a lease (0.735167ms)
+✔ actual SDK MCP lifecycle tools enforce annotations, strict inputs and three fixed RPC routes (4075.418458ms)
+✔ actual CLI process rejects unsafe arguments and status reads expose no raw credentials (4591.88725ms)
+✔ actual MCP timeout after begin retains request identity without a replay or later mutation (5462.890084ms)
+✔ actual MCP authority refusal is safe and stops before sampling (1260.517291ms)
+✔ stdio preflight verifies real initialize/health/list and outputs aggregates only (2656.126291ms)
+✔ stdio preflight rejects malformed queue counts before listing (6094.1185ms)
+✔ stdio preflight rejects an oversized page and authorization failure without exposing payloads (2749.775083ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/supervisor_client.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/supervisor_client.test.ts (889.0905ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/supervisor_client.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/supervisor_journal.test.ts (509.606375ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/operations_contract.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/unattended_client.test.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/operations_contract.ts'
+}
+
+Node.js v24.19.0
+✖ src/unattended_client.test.ts (617.937583ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/unattended_enrollment.test.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/unattended_enrollment.test.ts (725.70875ms)
+✖ actual isolated SQL fixtures bind to unchanged final migration and source hashes (4.839ms)
+✔ actual SQL enroll receipt and original lookup satisfy exact Node schema (22.809125ms)
+✔ actual SQL activate receipt and original lookup satisfy exact Node schema (16.575125ms)
+✔ actual SQL revoke receipt and original lookup satisfy exact Node schema (84.522583ms)
+✔ actual original public enrollment arguments and expiry are preserved (2.750792ms)
+✔ actual SQL current active identity is a strict redacted observation (5.811458ms)
+✔ actual SQL current revoked identity is a strict redacted observation (8.591541ms)
+✔ actual SQL current expired-active identity is a strict redacted observation (4.881583ms)
+✔ actual bounded directory pages retain exact cursors, states and six-digit ordering (5.892792ms)
+✔ actual SQL not-recorded lookup exposes no original deadline or receipt (23.612959ms)
+✔ actual SQL in-progress lookup exposes no original deadline or receipt (5.865959ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/testing/unattended_fixture.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/unattended_history.test.ts (834.118166ms)
+✔ checkpoint and armed envelope are durably private and reloadable before the injected HTTP call (1345.201833ms)
+✔ checkpoint-file sync failure prevents all HTTP and preserves the caller UUID (38.375125ms)
+✔ checkpoint-directory sync failure prevents all HTTP and preserves the caller UUID (51.478291ms)
+✔ armed-file sync failure prevents all HTTP and preserves the caller UUID (176.056792ms)
+✔ armed-directory sync failure prevents all HTTP and preserves the caller UUID (263.977333ms)
+✔ restart and repeated original UUID never sign, send, generate another request, or alter original records (228.286625ms)
+✔ a killed process leaves its durable checkpoint reserved and a new instance cannot replay it (890.159458ms)
+✔ network loss and malformed v2 success stay unknown after reload, without retaining private details or retrying (1080.950666ms)
+✔ an unanswered HTTP deadline remains unknown and the journal never retries the mutation (5318.958917ms)
+✔ outcome persistence failure cannot accept the valid HTTP response and retains original envelope evidence (101.054791ms)
+✔ manual absence lookup at 30000ms retains the conservative signed horizon and original evidence (489.3815ms)
+✔ manual absence lookup at 119999ms retains the conservative signed horizon and original evidence (451.500375ms)
+✔ manual absence lookup at 120000ms retains the conservative signed horizon and original evidence (238.597166ms)
+✔ manual absence lookup at 120001ms retains the conservative signed horizon and original evidence (256.05ms)
+✔ recorded manual lookup retains the explicit target and caller lookup UUID without reissuing begin_run (238.87975ms)
+✔ recorded lookup survives restart and a subsequent fresh absence cannot clear its immutable original alias (1112.528625ms)
+✔ concurrent recorded lookups of the same immutable server receipt retain one original alias and both lookup proofs (828.228417ms)
+✔ canonical stored payload and lookup request-ID tampering cannot pass durable envelope and alias bindings (563.088292ms)
+✔ in-progress, unavailable and malformed manual lookups stay unknown beyond the original horizon (1184.472584ms)
+✔ same lookup UUID, changed principal and changed key are denied before signing, HTTP or lookup reservation (114.964208ms)
+✔ a duplicate lookup while another process owns its reservation cannot append failure evidence for that UUID (533.35575ms)
+✔ a later absence cannot contradict an already recorded original response (206.281333ms)
+✔ absence without original signed-time evidence remains unknown after any elapsed horizon (157.23775ms)
+✔ reloaded recorded timestamps must stay within the original request's evidence window (112.840542ms)
+✔ a fresh lookup identity cannot promote a recorded receipt outside the original request's time bounds (613.95675ms)
+✔ invalid action inputs and pre-aborted operations cannot reserve, sign or call HTTP (15.9155ms)
+✔ owner-private canonical public profile loads without auth/helper execution (206.661708ms)
+✔ profile refuses operatorToken without reflecting values (8.986417ms)
+✔ profile refuses wrongScope without reflecting values (16.02525ms)
+✔ profile refuses wrongVersion without reflecting values (9.792209ms)
+✔ profile refuses arbitraryUrl without reflecting values (3.511208ms)
+✔ profile refuses relativeHelper without reflecting values (3.479541ms)
+✔ profile refuses invalidHash without reflecting values (3.970625ms)
+✔ public-readable and symlink profile are refused (367.307791ms)
+✔ duplicate JSON keys cannot be silently accepted (23.449708ms)
+✔ a profile growing after its initial fstat is refused after at most 8193 bytes without an unbounded read (14.198166ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/testing/unattended_fixture.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/unattended_runner.test.ts (1178.340959ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts' imported from /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/testing/unattended_fixture.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/jeanbosco/Library/Caches/supabase/functions/collect-receipt-supervisor/handler.ts'
+}
+
+Node.js v24.19.0
+✖ src/unattended_scheduler.test.ts (1020.975875ms)
+✔ separate real stdio handshake and eight tools discover with no profile/credential (1894.739875ms)
+✔ invalid scoped input and unknown send tool fail without profile or HTTP (1411.260584ms)
+✔ dedicated production transport initializes a separate server and refuses missing profile safely (1001.860084ms)
+✔ dedicated transport rejects unsafe limits before starting a process (0.908208ms)
+✔ publish survives a new store instance with exact JSON bytes, private ownership and file/directory sync (322.230083ms)
+✔ every lifecycle kind and principal overlap claim uses the same append-only storage API (907.726958ms)
+✔ parallel publishers across instances have exactly one atomic winner and retain its original bytes (337.663834ms)
+✔ names require canonical lowercase UUIDs and exact kinds before any directory is created (4.042792ms)
+✔ optional reads return null only for a missing record and required reads fail closed (137.015125ms)
+✔ public parent cannot create a private journal and an existing public journal is refused (34.263875ms)
+✔ symlink journal and symlink ancestors are refused before publication or optional read (7.241958ms)
+✔ symlink, hardlink, public-mode and nonregular records cannot be accepted (118.006666ms)
+✔ canonical JSON readback rejects duplicate keys, whitespace, missing newline, malformed and invalid UTF-8 bytes (183.743083ms)
+✔ the 65536-byte limit is enforced on encoded publication and on disk reload (94.655625ms)
+✔ unencodable values expose a constant code and reserve no filename (9.012375ms)
+✔ canonical tampering between link and readback prevents publish acceptance and seals further publishing (151.383625ms)
+✔ replacing a record while its descriptor is read cannot turn stale bytes into accepted evidence (115.940583ms)
+✔ file sync failure cannot accept publication or allow later publishes on the same instance (53.615167ms)
+✔ directory sync failure cannot accept publication or allow later publishes on the same instance (65.452791ms)
+✔ the final file is opened with O_NOFOLLOW and validated after reads, not followed through a pathname (121.273084ms)
+ℹ tests 161
+ℹ suites 0
+ℹ pass 152
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27216.7415
+
+✖ failing tests:
+
+test at src/shadow_client.test.ts:11:1
+✖ shadow bridge accepts the backend-owned lifecycle fixture with bounded safe projection (1.301667ms)
+  Error: ENOENT: no such file or directory, open '/Users/jeanbosco/Library/Caches/contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json'
+      at readFileSync (node:fs:484:20)
+      at publishedShadowFixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/testing/shadow_fixture.ts:10:21)
+      at TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/shadow_client.test.ts:12:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Users/jeanbosco/Library/Caches/contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json'
+  }
+
+test at src/supervisor_client.test.ts:1:1
+✖ src/supervisor_client.test.ts (889.0905ms)
+  'test failed'
+
+test at src/supervisor_journal.test.ts:1:1
+✖ src/supervisor_journal.test.ts (509.606375ms)
+  'test failed'
+
+test at src/unattended_client.test.ts:1:1
+✖ src/unattended_client.test.ts (617.937583ms)
+  'test failed'
+
+test at src/unattended_enrollment.test.ts:1:1
+✖ src/unattended_enrollment.test.ts (725.70875ms)
+  'test failed'
+
+test at src/unattended_enrollment_observed.test.ts:8:1
+✖ actual isolated SQL fixtures bind to unchanged final migration and source hashes (4.839ms)
+  Error: ENOENT: no such file or directory, open '/Users/jeanbosco/Library/Caches/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql'
+      at async open (node:internal/fs/promises:697:25)
+      at async readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-resumption1/src/unattended_enrollment_observed.test.ts:10:21)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Users/jeanbosco/Library/Caches/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql'
+  }
+
+test at src/unattended_history.test.ts:1:1
+✖ src/unattended_history.test.ts (834.118166ms)
+  'test failed'
+
+test at src/unattended_runner.test.ts:1:1
+✖ src/unattended_runner.test.ts (1178.340959ms)
+  'test failed'
+
+test at src/unattended_scheduler.test.ts:1:1
+✖ src/unattended_scheduler.test.ts (1020.975875ms)
+  'test failed'

@@ -1,0 +1,50 @@
+{
+  "local_source_count": 8,
+  "current_source_bindings": {
+    "supabase/functions/collect-receipt-successor-gateway/index.ts": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+    "supabase/functions/collect-android-gateway/handler.ts": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+    "supabase/functions/collect-android-gateway/archive_v3.ts": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b",
+    "supabase/functions/_shared/test_assert.ts": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+  },
+  "current_source_agrees": true,
+  "actual_completed_commands": [
+    {
+      "name": "graph-info",
+      "argv": [
+        "/Users/jeanbosco/.local/bin/deno",
+        "info",
+        "--no-config",
+        "--no-lock",
+        "--json",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice5_index/proof/attempt1/source/supabase/functions/collect-receipt-successor-gateway/index.ts"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "20a6903ab08af30913ec0b811ff93d7201ba0aa004b48a5cd85f8c9dfe98b341",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "check-index",
+      "argv": [
+        "/Users/jeanbosco/.local/bin/deno",
+        "check",
+        "--no-config",
+        "--no-lock",
+        "--cached-only",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice5_index/proof/attempt1/source/supabase/functions/collect-receipt-successor-gateway/index.ts"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d43ccc2d9276151ce2a82f77db9992ab516ef1f715452bd5f6ac9cf95291d752"
+    }
+  ],
+  "historical_deno_sha256": "b3ac3bd206e48c26026cadd80c1367e96c149f9c66130952382a642b09fa8a71",
+  "result_sha256": "51a22f501a7c3d79f3a292b83a45f41930b82328243a89914eb7bf3469289065",
+  "no_config_binding": true,
+  "endpoint_execution": false,
+  "hosted_deployment": false,
+  "lock_flags": "Original --no-lock historical proof, not current frozen gate"
+}

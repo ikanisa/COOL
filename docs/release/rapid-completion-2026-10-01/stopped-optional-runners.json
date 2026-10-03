@@ -1,0 +1,82 @@
+{
+  "captured_at_utc": "2026-10-01T11:19:55.967940+00:00",
+  "status": "stopped",
+  "runners": [
+    {
+      "root_pid": 18124,
+      "root_command": "python3 .cache/run-native-correction-root209.py",
+      "reason": "Owner requested rapid completion and removal of repetitive or deferred verification from active work",
+      "task_owned_processes": [
+        {
+          "pid": 18124,
+          "ppid": 1168,
+          "command": "python3 .cache/run-native-correction-root209.py"
+        },
+        {
+          "pid": 66558,
+          "ppid": 18124,
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/android/gradle/wrapper/gradle-wrapper.jar :app:assembleInternal_gatewayRelease -Ptarget=lib/main_gateway.dart -PcollectUnsignedLocalQa=true --offline --no-daemon"
+        },
+        {
+          "pid": 66821,
+          "ppid": 66558,
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0"
+        }
+      ],
+      "signals": [
+        {
+          "pid": 18124,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 66558,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 66821,
+          "signal": "SIGTERM"
+        }
+      ],
+      "remaining_task_owned_processes": []
+    },
+    {
+      "root_pid": 49414,
+      "root_command": "python3 .cache/run-native-current-gateway-root223.py",
+      "reason": "Owner requested rapid completion and removal of repetitive or deferred verification from active work",
+      "task_owned_processes": [
+        {
+          "pid": 49414,
+          "ppid": 1168,
+          "command": "python3 .cache/run-native-current-gateway-root223.py"
+        },
+        {
+          "pid": 50747,
+          "ppid": 49414,
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/gradle/wrapper/gradle-wrapper.jar :app:lintInternal_gatewayRelease -Ptarget=lib/main_gateway.dart --offline --no-daemon"
+        },
+        {
+          "pid": 50813,
+          "ppid": 50747,
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0"
+        }
+      ],
+      "signals": [
+        {
+          "pid": 49414,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 50747,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 50813,
+          "signal": "SIGTERM"
+        }
+      ],
+      "remaining_task_owned_processes": []
+    }
+  ],
+  "shared_gradle_daemons_targeted": false,
+  "source_or_artifacts_deleted": false
+}

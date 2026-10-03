@@ -1,0 +1,12 @@
+{
+  "at_utc": "2026-10-02T00:29:41.950333+00:00",
+  "new_context": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/ubuntu-build-context2",
+  "new_request_retries": 0,
+  "new_request_timeout_seconds": 25,
+  "new_tag": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800:proof2",
+  "new_total_build_deadline_seconds": 600,
+  "observed_stalls": "APT libssl3t64 and libcurl4t64 HTTP requests stalled then internally retried",
+  "official_signed_repositories_and_base_unchanged": true,
+  "original_actual_deadline": 300,
+  "original_attempt": "ubuntu-build-attempt1"
+}

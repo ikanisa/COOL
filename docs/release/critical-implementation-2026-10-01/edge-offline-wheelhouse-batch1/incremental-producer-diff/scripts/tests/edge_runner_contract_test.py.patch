@@ -1,0 +1,11 @@
+--- reviewed/scripts/tests/edge_runner_contract_test.py
++++ final/scripts/tests/edge_runner_contract_test.py
+@@ -14,7 +14,7 @@
+ sys.path.insert(0, str(ROOT / "scripts/qa"))
+ from run_edge_unit_tests import FIXTURE, passed_summary, validate_fixture
+ sys.path.insert(0, str(ROOT / "scripts/tests"))
+-from roster_wheelhouse_test import WheelhouseContract
++from roster_wheelhouse_test import PublisherContract, WheelhouseContract
+ import run_edge_ci
+ 
+ 

@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:28:23.724629+00:00",
+  "packet_sha256": "df7ee7c7569307f7a287ec78bae46701ead6a72848138bf4df2b904590cbbe45",
+  "checked_safe_leaves": 22,
+  "checked_frozen_inputs": 220,
+  "current216_source_hashes_unchanged": true,
+  "prior_AST_changes": [
+    "restore_list",
+    "main"
+  ],
+  "full_diff_new7_tests_and_command_scope_reviewed": true,
+  "frozen_GraphQL_hook_wrapper_body_definition_owner_and_extension_membership_verified": true,
+  "only_newly_commented_schema_CREATE_entry": [
+    "24; 2615 16563 SCHEMA - graphql_public supabase_admin"
+  ],
+  "all_archive_ACLs_data_history_and_other_DDL_retained": true,
+  "full_catalog_comparison_unchanged": true,
+  "whole_bounds": [
+    600,
+    540,
+    60
+  ],
+  "scope": "owned_networkless_synthetic_fixture_only",
+  "human_owner_or_release_approval": false,
+  "production_ready": false
+}

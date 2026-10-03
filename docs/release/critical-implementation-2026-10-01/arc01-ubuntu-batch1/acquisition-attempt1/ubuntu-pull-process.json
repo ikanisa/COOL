@@ -1,0 +1,12 @@
+{
+  "pid": 65103,
+  "argv": [
+    "docker",
+    "pull",
+    "--platform",
+    "linux/arm64",
+    "ubuntu@sha256:11dc1ccb427f0464a2369e645454c272bb0baece7357c892ba69d313b3a332cf"
+  ],
+  "deadline_seconds": 150,
+  "started_at_utc": "2026-10-02T00:08:15.564373+00:00"
+}

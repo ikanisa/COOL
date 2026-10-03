@@ -1,0 +1,1 @@
+["id", "collection_id", "receiver_user_id", "raw_sender", "raw_body", "body_hash", "receiver_momo_number_hash", "received_at_device", "ingested_at", "parse_status", "created_at", "client_envelope_id", "parse_started_at", "parse_lease_id", "native_action_capability_id", "attestation_request_hash", "device_attested_at"]

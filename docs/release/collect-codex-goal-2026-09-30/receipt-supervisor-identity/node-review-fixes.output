@@ -1,0 +1,41 @@
+✔ dedicated client and Edge verify real signed canonical bytes without operator credentials (55.628375ms)
+✔ key possession proof is explicit and creates no sender authority (300.634292ms)
+✔ client rejects send before signer or network (1.5995ms)
+✔ client rejects missing before signer or network (0.299667ms)
+✔ client rejects unknown before signer or network (0.485ms)
+✔ client rejects invalid before signer or network (0.374875ms)
+✔ client rejects lookupMissing before signer or network (0.315ms)
+✔ client rejects lookupOriginal before signer or network (0.290834ms)
+✔ client rejects uppercase before signer or network (0.522042ms)
+✔ client rejects null before signer or network (0.505708ms)
+✔ client rejects identity expired before signing (0.737541ms)
+✔ client rejects identity nearExpiry before signing (0.940166ms)
+✔ client rejects identity badKey before signing (0.455083ms)
+✔ client rejects identity uppercase before signing (0.255916ms)
+✔ client rejects identity badDate before signing (0.391959ms)
+✔ client rejects identity unknown before signing (0.314666ms)
+✔ local key mismatch never reaches endpoint (0.708959ms)
+✔ signature modification fails at real Edge verifier (3.360375ms)
+✔ unsafe or stale observation send preserves unknown outcome (9.734375ms)
+✔ unsafe or stale observation handled preserves unknown outcome (6.921791ms)
+✔ unsafe or stale observation finance preserves unknown outcome (3.471333ms)
+✔ unsafe or stale observation mode preserves unknown outcome (2.888084ms)
+✔ unsafe or stale observation destination preserves unknown outcome (3.107959ms)
+✔ unsafe or stale observation expiredSample preserves unknown outcome (3.105333ms)
+✔ uncertain network outcome is never retried or replaced with a new UUID (1.617542ms)
+✔ signature timeout performs no HTTP request (23.457625ms)
+✔ response stream timeout keeps original request unresolved (314.856125ms)
+✔ manual lookup recorded retains original request and does not replay health (173.642875ms)
+✔ manual lookup not_recorded retains original request and does not replay health (17.127125ms)
+✔ manual lookup in_progress retains original request and does not replay health (100.0495ms)
+✔ lookup transport failure cannot be treated as a missing receipt (10.410458ms)
+✔ unrecognized server errors reveal no raw text (28.615875ms)
+✔ actual synthetic SQL health shape reaches client without timestamp renewal (5.032875ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1772.505291

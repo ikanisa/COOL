@@ -1,0 +1,2 @@
+{"sub": "99640000-0000-4000-8000-000000000001", "session_id": "99640000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"items": [{"id": "fffa9827-2ba4-4b28-a308-f65ca92c6c31", "rail": "rwanda_momo", "status": "pending", "network": "mtn_momo", "currency": "RWF", "created_at": "2026-10-01T10:20:01.406762+00:00", "expires_at": "2026-10-02T10:20:01.406762+00:00", "amount_minor": 13630, "collection_id": "99640000-0000-4000-8000-000000020001", "receiver_label": "Synthetic receiver", "receiver_momo_number": "0788640123"}], "pending_count": 10000}

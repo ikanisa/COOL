@@ -1,0 +1,3 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/attempt5/captured-inputs/scripts/tests/roster_resource_concurrency_uat.rb:60:in `query': ERROR:  Exact isolated197, inactive providers and unused9970 namespace required (RuntimeError)
+CONTEXT:  PL/pgSQL function inline_code_block line 16 at RAISE
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/attempt5/captured-inputs/scripts/tests/roster_resource_concurrency_uat.rb:358:in `<main>'

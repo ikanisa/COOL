@@ -1,0 +1,54 @@
+{
+  "scope": "Private custody overlay; synthetic JVM AES/filesystem, real Android36 API compilation; no handset/Keystore/SMS/hosted acceptance",
+  "status": "integrated",
+  "files": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt",
+      "before_sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0",
+      "after_sha256": "8682d9ab5d524fb9516ec2ea9ef70eb250f14dba4f42796a6a44c714e6c46361"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransfer.kt",
+      "before_sha256": "108b99822f3392359a7527e45baab45f78749eb1533cec2a50634da094b955d6",
+      "after_sha256": "1a2dab214c015c341d49f5b6e65ea694b6f138265d47bebbeb05af4f3349ed70"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt",
+      "before_sha256": "3b3cbca7704f79f1e15868c3933b5723571de6ba5270de6decbc7657d07e99de",
+      "after_sha256": "45b3e36027fefd78cae5a070d14eb2962046cabf7b3b41479cc744bb722df3ed"
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransferTest.kt",
+      "before_sha256": "b71574f87447eefc31d3ae26a8b2e715af8238d68b1d4d307c831ffce86fa484",
+      "after_sha256": "cea7cabed45a79cc1e3d80ac893290883dc40ca6891449081eb114008f5dd439"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "before_sha256": "067dc32c9f46746b955fddbf32ce2299bfa7b32f485566105765af873f3bcc2e",
+      "after_sha256": "68c6ecaef6b79400f0b89bcc5fe755bb2bbd8bbc3678c87794e5623063624f22"
+    }
+  ],
+  "result_sha256": "7ec0acd2b47e0eff2126ca37a4c6802cf17b4704de005871857f9d237fd86120",
+  "source_members": 39,
+  "binary_members": 371,
+  "commands": [
+    {
+      "name": "compile-product",
+      "exit_code": 0
+    },
+    {
+      "name": "compile-tests",
+      "exit_code": 0
+    },
+    {
+      "name": "compile-android36-api",
+      "exit_code": 0
+    },
+    {
+      "name": "affected-recovery-suites",
+      "exit_code": 0
+    }
+  ],
+  "preserved_originals": 5,
+  "hosted_or_device_acceptance": false
+}

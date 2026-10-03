@@ -1,0 +1,4 @@
+BEGIN app.cool.mobile.gateway.GatewayLateRetentionTest.seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData
+CASE app.cool.mobile.gateway.GatewayLateRetentionTest.seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData PASS
+Tests run: 1, Failures: 0, Ignored: 0
+OK (1 tests)

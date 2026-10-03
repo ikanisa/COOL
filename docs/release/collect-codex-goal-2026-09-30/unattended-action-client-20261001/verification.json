@@ -1,0 +1,511 @@
+{
+  "contract": "collect-unattended-action-client-local-evidence-v1",
+  "captured_at": "2026-10-01T11:39:35.846843+00:00",
+  "current_scope": {
+    "node_tests": 109,
+    "passed": 109,
+    "failed": 0,
+    "skipped": 0,
+    "typescript_exit_code": 0,
+    "source_inputs": 78,
+    "source_unchanged_during_checks": true,
+    "source_copy_readback": true,
+    "node_log": "checks-scoped-final-stable/node.stdout.log",
+    "commands_receipt": "checks-scoped-final-stable/receipt.json"
+  },
+  "historical_scopes": [
+    {
+      "directory": "checks-attempt1",
+      "node_tests": 252,
+      "passed": 252,
+      "typescript_exit_code": 0,
+      "hardware_parser_checks": 19,
+      "scope": "Earlier full bridge/new modules before three focused guard corrections; historical and nonadditive."
+    },
+    {
+      "directory": "checks-final-focused",
+      "node_tests": 28,
+      "passed": 28,
+      "typescript_exit_code": 0,
+      "scope": "Runner/profile corrections; nonadditive."
+    },
+    {
+      "directory": "checks-scoped-final",
+      "node_tests": 109,
+      "passed": 109,
+      "typescript_exit_code": 0,
+      "scope": "Pre-final backend publication; historical and nonadditive."
+    }
+  ],
+  "earlier_current_delta": [
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json",
+      "earlier_sha256": null,
+      "current_sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "earlier_sha256": "4a997e58f650d46ad3404b877cfc63a98b361bc853d949ab3544cb691dacc760",
+      "current_sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "earlier_sha256": "0851b657e49a0064629d2feca7db48f5c54ad2be0376083968620b4451aa8c00",
+      "current_sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "earlier_sha256": null,
+      "current_sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_client.test.ts",
+      "earlier_sha256": "d643ad9e93df1405a5209cc9be221ce99b71222d6ba3c98cec736f5a543b20f7",
+      "current_sha256": "7549d3403ae745ba78a0c2d0d435ad94a53a9deb23eed8cec7bee12babc06548"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_profile.test.ts",
+      "earlier_sha256": "4d3a03b5f06eb4d5d36287b3086064d5a7c9782b381da897632bc21b516f869a",
+      "current_sha256": "3f1a0ce47cba878ab34b4d0948b7b08131e01649c5a75ea124099559cc7e21e0"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_profile.ts",
+      "earlier_sha256": "78b41c87f56bf5820efc646c8b4e520b2c520964954c5bfb72e96e98bd9fc035",
+      "current_sha256": "2da13cc9291428dfb47e2c3e62049b2776cb76c6b2f4a2f292b6fb9fc61f558f"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.test.ts",
+      "earlier_sha256": "fd30be6b0a8c7bf60f9f7a34844f11d0e27f99de21f663e6941a876409b90ce5",
+      "current_sha256": "d4793ddb922353fa63498f69f9f7791289cefe5ee378a9a7e4dc701319019d2a"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "earlier_sha256": "4e2bce6c3e86e5ae6bc30eb7ff77bd004cdc39bc63b140ed3a366a538127dcd6",
+      "current_sha256": "585b8b7a1aae92072493e55d39ff98c36c45c39f00c7ec34c2cb06e966628560"
+    }
+  ],
+  "hardware_helper": {
+    "binary_sha256": "37802afb34207aa00b76ab1ab733ca949044d73556eda970d1260f10db68706b",
+    "self_test_log": "checks-attempt1/hardware-parser.stdout.log",
+    "checks": 19,
+    "keychain_called": false,
+    "key_created": false,
+    "source_association": true,
+    "compilation": "Observed local swiftc exit0 before self-test; no raw compiler log retained and no physical enrollment claim."
+  },
+  "source_bindings": [
+    {
+      "path": "contracts/collect-shadow-supervisor-v1.contract.md",
+      "sha256": "19481c87093ac1c1d45ab80edf5e752c85ee3cd2dabd42f6d07bc7ebdf5cb754",
+      "copied_readback": true
+    },
+    {
+      "path": "contracts/collect-shadow-supervisor-v1.fixture.json",
+      "sha256": "111a04468244ef0b70c118f7f6a5c1ec9ce74218b4db608c0ea7be836fcaf62f",
+      "copied_readback": true
+    },
+    {
+      "path": "contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json",
+      "sha256": "d2e619cf344262e23e2ab40d571e50c74937203fde092b800756f67d49070954",
+      "copied_readback": true
+    },
+    {
+      "path": "contracts/collect-shadow-supervisor-v1.observed.fixture.json",
+      "sha256": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87",
+      "copied_readback": true
+    },
+    {
+      "path": "contracts/collect-shadow-supervisor-v1.schema.json",
+      "sha256": "bbc8173e6317975575e1e225fde285328fb50cb185fe4f1a642d82662347b854",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json",
+      "sha256": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json",
+      "sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json",
+      "sha256": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json",
+      "sha256": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/handler_test.ts",
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/index.ts",
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "copied_readback": true
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/wire_test.ts",
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/README.md",
+      "sha256": "6548b5e570579124eecbd6739f5f3c43ba0f54ad0291eca693c5b15898562b23",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/package.json",
+      "sha256": "7bbb9abc49eb4f2dbb56b341b35dfb5db57e92dd7db5e72ba65b96803e77dd44",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/pnpm-lock.yaml",
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/keychain.swift",
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/keychain_store.test.ts",
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/keychain_store.ts",
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operational_client.test.ts",
+      "sha256": "20678f7ceee30ff65313d71bc89170907cab49d73c993a5777633129302c60de",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operational_client.ts",
+      "sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operational_health.test.ts",
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operational_health.ts",
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operational_transport.test.ts",
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_client.test.ts",
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_client.ts",
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_login.test.ts",
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_login.ts",
+      "sha256": "f5bb25396a1b8e40865aa7af803b619acd1767c3f0b3b232d02d8ed79e61e1f3",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/preflight.test.ts",
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/preflight.ts",
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/queue_health.ts",
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/runtime_credentials.test.ts",
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/runtime_credentials.ts",
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/server.test.ts",
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/server.ts",
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/server_transport.test.ts",
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/session_renewal.test.ts",
+      "sha256": "91205a587b00fa5dcb111aa3876fe63687f4546902fc3a92abfb8655755755dc",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/session_renewal.ts",
+      "sha256": "c069c29746546ee719eff42b344c5df6d219419bf117835eae469214b5f4706d",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_cli_options.test.ts",
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_cli_options.ts",
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_client.test.ts",
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_client.ts",
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_contract.ts",
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_stdio.test.ts",
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_stdio.ts",
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_supervisor.test.ts",
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/shadow_supervisor.ts",
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/stdio_preflight.test.ts",
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/stdio_preflight.ts",
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/supervisor_client.test.ts",
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/supervisor_client.ts",
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/supervisor_journal.test.ts",
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/supervisor_journal.ts",
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/supervisor_keychain.swift",
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/testing/operational_fixture.ts",
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/testing/shadow_fixture.ts",
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts",
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/testing/stdio_harness.ts",
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/testing/unattended_fixture.ts",
+      "sha256": "96d0f92b349732722f6df55013e19a7686b32f028d0594735f7569334fba26aa",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_client.test.ts",
+      "sha256": "7549d3403ae745ba78a0c2d0d435ad94a53a9deb23eed8cec7bee12babc06548",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_client.ts",
+      "sha256": "abf2c3c0ab64600b03c52ff1c1d19575c2efc0a8a560c3bac2c2723cbd2458e1",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_contract.ts",
+      "sha256": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_journal.test.ts",
+      "sha256": "74ac844cc408d7fb0c3696770b07d8bcccaafea966c9b626e47d81e45566e417",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_journal.ts",
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_keychain.swift",
+      "sha256": "12804c2794d7911fad1d8ecb54d52eff780cd6a22501694133b246521cde6b44",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_profile.test.ts",
+      "sha256": "3f1a0ce47cba878ab34b4d0948b7b08131e01649c5a75ea124099559cc7e21e0",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_profile.ts",
+      "sha256": "2da13cc9291428dfb47e2c3e62049b2776cb76c6b2f4a2f292b6fb9fc61f558f",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.test.ts",
+      "sha256": "d4793ddb922353fa63498f69f9f7791289cefe5ee378a9a7e4dc701319019d2a",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "sha256": "585b8b7a1aae92072493e55d39ff98c36c45c39f00c7ec34c2cb06e966628560",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_server.ts",
+      "sha256": "3b3a35761d782b3f29dbae06bcb80d78a34d4a680f2204273cf7df5f968c4b2e",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_stdio.test.ts",
+      "sha256": "ac5f9b87401f3352dda52ae90357cced8d4889d5ffe83269aca1341ff374b7c6",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_stdio.ts",
+      "sha256": "c475747fefee2701a492e0a76a3fc69d63f483db295320d6f1851566b0e72e55",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_store.test.ts",
+      "sha256": "bdd12e08ec8b5cc26c0df6344025feeea4d45295e76751102ebe2cfe8e1ed86d",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_store.ts",
+      "sha256": "c4a0b8be056f0eab27d686e53c7c1edcc691b4aa4120470f9267331ad8d6c7f2",
+      "copied_readback": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/tsconfig.json",
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84",
+      "copied_readback": true
+    }
+  ],
+  "installed_profile_metadata": "installed-five-read-metadata.json",
+  "installed_profile_mutated": false,
+  "actual_sql_fixture_rows": 7,
+  "actual_sql_fixture_scope": "Retained final private synthetic SQL response outputs. Client projection compatibility only; SQL UAT not rerun by client.",
+  "edge_test_scope": "Actual createSupervisorHandler with generated synthetic P-256 signatures/injected service RPC; no hosted credential or network.",
+  "external_limits": [
+    "No hosted enrollment or activation",
+    "No live Edge/backend requests",
+    "No Keychain signing/key creation",
+    "No scheduler/service installation",
+    "No sender/financial action tools",
+    "No physical Android/SIM/carrier delivery or provider settlement proof",
+    "No production/owner artifact acceptance",
+    "Admin v2 policy editor/durable owner-request recovery is next independent slice"
+  ],
+  "hosted_calls": 0,
+  "otp_requests": 0,
+  "live_sender_calls": 0,
+  "reviewed": false,
+  "trusted": false,
+  "frozen": false,
+  "owner_approved": false,
+  "production_accepted": false
+}

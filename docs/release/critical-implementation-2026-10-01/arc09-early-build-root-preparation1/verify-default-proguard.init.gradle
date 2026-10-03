@@ -1,0 +1,63 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import java.nio.file.Files
+import org.gradle.api.GradleException
+
+gradle.projectsEvaluated {
+    def app = gradle.rootProject.project(':app')
+    def extractor = app.tasks.named('extractProguardFiles')
+    app.tasks.register('collectVerifyDefaultProguardDirectory') {
+        group = 'verification'
+        description = 'Read back the configured default ProGuard paths and their actual generated file.'
+        dependsOn(extractor)
+        doLast {
+            def android = app.extensions.getByName('android')
+            def release = android.buildTypes.getByName('release')
+            def expected = android.getDefaultProguardFile('proguard-android-optimize.txt').canonicalFile
+            def buildDirectory = app.layout.buildDirectory.get().asFile.canonicalFile
+            def configuredRoot = System.getenv('COLLECT_ANDROID_BUILD_ROOT')
+            def configuredApp = configuredRoot == null || configuredRoot.isBlank() ? null :
+                new File(app.file(configuredRoot), 'app').canonicalFile
+            def rules = release.proguardFiles.collect { app.file(it).canonicalFile }
+            def defaults = rules.findAll { it.name == expected.name }
+            def producerOutputs = extractor.get().outputs.files.files.collect { it.canonicalFile }
+            if (configuredApp != null && buildDirectory != configuredApp) {
+                throw new GradleException('App build directory does not match the configured Collect root')
+            }
+            if (defaults.isEmpty() || defaults.any { it != expected }) {
+                throw new GradleException('A release default ProGuard rule still points to a stale build directory')
+            }
+            if (!expected.toPath().startsWith(buildDirectory.toPath())) {
+                throw new GradleException('Default ProGuard path is outside the configured app build directory')
+            }
+            if (!producerOutputs.any { expected == it || expected.toPath().startsWith(it.toPath()) }) {
+                throw new GradleException('Configured default ProGuard file is not covered by its producer outputs')
+            }
+            if (!expected.isFile() || Files.isSymbolicLink(expected.toPath())) {
+                throw new GradleException('Default ProGuard producer did not supply a regular rule file')
+            }
+            if (!release.minifyEnabled || !release.shrinkResources) {
+                throw new GradleException('Existing release shrinking must remain enabled')
+            }
+            def bytes = Files.readAllBytes(expected.toPath())
+            def row = [
+                kind: 'collect_default_proguard_directory_readback',
+                app_build_directory: buildDirectory.path,
+                configured_app_build_directory: configuredApp?.path,
+                default_proguard_file: expected.path,
+                release_default_proguard_paths: defaults.collect { it.path },
+                all_release_proguard_paths: rules.collect { it.path },
+                producer_task: extractor.get().path,
+                producer_outputs: producerOutputs.collect { it.path },
+                actual_default_file_bytes: bytes.length,
+                actual_default_file_sha256: MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString(),
+                minify_enabled: release.minifyEnabled,
+                shrink_resources: release.shrinkResources,
+                default_paths_and_producer_verified: true,
+                r8_execution_verified: false,
+                package_or_release_acceptance: false
+            ]
+            println('COLLECT_DEFAULT_PROGUARD_READBACK=' + JsonOutput.toJson(row))
+        }
+    }
+}

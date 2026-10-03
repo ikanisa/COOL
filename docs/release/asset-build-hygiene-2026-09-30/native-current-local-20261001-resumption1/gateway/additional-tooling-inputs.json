@@ -1,0 +1,8 @@
+{
+  "scope": "Additional captured native verification helpers, separate from the immutable root1103 build candidate.",
+  "source_sha256": {
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+    "scripts/qa/resolved_native_package_inputs.py": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "319bd34699289b08a375ad583aaffa1f2862b5cdc2e88b5c903539dfaf7515bf"
+  }
+}

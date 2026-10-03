@@ -1,0 +1,8 @@
+{
+  "status": "fail",
+  "reason": "parser_process_timeout",
+  "timeout_seconds": 40,
+  "inventory_produced": false,
+  "source_unchanged": null,
+  "scope": "Old runner wrote no before/after source hashes on timeout. Original traceback retained in parent tool output; parser process terminated. No AST or source-stability acceptance claimed."
+}

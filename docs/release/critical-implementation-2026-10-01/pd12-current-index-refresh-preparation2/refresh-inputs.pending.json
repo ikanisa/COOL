@@ -1,0 +1,20 @@
+{
+  "AAB_artifacts": [],
+  "AAB_built_pointer": null,
+  "AAB_claimed_built": null,
+  "AAB_observed_result": null,
+  "AAB_outcome": null,
+  "AAB_result_pointer": null,
+  "AAB_source_domain": null,
+  "AAB_source_fence": null,
+  "AAB_source_identity_pointer": null,
+  "android3_overlay": null,
+  "android3_settings_after_pointer": null,
+  "archived_android3_settings": null,
+  "new_APP_manifest": null,
+  "new_root_fence": null,
+  "optional_current_AAB_fields": "Leave current AAB fields null until an actual outcome for the supplied later source epoch exists. Retained AAB9 failure is included separately as historical; current package remains pending.",
+  "record_contract": "Each document has workspace-relative path, exact observed bytes, SHA256 and content=json. No path, pointer, result or digest is prospective observed evidence.",
+  "recorded_at_utc": null,
+  "schema_version": 1
+}

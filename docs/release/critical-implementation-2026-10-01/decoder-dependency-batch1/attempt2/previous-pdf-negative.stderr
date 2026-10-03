@@ -1,0 +1,26 @@
+test_benign_font_mapping_preserved (__main__.HostilePdf.test_benign_font_mapping_preserved) ... ok
+test_oversized_destination_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_destination_token_rejected_from_actual_pdf) ... FAIL
+test_oversized_source_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_source_token_rejected_from_actual_pdf) ... FAIL
+
+======================================================================
+FAIL: test_oversized_destination_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_destination_token_rejected_from_actual_pdf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/app/test_dependency_security.py", line 73, in test_oversized_destination_token_rejected_from_actual_pdf
+    with self.assertRaisesRegex(LimitReachedError, "/ToUnicode string length exceeded"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: LimitReachedError not raised
+
+======================================================================
+FAIL: test_oversized_source_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_source_token_rejected_from_actual_pdf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/app/test_dependency_security.py", line 68, in test_oversized_source_token_rejected_from_actual_pdf
+    with self.assertRaisesRegex(LimitReachedError, "/ToUnicode code length exceeded"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: LimitReachedError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.085s
+
+FAILED (failures=2)

@@ -1,0 +1,171 @@
+part of 'admin_governed_settings_models.dart';
+
+class AdminSettingsHistoryCursor {
+  AdminSettingsHistoryCursor(this.recordedAt, this.eventId);
+  final DateTime recordedAt;
+  final String eventId;
+  factory AdminSettingsHistoryCursor.parse(Object? raw) {
+    final row = settingsObject(raw, {'recorded_at', 'event_id'});
+    return AdminSettingsHistoryCursor(
+      settingsInstant(row['recorded_at']),
+      settingsUuid(row['event_id']),
+    );
+  }
+  int compare(AdminSettingsHistoryCursor other) {
+    final at = recordedAt.compareTo(other.recordedAt);
+    return at != 0 ? at : eventId.compareTo(other.eventId);
+  }
+}
+
+class AdminSettingsHistoryEvent {
+  AdminSettingsHistoryEvent._(
+    this.eventId,
+    this.requestId,
+    this.operation,
+    this.previousRevision,
+    this.revision,
+    this.recordedAt,
+    this.actorId,
+    this.authority,
+    this.changedFields,
+    this.oldHash,
+    this.newHash,
+    this.reasonHash,
+    this.reasonCharacters,
+    this.redacted,
+  );
+  final String eventId, operation, authority, reasonHash;
+  final String? actorId, requestId, oldHash, newHash;
+  final int previousRevision, revision, reasonCharacters;
+  final DateTime recordedAt;
+  final List<String> changedFields;
+  final bool redacted;
+  AdminSettingsHistoryCursor get cursor =>
+      AdminSettingsHistoryCursor(recordedAt, eventId);
+  factory AdminSettingsHistoryEvent.parse(
+    Object? raw,
+    AdminSettingsFamily family,
+  ) {
+    final row = settingsObject(raw, {
+      'event_id',
+      'request_id',
+      'operation',
+      'previous_revision',
+      'revision',
+      'recorded_at',
+      'actor_id',
+      'authority',
+      'changed_fields',
+      'old_sha256',
+      'new_sha256',
+      'reason_sha256',
+      'reason_characters',
+      'redacted',
+    });
+    final previous = settingsInteger(row['previous_revision']),
+        revision = settingsInteger(row['revision'], minimum: 1),
+        redacted = settingsBoolean(row['redacted']);
+    final old = row['old_sha256'] == null
+            ? null
+            : settingsDigest(row['old_sha256']),
+        next = row['new_sha256'] == null
+            ? null
+            : settingsDigest(row['new_sha256']);
+    if (revision != previous + 1 ||
+        !{'insert', 'update', 'delete'}.contains(row['operation']) ||
+        !{'live_operator', 'database_owner'}.contains(row['authority']) ||
+        redacted && (old != null || next != null)) {
+      governedSettingsInvalid('history event');
+    }
+    return AdminSettingsHistoryEvent._(
+      settingsUuid(row['event_id']),
+      row['request_id'] == null ? null : settingsUuid(row['request_id']),
+      row['operation'] as String,
+      previous,
+      revision,
+      settingsInstant(row['recorded_at']),
+      row['actor_id'] == null ? null : settingsUuid(row['actor_id']),
+      row['authority'] as String,
+      _settingsFields(row['changed_fields']),
+      old,
+      next,
+      settingsDigest(row['reason_sha256']),
+      settingsInteger(row['reason_characters'], minimum: 8, maximum: 500),
+      redacted,
+    );
+  }
+}
+
+class AdminSettingsHistory {
+  AdminSettingsHistory._(
+    this.family,
+    this.identity,
+    this.sample,
+    this.limit,
+    this.events,
+    this.nextCursor,
+  );
+  final AdminSettingsFamily family;
+  final Map<String, Object?> identity;
+  final AdminSettingsSample sample;
+  final int limit;
+  final List<AdminSettingsHistoryEvent> events;
+  final AdminSettingsHistoryCursor? nextCursor;
+  factory AdminSettingsHistory.parse(
+    Object? raw,
+    AdminSettingsFamily family,
+    Map<String, Object?> identity, {
+    required int limit,
+    AdminSettingsHistoryCursor? before,
+  }) {
+    final row = settingsObject(raw, {
+      'contract_version',
+      'scope',
+      'family',
+      'identity',
+      'checked_at',
+      'sample_valid_until',
+      'limit',
+      'history_complete',
+      'changes_only',
+      'rows',
+      'next_cursor',
+    });
+    _settingsContract(row, family);
+    final bound = family.identity(identity);
+    if (jsonEncode(family.identity(row['identity'])) != jsonEncode(bound) ||
+        row['limit'] != limit ||
+        limit < 1 ||
+        limit > 25 ||
+        row['history_complete'] != false ||
+        row['changes_only'] != true ||
+        row['rows'] is! List ||
+        (row['rows'] as List).length > limit) {
+      governedSettingsInvalid('history scope');
+    }
+    final sample = AdminSettingsSample(
+      settingsInstant(row['checked_at']),
+      settingsInstant(row['sample_valid_until']),
+    );
+    final events = List<AdminSettingsHistoryEvent>.unmodifiable(
+      (row['rows'] as List).map(
+        (x) => AdminSettingsHistoryEvent.parse(x, family),
+      ),
+    );
+    for (var i = 0; i < events.length; i++) {
+      if (events[i].recordedAt.isAfter(sample.checkedAt) ||
+          before != null && events[i].cursor.compare(before) >= 0 ||
+          i > 0 && events[i - 1].cursor.compare(events[i].cursor) <= 0) {
+        governedSettingsInvalid('history order');
+      }
+    }
+    final cursor = row['next_cursor'] == null
+        ? null
+        : AdminSettingsHistoryCursor.parse(row['next_cursor']);
+    if (cursor != null &&
+        (events.length != limit || cursor.compare(events.last.cursor) != 0)) {
+      governedSettingsInvalid('history cursor');
+    }
+    return AdminSettingsHistory._(family, bound, sample, limit, events, cursor);
+  }
+}

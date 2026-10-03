@@ -1,0 +1,19 @@
+--- previous/init.diff
++++ proposed/init.diff
+@@ -4,6 +4,16 @@
+ import org.gradle.api.GradleException
+ 
+ gradle.projectsEvaluated {
++    // Init scripts also run in Flutter's included Gradle build. Select only the
++    // exact physical Collect Android root before looking up its app project.
++    def expectedAndroidRoot = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android')
++    def actualAndroidRoot = gradle.rootProject.projectDir
++    if (actualAndroidRoot.canonicalFile != expectedAndroidRoot) {
++        return
++    }
++    if (actualAndroidRoot.absoluteFile != expectedAndroidRoot || expectedAndroidRoot.canonicalFile != expectedAndroidRoot) {
++        throw new GradleException('Collect default ProGuard readback requires the exact physical Android root')
++    }
+     def app = gradle.rootProject.project(':app')
+     def extractor = app.tasks.named('extractProguardFiles')
+     app.tasks.register('collectVerifyDefaultProguardDirectory') {

@@ -1,0 +1,9 @@
+file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/probe-public-response-attempt79.mjs:10
+const browser=await chromium.launch({executablePath:'/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--disable-background-networking','--disable-component-update','--disable-sync']});
+                             ^
+
+TypeError: Cannot read properties of undefined (reading 'launch')
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/probe-public-response-attempt79.mjs:10:30
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0

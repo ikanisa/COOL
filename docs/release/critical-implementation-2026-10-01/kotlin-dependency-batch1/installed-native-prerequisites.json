@@ -1,0 +1,15 @@
+{
+  "android_build_tools": "36.0.0",
+  "android_compile_sdk": 36,
+  "files_sha256": {
+    "/Users/jeanbosco/Library/Android/sdk/build-tools/36.0.0/source.properties": "7dee6632e9ad6cb111da2bb99d747211e27927061b1276d040bb1d71fded5ebb",
+    "/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/source.properties": "c00aa236fdb205e9be9edd9e2169763e48aca52735efff4e16f34205d49783b5",
+    "/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a",
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/release": "af522ed21472dd6b1f2e1b2647225a7a2de434eb3b1be054bd52f9c6cb280768"
+  },
+  "installed_jdk_major": 21,
+  "ndk": "28.2.13676358",
+  "scope": "Read-only local prerequisite observation. No SDK/JDK/tool installation or configuration mutation.",
+  "status": "required_existing_prerequisites_present"
+}

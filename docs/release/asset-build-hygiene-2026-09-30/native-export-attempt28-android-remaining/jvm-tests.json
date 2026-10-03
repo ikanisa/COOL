@@ -1,0 +1,23 @@
+[
+  {
+    "name": "app.cool.mobile.receiver_sms.SmsQueueWorkerTest",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  {
+    "name": "app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  {
+    "name": "app.cool.mobile.receiver_sms.CollectSmsReceiverTest",
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  }
+]

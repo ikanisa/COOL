@@ -124,6 +124,14 @@ void main() {
     'noop increment': {..._ack(), 'changed': false},
     'invalid date': {..._ack(), 'updated_at': '2026-02-30T10:00:00Z'},
     'nullable date': {..._ack(), 'updated_at': null},
+    'year0000 date': {..._ack(), 'updated_at': '0000-01-01T10:00:00Z'},
+    'UTC year underflow': {
+      ..._ack(),
+      'updated_at': '0001-01-01T00:00:00+23:00',
+    },
+    'UTC year overflow': {..._ack(), 'updated_at': '9999-12-31T23:00:00-23:00'},
+    'naive date': {..._ack(), 'updated_at': '2026-09-30T10:00:00'},
+    'offset overflow': {..._ack(), 'updated_at': '2026-09-30T10:00:00+02:60'},
   };
   for (final entry in malformed.entries) {
     test(

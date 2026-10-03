@@ -60,6 +60,7 @@ class _CollectLandingPageState extends ConsumerState<CollectLandingPage> {
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(collectRuntimeConfigProvider);
+    final downloadAction = collectPublicDownloadAction(config.appDownloadUrl);
     return PublicMarketingSurface(
       builder: (context) => Scaffold(
         backgroundColor: CollectColors.publicWhite,
@@ -79,9 +80,8 @@ class _CollectLandingPageState extends ConsumerState<CollectLandingPage> {
                     SliverToBoxAdapter(
                       child: PublicMarketingHero(
                         key: _heroKey,
-                        title: 'Rwanda MoMo contributions, clearly recorded.',
-                        intro:
-                            'Members contribute in RWF through MoMo USSD. Collect updates the ledger only after trusted receipt evidence is reconciled.',
+                        title: collectPublicHomeCopy['title']!,
+                        intro: collectPublicHomeCopy['intro']!,
                         actions: [
                           FilledButton(
                             style: FilledButton.styleFrom(
@@ -90,8 +90,8 @@ class _CollectLandingPageState extends ConsumerState<CollectLandingPage> {
                               foregroundColor: CollectColors.publicWhite,
                             ),
                             onPressed: () =>
-                                _openUri(context, config.appDownloadUrl),
-                            child: const Text('Get the App'),
+                                _openUri(context, downloadAction.href),
+                            child: Text(downloadAction.label),
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
@@ -198,6 +198,7 @@ class CollectPublicPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(collectRuntimeConfigProvider);
+    final downloadAction = collectPublicDownloadAction(config.appDownloadUrl);
     return PublicMarketingSurface(
       builder: (context) => Scaffold(
         backgroundColor: CollectColors.publicWhite,
@@ -211,8 +212,8 @@ class CollectPublicPage extends ConsumerWidget {
           ),
           actions: [
             IconButton(
-              tooltip: 'Get the App',
-              onPressed: () => _openUri(context, config.appDownloadUrl),
+              tooltip: downloadAction.label,
+              onPressed: () => _openUri(context, downloadAction.href),
               icon: const Icon(Icons.download_rounded),
             ),
             const SizedBox(width: 8),
@@ -232,7 +233,7 @@ class CollectPublicPage extends ConsumerWidget {
                         publicSummaryLabel(data),
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           color: CollectColors.publicInk,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: CollectTypography.weightMedium,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -263,9 +264,9 @@ class CollectPublicPage extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 16),
                           child: FilledButton.icon(
                             onPressed: () =>
-                                _openUri(context, config.appDownloadUrl),
+                                _openUri(context, downloadAction.href),
                             icon: const Icon(Icons.download_rounded),
-                            label: const Text('Get the App'),
+                            label: Text(downloadAction.label),
                           ),
                         ),
                     ],
@@ -298,9 +299,9 @@ class _JourneyPreview extends StatelessWidget {
           children: [
             Text(
               'Contribution received',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: CollectTypography.weightMedium,
+              ),
             ),
             const SizedBox(height: 18),
             const _PreviewRow(label: 'MoMo request', value: 'RWF 25,000'),
@@ -333,9 +334,15 @@ class _PreviewRow extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: CollectTypography.weightMedium,
+              fontFamily: value.contains('RWF')
+                  ? CollectTypography.fontFamily
+                  : CollectTypography.marketingFontFamily,
+              fontFeatures: value.contains('RWF')
+                  ? const [FontFeature.tabularFigures()]
+                  : null,
+            ),
           ),
         ],
       ),
@@ -359,15 +366,15 @@ class _JourneySection extends StatelessWidget {
               Text(
                 'One clear contribution journey',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: CollectTypography.weightMedium,
                 ),
               ),
               const SizedBox(height: 28),
-              const Wrap(
+              Wrap(
                 spacing: 16,
                 runSpacing: 16,
                 children: [
-                  _StepCard(
+                  const _StepCard(
                     number: '1',
                     title: 'Create or join',
                     body: 'Use a private link or QR code to join the group.',
@@ -375,19 +382,17 @@ class _JourneySection extends StatelessWidget {
                   _StepCard(
                     number: '2',
                     title: 'Enter an amount',
-                    body:
-                        'Collect creates one request on your country’s payment rail.',
+                    body: collectPublicHomeCopy['request_body']!,
                   ),
                   _StepCard(
                     number: '3',
                     title: 'Approve outside Collect',
-                    body:
-                        'Open MoMo USSD and approve the payment on your phone.',
+                    body: collectPublicHomeCopy['approve_body']!,
                   ),
                   _StepCard(
                     number: '4',
                     title: 'See the ledger update',
-                    body: 'One exact reconciled match updates both balances.',
+                    body: collectPublicHomeCopy['posting_body']!,
                   ),
                 ],
               ),
@@ -429,9 +434,9 @@ class _StepCard extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: CollectTypography.weightMedium,
+                ),
               ),
               const SizedBox(height: 8),
               Text(body),
@@ -456,13 +461,13 @@ class _SafetySection extends StatelessWidget {
           children: [
             Text(
               'Standalone and privacy-first',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: CollectTypography.weightMedium,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Collect records Rwanda MoMo contributions. It does not ask for MoMo PINs, OTPs or pasted transaction IDs.',
+              'Collect records Rwanda MoMo contributions. It does not ask for MoMo PINs, payment provider OTPs or pasted transaction IDs. Your WhatsApp sign-in code is only for signing in to Collect.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.publicSecondary,
                 height: CollectTypography.leadingBody,
@@ -528,9 +533,9 @@ class _SafetyCard extends StatelessWidget {
               const SizedBox(height: 14),
               Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: CollectTypography.weightMedium,
+                ),
               ),
               const SizedBox(height: 8),
               Text(body),
@@ -561,7 +566,7 @@ class _PublicSection extends StatelessWidget {
               Text(
                 section.title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: CollectTypography.weightMedium,
                 ),
               ),
               const SizedBox(height: 12),
@@ -614,7 +619,7 @@ class _PublicFooter extends StatelessWidget {
                 'Collect by IKANISA',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.white,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: CollectTypography.weightMedium,
                 ),
               ),
               TextButton(

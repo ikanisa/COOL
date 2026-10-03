@@ -1,0 +1,79 @@
+{
+  "modes": [
+    {
+      "mode": "Shadow",
+      "selectable": true,
+      "unavailable_reason": null
+    },
+    {
+      "mode": "Dry-run",
+      "selectable": true,
+      "unavailable_reason": null
+    },
+    {
+      "mode": "Live-limited",
+      "selectable": false,
+      "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+    },
+    {
+      "mode": "Live",
+      "selectable": false,
+      "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+    },
+    {
+      "mode": "Paused",
+      "selectable": true,
+      "unavailable_reason": null
+    }
+  ],
+  "scope": "platform_global",
+  "limits": {
+    "run_sms": null,
+    "group_sms": null,
+    "device_sms": null,
+    "global_sms": null,
+    "enforcement": false,
+    "run_actions": null,
+    "group_actions": null,
+    "device_actions": null,
+    "global_actions": null,
+    "unavailable_reason": "OPERATING_POLICY_LIMIT_AUTHORITY_PENDING"
+  },
+  "purpose": "unattended_policy_preparation",
+  "revision": 4,
+  "schedule": {
+    "kind": null,
+    "owner": null,
+    "next_run_at": null,
+    "cadence_seconds": null,
+    "unavailable_reason": "OPERATING_POLICY_SCHEDULE_AUTHORITY_UNAVAILABLE",
+    "configuration_available": false
+  },
+  "approvals": {
+    "pilot": null,
+    "template": null,
+    "financial": null,
+    "recipient": null
+  },
+  "execution": {
+    "unavailable_reason": "OPERATING_POLICY_DISPATCH_AUTHORITY_PENDING",
+    "grant_authority_pending": true,
+    "unattended_dispatch_available": false
+  },
+  "policy_id": "b643f2a4-d337-4e8c-aa45-587739c7768c",
+  "boundaries": {
+    "assisted_dispatch": "paused",
+    "policy_changes_carrier_work": false,
+    "policy_changes_assisted_dispatch": false,
+    "policy_changes_signed_shadow_observation": false
+  },
+  "checked_at": "2026-10-01T00:40:43.736255Z",
+  "updated_at": "2026-10-01T00:40:43.666811Z",
+  "effective_mode": "Paused",
+  "emergency_stop": true,
+  "initialized_at": "2026-10-01T00:39:13.437857Z",
+  "configured_mode": "Shadow",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T00:41:43.736255Z",
+  "last_change_request_id": "af9e9b3a-d082-4a9d-842f-7930582594ac"
+}

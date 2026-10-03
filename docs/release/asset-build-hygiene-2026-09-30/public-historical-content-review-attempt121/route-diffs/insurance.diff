@@ -1,0 +1,10 @@
+--- historical/insurance/
++++ current/insurance/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups

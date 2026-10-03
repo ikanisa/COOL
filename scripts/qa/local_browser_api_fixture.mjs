@@ -3,6 +3,7 @@ import { createHash, randomUUID } from 'node:crypto';
 const digest = value => createHash('sha256').update(value).digest('hex');
 export function createLocalBrowserFixture() {
   const users=['99690000-0000-4000-8000-000000000001','99690000-0000-4000-8000-000000000002'];
+  const emails=['operator-a@example.invalid','operator-b@example.invalid'];
   const sessions=new Map(), sources=new Map(), drafts=new Map(), intents=new Map(), results=new Map();
   const calls=[];
   let actorIndex=0,revoked=false,missingNextSource=false;const lostResponses=new Set();
@@ -11,7 +12,7 @@ export function createLocalBrowserFixture() {
     const sid=randomUUID(), uid=users[actorIndex],exp=Math.floor(Date.now()/1000)+3600;
     const claims={sub:uid,session_id:sid,role:'authenticated',aal:'aal1',exp};
     const token=Buffer.from('{}').toString('base64url')+'.'+Buffer.from(JSON.stringify(claims)).toString('base64url')+'.synthetic-loopback-only';
-    const user={id:uid,aud:'authenticated',role:'authenticated',phone:actorIndex?'250788969002':'250788969001',app_metadata:{},user_metadata:{},created_at:'2026-09-30T00:00:00Z'};
+    const user={id:uid,aud:'authenticated',role:'authenticated',email:emails[actorIndex],email_confirmed_at:'2026-09-30T00:00:00Z',app_metadata:{},user_metadata:{},created_at:'2026-09-30T00:00:00Z'};
     sessions.set(token,{uid,sid,active:true});
     return {access_token:token,refresh_token:'synthetic-refresh-'+sid,token_type:'bearer',expires_in:3600,expires_at:exp,user};
   }
@@ -36,13 +37,28 @@ export function createLocalBrowserFixture() {
     if(!path.startsWith('/auth/v1/')&&!path.startsWith('/rest/v1/')&&!path.startsWith('/functions/v1/'))return false;
     const action=path.split('/').at(-1);calls.push({method:req.method,action,time:new Date().toISOString(),payloadDigest:body?digest(JSON.stringify(body)):null});
     try {
-      if(path==='/auth/v1/otp'){reply({});return true;}
-      if(path==='/auth/v1/verify'){reply(authResponse());return true;}
+      if(path==='/auth/v1/otp'){
+        if(req.method!=='POST'||!emails.includes(body.email)||body.phone!=null||body.create_user!==false)throw Error('synthetic_approved_email_required');
+        reply({});return true;
+      }
+      if(path==='/auth/v1/verify'){
+        if(req.method!=='POST'||!emails.includes(body.email)||body.phone!=null||body.type!=='email'||body.token!=='123456')throw Error('synthetic_email_verification_required');
+        const previous=actorIndex;actorIndex=emails.indexOf(body.email);const response=authResponse();actorIndex=previous;
+        reply(response);return true;
+      }
       if(path==='/auth/v1/logout'){const c=caller(req);for(const v of sessions.values())if(v.uid===c.uid)v.active=false;reply({});return true;}
-      if(path==='/auth/v1/user'){const c=caller(req);reply({id:c.uid,aud:'authenticated',role:'authenticated',app_metadata:{},user_metadata:{},created_at:'2026-09-30T00:00:00Z'});return true;}
+      if(path==='/auth/v1/user'){const c=caller(req);reply({id:c.uid,aud:'authenticated',role:'authenticated',email:emails[users.indexOf(c.uid)],email_confirmed_at:'2026-09-30T00:00:00Z',app_metadata:{},user_metadata:{},created_at:'2026-09-30T00:00:00Z'});return true;}
       const s=caller(req);
       if(action==='admin_current_user'){reply({user_id:s.uid,display_name:s.uid===users[0]?'Local Operator A':'Local Operator B',phone_masked:'+250 *** 9001',roles:['platform_owner'],permissions});return true;}
-      if(action==='admin_runtime_config'){reply({navigation_items:[],queue_specs:[]});return true;}
+      if(action==='admin_get_operator_approval_v1'){
+        if(body.p_user_id!==s.uid)throw Error('synthetic_operator_target_mismatch');
+        reply({contract_version:1,user_id:s.uid,provider:'email',mode:'email',identity_masked:'o***@***',approved_at:'2026-09-30T00:00:00Z',expires_at:null,status:'approved',approved:true,role_granted:true,admin_access:true,access_status:'active'});return true;
+      }
+      if(action==='admin_runtime_config'){reply({navigation_items:[
+        {key:'overview',label:'Overview',icon_key:'home',route_path:'/admin',required_permission:'overview.read',display_order:10},
+        {key:'groups',label:'Groups',icon_key:'groups',route_path:'/admin/groups',required_permission:'collections.read',display_order:20},
+      ],queue_specs:[{rpc_name:'admin_list_collections',title:'Groups',subtitle:'Synthetic local group operations.',required_permission:'collections.read',
+        status_options:[{value:'',label:'All'},{value:'active',label:'Active'}],sort_options:[{value:'created_at_desc',label:'Newest'}],priority_signals:[],workflow_steps:[]}]});return true;}
       if(action==='admin_overview'){reply({metrics:[{label:'Local synthetic receipts',value:'0',status:'ok'}]});return true;}
       if(action==='admin_queue_sla'){reply(null);return true;}
       if(action.startsWith('admin_list')){reply({rows:[],total:0});return true;}
@@ -82,5 +98,5 @@ export function createLocalBrowserFixture() {
       reply({code:'PGRST202',message:'Synthetic fixture endpoint unavailable'},404);return true;
     } catch(error){reply({code:'42501',message:error.message},403);return true;}
   }
-  return {handle,calls,issueSession:index=>{const previous=actorIndex;actorIndex=index;const session=authResponse();actorIndex=previous;return session;},omitNextSource:()=>missingNextSource=true,loseNextResponse:action=>lostResponses.add(action),setActor:index=>actorIndex=index,setRevoked:value=>revoked=value,privateValues:()=>[...drafts.values()].map(v=>v.payload),counts:()=>({sources:sources.size,drafts:drafts.size,intents:intents.size,executions:results.size})};
+  return {handle,calls,lastIssuedOwner:()=>{const value=[...sessions.values()].at(-1);return value?{actor:value.uid,session:value.sid}:null;},issueSession:index=>{const previous=actorIndex;actorIndex=index;const session=authResponse();actorIndex=previous;return session;},omitNextSource:()=>missingNextSource=true,loseNextResponse:action=>lostResponses.add(action),setActor:index=>actorIndex=index,setRevoked:value=>revoked=value,privateValues:()=>[...drafts.values()].map(v=>v.payload),counts:()=>({sources:sources.size,drafts:drafts.size,intents:intents.size,executions:results.size})};
 }

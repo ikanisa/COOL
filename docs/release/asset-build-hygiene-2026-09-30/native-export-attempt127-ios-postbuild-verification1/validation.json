@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "actual_build_exit_code": 0,
+  "control_binding_sha256": "9059b9269a6bbf1b7d788c0c94f621e60864a6c3ecb11075f3ab4b3403f8db58",
+  "artifact_verification_sha256": "761060ea6ad8558910f1b9f19382faa0e62415aef33ff158345867b35a4ac8f1",
+  "stdout_sha256": "59a610c79b9ef7faa9eadef859e91c71a274dd1af24b52971214ecf1f2cf0899",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "Completed real unsigned iOS build with independently corrected pure-tested postbuild verifier; no signed release, device/provider, visual fidelity or whole repository completion claim."
+}

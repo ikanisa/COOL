@@ -1,0 +1,2838 @@
+{
+  "Ruby": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000.stdout",
+      "stdout_sha256": "1a987b2101d1d6d806a9dc082de78975f3830cf201809ec28fbf0b0869d870ab"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001.stdout",
+      "stdout_sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002.stdout",
+      "stdout_sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003.stdout",
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "--version"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004.stdout",
+      "stdout_sha256": "6c3eedd3ebbb15c84b8d8ac36c69542bf7639ee6e572e195985d5d34fe5678ea"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "--version"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005.stdout",
+      "stdout_sha256": "98fb151d2307dca3d212b476581c7625837e7c12d9a436ccc54dd26eb2a88467"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_dump",
+        "--version"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006.stdout",
+      "stdout_sha256": "1116b135549f5bf787252acd868434319ab7cccf8d075fd23c47007ce31e4820"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "0c20427e9f5fc5ba6265789d18247bff6744bb7e5dd6dbd484011a17a8d67739",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007.stdout",
+      "stdout_sha256": "05149c67a737756cc090492378f5c5c485d5844b1f762d6db1647ddbdaa908ee"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "eb358f40f69f138617cc7d97574c2330dea269f5060a78624ec9ecffaedd5746",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008.stdout",
+      "stdout_sha256": "01f6c841d76c69d0f5ead79465a14b6299bb2a7a8af7c716a1e1175f8ee50432"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "0c20427e9f5fc5ba6265789d18247bff6744bb7e5dd6dbd484011a17a8d67739",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009.stdout",
+      "stdout_sha256": "f03201e3480284d3885bd7ee5952b79e1759c63bdc1ce754e4802f298b31821d"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "315820bd97d5aace4673cb73e9a1ad0bc40aabd830667ff69f8e304e4ced99f0",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010.stdout",
+      "stdout_sha256": "28656fe50f63446cb55ede774b1ad4391cf810946d31bc483c780f1b8d75f706"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011.stdout",
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_restore",
+        "--data-only",
+        "--file=-"
+      ],
+      "exit_code": 0,
+      "input_sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012.stdout",
+      "stdout_sha256": "505130aaf80ec166c865ca997dcf36cf5ab1edb2627c523ea57d84a35a3a60e6"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "pg_restore",
+        "--clean",
+        "--if-exists",
+        "--file=-"
+      ],
+      "exit_code": 0,
+      "input_sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013.stdout",
+      "stdout_sha256": "0e7918fac7dc1406bd36b20bc6da35d2bef5665954e6ffa91aa083fea4b34c49"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f8350d2b31846072344a513da7cbd99cb1ca726df4ef3ebd06960e260721f998",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014.stdout",
+      "stdout_sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "a267cf49c01ad5a63fcb1c22b94378205f6bcb05c9da72fff788c3d181124c1f",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015.stdout",
+      "stdout_sha256": "351c2f6fb1e4291080b50d462195d5f6d0e5c3810e0e27bf136a25f837ead579"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "083289b0e2d3ecfd6d0f063f17d6145ad38174a2f26567bcd876796228c317c0",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f8350d2b31846072344a513da7cbd99cb1ca726df4ef3ebd06960e260721f998",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017.stdout",
+      "stdout_sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "pg_dump",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "--data-only"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018.stderr",
+      "stderr_sha256": "6fabd11ae9e8be601ba766939d61d3ac696191d4813c8fd7cc72ef5bb8cebba3",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018.stdout",
+      "stdout_sha256": "6553ffc440a1d8529c391e806c3ab851bcc908fb83ef6acd31f020461f217b16"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019.stdout",
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "bb6d2009832eb37207d9372d778d4cd369e7955cc42ede7e894da3ec2a86f78d",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020.stdout",
+      "stdout_sha256": "723bc35ad0cea090c4900f5864ac0a128a8a2a725fa036460c7256f297bb723e"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f4c2919c4bce50b5f812f09e8dcc40d396dc01f62a553a0d0a3ceb9e319f9634",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021.stdout",
+      "stdout_sha256": "2c25967927c703645375f9662a671036621417e8c3af2489129b232ca9ca7759"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 3,
+      "input_sha256": "249a4eb917f7f8cee2d0848952bae8a2050986884d9e0e9cceb187306ee982dc",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022.stderr",
+      "stderr_sha256": "36827956add7683630e7eaf26a64c0b157f8c44fd226c15f3f036e6e497bce27",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_dump",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "--format=custom",
+        "--snapshot=0000003A-00000002-1"
+      ],
+      "exit_code": 1,
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023.stderr",
+      "stderr_sha256": "3935d8e524d66cdb2f16119051fbce14482f872230b51a554988e95ecf81db46",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e329f2708e52340d2c1ebc567563e961170c244b57fe5246ab4a1db4496ae9e6",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024.stdout",
+      "stdout_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "d51a85d2748913d2dfa176fb63a3751dfd774aed4f99b8e061d81701fc85f468",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025.stdout",
+      "stdout_sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 3,
+      "input_sha256": "c32311fdb896f41dc87c06cfa438c4ed1c5c641c3d99f9965c1c265b276d1d8b",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026.stderr",
+      "stderr_sha256": "064329e174d0da9b9d9007296297f0877202bcc747d7d34778837c211eb1db57",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "d51a85d2748913d2dfa176fb63a3751dfd774aed4f99b8e061d81701fc85f468",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027",
+      "stderr_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027.stdout",
+      "stdout_sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8"
+    }
+  ],
+  "Ruby_command_count": 28,
+  "outer": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "public.ecr.aws/supabase/postgres:17.6.1.095",
+        "--format",
+        "{{.Id}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.json",
+      "record_sha256": "acf11ffb1078b4eaf6ca2df4e9ac58e96071857b9f921810b8587df42dbeac05",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 72,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.stdout",
+        "sha256": "5b0a3bf9b49a7562b3da626e403f5ce566e640d18e195ee1a1fecb8ccd2277f6"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--detach",
+        "--pull=never",
+        "--name",
+        "collect_current_rehearsal_source_43470b88474c",
+        "--label",
+        "collect.rehearsal.owner=collect_current_rehearsal_source_43470b88474c",
+        "--network",
+        "none",
+        "--tmpfs",
+        "/var/lib/postgresql/collect-rehearsal:rw,size=1073741824",
+        "-e",
+        "POSTGRES_PASSWORD=<random-local-only>",
+        "-e",
+        "PGDATA=/var/lib/postgresql/collect-rehearsal/data",
+        "public.ecr.aws/supabase/postgres:17.6.1.095",
+        "postgres",
+        "-D",
+        "/var/lib/postgresql/collect-rehearsal/data",
+        "-c",
+        "shared_preload_libraries=pg_cron,pg_net,pg_stat_statements",
+        "-c",
+        "wal_level=logical",
+        "-c",
+        "cron.database_name=postgres",
+        "-c",
+        "cron.launch_active_jobs=off",
+        "-c",
+        "cron.log_run=on",
+        "-c",
+        "cron.timezone=UTC",
+        "-c",
+        "pg_net.batch_size=0",
+        "-c",
+        "listen_addresses=",
+        "-c",
+        "pg_net.database_name=template1"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.json",
+      "record_sha256": "517bf9430d0bfbdea13c3f459104b315ac71bc6817ebfad82d2c5024a3c752ed",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 65,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.stdout",
+        "sha256": "ed336f616afc07077902e6c8b7f1222009240efd7f8b856707c86725d2e848ce"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.json",
+      "record_sha256": "c55dd6e1ba9c54106ca8dc60937a5cc72ec3a399ba741725bac3406eb69f6a30",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 746,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.stdout",
+        "sha256": "51216b89ded60da4cefb0f149b25c81d6fde96a81270ef125cfec7d86f10f739"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.json",
+      "record_sha256": "30c6cd00b9e61593454e06613294cf5f9e956c55631fcf24dcdbf363b61ab5f0",
+      "stderr": {
+        "bytes": 215,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.stderr",
+        "sha256": "7de6bf66471df01568f905a7e72bcebf3c67f3a80f5aa491e738b5ca509a3196"
+      },
+      "stdout": {
+        "bytes": 1181,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.stdout",
+        "sha256": "9b5c3771b9adf084a18fc6851137fe53d1d3eca6fad1d220a1adbbaf618beacb"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.json",
+      "record_sha256": "a3ab84dbe4fe0264450d8d2f627fedd7a248406b225894c595b9a89fe6cbc507",
+      "stderr": {
+        "bytes": 1933,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.stderr",
+        "sha256": "69f59d6126ea35d58fd0b3c79df4aa13e84dc4cdd34bd26883e34a84d46a67d7"
+      },
+      "stdout": {
+        "bytes": 8557,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.stdout",
+        "sha256": "ab232eeb9cc34aba5babc6ee31a9cb6515f9db99c99bd4aa3a88a031ada79183"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.json",
+      "record_sha256": "fe0326def7f9ff8f6c627b03574ee877f22f5397a4d1eddee0476c3e57694252",
+      "stderr": {
+        "bytes": 2406,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.stderr",
+        "sha256": "fdfd0f2a815c4543a060bb4b2d4930391cda44e521cd7a0af86785d430dd40e0"
+      },
+      "stdout": {
+        "bytes": 13605,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.stdout",
+        "sha256": "9736b3d278f2c0746e9f582676936703f1a289c1f339b5f0a94e959dbce39b63"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_isready",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.json",
+      "record_sha256": "77d58d0051481b7d7030a6495633019b50014de70900e13bfb29d94c56ec350d",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 45,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.stdout",
+        "sha256": "2427579984ed6e8b4918f895553a561e753880ff77e3722a975cc18033488a50"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "collect_current_rehearsal_source_43470b88474c",
+        "--format",
+        "{{json .HostConfig}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.json",
+      "record_sha256": "99e3d8717f495938385dfaf6ef98ccce5d2372f517eb3bbd8ce0c4ed6828f450",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1548,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.stdout",
+        "sha256": "8642edb5780d05ec7e2647174ac49085a9c7cedd3580120abbe53841676babf2"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "collect_current_rehearsal_source_43470b88474c",
+        "--format",
+        "{{json .Config.Labels}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.json",
+      "record_sha256": "4cdef717b19f91cc80e4ef8df0531c59a2d2bd11de9547b30b652f78ab526c6c",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 76,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.stdout",
+        "sha256": "518b024677dee602f2f2fd084267c29779045ac63993575a5a919cc9602e9ef1"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "3fec8dc44bd491684e66d329818c02b65d6ae05f612685837efcac63b6e56fe6",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.json",
+      "record_sha256": "cf7231da2969664ce245619d53600ccd5e13b7f542c333a4b8ae2f81aef81055",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "ded2f2b7865d8f997ada865ed826b49ff2cac896b9c992b145a11d68fa22edf5",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.json",
+      "record_sha256": "4f7ef17c77894a479a441d38e536fea888d36b55cb51bb63efd871360cdaaf9b",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 60,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.stdout",
+        "sha256": "aa7628dc5e02e98b0a04e3db70100596080ad5726f6dc87fffc5a0bb2c06c87a"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f74d61c0a32d0885515f02fe61f5520bbe9a0a93617a5d22b8c8a683c2ab9ff8",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.json",
+      "record_sha256": "90aa4c7c39d84c6be0646cf2a5c98269a38077d6b72ab456d6905afde96e918a",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3efa4f5ec4f9c9432c3cf5fbe70b58a326970073b6f7687baa1556ecea53e90",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.json",
+      "record_sha256": "7c30d61018325958bb125798e21c7c78d0848a80a49e4165494ded28fac78e76",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "b31836257b361d003f4a8765d4b2d038307f091a1a3fa6f79c4e4290bffde7ed",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.json",
+      "record_sha256": "0947641e6139815eda37429c4d081aa5903600aa619cef5d9c75ce13ea0ea162",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 10,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.stdout",
+        "sha256": "00c2b09f25ac7c5daf7860b43dd0beb55234ad674852dcf65e0f7f246759787e"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f4be1a0d60155cf61769b48a0b7ef83f8cec7af517a5427b763f66bec23dd3ac",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.json",
+      "record_sha256": "8735cc1eee4fefbd69abb533a681f5c03893e1e984dd3156ce11962e5ba86b50",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e310da96d0b1180fdb9358050dbb65c440b60a2e147a4858e12843fe3dc41d1c",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.json",
+      "record_sha256": "1d0bda7290098c91ae9caec0a4c26dfb91dd2d06891af7c7370e89861e9db7ee",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.stdout",
+        "sha256": "fe8edeeb98cc6d3b93cf2d57000254b84bd9eba34b4df7ce4b87db8b937b7703"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "144a896ecb3f1b65acb097a7ac676a3e32d3da5561a966bdefae8b4c8aa08035",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.json",
+      "record_sha256": "bd2fd2f0b804bdbb9e329393a56be7faa06d5fe85d7e8041c62b19c4c202e30e",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 3149,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.stdout",
+        "sha256": "83385a93bd9d6abd3663d099fd710f117e0615fd02681ec78bbcf74b537997a1"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "3e1f634e770cd7ac21ba48a1a6d97ec4a4bc3a82471a70cb75619b5472bd1359",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.json",
+      "record_sha256": "2f15e22137a70d6d78f3de7228665a06080c163d2f74a6980d4d57708dd9348a",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "4bd6be2e9dc7f736cce349e8bc0453f443072ed2a43d089298ce32344d030894",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.json",
+      "record_sha256": "a91c47dfb87c49b0e52a7361b89005145d7eebc79fd189938de670b3163bbbe1",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "b6d9561cbb92e4f37e7b79d6188388be56164a2e4dd1dec6cd27bb747f489b5e",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.json",
+      "record_sha256": "86cc53eaaa0db07c1bdfa9f9e967f4dd9f50f517688a7c12b821465401a61088",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "56bfcc9bc00c919dc31f0708f0917495e91da5d9dd7b5ea67403914decb8da01",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.json",
+      "record_sha256": "863c63d4595ca9592795a174435f5c50d20188b72fa159574b426dcbff88ef9d",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "c1977c71a57bddccae547eafdbbc4faf0cb6bbbe83ba233a29aeaa8433059930",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.json",
+      "record_sha256": "8fdef6f76a2e2d03871f8c581b39ab6208dd76c5c5a69bad6b9872dc209a9213",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "719812d733964a6737226c07e3d0c48466115d5eb23f2d9a4f7e5d6a8625b640",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.json",
+      "record_sha256": "492bc11840e438a9b6d4bcd4422670f86f9a410af9329497e1b92b64e66b5757",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "eeac4ddc40c5b915c461dd11c402742f665d4a3e27b4fc9eccf3595bc399b3d1",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.json",
+      "record_sha256": "38622829c6d6099537d0753cb4c6d264b17e9afd45599a535378ec61a4774fc0",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "9af05ac709a118e4629c8788e64101abd9780e865e69c15d53b3c3e9687895d1",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.json",
+      "record_sha256": "9f1722ae837b0f59b859ffcca30b4913c92049ba0ccb9748d773d0f3f09acceb",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "5660e006b492ff5f478e59f90f157b2edccae64221f9873a19aebb76e1a286a4",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.json",
+      "record_sha256": "e57a86258314f3ad0af4975442196b132425bb5e6cca5fbe1be3ef4d11acfd58",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "a6a38a74801288ea183ac22e043b4bd20c63bb79d90e9e0ec4483531d9638adc",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.json",
+      "record_sha256": "ae5ffe9f48846ac9268c2b45a9e2df2b7f1b5f828832d407728b1b8a6c209736",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "76f3818d93cc82e8f0ce9bab9f971d73d19debf0cf36c76f71f5bf4983adf5b7",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.json",
+      "record_sha256": "557006f3048321d2ff866565f67df89071a9a028cbd3d9de62f557abe45a8082",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "1446e03a602822ebccab8a2fb39e0b748fc335050468096f9567b3b16c436d6c",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.json",
+      "record_sha256": "645ed59f5e50c63ce38691fa0697058a26519e6d38a54938410053f302081080",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "cf2aa337fb9736ce1d91ff417d449fea4386c87be6ba6973c15b7167cc31711c",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.json",
+      "record_sha256": "888a7d7125b16a16a97b599a1d2febf342c10a43f1bec946dfded0277d4a8f95",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "40bc217138e593311255bb88b8ae76ea952857dbfcbcab15cd949d8c4565452a",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.json",
+      "record_sha256": "b8e8ea9b00de96637b473e7503985585276d96e3948c3e5bd45b2d873e3f0fc0",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "2076644635dc03c2c6ad139831341ee461f19f746567b2d95bd5ae802e0ccc92",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.json",
+      "record_sha256": "565f2c1865b4f7ca5fa6de0ab284c520d293e62d2d01ad61dfc103b602cbfd8b",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "8932893c4349ad6506a8455ee98d3991ecae5b2d898098492504ac7130e6bae7",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.json",
+      "record_sha256": "456b24ef66c453794c68d24a8d0c801278a854f434b033ce4946fcd2787f496c",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "765f16b815406a6c286cbade6f5c813db2957495d4cfe2fdc8f4a5613e02194f",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.json",
+      "record_sha256": "ee6e90291e9a06db307de0e82e60240aaabc45402033d3f441fd3e8dd9d36b21",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "d1a818d121a6f0ab3547b1c6ffc9cd6ab0a8db302fddff814eb6856d3631287c",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.json",
+      "record_sha256": "3330f02d843fa2ee4e05eac39c4db5ea9e944e0e113b6a79854f72b70eba7ce1",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "2625169da2d49cc1dfcbdeaeb719ec7341f74fe084b91eb390ccf14c245429c0",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.json",
+      "record_sha256": "b3c502c468ac13581199e592953c4177f564dc0a2d8689bbc570e2660fe52877",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e2f5378fa4b0d856fb3e714730dff99d08397f54b7b852cf5955d96bde4d55bd",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.json",
+      "record_sha256": "71ee415f97bc626fd5b3b76b958da3298d1ca55422745ae5b26e61fa4020fed4",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "da98f9845307956788c5a8356ebfa316ac3dc7757aae59d07a828630d157d6bf",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.json",
+      "record_sha256": "875718ec39b99a7f795a84191634c69f443362462ef0bf5d63044f1072f5378c",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "cf423f8d4b79f308aa1cbfe09c85fe5ed7f85d396c5f15d1fc0a21aa6d627665",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.json",
+      "record_sha256": "28f7762ab2108968281233ee8ee74cb1c75853b90e01cae1529b7a8e4b7cb770",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "ba3aa8499647abec8fd0baaf38a0c8e2ae20b8bda422123515d6f4a3e13f3475",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.json",
+      "record_sha256": "bd3d62447e3c1779e0c7bde70a3127928e5216cb5af0f91d6406f9a6b873158f",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "033a681268304273160c359f2f18904b1f23d8be8372f0c5d42d5442d0b6902d",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.json",
+      "record_sha256": "749e4bad3b117d8f59d901d7e0474f6db4e929e92e61746990fe4434a34b778d",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "312f9d615d425c10cd6633c47263fd78556e85a946ed8ce4a21d45b0cd756920",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.json",
+      "record_sha256": "b2a8a2e11ce6b8d5a40eb5c84692e37c57f24e0f4d42d69d9787a743ee88a309",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "c402b2cff2e066545c306bfa553e5f95b0c7c09dea826eb5e7d83d76d73197c6",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.json",
+      "record_sha256": "ffb8ff739a96e764befbe5b3d90fd2494c3148be53277ff3d613525380b0c669",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "7e7dad6395b6476dcb5f15194d2536291c3e1fb5955256229ef41d0f9996d2b5",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.json",
+      "record_sha256": "a0f01d178e9d42be7ba60d3cb4f965e9ee58133166a1ba915e484b31065c98c6",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "bea511f4f084e1830d684501814f376f10c1c364e754d7291cbaaeeb4db291df",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.json",
+      "record_sha256": "b340acc50c4bf5094b87252af6773df74896aa926b200daf70cb4973d2469068",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "b863b459591e3ff32583ba6c27d679f2bfea023a3d2997534d149cb41d315cfd",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.json",
+      "record_sha256": "7a651d27e9d69de76d7734789e8dd92656425f6a5a9e7f57f0d2b340da096e21",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.stdout",
+        "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "c77c8a80d20a5a78ed305a5b2a35add94bf15438d1b1b9990aec1eb19f6eb584",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.json",
+      "record_sha256": "e843ea0bf6c9fd1b16633886a6d4c403dbd45b86cc3c9982961dfa2e74b46403",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 125,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.stdout",
+        "sha256": "ad4f5f8c2673377e42de7e12b752c780aca01c81446acc4126434849a0cd21b2"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "6a11bb0d1d0250024a2bfe53adb5fb495b29ee2ac905d972602d89ad4f202e35",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.json",
+      "record_sha256": "1e46039a17befad8f9fdedec85019094d5c700a72eb6acb1d2d9d8ef82c6282f",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 330,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.stdout",
+        "sha256": "930509c8bdbf416cd021879ad5790a10a8ec84bddfe0e41eac0c97be6a13a34c"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "8bac4ff245450ac1cc2da59dd3af9017840feaac7b5127baffc79d3f74907198",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.json",
+      "record_sha256": "f5b6b643136fa37e0fa6fca24f7b27a87d151a0ee19996de5103775fd2a1151a",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 7508,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.stdout",
+        "sha256": "3f2a1c952d10a52fde468c945ede4a907b4111ce46ab7677077bc86160b73244"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "7214efcac1babae33a2d8369af10e17a771ae7ea6bda87dca2cf294671c281f0",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.json",
+      "record_sha256": "32399eea96daa34e9b2d40bc46129efabf0b9900bd2de5ffc33c0193eb50990d",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 6676,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.stdout",
+        "sha256": "d4656967a53a8e725fb5a460559525e913cbc05fad835608afbe077b568d5326"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "79040a4c0b795340fcf729964e365452d5d742247206822d8079941c5c0f9ba0",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.json",
+      "record_sha256": "d82a6ecd8958cc01e6f7f73a2de86a194e78c9235002c3fc5171c9c96f8dc486",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 6582,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.stdout",
+        "sha256": "0b6befc37bc3182c2579754278b9da2a2a48a78cddea0cfd24e10c30503b922a"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "b863b459591e3ff32583ba6c27d679f2bfea023a3d2997534d149cb41d315cfd",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.json",
+      "record_sha256": "00a6e1a9769a6f51c6573df9a6192fc99a65878517897eaf4a4115eb412c2ef0",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.stdout",
+        "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f5e7362709347005b28af02f0ccbc1ac72b07493d976d6e503fc35333257188a",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.json",
+      "record_sha256": "22cef4f84af3dbd636f1a2ad7e7e1325f5ccc042020707061416eb57bfc00e76",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 126,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.stdout",
+        "sha256": "e7d8fabdd4857438eaeef922d6fa4d30ffef025a1b90aa608c81c292a0cffb89"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "c7899d45bcd9ac4c9c11e140db44ac8bdaa18035ee82597db3a49d0e9432a646",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.json",
+      "record_sha256": "942174cee73f9009f0d38fb89f42ab512fac7bce4664389b82e92da89dac1bfd",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 3,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.stdout",
+        "sha256": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "3ef03eb3dcf1c5de76d8791a82021ddeb33cbb12f7cbf27413da8cf5bf944f77",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.json",
+      "record_sha256": "c703277bafb92e963500b79d96b398de0bd6834fc2cbf06e4f4edcc06ad5da83",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 83,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.stdout",
+        "sha256": "5e996311bcb426a6545d1bafdfe395a4a540e67d22a1478a3239d32407c66abb"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "public.ecr.aws/supabase/postgres:17.6.1.095",
+        "--format",
+        "{{.Id}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.json",
+      "record_sha256": "acf11ffb1078b4eaf6ca2df4e9ac58e96071857b9f921810b8587df42dbeac05",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 72,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.stdout",
+        "sha256": "5b0a3bf9b49a7562b3da626e403f5ce566e640d18e195ee1a1fecb8ccd2277f6"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--detach",
+        "--pull=never",
+        "--name",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "--label",
+        "collect.rehearsal.owner=collect_current_rehearsal_restore_9a9a20347d34",
+        "--network",
+        "none",
+        "--tmpfs",
+        "/var/lib/postgresql/collect-rehearsal:rw,size=1073741824",
+        "-e",
+        "POSTGRES_PASSWORD=<random-local-only>",
+        "-e",
+        "PGDATA=/var/lib/postgresql/collect-rehearsal/data",
+        "public.ecr.aws/supabase/postgres:17.6.1.095",
+        "postgres",
+        "-D",
+        "/var/lib/postgresql/collect-rehearsal/data",
+        "-c",
+        "shared_preload_libraries=pg_cron,pg_net,pg_stat_statements",
+        "-c",
+        "wal_level=logical",
+        "-c",
+        "cron.database_name=postgres",
+        "-c",
+        "cron.launch_active_jobs=off",
+        "-c",
+        "cron.log_run=on",
+        "-c",
+        "cron.timezone=UTC",
+        "-c",
+        "pg_net.batch_size=0",
+        "-c",
+        "listen_addresses=",
+        "-c",
+        "pg_net.database_name=template1"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.json",
+      "record_sha256": "7aa84247f6346f2e15c6c3c105c6ac9e1733bc0802d6a818cd721052c68d2917",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 65,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.stdout",
+        "sha256": "8282159524225d669f9e97b545cb8caff0900de7884fb86df2125610b1b462fe"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.json",
+      "record_sha256": "d1addf476bb96f4249d25ec68af446978f7393a62ede3d9eed22d6753c628c02",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 746,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.stdout",
+        "sha256": "51216b89ded60da4cefb0f149b25c81d6fde96a81270ef125cfec7d86f10f739"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.json",
+      "record_sha256": "ef210bbfc444b963e8722e63ed1538a1335430cc85bfd886259f7142c52bf8a7",
+      "stderr": {
+        "bytes": 215,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.stderr",
+        "sha256": "7de6bf66471df01568f905a7e72bcebf3c67f3a80f5aa491e738b5ca509a3196"
+      },
+      "stdout": {
+        "bytes": 1686,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.stdout",
+        "sha256": "c4b5cb655e9b5d401897de945cb4ea8207caec108fd877ff5501dfc96f9f1021"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.json",
+      "record_sha256": "5656ef4a213e48e9f481bfa0b75a1f989139964afbdf5304fa88f9fc194b29ff",
+      "stderr": {
+        "bytes": 1933,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.stderr",
+        "sha256": "69f59d6126ea35d58fd0b3c79df4aa13e84dc4cdd34bd26883e34a84d46a67d7"
+      },
+      "stdout": {
+        "bytes": 11747,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.stdout",
+        "sha256": "ab61478fbc1f7f1569d090accff0e57cfb0cecc2986c1fcbc35d1c3ee00315ac"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.json",
+      "record_sha256": "145ab3d99025ab3baaae96b4e3a5042526aff0b553f620d004a8cb496ad85b06",
+      "stderr": {
+        "bytes": 2406,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.stderr",
+        "sha256": "45a848923e99931b3c1f1adca3004e3718ef1c53a700a178cc4bc0ca5399d898"
+      },
+      "stdout": {
+        "bytes": 13608,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.stdout",
+        "sha256": "1940947589be7ac9d76caf7f6ca37fcfc9e2e7393dc638620aa18ce779287adf"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "pg_isready",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.json",
+      "record_sha256": "8022bed618f93f3082e5c3f0a9a1c6ff8458cafe62a0784b31a93f2d81085320",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 45,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.stdout",
+        "sha256": "2427579984ed6e8b4918f895553a561e753880ff77e3722a975cc18033488a50"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "--format",
+        "{{json .HostConfig}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.json",
+      "record_sha256": "84fb05813f2eafab59e803ffb7e2f02edacdaaba49c8175e9de8f82ccfbf96b7",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1548,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.stdout",
+        "sha256": "8642edb5780d05ec7e2647174ac49085a9c7cedd3580120abbe53841676babf2"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "--format",
+        "{{json .Config.Labels}}"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.json",
+      "record_sha256": "272ed91dfccb41a624b917a2459cc8bd0b48759ad71cac867084b1b83cc3d1d1",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 77,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.stdout",
+        "sha256": "61a6b6995e9b0292218c50b41e1922c118f80949f6c3dd98444cbb4d4dac9c1a"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "3fec8dc44bd491684e66d329818c02b65d6ae05f612685837efcac63b6e56fe6",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.json",
+      "record_sha256": "eb21d45740985e03cead817dd189b53c4222f23ad6ebbbe5afd8d1fe816ab1bf",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "ded2f2b7865d8f997ada865ed826b49ff2cac896b9c992b145a11d68fa22edf5",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.json",
+      "record_sha256": "0096834ceedbe34febba791428b710054ee193308b880a1dea0a4866d582ae0c",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 60,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.stdout",
+        "sha256": "aa7628dc5e02e98b0a04e3db70100596080ad5726f6dc87fffc5a0bb2c06c87a"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "f74d61c0a32d0885515f02fe61f5520bbe9a0a93617a5d22b8c8a683c2ab9ff8",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.json",
+      "record_sha256": "7b7df751acac1ea8a4fe15dd03fb4b297bde8833e3148ab399c5cabdea76c3b2",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "exit_code": 0,
+      "input_sha256": "e3efa4f5ec4f9c9432c3cf5fbe70b58a326970073b6f7687baa1556ecea53e90",
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.json",
+      "record_sha256": "a8445d9bfdaaf7d2dbb7abf5dd75d4ab326f80d0be1c0db2b29a59b3b68dd1a9",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/driver.json"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.json",
+      "record_sha256": "550ac110be12e95112a8755c49a0e43225c652bba5500fe384578b26bb4e9957",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2375,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.stdout",
+        "sha256": "0a11bf0c058dafb13313d86388c4a61ff759e068c7ae8bb5dd87be6770a5e5cd"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.json",
+      "record_sha256": "c776c43272f0b165113c5e720141beb4b0b79fdd47a4a36310e88669a6082b0a",
+      "stderr": {
+        "bytes": 2834,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.stderr",
+        "sha256": "1ba393899263f53595c3886dac489d72378b30036374a72a367bc0bab7346915"
+      },
+      "stdout": {
+        "bytes": 13608,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.stdout",
+        "sha256": "1940947589be7ac9d76caf7f6ca37fcfc9e2e7393dc638620aa18ce779287adf"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "rm",
+        "--force",
+        "--volumes",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.json",
+      "record_sha256": "f3c2aa2b18aeb041531284dc836143a97c0b0edcade72b99895b289ba56919a2",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 47,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.stdout",
+        "sha256": "45391d6ba39c1e03911879454c57e5f271964eec956febda21e21be2cb44185c"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.json",
+      "record_sha256": "c3d3be4018ee22630bb1d47ca4f5e40f0b833727035908f450de2a0a75e261d9",
+      "stderr": {
+        "bytes": 2769,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.stderr",
+        "sha256": "49f1be07cedaa6f4191349f1711a1cb81147a1295c712c81146dac42d2680e28"
+      },
+      "stdout": {
+        "bytes": 13605,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.stdout",
+        "sha256": "9736b3d278f2c0746e9f582676936703f1a289c1f339b5f0a94e959dbce39b63"
+      }
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "rm",
+        "--force",
+        "--volumes",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 0,
+      "input_sha256": null,
+      "record_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.json",
+      "record_sha256": "c2bfd869bff43530f50b42ea9673def2ca47aefcf30101c9a7efcd33c7cafb34",
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 46,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.stdout",
+        "sha256": "ba7b8e18366c375a3d11a456e724732505b47478232fa92749b8b95183fce891"
+      }
+    }
+  ],
+  "outer_command_count": 73,
+  "scope": "Selected205 retained actual receipts; outer and Ruby lists are separate command evidence, not additional distinct SQL checks. No commands rerun."
+}

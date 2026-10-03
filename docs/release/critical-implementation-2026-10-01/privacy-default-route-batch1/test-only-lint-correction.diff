@@ -1,0 +1,36 @@
+--- original-test.dart
++++ lint-clean-test.dart
+@@ -12,6 +12,7 @@
+ import 'package:collect_app/l10n/collect_localizations.dart';
+ import 'package:collect_app/shared/models/collect_models.dart';
+ import 'package:collect_app/shared/repositories/collect_repository.dart';
++import 'package:flutter/foundation.dart' show debugPrintSynchronously;
+ import 'package:flutter/material.dart';
+ import 'package:flutter/services.dart';
+ import 'package:flutter_localizations/flutter_localizations.dart';
+@@ -193,7 +194,7 @@
+         return true;
+       }
+       if (call.method == 'setEnabled') return true;
+-      if (call.method == 'status')
++      if (call.method == 'status') {
+         return {
+           'supported': true,
+           'declared': true,
+@@ -201,6 +202,7 @@
+           'consent_enabled': false,
+           'granted': false,
+         };
++      }
+       throw StateError('Unexpected native fixture method ${call.method}');
+     });
+     messenger.setMockMethodCallHandler(_snapshot, (call) async {
+@@ -403,7 +405,7 @@
+     expect(nativeRelease.isCompleted, isFalse);
+   }
+ 
+-  void observe(String label) => print(
++  void observe(String label) => debugPrintSynchronously(
+     'PRIVACY_DEFAULT_ROUTE_PROBE ${jsonEncode({'label': label, 'route': path, 'owner': state.currentProfile?.id, 'is_loading': state.isLoading, 'deletion_form_count': find.byType(DeleteAccountRequestScreen).evaluate().length, 'code_verified_count': find.text('Code verified').evaluate().length, 'submit_calls': calls('request_account_deletion_v1').length, 'native_held': nativeEntered.isCompleted && !nativeRelease.isCompleted, 'real_websocket_joins': joins, 'events': events})}',
+   );
+ 

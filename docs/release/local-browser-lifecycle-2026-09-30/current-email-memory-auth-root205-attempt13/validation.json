@@ -1,0 +1,95 @@
+{
+  "actual_browser_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root205-attempt13/report.json",
+  "actual_browser_return_code": 1,
+  "checkout_input_drift": {},
+  "checks": 2,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root205-current-browser",
+      "elapsed_seconds": 0.04,
+      "exit_code": 0,
+      "name": "export-git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root205-current-browser",
+      "elapsed_seconds": 0.29,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4f5effb55519ad86d8ad7e7eda769ef25237fda3dbbeb0685c6ae6c6b69d7deb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root205-current-browser",
+      "elapsed_seconds": 2.42,
+      "exit_code": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root205-attempt13"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 66.06,
+      "exit_code": 1,
+      "name": "actual-current-browser",
+      "stderr_sha256": "dad613c4cc5d60d8104c86a6cf2ae33f2fdb15b8fedf5179a38fbd0cd01904af",
+      "stdout_sha256": "69048e530475f6b866f4d1d22986d1971080fdfa129901dcc5f31a4adfb9349a"
+    }
+  ],
+  "completed_at": "2026-10-01T10:49:35.127356+00:00",
+  "coverage": {
+    "account_switch": false,
+    "email_sign_in": false,
+    "exact_departure_denies": false,
+    "failed_update": false,
+    "installed_pwa": false,
+    "legacy_broadcast_refused": false,
+    "legacy_cache_migration": false,
+    "mismatched_departure_refused": false,
+    "offline_signed_out": false,
+    "private_logout": false,
+    "public_admin_separation": false,
+    "reference_only_storage": false,
+    "reload_requires_sign_in": false,
+    "static_cache_privacy": false,
+    "tabs_do_not_adopt_sign_in": false,
+    "warm_update": false
+  },
+  "database_commands_executed": false,
+  "errors": 1,
+  "export_drift": [],
+  "provider_credentials_supplied": false,
+  "report_sha256": "2b6353b32e7c3a9c83b0127cba61006c9032d7938f85cc0468888fe0daab1ed0",
+  "retained_source_binding_sha256": "b12f722a365cd758e14274e18287a622192a55e7e0ff519570d27ff46ffd29a9",
+  "runtime_executables_unchanged": true,
+  "scope": "Actual current normal Admin/Public entrypoints and browser lifecycle including installed standalone PWA offline; no SQL/provider/physical-device/design or whole repository/release acceptance",
+  "source_input_count": 2582,
+  "source_inputs_current": true,
+  "status": "fail",
+  "synthetic_browser_profile_excluded_from_repo": true,
+  "whole_L01_complete": false,
+  "whole_L18_original_local_criterion_complete": false
+}

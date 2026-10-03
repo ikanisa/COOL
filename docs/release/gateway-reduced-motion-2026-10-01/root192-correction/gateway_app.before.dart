@@ -1,0 +1,388 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../app/theme/collect_colors.dart';
+import '../app/theme/collect_theme.dart';
+import '../app/theme/collect_spacing.dart';
+import '../shared/widgets/collect_chrome.dart';
+import 'gateway_platform.dart';
+
+class CollectGatewayApp extends StatelessWidget {
+  const CollectGatewayApp({
+    this.platform = const NativeGatewayPlatform(),
+    super.key,
+  });
+  final GatewayPlatform platform;
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'Collect Gateway',
+    debugShowCheckedModeBanner: false,
+    theme: CollectTheme.light(),
+    darkTheme: CollectTheme.dark(),
+    home: GatewayHome(platform: platform),
+  );
+}
+
+class GatewayHome extends StatefulWidget {
+  const GatewayHome({required this.platform, super.key});
+  final GatewayPlatform platform;
+  @override
+  State<GatewayHome> createState() => _GatewayHomeState();
+}
+
+class _GatewayHomeState extends State<GatewayHome> {
+  GatewaySnapshot? _snapshot;
+  bool _busy = true;
+  bool _failed = false;
+
+  Future<void> _enrollment() async {
+    try {
+      final identity = await widget.platform.identity();
+      const keys = {
+        'contract_version',
+        'installation_id',
+        'key_sha256',
+        'signing_certificate_sha256',
+        'public_key_spki_base64',
+      };
+      if (identity.length != keys.length ||
+          !keys.every(identity.containsKey) ||
+          identity['contract_version'] != 1 ||
+          keys
+              .where((key) => key != 'contract_version')
+              .any((key) => identity[key] is! String)) {
+        throw const FormatException('gateway_identity_invalid');
+      }
+      if (!mounted) return;
+      final document = await showDialog<Map<String, Object?>>(
+        context: context,
+        builder: (context) => _GatewayEnrollmentDialog(identity: identity),
+      );
+      if (document != null) {
+        await _perform(() => widget.platform.provisionEnrollment(document));
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _failed = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _perform(widget.platform.initialize);
+  }
+
+  Future<void> _perform(Future<GatewaySnapshot> Function() action) async {
+    if (mounted) {
+      setState(() {
+        _busy = true;
+        _failed = false;
+      });
+    }
+    try {
+      final result = await action();
+      if (mounted) {
+        setState(() {
+          _snapshot = result;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _failed = true;
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _busy = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final snapshot = _snapshot;
+    final colors = context.collectColors;
+    return Scaffold(
+      appBar: AppBar(title: const Text('Collect Gateway')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(CollectSpacing.x4),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: CollectSpacing.contentMaxWidth,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CollectHeadingText(
+                    title: 'Gateway',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    'Organization-owned Android sender',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: CollectSpacing.x4),
+                  if (_busy)
+                    Semantics(
+                      label: 'Checking gateway',
+                      child: const LinearProgressIndicator(),
+                    ),
+                  if (_failed) ...[
+                    const Text(
+                      'Gateway status is unavailable. Sending remains blocked.',
+                      semanticsLabel: 'Gateway status unavailable',
+                    ),
+                    TextButton(
+                      onPressed: _busy
+                          ? null
+                          : () => _perform(widget.platform.refresh),
+                      child: const Text('Check again'),
+                    ),
+                  ],
+                  FilledButton.icon(
+                    onPressed: () => _perform(widget.platform.pause),
+                    icon: const Icon(Icons.pause_circle_outline),
+                    label: const Text('Emergency pause'),
+                  ),
+                  const SizedBox(height: CollectSpacing.x4),
+                  if (snapshot != null) ...[
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(CollectSpacing.x4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.paused
+                                  ? 'Emergency pause is on'
+                                  : 'Local pause is off',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: CollectSpacing.x2),
+                            Text(_enrollmentLabel(snapshot.enrollment)),
+                            const SizedBox(height: CollectSpacing.x2),
+                            const Text(
+                              'New receipt sending is unavailable. Collect must confirm this device and authorize each receipt.',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: CollectSpacing.x4),
+                    _observation('SMS permission', snapshot.sendPermission),
+                    _observation(
+                      'Phone-state permission',
+                      snapshot.phonePermission,
+                    ),
+                    _observation(
+                      'Internet connected',
+                      snapshot.networkConnected,
+                    ),
+                    _observation(
+                      'Internet validated',
+                      snapshot.networkValidated,
+                    ),
+                    _observation('SIM selected', snapshot.subscriptionSelected),
+                    _observation('SIM ready', snapshot.simReady),
+                    _observation(
+                      'Telephony in service',
+                      snapshot.telephonyInService,
+                    ),
+                    const SizedBox(height: CollectSpacing.x4),
+                    Text(
+                      'Attempt evidence',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text('Outcome unknown: ${snapshot.pendingAttempts}'),
+                    Text(
+                      'Framework sent callbacks complete: ${snapshot.frameworkSentAttempts}',
+                    ),
+                    Text(
+                      'Delivery callbacks observed: ${snapshot.deliveryCallbacksObserved}',
+                    ),
+                    Text(
+                      'Callback evidence does not certify recipient handset delivery.',
+                      style: TextStyle(color: colors.textSecondary),
+                    ),
+                    const SizedBox(height: CollectSpacing.x6),
+                    OutlinedButton(
+                      onPressed: _busy ? null : _enrollment,
+                      child: const Text('Public identity and enrollment'),
+                    ),
+                    OutlinedButton(
+                      onPressed: _busy
+                          ? null
+                          : () => _perform(widget.platform.requestPermissions),
+                      child: const Text('Review device permissions'),
+                    ),
+                    OutlinedButton(
+                      onPressed: _busy || !snapshot.configured
+                          ? null
+                          : () => _perform(widget.platform.heartbeat),
+                      child: const Text('Record connection health'),
+                    ),
+                    OutlinedButton(
+                      onPressed: _busy || !snapshot.configured
+                          ? null
+                          : () => _perform(widget.platform.reconcile),
+                      child: const Text('Reconcile pending evidence'),
+                    ),
+                    TextButton(
+                      onPressed: _busy
+                          ? null
+                          : () => _perform(widget.platform.refresh),
+                      child: const Text('Refresh observations'),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _observation(String title, bool observed) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+    child: Row(
+      children: [
+        Expanded(flex: 3, child: Text(title)),
+        const SizedBox(width: CollectSpacing.x2),
+        Flexible(
+          flex: 2,
+          child: Text(
+            observed ? 'Observed' : 'Unavailable',
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
+    ),
+  );
+
+  String _enrollmentLabel(GatewayEnrollment value) => switch (value) {
+    GatewayEnrollment.notEnrolled => 'Owner enrollment required',
+    GatewayEnrollment.pending =>
+      'Enrollment document installed; device authority is unknown',
+    GatewayEnrollment.active => 'Active device identity',
+    GatewayEnrollment.paused => 'Device identity paused',
+    GatewayEnrollment.revoked => 'Device identity revoked',
+    GatewayEnrollment.unknown => 'Device authority is unknown',
+  };
+}
+
+class _GatewayEnrollmentDialog extends StatefulWidget {
+  const _GatewayEnrollmentDialog({required this.identity});
+  final Map<Object?, Object?> identity;
+
+  @override
+  State<_GatewayEnrollmentDialog> createState() =>
+      _GatewayEnrollmentDialogState();
+}
+
+class _GatewayEnrollmentDialogState extends State<_GatewayEnrollmentDialog> {
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final identity = widget.identity;
+    return AlertDialog(
+      title: const Text('Enroll this installation'),
+      content: SizedBox(
+        width: CollectSpacing.contentMaxWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Share this public identity with the authorized Collect owner. Apply the enrollment document returned for this installation. Owner activation is still required.',
+              ),
+              const SizedBox(height: CollectSpacing.x4),
+              SelectableText(
+                const JsonEncoder.withIndent('  ').convert(identity),
+              ),
+              TextButton.icon(
+                icon: const Icon(Icons.copy_outlined),
+                label: const Text('Copy public identity'),
+                onPressed: () => Clipboard.setData(
+                  ClipboardData(text: jsonEncode(identity)),
+                ),
+              ),
+              const SizedBox(height: CollectSpacing.x4),
+              TextField(
+                controller: controller,
+                maxLines: 7,
+                maxLength: 4096,
+                decoration: const InputDecoration(
+                  labelText: 'Owner enrollment document',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Close'),
+        ),
+        TextButton(
+          onPressed: () {
+            try {
+              final decoded = jsonDecode(controller.text);
+              const names = {
+                'contract_version',
+                'device_id',
+                'installation_id',
+                'key_sha256',
+                'signing_certificate_sha256',
+              };
+              if (decoded is! Map<String, dynamic> ||
+                  decoded.length != names.length ||
+                  !names.every(decoded.containsKey) ||
+                  decoded['contract_version'] != 1 ||
+                  decoded['device_id'] is! String ||
+                  !RegExp(
+                    r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+                  ).hasMatch(decoded['device_id'] as String) ||
+                  names
+                      .where((name) => name != 'device_id')
+                      .any((name) => decoded[name] != identity[name])) {
+                throw const FormatException('gateway_enrollment_invalid');
+              }
+              Navigator.pop(context, Map<String, Object?>.from(decoded));
+            } catch (_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'The enrollment document must match this installation.',
+                  ),
+                ),
+              );
+            }
+          },
+          child: const Text('Apply document'),
+        ),
+      ],
+    );
+  }
+}

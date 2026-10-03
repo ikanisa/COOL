@@ -1,0 +1,723 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const { execFileSync } = require("child_process");
+const { requireLoopbackOrigin, installLocalNetworkFence } = require("./qa/public_browser_local_network.cjs");
+
+const baseUrl = process.env.PUBLIC_WEBSITE_QA_URL || "http://127.0.0.1:4178/";
+requireLoopbackOrigin(baseUrl);
+const blockedNetworkRequests = [];
+const capabilityContract = JSON.parse(execFileSync("ruby", [path.join(__dirname, "qa/public_capability_contract.rb")], { encoding: "utf8" }));
+const buildDir = path.resolve(process.env.PUBLIC_BUILD_DIR || "build/public_web");
+const outDir = path.resolve(process.env.PUBLIC_WEBSITE_QA_OUT || "output/public_website_route_rendered_qa");
+const screenshotDir = path.join(outDir, "screenshots");
+const playwrightCoreCandidates = [
+  process.env.PLAYWRIGHT_CORE_PATH,
+  "/Volumes/PRO-G40/Temp/caches/npm/_npx/705bc6b22212b352/node_modules/playwright-core/index.js",
+  "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/playwright/driver/package/index.js",
+  "/Volumes/PRO-G40/X CPA/firmos/node_modules/playwright-core/index.js",
+].filter(Boolean);
+const chromeCandidates = [
+  process.env.PUBLIC_WEBSITE_CHROME_PATH,
+  path.join(process.env.HOME || "", "Library/Caches/ms-playwright/chromium-1223/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"),
+  path.join(process.env.HOME || "", "Library/Caches/ms-playwright/chromium-1217/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"),
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+].filter(Boolean);
+const viewports = [
+  { name: "compact_320x740", width: 320, height: 740, isMobile: true, allowedGridColumns: [1] },
+  { name: "mobile_390x844", width: 390, height: 844, isMobile: true, allowedGridColumns: [2] },
+  { name: "tablet_834x1194", width: 834, height: 1194, isMobile: false, allowedGridColumns: [2, 3] },
+  { name: "desktop_1440x1000", width: 1440, height: 1000, isMobile: false, allowedGridColumns: [2, 3] },
+];
+const legalRoutes = new Set(["/privacy/", "/terms/", "/account-deletion/", "/data-deletion/"]);
+const groupShareScenarios = [
+  {
+    name: "valid_syntax",
+    route: "/c/production-link-audit",
+    nativeHref: "collect://group/production-link-audit",
+    codeText: "Group link: production-link-audit",
+    disabled: false,
+  },
+  {
+    name: "expired_or_revoked_safe",
+    route: "/c/expired-link-audit",
+    nativeHref: "collect://group/expired-link-audit",
+    codeText: "Group link: expired-link-audit",
+    disabled: false,
+  },
+  {
+    name: "invalid_syntax",
+    route: "/c/INVALID%20CODE",
+    nativeHref: null,
+    codeText: "This group link is invalid.",
+    disabled: true,
+  },
+  {
+    name: "oversized_code",
+    route: `/c/${"a".repeat(141)}`,
+    nativeHref: null,
+    codeText: "This group link is invalid.",
+    disabled: true,
+  },
+];
+
+function findExisting(candidates, label) {
+  const found = candidates.find((candidate) => candidate && fs.existsSync(candidate));
+  if (!found) throw new Error(`No usable ${label} found. Checked: ${candidates.join(", ")}`);
+  return found;
+}
+
+async function loadPlaywright() {
+  const modulePath = findExisting(playwrightCoreCandidates, "playwright-core module");
+  const loaded = await import(`file://${modulePath}`);
+  return { modulePath, playwright: loaded.default || loaded };
+}
+
+function sitemapRoutes() {
+  const sitemapPath = path.join(buildDir, "sitemap.xml");
+  const xml = fs.readFileSync(sitemapPath, "utf8");
+  return [...xml.matchAll(/<loc>https:\/\/collect\.ikanisa\.com([^<]*)<\/loc>/g)]
+    .map((match) => match[1] || "/")
+    .filter((route) => route === "/" || route.endsWith("/"));
+}
+
+function routeName(route) {
+  return route === "/" ? "home" : route.replace(/^\/|\/$/g, "").replace(/\//g, "_");
+}
+
+const longPageCaptureThreshold = 16_000;
+
+async function captureOriginalViewportSegments(page, route, viewport) {
+  const documentHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
+  const maximumScroll = Math.max(0, documentHeight - viewport.height);
+  // Overlap keeps content obscured by the sticky header visible in an adjacent
+  // original viewport. Each PNG comes directly from Chrome, without stitching.
+  const step = viewport.height - 128;
+  const positions = [];
+  for (let y = 0; y < maximumScroll; y += step) positions.push(y);
+  positions.push(maximumScroll);
+  const segments = [];
+  for (const [index, requestedScrollY] of positions.entries()) {
+    await page.evaluate((y) => window.scrollTo(0, y), requestedScrollY);
+    await page.waitForTimeout(100);
+    await page.evaluate(() => Promise.all([...document.images]
+      .filter((image) => {
+        const box = image.getBoundingClientRect();
+        return box.bottom > 0 && box.top < window.innerHeight;
+      }).map((image) => image.decode())));
+    const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
+    const target = path.join(screenshotDir,
+      `${routeName(route)}_${viewport.name}_segment-${String(index + 1).padStart(3, "0")}_y${scroll.y}.png`);
+    await page.screenshot({ path: target, fullPage: false });
+    const png = fs.readFileSync(target);
+    const width = png.readUInt32BE(16);
+    const height = png.readUInt32BE(20);
+    if (width !== viewport.width || height !== viewport.height) throw new Error(`Viewport PNG dimensions differ: ${target}`);
+    segments.push({ path: target, sha256: crypto.createHash("sha256").update(png).digest("hex"),
+      captureKind: "original_browser_viewport", fullPage: false, width, height,
+      requestedScrollY, scrollX: scroll.x, scrollY: scroll.y,
+      visibleDocumentInterval: [scroll.y, Math.min(documentHeight, scroll.y + height)] });
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const finalDocumentHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
+  if (finalDocumentHeight !== documentHeight) throw new Error(`Document changed height during viewport capture: ${route}`);
+  return { documentHeight, threshold: longPageCaptureThreshold, overlap: 128,
+    originalPixelsOnly: true, stitched: false, segments };
+}
+
+async function auditRoute(page, route, viewport) {
+  const consoleMessages = [];
+  const pageErrors = [];
+  page.on("console", (message) => {
+    const sourceUrl = message.location().url || "";
+    if (["error", "warning"].includes(message.type()) && !/favicon/i.test(`${message.text()} ${sourceUrl}`)) {
+      consoleMessages.push({ type: message.type(), text: message.text(), url: sourceUrl });
+    }
+  });
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+
+  const url = new URL(route, baseUrl).toString();
+  const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => Promise.all([...document.querySelectorAll('.hero img')].map((image) => image.decode())));
+  await page.waitForTimeout(150);
+
+  const keyboardFocus = [];
+  for (let index = 0; index < 8; index += 1) {
+    await page.keyboard.press("Tab");
+    keyboardFocus.push(await page.evaluate(() => {
+      const active = document.activeElement;
+      if (!active || active === document.body) return null;
+      return {
+        tag: active.tagName.toLowerCase(),
+        text: (active.getAttribute("aria-label") || active.textContent || active.getAttribute("alt") || "").trim().replace(/\s+/g, " ").slice(0, 80),
+        href: active.getAttribute("href") || "",
+        focusVisible: active.matches(":focus-visible"),
+        outlineStyle: getComputedStyle(active).outlineStyle,
+        outlineWidth: getComputedStyle(active).outlineWidth,
+        boxShadow: getComputedStyle(active).boxShadow,
+      };
+    }));
+  }
+  await page.evaluate(() => document.activeElement && document.activeElement.blur && document.activeElement.blur());
+
+  let menuScreenshot = null;
+  let mobileMenuOpen = true;
+  let menuFocusContained = true;
+  let menuEscapeRecovery = true;
+  const usesMenu = viewport.width <= 1100;
+  if (usesMenu) {
+    await page.locator("[data-menu-button]").click({ timeout: 5_000 });
+    await page.waitForTimeout(100);
+    mobileMenuOpen = await page.locator("[data-site-nav]").evaluate((node) => node.classList.contains("open"));
+    menuScreenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}_menu.png`);
+    await page.screenshot({ path: menuScreenshot, fullPage: false });
+    menuFocusContained = await page.evaluate(() =>
+      document.querySelector("[data-site-nav]").contains(document.activeElement) &&
+      document.querySelector("main").inert &&
+      document.querySelector("[data-menu-button]").getAttribute("aria-expanded") === "true"
+    );
+    const lastControl = page.locator("[data-site-nav] a[href], [data-site-nav] button").last();
+    await lastControl.focus();
+    await page.keyboard.press("Tab");
+    menuFocusContained = menuFocusContained && await page.evaluate(() =>
+      document.activeElement === document.querySelector("[data-menu-button]")
+    );
+    await page.keyboard.press("Shift+Tab");
+    menuFocusContained = menuFocusContained && await lastControl.evaluate((node) => node === document.activeElement);
+    await page.keyboard.press("Escape");
+    menuEscapeRecovery = await page.evaluate(() =>
+      !document.querySelector("[data-site-nav]").classList.contains("open") &&
+      !document.querySelector("main").inert &&
+      document.querySelector("[data-menu-button]").getAttribute("aria-expanded") === "false" &&
+      document.activeElement === document.querySelector("[data-menu-button]")
+    );
+  }
+
+  const screenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}.png`);
+  // Keyboard traversal can scroll deep into the page. A hero comparison must
+  // capture the same initial scroll state as the source.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: screenshot, fullPage: false });
+  const documentHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
+  let fullPageScreenshot = null;
+  let longPageCapture = null;
+  if (documentHeight > longPageCaptureThreshold) {
+    longPageCapture = await captureOriginalViewportSegments(page, route, viewport);
+  } else {
+    fullPageScreenshot = path.join(screenshotDir, `${routeName(route)}_${viewport.name}_full.png`);
+    await page.screenshot({ path: fullPageScreenshot, fullPage: true });
+  }
+
+  const expectedCtas = capabilityContract.routes[route];
+  if (!expectedCtas) throw new Error(`Unregistered capability route: ${route}`);
+  const metrics = await page.evaluate(({ isLegalRoute, expectedCtas }) => {
+    const rect = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return {
+        top: Math.round(box.top),
+        bottom: Math.round(box.bottom),
+        width: Math.round(box.width),
+        height: Math.round(box.height),
+      };
+    };
+    const accessibleName = (element) => (element.getAttribute("aria-label") || element.textContent || element.getAttribute("alt") || "").trim();
+    const footerRects = [...document.querySelectorAll(".site-footer a")]
+      .map((link) => {
+        const box = link.getBoundingClientRect();
+        return { width: Math.round(box.width), height: Math.round(box.height), text: link.textContent.trim() };
+      });
+    const bodyText = document.body.innerText;
+    return {
+      locale: document.documentElement.lang || "en",
+      title: document.title,
+      h1: document.querySelector("h1")?.innerText.trim() || "",
+      bodyClass: document.body.className,
+      bodyScrollWidth: document.body.scrollWidth,
+      documentScrollWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth,
+      headingTextOverflows: [...document.querySelectorAll('h1, h2, h3')].flatMap((heading) => {
+        const range = document.createRange();
+        range.selectNodeContents(heading);
+        const box = heading.getBoundingClientRect();
+        const textRects = [...range.getClientRects()];
+        const textLeft = Math.min(...textRects.map((rect) => rect.left));
+        const textRight = Math.max(...textRects.map((rect) => rect.right));
+        // Overflow-clipping ancestors can hide text without increasing the
+        // document scroll width, so measure the actual text against its box.
+        return textLeft < box.left - 1 || textRight > box.right + 1
+          ? [{ text: heading.textContent.trim(), left: box.left, right: box.right, textLeft, textRight }]
+          : [];
+      }),
+      heroDevice: rect(".hero-device, .hero-editorial"),
+      heroPhoto: rect(".hero .service-photo img"),
+      heroArtworkLoaded: [...document.querySelectorAll('.hero img')].every((image) => image.complete && image.naturalWidth > 0),
+      decorativeControlsAbsent: document.querySelectorAll('.phone-shell, .phone-screen, .phone-tabs').length === 0,
+      appMediaTruthful: [...document.querySelectorAll('.app-capture')].every((figure) => {
+        const image = figure.querySelector('img');
+        if (!image || !image.getAttribute('src').startsWith('/assets/app-screens/')) return false;
+        const box = image.getBoundingClientRect();
+        return image.complete && image.naturalWidth >= 500 &&
+          Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight) < 0.02 &&
+          figure.textContent.includes('Example data');
+      }),
+      hero: rect(".hero"),
+      legalLayoutPresent: Boolean(document.querySelector(".legal-layout .legal-main")),
+      legalTocPresent: Boolean(document.querySelector(".legal-toc")),
+      landmarkCounts: {
+        header: document.querySelectorAll("header").length,
+        main: document.querySelectorAll("main").length,
+        footer: document.querySelectorAll("footer").length,
+        nav: document.querySelectorAll("nav[aria-label]").length,
+      },
+      accessibleNames: {
+        missingAlt: [...document.images].filter((image) => !image.hasAttribute("alt")).length,
+        unnamedButtons: [...document.querySelectorAll("button")].filter((button) => !accessibleName(button)).length,
+        unnamedLinks: [...document.querySelectorAll("a")].filter((link) => !accessibleName(link)).length,
+      },
+      capabilityActions: Object.fromEntries(["cta-app", "cta-group", "cta-touch"].map((role) => {
+        const links = [...document.querySelectorAll(`a.${role}`)];
+        const expected = expectedCtas[role];
+        return [role, { count: links.length, expected: expected || null,
+          matches: expected ? links.length >= 2 && links.every((link) =>
+            link.textContent.trim() === expected.label && link.getAttribute("href") === expected.href)
+            : links.length === 0,
+          actual: links.map((link) => ({ label: link.textContent.trim(), href: link.getAttribute("href") })) }];
+      })),
+      retiredSectionsAbsent: !bodyText.includes("Questions visitors ask") &&
+        !bodyText.includes("thousands of users") &&
+        !bodyText.includes("approved partner names"),
+      disclaimerLabelsAbsent: !bodyText.includes("Currently available for Android through the official Collect by IKANISA Google Play listing") &&
+        !bodyText.includes("iOS availability is not currently advertised") &&
+        !bodyText.includes("This website is published in English only") &&
+        !bodyText.includes("How Collect makes money") &&
+        !bodyText.includes("Public evidence and market context") &&
+        !bodyText.includes("Current public status") &&
+        !bodyText.includes("No institution is presented here as a live Collect partner yet.") &&
+        !bodyText.includes("No financial institution is presented on this website as a live Collect partner"),
+      footerRects,
+      editorialLabelFlow: [...document.querySelectorAll(
+        '.story-grid > article > strong, .story-grid > article > h3'
+      )].map((label) => ({
+        text: label.textContent.trim(),
+        display: getComputedStyle(label).display,
+        marginBottom: Number.parseFloat(getComputedStyle(label).marginBottom),
+      })),
+      legalHeadingSpacing: [...document.querySelectorAll('.legal-section > h2')]
+        .map((heading) => Number.parseFloat(getComputedStyle(heading).marginBottom)),
+      editorialLinkFlow: [...document.querySelectorAll('.story-grid a')]
+        .map((link) => {
+          const preceding = document.createRange();
+          preceding.selectNodeContents(link.parentElement);
+          preceding.setEndBefore(link);
+          const boxes = [...preceding.getClientRects()]
+            .filter((box) => box.width > 0 && box.height > 0);
+          const bounds = link.getBoundingClientRect();
+          return {
+            text: link.textContent.trim(),
+            href: link.getAttribute('href'),
+            display: getComputedStyle(link).display,
+            marginTop: Number.parseFloat(getComputedStyle(link).marginTop),
+            height: bounds.height,
+            precedingContentGap: boxes.length
+              ? bounds.top - Math.max(...boxes.map((box) => box.bottom))
+              : null,
+          };
+        }),
+      supportedGroupPadding: [...document.querySelectorAll('.supported-group-card')]
+        .map((card) => {
+          const style = getComputedStyle(card);
+          return ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft']
+            .map((side) => Number.parseFloat(style[side]));
+        }),
+      compactCardGrids: [
+        ".problem-list.compact",
+        ".use-case-grid",
+        ".craas-service-grid",
+        ".infographic-grid",
+        ".story-grid",
+        ".content-grid",
+        ".journey-rail",
+        ".insurance-step-grid",
+        ".partner-metric-grid",
+        ".partner-engine-grid",
+        ".partner-market-grid",
+        ".partner-operating-grid",
+      ].map((selector) => {
+        const grid = document.querySelector(selector);
+        if (!grid) return { selector, present: false };
+        const cards = [...grid.querySelectorAll("article, .section-card, .infographic-step")];
+        const columns = getComputedStyle(grid).gridTemplateColumns
+          .split(" ")
+          .filter((column) => column && column !== "none").length;
+        const backgrounds = cards.map((card) => {
+          const style = getComputedStyle(card);
+          return style.backgroundImage && style.backgroundImage !== "none" ? style.backgroundImage : style.backgroundColor;
+        });
+        const textColors = cards.map((card) => getComputedStyle(card).color);
+        const heights = cards.map((card) => Math.round(card.getBoundingClientRect().height));
+        return {
+          selector,
+          present: true,
+          cardCount: cards.length,
+          columns,
+          uniqueBackgrounds: new Set(backgrounds).size,
+          plainWhiteCards: backgrounds.filter((value) => /255,\s*255,\s*255|255,\s*253,\s*251|rgba\(255,\s*255,\s*255/i.test(value)).length,
+          allWhiteText: textColors.every((value) => /255,\s*253,\s*251|255,\s*255,\s*255/i.test(value)),
+          minHeight: Math.min(...heights),
+          maxHeight: Math.max(...heights),
+          contained: cards.every((card) => card.scrollWidth <= card.clientWidth + 1 && card.scrollHeight <= card.clientHeight + 1),
+          nonOverlapping: cards.every((card, index) => cards.slice(index + 1).every((other) => {
+            const a = card.getBoundingClientRect(), b = other.getBoundingClientRect();
+            return a.right <= b.left + 1 || b.right <= a.left + 1 || a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
+          })),
+        };
+      }),
+      isLegalRoute,
+    };
+  }, { isLegalRoute: legalRoutes.has(route), expectedCtas });
+
+  const presentCompactGrids = metrics.compactCardGrids.filter((grid) => grid.present && grid.cardCount >= 3);
+
+  const checks = {
+    http200: Boolean(response && response.status() >= 200 && response.status() < 300),
+    noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
+    noHorizontalOverflow: Math.max(metrics.bodyScrollWidth, metrics.documentScrollWidth) <= metrics.viewportWidth + 1,
+    headingTextFits: metrics.headingTextOverflows.length === 0,
+    hasTitleAndH1: metrics.title.length > 0 && metrics.h1.length > 0,
+    capabilityActionsPresent: Object.values(metrics.capabilityActions).every((role) => role.matches),
+    retiredSectionsAbsent: metrics.retiredSectionsAbsent,
+    disclaimerLabelsAbsent: metrics.disclaimerLabelsAbsent,
+    routeClassPresent: metrics.bodyClass.includes(`route-${route === "/" ? "home" : routeName(route).replace(/_/g, "-")}`),
+    mobileMenuOpens: !usesMenu || mobileMenuOpen,
+    responsiveMenuFocusContained: !usesMenu || menuFocusContained,
+    responsiveMenuEscapeRecovery: !usesMenu || menuEscapeRecovery,
+    mobileHeroVisualUsable: metrics.heroArtworkLoaded && (!viewport.isMobile || (metrics.heroDevice && metrics.heroDevice.top < viewport.height &&
+      (metrics.heroPhoto
+        ? metrics.heroPhoto.width >= viewport.width - 41 && Math.abs(metrics.heroPhoto.width / metrics.heroPhoto.height - 1.5) < 0.02
+        : metrics.heroDevice.height >= 220))),
+    decorativeControlsAbsent: metrics.decorativeControlsAbsent,
+    appMediaTruthful: metrics.appMediaTruthful,
+    editorialLabelsSeparateFromDescriptions: metrics.editorialLabelFlow.every(
+      (label) => label.display === 'block' && label.marginBottom >= 12
+    ),
+    legalHeadingsKeepSectionSpacing: metrics.legalHeadingSpacing.every(
+      (spacing) => spacing >= 16
+    ),
+    editorialLinksKeepOwnRow:
+      (route !== '/' || metrics.editorialLinkFlow.length >= 3) &&
+      metrics.editorialLinkFlow.every((link) =>
+        link.display === 'flex' && link.marginTop >= 12 && link.height >= 44 &&
+        (link.precedingContentGap === null || link.precedingContentGap >= 11.5)
+      ),
+    supportedGroupCardsKeepInsets: metrics.supportedGroupPadding.every(
+      (padding) => padding.every((side) => side >= 16)
+    ),
+    compactCardGridLayout: presentCompactGrids.every((grid) => {
+      // The selected Revolut cohort uses neutral editorial panels. Validate
+      // readable geometry, not the retired requirement for multicolour tiles.
+      return (viewport.isMobile ? grid.columns === 1 : viewport.allowedGridColumns.includes(grid.columns)) &&
+        grid.contained && grid.nonOverlapping;
+    }),
+    legalLayoutPresent: !metrics.isLegalRoute || metrics.legalLayoutPresent,
+    footerTapTargets: !viewport.isMobile || metrics.footerRects.every((box) => box.height >= 40),
+    keyboardTraversal: keyboardFocus.filter(Boolean).length >= 5 && keyboardFocus.some((item) => item && ["Skip to content", "Jya ku bikubiyemo"].includes(item.text)),
+    visibleKeyboardFocus: keyboardFocus.filter(Boolean).length >= 5 &&
+      keyboardFocus.filter(Boolean).every((item) =>
+        item.focusVisible &&
+        (
+          (item.outlineStyle !== "none" && Number.parseFloat(item.outlineWidth) >= 2) ||
+          item.boxShadow !== "none"
+        )
+      ),
+    screenReaderSmoke: metrics.landmarkCounts.header === 1 &&
+      metrics.landmarkCounts.main === 1 &&
+      metrics.landmarkCounts.footer === 1 &&
+      metrics.landmarkCounts.nav >= 2 &&
+      metrics.accessibleNames.missingAlt === 0 &&
+      metrics.accessibleNames.unnamedButtons === 0 &&
+      metrics.accessibleNames.unnamedLinks === 0,
+  };
+
+  return {
+    route,
+    viewport: viewport.name,
+    url,
+    screenshot,
+    fullPageScreenshot,
+    longPageCapture,
+    menuScreenshot,
+    checks,
+    failures: Object.entries(checks).filter(([, passed]) => !passed).map(([id]) => id),
+    metrics,
+    keyboardFocus: keyboardFocus.filter(Boolean),
+    consoleMessages,
+    pageErrors,
+  };
+}
+
+async function auditGroupShareScenario(page, scenario, viewport, shareHtml) {
+  const consoleMessages = [];
+  const pageErrors = [];
+  page.on("console", (message) => {
+    if (["error", "warning"].includes(message.type()) && !/favicon/i.test(message.text())) {
+      consoleMessages.push({ type: message.type(), text: message.text() });
+    }
+  });
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+  await page.route("**/c/**", async (route) => {
+    if (new URL(route.request().url()).origin !== new URL(baseUrl).origin) {
+      await route.fallback();
+    } else if (route.request().resourceType() === "document") {
+      await route.fulfill({ status: 200, contentType: "text/html", body: shareHtml });
+    } else {
+      await route.fallback();
+    }
+  });
+
+  const url = new URL(scenario.route, baseUrl).toString();
+  const response = await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
+  await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
+
+  const keyboardFocus = [];
+  for (let index = 0; index < 7; index += 1) {
+    await page.keyboard.press("Tab");
+    keyboardFocus.push(await page.evaluate(() => {
+      const active = document.activeElement;
+      if (!active || active === document.body) return null;
+      const style = getComputedStyle(active);
+      return {
+        text: (active.getAttribute("aria-label") || active.textContent || "").trim().replace(/\s+/g, " ").slice(0, 80),
+        focusVisible: active.matches(":focus-visible"),
+        outlineStyle: style.outlineStyle,
+        outlineWidth: style.outlineWidth,
+        boxShadow: style.boxShadow,
+      };
+    }));
+  }
+
+  const metrics = await page.evaluate(() => {
+    const openLink = document.querySelector("[data-collect-open-link]");
+    // Measure the rendered hero action; the menu/header duplicate may be hidden.
+    const installLink = document.querySelector(".hero-actions [data-collect-store-link]");
+    const appStoreLink = document.querySelector('a[href="https://apps.apple.com/app/id6783960331"]');
+    const playStoreLink = document.querySelector('a[href="https://play.google.com/store/apps/details?id=app.cool.mobile"]');
+    const copyButton = document.querySelector("[data-collect-copy-link]");
+    const code = document.querySelector("[data-share-code]");
+    const status = document.querySelector("[data-share-status]");
+    const bodyText = document.body.innerText;
+    return {
+      openHref: openLink?.getAttribute("href") || null,
+      openDisabled: openLink?.getAttribute("aria-disabled") === "true",
+      installHref: installLink?.getAttribute("href") || "",
+      hasExactStoreOptions: Boolean(appStoreLink && playStoreLink),
+      codeText: code?.textContent.trim() || "",
+      statusText: status?.textContent.trim() || "",
+      hasValidityCopy: bodyText.includes("Expired, revoked or invalid links cannot join a group."),
+      noFalseJoinConfirmation: !/invitation (is|has been) valid|you (have )?joined/i.test(bodyText),
+      actionRects: [openLink, installLink, copyButton].map((element) => {
+        if (!element) return null;
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          text: element.textContent.trim(),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          display: style.display,
+          visibility: style.visibility,
+          opacity: style.opacity,
+        };
+      }),
+      hasCopyAction: Boolean(copyButton),
+      noHorizontalOverflow: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth) <= window.innerWidth + 1,
+      canonicalPath: document.querySelector("[data-share-canonical]")?.getAttribute("href") || "",
+    };
+  });
+
+  const presentFocus = keyboardFocus.filter(Boolean);
+  const checks = {
+    rewriteServes200: Boolean(response && response.status() === 200),
+    noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
+    noHorizontalOverflow: metrics.noHorizontalOverflow,
+    failClosedValidityCopy: metrics.hasValidityCopy && metrics.noFalseJoinConfirmation,
+    scenarioCode: metrics.codeText === scenario.codeText,
+    nativeAction: scenario.nativeHref === null
+      ? metrics.openHref === null && metrics.openDisabled === scenario.disabled
+      : metrics.openHref === scenario.nativeHref && metrics.openDisabled === scenario.disabled,
+    noAppFallback: metrics.installHref.includes("play.google.com") && metrics.hasExactStoreOptions && metrics.hasCopyAction &&
+      metrics.actionRects.slice(1).every((rect) => rect && rect.width > 0 && rect.height >= 44 &&
+        rect.display !== "none" && rect.visibility === "visible" && Number.parseFloat(rect.opacity) > 0),
+    nativeActionVisible: Boolean(metrics.actionRects[0] && metrics.actionRects[0].width > 0 &&
+      metrics.actionRects[0].height >= 44 && metrics.actionRects[0].display !== "none" &&
+      metrics.actionRects[0].visibility === "visible" && Number.parseFloat(metrics.actionRects[0].opacity) > 0),
+    exactCanonicalPath: metrics.canonicalPath.endsWith(scenario.route.replace("%20", "%20")),
+    invalidRecoveryMessage: !scenario.disabled || metrics.statusText === "Ask the group member to share a new link.",
+    keyboardTraversal: presentFocus.length >= 5 && presentFocus[0]?.text === "Skip to content",
+    visibleKeyboardFocus: presentFocus.length >= 5 && presentFocus.every((item) =>
+      item.focusVisible && (
+        (item.outlineStyle !== "none" && Number.parseFloat(item.outlineWidth) >= 2) ||
+        item.boxShadow !== "none"
+      )),
+  };
+
+  await page.evaluate(() => {
+    if (document.activeElement && typeof document.activeElement.blur === "function") {
+      document.activeElement.blur();
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(100);
+  const screenshot = path.join(screenshotDir, `group_${scenario.name}_${viewport.name}.png`);
+  await page.screenshot({ path: screenshot, fullPage: false });
+  return {
+    scenario: scenario.name,
+    route: scenario.route,
+    viewport: viewport.name,
+    url,
+    screenshot,
+    checks,
+    failures: Object.entries(checks).filter(([, passed]) => !passed).map(([id]) => id),
+    metrics,
+    keyboardFocus: presentFocus,
+    consoleMessages,
+    pageErrors,
+  };
+}
+
+(async () => {
+  fs.mkdirSync(screenshotDir, { recursive: true });
+  const { modulePath, playwright } = await loadPlaywright();
+  const executablePath = findExisting(chromeCandidates, "Chromium/Chrome executable");
+  const browser = await playwright.chromium.launch({ executablePath, headless: true,
+    args: ["--disable-background-networking", "--disable-component-update", "--no-first-run"] });
+  const results = [];
+  const shareResults = [];
+  // Capture-only follow-up reuses the completed assertions for an unchanged
+  // artifact, and repairs long-page evidence without rebuilding or rerunning
+  // unaffected routes. Both receipts and all actual build bytes are bound.
+  const longCaptureReport = process.env.PUBLIC_WEBSITE_QA_LONG_CAPTURE_REPORT;
+  const longCaptureExecution = process.env.PUBLIC_WEBSITE_QA_LONG_CAPTURE_EXECUTION;
+  if (longCaptureReport || longCaptureExecution) {
+    if (!longCaptureReport || !longCaptureExecution) throw new Error("Long capture requires both prior QA and artifact execution receipts");
+    const prior = JSON.parse(fs.readFileSync(longCaptureReport, "utf8"));
+    const execution = JSON.parse(fs.readFileSync(longCaptureExecution, "utf8"));
+    if (prior.status !== "pass" || !execution.artifact_unchanged || path.resolve(prior.buildDir) !== buildDir) throw new Error("Prior unchanged-build QA did not pass");
+    const hashFile = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+    const buildFiles = (directory, prefix = "") => fs.readdirSync(directory, { withFileTypes: true })
+      .flatMap((entry) => entry.isDirectory() ? buildFiles(path.join(directory, entry.name), `${prefix}${entry.name}/`) : [`${prefix}${entry.name}`]);
+    const verifyBuild = () => JSON.stringify(buildFiles(buildDir).sort()) === JSON.stringify(Object.keys(execution.artifact_files).sort()) &&
+      Object.entries(execution.artifact_files).every(([file, hash]) =>
+        fs.existsSync(path.join(buildDir, file)) && hashFile(path.join(buildDir, file)) === hash);
+    if (!verifyBuild()) throw new Error("Build bytes differ from prior QA receipt");
+    try {
+      for (const row of prior.results) {
+        if (!row.fullPageScreenshot) continue;
+        const previousPng = fs.readFileSync(row.fullPageScreenshot);
+        if (previousPng.readUInt32BE(20) <= longPageCaptureThreshold) continue;
+        const viewport = viewports.find((item) => item.name === row.viewport);
+        if (!viewport) throw new Error(`Unknown viewport: ${row.viewport}`);
+        const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height },
+          deviceScaleFactor: 1, isMobile: viewport.isMobile, serviceWorkers: "block" });
+        await installLocalNetworkFence(page, baseUrl, blockedNetworkRequests);
+        try {
+          const response = await page.goto(new URL(row.route, baseUrl).toString(), { waitUntil: "domcontentloaded", timeout: 30_000 });
+          if (!response || response.status() !== 200) throw new Error(`Long page did not return HTTP200: ${row.route}`);
+          await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
+          await page.evaluate(() => document.fonts.ready);
+          await page.evaluate(() => Promise.all([...document.querySelectorAll(".hero img")].map((image) => image.decode())));
+          const capture = await captureOriginalViewportSegments(page, row.route, viewport);
+          results.push({ route: row.route, viewport: row.viewport, supersededFullPageScreenshot: row.fullPageScreenshot,
+            supersededFullPageSha256: hashFile(row.fullPageScreenshot), fullPageScreenshot: null, longPageCapture: capture });
+          console.log(`Original viewport capture ${row.route} ${row.viewport}: ${capture.segments.length} segments`);
+        } finally { await page.close(); }
+      }
+    } finally { await browser.close(); }
+    if (!verifyBuild() || blockedNetworkRequests.length) throw new Error("Build drift or blocked network request during long capture");
+    const report = { checkedAt: new Date().toISOString(), status: "pass", kind: "long_page_original_viewport_capture",
+      design_authority: "revolut-design", baseUrl, buildDir, playwrightCore: modulePath, executablePath,
+      scriptSha256: hashFile(__filename), artifactFiles: execution.artifact_files, artifactUnchanged: true,
+      priorAssertionsReport: path.resolve(longCaptureReport), priorAssertionsReportSha256: hashFile(longCaptureReport),
+      priorExecution: path.resolve(longCaptureExecution), priorExecutionSha256: hashFile(longCaptureExecution),
+      priorRouteAssertionCount: prior.results.length, priorShareAssertionCount: prior.shareResults.length,
+      blockedNetworkRequests, results };
+    const reportPath = path.join(outDir, "long_page_capture.json");
+    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+    console.log(JSON.stringify({ status: "pass", reportPath, longPageCount: results.length,
+      screenshotCount: results.reduce((sum, row) => sum + row.longPageCapture.segments.length, 0) }, null, 2));
+    return;
+  }
+  try {
+    for (const route of sitemapRoutes()) {
+      for (const viewport of viewports) {
+        const page = await browser.newPage({
+          viewport: { width: viewport.width, height: viewport.height },
+          deviceScaleFactor: 1,
+          isMobile: viewport.isMobile,
+          serviceWorkers: "block",
+        });
+        await installLocalNetworkFence(page, baseUrl, blockedNetworkRequests);
+        try {
+          results.push(await auditRoute(page, route, viewport));
+        } finally {
+          await page.close();
+        }
+      }
+    }
+    const shareHtml = fs.readFileSync(path.join(buildDir, "c", "index.html"), "utf8");
+    for (const scenario of groupShareScenarios) {
+      for (const viewport of viewports) {
+        const page = await browser.newPage({
+          viewport: { width: viewport.width, height: viewport.height },
+          deviceScaleFactor: 1,
+          isMobile: viewport.isMobile,
+          serviceWorkers: "block",
+        });
+        await installLocalNetworkFence(page, baseUrl, blockedNetworkRequests);
+        try {
+          shareResults.push(await auditGroupShareScenario(page, scenario, viewport, shareHtml));
+        } finally {
+          await page.close();
+        }
+      }
+    }
+  } finally {
+    await browser.close();
+  }
+
+  const report = {
+    checkedAt: new Date().toISOString(),
+    baseUrl,
+    buildDir,
+    playwrightCore: modulePath,
+    executablePath,
+    status: blockedNetworkRequests.length > 0 || [...results, ...shareResults].some((result) => result.failures.length > 0) ? "fail" : "pass",
+    networkScope: "Browser page HTTP requests restricted to the exact unauthenticated loopback origin; no provider, hosted, store or physical-device acceptance",
+    blockedNetworkRequests,
+    capabilityRegistrySha256: capabilityContract.registry_sha256,
+    capabilityApproval: capabilityContract.approval,
+    results,
+    shareResults,
+  };
+  const reportPath = path.join(outDir, "route_rendered_qa.json");
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+  console.log(JSON.stringify({
+    status: report.status,
+    reportPath,
+    screenshotCount: results.filter((result) => result.screenshot).length +
+      results.filter((result) => result.fullPageScreenshot).length +
+      results.reduce((sum, result) => sum + (result.longPageCapture?.segments.length || 0), 0) +
+      results.filter((result) => result.menuScreenshot).length + shareResults.length,
+    failures: [...results, ...shareResults]
+      .flatMap((result) => result.failures.map((failure) => `${result.route} ${result.viewport}: ${failure}`)),
+  }, null, 2));
+  process.exit(report.status === "pass" ? 0 : 1);
+})().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

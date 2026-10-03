@@ -1,0 +1,11 @@
+{
+  "all_181_canonical_bindings_verified_current": true,
+  "all_original_members_verified_current": true,
+  "manifest_sha256": "7544c5cdd15606e03ce42246fbf227f148d8a6b637025741e4c96498e2924e71",
+  "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1",
+  "producer_association_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/producer-association.json",
+  "producer_association_sha256": "a21d61ef580ce2287135c748c262fb97d51996d49d22ad9d36c136cb0d0769d6",
+  "references_only_no_duplicate_baseline": true,
+  "verification_sha256": "9fbcea478b377a8e407b2c47882cb19a9eeaffb281821353502cda15bee88056",
+  "verified_members": 526
+}

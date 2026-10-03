@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-09-30T18:04:51Z",
+  "status": "fail",
+  "scope": "asset and runtime source integrity; no visual design acceptance",
+  "checks": {
+    "approved_product_visual_assets": {
+      "status": "pass",
+      "manifest": "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+      "approved_count": 174,
+      "observed_count": 174,
+      "missing": [
+
+      ],
+      "unexpected": [
+
+      ],
+      "hash_mismatches": [
+
+      ],
+      "manifest_errors": [
+
+      ],
+      "scope": "supplied observed asset inventory; integrity only",
+      "asset_mutations": false
+    },
+    "official_logo_identity": {
+      "status": "pass",
+      "canonical_path": "assets/brand/collect_runtime/app_icons/app-icon-rule.png",
+      "android_path": "android/app/src/main/res/drawable/collect_launcher_icon.png",
+      "expected_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+      "canonical_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+      "android_sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    "fixture_isolation": {
+      "status": "pass",
+      "hits": [
+
+      ]
+    },
+    "secret_scan": {
+      "status": "fail",
+      "scanner": "gitleaks when installed, redacted tracked/untracked fallback otherwise"
+    },
+    "product_boundary": {
+      "status": "pass",
+      "scanned_files": 203,
+      "hit_count": 0
+    }
+  },
+  "failure_count": 1,
+  "failures": [
+    {
+      "check": "secret_scan"
+    }
+  ],
+  "secret_handling": "This gate reports checks, paths, counts, and public asset hashes only. Secret values, credentials, raw SMS, OTPs, phone/MoMo numbers, provider tokens, and production customer data are never printed."
+}

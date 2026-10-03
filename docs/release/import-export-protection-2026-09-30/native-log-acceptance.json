@@ -1,0 +1,45 @@
+{
+  "actual_plugin_jvm_cases": 3,
+  "dependencies_sha256": {
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.7.0/920472d40adcdef5e18708976b3e314f9a636fcd/annotation-jvm-1.7.0.jar": "e36b8e4b8393a4adc74e3d4ab22ad5a36396f0cea2e40b5734eae14937dfd224",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_release/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/7372e7612bd9b692791ebb672712686c6d102d41/flutter_embedding_release-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar": "8bca1e8c061c3dfe57808bf4f9426e7f61859d85d20320ce71a8f1266b4a145f",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.2.20/bb8331b7585e36ea311825b01a1c06860c055fd1/kotlin-compiler-embeddable-2.2.20.jar": "1c6c3f810bfe6a41abcbc34b3a2ef639f1e3f4aeed3a953a4b0974eea4f41889",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar": "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar": "5c8bd5dd7ae1ea2eeb2778fdbeaa19a562184975f6cab8a0bb6779e4190731ae",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar": "8836ccffd3585fadda9901244b20d42901d2f3cd581058d8434e2ffabcf3a3e7",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar": "f3d4f5de1c391bbcc20f3b3435ccbac013521e76b6902d7d59635ec15c1f797e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+    "/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a"
+  },
+  "limits": [
+    "Only Android Log is a JVM test sink; no Android device/filesystem UI execution",
+    "Swift fixed literal source checks only; final unsigned iOS compilation pending",
+    "Preexisting nullable SECONDARY_STORAGE Kotlin warning separately disposed",
+    "No actual raw SMS leakage claim; full L07 evidence boundaries remain root/cohort work",
+    "New invitation consumer save-receipt correction pending; native caller behavior remains unchanged"
+  ],
+  "preserved_caller_contracts": [
+    "Android result.error and legacy saveFile failure result strings",
+    "iOS structured creating_temp_file_failed and picked destination result paths"
+  ],
+  "proof_sha256": {
+    "file-saver-fork-comparison.json": "d8bec926a911e8b9d79e5890032e363084a1d5be6e286f47e910779002b83e66",
+    "file-saver-native-log-current-attempt12/validation.json": "790a4d5cfcf1a68e7007068aad7ec3eee270c340b5f92818a45fa75f7199f209",
+    "file-saver-native-log-prior-attempt11/validation.json": "fc614707128050ce68d0093937611e07ed709f8dfe5275db945cdc468d388b6e"
+  },
+  "routine_sink_check": "zero_dynamic_Android_logs_stacks_and_iOS_prints_in_declared_files",
+  "source_compile": "three_actual_Kotlin_files_against_cached_Android36_pinned_Flutter_engine",
+  "source_sha256": {
+    "scripts/tests/file_saver_native_log_test.py": "0bfeb3ec24bd2dff5c5048cd799695ac724644f0bc4efabef04895afc87c5784",
+    "scripts/tests/fixtures/file_saver_native_log/Log.java": "a17e95b34bebccf704885d3220967d3691a268ef7aba04990bd1b487c771ced6",
+    "scripts/tests/fixtures/file_saver_native_log/NativeLogProbe.kt": "ad68b58b0e68c8ba84624a5cd15bdd56582aa99410a408ff2541b5f55cc532ed",
+    "third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt": "08f52763c838ac2437ed47c84762c7c817ea66a67cd7a9b0ff6c4cbf5f734987",
+    "third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt": "6d914847169cb0fe06f5c1d1ecee2823545004c885c5955d53d0e8d391dd647c",
+    "third_party/file_saver/android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt": "856a63fba8a275c1c8dfe0b938eca34c21c0f2bc5601d77fa53c769a813e499a",
+    "third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+    "third_party/file_saver/ios/file_saver/Sources/file_saver/FileSaverPlugin.swift": "f6c4c2b8fe768ea08cb5ff8a0b7ad6306c9c08b6a17bfa81f4bbbf5f6114da7b"
+  },
+  "source_unchanged": true,
+  "status": "accepted_native_log_scope",
+  "unchanged_license_sha256": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee"
+}

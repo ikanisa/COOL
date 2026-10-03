@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/build/web/assets/fonts/MaterialIcons-Regular.otf",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf"
+  ],
+  "drain_errors": [],
+  "engine": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/cache/artifacts/engine/darwin-x64/font-subset.original",
+  "engine_exit_code": 0,
+  "font_outputs_not_modified_by_wrapper": true,
+  "original_engine_sha256": "fcd76cbd293f373b0da518d3ce6b1a438d37977a80c32310ed0497d217d3be2c",
+  "started_at_unix": 1790871050.103412,
+  "stderr_inherited_unchanged": true,
+  "stdin_inherited_unchanged": true,
+  "stdout_fully_drained": true,
+  "stdout_prefix_base64": "VXNpbmcgb3V0cHV0IGZpbGU6IC9Wb2x1bWVzL1BSTy1HNDAvUHJvamVjdHMvUmVjb3ZlcmVkLUctUFJPL0NPT0wvLmNhY2hlL2FkbWluLWludGVncmF0aW9uLWJyb3dzZXItYnVpbGQtY3VycmVudDEvYnVpbGQvd2ViL2Fzc2V0cy9mb250cy9NYXRlcmlhbEljb25zLVJlZ3VsYXIub3RmClVzaW5nIHNvdXJjZSBmaWxlOiAvVm9sdW1lcy9QUk8tRzQwL1Byb2plY3RzL1JlY292ZXJlZC1HLVBSTy9DT09MLy5jYWNoZS9mbHV0dGVyLXNkay1pc29sYXRlZC1hZG1pbi1icm93c2VyLWludGVncmF0aW9uLWlvLWN1cnJlbnQxL2Jpbi9jYWNoZS9hcnRpZmFjdHMvbWF0ZXJpYWxfZm9udHMvTWF0ZXJpYWxJY29ucy1SZWd1bGFyLm90ZgpXcm90ZSAzMjI2OCBieXRlcyB0byAvVm9sdW1lcy9QUk8tRzQwL1Byb2plY3RzL1JlY292ZXJlZC1HLVBSTy9DT09MLy5jYWNoZS9hZG1pbi1pbnRlZ3JhdGlvbi1icm93c2VyLWJ1aWxkLWN1cnJlbnQxL2J1aWxkL3dlYi9hc3NldHMvZm9udHMvTWF0ZXJpYWxJY29ucy1SZWd1bGFyLm90Zgo=",
+  "stdout_prefix_bytes": 521,
+  "stdout_prefix_limit_bytes": 65536,
+  "stdout_sha256": "daae002c9fd1233632e83509b29f3ff225db45170ca789304e1ae8cb00cf39f6",
+  "stdout_total_bytes": 521,
+  "wrapper_sha256": "02abb6805f90dbdf79009e7624d01dc77c53b9160f7521bc364035c2782a407b"
+}

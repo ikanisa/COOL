@@ -1,0 +1,1 @@
+Dated origin/delta proof before independent verifier review. Superseded for verifier safety by the current packet. Original local comparison used unchanged legitimate inputs; the initial negatives did not cover output traversal/hardlinks, unreadable subtree enumeration, FIFO file inputs or cross-package source drift. Those gaps must be fixed and tested before integration.

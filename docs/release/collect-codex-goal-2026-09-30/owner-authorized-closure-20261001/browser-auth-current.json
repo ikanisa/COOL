@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-10-01T09:42:52.986818+00:00",
+  "url": "https://supabase.com/dashboard/project/lhbowpbcpwoiparwnwgt",
+  "browser": "Codex In-app Browser",
+  "status": "BROWSER_SECURITY_CHECK_UNAVAILABLE",
+  "reason": "Saved browser permissions could not be verified and permission request was unavailable.",
+  "configuration_observed": false,
+  "configuration_changed": false,
+  "temporary_tab_closed": true,
+  "alternate_browser_or_permission_workaround_attempted": false
+}

@@ -1,0 +1,235 @@
+{
+  "files": [
+    {
+      "path": "SDK-readback-after-built.json",
+      "bytes": 1101,
+      "sha256": "2b746f13710437b16390f06fc6915ebb02da5d1496dc44e4534e64efba5afe19"
+    },
+    {
+      "path": "SDK-readback-after-built.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "SDK-readback-after-built.stdout",
+      "bytes": 756,
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "path": "SDK-readback-before-built.json",
+      "bytes": 1101,
+      "sha256": "5b6ad813d37e6e2a641017c263d012587cfed0e62e08a8424ef69d574d3be7d2"
+    },
+    {
+      "path": "SDK-readback-before-built.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "SDK-readback-before-built.stdout",
+      "bytes": 756,
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "path": "SDK-source-after-built.json",
+      "bytes": 6880418,
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052"
+    },
+    {
+      "path": "SDK-source-before-built.json",
+      "bytes": 6880417,
+      "sha256": "dc44b7b2da3a6056f53aa33c8060ba1dd6779f35fd526fe265564c2e3271007a"
+    },
+    {
+      "path": "actual-app-packages.json",
+      "bytes": 60531,
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2"
+    },
+    {
+      "path": "actual-app-source.json",
+      "bytes": 1425022,
+      "sha256": "472b0beb1658ae1550d122bc0958d1421279ef3892fa75df958d14340d7d2619"
+    },
+    {
+      "path": "actual-command.json",
+      "bytes": 1566,
+      "sha256": "14964fb2847f80589ad4aecb2b1ecdd31a4a5a3cbfd7fed30d6a9d267d0ca962"
+    },
+    {
+      "path": "actual-command.stderr",
+      "bytes": 985,
+      "sha256": "98d991fe6115975bf174327f05510ff59d82e048f4281ee38ec1aa3c33ebc577"
+    },
+    {
+      "path": "actual-command.stdout",
+      "bytes": 169766,
+      "sha256": "49579db3d946f2b0f4d819869315eb42e8c9ed42ea2ee959075cb9fad084628e"
+    },
+    {
+      "path": "actual-plugin-bindings.json",
+      "bytes": 117582,
+      "sha256": "47b1b5806e8f1eb841abf22e2c2a8ae0451b0d624629eefa5b0b3dfd3ad282d5"
+    },
+    {
+      "path": "actual-production-JVM-and-classes.json",
+      "bytes": 9221,
+      "sha256": "cf3deecb28642d2d0b228c919af0437b452526933f7b2b1500dd2546c77e6876"
+    },
+    {
+      "path": "native-command-reuse-review.json",
+      "bytes": 2310,
+      "sha256": "61fec715bf9e19634c62fb97c8ef24e5075d8ec2d11ca4cdf5ff3af55f603af2"
+    },
+    {
+      "path": "raw-Gradle-owned-reuse.json",
+      "bytes": 585,
+      "sha256": "7b4a20cc9e768ebe8c78b9220b3850f6ccd4fdc6bf5d7d7e7e0ed641e4d5a0dc"
+    },
+    {
+      "path": "start.json",
+      "bytes": 415,
+      "sha256": "becaab3ac95a0883cab16e8c287dc8876105b755110e55e3d71ad20dc093ab3f"
+    },
+    {
+      "path": "terminal.json",
+      "bytes": 375,
+      "sha256": "bafcc7a1425467ff93aa8b64bf8e618fe3bca69887f2723fb8746374b083525c"
+    },
+    {
+      "path": "JVM/TEST-app.cool.mobile.receiver_sms.CollectSmsReceiverTest.xml",
+      "bytes": 1494,
+      "sha256": "ef8f949ffe6744fa913c185802873374fc1f2921a21ae4198ec89054ffcff22e"
+    },
+    {
+      "path": "JVM/TEST-app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest.xml",
+      "bytes": 776,
+      "sha256": "c403d97d3a1c109ecbc78bb705453bcaa1d97d1e3747795afb85d75904148c98"
+    },
+    {
+      "path": "JVM/TEST-app.cool.mobile.receiver_sms.SmsQueueWorkerTest.xml",
+      "bytes": 475,
+      "sha256": "db6d3cb28edb42361dcf9d3206d32adea56732e9b4387bcd6dc4c356c2dd0bb8"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity$Companion.class",
+      "bytes": 1316,
+      "sha256": "56a3753bb37b99dc01cd3b37be308521422acf2ef0e10dcc5cdaa2b5c1da01fe"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity$configureFlutterEngine$2.class",
+      "bytes": 2233,
+      "sha256": "6445f1e6bb538b11b8d00c6a9bf86ee8863304f2e71a96a4cec1c814c355c432"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity.class",
+      "bytes": 36242,
+      "sha256": "bb7e11d1b8174082aca8d6ccd3ec1f1ca5f83f21520096ea1a4a73da124225aa"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver$Companion.class",
+      "bytes": 1490,
+      "sha256": "451be7be230698bdb01ba2b0e503ccb7ab21faf40f7b3d61d511f0e1d84ef931"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver$WhenMappings.class",
+      "bytes": 1088,
+      "sha256": "63b7422e3a426ce12d7e6f704d166cd0f528f8a176b77f3145058623262735b8"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver.class",
+      "bytes": 13222,
+      "sha256": "2238e3229b88744c0bcecb0172d2f1a80eac95fbdb4d71a5a77783e0c8be6ac4"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptAckPolicy$Envelope.class",
+      "bytes": 3537,
+      "sha256": "29afb975febbba21540f4881340761111e527823d2434527120152b13fe056d2"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptAckPolicy.class",
+      "bytes": 7779,
+      "sha256": "e738f74720f955e9c3adcdbcc16d5e37bb375dd37604c620d2a89a97c06575c2"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptCipher.class",
+      "bytes": 5023,
+      "sha256": "dbeb6d51841efce65f1961bb8b33b5b5b868285be3ebd59d2d6f4b63d93be95c"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueEventBus.class",
+      "bytes": 4254,
+      "sha256": "20da97ea7f0dcdbc6755e4d7d9afd87b8c3172f6a32221f214c3f060deb996b5"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.class",
+      "bytes": 3563,
+      "sha256": "e60c021ec70f86e63c3fded80791020b847bc84f0ab49e62780376000ba1e788"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore$AppendResult.class",
+      "bytes": 2238,
+      "sha256": "ef7038cb8fbe7ca1267fd45a2b6a462db7e9186b2d032e6f65092d122dffac22"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore$Companion.class",
+      "bytes": 1352,
+      "sha256": "2b2f57e012cba98ff2b558093f1007d1446641d3e771126030fcec1fb3bcc7aa"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore.class",
+      "bytes": 18895,
+      "sha256": "450cb1bde5b8940bec061fbb8b79f07e116bbbe91c960631a718d57b077d40fe"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueWorker.class",
+      "bytes": 3804,
+      "sha256": "e771ea95883464e0e0db7ac6252556e7900d7f7e5b58fa077feb452c1de728d9"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore$Companion.class",
+      "bytes": 957,
+      "sha256": "77ba6cd3def67722acaac100152498e99a57b8524117d87dff02f4ec3ebed5fc"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore$cipher$1.class",
+      "bytes": 1453,
+      "sha256": "50b32650e9854291c9d7c1a4aff7f5fb5c9ab8632130fe7480706d6b3f0266d0"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore.class",
+      "bytes": 12772,
+      "sha256": "b5ee50f38357f1eeb9ab10d224ffd02a3d8a9b09206f25dfebdb1724458080e5"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/security/SnapshotCipher$Companion.class",
+      "bytes": 2258,
+      "sha256": "10b288d26cee29030c617fb7c20a0cc5d21c5ecf87c76135a8f614d64d0536ee"
+    },
+    {
+      "path": "classes/tmp/kotlin-classes/productionRelease/app/cool/mobile/security/SnapshotCipher.class",
+      "bytes": 5467,
+      "sha256": "6074d217f4210ad72d8d1d4b310d83fbb984d29e6f1a29eacabd29d4a82e109a"
+    },
+    {
+      "path": "observed-native-graphs/collect_native_production_graph0.json",
+      "bytes": 18547,
+      "sha256": "f23bf65f44cd624b9bf80384973d3c9217c9612102eeb4ddbb16f1cbd7520820"
+    },
+    {
+      "path": "observed-native-graphs/collect_native_production_graph1.json",
+      "bytes": 55887,
+      "sha256": "963cc00c3b3a9580f17e68ddba722a0c998f2cd4978d401cc67ac8385044c86a"
+    },
+    {
+      "path": "observed-native-graphs/collect_candidate_sdk_graphs0.json",
+      "bytes": 21480,
+      "sha256": "c5f85ee197b90adf470bfe6faa40f9bd6a32ac0af5dc2327ee4cc45a8673ce7e"
+    },
+    {
+      "path": "readback.json",
+      "bytes": 2219,
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    }
+  ],
+  "scope": "Actual native8 success, whole stage control bytes, raw JVM/class independent copies and observed flat graphs; no package or release acceptance"
+}

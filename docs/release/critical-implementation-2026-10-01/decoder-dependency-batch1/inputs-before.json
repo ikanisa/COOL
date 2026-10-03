@@ -1,0 +1,11 @@
+{
+  "observed_at_utc": "2026-10-01T21:22:07.862009+00:00",
+  "source_sha256": {
+    "tools/roster-decoder/requirements.in": "b8fb6f99aae0ca996ae1e47348091911a17403413a45451c3b77575e071d3bed",
+    "tools/roster-decoder/requirements.lock": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a",
+    "tools/roster-decoder/decoder.py": "ddcecf87cfd3c10ccc31e8a2e1945c7f8944fe8d5396aa9f72e8fa86598126b4",
+    "tools/roster-decoder/server.py": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+    "tools/roster-decoder/Dockerfile": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+    "tools/roster-decoder/generate_fixtures.py": "8e53bdc5442866287ff8b37a0922de2c3044e3ce9a10c273805568f67991d109"
+  }
+}

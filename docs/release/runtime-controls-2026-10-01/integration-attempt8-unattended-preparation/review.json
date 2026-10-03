@@ -1,0 +1,11 @@
+{
+  "status": "reviewed_pending_execution",
+  "source_sha256": "536cd9175de966b1c14f4468385bea2c1ad7bc1a0706d9c7591e013a3b85e781",
+  "new_private_tables": 2,
+  "new_public_signatures": 3,
+  "live_mode_authorized": false,
+  "sender_scheduler_or_financial_implementation_added": false,
+  "review": "Preparation policy defaults Paused/stop=true, permits only Shadow/Dry-run/Paused configurations. Live/Live-limited explicitly55000; limits/schedule/approvals/dispatch are unavailable or null. Current email-owner authority is locked and rechecked after policy locks; request replay is actor and payload bound. CAS monotonic revisions, deferred last-change receipt FK, immutable request audits, RLS/no direct API DML. No assisted/carrier/financial mutation.",
+  "acceptance": "Default, actual changing ACK, exact replay/recovery and both live-mode refusals required in combined ordinary-owner rehearsal.",
+  "source_unchanged_after_capture": true
+}

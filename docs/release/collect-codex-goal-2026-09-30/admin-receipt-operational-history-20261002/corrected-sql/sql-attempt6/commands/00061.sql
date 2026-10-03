@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select not exists(select 1 from pg_proc p where p.pronamespace='public'::regnamespace and p.proname in('admin_list_receipt_operation_starts_v1','admin_get_receipt_operation_run_v1','admin_list_receipt_operation_evidence_v1')and has_function_privilege('anon',p.oid,'EXECUTE')); 

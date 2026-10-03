@@ -1,0 +1,33 @@
+{
+  "all_original14_method_ASTs_unchanged": true,
+  "captured_at_utc": "2026-10-02T14:55:09.341096+00:00",
+  "command": {
+    "actual_seconds": 0.09076879199710675,
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_evidence_index_test.py"
+    ],
+    "deadline_seconds": 30,
+    "exit_code": 0,
+    "stderr_sha256": "8fbbd5b7f5ba784000b3478262e73e67395c79b41206832cf55c441a8ed6443d",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "meaningful_new_methods": 4,
+  "owned_files": [
+    {
+      "after_sha256": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119",
+      "before_sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+      "path": "scripts/audits/collect_current_evidence_index.py"
+    },
+    {
+      "after_sha256": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736",
+      "before_sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6",
+      "path": "scripts/tests/collect_current_evidence_index_test.py"
+    }
+  ],
+  "production_release_approval": false,
+  "reader_grants_closure": false,
+  "total_maintained_tests_passed": 18
+}

@@ -1,0 +1,9 @@
+{
+  "findings": [],
+  "hosted_enforcement_verified": false,
+  "remote_settings_changed": false,
+  "scope": "Declared local checkout, action pin, deadline and MCP CI wiring only.",
+  "security_scan_execution_verified": false,
+  "status": "pass",
+  "workflow_count": 6
+}

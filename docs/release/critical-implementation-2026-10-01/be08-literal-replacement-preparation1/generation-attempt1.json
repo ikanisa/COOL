@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+    "--replay-migrations",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/generated-current209",
+    "--require-current"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 3.632569458000944,
+  "deadline_seconds": 30,
+  "timed_out": false,
+  "python_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "owned_group_id": 18268,
+  "stdout_sha256": "ca7f80ee9eaccde3ae13966228a95fecbaf44271b030b30bc2e9fdd261789580",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "owned_group_absent": true
+}

@@ -1,0 +1,135 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 503,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 64301,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 1.354,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "--dart-define=COLLECT_CAPTURE_OPERATIONS=true",
+        "test/admin_gateway_sdk_state_matrix_test.dart",
+        "test/admin_gateway_contracts_test.dart",
+        "test/admin_gateway_models_test.dart",
+        "test/admin_gateway_repository_test.dart",
+        "test/admin_gateway_page_test.dart",
+        "--concurrency=1",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 64395,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 518.253,
+      "sha256": "c622cce5d413fa1560ebde8a6951aed37d2ee6f583cc99a004e53659e1d5189d"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_gateway_sdk_state_matrix_test.dart",
+        "test/admin_gateway_contracts_test.dart",
+        "test/admin_gateway_models_test.dart",
+        "test/admin_gateway_repository_test.dart",
+        "test/admin_gateway_page_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 86274,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 128.607,
+      "sha256": "0c40301d60d424fe327213212c52032aa02d0cb9d4e3698bbeda78d10cd5021b"
+    }
+  ],
+  "test_files": [
+    "test/admin_gateway_sdk_state_matrix_test.dart",
+    "test/admin_gateway_contracts_test.dart",
+    "test/admin_gateway_models_test.dart",
+    "test/admin_gateway_repository_test.dart",
+    "test/admin_gateway_page_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 124,
+    "failed": 2,
+    "errors": 4,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after permission loss",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      },
+      {
+        "name": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after identity loading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      },
+      {
+        "name": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after identity error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      },
+      {
+        "name": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after permission loss",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      },
+      {
+        "name": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after identity loading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      },
+      {
+        "name": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after identity error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-current-attempt2/source-export/test/admin_gateway_sdk_state_matrix_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": true,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "bb8264be01cf21427216f213219156385f611f6663beabdd432ff3b3ed1de5ac",
+  "source_before_sha256": "7d4b0f23a75f2ea105b3a2a7a19f49db5e865d4a279b4f360899ebb6e7ad2aa1",
+  "source_after_sha256": "7d4b0f23a75f2ea105b3a2a7a19f49db5e865d4a279b4f360899ebb6e7ad2aa1"
+}

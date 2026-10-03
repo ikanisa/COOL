@@ -1,0 +1,39 @@
+PRIVATE schema154 restored; appending frozen185 suffix31 as ordinary owner
+PRIVATE exact185 installed; current email-approved synthetic owner fixture ready
+PASS private exact frozen185 registry
+PASS admin_create_platform_public_group-unprivileged-denied
+PASS admin_create_platform_public_group-invalid-reason-denied
+PASS admin_create_platform_public_group actual positive ACK
+PASS admin_create_platform_public_group exact durable attributed audit
+PASS admin_create_collect_payee-unprivileged-denied
+PASS admin_create_collect_payee-invalid-reason-denied
+PASS admin_create_collect_payee actual positive ACK
+PASS admin_create_collect_payee exact durable attributed audit
+PASS admin_update_collect_payee-unprivileged-denied
+PASS admin_update_collect_payee-invalid-reason-denied
+PASS admin_update_collect_payee actual positive ACK
+PASS admin_update_collect_payee exact durable attributed audit
+PASS admin_set_collect_payee_status-unprivileged-denied
+PASS admin_set_collect_payee_status-invalid-reason-denied
+PASS admin_set_collect_payee_status actual positive ACK
+PASS admin_set_collect_payee_status exact durable attributed audit
+PASS payee edit/status preserves exact immutable payment route
+PASS admin_set_group_active-unprivileged-denied
+PASS admin_set_group_active-invalid-reason-denied
+PASS admin_set_group_active actual positive ACK
+PASS admin_set_group_active exact durable attributed audit
+PASS admin_update_collection_support_status-unprivileged-denied
+PASS admin_update_collection_support_status-invalid-reason-denied
+FAIL ERROR:  P0001: notification_template_not_found
+CONTEXT:  PL/pgSQL function enqueue_notification_template_event(uuid,text,jsonb,uuid,text,text) line 30 at RAISE
+SQL statement "SELECT public.enqueue_notification_template_event(
+    owner_user_id,
+    'group.update.default',
+    jsonb_build_object('group', current_row.title),
+    p_collection_id,
+    '/groups/' || p_collection_id::text,
+    'en'
+  )"
+PL/pgSQL function admin_update_collection_support_status(uuid,text,text) line 42 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+

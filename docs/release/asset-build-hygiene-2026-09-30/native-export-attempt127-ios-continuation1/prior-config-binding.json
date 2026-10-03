@@ -1,0 +1,99 @@
+{
+  "status": "reused_unchanged_configuration",
+  "prior_execution_sha256": "3dd7ca487874e66558a41839ff5c7f3b5341c4ed2ab3c6ef237a530b6bcb4a0f",
+  "prior_failed_wrapper_sha256": "1a2085dde7164d331c0771c4a6375361907f6129b75a8c4a325c03df0d023f56",
+  "prior_runner_sha256": "c09d7f8958e4d080748759ee0408d518c56a92eb659f62e3910614b5c4e57739",
+  "commands_reexecuted": false,
+  "prior_actual_commands": [
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.35,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.25,
+      "stdout_sha256": "0c228122dabf70c0d5b77f7268a6c7f58aec9254b8da26ab98f079de74f68ae6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "xcode-version",
+      "command": [
+        "xcrun",
+        "xcodebuild",
+        "-version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.92,
+      "stdout_sha256": "694b44731d0b415c5b11d844151e466d7f5e200a95627efda377f232f1a6ab77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.22,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unsigned-ios-config",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/bin/flutter",
+        "build",
+        "ios",
+        "--release",
+        "--flavor",
+        "production",
+        "--no-codesign",
+        "--no-pub",
+        "--config-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 350.7,
+      "stdout_sha256": "10733864bea4600e3ead1f51cc7157899a0be8e24219fa01b7fa6d00584c4246",
+      "stderr_sha256": "1622f660fd70d360f0ba6dedf36c9a4424428eeeca37f22e8297605dbb71faf6"
+    }
+  ],
+  "config_logs": {
+    "export-git-init": {
+      "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "flutter-version": {
+      "stdout": "0c228122dabf70c0d5b77f7268a6c7f58aec9254b8da26ab98f079de74f68ae6",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "xcode-version": {
+      "stdout": "694b44731d0b415c5b11d844151e466d7f5e200a95627efda377f232f1a6ab77",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pub-enforce": {
+      "stdout": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unsigned-ios-config": {
+      "stdout": "10733864bea4600e3ead1f51cc7157899a0be8e24219fa01b7fa6d00584c4246",
+      "stderr": "1622f660fd70d360f0ba6dedf36c9a4424428eeeca37f22e8297605dbb71faf6"
+    }
+  }
+}

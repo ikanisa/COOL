@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-10-01T10:13:07.377201+00:00",
+  "source_inputs": 7,
+  "live_and_retained_source_readback": "pass",
+  "errors": [],
+  "financial_policy_packet": {
+    "path": "../receipt-financial-policy/README.md",
+    "files": 384,
+    "manifest_sha256": "e9e9b4ae40b7668875c9b0c9de6000863cdefcc5b139fdd0cb05f2ca8e6e009c",
+    "independent_hash_readback": "pass",
+    "sql_checks": 43,
+    "distinct_flutter_checks": 80,
+    "final_fixture_subset_checks": 7,
+    "counts_added": false,
+    "sql_prerequisite_scope": 175,
+    "new_feature_migrations": 1,
+    "whole_current_chain_accepted": false
+  },
+  "mcp_ci_packet": {
+    "path": "../release-acceptance-followup-20261001/README.md",
+    "files": 78,
+    "manifest_sha256": "a753b506b6f89eab8a42164d287744bf1b9e5fb84f32d2ade83165bacc7b9a99",
+    "independent_hash_readback": "pass",
+    "node_checks": 146,
+    "local_policy_checks": 18,
+    "hosted_session_restored": false
+  },
+  "android_packet": {
+    "path": "../android-gateway-device-acceptance-2026-10-01/README.md",
+    "files": 79,
+    "manifest_sha256": "112c6e64f714906929e173f4e01d37e4cf9271c7e930fa2470d6f8b9da469014",
+    "independent_hash_readback": "pass",
+    "native_jvm_checks": 39,
+    "synthetic_runner_checks": 9,
+    "synthetic_probe_checks": 5,
+    "readiness_timeout_seconds": 120,
+    "apk_produced": false,
+    "physical_carrier_accepted": false
+  },
+  "live_sms_invoked": false,
+  "hosted_configuration_changed": false,
+  "production_release_decision": "NO_GO",
+  "email_helper_source_at_initial_readback": "prior-helper19/email-source-binding.json",
+  "final_email_helper_readback": {
+    "recorded_at": "2026-10-01T10:29:37.599023+00:00",
+    "source_inputs": 7,
+    "status": "pass",
+    "errors": [],
+    "tests": 31,
+    "source_binding": "email-source-binding.json",
+    "counts_added_across_versions": false
+  }
+}

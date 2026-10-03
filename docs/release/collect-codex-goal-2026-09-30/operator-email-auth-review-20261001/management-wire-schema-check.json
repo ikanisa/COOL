@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-10-01T10:25:57.636583+00:00",
+  "source": "https://raw.githubusercontent.com/supabase/supabase/master/apps/docs/spec/api_v1_openapi.json",
+  "source_authority": "Supabase official repository, public documentation artifact",
+  "method": "Primary artifact opened with web tool; component metadata lookup by backend peer; unverified-email field directly found independently",
+  "components": {
+    "get": "AuthConfigResponse_Output",
+    "patch": "UpdateAuthConfigBody"
+  },
+  "smtp_port": {
+    "get_type": "string|null",
+    "patch_type": "string|null",
+    "numeric_port_readiness": "separate conservative implementation policy, not a published API bound"
+  },
+  "mailer_allow_unverified_email_sign_ins": {
+    "get_type": "boolean|null",
+    "patch_type": "boolean|null",
+    "get_required": true,
+    "tool_observed_lines": [
+      10496,
+      10894,
+      11036
+    ]
+  },
+  "get_integer_metadata": {
+    "safe_bounds": [
+      -9007199254740991,
+      9007199254740991
+    ],
+    "mailer_otp_exp_nullable": false,
+    "mailer_otp_length_nullable": true,
+    "smtp_max_frequency_nullable": true
+  },
+  "patch_integer_metadata": {
+    "mailer_otp_exp": [
+      0,
+      2147483647
+    ],
+    "mailer_otp_length": [
+      6,
+      10
+    ],
+    "smtp_max_frequency": [
+      0,
+      32767
+    ]
+  },
+  "missing_projection_limit": "The helper deliberately represents missing nullable selected fields as unknown; it does not validate the entire required Management GET response schema. Unknown phone/hook state blocks mutation.",
+  "hosted_calls": 0,
+  "credentials_accessed": false,
+  "full_artifact_saved": false
+}

@@ -1,0 +1,8 @@
+{
+  "actual_executed_runner_sha256": "f821950e07ee866ac6c9064a20c0d680ba42d047d3d04d2d30c9b4713b2f6835",
+  "promotable_runner_sha256": "f6d3cbbb68eccdd60a101064afc261fe9052003029dd5e66227d5b1867025c57",
+  "only_delta": "migration input resolution: canonical path first, exact owned stage fallback",
+  "unchanged_executed_logic": true,
+  "actual_selected_migration_sha256": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+  "fresh_whole_sql_run_claimed": false
+}

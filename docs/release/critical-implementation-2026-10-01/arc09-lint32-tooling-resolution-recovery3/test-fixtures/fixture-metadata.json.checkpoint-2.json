@@ -1,0 +1,44 @@
+{
+    "components": [
+        {
+            "id": "fixture:module:1"
+        }
+    ],
+    "edges": [
+        
+    ],
+    "artifacts": [
+        
+    ],
+    "poms": [
+        {
+            "id": "fixture-POM"
+        }
+    ],
+    "checkpoints": [
+        {
+            "sequence": 0,
+            "phase": "before-selected-metadata-resolution",
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-fixtures/fixture-metadata.json.checkpoint-0.json"
+        },
+        {
+            "sequence": 1,
+            "phase": "selected-components-edges-variants",
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-fixtures/fixture-metadata.json.checkpoint-1.json"
+        },
+        {
+            "sequence": 2,
+            "phase": "selected-metadata-complete-before-binaries",
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/test-fixtures/fixture-metadata.json.checkpoint-2.json"
+        }
+    ],
+    "complete_selected_tooling_metadata": true,
+    "complete_selected_tooling_graph": false,
+    "phase": "selected-metadata-complete-before-binaries",
+    "counts": {
+        "components": 1,
+        "edges": 0,
+        "artifacts": 0,
+        "poms": 1
+    }
+}

@@ -1,0 +1,40 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.112.0";
+import { requireEnv } from "./cors.ts";
+export function serviceClient() {
+  return createClient(requireEnv("SUPABASE_URL"), requireEnv("SUPABASE_SERVICE_ROLE_KEY"), {
+    auth: {
+      persistSession: false
+    }
+  });
+}
+export function userClient(authorization) {
+  return createClient(requireEnv("SUPABASE_URL"), requireEnv("SUPABASE_ANON_KEY"), {
+    global: {
+      headers: {
+        Authorization: authorization ?? ""
+      }
+    },
+    auth: {
+      persistSession: false
+    }
+  });
+}
+export async function requireUser(authorization) {
+  if (!authorization) throw new Error("Authentication required");
+  const supabase = userClient(authorization);
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) throw new Error("Authentication required");
+  return {
+    supabase,
+    user: data.user
+  };
+}
+export function requireInternalRequest(req) {
+  const expected = requireEnv("INTERNAL_FUNCTION_SECRET");
+  const actual = req.headers.get("x-collect-signature") ?? req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  if (actual !== expected) {
+    throw new Error("Internal function authorization failed");
+  }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZpbGU6Ly8vVm9sdW1lcy9QUk8tRzQwL1Byb2plY3RzL1JlY292ZXJlZC1HLVBSTy9DT09ML2RvY3MvcmVsZWFzZS9jcml0aWNhbC1pbXBsZW1lbnRhdGlvbi0yMDI2LTEwLTAxL3N1Y2Nlc3Nvci1vYnNlcnZlZC1maXh0dXJlLWltcG9ydC1wcm9wb3NhbDEvY2FuZGlkYXRlLXN0YWdlMS9zb3VyY2Uvc3VwYWJhc2UvZnVuY3Rpb25zL19zaGFyZWQvc3VwYWJhc2UudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlQ2xpZW50IH0gZnJvbSBcImh0dHBzOi8vZXNtLnNoL0BzdXBhYmFzZS9zdXBhYmFzZS1qc0AyLjExMi4wXCI7XG5pbXBvcnQgeyByZXF1aXJlRW52IH0gZnJvbSBcIi4vY29ycy50c1wiO1xuXG5leHBvcnQgZnVuY3Rpb24gc2VydmljZUNsaWVudCgpIHtcbiAgcmV0dXJuIGNyZWF0ZUNsaWVudChcbiAgICByZXF1aXJlRW52KFwiU1VQQUJBU0VfVVJMXCIpLFxuICAgIHJlcXVpcmVFbnYoXCJTVVBBQkFTRV9TRVJWSUNFX1JPTEVfS0VZXCIpLFxuICAgIHsgYXV0aDogeyBwZXJzaXN0U2Vzc2lvbjogZmFsc2UgfSB9LFxuICApO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gdXNlckNsaWVudChhdXRob3JpemF0aW9uOiBzdHJpbmcgfCBudWxsKSB7XG4gIHJldHVybiBjcmVhdGVDbGllbnQoXG4gICAgcmVxdWlyZUVudihcIlNVUEFCQVNFX1VSTFwiKSxcbiAgICByZXF1aXJlRW52KFwiU1VQQUJBU0VfQU5PTl9LRVlcIiksXG4gICAge1xuICAgICAgZ2xvYmFsOiB7IGhlYWRlcnM6IHsgQXV0aG9yaXphdGlvbjogYXV0aG9yaXphdGlvbiA/PyBcIlwiIH0gfSxcbiAgICAgIGF1dGg6IHsgcGVyc2lzdFNlc3Npb246IGZhbHNlIH0sXG4gICAgfSxcbiAgKTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlcXVpcmVVc2VyKGF1dGhvcml6YXRpb246IHN0cmluZyB8IG51bGwpIHtcbiAgaWYgKCFhdXRob3JpemF0aW9uKSB0aHJvdyBuZXcgRXJyb3IoXCJBdXRoZW50aWNhdGlvbiByZXF1aXJlZFwiKTtcbiAgY29uc3Qgc3VwYWJhc2UgPSB1c2VyQ2xpZW50KGF1dGhvcml6YXRpb24pO1xuICBjb25zdCB7IGRhdGEsIGVycm9yIH0gPSBhd2FpdCBzdXBhYmFzZS5hdXRoLmdldFVzZXIoKTtcbiAgaWYgKGVycm9yIHx8ICFkYXRhLnVzZXIpIHRocm93IG5ldyBFcnJvcihcIkF1dGhlbnRpY2F0aW9uIHJlcXVpcmVkXCIpO1xuICByZXR1cm4geyBzdXBhYmFzZSwgdXNlcjogZGF0YS51c2VyIH07XG59XG5cbmV4cG9ydCBmdW5jdGlvbiByZXF1aXJlSW50ZXJuYWxSZXF1ZXN0KHJlcTogUmVxdWVzdCkge1xuICBjb25zdCBleHBlY3RlZCA9IHJlcXVpcmVFbnYoXCJJTlRFUk5BTF9GVU5DVElPTl9TRUNSRVRcIik7XG4gIGNvbnN0IGFjdHVhbCA9IHJlcS5oZWFkZXJzLmdldChcIngtY29sbGVjdC1zaWduYXR1cmVcIikgPz9cbiAgICByZXEuaGVhZGVycy5nZXQoXCJhdXRob3JpemF0aW9uXCIpPy5yZXBsYWNlKC9eQmVhcmVyXFxzKy9pLCBcIlwiKTtcbiAgaWYgKGFjdHVhbCAhPT0gZXhwZWN0ZWQpIHtcbiAgICB0aHJvdyBuZXcgRXJyb3IoXCJJbnRlcm5hbCBmdW5jdGlvbiBhdXRob3JpemF0aW9uIGZhaWxlZFwiKTtcbiAgfVxufVxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLFNBQVMsWUFBWSxRQUFRLCtDQUErQztBQUM1RSxTQUFTLFVBQVUsUUFBUSxZQUFZO0FBRXZDLE9BQU8sU0FBUztFQUNkLE9BQU8sYUFDTCxXQUFXLGlCQUNYLFdBQVcsOEJBQ1g7SUFBRSxNQUFNO01BQUUsZ0JBQWdCO0lBQU07RUFBRTtBQUV0QztBQUVBLE9BQU8sU0FBUyxXQUFXLGFBQTRCO0VBQ3JELE9BQU8sYUFDTCxXQUFXLGlCQUNYLFdBQVcsc0JBQ1g7SUFDRSxRQUFRO01BQUUsU0FBUztRQUFFLGVBQWUsaUJBQWlCO01BQUc7SUFBRTtJQUMxRCxNQUFNO01BQUUsZ0JBQWdCO0lBQU07RUFDaEM7QUFFSjtBQUVBLE9BQU8sZUFBZSxZQUFZLGFBQTRCO0VBQzVELElBQUksQ0FBQyxlQUFlLE1BQU0sSUFBSSxNQUFNO0VBQ3BDLE1BQU0sV0FBVyxXQUFXO0VBQzVCLE1BQU0sRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLEdBQUcsTUFBTSxTQUFTLElBQUksQ0FBQyxPQUFPO0VBQ25ELElBQUksU0FBUyxDQUFDLEtBQUssSUFBSSxFQUFFLE1BQU0sSUFBSSxNQUFNO0VBQ3pDLE9BQU87SUFBRTtJQUFVLE1BQU0sS0FBSyxJQUFJO0VBQUM7QUFDckM7QUFFQSxPQUFPLFNBQVMsdUJBQXVCLEdBQVk7RUFDakQsTUFBTSxXQUFXLFdBQVc7RUFDNUIsTUFBTSxTQUFTLElBQUksT0FBTyxDQUFDLEdBQUcsQ0FBQywwQkFDN0IsSUFBSSxPQUFPLENBQUMsR0FBRyxDQUFDLGtCQUFrQixRQUFRLGVBQWU7RUFDM0QsSUFBSSxXQUFXLFVBQVU7SUFDdkIsTUFBTSxJQUFJLE1BQU07RUFDbEI7QUFDRiJ9
+// denoCacheMetadata=14465226560807184633,14655818207627916706

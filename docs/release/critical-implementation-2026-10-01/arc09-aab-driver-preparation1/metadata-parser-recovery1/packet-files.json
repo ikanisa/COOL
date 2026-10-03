@@ -1,0 +1,100 @@
+{
+  "ARC09_closed": false,
+  "SHA256SUMS_excludes_self_and_packet_files": true,
+  "completed_runtime_command_only_reused": true,
+  "file_count": 17,
+  "files": {
+    "README.md": {
+      "bytes": 3158,
+      "mode": 256,
+      "sha256": "5ed9afec9acde7a9b00a6d9665a10a3d7aa7c8494bc8e5391aee1035d2b1914d"
+    },
+    "SHA256SUMS": {
+      "bytes": 1410,
+      "mode": 256,
+      "sha256": "59bc48094939d206691fdb1a83cbc573613f3ff0e32b4b86f15714965986a76a"
+    },
+    "captured-fixture.json": {
+      "bytes": 4938187,
+      "mode": 256,
+      "sha256": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5"
+    },
+    "correction.diff": {
+      "bytes": 14728,
+      "mode": 256,
+      "sha256": "0f896c684ce8b1a47c4976244d919aece51a147d634a037a7bb09b231bb2f68f"
+    },
+    "fixture-tests-result.json": {
+      "bytes": 2041,
+      "mode": 256,
+      "sha256": "25765e17b2361911d89d5db2ba9ee4f2acea8a98e6e4e7dd3bbbe77199a79662"
+    },
+    "fixture-tests.stderr": {
+      "bytes": 3569,
+      "mode": 256,
+      "sha256": "91415bf368c541775a425c849ab638e39aff87298d2c58550cd13114e4284722"
+    },
+    "fixture-tests.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "handoff.json": {
+      "bytes": 2130,
+      "mode": 256,
+      "sha256": "2688d2a387d7409cfce993fff46cc58dbd6702144620515bdd0fed92bc99a695"
+    },
+    "input-fences.json": {
+      "bytes": 6625,
+      "mode": 256,
+      "sha256": "fc62771bbafb52c15791eb420aedd13a0ef5c8a9aec6cf0f0894de228fdfbffe"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+    },
+    "review.json": {
+      "bytes": 3605,
+      "mode": 256,
+      "sha256": "5a800e555c0302e9455cad4c3ffd6cd9c786188dcebabf0a9457c8b60c2c726c"
+    },
+    "root-admission-template.json": {
+      "bytes": 8086,
+      "mode": 256,
+      "sha256": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384"
+    },
+    "run_selected_aab.py": {
+      "bytes": 53481,
+      "mode": 256,
+      "sha256": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83"
+    },
+    "submitted-fixture-tests-result.json": {
+      "bytes": 2146,
+      "mode": 256,
+      "sha256": "036d1dbd8596e00b9a1687b848dc1c7a1dff5a2caafcbe8f3be778ffab573542"
+    },
+    "submitted-fixture-tests.stderr": {
+      "bytes": 3733,
+      "mode": 256,
+      "sha256": "f31db3281ae65b4a08a99acef0d64a6fd16239d7e63116f57fc1a2a5b1a203ad"
+    },
+    "submitted-fixture-tests.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "test_owned_metadata.py": {
+      "bytes": 12544,
+      "mode": 256,
+      "sha256": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+    }
+  },
+  "kind": "private_exact_wrapper_session_runtime_reuse_correction",
+  "no_runtime_graph_rerun": true,
+  "packet_files_excludes_self": true,
+  "preserved_old_driver_failed": true,
+  "production_release_approval": false,
+  "schema_version": 1,
+  "status": "31-focused-fixtures-pass-actual-driver-unexecuted"
+}

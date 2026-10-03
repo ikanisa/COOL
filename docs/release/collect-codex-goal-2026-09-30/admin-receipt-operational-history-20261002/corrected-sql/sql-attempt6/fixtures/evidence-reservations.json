@@ -1,0 +1,36 @@
+{
+  "rows": [
+    {
+      "actions": 1,
+      "device_id": "52f65b3e-2dbe-456d-9526-a5ff487330e2",
+      "evidence_id": "e2c95b67-1c9d-4d52-ad9a-76e4d7220ea3",
+      "recorded_at": "2026-10-02T00:46:55.440485Z",
+      "snapshot_id": "e2c95b67-1c9d-4d52-ad9a-76e4d7220ea3",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 1
+    },
+    {
+      "actions": 1,
+      "device_id": "52f65b3e-2dbe-456d-9526-a5ff487330e2",
+      "evidence_id": "f7a90171-6cb1-40fc-a05a-f19b414488a8",
+      "recorded_at": "2026-10-02T00:46:55.359984Z",
+      "snapshot_id": null,
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "7168565d-69e8-4415-aa47-c59123ecaa3e",
+  "status": "partial",
+  "section": "reservations",
+  "checked_at": "2026-10-02T00:46:56.158488Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:47:56.158488Z"
+}

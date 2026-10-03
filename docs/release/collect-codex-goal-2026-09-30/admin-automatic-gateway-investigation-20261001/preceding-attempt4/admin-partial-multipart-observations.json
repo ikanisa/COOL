@@ -1,0 +1,129 @@
+{
+  "arm": {
+    "armed_at": "2026-10-01T17:34:29.499585Z",
+    "expires_at": "2026-10-01T17:34:59.274906Z",
+    "request_id": "ab8dce78-d74b-4d10-87d6-90c44de52db6",
+    "health_observation_id": "4d678f1a-ca82-49a9-9cb2-c364b2010960"
+  },
+  "rows": [
+    {
+      "code": null,
+      "action": "callback",
+      "source": "callback",
+      "tp_status": null,
+      "request_id": "53993118-e6e1-47e3-ab09-321c85da4a65",
+      "callback_id": "92b2afbe-5d8a-4994-9835-552097d64d59",
+      "occurred_at": "2026-10-01T17:34:30.435227Z",
+      "recorded_at": "2026-10-01T17:34:30.505883Z",
+      "result_code": -1,
+      "callback_kind": "sent",
+      "segment_index": 0
+    },
+    {
+      "code": "CALLBACK_EVIDENCE_INCOMPLETE",
+      "action": "archive_attempt",
+      "source": "archive",
+      "tp_status": null,
+      "request_id": "94e69d29-9ea9-4d90-a256-71ca5d7696ae",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:34:30.027740Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    },
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "arm_dispatch",
+      "source": "arm",
+      "tp_status": null,
+      "request_id": "ab8dce78-d74b-4d10-87d6-90c44de52db6",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:34:29.515348Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    },
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "dispatch_grant",
+      "source": "grant",
+      "tp_status": null,
+      "request_id": "542cf36d-d63c-4088-a82e-718d5afa6c13",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:34:29.275581Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "available",
+  "attempt": {
+    "state": "send_started",
+    "run_id": "ce112664-83fe-46f0-a81d-f3b5e1c54adb",
+    "device_id": "b211971e-7399-456f-bbbe-b8b5de8200b5",
+    "issued_at": "2026-10-01T17:34:29.274906Z",
+    "attempt_id": "56424a9e-c09a-4cda-a745-fdd56e304724",
+    "expires_at": "2026-10-01T17:34:59.274906Z",
+    "receipt_id": "7ef334d3-514f-4a5d-8e06-d056e06b4fed",
+    "updated_at": "2026-10-01T17:34:30.505883Z",
+    "principal_id": "306d3a54-ce82-414e-a0ae-98af8fbbc128",
+    "fence_version": 1,
+    "segment_count": 2,
+    "policy_revision": 2,
+    "grant_request_id": "542cf36d-d63c-4088-a82e-718d5afa6c13",
+    "health_observation_id": "4d678f1a-ca82-49a9-9cb2-c364b2010960"
+  },
+  "checked_at": "2026-10-01T17:34:30.612864Z",
+  "receipt_id": "7ef334d3-514f-4a5d-8e06-d056e06b4fed",
+  "archive_ack": null,
+  "next_cursor": null,
+  "carrier_proof": false,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "history_complete": false,
+  "expected_callbacks": [
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "8b7dc4e6-62e6-4a1e-9d1f-751a87d3eab7",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 0,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": true,
+      "callback_id": "92b2afbe-5d8a-4994-9835-552097d64d59",
+      "result_code": -1,
+      "callback_kind": "sent",
+      "segment_index": 0,
+      "has_observation": true
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "e643f155-6c9c-460a-881f-9bdcfc415019",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 1,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "b3f69de1-725c-4312-b8c7-fdfb3690852d",
+      "result_code": null,
+      "callback_kind": "sent",
+      "segment_index": 1,
+      "has_observation": false
+    }
+  ],
+  "sample_valid_until": "2026-10-01T17:35:30.612864Z"
+}

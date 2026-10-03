@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"ok": true, "code": "RUN_STARTED", "mode": "Live-limited", "action": "begin_run", "run_id": "72ebab29-0c3e-449f-ab4b-581f22d58a71", "expires_at": "2026-10-01T18:37:15.163974Z", "request_id": "e8697109-d225-4583-8e1f-44669afa75a5", "observed_at": "2026-10-01T18:35:15.163974Z", "principal_id": "9d59c221-1dec-44a5-a827-fbd009fab2d8", "fence_version": 1, "contract_version": 2}

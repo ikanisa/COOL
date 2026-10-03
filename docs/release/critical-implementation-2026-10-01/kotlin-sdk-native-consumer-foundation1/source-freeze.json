@@ -1,0 +1,16 @@
+{
+  "ARC09_closed": false,
+  "SDK_executed": false,
+  "actual_next_predecessor_terminal_SHA256": "cd987c5c877f3d3e6867dd0c84ef6531e9611c5e81288e763ac61ccb675da9cf",
+  "actual_pass": true,
+  "candidate_promoted": false,
+  "controller_actual_seconds": 36.273,
+  "controller_exit_code": 0,
+  "frozen_at_UTC": "2026-10-02T02:42:34.914081+00:00",
+  "leaf_count": 16,
+  "next_sdk_lock_executed": false,
+  "owned_child_actual_seconds": 35.209,
+  "owned_child_deadline_seconds": 600,
+  "packet_manifest_SHA256": "c76d92111dd1f167022245add0c5e2f3949137c1965abd4972ecbb2aabaeb2b5",
+  "production_release_approval": false
+}

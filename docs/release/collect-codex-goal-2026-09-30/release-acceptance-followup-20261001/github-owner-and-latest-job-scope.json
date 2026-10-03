@@ -1,0 +1,24 @@
+{
+  "billing_or_license_entitlement_verified": false,
+  "observed_at": "2026-10-01T09:51:42.484695+00:00",
+  "reads": [
+    {
+      "endpoint": "repos/ikanisa/COOL",
+      "exit_code": 0,
+      "metadata": {
+        "owner_type": "Organization",
+        "private": true
+      },
+      "raw_output_retained": false
+    },
+    {
+      "endpoint": "repos/ikanisa/COOL/actions/runs/36751716611/jobs?per_page=1",
+      "exit_code": 0,
+      "metadata": {
+        "total_jobs": 0
+      },
+      "raw_output_retained": false
+    }
+  ],
+  "remote_mutations": false
+}

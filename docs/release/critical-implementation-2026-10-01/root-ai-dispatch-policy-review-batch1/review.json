@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-02T01:52:44.079387+00:00",
+  "result": "PASS",
+  "proposal_manifest_sha256": "4296a3a89cb186bf7b02a37332418e85670659b97fcc5efd8e5f34a8d6d7ad4e",
+  "evidence_index_sha256": "cdfece9f2ec37e7fcab797072b3266ba2c7e264ed4dc1eb7bdd498e93fde0a3b",
+  "proposal_packet_leaves": 46,
+  "current_source_inputs": 32,
+  "private_edge_source_freeze_sha256": "66934c9df5c6ae996429b46d87dc4e53fb1312e0c81d4b295ed1e93c891e94b8",
+  "decision": "Recommended AI-only preflight before resource reservation; unavailable/revoked policy also denies AI upload replay while separate historical recovery reads and stored rows remain",
+  "engineering_scope": "New isolated validator, runtime adapter, handler and affected tests; private candidate first, root full code/test review before maintained-source promotion",
+  "critical_review_corrections": [
+    "Guard actual decoder fetch after HMAC awaits, not only decode function entry",
+    "Finish policy hash await before final current-window validation",
+    "Reread configuration synchronously after awaited approval validation and compare immutable captured tuple immediately before outbound fetch",
+    "Existing exact3-key SQL metadata remains; per-attempt durable policy lineage is a separate open migration"
+  ],
+  "required_evidence": [
+    "Meaningful new denials fail on exact old source",
+    "Preserve original109 affected regression cases, all original effect ordering/assertions and real HMAC codec tests",
+    "Held reserve/ACK and late dispatch expiry/config drift prevent transmission",
+    "No-charge preflight vs existing charged post-reservation failures and ambiguous provider leases remain truthful",
+    "Pinned frozen cached-only types/default lint/format and complete original logs/source/cache bindings"
+  ],
+  "owner_vendor_policy_values_selected": false,
+  "actual_processor_approval": false,
+  "shared_source_promotion_authorized": false,
+  "production_ready": false
+}

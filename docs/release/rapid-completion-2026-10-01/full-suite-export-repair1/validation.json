@@ -1,0 +1,27 @@
+{
+  "status": "focused_regressions_pass",
+  "captured_at_utc": "2026-10-01T13:04:23.128436+00:00",
+  "demonstrated_failure": "Current full-suite preflight raised Explicit test release inputs exceed the review bound because an adjacent Dart string containing only docs/release/collect-codex-goal-2026-09-30/ was copied recursively.",
+  "correction": "Resolve adjacent fixture literals and constant namespaces; select exact fixture files or direct dynamic filename matches; exclude generated PNG output paths; reject absent or escaping decoder inputs.",
+  "focused_tests": 4,
+  "test_command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/tests",
+    "-p",
+    "test_final_flutter_declared_inputs.py",
+    "-v"
+  ],
+  "source_sha256": {
+    "scripts/tests/final_flutter_acceptance.py": "eb7035d7ec635f86c015ceb9afa42d8adf25066a2f825333a3a679a9e357b2d6",
+    "scripts/tests/test_final_flutter_declared_inputs.py": "6edf2cdec5f1226de250ef174d285e11a2b48527605c08e4684f364935cc85ef"
+  },
+  "current_preflight_input_count": 2237,
+  "current_preflight_release_input_count": 101,
+  "full_flutter_tests_executed": false,
+  "scope": "Export selection and focused regression only. Actual decoder compatibility and entire suite remain execution gates.",
+  "distribution_git_scope": "Fresh isolated git init is required by three existing source-hygiene cases; no shared Git history/index/credentials copied."
+}

@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+
+import '../app/theme/collect_colors.dart';
+import '../app/theme/collect_theme.dart';
+import '../app/theme/collect_spacing.dart';
+import '../shared/widgets/collect_chrome.dart';
+import 'gateway_platform.dart';
+
+class CollectGatewayApp extends StatelessWidget {
+  const CollectGatewayApp({this.platform = const NativeGatewayPlatform(), super.key});
+  final GatewayPlatform platform;
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'Collect Gateway',
+    debugShowCheckedModeBanner: false,
+    theme: CollectTheme.light(),
+    darkTheme: CollectTheme.dark(),
+    home: GatewayHome(platform: platform),
+  );
+}
+
+class GatewayHome extends StatefulWidget {
+  const GatewayHome({required this.platform, super.key});
+  final GatewayPlatform platform;
+  @override
+  State<GatewayHome> createState() => _GatewayHomeState();
+}
+
+class _GatewayHomeState extends State<GatewayHome> {
+  GatewaySnapshot? _snapshot;
+  bool _busy = true;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _perform(widget.platform.initialize);
+  }
+
+  Future<void> _perform(Future<GatewaySnapshot> Function() action) async {
+    if (mounted) setState(() { _busy = true; _failed = false; });
+    try {
+      final result = await action();
+      if (mounted) setState(() { _snapshot = result; });
+    } catch (_) {
+      if (mounted) setState(() { _failed = true; });
+    } finally {
+      if (mounted) setState(() { _busy = false; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final snapshot = _snapshot;
+    final colors = context.collectColors;
+    return Scaffold(
+      appBar: AppBar(title: const Text('Collect Gateway')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(CollectSpacing.s16),
+          child: Center(child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              const ScreenHeader(title: 'Gateway', subtitle: 'Organization-owned Android sender'),
+              const SizedBox(height: CollectSpacing.s16),
+              if (_busy) const Semantics(label: 'Checking gateway', child: LinearProgressIndicator()),
+              if (_failed) ...[
+                const Text('Gateway status is unavailable. Sending remains blocked.', semanticsLabel: 'Gateway status unavailable'),
+                TextButton(onPressed: _busy ? null : () => _perform(widget.platform.refresh), child: const Text('Check again')),
+              ],
+              if (snapshot != null) ...[
+                Card(child: Padding(padding: const EdgeInsets.all(CollectSpacing.s16), child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(snapshot.paused ? 'Emergency pause is on' : 'Local pause is off', style: Theme.of(context).textTheme.titleLarge),
+                    const SizedBox(height: CollectSpacing.s8),
+                    Text(_enrollmentLabel(snapshot.enrollment)),
+                    const SizedBox(height: CollectSpacing.s8),
+                    const Text('A real server grant is required for every dispatch. New dispatch authority is pending.'),
+                  ],
+                ))),
+                const SizedBox(height: CollectSpacing.s16),
+                _observation('SMS permission', snapshot.sendPermission),
+                _observation('Phone-state permission', snapshot.phonePermission),
+                _observation('Internet connected', snapshot.networkConnected),
+                _observation('Internet validated', snapshot.networkValidated),
+                _observation('SIM selected', snapshot.subscriptionSelected),
+                _observation('SIM ready', snapshot.simReady),
+                _observation('Telephony in service', snapshot.telephonyInService),
+                const SizedBox(height: CollectSpacing.s16),
+                Text('Attempt evidence', style: Theme.of(context).textTheme.titleLarge),
+                Text('Outcome unknown: ${snapshot.pendingAttempts}'),
+                Text('Framework sent callbacks complete: ${snapshot.frameworkSentAttempts}'),
+                Text('Delivery callbacks observed: ${snapshot.deliveryCallbacksObserved}'),
+                Text('Callback evidence does not certify recipient handset delivery.', style: TextStyle(color: colors.textSecondary)),
+                const SizedBox(height: CollectSpacing.s24),
+                FilledButton.icon(onPressed: () => _perform(widget.platform.pause), icon: const Icon(Icons.pause_circle_outline), label: const Text('Emergency pause')),
+                const SizedBox(height: CollectSpacing.s8),
+                OutlinedButton(onPressed: _busy ? null : () => _perform(widget.platform.requestPermissions), child: const Text('Review device permissions')),
+                OutlinedButton(onPressed: _busy || !snapshot.configured ? null : () => _perform(widget.platform.heartbeat), child: const Text('Record connection health')),
+                OutlinedButton(onPressed: _busy || !snapshot.configured ? null : () => _perform(widget.platform.reconcile), child: const Text('Reconcile pending evidence')),
+                TextButton(onPressed: _busy ? null : () => _perform(widget.platform.refresh), child: const Text('Refresh observations')),
+              ],
+            ]),
+          )),
+        ),
+      ),
+    );
+  }
+
+  Widget _observation(String title, bool observed) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: CollectSpacing.s8),
+    child: Row(children: [Expanded(child: Text(title)), Text(observed ? 'Observed' : 'Unavailable')]),
+  );
+
+  String _enrollmentLabel(GatewayEnrollment value) => switch (value) {
+    GatewayEnrollment.notEnrolled => 'Owner enrollment required',
+    GatewayEnrollment.pending => 'Enrollment pending owner activation',
+    GatewayEnrollment.active => 'Active device identity',
+    GatewayEnrollment.paused => 'Device identity paused',
+    GatewayEnrollment.revoked => 'Device identity revoked',
+    GatewayEnrollment.unknown => 'Device authority is unknown',
+  };
+}

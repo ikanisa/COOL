@@ -1,0 +1,158 @@
+{
+  "ARC09_closed": false,
+  "actual_authored_app_source_readback_pass": true,
+  "actual_failure": "processProductionDebugGoogleServices requires absent google-services.json in unsigned local QA",
+  "actual_native_process": {
+    "actual_seconds": 1893.629,
+    "argv": [
+      "/bin/bash",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "-p",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+      "--no-daemon",
+      "--no-build-cache",
+      "--no-configuration-cache",
+      "--console=plain",
+      "--max-workers=2",
+      "--rerun-tasks",
+      "-I",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+      "-PcollectUnsignedLocalQa=true",
+      "-Ptarget-platform=android-arm,android-arm64,android-x64",
+      "-Ptarget=lib/main.dart",
+      "-Pandroid.builder.sdkDownload=false",
+      ":gradle:collectSdkRuntimeGraph",
+      ":app:collectProductionCompileGraph",
+      ":app:collectProductionRuntimeGraph",
+      ":file_saver:compileReleaseKotlin",
+      ":app:compileProductionReleaseKotlin",
+      ":app:testProductionDebugUnitTest"
+    ],
+    "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+    "deadline_seconds": 2700,
+    "exit_code": 1,
+    "finished_utc": "2026-10-02T09:02:47.828816+00:00",
+    "headroom_failure": false,
+    "owned_process_group_absent": true,
+    "pid": 98583,
+    "residual_process_group_required_stop": false,
+    "spawned": true,
+    "started_utc": "2026-10-02T08:31:14.362619+00:00",
+    "stderr_sha256": "25490b0f7e0cbeedaf9bd31080b314496a9ab45dc4cca57b2125546914e6a391",
+    "stdout_sha256": "216837a8ec5c89def2ec29f900aeec64377540e04f2c88f3410d12562c67d2c9",
+    "timed_out": false
+  },
+  "actual_production_graphs": [
+    {
+      "artifacts": 47,
+      "configuration": "productionReleaseCompileClasspath",
+      "modules": 48
+    },
+    {
+      "artifacts": 141,
+      "configuration": "productionReleaseRuntimeClasspath",
+      "modules": 157
+    }
+  ],
+  "actual_sdk_source_diagnostic_pass": true,
+  "all_flavor_ABI_complete": false,
+  "at_utc": "2026-10-02T09:06:21.681030+00:00",
+  "current12_unchanged": true,
+  "kind": "root_actual_first_native_failure_readback",
+  "native_admitted": true,
+  "native_packages_built": false,
+  "prior_packets_verified": {
+    "app-export": {
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-app-export4/packet-files.json",
+      "sha256": "aac0d7c95f1d23e9d2a3e69402df09134114437079fc7a917718cf1e86ec7e6f"
+    },
+    "app-lock": {
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-lock2/packet-files.json",
+      "sha256": "00317892d64de0e0966963801ee553c25f5eb25d758c811c2929a76df7528b5b"
+    }
+  },
+  "production_debug_JVM_not_reached": true,
+  "production_release_approval": false,
+  "production_release_kotlin_task_observed": true,
+  "protected_original_metadata": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "retry_authorized_by_this_readback": false,
+  "source_lock_attested": false,
+  "stages": {
+    "app-export": {
+      "ARC09_closed": false,
+      "actual_export_binding_sha256": "1e56eefbea54fb5c479c15fcd7db605de0f7e7414adda4fd184d462f2639ce6d",
+      "actual_terminal_sha256": "0972133ee11e44e831e1cbd229fae8680524b7fc056944b08c031c4f19f2a960",
+      "all_flavor_ABI_complete": false,
+      "candidate_promoted": false,
+      "prepared_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+      "production_release_approval": false,
+      "protected_after": {
+        "no_original_metadata_restoration_performed": true,
+        "protected_metadata_paths_unchanged": 68020
+      },
+      "stage": "app-export",
+      "stage_pass": true
+    },
+    "app-lock": {
+      "ARC09_closed": false,
+      "actual_export_binding_sha256": null,
+      "actual_terminal_sha256": "42519f99f1fc439f0a0c72039dc21977afeaaba920059b0259af62c0f45a8f6c",
+      "all_flavor_ABI_complete": false,
+      "candidate_promoted": false,
+      "prepared_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+      "production_release_approval": false,
+      "protected_after": {
+        "no_original_metadata_restoration_performed": true,
+        "protected_metadata_paths_unchanged": 68020
+      },
+      "stage": "app-lock",
+      "stage_pass": true
+    },
+    "native": {
+      "actual_error_type": "ValueError",
+      "actual_failure_diagnostics": {
+        "actual_failure_source_process": {
+          "actual_seconds": 10.03,
+          "argv": [
+            "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+            "-I",
+            "-B",
+            "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+            "built",
+            "--output",
+            "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/native/actual-failure-SDK-source.json"
+          ],
+          "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+          "deadline_seconds": 300,
+          "exit_code": 0,
+          "finished_utc": "2026-10-02T09:02:57.891452+00:00",
+          "headroom_failure": false,
+          "owned_process_group_absent": true,
+          "pid": 53084,
+          "residual_process_group_required_stop": false,
+          "spawned": true,
+          "started_utc": "2026-10-02T09:02:47.861225+00:00",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+          "timed_out": false
+        },
+        "protected_after_failure": {
+          "no_original_metadata_restoration_performed": true,
+          "protected_metadata_paths_unchanged": 68020
+        }
+      },
+      "actual_terminal_sha256": "9211f83842a2c521cd822165abf94ebb1266d0d81b2934d2070c8b7ac41af330",
+      "candidate_promoted": false,
+      "partial_failure_preserved": true,
+      "production_release_approval": false,
+      "public_error": "genuine terminal stage failure; no next stage or acceptance",
+      "retry_or_next_stage_admitted": false,
+      "stage": "native",
+      "stage_pass": false
+    }
+  },
+  "status": "failed"
+}

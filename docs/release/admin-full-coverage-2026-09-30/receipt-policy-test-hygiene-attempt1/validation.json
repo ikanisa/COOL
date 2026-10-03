@@ -1,0 +1,13 @@
+{
+  "before": {
+    "test/admin_route_access_test.dart": "f22b530c60e9d6336608477288889ea8567b5b05f0c869aed4a0d03a1cc96b2e",
+    "lib/admin/core/admin_operating_policy_card.dart": "42aa6b391a54723df357f341ca3cf219827666325380ceae204232feb6ab42f5",
+    "test/admin_operating_policy_runtime_test.dart": "90249cc5f74991dc65b06b5d3add89d59f50208e60bd6ff09d6e883edcd6db1f"
+  },
+  "after": {
+    "test/admin_route_access_test.dart": "6d197779dc7a265cb12a6565447bffcba389f137101db954f765475a1b106e26",
+    "lib/admin/core/admin_operating_policy_card.dart": "9c7d966aa6b799eb3aef63b3a65bc43658451fe8cfdca2d4f89fc9bdb1b3939e",
+    "test/admin_operating_policy_runtime_test.dart": "90249cc5f74991dc65b06b5d3add89d59f50208e60bd6ff09d6e883edcd6db1f"
+  },
+  "scope": "Existing condition preserved with braces in owned route fixture; pinned formatting only in current co-resident policy card/test, original bytes retained."
+}

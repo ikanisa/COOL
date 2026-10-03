@@ -1,0 +1,221 @@
+{
+  "hosted_registry_count": 124,
+  "hosted_latest": "20260906160000",
+  "hosted_metadata_sha256": "033232f7a67ff2eabec12e12c9f5023f2af6d055a6e2b948f5cfb9995391df8b",
+  "candidate_migration_count": 157,
+  "candidate_manifest_sha256": "4d49758c617893d96740bebc7ec9f34beac783c4d6019daadf754ed6e851a4fc",
+  "pending_migrations": [
+    {
+      "ordinal": 125,
+      "path": "supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql",
+      "sha256": "5b0322b195b6956b2aac600b00fae96834064e255d5b3473689fe75bdcdad285",
+      "in_subset": false
+    },
+    {
+      "ordinal": 126,
+      "path": "supabase/migrations/20260914213600_atomic_otp_rate_limit.sql",
+      "sha256": "4bc8ec8276274a0b95fc3b782716c36a451f66a2688ac78874bb4315ff1da9d6",
+      "in_subset": false
+    },
+    {
+      "ordinal": 127,
+      "path": "supabase/migrations/20260925190000_rwanda_momo_only.sql",
+      "sha256": "89953426da70529801848beb0db04699a0c37b2b82d6f8aaa98e8123b1201fd8",
+      "in_subset": false
+    },
+    {
+      "ordinal": 128,
+      "path": "supabase/migrations/20260928150000_relational_member_history_pages.sql",
+      "sha256": "2294edc1c32cd3613e7b2654d1854daf27beaeab0a4c56ab16ce1920a8be9ff1",
+      "in_subset": false
+    },
+    {
+      "ordinal": 129,
+      "path": "supabase/migrations/20260928160000_sms_observation_never_settles.sql",
+      "sha256": "2b71a2c88cdf873785280952baecf33ed46416832870970d0e745a375770e211",
+      "in_subset": false
+    },
+    {
+      "ordinal": 130,
+      "path": "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql",
+      "sha256": "f7f644d1d3c129d1b89c658737760db2d86fcd9b78bcb43b8225eb4b67ff1182",
+      "in_subset": false
+    },
+    {
+      "ordinal": 131,
+      "path": "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+      "sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0",
+      "in_subset": false
+    },
+    {
+      "ordinal": 132,
+      "path": "supabase/migrations/20260928172000_allow_incomplete_rwanda_onboarding_profile.sql",
+      "sha256": "cd00aa5738b0fabff23a2b48cbf606d108c5a7f4b1f6f488459fcca26ce56021",
+      "in_subset": false
+    },
+    {
+      "ordinal": 133,
+      "path": "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql",
+      "sha256": "f91c7caa730da9022dfdc2ebfab9fa9d4fa8d32910a66b1d848b91a2cc8373d7",
+      "in_subset": false
+    },
+    {
+      "ordinal": 134,
+      "path": "supabase/migrations/20260929110000_admin_notification_page_before_delivery_counts.sql",
+      "sha256": "03692c5da0e9bd3371a6530eb7876f8a658f088166d13936ee44d2c154063890",
+      "in_subset": false
+    },
+    {
+      "ordinal": 135,
+      "path": "supabase/migrations/20260929120000_provider_finality_payment_lock_order.sql",
+      "sha256": "a3bc8db4dbd7ea70077e222d3639dc8e7a940ad1f9275160b6b29292431f9440",
+      "in_subset": false
+    },
+    {
+      "ordinal": 136,
+      "path": "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+      "sha256": "96ac54d5084d42211296cc32351997a31817befa1d5f1e134429c429969c408c",
+      "in_subset": false
+    },
+    {
+      "ordinal": 137,
+      "path": "supabase/migrations/20260929140000_notification_delivery_fencing.sql",
+      "sha256": "abbd69486171002e0ce6bcdc7046e0170e6412ec03b022c1127ef31cd6572275",
+      "in_subset": false
+    },
+    {
+      "ordinal": 138,
+      "path": "supabase/migrations/20260929150000_notification_retry_eligibility.sql",
+      "sha256": "177b3242fc4a3c24ec7db8f2ef668dc125847b821ede8f6de032d75e6028ccfb",
+      "in_subset": false
+    },
+    {
+      "ordinal": 139,
+      "path": "supabase/migrations/20260929160000_notification_retry_schedule.sql",
+      "sha256": "f19370b10ce41cce353ad0cd70c603482e0eeea301dcca18a4ca38565c6d6f19",
+      "in_subset": false
+    },
+    {
+      "ordinal": 140,
+      "path": "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+      "sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+      "in_subset": false
+    },
+    {
+      "ordinal": 141,
+      "path": "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+      "sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+      "in_subset": false
+    },
+    {
+      "ordinal": 142,
+      "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "in_subset": false
+    },
+    {
+      "ordinal": 143,
+      "path": "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+      "sha256": "5a7a4e7773b65e4fcf015ac079ea18d57cbe08d363bd8b07b87471018b941d85",
+      "in_subset": false
+    },
+    {
+      "ordinal": 144,
+      "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "in_subset": false
+    },
+    {
+      "ordinal": 145,
+      "path": "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql",
+      "sha256": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+      "in_subset": false
+    },
+    {
+      "ordinal": 146,
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "in_subset": false
+    },
+    {
+      "ordinal": 147,
+      "path": "supabase/migrations/20260930150000_runtime_control_governance.sql",
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "in_subset": false
+    },
+    {
+      "ordinal": 148,
+      "path": "supabase/migrations/20260930160000_redacted_operational_health.sql",
+      "sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+      "in_subset": false
+    },
+    {
+      "ordinal": 149,
+      "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "in_subset": false
+    },
+    {
+      "ordinal": 150,
+      "path": "supabase/migrations/20260930180000_operational_health_authority.sql",
+      "sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "in_subset": false
+    },
+    {
+      "ordinal": 151,
+      "path": "supabase/migrations/20260930200000_admin_automation_navigation.sql",
+      "sha256": "86c2f4aba6c4a7f3007e08f86c41279eff101f7acf103456e1fc53211bf1d366",
+      "in_subset": false
+    },
+    {
+      "ordinal": 152,
+      "path": "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+      "sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+      "in_subset": false
+    },
+    {
+      "ordinal": 153,
+      "path": "supabase/migrations/20260930220000_runtime_control_authority.sql",
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "in_subset": false
+    },
+    {
+      "ordinal": 154,
+      "path": "supabase/migrations/20260930230000_group_share_rotation_receipts.sql",
+      "sha256": "b4a13a9215b08dcdb6fe91780c3c0ab35ada1684d52b6ed090124c4f017a0d5e",
+      "in_subset": false
+    },
+    {
+      "ordinal": 155,
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "in_subset": true
+    },
+    {
+      "ordinal": 156,
+      "path": "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "in_subset": true
+    },
+    {
+      "ordinal": 157,
+      "path": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "sha256": "9908b61b0aaa53b3e53ef4224df4f2bc7bbb7c02e1a5361c7b791b1d7a421a57",
+      "in_subset": true
+    }
+  ],
+  "later_workspace_migrations": [
+    {
+      "path": "supabase/migrations/20260930230400_admin_investigation.sql",
+      "sha256": "d29f3251c941ab24f119ccd1048e4f6e55cb4b53f1ef473d82a8d6d28afabce4",
+      "reason": "outside_capture"
+    },
+    {
+      "path": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+      "sha256": "4b228ee53ee19cd136f7bf858e6d248b33dbd0d3576f7cefa6bf085e16ca4606",
+      "reason": "outside_capture"
+    }
+  ],
+  "full_hosted_upgrade_executed": false,
+  "subset_omission": "154 group-share rotation230000 is intentionally outside this three-migration rehearsal"
+}

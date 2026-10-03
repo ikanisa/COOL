@@ -1,0 +1,4 @@
+ERROR:  42601: syntax error at or near "="
+LINE 1: ...ect_receipt_policy.content_evidencewhere outbox_id='3157bc9a...
+                                                             ^
+LOCATION:  scanner_yyerror, scan.l:1244

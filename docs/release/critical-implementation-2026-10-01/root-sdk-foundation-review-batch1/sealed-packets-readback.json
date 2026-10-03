@@ -1,0 +1,21 @@
+{
+  "artifacts_checked": 117,
+  "checked_at_utc": "2026-10-02T00:20:11.971327+00:00",
+  "packets": [
+    {
+      "artifacts": 97,
+      "errors": [],
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-foundation-batch1/packet-files.json",
+      "sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"
+    },
+    {
+      "artifacts": 20,
+      "errors": [],
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-plan1/packet-files.json",
+      "sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Independent readback of published SDK foundation and future three-file patch plan only. No SDK expansion, execution, patch application, compatibility or release acceptance.",
+  "status": "pass"
+}

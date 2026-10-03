@@ -1,0 +1,9 @@
+{
+  "tools": {
+    "tooling/prepare_admin_workcopy.py": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2",
+    "tooling/run_admin_checkpoint.py": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95",
+    "tooling/collect_release_candidate.py": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+  },
+  "source_hashes_match_plan": true,
+  "capture_started": false
+}

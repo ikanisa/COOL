@@ -1,0 +1,8 @@
+usage: admin_read_gateway_gate.py [-h] --flutter FLUTTER --output OUTPUT
+                                  --phase {prior-probes,acceptance}
+                                  [--support-probes]
+                                  [--sql-receipts SQL_RECEIPTS]
+                                  [--sql-actor SQL_ACTOR]
+                                  [--test-file TEST_FILE]
+                                  [--test-timeout TEST_TIMEOUT]
+admin_read_gateway_gate.py: error: --test-file must name a reviewed test in the declared gate

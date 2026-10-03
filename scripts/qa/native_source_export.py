@@ -10,7 +10,9 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 ROOTS = ("lib/", "assets/", "licenses/", "android/", "ios/", "third_party/", "test/", "integration_test/", "tool/", "web/")
 FILES = {"pubspec.yaml", "pubspec.lock", "analysis_options.yaml", ".metadata", ".fvmrc", ".dvmrc",
-         "scripts/qa/native_source_export.py", "scripts/supply_chain/gradle_runtime_inventory.init.gradle"}
+         "AGENTS.md", "scripts/qa/native_source_export.py", "scripts/qa/native_build_provenance.rb",
+         "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
+         "scripts/ios_app_store_build.sh", "scripts/supply_chain/gradle_runtime_inventory.init.gradle"}
 PRIVATE_NAMES = {"key.properties", "google-services.json", "GoogleService-Info.plist", "local.properties", "Generated.xcconfig", "flutter_export_environment.sh"}
 
 
@@ -41,6 +43,8 @@ def export(root, destination):
             continue
         if root not in source.resolve().parents:
             raise ValueError("Native build source escapes checkout: " + name)
+        if source.is_symlink():
+            raise ValueError("Native build source must be a regular file: " + name)
         paths[name] = digest(source)
     if not {"pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj"} <= paths.keys():
         raise ValueError("Required native build input is absent")
@@ -54,7 +58,7 @@ def export(root, destination):
     return {"kind": "isolated_native_source_export", "source_sha256": paths,
             "source_file_count": len(paths), "destination": str(destination),
             "ignored_files_copied": False, "private_provider_signing_inputs_copied": False,
-            "scope": "Exact declared native build source roots, tests and public source; generated SDK bindings and build outputs are recorded separately"}
+            "scope": "Exact declared native build source roots, tests, public source, authority and production build callers; generated SDK bindings and build outputs are recorded separately"}
 
 
 def main():

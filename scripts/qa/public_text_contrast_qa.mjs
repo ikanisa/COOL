@@ -7,7 +7,7 @@ const {chromium}=load.default||load;
 const evidence=process.env.REVOLUT_DESIGN_EVIDENCE || '.cache/revolut-design-20260905';
 const qa=JSON.parse(await readFile(process.env.PUBLIC_ROUTE_QA_REPORT || evidence+'/exhaustive-website/route_rendered_qa.json','utf8'));
 const base=process.env.PUBLIC_CONTRAST_URL || 'http://127.0.0.1:4188';
-const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});const results=[];
+const browser=await chromium.launch({executablePath:process.env.PUBLIC_WEBSITE_CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});const results=[];
 try {
  for(const width of [320,1440]) for(const route of [...new Set(qa.results.map(r=>r.route))]) {
   const page=await browser.newPage({viewport:{width,height:1000}});await page.goto(base+route,{waitUntil:'networkidle'});
@@ -19,8 +19,16 @@ try {
    for(const el of document.querySelectorAll('body *')) {
     const text=[...el.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent.trim()).join(' ').trim();if(!text)continue;
     const cs=getComputedStyle(el),r=el.getBoundingClientRect();if(!r.width||!r.height||cs.visibility==='hidden'||cs.display==='none'||['SCRIPT','STYLE','NOSCRIPT'].includes(el.tagName))continue;
-    const item={tag:el.tagName.toLowerCase(),classes:el.className,text:text.slice(0,140)};let stack=[],reason=null;
-    for(let p=el;p;p=p.parentElement){const s=getComputedStyle(p);if(Number(s.opacity)<1){reason='opacity';break}if(s.backgroundImage!=='none'){reason='image or gradient';break}const c=rgb(s.backgroundColor);if(c){stack.push(c);if(c[3]===1)break}}
+    const item={tag:el.tagName.toLowerCase(),classes:el.className,text:text.slice(0,140)};let stack=[],reason=null,backgroundOwner=null;
+    for(let p=el;p;p=p.parentElement){const s=getComputedStyle(p);if(Number(s.opacity)<1){reason='opacity';break}if(s.backgroundImage!=='none'){reason='image or gradient';break}const c=rgb(s.backgroundColor);if(c){stack.push(c);if(c[3]===1){backgroundOwner=p;break}}}
+    // Transparent positioned content can paint over a sibling photograph.
+    // Its ancestor's white canvas is not the displayed backdrop. Defer such
+    // text to the rendered-pixel photo check, which includes header labels.
+    if(!reason && backgroundOwner && stack.slice(0,-1).every(c=>c[3]===0)) {
+     const painted=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+     const opaqueIndex=painted.indexOf(backgroundOwner);
+     if(painted.some((p,index)=>index<opaqueIndex&&!p.contains(el)&&getComputedStyle(p).backgroundImage!=='none'))reason='non-ancestor image backdrop';
+    }
     if(reason){unverified.push({...item,reason});continue}
     let bg=[255,255,255];for(const c of stack.reverse())bg=blend(c,bg);
     const foreground=rgb(cs.color);if(!foreground){unverified.push({...item,reason:'unsupported color'});continue}

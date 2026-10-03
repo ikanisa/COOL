@@ -1,0 +1,19 @@
+--- historical/security/
++++ current/security/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -18,7 +17,7 @@
+ Get the App
+ Create Group Saving
+ Get in Touch
+-Collect app · Example data
++Collect interface preview · Example data
+ How Collect protects customer information
+ Collect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible.
+ Personal data is not sold.

@@ -1,0 +1,483 @@
+{
+  "dry_run": true,
+  "framework_files": {
+    "Package.swift": "fe677ca6747a3ac9f4bf036e9604952d1ea4882a22ef776b154840f9acb336c9",
+    "Sources/FlutterFramework/FlutterFramework.swift": "8518fb048c29925943b03de7f45c9d5232c0b46d2cc97d36f83ff501e1ffb9ba"
+  },
+  "generated_files": {
+    "Package.swift": "bcfcf81d0aa8cca8476990e119bee1120cf37016221a11a4f097398bf143aa36",
+    "Sources/FlutterGeneratedPluginSwiftPackage/FlutterGeneratedPluginSwiftPackage.swift": "8518fb048c29925943b03de7f45c9d5232c0b46d2cc97d36f83ff501e1ffb9ba"
+  },
+  "packages": {
+    "app_links": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/app_links/ios/app_links",
+      "declared_files": {
+        "Package.swift": "9f60931f4dfa1d8dce0bcf0346178c7daba398ef67fc80eb6a6edfa7f8d5e680",
+        "Sources/app_links/AppLinksIosPlugin.swift": "ff0510b8b9cd5e93f3862f4b0248efc36218eab42e29627f09e7ab753f542f24",
+        "Sources/app_links/PrivacyInfo.xcprivacy": "df01bf8f311b7b350d01d55afe5059ead9ba2b0069c5421e69d9b405f7cabea2"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/app_links/ios/app_links",
+      "files": {
+        "Package.swift": "9f60931f4dfa1d8dce0bcf0346178c7daba398ef67fc80eb6a6edfa7f8d5e680",
+        "Sources/app_links/AppLinksIosPlugin.swift": "ff0510b8b9cd5e93f3862f4b0248efc36218eab42e29627f09e7ab753f542f24",
+        "Sources/app_links/PrivacyInfo.xcprivacy": "df01bf8f311b7b350d01d55afe5059ead9ba2b0069c5421e69d9b405f7cabea2"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/app_links-7.2.1/ios/app_links"
+    },
+    "file_picker_darwin": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/file_picker_darwin/darwin/file_picker_darwin",
+      "declared_files": {
+        "Package.swift": "2dc0e7f8934ef0fef77f8efa9a9086b49e433a342dc071c9ccd3260ee896b2a2",
+        "Sources/file_picker_darwin/FilePickerPlugin.swift": "b96b1bc29536e1375a27811d554f5a7c6d3439d8d50bce899bd0d192fa28fb20",
+        "Sources/file_picker_darwin/IOSFilePickerHandler.swift": "3e77fcd61f76cea11617434104df8b248be25a4f0b9482e0815af5e6bfbc8c06",
+        "Sources/file_picker_darwin/MacOSFilePickerHandler.swift": "25924662e0e723945cc4db80c65ffbcd7b66985e88400f50f2af426f7bef0cf3",
+        "Sources/file_picker_darwin/PrivacyInfo.xcprivacy": "204d035a88eab2281b3d914f46c796766ae78e3cb82537711928dca9e28dbbb8"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/file_picker_darwin/darwin/file_picker_darwin",
+      "files": {
+        "Package.swift": "2dc0e7f8934ef0fef77f8efa9a9086b49e433a342dc071c9ccd3260ee896b2a2",
+        "Sources/file_picker_darwin/FilePickerPlugin.swift": "b96b1bc29536e1375a27811d554f5a7c6d3439d8d50bce899bd0d192fa28fb20",
+        "Sources/file_picker_darwin/IOSFilePickerHandler.swift": "3e77fcd61f76cea11617434104df8b248be25a4f0b9482e0815af5e6bfbc8c06",
+        "Sources/file_picker_darwin/MacOSFilePickerHandler.swift": "25924662e0e723945cc4db80c65ffbcd7b66985e88400f50f2af426f7bef0cf3",
+        "Sources/file_picker_darwin/PrivacyInfo.xcprivacy": "204d035a88eab2281b3d914f46c796766ae78e3cb82537711928dca9e28dbbb8"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_picker_darwin-1.1.0/darwin/file_picker_darwin"
+    },
+    "file_saver": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/file_saver",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/third_party/file_saver/ios/file_saver",
+      "declared_files": {
+        "Package.swift": "704130b052ce655be5d5b61f820ff8009d46d6a05c76e9e8d15849d5080c7828",
+        "Sources/file_saver/Dialog.swift": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+        "Sources/file_saver/FileSaverPlugin.swift": "f6c4c2b8fe768ea08cb5ff8a0b7ad6306c9c08b6a17bfa81f4bbbf5f6114da7b"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/third_party/file_saver/ios/file_saver",
+      "files": {
+        "Package.swift": "704130b052ce655be5d5b61f820ff8009d46d6a05c76e9e8d15849d5080c7828",
+        "Sources/file_saver/Dialog.swift": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+        "Sources/file_saver/FileSaverPlugin.swift": "f6c4c2b8fe768ea08cb5ff8a0b7ad6306c9c08b6a17bfa81f4bbbf5f6114da7b"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/third_party/file_saver/ios/file_saver"
+    },
+    "firebase_core": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/firebase_core/ios/firebase_core",
+      "declared_files": {
+        "Package.swift": "2d12f438fdb80f5731e851b6fbea24c093587d22143cb866b7f691c306d96fbd",
+        "Sources/firebase_core/FLTFirebaseCorePlugin.m": "57c560fbce5955d043f8d3618fa9e4b1df4a10140375d5a75d72ddcf9ec7b0a5",
+        "Sources/firebase_core/FLTFirebasePlugin.m": "56b5d6a2184368a5c96624814f73b155d0419c0b0b50746d72d4aa2e40772f50",
+        "Sources/firebase_core/FLTFirebasePluginRegistry.m": "1f58eb6ff5ebdfefb543a562a7b805799054a5942ec33f14ecbec2c47540d9bf",
+        "Sources/firebase_core/dummy.m": "f792f194b62e1c5d5830e2006e909609f16efe2a37573fe1720f4dd81ecd02db",
+        "Sources/firebase_core/include/firebase_core/FLTFirebaseCorePlugin.h": "aab8ffec525ce87c5cb9dd56a14f2b59369fbc00ce6a71d208fd9111cf85a409",
+        "Sources/firebase_core/include/firebase_core/FLTFirebasePlugin.h": "86dd0d78cf493b9a8f6167514f9508d7bf6f8c43d47a80dc176c6c0ff3414af4",
+        "Sources/firebase_core/include/firebase_core/FLTFirebasePluginRegistry.h": "f0a93b2df029cbc31095d8ede1bbde356cfb1f5f63668052c82e46a1446a8fca",
+        "Sources/firebase_core/include/firebase_core/dummy.h": "f792f194b62e1c5d5830e2006e909609f16efe2a37573fe1720f4dd81ecd02db",
+        "Sources/firebase_core/include/firebase_core/messages.g.h": "1972dead4259fdfeab7907158184dca0b800470ddb7610050bef5590bdc8d55a",
+        "Sources/firebase_core/messages.g.m": "fedebc1478d712be45eb4d83edb249abc7ec75033f0f6969c7b04fd45fb319bf"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/firebase_core/ios/firebase_core",
+      "files": {
+        "Package.swift": "2d12f438fdb80f5731e851b6fbea24c093587d22143cb866b7f691c306d96fbd",
+        "Sources/firebase_core/FLTFirebaseCorePlugin.m": "57c560fbce5955d043f8d3618fa9e4b1df4a10140375d5a75d72ddcf9ec7b0a5",
+        "Sources/firebase_core/FLTFirebasePlugin.m": "56b5d6a2184368a5c96624814f73b155d0419c0b0b50746d72d4aa2e40772f50",
+        "Sources/firebase_core/FLTFirebasePluginRegistry.m": "1f58eb6ff5ebdfefb543a562a7b805799054a5942ec33f14ecbec2c47540d9bf",
+        "Sources/firebase_core/dummy.m": "f792f194b62e1c5d5830e2006e909609f16efe2a37573fe1720f4dd81ecd02db",
+        "Sources/firebase_core/include/firebase_core/FLTFirebaseCorePlugin.h": "aab8ffec525ce87c5cb9dd56a14f2b59369fbc00ce6a71d208fd9111cf85a409",
+        "Sources/firebase_core/include/firebase_core/FLTFirebasePlugin.h": "86dd0d78cf493b9a8f6167514f9508d7bf6f8c43d47a80dc176c6c0ff3414af4",
+        "Sources/firebase_core/include/firebase_core/FLTFirebasePluginRegistry.h": "f0a93b2df029cbc31095d8ede1bbde356cfb1f5f63668052c82e46a1446a8fca",
+        "Sources/firebase_core/include/firebase_core/dummy.h": "f792f194b62e1c5d5830e2006e909609f16efe2a37573fe1720f4dd81ecd02db",
+        "Sources/firebase_core/include/firebase_core/messages.g.h": "1972dead4259fdfeab7907158184dca0b800470ddb7610050bef5590bdc8d55a",
+        "Sources/firebase_core/messages.g.m": "fedebc1478d712be45eb4d83edb249abc7ec75033f0f6969c7b04fd45fb319bf"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_core-4.13.0/ios/firebase_core"
+    },
+    "firebase_messaging": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_messaging",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging",
+      "declared_files": {
+        "Package.swift": "44e23ebffc1c49d040dc6046a991dfb7621f10acb6674abf09a43a4226663eca",
+        "Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+        "Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb",
+        "Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/third_party/firebase_messaging/ios/firebase_messaging",
+      "files": {
+        "Package.swift": "0cdc3adc8fc92d4cc9decc7e00838407076a26bd18be1f0fc31fe253ab5eea3e",
+        "Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+        "Sources/firebase_messaging/Resources/PrivacyInfo.xcprivacy": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb",
+        "Sources/firebase_messaging/include/FLTFirebaseMessagingPlugin.h": "006f11d3e0e5ecda86229d20844969614dc62c4362023aa90b298de70a8d80ab"
+      },
+      "generated_manifest_rewrites": [
+        {
+          "original": "\"../firebase_core\"",
+          "replacement": "\"../firebase_core-4.13.0\""
+        }
+      ],
+      "original_link": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging"
+    },
+    "flutter_local_notifications": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications",
+      "declared_files": {
+        "Package.swift": "203f1fb8a69b53e336f59972e8837a35948f23ee95fc5227c5fea23c75727986",
+        "Sources/flutter_local_notifications/ActionEventSink.m": "736233517fa3119cd8cddb9d44b38ff8e31d717932a05a8de1aaef0ee7573b31",
+        "Sources/flutter_local_notifications/FlutterEngineManager.m": "9e384bbe2668854e11b0b7341de2bfd53ee06acaf5a4f04726ef38dc3031086b",
+        "Sources/flutter_local_notifications/FlutterLocalNotificationsConverters.m": "24ada7e6d40ac913e27c89260d63c85d1a91e5021e4f3d6003e460e6c29e28a0",
+        "Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+        "Sources/flutter_local_notifications/PrivacyInfo.xcprivacy": "8f4cbf3a6f18b7deaabc8646bd255df453f0d100def074ec05e44463437be9d5",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/ActionEventSink.h": "5851ae68a1a6e13dd5ca48e361482239ad3c61b6e0b6c8de5d9e70801d49a112",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterEngineManager.h": "44082af1775b476b07fb9f7ef282c214566d6affd02e09843ab5293a305d82ec",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterLocalNotificationsConverters.h": "e62718636dbc54cb132701616cdf12a7669d715aeb7ff0d42e6d03fe64af057a",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterLocalNotificationsPlugin.h": "05c7efb2b4f8d210bb910823a5d109258a143ef4e9594444f5f33710d196d556"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications",
+      "files": {
+        "Package.swift": "203f1fb8a69b53e336f59972e8837a35948f23ee95fc5227c5fea23c75727986",
+        "Sources/flutter_local_notifications/ActionEventSink.m": "736233517fa3119cd8cddb9d44b38ff8e31d717932a05a8de1aaef0ee7573b31",
+        "Sources/flutter_local_notifications/FlutterEngineManager.m": "9e384bbe2668854e11b0b7341de2bfd53ee06acaf5a4f04726ef38dc3031086b",
+        "Sources/flutter_local_notifications/FlutterLocalNotificationsConverters.m": "24ada7e6d40ac913e27c89260d63c85d1a91e5021e4f3d6003e460e6c29e28a0",
+        "Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+        "Sources/flutter_local_notifications/PrivacyInfo.xcprivacy": "8f4cbf3a6f18b7deaabc8646bd255df453f0d100def074ec05e44463437be9d5",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/ActionEventSink.h": "5851ae68a1a6e13dd5ca48e361482239ad3c61b6e0b6c8de5d9e70801d49a112",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterEngineManager.h": "44082af1775b476b07fb9f7ef282c214566d6affd02e09843ab5293a305d82ec",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterLocalNotificationsConverters.h": "e62718636dbc54cb132701616cdf12a7669d715aeb7ff0d42e6d03fe64af057a",
+        "Sources/flutter_local_notifications/include/flutter_local_notifications/FlutterLocalNotificationsPlugin.h": "05c7efb2b4f8d210bb910823a5d109258a143ef4e9594444f5f33710d196d556"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_local_notifications-22.3.0/ios/flutter_local_notifications"
+    },
+    "image_picker_ios": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios",
+      "declared_files": {
+        "Package.swift": "5fbe6de1fb566aaf11079ab2b50cd052153ae45e47f7fed67ebb02d85b2c5765",
+        "Sources/image_picker_ios/FIPViewProvider.m": "e2a66b6e7f0b9e8656da953504ccc53fbccfc4dc237f1bc21f36ff5ea24d90a6",
+        "Sources/image_picker_ios/FLTImagePickerImageUtil.m": "25e409145372cbd4fa9611b47ef918053cbb9d88661b62a0216d0b12139103d8",
+        "Sources/image_picker_ios/FLTImagePickerMetaDataUtil.m": "fe367a23737c73627e691c678a23b14c480f29e44ed63f39e4927843b05cb379",
+        "Sources/image_picker_ios/FLTImagePickerPhotoAssetUtil.m": "8e60047b4f365ac0b1a4e5748241b7356a50159da8024592710e5f052ad2bbec",
+        "Sources/image_picker_ios/FLTImagePickerPlugin.m": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+        "Sources/image_picker_ios/FLTPHPickerSaveImageToPathOperation.m": "fb7f20276859346c183fa5c6af0934d82692274a6e170e0a65408843609a1ab3",
+        "Sources/image_picker_ios/Resources/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/image_picker_ios/include/ImagePickerPlugin.modulemap": "41b6dacc38e06d5c56d1697aac2745575eedbcab6ee5e3c1a0385e0fb5dc9307",
+        "Sources/image_picker_ios/include/image_picker_ios-umbrella.h": "2a17b405b86d1f3879590d02c70debb59bed24879b956f6ca6f8070a859c7d8b",
+        "Sources/image_picker_ios/include/image_picker_ios/FIPViewProvider.h": "c51f3233e9d76037fabdd4035face7f7ba45a2580058b8eba919a74d9aded343",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerImageUtil.h": "94294c2cc97a85ae62c8dd69ca7f37315e4412e8f2109efd616d924aaf4d7a79",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerMetaDataUtil.h": "f1e34c0b8cc5dfbabf7b5c3b0150c156be501624e15731a2fedf9d02583708e0",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPhotoAssetUtil.h": "d1c1559c54d587f731842859630fde385bc54beece5c1e2311016e737cbae2c9",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPlugin.h": "d7b3e43c3ab4c9cb332abe8e8723d384dc7771a1d448d0cc43233d783d2a10ba",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPlugin_Test.h": "5bcb3ac2d168a9157db862013d21fedf475bc4e7c1e7851409ade7592cd9a057",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTPHPickerSaveImageToPathOperation.h": "42bd0de02241d7a206b31519cd8d22d3f4f86b0ee52c720f1c6c6f4a3dda1094",
+        "Sources/image_picker_ios/include/image_picker_ios/messages.g.h": "aadcbe64632424ce511474bfc716f5480befd4d35724f785562402a4b07681dd",
+        "Sources/image_picker_ios/messages.g.m": "aa373944969a97e4415361fd7b74e4487f78d0e5b48fd8a44a6a17b5cc9d1d7a"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios",
+      "files": {
+        "Package.swift": "5fbe6de1fb566aaf11079ab2b50cd052153ae45e47f7fed67ebb02d85b2c5765",
+        "Sources/image_picker_ios/FIPViewProvider.m": "e2a66b6e7f0b9e8656da953504ccc53fbccfc4dc237f1bc21f36ff5ea24d90a6",
+        "Sources/image_picker_ios/FLTImagePickerImageUtil.m": "25e409145372cbd4fa9611b47ef918053cbb9d88661b62a0216d0b12139103d8",
+        "Sources/image_picker_ios/FLTImagePickerMetaDataUtil.m": "fe367a23737c73627e691c678a23b14c480f29e44ed63f39e4927843b05cb379",
+        "Sources/image_picker_ios/FLTImagePickerPhotoAssetUtil.m": "8e60047b4f365ac0b1a4e5748241b7356a50159da8024592710e5f052ad2bbec",
+        "Sources/image_picker_ios/FLTImagePickerPlugin.m": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+        "Sources/image_picker_ios/FLTPHPickerSaveImageToPathOperation.m": "fb7f20276859346c183fa5c6af0934d82692274a6e170e0a65408843609a1ab3",
+        "Sources/image_picker_ios/Resources/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/image_picker_ios/include/ImagePickerPlugin.modulemap": "41b6dacc38e06d5c56d1697aac2745575eedbcab6ee5e3c1a0385e0fb5dc9307",
+        "Sources/image_picker_ios/include/image_picker_ios-umbrella.h": "2a17b405b86d1f3879590d02c70debb59bed24879b956f6ca6f8070a859c7d8b",
+        "Sources/image_picker_ios/include/image_picker_ios/FIPViewProvider.h": "c51f3233e9d76037fabdd4035face7f7ba45a2580058b8eba919a74d9aded343",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerImageUtil.h": "94294c2cc97a85ae62c8dd69ca7f37315e4412e8f2109efd616d924aaf4d7a79",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerMetaDataUtil.h": "f1e34c0b8cc5dfbabf7b5c3b0150c156be501624e15731a2fedf9d02583708e0",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPhotoAssetUtil.h": "d1c1559c54d587f731842859630fde385bc54beece5c1e2311016e737cbae2c9",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPlugin.h": "d7b3e43c3ab4c9cb332abe8e8723d384dc7771a1d448d0cc43233d783d2a10ba",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTImagePickerPlugin_Test.h": "5bcb3ac2d168a9157db862013d21fedf475bc4e7c1e7851409ade7592cd9a057",
+        "Sources/image_picker_ios/include/image_picker_ios/FLTPHPickerSaveImageToPathOperation.h": "42bd0de02241d7a206b31519cd8d22d3f4f86b0ee52c720f1c6c6f4a3dda1094",
+        "Sources/image_picker_ios/include/image_picker_ios/messages.g.h": "aadcbe64632424ce511474bfc716f5480befd4d35724f785562402a4b07681dd",
+        "Sources/image_picker_ios/messages.g.m": "aa373944969a97e4415361fd7b74e4487f78d0e5b48fd8a44a6a17b5cc9d1d7a"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13+6/ios/image_picker_ios"
+    },
+    "integration_test": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/integration_test",
+      "compiler_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/packages/integration_test/ios/integration_test",
+      "declared_files": {
+        ".swiftpm/xcode/xcuserdata/jeanbosco.xcuserdatad/xcschemes/xcschememanagement.plist": "cab22712a3abab86fe3b659d2d87dbef6acddcf8cbc7875d310f4e1be6aa7778",
+        "Package.swift": "cb144633ea6e9ff2468bf597ab0641ee3a3000df4f9ab02c342943ef5f64b08d",
+        "Sources/integration_test/FLTIntegrationTestRunner.m": "459ca64209380dde081f25b27c7979ffc1c3764fa1cbf70ae309685b7b5b1657",
+        "Sources/integration_test/IntegrationTestIosTest.m": "3433a5e5c34d519e97f56da1501c70886856e3ba147899e3f9008edffe338cf0",
+        "Sources/integration_test/IntegrationTestPlugin.m": "8469f29b3323c46038108d3ecddcc8a3f62e633c39f4338b34e3b0eb27161c61",
+        "Sources/integration_test/Resources/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "Sources/integration_test/include/FLTIntegrationTestRunner.h": "80285f85723f49224e564b4b872046a1ba14bbcb78184deb176f928bed8da3aa",
+        "Sources/integration_test/include/IntegrationTestIosTest.h": "c69b9d7e443c4b23594f97784e62a710424ac2a0fd811593e5eaad11d9de28b2",
+        "Sources/integration_test/include/IntegrationTestPlugin.h": "9f5972d3c7ec0b48d6ed111b9074699d96ae03ef124d25c2c0e67027cea6bc24"
+      },
+      "declared_native_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/packages/integration_test/ios/integration_test",
+      "files": {
+        ".swiftpm/xcode/xcuserdata/jeanbosco.xcuserdatad/xcschemes/xcschememanagement.plist": "cab22712a3abab86fe3b659d2d87dbef6acddcf8cbc7875d310f4e1be6aa7778",
+        "Package.swift": "cb144633ea6e9ff2468bf597ab0641ee3a3000df4f9ab02c342943ef5f64b08d",
+        "Sources/integration_test/FLTIntegrationTestRunner.m": "459ca64209380dde081f25b27c7979ffc1c3764fa1cbf70ae309685b7b5b1657",
+        "Sources/integration_test/IntegrationTestIosTest.m": "3433a5e5c34d519e97f56da1501c70886856e3ba147899e3f9008edffe338cf0",
+        "Sources/integration_test/IntegrationTestPlugin.m": "8469f29b3323c46038108d3ecddcc8a3f62e633c39f4338b34e3b0eb27161c61",
+        "Sources/integration_test/Resources/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "Sources/integration_test/include/FLTIntegrationTestRunner.h": "80285f85723f49224e564b4b872046a1ba14bbcb78184deb176f928bed8da3aa",
+        "Sources/integration_test/include/IntegrationTestIosTest.h": "c69b9d7e443c4b23594f97784e62a710424ac2a0fd811593e5eaad11d9de28b2",
+        "Sources/integration_test/include/IntegrationTestPlugin.h": "9f5972d3c7ec0b48d6ed111b9074699d96ae03ef124d25c2c0e67027cea6bc24"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28/packages/integration_test/ios/integration_test"
+    },
+    "mobile_scanner": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner",
+      "declared_files": {
+        "Package.swift": "7b36fb028978015e90e77a723712d8133a9a6b82ca8c75906949b41501809176",
+        "Sources/mobile_scanner/BarcodePayloadParser.swift": "ec1691d33d19229fef405a8dc13ec5172ca9f53d9087f099a83ef7523330e3bb",
+        "Sources/mobile_scanner/BarcodeTypeDetector.swift": "01ede024ea0b7839e706d30f5037a2d2727f10b55f755b623eb09814358f654f",
+        "Sources/mobile_scanner/DetectionSpeed.swift": "d4966f662c48ffc4d53f11d657bd30dd09bffcd7fb62ba70c4cb4d0d104c2876",
+        "Sources/mobile_scanner/DeviceOrientationStreamHandler.swift": "8b64540bd15cb43e7240910105e1ae373158936a6367399553d33e5d7b59b2e4",
+        "Sources/mobile_scanner/MobileScannerCameraSelector.swift": "8e39fb5ca77c54dc5f34c1870614d84f89553b2c34fd5a7ed57fb861f0c2c3ac",
+        "Sources/mobile_scanner/MobileScannerError.swift": "dfe7f8607ae3bbafd768b59ba8c95628af1b4f1cbda9a9641fae569e8d34754e",
+        "Sources/mobile_scanner/MobileScannerErrorCodes.swift": "8ad7da1aa3cd366c73c9839b704e1e4739e1234b2df4dad44c6ab96f66cff278",
+        "Sources/mobile_scanner/MobileScannerPlugin.swift": "557026b918f3681623b868cca3b5895ed6a61dbfa3bc0c01174a3869ce788679",
+        "Sources/mobile_scanner/Resources/PrivacyInfo.xcprivacy": "1bac827f49b2b8a5358491b9698203bf191791a6f1ba3a3ace3b1285d52d2d17"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner",
+      "files": {
+        "Package.swift": "7b36fb028978015e90e77a723712d8133a9a6b82ca8c75906949b41501809176",
+        "Sources/mobile_scanner/BarcodePayloadParser.swift": "ec1691d33d19229fef405a8dc13ec5172ca9f53d9087f099a83ef7523330e3bb",
+        "Sources/mobile_scanner/BarcodeTypeDetector.swift": "01ede024ea0b7839e706d30f5037a2d2727f10b55f755b623eb09814358f654f",
+        "Sources/mobile_scanner/DetectionSpeed.swift": "d4966f662c48ffc4d53f11d657bd30dd09bffcd7fb62ba70c4cb4d0d104c2876",
+        "Sources/mobile_scanner/DeviceOrientationStreamHandler.swift": "8b64540bd15cb43e7240910105e1ae373158936a6367399553d33e5d7b59b2e4",
+        "Sources/mobile_scanner/MobileScannerCameraSelector.swift": "8e39fb5ca77c54dc5f34c1870614d84f89553b2c34fd5a7ed57fb861f0c2c3ac",
+        "Sources/mobile_scanner/MobileScannerError.swift": "dfe7f8607ae3bbafd768b59ba8c95628af1b4f1cbda9a9641fae569e8d34754e",
+        "Sources/mobile_scanner/MobileScannerErrorCodes.swift": "8ad7da1aa3cd366c73c9839b704e1e4739e1234b2df4dad44c6ab96f66cff278",
+        "Sources/mobile_scanner/MobileScannerPlugin.swift": "557026b918f3681623b868cca3b5895ed6a61dbfa3bc0c01174a3869ce788679",
+        "Sources/mobile_scanner/Resources/PrivacyInfo.xcprivacy": "1bac827f49b2b8a5358491b9698203bf191791a6f1ba3a3ace3b1285d52d2d17"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/mobile_scanner-7.4.0/darwin/mobile_scanner"
+    },
+    "permission_handler_apple": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple",
+      "declared_files": {
+        "Package.swift": "2ce5fc5e62e4da4e4564f215b785dab903b654c18a050ba52cf255bb6f3d3af9",
+        "Sources/permission_handler_apple/PermissionHandlerEnums.h": "9ba5231dfd5a6211701918a676f580409027688dc3a182c1cfd881a49c0db17b",
+        "Sources/permission_handler_apple/PermissionHandlerPlugin.h": "ab0f1157ad4e2385f132945087541341012239b47227780da9e5c0831c4c0fa7",
+        "Sources/permission_handler_apple/PermissionHandlerPlugin.m": "6d3e1530ae668829aa76f9068970713c25ce32c77113918dddc4c62b6f6685bd",
+        "Sources/permission_handler_apple/PermissionManager.h": "609837328fdef1db4edb0421d5b55123c90668cdef84e55f6352ab03324e99d0",
+        "Sources/permission_handler_apple/PermissionManager.m": "24f369d8fb0853f71afce75c2b554001ad1d4008f6c9a833d8c3a838eaf42a8a",
+        "Sources/permission_handler_apple/PrivacyInfo.xcprivacy": "11365689963a1191e96a22e0b39f62f05b86d0d24abe80405c1a5ceef09a9b1b",
+        "Sources/permission_handler_apple/include/permission_handler_apple/PermissionHandlerPlugin.h": "fddac1eeb4a2acfa228e53af914856017cb25b8e089ce940dcd1e32691c740fe",
+        "Sources/permission_handler_apple/strategies/AppTrackingTransparencyPermissionStrategy.h": "1438aa142ae97157bc07035ed0854676091fc51fc5af88d6d22830ed1cf0e30d",
+        "Sources/permission_handler_apple/strategies/AppTrackingTransparencyPermissionStrategy.m": "2fd372a1341c03d9382e8a95ef82937cff30904b2958c62ca02c02dcdeaba857",
+        "Sources/permission_handler_apple/strategies/AssistantPermissionStrategy.h": "601eb4e415614eb36ca5f2b39e75b3cfcf80635c4fc1dce244b8aaaddb3ab18d",
+        "Sources/permission_handler_apple/strategies/AssistantPermissionStrategy.m": "23bf72d0af60e823f9b8a98db4b43b3d1322ce5a3b0356ece5805e127836c671",
+        "Sources/permission_handler_apple/strategies/AudioVideoPermissionStrategy.h": "144174da605da6773b0ebed0b3416c2b50ec3dc061fc377605b080b93b19ce36",
+        "Sources/permission_handler_apple/strategies/AudioVideoPermissionStrategy.m": "ae8bb6353a30b0ab20526c80c2ad2ea93d311622111f12f509539ba444e2b774",
+        "Sources/permission_handler_apple/strategies/BackgroundRefreshStrategy.h": "52629b7f1d99ef5ef7fcec35245b60f03c3ced78266fdaaa302b32f6a88beec9",
+        "Sources/permission_handler_apple/strategies/BackgroundRefreshStrategy.m": "876e1cee402725a49706cb55a465622a9d09bc8df5400bc77a0f79356108fd7b",
+        "Sources/permission_handler_apple/strategies/BluetoothPermissionStrategy.h": "bd944f803bd14b65dda95d596dfe2b83aa68720f2dad7bcd33d68d15b809424e",
+        "Sources/permission_handler_apple/strategies/BluetoothPermissionStrategy.m": "91df258eead23a0dd0e496d94a639f355267fc0f41a29a38ee2fb7e4d09399fa",
+        "Sources/permission_handler_apple/strategies/ContactPermissionStrategy.h": "abece3c7962f37dcc5bcafa0d0bca6ea2af6ec2ced8f13065807ad4c956be2fe",
+        "Sources/permission_handler_apple/strategies/ContactPermissionStrategy.m": "2ad35e4e43cb69d36d5ffa558d823176784dafb88f2bff85bfba3766668aa745",
+        "Sources/permission_handler_apple/strategies/CriticalAlertsPermissionStrategy.h": "9aca90e76cc155d3e8d9dd7afe4f4a8d425bcb478f207a2545b3f521838c397a",
+        "Sources/permission_handler_apple/strategies/CriticalAlertsPermissionStrategy.m": "b7b69f5d23e5eff7488bcd5a136499fc8e90abb740f2f8feda2cd2705856d438",
+        "Sources/permission_handler_apple/strategies/EventPermissionStrategy.h": "46221afa0188bf414740c307e34ddd6cfd77f8214665a93359c5f8bd4465375e",
+        "Sources/permission_handler_apple/strategies/EventPermissionStrategy.m": "1a2e03ad2495446d5667b373f54de13bd7c26a4a909b91bfdbac963026ab7254",
+        "Sources/permission_handler_apple/strategies/LocationPermissionStrategy.h": "2a3050bae7f5356c0cb777098385fa78022783159f95871ec9d36a6689f02f28",
+        "Sources/permission_handler_apple/strategies/LocationPermissionStrategy.m": "e70e458866a31c19795e6be5f13e3c9362bf34373b129827e53f1d18d720bce0",
+        "Sources/permission_handler_apple/strategies/MediaLibraryPermissionStrategy.h": "584048df1538ba8b481f9c8b47c47e1bf1f9927a34e6798a96d5bfa7d0b29315",
+        "Sources/permission_handler_apple/strategies/MediaLibraryPermissionStrategy.m": "6df42385679f9bf24b2526d4b74a32ba7c79d3195246e64f5d6b2f397bf03ab1",
+        "Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.h": "15127f3663b6ac9b811b52f62d1d25d7dede5f21abafc374ef878dfed1303856",
+        "Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.m": "b673f3a5276e28b28d39dc0dd1597211af9fe7da8eb408d9d06faafe462134c6",
+        "Sources/permission_handler_apple/strategies/PermissionStrategy.h": "41988d16a64043c9a09b9b00f169ef269009fb199377a0e1746f93df8b76a178",
+        "Sources/permission_handler_apple/strategies/PhonePermissionStrategy.h": "cacb03e89ec9d4d1cb9e827e7bd8ddcbf80292cf39ef6a2bf5103717fb2b6113",
+        "Sources/permission_handler_apple/strategies/PhonePermissionStrategy.m": "c13a221486f5316c60b08b1733c513c0c2d8ac30f45c570f3db3f112552cff99",
+        "Sources/permission_handler_apple/strategies/PhotoPermissionStrategy.h": "8c5527911cee87373585a66d1f8b6b09c3efee99ca8310cea970b7291e0aae36",
+        "Sources/permission_handler_apple/strategies/PhotoPermissionStrategy.m": "08a836cba76201b68d1b807705b370d2756b6375fe416a87920a1015587a640a",
+        "Sources/permission_handler_apple/strategies/SensorPermissionStrategy.h": "e79e6c16b1d91396884a73b1b346ffcbff04680a2ab0a58aa7f46da13a7fd1e1",
+        "Sources/permission_handler_apple/strategies/SensorPermissionStrategy.m": "cf3eb8d49a36561e2183176518acb18d22af6449cf7ae4de372a71d4df6164c0",
+        "Sources/permission_handler_apple/strategies/SpeechPermissionStrategy.h": "92179d3cfd49b582e2f13ad2e3e94a6ceef316d3f57edb186bfa8dc6a4c7bc7f",
+        "Sources/permission_handler_apple/strategies/SpeechPermissionStrategy.m": "61ad17267cc544f7a8d4c0d1957b7b29d805f812a15b4cc24a2a3fc228da8b34",
+        "Sources/permission_handler_apple/strategies/StoragePermissionStrategy.h": "7f35dd49aa7023cecda7da21bc7b5a6eb529229a2f20bff03c795acc7c1c3a45",
+        "Sources/permission_handler_apple/strategies/StoragePermissionStrategy.m": "fc06d74fc664aac8b40d147dc042aba96e35dae5012e48d08893b2f16a76a83b",
+        "Sources/permission_handler_apple/strategies/UnknownPermissionStrategy.h": "b3a42881081578a53feb4ad3f09fb0b58e7bc2e400e28a2cf1518e7b55c2bc03",
+        "Sources/permission_handler_apple/strategies/UnknownPermissionStrategy.m": "c84a85add5a1127def3749790777850cc3da6b3500d28317fa00d212a3f27c2a",
+        "Sources/permission_handler_apple/util/Codec.h": "b94fbee9cf0709d600fd481edc63f0433cbbfdf3a4aaf5421e857f6f164c6994",
+        "Sources/permission_handler_apple/util/Codec.m": "2673ed7d590fb3d7b132528fc1a3c4295f09d864625010d32dd90779d0d0528e"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple",
+      "files": {
+        "Package.swift": "2ce5fc5e62e4da4e4564f215b785dab903b654c18a050ba52cf255bb6f3d3af9",
+        "Sources/permission_handler_apple/PermissionHandlerEnums.h": "9ba5231dfd5a6211701918a676f580409027688dc3a182c1cfd881a49c0db17b",
+        "Sources/permission_handler_apple/PermissionHandlerPlugin.h": "ab0f1157ad4e2385f132945087541341012239b47227780da9e5c0831c4c0fa7",
+        "Sources/permission_handler_apple/PermissionHandlerPlugin.m": "6d3e1530ae668829aa76f9068970713c25ce32c77113918dddc4c62b6f6685bd",
+        "Sources/permission_handler_apple/PermissionManager.h": "609837328fdef1db4edb0421d5b55123c90668cdef84e55f6352ab03324e99d0",
+        "Sources/permission_handler_apple/PermissionManager.m": "24f369d8fb0853f71afce75c2b554001ad1d4008f6c9a833d8c3a838eaf42a8a",
+        "Sources/permission_handler_apple/PrivacyInfo.xcprivacy": "11365689963a1191e96a22e0b39f62f05b86d0d24abe80405c1a5ceef09a9b1b",
+        "Sources/permission_handler_apple/include/permission_handler_apple/PermissionHandlerPlugin.h": "fddac1eeb4a2acfa228e53af914856017cb25b8e089ce940dcd1e32691c740fe",
+        "Sources/permission_handler_apple/strategies/AppTrackingTransparencyPermissionStrategy.h": "1438aa142ae97157bc07035ed0854676091fc51fc5af88d6d22830ed1cf0e30d",
+        "Sources/permission_handler_apple/strategies/AppTrackingTransparencyPermissionStrategy.m": "2fd372a1341c03d9382e8a95ef82937cff30904b2958c62ca02c02dcdeaba857",
+        "Sources/permission_handler_apple/strategies/AssistantPermissionStrategy.h": "601eb4e415614eb36ca5f2b39e75b3cfcf80635c4fc1dce244b8aaaddb3ab18d",
+        "Sources/permission_handler_apple/strategies/AssistantPermissionStrategy.m": "23bf72d0af60e823f9b8a98db4b43b3d1322ce5a3b0356ece5805e127836c671",
+        "Sources/permission_handler_apple/strategies/AudioVideoPermissionStrategy.h": "144174da605da6773b0ebed0b3416c2b50ec3dc061fc377605b080b93b19ce36",
+        "Sources/permission_handler_apple/strategies/AudioVideoPermissionStrategy.m": "ae8bb6353a30b0ab20526c80c2ad2ea93d311622111f12f509539ba444e2b774",
+        "Sources/permission_handler_apple/strategies/BackgroundRefreshStrategy.h": "52629b7f1d99ef5ef7fcec35245b60f03c3ced78266fdaaa302b32f6a88beec9",
+        "Sources/permission_handler_apple/strategies/BackgroundRefreshStrategy.m": "876e1cee402725a49706cb55a465622a9d09bc8df5400bc77a0f79356108fd7b",
+        "Sources/permission_handler_apple/strategies/BluetoothPermissionStrategy.h": "bd944f803bd14b65dda95d596dfe2b83aa68720f2dad7bcd33d68d15b809424e",
+        "Sources/permission_handler_apple/strategies/BluetoothPermissionStrategy.m": "91df258eead23a0dd0e496d94a639f355267fc0f41a29a38ee2fb7e4d09399fa",
+        "Sources/permission_handler_apple/strategies/ContactPermissionStrategy.h": "abece3c7962f37dcc5bcafa0d0bca6ea2af6ec2ced8f13065807ad4c956be2fe",
+        "Sources/permission_handler_apple/strategies/ContactPermissionStrategy.m": "2ad35e4e43cb69d36d5ffa558d823176784dafb88f2bff85bfba3766668aa745",
+        "Sources/permission_handler_apple/strategies/CriticalAlertsPermissionStrategy.h": "9aca90e76cc155d3e8d9dd7afe4f4a8d425bcb478f207a2545b3f521838c397a",
+        "Sources/permission_handler_apple/strategies/CriticalAlertsPermissionStrategy.m": "b7b69f5d23e5eff7488bcd5a136499fc8e90abb740f2f8feda2cd2705856d438",
+        "Sources/permission_handler_apple/strategies/EventPermissionStrategy.h": "46221afa0188bf414740c307e34ddd6cfd77f8214665a93359c5f8bd4465375e",
+        "Sources/permission_handler_apple/strategies/EventPermissionStrategy.m": "1a2e03ad2495446d5667b373f54de13bd7c26a4a909b91bfdbac963026ab7254",
+        "Sources/permission_handler_apple/strategies/LocationPermissionStrategy.h": "2a3050bae7f5356c0cb777098385fa78022783159f95871ec9d36a6689f02f28",
+        "Sources/permission_handler_apple/strategies/LocationPermissionStrategy.m": "e70e458866a31c19795e6be5f13e3c9362bf34373b129827e53f1d18d720bce0",
+        "Sources/permission_handler_apple/strategies/MediaLibraryPermissionStrategy.h": "584048df1538ba8b481f9c8b47c47e1bf1f9927a34e6798a96d5bfa7d0b29315",
+        "Sources/permission_handler_apple/strategies/MediaLibraryPermissionStrategy.m": "6df42385679f9bf24b2526d4b74a32ba7c79d3195246e64f5d6b2f397bf03ab1",
+        "Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.h": "15127f3663b6ac9b811b52f62d1d25d7dede5f21abafc374ef878dfed1303856",
+        "Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.m": "b673f3a5276e28b28d39dc0dd1597211af9fe7da8eb408d9d06faafe462134c6",
+        "Sources/permission_handler_apple/strategies/PermissionStrategy.h": "41988d16a64043c9a09b9b00f169ef269009fb199377a0e1746f93df8b76a178",
+        "Sources/permission_handler_apple/strategies/PhonePermissionStrategy.h": "cacb03e89ec9d4d1cb9e827e7bd8ddcbf80292cf39ef6a2bf5103717fb2b6113",
+        "Sources/permission_handler_apple/strategies/PhonePermissionStrategy.m": "c13a221486f5316c60b08b1733c513c0c2d8ac30f45c570f3db3f112552cff99",
+        "Sources/permission_handler_apple/strategies/PhotoPermissionStrategy.h": "8c5527911cee87373585a66d1f8b6b09c3efee99ca8310cea970b7291e0aae36",
+        "Sources/permission_handler_apple/strategies/PhotoPermissionStrategy.m": "08a836cba76201b68d1b807705b370d2756b6375fe416a87920a1015587a640a",
+        "Sources/permission_handler_apple/strategies/SensorPermissionStrategy.h": "e79e6c16b1d91396884a73b1b346ffcbff04680a2ab0a58aa7f46da13a7fd1e1",
+        "Sources/permission_handler_apple/strategies/SensorPermissionStrategy.m": "cf3eb8d49a36561e2183176518acb18d22af6449cf7ae4de372a71d4df6164c0",
+        "Sources/permission_handler_apple/strategies/SpeechPermissionStrategy.h": "92179d3cfd49b582e2f13ad2e3e94a6ceef316d3f57edb186bfa8dc6a4c7bc7f",
+        "Sources/permission_handler_apple/strategies/SpeechPermissionStrategy.m": "61ad17267cc544f7a8d4c0d1957b7b29d805f812a15b4cc24a2a3fc228da8b34",
+        "Sources/permission_handler_apple/strategies/StoragePermissionStrategy.h": "7f35dd49aa7023cecda7da21bc7b5a6eb529229a2f20bff03c795acc7c1c3a45",
+        "Sources/permission_handler_apple/strategies/StoragePermissionStrategy.m": "fc06d74fc664aac8b40d147dc042aba96e35dae5012e48d08893b2f16a76a83b",
+        "Sources/permission_handler_apple/strategies/UnknownPermissionStrategy.h": "b3a42881081578a53feb4ad3f09fb0b58e7bc2e400e28a2cf1518e7b55c2bc03",
+        "Sources/permission_handler_apple/strategies/UnknownPermissionStrategy.m": "c84a85add5a1127def3749790777850cc3da6b3500d28317fa00d212a3f27c2a",
+        "Sources/permission_handler_apple/util/Codec.h": "b94fbee9cf0709d600fd481edc63f0433cbbfdf3a4aaf5421e857f6f164c6994",
+        "Sources/permission_handler_apple/util/Codec.m": "2673ed7d590fb3d7b132528fc1a3c4295f09d864625010d32dd90779d0d0528e"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_apple-9.5.0/ios/permission_handler_apple"
+    },
+    "share_plus": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/share_plus/ios/share_plus",
+      "declared_files": {
+        "Package.swift": "29b0ec39e3557602fa2c1a831b2f7b5f09a8335bf5b531255fda801f6330e5a2",
+        "Sources/share_plus/FPPSharePlusPlugin.m": "140e72c305cad458fa3dba4f11f1adfae21f527508a9be745fb6409624cc1558",
+        "Sources/share_plus/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/share_plus/include/share_plus/FPPSharePlusPlugin.h": "68728308e8997605c9dbc546f34a165e3118ef6a096a93f285fcedbc57c2547d"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/share_plus/ios/share_plus",
+      "files": {
+        "Package.swift": "29b0ec39e3557602fa2c1a831b2f7b5f09a8335bf5b531255fda801f6330e5a2",
+        "Sources/share_plus/FPPSharePlusPlugin.m": "140e72c305cad458fa3dba4f11f1adfae21f527508a9be745fb6409624cc1558",
+        "Sources/share_plus/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/share_plus/include/share_plus/FPPSharePlusPlugin.h": "68728308e8997605c9dbc546f34a165e3118ef6a096a93f285fcedbc57c2547d"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/share_plus-13.3.0/ios/share_plus"
+    },
+    "shared_preferences_foundation": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/shared_preferences_foundation/darwin/shared_preferences_foundation",
+      "declared_files": {
+        "Package.swift": "e0aae125c494d061044a058c54e0e52e3f1cfcb63fa7c430eaa65792b9413269",
+        "Sources/shared_preferences_foundation/Resources/PrivacyInfo.xcprivacy": "056428b938bd57018a60019d15c3c1ee2fa727f23687598bbbd934848b180b1a",
+        "Sources/shared_preferences_foundation/SharedPreferencesPlugin.swift": "01b427f74d34dbed15d088578a0c8e97b972cbe2102589cbe100c1ab4b31204d",
+        "Sources/shared_preferences_foundation/messages.g.swift": "76b0725e20262e82b554ccaad5a2587c7e6299b08624ffe4ab6fd336b9f17898"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/shared_preferences_foundation/darwin/shared_preferences_foundation",
+      "files": {
+        "Package.swift": "e0aae125c494d061044a058c54e0e52e3f1cfcb63fa7c430eaa65792b9413269",
+        "Sources/shared_preferences_foundation/Resources/PrivacyInfo.xcprivacy": "056428b938bd57018a60019d15c3c1ee2fa727f23687598bbbd934848b180b1a",
+        "Sources/shared_preferences_foundation/SharedPreferencesPlugin.swift": "01b427f74d34dbed15d088578a0c8e97b972cbe2102589cbe100c1ab4b31204d",
+        "Sources/shared_preferences_foundation/messages.g.swift": "76b0725e20262e82b554ccaad5a2587c7e6299b08624ffe4ab6fd336b9f17898"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_foundation-2.5.6/darwin/shared_preferences_foundation"
+    },
+    "url_launcher_ios": {
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1",
+      "compiler_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/url_launcher_ios/ios/url_launcher_ios",
+      "declared_files": {
+        "Package.swift": "a084c5f43a622fa55111da7a765002d43c312f601fcd232a0b03a673927f4660",
+        "Sources/url_launcher_ios/Launcher.swift": "b5b499f3d10754a85be0befaeca35e13e417fddf5cc24c8e5584b0bfaf7c778b",
+        "Sources/url_launcher_ios/Resources/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/url_launcher_ios/URLLaunchSession.swift": "3ce1e0c670ae99fb4e280dd21a077c15e9523c4f80851d179c79dd27598f3f67",
+        "Sources/url_launcher_ios/URLLauncherPlugin.swift": "2cf5db0164f0d39c9406a0c34246a86e121bcac90cb605e81ca6ce63ae8c8b4e",
+        "Sources/url_launcher_ios/ViewPresenter.swift": "b9e5e4d28f554da8b47f351bb5b66aca6a255e9001be17f58ca0a30260febb7e",
+        "Sources/url_launcher_ios/messages.g.swift": "dfafb55043b0cc8993b813f8e008185d4a4a27d11c8a2931b47a0a6f634bf899"
+      },
+      "declared_native_root": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/url_launcher_ios/ios/url_launcher_ios",
+      "files": {
+        "Package.swift": "a084c5f43a622fa55111da7a765002d43c312f601fcd232a0b03a673927f4660",
+        "Sources/url_launcher_ios/Launcher.swift": "b5b499f3d10754a85be0befaeca35e13e417fddf5cc24c8e5584b0bfaf7c778b",
+        "Sources/url_launcher_ios/Resources/PrivacyInfo.xcprivacy": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+        "Sources/url_launcher_ios/URLLaunchSession.swift": "3ce1e0c670ae99fb4e280dd21a077c15e9523c4f80851d179c79dd27598f3f67",
+        "Sources/url_launcher_ios/URLLauncherPlugin.swift": "2cf5db0164f0d39c9406a0c34246a86e121bcac90cb605e81ca6ce63ae8c8b4e",
+        "Sources/url_launcher_ios/ViewPresenter.swift": "b9e5e4d28f554da8b47f351bb5b66aca6a255e9001be17f58ca0a30260febb7e",
+        "Sources/url_launcher_ios/messages.g.swift": "dfafb55043b0cc8993b813f8e008185d4a4a27d11c8a2931b47a0a6f634bf899"
+      },
+      "generated_manifest_rewrites": [],
+      "original_link": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/url_launcher_ios-6.4.1/ios/url_launcher_ios"
+    }
+  },
+  "planned_redirections": [
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/app_links/ios/app_links",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/app_links-7.2.1/ios/app_links"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/file_picker_darwin/darwin/file_picker_darwin",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_picker_darwin-1.1.0/darwin/file_picker_darwin"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/firebase_core/ios/firebase_core",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/firebase_core-4.13.0/ios/firebase_core"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_local_notifications-22.3.0/ios/flutter_local_notifications"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13+6/ios/image_picker_ios"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/mobile_scanner-7.4.0/darwin/mobile_scanner"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_apple-9.5.0/ios/permission_handler_apple"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/share_plus/ios/share_plus",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/share_plus-13.3.0/ios/share_plus"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/shared_preferences_foundation/darwin/shared_preferences_foundation",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences_foundation-2.5.6/darwin/shared_preferences_foundation"
+    },
+    {
+      "after": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/.qa_native_dependencies/url_launcher_ios/ios/url_launcher_ios",
+      "alias": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt100-ios/ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/url_launcher_ios-6.4.1/ios/url_launcher_ios"
+    }
+  ],
+  "scope": "Read-only actual generated compiler-path reconciliation; no aliases or historical build evidence changed and no immutable compiler-root acceptance claimed.",
+  "status": "pass"
+}

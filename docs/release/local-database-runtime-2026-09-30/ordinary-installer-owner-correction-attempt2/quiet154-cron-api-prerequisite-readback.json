@@ -1,0 +1,81 @@
+{
+  "status": "pass",
+  "guard": {
+    "net": "0",
+    "busy": 0,
+    "cron": "off",
+    "user": "postgres",
+    "count": 154,
+    "latest": "20260930230000",
+    "cron_dml": false,
+    "database": "postgres",
+    "superuser": false,
+    "stats_visible": true
+  },
+  "api": [
+    {
+      "acl": [
+        "supabase_admin=X/supabase_admin",
+        "postgres=X*/supabase_admin"
+      ],
+      "owner": "supabase_admin",
+      "signature": "cron.alter_job(bigint,text,text,text,text,boolean)",
+      "anon_execute": false,
+      "postgres_execute": true,
+      "authenticated_execute": false
+    },
+    {
+      "acl": [
+        "=X/supabase_admin",
+        "supabase_admin=X/supabase_admin",
+        "postgres=X*/supabase_admin"
+      ],
+      "owner": "supabase_admin",
+      "signature": "cron.schedule(text,text,text)",
+      "anon_execute": true,
+      "postgres_execute": true,
+      "authenticated_execute": true
+    },
+    {
+      "acl": [
+        "=X/supabase_admin",
+        "supabase_admin=X/supabase_admin",
+        "postgres=X*/supabase_admin"
+      ],
+      "owner": "supabase_admin",
+      "signature": "cron.schedule(text,text)",
+      "anon_execute": true,
+      "postgres_execute": true,
+      "authenticated_execute": true
+    },
+    {
+      "acl": [
+        "=X/supabase_admin",
+        "supabase_admin=X/supabase_admin",
+        "postgres=X*/supabase_admin"
+      ],
+      "owner": "supabase_admin",
+      "signature": "cron.unschedule(bigint)",
+      "anon_execute": true,
+      "postgres_execute": true,
+      "authenticated_execute": true
+    },
+    {
+      "acl": [
+        "=X/supabase_admin",
+        "supabase_admin=X/supabase_admin",
+        "postgres=X*/supabase_admin"
+      ],
+      "owner": "supabase_admin",
+      "signature": "cron.unschedule(text)",
+      "anon_execute": true,
+      "postgres_execute": true,
+      "authenticated_execute": true
+    }
+  ],
+  "all153_tables_catalog_cron_preserved": true,
+  "source_rows_copied": false,
+  "shared_source_written": false,
+  "hosted_called": false,
+  "scope": "Actual quiet local154 platform API EXECUTE readback only; managed hosted state not refreshed"
+}

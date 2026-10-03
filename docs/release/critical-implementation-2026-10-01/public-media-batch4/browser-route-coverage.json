@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "checked_at_utc": "2026-10-02T01:03:24.431683+00:00",
+  "static_html_entries": [
+    "/",
+    "/account-deletion/",
+    "/app/",
+    "/c/",
+    "/community-groups/",
+    "/craas/",
+    "/credit-readiness/",
+    "/data-deletion/",
+    "/group-link/",
+    "/group-savings/",
+    "/insurance/",
+    "/our-partners/",
+    "/partners/",
+    "/privacy/",
+    "/protection/",
+    "/security/",
+    "/terms/",
+    "/trust/"
+  ],
+  "entry_count": 18,
+  "viewport_names": [
+    "compact_320x740",
+    "mobile_390x844",
+    "tablet_834x1194",
+    "desktop_1440x1000"
+  ],
+  "required_entry_viewport_count": 72,
+  "observed_direct_entry_viewport_count": 72,
+  "missing": [],
+  "actual_maintained_sitemap_cases": 60,
+  "actual_maintained_group_share_cases": 16,
+  "actual_supplemental_direct_entry_cases": 12,
+  "actual_supplemental_invitation_ua_cases": 16,
+  "total_actual_cases": 104,
+  "maintained_original_pngs": 350,
+  "supplemental_genuine_top_original_pngs": 28,
+  "capability_registry_sha256": "71d9288963e5cd13a78c6abd50f9c962081a5c841da3d5688849c8a36cadbefa",
+  "capability_approval_as_recorded": {
+    "owner_approved": false,
+    "publication_approved": false,
+    "legal_release_approved": false,
+    "provider_approved": false,
+    "approved_by": null,
+    "approval_evidence": null
+  },
+  "scope": "Actual current local18-entry/four-viewport coverage and synthetic group/app-link destinations/denials. No store or native links clicked; no installed app/hosted/CDN/provider acceptance."
+}

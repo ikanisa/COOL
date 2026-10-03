@@ -1,0 +1,73 @@
+{
+  "approval_flags": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "build_started": false,
+  "complete_source_candidate": false,
+  "file_count": 13,
+  "files": {
+    "PLAN.md": {
+      "bytes": 3080,
+      "sha256": "b09dbb0aac6def897d3d6c8e1e7ed084a284209ccfcf1837b4b85739c5660559"
+    },
+    "README.md": {
+      "bytes": 1803,
+      "sha256": "e027b9cf5f32fe615379b670657bfa2e185d655e3c6f9bcd7ca5fcddaf5fc4da"
+    },
+    "partial-retained-files.json": {
+      "bytes": 369612,
+      "sha256": "eec7641760c4ca313a4573e54411e28f21a7d7969b46b97b769a45543a35a872"
+    },
+    "plan-preflight.json": {
+      "bytes": 1446,
+      "sha256": "ab7d43cc093712a89f80cdc6addefca15ed3e78b154a4223f3e461a7826556af"
+    },
+    "pre-export-config-validator.json": {
+      "bytes": 838,
+      "sha256": "ad4867d5c4718dface9756a674056644f8a2ea2e2f00bad3bf977623c397e9cf"
+    },
+    "pre-export-critical-pins.json": {
+      "bytes": 3811,
+      "sha256": "4c335f860234f1b3cc48dbae7f1ddf19e397c8a59a115ff515aa518de3bfe002"
+    },
+    "sdk-startup-precheck.json": {
+      "bytes": 733,
+      "sha256": "8e82115f437428ac40413c4eeeb140df5b1af90d3466daa26498a02e481c01c6"
+    },
+    "source-export-command.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "superseded-export-stop.json": {
+      "bytes": 689,
+      "sha256": "2ca0f6ee20839e7a351e452eb4c613ba34bbe8159516533fddc4236a6a6697e0"
+    },
+    "tool-copy-before.json": {
+      "bytes": 412,
+      "sha256": "3db5f3e4efd8c216382179655ea08cc2c71f580e826564e49be2e9f39c1febaa"
+    },
+    "tooling/collect_release_candidate.py": {
+      "bytes": 40647,
+      "sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "tooling/prepare_admin_workcopy.py": {
+      "bytes": 3883,
+      "sha256": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2"
+    },
+    "tooling/run_admin_checkpoint.py": {
+      "bytes": 19075,
+      "sha256": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95"
+    }
+  },
+  "kind": "superseded_incomplete_source07_export_diagnostic",
+  "production_ready": false,
+  "scope": "This manifest hashes retained diagnostic evidence only; manifest/hash excluded from self. Partial source staging has no completed exporter manifest/acceptance.",
+  "sealed_at_utc": "2026-10-01T10:16:16.591929+00:00",
+  "superseded": true,
+  "total_bytes": 446029
+}

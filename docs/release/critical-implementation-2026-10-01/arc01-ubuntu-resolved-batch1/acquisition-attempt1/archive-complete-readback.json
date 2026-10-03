@@ -1,0 +1,37 @@
+{
+  "archive_script_executed": false,
+  "at_utc": "2026-10-02T00:33:28.465685+00:00",
+  "bytes": 1543593524,
+  "download": {
+    "argv": [
+      "curl",
+      "--fail",
+      "--location",
+      "--connect-timeout",
+      "15",
+      "--max-time",
+      "900",
+      "--retry",
+      "0",
+      "--silent",
+      "--show-error",
+      "--dump-header",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc01-ubuntu-resolved-batch1/acquisition-attempt1/flutter-download-headers.txt",
+      "--write-out",
+      "%{url_effective} %{response_code} %{size_download}\n",
+      "--output",
+      "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/flutter_linux_3.44.4-stable.tar.xz.partial",
+      "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.44.4-stable.tar.xz?generation=1782344877588856"
+    ],
+    "completed_at_utc": "2026-10-02T00:33:27.465643+00:00",
+    "deadline_seconds": 930,
+    "elapsed_seconds": 660.3578258750022,
+    "exit_code": 0,
+    "log_sha256": "80221b7d78bb7938e6cd0fe2107c9268c0359327cfad1219867b7efa06cd140b",
+    "started_at_utc": "2026-10-02T00:22:27.114443+00:00",
+    "timed_out": false
+  },
+  "expected_bytes": 1543593524,
+  "expected_sha256": "c853cda0312a162854c481fe6a1bc286d84fbb74bfab7037c39750061dc9b466",
+  "sha256": "c853cda0312a162854c481fe6a1bc286d84fbb74bfab7037c39750061dc9b466"
+}

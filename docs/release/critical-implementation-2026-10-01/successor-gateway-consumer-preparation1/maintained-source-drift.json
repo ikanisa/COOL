@@ -1,0 +1,11 @@
+{
+  "drift": {},
+  "stable_consumers": [
+    "contracts/edge-functions.json",
+    "scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh",
+    "scripts/tests/edge_function_inventory_test.rb",
+    "scripts/tests/supabase_delivery_contract_test.py"
+  ],
+  "whole_copied_closure_stable": true
+}

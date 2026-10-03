@@ -1,0 +1,164 @@
+--- https://collect.ikanisa.com/terms/
++++ .cache/public-static-current-20261002-batch4-attempt1/terms/index.html
+@@ -1,6 +1,4 @@
+ Effective date: 20 June 2026
+-Effective Date:
+-20 June 2026
+ Important Summary
+ Collect is a financial-technology and service-orchestration platform.
+ Collect does not accept deposits unless separately authorised.
+@@ -16,11 +14,11 @@
+ IKANISA
+ By creating an account or using Collect, you agree to these Terms and the Privacy Policy.
+ Group rules
+-Bank-account terms
++Rwanda MoMo and USSD contribution terms
+ Loan agreements
+ Collateral agreements
+ Insurance policies
+-Bank-transfer terms
++MoMo payment confirmation terms
+ Professional-service agreements
+ Product-specific disclosures
+ Where a partner’s regulated product terms conflict with these general Terms, the partner’s product agreement governs that product.
+@@ -40,7 +38,7 @@
+ Credit eligibility
+ Regulatory status
+ 3. What Collect provides
+-Mobile-app access and bank-transfer handoff
++Mobile-app access and MoMo USSD handoff
+ Group creation and administration
+ Member and group ledgers
+ Contribution and transaction records
+@@ -84,7 +82,7 @@
+ Use only your own identity and authorised accounts
+ You are responsible for activity conducted through your account unless the activity resulted from a failure for which Collect is legally responsible. We may require additional verification before processing a sensitive instruction.
+ 6. Savings and payments
+-Collect may prepare a bank-transfer handoff, evidence, reconcile or display contributions.
++Collect may prepare a MoMo USSD handoff, reconcile confirmed payments and display contributions.
+ You authorise each transfer in your banking app; Collect does not initiate, sign or execute it.
+ Customer funds are transferred to and held or processed through licensed financial institutions.
+ Partner confirmation
+@@ -179,25 +177,16 @@
+ Claims decisions
+ Claims payment
+ Collect may support product discovery, premium workflows, digital records, reminders and claims notification. A premium payment does not create cover until confirmed according to the insurer’s terms.
+-14. Diaspora services
+-Diaspora savings are separate from remittances.
+-Members save through a regulated host-country partner bank
+-The partner bank holds the savings
+-Collect maintains the group ledger and workflow
+-An agreed amount may be pledged under bank-approved documentation
+-The partner bank assesses eligible borrowers individually
+-Approved capital may be used for permitted investments
+-Product availability depends on the host country and partner bank. Collect does not guarantee a particular secured interest rate, credit amount or investment outcome.
+-15. Fees
++14. Fees
+ Collect will display applicable fees before you accept a paid service.
+ Credit-readiness fees
+ Professional-service fees
+ Partner-product fees
+-Currency-conversion fees
+-Bank-transfer charges
++MoMo service fees
++MoMo provider charges
+ Bank or insurer charges
+-A zero-fee savings statement applies only to the specific user charge described. Banks or banking applications may impose separate charges unless waived under the product terms.
+-16. Acceptable use
++A zero-fee savings statement applies only to the specific user charge described. A MoMo provider may impose separate charges unless waived under the product terms.
++15. Acceptable use
+ You must not use Collect to:
+ Commit fraud
+ Impersonate another person
+@@ -213,7 +202,7 @@
+ Infringe intellectual-property rights
+ Violate sanctions or applicable law
+ We may investigate suspected misuse and cooperate with authorised authorities.
+-17. Suspension and restriction
++16. Suspension and restriction
+ Protect your account
+ Investigate fraud
+ Respond to a partner or regulator
+@@ -223,8 +212,8 @@
+ Prevent harm to a group
+ Comply with law
+ Where appropriate, we will explain the reason and provide a route to challenge the action. Suspension of Collect does not suspend obligations owed to a bank, insurer, group or service provider.
+-18. Closing or deleting your account
+-In the app under Settings → Privacy and Security → Delete Account
++17. Closing or deleting your account
++In the app under Settings → Security → Delete data
+ Online at /account-deletion
+ By contacting info@ikanisa.com
+ Resolve pending transactions
+@@ -232,19 +221,18 @@
+ Download statements
+ Complete or cancel an active application
+ Address an investigation or dispute
+-A bank account
+ A loan
+ An insurance policy
+ A group obligation
+ A professional-service agreement
+ A legal or regulatory record
+ We may retain records where legally required. Eligible data will be deleted or anonymised according to the Privacy Policy.
+-19. Intellectual property
++18. Intellectual property
+ Collect, IKANISA, software, interfaces, trademarks, designs and original content are owned by or licensed to IKANISA.
+ We grant you a limited, personal, non-exclusive, revocable right to use Collect for its intended purpose.
+ You may not copy, reverse engineer, resell, modify or commercially exploit Collect without written permission.
+ You retain ownership of documents and content you provide, but grant us permission to process them to deliver requested services.
+-20. Service availability
++19. Service availability
+ Mobile networks
+ Banks
+ Banking services
+@@ -255,7 +243,7 @@
+ Security incidents
+ Events outside reasonable control
+ We may change or discontinue features, subject to applicable notice and contractual requirements.
+-21. Statements and financial information
++20. Statements and financial information
+ Balances, readiness indicators, projections and status information displayed by Collect may depend on data received from partners. You should report errors promptly.
+ A loan offer
+ Financial advice
+@@ -263,7 +251,7 @@
+ Insurance advice
+ A guaranteed return
+ A guaranteed eligibility decision
+-22. Limitation of liability
++21. Limitation of liability
+ Nothing in these Terms excludes liability that cannot legally be excluded.
+ A partner’s independent credit decision
+ An insurer’s underwriting or claim decision
+@@ -272,25 +260,25 @@
+ Independent professional advice
+ Network or partner outages outside our control
+ Losses caused by unauthorised account access resulting from your failure to protect credentials
+-23. Privacy
++22. Privacy
+ Our Privacy Policy explains how we collect, use, share, retain and delete personal data.
+ Privacy Policy
+ Account Deletion
+ Cookie Policy
+-24. Complaints
++23. Complaints
+ Email
+ info@ikanisa.com
+ A complaint concerning a bank, loan or insurance policy may also need to be submitted to the relevant regulated partner. You retain the right to contact the relevant regulator, data-protection authority or court.
+-25. Changes to these Terms
++24. Changes to these Terms
+ New features
+ New partners
+ Legal changes
+ Security requirements
+ Operational changes
+ We will provide reasonable notice of material changes. Continuing to use Collect after the effective date means you accept the updated Terms, except where law requires a different form of consent.
+-26. Governing law
+-These Terms are governed by the applicable laws for your country or the relevant service, unless mandatory consumer law in your country provides otherwise. Disputes will be handled by the competent court or dispute-resolution forum, subject to any mandatory legal rights.
+-27. Contact
++25. Governing law
++These Terms are governed by the laws of Rwanda. Disputes will be handled by the competent Rwandan court or dispute-resolution forum, subject to mandatory legal rights.
++26. Contact
+ Brand
+ Collect by IKANISA
+ Legal Entity

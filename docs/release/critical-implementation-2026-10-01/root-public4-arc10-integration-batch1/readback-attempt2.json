@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "scope": "Root readback wrapper schema expectation only; no evidence or production mutation",
+  "cause": "Actual packet original_files_moved_or_removed is integer count0. Root incorrectly expected booleanFalse. Correct to exact typeint/count0.",
+  "source_sha256": "9ea6d42d55779de76e84b052340c14909051984e3e8365307dda90d63f41177f",
+  "actual_exit": 1
+}

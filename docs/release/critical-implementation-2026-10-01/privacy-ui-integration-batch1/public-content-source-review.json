@@ -1,0 +1,44 @@
+{
+  "reviewed_at_utc": "2026-10-01T23:59:04.598189+00:00",
+  "before_sha256": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+  "after_sha256": "758e36201378c6992fc53e43d85f3f03943539160258c486c27a6acce44217f8",
+  "reviewed_source_deltas": {
+    "scripts/public_static_site_build.rb": {
+      "before": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+      "after": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9"
+    },
+    "content/product/collect_capabilities.json": {
+      "before": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+      "after": "a6c4c0c824ccc5c69874520b1722a66d92d21bccc45022c6f89c4a126eda9599"
+    },
+    "lib/features/landing/public_marketing_page_content.dart": {
+      "before": "918f4249030efdd3f205f9d564af08bf84041e6c5e0552784ada641df3aca94b",
+      "after": "97b15eaf956d935db0575a20b068d90b706406aa32f8d7cfea880d0b9df25142"
+    },
+    "lib/features/landing/public_capability_content.dart": {
+      "before": "42ad83dfc12e040dc3f0fdc444909d17379a279944049a1cf89ded27724a31ac",
+      "after": "d4e317dde5f2895fbc85da662dd1fd11c7e90b44e6a3c30c843fa1e40a0b3672"
+    }
+  },
+  "preserved_route_hashes": {
+    "/": "865e5ab38366dae3559aeee06e1d5bd03a4e6add89d02cd0f699e8076423537b",
+    "/account-deletion/": "1a37f55b9a11cea90afb0535f62752e8a08a28892915daa77fe42dbfe66ed74c",
+    "/community-groups/": "ace06934995ee754eb0bd23bde83ec0ae4eca1f067421b7b42c9c08482d77e1a",
+    "/craas/": "d435fcbac1e262b7b1c968cc7e2575fb585de6e03a923096576377b0136e14f4",
+    "/credit-readiness/": "7cec9564269808614d7face035c968852ee71198c74ad65ad61df9fdc6c1e0c6",
+    "/data-deletion/": "7e27b7c8e288b9b0220d96b22ad6044fe6a750ef9771853849ec689d300ed348",
+    "/group-savings/": "ff9fb74334fb98cb1c95aaa5cecc85d7740f26ef553b152bdacaaf98e2d22d86",
+    "/insurance/": "b03689d819453ae2463c4db7b13adecfe964f64c80055f5823cc43b3c72aec0c",
+    "/our-partners/": "a2e8325620673b601829b4e4e4be47108003d55eac832faafaa4f33401f8b10b",
+    "/partners/": "916d01d2d49214935756e4af3b8a5937a3fb206dd841fb183ec5133d36554902",
+    "/privacy/": "a378dead5d2828d150fe2057c65f6ecc1da6b91cc35f1e39d2628bc1e002464a",
+    "/protection/": "8f2585367871fdb8f1efd40b98640003aeb54bb08031c9e367fcf6d940cf63d5",
+    "/security/": "1ed069fd09bff9518f4861644f97e08bf1db1b68f73f979559aade7ee50c4405",
+    "/terms/": "af0821bcf09a8fd42204d1be883c532f697d0472ac72b940a012c5caea2f77bc",
+    "/trust/": "45e44c94b5a0a190264bc703bd8f52ce95b883e0e0cfd91c6932de9e8117b581"
+  },
+  "review": "Actual minimal worker share branch/CSS patch inspected; no primary main-route renderer or product copy delta. Generated Dart updates retain public wording. Historical comparison remains dated evidence; new full static build/browser waits for fresh runtime-bound media.",
+  "full_build_accepted": false,
+  "publication_approved": false,
+  "legal_release_approved": false
+}

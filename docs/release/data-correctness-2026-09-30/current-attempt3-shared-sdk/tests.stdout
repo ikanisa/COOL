@@ -1,0 +1,317 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values exact digit strings are compared before conversion
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-02-30T10:00:00Z
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2025-02-29T10:00:00Z
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-04-31T10:00:00+00
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T24:00:00Z
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:60Z
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00+24:00
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00+02:60
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values denies invalid or timezone-free timestamp 2026-09-30T10:00:00.1234567Z
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: canonical transport values leap date, PostgreSQL offsets and fractions retain the same instant
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 1.5 without truncation
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects -1 without truncation
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 0 without truncation
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 9007199254740992 without truncation
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects NaN without truncation
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects Infinity without truncation
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts suggested amount rejects 10 without truncation
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts optional suggestion and exact maximum remain valid
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group id denies malformed identity
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group slug denies malformed identity
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts group creator_user_id denies malformed identity
+00:00 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts missing or impossible collection time is never current time
+00:00 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 9007199254740992
+00:00 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 9007199254740992
+00:00 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value -9007199254740992
+00:00 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value -9007199254740992
+00:00 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 1.5
+00:00 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 1.5
+00:00 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value NaN
+00:00 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value NaN
+00:00 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value Infinity
+00:00 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value Infinity
+00:00 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern total amount denies inexact value 100
+00:00 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern own amount denies inexact value 100
+00:00 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies -1
+00:00 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 1.5
+00:00 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 9007199254740992
+00:00 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies 1
+00:00 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern contributor count denies true
+00:00 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: shared collection contracts modern signed safe boundary and unknown versus explicit zero count
+00:00 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections malformed structure is denied before migration filtering
+00:00 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows collections duplicate immutable ID is denied without metadata
+00:00 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents malformed structure is denied before migration filtering
+00:00 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows payment_intents duplicate immutable ID is denied without metadata
+00:00 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions malformed structure is denied before migration filtering
+00:00 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows contributions duplicate immutable ID is denied without metadata
+00:00 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects -1
+00:00 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 1.5
+00:00 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 9007199254740992
+00:00 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects 1
+00:00 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows pending cache count rejects true
+00:00 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows unknown pending count clears prior known count instead of retaining it
+00:00 +72: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows omitted legacy windows retain unknown aggregates
+00:00 +73: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: cache windows decoded cache collections and windows are immutable
+00:00 +74: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency partial page must not exceed the complete aggregate
+00:00 +75: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency loaded ownership requires matching collection ID and own total
+00:00 +76: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency complete history must equal complete totals and ownership IDs
+00:00 +77: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency a display label never grants ownership
+00:00 +78: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency full page preserves server-owned historical ownership
+00:00 +79: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart: history aggregate consistency ownership IDs cannot contain control characters
+00:00 +80: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart
+00:00 +80 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart [E]
+  Failed to load "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart":
+  Compilation failed for testPath=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: test/shared/contribution_intent_binding_test.dart:270:30: Error: A non-null value must be returned since the return type 'Response' doesn't allow null.
+   - 'Response' is from 'package:http/src/response.dart' ('.cache/pub-cache-hygiene-20260930/hosted/pub.dev/http-1.6.0/lib/src/response.dart').
+        httpClient: MockClient((r) async {
+                               ^
+  .
+00:00 +80 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart
+00:01 +80 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts one amount
+00:01 +81 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts normal amount
+00:01 +82 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts whole double amount
+00:01 +83 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts safe maximum amount
+00:01 +84 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects missing amount
+00:01 +85 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects zero amount
+00:01 +86 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects negative amount
+00:01 +87 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects fraction amount
+00:01 +88 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects numeric string amount
+00:01 +89 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects boolean amount
+00:01 +90 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects not a number amount
+00:01 +91 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects infinity amount
+00:01 +92 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects negative infinity amount
+00:01 +93 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects outside exact range amount
+00:01 +94 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects object amount
+00:01 +95 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: accepts legacy amount without current amount
+00:01 +96 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: current null preserves legacy compatibility
+00:01 +97 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: equal aliases accepted
+00:01 +98 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: conflicting aliases rejected
+00:01 +99 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: invalid alias cannot hide behind valid amount
+00:01 +100 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: errors do not echo received amounts
+00:01 +101 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects blank collection_id
+00:01 +102 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects control character in collection_id
+00:01 +103 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects blank id
+00:01 +104 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects control character in id
+00:01 +105 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects non-RWF
+00:01 +106 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: rejects malformed currency
+00:01 +107 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: legacy absent currency remains RWF
+00:01 +108 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: missing created_at is never now
+00:01 +109 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent: missing expires_at is never now
+00:01 +110 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts one amount
+00:01 +111 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts normal amount
+00:01 +112 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts whole double amount
+00:01 +113 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts safe maximum amount
+00:01 +114 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects missing amount
+00:01 +115 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects zero amount
+00:01 +116 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects negative amount
+00:01 +117 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects fraction amount
+00:01 +118 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects numeric string amount
+00:01 +119 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects boolean amount
+00:01 +120 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects not a number amount
+00:01 +121 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects infinity amount
+00:01 +122 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects negative infinity amount
+00:01 +123 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects outside exact range amount
+00:01 +124 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects object amount
+00:01 +125 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: accepts legacy amount without current amount
+00:01 +126 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: current null preserves legacy compatibility
+00:01 +127 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: equal aliases accepted
+00:01 +128 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: conflicting aliases rejected
+00:01 +129 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: invalid alias cannot hide behind valid amount
+00:01 +130 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: errors do not echo received amounts
+00:01 +131 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects blank collection_id
+00:01 +132 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects control character in collection_id
+00:01 +133 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects blank payment_id
+00:01 +134 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects control character in payment_id
+00:01 +135 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects non-RWF
+00:01 +136 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: rejects malformed currency
+00:01 +137 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: legacy absent currency remains RWF
+00:01 +138 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution: missing posted_at is never now
+00:01 +139 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects impossible day
+00:01 +140 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects non-leap February
+00:01 +141 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects month zero
+00:01 +142 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects month thirteen
+00:01 +143 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects day zero
+00:01 +144 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects April 31
+00:01 +145 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects hour overflow
+00:01 +146 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects minute overflow
+00:01 +147 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects second overflow
+00:01 +148 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects offset hour overflow
+00:01 +149 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects offset minute overflow
+00:01 +150 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects naive timestamp
+00:01 +151 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects date only
+00:01 +152 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects numeric timestamp
+00:01 +153 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects overprecision
+00:01 +154 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects trailing newline
+00:01 +155 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects year zero
+00:01 +156 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp rejects malformed timestamp
+00:01 +157 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts UTC
+00:01 +158 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts positive offset
+00:01 +159 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts negative offset
+00:01 +160 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts PostgreSQL short UTC offset
+00:01 +161 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts compact offset
+00:01 +162 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts space separator
+00:01 +163 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts leap day
+00:01 +164 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts milliseconds
+00:01 +165 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts microseconds
+00:01 +166 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp accepts typed instant
+00:01 +167 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: timestamp errors do not leak input
+00:01 +168 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: missing is not pending
+00:01 +169 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: blank is not pending
+00:01 +170 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent status: non-string is not pending
+00:01 +171 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: future non-pending status remains non-actionable
+00:01 +172 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: expired intent retained as history, not made fresh
+00:01 +173 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent rejects equal lifetime
+00:01 +174 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: intent rejects inverted lifetime
+00:01 +175 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: lifetime compares actual instants across offsets
+00:01 +176 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution retains posting precedence over creation
+00:01 +177 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: contribution uses legacy creation when posting absent
+00:01 +178 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: invalid posting does not fall back to valid creation
+00:01 +179 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: payment id precedence does not compare distinct identity schemas
+00:01 +180 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: legacy contribution id remains accepted
+00:01 +181 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: malformed ownership is not silently converted
+00:01 +182 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: missing ownership stays false
+00:01 +183 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: explicit foreign rail cannot masquerade as RWF MoMo
+00:01 +184 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: optional malformed metadata yields safe format error
+00:01 +185 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart: valid metadata is preserved and input remains untouched
+00:01 +186 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart
+00:01 +186 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding empty history and genuine zero totals remain valid
+00:02 +187 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty page is immutable including the cursor
+00:02 +188 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count Null: null
+00:02 +189 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count int: -1
+00:02 +190 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: 1.5
+00:02 +191 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count String: 3
+00:02 +192 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count bool: true
+00:02 +193 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: NaN
+00:02 +194 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count double: Infinity
+00:02 +195 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact count int: 9007199254740992
+00:02 +196 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate Null: null
+00:02 +197 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate int: -1
+00:02 +198 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: 1.5
+00:02 +199 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate String: 30
+00:02 +200 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate bool: true
+00:02 +201 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: NaN
+00:02 +202 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate double: Infinity
+00:02 +203 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid or inexact aggregate int: 9007199254740992
+00:02 +204 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding accept common exact-integer maximum without coercion
+00:02 +205 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history cannot substitute missing totals with zero
+00:02 +206 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history cannot declare a zero total
+00:02 +207 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding nonempty history must supply its own-total field
+00:02 +208 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject own aggregate greater than complete aggregate
+00:02 +209 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject duplicate payment IDs within one page
+00:02 +210 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject duplicate ownership IDs instead of silently deduplicating
+00:02 +211 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject count smaller than delivered records
+00:02 +212 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor after complete result
+00:02 +213 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor pointing to another payment
+00:02 +214 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject empty history with positive aggregate
+00:02 +215 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject invalid payment amounts
+00:02 +216 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject untrimmed group IDs
+00:02 +217 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding reject cursor revision mismatch
+00:02 +218 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: page decoding cursor error does not echo supplied metadata
+00:02 +219 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows valid partial first page
+00:02 +220 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject silent initial truncation
+00:02 +221 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject empty page for nonempty history
+00:02 +222 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject ignored selected-group filter
+00:02 +223 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject repeated anchor in continuation
+00:02 +224 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject response to an old revision
+00:02 +225 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject a window larger than its requested limit
+00:02 +226 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows reject unsupported sort
+00:02 +227 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce newest order
+00:02 +228 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce oldest order
+00:02 +229 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce highest order
+00:02 +230 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows accept and enforce lowest order
+00:02 +231 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: request-bound wire windows use payment ID ascending for tied timestamps and amounts
+00:02 +232 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging complete a multi-page result exactly once
+00:02 +233 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject an append after a terminal page
+00:02 +234 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject duplicate across pages without modifying existing history
+00:02 +235 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed aggregate despite identical revision and count
+00:02 +236 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed own aggregate
+00:02 +237 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed ownership group IDs
+00:02 +238 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging compare ownership sets by value rather than order
+00:02 +239 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject changed revision or count
+00:02 +240 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject prematurely terminal continuation
+00:02 +241 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject continuation after all advertised rows were received
+00:02 +242 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject out-of-order cross-page boundary
+00:02 +243 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging reject more rows than the complete count
+00:02 +244 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart: continuation merging immutable metadata survives a cache-style round trip
+00:02 +245 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart
+00:02 +245 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: existing v4 serializer round-trips money and original instants
+00:02 +246 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: restored expired intent is not made actionable
+00:02 +247 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: invalid cached contribution is not silently dropped or zeroed
+00:02 +248 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: invalid cached intent does not become a pending zero intent
+00:02 +249 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: cache cannot replace missing payment time with current time
+00:02 +250 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: cache cannot invent pending status
+00:02 +251 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: valid serialized cache remains readable through preferences
+00:02 +252 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart: existing fail-closed cache read rejects corrupted payment data
+00:02 +253 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart
+00:02 +253 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: missing legacy balance omits only the damaged aggregate
+00:02 +254 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: fractional legacy total omits only the damaged aggregate
+00:02 +255 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: invalid count omits only the damaged aggregate
+00:02 +256 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: invalid currency metadata omits only the damaged aggregate
+00:02 +257 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: null modern balances omits only the damaged aggregate
+00:02 +258 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: malformed modern row omits only the damaged aggregate
+00:02 +259 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: non-string field key omits only the damaged aggregate
+00:02 +260 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: non-map summary omits only the damaged aggregate
+00:02 +261 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: null summary omits only the damaged aggregate
+00:03 +262 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: all unavailable summaries still preserve cached groups
+00:03 +263 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: a valid explicit zero aggregate is retained
+00:03 +264 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: known legacy total with omitted count remains available
+00:03 +265 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: valid summaries survive a full snapshot round trip
+00:03 +266 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: input maps are not mutated during summary recovery
+00:03 +267 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: summary recovery does not hide invalid non-summary records
+00:03 +268 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart: cache read preserves other data and persists only validated aggregates
+00:03 +269 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart
+00:03 +269 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: profile cache preserves number and leading-zero MoMo code
+00:03 +270 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: cached RWF summary survives and foreign totals are discarded
+00:03 +271 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: mixed legacy history does not erase cached Rwanda balances
+00:03 +272 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: legacy cached names are stripped without deleting the profile
+00:03 +273 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: default cache discards the retired payment snapshot
+00:03 +274 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_offline_cache_test.dart: Rwanda cache round trip preserves MoMo route and receiver
+00:03 +275 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart
+00:03 +275 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: fixture public groups use Rwanda MoMo
+00:03 +276 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: Rwanda contribution request creates a pending MoMo intent
+00:04 +277 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: active Rwanda MoMo request with same group and amount is reused
+00:04 +278 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: foreign profile cannot initiate a contribution
+00:04 +279 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: profile save cannot overwrite an account switched during SMS disable
+00:04 +280 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: member group creation stays private and uses MoMo receiver
+00:04 +281 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/collect_repository_test.dart: non-Rwanda payment intent is rejected on parsing
+00:04 +282 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart
+00:04 +282 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: append valid next page once and stop at complete history
+00:04 +283 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: concurrent load-more taps share the existing request
+00:04 +284 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: refresh supersedes an in-flight continuation
+00:04 +285 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: duplicate refresh taps do not create concurrent refreshes
+00:04 +286 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: changed aggregates retain old page and require refresh before more
+00:04 +287 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: server revision-change error requires refresh
+00:04 +288 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: transport failure keeps old page and allows a retry
+00:04 +289 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: failed refresh exposes safe copy and permits another refresh
+00:04 +290 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: live refresh cannot publish a truncated terminal page
+00:04 +291 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: account change before a request clears former-owner records
+00:04 +292 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: account change while loading cannot publish former-owner history
+00:04 +293 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: disposed controller ignores completion and later callback invocations
+00:04 +294 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: disposed repository invalidates a still-mounted controller
+00:04 +295 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: repository replacement with an equal state tuple recreates provider
+00:04 +296 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_controller_integrity_test.dart: search debounce is cancelled on disposal before it invokes RPC
+00:04 +297 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart

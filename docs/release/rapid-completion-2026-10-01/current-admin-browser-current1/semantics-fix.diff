@@ -1,0 +1,10 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/current_browser_lifecycle.continuation1.mjs	2026-10-01 15:45:03
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs	2026-10-01 15:49:12
+@@ -255,6 +255,7 @@
+   });
+   const page = await context.newPage(); const navigation = await page.goto(origin + '/#/admin/groups');
+   check('shipped-security-headers', !!navigation.headers()['content-security-policy'] && navigation.headers()['x-frame-options'] === 'DENY');
++  await semantics(page);
+   const routerSource = await readFile(join(root, 'lib/admin/admin_router.dart'), 'utf8');
+   const declaredBlock = routerSource.match(/const adminRoutePaths = <String>\[([\s\S]*?)\];/);
+   if (!declaredBlock) throw Error('Current Admin route declaration missing');

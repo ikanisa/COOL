@@ -1,0 +1,35 @@
+{
+  "ruby_description": "ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]",
+  "files": {
+    "helper": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/promote/scripts/audits/collect_inactive_restore_overlay.rb",
+      "bytes": 11607,
+      "sha256": "f056cc9da956f6845a0fc003cf7bcecda45d48ebdcadf22fd76b611ec0b1953f"
+    },
+    "source_helper": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/promote/scripts/audits/collect_recovery_source.rb",
+      "bytes": 12861,
+      "sha256": "3a548f7b587234153496120d0b5883259b008fe1a45816fe3bd6d7117b0aaebe"
+    },
+    "source_query": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/sql/collect_recovery_source_catalog.sql",
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    "restore_caller": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    "ruby": {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby",
+      "bytes": 134912,
+      "sha256": "5bfbea92fc5650cd28eb4bdbcf9b8eae654e61760673684c3c6293ad155ced5d"
+    },
+    "docker": {
+      "path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "bytes": 41375408,
+      "sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34"
+    }
+  }
+}

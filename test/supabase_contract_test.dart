@@ -24,11 +24,15 @@ void main() {
           ..sort();
     expect(functions, [
       'auth-send-whatsapp-otp',
+      'collect-android-gateway',
       'collect-notification-operator',
+      'collect-receipt-exception-worker',
+      'collect-receipt-supervisor',
       'dispatch-notifications',
       'ingest-payment-sms',
       'parse-payment-sms',
       'prepare-roster-import',
+      'reconciliation-finalize',
       'send-notification',
       'verify-play-integrity',
     ]);

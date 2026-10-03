@@ -11,6 +11,7 @@ import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_group_cover.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:collect_app/shared/widgets/collect_group_cards.dart';
 import 'package:collect_app/shared/widgets/collect_group_photo_picker.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +126,10 @@ void main() {
           await binding.takeScreenshot('detail_home-discovery_top');
         }
         await _prepareState(tester, spec);
+        await _reachLazyContent(
+          tester,
+          find.textContaining(spec.visibleMarker),
+        );
 
         expect(tester.takeException(), isNull, reason: spec.name);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.name);
@@ -178,6 +183,44 @@ void main() {
           }
         }
         await _inspectSheetToEnd(tester, binding, spec, screenshotsEnabled);
+        if (spec.name == 'ledger-group-filter' || spec.name == 'ledger-sort') {
+          final isGroupFilter = spec.name == 'ledger-group-filter';
+          final choice = find.descendant(
+            of: find.byType(BottomSheet),
+            matching: find.text(
+              isGroupFilter ? 'Buri Munsi' : 'Highest by currency',
+            ),
+          );
+          expect(choice, findsOneWidget);
+          await tester.ensureVisible(choice);
+          await _pumpFrames(tester, count: 3);
+          expect(choice.hitTestable(), findsOneWidget);
+          expect(tester.takeException(), isNull, reason: spec.name);
+          if (screenshotsEnabled) {
+            await binding.takeScreenshot('detail_${spec.name}_option');
+          }
+          await tester.tap(choice);
+          await _pumpFrames(tester, count: 6);
+          expect(find.byType(BottomSheet), findsNothing);
+          if (isGroupFilter) {
+            expect(
+              activeRouter!.routeInformationProvider.value.uri.path,
+              '/groups/col-public-savings-fixture/ledger',
+            );
+          } else {
+            await _reachLazyContent(tester, find.byType(FinancialListRow));
+            final first = tester.widget<FinancialListRow>(
+              find.byType(FinancialListRow).first,
+            );
+            expect(first.amountRwf, 25000);
+            expect(first.currency, 'RWF');
+            expect(first.transactionId, 'MOMO-E2E-12345');
+          }
+          expect(tester.takeException(), isNull, reason: spec.name);
+          if (screenshotsEnabled) {
+            await binding.takeScreenshot('detail_${spec.name}_selected');
+          }
+        }
         if (spec.name == 'auth-otp-invalid') {
           final position = tester
               .state<ScrollableState>(find.byType(Scrollable).first)
@@ -284,13 +327,13 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
   if (spec.inputText != null ||
       spec.actionText != null ||
       spec.actionTooltip != null ||
-      spec.actionKey != null ||
       spec.creationStep != null) {
     if (spec.inputText != null) {
       if (spec.name == 'groups-no-results') {
         await tester.tap(find.byTooltip('Search groups'));
         await _pumpFrames(tester, count: 4);
       }
+      await _reachLazyContent(tester, find.byType(TextField));
       final field = find.byType(TextField).first;
       await tester.ensureVisible(field);
       await tester.enterText(field, spec.inputText!);
@@ -312,10 +355,12 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
         ? find.text(spec.actionText!).last
         : spec.actionTooltip != null
         ? find.byTooltip(spec.actionTooltip!)
-        : spec.actionKey != null
-        ? find.byKey(ValueKey(spec.actionKey!))
         : null;
     if (action != null) {
+      await _reachLazyContent(
+        tester,
+        spec.actionText != null ? find.text(spec.actionText!) : action,
+      );
       await tester.ensureVisible(action);
       await _pumpFrames(tester, count: 3);
       expect(action.hitTestable(), findsOneWidget, reason: spec.name);
@@ -324,13 +369,22 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     }
     if (spec.name == 'group-photo-selected') {
       final sheet = find.byType(CollectGroupPhotoSheet);
+      final photoSheet = tester.widget<CollectGroupPhotoSheet>(sheet);
       final scrollable = find
           .descendant(of: sheet, matching: find.byType(Scrollable))
           .first;
-      final choice = find.text('Community savings');
+      final cover = CollectGroupCover.suggestions(
+        type: photoSheet.groupType,
+      ).first;
+      final choice = find.byKey(ValueKey('group-photo-${cover.id}'));
       await tester.scrollUntilVisible(choice, 160, scrollable: scrollable);
       await _pumpFrames(tester, count: 3);
       await tester.tap(choice);
+      await _pumpFrames(tester, count: 3);
+      final usePhoto = find.text('Use photo');
+      await tester.ensureVisible(usePhoto);
+      expect(usePhoto.hitTestable(), findsOneWidget);
+      await tester.tap(usePhoto);
       for (var frame = 0; frame < 40; frame++) {
         await _pumpFrames(tester, count: 1);
         if (find.byType(CollectGroupPhotoSheet).evaluate().isEmpty &&
@@ -379,8 +433,36 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'activity-empty':
     case 'contribution-entry-empty':
     case 'account-delete-disabled':
+      return;
+    case 'profile-rwanda-country':
+      expect(
+        find.byKey(const ValueKey('profile_country_picker')),
+        findsNothing,
+      );
+      expect(find.text('Rwanda · RWF'), findsOneWidget);
+      return;
     case 'offline-recovery':
     case 'sync-recovery':
+      await _reachLazyContent(
+        tester,
+        find.byKey(const ValueKey('recovery-refresh')),
+      );
+      expect(find.byKey(const ValueKey('recovery-refresh')), findsOneWidget);
+      final guidance = find.text(
+        'Refreshing does not resend payments or SMS updates.',
+      );
+      await _reachLazyContent(tester, guidance);
+      expect(guidance, findsOneWidget);
+      return;
+    case 'diaspora-contribution-unavailable':
+    case 'diaspora-public-contribution-unavailable':
+    case 'group-no-approved-route':
+      expect(_amountTextField(), findsNothing);
+      for (final text in ['Bank transfer', 'IBAN', 'EUR', 'Continue to MoMo']) {
+        expect(find.textContaining(text), findsNothing, reason: spec.name);
+      }
+      expect(find.text('Back to group'), findsOneWidget);
+      return;
     case 'missing-group':
     case 'home-joined':
     case 'home-mixed':
@@ -468,15 +550,9 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
     case 'contribution-entry-valid':
     case 'contribution-review':
     case 'contribution-invalid-amount':
-    case 'bank-contribution-entry-valid':
-    case 'bank-contribution-review':
-    case 'bank-contribution-invalid-amount':
       await _pumpUntilVisible(tester, _amountTextField());
-      final isBank = spec.repositoryKind == _RepositoryKind.diaspora;
       final invalid = spec.name.endsWith('invalid-amount');
-      final amountText = invalid
-          ? (isBank ? '0.00' : '0')
-          : (isBank ? '12.34' : '1234');
+      final amountText = invalid ? '0' : '1234';
       await tester.enterText(_amountTextField().first, amountText);
       await _pumpFrames(tester, count: 3);
       if (!spec.name.endsWith('entry-valid')) {
@@ -492,10 +568,15 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
         }
         final reviewButton = find.widgetWithText(
           FilledButton,
-          isBank ? 'Review transfer' : 'Continue to MoMo',
+          'Continue to MoMo',
         );
+        FocusManager.instance.primaryFocus?.unfocus();
+        await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+        await _pumpFrames(tester, count: 3);
+        await _reachLazyContent(tester, reviewButton);
         expect(reviewButton, findsOneWidget);
         await tester.ensureVisible(reviewButton);
+        expect(reviewButton.hitTestable(), findsOneWidget);
         await tester.tap(reviewButton);
         await _pumpFrames(tester, count: 5);
       }
@@ -505,8 +586,12 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       await tester.tap(find.text('I no longer use Collect'));
       await _pumpFrames(tester, count: 3);
       if (spec.name == 'account-delete-confirmation') {
-        await tester.ensureVisible(find.widgetWithText(FilledButton, 'Submit'));
-        await tester.tap(find.widgetWithText(FilledButton, 'Submit'));
+        final submit = find.widgetWithText(FilledButton, 'Submit');
+        await _reachLazyContent(tester, submit);
+        await tester.ensureVisible(submit);
+        await _pumpFrames(tester, count: 3);
+        expect(submit.hitTestable(), findsOneWidget);
+        await tester.tap(submit);
         await _pumpFrames(tester, count: 5);
       }
       return;
@@ -516,7 +601,7 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
 
 // Additional captures retain overlapping viewports through the entire sheet.
 // These are diagnostic fixture interactions, not OS permission or release
-// acceptance evidence. The safe secondary action is the only action invoked.
+// acceptance evidence. Management submit actions are reached but not invoked.
 Future<void> _inspectSheetToEnd(
   WidgetTester tester,
   MobileMatrixCapture binding,
@@ -525,10 +610,17 @@ Future<void> _inspectSheetToEnd(
 ) async {
   if (spec.name == 'group-photo-collection') {
     final sheet = find.byType(CollectGroupPhotoSheet);
+    final photoSheet = tester.widget<CollectGroupPhotoSheet>(sheet);
+    await tester.ensureVisible(find.text('All photos'));
+    await tester.tap(find.text('All photos'));
+    await _pumpFrames(tester, count: 4);
     final scrollable = find
         .descendant(of: sheet, matching: find.byType(Scrollable))
         .first;
-    for (final photo in CollectGroupCover.suggestions(browseAll: true)) {
+    for (final photo in CollectGroupCover.suggestions(
+      type: photoSheet.groupType,
+      browseAll: true,
+    )) {
       final choice = find.byKey(ValueKey('group-photo-${photo.id}'));
       await tester.scrollUntilVisible(choice, 160, scrollable: scrollable);
       await _pumpFrames(tester, count: 5);
@@ -554,6 +646,8 @@ Future<void> _inspectSheetToEnd(
     'auth-phone-confirmation' => 'Edit number',
     'camera-recovery-sheet' => 'Scan again',
     'sms-recovery-sheet' => 'Retry',
+    'group-add-admin' => 'Add admin',
+    'group-transfer-ownership' => 'Transfer ownership',
     _ => null,
   };
   if (secondaryLabel == null ||
@@ -586,11 +680,24 @@ Future<void> _inspectSheetToEnd(
       page++;
     }
   }
+  final managementAction =
+      spec.name == 'group-add-admin' || spec.name == 'group-transfer-ownership';
   final secondary = find.descendant(
     of: sheet,
-    matching: find.text(secondaryLabel),
+    matching: managementAction
+        ? find.widgetWithText(CollectButton, secondaryLabel)
+        : find.text(secondaryLabel),
   );
   expect(secondary.hitTestable(), findsOneWidget);
+  if (managementAction) {
+    if (screenshotsEnabled) {
+      await binding.takeScreenshot('detail_${spec.name}_submit');
+    }
+    // Access and submission remain real production behavior. This fixture
+    // proves that the complete management form and action can be reached.
+    expect(tester.takeException(), isNull, reason: spec.name);
+    return;
+  }
   await tester.tap(secondary);
   await _pumpFrames(tester, count: 6);
   expect(find.byType(BottomSheet), findsNothing);
@@ -622,7 +729,19 @@ Future<void> _pumpUntilVisible(
     if (finder.evaluate().isNotEmpty) return;
     await tester.pump(const Duration(milliseconds: 100));
   }
+  await _reachLazyContent(tester, finder);
   expect(finder, findsWidgets);
+}
+
+Future<void> _reachLazyContent(WidgetTester tester, Finder finder) async {
+  if (finder.evaluate().isNotEmpty) return;
+  await tester.scrollUntilVisible(
+    finder,
+    160,
+    scrollable: find.byType(Scrollable).first,
+    maxScrolls: 30,
+  );
+  await _pumpFrames(tester, count: 3);
 }
 
 const _uatVariantName = String.fromEnvironment(
@@ -663,7 +782,7 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'group-photo-collection',
     '/groups/qa-private-group/profile',
-    'Rwanda collection',
+    'Group photo',
     actionTooltip: 'Upload image',
   ),
   _StateSpec(
@@ -685,12 +804,7 @@ const _stateSpecs = <_StateSpec>[
     inputText: '0788000001',
     actionTooltip: 'Back',
   ),
-  _StateSpec(
-    'profile-country-picker',
-    '/settings/profile',
-    'Search country',
-    actionKey: 'profile_country_picker',
-  ),
+  _StateSpec('profile-rwanda-country', '/settings/profile', 'Rwanda'),
   _StateSpec(
     'share-replace-confirmation',
     '/groups/qa-private-group/share',
@@ -909,23 +1023,22 @@ const _stateSpecs = <_StateSpec>[
     'Enter an amount above RWF 0.',
   ),
   _StateSpec(
-    'bank-contribution-entry-valid',
+    'diaspora-contribution-unavailable',
     '/groups/qa-private-group/contribute',
-    'Review transfer',
-    repositoryKind: _RepositoryKind.diaspora,
-    expectedFieldValue: '12.34',
-  ),
-  _StateSpec(
-    'bank-contribution-review',
-    '/groups/qa-private-group/contribute',
-    'Open Revolut',
+    'Contribution unavailable',
     repositoryKind: _RepositoryKind.diaspora,
   ),
   _StateSpec(
-    'bank-contribution-invalid-amount',
-    '/groups/qa-private-group/contribute',
-    'Enter a valid amount above EUR 0.00.',
+    'diaspora-public-contribution-unavailable',
+    '/groups/col-public-savings-fixture/contribute',
+    'Contribution unavailable',
     repositoryKind: _RepositoryKind.diaspora,
+  ),
+  _StateSpec(
+    'group-no-approved-route',
+    '/groups/qa-private-group/contribute',
+    'Contribution unavailable',
+    repositoryKind: _RepositoryKind.unavailable,
   ),
   _StateSpec(
     'account-delete-disabled',
@@ -942,8 +1055,8 @@ const _stateSpecs = <_StateSpec>[
     '/settings/account/delete',
     'Submit delete request?',
   ),
-  _StateSpec('offline-recovery', '/offline', 'You are offline'),
-  _StateSpec('sync-recovery', '/sync', 'Sync needs attention'),
+  _StateSpec('offline-recovery', '/offline', 'Refresh your data'),
+  _StateSpec('sync-recovery', '/sync', 'Refresh your data'),
   _StateSpec(
     'missing-group',
     '/groups/missing/contribute',
@@ -951,7 +1064,7 @@ const _stateSpecs = <_StateSpec>[
   ),
 ];
 
-enum _RepositoryKind { fixture, empty, diaspora }
+enum _RepositoryKind { fixture, empty, diaspora, unavailable }
 
 class _StateSpec {
   const _StateSpec(
@@ -965,7 +1078,6 @@ class _StateSpec {
     this.inputText,
     this.actionText,
     this.actionTooltip,
-    this.actionKey,
     this.creationStep,
   });
 
@@ -979,7 +1091,6 @@ class _StateSpec {
   final String? inputText;
   final String? actionText;
   final String? actionTooltip;
-  final String? actionKey;
   final int? creationStep;
 
   String get visibleMarker {
@@ -994,6 +1105,7 @@ class _StateSpec {
       ? _HomeParityRepository(homeScenario!)
       : switch (repositoryKind) {
           _RepositoryKind.fixture => FixtureCollectRepository(),
+          _RepositoryKind.unavailable => _UnavailablePaymentRepository(),
           _RepositoryKind.empty => FixtureCollectRepository(seeded: false),
           _RepositoryKind.diaspora => FixtureCollectRepository(
             profileOverride: const CollectProfile(
@@ -1005,6 +1117,21 @@ class _StateSpec {
             ),
           ),
         };
+}
+
+class _UnavailablePaymentRepository extends FixtureCollectRepository {
+  _UnavailablePaymentRepository() {
+    state = state.copyWith(
+      collections: state.collections
+          .map(
+            (group) => group.copyWith(
+              primaryPaymentRail: 'unavailable',
+              receiverNetwork: 'unknown',
+            ),
+          )
+          .toList(),
+    );
+  }
 }
 
 class _HomeParityRepository extends FixtureCollectRepository {

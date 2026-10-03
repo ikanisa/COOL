@@ -1,0 +1,16 @@
+/work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry.rb:655:in `exist?': no implicit conversion of Hash into String (TypeError)
+
+      if ::File.exist?(dest_path) && !yield(self, dest_path)
+                       ^^^^^^^^^
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry.rb:655:in `create_file'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry.rb:204:in `extract'
+	from scripts/tests/ruby_dependency_security_test.rb:34:in `block (3 levels) in <main>'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry_set.rb:38:in `block in each'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry_set.rb:37:in `each'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/entry_set.rb:37:in `each'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/central_directory.rb:185:in `each'
+	from scripts/tests/ruby_dependency_security_test.rb:34:in `block (2 levels) in <main>'
+	from /work/baseline-gems/gems/rubyzip-2.4.1/lib/zip/file.rb:133:in `open'
+	from scripts/tests/ruby_dependency_security_test.rb:33:in `block in <main>'
+	from /usr/local/lib/ruby/3.3.0/tmpdir.rb:99:in `mktmpdir'
+	from scripts/tests/ruby_dependency_security_test.rb:14:in `<main>'

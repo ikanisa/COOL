@@ -1,0 +1,528 @@
+{
+  "files": {
+    "README.md": {
+      "sha256": "dac1951cb1ef04fc708b6025182f58f7edda6f80e811f286ff3fda1e36cffe04",
+      "bytes": 3021
+    },
+    "companion/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/ARCHIVE_CONTRACT.md": {
+      "sha256": "0d51ffa0de919bccf692339129b5b4abdad39f77bd77bdced2db13c4ff4fed93",
+      "bytes": 4134
+    },
+    "failed-storage-attempt1/compile-real-android-api.stderr": {
+      "sha256": "9bf8fa37e1ab7ff882c9335b73ba39802204dbc71506d4ea5ee231859e040674",
+      "bytes": 1965
+    },
+    "failed-storage-attempt1/compile-real-android-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "failed-storage-attempt1/compile-shim.stderr": {
+      "sha256": "07a1c423a6d9800afdb5bc7810fe4e920ca6b2473de01d8abfb7b45bda202a51",
+      "bytes": 34
+    },
+    "failed-storage-attempt1/compile-shim.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "failed-storage-attempt1/shims/AtomicFile.kt": {
+      "sha256": "7667c79fae95c45163e66195726787e641a6b86484df5d3ceef464cb6bbcb204",
+      "bytes": 1186
+    },
+    "failed-storage-attempt1/shims/Context.kt": {
+      "sha256": "09253eba9b92a462f52ca61dffb876fa40788d7d31cbc0c7d49ee88274f0eb64",
+      "bytes": 107
+    },
+    "failed-storage-attempt1/shims/Keystore.kt": {
+      "sha256": "07b59a8054fd37cd2999399669d998f575b796bfd2d3d4934960d3c032edc147",
+      "bytes": 634
+    },
+    "failed-storage-attempt1/shims/Os.kt": {
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e",
+      "bytes": 692
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "bytes": 1809
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+      "bytes": 6021
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "sha256": "55aa55f213befbae4daf9f8e06c93ed6ba1fab785117321de9d5e93dad316301",
+      "bytes": 17826
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+      "bytes": 10571
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "fdc5d38ef2fbf7ecda120622a89c2f81c684a40b0bf29e625c9aa5b675c09a9e",
+      "bytes": 19232
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "bytes": 1809
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "bytes": 4069
+    },
+    "failed-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "bytes": 4173
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "bytes": 18454
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "bytes": 3696
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+      "bytes": 13914
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "bytes": 6348
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "bytes": 4571
+    },
+    "failed-storage-attempt1/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": {
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1",
+      "bytes": 8873
+    },
+    "failed-storage-attempt1/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc": {
+      "sha256": "5110a2a5ab6db6357ff75908e94459e40378cd4b1057ce1f044ff3fcae40f9f3",
+      "bytes": 8527
+    },
+    "failed-storage-attempt1/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": {
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+      "bytes": 4897
+    },
+    "failed-storage-attempt1/source/scripts/tests/android_gateway_archive_jvm.py": {
+      "sha256": "b0b6b64608802e84eb835b1b0a275486e6d33360cb2c1601467a866a67fa1e85",
+      "bytes": 10030
+    },
+    "failed-storage-attempt1/validation.json": {
+      "sha256": "3846921ffe324cb33bd02a5fa58aab169171a40fb6bd360f6e5d5179f0752b77",
+      "bytes": 16123
+    },
+    "integrated-87/compile-real-android-api.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "integrated-87/compile-real-android-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "integrated-87/compile-shim.stderr": {
+      "sha256": "f0d715233b9cf619316ff8ea65d758e9042cac9a5fedddfdf29707dd05b32b08",
+      "bytes": 354
+    },
+    "integrated-87/compile-shim.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "integrated-87/shims/AtomicFile.kt": {
+      "sha256": "93752008fc2478a8ab9e800ec569cd34d4457a3edc06ce0ec53baa813a87b1ab",
+      "bytes": 1298
+    },
+    "integrated-87/shims/Context.kt": {
+      "sha256": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b",
+      "bytes": 270
+    },
+    "integrated-87/shims/Keystore.kt": {
+      "sha256": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224",
+      "bytes": 881
+    },
+    "integrated-87/shims/Os.kt": {
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e",
+      "bytes": 692
+    },
+    "integrated-87/shims/Resources.kt": {
+      "sha256": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050",
+      "bytes": 119
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "bytes": 1809
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": {
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+      "bytes": 1898
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+      "bytes": 6021
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "sha256": "e1ac36dd6fe7b4356bb38aa879b67f1d050ade14bc34a6b2cd8e1cf0992ef9bb",
+      "bytes": 17794
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+      "bytes": 10571
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "14cea4da601a544673dadd20cd2d7ffcdaf094e07440ea25adbc3875d10b01bf",
+      "bytes": 20355
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "bytes": 1809
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "sha256": "40e51f2c8325a4eb902178025a4ec53e0b541b6f8f704c4377771aee2e9f8c9c",
+      "bytes": 13873
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "bytes": 4069
+    },
+    "integrated-87/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "bytes": 4173
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "bytes": 18454
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "bytes": 3696
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+      "bytes": 13914
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "bytes": 6348
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "bytes": 4571
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": {
+      "sha256": "57442edd79cfe59ef9a224a4cd87156952b328bb82bc0ad450c4a44be12cbe90",
+      "bytes": 15098
+    },
+    "integrated-87/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": {
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1",
+      "bytes": 8873
+    },
+    "integrated-87/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc": {
+      "sha256": "afb4adae7a54e1ea4a97ebba19ac0a06f52591cef5d4fc00da93ecfff8df6c68",
+      "bytes": 8530
+    },
+    "integrated-87/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": {
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+      "bytes": 4897
+    },
+    "integrated-87/source/scripts/tests/android_gateway_archive_jvm.py": {
+      "sha256": "f5a0082b67285328b9e72ce0ee12a2e6f6409189176cc74f39339f30d6bcbeec",
+      "bytes": 10805
+    },
+    "integrated-87/tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "integrated-87/tests.stdout": {
+      "sha256": "4c36f5f9f8247b4da10194449e77b6a2ef8dc461687e59f88839043d9b354489",
+      "bytes": 138
+    },
+    "integrated-87/validation.json": {
+      "sha256": "42ee9858a8de681ca37d5345e134ff58af8f3c5f37878080c35527c1ac840b75",
+      "bytes": 19918
+    },
+    "interrupted-storage-attempt2/STATUS.json": {
+      "sha256": "be0deee0529c8a2a80bcc1afa7d63efdbb44b0f607d97941658a870df0979383",
+      "bytes": 337
+    },
+    "interrupted-storage-attempt2/shims/AtomicFile.kt": {
+      "sha256": "7667c79fae95c45163e66195726787e641a6b86484df5d3ceef464cb6bbcb204",
+      "bytes": 1186
+    },
+    "interrupted-storage-attempt2/shims/Context.kt": {
+      "sha256": "09253eba9b92a462f52ca61dffb876fa40788d7d31cbc0c7d49ee88274f0eb64",
+      "bytes": 107
+    },
+    "interrupted-storage-attempt2/shims/Keystore.kt": {
+      "sha256": "07b59a8054fd37cd2999399669d998f575b796bfd2d3d4934960d3c032edc147",
+      "bytes": 634
+    },
+    "interrupted-storage-attempt2/shims/Os.kt": {
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e",
+      "bytes": 692
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "bytes": 1809
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+      "bytes": 6021
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "sha256": "f315ddf2741f18c6c44f6607271159e3a82dc7d7b63f615b097cd4f5ec45662f",
+      "bytes": 17836
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+      "bytes": 10571
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "59c0e87f9b458e68ce17804bbbab94f82b40f084bce968d3a75890546cc9d347",
+      "bytes": 20035
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "bytes": 1809
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "bytes": 4069
+    },
+    "interrupted-storage-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "bytes": 4173
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "bytes": 18454
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "bytes": 3696
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+      "bytes": 13914
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "bytes": 6348
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "bytes": 4571
+    },
+    "interrupted-storage-attempt2/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": {
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1",
+      "bytes": 8873
+    },
+    "interrupted-storage-attempt2/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc": {
+      "sha256": "9b1f867474526f61095b38628a19c569e98698ab57e425f02951e77057a1f592",
+      "bytes": 8527
+    },
+    "interrupted-storage-attempt2/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": {
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+      "bytes": 4897
+    },
+    "interrupted-storage-attempt2/source/scripts/tests/android_gateway_archive_jvm.py": {
+      "sha256": "cba6d87849df58945318b4c11c80ebdfa053af092083aea60aee9dd1d71b9a9a",
+      "bytes": 10030
+    },
+    "prior-pure-71/compile.stderr": {
+      "sha256": "81ab2a21a934ee4e2f5977fa8497ab114a43082707185eccab244d3439e58424",
+      "bytes": 348
+    },
+    "prior-pure-71/compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "bytes": 1809
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+      "bytes": 6021
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+      "bytes": 10571
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "fdc5d38ef2fbf7ecda120622a89c2f81c684a40b0bf29e625c9aa5b675c09a9e",
+      "bytes": 19232
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "bytes": 1809
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "bytes": 4069
+    },
+    "prior-pure-71/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "bytes": 4173
+    },
+    "prior-pure-71/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "bytes": 18454
+    },
+    "prior-pure-71/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "bytes": 3696
+    },
+    "prior-pure-71/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+      "bytes": 13914
+    },
+    "prior-pure-71/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "bytes": 6348
+    },
+    "prior-pure-71/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "bytes": 4571
+    },
+    "prior-pure-71/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": {
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+      "bytes": 4897
+    },
+    "prior-pure-71/tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-pure-71/tests.stdout": {
+      "sha256": "9c01c5ac902f28174263f474a836c257c62235f275dc5e19bb202f2d4b51c304",
+      "bytes": 122
+    },
+    "prior-pure-71/validation.json": {
+      "sha256": "ae93cae6992f1c4ecbbc1482df161f2e9c39cd7654055e70fa28fcc26c3f0663",
+      "bytes": 11208
+    },
+    "prior-storage-79/compile-real-android-api.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-storage-79/compile-real-android-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-storage-79/compile-shim.stderr": {
+      "sha256": "61ae63de97cee950261cc6d2442ee25f3dca293c2d5016c496e7fb9b993167ba",
+      "bytes": 351
+    },
+    "prior-storage-79/compile-shim.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-storage-79/compiler-thread-diagnostic.txt": {
+      "sha256": "42792ed554b02b9ea41aabdccb3d46c4fcf83c73ba3d20d802d830d4438cb3b5",
+      "bytes": 13529
+    },
+    "prior-storage-79/shims/AtomicFile.kt": {
+      "sha256": "7667c79fae95c45163e66195726787e641a6b86484df5d3ceef464cb6bbcb204",
+      "bytes": 1186
+    },
+    "prior-storage-79/shims/Context.kt": {
+      "sha256": "09253eba9b92a462f52ca61dffb876fa40788d7d31cbc0c7d49ee88274f0eb64",
+      "bytes": 107
+    },
+    "prior-storage-79/shims/Keystore.kt": {
+      "sha256": "07b59a8054fd37cd2999399669d998f575b796bfd2d3d4934960d3c032edc147",
+      "bytes": 634
+    },
+    "prior-storage-79/shims/Os.kt": {
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e",
+      "bytes": 692
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "bytes": 1809
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+      "bytes": 6021
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "sha256": "e1ac36dd6fe7b4356bb38aa879b67f1d050ade14bc34a6b2cd8e1cf0992ef9bb",
+      "bytes": 17794
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+      "bytes": 10571
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "59c0e87f9b458e68ce17804bbbab94f82b40f084bce968d3a75890546cc9d347",
+      "bytes": 20035
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "bytes": 1809
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+      "bytes": 4069
+    },
+    "prior-storage-79/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "bytes": 4173
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "bytes": 18454
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "bytes": 3696
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+      "bytes": 13914
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "bytes": 6348
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "bytes": 4571
+    },
+    "prior-storage-79/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": {
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1",
+      "bytes": 8873
+    },
+    "prior-storage-79/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc": {
+      "sha256": "a269c6092e6947c0ce956337f02518abc9475ca8879bc25a6ecfa6cae05be17b",
+      "bytes": 8527
+    },
+    "prior-storage-79/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": {
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+      "bytes": 4897
+    },
+    "prior-storage-79/source/scripts/tests/android_gateway_archive_jvm.py": {
+      "sha256": "cba6d87849df58945318b4c11c80ebdfa053af092083aea60aee9dd1d71b9a9a",
+      "bytes": 10030
+    },
+    "prior-storage-79/tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "prior-storage-79/tests.stdout": {
+      "sha256": "69597eda2c33cabe5c4c410440e4efee2863e2d29f08e3c4ee188675e2615454",
+      "bytes": 129
+    },
+    "prior-storage-79/validation.json": {
+      "sha256": "40948e2856b17481e39185b91c1c6f2944dc48dd10abfbf37cd12d3680909f1f",
+      "bytes": 17732
+    },
+    "selected-source-binding.json": {
+      "sha256": "f7ccde725b905efa4af13d01dd2b5d5a853d1b75fc224ca61e4209a6225377f1",
+      "bytes": 1900
+    },
+    "task-cleanup.json": {
+      "sha256": "8ed442947cd53aab863e779ec2e851f5c652c746404ac43daf8cb50c0de87cbe",
+      "bytes": 1766
+    }
+  }
+}

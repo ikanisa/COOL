@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 14.094,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/run_selected_aab.py",
+    "--admission",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-aab-admission3/admission.json",
+    "--admission-sha256",
+    "4f909d5de4454e7d0d2a13e559ae370a2d5d0ba271e24cae309d75c32353b83d",
+    "--guard-phase",
+    "before"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T13:12:32.217924+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 95271,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T13:12:18.124041+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

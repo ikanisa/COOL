@@ -1,0 +1,4 @@
+locator.evaluate: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('textbox', { name: 'Operator email', exact: true })
+

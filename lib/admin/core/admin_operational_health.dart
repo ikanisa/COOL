@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../shared/widgets/collect_components.dart';
+import '../../core/data/exact_json_values.dart';
 
 /// Version1 of the redacted148 health contract. Arbitrary diagnostic strings
 /// and malformed/missing measurements never become apparent healthy values.
@@ -60,6 +61,34 @@ class AdminOperationalHealth {
     'Provider acceptance does not prove user delivery.',
     'Scheduler activation does not prove provider configuration.',
   ];
+  static const responses = <String, String>{
+    'receipt_parse_backlog':
+        'Review the receipt queue and parser status. Diagnose the cause before retrying failed work.',
+    'receipt_parse_age':
+        'Review the oldest queued receipt and its processing claim. Preserve the recorded receipt when recovering stalled work.',
+    'receipt_parse_failure':
+        'Review the failure category and correct the parser or configuration before retrying. Keep raw SMS out of incident notes.',
+    'receipt_parser_lease_expired':
+        'Review expired processing claims and parser status. Use the existing claim recovery process.',
+    'payment_unmatched':
+        'Review unmatched payment evidence and the intended member and group before allocating a payment.',
+    'payment_review_age':
+        'Review the oldest payment and its assigned reviewer. Use the evidence and reason workflow to resolve it.',
+    'reconciliation_exception':
+        'Review the original payment evidence. Resolve through the reconciliation workflow and verify its recorded outcome.',
+    'push_queue_age':
+        'Review due notifications, attempts and scheduler status. Check retry eligibility and uncertain delivery outcomes before sending again.',
+    'push_expired_lease':
+        'Review expired delivery claims. Use claim recovery and ensure an old worker cannot complete the new claim.',
+    'push_missing_lease':
+        'Review processing notifications and delivery errors. Preserve their events and attempts while correcting claim consistency.',
+    'push_attempt_failure':
+        'Review failure categories and retry eligibility. Resolve uncertain provider outcomes before sending again.',
+    'receipt_telemetry_stale':
+        'Compare recorded receipts with the last telemetry sample. Diagnose the reporting gap while keeping receipts intact.',
+    'push_scheduler_stale':
+        'Review the last successful scheduler run and due work. Diagnose scheduler and configuration failures before enabling delivery.',
+  };
   static const rules = <String, (String, int, String?, String)>{
     'receipt_parse_backlog': (
       'sms_pending',
@@ -156,13 +185,11 @@ class AdminOperationalHealth {
         ).hasMatch(value)) {
       _invalid();
     }
-    final date = DateTime.tryParse(value);
-    if (date == null ||
-        date.toUtc().toIso8601String().substring(0, 19) !=
-            value.substring(0, 19)) {
+    try {
+      return exactJsonTimestamp(value, field: 'health timestamp');
+    } on FormatException {
       _invalid();
     }
-    return date.toUtc();
   }
 
   factory AdminOperationalHealth.parse(Object? raw) {
@@ -388,13 +415,27 @@ class _AdminOperationalHealthPanelState
             for (final alert in health.alerts.entries)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Text(
-                  '${AdminOperationalHealth.rules[alert.key]!.$4}: ${switch (alert.value) {
-                    'attention' => 'Attention required',
-                    'unknown' => 'Not measured',
-                    'not_applicable' => 'No queued work',
-                    _ => 'Below threshold',
-                  }}',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${AdminOperationalHealth.rules[alert.key]!.$4}: ${switch (alert.value) {
+                        'attention' => 'Attention required',
+                        'unknown' => 'Not measured',
+                        'not_applicable' => 'No queued work',
+                        _ => 'Below threshold',
+                      }}',
+                    ),
+                    if (alert.value == 'attention' ||
+                        alert.value == 'unknown') ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        '${alert.value == 'unknown' ? 'Refresh the sample before deciding whether to act. ' : ''}${AdminOperationalHealth.responses[alert.key]!}',
+                        key: ValueKey('health-response-${alert.key}'),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ],
                 ),
               ),
             const SectionHeader(title: 'Measurements'),

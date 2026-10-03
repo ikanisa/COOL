@@ -1,0 +1,22 @@
+{
+  "contract_version": 1,
+  "scope": "platform_global",
+  "checked_at": "2026-10-01T00:00:20.000000Z",
+  "sample_valid_until": "2026-10-01T00:01:20.000000Z",
+  "request_id": "99790000-0000-4000-8000-000000000002",
+  "outcome": "recorded",
+  "action": "activate",
+  "receipt": {
+    "device_id": "99790000-0000-4000-8000-000000000001",
+    "request_id": "99790000-0000-4000-8000-000000000002",
+    "state_at_action": "active",
+    "recorded_at": "2026-10-01T00:00:10.000000Z",
+    "replay": false
+  },
+  "identity": {
+    "device_id": "99790000-0000-4000-8000-000000000001",
+    "installation_id": "99790000-0000-4000-8000-000000000003",
+    "key_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "signing_certificate_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+}

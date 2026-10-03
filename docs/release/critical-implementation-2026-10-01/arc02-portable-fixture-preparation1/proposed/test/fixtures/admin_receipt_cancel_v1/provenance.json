@@ -1,0 +1,87 @@
+{
+  "kind": "collect_dated_observed_sql_test_fixtures",
+  "producer_result": {
+    "completed_at": "2026-10-01T00:28:20.989030+00:00",
+    "path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/result.json",
+    "runner_sha256": "182db28e76c98bebf784cdedb93f0b7a3c3a367a04033821666b08d798421d95",
+    "sha256": "2d325998b1b85302f7d7da44d4350421930bf3e951c3987d71673f2a3b85ccf9",
+    "started_at": "2026-10-01T00:21:53.763548+00:00",
+    "status": "pass"
+  },
+  "production_data": false,
+  "receipts": [
+    {
+      "bytes": 422,
+      "file": "observed-linked-rwanda-inspection.json",
+      "sha256": "0239ef2f91d20a243929b4093f51b6e213d72f0dbb85e214f2e6ecee54ee1419",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-linked-rwanda-inspection.json"
+    },
+    {
+      "bytes": 442,
+      "file": "observed-revision-exhausted-inspection.json",
+      "sha256": "1b847da9a8e864b0138adbc95b8adc4a75d9ffe3afe287f7c4eb83b074f22d02",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-revision-exhausted-inspection.json"
+    },
+    {
+      "bytes": 270,
+      "file": "observed-unavailable-inspection.json",
+      "sha256": "0bc8824f687ce2ea235d2f2879349db66e74b9f00f6c48d15542fef456847eb4",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-unavailable-inspection.json"
+    },
+    {
+      "bytes": 439,
+      "file": "observed-prior-attempt-inspection.json",
+      "sha256": "1ce9e947890213234a39e68cd62ebf4f8d3133a9c8f48fba029f2ea93dde3f11",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-prior-attempt-inspection.json"
+    },
+    {
+      "bytes": 270,
+      "file": "observed-unclassified-inspection.json",
+      "sha256": "79c13bc4a1e7a3a62185c7b477c7e71e97f72d6c4707a0ef981ab053eec0dea3",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-unclassified-inspection.json"
+    },
+    {
+      "bytes": 436,
+      "file": "observed-cancelled-inspection.json",
+      "sha256": "9727b45d814ca9e912d917b63e0ae73c16cc7439b52ed24ef9f633b00cb3db0f",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-cancelled-inspection.json"
+    },
+    {
+      "bytes": 422,
+      "file": "observed-preexisting-eligible-inspection.json",
+      "sha256": "8aa92eed8d3fc9f9232139e0d2099cca6a074a51093b851e94e33bac7f5f0166",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-preexisting-eligible-inspection.json"
+    },
+    {
+      "bytes": 822,
+      "file": "observed-recorded-lookup.json",
+      "sha256": "c4046b0031d213df5cbac874469ba4d06f1494def0b3b5d32742533c755f0304",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-recorded-lookup.json"
+    },
+    {
+      "bytes": 271,
+      "file": "observed-in-progress-lookup.json",
+      "sha256": "ae95aeb057c1112008c70ac01a2bdb4b408d054e2b6b0eab4a00e2fb3e939e3f",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-in-progress-lookup.json"
+    },
+    {
+      "bytes": 822,
+      "file": "observed-reauthenticated-original-lookup.json",
+      "sha256": "e3f14d12c7faef679efee85f6640e185b70432d21994f9af9feb7b0b41367e02",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-reauthenticated-original-lookup.json"
+    },
+    {
+      "bytes": 272,
+      "file": "observed-not-recorded-lookup.json",
+      "sha256": "15105aee43c8cf8b38bfa1993db25393327dd7b245a924484a0cb52484a50d68",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-not-recorded-lookup.json"
+    },
+    {
+      "bytes": 527,
+      "file": "observed-cancelled-action.json",
+      "sha256": "646a9787cdde36ff79cf6d15cca7c380a6222ed7fbb2df2fcd212549219770eb",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-cancelled-action.json"
+    }
+  ],
+  "scope": "Byte-exact dated isolated PostgreSQL observations for local regression tests. No current backend installation, provider, delivery, hosted Auth, or release approval claim."
+}

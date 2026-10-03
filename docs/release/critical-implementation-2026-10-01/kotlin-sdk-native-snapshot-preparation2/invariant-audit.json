@@ -1,0 +1,78 @@
+{
+  "actual_app_export_pub_Gradle_native_executed": false,
+  "at_utc": "2026-10-02T06:15:31.122225+00:00",
+  "config_differences": {
+    "immutable_root_stage_admission_directory": {
+      "original": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1",
+      "proposed": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2"
+    },
+    "only_app_export_admitted_by_derivative": {
+      "original": null,
+      "proposed": true
+    },
+    "source_identity_index_membership_fixture_fences_required": {
+      "original": null,
+      "proposed": true
+    },
+    "source_scope_held_for_strict_export": {
+      "original": null,
+      "proposed": false
+    },
+    "strict_current_source_comparison_required_for_export": {
+      "original": null,
+      "proposed": true
+    },
+    "strict_current_source_hold_required_for_export": {
+      "original": true,
+      "proposed": false
+    }
+  },
+  "fresh_source_fence_requires_root_review_first": true,
+  "invariants": [
+    {
+      "evidence": "actual-prerequisite-readback.json and original packet hash revalidation in both 42-input guard runs",
+      "invariant": "Original preparation, plan and prior execution seals"
+    },
+    {
+      "evidence": "exact predecessor SHA, preserved authorization() checks, private root/destination guard cases",
+      "invariant": "Passed startup predecessor and fixed SDK/app/private roots"
+    },
+    {
+      "evidence": "all full config values unchanged except six declared admission fields; command mutation/resource/tool tests and original regressions",
+      "invariant": "Original tools, environment, command arrays, bounds and locks"
+    },
+    {
+      "evidence": "run_process/stop_group unchanged ASTs; both real source-bound receipts terminate exit zero with owned groups absent",
+      "invariant": "Process ownership/deadline/failure preservation"
+    },
+    {
+      "evidence": "source_fence.py implementation and real synthetic mutations among 34 guard cases",
+      "invariant": "Source identity, membership, index, absence and exclusions"
+    },
+    {
+      "evidence": "pinned exporter SHA, no retain-source-drift, one parser choice and required false held/lock/transient claims",
+      "invariant": "Strict pinned exporter and app-only admission"
+    },
+    {
+      "evidence": "unchanged SDK/lock/readback/binding checks plus owner-only root/destination and single-link candidate guards",
+      "invariant": "Private authored snapshot/lock binding"
+    },
+    {
+      "evidence": "authorization rejects every other stage and child; actual execution flags remain false",
+      "invariant": "No automatic app pub/native/SDK promotion"
+    },
+    {
+      "evidence": "all 28 checkpoint hashes match; relocated original test AST bodies unchanged; source-bound 31-case receipt",
+      "invariant": "Original test bodies and checkpoint files preserved"
+    },
+    {
+      "evidence": "source capture3 is historical; retained failures and inert unsealed fixtures disclosed; no OS-lock/transient-absence/production-freeze attestation",
+      "invariant": "Evidence limitations retained"
+    }
+  ],
+  "original_controller": "33788a5bb25509b02e555f5411216c0849fc2590a4b8f6c22176a97bf7afbd86",
+  "production_ready": false,
+  "proposed_controller": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+  "root_admission_issued": false,
+  "unchanged_original_test_function_and_class_ASTs": true
+}

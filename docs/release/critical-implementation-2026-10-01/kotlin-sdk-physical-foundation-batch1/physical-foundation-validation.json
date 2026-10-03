@@ -1,0 +1,21 @@
+{
+  "SDK_executed": false,
+  "actual_process_seconds": 33.955,
+  "actual_process_timeout_seconds": 600,
+  "actual_result_sha256": "344663398604eb5248432b4b4ff7d62d0de5c562a2cd4fe94d087c0ad18ea33f",
+  "actual_terminal_sha256": "88ae4ea49bddf51d9398192eecc5efec7514ca51d8297d9fb3c2e298e844ac36",
+  "actual_writer_full_readback_seconds": 27.685,
+  "candidate_promoted": false,
+  "exact_admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "license_copying_notice_named_paths": 71,
+  "official_source_leaves": 15660,
+  "passed": true,
+  "paths": 22415,
+  "production_release_approval": false,
+  "publisher_archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "reviewed_writer_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "root_authorization_sha256": "fb47cf9ba888163d2b764bbc4509962ae87b8ac9bffe24d7584e2e6a36acacec",
+  "source_patch_applied": false,
+  "terminal_exit_code": 0,
+  "zero_shared_installed_inodes": true
+}

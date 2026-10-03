@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 12.104,
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-repository-metadata-resolution1/minimal-project",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=1",
+    "resolveExactPublisherJar"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-desugar-configuration-repository-metadata-resolution1/minimal-project",
+  "deadline_seconds": 180,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T13:33:55.629010+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 1519,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T13:33:43.525539+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "78e3b0f56f8b623cbf46c9d0ab6c52caf0c1b9d598db277b5fdfa943da9c26d0",
+  "timed_out": false
+}

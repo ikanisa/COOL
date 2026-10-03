@@ -1,0 +1,260 @@
+--- prior/scripts/audits/collect_schema_function_lineage.py
++++ research/scripts/audits/collect_schema_function_lineage.py
+@@ -3,6 +3,23 @@
+ 
+ def signature(mapper, value):
+     # Only this explicitly reviewed PostgreSQL builtin alias is added privately.
++    raw_tokens = mapper.lex('(' + value + ')', sql=True)
++    if any(t.value == '.' or (t.kind == 'id' and ('(' + value + ')')[t.start:t.start+1] == '"') for t in raw_tokens):
++        raise ValueError('qualified or quoted type/argument expression refused before alias normalization')
++    raw_result, _ = mapper.sql_signature('(' + value + ')', raw_tokens, 0)
++    if raw_result is not None:
++        return raw_result
++    # Before any alias conversion, every unsupported argument must be exactly
++    # this builtin alias, optional simple argument name/IN and DEFAULT NULL.
++    # Commas in an unknown expression, custom types, modes and arrays refuse.
++    for part in value.split(','):
++        probe = '(' + part + ')'
++        known, _ = mapper.sql_signature(probe, mapper.lex(probe,sql=True), 0)
++        if known is not None:
++            continue
++        if re.match(r'\s*(out|inout|variadic)\b', part, re.I) or not re.fullmatch(
++                r'\s*(?:in\s+)?(?:[a-z_][a-z_0-9]*\s+)?timestamptz(?:\s+default\s+null)?\s*',part,re.I):
++            raise ValueError('unknown type/argument expression refused before alias normalization')
+     value = re.sub(r'\btimestamptz\b', 'timestamp with time zone', value)
+     text = '(' + value + ')'
+     result, _ = mapper.sql_signature(text, mapper.lex(text, sql=True), 0)
+@@ -141,6 +158,152 @@
+ }
+ 
+ 
++class LineageResult(dict):
++    def __init__(self, final, uncertainty):
++        super().__init__((key, value) for key, value in final.items() if value.get('source_transformations'))
++        self.validated_static_lineage = {key:value for key,value in final.items() if not value.get('source_transformations')}
++        self.uncertainty = uncertainty
++
++
++def unsupported_alter_fences(mapper, text, path, version):
++    tokens = mapper.lex(text, sql=True); result = []
++    for i, token in enumerate(tokens):
++        if token.kind != 'id' or token.value.lower() != 'alter' or i+2 >= len(tokens) or tokens[i+1].value.lower() != 'function':
++            continue
++        j = i+2
++        if tokens[j].kind != 'id':
++            result.append(dict(operation='drop-all', names=[], statement_offset=token.start)); continue
++        schema, name = None, mapper.sql_identifier(text, tokens[j]); j += 1
++        if j+1 < len(tokens) and tokens[j].value == '.' and tokens[j+1].kind == 'id':
++            schema, name = name, mapper.sql_identifier(text, tokens[j+1]); j += 2
++        types, closing = mapper.sql_signature(text, tokens, j)
++        if types is not None and schema is not None:
++            continue
++        names = [(schema, name)]
++        tail = tokens[closing+1:closing+4]
++        if len(tail) == 3 and tail[2].kind == 'id':
++            if [t.value.lower() for t in tail[:2]] == ['rename', 'to']:
++                names.append((schema, mapper.sql_identifier(text, tail[2])))
++            elif [t.value.lower() for t in tail[:2]] == ['set', 'schema']:
++                names.append((mapper.sql_identifier(text, tail[2]), name))
++        result.append(dict(operation='drop-names', names=names, statement_offset=token.start))
++    return [{**r, 'path':path, 'version':version, 'line':text[:r['statement_offset']].count('\n')+1,
++             'reason':'unsupported-active-ALTER-signature'} for r in result]
++
++
++def finite_copy_scope(block):
++    # Recognize effects, not body lineage, for this complete single-variable
++    # pg_get_functiondef / literal qualified-name substitution / EXECUTE grammar.
++    qualified = r'[a-z_][a-z_0-9]*\.[a-z_][a-z_0-9]*'
++    pattern = (r"\s*declare\s+(?P<v>[a-z_][a-z_0-9]*)\s+text\s*;\s*begin\s+select\s+pg_get_functiondef\('"
++        r"(?P<source>"+qualified+r")\([^']*\)'::regprocedure\)\s*into\s+(?P=v)\s*;\s*"
++        r"(?P=v):=replace\((?P=v),'(?P=source)','(?P<destination>"+qualified+r")'\)\s*;\s*"
++        r"execute\s+(?P=v)\s*;\s*end\s*")
++    match = re.fullmatch(pattern, block, re.I | re.S)
++    if not match:
++        return None
++    return [tuple(match[name].split('.')) for name in ('source', 'destination')]
++
++
++def dynamic_operation_fences(mapper, text, path, version):
++    """Opaque/unproved effects taint all; no final body hash removes that taint."""
++    tokens = mapper.lex(text, sql=True); result = []
++    for i, token in enumerate(tokens):
++        if token.kind != 'id' or token.value.lower() not in {'do', 'execute'}:
++            continue
++        # Only command starts are active top-level operations. ON CONFLICT DO
++        # and CREATE TRIGGER ... EXECUTE FUNCTION do not execute function DDL.
++        if i and tokens[i-1].value != ';':
++            continue
++        if token.value.lower() == 'execute':
++            result.append(dict(operation='drop-all', names=[], statement_offset=token.start,
++                reason='unreviewed-top-level-EXECUTE')); continue
++        if i+1 >= len(tokens) or tokens[i+1].kind != 'string':
++            raise ValueError('unreviewed DO syntax or unterminated block')
++        block_token = tokens[i+1]
++        raw_block = text[block_token.start:block_token.end]
++        delimiter = re.match(r'\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$', raw_block)
++        if not delimiter or not raw_block.endswith(delimiter[0]) or i+2 >= len(tokens) or tokens[i+2].value != ';':
++            raise ValueError('unreviewed DO syntax or unterminated block')
++        block = block_token.value; inner = mapper.lex(block, sql=True)
++        finite = finite_copy_scope(block)
++        if finite is not None:
++            result.append(dict(operation='drop-names', names=finite, statement_offset=token.start,
++                reason='unreviewed-function-definition-copy-effects')); continue
++        executes = [j for j,t in enumerate(inner) if t.kind == 'id' and t.value.lower() == 'execute']
++        def function_ddl(tokens):
++            for k,t in enumerate(tokens):
++                if t.kind != 'id' or t.value.lower() not in {'create','alter','drop'}:
++                    continue
++                k += 1
++                if [v.value.lower() for v in tokens[k:k+2]] == ['or','replace']:
++                    k += 2
++                if k < len(tokens) and tokens[k].value.lower() in {'function','procedure'}:
++                    return True
++            return False
++        active_function_ddl = function_ddl(inner)
++        # Direct unreviewed state-changing commands and invoked routines can
++        # change function bodies without EXECUTE. Their effects are not proved
++        # by a final hash, a familiar routine name, or SELECT/PERFORM spelling.
++        active_opaque_commands = any(t.kind=='id' and t.value.lower() in
++            {'create','alter','drop','insert','update','delete','truncate','call','perform','set','reset','do'} for t in inner)
++        uncertain = active_function_ddl or active_opaque_commands
++        bounded_format_calls = set()
++        for j in executes:
++            end = next((k for k in range(j+1,len(inner)) if inner[k].kind == 'symbol' and inner[k].value == ';'),len(inner))
++            expression = inner[j+1:end]
++            literal = expression[0].value if expression and expression[0].kind == 'string' else None
++            formatted = len(expression)>2 and expression[0].value.lower() == 'format' and expression[1].value == '(' and expression[2].kind == 'string'
++            if formatted:
++                literal = expression[2].value
++                # No concatenation, nested call, subquery or other evaluated
++                # argument expression supplies an admitted effect bound.
++                if expression[-1].value != ')' or any(t.value in {'(',')','|','+','-'} for t in expression[3:-1]):
++                    uncertain = True
++            elif len(expression) != 1:
++                uncertain = True
++            if literal is None:
++                uncertain = True; continue
++            sql_tokens = mapper.lex(literal, sql=True)
++            # Function DDL inside executable SQL is opaque to the maintained
++            # parser. SQL-fragment %s and unknown format placeholders can expand
++            # into further statements, so their entire effects remain unproved.
++            placeholders = re.findall(r'%(?:\d+\$)?([A-Za-z%])', literal)
++            if function_ddl(sql_tokens) or (formatted and any(p not in {'I','L','%'} for p in placeholders)):
++                uncertain = True
++            # Only one ACL/comment command, trigger create/drop (a function
++            # reference, not a function declaration), or explicit RLS enable
++            # has an admitted non-body effect. Other DDL/DML stays opaque.
++            elif not sql_tokens or not (
++                    sql_tokens[0].value.lower() in {'grant','revoke','comment'}
++                    or [t.value.lower() for t in sql_tokens[:2]] in (['create','trigger'],['drop','trigger'])
++                    or re.fullmatch(r'alter\s+table\s+[a-z_0-9%.]+\s+enable\s+row\s+level\s+security\s*;?',literal,re.I)):
++                uncertain = True
++            elif any(t.value == ';' for t in sql_tokens[:-1]):
++                uncertain = True
++            elif '%' in literal and not formatted:
++                uncertain = True
++            if formatted:
++                bounded_format_calls.add(j+1)
++        syntax = {'if','elsif','while','for','case','when','exists','in','not','any','all','array','values','select'}
++        for j,t in enumerate(inner):
++            if t.kind!='id' or j in bounded_format_calls:
++                continue
++            if t.value.lower() in syntax and block[t.start:t.start+1]!='"':
++                continue
++            if j and inner[j-1].value=='.':
++                continue
++            k=j+1
++            if k+1<len(inner) and inner[k].value=='.' and inner[k+1].kind=='id':
++                k+=2
++            if k<len(inner) and inner[k].value=='(':
++                uncertain = True
++        if uncertain:
++            result.append(dict(operation='drop-all', names=[], statement_offset=token.start,
++                reason='unreviewed-intervening-dynamic-function-effects'))
++    return [{**r, 'path':path, 'version':version, 'line':text[:r['statement_offset']].count('\n')+1} for r in result]
++
++
+ def reviewed_transform_lineage(mapper, sources, definitions, alterations):
+     """No SQL evaluation: exact reviewed programs + literal predecessors + order."""
+     normalized = []
+@@ -161,6 +324,26 @@
+              statement_offset=d['definition_offset'], schema=d['schema'], name=d['name'],
+              signature_types=None, operation='drop-name', destination=None)
+         for d in normalized if d['routine_kind'] == 'function' and d['signature_types'] is None]]
++    uncertainty = []
++    for path, source in sorted(sources.items()):
++        fences = unsupported_alter_fences(mapper, source['text'], path, source['version'])
++        if path not in REVIEWED_PROGRAMS:
++            fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
++        uncertainty.extend({**f, 'source_migration_sha256':source['sha256']} for f in fences)
++    # Expand an unbounded operation to every known short name, including names
++    # introduced by reviewed programs. A later literal declaration can supply
++    # new evidence, but equality of a final hash never revives a removed chain.
++    known_names = {d['name'] for d in normalized} | {a['name'] for a in alterations}
++    known_names |= {a['destination'] for a in alterations if a['operation'] == 'rename'}
++    known_names |= {name + '_guarded_149' for name in known_names}
++    known_names |= {'receipt_exception_base_refresh_source', 'receipt_exception_base_transaction_sms_id',
++                    'receipt_transport_base_schedule'}
++    for fence in uncertainty:
++        names = [(None, name) for name in sorted(known_names)] if fence['operation'] == 'drop-all' else fence['names']
++        for schema, name in names:
++            conservative_alterations.append(dict(path=fence['path'], line=fence['line'], version=fence['version'],
++                statement_offset=fence['statement_offset'], schema=schema, name=name, signature_types=None,
++                operation='drop-name', destination=None))
+     derived = []
+ 
+     def state_before(version, offset):
+@@ -173,6 +356,15 @@
+         if len(found) != 1 or found[0]['routine_kind'] != 'function' or found[0]['signature_types'] is None:
+             raise ValueError('reviewed transform predecessor missing, invalidated or ambiguous')
+         return found[0]
++
++    def admitted_predecessor(state, schema, name, path, offset, types=None):
++        try:
++            return predecessor(state, schema, name, types)
++        except ValueError as error:
++            uncertainty.append(dict(path=path, version=sources[path]['version'], statement_offset=offset,
++                line=sources[path]['text'][:offset].count('\n')+1, operation='reviewed-transform-withheld',
++                names=[(schema,name)], reason=str(error)))
++            return None
+ 
+     def emit(source, schema, name, body, path, offset, operation, **details):
+         before = mapper.sha(source['body'].encode())
+@@ -206,7 +398,9 @@
+             offset = text.index('do $install$')
+             state = state_before(version, offset)
+             for name in entries:
+-                d = predecessor(state, 'public', name)
++                d = admitted_predecessor(state, 'public', name, path, offset)
++                if d is None:
++                    continue
+                 args = named_arguments(mapper, original_arguments(sources[d['path']]['text'], d))
+                 alias = name + '_guarded_149'
+                 if any(key[:2] == ('collect_hybrid', alias) for key in state):
+@@ -226,7 +420,9 @@
+                     if proof not in block:
+                         continue
+                     state = state_before(version, offset)
+-                    d = predecessor(state, 'collect_ops', source_name, ('text', 'uuid'))
++                    d = admitted_predecessor(state, 'collect_ops', source_name, path, offset, ('text', 'uuid'))
++                    if d is None:
++                        continue
+                     if ('FUNCTION collect_ops.' + source_name + '(') in d['body'] or any(key[:2] == ('collect_ops', destination) for key in state):
+                         raise ValueError('definition-copy replacement affects body or existing destination')
+                     emit(d, 'collect_ops', destination, d['body'], path, offset,
+@@ -241,11 +437,13 @@
+                 if key[:2] not in PATCH_TARGETS:
+                     continue
+                 state = state_before(version, position)
+-                d = predecessor(state, *key[:2], key[2])
++                d = admitted_predecessor(state, *key[:2], path, position, key[2])
++                if d is None:
++                    continue
+                 emit(d, key[0], key[1], apply_patch_exact(d['body'], needle, replacement), path, position,
+                      'reviewed-exact-once-body-patch', needle_sha256=mapper.sha(needle.encode()),
+                      replacement_sha256=mapper.sha(replacement.encode()), replacement_occurrences=1)
+     # Re-run the unchanged conservative DROP/move/rename engine over the complete
+     # source order. Later declarations and DROP invalidate derived candidates too.
+     final = mapper.sql_static_lineage(normalized + derived, conservative_alterations)
+-    return {key:value for key,value in final.items() if value.get('source_transformations')}
++    return LineageResult(final, uncertainty)

@@ -1,0 +1,31 @@
+{
+  "actual_app_export_or_build_executed": false,
+  "at_utc": "2026-10-02T06:12:52.012138+00:00",
+  "changed_function_ASTs": [
+    "authorization",
+    "main"
+  ],
+  "controller_patch_lines": 125,
+  "full_patch_lines": 881,
+  "original_controller_sha256": "33788a5bb25509b02e555f5411216c0849fc2590a4b8f6c22176a97bf7afbd86",
+  "original_functions_removed_or_added": false,
+  "proposed_controller_sha256": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+  "scope": "separately owned app-export-only derivative and read-only source helper; original controller/configuration/SDK/source remain unchanged",
+  "unchanged_functions": [
+    "load",
+    "reader",
+    "sha",
+    "save",
+    "packet",
+    "receipt_path",
+    "export_binding",
+    "protected_metadata",
+    "existing_volume",
+    "stop_group",
+    "run_process",
+    "require_pass",
+    "source_readback",
+    "seed_raw_gradle",
+    "junit_and_classes"
+  ]
+}

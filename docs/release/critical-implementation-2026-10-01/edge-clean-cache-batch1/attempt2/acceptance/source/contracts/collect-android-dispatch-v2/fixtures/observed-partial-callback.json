@@ -1,0 +1,10 @@
+{
+  "state": "send_started",
+  "replay": false,
+  "callback_id": "3c77c832-4107-4a6b-8295-afd751f4b259",
+  "recorded_at": "2026-10-01T12:07:33.501678Z",
+  "carrier_proof": false,
+  "sent_observations": 1,
+  "delivery_observations": 0,
+  "conflicting_observations": false
+}

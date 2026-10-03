@@ -1,0 +1,62 @@
+{
+  "checked_at_utc": "2026-10-01T21:46:11.053018+00:00",
+  "observations": [
+    {
+      "name": "stable-github.json",
+      "url": "https://api.github.com/repos/flutter/flutter/commits/stable",
+      "http_status": 200,
+      "sha256": "0cf015ab5f4482d39cff6f64d12521dd10650a4fcf00f233e252ae1f27b6e2d4",
+      "resolved_commit": "5fc346839b5d0eef006ed8404392afb4dfae428d",
+      "commit_time": "2026-09-30T22:02:49Z"
+    },
+    {
+      "name": "tag-3.47.2-gradle.kts",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/3.47.2/packages/flutter_tools/gradle/build.gradle.kts",
+      "http_status": 200,
+      "sha256": "8bce67c561f7a91bb743b443242b8d804ddc4190dc5524278bdecf8797515008",
+      "kotlin_lines": [
+        "kotlin(\"jvm\") version \"2.2.20\"",
+        "//  * KGP error version in packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+        "implementation(\"org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0\")",
+        "// https://github.com/Kotlin/kotlinx.serialization/releases for kotlin version compatibility.",
+        "// All kotlinx implementation dependencies must work with the oldest kotlin supported versions.",
+        "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0\")"
+      ]
+    },
+    {
+      "name": "tag-3.44.4-gradle.kts",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/build.gradle.kts",
+      "http_status": 200,
+      "sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "kotlin_lines": [
+        "kotlin(\"jvm\") version \"2.2.20\"",
+        "//  * KGP error version in packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+        "implementation(\"org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0\")",
+        "// https://github.com/Kotlin/kotlinx.serialization/releases for kotlin version compatibility.",
+        "// All kotlinx implementation dependencies must work with the oldest kotlin supported versions.",
+        "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0\")"
+      ]
+    },
+    {
+      "name": "master-gradle.kts",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/master/packages/flutter_tools/gradle/build.gradle.kts",
+      "http_status": 200,
+      "sha256": "41206d024fab91d70e0b23b1b4b5ffbc4af72927424716d5bc90017289a352b9",
+      "kotlin_lines": [
+        "kotlin(\"jvm\") version \"2.2.20\"",
+        "//  * KGP error version in packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+        "implementation(\"org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0\")",
+        "// https://github.com/Kotlin/kotlinx.serialization/releases for kotlin version compatibility.",
+        "// All kotlinx implementation dependencies must work with the oldest kotlin supported versions.",
+        "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0\")"
+      ]
+    }
+  ],
+  "storage_release_metadata_attempt": {
+    "url": "https://storage.googleapis.com/flutter_infra_release/flutter/releases/releases_macos.json",
+    "http_status": 404,
+    "release_catalog_not_resolved": true
+  },
+  "sdk_mutated": false,
+  "fixed_supported_sdk_confirmed": false
+}

@@ -1,0 +1,6 @@
+{
+  "added_executed_directory_files": [],
+  "changed_or_missing_executed_inputs": [],
+  "removed_executed_directory_files": [],
+  "scope": "Separate readback of live source; acceptance is bound to immutable final current2, not untested subsequent live edits."
+}

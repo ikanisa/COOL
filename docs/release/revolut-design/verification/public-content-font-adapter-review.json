@@ -1,0 +1,89 @@
+{
+  "status": "pass",
+  "reviewed_at": "2026-10-01T16:58:32.090371+00:00",
+  "reviewer": "Codex implementation review",
+  "source": "scripts/public_static_site_build.rb",
+  "previous_sha256": "d0326289f1c374dcd7456d9517ad263a037de8e8adebe9fb0f013d6e49472ace",
+  "current_sha256": "af090a720ec41f40f225e09f1d9be2750ad8794481fc46e56e2d658c70733e6a",
+  "contract_before_sha256": "7e15b1541fa2e2e109d224fb43911e6e377581845ce42ef80ebaa749290790a3",
+  "routes": [
+    {
+      "route": "/",
+      "expected": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "actual": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138"
+    },
+    {
+      "route": "/account-deletion/",
+      "expected": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "actual": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85"
+    },
+    {
+      "route": "/community-groups/",
+      "expected": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "actual": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841"
+    },
+    {
+      "route": "/craas/",
+      "expected": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "actual": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5"
+    },
+    {
+      "route": "/credit-readiness/",
+      "expected": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "actual": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40"
+    },
+    {
+      "route": "/data-deletion/",
+      "expected": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "actual": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08"
+    },
+    {
+      "route": "/group-savings/",
+      "expected": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "actual": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6"
+    },
+    {
+      "route": "/insurance/",
+      "expected": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "actual": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123"
+    },
+    {
+      "route": "/our-partners/",
+      "expected": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "actual": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c"
+    },
+    {
+      "route": "/partners/",
+      "expected": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "actual": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8"
+    },
+    {
+      "route": "/privacy/",
+      "expected": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "actual": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802"
+    },
+    {
+      "route": "/protection/",
+      "expected": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "actual": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549"
+    },
+    {
+      "route": "/security/",
+      "expected": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "actual": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a"
+    },
+    {
+      "route": "/terms/",
+      "expected": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "actual": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c"
+    },
+    {
+      "route": "/trust/",
+      "expected": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "actual": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5"
+    }
+  ],
+  "copy_changes": 0,
+  "legal_release_approved": false,
+  "publication_approved": false
+}

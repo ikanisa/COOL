@@ -1,0 +1,1930 @@
+{
+  "base_archive": {
+    "accepted_full_readback_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/final-candidate-current1/source-archive-readback.json",
+    "accepted_full_readback_sha256": "65376c7c3b08b26f573523aebb40bbf70baefee76e80b373a59c90157917d53b",
+    "current_sha256": "2525fe8e5ed34d8bcd858b6419d65f55eebef02fac6559c2f51e5e4fde6cdbd6",
+    "expected_sha256": "2525fe8e5ed34d8bcd858b6419d65f55eebef02fac6559c2f51e5e4fde6cdbd6",
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/final-candidate-current1/collect-accepted-local-source.tar.gz",
+    "read_back_selected_regular_members": 45
+  },
+  "checked_at": "2026-10-01T16:10:15.790073+00:00",
+  "declared_total": 374,
+  "inputs": {
+    "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-executed.json": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-executed.json",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+      "archive_member": {
+        "bytes": 1226,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1226,
+        "mode_octal": "0o644",
+        "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only accepted synthetic SQL observation",
+      "declared_sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+      "integrated_supplement_declared_row": {
+        "bytes": 1226,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files",
+          "actual Edge552 decoder input"
+        ],
+        "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b"
+      },
+      "live_sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+      "origins": [
+        "final_flutter_acceptance.declared_files",
+        "actual Edge552 decoder input"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "Edge unit inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-expired-lookup.json": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-expired-lookup.json",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+      "archive_member": {
+        "bytes": 280,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4"
+      },
+      "base_archive_declared_row": {
+        "bytes": 280,
+        "mode_octal": "0o644",
+        "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only accepted synthetic SQL observation",
+      "declared_sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+      "integrated_supplement_declared_row": {
+        "bytes": 280,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files",
+          "actual Edge552 decoder input"
+        ],
+        "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4"
+      },
+      "live_sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+      "origins": [
+        "final_flutter_acceptance.declared_files",
+        "actual Edge552 decoder input"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "Edge unit inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-lookup.json": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-lookup.json",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+      "archive_member": {
+        "bytes": 1375,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1375,
+        "mode_octal": "0o644",
+        "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only accepted synthetic SQL observation",
+      "declared_sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+      "integrated_supplement_declared_row": {
+        "bytes": 1375,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files",
+          "actual Edge552 decoder input"
+        ],
+        "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f"
+      },
+      "live_sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+      "origins": [
+        "final_flutter_acceptance.declared_files",
+        "actual Edge552 decoder input"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "Edge unit inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/result.json": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/result.json",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc",
+      "archive_member": {
+        "bytes": 69611,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc"
+      },
+      "base_archive_declared_row": {
+        "bytes": 69611,
+        "mode_octal": "0o644",
+        "sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only accepted synthetic SQL observation",
+      "declared_sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc",
+      "integrated_supplement_declared_row": {
+        "bytes": 69611,
+        "mode_octal": "0o644",
+        "origins": [
+          "actual Edge552 decoder input"
+        ],
+        "sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc"
+      },
+      "live_sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc",
+      "origins": [
+        "actual Edge552 decoder input"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "Edge unit inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/admin_delete_user_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/admin_delete_user_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a",
+      "archive_member": {
+        "bytes": 1303,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1303,
+        "mode_octal": "0o644",
+        "sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a",
+      "integrated_supplement_declared_row": {
+        "bytes": 1303,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a"
+      },
+      "live_sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/admin_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/admin_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0",
+      "archive_member": {
+        "bytes": 6156,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0"
+      },
+      "base_archive_declared_row": {
+        "bytes": 6156,
+        "mode_octal": "0o644",
+        "sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0",
+      "integrated_supplement_declared_row": {
+        "bytes": 6156,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0"
+      },
+      "live_sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/api_version_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/api_version_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8",
+      "archive_member": {
+        "bytes": 1431,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1431,
+        "mode_octal": "0o644",
+        "sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8",
+      "integrated_supplement_declared_row": {
+        "bytes": 1431,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8"
+      },
+      "live_sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/client_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/client_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469",
+      "archive_member": {
+        "bytes": 30040,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469"
+      },
+      "base_archive_declared_row": {
+        "bytes": 30040,
+        "mode_octal": "0o644",
+        "sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469",
+      "integrated_supplement_declared_row": {
+        "bytes": 30040,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469"
+      },
+      "live_sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/custom_http_client.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/custom_http_client.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16",
+      "archive_member": {
+        "bytes": 8123,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16"
+      },
+      "base_archive_declared_row": {
+        "bytes": 8123,
+        "mode_octal": "0o644",
+        "sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16",
+      "integrated_supplement_declared_row": {
+        "bytes": 8123,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16"
+      },
+      "live_sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/custom_oauth_provider_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/custom_oauth_provider_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6",
+      "archive_member": {
+        "bytes": 3375,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6"
+      },
+      "base_archive_declared_row": {
+        "bytes": 3375,
+        "mode_octal": "0o644",
+        "sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6",
+      "integrated_supplement_declared_row": {
+        "bytes": 3375,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6"
+      },
+      "live_sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/custom_providers_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/custom_providers_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6",
+      "archive_member": {
+        "bytes": 4531,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6"
+      },
+      "base_archive_declared_row": {
+        "bytes": 4531,
+        "mode_octal": "0o644",
+        "sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6",
+      "integrated_supplement_declared_row": {
+        "bytes": 4531,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6"
+      },
+      "live_sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/fetch_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/fetch_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87",
+      "archive_member": {
+        "bytes": 2249,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87"
+      },
+      "base_archive_declared_row": {
+        "bytes": 2249,
+        "mode_octal": "0o644",
+        "sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87",
+      "integrated_supplement_declared_row": {
+        "bytes": 2249,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87"
+      },
+      "live_sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/get_claims_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/get_claims_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+      "archive_member": {
+        "bytes": 11848,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43"
+      },
+      "base_archive_declared_row": {
+        "bytes": 11848,
+        "mode_octal": "0o644",
+        "sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+      "integrated_supplement_declared_row": {
+        "bytes": 11848,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43"
+      },
+      "live_sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/get_session_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/get_session_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec",
+      "archive_member": {
+        "bytes": 5050,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec"
+      },
+      "base_archive_declared_row": {
+        "bytes": 5050,
+        "mode_octal": "0o644",
+        "sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec",
+      "integrated_supplement_declared_row": {
+        "bytes": 5050,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec"
+      },
+      "live_sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/header_isolation_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/header_isolation_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e",
+      "archive_member": {
+        "bytes": 2257,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e"
+      },
+      "base_archive_declared_row": {
+        "bytes": 2257,
+        "mode_octal": "0o644",
+        "sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e",
+      "integrated_supplement_declared_row": {
+        "bytes": 2257,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e"
+      },
+      "live_sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/jwk_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/jwk_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73",
+      "archive_member": {
+        "bytes": 1083,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1083,
+        "mode_octal": "0o644",
+        "sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73",
+      "integrated_supplement_declared_row": {
+        "bytes": 1083,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73"
+      },
+      "live_sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/mfa_challenge_mock_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/mfa_challenge_mock_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd",
+      "archive_member": {
+        "bytes": 1888,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1888,
+        "mode_octal": "0o644",
+        "sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd",
+      "integrated_supplement_declared_row": {
+        "bytes": 1888,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd"
+      },
+      "live_sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/mfa_enroll_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/mfa_enroll_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418",
+      "archive_member": {
+        "bytes": 2463,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418"
+      },
+      "base_archive_declared_row": {
+        "bytes": 2463,
+        "mode_octal": "0o644",
+        "sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418",
+      "integrated_supplement_declared_row": {
+        "bytes": 2463,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418"
+      },
+      "live_sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/mocks/otp_mock_client.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/mocks/otp_mock_client.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98",
+      "archive_member": {
+        "bytes": 15633,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98"
+      },
+      "base_archive_declared_row": {
+        "bytes": 15633,
+        "mode_octal": "0o644",
+        "sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98",
+      "integrated_supplement_declared_row": {
+        "bytes": 15633,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98"
+      },
+      "live_sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/mocks/passkey_mock_client.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/mocks/passkey_mock_client.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31",
+      "archive_member": {
+        "bytes": 6846,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31"
+      },
+      "base_archive_declared_row": {
+        "bytes": 6846,
+        "mode_octal": "0o644",
+        "sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31",
+      "integrated_supplement_declared_row": {
+        "bytes": 6846,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31"
+      },
+      "live_sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/mocks/web3_mock_client.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/mocks/web3_mock_client.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e",
+      "archive_member": {
+        "bytes": 3211,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e"
+      },
+      "base_archive_declared_row": {
+        "bytes": 3211,
+        "mode_octal": "0o644",
+        "sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e",
+      "integrated_supplement_declared_row": {
+        "bytes": 3211,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e"
+      },
+      "live_sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/otp_mock_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/otp_mock_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487",
+      "archive_member": {
+        "bytes": 21998,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487"
+      },
+      "base_archive_declared_row": {
+        "bytes": 21998,
+        "mode_octal": "0o644",
+        "sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487",
+      "integrated_supplement_declared_row": {
+        "bytes": 21998,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487"
+      },
+      "live_sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/passkey_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/passkey_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22",
+      "archive_member": {
+        "bytes": 10953,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22"
+      },
+      "base_archive_declared_row": {
+        "bytes": 10953,
+        "mode_octal": "0o644",
+        "sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22",
+      "integrated_supplement_declared_row": {
+        "bytes": 10953,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22"
+      },
+      "live_sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/provider_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/provider_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2",
+      "archive_member": {
+        "bytes": 6948,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2"
+      },
+      "base_archive_declared_row": {
+        "bytes": 6948,
+        "mode_octal": "0o644",
+        "sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2",
+      "integrated_supplement_declared_row": {
+        "bytes": 6948,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2"
+      },
+      "live_sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/refresh_token_race_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/refresh_token_race_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a",
+      "archive_member": {
+        "bytes": 21438,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a"
+      },
+      "base_archive_declared_row": {
+        "bytes": 21438,
+        "mode_octal": "0o644",
+        "sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a",
+      "integrated_supplement_declared_row": {
+        "bytes": 21438,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a"
+      },
+      "live_sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/broadcast_web_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/broadcast_web_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e",
+      "archive_member": {
+        "bytes": 1541,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1541,
+        "mode_octal": "0o644",
+        "sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e",
+      "integrated_supplement_declared_row": {
+        "bytes": 1541,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e"
+      },
+      "live_sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/constants_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/constants_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf",
+      "archive_member": {
+        "bytes": 11015,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf"
+      },
+      "base_archive_declared_row": {
+        "bytes": 11015,
+        "mode_octal": "0o644",
+        "sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf",
+      "integrated_supplement_declared_row": {
+        "bytes": 11015,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf"
+      },
+      "live_sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/gotrue_admin_custom_providers_api_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/gotrue_admin_custom_providers_api_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90",
+      "archive_member": {
+        "bytes": 6115,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90"
+      },
+      "base_archive_declared_row": {
+        "bytes": 6115,
+        "mode_octal": "0o644",
+        "sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90",
+      "integrated_supplement_declared_row": {
+        "bytes": 6115,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90"
+      },
+      "live_sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/gotrue_admin_mfa_api_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/gotrue_admin_mfa_api_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b",
+      "archive_member": {
+        "bytes": 1581,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1581,
+        "mode_octal": "0o644",
+        "sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b",
+      "integrated_supplement_declared_row": {
+        "bytes": 1581,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b"
+      },
+      "live_sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/gotrue_admin_oauth_api_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/gotrue_admin_oauth_api_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85",
+      "archive_member": {
+        "bytes": 5969,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85"
+      },
+      "base_archive_declared_row": {
+        "bytes": 5969,
+        "mode_octal": "0o644",
+        "sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85",
+      "integrated_supplement_declared_row": {
+        "bytes": 5969,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85"
+      },
+      "live_sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/gotrue_mfa_api_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/gotrue_mfa_api_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97",
+      "archive_member": {
+        "bytes": 9824,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97"
+      },
+      "base_archive_declared_row": {
+        "bytes": 9824,
+        "mode_octal": "0o644",
+        "sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97",
+      "integrated_supplement_declared_row": {
+        "bytes": 9824,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97"
+      },
+      "live_sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/gotrue_oauth_api_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/gotrue_oauth_api_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef",
+      "archive_member": {
+        "bytes": 13499,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef"
+      },
+      "base_archive_declared_row": {
+        "bytes": 13499,
+        "mode_octal": "0o644",
+        "sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef",
+      "integrated_supplement_declared_row": {
+        "bytes": 13499,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef"
+      },
+      "live_sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/helper_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/helper_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e",
+      "archive_member": {
+        "bytes": 10658,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e"
+      },
+      "base_archive_declared_row": {
+        "bytes": 10658,
+        "mode_octal": "0o644",
+        "sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e",
+      "integrated_supplement_declared_row": {
+        "bytes": 10658,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e"
+      },
+      "live_sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/set_session_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/set_session_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b",
+      "archive_member": {
+        "bytes": 8366,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b"
+      },
+      "base_archive_declared_row": {
+        "bytes": 8366,
+        "mode_octal": "0o644",
+        "sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b",
+      "integrated_supplement_declared_row": {
+        "bytes": 8366,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b"
+      },
+      "live_sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/token_refresh_race_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/token_refresh_race_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45",
+      "archive_member": {
+        "bytes": 10302,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45"
+      },
+      "base_archive_declared_row": {
+        "bytes": 10302,
+        "mode_octal": "0o644",
+        "sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45",
+      "integrated_supplement_declared_row": {
+        "bytes": 10302,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45"
+      },
+      "live_sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/auth_exception_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/auth_exception_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d",
+      "archive_member": {
+        "bytes": 16254,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d"
+      },
+      "base_archive_declared_row": {
+        "bytes": 16254,
+        "mode_octal": "0o644",
+        "sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d",
+      "integrated_supplement_declared_row": {
+        "bytes": 16254,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d"
+      },
+      "live_sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/mfa_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/mfa_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481",
+      "archive_member": {
+        "bytes": 1998,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481"
+      },
+      "base_archive_declared_row": {
+        "bytes": 1998,
+        "mode_octal": "0o644",
+        "sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481",
+      "integrated_supplement_declared_row": {
+        "bytes": 1998,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481"
+      },
+      "live_sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/passkey_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/passkey_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8",
+      "archive_member": {
+        "bytes": 3942,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8"
+      },
+      "base_archive_declared_row": {
+        "bytes": 3942,
+        "mode_octal": "0o644",
+        "sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8",
+      "integrated_supplement_declared_row": {
+        "bytes": 3942,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8"
+      },
+      "live_sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/session_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/session_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0",
+      "archive_member": {
+        "bytes": 16739,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0"
+      },
+      "base_archive_declared_row": {
+        "bytes": 16739,
+        "mode_octal": "0o644",
+        "sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0",
+      "integrated_supplement_declared_row": {
+        "bytes": 16739,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0"
+      },
+      "live_sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/user_attributes_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/user_attributes_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649",
+      "archive_member": {
+        "bytes": 4167,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649"
+      },
+      "base_archive_declared_row": {
+        "bytes": 4167,
+        "mode_octal": "0o644",
+        "sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649",
+      "integrated_supplement_declared_row": {
+        "bytes": 4167,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649"
+      },
+      "live_sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/src/types/user_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/src/types/user_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73",
+      "archive_member": {
+        "bytes": 26628,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73"
+      },
+      "base_archive_declared_row": {
+        "bytes": 26628,
+        "mode_octal": "0o644",
+        "sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73",
+      "integrated_supplement_declared_row": {
+        "bytes": 26628,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73"
+      },
+      "live_sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/synthetic_jwt.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/synthetic_jwt.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "archive_member": {
+        "bytes": 508,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb"
+      },
+      "base_archive_declared_row": {
+        "bytes": 508,
+        "mode_octal": "0o644",
+        "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "integrated_supplement_declared_row": {
+        "bytes": 508,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb"
+      },
+      "live_sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/utils.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/utils.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b",
+      "archive_member": {
+        "bytes": 3183,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b"
+      },
+      "base_archive_declared_row": {
+        "bytes": 3183,
+        "mode_octal": "0o644",
+        "sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b",
+      "integrated_supplement_declared_row": {
+        "bytes": 3183,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b"
+      },
+      "live_sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/web3_auth_integration_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/web3_auth_integration_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30",
+      "archive_member": {
+        "bytes": 3225,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30"
+      },
+      "base_archive_declared_row": {
+        "bytes": 3225,
+        "mode_octal": "0o644",
+        "sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30",
+      "integrated_supplement_declared_row": {
+        "bytes": 3225,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30"
+      },
+      "live_sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    },
+    "third_party/gotrue/test/web3_auth_test.dart": {
+      "accepted_base_physical_source_status": "missing_reproduction_input",
+      "accepted_base_source_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1/third_party/gotrue/test/web3_auth_test.dart",
+      "accepted_base_source_sha256": null,
+      "accepted_sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d",
+      "archive_member": {
+        "bytes": 4735,
+        "mode_octal": "0644",
+        "regular": true,
+        "sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d"
+      },
+      "base_archive_declared_row": {
+        "bytes": 4735,
+        "mode_octal": "0o644",
+        "sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d"
+      },
+      "checks": {
+        "declared_in_accepted_base_archive": true,
+        "declared_in_integrated_reproduction_supplement": true,
+        "regular_archive_member_read_back": true,
+        "same_accepted_declared_live_and_archive_sha256": true,
+        "same_declared_archive_bytes": true
+      },
+      "classification": "Declared reproduction-only upstream QA",
+      "declared_sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d",
+      "integrated_supplement_declared_row": {
+        "bytes": 4735,
+        "mode_octal": "0o644",
+        "origins": [
+          "final_flutter_acceptance.declared_files"
+        ],
+        "sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d"
+      },
+      "live_sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d",
+      "origins": [
+        "final_flutter_acceptance.declared_files"
+      ],
+      "physical_candidate2_sha256": null,
+      "scope": "iOS declared462 compiler resource inputs",
+      "status": "pass",
+      "strict_physical_candidate2_status": "missing_reproduction_input"
+    }
+  },
+  "prior_physical_only_observation": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/unchanged-consumer-reuse/declared-supplement-physical-only-observation.json",
+    "sha256": "ed89f7387e176f5a05338961fc10b8b6283b9b15f3c5db9641a66cf73ff71000",
+    "status": "fail"
+  },
+  "scope": "45 unchanged reproduction inputs omitted from the physical candidate but byte-present in the accepted base archive and explicitly declared in the integrated 374-file supplement. This preserves physical-map failures while accepting base-plus-overlay reproduction.",
+  "source_overlay_manifest": {
+    "base_archive_sha256": "2525fe8e5ed34d8bcd858b6419d65f55eebef02fac6559c2f51e5e4fde6cdbd6",
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/source-overlay-manifest.json",
+    "sha256": "572b1b58e9b39343cae4c712b394b072147a158d4aa38beee8f4832d4866f40e"
+  },
+  "source_overlay_readback": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/source-overlay-readback.json",
+    "sha256": "906c43a672ab7baae1a3a03706e8185daa6cf53da4ac3d8aaeb21e9ce85030e1",
+    "status": "pass"
+  },
+  "status": "pass",
+  "strict_physical_candidate2_full_declared_map_parity": false,
+  "strict_physical_candidate_missing_inputs_preserved": true,
+  "supplement_count": 45
+}

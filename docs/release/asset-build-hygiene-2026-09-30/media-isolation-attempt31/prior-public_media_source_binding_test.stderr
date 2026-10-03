@@ -1,0 +1,23 @@
+...F...F
+======================================================================
+FAIL: test_actual_required_ruby_helper_dependency_mutation_is_rejected (__main__.BrowserSourceBindingTest.test_actual_required_ruby_helper_dependency_mutation_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-prior-publication-y56sh4cf/scripts/tests/public_media_source_binding_test.py", line 115, in test_actual_required_ruby_helper_dependency_mutation_is_rejected
+    with self.assertRaisesRegex(ValueError, "helper closure"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_stable_manifests_with_external_local_package_or_plugin_target_are_rejected (__main__.BrowserSourceBindingTest.test_stable_manifests_with_external_local_package_or_plugin_target_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-prior-publication-y56sh4cf/scripts/tests/public_media_source_binding_test.py", line 107, in test_stable_manifests_with_external_local_package_or_plugin_target_are_rejected
+    with self.assertRaisesRegex(ValueError, message):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.231s
+
+FAILED (failures=2)

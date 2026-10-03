@@ -1,0 +1,452 @@
+{
+  "all_test_outbound_calls_instrumented": false,
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-full-vm-attempt179/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 53125,
+      "seconds": 2.307,
+      "sha256": "cd8a5b395368758bd381e14462930d48fabae4b83ce39ac91b4a0c42d4601a67",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-full-vm-attempt179/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 53156,
+      "seconds": 2.32,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-full-vm-attempt179/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 0,
+      "name": "analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 53242,
+      "seconds": 62.976,
+      "sha256": "ece28509b66ba80c4ca9ce8371c6b57069ff890051c167d2dd84f9a64ad29e62",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-full-vm-attempt179/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=2",
+        "--dart-define-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/decoder-defines.json",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/vm.machine.jsonl",
+        "test/actual_member_history_sql_receipts_test.dart",
+        "test/admin_action_contracts_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_action_ui_session_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_bounded_loading_test.dart",
+        "test/admin_custom_action_ui_test.dart",
+        "test/admin_data_sync_test.dart",
+        "test/admin_declared_action_dispatch_test.dart",
+        "test/admin_declared_read_dispatch_test.dart",
+        "test/admin_declared_route_states_test.dart",
+        "test/admin_email_login_test.dart",
+        "test/admin_email_submit_paint_test.dart",
+        "test/admin_email_transport_session_test.dart",
+        "test/admin_entity_audit_authority_test.dart",
+        "test/admin_entity_audit_links_test.dart",
+        "test/admin_entity_audit_models_test.dart",
+        "test/admin_entity_audit_page_test.dart",
+        "test/admin_entity_audit_repository_test.dart",
+        "test/admin_entrypoint_rebuild_test.dart",
+        "test/admin_error_redaction_test.dart",
+        "test/admin_exception_checkpoint_browser_test.dart",
+        "test/admin_exception_models_test.dart",
+        "test/admin_exception_page_test.dart",
+        "test/admin_exception_repository_test.dart",
+        "test/admin_exception_sdk_provider_state_test.dart",
+        "test/admin_feature_flag_runtime_test.dart",
+        "test/admin_filter_bar_responsive_test.dart",
+        "test/admin_full_coverage_gap_test.dart",
+        "test/admin_gateway_action_ui_sdk_test.dart",
+        "test/admin_gateway_checkpoint_browser_test.dart",
+        "test/admin_gateway_checkpoint_test.dart",
+        "test/admin_gateway_contracts_test.dart",
+        "test/admin_gateway_models_test.dart",
+        "test/admin_gateway_observed_test.dart",
+        "test/admin_gateway_page_test.dart",
+        "test/admin_gateway_repository_test.dart",
+        "test/admin_gateway_sdk_state_matrix_test.dart",
+        "test/admin_header_accessibility_test.dart",
+        "test/admin_hybrid_member_directory_test.dart",
+        "test/admin_investigation_test.dart",
+        "test/admin_investigation_view_test.dart",
+        "test/admin_list_models_test.dart",
+        "test/admin_list_paging_test.dart",
+        "test/admin_login_recovery_test.dart",
+        "test/admin_logout_lifecycle_test.dart",
+        "test/admin_operating_policy_models_test.dart",
+        "test/admin_operating_policy_runtime_test.dart",
+        "test/admin_operational_health_test.dart",
+        "test/admin_operations_readability_test.dart",
+        "test/admin_operator_approval_sdk_matrix_test.dart",
+        "test/admin_operator_approval_test.dart",
+        "test/admin_overview_totals_test.dart",
+        "test/admin_page_reflow_test.dart",
+        "test/admin_permission_refresh_test.dart",
+        "test/admin_platform_access_test.dart",
+        "test/admin_private_provider_authority_test.dart",
+        "test/admin_pwa_test.dart",
+        "test/admin_queue_navigation_test.dart",
+        "test/admin_read_contracts_test.dart",
+        "test/admin_realtime_sdk_provider_test.dart",
+        "test/admin_realtime_stability_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart",
+        "test/admin_receipt_cancel_card_test.dart",
+        "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+        "test/admin_receipt_cancel_models_test.dart",
+        "test/admin_receipt_cancel_repository_test.dart",
+        "test/admin_receipt_cancel_sdk_authority_test.dart",
+        "test/admin_receipt_overview_test.dart",
+        "test/admin_reconciliation_repository_test.dart",
+        "test/admin_reconciliation_step_up_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/admin_repository_paging_test.dart",
+        "test/admin_roster_authority_scope_test.dart",
+        "test/admin_roster_bookmark_browser_test.dart",
+        "test/admin_roster_calendar_test.dart",
+        "test/admin_roster_declared_read_dispatch_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_file_parser_test.dart",
+        "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+        "test/admin_roster_fresh_auth_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_roster_sql_receipts_test.dart",
+        "test/admin_roster_transport_test.dart",
+        "test/admin_roster_upload_admission_test.dart",
+        "test/admin_roster_xlsx_preflight_test.dart",
+        "test/admin_route_access_test.dart",
+        "test/admin_runtime_control_gap_test.dart",
+        "test/admin_sensitive_permission_test.dart",
+        "test/admin_session_scope_test.dart",
+        "test/admin_shadow_runs_repository_test.dart",
+        "test/admin_shadow_runs_test.dart",
+        "test/admin_sms_queue_repository_test.dart",
+        "test/admin_support_read_contracts_test.dart",
+        "test/admin_transaction_lifecycle_test.dart",
+        "test/admin_utc_observation_timestamp_test.dart",
+        "test/admin_value_integrity_test.dart",
+        "test/admin_value_screen_integrity_test.dart",
+        "test/app_shell_test.dart",
+        "test/collect_disabled_action_regression_test.dart",
+        "test/collect_form_viewport_test.dart",
+        "test/collect_lazy_group_list_test.dart",
+        "test/connection_recovery_screen_test.dart",
+        "test/connection_recovery_screens_test.dart",
+        "test/core/browser_auth_memory_test.dart",
+        "test/core/cupertino_assets_test.dart",
+        "test/core/momo_ussd_amount_boundary_test.dart",
+        "test/core/momo_ussd_intent_guard_test.dart",
+        "test/core/money_format_test.dart",
+        "test/core/notification_account_isolation_test.dart",
+        "test/core/notification_registration_recovery_test.dart",
+        "test/core/phone_and_public_id_test.dart",
+        "test/core/play_integrity_service_test.dart",
+        "test/core/revolut_launcher_test.dart",
+        "test/core/route_inventory_contract_test.dart",
+        "test/core/rwanda_momo_number_test.dart",
+        "test/core/rwf_amount_input_formatter_test.dart",
+        "test/core/settlement_currency_test.dart",
+        "test/core/supabase_session_persistence_test.dart",
+        "test/data_correctness_contract_test.dart",
+        "test/features/app_share_service_test.dart",
+        "test/features/auth_error_recovery_test.dart",
+        "test/features/auth_route_accessibility_regression_test.dart",
+        "test/features/auth_theme_sync_test.dart",
+        "test/features/collect_surface_keyboard_focus_test.dart",
+        "test/features/contribution_flow_session_test.dart",
+        "test/features/contribution_landscape_keyboard_test.dart",
+        "test/features/contribution_prelaunch_guard_test.dart",
+        "test/features/country_settings_contract_test.dart",
+        "test/features/data_load_failure_test.dart",
+        "test/features/device_permission_contract_test.dart",
+        "test/features/group_admin_access_policy_test.dart",
+        "test/features/group_card_editorial_test.dart",
+        "test/features/group_invitation_output_test.dart",
+        "test/features/group_invitation_save_receipt_test.dart",
+        "test/features/group_link_explicit_join_test.dart",
+        "test/features/group_photo_bank_test.dart",
+        "test/features/group_qr_target_parity_test.dart",
+        "test/features/home_activity_order_test.dart",
+        "test/features/home_design_parity_test.dart",
+        "test/features/interaction_target_contract_test.dart",
+        "test/features/large_member_lists_test.dart",
+        "test/features/member_data_unknown_states_test.dart",
+        "test/features/member_roster_screen_test.dart",
+        "test/features/mobile_completion_test.dart",
+        "test/features/mobile_responsive_matrix_test.dart",
+        "test/features/mobile_review_navigation_test.dart",
+        "test/features/mobile_shell_reference_test.dart",
+        "test/features/native_permission_sheet_accessibility_test.dart",
+        "test/features/notification_preferences_recovery_ui_test.dart",
+        "test/features/profile_editor_test.dart",
+        "test/features/revolut_shared_states_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/features/rwanda_momo_balances_test.dart",
+        "test/features/rwanda_scope_empty_states_test.dart",
+        "test/features/share_deep_link_platform_contract_test.dart",
+        "test/features/shared_chrome_accessibility_test.dart",
+        "test/features/theme_contrast_contract_test.dart",
+        "test/features/theme_mode_contract_test.dart",
+        "test/features/widgets_test.dart",
+        "test/form_viewport_namespace_test.dart",
+        "test/gateway/gateway_capture_test.dart",
+        "test/gateway/gateway_device_probe_test.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "test/group_list_summary_availability_test.dart",
+        "test/group_summary_cache_recovery_test.dart",
+        "test/group_summary_decoding_test.dart",
+        "test/group_summary_integrity_test.dart",
+        "test/hardening/durable_sms_receipt_test.dart",
+        "test/hardening/editorial_summary_availability_test.dart",
+        "test/hardening/protected_snapshot_store_test.dart",
+        "test/hardening/sms_queue_status_recovery_test.dart",
+        "test/l10n/collect_localizations_test.dart",
+        "test/landing_page_test.dart",
+        "test/member_history_controller_integrity_test.dart",
+        "test/member_history_page_integrity_test.dart",
+        "test/payment_cache_integrity_test.dart",
+        "test/payment_event_decoding_test.dart",
+        "test/payment_intent_cache_boundary_test.dart",
+        "test/payment_intent_decoding_test.dart",
+        "test/payment_json_integrity_test.dart",
+        "test/persona_uat_smoke_test.dart",
+        "test/release_docs_test.dart",
+        "test/security_hygiene_test.dart",
+        "test/shared/collect_offline_cache_test.dart",
+        "test/shared/collect_profile_country_rules_test.dart",
+        "test/shared/collect_repository_live_reader_contract_test.dart",
+        "test/shared/collect_repository_read_contract_test.dart",
+        "test/shared/collect_repository_test.dart",
+        "test/shared/collect_share_links_test.dart",
+        "test/shared/collect_share_origin_test.dart",
+        "test/shared/contribution_intent_binding_test.dart",
+        "test/shared/group_admin_api_test.dart",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/shared/group_join_account_boundary_test.dart",
+        "test/shared/group_owner_controls_test.dart",
+        "test/shared/live_group_data_test.dart",
+        "test/shared/member_data_authority_test.dart",
+        "test/shared/member_history_pagination_test.dart",
+        "test/shared/member_mutation_session_test.dart",
+        "test/shared/member_profile_gate_test.dart",
+        "test/shared/member_read_integrity_test.dart",
+        "test/shared/member_realtime_sdk_session_test.dart",
+        "test/shared/member_roster_test.dart",
+        "test/shared/notification_preference_runtime_test.dart",
+        "test/shared/pending_shared_group_intent_store_test.dart",
+        "test/shared/realtime_invalidation_recovery_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/shared/rwanda_momo_history_test.dart",
+        "test/supabase_contract_test.dart"
+      ],
+      "exit_code": 1,
+      "name": "vm",
+      "parent_exit_confirmed": true,
+      "process_group": 55556,
+      "seconds": 2308.289,
+      "sha256": "57b52ed431645419557c7e9d57ec0e983d9ab21a0e9f1917291f41a737b8f94d",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "database_commands_executed": false,
+  "decoder_defines_sha256": "0b00d41ca255b19bc2674d72f108c2b3f74b69bb628b5a0ba4914a169c684a19",
+  "deployment_commands_executed": false,
+  "export_drift": {
+    ".dart_tool/package_config.json": "6e9db07fa874a7ce6d8bb341c5dfbf1deaad6409e17eced195e742538077013f",
+    ".flutter-plugins-dependencies": "9184e8b0d45eb529cc789563adfb8397effd1a3e5e0c80ea190f42d527c7165f"
+  },
+  "machine_summary": {
+    "errors": 10,
+    "event_errors": [],
+    "failed": 7,
+    "failures": [
+      {
+        "name": "App Store artwork uses an isolated synthetic preview target",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/app_shell_test.dart"
+      },
+      {
+        "name": "all owned modal and route motion uses the reduced-motion policy",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/app_shell_test.dart"
+      },
+      {
+        "name": "application typography has no raw or defaulted type styles",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/features/runtime_component_contract_test.dart"
+      },
+      {
+        "name": "tracked visual assets exclude SVG and unapproved brand artwork",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/features/runtime_component_contract_test.dart"
+      },
+      {
+        "name": "Android owns the only visible Collect launch screen",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/features/runtime_component_contract_test.dart"
+      },
+      {
+        "name": "member auth compares historical visual baseline (variant: TargetPlatform.android)",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/goldens/collect_core_surfaces_golden_test.dart"
+      },
+      {
+        "name": "member contribute_entry compares historical visual baseline (variant: TargetPlatform.android)",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/goldens/collect_core_surfaces_golden_test.dart"
+      },
+      {
+        "name": "member offline compares historical visual baseline (variant: TargetPlatform.android)",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/goldens/collect_core_surfaces_golden_test.dart"
+      },
+      {
+        "name": "public website compares historical desktop baseline (variant: TargetPlatform.android)",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/goldens/collect_core_surfaces_golden_test.dart"
+      },
+      {
+        "name": "Admin PWA overview compares historical desktop baseline (variant: TargetPlatform.android)",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/goldens/collect_core_surfaces_golden_test.dart"
+      },
+      {
+        "name": "current product documents define Rwanda MoMo USSD scope",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/release_docs_test.dart"
+      },
+      {
+        "name": "Google Play packet records the pending Rwanda SMS approval gate",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/release_docs_test.dart"
+      },
+      {
+        "name": "production Android scopes MoMo SMS and USSD permissions",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/security_hygiene_test.dart"
+      },
+      {
+        "name": "iOS App Store build preserves production data and review isolation",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/security_hygiene_test.dart"
+      },
+      {
+        "name": "repository text files do not store obvious live secrets",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/security_hygiene_test.dart"
+      },
+      {
+        "name": "local env files stay ignored and Codex env stays placeholder-only",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/security_hygiene_test.dart"
+      },
+      {
+        "name": "Edge Function source inventory contains Rwanda MoMo support only",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt179-full-flutter/test/supabase_contract_test.dart"
+      }
+    ],
+    "passed": 4450,
+    "runner_completed_successfully": false,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "provider_credentials_supplied": false,
+  "scope": "All declared Flutter VM tests and fatal analysis on one isolated source set; no whole browser/native/backend/release acceptance",
+  "sdk_inputs_unchanged": true,
+  "source_drift": {
+    "contracts/collect-receipt-content-v2/CONTRACT.md": {
+      "after": "749cb19e3b06930795d864ed7a36498778d37b16d91e1d894ac2cc346c9cff46",
+      "before": "77cd3c35ec77b5e1b57f4e49da2b3f2f2ce4704ee415ea0d6a7b63a0439ee81d"
+    },
+    "contracts/collect-receipt-content-v2/observed-detail-v2.json": {
+      "after": "4b105864f0850bbad0065ced6e4034eb9d2b18961151720c4f9a73a173b85ace",
+      "before": null
+    },
+    "contracts/collect-receipt-content-v2/observed-investigation-v2.json": {
+      "after": "54dcd6a4c42d8486e906b8f5115ec443e7bc0e43fc8a5c59acf7b04b8b38850d",
+      "before": null
+    },
+    "contracts/collect-receipt-content-v2/observed-language-copy.json": {
+      "after": "17723e0ef8cd9b81a6d0b1912a72e51a6954f1d0395488d27a2abf2129addd7c",
+      "before": null
+    },
+    "contracts/collect-receipt-content-v2/observed-list-v2.json": {
+      "after": "6bd2be957773cbcad4b7f8bbe5f9b2867f728e437160ec4ee515de689d752360",
+      "before": null
+    },
+    "contracts/collect-receipt-content-v2/observed-policy.json": {
+      "after": "18e8bb9023d2db90309c90a40cb05a4edf7712c31ac89d54c3800e6bd91db818",
+      "before": null
+    },
+    "contracts/collect-receipt-content-v2/observed-prior-v1-unknown.json": {
+      "after": "f981586e7c666e8bd41b86e9c1e406db8ca3ce9bd2b6bafcc674e9420dbfe230",
+      "before": null
+    },
+    "lib/gateway/gateway_app.dart": {
+      "after": "27383e5780ad5ebdc6ed4c8d2fcb58b8e44ac583013f1f1091a8a892e5e951d7",
+      "before": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39"
+    },
+    "scripts/collect_operator_email_auth.py": {
+      "after": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "before": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62"
+    },
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "after": "ad3a536a959a5adfd732b7d4757fa04314d20f600f619e0ea39c25dfc00e3d32",
+      "before": "229b7631bc625ac7f280c8b4ffafefc052355f1c27b0d7e9be200c48cfc66e3d"
+    },
+    "scripts/tests/current_generated_history_published_uat.py": {
+      "after": "9ad44cd91910b083ebc5bd2b29f0e0402589e4f8627fbad7ffc8c977d8a4d06b",
+      "before": "bc0c9486770ad70fbe1446846b39d3dc3ac85f406605c10fa6859ef60d810b42"
+    },
+    "scripts/tests/final_flutter_acceptance.py": {
+      "after": "dbb559a31439e4f83d62cbeb63cc4d5e6f01cb281748a05096c412d5eb37e532",
+      "before": "42e4d9e2a09ced6a40b40436e9cfcf4306ea8e5b69bf58f677ad4b44ae89dec9"
+    },
+    "scripts/tests/receipt_financial_policy_uat.py": {
+      "after": "94099eaa46e5c126f45dac3d4ae75900bc6e81d8abfc01a0c6c1414b6d3d2daa",
+      "before": null
+    },
+    "scripts/tests/test_collect_operator_email_auth.py": {
+      "after": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "before": "3e0dc6cf045b8ae958ab18ca15aaa1c1f0f330595bee959da02cf6972030d5af"
+    },
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+      "after": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "before": "9f29613baf2b1caf4f44853f280609a2d4fec5f2b66dda43c0876a14b85a6561"
+    },
+    "test/admin_receipt_content_v2_test.dart": {
+      "after": "7f2279fa6d1a6dde09a9bd645485a24a9f20aaae970a1feeb96e1bd63eb6c6c6",
+      "before": null
+    },
+    "test/gateway/gateway_enrollment_lifecycle_test.dart": {
+      "after": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6",
+      "before": "78dfd6f1b0722a5adcc5149d0aa4f168638dfaf3927c3d4f35b810f93858b2d9"
+    }
+  },
+  "source_input_count": 2509,
+  "status": "fail",
+  "test_files": 215,
+  "toolchain_matches_pin": true,
+  "web_only_skips_require_separate_browser_evidence": true
+}

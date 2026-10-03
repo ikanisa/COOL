@@ -1,0 +1,23 @@
+{
+  "status": "type_failure",
+  "full_invocations": 1,
+  "elapsed_seconds": 7.042921125001158,
+  "runner_contracts": "77 passed",
+  "frozen_dependency_cache": "passed",
+  "type_files_attempted": 86,
+  "type_result": "fail",
+  "diagnostics": [
+    "TS2783 duplicate ROSTER_AI_APPROVAL_JSON",
+    "TS2785 const-union environmentPatch spread always overwrites this property"
+  ],
+  "affected_source": "scripts/qa/edge_http_runtime_uat.ts",
+  "affected_lines": [
+    1303,
+    1307
+  ],
+  "unit_http_build_linux_regression_security": "not reached",
+  "source_mutation": false,
+  "retry": false,
+  "prior_failures_preserved": true,
+  "proposed_repair": "Represent the separate override map without duplicate object-literal spread; preserve every negative value/deletion and all original assertions. Root review and new execution authorization required."
+}

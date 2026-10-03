@@ -1,0 +1,8 @@
+{
+  "prior_runner_handle": "36026",
+  "handle_revalidation": "Unknown process id",
+  "owned_process_revalidation": "No native export runner or Gradle process live",
+  "retained_successful_build": true,
+  "prior_lint_terminal_result_missing": true,
+  "scope": "Resume remaining local checks only; no rebuild or inferred prior lint success"
+}

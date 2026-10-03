@@ -1,0 +1,11 @@
+{
+  "previous_sha256": "671a96822366595aebbc61f1f2d38b50b0c0bdcf60d3e5d6525e9663ceff4b69",
+  "current_sha256": "7bc81c594a3caae7d58a77f99211cb264f27e9ad7b653a4ed53dcb1239d47497",
+  "only_source_delta": "Inside collectUnsignedLocalQa, marker preBuild dependency now covers each existing production/Gateway build type; previously only Release. Marker payload/directory, release dependency, plugin relocation, generated registrants, permissions and default signing remain byte-identical.",
+  "previous_release_dependency_retained": true,
+  "production_and_gateway_build_types": [
+    "debug",
+    "profile",
+    "release"
+  ]
+}

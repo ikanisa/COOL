@@ -1,0 +1,11 @@
+# Android recovery custody and space admission
+
+Five reviewed files are integrated in the canonical checkout. The new recovery workspace refuses linked roots/parents, dangling links and occupied run IDs. New local copies, manifest/marker writes, raw input capture, extraction and inactive validation repairs check observed free space before writes, leaving a32MiB admission reserve for journal work. Raw input is synced even when capture fails. Previous runs, original ciphertext, original request/callback identities and the active journal remain retained; this slice deletes no recovery evidence and transfers no key or sender authority.
+
+The original four-argument transport read and restore callers are preserved. Offline capacity seams affect only private checks/inactive validation. Active-store behavior remains on its prior path. The space reserve is observed admission, not a guarantee against other filesystem writers, inode exhaustion or physical power loss; any failed operation remains incomplete/inactive.
+
+Actual final commands all exited0: product compilation, affected test compilation, all31 real Android36 API modules, and three affected recovery suites with35 passing cases. All39 selected source/tool/build inputs and371 runtime members remained unchanged through execution. Canonical promotion verified that exact submitted source closure; five old dirty sources are preserved in originals/.
+
+Attempt1 is rejected: real API compilation caught the default-parameter/trailing-lambda break before tests. The original caller signature was restored. Attempt2 passed33 cases/all31 API on preceding source. Peer review then identified unguarded inactive validation repairs; that finding was fixed and attempt3 freshly passed35. Counts are separate scopes and are not added. No whole-candidate, APK/signing, Android handset/Keystore/provider/physical SMS, hosted or release acceptance is asserted.
+
+CANONICAL_ASSOCIATION.json binds submitted files and the actual final result. Each check-attempt contains captured sources, exact command arguments, stdout/stderr and tool/runtime hashes. Driver scripts are retained execution evidence for the original workspace, not an instruction to mutate a different checkout. FILES_SHA256.json seals this finite capsule; it contains no runtime binary copies.

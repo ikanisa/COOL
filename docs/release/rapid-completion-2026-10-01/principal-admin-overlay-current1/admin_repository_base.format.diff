@@ -1,0 +1,12 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/lib/admin/core/admin_repository_base.dart	2026-10-01 15:30:57
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/formatter-candidate/admin_repository_base.dart	2026-10-01 16:15:46
+@@ -93,7 +93,8 @@
+ 
+   Future<Map<String, dynamic>> receiptPrincipalOwnerRequest(
+     AdminReceiptPrincipalBinding original,
+-  ) => throw UnsupportedError('Receipt identity request lookup is unavailable.');
++  ) =>
++      throw UnsupportedError('Receipt identity request lookup is unavailable.');
+ 
+   Future<Map<String, dynamic>> operatingPolicy() =>
+       throw UnsupportedError('Unattended policy service is unavailable.');

@@ -1,0 +1,9 @@
+{
+  "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+  "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+  "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+  "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+  "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+  "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+  "supabase/migrations/20261002030000_receipt_operational_telemetry.sql": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c"
+}

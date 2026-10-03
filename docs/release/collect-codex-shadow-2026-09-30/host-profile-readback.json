@@ -1,0 +1,15 @@
+{
+  "config_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/config.toml",
+  "server_name": "collect-notifications",
+  "enabled_tools": [
+    "collect_notification_health",
+    "collect_list_pending_receipts",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "command_exists": true,
+  "cwd_resolves": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp",
+  "credential_values_printed": false,
+  "lifecycle_tools_enabled": false
+}

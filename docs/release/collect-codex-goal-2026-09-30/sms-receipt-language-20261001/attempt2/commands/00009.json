@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "inspect",
+    "collect_current_rehearsal_language_c8b6da3ee9fe",
+    "--format",
+    "{{json .Config.Labels}}"
+  ],
+  "input_sha256": null,
+  "started_at": "2026-10-01T18:32:01.171989Z",
+  "finished_at": "2026-10-01T18:32:01.187443Z",
+  "exit_code": 0,
+  "stdout_sha256": "59ab3cfeea4c7e828b68a5d9013cc92a6963743df6fed42cc9e3c99388244faf",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,24 @@
+{
+  "history_defines_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/decoder-defines.json",
+  "history_defines_source_sha256": "0b00d41ca255b19bc2674d72f108c2b3f74b69bb628b5a0ba4914a169c684a19",
+  "receipts": {
+    "ADMIN_READ_SQL_RECEIPTS": {
+      "sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/admin_receipts.stdout"
+    },
+    "ROSTER_FRESH_SQL_RECEIPTS": {
+      "sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_fresh.stdout"
+    },
+    "ROSTER_RELOAD_SQL_RECEIPTS": {
+      "sha256": "a0b41c9caca78597c8aa1ad250c2ae8a75e43da934ecb6aca6a5e623fc8377af",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_reload.stdout"
+    },
+    "ROSTER_SQL_RECEIPTS": {
+      "sha256": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_original.stdout"
+    }
+  },
+  "scope": "Separately dated genuine synthetic SQL receipts as decoder compatibility inputs; no current installation claim",
+  "sql_executed": false
+}

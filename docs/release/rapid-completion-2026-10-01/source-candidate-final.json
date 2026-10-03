@@ -1,0 +1,23 @@
+{
+  "all_declared_archive_source_bytes_verified": true,
+  "bound_evidence_file_count": 32,
+  "builds_or_tests_executed_by_packager": false,
+  "created_at_utc": "2026-10-01T12:36:12.805612+00:00",
+  "directory": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-essential-source-candidate-20261001-final",
+  "evidence_index_sha256": "9b30f9520ec7e4cc22edc40865fb4c7f353cbd654f6e3da5398aa56beabf4ec2",
+  "production_release_authorized": false,
+  "reviewed_native_delta": {
+    "android/app/build.gradle.kts": {
+      "captured_sha256": "671a96822366595aebbc61f1f2d38b50b0c0bdcf60d3e5d6525e9663ceff4b69",
+      "final_sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13"
+    }
+  },
+  "shared_checkout_equality_claimed": false,
+  "source_file_count": 1953,
+  "source_manifest_sha256": "1dab770a4025705b29caf33f30c0aeb464e66f4f510993a649bf7a677325f3b5",
+  "status": "frozen_scoped_source_candidate",
+  "stronger_captured_runtime_fences_preserved": true,
+  "zip": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-essential-source-candidate-20261001-final.zip",
+  "zip_bytes": 136487074,
+  "zip_sha256": "9ce5db2981aafb590849ab2652b6fd8423e2b3522e257ea9e07f943459b09280"
+}

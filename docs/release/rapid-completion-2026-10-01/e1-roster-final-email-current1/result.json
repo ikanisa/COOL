@@ -1,0 +1,92 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930213000_operator_email_auth.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930220527_operator_email_cutover_guard.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930233000_sensitive_admin_authority.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930235500_operator_reason_whitespace.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "clone owner is NOSUPERUSER with scheduling and network dispatch disabled",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email cutover fixture has no legacy phone approval",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-10-01T11:52:22.092283+00:00",
+  "database": "collect_local_uat_b57dadec0a2f4820",
+  "failure": "ERROR:  P0002: query returned no rows\nCONTEXT:  PL/pgSQL function collect_hybrid.reserve_roster_resources_guarded_149(uuid,uuid,uuid,text,text,bigint,text) line 18 at SQL statement\nPL/pgSQL function public.reserve_roster_resources(uuid,uuid,uuid,text,text,bigint,text) line 2 at RETURN\nPL/pgSQL function inline_code_block line 2 at assignment\nLOCATION:  exec_stmt_execsql, pl_exec.c:4392\n",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "essential_final_email_roster_actual_sql",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "9cbc62bc7a6a85c33e2606efb731ec13b26c55b3bfd34fa537b845bac254d0eb",
+  "scope": "Final email roster dependency closure only; no full migration replay, provider extraction or exhaustive matrix",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_sha256": {
+    "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/runner.py": "d87c0736872b86809a85e8154c71144555dba4f1fa1e776ff3bbc6cde7ac5577",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f"
+  },
+  "source_table_count": 153,
+  "started_at": "2026-10-01T11:52:18.097081+00:00",
+  "status": "failed"
+}

@@ -1,0 +1,13 @@
+{
+  "declared_jvm_kgp": "2.2.20",
+  "declared_kgp_implementation": "2.0.0",
+  "exact_published_source_match": true,
+  "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/build.gradle.kts",
+  "framework_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "installed_source_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+  "official_source_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+  "reason": "Installed Flutter SDK and its configuration are outside the approved narrow repo pin boundary.",
+  "remediated_by_this_task": false,
+  "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/build.gradle.kts",
+  "version": "3.44.4"
+}

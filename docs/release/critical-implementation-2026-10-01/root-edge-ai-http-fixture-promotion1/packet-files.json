@@ -1,0 +1,9 @@
+{
+  "scope": "Root exact AI HTTP fixture-only promotion; current format failure disclosed, full actual canonical behavior still required.",
+  "files": {
+    "after.ts": "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7",
+    "promotion.json": "162e26601ecd14e4042446976397e1c136b31705ec95f7209064291946b30ab8",
+    "review.json": "927db6d0098e3cae753f401a5b7b6b898c56b6d31b707c696ec7e07c758d5c09",
+    "before.ts": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868"
+  }
+}

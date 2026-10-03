@@ -1,0 +1,14 @@
+[
+  {
+    "fixture": "test/fixtures/observed_runtime_eligibility_v1.json",
+    "source": "proofs/sql240-attempt1/observed-eligibility.json",
+    "source_sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "actual_case_scope": "all25 original observed DTO cases passed; original full command later failed expiry expectation, retained in separate SQL240 packet"
+  },
+  {
+    "fixture": "test/fixtures/observed_sms_language_catalog_v2.json",
+    "source": ".cache/sms-receipt-language-20261001/attempt4/observed-language-catalog-v2.json",
+    "source_sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "actual_case_scope": "actual accepted63case root language250 attempt4; this fixture is one closed catalogue observation"
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "scope": "private four-file admin regression proposal; no maintained or runtime mutation",
+  "files": {
+    "test/admin_route_access_test.dart": {
+      "sha256": "6d197779dc7a265cb12a6565447bffcba389f137101db954f765475a1b106e26",
+      "bytes": 14140
+    },
+    "test/admin_pwa_test.dart": {
+      "sha256": "b2e797a77378084b6a02b77aba6c1f1eaddff61ac4abe0412cc3f8cee137a39a",
+      "bytes": 26852
+    },
+    "scripts/admin_pwa_browser_qa.mjs": {
+      "sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+      "bytes": 60050
+    },
+    "scripts/admin_pwa_authenticated_render_smoke.sh": {
+      "sha256": "796b0445ad3ab570f24eac7b88d9611718e5a40535bf52bef1c1398518c2b343",
+      "bytes": 8717
+    },
+    "lib/admin/admin_router.dart": {
+      "sha256": "676448ed1be8bafaed380696d5306249d486323a7f09b71d5f5f08084ac55943",
+      "bytes": 10873
+    },
+    "lib/admin/core/admin_governed_settings_page.dart": {
+      "sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9",
+      "bytes": 38314
+    },
+    "lib/admin/core/admin_governed_settings_runtime.dart": {
+      "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+      "bytes": 5193
+    },
+    "lib/admin/core/admin_governed_settings_sdk.dart": {
+      "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+      "bytes": 6069
+    },
+    "lib/admin/core/admin_receipt_operational_history_view.dart": {
+      "sha256": "c8718d44296f519d4a77c2081ca08a2bbfcf4deedbca7e5aa689f8a519dd161c",
+      "bytes": 20508
+    },
+    "lib/admin/core/admin_receipt_operational_history_runtime.dart": {
+      "sha256": "e6a661aa0e359bbbb43eadb1e548762a1ce584e8890c27af55fb2bca8466931e",
+      "bytes": 3589
+    },
+    "lib/admin/core/admin_receipt_operational_history_sdk.dart": {
+      "sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33",
+      "bytes": 1099
+    },
+    "lib/admin/core/admin_evidence_mode.dart": {
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+      "bytes": 22003
+    },
+    "lib/admin/core/admin_auth_guard.dart": {
+      "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c",
+      "bytes": 6190
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c",
+      "bytes": 9941
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "bytes": 38513
+    },
+    "lib/admin/shared/components/admin_page.dart": {
+      "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534",
+      "bytes": 4596
+    },
+    "lib/admin/admin_shell.dart": {
+      "sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+      "bytes": 35225
+    },
+    "lib/admin/admin_shell_navigation.dart": {
+      "sha256": "525110030352b7594639f5759c105929b2e48576a4f8dce054adb6a06d25460f",
+      "bytes": 9084
+    },
+    "test/support/settings_fixture.dart": {
+      "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+      "bytes": 8116
+    },
+    "test/support/admin_entity_audit_state_fixture.dart": {
+      "sha256": "4f847c0d018a1b606230dfc5303c0e528d21b78d669774c92e6abe4919938438",
+      "bytes": 2193
+    },
+    "test/support/admin_exception_fixture.dart": {
+      "sha256": "4f7ac29d058553965c7962016cde214b909d3425c702bf827cc5d5cf0efc2539",
+      "bytes": 944
+    },
+    "test/fixtures/observed_runtime_v2.json": {
+      "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+      "bytes": 8648
+    },
+    "test/fixtures/admin_receipt_operational_history_actual/run-unavailable.json": {
+      "sha256": "d070e6e7cf879aecaab9c0618dfc319c8f1315ef1d60bfd33efcbe0aaec61dc8",
+      "bytes": 425
+    },
+    "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-populated.json": {
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b",
+      "bytes": 3702
+    },
+    "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/tests.events.jsonl": {
+      "sha256": "06e539cbefafa5bb770faf595633d3597dbfb05f1bf0c7e4ccc51a78cb1da676",
+      "bytes": 575681
+    },
+    "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/affected41-suites.stdout": {
+      "sha256": "b69378fb60e7bcf31baeb4d0079dd1c2d0561976afb64061311abe23029c635e",
+      "bytes": 275856
+    },
+    "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/affected41-suites.json": {
+      "sha256": "226ac4a7677a17cc2ae5871bf958e2484c42adbdcdd264b04ba47b72357e7441",
+      "bytes": 3782
+    },
+    "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/plan.json": {
+      "sha256": "ed7d8c14c95a9fc9c4560d566bfa3cc53c3d4aa599b343dbace8c781288fcfd4",
+      "bytes": 5826
+    },
+    "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/app-before.json": {
+      "sha256": "727c9c5c0b3ea91fc10315a02f9f4b018002d493162549cfed9083c781f86f9e",
+      "bytes": 2342222
+    }
+  }
+}

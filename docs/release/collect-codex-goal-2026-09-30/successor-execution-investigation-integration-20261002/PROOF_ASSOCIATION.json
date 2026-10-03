@@ -1,0 +1,157 @@
+{
+  "Admin_predecessor": {
+    "Chrome_cases": 6,
+    "VM_widget_cases": 17,
+    "analysis_items": 10,
+    "limits": "Retained first Admin packet; before affected two-module denial correction/shared root mount",
+    "manifest_sha256": "7544c5cdd15606e03ce42246fbf227f148d8a6b637025741e4c96498e2924e71",
+    "terminal_receipts": {
+      "admin3": {
+        "exit_code": 0,
+        "initial_chunk": "202b6c",
+        "session_id": 39767,
+        "terminal_chunk": "21bb4d"
+      },
+      "analysis3": {
+        "exit_code": 0,
+        "initial_chunk": "7388ef",
+        "session_id": 5165,
+        "terminal_chunk": "624d3d"
+      },
+      "browser2": {
+        "exit_code": 0,
+        "initial_chunk": "71f0d2",
+        "session_id": 46448,
+        "terminal_chunk": "f5e0f1"
+      }
+    }
+  },
+  "canonical_mutation_by_capsule": false,
+  "denial_correction": {
+    "analysis_items": 8,
+    "cases": 13,
+    "limits": "Affected SDK/controller denial and unavailable-page clearing; unchanged three modules and closed shapes",
+    "manifest_sha256": "19d240d01bc1c13ca9bd40bde9e37d6a26df052d0e06da20fd8dbdc69ae5023a",
+    "reproduction": {
+      "exit_code": 1,
+      "failure": "protected snapshot retained on server42501",
+      "initial_chunk": "0ac1e2",
+      "session_id": 22202,
+      "terminal_chunk": "063e3b"
+    },
+    "terminal_receipts": {
+      "denial1": {
+        "exit_code": 0,
+        "initial_chunk": "3c6814",
+        "session_id": 76048,
+        "terminal_chunk": "449113"
+      },
+      "denial_analysis1": {
+        "exit_code": 0,
+        "initial_chunk": "28adbc",
+        "session_id": 31414,
+        "terminal_chunk": "31ad52"
+      }
+    }
+  },
+  "failed_mounted_aggregates": [
+    "mounted-attempt1",
+    "mounted-attempt2",
+    "mounted-attempt3",
+    "mounted-attempt4"
+  ],
+  "full208_rehearsal_scope": "separate_root_owned_scope",
+  "full208_source_freeze_sha256": "d5747f242b224c05be86096e98de8bd9bbf908f9b502765162359778ed4b2cf8",
+  "hygiene_correction": {
+    "cases": 12,
+    "command_exit": 0,
+    "command_scope": "Separate actual corrected checker regressions and make authority, not UI rerun",
+    "limits": "Exact inert sibling physical pubspec with one plain package-name field only; design/outward/normal-reference still refused; visual fidelity unverified",
+    "result_sha256": "98a3cf6d232c46731f57cc6e09679465d9dafa81f5a89d150aa637018b4f8516"
+  },
+  "no_combined_unexecuted_aggregate": true,
+  "private_backend": {
+    "canonical_prerequisites": 191,
+    "composed_cases": 49,
+    "composition": [
+      34,
+      11,
+      4
+    ],
+    "fresh_aggregate": false,
+    "limits": "Selected191 predecessor proof; not current208 chronology",
+    "manifest_sha256": "d9c3f928a20fd922378c19d9669b3cdf7649cfbeda9f02168c5ac0fc963775a2",
+    "scopes": [
+      {
+        "actual_passing_cases": 34,
+        "name": "attempt3",
+        "receipt": [
+          90325,
+          "39f3be",
+          "68331c",
+          1
+        ],
+        "result_sha256": "380a02c9bad06348873b7a3e256ee3965e89f0a8d72ef4a4c39ea7e83cfd6bf8"
+      },
+      {
+        "actual_passing_cases": 11,
+        "name": "attempt4_tail",
+        "receipt": [
+          16297,
+          "141db2",
+          "de4b04",
+          1
+        ],
+        "result_sha256": "b2c4c21eb99278c5dc0de76b57db43c274bfb0ad1ff8812310af90ca59dafb81"
+      },
+      {
+        "actual_passing_cases": 4,
+        "name": "attempt5_wait_tail",
+        "receipt": [
+          67953,
+          "241903",
+          "03ba1e",
+          0
+        ],
+        "result_sha256": "40e24bb16b685ada8f1147953cc0c2f4adb89d69683ab14fb4f54707aa9427f9"
+      }
+    ]
+  },
+  "product_tests_rerun": false,
+  "remaining": [
+    "Full UI authenticated route/state/comparator acceptance",
+    "Hosted Auth/permission/RLS/flags/runtime/deployment and read allowlists",
+    "Physical Android sender/provider/device tests and latency/outages",
+    "Signing/store and final production release GO",
+    "Approved subsequent retry/resend/correction authority/evidence",
+    "Full operational recovery/RPO/RTO approval"
+  ],
+  "root_caller": {
+    "current_source_readback": {
+      "mounted-attempt2": {
+        "count": 416,
+        "drift": [
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/check_mounted.py",
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart"
+        ]
+      },
+      "mounted-attempt4": {
+        "count": 415,
+        "drift": []
+      }
+    },
+    "declared_synthetic_boundaries": "Synthetic HTTP/Auth and adapted independent producer join IDs/page sizes; real pinned repository/Auth/PostgREST adapters",
+    "fresh_aggregate_status": "failed_due_to_then_uncorrected_hygiene",
+    "fresh_analysis_exit": 0,
+    "fresh_analysis_items": 2,
+    "fresh_mounted_attempt": "mounted-attempt4",
+    "fresh_mounted_cases": 7,
+    "fresh_test_subcommand_exit": 0,
+    "legacy_case_result": "All8 affected legacy cases passed in retained14passing/1failing command",
+    "retained_affected_legacy_cases": 8,
+    "retained_legacy_aggregate_status": "failed_due_to_one_new_mount_case",
+    "retained_legacy_attempt": "mounted-attempt2",
+    "root_final_association_sha256": "0c59bce821962c1aceb8ee466570d7032d0eb6e7847dbca79b867c92c43222eb"
+  },
+  "status": "root_integrated_scoped_proofs_peer_review_complete"
+}

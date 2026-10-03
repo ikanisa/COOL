@@ -1,0 +1,105 @@
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt:7:40 Unresolved reference 'junit'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt:44:9 Unresolved reference 'assertThrows'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:35:36 Unresolved reference 'junit'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:36:36 Unresolved reference 'junit'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:804:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:807:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:811:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:814:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:825:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:828:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:832:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:835:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:846:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:849:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:867:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:870:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:923:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:966:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:967:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:968:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:969:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:970:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:971:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:977:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:978:17 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:984:13 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:985:13 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:986:13 Unresolved reference 'assertTrue'.
+e: file:///Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt:987:13 Unresolved reference 'assertTrue'.
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':validatePlugins'.
+> Plugin validation failed with 5 problems:
+    - Error: Type 'com.flutter.gradle.tasks.BaseFlutterTask' must be annotated either with @CacheableTask or with @DisableCachingByDefault.
+      
+      Reason: The task author should make clear why a task is not cacheable.
+      
+      Possible solutions:
+        1. Add @DisableCachingByDefault(because = ...).
+        2. Add @CacheableTask.
+        3. Add @UntrackedTask(because = ...).
+      
+      For more information, please refer to https://docs.gradle.org/9.1.0/userguide/validation_problems.html#disable_caching_by_default in the Gradle documentation.
+    - Error: Type 'com.flutter.gradle.tasks.DeepLinkJsonFromManifestTask' must be annotated either with @CacheableTask or with @DisableCachingByDefault.
+      
+      Reason: The task author should make clear why a task is not cacheable.
+      
+      Possible solutions:
+        1. Add @DisableCachingByDefault(because = ...).
+        2. Add @CacheableTask.
+        3. Add @UntrackedTask(because = ...).
+      
+      For more information, please refer to https://docs.gradle.org/9.1.0/userguide/validation_problems.html#disable_caching_by_default in the Gradle documentation.
+    - Error: Type 'com.flutter.gradle.tasks.DeepLinkJsonFromManifestTask' property 'manifestFile' is annotated with @InputFile but missing a normalization strategy.
+      
+      Reason: If you don't declare the normalization, outputs can't be re-used between machines or locations on the same machine, therefore caching efficiency drops significantly.
+      
+      Possible solution: Declare the normalization strategy by annotating the property with either @PathSensitive, @Classpath or @CompileClasspath.
+      
+      For more information, please refer to https://docs.gradle.org/9.1.0/userguide/validation_problems.html#missing_normalization_annotation in the Gradle documentation.
+    - Error: Type 'com.flutter.gradle.tasks.FlutterTask' must be annotated either with @CacheableTask or with @DisableCachingByDefault.
+      
+      Reason: The task author should make clear why a task is not cacheable.
+      
+      Possible solutions:
+        1. Add @DisableCachingByDefault(because = ...).
+        2. Add @CacheableTask.
+        3. Add @UntrackedTask(because = ...).
+      
+      For more information, please refer to https://docs.gradle.org/9.1.0/userguide/validation_problems.html#disable_caching_by_default in the Gradle documentation.
+    - Error: Type 'com.flutter.gradle.tasks.FlutterTask' property 'sourceFiles' is annotated with @InputFiles but missing a normalization strategy.
+      
+      Reason: If you don't declare the normalization, outputs can't be re-used between machines or locations on the same machine, therefore caching efficiency drops significantly.
+      
+      Possible solution: Declare the normalization strategy by annotating the property with either @PathSensitive, @Classpath or @CompileClasspath.
+      
+      For more information, please refer to https://docs.gradle.org/9.1.0/userguide/validation_problems.html#missing_normalization_annotation in the Gradle documentation.
+  For more on how to annotate task properties, please refer to https://docs.gradle.org/9.1.0/userguide/incremental_build.html#sec:task_input_output_annotations in the Gradle documentation.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':compileTestKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 3m 27s

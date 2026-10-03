@@ -1,0 +1,25 @@
+{
+  "actual_seconds": 9.056,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+    "built",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-lock/SDK-source-before-built.json"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T11:13:01.323183+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 59956,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T11:12:52.266385+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+  "timed_out": false
+}

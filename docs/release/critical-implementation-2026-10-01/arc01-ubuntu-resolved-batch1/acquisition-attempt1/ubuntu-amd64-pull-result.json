@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "docker",
+    "pull",
+    "--platform",
+    "linux/amd64",
+    "ubuntu@sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4"
+  ],
+  "completed_at_utc": "2026-10-02T00:22:38.787131+00:00",
+  "deadline_seconds": 180,
+  "elapsed_seconds": 12.2658490419999,
+  "exit_code": 0,
+  "log_sha256": "b73349f677c31694271e0fcb9a324ca1b82146a0e9130fa9ef843724058684e2",
+  "started_at_utc": "2026-10-02T00:22:26.521544+00:00",
+  "timed_out": false
+}

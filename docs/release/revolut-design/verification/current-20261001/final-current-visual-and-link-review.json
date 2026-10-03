@@ -1,0 +1,918 @@
+{
+  "kind": "independent_final_current_public_visual_and_link_review",
+  "status": "pass",
+  "design_authority": "revolut-design",
+  "reviewed_at": "2026-10-01T18:21:48.128174+00:00",
+  "reference": {
+    "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/qa/gallery-20260905/public-marketing-source.png",
+    "sha256": "5fcc359684befb7b64bb5eef7d76e98c7b2b02094ac8eeb5679e4f9ff2edde32",
+    "original_inspected": true,
+    "context": "Selected public-marketing source observed in UK public website cohort,2026-09-05; native and Business/operator captures are separate sources."
+  },
+  "scope": "All15 public route templates are represented by current original desktop captures and45 below-fold regions:24 exact unchanged previously inspected regions reused, changed regions inspected, with actual original viewport tail replacing the wrapped Privacy tail. Six additional current editorial/card/legal regions, current desktop hero/mobile menu, exact font bytes, all internal links and all six long-output original tails verified. Canonical60 route-width+16 share interaction assertions and unchanged-artifact contrast receipts retained. Whole-page pixel equality is not claimed.",
+  "build_dir": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-complete-build",
+  "built_artifact_file_count": 55,
+  "built_artifact_files_sha256": {
+    ".well-known/apple-app-site-association": "ec409598c97bcdd9d2ce7a720b1f4ee908e1c6d41a337ada8f7801f7a084c118",
+    ".well-known/assetlinks.json": "78aa941f4c5c7994abc197938fbe4f831150a9225fe31723c7c56b2a7b07d2d4",
+    "_headers": "697d904099696c1aa4f50c357f4e01dd86657ea67119fc25335b5bbae9292068",
+    "_redirects": "4086472c5292173db288e8f6bf73af902ec1f16b3d3a7da4a25c616e2609569e",
+    "account-deletion/index.html": "d866b515304591b3a63086561a5d59b6cf338520677d215f0174bd4eda28e9c9",
+    "app/index.html": "67ce773f88cbd78b9b695aa069ce02027ce77cc497d44884fe2a14c8b99dce0b",
+    "assets/app-screens/account-deletion-337d4042cdfe.png": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+    "assets/app-screens/group-detail-5b3e6f6b695c.png": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "assets/app-screens/groups-a31269baf19b.png": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+    "assets/app-screens/home-368da90e69cc.png": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+    "assets/app-screens/privacy-57252d6e00f7.png": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+    "assets/app-screens/security-cee237570184.png": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+    "assets/app-screens/terms-71f5644e1234.png": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "assets/marketing/rwanda/banking-together-4b392d8a72b7.webp": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+    "assets/marketing/rwanda/banking-together.png": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+    "assets/marketing/rwanda/community-savings-acf6c9fee7c7.webp": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa",
+    "assets/marketing/rwanda/community-savings.png": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+    "assets/marketing/rwanda/everyday-payments-3aae7f653287.webp": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46",
+    "assets/marketing/rwanda/everyday-payments.png": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+    "assets/marketing/rwanda/kigali-hills-72bbebc09878.webp": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5",
+    "assets/marketing/rwanda/kigali-hills.png": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+    "assets/marketing/rwanda/kigali-woman-hero-eaa4bb6b9ba1.webp": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761",
+    "assets/marketing/rwanda/kigali-woman-hero.png": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+    "assets/marketing/rwanda/shared-goals-dd2861c45187.webp": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170",
+    "assets/marketing/rwanda/shared-goals.png": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "c/index.html": "785eb6dc2157fb8af0e0079d29b17b855ce062afd8150d1ff2780b3c328fd756",
+    "community-groups/index.html": "b8517521e169b0bb0dc5854f9920133b1cc4c036a33fa1190da47e58fcbd42f9",
+    "craas/index.html": "c36413c4a50d2f35a42d1911134e9c294a044277823df55e6575a12e75a999b3",
+    "credit-readiness/index.html": "961f54ff0031f72a49f854a05f4fd485b007815a8f1698c2f587617b25f71f0b",
+    "data-deletion/index.html": "dfaf5de7ba387ed76166f802f2c7d3b91d6a60e73cc82148428091251a417b38",
+    "group-link/index.html": "785eb6dc2157fb8af0e0079d29b17b855ce062afd8150d1ff2780b3c328fd756",
+    "group-savings/index.html": "e3143567e612a44b11a5f4fee8cf211ae3d59133158378a64f721dfeed276d5b",
+    "icons/collect.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "index.html": "6cb028a0c2217e647416617c19dc1ad91cb460fc756a47d852249f2a5470a637",
+    "insurance/index.html": "c417ed12b7c29bd761143618df167394d96119bf44212af0d1f6f0e0dfe5c89a",
+    "manifest.json": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281",
+    "our-partners/index.html": "94a6c7c5ede6c610b4837dec6e7f0c0648e99dd074cc4465076b7699634c52b9",
+    "partners/index.html": "e06fec4acc2dbddbc898568229d1049fc66cbf0774446bdb167e26d19fc988e1",
+    "privacy/index.html": "de3350832163fdb1de862eed50605f7cb9404b2025f143f8da7041f5da112d4b",
+    "protection/index.html": "07f35fd79d9e7a55cc5e480c2e34c2b5124e038fa6cf91a62255b6dc7ee7907a",
+    "revolut.css": "b173547e6967438346a43e0ec22006277fac1a3e2d109ec71f8edd248fc6e463",
+    "robots.txt": "bdc8fa66acc54a60e3413ee05ba6b557162838778fbb33233cff3525a411f44a",
+    "sections.css": "35fc35eaafec4cc215bc8d7239d081e7da7140fca4cbde76c12d546da6e4ec26",
+    "security/index.html": "9b732ffba8b6eb58ddcc1144cd4c7e9446d01f05d0776f082e8fe7fcba45a8e0",
+    "site.js": "45d44bf91a49f6d58cdcba0ff241e3f89ad2af3111a3c570e6da6de3508dd1df",
+    "sitemap.xml": "f72d733d7a24495ad80e5d5f177486240110e70b31b5ca0dc00cbd6660e5c2cd",
+    "styles.css": "2b24a65f6909707c0a6df8c0f7cf1b187d85e4efa20ef49ae6b0f6decee5708e",
+    "terms/index.html": "bcb456b33c5d54a8666421e875cd2328c6a537b2eb835e3d1f543d37a499e539",
+    "trust/index.html": "6e287c01633aa85d653a8874d63ba276d2f7041b6914a905d9ca854ec7ebbc26",
+    "version.json": "7d007cff9cd704c2502f19575d74aedf7ff457f1937317066ef802f9309f0e09"
+  },
+  "fonts": {
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  "font_metadata_sha256": "a088d7ccca941ab3597a85201b24ee7c6606a8ca0ae6afa688ecada756106507",
+  "original_desktop_hero": {
+    "path": ".cache/revolut-design-20260930/public-complete-browser/screenshots/home_desktop_1440x1000.png",
+    "sha256": "ff01e6cbdaeeaa063e6c1093a348f273fd0b00155b144446276e528ae52ed178",
+    "inspected": true
+  },
+  "original_mobile_menu": {
+    "path": ".cache/revolut-design-20260930/public-complete-browser/screenshots/home_mobile_390x844_menu.png",
+    "sha256": "ca9a98476fa04778e28291a34140c154aa1cd7dfaca7d6b3565eddff70304f96",
+    "inspected": true
+  },
+  "routes": [
+    {
+      "route": "/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/home_desktop_1440x1000_full.png",
+      "sha256": "64be8beb29900142d3af4ef630da701dc6866c6ec76bc5af77c723bcfcc47892",
+      "dimensions": [
+        1440,
+        5626
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/home-1.png",
+          "sha256": "b48b2ee4a3a7d2ae93b621e1f7bf76890aed95eac62aa1c380dd88a8b1db9267",
+          "rgba_sha256": "e62797cee308e6ba6ff1e75718fcf05b939cc501423cdc223af0898aa804b24d",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/home-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/home-2.png",
+          "sha256": "bb6c199e4f077d0426805daaf62766da13366e142143eb18213b87010340a12f",
+          "rgba_sha256": "57453ebb100c800c95956e1577ee2f703c32159c109db603e29eb52276cdb7f4",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/home-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/home-3.png",
+          "sha256": "1e54bed5813ced4653489d245ba253d20509ee3ad901d7cac68aa8ee08d58ce0",
+          "rgba_sha256": "4f2f5bf1fc2ede111cacae3460c04ad9b33d891b83d980159cda106b0bc70148",
+          "y": 4626,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/home-3.png",
+          "inspection": "current lossless region inspected"
+        }
+      ]
+    },
+    {
+      "route": "/account-deletion/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/account-deletion_desktop_1440x1000_full.png",
+      "sha256": "2fa7416b27a3b122bf96738e04e07d7022266cfa9ba78e2b0c1ba21c5e5d611f",
+      "dimensions": [
+        1440,
+        4677
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/account-deletion-1.png",
+          "sha256": "a0671381b0bb99db8625f395ddbe59c9a2af760c44abb229624b4011cf788a70",
+          "rgba_sha256": "1ea380cddffac90a403edf856b7c1ca3ab8cba5182a823ac5621af8f988633e2",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/account-deletion-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/account-deletion-2.png",
+          "sha256": "b7fd74f9d18f4f46be2831a1ae096fe98f1b0c1825c686e86b088c9f68cc2a68",
+          "rgba_sha256": "9a5815bf25db81d2333afbfe5f5ba304d3c157387ae64682c01c9908723c3c86",
+          "y": 2000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/account-deletion-2.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/account-deletion-3.png",
+          "sha256": "9a19ab4c727dec63ae26708d987e9cf04e20802e51363592848647b75cf1bec3",
+          "rgba_sha256": "23a3a684c786cb3cb6728a11f2807723696747bd6bb1c9eba099a12195f45182",
+          "y": 3677,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/account-deletion-3.png",
+          "inspection": "current lossless region inspected"
+        }
+      ]
+    },
+    {
+      "route": "/community-groups/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/community-groups_desktop_1440x1000_full.png",
+      "sha256": "65af84bb34863133d8dd1eed8d622bcc6580da6d6f92825ebed934891784df98",
+      "dimensions": [
+        1440,
+        4412
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/community-groups-1.png",
+          "sha256": "4aad936148f8d86fe0347a075e21a432c04f86f6165470ea3682d32507838715",
+          "rgba_sha256": "c442bcc198f413688aa9f8f09654461cda06002e826aafd306e59dfd6594b1ca",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/community-groups-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/community-groups-2.png",
+          "sha256": "bbd434bf76d1a6a98f277eabfd646583ea0431657a5bc29be23c6fa8a7eaa91b",
+          "rgba_sha256": "bff3ccdd4f8c32709e5c8216eddef91dbc9c81abb03cb9cc94aa0fb7b4df5520",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/community-groups-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/community-groups-3.png",
+          "sha256": "6e9255b9408205ff39e7c7776c5f329cc6570ad776392493541d38acddda8fe0",
+          "rgba_sha256": "026f3da559580d6256c85a7c1505f37f25e7a11fccd21d82f8093ba1a020cd27",
+          "y": 3412,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/community-groups-3.png",
+          "inspection": "current lossless region inspected"
+        }
+      ]
+    },
+    {
+      "route": "/craas/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/craas_desktop_1440x1000_full.png",
+      "sha256": "b625219ea978675bb87dcfac5fd1944bf6cea0aa2d457d0eb9f17fd57bdc26fe",
+      "dimensions": [
+        1440,
+        5698
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/craas-1.png",
+          "sha256": "33f446e10eb61802c355ef13d064ee4aad798853913e15f327b7216e92ce052f",
+          "rgba_sha256": "590cee8ac0b0a3f796a3643058681f9822a9ac433f9f890a54c2f2ef4133c177",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/craas-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/craas-2.png",
+          "sha256": "c4b8c7e367fcbd9f9b155bccc6f1b5214b89480b13621888b10e41ce773bfcab",
+          "rgba_sha256": "777aa7f784fcdd9d84608aa7dac407a9ebfd9c8ab9df7c10e88e77301b2d2f50",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/craas-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/craas-3.png",
+          "sha256": "fb06bda7a03d56ca4e24bf281d9e4370df1ed2a1705372dc0566349e770af1e8",
+          "rgba_sha256": "3a89d2ff3e7d56e0ece8630e5598c8dbcb379d07ec636790f24c0618a3c52721",
+          "y": 4698,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/craas-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/credit-readiness/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/credit-readiness_desktop_1440x1000_full.png",
+      "sha256": "9602e3411a0ae06ba50e606c721fee554e5406f9032cb3d36bcce2b4d1d910e2",
+      "dimensions": [
+        1440,
+        5698
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/credit-readiness-1.png",
+          "sha256": "ee2cf1942c831acd858c94c3ec283699111b837617a41dbf39b81bab9e6f6a80",
+          "rgba_sha256": "3ea1cc0116738c1972f32990a4b60c09c0098940cbfab4a074493fb2f8018df8",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/credit-readiness-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/credit-readiness-2.png",
+          "sha256": "766e913fe940716971de54401e150eb142dc9c75b32bb1fc4e20e2e399cc1d91",
+          "rgba_sha256": "411fb19855e55f84f3dca7a613146b272fb15865ff9cd2d812a7a6daf81de3b9",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/credit-readiness-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/credit-readiness-3.png",
+          "sha256": "fb06bda7a03d56ca4e24bf281d9e4370df1ed2a1705372dc0566349e770af1e8",
+          "rgba_sha256": "3a89d2ff3e7d56e0ece8630e5598c8dbcb379d07ec636790f24c0618a3c52721",
+          "y": 4698,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/credit-readiness-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/data-deletion/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/data-deletion_desktop_1440x1000_full.png",
+      "sha256": "21abd0f241817fa030b15b15b74e971da46c090a81a48353da2921eba8c24c5c",
+      "dimensions": [
+        1440,
+        5662
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/data-deletion-1.png",
+          "sha256": "050e77abe6d7c79d09234a9b44c5efa2ab7950c159787af1a6da25cb899385f1",
+          "rgba_sha256": "22d794d0fb7b4fd15240304020b7ad055a5c2f98d76297309526d2acfe2d61df",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/data-deletion-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/data-deletion-2.png",
+          "sha256": "f7349866a3b27f5ab6d1060f95fd27de9cb40c635377658c450f4840758bee1c",
+          "rgba_sha256": "f36da1cfede43f4aa3d31ea8b1da7523e49b1594593b37bcaf8fbc487b514dc4",
+          "y": 2000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/data-deletion-2.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/data-deletion-3.png",
+          "sha256": "bdeab5adc06b5f5c8bf32e9e16b02d1013ffbe644315b2da3173376d3816684b",
+          "rgba_sha256": "ca8538819233df30bd5ed41085dfe19be479ca49ba70d0760bcb3c2a4b95d01a",
+          "y": 4662,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/data-deletion-3.png",
+          "inspection": "current lossless region inspected"
+        }
+      ]
+    },
+    {
+      "route": "/group-savings/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/group-savings_desktop_1440x1000_full.png",
+      "sha256": "0f308cffe735ee2d780219c7892f1b764291ed1bf4e1c13f309c2cc0c85f5760",
+      "dimensions": [
+        1440,
+        5964
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/group-savings-1.png",
+          "sha256": "97ea93c757dbecd8f375ebaa826fbaf516fbfd0c943d361e35820bceab556e36",
+          "rgba_sha256": "029d426c53d98f0e60fdd7498a4492c2860749004bf3511bd52b1bd501d56acf",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/group-savings-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/group-savings-2.png",
+          "sha256": "303ba710ab385086a0a75477f44ff8307552c08657c040c3e20af935e254b137",
+          "rgba_sha256": "69bc7b42bffbf06c5fbef64b058581e649b4d55d7c225054d00083b20f43dc30",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/group-savings-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/group-savings-3.png",
+          "sha256": "fbf0a96f791ab51cfd0f20db84ba81b248eb8ebde507f12858ea71961b5b23b5",
+          "rgba_sha256": "bb8b9bb1a0ef8560adb179b348c11d3503a0f7a93ab101212f89132e514562b4",
+          "y": 4964,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/group-savings-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/insurance/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/insurance_desktop_1440x1000_full.png",
+      "sha256": "6c0ecf1b9ae19491ee1e3de8b20539606dc92d20ce87130a9eb274b897c14137",
+      "dimensions": [
+        1440,
+        5262
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/insurance-1.png",
+          "sha256": "fc5ce7373265a6e93a562ce3bc9d6d181198fd58db395976b96ea49824597897",
+          "rgba_sha256": "24d41084fa5b4ac6a8fd7f16ce9342c64d5b8512267a3a1e4393fc8671bbe058",
+          "y": 1000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/insurance-1.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/insurance-2.png",
+          "sha256": "86950dae6e0cf96373fb033415bd036c5acf1db3bf695afc99525f13363e1a77",
+          "rgba_sha256": "0332b1c53206e206b083a87a6b351a2bb61da8948081be961b872589a5ea90e3",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/insurance-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/insurance-3.png",
+          "sha256": "360577726ef950b84e7cc602500dfb7cd09e05582e4dc3cbff39f2458e660a1b",
+          "rgba_sha256": "1eaec119da25d69bcdd92defd7e13aca8eeb5fc36835cf70cf5e968880f7ec09",
+          "y": 4262,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/insurance-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/our-partners/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/our-partners_desktop_1440x1000_full.png",
+      "sha256": "d8d6fd38e34f1c80a89ed67ce19fbfc09b2f00fedcacaa105a4f5dd0f6849d8b",
+      "dimensions": [
+        1440,
+        5426
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/our-partners-1.png",
+          "sha256": "b9c0e22ad71637b0bc2fdf38baf56c159f82d9dec45509e1a827027721418c7a",
+          "rgba_sha256": "c8795cb56891c3af2c5ad3bcba5604353c3813867ccdbdfb877b55c0fffe0984",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/our-partners-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/our-partners-2.png",
+          "sha256": "620338b06c464de527800d983178e291f2cd8a082a23b57d740424b98524ae34",
+          "rgba_sha256": "4a5d23ae36fe1c577980d319f0a046db75eebde78de00204dd6b56deb54db7e4",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/our-partners-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/our-partners-3.png",
+          "sha256": "45251627f4a8af1db490546346a4fb309b6e3dfa4c05988037c2651624b0a380",
+          "rgba_sha256": "08c09a33f400fa35834016cba211bc83e2fa63c6dd51fade657c04b605607a62",
+          "y": 4426,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/our-partners-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/partners/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/partners_desktop_1440x1000_full.png",
+      "sha256": "440b299d7776199cab70bd07d4ded7690f1b4935edbe0e6169cd9429c86b0796",
+      "dimensions": [
+        1440,
+        5426
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/partners-1.png",
+          "sha256": "18106c32884693e0a2baf04b1d6a9c858b5d067c6b52b42b3457120a2ed8f736",
+          "rgba_sha256": "d28eb763d87c69dd0084dd4ac0aa82bbd7f2faa85efbdc12d793985234b377a9",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/partners-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/partners-2.png",
+          "sha256": "620338b06c464de527800d983178e291f2cd8a082a23b57d740424b98524ae34",
+          "rgba_sha256": "4a5d23ae36fe1c577980d319f0a046db75eebde78de00204dd6b56deb54db7e4",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/partners-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/partners-3.png",
+          "sha256": "45251627f4a8af1db490546346a4fb309b6e3dfa4c05988037c2651624b0a380",
+          "rgba_sha256": "08c09a33f400fa35834016cba211bc83e2fa63c6dd51fade657c04b605607a62",
+          "y": 4426,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/partners-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/privacy/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/privacy_desktop_1440x1000_full.png",
+      "sha256": "927102fd3dd24f1a8e365dc143864415efff9fb9a7079103c25e1c0ca6c0cae2",
+      "dimensions": [
+        1440,
+        17578
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/privacy-1.png",
+          "sha256": "8d2b6342d9c2a6cb33bd431404d09bf455bb23ac2d6798f156b79823dd51f3a9",
+          "rgba_sha256": "02fc817c4ee5185a7e82f2de265f7e9a549d63435da026b712b7e74a81c5fee8",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/privacy-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/privacy-2.png",
+          "sha256": "9849f47019a8ddcab2f62b49ffbfb816c9e4e0a5f6e91afa647b34af393d99a9",
+          "rgba_sha256": "2219a56797b5579e19d006e7b18a63ec300a98c5d220df310d834c9dbad341d6",
+          "y": 2000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/privacy-2.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_desktop_1440x1000_segment-021_y16578.png",
+          "sha256": "7d6b99183a9ada077e30d3baf57219a5e41b5454bc7415527b0ea9026c7ab509",
+          "y": 16578,
+          "inspection": "current original browser viewport tail inspected; supersedes wrapped full-page tail",
+          "capture_kind": "original_browser_viewport"
+        }
+      ],
+      "original_full_page_tail_superseded": true,
+      "superseded_tail_diagnostic_ocr_sha256": "6246a99546478b7e2627fbc55d7928a8d80eaffb8e6632f3deac82b47b108282"
+    },
+    {
+      "route": "/protection/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/protection_desktop_1440x1000_full.png",
+      "sha256": "24b82d38b288bb4420167722bc73f2d431bcd1ef941fde00556d65475411cab6",
+      "dimensions": [
+        1440,
+        3406
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/protection-1.png",
+          "sha256": "f52c3b0472229c90841b35347878474a892265f3fd0ee18c7970947b58b9816d",
+          "rgba_sha256": "366125d8ace88400fc87d113d7c11061dc0fbbb45db498327c54d45542e979a6",
+          "y": 1000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/protection-1.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/protection-2.png",
+          "sha256": "76694440c5e611553b6eef54e457e49e2e8a6335b7e103ba81b729af35cb0406",
+          "rgba_sha256": "940bace64842696e6022d7115fd1051bb49a8740011528137011ec5d90013e43",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/protection-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/protection-3.png",
+          "sha256": "31d1b8245ef473a6eab87030bd1c58718bce72a845886385a206f262b0576d1f",
+          "rgba_sha256": "19bacd64c32c3970ca126a9f4301e8ddb001bfa11940060a0736f225aa9f5b18",
+          "y": 2406,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/protection-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/security/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/security_desktop_1440x1000_full.png",
+      "sha256": "736f2acdad893dff10b7a5e496f3a893de27cd660f78cee9b59ce2f60397dbd5",
+      "dimensions": [
+        1440,
+        3161
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/security-1.png",
+          "sha256": "502be1084be6cf9f09e6f85f03be6a8460c5b46faeb4ef06a2a925fce2a72d80",
+          "rgba_sha256": "96ca35b9aa4631a49eb5b3f31483f40e7309d4332408750f67d1c20a444ba03b",
+          "y": 1000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/security-1.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/security-2.png",
+          "sha256": "6c8a0a54fb81cb4261ef4b947b6e686fade4c0db0b65c6d1cfe5cdd7cbcf0954",
+          "rgba_sha256": "941cee610add8c9b6f804cf303069e1aca959b07d8723d24e34907602a9ccb73",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/security-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/security-3.png",
+          "sha256": "d1a7f8a929623f49f0a1d9e6cd0ea63027aed48e017ef46d8e5ea4aab1bebcc3",
+          "rgba_sha256": "c5aeeb5d1c81fad99182b6f3ca6ecbcebb929709de15343adca5985659e5a2ee",
+          "y": 2161,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/security-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    },
+    {
+      "route": "/terms/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/terms_desktop_1440x1000_full.png",
+      "sha256": "4b5b70fc05d83c4c3b7b6d95bef70fdf16b0c0f79edf5f08a891535ae266e80e",
+      "dimensions": [
+        1440,
+        15175
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/terms-1.png",
+          "sha256": "d362e4e8ade064a23fa06651e98203443c329e68dda61ad373e90b73bf5ef550",
+          "rgba_sha256": "1b360762a1967ca4940d3a2863c946813055a7b26946bebdaf16e017dbb3740a",
+          "y": 1000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/terms-1.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/terms-2.png",
+          "sha256": "159e80a6feb086ba22847aa7050c47a6af6bd87d9f68b5c0058c1ce84e38ebcc",
+          "rgba_sha256": "3985dade65b1f578c583b67255a55887990262c48af25bd22fb0fe002f7efafe",
+          "y": 2000,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/terms-2.png",
+          "inspection": "current lossless region inspected"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/terms-3.png",
+          "sha256": "5ef0b877c0a074791a8480b6084b8c6cee421d75c65013a7c7289d1b49793670",
+          "rgba_sha256": "7b6d08267e0cefd2885e333afe4ad35210ef9ea6b3daa8a66b8d3994cd887a18",
+          "y": 14175,
+          "unchanged_previously_inspected_region": false,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/terms-3.png",
+          "inspection": "current lossless region inspected"
+        }
+      ]
+    },
+    {
+      "route": "/trust/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/trust_desktop_1440x1000_full.png",
+      "sha256": "156cf1bc0df900cd2d6ea618dfae2c3a625f15d8caf4ed3cee6f71fff4f1a3ab",
+      "dimensions": [
+        1440,
+        3161
+      ],
+      "regions": [
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/trust-1.png",
+          "sha256": "502be1084be6cf9f09e6f85f03be6a8460c5b46faeb4ef06a2a925fce2a72d80",
+          "rgba_sha256": "96ca35b9aa4631a49eb5b3f31483f40e7309d4332408750f67d1c20a444ba03b",
+          "y": 1000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/trust-1.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/trust-2.png",
+          "sha256": "6c8a0a54fb81cb4261ef4b947b6e686fade4c0db0b65c6d1cfe5cdd7cbcf0954",
+          "rgba_sha256": "941cee610add8c9b6f804cf303069e1aca959b07d8723d24e34907602a9ccb73",
+          "y": 2000,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/trust-2.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        },
+        {
+          "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/trust-3.png",
+          "sha256": "d1a7f8a929623f49f0a1d9e6cd0ea63027aed48e017ef46d8e5ea4aab1bebcc3",
+          "rgba_sha256": "c5aeeb5d1c81fad99182b6f3ca6ecbcebb929709de15343adca5985659e5a2ee",
+          "y": 2161,
+          "unchanged_previously_inspected_region": true,
+          "prior_region": ".cache/revolut-design-20260930/public-independent-visual-review/consolidated-before/regions/trust-3.png",
+          "inspection": "reused previously inspected exact RGBA pixels"
+        }
+      ]
+    }
+  ],
+  "additional_inspected_regions": [
+    {
+      "route": "/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/home_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/home-product-links.png",
+      "y": 3100,
+      "sha256": "b7ffec1cfa8c73802018021877bf16334ca0da8ad23505c50c857c66169bf0e5",
+      "inspected": true
+    },
+    {
+      "route": "/community-groups/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/community-groups_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/community-supported.png",
+      "y": 2600,
+      "sha256": "52fa4cd90991c6169441e8ab1d5361544bf3cc510e5a85fc2da3d28048b10c06",
+      "inspected": true
+    },
+    {
+      "route": "/privacy/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/privacy_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/privacy-middle.png",
+      "y": 8700,
+      "sha256": "f9771470c0a20678fb58f4b4e7354f1dc022f44364b30936ff1f1e3cadce44ab",
+      "inspected": true
+    },
+    {
+      "route": "/privacy/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/privacy_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_desktop_1440x1000_segment-019_y15696.png",
+      "y": 15696,
+      "sha256": "df9b434560f90435f1cc8fe150ba28cf044434f712dd9214c6931239d8eaf834",
+      "inspected": true,
+      "superseded_lossless_crop": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/privacy-last.png",
+      "capture_kind": "original_browser_viewport",
+      "inspection": "current original viewport replaces portion of long full-page crop beyond safe capture height"
+    },
+    {
+      "route": "/terms/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/terms_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/terms-middle.png",
+      "y": 7600,
+      "sha256": "d367c72e13e4272cc1bae6d9a4c2a08dd52d283bceae11ca5c3e336ed7c0fc39",
+      "inspected": true
+    },
+    {
+      "route": "/terms/",
+      "original": ".cache/revolut-design-20260930/public-complete-browser/screenshots/terms_desktop_1440x1000_full.png",
+      "path": ".cache/revolut-design-20260930/public-independent-visual-review/final-inspection/terms-last.png",
+      "y": 13100,
+      "sha256": "a13d647773628fb07e4d683b31d34034071a82392353317e821c524890541365",
+      "inspected": true
+    }
+  ],
+  "long_page_original_evidence": [
+    {
+      "route": "/privacy/",
+      "viewport": "compact_320x740",
+      "segment_count": 44,
+      "document_height": 26840,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_compact_320x740_segment-044_y26100.png",
+        "sha256": "ceb926a31d89f1339f6c2149fb6bcd77daff50e981cdb73b118a522c0fa45c37",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 320,
+        "height": 740,
+        "requestedScrollY": 26100,
+        "scrollX": 0,
+        "scrollY": 26100,
+        "visibleDocumentInterval": [
+          26100,
+          26840
+        ]
+      }
+    },
+    {
+      "route": "/privacy/",
+      "viewport": "mobile_390x844",
+      "segment_count": 32,
+      "document_height": 22782,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_mobile_390x844_segment-032_y21938.png",
+        "sha256": "e94ba75ac333dced928b8e6b8d3d01d977259f183449d17865de1ec57ad7a3a0",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 390,
+        "height": 844,
+        "requestedScrollY": 21938,
+        "scrollX": 0,
+        "scrollY": 21938,
+        "visibleDocumentInterval": [
+          21938,
+          22782
+        ]
+      }
+    },
+    {
+      "route": "/privacy/",
+      "viewport": "tablet_834x1194",
+      "segment_count": 18,
+      "document_height": 18255,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_tablet_834x1194_segment-018_y17061.png",
+        "sha256": "a444a12965dcd4d0431c8a5d95092fd5779eb8af0e10b204110bd7c8e69e4b17",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 834,
+        "height": 1194,
+        "requestedScrollY": 17061,
+        "scrollX": 0,
+        "scrollY": 17061,
+        "visibleDocumentInterval": [
+          17061,
+          18255
+        ]
+      }
+    },
+    {
+      "route": "/privacy/",
+      "viewport": "desktop_1440x1000",
+      "segment_count": 21,
+      "document_height": 17578,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/privacy_desktop_1440x1000_segment-021_y16578.png",
+        "sha256": "7d6b99183a9ada077e30d3baf57219a5e41b5454bc7415527b0ea9026c7ab509",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 1440,
+        "height": 1000,
+        "requestedScrollY": 16578,
+        "scrollX": 0,
+        "scrollY": 16578,
+        "visibleDocumentInterval": [
+          16578,
+          17578
+        ]
+      }
+    },
+    {
+      "route": "/terms/",
+      "viewport": "compact_320x740",
+      "segment_count": 34,
+      "document_height": 20416,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/terms_compact_320x740_segment-034_y19676.png",
+        "sha256": "c1b8bf0c6c1d96c56241885fdbff6a948f88416eb5a459f892b3f53c77ea6294",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 320,
+        "height": 740,
+        "requestedScrollY": 19676,
+        "scrollX": 0,
+        "scrollY": 19676,
+        "visibleDocumentInterval": [
+          19676,
+          20416
+        ]
+      }
+    },
+    {
+      "route": "/terms/",
+      "viewport": "mobile_390x844",
+      "segment_count": 26,
+      "document_height": 18144,
+      "original_segments_sha256_verified": true,
+      "recorded_scroll_positions_verified": true,
+      "continuous_document_coverage_verified": true,
+      "tail_original_inspected": true,
+      "tail": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/public-long-viewport-originals/screenshots/terms_mobile_390x844_segment-026_y17300.png",
+        "sha256": "387fdeb7746aa189c138358ec82b63b99dc1a02a485ccd696aebb92d11766d51",
+        "captureKind": "original_browser_viewport",
+        "fullPage": false,
+        "width": 390,
+        "height": 844,
+        "requestedScrollY": 17300,
+        "scrollX": 0,
+        "scrollY": 17300,
+        "visibleDocumentInterval": [
+          17300,
+          18144
+        ]
+      }
+    }
+  ],
+  "long_page_capture_report_sha256": "586a5cf69dff790aecd77eba7e00b09e0cfed7def7e0619967aa56e8af5d9ba7",
+  "long_page_execution_sha256": "65be3ae52f1304fb53a389fa36feb73b47dbeb058db0419ec5d486d5c5d18d58",
+  "long_page_actual_tail_ocr_sha256": "8c5940c349fd5f2681a386986a01b4a39f042bc5a4026703b9419573bfd410a7",
+  "capture_pipeline_script": "scripts/public_website_route_rendered_qa.js",
+  "capture_pipeline_script_sha256": "d4f20bdb649ddbf6658a2db26d4a126adbf0aba35d3d22f34a964124e0248da2",
+  "canonical_current_route_report_sha256": "12bc8f5a740fc1a5e3a994fd15e1ce23670893a197aeff56a0a980af89f059f2",
+  "canonical_current_execution_sha256": "9b54989c2c32501d1195d2388a461d298a886c46c5a086c85803708f05ce4c07",
+  "canonical_route_width_count": 60,
+  "canonical_share_case_count": 16,
+  "flat_contrast_report_sha256": "73af791b6f9f484bae8bdb30f8f5b1a219c548ac8760b9458fbb585f03ebfea3",
+  "rendered_photo_contrast_report_sha256": "6ca155c9c1d5372337af49bda81df9aaad8374fa2cccd3dfd6033ebfb588b726",
+  "built_quality_report_sha256": "0fc3f52a43512cb30a640ab8cecb7041166106242fb6a44244fd759a96060717",
+  "internal_link_readback": "final-internal-link-readback.json",
+  "internal_link_readback_sha256": "0a6939805ac312ae462f9aec0d12b8776154d2220ece84b34ac94caeac2b9767",
+  "closed_findings": [
+    {
+      "id": "PUBLIC-STRUCTURAL-PSEUDO-DESCENDANT",
+      "status": "closed",
+      "evidence": "Actual final editorial labels render as separate blocks with12px following spacing; current canonical checks pass at all route widths."
+    },
+    {
+      "id": "PUBLIC-LEGAL-HEADING-SPACING",
+      "status": "closed",
+      "evidence": "Current legal headings preserve source-adapted spacing; final original legal regions and canonical legalHeadingSpacing assertions pass."
+    },
+    {
+      "id": "PUBLIC-STORY-LINK-ROW",
+      "status": "closed",
+      "evidence": "Actual home Explore links occupy their own row; all4 widths contain3 measured links, flex display,12px margin,44px target and15.1875px preceding-content clearance. Current lossless home-product-links region inspected."
+    },
+    {
+      "id": "PUBLIC-LEGAL-SEMANTIC-RENDERING",
+      "status": "closed",
+      "evidence": "Current account/data deletion pages show actual app instructions and supported email request path, remove raw source labels and absent-form promise; final original regions and exact built HTML readback pass. Authored retention/response/partner terms retained by scoped builder delta."
+    },
+    {
+      "id": "PUBLIC-LEGAL-LINK-TARGETS",
+      "status": "closed",
+      "evidence": "All240 current internal anchors and26 fragment anchors resolve in18 built HTML files; the three absent legacy routes are replaced with supported targets."
+    },
+    {
+      "id": "PUBLIC-SUPPORTED-GROUP-CARDS",
+      "status": "closed",
+      "evidence": "All3 desktop supported-group cards have28px on each side; corrected card/font roles and final original card region inspected."
+    },
+    {
+      "id": "PUBLIC-LONG-PAGE-CAPTURE",
+      "status": "closed",
+      "evidence": "Six outputs beyond16000px now have175 original viewport segments with128px overlap, exact PNG hashes/scroll coordinates and complete coverage. Six actual tails inspected and OCR verifies the real Collect footer; no composite or stitched images."
+    }
+  ],
+  "material_visual_or_link_findings": [],
+  "completion_claim": "The scoped final public comparison, all15-template below-fold review, corrected long-page capture evidence and current internal-link readback are complete against the same unchanged55-file artifact."
+}

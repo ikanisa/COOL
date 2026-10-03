@@ -1,0 +1,4 @@
+Analyzing 6 items...                                            
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/features/group_invitation_output_test.dart:97:11 • curly_braces_in_flow_control_structures
+

@@ -1,0 +1,12 @@
+{
+  "cached_binary_inputs_unchanged": true,
+  "regular_file_bytes": 837013917,
+  "regular_file_count": 19994,
+  "scope": "Actual copied cache bytes, modes, complete entry set and internal symlinks; exact locked dependency identities and revisions; guarded path-only workspace relocation. Recorded archive checksums are not download authenticity, toolchain or runtime acceptance.",
+  "status": "pass",
+  "symlink_count": 86,
+  "workspace_bytes_unchanged": false,
+  "workspace_entry_order_changed": true,
+  "workspace_metadata_unchanged": true,
+  "workspace_state_after_build_sha256": "f0fb0d5a49a5dbaf7635a86e0a1bfe803e10f09560a6d287d13eb010f53e52d1"
+}

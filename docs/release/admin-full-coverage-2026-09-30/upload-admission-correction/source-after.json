@@ -1,0 +1,7 @@
+{
+  "change_confined_to_AdminRosterUpload": true,
+  "before_sha256": "2b77f50e50c6808cec41ee45ba009727a7bbecc24fcdc2cd71b1d1f27132b59f",
+  "after_sha256": "4ea3dba7fbce5fe2e153408298becb9a8eefdcaef965e576fb4c52f47f4c1194",
+  "preserved_suffix_sha256": "83558e4e82ae461ade2de2c16c033ecd557380ca97e233a503c9b507d7aab539",
+  "scope": "factory/file-kind MIME and byte-limit helper; no gateway, draft, expiry, session or checkpoint change"
+}

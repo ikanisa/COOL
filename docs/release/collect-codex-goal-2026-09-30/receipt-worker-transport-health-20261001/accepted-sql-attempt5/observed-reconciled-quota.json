@@ -1,0 +1,15 @@
+{
+  "status": "quota_exhausted",
+  "inspected": 0,
+  "checked_at": "2026-10-01T13:03:00.312244Z",
+  "expires_at": "2026-10-01T13:04:30.093699Z",
+  "request_id": "f198175f-577c-4da0-b11d-1e9312a98288",
+  "unobserved": 0,
+  "send_action": false,
+  "resend_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "terminal_observed": 0,
+  "observations_added": 0,
+  "source_scan_complete": false
+}

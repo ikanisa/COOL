@@ -1,0 +1,21 @@
+{
+  "kind": "read_only_complete_application_constraint_trigger_state",
+  "observed_at": "2026-10-01T13:52:29.738437+00:00",
+  "container_name": "collect_current_rehearsal_schema154_private_44f07e88a160",
+  "task_label_verified": true,
+  "network": "none",
+  "published_ports": false,
+  "sql": "begin read only;select jsonb_build_object('application_trigger_count',count(*),'internal_constraint_trigger_count',count(*)filter(where t.tgisinternal),'disabled_application_or_constraint_triggers',count(*)filter(where t.tgenabled='D'),'cron',current_setting('cron.launch_active_jobs'),'net',current_setting('pg_net.batch_size'))from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace f on f.oid=p.pronamespace where n.nspname='public'or n.nspname like 'collect_%'or f.nspname='public'or f.nspname like 'collect_%';rollback;",
+  "sql_sha256": "b0a4128fc1670750bbbedf305dac6b72ba770c219ee32aff69e84a63b7c30d7c",
+  "sql_mutations": false,
+  "shared_called": false,
+  "status": "pass_scoped",
+  "actual": {
+    "net": "0",
+    "cron": "off",
+    "application_trigger_count": 1448,
+    "internal_constraint_trigger_count": 1208,
+    "disabled_application_or_constraint_triggers": 0
+  },
+  "scope": "Actual current185 private schema during only10k fixture seeding; includes internal FK constraint triggers omitted from noninternal catalog observer. Fixture source contains no trigger/constraint alteration."
+}

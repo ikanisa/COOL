@@ -1,0 +1,43 @@
+{
+  "APP_source_epoch": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "canonical_count_modified": false,
+  "current_integrator_manual_decision": "pending",
+  "current_packaging_acceptance": "unverified",
+  "facts": 130,
+  "file_sets": 33,
+  "final_outputs": [
+    {
+      "bytes": 24810,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/acceptance-status.json",
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e"
+    },
+    {
+      "bytes": 95057,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/current-candidate-evidence-index.json",
+      "sha256": "ce06b7c494b19a9d205c96c73eb5d1f15b9e318592d78f38f859a6c5a7950b19"
+    },
+    {
+      "bytes": 11498,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e"
+    }
+  ],
+  "final_private_schema_validation": "PASS",
+  "final_proposed_data": "generated-data3",
+  "future_AAB_required": false,
+  "helper_command_receipt": {
+    "path": "helper-command.json",
+    "sha256": "bb678f3a970dc548a7be3fd70d970d702011ad0a34a9a6079bed99631c8c95e2"
+  },
+  "helper_or_source_or_schema_modified": false,
+  "helper_outputs_retained": "generated-data1",
+  "initial_schema_failure_retained": true,
+  "kind": "sealed_private_PD12_current_index_refresh_execution_preparation",
+  "maintained_writes": false,
+  "original_decision_epoch": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+  "reader_grants_closure": false,
+  "reader_or_tests_executed": false,
+  "recorded_at_utc": "2026-10-02T15:35:52.666623+00:00",
+  "scope": "Private reviewed-helper execution and minimal final data append/correction; root application, actual reader, authority hygiene and manual current epoch review pending.",
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada"
+}

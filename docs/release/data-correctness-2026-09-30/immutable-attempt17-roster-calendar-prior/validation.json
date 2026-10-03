@@ -1,0 +1,178 @@
+{
+  "status": "fail",
+  "command": {
+    "name": "roster-calendar",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/tests.machine.jsonl",
+      "test/admin_roster_calendar_test.dart"
+    ],
+    "started_utc": "2026-09-30T21:31:03.701975+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 23033,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 11.812,
+    "stdout_sha256": "7180d9a68380a489651cb54228cfe163950ab7252fd68ebc7093628059ad7875",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tests": {
+    "runner_completed_successfully": false,
+    "passed": 8,
+    "failed": 15,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-09-31T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-02-30T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2025-02-29T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T24:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:60:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:60Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+24:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+02:60",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00.1234567Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 0000-10-01T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 0001-01-01T00:00:00+01:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 9999-12-31T23:00:00-01:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2026-10-01T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2026-10-01T14:00:00+02:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2024-02-29T12:00:00.123456Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 0001-01-01T00:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 9999-12-31T23:59:59.999999Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-09-31T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:00.0000001Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:01Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01 12:00:00.000Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "equivalent zoned staged expiry accepts exact request ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "source_unchanged": true,
+  "export_unchanged": true,
+  "sdk_unchanged": true,
+  "inputs_sha256": "eadb842bb76ae43fecf954c36d05fba75863735df0582ee504f37268747baa7c",
+  "whole_system_acceptance": false
+}

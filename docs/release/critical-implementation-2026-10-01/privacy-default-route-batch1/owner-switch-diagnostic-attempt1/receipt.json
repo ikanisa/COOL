@@ -1,0 +1,23 @@
+{
+  "started_at": "2026-10-02T00:37:32.161704+00:00",
+  "completed_at": "2026-10-02T00:37:40.548482+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/features/privacy/privacy_default_route_integration_test.dart",
+    "--plain-name",
+    "default guarded route never transfers old reasons or receipt to another owner"
+  ],
+  "exit_code": 1,
+  "source_count": 587,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_test_log_sha256": "a771074aff33addd9143c8ae0067ffaa458bd0007c0e43ebe08a15db5fe9e6e0",
+  "test_source_sha256": "4355fef2f470095634ee63b1a37455cc4f8c7b9d9ec4779d5c65ecb33a50fe2c",
+  "production_approval": false,
+  "hosted_native_acceptance": false,
+  "diagnostic_only": true
+}

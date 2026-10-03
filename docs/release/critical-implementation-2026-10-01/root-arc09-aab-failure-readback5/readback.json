@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-02T13:33:43.161598+00:00",
+  "status": "genuine_offline_configuration_artifact_failure_preserved",
+  "packet_sha256": "a31e56badd78e581bf185c8cd8c6aa6988530ddbffe4f4d1a173105e4da44042",
+  "command_sha256": "1b60256b7c1018c7fa6577953e77d8602e8a7b39c4e8de685a22d04810d44307",
+  "exit_code": 1,
+  "actual_seconds": 40.237,
+  "missing_exact_artifact": "com.android.tools:desugar_jdk_libs_configuration:2.1.4",
+  "first_desugar_JAR_successfully_resolved": true,
+  "observer_error": null,
+  "owned_daemons_absent": true,
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 984,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 1005,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 984,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 1005,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "APP_SDK_protected_failure_guard_completed": true,
+  "protected_paths_unchanged": 68020,
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

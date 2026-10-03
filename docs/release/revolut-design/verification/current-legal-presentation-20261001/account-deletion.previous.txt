@@ -1,0 +1,122 @@
+Delete Your Collect Account | Collect by IKANISA
+Skip to content
+Collect
+by IKANISA
+Menu
+Group Savings
+Insurance
+CRaaS
+Community Groups
+Our Partners
+Trust & Security
+Get the App
+Create Group Saving
+Get in Touch
+ACCOUNT AND DATA DELETION
+Delete your Collect account.
+You may request deletion of your Collect account and associated eligible personal data.
+Get the App
+Create Group Saving
+Get in Touch
+Collect interface preview · Example data
+Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.
+Delete In App
+Heading
+Delete in the app
+Path
+Profile → Settings → Privacy and Security → Delete Account
+Open Collect
+Go to Profile
+Select Settings
+Select Privacy and Security
+Select Delete Account
+Review the consequences
+Verify your identity
+Confirm your request
+Delete Without App
+Heading
+Delete without the app
+Copy
+Complete the form below. You do not need to reinstall the app to submit a deletion request.
+Form
+Submit Label
+Request Account Deletion
+Full name
+Optional field.
+Registered telephone number
+Optional field.
+Registered email address
+Optional field.
+Country
+Optional field.
+Reason for deletion
+Optional field.
+Identity-verification method
+Optional field.
+SMS verification
+Email verification
+Identity document verification
+Support-assisted verification
+I understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation or other product provided by a third party.
+Optional field.
+What Happens Next
+Heading
+What happens next
+Service Target
+We aim to respond within 30 days or within the period required by applicable law.
+We verify your identity.
+We review pending transactions and group responsibilities.
+We tell you if any action is required.
+We delete or anonymise eligible data.
+We retain only records required by law or necessary for security, fraud prevention, disputes and regulatory compliance.
+We confirm when the process is complete.
+Before We Can Complete Deletion
+Heading
+You may need to complete these steps first
+Withdraw or transfer any available balance through the relevant partner institution
+Resolve pending contributions, reversals or disputes
+Transfer a group-administrator role
+Complete or cancel an active credit-readiness handoff
+Download any statements you wish to keep
+Address an active fraud, security or legal investigation
+Data We May Retain
+Heading
+Data we may retain
+Closing
+Where a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.
+Financial transaction and audit records
+KYC and AML records
+Accounting and tax records
+Fraud and security records
+Records needed to resolve disputes or legal claims
+Regulatory reports
+Ledger entries needed to protect the rights of other group members
+Partner Products
+Heading
+Products provided by partners
+Copy
+To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.
+Heading
+Need help?
+Email
+info@ikanisa.com
+Download
+Collect
+or Get in Touch
+Get the App
+Create Group Saving
+Get in Touch
+Collect by IKANISA
+IKANISA Ltd.
+IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply.
+Support:
+info@ikanisa.com
+·
+WhatsApp
++250 795 588 248
+© YEAR IKANISA Ltd.. All rights reserved.
+Privacy
+Terms
+Account deletion
+Data deletion
+Trust

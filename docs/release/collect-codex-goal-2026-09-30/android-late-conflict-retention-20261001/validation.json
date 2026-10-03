@@ -1,0 +1,1120 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "test-compile",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-Xms64m",
+        "-Xmx1g",
+        "-XX:ActiveProcessorCount=2",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/00-kotlin-compiler-embeddable-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/02-kotlin-script-runtime-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/03-kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/05-kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-module-name",
+        "gateway_tests",
+        "-Xfriend-paths=/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes",
+        "-classpath",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "-d",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRetentionMigrationTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 70702,
+      "process_group": 70702,
+      "exit_code": 0,
+      "wall_seconds": 15.490843541999993,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "runner-compile",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-Xms64m",
+        "-Xmx1g",
+        "-XX:ActiveProcessorCount=2",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/00-kotlin-compiler-embeddable-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/02-kotlin-script-runtime-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/03-kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/05-kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-module-name",
+        "gateway_affected_cases",
+        "-classpath",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "-d",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/CurrentCases.kt"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 70733,
+      "process_group": 70733,
+      "exit_code": 0,
+      "wall_seconds": 4.631752792000043,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-continuousConflictsAcross257AttemptsHaveBoundedPagesAndNoLegacyCatalogGrowth",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "continuousConflictsAcross257AttemptsHaveBoundedPagesAndNoLegacyCatalogGrowth"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 70759,
+      "process_group": 70759,
+      "exit_code": 0,
+      "wall_seconds": 62.62893154199992,
+      "stdout_sha256": "383b08e0e9fda9dff3645c1cc8b01ce006775d88c603be0a62ef8a23a47ccf92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71487,
+      "process_group": 71487,
+      "exit_code": 0,
+      "wall_seconds": 19.466821041000003,
+      "stdout_sha256": "8c14d5fdb60a5a4d06040502903e65903ecf2b654b71f28357c21ec60aa6c621",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-everyLatePublicationBoundaryKeepsStopAndRepairsOnlyThePendingOriginal",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "everyLatePublicationBoundaryKeepsStopAndRepairsOnlyThePendingOriginal"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71583,
+      "process_group": 71583,
+      "exit_code": 0,
+      "wall_seconds": 25.246203250000008,
+      "stdout_sha256": "1b214ad1a6bfef01716f461cda75a52d03d3319b5993b7ab1e63e3dc5d9d1d01",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-fixedCeilingWrapIncludesFreshRawDigestBehindPriorCursorAndCrashAdvancementOnlyDelays",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "fixedCeilingWrapIncludesFreshRawDigestBehindPriorCursorAndCrashAdvancementOnlyDelays"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71652,
+      "process_group": 71652,
+      "exit_code": 0,
+      "wall_seconds": 5.1374961249998705,
+      "stdout_sha256": "41c4ba79e57d52c203f227c6bee24871a4f2de945581306de37d05d6dbe162e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-legacyMigrationCopiesFourPerReadRetainsCiphertextAndDoesNotClaimDelivery",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "legacyMigrationCopiesFourPerReadRetainsCiphertextAndDoesNotClaimDelivery"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71663,
+      "process_group": 71663,
+      "exit_code": 0,
+      "wall_seconds": 2.3190227500001583,
+      "stdout_sha256": "8d9bb4a3516d4e78200af59582d8e607aec5d5e66012586afe0e7da96d265a2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-fullLegacyCatalogNeverPreventsNewStopOrExactEvidenceReservation",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "fullLegacyCatalogNeverPreventsNewStopOrExactEvidenceReservation"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71670,
+      "process_group": 71670,
+      "exit_code": 0,
+      "wall_seconds": 0.8857553330001338,
+      "stdout_sha256": "65118be63ed9b2401dc83d2cf68fe32da981114f530d8e9ce84107d7d47ca101",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-missingEvidenceWorkNodesControlsAndTamperedObjectsNeverBecomeEmptySuccessfulPages",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "missingEvidenceWorkNodesControlsAndTamperedObjectsNeverBecomeEmptySuccessfulPages"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71671,
+      "process_group": 71671,
+      "exit_code": 0,
+      "wall_seconds": 2.5711040409998986,
+      "stdout_sha256": "e6016b37b8673c4d88eba017e6ee40c6de46e2ed55e41a15d45fa1c1c8394d5d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateRetentionTest-strictPagesCallbackBindingsAndFullDigestObjectChecksRefuseForgery",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateRetentionTest",
+        "strictPagesCallbackBindingsAndFullDigestObjectChecksRefuseForgery"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71673,
+      "process_group": 71673,
+      "exit_code": 0,
+      "wall_seconds": 0.8759738339999785,
+      "stdout_sha256": "badb1e6dce5c4f7dbaab7546eb3c0d32570e7ed0e04ef5c642660aafde01634b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLateBackendTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLateBackendTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 71678,
+      "process_group": 71678,
+      "exit_code": 0,
+      "wall_seconds": 102.88045816700014,
+      "stdout_sha256": "959794fd3ac2edc8084ca06687ef478c2a2d185b2c0d79fc1e83dee82312dac8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayArchiveStorageTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayArchiveStorageTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 72674,
+      "process_group": 72674,
+      "exit_code": 0,
+      "wall_seconds": 15.631100542000013,
+      "stdout_sha256": "73c8de4a277d0eb623cb5c0a0557d2634377e2afb423d95ba7eaa61a5f52ddc1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayArchiveBackendIntegrationTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 72715,
+      "process_group": 72715,
+      "exit_code": 0,
+      "wall_seconds": 4.382740083000044,
+      "stdout_sha256": "3410bdf678cbeef879e9d39b1cbc38495079cf2d3926b1804593353209156c5e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayDispatchBackendIntegrationTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 72730,
+      "process_group": 72730,
+      "exit_code": 0,
+      "wall_seconds": 10.366980624999997,
+      "stdout_sha256": "8659b4c95b7acfd3654583b81d3c85e9087ec69d8f4ea24ccb00c7d68ef6b620",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayAttemptArchiveBackendTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 72760,
+      "process_group": 72760,
+      "exit_code": 0,
+      "wall_seconds": 21.714320167000096,
+      "stdout_sha256": "95e4796f92f084da19ec319c422081772b8214e538c46c9d7cd59c65fbf0a60b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayJournalArchiveTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayJournalArchiveTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 72999,
+      "process_group": 72999,
+      "exit_code": 0,
+      "wall_seconds": 6.439239542000223,
+      "stdout_sha256": "c3c9ff6842cc16f52e721ffe6a7e340810c945a78e0f0ccbfe49fcf41f345565",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayRetentionMigrationTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayRetentionMigrationTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 73027,
+      "process_group": 73027,
+      "exit_code": 0,
+      "wall_seconds": 8.493671374999849,
+      "stdout_sha256": "cc53a59c7170abbc02a421820812a74fa66ffd46773b4b1dec38bb35a32a72af",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayAttemptArchiveTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/test-classes:/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayAttemptArchiveTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 73046,
+      "process_group": 73046,
+      "exit_code": 0,
+      "wall_seconds": 42.69188149999991,
+      "stdout_sha256": "83029ddce110ba771994f5dff5afdb526b947a9ecfdb295cbd98947f840979e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "android36-api",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-Xms64m",
+        "-Xmx1g",
+        "-XX:ActiveProcessorCount=2",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/00-kotlin-compiler-embeddable-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/02-kotlin-script-runtime-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/03-kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/05-kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-classpath",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/09-android.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/11-flutter_embedding_debug-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/12-lifecycle-common-jvm-2.9.4.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "-d",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/api-classes",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveWire.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/BuildConfig.kt"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 74008,
+      "process_group": 74008,
+      "exit_code": 0,
+      "wall_seconds": 16.95637991600006,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c8e63da361da03e07760a4c5dcbf24263ac2bac6f2305cabd13e9f69a66e2441",
+      "owned_child_reaped": true
+    }
+  ],
+  "suite_counts": {
+    "GatewayLateRetentionTest": 8,
+    "GatewayLateBackendTest": 4,
+    "GatewayArchiveStorageTest": 12,
+    "GatewayArchiveBackendIntegrationTest": 9,
+    "GatewayDispatchBackendIntegrationTest": 6,
+    "GatewayAttemptArchiveBackendTest": 7,
+    "GatewayJournalArchiveTest": 23,
+    "GatewayRetentionMigrationTest": 5,
+    "GatewayAttemptArchiveTest": 35
+  },
+  "case_results": [
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.continuousConflictsAcross257AttemptsHaveBoundedPagesAndNoLegacyCatalogGrowth",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-continuousConflictsAcross257AttemptsHaveBoundedPagesAndNoLegacyCatalogGrowth"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-seventyExactContradictionsOnOneAttemptRetainBodiesAndDeduplicateOnlyExactData"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.everyLatePublicationBoundaryKeepsStopAndRepairsOnlyThePendingOriginal",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-everyLatePublicationBoundaryKeepsStopAndRepairsOnlyThePendingOriginal"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.fixedCeilingWrapIncludesFreshRawDigestBehindPriorCursorAndCrashAdvancementOnlyDelays",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-fixedCeilingWrapIncludesFreshRawDigestBehindPriorCursorAndCrashAdvancementOnlyDelays"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.legacyMigrationCopiesFourPerReadRetainsCiphertextAndDoesNotClaimDelivery",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-legacyMigrationCopiesFourPerReadRetainsCiphertextAndDoesNotClaimDelivery"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.fullLegacyCatalogNeverPreventsNewStopOrExactEvidenceReservation",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-fullLegacyCatalogNeverPreventsNewStopOrExactEvidenceReservation"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.missingEvidenceWorkNodesControlsAndTamperedObjectsNeverBecomeEmptySuccessfulPages",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-missingEvidenceWorkNodesControlsAndTamperedObjectsNeverBecomeEmptySuccessfulPages"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateRetentionTest.strictPagesCallbackBindingsAndFullDigestObjectChecksRefuseForgery",
+      "status": "pass",
+      "command": "tests-GatewayLateRetentionTest-strictPagesCallbackBindingsAndFullDigestObjectChecksRefuseForgery"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateBackendTest.eightyLateReceiptsCrossHotRequestLimitAndEveryBodyGetsOneSignedOriginal",
+      "status": "pass",
+      "command": "tests-GatewayLateBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateBackendTest.recordedWithoutReceiptNeedsLookupAndNewEvidenceAfterCapturedCeilingAppearsAfterWrap",
+      "status": "pass",
+      "command": "tests-GatewayLateBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateBackendTest.unknownFirstFailureDoesNotStarveThreePagesAndNeverGetsAnotherMutationAfterRestart",
+      "status": "pass",
+      "command": "tests-GatewayLateBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLateBackendTest.failedReceiptPublicationKeepsOriginalUntilExactReadLookupAndThenPrunesOnlyThatTransport",
+      "status": "pass",
+      "command": "tests-GatewayLateBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.activeCapacityCanBeFreedWithoutDiscardingAnyUnknownRequest",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.acknowledgedUuidCannotSwitchActionAndUnresolvedUuidCannotSwitchAttempt",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.compactedRequestUuidCannotBeReintroducedAsANewNetworkIntent",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.missingIndexedOriginalReceiptAndChildNeverBecomeUnusedIdentity",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.archiveMarkerWithoutDataNeverBecomesAnEmptyArchive",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.archiveFirstRecoveryFiltersOldActiveFileOnlyAfterExactDigestComparison",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.fsyncedAtomicWriteFailureLeavesUnknownRequestAndDurablePriorArchive",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.hotPublicationAndOriginalAliasCrashesRecoverOnlyExactPendingBodies",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.encryptedArchiveSurvivesReopenWithExactOriginalBodyAndReceipt",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.removedOrChangedLegacyArchiveRowsAreRejectedWithoutChangingCiphertext",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.ciphertextTamperFailsBeforeReadingOrMutatingJournal",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveStorageTest.boundedLegacyMigrationPreservesCiphertextAndClosesNewAdmissionUntilCopied",
+      "status": "pass",
+      "command": "tests-GatewayArchiveStorageTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.mixedRecoveryDoesNotReintroduceArchivedHeartbeatWhenCallbackBecomesRecorded",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.unknownReconciliationDoesNotCompactOrReplay",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.crashBeforeHotPublicationRecoversOriginalForReadOnlyReconciliationWithoutSigningMutation",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.nonSuccessMalformedAndWrongBoundResponsesKeepOriginalUnknownRequest",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.postCommitDisconnectReconcilesOnlyOriginalUuidWithoutMutationReplay",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.newHeartbeatCompactionPreservesLegacyRecordedAndCallbackRows",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.archiveWriteFailureAfterResponseLeavesAnOriginalUuidForReadRecovery",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.exactAuthenticatedHeartbeatArchivesResponseAndOriginalSignedDigest",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayArchiveBackendIntegrationTest.authenticatedPausedRefusalRetainsV2RequestUntilReconciliation",
+      "status": "pass",
+      "command": "tests-GatewayArchiveBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.permanentlyUnknownRequestsDoNotConsumeCallbackUploadBudget",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.malformedArmResultCannotCrossSenderAndOriginalRequestRemainsUnknown",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.lostArmResponseRetainsFsyncedOriginalUUIDAndNeverInvokesOrRearmsOnRead",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.negativeGrantOriginalUUIDReconciliationArchivesOnlyRedactedRecording",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayDispatchBackendIntegrationTest.recordedCallbacksDoNotConsumeBatchAndStarveLaterMultipartObservations",
+      "status": "pass",
+      "command": "tests-GatewayDispatchBackendIntegrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.unknownOriginalLookupPreservesAttemptAndNeverRepeatsArchiveMutation",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.actualSignedBackendArchivesOnlyAfterBothDurableCallbackReplies",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.originalAckLookupAfterLostReplyAndConflictDoesNotStarveContradictoryEvidence",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.lostArchiveReplyUsesExactOriginalUuidLookupAndNeverNewCallbackOrMutation",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.serverAckCommitBeforeLocalConflictRetainsAllHotEvidenceAndAllowsRawReconciliation",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.lateContradictionWhilePausedUploadsOnceAndKeepsOriginalColdEvidence",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveBackendTest.malformedSuccessfulAckBytesRetainUnknownUntilOriginalLookup",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveBackendTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.refusalReceiptDoesNotCreateSendAuthority",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.interruptedPruningRecoversFromDurableArchiveWithoutNetworkReplay",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.fullyAcknowledgedAttemptArchiveKeepsOriginalActiveReservation",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.localDeliveryCallbacksWithoutServerReceiptsNeverArchive",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.conflictingSecondServerReceiptIsRefused",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.unknownReconciliationNeverAllowsArchival",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.encryptedArchiveTamperAndWrongFileContextFailClosed",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.acknowledgedCallbackForWrongAttemptOrFenceCannotArchiveAttempt",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.durableReconciliationCanArchiveTheOriginalRequest",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.malformedArchiveOrDigestIsNeverAnEmptySuccessfulRead",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.archiveFailureLeavesEveryActiveIdentityAndBody",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.archivedAttemptIdentityCannotBeReservedAgainEvenWithoutActiveCopy",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.duplicateAcknowledgementPreservesFirstReceiptAndIdentity",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.malformedOrPrivateResultCannotAuthorizeCompaction",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.acknowledgementCommitsArchiveBeforeFreeingOnlyAcknowledgedRequest",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.legacyRecordedFlagAloneCannotCompact",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.sameRequestChangedBodyDigestFailsBeforeArchiveOrPrune",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.concurrentAcknowledgementsDoNotLoseEitherReceipt",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.unknownAndInvocationExceptionAttemptsNeverArchive",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.callbackReceiptsRemainActiveForExistingDuplicateAndLateEvidenceChecks",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.byteCapacityFailureRetainsOriginalRequest",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.archiveCapacityNeverEvictsOldEvidence",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayJournalArchiveTest.mismatchedDeviceRequestOrActionAcknowledgementsAreRejected",
+      "status": "pass",
+      "command": "tests-GatewayJournalArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayRetentionMigrationTest.interruptedLegacyColdMigrationRepeatsOnlyLocalOriginalPublication",
+      "status": "pass",
+      "command": "tests-GatewayRetentionMigrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayRetentionMigrationTest.everyFirstPublicationWriteBoundaryRepairsOnlyTheSameImmutableObject",
+      "status": "pass",
+      "command": "tests-GatewayRetentionMigrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayRetentionMigrationTest.interruptedCallbackAliasIsRecoveredFromPendingOriginalBeforeAnyReceiptCanPrune",
+      "status": "pass",
+      "command": "tests-GatewayRetentionMigrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayRetentionMigrationTest.legacyColdMigrationReservesOriginalUuidAcrossActionsWithoutChangingCiphertext",
+      "status": "pass",
+      "command": "tests-GatewayRetentionMigrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayRetentionMigrationTest.preUpgradeHotOriginalsMigrateFourAtATimeBeforeNewAdmissionAndRejectChangedAttempt",
+      "status": "pass",
+      "command": "tests-GatewayRetentionMigrationTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.sourceMutationCannotReplaceArchivedOriginalSignedBytes",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.missingOriginalSignedCallbackRequestNeverUsesLocalFlagsAsAck",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.legacyShardWithMissingReferencedEvidenceCannotBecomeNewCapacity",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.encryptedExportIsExactLosslessAndDoesNotEvictTombstone",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.objectBeforeIndexCrashRetainsOriginalsThenExactLookupRepairsCapacityMetadata",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.rejectedOrReplayedAckNeverPrunesEvidence",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.exactStrictAckByteParserAcceptsOnlyBoundedUtf8",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.knownLateCallbackDuplicateNeedsNoNewUploadOrUnpause",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.lateContradictionDurablyStopsAndCannotResumeOrReserve",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.localUnknownAttemptCannotPrepareArchiveEvenWithLocalCallbackFlags",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.missingEstablishedShardIndexNeverResetsCapacityOrIdentity",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.callbacksArrivingBeforeCompactionInvalidateSnapshot",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.unknownLookupNeverCreatesArchiveAuthority",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.exactMultipartAckColdReadbackThenPrunesOnlyKnownActiveEvidence",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.lateConflictOnArchiveFirstRestartRoutesToDurableColdEvidence",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.coldCiphertextTamperFailsClosedOnLookupAndExport",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.inventedDeliveryProofOrSendAuthorityIsRejected",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.coldCommitBeforePruneCrashIsRecoverableWithoutMutationReplay",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.objectBeforeIndexLateConflictIsRetainedAndStopSurvivesRepair",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.missingBothControlFilesNeverErasesEstablishedLateConflictStop",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.forgedArchivedCallbackNonceOrIdentityIsIgnored",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.duplicateContradictionNeverOverwritesOriginalOrAddsAnotherEvent",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.staleKnownSnapshotCannotPrepareAnArchiveAfterCurrentSourceContradicts",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.coldIdentityCanNeverReserveAnotherInvocation",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.compactedUuidCannotChangeActionOrAttemptAndMissingTerminalIsCorruption",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.wrongReceiptFenceDigestAndOriginalUuidCannotCompact",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.atomicFailurePreservesOriginalUnknownIdentityAndActiveAttempt",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.callbackReceiptAcknowledgementsStayHotUntilActualAttemptArchiveClosesThem",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.permissiveJsonCommentsSingleQuotesAndTrailingContentAreRejected",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.immutableColdObjectCannotBeChangedAfterCompaction",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.retainedProtocolAndCallbackAliasesSurviveCompactionAndMissingAliasFailsClosed",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.continuousV1CallbackReceiptsSupportObservationalArchiveWithoutTerminalAuthority",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.incompleteMultipartEvidenceStaysActive",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.missingIndexedColdEvidenceNeverLooksLikeUnusedIdentity",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayAttemptArchiveTest.duplicateAndEscapedDuplicateAckKeysNeverBecomeCompactionAuthority",
+      "status": "pass",
+      "command": "tests-GatewayAttemptArchiveTest"
+    }
+  ],
+  "junit_tests_passed": 109,
+  "source_sha256": {
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+    "android/app/build.gradle.kts": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+    "android/app/src/internal_gateway/AndroidManifest.xml": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63",
+    "android/app/src/main/AndroidManifest.xml": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt": "92fb1e3d8759cce0e23f4e2bc7fec9187b7aba7080c9d169416fb6cffc3b0b9c",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": "61551a4ceba0a7911260175c0810412e7f6da8cb943011450d909bbf957cdb8a",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRetentionMigrationTest.kt": "26ff7700ac3d7ef451f0126ff4841e2e893a7562db91da16a582faaea43abdc2",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": "73c648f4af466d7d78b03a7bb7a3ff08f5315b210d67427e0ccd74ad8119073a",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt": "8c2b7c76422547e507c432c015e7b65599a7f6f2a319b38f9c2bec9e0736c4b2",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt": "29a1c5adf51da63f94909f49b196a8e8b2b476555520668a3b7d401d00a8a830",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt": "0c264f9f8dace9b126b0529b60f69c84c41281906bc5258a1965d4c80c5d2947",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt": "3fabcaf022f8b98f0e2e1f290daef1788054def2fa1d3071d6e446fbfde2010e",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": "8afd14874cbd2434a64a949d39991ded01dd96c8a6a1f0627ae737c2eea42ba6",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "c7f4328a127f3d6c2e90eb63541fe29f8c5b5b7a3530f0204c1f92f4a500572e",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveWire.kt": "62addb08265838b74ebb892239c3c318105c0b47f31a7ecfc3d1622b9543c116",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "59c6a55ff807929aedcdc612e2d45b663cced98f46fa3f005b765d8da235d348",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt": "84a51578060450b2b56827b9e60a4b71500ae7048f36b1ee68530685d5d98441",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": "e6d91ee121752d90365749bb3f3053246035e55b40107fb2a16346e329c5125c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt": "0b8b324a16fce099c981dca0581db0302550fe8ed213dcfdfb1d4e209dfd8c70",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "a3e90aa0060f4dd63ba7b0827bec9b3b0a23935e4b799eda4cef50ffa011d27c"
+  },
+  "source_changes": {
+    "canonical": [],
+    "copied": [],
+    "staging": []
+  },
+  "shim_sha256": {
+    "Resources.kt": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050",
+    "Context.kt": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b",
+    "AtomicFile.kt": "7866768bf9fe610b43eb10a85b1b8d7179b1ba3ac5a868d62f4a9aba2f6617e0",
+    "Keystore.kt": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224",
+    "Os.kt": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e"
+  },
+  "binary_sha256": {
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.3.20/2fac4210c52c27b244305d60b0906e831f49be/kotlin-compiler-embeddable-2.3.20.jar": "976f989d0b5f5d80e8e8a8ad4b73da0bfc27fdd965b9fa38362b2be79ecc1337",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.3.20/ed866de74ad3d49086a27bbd75952cd186479436/kotlin-stdlib-2.3.20.jar": "0ae12504a5040ebaf37703908483420d1a5624dd1d93f357665f8c77c848a01e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.3.20/4831ca1fea87f25bf39891ff56327b23b18c9bfa/kotlin-script-runtime-2.3.20.jar": "6fcdb7da6e65cf8cc43e5aabab94bdcc48825e7933686f8a1bf694eb88f8e00e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar": "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar": "f3d4f5de1c391bbcc20f3b3435ccbac013521e76b6902d7d59635ec15c1f797e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12/junit-4.13.2.jar": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar": "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.json/json/20250517/d67181bbd819ccceb929b580a4e2fcb0c8b17cd8/json-20250517.jar": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
+    "/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a",
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_debug/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/959bcd2039e34cb567dd642ac1a4e8f3a392811c/flutter_embedding_debug-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar": "58ab3f23b06d937a7922b9a66ffaa3da53111e5cc229f9e323d4265bf066e551",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common-jvm/2.9.4/ab739bccdb3541983385af169565c7c035d897e7/lifecycle-common-jvm-2.9.4.jar": "37d89b2101f074ac6c260917dabb185607645ee200aa3018c7c5bde70edcf184",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "jdk_runtime_closure_sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a",
+  "jdk_runtime_entries": 550,
+  "native_source_count": 24,
+  "java": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+  "reused_product_association_sha256": "f13cdd42dcadbacb715dd5db93b138870e20df76b10664267efc673e6d5f5c75",
+  "limitations": [
+    "Fresh109 affected-case proof only; three unchanged heavyweight predecessor cohorts and unrelated pure protocol/safety suites are excluded, not counted as fresh current evidence.",
+    "Synthetic authenticated historical fixture admission does not prove hosted authority, physical device, Keystore, carrier, Gradle, signing, store or portable recovery.",
+    "Canonical sources remain unchanged; root owns promotion.",
+    "Attempt1 interrupted native command is preserved as non-acceptance evidence; its terminal product compile is reused with exact source/shim/dependency/artifact binding."
+  ]
+}

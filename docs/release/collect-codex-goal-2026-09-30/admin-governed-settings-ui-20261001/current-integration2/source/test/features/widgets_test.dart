@@ -1,0 +1,479 @@
+import '../fixtures/collect_repository_fixture.dart';
+
+import 'dart:ui' show SemanticsAction;
+
+import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
+import 'package:collect_app/features/payments/contribution_flow_screen.dart';
+import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/utils/date_format.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
+import 'package:collect_app/shared/widgets/collect_group_cards.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  testWidgets('auth action announces and shows OTP submission progress', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const Scaffold(
+            body: AuthActionDock(
+              embedded: true,
+              otpSent: true,
+              submitting: true,
+              resendRemaining: 12,
+              canSubmit: false,
+              canResend: false,
+              onSubmit: null,
+              onAnotherNumber: null,
+              onResend: null,
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        find.byKey(const ValueKey('auth_submit_progress')),
+        findsOneWidget,
+      );
+      expect(find.text('Verifying code'), findsOneWidget);
+      expect(find.bySemanticsLabel('Verifying code'), findsWidgets);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  test('activity labels use compact Collect IDs', () {
+    expect(compactCollectIdLabel('Collect ID 038491'), '038491');
+    expect(compactCollectIdLabel('Collect member'), 'Collect member');
+  });
+
+  testWidgets('amount entry panel compacts quick amounts and emits selection', (
+    tester,
+  ) async {
+    final controller = TextEditingController(text: '5000');
+    addTearDown(controller.dispose);
+    var selectedAmount = 5000;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AmountEntryPanel(
+            controller: controller,
+            amount: selectedAmount,
+            quickAmounts: const [5000, 10000, 1000000],
+            onQuickAmount: (amount) => selectedAmount = amount,
+            detail: 'Choose a contribution amount.',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('5k'), findsOneWidget);
+    expect(find.text('10k'), findsOneWidget);
+    expect(find.text('1M'), findsOneWidget);
+    expect(find.text('RWF'), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
+
+    final semantics = tester.ensureSemantics();
+    expect(find.semantics.byLabel(RegExp(r'^Amount field$')), findsOne);
+    await tester.tap(find.byType(TextField));
+    await tester.pump();
+    expect(
+      find.semantics.byAction(SemanticsAction.setText),
+      findsOne,
+      reason:
+          'Amount entry must expose one labeled editable semantics node without a duplicate inner field.',
+    );
+
+    expect(
+      find.byType(BackdropFilter),
+      findsNothing,
+      reason: 'Focused amount entry must not build an expensive blur layer.',
+    );
+
+    await tester.tap(find.text('10k'));
+    expect(selectedAmount, 10000);
+    semantics.dispose();
+  });
+
+  testWidgets('group card renders SMS-first details', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: CollectionSummaryCard(
+            collection: CollectCollection(
+              id: 'c1',
+              slug: 'medical',
+              creatorUserId: 'u1',
+              title: 'Medical support',
+              description: 'Help',
+              createdAt: DateTime(2026),
+            ),
+            summary: const CollectionSummary(
+              amountRaisedRwf: 25000,
+              supporterCount: 3,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Medical support'), findsWidgets);
+    expect(find.text('Members'), findsNothing);
+    expect(find.byIcon(CollectIcons.people), findsOneWidget);
+    expect(find.text('3'), findsOneWidget);
+    expect(find.text('Help'), findsNothing);
+    expect(find.text('Auto'), findsNothing);
+  });
+
+  testWidgets('group card tolerates long names and large verified totals', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            width: 320,
+            child: CollectionSummaryCard(
+              collection: CollectCollection(
+                id: 'c-long',
+                slug: 'qa-medical-support',
+                creatorUserId: 'u1',
+                title: 'QA emergency medical support group',
+                description: 'Private group',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 12500000,
+                supporterCount: 128,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('QA emergency medical support group'), findsOneWidget);
+    expect(find.text('RWF 12,500,000'), findsOneWidget);
+    expect(find.text('Members'), findsNothing);
+    expect(find.byIcon(CollectIcons.people), findsOneWidget);
+    expect(find.text('128'), findsOneWidget);
+  });
+
+  testWidgets(
+    'public discovery card preserves its category and collected amount',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light(),
+          home: Scaffold(
+            body: SizedBox(
+              width: 284,
+              child: GroupCard(
+                collection: CollectCollection(
+                  id: 'public-card',
+                  slug: 'public-card',
+                  creatorUserId: 'u1',
+                  title: 'Public building fund',
+                  description: 'Public group',
+                  collectionType: CollectionType.church,
+                  isPublic: true,
+                  createdAt: DateTime(2026),
+                ),
+                summary: const CollectionSummary(
+                  amountRaisedRwf: 35000,
+                  supporterCount: 2,
+                ),
+                variant: GroupCardVariant.publicDiscovery,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Church'), findsOneWidget);
+      expect(find.byType(Image), findsOneWidget);
+      expect(find.byIcon(Icons.lock_rounded), findsNothing);
+      expect(find.byType(BackdropFilter), findsNothing);
+      expect(
+        tester.widget<Text>(find.text('Public building fund')).maxLines,
+        isNull,
+      );
+      expect(find.text('Total collected'), findsNothing);
+      expect(find.text('RWF 35,000'), findsOneWidget);
+      expect(find.text('Members'), findsNothing);
+    },
+  );
+
+  testWidgets('visual group card wraps the full title over photography', (
+    tester,
+  ) async {
+    const title = 'QA private group with a longer community name';
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 360,
+            child: GroupCard(
+              collection: CollectCollection(
+                id: 'visual-card',
+                slug: 'visual-card',
+                creatorUserId: 'u1',
+                title: title,
+                description: 'Owner group',
+                isPublic: true,
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 35000,
+                supporterCount: 2,
+              ),
+              variant: GroupCardVariant.visual,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(BackdropFilter), findsNothing);
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.text('Public'), findsNothing);
+    expect(tester.widget<Text>(find.text(title)).maxLines, isNull);
+    expect(
+      tester.widget<Text>(find.text(title)).overflow,
+      isNot(TextOverflow.ellipsis),
+    );
+  });
+
+  testWidgets('group list panel renders a dense grouped money list', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final groups = [
+        CollectCollection(
+          id: 'church',
+          slug: 'church',
+          creatorUserId: 'u1',
+          title: 'QA private group',
+          description: 'Community group',
+          collectionType: CollectionType.church,
+          createdAt: DateTime(2026),
+        ),
+        CollectCollection(
+          id: 'sport',
+          slug: 'sport',
+          creatorUserId: 'u1',
+          title: 'Kigali Lions away kit',
+          description: 'Supporters group',
+          collectionType: CollectionType.sport,
+          createdAt: DateTime(2026),
+        ),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light(),
+          home: Scaffold(
+            body: SizedBox(
+              width: 390,
+              child: GroupListPanel(
+                collections: groups,
+                summaries: const {
+                  'church': CollectionSummary(
+                    amountRaisedRwf: 35000,
+                    supporterCount: 2,
+                  ),
+                  'sport': CollectionSummary(
+                    amountRaisedRwf: 12000,
+                    supporterCount: 4,
+                  ),
+                },
+                onGroupTap: (_) {},
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(CollectCard), findsOneWidget);
+      expect(find.byType(BackdropFilter), findsNothing);
+      expect(find.byType(Divider), findsOneWidget);
+      expect(find.text('QA private group'), findsOneWidget);
+      expect(find.text('Church'), findsNothing);
+      expect(find.text('2'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel('QA private group, RWF 35,000, 2 contributors'),
+        findsOneWidget,
+      );
+      expect(find.text('RWF 35,000'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel(
+          'Kigali Lions away kit, RWF 12,000, 4 contributors',
+        ),
+        findsOneWidget,
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('dense group list avoids a viewport-spanning backdrop filter', (
+    tester,
+  ) async {
+    final groups = List<CollectCollection>.generate(
+      12,
+      (index) => CollectCollection(
+        id: 'group-$index',
+        slug: 'group-$index',
+        creatorUserId: 'u1',
+        title: 'Community group $index',
+        description: 'Community group',
+        createdAt: DateTime(2026),
+      ),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: GroupListPanel(
+              collections: groups,
+              summaries: {
+                for (final group in groups)
+                  group.id: const CollectionSummary(
+                    amountRaisedRwf: 35000,
+                    supporterCount: 2,
+                  ),
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(CollectCard), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
+    expect(find.byType(RepaintBoundary), findsWidgets);
+    expect(find.text('Community group 11'), findsOneWidget);
+  });
+
+  testWidgets('owned group card uses protected shield, not lock', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 320,
+            child: GroupCard(
+              collection: CollectCollection(
+                id: 'owned-card',
+                slug: 'owned-card',
+                creatorUserId: 'u1',
+                title: 'Owned building fund',
+                description: 'Receiver protected',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 35000,
+                supporterCount: 2,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.lock_rounded), findsNothing);
+  });
+
+  test('Collect date formatter keeps activity timestamps compact', () {
+    expect(
+      formatCollectDateTime(DateTime.utc(2026, 6, 3, 9, 45)),
+      contains('2026'),
+    );
+    expect(
+      formatCollectDateTime(DateTime.utc(2026, 6, 3, 9, 45)),
+      isNot(contains('.')),
+    );
+  });
+
+  testWidgets('Rwanda contribution flow keeps MoMo action pinned', (
+    tester,
+  ) async {
+    final repo = FixtureCollectRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Target account'), findsNothing);
+    expect(find.text('Continue to MoMo'), findsOneWidget);
+    await tester.enterText(find.byType(TextField).first, '6000');
+    await tester.pump();
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('RWF 6,000'), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsOneWidget);
+    expect(find.text('Edit amount'), findsWidgets);
+  });
+
+  testWidgets('Rwanda contribution flow rejects a zero MoMo amount', (
+    tester,
+  ) async {
+    final repo = FixtureCollectRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).first, '0.00');
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller?.text,
+      '',
+    );
+    await tester.enterText(find.byType(TextField).first, '000');
+    await tester.pump();
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller?.text,
+      '0',
+    );
+    final reviewButton = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Continue to MoMo'),
+    );
+    expect(reviewButton.onPressed, isNull);
+    // The keyboard action must still validate instead of preparing a payment.
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.pump();
+
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.text('Enter an amount above RWF 0.'), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsNothing);
+  });
+}

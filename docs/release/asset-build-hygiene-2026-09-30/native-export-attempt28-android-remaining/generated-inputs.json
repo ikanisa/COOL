@@ -1,0 +1,6 @@
+{
+  "android/local.properties": "a61556aeda7a068ca4400d9ad728005ede89057bbb53a5f29aff7e038ae275d7",
+  "source_export_sha256": "bdd3b7b0ec4ca6c738f7921d80aabf6ea7b65541c7a2bc59c07a7558d6738f8d",
+  "tooling_acceptance_sha256": "80bb5399336200e7ecc2d19445bbd82633fe3d9d6b25702855222492b2efbf73",
+  "scope": "Public pinned local SDK configuration derived in isolated export; no private signing/provider files"
+}

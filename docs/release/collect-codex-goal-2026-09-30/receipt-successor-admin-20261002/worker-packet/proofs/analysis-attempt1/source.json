@@ -1,0 +1,23 @@
+{
+  "lib/admin/core/admin_receipt_successor_checkpoint.dart": "464af9b2ce23957dac21d8d16a8c02a524656336c4864ad49b1dd4cdbe5ef20e",
+  "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0",
+  "lib/admin/core/admin_receipt_successor_checkpoint_web.dart": "1fbb04a51a104c3bc5f4011a0a6ae9e8adfdf0a660f657625b2aa9705409eb06",
+  "lib/admin/core/admin_receipt_successor_controller.dart": "e565fe058a04f597d5c970b76323d8c16b96961be35dbd81084ebb59093a086e",
+  "lib/admin/core/admin_receipt_successor_host.dart": "27f9e4567af78df3b84101b16ee702c9255b2a8bc9cd7d06ce65984acced187a",
+  "lib/admin/core/admin_receipt_successor_models.dart": "b7e818d94a688a3455f84d9a52ae492951a7f1916c136a58d56245e32d7ad6e2",
+  "lib/admin/core/admin_receipt_successor_sdk.dart": "8b3288b5b649dcef6f4b6c3b5d592c4a00109d6e88bbd40d0b1492b7399417e4",
+  "lib/admin/core/admin_receipt_successor_view.dart": "7019786b050a744df41c58dbd8885f622b2a3443f5edeb8d3068270443fc1495",
+  "test/admin_receipt_successor_checkpoint_browser_test.dart": "c03ea538e86c8ca3a4611b5c0476b01b887e820608dcd3b649cec793b0b1349d",
+  "test/admin_receipt_successor_host_test.dart": "f4756e0a6f58764f5c47640ae172c7d80b6127afc9d986b951da029763f12fdc",
+  "test/admin_receipt_successor_models_test.dart": "f597c276d9a70c5f49bbe00dcddc3812cd7af6a0ac2b0572fafa1058c4f5bd52",
+  "test/admin_receipt_successor_sdk_controller_test.dart": "fdf210515219e04dd886b8f4d4726c4b2d63f489de577741ce328a5325362c33",
+  "test/admin_receipt_successor_view_test.dart": "8e319ce10c37c35c5138e93938a9b5bfc93215bbbeca635a296c2247b47eeae8",
+  "test/fixtures/successor_approval_read.json": "0e55010a15c4945f91e9ccecb3846bbc2819551ed717b4e969c5f5c55e89abcd",
+  "test/fixtures/successor_approval_receipt.json": "f08dd44240ffaaac751a774fac7bf125eaab1eca027c7951f4a552022db1e2fa",
+  "test/fixtures/successor_closure_inspection.json": "9c6f62efbb90329302eff5132a98c1467f56d87b4d8730b0855e46e8a3772c0a",
+  "test/fixtures/successor_closure_receipt.json": "73e059edf6d9aa618ecf525cccb10b4a9082b4848b53def95b558ad9abb8b1a4",
+  "test/fixtures/successor_lineage_pages.json": "026d1f128952b147468604dc29aa41e3b5d7f4effe83b49ff19fd706121d384f",
+  "test/fixtures/successor_retry_preview.json": "1bbb8b84334ae689d9d9b8d8e4068fde0ee6a9d14b606d38077023b336611f5b",
+  "test/fixtures/successor_revocation_receipt.json": "1fb9884d55cfe22ff2acfe4531cfd02e8c9db455562fcdbe24c1c30cb66fc428",
+  "test/support/successor_fixture.dart": "8ba99bf9d44f27daa282e10169cd279b1eac79ac00be0078d594e8b0efda7972"
+}

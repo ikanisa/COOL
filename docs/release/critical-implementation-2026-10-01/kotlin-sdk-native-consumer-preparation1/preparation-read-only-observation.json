@@ -1,0 +1,59 @@
+{
+  "SDK_or_app_tools_executed": false,
+  "command_configuration_SHA256": "d9c92aab9c5ed4dc5009a571dedf8d307220e946a24b7f0330014667a894a189",
+  "current_app_source_concurrency": "Successor gateway/Admin source changed after earlier Edge137; no future source acceptance or owner freeze inferred.",
+  "exporter_read_only_semantics": {
+    "actual_fixture_test": "test_exporter_selected_SDK_launcher_never_executed",
+    "actual_future_current_source_hold_required": true,
+    "collect_toolchain_subprocess_calls_AST": [
+      "subprocess.check_output([node, \"--version\"], stderr=subprocess.DEVNULL, timeout=5, text=True)"
+    ],
+    "current_tree_acceptance": false,
+    "exact_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py",
+    "retain_source_drift_proposed": false,
+    "reviewed_expected_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "selected_SDK_behavior": "Reads exact bin/cache/flutter.version.json and bin/flutter bytes; only Node --version executes in collect_toolchain. Strict export also executes Git inventory/revision reads.",
+    "source_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "source_snapshot_bound_to_dated17_discovery_hashes": false,
+    "strict_export_source_comparison": true
+  },
+  "immutable_future_root_review_directory_exists": false,
+  "live_PRO_G40": {
+    "device": 16777247,
+    "free_bytes": 9209323520
+  },
+  "live_internal_volume": {
+    "device": 16777232,
+    "free_bytes": 232446390272,
+    "live_floor_bytes": 4294967296,
+    "minimum_free_bytes": 20350276001,
+    "path": "/Users/jeanbosco/Library/Caches"
+  },
+  "observed_UTC": "2026-10-02T02:23:37.647748+00:00",
+  "proposed_consumer_root_absent": true,
+  "protected_originals_actual_readback": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "python_source_compile_only": {
+    "bytecode_files_written": false,
+    "source_files_SHA256": {
+      "apply_native_consumer_cumulative8.py": "aafa57dc4b6604326aa1d89a5069a4640a46a52eeb98b084d312cb7827ff9386",
+      "authenticated_native_consumer_expansion.py": "9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12",
+      "consumer_guards.py": "b8a5ad572a2187cbb8ff210b3d1826193f3308fa7fa569fae54a126d1bb30f90",
+      "publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+      "run_native_consumer.py": "2e9bd43bea3a33ca1747625c761a667efb09691f99624beb83c3822a87dc5117",
+      "test_preparation.py": "53560b334ac53c240554e76262dc3723435a1791d4ec862f9328f5afef1a7f52",
+      "verify_native_consumer_source.py": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+    },
+    "status": "PASS"
+  },
+  "stage_receipt_paths_exact": {
+    "app-export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/app-export-admission.json",
+    "app-lock": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/app-lock-admission.json",
+    "foundation": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/foundation-admission.json",
+    "native": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/native-admission.json",
+    "sdk-lock": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/sdk-lock-admission.json",
+    "startup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/startup-admission.json"
+  }
+}

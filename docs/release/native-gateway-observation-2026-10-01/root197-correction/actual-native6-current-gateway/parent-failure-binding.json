@@ -1,0 +1,4 @@
+{
+  "parent_sha256": "0b574ed78d55bbb30efcadf3c460945f9849c2f63964594873bc9a26da5e45c1",
+  "scope": "Prior unsigned compilation succeeded; full lint refused four real API/permission defects. Reuse only the task-owned isolated cache, not prior source acceptance."
+}

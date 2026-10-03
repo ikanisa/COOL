@@ -1,0 +1,273 @@
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "select set_config('request.jwt.claims','{\"sub\": \"99640000-0000-4000-8000-000000000001\", \"session_id\": \"99640000-0000-4000-8000-000000010001\", \"role\": \"authenticated\", \"aal\": \"aal1\"}',true);",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 2.807 ms  plan:
+{
+  "Query Text": "select count(*)::bigint                      from public.payment_intents intent\n  where intent.contributor_user_id = actor\n    and intent.status = 'pending' and intent.expires_at > now()",
+  "Plan": {
+    "Node Type": "Aggregate",
+    "Strategy": "Plain",
+    "Partial Mode": "Simple",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 559.00,
+    "Total Cost": 559.01,
+    "Plan Rows": 1,
+    "Plan Width": 8,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 334,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Seq Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Relation Name": "payment_intents",
+        "Alias": "intent",
+        "Startup Cost": 0.00,
+        "Total Cost": 534.00,
+        "Plan Rows": 10000,
+        "Plan Width": 0,
+        "Actual Rows": 10000,
+        "Actual Loops": 1,
+        "Filter": "((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) AND (status = 'pending'::public.payment_intent_status) AND (expires_at > now()))",
+        "Rows Removed by Filter": 0,
+        "Shared Hit Blocks": 334,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.012 ms  plan:
+{
+  "Query Text": "select coalesce(jsonb_agg(jsonb_build_object(\n      'id', intent.id,\n      'collection_id', intent.collection_id,\n      'rail', 'rwanda_momo',\n      'amount_minor', intent.expected_amount_rwf,\n      'currency', 'RWF',\n      'receiver_momo_number', receiver.momo_number,\n      'receiver_label', receiver.label,\n      'network', receiver.network,\n      'status', case when intent.status = 'pending' and intent.expires_at <= now()\n        then 'expired' else intent.status::text end,\n      'created_at', intent.created_at,\n      'expires_at', intent.expires_at\n    )), '[]'::jsonb)\n                   from public.payment_intents intent\n    left join lateral (\n      select route.momo_number, route.label, route.network\n      from public.collection_receivers route\n      where route.collection_id = intent.collection_id\n        and route.momo_number_hash = intent.receiver_momo_number_hash\n      order by route.created_at desc, route.id limit 1\n    ) receiver on true\n    where intent.id = p_intent_id and intent.contributor_user_id = actor",
+  "Plan": {
+    "Node Type": "Aggregate",
+    "Strategy": "Plain",
+    "Partial Mode": "Simple",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 16.51,
+    "Total Cost": 16.52,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 2,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Nested Loop",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Join Type": "Left",
+        "Startup Cost": 0.43,
+        "Total Cost": 16.49,
+        "Plan Rows": 1,
+        "Plan Width": 156,
+        "Actual Rows": 0,
+        "Actual Loops": 1,
+        "Inner Unique": false,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Index Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "payment_intents_pkey",
+            "Relation Name": "payment_intents",
+            "Alias": "intent",
+            "Startup Cost": 0.29,
+            "Total Cost": 8.30,
+            "Plan Rows": 1,
+            "Plan Width": 125,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Index Cond": "(id = '99640000-0000-4000-8000-000000099999'::uuid)",
+            "Rows Removed by Index Recheck": 0,
+            "Filter": "(contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid)",
+            "Rows Removed by Filter": 0,
+            "Shared Hit Blocks": 2,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          {
+            "Node Type": "Limit",
+            "Parent Relationship": "Inner",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0.15,
+            "Total Cost": 8.17,
+            "Plan Rows": 1,
+            "Plan Width": 120,
+            "Actual Rows": 0,
+            "Actual Loops": 0,
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "collection_receivers_history_lookup_idx",
+                "Relation Name": "collection_receivers",
+                "Alias": "route",
+                "Startup Cost": 0.15,
+                "Total Cost": 8.17,
+                "Plan Rows": 1,
+                "Plan Width": 120,
+                "Actual Rows": 0,
+                "Actual Loops": 0,
+                "Index Cond": "((collection_id = intent.collection_id) AND (momo_number_hash = intent.receiver_momo_number_hash))",
+                "Rows Removed by Index Recheck": 0,
+                "Shared Hit Blocks": 0,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 13.282 ms  plan:
+{
+  "Query Text": " select collect_member_actions.recent_intents(p_intent_id); ",
+  "Query Parameters": "$1 = '99640000-0000-4000-8000-000000099999'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 1474,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 13.438 ms  plan:
+{
+  "Query Text": "select public.list_current_member_recent_intents('99640000-0000-4000-8000-000000099999');",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 1487,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431

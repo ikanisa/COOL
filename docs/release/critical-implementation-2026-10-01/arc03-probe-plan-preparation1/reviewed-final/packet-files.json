@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "private_unapplied_proposal",
+  "payload_count": 9,
+  "files": {
+    "README.md": {
+      "bytes": 2477,
+      "sha256": "0a59b9942072a3752ec36c916f6d5efa56af24ae264b54783b3a71604b738397"
+    },
+    "preparation.json": {
+      "bytes": 2235,
+      "sha256": "b1f514df45a7f9acb961198c671938372423853364178acf07f9bfb096acf61c"
+    },
+    "proposal.patch": {
+      "bytes": 13479,
+      "sha256": "9e4711a16963a0dd94931c4d08111e12b5cd7172b70ea26ab58b2c7c527820c0"
+    },
+    "proposed/scripts/edge_function_inventory.rb": {
+      "bytes": 10855,
+      "sha256": "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99"
+    },
+    "proposed/scripts/supabase_production_readiness.sh": {
+      "bytes": 62206,
+      "sha256": "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd"
+    },
+    "proposed/scripts/tests/edge_function_inventory_test.rb": {
+      "bytes": 16855,
+      "sha256": "3e149e13958f1552cdbf69ac0dd73e43a67011d8b2556f2abd018fe3ca472b95"
+    },
+    "source-fences.json": {
+      "bytes": 6914,
+      "sha256": "242b8d967bc71d6438270cacd761e6e11cfbe9d5bc1b21bb83d43d4bf17e9f26"
+    },
+    "syntax-readback.json": {
+      "bytes": 1408,
+      "sha256": "80fcc3e20c4323f3ea02b228b5f9b6cefa66555f72cbc39477086d26675f2532"
+    },
+    "test-locale-correction.json": {
+      "bytes": 901,
+      "sha256": "177b8047aaf63016baaf6e9abc144da6639c8dd1a955a769e6420b590459a752"
+    }
+  }
+}

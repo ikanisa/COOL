@@ -1,0 +1,28 @@
+[
+  {
+    "name": "typescript",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "started_at": "2026-10-01T11:33:20.522666+00:00",
+    "finished_at": "2026-10-01T11:33:20.917614+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 60
+  },
+  {
+    "name": "node",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "--experimental-strip-types",
+      "--test",
+      "src/unattended_runner.test.ts",
+      "src/unattended_profile.test.ts"
+    ],
+    "started_at": "2026-10-01T11:33:20.918221+00:00",
+    "finished_at": "2026-10-01T11:33:24.140640+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 60
+  }
+]

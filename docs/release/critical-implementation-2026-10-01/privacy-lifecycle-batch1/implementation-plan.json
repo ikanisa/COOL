@@ -1,0 +1,258 @@
+{
+  "status": "PROPOSED_DESIGN_NOT_IMPLEMENTED_NOT_POLICY_APPROVAL",
+  "boundary": "New private privacy module, exact name subject to root assignment; additive migration after actual current chain. No historical migration rewrite.",
+  "proposed_tables": [
+    {
+      "name": "collect_privacy.subject_principals",
+      "purpose": "Stable justified retained principal with separate removable live Auth association and server-owned lifecycle state.",
+      "fields": [
+        "principal_id",
+        "auth_user_id nullable unique FK",
+        "state",
+        "revision",
+        "restricted_at",
+        "auth_removed_at",
+        "policy_version"
+      ],
+      "constraints": [
+        "Existing financial/member UUIDs and Collect-ID reservations retain meaning.",
+        "Map actual effective FK graph; reviewed reference migration required.",
+        "Direct API grants absent; no auth.uid-only route may expose restricted retained profiles."
+      ]
+    },
+    {
+      "name": "collect_privacy.requests",
+      "purpose": "Verified scoped subject request and idempotent intake.",
+      "fields": [
+        "request_id PK",
+        "principal_id",
+        "kind",
+        "scope_schema_version",
+        "canonical_scope",
+        "scope_sha256",
+        "verification_reference",
+        "policy_version",
+        "state",
+        "revision",
+        "created_at",
+        "response_due_at derived from actual requirement",
+        "bounded_reason_code"
+      ],
+      "constraints": [
+        "Same UUID/subject/scope hash returns same receipt; conflict refuses.",
+        "Equivalent active scope is linked or reused under subject lock.",
+        "Do not store identity documents or plaintext receipt copies."
+      ]
+    },
+    {
+      "name": "collect_privacy.retention_policies",
+      "purpose": "Versioned approved class/action/field policy.",
+      "fields": [
+        "policy_id",
+        "version",
+        "class",
+        "purpose",
+        "basis_reference",
+        "retention_trigger",
+        "approved_horizon nullable",
+        "eligible_action",
+        "eligible_fields",
+        "approval_evidence",
+        "processor_and_copy_scope",
+        "review_rule"
+      ],
+      "constraints": [
+        "No fabricated default horizon.",
+        "Missing approval/eligibility refuses destructive phase."
+      ]
+    },
+    {
+      "name": "collect_privacy.legal_holds",
+      "purpose": "Exact retained scope and audited release.",
+      "fields": [
+        "hold_id",
+        "scope",
+        "basis_reference",
+        "authority_reference",
+        "state",
+        "revision",
+        "started_at",
+        "review_at derived from documented decision",
+        "released_at",
+        "release_evidence"
+      ],
+      "constraints": [
+        "Recheck under row locks before each mutation.",
+        "Hold does not silently exempt unrelated eligible fields."
+      ]
+    },
+    {
+      "name": "collect_privacy.subject_assets",
+      "purpose": "Verified many-to-many subject/field relationship and lineage.",
+      "fields": [
+        "asset_id",
+        "principal_id",
+        "class",
+        "stable_source_key",
+        "field_scope",
+        "lineage_root",
+        "parent_asset_id",
+        "verification_basis",
+        "source_revision_or_hash"
+      ],
+      "constraints": [
+        "Uploading actor/receiver is not automatically the subject of all content.",
+        "Ambiguous name/last-three/hash matches require review; no destructive approximate match."
+      ]
+    },
+    {
+      "name": "collect_privacy.manifest_items",
+      "purpose": "Frozen exact planned field/copy disposition.",
+      "fields": [
+        "item_id",
+        "request_id",
+        "asset_id",
+        "source_key",
+        "source_version_or_hash",
+        "field_scope",
+        "policy_version",
+        "hold_decision_reference",
+        "action",
+        "state",
+        "result_receipt_id"
+      ],
+      "constraints": [
+        "No raw body/document duplication in manifest.",
+        "Source or policy drift requires refusal/replan; no silent scope expansion."
+      ]
+    },
+    {
+      "name": "collect_privacy.execution_claims",
+      "purpose": "Bounded phase execution and recovery.",
+      "fields": [
+        "claim_id",
+        "request_id",
+        "phase",
+        "expected_revision",
+        "fence",
+        "lease_expires_at",
+        "attempt",
+        "checkpoint",
+        "outcome_code"
+      ],
+      "constraints": [
+        "Dedicated executor, no broad service-role table write grants.",
+        "Ordered locking aligned with existing SID/authority/source locks.",
+        "Measured item/time/resource bounds; no unbounded loop.",
+        "Lost acknowledgement resumes from recorded outcome."
+      ]
+    },
+    {
+      "name": "collect_privacy.disposition_receipts",
+      "purpose": "Append-only minimized evidence of actual results.",
+      "fields": [
+        "receipt_id",
+        "request_id",
+        "item_id",
+        "action_code",
+        "pre_version_or_hash",
+        "post_state_or_hash",
+        "counts",
+        "policy_and_hold_references",
+        "attempt_reference",
+        "recorded_at"
+      ],
+      "constraints": [
+        "No original PII/body included.",
+        "Failed/skipped/missing result cannot satisfy completed scope."
+      ]
+    },
+    {
+      "name": "collect_privacy.copy_jobs",
+      "purpose": "Device/processor/Storage/export/backup child dispositions.",
+      "fields": [
+        "copy_job_id",
+        "request_id",
+        "controlled_system_reference",
+        "object_or_version_scope",
+        "idempotency_key",
+        "state",
+        "attempt_receipt",
+        "actual_confirmation_reference",
+        "retained_basis"
+      ],
+      "constraints": [
+        "Provider ACK is not deletion proof.",
+        "Offline device, uncertain transmission and inaccessible export remain outstanding.",
+        "Do not erase shared keys protecting justified retained material."
+      ]
+    },
+    {
+      "name": "collect_privacy.restore_tombstones",
+      "purpose": "Durable minimal exclusion applied before restored data is exposed.",
+      "fields": [
+        "principal_or_asset_reference",
+        "field_scope",
+        "effective_revision",
+        "policy_and_request_reference",
+        "restore_verification_receipt"
+      ],
+      "constraints": [
+        "Independent of restoring an older database snapshot.",
+        "Reapply before access, ingest, parser, dispatch or provider workers resume.",
+        "Tombstones remain personal/linkable and require purpose/access policy."
+      ]
+    }
+  ],
+  "proposed_apis": [
+    {
+      "name": "request_privacy_lifecycle_v1",
+      "caller": "verified live subject or governed assisted verifier",
+      "contract": "Bounded request UUID/kind/scope/hash/expected revision/reason code; subject derived from trusted identity; replay exact request, conflict changed payload; return safe status receipt."
+    },
+    {
+      "name": "get_privacy_request_status_v1",
+      "caller": "verified subject or capability-scoped operator",
+      "contract": "Return only own safe stage, dispositions, justified retained grounds and outstanding copies; no internal customer body or other subject identity."
+    },
+    {
+      "name": "claim_privacy_phase_v1",
+      "caller": "dedicated internal executor only",
+      "contract": "Validated bounded item/time budget, ordered locks, policy/hold/source recheck and current lease/fence; return minimum exact items."
+    },
+    {
+      "name": "redact_privacy_manifest_item_v1",
+      "caller": "dedicated internal executor only",
+      "contract": "Actual locked request/manifest authority; exact columns only; reject ordinary role, forged GUC and non-current claim. Preserve origin/dedup/financial/dispatch proof per approved basis."
+    },
+    {
+      "name": "record_privacy_copy_outcome_v1",
+      "caller": "specific bounded system adapter",
+      "contract": "Bind exact child idempotency key, object/device/processor scope and actual confirmation; uncertain outcome stays pending."
+    },
+    {
+      "name": "verify_privacy_scope_completion_v1",
+      "caller": "independent verifier/operator capability",
+      "contract": "Fail on incomplete items/copies/source drift; return scoped eligible-erasure confirmation and separately listed justified retention; never infer completion from pending request or timeout."
+    }
+  ],
+  "phase_order": [
+    "intake_and_replay",
+    "identity_verification",
+    "safe_ordinary_access_restriction",
+    "policy_hold_and_subject_graph",
+    "frozen_manifest",
+    "bounded_database_and_derivative_transitions",
+    "Auth_Storage_and_exact_owner_local_dispositions",
+    "processor_export_replica_backup_child_outcomes",
+    "readback_and_financial_invariance",
+    "scoped_completion_and_response"
+  ],
+  "authority_limits": [
+    "No backend source edited in discovery.",
+    "No new legal horizon, policy approval, human owner or provider permission assigned.",
+    "Actual effective catalog and current source closure required before implementation.",
+    "Root must coordinate live writers and explicitly assign each write boundary.",
+    "Native/hosted/provider effects require independent evidence."
+  ]
+}

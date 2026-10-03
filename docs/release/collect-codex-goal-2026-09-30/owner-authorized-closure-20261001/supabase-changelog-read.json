@@ -1,0 +1,8 @@
+{
+  "url": "https://supabase.com/changelog.md",
+  "observed_at": "2026-10-01T10:03:14.705058+00:00",
+  "response_sha256": "9c74cb64f0176a6dfffb5dace0f084a18f843fcb7ac8d5c00dd95be86b737bce",
+  "breaking_change_tagged_lines": 12,
+  "review_scope": "Auth configuration, privileged functions, migration administration",
+  "hosted_changes": false
+}

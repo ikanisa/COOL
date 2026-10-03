@@ -1,0 +1,24 @@
+{
+  "payload_files": [
+    {
+      "bytes": 25956,
+      "path": "acceptance-status.json",
+      "sha256": "528bd8e529d0ceb813d4ec9ecbf5f287e0d285c9ebe85aa9121d6e0c0df8c0e8"
+    },
+    {
+      "bytes": 96635,
+      "path": "current-candidate-evidence-index.json",
+      "sha256": "381f5cbf577ac8cbd4d88a27e3e74b399edde5b1bc456cc6557c51c39e462cf9"
+    },
+    {
+      "bytes": 11498,
+      "path": "current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e"
+    },
+    {
+      "bytes": 4232,
+      "path": "review.json",
+      "sha256": "b54a7b00070dbed44b777a05d028ce7c81c3c5919fc2387e19153f3d9b012c56"
+    }
+  ]
+}

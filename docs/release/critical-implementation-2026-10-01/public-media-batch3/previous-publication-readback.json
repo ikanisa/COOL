@@ -1,0 +1,41 @@
+{
+  "observed_at_utc": "2026-10-02T00:03:49.739431+00:00",
+  "scope": "Exact previous current media originals, metadata and asset hash record preserved before any batch3 publication. No source, original sealed packet or rights approval changes.",
+  "source_sha256_before": {
+    "web/public/app-screens/account-deletion-337d4042cdfe.png": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+    "web/public/app-screens/capture-provenance.json": "047259c317c5880d6bdaba8105a25c54b36716df987e115ac52671c02b946a67",
+    "web/public/app-screens/group-detail-5b3e6f6b695c.png": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "web/public/app-screens/groups-a31269baf19b.png": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+    "web/public/app-screens/home-368da90e69cc.png": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+    "web/public/app-screens/manifest.json": "fbcdb8602e4c5f85992ecb64eb79d8cda61da88335884480d893242dc47b4e0f",
+    "web/public/app-screens/privacy-57252d6e00f7.png": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+    "web/public/app-screens/security-cee237570184.png": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+    "web/public/app-screens/terms-71f5644e1234.png": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "34bead86f83806bb6a4bfab88457c69afe03cbcec65e53dab323455d56c25cf1"
+  },
+  "source_sha256_after": {
+    "web/public/app-screens/account-deletion-337d4042cdfe.png": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+    "web/public/app-screens/capture-provenance.json": "047259c317c5880d6bdaba8105a25c54b36716df987e115ac52671c02b946a67",
+    "web/public/app-screens/group-detail-5b3e6f6b695c.png": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "web/public/app-screens/groups-a31269baf19b.png": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+    "web/public/app-screens/home-368da90e69cc.png": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+    "web/public/app-screens/manifest.json": "fbcdb8602e4c5f85992ecb64eb79d8cda61da88335884480d893242dc47b4e0f",
+    "web/public/app-screens/privacy-57252d6e00f7.png": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+    "web/public/app-screens/security-cee237570184.png": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+    "web/public/app-screens/terms-71f5644e1234.png": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "34bead86f83806bb6a4bfab88457c69afe03cbcec65e53dab323455d56c25cf1"
+  },
+  "unchanged_during_preservation": true,
+  "preserved_files": {
+    "web/public/app-screens/account-deletion-337d4042cdfe.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/account-deletion-337d4042cdfe.png",
+    "web/public/app-screens/capture-provenance.json": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/capture-provenance.json",
+    "web/public/app-screens/group-detail-5b3e6f6b695c.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/group-detail-5b3e6f6b695c.png",
+    "web/public/app-screens/groups-a31269baf19b.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/groups-a31269baf19b.png",
+    "web/public/app-screens/home-368da90e69cc.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/home-368da90e69cc.png",
+    "web/public/app-screens/manifest.json": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/manifest.json",
+    "web/public/app-screens/privacy-57252d6e00f7.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/privacy-57252d6e00f7.png",
+    "web/public/app-screens/security-cee237570184.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/security-cee237570184.png",
+    "web/public/app-screens/terms-71f5644e1234.png": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/web/public/app-screens/terms-71f5644e1234.png",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "docs/release/critical-implementation-2026-10-01/public-media-batch3/previous-publication-before-mutation/assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256"
+  }
+}

@@ -1,0 +1,13 @@
+test_export_binding_foreign_source_fence_refused (__main__.NativeAdmissionTests.test_export_binding_foreign_source_fence_refused) ... ok
+test_failed_app_lock_predecessor_refused (__main__.NativeAdmissionTests.test_failed_app_lock_predecessor_refused) ... ok
+test_foreign_or_old_app_lock_predecessor_refused (__main__.NativeAdmissionTests.test_foreign_or_old_app_lock_predecessor_refused) ... ok
+test_multiple_stage_receipt_refused (__main__.NativeAdmissionTests.test_multiple_stage_receipt_refused) ... ok
+test_old_foreign_export_binding_producer_refused (__main__.NativeAdmissionTests.test_old_foreign_export_binding_producer_refused) ... ok
+test_only_genuine_guard2_whole_pass_and_fresh_export_fixture_admits (__main__.NativeAdmissionTests.test_only_genuine_guard2_whole_pass_and_fresh_export_fixture_admits) ... ok
+test_other_stage_and_foundation_child_refused_before_packet_reads (__main__.NativeAdmissionTests.test_other_stage_and_foundation_child_refused_before_packet_reads) ... ok
+test_parser_only_native_and_original_full_native_contract_unchanged (__main__.NativeAdmissionTests.test_parser_only_native_and_original_full_native_contract_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.065s
+
+OK

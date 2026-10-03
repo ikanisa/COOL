@@ -1,0 +1,8 @@
+{
+  "export_manifest_file_sha256": "e4c9918306ed58cd1c886c41c6376b2ef90edc615a43fb844af159ed473b80f3",
+  "original_app_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "production_release_approval": false,
+  "source_fence_sha256": "26551abe8cfac6a260eb4ec233d25d5771d138e3c3c110e743fef45bf57a6f3a",
+  "source_lock_attested": false,
+  "source_manifest_sha256": "35c211fca20bddeabaf831de904b9a129275e2eb3fd10041704801fe59aabd62"
+}

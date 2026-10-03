@@ -1,0 +1,11 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/proposed-commands.json
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/proposed-commands.json
+@@ -111,7 +111,7 @@
+   "exporter_Node_version_execution_disclosed": true,
+   "exporter_no_Flutter_execution_source_verified": true,
+   "foundation_deadline_seconds": 600,
+-  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review3",
++  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review4",
+   "later_stage_requires_root_pinned_predecessor_terminal": true,
+   "live_free_floor_bytes": 4294967296,
+   "minimum_free_bytes": 20350276001,

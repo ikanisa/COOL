@@ -1,0 +1,115 @@
+--- a/scripts/qa/edge_http_runtime_uat.ts
++++ b/scripts/qa/edge_http_runtime_uat.ts
+@@ -5,6 +5,7 @@
+ import { hmacSha256Hex } from "../../supabase/functions/_shared/hmac.ts";
+ import { normalizeRosterCandidates } from "../../supabase/functions/_shared/roster_import.ts";
+ import { ROSTER_DECODER_TOOLCHAIN } from "../../supabase/functions/_shared/roster_decoder.ts";
++import { syntheticRosterAiApproval } from "../../supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts";
+ 
+ // Literal imports let the frozen graph bind the same real handlers that are
+ // loaded after Deno.serve is redirected to the owned loopback listeners. A
+@@ -531,6 +532,22 @@
+ });
+ servers.push(decoder);
+ 
++// Synthetic approval only: bind the actual local fixture receipt tuple.
++// It represents no owner/vendor acceptance and does not enable provider access.
++const decoderUrl = `http://127.0.0.1:${decoder.addr.port}/decode`;
++const rosterModel = "synthetic-model";
++const rosterApproval = await syntheticRosterAiApproval(
++  rosterModel,
++  decoderUrl,
++  decoderBuild,
++);
++const rosterApprovalEnvironment = Object.freeze({
++  ROSTER_AI_APPROVAL_JSON: rosterApproval.aiApprovalJson,
++  ROSTER_AI_APPROVAL_SHA256: rosterApproval.aiApprovalSha256,
++  OPENAI_ORGANIZATION_ID: rosterApproval.openAiOrganizationId,
++  OPENAI_PROJECT_ID: rosterApproval.openAiProjectId,
++});
++
+ for (
+   const [key, value] of Object.entries({
+     SUPABASE_URL: `http://127.0.0.1:${backend.addr.port}`,
+@@ -544,10 +561,11 @@
+     WHATSAPP_AUTH_TEMPLATE_LANGUAGE: "en_US",
+     WHATSAPP_CLOUD_API_TOKEN: "qa-disabled-provider",
+     WHATSAPP_PHONE_NUMBER_ID: "1234",
+-    ROSTER_DECODER_URL: `http://127.0.0.1:${decoder.addr.port}/decode`,
++    ROSTER_DECODER_URL: decoderUrl,
+     ROSTER_DECODER_SECRET: decoderSecret,
+     ROSTER_DECODER_BUILD_SHA256: decoderBuild,
+-    OPENAI_ROSTER_MODEL: "synthetic-model",
++    OPENAI_ROSTER_MODEL: rosterModel,
++    ...rosterApprovalEnvironment,
+     WHATSAPP_AUTH_TEMPLATE_NAME: "qa_disabled_provider",
+   })
+ ) Deno.env.set(key, value);
+@@ -1257,6 +1275,67 @@
+     );
+   }
+   mode = "normal";
++  // Appended after every original HTTP assertion; synthetic policy only.
++  // Each well-hashed tuple mismatch must fail before reserve/decode/provider.
++  for (
++    const [scenario, policyPatch, environmentPatch] of [
++      ["missing policy", {}, { ROSTER_AI_APPROVAL_JSON: undefined }],
++      ["missing hash", {}, { ROSTER_AI_APPROVAL_SHA256: undefined }],
++      ["tampered hash", {}, { ROSTER_AI_APPROVAL_SHA256: "0".repeat(64) }],
++      ["wrong model", { model: "synthetic-other-model" }, {}],
++      ["wrong decoder URL", { decoder_url: "http://127.0.0.1:1/decode" }, {}],
++      ["wrong decoder build", { decoder_build_sha256: "e".repeat(64) }, {}],
++      ["wrong organization", { organization_id: "org_other_synthetic" }, {}],
++      ["wrong project", { project_id: "proj_other_synthetic" }, {}],
++      ["disabled policy", { enabled: false }, {}],
++      ["revoked policy", { status: "revoked" }, {}],
++      ["expired policy", { valid_until: "2021-01-01T00:00:00Z" }, {}],
++      ["future approval", { approved_at: "2098-01-01T00:00:00Z" }, {}],
++    ] as const
++  ) {
++    const negativeApproval = await syntheticRosterAiApproval(
++      rosterModel,
++      decoderUrl,
++      decoderBuild,
++      policyPatch,
++    );
++    const negativeEnvironment = {
++      ROSTER_AI_APPROVAL_JSON: negativeApproval.aiApprovalJson,
++      ROSTER_AI_APPROVAL_SHA256: negativeApproval.aiApprovalSha256,
++      OPENAI_ORGANIZATION_ID: negativeApproval.openAiOrganizationId,
++      OPENAI_PROJECT_ID: negativeApproval.openAiProjectId,
++      ...environmentPatch,
++    };
++    const before = providerAttempts.length;
++    try {
++      for (const [key, value] of Object.entries(negativeEnvironment)) {
++        if (typeof value === "string") Deno.env.set(key, value);
++        else Deno.env.delete(key);
++      }
++      const result = await request(
++        "prepare-roster-import",
++        `roster AI approval: ${scenario} refuses before work`,
++        {
++          headers: { authorization: userAuthorization },
++          body: JSON.stringify(rosterImage()),
++        },
++      );
++      check(
++        result.label,
++        result.http_status === 503 &&
++          (result.response as Record<string, unknown>)?.error ===
++            "roster_extraction_unavailable" &&
++          JSON.stringify(result.dependencies.map((r) => r.path)) ===
++            JSON.stringify(["/auth/v1/user"]) &&
++          providerAttempts.length === before && result.no_store === true,
++        result,
++      );
++    } finally {
++      for (const [key, value] of Object.entries(rosterApprovalEnvironment)) {
++        Deno.env.set(key, value);
++      }
++    }
++  }
+   report.status = checks.every((r) => r.status === "pass") ? "pass" : "fail";
+ } catch (error) {
+   report.status = "fail";

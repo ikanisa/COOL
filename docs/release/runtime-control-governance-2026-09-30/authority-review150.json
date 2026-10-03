@@ -1,0 +1,30 @@
+{
+  "status": "review_complete",
+  "captured_at_utc": "2026-09-30T20:23:31.006547+00:00",
+  "current_installed_authority_acceptance": "fail",
+  "finding": "An established Repeatable Read transaction retains runtime-control read authority after platform_owner grant revocation.",
+  "unsafe_case": "established_rr_role_revoke",
+  "correction_source": "supabase/migrations/20260930220000_runtime_control_authority.sql",
+  "correction_source_sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+  "correction_installed": false,
+  "correction_rehearsal_cases": 6,
+  "observed_blocking_races": 6,
+  "table_count": 149,
+  "full_table_catalog_cron_restore": true,
+  "worker_sessions_remaining": 0,
+  "evidence_sha256": {
+    "docs/release/runtime-control-governance-2026-09-30/authority150-attempt1-real-revocation/validation.json": "0c9f57a124409f5646d37ab4faa43382b3687c0ee0d6c8c32df1c936c793ed08",
+    "docs/release/runtime-control-governance-2026-09-30/authority150-attempt1-real-revocation/concurrency-checkpoint.json": "77c434499bf8428345e3869142c849b11783a4e0211ef84979f597826b40f4ad",
+    "docs/release/runtime-control-governance-2026-09-30/authority150-attempt2-rehearsed-correction/validation.json": "1d1422a3a70c6722024da3938b048c5d807c89ab9818231b861a72c9acf2fb56",
+    "docs/release/runtime-control-governance-2026-09-30/authority150-attempt2-rehearsed-correction/concurrency-checkpoint.json": "18d7e7446d4c037297c784d6e31555c8b92bf4dedc083f0b770e4fbe24eab162"
+  },
+  "scope_limits": [
+    "The correction was exercised inside each reader transaction and rolled back; it is not installed.",
+    "Audit-event reads and all26-family consumer/write integration still require complete acceptance.",
+    "Normal member-owned preferences retain the existing session authority boundary.",
+    "Navigation, shadow monitoring and this correction remain staged."
+  ],
+  "hosted_called": false,
+  "provider_called": false,
+  "whole_goal_complete": false
+}

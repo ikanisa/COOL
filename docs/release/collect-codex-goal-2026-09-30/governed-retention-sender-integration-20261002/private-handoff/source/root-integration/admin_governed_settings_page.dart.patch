@@ -1,0 +1,11 @@
+--- a/lib/admin/core/admin_governed_settings_page.dart
++++ b/lib/admin/core/admin_governed_settings_page.dart
+@@ -132,6 +132,8 @@
+       child: Column(
+         crossAxisAlignment: CrossAxisAlignment.stretch,
+         children: [
++          const AdminSenderRetentionHost(),
++          const SizedBox(height: 16),
+           _panel(
+             DropdownButtonFormField<String>(
+               initialValue: family.key,

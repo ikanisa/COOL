@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-u",
+    "scripts/tests/current_admin_query_benchmark_uat.py",
+    "--output",
+    "docs/release/generated-query-benchmark-2026-10-01/admin-current-candidate-volumes3",
+    "--reviewed-upgrade",
+    "docs/release/rapid-completion-2026-10-01/ordinary-installer-current-resumption3-private-platform/result.json"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "started_at": "2026-10-01T13:41:36.918094+00:00",
+  "inputs": {
+    "scripts/tests/current_admin_query_benchmark_uat.py": "08552a7abf8fad2ff79647592839ec278a0ecac232472037c171141f431e7564",
+    "scripts/tests/current_admin_query_benchmark_test.py": "99889081c468b640155c1a53bd754008aa5afaaacec5e8616ce8e36055cd5e4a",
+    "docs/release/rapid-completion-2026-10-01/ordinary-installer-current-resumption3-private-platform/result.json": "6aa1729f789d2df9ca1f3df586a5b915b246ca24dd8b0c882d1d4976007f6f9d",
+    "scripts/sql/receipt_transport_platform_prerequisites.sql": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f"
+  },
+  "status": "failed",
+  "output": "docs/release/generated-query-benchmark-2026-10-01/admin-current-candidate-volumes3",
+  "exit_code": 1,
+  "duration_seconds": 382.5872562500008,
+  "completed_at": "2026-10-01T13:47:59.503647+00:00",
+  "inputs_unchanged": true
+}

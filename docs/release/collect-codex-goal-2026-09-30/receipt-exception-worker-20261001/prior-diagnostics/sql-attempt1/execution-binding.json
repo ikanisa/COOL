@@ -1,0 +1,20 @@
+{
+  "status": "running",
+  "scope": "trusted worker feature; exact177 prerequisites+sealed110000+120000+140000+150000; no130000 sender integration",
+  "started_at": "2026-10-01T12:20:10.843411+00:00",
+  "source08_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "migration_sha256": {
+    "20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "20261001150000_receipt_exception_worker.sql": "edef9aec52ff665f4136c49463c5286d3dcd2aa8a030824b132e35d69885d614"
+  },
+  "runner_sha256": "fb754ec789066be93aacef74f8a8cdf73aec1dfe28f53adf182550a258c018a2",
+  "support_sha256": "5c344108f9c397730cb684b96bb6f5bdf15d78ce35ef465cecacd4d0254678e5",
+  "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "hosted_written": false,
+  "device_used": false,
+  "sms_sent": false,
+  "jwt_verified": false
+}

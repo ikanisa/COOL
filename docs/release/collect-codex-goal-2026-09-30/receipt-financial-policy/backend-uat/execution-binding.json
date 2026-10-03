@@ -1,0 +1,12 @@
+{
+  "financial_finality_fixture_execution": "Local installer with service-role JWT claims executes current trusted confirmation function; service_role direct execute is not granted or broadened",
+  "scope": "focused synthetic content2 feature UAT with exact frozen175 prerequisite bootstrap; not whole release acceptance",
+  "started_at": "2026-10-01T10:03:48.480357+00:00",
+  "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "migration_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+  "migration_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+  "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "runner_sha256": "94099eaa46e5c126f45dac3d4ae75900bc6e81d8abfc01a0c6c1414b6d3d2daa",
+  "helper_captured_before_import": true,
+  "baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+}

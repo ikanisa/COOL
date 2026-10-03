@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayDispatchArmTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-01T14:24:55.178Z" hostname="Jeans-Mac-mini.local" time="0.863">
+  <properties/>
+  <testcase name="expiryConsumedByDurableCommitNeverRequestsArm" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.031"/>
+  <testcase name="localEmergencyPauseDuringArmWinsBeforeInvocationAndPreservesReservation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.015"/>
+  <testcase name="grantExpiryConsumedDuringArmRetainsUnknownAndDoesNotInvoke" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.019"/>
+  <testcase name="missingArmAcknowledgementRetainsUnknownAndNeverInvokes" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.016"/>
+  <testcase name="wrongAttemptFenceOrReservationDigestAcknowledgementNeverInvokes" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.154"/>
+  <testcase name="staleExpiredFutureOrExtendedArmAcknowledgementsNeverInvoke" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.072"/>
+  <testcase name="replayedOriginalRequestRefusalCannotRecoverArmAuthority" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.022"/>
+  <testcase name="armDisconnectOrBackendExceptionRetainsOriginalReservationWithoutInvocation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.013"/>
+  <testcase name="policyBackendNoGrantLeavesObservationWithoutInvocationReservation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.342"/>
+  <testcase name="policyBackendObservedUnknownHealthUsesFreshParsedGrantBeforeArm" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.03"/>
+  <testcase name="exactArmCanInvokeOnceButDuplicateAttemptCannotArmOrInvokeAgain" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.061"/>
+  <testcase name="uncertainArmCannotBeRetriedWithSameAttemptAfterRestart" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.024"/>
+  <testcase name="failedDurableReservationNeverRequestsArmOrInvokes" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.004"/>
+  <testcase name="finalDeviceObservationCannotConsumeLeaseBeforeInvocation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.009"/>
+  <testcase name="policyBackendObservedHealthNeverBypassesPausedRevokedOrStaleEvidence" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.002"/>
+  <testcase name="observationOnlyUnknownHeartbeatRequiresExplicitPolicyDispatchBackend" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.002"/>
+  <testcase name="acknowledgementForAlteredCallbackPlanCannotAuthorizeRetainedReservation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.004"/>
+  <testcase name="subscriptionOrPermissionChangeWhileWaitingForArmClosesSenderBoundary" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.023"/>
+  <testcase name="synchronousDurableReservationCompletesBeforeArmAndSingleInvocation" classname="app.cool.mobile.gateway.GatewayDispatchArmTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

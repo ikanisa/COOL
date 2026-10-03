@@ -1,0 +1,37 @@
+{
+  "kind": "collect_dated_observed_sql_test_fixtures",
+  "producer_result": {
+    "finished_at": "2026-10-01T11:25:32.575969+00:00",
+    "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/result.json",
+    "sha256": "a1dbf79651211b66de2b0f6203f7321e9058914b5919e090c1f0f057d0f6f4c7",
+    "status": "pass"
+  },
+  "production_data": false,
+  "receipts": [
+    {
+      "bytes": 1699,
+      "file": "observed-workflow.json",
+      "sha256": "04fb9b76ef51c650d5ab1480bd140d1bffcaa95ce7c2a69ebc73b26f3e17bae7",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-workflow.json"
+    },
+    {
+      "bytes": 1250,
+      "file": "observed-inbox.json",
+      "sha256": "a7d5090882a5e81509f8fdbc4c2084a04e6d03de9feaa4a3667708670fe06341",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-inbox.json"
+    },
+    {
+      "bytes": 403,
+      "file": "observed-unassigned.json",
+      "sha256": "5050c7c492b807ef313efcd83852e66e962aba02e142a74c052c31adcfb2a591",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned.json"
+    },
+    {
+      "bytes": 402,
+      "file": "observed-unassigned-resolved.json",
+      "sha256": "e50a36c7d3062b6b12b9cb4608e8b35ac0e87aef9247bec68e93614431cabd57",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned-resolved.json"
+    }
+  ],
+  "scope": "Byte-exact dated isolated PostgreSQL observations for local regression tests. No current backend installation, provider, delivery, hosted Auth, or release approval claim."
+}

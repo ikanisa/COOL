@@ -1,0 +1,31 @@
+{
+  "full_recovery_accepted": false,
+  "prior_failures_retained": true,
+  "process": {
+    "actual_seconds": 47.191,
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 120,
+    "exit_code": 1,
+    "finished_utc": "2026-10-02T09:32:25.804953+00:00",
+    "headroom_failure": false,
+    "owned_process_group_absent": true,
+    "pid": 90584,
+    "residual_process_group_required_stop": false,
+    "spawned": true,
+    "started_utc": "2026-10-02T09:31:38.614982+00:00",
+    "stderr_sha256": "d4f3b72e9480f2facafc8a0279c00573a9bf6c2f2df9b33fc4aa10ad8e6749c8",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timed_out": false
+  },
+  "production_release_approval": false,
+  "real_database_archive_approved": false,
+  "source_unchanged": true,
+  "status": "failed",
+  "suite_cases": 39
+}

@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "path": "before/scripts/tests/verify_roster_decoder.py",
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "bytes": 13760
+    },
+    {
+      "path": "before/supabase/functions/prepare-roster-import/handler_test.ts",
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "bytes": 54480
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "c6c02c8a1af993996600e5891d30d2c43f36221e7177877fc6b465172a803417",
+      "bytes": 1934
+    }
+  ]
+}

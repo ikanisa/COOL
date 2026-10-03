@@ -1,0 +1,36 @@
+--- combined_reader_seam.py
++++ combined_reader_seam_attempt3.py
+@@ -55,16 +55,25 @@
+          target.scalar('select not exists(select 1 from collect_receipt_successors.approvals where id=' +
+                        replay.quoted(approval_id) + ')and not exists(select 1 from collect_hybrid.sms_notification_outbox where id=' +
+                        replay.quoted(approval_id) + ');') == 't')
+-    execution = read('absent-approval-execution-v4', 'select public.admin_get_receipt_successor_execution_v4(' + replay.quoted(approval_id) + ')')
+-    case('full current v4 reader reports absent approval unavailable with no execution or primary identity',
+-         execution['contract_version'] == 4 and execution['approval_id'] == approval_id
+-         and execution['status'] == 'unavailable' and execution['primary_receipt_id'] is None
+-         and execution['execution'] is None and execution['cutoff_revision'] is None
+-         and execution['financial_action'] is False and execution['send_action'] is False
+-         and execution['carrier_proof'] is False and execution['delivery_proven'] is False)
++    email_identity = target.scalar('select collect_admin_access.email_identity(' + replay.quoted(replay.UID) + ');')
++    case('retained ordinary fixture lacks current email-owner identity required by successor reads', email_identity == 'f')
++    execution_sql = 'select public.admin_get_receipt_successor_execution_v4(' + replay.quoted(approval_id) + ')'
++    execution_denial = target.sql(auth + execution_sql + ';commit;', check=False,
++                                 label='combined current authenticated reader absent-approval-execution-v4')
++    expected_error = 'ERROR:  42501: receipt_action_current_email_owner_required'
++    case('full current v4 reader denies the retained phone fixture before approval inspection',
++         execution_denial.returncode != 0 and expected_error in execution_denial.stderr)
++    observations['absent-approval-execution-v4'] = {
++        'result_kind': 'denied', 'actual_psql_exit_code': execution_denial.returncode,
++        'sqlstate': '42501', 'error_message': 'receipt_action_current_email_owner_required',
++        'actual_stdout': execution_denial.stdout, 'actual_stderr': execution_denial.stderr,
++        'unchanged_fixture_email_identity': email_identity, 'rpc_response': None,
++        'unavailable_response_claimed': False, 'not_materialized_claimed': False,
++    }
+     case('bounded combined current read seam preserves all18 financial receipt Auth and approval projections',
+          current == replay.fingerprints(target, evidence['preserved_columns']))
+     evidence['combined_reader_fixture_facts'] = facts
+     evidence['absent_approval_probe'] = {'approval_id': approval_id, 'inserted': False, 'is_primary_receipt_id': False,
+-                                        'status': 'unavailable', 'not_materialized_claimed': False}
++                                        'result_kind': 'denied', 'sqlstate': '42501', 'error_message': 'receipt_action_current_email_owner_required',
++                                        'unavailable_response_claimed': False, 'not_materialized_claimed': False}
+     (target.report / 'combined-current-reader-observations.json').write_text(json.dumps(observations, indent=2) + '\n')

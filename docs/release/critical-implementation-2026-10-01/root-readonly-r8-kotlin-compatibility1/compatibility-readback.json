@@ -1,0 +1,50 @@
+{
+  "AAB_observation9_outcome_or_signing_acceptance_claimed": false,
+  "ARC09_closed": false,
+  "actual_R8_commit": "c3ce613f2fe60ca6edc3c2103508e6c966d7fc51",
+  "actual_cached_AGP_builder_R8_version": "9.0.32",
+  "bundled_version_below_official_Kotlin_2_4_minimum": true,
+  "configured_AGP_version": "9.0.1",
+  "configured_Kotlin_plugin_version": "2.4.20",
+  "locked_kotlin_stdlib_version": "2.4.20",
+  "maintained_android_build_files_explicit_R8_override_observed": false,
+  "minimal_correction_options": [
+    {
+      "limitations": "The concrete selected artifact and actual AGP classloader selection must be verified before claiming compatibility; no R8 version was acquired or applied here.",
+      "option": "Keep Kotlin and AGP pins, add explicit stable R8 override at or above 9.1.29 using the official pluginManagement buildscript seam.",
+      "scope": "An exact R8 compiler dependency, publisher/cache provenance and affected Android shrinker/package proof."
+    },
+    {
+      "limitations": "Wider dependency and API impact than an R8-only override; requires actual dependency support checks, not merely editing a version string.",
+      "option": "Choose a supported Kotlin compiler/stdlib version with the existing bundled R8, if repository APIs and plugins permit.",
+      "scope": "Kotlin compiler/stdlib/lock changes and their affected compiled consumers."
+    },
+    {
+      "limitations": "Broader build-tool changes; do not infer bundled R8 from the AGP version label alone.",
+      "option": "Select an AGP release whose actual bundled R8 supports Kotlin2.4.",
+      "scope": "AGP plus its compatible Gradle/JDK/plugin consumers."
+    }
+  ],
+  "observed_at_utc": "2026-10-02T14:26:27.428154+00:00",
+  "official_Kotlin_2_4_R8_minimum": "9.1.29",
+  "primary_sources": [
+    {
+      "document_last_updated": "2026-07-06",
+      "relevant_evidence": "Kotlin 2.4 requires R8 9.1.29; D8/R8 are bundled with AGP, unless overridden.",
+      "url": "https://developer.android.com/build/kotlin-support?hl=en"
+    },
+    {
+      "relevant_evidence": "R8 is embedded in AGP builder.jar; the documented override is pluginManagement.buildscript.dependencies.classpath(com.android.tools:r8:<version>).",
+      "url": "https://r8.googlesource.com/r8/+/refs/heads/main/README.md"
+    }
+  ],
+  "production_release_approval": false,
+  "provider_jar": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder/9.0.1/b841690e7e6560a46305d0d14ca0fc8296ecc029/builder-9.0.1.jar",
+  "provider_jar_sha256": "cdbad6d56863995a2564c8534108ed0e5d4581a4c12c614df2b6cca570d7e6b2",
+  "provider_properties_sha256": "ebde9ea5be9d080618751e86e3b117d2c2bda7c584e9d7b506fcff79ac9d5859",
+  "recommendation": "Prefer the documented exact stable R8 override because it directly addresses the observed compiler-versus-Kotlin metadata mismatch while preserving current Kotlin/AGP versions. Do not suppress metadata warnings or disable shrinking.",
+  "runtime_classloader_inside_actual_Gradle_process_inspected": false,
+  "schema_version": 1,
+  "version_CLI_exit_zero": true,
+  "version_CLI_stdout": "R8 9.0.32 (build c3ce613f2fe60ca6edc3c2103508e6c966d7fc51 from go/r8bot (luci-r8-custom-ci-jammy-17-ap6r))\n"
+}

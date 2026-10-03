@@ -1,0 +1,124 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 486,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 23717,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 2.757,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt2/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "--dart-define=COLLECT_CAPTURE_OPERATIONS=true",
+        "test/admin_operator_approval_sdk_matrix_test.dart",
+        "test/admin_operator_approval_test.dart",
+        "test/admin_platform_access_test.dart",
+        "test/admin_sensitive_permission_test.dart",
+        "test/admin_email_login_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt2/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 124,
+      "timed_out": true,
+      "process_group": 23824,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 300.977,
+      "sha256": "d43791e351d9d2cc2dac4e953dfa9f1d2ee624391f8dc535fcde5d3eef354898"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_operator_approval_sdk_matrix_test.dart",
+        "test/admin_operator_approval_test.dart",
+        "test/admin_platform_access_test.dart",
+        "test/admin_sensitive_permission_test.dart",
+        "test/admin_email_login_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 35194,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 35.909,
+      "sha256": "dbcbed3906ee5f66aa784649ee48bb46506713c178bfea6a9d672d67bab5e570"
+    }
+  ],
+  "test_files": [
+    "test/admin_operator_approval_sdk_matrix_test.dart",
+    "test/admin_operator_approval_test.dart",
+    "test/admin_platform_access_test.dart",
+    "test/admin_sensitive_permission_test.dart",
+    "test/admin_email_login_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 0,
+    "failed": 0,
+    "errors": 2,
+    "skipped": 0,
+    "unfinished": [
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt2/source-export/test/admin_email_login_test.dart",
+        "source": null
+      }
+    ],
+    "failures": [
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt2/source-export/test/admin_operator_approval_sdk_matrix_test.dart",
+        "source": null
+      },
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/operator-targeted-attempt2/source-export/test/admin_operator_approval_test.dart",
+        "source": null
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": true,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "9a15a713baa8980b67c4c528a226a0c0d2d52b4592c0af45338fffaaeb425bb0",
+  "source_before_sha256": "05da572bca0ab233480d4dabe662b344311b2505203a8753aa59402a020c48a9",
+  "source_after_sha256": "05da572bca0ab233480d4dabe662b344311b2505203a8753aa59402a020c48a9"
+}

@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "path": "native-preservation-plan.json",
+      "sha256": "2159a406b80435129d73f339d1fc59eeb5e7a13f6eef834d20485677bee743f6",
+      "bytes": 1241796
+    },
+    {
+      "path": "native-preservation-readback.json",
+      "sha256": "3b068e338caf5078fa79e817c4374167fb2a62f2663075799acf8e563dbe38b5",
+      "bytes": 1058
+    },
+    {
+      "path": "preserve_candidate.py",
+      "sha256": "b3683b7b58efc0fdb9046d31974de93e748cf651b5c957683744c38f8d977273",
+      "bytes": 8851
+    }
+  ]
+}

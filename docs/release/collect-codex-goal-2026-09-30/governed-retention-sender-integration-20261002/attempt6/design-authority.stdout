@@ -1,0 +1,9 @@
+[revolut-design-authority] fail
+  competing_reference_declarations_present
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_approval_read.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_approval_receipt.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_closure_inspection.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_closure_receipt.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_lineage_pages.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_retry_preview.json:symlinked_reference
+  .cache/collect-callback-deadlines-20261002/implementation/validation-app/test/fixtures/successor_revocation_receipt.json:symlinked_reference

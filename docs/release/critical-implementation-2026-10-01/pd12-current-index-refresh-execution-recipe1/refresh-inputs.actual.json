@@ -1,0 +1,40 @@
+{
+  "AAB_artifacts": [],
+  "AAB_built_pointer": null,
+  "AAB_claimed_built": null,
+  "AAB_observed_result": null,
+  "AAB_outcome": null,
+  "AAB_result_pointer": null,
+  "AAB_source_domain": null,
+  "AAB_source_fence": null,
+  "AAB_source_identity_pointer": null,
+  "android3_overlay": {
+    "bytes": 1320,
+    "content": "json",
+    "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+    "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+  },
+  "android3_settings_after_pointer": "/changed_settings/actual_after/sha256",
+  "archived_android3_settings": {
+    "bytes": 840,
+    "content": "text",
+    "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/before/privateAPP/android/settings.gradle.kts",
+    "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+  },
+  "new_APP_manifest": {
+    "bytes": 440913,
+    "content": "json",
+    "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/current-APP-manifest.json",
+    "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1"
+  },
+  "new_root_fence": {
+    "bytes": 922156,
+    "content": "json",
+    "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+    "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+  },
+  "optional_current_AAB_fields": "Leave current AAB fields null until an actual outcome for the supplied later source epoch exists. Retained AAB9 failure is included separately as historical; current package remains pending.",
+  "record_contract": "Each document has workspace-relative path, exact observed bytes, SHA256 and content=json. No path, pointer, result or digest is prospective observed evidence.",
+  "recorded_at_utc": "2026-10-02T15:28:07.727909+00:00",
+  "schema_version": 1
+}

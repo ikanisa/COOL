@@ -1,0 +1,13 @@
+{
+  "actual14_tests": "PASS",
+  "actual_Draft2020_12_schema": "PASS",
+  "actual_design_authority_retry": "PASS",
+  "automatic_PD12_closure": false,
+  "final_reader_exit1_exact_expected_drift_rows": 2,
+  "no_future_AAB_claim": true,
+  "packet_filename": "packet-files.json",
+  "packet_sha256": "e3404c6f538c788b3fcefc428d259acf5be1ab7b56119b72cc7dc72040896b7a",
+  "payload_count": 30,
+  "sealed_at_utc": "2026-10-02T14:22:23.113343+00:00",
+  "source_script_hashes_held": true
+}

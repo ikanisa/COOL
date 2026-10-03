@@ -1,0 +1,16 @@
+{
+  "command": [
+    "./gradlew",
+    ":app:dependencies",
+    "--configuration",
+    "internal_gatewayDebugRuntimeClasspath",
+    "--offline",
+    "--no-daemon",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget=lib/main_gateway.dart",
+    "-PcollectGatewayHost=",
+    "--console=plain"
+  ],
+  "exit_code": 124,
+  "scope": "Offline native dependency configuration only; no Flutter compilation, sender, network, keys or enrollment. Empty gateway host and existing unsigned QA mode."
+}

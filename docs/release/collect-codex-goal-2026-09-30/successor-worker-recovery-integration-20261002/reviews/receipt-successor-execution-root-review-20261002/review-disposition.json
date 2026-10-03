@@ -1,0 +1,30 @@
+{
+  "status": "scoped_430_SQL_Edge_and_native_source_review_accepted_pending_exact_integration_map",
+  "migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+  "SQL_lines_read": 1016,
+  "Edge_lines_read": 288,
+  "native_modified_boundaries_read": 9,
+  "native_new_modules_read": 2,
+  "sealed_members_verified": 10386,
+  "selected_owned_targets_confirmed_absent": 31,
+  "native_completed_case_composition": "235 completed full-command cases plus37 exact-artifact affected archive tail;21 successor plus251 retained legacy; earlier failed aggregate remains failed",
+  "native_coherence_review_concern": {
+    "initial_interpretation": "Diff-only successor continue appeared to skip stored outer-row identity checks",
+    "disposition": "Disproved by full method and consumers; no source correction required",
+    "observed_guard": "GatewayEncryptedStore.validateRequests line523 calls GatewayStoredRequest.parse(row) before successor branch line543; strict parser checks outer request_id/action/callback_id against successor envelope",
+    "consumers": "saveRequests/readRequests/recoverPendingRequests validate and parse originals; raw ciphertext export deliberately conserves unknown/corrupt evidence with no activation authority and semantic same-key restore remains separate",
+    "prior_receipts": "packet-verification.json and native-case-composition.json retain initial review context; this file records its corrected disposition without altering those receipts"
+  },
+  "observed_blocking_source_defect": null,
+  "integration_conditions": [
+    "Preserve exact current nine modified native base hashes and29 source/20 legacy test associations before promotion",
+    "Promote final combined430 with exact four signed Edge endpoint files and necessary native source/test/runner closure; root owns config.toml dedicated endpoint entry",
+    "Preserve original device endpoints, wire families and primary identity/digest meanings; successor dispatch configuration remains inactive",
+    "Only then promote exact700 whose graph guards require430; verify500/600 and selected current associations before copying",
+    "Complete all-current chronological/privacy420/runtime/hosted/Gradle/signing/device and recovery acceptance separately"
+  ],
+  "canonical_written": false,
+  "whole_candidate_pass": false,
+  "hosted_verified": false,
+  "physical_device_verified": false
+}

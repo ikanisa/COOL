@@ -1,0 +1,19 @@
+{
+  "scope": "Read-only exact owned PID/group from retained failure; no signal sent",
+  "owned_pid_pgid": 52969,
+  "ps_argv": [
+    "/bin/ps",
+    "-o",
+    "pid=,pgid=,uid=,stat=,comm=",
+    "-p",
+    "52969"
+  ],
+  "ps_exit": 1,
+  "ps_stdout": "",
+  "ps_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "signal0_probe": {
+    "errno": 3,
+    "group_absent": true
+  },
+  "cause_of_prior_EPERM_proved": false
+}

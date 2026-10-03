@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "bytes": 6221,
+      "path": "preserved-failure.json",
+      "sha256": "cf6195486a5c3d3c3c15c740142cd6887d8609710c0c885782638c6411c58109"
+    },
+    {
+      "bytes": 935,
+      "path": "raw-Gradle-exclusive-copy.json",
+      "sha256": "982fb2c3af5da05e331b306320e877fb35ec8a69c2a34be7564fcf1ec23313e9"
+    },
+    {
+      "bytes": 549,
+      "path": "retry-review.json",
+      "sha256": "c141cdec9c5cace2501306fbe4f580790053d67b71b486e3968b7db80df80291"
+    }
+  ]
+}

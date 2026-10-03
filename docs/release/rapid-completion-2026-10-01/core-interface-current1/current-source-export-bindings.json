@@ -1,0 +1,28 @@
+{
+  "dependency_prefix_unchanged": true,
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-core-interface-current1",
+  "no_pub_resolution_required": true,
+  "parent": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1",
+  "root_and_export_sha256": {
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "lib/admin/admin_app.dart": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9",
+    "lib/admin/admin_shell.dart": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/app/theme/collect_runtime_typography.dart": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+    "lib/app/theme/collect_theme.dart": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/features/collections/collection_detail_screen.dart": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+    "lib/features/status/group_members_screen.dart": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+    "lib/shared/repositories/collect_repository.dart": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+    "lib/shared/widgets/collect_components.dart": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+    "test/admin_header_accessibility_test.dart": "c40123ccf394c2eba642527f34252d088bdbc006bcad9759488730910726432c",
+    "test/features/collect_surface_keyboard_focus_test.dart": "3e002978adb430b444c21be65018526a417e52dee3b9401944ba9504446bae94",
+    "test/features/shared_chrome_accessibility_test.dart": "92cd0eb29d0f4811fa543adcc27bac8bf84f7e4ea60e5d55c5637deaf0be5431",
+    "test/fixtures/collect_repository_fixture.dart": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a"
+  },
+  "sequential_overlaid_files": []
+}

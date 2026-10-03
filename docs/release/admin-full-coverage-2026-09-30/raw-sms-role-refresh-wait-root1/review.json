@@ -1,0 +1,8 @@
+{
+  "failed_packet": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt52-root-current95-permission-fixtures/validation.json",
+  "failed_packet_sha256": "182d15ce1aad10d07d3b803c7488fd67e6e8ea57e8bab4a7044fa379ea4f5ad3",
+  "finding": "Role-change test used a LinearProgressIndicator wait while the detail page has a different loading state. Its final button assertion ran before the refreshed real PostgREST decoder supplied the detail. Await the exact current detail-provider future before the existing reset/privacy/no-write assertions.",
+  "source_before_sha256": "e83c7e8b71b4a38a7ece877a94b929845612db601dfb8bc5e4e02bf8dd58b296",
+  "production_source_changed": false,
+  "assertions_removed": false
+}

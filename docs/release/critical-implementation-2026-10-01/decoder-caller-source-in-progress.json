@@ -1,0 +1,15 @@
+{
+  "status": "source_updated_pending_real_linux_consumer_verification",
+  "source_sha256": {
+    "supabase/functions/_shared/roster_decoder.ts": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb",
+    "supabase/functions/_shared/roster_decoder_test.ts": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e",
+    "supabase/functions/prepare-roster-import/handler_test.ts": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f",
+    "scripts/tests/verify_roster_decoder.py": "2208aaf3239a22f79467583e8ea4a394dd13c6dd6e4820e810f93023c75ab73d"
+  },
+  "changes": [
+    "Healthy mock receipt identities match exact patched production pins",
+    "Two actual fresh valid-HMAC full receipts using individually old Pillow/pypdf versions must be rejected"
+  ],
+  "assertions_weakened": false,
+  "new_consumer_verification": "pending"
+}

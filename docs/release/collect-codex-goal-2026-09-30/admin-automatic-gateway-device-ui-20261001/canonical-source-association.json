@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "scope": "device-directory UI and actual read-provider composition; synthetic scanned-window paging over actual observed DTO fields",
+  "actual_unique_tests_in_successful_command": 9,
+  "analysis": "no issues",
+  "source_inputs_unchanged": 440,
+  "new_test_sha256": "464b184e15d41b44501523c7845580d3f0e5b69c8cb49878e1f71a21902ef7f0",
+  "preceding_UI_manifest_sha256": "082e1e870bada4022652e4d7e6e1ee553a9bd0e22c0d493433a0e56e55922d78",
+  "preceding_22_canonical_files_unchanged": true,
+  "viewports": [
+    1440,
+    390
+  ],
+  "actual_receipt_link_navigation": true,
+  "device_used": false,
+  "hosted_called": false,
+  "sms_sent": false,
+  "full_browser_keyboard_screenreader_acceptance": false,
+  "full_candidate": false
+}

@@ -1,0 +1,87 @@
+{
+  "observed_at_utc": "2026-10-02T02:48:46.842235+00:00",
+  "packets": [
+    {
+      "packet": "edge-offline-canonical-batch1",
+      "CLI_publisher_receipt_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/inputs/publisher-inputs.json",
+      "exists_at_readback": true,
+      "expected_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "external_rows": 12,
+      "receipt_separately_bound_from_external_rows": true
+    },
+    {
+      "packet": "edge-ai-canonical-batch1",
+      "CLI_publisher_receipt_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH1/inputs/publisher-inputs.json",
+      "exists_at_readback": false,
+      "expected_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "external_rows": 12,
+      "receipt_separately_bound_from_external_rows": true
+    },
+    {
+      "packet": "edge-ai-canonical-batch2",
+      "CLI_publisher_receipt_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2/inputs/publisher-inputs.json",
+      "exists_at_readback": false,
+      "expected_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "external_rows": 12,
+      "receipt_separately_bound_from_external_rows": true
+    },
+    {
+      "packet": "edge-ai-canonical-batch3",
+      "CLI_publisher_receipt_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/inputs/publisher-inputs.json",
+      "exists_at_readback": false,
+      "expected_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "external_rows": 12,
+      "receipt_separately_bound_from_external_rows": true
+    }
+  ],
+  "original_authentic_publisher_reference": {
+    "original": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/inputs/publisher-inputs.json",
+    "copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/publisher-reference/publisher-inputs.json",
+    "before": {
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "bytes": 4004,
+      "mode": 292,
+      "identity": [
+        16777247,
+        17169632,
+        292,
+        4004,
+        1790905885620052314,
+        1790905885620052314,
+        1
+      ]
+    },
+    "copied": {
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "bytes": 4004,
+      "mode": 292,
+      "identity": [
+        16777247,
+        17238055,
+        292,
+        4004,
+        1790909326840659428,
+        1790909326840692512,
+        1
+      ]
+    },
+    "after": {
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "bytes": 4004,
+      "mode": 292,
+      "identity": [
+        16777247,
+        17169632,
+        292,
+        4004,
+        1790905885620052314,
+        1790905885620052314,
+        1
+      ]
+    }
+  },
+  "cause": "The accepted137 freeze lists publisher receipt separately. AI preparation copied only its twelve external wheel/metadata rows and declared an uncopied receipt CLI path.",
+  "earlier_receipt_physical_copy_claim_correction": "The AI batch1/batch2 prep narratives overstated receipt-copy completion; their actual external manifests have only12 wheel/metadata rows, and receipt paths are absent. Their earlier phase results are unchanged. Original137 full success had the real pinned receipt and remains valid.",
+  "failed_private_cohort_repaired": false,
+  "original_packets_modified": false
+}

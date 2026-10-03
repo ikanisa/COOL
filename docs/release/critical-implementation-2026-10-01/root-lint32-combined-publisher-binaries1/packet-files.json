@@ -1,0 +1,12 @@
+{
+  "OS_immutable_flag_or_global_freeze_attested": false,
+  "files": {
+    "readback.json": {
+      "bytes": 180066,
+      "mode": 256,
+      "sha256": "8b6caf02f7ed28afab84d95c7668ff712ffebe4e45652f5057f5a91ae0798e06"
+    }
+  },
+  "kind": "root_observed_publisher_intake_scoped_packet",
+  "production_release_approval": false
+}

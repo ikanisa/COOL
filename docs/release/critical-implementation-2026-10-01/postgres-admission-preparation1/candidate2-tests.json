@@ -1,0 +1,41 @@
+[
+  {
+    "name": "test_postgres_admission.py",
+    "command": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/tests/test_postgres_admission.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2",
+    "exit_code": 0,
+    "elapsed_seconds": 12.114,
+    "timeout_seconds": 120,
+    "source_sha256": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13"
+  },
+  {
+    "name": "supabase_secret_transport_test.py",
+    "command": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/tests/supabase_secret_transport_test.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2",
+    "exit_code": 0,
+    "elapsed_seconds": 4.562,
+    "timeout_seconds": 120,
+    "source_sha256": "da345c197a8c46cd7702222028d4c63092be4b737927c7924c62b0c730291dde"
+  },
+  {
+    "name": "supabase_delivery_contract_test.py",
+    "command": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2/scripts/tests/supabase_delivery_contract_test.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2",
+    "exit_code": 1,
+    "elapsed_seconds": 832.031,
+    "timeout_seconds": 900,
+    "source_sha256": "3ffe17e32513a665a2ed96735c3a3fb7169299435601d0c19cfe13fe8aa6b9f5"
+  }
+]

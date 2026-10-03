@@ -1,0 +1,586 @@
+{
+  "kind": "current_investigation_email_scope_schema153_subset",
+  "started_at": "2026-09-30T22:03:50.944901+00:00",
+  "production_written": false,
+  "shared_source_written": false,
+  "source_rows_copied": false,
+  "provider_called": false,
+  "carrier_called": false,
+  "otp_sent": false,
+  "signed_jwt_tested": false,
+  "clean_install_tested": false,
+  "hosted124_upgrade_tested": false,
+  "cases": [
+    {
+      "name": "supabase/migrations/20260930213000_operator_email_auth.sql preserves empty canonical business tables",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230100_receipt_backlog_events.sql preserves empty canonical business tables",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves empty canonical business tables",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230400_admin_investigation.sql preserves empty canonical business tables",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current shared authority accepts verified email owner without phone confirmation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "empty investigation target returns missing sections without invented data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual posted transaction exposes separately authorized payment and receipt evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt reconstruction is explicitly bound to matching immutable posting snapshot",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "historical receipt balance remains300 while separately updated current balance is800",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual event and posting times stay distinct from observation read time",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual journal and receipt snapshot values match canonical posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "investigation exposes no stored body hashes credentials reference or operator identity",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "known route parse failure retains supported observation without invented posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "known route pending parse retains supported observation without invented posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "verified matching Rwanda profile wallet retains supported observation without invented posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unknown receiving hash is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "nonpayment parsed event is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unknown network currency and direction is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "outgoing event is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "cross-receiver user is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "mismatched parsed receiving hash is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "mismatched parsed receiving provider is unclassified and exposes no section data",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current transaction list includes only known route/wallet observations",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot call investigation read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot call investigation read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "private helper is unavailable to API roles: collect_security.rwanda_sms_scope(uuid)",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private helper is unavailable to API roles: collect_security.transaction_lifecycle(uuid,boolean)",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private helper is unavailable to API roles: collect_security.transaction_read_authority(text)",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: sms_notification_outbox",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: sms_notification_confirmations",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: sms_notification_attempts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: momo_journal_entries",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: momo_balance_snapshots",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: member_balances",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private source table has RLS and no direct authenticated grant: collection_balances",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid investigation target null,'99760000-0000-4000-8000-000000010001'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "investigation_target_invalid"
+      }
+    },
+    {
+      "name": "invalid investigation target 'unsafe','99760000-0000-4000-8000-000000010001'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "investigation_target_invalid"
+      }
+    },
+    {
+      "name": "invalid investigation target 'transaction',null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "investigation_target_invalid"
+      }
+    },
+    {
+      "name": "transaction payment authority works independently from denied receipt read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt read works independently while current balances and payment journal are denied",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "receipt target still requires receipt authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction target still requires payment authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current email authority denies email approval revoked",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current email authority denies email unverified",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current email authority denies email changed",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current email authority denies role grant revoked",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "current email authority denies session expired",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unverified fallback wallet cannot classify pending raw as Rwanda",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "clean and populated investigation reads leave sixteen business fingerprints unchanged",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "mismatched snapshot values refuse preview reconstruction",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "snapshot fault injection restores every business byte",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "compensating reversal yields two actual journals while retaining original receipt snapshot",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "approval and attempt history bounds retain50 rows with exact61 totals",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "latest bounded histories are deterministic and preserve actual timestamps",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "bounded approval and attempt rows expose only approved safe fields",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "bounded history reads cannot modify populated source evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all nonempty receipt/reversal journals retain exactly balanced canonical lines",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "local_container_guard": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "port": "55722",
+    "cron": "off",
+    "net": "0"
+  },
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b"
+  },
+  "runner_sha256": "06a92819e369f5dd29a8e607ab5465311c84bf02452e4267211cb4c372dbb208",
+  "baseline": {
+    "captured_migration_count": 153,
+    "dump_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "metadata_before_and_after_capture": {
+      "net": "0",
+      "cron": "off",
+      "count": 153,
+      "latest": "20260930220000"
+    },
+    "authority_prerequisite": {
+      "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "relevant_function_source_parity": true,
+      "whole_migration_parity": true
+    },
+    "known_extra_migration_parity": {
+      "20260930200000": {
+        "normalized_source_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+        "normalized_installed_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+        "exact_normalized_parity": true
+      },
+      "20260930210000": {
+        "normalized_source_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+        "normalized_installed_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+        "exact_normalized_parity": true
+      },
+      "20260930220000": {
+        "normalized_source_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+        "normalized_installed_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+        "exact_normalized_parity": true
+      }
+    },
+    "source": "Retained attempt8 schema-only capture; no shared rows copied or fresh dump",
+    "owners_normalized": true,
+    "excluded_runtime": [
+      "pg_cron",
+      "pg_net",
+      "pg_graphql",
+      "pg_stat_statements"
+    ],
+    "not_attested": "Registry source parity is not universal deployed-function body attestation"
+  },
+  "database": "collect_investigation_83aa49b21e77",
+  "empty_business_before_install": {
+    "journal": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_balance_snapshots": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collection_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "member_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_provider_confirmations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "populated_business_baseline": {
+    "journal": {
+      "rows": 2,
+      "sha256": "4cff97f9d6955b523751c3518a898bcbdee44b1b724bf12da23abadcf14b437c"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "09271053cc0e5b07bf3118223a2bc4ae97f5f991fd93715e36fc1658fc131bbf"
+    },
+    "sms_outbox": {
+      "rows": 2,
+      "sha256": "6dc9c439739db84fa7e6e05d2b209167a02703e8bc3693d85eab8ad11768b4aa"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "6d56634987a406b6b0f5beae1150cf11ead4ba32f66661f6aa72b569d35b568b"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "2984ffb6ac5b8c368e718f2093faec31af70f510f8e3ff2c3946474ef95dd57d"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "944ebbc6d76f74aef983ae6cd3926d4603c38416b1433b69a16c1532c8f8e7e6"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "afabb13959d72d8cef9d6709a874031704074a6e16eb4fa5a21b7407cf3742cb"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "712ad7cd1e436fc037b850912f3c844ef77146e7cd5de183f787bff8c03aae93"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 12,
+      "sha256": "6b26eea09d88c4c3f803829f3eab719a3cc63606f66ec97df1d51b340fed5b7a"
+    },
+    "parsed_payment_events": {
+      "rows": 8,
+      "sha256": "ba1ffd919def095db51252ba09e64e71ac879943d217b711fd65aa78d6b033f4"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "final_business_fingerprints": {
+    "journal": {
+      "rows": 3,
+      "sha256": "37108f8f382c1581d74b760ec1ff5fd28620c7cc8673b2e9969b548d1fd15839"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "65c75a90059013ac0d8f138f81655a6de9352463f53cf30d5f8b3ce9c42d288a"
+    },
+    "sms_outbox": {
+      "rows": 2,
+      "sha256": "d294d88edecff1afe6a556ad36ae956b0621d8cdd8ba276ae6cfbd6c468184bd"
+    },
+    "sms_attempts": {
+      "rows": 61,
+      "sha256": "829fa6e69427f3f3100ae6b0b6ce4befa8133816dda934a5fdf543bd52243bef"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 6,
+      "sha256": "dae40bdfc3612557b7303ea6820fadfe4a428dea3d51ac4f3a15e12606bb77e7"
+    },
+    "momo_balance_snapshots": {
+      "rows": 3,
+      "sha256": "0faad033d07c94e38b243470598f429e53abdb4095960c9c5b675ce88f130687"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "02471d52934679b401ec2f4958ce263ab17344fe78d44d1f698a89ea24c3861a"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "5f33c0e8f36a454b9c999a0ece1bd6e737be5cbcc6c63c489b32dc4f123af231"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "712ad7cd1e436fc037b850912f3c844ef77146e7cd5de183f787bff8c03aae93"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 12,
+      "sha256": "6b26eea09d88c4c3f803829f3eab719a3cc63606f66ec97df1d51b340fed5b7a"
+    },
+    "parsed_payment_events": {
+      "rows": 8,
+      "sha256": "ba1ffd919def095db51252ba09e64e71ac879943d217b711fd65aa78d6b033f4"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "limits": [
+    "Current four-migration subset on retained schema153; no clean install or full hosted124 upgrade",
+    "Synthetic already-approved verified email owner; no OTP/bootstrap/live identity provision or signed JWT",
+    "Historical approval/attempt rows are explicit local bounds fixtures, not actual approval/send evidence",
+    "No provider/carrier/Android callback or live performance acceptance",
+    "Preview is a masked snapshot reconstruction, not stored original message or current balance"
+  ],
+  "source_after_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b"
+  },
+  "status": "pass",
+  "isolated_database_removed": true,
+  "case_count": 57,
+  "completed_at": "2026-09-30T22:04:28.428363+00:00"
+}

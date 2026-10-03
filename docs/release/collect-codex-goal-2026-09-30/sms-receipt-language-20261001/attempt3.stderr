@@ -1,0 +1,49 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 183, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 173, in main
+    posting_result=posting.result(timeout=20);claim_result=claiming.result(timeout=20)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/sms_receipt_language_uat.py", line 65, in confirm
+    return t.sql("begin;select set_config('application_name','language-normal-post',true);select set_config('request.jwt.claims','{\"role\":\"service_role\"}',true);"+('select 1 from public.payments where id='+q(pid)+' for update;select pg_sleep('+str(delay)+');'if delay else'')+'select public.confirm_provider_payment('+','.join([q(pid),"'mtn_momo'",q(ref),q('SYNTHETIC-LANGUAGE-'+str(n)),q(wh),'100','clock_timestamp()',"repeat('c',64)"])+');commit;',label='canonical trusted synthetic posting '+str(n))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/sms-receipt-language-20261001/attempt3/inputs/executed-helper.py", line 108, in sql
+    raise RuntimeError(label + ': ' + result.stderr[-3500:])
+RuntimeError: canonical trusted synthetic posting 50: ERROR:  40P01: deadlock detected
+DETAIL:  Process 4321 waits for ShareLock on transaction 2466; blocked by process 4342.
+Process 4342 waits for ShareLock on transaction 2465; blocked by process 4321.
+HINT:  See server log for query details.
+CONTEXT:  while locking tuple (0,3) in relation "member_records"
+SQL statement "SELECT 1 FROM ONLY "collect_hybrid"."member_records" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHARE OF x"
+SQL statement "insert into public.ledger_entries(
+    payment_id, collection_id, user_id, member_record_id,
+    entry_type, amount_rwf, visibility, metadata
+  ) values
+    (
+      payment_row.id, payment_row.collection_id, payment_row.contributor_user_id,
+      payment_row.member_record_id, 'collection_credit', payment_row.amount_rwf,
+      'public_safe', jsonb_build_object(
+        'allocation_method', 'provider_confirmed',
+        'provider_confirmation_id', clean_confirmation_id
+      )
+    ),
+    (
+      payment_row.id, payment_row.collection_id, payment_row.contributor_user_id,
+      payment_row.member_record_id, 'member_credit', payment_row.amount_rwf,
+      'private', jsonb_build_object(
+        'allocation_method', 'provider_confirmed',
+        'provider_confirmation_id', clean_confirmation_id
+      )
+    )"
+PL/pgSQL function public.confirm_provider_payment(uuid,text,text,text,text,bigint,timestamp with time zone,text) line 63 at SQL statement
+LOCATION:  DeadLockReport, deadlock.c:1130
+

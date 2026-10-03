@@ -1,0 +1,72 @@
+{
+  "actual_hosted_workflows_not_executed": true,
+  "automated_github_pr_approval_reliance_observed": false,
+  "dynamic_called_scripts_not_fully_audited": true,
+  "explicit_security_events_write_preserved": true,
+  "external_apple_credentials_are_separate_from_github_token": true,
+  "observed_at": "2026-10-01T09:44:05.680412+00:00",
+  "rationale": "All six declared workflows explicitly set contents read; CodeQL explicitly requests security-events write. Declared uploads use Apple credentials or the artifact service, not a repository token Git write or PR approval. Remote defaults do not remove these explicit grants.",
+  "workflows": [
+    {
+      "external_store_upload_declared": false,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/ci.yml",
+      "sha256": "6386b0e4983e8ca99eea44568263176101e650edc26bcabe000e806fa055834d",
+      "workflow_permissions": {
+        "contents": "read"
+      }
+    },
+    {
+      "external_store_upload_declared": false,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/codeql.yml",
+      "sha256": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70",
+      "workflow_permissions": {
+        "contents": "read",
+        "security-events": "write"
+      }
+    },
+    {
+      "external_store_upload_declared": false,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/hardening-contracts.yml",
+      "sha256": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417",
+      "workflow_permissions": {
+        "contents": "read"
+      }
+    },
+    {
+      "external_store_upload_declared": true,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/ios-app-store.yml",
+      "sha256": "47893eb02148ce116d9e57ba6a6f16dd22dbdcf43f4d63585772ea127250d6db",
+      "workflow_permissions": {
+        "contents": "read"
+      }
+    },
+    {
+      "external_store_upload_declared": false,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/public-website.yml",
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+      "workflow_permissions": {
+        "contents": "read"
+      }
+    },
+    {
+      "external_store_upload_declared": false,
+      "git_push_or_github_publish_pr_commands_present": false,
+      "job_permission_overrides": {},
+      "path": ".github/workflows/supabase-readiness.yml",
+      "sha256": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b",
+      "workflow_permissions": {
+        "contents": "read"
+      }
+    }
+  ]
+}

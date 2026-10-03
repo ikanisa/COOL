@@ -1,0 +1,19 @@
+    def test_management_fallback_checks_exact_version_before_each_sql_write(self):
+        self.pending_history(2)
+        self.env["MOCK_CONNECTIVITY_FAILURE"] = "1"
+        result = self.run_deploy()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        events = [json.loads(row) for row in Path(self.env["MOCK_EVENTS"]).read_text().splitlines()]
+        previous_query = None
+        writes = 0
+        for event in events:
+            if event["kind"] != "query":
+                continue
+            query = event["query"]
+            if "insert into supabase_migrations.schema_migrations" in query:
+                self.assertEqual(previous_query, SERVER_QUERY)
+                writes += 1
+            previous_query = query
+        self.assertEqual(writes, 2)
+        self.assertEqual(self.receipt()["readback"]["postgresql"]["server_version_num"], 170006)
+        self.assertEqual(self.receipt()["automatic_retries"], 0)

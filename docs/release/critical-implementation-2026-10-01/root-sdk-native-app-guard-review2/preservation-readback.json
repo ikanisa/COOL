@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "archive_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/app-lock-20261002-attempt1-92db906a7a1f433bb67a3a8c9564d5bc",
+  "three_atomic_renames_verified": true,
+  "journal_sha256": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/app-lock-20261002-attempt1-92db906a7a1f433bb67a3a8c9564d5bc/01-app-source-verified.json": "4d76e847448b07b291adce0846f95512875bd36ef118a24bf0b21ca54ece2b6d",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/app-lock-20261002-attempt1-92db906a7a1f433bb67a3a8c9564d5bc/02-app-export-control-verified.json": "8325e9b3c1933f8a1b1b18d36096a88e946f67c023519788feb60b6a3774b70d",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/app-lock-20261002-attempt1-92db906a7a1f433bb67a3a8c9564d5bc/03-app-lock-control-verified.json": "b67dbfe6b7949867c017062d27b85d3200742ef65378294902d4ee5bcd832b0b"
+  },
+  "raw_symlink_count": 13,
+  "raw_symlink_targets_not_followed_or_rewritten": true,
+  "renamed_root_ctime_only_identity_exception": true,
+  "old_whole_app_lock_failed_evidence_preserved": true,
+  "old_export_not_reused_for_retry": true
+}

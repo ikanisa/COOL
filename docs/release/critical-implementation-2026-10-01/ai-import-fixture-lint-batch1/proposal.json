@@ -1,0 +1,37 @@
+{
+  "status": "PROPOSED_ONLY_NOT_APPLIED",
+  "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+  "base_sha256": "572d7d8b00ba433a4733ad452a2808f0e5d68c32d8f8804694ae717d2ce8222b",
+  "candidate_sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d",
+  "patch_sha256": "08eac394c084c03cdc42a17ab90c38c924a93a10c0c5125c4d45ca177bf01105",
+  "changed_callbacks": 3,
+  "all_test_case_bodies_and_filename_assertions_byte_identical": true,
+  "source_current_unchanged": true,
+  "root_review_before_apply": true,
+  "body_comparison": [
+    {
+      "callback": "authenticate",
+      "body_has_await": false,
+      "original_tokens_sha256": "58dd8824bb25a1949057345499639a0ee748e55b12597d97592d315ec20e785e",
+      "candidate_normalized_tokens_sha256": "58dd8824bb25a1949057345499639a0ee748e55b12597d97592d315ec20e785e",
+      "tokens_same_after_explicit_formatter_only_normalizations": true,
+      "normalization": "whitespace/comments; trailing argument comma; one formatter-added sourceError if block for rpc only"
+    },
+    {
+      "callback": "rpc",
+      "body_has_await": false,
+      "original_tokens_sha256": "867e3992204c2760b541e22061377d9b569ff70bef71c310d46ceccccc7bd478",
+      "candidate_normalized_tokens_sha256": "867e3992204c2760b541e22061377d9b569ff70bef71c310d46ceccccc7bd478",
+      "tokens_same_after_explicit_formatter_only_normalizations": true,
+      "normalization": "whitespace/comments; trailing argument comma; one formatter-added sourceError if block for rpc only"
+    },
+    {
+      "callback": "fetch",
+      "body_has_await": false,
+      "original_tokens_sha256": "3303453b6eb558d1d027e154e12f0ff9e87f7aaedbe023f0178442c90fbc190b",
+      "candidate_normalized_tokens_sha256": "3303453b6eb558d1d027e154e12f0ff9e87f7aaedbe023f0178442c90fbc190b",
+      "tokens_same_after_explicit_formatter_only_normalizations": true,
+      "normalization": "whitespace/comments; trailing argument comma; one formatter-added sourceError if block for rpc only"
+    }
+  ]
+}

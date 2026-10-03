@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "cache",
+    "--reload",
+    "--no-config",
+    "--frozen",
+    "--lock=supabase/functions/deno.lock",
+    "--allow-import=esm.sh:443,deno.land:443",
+    "supabase/functions/auth-send-whatsapp-otp/index.ts"
+  ],
+  "exit_code": 0,
+  "lock_before": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+  "lock_after": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+  "cache": "Existing failed attempt2 cache; diagnostic only",
+  "provider_calls": 0
+}

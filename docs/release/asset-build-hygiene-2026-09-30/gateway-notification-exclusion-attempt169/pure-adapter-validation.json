@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "adapter-javac",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/javac",
+        "--release",
+        "17",
+        "-d",
+        ".cache/gateway-notification-java-attempt169",
+        "android/gradle/CollectPluginRegistrant.java",
+        "scripts/tests/CollectPluginRegistrantTest.java"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.912,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "adapter-mutation-controls",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-cp",
+        ".cache/gateway-notification-java-attempt169",
+        "CollectPluginRegistrantTest",
+        "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.255,
+      "stdout_sha256": "8a367652371dbf8cafdf909827db8c3a4759f0c9196415c89c73665592ca9171",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual repository Java adapter compilation and18 template/target/mutation/byte-preservation controls; no Gradle/native acceptance"
+}

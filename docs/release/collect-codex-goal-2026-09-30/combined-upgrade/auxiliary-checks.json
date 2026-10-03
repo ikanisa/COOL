@@ -1,0 +1,15 @@
+{
+  "migration_structure_validation": {
+    "command": "bash scripts/migrations/validate_supabase_migrations.sh",
+    "exit_code": 0,
+    "output": "Supabase migration validation passed"
+  },
+  "migration_comparison_harness_unit_tests": {
+    "command": "ruby scripts/tests/collect_migration_history_review_test.rb",
+    "runs": 3,
+    "assertions": 10,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Harness unit tests; not source-to-hosted body parity"
+  }
+}

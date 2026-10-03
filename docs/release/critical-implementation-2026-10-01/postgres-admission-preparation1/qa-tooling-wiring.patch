@@ -1,0 +1,11 @@
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -259,6 +259,7 @@
+ 	@./scripts/source_integrity_gate.sh --json
+ 
+ qa-tooling-test:
++	@python3 scripts/tests/test_postgres_admission.py
+ 	@python3 scripts/tests/supabase_secret_transport_test.py
+ 	@python3 scripts/tests/supabase_delivery_contract_test.py
+ 	@ruby scripts/tests/edge_function_inventory_test.rb

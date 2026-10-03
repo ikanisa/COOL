@@ -1,0 +1,104 @@
+{
+  "600_second_derivative_not_proposed": "The old log has no attributable partial download/phase evidence; first isolate selected metadata/POM closure.",
+  "APP_SDK_settings_and_shared_cache_mutation": false,
+  "Gradle_or_provider_execution": false,
+  "all_17_inputs_10_references_and_test_classpath_jars_unchanged": true,
+  "bootstrap_generator_historical_nonreplayable": true,
+  "build_sha256": "d766511a650bf85fda1d8fb7b25823f97c787c06dce63dc620c5dfa0201f69ba",
+  "checkpoint_bound": 8,
+  "checkpoint_phases": [
+    "before-selected-metadata-resolution",
+    "selected-components-edges-variants",
+    "selected-POM-results",
+    "selected-metadata-complete-before-binaries",
+    "finished"
+  ],
+  "exact_root": "com.android.tools.lint:lint-gradle:32.0.1",
+  "existing_result": "Recovery1 180-second timeout with no graph; failed embedded observer unchanged",
+  "full_resolution_bounds": {
+    "binary_artifacts": 192,
+    "components": 160,
+    "edges": 1024
+  },
+  "maintained_settings_bound_to": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+  "metadata_only_success_is_not_full_graph_or_publisher_admission": true,
+  "outer_observation_allowance_seconds": 420,
+  "private_behavioral_source_changes": [
+    "minimal-project/build.gradle",
+    "run_resolution.py"
+  ],
+  "production_release_approval": false,
+  "public_API_readback": "installed-public-API-readback.json",
+  "remaining_gap": "Actual metadata execution, publisher variant/file binding, binary acquisition, full selected graph comparison, lint/AAB",
+  "required_outcome": "Persist selected metadata/POM closure before binary downloads under root-owned bounded execution",
+  "retained_consumer_attributes": [
+    "org.gradle.usage=java-runtime",
+    "org.gradle.jvm.environment=standard-jvm"
+  ],
+  "reviewed_patch_sha256": "cbdd60b97c67df4e372f492fddaf32d09a147f74b69741214300754ef72f6461",
+  "root_execution_seconds": 180,
+  "runner_sha256": "53a89d40f693f110d4fd5ae834e889d2090fe1ff72d078a259cd244cccd47e58",
+  "schema_version": 1,
+  "selected_variant_filenames_inferred": false,
+  "separate_owned_cleanup_seconds": 30,
+  "source_fences_sha256": "87ca76357e29317cdeeb0117e3789383726d63b7f954fd5bb99e90ae1e65eae3",
+  "status": "PASS_PRIVATE_PREPARATION_ONLY",
+  "test_attempts_retained": {
+    "attempt1": "Real Groovy helper property issue corrected to public getFD().sync(); failed receipt and partial leaf retained",
+    "attempt2": "Fixture Map keySet collision corrected to Expando; proposed sources unchanged; failed receipt retained"
+  },
+  "test_results": {
+    "Groovy_process": {
+      "Gradle_invoked": false,
+      "actual_seconds": 5.241367833994445,
+      "all_reference_external_and_classpath_fences_match_after": true,
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-Duser.home=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-home",
+        "-Djava.io.tmpdir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-tmp",
+        "-cp",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/*:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/plugins/*",
+        "groovy.ui.GroovyMain",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/limited_groovy_checks.groovy",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/build.gradle",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-fixtures"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2",
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "network_invoked": false,
+      "owned_group_absent": true,
+      "owned_group_id": 34508,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ba0db70577aa64661773b137db31d467695ce28b7948c67df69c1c729cec402a",
+      "timed_out": false
+    },
+    "Python_process": {
+      "Gradle_invoked": false,
+      "actual_seconds": 0.04197024999302812,
+      "all_reference_external_and_classpath_fences_match_after": true,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/limited_preparation_test.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2",
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "network_invoked": false,
+      "owned_group_absent": true,
+      "owned_group_id": 34504,
+      "stderr_sha256": "1f5448c8076d732f929847d50b8b1e927c3892ec917c893b791ca357f1f4a6ac",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    },
+    "Python_unittest_count": 7,
+    "standalone_Groovy_group_count": 9,
+    "whole_build_compiled_but_never_executed": true
+  },
+  "unchanged_private_sources": [
+    "minimal-project/settings.gradle",
+    "read_publisher_provenance.py"
+  ]
+}

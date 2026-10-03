@@ -1,0 +1,12 @@
+{"aal": "aal1", "exp": 1790801309, "sub": "99920000-0000-4000-8000-000000000001", "role": "authenticated", "session_id": "99920000-0000-4000-8000-000000000011"}
+
+
+
+
+
+
+
+{"role":"service_role"}
+
+HEALTH_PERFORMANCE_JSON|[{"p50_ms": 3.694, "p95_ms": 4.8295, "volume": 1000, "samples": 20, "maximum_ms": 5.580000, "minimum_ms": 1.321000}, {"p50_ms": 7.8605, "p95_ms": 10.01735, "volume": 10000, "samples": 20, "maximum_ms": 10.119000, "minimum_ms": 5.721000}, {"p50_ms": 40.9605, "p95_ms": 53.3968, "volume": 50000, "samples": 20, "maximum_ms": 60.632000, "minimum_ms": 35.374000}]
+HEALTH_PERFORMANCE_ASSERTIONS|32

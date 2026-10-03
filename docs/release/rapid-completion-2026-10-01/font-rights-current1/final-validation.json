@@ -1,0 +1,48 @@
+{
+  "command": {
+    "argv": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "--reporter=expanded",
+      "--name=historical golden manifest covers every baseline exactly|public website compares historical desktop baseline",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/reviewed-public.machine.jsonl",
+      "test/goldens/collect_core_surfaces_golden_test.dart"
+    ],
+    "exit_code": 0,
+    "parent_exit_confirmed": true,
+    "process_group": 35295,
+    "seconds": 4.167,
+    "sha256": "5a592b6079c9faf9063045943aa186594d34ac185810cfd671007a058fcd79ca",
+    "termination_errors": [],
+    "timed_out": false
+  },
+  "export_drift": {},
+  "machine_summary": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 2,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "no_other_tests_or_builds_executed": true,
+  "original_public_mismatch_preserved": true,
+  "other_twelve_goldens_not_executed": true,
+  "other_twelve_manifest_entries_identical_to_parent": true,
+  "precision_tolerance": 0.0005,
+  "prior_packet_sha256": "910d4b3e79ad00cb50e5ae652698a4a6fb70b22df4e98a405f9d729789fe348f",
+  "public_candidate_sha256": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4",
+  "publication_sha256": {
+    "test/goldens/GOLDEN_MANIFEST.sha256": "602324d40471dcaff33a38c460d453522355c89d4d6d0c9734051c0f08c945ea",
+    "test/goldens/baselines/public_home_desktop.png": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4"
+  },
+  "root_visual_review": "public-golden-review.json",
+  "root_visual_review_sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd",
+  "scope": "Only reviewed actual Inter public golden and complete13-file manifest integrity. Earlier landing8/single-font1/Ruby case results are retained; no complete surface/native comparator or release-binary font package claim.",
+  "source_drift": {},
+  "status": "pass"
+}

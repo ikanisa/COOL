@@ -1,0 +1,15 @@
+{
+  "actual_source_APP_Android3_fields_still_required": true,
+  "canonical_counts_or_criterion_changed": false,
+  "current_package_unknown_until_actual_result": true,
+  "historical_AAB9_retained": true,
+  "previous_SHA256SUMS_sha256": "69994c234ff38cbbfda07869049a13f2fc6a5568c8e02e3b2211958bdd1f7323",
+  "previous_packet_path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/packet-files.json",
+  "previous_packet_rewritten": false,
+  "previous_packet_sha256": "858fb7a1a46c25a4b04696258e906fd8b977337030f24bedb15387754b7fd93d",
+  "previous_seal_sha256": "dd78cf40cd5b3b92a4e8050851fce8ae3339e0edb3554b907e8d562d776448d2",
+  "reader_and_tests_source_delta_changed": false,
+  "required_future_AAB_result_removed": true,
+  "schema_version": 1,
+  "status": "PRIVATE_CORRECTION_OF_UNNECESSARY_FUTURE_AAB_DEPENDENCY"
+}

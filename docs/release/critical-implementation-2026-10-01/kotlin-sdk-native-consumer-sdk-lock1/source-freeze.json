@@ -1,0 +1,16 @@
+{
+  "ARC09_closed": false,
+  "actual_controller_exit_code": 0,
+  "actual_next_predecessor_terminal_SHA256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+  "actual_pass": true,
+  "app_export_app_resolution_Gradle_native_executed": false,
+  "candidate_promoted": false,
+  "controller_actual_seconds": 43.472,
+  "enforced_pub_actual_seconds": 24.167,
+  "frozen_at_UTC": "2026-10-02T02:49:23.505915+00:00",
+  "leaf_count": 28,
+  "original_SDK_lock_SHA256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340",
+  "packet_manifest_SHA256": "8c59acde48be61ff7bc98e28eb09565e13a4cddd10f4cdd96ea4a6ffb9ac8f44",
+  "production_release_approval": false,
+  "startup_executed": false
+}

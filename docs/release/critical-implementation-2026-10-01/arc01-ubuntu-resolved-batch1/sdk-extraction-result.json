@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc01-ubuntu-resolved-batch1/extract_sdk.py"
+  ],
+  "completed_at_utc": "2026-10-02T00:36:12.758217+00:00",
+  "deadline_seconds": 420,
+  "elapsed_seconds": 145.53358154200032,
+  "exit_code": 0,
+  "log_sha256": "cac7e56f99971a8ad4fe5928c6af4b9d51f6e39433efef4ea838fcd7dc4141f0",
+  "started_at_utc": "2026-10-02T00:33:47.226948+00:00",
+  "timed_out": false
+}

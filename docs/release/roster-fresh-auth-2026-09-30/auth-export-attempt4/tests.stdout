@@ -1,0 +1,8 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/browser_auth_memory_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/browser_auth_memory_test.dart: web memory and native durable options are explicitly distinct
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/browser_auth_memory_test.dart: departed session shape contains references only
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/browser_auth_memory_test.dart: same-session refresh matches departure without sharing new credentials
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/browser_auth_memory_test.dart: untrusted foreign malformed or expired input cannot clear a session
+00:00 +4: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/supabase_session_persistence_test.dart
+00:16 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/core/supabase_session_persistence_test.dart: mobile auth uses renewable persisted sessions
+00:16 +5: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt4/source-export/test/admin_roster_fresh_auth_test.dart

@@ -1,0 +1,97 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 503,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 55782,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 1.1,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-sdk-current-attempt4/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_gateway_sdk_state_matrix_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-sdk-current-attempt4/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 55863,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 162.821,
+      "sha256": "a1cab95d83d09a953f73d4e5811686847b5387bc4765bc3969523e9335dbac72"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_gateway_sdk_state_matrix_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 63032,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 160.29,
+      "sha256": "51012a4cc41dbf39a6ba97e78d0460f7f8db221d68b963df996a0c4d3f55cd05"
+    }
+  ],
+  "test_files": [
+    "test/admin_gateway_sdk_state_matrix_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": 66,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": true,
+    "passed": 66,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [],
+    "event_errors": []
+  },
+  "test_gate_passed": true,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "0208fb10a7bb8faac9f330fb75c3ad7686764e207632fa813f646ab40c4e735f",
+  "source_before_sha256": "c825db01be46959d089360d65b0830bc1d50600819315adb1ac62199521e2e80",
+  "source_after_sha256": "c825db01be46959d089360d65b0830bc1d50600819315adb1ac62199521e2e80"
+}

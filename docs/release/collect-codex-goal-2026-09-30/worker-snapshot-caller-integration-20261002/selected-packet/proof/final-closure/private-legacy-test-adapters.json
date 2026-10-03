@@ -1,0 +1,17 @@
+[
+  {
+    "source": "originals/scripts/tests/collect_recovery_source_test.rb",
+    "private": "tests/collect_recovery_source_test.rb",
+    "diff": "--- original/collect_recovery_source_test.rb\n+++ private/collect_recovery_source_test.rb\n@@ -2,7 +2,7 @@\n require 'tmpdir'\n require 'fileutils'\n require 'open3'\n-require_relative '../audits/collect_recovery_source'\n+require_relative '../promote/scripts/audits/collect_recovery_source'\n \n class CollectRecoverySourceTest < Minitest::Test\n   def setup\n"
+  },
+  {
+    "source": "originals/scripts/tests/collect_encrypted_database_backup_test.rb",
+    "private": "tests/collect_encrypted_database_backup_test.rb",
+    "diff": "--- original/collect_encrypted_database_backup_test.rb\n+++ private/collect_encrypted_database_backup_test.rb\n@@ -1,5 +1,5 @@\n require 'minitest/autorun'\n-require_relative '../audits/collect_encrypted_database_backup'\n+require_relative '../promote/scripts/audits/collect_encrypted_database_backup'\n \n class CollectEncryptedDatabaseBackupTest < Minitest::Test\n   def test_pgpass_escapes_colons_and_backslashes\n@@ -21,7 +21,7 @@\n   end\n \n   def test_source_has_narrow_write_and_backup_guards\n-    source = File.read(File.expand_path('../audits/collect_encrypted_database_backup.rb', __dir__))\n+    source = File.read(File.expand_path('../promote/scripts/audits/collect_encrypted_database_backup.rb', __dir__))\n     assert_includes source, \"APPROVED_IP = '129.222.149.205'\"\n     assert_includes source, \"may_have_added_rule = true # Set BEFORE\"\n     assert_includes source, \"current.fetch('dbAllowedCidrs') - [cidr]\"\n"
+  },
+  {
+    "source": "originals/scripts/tests/production_archive_restore_test.rb",
+    "private": "tests/production_archive_restore_test.rb",
+    "diff": "--- original/production_archive_restore_test.rb\n+++ private/production_archive_restore_test.rb\n@@ -1,5 +1,5 @@\n require 'minitest/autorun'\n-require_relative 'production_archive_restore'\n+require_relative '../promote/scripts/tests/production_archive_restore'\n \n class ProductionArchiveRestoreTest < Minitest::Test\n   def test_copy_order_is_irrelevant_but_values_and_sequences_are_not\n"
+  }
+]

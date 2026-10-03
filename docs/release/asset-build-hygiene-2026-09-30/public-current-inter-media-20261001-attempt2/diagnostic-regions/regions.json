@@ -1,0 +1,30 @@
+[
+  {
+    "source": ".cache/public-current-inter-media-20261001-attempt2/screenshots/group-detail.png",
+    "source_sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "rectangle": [
+      48,
+      2314,
+      1123,
+      2499
+    ],
+    "diagnostic_region": "docs/release/asset-build-hygiene-2026-09-30/public-current-inter-media-20261001-attempt2/diagnostic-regions/group-detail-navigation.png",
+    "diagnostic_sha256": "18ccd4ba3ab1d56de7daca987adb78256f411e00784d852a9fa9e1a07b343923",
+    "unchanged_region_rgba_sha256": "5ba416a93e7c91335d4ca1d43bdf25595cd715885e3408953c600ebfe3cff618",
+    "scope": "Lossless byte-identical region readback for diagnosis only; no recoloring/resizing/retouching and no published image modification."
+  },
+  {
+    "source": ".cache/public-current-inter-media-20261001-attempt2/screenshots/terms.png",
+    "source_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "rectangle": [
+      50,
+      120,
+      900,
+      556
+    ],
+    "diagnostic_region": "docs/release/asset-build-hygiene-2026-09-30/public-current-inter-media-20261001-attempt2/diagnostic-regions/terms-back-and-first-line.png",
+    "diagnostic_sha256": "d3ef14766cd29bdf04d826ffa9ced7b8e150a2697656105d401edeea88ed00ca",
+    "unchanged_region_rgba_sha256": "21915c20cbc78c0e31b2dd1b01cb273de4b22b6522e8c64104c4a7c254615c8f",
+    "scope": "Lossless byte-identical region readback for diagnosis only; no recoloring/resizing/retouching and no published image modification."
+  }
+]

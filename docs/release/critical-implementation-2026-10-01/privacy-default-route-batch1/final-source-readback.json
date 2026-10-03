@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-02T00:51:35.301175+00:00",
+  "current_inputs_read": 1345,
+  "read_errors": [],
+  "final_sources_equal_affected_tests_analyzer_authority_inputs": true,
+  "production_edits_owner": "root",
+  "production_sources": {
+    "lib/app/router.dart": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb",
+    "lib/shared/repositories/collect_repository.dart": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f",
+    "lib/shared/widgets/screen_scaffold.dart": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd",
+    "lib/features/settings/security_hub_header.dart": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+  },
+  "maintained_test_sha256": "9f4575aeb0bdde8c29d415a49423ef7ec177dd8ef23eb6a5ceed55e408fff2f2",
+  "original_behavior_test_sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c",
+  "all_six_behavior_attempt_tests_byte_equal": true,
+  "test_only_lint_delta": "test-only-lint-correction.diff",
+  "assertions_relaxed": false,
+  "diagnostic_markers_in_final_production": false,
+  "canonical_registry_sha256": "71d9288963e5cd13a78c6abd50f9c962081a5c841da3d5688849c8a36cadbefa",
+  "current_public_content_contract_sha256": "c3a81d6067fc3533630b786e8b3a0ce125661d5c0fe7b5d41dfb2564747b50ee",
+  "scope": "Local synthetic consumer integration; not the broad release candidate."
+}

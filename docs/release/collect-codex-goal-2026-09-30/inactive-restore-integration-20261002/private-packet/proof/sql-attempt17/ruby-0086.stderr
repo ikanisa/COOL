@@ -1,0 +1,5 @@
+ERROR:  55P03: could not obtain lock on row in relation "runtime_control_heads"
+CONTEXT:  SQL statement "SELECT 1 FROM collect_security.runtime_control_heads h WHERE family='feature_flags'
+  AND identity=collect_security.runtime_control_identity('feature_flags',v_prior) FOR UPDATE NOWAIT"
+PL/pgSQL function inline_code_block line 47 at PERFORM
+LOCATION:  heap_lock_tuple, heapam.c:4985

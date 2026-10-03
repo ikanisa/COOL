@@ -1,0 +1,43 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/apply_exact_cumulative8.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/apply_native_consumer_cumulative8.py
+@@ -11,7 +11,7 @@
+ PHYSICAL = HERE.parent / 'kotlin-sdk-physical-foundation-batch1'
+ PLAN1 = HERE.parent / 'kotlin-sdk-candidate-plan1'
+ PLAN2 = HERE.parent / 'kotlin-sdk-task-compatibility-plan2'
+-VALIDATOR_SHA = 'ffbcf5f5863f9b770a8492b7f702d64deaeb47a16951c6dd61952d2346eefad3'
++VALIDATOR_SHA = 'f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487'
+ PHYSICAL_MANIFEST_SHA = '15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126'
+ PLAN2_MANIFEST_SHA = '6ec617a0925bf719670e308f51d8ce19728f975500aaabf8fe1958cd29ac3fb3'
+ 
+@@ -56,7 +56,7 @@
+ 
+ 
+ def reviewed_inputs():
+-    validator_path = HERE / 'verify_candidate2_source.py'
++    validator_path = HERE / 'verify_native_consumer_source.py'
+     if sha(validator_path) != VALIDATOR_SHA:
+         raise ValueError('cumulative eight-source validator drift')
+     validator = module(validator_path, 'exact_cumulative8_validator')
+@@ -92,7 +92,10 @@
+         observed = path.stat()
+         if not stat.S_ISREG(observed.st_mode) or observed.st_nlink != 1:
+             raise ValueError('source patch target is not exclusive regular file')
+-        original = path.read_bytes()
++        metadata = module(HERE / 'publisher_metadata.py', 'exact_application_reader')
++        fenced, original = metadata.stable_read(path, True)
++        if (observed.st_dev, observed.st_ino, observed.st_mtime_ns) != (fenced['device'], fenced['inode'], fenced['mtime_ns']):
++            raise ValueError('source patch baseline raced before RAM reconstruction')
+         validator.check_regular_bytes('flutter/' + name, original, admission['members']['flutter/' + name], preview, 'pristine')
+         after = parser.reconstruct(original, hunks)
+         validator.check_regular_bytes('flutter/' + name, after, admission['members']['flutter/' + name], preview, 'patched')
+@@ -104,8 +107,8 @@
+ 
+ def apply_after_separate_authorization(root):
+     validator, prepared = prepare_ram_delta(root)
+-    if root != validator.CANDIDATE or root in (validator.PRISTINE, validator.INSTALLED, validator.FAILED_CANDIDATE):
+-        raise ValueError('application restricted to exact new independent candidate2')
++    if root != validator.CANDIDATE or root in (validator.PRISTINE, validator.INSTALLED, validator.FAILED_CANDIDATE, validator.COMPLETED_CANDIDATE):
++        raise ValueError('application restricted to exact new independent native consumer')
+     for name, row in prepared.items():
+         path = root / name
+         if path.is_symlink() or path.resolve() != path or sha(path) != row['before_sha256'] or path.stat().st_nlink != 1:

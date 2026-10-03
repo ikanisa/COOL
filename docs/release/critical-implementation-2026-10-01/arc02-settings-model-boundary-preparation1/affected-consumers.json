@@ -1,0 +1,127 @@
+{
+  "scope": "Current direct imports plus history UI/runtime, registry, shared exact JSON validator and unchanged CI gate; read-only discovery",
+  "files": {
+    ".github/workflows/ci.yml": {
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+      "bytes": 23831,
+      "mode": 448
+    },
+    "lib/admin/core/admin_governed_settings_checkpoint.dart": {
+      "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+      "bytes": 782,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+      "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+      "bytes": 6539,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_controller.dart": {
+      "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+      "bytes": 7708,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_page.dart": {
+      "sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9",
+      "bytes": 38314,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_registry.dart": {
+      "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+      "bytes": 11129,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_runtime.dart": {
+      "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+      "bytes": 5193,
+      "mode": 420
+    },
+    "lib/admin/core/admin_governed_settings_sdk.dart": {
+      "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+      "bytes": 6069,
+      "mode": 420
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "bytes": 38513,
+      "mode": 420
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "bytes": 3650,
+      "mode": 420
+    },
+    "test/admin_governed_settings_checkpoint_browser_test.dart": {
+      "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+      "bytes": 7121,
+      "mode": 420
+    },
+    "test/admin_governed_settings_controller_test.dart": {
+      "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+      "bytes": 8035,
+      "mode": 420
+    },
+    "test/admin_governed_settings_eligibility_test.dart": {
+      "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+      "bytes": 12214,
+      "mode": 420
+    },
+    "test/admin_governed_settings_eligibility_widget_test.dart": {
+      "sha256": "a86c82c7b218968fc4c2bc18338782bb75e4c6e0a82270c7caae4d3b1479c6f9",
+      "bytes": 20580,
+      "mode": 420
+    },
+    "test/admin_governed_settings_models_test.dart": {
+      "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+      "bytes": 12960,
+      "mode": 420
+    },
+    "test/admin_governed_settings_sdk_test.dart": {
+      "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+      "bytes": 8020,
+      "mode": 420
+    },
+    "test/admin_governed_settings_widget_test.dart": {
+      "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+      "bytes": 14107,
+      "mode": 420
+    },
+    "test/support/settings_eligibility_fixture.dart": {
+      "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+      "bytes": 4467,
+      "mode": 420
+    },
+    "test/support/settings_fixture.dart": {
+      "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+      "bytes": 8116,
+      "mode": 420
+    }
+  },
+  "validation_recommendation": {
+    "root_owned_changed_candidate": [
+      "existing whole large-file CI gate",
+      "Dart formatter on both proposed files",
+      "strict analyzer on the captured source including all affected imports",
+      "existing test/admin_governed_settings_models_test.dart",
+      "existing test/admin_governed_settings_sdk_test.dart",
+      "existing test/admin_governed_settings_widget_test.dart"
+    ],
+    "specific_preserved_failure_cases": [
+      "history_complete disclosure refusal",
+      "unrecognized history DTO key refusal",
+      "nullable actor and request identifiers",
+      "paired timestamp/event-ID ordering and exclusive before cursor",
+      "cursor bound to final event of a full page",
+      "redacted old/new hash refusal",
+      "revision increment bound",
+      "allowed live_operator/database_owner authority",
+      "checked-at event time bound"
+    ]
+  },
+  "ci_size_gate_changed": false,
+  "owned_model_before": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "bytes": 38333,
+    "mode": 420
+  }
+}

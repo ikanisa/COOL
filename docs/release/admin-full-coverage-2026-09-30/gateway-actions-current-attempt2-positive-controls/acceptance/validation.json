@@ -1,0 +1,112 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 514,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 64051,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 1.065,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_gateway_action_ui_sdk_test.dart",
+        "--plain-name",
+        "production dialog SDK success",
+        "--concurrency=1",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 64084,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 105.852,
+      "sha256": "abafd6667e9217e27d6e0723a5d5764943f7da2a6d2f52003c9fcb6c5560468d"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_gateway_action_ui_sdk_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 70025,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 50.708,
+      "sha256": "64efe75ed70ce0bf6c47ff196e49b2cd6d3efa7d0c0e9216eb4ec7f1ae9a8b9b"
+    }
+  ],
+  "test_files": [
+    "test/admin_gateway_action_ui_sdk_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 0,
+    "failed": 0,
+    "errors": 3,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "enroll enroll production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "activate activate production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      },
+      {
+        "name": "revoke revoke production dialog SDK success validates exact intent before refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/gateway-actions-current-attempt2-positive-controls/source-export/test/admin_gateway_action_ui_sdk_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "900c2c4634041ecb42d38ffd564b4a8d61543b97259e1e11cf876ba87514ab10",
+  "source_before_sha256": "4c02811d9518c7be711ba1b62b9d4493936bcbbd39bf91a195243ab4b181609f",
+  "source_after_sha256": "4c02811d9518c7be711ba1b62b9d4493936bcbbd39bf91a195243ab4b181609f"
+}

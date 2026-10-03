@@ -1,0 +1,44 @@
+{
+  "advisory_source": "https://github.com/advisories/GHSA-r937-wjx7-w2jp",
+  "current_target_osv_query_records": 0,
+  "cvss_vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:L",
+  "fixed_range": [
+    {
+      "events": [
+        {
+          "introduced": "0"
+        },
+        {
+          "fixed": "2.4.20-Beta1"
+        }
+      ],
+      "type": "ECOSYSTEM"
+    }
+  ],
+  "limitations": "This exact KGP target query is a dated database response, not proof that all dependencies or installed SDK build tooling are cleared.",
+  "release_draft": false,
+  "release_prerelease": false,
+  "reused_current_authenticated_primary_receipts": {
+    "primary/kotlin-stable-fixed-release.response": {
+      "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/primary/kotlin-stable-fixed-release.response",
+      "sha256": "0d79ce65636fc98b8ecc67e67f98898b5ef17cdd6f90566d0816e2d4b76c2af2"
+    },
+    "records/GHSA-r937-wjx7-w2jp.response": {
+      "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/records/GHSA-r937-wjx7-w2jp.response",
+      "sha256": "2a2fb6a4870dcc7cac68522a663247ca5d5038cd192ce3479507fc810dbdc37d"
+    },
+    "stable-kotlin-remediation-target-osv.metadata.json": {
+      "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/stable-kotlin-remediation-target-osv.metadata.json",
+      "sha256": "fea98bf594fd2fdb6f84f7b9f2f9d613b99a02f4c03b2715cde66ed55adc9493"
+    },
+    "stable-kotlin-remediation-target-osv.request.json": {
+      "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/stable-kotlin-remediation-target-osv.request.json",
+      "sha256": "4c198446a5f2a31fe39c724ef5ed4facf8cfb53ca603fdc1cff89b0ad5e2c85d"
+    },
+    "stable-kotlin-remediation-target-osv.response": {
+      "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/stable-kotlin-remediation-target-osv.response",
+      "sha256": "a0460b2895f6918d679db4ec8ceaa94dc85b501d9060c02839d05e919aac5e31"
+    }
+  },
+  "stable_release_source": "https://github.com/JetBrains/kotlin/releases/tag/v2.4.20"
+}

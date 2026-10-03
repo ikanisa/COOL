@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-10-02T00:19:42.995762+00:00",
+  "config_digest": "sha256:6232b38791000e3818b58d8847b5a8f5612d606929e01156dd8febc423e0f2ef",
+  "elapsed_seconds": 0.9332313329978206,
+  "headers": {
+    "Connection": "close",
+    "Content-Length": "424",
+    "Content-Type": "application/vnd.oci.image.manifest.v1+json",
+    "Date": "Fri, 02 Oct 2026 00:19:43 GMT",
+    "docker-content-digest": "sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4",
+    "docker-distribution-api-version": "registry/2.0",
+    "docker-ratelimit-source": "2605:59c0:3761:5210::",
+    "etag": "\"sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4\"",
+    "ratelimit-limit": "100;w=3600",
+    "ratelimit-remaining": "97;w=3600",
+    "strict-transport-security": "max-age=31536000",
+    "x-ratelimit-limit": "100;w=3600",
+    "x-ratelimit-remaining": "97;w=3600"
+  },
+  "http_status": 200,
+  "image_pulled": false,
+  "manifest_sha256": "sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4",
+  "official_index_receipt": "../preparation-attempt2/ubuntu24.04-index.response",
+  "platform": {
+    "architecture": "amd64",
+    "os": "linux"
+  },
+  "runtime_emulation_not_yet_verified": true,
+  "url": "https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4"
+}

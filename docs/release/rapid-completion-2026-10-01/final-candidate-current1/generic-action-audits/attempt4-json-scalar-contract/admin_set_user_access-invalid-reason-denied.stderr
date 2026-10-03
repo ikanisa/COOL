@@ -1,0 +1,4 @@
+ERROR:  22023: Active state and reason are required
+CONTEXT:  PL/pgSQL function collect_admin_access.set_user_access(uuid,boolean,text) line 8 at RAISE
+SQL function "admin_set_user_access" statement 1
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

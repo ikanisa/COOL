@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "path": "before/scripts/tests/admin_receipt_operational_telemetry_test.dart",
+      "sha256": "fc7e96f83d783c66f7e09ecb85312f44e8ab36494cf38ecd6d589269aff32526",
+      "bytes": 13803
+    },
+    {
+      "path": "before/scripts/tests/admin_receipt_source_busy_test.dart",
+      "sha256": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "bytes": 2318
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "751e518c85aaba2652008affb833f9f91c36482deb91300ce03774bee5fb646f",
+      "bytes": 1390
+    }
+  ]
+}

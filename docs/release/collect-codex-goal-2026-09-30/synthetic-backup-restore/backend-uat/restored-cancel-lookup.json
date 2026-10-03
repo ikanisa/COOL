@@ -1,0 +1,25 @@
+{
+  "scope": "rw_receipt_manual_cancel",
+  "status": "recorded",
+  "receipt": {
+    "scope": "rw_receipt_manual_cancel",
+    "action": "cancel_unstarted",
+    "revision": 2,
+    "outbox_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+    "request_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+    "reason_code": "operator_cancelled",
+    "recorded_at": "2026-10-01T01:10:34.698888Z",
+    "send_action": false,
+    "state_after": "suppressed",
+    "state_before": "queued",
+    "contract_version": 1,
+    "financial_action": false,
+    "expected_revision": 1,
+    "primary_receipt_retained": true,
+    "provider_delivery_verified": false
+  },
+  "checked_at": "2026-10-01T01:11:08.609070Z",
+  "request_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T01:12:08.609070Z"
+}

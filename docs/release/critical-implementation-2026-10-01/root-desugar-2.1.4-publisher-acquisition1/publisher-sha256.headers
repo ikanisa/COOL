@@ -1,0 +1,20 @@
+HTTP/2 200 
+accept-ranges: bytes
+cache-control: no-transform
+cache-control: public
+cache-control: max-age=86400
+content-disposition: attachment
+content-length: 64
+content-security-policy: default-src 'none'
+content-type: application/octet-stream
+etag: "3a9d59d"
+last-modified: Fri, 20 Dec 2024 09:07:28 GMT
+server: downloads
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-identity-content-length: 64
+x-xss-protection: 0
+date: Fri, 02 Oct 2026 13:17:55 GMT
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+

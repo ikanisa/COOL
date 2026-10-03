@@ -1,0 +1,10 @@
+HTTP/2 404 
+content-type: application/xml; charset=UTF-8
+x-guploader-uploadid: AP6rU80k3iSWZGUbY4Yo0x3tpaujK_FMR4FhbA-5qZQsGuukF6aKtKcfJYkNRBHTbt7Q0H5IX9rR9A0
+content-length: 226
+date: Fri, 02 Oct 2026 14:29:51 GMT
+expires: Fri, 02 Oct 2026 14:29:51 GMT
+cache-control: private, max-age=0
+server: UploadServer
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+

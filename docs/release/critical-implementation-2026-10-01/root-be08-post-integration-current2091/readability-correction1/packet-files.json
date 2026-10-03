@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "payload_count": 1,
+  "files": {
+    "erratum.json": {
+      "bytes": 955,
+      "sha256": "c38d4f50f73d40364233e1fa88553522d801779637d5d74e1fcf98cae64f92a9"
+    }
+  }
+}

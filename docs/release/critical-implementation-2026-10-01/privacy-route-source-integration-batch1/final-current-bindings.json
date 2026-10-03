@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-10-02T00:52:53.242392+00:00",
+  "default_consumer_batch": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+  "default_consumer_batch_sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a",
+  "root_readback_sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c",
+  "production_source_sha256": {
+    "lib/app/router.dart": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb",
+    "lib/shared/repositories/collect_repository.dart": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f",
+    "lib/shared/widgets/screen_scaffold.dart": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd",
+    "lib/features/settings/security_hub_header.dart": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+  },
+  "current_public_metadata_sha256": {
+    "content/product/collect_capabilities.json": "71d9288963e5cd13a78c6abd50f9c962081a5c841da3d5688849c8a36cadbefa",
+    "docs/release/public-website-current-content-contract.json": "c3a81d6067fc3533630b786e8b3a0ce125661d5c0fe7b5d41dfb2564747b50ee",
+    "lib/features/landing/public_marketing_page_content.dart": "91067ab43ef0d3da347494f9f429d0282122cab168225ed7a80313a32ae34ee0",
+    "lib/features/landing/public_capability_content.dart": "f326adac4467bd16bb5056836389a0ef28e0a2025a5b7f1de2b6498e6469ec46"
+  },
+  "current_full_public_runtime_accepted": false,
+  "production_approval": false
+}

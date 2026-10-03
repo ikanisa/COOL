@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/limited_test.py"
+  ],
+  "actual_seconds": 0.05392700000084005,
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "owned_PID_PGID": 30765,
+  "owned_group_absent": true,
+  "unittest_count": 11,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "ebb7bb51e5610a41749f03fb8945d271606c12356429d4092e4a27999a8d2c61",
+  "network_or_binary_acquisition_calls": 0,
+  "fixtures_written_only_under_newprivate_preparation": true
+}

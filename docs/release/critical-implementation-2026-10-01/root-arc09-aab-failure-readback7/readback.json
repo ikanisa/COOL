@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-02T13:52:25.419812+00:00",
+  "status": "actual_R8_stale_default_Proguard_path_failure_preserved",
+  "packet_sha256": "d36422e5bedfed5295ccd09cf423c7fc15163b0da5dc701644059eed34499d44",
+  "command_sha256": "7948943862f51b7a40623b3d2e6e7ef138b393ed6111d0b83c6852c655ffe052",
+  "actual_seconds": 68.451,
+  "exit_code": 1,
+  "observer_error": null,
+  "owned_daemons_absent": true,
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 3522,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 3544,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 3522,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 3544,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "APP_SDK_protected_source_failure_readbacks_completed": true,
+  "protected_paths_unchanged": 68020,
+  "first_and_configuration_desugar_JARs_resolved": true,
+  "missing_class_failure_reported": false,
+  "actual_failure": "Flutter eagerly captures default Proguard path before app late output-directory override",
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

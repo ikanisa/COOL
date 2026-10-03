@@ -1,0 +1,365 @@
+{
+  "advisory_affected_ranges_or_versions_available": false,
+  "advisory_withdrawal_findings_available": false,
+  "artifact_count": 141,
+  "artifact_extensions": {
+    ".aar": 102,
+    ".jar": 39
+  },
+  "exploitability_assessed": false,
+  "format": "collect-selected-runtime-dependency-review-v1",
+  "graph_configuration": "productionReleaseRuntimeClasspath",
+  "graph_project_artifact_scope": "Project dependency edges only; final local plugin outputs are bound by the unsigned build packet",
+  "graph_scope": "Observed selected graph and available artifact hashes; no signed-artifact/license/advisory acceptance",
+  "known_OSV_records_returned": 0,
+  "license_approval": false,
+  "module_coordinates_with_artifacts": 134,
+  "packaged_AAB_verified": false,
+  "pre_remediation_query_used_as_current_evidence": false,
+  "project_queryability": "unknown/no Maven coordinate-version supplied in selected graph",
+  "relevant_selected_coordinates": [
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-external-protobuf",
+        "version": "1.1.7"
+      },
+      "query_index": 40,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-api",
+        "version": "3.1.0"
+      },
+      "query_index": 96,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-backend-cct",
+        "version": "3.1.9"
+      },
+      "query_index": 97,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-runtime",
+        "version": "3.1.9"
+      },
+      "query_index": 98,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-cloud-messaging",
+        "version": "17.4.0"
+      },
+      "query_index": 101,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.code.gson",
+        "kind": "module",
+        "name": "gson",
+        "version": "2.12.0"
+      },
+      "query_index": 109,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-annotations",
+        "version": "17.0.0"
+      },
+      "query_index": 112,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-bom",
+        "version": "34.17.0"
+      },
+      "query_index": 113,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-common",
+        "version": "22.2.0"
+      },
+      "query_index": 114,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-components",
+        "version": "19.0.0"
+      },
+      "query_index": 115,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-datatransport",
+        "version": "18.2.0"
+      },
+      "query_index": 116,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders",
+        "version": "17.0.0"
+      },
+      "query_index": 117,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders-json",
+        "version": "18.0.0"
+      },
+      "query_index": 118,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders-proto",
+        "version": "16.0.0"
+      },
+      "query_index": 119,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-iid-interop",
+        "version": "17.1.0"
+      },
+      "query_index": 120,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-installations",
+        "version": "19.1.2"
+      },
+      "query_index": 121,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-installations-interop",
+        "version": "17.3.0"
+      },
+      "query_index": 122,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-measurement-connector",
+        "version": "19.0.0"
+      },
+      "query_index": 123,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-messaging",
+        "version": "25.1.1"
+      },
+      "query_index": 124,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.squareup.okio",
+        "kind": "module",
+        "name": "okio",
+        "version": "3.4.0"
+      },
+      "query_index": 131,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "com.squareup.okio",
+        "kind": "module",
+        "name": "okio-jvm",
+        "version": "3.4.0"
+      },
+      "query_index": 132,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "atomicfu",
+        "version": "0.28.0"
+      },
+      "query_index": 146,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "atomicfu-jvm",
+        "version": "0.28.0"
+      },
+      "query_index": 147,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-android",
+        "version": "1.11.0"
+      },
+      "query_index": 148,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-bom",
+        "version": "1.11.0"
+      },
+      "query_index": 149,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-core",
+        "version": "1.11.0"
+      },
+      "query_index": 150,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.11.0"
+      },
+      "query_index": 151,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-play-services",
+        "version": "1.11.0"
+      },
+      "query_index": 152,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-bom",
+        "version": "1.7.3"
+      },
+      "query_index": 153,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-core",
+        "version": "1.7.3"
+      },
+      "query_index": 154,
+      "returned_advisory_ids": []
+    },
+    {
+      "OSV_query_status": "no-known-OSV-records-returned-for-exact-query",
+      "component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-core-jvm",
+        "version": "1.7.3"
+      },
+      "query_index": 155,
+      "returned_advisory_ids": []
+    }
+  ],
+  "selected_modules_without_artifact_count": 23,
+  "source_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+}

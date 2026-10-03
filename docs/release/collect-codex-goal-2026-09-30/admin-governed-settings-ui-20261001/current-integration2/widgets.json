@@ -1,0 +1,21 @@
+{
+  "name": "widgets",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_widget_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/settings-current-integration-proof-20261001-current-integration2/runtime",
+  "pid": 26398,
+  "started_at": "2026-10-01T21:45:58.579799+00:00",
+  "finished_at": "2026-10-01T21:46:32.761924+00:00",
+  "elapsed_seconds": 34.1820421249995,
+  "exit_code": 0,
+  "owned_child_reaped": true,
+  "stdout_sha256": "183cc59546c8eae452d668338496584a82a9b0d59abed5d28c550ac188dbaa0a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_manifest_sha256": "94b29f8e7b383536c8e09cdc8ce9be96869c918384657fa675839df3e584e300"
+}

@@ -1,0 +1,302 @@
+{
+  "actual_blocking_races": 6,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": true,
+      "name": "installed owner positive control has a real existing secret",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all five installed function bodies exactly match reviewed migration",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "installation preserves all synthetic financial families",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private immutable receipt table has RLS and no API grants",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private helpers have no API execute grants",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot rotate invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot rotate invitation",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "installation preserves existing invitation code",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "owner and active ordinary member read same current code",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_permission_required",
+        "sqlstate": "42501"
+      },
+      "name": "nonmember read denied",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_permission_required",
+        "sqlstate": "42501"
+      },
+      "name": "ordinary member cannot rotate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_rotation_request_required",
+        "sqlstate": "22023"
+      },
+      "name": "legacy unidentified rotation refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_request_invalid",
+        "sqlstate": "22023"
+      },
+      "name": "null request refused",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "exact bound rotation receipt returns new canonical code",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "same actor replay returns identical receipt",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "replay creates exactly one receipt and redacted audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_request_conflict",
+        "sqlstate": "40001"
+      },
+      "name": "request replay cannot bind another collection",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_rotation_superseded",
+        "sqlstate": "55000"
+      },
+      "name": "superseded replay refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_receipt_immutable",
+        "sqlstate": "55000"
+      },
+      "name": "receipt immutability update",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_receipt_immutable",
+        "sqlstate": "55000"
+      },
+      "name": "receipt immutability delete",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "expired JWT refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "malformed JWT expiry refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "missing Auth session refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_permission_required",
+        "sqlstate": "42501"
+      },
+      "name": "nonmember platform owner cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current platform-owner moderation may rotate as before",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current active receiver may rotate as before",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_request_conflict",
+        "sqlstate": "40001"
+      },
+      "name": "another authorized actor cannot replay the receiver request",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "membership established snapshot denies committed revoke",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "membership read_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "membership revoke_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "archive established snapshot denies committed revoke",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "archive read_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "archive revoke_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth expiry established snapshot denies committed revoke",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth expiry read_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth expiry revoke_first uses actual authority row wait",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_rate_limited",
+        "sqlstate": "55000"
+      },
+      "name": "rolling hourly quota refuses sixty-first actual rotation",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all invitation operations preserve financial fingerprints",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:40:25.766555+00:00",
+  "database": "collect_local_uat_c4c58494da584e69",
+  "hosted_called": false,
+  "installed_in_shared_source": true,
+  "isolated_database_removed": true,
+  "kind": "group_share_rotation_actual_local_installed154",
+  "migration_sha256": "cd03ad8b7715bcc70e62264fa806a1d97ebef88fad936607a29259ae4e11bf07",
+  "migration_source_unchanged": true,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "runner_sha256": "23d2e698cfb8f29b602d010a3a7d1852f73ed410f52df06dfe0c794eb51f50d2",
+  "schema_only_sha256": "2862a95e7eb9e2712c435bfa06d83518cd94491ab5098670fca47e5cc8cbb67f",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T21:40:07.694210+00:00",
+  "status": "pass"
+}

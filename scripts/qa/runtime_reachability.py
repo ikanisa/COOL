@@ -20,7 +20,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTIVE = re.compile(r"(?ms)^\s*(?:import|export|part)\s+(?!of\b)(.*?);")
 URI = re.compile(r"['\"]([^'\"\n]+)['\"]")
-RUNTIME_ROOTS = ["lib/main.dart", "lib/main_admin.dart", "lib/main_public.dart"]
+RUNTIME_ROOTS = ["lib/main.dart", "lib/main_admin.dart", "lib/main_public.dart",
+                 "lib/main_gateway.dart"]
 
 
 def sha(path: Path) -> str:
@@ -29,7 +30,7 @@ def sha(path: Path) -> str:
 
 def collect(root: Path) -> dict:
     root = root.resolve()
-    sources = {p.relative_to(root).as_posix(): p for scope in ["lib", "test", "integration_test", "tool"]
+    sources = {p.relative_to(root).as_posix(): p for scope in ["lib", "test", "integration_test", "tool", "third_party"]
                for p in (root / scope).rglob("*.dart") if p.is_file()}
     graph, packages, missing = {}, {}, []
     texts = {name: path.read_text(encoding="utf-8") for name, path in sources.items()}
@@ -61,7 +62,8 @@ def collect(root: Path) -> dict:
             seen.add(name)
             pending.extend(graph.get(name, []))
         return seen
-    runtime = reachable(RUNTIME_ROOTS)
+    missing_runtime_roots = [name for name in RUNTIME_ROOTS if name not in sources]
+    runtime = reachable(name for name in RUNTIME_ROOTS if name in sources)
     evidence_roots = [name for name in sources if not name.startswith("lib/")]
     evidence = reachable(evidence_roots)
     manifest = yaml.safe_load((root / "pubspec.yaml").read_text())
@@ -112,9 +114,10 @@ def collect(root: Path) -> dict:
     for name in ["pubspec.yaml", "pubspec.lock", "analysis_options.yaml", catalog_path,
                  "scripts/qa/runtime_reachability.py"]:
         hashes[name] = sha(root / name)
-    return {"schema_version": 1, "status": "fail" if missing or any(not a["exists"] for a in assets) else "audited",
+    return {"schema_version": 1, "status": "fail" if missing or missing_runtime_roots or any(not a["exists"] for a in assets) else "audited",
             "scope": "Conservative declared runtime source/asset/dependency reachability; no deletion authorization or dynamic execution proof.",
             "runtime_roots": RUNTIME_ROOTS, "runtime_source_count": len(runtime_files),
+            "missing_runtime_roots": missing_runtime_roots,
             "reachable_runtime_source_count": len(runtime & runtime_files),
             "runtime_unreachable": [{"path": name, "evidence_reachable": name in evidence,
                                      "sha256": hashes[name]} for name in sorted(runtime_files - runtime)],

@@ -1,0 +1,28 @@
+{
+  "android/app/build.gradle.kts": {
+    "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f",
+    "bytes": 24464
+  },
+  "pubspec.yaml": {
+    "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "bytes": 2425
+  },
+  "scripts/qa/ios_delivery_guard.py": {
+    "sha256": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "bytes": 25148
+  },
+  "scripts/supply_chain/gradle_observed_sbom.py": {
+    "sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb",
+    "bytes": 6470
+  },
+  "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/asset.dart": {
+    "sha256": "44f893e74de441b87236b787f7d15001583dd21d0ea9e4fb3fe89c6e5d289dff",
+    "bytes": 55965,
+    "role": "read-only version-specific notice encoding reference; no SDK command or whole SDK attestation"
+  },
+  "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/devfs.dart": {
+    "sha256": "8f25dffbdee4cbb9d565f2f1a47d07f135a379018ec2ffbd21bc86a1cec353b3",
+    "bytes": 28365,
+    "role": "read-only version-specific notice encoding reference; no SDK command or whole SDK attestation"
+  }
+}

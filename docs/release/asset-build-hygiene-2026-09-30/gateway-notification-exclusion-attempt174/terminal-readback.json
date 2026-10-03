@@ -1,0 +1,26 @@
+{
+  "status": "fail",
+  "sequence_elapsed_seconds": 146.07,
+  "jvm_counts": {
+    "tests": 98,
+    "failures": 48,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jvm_passes": 50,
+  "all_48_failures_before_domain_assertions_due_to_android_json_mockable_stub": true,
+  "marker_dependency_ordering_fixed": true,
+  "current_owned_gradle_source_matches_export": true,
+  "source_delta_sha256": "8bdd4ded23a238df6b1e9608bd1281d380ba8aee9090098796fb31da59a7437e",
+  "debug_registrant_omits_both_notifications_and_retains_firebase_core": true,
+  "original_tool_registrant_unchanged": true,
+  "passed173_release_apk_unchanged": true,
+  "apk": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-gateway-notification-attempt173/app-internal_gateway-release-unsigned.apk",
+    "sha256": "7a66f1b847ec36ab3f34db98b48c993073fedfadb6e08863633000be2fe4423d",
+    "bytes": 82297842
+  },
+  "release173_lint_errors": 0,
+  "release173_lint_warnings": 40,
+  "scope": "Unfinished Debug JVM stage only, with exact QA-marker ordering delta over captured173. Passed Release artifact/lint/dependency/font proof reused without rebuilding. Mutable common repository and unrelated backend/MCP/test work are outside this native artifact claim; default Android unit classpath needs real JSON test runtime before full E3 JVM acceptance."
+}

@@ -1,0 +1,63 @@
+[
+  {
+    "ok": true,
+    "code": null,
+    "replay": false,
+    "device_id": "2bd6a8d0-4433-484d-8305-e3156b2c0997",
+    "attempt_id": "012d0288-7fc0-478f-9ae8-f9662333ea19",
+    "receipt_id": "5e037989-7faf-4a9f-9621-e0429ed40492",
+    "request_id": "e4710154-552c-49b0-9b5b-6e5635c274d0",
+    "body_sha256": "82370c9bb2a639e53a4d9eb0e501928ac25ef1415c85c376452f6a87477fad00",
+    "recorded_at": "2026-10-01T12:52:01.779553Z",
+    "carrier_proof": false,
+    "evidence_kind": "complete_framework_callback_observations",
+    "fence_version": 1,
+    "segment_count": 2,
+    "archive_ack_id": "1968c8a1-cc6c-44e7-b370-eb6b4d7c06bc",
+    "send_authority": false,
+    "delivery_proven": false,
+    "callback_requests": [
+      {
+        "request_id": "b2bb6165-8b3b-4cda-ae58-32259c84288b",
+        "callback_id": "f70ddfd5-b597-4751-820b-9a7dda26afb1",
+        "request_sha256": "20c93ea480502ba63b436e511088ad3501a03b95e403d9770bf0ac019b633c38"
+      },
+      {
+        "request_id": "e9acb8f7-ed91-4b3b-830c-8c80af6a3143",
+        "callback_id": "0011f630-ed85-4146-855f-41e51ad6428f",
+        "request_sha256": "df188923cfe8f799bdada76543611e9066111d83a76315a79ad6dd0cec729a90"
+      },
+      {
+        "request_id": "03856027-1f82-48b9-90f5-b8229d876702",
+        "callback_id": "9f537c90-6f80-4a7d-8ba5-22e017c82aa8",
+        "request_sha256": "1c884028606a96349c9494dbfcf66dda3126097870371b5c995e4ffb88adda31"
+      },
+      {
+        "request_id": "ed0f6761-98f7-4722-b249-a0d42fd4a9fe",
+        "callback_id": "f641a974-bd90-4752-8809-73e550c6e4fd",
+        "request_sha256": "e2c14d4ab4f9b3e092d943770ae6da24497345e2d6047d8ec4fcf0892dbe2a21"
+      }
+    ],
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+  },
+  {
+    "ok": false,
+    "code": "ATTEMPT_ALREADY_ACKNOWLEDGED",
+    "replay": false,
+    "device_id": "2bd6a8d0-4433-484d-8305-e3156b2c0997",
+    "attempt_id": "012d0288-7fc0-478f-9ae8-f9662333ea19",
+    "receipt_id": null,
+    "request_id": "b1a37312-eed9-4899-943e-849da8cd45f3",
+    "body_sha256": "82370c9bb2a639e53a4d9eb0e501928ac25ef1415c85c376452f6a87477fad00",
+    "recorded_at": "2026-10-01T12:52:01.784476Z",
+    "carrier_proof": false,
+    "evidence_kind": null,
+    "fence_version": 1,
+    "segment_count": 2,
+    "archive_ack_id": null,
+    "send_authority": false,
+    "delivery_proven": false,
+    "callback_requests": null,
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+  }
+]

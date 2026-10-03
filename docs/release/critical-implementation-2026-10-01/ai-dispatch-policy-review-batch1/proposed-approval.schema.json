@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposed technical roster AI approval representation; no actual approved configuration supplied",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "purpose",
+    "enabled",
+    "status",
+    "approval_id",
+    "approval_evidence_sha256",
+    "approved_at",
+    "valid_until",
+    "provider",
+    "organization_id",
+    "project_id",
+    "responses_endpoint",
+    "model",
+    "processing_region_evidence_ref",
+    "retention_evidence_ref",
+    "decoder_processor_evidence_ref",
+    "decoder_region_evidence_ref",
+    "decoder_retention_evidence_ref",
+    "decoder_url",
+    "decoder_build_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "purpose": {
+      "const": "collect_roster_pdf_image_extraction"
+    },
+    "enabled": {
+      "const": true
+    },
+    "status": {
+      "const": "approved"
+    },
+    "approval_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "approval_evidence_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provider": {
+      "const": "openai"
+    },
+    "organization_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "responses_endpoint": {
+      "const": "https://api.openai.com/v1/responses"
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "processing_region_evidence_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "retention_evidence_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "decoder_processor_evidence_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "decoder_region_evidence_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "decoder_retention_evidence_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "decoder_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 2048
+    },
+    "decoder_build_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$comment": "Draft only. Existing zonedInstant calendar check, exact configured model/org/project/decoder tuple, canonical compact JSON and independently pinned whole UTF8 JSON SHA256, and current window checks are additional runtime requirements. Nonempty evidence refs/hash are representations, not proof of owner approval or live vendor/account entitlement."
+}

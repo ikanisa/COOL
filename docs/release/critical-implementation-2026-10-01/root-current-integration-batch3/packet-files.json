@@ -1,0 +1,27 @@
+{
+  "file_count": 21,
+  "files": {
+    "README.md": "add4353c79a0974f67bf0e1a539d7e51c69fa27b7ff657f59d3b46d278acdd11",
+    "ai-design-independent-readback.json": "54395819050a6da9031a32dfc1fa3eab03cf24471c748479f2f09ab7abae7159",
+    "ai-fixture-independent-readback.json": "1c210aa8f7c0b89f7a32908864dfec048e1ff0bc4fd4cce0101337c86c81b5a3",
+    "initial-register-wrapper-observation.json": "aa1d46d9ad9296a63b2bf7e3be0d4811c90e4153b597a6bcabcab589293daf44",
+    "reconcile_registers.py": "020e3e73f326d2224b2a77205e094d29d82dcdc133f29f35f7c38f3aab5c096f",
+    "register-reconciliation.json": "8f6ac08c261b14d233b2e7f4c56eaf4a71e198a513dcca5af67dd1a948d6e23f",
+    "registers-after/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "4c8ae32325f8818a55e0b1ae8bb9649662a4039269d7f58e6f78d6f11992a0b6",
+    "registers-after/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "7bf885108359a30fd8c0593ea31763bd8bc260814b594a4d9cbc6034604ca026",
+    "registers-after/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "4c36d6729f76f4ad40d4d0745d8a787adc715779e19fd312fbbd770f3d4142c7",
+    "registers-after/docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "e548729952cbc4ae857abe68f5923f652de3a7109d3d01551185a4be15f1ed79",
+    "registers-after/docs/release/local-implementation-register-2026-09-30.json": "c11bf9022c099aa2ca3890beebcf1bef07ba38f65c240c7a20a4621b93de2d85",
+    "registers-after/docs/release/production-remaining-tasks-2026-09-30.json": "09ad98b0c6b49129cc37669f3cbdec02117fbb49427fe459ee270b8fc1e4ba7e",
+    "registers-before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "1ece26ebac6cd5c83f7176ced8407a2fe98fc06e58f4c1a2c69f7d17a1105069",
+    "registers-before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "5ccb2f55436d74c14dad8a914a31810956d68af39d1e07b5c6c6e7582c769acd",
+    "registers-before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "d1115d085ab5494f4f59f4c5321549af08360028ce6ab5d08d0b72a78b78e201",
+    "registers-before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "3da193b34db38e4b60f25ad67f87098af1054bcba7b3ca3068874c031dba437a",
+    "registers-before/docs/release/local-implementation-register-2026-09-30.json": "8dae93b9c1bd7b58583083d374d8843b5dc9772e710623316039c49366afbe75",
+    "registers-before/docs/release/production-remaining-tasks-2026-09-30.json": "b2f5da805af45aceb60cd14cfa9cf9976c2a3447c64141414bc7e77b2d57df39",
+    "roster-decoder-README.before.md": "de722f939bbe759dd5592963937bab38ed17f58362d1158339d4bbd3a1b8b029",
+    "sdk-candidate2-independent-original-readback.json": "f6d9419613c31344a031efda4db316a47e479c5cb666eab57bb011f0338de1e9",
+    "verify_ai_and_design_readback.py": "23c885fa27bbdcaf6f2a5a06eb29b7900623b7e74f1ea72e324043729f6de577"
+  },
+  "scope": "Independent AI/design and standalone SDK current integration only; original criteria/rows preserved, whole release acceptance false"
+}

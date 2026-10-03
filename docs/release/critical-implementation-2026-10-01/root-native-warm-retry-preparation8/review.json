@@ -1,0 +1,11 @@
+{
+  "original_controller_sha256": "de1a14aaedb0b2ed2c5db0a7c925a79dd5dc68e94cee6abc85597e43b419b514",
+  "derived_controller_sha256": "803bf024a36e008c390aec7bd7405836afd6831a85008bad606b0ae0e556b93c",
+  "namespace_difference": "review7 to review8",
+  "sole_execution_difference": "native-only removal of exactly one --rerun-tasks after validating original pinned config; all required tasks and original bounds unchanged",
+  "other_stages_unchanged": true,
+  "original_SEVEN_admission_tests_reused_unchanged_contract": true,
+  "native_old_failure_not_reclassified": true,
+  "native_stage_not_admitted": true,
+  "production_release_approval": false
+}

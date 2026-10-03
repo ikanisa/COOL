@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T21:14:52.633406+00:00",
+  "scope": "Current owner-request readback of classified competing UI/design skills and removed standalone rule/gates; technical and professional skills retained by explicit owner selection.",
+  "current_global_readback": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/cleanup-owner-request-readback.json",
+  "current_global_readback_sha256": "718ce57bdc2f1309dc28a3084d3195ef934370b0b1ac29db0108d5221fde4669",
+  "additional_cleanup_receipt": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/temporary-figma-lock-cleanup.json",
+  "additional_cleanup_sha256": "47797616d985858201467146432c4347ab3aab6d20c3e04545a72388ef3dc439",
+  "classified_removed_paths_verified_absent": 141,
+  "active_skill_files_inspected": 667,
+  "catalog_files_inspected": 240,
+  "active_rule_and_source_files_inspected": 1005,
+  "selected_skill": "revolut-design",
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "retired_rule_file_absent": true,
+  "current_authority_make_check": {
+    "command": "make revolut-design-authority",
+    "exit_code": 0,
+    "result": "[revolut-design-authority] pass",
+    "full_visual_acceptance": false
+  },
+  "scope_limits": "Bounded non-atomic readback; earlier protected/inaccessible paths, Git/dependency/application internals and unsupported archive limits remain unverified. Conversation/history names and removal receipts do not constitute installed skills or active gates."
+}

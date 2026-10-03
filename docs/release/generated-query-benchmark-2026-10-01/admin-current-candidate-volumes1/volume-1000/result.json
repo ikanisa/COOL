@@ -1,0 +1,51 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "cases": [],
+  "failure": "exact accepted no-row schema154 owner-normalized restore: ERROR:  42P06: schema \"auth\" already exists\nLOCATION:  NamespaceCreate, pg_namespace.c:62\n",
+  "isolated_database_removed": true,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "status": "failed",
+  "target": {
+    "container_id": "fa7cd3688a22891d7da541b1f5d26eab609de00ffa39f95d83920c6a5eafa472",
+    "container_name": "collect_current_rehearsal_schema154_private_84630d83b7c4",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_admin_query_benchmark_uat.py\", line 522, in main\n    with private_clone(report, evidence, baseline, platform_body) as db:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_admin_query_benchmark_uat.py\", line 147, in private_clone\n    target.sql(shape, label='exact accepted no-row schema154 owner-normalized restore')\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_release_upgrade_uat.py\", line 108, in sql\n    raise RuntimeError(label + ': ' + result.stderr[-3500:])\nRuntimeError: exact accepted no-row schema154 owner-normalized restore: ERROR:  42P06: schema \"auth\" already exists\nLOCATION:  NamespaceCreate, pg_namespace.c:62\n\n",
+  "triggers_disabled": false,
+  "trusted_synthetic_private_read_fixture": true,
+  "volume": 1000
+}

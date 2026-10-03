@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "test_count": 21,
+  "source_sha256": {
+    "scripts/qa/swift_generated_plugin_inputs.py": "581a71d6b1ec11383cd9092ef032c9aaa297dbaf623266f3c1191295189edd96",
+    "scripts/tests/swift_generated_plugin_inputs_test.py": "98e24945401d67431129cedcc03810b2239b2bdbe7f9f195c51cab8030198169"
+  },
+  "sources_unchanged": true,
+  "actual_dated_ios_compiler_aliases": 13,
+  "historical_aliases_changed": false,
+  "planned_hosted_redirections": 10,
+  "reviewed_pinned_generator_sha256": "32a568d9f1d05b2f876b3fa8d305c9d74f772110c194ad05a5cf40f0d0daeae0",
+  "reviewed_transform": "Exact relative plugin-name to actual declared versioned alias replaceAll from the pinned Flutter generator; every other generated copy byte must equal the declared native source.",
+  "preflight_sha256": "034cb215feb3bdf2f3d71fc25b07a11607756c9a080cebb1313d98e3d4ab6385",
+  "test_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_stderr_sha256": "f0df8a41be6e0919c514bb84fe92b9a508645229180b3b4e968347f1c8a95745",
+  "scope": "Twenty-one meaningful mutation/control tests and read-only reconciliation of actual dated compiler inputs; future native launch requires actual binding after config-only, then unchanged aliases/files verification."
+}

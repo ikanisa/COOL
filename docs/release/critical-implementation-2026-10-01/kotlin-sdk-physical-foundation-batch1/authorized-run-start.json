@@ -1,0 +1,9 @@
+{
+  "actual_process_timeout_seconds": 600,
+  "caller_sha256": "7836dde03699ad3f02b413bb6e6f663574fd1fae31ae60c33bf0d3f79ea069a6",
+  "exact_admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "recorded_utc": "2026-10-02T00:30:07.257933+00:00",
+  "root_authorization_sha256": "fb47cf9ba888163d2b764bbc4509962ae87b8ac9bffe24d7584e2e6a36acacec",
+  "scope": "Fresh independent expansion/full physical verification only. No SDK/bootstrap/patch/selection.",
+  "writer_code_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5"
+}

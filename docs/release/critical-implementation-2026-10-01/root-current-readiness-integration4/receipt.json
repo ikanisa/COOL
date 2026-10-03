@@ -1,0 +1,52 @@
+{
+  "captured_at_utc": "2026-10-02T09:53:22.909479+00:00",
+  "before_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "bf02f10765715120eb91e1d808891bebf8306fb4566e131d0a1cfa83770d18ab",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "639b2fcd0b5872bb2957dcfdc5dd2ca44924de89250281aefaeca3ecbb77f46c",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "35f8ae7f8bd123514c3f3a587a18c34a605eff0c3c1a33a52b27edd66ee537c8",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "f74b98b5f19563ea38445a803aee28dd8b6ba98d800f32f7c638dcce25d0ea6a",
+    "docs/release/local-implementation-register-2026-09-30.json": "2248f7e2b4365d4e93519925c144dd2c29fe40dae848db3c9f2081f80ecbe9c4",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "4f8301f514edf844cd871ed5f121b60cd9dac035b865177ef97a3b3cc345cf02"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c1f110c132823c1b1fa2bd53216bc503f7837737d9169b900b1a7cedeb60c1b8",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "37d21a62970aed837a565971aff2e30251e5e0f5763c60d15c32bf72c36703e4",
+    "docs/release/local-implementation-register-2026-09-30.json": "98d9ffabc6e857dc8b24542c2cfee14cb0c266ec733cddfa7f5f0c787c4cab17",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "93cef06f285ac98ad9fe1b043ced1365fde91221c5099f33d182c955aa80e18e",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "e7f9c67411dc394f2aec53db17dcd2a1ec0481d344d8bbfbc548894870920283",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "83ebd8554ac1bcb7219787d503e1a46282efed402a3f54c220df2bec5aca1a7f"
+  },
+  "contracts40_unchanged": true,
+  "production102_original_items_sha256": "404b4e7bc68b609af872e02b9523e4d8713a476a1b7b25549c7748df38c9b56f",
+  "local24_original_items_sha256": "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980",
+  "closed_ids": [
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_open": 37,
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "references": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-invalidation-source-integration1/packet-files.json",
+      "sha256": "1e5950bc26851733c45b2ef77422b2b21f828492947982c589d58fb271390985"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pg-archive-source-integration1/packet-files.json",
+      "sha256": "d06f6f2c0cda007deaa290647f87e584076ed8154047c03296866aca86cb32cc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pg-archive-fixture-startup-correction1/packet-files.json",
+      "sha256": "9c0855284ab39880cdf706f23003e2ee689d087f00dbcc86ab7f8ddd80110754"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/execution1/packet-files.json",
+      "sha256": "2ad4b3d742678ec970935d33f885f8f0b1ded042f320796700a972272dc319f9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation3/packet-files.json",
+      "sha256": "b34b29ae616aa5d8a9d7f59772ddb3f0690223e0dc168e24bbc17dfac48a71e3"
+    }
+  ]
+}

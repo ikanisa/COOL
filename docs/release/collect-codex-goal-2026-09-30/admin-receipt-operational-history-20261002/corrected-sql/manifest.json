@@ -1,0 +1,67 @@
+{
+  "sealed_at": "2026-10-02T00:48:40.213960+00:00",
+  "scope": "private one-SQL-file successor correction to sealed600; root alone promotes",
+  "canonical_writes": false,
+  "sealed600_writes": false,
+  "members": {
+    "promote/supabase/migrations/20261002060000_admin_receipt_operational_history.sql": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07",
+    "patches/600-cost-correction.patch": "c1f8710cb20d9626bcaaa694489e342ac09a20a113dca5a21ec9f9fc2166354f",
+    "receipt_operational_history_uat.py": "91f4f2ec2fa79f02683a447acdd1befeda0687dd735871925c6c3e14c027ff8c",
+    "query_cost_proof.py": "243ab766af1f5f378771f99d2ab03731b9b15206590b44afa035f0676149a49a",
+    "source-bindings.json": "40c1303e20ce1e8fa30d78c7ca2d8a2ec0fd8c2fc2f52d706a467a25cb4ae871",
+    "decoder-source-bindings.json": "839ccbeaac9008d7dab0238263cb8aa22d795ab764e3c346b9155d0160d3d1c4",
+    "sql-attempt6/result.json": "b8c459723604fd1d65fe4d0d107ff39620a371da396cb04aebf717ccc8cedae5",
+    "sql-attempt6/execution-binding.json": "78d592f233eed70c12052108136797331080a43d67c7e6ca425fe041af62283f",
+    "sql-attempt6/actual-nested-explain.json": "bc70629e299c1a9f5cbb1b5aeb5e0241d6f54508c5b18dfcd4143126ba11e63c",
+    "sql-attempt6/cost-observations.json": "430b30555bb23843cab5c8106a3645fa7e7253adfc53957688208fb781a6f3f0",
+    "decoder-accepted.log": "f06a54b375d65622ec340794d40d4ba250c46b67f81847709fe0287514d03399",
+    "decoder-cost-accepted.log": "7841986ad02b0e3e2428a174c3e1d16d7c5a4172bc59cdb1881ebc09766825d9",
+    "analyze-decoder.log": "7177c92680e1c75733eee90460aed27d69e59e05dd2e1672902a21a980ea6cea",
+    "decoder-execution-receipt.json": "e2c0402b7ef8de212910eaddb872e3b112a5a64ed86317eb00ab7e496026c59f",
+    "decoder/scripts/tests/operational_history_cost_fixture_test.dart": "4f8b716e48b21706ecbfea97e2c785f4d0ea9ca38c8fed3820fa7fa99453e5b6"
+  },
+  "sql_base_sha256": "918a20bb19a8dca6b5de7701bd13f963c5fd25c65f0229bc7d5e13d82238eeff",
+  "sql_sha256": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07",
+  "sql_checks": 63,
+  "exact_sql_command_receipts": 170,
+  "targets": {
+    "1": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_843d7f92614c",
+      "removed": true,
+      "error": "declared rollback-only120k retained request density and20k ambiguity fixtures; actual authenticated readers with nested EXPLAIN instrumentation: ERROR:  42601: syntax error at or near \"(\"\nLINE 1: ...('600-cost-request:'||i)::uuidfrom generate_series(1,512)i);\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n"
+    },
+    "2": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_fb9135a03f75",
+      "removed": true,
+      "error": "declared rollback-only120k retained request density and20k ambiguity fixtures; actual authenticated readers with nested EXPLAIN instrumentation: s\": 0,\n        \"Local Written Blocks\": 0,\n        \"Temp Read Blocks\": 0,\n        \"Temp Written Blocks\": 0,\n        \"Plans\": [\n          {\n            \"Node Type\": \"Function Scan\",\n            \"Parent Relationship\": \"Outer\",\n            \"Parallel Aware\": false,\n            \"Async Capable\": false,\n            \"Function Name\": \"unnest\",\n            \"Alias\": \"n\",\n            \"Startup Cost\": 0.00,\n            \"Total Cost\": 0.10,\n            \"Plan Rows\": 10,\n            \"Plan Width\": 32,\n            \"Actual Rows\": 3,\n            \"Actual Loops\": 1,\n            \"Shared Hit Blocks\": 0,\n            \"Shared Read Blocks\": 0,\n            \"Shared Dirtied Blocks\": 0,\n            \"Shared Written Blocks\": 0,\n            \"Local Hit Blocks\": 0,\n            \"Local Read Blocks\": 0,\n            \"Local Dirtied Blocks\": 0,\n            \"Local Written Blocks\": 0,\n            \"Temp Read Blocks\": 0,\n            \"Temp Written Blocks\": 0\n          }\n        ]\n      }\n    ]\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 0.537 ms  plan:\n{\n  \"Query Text\": \"SELECT collect_hybrid.require_roster_actor_authority(auth.uid(),sid,'platform_owner',permissions)\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.28,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 4,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 26,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 0.721 ms  plan:\n{\n  \"Query Text\": \"SELECT collect_ops.actor(false)\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.26,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 16,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 30,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 2377.652 ms  plan:\n{\n  \"Query Text\": \"select jsonb_build_object('probe','service-head','response',public.admin_get_operator_entity_audit_v1('receipt_operation_run','dc7d827e-e0ae-4eff-9591-7f59c59f5268',10,null,null));\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.26,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 32,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 9539,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nERROR:  42501: permission denied for schema collect_ops\nLINE 1: ...c.label,'cursor',jsonb_build_object('recorded_at',collect_op...\n                                                             ^\nLOCATION:  aclcheck_error, aclchk.c:2843\n"
+    },
+    "3": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_d5caed7f05d0",
+      "removed": true,
+      "error": "all actual service head/deep/tie plans use four bounded ordered run-action index seeks"
+    },
+    "4": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_115e28fd8e93",
+      "removed": true,
+      "error": "all actual service head/deep/tie plans use four bounded ordered run-action index seeks"
+    },
+    "5": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_d6a8be21643f",
+      "removed": true,
+      "error": "'probe'"
+    },
+    "6": {
+      "status": "passed",
+      "container": "collect_current_rehearsal_operational_history_317d3b010f2b",
+      "removed": true,
+      "error": null
+    }
+  },
+  "unchanged_consumers": "All26 other additions and10 shared modifications from sealed37-member packet are reused unchanged. Root-owned view/capture delta remains separately owned.",
+  "limits": "retained synthetic192 plus10 exact selected additions and corrected600, NOSUPERUSER DDL after declared bootstrap; no complete203/420/430/700 replay or hosted/provider/device/full visual claim"
+}

@@ -1,0 +1,358 @@
+{
+  "generated_at": "2026-09-07T06:35:00Z",
+  "package_name": "app.cool.mobile",
+  "target_release": {
+    "version_name": "1.2.4",
+    "version_code": 23,
+    "track": "production",
+    "release_name": "Collect 1.2.4 (23)",
+    "release_notes": {
+      "en-US": "Discover Featured Groups from Home, choose from new Rwanda group photos, and enjoy refreshed group cards. Save your MoMo number with an optional merchant code. This update also improves sign-in, contribution screens, keyboard layouts, and larger-text support."
+    },
+    "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
+    "aab_sha256": null,
+    "apk_path": "build/app/outputs/flutter-apk/app-production-release.apk",
+    "apk_sha256": null,
+    "candidate_status": "blocked_current_signed_artifacts_missing",
+    "play_console_state": "unverified_for_current_release_candidate",
+    "rollout_percentage": null,
+    "review_submitted_at": null,
+    "device_catalog_delta": {
+      "phones_removed": 0,
+      "tablets_removed": 0,
+      "tv_removed": 0,
+      "cars_removed": 0,
+      "chromebooks_removed": 0,
+      "android_xr_removed": 0
+    },
+    "internal_testing": {
+      "version_code": 12,
+      "status": "available_to_internal_testers",
+      "published_at": "2026-08-08T13:39:00Z",
+      "superseded_version_code": 3
+    }
+  },
+  "live_audit_2026_08_20": {
+    "dashboard_app_name": "Cool",
+    "package_name": "app.cool.mobile",
+    "rejection": {
+      "date": "2026-08-18",
+      "issue": "Permissions and APIs that Access Sensitive Information policy: Issue with test credentials",
+      "remediation": "The dedicated reviewer phone and fixed OTP were verified against production Auth on 2026-08-20, then the Play Sign in details entry was replaced with current phone-plus-WhatsApp-OTP navigation instructions. Secret values are excluded from this packet."
+    },
+    "obsolete_unsent_changes": [
+      "Production rollout for Collect 1.2.2 (20)",
+      "Phone screenshots",
+      "7-inch tablet screenshots",
+      "10-inch tablet screenshots"
+    ],
+    "restricted_permission_artifacts": [
+      "Production version code 20",
+      "Internal testing version code 12"
+    ],
+    "required_resolution": "Do not submit version 20. Upload the no-restricted-SMS version 21 artifact, supersede every active restricted-permission artifact, refresh all screenshots, then read back the production and app-content state before review submission.",
+    "managed_publishing": false
+  },
+  "live_audit_2026_09_07": {
+    "dashboard_app_name": "Collect",
+    "package_name": "app.cool.mobile",
+    "current_production": {
+      "release_name": "Collect 1.2.2 (21)",
+      "status": "active",
+      "rollout_percentage": 100,
+      "released_at": "2026-08-23",
+      "countries_and_regions": 23,
+      "reported_installs": 1
+    },
+    "publishing_overview": {
+      "unpublished_changes": false,
+      "observed_state": "No unpublished changes"
+    },
+    "app_content": {
+      "need_attention": "You are all caught up",
+      "actioned_declarations": 11,
+      "sms_use_case": "SMS based money management",
+      "sms_form_saved": true,
+      "version_23_approval": "pending_release_upload_and_play_processing"
+    },
+    "preparation_boundary": "Version 23 is locally signed and prepared. It has not been uploaded, submitted for review, approved, rolled out, or made live."
+  },
+  "store_listing": {
+    "default_language": "en-US",
+    "app_name": "Collect",
+    "short_description": "Group savings, contribution records, and credit-readiness support.",
+    "full_description": "Collect helps Rwanda savings groups organize members, record whole-RWF contributions, and review reconciled group activity.\n\nMembers see the exact MTN MoMo or Airtel Money group receiver and amount before opening the provider USSD prompt. The member authorizes payment with the mobile network; Collect never asks for a MoMo PIN or OTP and does not hold member funds.\n\nOn eligible Android receiver devices, members may explicitly consent to Collect receiving newly arriving MoMo transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off. An observed SMS is not independent settlement proof; pending and ambiguous contributions require governed reconciliation before a production confirmation claim.\n\nCollect provides in-app account support and deletion controls. The service is operated by IKANISA for Rwanda group-contribution and record-keeping workflows.",
+    "category": "FINANCE",
+    "tags_to_confirm_in_console": [
+      "Savings",
+      "Budgeting",
+      "Personal finance"
+    ],
+    "contact": {
+      "website": "https://collect.ikanisa.com",
+      "email": "info@ikanisa.com",
+      "phone": "+250795588248"
+    },
+    "assets": {
+      "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "launcher_icon_sha256": "15685bf59c0a17a4ffe65ed3df51de77f9f724866bdc45e31aa78239e8418265",
+      "brand_icon_source": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "brand_icon_sha256": "25fabc042f4e2b90ba385388542cfbea764b34e0e8cbeaa18dda12045f277738",
+      "play_store_icon": "fastlane/metadata/android/en-US/images/icon.png",
+      "play_store_icon_sha256": "211362791b75bb0e3959d9671532e4736c4dcb545dcc77699ad1d88c6cae9206",
+      "feature_graphic": {
+        "status": "approved_official_asset",
+        "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
+        "sha256": "30c47e3f55238a63ec1babfdf8ef03f34e8f241815718100cfc9b95e4c190cb5",
+        "dimensions": "1024x500",
+        "source": "current_collect_owned_feature_graphic",
+        "approval_basis": "Current Collect-owned official-mark composition and product copy; independently retained from the deleted legacy runtime-media set."
+      },
+      "phone_screenshots": {
+        "status": "historical_fixture_capture_requires_current_candidate_review",
+        "minimum_required": 2,
+        "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
+        "exported_count": 6,
+        "source": "android_emulator_native_product_capture",
+        "capture_evidence": "docs/release/GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json",
+        "native_capture_cache": ".cache/google-play-submission-20260906/screenshots/phoneScreenshots",
+        "capture_target": "Isolated Collect Android AVD, 1080x1920 at density 440; actual CollectApp, production router and production widgets with an explicitly synthetic repository.",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "6/6 phone routes passed inside the 18/18 capture; manifest 1873b7e5bc7c54b09df3701114b3adf019a660c2055b6f30e55d67e1ff6a28e7",
+        "sanitization": "Visually reviewed Home, Groups, Featured Groups, Group detail, Rwanda MoMo contribution and Activity. The fixture contains no production customer, credential, OTP, live bank account, raw SMS, email or reconciliation evidence. Native PNG frames were converted to three-channel JPEG without changing their geometry or app content.",
+        "sha256": {
+          "01-home.jpg": "69bf21794d4a712b7a207406bb28b70fd421bb51b061e46e3d1e49d9a89df09c",
+          "02-groups.jpg": "b71d320962a0c964ab243fc929841fc10f4f4e06b2e2247bbbdf206e2c6249fe",
+          "03-featured-groups.jpg": "6e3ee720aaaa9f7fd2488ee16f9cc32008d9a7a2b8eb61d68d3f177184271235",
+          "04-group.jpg": "ce5bd2ed78a0421cb9ad7cb590c0bd215ec5a241ab08307639cb8ea2b5b6bab6",
+          "05-contribute.jpg": "e107fc2b02a865a3a00e10c57900be93cce8466259300910fb6eb81a5e896d65",
+          "06-activity.jpg": "d7ba0ead84e1b45b68a5897342fdebf32cc9bfa6f940ccaa2e387f15bd29b241"
+        }
+      },
+      "seven_inch_screenshots": {
+        "status": "historical_fixture_capture_requires_current_candidate_review",
+        "minimum_required": 4,
+        "path": "fastlane/metadata/android/en-US/images/sevenInchScreenshots",
+        "exported_count": 6,
+        "source": "android_emulator_native_product_capture",
+        "capture_evidence": "docs/release/GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json",
+        "native_capture_cache": ".cache/google-play-submission-20260906/screenshots/sevenInchScreenshots",
+        "capture_target": "Isolated Collect Android AVD, 1200x1920 at density 240; actual CollectApp, production router and production widgets with an explicitly synthetic repository.",
+        "dimensions": "1200x1920",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "6/6 seven-inch routes passed inside the 18/18 capture; manifest 1873b7e5bc7c54b09df3701114b3adf019a660c2055b6f30e55d67e1ff6a28e7",
+        "sanitization": "Same six visually reviewed fixture-only product surfaces as the phone set. Native PNG frames were converted to three-channel JPEG without padding, cropping or content substitution.",
+        "sha256": {
+          "01-home.jpg": "b31b02f47be3e98315dc6fee0b4204efae5cb4303196fcd43712876291449b00",
+          "02-groups.jpg": "c30402bd8ecb36113bd3d9e747db72406f7203b8328bf6e567fbbf85680e2d8b",
+          "03-featured-groups.jpg": "b241621941f6a6af22d0d178b47e1b61f9e53f0be8bc1fd2c02866fe6dbc0dd1",
+          "04-group.jpg": "dc01dd2d25c0cf31b0b32c6b7b2ca2fd5af0fe581b0801bed71940666185cf89",
+          "05-contribute.jpg": "8086ca5038e8d7370b0792b492cccc76f3096c62bdb280a797bfa0120f2f91c6",
+          "06-activity.jpg": "786326ff33d0a500a60d4b88807e63590f08041574074d21a64a7240022682fe"
+        }
+      },
+      "ten_inch_screenshots": {
+        "status": "historical_fixture_capture_requires_current_candidate_review",
+        "minimum_required": 4,
+        "path": "fastlane/metadata/android/en-US/images/tenInchScreenshots",
+        "exported_count": 6,
+        "source": "android_emulator_native_product_capture",
+        "capture_evidence": "docs/release/GOOGLE_PLAY_SCREENSHOT_CAPTURE_1.2.4_23.json",
+        "native_capture_cache": ".cache/google-play-submission-20260906/screenshots/tenInchScreenshots",
+        "capture_target": "Isolated Collect Android AVD, 1600x2560 at density 240; actual CollectApp, production router and production widgets with an explicitly synthetic repository.",
+        "dimensions": "1600x2560",
+        "format": "JPEG",
+        "alpha": false,
+        "route_matrix": "6/6 ten-inch routes passed inside the 18/18 capture; manifest 1873b7e5bc7c54b09df3701114b3adf019a660c2055b6f30e55d67e1ff6a28e7",
+        "sanitization": "Same six visually reviewed fixture-only product surfaces as the phone and seven-inch sets. Native PNG frames were converted to three-channel JPEG without padding, cropping or content substitution.",
+        "sha256": {
+          "01-home.jpg": "25aa9b99374e94355909874d10d2d3fa3d92214ebd09b56fe7ae03c159f8599b",
+          "02-groups.jpg": "2ae4cb8194a0133ebbc8deb4c9a9589cbe05ed1c1912f4a96578245c65049ecf",
+          "03-featured-groups.jpg": "1c5564fd03e65172e6e470d61427d9bcdf217de04f5fe919c1a2c036d44d0b53",
+          "04-group.jpg": "d892eb53867cf1278d89bdb96a28d61afe30fb4e148b6e90a88f1dcae40ac76a",
+          "05-contribute.jpg": "8efcf867a60ab1c39171fdbf93a1e31e6a7ce1f830107f1c56b5151b5c16e00d",
+          "06-activity.jpg": "d157bbafad0dd6f80d5b0eae6a772dd7cc50439af62e82c53c287f4159968ffa"
+        }
+      }
+    },
+    "growth_surfaces": {
+      "custom_store_listings": [
+        {
+          "segment": "Rwanda savings groups",
+          "status": "defer_until_default_listing_approved"
+        },
+        {
+          "segment": "Provider and partner credit-readiness",
+          "status": "defer_until_default_listing_approved"
+        }
+      ],
+      "store_listing_experiments": {
+        "status": "defer_until_production_listing_live",
+        "candidate_tests": [
+          "short_description",
+          "phone_screenshot_order",
+          "feature_graphic"
+        ]
+      }
+    }
+  },
+  "app_content": {
+    "privacy_policy_url": "https://collect.ikanisa.com/privacy/",
+    "account_deletion_url": "https://collect.ikanisa.com/account-deletion/",
+    "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
+    "app_access": {
+      "reviewer_access_required": true,
+      "status": "historical_review_account_verified_2026_08_20_current_candidate_unverified",
+      "account_creation_method": "Phone number plus WhatsApp one-time password (username and other authentication in Play terminology).",
+      "notes": "Play Sign in details declares restricted access and contains the dedicated reviewer phone, fixed OTP, and exact WhatsApp OTP navigation instructions. The credentials were verified against live production Auth on 2026-08-20; secret values are not retained in this packet or test evidence. Current access and reviewer instructions must be reverified for the exact release candidate before submission."
+    },
+    "data_safety": {
+      "collected_data_categories": [
+        {
+          "category": "Personal info",
+          "examples": [
+            "identity details",
+            "contact details",
+            "support requests"
+          ],
+          "purpose": [
+            "account management",
+            "app functionality",
+            "customer support",
+            "fraud prevention and security"
+          ]
+        },
+        {
+          "category": "Financial info",
+          "examples": [
+            "group contribution records",
+            "credit-readiness records"
+          ],
+          "purpose": [
+            "app functionality",
+            "analytics for group operations",
+            "fraud prevention and security"
+          ]
+        },
+        {
+          "category": "Photos and videos",
+          "examples": [
+            "camera or image input for QR, support, or evidence workflows when enabled"
+          ],
+          "purpose": [
+            "app functionality",
+            "customer support"
+          ]
+        },
+        {
+          "category": "App activity",
+          "examples": [
+            "group workflow status",
+            "support state",
+            "consent and deletion request state"
+          ],
+          "purpose": [
+            "app functionality",
+            "customer support",
+            "fraud prevention and security"
+          ]
+        }
+      ],
+      "sharing": {
+        "status": "confirm_in_console",
+        "expected_answer": "Only share data with service providers or partners required to operate Rwanda group savings, MoMo reconciliation, support, credit-readiness where actually enabled, fraud prevention, legal, audit, or customer-requested workflows."
+      },
+      "security_practices": {
+        "data_encrypted_in_transit": "confirm_in_console",
+        "deletion_request_supported": true,
+        "users_can_request_data_deletion": true
+      }
+    },
+    "policy_declarations": {
+      "ads": "No ads dependency found; confirm no ads in Play Console.",
+      "target_audience": "Adults and general savings-group users; confirm children are not the target audience.",
+      "content_rating": "Complete questionnaire as finance/productivity style app; record certificate after submission.",
+      "financial_features": "Rwanda group savings and reconciled RWF contribution records. Collect opens the provider MoMo USSD prompt but does not collect a PIN/OTP, hold member funds, or itself prove settlement. No Play Billing dependency is claimed.",
+      "health": "Not a health app.",
+      "news": "Not a news app.",
+      "government": "Not a government app."
+    },
+    "permissions": {
+      "production_permissions": [
+        "android.permission.INTERNET",
+        "android.permission.CAMERA",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECEIVE_SMS",
+        "android.permission.CALL_PHONE",
+        "android.permission.VIBRATE",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ],
+      "restricted_sms_permissions_in_production": true,
+      "sms_permissions_declaration_status": "required_pending_play_approval",
+      "declaration_form_state": "actioned_sms_based_money_management_checked_2026_09_07",
+      "sms_receiver_scope": "The version 23 Android candidate requests RECEIVE_SMS solely for opt-in Rwanda MoMo or Airtel Money transaction-confirmation receipt reconciliation and CALL_PHONE solely to open the reviewed USSD route. It requests no READ_SMS, SEND_SMS, BROADCAST_SMS, or Call Log permission. The Play form is actioned under SMS based money management; version 23 permission approval and live-console readback remain open release gates."
+    }
+  },
+  "play_console_surfaces": {
+    "publishing_overview": {
+      "required_evidence": "Record submitted/in-review/published state, managed publishing setting, and pending changes."
+    },
+    "production_track": {
+      "required_evidence": "Record uploaded bundle version code, rollout status, release notes, countries, and review state."
+    },
+    "deep_links": {
+      "required_evidence": "Record collect.ikanisa.com /c App Link verification status in Play Console.",
+      "assetlinks_url": "https://collect.ikanisa.com/.well-known/assetlinks.json"
+    },
+    "android_vitals": {
+      "required_evidence": "Record crash rate, ANR rate, slow/frozen frames, excessive wakeups, and bad behavior threshold status.",
+      "api": "Play Developer Reporting API"
+    },
+    "pre_launch_report": {
+      "required_evidence": "Record stability, security, accessibility, performance, and device findings after Play processes the uploaded AAB."
+    },
+    "app_integrity": {
+      "required_evidence": "Record Play App Signing, automatic protection, and Play Integrity strategy state."
+    },
+    "device_catalog": {
+      "required_evidence": "Record device reach, exclusions, form-factor support, app size, and country distribution."
+    },
+    "testing_tracks": {
+      "required_evidence": "Record internal testing availability, closed/open testing status, tester lists, and opt-in links."
+    },
+    "monetization": {
+      "required_evidence": "Record no Play Billing/IAP unless product scope changes."
+    },
+    "reporting_exports": {
+      "required_evidence": "Record install/acquisition and quality exports or API status after auth is available."
+    }
+  },
+  "official_sources": [
+    "https://support.google.com/googleplay/android-developer/answer/11926878",
+    "https://developer.android.com/guide/practices/page-sizes",
+    "https://developer.android.com/training/app-links",
+    "https://support.google.com/googleplay/android-developer/answer/12463044",
+    "https://developers.google.com/digital-asset-links/v1/getting-started",
+    "https://developer.android.com/google/play/integrity",
+    "https://developer.android.com/topic/performance/vitals",
+    "https://developers.google.com/play/developer/reporting",
+    "https://support.google.com/googleplay/android-developer/answer/10787469",
+    "https://support.google.com/googleplay/android-developer/answer/10208820",
+    "https://support.google.com/googleplay/android-developer/answer/9866151",
+    "https://developer.android.com/guide/topics/manifest/receiver-element",
+    "https://support.google.com/googleplay/android-developer/answer/13327111",
+    "https://support.google.com/googleplay/android-developer/answer/9214102",
+    "https://support.google.com/googleplay/android-developer/answer/9859654",
+    "https://developers.google.com/android-publisher",
+    "https://developers.google.com/android-publisher/api-ref/rest",
+    "https://support.google.com/googleplay/android-developer/answer/9845334",
+    "https://support.google.com/googleplay/android-developer/answer/9867158"
+  ],
+  "console_completion_status": "rwanda_only_scope_draft_signed_artifacts_and_current_play_review_pending",
+  "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data.",
+  "scope_reviewed_at": "2026-09-28",
+  "scope_review_status": "rwanda_only_draft_current_console_and_signed_artifacts_unverified"
+}

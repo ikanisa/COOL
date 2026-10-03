@@ -1,0 +1,8 @@
+# Original include and upstream test bytes are retained in UPSTREAM-SHA256.json.
+# The app lock does not include upstream supabase_lints/dotenv/otp test tools.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - test/**
+    - example/**

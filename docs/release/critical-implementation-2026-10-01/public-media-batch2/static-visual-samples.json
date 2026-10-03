@@ -1,0 +1,64 @@
+{
+  "status": "scoped_samples_inspected",
+  "observed_at_utc": "2026-10-01T23:35:42.213095+00:00",
+  "scope": "Nine actual new static/share viewport PNG originals directly inspected. Full maintained/supplementary route suites are separate mechanical evidence; no exhaustive visual/fidelity/legal acceptance of all378 browser images.",
+  "pixels_edited": false,
+  "screens": [
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/home_mobile_390x844.png",
+      "sha256": "b3e442fd79ec6eca2939d9ed564d4727c642007ecad17be9f9d406c4cc3c6f2b",
+      "original_inspected": true,
+      "notes": "Original viewport image directly inspected: Collect identity, full truthful Rwanda overview and Android group/support CTAs readable; planned provider directions remain qualified."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/home_desktop_1440x1000.png",
+      "sha256": "ce5e1ac1116911202fc43914e642848e85e6cd727e5ae401cbe03641d9639a91",
+      "original_inspected": true,
+      "notes": "Original directly inspected: full desktop navigation and truthful overview, artwork and three differentiated destinations fit the viewport."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/insurance_compact_320x740.png",
+      "sha256": "e43b83a15344162ab5d34825832ac1149f7b4e9ba26c94d4ac51ddcdde36f2f4",
+      "original_inspected": true,
+      "notes": "Original directly inspected: full planned/provider-dependent heading and no-insurer/no-enrollment/no-premium/no-cover/no-claims qualification visible; inquiry/support CTAs fit compact width."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/our-partners_desktop_1440x1000.png",
+      "sha256": "be03b9b4f4fac7ae77e33716c0d68b01ed08a12031c40978cda9e18048d88bdd",
+      "original_inspected": true,
+      "notes": "Original directly inspected: unchanged truthful long banking-opportunity heading wraps inside its column; no active/named arrangements qualified directly below; inquiry/support CTAs visible."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/partners_desktop_1440x1000.png",
+      "sha256": "78a00ef344d234e0bcde74945abdd3721851a3d7d303f8e662059c4b0a01d0dc",
+      "original_inspected": true,
+      "notes": "Original directly inspected: partner-model heading fits without overflow and prospective directions remain visibly qualified."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/browser-routes/screenshots/privacy_compact_320x740.png",
+      "sha256": "2813634d41c0a484b4ca520deabeb21586336900896dc7c7990eb229a1a9edf1",
+      "original_inspected": true,
+      "notes": "Original directly inspected: readable title/body and three separated CTAs at compact width. Preserved substantive policy wording remains subject to legal/content approval."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_compact_320x740.png",
+      "sha256": "eb70636292144c99bda841ae47369f8610610a38fba258aa6f733850444e5960",
+      "original_inspected": true,
+      "notes": "Original supplementary share-entry viewport directly inspected. Native/store destinations were only observed; current disabled appearance and generic card-label differences are retained as open findings."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_mobile_390x844.png",
+      "sha256": "a8ae084c44f15ff56cee651922f8aeb6006b45dd213807201868843782391159",
+      "original_inspected": true,
+      "notes": "Original supplementary share-entry viewport directly inspected. Native/store destinations were only observed; current disabled appearance and generic card-label differences are retained as open findings."
+    },
+    {
+      "file": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-invalid-invite-ios_compact_320x740.png",
+      "sha256": "77b9494fbd1fb6d0478c85a12c7869bfcbf27e43aba7691b24eb3ce0c6499804",
+      "original_inspected": true,
+      "notes": "Original supplementary share-entry viewport directly inspected. Native/store destinations were only observed; current disabled appearance and generic card-label differences are retained as open findings."
+    }
+  ],
+  "full_visual_fidelity_accepted": false,
+  "legal_release_approved": false
+}

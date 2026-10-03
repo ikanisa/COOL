@@ -1,0 +1,4 @@
+ERROR:  42501: operations_identity_unavailable
+CONTEXT:  PL/pgSQL function collect_receipt_operations.require_identity(uuid,text,uuid,text,timestamp with time zone,text) line 8 at RAISE
+PL/pgSQL function public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamp with time zone,text,jsonb) line 5 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

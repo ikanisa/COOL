@@ -1,0 +1,38 @@
+{
+  "default_fixture_behavior_unchanged": true,
+  "fixture_extension": "Optional first_version_detached_psql marker only; absent state key retains original behavior. All literal one-second fixture limits unchanged.",
+  "full_unchanged36_rerun": false,
+  "new_api_sha256": "95f5c3d24bc723d4e570699a6a71af113bdcb5c6af91555e4f6c63f01076eb80",
+  "new_methods": [
+    "test_base_probe_bridge_returns_code_stdout_and_refuses_inherited_stdin",
+    "test_clean_constructor_keeps_base_version_and_target_validation",
+    "test_constructor_first_version_only_detached_child_refuses_before_request"
+  ],
+  "new_tests_sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6",
+  "old_api_sha256": "48bd219d4aa40d888a87819f68764bb0dbf82c50a3e23de4333925da3a11c576",
+  "old_packet_sha256": "57ef2a63e7db3e4641ebad30eebfbb809d4a29a1b0ba63b2a1047f341463ac42",
+  "old_tests_sha256": "c53e619e2a7c734813e2564684fc25269810adc62f951c4e5fb8e0509643d322",
+  "original36_method_ASTs_unchanged": true,
+  "selected_count": 18,
+  "selected_methods": [
+    "test_constructor_first_version_only_detached_child_refuses_before_request",
+    "test_clean_constructor_keeps_base_version_and_target_validation",
+    "test_base_probe_bridge_returns_code_stdout_and_refuses_inherited_stdin",
+    "test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order",
+    "test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture",
+    "test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts",
+    "test_dump_argument_bypasses_refuse_before_server_or_dump",
+    "test_restore_argument_bypasses_refuse_before_list_server_or_write",
+    "test_wrong_actual_version_even_when_tool_bytes_are_bound",
+    "test_wrong_service_target_options_or_permissions_refuse_before_request",
+    "test_credentials_and_loader_environment_are_absent_from_versions_and_operations",
+    "test_manifest_job_and_source_drift_refuse_before_first_request",
+    "test_hosted_restore_without_a_shipping_adapter_refuses_before_any_tool",
+    "test_unsupported_cohort_and_operation_are_not_manifest_expandable",
+    "test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request",
+    "test_restore_same_bytes_inode_swap_after_server_read_stops_before_write",
+    "test_expired_operation_and_unbound_hash_refuse_before_tools",
+    "test_same_byte_client_inode_substitution_and_symlink_refuse"
+  ],
+  "source_base_unchanged": true
+}

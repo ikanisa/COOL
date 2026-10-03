@@ -1,0 +1,1672 @@
+{
+  "argv": [
+    "rg",
+    "--files",
+    "--hidden",
+    "--no-ignore",
+    "--null",
+    "-g",
+    "observed-first-successor-grant.json",
+    "-g",
+    "observed-first-successor-arm.json",
+    "-g",
+    "observed-exact-grant-recovery.json",
+    "-g",
+    "observed-multipart-callbacks.json",
+    "-g",
+    "observed-successor-grant.json",
+    "-g",
+    "observed-exact-successor-archive-ack.json",
+    "-g",
+    "observed-armed-status.json",
+    "-g",
+    "observed-late-conflicting-status.json",
+    "-g",
+    "observed-late-original-request-recovery.json",
+    "-g",
+    "observed-incomplete-archive.json",
+    ".cache",
+    "docs/release",
+    "tools",
+    "scripts/tests",
+    "supabase",
+    "test",
+    "contracts"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "roots": [
+    ".cache",
+    "docs/release",
+    "tools",
+    "scripts/tests",
+    "supabase",
+    "test",
+    "contracts"
+  ],
+  "paths": {
+    "observed-first-successor-grant.json": [
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt1/observed-first-successor-grant.json",
+        "sha256": "f97b70ee1da7e2f59661e889f0204d0aca43c95b8873a5d4fcd8b861614744de",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt2/observed-first-successor-grant.json",
+        "sha256": "247c757d111831fa3da8a9fe6294c39ab29953b3ed3eb976d1cdd77f49002e22",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt3/observed-first-successor-grant.json",
+        "sha256": "c869e5072886625541ffa9769f72bb1523ff21197c3b28bd696667be02af14f1",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt6/observed-first-successor-grant.json",
+        "sha256": "8f514b35389a6503de04c0bca83c0cf01868f89933ce201843df243a4b53f742",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt1/observed-first-successor-grant.json",
+        "sha256": "f97b70ee1da7e2f59661e889f0204d0aca43c95b8873a5d4fcd8b861614744de",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt2/observed-first-successor-grant.json",
+        "sha256": "247c757d111831fa3da8a9fe6294c39ab29953b3ed3eb976d1cdd77f49002e22",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt3/observed-first-successor-grant.json",
+        "sha256": "c869e5072886625541ffa9769f72bb1523ff21197c3b28bd696667be02af14f1",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt6/observed-first-successor-grant.json",
+        "sha256": "8f514b35389a6503de04c0bca83c0cf01868f89933ce201843df243a4b53f742",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt8/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-grant.json",
+        "sha256": "6ac22d316a668f2b8fb13698e5bbaf7098f7d4b2e70735844d16a200ed1ededa",
+        "bytes": 1325,
+        "link_count": 1
+      }
+    ],
+    "observed-first-successor-arm.json": [
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt2/observed-first-successor-arm.json",
+        "sha256": "690fc5d252db8e1d40a2cdeda3ee001500fa29b5bd434f95e884527d4f939334",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt3/observed-first-successor-arm.json",
+        "sha256": "845b2e042406d6d9c40f85e25e4b64a04bae2d10c0100d45cd8154cc130eb388",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt6/observed-first-successor-arm.json",
+        "sha256": "ff57c37af7f71ada1c6836175f9d0feafb6288eda432f559b112a55cc33994b4",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt2/observed-first-successor-arm.json",
+        "sha256": "690fc5d252db8e1d40a2cdeda3ee001500fa29b5bd434f95e884527d4f939334",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt3/observed-first-successor-arm.json",
+        "sha256": "845b2e042406d6d9c40f85e25e4b64a04bae2d10c0100d45cd8154cc130eb388",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt6/observed-first-successor-arm.json",
+        "sha256": "ff57c37af7f71ada1c6836175f9d0feafb6288eda432f559b112a55cc33994b4",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt8/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-first-successor-arm.json",
+        "sha256": "7a51cb6fa9a043f9dad514bda22f0aea7d1296ed467c1af61c52d77e07cc283b",
+        "bytes": 853,
+        "link_count": 1
+      }
+    ],
+    "observed-exact-grant-recovery.json": [
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt1/observed-exact-grant-recovery.json",
+        "sha256": "6608cbec3457af3525a9e6de84410e64059f2dbbc3922417c49282c9edb288dc",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt2/observed-exact-grant-recovery.json",
+        "sha256": "1365935a5dc06d8e5243289f5a25c1f1acd2ab8600d2ee66cc019e3e9c297b3a",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt3/observed-exact-grant-recovery.json",
+        "sha256": "694b557c5acafaf49e36bd8554134f4305c404cc6237a352e618b15e1b682f11",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt6/observed-exact-grant-recovery.json",
+        "sha256": "91b11f0953abdf3babb1b69d09b3c9c734ead21ac93b7fe9b98380df89b841bc",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt1/observed-exact-grant-recovery.json",
+        "sha256": "6608cbec3457af3525a9e6de84410e64059f2dbbc3922417c49282c9edb288dc",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt2/observed-exact-grant-recovery.json",
+        "sha256": "1365935a5dc06d8e5243289f5a25c1f1acd2ab8600d2ee66cc019e3e9c297b3a",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt3/observed-exact-grant-recovery.json",
+        "sha256": "694b557c5acafaf49e36bd8554134f4305c404cc6237a352e618b15e1b682f11",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt6/observed-exact-grant-recovery.json",
+        "sha256": "91b11f0953abdf3babb1b69d09b3c9c734ead21ac93b7fe9b98380df89b841bc",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice4/proof/attempt8/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-grant-recovery.json",
+        "sha256": "9b1068f50b2f9abb173c74d4eabfdb0a546c8c373cbb133e1ac36a85b4887d70",
+        "bytes": 933,
+        "link_count": 1
+      }
+    ],
+    "observed-multipart-callbacks.json": [
+      {
+        "path": ".cache/receipt-successor-canonical-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-fixture-input/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-runtime/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-source/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt2/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/validation-overlay/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt1/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt2-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt3-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt4-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/proof/attempt1_all/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/observed-multipart-callbacks.json",
+        "sha256": "e06270fa80aa06ac3ca0e29887b3793fb78270497b4cf017854dc2dbef4bade0",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-multipart-callbacks.json",
+        "sha256": "376155c4cf917dcd2d19cd72a00943f5466224dde993895eccb99887f11216b1",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt2/observed-multipart-callbacks.json",
+        "sha256": "e06270fa80aa06ac3ca0e29887b3793fb78270497b4cf017854dc2dbef4bade0",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-multipart-callbacks.json",
+        "sha256": "376155c4cf917dcd2d19cd72a00943f5466224dde993895eccb99887f11216b1",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt1/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt2-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt3-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt4-successor/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/proof/attempt1_all/source/fixtures/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 2
+      },
+      {
+        "path": "docs/release/collect-codex-goal-2026-09-30/successor-worker-recovery-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      },
+      {
+        "path": "scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+        "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+        "bytes": 3518,
+        "link_count": 1
+      }
+    ],
+    "observed-successor-grant.json": [
+      {
+        "path": ".cache/receipt-successor-canonical-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-runtime/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-source/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt2/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/validation-overlay/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt2/observed-successor-grant.json",
+        "sha256": "bba4edd64bd79e117321f2a8800d29d862b45f32c108f55b105d099d967c9078",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt3/observed-successor-grant.json",
+        "sha256": "ad4b6ac4d6ba8fa41a33f8b615b2a4a5d3fec8f96a8da683c54ecb732d16b677",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt4_tail/observed-successor-grant.json",
+        "sha256": "4e71fb93741e5fa65791245ca2f9ddda932df8b37d806fdceeff6ab698139e60",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt5_wait_tail/observed-successor-grant.json",
+        "sha256": "1a7575007c42571f11c2962f5c1e52d132c186cc55df6ef231c73c9afa5eb753",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-finite-proposal-current1/proof/attempt1/observed-successor-grant.json",
+        "sha256": "4b0e005b5a9fed9aa67a4d1de4e899a47b1324c28f78b3b965b3d6d8adac742c",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-proposal-current1/proof/preflight1/observed-successor-grant.json",
+        "sha256": "87dff718b87114459bf979f23a93b96d2a6eb9a5c1b1f03bef37e322c93cc4b3",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-proposal-current1/proof/preflight2_tail/observed-successor-grant.json",
+        "sha256": "fb8657ccf7f7c8c9ed842263bf055c5d249205bfd986f44f74a0185720e6c5f2",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-proposal-current1/proof/preflight3_bounded/observed-successor-grant.json",
+        "sha256": "8f640c01169ef06075e226c3bd59cb575382a4d726e0423e35b16ae5e2a80b47",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt1/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt2-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt3-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt4-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/proof/attempt1_all/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt1/observed-successor-grant.json",
+        "sha256": "57d88fe54211d5d0d40e3a829edb9a2482d986c064f844d79439ab9a5e6c4103",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/observed-successor-grant.json",
+        "sha256": "b8048dcf4719e37d1a17340b6f7c702806cfc678939e0c51147707880757ba22",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-successor-grant.json",
+        "sha256": "ab70d68a9d7d5cf04a4607a362ad49472f721f925fc7a80978ee5282c016f55e",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt2/observed-successor-grant.json",
+        "sha256": "bba4edd64bd79e117321f2a8800d29d862b45f32c108f55b105d099d967c9078",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-successor-grant.json",
+        "sha256": "ad4b6ac4d6ba8fa41a33f8b615b2a4a5d3fec8f96a8da683c54ecb732d16b677",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt4_tail/observed-successor-grant.json",
+        "sha256": "4e71fb93741e5fa65791245ca2f9ddda932df8b37d806fdceeff6ab698139e60",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt5_wait_tail/observed-successor-grant.json",
+        "sha256": "1a7575007c42571f11c2962f5c1e52d132c186cc55df6ef231c73c9afa5eb753",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt1/observed-successor-grant.json",
+        "sha256": "57d88fe54211d5d0d40e3a829edb9a2482d986c064f844d79439ab9a5e6c4103",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt2/observed-successor-grant.json",
+        "sha256": "b8048dcf4719e37d1a17340b6f7c702806cfc678939e0c51147707880757ba22",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-successor-grant.json",
+        "sha256": "ab70d68a9d7d5cf04a4607a362ad49472f721f925fc7a80978ee5282c016f55e",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt1/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt2-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt3-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt4-successor/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/proof/attempt1_all/source/fixtures/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice9_execution_read/proof/preflight1/observed-successor-grant.json",
+        "sha256": "87dff718b87114459bf979f23a93b96d2a6eb9a5c1b1f03bef37e322c93cc4b3",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice9_execution_read/proof/preflight2_tail/observed-successor-grant.json",
+        "sha256": "fb8657ccf7f7c8c9ed842263bf055c5d249205bfd986f44f74a0185720e6c5f2",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice9_execution_read/proof/preflight3_bounded/observed-successor-grant.json",
+        "sha256": "8f640c01169ef06075e226c3bd59cb575382a4d726e0423e35b16ae5e2a80b47",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice9_execution_read_finite/proof/attempt1/observed-successor-grant.json",
+        "sha256": "4b0e005b5a9fed9aa67a4d1de4e899a47b1324c28f78b3b965b3d6d8adac742c",
+        "bytes": 1325,
+        "link_count": 2
+      },
+      {
+        "path": "docs/release/collect-codex-goal-2026-09-30/successor-worker-recovery-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      },
+      {
+        "path": "scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+        "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+        "bytes": 1325,
+        "link_count": 1
+      }
+    ],
+    "observed-exact-successor-archive-ack.json": [
+      {
+        "path": ".cache/receipt-successor-canonical-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-fixture-input/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-runtime/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-source/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt2/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/validation-overlay/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt1/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt2-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt3-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt4-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/proof/attempt1_all/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/observed-exact-successor-archive-ack.json",
+        "sha256": "9bd7b0e27da43708923724d6428b47ef1add4bd3e35f7fd2ef9b53cbe4b92bd4",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-exact-successor-archive-ack.json",
+        "sha256": "ffd06840ab972e1ebb95e4e513c11d2474c2fbbef5d1249aaef9213cebbd048c",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt2/observed-exact-successor-archive-ack.json",
+        "sha256": "9bd7b0e27da43708923724d6428b47ef1add4bd3e35f7fd2ef9b53cbe4b92bd4",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-exact-successor-archive-ack.json",
+        "sha256": "ffd06840ab972e1ebb95e4e513c11d2474c2fbbef5d1249aaef9213cebbd048c",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt1/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt2-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt3-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt4-successor/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/proof/attempt1_all/source/fixtures/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 2
+      },
+      {
+        "path": "docs/release/collect-codex-goal-2026-09-30/successor-worker-recovery-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      },
+      {
+        "path": "scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+        "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+        "bytes": 1569,
+        "link_count": 1
+      }
+    ],
+    "observed-armed-status.json": [
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt1/observed-armed-status.json",
+        "sha256": "35ce8a7bb30050462b6c1bad0fb35f40a44fb18d850d1f6b293ca6fa398aded6",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/observed-armed-status.json",
+        "sha256": "7640faa3cb1f2e74ba0d4020f20f35fae0393ee4345ea6635e437bfa99069262",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-armed-status.json",
+        "sha256": "00267d9950edad9d0dcd564759c18a22c763a6a6f5d2510dc6928264ccc91703",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt1/observed-armed-status.json",
+        "sha256": "35ce8a7bb30050462b6c1bad0fb35f40a44fb18d850d1f6b293ca6fa398aded6",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt2/observed-armed-status.json",
+        "sha256": "7640faa3cb1f2e74ba0d4020f20f35fae0393ee4345ea6635e437bfa99069262",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-armed-status.json",
+        "sha256": "00267d9950edad9d0dcd564759c18a22c763a6a6f5d2510dc6928264ccc91703",
+        "bytes": 750,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-armed-status.json",
+        "sha256": "719ab9047958984d316ae4420217ffa7cd6554810bfc7ff15630cd04a54ebadf",
+        "bytes": 750,
+        "link_count": 1
+      }
+    ],
+    "observed-late-conflicting-status.json": [
+      {
+        "path": ".cache/receipt-successor-canonical-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-fixture-input/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-runtime/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-source/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt2/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/validation-overlay/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt1/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt2-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt3-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt4-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/proof/attempt1_all/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-late-conflicting-status.json",
+        "sha256": "9a092e41a0c74b65ff812042dc6091c6a06bdb675285518a7fef456c12174635",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-late-conflicting-status.json",
+        "sha256": "9a092e41a0c74b65ff812042dc6091c6a06bdb675285518a7fef456c12174635",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt1/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt2-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt3-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt4-successor/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/proof/attempt1_all/source/fixtures/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 2
+      },
+      {
+        "path": "docs/release/collect-codex-goal-2026-09-30/successor-worker-recovery-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      },
+      {
+        "path": "scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+        "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+        "bytes": 743,
+        "link_count": 1
+      }
+    ],
+    "observed-late-original-request-recovery.json": [
+      {
+        "path": ".cache/receipt-successor-canonical-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-fixture-input/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-runtime/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/negative-reused-source/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/successor-attempt2/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-native-runner-adaptation-20261002/validation-overlay/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt1/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt2-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt3-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-current1/proof/attempt4-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/proof/attempt1_all/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-late-original-request-recovery.json",
+        "sha256": "8e6ed59c6410617c544c0db9c0dd4cfd785a6cd2c90bfdd8aa06e4341b23968e",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-late-original-request-recovery.json",
+        "sha256": "8e6ed59c6410617c544c0db9c0dd4cfd785a6cd2c90bfdd8aa06e4341b23968e",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt1/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt2-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt3-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7/proof/attempt4-successor/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 2
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice7_primary_delta/proof/attempt1_all/source/fixtures/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 2
+      },
+      {
+        "path": "docs/release/collect-codex-goal-2026-09-30/successor-worker-recovery-integration-20261002/native-current-fresh-attempt1/source/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      },
+      {
+        "path": "scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+        "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+        "bytes": 1361,
+        "link_count": 1
+      }
+    ],
+    "observed-incomplete-archive.json": [
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt1/observed-incomplete-archive.json",
+        "sha256": "220189061cc26d0c991594863d2dcc4c3b21af166ff7bc15b46a9504df78a77f",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/observed-incomplete-archive.json",
+        "sha256": "8ac413ca77363210fb524cbb142dc5742a529c0c96cf568ae105faac654f3e24",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/observed-incomplete-archive.json",
+        "sha256": "9fe50312a45d1cfb0b7fce42e2237b81745327e90c6ae743be955ef483dd98fa",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice5/supabase/functions/collect-receipt-successor-gateway/fixtures/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt1/observed-incomplete-archive.json",
+        "sha256": "220189061cc26d0c991594863d2dcc4c3b21af166ff7bc15b46a9504df78a77f",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt2/observed-incomplete-archive.json",
+        "sha256": "8ac413ca77363210fb524cbb142dc5742a529c0c96cf568ae105faac654f3e24",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt3/observed-incomplete-archive.json",
+        "sha256": "9fe50312a45d1cfb0b7fce42e2237b81745327e90c6ae743be955ef483dd98fa",
+        "bytes": 338,
+        "link_count": 1
+      },
+      {
+        "path": ".cache/receipt-successor-workflows-20261001/slice6/proof/attempt4/observed-incomplete-archive.json",
+        "sha256": "679236f360a45f3881b6e6f95b3fa71fbeb7dbaea4c2d5c832d54ad5bf8d9c31",
+        "bytes": 338,
+        "link_count": 1
+      }
+    ]
+  },
+  "scope": "Contained repo filename scan including ignored regular files; no symlink traversal, archive interiors, external computer roots or other chats."
+}

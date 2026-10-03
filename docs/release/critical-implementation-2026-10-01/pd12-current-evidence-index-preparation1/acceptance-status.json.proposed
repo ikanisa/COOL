@@ -1,0 +1,386 @@
+{
+  "schema_version": 3,
+  "recorded_at": "2026-10-01T20:45:04.087450+00:00",
+  "design_authority": "revolut-design",
+  "authority_binding": "docs/release/revolut-design/authority.json",
+  "role": "Dated retained evidence readback; current candidate entries and binding results are in the linked current candidate index. Historical outcomes remain scoped to their recorded inputs.",
+  "implementation_status": "current_candidate_acceptance_unverified",
+  "open_material_implementation_findings": [
+    "Dated source manifests have changed inputs; affected current candidate artifacts and route/state visual checks remain unverified.",
+    "Aeonik Pro web/app distribution rights remain unverified."
+  ],
+  "full_visual_acceptance": "unverified",
+  "percentage": null,
+  "acceptance_basis": "Retained packets preserve their original scoped outcomes. Current readback checks every listed manifest/artifact entry and reports source drift; no whole-product fidelity percentage, fresh visual review, rights clearance or release approval is inferred.",
+  "declared_route_inventory": "docs/release/revolut-design/route-inventory.json",
+  "surfaces": {
+    "member_app": {
+      "status": "dated_scoped_review_pass_current_candidate_unverified",
+      "route_cases_per_variant": 43,
+      "state_cases_per_variant": 56,
+      "variant_count": 3,
+      "case_executions": 297,
+      "capture_count": 467,
+      "workspace_input_count": 357,
+      "real_package_icon_faces": 4,
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/mobile-independent-visual-review.json",
+      "runtime_matrix": "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json",
+      "resolved_findings": [
+        "Confirmation label inside pill at enlarged text",
+        "Photo floating filter label clearance",
+        "Selected teal patterned Security header"
+      ],
+      "current_source_drift": [
+        {
+          "path": "lib/features/payments/contribution_flow_screen.dart",
+          "expected_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+          "actual_sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+          "status": "changed"
+        },
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "expected_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+          "actual_sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+          "status": "changed"
+        }
+      ],
+      "historical_index_status": "current_scoped_review_pass",
+      "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+      "current_candidate_visual_acceptance": "unverified",
+      "source_readback": {
+        "manifest": "docs/release/revolut-design/verification/current-20261001/mobile-inputs-before.json",
+        "manifest_sha256": "04d4049a8960f42b4ea29d7a420801767f2b36e6b24942d96f6d1db62429fc2c",
+        "manifest_key": "inputs",
+        "entry_count": 357,
+        "matched_count": 355,
+        "changed_count": 2,
+        "missing_count": 0,
+        "status": "current_drift_or_missing"
+      },
+      "retained_artifact_readback": {
+        "manifest": "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json",
+        "entry_count": 467,
+        "matched_count": 467,
+        "changed_count": 0,
+        "missing_count": 0,
+        "status": "retained_entries_match",
+        "manifest_sha256": "35ae6d824bdbeae1abc33dae179fe52391bfcbae68efd2efd02e6733b712fc26"
+      },
+      "source_currency_checked_at": "2026-10-01T20:44:34.802377+00:00"
+    },
+    "admin": {
+      "status": "dated_scoped_review_pass_current_candidate_unverified",
+      "registered_routes": 28,
+      "viewports": 4,
+      "browser_case_count": 112,
+      "compiled_input_count": 321,
+      "matrix": "docs/release/revolut-design/verification/current-20261001/admin-browser-matrix.json",
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json",
+      "current_source_drift": [
+        {
+          "path": "lib/admin/admin_shell.dart",
+          "expected_sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+          "actual_sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+          "status": "changed"
+        },
+        {
+          "path": "lib/admin/core/admin_overview_runtime.dart",
+          "expected_sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40",
+          "actual_sha256": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+          "status": "changed"
+        },
+        {
+          "path": "lib/admin/core/admin_roster_import.dart",
+          "expected_sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+          "actual_sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b",
+          "status": "changed"
+        },
+        {
+          "path": "lib/admin/core/admin_runtime.dart",
+          "expected_sha256": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+          "actual_sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+          "status": "changed"
+        },
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "expected_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+          "actual_sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+          "status": "changed"
+        },
+        {
+          "path": "web/flutter_bootstrap.js",
+          "expected_sha256": "067f4f7c234d275de5a8d02aec63db0cc4cb1f188f3c69145fe3edcc6d15831f",
+          "actual_sha256": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+          "status": "changed"
+        },
+        {
+          "path": "web/manifest.json",
+          "expected_sha256": "d738bf9fbeced427a87af363a938d5477f44b4c947b2f98f2bb5de1ebc5ecfca",
+          "actual_sha256": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+          "status": "changed"
+        }
+      ],
+      "historical_index_status": "current_scoped_review_pass",
+      "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+      "current_candidate_visual_acceptance": "unverified",
+      "source_readback": {
+        "manifest": "docs/release/revolut-design/verification/current-20261001/admin-current-source-binding.json",
+        "manifest_sha256": "99726b76d75f2eac5ccf3c428def4e0bc3c626916a60fcf47fa20144786bd158",
+        "manifest_key": "actual_current_project_inputs",
+        "entry_count": 321,
+        "matched_count": 314,
+        "changed_count": 7,
+        "missing_count": 0,
+        "status": "current_drift_or_missing"
+      },
+      "retained_artifact_readback": {
+        "manifest": "docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json",
+        "entry_count": 112,
+        "matched_count": 112,
+        "changed_count": 0,
+        "missing_count": 0,
+        "status": "retained_entries_match",
+        "manifest_sha256": "d38191a9ccd7ba17f9f4a98529713db2feba7d72db3f724ca7dd9bd76fde5409"
+      },
+      "source_currency_checked_at": "2026-10-01T20:44:34.802377+00:00"
+    },
+    "public_website": {
+      "status": "public4_local_scope_pass_retained_whole_current_candidate_unverified",
+      "html_routes": 18,
+      "route_viewport_cases": 60,
+      "share_cases": 16,
+      "quality_checks": 55,
+      "flat_contrast_samples": 3422,
+      "photography_regions": 84,
+      "matrix": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-matrix.json",
+      "quality": "docs/release/revolut-design/verification/current-20261001/public-complete-quality.json",
+      "unchanged_artifact_reuse": "docs/release/revolut-design/verification/current-20261001/public-artifact-reuse-proof.json",
+      "legal_rendering_delta": "docs/release/critical-implementation-2026-10-01/legal-batch1/content-comparison.json",
+      "retained_screenshots": 181,
+      "superseded_wrapped_full_page_captures": 6,
+      "original_long_viewport_segments": 175,
+      "long_page_capture": "docs/release/revolut-design/verification/current-20261001/public-long-page-capture.json",
+      "internal_link_readback": "docs/release/revolut-design/verification/current-20261001/final-internal-link-readback.json",
+      "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/final-current-visual-and-link-review.json",
+      "material_findings": [
+        "Fresh public4 local capture/static/browser proof supersedes the dated stale-media/no-recapture blocker in its local scope. Exact55 local static artifacts,55 quality checks and104 rendered/share cases are retained.",
+        "Whole current source/transitive generator-set completeness and candidate visual comparison remain unverified; current hosted artifact parity and legal/publication acceptance remain unverified."
+      ],
+      "historical_index_status": "current_scoped_review_pass",
+      "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+      "current_candidate_visual_acceptance": "unverified",
+      "current_source_drift": [
+        {
+          "path": "content/legal/collect_delete_account.yaml",
+          "expected_sha256": "c9dc4b93794c319151ae320bdae854abf19977784056e8b3520089db0828dbf1",
+          "actual_sha256": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f",
+          "status": "changed"
+        },
+        {
+          "path": "content/legal/collect_legal_pages_bundle.yaml",
+          "expected_sha256": "b358ae43034bef4fbb55f74e411f3b38a3b2fc55b739d542229f6e65f83b5f51",
+          "actual_sha256": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94",
+          "status": "changed"
+        },
+        {
+          "path": "content/legal/collect_privacy_policy.yaml",
+          "expected_sha256": "f9b8bf803b63e7e2dd648dfd3520a5821097da79e2a1a73d726ace78f2913e20",
+          "actual_sha256": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540",
+          "status": "changed"
+        },
+        {
+          "path": "content/legal/collect_terms_of_use.yaml",
+          "expected_sha256": "bcb7cd3d0702c9d99d307d858a951f9c8fce65d00e1b8dcc835497a0a479dd4e",
+          "actual_sha256": "71f1c395fbdcc94d903c0980ba597cfe959c69f8cb8d164e9b9caedf2aebcea7",
+          "status": "changed"
+        },
+        {
+          "path": "scripts/public_static_site_build.rb",
+          "expected_sha256": "6ebc3b6fe7d91eea65e178720f563ac7dfd4bb07df1150d14e2f4acd87584400",
+          "actual_sha256": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3",
+          "status": "changed"
+        }
+      ],
+      "source_readback": {
+        "manifest": "docs/release/critical-implementation-2026-10-01/legal-batch1/before.json",
+        "manifest_sha256": "e7bf8bc1fb4ff77c898497388e9240070e1c36443a5bc00bd9a7e39580041dba",
+        "manifest_key": "contract.reviewed_source_sha256",
+        "entry_count": 6,
+        "matched_count": 1,
+        "changed_count": 5,
+        "missing_count": 0,
+        "status": "current_drift_or_missing"
+      },
+      "retained_artifact_readback": {
+        "manifest": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-execution.json",
+        "entry_count": 55,
+        "matched_count": 55,
+        "changed_count": 0,
+        "missing_count": 0,
+        "status": "retained_entries_match",
+        "manifest_sha256": "9b54989c2c32501d1195d2388a461d298a886c46c5a086c85803708f05ce4c07"
+      },
+      "source_currency_checked_at": "2026-10-01T20:44:34.802377+00:00",
+      "historical_legal_rendering_delta": "docs/release/revolut-design/verification/current-legal-presentation-20261001/content-comparison.json",
+      "legal_rendering_delta_scope": "Current draft source/pure-fragment engineering comparison; no current full browser/media or hosted legal/support acceptance.",
+      "generator_transitive_input_binding": "Public4 retained66 observed static inputs+3 executable digests,344 media inputs and exact55 local artifact files. Complete current generator/transitive-set coverage including added/unlisted inputs is unverified.",
+      "historical_material_findings": [
+        "Current Privacy/Terms text changed after the retained browser packet.",
+        "Full current public rendering is blocked by stale app media; no recapture performed."
+      ],
+      "source_currency_scope": "Existing current_source_drift/source_readback arrays are dated2026-10-01T20:44:34.802377+00:00 readbacks; they are preserved, not asserted to describe the later abf7\u20262561 app candidate.",
+      "latest_local_scope_readback": {
+        "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+        "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923",
+        "batch": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+        "batch_sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95",
+        "full_mutable_candidate_accepted": false
+      }
+    }
+  },
+  "native_ios": {
+    "status": "dated_debug_artifact_review_pass_current_candidate_unverified",
+    "capture_count": 7,
+    "compiler_native_input_count": 465,
+    "installed_bundle_files": 204,
+    "installed_equals_retained": true,
+    "network_attempts": 0,
+    "current_source_drift": [
+      {
+        "path": "lib/features/payments/contribution_flow_screen.dart",
+        "expected_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+        "actual_sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+        "status": "changed"
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository.dart",
+        "expected_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+        "actual_sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+        "status": "changed"
+      }
+    ],
+    "capture_report": "docs/release/revolut-design/verification/current-20261001/native-capture-report.json",
+    "visual_review": "docs/release/revolut-design/verification/current-20261001/native-visual-review.json",
+    "installed_readback": "docs/release/revolut-design/verification/current-20261001/native-installed-bundle-readback.json",
+    "simulator_restored_shutdown": true,
+    "historical_index_status": "current_debug_artifact_review_pass",
+    "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+    "source_readback": {
+      "manifest": "docs/release/revolut-design/verification/current-20261001/native-compiled-input-binding.json",
+      "manifest_sha256": "c23398d044761af9089691274f5bd36a9feafefdaecc41002a1ba82d8530ea21",
+      "manifest_key": "source_sha256",
+      "entry_count": 465,
+      "matched_count": 463,
+      "changed_count": 2,
+      "missing_count": 0,
+      "status": "current_drift_or_missing"
+    },
+    "retained_artifact_readback": {
+      "manifest": "docs/release/revolut-design/verification/current-20261001/native-capture-report.json",
+      "entry_count": 204,
+      "matched_count": 204,
+      "changed_count": 0,
+      "missing_count": 0,
+      "status": "retained_entries_match",
+      "manifest_sha256": "527bf63f21c98ff8aafc026e00b46f8f9ed5bbb6bd6e9dadc939864cb52f7e5c"
+    },
+    "installed_readback_currency": "Original installed equality, network counts and simulator restoration are dated observations; installed state was not rechecked.",
+    "current_candidate_visual_acceptance": "unverified"
+  },
+  "marketing_typography": {
+    "status": "selected_full_faces_implemented_distribution_rights_unverified",
+    "family": "Aeonik Pro",
+    "weights": [
+      400,
+      500
+    ],
+    "metadata": "docs/release/revolut-design/verification/current-20261001/marketing-font-metadata.json",
+    "native_operator_family": "Inter",
+    "whole_RWF_values": "Inter tabular numerals",
+    "distribution_rights": {
+      "status": "unverified",
+      "scope": "Aeonik Pro web/app distribution rights remain unresolved; metadata and file presence do not establish licence rights."
+    },
+    "loaded_font_current_candidate_review": "unverified; metadata and retained-byte checks preserve dated scope only"
+  },
+  "current_website_media": {
+    "status": "dated_browser_capture_packet_current_source_drift",
+    "workspace_inputs": 330,
+    "packet": "docs/release/revolut-design/verification/final-member-media-20261001",
+    "historical_index_status": "fresh_separately_reviewed_published_local_packet",
+    "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+    "retained_runtime_fingerprint": "d7136f3bd1ffc4e1ddb5003e31d64ae8a1bf5285fb94f0050b52ce6b418bb89c",
+    "current_source_drift": [
+      {
+        "path": "lib/features/payments/contribution_flow_screen.dart",
+        "expected_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+        "actual_sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+        "status": "changed"
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository.dart",
+        "expected_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+        "actual_sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+        "status": "changed"
+      },
+      {
+        "path": "web/_headers",
+        "expected_sha256": "57933e212c336a836cef0e2aa25572f6c28db32f5ed6ff74dc25110688f16977",
+        "actual_sha256": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+        "status": "changed"
+      },
+      {
+        "path": "web/flutter_bootstrap.js",
+        "expected_sha256": "067f4f7c234d275de5a8d02aec63db0cc4cb1f188f3c69145fe3edcc6d15831f",
+        "actual_sha256": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+        "status": "changed"
+      },
+      {
+        "path": "web/manifest.json",
+        "expected_sha256": "d738bf9fbeced427a87af363a938d5477f44b4c947b2f98f2bb5de1ebc5ecfca",
+        "actual_sha256": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+        "status": "changed"
+      }
+    ],
+    "source_readback": {
+      "manifest": "docs/release/revolut-design/verification/final-member-media-20261001/capture-report.json",
+      "manifest_sha256": "9c9c28e7b54cfbe554961a295e9cdada75eb43a463fa77c974c37f704af54dd6",
+      "manifest_key": "sources_before",
+      "entry_count": 330,
+      "matched_count": 325,
+      "changed_count": 5,
+      "missing_count": 0,
+      "status": "current_drift_or_missing"
+    },
+    "retained_artifact_readback": {
+      "manifest": "docs/release/revolut-design/verification/final-member-media-20261001/capture-report.json",
+      "entry_count": 7,
+      "matched_count": 7,
+      "changed_count": 0,
+      "missing_count": 0,
+      "status": "retained_entries_match",
+      "manifest_sha256": "9c9c28e7b54cfbe554961a295e9cdada75eb43a463fa77c974c37f704af54dd6"
+    }
+  },
+  "earlier_three_native_defects": {
+    "status": "disproved_by_original_pixel_decoding_and_OCR",
+    "diagnosis": "docs/release/revolut-design/verification/current-20261001/native-visual-diagnosis.json"
+  },
+  "source_currency": "docs/release/critical-implementation-2026-10-01/design-index-readback/readback.json",
+  "reference_cleanup": {
+    "deleted_competing_files": 10,
+    "record": "docs/release/revolut-design/reference-cleanup.json"
+  },
+  "verification_log_inventory": "docs/release/revolut-design/verification-log-inventory.json",
+  "historical_index_snapshot": "docs/release/critical-implementation-2026-10-01/design-index-readback/acceptance-status.before.json",
+  "historical_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+  "source_readback_scope": "The retained source drift arrays and listed-entry checks describe their dated captures. Matching retained entries does not prove added current inputs or a complete transitive graph. See the linked candidate index for exact scoped source/artifact/result bindings, independent receipt references and still-unverified areas; no full visual or external acceptance is implied.",
+  "legal_release_approved": false,
+  "publication_approved": false,
+  "current_candidate_index": {
+    "path": "docs/release/revolut-design/current-candidate-evidence-index.json",
+    "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "index_binding_verification": "pending_actual_integrator_run",
+    "scope": "App2561 captured source; completed app1114/41 PASS and native12 JVM tests/20 class files PASS. Public4/SQL/backend and exact selected runtime OSV scopes are separate. Future AAB artifact and full visual/font/hosted/package acceptance remain unverified."
+  }
+}

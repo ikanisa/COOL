@@ -1,0 +1,380 @@
+NOTICE:  00000: role "postgres" has already been granted membership in role "pg_read_all_settings" by role "supabase_admin"
+LOCATION:  AddRoleMems, user.c:1888
+NOTICE:  00000: role "postgres" has already been granted membership in role "pg_read_all_stats" by role "supabase_admin"
+LOCATION:  AddRoleMems, user.c:1888
+NOTICE:  00000: drop cascades to 8 other objects
+DETAIL:  drop cascades to table users
+drop cascades to table refresh_tokens
+drop cascades to table instances
+drop cascades to table audit_log_entries
+drop cascades to table schema_migrations
+drop cascades to function uid()
+drop cascades to function role()
+drop cascades to function email()
+LOCATION:  reportDependentObjects, dependency.c:1165
+NOTICE:  42P06: schema "extensions" already exists, skipping
+LOCATION:  CreateSchemaCommand, schemacmds.c:132
+NOTICE:  42710: extension "pgcrypto" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791
+NOTICE:  42710: extension "uuid-ossp" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791
+NOTICE:  42710: extension "pgcrypto" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791
+NOTICE:  00000: trigger "on_auth_user_created_collect_profile" for relation "auth.users" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment intents update contributor txn or admin" for relation "payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  42701: column "collection_id" of relation "raw_payment_sms" already exists, skipping
+LOCATION:  check_for_column_name_collision, tablecmds.c:7471
+NOTICE:  42701: column "collection_id" of relation "parsed_payment_events" already exists, skipping
+LOCATION:  check_for_column_name_collision, tablecmds.c:7471
+NOTICE:  00000: policy "admin roles read admins" for relation "admin_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin permissions read admins" for relation "admin_permissions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin role permissions read admins" for relation "admin_role_permissions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin user roles read admins" for relation "admin_user_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "sensitive access logs read compliance" for relation "admin_sensitive_access_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "feature flags read admins" for relation "feature_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "system settings read admins" for relation "system_settings" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "moderation flags read admins" for relation "moderation_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin notes read admins" for relation "admin_notes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "raw sms metadata scoped read" for relation "raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_admin_user_roles(uuid,text,pg_catalog.bool,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_feature_flag(text,pg_catalog.bool,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_receiver(uuid,pg_catalog.bool,text,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_system_setting(text,jsonb,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_update_user_status(uuid,text,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function hash_phone(text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payments public posted or scoped" for relation "public.payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "ledger public collection credit or scoped" for relation "public.ledger_entries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "realtime invalidations read authenticated" for relation "app_realtime_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "profiles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_members" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_allocations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "ledger_entries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_receivers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "parsed_payment_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_user_roles" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "audit_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_sensitive_access_logs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "feature_flags" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "system_settings" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function create_contribution_intent(uuid,pg_catalog.int8,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "account deletion own read" for relation "mobile_account_deletion_requests" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support requests own read" for relation "mobile_support_requests" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification preferences own read" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification preferences own upsert" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification preferences own update" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own read" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own insert" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own update" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification events own read" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification events own update" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "stripe_customers_owner_select" for relation "stripe_customers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "stripe_payment_methods_owner_select" for relation "stripe_payment_methods" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "diaspora_contribution_intents_participant_select" for relation "diaspora_contribution_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "stripe_webhook_events_admin_select" for relation "stripe_webhook_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type catalog public enabled read" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type catalog admin manage" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection category subtypes public enabled read" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection category subtypes admin manage" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection purpose templates public enabled read" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection purpose templates admin manage" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type country rules public enabled read" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "collection type country rules admin manage" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_collection_catalog_change_trigger" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_type_catalog" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_category_subtypes" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_purpose_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "collection_type_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification channels public enabled read" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification channels admin manage" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification event types public enabled read" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification event types admin manage" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification templates public enabled read" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification templates admin manage" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification template versions public published read" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification template versions admin manage" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_notification_runtime_change_trigger" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_event_types" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_templates" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "notification_template_versions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities public read active" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin read all" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin insert" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin update" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "brand entities admin delete" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels public read active" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin read all" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin insert" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin update" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support channels admin delete" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints public read active" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin read all" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin insert" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin update" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "payment entrypoints admin delete" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_public_runtime_config_change_trigger" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "brand_entities" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "support_channels" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "payment_entrypoints" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin navigation read admins" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin navigation manage admins" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue specs read admins" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue specs manage admins" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue filter options read admins" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue filter options manage admins" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue signals read admins" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "admin queue signals manage admins" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_admin_runtime_metadata_change_trigger" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_navigation_items" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_specs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_filter_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "admin_queue_signals" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy documents public published read" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy documents admin manage" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy sections public published read" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy sections admin manage" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy acceptance own read" for relation "policy_acceptance_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "policy acceptance own insert" for relation "policy_acceptance_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "account request reasons public enabled read" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "account request reasons admin manage" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "audit_policy_runtime_change_trigger" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "policy_documents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "policy_document_sections" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "account_request_reason_options" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: constraint "notification_device_tokens_provider_check" of relation "notification_device_tokens" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_device_tokens_environment_check" of relation "notification_device_tokens" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_events_deep_link_check" of relation "notification_events" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_events_copy_length_check" of relation "notification_events" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: trigger "queue_notification_event_deliveries_trigger" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "enqueue_contribution_confirmation_notification_trigger" for relation "payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "disable_invalid_notification_device_trigger" for relation "notification_delivery_attempts" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "protect_raw_payment_sms_identity_trigger" for relation "public.raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: constraint "payments_provider_network_check" of relation "payments" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: trigger "enforce_active_contributor_membership_trigger" for relation "public.payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.notification_deliveries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function public.post_payment_from_event(uuid,uuid,uuid,text,text,uuid) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transfer_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transactions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_evidence_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.reconciliation_runs" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.reconciliation_exceptions" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.bank_transfer_destinations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "profile country rules enabled read" for relation "public.profile_country_rules" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: constraint "profiles_country_code_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_currency_code_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_name_length" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_momo_provider_check" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_momo_provider_number_match" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_momo_number_rw_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_link_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_account_length" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: trigger "collection_receivers_official_route_immutable" for relation "public.collection_receivers" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "protect_raw_payment_sms_attestation_trigger" for relation "public.raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: index "payments_provider_transaction_unique" does not exist, skipping
+LOCATION:  DropErrorMsgNonExistent, tablecmds.c:1427
+NOTICE:  42P06: schema "collect_security" already exists, skipping
+LOCATION:  CreateSchemaCommand, schemacmds.c:132
+NOTICE:  00000: trigger "reconciliation_review_immutable" for relation "collect_security.reconciliation_reviews" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_retirements" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_retirements" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_observations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_observations" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_immutable" for relation "collect_hybrid.legacy_bank_scheduler_verifications" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "bank_scheduler_retirement_no_truncate" for relation "collect_hybrid.legacy_bank_scheduler_verifications" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  42P06: schema "collect_security" already exists, skipping
+LOCATION:  CreateSchemaCommand, schemacmds.c:132
+NOTICE:  00000: constraint "signed_otp_requests_hook_id_check" of relation "signed_otp_requests" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "signed_otp_hook_v3" of relation "signed_otp_requests" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: trigger "signed_otp_evidence_immutable" for relation "collect_security.signed_otp_evidence" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

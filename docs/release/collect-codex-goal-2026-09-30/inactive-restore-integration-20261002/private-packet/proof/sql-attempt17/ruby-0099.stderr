@@ -1,0 +1,3 @@
+ERROR:  22023: restore_stop_input_invalid
+CONTEXT:  PL/pgSQL function inline_code_block line 24 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

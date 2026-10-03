@@ -1,0 +1,10 @@
+Check .cache/receipt-supervisor-preparation/wire_test.ts
+TS2345 [ERROR]: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+    !validateSupervisorResult(lookup,health.principal_id,"99800000-0000-4000-8000-000000000004","reconcile",{target_request_id:health.request_id})){
+                                     ~~~~~~~~~~~~~~~~~~~
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-supervisor-preparation/wire_test.ts:12:38
+
+error: Type checking failed.
+
+  [33minfo:[39m The program failed type-checking, but it still might work correctly.
+  [36mhint:[39m Re-run with [4m--no-check[24m to skip type-checking.

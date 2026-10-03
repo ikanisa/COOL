@@ -9,8 +9,10 @@ require "time"
 require "yaml"
 require_relative "public_app_media"
 require_relative "public_photography"
+require_relative "product_capabilities"
 
 ROOT = File.expand_path("..", __dir__)
+PRODUCT_CAPABILITIES = CollectProductCapabilities.new(ROOT)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
 ASSET_VERSION = PublicPhotography.asset_version(ROOT)
@@ -23,9 +25,13 @@ DISPLAY_PHONE = "+250 795 588 248"
 USSD_CODE = "*182**8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
 REGISTERED_ENTITY = "IKANISA Ltd."
-REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
+REGULATORY_FOOTER_NOTE = PRODUCT_CAPABILITIES.copy("regulatory_footer")
 ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
-TYPEFACE_ASSET = "assets/typefaces/Inter-Variable.ttf"
+TYPEFACE_ASSETS = %w[
+  assets/typefaces/Inter-Variable.ttf
+  assets/typefaces/AeonikPro-Regular.ttf
+  assets/typefaces/AeonikPro-Medium.ttf
+].freeze
 TYPEFACE_LICENSE = "assets/typefaces/OFL-Inter.txt"
 MEDIA_GROUP = "group"
 MEDIA_PAYMENT = "payment"
@@ -44,78 +50,31 @@ BRAND_PAPER = "#ffffff"
 BRAND_INK = "#191c1f"
 
 
-PUBLIC_FAQS = {
-  "/" => [
-    ["What is Collect?", "Collect helps savings groups and daily earners keep clearer contribution records, prepare credit-readiness files, and connect to approved provider workflows where eligible."],
-    ["Does Collect hold customer deposits?", "No. Where regulated products are involved, funds and financial products are provided through licensed partner institutions."],
-    ["Can I use Collect without a smartphone?", "The public product direction includes supported USSD and assisted channels so basic-phone users are not excluded."],
-    ["Is credit guaranteed?", "No. Collect can help prepare records and files, but banks and approved providers make their own final decisions."]
-  ],
-  "/group-savings/" => [
-    ["Can an existing ibimina use Collect?", "Yes. Collect is designed to add records, statements and structure without forcing the group to abandon its own rules."],
-    ["Can groups keep rotating rules?", "Yes. Groups can keep their culture and add accumulating goals where members agree."],
-    ["Who sees member records?", "Members and authorised leaders see the information needed for group transparency; private documents are not automatically visible to other members."],
-    ["How does a group start?", "The current assisted path is to talk to IKANISA support about starting a group, then complete setup through the app or supported channels."]
-  ],
-  "/insurance/" => [
-    ["Does Collect issue insurance?", "No. Licensed insurers issue cover and make claim decisions. Collect supports records, communication and customer workflows."],
-    ["Why daily premiums?", "Daily or flexible micro-payments can better match the way informal earners receive income."],
-    ["What happens during a claim?", "Collect can help organise notification and evidence collection, but the insurer remains responsible for the final claim decision."],
-    ["Is every customer eligible?", "No. Eligibility, pricing, exclusions and claim rules depend on the insurer and product terms."]
-  ],
-  "/craas/" => [
-    ["What does CRaaS mean?", "Credit Readiness-as-a-Service helps a business understand lender requirements, close document gaps and package a bank-ready file."],
-    ["Does CRaaS replace a bank credit team?", "No. It improves preparation before bank review; the bank remains responsible for assessment, pricing and approval."],
-    ["Which services can be coordinated?", "Accounting, tax, business-plan, legal, notarial, valuation and collateral-document support can be coordinated where relevant."],
-    ["Who should use CRaaS?", "MSMEs and informal businesses that need a clearer loan file before approaching a lender."]
-  ],
-  "/community-groups/" => [
-    ["Which groups can use Collect?", "Ibimina, faith groups, family savings groups, cooperatives, trade associations, youth groups and women-led groups can use the group-record model."],
-    ["Does Collect replace group leaders?", "No. Group leaders and members keep their governance; Collect supports clearer records and operations."],
-    ["Can groups save for specific goals?", "Yes. Groups can track purpose-based goals such as school fees, agricultural inputs, insurance, business assets or emergency funds."],
-    ["Can members use USSD?", "Supported USSD and assisted channels are part of the inclusion model for members without smartphones."]
-  ],
-  "/our-partners/" => [
-    ["What does a partner bank get?", "Cleaner deposit mobilisation, group ledgers, customer records, readiness files and clearer provider-review workflows."],
-    ["Does Collect take over regulated obligations?", "No. Banks and insurers keep KYC, AML/CFT, eligibility, pricing, approval, disbursement, recovery and reporting obligations."],
-    ["Are the market numbers Collect traction?", "No. Market figures describe the opportunity. Collect-specific public proof is shown separately and should not be read as customer-volume traction."],
-    ["How should an institution start?", "The right first step is to talk to the IKANISA team about product scope, risk boundaries and provider responsibilities."]
-  ],
-  "/trust/" => [
-    ["Does Collect sell personal data?", "No. The public trust and privacy pages state that personal data is not sold."],
-    ["Does AI make final financial decisions?", "No. AI may assist preparation or support workflows, but banks and insurers make their own final decisions."],
-    ["How do customers request deletion?", "Customers can use the in-app deletion path where available, WhatsApp support, or info@ikanisa.com."],
-    ["Why does limited retention exist?", "Ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention."]
-  ]
-}.freeze
+PUBLIC_FAQS = PRODUCT_CAPABILITIES.faqs.freeze
 
 PAGES = [
   {
     path: "/",
+    capability_id: "group_records",
     title: "Collect by IKANISA | Microsavings and Group Savings",
-    description: "Collect helps daily earners and savings groups organize microsavings, daily savings, ledgers, credit-readiness support, and provider-review files through a public app and supported USSD journeys.",
-    h1: "Microsavings and group savings for daily earners",
-    intro: "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+    description: PRODUCT_CAPABILITIES.page("/", :description),
+    h1: PRODUCT_CAPABILITIES.page("/", :h1),
+    intro: PRODUCT_CAPABILITIES.page("/", :intro),
     media: MEDIA_GROUP,
     metrics: [
       ["96%", "Rwandan adults financially included"],
       ["85%", "Adults saved formally or informally"],
       ["24%", "Adults using formal borrowing"]
     ],
-    sections: [
-      ["Microsavings and daily savings", "Support small, regular contributions for people who earn daily and save in practical amounts.", ["Daily earners", "Supported USSD paths", "Low-friction records"]],
-      ["Group savings", "Set up a savings group, organize members and roles, and keep contribution activity easier to review.", ["Group setup", "Member roles", "Contribution history"]],
-      ["Credit-readiness support", "Prepare contribution history, documents, and request summaries before a financial provider reviews the file.", ["Readiness files", "Missing-item support", "Provider review boundary"]],
-      ["Access to capital and loans", "Organize records that may support capital-access and loan conversations with the relevant provider.", ["Provider-review files", "Capital access preparation", "No approval promise"]],
-      ["Microinsurance support", "Keep insurance-related records organized where approved providers are involved.", ["Protection records", "Support history", "Provider decision boundary"]],
-    ]
+    sections: PRODUCT_CAPABILITIES.page("/", :sections),
   },
   {
     path: "/group-savings/",
+    capability_id: "group_records",
     title: "Group Savings | Collect by IKANISA",
-    description: "Every contribution is recorded, every member has a statement, and group savings discipline becomes something a bank can understand.",
+    description: PRODUCT_CAPABILITIES.page("/group-savings/", :description),
     h1: "Your group already has trust. Collect adds structure.",
-    intro: "Every contribution is recorded, every member has a statement, and your group's savings discipline becomes something a bank can understand.",
+    intro: PRODUCT_CAPABILITIES.page("/group-savings/", :intro),
     start_heading: "Give every contribution a clear purpose and a trusted record.",
     media: MEDIA_GROUP,
     nav_label: "Group Savings",
@@ -123,14 +82,15 @@ PAGES = [
   },
   {
     path: "/insurance/",
+    capability_id: "insurance",
     aliases: ["/protection/"],
     title: "Insurance | Collect by IKANISA",
-    description: "Collect can help organize insurance-related records where approved providers are involved.",
-    h1: "Protection that fits how people earn.",
-    intro: "Collect works with licensed insurers to design simple protection products, flexible premium micro-payments and transparent claims journeys for informal and variable-income communities.",
+    description: PRODUCT_CAPABILITIES.page("/insurance/", :description),
+    h1: PRODUCT_CAPABILITIES.page("/insurance/", :h1),
+    intro: PRODUCT_CAPABILITIES.page("/insurance/", :intro),
     media: MEDIA_PAYMENT,
     nav_label: "Insurance",
-    summary_label: "Insurance support records",
+    summary_label: PRODUCT_CAPABILITIES.page("/insurance/", :summary_label),
     metrics: [
       ["Records", "Customer support"],
       ["Providers", "Final decisions"]
@@ -147,24 +107,20 @@ PAGES = [
         ["Credit is exposed when income stops", ""]
       ]
     },
-    sections_heading: "Protection products",
-    sections: [
-      ["Income Protection", "Pays a short-term benefit when a covered member's income is verifiably interrupted.", []],
-      ["Credit Life Protection", "Settles an eligible loan balance if the covered borrower dies or becomes permanently disabled.", []],
-      ["Credit Repayment Protection", "Covers scheduled repayments for a defined period after a verified, temporary loss of income.", []],
-      ["Group Savings Protection", "Covers a scheduled contribution for a defined period after a verified, temporary loss of income.", []]
-    ]
+    sections_heading: PRODUCT_CAPABILITIES.page("/insurance/", :sections_heading),
+    sections: PRODUCT_CAPABILITIES.page("/insurance/", :sections),
   },
   {
     path: "/craas/",
+    capability_id: "credit_readiness",
     aliases: ["/credit-readiness/"],
     title: "CRaaS | Collect by IKANISA",
-    description: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
-    h1: "From loan inquiry to bank-ready file.",
-    intro: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
+    description: PRODUCT_CAPABILITIES.page("/craas/", :description),
+    h1: PRODUCT_CAPABILITIES.page("/craas/", :h1),
+    intro: PRODUCT_CAPABILITIES.page("/craas/", :intro),
     media: MEDIA_PAYMENT,
     nav_label: "CRaaS",
-    summary_label: "Credit-readiness service",
+    summary_label: PRODUCT_CAPABILITIES.page("/craas/", :summary_label),
     metrics: [
       ["Readiness", "File support"],
       ["Provider", "Final decision"]
@@ -189,22 +145,16 @@ PAGES = [
         ]]
       ]
     },
-    sections_heading: "How CRaaS works",
-    sections: [
-      ["Loan inquiry", "The business states the financing need, amount, purpose and repayment.", []],
-      ["Collect intake", "Captures the business profile and explains the preparation process.", []],
-      ["Requirement mapping", "The request is matched to relevant bank and product requirements.", []],
-      ["Document preparation", "Collect guides and supports on preparation of required documents.", []],
-      ["Service coordination", "Collect coordinates corporate and admin processes and specialist services.", []],
-      ["Bank-ready packaging", "The completed application is indexed and prepared for final bank review.", []]
-    ]
+    sections_heading: PRODUCT_CAPABILITIES.page("/craas/", :sections_heading),
+    sections: PRODUCT_CAPABILITIES.page("/craas/", :sections),
   },
   {
     path: "/community-groups/",
+    capability_id: "group_records",
     title: "Community Groups | Collect by IKANISA",
     description: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
     h1: "Finance works better when communities lead.",
-    intro: "Collect adds digital tools without changing how your group already leads itself - same relationships, same governance, same rules.",
+    intro: PRODUCT_CAPABILITIES.page("/community-groups/", :intro),
     media: MEDIA_GROUP,
     nav_label: "Community Groups",
     summary_label: "Mobile group operations",
@@ -212,34 +162,9 @@ PAGES = [
       ["Group", "Member records"],
       ["Mobile app", "Group operations"]
     ],
-    infographic: {
-      title: "What the app enables for a group",
-      body: "",
-      steps: [
-        ["For group leaders", [
-          "Create and manage groups",
-          "Define contribution rules",
-          "Assign leadership roles",
-          "Track missed contributions",
-          "Produce transparent statements"
-        ]],
-        ["For members", [
-          "Contribute through app or USSD",
-          "Receive proof of each contribution",
-          "View personal and group progress",
-          "Understand group rules",
-          "Build a verified contribution history",
-          "Access to bank credit and insurance"
-        ]]
-      ]
-    },
+    infographic: PRODUCT_CAPABILITIES.page("/community-groups/", :infographic),
     sections_heading: "Community use cases",
-    sections: [
-      ["Moto-taxi groups", "Save toward insurance, taxes, licensing and green-mobility assets.", []],
-      ["Agricultural cooperatives", "Accumulate capital for inputs, equipment, storage and working capital.", []],
-      ["Women and youth groups", "Build verified savings histories and access structured business-readiness support.", []],
-      ["MSME associations", "Prepare members for business loans and coordinate professional services.", []],
-    ],
+    sections: PRODUCT_CAPABILITIES.page("/community-groups/", :sections),
     supported_groups_heading: "Collect supports community groups",
     supported_groups: [
       "Community & faith: Ibimina, religious and neighbourhood associations, family savings groups",
@@ -249,28 +174,20 @@ PAGES = [
   },
   {
     path: "/our-partners/",
+    capability_id: "loans",
     aliases: ["/partners/"],
     title: "Our Partners | Collect by IKANISA",
-    description: "Collect helps banks convert existing informal savings discipline into formal deposits, reliable data and bankable credit relationships.",
+    description: PRODUCT_CAPABILITIES.page("/our-partners/", :description),
     h1: "The banking opportunity in Rwanda's informal economy.",
-    intro: "These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.",
+    intro: PRODUCT_CAPABILITIES.page("/our-partners/", :intro),
     media: MEDIA_PAYMENT,
     nav_label: "Our Partners",
-    summary_label: "Banking opportunity",
+    summary_label: PRODUCT_CAPABILITIES.page("/our-partners/", :summary_label),
     metrics: [
       ["RWF 288B+", "Annual ibimina savings flow"],
       ["4.8M", "Informal and group savers"]
     ],
-    infographic: {
-      title: "Bank growth workflow",
-      body: "Convert existing savings discipline into formal deposits, reliable data and bankable credit relationships.",
-      steps: [
-        ["Mobilise deposits", "Bring daily and group savings into clearer bank-linked records."],
-        ["Build data", "Turn organised group records into repayment and credit-readiness signals."],
-        ["Prepare credit", "Package MSME and group-backed files for formal bank review."],
-        ["Grow relationships", "Support local savings and lending where approved by a Rwanda provider."]
-      ]
-    },
+    infographic: PRODUCT_CAPABILITIES.page("/our-partners/", :infographic),
     sections: []
   },
   {
@@ -456,15 +373,17 @@ def page_classes(page, current_path)
 end
 
 def cta_links_html(_current_path, page, surface:)
-  touch_message = "Hello IKANISA, I have a question about Collect."
+  capability_id = page.fetch(:capability_id, "group_records")
+  action = PRODUCT_CAPABILITIES.public_action(capability_id)
   app_class = surface == :header ? "button secondary cta-app" : "button primary cta-app"
   secondary_class = surface == :start ? "button ghost on-light" : "button ghost"
-  items = [
-    %(<a class="#{app_class}" href="#{APP_DOWNLOAD_URL}" aria-label="Get Collect by IKANISA for Android on Google Play">Get the App</a>),
-    %(<a class="#{secondary_class} cta-group" href="#{APP_DOWNLOAD_URL}" aria-label="Create a Collect group using the Android app">Create Group Saving</a>),
-    %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
-  ]
-
+  items = [%(<a class="#{app_class}" href="#{esc(action.fetch('href'))}">#{esc(action.fetch('label'))}</a>)]
+  if %w[group_records private_group_creation].include?(capability_id)
+    group = PRODUCT_CAPABILITIES.source_action("private_group_creation", region: "RW", platform: "android")
+    items << %(<a class="#{secondary_class} cta-group" href="#{esc(group.fetch('href'))}">#{esc(group.fetch('label'))}</a>)
+  end
+  support = PRODUCT_CAPABILITIES.public_action("support")
+  items << %(<a class="#{secondary_class} cta-touch" href="#{esc(support.fetch('href'))}">#{esc(support.fetch('label'))}</a>)
   (surface == :header ? [items.first] : items).join("\n")
 end
 
@@ -563,11 +482,14 @@ end
 def legal_content_for(page)
   case page[:legal_key]
   when :privacy
-    LEGAL_PRIVACY
+    LEGAL_PRIVACY.merge("sections" => Array(LEGAL_PRIVACY["sections"]).map { |section| current_deletion_section(section) })
   when :terms
-    LEGAL_TERMS
+    LEGAL_TERMS.merge("sections" => Array(LEGAL_TERMS["sections"]).map { |section| current_deletion_terms_section(section) })
   when :account_deletion
-    LEGAL_DELETE_ACCOUNT
+    LEGAL_DELETE_ACCOUNT.merge(
+      "delete_in_app" => current_deletion_app_content(LEGAL_DELETE_ACCOUNT["delete_in_app"]),
+      "delete_without_app" => current_deletion_support_content(LEGAL_DELETE_ACCOUNT["delete_without_app"])
+    )
   when :data_deletion
     {
       "title" => "Data Deletion",
@@ -575,7 +497,7 @@ def legal_content_for(page)
       "sections" => [
         privacy_section("account-and-data-deletion"),
         keyed_section("What happens next", LEGAL_DELETE_ACCOUNT["what_happens_next"]),
-        keyed_section("Data we may retain", LEGAL_DELETE_ACCOUNT["data_we_may_retain"]),
+        keyed_section("Data we may retain", LEGAL_DELETE_ACCOUNT["data_we_may_retain"]).merge("id" => "retained-data-summary"),
         keyed_section("Products provided by partners", LEGAL_DELETE_ACCOUNT["partner_products"]),
         keyed_section("Need help?", LEGAL_DELETE_ACCOUNT["contact"])
       ].compact
@@ -637,7 +559,50 @@ def legal_content_for(page)
 end
 
 def privacy_section(id)
-  Array(LEGAL_PRIVACY["sections"]).find { |section| section["id"] == id }
+  current_deletion_section(Array(LEGAL_PRIVACY["sections"]).find { |section| section["id"] == id })
+end
+
+def current_deletion_app_content(content)
+  canonical = LEGAL_DELETE_ACCOUNT.fetch("delete_in_app")
+  content.merge(
+    "path" => canonical.fetch("path"),
+    "steps" => canonical.fetch("steps")
+  )
+end
+
+def current_deletion_support_content(content)
+  canonical = LEGAL_DELETE_ACCOUNT.fetch("delete_without_app")
+  content.merge(
+    "copy" => canonical.fetch("copy"),
+    "email" => canonical.fetch("email")
+  )
+end
+
+def current_deletion_terms_section(section)
+  return section unless section.is_a?(Hash) && section["id"] == "closing-or-deleting"
+
+  section.merge("request_channels" => Array(section["request_channels"]).map do |channel|
+    channel.start_with?("In the app under ") ? "In the app under #{LEGAL_DELETE_ACCOUNT.fetch("delete_in_app").fetch("path")}" : channel
+  end)
+end
+
+def current_deletion_section(section)
+  return section unless section.is_a?(Hash) && section["id"] == "account-and-data-deletion"
+
+  section.merge("subsections" => Array(section["subsections"]).map do |subsection|
+    case subsection["heading"]
+    when "Delete your account in the Collect app"
+      current_deletion_app_content(subsection)
+    when "Request deletion without the app"
+      support = current_deletion_support_content(subsection)
+      support.merge(
+        "id" => subsection.fetch("id"),
+        "body" => support["copy"]
+      ).reject { |key, _| key == "copy" }
+    else
+      subsection
+    end
+  end)
 end
 
 def keyed_section(heading, content)
@@ -691,24 +656,38 @@ def legal_hash_card_html(item)
 end
 
 def legal_hash_html(hash)
-  details = hash.select { |_key, value| value.is_a?(String) || value.is_a?(Numeric) }
-  nested = hash.reject { |key, value| details.key?(key) || %w[id].include?(key.to_s) || legal_internal_key?(key) || value.nil? || value.respond_to?(:empty?) && value.empty? }
+  heading = hash["heading"] || hash["title"]
+  body = hash.reject { |key, _| %w[heading title].include?(key.to_s) || legal_internal_key?(key) }
+  seen_contacts = {}
+  body = body.reject do |key, value|
+    next false unless legal_contact_key?(key) && value.is_a?(String)
+
+    duplicate = seen_contacts[value.strip]
+    seen_contacts[value.strip] = true
+    duplicate
+  end
   <<~HTML
-    #{legal_details_html(details)}
-    #{nested.map { |key, value| legal_named_value_html(key, value) }.join}
+    #{heading ? %(<h3>#{esc(heading)}</h3>) : ""}
+    #{body.map { |key, value| legal_named_value_html(key, value) }.join}
   HTML
 end
 
 def legal_details_html(details)
   seen = {}
-  rows = details.reject { |key, value| legal_internal_key?(key) || value.to_s.strip.empty? }.map do |key, value|
-    label = legal_contact_key?(key) ? "Email" : legal_label(key)
+  rows = details.reject { |key, value| legal_internal_key?(key) || %w[heading title].include?(key.to_s) || value.to_s.strip.empty? }.map do |key, value|
+    label = legal_contact_key?(key) ? "Email" : key.to_s == "privacy_request" ? "Privacy requests" : legal_label(key)
     dedupe_key = [label, value.to_s.strip]
     next if seen[dedupe_key]
 
     seen[dedupe_key] = true
-    href = %w[subprocessor_link form link cookie_policy_link].include?(key.to_s) ? normalized_legal_href(value) : nil
-    content = href ? %(<a class="legal-inline-link" href="#{esc(href)}" aria-label="#{esc(legal_inline_link_label(key, href))}">#{esc(value)}</a>) : esc(value)
+    href = %w[subprocessor_link privacy_request link cookie_policy_link].include?(key.to_s) ? normalized_legal_href(value) : nil
+    content = if legal_contact_key?(key)
+      legal_email_html(value)
+    elsif href
+      %(<a class="legal-inline-link" href="#{esc(href)}">#{esc(legal_inline_link_label(key, href))}</a>)
+    else
+      esc(value)
+    end
     %(<dt>#{esc(label)}</dt><dd>#{content}</dd>)
   end.compact
   return "" if rows.empty?
@@ -720,9 +699,13 @@ def legal_contact_key?(key)
   %w[email privacy_email support_email general_support privacy complaints partnerships].include?(key.to_s)
 end
 
+def legal_email_html(value)
+  %(<a class="legal-inline-link" href="mailto:#{esc(value)}">#{esc(value)}</a>)
+end
+
 def legal_named_value_html(key, value)
   return "" if legal_internal_key?(key) || value.nil? || value.respond_to?(:empty?) && value.empty?
-  return %(<p><strong>Email:</strong> #{esc(value)}</p>) if legal_contact_key?(key) && !value.is_a?(Hash) && !value.is_a?(Array)
+  return %(<p><strong>Email:</strong> #{legal_email_html(value)}</p>) if legal_contact_key?(key) && !value.is_a?(Hash) && !value.is_a?(Array)
 
   case key.to_s
   when "heading"
@@ -733,8 +716,11 @@ def legal_named_value_html(key, value)
        "service_target", "copy", "clarification", "zero_fee_clarification",
        "non_exclusion", "priority_rule"
     %(<p>#{esc(value)}</p>)
-  when "details", "contact"
+  when "details"
     legal_details_html(value)
+  when "contact"
+    heading = value["heading"] || value["title"]
+    %(<div>#{heading ? %(<h3>#{esc(heading)}</h3>) : ""}#{legal_details_html(value)}</div>)
   when "bullets", "steps", "uses", "not_final_decision_for", "additional_terms_may_include",
        "availability_may_be_limited_by", "collect_does_not_guarantee",
        "member_obligations", "group_leader_obligations", "transaction_may_remain_subject_to",
@@ -750,10 +736,10 @@ def legal_named_value_html(key, value)
     Array(value).map { |section| legal_section_html(section) }.join
   when "links"
     legal_links_html(value)
-  when "subprocessor_link", "link", "cookie_policy_link"
+  when "subprocessor_link", "link", "cookie_policy_link", "privacy_request"
     legal_inline_link_html(key, value)
-  when "form"
-    value.is_a?(Hash) ? %(<h3>#{esc(legal_label(key))}</h3>#{legal_hash_html(value)}) : legal_inline_link_html(key, value)
+  when "support_information"
+    %(<h3>#{esc(value.fetch("heading"))}</h3><p>#{esc(value.fetch("copy"))}</p>#{legal_form_fields_html(value.fetch("fields"))})
   when "path"
     %(<p><span class="legal-path">#{esc(value)}</span></p>)
   when "fields"
@@ -762,7 +748,7 @@ def legal_named_value_html(key, value)
     if value.is_a?(Array)
       %(<h3>#{esc(legal_label(key))}</h3>#{legal_array_html(value)})
     elsif value.is_a?(Hash)
-      %(<h3>#{esc(legal_label(key))}</h3>#{legal_hash_html(value)})
+      %(<div>#{value["heading"] || value["title"] ? "" : %(<h3>#{esc(legal_label(key))}</h3>)}#{legal_hash_html(value)}</div>)
     else
       %(<p><strong>#{esc(legal_label(key))}:</strong> #{esc(value)}</p>)
     end
@@ -771,10 +757,10 @@ end
 
 def normalized_legal_href(value)
   href = value.to_s.strip
+  return href if href == mailto_url("Collect privacy request")
   return nil unless href.start_with?("/") && !href.start_with?("//")
 
   path, fragment = href.split("#", 2)
-  path = "/account-deletion/" if path == "/delete-account"
   path = "#{path}/" unless path.end_with?("/")
   fragment ? "#{path}##{fragment}" : path
 end
@@ -784,19 +770,19 @@ def legal_inline_link_html(key, value)
   return %(<p><strong>#{esc(legal_label(key))}:</strong> #{esc(value)}</p>) unless href
 
   label = legal_inline_link_label(key, href)
-  %(<p><strong>#{esc(legal_label(key))}:</strong> <a class="legal-inline-link" href="#{esc(href)}" aria-label="#{esc(label)}">#{esc(value)}</a></p>)
+  %(<p><a class="legal-inline-link" href="#{esc(href)}">#{esc(label)}</a></p>)
 end
 
 def legal_inline_link_label(key, href)
   case key.to_s
-  when "subprocessor_link" then "View subprocessor information"
-  when "form" then "Submit a privacy request"
+  when "subprocessor_link" then "Read about service providers and data sharing"
+  when "privacy_request" then "Email #{SUPPORT_EMAIL} about a privacy request"
   when "cookie_policy_link" then "Read the cookie and website technology notice"
   when "link"
     if href.start_with?("/account-deletion/")
       "Open the account-deletion page"
-    elsif href.start_with?("/cookies/")
-      "Read the cookie and website technology notice"
+    elsif href == "/privacy/#cookies"
+      "Read about cookies and website analytics"
     else
       "Open the referenced page"
     end
@@ -821,12 +807,15 @@ end
 def legal_form_fields_html(fields)
   cards = Array(fields).map do |field|
     label = field["label"] || legal_label(field["name"])
-    required = field["required"] ? "Required" : "Optional"
+    required = case field["required"]
+    when true then "Required"
+    when false then "Optional"
+    end
     options = Array(field["options"])
     <<~HTML
       <article class="legal-card">
         <h3>#{esc(label)}</h3>
-        <p>#{esc(required)} field.</p>
+        #{required ? %(<p>#{esc(required)} field.</p>) : ""}
         #{options.empty? ? "" : legal_array_html(options)}
       </article>
     HTML
@@ -885,7 +874,7 @@ def legal_page_html(page)
   meta = []
   meta << "Effective date: #{content["effective_date"]}" if content["effective_date"]
   meta << "Last updated: #{content["last_updated"]}" if content["last_updated"]
-  top_keys = content.reject { |key, _| %w[id slug seo hero title sections].include?(key.to_s) || legal_internal_key?(key) }
+  top_keys = content.reject { |key, _| %w[id slug seo hero title sections effective_date last_updated].include?(key.to_s) || legal_internal_key?(key) }
   toc = legal_toc_html(content, page: page)
   no_sidebar = page && [:privacy, :terms, :trust].include?(page[:legal_key])
   sidebar = no_sidebar ? "" : [
@@ -993,15 +982,10 @@ def original_home_sections_html
   <<~HTML
     <section class="original-story home-journey" aria-labelledby="daily-rhythm-heading">
       <div class="story-copy">
-        <h2 id="daily-rhythm-heading">From zero fee microsavings to capital accumulation and credit access</h2>
+        <h2 id="daily-rhythm-heading">#{esc(PRODUCT_CAPABILITIES.detail("home_journey_heading"))}</h2>
       </div>
       <div class="journey-rail" aria-label="Collect contribution journey">
-        <article><span>01</span><strong>Save</strong><p>Group Savings via the app or USSD.</p></article>
-        <article><span>02</span><strong>Build a record</strong><p>Build savings history and capital accumulations.</p></article>
-        <article><span>03</span><strong>Prepare</strong><p>Get guidance on loan requirements and support to credit readiness.</p></article>
-        <article><span>04</span><strong>Access credit</strong><p>Use group savings as collateral for loan application.</p></article>
-        <article><span>05</span><strong>Protect</strong><p>Access suitable insurance for income, savings protection.</p></article>
-        <article><span>06</span><strong>Grow</strong><p>Use capital for business, productive assets or community goals.</p></article>
+        #{PRODUCT_CAPABILITIES.detail("home_journey").each_with_index.map { |(title, body), index| %(<article><span>#{format("%02d", index + 1)}</span><strong>#{esc(title)}</strong><p>#{esc(body)}</p></article>) }.join}
       </div>
     </section>
 
@@ -1010,9 +994,7 @@ def original_home_sections_html
         <h2 id="ibimina-heading">Everything Collect brings together</h2>
       </div>
       <div class="story-grid four home-product-grid">
-        <article><strong>Group Savings</strong><span>Digitise group savings via zero-fee microsavings and grow accumulated group capital.</span><a href="/group-savings/">Explore Group Savings</a></article>
-        <article><strong>Credit Readiness</strong><span>Move from a loan inquiry to a complete, structured, bank-review-ready loan application file.</span><a href="/craas/">Explore CRaaS</a></article>
-        <article><strong>Insurance</strong><span>Access insurance designed around daily and irregular income patterns to protect income and savings.</span><a href="/insurance/">Explore Insurance</a></article>
+        #{PRODUCT_CAPABILITIES.detail("home_products").map { |title, body, href, label| %(<article><strong>#{esc(title)}</strong><span>#{esc(body)}</span><a href="#{esc(href)}">#{esc(label)}</a></article>) }.join}
       </div>
     </section>
 
@@ -1023,7 +1005,7 @@ def original_home_sections_html
       <div class="story-grid four">
         <article><strong>Ibimina</strong><span>Rotating and accumulating groups that need readable activity records.</span></article>
         <article><strong>Daily earners</strong><span>People saving in small amounts around daily or irregular income.</span></article>
-        <article><strong>MSMEs</strong><span>Helps businesses understand requirements, coordinate specialist services and prepare bank review-ready loan file.</span></article>
+        <article><strong>MSMEs</strong><span>#{esc(PRODUCT_CAPABILITIES.detail("msme_summary"))}</span></article>
       </div>
     </section>
 
@@ -1042,23 +1024,8 @@ def original_home_sections_html
 end
 
 def group_savings_page_html
-  how_steps = [
-    ["Create the group", "Define its purpose, leadership, rules and contribution schedule."],
-    ["Invite members", "Onboard members individually through the app or supported assisted channels."],
-    ["Contribute and get proof", "Members save through the app, mobile money or USSD, and receive confirmation instantly."],
-    ["Build financial history", "Contribution consistency becomes a verified record."],
-    ["Connect to partners", "Eligible groups may access partner-led credit, insurance or purpose-based finance."]
-  ]
-  features = [
-    ["Transparent group ledger", "Every recognised contribution is allocated to the correct member and group."],
-    ["Member statements", "Members can view their balances and contribution history without depending solely on the group treasurer."],
-    ["Flexible contribution schedules", "Save daily, weekly, monthly or according to the group's own rules."],
-    ["Group roles and approvals", "Set leaders, signatories, reviewers and maker-checker controls."],
-    ["Purpose-based goals", "Save toward insurance, school fees, business assets, property, agriculture, taxes or green mobility."],
-    ["Basic-phone access", "Supported USSD and SMS journeys make participation possible beyond smartphone users."],
-    ["Regulated fund handling", "Funds are held by regulated financial-service partners, not on Collect's own balance sheet."],
-    ["Credit-readiness record", "Contribution discipline can become part of a stronger partner-lender application."]
-  ]
+  how_steps = PRODUCT_CAPABILITIES.detail("group_how_steps")
+  features = PRODUCT_CAPABILITIES.detail("group_features")
   use_cases = [
     "Business working-capital readiness",
     "Insurance and compliance savings",
@@ -1109,7 +1076,7 @@ def group_savings_page_html
         <h2 id="group-accumulation-heading">From rotation to accumulation - keep the trust, grow the capital.</h2>
       </div>
       <div class="accumulation-panel">
-        <p>Traditional rotational groups help members access a periodic lump sum, but the group capital is repeatedly distributed and depleted. Collect allows groups to add an accumulating model in which savings remain visible and can support shared goals, collateral arrangements and longer-term investment.</p>
+        <p>#{esc(PRODUCT_CAPABILITIES.detail("accumulation_summary"))}</p>
         <strong>Each group chooses its rules.</strong>
         <span>Collect does not force groups to abandon their existing culture or governance.</span>
       </div>
@@ -1127,19 +1094,12 @@ def group_savings_page_html
 end
 
 def insurance_page_html
-  how_steps = [
-    "Members see an eligible product in Collect.",
-    "Product terms, exclusions, price and insurer are displayed.",
-    "Premium is collected daily, or through a flexible schedule.",
-    "The member receives digital proof of cover.",
-    "Collect supports claim notification and evidence collection.",
-    "The insurer makes the claims decision and pays the valid claim."
-  ]
+  how_steps = PRODUCT_CAPABILITIES.detail("insurance_how_steps")
 
   <<~HTML
     <section class="insurance-work-section" aria-labelledby="insurance-work-heading">
       <div class="story-copy">
-        <h2 id="insurance-work-heading">How it works</h2>
+        <h2 id="insurance-work-heading">Proposed journey, not an available service</h2>
       </div>
       <div class="insurance-step-grid" aria-label="Insurance product journey">
         #{how_steps.each_with_index.map { |body, index| %(<article><span>#{format("%02d", index + 1)}</span><p>#{esc(body)}</p></article>) }.join}
@@ -1152,7 +1112,7 @@ def insurance_page_html
         <h2 id="insurance-finance-heading">Protection should not lapse because today's balance is short.</h2>
       </div>
       <div class="premium-finance-panel">
-        <p>A partner bank may provide purpose-locked premium financing. Repayment can then be aligned with the member's normal micro-contribution pattern.</p>
+        <p>#{esc(PRODUCT_CAPABILITIES.detail("premium_finance"))}</p>
       </div>
     </section>
   HTML
@@ -1203,7 +1163,7 @@ def craas_page_html
   <<~HTML
     <section class="craas-specialist-section" aria-labelledby="craas-specialist-heading">
       <div class="story-copy">
-        <h2 id="craas-specialist-heading">Specialist support services</h2>
+        <h2 id="craas-specialist-heading">#{esc(PRODUCT_CAPABILITIES.detail("craas_specialist_heading"))}</h2>
       </div>
       <div class="craas-service-grid" aria-label="Specialist support services">
         #{specialist_services.map { |item| %(<article><strong>#{esc(item)}</strong></article>) }.join}
@@ -1212,7 +1172,7 @@ def craas_page_html
 
     <section class="craas-bank-section" aria-labelledby="craas-bank-heading">
       <div class="story-copy">
-        <h2 id="craas-bank-heading">What the bank receives</h2>
+        <h2 id="craas-bank-heading">#{esc(PRODUCT_CAPABILITIES.detail("craas_bank_heading"))}</h2>
       </div>
       <div class="craas-list-panel">
         <ul>
@@ -1223,7 +1183,7 @@ def craas_page_html
 
     <section class="craas-benefits-section" aria-labelledby="craas-benefits-heading">
       <div class="story-copy">
-        <h2 id="craas-benefits-heading">Benefits</h2>
+        <h2 id="craas-benefits-heading">#{esc(PRODUCT_CAPABILITIES.detail("craas_benefits_heading"))}</h2>
       </div>
       <div class="craas-benefit-grid">
         <article>
@@ -1265,12 +1225,7 @@ def partner_page_html
     "Earlier visibility of repayment stress"
   ]
 
-  collect_provides = [
-    "Group creation and administration",
-    "Member and group ledgers",
-    "Credit Readiness guide and support",
-    "Daily loan micro-repayment"
-  ]
+  collect_provides = PRODUCT_CAPABILITIES.detail("partner_collect_provides")
 
   bank_provides = [
     "Regulated savings accounts and account operations",
@@ -1292,32 +1247,33 @@ def partner_page_html
         <h2 id="partner-opportunity-heading">A large savings and credit market already exists, mostly outside formal banking.</h2>
       </div>
       <div class="partner-metric-grid" aria-label="Banking opportunity metrics">
-        #{opportunity_metrics.map { |value, label| %(<article><strong>#{esc(value)}</strong><span>#{esc(label)}</span></article>) }.join}
+        #{opportunity_metrics.map { |value, label| %(<article><strong#{value.include?("RWF") ? ' class="currency-value"' : ""}>#{esc(value)}</strong><span>#{esc(label)}</span></article>) }.join}
       </div>
     </section>
 
     <section class="partner-market-section" aria-labelledby="partner-growth-heading">
       <div class="story-copy">
-        <h2 id="partner-growth-heading">Growth Engines for Banks</h2>
+        <h2 id="partner-growth-heading">Prospective opportunities for licensed providers</h2>
+        <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_engine_intro"))}</p>
       </div>
       <div class="partner-engine-grid" aria-label="Growth engines for partner banks">
         <article>
           <strong>Low-cost deposit mobilisation</strong>
-          <p>Reach millions of informal savers through existing ibimina, cooperatives and community networks.</p>
+          <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_deposits"))}</p>
           #{list_html.call(deposit_mobilisation)}
         </article>
         <article>
           <strong>Daily-income lending and repayment</strong>
-          <p>Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.</p>
+          <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_lending"))}</p>
           #{list_html.call(daily_income_lending)}
         </article>
         <article>
           <strong>Rwanda group savings records</strong>
-          <p>Verified local contribution records can support eligible Rwanda provider review.</p>
+          <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_records"))}</p>
         </article>
         <article>
           <strong>Stronger MSME credit origination</strong>
-          <p>Collect's Credit Readiness-as-a-Service prepares applicants before formal bank review, helping credit teams receive more complete, structured and decision-ready MSME files.</p>
+          <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_credit_readiness"))}</p>
         </article>
       </div>
     </section>
@@ -1328,16 +1284,16 @@ def partner_page_html
       </div>
       <div class="partner-operating-grid">
         <article>
-          <h3>What Collect Provides</h3>
+          <h3>#{esc(PRODUCT_CAPABILITIES.detail("partner_collect_heading"))}</h3>
           #{list_html.call(collect_provides)}
         </article>
         <article>
-          <h3>What the Partner Bank Provides</h3>
+          <h3>#{esc(PRODUCT_CAPABILITIES.detail("partner_bank_heading"))}</h3>
           #{list_html.call(bank_provides)}
         </article>
         <article>
-          <h3>The Commercial Value to Banks</h3>
-          <p>Partner banks can generate value through:</p>
+          <h3>#{esc(PRODUCT_CAPABILITIES.detail("partner_value_heading"))}</h3>
+          <p>#{esc(PRODUCT_CAPABILITIES.detail("partner_value_intro"))}</p>
           #{list_html.call(bank_value)}
         </article>
       </div>
@@ -1607,7 +1563,7 @@ def share_landing_page_html(kind:)
           <div class="hero-device">
             <div class="hero-widget share-link-widget" aria-label="Collect shared link preview">
               <img src="/icons/collect.png" alt="" width="72" height="72">
-              <span>COLLECT GROUP LINK</span>
+              <span>#{group_link ? "COLLECT GROUP LINK" : "COLLECT APP LINK"}</span>
               <strong>Private details stay in the app.</strong>
               <p>Receiver numbers, raw payment messages and member phone numbers are never placed in this public link.</p>
             </div>
@@ -1615,10 +1571,10 @@ def share_landing_page_html(kind:)
         </section>
         <section class="start-section" aria-labelledby="share-link-help-heading">
           <div>
-            <h2 id="share-link-help-heading">A link that survives onboarding</h2>
+            <h2 id="share-link-help-heading">#{group_link ? "A link that survives onboarding" : "Continue in the Collect app"}</h2>
           </div>
           <div>
-            <p>Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.</p>
+            <p>#{group_link ? "Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current." : "Open Collect if it is installed, or use the store link for this device to install the app. Group invitations are confirmed separately after sign-in."}</p>
             <p>Having a link does not expose payment credentials or confirm a payment.</p>
           </div>
         </section>
@@ -1636,10 +1592,12 @@ def stylesheet
 end
 
 def minify_css(css)
+  # Whitespace before pseudo-classes can be a descendant combinator, and
+  # calc() operators require surrounding spaces. Keep both intact.
   css
     .gsub(%r{/\*.*?\*/}m, "")
     .gsub(/\s+/, " ")
-    .gsub(/\s*([{}:;,>+~])\s*/, "\\1")
+    .gsub(/\s*([{};,])\s*/, "\\1")
     .gsub(/;}/, "}")
     .gsub(/\b0+\./, ".")
     .gsub(/(:|\s)0(px|rem|em|%)/, "\\10")
@@ -1933,10 +1891,8 @@ write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unl
 
 assets = [
   ICON_ASSET,
-  TYPEFACE_ASSET,
+  *TYPEFACE_ASSETS,
   TYPEFACE_LICENSE,
-  "assets/typefaces/AeonikPro-Regular.ttf",
-  "assets/typefaces/AeonikPro-Medium.ttf",
   *Dir.glob("assets/marketing/rwanda/*.png", base: ROOT)
 ]
 assets.each do |asset|

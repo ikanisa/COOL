@@ -1,0 +1,1 @@
+[{"reason": "Synthetic upgrade receipt policy", "enabled": true, "revision": 1, "updated_at": "2026-10-01T18:30:28.926178+00:00", "updated_by": "99780000-0000-4000-8000-000000000001", "template_key": "buri_munsi.payment_received", "collection_id": "99780000-0000-4000-8000-000000030001", "template_version": 1}]

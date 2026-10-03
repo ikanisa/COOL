@@ -1,0 +1,7 @@
+{
+  "at_utc": "2026-10-02T10:58:41.319219+00:00",
+  "current_root_acceptance": false,
+  "error": "Actual canonical Make exit/change evidence differs: reviewed-current-make-format-check",
+  "root_source_written": false,
+  "type": "RuntimeError"
+}

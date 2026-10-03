@@ -1,0 +1,124 @@
+{
+  "kind": "handled_browser_diagnostic_observation_code_slice",
+  "recorded_at_utc": "2026-10-01T23:13:42.880338+00:00",
+  "status": "local_unit_and_syntax_verified",
+  "source_sha256": {
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+    "scripts/admin_pwa_browser_qa.mjs": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+    "scripts/admin_pwa_runtime_smoke.mjs": "bc9465175aa1870da972d4bc7252195d26ac235f7f8d5636811227cf5ded6e58",
+    "scripts/qa/current_browser_lifecycle.mjs": "ff7152ef5f8265136d43625a346e1732f2a01ed6e65fa146db18cf32837d7d1b",
+    "scripts/qa/local_browser_lifecycle.mjs": "edecbb8c1b68a0a5f6a717c410553d4c0fe4de740e5298c7ac4394449b3df3a5",
+    "scripts/qa/admin_design_flow_browser_qa.mjs": "02d1e5680ca9b2b5fd2e69a2e556285c7d92283e2314701d488ce7ff0d20107d",
+    "scripts/qa/admin_pwa_lifecycle_qa.mjs": "ff9fdf7eb76afcf4e0dfd53d81cab063b986e3e28fffe523db11bc15c9d330ce",
+    "scripts/tests/collect_diagnostic_observer_test.mjs": "25cc7050fa1418dd1a16b44373193ffb2adcd96eb4ae15a3adda551632b96df3",
+    "scripts/tests/public_browser_served_resource_test.mjs": "6cf41e048c92fcaae910b54956f50a741fc784caeae64d3f5c322f799da20a59",
+    "lib/core/logging/app_logger.dart": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2"
+  },
+  "source_hash_observation": "Post-verification readback; no full browser run or frozen global source-chain acceptance",
+  "verification": {
+    "node_version": "v24.19.0",
+    "command": "node --test --test-reporter=tap scripts/tests/collect_diagnostic_observer_test.mjs scripts/tests/public_browser_served_resource_test.mjs",
+    "exit_code": 0,
+    "tests": 58,
+    "passed": 58,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 550.460875,
+    "evidence": "Observed actual tool exit and complete TAP summary; tool display was truncated, no claim that a full TAP log was retained",
+    "syntax_checks": [
+      {
+        "path": "scripts/qa/collect_diagnostic_observer.mjs",
+        "command": "node --check scripts/qa/collect_diagnostic_observer.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/qa/public_browser_app_media.mjs",
+        "command": "node --check scripts/qa/public_browser_app_media.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/admin_pwa_browser_qa.mjs",
+        "command": "node --check scripts/admin_pwa_browser_qa.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/admin_pwa_runtime_smoke.mjs",
+        "command": "node --check scripts/admin_pwa_runtime_smoke.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/qa/current_browser_lifecycle.mjs",
+        "command": "node --check scripts/qa/current_browser_lifecycle.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/qa/local_browser_lifecycle.mjs",
+        "command": "node --check scripts/qa/local_browser_lifecycle.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/qa/admin_design_flow_browser_qa.mjs",
+        "command": "node --check scripts/qa/admin_design_flow_browser_qa.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/qa/admin_pwa_lifecycle_qa.mjs",
+        "command": "node --check scripts/qa/admin_pwa_lifecycle_qa.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/tests/collect_diagnostic_observer_test.mjs",
+        "command": "node --check scripts/tests/collect_diagnostic_observer_test.mjs",
+        "exit_code": 0
+      },
+      {
+        "path": "scripts/tests/public_browser_served_resource_test.mjs",
+        "command": "node --check scripts/tests/public_browser_served_resource_test.mjs",
+        "exit_code": 0
+      }
+    ]
+  },
+  "behavior": [
+    "All five failure codes fail independently of console level, including timeout and suppression warnings",
+    "Fixed eight-field contract validates type, bounds, build/environment/surface/version and exact severity mapping",
+    "Malformed, unknown, duplicate-key or extra-field diagnostic declarations fail without raw text or arbitrary fields in new reports",
+    "Original console error/assert/warning and pageerror checks preserved",
+    "Synthetic events exercised actual maintained CDP handler; EventEmitter exercised real observer registration/detachment",
+    "Seven QA callers bind observer source bytes; public reusable artifact guard refuses missing or changed observer provenance"
+  ],
+  "provenance_interface": {
+    "helper": "scripts/qa/collect_diagnostic_observer.mjs",
+    "dedicated_report_fields": [
+      "diagnostic_observer_sources_before",
+      "diagnostic_observer_sources_after"
+    ],
+    "field_value": "Map of exact helper and actual recorder repository paths to SHA-256",
+    "dedicated_callers": [
+      "scripts/qa/public_browser_app_media.mjs",
+      "scripts/admin_pwa_browser_qa.mjs",
+      "scripts/admin_pwa_runtime_smoke.mjs",
+      "scripts/qa/admin_design_flow_browser_qa.mjs"
+    ],
+    "existing_inventory_callers": [
+      "scripts/qa/current_browser_lifecycle.mjs",
+      "scripts/qa/local_browser_lifecycle.mjs",
+      "scripts/qa/admin_pwa_lifecycle_qa.mjs"
+    ]
+  },
+  "limits": [
+    "No browser build, socket, rendering, route capture, provider call or deployment executed",
+    "Parent owns CI registration; not attested by this slice",
+    "PublicAppMedia Ruby receipt validator and conservative source-closure update remain parent ownership before new capture/publication",
+    "Existing sealed browser/media receipts remain dated historical evidence and do not inherit this observer verification"
+  ],
+  "browser_rebuilt": false,
+  "browser_capture_executed": false,
+  "provider_called": false,
+  "lib_edited": false,
+  "ci_edited": false,
+  "production_ready": false,
+  "changed_since_readback": []
+}

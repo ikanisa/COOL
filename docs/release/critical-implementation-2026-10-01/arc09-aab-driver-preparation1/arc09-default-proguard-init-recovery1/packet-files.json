@@ -1,0 +1,96 @@
+{
+  "files": {
+    "android_build_overlay.py": {
+      "bytes": 11363,
+      "mode": 256,
+      "sha256": "f3ba27d448e78a4fd3a06c5eaad3fa09f70a403ed1e9431d07bbdeedce77bef4"
+    },
+    "android_overlay-fixtures.stderr": {
+      "bytes": 1899,
+      "mode": 256,
+      "sha256": "f835f52bacd1e98e3aff58abc534f5ededb63cea929bb7af44679a07c2cc2a8a"
+    },
+    "android_overlay-fixtures.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "handoff.md": {
+      "bytes": 1350,
+      "mode": 256,
+      "sha256": "de144eda5fe2069092e8e5d406b3f3f095cb01a47c33edf7095037404dfbc1d4"
+    },
+    "helper.diff": {
+      "bytes": 3672,
+      "mode": 256,
+      "sha256": "56b79f2dc55d6e459246006be4452ccde57002aac5784342a995df9f4f4211f6"
+    },
+    "init.diff": {
+      "bytes": 988,
+      "mode": 256,
+      "sha256": "5a3d208cc3cd1cbfbd3f4efb39fdd23a5725cd2f0b98371d962e86b76e5af897"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c"
+    },
+    "probe_override-fixtures.stderr": {
+      "bytes": 1845,
+      "mode": 256,
+      "sha256": "bc17a91d3e89c2f982ff10d1a266ff91c48cf043f1b8cd10435277a43e65975c"
+    },
+    "probe_override-fixtures.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pure-fixture-tests-result.json": {
+      "bytes": 8347,
+      "mode": 256,
+      "sha256": "6865581a918cea7c6c2c83398be4443cd13e3765e6a148ede0a3e433bdbd8283"
+    },
+    "review.json": {
+      "bytes": 2589,
+      "mode": 256,
+      "sha256": "d1a4cac48eda0b555a3028c5b329fc17d80943c005bb13ff6e9e68d1f1b6f3d1"
+    },
+    "reviewed-source-binding-delta.json": {
+      "bytes": 1819,
+      "mode": 256,
+      "sha256": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6"
+    },
+    "reviewed-verification-plan.json": {
+      "bytes": 2934,
+      "mode": 256,
+      "sha256": "1979fa05ee8e1924a071119cf193b39fa4f29414753eb368dc76a905fe0601cf"
+    },
+    "root-admission-template.json": {
+      "bytes": 14671,
+      "mode": 256,
+      "sha256": "cb8cbd57275235c1f8d49308b31298e66f36bc30c574d1787a198203fd740202"
+    },
+    "run_selected_aab.py": {
+      "bytes": 61231,
+      "mode": 256,
+      "sha256": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc"
+    },
+    "test_android_overlay.py": {
+      "bytes": 12072,
+      "mode": 256,
+      "sha256": "7ce8d1349542c3db32dcc3dc1543f3879ace11d38ac5b909d8c49d6460e2c995"
+    },
+    "test_probe_override.py": {
+      "bytes": 4702,
+      "mode": 256,
+      "sha256": "fb7217688c83b1c4afde05849e41187c1563b5db1137863c3c243930bcea5ca2"
+    },
+    "verify-default-proguard.init.gradle": {
+      "bytes": 4384,
+      "mode": 256,
+      "sha256": "2b66f2a0ef61b3f9c8c4a64ab2ae639c359ba406d9b628ff268cab0702e7cf8e"
+    }
+  },
+  "kind": "private_included_build_probe_recovery_packet",
+  "schema_version": 1
+}

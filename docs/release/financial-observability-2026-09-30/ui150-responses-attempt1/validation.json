@@ -1,0 +1,174 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 30611,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.835,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/admin_operational_health_test.dart",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 30665,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 18.008,
+      "sha256": "7af96694485253cc803de05075734b202c0197b217e63c3ccb64a8bd83622c41"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/core/admin_operational_health.dart",
+        "test/admin_operational_health_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 31936,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.694,
+      "sha256": "48119b7f93f88ac166398c1576d4686ff2163286c1e198494980483fef718e84"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_operational_health.dart",
+        "test/admin_operational_health_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 31960,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 2.073,
+      "sha256": "515b2e7337378ab8c03de383b21366f715f0b83d6890ec2ce59847b8fd0a8a3b"
+    }
+  ],
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 50,
+    "failed": 2,
+    "errors": 3,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "actual installed SQL receipt retains missing measurements and limits",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/source-export/test/admin_operational_health_test.dart"
+      },
+      {
+        "name": "one actual queue work item requires a measured scheduler",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/source-export/test/admin_operational_health_test.dart"
+      },
+      {
+        "name": "backlog boundary is inclusive and attention outranks missing telemetry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/source-export/test/admin_operational_health_test.dart"
+      },
+      {
+        "name": "rejects fabricated overall healthy without reflecting supplied data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/source-export/test/admin_operational_health_test.dart"
+      },
+      {
+        "name": "fresh missing telemetry stays unknown; no automatic fetch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt1/source-export/test/admin_operational_health_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "missing_response_cases": [],
+  "event_errors": [
+    {
+      "testID": 3,
+      "error": "Expected: 'unknown'\n  Actual: 'ok'\n   Which: is different.\n          Expected: unknown\n            Actual: ok\n                    ^\n           Differ at offset 0\n",
+      "stackTrace": "package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest/admin_operational_health_test.dart 77:7        main.<fn>\n",
+      "isFailure": true,
+      "type": "error",
+      "time": 9688
+    },
+    {
+      "testID": 4,
+      "error": "FormatException: Health sample could not be validated. Refresh to check again.",
+      "stackTrace": "package:collect_app/admin/core/admin_operational_health.dart 167:30  AdminOperationalHealth._invalid\npackage:collect_app/admin/core/admin_operational_health.dart 302:39  new AdminOperationalHealth.parse\ntest/admin_operational_health_test.dart 93:43                        main.<fn>\n",
+      "isFailure": false,
+      "type": "error",
+      "time": 9725
+    },
+    {
+      "testID": 5,
+      "error": "FormatException: Health sample could not be validated. Refresh to check again.",
+      "stackTrace": "package:collect_app/admin/core/admin_operational_health.dart 167:30  AdminOperationalHealth._invalid\npackage:collect_app/admin/core/admin_operational_health.dart 294:35  new AdminOperationalHealth.parse\ntest/admin_operational_health_test.dart 106:37                       main.<fn>\n",
+      "isFailure": false,
+      "type": "error",
+      "time": 9745
+    },
+    {
+      "testID": 31,
+      "error": "Expected: <Instance of 'FormatException'>\n  Actual: <null>\n   Which: is not an instance of 'FormatException'\n",
+      "stackTrace": "package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest/admin_operational_health_test.dart 196:7       main.<fn>\n",
+      "isFailure": true,
+      "type": "error",
+      "time": 9868
+    },
+    {
+      "testID": 38,
+      "error": "Test failed. See exception logs above.\nThe test description was: fresh missing telemetry stays unknown; no automatic fetch",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 11287
+    }
+  ],
+  "test_count": 50,
+  "response_cases": 13,
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "live_source_unchanged": true,
+  "live_source_drift": [],
+  "transport_dependencies_unchanged": true,
+  "export_before_sha256": "84a11b2e82423497e0fba8032e504623d4e0cf71c3f46e6459ee02478007c803",
+  "export_after_sha256": "84a11b2e82423497e0fba8032e504623d4e0cf71c3f46e6459ee02478007c803",
+  "sql_provenance": {
+    "packet": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt1",
+    "installed_migration_count": 150,
+    "table_count": 149,
+    "source_sql_sha256": "1113cd0f0418ec1641633bdb3d7dee5e1f046645ba28ca9d0d454bc5989dc752",
+    "stdout_sha256": "e763a4cd41fb9b27e3bfea1fc902ff1bd5a850b14b886d519a717bf832a5d122",
+    "stderr_sha256": "39252c5e06773bf05635401b8fb124b711e9b08df0008ec1beb160232d2b12fe",
+    "result_sha256": "71f592b34a55ff8223feead0943a0fcc7fb8ed6eafa58cd9fa8942058863776d"
+  },
+  "machine_log_sha256": "4a24a8a5b7d9c197f85ede4634340dfd7721160c04297536fa5f257d15f8b902",
+  "captured_at_utc": "2026-09-30T20:04:46.617468+00:00",
+  "scope": "Actual installed150 SQL receipt; immutable current contract and all13 read-only response guidance/compact320x568/2x expiry interactions",
+  "database_called_during_widget_tests": false,
+  "provider_called": false,
+  "actual_browser_verified": false,
+  "operator_actions_rehearsed": false,
+  "whole_goal_complete": false
+}

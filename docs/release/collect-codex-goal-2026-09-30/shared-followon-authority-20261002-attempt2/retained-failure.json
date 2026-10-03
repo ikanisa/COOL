@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "scope": "root gate driver",
+  "argv": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "observed_timeout_seconds": 180,
+  "terminal_exit_code": 1,
+  "cause": "subprocess.TimeoutExpired; full reference walk exceeded the driver timeout",
+  "passing_gate_claim": false,
+  "raw_stdout_stderr": "not retained by failed driver",
+  "subsequent_process_readback": "no matching authority-check process observed"
+}

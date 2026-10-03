@@ -1,0 +1,110 @@
+{
+  "kind": "isolated_current_source_tooling_acceptance",
+  "status": "pass",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root191-final177",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-root191-final177/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 43.42,
+      "stdout_sha256": "88cc0c85140ca87bf4152f5bd28f7c310bbb4e9cd8c74b491602339111e93b76",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.17,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.3,
+      "stdout_sha256": "9192271fe32fcbca62a51443993c177fc748fc2c3991b69b88f38cfc7394bf7e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.72,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "ruby",
+        "scripts/qa/dart_format.rb",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 33.0,
+      "stdout_sha256": "99649d25ad2157f276e4e21167027568be08ddb046d217d3b6b5f8aecb26838a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fatal-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 138.94,
+      "stdout_sha256": "38737e4bb5bc8c1af812457f4872a4dc6634d7a9513eed9ca3ff1eed85427b62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "public-copy-responsive-regressions",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-final-source-root191/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 48.17,
+      "stdout_sha256": "5d910fc390506077d0965c9dd47390f2eff730f48fff1f6e44eb8ec53312c604",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Current immutable source export, source-only QA without providers, credentials, signing or release acceptance",
+  "native_source_file_count": 1045,
+  "public_tooling_source_count": 517,
+  "export_source_changes": {},
+  "export_tooling_source_changes": {},
+  "original_checkout_drift": {},
+  "entire_declared_application_and_tooling_scope_current": true,
+  "scope_drift_includes_additions_and_deletions": true,
+  "generated_package_binding_sha256": "39332a4acb0c5f5933ca7f6517e8f9a86ae327b5d2e7a95e2f3157128f45ad47",
+  "generated_plugin_binding_sha256": "d5e32a665cc74d56871fe0ce8fc1ed507d69438937ee11f8f3434505919f8e17"
+}

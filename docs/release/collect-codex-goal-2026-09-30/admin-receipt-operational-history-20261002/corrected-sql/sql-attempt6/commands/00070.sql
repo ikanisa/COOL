@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role authenticated;select set_config('request.jwt.claims','{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}',true);select public.admin_activate_gateway_device_v1('52f65b3e-2dbe-456d-9526-a5ff487330e2','24a15be1-2326-4951-b929-7f7f61d7f018','dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba','cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');commit;

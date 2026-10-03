@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "docker",
+    "start",
+    "collect-arc01-ubuntu-20261002-deabfee579f3-format"
+  ],
+  "completed_at_utc": "2026-10-02T00:12:27.048919+00:00",
+  "deadline_seconds": 30,
+  "elapsed_seconds": 0.20338533299945993,
+  "exit_code": 0,
+  "log_sha256": "bc5ef16879e5721dbc71dbe688d4aba7ffa55a6160950c2d53a63382c675d52d",
+  "started_at_utc": "2026-10-02T00:12:26.845559+00:00",
+  "timed_out": false
+}

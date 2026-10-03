@@ -1,0 +1,15 @@
+{
+  "external_receipt": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/current-renewed-path-absence.json",
+  "sha256": "39bb8066c44a5ef48124981cfecda7260c4129b5c34ed497e7036b350e16f6e1",
+  "current_readback": {
+    "checked_at_utc": "2026-10-01T23:03:44.264802+00:00",
+    "scope": "Recorded competing UI/design skill removals; unrelated technical/professional skills retained per explicit clarification",
+    "recorded_paths": 141,
+    "remaining": [],
+    "old_checklist_absent": true,
+    "selected_skill_exists": true,
+    "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "scope_limits": "A current recorded-path readback; prior protected/inaccessible discovery and archive-format limits remain. No unconditional whole-computer absence claim."
+  },
+  "acceptance": "Current recorded-path readback only; protected/pruned/archive-format discovery limits remain."
+}

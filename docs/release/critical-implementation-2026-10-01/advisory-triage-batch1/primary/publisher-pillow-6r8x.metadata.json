@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:53 GMT",
+    "ETag": "W/\"427442b196cccaae03f8a91d31c08d0e\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-6r8x-57c9-28j4",
+  "requested_at": "2026-10-01T21:22:53.159675+00:00",
+  "response_bytes": 234612,
+  "response_path": "primary/publisher-pillow-6r8x.response",
+  "response_sha256": "943f6a471c27521056b3a0ee4e11668730362e0ae0d571d5efad34fc57cb67e0",
+  "response_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-6r8x-57c9-28j4",
+  "retrieved_at": "2026-10-01T21:22:55.071272+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

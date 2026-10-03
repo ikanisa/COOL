@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation1/test_app_guard.py"
+  ],
+  "deadline_seconds": 120,
+  "actual_seconds": 1.043,
+  "exit_code": 1,
+  "timed_out": false,
+  "owned_process_group_absent": true,
+  "guard_sha256": "a0eb49e584ef5da7d3a72285f8f0dfecd7c9d6eb7d5a55b77ee265d0c87fff5d",
+  "tests_sha256": "1233de96eaf9df3a4743631fa5d118103faac614f1edeaaee0af7385bc46fe4d",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e51b594ccee5f725ef236d7a88e585a4f5e0cddbc33e934de3fad846764318f4"
+}

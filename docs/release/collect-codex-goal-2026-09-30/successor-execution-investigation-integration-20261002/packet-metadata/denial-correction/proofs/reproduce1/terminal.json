@@ -1,0 +1,8 @@
+{
+  "session_id": 22202,
+  "initial_chunk": "0ac1e2",
+  "terminal_chunk": "063e3b",
+  "terminal_exit_code": 1,
+  "source_unchanged": true,
+  "actual_failure": "snapshot retained after current-session server 42501 during more()"
+}

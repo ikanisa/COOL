@@ -1,0 +1,16 @@
+[
+  {
+    "path": "supabase/migrations/20261001220000_governed_settings_requests.sql",
+    "staged_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/governed-settings-request-20261001/supabase/migrations/20261001220000_governed_settings_requests.sql",
+    "old_exists": false,
+    "old_sha256": null,
+    "new_sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e"
+  },
+  {
+    "path": "scripts/tests/governed_settings_requests_uat.py",
+    "staged_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/governed-settings-request-20261001/scripts/tests/governed_settings_requests_uat.py",
+    "old_exists": false,
+    "old_sha256": null,
+    "new_sha256": "084cc224894466585871776972e1d29fc9ba6e817ab6f143fdc17cdec7bf9dcc"
+  }
+]

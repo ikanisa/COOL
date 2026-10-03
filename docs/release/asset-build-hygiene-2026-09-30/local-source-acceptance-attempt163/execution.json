@@ -1,0 +1,127 @@
+{
+  "kind": "isolated_current_source_tooling_acceptance",
+  "status": "fail",
+  "commands": [
+    {
+      "name": "source-export",
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/native_source_export.py",
+        "--destination",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt163",
+        "--report",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt163/source-export.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.63,
+      "stdout_sha256": "d10a5d88ec1a9c8c8735950cfa29848946c4e2777f1eafd6e37983dc5338c209",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.14,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "flutter-version",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.49,
+      "stdout_sha256": "ca3ea62aecbcde586049908164758acda09b107d4169f72fdb45cc272817d02b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.82,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "ruby",
+        "scripts/qa/dart_format.rb",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.9,
+      "stdout_sha256": "906a0750eee1e41ec6331ebdd627ac2ecc06db484f7825a3ff2a28234f997640",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fatal-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 39.42,
+      "stdout_sha256": "2e26164296fce8c1f78b960febf16b232bd2d65343b904ad38307ad3ed876f9c",
+      "stderr_sha256": "0f5c164bed91a5e72ef5a30fab13fe33d9ccea811a21fdfd060789c8fb3789a8"
+    },
+    {
+      "name": "public-copy-responsive-regressions",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.83,
+      "stdout_sha256": "15baa1217a9b7f3701a21670487820db783d1c882676fdc03213bdb6e3b160ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Current immutable source export, source-only QA without providers, credentials, signing or release acceptance",
+  "native_source_file_count": 1039,
+  "public_tooling_source_count": 498,
+  "export_source_changes": {},
+  "export_tooling_source_changes": {},
+  "original_checkout_drift": {
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "before": "96d551fe17fd5ed3aab723799f36fe75cec60000f83c874aa4eec520d788d264",
+      "after": "d33129027fdde614b81a73633df9998eb9706160c83b70ec66db9436a78b5030"
+    },
+    "scripts/tests/current_receipt_cancel_integration_uat.py": {
+      "before": null,
+      "after": "ea4e069e30bd43c529996efcaba60366c3cc6436d0a3d3002b5b9371a43155a9"
+    },
+    "scripts/tests/data_correctness_sql_positive_history_uat.py": {
+      "before": "65449336cb79ef42735400f3020ba326e36000ce7b449d25e93b5f02ec203bb4",
+      "after": "3b4b47f7c63a90619a5e90e69cc896176977dcf7056d26ddedeb2e0e37c13679"
+    },
+    "test/admin_receipt_cancel_sdk_authority_test.dart": {
+      "before": "a075223467b3d33005afbf47e38bf27831e81d6ccf13ae671faecbe7b44e7dc8",
+      "after": "dcadab696c977124fcd53b32f44add3cb6f2282b0f4f12ad97da38b0e0c5022c"
+    }
+  },
+  "entire_declared_application_and_tooling_scope_current": false,
+  "scope_drift_includes_additions_and_deletions": true,
+  "generated_package_binding_sha256": "4c127589ca759a3d94dc3806c98a3e6b6eed4d8abc927095e0ed75da326ce199",
+  "generated_plugin_binding_sha256": "ff28dba6e26b3c62c719b3445164668037f13b391c62f47dcfbe02d0d148f309"
+}

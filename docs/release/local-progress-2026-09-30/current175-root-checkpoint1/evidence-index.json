@@ -1,0 +1,36 @@
+{
+  "scope": "Scoped local migration and Admin acceptance; complete goal remains unproven",
+  "packets": [
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt1/result.json",
+      "sha256": "c0667d6f6c08aabdd71435baa65839d4558442ea8018d28f159c85f2aeb5eea9",
+      "status": "failed"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt2-managed-cron-owner/result.json",
+      "sha256": "1ee9d856d2813c053518faef86497adad1e88aa9c145a76e045c215e21551912",
+      "status": "failed"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current175-attempt3-retained-cron-api/result.json",
+      "sha256": "6f02ac0d49ffe0d207b196078d0822c69224d5c590bb48bd5ee8c772fad5a4d7",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt15-root/validation.json",
+      "sha256": "bbcfc092e590aa4ab8c8260a89ecd16b1fe1bc2a739a5e46e9bd7cf72eb2b934",
+      "status": "failed"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/validation.json",
+      "sha256": "07b538def17e7b038fa9fd388dc98f4090039e15986c3fdc6098fce3f11546eb",
+      "status": "pass_scoped"
+    },
+    {
+      "path": "docs/release/local-progress-2026-09-30/refresh-attempt15-current21-ordinary-and-receipt/validation.json",
+      "sha256": "425fbacfbe5e7407afdddf315097f7afca9d1c143c967ac1f2e9ad706beba5bb",
+      "status": "pass"
+    }
+  ],
+  "whole_goal_complete": false
+}

@@ -1,0 +1,217 @@
+{
+  "generated_at_utc": "2026-09-30T19:46:57.329990+00:00",
+  "workspace": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "head": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "shared_worktree": true,
+  "dirty_status_records_at_snapshot": 173,
+  "local_manual_shadow_stage": "verified",
+  "live_connection": "blocked_operator_session",
+  "primary_passing_tests_and_uat_cases": 209,
+  "committed_pushed_or_deployed_by_this_task": false,
+  "production_lifecycle_runs_by_this_task": 0,
+  "otp_requests_by_this_task": 0,
+  "provider_sends_by_this_task": 0,
+  "host_enabled_tools": [
+    "collect_notification_health",
+    "collect_list_pending_receipts",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "shadow_lifecycle_host_tools_enabled": false,
+  "credential_values_recorded": false,
+  "checks": {
+    "mcp_tests": {
+      "status": "pass",
+      "count": 77,
+      "log": "mcp-tests.log"
+    },
+    "mcp_typecheck": {
+      "status": "pass",
+      "exit_code": 0,
+      "log": "mcp-typecheck.log"
+    },
+    "backend_uat": {
+      "status": "pass",
+      "count": 89,
+      "log": "backend-uat/result.json",
+      "isolated_database_removed": true,
+      "fixture_baselines": "seven named empty business tables"
+    },
+    "admin_tests": {
+      "status": "pass",
+      "count": 37,
+      "components": {
+        "history": 16,
+        "sdk_repository": 9,
+        "automations_compatibility": 12
+      },
+      "log": "admin-final-tests.log"
+    },
+    "admin_sdk_final_backend_fixture_recheck": {
+      "status": "pass",
+      "count": 9,
+      "log": "admin-repository-tests.log",
+      "included_in_primary_total": true
+    },
+    "operator_wrapper": {
+      "status": "pass",
+      "count": 6,
+      "log": "operator-wrapper-tests.log",
+      "network_keychain_subprocess_actions": 0
+    },
+    "flutter_analysis": {
+      "status": "pass",
+      "issues": 0,
+      "scope": "six changed Admin files",
+      "log": "admin-analysis.log"
+    },
+    "design_authority": {
+      "status": "pass",
+      "visual_fidelity_certified": false,
+      "log": "design-authority.log"
+    },
+    "backend_schema": {
+      "status": "pass",
+      "fixtures": 11,
+      "log": "backend-uat/schema-validation.log",
+      "supplemental": true
+    },
+    "backend_structure": {
+      "status": "pass",
+      "tests": 3,
+      "assertions": 10,
+      "log": "backend-uat/migration-structure.log",
+      "supplemental": true
+    },
+    "diff_check": {
+      "status": "pass",
+      "exit_code": 0,
+      "log": "diff-check.log"
+    },
+    "live_read_only_probe": {
+      "status": "blocked",
+      "code": "SHADOW_SESSION_REQUIRED",
+      "exit_code": 2,
+      "log": "live-read-only-reconciliation.log"
+    }
+  },
+  "remaining": [
+    "Approved local operator reauthentication",
+    "Review/deploy candidate migration and verify hosted contracts",
+    "Reload host MCP and collect authenticated end-to-end evidence",
+    "Authenticated Business/operator visual comparator and route/state evidence"
+  ],
+  "later_work": [
+    "Dedicated unattended identity",
+    "Event acknowledgements",
+    "Scheduling and recovery automation",
+    "Unattended Android SMS gateway and carrier delivery callbacks"
+  ],
+  "evidence_limits": [
+    "Backend database was schema-only with synthetic identities; ownership normalized, effective API ACLs reconstructed, selected scheduling/network extensions omitted.",
+    "Seven named unchanged business baselines were empty.",
+    "History screenshots are synthetic widget regression captures, not authenticated route/reference acceptance.",
+    "Prior-stage release web bundle excludes this new history component.",
+    "Current source snapshots may contain concurrent edits from other chats."
+  ],
+  "source_sha256": {
+    "contracts/collect-shadow-supervisor-v1.contract.md": "19481c87093ac1c1d45ab80edf5e752c85ee3cd2dabd42f6d07bc7ebdf5cb754",
+    "contracts/collect-shadow-supervisor-v1.fixture.json": "111a04468244ef0b70c118f7f6a5c1ec9ce74218b4db608c0ea7be836fcaf62f",
+    "contracts/collect-shadow-supervisor-v1.lifecycle.fixture.json": "d2e619cf344262e23e2ab40d571e50c74937203fde092b800756f67d49070954",
+    "contracts/collect-shadow-supervisor-v1.observed.fixture.json": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87",
+    "contracts/collect-shadow-supervisor-v1.schema.json": "bbc8173e6317975575e1e225fde285328fb50cb185fe4f1a642d82662347b854",
+    "lib/admin/core/admin_automations_page.dart": "27515fbbcbe9f81709f841791989f4908ac7703d7e879e414f36a24f1f62ab3e",
+    "lib/admin/core/admin_repository_base.dart": "66ecce9d2372913ff0dcf3ccee52923bb5314dd892a3c75617db829657021efc",
+    "lib/admin/core/admin_runtime.dart": "4c20bc1af6cfa4faeede8d7376d2bbb8cbf4044c4a207c878d483192fdab651c",
+    "lib/admin/core/admin_shadow_runs.dart": "13ea07e079573fa0fc6ccc84ad35983f1e4836a9792f6cf81fdd8c50137206d4",
+    "scripts/collect_operator_login.py": "72ac3d77eb8e06b20901ad7f7466e354f6e6d490c680bf25bea7ffbb18af21b2",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/test_collect_operator_login.py": "fa2e5be8df06d0e0b196e56b58d30a29cbaa3e73171c8873c1b567be896cac1a",
+    "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+    "supabase/migrations/20260930180000_operational_health_authority.sql": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+    "supabase/migrations/20260930210000_shadow_supervisor_runs.sql": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+    "test/admin_automations_test.dart": "bc1b507e90e2b3c7bda051f1efbe686fabe77e9ba34331f9ae94196204ebbcbb",
+    "test/admin_shadow_runs_repository_test.dart": "a4e4add34e2d01dcd15072361132e14147f48538ced3aad0215a98abaa8b94c2",
+    "test/admin_shadow_runs_test.dart": "954a4aecf2d4d9e6029e3aff3539da955aa9c72e11127e6d5a6ad0c37cc566e4",
+    "tools/collect-notification-mcp/README.md": "3a66bc0c5c2d13d60f7a71728627203ca2baa833330fc22b908fd543e21c70be",
+    "tools/collect-notification-mcp/package.json": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d",
+    "tools/collect-notification-mcp/src/keychain_store.test.ts": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+    "tools/collect-notification-mcp/src/keychain_store.ts": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+    "tools/collect-notification-mcp/src/operational_client.test.ts": "6f974bd5710e8c901757f55521b36802aa1e4cc74eae7793323e18d236fddf87",
+    "tools/collect-notification-mcp/src/operational_client.ts": "c77d7b8a0c308a72ac46aedebf23de32a1d2afd80c8dbd15c08227e0a6e14229",
+    "tools/collect-notification-mcp/src/operational_health.test.ts": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+    "tools/collect-notification-mcp/src/operational_health.ts": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+    "tools/collect-notification-mcp/src/operational_transport.test.ts": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+    "tools/collect-notification-mcp/src/operator_client.test.ts": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+    "tools/collect-notification-mcp/src/operator_client.ts": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+    "tools/collect-notification-mcp/src/operator_login.test.ts": "7cbdc466e14e7b02c54d8425483cbce4d8e1c60aa87ca9b4fc0c0750205c7b9f",
+    "tools/collect-notification-mcp/src/operator_login.ts": "de5b3d96e82a0e6527286c06c1a2440058579e0f0ec76ad63f8e5e0158e3c24e",
+    "tools/collect-notification-mcp/src/preflight.test.ts": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+    "tools/collect-notification-mcp/src/preflight.ts": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+    "tools/collect-notification-mcp/src/queue_health.ts": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+    "tools/collect-notification-mcp/src/runtime_credentials.test.ts": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+    "tools/collect-notification-mcp/src/runtime_credentials.ts": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+    "tools/collect-notification-mcp/src/server.test.ts": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab",
+    "tools/collect-notification-mcp/src/server.ts": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+    "tools/collect-notification-mcp/src/server_transport.test.ts": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99",
+    "tools/collect-notification-mcp/src/session_renewal.test.ts": "a968bdc13e06f7fb505cef355c11c158eeb8b8dcacbc179d5c7d408137dc1225",
+    "tools/collect-notification-mcp/src/session_renewal.ts": "d06d81c0da55f8382597885cae8abe35cd9f01c03a81f4c67966d030969d2646",
+    "tools/collect-notification-mcp/src/shadow_cli_options.test.ts": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392",
+    "tools/collect-notification-mcp/src/shadow_cli_options.ts": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874",
+    "tools/collect-notification-mcp/src/shadow_client.test.ts": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93",
+    "tools/collect-notification-mcp/src/shadow_client.ts": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+    "tools/collect-notification-mcp/src/shadow_contract.ts": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988",
+    "tools/collect-notification-mcp/src/shadow_stdio.test.ts": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114",
+    "tools/collect-notification-mcp/src/shadow_stdio.ts": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c",
+    "tools/collect-notification-mcp/src/shadow_supervisor.test.ts": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248",
+    "tools/collect-notification-mcp/src/shadow_supervisor.ts": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40",
+    "tools/collect-notification-mcp/src/stdio_preflight.test.ts": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+    "tools/collect-notification-mcp/src/stdio_preflight.ts": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+    "tools/collect-notification-mcp/src/testing/operational_fixture.ts": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe",
+    "tools/collect-notification-mcp/src/testing/shadow_fixture.ts": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11",
+    "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77",
+    "tools/collect-notification-mcp/src/testing/stdio_harness.ts": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79",
+    "tools/collect-notification-mcp/tsconfig.json": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84"
+  },
+  "evidence_sha256": {
+    "README.md": "b99e7aa18de77b2a03c32e59f6e6a651758946bac4190344c5a7bd7d67b0aa4f",
+    "admin-analysis.log": "bf056ab2aefc63f2ef069d0da1b9a7d14387ca3085f0dfd711b0bd0dc5a919fb",
+    "admin-final-tests.log": "b61670cd1a866b0edb98567c7acc9e1a306db492cc0be0d6e78279bb9c64d48d",
+    "admin-repository-tests.log": "9b15757ddbe5297204dfc3b701bc8ed8d0b52a9d6999acad26b9b6b51a02bbf4",
+    "admin-shadow-attempt1-analysis.log": "681287ca2f4d8b2fa7ac509f9faea3798750a7d45c95b816e13a594ce54a0e2d",
+    "admin-shadow-authority.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "backend-uat/README.md": "4958647a3dd9428768a4e80c8ec64d786737435c03b7f6b1a817ad49926e82ad",
+    "backend-uat/actual-history.json": "3d6d9eb506688dd8c2fc581a7065f53a8b72bb9b3453e2207258b5fc4b7edf87",
+    "backend-uat/actual-lifecycle.json": "bd46f12a512636c19007240e55b3337a10c0d19607be3b511bf1467870890cf7",
+    "backend-uat/concurrency.log": "0ca8e727aa276ebe896e036de1dced6b8e16daf6c96780088e8907b724a4a190",
+    "backend-uat/install.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend-uat/install.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend-uat/isolated-install-recheck.json": "c3c2c10021906f954ff86d110b18282dd0ea657607471bed1dca8c6558cb94f7",
+    "backend-uat/manifest.json": "ed6d5f8bb5b0313716cca12b6ed9516d461ac76a2e3abdf300fb12ed6445a585",
+    "backend-uat/migration-structure.log": "4d9a52fc82dd70228d9b9e9b292d0ec317533982e743b8798fc3c09908fe24b2",
+    "backend-uat/prerequisite-hash-readback.json": "02bec5e3a4efe18d52b1f69d0210fd602569bb18c419a4d10c5a7b2582a9fa4c",
+    "backend-uat/prerequisite-source-parity.json": "02bec5e3a4efe18d52b1f69d0210fd602569bb18c419a4d10c5a7b2582a9fa4c",
+    "backend-uat/queries.log": "3ae8551ccc3bb5b5094dff20a771da0879028948c270a9be482d64d5d16d937f",
+    "backend-uat/restore.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend-uat/result.json": "172648629a78483fc9d9387f76baaecb4106d6fff17e39ee2e0b9561e86bfcec",
+    "backend-uat/schema-validation.log": "f548913df1f8631100e9139b434188c4af2986ab32ef526b3d5e9ac2e8c44cc2",
+    "design-authority.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host-profile-readback.json": "7ff552ae8833afc8584496d05bb968b43c12243ef2b3d5fd9bccde1eb48e00cd",
+    "live-read-only-reconciliation.log": "68916daf25af63a6c75f4b8827922db227fdee4f21a4fcabea98a073097b8c83",
+    "mcp-authority-compatibility.log": "a7d0f35ded2cfb300d5a26057e91ac7e887f656ca169ca922bf0d9bc005b812d",
+    "mcp-tests.log": "45699fb086c3f5d07d68a71cedd8cb158366eab7373a54fbd9a5464bd3e3ad55",
+    "mcp-typecheck.log": "da05d6cec962fd3f28259973a7554419d4e393eb7d6848b6495bc63fa08fbc24",
+    "operator-wrapper-tests.log": "a48850898010cedb29207133c14c55ee8ea5ae4378b3f2bcef09fd556d282a03",
+    "shadow-history-attempt1-tests.log": "294ee504c6f594753199c8eb8fd5b060bf86d07ed53ab6dcfc491a2985e314ea",
+    "shadow-history-attempt2-tests.log": "96146177a8a18cf2d34a49b05f44d70439b764a71b9c8d26afe7cc6fb1da0f5c",
+    "shadow-history-attempt3-tests.log": "a8cdf4e35ebd50237dcdba9cce3212339e2d962fa703bbaa2661b4537a9aa1ad",
+    "shadow-history-capture-tests.log": "cbc8993936a2395145fdd675b97978b45e98d35282952ad465949137c5b26091",
+    "shadow-history-dark-synthetic.png": "3bba6e2cb12c4c78b0d3d2b72d9107b15e7ec0604d3a5a047343ccf92036e044",
+    "shadow-history-final-capture-tests.log": "0dc59f0ee92032cf799f1863c6c50d61b96ac57e2d9096661505b547c1560235",
+    "shadow-history-light-synthetic.png": "383eb79417873c1a758e0b927fc2c94a748706a2a9e3f4900f0c3c6ca3e6c54a",
+    "shadow-session-targeted-final-tests.log": "529aee89f802416807c1c76f5bb2fbb140f292a89a211782f7b4898473418b4b",
+    "shadow-session-targeted-tests.log": "11e83c91c91dd3240e9d054dd800a97053697c1ec2489056b41c9aa28f36ef84"
+  }
+}

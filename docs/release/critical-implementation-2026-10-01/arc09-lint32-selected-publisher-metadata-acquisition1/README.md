@@ -1,0 +1,9 @@
+# Actual lint32 selected publisher metadata
+
+All69 retained Gradle POM bytes/coordinates were matched to official HTTPS POMs and SHA1 sidecars. Eight module files plus SHA1 verified;61 official module404s retained. Seven exact publisher-declared file plans were bound, including the reciprocal coroutines root/target bridge;61 POM-only binary filenames remain unprojected for the root standard Maven contract/full actual Gradle compare. No binary file was downloaded and no shared Gradle cache was written.
+
+The first32.533-second phase made215requests and retained its strict-sidecar parser failure for two GNU-style SHA1 paths. Those already downloaded checksums were completed offline against exact Maven-coordinate suffixes, then two previously unrequested module URLs were probed in a separate1.458-second phase bounded30seconds. Both phases and all errors/404s are preserved; their33.982-second work sum is not claimed as one wall-clock180 run. Total217requests/604550 intake bytes, maximum four workers,30seconds/request plus2seconds reap,2MiB/file and64MiB total intake. All owned request groups were absent.
+
+Root actual metadata3 passed and its components/edges/POMs equal the failed metadata2 graph exactly. A sealed qualification permits fact reuse while preserving the old failure label and the metadata-only/full-graph boundary. Initial javax.inject/kxml component files retain null/failure facts; authoritative completion projections live separately under completed-component-results. readback.json pins every authoritative plan, projection and internal packet.
+
+Six local binding checks passed, covering actual publisher hashes and metadata-only requests, URL/path/hash/size guards, Guava attributes/capabilities, reciprocal coroutines links and failure/default-filename preservation. Root owns artifact sidecars, binaries, standard Maven fallbacks, actual full Gradle graph comparison, lint/AAB/license/release acceptance.

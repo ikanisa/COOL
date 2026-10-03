@@ -1,0 +1,15 @@
+Run options: --seed 10971
+
+# Running:
+
+E.....
+
+Finished in 0.216512s, 27.7121 runs/s, 41.5681 assertions/s.
+
+  1) Error:
+EdgeFunctionInventoryTest#test_current_sources_all_twelve_and_seven_custom_auth_settings_agree:
+RuntimeError: Edge source inventory differs: missing=[], extra=["collect-receipt-successor-gateway"]
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/edge_function_inventory.rb:42:in `validate'
+    scripts/tests/edge_function_inventory_test.rb:30:in `test_current_sources_all_twelve_and_seven_custom_auth_settings_agree'
+
+6 runs, 9 assertions, 0 failures, 1 errors, 0 skips

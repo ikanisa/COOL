@@ -1,0 +1,100 @@
+--- a/packages/flutter_tools/gradle/build.gradle.kts
++++ b/packages/flutter_tools/gradle/build.gradle.kts
+@@ -8,7 +8,7 @@
+     `java-gradle-plugin`
+     groovy
+     `kotlin-dsl`
+-    kotlin("jvm") version "2.2.20"
++    kotlin("jvm") version "2.4.20"
+ }
+ 
+ group = "dev.flutter.plugin"
+@@ -54,7 +54,7 @@
+     compileOnly("androidx.annotation:annotation-jvm:1.9.1")
+     // When bumping, also update:
+     //  * KGP error version in packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt
+-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
++    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20")
+     // Update to 1.8.0 when min kotlin is 2.1
+     // https://github.com/Kotlin/kotlinx.serialization/releases for kotlin version compatibility.
+     // All kotlinx implementation dependencies must work with the oldest kotlin supported versions.
+--- a/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt
++++ b/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt
+@@ -104,9 +104,9 @@
+ 
+     @VisibleForTesting internal val errorAGPVersion: AndroidPluginVersion = AndroidPluginVersion(8, 6, 0)
+ 
+-    @VisibleForTesting internal val warnKGPVersion: Version = Version(2, 2, 20)
+-
+-    @VisibleForTesting internal val errorKGPVersion: Version = Version(2, 0, 0)
++    @VisibleForTesting internal val warnKGPVersion: Version = Version(2, 4, 20)
++
++    @VisibleForTesting internal val errorKGPVersion: Version = Version(2, 4, 20)
+ 
+     // If this value is changed, then make sure to change the documentation on https://docs.flutter.dev/reference/supported-platforms
+     // Non inclusive.
+--- a/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt
++++ b/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt
+@@ -56,7 +56,7 @@
+ private const val SUPPORTED_GRADLE_VERSION: String = "9.1.0"
+ private val SUPPORTED_JAVA_VERSION: JavaVersion = JavaVersion.VERSION_17
+ private val SUPPORTED_AGP_VERSION: AndroidPluginVersion = AndroidPluginVersion(9, 0, 1)
+-private const val SUPPORTED_KGP_VERSION: String = "2.3.20"
++private const val SUPPORTED_KGP_VERSION: String = "2.4.20"
+ private val SUPPORTED_SDK_VERSION: MinSdkVersion = MinSdkVersion("release", 30)
+ 
+ class DependencyVersionCheckerTest {
+@@ -131,31 +131,30 @@
+     }
+ 
+     @Test
+-    fun `KGP version in warn range results in warning logs`() {
+-        val exampleWarnKgpVersion = "2.2.0"
+-        val mockProject = MockProjectFactory.createMockProjectWithSpecifiedDependencyVersions(kgpVersion = exampleWarnKgpVersion)
+-
+-        val mockExtraPropertiesExtension = mockProject.extra
+-        every { mockExtraPropertiesExtension.set(OUT_OF_SUPPORT_RANGE_PROPERTY, false) } returns Unit
+-        val mockLogger = mockProject.logger
+-        every { mockLogger.error(any()) } returns Unit
+-
++    fun `previous SDK and application KGP versions fail the Collect candidate minimum`() {
++        for (version in listOf("2.0.0", "2.2.20", "2.3.20")) {
++            val mockProject = MockProjectFactory.createMockProjectWithSpecifiedDependencyVersions(kgpVersion = version)
++            val mockExtraPropertiesExtension = mockProject.extra
++            every { mockExtraPropertiesExtension.set(any(), any()) } returns Unit
++            assertFailsWith<DependencyValidationException> {
++                DependencyVersionChecker.checkDependencyVersions(mockProject)
++            }
++            verify { mockExtraPropertiesExtension.set(OUT_OF_SUPPORT_RANGE_PROPERTY, true) }
++        }
++    }
++
++    @Test
++    fun `stable fixed KGP passes the Collect candidate minimum without warning`() {
++        val mockProject = MockProjectFactory.createMockProjectWithSpecifiedDependencyVersions(kgpVersion = "2.4.20")
++        val mockExtraPropertiesExtension = mockProject.extra
++        every { mockExtraPropertiesExtension.set(any(), any()) } returns Unit
++        val mockLogger = mockProject.logger
++        every { mockLogger.error(any()) } returns Unit
+         DependencyVersionChecker.checkDependencyVersions(mockProject)
+-        verify {
+-            mockLogger.error(
+-                getWarnMessage(
+-                    KGP_NAME,
+-                    exampleWarnKgpVersion,
+-                    warnKGPVersion.toString(),
+-                    getPotentialKGPFix(FAKE_PROJECT_ROOT_DIR)
+-                )
+-            )
+-        }
+         verify(exactly = 0) { mockExtraPropertiesExtension.set(OUT_OF_SUPPORT_RANGE_PROPERTY, true) }
+-    }
+-
+-    // No test for Java version in warn range, as the lowest supported Java version is also the
+-    // lowest possible.
++        verify(exactly = 0) { mockLogger.error(any()) }
++    }
++
+     @Test
+     fun `Java version in error range results in error logs`() {
+         val exampleErrorJavaVersion = JavaVersion.VERSION_16

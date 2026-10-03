@@ -1,0 +1,164 @@
+[
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.2.20/9c5953786765b9373d172097da74efe77ac90481/kotlin-gradle-plugin-2.2.20-gradle813.jar",
+    "package_implementation_version": "2.2.20-release-333",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.jvm",
+    "project": ":",
+    "root_name": "gradle",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":android_file_picker",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":app",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":app_links",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":file_saver",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":firebase_core",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":firebase_messaging",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":flutter_local_notifications",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":flutter_plugin_android_lifecycle",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":image_picker_android",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":integration_test",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":jni",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":jni_flutter",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":mobile_scanner",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":permission_handler_android",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":share_plus",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":shared_preferences_android",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  },
+  {
+    "loaded_code_source": "file:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar",
+    "package_implementation_version": "2.4.20",
+    "plugin_class": "org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper",
+    "plugin_id": "org.jetbrains.kotlin.android",
+    "project": ":url_launcher_android",
+    "root_name": "android",
+    "scope": "Observed applied plugin class; source artifact publisher hashes are verified separately"
+  }
+]

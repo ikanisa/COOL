@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.FlutterPluginTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:23.627Z" hostname="Jeans-Mac-mini.local" time="7.848">
+  <properties/>
+  <testcase name="FlutterPlugin apply() adds expected tasks(Path)" classname="com.flutter.gradle.FlutterPluginTest" time="3.598"/>
+  <testcase name="copyFlutterAssets task sets filePermissions correctly(Path)" classname="com.flutter.gradle.FlutterPluginTest" time="4.233"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

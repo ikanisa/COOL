@@ -1,0 +1,482 @@
+{
+  "scope": "PD-05 public legal live readback and limited PD-04 public root/deployment observation",
+  "started_at_utc": "2026-10-02T06:23:33.383848+00:00",
+  "finished_at_utc": "2026-10-02T06:23:38.094414+00:00",
+  "public_url": "https://collect.ikanisa.com",
+  "head": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "method": "anonymous bounded GET only",
+  "bounds": {
+    "max_body_bytes": 2097152,
+    "timeout_seconds_per_hop": 15,
+    "max_redirects": 3,
+    "concurrency": 4,
+    "retries": 0
+  },
+  "same_origin_get_count": 16,
+  "support_get_count": 2,
+  "generated_legal_internal_link_count": 90,
+  "generated_legal_internal_link_failures": [
+    {
+      "source_route": "/data-deletion/",
+      "href": "#retained-data-summary",
+      "class": "",
+      "label": "Data we may retain",
+      "absolute_url": "https://collect.ikanisa.com/data-deletion/#retained-data-summary",
+      "final_url": "https://collect.ikanisa.com/data-deletion/",
+      "final_status": 200,
+      "error": null,
+      "fragment": "retained-data-summary",
+      "anchor_present": false,
+      "status": "fail"
+    }
+  ],
+  "live_legal_internal_link_count": 97,
+  "live_legal_internal_link_failures": [
+    {
+      "source_route": "/privacy/",
+      "href": "/subprocessors/",
+      "class": "legal-inline-link",
+      "label": "/subprocessors",
+      "absolute_url": "https://collect.ikanisa.com/subprocessors/",
+      "final_url": "https://collect.ikanisa.com/subprocessors/",
+      "final_status": 404,
+      "error": null,
+      "fragment": null,
+      "anchor_present": null,
+      "status": "fail"
+    },
+    {
+      "source_route": "/privacy/",
+      "href": "/privacy-request/",
+      "class": "legal-inline-link",
+      "label": "/privacy-request",
+      "absolute_url": "https://collect.ikanisa.com/privacy-request/",
+      "final_url": "https://collect.ikanisa.com/privacy-request/",
+      "final_status": 404,
+      "error": null,
+      "fragment": null,
+      "anchor_present": null,
+      "status": "fail"
+    },
+    {
+      "source_route": "/privacy/",
+      "href": "/cookies/",
+      "class": "legal-inline-link",
+      "label": "/cookies",
+      "absolute_url": "https://collect.ikanisa.com/cookies/",
+      "final_url": "https://collect.ikanisa.com/cookies/",
+      "final_status": 404,
+      "error": null,
+      "fragment": null,
+      "anchor_present": null,
+      "status": "fail"
+    },
+    {
+      "source_route": "/terms/",
+      "href": "/cookies/",
+      "class": "",
+      "label": "Cookie Policy",
+      "absolute_url": "https://collect.ikanisa.com/cookies/",
+      "final_url": "https://collect.ikanisa.com/cookies/",
+      "final_status": 404,
+      "error": null,
+      "fragment": null,
+      "anchor_present": null,
+      "status": "fail"
+    }
+  ],
+  "response_failures": [
+    {
+      "requested_url": "https://collect.ikanisa.com/cookies/",
+      "purpose": "same_origin",
+      "started_at_utc": "2026-10-02T06:23:35.622103+00:00",
+      "finished_at_utc": "2026-10-02T06:23:35.755122+00:00",
+      "method": "GET",
+      "anonymous": true,
+      "redirects": [
+        {
+          "url": "https://collect.ikanisa.com/cookies/",
+          "status": 404,
+          "headers": {
+            "date": "Fri, 02 Oct 2026 06:23:36 GMT",
+            "content-length": "0",
+            "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+            "referrer-policy": "strict-origin-when-cross-origin",
+            "x-content-type-options": "nosniff",
+            "server": "cloudflare",
+            "cf-ray": "a4419e8bbd53532a-NBO"
+          },
+          "elapsed_seconds": 0.133,
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "body_bytes": 0
+        }
+      ],
+      "final_url": "https://collect.ikanisa.com/cookies/",
+      "final_status": 404,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "body_bytes": 0,
+      "body_path": "responses/cookies-7980bd062a.html",
+      "error": null
+    },
+    {
+      "requested_url": "https://collect.ikanisa.com/privacy-request/",
+      "purpose": "same_origin",
+      "started_at_utc": "2026-10-02T06:23:35.622287+00:00",
+      "finished_at_utc": "2026-10-02T06:23:36.131320+00:00",
+      "method": "GET",
+      "anonymous": true,
+      "redirects": [
+        {
+          "url": "https://collect.ikanisa.com/privacy-request/",
+          "status": 404,
+          "headers": {
+            "date": "Fri, 02 Oct 2026 06:23:36 GMT",
+            "content-length": "0",
+            "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+            "referrer-policy": "strict-origin-when-cross-origin",
+            "x-content-type-options": "nosniff",
+            "server": "cloudflare",
+            "cf-ray": "a4419e8dbc61b14b-LOS"
+          },
+          "elapsed_seconds": 0.509,
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "body_bytes": 0
+        }
+      ],
+      "final_url": "https://collect.ikanisa.com/privacy-request/",
+      "final_status": 404,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "body_bytes": 0,
+      "body_path": "responses/privacy-request-0f74919232.html",
+      "error": null
+    },
+    {
+      "requested_url": "https://collect.ikanisa.com/subprocessors/",
+      "purpose": "same_origin",
+      "started_at_utc": "2026-10-02T06:23:35.622452+00:00",
+      "finished_at_utc": "2026-10-02T06:23:36.127582+00:00",
+      "method": "GET",
+      "anonymous": true,
+      "redirects": [
+        {
+          "url": "https://collect.ikanisa.com/subprocessors/",
+          "status": 404,
+          "headers": {
+            "date": "Fri, 02 Oct 2026 06:23:36 GMT",
+            "content-length": "0",
+            "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+            "referrer-policy": "strict-origin-when-cross-origin",
+            "x-content-type-options": "nosniff",
+            "server": "cloudflare",
+            "cf-ray": "a4419e8dba2096ab-LOS"
+          },
+          "elapsed_seconds": 0.505,
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "body_bytes": 0
+        }
+      ],
+      "final_url": "https://collect.ikanisa.com/subprocessors/",
+      "final_status": 404,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "body_bytes": 0,
+      "body_path": "responses/subprocessors-ab861a1d87.html",
+      "error": null
+    }
+  ],
+  "source_file_count": 70,
+  "sources_untouched": true,
+  "current_inputs_match_prior_static_build_record": true,
+  "prior_static_build_input_mismatches": [],
+  "candidate_file_count": 55,
+  "candidate_untouched": true,
+  "candidate_matches_original_artifact_hashes": true,
+  "candidate_direct_entries_compared": [
+    {
+      "route": "/",
+      "live_url": "https://collect.ikanisa.com/",
+      "live_status": 200,
+      "live_sha256": "2d7ab66c36d26f41a29edfc51ff82945960c37cf24aefbe2ddf3769a74bb9b60",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+      "candidate_sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+      "bytes_equal": false,
+      "root_visible_text_equal": false,
+      "live_canonical": "https://collect.ikanisa.com/",
+      "candidate_canonical": "https://collect.ikanisa.com/",
+      "canonical_equal": true,
+      "live_h1": "Microsavings and group savings for daily earners",
+      "candidate_h1": "Microsavings and group savings for daily earners",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/kigali-woman-hero.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/community-savings.png",
+          "alt": "A community planning its savings together"
+        },
+        {
+          "src": "/assets/marketing/rwanda/everyday-payments.png",
+          "alt": "A shop owner and customer using their phones"
+        },
+        {
+          "src": "/assets/marketing/rwanda/banking-together.png",
+          "alt": "A business owner discussing a financial plan"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/kigali-woman-hero.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/community-savings.png",
+          "alt": "A community planning its savings together"
+        },
+        {
+          "src": "/assets/marketing/rwanda/everyday-payments.png",
+          "alt": "A shop owner and customer using their phones"
+        },
+        {
+          "src": "/assets/marketing/rwanda/banking-together.png",
+          "alt": "A business owner discussing a financial plan"
+        }
+      ],
+      "visible_text_diff": "root.visible-text.diff"
+    },
+    {
+      "route": "/privacy/",
+      "live_url": "https://collect.ikanisa.com/privacy/",
+      "live_status": 200,
+      "live_sha256": "72cf11807b11c2e94e69d942e5c51426471ca6ee2778ab6400f05a47e5e28e06",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+      "candidate_sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+      "bytes_equal": false,
+      "legal_visible_text_equal": false,
+      "live_canonical": "https://collect.ikanisa.com/privacy/",
+      "candidate_canonical": "https://collect.ikanisa.com/privacy/",
+      "canonical_equal": true,
+      "live_h1": "Your data. Your choice. Your financial journey.",
+      "candidate_h1": "Your data. Your choice. Your financial journey.",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/privacy-57252d6e00f7.png",
+          "alt": "The Privacy Policy screen in the Collect app"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/privacy-7b76225f8802.png",
+          "alt": "The Privacy Policy screen in the Collect app"
+        }
+      ],
+      "visible_text_diff": "privacy.visible-text.diff"
+    },
+    {
+      "route": "/terms/",
+      "live_url": "https://collect.ikanisa.com/terms/",
+      "live_status": 200,
+      "live_sha256": "937463944c5d0d758932d360c5206cfef3d5607b55bd719f706c993186cacc23",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+      "candidate_sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+      "bytes_equal": false,
+      "legal_visible_text_equal": false,
+      "live_canonical": "https://collect.ikanisa.com/terms/",
+      "candidate_canonical": "https://collect.ikanisa.com/terms/",
+      "canonical_equal": true,
+      "live_h1": "Clear rules for using Collect.",
+      "candidate_h1": "Clear rules for using Collect.",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/terms-71f5644e1234.png",
+          "alt": "The Terms and Conditions screen in the Collect app"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/terms-f670cece7e23.png",
+          "alt": "The Terms and Conditions screen in the Collect app"
+        }
+      ],
+      "visible_text_diff": "terms.visible-text.diff"
+    },
+    {
+      "route": "/account-deletion/",
+      "live_url": "https://collect.ikanisa.com/account-deletion/",
+      "live_status": 200,
+      "live_sha256": "960f8bda950c9b1a057c6bdabea5b7c488730c9c46e462b05f731cd71fb4cccd",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+      "candidate_sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+      "bytes_equal": false,
+      "legal_visible_text_equal": false,
+      "live_canonical": "https://collect.ikanisa.com/account-deletion/",
+      "candidate_canonical": "https://collect.ikanisa.com/account-deletion/",
+      "canonical_equal": true,
+      "live_h1": "Delete your Collect account.",
+      "candidate_h1": "Delete your Collect account.",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+          "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-832163ce2213.png",
+          "alt": "Collect account deletion screen before any reason or submission is selected"
+        }
+      ],
+      "visible_text_diff": "account-deletion.visible-text.diff"
+    },
+    {
+      "route": "/data-deletion/",
+      "live_url": "https://collect.ikanisa.com/data-deletion/",
+      "live_status": 200,
+      "live_sha256": "7ae88bf153dc8a710b6662598d7df9fe2acece6ddca5ad8a98c53139e670e04f",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+      "candidate_sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+      "bytes_equal": false,
+      "legal_visible_text_equal": false,
+      "live_canonical": "https://collect.ikanisa.com/data-deletion/",
+      "candidate_canonical": "https://collect.ikanisa.com/data-deletion/",
+      "canonical_equal": true,
+      "live_h1": "Data deletion and retention",
+      "candidate_h1": "Data deletion and retention",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+          "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-832163ce2213.png",
+          "alt": "Collect account deletion screen before any reason or submission is selected"
+        }
+      ],
+      "visible_text_diff": "data-deletion.visible-text.diff"
+    },
+    {
+      "route": "/trust/",
+      "live_url": "https://collect.ikanisa.com/trust/",
+      "live_status": 200,
+      "live_sha256": "7af7bf9f3b735918143045a122ed53c7a2a5e7a7bc88a3a11744f0868ed3a06f",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+      "candidate_sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+      "bytes_equal": false,
+      "legal_visible_text_equal": true,
+      "live_canonical": "https://collect.ikanisa.com/trust/",
+      "candidate_canonical": "https://collect.ikanisa.com/trust/",
+      "canonical_equal": true,
+      "live_h1": "Security and trust",
+      "candidate_h1": "Security and trust",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-cee237570184.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-ab4cafded6f0.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "visible_text_diff": "trust.visible-text.diff"
+    },
+    {
+      "route": "/security/",
+      "live_url": "https://collect.ikanisa.com/security/",
+      "live_status": 200,
+      "live_sha256": "a6b089c21868edf871fdf7b7de20edca2b1c5ec656d70741c911ede43189fe51",
+      "candidate_path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+      "candidate_sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+      "bytes_equal": false,
+      "legal_visible_text_equal": true,
+      "live_canonical": "https://collect.ikanisa.com/security/",
+      "candidate_canonical": "https://collect.ikanisa.com/security/",
+      "canonical_equal": true,
+      "live_h1": "Security, privacy and trust controls.",
+      "candidate_h1": "Security, privacy and trust controls.",
+      "candidate_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-cee237570184.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "live_hero_images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-ab4cafded6f0.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "visible_text_diff": "security.visible-text.diff"
+    }
+  ],
+  "public_candidate_parity": "not established; sampled public bytes differ from current local artifact",
+  "authenticated_cloudflare_deployment_metadata": "not observed",
+  "provider_publication_or_mutation": false,
+  "account_or_data_requests": false,
+  "legal_approval": "not established",
+  "rendered_browser_visual_and_interaction_acceptance": "not observed",
+  "support_delivery_and_privacy_erasure_lifecycle_acceptance": "not exercised",
+  "generated_link_result_scope": "90 HTTP/fragment checks, not intended-content, visual, interaction or source/deployment acceptance",
+  "observed_public_candidate_relation": "Seven direct-entry byte hashes differ; privacy/terms/account-deletion/data-deletion legal text differs; trust/security legal-body text agrees. Authenticated exact source/deployment identity remains unknown.",
+  "PD-04_acceptance_status": "open: live page still promises a form; real support request/receipt/status/failure/duplicate outcomes not exercised",
+  "PD-05_acceptance_status": "open: four live edges fail at three routes; one candidate anchor absent live; public intended content and privacy-request outcome not accepted"
+}

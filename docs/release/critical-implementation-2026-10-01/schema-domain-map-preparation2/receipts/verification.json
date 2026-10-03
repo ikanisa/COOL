@@ -1,0 +1,85 @@
+{
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation2/test_schema_domain_map.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 0.386,
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "name": "parser-admission-semantic-tamper-tests",
+      "started_at_utc": "2026-10-02T06:32:04.054272+00:00",
+      "stderr_sha256": "049891c0dbdf8467a82fae4d7a84cc1d3e65b078b742b393413ac9bd03b99585",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation2/generate_schema_domain_map.py",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation2/generated-current209",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 4.834,
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "name": "generate-current209",
+      "started_at_utc": "2026-10-02T06:32:04.440679+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "40f469b2417a92665190f2406c36e3e3fa76a68fb6a448c57868ddf4d42888b6"
+    },
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation2/generate_schema_domain_map.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation2/generated-current209",
+        "--verify",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 4.397,
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "name": "full-semantic-recomputation-readback",
+      "started_at_utc": "2026-10-02T06:32:09.274263+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6827e0a4d9e4513da308885595c3cb5249091c3e5b8953158e5aa6fa1a67765a"
+    }
+  ],
+  "generator_sha256": "faa038516ee989302aaa6272261c6458058f66b326dcc41184ef36236559779b",
+  "new_test_names": [
+    "test_consistently_forged_object_and_grant_domain_is_rejected",
+    "test_domain_summary_and_object_source_indexes_are_recomputed",
+    "test_duplicate_type_identity_is_rejected",
+    "test_forged_resolution_or_removed_valid_targets_are_rejected",
+    "test_forged_standalone_coverage_is_rejected",
+    "test_forged_summary_and_consistent_coverage_copy_are_rejected",
+    "test_manifest_scan_boundary_and_markdown_are_recomputed",
+    "test_missing_catalog_input_has_a_bounded_explicit_error",
+    "test_non_object_catalog_has_a_bounded_admission_error",
+    "test_omitted_gap_rows_categories_and_missing_gap_artifact_are_rejected",
+    "test_omitted_or_removed_caller_and_sql_sites_are_rejected",
+    "test_removed_peer_even_with_rebound_manifest_is_rejected",
+    "test_two_distinct_peer_catalog_paths_are_required"
+  ],
+  "original_19_test_names_preserved": true,
+  "status": "PASS",
+  "test_count": 32,
+  "tests_sha256": "91aa6bc9d3df8c8c564480dd571f3f3afd55ec12956f9e79ba3f21a2d8fb3b35"
+}

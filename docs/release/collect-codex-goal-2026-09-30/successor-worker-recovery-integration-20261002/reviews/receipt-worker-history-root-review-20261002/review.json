@@ -1,0 +1,33 @@
+{
+  "status": "scoped_private_700_review_accepted_pending_dependency_ordered_integration",
+  "migration_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+  "documentation_sha256": "f1c72a3229a5e1c123bff5c080e6a5aef32676fc5182149d0a96050c65310279",
+  "private_manifest_sha256": "39db631e919e0a7cd73cdb7ff8d06e9fb5c900f1251ef37b7431d48f6fe32d51",
+  "checked_scope": {
+    "migration_lines_read": 1022,
+    "sealed_members_verified": 14602,
+    "current_selected_input_bindings_verified": 418,
+    "actual_sql_checks": 60,
+    "owned_targets_directly_confirmed_absent": 14,
+    "new_current_admin_consumers_integrated": 16,
+    "consumer_promotions": 6
+  },
+  "review_findings": [
+    "Five logical families retain immutable hot anchors and exact private binding/object/certificate provenance; original INSERT capture and verified legacy lazy binding preserve identity.",
+    "Atomic read-through refuses known corrupt/missing cold evidence with SQLSTATE55000, preserving original lookup, health, schedule, detail, replay and transport consumers rather than fabricating absence.",
+    "Scoped body guards and CREATE OR REPLACE preserve API OID/owner/ACL; private schema remains ungranted; no new financial or send authority.",
+    "Source closure uses exact admitted graph/roster/telemetry/producer fences and original finance locks; successor430 approval/job presence permanently holds retention, including archived or revoked attempts.",
+    "Maintenance has finite runtime/candidate/payload limits, atomic linked worker/scan archive and immutable original request replay; active/unknown/deferred sources remain hot.",
+    "Paced logical/object recovery inventory and isolated exact both-tier restore preserve known bindings and payload objects; unified exporter snapshot and full candidate recovery remain separate work."
+  ],
+  "observed_product_defect": null,
+  "canonical_written": false,
+  "integration_prerequisite": "Review and integrate exact successor4309793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c before700; canonical500 and600 hashes must still match.",
+  "limits": [
+    "Selected retained SQL checkpoint plus exact430/500/600/700; no full current migration replay or privacy420 chronology acceptance.",
+    "Sixty SQL cases, preceding DTO14 and new consumer16 are separate runs and are not added.",
+    "Both-tier local recovery is separate from Vault crypto, hosted source capture, native/scheduler journals and approved RPO/RTO.",
+    "No maintenance activation, hosted changes, physical device test or production release acceptance.",
+    "No database page reclamation or production storage/capacity claim."
+  ]
+}

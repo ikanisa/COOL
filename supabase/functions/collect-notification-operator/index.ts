@@ -6,6 +6,7 @@ import {
 import { notificationOperatorCommand, OperatorInputError } from "../_shared/notification_operator.ts";
 import { boundedJson, PublicError } from "../_shared/production_contract.ts";
 import { requireUser, serviceClient } from "../_shared/supabase.ts";
+import { rosterSession } from "../_shared/roster_provenance.ts";
 
 function response(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -35,14 +36,19 @@ Deno.serve(async (request) => {
     return response({ error: "Method not allowed" }, 405);
   }
   try {
+    const authorization = request.headers.get("authorization");
     const { supabase, user } = await requireUser(
-      request.headers.get("authorization"),
+      authorization,
     );
+    // Auth.getUser verifies this exact bearer before claims are decoded. The
+    // caller's session is never taken from the action payload or service JWT.
+    const caller = rosterSession(authorization, user.id);
     const payload = await boundedJson(request);
     const command = notificationOperatorCommand(
       payload.action,
       payload,
-      user.id,
+      caller.actorId,
+      caller.sessionId,
     );
     const { data: identity, error: identityError } = await supabase.rpc(
       "admin_current_user",

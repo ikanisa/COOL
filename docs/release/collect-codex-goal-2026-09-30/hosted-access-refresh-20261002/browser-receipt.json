@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-10-01T23:36:57.102005+00:00",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "operation": "CUA hidden in-app browser tab to official project dashboard",
+  "read_only": true,
+  "outcome": "browser security check unavailable",
+  "reason": "Saved browser permissions could not be verified; Browser Use could not request permission",
+  "navigation_completed": false,
+  "security_control_bypassed": false,
+  "credentials_inspected": false,
+  "hosted_configuration_written": false,
+  "native_observation_scope": "One Guest window showing an unrelated local fixture was observed; no unrelated UI actions or all-window session claims"
+}

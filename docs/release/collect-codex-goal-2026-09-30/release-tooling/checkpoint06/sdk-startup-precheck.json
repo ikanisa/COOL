@@ -1,0 +1,15 @@
+{
+  "observed_at_utc": "2026-10-01T08:47:08Z",
+  "sdk_path": "/Volumes/PRO-G40/Development/Flutter/flutter",
+  "metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+  "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "upgrade_lock_exists": false,
+  "lock_probes": {
+    "bin/internal/shared.sh": "nonblocking_probe_available",
+    "bin/cache/lockfile": "nonblocking_probe_available"
+  },
+  "flock_available": false,
+  "shlock_available": true,
+  "probe_mutated_runtime_bytes": false,
+  "scope": "Nonblocking read-only lock/metadata observation; build retains bounded timeout and pre/post SDK hashes."
+}

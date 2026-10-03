@@ -1,0 +1,15 @@
+{
+  "terminal_exit_code": 1,
+  "test_source_unchanged": true,
+  "all_recorded_inputs_equal_before_after": true,
+  "same_owner_route_functionally_retained": true,
+  "verified_state_and_reason_retained": true,
+  "explicit_confirmation_and_receipt_completed": true,
+  "overall_test_pass": false,
+  "build_phase_assertion_count": 11,
+  "issue1": "ScreenScaffold watches newly allocated offline status objects from the whole repository, which can notify the already-building widget on lazy provider flush.",
+  "issue2": "Immediate router refresh from Auth UID lazy provider flush can mark Router dirty during privacy form build.",
+  "test_exception_filtering_added": false,
+  "production_source_edits_by_worker": false,
+  "broader_consumers_status": "HELD for root review and metadata reconciliation"
+}

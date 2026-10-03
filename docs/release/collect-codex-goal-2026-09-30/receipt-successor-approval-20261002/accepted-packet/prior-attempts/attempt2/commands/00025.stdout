@@ -1,0 +1,1 @@
+["id", "journal_entry_id", "payment_id", "collection_id", "member_record_id", "event_type", "delta_rwf", "member_balance_after_rwf", "group_balance_after_rwf", "captured_at"]

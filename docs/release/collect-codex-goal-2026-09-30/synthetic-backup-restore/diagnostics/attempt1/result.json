@@ -1,0 +1,137 @@
+{
+  "kind": "C34_synthetic_offline_postgresql_backup_restore_schema153_subset",
+  "started_at": "2026-10-01T01:05:03.536421+00:00",
+  "production_written": false,
+  "shared_database_written": false,
+  "private_source_rows_read": false,
+  "hosted_auth_storage_configuration_read": false,
+  "provider_or_sender_called": false,
+  "real_keys_created": false,
+  "approved_rpo_rto_claimed": false,
+  "full_current_or_hosted_acceptance": false,
+  "cases": [
+    {
+      "name": "20260930211605_android_gateway_identity.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930213000_operator_email_auth.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930220527_operator_email_cutover_guard.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230100_receipt_backlog_events.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230200_admin_receipt_overview.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230300_admin_transaction_lifecycle.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000100_operational_exception_inbox.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000200_admin_gateway_reads.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000300_admin_exception_reads.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000400_receipt_supervisor_identity.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000519_safe_unstarted_receipt_cancel.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001001457_joined_operator_audit.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001003338_unattended_operating_policy.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001004651_receipt_cancel_audit_actor.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    }
+  ],
+  "captured_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+  },
+  "executed_helpers_sha256": {
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/android_gateway_identity_uat.py": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+  },
+  "runner_sha256": "7bb7e6c7f9518a3d5f486ec3c0ff7dbb531a4f4b7caac63ced7879c81fbeb915",
+  "baseline": {
+    "count": 153,
+    "row_free_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "owners_previously_normalized": true
+  },
+  "source_target": {
+    "container_id": "ce32e80f364f2d2542f79a8f80f3260e58ee763481aabe28b4d5fe3e58fdc59e",
+    "container_name": "collect_current_rehearsal_c34_source_d5907ef87cf5",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "status": "failed",
+  "error_type": "RuntimeError",
+  "error": "ERROR:  42809: relation \"refresh_tokens_id_seq\" does not have a composite type\nLOCATION:  makeWholeRowVar, makefuncs.c:150\n",
+  "database_cleanup": {
+    "collect_c34_source_74f3e903c441": true
+  },
+  "case_count": 14,
+  "completed_at": "2026-10-01T01:05:36.327051+00:00"
+}

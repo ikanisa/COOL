@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 0.08145504200365394,
+  "actual_tests": 14,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_evidence_index_test.py"
+  ],
+  "build_database_provider_run": false,
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-02T14:01:34.240733+00:00",
+  "reader_sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+  "started_at_utc": "2026-10-02T14:01:34.158880+00:00",
+  "status": "pass",
+  "stderr_sha256": "33edec264c7d7f52acc0c9ba478e5d8de8dc407ca65ae886d452cfe11aadac91",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_source_sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6"
+}

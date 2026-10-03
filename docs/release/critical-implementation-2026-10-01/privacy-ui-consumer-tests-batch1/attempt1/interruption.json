@@ -1,0 +1,6 @@
+{
+  "at_utc": "2026-10-01T23:57:00.910663+00:00",
+  "owned_flutter_pid": 50642,
+  "owned_tester_pid": 50714,
+  "reason": "First widget run held pending SDK cleanup under fake clock; real Supabase isolate teardown needs tester.runAsync. Original logs retained; no product pass/fail claim."
+}

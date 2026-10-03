@@ -1,0 +1,9 @@
+{
+  "command": "python3 .cache/receipt-successor-workflows-20261001/slice1/closure_uat.py --report-dir .cache/receipt-successor-workflows-20261001/slice1/attempt7 --reuse-predecessor .cache/receipt-successor-workflows-20261001/slice1/attempt2",
+  "observed_exec_session_id": 16092,
+  "observed_initial_chunk_id": "7361b7",
+  "observed_write_stdin_terminal_chunk_id": "8c33e6",
+  "observed_terminal_exit_code": 0,
+  "observed_case_stdout": "51 PASS lines observed in actual terminal tool return; command subprocess stdout/stderr and exact case results are separately retained. This receipt is metadata recorded from that tool return, not an invented raw terminal transcript.",
+  "result_sha256": "41a582248027abf45b3fe3e07506b7185319af2226423e0127370dd32ca3d8ef"
+}

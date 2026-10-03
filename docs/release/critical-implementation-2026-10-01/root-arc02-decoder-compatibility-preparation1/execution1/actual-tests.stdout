@@ -1,0 +1,7 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart
+00:00 +0: /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit
+00:00 +1: loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart
+00:03 +1: /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart: root-owned actual SQL read receipts satisfy the routed contracts
+00:03 +2: loading /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart
+00:03 +2: /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart: actual rollback SQL144 receipts decode staged and completed recovery exactly
+00:03 +3: All tests passed!

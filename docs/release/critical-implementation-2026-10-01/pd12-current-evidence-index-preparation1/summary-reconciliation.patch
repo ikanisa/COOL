@@ -1,0 +1,68 @@
+--- a/docs/release/revolut-design/acceptance-status.json
++++ b/docs/release/revolut-design/acceptance-status.json
+@@ -3,7 +3,7 @@
+   "recorded_at": "2026-10-01T20:45:04.087450+00:00",
+   "design_authority": "revolut-design",
+   "authority_binding": "docs/release/revolut-design/authority.json",
+-  "role": "Current evidence index with machine-read source drift; retained artifacts are dated scoped product evidence",
++  "role": "Dated retained evidence readback; current candidate entries and binding results are in the linked current candidate index. Historical outcomes remain scoped to their recorded inputs.",
+   "implementation_status": "current_candidate_acceptance_unverified",
+   "open_material_implementation_findings": [
+     "Dated source manifests have changed inputs; affected current candidate artifacts and route/state visual checks remain unverified.",
+@@ -145,7 +145,7 @@
+       "source_currency_checked_at": "2026-10-01T20:44:34.802377+00:00"
+     },
+     "public_website": {
+-      "status": "dated_scoped_review_pass_current_candidate_unverified",
++      "status": "public4_local_scope_pass_retained_whole_current_candidate_unverified",
+       "html_routes": 18,
+       "route_viewport_cases": 60,
+       "share_cases": 16,
+@@ -163,8 +163,8 @@
+       "internal_link_readback": "docs/release/revolut-design/verification/current-20261001/final-internal-link-readback.json",
+       "independent_visual_review": "docs/release/revolut-design/verification/current-20261001/final-current-visual-and-link-review.json",
+       "material_findings": [
+-        "Current Privacy/Terms text changed after the retained browser packet.",
+-        "Full current public rendering is blocked by stale app media; no recapture performed."
++        "Fresh public4 local capture/static/browser proof supersedes the dated stale-media/no-recapture blocker in its local scope. Exact55 local static artifacts,55 quality checks and104 rendered/share cases are retained.",
++        "Whole current source/transitive generator-set completeness and candidate visual comparison remain unverified; current hosted artifact parity and legal/publication acceptance remain unverified."
+       ],
+       "historical_index_status": "current_scoped_review_pass",
+       "packet_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+@@ -223,7 +223,19 @@
+       "source_currency_checked_at": "2026-10-01T20:44:34.802377+00:00",
+       "historical_legal_rendering_delta": "docs/release/revolut-design/verification/current-legal-presentation-20261001/content-comparison.json",
+       "legal_rendering_delta_scope": "Current draft source/pure-fragment engineering comparison; no current full browser/media or hosted legal/support acceptance.",
+-      "generator_transitive_input_binding": "Unverified complete manifest: retained static packet supplies exact55-file artifact inventory and six-input content binding."
++      "generator_transitive_input_binding": "Public4 retained66 observed static inputs+3 executable digests,344 media inputs and exact55 local artifact files. Complete current generator/transitive-set coverage including added/unlisted inputs is unverified.",
++      "historical_material_findings": [
++        "Current Privacy/Terms text changed after the retained browser packet.",
++        "Full current public rendering is blocked by stale app media; no recapture performed."
++      ],
++      "source_currency_scope": "Existing current_source_drift/source_readback arrays are dated2026-10-01T20:44:34.802377+00:00 readbacks; they are preserved, not asserted to describe the later abf7\u20262561 app candidate.",
++      "latest_local_scope_readback": {
++        "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
++        "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923",
++        "batch": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
++        "batch_sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95",
++        "full_mutable_candidate_accepted": false
++      }
+     }
+   },
+   "native_ios": {
+@@ -362,7 +374,13 @@
+   "verification_log_inventory": "docs/release/revolut-design/verification-log-inventory.json",
+   "historical_index_snapshot": "docs/release/critical-implementation-2026-10-01/design-index-readback/acceptance-status.before.json",
+   "historical_index_recorded_at": "2026-10-01T18:23:23.626751+00:00",
+-  "source_readback_scope": "Every retained manifest entry is hashed now, including external compiler dependencies and exact listed artifact files. Matched old entries do not prove a new or added current compilation graph; current rendering/state/role/platform review remains unverified.",
++  "source_readback_scope": "The retained source drift arrays and listed-entry checks describe their dated captures. Matching retained entries does not prove added current inputs or a complete transitive graph. See the linked candidate index for exact scoped source/artifact/result bindings, independent receipt references and still-unverified areas; no full visual or external acceptance is implied.",
+   "legal_release_approved": false,
+-  "publication_approved": false
++  "publication_approved": false,
++  "current_candidate_index": {
++    "path": "docs/release/revolut-design/current-candidate-evidence-index.json",
++    "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
++    "index_binding_verification": "pending_actual_integrator_run",
++    "scope": "App2561 captured source; completed app1114/41 PASS and native12 JVM tests/20 class files PASS. Public4/SQL/backend and exact selected runtime OSV scopes are separate. Future AAB artifact and full visual/font/hosted/package acceptance remain unverified."
++  }
+ }

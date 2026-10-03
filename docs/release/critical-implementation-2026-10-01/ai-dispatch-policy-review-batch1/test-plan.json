@@ -1,0 +1,129 @@
+{
+  "status": "PLANNED_NOT_EXECUTED",
+  "strategy": "original109 regressions retained plus actual handler effect ordering/held async boundaries and strict validator cases; no provider/hosted/customer calls",
+  "cases": [
+    {
+      "id": "D01",
+      "given": "approval absent/empty/disabled/unapproved",
+      "expected": "503 before reservation,decoder,source registration or provider; all effect counters zero"
+    },
+    {
+      "id": "D02",
+      "given": "malformed/oversized JSON,duplicates/unknown/missing keys,wrong version/purpose/types",
+      "expected": "same safe503; no configuration or customer data reflected"
+    },
+    {
+      "id": "D03",
+      "given": "whole approved JSON digest mismatched,or one region/retention/processor reference changed without repinning",
+      "expected": "same safe503 before effects; actual bytes/digest checked"
+    },
+    {
+      "id": "D04",
+      "given": "missing/invalid evidence refs or evidence SHA",
+      "expected": "same safe503; representations are required,not assumed from API key/consent"
+    },
+    {
+      "id": "D05",
+      "given": "future approved_at,expired/equal valid_until,invalid calendar or non-positive window",
+      "expected": "same safe503; exact boundaries checked with deterministic clock"
+    },
+    {
+      "id": "D06",
+      "given": "wrong processor or foreign/regional/redirect Responses endpoint",
+      "expected": "deny; minimum implementation supports only existing fixed global endpoint"
+    },
+    {
+      "id": "D07",
+      "given": "runtime model/org/project differs from approved tuple,or any required scope ID absent",
+      "expected": "deny before original bytes leave process"
+    },
+    {
+      "id": "D08",
+      "given": "runtime decoder URL/build differs from approved tuple,or decoder endpoint invalid under current restrictions",
+      "expected": "deny before decoder/provider; XLSX still follows its existing boundary"
+    },
+    {
+      "id": "D09",
+      "given": "caller supplies policy/approval/model/actor claims in request",
+      "expected": "current strict source schema rejects unexpected fields; never upgrades server authorization"
+    },
+    {
+      "id": "D10",
+      "given": "policy/config revoked or changed while real reserve RPC is held",
+      "expected": "upon resume deny before decoder; retain current failed reservation completion/charge,no refund"
+    },
+    {
+      "id": "D11",
+      "given": "policy expires/revokes/changes while real source registration ACK is held",
+      "expected": "after durable ACK deny before provider; existing safe unavailable source failure and failed budget outcome"
+    },
+    {
+      "id": "S01",
+      "given": "matching synthetic policy+hash/project/org/model/decoder/window,valid consent/source",
+      "expected": "one decoder and one provider attempt only; Auth,decoder verification,source ACK precede provider"
+    },
+    {
+      "id": "S02",
+      "given": "actual PDF/image outbound request under valid synthetic policy",
+      "expected": "original bytes/MIME/model/tool-free schema/store:false/max12000 unchanged; generic PDF filename; exact approved org/project headers only"
+    },
+    {
+      "id": "S03",
+      "given": "text/CSV/TXT with absent AI policy",
+      "expected": "original deterministic result and original source/preview binding unchanged; no decoder/provider"
+    },
+    {
+      "id": "S04",
+      "given": "XLSX with absent AI policy",
+      "expected": "current actual HMAC decoder/independent TSV comparison and strict result unchanged; no OpenAI"
+    },
+    {
+      "id": "R01",
+      "given": "same approved policy completed exact request replay",
+      "expected": "identical immutable preview; no second decoder/provider/completion attempt"
+    },
+    {
+      "id": "R02",
+      "given": "same policy failed saved replay or in-progress/crashed lease",
+      "expected": "original safe failed409/502 behavior; no reacquisition/retry/refund or new source failure overwrite"
+    },
+    {
+      "id": "R03",
+      "given": "completed AI upload replay after policy revoked/expired under recommended preflight",
+      "expected": "safe503 with no RPC/decoder/provider; old immutable rows remain; separately test existing guarded recovery read if scope assigned"
+    },
+    {
+      "id": "R04",
+      "given": "policy/config model changed for old upload lineage",
+      "expected": "no relabelling/re-extraction; existing request conflict/receipt validation retains old lineage"
+    },
+    {
+      "id": "E01",
+      "given": "Auth failure/SID mismatch/source consent failure/oversized body",
+      "expected": "existing Auth/input error before policy-dependent transmission; effects remain blocked"
+    },
+    {
+      "id": "E02",
+      "given": "valid policy but invalid signed decoder,denied/forged source ACK or lost ACK",
+      "expected": "existing safe errors,source custody/budget semantics and zero provider attempts remain"
+    },
+    {
+      "id": "E03",
+      "given": "provider HTTP failure/network/timeout/refusal/oversize/duplicate output",
+      "expected": "existing bounded sanitized error; ambiguous lease/full charge,no automatic retry and no raw response persistence"
+    },
+    {
+      "id": "E04",
+      "given": "missing provider key under otherwise valid policy",
+      "expected": "preserve existing unavailable source-attempt behavior/no provider; do not silently weaken its existing assertion"
+    }
+  ],
+  "baseline_failure_proof": "Before applying future guard,run new approval-denial tests against exact old production source and preserve expected failures; avoid calling old109 proof policy acceptance.",
+  "required_after_future_authorization": [
+    "frozen pinned Deno2.5.6 offline types/tests",
+    "full actual relevant default lint/format",
+    "same source/tool/lock/cache before-after hashes",
+    "actual maintained codec fixture if its config signature changes",
+    "affected readiness/delivery synthetic tests only if those sources are separately assigned"
+  ]
+}

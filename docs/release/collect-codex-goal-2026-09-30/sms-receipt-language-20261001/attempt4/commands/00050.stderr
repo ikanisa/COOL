@@ -1,0 +1,4 @@
+NOTICE:  00000: policy "payments public posted or scoped" for relation "public.payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "ledger public collection credit or scoped" for relation "public.ledger_entries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

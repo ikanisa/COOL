@@ -1,0 +1,89 @@
+{
+  "finding": "Leading comments before outer BEGIN are not normalized by current helper; second pending migration refuses before write after first commits in synthetic transport",
+  "actual_source_chain_migrations": 209,
+  "maintained_helper_identity": {
+    "bytes": 12971,
+    "device": 16777247,
+    "inode": 17481828,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790923108361817455,
+    "sha256": "ce97076d3c0d8fc3e26a832a05e8b7705a964b03c039607e749dfa386abb839d"
+  },
+  "affected_sql_identities": {
+    "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql": {
+      "bytes": 16746,
+      "device": 16777247,
+      "inode": 17178152,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790906145887435961,
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998"
+    },
+    "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql": {
+      "bytes": 15870,
+      "device": 16777247,
+      "inode": 17347647,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790913728535164053,
+      "sha256": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d"
+    }
+  },
+  "exact_read_only_normalizer_diagnostic": {
+    "command": [
+      "/usr/bin/ruby",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/normalization-diagnostic.rb",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002090000_governed_receipt_retention_controls.sql"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "pid": 66113,
+    "pgid": 66113,
+    "exit_code": 0,
+    "elapsed_seconds": 0.108,
+    "timeout_seconds": 15,
+    "output_limit_bytes": 4194304,
+    "termination_reason": null,
+    "residual_group_on_leader_completion": false,
+    "process_group_absent": true,
+    "stdout": {
+      "bytes": 1031,
+      "device": 16777247,
+      "inode": 17859502,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790925195536666586,
+      "sha256": "e77adc7feb8bd6be1fc341ed4de947d1ca53dd97c881918609fe56cc7769677f"
+    },
+    "stderr": {
+      "bytes": 0,
+      "device": 16777247,
+      "inode": 17859503,
+      "links": 1,
+      "mode": 420,
+      "mtime_ns": 1790925195472123876,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "normalizer_rows": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "source_prefix": "begin;\nset local lock_timeout='2s';\nselect pg_advisory_xact_lock(hashtext('collect-receipt-repeat-run-recovery'));\nlock table collect_receipt_operations.requests,collect_receipt_operations.reservations,collect_receipt_operations.backlog_results,collect_ops.receipt_backlog_budget_deferrals in share row exclusive mode;\n",
+      "remaining_transaction_terminator": false,
+      "maintained_normalizer_would_refuse": false
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+      "source_prefix": "-- Specific governed controls for lossless700 hot/cold maintenance. No expiry,\n-- erasure, sender, run or financial authority. Existing prepare stays unchanged.\nbegin;\ndo $$begin\n",
+      "remaining_transaction_terminator": true,
+      "maintained_normalizer_would_refuse": true
+    }
+  ],
+  "actual_failed_probe_trace": "attempt3/test_management_fallback_checks_exact_version_before_each_sql_write.trace.json",
+  "observed_write_count": 1,
+  "expected_pending_write_count": 2,
+  "SQL_helper_modified": false,
+  "root_owns_parser_correction_and_affected_rerun": true,
+  "supported_pair_actual_approval_claimed": false
+}

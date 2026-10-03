@@ -1,0 +1,8 @@
+{
+  "file": "lib/gateway/gateway_app.dart",
+  "before_sha256": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+  "after_sha256": "27383e5780ad5ebdc6ed4c8d2fcb58b8e44ac583013f1f1091a8a892e5e951d7",
+  "reason": "The full app-shell reduced-motion inventory found the real Gateway enrollment DialogRoute omitted the shared accessibility adapter",
+  "production_terminology_or_authority_changed": false,
+  "gateway_rebuild_required": true
+}

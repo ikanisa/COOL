@@ -1,0 +1,1511 @@
+{
+  "captured_at_utc": "2026-10-01T20:25:37.434274+00:00",
+  "classification": "local source metadata checkpoint; no approved candidate or global source freeze",
+  "backend_file_count": 300,
+  "migration_count": 191,
+  "backend_manifest_sha256": "a8128cac0bb043e6eb010f90b7eb5de010cc3ba04702fcc9e38a6b4f24da6747",
+  "source_files": {
+    ".dvmrc": {
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "bytes": 6,
+      "mode": 448
+    },
+    ".supabase-cli-version": {
+      "sha256": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+      "bytes": 8,
+      "mode": 420
+    },
+    "contracts/edge-functions.json": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420
+    },
+    "scripts/audits/collect_index_inventory.rb": {
+      "sha256": "16dafcc747e28b04808c842e4ba9b8b247fc4d54156ded7bf91285520f8b4330",
+      "bytes": 2343,
+      "mode": 448
+    },
+    "scripts/collect_admin_security_uat.sh": {
+      "sha256": "85917c9bf3a5c62b27c15f56641016d82ef3f1ef52c4fdbd675a603e454bd6a9",
+      "bytes": 19193,
+      "mode": 448
+    },
+    "scripts/collect_linked_uat.sh": {
+      "sha256": "f24b719186688405fc05b990484d6a8720e4672440fb4880f605ddc8a6c1e48f",
+      "bytes": 2974,
+      "mode": 448
+    },
+    "scripts/edge_function_inventory.rb": {
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+      "bytes": 6127,
+      "mode": 420
+    },
+    "scripts/edge_function_inventory.sh": {
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+      "bytes": 1610,
+      "mode": 420
+    },
+    "scripts/load_dotenv_strict.sh": {
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+      "bytes": 2479,
+      "mode": 448
+    },
+    "scripts/migrations/validate_supabase_migrations.sh": {
+      "sha256": "0058ac4d13483fc3782c14cea560c427e0cf24e902080c220c5addf40bed48e5",
+      "bytes": 5535,
+      "mode": 448
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "sha256": "2cf06be4bdad073d5fba317957348dc110e3707589ad84079314e43898994544",
+      "bytes": 30301,
+      "mode": 420
+    },
+    "scripts/qa/collect_release_candidate.py": {
+      "sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+      "bytes": 40672,
+      "mode": 420
+    },
+    "scripts/rwanda_momo_readiness_uat.sql": {
+      "sha256": "86cd4c24170e78c866bcf9d6ae11d3de970233d209fa0164052f9bb9c241085b",
+      "bytes": 2812,
+      "mode": 420
+    },
+    "scripts/supabase_advisors_gate.sh": {
+      "sha256": "7300beccd3846a172407092a6e3fec56f231c759123b8cef3387bc766541a276",
+      "bytes": 990,
+      "mode": 448
+    },
+    "scripts/supabase_advisors_warning_inventory.sh": {
+      "sha256": "37889e092013c30fe358cb38d1ed9f6b322e8ae91fbbf4691de6709469761d2a",
+      "bytes": 6010,
+      "mode": 448
+    },
+    "scripts/supabase_cli_helpers.sh": {
+      "sha256": "13f874017d890729e1f15c5c5cbc6f47a726a96f848a3c03c9bb381904ae7f1a",
+      "bytes": 13142,
+      "mode": 448
+    },
+    "scripts/supabase_deploy.sh": {
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+      "bytes": 345,
+      "mode": 448
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "sha256": "a166128af5b045fbea741ef5eff4115e4cd45b637413422913a109874b5a972b",
+      "bytes": 62066,
+      "mode": 448
+    },
+    "scripts/supabase_schema_inventory.sh": {
+      "sha256": "c7efff55f96c287833533d8179cc397810055e04396eafd360e0539366b24b84",
+      "bytes": 11335,
+      "mode": 448
+    },
+    "supabase/.branches/_current_branch": {
+      "sha256": "0d6e4079e36703ebd37c00722f5891d28b0e2811dc114b129215123adcce3605",
+      "bytes": 4,
+      "mode": 448
+    },
+    "supabase/.gitignore": {
+      "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+      "bytes": 72,
+      "mode": 448
+    },
+    "supabase/config.toml": {
+      "sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+      "bytes": 16032,
+      "mode": 448
+    },
+    "supabase/functions/.gitkeep": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1,
+      "mode": 448
+    },
+    "supabase/functions/_shared/apns.ts": {
+      "sha256": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d",
+      "bytes": 4779,
+      "mode": 448
+    },
+    "supabase/functions/_shared/apns_test.ts": {
+      "sha256": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b",
+      "bytes": 4140,
+      "mode": 448
+    },
+    "supabase/functions/_shared/buri_munsi_receipt.ts": {
+      "sha256": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb",
+      "bytes": 1339,
+      "mode": 448
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "mode": 448
+    },
+    "supabase/functions/_shared/fcm.ts": {
+      "sha256": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6",
+      "bytes": 6937,
+      "mode": 448
+    },
+    "supabase/functions/_shared/fcm_test.ts": {
+      "sha256": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb",
+      "bytes": 5961,
+      "mode": 448
+    },
+    "supabase/functions/_shared/hash.ts": {
+      "sha256": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719",
+      "bytes": 1444,
+      "mode": 448
+    },
+    "supabase/functions/_shared/hmac.ts": {
+      "sha256": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace",
+      "bytes": 1466,
+      "mode": 448
+    },
+    "supabase/functions/_shared/hmac_test.ts": {
+      "sha256": "f107f802e955ca20380312ee0282f57cacb79bce19593fd01606f0f66bc7178b",
+      "bytes": 593,
+      "mode": 448
+    },
+    "supabase/functions/_shared/integrity_policy.ts": {
+      "sha256": "abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807",
+      "bytes": 1824,
+      "mode": 420
+    },
+    "supabase/functions/_shared/momo_sms_hybrid_test.ts": {
+      "sha256": "d627b98b5cb655673df3a682e65c51f82b4eeb280cf73f7fed506abab18c58dd",
+      "bytes": 5800,
+      "mode": 448
+    },
+    "supabase/functions/_shared/momo_sms_parser.ts": {
+      "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1",
+      "bytes": 5241,
+      "mode": 448
+    },
+    "supabase/functions/_shared/momo_sms_parser_test.ts": {
+      "sha256": "e7881a50eff5982b47b73896775e93edc524c1c405b3bf8c72babd4ba7f7a365",
+      "bytes": 875,
+      "mode": 448
+    },
+    "supabase/functions/_shared/notification_operator.ts": {
+      "sha256": "58418544d493e3395e0a6023108588d083e2357dec5ddc3d4d331cc71e9f5ca2",
+      "bytes": 8111,
+      "mode": 448
+    },
+    "supabase/functions/_shared/notification_operator_test.ts": {
+      "sha256": "43b289314873f366d3fa6846d3b8909e1b4b6de4bba874909fa85cf751dba88c",
+      "bytes": 4375,
+      "mode": 448
+    },
+    "supabase/functions/_shared/notification_retry.ts": {
+      "sha256": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f",
+      "bytes": 2063,
+      "mode": 420
+    },
+    "supabase/functions/_shared/notification_retry_test.ts": {
+      "sha256": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520",
+      "bytes": 1509,
+      "mode": 420
+    },
+    "supabase/functions/_shared/openai_roster.ts": {
+      "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780",
+      "bytes": 3294,
+      "mode": 448
+    },
+    "supabase/functions/_shared/openai_roster_test.ts": {
+      "sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a",
+      "bytes": 2468,
+      "mode": 448
+    },
+    "supabase/functions/_shared/operational_metrics.ts": {
+      "sha256": "01a52ef3869faa672b9e3fa5d3ec34fbbd89344985012f6c24ea3c0ebd8fccdd",
+      "bytes": 1637,
+      "mode": 420
+    },
+    "supabase/functions/_shared/operational_metrics_test.ts": {
+      "sha256": "088e4ee450f6f4221283d98131a802067b066c442d026af2eacf6955725b4a38",
+      "bytes": 2627,
+      "mode": 420
+    },
+    "supabase/functions/_shared/play_integrity_binding.ts": {
+      "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9",
+      "bytes": 1480,
+      "mode": 448
+    },
+    "supabase/functions/_shared/play_integrity_binding_test.ts": {
+      "sha256": "8128a2f0662e28cb744514a70a87ff326a74ab206c92778e7344c68bd713e50c",
+      "bytes": 1756,
+      "mode": 448
+    },
+    "supabase/functions/_shared/production_contract.ts": {
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1",
+      "bytes": 5120,
+      "mode": 420
+    },
+    "supabase/functions/_shared/raw_sms_input.ts": {
+      "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239",
+      "bytes": 453,
+      "mode": 448
+    },
+    "supabase/functions/_shared/receipt_ingestion.ts": {
+      "sha256": "a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2",
+      "bytes": 1906,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_decoder.ts": {
+      "sha256": "575c44e86de2571af7813d8adb714f67949b4543316ee98f34809eebc2d4d20b",
+      "bytes": 8204,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_decoder_integration_test.ts": {
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+      "bytes": 16045,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_decoder_test.ts": {
+      "sha256": "4e8401f7f7939196011960fda6c71835cbaf767f0225143107a96b34e55feb3a",
+      "bytes": 5758,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_file_policy.ts": {
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75",
+      "bytes": 8127,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_file_policy_test.ts": {
+      "sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8",
+      "bytes": 6694,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_import.ts": {
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0",
+      "bytes": 7987,
+      "mode": 448
+    },
+    "supabase/functions/_shared/roster_import_test.ts": {
+      "sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089",
+      "bytes": 2317,
+      "mode": 448
+    },
+    "supabase/functions/_shared/roster_provenance.ts": {
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629",
+      "bytes": 7593,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_resource_budget.ts": {
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99",
+      "bytes": 1982,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_response_policy.ts": {
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e",
+      "bytes": 8416,
+      "mode": 420
+    },
+    "supabase/functions/_shared/roster_response_policy_test.ts": {
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b",
+      "bytes": 11038,
+      "mode": 420
+    },
+    "supabase/functions/_shared/signed_sms_hook.ts": {
+      "sha256": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6",
+      "bytes": 1943,
+      "mode": 420
+    },
+    "supabase/functions/_shared/supabase.ts": {
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "mode": 448
+    },
+    "supabase/functions/_shared/test_assert.ts": {
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648",
+      "bytes": 326,
+      "mode": 448
+    },
+    "supabase/functions/auth-send-whatsapp-otp/handler.ts": {
+      "sha256": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30",
+      "bytes": 11307,
+      "mode": 420
+    },
+    "supabase/functions/auth-send-whatsapp-otp/handler_test.ts": {
+      "sha256": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b",
+      "bytes": 19958,
+      "mode": 420
+    },
+    "supabase/functions/auth-send-whatsapp-otp/index.ts": {
+      "sha256": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2",
+      "bytes": 357,
+      "mode": 448
+    },
+    "supabase/functions/collect-android-gateway/archive_v3.ts": {
+      "sha256": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b",
+      "bytes": 5418,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/archive_v3_test.ts": {
+      "sha256": "7f2d0e6ccaf8394dbe75b015946a5fa5ddee9a56e6b1657a8cb031028ebdf950",
+      "bytes": 9484,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/dispatch_observed_test.ts": {
+      "sha256": "1b8bebb2e7d153dc6f1545e80bf81f2ae12f1de9f132d850c8f5011447a281fe",
+      "bytes": 6493,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/dispatch_v2_test.ts": {
+      "sha256": "d1e4a998fb3d30c5c21ac157cc134594e063ca673322ead28374fa4aefa05d5e",
+      "bytes": 21812,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/handler_test.ts": {
+      "sha256": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801",
+      "bytes": 15662,
+      "mode": 420
+    },
+    "supabase/functions/collect-android-gateway/index.ts": {
+      "sha256": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8",
+      "bytes": 404,
+      "mode": 420
+    },
+    "supabase/functions/collect-notification-operator/index.ts": {
+      "sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72",
+      "bytes": 3051,
+      "mode": 448
+    },
+    "supabase/functions/collect-receipt-exception-worker/README.md": {
+      "sha256": "d86a95c9fb6d457307b1115e869a67a7f920cd043046909fa0665593079b271d",
+      "bytes": 5957,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-exception-worker/deployment.toml": {
+      "sha256": "0f45ca59318b2903b58e0c4f7dd9bbfe4f98c950ed3bd254b782a87fec48ff85",
+      "bytes": 294,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-exception-worker/handler.ts": {
+      "sha256": "a7707c8888178194c3f050fcdbdddd060d65e246fb2d7280e903faaebbb3cb99",
+      "bytes": 10378,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-exception-worker/handler_test.ts": {
+      "sha256": "f0ceb3321444a4d498b851b8635a8e97eacdc409353e73a17368ca584f075685",
+      "bytes": 10775,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-exception-worker/index.ts": {
+      "sha256": "fd40a8d1058289b32141ecdc17693142dc14f3d408251ce3cbc736224b5df84e",
+      "bytes": 600,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-exception-worker/observed_test.ts": {
+      "sha256": "a20efe8bc124c9606e20b4d6f75b37a9d2f45fba899e1fc9745e418b7938ab15",
+      "bytes": 931,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json": {
+      "sha256": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27",
+      "bytes": 556,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json": {
+      "sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74",
+      "bytes": 5108,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json": {
+      "sha256": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da",
+      "bytes": 396,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json": {
+      "sha256": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9",
+      "bytes": 719,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bytes": 18100,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "bytes": 11780,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/index.ts": {
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "bytes": 411,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/operations_contract.ts": {
+      "sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "bytes": 8649,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": {
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "bytes": 11092,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": {
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "bytes": 1148,
+      "mode": 420
+    },
+    "supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "bytes": 1169,
+      "mode": 420
+    },
+    "supabase/functions/deno.lock": {
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+      "bytes": 7115,
+      "mode": 420
+    },
+    "supabase/functions/dispatch-notifications/dispatcher.ts": {
+      "sha256": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8",
+      "bytes": 3673,
+      "mode": 420
+    },
+    "supabase/functions/dispatch-notifications/dispatcher_test.ts": {
+      "sha256": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d",
+      "bytes": 8163,
+      "mode": 420
+    },
+    "supabase/functions/dispatch-notifications/index.ts": {
+      "sha256": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472",
+      "bytes": 4960,
+      "mode": 448
+    },
+    "supabase/functions/ingest-payment-sms/index.ts": {
+      "sha256": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36",
+      "bytes": 3669,
+      "mode": 448
+    },
+    "supabase/functions/parse-payment-sms/index.ts": {
+      "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9",
+      "bytes": 6538,
+      "mode": 448
+    },
+    "supabase/functions/prepare-roster-import/handler.ts": {
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+      "bytes": 22086,
+      "mode": 420
+    },
+    "supabase/functions/prepare-roster-import/handler_test.ts": {
+      "sha256": "4b5da661fa89abd6012b518e22dc9758984a50c8f0aa6fdcbec386034e957e64",
+      "bytes": 37688,
+      "mode": 420
+    },
+    "supabase/functions/prepare-roster-import/index.ts": {
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+      "bytes": 714,
+      "mode": 448
+    },
+    "supabase/functions/reconciliation-finalize/handler.ts": {
+      "sha256": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116",
+      "bytes": 3691,
+      "mode": 420
+    },
+    "supabase/functions/reconciliation-finalize/handler_test.ts": {
+      "sha256": "f681e5a29be57236958ec2edfcf7f8b23af4b0f5b1b31ab142475406c05094c0",
+      "bytes": 6815,
+      "mode": 420
+    },
+    "supabase/functions/reconciliation-finalize/index.ts": {
+      "sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c",
+      "bytes": 736,
+      "mode": 420
+    },
+    "supabase/functions/send-notification/handler.ts": {
+      "sha256": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c",
+      "bytes": 7034,
+      "mode": 420
+    },
+    "supabase/functions/send-notification/handler_test.ts": {
+      "sha256": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458",
+      "bytes": 6323,
+      "mode": 420
+    },
+    "supabase/functions/send-notification/index.ts": {
+      "sha256": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6",
+      "bytes": 558,
+      "mode": 448
+    },
+    "supabase/functions/verify-play-integrity/index.ts": {
+      "sha256": "2b09eb817963c04f94c0f31e1f03a3676df0da376639b042a5f9920b7d4333c7",
+      "bytes": 10777,
+      "mode": 448
+    },
+    "supabase/migrations/202605230001_collect_baseline.sql": {
+      "sha256": "0cdd5a5ff487a51ce1a5a2951bad003174fd022dc8850c4de36f971dd8adb046",
+      "bytes": 56432,
+      "mode": 448
+    },
+    "supabase/migrations/202605230002_fix_invite_rpc_lint.sql": {
+      "sha256": "56ddac8fb20c47376a016778a062b18059a90955ad7d09d9b499be36cd5efe7c",
+      "bytes": 2536,
+      "mode": 448
+    },
+    "supabase/migrations/202605230003_harden_rls_indexes.sql": {
+      "sha256": "f3e2e20d9c7dde7410bf41cf3a2468ec5e9820e4388a08af0de2c0c365a757b4",
+      "bytes": 11405,
+      "mode": 448
+    },
+    "supabase/migrations/202605230004_restore_payment_intent_paid_rpc.sql": {
+      "sha256": "b35b586a6f6d9dd4c977f5f83ecbb06f8898332102958b3a38457f577ed41ea4",
+      "bytes": 1456,
+      "mode": 448
+    },
+    "supabase/migrations/202605230005_restore_sms_collection_scope.sql": {
+      "sha256": "ee884aa800ca484420743653bbab185067fe292e402cc8b8e7e337189dc41ed0",
+      "bytes": 2912,
+      "mode": 448
+    },
+    "supabase/migrations/202605230006_finalize_payment_intent_hardening.sql": {
+      "sha256": "959a83091708a3ade077d57882e5aa56897deed01527adf188d306cfe007d6e1",
+      "bytes": 286,
+      "mode": 448
+    },
+    "supabase/migrations/202605230007_revoke_public_function_execute.sql": {
+      "sha256": "693fb28fb34612809c9b15d94585725d3a7127d9a8b4b9a10c80b5d9d3a7dca3",
+      "bytes": 1540,
+      "mode": 448
+    },
+    "supabase/migrations/202605230008_admin_panel.sql": {
+      "sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+      "bytes": 33617,
+      "mode": 448
+    },
+    "supabase/migrations/202605230009_add_client_safe_views.sql": {
+      "sha256": "10be1e426d407d8463aaf44693ec6a66a283c0ca9f3382ef34e6a1e22f33553a",
+      "bytes": 4580,
+      "mode": 448
+    },
+    "supabase/migrations/202605230010_grant_collection_receiver_read.sql": {
+      "sha256": "ae1ba37dc4492601251b3ce8889c46d5f4e995992c32bcee3666302caceacf52",
+      "bytes": 82,
+      "mode": 448
+    },
+    "supabase/migrations/202605230011_fix_receiver_consent_execute_grant.sql": {
+      "sha256": "a63cb5b2a62ee086d511207ef1c35a4b3f4e37132fc2af6c097ee159ee5f0785",
+      "bytes": 229,
+      "mode": 448
+    },
+    "supabase/migrations/202605230012_admin_rpc_grants.sql": {
+      "sha256": "a870c218f2d470d9df2601f4cde366d8c2e51de305a7ed73d88ab96176e0e815",
+      "bytes": 1397,
+      "mode": 448
+    },
+    "supabase/migrations/202605230013_admin_settings_flags.sql": {
+      "sha256": "f6d931654c03f4698e508d2ebb5add8ccac2eb8344e975ea2ac42d236a38ecf5",
+      "bytes": 995,
+      "mode": 448
+    },
+    "supabase/migrations/202605230014_admin_review_hardening.sql": {
+      "sha256": "3eac6eccae5b820234da0f093b1be1980c48d02900d331077529bf8c96d6e54d",
+      "bytes": 847,
+      "mode": 448
+    },
+    "supabase/migrations/202605230015_admin_collection_moderation.sql": {
+      "sha256": "e12be9d9be9c401a941c23b4b9f58aa7c61999548644c76b1afb2a24905a0af7",
+      "bytes": 1314,
+      "mode": 448
+    },
+    "supabase/migrations/202605230016_drop_unowned_admin_helpers.sql": {
+      "sha256": "62c403ad41cb29d5a95ee1fc9b818af5d966ca6f8c48e6891446ebc44222be15",
+      "bytes": 410,
+      "mode": 448
+    },
+    "supabase/migrations/202605230017_admin_list_filter_contracts.sql": {
+      "sha256": "77d8e1261240ed071c29206549eeaff8301a1092b0df92a3435e716177e9c69b",
+      "bytes": 6683,
+      "mode": 448
+    },
+    "supabase/migrations/20260523203132_tighten_admin_role_permissions.sql": {
+      "sha256": "7b4b5fc3be06859c2a66e1abe9de45a92a3888e506c51fb49284d7495ed80806",
+      "bytes": 7029,
+      "mode": 448
+    },
+    "supabase/migrations/20260523204235_set_views_security_invoker.sql": {
+      "sha256": "42ad99441e04ed65a5b574973293e75353d7f666ad4603e03cb2af8761c9453d",
+      "bytes": 3025,
+      "mode": 448
+    },
+    "supabase/migrations/20260523205502_set_helper_function_search_paths.sql": {
+      "sha256": "4fa2c428ccb19b68f0021ba32482fee4236ac298a0d279b54004e8ea0637195a",
+      "bytes": 732,
+      "mode": 448
+    },
+    "supabase/migrations/20260523210723_split_permissive_select_policies.sql": {
+      "sha256": "c5406c63d0f979bb3499d45e3096c328240f509456412fab606f93c34ca7ac23",
+      "bytes": 4681,
+      "mode": 448
+    },
+    "supabase/migrations/20260523212244_revoke_anon_platform_admin_helper.sql": {
+      "sha256": "e5503fd5f86f6a34256397cec7d23472c57dcc46817b22e109eb1352e8dfe8b8",
+      "bytes": 228,
+      "mode": 448
+    },
+    "supabase/migrations/20260523213113_disable_graphql_introspection.sql": {
+      "sha256": "af00182af77bdba8a0fd7034f7fcbb18ab65879e1b7deb54b0f53d8a529ed76f",
+      "bytes": 224,
+      "mode": 448
+    },
+    "supabase/migrations/202605250001_app_realtime_invalidation.sql": {
+      "sha256": "762d87f864443097b97c4748c217b2899f91cffd474e0507ecf03ad618e8a067",
+      "bytes": 3346,
+      "mode": 448
+    },
+    "supabase/migrations/202605270001_sms_first_group_payment_intents.sql": {
+      "sha256": "ef5db47741c6c58351121ce5aac01071c6f5f041e4ba595aa2a76027de4eb559",
+      "bytes": 33256,
+      "mode": 448
+    },
+    "supabase/migrations/20260531162852_harden_sms_first_function_grants.sql": {
+      "sha256": "c3a3ef27b87c5c7e36940f7f29bbcf4015322f17e98adcb737a5595cc168f1f0",
+      "bytes": 1934,
+      "mode": 448
+    },
+    "supabase/migrations/20260531190000_mobile_production_state_support.sql": {
+      "sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e",
+      "bytes": 8631,
+      "mode": 448
+    },
+    "supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql": {
+      "sha256": "ec08ce5a927b33c328b00c6a513c43fe3365d4105b6d675a3141a70a183d2c1d",
+      "bytes": 2621,
+      "mode": 448
+    },
+    "supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql": {
+      "sha256": "cba6ba851c2ef7b5e93107c242fd8583057c234970c01a4b47f0f34be2d65909",
+      "bytes": 692,
+      "mode": 448
+    },
+    "supabase/migrations/20260607130500_update_collection_profile_rpc.sql": {
+      "sha256": "1711f9e134dd7ef6168643ecae083e6853f22c941545e76662c52c90500b60ef",
+      "bytes": 1835,
+      "mode": 448
+    },
+    "supabase/migrations/20260608090000_native_notifications.sql": {
+      "sha256": "c420dab39f9837d0f10586ccae65ffe4ab6b48cbd20a27f13e7a4c82f1907eba",
+      "bytes": 5460,
+      "mode": 448
+    },
+    "supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql": {
+      "sha256": "f893ed406c1b0edd5e5605b368e5812a9b14ce89e700926ecbd5d15b70578ecb",
+      "bytes": 5255,
+      "mode": 448
+    },
+    "supabase/migrations/20260611113000_harden_notification_rls_initplan.sql": {
+      "sha256": "398e0cfcd77f7532c33db2c1f3b392de38bf42fb63bfa1d28e9a3458fa58413e",
+      "bytes": 1828,
+      "mode": 448
+    },
+    "supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql": {
+      "sha256": "77fa27b8d4f1c32d0e035c6d1dbfb786b802afc925bbc921a487e5169faf800d",
+      "bytes": 618,
+      "mode": 448
+    },
+    "supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql": {
+      "sha256": "f71904dc4360508eede04da7528e7b5c0f6e2417b61439a9f1a93c58297ad6f2",
+      "bytes": 2403,
+      "mode": 448
+    },
+    "supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql": {
+      "sha256": "f2ec2cbd3ac1615b2c267f11f04571ee62b348d1e870b1186d5308e977050ac9",
+      "bytes": 2571,
+      "mode": 448
+    },
+    "supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql": {
+      "sha256": "02bc25e83a6dc4dc72cc515e93d097d6c05dd4b4f1e701b4a04eab9eabdd06b0",
+      "bytes": 663,
+      "mode": 448
+    },
+    "supabase/migrations/20260612110000_admin_payment_event_server_paging.sql": {
+      "sha256": "5732ac67f350810c383f5ab628fdc5014159e5d8aa88c47d4319ef9490574b1c",
+      "bytes": 6263,
+      "mode": 448
+    },
+    "supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql": {
+      "sha256": "a776e1ce675f359b7284d83d58d55ccd146ebb0c5abbf4634e309662aebde8f3",
+      "bytes": 183,
+      "mode": 448
+    },
+    "supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql": {
+      "sha256": "fe9c34d9e572cf3c0cc87dffa4556bfbab51f3373b0c9a3a4efcd34ac5f67f02",
+      "bytes": 635,
+      "mode": 448
+    },
+    "supabase/migrations/20260619003000_profile_momo_pay_code.sql": {
+      "sha256": "c8ab32ebe63634832e393c4daedf9810416bc593f4c49ad45e3d2d0963f03860",
+      "bytes": 391,
+      "mode": 448
+    },
+    "supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql": {
+      "sha256": "4f21d92e0e653651059f170396716854ac606ae2d559fba0f340843817dace86",
+      "bytes": 14986,
+      "mode": 448
+    },
+    "supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql": {
+      "sha256": "7164b4ac05556a081020eb13b0d63d62b54cc3594f0da80dd9927cc117a1979d",
+      "bytes": 1707,
+      "mode": 448
+    },
+    "supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql": {
+      "sha256": "bcd8c6e2dbf777f9884e3dc8993db19432724431d31df75b006958dbbb6a0ded",
+      "bytes": 2444,
+      "mode": 448
+    },
+    "supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql": {
+      "sha256": "4e4a530284b78e7fc3e7e34d73b8f9a9579ee9fa4f5df3e0433601f53160acc9",
+      "bytes": 1077,
+      "mode": 448
+    },
+    "supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql": {
+      "sha256": "940100ff300429f242ce5faf56830c13ea2209ac2c7f7055b4af4d0242a30837",
+      "bytes": 1666,
+      "mode": 448
+    },
+    "supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql": {
+      "sha256": "2051a1cfb9f1be7e19b672000cb58c267119dcbff01f2664084a1b1b7e01f413",
+      "bytes": 5011,
+      "mode": 448
+    },
+    "supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql": {
+      "sha256": "d8ec2afa146fb94fcd22af6ff2dadbc3ccaca75602038448fe0474207a11a958",
+      "bytes": 1599,
+      "mode": 448
+    },
+    "supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql": {
+      "sha256": "3c498947698a1a4ded54333626652cf01c6f068cf24cac1c4352f2f21f0e2d93",
+      "bytes": 1482,
+      "mode": 448
+    },
+    "supabase/migrations/20260701090000_developer_account_seed_data.sql": {
+      "sha256": "5cfa99b29b9c6b7917e214e1c50db4265169a0c7ef61cfa2ba9f4b9f46f3d982",
+      "bytes": 7698,
+      "mode": 448
+    },
+    "supabase/migrations/20260701100000_group_owner_controls.sql": {
+      "sha256": "51deb6c5f8fe92e9fc47bc11ee780c0e3a88987d4c9423a30787be21ec88b419",
+      "bytes": 2415,
+      "mode": 448
+    },
+    "supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql": {
+      "sha256": "4b2011e63f870ac8331adb607f7664319be5b4c3786ebf670672282968424721",
+      "bytes": 9922,
+      "mode": 448
+    },
+    "supabase/migrations/20260703224559_collection_type_catalog_runtime.sql": {
+      "sha256": "90596cb8fb154a2198ba3b4ffcd5b66521ecab7385fe094d010853245473f695",
+      "bytes": 25273,
+      "mode": 448
+    },
+    "supabase/migrations/20260703225455_notification_templates_runtime.sql": {
+      "sha256": "507a2f5ce15bb799cc31377476bc2f180a7d11a506b34727abd495049665a57e",
+      "bytes": 17925,
+      "mode": 448
+    },
+    "supabase/migrations/20260704100000_public_runtime_config.sql": {
+      "sha256": "0a12f45f18014f3573190da94ceacb7c3037ffa8f61e069afc6c96fe952b2220",
+      "bytes": 12706,
+      "mode": 448
+    },
+    "supabase/migrations/20260704110000_admin_runtime_metadata.sql": {
+      "sha256": "78d757e5e880571ba911377e69531a141eec551a5d82dbe59e5d6e580c84fb48",
+      "bytes": 23626,
+      "mode": 448
+    },
+    "supabase/migrations/20260704120000_policy_documents_account_reasons.sql": {
+      "sha256": "b4b09c8e93d8a0beb950d86e6d5aafbe02196fbf3782318bd949592f259e81d9",
+      "bytes": 19049,
+      "mode": 448
+    },
+    "supabase/migrations/20260704133000_split_runtime_metadata_select_policies.sql": {
+      "sha256": "65961aa1d1cd710cf5af689112b650b70ef9c7899bc83c0a4c41ce146650ac64",
+      "bytes": 20623,
+      "mode": 448
+    },
+    "supabase/migrations/20260730134500_grant_mobile_request_own_read.sql": {
+      "sha256": "e103a72001c0e47b050ba9cd20ece669190f4a6679c1447640b972311c572a7d",
+      "bytes": 1962,
+      "mode": 448
+    },
+    "supabase/migrations/20260804150000_native_push_delivery.sql": {
+      "sha256": "33a57d2d756089b842e906cfa051cc09cfcb19d99a0ae6adde0803187cd66105",
+      "bytes": 15742,
+      "mode": 448
+    },
+    "supabase/migrations/20260805120000_android_fcm_push_delivery.sql": {
+      "sha256": "a55503587e7b3eb4d526e7a1f73192139924c1864574c8148c0f775e4c584999",
+      "bytes": 7751,
+      "mode": 448
+    },
+    "supabase/migrations/20260808093000_qualify_notification_token_digest.sql": {
+      "sha256": "973f188ef2ec501b99d566a54a097662b1ddad3c04c9a0f3ab1c43d565148f7f",
+      "bytes": 4081,
+      "mode": 448
+    },
+    "supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql": {
+      "sha256": "f1c013e177c019526d5563e9f43b3f0ab08b6db6fbad0cfa074b65ab1e9baa3d",
+      "bytes": 4034,
+      "mode": 448
+    },
+    "supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql": {
+      "sha256": "8ad44ca138acb5d8bfcf7269a657dfad6631283c6f040ebbbe54dfd64e4b75ac",
+      "bytes": 379,
+      "mode": 448
+    },
+    "supabase/migrations/20260812090000_expand_momo_pay_code_length.sql": {
+      "sha256": "57825be7ace6697e65c99a656dbfed27d2e1a23e3b8a7286033b83f3f65439aa",
+      "bytes": 324,
+      "mode": 448
+    },
+    "supabase/migrations/20260812100000_remove_developer_dummy_data.sql": {
+      "sha256": "d95feee59d42250263dd226635233020c8058cdfda3a62a2ed4ad6e19070d6f7",
+      "bytes": 1877,
+      "mode": 448
+    },
+    "supabase/migrations/20260812110000_correct_momo_merchant_ussd_template.sql": {
+      "sha256": "0dc071c91f78ba89685b278590c139ff0e5343c327fd86c3068097e7b4d37b13",
+      "bytes": 353,
+      "mode": 448
+    },
+    "supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql": {
+      "sha256": "ca586cfc047f82ecb6d295aac98d9bdf27dde97d12c9df720ddfcf5acfe14f93",
+      "bytes": 26679,
+      "mode": 448
+    },
+    "supabase/migrations/20260815051035_harden_group_creation_journey.sql": {
+      "sha256": "744559b547b41216fe63a64a1e1b3fecf1257db638eed7d82b60f02316a520eb",
+      "bytes": 32059,
+      "mode": 448
+    },
+    "supabase/migrations/20260815054500_close_group_journey_database_lint.sql": {
+      "sha256": "4c1e110c25050c70c6ad93c3ac0911cf53a685c9b654cc257ee0e217f732d609",
+      "bytes": 2674,
+      "mode": 448
+    },
+    "supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql": {
+      "sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5",
+      "bytes": 37822,
+      "mode": 448
+    },
+    "supabase/migrations/20260815071500_bind_contribution_payer_identity.sql": {
+      "sha256": "179e19fe32c66289f39b705ac9b3e4be50a41e43ca848b57b7a29799c224eebe",
+      "bytes": 7215,
+      "mode": 448
+    },
+    "supabase/migrations/20260815082500_close_group_authorization_privacy.sql": {
+      "sha256": "41d83acba9b9a6099ce4b5f0bb8abfcf81fea548f7ade5bfa4412ab1f73c83b6",
+      "bytes": 24637,
+      "mode": 448
+    },
+    "supabase/migrations/20260815083000_require_provider_finality.sql": {
+      "sha256": "705cc1ee3f93f115d1c5ae317c33a27a2c101960e112ada9848bd3e9c62ae780",
+      "bytes": 21205,
+      "mode": 448
+    },
+    "supabase/migrations/20260815083500_claim_sms_parser_work.sql": {
+      "sha256": "afaaf50c46bd57476e6be992444e8776c57518cdb073c3172d982ae0fb96b91c",
+      "bytes": 1882,
+      "mode": 448
+    },
+    "supabase/migrations/20260815084000_atomic_sms_ingestion.sql": {
+      "sha256": "4fca0fd430377a2b07dcc194130984d1f75e8c8ce0a46f9e2e4efdd01fae6b76",
+      "bytes": 3692,
+      "mode": 448
+    },
+    "supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql": {
+      "sha256": "9624c984e89aa74c425b7634749ab932c90e3012f26c31b34abdd9abd3fa2c22",
+      "bytes": 468,
+      "mode": 448
+    },
+    "supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql": {
+      "sha256": "50314aa658f05999d97c77c98f5b459914859b1bd804a4085066c57233f31daf",
+      "bytes": 5598,
+      "mode": 448
+    },
+    "supabase/migrations/20260820160000_restore_momo_sms_standalone.sql": {
+      "sha256": "f3d58a1d7256564d8d52664da0f8245319fdd1d8617edf8580695cf49e071703",
+      "bytes": 12869,
+      "mode": 448
+    },
+    "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql": {
+      "sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e",
+      "bytes": 141383,
+      "mode": 448
+    },
+    "supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql": {
+      "sha256": "f76b8c55a4fc8476f86ddf58e80af65fa760b8c6f6c71b9b55b0efb5262322cf",
+      "bytes": 272,
+      "mode": 448
+    },
+    "supabase/migrations/20260828100000_profile_country_session_independence.sql": {
+      "sha256": "1cf19565026272ee546d552c7104ba0569db3856601e1731ee96baf31fb86137",
+      "bytes": 12490,
+      "mode": 448
+    },
+    "supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql": {
+      "sha256": "e5ad27803b18e0f7d67334f9d88e3ead4743c5d04caf2e18824212d100c7ff4e",
+      "bytes": 5139,
+      "mode": 448
+    },
+    "supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql": {
+      "sha256": "ab0174eb5cef486205a6cd2b37099e005db02d42426ccabcb7f982b1b1ea1975",
+      "bytes": 27472,
+      "mode": 448
+    },
+    "supabase/migrations/20260831095454_collect_admin_operations_model.sql": {
+      "sha256": "63fab20f08c7b4689047359a0ccfd772e8ca319a5b962b295403acdcbaf67907",
+      "bytes": 40355,
+      "mode": 448
+    },
+    "supabase/migrations/20260901134820_platform_public_groups.sql": {
+      "sha256": "18c01a37f34d036f9e80dd990e81d11aa5b96803cdcbd65b77f96bc036035fcf",
+      "bytes": 23166,
+      "mode": 448
+    },
+    "supabase/migrations/20260901135728_public_group_directory.sql": {
+      "sha256": "276b73ef520778bbffc142d26afcafadf588ec516cad87b9da857e5e173b5279",
+      "bytes": 1602,
+      "mode": 448
+    },
+    "supabase/migrations/20260901141842_public_contribution_auto_membership.sql": {
+      "sha256": "e10a11b12b67a64709011f65e58bd5e94479fe1a25974f0265740a2f7183901f",
+      "bytes": 11371,
+      "mode": 448
+    },
+    "supabase/migrations/20260901160000_collect_admin_payee_management.sql": {
+      "sha256": "284bd6e5ca7fd6e6af62883003f08d682d6e202fe17ecf7ae665298ebb70853a",
+      "bytes": 13895,
+      "mode": 448
+    },
+    "supabase/migrations/20260901183000_admin_operations_tables.sql": {
+      "sha256": "1262be07c60d7863609be5baaf2ad2122b9865d679709dd6e82ed8754f664394",
+      "bytes": 15398,
+      "mode": 448
+    },
+    "supabase/migrations/20260901193000_admin_group_lifecycle.sql": {
+      "sha256": "709fced60f76b0b988ccd4b0280007e8bec667f33a2113960ca9fb008d9fa193",
+      "bytes": 10250,
+      "mode": 448
+    },
+    "supabase/migrations/20260901194500_admin_users_and_members.sql": {
+      "sha256": "1cd83f3b278d96afe8c36ce82e8f735912418690a974c4b62c8e1358b65e2322",
+      "bytes": 7943,
+      "mode": 448
+    },
+    "supabase/migrations/20260901200000_localize_public_group_payment_routes.sql": {
+      "sha256": "bdbca0a0b4c37ce3249542139c932de28c04dfdaf851898e931bc5f4d74d77c0",
+      "bytes": 3506,
+      "mode": 448
+    },
+    "supabase/migrations/20260901210000_admin_single_access_role.sql": {
+      "sha256": "0929ac6a97ba7e09e171a84cdb01d08d059b70dfd6f74fa8b423a1c2e0bb8137",
+      "bytes": 8882,
+      "mode": 448
+    },
+    "supabase/migrations/20260901220000_admin_country_scope_contract.sql": {
+      "sha256": "6628cbbea337cdc8e73b0350d529d8f81bc739a7875307d1d9d412886af4dfe7",
+      "bytes": 8768,
+      "mode": 448
+    },
+    "supabase/migrations/20260901223000_live_admin_uat_fixes.sql": {
+      "sha256": "046b25f35375b41cb6474cb56c9071b967e8267ca523fccd08b18bd96b8a8dce",
+      "bytes": 6286,
+      "mode": 448
+    },
+    "supabase/migrations/20260901230000_admin_people_detail_contract.sql": {
+      "sha256": "8d5aedc73b9da28b0c1e3217612316528a206b99adf7745d0f965321aace0ff7",
+      "bytes": 2228,
+      "mode": 448
+    },
+    "supabase/migrations/20260902073741_member_profile_numeric_identity.sql": {
+      "sha256": "03efe1a2cfbe4440f779b5b0c08e6cf058deaf01e2d0f957cd5709a5c01bc9d1",
+      "bytes": 5238,
+      "mode": 448
+    },
+    "supabase/migrations/20260902075721_member_collection_read_contract.sql": {
+      "sha256": "802155823f4d5153439ae74ee9d5a77884476e066daae8c0789a04d969073073",
+      "bytes": 2670,
+      "mode": 448
+    },
+    "supabase/migrations/20260902081017_hybrid_admin_overview_metrics.sql": {
+      "sha256": "a7b8db182ad9a35a8d92240e0336e2a88c51f1a48c3fa201e8cf6b53a2379bca",
+      "bytes": 1658,
+      "mode": 448
+    },
+    "supabase/migrations/20260902081830_member_profile_read_allowlist.sql": {
+      "sha256": "721f0aacbd48d0d38c8ffd4735ac7749667a5ef95746a0c8654b369e763eb9c0",
+      "bytes": 2250,
+      "mode": 448
+    },
+    "supabase/migrations/20260902083940_member_cross_rail_history.sql": {
+      "sha256": "1cca99ee25e732ac070e9ca43248d3f48685f168c0e15badda07b0bce0dc7af8",
+      "bytes": 8890,
+      "mode": 448
+    },
+    "supabase/migrations/20260902090210_member_group_owner_controls.sql": {
+      "sha256": "242d6dc4bb6f48c6320265658c5d3973f6d7577226aea2ae0438ac94c44bd241",
+      "bytes": 5745,
+      "mode": 448
+    },
+    "supabase/migrations/20260902091314_member_group_roster.sql": {
+      "sha256": "79196683ec664b2c02965cc1e9908405740793b3e808911a6707fe3f99a021b8",
+      "bytes": 4971,
+      "mode": 448
+    },
+    "supabase/migrations/20260902093609_member_history_query_plan.sql": {
+      "sha256": "0298cf1b8b9bcf6a15b3009794babd6e9e1c9bab1a5ea89cc670d78834c87b63",
+      "bytes": 3008,
+      "mode": 448
+    },
+    "supabase/migrations/20260902100046_member_bounded_history_pages.sql": {
+      "sha256": "2de5086715bd3edb95677521e2025f14bf60b2de7bda2b9ae51a3f2270f2e21c",
+      "bytes": 6934,
+      "mode": 448
+    },
+    "supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql": {
+      "sha256": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e",
+      "bytes": 5513,
+      "mode": 448
+    },
+    "supabase/migrations/20260902120555_hybrid_member_registry.sql": {
+      "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de",
+      "bytes": 17576,
+      "mode": 448
+    },
+    "supabase/migrations/20260902134420_member_add_group_admin.sql": {
+      "sha256": "df81a0a8e566d7c105192811d70d5484a4377ee1f4e0c4a0c1b205b66cd59c77",
+      "bytes": 3986,
+      "mode": 448
+    },
+    "supabase/migrations/20260902140151_platform_admin_whatsapp_approval.sql": {
+      "sha256": "2799ce6ed756cd121042a14f1ea51ea7b72642cbb1c1bd49f4029a320de70caf",
+      "bytes": 23489,
+      "mode": 448
+    },
+    "supabase/migrations/20260902212721_revoke_official_payee_trigger_execute.sql": {
+      "sha256": "2baccacc309c9a92ffa340f995bac16df61a9ad287fc9d1f78330f704d8e9a36",
+      "bytes": 270,
+      "mode": 448
+    },
+    "supabase/migrations/20260903083947_member_profile_rpc_only_writes.sql": {
+      "sha256": "76830e6a6dd32f1b708cefd986470f4b46ae50ad4cba31fca395a5bd1ff3287f",
+      "bytes": 1920,
+      "mode": 448
+    },
+    "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql": {
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "bytes": 97254,
+      "mode": 448
+    },
+    "supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql": {
+      "sha256": "dfa19ad7cde6ec400558bda9a8e5e068ee912d62f4e9f6dcc3b6d1ebd88023ac",
+      "bytes": 10024,
+      "mode": 448
+    },
+    "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql": {
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "bytes": 46086,
+      "mode": 448
+    },
+    "supabase/migrations/20260903090500_admin_sms_receipt_queue.sql": {
+      "sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a",
+      "bytes": 8291,
+      "mode": 448
+    },
+    "supabase/migrations/20260903091000_hybrid_verified_account_claim.sql": {
+      "sha256": "18e4c1ccb18d3d1ae80852ea5d173a0cd57722d7777a0adc824a8df347b5e980",
+      "bytes": 21643,
+      "mode": 448
+    },
+    "supabase/migrations/20260903091500_hybrid_member_directory_views.sql": {
+      "sha256": "34c2429840f7bed1999d86cac73e49c60ea5db9cebb047db3fef7ec06ee557e5",
+      "bytes": 16379,
+      "mode": 448
+    },
+    "supabase/migrations/20260903092000_admin_sms_receipt_failed_filter.sql": {
+      "sha256": "5a1a55f77f6f7a73eb4484a6312b20eee2cd33d3c2f27b7b0e7a64605a46b514",
+      "bytes": 411,
+      "mode": 448
+    },
+    "supabase/migrations/20260903092500_revoke_hybrid_internal_function_execute.sql": {
+      "sha256": "07c9c0897642c6c0df137c256ffa25e6bdcf754622e26a53ca33b09842766c79",
+      "bytes": 1032,
+      "mode": 448
+    },
+    "supabase/migrations/20260903200322_hybrid_directory_presentation.sql": {
+      "sha256": "2909300e938a4f09012e025c7d22136953ff53ffd9c4713662a9bc33ffc5c4c1",
+      "bytes": 9699,
+      "mode": 448
+    },
+    "supabase/migrations/20260903201326_geographic_member_profile_gates.sql": {
+      "sha256": "d97ff989a1fdcaac4cb8b5a2aacec68ea7bebeab196f77502c0c1fa93835333f",
+      "bytes": 20911,
+      "mode": 448
+    },
+    "supabase/migrations/20260906093000_member_profile_momo_code.sql": {
+      "sha256": "9953619c2d380fd3c45e8c375320a816fec09029d13202cd260c1be3d75f731f",
+      "bytes": 2790,
+      "mode": 448
+    },
+    "supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql": {
+      "sha256": "d63b3ea7a97b7f747bcfb12d1b2e44023fe70092d8d5414473fcef04d9696f89",
+      "bytes": 6047,
+      "mode": 448
+    },
+    "supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql": {
+      "sha256": "5b0322b195b6956b2aac600b00fae96834064e255d5b3473689fe75bdcdad285",
+      "bytes": 6013,
+      "mode": 448
+    },
+    "supabase/migrations/20260914213600_atomic_otp_rate_limit.sql": {
+      "sha256": "4bc8ec8276274a0b95fc3b782716c36a451f66a2688ac78874bb4315ff1da9d6",
+      "bytes": 2349,
+      "mode": 448
+    },
+    "supabase/migrations/20260925190000_rwanda_momo_only.sql": {
+      "sha256": "89953426da70529801848beb0db04699a0c37b2b82d6f8aaa98e8123b1201fd8",
+      "bytes": 21033,
+      "mode": 420
+    },
+    "supabase/migrations/20260928150000_relational_member_history_pages.sql": {
+      "sha256": "2294edc1c32cd3613e7b2654d1854daf27beaeab0a4c56ab16ce1920a8be9ff1",
+      "bytes": 16386,
+      "mode": 420
+    },
+    "supabase/migrations/20260928160000_sms_observation_never_settles.sql": {
+      "sha256": "2b71a2c88cdf873785280952baecf33ed46416832870970d0e745a375770e211",
+      "bytes": 1267,
+      "mode": 420
+    },
+    "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql": {
+      "sha256": "f7f644d1d3c129d1b89c658737760db2d86fcd9b78bcb43b8225eb4b67ff1182",
+      "bytes": 7620,
+      "mode": 420
+    },
+    "supabase/migrations/20260928171000_strict_intent_sms_match.sql": {
+      "sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0",
+      "bytes": 18378,
+      "mode": 420
+    },
+    "supabase/migrations/20260928172000_allow_incomplete_rwanda_onboarding_profile.sql": {
+      "sha256": "cd00aa5738b0fabff23a2b48cbf606d108c5a7f4b1f6f488459fcca26ce56021",
+      "bytes": 678,
+      "mode": 420
+    },
+    "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql": {
+      "sha256": "f91c7caa730da9022dfdc2ebfab9fa9d4fa8d32910a66b1d848b91a2cc8373d7",
+      "bytes": 4677,
+      "mode": 420
+    },
+    "supabase/migrations/20260929110000_admin_notification_page_before_delivery_counts.sql": {
+      "sha256": "03692c5da0e9bd3371a6530eb7876f8a658f088166d13936ee44d2c154063890",
+      "bytes": 3511,
+      "mode": 420
+    },
+    "supabase/migrations/20260929120000_provider_finality_payment_lock_order.sql": {
+      "sha256": "a3bc8db4dbd7ea70077e222d3639dc8e7a940ad1f9275160b6b29292431f9440",
+      "bytes": 4379,
+      "mode": 420
+    },
+    "supabase/migrations/20260929130000_provider_finality_content_binding.sql": {
+      "sha256": "96ac54d5084d42211296cc32351997a31817befa1d5f1e134429c429969c408c",
+      "bytes": 17791,
+      "mode": 420
+    },
+    "supabase/migrations/20260929140000_notification_delivery_fencing.sql": {
+      "sha256": "abbd69486171002e0ce6bcdc7046e0170e6412ec03b022c1127ef31cd6572275",
+      "bytes": 16708,
+      "mode": 420
+    },
+    "supabase/migrations/20260929150000_notification_retry_eligibility.sql": {
+      "sha256": "177b3242fc4a3c24ec7db8f2ef668dc125847b821ede8f6de032d75e6028ccfb",
+      "bytes": 2326,
+      "mode": 420
+    },
+    "supabase/migrations/20260929160000_notification_retry_schedule.sql": {
+      "sha256": "f19370b10ce41cce353ad0cd70c603482e0eeea301dcca18a4ca38565c6d6f19",
+      "bytes": 15133,
+      "mode": 420
+    },
+    "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql": {
+      "sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+      "bytes": 22307,
+      "mode": 420
+    },
+    "supabase/migrations/20260929180000_notification_registration_sessions.sql": {
+      "sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb",
+      "bytes": 45659,
+      "mode": 420
+    },
+    "supabase/migrations/20260930100000_roster_import_provenance.sql": {
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "bytes": 38882,
+      "mode": 420
+    },
+    "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql": {
+      "sha256": "5a7a4e7773b65e4fcf015ac079ea18d57cbe08d363bd8b07b87471018b941d85",
+      "bytes": 18239,
+      "mode": 420
+    },
+    "supabase/migrations/20260930120000_roster_import_reload_recovery.sql": {
+      "sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "bytes": 20025,
+      "mode": 420
+    },
+    "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql": {
+      "sha256": "7c3fb624d65a9d70b8503d8fd5c265a8d452242638129b6d30de557633bbebe5",
+      "bytes": 23142,
+      "mode": 420
+    },
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": {
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "bytes": 17752,
+      "mode": 420
+    },
+    "supabase/migrations/20260930150000_runtime_control_governance.sql": {
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "bytes": 63024,
+      "mode": 420
+    },
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": {
+      "sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+      "bytes": 12679,
+      "mode": 420
+    },
+    "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": {
+      "sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "bytes": 44807,
+      "mode": 420
+    },
+    "supabase/migrations/20260930180000_operational_health_authority.sql": {
+      "sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "bytes": 7435,
+      "mode": 420
+    },
+    "supabase/migrations/20260930200000_admin_automation_navigation.sql": {
+      "sha256": "86c2f4aba6c4a7f3007e08f86c41279eff101f7acf103456e1fc53211bf1d366",
+      "bytes": 817,
+      "mode": 420
+    },
+    "supabase/migrations/20260930210000_shadow_supervisor_runs.sql": {
+      "sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+      "bytes": 26516,
+      "mode": 420
+    },
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951,
+      "mode": 420
+    },
+    "supabase/migrations/20260930213000_operator_email_auth.sql": {
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "bytes": 20002,
+      "mode": 420
+    },
+    "supabase/migrations/20260930220000_runtime_control_authority.sql": {
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+      "bytes": 2971,
+      "mode": 420
+    },
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "bytes": 3921,
+      "mode": 420
+    },
+    "supabase/migrations/20260930230000_group_share_rotation_receipts.sql": {
+      "sha256": "cd03ad8b7715bcc70e62264fa806a1d97ebef88fad936607a29259ae4e11bf07",
+      "bytes": 9213,
+      "mode": 420
+    },
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "bytes": 37881,
+      "mode": 420
+    },
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "bytes": 3725,
+      "mode": 420
+    },
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "bytes": 11105,
+      "mode": 420
+    },
+    "supabase/migrations/20260930230400_admin_investigation.sql": {
+      "sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+      "bytes": 8376,
+      "mode": 420
+    },
+    "supabase/migrations/20260930233000_sensitive_admin_authority.sql": {
+      "sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+      "bytes": 12253,
+      "mode": 420
+    },
+    "supabase/migrations/20260930234000_exact_request_amounts.sql": {
+      "sha256": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+      "bytes": 6110,
+      "mode": 420
+    },
+    "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql": {
+      "sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+      "bytes": 21253,
+      "mode": 420
+    },
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": {
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+      "bytes": 5762,
+      "mode": 420
+    },
+    "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": {
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+      "bytes": 6841,
+      "mode": 420
+    },
+    "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql": {
+      "sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+      "bytes": 4233,
+      "mode": 420
+    },
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "bytes": 24054,
+      "mode": 420
+    },
+    "supabase/migrations/20261001000200_admin_gateway_reads.sql": {
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "bytes": 9012,
+      "mode": 420
+    },
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": {
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+      "bytes": 7090,
+      "mode": 420
+    },
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "bytes": 21394,
+      "mode": 420
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793,
+      "mode": 420
+    },
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": {
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+      "bytes": 10935,
+      "mode": 420
+    },
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": {
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+      "bytes": 14079,
+      "mode": 420
+    },
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": {
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+      "bytes": 3408,
+      "mode": 420
+    },
+    "supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql": {
+      "sha256": "2e36bc6083723b78dd82b4666ba7ca2f28e99c61d0554dd8a4c8b88492f61da0",
+      "bytes": 12356,
+      "mode": 420
+    },
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "bytes": 35488,
+      "mode": 420
+    },
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "mode": 420
+    },
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": {
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "bytes": 21389,
+      "mode": 420
+    },
+    "supabase/migrations/20261001130000_android_dispatch_authority.sql": {
+      "sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "bytes": 42033,
+      "mode": 420
+    },
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": {
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268,
+      "mode": 420
+    },
+    "supabase/migrations/20261001150000_receipt_exception_worker.sql": {
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "bytes": 19487,
+      "mode": 420
+    },
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": {
+      "sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+      "bytes": 25037,
+      "mode": 420
+    },
+    "supabase/migrations/20261001170000_android_attempt_archive.sql": {
+      "sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "bytes": 11348,
+      "mode": 420
+    },
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": {
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+      "bytes": 20563,
+      "mode": 420
+    },
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+      "bytes": 9247,
+      "mode": 420
+    },
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "bytes": 18961,
+      "mode": 420
+    },
+    "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql": {
+      "sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "bytes": 8005,
+      "mode": 420
+    },
+    "supabase/migrations/20261001220000_governed_settings_requests.sql": {
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e",
+      "bytes": 25667,
+      "mode": 420
+    },
+    "supabase/migrations/20261001230000_automatic_gateway_investigation.sql": {
+      "sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+      "bytes": 11344,
+      "mode": 420
+    },
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": {
+      "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "bytes": 22197,
+      "mode": 420
+    },
+    "supabase/seed.sql": {
+      "sha256": "c7e3a46469412e00d0a5a130fbaa3696fdcd9baf17dfa757237477efd9d380c8",
+      "bytes": 1652,
+      "mode": 448
+    },
+    "supabase/templates/collect_email_sign_in.html": {
+      "sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+      "bytes": 854,
+      "mode": 420
+    }
+  },
+  "linked_worktree_metadata_imported": false,
+  "known_follow_on_changes": "BE07 work may supersede this snapshot. Final delivery requires a fresh strict reviewed export matching final current source."
+}

@@ -1,0 +1,129 @@
+{
+  "attempts": {
+    "compile-attempt1": {
+      "elapsed_seconds": 271.61,
+      "exit_code": 1,
+      "receipt_sha256": "59a9e3911ea5f7b01393738042242c46c3657f3427dea43f1adcc9a7a9b229ee",
+      "runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+      "timed_out": false,
+      "transcript_sha256": "b937bf1d695c9adbf99d6dda47698f10cfbd021d1b8cf3ce3e22ace227d7cbf7"
+    },
+    "compile-attempt2": {
+      "elapsed_seconds": 560.13,
+      "exit_code": 0,
+      "receipt_sha256": "be2eaaa74fa4d23fc8c0afa009c55ca47f5c8a86eae2fe87a886c135c56f6a64",
+      "runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+      "timed_out": false,
+      "transcript_sha256": "cc59546fa3d420e18fec1303eec7493eec899809e6aa9c27e9415e08e60565bf"
+    },
+    "graph-compile-attempt1": {
+      "elapsed_seconds": 237.32,
+      "exit_code": 0,
+      "receipt_sha256": "249e56c6dfb49a28ebdf04b52c83c15950794e8a71566b6b16344de5555b727d",
+      "runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+      "timed_out": false,
+      "transcript_sha256": "11ff505a2b1af4ce3db2cbb9fef46457a15c9d1350ab721e24f902e035b0e022"
+    },
+    "graph-runtime-attempt1": {
+      "elapsed_seconds": 243.38,
+      "exit_code": 0,
+      "receipt_sha256": "786848df537d6987106b94bd2845c4de38031a1a0d4caf9e9687327680c9ed73",
+      "runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+      "timed_out": false,
+      "transcript_sha256": "92dd5023cac9aaf8d2a2d9dd0cf859281300ecad0e307371e2e1dfcf88d01cd0"
+    },
+    "resolution-attempt1": {
+      "elapsed_seconds": 345.74,
+      "exit_code": 143,
+      "receipt_sha256": "8f772897a4df056bba8887cef7e71ce6d1d7691cc57c49210e1218bccd33e54f",
+      "runner_sha256": null,
+      "timed_out": null,
+      "transcript_sha256": "1b38e6ec17d49f0102db2d88b03d58513a15e889b0ab71776b75232a9f599a15"
+    },
+    "resolve-compile-attempt2": {
+      "elapsed_seconds": 1200.04,
+      "exit_code": null,
+      "receipt_sha256": "af648ffe60ddf19361778daf40b82c2d446d132a7e6f7b56fc15c4645dfa460d",
+      "runner_sha256": "d5855735f7c808cdbfffbad58ebe8c0cb890f26b440a5e065f1d507dd8d72fae",
+      "timed_out": true,
+      "transcript_sha256": "a05dc21a626844b96285bfd29ba4671f908b72430f0c9c3ee63e2e75f37f8b57"
+    },
+    "resolve-compile-attempt3": {
+      "elapsed_seconds": 1800.05,
+      "exit_code": null,
+      "receipt_sha256": "8fde97894d3f729a4af43ae63e7978506db672bf0adbc3dd7cf05b3f8f6ee903",
+      "runner_sha256": "3da8d6c6aae368e17511102d7f6226db96a6edfdd51617fa262e4fcf8f4fab35",
+      "timed_out": true,
+      "transcript_sha256": "1a9668c5fca8d1ebc5f62d90523a3c22498909129da889804e1a3e57d1e66008"
+    },
+    "resolve-compile-attempt4": {
+      "elapsed_seconds": 695.01,
+      "exit_code": 0,
+      "receipt_sha256": "21b8f1d2681a049900eef8fc5777c68504bc88a84f6881fc85e3eabe5e93d2e3",
+      "runner_sha256": "8d217815cc37a68a54b6ff6e4044786f5b3e67c0cf19a56c683b3a8661f7e1b9",
+      "timed_out": false,
+      "transcript_sha256": "4a6de180a715d36082c109509c1895ebbfdfe53f2b18c3922a5efdaeebb57700"
+    },
+    "resolve-runtime-attempt1": {
+      "elapsed_seconds": 142.36,
+      "exit_code": 0,
+      "receipt_sha256": "f45d4e5d5ee3e552368a93f2fe5e03463d48ece5f823f2465b3b7c0953867b27",
+      "runner_sha256": "8d217815cc37a68a54b6ff6e4044786f5b3e67c0cf19a56c683b3a8661f7e1b9",
+      "timed_out": false,
+      "transcript_sha256": "f547743cb3e93e252bbe7bc1365524727fa4d82ec65b6ebad3b68a607884bb6b"
+    },
+    "sdk-runtime-attempt1": {
+      "elapsed_seconds": 130.91,
+      "exit_code": 0,
+      "receipt_sha256": "962e4b92fbed0081238e31fdc556c27223e73537aa98bf5d4c4c8e3f4bec9e2d",
+      "runner_sha256": "8d217815cc37a68a54b6ff6e4044786f5b3e67c0cf19a56c683b3a8661f7e1b9",
+      "timed_out": false,
+      "transcript_sha256": "b5e8236e244d45bf212b26b9c1f3ae3c6c670d05b638e6874acf7fcd2e620e1e"
+    },
+    "unit-attempt1": {
+      "elapsed_seconds": 726.84,
+      "exit_code": 0,
+      "receipt_sha256": "5e35f5b9469d51232569647e0f3ed3f43bf44dc5576b6c415e74fd1da76981cc",
+      "runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+      "timed_out": false,
+      "transcript_sha256": "4ee33511749dfe4bea168ec36a2e4966aa8a4df95583838a2482389fcb7467c3"
+    }
+  },
+  "native_compile_output_observation_sha256": "bb642c62a4f1a4641c1c24f744504f31f0180a3548ab70579a26e8b360d0b469",
+  "native_unit_result_sha256": "91d9cf2e19f29ee051aa172cf9a1574891f23a064833fd18db740be4e10fa5f5",
+  "native_unit_totals": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "owned_source_sha256": {
+    "android/app/build.gradle.kts": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+    "android/app/gradle.lockfile": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+    "android/settings.gradle.kts": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/COLLECT_FORK_DELTA.json": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+    "third_party/file_saver/android/build.gradle": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+  },
+  "production_release_approval": false,
+  "remaining": [
+    "Installed Flutter included build still applies KGP2.2.20 and resolves KGP2.0.0 runtime; both are outside repository pin remediation.",
+    "Later independent current Dart/startup/gateway source is outside retained native snapshot.",
+    "Retained native warnings and future DSL/Gradle migration need separate review.",
+    "Complete advisory/license/rights, signed artifacts, device/provider/store and production approval remain separate."
+  ],
+  "reviewed_fork_delta_sha256": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+  "reviewed_lock_sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+  "scope": "Scoped authenticated KGP2.4.20 declaration/fork remediation, strict controlled graphs, real native Kotlin compilation and 12 production-debug JVM units on the retained frozen source. Not full ARC09 or current product/release acceptance.",
+  "selected_source_drift": [],
+  "source_input_count": 752,
+  "source_input_map_sha256": "0d0a826c48f5edb99b289982260bd11cb99f81dfad8b21efd9ef80ba253fb3fc",
+  "status": "SCOPED_NATIVE_CHECKS_PASS_FULL_ARC09_OPEN",
+  "strict_graph_sha256": {
+    "production-compile-graph.json": "d8177619befcfb5bb8b735d6dc46c19f7a53264cf92fb9e65a1da85fb3199495",
+    "production-runtime-graph.json": "5bdf562379c6473353d1e71c9509c988b54abc8d5fbf7f4772d6945325a4f00a",
+    "sdk-runtime-graph.json": "36942628728766688c70164a93f3c4cde118d71775512322dd9effc7e1d3fd6e"
+  }
+}

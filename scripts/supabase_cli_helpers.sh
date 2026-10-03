@@ -1,41 +1,70 @@
 #!/usr/bin/env bash
 
+COLLECT_SUPABASE_CLI_PIN_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.supabase-cli-version"
+
 supabase_cli() {
+  local required_version candidate actual_version
+  if [[ ! -f "$COLLECT_SUPABASE_CLI_PIN_FILE" || -L "$COLLECT_SUPABASE_CLI_PIN_FILE" ]]; then
+    printf '[supabase-cli][FAIL] Missing regular repository CLI version pin.\n' >&2
+    return 1
+  fi
+  required_version="$(cat "$COLLECT_SUPABASE_CLI_PIN_FILE")"
+  if [[ ! "$required_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    printf '[supabase-cli][FAIL] Repository CLI version pin must be an exact release version.\n' >&2
+    return 1
+  fi
+
   if [[ -n "${SUPABASE_BIN:-}" ]]; then
-    "$SUPABASE_BIN" "$@"
+    candidate="$SUPABASE_BIN"
   elif command -v supabase >/dev/null 2>&1; then
-    supabase "$@"
+    candidate="$(command -v supabase)"
   elif [[ -x /usr/local/bin/supabase ]]; then
-    /usr/local/bin/supabase "$@"
+    candidate=/usr/local/bin/supabase
   elif [[ -x /opt/homebrew/bin/supabase ]]; then
-    /opt/homebrew/bin/supabase "$@"
-  elif command -v npx >/dev/null 2>&1; then
-    npx -y supabase "$@"
-  elif command -v pnpm >/dev/null 2>&1; then
-    pnpm --silent dlx supabase@latest "$@"
+    candidate=/opt/homebrew/bin/supabase
   else
-    printf '[supabase-cli][FAIL] Missing required command: supabase. Install the Supabase CLI, expose npx/pnpm, or provide SUPABASE_BIN.\n' >&2
-    exit 1
+    printf '[supabase-cli][FAIL] Install Supabase CLI %s on PATH or set SUPABASE_BIN. Automatic downloads are disabled.\n' "$required_version" >&2
+    return 1
+  fi
+
+  # Check the executable selected by the caller before any project operation.
+  # Do not print raw version output: an invalid wrapper may return sensitive data.
+  if ! actual_version="$("$candidate" --version 2>/dev/null)"; then
+    printf '[supabase-cli][FAIL] Selected CLI does not report its version.\n' >&2
+    return 1
+  fi
+  actual_version="${actual_version%$'\r'}"
+  if [[ "$actual_version" != "$required_version" ]]; then
+    printf '[supabase-cli][FAIL] Selected CLI does not match repository version %s.\n' "$required_version" >&2
+    return 1
+  fi
+  "$candidate" "$@"
+}
+
+# The reviewed PostgreSQL binding chooses one exact local executable. No
+# override/PATH/Homebrew/installer fallback is admitted by this helper.
+psql_cli() {
+  local admission_module
+  admission_module="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/qa/postgres_admission.py"
+  if [[ "$#" == "1" && ( "$1" == "--version" || "$1" == "-V" ) ]]; then
+    python3 -B "$admission_module" local
+  else
+    python3 -B "$admission_module" psql -- "$@"
   fi
 }
 
-psql_cli() {
-  local pgconnect_timeout="${PGCONNECT_TIMEOUT:-15}"
-  if [[ -n "${PSQL_BIN:-}" ]]; then
-    PGCONNECT_TIMEOUT="$pgconnect_timeout" "$PSQL_BIN" "$@"
-  elif command -v psql >/dev/null 2>&1; then
-    PGCONNECT_TIMEOUT="$pgconnect_timeout" psql "$@"
-  elif [[ -x /usr/local/bin/psql ]]; then
-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /usr/local/bin/psql "$@"
-  elif [[ -x /opt/homebrew/bin/psql ]]; then
-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /opt/homebrew/bin/psql "$@"
-  elif [[ -x /Library/PostgreSQL/15/bin/psql ]]; then
-    PGCONNECT_TIMEOUT="$pgconnect_timeout" /Library/PostgreSQL/15/bin/psql "$@"
-  else
-    printf '[supabase-cli][FAIL] Missing required command: psql. Install PostgreSQL client tools or provide PSQL_BIN.\n' >&2
-    exit 1
-  fi
+# Private proposal: the caller must provide its separately reviewed Python
+# runtime and archive manifest/operation bindings. No executable discovery.
+collect_pg_archive() {
+  local archive_python archive_module
+  archive_python="${COLLECT_POSTGRES_ARCHIVE_PYTHON:?approved absolute Python path is required}"
+  [[ "$archive_python" == /* && -x "$archive_python" ]] || return 1
+  archive_module="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/qa/pg_archive_admission.py"
+  "$archive_python" -I -B "$archive_module" "$@"
 }
+
+pg_dump_cli() { collect_pg_archive dump -- "$@"; }
+pg_restore_cli() { collect_pg_archive restore -- "$@"; }
 
 # curl's -H option exposes bearer and hook secrets in the process argument list.
 # Keep the header in a short-lived, owner-only config file; callers must pass
@@ -77,9 +106,10 @@ collect_pg_url_service() (
   local client="${2:?PostgreSQL client is required}"
   shift 2
   umask 077
-  local service_file password_file
-  service_file="$(mktemp)"
-  password_file="$(mktemp)"
+  local service_file password_file pg_temp_dir
+  pg_temp_dir="$(cd "${TMPDIR:-/tmp}" && pwd -P)"
+  service_file="$(mktemp "$pg_temp_dir/collect-pg-service.XXXXXXXX")"
+  password_file="$(mktemp "$pg_temp_dir/collect-pg-password.XXXXXXXX")"
   chmod 600 "$service_file"
   chmod 600 "$password_file"
   local cleanup_command
@@ -250,7 +280,8 @@ RUBY
     body="$(ruby - "$migration_path" <<'RUBY'
 path = ARGV.fetch(0)
 sql = File.read(path, mode: "r:BOM|UTF-8")
-sql = sql.sub(/\Abegin\s*;\s*/i, "")
+# Preserve leading line comments while removing the outer transaction wrapper.
+sql = sql.sub(/\A((?:\s+|--[^\r\n]*(?:\r?\n|\z))*)begin\s*;\s*/i, '\1')
 sql = sql.sub(/\s*commit\s*;\s*\z/i, "")
 abort("Migration still contains a transaction terminator after normalization: #{path}") if sql.match?(/(^|\n)\s*(begin|commit)\s*;/i)
 print sql.rstrip

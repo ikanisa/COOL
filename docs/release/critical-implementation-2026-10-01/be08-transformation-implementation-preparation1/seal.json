@@ -1,0 +1,59 @@
+{
+  "body_reconstruction_performed": false,
+  "format": "be08-private-transformation-preparation-seal-v1",
+  "implementation_applied": false,
+  "maintained_or_previous_sealed_packet_mutations": 0,
+  "payload_file_count": 9,
+  "payload_files": [
+    {
+      "bytes": 6274,
+      "path": "README.md",
+      "sha256": "8a0d4e8899a02e2c70c275f6e2d5dc0c0069022993bb8b35defef919986452b3"
+    },
+    {
+      "bytes": 67708,
+      "path": "collect_schema_domain_map.py.proposed",
+      "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2"
+    },
+    {
+      "bytes": 42318,
+      "path": "collect_schema_domain_map_test.py.proposed",
+      "sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82"
+    },
+    {
+      "bytes": 11702,
+      "path": "mapper-fragment.py",
+      "sha256": "b2deb688af445cc182881a431e4dac96174ba9a0f402dec804980aa08381199d"
+    },
+    {
+      "bytes": 27890,
+      "path": "proposal.patch",
+      "sha256": "66cd948f25e182b6717cc7df7b1aaa0f9228d415d37c04141db7203c058de270"
+    },
+    {
+      "bytes": 8492,
+      "path": "source-fences.json",
+      "sha256": "394a4453da700d4703b651bf2ade852c9fe58030b544e6eb10df001a79398d90"
+    },
+    {
+      "bytes": 1290,
+      "path": "syntax-receipt.json",
+      "sha256": "a974eb8632a2f234f0397f670dfd19e781eaca106d2b41377ffc5dc857b27f43"
+    },
+    {
+      "bytes": 4035,
+      "path": "test-plan.md",
+      "sha256": "0cc56e0a94fec9143084c64a10546d8e584645d151ad589d10c536ee6a5d7c89"
+    },
+    {
+      "bytes": 11260,
+      "path": "tests-fragment.py",
+      "sha256": "157487e9131eb88d5db3e36be309fa1e6ef054ccbd946052e06403e7dd8fcfc1"
+    }
+  ],
+  "preparation_only": true,
+  "sealed_utc": "2026-10-02T12:49:41.012674+00:00",
+  "source_fences_equal_at_seal": true,
+  "source_or_acceptance_gaps_closed": 0,
+  "tests_or_mapper_executed": false
+}

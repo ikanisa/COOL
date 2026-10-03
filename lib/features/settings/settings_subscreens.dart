@@ -11,6 +11,7 @@ import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../status/native_permission_sheets.dart';
+import 'security_hub_header.dart';
 
 class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
@@ -340,10 +341,7 @@ class SecuritySettingsScreen extends ConsumerWidget {
       title: 'Security',
       showHeader: false,
       compact: true,
-      topChrome: const _SettingsSubpageHeader(
-        title: 'Security',
-        icon: CollectIcons.shield,
-      ),
+      topChrome: SecurityHubHeader(onBack: () => goBackOrHome(context)),
       children: [
         const InfoSecurityBanner(
           title: 'Approve payments in MoMo',

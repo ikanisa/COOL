@@ -1,0 +1,9 @@
+Looking in links: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels
+Processing ./.cache/decoder-dependency-batch1/wheels/defusedxml-0.7.1-py2.py3-none-any.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 1))
+Processing ./.cache/decoder-dependency-batch1/wheels/et_xmlfile-2.0.0-py3-none-any.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 2))
+Processing ./.cache/decoder-dependency-batch1/wheels/openpyxl-3.1.5-py2.py3-none-any.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 3))
+Processing ./.cache/decoder-dependency-batch1/wheels/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 4))
+Processing ./.cache/decoder-dependency-batch1/wheels/pypdf-6.19.0-py3-none-any.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 5))
+Processing ./.cache/decoder-dependency-batch1/wheels/pypdfium2-5.2.0-py3-none-macosx_11_0_arm64.whl (from -r /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock (line 6))
+Installing collected packages: pypdfium2, pypdf, Pillow, et-xmlfile, defusedxml, openpyxl
+Successfully installed Pillow-12.3.0 defusedxml-0.7.1 et-xmlfile-2.0.0 openpyxl-3.1.5 pypdf-6.19.0 pypdfium2-5.2.0

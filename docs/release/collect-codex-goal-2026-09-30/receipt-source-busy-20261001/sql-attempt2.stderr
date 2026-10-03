@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 152, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 129, in main
+    case(name+' contention returns bounded false SOURCE_BUSY before immutable writes',r==dict(ok=False,code='SOURCE_BUSY',business_handled=False,receipt_id=None)and elapsed<1 and no_job())
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/receipt_source_busy_uat.py", line 45, in case
+    if not ok:raise AssertionError(name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: policy contention returns bounded false SOURCE_BUSY before immutable writes

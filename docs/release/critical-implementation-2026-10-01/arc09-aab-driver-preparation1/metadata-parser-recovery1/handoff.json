@@ -1,0 +1,41 @@
+{
+  "ARC09_closed": false,
+  "actual_driver_executed_here": false,
+  "directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1",
+  "driver": {
+    "bytes": 53481,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/run_selected_aab.py",
+    "sha256": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83"
+  },
+  "focused_tests_result": {
+    "bytes": 2146,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/submitted-fixture-tests-result.json",
+    "sha256": "036d1dbd8596e00b9a1687b848dc1c7a1dff5a2caafcbe8f3be778ffab573542"
+  },
+  "input_fences": {
+    "bytes": 6625,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/input-fences.json",
+    "sha256": "fc62771bbafb52c15791eb420aedd13a0ef5c8a9aec6cf0f0894de228fdfbffe"
+  },
+  "old_failed_driver_unchanged": true,
+  "old_successful_runtime_graph_reused_not_rerun": true,
+  "production_release_approval": false,
+  "review": {
+    "bytes": 3605,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/review.json",
+    "sha256": "5a800e555c0302e9455cad4c3ffd6cd9c786188dcebabf0a9457c8b60c2c726c"
+  },
+  "root_admission": {
+    "bytes": 8086,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/root-admission-template.json",
+    "sha256": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384"
+  },
+  "root_execution_owner": true,
+  "schema_version": 1,
+  "status": "tested-private-recovery-proposal"
+}

@@ -683,14 +683,18 @@ class _AdminRosterImportDialogState extends State<AdminRosterImportDialog> {
 
 Future<AdminRosterCommit?> showAdminRosterImport(
   BuildContext context,
-  AdminRosterDraft draft,
-) async {
+  AdminRosterDraft draft, {
+  Widget Function(BuildContext, Widget)? dialogWrapper,
+}) async {
   final previousFocus = FocusManager.instance.primaryFocus;
   final result = await showDialog<AdminRosterCommit>(
     context: context,
     barrierDismissible: false,
     animationStyle: CollectMotion.animationStyle(context),
-    builder: (_) => AdminRosterImportDialog(draft: draft),
+    builder: (dialogContext) {
+      final child = AdminRosterImportDialog(draft: draft);
+      return dialogWrapper?.call(dialogContext, child) ?? child;
+    },
   );
   if (previousFocus?.context != null && previousFocus!.canRequestFocus) {
     previousFocus.requestFocus();

@@ -1,0 +1,85 @@
+--- a/scripts/qa/current_browser_lifecycle.mjs
++++ b/scripts/qa/current_browser_lifecycle.mjs
+@@ -57,7 +57,7 @@
+   sources_before: await snapshot(), source_root: root, build_root: buildRoot,
+   executing_harness_sha256: hash(await readFile(fileURLToPath(import.meta.url))),
+   executing_fixture_sha256: hash(await readFile(join(workspaceRoot, 'scripts/qa/local_browser_api_fixture.mjs'))),
+-  commands: [], checks: [], route_states: [], errors: [], blocked_outbound_requests: [],
++  commands: [], checks: [], route_states: [], errors: [], blocked_outbound_requests: [], driver_editor_focus: [],
+   database_calls: 0, hosted_calls: 0, provider_calls: 0,
+   coverage: { email_sign_in: false, reference_only_storage: false, reload_requires_sign_in: false,
+     tabs_do_not_adopt_sign_in: false, legacy_broadcast_refused: false, mismatched_departure_refused: false,
+@@ -120,15 +120,18 @@
+     .some(element => ((element.getAttribute('aria-label') || '') + ' ' + (element.textContent || '')).includes(value)), text, { timeout: 30000 });
+ }
+ async function enter(page, label, value) {
++  await page.bringToFront();
+   const field = page.getByRole('textbox', { name: label, exact: true });
+   // Flutter creates a focused native editor after the semantics tap. Its
+   // overlay has a different accessibility node; bind focus to this geometry.
+   const bounds = await field.boundingBox();
+   if (!bounds) throw Error('Synthetic browser editor has no bounds: ' + label);
+-  await field.click();
++  await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
++  // DOM semantics focus can precede Flutter's frame that activates input handlers.
++  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+   await page.waitForFunction(({ bounds, multiline }) => {
+     const active = document.activeElement;
+-    if (!active || !['INPUT', 'TEXTAREA'].includes(active.tagName)
++    if (!document.hasFocus() || !active || !['INPUT', 'TEXTAREA'].includes(active.tagName)
+       || (multiline && active.tagName !== 'TEXTAREA')) return false;
+     const rect = active.getBoundingClientRect();
+     const x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
+@@ -137,7 +140,17 @@
+   }, { bounds, multiline: value.includes('\n') });
+   await page.keyboard.press('Meta+A');
+   await page.keyboard.insertText(value);
+-  await page.waitForFunction(value => document.activeElement?.value === value, value);
++  try {
++    await page.waitForFunction(value => document.activeElement?.value === value, value);
++  } finally {
++    report.driver_editor_focus.push(await page.evaluate(({ label, value }) => {
++      const active = document.activeElement;
++      return { label, expected_length: value.length, tag: active?.tagName,
++        aria_label: active?.getAttribute('aria-label'), document_has_focus: document.hasFocus(),
++        native_value_length: active?.value?.length, exact_native_value: active?.value === value,
++        route: location.hash };
++    }, { label, value }));
++  }
+ 
+ }
+ async function activate(page, role, name) {
+@@ -201,7 +214,7 @@
+         'scripts/templates/admin_pwa_service_worker.js'].includes(name);
+     const now = await snapshot();
+     check('retained-build-compiler-inputs-unchanged', Object.entries(retainedReport.sources_before)
+-      .filter(([name]) => compiledInput(name)).every(([name, digest]) => now[name] === digest)
++      .every(([name, digest]) => now[name] === digest)
+       && retainedReport.source_inputs_stable === true && retainedReport.admin_origin === origin);
+     const priorOutput = dirname(resolve(retainedReportPath));
+     for (const name of ['flutter-runtime', 'email-fixture-boundaries', 'worker-cache-regression', 'bundle-gate-regression', 'admin-build']) {
+@@ -230,7 +243,23 @@
+   }, buildRoot);
+   active = join(output, 'admin-build'); await cp(join(buildRoot, 'build/web'), active, { recursive: true });
+   }
+-  await run('public-build', 'ruby', ['scripts/public_static_site_build.rb'], { PUBLIC_BUILD_DIR: join(output, 'public-build') });
++  if (retainedReport) {
++    const priorOutput = dirname(resolve(retainedReportPath));
++    await cp(join(priorOutput, 'public-build'), join(output, 'public-build'), { recursive: true });
++    const command = retainedReport.commands.find(value => value.name === 'public-build');
++    if (!command || command.exit_code !== 0) throw Error('Retained Public build receipt missing');
++    for (const stream of ['stdout', 'stderr']) {
++      const bytes = await readFile(join(priorOutput, 'public-build.' + stream));
++      if (hash(bytes) !== command[stream + '_sha256']) throw Error('Retained Public build log changed');
++      await writeFile(join(output, 'public-build.' + stream), bytes);
++    }
++    const retainedPublic = await hashes(join(output, 'public-build'));
++    if (JSON.stringify(retainedPublic) !== JSON.stringify(retainedReport.artifacts.public)) throw Error('Retained Public artifact changed');
++    report.commands.push({ ...command, reused_from: retainedReportPath });
++    report.retained_public_bundle = { report: retainedReportPath, artifacts: retainedPublic };
++  } else {
++    await run('public-build', 'ruby', ['scripts/public_static_site_build.rb'], { PUBLIC_BUILD_DIR: join(output, 'public-build') });
++  }
+   const publicBuild = join(output, 'public-build');
+   publicServer = createServer((request, response) => serve(request, response, publicBuild, false).catch(error => {
+     report.errors.push('Public server: ' + error.message); response.writeHead(500); response.end();

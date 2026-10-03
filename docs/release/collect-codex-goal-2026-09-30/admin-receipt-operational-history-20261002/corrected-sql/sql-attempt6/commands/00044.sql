@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select jsonb_agg(column_name order by ordinal_position)from information_schema.columns where table_schema='collect_hybrid' and table_name='momo_balance_snapshots';

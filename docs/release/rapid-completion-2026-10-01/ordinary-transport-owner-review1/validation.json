@@ -1,0 +1,60 @@
+{
+  "status": "pass",
+  "scope": "Finite ordinary-owner prerequisite proposal and50ACL-tail cases; no full migration185 acceptance",
+  "completed_at": "2026-10-01T13:29:27.846617+00:00",
+  "cases_passed": 50,
+  "actual_direct_role_denials": 30,
+  "earlier_failed_command_accepted_prefix_controls": 20,
+  "source_before": {
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": "e3e1e56a32160db25d903d6cb436279c47e684b1b7e594ff342071e9882c1096",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "scripts/tests/current_ordinary_installer_rehearsal.py": "3ddb6929f46dda6aa3204e5babf401696fac74c2fb3c87055375701de1b9fb1d",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "source_at_packaging": {
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "scripts/tests/current_ordinary_installer_rehearsal.py": "c00f627704762d92632b9de9bb8f9fc0a8e233efbb6204310598c1bfeac5e3a6",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "source_unchanged_during_probe": true,
+  "source_drift_after_probe": [
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+    "scripts/tests/current_ordinary_installer_rehearsal.py"
+  ],
+  "migration_at_packaging_matches_proposal": true,
+  "proposal_inputs_unchanged_during_probe": true,
+  "owned_container_removed": true,
+  "shared_database_written": false,
+  "application_sources_changed_by_this_lane": false,
+  "shared_platform_role_memberships_changed": false,
+  "http_function_called": false,
+  "provider_or_hosted_called": false,
+  "live_handles": [],
+  "artifacts": {
+    "proposed-migration.diff": "6c469123b92846c97b07af112302f28bb9f05e8b373f510a702b3d1d40e6921d",
+    "proposed-migration.sql": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "proposed-platform-prerequisites.sql": "a3e7436bf9664e6b585d295e2345a66a6f9dd30aa08fb703c71920b5b25cdf7f",
+    "proposed-installer.diff": "8a2818703f1be682a22be82c32f2e940425fc3ad2d1b8d464bb7ed90ecff9416",
+    "proposed-installer.py": "b984b24243b77ea4b0e6ff1ec3a6f0c90ce8717cabd85999ff7a00a9c60cae01",
+    "candidate-validator.sql": "781ffe19a45ae048f1de2cf050d781588b5f910974139261271a4c335be813c7",
+    "candidate-index-preflight.sql": "cf4464282b3831dfe0177d317b443c6f9bb96e430d1e92255a781e545e8b734f",
+    "acl_tail_probe.py": "bcbdc5dd4c1594710e41d7122f0d476b6aaf470aadb704bea885655a41f2579b",
+    "acl-tail-result.json": "742d61c3bd1322e5623a2ac27f15c4c711197dba2d2cbeb0be01807c4b3efc58",
+    "acl-tail-probe.log": "23962f74f25d4bf5ed722bd10a355575b80eae7a172b4e06c373d4624035109f",
+    "acl_tail_owned_probe/queries.sql": "4d81bd636065dc19ce4e0a1691165f71997b0d372434e16ce3828b59fac10ef4",
+    "acl_tail_owned_probe/queries.log": "3835e6ac9967b58f1b58914a0d2c1454bedf807f9e35811833ca3d3b645671f6",
+    "retained-platform-readonly-catalog.log": "bc2d82676756c58aab9b4fc7c77a65838b90e48850f668c6d89a37a2bed60b39",
+    "retained-platform-worker-readonly-catalog.log": "4536528fd90344ca7e746b2b8202ee49e6d25056cc99bdd211a074168c752c87",
+    "retained-platform-reader-readonly-catalog.log": "dec546c914df9ccce5e1f5461d5075f4bb924dd48732fde77c90d8deefa8edc0",
+    "README.md": "7b5dc17f0bd0808ba3ab9444a3458fdddff7d8ee5d4151df38f9c4bf2565daa5"
+  },
+  "limits": [
+    "No full16:00migration/ordinary185 replay",
+    "Retained postgres effective inherited pg_read_all_data remains; only direct ACL is normalized to seven SELECT columns",
+    "Fresh clone models retained platform trusted definer metadata explicitly",
+    "Worker identity/ownership/liveness preserved; no HTTP enqueue/delivery test",
+    "Actual anon/authenticated/service_role database ACL proof; not Auth/JWT/browser proof",
+    "Active source changed after terminal probe; packaging readback is separate from proof inputs"
+  ]
+}

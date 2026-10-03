@@ -1,0 +1,57 @@
+--- attempt2/lib/app/router.dart
++++ attempt3/lib/app/router.dart
+@@ -1,5 +1,6 @@
+ import 'package:flutter/cupertino.dart';
+ import 'package:flutter/material.dart';
++import 'package:flutter/scheduler.dart';
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
+ import 'package:go_router/go_router.dart';
+ 
+@@ -550,7 +551,30 @@
+ }
+ 
+ class _CollectRouterRefresh extends ChangeNotifier {
+-  void notify() => notifyListeners();
++  bool _scheduled = false;
++  bool _disposed = false;
++
++  void notify() {
++    if (_disposed) return;
++    if (SchedulerBinding.instance.schedulerPhase ==
++        SchedulerPhase.persistentCallbacks) {
++      if (_scheduled) return;
++      _scheduled = true;
++      WidgetsBinding.instance.addPostFrameCallback((_) {
++        _scheduled = false;
++        if (!_disposed) notifyListeners();
++      });
++      WidgetsBinding.instance.ensureVisualUpdate();
++      return;
++    }
++    notifyListeners();
++  }
++
++  @override
++  void dispose() {
++    _disposed = true;
++    super.dispose();
++  }
+ }
+ 
+ enum _CollectRouteTransition {
+--- attempt2/lib/shared/widgets/screen_scaffold.dart
++++ attempt3/lib/shared/widgets/screen_scaffold.dart
+@@ -41,7 +41,12 @@
+ 
+   @override
+   Widget build(BuildContext context, WidgetRef ref) {
+-    final offlineSnapshot = ref.watch(offlineSnapshotStatusProvider);
++    final offlineSnapshot = ref.watch(
++      offlineSnapshotStatusProvider.select(
++        (status) =>
++            (usingStaleCache: status.usingStaleCache, label: status.label),
++      ),
++    );
+     final stalePill = offlineSnapshot.usingStaleCache
+         ? Semantics(
+             liveRegion: true,

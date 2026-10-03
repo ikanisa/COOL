@@ -1,0 +1,24 @@
+{
+  "scope": "local Admin worker transport SDK/dialog, health, Automations and receipt deferral integration",
+  "accepted_flutter_cases": 130,
+  "transport_sdk_widget_cases": 31,
+  "health_cases": 32,
+  "automations_cases": 12,
+  "deferral_cases": 55,
+  "captured_inputs": 2531,
+  "source_copies": 338,
+  "unchanged_inputs": true,
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "full_candidate_regression": false,
+  "visual_comparator_accepted": false,
+  "actual_reader_accepted": false,
+  "remaining": [
+    "operational run/event/principal views and joined audit",
+    "automatic Gateway attempt/arm/callback/archive investigation and permitted recovery",
+    "versioned governed settings and exception selection/deadline/pagination",
+    "full candidate replay, regression, artifacts, supply chain and recovery",
+    "hosted Auth/operator/RPC and actual Android/carrier acceptance"
+  ],
+  "sole_authority_hygiene": "passed"
+}

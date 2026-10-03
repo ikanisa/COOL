@@ -1,0 +1,29 @@
+{
+  "status": "fail",
+  "tool_sessions": [
+    80770
+  ],
+  "tool_chunks": [
+    "b01220",
+    "a0a8d8"
+  ],
+  "passed": 72,
+  "failed": 2,
+  "source_before_hashes_captured": false,
+  "full_transcript_saved": false,
+  "observed_failures": [
+    {
+      "test": "guarded adoption synchronously installs and publishes new ordinary member SID",
+      "error": "Bad state: No element at events.single",
+      "cause": "New ReplaySubject subscription initial replay not drained before event assertion",
+      "repair": "Drain initial replay; assert actual active synchronous event then."
+    },
+    {
+      "test": "late OTP verification after logout never replaces current Auth",
+      "error": "AuthRetryableFetchException from synthetic mock refusing /logout",
+      "cause": "The actual pinned local signOut still calls mocked Auth logout endpoint",
+      "repair": "Permit only synthetic /logout response204; no external HTTP."
+    }
+  ],
+  "limitation": "Diagnostic observation from completed tool output; no immutable source or full transcript claim."
+}

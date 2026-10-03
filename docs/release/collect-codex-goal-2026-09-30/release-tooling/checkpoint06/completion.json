@@ -1,0 +1,170 @@
+{
+  "acceptance_limits": [
+    "Non-atomic exact file checkpoint; original-tree coherence and release provenance unapproved.",
+    "Only two existing workcopy regression files were run; prior evidence was associated or linked, not rerun.",
+    "Configured compilation is not hosted deployment, email sign-in, browser/comparator, device/carrier, or production acceptance.",
+    "Original checkout had one later source addition; the pristine candidate was not updated."
+  ],
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "build": {
+    "artifact_bytes": 66349485,
+    "artifact_file_count": 155,
+    "artifact_map_sha256": "109257ba0e3dcb621fba9d31d3cfb431931b8601075335cbdbcfa655a28a40ae",
+    "artifact_readback": "pass",
+    "configured": true,
+    "evidence_mode": false,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-01T08:50:29Z",
+    "output": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-06/build/admin_configured",
+    "selected_source_inputs_unchanged": true,
+    "started_at_utc": "2026-10-01T08:49:42Z",
+    "status": "pass",
+    "workspace": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-06"
+  },
+  "capture_interval": {
+    "copied_at_utc": "2026-10-01T08:43:54Z",
+    "source_observed_at_utc": "2026-10-01T08:45:21Z",
+    "started_at_utc": "2026-10-01T08:42:44Z"
+  },
+  "classification": "unapproved_non_atomic_implementation_checkpoint",
+  "configuration": {
+    "private_values_in_packet": false,
+    "public_input_metadata_only": {
+      "bytes": 203,
+      "file_mode": "0600",
+      "key_form": "public_publishable_key",
+      "keys": [
+        "APP_ENVIRONMENT",
+        "ENABLE_ADMIN_PANEL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "parent_mode": "0700",
+      "privileged_or_user_credentials_allowed": false,
+      "project_allowlist_match": true,
+      "remote_authentication_attested": false,
+      "sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+      "source_path": "/Users/jeanbosco/.cache/collect-release-config/admin-checkpoint04-public-defines.json",
+      "staged_path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-06/.collect-build-inputs/admin-public-defines.json"
+    },
+    "remote_authentication_verified": false
+  },
+  "deployment_verified": false,
+  "full_source_test_acceptance": false,
+  "hosted_mutations": 0,
+  "independent_evidence_not_aggregated": [
+    "historical MCP journal/discovery association",
+    "root operating-policy scoped tests",
+    "MCP joined-audit/canonical-link scoped tests",
+    "prior source05 and native/device packets",
+    "C33 read-only source/security metadata preflight"
+  ],
+  "kind": "source06_local_checkpoint_completion",
+  "later_original_tree_delta": {
+    "candidate_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+    "changes": [
+      {
+        "current_observed_after_comparison": {
+          "bytes": 34801,
+          "mode": 420,
+          "sha256": "890e1d7f477cd05c8867bda4862636dc2a66e42eb2e9f2b981168eebdac788d6"
+        },
+        "path": "scripts/tests/collect_synthetic_backup_restore_uat.py",
+        "prior": null,
+        "reason": "source_added"
+      }
+    ],
+    "comparison_report_sha256": "a59c9e56e57243c2deef0dd0ce99e474a92f14059b5000d4e1399a66274cc402",
+    "comparison_report_written_at_utc": "2026-10-01T08:52:16.032846+00:00",
+    "critical_pin_changes_at_hash_observation": [],
+    "hash_observed_at_utc": "2026-10-01T08:53:04Z",
+    "scope": "Only dated comparison paths enriched with prior/current hashes; original-tree stability/coherence/review is not attested.",
+    "source_current_tree_accepted": false,
+    "status": "dated_drift_observed"
+  },
+  "live_authentication_verified": false,
+  "local_execution_plan_approved": true,
+  "otp_requests": 0,
+  "production_ready": false,
+  "provider_sends": 0,
+  "regression": {
+    "completion_marker": true,
+    "exit_code": 0,
+    "files": [
+      "test/admin_automations_test.dart",
+      "test/admin_pwa_test.dart"
+    ],
+    "finished_at_utc": "2026-10-01T08:52:08Z",
+    "log_sha256": "cf5e0d0272a28140ac3fdeae23b74636b91de0839ceb735396f52fd150be8784",
+    "new_tests_added": 0,
+    "selected_source_inputs_unchanged": true,
+    "started_at_utc": "2026-10-01T08:51:37Z",
+    "status": "pass",
+    "test_count": 39,
+    "tools_unchanged": true
+  },
+  "sealed_independent_leaves": {
+    "mcp-evidence-association": {
+      "manifest_sha256": "136092a4b75333ef23ae666f594d952780f969a25eefd5e1ffa3c5bbe6973016",
+      "scope": "Historical input association only; no tests or MCP calls rerun."
+    },
+    "source-access-preflight": {
+      "manifest_sha256": "0f7d1f862bfa10b4ceaaf8c873660202b59f854bb3abb465d8ccfcc027c74d4c",
+      "scope": "Dated seven-GET GitHub metadata preflight; no security mutation or acceptance."
+    }
+  },
+  "source": {
+    "critical_pin_inputs": 21,
+    "feature_input_count": 112,
+    "manifest_file": ".collect-release-candidate.json",
+    "manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+    "migration_version_count": 175,
+    "observed_capture_drift": {
+      "current_indexed_absence": [
+        "web/public/app-screens/terms-377e5eed2d41.png"
+      ],
+      "current_source_manifest_sha256": "f1b1d31c9b77372f9edcfc2ebdf3a37264bfe17265e9b10683e94898c8ee5d13",
+      "excluded_upstream_fixtures": [],
+      "indexed_absence_paths": [],
+      "prior_indexed_absence": [
+        "web/public/app-screens/terms-377e5eed2d41.png"
+      ],
+      "selected_files": []
+    },
+    "readback": "pass",
+    "required_toolchain_lock_count": 6,
+    "root": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-06",
+    "selected_bytes": 154222431,
+    "selected_files": 1905,
+    "selected_lock_input_count": 10,
+    "selected_table_sha256": "f1b1d31c9b77372f9edcfc2ebdf3a37264bfe17265e9b10683e94898c8ee5d13"
+  },
+  "source_current_tree_accepted": false,
+  "status": "pass_with_unapproved_checkpoint_and_dated_original_tree_delta",
+  "tool_sdk_readback": {
+    "observed_at_utc": "2026-10-01T08:51:17Z",
+    "sdk_after": {
+      "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936"
+    },
+    "sdk_metadata_launcher_match_before": true,
+    "sdk_path": "/Volumes/PRO-G40/Development/Flutter/flutter",
+    "status": "pass",
+    "tool_sha256": {
+      "docs/release/collect-codex-goal-2026-09-30/release-tooling/prepare_admin_workcopy.py": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2",
+      "docs/release/collect-codex-goal-2026-09-30/release-tooling/run_admin_checkpoint.py": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95",
+      "scripts/qa/collect_release_candidate.py": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "tools_match_reviewed_before_after": true,
+    "values_reported": false
+  },
+  "whole_admin_acceptance": false,
+  "written_at_utc": "2026-10-01T08:58:11.544056+00:00"
+}

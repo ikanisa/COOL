@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "phase": "private_shim_copy",
+  "native_commands_started": false,
+  "cause": "Build shim not present; private shim directory inherited read-only mode. Successor changes owned directory mode before adding API gate shim."
+}

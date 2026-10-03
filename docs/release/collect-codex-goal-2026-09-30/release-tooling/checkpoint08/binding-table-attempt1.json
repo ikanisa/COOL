@@ -1,0 +1,7 @@
+{
+  "status": "incomplete",
+  "reason": "checker_expected_excluded_release_evidence_tool_in_source_table",
+  "affected_path": "docs/release/collect-codex-goal-2026-09-30/release-tooling/prepare_admin_workcopy.py",
+  "tool_change_observed": false,
+  "corrected_scope": "Verify release-evidence tools against retained pre-execution copies; selected exporter must also match source manifest."
+}

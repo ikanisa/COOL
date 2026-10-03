@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/run_checks.py", line 156, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/run_checks.py", line 67, in main
+    observe(plan, args.observe); return 0
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/run_checks.py", line 53, in observe
+    source = guards.app_readback('built', plan['export_manifest_file_sha256'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/consumer_guards.py", line 609, in app_readback
+    raise ValueError('app unreviewed directory path: ' + name)
+ValueError: app unreviewed directory path: docs

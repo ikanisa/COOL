@@ -1,0 +1,14 @@
+{
+  "scope": "source08 177 app prerequisites + stable110000 + dispatch130000 + archive170000; synthetic service trust boundary; local PG17.6 only",
+  "started_at": "2026-10-01T12:49:42.155339Z",
+  "runner_sha256": "382f1471c66f52cf5657ad4503c3fc4038806e1f1f65e915413796985eae2084",
+  "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "source08_marker_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "foundation_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+  "dispatch_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+  "migration_sha256": "4895d24899493da9c8710bad6c2029d582ed7c9fef826f854725171c6bb93550",
+  "baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "hosted_written": false,
+  "device_used": false,
+  "sms_sent": false
+}

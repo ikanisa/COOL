@@ -1,0 +1,23 @@
+{
+  "files": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "after_bytes": 2867,
+      "after_sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "after_bytes": 16177,
+      "after_sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "after_bytes": 21312,
+      "after_sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3",
+      "mode": 420
+    }
+  },
+  "passed": true,
+  "pristine_or_shared_SDK_modified": false,
+  "reviewed_patch_sha256": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+  "source_files_changed": 3
+}

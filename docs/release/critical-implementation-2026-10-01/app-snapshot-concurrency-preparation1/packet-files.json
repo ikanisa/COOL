@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/app-snapshot-concurrency-preparation1/proposal.json",
+      "bytes": 1941,
+      "sha256": "e7369df0402cc40723ba8ec7bdb80dd84458aeb390ed25a3f72d741dbf5772ff"
+    }
+  ],
+  "scope": "Preparation-only concurrency review; no code or runtime promotion."
+}

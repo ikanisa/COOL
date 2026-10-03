@@ -1,0 +1,8 @@
+{
+  "actual_attempt2_error": "unsupported-manifest-shape",
+  "before_index_sha256": "8c599ade6f3fa8b8b0ee53ed892ca8a55e16f634630d729a424ceda15fbcdf80",
+  "after_index_sha256": "227dfb4f1739f9c62ec1d027b63a766e93143731b1c85f5824b9fe10a1c2f9fa",
+  "only_data_change": "PD12-decision-reader5leaves.shape list-metadata to actual map-metadata",
+  "all33_manifests_shape_and_count_checked": true,
+  "source_or_schema_changes": false
+}

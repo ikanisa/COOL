@@ -1,0 +1,47 @@
+{
+  "actual_validation_seconds": 0.015624791994923726,
+  "before_proposed_data_retained": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data2",
+  "changes": [
+    {
+      "after": "unapplied-private-proposal",
+      "before": "pending-actual-current-epoch-readback",
+      "path": "/integration_state",
+      "reason": "Private data remains unapplied; exact reviewed schema enum used."
+    },
+    {
+      "after": "",
+      "before": "absent",
+      "path": "/facts/111/pointer",
+      "reason": "Reviewed schema requires pointer; text-includes reader does not consume pointer."
+    }
+  ],
+  "current_epoch_reader_and_manual_root_decision_pending": true,
+  "facts": 130,
+  "failed_before_validation": "private-schema-validation.json",
+  "file_sets": 33,
+  "final_proposed_data": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3",
+  "index_errors": [],
+  "kind": "minimal_private_data_schema_correction_and_validation",
+  "outputs": [
+    {
+      "bytes": 24810,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/acceptance-status.json",
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e"
+    },
+    {
+      "bytes": 95057,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/current-candidate-evidence-index.json",
+      "sha256": "ce06b7c494b19a9d205c96c73eb5d1f15b9e318592d78f38f859a6c5a7950b19"
+    },
+    {
+      "bytes": 11498,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data3/current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e"
+    }
+  ],
+  "reader_or_tests_executed": false,
+  "recorded_at_utc": "2026-10-02T15:34:46.019646+00:00",
+  "result": "PASS",
+  "schema_check_passed": true,
+  "source_helper_schema_or_maintained_writes": false
+}

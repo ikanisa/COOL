@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-10-02T01:53:54.717529+00:00",
+  "result": "PASS",
+  "plan_manifest_sha256": "ff279d8dbeb0686e89407430dbcc60f6293694989fe8ff2e43b56d0b159fcb44",
+  "plan_leaves": 2,
+  "candidate2_sealed_execution_leaves": 47,
+  "candidate2_bootstrap_leaves_bytes_size_mtime_unchanged": 12,
+  "reviewed_actual_mechanisms": [
+    "Publisher shared.sh validity checks trigger implicit upgrade for YAML newer than SDK lock",
+    "Strict exporter reads SDK metadata and launcher only; it does not invoke Flutter",
+    "Exact publisher four DOS timestamps can be restored only on a new expansion with documented timezone interpretation and unchanged bytes",
+    "Actual SDK and app pub resolution must enforce locks and preserve original lock bytes before native tasks"
+  ],
+  "admission": "Private task-local controller/writer/validator preparation and synthetic negative tests only. Root full code/diff/test review required before SDK expansion or execution.",
+  "sdk_expansion_bootstrap_pub_or_app_executed": false,
+  "shared_sdk_or_candidate2_modified": false,
+  "selection_or_release_approval": false
+}

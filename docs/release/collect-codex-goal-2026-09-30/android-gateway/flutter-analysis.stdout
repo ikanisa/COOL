@@ -1,0 +1,7 @@
+Analyzing 3 items...                                            
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_app.dart:144:11 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_app.dart:150:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_platform.dart:53:9 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/gateway/gateway_safety_test.dart:33:7 • curly_braces_in_flow_control_structures
+

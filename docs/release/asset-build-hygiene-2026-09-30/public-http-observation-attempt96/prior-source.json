@@ -1,0 +1,6 @@
+{
+  "scripts/qa/public_browser_app_media.mjs": "a8bd3f5eccf0a01e8f50f46dd7b63d460c92fdd4b667126790dea269219fa910",
+  "scripts/tests/public_browser_served_resource_test.mjs": "0e55a1b85798f8224efac67b36df3adec6e3f5b4ce82f635d025af0ea8647acc",
+  "scripts/assets/publish_public_app_media.py": "47ca3d839326c459a84930bb36ce1d982f6a35bb1ce413c9b77a60b7ea12e47c",
+  "scripts/tests/public_native_media_publisher_test.py": "81defebc123b07ce1d445095637e0894009d870fdff90b986950a6100236ae05"
+}

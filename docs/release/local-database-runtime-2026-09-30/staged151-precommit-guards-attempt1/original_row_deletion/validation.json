@@ -1,0 +1,9 @@
+{
+  "executed_sql_sha256": "2a95a0a2c2ab4c773361bcc38a1c3a388e41abf8da3b763adbb08c685023ff5e",
+  "full_baseline_restored": true,
+  "intended_guard_observed": true,
+  "name": "original_row_deletion",
+  "rejection_observed": true,
+  "stderr_sha256": "6f1e90c0f35493c601c01f9588ac8d965565a85be0f97c1a8c12e579fa663de7",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

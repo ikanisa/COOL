@@ -1,0 +1,19 @@
+{
+  "authored_snapshot_immutability": "exact hash/mode/source manifest binding; no OS immutable flag or production freeze attested",
+  "candidate_promoted": false,
+  "export_manifest_file_sha256": "2ba1f588c9282bbab1bce3ea6ce53669bf4d693cd0073d560d955150abb2feb9",
+  "export_stage_actual_pass": true,
+  "kind": "actual_strict_unapproved_export_binding",
+  "original_app_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "private_snapshot_exclusive": true,
+  "production_release_approval": false,
+  "root_pinned_source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_fence_after_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_fence_before_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_identity_index_membership_fixture_fences_passed": true,
+  "source_lock_attested": false,
+  "source_manifest_sha256": "d13a8361ed77b90740daf1fdf835cccd7b3a5906323dd21e7792839a6df8a2b8",
+  "source_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "source_scope_held_for_strict_export": false,
+  "transient_write_and_restore_absence_attested": false
+}

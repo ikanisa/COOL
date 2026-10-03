@@ -5,7 +5,8 @@ import crypto from 'node:crypto';
 import { chromium } from '/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs';
 const root=process.cwd(), output=path.resolve(process.env.COLLECT_AUTH_REFERENCE_PACKET ?? '.cache/browser-auth-reference/attempt1');
 await fs.mkdir(output,{recursive:true});
-const source=path.join(root,'.cache/l17-shared-ui/browser-auth-fixture.js');
+if(!process.env.COLLECT_AUTH_REFERENCE_BUNDLE)throw new Error('Explicit immutable compiled Auth fixture required');
+const source=path.resolve(process.env.COLLECT_AUTH_REFERENCE_BUNDLE);
 const bundle=await fs.readFile(source), digest=b=>crypto.createHash('sha256').update(b).digest('hex');
 const actor='99890000-0000-4000-8000-000000000001';
 const ids={A:'99890000-0000-4000-8000-000000000011',B:'99890000-0000-4000-8000-000000000012'};
@@ -62,5 +63,5 @@ try{
  for(let i=0;i<pages.length;i++){const storage=await pages[i].evaluate(async()=>({local:Object.keys(localStorage),session:Object.keys(sessionStorage),indexed:(await indexedDB.databases()).map(d=>d.name),caches:await caches.keys(),cookie:document.cookie}));check(`tab${i}-no-persisted-browser-auth-credentials`,storage.local.length===0&&storage.session.length===0&&storage.indexed.length===0&&storage.caches.length===0&&storage.cookie==='');}
  check('no-unhandled-runtime-errors',errors.length===0);status='pass';
 }catch(error){status='fail';errors.push({kind:'assertion',message:error.message});}
-finally{await fs.writeFile(path.join(output,'report.json'),JSON.stringify({status,kind:'actual_Chrome_real_vendored_GoTrue_loopback_fixture',origin,bundle_sha256:digest(bundle),checks,errors,requests,hosted_calls:0,provider_calls:0,database_calls:0},null,2)+'\n');await context.close();await browser.close();await new Promise(r=>server.close(r));}
+finally{await fs.writeFile(path.join(output,'report.json'),JSON.stringify({status,kind:'actual_Chrome_real_vendored_GoTrue_loopback_fixture',origin,bundle_sha256:digest(bundle),bundle_unchanged:digest(await fs.readFile(source))===digest(bundle),checks,errors,requests,hosted_calls:0,provider_calls:0,database_calls:0},null,2)+'\n');await context.close();await browser.close();await new Promise(r=>server.close(r));}
 console.log(JSON.stringify({status,checks:checks.length,errors:errors.length,output}));if(status!=='pass')process.exitCode=1;

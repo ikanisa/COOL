@@ -1,0 +1,7 @@
+{
+  "status": "failed_before_cohort",
+  "exit_code": 1,
+  "reason": "preflight listed nonexistent scripts/tests/backend_release_delivery_test.py; corrected to existing supabase_delivery_contract_test.py",
+  "updater_executed": false,
+  "maintained_mutations": false
+}

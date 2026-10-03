@@ -1,0 +1,122 @@
+{
+  "recorded_at_utc": "2026-09-30T18:09:21.683048+00:00",
+  "checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "head_at_recording": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "implemented_stage": "read_only_mcp_and_admin_operations",
+  "live_connection": "BLOCKED_OPERATOR_SESSION_REAUTHENTICATION_REQUIRED",
+  "production_deployment_by_this_task": false,
+  "provider_sends_by_this_task": 0,
+  "otp_requests_by_this_task": 0,
+  "visual_fidelity_acceptance": "UNVERIFIED",
+  "configured_read_tools": [
+    "collect_notification_health",
+    "collect_list_pending_receipts",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "checks": {
+    "mcp_typescript": "PASS_RECORDED_EXECUTION",
+    "mcp_tests": {
+      "passed": 55,
+      "raw_log_retained": false
+    },
+    "flutter_broad_run": {
+      "passed": 258,
+      "failed": 1,
+      "failure": "offscreen_retry_test_tap_before_scroll_layout"
+    },
+    "corrected_retry_test": {
+      "passed": 1,
+      "failed": 0
+    },
+    "automations_final": {
+      "passed": 12,
+      "failed": 0
+    },
+    "sidebar_captures_final": {
+      "passed": 2,
+      "failed": 0
+    },
+    "full_analysis": "PASS_NO_ISSUES",
+    "design_authority_hygiene": "PASS",
+    "admin_web_build": {
+      "status": "PASS",
+      "exit_code": 0,
+      "target": "lib/main_admin.dart",
+      "mode": "JavaScript release",
+      "wasm_dry_run": false,
+      "output": "output/collect-codex-admin"
+    }
+  },
+  "source_sha256": {
+    "lib/admin/admin_router.dart": "58cff4ed02a10014fec2746cb8129d27d087b4857b916845eaa8fb8681d2f621",
+    "lib/admin/admin_shell.dart": "4038225b8292e900b447b2d935f0432ef49dc6f21904d5467271c4c86cb10d39",
+    "lib/admin/core/admin_list_runtime.dart": "ac653b397cd0adc8b9e2ae3885659602412d6e366111123b82e0d60f25d2984b",
+    "lib/admin/core/admin_repository_base.dart": "f09a73bcd37ae6198f8d15d22103bc511b20176b2660de5524b31b096b8e60ab",
+    "lib/admin/core/admin_automations_page.dart": "689648f1f0bf4505938d18aac2a49ece518363a03503aac727c40f3ab864d0a6",
+    "lib/admin/core/admin_runtime.dart": "6235794041020ef999d8ea363131fe4f18c5df507b77174b5883df20f5c3bac5",
+    "lib/admin/core/admin_display_formatters.dart": "1f71395f5b45fc5c1c15a4a7d2f5a9e55099d9f655a7c7f8b9a310ea4da09780",
+    "lib/admin/core/admin_sms_queue_health.dart": "471b24f8d643dfe072e628adf95d7124987ce50e72e0433a5863bc6945c19bcf",
+    "lib/admin/core/admin_operation_tables.dart": "1f3a74fd68a04dae44a0ed02c900e45cd5d37848185b437fc3d57023742c9218",
+    "lib/admin/shared/components/admin_status_chip.dart": "730899293145a34dfe637b552e002506ae8e3a278d7bf46bacfaa1f385476f71",
+    "lib/admin/shared/components/admin_data_table.dart": "f24366f0eb4524de17386f78ce1e97a1ea67732335f08818c7a3d7dafae997a4",
+    "scripts/collect_operator_login.py": "9e2282a647307bd3f31c138b84e43b5571273c54ed912d756ada061d5653b4b8",
+    "supabase/migrations/20260930200000_admin_automation_navigation.sql": "86c2f4aba6c4a7f3007e08f86c41279eff101f7acf103456e1fc53211bf1d366",
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_theme.dart": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "tools/collect-notification-mcp/src/keychain_store.test.ts": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+    "tools/collect-notification-mcp/src/keychain_store.ts": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+    "tools/collect-notification-mcp/src/operational_client.test.ts": "6f974bd5710e8c901757f55521b36802aa1e4cc74eae7793323e18d236fddf87",
+    "tools/collect-notification-mcp/src/operational_client.ts": "f0f9017e40ffd386a2930bb81998739c4b633195830e50fca41db60684444e5a",
+    "tools/collect-notification-mcp/src/operational_health.test.ts": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+    "tools/collect-notification-mcp/src/operational_health.ts": "4678508aa17430c8b4f1d136c6ba78dbb18713aafa0ee3b1b453d6cb025ad0d3",
+    "tools/collect-notification-mcp/src/operational_transport.test.ts": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+    "tools/collect-notification-mcp/src/operator_client.test.ts": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+    "tools/collect-notification-mcp/src/operator_client.ts": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+    "tools/collect-notification-mcp/src/operator_login.test.ts": "7cbdc466e14e7b02c54d8425483cbce4d8e1c60aa87ca9b4fc0c0750205c7b9f",
+    "tools/collect-notification-mcp/src/operator_login.ts": "de5b3d96e82a0e6527286c06c1a2440058579e0f0ec76ad63f8e5e0158e3c24e",
+    "tools/collect-notification-mcp/src/preflight.test.ts": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+    "tools/collect-notification-mcp/src/preflight.ts": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+    "tools/collect-notification-mcp/src/queue_health.ts": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+    "tools/collect-notification-mcp/src/runtime_credentials.test.ts": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+    "tools/collect-notification-mcp/src/runtime_credentials.ts": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+    "tools/collect-notification-mcp/src/server.test.ts": "b24459dd9fb491494cb2f4a39618cb4a4280d2e676a73b9993310bbb04993300",
+    "tools/collect-notification-mcp/src/server.ts": "63ce3cacfadd981b312b6161bc77684574c1e0ed05ddeb5b8cbed898e0c5a68f",
+    "tools/collect-notification-mcp/src/server_transport.test.ts": "8829f11d5f13263d7595a6adcacb5943cb173a4ad501d7e753937882364a3244",
+    "tools/collect-notification-mcp/src/session_renewal.test.ts": "a968bdc13e06f7fb505cef355c11c158eeb8b8dcacbc179d5c7d408137dc1225",
+    "tools/collect-notification-mcp/src/session_renewal.ts": "d06d81c0da55f8382597885cae8abe35cd9f01c03a81f4c67966d030969d2646",
+    "tools/collect-notification-mcp/src/stdio_preflight.test.ts": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+    "tools/collect-notification-mcp/src/stdio_preflight.ts": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+    "test/admin_automations_test.dart": "bc1b507e90e2b3c7bda051f1efbe686fabe77e9ba34331f9ae94196204ebbcbb",
+    "test/admin_sms_queue_repository_test.dart": "18efa4d1a24ec9afcf1b1395da959de1f7cf593015f2f04ca2111820f6bf09ed",
+    "test/admin_operations_readability_test.dart": "f9ed07b4477b89d533e65a3bb5ec4842adb730a00eaab141a0f81268165ad4c2",
+    "test/admin_realtime_stability_test.dart": "6bb1ea98df3c7b3d5eb4f7c3ed69ba907ae39acf8f3f36f1699d5b16150090cc",
+    "test/admin_route_access_test.dart": "899bcf7a840e65315b485d60392813565a50f0a206b8ead66c20643d462df8d4"
+  },
+  "artifact_sha256": {
+    "README.md": "e1db6f5fba03e90f810333655d8ff1519f02221289bc168683fad3603469778b",
+    "admin-build-optional-wasm-cancelled.log": "497944139118c96979b2f9530c08e5b8f350491d99c4c7f7ce7035a128899a98",
+    "admin-build.log": "7fe1ab2106598a1f6887c9b2848ac1fb5bbd1b3ea3ebcb36c7cb06c6fa4f0f8b",
+    "analyze.log": "1ede97987b84af43d6085386b8fd67577001d7bf4a436ba0d7efe9bac0d4aa07",
+    "authority.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "automations-dark-synthetic.png": "6e74147d55bc50475536cbc0a772314c3c4fbd9ecb8907bc9e4bad3cc02f141f",
+    "automations-final-tests.log": "3f998aa0935da59b31e76884647b9a7cd57a46ec90f955cce2a60ca01d400614",
+    "automations-light-synthetic.png": "11ed5cab7625ba83aaf2ce16d3b7d6529ff26e466dbe9af16239076dfbd76915",
+    "flutter-tests.log": "266b7919ab75cf6f879e105ad786556e6c66940720aa076224750268202d4289",
+    "mcp-preflight.log": "41fa5f575066ac0384afa9971e4f3b05d66f313eab7d6e83419f73e6a80596ea",
+    "mcp-session-preflight.log": "ee364b3ecaa8bc9ce706df8ef9d3dbc1e751ac96a072203850f73fdfb68cd906",
+    "route-retry-attempt1.log": "9e3fa876c8a5fb0f704a4142bffe8073ea9495f90830358a480780e80a8f1092",
+    "route-retry-test.log": "612d118c67bad4a219c44ee7b082d315b6a96e74b8b5ffe275757056c16302fe",
+    "sidebar-capture-tests.log": "76da7bfea8c11c520c846fb4c8a8242587086c4ee4c79e108d3506c78fdd9adf"
+  },
+  "build_entry_sha256": {
+    "index.html": "f415c50929191456b1c65c766d6abc32cf5abb6997bbce02534ad6708b0cc6de",
+    "main.dart.js": "80852caa5f3b171bfcb18881390ec16dbee3143cdc3c18dc3eb31a2a39411276",
+    "flutter_bootstrap.js": "c5b095a988d9d1cce5ebfce12489bf1bafe53e9439e79358239f489f350727bf"
+  }
+}

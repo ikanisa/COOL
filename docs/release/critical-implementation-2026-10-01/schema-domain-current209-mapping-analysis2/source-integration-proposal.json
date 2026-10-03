@@ -1,0 +1,51 @@
+{
+  "decision": "Do not promote unused reconstruction helper or current34 fixture. Root requested a separate compact invalidation-only proposal.",
+  "format": "collect-current209-lineage-source-integration-proposal-v2",
+  "functions_gap": 127,
+  "functions_matched": 775,
+  "integration_notes": [
+    "Promote the helper adjacent to the generator. __file__ derives its sibling path; compile/exec consumes the same captured raw bytes recorded in the manifest, without a loader path/pyc reread.",
+    "Promote focused tests plus the adjacent small JSON cases file. The test uses __file__ adjacency; it reads no historical DATA/mapping-analysis.json.",
+    "The original49 test file and its assertion/function ASTs stay byte-identical. Existing reader/consumer seams remain unchanged.",
+    "Root owns QA registration of the new focused test and a fresh maintained-source generation/readback after promotion.",
+    "A maintained helper joins ordinary scripts caller-source membership; fresh promotion evidence must bind that changed membership instead of reusing the private 664-caller count.",
+    "No business owner, deployed authority, runtime call graph or BE-08 completion is asserted."
+  ],
+  "promote_files": [],
+  "proposed_files": [
+    {
+      "before_sha256": "9d9f2aa6ec76cc17d72c3ad2d69cf6e0415aaadb87fb4bac1b64f1cf584a396a",
+      "disposition": "replace",
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "proposed_bytes": 54471,
+      "proposed_sha256": "a31c33c076cfa417cdea274528d2ab559aaf1ea1659975e8d5afad5af57b6901"
+    },
+    {
+      "before_sha256": null,
+      "disposition": "add",
+      "path": "scripts/audits/collect_schema_function_lineage.py",
+      "proposed_bytes": 26916,
+      "proposed_sha256": "c7f7c3edcc5af3ed926a1435f54223e9668c5b96e45c480bd69d50827c2b346a"
+    },
+    {
+      "before_sha256": null,
+      "disposition": "add",
+      "path": "scripts/tests/collect_schema_function_lineage_test.py",
+      "proposed_bytes": 16444,
+      "proposed_sha256": "3c2f995fc35cbf3e47a0a65f07c7a1af8ea735ec81dd270428663a3752d4829d"
+    },
+    {
+      "before_sha256": null,
+      "disposition": "add",
+      "path": "scripts/tests/collect_schema_function_lineage_cases.json",
+      "proposed_bytes": 9073,
+      "proposed_sha256": "ac15629aae49bc8fb735dfa8ae6617dd6e514f6a338d92a9a5c1e13681103998"
+    }
+  ],
+  "retained_current34": 0,
+  "status": "research-only-transform-proposal-withdrawn",
+  "unchanged_files": {
+    "scripts/audits/collect_schema_domain_caller_seams.json": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+    "scripts/tests/collect_schema_domain_map_test.py": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  }
+}

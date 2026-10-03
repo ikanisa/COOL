@@ -1,0 +1,125 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_native_consumer.py
+@@ -16,13 +16,16 @@
+ import xml.etree.ElementTree as ET
+ from pathlib import Path
+ 
+-HERE = Path(__file__).resolve().parent
+-RELEASE = HERE.parent
++PROPOSAL = Path(__file__).resolve().parent
++RELEASE = PROPOSAL.parent
++HERE = RELEASE / 'kotlin-sdk-native-consumer-preparation1'
+ REPO = RELEASE.parents[2]
+ BASE = Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1')
+ SDK = BASE / 'flutter'
+ APP = BASE / 'app-source'
+-AUTH_DIR = RELEASE / 'root-sdk-native-consumer-preparation-review1'
++AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review2'
++ORIGINAL_PREPARATION_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
++SOURCE_FENCE = AUTH_DIR / 'source-fence.json'
+ STAGES = ('foundation', 'sdk-lock', 'startup', 'app-export', 'app-lock', 'native')
+ MIN_FREE = 20350276001
+ LIVE_FLOOR = 4 * 1024**3
+@@ -67,7 +70,10 @@
+ 
+ 
+ def authorization(args):
+-    manifest = packet(HERE, args.prepared_manifest_sha256)
++    if args.stage != 'app-export' or getattr(args, 'foundation_child', False):
++        raise ValueError('this separately reviewed derivative admits only app-export')
++    manifest = packet(PROPOSAL, args.prepared_manifest_sha256)
++    packet(HERE, ORIGINAL_PREPARATION_MANIFEST)
+     row, body = reader().stable_read(receipt_path(args.stage), True)
+     if row['sha256'] != args.root_review_sha256: raise ValueError('separate root authorization receipt differs')
+     document = json.loads(body)
+@@ -75,9 +81,16 @@
+             or document.get('checked_packet_leaves') != len(manifest['files'])
+             or document.get('execution_stage_admissions', {}).get(args.stage) is not True):
+         raise ValueError('exact stage/full preparation not separately authorized')
+-    if args.stage == 'app-export' and (document.get('current_source_export_authorized') is not True
+-            or document.get('source_scope_held_for_strict_export') is not True):
+-        raise ValueError('strict current source export lacks root-coordinated held boundary')
++    if (document.get('current_source_export_authorized') is not True
++            or document.get('strict_current_source_comparison_required') is not True
++            or document.get('private_snapshot_exclusive') is not True
++            or document.get('source_scope_held_for_strict_export') is not False
++            or document.get('source_lock_attested') is not False
++            or document.get('transient_write_and_restore_absence_attested') is not False):
++        raise ValueError('strict snapshot admission must require comparisons and disclose absence of a source lock')
++    expected_fence = document.get('required_source_fence_sha256')
++    if not isinstance(expected_fence, str) or not re.fullmatch('[0-9a-f]{64}', expected_fence) or sha(SOURCE_FENCE) != expected_fence:
++        raise ValueError('root-pinned source identity/index/membership/fixture fence differs')
+     index = STAGES.index(args.stage)
+     if index:
+         prior = BASE / '.control' / STAGES[index - 1] / 'terminal.json'
+@@ -280,12 +293,14 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--stage', required=True, choices=STAGES)
++    parser.add_argument('--stage', required=True, choices=('app-export',))
+     parser.add_argument('--prepared-manifest-sha256', required=True)
+     parser.add_argument('--root-review-sha256', required=True)
+     parser.add_argument('--foundation-child', action='store_true')
+     args = parser.parse_args(); authorization(args)
+-    config = json.loads((HERE / 'proposed-commands.json').read_text())
++    config = json.loads((PROPOSAL / 'proposed-commands.json').read_text())
++    snapshot_guard = load(PROPOSAL / 'source_fence.py', 'strict_snapshot_guard')
++    snapshot_guard.validate_commands(config, HERE, PROPOSAL, REPO, BASE, SDK, APP, AUTH_DIR)
+     if (str(Path(sys.executable).resolve()) != config['Python_executable']
+             or sha(Path(config['Python_executable'])) != config['Python_SHA256']):
+         raise ValueError('reviewed Python actual runtime differs')
+@@ -324,7 +339,7 @@
+     try:
+         save(directory / 'start.json', {'stage': args.stage, 'prepared_manifest_sha256': args.prepared_manifest_sha256,
+               'separate_root_receipt_sha256': args.root_review_sha256, 'actual_free_bytes': shutil.disk_usage(BASE).free,
+-              'protected_before': protected_metadata(), 'argv_configuration_sha256': sha(HERE / 'proposed-commands.json'),
++              'protected_before': protected_metadata(), 'argv_configuration_sha256': sha(PROPOSAL / 'proposed-commands.json'),
+               'private_environment_exact': env, 'no_provider_or_signing_variables_inherited': True})
+         if args.stage == 'foundation':
+             argv = [sys.executable, '-I', '-B', str(Path(__file__).resolve()), '--stage', 'foundation',
+@@ -333,9 +348,15 @@
+         else:
+             source_readback(directory, 'patched' if args.stage == 'sdk-lock' else 'sdk-locked' if args.stage == 'startup' else 'startup' if args.stage == 'app-export' else 'app-locked' if args.stage == 'native' else 'startup', env)
+             if args.stage == 'app-export':
+-                if APP.exists() or sha(REPO / 'scripts/qa/collect_release_candidate.py') != config['reviewed_exporter_SHA256']:
++                snapshot_guard.private_destination(APP, BASE)
++                if APP.exists() or APP.is_symlink() or sha(REPO / 'scripts/qa/collect_release_candidate.py') != config['reviewed_exporter_SHA256']:
+                     raise ValueError('strict export destination/caller identity differs')
+                 if sha(Path(config['Node_executable'])) != config['Node_SHA256']: raise ValueError('reviewed Node identity differs')
++                fence_command = [sys.executable, '-I', '-B', str(PROPOSAL / 'source_fence.py'), 'verify',
++                    '--root', str(REPO), '--binding', str(SOURCE_FENCE), '--binding-sha256',
++                    guards.read_json(receipt_path(args.stage), args.root_review_sha256)['required_source_fence_sha256'],
++                    '--output', str(directory / 'source-fence-before-capture.json')]
++                require_pass(run_process(directory, 'source-fence-before', fence_command, 300, PROPOSAL, env))
+             if args.stage in ('app-lock', 'native'):
+                 original_export = export_binding(args)
+                 source = guards.app_readback('app-export' if args.stage == 'app-lock' else 'app-locked', original_export['export_manifest_file_sha256'])
+@@ -362,6 +383,10 @@
+             if args.stage == 'startup': save(directory / 'actual-version.json', guards.startup_version(stdout, stderr))
+             if args.stage == 'sdk-lock': save(directory / 'resolved-SDK-packages.json', guards.package_config(SDK / 'packages/flutter_tools/.dart_tool/package_config.json', (SDK, BASE / 'pub-cache')))
+             if args.stage == 'app-export':
++                after_command = list(fence_command)
++                after_command[-1] = str(directory / 'source-fence-after-capture.json')
++                require_pass(run_process(directory, 'source-fence-after', after_command, 300, PROPOSAL, env))
++                snapshot_guard.private_candidate(APP, BASE)
+                 exported = guards.app_readback('app-export')
+                 save(directory / 'exact-app-export-readback.json', exported)
+                 pending_export_binding = {
+@@ -369,7 +394,15 @@
+                     'export_manifest_file_sha256': exported['export_manifest_file_sha256'],
+                     'source_manifest_sha256': exported['source_manifest_sha256'],
+                     'original_app_lock_sha256': exported['source_files_exact']['pubspec.lock']['sha256'],
+-                    'production_release_approval': False, 'candidate_promoted': False}
++                    'production_release_approval': False, 'candidate_promoted': False,
++                    'source_scope_held_for_strict_export': False, 'source_lock_attested': False,
++                    'transient_write_and_restore_absence_attested': False,
++                    'source_identity_index_membership_fixture_fences_passed': True,
++                    'source_fence_before_sha256': sha(directory / 'source-fence-before-capture.json'),
++                    'source_fence_after_sha256': sha(directory / 'source-fence-after-capture.json'),
++                    'root_pinned_source_fence_sha256': sha(SOURCE_FENCE),
++                    'private_snapshot_exclusive': True,
++                    'authored_snapshot_immutability': 'exact hash/mode/source manifest binding; no OS immutable flag or production freeze attested'}
+             if args.stage in ('app-lock', 'native'):
+                 guards.require_lock(APP / 'pubspec.lock', app_lock)
+                 save(directory / 'actual-app-source-readback.json', guards.app_readback('built' if args.stage == 'native' else 'app-locked', original_export['export_manifest_file_sha256']))

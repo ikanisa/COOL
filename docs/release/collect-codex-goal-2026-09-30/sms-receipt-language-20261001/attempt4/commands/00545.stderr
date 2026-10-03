@@ -1,0 +1,3 @@
+ERROR:  55000: receipt_content_evidence_immutable
+CONTEXT:  PL/pgSQL function collect_receipt_policy.immutable_evidence() line 2 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,0 +1,79 @@
+{
+  "artifact_verification_sha256": "cd5975f5b4f79293951315037f1be60b98cb54e97d4019594ee0cad53d10c4d6",
+  "commands": [
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final"
+      ],
+      "elapsed_seconds": 3.97,
+      "exit_code": 0,
+      "name": "clone-accepted-native-working-cache",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/scripts/tests/android_gateway_attempt_archive_jvm.py",
+        "--focus-recovery",
+        "--packet",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/affected-archive-jvm"
+      ],
+      "elapsed_seconds": 92.41,
+      "exit_code": 0,
+      "name": "affected-archive-recovery-jvm",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "deac69dd1618c5d2c19cf7651b2be967a664ce09c30049892ea198a885a898f6"
+    },
+    {
+      "command": [
+        "./gradlew",
+        ":app:assembleInternal_gatewayRelease",
+        ":app:lintInternal_gatewayRelease",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayRelease",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon",
+        "--max-workers=2",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 514.4,
+      "exit_code": 0,
+      "name": "incremental-gateway-assemble-lint",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "693bc72fc86725b5032c6029a06f8d5e140a7b28a4daaaa5f1160746fb0e87a0"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "name": "final-apk-manifest",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0fc917f9b27906565a6f88c8e0c29246a7a8e8ebbc12a48e8040dc86296bf983"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/build/app/outputs/apk/internal_gateway/release/app-internal_gateway-release-unsigned.apk"
+      ],
+      "elapsed_seconds": 0.63,
+      "exit_code": 1,
+      "name": "final-apk-unsigned",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "status": "pass"
+}

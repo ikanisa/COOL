@@ -1,0 +1,16 @@
+{
+  "sealed_at": "2026-10-02T01:09:54.327838+00:00",
+  "owner": "/root",
+  "status": "current_scoped_integration_verified",
+  "member_count": 1066,
+  "member_bytes": 118606871,
+  "files_manifest_sha256": "616d1c36a356d6ab4f7dfb5c4e3a78368f20fdb8da1c8f3647fd7776cf500078",
+  "canonical_source_files": 38,
+  "sql_checks": 63,
+  "sql_command_receipts": 170,
+  "flutter_checks": 70,
+  "analysis_files": 15,
+  "input_bindings": 5721,
+  "canonical_consumer_associations": 822,
+  "remaining": "Whole candidate, private430/700/800 integration, complete visual and hosted/device/release acceptance remain open"
+}

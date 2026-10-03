@@ -1,0 +1,140 @@
+{
+  "status": "actual_failure_retained",
+  "actual_result_path": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4/docs/release/committed-recovery4/result.json",
+  "actual_result_sha256": "c45b2065e944992dde7d26e03715d5eae27e254fa0058c1f34c988450ffecf4f",
+  "actual_pass_cases": 22,
+  "cases": [
+    {
+      "name": "fresh predecessor whole catalog equals sealed ordinary124 reference",
+      "status": "pass"
+    },
+    {
+      "name": "nonempty predecessor has 850 RWF, three balanced journals and two immutable primary receipts",
+      "status": "pass"
+    },
+    {
+      "name": "predecessor dispatch is paused with no carrier attempts",
+      "status": "pass"
+    },
+    {
+      "name": "fresh synthetic projection cohort equals actual current209 reference cohort",
+      "status": "pass"
+    },
+    {
+      "name": "all18 committed synthetic projections are present",
+      "status": "pass"
+    },
+    {
+      "name": "synthetic Auth rows have no password/token/session secrets",
+      "status": "pass"
+    },
+    {
+      "name": "committed predecessor whole catalog remains exact reference",
+      "status": "pass"
+    },
+    {
+      "name": "readonly all30 source role attributes memberships settings equal frozen source",
+      "status": "pass"
+    },
+    {
+      "name": "source GraphQL wrapper hook body definition owner and extension membership match frozen scope",
+      "status": "pass"
+    },
+    {
+      "name": "durable full logical dump exists after committed seed in separate session",
+      "status": "pass"
+    },
+    {
+      "name": "source dump did not change18 projections",
+      "status": "pass"
+    },
+    {
+      "name": "source container removed before independently owned restore target",
+      "status": "pass"
+    },
+    {
+      "name": "all30 restored role attributes memberships settings exactly equal committed source before pg_restore",
+      "status": "pass"
+    },
+    {
+      "name": "exact source GraphQL wrapper metadata and extension membership verified before archive ACL",
+      "status": "pass"
+    },
+    {
+      "name": "corrupt dump negative rejects changed content before restore",
+      "status": "pass"
+    },
+    {
+      "name": "all18 restored projections equal committed source immediately before compatibility repairs",
+      "status": "pass"
+    },
+    {
+      "name": "all18 committed projections survive compatibility repairs immediately after both transactions",
+      "status": "pass"
+    },
+    {
+      "name": "both CHECK identities validation flags and exact source definition hashes verified before continuing",
+      "status": "pass"
+    },
+    {
+      "name": "complete restored predecessor catalog and effective ACLs exactly equal committed source",
+      "status": "pass"
+    },
+    {
+      "name": "all18 committed projection hashes exactly survive independent restore",
+      "status": "pass"
+    },
+    {
+      "name": "wrong ACL negative differs from full predecessor catalog",
+      "status": "pass"
+    },
+    {
+      "name": "wrong ACL probe rollback restores exact predecessor before forward replay",
+      "status": "pass"
+    }
+  ],
+  "failure": "[Errno 35] Resource temporarily unavailable",
+  "elapsed_seconds": 124.90146304200607,
+  "whole_pass": false,
+  "actual_replay_migrations": 45,
+  "last_replayed_version": "20261001000200",
+  "all_task_containers_removed": true,
+  "cleanup_errors": [],
+  "recorded_target_removed": {
+    "source": true,
+    "restore": true
+  },
+  "cleanup_is_retained_readback_not_new_docker_probe": true,
+  "refused_commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_ordinary_recovery_restore_ebbbbe8ff852",
+        "/nix/store/axzw4y8zm4i1q6kay5rgkqavn2p1lzll-postgresql-17.6/bin/psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "status": "refused",
+      "reason": "[Errno 35] Resource temporarily unavailable",
+      "input_sha256": "301f5986b8e303341e613bd353790747391bf7bf4075698e0b1c8354d16d11a6",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "actual_commands_sha256": "f60906bf6e829a0ae8dc473e0b15d8b0b30c7780f9fd85209c202dcc413486bb",
+  "actual_original_files": 193,
+  "hosted_called": false,
+  "provider_called": false,
+  "maintained_source_mutations": 0
+}

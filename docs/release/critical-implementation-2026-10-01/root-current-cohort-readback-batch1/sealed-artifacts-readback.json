@@ -1,0 +1,39 @@
+{
+  "actual_packet_artifacts_checked": 2007,
+  "checked_at_utc": "2026-10-02T00:19:07.232752+00:00",
+  "packets": [
+    {
+      "declared_artifacts": 930,
+      "errors": [],
+      "packet": "docs/release/critical-implementation-2026-10-01/privacy-client-auth-batch2/SHA256SUMS.json",
+      "packet_sha256": "24094deb0d6d04428962faf3ba7abc9fe8fb2e7fa200a4d800ad88a0aef38ec3"
+    },
+    {
+      "declared_artifacts": 54,
+      "errors": [],
+      "packet": "docs/release/critical-implementation-2026-10-01/privacy-ui-consumer-tests-batch1/SHA256SUMS.json",
+      "packet_sha256": "01e0b32a408ea39d229f017f3b665352f991f08e575b9c1486739268c52246be"
+    },
+    {
+      "declared_artifacts": 381,
+      "errors": [],
+      "packet": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/SHA256SUMS.json",
+      "packet_sha256": "ec22346725fb517ff877bd21c864a123c630be68f19e12afa4f44eb7b4c4dc6a"
+    },
+    {
+      "declared_artifacts": 122,
+      "errors": [],
+      "packet": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/batch.json",
+      "packet_sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7"
+    },
+    {
+      "declared_artifacts": 520,
+      "errors": [],
+      "packet": "docs/release/critical-implementation-2026-10-01/public-media-batch3/batch.json",
+      "packet_sha256": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Independent actual sealed leaf readback only; each executed cohort retains its exact dated inputs and limitations. No whole checkout or production acceptance.",
+  "status": "pass"
+}

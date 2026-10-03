@@ -1,0 +1,1306 @@
+{
+  "actual_blocking_races": 8,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "bundle_proof_sha256": "07795cb27714975e25e19e70b5724b77763b959fc9352229d13753c83c798f9b",
+  "case_statuses": {
+    "pass": 126
+  },
+  "cases": [
+    {
+      "detail": true,
+      "name": "candidate preserves all existing routine names/results/arguments/owners/ACLs and all unrelated bodies",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all62 explicitly reviewed transitive readers are writable VOLATILE RPCs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current email-approved owner can reveal exact synthetic body",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "raw reveal creates both current-actor audit records without raw-body leakage",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "approved ordinary member without Admin role cannot reveal",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "compliance_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "operations_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "payments_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "moderation_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "support_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "read_only_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing specific permission refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked grant refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new approval requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new role requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "unverified email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "changed email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "deleted Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "banned Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired Auth session refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "session bound to another user is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing Auth session is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason None refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '   ' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\\t\\n\\r' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9 refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 9",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 10",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 11",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 12",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 13",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 32",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 133",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 160",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 5760",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8192",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8193",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8194",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8195",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8196",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8197",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8198",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8199",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8200",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8201",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8202",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8232",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8233",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8239",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 8287",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 12288",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "reveal rejects whitespace-only reason codepoint 65279",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "canonical_reason": "Audit\tinterior\nreason",
+        "probe_rolled_back": true
+      },
+      "name": "reveal stores canonical Unicode-trimmed reason and preserves interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Raw SMS not found",
+        "sqlstate": "P0001"
+      },
+      "name": "nonexistent SMS does not produce success",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all denied reveal attempts leave audit counts unchanged",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1000 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 24 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "stored reasons are trimmed and bounded by Unicode character count",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "raw body direct-column ACL denies 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "raw body direct-column ACL denies 2",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "authenticated cannot erase admin_sensitive_access_logs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "authenticated cannot erase audit_logs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "grant read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "grant revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email approval read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email approval revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth session read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "Auth session revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "permission read_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "permission revoke_first has observed PostgreSQL authority lock and correct order",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all sensitive reads preserve seven financial/delivery row families",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "ordinary approved member cannot trigger notification retry",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing retry permission refuses operation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason None leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '   ' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '\\t\\n\\r' leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid retry reason '\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9 leaves delivery failed",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 9",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 10",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 11",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 12",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 13",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 32",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 133",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 160",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 5760",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8192",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8193",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8194",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8195",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8196",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8197",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8198",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8199",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8200",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8201",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8202",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8232",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8233",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8239",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 8287",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 12288",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "probe_rolled_back": true,
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "retry rejects whitespace-only reason codepoint 65279",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "canonical_reason": "Audit\tinterior\nreason",
+        "probe_rolled_back": true
+      },
+      "name": "retry stores canonical Unicode-trimmed reason and preserves interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "invalid retry attempts create no retry audit or queue mutation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "expired recipient session cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "disabled recipient device cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "banned recipient cannot be retried",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "valid retry returns exact queued count acknowledgement",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "retry preserves cumulative attempts, clears lease and records current actor/reason",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "No retryable failed deliveries",
+        "sqlstate": "P0001"
+      },
+      "name": "queued retry is not blindly repeated",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "retry fixture cleanup restores all seven financial/delivery row families",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all applied migration sources remain exactly the reviewed bytes",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all recorder and candidate bytes remain unchanged",
+      "status": "pass"
+    }
+  ],
+  "catalog_changes": {
+    "collect_admin_access.approval_status(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.caller_eligible(uuid)": [
+      "body"
+    ],
+    "collect_admin_access.get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public._admin_list_people_by_membership(boolean, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_allocation_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination_change_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_evidence(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transaction(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transfer_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_collect_transaction(text)": [
+      "volatility"
+    ],
+    "public.admin_get_collection(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_hybrid_sms_receipt(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_journal_entry(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_member_record(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_event(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_queue_sla(text)": [
+      "volatility"
+    ],
+    "public.admin_get_receiver(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_exception(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_run(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_sms_metadata(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_whatsapp_approval(uuid)": [
+      "volatility"
+    ],
+    "public.admin_list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_allocations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_audit_logs(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_allocation_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destination_change_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destinations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_evidence(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transactions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transfer_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_ledgers(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_payees(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_reconciliations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_country_scoped(text, text, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_hybrid_sms_receipts(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_journal_entries(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_ledger(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_members(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_non_member_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_notifications(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_events(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_platform_payee_candidates(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_receivers(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_exceptions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_runs(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_settings(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_sms_metadata(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_unallocated(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_overview()": [
+      "volatility"
+    ],
+    "public.admin_retry_notification(uuid, text)": [
+      "body"
+    ],
+    "public.admin_reveal_raw_sms(uuid, text)": [
+      "body"
+    ],
+    "public.assert_admin_permission(text)": [
+      "body",
+      "config",
+      "volatility"
+    ],
+    "public.has_admin_permission(text, uuid)": [
+      "body"
+    ]
+  },
+  "completed_at": "2026-10-01T00:11:43.902889+00:00",
+  "current_staged_bundle_tested": true,
+  "database": "collect_local_uat_5626ecd925244dc9",
+  "hosted_called": false,
+  "installed_in_shared_source": false,
+  "isolated_database_removed": true,
+  "kind": "actual_sensitive_admin_email_authority_schema154",
+  "migration_sources": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+    "20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "20260930235700_sensitive_reason_whitespace.sql": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+    "20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "20261001000519_safe_unstarted_receipt_cancel.sql": "c30ea26d0f4ac37b072927250c42603d36cdcc5d8d2e00b1d15c15cf2dc8b523"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "reason_candidate_sha256": null,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "8a7b928a34f4e5c0c56490e03d457a03960cff5c8eee6fe880039c2202e60e34",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-10-01T00:11:23.210751+00:00",
+  "status": "pass",
+  "unicode_reason_codepoints": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    32,
+    133,
+    160,
+    5760,
+    8192,
+    8193,
+    8194,
+    8195,
+    8196,
+    8197,
+    8198,
+    8199,
+    8200,
+    8201,
+    8202,
+    8232,
+    8233,
+    8239,
+    8287,
+    12288,
+    65279
+  ]
+}

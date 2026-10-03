@@ -354,7 +354,7 @@ class CollectCard extends StatelessWidget {
         borderRadius: radius,
         child: onTap == null
             ? Padding(padding: padding, child: child)
-            : InkWell(
+            : CollectFocusableInkWell(
                 borderRadius: radius,
                 onTap: onTap,
                 child: Padding(padding: padding, child: child),
@@ -363,6 +363,124 @@ class CollectCard extends StatelessWidget {
     );
     return ClipRRect(borderRadius: radius, child: container);
   }
+}
+
+/// Paints the shared keyboard-focus role without changing surface geometry.
+///
+/// The node replaces InkWell's implicit node, so this remains one tab stop.
+/// Only primary focus is outlined: a nested row takes the outline from its
+/// parent card. Touch focus preserves the native resting surface treatment.
+class CollectFocusableInkWell extends StatefulWidget {
+  const CollectFocusableInkWell({
+    required this.child,
+    required this.borderRadius,
+    this.onTap,
+    this.outsideFocusRing = false,
+    super.key,
+  });
+
+  final Widget child;
+  final BorderRadius borderRadius;
+  final VoidCallback? onTap;
+  final bool outsideFocusRing;
+
+  @override
+  State<CollectFocusableInkWell> createState() =>
+      _CollectFocusableInkWellState();
+}
+
+class _CollectFocusableInkWellState extends State<CollectFocusableInkWell> {
+  final _focusNode = FocusNode(debugLabel: 'Collect interactive surface');
+  bool _showFocusRing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_updateFocusRing);
+    FocusManager.instance.addHighlightModeListener(_handleHighlightMode);
+  }
+
+  @override
+  void didUpdateWidget(CollectFocusableInkWell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateFocusRing();
+  }
+
+  void _handleHighlightMode(FocusHighlightMode mode) => _updateFocusRing();
+
+  void _updateFocusRing() {
+    final visible =
+        widget.onTap != null &&
+        _focusNode.hasPrimaryFocus &&
+        FocusManager.instance.highlightMode == FocusHighlightMode.traditional;
+    if (visible != _showFocusRing) {
+      setState(() => _showFocusRing = visible);
+    }
+  }
+
+  @override
+  void dispose() {
+    FocusManager.instance.removeHighlightModeListener(_handleHighlightMode);
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.collectUniversalTokens;
+    return CustomPaint(
+      foregroundPainter: _showFocusRing
+          ? _CollectFocusRingPainter(
+              borderRadius: widget.borderRadius,
+              color: tokens.focusRing,
+              width: tokens.focusRingWidth,
+              outside: widget.outsideFocusRing,
+            )
+          : null,
+      child: InkWell(
+        focusNode: _focusNode,
+        borderRadius: widget.borderRadius,
+        onTap: widget.onTap,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class _CollectFocusRingPainter extends CustomPainter {
+  const _CollectFocusRingPainter({
+    required this.borderRadius,
+    required this.color,
+    required this.width,
+    required this.outside,
+  });
+
+  final BorderRadius borderRadius;
+  final Color color;
+  final double width;
+  final bool outside;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Cards are clipped, so leave a gap inside their permanent contrast border.
+    // Rows have no horizontal padding; paint outside to keep text unobscured.
+    final inset = outside ? -width / 2 : width * 1.5;
+    final outline = borderRadius.toRRect(Offset.zero & size).deflate(inset);
+    canvas.drawRRect(
+      outline,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = width,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CollectFocusRingPainter oldDelegate) =>
+      borderRadius != oldDelegate.borderRadius ||
+      color != oldDelegate.color ||
+      width != oldDelegate.width ||
+      outside != oldDelegate.outside;
 }
 
 /// A flat card whose read-only rows are built only near the viewport.

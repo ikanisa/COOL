@@ -1,0 +1,222 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "asset-integrity-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_manifest_integrity_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "fd9db80073be5f42b2ad82721d1108fe742cafc6a61ad24b4e5ab7a687a97997",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asset-hygiene-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_hygiene_integration_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "9391afedbbd67d60514d3b99e7d749c78804f5f86d3c435c7dfa0e5ceb430ddc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/runtime_reachability_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ebe9687deb3ee45299a5d46f216fca743979e4131872b942ff891e17c02edd79"
+    },
+    {
+      "name": "supply-source-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/supply_chain_source_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "376548b18c03d7c8e9aca221a5891ebc495dcf008ee8082981ee2c4e85888569"
+    },
+    {
+      "name": "public-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "dded53d7c4b2628095a9608cc8b5a1e06722c96447dda01d55108d3f81f70a87",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-inventory-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/dart_format_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f773762fd4d1ba0f33754bc28d8df01427f2e789cd3aa61fbb3bd1dc8c5811f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "native-export-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/native_source_export_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "bd7cd30c3ece1f2c8ea3797a056956e3043a4b35274462f40c147cf1e2dbb853"
+    },
+    {
+      "name": "asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "fe83227f03be880f5c2541f9cf389109e60d3a0230ac64a54bdf5e5d18643894",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "group-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-reachability",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/runtime-reachability.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "87de1fdb62964d3b6bcc705f940a6e759203c34c55ba159f59c20334c7333193",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-inventory.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "1b3a0ff5060101e18ddfcaa8d79295980dcaffd6b9efd639003df7fc97fcb74b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "cab782cef1020b71775efd003cf6c00a057cca03427e7458c94ced68ac43199b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-current-attempt24/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6c811bb3c3c7eb91701449610af25cf43e63a72c2a50b9e5c4c2b10484bb9d0e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "tests": [
+    {
+      "name": "asset-integrity-tests",
+      "actual_tests": 40,
+      "actual_assertions": 107
+    },
+    {
+      "name": "asset-hygiene-tests",
+      "actual_tests": 11,
+      "actual_assertions": 60
+    },
+    {
+      "name": "reachability-tests",
+      "actual_tests": 6,
+      "actual_assertions": null
+    },
+    {
+      "name": "supply-source-tests",
+      "actual_tests": 19,
+      "actual_assertions": null
+    },
+    {
+      "name": "public-media-tests",
+      "actual_tests": 20,
+      "actual_assertions": 46
+    },
+    {
+      "name": "format-inventory-tests",
+      "actual_tests": 4,
+      "actual_assertions": 53
+    },
+    {
+      "name": "native-export-tests",
+      "actual_tests": 3,
+      "actual_assertions": null
+    }
+  ],
+  "owned_tool_sources_unchanged": true,
+  "current_source_drift": {},
+  "all_inventory_reachability_source_count": 634,
+  "runtime_source_count": 203,
+  "reachable_runtime_source_count": 203,
+  "runtime_unreachable": [],
+  "missing_local_directives": [],
+  "unresolved_bundled_assets": [],
+  "scope": "Current pure source/tooling tests and deterministic source inventory/SBOM; no native compilation or current media approval"
+}

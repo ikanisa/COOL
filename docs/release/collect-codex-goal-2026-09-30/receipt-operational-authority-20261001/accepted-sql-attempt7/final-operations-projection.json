@@ -1,0 +1,430 @@
+{
+  "runs": [
+    {
+      "id": "fdc35f1b-a5a1-45b3-ae69-94eb9be96449",
+      "mode": "Shadow",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:31.039876+00:00",
+      "request_id": "396cc818-f037-47d6-84ef-eed3b82908b3",
+      "started_at": "2026-10-01T11:36:31.039876+00:00",
+      "completed_at": "2026-10-01T11:36:31.520456+00:00",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 1,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": true,
+      "policy_revision": 4
+    },
+    {
+      "id": "0f51d874-dfa8-4910-943a-7591eef22a68",
+      "mode": "Dry-run",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:31.828258+00:00",
+      "request_id": "ed8d6aa7-cf84-4fd2-b97d-0515304e7e98",
+      "started_at": "2026-10-01T11:36:31.828258+00:00",
+      "completed_at": "2026-10-01T11:36:32.0526+00:00",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 2,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 5
+    },
+    {
+      "id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+      "mode": "Live-limited",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:32.277484+00:00",
+      "request_id": "41180a5c-1807-4343-95a5-9f8116a02215",
+      "started_at": "2026-10-01T11:36:32.277484+00:00",
+      "completed_at": "2026-10-01T11:36:34.500283+00:00",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 3,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": true,
+      "policy_revision": 6
+    },
+    {
+      "id": "5d4e5dc6-8cb2-4d58-a980-d3384d49483d",
+      "mode": "Live-limited",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:34.755207+00:00",
+      "request_id": "25f17d13-edcd-4201-837a-33a1a60e8b12",
+      "started_at": "2026-10-01T11:36:34.755207+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 4,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 7
+    },
+    {
+      "id": "b1972c48-a1f3-4c3b-ab6c-2574096667ae",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:35:37.013395+00:00",
+      "request_id": "a1f94bda-1f93-4a45-a89f-21962da61115",
+      "started_at": "2026-10-01T11:33:37.013395+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 5,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 9
+    },
+    {
+      "id": "8f49982d-c3b4-48ae-a917-f9677a637db2",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:37.240983+00:00",
+      "request_id": "fec2dce7-c1da-410b-933f-707105a75ba7",
+      "started_at": "2026-10-01T11:36:37.240983+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 6,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 9
+    },
+    {
+      "id": "9071e8e3-39ab-4f07-a89d-6ca31c918e7c",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:37.942222+00:00",
+      "request_id": "9dad6c46-925c-4f6d-b1ee-0e60e423de62",
+      "started_at": "2026-10-01T11:36:37.942222+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 7,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 10
+    },
+    {
+      "id": "42704f82-15fc-4d12-93fa-16fc3f5eb025",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:38.406919+00:00",
+      "request_id": "cc814ebf-d2ea-496e-9f5e-613d305edf52",
+      "started_at": "2026-10-01T11:36:38.406919+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 8,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 11
+    },
+    {
+      "id": "85ba7c10-327e-4006-b2d0-d4275e4ab6da",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:38.79804+00:00",
+      "request_id": "20dbd799-1808-471f-8985-63a277076e4d",
+      "started_at": "2026-10-01T11:36:38.79804+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 9,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 12
+    },
+    {
+      "id": "cc4686a4-aa4c-4097-8ac2-bb10ec5c685d",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:39.227111+00:00",
+      "request_id": "1b3a51e1-c3c6-4e8d-9a9d-e6a5f32567f8",
+      "started_at": "2026-10-01T11:36:39.227111+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 10,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 13
+    },
+    {
+      "id": "b320f911-44ef-4dfc-af61-129f61242924",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:39.597335+00:00",
+      "request_id": "6021679e-7abd-4299-a11f-3dcb32356657",
+      "started_at": "2026-10-01T11:36:39.597335+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 11,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 14
+    },
+    {
+      "id": "c4209454-96c4-4c20-869f-2a7a1c60ccdf",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:40.016593+00:00",
+      "request_id": "74ec562b-4d8e-417a-8a51-e75eb51fa430",
+      "started_at": "2026-10-01T11:36:40.016593+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 12,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 15
+    },
+    {
+      "id": "5a0e2fa0-98ee-41a3-af7d-b87988a5242d",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:40.414947+00:00",
+      "request_id": "de187a56-aa93-483c-a61c-ad3ca0e48011",
+      "started_at": "2026-10-01T11:36:40.414947+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 13,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 16
+    },
+    {
+      "id": "27e76056-a3ce-49c9-a7f4-521d36746d6a",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:40.79336+00:00",
+      "request_id": "3f635914-564f-4656-a8a9-ff599ee2f927",
+      "started_at": "2026-10-01T11:36:40.79336+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 14,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 17
+    },
+    {
+      "id": "670fd173-ec85-473b-ac67-5a12b941588e",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:41.133615+00:00",
+      "request_id": "fb93886b-0f59-497b-9400-6b7cdd7fdfa7",
+      "started_at": "2026-10-01T11:36:41.133615+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 15,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 18
+    },
+    {
+      "id": "61aad901-d4ac-420d-90e3-aae002cb34b8",
+      "mode": "Live",
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "expires_at": "2026-10-01T11:38:42.280082+00:00",
+      "request_id": "7342d1fe-c6c1-41bc-b6e9-ff71247d52b4",
+      "started_at": "2026-10-01T11:36:42.280082+00:00",
+      "completed_at": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "fence_version": 16,
+      "collection_ids": [
+        "99780000-0000-4000-8000-000000030001"
+      ],
+      "scan_performed": false,
+      "policy_revision": 20
+    }
+  ],
+  "handled": [
+    {
+      "code": "RECEIPT_EXISTS",
+      "run_id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+      "event_id": "7bcfd8da-c92d-47ce-9853-7dee36d83d32",
+      "handled_at": "2026-10-01T11:36:32.650368+00:00",
+      "receipt_id": "b02e247f-2836-4db9-beae-6476c06e301f",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "source_version": 1
+    },
+    {
+      "code": "RECEIPT_EXISTS",
+      "run_id": "5d4e5dc6-8cb2-4d58-a980-d3384d49483d",
+      "event_id": "b34cfc31-58d2-475b-b66f-745eb49660f2",
+      "handled_at": "2026-10-01T11:36:35.428153+00:00",
+      "receipt_id": "fac9d99e-ae0c-4ffb-a914-052adf4a83f3",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "source_version": 1
+    },
+    {
+      "code": "SOURCE_SUPERSEDED",
+      "run_id": "670fd173-ec85-473b-ac67-5a12b941588e",
+      "event_id": "4b4b234b-fd8b-4dbc-9401-bd4de38edcc3",
+      "handled_at": "2026-10-01T11:36:41.564584+00:00",
+      "receipt_id": null,
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "source_version": 2
+    },
+    {
+      "code": "RECEIPT_EXISTS",
+      "run_id": "670fd173-ec85-473b-ac67-5a12b941588e",
+      "event_id": "e3d01091-0afb-4c47-8526-dd4a9f7b5c2a",
+      "handled_at": "2026-10-01T11:36:41.631855+00:00",
+      "receipt_id": "e9ea6f92-db7f-4cf1-a2ba-a9cb9e307841",
+      "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+      "source_version": 3
+    }
+  ],
+  "reservations": [
+    {
+      "id": "495a2294-4812-4c8e-b61b-54b29a713437",
+      "run_id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:32.644177+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 3
+    },
+    {
+      "id": "feb20673-a000-4707-b91c-28b8c999a52b",
+      "run_id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:34.020372+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 3
+    },
+    {
+      "id": "a31bd8d9-8928-4e2d-99f0-8f6c1618f76f",
+      "run_id": "5d4e5dc6-8cb2-4d58-a980-d3384d49483d",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:35.417621+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 4
+    },
+    {
+      "id": "35733b78-911e-4114-9dd0-46735e0e254e",
+      "run_id": "9071e8e3-39ab-4f07-a89d-6ca31c918e7c",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:38.018524+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 7
+    },
+    {
+      "id": "989bb219-8f03-4000-a765-59858f380e12",
+      "run_id": "42704f82-15fc-4d12-93fa-16fc3f5eb025",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:38.467942+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 8
+    },
+    {
+      "id": "84d0dde7-14b0-4c7e-94cf-dc84e7be763b",
+      "run_id": "85ba7c10-327e-4006-b2d0-d4275e4ab6da",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:38.871256+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 9
+    },
+    {
+      "id": "a2b12dab-b835-43ef-8fb6-699b528021ca",
+      "run_id": "cc4686a4-aa4c-4097-8ac2-bb10ec5c685d",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:39.296571+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 10
+    },
+    {
+      "id": "27f172ef-b95a-48fe-a808-ad9dfda8822c",
+      "run_id": "b320f911-44ef-4dfc-af61-129f61242924",
+      "actions": 0,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:39.659996+00:00",
+      "sms_segments": 1,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 11
+    },
+    {
+      "id": "ec0190d9-852a-4414-90ee-eb1356c90277",
+      "run_id": "c4209454-96c4-4c20-869f-2a7a1c60ccdf",
+      "actions": 0,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:40.090556+00:00",
+      "sms_segments": 1,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 12
+    },
+    {
+      "id": "d0992543-701b-40e2-a961-d044fc0fe1f6",
+      "run_id": "5a0e2fa0-98ee-41a3-af7d-b87988a5242d",
+      "actions": 0,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:40.475067+00:00",
+      "sms_segments": 1,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 13
+    },
+    {
+      "id": "85c290b6-9b6e-4ce1-950f-173b7f9691d7",
+      "run_id": "27e76056-a3ce-49c9-a7f4-521d36746d6a",
+      "actions": 0,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:40.859107+00:00",
+      "sms_segments": 1,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 14
+    },
+    {
+      "id": "e25ba186-483d-40db-8aab-f8cde173a92d",
+      "run_id": "670fd173-ec85-473b-ac67-5a12b941588e",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:41.562716+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 15
+    },
+    {
+      "id": "b1036cd8-5d6e-439e-b515-9ac1e7118b9f",
+      "run_id": "670fd173-ec85-473b-ac67-5a12b941588e",
+      "actions": 1,
+      "device_id": "2b1987fd-6d30-452d-ab4a-b5bdb2fc1914",
+      "recorded_at": "2026-10-01T11:36:41.628643+00:00",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 15
+    }
+  ]
+}

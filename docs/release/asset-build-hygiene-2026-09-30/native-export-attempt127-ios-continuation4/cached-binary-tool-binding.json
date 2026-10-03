@@ -1,0 +1,5 @@
+{
+  "source_sha256": "a5aa5c04bd93e0c25a8f194147f9812a88cfe58524b4aeef54d0122e3b533829",
+  "accepted30_test_receipt_sha256": "ebf7e38f0bce4aed37853c5f1335764a1f42c5572810feed9ddf95ff643eedfe",
+  "scope": "Exact cached binary and generated current compiler inputs with guarded local and binary metadata relocation before Xcode; recorded archive checksums are not download authenticity."
+}

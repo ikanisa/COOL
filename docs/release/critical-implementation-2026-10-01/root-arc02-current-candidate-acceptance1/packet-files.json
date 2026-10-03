@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "bytes": 901,
+      "path": "exact-size-gate.sh",
+      "sha256": "d99c3d5ccb77990ae092a9d25b87f96ad9a95328df1b082bfeb752800edfa911"
+    },
+    {
+      "bytes": 4198,
+      "path": "plan.json",
+      "sha256": "4020eb16fb1e3045e59db14bb8f6de0d0a2f62a24fe5917ff276b2e1576f0488"
+    },
+    {
+      "bytes": 9239,
+      "path": "run_checks.py",
+      "sha256": "2cdbf4b9d16dcb5e77c5d52289c8a1995aa368533b2e7d4c801f3737398a231a"
+    }
+  ],
+  "leaf_count": 3
+}

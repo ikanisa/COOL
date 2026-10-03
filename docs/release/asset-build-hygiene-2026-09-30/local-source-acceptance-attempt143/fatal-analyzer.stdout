@@ -1,0 +1,6 @@
+Analyzing export-attempt143...                                  
+
+warning • Unused import: 'package:collect_app/admin/core/admin_auth_guard.dart'. Try removing the import directive • test/admin_entity_audit_authority_test.dart:4:8 • unused_import
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/admin_entity_audit_authority_test.dart:276:15 • curly_braces_in_flow_control_structures
+  error • The named parameter 'outboxId' is required, but there's no corresponding argument. Try adding the required argument • test/admin_receipt_cancel_card_test.dart:613:24 • missing_required_argument
+

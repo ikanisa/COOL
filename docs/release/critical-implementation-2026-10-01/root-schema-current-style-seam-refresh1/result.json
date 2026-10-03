@@ -1,0 +1,94 @@
+{
+  "SQL_CI_runner_dependency_overlap": true,
+  "SQL_CI_runner_still_private_during_run": true,
+  "acceptance": "draft-with-open-mappings",
+  "all_bound_input_bytes_modes_unchanged_during_run": true,
+  "caller_sites": 718,
+  "catalog_migrations": 209,
+  "catalog_objects_verified": 2543,
+  "comparison_to_previous_refresh": {
+    "before_caller_sites": 718,
+    "caller_records_equal_after_removing_only_line_field": false,
+    "caller_records_with_location_changes": 48,
+    "caller_symbols_candidate_targets_resolution_groups_and_authorization_unchanged": true,
+    "catalog_objects_unchanged": true,
+    "current_caller_sites": 718,
+    "gap_counts": {
+      "function_body_match_review": 127,
+      "functions_without_exact_body_match": 127,
+      "source_lineage_uncertainty": 84,
+      "sql_resolution_review": 318,
+      "unclassified_objects": 74,
+      "unrepresented_migration_sources": 0,
+      "unresolved_callers": 58
+    },
+    "grants_unchanged": true,
+    "input_hash_changes": [
+      {
+        "before_sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+        "current_sha256": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+        "kind": "maintained-caller-source",
+        "path": "lib/admin/core/admin_receipt_repository.dart"
+      },
+      {
+        "before_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+        "current_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+        "kind": "maintained-caller-source",
+        "path": "lib/admin/core/admin_runtime.dart"
+      },
+      {
+        "before_sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+        "current_sha256": "348ea14666444ca99a20b8ddc0a3afa835ebc2cfa4850d76eea319bc9ce28bc9",
+        "kind": "maintained-caller-source",
+        "path": "scripts/admin_pwa_browser_qa.mjs"
+      },
+      {
+        "before_sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+        "current_sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+        "kind": "reviewed-caller-seams",
+        "path": "scripts/audits/collect_schema_domain_caller_seams.json"
+      }
+    ],
+    "lexical_expression_excerpt_changes": 2,
+    "only_owner_reported_format_browser_and_exact_seam_binding_changes": true,
+    "sql_reference_sites_unchanged": true,
+    "strict_style_files_outside_mapper_input_scope": [
+      "scripts/tests/admin_receipt_source_busy_test.dart",
+      "test/support/test_capture_paths.dart"
+    ],
+    "summary_counts_and_gaps_unchanged": true
+  },
+  "full_independent_five_output_verification": true,
+  "functions_exact_body_matched": 775,
+  "functions_without_exact_body_match": 127,
+  "functions_without_exact_body_match_by_scope": {
+    "application-schema-or-public": 36,
+    "platform-schema": 91
+  },
+  "gap_counts": {
+    "function_body_match_review": 127,
+    "functions_without_exact_body_match": 127,
+    "source_lineage_uncertainty": 84,
+    "sql_resolution_review": 318,
+    "unclassified_objects": 74,
+    "unrepresented_migration_sources": 0,
+    "unresolved_callers": 58
+  },
+  "generation_exit_code": 0,
+  "generation_seconds": 3.533759165999072,
+  "grants_verified": 4157,
+  "input_files_verified": 1093,
+  "maintained_APP_SDK_DB_writes": 0,
+  "maintained_source_files": 666,
+  "mapper_test_SQL209_Linux39_replays": 0,
+  "previous60_tests_reused": true,
+  "release_approval": false,
+  "reviewed_caller_seams": 18,
+  "source_migrations": 209,
+  "sql_reference_sites": 4754,
+  "status": "pass",
+  "verification_exit_code": 0,
+  "verification_seconds": 4.042234833999828,
+  "whole_deadline_seconds": 80,
+  "whole_seconds": 7.735704332997557
+}

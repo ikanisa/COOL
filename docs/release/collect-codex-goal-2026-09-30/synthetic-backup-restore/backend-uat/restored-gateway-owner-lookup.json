@@ -1,0 +1,22 @@
+{
+  "scope": "platform_global",
+  "action": "enroll",
+  "outcome": "recorded",
+  "receipt": {
+    "replay": false,
+    "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+    "request_id": "7a464725-adb8-4311-aef9-fcbe50bc8246",
+    "recorded_at": "2026-10-01T01:10:34.988733Z",
+    "state_at_action": "pending"
+  },
+  "identity": {
+    "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+    "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+    "installation_id": "ced6f852-dcf7-4b2b-b14e-33708873c5a2",
+    "signing_certificate_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "checked_at": "2026-10-01T01:11:08.782457Z",
+  "request_id": "7a464725-adb8-4311-aef9-fcbe50bc8246",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T01:12:08.782457Z"
+}

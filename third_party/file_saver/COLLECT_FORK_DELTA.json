@@ -1,0 +1,610 @@
+{
+  "added": {
+    "COLLECT_FORK.md": {
+      "fork_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+      "rationale": "Retain provenance and explicitly document the authenticated Kotlin 2.4.20 pin change and its source/artifact acceptance limits."
+    }
+  },
+  "changed": {
+    "android/build.gradle": {
+      "fork_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4",
+      "rationale": "Retain the previously reviewed legacy KGP/JVM 17 adapter unchanged; replace only standalone kotlin_version 2.1.0 with publisher-authenticated stable 2.4.20 for GHSA-r937-wjx7-w2jp remediation and main compiler alignment.",
+      "upstream_sha256": "bb480272a269f20fb8e98f452e53c03503f71538bb2dd073cd63871e3d85ae1f"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "fork_sha256": "75efe174be1c322ffb28c9af5ad3fdd3e0d5d73a97210192094312064380b320",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "f83fd11364dfd555c710c7db1073cea5e8a58a01e28752b2d04bf08132d8d6b5"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/Dialog.kt": {
+      "fork_sha256": "08f52763c838ac2437ed47c84762c7c817ea66a67cd7a9b0ff6c4cbf5f734987",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "006f1c6418c704d636fa5ae1c20ad323bd1a06abc35040b4ec7ce596b71bf29a"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/FileSaverPlugin.kt": {
+      "fork_sha256": "6d914847169cb0fe06f5c1d1ecee2823545004c885c5955d53d0e8d391dd647c",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "fb274ba092c7c736e55604d724c6d92863f5d0c4cc1f74914ea445cce1ffa4f6"
+    },
+    "android/src/main/kotlin/com/incrediblezayed/file_saver/FileUtils.kt": {
+      "fork_sha256": "856a63fba8a275c1c8dfe0b938eca34c21c0f2bc5601d77fa53c769a813e499a",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "c89c087d27c14f7eaa8db5d2e53a89e170cbd2a6fba5deecbbeb01dbc1bd1de6"
+    },
+    "ios/file_saver/Sources/file_saver/Dialog.swift": {
+      "fork_sha256": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "1aa23a1d7c11f3f2e241bca51aa56fc9440e09a54deebfce7bf71948dc02ca8a"
+    },
+    "lib/src/utils/mime_types.dart": {
+      "fork_sha256": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "46917df113233e5628743b9af24e6c3b98a8c2ce9e137070a5d3a7d22775d0a4"
+    },
+    "pubspec.yaml": {
+      "fork_sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+      "rationale": "Preserve exact previously reviewed fork bytes: package minimum-version adaptation, wrapper integrity pin, MIME formatting or fixed-label platform log privacy adapter, as applicable. No new change in this Kotlin remediation.",
+      "upstream_sha256": "ef78146a178dfb23290f2546cc6876990dcf6a5a22b5ba9747d2cb438b2a8adc"
+    }
+  },
+  "license_sha256": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee",
+  "omitted": {
+    "README.md": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7010ae374ab80fb0b4d5eea67b058530c50dbe3f6cc5a08c46e8adc62bac3d1a"
+    },
+    "example/README.md": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "568332b5dcab3e52d00e4fda6f7d63bcfd1dddc22d4aa3a06f66b2e89ac7c128"
+    },
+    "example/analysis_options.yaml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "0484d298be8825357f60536d172c46d625e6f81af3fbed4993c987e894311039"
+    },
+    "example/android/app/build.gradle.kts": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d1494a3498d0d18750ddeffa187073ae0985295ed902c83181f91a3de4289f37"
+    },
+    "example/android/app/src/debug/AndroidManifest.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "465c828a372290a2ba65f2d5cda1700a733ab42715c48d4950b85b8c779c7975"
+    },
+    "example/android/app/src/main/AndroidManifest.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3baf0b46ac6b453dc00c084a01b711675ed83ffcdb6a5d4133aa47befab3a2d1"
+    },
+    "example/android/app/src/main/kotlin/incrediblezayed/example/MainActivity.kt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "27881606fa6b5cbe17738a983aa3d21777be7f3de6b764e83b421d7ed86ad475"
+    },
+    "example/android/app/src/main/kotlin/incrediblezayed/file_saver_example/MainActivity.kt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "1c72b6ab860fe6934272c2477cb93b6c30ebd513e98908b77482333b921fada1"
+    },
+    "example/android/app/src/main/res/drawable-v21/launch_background.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7ca6d5cec2169c5a98661a119db23a6f3399c8fef2256ff04f3a642831282478"
+    },
+    "example/android/app/src/main/res/drawable/launch_background.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "94433756fe10005ddd6fc55cc5c0b1e9f3c10b66a08ceac795ece6713d34e28a"
+    },
+    "example/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6a7c8f0d703e3682108f9662f813302236240d3f8f638bb391e32bfb96055fef"
+    },
+    "example/android/app/src/main/res/mipmap-mdpi/ic_launcher.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "c7c0c0189145e4e32a401c61c9bdc615754b0264e7afae24e834bb81049eaf81"
+    },
+    "example/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e14aa40904929bf313fded22cf7e7ffcbf1d1aac4263b5ef1be8bfce650397aa"
+    },
+    "example/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "4d470bf22d5c17d84edc5f82516d1ba8a1c09559cd761cefb792f86d9f52b540"
+    },
+    "example/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3c34e1f298d0c9ea3455d46db6b7759c8211a49e9ec6e44b635fc5c87dfb4180"
+    },
+    "example/android/app/src/main/res/values-night/styles.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "152a7f668caa69aba78879512eb6fcc542c2fbb209bc63f9bb4f8eafe553ceb8"
+    },
+    "example/android/app/src/main/res/values/styles.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "0e928a7ea70713882baa13f7e5800d7b5b5fdfb2ef025ab5d0ba1b41bacd799d"
+    },
+    "example/android/app/src/profile/AndroidManifest.xml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ef163500aafa67d04771d22c2f34aff6b0e592b5fc1f14b45e10869ccb2927b0"
+    },
+    "example/android/build.gradle.kts": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e704c38144ab59a5b51375447918d81d386d9ff49afd6c648b233bca8d759ed2"
+    },
+    "example/android/gradle.properties": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "19850466a740b73e564be7c62a4b382c2ca8cc94f1057cf510315a0eb74c91a5"
+    },
+    "example/android/gradle/wrapper/gradle-wrapper.properties": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e3b80adf41df9859387a7fae9f4128c3585964fddaec0aca8edff76300bd1547"
+    },
+    "example/android/settings.gradle.kts": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "396cde90a6dbf306c432935543174736e68e94fdf60459b13c814c4a48e38204"
+    },
+    "example/ios/Flutter/AppFrameworkInfo.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "da12038f9b2688a8a26160fea2609fa8fcb11421448c109f09c0f573efe7698d"
+    },
+    "example/ios/Flutter/Debug.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "690b8a8b1ae15ddd29b241429963e971bbc6720ab22f154cf8cf6b085b6d4925"
+    },
+    "example/ios/Flutter/Release.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "75abb819a9de1e0e41c835e7307bc64a506cac25a9a5c0b0d8253fa1c3d5d422"
+    },
+    "example/ios/Podfile": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "586f43ecd51806ef1a57ff563682c1d1f187cb7e90dd596e29037780620f1a71"
+    },
+    "example/ios/Podfile.lock": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "5e59aaaa557fb7a563263ad856b823aa9ab8e660175e734fb01515f4b7040e34"
+    },
+    "example/ios/Runner.xcodeproj/project.pbxproj": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "308108cb17acc5e35f33a91fd770261c0b71ab7b507a9a5a8e28e1ebc83873c3"
+    },
+    "example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f"
+    },
+    "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "da9cca960dd7d3cf2d66f3bda1bc564131ef8059193b4ee46d86204be88cdf4c"
+    },
+    "example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "93168baff73a57b08e3bd271c155bcdf01a1621c5c13dbe769d92bd0075cd327"
+    },
+    "example/ios/Runner.xcworkspace/contents.xcworkspacedata": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "465e6de5660384eb6832e8078920ba6cd5305c445cb29a24a86a2fda4aa6b67e"
+    },
+    "example/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    "example/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    "example/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "da9cca960dd7d3cf2d66f3bda1bc564131ef8059193b4ee46d86204be88cdf4c"
+    },
+    "example/ios/Runner/AppDelegate.swift": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "451c6d9ba0a2b3ff43092ea349c60fa79a91f1158b915eb29dbdd357cb95d7b8"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3b1e214f466ffedff74baa5598ad5c4421130eea6bc8d57b8fe23435e8280ae4"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7770183009e914112de7d8ef1d235a6a30c5834424858e0d2f8253f6b8d31926"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "5925dab509451f9ecbb12ce8a625f9d4c104718ee20caff8b1b51032d1cd8946"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "c4d9a284c12301d0f50e248ec53ed51a19a10147b774b23308399250b0d44c55"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "bf97f9d3233f33e1389b09f7b8add53741300cb834d6c7a5ca32cbed363a4fb2"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "285442f69a06b45d9d79df80321815b546473548a37b78819b68959c7b8ed237"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "2ab64af8ac727ea99c6ab9eaff847f46fbf2a9a0a78a0abcbf3180f3851645b4"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "9dca09f4e5ed5684d3c4dff41f4e8b7cb864b438172d72be069315fa362930f9"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "c4d9a284c12301d0f50e248ec53ed51a19a10147b774b23308399250b0d44c55"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d5ad04de321ef37cacc5a7b960afcce71bdcb96fa020c48249c1545dd1a0f497"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "809abfe75c440770c13c4e2e46d09603c22053e9d4e0e2275dcb9c1dcfbb2c75"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "809abfe75c440770c13c4e2e46d09603c22053e9d4e0e2275dcb9c1dcfbb2c75"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3db08cb79e7b01b9e81f956e3a0ae10148d0fafde3ea7aa70048df905aa52cfd"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "23c13d463f5dca5c1f14a14934003601c29f1218fd461016d8a22cef579a665f"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6db7726530d71d3f52cb59793eb691313baa04796e129e1e043c0a58a1bffd2f"
+    },
+    "example/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "cee565f5e62116569b64980b209fd5ca4b3d3739011f5343250b33a1a2c6eb65"
+    },
+    "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ccc7950fd5f5b82067c85f667940a9d59189151460761ece8098ca78daa19469"
+    },
+    "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    "example/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "a985b626c4f7546a8ba392d135e9226c3547c8e2b46895f5f2bdf40d7b14ef9f"
+    },
+    "example/ios/Runner/Base.lproj/LaunchScreen.storyboard": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "857e61203b3deafb05766d8fcda898b86a7cb6f3d5e385ecc9926c4d698215e9"
+    },
+    "example/ios/Runner/Base.lproj/Main.storyboard": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "fd367b6c43006d61b730f674970dd48b9f662c8f2264e52ffc1558102a2c9f2d"
+    },
+    "example/ios/Runner/Info.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e3f8f325549899ec81d6cd72adecfd6c020618cd1e70b2aebdf59e6d9073c618"
+    },
+    "example/ios/Runner/Runner-Bridging-Header.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "1a8d11d01d1cc92c650c9c9ed35299240052d4683a15a719a2315ef44185e074"
+    },
+    "example/lib/main.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "5873d4d5528596adf45dc3fc295ab6c3bb17652f4da013cf80b9b270ef8cc98d"
+    },
+    "example/lib/platform_file.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "db32fc2f9b325c5f6254db9aeb97925012c3a614db34b77940b30746505624d4"
+    },
+    "example/lib/platform_file_io.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "22a1ddde8673447833d2249190cdd6e6ca106184adf1a64c868ddbffe00996b6"
+    },
+    "example/lib/platform_file_stub.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e24bb267f6108f17d4c26b19d67ea26777049284cc465dfbf5e22025016f6ff6"
+    },
+    "example/lib/save_with_byte_proxy.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ed5b07844a969497d1b810a6c24a01b155e783c9df537dd48c7212f425fb2805"
+    },
+    "example/lib/save_with_file_proxy.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "70cc7a7b91285122801ddd293598a47f92f4fc6d5224edebf871cc078f9f44c3"
+    },
+    "example/linux/CMakeLists.txt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6b27c3ce3e79ab31f5191faba5ff78a00d55c7e544933e4bb6cb8b8179af634e"
+    },
+    "example/linux/flutter/CMakeLists.txt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "fa36b47d5cac17ee245f45899e5ac00f0234a9b50eeff5c40ee43be008ce9a7b"
+    },
+    "example/linux/flutter/generated_plugin_registrant.cc": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "359091079a77d347b580a10387b1e76de9361cfc3d1be471be2f6610d9d41b20"
+    },
+    "example/linux/flutter/generated_plugin_registrant.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "00f93bb5b1faefdede8f6065df327522900fb0b8efee86bacf424fd947ed14bb"
+    },
+    "example/linux/flutter/generated_plugins.cmake": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6538fd691486d90cb2c8a3aa5bdda4bc62ed244c2e1299399b7bbaca55fc8dab"
+    },
+    "example/linux/main.cc": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ea23f7cdf74091d63bba29ef60486370b766157b848f0cfe62bd8b1c1695a0c1"
+    },
+    "example/linux/my_application.cc": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "39289a0686afb0ed46ff1acbee0817e01348bffa1bb0f6e2c66835079b428e09"
+    },
+    "example/linux/my_application.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "a044da4b485c93d0e1a79c62356b22c8856dd2bab537ffb6a9446fc905131316"
+    },
+    "example/macos/Flutter/Flutter-Debug.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "802714a37a8fd3065fb3d8e21cbcfbb3147c7ad25f25934b64590085aa9f5b28"
+    },
+    "example/macos/Flutter/Flutter-Release.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d575f436f8bab30d7096792396e73b65db242edc01913c4123d2c29e713b3a6d"
+    },
+    "example/macos/Flutter/GeneratedPluginRegistrant.swift": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "02f7dd7f2c628417d2856c0c402e8421ca86dde0c3573aab61ac93062e5c82af"
+    },
+    "example/macos/Podfile": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "648ce6150d15f66fc0b24799eaa68bcc9634295c411a2c2591932cbdedae9944"
+    },
+    "example/macos/Podfile.lock": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "9b4b6831813b9b21799916d13c0fd7fbf97fc21afc45d9968ee88d0742eac8d2"
+    },
+    "example/macos/Runner.xcodeproj/project.pbxproj": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "cc30960589c8f972e743a8a3372539ee678daf80c7b1b59220f6daeabbf168e6"
+    },
+    "example/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    "example/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "f19dc63c0c59b7551b44ac28764dc8fd675ef73f57b815a166cd75a14165c2af"
+    },
+    "example/macos/Runner.xcworkspace/contents.xcworkspacedata": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "465e6de5660384eb6832e8078920ba6cd5305c445cb29a24a86a2fda4aa6b67e"
+    },
+    "example/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    "example/macos/Runner/AppDelegate.swift": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ce9dbe45a57c59e85519da50a26c471615b9c8cdd85a8f4a39d2e480e62a4af4"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "bc6ba8105ca69651aeeb77358851590de295dca04681a1d58c0f449641c242f3"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "b18bebaad1ad6724e48bcdf699ba3927df3f258febe646a3ab5c62767c6bab40"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "f90d839a289ecadbf2b0b3400da43eb808b84908335ae4a007457c4d5a56a57c"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "592c2abf84adb2d391aed8b634d3233e2c65369f06018dcd8a4b27ba755edcbe"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "75d9a0c034113ca8a1ec11c24b81f2086630a5a5c65c7d26a5dc03a1c0a4478c"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "a896e65745557732c72bd4ee3a10782fe2aa95590b5af659869e5808db9c01c1"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3a69a8a1aac5d9a8374492af4b6d07a4ce637659eb24a7849c4dfb261d75c6a3"
+    },
+    "example/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d29d4e0af9256dc92d0a8f8810608a5e64a132ad8b397ca2c4ddc0b1c26a68c3"
+    },
+    "example/macos/Runner/Base.lproj/MainMenu.xib": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6a7da624e26289678f9a5659e0bce819c5ba7765d42ddc271346626882baf5d1"
+    },
+    "example/macos/Runner/Configs/AppInfo.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "11b11205d3dfab000084a413468649a6c03ea78302af027955a57de75a2bea34"
+    },
+    "example/macos/Runner/Configs/Debug.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "8067d533ef6593760baad9a9855a786a7a77470fcc3f0925ec04fe43bc1ac4b0"
+    },
+    "example/macos/Runner/Configs/Release.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7a6a4b4d973a23052fa0a0388dd261e32d311d7b66ba1bfc3b914b361808ac61"
+    },
+    "example/macos/Runner/Configs/Warnings.xcconfig": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "0e341a392b16ad302d12890aa3dac9257a6c10ece685437604259a85341645a3"
+    },
+    "example/macos/Runner/DebugProfile.entitlements": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "cc3a6e78ba8cd425840b1b935f6030ff3969c13f8ccb8bc7dfa30a997af640c2"
+    },
+    "example/macos/Runner/Info.plist": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "f253e89c512b3a9a81bc5cdd7a14bf932470f835f261654a808ea4549cd94aad"
+    },
+    "example/macos/Runner/MainFlutterWindow.swift": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "539813d1b268f5f3fcb53bf9e2858851558a43269732f049f46773a0c6771b0e"
+    },
+    "example/macos/Runner/Release.entitlements": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "b043dea477bbd5da1552ef2f436a0cb644b884bb2568a9f831bd4ee362f9e99b"
+    },
+    "example/pubspec.yaml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "2f89ab2fc73e93a843f595e180bd5da10067c934e388a4ba461cbf4c680ea7e6"
+    },
+    "example/test/widget_test.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "51fc2e6aa9bfae333cc8b03eea6ba0ced5c10e3c320cd9f2c1d502cbc9b6f41e"
+    },
+    "example/web/favicon.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    "example/web/icons/Icon-192.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    "example/web/icons/Icon-512.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    "example/web/icons/Icon-maskable-192.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    "example/web/icons/Icon-maskable-512.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    "example/web/index.html": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "24dba5aa574bf901ddfd48fd99af528d3c82e1d9e1d3b81e269e1a1df6fde8f4"
+    },
+    "example/web/manifest.json": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "012f04c7187e2eb0553895ea41616c83070345e4f0fddadeefe60b31f1eb1359"
+    },
+    "example/windows/CMakeLists.txt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "4e94a0f1dced375aaa0498ec0a89cf8b2cc82070849a8a712b0f25f135b026c0"
+    },
+    "example/windows/flutter/CMakeLists.txt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d23fbc38cc07226b8a216b0b03535cd270d7665d915a03c3ffa5468918544f60"
+    },
+    "example/windows/flutter/generated_plugin_registrant.cc": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "93f31be09739968fffbe1165db252c1dfb93af5dec9898c561c6776c0b51d2f9"
+    },
+    "example/windows/flutter/generated_plugin_registrant.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "dbc11635d7b1ba1887adf40df5b83d634e9c3ab0bee34510c71528bb4d73602a"
+    },
+    "example/windows/flutter/generated_plugins.cmake": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "628437577a2a4803214f07429473455c9778b57275fcab322e3c81b4ff9e7ffe"
+    },
+    "example/windows/runner/CMakeLists.txt": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "8078fea326097f5208a2e9d41e9985e221de970c9fa34cba99c6f6159119c4d2"
+    },
+    "example/windows/runner/Runner.rc": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "e402e0fed565db149897730ba7c1262ef4fc3b266e809c226d22c38081f451b9"
+    },
+    "example/windows/runner/flutter_window.cpp": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d51995943e046a0be7c880ed123906cf53fe595ea4f2a3fcd41be8807ce724d8"
+    },
+    "example/windows/runner/flutter_window.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "38e0fcd3a0b83895852ec295cb70d90179c0dcd40d58f065eb5232a4ecd84898"
+    },
+    "example/windows/runner/main.cpp": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "c66f4edcaf8673e9a41df77cd3a4cbea934065ac2d066291c66bb23b9fa6919b"
+    },
+    "example/windows/runner/resource.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "1fa98588b04561590ba1cf0521ab86a9db4a878312f21c9d5861d965ddd8d1ae"
+    },
+    "example/windows/runner/resources/app_icon.ico": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "c098d3fc85cacff98b8e69811b48e9f0d852fcee278132d794411d978869cbf8"
+    },
+    "example/windows/runner/runner.exe.manifest": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "bc0a5c549219bdd4dfba20cc89513668c7614674ccf0d714ab347ed3330006ce"
+    },
+    "example/windows/runner/utils.cpp": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "010ec3c14d87227bd1f87c3fec52588295447acecf81dcba93fc2a7ca23a6618"
+    },
+    "example/windows/runner/utils.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "95a7f7dddb832997cefa937a96f89472332277e75734a5de553610760b744b03"
+    },
+    "example/windows/runner/win32_window.cpp": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "830d54b6f064b2dff05db53ec994828d400afbcf0f3ac16a1547cf4fe5ccfab2"
+    },
+    "example/windows/runner/win32_window.h": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "5bc707f655d9c18fdd7178eb2d8fa62dec5685d733a3a4d436fb445b436b5f9d"
+    },
+    "file_saver.iml": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "f375f356e8e1b657a299e971c7f2c27e9fd4adbf19c7ccdf523de72d14492da4"
+    },
+    "images/android.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "43f7c5a9de6d50fb023ce54a608e8870c2eff075c1f747bc3c210caddabc868d"
+    },
+    "images/iOSXcode.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "ac828c024073b795cbf8bc1dfc2c810191adbe660219a410f8aab5a3bab4261e"
+    },
+    "images/ios.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "5c37280ffd149fccc970b8ea10d60ec3f69d7dbf5c14325086b81bfa5fa32b48"
+    },
+    "images/macOSXcode.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "6440079e19e5fe664e2eaf3f37c5251d3171b1951e3b88a47220e0fba2702fbc"
+    },
+    "images/macos.png": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "d78367ab226d0cc0b56d23011c5717fb896787b9209ecd4f6b5bb60ee77eaff1"
+    },
+    "test/file_saver_test.dart": {
+      "rationale": "Previously reviewed omitted upstream example/test/docs/image/IDE evidence; no runtime/platform/package/license omission.",
+      "upstream_sha256": "884555dabcdb8986e89cc5c3e5de0be0d9360a28f6e069d8501b70f965a106d5"
+    }
+  },
+  "review_scope": "Existing exact-byte delta plus one manually reviewed Kotlin version line; no behavioral, license or release approval.",
+  "schema_version": 1,
+  "self_binding": "The exact bytes of this added COLLECT_FORK_DELTA.json are pinned by the verifier; no circular embedded self-hash or auto-learning command.",
+  "upstream_archive_sha256": "68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d",
+  "upstream_version": "0.4.0"
+}

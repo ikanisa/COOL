@@ -1,0 +1,22 @@
+{
+  "20260930200000": {
+    "snapshot02_normalized_source_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+    "baseline_registry_normalized_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+    "exact_parity": true
+  },
+  "20260930210000": {
+    "snapshot02_normalized_source_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+    "baseline_registry_normalized_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+    "exact_parity": true
+  },
+  "20260930220000": {
+    "snapshot02_normalized_source_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+    "baseline_registry_normalized_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+    "exact_parity": true
+  },
+  "20260930170000": {
+    "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+    "relevant_function_snapshot02_parity": true,
+    "scope": "Only recorded relevant authority body; baseline reports whole registry text parity at original capture"
+  }
+}

@@ -1,0 +1,87 @@
+--- candidate-before/supabase/functions/_shared/roster_decoder_integration_test.ts
++++ candidate-after/supabase/functions/_shared/roster_decoder_integration_test.ts
+@@ -97,6 +97,13 @@
+ // Actual Linux codec + signed HTTP + unmodified upload handler. Auth/SQL/provider
+ // acknowledgements are recording fixtures; real SQL is tested separately by the
+ // guarded146 packet, and these tests never reach a provider or hosted service.
++function fixturePromise<T>(body: () => T): Promise<T> {
++  try {
++    return Promise.resolve(body());
++  } catch (error) {
++    return Promise.reject(error);
++  }
++}
+ async function integratedHandler(input: Awaited<ReturnType<typeof source>>) {
+   const actor = "99690000-0000-4000-8000-000000000001";
+   const session = "99690000-0000-4000-8000-000000000011";
+@@ -110,7 +117,7 @@
+     ? await syntheticRosterAiApproval("synthetic-model", endpoint, buildSha256)
+     : {};
+   const handler = createRosterImportHandler({
+-    authenticate: async () => ({ id: actor }),
++    authenticate: () => fixturePromise(() => ({ id: actor })),
+     configuration: () => ({
+       ...approval,
+       model: "synthetic-model",
+@@ -119,7 +126,7 @@
+       decoderSecret: secret,
+       decoderBuildSha256: buildSha256,
+     }),
+-    fetch: async (url, init) => {
++    fetch: (url, init) => fixturePromise(() => {
+       calls.push("synthetic_provider");
+       const headers = new Headers(init?.headers);
+       assertEquals(headers.get("OpenAI-Organization"), "org_synthetic");
+@@ -161,8 +168,8 @@
+           }],
+         }],
+       }));
+-    },
+-    rpc: async (name, args) => {
++    }),
++    rpc: (name, args) => fixturePromise(() => {
+       calls.push(name);
+       if (name === "reserve_roster_resources") {
+         return {
+@@ -282,7 +289,7 @@
+           expires_at: "2099-01-01T00:00:00Z",
+         },
+       };
+-    },
++    }),
+   });
+   const claims = base64(
+     new TextEncoder().encode(
+@@ -422,7 +429,7 @@
+     );
+     const reservation = crypto.randomUUID(), calls: string[] = [];
+     const handler = createRosterImportHandler({
+-      authenticate: async () => ({ id: actor }),
++      authenticate: () => fixturePromise(() => ({ id: actor })),
+       configuration: () => ({
+         model: "synthetic-model",
+         apiKey: "synthetic-never-used",
+@@ -430,11 +437,11 @@
+         decoderSecret: secret,
+         decoderBuildSha256: buildSha256,
+       }),
+-      fetch: async () => {
++      fetch: () => fixturePromise(() => {
+         calls.push("provider");
+         throw new Error("Forbidden provider dispatch");
+-      },
+-      rpc: async (name, args) => {
++      }),
++      rpc: (name, args) => fixturePromise(() => {
+         calls.push(name);
+         if (name === "reserve_roster_resources") {
+           return {
+@@ -466,7 +473,7 @@
+           };
+         }
+         throw new Error("Unverified source reached durable create");
+-      },
++      }),
+     });
+     const claims = base64(
+       new TextEncoder().encode(

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.plugins.PluginHandlerTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:33.732Z" hostname="Jeans-Mac-mini.local" time="0.763">
+  <properties/>
+  <testcase name="pluginSupportsAndroidPlatform returns true when android directory exists with gradle build file(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.004"/>
+  <testcase name="getPluginListWithoutDevDependencies removes dev dependencies from list()" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.007"/>
+  <testcase name="configurePlugins uses addAll for app plugins(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.156"/>
+  <testcase name="pluginSupportsAndroidPlatform returns false when gradle build file does not exist(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.003"/>
+  <testcase name="configurePlugins adds plugin project and configures its dependencies(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.429"/>
+  <testcase name="configurePlugins creates individual build types for library plugins(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.084"/>
+  <testcase name="configurePlugins throws IllegalArgumentException when plugin has null dependencies(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.018"/>
+  <testcase name="configurePlugins throws IllegalArgumentException when plugin has no name(Path)" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.009"/>
+  <testcase name="getPluginListWithoutDevDependencies does not modify list without dev dependencies()" classname="com.flutter.gradle.plugins.PluginHandlerTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

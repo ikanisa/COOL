@@ -1,0 +1,1178 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/data_correctness_contract_test.dart",
+      "test/payment_json_integrity_test.dart",
+      "test/member_history_page_integrity_test.dart",
+      "test/payment_cache_integrity_test.dart",
+      "test/group_summary_cache_recovery_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt1-shared-contract/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:25:42.843854+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 85760,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 4.202,
+    "stdout_sha256": "8a8e4e3ffe6db96e43d30256501a535c0ac93847b27fdb95ca7de057a413673b",
+    "stderr_sha256": "e2e369032473241b14ec2a97c6cfa37603d4141882fd6f06705edf35dc9ffe13"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 186,
+    "failed": 1,
+    "errors": 3,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/data_correctness_contract_test.dart",
+        "source": null,
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "intent: accepts one amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: accepts normal amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: accepts whole double amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: accepts safe maximum amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects missing amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects zero amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects negative amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects fraction amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects numeric string amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects boolean amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects not a number amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects infinity amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects negative infinity amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects outside exact range amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects object amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: accepts legacy amount without current amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: current null preserves legacy compatibility",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: equal aliases accepted",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: conflicting aliases rejected",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: invalid alias cannot hide behind valid amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: errors do not echo received amounts",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects blank collection_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects control character in collection_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects blank id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects control character in id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects non-RWF",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: rejects malformed currency",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: legacy absent currency remains RWF",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: missing created_at is never now",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent: missing expires_at is never now",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: accepts one amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: accepts normal amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: accepts whole double amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: accepts safe maximum amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects missing amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects zero amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects negative amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects fraction amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects numeric string amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects boolean amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects not a number amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects infinity amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects negative infinity amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects outside exact range amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects object amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: accepts legacy amount without current amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: current null preserves legacy compatibility",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: equal aliases accepted",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: conflicting aliases rejected",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: invalid alias cannot hide behind valid amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: errors do not echo received amounts",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects blank collection_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects control character in collection_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects blank payment_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects control character in payment_id",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects non-RWF",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: rejects malformed currency",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: legacy absent currency remains RWF",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution: missing posted_at is never now",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects impossible day",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects non-leap February",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects month zero",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects month thirteen",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects day zero",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects April 31",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects hour overflow",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects minute overflow",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects second overflow",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects offset hour overflow",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects offset minute overflow",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects naive timestamp",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects date only",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects numeric timestamp",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects overprecision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects trailing newline",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects year zero",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp rejects malformed timestamp",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts UTC",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts positive offset",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts negative offset",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts PostgreSQL short UTC offset",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts compact offset",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts space separator",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts leap day",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts milliseconds",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts microseconds",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp accepts typed instant",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "timestamp errors do not leak input",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent status: missing is not pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent status: blank is not pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent status: non-string is not pending",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "future non-pending status remains non-actionable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expired intent retained as history, not made fresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent rejects equal lifetime",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "intent rejects inverted lifetime",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lifetime compares actual instants across offsets",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution retains posting precedence over creation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "contribution uses legacy creation when posting absent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid posting does not fall back to valid creation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "payment id precedence does not compare distinct identity schemas",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "legacy contribution id remains accepted",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed ownership is not silently converted",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing ownership stays false",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "explicit foreign rail cannot masquerade as RWF MoMo",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "optional malformed metadata yields safe format error",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "valid metadata is preserved and input remains untouched",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_json_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding empty history and genuine zero totals remain valid",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding nonempty page is immutable including the cursor",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count Null: null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count int: -1",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count double: 1.5",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count String: 3",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count bool: true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count double: NaN",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count double: Infinity",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact count int: 9007199254740992",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate Null: null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate int: -1",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate double: 1.5",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate String: 30",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate bool: true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate double: NaN",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate double: Infinity",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid or inexact aggregate int: 9007199254740992",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding accept common exact-integer maximum without coercion",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding nonempty history cannot substitute missing totals with zero",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding nonempty history cannot declare a zero total",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding nonempty history must supply its own-total field",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject own aggregate greater than complete aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject duplicate payment IDs within one page",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject duplicate ownership IDs instead of silently deduplicating",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject count smaller than delivered records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject cursor after complete result",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject cursor pointing to another payment",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject empty history with positive aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject invalid payment amounts",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject untrimmed group IDs",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding reject cursor revision mismatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page decoding cursor error does not echo supplied metadata",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows valid partial first page",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject silent initial truncation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject empty page for nonempty history",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject ignored selected-group filter",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject repeated anchor in continuation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject response to an old revision",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject a window larger than its requested limit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows reject unsupported sort",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows accept and enforce newest order",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows accept and enforce oldest order",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows accept and enforce highest order",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows accept and enforce lowest order",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "request-bound wire windows use payment ID ascending for tied timestamps and amounts",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging complete a multi-page result exactly once",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject an append after a terminal page",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject duplicate across pages without modifying existing history",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject changed aggregate despite identical revision and count",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject changed own aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject changed ownership group IDs",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging compare ownership sets by value rather than order",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject changed revision or count",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject prematurely terminal continuation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject continuation after all advertised rows were received",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject out-of-order cross-page boundary",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging reject more rows than the complete count",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "continuation merging immutable metadata survives a cache-style round trip",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/member_history_page_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "existing v4 serializer round-trips money and original instants",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "restored expired intent is not made actionable",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid cached contribution is not silently dropped or zeroed",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid cached intent does not become a pending zero intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "cache cannot replace missing payment time with current time",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "cache cannot invent pending status",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "valid serialized cache remains readable through preferences",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "existing fail-closed cache read rejects corrupted payment data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/payment_cache_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing legacy balance omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "fractional legacy total omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid count omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid currency metadata omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "null modern balances omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed modern row omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-string field key omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "non-map summary omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "null summary omits only the damaged aggregate",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "all unavailable summaries still preserve cached groups",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a valid explicit zero aggregate is retained",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "known legacy total with omitted count remains available",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "valid summaries survive a full snapshot round trip",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "input maps are not mutated during summary recovery",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "summary recovery does not hide invalid non-summary records",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "cache read preserves other data and persists only validated aggregates",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/group_summary_cache_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

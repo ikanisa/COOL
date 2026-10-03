@@ -26,7 +26,10 @@ class AdminDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final textScale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
+    final fontSize = Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14.0;
+    final scaledFontSize = MediaQuery.textScalerOf(context).scale(fontSize);
+    final textScale = (scaledFontSize / fontSize).clamp(1.0, 2.0);
+    final enlargedText = scaledFontSize > fontSize * 1.3;
     final extraHeight = (textScale - 1) * 40;
     return Semantics(
       container: true,
@@ -34,7 +37,9 @@ class AdminDataTable extends StatelessWidget {
       label: 'Admin records table, ${rows.length} rows',
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth < 700) {
+          // Enlarged text uses the same growing record presentation as phone
+          // widths; fixed table rows cannot preserve complete record content.
+          if (constraints.maxWidth < 700 || enlargedText) {
             return _AdminCompactRecordList(
               rows: rows,
               rpcName: rpcName,
@@ -93,6 +98,9 @@ class AdminDataTable extends StatelessWidget {
                           ),
                         ),
                         DataColumn(
+                          numeric:
+                              valueLabel == 'Amount' ||
+                              valueLabel == 'Debit = credit',
                           label: _AdminDataColumnLabel(
                             icon: _adminValueIcon(valueLabel),
                             label: valueLabel,
@@ -237,6 +245,17 @@ class _AdminCompactRecordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final fields = _adminCompactFields(row, rpcName, valueLabel);
+    final fontSize = Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14.0;
+    final enlargedText =
+        MediaQuery.textScalerOf(context).scale(fontSize) > fontSize * 1.3;
+    final record = _RecordCell(row: row, rpcName: rpcName, expandContent: true);
+    final openAction = onOpen == null
+        ? null
+        : IconButton.filledTonal(
+            tooltip: 'Open ${row.title}',
+            onPressed: () => onOpen!(row),
+            icon: const Icon(Icons.arrow_outward, size: 18),
+          );
     return DecoratedBox(
       decoration: _tableDecoration(colors),
       child: Padding(
@@ -244,22 +263,23 @@ class _AdminCompactRecordCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _RecordCell(row: row, rpcName: rpcName),
-                ),
-                if (onOpen != null) ...[
-                  const SizedBox(width: 4),
-                  IconButton.filledTonal(
-                    tooltip: 'Open ${row.title}',
-                    onPressed: () => onOpen!(row),
-                    icon: const Icon(Icons.arrow_outward, size: 18),
-                  ),
-                ],
+            if (enlargedText) ...[
+              record,
+              if (openAction != null) ...[
+                const SizedBox(height: 8),
+                Align(alignment: Alignment.centerRight, child: openAction),
               ],
-            ),
+            ] else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: record),
+                  if (openAction != null) ...[
+                    const SizedBox(width: 4),
+                    openAction,
+                  ],
+                ],
+              ),
             if (_adminRowStatusVisible(rpcName, row.status) ||
                 trailing != null) ...[
               const SizedBox(height: 10),
@@ -343,8 +363,7 @@ class _CompactValue extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     value,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: CollectTypography.weightMedium,
                     ),
@@ -489,53 +508,43 @@ String _adminDisplayValue(
   }
   if (row.amount.isEmpty) return '—';
   return label == 'Amount' || label == 'Debit = credit'
-      ? _adminFormatCurrency(row.amount)
+      ? adminFormatRwfAmount(row.amount)
       : row.amount;
 }
 
-String _adminFormatCurrency(String value) {
-  final match = RegExp(r'^(RWF)\s+([0-9,]+)(\s*=)?$').firstMatch(value.trim());
-  if (match == null) return value;
-
-  final currency = match.group(1)!;
-  final rawAmount = match.group(2)!.replaceAll(',', '');
-  final parsed = double.tryParse(rawAmount);
-  if (parsed == null) return value;
-
-  final fixed = parsed.round().toString();
-  final parts = fixed.split('.');
-  final digits = parts.first;
-  final grouped = StringBuffer();
-  for (var index = 0; index < digits.length; index++) {
-    if (index > 0 && (digits.length - index) % 3 == 0) grouped.write(',');
-    grouped.write(digits[index]);
-  }
-  final fraction = parts.length == 2 ? '.${parts.last}' : '';
-  return '$currency $grouped$fraction';
-}
-
 class _RecordCell extends StatelessWidget {
-  const _RecordCell({required this.row, required this.rpcName});
+  const _RecordCell({
+    required this.row,
+    required this.rpcName,
+    this.expandContent = false,
+  });
 
   final AdminTableRowData row;
   final String rpcName;
+  final bool expandContent;
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 320),
+      constraints: BoxConstraints(
+        maxWidth: expandContent ? double.infinity : 320,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             _adminRecordTitle(row, rpcName),
-            overflow: TextOverflow.ellipsis,
+            overflow: expandContent
+                ? TextOverflow.visible
+                : TextOverflow.ellipsis,
           ),
           if (_adminRecordSubtitle(row, rpcName).isNotEmpty)
             Text(
               _adminRecordSubtitle(row, rpcName),
-              overflow: TextOverflow.ellipsis,
+              overflow: expandContent
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall,
             ),
         ],

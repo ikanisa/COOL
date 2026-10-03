@@ -1,0 +1,62 @@
+{
+  "AAB_SBOM_built": false,
+  "ARC09_closed": false,
+  "UTC": "2026-10-02T13:23:15.829896+00:00",
+  "actual_AAB_seconds": 43.285,
+  "actual_failed_AAB_command_sha256": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6",
+  "actual_failed_AAB_exit_code": 1,
+  "actual_failed_status_preserved": true,
+  "actual_fixture_tests": 58,
+  "admission_changed_keys": [
+    "driver_sha256",
+    "output"
+  ],
+  "admission_sha256": "9b557322112f9cd4ae350a253c413c3362c969d00ba86499c041c622981d400d",
+  "all_other_driver_AST_methods_unchanged": [
+    "DaemonTracker.__init__",
+    "DaemonTracker.exact_wrapper_java",
+    "DaemonTracker.private_identity",
+    "DaemonTracker.refresh_session",
+    "DaemonTracker.refuse_transition",
+    "DaemonTracker.register",
+    "DaemonTracker.same",
+    "context",
+    "copied_aab",
+    "digest",
+    "document",
+    "extract_graph",
+    "group_absent",
+    "guard_phase",
+    "main",
+    "metadata_command",
+    "module",
+    "physical",
+    "plain_read",
+    "process_table",
+    "reuse_runtime_graph",
+    "save",
+    "validate_runtime_reuse"
+  ],
+  "changed_AST_methods": [
+    "DaemonTracker.observe",
+    "DaemonTracker.finish"
+  ],
+  "fixture_receipt_sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5",
+  "kind": "private_review_only_argv_unavailable_monitor_correction",
+  "new_fixture_tests": 15,
+  "no_real_ps_lsof_signal_Gradle_APP_SDK_or_cache_actions": true,
+  "offline_missing_dependency": "com.android.tools:desugar_jdk_libs:2.1.4",
+  "old_driver_sha256": "ac231155f02477a6aaf3217f05e1499b1ceb18d3d725e5dc3969d0279e1aa6f3",
+  "original_test_and_fixture_bytes_unchanged": {
+    "captured-fixture.json": true,
+    "captured-lifecycle-fixture.json": true,
+    "prepared-input-pins.json": true,
+    "test_lifecycle_metadata.py": true,
+    "test_owned_metadata.py": true
+  },
+  "prepared42_pin_bytes_unchanged": true,
+  "preserved_fixture_tests": 43,
+  "previous16_leaves_readback_unchanged": true,
+  "proposed_driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "selected_commands_deadlines_graph_reuse_native_source_and_success_checks_unchanged": true
+}

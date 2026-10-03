@@ -28,6 +28,8 @@ SCHEMAS = (
     "public", "private", "collect_hybrid", "collect_security",
     "collect_admin_access", "collect_auth_security", "collect_member_actions",
     "collect_profile_access", "auth", "realtime", "supabase_migrations",
+    "collect_gateway",
+    "collect_ops",
 )
 ALLOWED_UPGRADES = {
     "20260930110000": (142, "20260930100000", "retire_legacy_bank_scheduler"),
@@ -36,6 +38,8 @@ ALLOWED_UPGRADES = {
     "20260930140000": (145, "20260930130000", "roster_resource_integrity"),
     "20260930150000": (146, "20260930140000", "runtime_control_governance"),
     "20260930160000": (147, "20260930150000", "redacted_operational_health"),
+    "20260930170000": (148, "20260930160000", "roster_fresh_auth_recovery"),
+    "20260930180000": (149, "20260930170000", "operational_health_authority"),
 }
 
 
@@ -89,10 +93,12 @@ def snapshot() -> dict:
           select 'schema',jsonb_build_object('name',n.nspname,'owner',n.nspowner,'acl',n.nspacl) from pg_namespace n where n.nspname in ({names})
           union all select 'relation',jsonb_build_object('name',n.nspname||'.'||c.relname,'owner',c.relowner,'acl',c.relacl,'rls',c.relrowsecurity,'force',c.relforcerowsecurity)
             from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ({names})
-          union all select 'column',jsonb_build_object('table',c.oid::regclass::text,'name',a.attname,'type',a.atttypid,'mod',a.atttypmod,'notnull',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid))
+          union all select 'column',jsonb_build_object('table',c.oid::regclass::text,'name',a.attname,'type',a.atttypid,'mod',a.atttypmod,'notnull',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid),'acl',a.attacl)
             from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=c.oid and d.adnum=a.attnum
             where n.nspname in ({names}) and a.attnum>0 and not a.attisdropped
-          union all select 'routine',jsonb_build_object('name',p.oid::regprocedure::text,'owner',p.proowner,'acl',p.proacl,'source',p.prosrc,'config',p.proconfig,'definer',p.prosecdef)
+          union all select 'routine',jsonb_build_object('name',p.oid::regprocedure::text,'owner',p.proowner,'acl',p.proacl,'source',p.prosrc,'config',p.proconfig,'definer',p.prosecdef,
+            'volatility',p.provolatile,'strict',p.proisstrict,'parallel',p.proparallel,'leakproof',p.proleakproof,
+            'language',p.prolang,'result',pg_get_function_result(p.oid),'arguments',pg_get_function_arguments(p.oid))
             from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ({names})
           union all select 'trigger',jsonb_build_object('table',t.tgrelid::regclass::text,'name',t.tgname,'enabled',t.tgenabled,'definition',pg_get_triggerdef(t.oid))
             from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname in ({names})
@@ -228,8 +234,8 @@ def main() -> None:
     parser.add_argument("--version")
     parser.add_argument("--expect-unchanged", action="store_true")
     args = parser.parse_args()
-    if not re.fullmatch("[0-9]{14}", args.latest) or args.count not in (142, 143, 144, 145, 146, 147, 148):
-        parser.error("Reviewed142–148 local fixture only")
+    if not re.fullmatch("[0-9]{14}", args.latest) or args.count not in (142, 143, 144, 145, 146, 147, 148, 149, 150):
+        parser.error("Reviewed142–150 local fixture only")
     output = args.output.resolve()
     if not output.is_relative_to(ROOT / "docs/release"):
         parser.error("Evidence must be inside this repository's docs/release")

@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "seconds": 2.093,
+  "original_failed_attempt_preserved": "tests-result-attempt1.json",
+  "initial_failure": "Two original negative fixtures were refused with FileNotFoundError before their original ValueError structural checks; corrected by unconditional postscan generated-membership proof, retaining original unsafe-path refusal precedence."
+}

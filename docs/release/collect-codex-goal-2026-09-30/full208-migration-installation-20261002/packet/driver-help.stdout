@@ -1,0 +1,16 @@
+usage: full_candidate_ordinary_rehearsal.py [-h] --output OUTPUT --inventory
+                                            INVENTORY --inventory-sha256
+                                            INVENTORY_SHA256
+
+All current application migrations under ordinary local installer authority.
+Creates only task-owned networkless containers. A privileged setup installs
+the retained Auth/storage platform shape, pg_cron and pg_net before postgres
+is demoted. Every application migration then executes as current_user postgres
+NOSUPERUSER. This proves local installer behavior; managed hosted platform
+parity is separate.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --output OUTPUT
+  --inventory INVENTORY
+  --inventory-sha256 INVENTORY_SHA256

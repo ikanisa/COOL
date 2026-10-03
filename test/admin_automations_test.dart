@@ -9,6 +9,8 @@ import 'package:collect_app/admin/core/admin_automations_page.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_sms_queue_health.dart';
+import 'package:collect_app/app/theme/collect_colors.dart';
+import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/core/supabase/supabase_module.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +60,7 @@ class _Repository extends AdminEvidenceRepository {
   _Repository({this.smsFailure, this.pendingSms});
   final Object? smsFailure;
   final Completer<Map<String, dynamic>>? pendingSms;
-  int reads = 0, writes = 0;
+  int reads = 0, healthReads = 0, writes = 0;
   @override
   Future<AdminRuntimeConfig?> runtimeConfig() async => null;
   @override
@@ -69,8 +71,11 @@ class _Repository extends AdminEvidenceRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> detail(String rpcName, String id) async =>
-      _push();
+  Future<Map<String, dynamic>> detail(String rpcName, String id) async {
+    healthReads++;
+    return _push();
+  }
+
   @override
   Future<Map<String, dynamic>> action(
     String rpcName,
@@ -213,6 +218,30 @@ void main() {
     },
   );
 
+  testWidgets('resolved status can refresh both services without writes', (
+    tester,
+  ) async {
+    final repository = _Repository();
+    await mount(tester, repository);
+    expect(find.text('Send outcome unknown'), findsOneWidget);
+    expect(find.text('Schedule disabled'), findsOneWidget);
+    expect(repository.reads, 1);
+    expect(repository.healthReads, 1);
+    final refresh = find.ancestor(
+      of: find.text('Refresh status'),
+      matching: find.byWidgetPredicate((widget) => widget is OutlinedButton),
+    );
+    expect(refresh, findsOneWidget);
+    expect(tester.widget<OutlinedButton>(refresh).onPressed, isNotNull);
+    await tester.tap(refresh);
+    await tester.pumpAndSettle();
+    expect(repository.reads, 2);
+    expect(repository.healthReads, 2);
+    expect(repository.writes, 0);
+    expect(tester.widget<OutlinedButton>(refresh).onPressed, isNotNull);
+    await finish(tester);
+  });
+
   testWidgets(
     'expiry hides old numbers and automatic tick never refetches or writes',
     (tester) async {
@@ -299,8 +328,49 @@ void main() {
           dark: dark,
           shell: true,
         );
-        await tester.pump(const Duration(milliseconds: 50));
+        final selectedNavigation = find.byWidgetPredicate(
+          (widget) => widget is ListTile && widget.selected,
+        );
+        expect(selectedNavigation, findsOneWidget);
+        final railForeground = tester
+            .element(selectedNavigation)
+            .collectColors
+            .onImagePrimary;
+        expect(
+          tester.widget<ListTile>(selectedNavigation).selectedColor,
+          railForeground,
+        );
+        final selectedIcon = find.descendant(
+          of: selectedNavigation,
+          matching: find.byIcon(Icons.manage_search_outlined),
+        );
+        expect(selectedIcon, findsOneWidget);
+        expect(
+          IconTheme.of(tester.element(selectedIcon)).color,
+          railForeground,
+        );
         if (const bool.fromEnvironment('COLLECT_CAPTURE_OPERATIONS')) {
+          await tester.runAsync(
+            () => precacheImage(
+              const AssetImage(CollectRuntimeAssets.officialLogo),
+              capture.currentContext!,
+              onError: (error, stack) =>
+                  Error.throwWithStackTrace(error, stack!),
+            ),
+          );
+          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 50));
+          final logo = find.descendant(
+            of: find.byWidgetPredicate(
+              (widget) =>
+                  widget is Image &&
+                  widget.image is AssetImage &&
+                  (widget.image as AssetImage).assetName ==
+                      CollectRuntimeAssets.officialLogo,
+            ),
+            matching: find.byType(RawImage),
+          );
+          expect(tester.widget<RawImage>(logo).image, isNotNull);
           final boundary =
               capture.currentContext!.findRenderObject()!
                   as RenderRepaintBoundary;

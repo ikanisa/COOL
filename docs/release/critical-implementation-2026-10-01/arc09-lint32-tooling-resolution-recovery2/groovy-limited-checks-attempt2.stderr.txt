@@ -1,0 +1,6 @@
+Caught: groovy.lang.MissingPropertyException: No such property: name for class: java.lang.String
+groovy.lang.MissingPropertyException: No such property: name for class: java.lang.String
+	at PureHelpers$_run_closure1$_closure4.doCall(PureHelpers.groovy:6)
+	at PureHelpers$_run_closure1.doCall(PureHelpers.groovy:6)
+	at PureHelpers$_run_closure2.doCall(PureHelpers.groovy:16)
+	at limited_groovy_checks.run(limited_groovy_checks.groovy:84)

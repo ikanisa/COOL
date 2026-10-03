@@ -2,12 +2,14 @@
 // Real service-worker lifecycle over a hash-verified, synthetic Admin build.
 // No production target, user profile, Auth account or provider is used.
 import { createHash } from 'node:crypto';
+import { observeWaitingAdminUpdate, reopenAfterAllAdminTabsLeave } from './admin_pwa_update_policy.mjs';
 import { createServer } from 'node:http';
 import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile, copyFile, link, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {observeCollectDiagnostics} from './collect_diagnostic_observer.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const [buildReportArgument, evidenceArgument] = process.argv.slice(2);
@@ -93,7 +95,8 @@ try {
     if (await hashFile(join(built, entry.path)) !== entry.sha256) throw Error(`Changed build artifact: ${entry.path}`);
   }
   const sourcePaths = [
-    'scripts/qa/admin_pwa_lifecycle_qa.mjs', 'scripts/admin_pwa_release_build.sh',
+    'scripts/qa/collect_diagnostic_observer.mjs',
+    'scripts/qa/admin_pwa_lifecycle_qa.mjs', 'scripts/qa/admin_pwa_update_policy.mjs', 'scripts/admin_pwa_release_build.sh',
     'scripts/admin_pwa_manifest_gate.sh', 'web/flutter_bootstrap.js',
     'lib/app/theme/collect_colors.dart',
   ];
@@ -194,11 +197,18 @@ try {
   }
   report.browserVersion = browser.version();
   contexts.push(context);
+  const observePage = page => {
+    page.on('pageerror', error => report.errors.push(error.message));
+    observeCollectDiagnostics(page, diagnostic => report.errors.push('Collect diagnostic failure: ' + JSON.stringify(diagnostic)));
+  };
+  context.pages().forEach(observePage); context.on('page', observePage);
   await context.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage();
-  page.on('pageerror', (error) => report.errors.push(error.message));
   page.setDefaultTimeout(30000);
   await page.goto(origin + '/#/admin/groups', { waitUntil: 'domcontentloaded' });
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  check('first-install-does-not-claim-network-page', await page.evaluate(() => navigator.serviceWorker.controller === null));
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => navigator.serviceWorker.controller, null, { timeout: 90000 });
   await renderedAdmin(page);
   const cacheKeys = await page.evaluate(() => caches.keys());
@@ -249,37 +259,16 @@ try {
   outage = false; await context.setOffline(false);
   await page.evaluate(() => { window.qaUnsavedWork = 'synthetic-unsaved-input'; });
   active = b;
-  const controllerUpdate = await page.evaluate(async (expectChange) => {
-    const registration = await navigator.serviceWorker.ready;
-    const previous = navigator.serviceWorker.controller;
-    let listener, timer;
-    try {
-      const changed = expectChange ? new Promise((yes, no) => {
-        listener = () => {
-          if (navigator.serviceWorker.controller !== previous) yes();
-        };
-        navigator.serviceWorker.addEventListener('controllerchange', listener);
-        timer = setTimeout(() => no(Error('Updated worker did not control the page')), 90000);
-      }) : Promise.resolve();
-      await registration.update();
-      if (navigator.serviceWorker.controller !== previous) listener?.();
-      await changed;
-      return { changed: navigator.serviceWorker.controller !== previous,
-        previousUrl: previous?.scriptURL, currentUrl: navigator.serviceWorker.controller?.scriptURL };
-    } finally {
-      clearTimeout(timer);
-      if (listener) navigator.serviceWorker.removeEventListener('controllerchange', listener);
-    }
-  }, a.cache !== b.cache);
+  const controllerUpdate = await observeWaitingAdminUpdate(page);
   report.controllerUpdate = controllerUpdate;
-  if (a.cache !== b.cache) {
-    await page.waitForFunction(async (expected) => (await caches.keys()).includes(expected) &&
-      !(await caches.keys()).some((k) => k.startsWith('collect-admin-') && k !== expected), b.cache, { timeout: 90000 });
-  }
-  check('worker-update-preserves-open-page-state', await page.evaluate(() => window.qaUnsavedWork) === 'synthetic-unsaved-input', 'synthetic transient state');
+  check('worker-update-waits-with-old-controller', controllerUpdate.sameController && controllerUpdate.state === 'installed', controllerUpdate);
+  check('waiting-update-preserves-open-page-state', await page.evaluate(() => window.qaUnsavedWork) === 'synthetic-unsaved-input', 'synthetic transient state');
+  const waitingKeys = await page.evaluate(() => caches.keys());
+  check('waiting-update-retains-both-static-builds', waitingKeys.includes(a.cache) && waitingKeys.includes(b.cache), waitingKeys);
   await page.reload({ waitUntil: 'domcontentloaded' });
-  check('new-navigation-receives-updated-shell', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b',
-    await page.locator('meta[name=qa-shell-version]').getAttribute('content'));
+  check('ordinary-reload-retains-old-shell-while-tabs-open', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'a');
+  await reopenAfterAllAdminTabsLeave(context, origin);
+  check('reopen-after-all-tabs-close-receives-updated-shell', await page.locator('meta[name=qa-shell-version]').getAttribute('content') === 'b');
   const afterKeys = await page.evaluate(() => caches.keys());
   check('old-shell-cache-retired', a.cache !== b.cache && afterKeys.includes(b.cache) && !afterKeys.includes(a.cache), afterKeys);
   const siblingAfterUpdate = await sibling.evaluate(() => fetch('/__qa/account').then((r) => r.json()));
@@ -345,6 +334,7 @@ try {
     context = await chromium.launchPersistentContext(profile, { ...launchOptions,
       serviceWorkers: 'allow', viewport: { width: 1280, height: 900 } });
     contexts.push(context); browser = context.browser();
+    context.pages().forEach(observePage); context.on('page', observePage);
     await context.setOffline(true);
     await context.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
     pwaSession = await browser.newBrowserCDPSession();

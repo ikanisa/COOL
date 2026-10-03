@@ -31,10 +31,7 @@ void main() {
       ..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'));
     final materialIcons = FontLoader('MaterialIcons')
       ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
-    final marketing = FontLoader('Aeonik Pro')
-      ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Regular.ttf'))
-      ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Medium.ttf'));
-    await Future.wait([inter.load(), materialIcons.load(), marketing.load()]);
+    await Future.wait([inter.load(), materialIcons.load()]);
   });
 
   tearDownAll(() {

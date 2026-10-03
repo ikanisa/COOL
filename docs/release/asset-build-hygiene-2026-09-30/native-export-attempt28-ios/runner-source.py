@@ -1,0 +1,42 @@
+import hashlib,json,os,subprocess,time
+from pathlib import Path
+ROOT=Path('/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL')
+PACKET=ROOT/'docs/release/asset-build-hygiene-2026-09-30/native-export-attempt28-ios'
+EXPORT=Path('/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt28-ios')
+SDK=ROOT/'.cache/flutter-sdk-isolated-asset-attempt28'
+FLUTTER=str(SDK/'bin/flutter')
+ENV={k:v for k,v in os.environ.items() if k in {'HOME','USER','LOGNAME','SHELL','PATH','TMPDIR','LANG','LC_ALL','LC_CTYPE'}}
+ENV.update({'CI':'true','FLUTTER_SUPPRESS_ANALYTICS':'true','DEVELOPER_DIR':'/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer','PUB_CACHE':str(ROOT/'.cache/pub-cache-hygiene-20260930'),'COCOAPODS_DISABLE_STATS':'true','CP_HOME_DIR':str(EXPORT.parent/'cocoapods-attempt28-home'),'CP_CACHE_DIR':str(EXPORT.parent/'cocoapods-attempt28-cache'),'PATH':str(SDK/'bin')+':/Users/jeanbosco/.local/bin:'+ENV['PATH']})
+PACKET.mkdir(parents=True,exist_ok=False)
+runner=Path(__file__).read_bytes();(PACKET/'runner-source.py').write_bytes(runner)
+(PACKET/'environment-scope.json').write_text(json.dumps({'inherited_environment_names':sorted(k for k in os.environ if k in {'HOME','USER','LOGNAME','SHELL','PATH','TMPDIR','LANG','LC_ALL','LC_CTYPE'}),'private_provider_signing_environment_supplied':False,'pinned_flutter':FLUTTER,'xcode_path':ENV['DEVELOPER_DIR'],'pub_cache':ENV['PUB_CACHE'],'cocoapods_home':ENV['CP_HOME_DIR'],'cocoapods_cache':ENV['CP_CACHE_DIR'],'runner_sha256':hashlib.sha256(runner).hexdigest()},indent=2)+'\n')
+commands=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def run(name,argv,cwd=EXPORT,expected=0):
+ print('START',name,flush=True);start=time.time()
+ with (PACKET/(name+'.stdout')).open('wb') as out,(PACKET/(name+'.stderr')).open('wb') as err:
+  code=subprocess.run(argv,cwd=cwd,env=ENV,stdout=out,stderr=err).returncode
+ rec={'name':name,'command':argv,'exit_code':code,'elapsed_seconds':round(time.time()-start,2),'stdout_sha256':sha(PACKET/(name+'.stdout')),'stderr_sha256':sha(PACKET/(name+'.stderr'))};commands.append(rec)
+ (PACKET/'execution.json').write_text(json.dumps({'status':'running' if code==expected else 'failed','commands':commands,'scope':'Isolated source-only unsigned iOS QA compilation; no credentials, signed store/provider/device acceptance'},indent=2)+'\n')
+ print('END',name,code,flush=True)
+ if code!=expected:raise SystemExit(code if code>0 else 1)
+run('source-export',['python3',str(ROOT/'scripts/qa/native_source_export.py'),'--destination',str(EXPORT),'--report',str(PACKET/'source-export.json')],ROOT)
+run('flutter-version',[FLUTTER,'--version','--machine'])
+version=json.loads((PACKET/'flutter-version.stdout').read_text());assert version['frameworkVersion']=='3.44.4' and version['frameworkRevision']=='ad70ec4617166f1c38e5d2bfd388af71fda14f06'
+run('xcode-version',['xcrun','xcodebuild','-version'])
+run('pub-enforce',[FLUTTER,'pub','get','--offline','--enforce-lockfile'])
+run('unsigned-ios-config',[FLUTTER,'build','ios','--release','--flavor','production','--no-codesign','--no-pub','--config-only'])
+source=json.loads((PACKET/'source-export.json').read_text())['source_sha256']
+lock_names=['pubspec.lock','ios/Podfile.lock','ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved','ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved']
+locks={n:{'before_sha256':source[n],'after_sha256':sha(EXPORT/n)} for n in lock_names}
+(PACKET/'configuration-lock-comparison.json').write_text(json.dumps(locks,indent=2)+'\n')
+assert all(d['before_sha256']==d['after_sha256'] for d in locks.values()),'Configuration changed an approved lock'
+cache=EXPORT/'build/ios/SourcePackages';cache.parent.mkdir(parents=True,exist_ok=True)
+run('copy-pinned-source-packages',['cp','-cR','/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages',str(cache)])
+pins=json.loads((EXPORT/'ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved').read_text())['pins'];observed={}
+for pin in pins:
+ checkout=cache/'checkouts'/pin['identity'];actual=subprocess.check_output(['git','-C',str(checkout),'rev-parse','HEAD'],env=ENV,text=True).strip();assert actual==pin['state']['revision'],pin['identity'];observed[pin['identity']]={'revision':actual,'version':pin['state'].get('version')}
+(PACKET/'swift-package-cache-verification.json').write_text(json.dumps({'scope':'Local cached checkouts compared with exact lock revisions before actual Xcode build; no provider data or new version resolution','checkouts':observed},indent=2)+'\n')
+run('unsigned-ios-build',['xcrun','xcodebuild','-workspace','ios/Runner.xcworkspace','-scheme','production','-configuration','Release-production','-sdk','iphoneos','-destination','generic/platform=iOS','-derivedDataPath',str(EXPORT/'build/ios/DerivedData'),'-clonedSourcePackagesDirPath',str(EXPORT/'build/ios/SourcePackages'),'-onlyUsePackageVersionsFromResolvedFile','-disableAutomaticPackageResolution','-skipPackageUpdates','CODE_SIGNING_ALLOWED=NO','CODE_SIGNING_REQUIRED=NO','CODE_SIGNING_IDENTITY=','DEVELOPMENT_TEAM=','build'])
+(PACKET/'execution.json').write_text(json.dumps({'status':'pass','commands':commands,'scope':'Isolated source-only unsigned iOS QA compilation; no credentials, signed store/provider/device acceptance'},indent=2)+'\n')
+print('IOS BUILD PASS',flush=True)

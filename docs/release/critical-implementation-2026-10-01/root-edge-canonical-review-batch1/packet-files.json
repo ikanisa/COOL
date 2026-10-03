@@ -1,0 +1,16 @@
+{
+  "status": "sealed",
+  "scope": "Root independent original519 integrity/phase/source/negative readback; current combined checkout remains unaccepted.",
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/readback.json",
+      "bytes": 3056,
+      "sha256": "c34473d38a2e4231959391f7803985efd6a112e30fba79a9666801397f32e8ce"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/readback.py",
+      "bytes": 5974,
+      "sha256": "77692745b88aee46a533bd82d568d14c2abf76278854f81a0297b18f578d00ab"
+    }
+  ]
+}

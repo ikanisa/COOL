@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "scope": "Root verifier Docker diagnostic comparison",
+  "reason": "Docker returned exit1 and lowercase error: no such object. The verifier incorrectly expected capitalized No such object. Direct terminal e6ee42 confirms the exact first owned target is absent; the check now compares lowercase diagnostics.",
+  "tool_terminal": "18da3b",
+  "product_change": false
+}

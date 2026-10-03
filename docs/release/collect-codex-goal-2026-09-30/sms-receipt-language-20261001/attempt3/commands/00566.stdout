@@ -1,0 +1,2 @@
+{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}
+{"scope": "rw_receipt_manual_cancel", "status": "available", "receipt": {"state": "queued", "revision": 1, "outbox_id": "352c518f-d48a-4ace-80ad-ec03ead37c9d", "can_cancel": true, "reason_code": "eligible"}, "outbox_id": "352c518f-d48a-4ace-80ad-ec03ead37c9d", "checked_at": "2026-10-01T18:35:15.814450Z", "contract_version": 1, "sample_valid_until": "2026-10-01T18:36:15.814450Z"}

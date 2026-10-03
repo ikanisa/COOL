@@ -1,0 +1,3 @@
+ERROR:  22023: reconciliation_invalid_reason
+CONTEXT:  PL/pgSQL function public.approve_payment_reconciliation_v2(uuid,text) line 7 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

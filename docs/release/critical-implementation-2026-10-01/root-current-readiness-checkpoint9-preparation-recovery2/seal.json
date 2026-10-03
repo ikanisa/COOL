@@ -1,0 +1,8 @@
+{
+  "payload_files": 24,
+  "packet_sha256": "6b106d3f8af253ce551e14e0151a6d125790ce54d2d425404f67dca398b272dc",
+  "SHA256SUMS_sha256": "ab39a4654a9564c16fbb92cb5a43985f7d4eceaf1b6eb8a068a174ce4a217f76",
+  "canonical_writes": false,
+  "all_file_modes": "0400",
+  "original_refused_packet_preserved": true
+}

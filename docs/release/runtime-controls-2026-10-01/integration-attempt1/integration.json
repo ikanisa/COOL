@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-09-30T23:57:29.189085+00:00",
+  "candidate_proof": "docs/release/runtime-controls-2026-10-01/full26-current13-attempt2-reason-candidate/result.json",
+  "candidate_proof_sha256": "5c2f12193d1bde98ce83e8d39a007c291d88065195f349d5c365da56e008dd27",
+  "candidate_cases": 1330,
+  "source_migration": "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql",
+  "source_migration_sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+  "byte_identical_to_accepted_candidate": true,
+  "prior_bundle_runner_sha256": "f9892e28f73e4c503718d3c875bb557c636b9be8ebde81a65cb98f854d1ecb08",
+  "updated_bundle_runner_sha256": "d11caa45d5d085fad1b29196a71818e0cbe905bb91493aaedcce18efe4aee8b2"
+}

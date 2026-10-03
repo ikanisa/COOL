@@ -1,0 +1,67 @@
+{
+  "rows": [
+    {
+      "catch_up": "policy_pending",
+      "payment_id": "99710000-0000-4000-8000-000000050004",
+      "captured_at": "2026-09-30T22:41:16.464959+00:00",
+      "snapshot_id": "2e5ea246-3dd3-4458-8ee1-f3d172651da8",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "payment_status": "posted",
+      "review_version": "1ee4b3214f2b38a97325315be09e34f242b9398c4c4a390eaf1a53d991de2109",
+      "policy_revision": 3,
+      "consent_revision": 1,
+      "eligibility_code": "CURRENTLY_ELIGIBLE_HISTORY_UNPROVEN",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "destination_revision": 1
+    },
+    {
+      "catch_up": "policy_pending",
+      "payment_id": "99710000-0000-4000-8000-000000050003",
+      "captured_at": "2026-09-30T22:41:15.965754+00:00",
+      "snapshot_id": "edaccf36-5748-4686-a523-ab02b4a28dda",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "payment_status": "posted",
+      "review_version": "25e9393ad6714651fe39c6a29c46d27d26e49502828588df2ad92f90b05d500f",
+      "policy_revision": 3,
+      "consent_revision": null,
+      "eligibility_code": "APP_LINKED_MEMBER",
+      "member_record_id": "99710000-0000-4000-8000-000000000002",
+      "destination_revision": null
+    },
+    {
+      "catch_up": "policy_pending",
+      "payment_id": "99710000-0000-4000-8000-000000050002",
+      "captured_at": "2026-09-30T22:41:15.662821+00:00",
+      "snapshot_id": "694a8e11-2e25-44f9-b6e0-1c3e70d017cd",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "payment_status": "posted",
+      "review_version": "a582cfbfbc76064457a0bceb31815e960ab2b10d5b86237e2571e63157e4c537",
+      "policy_revision": 3,
+      "consent_revision": null,
+      "eligibility_code": "CONSENT_DISABLED",
+      "member_record_id": "99710000-0000-4000-8000-000000040002",
+      "destination_revision": 1
+    },
+    {
+      "catch_up": "policy_pending",
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "captured_at": "2026-09-30T22:40:27.753483+00:00",
+      "snapshot_id": "c4e52516-0f43-4896-8a3e-f4414efdcd7a",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "payment_status": "posted",
+      "review_version": "c919a363811dfb118bc3b491534f2c89b6c40e4272884af5b9f222b7d8220c46",
+      "policy_revision": 3,
+      "consent_revision": 1,
+      "eligibility_code": "CURRENTLY_ELIGIBLE_HISTORY_UNPROVEN",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "destination_revision": 1
+    }
+  ],
+  "limit": 50,
+  "scope": "collect_platform",
+  "catch_up": "policy_pending",
+  "checked_at": "2026-09-30T22:41:17.786395+00:00",
+  "next_cursor": null,
+  "contract_version": 1,
+  "historical_enqueue_enabled": false
+}

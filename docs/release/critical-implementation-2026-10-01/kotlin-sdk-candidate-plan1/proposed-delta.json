@@ -1,0 +1,29 @@
+{
+  "candidate_created": false,
+  "candidate_role": "Dedicated Collect-only SDK source fork; no globally installed/shared SDK change or upstream support claim.",
+  "installed_sdk_mutated": false,
+  "patch_sha256": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+  "policy_tradeoff": "Raises candidate minimum KGP and excludes formerly supported older projects. Numeric Version checker alone does not establish stable publisher provenance; exact stable declaration, loaded-class/artifact and reviewed-delta guards must separately enforce2.4.20.",
+  "production_release_approval": false,
+  "proposed_files": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "before_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "proposed_after_sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "before_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "proposed_after_sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "before_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "proposed_after_sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3"
+    }
+  },
+  "rationale": {
+    "DependencyVersionChecker.kt": "Upstream comment explicitly couples runtime KGP bump to the minimum error version. Raising both error and warning floors to2.4.20 keeps their order and creates no warning-only interval below a security minimum; restrict this support policy to dedicated Collect candidate.",
+    "DependencyVersionCheckerTest.kt": "Update supported fixture and replace now-invalid warning-only acceptance with real behavioral rejection of2.0.0/2.2.20/2.3.20 and successful2.4.20 checker calls. These proposed tests have not run; actual SDK/native consumer proof is required.",
+    "build.gradle.kts": "Replace affected applied JVM and runtime KGP declarations with exact authenticated stable2.4.20. Preserve Java11 target, Gradle/AGP/serialization and existing kotlin-dsl plugin."
+  },
+  "source_basis": "Exact official Flutter3.44.4 tagged source, commit ad70ec4617166f1c38e5d2bfd388af71fda14f06. Source publisher/selected license proof retained; SDK binary archive checksum remains unavailable (official catalog404).",
+  "status": "PROPOSAL_ONLY_NOT_APPLIED_NOT_TESTED"
+}

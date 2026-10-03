@@ -1,0 +1,18 @@
+[
+  {
+    "body": "CREATE OR REPLACE FUNCTION public.create_profile_for_auth_user()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into profiles (id, public_id, whatsapp_phone, display_name)\n  values (\n    new.id,\n    generate_public_id(),\n    nullif(new.phone, ''),\n    coalesce(nullif(new.raw_user_meta_data->>'display_name', ''), null)\n  )\n  on conflict (id) do nothing;\n  return new;\nend;\n$function$\n",
+    "name": "on_auth_user_created_collect_profile"
+  },
+  {
+    "body": "CREATE OR REPLACE FUNCTION public.lock_notification_auth_revocation()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  -- A multi-statement Auth transaction may already hold a shared activity\n  -- gate. Never wait while upgrading that lock: another shared reader could\n  -- be waiting for this transaction's Auth row. Abort atomically for a whole\n  -- transaction retry instead of forming an upgrade deadlock.\n  if exists(select 1 from pg_catalog.pg_locks where locktype='advisory'\n      and pid=pg_catalog.pg_backend_pid() and classid=193517 and objid=141\n      and objsubid=2 and mode='ShareLock' and granted)\n    and not exists(select 1 from pg_catalog.pg_locks where locktype='advisory'\n      and pid=pg_catalog.pg_backend_pid() and classid=193517 and objid=141\n      and objsubid=2 and mode='ExclusiveLock' and granted) then\n    if not pg_catalog.pg_try_advisory_xact_lock(193517,141) then\n      raise exception 'notification_auth_revocation_retry' using errcode='40001';\n    end if;\n  else\n    perform pg_catalog.pg_advisory_xact_lock(193517,141);\n  end if;\n  return null;\nend $function$\n",
+    "name": "a_notification_auth_user_revocation_gate"
+  },
+  {
+    "body": "CREATE OR REPLACE FUNCTION public.lock_notification_auth_activity()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  perform public._lock_notification_session_gate();\n  return null;\nend $function$\n",
+    "name": "b_notification_auth_user_activity_gate"
+  },
+  {
+    "body": "CREATE OR REPLACE FUNCTION public.revoke_notification_user_devices()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare device_id uuid;\nbegin\n  if new.id=old.id and new.deleted_at is null and not coalesce(new.is_anonymous,false)\n    and (new.phone_confirmed_at is not null or new.email_confirmed_at is not null)\n    and (new.banned_until is null or new.banned_until<=clock_timestamp()) then return new; end if;\n  for device_id in select device.id from public.notification_device_tokens device\n      where device.user_id=old.id and device.enabled order by device.id for update loop\n    update public.notification_device_tokens set enabled=false,disabled_at=clock_timestamp(),\n      disabled_reason='registration_user_revoked',updated_at=clock_timestamp()\n      where id=device_id and user_id=old.id and enabled;\n  end loop;\n  return new;\nend $function$\n",
+    "name": "revoke_notification_user_devices_trigger"
+  }
+]

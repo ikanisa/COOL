@@ -1,0 +1,11 @@
+{
+  "APP-source": {
+    "readback_completed": true
+  },
+  "SDK-source": {
+    "readback_completed": true
+  },
+  "protected": {
+    "readback_completed": true
+  }
+}

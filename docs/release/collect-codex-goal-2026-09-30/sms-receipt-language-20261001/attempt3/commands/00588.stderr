@@ -1,0 +1,28 @@
+ERROR:  40P01: deadlock detected
+DETAIL:  Process 4321 waits for ShareLock on transaction 2466; blocked by process 4342.
+Process 4342 waits for ShareLock on transaction 2465; blocked by process 4321.
+HINT:  See server log for query details.
+CONTEXT:  while locking tuple (0,3) in relation "member_records"
+SQL statement "SELECT 1 FROM ONLY "collect_hybrid"."member_records" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHARE OF x"
+SQL statement "insert into public.ledger_entries(
+    payment_id, collection_id, user_id, member_record_id,
+    entry_type, amount_rwf, visibility, metadata
+  ) values
+    (
+      payment_row.id, payment_row.collection_id, payment_row.contributor_user_id,
+      payment_row.member_record_id, 'collection_credit', payment_row.amount_rwf,
+      'public_safe', jsonb_build_object(
+        'allocation_method', 'provider_confirmed',
+        'provider_confirmation_id', clean_confirmation_id
+      )
+    ),
+    (
+      payment_row.id, payment_row.collection_id, payment_row.contributor_user_id,
+      payment_row.member_record_id, 'member_credit', payment_row.amount_rwf,
+      'private', jsonb_build_object(
+        'allocation_method', 'provider_confirmed',
+        'provider_confirmation_id', clean_confirmation_id
+      )
+    )"
+PL/pgSQL function public.confirm_provider_payment(uuid,text,text,text,text,bigint,timestamp with time zone,text) line 63 at SQL statement
+LOCATION:  DeadLockReport, deadlock.c:1130

@@ -1,0 +1,46 @@
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation
+app.cool.mobile.gateway.GatewayStateException: gateway_storage_unavailable
+	at app.cool.mobile.gateway.GatewayEncryptedStore.load(GatewayEncryptedStore.kt:58)
+	at app.cool.mobile.gateway.GatewayEncryptedStore.coldControl(GatewayEncryptedStore.kt:569)
+	at app.cool.mobile.gateway.GatewayEncryptedStore.migrateLegacyRetention$gateway_product(GatewayEncryptedStore.kt:264)
+	at app.cool.mobile.gateway.GatewayEncryptedStore.readRequests(GatewayEncryptedStore.kt:422)
+	at app.cool.mobile.gateway.GatewayLookupFairnessTest.assertOriginal(GatewayLookupFairnessTest.kt:94)
+	at app.cool.mobile.gateway.GatewayLookupFairnessTest.stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation$lambda$0(GatewayLookupFairnessTest.kt:132)
+	at app.cool.mobile.gateway.GatewayLookupFairnessTest.test(GatewayLookupFairnessTest.kt:85)
+	at app.cool.mobile.gateway.GatewayLookupFairnessTest.stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation(GatewayLookupFairnessTest.kt:129)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+	at CurrentCasesKt.main(CurrentCases.kt:20)
+
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation FAIL
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.laterReceiptFailureRemainsUnknownUntilExactReadRecoveryAndNeverReplays
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.laterReceiptFailureRemainsUnknownUntilExactReadRecoveryAndNeverReplays PASS
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.credentialTrustIdentityMalformedAndBindingFailuresStayClosedBeforeLaterMutations
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.credentialTrustIdentityMalformedAndBindingFailuresStayClosedBeforeLaterMutations PASS
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.transientReadStatusesDoNotBecomeMutationRetries
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.transientReadStatusesDoNotBecomeMutationRetries PASS
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.lookupDeadlineDefersReadAndAllowsLaterEvidenceWithStopStillLatched
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.lookupDeadlineDefersReadAndAllowsLaterEvidenceWithStopStillLatched PASS
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.throwingOriginalReadsStillVisitThreePagesAcrossRestartWithoutReplayingUnknown
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.throwingOriginalReadsStillVisitThreePagesAcrossRestartWithoutReplayingUnknown PASS
+BEGIN app.cool.mobile.gateway.GatewayLookupFairnessTest.unavailableArchiveLookupKeepsPendingArchiveOriginalAndAllowsLateEvidence
+CASE app.cool.mobile.gateway.GatewayLookupFairnessTest.unavailableArchiveLookupKeepsPendingArchiveOriginalAndAllowsLateEvidence PASS
+Tests run: 7, Failures: 1, Ignored: 0

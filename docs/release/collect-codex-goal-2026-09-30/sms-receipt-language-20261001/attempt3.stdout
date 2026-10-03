@@ -1,0 +1,238 @@
+language PASS supabase/migrations/202605230001_collect_baseline.sql
+language PASS supabase/migrations/202605230002_fix_invite_rpc_lint.sql
+language PASS supabase/migrations/202605230003_harden_rls_indexes.sql
+language PASS supabase/migrations/202605230004_restore_payment_intent_paid_rpc.sql
+language PASS supabase/migrations/202605230005_restore_sms_collection_scope.sql
+language PASS supabase/migrations/202605230006_finalize_payment_intent_hardening.sql
+language PASS supabase/migrations/202605230007_revoke_public_function_execute.sql
+language PASS supabase/migrations/202605230008_admin_panel.sql
+language PASS supabase/migrations/202605230009_add_client_safe_views.sql
+language PASS supabase/migrations/202605230010_grant_collection_receiver_read.sql
+language PASS supabase/migrations/202605230011_fix_receiver_consent_execute_grant.sql
+language PASS supabase/migrations/202605230012_admin_rpc_grants.sql
+language PASS supabase/migrations/202605230013_admin_settings_flags.sql
+language PASS supabase/migrations/202605230014_admin_review_hardening.sql
+language PASS supabase/migrations/202605230015_admin_collection_moderation.sql
+language PASS supabase/migrations/202605230016_drop_unowned_admin_helpers.sql
+language PASS supabase/migrations/202605230017_admin_list_filter_contracts.sql
+language PASS supabase/migrations/20260523203132_tighten_admin_role_permissions.sql
+language PASS supabase/migrations/20260523204235_set_views_security_invoker.sql
+language PASS supabase/migrations/20260523205502_set_helper_function_search_paths.sql
+language PASS supabase/migrations/20260523210723_split_permissive_select_policies.sql
+language PASS supabase/migrations/20260523212244_revoke_anon_platform_admin_helper.sql
+language PASS supabase/migrations/20260523213113_disable_graphql_introspection.sql
+language PASS supabase/migrations/202605250001_app_realtime_invalidation.sql
+language PASS supabase/migrations/202605270001_sms_first_group_payment_intents.sql
+language PASS supabase/migrations/20260531162852_harden_sms_first_function_grants.sql
+language PASS supabase/migrations/20260531190000_mobile_production_state_support.sql
+language PASS supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql
+language PASS supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql
+language PASS supabase/migrations/20260607130500_update_collection_profile_rpc.sql
+language PASS supabase/migrations/20260608090000_native_notifications.sql
+language PASS supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql
+language PASS supabase/migrations/20260611113000_harden_notification_rls_initplan.sql
+language PASS supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql
+language PASS supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql
+language PASS supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql
+language PASS supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql
+language PASS supabase/migrations/20260612110000_admin_payment_event_server_paging.sql
+language PASS supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql
+language PASS supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql
+language PASS supabase/migrations/20260619003000_profile_momo_pay_code.sql
+language PASS supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql
+language PASS supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql
+language PASS supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql
+language PASS supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql
+language PASS supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql
+language PASS supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql
+language PASS supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql
+language PASS supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql
+language PASS supabase/migrations/20260701090000_developer_account_seed_data.sql
+language PASS supabase/migrations/20260701100000_group_owner_controls.sql
+language PASS supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql
+language PASS supabase/migrations/20260703224559_collection_type_catalog_runtime.sql
+language PASS supabase/migrations/20260703225455_notification_templates_runtime.sql
+language PASS supabase/migrations/20260704100000_public_runtime_config.sql
+language PASS supabase/migrations/20260704110000_admin_runtime_metadata.sql
+language PASS supabase/migrations/20260704120000_policy_documents_account_reasons.sql
+language PASS supabase/migrations/20260704133000_split_runtime_metadata_select_policies.sql
+language PASS supabase/migrations/20260730134500_grant_mobile_request_own_read.sql
+language PASS supabase/migrations/20260804150000_native_push_delivery.sql
+language PASS supabase/migrations/20260805120000_android_fcm_push_delivery.sql
+language PASS supabase/migrations/20260808093000_qualify_notification_token_digest.sql
+language PASS supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql
+language PASS supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql
+language PASS supabase/migrations/20260812090000_expand_momo_pay_code_length.sql
+language PASS supabase/migrations/20260812100000_remove_developer_dummy_data.sql
+language PASS supabase/migrations/20260812110000_correct_momo_merchant_ussd_template.sql
+language PASS supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql
+language PASS supabase/migrations/20260815051035_harden_group_creation_journey.sql
+language PASS supabase/migrations/20260815054500_close_group_journey_database_lint.sql
+language PASS supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql
+language PASS supabase/migrations/20260815071500_bind_contribution_payer_identity.sql
+language PASS supabase/migrations/20260815082500_close_group_authorization_privacy.sql
+language PASS supabase/migrations/20260815083000_require_provider_finality.sql
+language PASS supabase/migrations/20260815083500_claim_sms_parser_work.sql
+language PASS supabase/migrations/20260815084000_atomic_sms_ingestion.sql
+language PASS supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql
+language PASS supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql
+language PASS supabase/migrations/20260820160000_restore_momo_sms_standalone.sql
+language PASS supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql
+language PASS supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql
+language PASS supabase/migrations/20260828100000_profile_country_session_independence.sql
+language PASS supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql
+language PASS supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql
+language PASS supabase/migrations/20260831095454_collect_admin_operations_model.sql
+language PASS supabase/migrations/20260901134820_platform_public_groups.sql
+language PASS supabase/migrations/20260901135728_public_group_directory.sql
+language PASS supabase/migrations/20260901141842_public_contribution_auto_membership.sql
+language PASS supabase/migrations/20260901160000_collect_admin_payee_management.sql
+language PASS supabase/migrations/20260901183000_admin_operations_tables.sql
+language PASS supabase/migrations/20260901193000_admin_group_lifecycle.sql
+language PASS supabase/migrations/20260901194500_admin_users_and_members.sql
+language PASS supabase/migrations/20260901200000_localize_public_group_payment_routes.sql
+language PASS supabase/migrations/20260901210000_admin_single_access_role.sql
+language PASS supabase/migrations/20260901220000_admin_country_scope_contract.sql
+language PASS supabase/migrations/20260901223000_live_admin_uat_fixes.sql
+language PASS supabase/migrations/20260901230000_admin_people_detail_contract.sql
+language PASS supabase/migrations/20260902073741_member_profile_numeric_identity.sql
+language PASS supabase/migrations/20260902075721_member_collection_read_contract.sql
+language PASS supabase/migrations/20260902081017_hybrid_admin_overview_metrics.sql
+language PASS supabase/migrations/20260902081830_member_profile_read_allowlist.sql
+language PASS supabase/migrations/20260902083940_member_cross_rail_history.sql
+language PASS supabase/migrations/20260902090210_member_group_owner_controls.sql
+language PASS supabase/migrations/20260902091314_member_group_roster.sql
+language PASS supabase/migrations/20260902093609_member_history_query_plan.sql
+language PASS supabase/migrations/20260902100046_member_bounded_history_pages.sql
+language PASS supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql
+language PASS supabase/migrations/20260902120555_hybrid_member_registry.sql
+language PASS supabase/migrations/20260902134420_member_add_group_admin.sql
+language PASS supabase/migrations/20260902140151_platform_admin_whatsapp_approval.sql
+language PASS supabase/migrations/20260902212721_revoke_official_payee_trigger_execute.sql
+language PASS supabase/migrations/20260903083947_member_profile_rpc_only_writes.sql
+language PASS supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql
+language PASS supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql
+language PASS supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql
+language PASS supabase/migrations/20260903090500_admin_sms_receipt_queue.sql
+language PASS supabase/migrations/20260903091000_hybrid_verified_account_claim.sql
+language PASS supabase/migrations/20260903091500_hybrid_member_directory_views.sql
+language PASS supabase/migrations/20260903092000_admin_sms_receipt_failed_filter.sql
+language PASS supabase/migrations/20260903092500_revoke_hybrid_internal_function_execute.sql
+language PASS supabase/migrations/20260903200322_hybrid_directory_presentation.sql
+language PASS supabase/migrations/20260903201326_geographic_member_profile_gates.sql
+language PASS supabase/migrations/20260906093000_member_profile_momo_code.sql
+language PASS supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql
+PASS nonempty predecessor has 850 RWF, three balanced journals and two immutable primary receipts
+PASS predecessor dispatch is paused with no carrier attempts
+language PASS supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql
+language PASS supabase/migrations/20260914213600_atomic_otp_rate_limit.sql
+language PASS supabase/migrations/20260925190000_rwanda_momo_only.sql
+language PASS supabase/migrations/20260928150000_relational_member_history_pages.sql
+language PASS supabase/migrations/20260928160000_sms_observation_never_settles.sql
+language PASS supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql
+language PASS supabase/migrations/20260928171000_strict_intent_sms_match.sql
+language PASS supabase/migrations/20260928172000_allow_incomplete_rwanda_onboarding_profile.sql
+language PASS supabase/migrations/20260928174000_attested_receipt_v2_contract.sql
+language PASS supabase/migrations/20260929110000_admin_notification_page_before_delivery_counts.sql
+language PASS supabase/migrations/20260929120000_provider_finality_payment_lock_order.sql
+language PASS supabase/migrations/20260929130000_provider_finality_content_binding.sql
+language PASS supabase/migrations/20260929140000_notification_delivery_fencing.sql
+language PASS supabase/migrations/20260929150000_notification_retry_eligibility.sql
+language PASS supabase/migrations/20260929160000_notification_retry_schedule.sql
+language PASS supabase/migrations/20260929170000_governed_reconciliation_workflow.sql
+language PASS supabase/migrations/20260929180000_notification_registration_sessions.sql
+language PASS supabase/migrations/20260930100000_roster_import_provenance.sql
+language PASS supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql
+language PASS supabase/migrations/20260930120000_roster_import_reload_recovery.sql
+language PASS supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql
+language PASS supabase/migrations/20260930140000_roster_resource_integrity.sql
+language PASS supabase/migrations/20260930150000_runtime_control_governance.sql
+language PASS supabase/migrations/20260930160000_redacted_operational_health.sql
+language PASS supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql
+language PASS supabase/migrations/20260930180000_operational_health_authority.sql
+language PASS supabase/migrations/20260930200000_admin_automation_navigation.sql
+language PASS supabase/migrations/20260930210000_shadow_supervisor_runs.sql
+language PASS supabase/migrations/20260930211605_android_gateway_identity.sql
+language PASS supabase/migrations/20260930213000_operator_email_auth.sql
+language PASS supabase/migrations/20260930220000_runtime_control_authority.sql
+language PASS supabase/migrations/20260930220527_operator_email_cutover_guard.sql
+language PASS supabase/migrations/20260930230000_group_share_rotation_receipts.sql
+language PASS supabase/migrations/20260930230100_receipt_backlog_events.sql
+language PASS supabase/migrations/20260930230200_admin_receipt_overview.sql
+language PASS supabase/migrations/20260930230300_admin_transaction_lifecycle.sql
+language PASS supabase/migrations/20260930230400_admin_investigation.sql
+language PASS supabase/migrations/20260930233000_sensitive_admin_authority.sql
+language PASS supabase/migrations/20260930234000_exact_request_amounts.sql
+language PASS supabase/migrations/20260930235000_exact_receipt_history_amounts.sql
+language PASS supabase/migrations/20260930235500_operator_reason_whitespace.sql
+language PASS supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql
+language PASS supabase/migrations/20260930235700_sensitive_reason_whitespace.sql
+language PASS supabase/migrations/20261001000100_operational_exception_inbox.sql
+language PASS supabase/migrations/20261001000200_admin_gateway_reads.sql
+language PASS supabase/migrations/20261001000300_admin_exception_reads.sql
+language PASS supabase/migrations/20261001000400_receipt_supervisor_identity.sql
+language PASS supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql
+language PASS supabase/migrations/20261001001457_joined_operator_audit.sql
+language PASS supabase/migrations/20261001003338_unattended_operating_policy.sql
+language PASS supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql
+language PASS supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql
+language PASS supabase/migrations/20261001100000_receipt_financial_policy.sql
+PASS prerequisite actual normal posting has immutable content2 rw
+PASS language migration installer is actual NOSUPERUSER
+PASS bad prior governance hash refuses atomically before column or event adoption
+PASS changed real predecessor body refuses atomically
+PASS install preserves all nonempty finance queued payloads content proofs and decisions
+PASS install preserves exact business policies while adding only compatible rw defaults
+PASS every predecessor function preserves OID owner and execute ACL
+PASS schema adoption preserves every prior immutable event
+PASS schema adoption records a genuine owner-only non-request event and advances governance exactly once
+PASS actual closed v2 catalog exposes governed writable language and current revision
+PASS pre-adoption editor revision cannot mutate
+PASS unsupported language refused 'xx'
+PASS unsupported language refused 'EN'
+PASS unsupported language refused ' fr'
+PASS unsupported language refused 'fr\n'
+PASS unsupported language refused 'é'
+PASS anon cannot read or mutate private immutable content evidence or new helpers
+PASS authenticated cannot read or mutate private immutable content evidence or new helpers
+PASS service_role cannot read or mutate private immutable content evidence or new helpers
+PASS rw policy uses governed original request and correct business revision
+PASS rw actual normal producer captures selected immutable language and exact body/hash
+PASS rw all currentness and body reconstruction consumers use captured language
+PASS rw actual Admin preview uses selected immutable copy with reference masked
+PASS rw language selection does not enable historical catch-up
+PASS rw dry ensure derives eligible content without durable job
+PASS rw actual ensure creates the same selected immutable language and repeats without duplicate
+PASS en policy uses governed original request and correct business revision
+PASS en actual normal producer captures selected immutable language and exact body/hash
+PASS en all currentness and body reconstruction consumers use captured language
+PASS en actual Admin preview uses selected immutable copy with reference masked
+PASS en language selection does not enable historical catch-up
+PASS en dry ensure derives eligible content without durable job
+PASS en actual ensure creates the same selected immutable language and repeats without duplicate
+PASS fr policy uses governed original request and correct business revision
+PASS fr actual normal producer captures selected immutable language and exact body/hash
+PASS fr all currentness and body reconstruction consumers use captured language
+PASS fr actual Admin preview uses selected immutable copy with reference masked
+PASS fr language selection does not enable historical catch-up
+PASS fr dry ensure derives eligible content without durable job
+PASS fr actual ensure creates the same selected immutable language and repeats without duplicate
+PASS current French policy never rewrites old rw body evidence or immutable Admin preview
+PASS approved accented GSM accounting boundary 160
+PASS approved accented GSM accounting boundary 161
+PASS approved accented GSM accounting boundary 306
+PASS approved accented GSM accounting boundary 307
+PASS narrow encoding refuses 'éééééééééééé'
+PASS narrow encoding refuses 'é'
+PASS narrow encoding refuses '^'
+PASS narrow encoding refuses '€'
+PASS narrow encoding refuses '😀'
+PASS narrow encoding refuses '\n'
+PASS narrow encoding refuses '`'
+PASS even owner cannot update captured language evidence
+PASS even owner cannot delete captured language evidence
+PASS separately enabled eligible catch-up captures French immutable evidence
+PASS actual automatic grant accepts exact French immutable body and charges multipart segments
+PASS language change invalidates queued authority while immutable French evidence remains valid
+PASS policy language change fences the previously granted final arm
+PASS actual account claim observed waiting on owned financial posting transaction

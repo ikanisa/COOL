@@ -4,9 +4,11 @@ import '../../../app/theme/collect_colors.dart';
 import '../../../app/theme/collect_typography.dart';
 
 class AdminStatusChip extends StatelessWidget {
-  const AdminStatusChip({required this.label, super.key});
+  const AdminStatusChip({required this.label, this.tone, this.icon, super.key});
 
   final String label;
+  final CollectStatusTone? tone;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -15,45 +17,49 @@ class AdminStatusChip extends StatelessWidget {
       RegExp(r'[_-]+'),
       ' ',
     );
-    final tone =
-        normalized.contains('review') ||
-            normalized.contains('pending') ||
-            normalized.contains('open') ||
-            normalized.contains('ambiguous') ||
-            normalized.contains('unallocated') ||
-            normalized.contains('unmatched') ||
-            normalized.contains('unbalanced') ||
-            normalized.contains('unknown') ||
-            normalized.contains('uncertain') ||
-            normalized.contains('awaiting')
-        ? CollectStatusTone.warning
-        : normalized.contains('failed') ||
-              normalized.contains('failure') ||
-              normalized.contains('blocked') ||
-              normalized.contains('expired') ||
-              normalized.contains('inactive') ||
-              normalized.contains('retired') ||
-              normalized.contains('undelivered') ||
-              normalized.contains('revoked')
-        ? CollectStatusTone.danger
-        : normalized.contains('active') ||
-              normalized.contains('allocated') ||
-              normalized.contains('confirmed') ||
-              normalized.contains('approved') ||
-              normalized.contains('balanced') ||
-              normalized.contains('completed') ||
-              normalized.contains('matched') ||
-              normalized.contains('reconciled') ||
-              normalized.contains('posted') ||
-              normalized == 'parsed' ||
-              normalized == 'sent' ||
-              normalized == 'delivered' ||
-              normalized == 'read' ||
-              normalized == 'observed sent'
-        ? CollectStatusTone.success
-        : CollectStatusTone.info;
-    final foreground = colors.statusForeground(tone);
+    final effectiveTone =
+        tone ??
+        (normalized.contains('review') ||
+                normalized.contains('pending') ||
+                normalized.contains('open') ||
+                normalized.contains('ambiguous') ||
+                normalized.contains('unallocated') ||
+                normalized.contains('unmatched') ||
+                normalized.contains('unbalanced') ||
+                normalized.contains('unknown') ||
+                normalized.contains('uncertain') ||
+                normalized.contains('awaiting')
+            ? CollectStatusTone.warning
+            : normalized.contains('failed') ||
+                  normalized.contains('failure') ||
+                  normalized.contains('blocked') ||
+                  normalized.contains('expired') ||
+                  normalized.contains('inactive') ||
+                  normalized.contains('retired') ||
+                  normalized.contains('undelivered') ||
+                  normalized.contains('revoked')
+            ? CollectStatusTone.danger
+            : normalized.contains('active') ||
+                  normalized.contains('allocated') ||
+                  normalized.contains('confirmed') ||
+                  normalized.contains('approved') ||
+                  normalized.contains('balanced') ||
+                  normalized.contains('completed') ||
+                  normalized.contains('matched') ||
+                  normalized.contains('reconciled') ||
+                  normalized.contains('posted') ||
+                  normalized == 'parsed' ||
+                  normalized == 'sent' ||
+                  normalized == 'delivered' ||
+                  normalized == 'read' ||
+                  normalized == 'observed sent'
+            ? CollectStatusTone.success
+            : CollectStatusTone.info);
+    final foreground = colors.statusForeground(effectiveTone);
     final readableLabel = _readableStatus(label);
+    final fontSize = Theme.of(context).textTheme.labelMedium?.fontSize ?? 12.0;
+    final textScale =
+        MediaQuery.textScalerOf(context).scale(fontSize) / fontSize;
     return Semantics(
       label: 'Status: $readableLabel',
       child: ExcludeSemantics(
@@ -62,12 +68,15 @@ class AdminStatusChip extends StatelessWidget {
           excludeFromSemantics: true,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: colors.statusBackground(tone),
+              color: colors.statusBackground(effectiveTone),
               borderRadius: BorderRadius.circular(999),
               border: Border.all(color: foreground.withValues(alpha: 0.26)),
             ),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 176, minHeight: 32),
+              constraints: BoxConstraints(
+                maxWidth: 176 * textScale.clamp(1.0, 3.2),
+                minHeight: 32,
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -76,13 +85,16 @@ class AdminStatusChip extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(_statusIcon(normalized), size: 17, color: foreground),
+                    Icon(
+                      icon ?? _statusIcon(normalized),
+                      size: 17,
+                      color: foreground,
+                    ),
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
                         readableLabel,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(
                               color: foreground,

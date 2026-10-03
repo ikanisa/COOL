@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-01T22:17:32.163624+00:00",
+  "finding_ids": [
+    "ARC04",
+    "BE10",
+    "ARC10"
+  ],
+  "purpose": "Make canonical Edge tests independent of dated release archive while preserving exact immutable synthetic observation provenance.",
+  "original_fixture_directory": "docs/release/critical-implementation-2026-10-01/ci-batch1/worker-fixture-v1",
+  "maintained_fixture_directory": "scripts/tests/fixtures/receipt_worker_observation_v1",
+  "fixture_file_count": 12,
+  "fixture_logical_bytes": 298374,
+  "copied_files": {
+    "observed-worker-lookup.json": {
+      "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+      "bytes": 1375
+    },
+    "result.json": {
+      "sha256": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc",
+      "bytes": 69611
+    },
+    "observed-worker-expired-lookup.json": {
+      "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+      "bytes": 280
+    },
+    "observed-worker-executed.json": {
+      "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+      "bytes": 1226
+    },
+    "manifest.json": {
+      "sha256": "e5ed738a0aa4dc6cf870bf33352610074a6e46ab82705dd82440571b58a6a657",
+      "bytes": 1996
+    },
+    "inputs/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801
+    },
+    "inputs/executed-runner.py": {
+      "sha256": "076f49062e05dbbc5453b293c0bca0dbcda901fd786085e6ce904975051144a9",
+      "bytes": 26566
+    },
+    "inputs/20261001120000_operational_exception_lifecycle.sql": {
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "bytes": 21389
+    },
+    "inputs/20261001150000_receipt_exception_worker.sql": {
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "bytes": 19487
+    },
+    "inputs/authority-support.py": {
+      "sha256": "5c344108f9c397730cb684b96bb6f5bdf15d78ce35ef465cecacd4d0254678e5",
+      "bytes": 35313
+    },
+    "inputs/20261001140000_receipt_deferral_exceptions.sql": {
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268
+    },
+    "inputs/executed-helper.py": {
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+      "bytes": 32062
+    }
+  },
+  "immutable_manifest_sha256": "e5ed738a0aa4dc6cf870bf33352610074a6e46ab82705dd82440571b58a6a657",
+  "original_packet_preserved": true,
+  "removed_paths": [],
+  "test_relocation": {
+    "original": "docs/release/critical-implementation-2026-10-01/ci-batch1/test_runner_contract.py",
+    "original_sha256": "a8a14dada5813dc5e71c520a3acaa0579ef9bf35da24d1d9c3ddb30ae1cd32d1",
+    "maintained": "scripts/tests/edge_runner_contract_test.py",
+    "maintained_sha256": "694b691691d01cca39c73698806e05647facc09f4f2cb58988cef2dd1eb8d180",
+    "only_adjustment": "Repository root changes from parents[4] to parents[2] for the shallower maintained location."
+  },
+  "current_sql_acceptance_claimed": false,
+  "complete_archive_cleanup_claimed": false
+}

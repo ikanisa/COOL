@@ -1,0 +1,199 @@
+{
+  "notes": [
+    "Raw current checked_at/valid_until snapshots can differ; exact original receipts and immutable rows are checked through actual consumers",
+    "Do not add model56 or parent widget counts; this model acceptance has14 distinct checks",
+    "Root SDK/widget scopes remain independent"
+  ],
+  "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12",
+  "rows": [
+    {
+      "description": "Authenticated original Admin transport DTO before cold removal; snapshot timestamps may differ",
+      "name": "actual-admin-detail-before-transport-cold.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-admin-detail-before-transport-cold.json",
+      "relative_path": "sql-attempt12/actual-admin-detail-before-transport-cold.json",
+      "sha256": "8a01a9976775e46aa63109103c4bf25ff4c928c884ed641824f80aa6f14e245e"
+    },
+    {
+      "description": "Authenticated original Admin transport DTO after exact cold removal",
+      "name": "actual-admin-detail-after.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-admin-detail-after.json",
+      "relative_path": "sql-attempt12/actual-admin-detail-after.json",
+      "sha256": "4713e5a036e21223b83045565168fbbdd9059ddfd138d6ffc90db3c530a4ab14"
+    },
+    {
+      "description": "Authenticated worker health before cold removal",
+      "name": "actual-admin-health-before-transport-cold.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-admin-health-before-transport-cold.json",
+      "relative_path": "sql-attempt12/actual-admin-health-before-transport-cold.json",
+      "sha256": "acae11ab801f23967a6cffa54b5cd429816d8a71ae1dd15a782fd51d524c745c"
+    },
+    {
+      "description": "Authenticated worker health after cold removal",
+      "name": "actual-admin-health-after.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-admin-health-after.json",
+      "relative_path": "sql-attempt12/actual-admin-health-after.json",
+      "sha256": "a104f0103f007a73aa8d2629c7e077bde96f013b5d4542fddb4a9018c2c35586"
+    },
+    {
+      "description": "Original known worker lookup before cold removal",
+      "name": "actual-worker-lookup-before.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-worker-lookup-before.json",
+      "relative_path": "sql-attempt12/actual-worker-lookup-before.json",
+      "sha256": "a15d3018be3bb68419f8315f9f9d2afe91b92302d2612fafd8ec6ca5ebd4f758"
+    },
+    {
+      "description": "Original known worker lookup after cold removal",
+      "name": "actual-worker-lookup-after.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-worker-lookup-after.json",
+      "relative_path": "sql-attempt12/actual-worker-lookup-after.json",
+      "sha256": "6078fc9d7b2670212afd00b863b2d9684146935652e71332839ed43ac87f2df3"
+    },
+    {
+      "description": "Original known scan lookup before cold removal",
+      "name": "actual-scan-lookup-before.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-scan-lookup-before.json",
+      "relative_path": "sql-attempt12/actual-scan-lookup-before.json",
+      "sha256": "d9cac9483b94c742debe23dbcb508a028cc9be03a30c67b4fe001c3ab4860c27"
+    },
+    {
+      "description": "Original known scan lookup after cold removal",
+      "name": "actual-scan-lookup-after.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-scan-lookup-after.json",
+      "relative_path": "sql-attempt12/actual-scan-lookup-after.json",
+      "sha256": "8151253bdb6b39e302cb6941e2f9595535e1ec62968fe8dd66d3a91d0aa1a1ae"
+    },
+    {
+      "description": "Seven original SQL readers refuse known cold integrity failure with55000",
+      "name": "actual-cold-integrity-errors.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-cold-integrity-errors.json",
+      "relative_path": "sql-attempt12/actual-cold-integrity-errors.json",
+      "sha256": "1b65cdf62fe457518388fb534137cbbb4054178fa7a51389a270fd0643b54388"
+    },
+    {
+      "description": "Actual original worker execution receipt",
+      "name": "actual-worker-executed.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-worker-executed.json",
+      "relative_path": "sql-attempt12/actual-worker-executed.json",
+      "sha256": "66afbf481ab5f883dc6a8b5872af98adfd9d7201c6123609ad0eff5b786b2e84"
+    },
+    {
+      "description": "Actual bounded maintenance publication receipt; physical-only authority",
+      "name": "actual-maintenance-archive.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-maintenance-archive.json",
+      "relative_path": "sql-attempt12/actual-maintenance-archive.json",
+      "sha256": "60eb5aaf2353939eda2f330508e93c70123b94a3cded054a7c9308b341484e04"
+    },
+    {
+      "description": "Actual closure, approval and revoked successor evidence remain hot",
+      "name": "actual-successor-hot-hold.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-successor-hot-hold.json",
+      "relative_path": "sql-attempt12/actual-successor-hot-hold.json",
+      "sha256": "e8b2bbd5d64954bdd9997f3a95ae8db427d0039992a98f786676e1b0f328f2d9"
+    },
+    {
+      "description": "Preserved original job/dispatch/day quota anchors",
+      "name": "actual-retained-quota-anchors.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-retained-quota-anchors.json",
+      "relative_path": "sql-attempt12/actual-retained-quota-anchors.json",
+      "sha256": "5573b348b65833041ac06d5214f0e40b23f5571069ea3c83b9c276112e17c51d"
+    },
+    {
+      "description": "Default planner indexed hot/all-tier seeks on2000 additional immutable configuration records",
+      "name": "actual-deep-index-plans.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-deep-index-plans.json",
+      "relative_path": "sql-attempt12/actual-deep-index-plans.json",
+      "sha256": "ab53a062009bf0bfaabda3a699a59069faad93c2f250e59afe8143d4c940c758"
+    },
+    {
+      "description": "Actual both-tier bounded read inventory",
+      "name": "actual-history-inventory.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-history-inventory.json",
+      "relative_path": "sql-attempt12/actual-history-inventory.json",
+      "sha256": "600eb6b123c494ea9df3d808258f8448da1b8f79072b39360c635b2521c35f63"
+    },
+    {
+      "description": "Complete paged pre-restore logical inventory and all cold objects",
+      "name": "actual-recovery-before.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-recovery-before.json",
+      "relative_path": "sql-attempt12/actual-recovery-before.json",
+      "sha256": "388dae5a9be5f92fe0761c82efaf5a1362077efbdfe53b59231b18e623b7d8bf"
+    },
+    {
+      "description": "Exact matching restored inventory and all cold objects",
+      "name": "actual-recovery-after.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-recovery-after.json",
+      "relative_path": "sql-attempt12/actual-recovery-after.json",
+      "sha256": "388dae5a9be5f92fe0761c82efaf5a1362077efbdfe53b59231b18e623b7d8bf"
+    },
+    {
+      "description": "2042 original keys,10 objects, independent inactive schedules and removed target",
+      "name": "actual-both-tier-recovery-receipt.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-both-tier-recovery-receipt.json",
+      "relative_path": "sql-attempt12/actual-both-tier-recovery-receipt.json",
+      "sha256": "fd916fd7b063199c333c03770fd34edcecc8ad5ed025dcad627bb243d87f7a26"
+    },
+    {
+      "description": "Actual cron owner API creates exact maintenance command inactive",
+      "name": "actual-inactive-preparation.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/actual-inactive-preparation.json",
+      "relative_path": "sql-attempt12/actual-inactive-preparation.json",
+      "sha256": "16d513eed7e2eccc819cdddd169a4c35ac30602b1b70c9e5321ca9025be1377f"
+    },
+    {
+      "description": "Seven actual HTTP handler connected-SQL checks",
+      "name": "edge-connected-healthy.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/edge-connected-healthy.json",
+      "relative_path": "sql-attempt12/edge-connected-healthy.json",
+      "sha256": "ef9cda58db478af8c96c62f32ad01bd071cc244dc4e3e8e186a073f283241fbe"
+    },
+    {
+      "description": "Six actual known-key corruption Edge checks; no blind mutation retry",
+      "name": "edge-connected-cold_failure.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/edge-connected-cold_failure.json",
+      "relative_path": "sql-attempt12/edge-connected-cold_failure.json",
+      "sha256": "20f8911a5295bc342107d8088cf5ff5c51168e79ac6a62fba6030d40c4cdbd79"
+    },
+    {
+      "description": "Fourteen unchanged strict model checks on actual SQL DTOs",
+      "name": "model-actual-result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/model-actual-result.json",
+      "relative_path": "sql-attempt12/model-actual-result.json",
+      "sha256": "0a4a33faf06b7a72fc6d563d70b17e9ab20ef29c28fb960067f835c130d96adb"
+    },
+    {
+      "description": "Actual source wrapper definition/owner/ACL/nonmember dependency",
+      "name": "observed-original-backup-graphql.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/observed-original-backup-graphql.json",
+      "relative_path": "sql-attempt12/observed-original-backup-graphql.json",
+      "sha256": "99bca1e8ba076198a044a1752f65762e8dfadc73edc68a5bc61070eaebc8c83c"
+    },
+    {
+      "description": "Fresh cached image bootstrap wrapper membership before declared normalization",
+      "name": "observed-fresh-managed-graphql.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/observed-fresh-managed-graphql.json",
+      "relative_path": "sql-attempt12/observed-fresh-managed-graphql.json",
+      "sha256": "2e02c909ebabe75f9b5d6b6ed6d766dc8205b34bb8c7e5ad0023d57c2a2caba1"
+    },
+    {
+      "description": "Actual restored source managed wrapper and roles",
+      "name": "observed-source-platform.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/observed-source-platform.json",
+      "relative_path": "sql-attempt12/observed-source-platform.json",
+      "sha256": "15ac8cb563bf05fdfd1d515e178973054aa894abec5ad1c59eb3214aa4375103"
+    },
+    {
+      "description": "Declared isolated Vault value fixture; no crypto claim",
+      "name": "synthetic-vault-boundary.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/synthetic-vault-boundary.json",
+      "relative_path": "sql-attempt12/synthetic-vault-boundary.json",
+      "sha256": "3727f833c7f2a8ef72c799fd64f04848f207e51e6a2e047360b1cfd14303ee25"
+    }
+  ],
+  "source_binding": {
+    "history600": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07",
+    "source500": "e5b41167b6cd3f5dc1561eb78757578323d01cc0693a43f400e9f8448cf75e44",
+    "sql": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+    "successor430": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c"
+  },
+  "status": "frozen-actual-fixtures"
+}

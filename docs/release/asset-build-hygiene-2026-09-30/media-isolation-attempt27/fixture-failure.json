@@ -1,0 +1,8 @@
+{
+  "status": "fail",
+  "exit_code": 1,
+  "failure": "TemporaryDirectory uses macOS /var alias while acceptance intentionally requires canonical source path; the synthetic test fixture had not resolved that alias",
+  "actual_tests": 6,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "d2a80d014c955c5d8be0b5bb3782d70e4e9c67f7777bc21a19f24b508abe8636"
+}

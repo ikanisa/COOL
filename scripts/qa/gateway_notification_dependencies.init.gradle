@@ -1,0 +1,46 @@
+import groovy.json.JsonOutput
+import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.artifacts.component.ProjectComponentIdentifier
+
+// Focused observed dependency proof for the repository's flavor adapter.
+// Invoked explicitly by local verification, never part of normal app startup.
+gradle.projectsEvaluated {
+    def app = rootProject.findProject(':app')
+    if (app == null) return // Flutter's included Gradle plugin build has no app.
+    app.tasks.register('verifyCollectGatewayNotificationDependencies') {
+        doLast {
+            def notificationPaths = [':flutter_local_notifications', ':firebase_messaging']
+            def expectedRelocations = app.extensions.getByName('android').buildTypes.collectMany { type ->
+                notificationPaths.collect { type.name + 'Api:' + it }
+            }.toSet()
+            def actualRelocations = app.extensions.extraProperties.get('collectNotificationRelocations')
+            assert actualRelocations == expectedRelocations : 'Flutter native notification relocation set differs from actual build types'
+            def scopes = [:]
+            ['internal_gatewayReleaseCompileClasspath', 'internal_gatewayReleaseRuntimeClasspath'].each { name ->
+                def configuration = app.configurations.getByName(name)
+                def projects = configuration.incoming.resolutionResult.allComponents.collect { component ->
+                    def id = component.id
+                    id instanceof ProjectComponentIdentifier ? id.projectPath : null
+                }.findAll { it != null }.sort()
+                assert projects.intersect(notificationPaths).empty : 'Notification native project remains in ' + name
+                assert projects.contains(':firebase_core') : 'Firebase Core must remain in ' + name
+                scopes[name] = projects
+            }
+            def retained = [:]
+            ['dev', 'internal_receiver', 'production'].each { flavor ->
+                def matches = app.configurations.getByName(flavor + 'Api').dependencies.findAll {
+                    it instanceof ProjectDependency && notificationPaths.contains(it.path)
+                }
+                assert matches.collect { it.path }.sort() == notificationPaths.sort() : 'Member/receiver notification dependencies were not preserved'
+                retained[flavor + 'Api'] = matches.collect { it.path }.sort()
+            }
+            assert app.configurations.getByName('internal_gatewayApi').dependencies.every {
+                !(it instanceof ProjectDependency) || !notificationPaths.contains(it.path)
+            }
+            println('COLLECT_GATEWAY_NOTIFICATION_DEPENDENCIES_BEGIN')
+            println(JsonOutput.toJson([gateway: scopes, retained_non_gateway_flavors: retained,
+                relocated_build_type_configurations: actualRelocations.sort()]))
+            println('COLLECT_GATEWAY_NOTIFICATION_DEPENDENCIES_END')
+        }
+    }
+}

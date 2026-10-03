@@ -1,0 +1,38 @@
+test_actual_predecessor_mutation_refused (__main__.SnapshotAdmission.test_actual_predecessor_mutation_refused) ... ok
+test_exact_commands_preserved_and_drift_mode_or_deadline_mutation_refused (__main__.SnapshotAdmission.test_exact_commands_preserved_and_drift_mode_or_deadline_mutation_refused) ... ok
+test_existing_or_symlink_candidate_destination_refused (__main__.SnapshotAdmission.test_existing_or_symlink_candidate_destination_refused) ... ok
+test_honest_strict_source_comparison_admission_passes (__main__.SnapshotAdmission.test_honest_strict_source_comparison_admission_passes) ... ok
+test_nonprivate_root_or_candidate_refused (__main__.SnapshotAdmission.test_nonprivate_root_or_candidate_refused) ... ok
+test_preparation_packet_leaf_tamper_refused (__main__.SnapshotAdmission.test_preparation_packet_leaf_tamper_refused) ... ok
+test_prior_or_next_stage_and_foundation_child_refused (__main__.SnapshotAdmission.test_prior_or_next_stage_and_foundation_child_refused) ... ok
+test_private_candidate_hardlink_and_symlink_refused (__main__.SnapshotAdmission.test_private_candidate_hardlink_and_symlink_refused) ... ok
+test_private_environment_or_resource_floor_mutation_refused (__main__.SnapshotAdmission.test_private_environment_or_resource_floor_mutation_refused) ... ok
+test_required_comparison_and_private_destination_admission_missing_refused (__main__.SnapshotAdmission.test_required_comparison_and_private_destination_admission_missing_refused) ... ok
+test_source_lock_or_transient_absence_attestation_refused (__main__.SnapshotAdmission.test_source_lock_or_transient_absence_attestation_refused) ... ok
+test_wrong_or_missing_source_fence_digest_refused (__main__.SnapshotAdmission.test_wrong_or_missing_source_fence_digest_refused) ... ok
+test_actual_capture_child_and_process_receipt_have_distinct_paths (__main__.SourceMutation.test_actual_capture_child_and_process_receipt_have_distinct_paths) ... ok
+test_capture_cli_and_exact_binding_verify_write_exclusive_evidence (__main__.SourceMutation.test_capture_cli_and_exact_binding_verify_write_exclusive_evidence) ... ok
+test_content_write_restore_and_mtime_restore_refused_by_ctime (__main__.SourceMutation.test_content_write_restore_and_mtime_restore_refused_by_ctime) ... ok
+test_exact_stable_source_capture_passes_without_held_claim (__main__.SourceMutation.test_exact_stable_source_capture_passes_without_held_claim) ... ok
+test_excluded_upstream_fixture_change_refused (__main__.SourceMutation.test_excluded_upstream_fixture_change_refused) ... ok
+test_excluded_upstream_fixture_indexed_absence_change_refused (__main__.SourceMutation.test_excluded_upstream_fixture_indexed_absence_change_refused) ... ok
+test_exporter_tamper_refused_before_loading_modified_module (__main__.SourceMutation.test_exporter_tamper_refused_before_loading_modified_module) ... ok
+test_git_index_identity_change_refused_without_payload_change (__main__.SourceMutation.test_git_index_identity_change_refused_without_payload_change) ... ok
+test_head_commit_change_refused (__main__.SourceMutation.test_head_commit_change_refused) ... ok
+test_ignored_cache_is_outside_selected_source_fence (__main__.SourceMutation.test_ignored_cache_is_outside_selected_source_fence) ... ok
+test_in_capture_source_mutation_refused (__main__.SourceMutation.test_in_capture_source_mutation_refused) ... ok
+test_index_symlink_refused (__main__.SourceMutation.test_index_symlink_refused) ... ok
+test_missing_indexed_file_reappearance_refused (__main__.SourceMutation.test_missing_indexed_file_reappearance_refused) ... ok
+test_same_bytes_atomic_replacement_restored_mtime_refused (__main__.SourceMutation.test_same_bytes_atomic_replacement_restored_mtime_refused) ... ok
+test_selected_byte_change_refused (__main__.SourceMutation.test_selected_byte_change_refused) ... ok
+test_selected_hardlink_refused (__main__.SourceMutation.test_selected_hardlink_refused) ... ok
+test_selected_mode_change_refused (__main__.SourceMutation.test_selected_mode_change_refused) ... ok
+test_source_fence_deadline_and_headroom_refused (__main__.SourceMutation.test_source_fence_deadline_and_headroom_refused) ... ok
+test_source_parent_symlink_refused (__main__.SourceMutation.test_source_parent_symlink_refused) ... ok
+test_untracked_selected_membership_change_refused (__main__.SourceMutation.test_untracked_selected_membership_change_refused) ... ok
+test_wrong_binding_hash_refused_without_pass_evidence (__main__.SourceMutation.test_wrong_binding_hash_refused_without_pass_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 5.966s
+
+OK

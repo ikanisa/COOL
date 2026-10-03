@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "ruby /opt/arc01/inventory.rb"
+  ],
+  "deadline_seconds": 30,
+  "pid": 38611,
+  "started_at_utc": "2026-10-02T00:40:20.337390+00:00"
+}

@@ -1,0 +1,11 @@
+--- reviewed-builder
++++ current-builder
+@@ -1935,8 +1935,6 @@
+   ICON_ASSET,
+   TYPEFACE_ASSET,
+   TYPEFACE_LICENSE,
+-  "assets/typefaces/AeonikPro-Regular.ttf",
+-  "assets/typefaces/AeonikPro-Medium.ttf",
+   *Dir.glob("assets/marketing/rwanda/*.png", base: ROOT)
+ ]
+ assets.each do |asset|

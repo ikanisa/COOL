@@ -1,0 +1,15 @@
+{
+  "source_inputs": 134,
+  "source_drift": 0,
+  "read_errors": [],
+  "links_checked": 73,
+  "link_errors": [],
+  "decoder_source_build_sha256": "3665603965897f12153e1232e1279181cf174927e00669de0d342d2f24d2af6d",
+  "decoder_sources": {
+    "decoder.py": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+    "server.py": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+    "requirements.lock": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+    "Dockerfile": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a"
+  },
+  "scope": "Source-bound review only; no runtime/deployed approval"
+}

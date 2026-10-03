@@ -1,0 +1,41 @@
+{
+  "candidate_and_gradle_home_absent": true,
+  "current_free_bytes": 26853625856,
+  "derivative_writer_sha256": "c8feb963d8e7cd361c4f4d2790c03ffa01ee3f14c6e64f8f26fd1389a0e3b432",
+  "groovy_observer_or_candidate_compiler_executed": false,
+  "minimum_expanded_plus_2GiB_bytes": 6391632289,
+  "no_cleanup_performed": true,
+  "observer_sha256": "434a2ca92144d95a0bad5de9ec3ec4326512a952c5d408b72855c49f5b1342d7",
+  "passed": true,
+  "prior_packet_unchanged": {
+    "kotlin-dependency-batch1": {
+      "manifest_sha256": "f46174a0d5f8090ab8965341f8b9e498a7ffd98e3e06d947bbc8bf22b604db14",
+      "unchanged_leaves": 83
+    },
+    "kotlin-sdk-candidate-plan1": {
+      "manifest_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+      "unchanged_leaves": 20
+    },
+    "kotlin-sdk-expansion-admission-batch1": {
+      "manifest_sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed",
+      "unchanged_leaves": 13
+    },
+    "kotlin-sdk-foundation-batch1": {
+      "manifest_sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e",
+      "unchanged_leaves": 97
+    },
+    "kotlin-sdk-physical-foundation-batch1": {
+      "manifest_sha256": "15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126",
+      "unchanged_leaves": 12
+    }
+  },
+  "prior_sealed_leaves": 225,
+  "pristine_SDK_patch_or_shared_repo_pin_lock_write": false,
+  "python_ast_parses_and_readonly_anchor_imports_pass": true,
+  "root_physical_foundation_review_sha256": "494724fa2e7d0586544b231631b9750bac4cd4dc9e456a8e5c6a23d4be52ef99",
+  "source_validator_sha256": "5687aebd2da236a794a392893bacd738c936f05b6f1896f079047a668ff488d7",
+  "test_actual_seconds": 0.631,
+  "test_methods_passed": 9,
+  "test_terminal_exit_code": 0,
+  "writer_only_fixed_destination_delta": true
+}

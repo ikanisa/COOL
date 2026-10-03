@@ -1,0 +1,79 @@
+{
+  "actual_RPC_fixture_bindings": [
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-not-materialized.json",
+      "source_sha256": "06476ab5ec94e5cf71094da874924286356c5cb0aeacb6866b83941870f86ade",
+      "fixture": "fixtures/observed-v4-not-materialized.json",
+      "const_name": "notMaterializedRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-unarmed.json",
+      "source_sha256": "2192d76eedbd4fd66998e1b52c2682bff203d1208ded8d5caad41ce2add3b0af",
+      "fixture": "fixtures/observed-v4-unarmed.json",
+      "const_name": "unarmedRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-armed-unknown.json",
+      "source_sha256": "a8af4ad60993b5153722e95446b2f9fca2354311184a85bafe70b15861b5bfa0",
+      "fixture": "fixtures/observed-v4-armed-unknown.json",
+      "const_name": "armedUnknownRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-known-empty-page.json",
+      "source_sha256": "8689dcfc25e36d93c4be61bbd353e42c1284485e01d27410632d653afb7dce8e",
+      "fixture": "fixtures/observed-v4-known-empty-page.json",
+      "const_name": "knownEmptyPageRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-unavailable.json",
+      "source_sha256": "06dde6d1ac735278ee24cc0471cc8cf0356aa7883c2114a0de7af53d54a093fb",
+      "fixture": "fixtures/observed-v4-unavailable.json",
+      "const_name": "unavailableRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-unavailable-page.json",
+      "source_sha256": "e710f8b408e77582d7771971d52f1ead76064603bbf20b322685458619c21c47",
+      "fixture": "fixtures/observed-v4-unavailable-page.json",
+      "const_name": "unavailablePageRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-known-sent.json",
+      "source_sha256": "3437a802eda0dd6a800c71652fc1bffb3e07f5fa75cf1a7eb95198bf0bfb0be5",
+      "fixture": "fixtures/observed-v4-known-sent.json",
+      "const_name": "knownSentRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-fixed-pages.json",
+      "source_sha256": "91251ad6216c37b7fe10ddea2f5f223dbefb24a347ed6b2e9ade9ef2c4f4510d",
+      "fixture": "fixtures/observed-v4-fixed-pages.json",
+      "const_name": "fixedPagesRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-max-page.json",
+      "source_sha256": "994f06fbd7a3a239de33c846ad839d1ebadccaae5171154b963dceee4851a770",
+      "fixture": "fixtures/observed-v4-max-page.json",
+      "const_name": "maxPageRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-archived.json",
+      "source_sha256": "ab65596e42ca9ea2a2ebfc3b1719ba031dac9acc8e2e2a863af16e6c590fa22e",
+      "fixture": "fixtures/observed-v4-archived.json",
+      "const_name": "archivedRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt3/observed-v4-late-uncertain.json",
+      "source_sha256": "92c93f6fc7c025fdbb92945a9178741251f4af7cd0983efc408923cd131ca0b4",
+      "fixture": "fixtures/observed-v4-late-uncertain.json",
+      "const_name": "lateUncertainRaw"
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice10_execution_read/proof/attempt4_tail/observed-v4-revoked.json",
+      "source_sha256": "ffab0a70d5749e30de7f93bb99fa88911cb460b6500ff7b3f0ac04fe332e6fee",
+      "fixture": "fixtures/observed-v4-revoked.json",
+      "const_name": "revokedRaw"
+    }
+  ],
+  "fixture_dart_sha256": "258a9650d3f5ada3ccab17e73b7ea3c21c3fe4af42ccdc756381a4034a525f5f",
+  "backend_manifest_sha256": "d9c3f928a20fd922378c19d9669b3cdf7649cfbeda9f02168c5ac0fc963775a2",
+  "scope": "Exact retained real SQL440 responses embedded byte-for-byte in new Dart fixtures; tests supply expected original approval/root/attempt route and closed versions. No handcrafted fixture substitutes for this producer association."
+}

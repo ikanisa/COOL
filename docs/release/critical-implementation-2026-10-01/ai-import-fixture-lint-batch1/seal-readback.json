@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-10-02T01:34:31.134203+00:00",
+  "status": "pass",
+  "indexed_new_leaves": 76,
+  "current_source_inputs": 18,
+  "cached_remote_inputs": 87,
+  "preserved_prior_leaves": 86,
+  "batch_sha256": "b3ff1456d00f31f742433e166b60733c2a312ce11b251f44ba18b4fb396df352",
+  "index_sha256": "50c780f71ae41e27da3f34dc0e7ef9b2bb6c88f8ee86eb4d9925bff3620635cd",
+  "errors": [],
+  "whole_BE13_closed": false,
+  "production_acceptance": false
+}

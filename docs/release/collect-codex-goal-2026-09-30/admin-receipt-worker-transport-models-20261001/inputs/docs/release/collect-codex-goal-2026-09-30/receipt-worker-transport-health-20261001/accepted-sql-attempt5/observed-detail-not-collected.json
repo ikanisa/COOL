@@ -1,0 +1,42 @@
+{
+  "rows": [
+    {
+      "attempt": 1,
+      "outcome": "NOT_COLLECTED",
+      "http_status": null,
+      "observed_at": null,
+      "response_at": null,
+      "dispatched_at": "2026-10-01T13:02:38.732344Z",
+      "evidence_sha256": null,
+      "http_request_id": "1",
+      "evidence_revision": null,
+      "worker_error_code": null,
+      "transport_terminal": false,
+      "response_rows_observed": null
+    }
+  ],
+  "alerts": [
+    "NOT_COLLECTED"
+  ],
+  "collector": {
+    "day_cap": 36000,
+    "day_inspections": 0,
+    "last_request_id": "e719a5b8-8d1c-48ec-8f05-87cf406362fb",
+    "quota_exhausted": false,
+    "last_recorded_at": "2026-10-01T13:02:38.731480Z",
+    "source_schema_valid": true,
+    "configuration_revision": 1
+  },
+  "checked_at": "2026-10-01T13:02:38.893026Z",
+  "request_id": "7a727663-65bf-4b03-b1a0-5e566bd11306",
+  "send_action": false,
+  "resend_action": false,
+  "original_status": "pending",
+  "scan_request_id": null,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T13:03:38.893026Z",
+  "original_expires_at": "2026-10-01T13:04:08.732344Z",
+  "source_scan_complete": false,
+  "original_receipt_status": null
+}

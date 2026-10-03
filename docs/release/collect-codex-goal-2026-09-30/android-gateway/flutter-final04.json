@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "test/gateway",
+    "--reporter",
+    "expanded"
+  ],
+  "capture_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04",
+  "exit_code": 0,
+  "status": "pass",
+  "source_sha256": {
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "lib/gateway/gateway_app.dart": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "test/gateway/gateway_capture_test.dart": "5b6d53facfc640a698b3dc096fd2ce0e6e2750e8138e3a8ec4d1f64537d75966",
+    "test/gateway/gateway_enrollment_lifecycle_test.dart": "78dfd6f1b0722a5adcc5149d0aa4f168638dfaf3927c3d4f35b810f93858b2d9",
+    "test/gateway/gateway_safety_test.dart": "cf9fccebb5f659df4f2c9144c45a93ac49e8cf5be2dfd3f34e4f3d67506ed50f",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  "source_changes": [],
+  "fonts": "actual bundled Inter and SDK MaterialIcons"
+}

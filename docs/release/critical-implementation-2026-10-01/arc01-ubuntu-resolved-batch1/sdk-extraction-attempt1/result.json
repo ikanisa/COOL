@@ -1,0 +1,15 @@
+{
+  "actual_linux_executable_preflight_not_yet_run": true,
+  "archive_scripts_executed": false,
+  "at_utc": "2026-10-02T00:36:12.706077+00:00",
+  "member_count": 21904,
+  "sdk": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/runtime/flutter",
+  "sdk_file_sha256": {
+    "bin/cache/dart-sdk/bin/dart": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+    "bin/dart": "446e63e382b331c327cd17b001b025c2cb11c18ceddd2b34bfcd65cfb8cdecc2",
+    "bin/flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "sdk_git_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "status": "VERIFIED_SAFE_EXTRACTION_ONLY"
+}

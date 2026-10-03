@@ -1,0 +1,40 @@
+{
+  "dependency_versions": {
+    "@modelcontextprotocol/server": {
+      "matches_private_runtime": true,
+      "metadata_sha256": "ff7f23c4a4a3162a34a2cb21087e1844bb8631724d8e43aa14aaa86d3f7e07c2",
+      "version": "2.0.0"
+    },
+    "@types/node": {
+      "matches_private_runtime": true,
+      "metadata_sha256": "b64e68cb9b516667bd7cc8fa37a8cb296e4dbcded9e1776636b31b616bfe8b4f",
+      "version": "26.4.1"
+    },
+    "typescript": {
+      "matches_private_runtime": true,
+      "metadata_sha256": "3722b30210616a13a3213ded11575ba6b2dbab10c32a5ef67afca8513e27017e",
+      "version": "7.0.2"
+    },
+    "zod": {
+      "matches_private_runtime": true,
+      "metadata_sha256": "5a1983857f982cc7d69336f32053ac7e38780de313d9e18ca3f7b9b7f2f94298",
+      "version": "4.5.4"
+    }
+  },
+  "matches_private_node": true,
+  "node": "/Volumes/PRO-G40/Development/Node/bin/node",
+  "node_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "python_launchd_preparation": {
+    "scripts/tests/unattended_launchd_preparation_test.py": {
+      "captured_sha256": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3",
+      "current_sha256": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3",
+      "matches": true
+    },
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "captured_sha256": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c",
+      "current_sha256": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c",
+      "matches": true
+    }
+  },
+  "version": "v24.19.0"
+}

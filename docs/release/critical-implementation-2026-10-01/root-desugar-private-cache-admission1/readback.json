@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-02T13:24:14.250120+00:00",
+  "status": "exact_publisher_raw_JAR_installed_in_private_cache",
+  "coordinate": "com.android.tools:desugar_jdk_libs:2.1.4",
+  "publisher_readback_sha256": "0fbae033bf19a57b0429b4c1a097926a63d888db44c3ffce41829a843b21018a",
+  "cached_POM_already_matches_publisher": true,
+  "cached_POM_sha256": "0c0c8e1970349bf3572bf24551ee677665690203704fbb16b367d3a375961f30",
+  "destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/desugar_jdk_libs/2.1.4/34c5d10b7a184e8c340dd967ea9481e448f7b89e/desugar_jdk_libs-2.1.4.jar",
+  "bytes": 6112690,
+  "sha256": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+  "sha1": "34c5d10b7a184e8c340dd967ea9481e448f7b89e",
+  "publisher_SHA256_matches": true,
+  "publisher_SHA1_matches": true,
+  "exclusive_copy": true,
+  "cache_kind": "owned Gradle raw dependency content cache",
+  "Gradle_metadata_modified": false,
+  "APP_SDK_versions_or_locks_modified": false,
+  "protected_original_paths_modified": false,
+  "runtime_and_compile_graphs_unchanged": true,
+  "offline_resolution_or_AAB_success": false,
+  "production_release_approval": false
+}

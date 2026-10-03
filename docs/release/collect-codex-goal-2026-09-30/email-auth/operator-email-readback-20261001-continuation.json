@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-01T08:36:05.744483+00:00",
+  "project_id": "lhbowpbcpwoiparwnwgt",
+  "configuration_supplied_sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+  "hosted_mutations": false,
+  "otp_requested": false,
+  "credentials_recorded": false,
+  "selected_email_account_currently_rechecked": false,
+  "account_lookup_tool_available": false,
+  "http_status": 200,
+  "email_provider_enabled": false,
+  "response_sha256": "59ff727165a6f9af6973fdb3edd10b346eab9a34e1b2bb668de6b16a7869c6e7"
+}

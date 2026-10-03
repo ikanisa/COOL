@@ -1,0 +1,18 @@
+{
+  "authentication": "none",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Thu, 01 Oct 2026 21:25:27 GMT"
+  },
+  "method": "POST",
+  "request_sha256": "4c198446a5f2a31fe39c724ef5ed4facf8cfb53ca603fdc1cff89b0ad5e2c85d",
+  "request_url": "https://api.osv.dev/v1/querybatch",
+  "requested_at": "2026-10-01T21:25:26.818201+00:00",
+  "response_bytes": 16,
+  "response_path": "stable-kotlin-remediation-target-osv.response",
+  "response_sha256": "a0460b2895f6918d679db4ec8ceaa94dc85b501d9060c02839d05e919aac5e31",
+  "response_url": "https://api.osv.dev/v1/querybatch",
+  "retrieved_at": "2026-10-01T21:25:27.792604+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

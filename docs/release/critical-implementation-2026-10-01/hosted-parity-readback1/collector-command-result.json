@@ -1,0 +1,9 @@
+{
+  "argv": ["/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3", "-I", "-B", "docs/release/critical-implementation-2026-10-01/hosted-parity-readback1/collect_packet.py"],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "exit_code": 0,
+  "tool_reported_wall_time_seconds": 0.114436,
+  "stdout": "{\"status\": \"local_packet_collected\", \"inputs\": 273, \"local_static_pass\": true, \"fresh_hosted\": \"permission_refused\", \"hosted_sql_calls\": 0}\n",
+  "stderr": "",
+  "scope": "Private local collector; one bounded maintained Ruby static auth-check subprocess. No hosted calls from this script."
+}

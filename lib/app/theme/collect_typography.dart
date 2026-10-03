@@ -22,6 +22,20 @@ class CollectTypography {
     color,
   ).copyWith(fontFamily: marketingFontFamily);
 
+  static TextStyle marketingControl(Color color) => _style(
+    sizeBody,
+    leadingMarketingControl,
+    weightMedium,
+    color,
+  ).copyWith(fontFamily: marketingFontFamily);
+
+  static TextStyle marketingSectionHeading(Color color) => _style(
+    sizeMarketingSection,
+    leadingDisplayRelaxed,
+    weightMedium,
+    color,
+  ).copyWith(fontFamily: marketingFontFamily);
+
   // Shared rendering roles adapt the selected reference hierarchy. These
   // weights are implementation values, not exported native source tokens.
   static const FontWeight weightRegular = FontWeight.w400;
@@ -53,6 +67,7 @@ class CollectTypography {
   static const double sizePolicyHero = 58;
   static const double sizePublicHero = 68;
   static const double sizeMarketingHero = 72;
+  static const double sizeMarketingSection = 40;
 
   // Shared leading and tracking roles. Text widgets may change colour or
   // decoration locally, but type metrics must come from this layer.
@@ -76,6 +91,7 @@ class CollectTypography {
   static const double leadingIntro = 1.44;
   static const double leadingBody = 1.45;
   static const double leadingBodyComfortable = 1.5;
+  static const double leadingMarketingControl = 22 / 16;
   static const double leadingBodyLarge = 1.56;
 
   static const double trackingDefault = 0;

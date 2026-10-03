@@ -1,5 +1,75 @@
 part of 'admin_runtime.dart';
 
+class _OverviewPermissionDenied implements Exception {
+  const _OverviewPermissionDenied();
+}
+
+final adminReceiptOverviewProvider =
+    FutureProvider.autoDispose<AdminReceiptOverview>((ref) async {
+      final scope = ref.watch(adminAuthSessionScopeProvider);
+      final country = ref.watch(adminCountryScopeProvider);
+      ref.watch(adminRealtimeTickProvider);
+      final repository = ref.watch(adminRepositoryProvider);
+      var current = true;
+      ref.onDispose(() => current = false);
+      final identity = await ref.watch(adminIdentityProvider.future);
+      if (!current) throw const AdminSessionChanged();
+      if (identity?.permissions.contains('overview.read') != true) {
+        throw const _OverviewPermissionDenied();
+      }
+      final raw = await repository.receiptOverview(
+        countryCode: country.rpcCode,
+      );
+      if (!current ||
+          ref.read(adminAuthSessionScopeProvider) != scope ||
+          !identical(ref.read(adminRepositoryProvider), repository)) {
+        throw const AdminSessionChanged();
+      }
+      return AdminReceiptOverview.parse(raw);
+    });
+
+final adminOverviewOperationalHealthProvider =
+    FutureProvider.autoDispose<AdminOperationalHealth>((ref) async {
+      final scope = ref.watch(adminAuthSessionScopeProvider);
+      ref.watch(adminRealtimeTickProvider);
+      final repository = ref.watch(adminRepositoryProvider);
+      var current = true;
+      ref.onDispose(() => current = false);
+      final identity = await ref.watch(adminIdentityProvider.future);
+      if (!current) throw const AdminSessionChanged();
+      if (identity?.permissions.contains('system_health.read') != true) {
+        throw const _OverviewPermissionDenied();
+      }
+      final raw = await repository.detail('admin_system_health', 'system');
+      if (!current ||
+          ref.read(adminAuthSessionScopeProvider) != scope ||
+          !identical(ref.read(adminRepositoryProvider), repository)) {
+        throw const AdminSessionChanged();
+      }
+      return AdminOperationalHealth.parse(raw);
+    });
+
+final adminOverviewSmsHealthProvider =
+    FutureProvider.autoDispose<AdminSmsQueueHealth>((ref) async {
+      final scope = ref.watch(adminAuthSessionScopeProvider);
+      ref.watch(adminRealtimeTickProvider);
+      final repository = ref.watch(adminRepositoryProvider);
+      var current = true;
+      ref.onDispose(() => current = false);
+      final identity = await ref.watch(adminIdentityProvider.future);
+      if (!current) throw const AdminSessionChanged();
+      if (identity?.permissions.contains('notifications.read') != true) {
+        throw const _OverviewPermissionDenied();
+      }
+      final raw = await repository.smsQueueHealth();
+      if (!current ||
+          ref.read(adminAuthSessionScopeProvider) != scope ||
+          !identical(ref.read(adminRepositoryProvider), repository)) {
+        throw const AdminSessionChanged();
+      }
+      return AdminSmsQueueHealth.parse(raw);
+    });
+
 final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
   (ref) async {
     var current = true;
@@ -8,94 +78,120 @@ final _adminOverviewWorkspaceProvider = FutureProvider<_AdminOverviewWorkspace>(
     ref.watch(adminRealtimeTickProvider);
     final countryScope = ref.watch(adminCountryScopeProvider);
     final repository = ref.watch(adminRepositoryProvider);
-    final metricsFuture = repository.overviewMetrics();
-    final attentionFuture = repository.list(
-      'admin_list_collect_reconciliations',
-      limit: 3,
-      offset: 0,
-      sortBy: 'created_at_desc',
-      countryCode: countryScope.rpcCode,
-    );
-    final allocationsFuture = repository.list(
-      'admin_list_collect_ledgers',
-      limit: 4,
-      offset: 0,
-      sortBy: 'created_at_desc',
-      countryCode: countryScope.rpcCode,
-    );
-    final payeesFuture = repository.list(
-      'admin_list_collect_payees',
-      status: 'active',
-      limit: 1,
-      offset: 0,
-      sortBy: 'created_at_desc',
-      countryCode: countryScope.rpcCode,
-    );
-    final slaFuture = repository.queueSla('admin_list_collect_reconciliations');
-    final values = await Future.wait<Object?>([
-      metricsFuture,
-      attentionFuture,
-      allocationsFuture,
-      payeesFuture,
-      slaFuture,
-      repository.list(
-        'admin_list_collect_transactions',
-        status: 'unallocated',
-        limit: 1,
-        offset: 0,
-        sortBy: 'created_at_desc',
-        countryCode: countryScope.rpcCode,
+    // Catch each read independently: unavailable metrics/SLA must never turn a
+    // loaded attention queue or allocation record into a whole-page error.
+    final values = await Future.wait<AsyncValue<Object?>>([
+      AsyncValue.guard(() async => await repository.overviewMetrics()),
+      AsyncValue.guard(
+        () async => await repository.list(
+          'admin_list_collect_reconciliations',
+          limit: 3,
+          offset: 0,
+          sortBy: 'created_at_desc',
+          countryCode: countryScope.rpcCode,
+        ),
       ),
-      repository.list(
-        'admin_list_collect_ledgers',
-        status: 'balanced',
-        limit: 1,
-        offset: 0,
-        sortBy: 'created_at_desc',
-        countryCode: countryScope.rpcCode,
+      AsyncValue.guard(
+        () async => await repository.list(
+          'admin_list_collect_ledgers',
+          limit: 4,
+          offset: 0,
+          sortBy: 'created_at_desc',
+          countryCode: countryScope.rpcCode,
+        ),
+      ),
+      AsyncValue.guard(
+        () async => await repository.list(
+          'admin_list_collect_payees',
+          status: 'active',
+          limit: 1,
+          offset: 0,
+          sortBy: 'created_at_desc',
+          countryCode: countryScope.rpcCode,
+        ),
+      ),
+      AsyncValue.guard(
+        () async =>
+            await repository.queueSla('admin_list_collect_reconciliations'),
+      ),
+      AsyncValue.guard(
+        () async => await repository.list(
+          'admin_list_collect_transactions',
+          status: 'unallocated',
+          limit: 1,
+          offset: 0,
+          sortBy: 'created_at_desc',
+          countryCode: countryScope.rpcCode,
+        ),
+      ),
+      AsyncValue.guard(
+        () async => await repository.list(
+          'admin_list_collect_ledgers',
+          status: 'balanced',
+          limit: 1,
+          offset: 0,
+          sortBy: 'created_at_desc',
+          countryCode: countryScope.rpcCode,
+        ),
       ),
     ]);
-    // Riverpod discards a disposed provider's value, but its asynchronous body
-    // can still run. Fence the freshness side effect as well as the result.
     if (!current ||
         ref.read(adminAuthSessionScopeProvider) != session ||
         !identical(ref.read(adminRepositoryProvider), repository) ||
         ref.read(adminCountryScopeProvider) != countryScope) {
       throw const AdminSessionChanged();
     }
-    final rawMetrics = values[0]! as List<AdminMetric>;
-    final rawAttention = values[1]! as AdminListResult;
-    final rawAllocations = values[2]! as AdminListResult;
-    final rawPayees = values[3]! as AdminListResult;
-    ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
-      adminClockProvider,
-    )();
-    final attention = _scopeOverviewResult(
-      rawAttention,
-      countryScope,
-      visibleLimit: 3,
+    if (values.every((value) => value.hasValue && !value.hasError)) {
+      ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
+        adminClockProvider,
+      )();
+    }
+    AdminListResult? listAt(int index) =>
+        values[index].valueOrNull as AdminListResult?;
+    final attention = values[1].whenData(
+      (raw) => _scopeOverviewResult(
+        raw! as AdminListResult,
+        countryScope,
+        visibleLimit: 3,
+      ),
     );
-    final allocations = _scopeOverviewResult(
-      rawAllocations,
-      countryScope,
-      visibleLimit: 4,
+    final allocations = values[2].whenData(
+      (raw) => _scopeOverviewResult(
+        raw! as AdminListResult,
+        countryScope,
+        visibleLimit: 4,
+      ),
     );
-    final payees = _scopeOverviewResult(
-      rawPayees,
-      countryScope,
-      visibleLimit: 100,
+    final metrics = values[0].whenData(
+      (raw) => [
+        for (final metric in raw! as List<AdminMetric>)
+          AdminMetric(
+            label: metric.label,
+            value: switch (metric.label) {
+              'Open reconciliations' =>
+                listAt(1)?.total?.toString() ?? 'Unavailable',
+              'Unallocated transactions' =>
+                listAt(5)?.total?.toString() ?? 'Unavailable',
+              'Balanced ledgers' =>
+                listAt(6)?.total?.toString() ?? 'Unavailable',
+              'Active payees' => listAt(3)?.total?.toString() ?? 'Unavailable',
+              _ => metric.value,
+            },
+            status: switch (metric.label) {
+              'Open reconciliations' when listAt(1) == null => 'unknown',
+              'Unallocated transactions' when listAt(5) == null => 'unknown',
+              'Balanced ledgers' when listAt(6) == null => 'unknown',
+              'Active payees' when listAt(3) == null => 'unknown',
+              _ => metric.status,
+            },
+          ),
+      ],
     );
     return _AdminOverviewWorkspace(
-      metrics: _scopedOverviewMetrics(
-        rawMetrics,
-        openReconciliations: attention.total ?? attention.rows.length,
-        unallocatedTransactions: (values[5]! as AdminListResult).total ?? 0,
-        allocations: (values[6]! as AdminListResult).total ?? 0,
-        payees: payees.total ?? payees.rows.length,
-      ),
+      metrics: metrics,
       attention: attention,
       allocations: allocations,
-      sla: values[4] as AdminQueueSla?,
+      sla: values[4].whenData((value) => value as AdminQueueSla?),
     );
   },
 );
@@ -114,29 +210,6 @@ AdminListResult _scopeOverviewResult(
   );
 }
 
-List<AdminMetric> _scopedOverviewMetrics(
-  List<AdminMetric> source, {
-  required int openReconciliations,
-  required int unallocatedTransactions,
-  required int allocations,
-  required int payees,
-}) {
-  return [
-    for (final metric in source)
-      AdminMetric(
-        label: metric.label,
-        value: switch (metric.label) {
-          'Open reconciliations' => '$openReconciliations',
-          'Unallocated transactions' => '$unallocatedTransactions',
-          'Balanced ledgers' => '$allocations',
-          'Active payees' => '$payees',
-          _ => metric.value,
-        },
-        status: metric.status,
-      ),
-  ];
-}
-
 class _AdminOverviewWorkspace {
   const _AdminOverviewWorkspace({
     required this.metrics,
@@ -144,85 +217,152 @@ class _AdminOverviewWorkspace {
     required this.allocations,
     required this.sla,
   });
-
-  final List<AdminMetric> metrics;
-  final AdminListResult attention;
-  final AdminListResult allocations;
-  final AdminQueueSla? sla;
+  final AsyncValue<List<AdminMetric>> metrics;
+  final AsyncValue<AdminListResult> attention, allocations;
+  final AsyncValue<AdminQueueSla?> sla;
 }
 
-class AdminOverviewContent extends ConsumerWidget {
+class AdminOverviewContent extends ConsumerStatefulWidget {
   const AdminOverviewContent({super.key});
+  @override
+  ConsumerState<AdminOverviewContent> createState() =>
+      _AdminOverviewContentState();
+}
+
+class _AdminOverviewContentState extends ConsumerState<AdminOverviewContent> {
+  Timer? _freshnessTimer;
+  @override
+  void initState() {
+    super.initState();
+    _freshnessTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    _freshnessTimer?.cancel();
+    super.dispose();
+  }
+
+  void _refresh() {
+    ref.invalidate(adminReceiptOverviewProvider);
+    ref.invalidate(adminReceiptOperationalTelemetryProvider);
+    ref.invalidate(adminOverviewOperationalHealthProvider);
+    ref.invalidate(adminOverviewSmsHealthProvider);
+    ref.invalidate(_adminOverviewWorkspaceProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final workspace = ref.watch(_adminOverviewWorkspaceProvider);
-    return workspace.when(
-      loading: () => const AdminLoadingState(
-        title: 'Loading operations overview',
-        message: 'Refreshing queues.',
-      ),
-      error: (error, _) => Center(
-        child: AdminSafeErrorPanel(
-          error: error,
-          onRetry: () => ref.invalidate(_adminOverviewWorkspaceProvider),
-        ),
-      ),
-      data: (data) {
-        if (data.metrics.isEmpty) {
-          return const AdminEmptyState(
-            title: 'No admin metrics yet',
-            message: 'Metrics appear after the platform has live activity.',
-          );
-        }
-        return RefreshIndicator(
-          onRefresh: () async {
-            ref.invalidate(_adminOverviewWorkspaceProvider);
-            await ref.read(_adminOverviewWorkspaceProvider.future);
-          },
-          child: ListView(
-            key: const Key('admin-overview-workspace'),
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 36),
-            children: [
-              _OverviewSummary(metrics: data.metrics),
-              const SizedBox(height: 16),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final twoColumn = constraints.maxWidth >= 980;
-                  final queue = _AttentionQueue(
-                    result: data.attention,
-                    totalOverride: _metricInt(
-                      data.metrics,
-                      'Open reconciliations',
-                    ),
-                  );
-                  final health = _QueueHealth(
-                    metrics: data.metrics,
-                    result: data.attention,
-                    sla: data.sla,
-                  );
-                  if (!twoColumn) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [queue, const SizedBox(height: 16), health],
-                    );
-                  }
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(flex: 7, child: queue),
-                      const SizedBox(width: 16),
-                      SizedBox(width: 292, child: health),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: 18),
-              _RecentAllocations(result: data.allocations),
-            ],
-          ),
-        );
+    final receipt = ref.watch(adminReceiptOverviewProvider);
+    final health = ref.watch(adminOverviewOperationalHealthProvider);
+    final sms = ref.watch(adminOverviewSmsHealthProvider);
+    final now = ref.watch(adminClockProvider)();
+    return RefreshIndicator(
+      onRefresh: () async {
+        _refresh();
+        await ref.read(_adminOverviewWorkspaceProvider.future);
       },
+      child: ListView(
+        key: const Key('admin-overview-workspace'),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 36),
+        children: [
+          _OverviewPostingPanel(
+            sample: receipt,
+            now: now,
+            onRefresh: () => ref.invalidate(adminReceiptOverviewProvider),
+          ),
+          const SizedBox(height: 16),
+          _OverviewServicePanel(
+            health: health,
+            sms: sms,
+            now: now,
+            onRefresh: () {
+              ref.invalidate(adminOverviewOperationalHealthProvider);
+              ref.invalidate(adminOverviewSmsHealthProvider);
+            },
+          ),
+          const SizedBox(height: 16),
+          const AdminReceiptTelemetryCard(compact: true),
+          const SizedBox(height: 16),
+          workspace.when(
+            loading: () =>
+                const AdminLoadingState(title: 'Loading operation queues'),
+            error: (error, _) =>
+                AdminSafeErrorPanel(error: error, onRetry: _refresh),
+            data: (data) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                data.metrics.when(
+                  loading: () =>
+                      const AdminLoadingState(title: 'Loading queue totals'),
+                  error: (error, _) => _OverviewReadFailure(
+                    title: 'Queue totals',
+                    error: error,
+                    onRefresh: _refresh,
+                  ),
+                  data: (metrics) => _OverviewSummary(metrics: metrics),
+                ),
+                const SizedBox(height: 16),
+                data.attention.when(
+                  loading: () =>
+                      const AdminLoadingState(title: 'Loading attention queue'),
+                  error: (error, _) => _OverviewReadFailure(
+                    title: 'Needs attention',
+                    error: error,
+                    onRefresh: _refresh,
+                  ),
+                  data: (result) => LayoutBuilder(
+                    builder: (context, constraints) {
+                      final queue = _AttentionQueue(
+                        result: result,
+                        totalOverride: result.total,
+                      );
+                      final queueHealth = _QueueHealth(
+                        metrics: data.metrics.valueOrNull ?? [],
+                        result: result,
+                        sla: data.sla.valueOrNull,
+                      );
+                      if (constraints.maxWidth < 980) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            queue,
+                            const SizedBox(height: 16),
+                            queueHealth,
+                          ],
+                        );
+                      }
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(flex: 7, child: queue),
+                          const SizedBox(width: 16),
+                          SizedBox(width: 292, child: queueHealth),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 18),
+                data.allocations.when(
+                  loading: () => const AdminLoadingState(
+                    title: 'Loading recent allocations',
+                  ),
+                  error: (error, _) => _OverviewReadFailure(
+                    title: 'Recent allocations',
+                    error: error,
+                    onRefresh: _refresh,
+                  ),
+                  data: (result) => _RecentAllocations(result: result),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -322,11 +462,7 @@ class _OverviewMetric extends StatelessWidget {
       padding: EdgeInsets.only(left: divided ? 16 : 0, right: compact ? 4 : 12),
       decoration: divided
           ? BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: colors.onImagePrimary.withValues(alpha: 0.12),
-                ),
-              ),
+              border: Border(left: BorderSide(color: colors.borderSoft)),
             )
           : null,
       child: Row(
@@ -360,9 +496,7 @@ class _OverviewMetric extends StatelessWidget {
                               ? Theme.of(context).textTheme.labelMedium
                               : Theme.of(context).textTheme.labelLarge)
                           ?.copyWith(
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.68,
-                            ),
+                            color: colors.textSecondary,
                             fontWeight: CollectTypography.weightMedium,
                           ),
                 ),
@@ -372,7 +506,7 @@ class _OverviewMetric extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: colors.onImagePrimary,
+                    color: colors.textPrimary,
                     fontWeight: CollectTypography.weightBold,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
@@ -562,15 +696,17 @@ class _AttentionCompactRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
+            runSpacing: 8,
             children: [
-              Expanded(
-                child: Text(
-                  _reference(row),
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
+              Text(
+                _reference(row),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
                 ),
               ),
               AdminStatusChip(label: row.status),
@@ -597,11 +733,12 @@ class _AttentionCompactRow extends StatelessWidget {
                   fontWeight: CollectTypography.weightBold,
                 ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
+              Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text(_age(row)),
-                  const SizedBox(width: 12),
                   IconButton.outlined(
                     tooltip: 'Review reconciliation',
                     onPressed: () => context.go('/admin/reconciliations'),

@@ -1,0 +1,3 @@
+ERROR:  42501: restore_stop_evidence_immutable
+CONTEXT:  PL/pgSQL function collect_recovery_restore.protect() line 6 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

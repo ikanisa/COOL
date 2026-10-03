@@ -1,0 +1,10 @@
+✔ actual CLI recovery dispatch invokes zero owner, signer, HTTP, transport or daemon authority (2229.229792ms)
+✔ configuration bytes stay inert and historical UID metadata cannot become a live Deployment (620.009833ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2979.687458

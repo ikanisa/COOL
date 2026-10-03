@@ -1,0 +1,22 @@
+{
+  "execution_or_admission_granted": false,
+  "files": {
+    "README.md": {
+      "bytes": 7155,
+      "mode": 420,
+      "sha256": "976093d700f1d39b965809d43b8511a31ea560b63bec4f4f475689e931833955"
+    },
+    "input-bindings.json": {
+      "bytes": 3513,
+      "mode": 384,
+      "sha256": "926e477f5c439c4f5ce4caad6254b1dfb7f7f55a45f837525876d7dfa9c9aa69"
+    },
+    "scope-record.json": {
+      "bytes": 4172,
+      "mode": 384,
+      "sha256": "a6b661578e0a5e9cb9cf5a45e55f2f4673da9e73a5008dacab4f5a613662fed1"
+    }
+  },
+  "kind": "private_read_only_scope_correction_safe_leaf_seal",
+  "leaf_count": 3
+}

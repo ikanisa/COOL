@@ -1,0 +1,102 @@
+{
+  "original": {
+    "status": "recorded",
+    "receipt": {
+      "scan": {
+        "seeded": 0,
+        "status": "processed",
+        "cleared": 0,
+        "pending": 0,
+        "refused": 0,
+        "activated": 0,
+        "processed": 0,
+        "unchanged": 0,
+        "checked_at": "2026-10-02T00:54:06.749036Z",
+        "expires_at": "2026-10-02T00:55:36.482365Z",
+        "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+        "scan_epoch": 1,
+        "scan_phase": "receipt_backlog",
+        "send_action": false,
+        "contract_version": 1,
+        "financial_action": false,
+        "observations_added": 0,
+        "source_scan_complete": false
+      },
+      "status": "completed",
+      "escalation": {
+        "channel": "admin_inbox",
+        "obsolete": 0,
+        "delivered": 0,
+        "external_send": false,
+        "contract_version": 1,
+        "recipient_unavailable": 0
+      },
+      "expires_at": "2026-10-02T00:55:36.482365Z",
+      "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+      "recorded_at": "2026-10-02T00:54:06.754542Z",
+      "send_action": false,
+      "external_send": false,
+      "contract_version": 1,
+      "financial_action": false,
+      "configuration_revision": 2
+    },
+    "checked_at": "2026-10-02T03:36:09.378462Z",
+    "expires_at": "2026-10-02T00:55:36.482365Z",
+    "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-02T03:37:09.378462Z"
+  },
+  "after": {
+    "status": "recorded",
+    "receipt": {
+      "scan": {
+        "seeded": 0,
+        "status": "processed",
+        "cleared": 0,
+        "pending": 0,
+        "refused": 0,
+        "activated": 0,
+        "processed": 0,
+        "unchanged": 0,
+        "checked_at": "2026-10-02T00:54:06.749036Z",
+        "expires_at": "2026-10-02T00:55:36.482365Z",
+        "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+        "scan_epoch": 1,
+        "scan_phase": "receipt_backlog",
+        "send_action": false,
+        "contract_version": 1,
+        "financial_action": false,
+        "observations_added": 0,
+        "source_scan_complete": false
+      },
+      "status": "completed",
+      "escalation": {
+        "channel": "admin_inbox",
+        "obsolete": 0,
+        "delivered": 0,
+        "external_send": false,
+        "contract_version": 1,
+        "recipient_unavailable": 0
+      },
+      "expires_at": "2026-10-02T00:55:36.482365Z",
+      "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+      "recorded_at": "2026-10-02T00:54:06.754542Z",
+      "send_action": false,
+      "external_send": false,
+      "contract_version": 1,
+      "financial_action": false,
+      "configuration_revision": 2
+    },
+    "checked_at": "2026-10-02T03:37:00.873147Z",
+    "expires_at": "2026-10-02T00:55:36.482365Z",
+    "request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-02T03:38:00.873147Z"
+  },
+  "permitted_current_sample_fields": [
+    "checked_at",
+    "sample_valid_until"
+  ],
+  "clock_from": "2026-10-02T03:37:00.819001Z",
+  "clock_until": "2026-10-02T03:37:00.882857Z"
+}

@@ -1,0 +1,103 @@
+--- preparation2/test_rehearsal.py
++++ preparation3/test_rehearsal.py
+@@ -213,4 +213,100 @@
+             with self.assertRaises(r.Refused): r.role_inventory_query(bad)
+ 
+ 
++class GraphQLSourceTests(unittest.TestCase):
++    def fixture(self):
++        inputs = json.loads((HERE / 'inputs.json').read_text())
++        root = Path(inputs['candidate'])
++        return ((root / '.cache/receipt-foundation-attempt8/schema-only.sql').read_text(),
++                json.loads((root / 'reference/observed-output/ordinary_populated/predecessor-effective-catalog.json').read_text()))
++
++    def test_exact_frozen_hook_body_identity_and_extension_membership(self):
++        sql, catalog = self.fixture(); scope = r.graphql_source_scope(sql, catalog)
++        self.assertEqual(scope['source_wrapper_body_sha256'], r.GRAPHQL_FUNCTION[11])
++        self.assertEqual(scope['source_function_definition_sha256'], r.GRAPHQL_FUNCTION[12])
++        self.assertEqual(scope['source_hook_body_sha256'], r.GRAPHQL_HOOK[11])
++        self.assertTrue(scope['source_extension_membership_proven'])
++        self.assertIn('create function graphql_public.graphql(', scope['create_function_sql'])
++        self.assertNotIn('create or replace', scope['create_function_sql'])
++        self.assertEqual(scope['dependencies'], r.GRAPHQL_DEPENDENCIES)
++
++    def test_changed_unknown_duplicate_hook_or_wrapper_refused(self):
++        sql, catalog = self.fixture()
++        for bad in [sql.replace('query := query,', 'query := null,', 1),
++                    sql.replace('create or replace function graphql_public.graphql(', 'create or replace function graphql_public.unknown(', 1),
++                    sql.replace('            language sql\n        as $$', '            language plpgsql\n        as $$', 1),
++                    sql + '\n' + sql[sql.index('CREATE FUNCTION extensions.grant_pg_graphql_access()'):sql.index("COMMENT ON FUNCTION extensions.grant_pg_graphql_access()")]]:
++            with self.assertRaises(r.Refused): r.graphql_source_scope(bad, catalog)
++
++    def test_unknown_source_identity_attributes_and_provenance_refused(self):
++        sql, catalog = self.fixture(); candidates = []
++        for index,value in [(2,'other text'),(4,'postgres'),(10,[]),(11,'a'*64),(12,'a'*64)]:
++            bad = copy.deepcopy(catalog); next(row for row in bad['functions'] if row[:2]==r.GRAPHQL_ID[:2])[index] = value; candidates.append(bad)
++        bad = copy.deepcopy(catalog); row = list(r.GRAPHQL_FUNCTION); row[2]='unknown text'; bad['functions'].append(row); candidates.append(bad)
++        bad = copy.deepcopy(catalog); bad['dependencies'].remove(r.GRAPHQL_DEPENDENCIES[0]); candidates.append(bad)
++        bad = copy.deepcopy(catalog); next(row for row in bad['dependencies'] if row==r.GRAPHQL_DEPENDENCIES[0])[-1]='other_extension'; candidates.append(bad)
++        bad = copy.deepcopy(catalog); next(row for row in bad['event_triggers'] if row[0]==r.GRAPHQL_TRIGGER[0])[5]=['CREATE EXTENSION']; candidates.append(bad)
++        for bad in candidates:
++            with self.assertRaisesRegex(r.Refused,'EXACT_DECLARED_GRAPHQL_SOURCE_PROVENANCE_REQUIRED'):
++                r.graphql_source_scope(sql,bad)
++
++    def test_restore_plan_is_exact_and_existing_mismatch_refuses(self):
++        sql, catalog = self.fixture(); scope = r.graphql_source_scope(sql,catalog)
++        empty = dict(schema=None,functions=[],dependencies=[])
++        expected = '\n'.join([scope['create_schema_sql'],scope['create_function_sql'],r.GRAPHQL_MEMBERSHIP_SQL])
++        self.assertEqual(r.graphql_restore_plan(scope,empty),expected)
++        state = dict(schema=list(r.GRAPHQL_SCHEMA),functions=[copy.deepcopy(r.GRAPHQL_FUNCTION)],dependencies=copy.deepcopy(r.GRAPHQL_DEPENDENCIES))
++        self.assertEqual(r.graphql_restore_plan(scope,state),'')
++        state['functions'][0][10]=['=X/supabase_admin','supabase_admin=X/supabase_admin']
++        state['dependencies']=[copy.deepcopy(r.GRAPHQL_DEPENDENCIES[1])]
++        self.assertEqual(r.graphql_restore_plan(scope,state),r.GRAPHQL_MEMBERSHIP_SQL)
++        for index,value in [(2,'other text'),(4,'postgres'),(10,['unknown=X/supabase_admin']),(11,'a'*64),(12,'a'*64)]:
++            bad=copy.deepcopy(state);bad['functions'][0][index]=value
++            with self.assertRaises(r.Refused):r.graphql_restore_plan(scope,bad)
++        bad=copy.deepcopy(state);bad['dependencies'][0][-1]='unknown'
++        with self.assertRaises(r.Refused):r.graphql_restore_plan(scope,bad)
++        bad=copy.deepcopy(state);bad['functions'].append(copy.deepcopy(r.GRAPHQL_FUNCTION))
++        with self.assertRaises(r.Refused):r.graphql_restore_plan(scope,bad)
++
++    def test_forged_scope_sql_or_provenance_refused(self):
++        sql,catalog=self.fixture();scope=r.graphql_source_scope(sql,catalog)
++        for key,value in [('create_schema_sql','create schema unknown;'),('create_function_sql','select 1;'),
++                          ('extension_membership_sql','alter extension pg_graphql add function unknown();'),
++                          ('dependencies',[]),('hook',[]),('event_trigger',[])]:
++            bad=copy.deepcopy(scope);bad[key]=value
++            with self.assertRaises(r.Refused):r.graphql_restore_plan(bad,dict(schema=None,functions=[],dependencies=[]))
++
++    def test_toc_comments_only_exact_schema_and_keeps_wrapper_acl(self):
++        sql,catalog=self.fixture();scope=r.graphql_source_scope(sql,catalog)
++        toc='''1; 3079 100 EXTENSION - pg_graphql
++2; 2615 101 SCHEMA - graphql_public supabase_admin
++3; 0 0 ACL graphql_public FUNCTION graphql("operationName" text, query text, variables jsonb, extensions jsonb) supabase_admin
++4; 0 0 ACL - SCHEMA graphql_public supabase_admin
++5; 0 0 TABLE DATA supabase_migrations schema_migrations postgres
++6; 0 0 TABLE DATA auth users postgres
++7; 0 0 TABLE DATA public payments postgres
++'''
++        output,omitted=r.restore_list(toc,catalog,scope)
++        self.assertEqual(len(omitted),2)
++        for line in toc.splitlines()[2:]:self.assertIn(line+'\n',output)
++        self.assertIn('; preinstalled exact frozen prerequisite: 2;',output)
++        for bad in [toc.replace('SCHEMA - graphql_public supabase_admin','SCHEMA - graphql_public postgres'),
++                    toc.replace('graphql("operationName" text','graphql(unknown text'),
++                    toc.replace('2; 2615 101 SCHEMA - graphql_public supabase_admin\n',''),
++                    toc+'8; 1255 101 FUNCTION graphql_public graphql(unknown text) supabase_admin\n']:
++            with self.assertRaises(r.Refused):r.restore_list(bad,catalog,scope)
++
++    def test_readonly_function_projection_keeps_exact_expressions(self):
++        inputs=json.loads((HERE/'inputs.json').read_text());body=(Path(inputs['candidate'])/r.CATALOG).read_text()
++        query=r.graphql_inventory_query(body)
++        self.assertTrue(query.startswith(''+body[:body.index('\nSELECT jsonb_build_object(')]))
++        self.assertIn(body[body.index(" 'functions',"):body.index(" 'policies',")].rstrip().rstrip(','),query)
++        self.assertIn(body[body.index(" 'dependencies',"):body.index('\n);\nCOMMIT;')],query)
++        self.assertNotIn('FROM supabase_migrations.schema_migrations',query)
++        self.assertTrue(query.endswith('COMMIT;\n'))
++        for bad in [body.replace(" 'functions',"," 'renamed',"),body+" 'functions',"]:
++            with self.assertRaises(r.Refused):r.graphql_inventory_query(bad)
++        with self.assertRaises(r.Refused):r.graphql_state(dict(schemas=[[]],functions=[],dependencies=[]))
++
++
+ if __name__=='__main__':unittest.main()

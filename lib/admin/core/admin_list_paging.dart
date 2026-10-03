@@ -1,4 +1,5 @@
 import 'admin_models.dart';
+import '../../core/data/exact_json_values.dart';
 
 /// The exact server page whose rows are being displayed; never a clamped label
 /// attached to rows fetched from a different offset.
@@ -43,6 +44,10 @@ Future<AdminLoadedPage> loadAdminListPage({
 }) async {
   if (page < 0) throw RangeError.range(page, 0, null, 'page');
   if (pageSize < 1) throw RangeError.range(pageSize, 1, null, 'pageSize');
+  if (pageSize > maxExactJsonInteger ||
+      page > maxExactJsonInteger ~/ pageSize) {
+    throw RangeError('Admin page offset must be an exact JSON integer.');
+  }
   if (maxRecoveryAttempts < 0) {
     throw RangeError.range(maxRecoveryAttempts, 0, null, 'maxRecoveryAttempts');
   }

@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "packet_files_sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c",
+  "readback_sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921",
+  "BE08_closed": false,
+  "production_release_approval": false
+}

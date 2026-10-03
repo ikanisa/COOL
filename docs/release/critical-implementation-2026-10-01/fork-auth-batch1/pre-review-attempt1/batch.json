@@ -1,0 +1,93 @@
+{
+  "actual_retained_copy_cli_negative_cases_passed": 6,
+  "artifact_license_approval": false,
+  "behavior_verified": false,
+  "created_utc": "2026-10-01T21:11:59.883770+00:00",
+  "current_advisory_clearance": false,
+  "finding_ids": [
+    "ARC09"
+  ],
+  "fork_runtime_or_test_or_license_bytes_edited": false,
+  "full_acceptance_closed": false,
+  "inputs_unchanged": true,
+  "limitations": [
+    "HTTPS pub.dev metadata and pinned archive hashes authenticate this registry origin; no independent publisher signature attestation.",
+    "Source comparison does not prove callback/auth behavior, provider/device acceptance, resolved signed-artifact contents, current advisory clearance or redistribution approval."
+  ],
+  "negative_unit_tests_passed": 23,
+  "outputs_sha256": {
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/README.md": "91fc164e004d790a22828119a353a1bc46081e9f92b200710f5cdd2dbf526a86",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/checks.json": "319204751a8054102f2c215e29704ae5d04aa77d437efac4a8a84d36312551db",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/comparison.json": "36387ca7ad180842255e939645efd5d6c996e1a4836f8f5fc1e30be6d7901376",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetch.json": "26c5601ed5d5823f2ee0694ccae82d143cf86eaa93b5082841051dee958ee454",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetched-official/firebase_messaging/firebase_messaging-16.5.0.tar.gz": "55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetched-official/firebase_messaging/metadata.json": "f93033bece576030ac074ab8f3c29ad606accf64d84513ebc32c2c0de6693939",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetched-official/gotrue/gotrue-2.27.1.tar.gz": "f6f42ea035953b2439664c1afb46630460edbb917093843a3a0618bfa45619f6",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetched-official/gotrue/metadata.json": "e38d3bbc5fcdbc8244b70ccfb8df95555e6b0601ba5c3bd0b3918f1cc139c17b",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/inputs-after.json": "beb5ec3df2582b98e6b8e3686d149e0d31c81e6c98c89c89858faa9129e4c4e4",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/inputs-before.json": "beb5ec3df2582b98e6b8e3686d149e0d31c81e6c98c89c89858faa9129e4c4e4",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/negative-cli.json": "710b2db537bfed6e4ad44be631d146b29154c52a6104abba916265189ca0c46a",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/syntax.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/tests.log": "bfabd16c9f7b504b841581448b81840801cabf672e5fe29daf1bd91f15b7200f",
+    "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/verify.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "packages": [
+    {
+      "added_count": 3,
+      "archive_sha256": "55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751",
+      "changed_count": 2,
+      "identical_common_file_count": 34,
+      "official_archive_url": "https://pub.dev/api/archives/firebase_messaging-16.5.0.tar.gz",
+      "official_metadata_url": "https://pub.dev/api/packages/firebase_messaging/versions/16.5.0",
+      "omitted_count": 112,
+      "package": "firebase_messaging",
+      "published": "2026-08-03T13:49:19.716291Z",
+      "retained_file_count": 39,
+      "retained_tree_sha256": "63e29b1ce2701fded1d35bdec344b46b551b718a1fa7a80c45d6a9a3fb7afbde",
+      "unchanged_license_notice_files": [
+        "LICENSE"
+      ],
+      "upstream_file_count": 148,
+      "upstream_tree_sha256": "1d1b0d5264a88f2c386087c79ba66c26ca44dfca232bb9b59c90a4436a7bd2cc",
+      "version": "16.5.0"
+    },
+    {
+      "added_count": 4,
+      "archive_sha256": "f6f42ea035953b2439664c1afb46630460edbb917093843a3a0618bfa45619f6",
+      "changed_count": 6,
+      "identical_common_file_count": 73,
+      "official_archive_url": "https://pub.dev/api/archives/gotrue-2.27.1.tar.gz",
+      "official_metadata_url": "https://pub.dev/api/packages/gotrue/versions/2.27.1",
+      "omitted_count": 0,
+      "package": "gotrue",
+      "published": "2026-08-05T08:47:48.098138Z",
+      "retained_file_count": 83,
+      "retained_tree_sha256": "349d0bcf98672984744d4f1695add12bf2a354c6fcc739455af7aea0e3661ffe",
+      "unchanged_license_notice_files": [
+        "LICENSE"
+      ],
+      "upstream_file_count": 79,
+      "upstream_tree_sha256": "7fb34b83710af3849da090656a9add8dc8923eb4d2af356062f3e46497ef9ea7",
+      "version": "2.27.1"
+    }
+  ],
+  "provider_effects": false,
+  "release_approved": false,
+  "remaining": [
+    "Wire the exact-version fetch/offline verifier into the canonical supply-chain CI caller without changing the file_saver gate.",
+    "Complete current dependency/advisory risk review and artifact-bound resolved native/notice inventories.",
+    "Preserve separate existing callback/browser behavior proof and final provider/device acceptance.",
+    "Obtain required artifact-bound redistribution/legal and release approvals."
+  ],
+  "schema_version": 1,
+  "source_count": 130,
+  "source_inputs_sha256": "beb5ec3df2582b98e6b8e3686d149e0d31c81e6c98c89c89858faa9129e4c4e4",
+  "source_receipt": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/comparison.json",
+  "source_receipt_sha256": "36387ca7ad180842255e939645efd5d6c996e1a4836f8f5fc1e30be6d7901376",
+  "status": "local_exact_official_fork_origin_and_reviewed_delta_verified",
+  "toolchain": {
+    "executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "python_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]"
+  },
+  "verification_scope": "Firebase Messaging16.5.0 and GoTrue2.27.1 official pub.dev archives plus complete retained fork bytes and exact reviewed deltas. No runtime behavior claim."
+}

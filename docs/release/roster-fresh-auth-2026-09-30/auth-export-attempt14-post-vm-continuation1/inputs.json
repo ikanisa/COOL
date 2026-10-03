@@ -1,0 +1,11 @@
+{
+  "prior_validation_sha256": "8c3d5e094ed5c593309514d165d2699f8d5b52b97d14e8e4dd8e4b7a2204ed5e",
+  "prior_inputs_sha256": "a9148f87b89f5acf72ecb687905ee561426a583bc32f49903e41e2b548819f2c",
+  "prior_machine_events_sha256": "eefc1d44ed4d6a6b301fe84653ec497f6222573fa33614f15f41054d6756bf50",
+  "continuation_source_sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282",
+  "bound_gate_source_sha256": "283e7195f29f46cf948a2e8349efa89ac4416c1cf3016b64b691a035e4693894",
+  "original_analysis_timeout_seconds": 120,
+  "new_analysis_timeout_seconds": 600,
+  "vm_reexecuted": false,
+  "prior_failure_preserved": true
+}

@@ -1,0 +1,1 @@
+["id", "payment_id", "parsed_event_id", "collection_id", "payment_intent_id", "allocated_by", "allocation_method", "confidence", "reason", "created_at", "member_record_id"]

@@ -1,0 +1,77 @@
+{
+  "actual_ancestor_observations": [
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 9793159168,
+      "mode": 41453,
+      "path": "/Users/jeanbosco/Library/Caches/Codex",
+      "resolved": "/Volumes/PRO-G40/Application Data/Codex/Caches/Codex",
+      "symlink": true,
+      "symlink_target": "/Volumes/PRO-G40/Application Data/Codex/Caches/Codex"
+    },
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 230535225344,
+      "mode": 16832,
+      "path": "/Users/jeanbosco/Library/Caches",
+      "resolved": "/Users/jeanbosco/Library/Caches",
+      "symlink": false,
+      "symlink_target": null
+    },
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 230535225344,
+      "mode": 16832,
+      "path": "/Users/jeanbosco/Library",
+      "resolved": "/Users/jeanbosco/Library",
+      "symlink": false,
+      "symlink_target": null
+    },
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 230535225344,
+      "mode": 16872,
+      "path": "/Users/jeanbosco",
+      "resolved": "/Users/jeanbosco",
+      "symlink": false,
+      "symlink_target": null
+    },
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 230535225344,
+      "mode": 16877,
+      "path": "/Users",
+      "resolved": "/Users",
+      "symlink": false,
+      "symlink_target": null
+    },
+    {
+      "device_lstat": 16777232,
+      "free_bytes_followed_volume": 230535225344,
+      "mode": 16877,
+      "path": "/",
+      "resolved": "/",
+      "symlink": false,
+      "symlink_target": null
+    }
+  ],
+  "actual_repeated_rejection": {
+    "public_error": "physical volume ancestor alias",
+    "type": "ValueError"
+  },
+  "expansion_or_SDK_execution": false,
+  "narrow_proposed_internal_correction": {
+    "currently_absent": true,
+    "device": 16777232,
+    "free_bytes": 230535225344,
+    "nearest_existing_physical_ancestor": "/Users/jeanbosco/Library/Caches",
+    "not_executed": true,
+    "root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+    "separate_root_destination_review_pending": true
+  },
+  "observed_UTC": "2026-10-02T02:13:16.296957+00:00",
+  "original_prepared_root": "/Users/jeanbosco/Library/Caches/Codex/COOL-ARC09/native-consumer1",
+  "original_read_only_attempt_exit_code": 1,
+  "scope": "Actual read-only original alias/headroom rejection; no SDK/extraction/tool/cache writes.",
+  "sealed_plan1_edited": false
+}

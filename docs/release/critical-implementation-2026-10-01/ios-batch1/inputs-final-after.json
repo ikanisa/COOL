@@ -1,0 +1,22 @@
+{
+  "captured_at_utc": "2026-10-01T20:27:42.940574+00:00",
+  "files": {
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    "fastlane/Fastfile": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86",
+    "scripts/qa/ios_delivery_guard.py": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "scripts/tests/ios_delivery_contract_test.py": "9a848f539a78da5e0078360820ab258e6dd9069e2b7bdbf8869a7ff12461d646",
+    "scripts/tests/ios_fastlane_offline_harness.rb": "3d27b7ae024d578391bd04c7e714193039440a336a006fe97643e61829f12f54",
+    "scripts/tests/ios_workflow_contract_test.py": "7b3b32e9a659c543eca76546a1865629d4acea07aac11b7171dd1d059410407d",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/ios_app_store_readiness_gate.sh": "e6ec88d25dead19daafe4d6a50b246e2d4a556b60943d9386d04f3337f5f1a3f",
+    "scripts/notification_readiness_gate.sh": "29092a35a2552d75a7de24e408bb863add731fbe01affee6491e3aeecdbe3dce",
+    "Gemfile": "3f9baf66774f08c7dc206e8346f418faa3134e1b358e1f924c528bba9319a627",
+    "Gemfile.lock": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "ios/ExportOptionsAppStore.plist": "ed749f37a5b6d27b4c3f2300c51291cfcbc87e980e55e526166ee204ac659218",
+    "ios/Runner/PrivacyInfo.xcprivacy": "6fa20a8d8a3d978aa23fcdea8c717a505c49b3da2699f44604670ee92d4c5da4",
+    "ios/Runner/Runner.entitlements": "7673c1da9e3c952f957fb4389623ef5c97a1793cc90906450334757bbfd68740"
+  },
+  "changed_inputs": []
+}

@@ -1,0 +1,7 @@
+Analyzing admin_sender_picker.dart, admin_sender_retention_models.dart, admin_sender_retention_sdk.dart, admin_sender_retention_controller.dart, admin_sender_retention_host.dart, admin_sender_retention_view.dart, admin_sender_retention_checkpoint.dart, admin_sender_retention_checkpoint_stub.dart, admin_sender_retention_checkpoint_web.dart, admin_runtime.dart, admin_governed_settings_page.dart, admin_receipt_operations_card.dart, admin_sender_retention_models_test.dart, admin_sender_retention_controller_test.dart, admin_sender_retention_view_test.dart, admin_sender_retention_mount_test.dart, admin_governed_settings_widget_test.dart, admin_receipt_operations_card_test.dart...
+
+   info - test/admin_sender_retention_mount_test.dart:148:13 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - test/admin_sender_retention_mount_test.dart:161:11 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - test/admin_sender_retention_mount_test.dart:218:7 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+
+3 issues found.

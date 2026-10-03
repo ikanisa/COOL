@@ -1,0 +1,22 @@
+{
+  "scope": "Additive canonical entity-history navigation after initial audit/policy evidence boundaries",
+  "gate": "Current resolved platform owner, matching non-null Admin session, audit.read/system_health.read/notifications.read plus payments.read for receipt/exception",
+  "identities": {
+    "gateway": "device.identity.deviceId",
+    "exception": "row.id",
+    "cancellation_receipt": "receipt.outboxId",
+    "fresh_joined_investigation": "snapshot.receipt.id"
+  },
+  "original_request_id_is_entity_id": false,
+  "navigation": "push validated entity history route; pop preserves originating record",
+  "mutations": "none from history navigation",
+  "supervisor_directory_added": false,
+  "acceptance": [
+    "canonical route target",
+    "current permission/role/session denied or loading hides link",
+    "invalid identifier fails closed",
+    "loaded evidence remains hidden on authority departure",
+    "history read/return does not cancel, enrol, activate, revoke, acknowledge, escalate or send"
+  ],
+  "publication": "Local code/testing only; no hosted deployment/auth calls"
+}

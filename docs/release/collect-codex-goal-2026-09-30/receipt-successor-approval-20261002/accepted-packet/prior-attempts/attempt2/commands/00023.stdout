@@ -1,0 +1,1 @@
+["id", "payment_id", "parsed_event_id", "collection_id", "member_record_id", "entry_type", "amount_rwf", "external_reference", "reverses_entry_id", "created_by", "posted_at", "created_at"]

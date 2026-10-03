@@ -5,7 +5,7 @@ isolated Supabase/HTTP dependencies. Not a deployment or live integration test.
 import pathlib,tempfile,subprocess,re,os,argparse,shutil
 p=argparse.ArgumentParser();p.add_argument('--output');a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[2]
-modules=['production_contract','signed_sms_hook','hash','receipt_ingestion','cors','integrity_policy','play_integrity_binding','momo_sms_parser','notification_operator','roster_import','roster_file_policy','roster_response_policy','openai_roster','roster_provenance','roster_decoder','roster_resource_budget']
+modules=['production_contract','signed_sms_hook','hash','receipt_ingestion','cors','integrity_policy','integrity_admission','play_integrity_binding','momo_sms_parser','notification_operator','operational_metrics','roster_import','roster_file_policy','roster_response_policy','openai_roster','roster_provenance','roster_decoder','roster_resource_budget']
 with tempfile.TemporaryDirectory(prefix='collect-edge-') as temp:
     w=pathlib.Path(temp);shared=w/'_shared';shared.mkdir()
     paths=[]
@@ -37,14 +37,18 @@ export async function sendFcmMessage(..._args:any[]):Promise<any> { const send=(
     if has_tsc:
         build=subprocess.run(['tsc','--strict','--target','ES2022','--module','commonjs','--lib','ES2022,DOM','--outDir',str(w/'build'),*[str(x) for x in paths]],capture_output=True,text=True)
         if build.returncode:print(build.stdout+build.stderr);raise SystemExit(build.returncode)
+    else:
+        # These node:test suites share mutable host doubles and require Node's
+        # sequential test semantics. Bun only transpiles the isolated copies.
+        build=subprocess.run(['bun','build','--target=node','--format=cjs','--root',str(w),'--outdir',str(w/'build'),
+                              *[str(x) for x in paths if x.name!='host.d.ts']],capture_output=True,text=True)
+        if build.returncode:print(build.stdout+build.stderr);raise SystemExit(build.returncode)
     env=os.environ.copy();env['COLLECT_EDGE_BUILD']=str(w/'build')
+    command=['node','--test']
     if has_tsc:
-        command=['node','--test']
         preface='Strict handler compilation with declared host/dependency adapters: PASS\n'
     else:
-        env['COLLECT_EDGE_BUILD']=str(w);env['COLLECT_EDGE_MODULE_SUFFIX']='.ts'
-        command=['bun','test']
-        preface='TypeScript compiler unavailable; Bun handler execution only (no type-check):\n'
+        preface='TypeScript compiler unavailable; Bun transpilation and sequential Node host-adapter execution only (no type-check):\n'
     output=preface
     exit_code=0
     # Separate processes keep the suites' global host/HTTP doubles isolated.

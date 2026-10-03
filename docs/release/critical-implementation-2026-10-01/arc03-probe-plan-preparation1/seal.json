@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "packet_files_sha256": "2024cf08e572541f1b2d90aefa1b6668924bf2b3a15226637c441549f3947bdd",
+  "no_maintained_mutation": true,
+  "actual_behavior_tests_executed": false,
+  "syntax_checks_pass": true
+}

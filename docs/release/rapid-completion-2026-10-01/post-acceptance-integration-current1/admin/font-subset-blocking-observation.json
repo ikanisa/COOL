@@ -1,0 +1,16 @@
+{
+  "scope": "Read-only causal diagnosis of active owned build; no process or SDK mutation",
+  "node_pid": 37358,
+  "flutter_pid": 37471,
+  "font_subset_pid": 38934,
+  "sample": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/font-subset-observation.txt",
+  "sample_sha256": "51ba07631e5d335837385e6f650c980fa0ddd6f53e3bd5e67570ca789694a7e9",
+  "observed_block": "stdout fflush -> __write_nocancel for all sampled frames",
+  "pipe_capacity": 16384,
+  "sdk_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/packages/flutter_tools/lib/src/build_system/targets/icon_tree_shaker.dart",
+  "sdk_source_sha256": "57d400b7045f843350422142059f7bcc3bec4fae21561248ab3d69c99fefa3fa",
+  "sdk_sequence": "fontSubsetProcess.exitCode awaited before stdout and stderr decodeStream",
+  "source_excerpt_sha256": "33874cef3903b5557640e9f5848a672ac4f2bf18bdb0ce24ed163faeabb9528c",
+  "terminal": false,
+  "build_restarted": false
+}

@@ -1,0 +1,151 @@
+{
+  "captured_at_utc": "2026-10-01T23:18:40.165549+00:00",
+  "status": "pass",
+  "sources_before": {
+    ".github/workflows/ci.yml": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+    "scripts/public_app_media.rb": "1b11ea1d3796a74ac2d7822237fc987c27f10983425baeb46dbc309ea610c74b",
+    "scripts/assets/publish_public_app_media.py": "9eaec1dbb1fcf117a0887d19c4813acb29c2aa285d9a9711125eb69d8f21b037",
+    "scripts/tests/public_app_media_test.rb": "f4985b9a749463f6388de815c7fa57e41b0456dcb6f4142f10930f8ac845a038",
+    "scripts/tests/public_media_source_binding_test.py": "329be20f4996c59a9ed9a46d574a901106592bdb74ab7289d7d90312708c897d",
+    "scripts/tests/public_native_media_publisher_test.py": "c1ed0102166052aa33ebfc1224ded8435b8135e606fb02951f86fd1a47a81417",
+    "scripts/tests/public_native_media_provenance_test.rb": "bd0587621e8d5f64157a3fb5751535d9831530690efb9604e0e435a08a93efbe",
+    "scripts/tests/public_media_publication_test.py": "60e58047db5c3b27fb9754458f7fd499241f64800317367d5a7fc8463a16248d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+    "scripts/tests/collect_diagnostic_observer_test.mjs": "25cc7050fa1418dd1a16b44373193ffb2adcd96eb4ae15a3adda551632b96df3",
+    "scripts/tests/public_browser_served_resource_test.mjs": "6cf41e048c92fcaae910b54956f50a741fc784caeae64d3f5c322f799da20a59",
+    "scripts/tests/public_capability_contract_test.rb": "bef233bb03754e02c176e0e262e30075f76f47da6b286a01dfb01314768b0529",
+    "scripts/tests/public_media_bootstrap_test.mjs": "1d4862e84be15ca4a74dbef0ee291e1c19bc44e94013701f551f74f81f69bbaa",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8"
+  },
+  "sources_after": {
+    ".github/workflows/ci.yml": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+    "scripts/public_app_media.rb": "1b11ea1d3796a74ac2d7822237fc987c27f10983425baeb46dbc309ea610c74b",
+    "scripts/assets/publish_public_app_media.py": "9eaec1dbb1fcf117a0887d19c4813acb29c2aa285d9a9711125eb69d8f21b037",
+    "scripts/tests/public_app_media_test.rb": "f4985b9a749463f6388de815c7fa57e41b0456dcb6f4142f10930f8ac845a038",
+    "scripts/tests/public_media_source_binding_test.py": "329be20f4996c59a9ed9a46d574a901106592bdb74ab7289d7d90312708c897d",
+    "scripts/tests/public_native_media_publisher_test.py": "c1ed0102166052aa33ebfc1224ded8435b8135e606fb02951f86fd1a47a81417",
+    "scripts/tests/public_native_media_provenance_test.rb": "bd0587621e8d5f64157a3fb5751535d9831530690efb9604e0e435a08a93efbe",
+    "scripts/tests/public_media_publication_test.py": "60e58047db5c3b27fb9754458f7fd499241f64800317367d5a7fc8463a16248d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_app_media.mjs": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+    "scripts/tests/collect_diagnostic_observer_test.mjs": "25cc7050fa1418dd1a16b44373193ffb2adcd96eb4ae15a3adda551632b96df3",
+    "scripts/tests/public_browser_served_resource_test.mjs": "6cf41e048c92fcaae910b54956f50a741fc784caeae64d3f5c322f799da20a59",
+    "scripts/tests/public_capability_contract_test.rb": "bef233bb03754e02c176e0e262e30075f76f47da6b286a01dfb01314768b0529",
+    "scripts/tests/public_media_bootstrap_test.mjs": "1d4862e84be15ca4a74dbef0ee291e1c19bc44e94013701f551f74f81f69bbaa",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8"
+  },
+  "sources_unchanged": true,
+  "commands": [
+    {
+      "name": "ruby-browser-media",
+      "argv": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e95fdef8ffe78ab4fc0b653817cb78fe6d0c3366f53fde34e8da3ca5570d7cbc"
+    },
+    {
+      "name": "ruby-native-provenance",
+      "argv": [
+        "ruby",
+        "scripts/tests/public_native_media_provenance_test.rb"
+      ],
+      "exit_code": 0,
+      "log_sha256": "ac620f73953303b8155f49cabfa868c1b8906a64e0c56efa272f56f114754f48"
+    },
+    {
+      "name": "python-binding",
+      "argv": [
+        "python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "2f1b44a2886200abd0eca45c28dd509e5e84cc3aa6a0f59ad7aad7e8446f23a2"
+    },
+    {
+      "name": "python-publisher",
+      "argv": [
+        "python3",
+        "scripts/tests/public_native_media_publisher_test.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "c856748ef024ba2ae578cdc84ab8dfa23051f34462a1e6afd9101d8e10e3009b"
+    },
+    {
+      "name": "python-preservation",
+      "argv": [
+        "python3",
+        "scripts/tests/public_media_publication_test.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "1411491edaa76314fdc5c8cac152264fe8c7bdc2ba94fae702dd5b819c1b5dfd"
+    },
+    {
+      "name": "node-diagnostic-contracts",
+      "argv": [
+        "node",
+        "--test",
+        "scripts/tests/collect_diagnostic_observer_test.mjs",
+        "scripts/tests/public_browser_served_resource_test.mjs"
+      ],
+      "exit_code": 0,
+      "log_sha256": "6164dc3274c4b9fa2002079578566037c20223866091053966c1af94aba0de67"
+    },
+    {
+      "name": "node-bootstrap",
+      "argv": [
+        "node",
+        "scripts/tests/public_media_bootstrap_test.mjs"
+      ],
+      "exit_code": 0,
+      "log_sha256": "1ec51653f67f82baa416d8fb4a653bc7f92f0de5aec7e009a7980dba110a0af7"
+    },
+    {
+      "name": "ruby-capability-denials",
+      "argv": [
+        "ruby",
+        "scripts/tests/public_capability_contract_test.rb"
+      ],
+      "exit_code": 0,
+      "log_sha256": "39bc22e7122299ed68bb6724b069d2d970613675021dc099423044ffae6a4696"
+    },
+    {
+      "name": "python-file-saver-provenance",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.tests.file_saver_fork_provenance_test"
+      ],
+      "exit_code": 0,
+      "log_sha256": "0919de1659578726f19776617daf5dfd146499569c64aa0dbb943a51d4178839"
+    },
+    {
+      "name": "ci-policy-sources",
+      "argv": [
+        "python3",
+        "scripts/qa/collect_ci_policy.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "9f7360353f2892159c7a623b26deb42896c03bd15665ef3a5a5a01ce40e34c53"
+    },
+    {
+      "name": "ci-policy-tests",
+      "argv": [
+        "python3",
+        "scripts/tests/test_collect_ci_policy.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "86538e9d33b91fa54d8308b4a75c2c6368772e47cf91e852ee8fb576d0a1efbf"
+    }
+  ],
+  "scope": "Maintained browser diagnostic observation, strict publication source/observer binding, native compatibility of validator, pinned CI denial/provenance tests. Local tests only; fresh media/browser/device/hosted/fullrelease acceptance remains separate."
+}

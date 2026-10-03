@@ -1,0 +1,46 @@
+{
+  "retained_dump_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "extracted_platform_sha256": "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f",
+  "kept_blocks": 188,
+  "omitted_app_triggers": [
+    {
+      "name": "sessions a_notification_auth_session_revocation_gate",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "users a_notification_auth_user_revocation_gate",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "sessions b_notification_auth_session_activity_gate",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "users b_notification_auth_user_activity_gate",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "users on_auth_user_created_collect_profile",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "sessions revoke_notification_session_devices_trigger",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    },
+    {
+      "name": "users revoke_notification_user_devices_trigger",
+      "kind": "TRIGGER",
+      "schema": "auth"
+    }
+  ],
+  "source_rows_copied": false,
+  "platform_role_and_grant_normalization": true,
+  "auth_provider_runtime_tested": false,
+  "storage_runtime_tested": false
+}

@@ -1,0 +1,22 @@
+{
+  "all102_production_criteria_and_states_preserved": true,
+  "all24_local_criteria_preserved": true,
+  "canonical_sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "23121cae6e9b58a6fc4877241ea82b3392486e690901ff71770326044e0b31ba",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "3fadb038f3536f0d11f638230bbfc75ec54a447e1d7a91298c4f0403f1935827",
+    "local-implementation-register-2026-09-30.json": "a274a14c53f6e0e72f4cc5b837cb0c4b4022da3d0a1ab68460e7be6f792d8548",
+    "production-remaining-tasks-2026-09-30.json": "c7d83a3f553f30ee0a09e020c4a76151f9a63b93668785e574cff37d77a22c10"
+  },
+  "captured_at_utc": "2026-10-01T16:21:37.797737+00:00",
+  "integration_acceptance": {
+    "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json",
+    "sha256": "73f7d8b4cc4f9685c100ac90e175f1a13dcd74754dd946ddea5b2da4fc84560f"
+  },
+  "local_complete": 24,
+  "local_revision": 15,
+  "production_open": 101,
+  "production_revision": 17,
+  "release_decision": "NO-GO",
+  "requested_complete": 18,
+  "status": "pass"
+}

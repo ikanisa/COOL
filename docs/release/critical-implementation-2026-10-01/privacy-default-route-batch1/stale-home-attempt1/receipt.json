@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-10-02T00:43:38.794461+00:00",
+  "completed_at": "2026-10-02T00:43:46.504326+00:00",
+  "mode": "stale_home",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/features/mobile_completion_test.dart",
+    "--plain-name",
+    "home labels restored cache as offline saved data"
+  ],
+  "exit_code": 0,
+  "input_count": 1344,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_log_sha256": "02725c204ddc6aac62a849fb66dc2715f9313114f6d1a66c3a91ac50b1322167",
+  "approval": false,
+  "authority_hygiene_is_visual_acceptance": false
+}

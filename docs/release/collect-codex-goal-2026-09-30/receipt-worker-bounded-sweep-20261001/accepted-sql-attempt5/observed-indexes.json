@@ -1,0 +1,9 @@
+{
+  "receipt_worker_jobs_latest": "CREATE INDEX receipt_worker_jobs_latest ON collect_ops.receipt_worker_jobs USING btree (created_at DESC, request_id DESC)",
+  "receipt_worker_receipts_latest": "CREATE INDEX receipt_worker_receipts_latest ON collect_ops.receipt_worker_receipts USING btree (recorded_at DESC, request_id DESC)",
+  "receipt_backlog_quota_source_latest": "CREATE INDEX receipt_backlog_quota_source_latest ON collect_receipt_operations.backlog_results USING btree (snapshot_id, recorded_at DESC, run_id DESC) WHERE (code = 'QUOTA_EXHAUSTED'::text)",
+  "receipt_backlog_budget_source_latest": "CREATE INDEX receipt_backlog_budget_source_latest ON collect_ops.receipt_backlog_budget_deferrals USING btree (snapshot_id, recorded_at DESC, run_id DESC)",
+  "receipt_backlog_handled_source_first": "CREATE INDEX receipt_backlog_handled_source_first ON collect_receipt_operations.backlog_results USING btree (snapshot_id, recorded_at, run_id) WHERE business_handled",
+  "receipt_run_event_quota_source_latest": "CREATE INDEX receipt_run_event_quota_source_latest ON collect_receipt_operations.run_events USING btree (event_id, recorded_at DESC, run_id DESC) WHERE (code = 'QUOTA_EXHAUSTED'::text)",
+  "receipt_backlog_unhandled_source_latest": "CREATE INDEX receipt_backlog_unhandled_source_latest ON collect_receipt_operations.backlog_results USING btree (snapshot_id, recorded_at DESC, run_id DESC) WHERE (NOT business_handled)"
+}

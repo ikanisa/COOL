@@ -1,0 +1,164 @@
+[
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness",
+    "outcome": "pass",
+    "elapsed_seconds": 85.254,
+    "evidence": "case-evidence/test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_cli_pin_stops_before_any_project_operation",
+    "outcome": "pass",
+    "elapsed_seconds": 2.632,
+    "evidence": "case-evidence/test_wrong_cli_pin_stops_before_any_project_operation.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_and_swapped_companion_are_refused_before_project_calls",
+    "outcome": "pass",
+    "elapsed_seconds": 2.519,
+    "evidence": "case-evidence/test_missing_and_swapped_companion_are_refused_before_project_calls.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_unapproved_companion_override_is_refused",
+    "outcome": "pass",
+    "elapsed_seconds": 1.897,
+    "evidence": "case-evidence/test_unapproved_companion_override_is_refused.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_companion_drift_after_preflight_stops_before_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 14.607,
+    "evidence": "case-evidence/test_companion_drift_after_preflight_stops_before_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_approval_hash_blocks_before_any_remote_call",
+    "outcome": "pass",
+    "elapsed_seconds": 1.795,
+    "evidence": "case-evidence/test_wrong_approval_hash_blocks_before_any_remote_call.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_target_environment_and_url_are_refused",
+    "outcome": "pass",
+    "elapsed_seconds": 2.422,
+    "evidence": "case-evidence/test_wrong_target_environment_and_url_are_refused.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_source_approval_binding_is_refused",
+    "outcome": "pass",
+    "elapsed_seconds": 1.959,
+    "evidence": "case-evidence/test_wrong_source_approval_binding_is_refused.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_dirty_candidate_and_unlisted_candidate_source_are_refused",
+    "outcome": "pass",
+    "elapsed_seconds": 4.443,
+    "evidence": "case-evidence/test_dirty_candidate_and_unlisted_candidate_source_are_refused.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_stale_worktree_helper_and_added_backend_source_are_refused",
+    "outcome": "pass",
+    "elapsed_seconds": 6.446,
+    "evidence": "case-evidence/test_stale_worktree_helper_and_added_backend_source_are_refused.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_transitive_module_is_refused_before_project_calls",
+    "outcome": "pass",
+    "elapsed_seconds": 5.554,
+    "evidence": "case-evidence/test_missing_transitive_module_is_refused_before_project_calls.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect",
+    "outcome": "pass",
+    "elapsed_seconds": 9.508,
+    "evidence": "case-evidence/test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_worktree_drift_stops_before_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 15.047,
+    "evidence": "case-evidence/test_mid_run_worktree_drift_stops_before_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes",
+    "outcome": "pass",
+    "elapsed_seconds": 25.759,
+    "evidence": "case-evidence/test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_staging_edge_scope_executes_export_without_production_acceptance",
+    "outcome": "pass",
+    "elapsed_seconds": 16.313,
+    "evidence": "case-evidence/test_staging_edge_scope_executes_export_without_production_acceptance.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_approval_succeeds_without_postgres_configuration",
+    "outcome": "pass",
+    "elapsed_seconds": 18.813,
+    "evidence": "case-evidence/test_legacy_edge_only_approval_succeeds_without_postgres_configuration.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_shape_still_refuses_changed_target_before_requests",
+    "outcome": "pass",
+    "elapsed_seconds": 3.558,
+    "evidence": "case-evidence/test_legacy_edge_only_shape_still_refuses_changed_target_before_requests.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_database_approval_without_postgres_binding_refuses_before_requests",
+    "outcome": "pass",
+    "elapsed_seconds": 1.79,
+    "evidence": "case-evidence/test_database_approval_without_postgres_binding_refuses_before_requests.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_postgres_manifest_hash_and_override_refuse_before_requests",
+    "outcome": "pass",
+    "elapsed_seconds": 3.149,
+    "evidence": "case-evidence/test_wrong_postgres_manifest_hash_and_override_refuse_before_requests.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_byte_drift_refuses_before_requests",
+    "outcome": "pass",
+    "elapsed_seconds": 2.65,
+    "evidence": "case-evidence/test_postgres_client_byte_drift_refuses_before_requests.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_incompatible_server_is_observed_by_read_only_query_before_any_write",
+    "outcome": "pass",
+    "elapsed_seconds": 7.678,
+    "evidence": "case-evidence/test_incompatible_server_is_observed_by_read_only_query_before_any_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 12.778,
+    "evidence": "case-evidence/test_postgres_manifest_drift_after_dry_run_stops_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_drift_after_dry_run_stops_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 13.127,
+    "evidence": "case-evidence/test_postgres_client_drift_after_dry_run_stops_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_drift_after_dry_run_stops_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 14.74,
+    "evidence": "case-evidence/test_server_drift_after_dry_run_stops_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_read_precedes_every_release_mutation_and_management_migration",
+    "outcome": "pass",
+    "elapsed_seconds": 85.173,
+    "evidence": "case-evidence/test_server_read_precedes_every_release_mutation_and_management_migration.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_main_binary_drift_after_dry_run_stops_first_write",
+    "outcome": "pass",
+    "elapsed_seconds": 14.476,
+    "evidence": "case-evidence/test_main_binary_drift_after_dry_run_stops_first_write.json"
+  },
+  {
+    "test": "supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_make_tool_defaults_use_path_and_keep_explicit_overrides",
+    "outcome": "pass",
+    "elapsed_seconds": 2.872,
+    "evidence": "case-evidence/test_make_tool_defaults_use_path_and_keep_explicit_overrides.json"
+  }
+]

@@ -1,0 +1,84 @@
+--- a/scripts/qa/pg_archive_admission.py
++++ b/scripts/qa/pg_archive_admission.py
+@@ -181,6 +181,18 @@
+                         stream.close()
+                 if not failed:
+                     fail(time.monotonic() <= deadline, 'PG_ARCHIVE_COMMAND_TIMEOUT')
++
++
++def bounded_base_probe(argv, env, timeout, limit=pg.OUTPUT_LIMIT, inherit_stdin=False):
++    """Keep the base (code, stdout) contract through this adapter's strict runner."""
++    fail(inherit_stdin is False, 'PG_ARCHIVE_BASE_STDIN_UNSUPPORTED')
++    stdout, _ = run(argv, env, timeout, limit)
++    return 0, stdout  # run returns only after a genuine zero exit and group absence.
++
++
++# Only this isolated module copy changes. Maintained base bytes stay exact.
++# Its constructor's first psql probe must have the same cleanup as later probes.
++pg.bounded = bounded_base_probe
+ 
+ 
+ class ArchiveAdmission:
+--- a/scripts/tests/test_pg_archive_admission.py
++++ b/scripts/tests/test_pg_archive_admission.py
+@@ -40,6 +40,11 @@
+ row={{'tool':name,'stage':stage,'argv':args,'secret_env_names':[k for k in os.environ if k in ('PGPASSWORD','DATABASE_URL','SUPABASE_ACCESS_TOKEN','COLLECT_PSQL_URL','PYTHONPATH','BASH_ENV','LD_PRELOAD') or k.startswith('DYLD_')],'pgoptions':os.environ.get('PGOPTIONS')}}
+ if stage=='version':
+     time.sleep(state.get('version_sleep_'+name,0))
++    if state.get('first_version_detached_'+name):
++        marker=Path(state['first_version_detached_'+name])
++        if not marker.exists():
++            child=subprocess.Popen([sys.executable,'-c','import time;time.sleep(20)'],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
++            marker.write_text(json.dumps(dict(parent_pgid=os.getpgrp(),descendant_pid=child.pid)))
+     row['credential_paths_present']=any(k in os.environ for k in ('PGSERVICEFILE','PGPASSFILE'))
+     out=state.get('version_'+name,'17.6')
+     with Path({str(self.calls)!r}).open('a') as f:f.write(json.dumps(row)+'\\n')
+@@ -131,6 +136,48 @@
+         self.calls.unlink(missing_ok=True)
+         return ['service=collect_readiness','--exit-on-error','--single-transaction',str(artifact)]
+ 
++    def test_constructor_first_version_only_detached_child_refuses_before_request(self):
++        marker=self.root/'first-version-group.json'
++        self.state['first_version_detached_psql']=str(marker);self.write_state()
++        started=time.monotonic()
++        with self.assertRaisesRegex(archive.Refused,'RESIDUAL_PROCESS_GROUP'):
++            self.admit()
++        observed=json.loads(marker.read_text())
++        with self.assertRaises(ProcessLookupError):os.killpg(observed['parent_pgid'],0)
++        self.assertEqual([(r['tool'],r['stage']) for r in self.rows()],[('psql','version')])
++        self.assertEqual(self.requests(),[]);self.assertEqual(list(self.output.iterdir()),[])
++        self.assertLess(time.monotonic()-started,6)
++        # The same unchanged executable is clean on its next version invocation.
++        admitted=self.admit();self.assertEqual(admitted.base.operation,'query')
++        self.assertEqual(self.requests(),[]);self.assertEqual(list(self.output.iterdir()),[])
++        with self.calls.open('a') as stream:
++            stream.write(json.dumps(dict(tool='constructor-first-version-observer',stage='version',**observed,
++                                         owned_group_absent=True,no_database_request_or_artifact=True,
++                                         unchanged_executable_second_constructor_pass=True))+'\n')
++
++    def test_clean_constructor_keeps_base_version_and_target_validation(self):
++        admitted=self.admit()
++        self.assertEqual(admitted.base.operation,'query')
++        self.assertEqual(admitted.job['target'],self.targets[0])
++        self.assertEqual([(r['tool'],r['stage']) for r in self.rows()],
++                         [('psql','version'),('psql','version'),('pg_dump','version'),('pg_restore','version')])
++        self.assertEqual(self.requests(),[]);self.assertEqual(list(self.output.iterdir()),[])
++        self.state['version_psql']='17.7';self.write_state()
++        with self.assertRaisesRegex(archive.Refused,'PG_CLIENT_VERSION_UNKNOWN_OR_WRONG'):
++            self.admit()
++        self.assertEqual(self.requests(),[]);self.assertEqual(list(self.output.iterdir()),[])
++
++    def test_base_probe_bridge_returns_code_stdout_and_refuses_inherited_stdin(self):
++        sentinel=self.root/'unsupported-stdin-executed'
++        with self.assertRaisesRegex(archive.Refused,'BASE_STDIN_UNSUPPORTED'):
++            archive.pg.bounded(['/bin/sh','-c','touch '+str(sentinel)],archive.pg.local_environment(),1,1024,inherit_stdin=True)
++        self.assertFalse(sentinel.exists())
++        code,stdout=archive.pg.bounded(['/bin/sh','-c','printf clean'],archive.pg.local_environment(),1,1024)
++        self.assertEqual((code,stdout),(0,b'clean'))
++        with self.assertRaisesRegex(archive.Refused,'COMMAND_FAILED'):
++            archive.pg.bounded(['/bin/sh','-c','exit 7'],archive.pg.local_environment(),1,1024)
++        self.assertEqual(self.requests(),[]);self.assertEqual(list(self.output.iterdir()),[])
++
+     def test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order(self):
+         receipt=self.dump();body=(self.output/'database.dump').read_bytes()
+         self.assertEqual(len(body),196618);self.assertEqual(receipt['artifact']['sha256'],hashlib.sha256(body).hexdigest())

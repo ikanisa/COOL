@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "actual_tests": 13,
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/resolved_native_package_inputs.py": "ea3e0fbe3f964d782912e7ecb5d2e7da51793570b0ac4942b8bfcac098229ef4",
+    "scripts/tests/resolved_native_package_inputs_test.py": "3ae84290fa9547661b422e66b1c9e35cecbd2214851d913ef9975792c194cdfc"
+  },
+  "scope": "Actual Dart package identifier grammar including _fe_analyzer_shared, copied hosted compiler/plugin/native inputs, actual SDK bytes and strict local-resource/security boundaries; no registry authenticity/build/release acceptance"
+}

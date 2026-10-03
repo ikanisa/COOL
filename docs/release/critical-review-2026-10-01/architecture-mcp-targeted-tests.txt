@@ -1,0 +1,29 @@
+✔ bounded export and multi-page restore preserve exact evidence while all control authority stays inactive (104212.871666ms)
+✔ fresh empty restore remains readable and inactive (319.710334ms)
+✔ restored activation/bootstrap evidence cannot recreate tick authority (1707.852ms)
+✔ inactive evidence rejects direct run and direct scheduler before transport or signer authority (192.370875ms)
+✔ restore during direct runner transport initialization permits no first operational call (277.441791ms)
+✔ restore during the signer await preserves its checkpoint and permits zero HTTP calls (199.059875ms)
+✔ real preparation is inactive and gated tick performs no operation before explicit activation (662.445334ms)
+✔ disable latches before IPC, survives uncertain bootout and remains manually reconcilable (1025.353291ms)
+✔ local disabled latch does not falsely prove a loaded process was stopped (907.452583ms)
+✔ urgent disable retains its local latch before timeout daemon observation (797.176708ms)
+✔ urgent disable retains its local latch before malformed daemon observation (795.000625ms)
+✔ urgent disable retains its local latch before conflicting daemon observation (704.136875ms)
+✔ restore during fresh owner await prevents all activation commands through the control latch (520.578917ms)
+✔ restore after durable armed publication prevents its pending activation command through the control latch (522.721958ms)
+✔ restore after durable step publication prevents its pending activation command through the control latch (657.336541ms)
+✔ restore during fresh owner await prevents all activation commands through the journal latch (628.405667ms)
+✔ restore after durable armed publication prevents its pending activation command through the journal latch (536.298458ms)
+✔ restore after durable step publication prevents its pending activation command through the journal latch (879.999791ms)
+✔ restored control evidence permits strictly bound emergency disable and latches before daemon observation despite exhausted admission (3308.910959ms)
+✔ prepared tick refuses restored control evidence without invoking its runner (2286.701459ms)
+✔ prepared tick refuses restored journal evidence without invoking its runner (11796.546ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107331.538459

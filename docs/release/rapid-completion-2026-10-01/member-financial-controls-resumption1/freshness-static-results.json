@@ -1,0 +1,35 @@
+[
+  {
+    "name": "freshness-format",
+    "argv": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/dart",
+      "format",
+      "--output=none",
+      "--set-exit-if-changed",
+      "lib/shared/repositories/collect_repository.dart",
+      "test/shared/member_realtime_sdk_session_test.dart"
+    ],
+    "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+    "exit_code": 1,
+    "seconds": 0.525,
+    "stdout_sha256": "220599ac392558e5a0e01af00734ebe63b66e9e062b0f114515fb10342796fd6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "freshness-analysis",
+    "argv": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+      "analyze",
+      "--no-pub",
+      "--fatal-infos",
+      "--fatal-warnings",
+      "lib/shared/repositories/collect_repository.dart",
+      "test/shared/member_realtime_sdk_session_test.dart"
+    ],
+    "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+    "exit_code": 0,
+    "seconds": 9.599,
+    "stdout_sha256": "632afe4b28cb6ebab1769c5d81fb964358bcb204332de7e6e055d7b73ddcb248",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

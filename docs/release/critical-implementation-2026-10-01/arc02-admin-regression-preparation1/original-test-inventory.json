@@ -1,0 +1,848 @@
+{
+  "scope": "actual original unhidden test identities and outcomes; no original outcome overwritten",
+  "tests": {
+    "test/admin_route_access_test.dart": {
+      "original_case_count": 111,
+      "original_tests": [
+        {
+          "original_id": 3,
+          "name": "signed-out deep link /admin stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 4,
+          "name": "non-Admin deep link /admin denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 5,
+          "name": "an identity without capabilities cannot open /admin",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 6,
+          "name": "record request failure on /admin can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 7,
+          "name": "signed-out deep link /admin/groups stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 8,
+          "name": "non-Admin deep link /admin/groups denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 9,
+          "name": "an identity without capabilities cannot open /admin/groups",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 10,
+          "name": "record request failure on /admin/groups can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 11,
+          "name": "signed-out deep link /admin/groups/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 12,
+          "name": "non-Admin deep link /admin/groups/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 13,
+          "name": "an identity without capabilities cannot open /admin/groups/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 14,
+          "name": "record request failure on /admin/groups/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 15,
+          "name": "signed-out deep link /admin/users stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 16,
+          "name": "non-Admin deep link /admin/users denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 17,
+          "name": "an identity without capabilities cannot open /admin/users",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 18,
+          "name": "record request failure on /admin/users can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 19,
+          "name": "signed-out deep link /admin/users/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 20,
+          "name": "non-Admin deep link /admin/users/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 21,
+          "name": "an identity without capabilities cannot open /admin/users/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 22,
+          "name": "record request failure on /admin/users/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 23,
+          "name": "signed-out deep link /admin/members stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 24,
+          "name": "non-Admin deep link /admin/members denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 25,
+          "name": "an identity without capabilities cannot open /admin/members",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 26,
+          "name": "record request failure on /admin/members can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 27,
+          "name": "signed-out deep link /admin/members/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 28,
+          "name": "non-Admin deep link /admin/members/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 29,
+          "name": "an identity without capabilities cannot open /admin/members/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 30,
+          "name": "record request failure on /admin/members/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 31,
+          "name": "signed-out deep link /admin/payees stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 32,
+          "name": "non-Admin deep link /admin/payees denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 33,
+          "name": "an identity without capabilities cannot open /admin/payees",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 34,
+          "name": "record request failure on /admin/payees can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 35,
+          "name": "signed-out deep link /admin/transactions stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 36,
+          "name": "non-Admin deep link /admin/transactions denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 37,
+          "name": "an identity without capabilities cannot open /admin/transactions",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 38,
+          "name": "record request failure on /admin/transactions can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 39,
+          "name": "signed-out deep link /admin/transactions/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 40,
+          "name": "non-Admin deep link /admin/transactions/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 41,
+          "name": "an identity without capabilities cannot open /admin/transactions/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 42,
+          "name": "record request failure on /admin/transactions/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 43,
+          "name": "signed-out deep link /admin/reconciliations stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 44,
+          "name": "non-Admin deep link /admin/reconciliations denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 45,
+          "name": "an identity without capabilities cannot open /admin/reconciliations",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 46,
+          "name": "record request failure on /admin/reconciliations can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 47,
+          "name": "signed-out deep link /admin/ledgers stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 48,
+          "name": "non-Admin deep link /admin/ledgers denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 49,
+          "name": "an identity without capabilities cannot open /admin/ledgers",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 50,
+          "name": "record request failure on /admin/ledgers can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 51,
+          "name": "signed-out deep link /admin/sms-receipts stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 52,
+          "name": "non-Admin deep link /admin/sms-receipts denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 53,
+          "name": "an identity without capabilities cannot open /admin/sms-receipts",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 54,
+          "name": "record request failure on /admin/sms-receipts can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 55,
+          "name": "signed-out deep link /admin/sms-receipts/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 56,
+          "name": "non-Admin deep link /admin/sms-receipts/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 57,
+          "name": "an identity without capabilities cannot open /admin/sms-receipts/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 58,
+          "name": "record request failure on /admin/sms-receipts/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 59,
+          "name": "signed-out deep link /admin/notifications stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 60,
+          "name": "non-Admin deep link /admin/notifications denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 61,
+          "name": "an identity without capabilities cannot open /admin/notifications",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 62,
+          "name": "record request failure on /admin/notifications can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 63,
+          "name": "signed-out deep link /admin/notifications/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 64,
+          "name": "non-Admin deep link /admin/notifications/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 65,
+          "name": "an identity without capabilities cannot open /admin/notifications/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 66,
+          "name": "record request failure on /admin/notifications/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 67,
+          "name": "signed-out deep link /admin/audit-logs stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 68,
+          "name": "non-Admin deep link /admin/audit-logs denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 69,
+          "name": "an identity without capabilities cannot open /admin/audit-logs",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 70,
+          "name": "record request failure on /admin/audit-logs can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 71,
+          "name": "signed-out deep link /admin/audit-logs/entity/:kind/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 72,
+          "name": "non-Admin deep link /admin/audit-logs/entity/:kind/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 73,
+          "name": "an identity without capabilities cannot open /admin/audit-logs/entity/:kind/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 74,
+          "name": "record request failure on /admin/audit-logs/entity/:kind/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 75,
+          "name": "signed-out deep link /admin/settings stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 76,
+          "name": "non-Admin deep link /admin/settings denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 77,
+          "name": "an identity without capabilities cannot open /admin/settings",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 78,
+          "name": "record request failure on /admin/settings can retry in place",
+          "actual_result": "error",
+          "skipped": false
+        },
+        {
+          "original_id": 79,
+          "name": "signed-out deep link /admin/feature-flags stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 80,
+          "name": "non-Admin deep link /admin/feature-flags denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 81,
+          "name": "an identity without capabilities cannot open /admin/feature-flags",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 82,
+          "name": "record request failure on /admin/feature-flags can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 83,
+          "name": "signed-out deep link /admin/system-health stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 84,
+          "name": "non-Admin deep link /admin/system-health denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 85,
+          "name": "an identity without capabilities cannot open /admin/system-health",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 86,
+          "name": "record request failure on /admin/system-health can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 87,
+          "name": "signed-out deep link /admin/automations stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 88,
+          "name": "non-Admin deep link /admin/automations denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 89,
+          "name": "an identity without capabilities cannot open /admin/automations",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 90,
+          "name": "record request failure on /admin/automations can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 91,
+          "name": "signed-out deep link /admin/automations/runs/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 92,
+          "name": "non-Admin deep link /admin/automations/runs/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 93,
+          "name": "an identity without capabilities cannot open /admin/automations/runs/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 94,
+          "name": "record request failure on /admin/automations/runs/:id can retry in place",
+          "actual_result": "error",
+          "skipped": false
+        },
+        {
+          "original_id": 95,
+          "name": "signed-out deep link /admin/sms-gateway stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 96,
+          "name": "non-Admin deep link /admin/sms-gateway denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 97,
+          "name": "an identity without capabilities cannot open /admin/sms-gateway",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 98,
+          "name": "record request failure on /admin/sms-gateway can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 99,
+          "name": "signed-out deep link /admin/exceptions stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 100,
+          "name": "non-Admin deep link /admin/exceptions denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 101,
+          "name": "an identity without capabilities cannot open /admin/exceptions",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 102,
+          "name": "record request failure on /admin/exceptions can retry in place",
+          "actual_result": "error",
+          "skipped": false
+        },
+        {
+          "original_id": 103,
+          "name": "signed-out deep link /admin/admin-users stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 104,
+          "name": "non-Admin deep link /admin/admin-users denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 105,
+          "name": "an identity without capabilities cannot open /admin/admin-users",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 106,
+          "name": "record request failure on /admin/admin-users can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 107,
+          "name": "signed-out deep link /admin/admin-users/:id stays at login without data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 108,
+          "name": "non-Admin deep link /admin/admin-users/:id denies before reading records",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 109,
+          "name": "an identity without capabilities cannot open /admin/admin-users/:id",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 110,
+          "name": "record request failure on /admin/admin-users/:id can retry in place",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 111,
+          "name": "identity loading keeps a protected deep link free of data",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 112,
+          "name": "an identity outage can retry and recover the requested route",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 113,
+          "name": "identity retry stays denied when server access was revoked",
+          "actual_result": "success",
+          "skipped": false
+        }
+      ]
+    },
+    "test/admin_pwa_test.dart": {
+      "original_case_count": 27,
+      "original_tests": [
+        {
+          "original_id": 127,
+          "name": "admin routes expose supported operations pages",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 128,
+          "name": "admin operations paths require least-privilege capabilities",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 129,
+          "name": "admin permission guard rejects an unauthorized operations queue",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 130,
+          "name": "retired bank admin runtime is absent",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 131,
+          "name": "admin shell keeps the essential operations navigation clean",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 132,
+          "name": "feature-phone SMS receipt queue stays masked in admin",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 133,
+          "name": "admin overview reads reconciliations and balanced ledgers",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 134,
+          "name": "admin overview keeps queue health readable on narrow screens",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 135,
+          "name": "admin access is one combined audited permission set",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 136,
+          "name": "admin country scope includes Rwanda only",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 137,
+          "name": "admin hides the redundant Collect transaction prefix",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 138,
+          "name": "payees workspace exposes the two confirmed official routes",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 139,
+          "name": "operations workspaces expose complete permission-safe row context",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 140,
+          "name": "admin record surfaces show labels and preserve field semantics",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 141,
+          "name": "group admin supports create, detail, activate, and deactivate",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 142,
+          "name": "users and members are separate admin populations",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 143,
+          "name": "member directory combines app and feature-phone identities safely",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 144,
+          "name": "evidence admin accepts only the dedicated local review credentials",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 145,
+          "name": "production admin OTP is enrollment-safe and supports resend",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 146,
+          "name": "admin login primary action keeps readable black-surface contrast",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 147,
+          "name": "admin PWA pins static bytes and retains natural update waiting",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 148,
+          "name": "local Supabase review auth is isolated from production provisioning",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 149,
+          "name": "authenticated browser QA covers the current admin route matrix",
+          "actual_result": "failure",
+          "skipped": false
+        },
+        {
+          "original_id": 150,
+          "name": "Admin PWA runtime probe fails closed on stalled CDP commands",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 151,
+          "name": "Admin PWA cache excludes Cloudflare deployment metadata",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 152,
+          "name": "Admin PWA self-hosts CanvasKit for reliable first load",
+          "actual_result": "success",
+          "skipped": false
+        },
+        {
+          "original_id": 153,
+          "name": "Admin queue SLA compatibility fails soft for an older hosted function",
+          "actual_result": "success",
+          "skipped": false
+        }
+      ]
+    }
+  },
+  "proposed_new_cases": [
+    "an admin role without owner authority cannot read /admin/settings",
+    "an admin role without owner authority cannot read /admin/automations/runs/:id"
+  ],
+  "proposed_total_unhidden": 140
+}

@@ -1,0 +1,48 @@
+{
+  "actual_destination": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2",
+  "failed_candidate1_pristine_shared_SDK_and_repo_pins_locks_modified": false,
+  "files": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "after_sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a",
+      "before_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "after_sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df",
+      "before_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt": {
+      "after_sha256": "c6e24e802c3ae9f5b8df5ef1a7d87d5be5c0afd53f577b409d0d9a2a3ee69134",
+      "before_sha256": "27dd5ea0f0938f3d1cfb54b992601b39cbf25ae8f20bfe2da771d2ebbb630c56",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt": {
+      "after_sha256": "133e72216389b9bdf63842ddf01d6a5660760353de76fd799e2d33306b4ec0af",
+      "before_sha256": "0804d0e089a75f95a671e097c216469984128ac327a5490548ed439d59613e2b",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt": {
+      "after_sha256": "6c912d9d36fc91209f15679a2415dbcb7ea650120790c370d520970d400a04e4",
+      "before_sha256": "93dc5805d863e1df88f1b297a18dc1eedd619c7e80bfdaa37b7edbf9dd506920",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt": {
+      "after_sha256": "d135eaf41cb9465e3760a26da9bc1a7c8aae7c7485637ad8ce67eeedf6dcc2d8",
+      "before_sha256": "525fc434a271b6540e4665e6a3bb48c7250d751c4c060198ec7fdf7559abe648",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "after_sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3",
+      "before_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "mode": 420
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt": {
+      "after_sha256": "0e939fa9cca43c089f6d6479c18bb91bd277d165caa07f3b1957095f4324fa4a",
+      "before_sha256": "24da3bc6b5c6942446ea897c73ed3d505dfffad9b58dc9eb1fdea8e65549c1ad",
+      "mode": 420
+    }
+  },
+  "source_files_changed": 8,
+  "status": "EXACT_REVIEWED_CUMULATIVE8_APPLICATION_PASS"
+}

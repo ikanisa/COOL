@@ -1,0 +1,3 @@
+ERROR:  P0001: Reason is required
+CONTEXT:  PL/pgSQL function admin_update_collection_support_status(uuid,text,text) line 6 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

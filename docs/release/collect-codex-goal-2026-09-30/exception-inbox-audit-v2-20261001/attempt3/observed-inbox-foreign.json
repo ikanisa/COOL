@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:23:38.031249Z",
+      "exception_id": "6257a754-6a9e-4aee-bb04-8c344c996d92",
+      "escalation_id": "7e164ce2-dcb6-4d8b-9db4-100e947d8cd0",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:23:37.970623Z",
+      "exception_id": "d39227e7-2318-4160-8ce8-cbbda3908103",
+      "escalation_id": "8a2b7086-54d1-41d2-807d-f9239ea41092",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "current_operator",
+  "channel": "admin_inbox",
+  "checked_at": "2026-10-01T15:23:38.198359Z",
+  "next_cursor": null,
+  "recipient_id": "99880000-0000-4000-8000-000000000001",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T15:24:38.198359Z"
+}

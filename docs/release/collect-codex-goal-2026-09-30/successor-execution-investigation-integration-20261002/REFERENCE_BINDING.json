@@ -1,0 +1,710 @@
+{
+  "large_packets_runtime_or_dumps_copied": false,
+  "rows": [
+    {
+      "bytes": 365313,
+      "capsule_path": "packet-metadata/backend/MANIFEST.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/MANIFEST.json",
+      "scope": "backend",
+      "sha256": "d9c3f928a20fd922378c19d9669b3cdf7649cfbeda9f02168c5ac0fc963775a2"
+    },
+    {
+      "bytes": 29946,
+      "capsule_path": "packet-metadata/backend/VERIFICATION.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/VERIFICATION.json",
+      "scope": "backend",
+      "sha256": "74495cc857732d6b8f079ca0ea15dbb978f35775e73de391f922aa8b107a1b8c"
+    },
+    {
+      "bytes": 34185,
+      "capsule_path": "packet-metadata/backend/proof/attempt3/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt3/result.json",
+      "scope": "backend",
+      "sha256": "380a02c9bad06348873b7a3e256ee3965e89f0a8d72ef4a4c39ea7e83cfd6bf8"
+    },
+    {
+      "bytes": 31633,
+      "capsule_path": "packet-metadata/backend/proof/attempt4_tail/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt4_tail/result.json",
+      "scope": "backend",
+      "sha256": "b2c4c21eb99278c5dc0de76b57db43c274bfb0ad1ff8812310af90ca59dafb81"
+    },
+    {
+      "bytes": 30871,
+      "capsule_path": "packet-metadata/backend/proof/attempt5_wait_tail/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/proof/attempt5_wait_tail/result.json",
+      "scope": "backend",
+      "sha256": "40e24bb16b685ada8f1147953cc0c2f4adb89d69683ab14fb4f54707aa9427f9"
+    },
+    {
+      "bytes": 75371,
+      "capsule_path": "packet-metadata/admin-predecessor/MANIFEST.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/MANIFEST.json",
+      "scope": "admin-predecessor",
+      "sha256": "7544c5cdd15606e03ce42246fbf227f148d8a6b637025741e4c96498e2924e71"
+    },
+    {
+      "bytes": 26770,
+      "capsule_path": "packet-metadata/admin-predecessor/VERIFICATION.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/VERIFICATION.json",
+      "scope": "admin-predecessor",
+      "sha256": "9fbcea478b377a8e407b2c47882cb19a9eeaffb281821353502cda15bee88056"
+    },
+    {
+      "bytes": 3405,
+      "capsule_path": "packet-metadata/admin-predecessor/INTEGRATION.md",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/INTEGRATION.md",
+      "scope": "admin-predecessor",
+      "sha256": "6125ef04612af058bb5efe78a338048a99b7d4f66eb5e1fb723025748844f593"
+    },
+    {
+      "bytes": 4997,
+      "capsule_path": "packet-metadata/admin-predecessor/producer-association.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-admin-current1/producer-association.json",
+      "scope": "admin-predecessor",
+      "sha256": "a21d61ef580ce2287135c748c262fb97d51996d49d22ad9d36c136cb0d0769d6"
+    },
+    {
+      "bytes": 8267,
+      "capsule_path": "packet-metadata/denial-correction/MANIFEST.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/MANIFEST.json",
+      "scope": "denial-correction",
+      "sha256": "19d240d01bc1c13ca9bd40bde9e37d6a26df052d0e06da20fd8dbdc69ae5023a"
+    },
+    {
+      "bytes": 25039,
+      "capsule_path": "packet-metadata/denial-correction/VERIFICATION.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/VERIFICATION.json",
+      "scope": "denial-correction",
+      "sha256": "af864f046d9e91ca4a5531abebca3fd89b5320731ed3879076c073fc1d411a28"
+    },
+    {
+      "bytes": 2219,
+      "capsule_path": "packet-metadata/denial-correction/INTEGRATION.md",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/INTEGRATION.md",
+      "scope": "denial-correction",
+      "sha256": "b3814abcfb244260b57994fa6f5e923749531134ec188f6a833183d97762dab1"
+    },
+    {
+      "bytes": 1609,
+      "capsule_path": "packet-metadata/denial-correction/DELTA_BINDING.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/DELTA_BINDING.json",
+      "scope": "denial-correction",
+      "sha256": "b9b7cc103ebdc1d264a1ad4dfb1c542c9fc6d387fcf2aaa0e8e45b3c43e18bd1"
+    },
+    {
+      "bytes": 819,
+      "capsule_path": "packet-metadata/denial-correction/PREDECESSOR_BINDING.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/PREDECESSOR_BINDING.json",
+      "scope": "denial-correction",
+      "sha256": "b1a3eefa955a9c2f2378ef2a120b07331adf6dc50cb25086b28fa009bdb137d1"
+    },
+    {
+      "bytes": 23513,
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/result.json",
+      "scope": "denial-correction",
+      "sha256": "5db2eee4f38031b509200e8185fb163420942ed950689507c0122d475e01fa95"
+    },
+    {
+      "bytes": 1137,
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/stdout.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/stdout.log",
+      "scope": "denial-correction",
+      "sha256": "8a52540ba16fe1867ebd6ea7010b50a77fe04970957b24b62e094ed6ce8bc32a"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/stderr.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/stderr.log",
+      "scope": "denial-correction",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 230,
+      "capsule_path": "packet-metadata/denial-correction/proofs/reproduce1/terminal.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/reproduce1/terminal.json",
+      "scope": "denial-correction",
+      "sha256": "c04dc7cbd6cb7342616141205705ee64f192356fa881ed941d4a51d62dada341"
+    },
+    {
+      "bytes": 23392,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/result.json",
+      "scope": "denial-correction",
+      "sha256": "2459d43ad2213376aa21b7913dfab78dc35132688a2ad53d8cac457fb33d61f5"
+    },
+    {
+      "bytes": 1393,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/stdout.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/stdout.log",
+      "scope": "denial-correction",
+      "sha256": "bfd1c88405ce6203d4e219091490e6f1e2b7e5b793c654de5f71522e5b11dd47"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/stderr.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/stderr.log",
+      "scope": "denial-correction",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 103,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial1/terminal.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial1/terminal.json",
+      "scope": "denial-correction",
+      "sha256": "3da22b2c939f50c03435cc36128a63dec0508590fcb3d641d5d174336aa3c6c0"
+    },
+    {
+      "bytes": 23776,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/result.json",
+      "scope": "denial-correction",
+      "sha256": "5dab1ed92c84e25409d3e524525311d44a41ec38dec162d6845113221c732f52"
+    },
+    {
+      "bytes": 96,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/stdout.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/stdout.log",
+      "scope": "denial-correction",
+      "sha256": "c0b9406072c2f37b51f72c80afa86d6b41be1a0be3b6f6b1853b393c2a58b7e3"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/stderr.log",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/stderr.log",
+      "scope": "denial-correction",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 103,
+      "capsule_path": "packet-metadata/denial-correction/proofs/denial_analysis1/terminal.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-execution-access-denial-current1/proofs/denial_analysis1/terminal.json",
+      "scope": "denial-correction",
+      "sha256": "694716f16e3dabd04f70a955b3e07aa2098b8ea37a79cb5d6d78f74d943f41d2"
+    },
+    {
+      "bytes": 910,
+      "capsule_path": "failed-root-inputs/mounted-attempt1/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/result.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "05bbf71ef048e4700c6fa44472cd5540010dbc1b64785e8fd58e7dd98abebecd"
+    },
+    {
+      "bytes": 68296,
+      "capsule_path": "failed-root-inputs/mounted-attempt1/inputs.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/inputs.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "82e20295b0eb26ce2281032a26a6b54196078db94f5878fa89c3a34739d66708"
+    },
+    {
+      "bytes": 62275,
+      "capsule_path": "failed-root-inputs/mounted-attempt1/flutter-test.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/flutter-test.stdout",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "bd25d7b78bf1212d3091d3fc17ed8bc8bc43d4cb6737566f775445bbd21bb4cb"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "failed-root-inputs/mounted-attempt1/flutter-test.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/flutter-test.stderr",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 15320,
+      "capsule_path": "failed-root-inputs/mounted-attempt1/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "0690ec1d62044692484b7060ed0e778fb64d4cdfb35465de50ac91180f4d6108"
+    },
+    {
+      "bytes": 910,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/result.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "d43e229cfb24aad2728dfbad44cf2bd579cc32586f3d926e5f9d32ed953e8c77"
+    },
+    {
+      "bytes": 68296,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/inputs.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/inputs.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "805c428b9bd2811869f24117c361a9fae68b3bb248180361b96f085117a055ae"
+    },
+    {
+      "bytes": 5239,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/flutter-test.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/flutter-test.stdout",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "efe86e3c40671e15275df7f1af7c41cab55dfefdda7b3e710c161bc005bed7af"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/flutter-test.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/flutter-test.stderr",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 15670,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "612fb6f38c733fd1677da92358782c2a37ae53356427fcfc98d703cb7e65ee11"
+    },
+    {
+      "bytes": 3292,
+      "capsule_path": "failed-root-inputs/mounted-attempt2/source-copies/check_mounted.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/source-copies/check_mounted.py",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "808791d0fc2da137280abe866ee11184de0530d3eb8a7acd46daca87c3ada714"
+    },
+    {
+      "bytes": 1488,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/result.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "1c9951f25c5c2a83612e400fefa2552d4147b980d08536ba78f492363aa7cbe3"
+    },
+    {
+      "bytes": 68132,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/inputs.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/inputs.json",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "6940aeff19d64a0ff0447972eeb8550c4ed7ed3e19e6a6efef673a97294eb12d"
+    },
+    {
+      "bytes": 740,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/flutter-test.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/flutter-test.stdout",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "2da303037e8375793bfccf2eaa438f32f561a82b9b3634924783b088e35a1aff"
+    },
+    {
+      "bytes": 321,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/analysis.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/analysis.stdout",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "507d3a16d683313e9a18d09fe0b8a878e4dd7b9cc2f57081c54b7e85d8165750"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/analysis.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/analysis.stderr",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/flutter-test.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/flutter-test.stderr",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 15919,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "81b34cc47e240101d74391303d8b413682f0d9f6976a84132957545cdc173a7e"
+    },
+    {
+      "bytes": 3345,
+      "capsule_path": "failed-root-inputs/mounted-attempt3/source-copies/check_mounted.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/source-copies/check_mounted.py",
+      "scope": "retained failed mounted attempt; no pass relabeling",
+      "sha256": "ba3253775ab4e228336d129e6cf13043367ae0b34edee0f6605ba236da8e8c2d"
+    },
+    {
+      "bytes": 4128,
+      "capsule_path": "root-preparation/plan.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/plan.json",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance",
+      "sha256": "354d326ada82c52095f741506c53269337b3cf3b25b13584848bd1c99d16e836"
+    },
+    {
+      "bytes": 6788,
+      "capsule_path": "root-preparation/integrate.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/integrate.py",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance",
+      "sha256": "0bb5c523040753bfc690b895a1cf63edf3e23eabc76b9fc1a0f459a378c3565f"
+    },
+    {
+      "bytes": 20587,
+      "capsule_path": "root-preparation/originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance",
+      "sha256": "9d606f780d28cd3c43dc9010765e79f2ec9b9e99aff8fae5c734b9b0340f793d"
+    },
+    {
+      "bytes": 55372,
+      "capsule_path": "root-preparation/migration-freeze.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/migration-freeze.json",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance",
+      "sha256": "d5747f242b224c05be86096e98de8bd9bbf908f9b502765162359778ed4b2cf8"
+    },
+    {
+      "bytes": 4583,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_execution_controller.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_execution_controller.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "4ebb59646e5458ef03e3dfbb3877b5b89678fe39e02f7e3a45f5144f23d47c20"
+    },
+    {
+      "bytes": 3487,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_execution_host.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_execution_host.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "04624bc7e88a5a37628a11a41da6a7194a3fdfeece9f99ba78808b9a8a9af99d"
+    },
+    {
+      "bytes": 15317,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_execution_models.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_execution_models.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "5f75145e1a0e430ef9d3de7ebe6adf0c5f754ed80aa88bb8dbfc140a1230d6fc"
+    },
+    {
+      "bytes": 3371,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_execution_sdk.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_execution_sdk.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "4e6a7bca780b650008941c7227bd748c3f956f4e255bc3185ca4eee68446a517"
+    },
+    {
+      "bytes": 9065,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_execution_view.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_execution_view.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "f541a811a19651153e3814b1259c3c0e760e89b6c9a185063e4f9b74375da96d"
+    },
+    {
+      "bytes": 7538,
+      "capsule_path": "source/test/admin_receipt_successor_execution_models_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_models_test.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "345d2fbef4c93a657c9d7a68f3b0d34b9eebf9b2e6e03b2809771e580b413d40"
+    },
+    {
+      "bytes": 6009,
+      "capsule_path": "source/test/admin_receipt_successor_execution_sdk_controller_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_sdk_controller_test.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "2841a1d155faaa25eeea63ab298a4be469ebd61d2c4d29c9e5dd0813a2c39c03"
+    },
+    {
+      "bytes": 10070,
+      "capsule_path": "source/test/admin_receipt_successor_execution_view_host_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_view_host_test.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "5081539d9bfa4b62365a979a0135bea17be62b50f987ebb4d2ff707391772197"
+    },
+    {
+      "bytes": 2324,
+      "capsule_path": "source/test/support/execution_api_fixture.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/support/execution_api_fixture.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "a50fb029c5ef25923e191dbd07b73e498eb6e68c6460de3123a6fa2eb56d9313"
+    },
+    {
+      "bytes": 78879,
+      "capsule_path": "source/test/support/execution_fixture.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/support/execution_fixture.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "258a9650d3f5ada3ccab17e73b7ea3c21c3fe4af42ccdc756381a4034a525f5f"
+    },
+    {
+      "bytes": 10182,
+      "capsule_path": "source/test/admin_receipt_successor_execution_access_denial_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_access_denial_test.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "191a54d9e2b1f5a48d8effeffab1467cbfc07b1ca9324b37b9e8d450a9b80848"
+    },
+    {
+      "bytes": 14442,
+      "capsule_path": "source/supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "f082950cbc11766d336e514ebde35c1c3407d32118c5d0faf8ef5d8e27a67230"
+    },
+    {
+      "bytes": 22492,
+      "capsule_path": "source/lib/admin/core/admin_receipt_successor_view.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_view.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "3dae4d817bdd5f642e10f760afcc0cbe48b34aab41b6ed5e6e36e16de99fc2b0"
+    },
+    {
+      "bytes": 15935,
+      "capsule_path": "source/test/admin_receipt_successor_execution_mount_test.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_execution_mount_test.dart",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "2b1c3a5a7ad4774c000df0d7497067d7808e635f5ffbd56cdd0fb7a1b66491da"
+    },
+    {
+      "bytes": 8251,
+      "capsule_path": "source/scripts/qa/revolut_design_authority.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "33978a5085b7c72a520b61a03c46f46f81753fd47b535897550c975a7dedc5ed"
+    },
+    {
+      "bytes": 6089,
+      "capsule_path": "source/scripts/tests/revolut_design_authority_test.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/revolut_design_authority_test.py",
+      "scope": "Final16 canonical product/test source exact root FINAL_ASSOCIATION",
+      "sha256": "51e5e678b886e268bbfa94b9043910cc27359c68b62e0d3ceb8cb0c2ab2cc0c2"
+    },
+    {
+      "bytes": 20587,
+      "capsule_path": "originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "scope": "Preserved original before root mount or narrowly scoped hygiene correction",
+      "sha256": "9d606f780d28cd3c43dc9010765e79f2ec9b9e99aff8fae5c734b9b0340f793d"
+    },
+    {
+      "bytes": 6925,
+      "capsule_path": "originals/scripts/qa/revolut_design_authority.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/originals/scripts/qa/revolut_design_authority.py",
+      "scope": "Preserved original before root mount or narrowly scoped hygiene correction",
+      "sha256": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924"
+    },
+    {
+      "bytes": 4199,
+      "capsule_path": "originals/scripts/tests/revolut_design_authority_test.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/originals/scripts/tests/revolut_design_authority_test.py",
+      "scope": "Preserved original before root mount or narrowly scoped hygiene correction",
+      "sha256": "822434bc74bb489449bae7ed12299a41c819ae1bf1d62038eea15153f5f7b34a"
+    },
+    {
+      "bytes": 3516,
+      "capsule_path": "root-final/FINAL_ASSOCIATION.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/FINAL_ASSOCIATION.json",
+      "scope": "Final root association",
+      "sha256": "0c59bce821962c1aceb8ee466570d7032d0eb6e7847dbca79b867c92c43222eb"
+    },
+    {
+      "bytes": 34404,
+      "capsule_path": "root-final/canonical-source-association.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/canonical-source-association.json",
+      "scope": "Historical13-file integration association; parent later formatted",
+      "sha256": "55ea702386b66bc2c8ce327eee97b5eca421de308ef9d4d24d1481003dcd1961"
+    },
+    {
+      "bytes": 1925,
+      "capsule_path": "root-final/mounted-attempt4/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/result.json",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "93538805c022989c2f916acf550f4fc5c13a2f007b5125b3e389de46385139d8"
+    },
+    {
+      "bytes": 68132,
+      "capsule_path": "root-final/mounted-attempt4/inputs.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/inputs.json",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "f72ef1ce5bdbe38bc285a254741f49c7dbb9ee24dbe69706415eb8c0a7658806"
+    },
+    {
+      "bytes": 740,
+      "capsule_path": "root-final/mounted-attempt4/flutter-test.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/flutter-test.stdout",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "d5c276f1206b2bbb28438c6ff257ceb9a4d0b677073d79c603981d1ce616093b"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "root-final/mounted-attempt4/flutter-test.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/flutter-test.stderr",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 115,
+      "capsule_path": "root-final/mounted-attempt4/analysis.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/analysis.stdout",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "49912ce26bdba36a6e37614f405e883196b4f8c848df1d7e41f94a329ff7afb8"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "root-final/mounted-attempt4/analysis.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/analysis.stderr",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 535,
+      "capsule_path": "root-final/mounted-attempt4/sole-authority.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/sole-authority.stdout",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "2cee90705a0f5e9dc1aefed0f2cdcd952ed5812d465e0d9ab644b5a7b8c2b594"
+    },
+    {
+      "bytes": 45,
+      "capsule_path": "root-final/mounted-attempt4/sole-authority.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/sole-authority.stderr",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "451e1dec99e6c644ef76bb45c7a7935aa950a838970ac6d9e48965bc21b421c3"
+    },
+    {
+      "bytes": 15935,
+      "capsule_path": "root-final/mounted-attempt4/test-source.dart",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/test-source.dart",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "2b1c3a5a7ad4774c000df0d7497067d7808e635f5ffbd56cdd0fb7a1b66491da"
+    },
+    {
+      "bytes": 3507,
+      "capsule_path": "root-final/mounted-attempt4/executed-runner.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt4/executed-runner.py",
+      "scope": "Actual final mount command aggregate failed hygiene; test7/analysis2 passed",
+      "sha256": "fc53a8e0f05f43b36eb601ea99dc0404d570486eeaecdd8a74f9fc5b174f82fd"
+    },
+    {
+      "bytes": 235,
+      "capsule_path": "root-final/hygiene-correction/before.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/before.json",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "293502c56e635249e93c9d8be51c5578262715708f34c1ef66449b1ea9b29137"
+    },
+    {
+      "bytes": 820,
+      "capsule_path": "root-final/hygiene-correction/current-attempt1/result.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/current-attempt1/result.json",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "98a3cf6d232c46731f57cc6e09679465d9dafa81f5a89d150aa637018b4f8516"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "root-final/hygiene-correction/current-attempt1/unit.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/current-attempt1/unit.stdout",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 111,
+      "capsule_path": "root-final/hygiene-correction/current-attempt1/unit.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/current-attempt1/unit.stderr",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "aa20a2cbd4b495b721d271e618f4947b6f3d248ae4d791571f591ce4cc5a7919"
+    },
+    {
+      "bytes": 32,
+      "capsule_path": "root-final/hygiene-correction/current-attempt1/sole-authority.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/current-attempt1/sole-authority.stdout",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "bytes": 0,
+      "capsule_path": "root-final/hygiene-correction/current-attempt1/sole-authority.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/hygiene-correction/current-attempt1/sole-authority.stderr",
+      "scope": "Separate actual corrected hygiene command12 regressions and authority pass",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 335,
+      "capsule_path": "root-final/installation-review/failure1.json",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/failure1.json",
+      "scope": "Retained initial review guard failure; no replay or target created",
+      "sha256": "5e001133f2408a81191ad276c2e92dee3edab0bf9e66acbb45ef9357da5e598f"
+    },
+    {
+      "bytes": 5892,
+      "capsule_path": "root-final/installation-review/verify_copy.py",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/verify_copy.py",
+      "scope": "Retained initial review guard failure; no replay or target created",
+      "sha256": "bdd0af35f7393097ce7e45e55051f8049b3440e2f29783c77f87d32e56d06896"
+    },
+    {
+      "bytes": 77,
+      "capsule_path": "root-final/installation-review/inspect-0.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-0.stderr",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "c30234fc5716e7d44ae07971f98944512571671f5b445cf18dd89b80b3623307"
+    },
+    {
+      "bytes": 3,
+      "capsule_path": "root-final/installation-review/inspect-0.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-0.stdout",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 77,
+      "capsule_path": "root-final/installation-review/inspect-1.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-1.stderr",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "72e3e852ca851adf5b6333cfb8d2f23f037beedf7df9cf434b98d641f73e4707"
+    },
+    {
+      "bytes": 3,
+      "capsule_path": "root-final/installation-review/inspect-1.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-1.stdout",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 81,
+      "capsule_path": "root-final/installation-review/inspect-2.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-2.stderr",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "d19179a399691ad17a3d99dc47d118ba66991929b9f14ee785460f04dfa12871"
+    },
+    {
+      "bytes": 3,
+      "capsule_path": "root-final/installation-review/inspect-2.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-2.stdout",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 77,
+      "capsule_path": "root-final/installation-review/inspect-3.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-3.stderr",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "70b8f5b05ecae7777a301ca0a84aea108a1b6e1e7d967996ea1fd4753064d1bf"
+    },
+    {
+      "bytes": 3,
+      "capsule_path": "root-final/installation-review/inspect-3.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-3.stdout",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 81,
+      "capsule_path": "root-final/installation-review/inspect-4.stderr",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-4.stderr",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "c5b0009e0c57e91c0b21840d103b687de8bc2495ac86f0330f8668eab033b398"
+    },
+    {
+      "bytes": 3,
+      "capsule_path": "root-final/installation-review/inspect-4.stdout",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/installation-review/inspect-4.stdout",
+      "scope": "Actual inspect diagnostics associated with preserved review guard failure",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 239856,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/full208-migration-installation-20261002/FILES_SHA256",
+      "scope": "Separate root-owned full208 installation packet; referenced only, not incorporated into scoped UI/backend counts",
+      "sha256": "8ad9d8c9d76a1ac69e722494fa5959b4680aa9c540b91702d5c28a3d3b240e51"
+    },
+    {
+      "bytes": 2190,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/full208-migration-installation-20261002/ROOT_REVIEW.json",
+      "scope": "Separate root-owned full208 installation packet; referenced only, not incorporated into scoped UI/backend counts",
+      "sha256": "018794f8f729cafc09a8b2355e983982e9681a8ef967abe24201ba0083ad245f"
+    },
+    {
+      "bytes": 1793,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/full208-migration-installation-20261002/README.md",
+      "scope": "Separate root-owned full208 installation packet; referenced only, not incorporated into scoped UI/backend counts",
+      "sha256": "41a5a551af6cf4ccbf9dd5a66e5cdb338985dd1bfa2d0f6f94c035bca8ea3998"
+    }
+  ],
+  "status": "exact_selected_private_and_canonical_artifact_references"
+}

@@ -1,0 +1,438 @@
+{
+  "ARC09_closed": false,
+  "Flutter_version_startup_executed": true,
+  "SDK_upgrade_bootstrap_branch_observed": false,
+  "actual_before_after_official_source_count": 15660,
+  "actual_before_after_publisher_member_count": 22415,
+  "actual_controller_seconds": 35.085,
+  "actual_current_terminal_SHA256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "actual_immutable_receipt_copies": {
+    "SDK-readback-sdk-locked.json": {
+      "copy_name": "actual-SDK-readback-sdk-locked.json",
+      "copy_sha256": "cd01b42e19168cd5ba20a726abd72f2e390d79ff922f14233a4ce3612bf3fb39",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 1106,
+        "device": 16777232,
+        "inode": 58897437,
+        "mode": 420,
+        "mtime_ns": 1790909457132047480,
+        "nlink": 1,
+        "sha256": "cd01b42e19168cd5ba20a726abd72f2e390d79ff922f14233a4ce3612bf3fb39"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-sdk-locked.json"
+    },
+    "SDK-readback-sdk-locked.stderr": {
+      "copy_name": "actual-SDK-readback-sdk-locked.stderr",
+      "copy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 0,
+        "device": 16777232,
+        "inode": 58887723,
+        "mode": 420,
+        "mtime_ns": 1790909442077845901,
+        "nlink": 1,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-sdk-locked.stderr"
+    },
+    "SDK-readback-sdk-locked.stdout": {
+      "copy_name": "actual-SDK-readback-sdk-locked.stdout",
+      "copy_sha256": "7aa65997848d92b9264c38b216a244ab27c1af831e247af4a8c20f623e6c3d7b",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 761,
+        "device": 16777232,
+        "inode": 58887722,
+        "mode": 420,
+        "mtime_ns": 1790909456757161883,
+        "nlink": 1,
+        "sha256": "7aa65997848d92b9264c38b216a244ab27c1af831e247af4a8c20f623e6c3d7b"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-sdk-locked.stdout"
+    },
+    "SDK-readback-startup.json": {
+      "copy_name": "actual-SDK-readback-startup.json",
+      "copy_sha256": "15141093b1970c042248ab191711f832fc3c36e58c090806332072ea180b2222",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 1100,
+        "device": 16777232,
+        "inode": 58900649,
+        "mode": 420,
+        "mtime_ns": 1790909474287358701,
+        "nlink": 1,
+        "sha256": "15141093b1970c042248ab191711f832fc3c36e58c090806332072ea180b2222"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-startup.json"
+    },
+    "SDK-readback-startup.stderr": {
+      "copy_name": "actual-SDK-readback-startup.stderr",
+      "copy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 0,
+        "device": 16777232,
+        "inode": 58898239,
+        "mode": 420,
+        "mtime_ns": 1790909459189663892,
+        "nlink": 1,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-startup.stderr"
+    },
+    "SDK-readback-startup.stdout": {
+      "copy_name": "actual-SDK-readback-startup.stdout",
+      "copy_sha256": "1c7d4f2ff32c607c1d1400b2af280eb2db07dc2d42e14387445697b5afcf1872",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 758,
+        "device": 16777232,
+        "inode": 58898238,
+        "mode": 420,
+        "mtime_ns": 1790909473711096686,
+        "nlink": 1,
+        "sha256": "1c7d4f2ff32c607c1d1400b2af280eb2db07dc2d42e14387445697b5afcf1872"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-readback-startup.stdout"
+    },
+    "SDK-source-sdk-locked.json": {
+      "copy_name": "actual-SDK-source-sdk-locked.json",
+      "copy_sha256": "8cea43256e6d1593d95af6a123ca41333a379ab604a92ee6461012f207425022",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 6797047,
+        "device": 16777232,
+        "inode": 58897428,
+        "mode": 420,
+        "mtime_ns": 1790909456756140758,
+        "nlink": 1,
+        "sha256": "8cea43256e6d1593d95af6a123ca41333a379ab604a92ee6461012f207425022"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-source-sdk-locked.json"
+    },
+    "SDK-source-startup.json": {
+      "copy_name": "actual-SDK-source-startup.json",
+      "copy_sha256": "b91c1460a260ea102b623475ac63b0ec3f8953b1b98dfc7259d2364229993488",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 6797044,
+        "device": 16777232,
+        "inode": 58900647,
+        "mode": 420,
+        "mtime_ns": 1790909473709993270,
+        "nlink": 1,
+        "sha256": "b91c1460a260ea102b623475ac63b0ec3f8953b1b98dfc7259d2364229993488"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/SDK-source-startup.json"
+    },
+    "actual-command.json": {
+      "copy_name": "actual-actual-command.json",
+      "copy_sha256": "80cb2bfb2375e2ea5b50692a4e6eb2e9d30d79988cd5b0cb5015abe8bd2fc27c",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 774,
+        "device": 16777232,
+        "inode": 58898236,
+        "mode": 420,
+        "mtime_ns": 1790909459183045312,
+        "nlink": 1,
+        "sha256": "80cb2bfb2375e2ea5b50692a4e6eb2e9d30d79988cd5b0cb5015abe8bd2fc27c"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/actual-command.json"
+    },
+    "actual-command.stderr": {
+      "copy_name": "actual-actual-command.stderr",
+      "copy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 0,
+        "device": 16777232,
+        "inode": 58897439,
+        "mode": 420,
+        "mtime_ns": 1790909457143279142,
+        "nlink": 1,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/actual-command.stderr"
+    },
+    "actual-command.stdout": {
+      "copy_name": "actual-actual-command.stdout",
+      "copy_sha256": "ffd7b8985038fa73ac49c8d81e91ff1bff5593f813260363fd5fea3d0a09ae80",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 648,
+        "device": 16777232,
+        "inode": 58897438,
+        "mode": 420,
+        "mtime_ns": 1790909459122833919,
+        "nlink": 1,
+        "sha256": "ffd7b8985038fa73ac49c8d81e91ff1bff5593f813260363fd5fea3d0a09ae80"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/actual-command.stdout"
+    },
+    "actual-version.json": {
+      "copy_name": "actual-actual-version.json",
+      "copy_sha256": "d71dacef2e475dcc7411e340c12ddd170d99c39b9f12aac82b08a05458f78cad",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 648,
+        "device": 16777232,
+        "inode": 58898237,
+        "mode": 420,
+        "mtime_ns": 1790909459189160267,
+        "nlink": 1,
+        "sha256": "d71dacef2e475dcc7411e340c12ddd170d99c39b9f12aac82b08a05458f78cad"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/actual-version.json"
+    },
+    "start.json": {
+      "copy_name": "actual-start.json",
+      "copy_sha256": "c3b64720fe11ece1af57744a2e1c4c951ee471e76eb1c496d28c459a99439d25",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 1544,
+        "device": 16777232,
+        "inode": 58887721,
+        "mode": 420,
+        "mtime_ns": 1790909442077499401,
+        "nlink": 1,
+        "sha256": "c3b64720fe11ece1af57744a2e1c4c951ee471e76eb1c496d28c459a99439d25"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/start.json"
+    },
+    "terminal.json": {
+      "copy_name": "actual-terminal.json",
+      "copy_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+      "distinct_inode": true,
+      "source": {
+        "bytes": 351,
+        "device": 16777232,
+        "inode": 58900831,
+        "mode": 420,
+        "mtime_ns": 1790909475232745858,
+        "nlink": 1,
+        "sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45"
+      },
+      "source_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/terminal.json"
+    }
+  },
+  "actual_predecessor_SHA256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+  "actual_startup_seconds": 2.019,
+  "actual_stdout_version": {
+    "channel": "stable",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "engineBuildDate": "2026-06-23 17:26:40.203",
+    "engineCommitDate": "2026-06-23 23:09:55.000Z",
+    "engineContentHash": "700aebeca4c0e610f109a3979ee3e71b69d666bc",
+    "engineRevision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+    "flutterRoot": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "flutterVersion": "3.44.4",
+    "frameworkCommitDate": "2026-06-24 11:07:06 -0700",
+    "frameworkRevision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "frameworkVersion": "3.44.4",
+    "repositoryUrl": "https://github.com/flutter/flutter.git"
+  },
+  "app_export_resolution_Gradle_native_executed": false,
+  "before_after_generated_manifest_unchanged": true,
+  "candidate_promoted": false,
+  "current_app_source_hold_or_export_authorization_established_by_this_stage": false,
+  "current_exact_four_metadata_leaves": {
+    "bin/cache/flutter_tools.snapshot": {
+      "bytes": 45150928,
+      "device": 16777232,
+      "inode": 58771412,
+      "mode": 420,
+      "mtime_ns": 1782318042000000000,
+      "nlink": 1,
+      "sha256": "b5044d15beb40be40af8d8d52c9df7ffb19a2e8dc26a70b95872c9bd2e8f0c70"
+    },
+    "bin/cache/flutter_tools.stamp": {
+      "bytes": 42,
+      "device": 16777232,
+      "inode": 58771413,
+      "mode": 420,
+      "mtime_ns": 1782318042000000000,
+      "nlink": 1,
+      "sha256": "ec8f93820205b3e7053c47457ffc28a7c7579631a74d7ebffab8e05106863329"
+    },
+    "packages/flutter_tools/pubspec.lock": {
+      "bytes": 23993,
+      "device": 16777232,
+      "inode": 58786684,
+      "mode": 420,
+      "mtime_ns": 1782318032000000000,
+      "nlink": 1,
+      "sha256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340"
+    },
+    "packages/flutter_tools/pubspec.yaml": {
+      "bytes": 2818,
+      "device": 16777232,
+      "inode": 58786685,
+      "mode": 420,
+      "mtime_ns": 1782317852000000000,
+      "nlink": 1,
+      "sha256": "7924b6c341dc618b4cbedcdc893b87279d317b38dfc83d3b19bd70cec27eb4ee"
+    }
+  },
+  "current_internal_free_bytes": 227712421888,
+  "current_original_SDK_lock_exact": {
+    "bytes": 23993,
+    "device": 16777232,
+    "inode": 58786684,
+    "mode": 420,
+    "mtime_ns": 1782318032000000000,
+    "nlink": 1,
+    "sha256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340"
+  },
+  "current_resolved_packages_count": 103,
+  "current_reviewed_source_eight": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "bytes": 2867,
+      "device": 16777232,
+      "inode": 58787802,
+      "mode": 420,
+      "mtime_ns": 1790908575975950153,
+      "nlink": 1,
+      "sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "bytes": 16177,
+      "device": 16777232,
+      "inode": 58787803,
+      "mode": 420,
+      "mtime_ns": 1790908575976529898,
+      "nlink": 1,
+      "sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt": {
+      "bytes": 3473,
+      "device": 16777232,
+      "inode": 58787805,
+      "mode": 420,
+      "mtime_ns": 1790908575978033970,
+      "nlink": 1,
+      "sha256": "c6e24e802c3ae9f5b8df5ef1a7d87d5be5c0afd53f577b409d0d9a2a3ee69134"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt": {
+      "bytes": 2139,
+      "device": 16777232,
+      "inode": 58787806,
+      "mode": 420,
+      "mtime_ns": 1790908575978609091,
+      "nlink": 1,
+      "sha256": "133e72216389b9bdf63842ddf01d6a5660760353de76fd799e2d33306b4ec0af"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt": {
+      "bytes": 2125,
+      "device": 16777232,
+      "inode": 58787807,
+      "mode": 420,
+      "mtime_ns": 1790908575978878964,
+      "nlink": 1,
+      "sha256": "6c912d9d36fc91209f15679a2415dbcb7ea650120790c370d520970d400a04e4"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt": {
+      "bytes": 2261,
+      "device": 16777232,
+      "inode": 58787808,
+      "mode": 420,
+      "mtime_ns": 1790908575979100921,
+      "nlink": 1,
+      "sha256": "d135eaf41cb9465e3760a26da9bc1a7c8aae7c7485637ad8ce67eeedf6dcc2d8"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "bytes": 21312,
+      "device": 16777232,
+      "inode": 58787804,
+      "mode": 420,
+      "mtime_ns": 1790908575977093561,
+      "nlink": 1,
+      "sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt": {
+      "bytes": 84526,
+      "device": 16777232,
+      "inode": 58787809,
+      "mode": 420,
+      "mtime_ns": 1790908575979371585,
+      "nlink": 1,
+      "sha256": "0e939fa9cca43c089f6d6479c18bb91bd277d165caa07f3b1957095f4324fa4a"
+    }
+  },
+  "current_unchanged_SDK_license": {
+    "bytes": 1519,
+    "device": 16777232,
+    "inode": 58769821,
+    "mode": 420,
+    "mtime_ns": 1790908551598178945,
+    "nlink": 1,
+    "sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20"
+  },
+  "generated_SDK_manifest_separate": {
+    "flutter/packages/flutter_tools/.dart_tool": {
+      "device": 16777232,
+      "inode": 58850389,
+      "kind": "directory",
+      "mode": 493
+    },
+    "flutter/packages/flutter_tools/.dart_tool/package_config.json": {
+      "CRC": 238975646,
+      "bytes": 23915,
+      "device": 16777232,
+      "inode": 58850390,
+      "kind": "regular",
+      "mode": 420,
+      "nlink": 1,
+      "sha256": "9b451c0351f86449142c03c4adb6ac9d4112778aa555d5febb8163b9a59f1eba"
+    },
+    "flutter/packages/flutter_tools/.dart_tool/package_graph.json": {
+      "CRC": 2717918520,
+      "bytes": 19487,
+      "device": 16777232,
+      "inode": 58850391,
+      "kind": "regular",
+      "mode": 420,
+      "nlink": 1,
+      "sha256": "0556b989b49c30b96b083b5eeba860aeaf293eb24f4e56bd0f14fead46e5a75e"
+    }
+  },
+  "observed_UTC": "2026-10-02T02:53:17.491882+00:00",
+  "owned_engine_stamp_same_bytes_inode_replacement": {
+    "flutter/bin/cache/engine.stamp": {
+      "after": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 58897783,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      },
+      "before": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 58771407,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      }
+    }
+  },
+  "preparation_manifest_SHA256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "production_release_approval": false,
+  "protected_originals_actual_readback": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "resolved_only_exact_owned_roots": true,
+  "retained_publisher_bytes_modes_exact": true,
+  "root_admission_SHA256": "062361abe65088d82a85581ca3fabfad14f7620d21093c81ebe4a43e6d4613b8",
+  "runtime_source_readback_deadlines_seconds": 300,
+  "status": "GENUINE_UNCHANGED_PRIVATE_SDK_VERSION_STARTUP_PASS_NO_APP_OR_NATIVE"
+}

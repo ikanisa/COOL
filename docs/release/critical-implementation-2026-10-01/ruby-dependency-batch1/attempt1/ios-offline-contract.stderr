@@ -1,0 +1,380 @@
+test_actual_fastlane_lanes_deny_missing_approval_before_api_key_or_upload (__main__.DeliveryTest.test_actual_fastlane_lanes_deny_missing_approval_before_api_key_or_upload) ... ERROR
+test_actual_lane_denies_unprotected_environment_before_api_key_or_upload (__main__.DeliveryTest.test_actual_lane_denies_unprotected_environment_before_api_key_or_upload) ... ERROR
+test_actual_metadata_lane_uses_approved_source_and_cannot_submit_public_release (__main__.DeliveryTest.test_actual_metadata_lane_uses_approved_source_and_cannot_submit_public_release) ... ERROR
+test_adhoc_and_development_authority_cannot_pass_signed_inspection (__main__.DeliveryTest.test_adhoc_and_development_authority_cannot_pass_signed_inspection) ... ERROR
+test_all_effect_scopes_are_distinct_and_public_binary_release_is_unavailable (__main__.DeliveryTest.test_all_effect_scopes_are_distinct_and_public_binary_release_is_unavailable) ... ERROR
+test_changed_missing_artifact_and_changed_inspection_block_before_upload (__main__.DeliveryTest.test_changed_missing_artifact_and_changed_inspection_block_before_upload) ... ERROR
+test_changed_pristine_source_fails_before_signing (__main__.DeliveryTest.test_changed_pristine_source_fails_before_signing) ... ERROR
+test_changed_working_source_and_added_source_fail_before_signing (__main__.DeliveryTest.test_changed_working_source_and_added_source_fail_before_signing) ... ERROR
+test_environment_readback_rejects_unprotected_self_review_bypass_or_wrong_branches (__main__.DeliveryTest.test_environment_readback_rejects_unprotected_self_review_bypass_or_wrong_branches) ... ERROR
+test_failed_import_cleans_material_and_reports_failure_without_retry (__main__.DeliveryTest.test_failed_import_cleans_material_and_reports_failure_without_retry) ... ERROR
+test_generated_build_outputs_do_not_hide_changes_to_reviewed_source (__main__.DeliveryTest.test_generated_build_outputs_do_not_hide_changes_to_reviewed_source) ... ERROR
+test_incomplete_or_unlisted_candidate_manifest_cannot_import (__main__.DeliveryTest.test_incomplete_or_unlisted_candidate_manifest_cannot_import) ... ERROR
+test_missing_public_build_configuration_cannot_import (__main__.DeliveryTest.test_missing_public_build_configuration_cannot_import) ... ERROR
+test_non_atomic_candidate_is_not_accepted_for_signing (__main__.DeliveryTest.test_non_atomic_candidate_is_not_accepted_for_signing) ... ERROR
+test_normal_internal_mock_artifact_check_inventory_and_upload_boundary (__main__.DeliveryTest.test_normal_internal_mock_artifact_check_inventory_and_upload_boundary) ... ERROR
+test_normal_mock_signing_and_cleanup_restore_keychain_and_remove_profile (__main__.DeliveryTest.test_normal_mock_signing_and_cleanup_restore_keychain_and_remove_profile) ... ERROR
+test_normal_unsigned_prepare_needs_no_approval_and_copies_exact_source (__main__.DeliveryTest.test_normal_unsigned_prepare_needs_no_approval_and_copies_exact_source) ... ERROR
+test_prepare_rejects_wrong_commit_dirty_checkout_and_source_hash (__main__.DeliveryTest.test_prepare_rejects_wrong_commit_dirty_checkout_and_source_hash) ... ERROR
+test_profile_for_wrong_team_and_development_distribution_cannot_import (__main__.DeliveryTest.test_profile_for_wrong_team_and_development_distribution_cannot_import) ... ERROR
+test_signing_denies_missing_approval_before_any_keychain_effect (__main__.DeliveryTest.test_signing_denies_missing_approval_before_any_keychain_effect) ... ERROR
+test_stale_future_overlong_wrong_scope_target_and_future_artifact_precede_effects (__main__.DeliveryTest.test_stale_future_overlong_wrong_scope_target_and_future_artifact_precede_effects) ... ERROR
+test_traversal_and_unsigned_ipa_do_not_pass_inspection (__main__.DeliveryTest.test_traversal_and_unsigned_ipa_do_not_pass_inspection) ... ERROR
+test_wrong_approval_digest_precedes_effects (__main__.DeliveryTest.test_wrong_approval_digest_precedes_effects) ... ERROR
+test_wrong_ref_commit_repository_and_runtime_target_precede_effects (__main__.DeliveryTest.test_wrong_ref_commit_repository_and_runtime_target_precede_effects) ... ERROR
+test_wrong_signed_identity_and_entitlements_fail_inspection (__main__.DeliveryTest.test_wrong_signed_identity_and_entitlements_fail_inspection) ... ERROR
+
+======================================================================
+ERROR: test_actual_fastlane_lanes_deny_missing_approval_before_api_key_or_upload (__main__.DeliveryTest.test_actual_fastlane_lanes_deny_missing_approval_before_api_key_or_upload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_actual_lane_denies_unprotected_environment_before_api_key_or_upload (__main__.DeliveryTest.test_actual_lane_denies_unprotected_environment_before_api_key_or_upload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_actual_metadata_lane_uses_approved_source_and_cannot_submit_public_release (__main__.DeliveryTest.test_actual_metadata_lane_uses_approved_source_and_cannot_submit_public_release)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_adhoc_and_development_authority_cannot_pass_signed_inspection (__main__.DeliveryTest.test_adhoc_and_development_authority_cannot_pass_signed_inspection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_all_effect_scopes_are_distinct_and_public_binary_release_is_unavailable (__main__.DeliveryTest.test_all_effect_scopes_are_distinct_and_public_binary_release_is_unavailable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_changed_missing_artifact_and_changed_inspection_block_before_upload (__main__.DeliveryTest.test_changed_missing_artifact_and_changed_inspection_block_before_upload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_changed_pristine_source_fails_before_signing (__main__.DeliveryTest.test_changed_pristine_source_fails_before_signing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_changed_working_source_and_added_source_fail_before_signing (__main__.DeliveryTest.test_changed_working_source_and_added_source_fail_before_signing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_environment_readback_rejects_unprotected_self_review_bypass_or_wrong_branches (__main__.DeliveryTest.test_environment_readback_rejects_unprotected_self_review_bypass_or_wrong_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_failed_import_cleans_material_and_reports_failure_without_retry (__main__.DeliveryTest.test_failed_import_cleans_material_and_reports_failure_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_generated_build_outputs_do_not_hide_changes_to_reviewed_source (__main__.DeliveryTest.test_generated_build_outputs_do_not_hide_changes_to_reviewed_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_incomplete_or_unlisted_candidate_manifest_cannot_import (__main__.DeliveryTest.test_incomplete_or_unlisted_candidate_manifest_cannot_import)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_missing_public_build_configuration_cannot_import (__main__.DeliveryTest.test_missing_public_build_configuration_cannot_import)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_non_atomic_candidate_is_not_accepted_for_signing (__main__.DeliveryTest.test_non_atomic_candidate_is_not_accepted_for_signing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_normal_internal_mock_artifact_check_inventory_and_upload_boundary (__main__.DeliveryTest.test_normal_internal_mock_artifact_check_inventory_and_upload_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_normal_mock_signing_and_cleanup_restore_keychain_and_remove_profile (__main__.DeliveryTest.test_normal_mock_signing_and_cleanup_restore_keychain_and_remove_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_normal_unsigned_prepare_needs_no_approval_and_copies_exact_source (__main__.DeliveryTest.test_normal_unsigned_prepare_needs_no_approval_and_copies_exact_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_prepare_rejects_wrong_commit_dirty_checkout_and_source_hash (__main__.DeliveryTest.test_prepare_rejects_wrong_commit_dirty_checkout_and_source_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_profile_for_wrong_team_and_development_distribution_cannot_import (__main__.DeliveryTest.test_profile_for_wrong_team_and_development_distribution_cannot_import)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_signing_denies_missing_approval_before_any_keychain_effect (__main__.DeliveryTest.test_signing_denies_missing_approval_before_any_keychain_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_stale_future_overlong_wrong_scope_target_and_future_artifact_precede_effects (__main__.DeliveryTest.test_stale_future_overlong_wrong_scope_target_and_future_artifact_precede_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_traversal_and_unsigned_ipa_do_not_pass_inspection (__main__.DeliveryTest.test_traversal_and_unsigned_ipa_do_not_pass_inspection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_approval_digest_precedes_effects (__main__.DeliveryTest.test_wrong_approval_digest_precedes_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_ref_commit_repository_and_runtime_target_precede_effects (__main__.DeliveryTest.test_wrong_ref_commit_repository_and_runtime_target_precede_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_signed_identity_and_entitlements_fail_inspection (__main__.DeliveryTest.test_wrong_signed_identity_and_entitlements_fail_inspection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/offline-repo/scripts/tests/ios_delivery_contract_test.py", line 59, in setUp
+    self.export = guard.source_export.export_candidate(self.repo, self.candidate, self.sdk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/offline-repo/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.647s
+
+FAILED (errors=25)

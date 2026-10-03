@@ -67,6 +67,11 @@ class CollectTheme {
       brightness,
       highContrast: highContrast,
     );
+    final filledForeground = WidgetStateProperty.resolveWith<Color>(
+      (states) => states.contains(WidgetState.disabled)
+          ? colors.textMuted
+          : colors.onAccent,
+    );
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
@@ -113,7 +118,12 @@ class CollectTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: WidgetStatePropertyAll(colors.onAccent),
+          foregroundColor: filledForeground,
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) => states.contains(WidgetState.disabled)
+                ? colors.neutralContainer
+                : null,
+          ),
           minimumSize: const WidgetStatePropertyAll(
             Size(CollectSpacing.target, CollectSpacing.target),
           ),

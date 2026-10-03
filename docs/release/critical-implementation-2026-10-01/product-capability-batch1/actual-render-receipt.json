@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-01T21:34:14Z",
+  "routes": [
+    {
+      "route": "/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "28e55153ec5087b09d373f2dd3fb1cb61b46a7d0bf87ecff5a5a73ef9ff4a999",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/home.html"
+    },
+    {
+      "route": "/group-savings/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/insurance/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "319b10b684287312b4f3f387ceee051c8eaf7341c00a399a797335fc1b685d64",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/insurance.html"
+    },
+    {
+      "route": "/protection/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "eed260c0d41b39a855163342796ae3855cc02e52f9ed237d07fc79759da4108a",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/protection.html"
+    },
+    {
+      "route": "/craas/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "026a34daa079bb87cb22b9884160c54a529a6ccfb33ba517d7b9222ab793f74f",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/craas.html"
+    },
+    {
+      "route": "/credit-readiness/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "5b3d7e8f9b26f6c423a8e3a7832fa8a84b22b662cb638b066cce6a21df42740e",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/credit-readiness.html"
+    },
+    {
+      "route": "/community-groups/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/our-partners/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "3d892f07954fd6af85f4d6c95bee21d1b28db1cc7e0be5c1137d2c2aba804902",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/our-partners.html"
+    },
+    {
+      "route": "/partners/",
+      "status": "pass",
+      "render_kind": "actual full current Ruby page_html; no browser or hosted task observation",
+      "html_sha256": "b105db5aca9222958e7c7f5baa371f99ce170e0d602d7467be3b516459d99bfe",
+      "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/rendered-content/partners.html"
+    },
+    {
+      "route": "/trust/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/security/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/privacy/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/terms/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/account-deletion/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    },
+    {
+      "route": "/data-deletion/",
+      "status": "blocked",
+      "error": "App screenshots need recapturing: runtime changed",
+      "scope": "Real current strict media validation retained; no stand-in, source rebaseline or historical capture accepted"
+    }
+  ],
+  "full_page_pass_count": 7,
+  "full_page_blocked_count": 8,
+  "separate_group_workflow_fragment_sha256": "5058d313f24e52aabb7c28ef7bd2526be9dfd2cec70d40036e4a5d448bdd4c5f",
+  "builder_sha256": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+  "registry_sha256": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+  "visual_acceptance": false,
+  "hosted_conversion_verified": false,
+  "owner_approved": false,
+  "publication_approved": false
+}

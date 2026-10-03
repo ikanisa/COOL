@@ -1,0 +1,23 @@
+{
+  "status": "terminal",
+  "owned_exec_handles": {
+    "14726": 1,
+    "89065": 0,
+    "1931": 1,
+    "99553": 0,
+    "92866": 1,
+    "58181": 0,
+    "16649": 0,
+    "40221": 0,
+    "56123": 0
+  },
+  "all_native_and_dart_command_children_reaped": true,
+  "observed_at": "2026-10-01T22:01:50.012823+00:00",
+  "matching_owned_processes": [],
+  "process_readback_command": [
+    "ps",
+    "-axo",
+    "pid,ppid,command"
+  ],
+  "process_readback_scope": "exact stage + compiler/test/Flutter proof process types; own readback shell excluded"
+}

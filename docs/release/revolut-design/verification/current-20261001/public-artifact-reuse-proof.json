@@ -1,0 +1,10 @@
+{
+  "design_authority": "revolut-design",
+  "checked_at": "2026-10-01T18:11:00.011229+00:00",
+  "status": "pass",
+  "artifact_files_unchanged": true,
+  "file_count": 55,
+  "contrast_execution_file": "docs/release/revolut-design/verification/current-20261001/public-complete-contrast-execution.json",
+  "current_route_execution_file": "docs/release/revolut-design/verification/current-20261001/public-complete-browser-execution.json",
+  "meaning": "Stricter CTA geometry checks rerun on the exact unchanged artifact. Existing flat and photography contrast results remain valid."
+}

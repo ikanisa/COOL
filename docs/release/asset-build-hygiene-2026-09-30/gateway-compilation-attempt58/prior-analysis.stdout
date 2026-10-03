@@ -1,0 +1,24 @@
+Analyzing gateway_app.dart...                                   
+
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/gateway/gateway_app.dart:61:41 • const_with_non_constant_argument
+  error • The getter 's16' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's16', correcting the name to the name of an existing getter, or defining a getter or field named 's16' • lib/gateway/gateway_app.dart:61:56 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:66:38 • invalid_constant
+  error • The getter 's16' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's16', correcting the name to the name of an existing getter, or defining a getter or field named 's16' • lib/gateway/gateway_app.dart:66:53 • undefined_getter
+  error • The constructor being called isn't a const constructor. Try removing 'const' from the constructor invocation • lib/gateway/gateway_app.dart:67:26 • const_with_non_const
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/gateway/gateway_app.dart:73:67 • const_with_non_constant_argument
+  error • The getter 's16' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's16', correcting the name to the name of an existing getter, or defining a getter or field named 's16' • lib/gateway/gateway_app.dart:73:82 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:76:44 • invalid_constant
+  error • The getter 's8' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's8', correcting the name to the name of an existing getter, or defining a getter or field named 's8' • lib/gateway/gateway_app.dart:76:59 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:78:44 • invalid_constant
+  error • The getter 's8' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's8', correcting the name to the name of an existing getter, or defining a getter or field named 's8' • lib/gateway/gateway_app.dart:78:59 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:82:40 • invalid_constant
+  error • The getter 's16' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's16', correcting the name to the name of an existing getter, or defining a getter or field named 's16' • lib/gateway/gateway_app.dart:82:55 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:90:40 • invalid_constant
+  error • The getter 's16' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's16', correcting the name to the name of an existing getter, or defining a getter or field named 's16' • lib/gateway/gateway_app.dart:90:55 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:96:40 • invalid_constant
+  error • The getter 's24' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's24', correcting the name to the name of an existing getter, or defining a getter or field named 's24' • lib/gateway/gateway_app.dart:96:55 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:98:40 • invalid_constant
+  error • The getter 's8' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's8', correcting the name to the name of an existing getter, or defining a getter or field named 's8' • lib/gateway/gateway_app.dart:98:55 • undefined_getter
+  error • Invalid constant value • lib/gateway/gateway_app.dart:112:51 • invalid_constant
+  error • The getter 's8' isn't defined for the type 'CollectSpacing'. Try importing the library that defines 's8', correcting the name to the name of an existing getter, or defining a getter or field named 's8' • lib/gateway/gateway_app.dart:112:66 • undefined_getter
+

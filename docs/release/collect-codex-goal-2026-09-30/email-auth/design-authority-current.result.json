@@ -1,0 +1,8 @@
+{
+  "captured_at": "2026-09-30T22:19:48.863587+00:00",
+  "command": "make revolut-design-authority",
+  "exit_code": 0,
+  "scope": "Sole-authority hygiene at execution; not visual fidelity or hosted Auth acceptance",
+  "script_sha256": "86ed8bbba082c679ba7e03f48bf094daf851c42381aee6f5a3885930b02470d4",
+  "makefile_sha256": "624d545806459103513d1397be6f9ec80d2d4b0864b51b7e3eae5d47caf3f134"
+}

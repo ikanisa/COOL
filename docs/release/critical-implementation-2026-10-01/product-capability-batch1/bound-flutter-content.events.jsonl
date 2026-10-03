@@ -1,0 +1,49 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":90150,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"suite":{"id":2,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"suite","time":2}
+{"test":{"id":3,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2}
+{"count":2,"time":2,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":1615}
+{"group":{"id":4,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":9,"line":null,"column":null,"url":null},"type":"group","time":1616}
+{"test":{"id":5,"name":"Flutter public facts and pages consume the exact current registry","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":18,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1617}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1642}
+{"test":{"id":6,"name":"private-group availability matches the real native platform guard","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":45,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1642}
+{"testID":6,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1645}
+{"test":{"id":7,"name":"iOS web and basic-phone MoMo actions deny the Android-only handoff","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":65,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1645}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1647}
+{"test":{"id":8,"name":"unapproved supported software does not imply approved availability","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":82,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1647}
+{"testID":8,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1648}
+{"test":{"id":9,"name":"foreign regions and unknown platforms cannot inherit support","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":97,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1648}
+{"testID":9,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1649}
+{"test":{"id":10,"name":"planned and provider-dependent services offer information, not enrollment","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":113,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1649}
+{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1651}
+{"test":{"id":11,"name":"a runtime download override cannot advertise an unregistered service","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":135,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1652}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1653}
+{"test":{"id":12,"name":"current iOS and Android store copy is generated from the same facts","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":154,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1653}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1657}
+{"test":{"id":13,"name":"real public download button forwards only the registered action","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":181,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/public_capability_content_test.dart"},"type":"testStart","time":1657}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":1720}
+{"group":{"id":14,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":8,"line":null,"column":null,"url":null},"type":"group","time":1720}
+{"test":{"id":15,"name":"(setUpAll)","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":32,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":1720}
+{"testID":15,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":1740}
+{"test":{"id":16,"name":"public marketing action distinguishes disabled and focused states","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":38,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":1741}
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1778}
+{"test":{"id":17,"name":"landing page presents Rwanda MoMo USSD","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":58,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":1778}
+{"testID":13,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2927}
+{"testID":17,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2948}
+{"test":{"id":18,"name":"homepage explainer action opens the group journey page","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":105,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":2949}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3127}
+{"test":{"id":19,"name":"public route inventory excludes removed financial-expansion pages","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":137,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":3127}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3132}
+{"test":{"id":20,"name":"all standalone public pages render their customer content","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":160,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":3132}
+{"testID":20,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3374}
+{"test":{"id":21,"name":"privacy page covers payment evidence and deletion controls","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":179,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":3374}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3401}
+{"test":{"id":22,"name":"home navigation stays visible and readable beyond the photo","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":204,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":3401}
+{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3498}
+{"test":{"id":23,"name":"public pages remain usable at 320 px and 200 percent text","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":230,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/landing_page_test.dart"},"type":"testStart","time":3499}
+{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3715}
+{"test":{"id":24,"name":"(tearDownAll)","suiteID":2,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":3715}
+{"testID":24,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":3716}
+{"success":true,"type":"done","time":3724}

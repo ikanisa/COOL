@@ -1,0 +1,46 @@
+{
+  "at_utc": "2026-10-02T02:56:36.467995+00:00",
+  "prep4_artifacts_before": {
+    "README.md": {
+      "sha256": "ab62f89ab154fe579977c93c1374f95831313fc9596f4342ac47b95a52d97d72",
+      "bytes": 4478,
+      "mode": 420
+    },
+    "actual-cli-input-matrix.json": {
+      "sha256": "7aa445535904a39a3fda095cbd8a8ee5a4993c0407e92f251a84960485cb1794",
+      "bytes": 960499,
+      "mode": 420
+    },
+    "prepare_complete_inputs.py": {
+      "sha256": "4f678adf02451a357b4f4ccf1456c68ef198b1eb7380eb6d97ddcbe41c6f2c29",
+      "bytes": 12067,
+      "mode": 420
+    },
+    "private-source-freeze.json": {
+      "sha256": "ef96137d1a00a29e43bdbc3989751584c78249a200c1e68ebd1991ec62ba6449",
+      "bytes": 149073,
+      "mode": 420
+    },
+    "reviewed-helper-validation.json": {
+      "sha256": "c5f4d769844866dfecc1ff8050c02d9d90ac0fc9d0d7854b7781ad82e1f0fe9f",
+      "bytes": 13873,
+      "mode": 420
+    },
+    "run_private_canonical.py": {
+      "sha256": "011e3d8ff57d96b519075343723bdb524f46cbc2e09d76f5965fb0a26e4a8e2e",
+      "bytes": 13297,
+      "mode": 420
+    }
+  },
+  "prep4_batch_sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288",
+  "prep4_checksum_sha256": "d27e1bf67478a840e1ecdd90311f51ca4b109a76a7d7bbb6bb45e8a995f0e7ac",
+  "root_admission_sha256": "8aafe8c62eef3ac0318c1c1451bb134fd0a8f787de69c8a2a4d36eca1306a498",
+  "candidate": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/source",
+  "cache_initial_count": 0,
+  "output_initially_absent": true,
+  "driver_sha256": "011e3d8ff57d96b519075343723bdb524f46cbc2e09d76f5965fb0a26e4a8e2e",
+  "canonical_invocations_authorized": 1,
+  "source_count": 140,
+  "offline_files": 13,
+  "scope": "Datedprivate140/12endpoint; current144/13inventory remainsseparate."
+}

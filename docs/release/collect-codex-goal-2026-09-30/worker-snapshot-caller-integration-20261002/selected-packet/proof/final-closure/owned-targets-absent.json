@@ -1,0 +1,140 @@
+{
+  "observed_at": "2026-10-02T02:02:12.773947+00:00",
+  "targets": 12,
+  "all_absent": true,
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_f4d3e80060d2"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_f4d3e80060d2\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_0740a387de3a"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_0740a387de3a\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_2966ac4cb0cd"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_2966ac4cb0cd\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_11db57f1d83a"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_11db57f1d83a\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_e51d790f10b6"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_e51d790f10b6\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_1dc8be993c54"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_1dc8be993c54\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_ec9861b84189"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_ec9861b84189\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_7720d69c6585"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_7720d69c6585\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_c4920f4b3295"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_c4920f4b3295\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_63ac4029d017"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_63ac4029d017\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_source_43470b88474c"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_source_43470b88474c\n",
+      "absent": true
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "collect_current_rehearsal_restore_9a9a20347d34"
+      ],
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: collect_current_rehearsal_restore_9a9a20347d34\n",
+      "absent": true
+    }
+  ],
+  "prior_readback_expectation_correction": "Initial final-readback assertion matched capitalized No such object; Docker29 emits lowercase error: no such object. Negative exit plus empty inspect vector and exact generated name now asserted. No target-state or product change."
+}

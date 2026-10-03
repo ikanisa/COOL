@@ -1,0 +1,643 @@
+{
+  "cancel": {
+    "scope": "rw_receipt_manual_cancel",
+    "action": "cancel_unstarted",
+    "revision": 2,
+    "outbox_id": "80113c37-28da-4a36-9d54-34d21a677561",
+    "request_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+    "reason_code": "operator_cancelled",
+    "recorded_at": "2026-10-01T08:55:10.280669Z",
+    "send_action": false,
+    "state_after": "suppressed",
+    "state_before": "queued",
+    "contract_version": 1,
+    "financial_action": false,
+    "expected_revision": 1,
+    "primary_receipt_retained": true,
+    "provider_delivery_verified": false
+  },
+  "inspection": {
+    "scope": "rw_receipt_manual_cancel",
+    "status": "available",
+    "receipt": {
+      "state": "queued",
+      "revision": 1,
+      "outbox_id": "80113c37-28da-4a36-9d54-34d21a677561",
+      "can_cancel": true,
+      "reason_code": "eligible"
+    },
+    "outbox_id": "80113c37-28da-4a36-9d54-34d21a677561",
+    "checked_at": "2026-10-01T08:55:10.263475Z",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-01T08:56:10.263475Z"
+  },
+  "shadow_audit": {
+    "rows": [
+      {
+        "action": "shadow.completed",
+        "source": "shadow_audit_event",
+        "actor_id": "99780000-0000-4000-8000-000000000001",
+        "event_id": "08dc938b-d3be-4693-817e-bc7f241ca363",
+        "revision": null,
+        "request_id": "ea1894b3-b3d2-4a89-afbb-8fbc38de6d12",
+        "reason_code": null,
+        "recorded_at": "2026-10-01T08:55:10.303107Z",
+        "fence_version": 1
+      },
+      {
+        "action": "shadow.sampled",
+        "source": "shadow_audit_event",
+        "actor_id": "99780000-0000-4000-8000-000000000001",
+        "event_id": "0c9065aa-b62b-4ec3-8fe9-272ae7a6177e",
+        "revision": null,
+        "request_id": "ea1894b3-b3d2-4a89-afbb-8fbc38de6d12",
+        "reason_code": null,
+        "recorded_at": "2026-10-01T08:55:10.301852Z",
+        "fence_version": 1
+      },
+      {
+        "action": "shadow.started",
+        "source": "shadow_audit_event",
+        "actor_id": "99780000-0000-4000-8000-000000000001",
+        "event_id": "4ceb9e27-7b04-4368-93b1-29d5a4c46541",
+        "revision": null,
+        "request_id": "ea1894b3-b3d2-4a89-afbb-8fbc38de6d12",
+        "reason_code": null,
+        "recorded_at": "2026-10-01T08:55:10.292512Z",
+        "fence_version": 1
+      }
+    ],
+    "limit": 20,
+    "scope": "rw_operator_entity_audit",
+    "status": "available",
+    "entity_id": "a2c98e9e-359b-4456-a1dc-85e4eaa0f984",
+    "checked_at": "2026-10-01T08:55:10.304596Z",
+    "entity_kind": "shadow_run",
+    "next_cursor": null,
+    "send_action": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "history_complete": false,
+    "sample_valid_until": "2026-10-01T08:56:10.304596Z",
+    "historical_shadow_audit_backfilled": false
+  },
+  "shadow_begin": {
+    "ok": true,
+    "run": {
+      "run_id": "a2c98e9e-359b-4456-a1dc-85e4eaa0f984",
+      "status": "running",
+      "summary": null,
+      "request_id": "ea1894b3-b3d2-4a89-afbb-8fbc38de6d12",
+      "sampled_at": null,
+      "started_at": "2026-10-01T08:55:10.292512+00:00",
+      "completed_at": null,
+      "fence_version": 1,
+      "lease_expires_at": "2026-10-01T08:57:10.292512+00:00"
+    },
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "outcome": "started",
+    "replayed": false,
+    "contract_version": 1
+  },
+  "cancel_lookup": {
+    "scope": "rw_receipt_manual_cancel",
+    "status": "recorded",
+    "receipt": {
+      "scope": "rw_receipt_manual_cancel",
+      "action": "cancel_unstarted",
+      "revision": 2,
+      "outbox_id": "80113c37-28da-4a36-9d54-34d21a677561",
+      "request_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+      "reason_code": "operator_cancelled",
+      "recorded_at": "2026-10-01T08:55:10.280669Z",
+      "send_action": false,
+      "state_after": "suppressed",
+      "state_before": "queued",
+      "contract_version": 1,
+      "financial_action": false,
+      "expected_revision": 1,
+      "primary_receipt_retained": true,
+      "provider_delivery_verified": false
+    },
+    "checked_at": "2026-10-01T08:55:10.282894Z",
+    "request_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-01T08:56:10.282894Z"
+  },
+  "cancel_replay": {
+    "scope": "rw_receipt_manual_cancel",
+    "action": "cancel_unstarted",
+    "revision": 2,
+    "outbox_id": "80113c37-28da-4a36-9d54-34d21a677561",
+    "request_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+    "reason_code": "operator_cancelled",
+    "recorded_at": "2026-10-01T08:55:10.280669Z",
+    "send_action": false,
+    "state_after": "suppressed",
+    "state_before": "queued",
+    "contract_version": 1,
+    "financial_action": false,
+    "expected_revision": 1,
+    "primary_receipt_retained": true,
+    "provider_delivery_verified": false
+  },
+  "policy_lookup": {
+    "scope": "platform_global",
+    "status": "recorded",
+    "receipt": {
+      "scope": "platform_global",
+      "action": "configure_unattended_policy",
+      "changed": true,
+      "revision": 2,
+      "policy_id": "86c29e08-b26b-4411-926a-99fa0d611fc9",
+      "mode_after": "Shadow",
+      "request_id": "612f9a51-e41a-4b23-a61f-bbdca957a176",
+      "mode_before": "Paused",
+      "reason_code": "operator_reviewed_configuration",
+      "recorded_at": "2026-10-01T08:55:10.288988Z",
+      "send_action": false,
+      "approval_granted": false,
+      "contract_version": 1,
+      "financial_action": false,
+      "schedule_changed": false,
+      "expected_revision": 1,
+      "carrier_work_changed": false,
+      "emergency_stop_after": false,
+      "emergency_stop_before": true,
+      "assisted_dispatch_changed": false,
+      "unattended_dispatch_available": false,
+      "signed_shadow_observation_changed": false
+    },
+    "checked_at": "2026-10-01T08:55:10.290476Z",
+    "request_id": "612f9a51-e41a-4b23-a61f-bbdca957a176",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-01T08:56:10.290476Z"
+  },
+  "policy_replay": {
+    "scope": "platform_global",
+    "action": "configure_unattended_policy",
+    "changed": true,
+    "revision": 2,
+    "policy_id": "86c29e08-b26b-4411-926a-99fa0d611fc9",
+    "mode_after": "Shadow",
+    "request_id": "612f9a51-e41a-4b23-a61f-bbdca957a176",
+    "mode_before": "Paused",
+    "reason_code": "operator_reviewed_configuration",
+    "recorded_at": "2026-10-01T08:55:10.288988Z",
+    "send_action": false,
+    "approval_granted": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "schedule_changed": false,
+    "expected_revision": 1,
+    "carrier_work_changed": false,
+    "emergency_stop_after": false,
+    "emergency_stop_before": true,
+    "assisted_dispatch_changed": false,
+    "unattended_dispatch_available": false,
+    "signed_shadow_observation_changed": false
+  },
+  "receipt_audit": {
+    "rows": [
+      {
+        "action": "receipt.cancel_unstarted",
+        "source": "receipt_cancellation",
+        "actor_id": "99780000-0000-4000-8000-000000000001",
+        "event_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+        "revision": 2,
+        "request_id": "ea5f5e97-e874-4f5f-b0ac-2497caf8dcbd",
+        "reason_code": "operator_cancelled",
+        "recorded_at": "2026-10-01T08:55:10.280669Z",
+        "fence_version": null
+      }
+    ],
+    "limit": 20,
+    "scope": "rw_operator_entity_audit",
+    "status": "available",
+    "entity_id": "80113c37-28da-4a36-9d54-34d21a677561",
+    "checked_at": "2026-10-01T08:55:10.285143Z",
+    "entity_kind": "receipt",
+    "next_cursor": null,
+    "send_action": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "history_complete": false,
+    "sample_valid_until": "2026-10-01T08:56:10.285143Z",
+    "historical_shadow_audit_backfilled": false
+  },
+  "shadow_finish": {
+    "ok": true,
+    "run": {
+      "run_id": "a2c98e9e-359b-4456-a1dc-85e4eaa0f984",
+      "status": "completed",
+      "summary": {
+        "sms_queue": {
+          "queued": 1,
+          "enabled": false,
+          "uncertain": 0,
+          "suppressed": 1,
+          "send_started": 0,
+          "active_workers": 0,
+          "awaiting_confirmation": 0
+        },
+        "alert_counts": {
+          "ok": 8,
+          "unknown": 1,
+          "attention": 0,
+          "not_applicable": 4
+        },
+        "health_status": "unknown",
+        "provider_sends": 0,
+        "checks_recorded": 13,
+        "samples_recorded": 1,
+        "business_mutations": 0
+      },
+      "request_id": "ea1894b3-b3d2-4a89-afbb-8fbc38de6d12",
+      "sampled_at": "2026-10-01T08:55:10.301852+00:00",
+      "started_at": "2026-10-01T08:55:10.292512+00:00",
+      "completed_at": "2026-10-01T08:55:10.303107+00:00",
+      "fence_version": 1,
+      "lease_expires_at": "2026-10-01T08:57:10.292512+00:00"
+    },
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "outcome": "completed",
+    "replayed": false,
+    "contract_version": 1
+  },
+  "shadow_sample": {
+    "ok": true,
+    "mode": "shadow",
+    "scope": "collect_platform",
+    "run_id": "a2c98e9e-359b-4456-a1dc-85e4eaa0f984",
+    "sample": {
+      "summary": {
+        "sms_queue": {
+          "queued": 1,
+          "enabled": false,
+          "uncertain": 0,
+          "suppressed": 1,
+          "send_started": 0,
+          "active_workers": 0,
+          "awaiting_confirmation": 0
+        },
+        "alert_counts": {
+          "ok": 8,
+          "unknown": 1,
+          "attention": 0,
+          "not_applicable": 4
+        },
+        "health_status": "unknown",
+        "provider_sends": 0,
+        "checks_recorded": 13,
+        "samples_recorded": 1,
+        "business_mutations": 0
+      },
+      "sample_id": "09e2ebd4-9520-4f31-a34d-d23e175e7799",
+      "sms_queue": {
+        "queued": 1,
+        "enabled": false,
+        "uncertain": 0,
+        "suppressed": 1,
+        "observed_at": "2026-10-01T08:55:10.300517+00:00",
+        "send_started": 0,
+        "active_workers": 0,
+        "oldest_queued_at": "2026-10-01T08:54:42.874885+00:00",
+        "awaiting_confirmation": 0
+      },
+      "checked_at": "2026-10-01T08:55:10.301852+00:00",
+      "system_health": {
+        "id": "system",
+        "auth": "authenticated",
+        "alerts": [
+          {
+            "code": "receipt_parse_backlog",
+            "state": "ok",
+            "metric": "sms_pending",
+            "threshold": 100
+          },
+          {
+            "code": "receipt_parse_age",
+            "state": "not_applicable",
+            "metric": "sms_pending_age_seconds",
+            "threshold": 300
+          },
+          {
+            "code": "receipt_parse_failure",
+            "state": "ok",
+            "metric": "sms_failed_24h",
+            "threshold": 1
+          },
+          {
+            "code": "receipt_parser_lease_expired",
+            "state": "ok",
+            "metric": "sms_expired_parse_leases",
+            "threshold": 1
+          },
+          {
+            "code": "payment_unmatched",
+            "state": "ok",
+            "metric": "unallocated_events",
+            "threshold": 1
+          },
+          {
+            "code": "payment_review_age",
+            "state": "not_applicable",
+            "metric": "payment_review_age_seconds",
+            "threshold": 3600
+          },
+          {
+            "code": "reconciliation_exception",
+            "state": "ok",
+            "metric": "reconciliation_open",
+            "threshold": 1
+          },
+          {
+            "code": "push_queue_age",
+            "state": "not_applicable",
+            "metric": "push_due_age_seconds",
+            "threshold": 120
+          },
+          {
+            "code": "push_expired_lease",
+            "state": "ok",
+            "metric": "push_expired_leases",
+            "threshold": 1
+          },
+          {
+            "code": "push_missing_lease",
+            "state": "ok",
+            "metric": "push_missing_leases",
+            "threshold": 1
+          },
+          {
+            "code": "push_attempt_failure",
+            "state": "ok",
+            "metric": "push_failed_24h",
+            "threshold": 5
+          },
+          {
+            "code": "receipt_telemetry_stale",
+            "state": "unknown",
+            "metric": "receipt_telemetry_age_seconds",
+            "threshold": 300
+          },
+          {
+            "code": "push_scheduler_stale",
+            "state": "not_applicable",
+            "metric": "push_scheduler_age_seconds",
+            "threshold": 180
+          }
+        ],
+        "metrics": {
+          "push_due": 0,
+          "push_failed": 0,
+          "push_queued": 0,
+          "sms_pending": 0,
+          "reversals_24h": 0,
+          "push_retry_24h": 0,
+          "sms_failed_24h": 0,
+          "sms_parsed_24h": 1,
+          "payments_review": 0,
+          "push_failed_24h": 0,
+          "push_processing": 0,
+          "push_attempts_24h": 0,
+          "unallocated_events": 0,
+          "finality_processing": 0,
+          "payments_posted_24h": 3,
+          "push_expired_leases": 0,
+          "push_latency_p95_ms": null,
+          "push_missing_leases": 0,
+          "reconciliation_open": 0,
+          "durable_receipts_24h": 1,
+          "push_due_age_seconds": null,
+          "receipt_rejected_24h": 0,
+          "finality_processed_24h": 0,
+          "sms_pending_age_seconds": null,
+          "sms_expired_parse_leases": 0,
+          "push_provider_accepts_24h": 0,
+          "receipt_ack_generated_24h": 0,
+          "payment_review_age_seconds": null,
+          "push_scheduler_age_seconds": null,
+          "receipt_ack_latency_mean_ms": null,
+          "receipt_telemetry_age_seconds": null
+        },
+        "database": "reachable",
+        "scheduler": {
+          "state": "disabled",
+          "configuration_verified": false
+        },
+        "checked_at": "2026-10-01T08:55:10.295327+00:00",
+        "health_status": "unknown",
+        "window_seconds": 86400,
+        "evidence_limits": [
+          "ACK generation does not prove device receipt.",
+          "Provider acceptance does not prove user delivery.",
+          "Scheduler activation does not prove provider configuration."
+        ],
+        "contract_version": 1,
+        "failed_sms_parse": 0,
+        "threshold_version": 1,
+        "parser_pending_sms": 0,
+        "sample_valid_until": "2026-10-01T08:56:10.295327+00:00",
+        "unallocated_events": 0,
+        "failed_notifications": 0,
+        "queued_notifications": 0,
+        "processing_notifications": 0
+      },
+      "content_sha256": "8c875cda2d18c35f1ea9be58e7662025393b00bbbae0c3584cfb11de91a86c6f"
+    },
+    "outcome": "sampled",
+    "replayed": false,
+    "fence_version": 1,
+    "contract_version": 1
+  },
+  "policy_current": {
+    "modes": [
+      {
+        "mode": "Shadow",
+        "selectable": true,
+        "unavailable_reason": null
+      },
+      {
+        "mode": "Dry-run",
+        "selectable": true,
+        "unavailable_reason": null
+      },
+      {
+        "mode": "Live-limited",
+        "selectable": false,
+        "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+      },
+      {
+        "mode": "Live",
+        "selectable": false,
+        "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+      },
+      {
+        "mode": "Paused",
+        "selectable": true,
+        "unavailable_reason": null
+      }
+    ],
+    "scope": "platform_global",
+    "limits": {
+      "run_sms": null,
+      "group_sms": null,
+      "device_sms": null,
+      "global_sms": null,
+      "enforcement": false,
+      "run_actions": null,
+      "group_actions": null,
+      "device_actions": null,
+      "global_actions": null,
+      "unavailable_reason": "OPERATING_POLICY_LIMIT_AUTHORITY_PENDING"
+    },
+    "purpose": "unattended_policy_preparation",
+    "revision": 2,
+    "schedule": {
+      "kind": null,
+      "owner": null,
+      "next_run_at": null,
+      "cadence_seconds": null,
+      "unavailable_reason": "OPERATING_POLICY_SCHEDULE_AUTHORITY_UNAVAILABLE",
+      "configuration_available": false
+    },
+    "approvals": {
+      "pilot": null,
+      "template": null,
+      "financial": null,
+      "recipient": null
+    },
+    "execution": {
+      "unavailable_reason": "OPERATING_POLICY_DISPATCH_AUTHORITY_PENDING",
+      "grant_authority_pending": true,
+      "unattended_dispatch_available": false
+    },
+    "policy_id": "86c29e08-b26b-4411-926a-99fa0d611fc9",
+    "boundaries": {
+      "assisted_dispatch": "paused",
+      "policy_changes_carrier_work": false,
+      "policy_changes_assisted_dispatch": false,
+      "policy_changes_signed_shadow_observation": false
+    },
+    "checked_at": "2026-10-01T08:55:10.291348Z",
+    "updated_at": "2026-10-01T08:55:10.288988Z",
+    "effective_mode": "Shadow",
+    "emergency_stop": false,
+    "initialized_at": "2026-10-01T08:55:08.072105Z",
+    "configured_mode": "Shadow",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-01T08:56:10.291348Z",
+    "last_change_request_id": "612f9a51-e41a-4b23-a61f-bbdca957a176"
+  },
+  "policy_default": {
+    "modes": [
+      {
+        "mode": "Shadow",
+        "selectable": true,
+        "unavailable_reason": null
+      },
+      {
+        "mode": "Dry-run",
+        "selectable": true,
+        "unavailable_reason": null
+      },
+      {
+        "mode": "Live-limited",
+        "selectable": false,
+        "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+      },
+      {
+        "mode": "Live",
+        "selectable": false,
+        "unavailable_reason": "OPERATING_POLICY_LIVE_AUTHORITY_PENDING"
+      },
+      {
+        "mode": "Paused",
+        "selectable": true,
+        "unavailable_reason": null
+      }
+    ],
+    "scope": "platform_global",
+    "limits": {
+      "run_sms": null,
+      "group_sms": null,
+      "device_sms": null,
+      "global_sms": null,
+      "enforcement": false,
+      "run_actions": null,
+      "group_actions": null,
+      "device_actions": null,
+      "global_actions": null,
+      "unavailable_reason": "OPERATING_POLICY_LIMIT_AUTHORITY_PENDING"
+    },
+    "purpose": "unattended_policy_preparation",
+    "revision": 1,
+    "schedule": {
+      "kind": null,
+      "owner": null,
+      "next_run_at": null,
+      "cadence_seconds": null,
+      "unavailable_reason": "OPERATING_POLICY_SCHEDULE_AUTHORITY_UNAVAILABLE",
+      "configuration_available": false
+    },
+    "approvals": {
+      "pilot": null,
+      "template": null,
+      "financial": null,
+      "recipient": null
+    },
+    "execution": {
+      "unavailable_reason": "OPERATING_POLICY_DISPATCH_AUTHORITY_PENDING",
+      "grant_authority_pending": true,
+      "unattended_dispatch_available": false
+    },
+    "policy_id": "86c29e08-b26b-4411-926a-99fa0d611fc9",
+    "boundaries": {
+      "assisted_dispatch": "paused",
+      "policy_changes_carrier_work": false,
+      "policy_changes_assisted_dispatch": false,
+      "policy_changes_signed_shadow_observation": false
+    },
+    "checked_at": "2026-10-01T08:55:10.287605Z",
+    "updated_at": "2026-10-01T08:55:08.072105Z",
+    "effective_mode": "Paused",
+    "emergency_stop": true,
+    "initialized_at": "2026-10-01T08:55:08.072105Z",
+    "configured_mode": "Paused",
+    "contract_version": 1,
+    "sample_valid_until": "2026-10-01T08:56:10.287605Z",
+    "last_change_request_id": null
+  },
+  "policy_receipt": {
+    "scope": "platform_global",
+    "action": "configure_unattended_policy",
+    "changed": true,
+    "revision": 2,
+    "policy_id": "86c29e08-b26b-4411-926a-99fa0d611fc9",
+    "mode_after": "Shadow",
+    "request_id": "612f9a51-e41a-4b23-a61f-bbdca957a176",
+    "mode_before": "Paused",
+    "reason_code": "operator_reviewed_configuration",
+    "recorded_at": "2026-10-01T08:55:10.288988Z",
+    "send_action": false,
+    "approval_granted": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "schedule_changed": false,
+    "expected_revision": 1,
+    "carrier_work_changed": false,
+    "emergency_stop_after": false,
+    "emergency_stop_before": true,
+    "assisted_dispatch_changed": false,
+    "unattended_dispatch_available": false,
+    "signed_shadow_observation_changed": false
+  },
+  "live_authority_denied": true,
+  "retry_empty_reason_denied": true,
+  "reveal_empty_reason_denied": true,
+  "runtime_empty_reason_denied": true,
+  "fixture_execution_rolled_back": true
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "admin_list_collect_transactions",
+    "identity_args": "p_search text, p_status text, p_limit integer, p_offset integer, p_sort text",
+    "hosted_sha256": "d9d7f5f9b9a8d96682d56c4953908de18792af1f1b3795dea321a70eb4313a7a",
+    "local_sha256": "d9d7f5f9b9a8d96682d56c4953908de18792af1f1b3795dea321a70eb4313a7a",
+    "match": true
+  },
+  {
+    "name": "collect_list_pending_receipts",
+    "identity_args": "p_operator_user_id uuid, p_limit integer, p_after_created_at timestamp with time zone",
+    "hosted_sha256": "ae73d5e0895174f1517da448cff2c5ffdb029322e78e11cede9c65dcfadc56a1",
+    "local_sha256": "ae73d5e0895174f1517da448cff2c5ffdb029322e78e11cede9c65dcfadc56a1",
+    "match": true
+  },
+  {
+    "name": "collect_notification_health",
+    "identity_args": "p_operator_user_id uuid",
+    "hosted_sha256": "259ff21f296d8dd999dbbc21ce7734eb8c749f38e3c8921362407d8558aa593a",
+    "local_sha256": "259ff21f296d8dd999dbbc21ce7734eb8c749f38e3c8921362407d8558aa593a",
+    "match": true
+  }
+]

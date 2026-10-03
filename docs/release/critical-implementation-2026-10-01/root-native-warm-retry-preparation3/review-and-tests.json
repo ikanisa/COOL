@@ -1,0 +1,10 @@
+{
+  "root_limited_successor_review": "Semantic output filenames separated from process receipts; all original stage argv/env/bounds/approval/source guard semantics remain unchanged.",
+  "admission_and_actual_child_naming_test_cases": 7,
+  "actual_unittest_seconds": 3.135,
+  "observed_terminal_exit_code": 0,
+  "actual_process_runner_used_for_filename_case": true,
+  "unit_stage_semantic_guards_synthetic": true,
+  "actual_APP_or_SDK_touched_by_tests": false,
+  "production_release_approval": false
+}

@@ -1,0 +1,71 @@
+--- a/tools/collect-notification-mcp/src/unattended_host_tick.ts
++++ b/tools/collect-notification-mcp/src/unattended_host_tick.ts
+@@ -26,10 +26,18 @@
+     try {started = await beginSchedulerTickDiagnostic(deployment, now());}
+     catch {throw Error("SCHEDULER_DIAGNOSTICS_UNAVAILABLE");}
+     let result: Json;
+-    runnerInvoked = true;
+-    try {result = await (dependencies.tick ?? runSchedulerTick)(["--tick", "--profile", deployment.manifest.profile_path,
+-      "--interval-seconds", String(deployment.manifest.interval_seconds), "--max-events", String(deployment.manifest.max_events)]);}
+-    catch {result = {status: "TICK_OUTCOME_UNCONFIRMED", ...boundary, business_handled: null};}
++    // Admission and durable diagnostic setup await filesystem work. Recheck
++    // local authority and identity at their completion before invoking a tick.
++    const permitted = await schedulerTickPermitted(deployment);
++    const identityCurrent = validIdentity(deployment.manifest.identity, now());
++    if (!identityCurrent || !permitted) {
++      result = {status: !identityCurrent ? "SCHEDULER_IDENTITY_UNAVAILABLE" : "SCHEDULER_LOCAL_INACTIVE", ...boundary, business_handled: false};
++    } else {
++      runnerInvoked = true;
++      try {result = await (dependencies.tick ?? runSchedulerTick)(["--tick", "--profile", deployment.manifest.profile_path,
++        "--interval-seconds", String(deployment.manifest.interval_seconds), "--max-events", String(deployment.manifest.max_events)]);}
++      catch {result = {status: "TICK_OUTCOME_UNCONFIRMED", ...boundary, business_handled: null};}
++    }
+     originalRequestId = uuid(result.request_id) ? result.request_id : null;
+     try {await endSchedulerTickDiagnostic(deployment, started, result, now());}
+     catch {throw Error("SCHEDULER_DIAGNOSTICS_UNAVAILABLE");}
+--- a/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts
++++ b/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts
+@@ -502,3 +502,43 @@
+     assert.equal((storage.last_tick as Json).state, "unavailable");
+   } finally {await f.cleanup();}
+ });
++
++
++for (const window of ["admission", "diagnostic-setup"] as const) {
++  for (const invalidation of ["disable", "identity-expiry"] as const) {
++    test(`${invalidation} during ${window} prevents dispatch and closes known non-invoked diagnostics`, async () => {
++      const f = await fixture();
++      let release!: () => void, entered!: () => void;
++      const held = new Promise<void>(resolve => {release = resolve;});
++      const reached = new Promise<void>(resolve => {entered = resolve;});
++      let calls = 0, tickClock = at;
++      const publish = UnattendedStore.prototype.publish;
++      if (window === "diagnostic-setup") {
++        UnattendedStore.prototype.publish = async function(this: UnattendedStore, name: string, value: unknown) {
++          await publish.call(this, name, value);
++          if (this.directory === join(f.directory, "diagnostics") && name.endsWith(".run.json")) {entered(); await held;}
++        };
++      }
++      try {
++        assert.equal((await controlScheduler("activate", f.directory, id(1), undefined, f.dependencies)).status, "SCHEDULER_ACTIVATION_OBSERVED");
++        const pending = runPreparedSchedulerTick(["--deployment", f.directory], {
++          executionBinding: f.executionBinding, now: () => tickClock,
++          storage: window === "admission" ? {io: {...filesystem, statfs: async path => {entered(); await held; return await filesystem.statfs(path);}}} : undefined,
++          tick: async () => {calls++; return {status: "SCHEDULER_BACKOFF", business_handled: false};},
++        });
++        await reached;
++        if (invalidation === "disable") {
++          assert.equal((await controlScheduler("disable", f.directory, id(2), undefined, f.dependencies)).status, "SCHEDULER_DISABLE_OBSERVED");
++          assert.equal(await schedulerTickPermitted(f.deployment), false);
++        } else {tickClock = Date.parse(expiry) + 1;}
++        release(); const result = await pending;
++        assert.equal(calls, 0);
++        assert.equal(result.status, invalidation === "disable" ? "SCHEDULER_LOCAL_INACTIVE" : "SCHEDULER_IDENTITY_UNAVAILABLE");
++        assert.equal(result.business_handled, false);
++        const tick = (await schedulerStorageDiagnostics(f.deployment, tickClock)).last_tick as Json;
++        assert.equal(tick.state, "terminal"); assert.equal(tick.unconfirmed_count, 0);
++        assert.equal((tick.last as Json).status, result.status); assert.equal((tick.last as Json).business_handled, false);
++      } finally {release(); UnattendedStore.prototype.publish = publish; await f.cleanup();}
++    });
++  }
++}

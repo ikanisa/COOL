@@ -1,0 +1,6 @@
+Caught: groovy.lang.MissingPropertyException: No such property: fd for class: java.io.FileOutputStream
+Possible solutions: FD
+groovy.lang.MissingPropertyException: No such property: fd for class: java.io.FileOutputStream
+Possible solutions: FD
+	at PureHelpers$_run_closure3.doCall(PureHelpers.groovy:36)
+	at limited_groovy_checks.run(limited_groovy_checks.groovy:54)

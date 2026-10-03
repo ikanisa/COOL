@@ -1,0 +1,13 @@
+✔ Successful local response binds exact body bytes and root document path (4.911583ms)
+✔ Changed or undeclared actual resource fails without certifying its bytes (0.841625ms)
+✔ Delayed navigation body rejection is handled before caller drain, retained and fails closed (6.513875ms)
+✔ Synchronous body and invalid response URL errors are recorded without escaping event listener (0.766166ms)
+✔ Remote and non-200 responses grant no served-byte proof and are not read (0.314333ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 422.886

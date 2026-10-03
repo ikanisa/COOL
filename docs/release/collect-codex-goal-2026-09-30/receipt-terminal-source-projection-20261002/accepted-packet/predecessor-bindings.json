@@ -1,0 +1,69 @@
+{
+  "inputs": {
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+    "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+    "supabase/migrations/20261002030000_receipt_operational_telemetry.sql": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+    "supabase/migrations/20261002010000_sms_receipt_language_selection.sql": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+    "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "stage/source_projection.sql.in": "b6d9037d20336ccb3e74b9fe0be6a94742c1ca78a1ebfd5c5aafcc12d3b8ae48"
+  },
+  "guards": [
+    [
+      "public.process_receipt_deferral_exceptions_v1(uuid,integer,timestamp with time zone)",
+      "aaf9e9f058c3372281ecd078c864109917890fb80ac9ad0e0148c68b07459348"
+    ],
+    [
+      "collect_ops.queue_receipt_exception_source()",
+      "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5"
+    ],
+    [
+      "collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)",
+      "12912903ceedef3bfe389a0398d69c7e19a109b70cf4f72a57b4e839e2c4bd94"
+    ],
+    [
+      "collect_ops.receipt_exception_source(text,uuid)",
+      "405824c850f281a553361288a8ea846d0d64fe210d2818bd0ed76ffba89ad0ab"
+    ],
+    [
+      "collect_ops.refresh_source(text,uuid)",
+      "e20dbdfdd4774a7666d403206d179f897ee41e0a8fa277d989e59e1f4677fd9d"
+    ],
+    [
+      "collect_ops.observe(text,uuid,text[],jsonb)",
+      "24e2a9b5abbf94005ba802977ad032f75917205bb0e273007d256f369a6674d8"
+    ],
+    [
+      "collect_receipt_telemetry.publish(collect_receipt_operations.policy,timestamptz,jsonb)",
+      "4ffbc1d5f3a87006d96ccf823547b1820d60959d74ee00a807a1fd3a811bc6e0"
+    ],
+    [
+      "collect_receipt_policy.content_is_valid(collect_hybrid.sms_notification_outbox)",
+      "a4ac68e2c39d6c24cfa7e4933065248ff79a4a18a149b737825e19e35cfbb2c5"
+    ],
+    [
+      "collect_receipt_successors.fence_transport_insert()",
+      "c80f0f27f815c002af6ff22851c93d353d53979fff31922fa96ce64f3a18a278"
+    ],
+    [
+      "collect_receipt_successors.protect_closed_root()",
+      "e9574a4c5bfde554ed626a2fc1ddff8c0ed13fd60a000ed5eed51576ab08a8af"
+    ],
+    [
+      "public.process_exception_escalations_v1(integer)",
+      "8a1f53541b91895ea759719d9a1b07a9c17ea6359e5e591c76463540000bef45"
+    ],
+    [
+      "public.admin_read_exception_escalation_v1(uuid)",
+      "9229d7a2c09b292b92ef73cc1cd893731249d7029478790353d4fd48b51d134c"
+    ],
+    [
+      "collect_ops.protect_escalation()",
+      "e62dbf90cbd7105b8d1eb2e8318d14388c769e20153b5f8bc0e469ed94785ddb"
+    ]
+  ],
+  "migration_sha256": "e5b41167b6cd3f5dc1561eb78757578323d01cc0693a43f400e9f8448cf75e44",
+  "scanner_predecessor_sha256": "aaf9e9f058c3372281ecd078c864109917890fb80ac9ad0e0148c68b07459348",
+  "scanner_final_sha256": "e6215b96adf3cdf504c7c3b3070986407329806a172259518bebaa0a7ac32e4c"
+}

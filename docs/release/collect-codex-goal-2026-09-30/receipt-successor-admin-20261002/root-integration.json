@@ -1,0 +1,142 @@
+{
+  "promoted_at": "2026-10-01T23:33:37.623718+00:00",
+  "status": "canonical_local_integration_accepted",
+  "files": {
+    "lib/admin/core/admin_receipt_successor_checkpoint.dart": {
+      "sha256": "3ab0bf747354349d1b2ff375994599fc5153b0a8750a8b7e994f2c1614648762",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_checkpoint.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart": {
+      "sha256": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_checkpoint_stub.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_checkpoint_web.dart": {
+      "sha256": "2aa002583e641648c5cddf7ecc116357f1c51ff6a898475cccfcfc8f74d653f3",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_checkpoint_web.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_controller.dart": {
+      "sha256": "6de89f2b119571b8e3e2b5616ad7b3036759101f4930813160e169fee660e449",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_controller.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_host.dart": {
+      "sha256": "2fec6b4fd5ad68ca1d9f6632ee12e661da5abc14f9c5924cf497f0eb15cadd4d",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_host.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_models.dart": {
+      "sha256": "fa80e93d179436d21244006268ad7affb2cec2e97a6d5cc9b2991c23d26880c3",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_models.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_sdk.dart": {
+      "sha256": "1302dacf889572a87d89aed0090b7cfd3ac733f4a4da71e54c243e6e63079c28",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_sdk.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_receipt_successor_view.dart": {
+      "sha256": "9d606f780d28cd3c43dc9010765e79f2ec9b9e99aff8fae5c734b9b0340f793d",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/lib/admin/core/admin_receipt_successor_view.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_checkpoint_browser_test.dart": {
+      "sha256": "c03ea538e86c8ca3a4611b5c0476b01b887e820608dcd3b649cec793b0b1349d",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/admin_receipt_successor_checkpoint_browser_test.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_host_test.dart": {
+      "sha256": "f4756e0a6f58764f5c47640ae172c7d80b6127afc9d986b951da029763f12fdc",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/admin_receipt_successor_host_test.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_models_test.dart": {
+      "sha256": "4fb1f2789f5ffe19af6eb25657a03cc78da465067316d492afbebaacb8675767",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/admin_receipt_successor_models_test.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_sdk_controller_test.dart": {
+      "sha256": "b8ee85291f6b14e86ac8b3ad66f63f5e2dedc4f4d720e586b0e1327b3856acdf",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/admin_receipt_successor_sdk_controller_test.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_view_test.dart": {
+      "sha256": "ab8fa319c8cb6777e48a6d91ff90e5fa77698c21c77404fb0425fb9e04455d78",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/admin_receipt_successor_view_test.dart",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_approval_read.json": {
+      "sha256": "0e55010a15c4945f91e9ccecb3846bbc2819551ed717b4e969c5f5c55e89abcd",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_approval_read.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_approval_receipt.json": {
+      "sha256": "f08dd44240ffaaac751a774fac7bf125eaab1eca027c7951f4a552022db1e2fa",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_approval_receipt.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_closure_inspection.json": {
+      "sha256": "9c6f62efbb90329302eff5132a98c1467f56d87b4d8730b0855e46e8a3772c0a",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_closure_inspection.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_closure_receipt.json": {
+      "sha256": "73e059edf6d9aa618ecf525cccb10b4a9082b4848b53def95b558ad9abb8b1a4",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_closure_receipt.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_lineage_pages.json": {
+      "sha256": "026d1f128952b147468604dc29aa41e3b5d7f4effe83b49ff19fd706121d384f",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_lineage_pages.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_retry_preview.json": {
+      "sha256": "1bbb8b84334ae689d9d9b8d8e4068fde0ee6a9d14b606d38077023b336611f5b",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_retry_preview.json",
+      "old_sha256": null
+    },
+    "test/fixtures/successor_revocation_receipt.json": {
+      "sha256": "1fb9884d55cfe22ff2acfe4531cfd02e8c9db455562fcdbe24c1c30cb66fc428",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/fixtures/successor_revocation_receipt.json",
+      "old_sha256": null
+    },
+    "test/support/successor_fixture.dart": {
+      "sha256": "1c6da1bc800030f25eb80fd09b0fa274859e616f7b186f04075b1c1da95d041d",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-admin-current1/source/test/support/successor_fixture.dart",
+      "old_sha256": null
+    },
+    "test/admin_receipt_successor_integration_test.dart": {
+      "sha256": "cfff4c6cd4a88deef1aaaf6d4f512229561fff9ff0b7e1ea6084e14e12efbf59",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-root-integration-20261002/source/test/admin_receipt_successor_integration_test.dart",
+      "old_sha256": null
+    },
+    "lib/admin/core/admin_investigation_view.dart": {
+      "sha256": "cad59f5d940b4ec7d75ea7c77666bb5248c94904e4793181db88f351a27ad255",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-root-integration-20261002/source/lib/admin/core/admin_investigation_view.dart",
+      "old_sha256": "31c06dc7df0ec4a2758e29cb2b7318a3c86d876113497803eb3a69f347805f8b"
+    }
+  },
+  "current_combined_cases": 47,
+  "cases_composition": {
+    "new_successor_VM": 21,
+    "new_actual_investigation_hook": 7,
+    "retained_investigation": 19
+  },
+  "runtime_members": 703,
+  "canonical_bindings_before": 674,
+  "all_selected_inputs_unchanged": true,
+  "combined_result_sha256": "b9c8e70ec523d565f858cf2478e4da1a52bdc4dc6a6cbd9d78bdf34014ad8d58",
+  "analysis_items": 16,
+  "analysis_result_sha256": "3932ae763855bf8adb0605777f75841ecf7e44af52ef5c09326d288c436d7fef",
+  "reusable_Chrome_checkpoint_cases": 2,
+  "browser_scope": "unchanged7-file checkpoint graph and exact1464 dependency vector; no application browser-route claim",
+  "hosted": false,
+  "device": false,
+  "live_send": false,
+  "release_accepted": false,
+  "required_authority_result_sha256": "8f226f07e29b69f2be379998f6cef4e5d2dc7c733a9406bc01248c708c86b818",
+  "final_readback_at": "2026-10-01T23:37:59.682969+00:00",
+  "canonical_readback": true
+}

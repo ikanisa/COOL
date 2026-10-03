@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "bytes": 1267,
+      "path": "README.md",
+      "sha256": "41f552c77f1995e5efc7438f654549a66d9210b68c1885332808ef3bcf79d8ca"
+    },
+    {
+      "bytes": 2211,
+      "path": "actual-Git-CLI-readback.json",
+      "sha256": "433208eb59832a20457deeea815f52e66adeafa1d07e55185c3ddb75542db409"
+    },
+    {
+      "bytes": 1876,
+      "path": "helper.diff",
+      "sha256": "4f97f00c7c302720ff11844e403b6a0910cbd754e6c3b30706638c62dfd2cb14"
+    },
+    {
+      "bytes": 7029,
+      "path": "observation.json",
+      "sha256": "79c1432ec4021285b0ffb50fea2d911ba79abcf591ada537dd43f6e1327ac1f8"
+    },
+    {
+      "bytes": 11044,
+      "path": "preserve_exact_caches.py",
+      "sha256": "1f4d96d011bc79037e40a5fa82798910b9005999e104a04ae481ff4b8facb827"
+    },
+    {
+      "bytes": 8797,
+      "path": "root-plan.json",
+      "sha256": "1fd243673534a9b0f494229761b526f2fefea3fbc06840cbb66c9e7c7eb8a17f"
+    }
+  ],
+  "kind": "private_preparation_packet"
+}

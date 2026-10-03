@@ -1,0 +1,1061 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "started_utc": "2026-09-30T21:57:53.286488+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group": 87091,
+      "parent_exit_confirmed": true,
+      "termination_errors": [],
+      "seconds": 0.936,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--dart-define=ROSTER_FRESH_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/actual-sql149.stdout",
+        "test/core/browser_auth_memory_test.dart",
+        "test/core/supabase_session_persistence_test.dart",
+        "test/admin_roster_fresh_auth_test.dart",
+        "test/admin_roster_calendar_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "test/admin_roster_transport_test.dart",
+        "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+        "test/admin_roster_authority_scope_test.dart",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/tests.machine.jsonl"
+      ],
+      "started_utc": "2026-09-30T21:57:54.223556+00:00",
+      "exit_code": 1,
+      "timed_out": false,
+      "owned_process_group": 87126,
+      "parent_exit_confirmed": true,
+      "termination_errors": [],
+      "seconds": 154.703,
+      "stdout_sha256": "e62844d8aef3e43b5bdd3f7edba31dff4bdae6bea1472767ba380b7e1f4cdae7",
+      "stderr_sha256": "7f87d9df29e4c5b6afc8027ce0c38ec931cbf084bb034b3f67e16129b06ca3a6"
+    }
+  ],
+  "test_count": null,
+  "immutable_export_unchanged": true,
+  "sdk_libraries_unchanged": true,
+  "live_source_unchanged": false,
+  "live_source_drift": [
+    "lib/admin/core/admin_evidence_mode.dart",
+    "lib/gateway/gateway_app.dart",
+    "lib/gateway/gateway_platform.dart",
+    "test/gateway/gateway_safety_test.dart"
+  ],
+  "inputs_sha256": "02d455e9b60712376faa3b469301995ebf35a50fcfa145a0aa9d270187885e2f",
+  "export_source_count": 6146,
+  "browser_report_sha256": null,
+  "actual_sql149_receipt_input": {
+    "source_stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/uat149-installed-rollback-attempt3-exact-ack/stdout",
+    "stdout_sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+    "result_sha256": "f8d0f7b27d684412e945d9ccdb0adb6ec5252c4efacb948da86e4672633e293e",
+    "sql_executed_here": false
+  },
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 158,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 2,
+    "named_results": [
+      {
+        "name": "web memory and native durable options are explicitly distinct",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/core/browser_auth_memory_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "departed session shape contains references only",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/core/browser_auth_memory_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same-session refresh matches departure without sharing new credentials",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/core/browser_auth_memory_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "untrusted foreign malformed or expired input cannot clear a session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/core/browser_auth_memory_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "mobile auth uses renewable persisted sessions",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/core/supabase_session_persistence_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lookup/inspection are read-only and transfer requires explicit affirmation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "explicit recovery preserves upload proof and resets approval, with references-only bookmark",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "response loss only permits status read, never implicit transfer retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing transfer status cannot adopt or issue a second write",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "malformed missing transfer acknowledgements retain pending state without retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "Auth invalidation clears inspected private rows and prevents late adoption",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lineage corruption cannot masquerade as an original upload or recovered source",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-09-31T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-02-30T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2025-02-29T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T24:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:60:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:60Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+24:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+02:60",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00.1234567Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 0000-10-01T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 0001-01-01T00:00:00+01:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster receipt rejects normalized or unsafe expiry 9999-12-31T23:00:00-01:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2026-10-01T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2026-10-01T14:00:00+02:00",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 2024-02-29T12:00:00.123456Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 0001-01-01T00:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster valid expiry retains its actual instant 9999-12-31T23:59:59.999999Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-09-31T12:00:00Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:00.0000001Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:01Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: 2026-10-01 12:00:00.000Z",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "invalid/mismatched staged expiry cannot execute review: null",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "equivalent zoned staged expiry accepts exact request ACK",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_calendar_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SQL deterministic and AI status receipts bind their source, revision and commit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": true
+      },
+      {
+        "name": "lost commit is recovered from matching server receipt without a second write",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "a consumed import with another request receipt is terminal, never fallback success",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status import_id mismatch keeps uncertain commit locked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status state mismatch keeps uncertain commit locked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status expires_at mismatch keeps uncertain commit locked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status commit mismatch keeps uncertain commit locked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status error_code mismatch keeps uncertain commit locked",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "status cannot substitute source lineage or a mismatched commit acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session change during status recovery hides private state and suppresses acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_revision_limit stops review writes and checks status without replacing the pending request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_request_conflict stops review writes and checks status without replacing the pending request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_revision_superseded stops review writes and checks status without replacing the pending request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_actor_unavailable clears PII and prevents every further draft action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_session_required clears PII and prevents every further draft action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_feature_disabled clears PII and prevents every further draft action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "roster_import_unavailable clears PII and prevents every further draft action",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "upload request conflict never blindly repeats or changes its request ID",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real gateway status read pins refreshed same-session token and maps SQL denial safely",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real signed-in A to B to A session events invalidate an in-flight status read permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same-session refresh during upload succeeds and does not change the in-flight Authorization",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_extraction_timeout calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_extraction_refused calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_extraction_incomplete calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_provider_response_invalid calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_provider_response_too_large calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal roster_extraction_unavailable calls for explicit new upload, keeps old draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "uploads preserve original CSV/TXT/AI bytes and distinguish pasted text",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "XLSX transmits workbook bytes and separately identified TSV after preflight",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe filename is bounded without dropping the extension",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "AI edits retain initial source, model and confidence through a parent-linked review",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lost upload response retries identical request and bytes without rereading source",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lost review response freezes payload and retries same parent/request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "create uncertain commit preserves exact reference payload and stable request; rejects null success",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "existing uncertain commit preserves exact reference payload and stable request; rejects null success",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK request_id mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK import_id mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK revision_id mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK reviewed_rows_sha256 mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK collection_id mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK roster_count mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK mode mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK ok mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK share_code_ready mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects commit ACK replayed mismatch and retains retry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance source_receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance source_sha256",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance source_kind",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance row_count",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance can_submit",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "rejects invalid initial provenance normalized_rows",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "review cannot replace immutable source/consent/extraction receipt",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "account change during file read prevents any upload and clears all draft data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session change during prepare suppresses stale response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session change during review suppresses stale response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session change during commit suppresses stale response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "local row errors are actionable without creating a frozen review request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "definitive rejected review requires explicit discard; preserves source and allocates a new request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "acknowledged human revision that is no longer committable remains visible and disabled",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real gateway pins the refreshed dispatch token and rejects a new same-user session response",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_import_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark serialized schema contains only references/digests; no private values",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "reload is read-only until explicit recovery; saved editor values restored without affirmation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "reload without saved editor draft restores acknowledged rows and warns about unsaved edits",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "staged commit recovered after response loss requires fresh human affirmation; no automatic writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "lost successful commit acknowledgement recovered with exact matching request and no write",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "staged review recovery executes same immutable request only on explicit review",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "missing source cannot reconstruct unsent bytes and never starts extraction",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery awaiting_preview never opens editor or repeats extraction",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery failed never opens editor or repeats extraction",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "recovery expired never opens editor or repeats extraction",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "different owner digest rejects browser reference and does not call server",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "session invalidation clears reference and private values permanently through A B A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "revocation during recovery clears reference, result and private editor values",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "storage failure is redacted and does not claim reload durability",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "stale bookmark source digest is rejected without a write",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "incorrect stage ACK must not execute or show review success",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "exact UTF8 serialization hash and bounds reject tampered draft payload",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "bookmark rejects private extra fields, malformed IDs, unmatched pending digest",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unknown saved editor ACK retries the same checkpoint and exact immutable bytes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "checkpoint conflict retains unsaved values until explicit recovery adopts latest server draft",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual rollback SQL144 receipts decode staged and completed recovery exactly",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_reload_test.dart",
+        "result": "success",
+        "skipped": true
+      },
+      {
+        "name": "feature revocation hides private rows and shows actionable close state",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "terminal review limit disables retry and requires an explicit saved status check",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "page26 edits persist on return and commit requires saved review plus all-pages affirmation",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "existing group retry requires status check and retains exact payload after null ACK",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "account/session invalidation immediately hides source, rows and text while extraction waits",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "AI source confidence remains visible after saving human edits",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "keyboard traversal and Escape keep the explicit-discard draft recoverable",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "320px and 2x text retain reachable fields, errors, review and discard actions",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway rejects malformed or unbounded expiry future",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway rejects malformed or unbounded expiry true",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway rejects malformed or unbounded expiry -1",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway rejects malformed or unbounded expiry 9007199254740991",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "gateway rejects SDK expiry even when JWT expiry is later",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "real expiry timer invalidates draft lease without an Auth event and never revives",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "genuine Auth invalidation denies gateway and request scope permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "broadcast Auth invalidation denies gateway and request scope permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "error Auth invalidation denies gateway and request scope permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "done Auth invalidation denies gateway and request scope permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "expired Auth invalidation denies gateway and request scope permanently",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "mismatched userInitiated signedOut cannot preserve a current request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "controller changes generation after A-B-A and fresh SID, preserving sticky old fences",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry prepare pins token and suppresses same-owner A-B-A late acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry review pins token and suppresses same-owner A-B-A late acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry commit pins token and suppresses same-owner A-B-A late acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry read pins token and suppresses same-owner A-B-A late acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry recovery pins token and suppresses same-owner A-B-A late acknowledgement",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry same-SID refresh while live preserves pinned request and updates later dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry actual awaited response error=false after expiry is suppressed",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry actual awaited response error=true after expiry is suppressed",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK dispatch and awaited expiry dispose is idempotent and denies further dispatch",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_gateway_expiry_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_review_roster_import network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_review_roster_import 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_commit_roster_import network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_commit_roster_import 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_stage_roster_import_intent network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_stage_roster_import_intent 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_execute_roster_import_intent network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_execute_roster_import_intent 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_save_roster_import_draft network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_save_roster_import_draft 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_transfer_interrupted_roster_import network sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual SDK admin_transfer_interrupted_roster_import 503 sends one POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_transport_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "actual149 fresh recovery receipts agree with every client decoder",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_fresh_auth_sql_receipts_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/auth-export-attempt12-current-calendar/source-export/test/admin_roster_authority_scope_test.dart",
+        "source": null,
+        "result": "error",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "database_calls": 0,
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "normal_admin_recovery_browser_verified": false,
+  "normal_admin_browser_report_sha256": null,
+  "normal_admin_web_inputs": null,
+  "normal_admin_web_unchanged": false,
+  "actual_sql149_receipts_verified": false,
+  "whole_L01_complete": false,
+  "scope": "Copied current roster/Auth Dart tests, real vendored SDK Chrome privacy fixture and production Supabase initialization/actual Admin dialog against SQL149-shaped loopback transport"
+}

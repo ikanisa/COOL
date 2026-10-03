@@ -1,0 +1,13 @@
+{
+  "actual_tests": 39,
+  "errors": [],
+  "finished_utc": "2026-10-02T10:24:39.120678+00:00",
+  "macOS_failures_resolved": false,
+  "owned_container_removed_and_absent": true,
+  "owned_id": "df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f",
+  "production_release_approval": false,
+  "shipping_adapter_acceptance": false,
+  "source_and_runtime_before_after_unchanged": true,
+  "status": "pass",
+  "whole_seconds": 48.790148084000975
+}

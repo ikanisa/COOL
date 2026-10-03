@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/undeclared_table/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "f46675f9f3ac02e3c4bf63403f9b985d35ed29b42d3605ee0de2d25f48944c59",
+  "executed_sql_sha256": "dc9adc511ea7a5d7c07a67148385ba976d9e5848873d6bbe46c8d2a365911f3b",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 150,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930180000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/local-database-runtime-2026-09-30/staged151-precommit-guards-attempt1/undeclared_table/guard-probe-source.sql",
+  "reviewed_source_sha256": "23cc9e82907a1145576e70f4d08731c3db1391d40714afcfb9017bb35b145ecd",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 3,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T20:41:02.567748+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

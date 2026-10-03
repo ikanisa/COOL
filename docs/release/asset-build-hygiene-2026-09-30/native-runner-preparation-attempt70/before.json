@@ -1,0 +1,11 @@
+{
+  "kind": "unlaunched_runner_readiness_preservation",
+  "sha256": {
+    ".cache/run-native-android-attempt53.py": "29799f86c9083329e8b0e28bdd840594db62e873e21fbf0a5b96645055e8cd86",
+    ".cache/run-native-gateway-attempt63.py": "f46651f02362a0b6a9ed9e1be2f46ecac423875ad3705de2b7de7c141ebb9d3d",
+    ".cache/run-native-ios-attempt52.py": "f953bfb74004879d9a7a4d53f8e5917ce8da83715f647b0d8449a81d5b8371f2",
+    ".cache/verify-native-ios-attempt52.py": "45ab9eab4c2dc9c4490d33f215da797a9a25c80d7ba4bf2f719c4b9b9c02e1b5",
+    ".cache/run-observed-native-attempt65.py": "9aaffc2bf5cb158f8188f5a8ac42dfc5e1b04f00bcbe5cc2286a80cb5d0d3830"
+  },
+  "scope": "Prepared local runner source only; no application/native sources or historical acceptance mutated; no native build launched"
+}

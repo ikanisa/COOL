@@ -1,0 +1,19 @@
+{
+  "other_cached_R8_providers_exhaustively_searched": false,
+  "rows": [
+    {
+      "entries": 7906,
+      "hits": [
+        "com/android/tools/r8/Version.class",
+        "r8-version.properties"
+      ],
+      "jar": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder/9.0.1/b841690e7e6560a46305d0d14ca0fc8296ecc029/builder-9.0.1.jar"
+    },
+    {
+      "entries": 6978,
+      "hits": [],
+      "jar": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.0.1/deed1c3dbd07acda9c98008cffe1fa8c03348fcd/gradle-9.0.1.jar"
+    }
+  ],
+  "scope": "exact cached builder and gradle modules at AGP9.0.1 only"
+}

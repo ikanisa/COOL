@@ -1,0 +1,5 @@
+WARNING:  no privileges were granted for "pg_temp_98"
+ERROR:  149 assertion failed:main:transfer-has-exact-reference-envelope
+CONTEXT:  PL/pgSQL function pg_temp_98.assert149(text,boolean) line 2 at RAISE
+SQL statement "SELECT pg_temp.assert149('main:transfer-has-exact-reference-envelope',(select count(*) from jsonb_object_keys(f.ack))=17)"
+PL/pgSQL function inline_code_block line 4 at PERFORM

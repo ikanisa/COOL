@@ -1,0 +1,29 @@
+{
+  "archive-client.js": {
+    "bytes": 230956,
+    "fetched_utc": "2026-10-01T23:44:55.444189+00:00",
+    "final_url": "https://docs.flutter.dev/main.client.dart.js",
+    "http_status": 200,
+    "retained_file": "archive-client.js",
+    "sha256": "5f39a2d6cf3b04440ac778aba2346adda68a1c407339ac103b21d0bd094f04fa",
+    "url": "https://docs.flutter.dev/main.client.dart.js"
+  },
+  "cloud-storage-object-get.html": {
+    "bytes": 196817,
+    "fetched_utc": "2026-10-01T23:44:55.444378+00:00",
+    "final_url": "https://docs.cloud.google.com/storage/docs/json_api/v1/objects/get",
+    "http_status": 200,
+    "retained_file": "cloud-storage-object-get.html",
+    "sha256": "0ecd3119b104546cb21710591b903c8296dbb4c1a47d53f6a2b52df70c6f3d70",
+    "url": "https://cloud.google.com/storage/docs/json_api/v1/objects/get"
+  },
+  "flutter_cache.dart": {
+    "bytes": 31470,
+    "fetched_utc": "2026-10-01T23:44:55.443481+00:00",
+    "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/flutter_cache.dart",
+    "http_status": 200,
+    "retained_file": "flutter_cache.dart",
+    "sha256": "a0eb7d8ba0457cd6a00e2c6f922f8baaf73ba6caf96a875767f080ab92a4ee64",
+    "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/flutter_cache.dart"
+  }
+}

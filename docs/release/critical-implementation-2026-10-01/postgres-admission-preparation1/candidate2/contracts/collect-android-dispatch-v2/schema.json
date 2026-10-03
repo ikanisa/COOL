@@ -1,0 +1,1207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:collect:android-dispatch:v2",
+  "title": "Collect Android automatic dispatch v2 structural contract",
+  "description": "Strict JSON structure for published v2 request/response envelopes, payloads, results and redacted owner reads. CONTRACT.md and SQL/Edge/native validators remain authoritative for signatures, exact-byte parsing, current policy, contextual bindings and lease validation. A schema-valid value alone never authorizes dispatch.",
+  "$comment": "STRUCTURAL ONLY: enable format assertions. JSON Schema cannot establish exact signed UTF-8 <=8192 bytes, duplicate-key rejection, Unicode scalar validity, P-256 identity/revocation, actual SHA256, request/device/result equality, callback-ID distinctness/contiguity, count cross-field relationships, current policy/run/source/consent/SIM/health/quota, lease ordering/freshness/30s/run/health/midnight bounds, saved-journal fsync or one invocation. These remain CONTRACT.md and runtime validator responsibilities. Definitions can be validated independently via #/$defs/name. Reconciliation follows persisted actions from CONTRACT.md, narrower than the existing validators compatibility acceptance of attempt_status.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/request_envelope"
+    },
+    {
+      "$ref": "#/$defs/response_envelope"
+    },
+    {
+      "$ref": "#/$defs/owner_receipt_read"
+    }
+  ],
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "minLength": 36,
+      "maxLength": 36,
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 27,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z$",
+      "format": "date-time",
+      "$comment": "Consumers must enable date-time format assertions. Freshness and comparisons are runtime checks."
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000000
+    },
+    "segment_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "observation_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "dispatch_grant_payload": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "additionalProperties": false
+    },
+    "callback_plan_item": {
+      "type": "object",
+      "required": [
+        "segment_index",
+        "sent_callback_id",
+        "delivery_callback_id"
+      ],
+      "properties": {
+        "segment_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "sent_callback_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "delivery_callback_id": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "arm_dispatch_payload": {
+      "type": "object",
+      "required": [
+        "attempt_id",
+        "fence_version",
+        "body_sha256",
+        "destination_sha256",
+        "reservation_sha256",
+        "callbacks"
+      ],
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "body_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "destination_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "reservation_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "callbacks": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/callback_plan_item"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "Validators enforce contiguous zero-based indices, globally distinct callback UUIDs (case-insensitive), exclusion of request/attempt UUIDs, exact grant/body/contact/segment binding and saved reservation digest."
+    },
+    "callback_payload": {
+      "type": "object",
+      "required": [
+        "callback_id",
+        "attempt_id",
+        "fence_version",
+        "segment_index",
+        "segment_count",
+        "body_sha256",
+        "destination_sha256",
+        "callback_kind",
+        "result_code",
+        "tp_status",
+        "occurred_at"
+      ],
+      "properties": {
+        "callback_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "segment_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "segment_count": {
+          "$ref": "#/$defs/segment_count"
+        },
+        "body_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "destination_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "callback_kind": {
+          "enum": [
+            "sent",
+            "delivery"
+          ]
+        },
+        "result_code": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 200
+        },
+        "tp_status": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          ]
+        },
+        "occurred_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "Runtime validators enforce segment_index < segment_count, callback/request UUID inequality and exact original signed arm plan binding. Delivery fields remain raw observations."
+    },
+    "reconcile_payload": {
+      "type": "object",
+      "required": [
+        "target_request_id"
+      ],
+      "properties": {
+        "target_request_id": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "attempt_status_payload": {
+      "type": "object",
+      "required": [
+        "attempt_id",
+        "fence_version"
+      ],
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dispatch_grant_request": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "issued_at",
+        "payload"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "dispatch_grant"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "payload": {
+          "$ref": "#/$defs/dispatch_grant_payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "arm_dispatch_request": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "issued_at",
+        "payload"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "arm_dispatch"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "payload": {
+          "$ref": "#/$defs/arm_dispatch_payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "callback_request": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "issued_at",
+        "payload"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "callback"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "payload": {
+          "$ref": "#/$defs/callback_payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconcile_request": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "issued_at",
+        "payload"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "reconcile"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "payload": {
+          "$ref": "#/$defs/reconcile_payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "attempt_status_request": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "issued_at",
+        "payload"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "attempt_status"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "payload": {
+          "$ref": "#/$defs/attempt_status_payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "request_envelope": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/dispatch_grant_request"
+        },
+        {
+          "$ref": "#/$defs/arm_dispatch_request"
+        },
+        {
+          "$ref": "#/$defs/callback_request"
+        },
+        {
+          "$ref": "#/$defs/reconcile_request"
+        },
+        {
+          "$ref": "#/$defs/attempt_status_request"
+        }
+      ]
+    },
+    "dispatch_refusal": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code",
+        "device_id",
+        "request_id",
+        "replay"
+      ],
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "code": {
+          "enum": [
+            "OPERATIONS_PAUSED",
+            "NO_CURRENT_RUN",
+            "DEVICE_NOT_READY",
+            "NO_ELIGIBLE_RECEIPT",
+            "QUOTA_EXHAUSTED",
+            "ORIGINAL_REQUEST_RECORDED"
+          ]
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "replay": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "original_request_recorded_refusal": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code",
+        "device_id",
+        "request_id",
+        "replay"
+      ],
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "code": {
+          "const": "ORIGINAL_REQUEST_RECORDED"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "replay": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "dispatch_granted": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code",
+        "device_id",
+        "request_id",
+        "attempt_id",
+        "receipt_id",
+        "run_id",
+        "fence_version",
+        "policy_revision",
+        "issued_at",
+        "expires_at",
+        "segment_count",
+        "body",
+        "destination_e164",
+        "body_sha256",
+        "destination_sha256",
+        "sim_revision_sha256",
+        "replay"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "code": {
+          "const": "DISPATCH_GRANTED"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "run_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "policy_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "segment_count": {
+          "$ref": "#/$defs/segment_count"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "destination_e164": {
+          "type": "string",
+          "minLength": 13,
+          "maxLength": 13,
+          "pattern": "^\\+2507[2389][0-9]{7}$"
+        },
+        "body_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "destination_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sim_revision_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "replay": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "Initial committed response only. Runtime validates actual UTF-8 body <=4000 bytes, SHA256 digests, fresh expiry <=issued_at+30s and bounded by run/health/next UTC midnight; schema grants no dispatch authority."
+    },
+    "dispatch_grant_result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/dispatch_granted"
+        },
+        {
+          "$ref": "#/$defs/dispatch_refusal"
+        }
+      ]
+    },
+    "dispatch_armed": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code",
+        "device_id",
+        "request_id",
+        "attempt_id",
+        "fence_version",
+        "reservation_sha256",
+        "armed_at",
+        "expires_at",
+        "replay",
+        "carrier_proof"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "code": {
+          "const": "DISPATCH_ARMED"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "reservation_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "armed_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "replay": {
+          "const": false
+        },
+        "carrier_proof": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "Runtime binds original ACK to signed request, saved attempt/fence/reservation and original grant expiry; expiry must be fresh, >armed_at and <=armed_at+30s. Lost/replayed/looked-up success cannot authorize invocation."
+    },
+    "arm_dispatch_result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/dispatch_armed"
+        },
+        {
+          "$ref": "#/$defs/dispatch_refusal"
+        }
+      ]
+    },
+    "callback_result": {
+      "type": "object",
+      "required": [
+        "callback_id",
+        "recorded_at",
+        "replay",
+        "carrier_proof",
+        "state",
+        "sent_observations",
+        "delivery_observations",
+        "conflicting_observations"
+      ],
+      "properties": {
+        "callback_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "replay": {
+          "type": "boolean"
+        },
+        "carrier_proof": {
+          "const": false
+        },
+        "state": {
+          "enum": [
+            "send_started",
+            "observed_sent",
+            "uncertain"
+          ]
+        },
+        "sent_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "delivery_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "conflicting_observations": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "observed_sent"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conflicting_observations": {
+                "const": false
+              },
+              "sent_observations": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            }
+          }
+        }
+      ],
+      "$comment": "Counts are also bounded by the request segment_count at runtime. observed_sent requires every planned sent segment to have consistent RESULT_OK=-1; this is framework evidence, not carrier delivery proof."
+    },
+    "attempt_status_result": {
+      "type": "object",
+      "required": [
+        "attempt_id",
+        "fence_version",
+        "state",
+        "segment_count",
+        "armed_at",
+        "sent_observations",
+        "delivery_observations",
+        "conflicting_observations",
+        "terminal_archive_ack",
+        "carrier_proof"
+      ],
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "state": {
+          "enum": [
+            "granted",
+            "send_started",
+            "observed_sent",
+            "uncertain"
+          ]
+        },
+        "segment_count": {
+          "$ref": "#/$defs/segment_count"
+        },
+        "armed_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utc_timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sent_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "delivery_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "conflicting_observations": {
+          "type": "boolean"
+        },
+        "terminal_archive_ack": {
+          "const": false
+        },
+        "carrier_proof": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "observed_sent"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conflicting_observations": {
+                "const": false
+              },
+              "sent_observations": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "granted"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "armed_at": {
+                "const": null
+              }
+            }
+          }
+        }
+      ],
+      "$comment": "Runtime additionally enforces counts<=segment_count and observed_sent sent_observations===segment_count. Status grants no invocation or compaction authority."
+    },
+    "reconcile_unknown": {
+      "type": "object",
+      "required": [
+        "target_request_id",
+        "outcome",
+        "recorded_action",
+        "recorded_result"
+      ],
+      "properties": {
+        "target_request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "outcome": {
+          "const": "unknown"
+        },
+        "recorded_action": {
+          "const": null
+        },
+        "recorded_result": {
+          "const": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconcile_recorded_authority": {
+      "type": "object",
+      "required": [
+        "target_request_id",
+        "outcome",
+        "recorded_action",
+        "recorded_result"
+      ],
+      "properties": {
+        "target_request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "outcome": {
+          "const": "recorded"
+        },
+        "recorded_action": {
+          "enum": [
+            "dispatch_grant",
+            "arm_dispatch"
+          ]
+        },
+        "recorded_result": {
+          "$ref": "#/$defs/original_request_recorded_refusal"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconcile_recorded_callback": {
+      "type": "object",
+      "required": [
+        "target_request_id",
+        "outcome",
+        "recorded_action",
+        "recorded_result"
+      ],
+      "properties": {
+        "target_request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "outcome": {
+          "const": "recorded"
+        },
+        "recorded_action": {
+          "const": "callback"
+        },
+        "recorded_result": {
+          "$ref": "#/$defs/callback_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconcile_result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/reconcile_unknown"
+        },
+        {
+          "$ref": "#/$defs/reconcile_recorded_authority"
+        },
+        {
+          "$ref": "#/$defs/reconcile_recorded_callback"
+        }
+      ],
+      "$comment": "Only persisted dispatch_grant, arm_dispatch and callback actions are published. attempt_status is a read, not a persisted request. Grant/arm lookup returns redacted ORIGINAL_REQUEST_RECORDED refusal only; no recovered body or permit."
+    },
+    "dispatch_grant_response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "result"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "dispatch_grant"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "result": {
+          "$ref": "#/$defs/dispatch_grant_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "arm_dispatch_response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "result"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "arm_dispatch"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "result": {
+          "$ref": "#/$defs/arm_dispatch_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "callback_response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "result"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "callback"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "result": {
+          "$ref": "#/$defs/callback_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconcile_response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "result"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "reconcile"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "result": {
+          "$ref": "#/$defs/reconcile_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "attempt_status_response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "action",
+        "device_id",
+        "request_id",
+        "result"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "action": {
+          "const": "attempt_status"
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "result": {
+          "$ref": "#/$defs/attempt_status_result"
+        }
+      },
+      "additionalProperties": false
+    },
+    "response_envelope": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/dispatch_grant_response"
+        },
+        {
+          "$ref": "#/$defs/arm_dispatch_response"
+        },
+        {
+          "$ref": "#/$defs/callback_response"
+        },
+        {
+          "$ref": "#/$defs/reconcile_response"
+        },
+        {
+          "$ref": "#/$defs/attempt_status_response"
+        }
+      ]
+    },
+    "owner_automatic_attempt": {
+      "type": "object",
+      "required": [
+        "attempt_id",
+        "fence_version",
+        "state",
+        "segment_count",
+        "armed_at",
+        "sent_observations",
+        "delivery_observations",
+        "conflicting_observations",
+        "terminal_archive_ack",
+        "carrier_proof",
+        "device_id",
+        "run_id",
+        "policy_revision",
+        "issued_at",
+        "expires_at"
+      ],
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "fence_version": {
+          "$ref": "#/$defs/revision"
+        },
+        "state": {
+          "enum": [
+            "granted",
+            "send_started",
+            "observed_sent",
+            "uncertain"
+          ]
+        },
+        "segment_count": {
+          "$ref": "#/$defs/segment_count"
+        },
+        "armed_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utc_timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sent_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "delivery_observations": {
+          "$ref": "#/$defs/observation_count"
+        },
+        "conflicting_observations": {
+          "type": "boolean"
+        },
+        "terminal_archive_ack": {
+          "const": false
+        },
+        "carrier_proof": {
+          "const": false
+        },
+        "device_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "run_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "policy_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "observed_sent"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conflicting_observations": {
+                "const": false
+              },
+              "sent_observations": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "granted"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "armed_at": {
+                "const": null
+              }
+            }
+          }
+        }
+      ],
+      "$comment": "Redacted verified-owner read; no body/contact/callback plan/SPKI/reservation hash/private request digest. Runtime enforces current owner and positive Rwanda scope."
+    },
+    "owner_receipt_read": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "receipt_id",
+        "checked_at",
+        "sample_valid_until",
+        "automatic_attempt"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 2
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "checked_at": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "sample_valid_until": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "automatic_attempt": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/owner_automatic_attempt"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "Runtime enforces current authority and sample_valid_until===checked_at+60s; this read grants no dispatch or terminal archive authority."
+    }
+  }
+}

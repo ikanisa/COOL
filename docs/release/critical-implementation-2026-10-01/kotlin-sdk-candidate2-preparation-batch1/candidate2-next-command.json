@@ -1,0 +1,63 @@
+{
+  "all14_sdk_test_classes": [
+    "packages/flutter_tools/gradle/src/test/kotlin/AppLinkSettingsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/BaseApplicationNameHandlerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterExtensionTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/IntentFilterCheckTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionFetcherTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionUtilsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/plugins/PluginHandlerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/BaseFlutterTaskHelperTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/DeepLinkJsonFromManifestTaskTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/FlutterTaskHelperTest.kt"
+  ],
+  "argv": [
+    "bash",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle",
+    "--no-daemon",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-I",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/observe-candidate2-runtime.init.gradle",
+    "--rerun-tasks",
+    "compileKotlin",
+    "compileTestKotlin",
+    "validatePlugins",
+    "test",
+    "jar",
+    "collectSdkRuntimeGraph"
+  ],
+  "candidate1_recipe_sha256": "a1caea5efe1886f2740e76c61b85e8dbec6a895ee60243aeddbaee7ba011176d",
+  "candidate_promotion": false,
+  "cwd": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle",
+  "environment": {
+    "GRADLE_USER_HOME": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+  },
+  "explicit_local_refinements": [
+    "NEW reviewed observer instead of prior observer, plus real compiler/runtime graph task.",
+    "Compiler in-process to avoid an unrelated persistent Kotlin daemon cache/process.",
+    "Disable configuration cache to require fresh observation."
+  ],
+  "fixed_actual_process_timeout_seconds": 2700,
+  "frozen_original_plan_sha256": "782b53f5459cc8e5547d6d6f72a1c25a2870159c6bdbd62467f4f7852c41e20e",
+  "needed_remaining_publisher_checks": [
+    "Exact critical/cache/artifact origin fingerprints retained; actual candidate2 class/graphs must still match.",
+    "Runtime mixed1.7.10/2.4.20/reflect1.6.10 +embeddedKotlin warning/transitive/ABI acceptance remains separate."
+  ],
+  "no_dependency_source_version_or_repository_override": true,
+  "no_sdk_bootstrap_script_dart_pub_or_app_build_execution_yet": true,
+  "production_release_approval": false,
+  "routine_location_delta": "Exact newcandidate2 project/cwd and observer path; same owned Gradlehome. No other argv/task/environment/version changes.",
+  "source_scope": "Cumulative exact reviewed8-file deltas; candidate1 remains untouched.",
+  "status": "PREPARED_FOR_ROOT_REVIEW__NOT_EXECUTED"
+}

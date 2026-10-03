@@ -1,0 +1,1967 @@
+{
+  "rows": [
+    {
+      "bytes": 2627,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/canonical-source-association.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "70ad6004e69f13d6bc5c4ff3c6ef1e95460cb390ac2365918dd5e7ea8a215cc0"
+    },
+    {
+      "bytes": 2738,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/review.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "6802de29fd3577d23b9f3417c345e8502c2e93c8c578d821d5209929876ca4ae"
+    },
+    {
+      "bytes": 1891,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/SEAL.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "2cc06138e510f731cd8b228d35ccbf2f1c8e6a68bb897d8e4e564205048f0d1f"
+    },
+    {
+      "bytes": 688702,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/FILES.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "21cc8799f872db9e19f359955e948bac18c63a1c7725b33fd2f1e09dbb7466fa"
+    },
+    {
+      "bytes": 3563,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/PROMOTION_MAP.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "d1841ec3b9c54cc613d10549f4dc01eb7a86d3901f8d498477d0be913924e149"
+    },
+    {
+      "bytes": 9693,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/HANDOFF.md",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "ac4289750221ca7f150b5cb80a18de6c1ff5b6529d13c5149df9d31cd1d1dfc8"
+    },
+    {
+      "bytes": 5983,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/integrate.py",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e0aade092545a6053bb39f70ba1a759c1647e76ca47e1f08efd65840b6f5a2ec"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/0.stderr",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/2.stderr",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 164,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/2.stdout",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "0e67da434b649f288bab4a1da2afc04774fae105dc348f1d5b6ab36301173579"
+    },
+    {
+      "bytes": 168,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/0.stdout",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "898a4887a044eb71d8aa86f42962990bf7e32b83acec1c32fb1bef8acfc6116d"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/1.stderr",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/3.stderr",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 167,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/3.stdout",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "d435e4980dfd4d34e5c5909e71f126a513a36c10d79bbf31d86c4ea2551bd2ac"
+    },
+    {
+      "bytes": 170,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/1.stdout",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "f8c4ceb730271e7345cbfef7cd38123f1c77e15f9d57bdc9d8ccdaf3f9bae9d0"
+    },
+    {
+      "bytes": 6286,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/scripts__tests__production_archive_restore.rb.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "676adf0f30ccfd9a3159e0e46e8bed6f24d235f513022d49a72cc9ddf88f76e9"
+    },
+    {
+      "bytes": 6230,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/scripts__tests__collect_worker_snapshot_test.rb.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "9529a11ea0c70ad6a4613b5a272afadb77fcb3890bc8daf71fb16f1dc0fab9fc"
+    },
+    {
+      "bytes": 8441,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/scripts__audits__collect_encrypted_database_backup.rb.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "4e89b83b468f0d6b0cd2adc94e3ea5debfbb32411bdd203e342a8d2fb76fbc7b"
+    },
+    {
+      "bytes": 1233,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/scripts__audits__collect_recovery_source.rb.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "9eb62517832963d592f2bc85db58acd690ea23046a4b0caf62fbcb94fdba6bab"
+    },
+    {
+      "bytes": 3896,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/docs__platform__CURRENT_CANDIDATE_RECOVERY.md.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "32a0f76890b4e3cba754267d9471a03ab0e91598fd0618ea067cc3c30a0c76bf"
+    },
+    {
+      "bytes": 28853,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/patches/scripts__audits__collect_receipt_worker_snapshot.rb.patch",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "bee31e64d4b451a9937dbc0fc8972ae89e0e3c12b200795145d53123d6b323c7"
+    },
+    {
+      "bytes": 144936,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/result.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "05f90efceff4da12bd77dc03671ede107e27b8e86ae3e2cd43985ec561a59f24"
+    },
+    {
+      "bytes": 83571,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/original-selected-source-vector.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "9146c2765739699af60d71a2b2ddd3db215fd79c37b8f70f5726c7cd11628577"
+    },
+    {
+      "bytes": 68496,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/driver-result.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "0556b55806d60ecf08ac21dd3057f7d4cc8eafdb177c8abb0cecd217a054f5c8"
+    },
+    {
+      "bytes": 728,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/selected205-vs-canonical207.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "38afe79e7baca8071aacf9fe83e904e66b326057566a9206f27b54fecc800751"
+    },
+    {
+      "bytes": 4557,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/attempts.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "f13196339de7d57328ff3ede2cfb07b231f5586a1551d707b23db91d13a15ccd"
+    },
+    {
+      "bytes": 2105,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/nine-originals-current.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "bbb48fd271b12698961fe99cd3a68ae085a72fcff02208531a8b017acc73a0ff"
+    },
+    {
+      "bytes": 2178,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/private-legacy-test-adapters.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "0b77265973142949ea0a7403034e086da2bd6ca6779fe5beb7713f0f691973e0"
+    },
+    {
+      "bytes": 3860,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/owned-targets-absent.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "a54ced94b036b1b7264a1ac4d74ea211163f9169911d98667bb36228f48e505a"
+    },
+    {
+      "bytes": 121848,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/accepted-source-tool-dependency-readback.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "afc44793c6fc03600ea29c30835e597889aa5f68afdd8510bf2f275e809c87e1"
+    },
+    {
+      "bytes": 3271,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/final-closure/syntax.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "e4635026c3a343aa8c25a2681d94d312d2328abc9d72815dab23a7a5de44ef37"
+    },
+    {
+      "bytes": 5860,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/unit-attempt2/result.json",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "19baf39b6c47705a5feddadfb9ffddc32a0f8971fd2aa74c64c7769e2cef9e0d"
+    },
+    {
+      "bytes": 8784,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/platform/CURRENT_CANDIDATE_RECOVERY.md",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "52f26823f6b3b7cafe67e44fc12bd25c62ab9a7e6997b335be630cbf8727a8ca"
+    },
+    {
+      "bytes": 28274,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_receipt_worker_snapshot.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    {
+      "bytes": 12441,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_recovery_source.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    {
+      "bytes": 19957,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_encrypted_database_backup.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    {
+      "bytes": 6050,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_worker_snapshot_test.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b"
+    },
+    {
+      "bytes": 24493,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    {
+      "bytes": 5451,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/originals/docs/platform/CURRENT_CANDIDATE_RECOVERY.md",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "f8531600e2fac860b9f44b4c44abcd168952ec51050c315159de2e56607760be"
+    },
+    {
+      "bytes": 12071,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/originals/scripts/audits/collect_recovery_source.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "4a6a0d7f80628781bf18e6b7aa00ced630943f3af612247126e0bf21c3c760cc"
+    },
+    {
+      "bytes": 16334,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/originals/scripts/audits/collect_encrypted_database_backup.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "563697906caeec76fe1da346cc6fac8b4bb0f1c54320c382c9262bec5c2ef742"
+    },
+    {
+      "bytes": 21500,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-root-integration-20261002/originals/scripts/tests/production_archive_restore.rb",
+      "scope": "retained original copied metadata/source/log association",
+      "sha256": "b4eb514956df738056479ed711b9e42a66e91d5d479ca01e9f68b0517a37c415"
+    },
+    {
+      "bytes": 10123,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_recovery_source_test.rb",
+      "scope": "unchanged canonical test bytes observed at capsule seal; actual root command association retained",
+      "sha256": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a"
+    },
+    {
+      "bytes": 1761,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_encrypted_database_backup_test.rb",
+      "scope": "unchanged canonical test bytes observed at capsule seal; actual root command association retained",
+      "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6"
+    },
+    {
+      "bytes": 4644,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore_test.rb",
+      "scope": "unchanged canonical test bytes observed at capsule seal; actual root command association retained",
+      "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a"
+    },
+    {
+      "bytes": 423,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "acf11ffb1078b4eaf6ca2df4e9ac58e96071857b9f921810b8587df42dbeac05"
+    },
+    {
+      "bytes": 72,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "5b0a3bf9b49a7562b3da626e403f5ce566e640d18e195ee1a1fecb8ccd2277f6"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0001.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1265,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "517bf9430d0bfbdea13c3f459104b315ac71bc6817ebfad82d2c5024a3c752ed"
+    },
+    {
+      "bytes": 65,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "ed336f616afc07077902e6c8b7f1222009240efd7f8b856707c86725d2e848ce"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0002.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 378,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "c55dd6e1ba9c54106ca8dc60937a5cc72ec3a399ba741725bac3406eb69f6a30"
+    },
+    {
+      "bytes": 746,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "51216b89ded60da4cefb0f149b25c81d6fde96a81270ef125cfec7d86f10f739"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0003.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 378,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "30c6cd00b9e61593454e06613294cf5f9e956c55631fcf24dcdbf363b61ab5f0"
+    },
+    {
+      "bytes": 1181,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "9b5c3771b9adf084a18fc6851137fe53d1d3eca6fad1d220a1adbbaf618beacb"
+    },
+    {
+      "bytes": 215,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0004.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "7de6bf66471df01568f905a7e72bcebf3c67f3a80f5aa491e738b5ca509a3196"
+    },
+    {
+      "bytes": 378,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "a3ab84dbe4fe0264450d8d2f627fedd7a248406b225894c595b9a89fe6cbc507"
+    },
+    {
+      "bytes": 8557,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "ab232eeb9cc34aba5babc6ee31a9cb6515f9db99c99bd4aa3a88a031ada79183"
+    },
+    {
+      "bytes": 1933,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0005.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "69f59d6126ea35d58fd0b3c79df4aa13e84dc4cdd34bd26883e34a84d46a67d7"
+    },
+    {
+      "bytes": 378,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "fe0326def7f9ff8f6c627b03574ee877f22f5397a4d1eddee0476c3e57694252"
+    },
+    {
+      "bytes": 13605,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "9736b3d278f2c0746e9f582676936703f1a289c1f339b5f0a94e959dbce39b63"
+    },
+    {
+      "bytes": 2406,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0006.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "fdfd0f2a815c4543a060bb4b2d4930391cda44e521cd7a0af86785d430dd40e0"
+    },
+    {
+      "bytes": 448,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "77d58d0051481b7d7030a6495633019b50014de70900e13bfb29d94c56ec350d"
+    },
+    {
+      "bytes": 45,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "2427579984ed6e8b4918f895553a561e753880ff77e3722a975cc18033488a50"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0007.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 425,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "99e3d8717f495938385dfaf6ef98ccce5d2372f517eb3bbd8ce0c4ed6828f450"
+    },
+    {
+      "bytes": 1548,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "8642edb5780d05ec7e2647174ac49085a9c7cedd3580120abbe53841676babf2"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0008.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 428,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "4cdef717b19f91cc80e4ef8df0531c59a2d2bd11de9547b30b652f78ab526c6c"
+    },
+    {
+      "bytes": 76,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "518b024677dee602f2f2fd084267c29779045ac63993575a5a919cc9602e9ef1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0009.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 601,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "cf7231da2969664ce245619d53600ccd5e13b7f542c333a4b8ae2f81aef81055"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0010.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "4f7ef17c77894a479a441d38e536fea888d36b55cb51bb63efd871360cdaaf9b"
+    },
+    {
+      "bytes": 60,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "aa7628dc5e02e98b0a04e3db70100596080ad5726f6dc87fffc5a0bb2c06c87a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0011.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "90aa4c7c39d84c6be0646cf2a5c98269a38077d6b72ab456d6905afde96e918a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0012.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 601,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "7c30d61018325958bb125798e21c7c78d0848a80a49e4165494ded28fac78e76"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0013.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 601,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "0947641e6139815eda37429c4d081aa5903600aa619cef5d9c75ce13ea0ea162"
+    },
+    {
+      "bytes": 10,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "00c2b09f25ac7c5daf7860b43dd0beb55234ad674852dcf65e0f7f246759787e"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0014.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 601,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "8735cc1eee4fefbd69abb533a681f5c03893e1e984dd3156ce11962e5ba86b50"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0015.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "1d0bda7290098c91ae9caec0a4c26dfb91dd2d06891af7c7370e89861e9db7ee"
+    },
+    {
+      "bytes": 2,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "fe8edeeb98cc6d3b93cf2d57000254b84bd9eba34b4df7ce4b87db8b937b7703"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0016.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "bd2fd2f0b804bdbb9e329393a56be7faa06d5fe85d7e8041c62b19c4c202e30e"
+    },
+    {
+      "bytes": 3149,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "83385a93bd9d6abd3663d099fd710f117e0615fd02681ec78bbcf74b537997a1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0017.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "2f15e22137a70d6d78f3de7228665a06080c163d2f74a6980d4d57708dd9348a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0018.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "a91c47dfb87c49b0e52a7361b89005145d7eebc79fd189938de670b3163bbbe1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0019.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "86cc53eaaa0db07c1bdfa9f9e967f4dd9f50f517688a7c12b821465401a61088"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0020.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "863c63d4595ca9592795a174435f5c50d20188b72fa159574b426dcbff88ef9d"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0021.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "8fdef6f76a2e2d03871f8c581b39ab6208dd76c5c5a69bad6b9872dc209a9213"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0022.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "492bc11840e438a9b6d4bcd4422670f86f9a410af9329497e1b92b64e66b5757"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0023.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "38622829c6d6099537d0753cb4c6d264b17e9afd45599a535378ec61a4774fc0"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0024.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "9f1722ae837b0f59b859ffcca30b4913c92049ba0ccb9748d773d0f3f09acceb"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0025.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "e57a86258314f3ad0af4975442196b132425bb5e6cca5fbe1be3ef4d11acfd58"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0026.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "ae5ffe9f48846ac9268c2b45a9e2df2b7f1b5f828832d407728b1b8a6c209736"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0027.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "557006f3048321d2ff866565f67df89071a9a028cbd3d9de62f557abe45a8082"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0028.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "645ed59f5e50c63ce38691fa0697058a26519e6d38a54938410053f302081080"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0029.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "888a7d7125b16a16a97b599a1d2febf342c10a43f1bec946dfded0277d4a8f95"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0030.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "b8e8ea9b00de96637b473e7503985585276d96e3948c3e5bd45b2d873e3f0fc0"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0031.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "565f2c1865b4f7ca5fa6de0ab284c520d293e62d2d01ad61dfc103b602cbfd8b"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0032.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "456b24ef66c453794c68d24a8d0c801278a854f434b033ce4946fcd2787f496c"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0033.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "ee6e90291e9a06db307de0e82e60240aaabc45402033d3f441fd3e8dd9d36b21"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0034.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "3330f02d843fa2ee4e05eac39c4db5ea9e944e0e113b6a79854f72b70eba7ce1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0035.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "b3c502c468ac13581199e592953c4177f564dc0a2d8689bbc570e2660fe52877"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0036.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "71ee415f97bc626fd5b3b76b958da3298d1ca55422745ae5b26e61fa4020fed4"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0037.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "875718ec39b99a7f795a84191634c69f443362462ef0bf5d63044f1072f5378c"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0038.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "28f7762ab2108968281233ee8ee74cb1c75853b90e01cae1529b7a8e4b7cb770"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0039.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "bd3d62447e3c1779e0c7bde70a3127928e5216cb5af0f91d6406f9a6b873158f"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0040.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "749e4bad3b117d8f59d901d7e0474f6db4e929e92e61746990fe4434a34b778d"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0041.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "b2a8a2e11ce6b8d5a40eb5c84692e37c57f24e0f4d42d69d9787a743ee88a309"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0042.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "ffb8ff739a96e764befbe5b3d90fd2494c3148be53277ff3d613525380b0c669"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0043.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "a0f01d178e9d42be7ba60d3cb4f965e9ee58133166a1ba915e484b31065c98c6"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0044.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "b340acc50c4bf5094b87252af6773df74896aa926b200daf70cb4973d2469068"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0045.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "7a651d27e9d69de76d7734789e8dd92656425f6a5a9e7f57f0d2b340da096e21"
+    },
+    {
+      "bytes": 2,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0046.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "e843ea0bf6c9fd1b16633886a6d4c403dbd45b86cc3c9982961dfa2e74b46403"
+    },
+    {
+      "bytes": 125,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "ad4f5f8c2673377e42de7e12b752c780aca01c81446acc4126434849a0cd21b2"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0047.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "1e46039a17befad8f9fdedec85019094d5c700a72eb6acb1d2d9d8ef82c6282f"
+    },
+    {
+      "bytes": 330,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "930509c8bdbf416cd021879ad5790a10a8ec84bddfe0e41eac0c97be6a13a34c"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0048.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "f5b6b643136fa37e0fa6fca24f7b27a87d151a0ee19996de5103775fd2a1151a"
+    },
+    {
+      "bytes": 7508,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "3f2a1c952d10a52fde468c945ede4a907b4111ce46ab7677077bc86160b73244"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0049.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "32399eea96daa34e9b2d40bc46129efabf0b9900bd2de5ffc33c0193eb50990d"
+    },
+    {
+      "bytes": 6676,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "d4656967a53a8e725fb5a460559525e913cbc05fad835608afbe077b568d5326"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0050.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "d82a6ecd8958cc01e6f7f73a2de86a194e78c9235002c3fc5171c9c96f8dc486"
+    },
+    {
+      "bytes": 6582,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "0b6befc37bc3182c2579754278b9da2a2a48a78cddea0cfd24e10c30503b922a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0051.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "00a6e1a9769a6f51c6573df9a6192fc99a65878517897eaf4a4115eb412c2ef0"
+    },
+    {
+      "bytes": 2,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0052.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "22cef4f84af3dbd636f1a2ad7e7e1325f5ccc042020707061416eb57bfc00e76"
+    },
+    {
+      "bytes": 126,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e7d8fabdd4857438eaeef922d6fa4d30ffef025a1b90aa608c81c292a0cffb89"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0053.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "942174cee73f9009f0d38fb89f42ab512fac7bce4664389b82e92da89dac1bfd"
+    },
+    {
+      "bytes": 3,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "4b9258d432ecb4511cfe5471a58f3feea9e8aa513e1d32294894693827d3b0d4"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0054.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 595,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "c703277bafb92e963500b79d96b398de0bd6834fc2cbf06e4f4edcc06ad5da83"
+    },
+    {
+      "bytes": 83,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "5e996311bcb426a6545d1bafdfe395a4a540e67d22a1478a3239d32407c66abb"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0055.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 423,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "acf11ffb1078b4eaf6ca2df4e9ac58e96071857b9f921810b8587df42dbeac05"
+    },
+    {
+      "bytes": 72,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "5b0a3bf9b49a7562b3da626e403f5ce566e640d18e195ee1a1fecb8ccd2277f6"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0056.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1267,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "7aa84247f6346f2e15c6c3c105c6ac9e1733bc0802d6a818cd721052c68d2917"
+    },
+    {
+      "bytes": 65,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "8282159524225d669f9e97b545cb8caff0900de7884fb86df2125610b1b462fe"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0057.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 379,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "d1addf476bb96f4249d25ec68af446978f7393a62ede3d9eed22d6753c628c02"
+    },
+    {
+      "bytes": 746,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "51216b89ded60da4cefb0f149b25c81d6fde96a81270ef125cfec7d86f10f739"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0058.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 379,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "ef210bbfc444b963e8722e63ed1538a1335430cc85bfd886259f7142c52bf8a7"
+    },
+    {
+      "bytes": 1686,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "c4b5cb655e9b5d401897de945cb4ea8207caec108fd877ff5501dfc96f9f1021"
+    },
+    {
+      "bytes": 215,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0059.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "7de6bf66471df01568f905a7e72bcebf3c67f3a80f5aa491e738b5ca509a3196"
+    },
+    {
+      "bytes": 379,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "5656ef4a213e48e9f481bfa0b75a1f989139964afbdf5304fa88f9fc194b29ff"
+    },
+    {
+      "bytes": 11747,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "ab61478fbc1f7f1569d090accff0e57cfb0cecc2986c1fcbc35d1c3ee00315ac"
+    },
+    {
+      "bytes": 1933,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0060.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "69f59d6126ea35d58fd0b3c79df4aa13e84dc4cdd34bd26883e34a84d46a67d7"
+    },
+    {
+      "bytes": 379,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "145ab3d99025ab3baaae96b4e3a5042526aff0b553f620d004a8cb496ad85b06"
+    },
+    {
+      "bytes": 13608,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "1940947589be7ac9d76caf7f6ca37fcfc9e2e7393dc638620aa18ce779287adf"
+    },
+    {
+      "bytes": 2406,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0061.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "45a848923e99931b3c1f1adca3004e3718ef1c53a700a178cc4bc0ca5399d898"
+    },
+    {
+      "bytes": 449,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "8022bed618f93f3082e5c3f0a9a1c6ff8458cafe62a0784b31a93f2d81085320"
+    },
+    {
+      "bytes": 45,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "2427579984ed6e8b4918f895553a561e753880ff77e3722a975cc18033488a50"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0062.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 426,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "84fb05813f2eafab59e803ffb7e2f02edacdaaba49c8175e9de8f82ccfbf96b7"
+    },
+    {
+      "bytes": 1548,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "8642edb5780d05ec7e2647174ac49085a9c7cedd3580120abbe53841676babf2"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0063.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 429,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "272ed91dfccb41a624b917a2459cc8bd0b48759ad71cac867084b1b83cc3d1d1"
+    },
+    {
+      "bytes": 77,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "61a6b6995e9b0292218c50b41e1922c118f80949f6c3dd98444cbb4d4dac9c1a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0064.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 602,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "eb21d45740985e03cead817dd189b53c4222f23ad6ebbbe5afd8d1fe816ab1bf"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0065.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 596,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "0096834ceedbe34febba791428b710054ee193308b880a1dea0a4866d582ae0c"
+    },
+    {
+      "bytes": 60,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "aa7628dc5e02e98b0a04e3db70100596080ad5726f6dc87fffc5a0bb2c06c87a"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0066.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 596,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "7b7df751acac1ea8a4fe15dd03fb4b297bde8833e3148ab399c5cabdea76c3b2"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0067.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 602,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "a8445d9bfdaaf7d2dbb7abf5dd75d4ab326f80d0be1c0db2b29a59b3b68dd1a9"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0068.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 510,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "550ac110be12e95112a8755c49a0e43225c652bba5500fe384578b26bb4e9957"
+    },
+    {
+      "bytes": 2375,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "0a11bf0c058dafb13313d86388c4a61ff759e068c7ae8bb5dd87be6770a5e5cd"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0069.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 379,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "c776c43272f0b165113c5e720141beb4b0b79fdd47a4a36310e88669a6082b0a"
+    },
+    {
+      "bytes": 13608,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "1940947589be7ac9d76caf7f6ca37fcfc9e2e7393dc638620aa18ce779287adf"
+    },
+    {
+      "bytes": 2834,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0070.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "1ba393899263f53595c3886dac489d72378b30036374a72a367bc0bab7346915"
+    },
+    {
+      "bytes": 409,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "f3c2aa2b18aeb041531284dc836143a97c0b0edcade72b99895b289ba56919a2"
+    },
+    {
+      "bytes": 47,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "45391d6ba39c1e03911879454c57e5f271964eec956febda21e21be2cb44185c"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0071.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 378,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "c3d3be4018ee22630bb1d47ca4f5e40f0b833727035908f450de2a0a75e261d9"
+    },
+    {
+      "bytes": 13605,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "9736b3d278f2c0746e9f582676936703f1a289c1f339b5f0a94e959dbce39b63"
+    },
+    {
+      "bytes": 2769,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0072.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "49f1be07cedaa6f4191349f1711a1cb81147a1295c712c81146dac42d2680e28"
+    },
+    {
+      "bytes": 408,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.json",
+      "scope": "accepted selected205 actual outer command receipt",
+      "sha256": "c2bfd869bff43530f50b42ea9673def2ca47aefcf30101c9a7efcd33c7cafb34"
+    },
+    {
+      "bytes": 46,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.stdout",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "ba7b8e18366c375a3d11a456e724732505b47478232fa92749b8b95183fce891"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/commands/0073.stderr",
+      "scope": "accepted selected205 raw outer command output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 97,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "1a987b2101d1d6d806a9dc082de78975f3830cf201809ec28fbf0b0869d870ab"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 108,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 108,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 3147557,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 37,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "6c3eedd3ebbb15c84b8d8ac36c69542bf7639ee6e572e195985d5d34fe5678ea"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 23,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "98fb151d2307dca3d212b476581c7625837e7c12d9a436ccc54dd26eb2a88467"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 26,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "1116b135549f5bf787252acd868434319ab7cccf8d075fd23c47007ce31e4820"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 51,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "05149c67a737756cc090492378f5c5c485d5844b1f762d6db1647ddbdaa908ee"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 7030,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "01f6c841d76c69d0f5ead79465a14b6299bb2a7a8af7c716a1e1175f8ee50432"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 53,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "f03201e3480284d3885bd7ee5952b79e1759c63bdc1ce754e4802f298b31821d"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 72,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "28656fe50f63446cb55ede774b1ad4391cf810946d31bc483c780f1b8d75f706"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 3147557,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 4168488,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "505130aaf80ec166c865ca997dcf36cf5ab1edb2627c523ea57d84a35a3a60e6"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 7355757,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "0e7918fac7dc1406bd36b20bc6da35d2bef5665954e6ffa91aa083fea4b34c49"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 773,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 10,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "351c2f6fb1e4291080b50d462195d5f6d0e5c3810e0e27bf136a25f837ead579"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 773,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 4168488,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "6553ffc440a1d8529c391e806c3ab851bcc908fb83ef6acd31f020461f217b16"
+    },
+    {
+      "bytes": 1057,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "6fabd11ae9e8be601ba766939d61d3ac696191d4813c8fd7cc72ef5bb8cebba3"
+    },
+    {
+      "bytes": 3147557,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 112,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "723bc35ad0cea090c4900f5864ac0a128a8a2a725fa036460c7256f297bb723e"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1178,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "2c25967927c703645375f9662a671036621417e8c3af2489129b232ca9ca7759"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 103,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "36827956add7683630e7eaf26a64c0b157f8c44fd226c15f3f036e6e497bce27"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 159,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "3935d8e524d66cdb2f16119051fbce14482f872230b51a554988e95ecf81db46"
+    },
+    {
+      "bytes": 1,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 39,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 295,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "064329e174d0da9b9d9007296297f0877202bcc747d7d34778837c211eb1db57"
+    },
+    {
+      "bytes": 39,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027.stdout",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8"
+    },
+    {
+      "bytes": 0,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027.stderr",
+      "scope": "accepted selected205 raw Ruby output; referenced only",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 4333036,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/capture/database.dump",
+      "scope": "accepted selected205 private artifact; no payload copy",
+      "sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b"
+    },
+    {
+      "bytes": 3024596,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/selected-source-contract.json",
+      "scope": "accepted selected205 private artifact; no payload copy",
+      "sha256": "4d4005d4af273a0c2c1c905031421a37dd76457dac6b5116ad8341e2b7428d36"
+    },
+    {
+      "bytes": 9894,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_uat.py",
+      "scope": "accepted selected205 private artifact; no payload copy",
+      "sha256": "98a8f4c80f3a2122c2ad5da8c7e8218d47c7b70bd041c1ad7b4f2e8aed727a34"
+    },
+    {
+      "bytes": 20083,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb",
+      "scope": "accepted selected205 private artifact; no payload copy",
+      "sha256": "0cd201d121d8dd683f7eeaaf13dcec32019dcd5de1a292f74d0b51497359b5fd"
+    },
+    {
+      "bytes": 9766,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/sql/collect_recovery_source_catalog.sql",
+      "scope": "current unchanged caller/tool observation; no execution",
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    {
+      "bytes": 4709,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_backup_network_probe.rb",
+      "scope": "current unchanged caller/tool observation; no execution",
+      "sha256": "de8a344ff55a4d880193b19d4ef39b2a999db206037939268b4c5c54ce18e84a"
+    },
+    {
+      "bytes": 134912,
+      "path": "/usr/bin/ruby",
+      "scope": "current unchanged caller/tool observation; no execution",
+      "sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+    }
+  ],
+  "scope": "Exact private paths and hashes preserve original source/results/artifact associations. Large payloads/runtime/database dump are referenced only."
+}

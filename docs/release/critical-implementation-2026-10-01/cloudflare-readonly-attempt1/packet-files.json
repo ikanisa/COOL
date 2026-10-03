@@ -1,0 +1,15 @@
+{
+  "status": "sealed",
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/README.md",
+      "bytes": 435,
+      "sha256": "9c43d5fcfcac41fe876a60070db9d39f62262d2ff546aa25f4d61a1d9b5b07f6"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/result.json",
+      "bytes": 1081,
+      "sha256": "920b4e2e6934e4048ea061b3d9491fdc8b44f55e637fa74ba894770fda22591f"
+    }
+  ]
+}

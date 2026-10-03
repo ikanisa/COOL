@@ -1,0 +1,9 @@
+{
+  "actual_cyclonedx_components": 686,
+  "declared_assets": 93,
+  "inventory_package_rows": 598,
+  "scope": "Direct component count from actual accepted CycloneDX document;598 is the inventory package occurrence count, not the final SBOM component count.",
+  "source_inventory_sha256": "41567d4fbd4a109ce4672a92742e38090d3003cfd912e277ea7840cf6db6e129",
+  "source_sbom_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+  "status": "pass"
+}

@@ -1,0 +1,32 @@
+{
+  "suites": [
+    {
+      "name": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+      "tests": "23",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+      "tests": "15",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "app.cool.mobile.gateway.GatewayWireTest",
+      "tests": "10",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "counts": {
+    "tests": 48,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "exact_selected_cases_observed": true
+}

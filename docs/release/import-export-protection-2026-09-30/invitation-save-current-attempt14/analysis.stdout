@@ -1,0 +1,6 @@
+Analyzing 13 items...                                           
+
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • lib/features/collections/share_screen.dart:523:11 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation • lib/features/collections/share_screen.dart:524:22 • prefer_const_constructors
+   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/services.dart'. Try removing the import directive • test/features/group_invitation_output_test.dart:2:8 • unnecessary_import
+

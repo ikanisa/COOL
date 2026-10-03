@@ -1,0 +1,26 @@
+{
+  "app_lock_native_admitted": false,
+  "at_utc": "2026-10-02T07:05:07.392879+00:00",
+  "candidate_promoted": false,
+  "checked_packet_leaves": 22,
+  "current_source_export_authorized": true,
+  "errors": [],
+  "execution_stage_admissions": {
+    "app-export": true
+  },
+  "failed_actual_export_attempts_preserved_not_accepted": 2,
+  "packet_manifest_sha256": "d40ce77be6faa0afe514dba1ea1193f33eb69f904b852732d028ae0705e1b47d",
+  "private_snapshot_exclusive": true,
+  "production_release_approval": false,
+  "protected_original_metadata": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "required_source_fence_sha256": "4cc5b8919688b4229a87004a06be3af1b6a9be96b8efd2e2c0534cbad78e122a",
+  "root_preparation_review_sha256": "0cce32d0f4bfb0d2459e772465dd80dff859beb740146808729c09e7929f3ce0",
+  "source_lock_attested": false,
+  "source_scope_held_for_strict_export": false,
+  "strict_current_source_comparison_required": true,
+  "transient_write_and_restore_absence_attested": false
+}

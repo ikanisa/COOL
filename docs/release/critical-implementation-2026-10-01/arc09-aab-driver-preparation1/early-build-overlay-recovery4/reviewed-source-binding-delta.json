@@ -1,0 +1,46 @@
+{
+  "actual_new_current_manifest_observed": false,
+  "archived_fence": {
+    "bytes": 921482,
+    "device": 16777247,
+    "inode": 18029508,
+    "mode": 420,
+    "mtime_ns": 1790948420784988455,
+    "nlink": 1,
+    "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation7/source-fence-before.json",
+    "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+  },
+  "archived_file_count": 2561,
+  "archived_source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "hypothetical_source_manifest_sha256_if_only_these_two_changes": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+  "kind": "unapplied_two_file_delta_over_archived_source",
+  "other_archived_source_rows_preserved_in_hypothetical_map": true,
+  "required_root_follow_up": "Capture actual new source identity after integration. Any concurrent audit changes must appear in that new identity; do not claim the entire old abf source remains unchanged.",
+  "schema_version": 1,
+  "two_file_changes": {
+    "android/app/build.gradle.kts": {
+      "archived_before": {
+        "bytes": 24464,
+        "mode": 448,
+        "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+      },
+      "proposed_after": {
+        "bytes": 24009,
+        "mode": 448,
+        "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+      }
+    },
+    "android/build.gradle.kts": {
+      "archived_before": {
+        "bytes": 886,
+        "mode": 448,
+        "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+      },
+      "proposed_after": {
+        "bytes": 1380,
+        "mode": 448,
+        "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+      }
+    }
+  }
+}

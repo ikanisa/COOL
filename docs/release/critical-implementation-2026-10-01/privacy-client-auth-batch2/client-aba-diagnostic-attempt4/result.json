@@ -1,0 +1,21 @@
+{
+  "completed_at_utc": "2026-10-01T23:35:18.670647+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "test/features/privacy/privacy_session_test.dart",
+    "--plain-name",
+    "same-tick",
+    "--reporter",
+    "json"
+  ],
+  "exit_code": 1,
+  "source_sha256": {
+    "lib/features/privacy/privacy_session.dart": "3f55b70e4ce2d9c080dc60d47d03c3437f8faf3e6eb9a54b7bbe352c63d258be",
+    "test/features/privacy/privacy_session_test.dart": "605f2677c949584a428b8dcf16d9b6feca468d3d2f2a1e51c3d779dc690bca7a",
+    "test/features/privacy/privacy_test_support.dart": "3d02ee3ba7064fe1f30eefee663bdf9adc0839116b864e461a3521b04843fb36",
+    "third_party/gotrue/lib/src/gotrue_client.dart": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150"
+  },
+  "scope": "Focused same-tick initial ReplaySubject ABA diagnostic only; no full acceptance"
+}

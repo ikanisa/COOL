@@ -1,0 +1,98 @@
+{
+  "contract_version": 1,
+  "batch": "BE05 staged member privacy fresh-auth and canonical recovery",
+  "sealed_at_utc": "2026-10-01T23:45:10.837060+00:00",
+  "implementation": "new source only; integration pending",
+  "status": "local_scoped_pass",
+  "owned_source_sha256": {
+    "lib/features/privacy/privacy_contract.dart": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d",
+    "lib/features/privacy/privacy_providers.dart": "1c3f4a7dbb5bce49c20aa5685b5a866c1518606787cdfcdc355dcd85629204b1",
+    "lib/features/privacy/privacy_request_controller.dart": "527ce7d1a7b4ac8254e4303f42d1ba2e269e78e5d38c99b548f88e82f76696bf",
+    "lib/features/privacy/privacy_session.dart": "24110a65f7dfde6b9de71a51660ef7c785c5f8f3ae816222a53896f780bc4c7b",
+    "lib/features/privacy/privacy_transport.dart": "ebe5b3d225f574f5f6888e360bf2520d70a0a7ab4efe03591882a17e42eb81b9",
+    "test/features/privacy/privacy_contract_test.dart": "e520180a6828de77cffe561c4b2329038544826f4357eb8381235b5d3a0c7928",
+    "test/features/privacy/privacy_controller_transport_test.dart": "29ffd85bc448034aa7c60ee7ed0c39dcf8c4852e85768f737aec57401a019907",
+    "test/features/privacy/privacy_http_bounds_test.dart": "8ad247ef09d354570ede7e36b9110ade9e0a18d33795c75ca87c131fbd9e1899",
+    "test/features/privacy/privacy_providers_test.dart": "6b917cf1b6457a18620ee1c25d56e244dd90c8e1ea00621766ac6d003c0b7919",
+    "test/features/privacy/privacy_session_test.dart": "274a32a0aeca2b94f882f9222061d1d8979903f4ea8c8d3999e316aa067f88be",
+    "test/features/privacy/privacy_test_support.dart": "3d02ee3ba7064fe1f30eefee663bdf9adc0839116b864e461a3521b04843fb36",
+    "scripts/tests/privacy_current_request_status_uat.py": "1adc2e0e1c4429a6cbf91c44d29d13cecc86c0f235fba81115eccef6865284b6",
+    "scripts/tests/privacy_current_request_status_uat.sql": "a3b506467757b741364aac882dcd565a5cd6d79cbfec723341c1fa639d995eb7",
+    "supabase/migrations/20261002042000_privacy_current_request_status.sql": "5364235b6130348a89ca5f863f61ebb7e29bdd8e3f26015c966b3cc9ef80ce11"
+  },
+  "client_proof": {
+    "result": "client-attempt8/result.json",
+    "result_sha256": "2417920ea9c205c7b4066c47240a629cefa7a87107b29a74ef5c271359064f76",
+    "visible_tests": 84,
+    "failed": 0,
+    "skipped": 0,
+    "analyzer_issues": 0,
+    "provider_network_called": false,
+    "actual_pinned_sdk_behavior_tested_with_synthetic_http": true
+  },
+  "sql_proof": {
+    "result": "sql-attempt1/result.json",
+    "result_sha256": "c3bd0b839b7cd1af37d497cd0b79b7a14c682d92eb573064c7217149d3e16b6a",
+    "migrations": 202,
+    "max_version": "20261002042000",
+    "new_checks": 27,
+    "preserved_intake_checks": 53,
+    "legacy_privacy_fixture_passed": true,
+    "rollback_tables": 244,
+    "actual_target_removed": true,
+    "existing_app_functions_unchanged": 717,
+    "foreign_keys_unchanged": 350,
+    "table_acl_rls_entries_unchanged": 221,
+    "policies_unchanged": true,
+    "managed_hosted_installer_parity_tested": false,
+    "signed_jwt_provider_admission_tested": false
+  },
+  "final_source_readback": {
+    "client_changed_inputs": [],
+    "sql_changed_inputs": [],
+    "current_migration_paths_match": true,
+    "current_migrations": 202,
+    "migration_max": "20261002042000_privacy_current_request_status.sql",
+    "checked_at_utc": "2026-10-01T23:45:10.837060+00:00"
+  },
+  "readonly_current_consumer_sha256": {
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/core/security/protected_snapshot_store.dart": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+    "lib/shared/repositories/collect_offline_cache.dart": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+    "android/app/src/main/kotlin/app/cool/mobile/security/ProtectedSnapshotStore.kt": "092450eac1a4ea6b52ec07542e9e0f4e09c0ef6adb5242211c9f6058d0d75989",
+    "ios/Runner/AppDelegate.swift": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f"
+  },
+  "public_interfaces": {
+    "authority": "capture/adopt/invalidate (logout start before any await)",
+    "controller": "sendCode/verifyCode/submit/retrySubmission/refreshStatus/cancel/dispose; live-owner state getters",
+    "transport": "sendCode/verifyCode/submit/status/currentStatus; no live shared-client OTP side effect",
+    "receipt": "strict pending_review; all erasure/restriction/Auth-removal/retention/processor flags false",
+    "own_current_rpc": "get_current_account_deletion_request_status_v1() nullablejsonb; authenticated only; trusted subject and actual SID"
+  },
+  "integration_required": [
+    "Root wires actual member screen/repository/router and scoped view state using existing components/CAPTCHA",
+    "Synchronously invalidate authority at local logout/account-reset start; cancel/dispose view controller",
+    "Provider UID dependency must remain; same-owner fresh SID retains controller",
+    "Apply/review additive migration and prove managed hosted/runtime/provider/device/route behavior independently",
+    "Use fixed PrivacyRequestException.failure values; no raw provider text or fake local success"
+  ],
+  "restart_recovery": "authoritative own-canonical RPC; no protected financial snapshot or plaintext checkpoint write; unsent draft/reason not restored or automatically submitted",
+  "original_failure_receipts_retained": [
+    "client-diagnostic-attempt1.json",
+    "client-attempt2",
+    "client-aba-diagnostic-attempt4",
+    "client-attempt7"
+  ],
+  "prior_passing_sources_retained": [
+    "client-attempt3",
+    "client-attempt5",
+    "client-attempt6"
+  ],
+  "hosted_written": false,
+  "destructive_privacy_action_enabled": false,
+  "full_BE05_completed": false,
+  "policy_scope_retention_processor_review": "pending; no invented approval or schedules",
+  "source_hold": "Owned authored source frozen for root review/integration; no live owned tool/process/container remains"
+}

@@ -1,0 +1,59 @@
+{
+  "status": "integrated_scoped_local",
+  "checked_at": "2026-10-01T23:54:22.583956+00:00",
+  "root_review": "complete recovery module, CLI/deployment/package diffs and corrected pure metadata/credential boundaries",
+  "proof_result_sha256": "95671146727ab8aa8d0811e9af56480482f2bb2405ff01ef3161e2998e389828",
+  "captured_inputs_sha256": "567c016121e2c41706892a4d1b1f737f1ed4778ab82f02568a88cc189bacbea6",
+  "passed_cases": 101,
+  "recovery_cases": 26,
+  "retained_control_cases": 75,
+  "typecheck_passed": true,
+  "input_files_verified": 1707,
+  "input_links_verified": 13,
+  "canonical_baseline_verified": 84,
+  "changes": [
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_recovery.ts",
+      "old_sha256": null,
+      "new_sha256": "81c486ebb6868c24f4cb1741b2e5f88674c75e81caea8dacd7f01dd30e9573fa",
+      "mode": "0o644"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_recovery.test.ts",
+      "old_sha256": null,
+      "new_sha256": "b5fc326416c2f5f1588afd92abbff6c0e92b7472ee9abfd8b27b4a9605248d8b",
+      "mode": "0o644"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "old_sha256": "1519670a43f654eb5ea986f28fda5645d00dbbe58bb5fb3a9668c2f5169477a3",
+      "new_sha256": "0d4208a65f775bc68b45c6ba0e4ef69493778e309feabf52c26d87b1414afd2f",
+      "mode": "0o644"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "old_sha256": "ca4ec88b7bfd04d5010cad62a2e8e654a4faa2892631225b7f0787d699e7eebd",
+      "new_sha256": "3b76b3cd0e0ecd9eca93a5ba9909165ac30acbfe67d70da464f29e0cced95b2f",
+      "mode": "0o644"
+    },
+    {
+      "path": "tools/collect-notification-mcp/package.json",
+      "old_sha256": "d8773681ef14a850e495e2bf3ff23b21b1cb31fb60c22834c32804715c6a27c7",
+      "new_sha256": "71696fcb31933a066c7de36bbe2d7260c13f4800e2887cb991c01012a2a7546c",
+      "mode": "0o700"
+    }
+  ],
+  "predecessor99_preserved": true,
+  "target_modes_preserved": true,
+  "canonical_reexecution": "reused exact affected frozen TypeScript/dependency/CLI proof; no new full-candidate aggregate",
+  "live_authority_restored": false,
+  "daemon_called": false,
+  "hosted_changed": false,
+  "ui_changed": false,
+  "required_next": [
+    "combined scheduler/enrollment/runner integration",
+    "installed cadence and real credential environment",
+    "unified recovery drills",
+    "final complete candidate"
+  ]
+}

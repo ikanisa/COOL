@@ -1,0 +1,20 @@
+--- a/scripts/qa/edge_http_runtime_uat.ts
++++ b/scripts/qa/edge_http_runtime_uat.ts
+@@ -1299,13 +1299,15 @@
+       decoderBuild,
+       policyPatch,
+     );
+-    const negativeEnvironment = {
++    const negativeEnvironment: Record<string, string | undefined> = {
+       ROSTER_AI_APPROVAL_JSON: negativeApproval.aiApprovalJson,
+       ROSTER_AI_APPROVAL_SHA256: negativeApproval.aiApprovalSha256,
+       OPENAI_ORGANIZATION_ID: negativeApproval.openAiOrganizationId,
+       OPENAI_PROJECT_ID: negativeApproval.openAiProjectId,
+-      ...environmentPatch,
+     };
++    for (const [key, value] of Object.entries(environmentPatch)) {
++      negativeEnvironment[key] = value;
++    }
+     const before = providerAttempts.length;
+     try {
+       for (const [key, value] of Object.entries(negativeEnvironment)) {

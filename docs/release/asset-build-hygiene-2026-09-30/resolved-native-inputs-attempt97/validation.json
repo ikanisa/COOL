@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "actual_tests": 15,
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/resolved_native_package_inputs.py": "07a5e21c54baa99d1b5e4b4a753f4ba413dab8e6bbdad5d568efffb2f305b58a",
+    "scripts/tests/resolved_native_package_inputs_test.py": "8f8c564d0a9241a7800891b2eb4bc65c9155414f3f9532e6f7440afebc46cdad"
+  },
+  "actual_android_and_ios_preflight": "pass",
+  "scope": "Actual156hosted+8SDK source inspection and nonmutating preflight, native-only and font-only packages, Dart internal names, copied source/config mutation and bounded local resource checks; no build/cache authenticity/release acceptance"
+}

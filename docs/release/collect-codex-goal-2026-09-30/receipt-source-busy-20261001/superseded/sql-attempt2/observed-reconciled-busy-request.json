@@ -1,0 +1,20 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "ok": false,
+    "code": "SOURCE_BUSY",
+    "action": "ensure_receipt",
+    "run_id": "4dd44db0-0a73-4765-b697-b25f16d4292a",
+    "event_id": "c2836935-be68-488d-ada1-127ba9a6b70c",
+    "receipt_id": null,
+    "request_id": "6693e92f-e050-49d8-be3c-97f22fce9d15",
+    "observed_at": "2026-10-01T21:46:10.433854Z",
+    "principal_id": "52998761-9dc0-4d81-b123-7bbc04fd87da",
+    "fence_version": 1,
+    "source_version": 1,
+    "business_handled": false,
+    "contract_version": 2
+  },
+  "contract_version": 2,
+  "target_request_id": "6693e92f-e050-49d8-be3c-97f22fce9d15"
+}

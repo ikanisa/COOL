@@ -1,0 +1,14 @@
+{
+  "auth_access": "Only normal configured gh CLI authentication; no token inspection/export, login/rotation, browser or direct Keychain access.",
+  "checked_at_utc": "2026-10-01T08:56:35.303371+00:00",
+  "embedded_http_credentials_detected": false,
+  "gh_cli_file_sha256": "b1d6c442fde99ca27c04e1e74d624895abe37785f4a3e9e9b684bf7586ce4bc8",
+  "gh_cli_path": "/Users/jeanbosco/.local/bin/gh",
+  "gh_cli_version_line": "gh version 2.96.0 (2026-07-02)",
+  "origin_configured": true,
+  "origin_host": "github.com",
+  "origin_repository": "ikanisa/COOL",
+  "raw_remote_or_credentials_reported": false,
+  "repository_metadata_get_already_completed": true,
+  "transport_kind": "https"
+}

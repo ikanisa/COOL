@@ -1,0 +1,29 @@
+{"runner_calls_after_durable_disable":1,"status":"SCHEDULER_BACKOFF","local_tick_permitted":false}
+✖ durable local disable during admission prevents a subsequent runner invocation (383.920667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 599.112458
+
+✖ failing tests:
+
+test at ../../../../../../../../Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/disable-during-admission-reproducer.test.ts:73:1
+✖ durable local disable during admission prevents a subsequent runner invocation (383.920667ms)
+  AssertionError [ERR_ASSERTION]: a tick must recheck the durable disabled latch after admission awaits
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/disable-during-admission-reproducer.test.ts:91:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

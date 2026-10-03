@@ -1,0 +1,303 @@
+running 36 tests from ./supabase/functions/collect-android-gateway/handler_test.ts
+real synthetic P-256 DER signature accepts pending key-possession health and server request SHA ... ok (71ms)
+tampered signed UTF8 body cannot reach a mutation RPC ... ok (12ms)
+different generated private key cannot authorize enrolled identity ... ok (12ms)
+wrong public-key header and malformed DER fail closed ... ok (12ms)
+canonical DER roundtrip and nonminimal integers are enforced ... ok (9ms)
+strict envelope/payload refuses expired ... ok (3ms)
+strict envelope/payload refuses future ... ok (1ms)
+strict envelope/payload refuses invalid calendar ... ok (2ms)
+strict envelope/payload refuses unknown action ... ok (1ms)
+strict envelope/payload refuses wrong version ... ok (1ms)
+strict envelope/payload refuses bad UUID ... ok (1ms)
+strict envelope/payload refuses extra envelope ... ok (1ms)
+strict envelope/payload refuses permission string ... ok (2ms)
+strict envelope/payload refuses extra health field ... ok (1ms)
+strict envelope/payload refuses null SIM revision selected ... ok (3ms)
+strict envelope/payload refuses unselected SIM with revision ... ok (3ms)
+strict envelope/payload refuses invalid network ... ok (2ms)
+strict envelope/payload refuses unsupported callback conclusion ... ok (4ms)
+strict envelope/payload refuses fractional segment ... ok (3ms)
+strict envelope/payload refuses oversized segment count ... ok (5ms)
+strict envelope/payload refuses segment beyond count ... ok (3ms)
+strict envelope/payload refuses reused callback request UUID ... ok (4ms)
+strict envelope/payload refuses callback result boolean ... ok (12ms)
+strict envelope/payload refuses callback TP overflow ... ok (6ms)
+strict envelope/payload refuses grant with client body ... ok (4ms)
+strict envelope/payload refuses reconcile invalid target ... ok (3ms)
+duplicate JSON keys rejected before signature-authorized RPC ... ok (6ms)
+signed Unicode tamper verifies exact bytes rather than reserialized JSON ... ok (7ms)
+POST-only and oversized/invalid UTF8 bodies reach no RPC ... ok (2ms)
+revoked key permits only bounded reconciliation and prior-arm callback routes ... ok (32ms)
+dispatch is stable authority-pending refusal with no body destination or grant ... ok (20ms)
+stored request reconciliation validates nested bounded result rather than leaking extra keys ... ok (26ms)
+malformed success provider diagnostics and deadline return safe unknown without retry ... ok (93ms)
+exact replay returns original observation rather than a second mutation route ... ok (8ms)
+slow body reader is bounded and cannot reach any service RPC ... ok (53ms)
+malformed large service success stays outcome-unknown and redacted ... ok (4ms)
+running 63 tests from ./supabase/functions/collect-android-gateway/dispatch_v2_test.ts
+v2 real P-256 signature selects exactly gateway_dispatch_grant_v2 ... ok (23ms)
+v2 real P-256 signature selects exactly gateway_arm_dispatch_v2 ... ok (3ms)
+v2 real P-256 signature selects exactly gateway_callback_v2 ... ok (4ms)
+v2 real P-256 signature selects exactly gateway_attempt_status_v2 ... ok (4ms)
+v2 real P-256 signature selects exactly gateway_reconcile_v2 ... ok (2ms)
+v2 rejects v2 heartbeat before key lookup ... ok (1ms)
+v2 rejects v1 arm before key lookup ... ok (1ms)
+v2 rejects v1 status before key lookup ... ok (1ms)
+v2 rejects caller grant body before key lookup ... ok (1ms)
+v2 rejects caller arm destination before key lookup ... ok (2ms)
+v2 rejects missing reservation before key lookup ... ok (1ms)
+v2 rejects uppercase reservation hash before key lookup ... ok (1ms)
+v2 rejects zero fence before key lookup ... ok (2ms)
+v2 rejects fractional fence before key lookup ... ok (2ms)
+v2 rejects status extra fields before key lookup ... ok (2ms)
+v2 rejects empty callbacks before key lookup ... ok (2ms)
+v2 rejects noncontiguous callbacks before key lookup ... ok (1ms)
+v2 rejects fractional segment index before key lookup ... ok (1ms)
+v2 rejects callback extra field before key lookup ... ok (1ms)
+v2 rejects same sent and delivery UUID before key lookup ... ok (3ms)
+v2 rejects callback UUID equals request before key lookup ... ok (3ms)
+v2 rejects callback UUID equals attempt before key lookup ... ok (2ms)
+v2 rejects duplicate cross-segment UUID before key lookup ... ok (3ms)
+v2 rejects callback request UUID case reuse before key lookup ... ok (2ms)
+v2 valid multipart plan binds distinct sent and delivery callback IDs ... ok (3ms)
+v2 UUID normalization preserves signed bytes and exact identity binding ... ok (5ms)
+v2 signature covers version and exact payload bytes ... ok (5ms)
+v2 duplicate arm nested JSON keys fail before signature RPC ... ok (4ms)
+v2 revoked device refuses dispatch_grant before mutation ... ok (9ms)
+v2 revoked device refuses arm_dispatch before mutation ... ok (4ms)
+v2 revoked identity may reconcile earlier callback evidence ... ok (37ms)
+v2 revoked identity may reconcile earlier attempt_status evidence ... ok (14ms)
+v2 revoked identity may reconcile earlier reconcile evidence ... ok (19ms)
+v2 malformed grant stays redacted: body digest mismatch ... ok (4ms)
+v2 malformed grant stays redacted: destination digest mismatch ... ok (3ms)
+v2 malformed grant stays redacted: grant body mutation ... ok (5ms)
+v2 malformed grant stays redacted: foreign destination ... ok (7ms)
+v2 malformed grant stays redacted: body beyond character limit ... ok (4ms)
+v2 malformed grant stays redacted: lease over thirty seconds ... ok (3ms)
+v2 malformed grant stays redacted: expired authority ... ok (3ms)
+v2 malformed grant stays redacted: grant replay authority ... ok (5ms)
+v2 malformed grant stays redacted: wrong result request ... ok (4ms)
+v2 malformed grant stays redacted: extra private key ... ok (5ms)
+v2 grant hashes full UTF8 body including supplementary Unicode ... ok (4ms)
+v2 malformed arm refuses arm replay authority ... ok (8ms)
+v2 malformed arm refuses wrong arm attempt ... ok (20ms)
+v2 malformed arm refuses wrong arm fence ... ok (2ms)
+v2 malformed arm refuses wrong reservation ... ok (6ms)
+v2 malformed arm refuses arm carrier delivery claim ... ok (13ms)
+v2 malformed arm refuses arm recovered body ... ok (5ms)
+v2 malformed arm refuses arm lease over thirty seconds ... ok (3ms)
+v2 exact bounded dispatch refusal accepts OPERATIONS_PAUSED ... ok (2ms)
+v2 exact bounded dispatch refusal accepts NO_CURRENT_RUN ... ok (2ms)
+v2 exact bounded dispatch refusal accepts DEVICE_NOT_READY ... ok (4ms)
+v2 exact bounded dispatch refusal accepts NO_ELIGIBLE_RECEIPT ... ok (4ms)
+v2 exact bounded dispatch refusal accepts QUOTA_EXHAUSTED ... ok (9ms)
+v2 exact bounded dispatch refusal accepts ORIGINAL_REQUEST_RECORDED ... ok (5ms)
+v2 original dispatch_grant lookup stays redacted and cannot recover authority ... ok (8ms)
+v2 original arm_dispatch lookup stays redacted and cannot recover authority ... ok (12ms)
+v2 lookup accepts recorded callback and attempt status, rejects nested extras ... ok (12ms)
+v2 sent success requires every planned observation and no conflicts ... ok (13ms)
+v2 status binds exact attempt fence and forbids fabricated archive or delivery conclusions ... ok (26ms)
+v2 unknown service outcome preserves request and performs no automatic retry ... ok (56ms)
+running 10 tests from ./supabase/functions/collect-android-gateway/dispatch_observed_test.ts
+actual populated SQL grant passes signed Edge output contract ... ok (42ms)
+actual populated SQL grant-paused passes signed Edge output contract ... ok (7ms)
+actual populated SQL arm passes signed Edge output contract ... ok (6ms)
+actual populated SQL grant-reconciliation passes signed Edge output contract ... ok (5ms)
+actual populated SQL partial-callback passes signed Edge output contract ... ok (5ms)
+actual populated SQL complete-callback passes signed Edge output contract ... ok (2ms)
+actual populated SQL contradictory-callback passes signed Edge output contract ... ok (9ms)
+actual populated SQL status passes signed Edge output contract ... ok (6ms)
+actual SQL grant with corrupted immutable digest is unknown ... ok (17ms)
+actual SQL recovered request with leaked body is unknown ... ok (27ms)
+running 30 tests from ./supabase/functions/collect-android-gateway/archive_v3_test.ts
+archive v3 real P256 exact byte signature permits revoked prior evidence only ... FAILED (26ms)
+archive v3 rejects caller destination before key lookup ... ok (3ms)
+archive v3 rejects fractional fence before key lookup ... ok (3ms)
+archive v3 rejects null references before key lookup ... ok (5ms)
+archive v3 rejects duplicate request UUID before key lookup ... ok (10ms)
+archive v3 rejects odd callback set before key lookup ... ok (7ms)
+archive v3 rejects client outcome before key lookup ... ok (3ms)
+archive v3 rejects invented carrier_proof on outbound result ... FAILED (2ms)
+archive v3 rejects invented delivery_proven on outbound result ... FAILED (2ms)
+archive v3 rejects invented send_authority on outbound result ... FAILED (2ms)
+archive v3 redacts unexpected body ... FAILED (1ms)
+archive v3 redacts unexpected destination_e164 ... FAILED (1ms)
+archive v3 redacts unexpected balances ... FAILED (4ms)
+archive v3 redacts unexpected service_key ... FAILED (4ms)
+archive v3 binds outbound request_id ... FAILED (7ms)
+archive v3 binds outbound device_id ... FAILED (9ms)
+archive v3 binds outbound fence_version ... FAILED (4ms)
+archive v3 binds outbound segment_count ... FAILED (2ms)
+archive v3 binds outbound callback_requests ... FAILED (2ms)
+archive v3 mutation tamper cannot become an ACK ... ok (1ms)
+archive v3 old signed timestamp refuses before lookup ... ok (1ms)
+archive v3 never adds grant action to new version ... ok (3ms)
+archive v3 unknown original UUID lookup is truthful ... FAILED (2ms)
+archive v3 lookup cannot disclose mismatched original receipt ... FAILED (2ms)
+archive v3 lookup target must differ from read identity ... ok (231µs)
+archive v3 refused evidence never exposes receipt or references ... ok (621µs)
+archive v3 actual synthetic SQL ack satisfies signed outbound boundary ... FAILED (3ms)
+archive v3 actual synthetic SQL lookup satisfies signed outbound boundary ... FAILED (5ms)
+archive v3 actual synthetic SQL unknown satisfies signed outbound boundary ... FAILED (2ms)
+archive v3 actual synthetic SQL incomplete satisfies signed outbound boundary ... FAILED (2ms)
+
+ ERRORS 
+
+archive v3 real P256 exact byte signature permits revoked prior evidence only => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:139:6
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:141:3
+
+archive v3 rejects invented carrier_proof on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:172:5
+
+archive v3 rejects invented delivery_proven on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:172:5
+
+archive v3 rejects invented send_authority on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:172:5
+
+archive v3 redacts unexpected body => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:181:5
+
+archive v3 redacts unexpected destination_e164 => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:181:5
+
+archive v3 redacts unexpected balances => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:181:5
+
+archive v3 redacts unexpected service_key => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:181:5
+
+archive v3 binds outbound request_id => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:195:5
+
+archive v3 binds outbound device_id => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:195:5
+
+archive v3 binds outbound fence_version => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:195:5
+
+archive v3 binds outbound segment_count => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:195:5
+
+archive v3 binds outbound callback_requests => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:195:5
+
+archive v3 unknown original UUID lookup is truthful => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:223:6
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:231:3
+
+archive v3 lookup cannot disclose mismatched original receipt => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:234:6
+error: Error: Expected 502, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:239:3
+
+archive v3 actual synthetic SQL ack satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:298:5
+
+archive v3 actual synthetic SQL lookup satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:298:5
+
+archive v3 actual synthetic SQL unknown satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:298:5
+
+archive v3 actual synthetic SQL incomplete satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+error: Error: Expected 200, received 400
+  throw new Error(`Expected ${expectedJson}, received ${actualJson}`);
+        ^
+    at assertEquals (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/_shared/test_assert.ts:6:9)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-attempt-archive-edge-attempt1/source/supabase/functions/collect-android-gateway/archive_v3_test.ts:298:5
+
+ FAILURES 
+
+archive v3 real P256 exact byte signature permits revoked prior evidence only => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:139:6
+archive v3 rejects invented carrier_proof on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+archive v3 rejects invented delivery_proven on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+archive v3 rejects invented send_authority on outbound result => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:171:8
+archive v3 redacts unexpected body => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+archive v3 redacts unexpected destination_e164 => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+archive v3 redacts unexpected balances => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+archive v3 redacts unexpected service_key => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:179:8
+archive v3 binds outbound request_id => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+archive v3 binds outbound device_id => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+archive v3 binds outbound fence_version => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+archive v3 binds outbound segment_count => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+archive v3 binds outbound callback_requests => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:194:8
+archive v3 unknown original UUID lookup is truthful => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:223:6
+archive v3 lookup cannot disclose mismatched original receipt => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:234:6
+archive v3 actual synthetic SQL ack satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+archive v3 actual synthetic SQL lookup satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+archive v3 actual synthetic SQL unknown satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+archive v3 actual synthetic SQL incomplete satisfies signed outbound boundary => ./supabase/functions/collect-android-gateway/archive_v3_test.ts:274:8
+
+FAILED | 120 passed | 19 failed (1s)
+

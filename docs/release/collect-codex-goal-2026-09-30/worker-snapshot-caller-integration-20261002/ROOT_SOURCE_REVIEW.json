@@ -1,0 +1,74 @@
+{
+  "status": "source_and_packet_review_accepted",
+  "helper_lines_read": 491,
+  "caller_delta_read": true,
+  "new_unit_source_read": true,
+  "members_verified": 3536,
+  "selected205_bindings": 222,
+  "source_tool_readback": 334,
+  "targets_absent": [
+    {
+      "name": "collect_current_rehearsal_source_f4d3e80060d2",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_f4d3e80060d2"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_0740a387de3a",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_0740a387de3a"
+    },
+    {
+      "name": "collect_current_rehearsal_source_2966ac4cb0cd",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_2966ac4cb0cd"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_11db57f1d83a",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_11db57f1d83a"
+    },
+    {
+      "name": "collect_current_rehearsal_source_e51d790f10b6",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_e51d790f10b6"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_1dc8be993c54",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_1dc8be993c54"
+    },
+    {
+      "name": "collect_current_rehearsal_source_ec9861b84189",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_ec9861b84189"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_7720d69c6585",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_7720d69c6585"
+    },
+    {
+      "name": "collect_current_rehearsal_source_c4920f4b3295",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_c4920f4b3295"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_63ac4029d017",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_63ac4029d017"
+    },
+    {
+      "name": "collect_current_rehearsal_source_43470b88474c",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_source_43470b88474c"
+    },
+    {
+      "name": "collect_current_rehearsal_restore_9a9a20347d34",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_restore_9a9a20347d34"
+    }
+  ],
+  "actual_SQL_checks": 38,
+  "observed_blocking_source_defect": null,
+  "limits": "selected205 snapshot/full archive proof; canonical207 chronology, production role/Vault, native/scheduler, durable business overlay and RPO/RTO acceptance separate"
+}

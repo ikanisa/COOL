@@ -1,0 +1,12 @@
+{
+  "captured_at": "2026-10-01T09:40:36.077809+00:00",
+  "kind": "readonly_public_auth_settings",
+  "http_status": 200,
+  "external_email_enabled": false,
+  "external_phone_enabled": true,
+  "production_mutations": 0,
+  "otp_requests": 0,
+  "raw_response_saved": false,
+  "response_sha256": "59ff727165a6f9af6973fdb3edd10b346eab9a34e1b2bb668de6b16a7869c6e7",
+  "public_config_sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206"
+}

@@ -1,0 +1,5 @@
+ERROR:  42501: Admin permission collections.moderate required
+CONTEXT:  PL/pgSQL function public.assert_admin_permission(text) line 8 at RAISE
+SQL statement "SELECT public.assert_admin_permission('collections.moderate')"
+PL/pgSQL function admin_set_group_active(uuid,boolean,text) line 7 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

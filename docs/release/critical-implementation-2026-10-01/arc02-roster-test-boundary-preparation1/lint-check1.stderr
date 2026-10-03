@@ -1,0 +1,22 @@
+error[no-unused-vars]: `EXPIRY` is never used
+  --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate/supabase/functions/prepare-roster-import/handler_test.ts:16:3
+   | 
+16 |   EXPIRY,
+   |   ^^^^^^
+   = hint: If this is intentional, alias it with an underscore like `EXPIRY as _EXPIRY`
+
+  docs: https://docs.deno.com/lint/rules/no-unused-vars
+
+
+error[no-unused-vars]: `IMPORT` is never used
+  --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate/supabase/functions/prepare-roster-import/handler_test.ts:18:3
+   | 
+18 |   IMPORT,
+   |   ^^^^^^
+   = hint: If this is intentional, alias it with an underscore like `IMPORT as _IMPORT`
+
+  docs: https://docs.deno.com/lint/rules/no-unused-vars
+
+
+Found 2 problems
+Checked 3 files

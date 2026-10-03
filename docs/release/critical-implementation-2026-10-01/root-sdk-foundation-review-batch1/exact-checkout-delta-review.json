@@ -1,0 +1,248 @@
+{
+  "SDK_extracted_or_executed_by_root": false,
+  "admit_exact_manifest_only": true,
+  "archive_preflight_sha256": "40da6131e0057627769af162b8c635020198c860d5295578e59d34e999865322",
+  "archive_source_manifest_sha256": "a2973071acadf279d9e22535611167705a9f1918d76270f3938ca93d85da435c",
+  "blanket_normalization_allowed": false,
+  "checked_at_utc": "2026-10-02T00:18:24.879255+00:00",
+  "checked_files": 33,
+  "files": [
+    {
+      "archive_sha256": "c9ca7f8b003e19f290951d79fb5e403e4782137a3f1d2b21d02ff531cea7e73e",
+      "canonical_git_blob_sha1": "0bcd226dbdf9fd13418cc951a3d30da1d8c125db",
+      "canonical_sha256": "3497de3693dc36702e06930e04e0edd328b2c6b6a936b014a16befae2b624cef",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/dart.bat"
+    },
+    {
+      "archive_sha256": "d0718f626198f76ae34480f0c3f8c7a50cdf9e81bded0a82ef7fe565a9e0238b",
+      "canonical_git_blob_sha1": "64a913ea1960a82dc4b33d5d60d1fcec337d5236",
+      "canonical_sha256": "deaf0ce3c059ab9e1ebc88dfce930cd832e6518eb10bd735992981ed5682df8c",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/flutter-dev.bat"
+    },
+    {
+      "archive_sha256": "f83bfed7ecd10fd1afd8ce19c0b0119d2c80e24fbf26f4ff4f63c1cc5f75dcd5",
+      "canonical_git_blob_sha1": "246cbb5d3fd0dc80c5fb8fab879cff170d6d4dd7",
+      "canonical_sha256": "2b7ba2976ed9ebcbc459efa86d1148635b75e8cc6672aacd1b3f384df8b4611a",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/flutter.bat"
+    },
+    {
+      "archive_sha256": "5a65cc90ae6df3d241ce51f63d3689b733afc18fa52ac6b1d376a762c8007d29",
+      "canonical_git_blob_sha1": "275af26df3648fce5566d39645ff39ad3cce9928",
+      "canonical_sha256": "e50dd4313b451b5fa4395ce3110a6b15e7480fa1c9a5c0a6b822a9edc27be1c6",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/content_aware_hash.ps1"
+    },
+    {
+      "archive_sha256": "f4014bd05cc24391ff28f7bd5b22949cc80f0bb66ab9eda512c9c3997f0283e0",
+      "canonical_git_blob_sha1": "921624d5b0cb8d6f791f3f438da9c1a9b38ef5fe",
+      "canonical_sha256": "8aef9584b72330655b648322262097804b32714e206d6ad73cbc452259165f35",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/exit_with_errorlevel.bat"
+    },
+    {
+      "archive_sha256": "1db22f519548c7e208d9ca9399b9bf5a642c4090382aad629c15a58b72be69c1",
+      "canonical_git_blob_sha1": "a4789942c2b1f2d9ed54340fd5ce264a81239365",
+      "canonical_sha256": "5872f061ac2f99fab93f3d1e65d540111c3958ec563bcc3c6062d2701e96b035",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/last_engine_commit.ps1"
+    },
+    {
+      "archive_sha256": "b1b8a1b696ecd1265c0cfdc1408c340f0d8351c0e1624710bb8fbf1ab218d4db",
+      "canonical_git_blob_sha1": "1a55bffb11b98bfd647e327256b0eb787b5aa772",
+      "canonical_sha256": "98b548ae0022267da3aeb9e7c4c98b3ef8b8f0a1aa0ffd98c2399597ed77e0df",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/shared.bat"
+    },
+    {
+      "archive_sha256": "80b35d02219b9b2f59adac3f04f47ee95d8a7680656585fab7b3c84e939bdf65",
+      "canonical_git_blob_sha1": "318ef62add853afbebedca0a194e6170047beee5",
+      "canonical_sha256": "6436a8b27e167f1c449480a1e327a8d3e7e0c6d40f0a522c0ac28400cf03b525",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/update_dart_sdk.ps1"
+    },
+    {
+      "archive_sha256": "f2a743b9b0532ad7c22b1ea1fbfb80e1a946674a58327034c08b5471842c18bc",
+      "canonical_git_blob_sha1": "2eed1b0723d8203cdc01019e2bebd4ce1604d9b0",
+      "canonical_sha256": "1c6fa527356e128231a2bde87deb8b72cc518d7096a7c16190765399890f36ed",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/bin/internal/update_engine_version.ps1"
+    },
+    {
+      "archive_sha256": "0b37f40c9400ab0b405f480487abe2535329dd2f97ef43d60bcc9c5a814fccf9",
+      "canonical_git_blob_sha1": "9b5eba68d5484f612acbff61acc936088ee450f1",
+      "canonical_sha256": "9d84bc1f7e338a8a6ba9b106d3573bf88ac953cd81f643927aaaf8d1f0ebc4ba",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/a11y_assessments/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "330a600e4317cf77e07719ef7be1a53a5b9fe370544c314dc96882dcb3ec124a",
+      "canonical_git_blob_sha1": "43a6726c33f6dc949a19e4c3c1989a2b4418a7ca",
+      "canonical_sha256": "8d880a6f9257da46825946f39deffd9b8c6b0e295a23d93f7ee629122c558ad1",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/benchmarks/complex_layout/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "f0a58bebfed5919cd1f817e5f2897d6259ed6bd1b41ea9c0604cc9924f8ebee3",
+      "canonical_git_blob_sha1": "1536db554a2875fa147ec242ef3affe6bbf192b0",
+      "canonical_sha256": "c29390fc6815cf29bae01d61aabf96c42f2fc523b3611a4c334fd5b648f53814",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/customer_testing/ci.bat"
+    },
+    {
+      "archive_sha256": "0eadc8ffe1c56f91b948e477979e6d3fb99ca43913fa5613300d8be2542e95bb",
+      "canonical_git_blob_sha1": "b9e1c0939940ed7b7f5b80a7fd93a21acf38977c",
+      "canonical_sha256": "2174fab201d59e2ca49ddbb860a37347d03b5e42c503e0b5b5c64cbb417726e2",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/integration_tests/data_asset_app/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "aa998749709cffa9675f78618250c168f69d49a50905a74be8a5b1b8a32b4f98",
+      "canonical_git_blob_sha1": "79f936a2f5dbf4163ca9610f0a0d99c71cd06042",
+      "canonical_sha256": "5053795649beafb0069854955b5d48c3a0805944c9ced7e5d4cbca4fd31696f9",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/integration_tests/flutter_gallery/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "cc4837637e736953cdcb91cadc84f51e50e8f3de9b4b128dd75bc85dc37fc408",
+      "canonical_git_blob_sha1": "f74da7eb54f26fe6c500c7e17efb05ba05996a8f",
+      "canonical_sha256": "cbf711352fea6057529e6774210a347bf7a495d26d207ffdb567f18e8d9ac6f8",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/integration_tests/ui/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "45279d4c33e66fb55524f7ac499453d5eeaca575d78adefdbce261c08bc596b6",
+      "canonical_git_blob_sha1": "9101e691326232bbf05c55ac4835e92215ed6b0f",
+      "canonical_sha256": "88f9b9eb2c4173ea15bd76fb5fd8ae990d296478b6422351596da122fe6ad3b0",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/integration_tests/windowing_test/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "5d9909cceeb0525549fc467427eb9699a22b0ebebbad9ac07196c7e56dc676e4",
+      "canonical_git_blob_sha1": "b2671cacb8c68644d021b216ba95bb090b41db89",
+      "canonical_sha256": "c6672e4e4c58be64e8280d1b7b91e49b81689620367f9865fcc785bebbedb9cf",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/integration_tests/windows_startup_test/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "da2f175907cb2d9fff28aad1cb4b54e8426f6a6f40e7fe81830a7f997d76e2cd",
+      "canonical_git_blob_sha1": "7d70f92ec37af17e3389e818b913945f001cea49",
+      "canonical_sha256": "61c5033fcf03d9ee9b606e1d2c9938e2aacb09d38575ede9eacc606aa59d8394",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/manual_tests/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "579ba6c6dbcebf8f7c019e5fa2eade37fa3d118a1244857dea0866c13591a887",
+      "canonical_git_blob_sha1": "46ed331d7abad969de53f42ecf782be6806b0e68",
+      "canonical_sha256": "43912b57c893a36e7cee85534acff7e9f54a22a2a8956837e50cdafb6a044508",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/dev/tools/format.bat"
+    },
+    {
+      "archive_sha256": "f927d9d491c08fbb98bfd6d31b5a290a083862420edb84d4662635fdbd31f7d1",
+      "canonical_git_blob_sha1": "b5d90f7caafb80b98e9be448dee32751e060fc0a",
+      "canonical_sha256": "b037d409ab8eadcf9d83b9509fcb8c6700c2028972f87e7da9aa7475ef9d27cf",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/engine/src/flutter/bin/et.bat"
+    },
+    {
+      "archive_sha256": "e2da73a42b61242f97af72c558401891090196e3b90582830e9cb4f41b558bbb",
+      "canonical_git_blob_sha1": "b8c5d8ad71a48e23f2d3c263c2b216e95fcd4588",
+      "canonical_sha256": "7fa6b642fb40d1ef573262834030059c239044c92b9ae4bfdae664d604a0f811",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/engine/src/flutter/ci/format.bat"
+    },
+    {
+      "archive_sha256": "a01541ce394ff810b29a5684fef2d6d9fe56541fb14dd5a91fba8a8d9372c026",
+      "canonical_git_blob_sha1": "4d13b43786ee802df7544a52b6222b2e6245cd3c",
+      "canonical_sha256": "0396b798a53457153e53686bc5d0506ab1ae3c490c38e9febe249c171db5c13c",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/engine/src/flutter/lib/web_ui/dev/felt.bat"
+    },
+    {
+      "archive_sha256": "d26e9eb05f4e254bb5c0b7bb99d85b0481cb441ef452cf5ee4220c0b35f7999e",
+      "canonical_git_blob_sha1": "adf7d8953ee459d228a864924ccfe9af70efd50c",
+      "canonical_sha256": "267c239e11017f4eb82eb547191837c43a870d74231e9e815ea85950ad8142ea",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/engine/src/flutter/tools/gn.bat"
+    },
+    {
+      "archive_sha256": "dff2369c3f0a39da300006589c90092c4f7639ab0007e0cd39c857b9b6c08703",
+      "canonical_git_blob_sha1": "e75ae51364a32db82683b34b9f6f322bb2f3a6ec",
+      "canonical_sha256": "cd27592617cb745cab9b3fae18d8781a5052a32ca7e344939c916e39a4f20da8",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/engine/src/flutter/tools/yapf.bat"
+    },
+    {
+      "archive_sha256": "72e9095a54011c076f294e338d7799ae0daad202b8db6e0923f08e7648de2a5e",
+      "canonical_git_blob_sha1": "34a087abcbc73e1c0cc602afcf1c1745d588c24d",
+      "canonical_sha256": "de07285364dde89bff67fdfcf130df876eac8ff03b7b01ef492ac292c5d4b539",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/api/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "d60d27f75f377632e4fcf92ef76cfcc377cb571c7bbc46b4a79698346b664a15",
+      "canonical_git_blob_sha1": "1683efd58f2f55e262b36eedfbed02e16b25392d",
+      "canonical_sha256": "ea5ba104be0b61118fc2c047253f1727a76fccd05332b53fee7b336f518294cb",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/flutter_view/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "3a4ac532739d4318d2b0bd4616254fe223446ac427ea3b4871b1183a83350a39",
+      "canonical_git_blob_sha1": "fb3a7ba2fc2d911a53dfcef353549ab2717f3422",
+      "canonical_sha256": "c85c6e1eb398f8061379deef9b0dc239a4b4bfe50104ae4a3e2a065dce91c2ca",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/hello_world/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "1b30991ca01685953862972f5a9e6dd41a7c4079ee1e31faab04eb71f4328da9",
+      "canonical_git_blob_sha1": "a3740660d8bc0f37273336b22b501d3c93d56892",
+      "canonical_sha256": "8cd0bd680da01ae2b3510dd3265cac277115c68cea3e79ef74783d2208ff75d6",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/layers/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "a45ba15f79773c7a54db240d883474742f62297f0ec16ba089aa41bd35ac436f",
+      "canonical_git_blob_sha1": "d9d3832510220d30aef49ae62cd9e0fa326f7645",
+      "canonical_sha256": "335dac0aa9532d97fbdedc8e6c1fb06671aee683bc8725f17ae1150885d9d500",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/multiple_windows/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "64669afc7b62ed824ac962e7885de97c7be2f73bf8c5cb4647b063dc2ed56290",
+      "canonical_git_blob_sha1": "7f604a7b067cb7116df88f46bd12dfda16534a83",
+      "canonical_sha256": "f1cb3b0272cb1c65a41a8c42e40b25c103a5d402a981f3910f1c5aa77ead13d1",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/platform_channel/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "89f21fc0bf29e88206c40ba8891d0d8f6490155f79897fc8f91c2325db3eda2f",
+      "canonical_git_blob_sha1": "ab09dd472f3f5350e2c1b77140e22020f50391ab",
+      "canonical_sha256": "2e78f95f521236c5039cc66bc09a532cbfed911ec3a0ab4db692eed10991484c",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/examples/platform_view/windows/runner/Runner.rc"
+    },
+    {
+      "archive_sha256": "551d742a340deb6d041cf0664ba813e2fbab0bd8f8617500a1a4678a08b30ce4",
+      "canonical_git_blob_sha1": "e88b8e7f15aca18f3063a3138e3710b303505368",
+      "canonical_sha256": "d61c5aabb863d0fd0d2ce9983c5c66a9f73c9d338157802656b358d68fbf4762",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/flutter_console.bat"
+    },
+    {
+      "archive_sha256": "314e44db292d9977ea0108b11b75d17f41632caaafbad888acfc0a60eeb92525",
+      "canonical_git_blob_sha1": "7140f90b9e3cf4f48575fd0702cc692ef61e46d7",
+      "canonical_sha256": "07d99ac4082b4e3b01ee7aaa0d0cc4304b086fd938d20ef3dfe7290b91147144",
+      "exact_attribute_checkout_only": true,
+      "path": "flutter/packages/flutter_tools/bin/tool_backend.bat"
+    }
+  ],
+  "review_scope": "Exactly enumerated 33 CRLF worktree representations mandated by pinned publisher attributes; each inverse canonical blob matches the authenticated source tree. This is separate from full independent expansion, compiler, runtime, compatibility or release acceptance.",
+  "root_attributes_sha256": "804725d344c1751047712e218ce8629c84b31943e3e03c382889ba2edf7a76d9",
+  "schema_version": 1,
+  "shared_SDK_modified": false,
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "status": "root_independent_exact_33_checkout_deltas_verified"
+}

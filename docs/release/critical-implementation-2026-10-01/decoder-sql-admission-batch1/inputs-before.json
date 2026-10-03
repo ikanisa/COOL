@@ -1,0 +1,10 @@
+{
+  "source_sha256": {
+    "scripts/tests/roster_fresh_auth_recovery_uat.sql": "5e0593554514b99a9ff9c4e1dd1353f6ff96e3a06c7d288b15fff3c486d0ff57",
+    "scripts/tests/roster_resource_concurrency_uat.rb": "157b532a972b2280d16b2bb0a968dfad73d4fe6b3419c1f4f04c8090e4f9a9da",
+    "scripts/tests/roster_resource_final_compatibility_uat.sql": "cf01acb18db68afd85d26cf11a241f796fa4649d2dbc4140237756bbe99cd777",
+    "scripts/tests/roster_resource_integrity_uat.sql": "badb9cdf37e14e090a4bb9ea4ec2d6a06dc3621b15b721cd8cd6f2e28cdfc6f6",
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b"
+  },
+  "migration_count": 193
+}

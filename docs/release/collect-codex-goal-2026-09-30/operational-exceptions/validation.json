@@ -1,0 +1,31 @@
+{
+  "recorded_at": "2026-09-30T23:09:11.111369+00:00",
+  "status": "local_scoped_pass",
+  "passing_cases": 144,
+  "sql_source_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+  "runner_sha256": "236be45f10ce592ea657c19707af09360a296680d81c277e405cd1afbf44643d",
+  "baseline": {
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "captured_migration_count": 153
+  },
+  "source_still_matches_executed_bytes": true,
+  "container_removed": true,
+  "database_removed": true,
+  "report": "sql-attempt7/result.json",
+  "source_rows_copied": false,
+  "hosted_migrations_applied": false,
+  "otp_requests": 0,
+  "sms_sent": false,
+  "actual_auth_provider_or_jwt_verified": false,
+  "managed_installer_verified": false,
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false,
+  "unattended_identity_created": false,
+  "scope": "Seven migrations on schema153 fixture; all79 receipt-foundation cases plus operational assertions. This is not a whole167 migration or production rehearsal. Auxiliary helper inputs were not hash-captured at test start.",
+  "current_readback_links_verified": false,
+  "latest_inbox_ui_implemented": false,
+  "review_actions_resolve_source": false,
+  "unknown_lookup_may_wait_on_authority_gate": true,
+  "production_ready": false
+}

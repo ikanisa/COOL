@@ -1,0 +1,33 @@
+{
+  "actual_seconds": 159.1,
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+    "--offline",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget-platform=android-arm,android-arm64,android-x64",
+    "-Ptarget=lib/main.dart",
+    "-Pandroid.builder.sdkDownload=false",
+    ":app:bundleProductionRelease"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 2700,
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T14:22:13.626832+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 14881,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T14:19:34.526655+00:00",
+  "stderr_sha256": "4f7edd1b8e7c99f75f19d72f4e5f41b0506ed50c68c08fc45cb3a10fcbefcf54",
+  "stdout_sha256": "fdfb351885a88ee2b1f318cd7b987ba5cf8e710a29d5ddde4f9a641d19cf0d03",
+  "timed_out": false
+}

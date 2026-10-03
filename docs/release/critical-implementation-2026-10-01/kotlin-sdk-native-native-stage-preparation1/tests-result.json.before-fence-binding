@@ -1,0 +1,10 @@
+{
+  "actual_native_execution": false,
+  "errors": 0,
+  "failures": 0,
+  "fixture_parent": "/private/tmp",
+  "guard2_test42_and_original31_proofs_reused": true,
+  "real_APP_control_SDK_reads_or_writes": false,
+  "skips": 0,
+  "tests": 7
+}

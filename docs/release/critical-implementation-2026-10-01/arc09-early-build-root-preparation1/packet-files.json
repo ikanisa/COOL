@@ -1,0 +1,50 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 967,
+      "sha256": "ec75091fae65994a0e52900f2508ae096990f9c5f5b150a3e593d8fe20ede8e2"
+    },
+    "diagnostic-basis.json": {
+      "bytes": 2535,
+      "sha256": "4788abcb0b3fe7013cc6e9610c1c598bdfd243a8d97c09f319f6b937f22c8229"
+    },
+    "original-source-fences.json": {
+      "bytes": 1505,
+      "sha256": "fac4278f3b4e9337ad1249abf82c90bed41e304bc0ca9395ddffbe8bcab86d0c"
+    },
+    "original/android/app/build.gradle.kts": {
+      "bytes": 24464,
+      "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+    },
+    "original/android/build.gradle.kts": {
+      "bytes": 886,
+      "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+    },
+    "proposal.patch": {
+      "bytes": 1788,
+      "sha256": "58c35ca566686ebfc2449e897f6bda80ce055f74973b45727c8fa278a93d16d8"
+    },
+    "proposed/android/app/build.gradle.kts": {
+      "bytes": 24009,
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    "proposed/android/build.gradle.kts": {
+      "bytes": 1380,
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    "source-binding-delta.json": {
+      "bytes": 1819,
+      "sha256": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6"
+    },
+    "verification-plan.json": {
+      "bytes": 2902,
+      "sha256": "8efdddd8c5ba2d730a9e2156f92e327d64d41ee100a031ed1d5f5acb2c7794c1"
+    },
+    "verify-default-proguard.init.gradle": {
+      "bytes": 3716,
+      "sha256": "31884687b40b243106c7875fb2b25b009e60e6dce3d8766f4547dc77929397f5"
+    }
+  },
+  "payload_count": 11,
+  "schema_version": 1
+}

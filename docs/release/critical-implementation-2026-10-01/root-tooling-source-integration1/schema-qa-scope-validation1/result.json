@@ -1,0 +1,175 @@
+{
+  "BE08_closed": false,
+  "actual_qa_consumers_admitted": [
+    "scripts/qa/backend_release_delivery.py",
+    "scripts/qa/postgres_admission.py"
+  ],
+  "actual_test_count": 32,
+  "at_utc": "2026-10-02T06:58:39.464802+00:00",
+  "commands": {
+    "schema-domain-full-semantic-readback": {
+      "actual_seconds": 3.726,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/generated-current209-complete-qa",
+        "--verify",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "environment": {
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T06:58:39.356376+00:00",
+      "owned_process_group_absent": true,
+      "pid": 34186,
+      "residual_process_group_required_stop": false,
+      "started_utc": "2026-10-02T06:58:35.630514+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dbc3f59a551ae7836831e2e00dc9440a22a76b16eecb77d4b9507353e52ca121",
+      "timed_out": false
+    },
+    "schema-domain-generation": {
+      "actual_seconds": 2.962,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/generated-current209-complete-qa",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "environment": {
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T06:58:35.630271+00:00",
+      "owned_process_group_absent": true,
+      "pid": 34154,
+      "residual_process_group_required_stop": false,
+      "started_utc": "2026-10-02T06:58:32.668415+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b722dc8be9fb8a1ebc3465946ffcded18a9b185f1f6b3b9dd59c9a04e6ae3760",
+      "timed_out": false
+    },
+    "schema-domain-tests": {
+      "actual_seconds": 0.203,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "environment": {
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T06:58:32.668065+00:00",
+      "owned_process_group_absent": true,
+      "pid": 34153,
+      "residual_process_group_required_stop": false,
+      "started_utc": "2026-10-02T06:58:32.464884+00:00",
+      "stderr_sha256": "3dbae400ae80df3a68bc42abb012bca258e911d00977749d6fbd73af2ae29ce4",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    }
+  },
+  "coverage": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 775,
+    "functions_without_exact_body_hash_match": 127,
+    "maintained_source_files": 664,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4754,
+    "unclassified_objects": 74
+  },
+  "generated_output": "docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/generated-current209-complete-qa",
+  "generated_output_files": [
+    {
+      "path": "DOMAIN_MAP.md",
+      "sha256": "9eb878c9eb507925cc91fb57d2f79f0b3b684a41699eb951383075a89d77a3e6"
+    },
+    {
+      "path": "coverage.json",
+      "sha256": "5b3587eab066aabaa623fd98a2ac04aa2a827ebc02e72b4391bafa0d30d55987"
+    },
+    {
+      "path": "gaps.json",
+      "sha256": "d00a10acc7c3c3a224a69f388abb80d665de72c12dbd7263e17afe8c1db5a97d"
+    },
+    {
+      "path": "input-manifest.json",
+      "sha256": "145823c0b270324b4047213cae0fc7eda9a9939a9303a9a534f3d1e03a81a7a0"
+    },
+    {
+      "path": "schema-domain-map.json",
+      "sha256": "892423de19baebd6e7562eb27564234de021d4d0fa5af6a8b4123aed3951ed8e"
+    }
+  ],
+  "historical_generated_current209_preserved": true,
+  "historical_output_files_verified": 5,
+  "maintained_mutations": false,
+  "readback": {
+    "acceptance": "draft-with-open-mappings",
+    "catalog_categories_preserved": 20,
+    "catalog_matches_current_migration_names": true,
+    "catalog_objects_verified": 2543,
+    "grants_verified": 4157,
+    "input_files_verified": 1091,
+    "replayed_migration_bytes_match": true,
+    "semantic_output_files_verified": 5,
+    "status": "PASS",
+    "verification_method": "full-independent-recomputation"
+  },
+  "runtime_or_business_authority_claimed": false,
+  "source12_authority_sha256": "588cd1101e228ec6cf014c5b67af5f6567406c9f3dc17afb1ba2b58591b4cd58",
+  "source12_before_after_match": true,
+  "status": "PASS",
+  "transitive_before_after_and_generated_manifest_match": true,
+  "transitive_input_count": 1091,
+  "transitive_input_manifest_sha256": "27d60e0429453b9071b676b335daa4d6c60ee68902dfe854e2c1c1ae1893f9f8"
+}

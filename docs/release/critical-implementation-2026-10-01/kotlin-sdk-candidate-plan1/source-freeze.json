@@ -1,0 +1,12 @@
+{
+  "candidate_created": false,
+  "candidate_native_tests_run": false,
+  "file_count": 20,
+  "installed_sdk_matched_selected_sources_and_observed_lock_unchanged": true,
+  "native_packet_source_freeze_sha256": "8f8e7903066131ccff29853038d5488aac5a2a0504eb8ce6993ed95ab2cc40c9",
+  "packet_manifest_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+  "production_release_approval": false,
+  "proposed_patch_sha256": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+  "recorded_utc": "2026-10-01T23:41:05.586405+00:00",
+  "status": "READ_ONLY_PLAN_FROZEN_FULL_ARC09_OPEN"
+}

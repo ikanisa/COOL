@@ -1,0 +1,121 @@
+{
+  "archive": {
+    "bytes": 2210831302,
+    "extracted": false,
+    "local_device": 16777247,
+    "local_inode": 16805789,
+    "mtime_ns": 1790899645915037669,
+    "original_transfer_deadline_utc": "2026-10-02T00:21:31.274934+00:00",
+    "physical_regular_nlink": 1,
+    "published_and_readback_md5_base64": "38g/h4BjTUdVZ3o/PtaoYg==",
+    "published_and_readback_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+    "publisher_feed_url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json",
+    "publisher_generation": "1782343628635421",
+    "publisher_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+    "stream_and_complete_filesystem_readback_match": true,
+    "task_local_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/flutter_macos_arm64_3.44.4-stable.zip",
+    "transfer_seconds": 958.958
+  },
+  "archive_preflight": {
+    "all17_links_recursively_contained": true,
+    "central_directory_manifest": "archive-central-directory.json",
+    "competing_UI_design_skill_count": 0,
+    "elapsed_seconds": 2.582,
+    "enforced_actual_deadline_seconds": 180,
+    "entries": 22415,
+    "exact_checkout_delta_parent_review_pending": true,
+    "exact_required_Windows_CRLF_checkout_deltas": 33,
+    "expanded_bytes": 4244148641,
+    "filesystem_expansion_performed": false,
+    "free_bytes": 41564536832,
+    "maximum_member_bytes": 500999381,
+    "metadata_admitted_with_exact15_parent_reviewed_links": true,
+    "negative_rejections": 18,
+    "prepared_writer_executed": false,
+    "raw_byte_strict_admission_retained": false,
+    "raw_source_leaves_matched": 15627,
+    "receipt": "archive-preflight.json",
+    "required_expansion_headroom_bytes": 6391632289,
+    "root": "flutter",
+    "source_Git_mode_mismatches": 0,
+    "source_bytes_compared_in_RAM": 149804963,
+    "source_leaf_entries": 15660,
+    "source_licenses_exact": 28,
+    "source_paths_missing": 0,
+    "technical_skill_paths": [
+      "flutter/.agents/skills/find-release/SKILL.md"
+    ],
+    "unexplained_source_deltas": 0
+  },
+  "full_source_worktree_materialized": false,
+  "next_prerequisite": {
+    "exact_checkout_delta_manifest": "publisher-checkout-eol-deltas.json",
+    "new_exact_bounded_plan": "safe-extraction-plan2.json",
+    "original_plan_preserved": "safe-extraction-plan.json",
+    "plan_executed": false,
+    "prepared_code": "prepare_safe_expansion.py",
+    "required": "Parent reviews exact33 attribute-prescribed checkout byte pairs and prepared writer/preflight receipts before authorizing physically independent expansion. Then complete expanded-byte manifest/source/license readback and absence of external/shared inodes, followed by separate reviewed SDK patch and genuine consumer/ABI/advisory acceptance.",
+    "reviewed_cache_links_manifest": "reviewed-framework-links.json"
+  },
+  "passed_scoped_prerequisite": true,
+  "preservation": {
+    "installed_SDK_mutations_by_this_task": false,
+    "owned_repository_pin_lock_verifier_inputs_unchanged": 8,
+    "sealed_native_and_plan_leaves_unchanged": 103
+  },
+  "primary_artifact_metadata": {
+    "Dart_standalone_object_metadata_retained": true,
+    "Dart_version_in_feed": "3.12.2",
+    "additional_source_derived_engine_object_metadata_HTTP200": 12,
+    "engine_content_hash_is_not_archive_checksum": true,
+    "engine_revision": "a10d8ac38de835021c8d2f920dbf50a920ccc030",
+    "standalone_engine_Dart_bodies_downloaded": false,
+    "standalone_metadata_digest_strength": "Publisher MD5/CRC32C metadata; not independent SHA256 or binary execution proof"
+  },
+  "production_release_approval": false,
+  "provenance": {
+    "ARM64_DSSE_subject_matches_publisher_feed_and_actual_archive": true,
+    "DSSE_crypto_signature_verified_locally": false,
+    "PGP_crypto_signature_verified_locally": false,
+    "publisher_GitHub_PGP_report": "verified=true, reason=valid; exact signature/payload match fetched canonical commit",
+    "x64_attestation_separately_bound_to_distinct_x64_digest": true
+  },
+  "recorded_utc": "2026-10-02T00:17:46.177444+00:00",
+  "remaining_ARC09": "Full expanded/source/license/physical foundation; explicit reviewed minimal SDK patch; genuine compiler/runtime resolution and ABI/current native/Dart consumer checks; independent advisory/license acceptance; controlled SDK selection. Production/signing approval remains false.",
+  "repository_sdk_pin_changed": false,
+  "retained_failures": [
+    "Original unfiltered exact Git source fetch deadline600s/exit-15; no checkout",
+    "Recursive tree urllib IncompleteRead",
+    "Recursive tree HTTP2 CANCEL/exit92 with actual partial body",
+    "Naive API canonical commit reconstruction omitted terminal gpgsig continuation; authoritative fetched Git object and exact API payload/signature binding later succeeded"
+  ],
+  "schema_version": 1,
+  "sdk_bootstrapped": false,
+  "sdk_candidate_promoted": false,
+  "sdk_patch_applied": false,
+  "source_origin": {
+    "additional_packaging_sources_exact_byte_bound": 4,
+    "all_tree_entries_match_official_API_and_actual_Git": true,
+    "canonical_raw_commit_sha256": "b8ad4686ef429e054b6ce70b2a3de06d5d58175ba53326a0dfb1ae7c7a06f08b",
+    "casefold_aliases": 0,
+    "exact_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "exact_root_tree": "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa",
+    "full_worktree_bytes_verified": false,
+    "gitlinks": 0,
+    "official_git_remote": "https://github.com/flutter/flutter.git",
+    "promisor_blobs_intentionally_absent": true,
+    "regular_blobs_metadata_bound": 15658,
+    "regular_source_expected_bytes": 149802058,
+    "selected_source_license_files_exact_byte_bound": 10,
+    "symlinks_exact_targets_inside_tree": 2,
+    "tree_entries": 19283,
+    "tree_objects_reconstructed": 3624
+  },
+  "status": "PUBLISHER_ARCHIVE_SOURCE_OBJECTS_AND_PREFLIGHT_AUTHENTICATED__EXPANSION_NOT_STARTED__CHECKOUT_REVIEW_PENDING",
+  "verification": {
+    "Git_fsck_exit_code": 0,
+    "actual_canonical_object_byte_drift_negatives": 2,
+    "actual_tree_license_path_truncation_drift_negatives": 6,
+    "scope": "Metadata/object integrity and14 selected regular source/license/packaging file identities only; missing promisor blobs and unexpanded bundle prohibit full materialized SDK acceptance."
+  }
+}

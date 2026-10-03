@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="deno test" tests="127" failures="0" errors="0" time="0.121">
+    <testsuite name="./supabase/functions/prepare-roster-import/handler_test.ts" tests="74" disabled="0" errors="0" failures="0">
+        <testcase name="source hash is SHA256 of exact UTF8 bytes including whitespace" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="29" col="6">
+        </testcase>
+        <testcase name="source rejects forged actor_id instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.002" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged session_id instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged source_sha256 instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged source_size instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged model instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged import_id instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="source rejects forged ai_consent instead of treating it as evidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="49" col="8">
+        </testcase>
+        <testcase name="uploaded csv hashes original bytes and produces a human-review-required preview" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.001" line="62" col="8">
+        </testcase>
+        <testcase name="uploaded txt hashes original bytes and produces a human-review-required preview" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="62" col="8">
+        </testcase>
+        <testcase name="uploaded malformed UTF8 cannot be silently replaced" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="89" col="6">
+        </testcase>
+        <testcase name="XLSX framing stores separate original and explicitly client-derived TSV hashes" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.001" line="107" col="6">
+        </testcase>
+        <testcase name="Auth verification precedes decoding and any RPC or provider access" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="148" col="6">
+        </testcase>
+        <testcase name="verified-user session boundary rejects {&quot;sub&quot;:&quot;22222222-2222-4222-8222-222222222222&quot;}" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="163" col="8">
+        </testcase>
+        <testcase name="verified-user session boundary rejects {&quot;session_id&quot;:&quot;invalid&quot;}" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="163" col="8">
+        </testcase>
+        <testcase name="verified-user session boundary rejects {&quot;role&quot;:&quot;service_role&quot;}" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="163" col="8">
+        </testcase>
+        <testcase name="session decoding returns verified actor and original session only" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="173" col="6">
+        </testcase>
+        <testcase name="AI consent {&quot;ai_consent&quot;:false} is rejected before source/provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="183" col="8">
+        </testcase>
+        <testcase name="AI consent {&quot;consent_version&quot;:&quot;forged&quot;} is rejected before source/provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="183" col="8">
+        </testcase>
+        <testcase name="AI consent {&quot;ai_consent&quot;:&quot;true&quot;} is rejected before source/provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="183" col="8">
+        </testcase>
+        <testcase name="AI source and consent receipt precede provider; final preview binds original hash and safe metadata" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.001" line="193" col="6">
+        </testcase>
+        <testcase name="source RPC roster_session_required blocks extraction safely" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="238" col="8">
+        </testcase>
+        <testcase name="source RPC roster_import_in_progress blocks extraction safely" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="238" col="8">
+        </testcase>
+        <testcase name="source RPC roster_request_conflict blocks extraction safely" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="238" col="8">
+        </testcase>
+        <testcase name="source RPC private SQL detail blocks extraction safely" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="238" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;source_sha256&quot;:&quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;source_size&quot;:0} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;import_id&quot;:42} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;extraction_id&quot;:null} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;replayed&quot;:&quot;false&quot;} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;source_kind&quot;:&quot;text&quot;} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="malformed source ACK {&quot;unknown&quot;:true} never permits provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="257" col="8">
+        </testcase>
+        <testcase name="completed exact request replay returns original immutable preview with no second extraction" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="268" col="6">
+        </testcase>
+        <testcase name="failed request replay returns saved safe failure without provider or failure mutation" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="280" col="6">
+        </testcase>
+        <testcase name="provider network records a sanitized terminal failure" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="306" col="8">
+        </testcase>
+        <testcase name="provider timeout records a sanitized terminal failure" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="306" col="8">
+        </testcase>
+        <testcase name="missing configured key records unavailable attempt without provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="314" col="6">
+        </testcase>
+        <testcase name="invalid provider JSON is not persisted or exposed" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="328" col="6">
+        </testcase>
+        <testcase name="provider overrun cancels bounded stream and records failure" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="342" col="6">
+        </testcase>
+        <testcase name="failed durable failure acknowledgement is not reported as recorded success" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="367" col="6">
+        </testcase>
+        <testcase name="lost completion ACK cannot overwrite possibly completed revision as failed" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="377" col="6">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;can_submit&quot;:true} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;requires_human_review&quot;:false} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;source_sha256&quot;:&quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;revision_number&quot;:2} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;row_count&quot;:2} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;ready_count&quot;:9} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="malformed preview ACK {&quot;normalized_rows&quot;:[]} cannot be used" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="401" col="8">
+        </testcase>
+        <testcase name="oversized request is rejected before source receipt or provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="412" col="6">
+        </testcase>
+        <testcase name="oversized deterministic rows are rejected before completion" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="423" col="6">
+        </testcase>
+        <testcase name="Rwanda phone prefixes align with authoritative SQL admitted prefixes" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="438" col="6">
+        </testcase>
+        <testcase name="a pending source receipt cannot release provider work before its ACK" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="450" col="6">
+        </testcase>
+        <testcase name="rejected delayed source receipt does not leak a provider call" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="470" col="6">
+        </testcase>
+        <testcase name="server candidate integer limit is checked before preview RPC" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="490" col="6">
+        </testcase>
+        <testcase name="overlong deterministic fields fail before preview RPC" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="506" col="6">
+        </testcase>
+        <testcase name="bounded correctable deterministic names remain visible with issues" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="517" col="6">
+        </testcase>
+        <testcase name="500 headerless deterministic members is accepted and 501 rejected" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.002" line="528" col="6">
+        </testcase>
+        <testcase name="provider HTTP failure body is cancelled and never exposed" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="547" col="6">
+        </testcase>
+        <testcase name="completion rejects a different model instead of silently relabelling lineage" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="566" col="6">
+        </testcase>
+        <testcase name="completion rejects substituted source provenance" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="575" col="6">
+        </testcase>
+        <testcase name="normalized preview rows must be the same ordered ready rows" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="584" col="6">
+        </testcase>
+        <testcase name="OPTIONS and unsupported methods cannot invoke Auth, SQL or provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="599" col="6">
+        </testcase>
+        <testcase name="serialized candidate envelope is bounded before SQL despite valid source text size" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.010" line="613" col="6">
+        </testcase>
+        <testcase name="PDF source keeps its display filename internally and forwards original bytes only with a fixed provider filename" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.001" line="626" col="6">
+        </testcase>
+        <testcase name="provider body timeout records timeout rather than returning or storing its partial bytes" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="668" col="6">
+        </testcase>
+        <testcase name="PostgreSQL JSONB resource estimate includes separators, UTF8 and expanded numeric confidence" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="685" col="6">
+        </testcase>
+        <testcase name="near-limit compact candidate envelope cannot bypass PostgreSQL separator expansion bound" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.017" line="705" col="6">
+        </testcase>
+        <testcase name="multibyte names are bounded by UTF8 bytes despite smaller codepoint count" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.004" line="719" col="6">
+        </testcase>
+        <testcase name="provider exponent expansion is bounded before SQL and records a terminal failure" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.010" line="731" col="6">
+        </testcase>
+        <testcase name="deterministic NUL never reaches JSONB completion and produces a durable invalid-preview failure" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="756" col="6">
+        </testcase>
+        <testcase name="definitive SQL candidate rejection is terminally recorded without a provider rerun" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="769" col="6">
+        </testcase>
+        <testcase name="daily source limit maps to safe429 without a provider call" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="784" col="6">
+        </testcase>
+        <testcase name="valid expired source receipt prompts a new upload with409 and no provider" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="795" col="6">
+        </testcase>
+        <testcase name="expired cached preview never silently restarts extraction" classname="./supabase/functions/prepare-roster-import/handler_test.ts" time="0.000" line="806" col="6">
+        </testcase>
+    </testsuite>
+    <testsuite name="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" tests="53" disabled="0" errors="0" failures="0">
+        <testcase name="AI dispatch policy absent approval blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.002" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy absent digest blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy malformed JSON blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy oversized JSON blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy unbound digest blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy missing organization blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong organization blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong project blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong model blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong decoder URL blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong decoder build blocks all charged/external effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="85" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy disabled is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy not approved is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy string boolean is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong purpose is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy wrong processor is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy foreign endpoint is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy regional endpoint unsupported is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy expired is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy future is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy missing region evidence is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy missing retention evidence is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy missing decoder processor evidence is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy unknown field is denied despite consent and key" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="119" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy cannot be authorized by caller fields" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="130" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy approved tuple selects request scope without changing data/body custody" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.001" line="140" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy preflight preserves deterministic and XLSX paths without approval" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.001" line="172" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy raw approval bytes drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy raw policy digest drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy model drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy organization drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy project drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy decoder URL drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy decoder build drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy API key drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy signing secret drift during held source ACK blocks provider and records failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="230" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy revocation during held reserve blocks decoder with existing failed charge" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="256" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy revocation after actual held digest prevents transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="344" col="10">
+        </testcase>
+        <testcase name="AI dispatch policy expiry after actual held digest prevents transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.001" line="344" col="10">
+        </testcase>
+        <testcase name="AI dispatch policy revocation after actual held hmac prevents transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="344" col="10">
+        </testcase>
+        <testcase name="AI dispatch policy expiry after actual held hmac prevents transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="344" col="10">
+        </testcase>
+        <testcase name="AI dispatch policy active replay remains immutable and revoked upload replay has no new effects" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="349" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy approved provider uncertainty retains ambiguous charge and no automatic retry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="372" col="6">
+        </testcase>
+        <testcase name="AI dispatch policy policy digest drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy model drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy organization drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy project drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy decoder URL drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy decoder build drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy API key drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy signing secret drift after awaited HMAC stops decoder entry" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="399" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy expiry during held reserve_roster_resources prevents next transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="409" col="8">
+        </testcase>
+        <testcase name="AI dispatch policy expiry during held create_roster_import_source prevents next transmission" classname="./supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts" time="0.000" line="409" col="8">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,0 +1,236 @@
+[
+  {
+    "destination": "wheels/defusedxml-0.7.1-py2.py3-none-any.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+      "bytes": 25604,
+      "identity": [
+        16777247,
+        17239670,
+        25604,
+        1790909517536424458,
+        1790909517536444708,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/defusedxml-0.7.1-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/defusedxml-0.7.1-pypi.json",
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+      "bytes": 35962,
+      "identity": [
+        16777247,
+        17239672,
+        35962,
+        1790909517537087207,
+        1790909517537105874,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "wheels/et_xmlfile-2.0.0-py3-none-any.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/et_xmlfile-2.0.0-py3-none-any.whl",
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa",
+      "bytes": 18059,
+      "identity": [
+        16777247,
+        17239673,
+        18059,
+        1790909517537670915,
+        1790909517537695790,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/et-xmlfile-2.0.0-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/et-xmlfile-2.0.0-pypi.json",
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+      "bytes": 4816,
+      "identity": [
+        16777247,
+        17239674,
+        4816,
+        1790909517538530332,
+        1790909517538637248,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "wheels/openpyxl-3.1.5-py2.py3-none-any.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2",
+      "bytes": 250910,
+      "identity": [
+        16777247,
+        17239675,
+        250910,
+        1790909517539548581,
+        1790909517540036831,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/openpyxl-3.1.5-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/openpyxl-3.1.5-pypi.json",
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+      "bytes": 4748,
+      "identity": [
+        16777247,
+        17239676,
+        4748,
+        1790909517540561456,
+        1790909517540583373,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+      "bytes": 6266838,
+      "identity": [
+        16777247,
+        17239677,
+        6266838,
+        1790909517549114577,
+        1790909517556437741,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/pillow-12.3.0-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/pillow-12.3.0-pypi.json",
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+      "bytes": 84184,
+      "identity": [
+        16777247,
+        17239678,
+        84184,
+        1790909517563789655,
+        1790909517564116280,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "wheels/pypdf-6.19.0-py3-none-any.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/pypdf-6.19.0-py3-none-any.whl",
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14",
+      "bytes": 395480,
+      "identity": [
+        16777247,
+        17239679,
+        395480,
+        1790909517565961987,
+        1790909517566577320,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/pypdf-6.19.0-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/pypdf-6.19.0-pypi.json",
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+      "bytes": 9248,
+      "identity": [
+        16777247,
+        17239680,
+        9248,
+        1790909517567448487,
+        1790909517567474278,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec",
+      "bytes": 2979235,
+      "identity": [
+        16777247,
+        17239681,
+        2979235,
+        1790909517571281443,
+        1790909517575277317,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "primary/pypdfium2-5.2.0-pypi.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/primary/pypdfium2-5.2.0-pypi.json",
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961",
+      "bytes": 88511,
+      "identity": [
+        16777247,
+        17239682,
+        88511,
+        1790909517578241774,
+        1790909517578526399,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  },
+  {
+    "destination": "publisher-inputs.json",
+    "guard": {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/inputs/publisher-inputs.json",
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "bytes": 4004,
+      "identity": [
+        16777247,
+        17239683,
+        4004,
+        1790909517578813399,
+        1790909517578838815,
+        292,
+        1
+      ]
+    },
+    "binding_source": "sealed prep4 actual-cli-input-matrix copied row"
+  }
+]

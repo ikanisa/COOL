@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/limited_preparation_test.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1",
+  "exit_code": 0,
+  "actual_seconds": 0.04155275000084657,
+  "deadline_seconds": 30,
+  "timed_out": false,
+  "owned_group_id": 24923,
+  "Gradle_invoked": false,
+  "network_invoked": false,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "028c455352eb3990507e4e58fffe04e95907b65107d1929cc74c4593d356b2c5",
+  "owned_group_absent": true,
+  "all_reference_external_and_classpath_fences_match_after": true
+}

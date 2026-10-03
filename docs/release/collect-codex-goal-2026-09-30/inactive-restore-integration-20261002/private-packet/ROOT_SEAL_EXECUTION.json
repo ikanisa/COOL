@@ -1,0 +1,8 @@
+{
+  "root_sealer": {
+    "bytes": 11052,
+    "sha256": "d867a80991953db188f02da0cc4cdf0418588013af33ecd352ee2e366ecf2916"
+  },
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-restore-root-integration-20261002/seal_private_packet_v2.py",
+  "scope": "Resume rejected Docker-unavailable seal. Two canonical inputs now integrated; their preserved preintegration bytes are validated separately, with current canonical bytes matched to the seven promotion records.209 addition remains outside SQL78."
+}

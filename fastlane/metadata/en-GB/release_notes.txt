@@ -1,1 +1,1 @@
-Adds the bank-transfer-only contribution journey, approved beneficiary details, unique transfer references, Revolut handoff, reconciled contribution status, reliable group ledgers, notification preferences, and account deletion controls.
+Rwanda MoMo group-contribution records, member activity and account/privacy controls. Android-only group creation, USSD handoff and receipt-SMS intake are unavailable on iOS. No bank-transfer journey is included.

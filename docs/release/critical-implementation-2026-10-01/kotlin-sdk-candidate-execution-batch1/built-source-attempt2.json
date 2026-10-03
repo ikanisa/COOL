@@ -1,0 +1,22 @@
+{
+  "actual_deadline_seconds": 300,
+  "actual_seconds": 9.048,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/verify_candidate_source.py",
+    "built",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/candidate-built-source-attempt2-readback.json"
+  ],
+  "exit_code": 0,
+  "headroom_failure": false,
+  "pid": 19628,
+  "runner_sha256": "7e2cefbaaed856764e893d715984a7c1b0089e13eb878a366855f800b352b349",
+  "started_utc": "2026-10-02T01:08:14.602733+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "fbbf9bc80b235a212ab04639458f042846b23f7726c1f0e600a9ac2326e4fe82",
+  "terminal_utc": "2026-10-02T01:08:23.650946+00:00",
+  "timed_out": false
+}

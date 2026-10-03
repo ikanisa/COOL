@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "tests": 30,
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "scripts/tests/swift_cached_artifact_inputs_test.py"
+  ],
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/swift_cached_artifact_inputs.py": "a5aa5c04bd93e0c25a8f194147f9812a88cfe58524b4aeef54d0122e3b533829",
+    "scripts/tests/swift_cached_artifact_inputs_test.py": "037b8cb5cf50d50d36de24515cfc08430db5f18632367740844d5da9163b5879"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "4ba8315d466e011235e8778c1dc607625208061e38a39e8c0a958e03be228474",
+  "provider_calls": false,
+  "application_code_changed": false,
+  "scope": "Original17 binary controls,10 generated local workspace/compiler controls and3 case-preserved remote basename/escape controls. Exact locks, dependency inventories, actual compiler bytes/modes and old-root denial remain required."
+}

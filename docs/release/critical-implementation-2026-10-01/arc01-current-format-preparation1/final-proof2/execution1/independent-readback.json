@@ -1,0 +1,62 @@
+{
+  "at_utc": "2026-10-02T11:07:12.117168+00:00",
+  "canonical_dependency_input_count": 171,
+  "canonical_generated_package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+  "collect_language_version": "3.12",
+  "current_git_dart_inventory_before_equals_after": true,
+  "current_root_acceptance_decision_owner": "root",
+  "dependency_or_runtime_changes": false,
+  "full_applicable_dart_count": 710,
+  "generated_package_root_count": 168,
+  "hash_identical_upstream_exclusion_count": 68,
+  "maintained_source_input_count": 863,
+  "maintained_source_written": false,
+  "no_app_or_native_builds": true,
+  "non_docs_dart_count": 778,
+  "owned_container_inspect_exit": 1,
+  "owned_container_inspect_stderr": "error: no such object: collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format\n",
+  "owned_container_inspect_stdout": "[]\n",
+  "owned_subprocess_group_ids": [
+    58615,
+    58617,
+    58618,
+    58622,
+    58624,
+    58625,
+    58630,
+    58631,
+    58632,
+    58637,
+    58638
+  ],
+  "owned_subprocess_groups_absent": true,
+  "owner_listing_exit": 0,
+  "owner_listing_stdout": "",
+  "phases": {
+    "malformed-make-format-check": {
+      "actual_changed_file_count": 1,
+      "actual_formatter_file_count": 711,
+      "elapsed_seconds": 3.3920595420058817,
+      "exit_code": 2,
+      "log_sha256": "a00cd61a98c3a58f26aa935be9d1b0e4c77fae5f3d33070c03a95576c3caad0e"
+    },
+    "restored-make-format-check": {
+      "actual_changed_file_count": 0,
+      "actual_formatter_file_count": 710,
+      "elapsed_seconds": 3.397501874998852,
+      "exit_code": 0,
+      "log_sha256": "e3ad2d19a504023635e4935a41296822bcf316789814ee87c39218e7b210a9ba"
+    },
+    "reviewed-current-make-format-check": {
+      "actual_changed_file_count": 0,
+      "actual_formatter_file_count": 710,
+      "elapsed_seconds": 3.3490962500000023,
+      "exit_code": 0,
+      "log_sha256": "80bffe5cf5566850dd86a653408c18c072b36661f359b21debce631b96a1279c"
+    }
+  },
+  "private_captured_input_count": 863,
+  "private_captured_source_sha256_before_equals_after": true,
+  "root_source_sha256_before_equals_after": true,
+  "status": "INDEPENDENT_CURRENT_SOURCE_AND_ACTUAL_MAKE_READBACK_PASS"
+}

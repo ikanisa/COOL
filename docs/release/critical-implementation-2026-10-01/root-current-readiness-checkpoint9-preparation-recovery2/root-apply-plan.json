@@ -1,0 +1,61 @@
+{
+  "kind": "root_owned_exact_checkpoint9_recovery2_apply_plan",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation-recovery2/integrate_checkpoint9.py",
+    "--controller-sha256",
+    "5a300638a250952f3114cf5b78ba788cfbd451f535eaf00a8044c69accd51aff",
+    "--admission-sha256",
+    "4d1afdde97c7437bd56c74ccc009f9874e2601f2ea1e4f5ff40b081c44e7eb64",
+    "--apply",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-integration9"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_outer_bound_seconds": 60,
+  "only_written_canonical_paths": [
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+    "docs/release/local-implementation-register-2026-09-30.json",
+    "docs/release/production-remaining-tasks-2026-09-30.json"
+  ],
+  "exact_root_output_fresh_required": true,
+  "private_proposal_canonical_apply_executed": false,
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "APP_epoch": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "production_release_approval": false,
+  "goal_status": "active",
+  "closed": 7,
+  "open": 33,
+  "no_new_acceptance_gates_or_finding_contracts": true,
+  "prior_refused_sealed_preparation": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation1",
+    "packet_sha256": "8054ff5e000be20a5a1f4151aaed13f673490231c62b2faa9b5cb37f86da8928",
+    "unchanged": true
+  },
+  "correction_scope": "Exact mangled href repair, Current 13-endpoint spacing without path transforms, and newly observed 67 publisher JAR intake within ARC-09. All prior valid source/data pins and original seven canonical guards remain. Historical Markdown bodies and original 40 contracts/102+24 arrays remain exact.",
+  "review": "Review canonical.diff and recovery2-vs-prep1.diff, link-reference-readback.json and proposed/. Controller verifies seven original canonical hashes/modes, 30 evidence refs (including actual reference-resolution proof) and 11 affected live inputs; preserves all root before bytes; refuses drift; writes exactly seven files; verifies after hashes/modes/live guards; records attempted/completed writes and actual partial-failure hashes. Root owns execution.",
+  "actual_readonly_reference_resolution": {
+    "path": "link-reference-readback.json",
+    "sha256": "035ae71d52475eeccc5ea52e3dbd4ef62efc7ccdd99d59968dad4b8ccc9393c8",
+    "new_changed_current_Markdown_links": 6,
+    "new_JSON_path_occurrences": 183,
+    "new_JSON_unique_paths": 29,
+    "errors": 0,
+    "historical_relinking": false
+  },
+  "actual_private_verification": {
+    "path": "verification-command.json",
+    "sha256": "095c87397903b89734bff40da1bac93f79ae8a30bc4b47fe4197f467b5722eb4",
+    "exit_code": 0,
+    "seconds": 0.03892454199376516,
+    "writes": false
+  },
+  "checks_reused": "Original mapper 69, reader 18, ARC-03 and tracker/artifact/probe suites remain scoped evidence; no fixture suite or build was rerun.",
+  "current_ARC09_boundary": "67 publisher JARs / 157,111,917 bytes verified through retained incomplete original phase and a separate recovery; no shared Gradle cache writes/full graph/lint/AAB/SBOM/release acceptance. Full Gradle graph/cache and actual AAB remain pending."
+}

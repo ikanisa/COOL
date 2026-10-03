@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "prior-negative",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-c",
+        "import importlib.util,unittest;from pathlib import Path;p=Path('docs/release/asset-build-hygiene-2026-09-30/native-export-callers-attempt38/prior-native-source-export.py');s=importlib.util.spec_from_file_location('prior_export',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);s=importlib.util.spec_from_file_location('regressions',Path('scripts/tests/native_source_export_test.py'));t=importlib.util.module_from_spec(s);s.loader.exec_module(t);t.module=m;r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromModule(t));raise SystemExit(not r.wasSuccessful())"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.59,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a38c118d4404294d46bc35ca3cb56bc1cb319239f09f11100a9f7c41fb8615b2"
+    },
+    {
+      "name": "current",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/native_source_export_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.56,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8cda0d179fb90c96eb022d824e9dbde3915e5c7e36f88d33bef0850f70239c3c"
+    }
+  ],
+  "source_sha256": {
+    "scripts/qa/native_source_export.py": "7cf6285cbadd84626a09aeb51fd1b6a2d70b83f2a03e8892d71b2061ef691276",
+    "scripts/tests/native_source_export_test.py": "87b1ab8e5fd474af984e326424de05e8fe99279780327b154057cebc3d2b1115"
+  },
+  "owned_sources_unchanged": true,
+  "actual_tests": 5,
+  "prior_implementation_rejects_new_tests": true,
+  "scope": "Actual temporary Git source export, authority/build-caller mutation binding and internal/external source symlink refusal; no application build, provider, signing or capture execution"
+}

@@ -1,0 +1,87 @@
+{
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 141
+  },
+  "suites": [
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest",
+      "skipped": "0",
+      "tests": "24"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayDispatchArmTest",
+      "skipped": "0",
+      "tests": "19"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+      "skipped": "0",
+      "tests": "15"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+      "skipped": "0",
+      "tests": "23"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayRadioObservationTest",
+      "skipped": "0",
+      "tests": "9"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewaySafetyTest",
+      "skipped": "0",
+      "tests": "22"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayTransportTest",
+      "skipped": "0",
+      "tests": "6"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.gateway.GatewayWireTest",
+      "skipped": "0",
+      "tests": "11"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.CollectSmsReceiverTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.SmsQueueWorkerTest",
+      "skipped": "0",
+      "tests": "1"
+    }
+  ]
+}

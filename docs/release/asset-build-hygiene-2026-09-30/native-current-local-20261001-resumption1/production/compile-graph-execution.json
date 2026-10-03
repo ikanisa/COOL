@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "./gradlew",
+    "-I",
+    "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+    ":app:collectRuntimeGraph",
+    "-PcollectInventoryConfiguration=productionReleaseCompileClasspath",
+    "-Ptarget=lib/main.dart",
+    "-PcollectUnsignedLocalQa=true",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "--console=plain"
+  ],
+  "elapsed_seconds": 89.78,
+  "exit_code": 0,
+  "status": "pass",
+  "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+  "stdout_sha256": "afece55a10cd0c3276664a6af421aaabe0597b18902674e68bd7f64996d12b95"
+}

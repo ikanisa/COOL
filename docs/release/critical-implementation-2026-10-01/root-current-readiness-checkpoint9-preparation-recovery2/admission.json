@@ -1,0 +1,290 @@
+{
+  "kind": "root_reviewed_exact_checkpoint9_proposal",
+  "prepared_at_utc": "2026-10-02T19:15:21.339469+00:00",
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "source_fence_sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333",
+  "APP_epoch": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "canonical_files": [
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "before_sha256": "ad6f9b6257aa0e409c9f671acb4d060688a8ac3172a1436eb3ead8329ca7363a",
+      "before_bytes": 33653,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "after_sha256": "8b484925d4091aff7a8ac11de5cc54ad95f53b21e7649e394a0a3da6d75e6b30",
+      "after_bytes": 34991
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "before_sha256": "a0b8b7672f13f600fbd3d3676688499ee29702f32957abdc13ef73148474341d",
+      "before_bytes": 48805,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "after_sha256": "00d18a01f8f2345ed67dcbe3e2c3aa8766fcecf7efef21f1e060e4025ad47f6a",
+      "after_bytes": 50143
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "before_sha256": "0ceae9d27cd33cfa7e9b0a03c74fe2f07e2c8a6bf39ad7084c337a3be4fafc18",
+      "before_bytes": 6331,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "after_sha256": "6a3a164d82f4d1a27151fcc7f3791a71cac4a03e13eaea857a4af0f29f14d061",
+      "after_bytes": 8961
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "before_sha256": "e6a45b89f16e26c8b8d319b9845662e8267444b7fdd93d171e0b854b76b43734",
+      "before_bytes": 13246,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "after_sha256": "55c2da73ddf0e8182828d53e8ed30efe6d3c87dc3008e342345c14e76256c390",
+      "after_bytes": 14594
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "before_sha256": "86f31f9af3274cd2adff3cfeb18959a2c16434f5143c1d16607ec1ed1246c10d",
+      "before_bytes": 277309,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "after_sha256": "fa1b5deb2605a1cc95f9e1f1ec592b110e53c79ba8a4882580ab187d31a0f490",
+      "after_bytes": 327222
+    },
+    {
+      "path": "docs/release/local-implementation-register-2026-09-30.json",
+      "before_sha256": "485531ac36b949287f2ceedd81d1f8b5650d9e8f2f0c4b83c94a2a2d6f0f0961",
+      "before_bytes": 195024,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/local-implementation-register-2026-09-30.json",
+      "after_sha256": "4daccd09775979e7bde7cd05f5a8b8614710ed3250ab0f06e96fa9ea5ec8e90b",
+      "after_bytes": 231503
+    },
+    {
+      "path": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "before_sha256": "2d63e20d4c6116a98a7cf48fc67917cb22a7a32b81eaafd9c2453491384c5cb9",
+      "before_bytes": 384182,
+      "mode": 420,
+      "proposal_path": "proposed/docs/release/production-remaining-tasks-2026-09-30.json",
+      "after_sha256": "f7926ee6b1d250e8a069599def24d8935117332740f347713c5be2f16f8d8147",
+      "after_bytes": 420661
+    }
+  ],
+  "evidence_refs": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "sha256": "1f6dc1acaeadada7ef8fbaedebb49543d3e3ad506c9f86f36e55feb5f17479ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "sha256": "948be415892f90808a42f812cbc5a4d3c680e0b0a1bad163ffa392da482ca5bb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "sha256": "7f86a9c7747bb46ca55e3f4a764a2384cabdcf4cf2caee868bdf8e118af60ed5"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "sha256": "ac6b4a91b81391f3f4af2e069a51b7a7dfc55a2cdacdca6b83d68427331beb19"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "sha256": "045743fdf7fc88ff5a4adcde4415b339f2cd8a977c07658fd0417d41d29265b5"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "sha256": "ec04542fce3430a6cfc328b35115163caa22b27e5d782492c8baeb5f54981ad1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "sha256": "e1da2d2dcc5cba3edfe395a0e8fa2cd7bee794dc043f72ced7bc3711ca72e692"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "sha256": "b54a7b00070dbed44b777a05d028ce7c81c3c5919fc2387e19153f3d9b012c56"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "sha256": "2265dd5629d7004790ed9c0b9676104fb70ec5c841f16b6cc46950080f36c76b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "sha256": "ab6be432ac6117a53a6ec6705b347e41c31e8d01249bc08675741261682b3086"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "sha256": "a4603e064abc51776ec4895369a173b62574c6a6466781b75ee3ef1729216d8f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "sha256": "cfbcf7d89822c855178f9f1637ddbb42b26df2149814fd0ec4f0bceb4e5745d2"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "sha256": "84328164f52a5b8b37af72abf460d5703232a71f5ebe8aa53da87585f0657bc2"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "sha256": "06edc87550496be46c1dc387dfd3042bd1537cae9666f85770e098685024ac56"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "sha256": "314a7c79c543cb2cd6f70ee71087f25d004edfe9df68fa9c148046fc2013c2e7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "sha256": "bf5d27df07af9172651d6e7ea0ce162d8a7188d09b7b7c56a330e0e213c1d37f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "sha256": "c080fb6bac912b01db32eb3baaa6d853f2178d4525f030a2440fc94afa230130"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "sha256": "7d192e813be85c86cad6a4dc18bd924f96053d7862d74ae5f8f5497e60136b65"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "sha256": "a28aabbc89a537620a830feab7c7f01469c3ef68abd40030d44f3ccb012cba4d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "sha256": "edeafcf36f88f069e54013c6ba3bbf06793f8a1a13f029ab5371e750edc30cc0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "sha256": "cd5e1b0518c3a983196c0a9ba2212d832633b57b5861877cebe2dd4e4c7b7f82"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "sha256": "3a48db0a0c260a3ba1a204f966fd7f60be86460e8482e69fd009113515bb335a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "sha256": "8b6caf02f7ed28afab84d95c7668ff712ffebe4e45652f5057f5a91ae0798e06"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "sha256": "7a182cc04a4f0919284439fd4708b9fcb80763dcba279be802a07ea74ed51893"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "sha256": "3143b0a358b20d1b3a21a7aee52fbe15e688a8c0c5fa110f277b58ffebbab9b1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation-recovery2/link-reference-readback.json",
+      "sha256": "035ae71d52475eeccc5ea52e3dbd4ef62efc7ccdd99d59968dad4b8ccc9393c8"
+    }
+  ],
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-14",
+    "PD-12"
+  ],
+  "full_open": 33,
+  "release_decision": "NO-GO",
+  "production_release_approval": false,
+  "original40_contracts_preserved": true,
+  "original102_24_items_arrays_preserved": true,
+  "legacy_non_extension_fields_preserved": true,
+  "historical_markdown_bodies_preserved": true,
+  "canonical_apply_executed": false,
+  "live_guards": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+      "sha256": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4",
+      "bytes": 78306,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py",
+      "sha256": "3bb435cd79cc23414039e8c447460be88487a2097ba24035d1233d007971b343",
+      "bytes": 54727,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_current_evidence_index.py",
+      "sha256": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119",
+      "bytes": 19527,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_evidence_index_test.py",
+      "sha256": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736",
+      "bytes": 20337,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/build.gradle.kts",
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae",
+      "bytes": 1380,
+      "mode": 448
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts",
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684",
+      "bytes": 24009,
+      "mode": 448
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+      "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a",
+      "bytes": 1163,
+      "mode": 448
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "sha256": "381f5cbf577ac8cbd4d88a27e3e74b399edde5b1bc456cc6557c51c39e462cf9",
+      "bytes": 96635,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e",
+      "bytes": 11498,
+      "mode": 420
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/acceptance-status.json",
+      "sha256": "528bd8e529d0ceb813d4ec9ecbf5f287e0d285c9ebe85aa9121d6e0c0df8c0e8",
+      "bytes": 25956,
+      "mode": 420
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+      "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1",
+      "bytes": 440913,
+      "mode": 420
+    }
+  ],
+  "recovery2_scope": "Original checkpoint9 proposal refused before maintained writes; fix mangled current Markdown href/prose spacing only, plus actual later67-publisher-JAR intake in original ARC09 scope. Preserve original sealed proposal.",
+  "prior_proposal_packet_sha256": "8054ff5e000be20a5a1f4151aaed13f673490231c62b2faa9b5cb37f86da8928",
+  "changed_reference_validation": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation-recovery2/link-reference-readback.json",
+    "sha256": "035ae71d52475eeccc5ea52e3dbd4ef62efc7ccdd99d59968dad4b8ccc9393c8",
+    "new_changed_current_Markdown_links": 6,
+    "new_JSON_path_occurrences": 183,
+    "new_JSON_unique_paths": 29,
+    "errors": 0,
+    "historical_relinking": false
+  }
+}

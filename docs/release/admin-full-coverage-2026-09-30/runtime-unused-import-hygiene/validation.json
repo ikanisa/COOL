@@ -1,0 +1,7 @@
+{
+  "change": "Remove exactly one compiler-proven unused import; no runtime policy edit.",
+  "path": "lib/admin/core/admin_runtime.dart",
+  "before_sha256": "87208108f8a7f0b3e60b044035d1df18dd28418919a3b608de3eae558a70d438",
+  "after_sha256": "fa4dac884d90523a16d91dea498512e1342b534e03596a40987286c57ddcde27",
+  "prior_evidence": "isolated-attempt48-current-admin-email/acceptance/analysis.log"
+}

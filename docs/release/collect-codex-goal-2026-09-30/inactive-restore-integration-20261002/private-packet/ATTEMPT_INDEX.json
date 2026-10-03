@@ -1,0 +1,269 @@
+{
+  "scope": "all retained failures and preceding scoped passes; final acceptance is attempt17 only",
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": "proof/sql-attempt1/result.json",
+      "binding": {
+        "bytes": 53327,
+        "sha256": "23a5967d911bc956dd7f7ae49ff2781bcba734158a907da9511f2d37163b1abf"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:5:in `check': actual owner stop commits (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:20:in `<main>'\n"
+    },
+    {
+      "attempt": 2,
+      "result": "proof/sql-attempt2/result.json",
+      "binding": {
+        "bytes": 53337,
+        "sha256": "099d0435e15ffd72dd9223d9b74b572114d1d3ec0ef32f4b1f3683d407d6bc48"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:5:in `check': actual original UUID replay commits (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:22:in `<main>'\n"
+    },
+    {
+      "attempt": 3,
+      "result": "proof/sql-attempt3/result.json",
+      "binding": {
+        "bytes": 3375,
+        "sha256": "a2bce0197155f7fe31bfba0fe0ee95bd3040468f726c318172f29fb873219cca"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "Task-owned offline Postgres did not become ready"
+    },
+    {
+      "attempt": 4,
+      "result": "proof/sql-attempt4/result.json",
+      "binding": {
+        "bytes": 56511,
+        "sha256": "bb31379a15201be2d79844246694d3b2fafd369a11a1c0459560ec88b340e308"
+      },
+      "status": "passed",
+      "driver_checks_passed": 4,
+      "driver_checks_total": 4,
+      "outer_checks_passed": 2,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": null
+    },
+    {
+      "attempt": 5,
+      "result": "proof/sql-attempt5/result.json",
+      "binding": {
+        "bytes": 53997,
+        "sha256": "cd0f5636136807847bf58eb5e22d9774b993f541ffec0ead053e748b62a9f13e"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:6:in `check': every original financial/Auth/business/history row and identity/key metadata preserved through stop (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:106:in `<main>'\n"
+    },
+    {
+      "attempt": 6,
+      "result": "proof/sql-attempt6/result.json",
+      "binding": {
+        "bytes": 54055,
+        "sha256": "3f80e2bf86d7883cc1c887fd596a8d019188d99efedf5d574e6bd47bcf19c0be"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:14:in `sql': actual SQL failed:  (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:25:in `operator'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:81:in `<main>'\n"
+    },
+    {
+      "attempt": 7,
+      "result": "proof/sql-attempt7/result.json",
+      "binding": {
+        "bytes": 54152,
+        "sha256": "d62e846160dd6cabc32ddff4f95827f030eec248959271e58ff7f6eb437b7481"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb:156:in `parse': 767: unexpected token at 't' (JSON::ParserError)\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb:156:in `parse'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:17:in `js'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:62:in `<main>'\n"
+    },
+    {
+      "attempt": 8,
+      "result": "proof/sql-attempt8/result.json",
+      "binding": {
+        "bytes": 54188,
+        "sha256": "d3a3cb9ea909eab5a91001003eac581709cd821383bfb48bbe37a7739b93be4d"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb:156:in `parse': 767: unexpected token at 'c5c2fd26-ba63-41c0-a772-110d4b954d95' (JSON::ParserError)\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb:156:in `parse'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:17:in `js'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:144:in `<main>'\n"
+    },
+    {
+      "attempt": 9,
+      "result": "proof/sql-attempt9/result.json",
+      "binding": {
+        "bytes": 53937,
+        "sha256": "b722b41d6f6bdd3fb308e93152c7e16cb0924af1d50818e182d2c92d0d29830c"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:6:in `check': cold original worker UUID remains exact (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:150:in `<main>'\n"
+    },
+    {
+      "attempt": 10,
+      "result": "proof/sql-attempt10/result.json",
+      "binding": {
+        "bytes": 54629,
+        "sha256": "2d5682402117e98f3296964ce565d64ff4e61266371d94b21d52eeec6436d6c1"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:33:in `catch'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb:108:in `timeout'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:140:in `block (2 levels) in <main>'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/open3.rb:219:in `popen_run'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/open3.rb:101:in `popen3'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:139:in `block in <main>'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:137:in `each'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:137:in `<main>'\n"
+    },
+    {
+      "attempt": 11,
+      "result": "proof/sql-attempt11/result.json",
+      "binding": {
+        "bytes": 54490,
+        "sha256": "108f6c0cac6147c5d9ba5cde6616d6a4343e1d945fb7ba0db783c9cbcf7abb08"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:8:in `check': unchanged exact producer OID prosrc owner ACL (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:181:in `<main>'\n"
+    },
+    {
+      "attempt": 12,
+      "result": "proof/sql-attempt12/result.json",
+      "binding": {
+        "bytes": 54558,
+        "sha256": "0f3982dc1c78a91020f76b2b0f405ed8e79b5f883e9fde5445503ec0e1aa4e98"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:8:in `check': explicit NOSUPERUSER gate denies same named superuser before catalog use and restores exact role/catalog baseline (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:127:in `<main>'\n"
+    },
+    {
+      "attempt": 13,
+      "result": "proof/sql-attempt13/result.json",
+      "binding": {
+        "bytes": 54848,
+        "sha256": "a0a78e8e9695c6e71cc6b85a7ea94c44408cdd3fd1611daa8347139e3f9097d2"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:16:in `sql': actual SQL failed: ERROR:  42601: trailing junk after numeric literal at or near \"3AND\" (RuntimeError)\nLINE 1: ...l_events WHERE family='feature_flags'AND revision=3AND autho...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:19:in `js'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:198:in `<main>'\n"
+    },
+    {
+      "attempt": 14,
+      "result": "proof/sql-attempt14/result.json",
+      "binding": {
+        "bytes": 54799,
+        "sha256": "136f2ebd2c6c365f0458f27c8027911bce137e7d73d4f03913caa9d38525817f"
+      },
+      "status": "failed",
+      "driver_checks_passed": 0,
+      "driver_checks_total": 0,
+      "outer_checks_passed": 0,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": "retained command failed /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:8:in `check': old revoked authority denied by actual public.gateway_arm_dispatch_v2 (RuntimeError)\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:219:in `block in <main>'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:218:in `each'\n\tfrom /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb:218:in `<main>'\n"
+    },
+    {
+      "attempt": 15,
+      "result": "proof/sql-attempt15/result.json",
+      "binding": {
+        "bytes": 199754,
+        "sha256": "d1b5d1c908b7284715ed6f77f85cf55248e6938045ad1f8ddf8f610320a6742a"
+      },
+      "status": "passed",
+      "driver_checks_passed": 73,
+      "driver_checks_total": 73,
+      "outer_checks_passed": 2,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": null
+    },
+    {
+      "attempt": 16,
+      "result": "proof/sql-attempt16/result.json",
+      "binding": {
+        "bytes": 201728,
+        "sha256": "3affed585679573ad638b4f3866c0c07abddf0d713886e340c2a3f442f752dcc"
+      },
+      "status": "passed",
+      "driver_checks_passed": 74,
+      "driver_checks_total": 74,
+      "outer_checks_passed": 2,
+      "frozen_input_scope": "earlier input history, do not aggregate or relabel as final acceptance",
+      "error": null
+    },
+    {
+      "attempt": 17,
+      "result": "proof/sql-attempt17/result.json",
+      "binding": {
+        "bytes": 209529,
+        "sha256": "a78c8379cba1d08ffcd1b0e43d35155a05e3c51cd0b9f673a913ceb96883fe31"
+      },
+      "status": "passed",
+      "driver_checks_passed": 78,
+      "driver_checks_total": 78,
+      "outer_checks_passed": 2,
+      "frozen_input_scope": "final accepted input",
+      "error": null
+    }
+  ],
+  "unit_failures": [
+    {
+      "path": "proof/final-units/FAILED.json",
+      "binding": {
+        "bytes": 463,
+        "sha256": "9815b3d8a216ad0b2da0d1c5609394aa893bd2e8357192e966b0bbd1df20edab"
+      },
+      "reason": "minimal adapter lacked unchanged CLI dependencies; later final-units2 used exact current dependency tree"
+    },
+    {
+      "path": "proof/final-units3/FAILED.json",
+      "binding": {
+        "bytes": 375,
+        "sha256": "2aa8fe2a1b8aa0086acbc7ab9eb093b2027c9e113d638486e68d407ea32f2250"
+      },
+      "reason": "all commands passed and bindings unchanged but final adapter summary comparison compared tuples to retained JSON arrays; corrected finite framing passed final-units4"
+    }
+  ],
+  "unit_acceptance": {
+    "path": "proof/final-units4/result.json",
+    "binding": {
+      "bytes": 17543,
+      "sha256": "d75215ca829bdcc57c60bf77ae6a5b6f032e81df4ef16dbf60e9edac16caf111"
+    }
+  },
+  "uncaptured_prelaunch_note": "An initial directory-preparation error happened before a target was created; no raw terminal receipt was retained. It is not proof or a counted test."
+}

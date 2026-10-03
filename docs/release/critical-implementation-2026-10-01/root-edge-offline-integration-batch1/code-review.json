@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T01:51:29.009761+00:00",
+  "reviewer": "root",
+  "source_sha256": {
+    "scripts/qa/roster_wheelhouse.py": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+    "scripts/tests/roster_wheelhouse_test.py": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "code_review_scope": [
+    "Complete original wheelhouse helper and actual callers/tests reviewed",
+    "Complete incremental separately supervised HTTPS producer and all added tests reviewed",
+    "Dockerfile offline install and actual all-six dependency-security assertions reviewed",
+    "Full root-owned CI deno-check job and current decoder README read"
+  ],
+  "actual_test_evidence": {
+    "cohort": "edge-offline-wheelhouse-batch1",
+    "tests": 77,
+    "failures": 0,
+    "skips": 0,
+    "includes_real_owned_process_deadline": true,
+    "live_HTTPS_acquisition_performed": false
+  },
+  "admission": "One fresh private complete canonical gate with original deadlines, exact current export, fresh Deno directory and no-cache decoder image; no hosted execution or production activation",
+  "limits": [
+    "Synthetic transport tests do not establish a live acquisition or hosted workflow pass",
+    "Pinned base-image resolution is separate from offline wheel installation; --network=none bounds RUN/container network, not Docker base-image retrieval",
+    "SDK, owner/vendor processor approvals, hosted configuration, TLS, device/store and production release remain separate",
+    "Full canonical execution is a new separate pending cohort, not claimed by this review"
+  ]
+}

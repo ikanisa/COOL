@@ -1,0 +1,4 @@
+ERROR:  42501: reconciliation_actor_unavailable
+CONTEXT:  PL/pgSQL function collect_security.require_reconciliation_actor() line 13 at RAISE
+PL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 7 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

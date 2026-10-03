@@ -1,0 +1,55 @@
+{
+  "references": [
+    {
+      "lines": [
+        588,
+        595
+      ],
+      "meaning": "matchesGoldenFile accepts Uri keys and retains the existing image matcher",
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/packages/flutter_test/lib/src/matchers.dart",
+      "sha256": "23bf388c61369af8e9b90fed53e305a9600815736f54cd055ffe55032a70de68",
+      "source_excerpt": "AsyncMatcher matchesGoldenFile(Object key, {int? version}) {\n  return switch (key) {\n    Uri() => MatchesGoldenFile(key, version),\n    String() => MatchesGoldenFile.forStringPath(key, version),\n    _ => throw ArgumentError('Unexpected type for golden file: ${key.runtimeType}'),\n  };\n}\n"
+    },
+    {
+      "lines": [
+        64,
+        91
+      ],
+      "meaning": "LocalFileComparator receives a file Uri and bases its output on that parent directory",
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/packages/flutter_test/lib/src/_goldens_io.dart",
+      "sha256": "cbc94496a36f1f2492eae3deae8dca83e4d5ad8ba665199dd11cb71354e14ea3",
+      "source_excerpt": "  /// Golden file keys will be interpreted as file paths relative to the\n  /// directory in which [testFile] resides.\n  ///\n  /// The [testFile] URL must represent a file.\n  LocalFileComparator(Uri testFile, {path.Style? pathStyle})\n    : basedir = _getBasedir(testFile, pathStyle),\n      _path = _getPath(pathStyle);\n\n  static path.Context _getPath(path.Style? style) {\n    return path.Context(style: style ?? path.Style.platform);\n  }\n\n  static Uri _getBasedir(Uri testFile, path.Style? pathStyle) {\n    final path.Context context = _getPath(pathStyle);\n    final String testFilePath = context.fromUri(testFile);\n    final String testDirectoryPath = context.dirname(testFilePath);\n    return context.toUri(testDirectoryPath + context.separator);\n  }\n\n  /// The directory in which the test was loaded.\n  ///\n  /// Golden file keys will be interpreted as file paths relative to this\n  /// directory.\n  final Uri basedir;\n\n  /// Path context exists as an instance variable rather than just using the\n  /// system path context in order to support testing, where we can spoof the\n  /// platform to test behaviors with arbitrary path styles."
+    },
+    {
+      "lines": [
+        112,
+        136
+      ],
+      "meaning": "Update writes the golden file; ordinary compare fails if the expected golden file is absent",
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/packages/flutter_test/lib/src/_goldens_io.dart",
+      "sha256": "cbc94496a36f1f2492eae3deae8dca83e4d5ad8ba665199dd11cb71354e14ea3",
+      "source_excerpt": "  Future<void> update(Uri golden, Uint8List imageBytes) async {\n    final File goldenFile = _getGoldenFile(golden);\n    await goldenFile.parent.create(recursive: true);\n    await goldenFile.writeAsBytes(imageBytes, flush: true);\n  }\n\n  /// Returns the bytes of the given [golden] file.\n  ///\n  /// If the file cannot be found, an error will be thrown.\n  @protected\n  Future<List<int>> getGoldenBytes(Uri golden) async {\n    final File goldenFile = _getGoldenFile(golden);\n    if (!goldenFile.existsSync()) {\n      fail('Could not be compared against non-existent file: \"$golden\"');\n    }\n    final List<int> goldenBytes = await goldenFile.readAsBytes();\n    return goldenBytes;\n  }\n\n  File _getGoldenFile(Uri golden) =>\n      File(_path.join(_path.fromUri(basedir), _path.fromUri(golden.path)));\n}\n\n/// A mixin for use in golden file comparators that run locally and provide\n/// output."
+    },
+    {
+      "lines": [
+        147,
+        181
+      ],
+      "meaning": "Mismatch PNGs go to comparator-basedir/failures with finite derived names",
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/packages/flutter_test/lib/src/_goldens_io.dart",
+      "sha256": "cbc94496a36f1f2492eae3deae8dca83e4d5ad8ba665199dd11cb71354e14ea3",
+      "source_excerpt": "    var additionalFeedback = '';\n    if (result.diffs != null) {\n      additionalFeedback =\n          '\\nFailure feedback can be found at ${path.join(basedir.path, 'failures')}';\n      final Map<String, Image> diffs = result.diffs!;\n      for (final MapEntry<String, Image> entry in diffs.entries) {\n        final File output = getFailureFile(\n          key.isEmpty ? entry.key : '${entry.key}_$key',\n          golden,\n          basedir,\n        );\n        output.parent.createSync(recursive: true);\n        final ByteData? pngBytes = await entry.value.toByteData(format: ImageByteFormat.png);\n        output.writeAsBytesSync(pngBytes!.buffer.asUint8List());\n      }\n    }\n    return 'Golden \"$golden\": ${result.error}$additionalFeedback';\n  });\n\n  /// Returns the appropriate file for a given diff from a [ComparisonResult].\n  File getFailureFile(String failure, Uri golden, Uri basedir) {\n    final String fileName = golden.pathSegments.last;\n    final testName = '${fileName.split(path.extension(fileName))[0]}_$failure.png';\n    return File(path.join(path.fromUri(basedir), path.fromUri(Uri.parse('failures/$testName'))));\n  }\n}\n\n/// Returns a [ComparisonResult] to describe the pixel differential of the\n/// [test] and [master] image bytes provided.\nFuture<ComparisonResult> compareLists(List<int>? test, List<int>? master) async {\n  if (test == null || master == null || test.isEmpty || master.isEmpty) {\n    return ComparisonResult(\n      passed: false,\n      diffPercent: 1.0,\n      error: 'Pixel test failed, null image provided.',"
+    },
+    {
+      "lines": [
+        529,
+        549
+      ],
+      "meaning": "Directory inherits isAbsolute for portable absolute path validation",
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/lib/io/file_system_entity.dart",
+      "sha256": "893dca6ce1c9dfb88f81732a5b114a19a23abaeef7d7db663cb17d73022df291",
+      "source_excerpt": "  ///\n  /// On Windows, a path is absolute if it starts with `\\\\`\n  /// (two backslashes or representing a UNC path) or with a drive letter\n  /// between `a` and `z` (upper or lower case) followed by `:\\` or `:/`.\n  /// This makes, for example, `\\file.ext` a non-absolute path\n  /// because it depends on the current drive letter.\n  ///\n  /// On non-Windows, a path is absolute if it starts with `/`.\n  ///\n  /// If the path is not absolute, use [absolute] to get an entity\n  /// with an absolute path referencing the same object in the file system,\n  /// if possible.\n  bool get isAbsolute => _isAbsolute(path);\n\n  static bool _isAbsolute(String path) {\n    if (Platform.isWindows) {\n      return path.startsWith(_absoluteWindowsPathPattern);\n    } else {\n      return path.startsWith('/');\n    }\n  }"
+    }
+  ],
+  "scope": "Read-only local installed primary Flutter/Dart source inspection. This is API review, not a Dart compile or Flutter test result."
+}

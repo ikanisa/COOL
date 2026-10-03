@@ -1,0 +1,1393 @@
+{
+  "kind": "schema153_three_migration_subset_upgrade",
+  "started_at": "2026-09-30T21:13:19.570562+00:00",
+  "clean_install_tested": false,
+  "hosted124_upgrade_tested": false,
+  "production_written": false,
+  "shared_source_written": false,
+  "provider_called": false,
+  "carrier_called": false,
+  "source_rows_copied": false,
+  "signed_jwt_tested": false,
+  "candidate_is_accepted_release": false,
+  "cases": [
+    {
+      "name": "20260930230100_receipt_backlog_events preserves all nonempty financial/outbox fingerprints",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930230200_admin_receipt_overview preserves all nonempty financial/outbox fingerprints",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "20260930230300_admin_transaction_lifecycle preserves all nonempty financial/outbox fingerprints",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new private tables have RLS and no API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "five new RPCs grant only authenticated execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot register monitor",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot register monitor",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid current session refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "monitor current authority rejects unconfirmed phone",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects revoked platform grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects missing notification permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects missing system-health permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects session predates approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects session predates role grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "consumer registration is actor-bound and idempotent",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "no historical event or receipt inserted at migration install",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "paused new confirmed payment posts deterministic nonempty journal",
+      "status": "pass",
+      "detail": "99710000-0000-4000-8000-000000050001"
+    },
+    {
+      "name": "pause captures exactly one immutable eligible queued receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "lifetime primary receipt uniqueness prevents duplicate snapshot enqueue",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "23505",
+        "reason": "duplicate key",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "posting and receipt creation emit two committed UUID events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "idempotent journal replay preserves receipts, balances and events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause refuses assisted collect_claim_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_get_claimed_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_confirm_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_record_send_start",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refusal does not permanently suppress queued work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "direct future claim-state path also encounters hard pause guard",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "direct future attempt insertion also encounters hard pause guard",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "resume can claim preexisting paused queue without re-enqueue",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "enabled exact human-confirmation boundary remains available",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause blocks even an old successful claim request replay",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause blocks even an old human confirmation replay",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause blocks freshly confirmed durable pre-send authorization",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "enabled pre-send records attempt without contacting a carrier",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause blocks old send-start request replay authority",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "paused operator can retain uncertainty evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old attempt uncertainty replay remains recordable while paused",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "uncertain transition emits exactly one actionable UUID event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "no consent skips receipt but preserves committed payment event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "app-linked policy does not broaden SMS recipients",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "disabled group policy is eligibility exclusion rather than dispatch pause",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "bounded historical preview has explicit pending-policy refusal",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "preview paired keyset pages avoid duplicates",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "preview reports current consent/app-link/eligible history without contacts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "historical reconcile cannot enqueue while policy pending",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "late allocation produces immutable transition events and posted receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reversal emits event while retaining original receipt payload",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reversed payment suppresses unsafe unsent receipt independently of pause",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "suppression emits actionable event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "event reads expose only redacted immutable IDs/status/version",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "deferred is durable observation but remains pending",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exact ACK request replay returns existing immutable acknowledgement",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "ACK request collision cannot change outcome",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_conflict"
+      }
+    },
+    {
+      "name": "observed UUID progress removes only one event from this consumer",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "independent consumer retains independently unobserved same event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "different actor cannot use another consumer list_receipt_monitor_events_v1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "receipt_consumer_scope_denied"
+      }
+    },
+    {
+      "name": "different actor cannot use another consumer ack_receipt_monitor_event_v1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "receipt_consumer_scope_denied"
+      }
+    },
+    {
+      "name": "rolled-back ACK never advances durable progress",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "partial batch recovery resumes from remaining unobserved UUIDs",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid bounded event arguments '405028e2-ee0b-4408-948d-2039c64ec204',0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "invalid bounded event arguments '405028e2-ee0b-4408-948d-2039c64ec204',51",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "invalid bounded event arguments '405028e2-ee0b-4408-948d-2039c64ec204',20,null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "ephemeral skip does not acknowledge or persist progress",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all monitoring and pending catch-up operations preserve nonempty finances/receipts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "immutable event evidence cannot be edited",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_event_evidence_immutable",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "revoked consent suppresses newly captured immutable receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "definite not-sent failure and exact outcome replay emit one actionable event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "member-unassigned posting still emits committed payment event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "contact change suppresses old destination without replacing immutable payload",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "later consent never automatically backfills historic recipient",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "per-event ACK cannot skip an earlier-created transaction that commits late",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "business rollback atomically removes its emitted event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent observation creates one terminal row and both immutable requests",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent pause cannot commit across an open dispatch authorization lock",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause commits after prior durable boundary and blocks future authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent financial posts create distinct immutable receipts and events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all synthetic posted/reversed journals remain exactly balanced",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "net canonical group balance equals nonempty posted payment value",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old primary receipt remains byte-for-byte unchanged after all new work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview actual nonempty current-posted RWF totals match canonical payments",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview paused backlog and actionable counts match actual outbox states",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview exact bounded response contains only aggregate fields",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview Kigali day is UTC22-to-22 with a 60-second sample interval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview rejects unsupported country 'KE'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "overview_country_invalid"
+      }
+    },
+    {
+      "name": "Overview rejects unsupported country ''",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "overview_country_invalid"
+      }
+    },
+    {
+      "name": "Overview rejects unsupported country ' rwx '",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "overview_country_invalid"
+      }
+    },
+    {
+      "name": "Overview normalizes supported country and null default",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction lifecycle exposes nine actual raw observations with Rwanda scope",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "allocated review observation remains unverified and unposted",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "balanced posted receipt has distinct confirmation ledger and paused queue evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "deliberate no-consent suppression does not alter posted financial evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reversed canonical receipt and compensating lines are independently visible",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "parser pending and failure do not imply verification or journal state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "raw SMS bodies and complete payer identity remain absent from list",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual source observation yesterday does not hide today canonical posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot invoke new Overview read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot invoke new Overview read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "Overview denies nonexistent current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot invoke new transactions read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot invoke new transactions read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "transactions denies nonexistent current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated cannot call private read helper collect_hybrid.admin_overview_authorized",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated cannot call private read helper collect_security.transaction_read_authority",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated cannot call private read helper collect_security.transaction_lifecycle",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated direct private sms_notification_outbox access refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated direct private sms_notification_attempts access refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "authenticated direct private receipt_business_events access refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "Overview notification denial leaves authorized posted aggregate available",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction notification denial hides every receipt existence and state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies unconfirmed phone",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies revoked owner grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies missing required permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies session predates new approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview current authority denies session predates owner grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies unconfirmed phone",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies revoked owner grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies missing required permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies session predates new approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transactions current authority denies session predates owner grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview requires its own permission rather than unrelated system health",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction read requires its own permission rather than unrelated system health",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction bounded query refuses null,null,0,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,101,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,25,-1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,25,100001",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,25,0,'unsafe'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses repeat('a',129),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,repeat('x',65)",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,null,0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,25,null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "transaction bounded query refuses null,null,25,0,null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "transaction_query_invalid"
+      }
+    },
+    {
+      "name": "empty page beyond end retains full source total",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "equal observation timestamps paginate deterministically without duplicates",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction deterministic amount_desc order is server derived",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction deterministic amount_asc order is server derived",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "parse-failed filter reports only actual parsing failure",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "specific reference filter retains current canonical financial state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read authorization and paging matrix leaves every business fingerprint unchanged",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "isolated missing journal line never reports financial posting",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "isolated conflicting confirmation stays separate from canonical ledger",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "evidence fault injection rolls back every canonical financial byte",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview one microsecond before Kigali midnight",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview exact Kigali day start inclusive",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview future within current day excluded",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview next Kigali day start excluded",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview excludes reversed payment even when timestamp is inside today",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview boundary probes restore all business fingerprints",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "Overview queued awaiting failed uncertain and started counters match durable source",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "oldest pending age derives queued and awaiting timestamps only",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "transaction read displays actual awaiting started and uncertain independently",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all-state Admin reads cannot modify finance receipts attempts or provider evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent session expiry waits on actual read authority locks",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "after concurrent expiry rollback both authorized reads remain usable",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "combined upgrade retains original nonempty primary receipt byte-for-byte",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "every nonempty journal still has two exactly balanced canonical lines",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "final group balance equals currently posted nonempty canonical payments",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "local_container_guard": {
+    "project": "collect_fin_concurrency_qa_20260929",
+    "port": "55722",
+    "net": "0",
+    "cron": "off"
+  },
+  "candidate_binding": {
+    "path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20260930-release-tooling-02",
+    "manifest_sha256": "4d49758c617893d96740bebc7ec9f34beac783c4d6019daadf754ed6e851a4fc",
+    "scope": "Selected migration/helper bytes only; current whole tree unaccepted",
+    "approvals": {
+      "frozen": false,
+      "owner_approved": false,
+      "production_release_accepted": false,
+      "reviewed": false,
+      "signed": false,
+      "trusted_source_verified": false
+    }
+  },
+  "staged_sources": [
+    {
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "snapshot02_byte_parity": true
+    },
+    {
+      "path": "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "snapshot02_byte_parity": true
+    },
+    {
+      "path": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "sha256": "9908b61b0aaa53b3e53ef4224df4f2bc7bbb7c02e1a5361c7b791b1d7a421a57",
+      "snapshot02_byte_parity": true
+    },
+    {
+      "path": "scripts/tests/receipt_backlog_events_uat.py",
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+      "snapshot02_byte_parity": true
+    },
+    {
+      "path": "scripts/tests/shadow_supervisor_uat.py",
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+      "snapshot02_byte_parity": true
+    }
+  ],
+  "runner_sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+  "baseline": {
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "api_acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "metadata_before_and_after_capture": {
+      "net": "0",
+      "cron": "off",
+      "count": 153,
+      "latest": "20260930220000"
+    },
+    "authority_prerequisite": {
+      "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+      "relevant_function_source_parity": true,
+      "whole_migration_parity": true
+    },
+    "known_extra_migration_parity": {
+      "20260930200000": {
+        "normalized_source_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+        "normalized_installed_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+        "exact_normalized_parity": true
+      },
+      "20260930210000": {
+        "normalized_source_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+        "normalized_installed_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+        "exact_normalized_parity": true
+      },
+      "20260930220000": {
+        "normalized_source_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+        "normalized_installed_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+        "exact_normalized_parity": true
+      }
+    },
+    "source": "Retained attempt8 schema-only capture; quiet source not re-dumped",
+    "owner_normalization": "No-owner restore; API grants reconstructed from captured catalog",
+    "excluded_runtime": [
+      "pg_cron",
+      "pg_net",
+      "pg_graphql",
+      "pg_stat_statements"
+    ],
+    "not_attested": "Registry text parity is not universal deployed-function/body attestation"
+  },
+  "hosted_inventory": {
+    "registry_count": 124,
+    "candidate_migration_count": 157,
+    "pending_count": 33,
+    "later_workspace_migrations": [
+      {
+        "path": "supabase/migrations/20260930230400_admin_investigation.sql",
+        "sha256": "d29f3251c941ab24f119ccd1048e4f6e55cb4b53f1ef473d82a8d6d28afabce4",
+        "reason": "outside_capture"
+      },
+      {
+        "path": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+        "sha256": "4b228ee53ee19cd136f7bf858e6d248b33dbd0d3576f7cefa6bf085e16ca4606",
+        "reason": "outside_capture"
+      }
+    ]
+  },
+  "database": "collect_combined_upgrade_a976da3961c9",
+  "prior_receipt": {
+    "id": "c6bcb0dc-62e1-48e4-a406-4ddf5d9d5715",
+    "state": "queued",
+    "reference": "FOUNDATION-00049999",
+    "amount_rwf": 50,
+    "claimed_by": null,
+    "created_at": "2026-09-30T21:13:20.964355+00:00",
+    "payment_id": "99710000-0000-4000-8000-000000049999",
+    "updated_at": "2026-09-30T21:13:20.964355+00:00",
+    "body_sha256": "bb281ceaa551bad986f71063fb915e0d7e0f1c91f5e9240f9c344a4c9638426c",
+    "claim_token": null,
+    "snapshot_id": "10afd88e-b77c-4ba3-89e5-dff14ad6bdfe",
+    "message_body": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 50 RWF. Balance yawe: 300 RWF; balance y'itsinda: 300 RWF. Ref: FOUNDATION-00049999.",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_count": 0,
+    "collection_id": "99710000-0000-4000-8000-000000030001",
+    "fence_version": 0,
+    "policy_revision": 1,
+    "claim_expires_at": null,
+    "consent_revision": 1,
+    "destination_e164": "+250788971201",
+    "member_record_id": "99710000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 1,
+    "group_balance_rwf": 300,
+    "destination_sha256": "8cc0b87fb6c94510ba8bc138aa1e0b14cbf1a09ad47a4c1fefc25e2917001db6",
+    "member_balance_rwf": 300,
+    "suppression_reason": null,
+    "destination_revision": 1
+  },
+  "before_install": {
+    "journal": {
+      "rows": 2,
+      "sha256": "f9dba7309672208c3d93e7919ddd595043fc5479a6fc98ed19b36020fd0167a1"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "dd92e19f947c1320de03827ebcf1579d056dfd94fbb4e4fbf2ae69bceb28a137"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "79cab0e39795afeedfb3cdcaac22c407326b383f0a925d2a04a6eb04a7690ed1"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "d3ac13246d276ef509f5c17b49e6655ac2f9abdc82ef30fe2eae53146012d7df"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "3a02116111abc807d95ba74e2013b985df90db33a974f1782dd4381beb7cba66"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "761b6ab9359dc9b30882ce14e81e80d1f8bcdf2487d9dcb09ba78273028b41d0"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "26ff564c3ce414f8a2c7ac4822355bc267bc4950768396535801a7253f8eb3c5"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "995905d0ac7742c55f9f2500aff3aa2b65de899572c6e6a21ac53d25fc36cf0d"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "installation_order": [
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql"
+  ],
+  "after_all": {
+    "journal": {
+      "rows": 14,
+      "sha256": "4a11917b0777b9664f2c491bd43b9c934973b7093f4a4c15e391ef17321855a6"
+    },
+    "payments": {
+      "rows": 13,
+      "sha256": "1b3114e597a8d447df1ef39b9a17223d40f08f76542ed4674a070276b361b866"
+    },
+    "sms_outbox": {
+      "rows": 8,
+      "sha256": "aa0735938641f4cd8de3826231959765f9cdaecdf0dffddc93df125aa3782998"
+    },
+    "sms_attempts": {
+      "rows": 2,
+      "sha256": "83067d99c5c5100a4082067a2cbbef36e08b6e28be66ff99c7fad78d4ec1290c"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 28,
+      "sha256": "555b8a60321107987b58f498e9c929924c112df0de55f9e5f4d71b1386bdc736"
+    },
+    "momo_balance_snapshots": {
+      "rows": 14,
+      "sha256": "8dc920f50b41361191ddb44f7ae328ea746232fee094bda9600a159d26fdaa18"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "927017c573be54a3330abb7463f2c65f1a07a7faa69de349e1b9d5beaddf0a92"
+    },
+    "member_balances": {
+      "rows": 3,
+      "sha256": "85b221dea2d0f36bf9921fbe8669b7339b111dc470d5df96a970a211b81eb013"
+    },
+    "payment_provider_confirmations": {
+      "rows": 13,
+      "sha256": "08ab5597b826c4dd6ef297e8b1d6483f06d51db80eb32c3df3b2228504d4ee15"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 3,
+      "sha256": "a86d3d83cb820ca819c10315e5a0cc22f47e2ceef90eb32983bba7c787b0457a"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "event_count": 29,
+  "combined_financial_baseline": {
+    "journal": {
+      "rows": 21,
+      "sha256": "f401e772872c204a2c5fd1b96ef5791ded916130edf30187d2c9e0aca0d1dc92"
+    },
+    "payments": {
+      "rows": 20,
+      "sha256": "1de83ada3abc76fe32fa9717386c8880ec9e7887ea9ec0fbdb519e7c0e410b4a"
+    },
+    "sms_outbox": {
+      "rows": 13,
+      "sha256": "1edbb8dec49dd87bf16ff8e43437bc52ebe68ed4202a313b2c19bae9497a3c16"
+    },
+    "sms_attempts": {
+      "rows": 2,
+      "sha256": "83067d99c5c5100a4082067a2cbbef36e08b6e28be66ff99c7fad78d4ec1290c"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 42,
+      "sha256": "2dd0cfd8c5b6328424b27e0a18409fd9ce5b488b619249fc4093d6f822718eed"
+    },
+    "momo_balance_snapshots": {
+      "rows": 21,
+      "sha256": "88f1e44498b4867aa36922f77a5192ab185b0ce4812ad2285ffc45ff608ccc95"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "b71ed5abfb6a2fb2a07902e63c7afdc60ecd1bea1787055cf5014af7ce3cb92f"
+    },
+    "member_balances": {
+      "rows": 3,
+      "sha256": "eb6291563367e7eddb6fd83d2518b4f16c23522f73ae6d8b09bc6f45fc033c2e"
+    },
+    "payment_provider_confirmations": {
+      "rows": 19,
+      "sha256": "c63167c872076ffab9b33427a06c1331636e51831c4c4c117478b14adb2e921e"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 9,
+      "sha256": "133141685f995bb2c5c56c87df58f8cacefee90ba40e9dc0c344e291d9be9eee"
+    },
+    "parsed_payment_events": {
+      "rows": 10,
+      "sha256": "7c5f9df68218c1a98c273d41e0c41da4135854917f4f0441ae18a49655042fe0"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "final_business_fingerprints": {
+    "journal": {
+      "rows": 21,
+      "sha256": "f401e772872c204a2c5fd1b96ef5791ded916130edf30187d2c9e0aca0d1dc92"
+    },
+    "payments": {
+      "rows": 20,
+      "sha256": "1de83ada3abc76fe32fa9717386c8880ec9e7887ea9ec0fbdb519e7c0e410b4a"
+    },
+    "sms_outbox": {
+      "rows": 13,
+      "sha256": "4c5d45c65d67d18dcb324dc739ada6881cd56da5cc80c9411f58dfb666f1287e"
+    },
+    "sms_attempts": {
+      "rows": 4,
+      "sha256": "ec377436689c4e1971fea58d14b44f12d72f03f8ef0db477e9554bf7a788c3ef"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 42,
+      "sha256": "2dd0cfd8c5b6328424b27e0a18409fd9ce5b488b619249fc4093d6f822718eed"
+    },
+    "momo_balance_snapshots": {
+      "rows": 21,
+      "sha256": "88f1e44498b4867aa36922f77a5192ab185b0ce4812ad2285ffc45ff608ccc95"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "b71ed5abfb6a2fb2a07902e63c7afdc60ecd1bea1787055cf5014af7ce3cb92f"
+    },
+    "member_balances": {
+      "rows": 3,
+      "sha256": "eb6291563367e7eddb6fd83d2518b4f16c23522f73ae6d8b09bc6f45fc033c2e"
+    },
+    "payment_provider_confirmations": {
+      "rows": 19,
+      "sha256": "c63167c872076ffab9b33427a06c1331636e51831c4c4c117478b14adb2e921e"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 9,
+      "sha256": "133141685f995bb2c5c56c87df58f8cacefee90ba40e9dc0c344e291d9be9eee"
+    },
+    "parsed_payment_events": {
+      "rows": 10,
+      "sha256": "7c5f9df68218c1a98c273d41e0c41da4135854917f4f0441ae18a49655042fe0"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "limits": [
+    "Three staged SQL files on retained schema153 only; group-share154 not installed",
+    "No full hosted124 upgrade or clean installation",
+    "API roles and synthetic claim settings exercised; no GoTrue/PostgREST/signed JWT",
+    "No production data/volume, provider authenticity, Android capture, carrier delivery or performance acceptance",
+    "Kigali day-end fixture is also future at execution; midnight-crossing branch not wall-clock executed",
+    "Prior registry source parity covers explicitly recorded prerequisites; not universal body parity"
+  ],
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T21:14:05.889510+00:00",
+  "case_count": 162
+}

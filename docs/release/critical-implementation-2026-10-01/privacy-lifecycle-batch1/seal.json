@@ -1,0 +1,78 @@
+{
+  "sealed_at_utc": "2026-10-01T22:37:25.503497+00:00",
+  "kind": "Read-only privacy discovery packet artifact seal, not erasure acceptance",
+  "artifacts": {
+    "README.md": {
+      "bytes": 32129,
+      "sha256": "fbba8f5dc5a34a966646f41cf4397a44b97cef4259fa7e7e716e461cf5117467"
+    },
+    "batch.json": {
+      "bytes": 2218,
+      "sha256": "0d86fc5305c67df9faeecb98a440a5a9fb43cc25eb79b054bb6dd4951bd1f480"
+    },
+    "dependent-consumers.json": {
+      "bytes": 91822,
+      "sha256": "ceb10fc03b5f894431aaa241e8112bb0bce38f537d63ab7c5bc14471d84d5067"
+    },
+    "findings.json": {
+      "bytes": 28884,
+      "sha256": "42910eba3639bd2bad937d580bf577add142525019895ba2fa7e00fdf47bc4ff"
+    },
+    "foreign-key-lexical-index.json": {
+      "bytes": 52608,
+      "sha256": "7aba558b4551f72de1a5e2f90e9a2c7c1ed8d8621d579a5af344a3220f09e202"
+    },
+    "foreign-key-source-references.txt": {
+      "bytes": 15320,
+      "sha256": "812fc820226cdc401b3320ea1e32a7437bd4a5f6058a9fe7e526454ffd848943"
+    },
+    "function-owner-index.json": {
+      "bytes": 806347,
+      "sha256": "4994f79684db50bb199c1fdf99b8a0b1c6028be38da1acdfbb94f2f2482cb772"
+    },
+    "implementation-plan.json": {
+      "bytes": 9241,
+      "sha256": "3c67944da0f325094ab4b96868b3ba065fd779732cfe3b1af8b02875b6909422"
+    },
+    "primary-dpo-rights-fetch.json": {
+      "bytes": 384,
+      "sha256": "14bed3c9f886d26c99333b4d17332fb2565548678845d1101e078683a7fbb808"
+    },
+    "primary-dpo-rights.html": {
+      "bytes": 81834,
+      "sha256": "d58470670dd15a20d2f6f2663ed3554c5c0ca999a3cb35b877631866e5060efc"
+    },
+    "primary-source-notes.json": {
+      "bytes": 3139,
+      "sha256": "a0e389559358212a73340b83a7b1e4f4f65c6346ab4314d981a42ac2e764c0c7"
+    },
+    "source-inventory-additional.json": {
+      "bytes": 5341,
+      "sha256": "c9aa3dcab8e6e09642598a9127ce56867f089bfc233da3c845b26e5142df593c"
+    },
+    "source-inventory-after.json": {
+      "bytes": 88270,
+      "sha256": "d74ba8dddec6ca042ed3160b075bb45e4ffcb9edcfebaf1e2bc4b55cc908828c"
+    },
+    "source-inventory-before.json": {
+      "bytes": 82895,
+      "sha256": "691c3f14f831c6ed7b835035710c56c5bfc14ae44a80fa68c4779060b6b1a23a"
+    },
+    "source-readback.json": {
+      "bytes": 3599,
+      "sha256": "c006ac4842d3f0c14e7b479e0809cb52b8e0e69a090cc3cbe84855a338d4813f"
+    },
+    "source-reference-index.json": {
+      "bytes": 434564,
+      "sha256": "6ac33204523d28b6a15612805fc542b6651ca9890f00d223d2c27570c0b3ac5c"
+    },
+    "validation.json": {
+      "bytes": 736,
+      "sha256": "a18521fa53707cc0128662ba2d5c529735ec0734d590ee4ca2f892b818fdaa33"
+    }
+  },
+  "artifact_count": 17,
+  "source_closure": "source-inventory-after.json",
+  "source_readback": "source-readback.json",
+  "validation": "validation.json"
+}

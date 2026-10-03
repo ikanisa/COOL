@@ -1,0 +1,25 @@
+{
+  "design_authority": "revolut-design",
+  "checked_at": "2026-10-01T18:11:00.014644+00:00",
+  "status": "pass",
+  "graphs": {
+    "admin": {
+      "input_count": 321,
+      "current_source_drift": []
+    },
+    "native_ios": {
+      "input_count": 465,
+      "current_source_drift": []
+    },
+    "member_browser": {
+      "input_count": 330,
+      "current_source_drift": []
+    },
+    "mobile_route_state": {
+      "input_count": 357,
+      "current_source_drift": [],
+      "package_icon_face_count": 4
+    }
+  },
+  "product_copy_contract": "f095c43533789c0d700af9d68a3ecfc0e5f0c65c406eddaa37ad4377a9f99be3"
+}

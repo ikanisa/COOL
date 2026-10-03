@@ -1,0 +1,43 @@
+{
+  "rows": [
+    {
+      "attempt": 1,
+      "outcome": "NOT_COLLECTED",
+      "http_status": null,
+      "observed_at": null,
+      "response_at": null,
+      "dispatched_at": "2026-10-01T23:41:37.293705Z",
+      "evidence_sha256": null,
+      "http_request_id": "1",
+      "evidence_revision": null,
+      "worker_error_code": null,
+      "transport_terminal": false,
+      "response_rows_observed": null
+    }
+  ],
+  "alerts": [
+    "NOT_COLLECTED",
+    "COLLECTOR_UNOBSERVED"
+  ],
+  "collector": {
+    "day_cap": 36000,
+    "day_inspections": 0,
+    "last_request_id": null,
+    "quota_exhausted": false,
+    "last_recorded_at": null,
+    "source_schema_valid": true,
+    "configuration_revision": 1
+  },
+  "checked_at": "2026-10-01T23:41:37.618936Z",
+  "request_id": "ae9f553a-2add-4f6d-82a8-dc98034fd6d0",
+  "send_action": false,
+  "resend_action": false,
+  "original_status": "recorded",
+  "scan_request_id": "ae9f553a-2add-4f6d-82a8-dc98034fd6d0",
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T23:42:37.618936Z",
+  "original_expires_at": "2026-10-01T23:43:07.068175Z",
+  "source_scan_complete": false,
+  "original_receipt_status": "completed"
+}

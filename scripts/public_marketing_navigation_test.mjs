@@ -39,7 +39,7 @@ function fixture({kind, path = '/', query = '', userAgent = 'Desktop'} = {}) {
     for (const role of ['open-link', 'share-code', 'share-heading', 'share-status', 'share-canonical', 'share-og-url', 'share-smart-banner', 'copy-link']) nodes.set('[data-' + (role.startsWith('share-') ? role : 'collect-' + role) + ']', node());
   }
   vm.runInNewContext(source, {document, window, navigator, URLSearchParams, Date, encodeURIComponent});
-  return {document, documentHandlers, windowHandlers, window, button, nav, first, last, content, nodes, clipboard};
+  return {document, documentHandlers, windowHandlers, window, navigator, button, nav, first, last, content, nodes, clipboard};
 }
 
 test('mobile menu contains focus, makes background inert and restores Escape focus', () => {
@@ -77,6 +77,19 @@ test('shared links preserve group identity and platform store navigation', async
   assert.match(f.first.href, /apps.apple.com/);
   await f.nodes.get('[data-collect-copy-link]').handlers.click();
   assert.deepEqual(f.clipboard, ['https://collect.example/c/community-group']);
+  assert.equal(f.nodes.get('[data-share-status]').textContent, 'Link copied.');
+});
+test('clipboard rejection shows recovery and an unchanged link can be retried', async () => {
+  const f = fixture({kind: 'group', path: '/c/community-group'});
+  const clipboard = f.navigator.clipboard;
+  clipboard.writeText = async () => {throw new Error('Clipboard permission denied');};
+  const copy = f.nodes.get('[data-collect-copy-link]');
+  await copy.handlers.click();
+  assert.equal(f.nodes.get('[data-share-status]').textContent, 'Copy the link from your browser address bar.');
+  const copied = [];
+  clipboard.writeText = async text => {copied.push(text);};
+  await copy.handlers.click();
+  assert.deepEqual(copied, ['https://collect.example/c/community-group']);
   assert.equal(f.nodes.get('[data-share-status]').textContent, 'Link copied.');
 });
 test('all public share templates have the same operable compact menu', () => {

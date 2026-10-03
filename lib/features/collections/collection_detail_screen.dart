@@ -172,7 +172,7 @@ class _CollectionDetailScreenState
         const SectionHeader(title: 'Activity'),
         if (history.loading && history.page == null)
           const Center(child: CircularProgressIndicator())
-        else if (history.error != null && history.page == null)
+        else if (history.page == null)
           CollectDataLoadFailure(
             onRetry: () => ref
                 .read(memberHistoryProvider(historyQuery).notifier)

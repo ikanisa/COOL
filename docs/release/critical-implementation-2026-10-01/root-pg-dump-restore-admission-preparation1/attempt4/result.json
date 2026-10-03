@@ -1,0 +1,100 @@
+{
+  "started_at_utc": "2026-10-02T08:52:23.008376+00:00",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate/scripts/tests/test_pg_archive_admission.py",
+    "-v",
+    "ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request",
+    "ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request"
+  ],
+  "env": {
+    "PATH": "/bin:/usr/bin",
+    "LC_ALL": "en_US.UTF-8",
+    "LANG": "en_US.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONUTF8": "1",
+    "COLLECT_ARCHIVE_TEST_TRACE_DIR": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/attempt4/safe-traces"
+  },
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "pid": 45227,
+  "pgid": 45227,
+  "outer_seconds": 90,
+  "stream_limit_bytes": 4194304,
+  "maintained_inputs_before": {
+    "scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "scripts/qa/backend_release_delivery.py": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/supabase_cli_helpers.sh": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+    "scripts/supabase_logical_backup.sh": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e",
+    "scripts/audits/collect_encrypted_database_backup.rb": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada",
+    "scripts/audits/collect_recovery_source.rb": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0",
+    "scripts/audits/collect_receipt_worker_snapshot.rb": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d",
+    "scripts/sql/collect_recovery_source_catalog.sql": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+    "scripts/tests/test_postgres_admission.py": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13",
+    "scripts/tests/supabase_secret_transport_test.py": "ee97ea89c524c1325a63be3a2890caa67b84d768e7cfc22219dbd498890844ec",
+    "scripts/tests/supabase_delivery_contract_test.py": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+    "scripts/tests/backup_export_contract_test.rb": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "scripts/tests/collect_encrypted_database_backup_test.rb": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+    "scripts/tests/collect_recovery_source_test.rb": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a",
+    "scripts/tests/collect_worker_snapshot_test.rb": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b",
+    "scripts/tests/production_archive_restore_test.rb": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+    "scripts/tests/production_archive_restore.rb": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867",
+    "Makefile": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b"
+  },
+  "proposed_inputs_before": {
+    "candidate/scripts/load_dotenv_strict.sh": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+    "candidate/scripts/qa/pg_archive_admission.py": "b1a49b44b30ea13be4418836d384e4ebc5b27fc5821c4192e181dc7be9704898",
+    "candidate/scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "candidate/scripts/supabase_cli_helpers.sh": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74",
+    "candidate/scripts/supabase_logical_backup.sh": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329",
+    "candidate/scripts/tests/backup_export_contract_test.rb": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "candidate/scripts/tests/test_pg_archive_admission.py": "5da80b3ec09fed012f32b31324ee07a4de6b00b81feca84fe9fbb2b0803719a1"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 2.5965130839977064,
+  "failure": null,
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 446,
+    "sha256": "752896ee93b915b25805566160813d0c5aa5f39e4343c993fb0ada4e9bb49ecb"
+  },
+  "owned_outer_process_group_absent": true,
+  "maintained_inputs_after": {
+    "scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "scripts/qa/backend_release_delivery.py": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/supabase_cli_helpers.sh": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+    "scripts/supabase_logical_backup.sh": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e",
+    "scripts/audits/collect_encrypted_database_backup.rb": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada",
+    "scripts/audits/collect_recovery_source.rb": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0",
+    "scripts/audits/collect_receipt_worker_snapshot.rb": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d",
+    "scripts/sql/collect_recovery_source_catalog.sql": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+    "scripts/tests/test_postgres_admission.py": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13",
+    "scripts/tests/supabase_secret_transport_test.py": "ee97ea89c524c1325a63be3a2890caa67b84d768e7cfc22219dbd498890844ec",
+    "scripts/tests/supabase_delivery_contract_test.py": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+    "scripts/tests/backup_export_contract_test.rb": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "scripts/tests/collect_encrypted_database_backup_test.rb": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+    "scripts/tests/collect_recovery_source_test.rb": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a",
+    "scripts/tests/collect_worker_snapshot_test.rb": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b",
+    "scripts/tests/production_archive_restore_test.rb": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+    "scripts/tests/production_archive_restore.rb": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867",
+    "Makefile": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b"
+  },
+  "proposed_inputs_after": {
+    "candidate/scripts/load_dotenv_strict.sh": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+    "candidate/scripts/qa/pg_archive_admission.py": "b1a49b44b30ea13be4418836d384e4ebc5b27fc5821c4192e181dc7be9704898",
+    "candidate/scripts/qa/postgres_admission.py": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+    "candidate/scripts/supabase_cli_helpers.sh": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74",
+    "candidate/scripts/supabase_logical_backup.sh": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329",
+    "candidate/scripts/tests/backup_export_contract_test.rb": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+    "candidate/scripts/tests/test_pg_archive_admission.py": "5da80b3ec09fed012f32b31324ee07a4de6b00b81feca84fe9fbb2b0803719a1"
+  },
+  "maintained_inputs_unchanged": true,
+  "proposed_inputs_unchanged": true,
+  "status": "pass"
+}

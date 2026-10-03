@@ -1,0 +1,32 @@
+{
+  "final_fatal_analysis": "No issues found",
+  "final_source_sha256": {
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+    "lib/gateway/gateway_app.dart": "178bbb9bd123971b67ea9f51a7bf7183b545a47a23fda99436a830ad3f50a045",
+    "lib/gateway/gateway_platform.dart": "5a96451b73a341128a19b228c6c210847354a4e1e66b78e6b48738fe447c2794",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8"
+  },
+  "intermediate_info_count": 4,
+  "prior_error_count": 21,
+  "proof_sha256": {
+    "authority.stdout": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "current-analysis.stderr": "067ae0216050371c591e4e3fc1c9e6f3688a52e27a14abb76e4845f7cbc4bf07",
+    "current-analysis.stdout": "34a206bba24ac870a9a73a0991a395f73d45f6cec1db0314a39147297d3da6a8",
+    "final-analysis.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-analysis.stdout": "fe5221cbc770b385fbb9ed29684635709f0d0a742a3d875c181abba47b1ef859",
+    "final-format-check.stdout": "1685974b88bd671112e17334bdc2abb8ef350e01ae026547459ec7a8307375ec",
+    "prior-analysis.stderr": "bc52425ca730d171b4c15b838827ffbbae7fd96bd26897fb2a840ebac4976aa1",
+    "prior-analysis.stdout": "49a857cbe6ee487601789cace7d4de1f5078e9d44678d2b171a4f284a2e2655e",
+    "prior-source.json": "dff214b9e159c6ccf280422e42cdca61f1283247ab015451c6407627a9740a8e"
+  },
+  "scope": "Actual saved gateway frontend, narrow existing-token/const/mounted-if brace correction and formatter; scoped fatal analyzer uses installed pinned SDK28 and current locked package binding. Not native gateway build, SIM dispatch, whole-runtime freeze or visual fidelity acceptance.",
+  "spacing_adapter": {
+    "s16": "existing_x4_16px",
+    "s24": "existing_x6_24px",
+    "s8": "existing_x2_8px"
+  },
+  "status": "pass_scoped_current_gateway_compilation"
+}

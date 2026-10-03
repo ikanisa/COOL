@@ -1,0 +1,82 @@
+{
+  "runtime": {
+    "path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+    "version": "Dart3.12.2 pinned original toolchain"
+  },
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-cost-correction-20261002/decoder",
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "--packages=.dart_tool/package_config.json",
+        "scripts/tests/admin_receipt_operational_history_test.dart",
+        "../sql-attempt6/fixtures"
+      ],
+      "exit_code": 0,
+      "stdout_file": "decoder-accepted.log",
+      "stdout_sha256": "f06a54b375d65622ec340794d40d4ba250c46b67f81847709fe0287514d03399"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "--packages=.dart_tool/package_config.json",
+        "scripts/tests/operational_history_cost_fixture_test.dart",
+        "../sql-attempt6/cost-observations.json"
+      ],
+      "exit_code": 0,
+      "stdout_file": "decoder-cost-accepted.log",
+      "stdout_sha256": "7841986ad02b0e3e2428a174c3e1d16d7c5a4172bc59cdb1881ebc09766825d9"
+    }
+  ],
+  "inputs": {
+    "decoder/scripts/tests/admin_receipt_operational_history_test.dart": "27379089bde00cbb6a6e2b8ab9a1227fdf42f458a8b05eed684b0e11a104cf4d",
+    "decoder/scripts/tests/operational_history_cost_fixture_test.dart": "4f8b716e48b21706ecbfea97e2c785f4d0ea9ca38c8fed3820fa7fa99453e5b6",
+    "decoder/.dart_tool/package_config.json": "e76850b9eceeb8b0a7aea1a42f785aed8da6db8bf6bb4f23026001d3a9e7384d",
+    "sql-attempt6/cost-observations.json": "430b30555bb23843cab5c8106a3645fa7e7253adfc53957688208fb781a6f3f0"
+  },
+  "ordinary_fixture_inputs": {
+    "run-config-unavailable.json": "0663a7f230803ee14f4be47591d43fa38554a99a2dc7aee2defa4f472a2e661a",
+    "producer-begin_run-0bc15933-ebbd-4386-811d-3a44595a063b.json": "170ff0346d82e0922b5f1b3ab3332d5c2472636153632147aaf0ac79122b9ebf",
+    "audit-supervisor_identity.json": "eba6f425bb3ee63d53ee0dd33d2cc3ba184234bb3f298447ab4d186ee2a2cfd2",
+    "producer-list_events-80256c19-e199-47d4-8414-c34d8441e392.json": "a96fd67c70c37df278094cf75a64c6471c9ec6f6482670a11d181bc92fdb055a",
+    "evidence-budget_refusals.json": "b1b9f7c95d0a84674702d8b9abcdbae1c96ffbe2ab7ba100ef25ae2ffa8400cb",
+    "producer-begin_run-c6da1eef-d5cd-42e5-9749-fcbf12d5c90f.json": "43994a966802c3a949a0d0bdf1de955f0d84ba98ffd0c46a9f553173184e0772",
+    "run-quota-closed.json": "a7cee939771be518dfa0a5f0aee77b210209bed735cde7d511f3927247186342",
+    "evidence-budget-refusals-with-exceptions.json": "37636017ebb0434e3a05a74630f2acebc23532c2519d09feb3889a627f485d5f",
+    "producer-complete_run-8493ef98-4250-4364-98c2-891f3a480cb3.json": "8a9e0bde45787297957a6d592df2008a5dc859c69f29b9a77aa6caffc1c72830",
+    "producer-reconcile_backlog-79594d40-9829-4904-9666-e842e780c1cf.json": "4ddf5e5d510a65cda1beb50b95e3f0c6bed0bf0c2aac98296ab9f33e6bf4ded7",
+    "quota-first.json": "b8518c50cfede92ef36db7a2e3b55df11889607348e22915779585804282c1cb",
+    "run-unavailable.json": "f2eb9357fb8671441af82c1e85769c90fd1473f1a01227d3727e5845ced3eea9",
+    "evidence-reservations.json": "56dfab5d97f4b040a849a494d2b140e44404642b66bacc96c6ea6f1e56727f03",
+    "evidence-backlog_results.json": "fc5d70b73c3a260dec01a23d99a216d5d362283ee05ec3d87e52ab4318737219",
+    "producer-complete_run-7a7a7c65-0360-4ad7-b27d-e0834d9487eb.json": "7d2cff328b953edd71d557198cec549b5b8412213b8ecc42f419ffdf840b96e7",
+    "run-closed.json": "0f051a909358fc7d86fa68a285d94807d64eda85f476579141955e5dccf8c0d9",
+    "producer-begin_run-73adce58-1f77-4c87-acbb-4a2dfc96cff3.json": "e0f1a103b175aba6e5f799739b13c134ffb96717c38940d8c694b0f22fae1b2e",
+    "producer-prove_key-36cf4a3d-c9f8-4d9e-a251-c595da0d60b5.json": "2690abe530f71ba55fd52b8f2f972d9bfba9cb2832f41df6b0c3b9824600bb1c",
+    "producer-ensure_receipt-2dc05b25-7640-4af8-846f-62639b85f834.json": "ccba0131e408296fd44d88e651b7c80f7a62043defd7ec0748445710589128f7",
+    "producer-ensure_receipt-f7a90171-6cb1-40fc-a05a-f19b414488a8.json": "98f270cc12bd9f0697fea8c695fd814b7325fbc08b2c6709ff07b73868bb90e7",
+    "producer-begin_run-b2f2a156-72ed-478e-8301-b6ae4f35dd91.json": "b03367f796d7da70fd76743ca6fb6b3813ec546dbbdcfdc0a49d58adc154a6c5",
+    "producer-reconcile_backlog-954c7dcd-4535-4302-a2ab-4bf9f24b4040.json": "52ee4c04abff85de507cd444cdaaced02d92f30c63e6a1ffc1d0f16610ab3246",
+    "starts-refused.json": "d0c4b64e4193bc3df5889e43c14cbfb5b85994c006cec1619db1a38786c4bb93",
+    "run-short.json": "8ce975b330478ee7f877dd20daa6e64e06bbef06b931e9ec1fa89d559bbba55f",
+    "evidence-events.json": "67d0d9be681034e321ef1ad37128e2f20610d041ab4676316c1ab70b9f82064b",
+    "evidence-quota-events.json": "5537996c31ca40f36f884782af3f4ab0bfa6f758dc95d70f5a4d83e56034792e",
+    "quota-last.json": "0fa8657b9581e9e205157145837a70176c2acd2bde2bde41680b5d7b62a8e1fe",
+    "producer-ensure_receipt-ef03f549-0321-44eb-b078-a577a5a764c3.json": "9ce21edd54a278cc46e9ef346527e732fb6d3db4798374b9aec86add4f3fea20",
+    "audit-receipt_operation_run.json": "b6e92a038298342e9587c53f5ada071cd28519336e63eeb32f0b3bca3eddbf9f",
+    "producer-list_events-16fea41e-f00c-4b5d-97ec-ebf3986f7ea8.json": "89478cdc6fc4c6c56652395f4d2c2583579ca03008a5c150cfa35b8d5466265b",
+    "audit-receipt_operations_policy.json": "2ca3a44f517bf98daad6eaf5870590d0e7743ba8693998ba7515066fff6cdee9",
+    "quota-last-tied.json": "a6c1c9c92980d8f1220a1d10ea1e4f601f9abd27a07b161ddbcb703b2d0a0de7",
+    "producer-reconcile_backlog-07e93d18-e86e-4042-b262-b6ea4b7521eb.json": "31cf7d779577c197efe05bc8050b8241ed5b463b675db9c5c98b47e6d347c266",
+    "quota-first-tied.json": "2c1dfd1c0a8423033c94341f175ce9986695295819132671a64e2632357d180c"
+  },
+  "boundary_fixture_scope": "old decoder adversarial mutations are boundary tests; density responses are real RPCs over declared rollback-only density fixtures",
+  "retained_tool_failure": {
+    "argv_source": "conversation functions.exec call preceding successful cost script creation",
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-cost-correction-20261002/decoder",
+    "exit_code": 254,
+    "observed_output": "zsh:1: no such file or directory: .cache/admin-operational-history-cost-correction-20261002/decoder/scripts/tests/operational_history_cost_fixture_test.dart",
+    "limitation": "The failed redirect log was overwritten by the corrected run; only the tool-observed output is retained here, not reconstructed full stderr."
+  }
+}

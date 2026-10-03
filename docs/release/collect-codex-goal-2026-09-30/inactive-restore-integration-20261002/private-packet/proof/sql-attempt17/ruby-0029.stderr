@@ -1,0 +1,2 @@
+WARNING:  25001: there is already a transaction in progress
+LOCATION:  BeginTransactionBlock, xact.c:3903

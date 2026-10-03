@@ -1,0 +1,30 @@
+{
+  "python_version": "3.12.14",
+  "tools": {
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker": {
+      "bytes": 41375408,
+      "mode": 493,
+      "sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34"
+    },
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3": {
+      "bytes": 18041888,
+      "mode": 493,
+      "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-venv/bin/python": {
+      "bytes": 18058560,
+      "mode": 493,
+      "sha256": "69b35956b6a60fdcc0e7a11c062cbd89dd389caa8a3c862221feb56105f2a643"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno": {
+      "bytes": 91931408,
+      "mode": 493,
+      "sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0"
+    },
+    "/usr/bin/ruby": {
+      "bytes": 134912,
+      "mode": 365,
+      "sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+    }
+  }
+}

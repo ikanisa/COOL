@@ -1,0 +1,44 @@
+{
+  "Python_executable_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "actual_seconds": 0.469821624996257,
+  "actual_tests": 58,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/test_argv_unavailable.py"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "kind": "private_metadata_fixture_execution",
+  "new_argv_unavailable_tests": 15,
+  "preserved_previous_tests": 43,
+  "real_process_metadata_probes_Gradle_signals_APP_SDK_actions": false,
+  "source_after": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "captured-lifecycle-fixture.json": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63",
+    "captured-stage3-production-release-aab.daemon-readback.json": "c7478073987cd3be1f6f17bba9d46b9bccc3719bf953d6bad93f568e9baf89de",
+    "captured-stage3-production-release-aab.json": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "9b557322112f9cd4ae350a253c413c3362c969d00ba86499c041c622981d400d",
+    "run_selected_aab.py": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+    "test_argv_unavailable.py": "c74c23c68adba546782ad06c3d28d475e61cb5d2d01cd71504a33213984f3346",
+    "test_lifecycle_metadata.py": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "source_before": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "captured-lifecycle-fixture.json": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63",
+    "captured-stage3-production-release-aab.daemon-readback.json": "c7478073987cd3be1f6f17bba9d46b9bccc3719bf953d6bad93f568e9baf89de",
+    "captured-stage3-production-release-aab.json": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "9b557322112f9cd4ae350a253c413c3362c969d00ba86499c041c622981d400d",
+    "run_selected_aab.py": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+    "test_argv_unavailable.py": "c74c23c68adba546782ad06c3d28d475e61cb5d2d01cd71504a33213984f3346",
+    "test_lifecycle_metadata.py": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "stderr_sha256": "1d01dfb82052b13133d77cb31a528cf93063f9544a7b64075cbdf855ad1a2fda",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "unchanged": true
+}

@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-02T12:21:20.252814+00:00",
+  "classification_seal_SHA256SUMS": "6dc5701077566b3e890eb5165ecd4c05b31b3441967ef26896eb86e2b6daa54b",
+  "all_five_sealed_payload_leaves_verified": true,
+  "annotation_correction": {
+    "reported_path": "root-schema-current-sql-ci-refresh1/packet-files.json",
+    "reported_sha256": "7595bf5a891ade7d85db6cecec2cb6fb742605713aa76acf695253574bb6256c",
+    "correct_SHA256SUMS_path": "root-schema-current-sql-ci-refresh1/SHA256SUMS",
+    "correct_SHA256SUMS_sha256": "7595bf5a891ade7d85db6cecec2cb6fb742605713aa76acf695253574bb6256c",
+    "actual_packet_files_sha256": "697163c7437d4b2105e47fffee1e0319d24742b74628ea4c13db3d914ad00174"
+  },
+  "source_classification": "all36 application gap names have source transformation candidates",
+  "counts": {
+    "dynamic_private_move_rename": 13,
+    "generated_public_wrapper": 14,
+    "header_copy_alias": 2,
+    "guarded_body_rewrite": 5,
+    "static_rename_intervening_unknown": 2
+  },
+  "mapper_or_lineage_execution": false,
+  "closed_or_resolved_flags_changed": false,
+  "remaining_full_findings": 34,
+  "domain_owner_authority_verified": false
+}

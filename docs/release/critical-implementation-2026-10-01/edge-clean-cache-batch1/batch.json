@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "finding_ids": [
+    "ARC-04"
+  ],
+  "status": "local_clean_cache_acceptance_verified",
+  "dated_at_utc": "2026-10-01T21:06:20.669311+00:00",
+  "executed_at_utc": {
+    "start": "2026-10-01T20:59:40.008640+00:00",
+    "finish": "2026-10-01T21:00:32.979914+00:00"
+  },
+  "final_attempt": "attempt3",
+  "new_acceptance_attempt_after_interruption": false,
+  "canonical_runner": "scripts/qa/run_edge_ci.py",
+  "canonical_source_file_count": 134,
+  "source_unchanged_during_execution": true,
+  "current_closure_matches_executed_closure": true,
+  "source_binding": "Exact private source copy, before/after hashes and current readback; global immutable export remains parent-owned.",
+  "runtime": {
+    "version": "2.5.6",
+    "binary_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+    "decoder_python": "3.12.14",
+    "docker_platform": "linux/aarch64"
+  },
+  "dependency_lock_sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+  "dependency_cache_initial_file_count": 0,
+  "global_deno_dependency_cache_reused": false,
+  "frozen_dependency_graph": true,
+  "counts": {
+    "type_files": 83,
+    "unit_test_files": 31,
+    "unit_tests_passed": 561,
+    "unit_tests_failed": 0,
+    "unit_tests_ignored": 0,
+    "unit_steps_passed": 32,
+    "unit_steps_failed": 0,
+    "unit_steps_ignored": 0,
+    "runner_contract_tests": 13,
+    "real_http_checks_passed": 91,
+    "real_http_checks_failed": 0,
+    "real_http_entrypoints": 12,
+    "linux_decoder_cases": 32,
+    "linux_actual_integration": {
+      "tests_passed": 14,
+      "tests_failed": 0,
+      "tests_ignored": 0
+    },
+    "linux_regressions": {
+      "tests_passed": 155,
+      "tests_failed": 0,
+      "tests_ignored": 0
+    }
+  },
+  "provider_calls": 0,
+  "hosted_ci_executed": false,
+  "current_sql_executed": false,
+  "current_sql_acceptance_claimed": false,
+  "full_production_acceptance": false,
+  "permissions": "Existing unit/HTTP/Linux allowlists retained; runtime HTTP restricted to 127.0.0.1 with explicit provider denials; no run permission granted to unit or HTTP entrypoint execution. Cache resolution fetches public dependencies only.",
+  "fixture_scope": "Generated immutable dated synthetic SQL observations with hash-bound original generators/migrations/finished receipt; decoder tests do not assert current SQL persistence.",
+  "negative_case": {
+    "corruption": "Private copy of the existing lock changes only deno.land/std@0.224.0/assert/mod.ts integrity to zeroes.",
+    "actual_runtime_exit": 10,
+    "rejected_before_tests": true,
+    "valid_copy_existing_tests_passed": 3,
+    "real_lock_unchanged": true
+  },
+  "fixed_gaps": [
+    "Maintained Play Integrity actual-handler test is explicitly included in source capture, frozen cache/check graph and unit test cohort.",
+    "Deno completion parser anchors one complete summary and rejects failure/ignored/empty/malformed/ambiguous tests or nested-step counts.",
+    "Literal imports bind all 12 real entrypoints to the frozen dependency graph; live loader/config/source parity and exactly-once starts reject drift."
+  ],
+  "retained_failures": [
+    {
+      "attempt": "attempt1",
+      "status": "fail",
+      "reason": "Actual Deno nested-step summary was complete, but the prior parser could not recognize it; command exit 0 was not accepted as a pass."
+    },
+    {
+      "attempt": "attempt2",
+      "status": "fail",
+      "reason": "Computed entrypoint imports were not fully bound during frozen cache resolution; cached-only runtime correctly rejected missing iceberg-js transitive dependency."
+    }
+  ],
+  "evidence_sha256": {
+    "attempt3/canonical-batch.json": "965037853e784b969dc0faa0b5f86e590b4b89eba35a091a62b0b566eb5edf51",
+    "attempt3/acceptance/validation.json": "c571eaa9660dc83fac31522b613c3874d0eb043a1ce5d60e91a7174e3ba511c5",
+    "attempt3/acceptance/units/validation.json": "ec062df4e16327f7bf79b4022237d2fec3ace66ac3ba57a5bec5ac818ec21be6",
+    "attempt3/acceptance/edge-http/report.json": "7a36728c6a5d1484d660c7eb25c5dfe958a7126f0a2cb1603f5a53cba84e3b83",
+    "attempt3/acceptance/linux-decoder/validation.json": "e9e3093a468027dcaba1228da4798d248ca1e33e46a289fd01da5bd7588901dc",
+    "lock-probe.json": "2255747d5d8013319fc93fcd9d2126ff1cd5204db24e4b022c6623b055e5574b",
+    "current-readback.json": "06dc75aa48bbeff84fe594554ee8295e9601cddf2e0a692aca6638b382fb9957",
+    "run_cold_acceptance.py": "a88155c1781aaf7aeecd4c2ed6ad478c2b89eb2b26dfec652c207c72ebfbefd9",
+    "probe_frozen_lock.py": "600ef51ea0ac4479bb14a44d8cdf96cff079591b8a254072055e0837047d0480"
+  },
+  "maintained_source_sha256": {
+    "scripts/qa/run_edge_ci.py": "c7f1939822bce92f5e1e463963ba6db4c7cb1adbf82ae70d0e3ffcedca4fcb6f",
+    "scripts/qa/run_edge_unit_tests.py": "7b3165af636318d91ccf5b0a88a28c7ae3016c836fd6b2fc0612fcd8b71fbc86",
+    "scripts/qa/edge_http_runtime_uat.ts": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+    "docs/release/critical-implementation-2026-10-01/ci-batch1/test_runner_contract.py": "a8a14dada5813dc5e71c520a3acaa0579ef9bf35da24d1d9c3ddb30ae1cd32d1"
+  },
+  "remaining_limits": [
+    "Hosted GitHub runner execution was not performed; this is the same canonical recipe executed locally against the source copy and native Linux ARM64 sandbox.",
+    "No real Auth sign-in, platform verify_jwt gateway, SQL persistence/RLS, Google/WhatsApp/APNs/FCM/OpenAI delivery or provider accuracy is established by the HTTP synthetic dependency responses.",
+    "Global member/Admin/public/backend/operator export, artifact closure and independent release authority remain separate parent-owned acceptance."
+  ]
+}

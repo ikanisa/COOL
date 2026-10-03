@@ -1,0 +1,15 @@
+{
+  "archive": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.superseded-candidates/export6-before-format-five-3aaf1bec0bcb49aeb01936496b427f8d",
+  "no_stage_admitted": true,
+  "results": {
+    "app-export-control": {
+      "bytes_modes_ids_unchanged_except_root_rename_ctime": true,
+      "nodes": 25
+    },
+    "app-source": {
+      "bytes_modes_ids_unchanged_except_root_rename_ctime": true,
+      "nodes": 2858
+    }
+  },
+  "whole_export_pass_remains_pass": true
+}

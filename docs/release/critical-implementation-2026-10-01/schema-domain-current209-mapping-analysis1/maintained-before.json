@@ -1,0 +1,14 @@
+[
+  {
+    "path": "scripts/audits/collect_schema_domain_map.py",
+    "sha256": "9d9f2aa6ec76cc17d72c3ad2d69cf6e0415aaadb87fb4bac1b64f1cf584a396a"
+  },
+  {
+    "path": "scripts/audits/collect_schema_domain_caller_seams.json",
+    "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc"
+  },
+  {
+    "path": "scripts/tests/collect_schema_domain_map_test.py",
+    "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  }
+]

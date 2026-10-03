@@ -1,0 +1,40 @@
+{
+  "format": "collect-inactive-restore-packet-seal-v1",
+  "sealed_at": "2026-10-02T18:55:06.131340+00:00",
+  "packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002",
+  "manifest": {
+    "bytes": 2475780,
+    "sha256": "b55d567580834f0205fa6b1fd91d3778c199682e452bab560f91aa692c2fa3ed"
+  },
+  "member_count": 14413,
+  "total_bytes": 1767664615,
+  "proposal": {
+    "bytes": 17920,
+    "sha256": "38d57dc6f32d6933099e616d7f0b2ddd2c6e7e410fbf7e3087fe3faac6059506"
+  },
+  "promotion_map": {
+    "bytes": 3600,
+    "sha256": "581e0f30a104af1a921647584e6c6016d3396d0ca3fee2b3f5b1ba3862d55476"
+  },
+  "final_validation": {
+    "bytes": 243012,
+    "sha256": "68d504bf8069f64504c161ace9791d85174af8fe59feb68691d37bec64de5744"
+  },
+  "accepted_sql": {
+    "bytes": 209529,
+    "sha256": "a78c8379cba1d08ffcd1b0e43d35155a05e3c51cd0b9f673a913ceb96883fe31"
+  },
+  "accepted_units": {
+    "bytes": 17543,
+    "sha256": "d75215ca829bdcc57c60bf77ae6a5b6f032e81df4ef16dbf60e9edac16caf111"
+  },
+  "cleanup": {
+    "bytes": 8509,
+    "sha256": "a32b2a989601561271afcd748847848d6e8d21ddfed2033384b32dc84c0ce495"
+  },
+  "canonical_write": "root seven-file promotion now complete; exact preserved inputs and canonical readback separately bound",
+  "hosted_or_live_action": false,
+  "all_owned_targets_absent": true,
+  "active_handle": null,
+  "required_next_boundary": "root affected canonical caller43/210 passed separately; complete209/native/scheduler/archive recovery and external production acceptance remain open"
+}

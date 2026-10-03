@@ -1,0 +1,146 @@
+{
+  "BE-08": {
+    "pointer": "/items/7",
+    "test_id": "BE-08",
+    "replace": {
+      "implementation_status": "current209_additive_mapper57_pass_1095_inputs_668_sources_127_unresolved_preserved",
+      "next_action": "Additive mapper metadata is implemented; 57 tests (8 new) pass. Fresh current209 generation/independent verify reflect 1095 input rows, 668 sources and 718 callers. All127 unresolved functions (36 application/public,91 platform) and all transformation review records remain exact;34 records carry37 unproved candidates. Eight caller records change only source positions. Complete domain ownership, body provenance and history resolution;775 literal matches,74 classifications,58 unresolved callers and84 lineage uncertainties retain their actual scope."
+    },
+    "append_unique_evidence_packets": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/readback.json",
+        "sha256": "cd695eae9bd74b34fdd0910c67d709b13f38479e1d0fe9dc511f87ee64510a0e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/packet-files.json",
+        "sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readback.json",
+        "sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readability-correction1/erratum.json",
+        "sha256": "c38d4f50f73d40364233e1fa88553522d801779637d5d74e1fcf98cae64f92a9"
+      }
+    ],
+    "preserve_fields": [
+      "id",
+      "title",
+      "report",
+      "status",
+      "review_status",
+      "acceptance_requirement_from_report",
+      "acceptance_status",
+      "full_finding_closed"
+    ]
+  },
+  "ARC-03": {
+    "pointer": "/items/15",
+    "test_id": "ARC-03",
+    "replace": {
+      "implementation_status": "current13_manifest_derived_probes22_inventory3_probe_tests_pass_hosted_acceptance_open",
+      "next_action": "Manifest-derived probes are implemented with current13 status/error/auth policies preserved. Actual22 inventory tests/258 assertions and3 existing unsigned probes pass;36 source fences and389 corrected-probe consumer inputs are unchanged. The initial Node-PATH setup failure remains failed. Exact linked-project read access was refused; current hosted parity is unobserved. Obtain approved staging deployed hashes, migrated SQL dependencies, scheduler configuration and positive/denial HTTP readback, then authorized production readback."
+    },
+    "append_unique_evidence_packets": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/packet-files.json",
+        "sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/readback.json",
+        "sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d"
+      }
+    ],
+    "preserve_fields": [
+      "id",
+      "title",
+      "report",
+      "status",
+      "review_status",
+      "acceptance_requirement_from_report",
+      "acceptance_status",
+      "full_finding_closed"
+    ]
+  },
+  "ARC-09": {
+    "pointer": "/items/21",
+    "test_id": "ARC-09",
+    "replace": {
+      "implementation_status": "AAB7_R8_failed_two_Gradle_fixes_applied_attempt8_private_probe_failed_retry9_pending_OSV157_scoped",
+      "next_action": "Prior native8 results retain their bound source scope (12 JVM cases/20 classes), alongside original1114 affected app cases. AAB7 genuinely failed R8 due default Proguard path capture before late output-directory override. Two reviewed Gradle fixes are applied; private strictAPPmanifest5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7/source-mapf997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053 remain unapproved without source-lock attestation. Actual attempt8 stops in the private config probe because included Flutter build :gradle has no app; lifecycle/source/protected guards pass, and graphs/AAB/reader never execute. Corrected root-scoped probe and real graph/AAB retry9 are pending. Current maintained2563 map1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0 differs from privateAPP in scoped audit/index sources. TLS-verified OSV query returns no known records for157 exact Maven versions in the earlier bound graph, with16 local projects outside query scope. Complete licence/fork/publisher/frozen-dependency and packaged AAB/IPA/web SBOM acceptance."
+    },
+    "append_unique_evidence_packets": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+        "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+        "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback7/readback.json",
+        "sha256": "2516e105405bafdc3053f52d86479dd195e31507406d7961cbd31f83bf28a74e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback8/readback.json",
+        "sha256": "88f503a1ef6cc96ec15dfe38fedc304e19f30613439010ab7655a86ad14f6b9b"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8/packet-files.json",
+        "sha256": "281d1eade6d8728623a0108bc88bc68962e8b3345a75c6b157eb046fd3aa6cd6"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+        "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+        "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+      }
+    ],
+    "preserve_fields": [
+      "id",
+      "title",
+      "report",
+      "status",
+      "review_status",
+      "acceptance_requirement_from_report",
+      "acceptance_status",
+      "full_finding_closed"
+    ]
+  },
+  "PD-12": {
+    "pointer": "/items/37",
+    "test_id": "PD-12",
+    "replace": {
+      "implementation_status": "current_index_scripts14_tests_pass_reader1_two_binding_drifts_final_review_pending",
+      "next_action": "Current-index scripts are implemented and14 maintained tests pass. Actual reader1 finishes in3.734s with90 facts and two archivedAPP-v-current Android Gradle binding errors; that result is incomplete and retained failed. Reconcile current/superseded scopes honestly and obtain final machine-checked relevant source/transitive/artifact index. Root will decide closure from actual final result. Earlier failed41 consumers are superseded by1114 passing cases on their captured2561 source; that scoped pass does not accept later Android/current2563 source or typography/public/visual/font-rights results."
+    },
+    "append_unique_evidence_packets": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/scripts-applied.json",
+        "sha256": "cc8d0687644b1dbe39d532a5ba8d4c2389594559dbe0dd78b98680533d4fab91"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/maintained-tests.json",
+        "sha256": "6195a9c0bdb8b65c03e863ef6393ecb9ea6ab57acb5a4963703cd235b1448e2c"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.json",
+        "sha256": "75d3ef4e408db0718b63aa28420c7d928c80c0ba23fe2d462e9a6ac4a1240ef2"
+      }
+    ],
+    "preserve_fields": [
+      "id",
+      "title",
+      "report",
+      "status",
+      "review_status",
+      "acceptance_requirement_from_report",
+      "acceptance_status",
+      "full_finding_closed"
+    ]
+  }
+}

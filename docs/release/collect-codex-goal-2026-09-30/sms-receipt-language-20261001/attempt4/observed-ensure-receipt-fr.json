@@ -1,0 +1,38 @@
+{
+  "result": {
+    "ok": true,
+    "code": "RECEIPT_ENQUEUED",
+    "receipt_id": "55e76a61-e6a2-4b6f-94d7-f8203854efab",
+    "business_handled": true
+  },
+  "job": {
+    "id": "55e76a61-e6a2-4b6f-94d7-f8203854efab",
+    "state": "queued",
+    "reference": "LANGUAGE-13",
+    "amount_rwf": 100,
+    "claimed_by": null,
+    "created_at": "2026-10-01T18:37:34.329108+00:00",
+    "payment_id": "806edeaa-28d2-459d-846f-1ef5a33e2e44",
+    "updated_at": "2026-10-01T18:37:34.329108+00:00",
+    "body_sha256": "bb10f49ab5f81436263b291032e1c6512511a76539b1b8f727fdec34386f8a37",
+    "claim_token": null,
+    "snapshot_id": "4c05ff2f-edb8-4cdc-a92e-bd3d8f7bbd79",
+    "message_body": "BuriMunsi: Épargne enregistrée: 100 RWF. Votre épargne enregistrée dans ce groupe au 2026-10-01 20:37 CAT: 1,550 RWF. Réf: LANGUAGE-13.",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_count": 0,
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "fence_version": 0,
+    "policy_revision": 3,
+    "claim_expires_at": null,
+    "consent_revision": 1,
+    "destination_e164": "+250788978201",
+    "member_record_id": "99780000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 2,
+    "group_balance_rwf": 1550,
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2",
+    "member_balance_rwf": 1550,
+    "suppression_reason": null,
+    "destination_revision": 1
+  }
+}

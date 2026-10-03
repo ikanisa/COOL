@@ -140,6 +140,12 @@ class PublicAppMediaTest < Minitest::Test
 
   def browser_fixture
     fixture do |root, asset|
+      diagnostic_sources = PublicAppMedia::BROWSER_DIAGNOSTIC_INPUTS.to_h do |relative|
+        path = File.join(root, relative)
+        FileUtils.mkdir_p(File.dirname(path))
+        File.write(path, 'Synthetic browser observer input: ' + relative)
+        [relative, Digest::SHA256.file(path).hexdigest]
+      end
       directory = File.join(root, 'web/public/app-screens')
       manifest = JSON.parse(File.read(File.join(directory, 'manifest.json')))
       capture = manifest.fetch('screens').first
@@ -147,6 +153,9 @@ class PublicAppMediaTest < Minitest::Test
       File.write(File.join(directory, 'manifest.json'), JSON.generate(manifest))
       build = {'main.dart.js' => 'a' * 64, 'flutter_bootstrap.js' => 'b' * 64}
       report = {'kind' => 'browser_flutter_fixture', 'status' => 'captured_pending_visual_review',
+                'capture_recorder_sha256' => diagnostic_sources.fetch('scripts/qa/public_browser_app_media.mjs'),
+                'diagnostic_observer_sources_before' => diagnostic_sources,
+                'diagnostic_observer_sources_after' => diagnostic_sources.dup,
                 'sources_unchanged' => true, 'sources_before' => {'lib/app.dart' => 'c' * 64},
                 'sources_after' => {'lib/app.dart' => 'c' * 64},
                 'runtime_before_sha256' => manifest['runtime_sha256'], 'runtime_after_sha256' => manifest['runtime_sha256'],
@@ -194,11 +203,53 @@ class PublicAppMediaTest < Minitest::Test
     end
   end
 
+  def test_isolated_browser_capture_requires_unchanged_generated_bindings_and_checkout_runtime
+    browser_fixture do |root, _asset, report, _review, _provenance, save|
+      report.merge!('isolated_source_export' => true, 'source_root' => '/synthetic/export',
+                    'checkout_runtime_before_sha256' => report['runtime_before_sha256'],
+                    'checkout_runtime_after_sha256' => report['runtime_after_sha256'],
+                    'generated_bindings_unchanged' => true,
+                    'generated_bindings_before' => {'.dart_tool/package_config.json' => 'b' * 64,
+                                                    '.flutter-plugins-dependencies' => 'c' * 64})
+      report['generated_bindings_after'] = report['generated_bindings_before'].dup
+      report['resolved_local_bindings_before'] = {
+        'collect_app' => '/synthetic/export', 'file_saver' => '/synthetic/export/third_party/file_saver',
+        'gotrue' => '/synthetic/export/third_party/gotrue',
+        'firebase_messaging' => '/synthetic/export/third_party/firebase_messaging'
+      }
+      report['resolved_local_bindings_after'] = report['resolved_local_bindings_before'].dup
+      save.call
+      assert_equal 'browser_flutter_fixture', PublicAppMedia.new(root).screens.fetch('home')['capture_kind']
+      report['generated_bindings_after']['.flutter-plugins-dependencies'] = 'd' * 64
+      save.call
+      assert_match(/source binding is incomplete/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+      report['generated_bindings_after'] = report['generated_bindings_before'].dup
+      report['checkout_runtime_after_sha256'] = 'e' * 64
+      save.call
+      assert_match(/source binding is incomplete/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
   def test_browser_wrong_served_application_bytes_fail
     browser_fixture do |root, _asset, report, _review, _provenance, save|
       report['served_resources']['main.dart.js'] = 'd' * 64
       save.call
       assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }
+    end
+  end
+
+  def test_browser_missing_changed_or_forged_diagnostic_observer_is_rejected
+    [nil, {}, {'scripts/qa/collect_diagnostic_observer.mjs' => 'a' * 64}].each do |invalid|
+      browser_fixture do |root, _asset, report, _review, _provenance, save|
+        report['diagnostic_observer_sources_before'] = invalid
+        report['diagnostic_observer_sources_after'] = invalid
+        save.call
+        assert_match(/diagnostic observer binding/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+      end
+    end
+    browser_fixture do |root, _asset, _report, _review, _provenance, _save|
+      File.write(File.join(root, 'scripts/qa/collect_diagnostic_observer.mjs'), 'Changed observer after capture')
+      assert_match(/diagnostic observer binding/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
     end
   end
 

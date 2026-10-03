@@ -1,0 +1,61 @@
+{
+  "canonical_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "promoter": "root only",
+  "status": "staged; scoped backend and root actual SQL-fixture model acceptance passed; root sole promoter",
+  "changes": [
+    {
+      "path": "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+      "old_sha256": null,
+      "new_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new",
+      "staged_path": "promote/supabase/migrations/20261002030000_receipt_operational_telemetry.sql"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_models.dart",
+      "old_sha256": "d5fc9be9c24266c2ad8d9e48ee78b0eb05485785e1e068f501225f21cbbbaa28",
+      "new_sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify",
+      "staged_path": "admin/promote/lib/admin/core/admin_exception_models.dart"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_models.dart",
+      "old_sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+      "new_sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify",
+      "staged_path": "admin/promote/lib/admin/core/admin_exception_workflow_models.dart"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_card.dart",
+      "old_sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116",
+      "new_sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify",
+      "staged_path": "admin/promote/lib/admin/core/admin_exception_workflow_card.dart"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_telemetry.dart",
+      "old_sha256": null,
+      "new_sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new",
+      "staged_path": "admin/promote/lib/admin/core/admin_receipt_operational_telemetry.dart"
+    },
+    {
+      "path": "scripts/tests/admin_receipt_operational_telemetry_test.dart",
+      "old_sha256": null,
+      "new_sha256": "fc7e96f83d783c66f7e09ecb85312f44e8ab36494cf38ecd6d589269aff32526",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new",
+      "staged_path": "admin/promote/scripts/tests/admin_receipt_operational_telemetry_test.dart"
+    }
+  ]
+}

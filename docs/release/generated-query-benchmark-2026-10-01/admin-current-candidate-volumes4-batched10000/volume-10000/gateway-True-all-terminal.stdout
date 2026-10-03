@@ -1,0 +1,2 @@
+{"sub": "99640000-0000-4000-8000-000000000004", "session_id": "99760000-0000-4000-8000-000000090001", "role": "authenticated", "aal": "aal2"}
+{"rows": [], "limit": 50, "scope": "platform_global", "total": 10000, "checked_at": "2026-10-01T13:52:32.007110Z", "next_cursor": null, "contract_version": 1, "sample_valid_until": "2026-10-01T13:53:32.007110Z"}

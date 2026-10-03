@@ -1,0 +1,130 @@
+{
+  "files": [
+    {
+      "bytes": 1105,
+      "path": "SDK-readback-after-built.json",
+      "sha256": "198e66601578381f6e27c4bb20eef4f1a246a39ffc99247aebee231b9b3569c7"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-after-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-after-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 1105,
+      "path": "SDK-readback-before-built.json",
+      "sha256": "52ebd2e884260e6cc89205697f2d1e36b1691892046a79f6e3351d4f7819fa98"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-before-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-before-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-after-built.json",
+      "sha256": "40ee30fadeca08e81cf3dcae704a595b978f07c89ff5dc2cb08dde4786c95835"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-before-built.json",
+      "sha256": "40ee30fadeca08e81cf3dcae704a595b978f07c89ff5dc2cb08dde4786c95835"
+    },
+    {
+      "bytes": 758970,
+      "path": "actual-app-source.json",
+      "sha256": "bee7b8d762567df280da94fbae38d5bb5d79d4eb585b5a4cc74de22e6175e422"
+    },
+    {
+      "bytes": 1190,
+      "path": "actual-command.json",
+      "sha256": "2d8cc0e916fd532650ed0137eed9c010d4f2c835a37cfe7b7a72587f7292b698"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1847,
+      "path": "actual-command.stdout",
+      "sha256": "c998646050fafe6284ade4e4cc6f2bf99027d77aa67f1ba3d1861a6deafbac6c"
+    },
+    {
+      "bytes": 464,
+      "path": "export-source-binding.json",
+      "sha256": "12ea1533d6aeb1333012f929b5f627f19c1912a048e81d9f277fba09b2ec2f9e"
+    },
+    {
+      "bytes": 622,
+      "path": "readback.json",
+      "sha256": "4d6afe9858d12aeee4c0adb5dca336f2b77ebf5b7d9e7cf92831d1f89c3cddd7"
+    },
+    {
+      "bytes": 1767,
+      "path": "source-export.json",
+      "sha256": "6126327a92e4226721606e9f418cb20e35b0f6024ce388990c7b068053078928"
+    },
+    {
+      "bytes": 903515,
+      "path": "source-fence-after-output.json",
+      "sha256": "55d9f8c7a5b422696775c366bf677980d831ab603a2d48027b047d5bbf035475"
+    },
+    {
+      "bytes": 1432,
+      "path": "source-fence-after.json",
+      "sha256": "ed063feb90578e6fe0f9cffbb6e37e6f2dca76473d6a9ededb3b8a55e3b3b2c6"
+    },
+    {
+      "bytes": 0,
+      "path": "source-fence-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "source-fence-after.stdout",
+      "sha256": "923ccf106cc8a88a3ef0e8272526e7639a54e7f6934dedbbf31c34d429612dd6"
+    },
+    {
+      "bytes": 903515,
+      "path": "source-fence-before-output.json",
+      "sha256": "55d9f8c7a5b422696775c366bf677980d831ab603a2d48027b047d5bbf035475"
+    },
+    {
+      "bytes": 1432,
+      "path": "source-fence-before.json",
+      "sha256": "062ff7e145d19a75f67b82bc57051236978eb3f444e252d865fdbd48c3b82d78"
+    },
+    {
+      "bytes": 0,
+      "path": "source-fence-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "source-fence-before.stdout",
+      "sha256": "923ccf106cc8a88a3ef0e8272526e7639a54e7f6934dedbbf31c34d429612dd6"
+    },
+    {
+      "bytes": 419,
+      "path": "start.json",
+      "sha256": "67794f34aab9f38e5738682144abc494f8d6f0004310d6ab22541a4c09fe7d39"
+    },
+    {
+      "bytes": 379,
+      "path": "terminal.json",
+      "sha256": "47fee23b64d967f54fb7d54992cacc834d7231f47b753b4afa674ae3dec1a929"
+    }
+  ],
+  "leaf_count": 25
+}

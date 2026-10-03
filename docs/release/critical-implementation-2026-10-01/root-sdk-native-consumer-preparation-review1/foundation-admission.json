@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-02T02:33:59.854973+00:00",
+  "packet_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "checked_packet_leaves": 33,
+  "protected_original_metadata_paths": 68020,
+  "actual_preparation_tests": 31,
+  "actual_preparation_exit_code": 0,
+  "errors": [],
+  "execution_stage_admissions": {
+    "foundation": true,
+    "sdk-lock": false,
+    "startup": false,
+    "app-export": false,
+    "app-lock": false,
+    "native": false
+  },
+  "current_source_export_authorized": false,
+  "source_scope_held_for_strict_export": false,
+  "full_final_source_review": "Root read complete controller/guards/metadata and all four derivative diffs; final immutable receipt paths, predecessor/export binding and unknown-process failure retention reviewed. Prior candidate2 source writer/validator/observer/application accepted only with these exact derivatives.",
+  "new_sdk_destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+  "source_scope": "Fresh authenticated expansion, exactly four publisher metadata restorations, exact8 SDK patch and full pristine/patched readbacks only; no SDK/pub/bootstrap/native/external operations admitted.",
+  "SDK_selection_or_release_approval": false
+}

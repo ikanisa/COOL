@@ -1,0 +1,15 @@
+{
+  "status": "saved_pending_actual_gradle_acceptance",
+  "checked_at": "2026-10-01T00:04:17.354813+00:00",
+  "source": "android/app/build.gradle.kts",
+  "prior_sha256": "804e394da2c29370560810560cac7bd17663b6eb5e78318d113aa5ea1cafc825",
+  "current_sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9",
+  "prior_source_preserved": true,
+  "unchanged_source_guard_passed": true,
+  "preserved_failure_execution_sha256": {
+    "native-export-attempt98-android": "93a3d5d17512527a8b88c742a20fb9633b0ef4b73c2f55453bfa513de16016f7",
+    "native-export-attempt99-gateway": "95ff38999f1f81fba2fbe74853be60029107cd944c277ce6c882da581885e1dd"
+  },
+  "correction": "Enable AGP resValues generation explicitly because the existing internal_gateway flavor defines app_name and backend-host resources.",
+  "scope": "One Android build feature flag; existing flavor/backend/target/signing/product semantics preserved. Actual Gradle configure/build proof remains required."
+}

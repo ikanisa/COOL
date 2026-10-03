@@ -1,0 +1,394 @@
+{
+  "kind": "scoped_legal_rendered_delta_review",
+  "builder_before_sha256": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90",
+  "builder_after_sha256": "6ebc3b6fe7d91eea65e178720f563ac7dfd4bb07df1150d14e2f4acd87584400",
+  "source_fragment_deltas": ".cache/revolut-design-20260930/legal-rendering-fix/rendered-deltas.json",
+  "authored_yaml_sha256": {
+    "content/legal/collect_delete_account.yaml": "c9dc4b93794c319151ae320bdae854abf19977784056e8b3520089db0828dbf1",
+    "content/legal/collect_privacy_policy.yaml": "f9b8bf803b63e7e2dd648dfd3520a5821097da79e2a1a73d726ace78f2913e20",
+    "content/legal/collect_terms_of_use.yaml": "bcb7cd3d0702c9d99d307d858a951f9c8fce65d00e1b8dcc835497a0a479dd4e",
+    "content/legal/collect_legal_pages_bundle.yaml": "b358ae43034bef4fbb55f74e411f3b38a3b2fc55b739d542229f6e65f83b5f51"
+  },
+  "verification": {
+    "tests_after": "7 tests, 139 assertions, all pass",
+    "tests_before": "6 original tests, 77 assertions, all 6 fail before",
+    "route_tests": "7 tests, 30 assertions, all pass",
+    "builder_syntax": "Syntax OK",
+    "full_page_build": "Awaiting current app media source binding; legal fragments are actual parser output, not a full static build."
+  },
+  "routes": [
+    {
+      "route": "/trust/",
+      "changed": false,
+      "review": [
+        "Visible text and links are unchanged."
+      ],
+      "removed_hrefs": [],
+      "added_hrefs": [],
+      "exact_visible_text_operations": [],
+      "before_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/trust.before.html",
+      "after_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/trust.after.html"
+    },
+    {
+      "route": "/privacy/",
+      "changed": true,
+      "review": [
+        "Last updated remains in metadata once. Its duplicate body scalar is removed.",
+        "Deletion instructions and support route match the current app and existing support channel.",
+        "Unsupported /privacy-request/ becomes the approved privacy-request email; /subprocessors/ becomes the existing data-sharing section; /cookies/ becomes the existing cookies section. Link labels describe the actual destination.",
+        "Identical privacy, complaints and partnerships email aliases are rendered as one usable contact. All substantive authored policy values remain."
+      ],
+      "removed_hrefs": [
+        "/subprocessors/",
+        "/privacy-request/",
+        "/cookies/"
+      ],
+      "added_hrefs": [
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com",
+        "/privacy/#sharing",
+        "mailto:info@ikanisa.com?subject=Collect+privacy+request",
+        "/privacy/#cookies"
+      ],
+      "exact_visible_text_operations": [
+        {
+          "operation": "delete",
+          "before": [
+            "Last Updated:",
+            "8 August 2026"
+          ],
+          "after": []
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Subprocessor Link:",
+            "/subprocessors"
+          ],
+          "after": [
+            "Read about service providers and data sharing"
+          ]
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Form",
+            "/privacy-request"
+          ],
+          "after": [
+            "Privacy requests",
+            "Email info@ikanisa.com about a privacy request"
+          ]
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Open Collect",
+            "Go to Profile",
+            "Select Settings",
+            "Select Privacy and Security",
+            "Select Delete Account",
+            "Review the consequences",
+            "Verify your identity",
+            "Confirm your request",
+            "Delete your account through the website",
+            "Use the public account-deletion page. You do not need to reinstall the app to submit a deletion request.",
+            "Link:",
+            "/account-deletion"
+          ],
+          "after": [
+            "Open Collect and sign in.",
+            "Go to Settings.",
+            "Select Security.",
+            "Select Delete data.",
+            "Select a reason for your request.",
+            "Select Submit.",
+            "Review the confirmation and select Submit.",
+            "Settings → Security → Delete data",
+            "Request deletion without the app",
+            "Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.",
+            "Open the account-deletion page",
+            "Email:",
+            "info@ikanisa.com"
+          ]
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Link:",
+            "/cookies"
+          ],
+          "after": [
+            "Read about cookies and website analytics"
+          ]
+        }
+      ],
+      "before_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/privacy.before.html",
+      "after_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/privacy.after.html"
+    },
+    {
+      "route": "/terms/",
+      "changed": true,
+      "review": [
+        "Effective date and Last updated each remain in metadata once; duplicate body scalars are removed.",
+        "Unsupported Cookie Policy href /cookies/ becomes /privacy/#cookies with a truthful destination label. Authored policy statements remain."
+      ],
+      "removed_hrefs": [
+        "/cookies/"
+      ],
+      "added_hrefs": [
+        "/privacy/#cookies",
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com"
+      ],
+      "exact_visible_text_operations": [
+        {
+          "operation": "delete",
+          "before": [
+            "Effective Date:",
+            "20 June 2026"
+          ],
+          "after": []
+        }
+      ],
+      "before_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/terms.before.html",
+      "after_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/terms.after.html"
+    },
+    {
+      "route": "/account-deletion/",
+      "changed": true,
+      "review": [
+        "Implementation keys Heading, Path, Copy, Submit Label and duplicate generated section titles become semantic headings, paragraphs, lists and request-information cards.",
+        "The app path and seven actions now match Settings → Security → Delete data, reason selection, Submit and the actual Submit confirmation. Identity verification remains part of the authored downstream processing policy.",
+        "The nonexistent web-form instruction is replaced by the existing support request path and an active info@ikanisa.com email link.",
+        "The seven original field labels, four verification options, acknowledgment and downstream policy remain. Null required flags no longer invent Optional field requirements."
+      ],
+      "removed_hrefs": [],
+      "added_hrefs": [
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com"
+      ],
+      "exact_visible_text_operations": [
+        {
+          "operation": "delete",
+          "before": [
+            "Delete In App",
+            "Heading"
+          ],
+          "after": []
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Path",
+            "Profile → Settings → Privacy and Security → Delete Account",
+            "Open Collect",
+            "Go to Profile",
+            "Select Settings",
+            "Select Privacy and Security",
+            "Select Delete Account",
+            "Review the consequences",
+            "Verify your identity",
+            "Confirm your request",
+            "Delete Without App",
+            "Heading"
+          ],
+          "after": [
+            "Settings → Security → Delete data",
+            "Open Collect and sign in.",
+            "Go to Settings.",
+            "Select Security.",
+            "Select Delete data.",
+            "Select a reason for your request.",
+            "Select Submit.",
+            "Review the confirmation and select Submit."
+          ]
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Copy",
+            "Complete the form below. You do not need to reinstall the app to submit a deletion request.",
+            "Form",
+            "Submit Label"
+          ],
+          "after": [
+            "Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.",
+            "Email:",
+            "info@ikanisa.com"
+          ]
+        },
+        {
+          "operation": "insert",
+          "before": [],
+          "after": [
+            "Support may ask for the following information to verify and process your request."
+          ]
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field."
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Optional field.",
+            "What Happens Next",
+            "Heading"
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Service Target",
+            "We aim to respond within 30 days or within the period required by applicable law."
+          ],
+          "after": []
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Before We Can Complete Deletion",
+            "Heading"
+          ],
+          "after": [
+            "We aim to respond within 30 days or within the period required by applicable law."
+          ]
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Data We May Retain",
+            "Heading"
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Closing",
+            "Where a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten."
+          ],
+          "after": []
+        },
+        {
+          "operation": "replace",
+          "before": [
+            "Partner Products",
+            "Heading"
+          ],
+          "after": [
+            "Where a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten."
+          ]
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Copy"
+          ],
+          "after": []
+        },
+        {
+          "operation": "delete",
+          "before": [
+            "Heading"
+          ],
+          "after": []
+        }
+      ],
+      "before_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/account-deletion.before.html",
+      "after_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/account-deletion.after.html"
+    },
+    {
+      "route": "/data-deletion/",
+      "changed": true,
+      "review": [
+        "The app actions match the current supported deletion request screen.",
+        "Delete your account through the website becomes Request deletion without the app, with the actual support email and the existing account-deletion link.",
+        "Retention, backups, preconditions, group responsibilities, partner-product boundary and 30-day response wording remain."
+      ],
+      "removed_hrefs": [],
+      "added_hrefs": [
+        "mailto:info@ikanisa.com",
+        "mailto:info@ikanisa.com"
+      ],
+      "exact_visible_text_operations": [
+        {
+          "operation": "replace",
+          "before": [
+            "Open Collect",
+            "Go to Profile",
+            "Select Settings",
+            "Select Privacy and Security",
+            "Select Delete Account",
+            "Review the consequences",
+            "Verify your identity",
+            "Confirm your request",
+            "Delete your account through the website",
+            "Use the public account-deletion page. You do not need to reinstall the app to submit a deletion request.",
+            "Link:",
+            "/account-deletion"
+          ],
+          "after": [
+            "Open Collect and sign in.",
+            "Go to Settings.",
+            "Select Security.",
+            "Select Delete data.",
+            "Select a reason for your request.",
+            "Select Submit.",
+            "Review the confirmation and select Submit.",
+            "Settings → Security → Delete data",
+            "Request deletion without the app",
+            "Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.",
+            "Open the account-deletion page",
+            "Email:",
+            "info@ikanisa.com"
+          ]
+        }
+      ],
+      "before_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/data-deletion.before.html",
+      "after_fragment": ".cache/revolut-design-20260930/legal-rendering-fix/data-deletion.after.html"
+    }
+  ]
+}

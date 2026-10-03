@@ -1,0 +1,2913 @@
+{
+  "candidate_date": "2026-10-01T16:21:37.797737+00:00",
+  "declared_status": "pass",
+  "checks": [
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "analysis_options.yaml",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "contracts/collect-exception-inbox-audit-v2.CONTRACT.md",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "contracts/collect-exception-inbox-audit-v2.schema.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-inbox.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned-resolved.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-workflow.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/result.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-action-receipt.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-cleared.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-empty.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-filtered.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-populated.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-progress-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-unknown-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/result.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/admin_router.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/admin_shell.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_action_contracts.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_auth_guard.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_automations_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_detail_formatters.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_detail_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_detail_specs.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_display_formatters.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_email_otp.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_entity_audit.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_entity_audit_link.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_entity_audit_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_entity_audit_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_error_boundary.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_evidence_mode.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_assignment_dialog.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_escalation_inbox_v2_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_followup_v2_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_history_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_history_v2_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_workflow_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_exception_workflow_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_contracts.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_dialogs.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_gateway_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_group_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_investigation.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_list_paging.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_list_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_list_specs.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_login_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operating_policy_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operating_policy_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operating_policy_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operation_components.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operation_tables.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operational_health.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_operator_approval.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_overview_components.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_overview_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_payee_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_platform_access.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_read_contracts.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_cancel_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_deferral_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_deferral_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_operations_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_overview.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_controller.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_principal_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_worker_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_worker_health.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_worker_transport_card.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_receipt_worker_transport_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_reconciliation_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_reconciliation_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_reconciliation_step_up.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_review_credentials.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_checkpoint.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_checkpoint_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_checkpoint_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_dialog.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_import.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_roster_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_shadow_runs.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_sms_queue_health.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_transaction_lifecycle.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/roster_file_parser.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/roster_xlsx_preflight.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_confirm_dialog.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_data_table.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_empty_state.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_filter_bar.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_loading_state.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_sensitive_data_gate.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_status_chip.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/env/app_env.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/app_theme.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_colors.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_component_tokens.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_icons.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_motion.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_radius.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_runtime_assets.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_runtime_tokens.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_semantic_icons.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_spacing.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_theme.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_typography.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_universal_tokens.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/data/exact_json_values.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/durable_sms_receipt.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/hash_utils.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/phone_normalizer.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/play_integrity_service.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/protected_snapshot_store.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/public_id_generator.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/security/sms_access_channel.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/supabase/browser_auth_memory.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/supabase/browser_auth_storage_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/supabase/browser_auth_storage_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/supabase/realtime_invalidation.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/supabase/supabase_module.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/utils/date_format.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/core/utils/money_format.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/collect_landing_page.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_content.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_marketing_hero.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_marketing_theme.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_page_content.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/public_policy_page_content.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_model_json_helpers.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_payment_json.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_payment_models.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_profile_country_rules.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/collect_summary_json.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/models/member_history_page.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_invitation_protection.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_offline_cache.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_contribution_actions.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_helpers.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_history.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_providers.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/collect_repository_state.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/repositories/runtime_control_contract.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/utils/collect_haptics.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_action_controls.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_bento_actions.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_chrome.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_components.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_confirmation_sheet.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_display_primitives.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_feature_surfaces.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_financial_amount_entry.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_financial_components.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_financial_ledger.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_financial_money.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_financial_payments.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_foundation.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_inputs.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_loading_surfaces.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_scaffold_chrome.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_selection_controls.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_state_feedback.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_state_illustrations.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_state_panels.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_tone_icon.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_top_chrome.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "pubspec.lock",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "pubspec.yaml",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/qa/revolut_design_authority.py",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-after-commit-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-assignment-binding.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-assignment-receipt.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-directory-first.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-directory-last.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-expired-unrecorded-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-foreign-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-in-progress-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/observed-recorded-lookup.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/provenance.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_followup_v2/schema.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-audit-final.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-older.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-page.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-inbox-final.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-public-small-page.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-read-provenance.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-after-pump-commit.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-allocation-event.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-complete.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-final.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-first.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-last.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-legacy-target-refusal.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-obsolete-resolved.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_backlog.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_event.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-retained.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unavailable.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unknown.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unscoped.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-final.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-first.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-foreign.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-last.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/observed-opened-ack.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "scripts/tests/fixtures/exception_inbox_audit_v2/provenance.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_action_session_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_entity_audit_authority_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_entity_audit_links_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_entity_audit_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_entity_audit_page_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_entity_audit_repository_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_assignment_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_escalation_inbox_v2_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_followup_sdk_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_followup_v2_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_history_v2_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_history_v2_page_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_history_v2_sdk_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_page_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_repository_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_sdk_provider_state_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_workflow_sdk_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_exception_workflow_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_gateway_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/admin_receipt_cancel_models_test.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-exception.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-expiry.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-gateway.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-receipt.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-shadow.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/observed-supervisor.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/fixtures/admin_entity_audit/provenance.json",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "test/support/admin_entity_audit_fixture.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/gotrue.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/broadcast_stub.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/broadcast_web.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/collect_browser_invalidation.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/constants.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/fetch.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_admin_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_client.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_mfa_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_oauth_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/gotrue_passkey_api.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/helper.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/api_version.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/auth_exception.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/auth_response.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/auth_state.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/custom_oauth_provider.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/error_code.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/fetch_options.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/gotrue_async_storage.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/jwt.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/mfa.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/passkey.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/session.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/sign_out_reason.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/types.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/user.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/types/user_attributes.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "third_party/gotrue/lib/src/version.dart",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/apns.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/apns_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/buri_munsi_receipt.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/cors.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/fcm.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/fcm_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/hash.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/hmac.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/hmac_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/integrity_policy.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/momo_sms_parser.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/momo_sms_parser_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/notification_operator.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/notification_operator_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/notification_retry.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/notification_retry_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/operational_metrics.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/operational_metrics_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/play_integrity_binding.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/play_integrity_binding_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/raw_sms_input.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/receipt_ingestion.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_decoder_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_file_policy.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_file_policy_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_import.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_import_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/signed_sms_hook.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/supabase.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/_shared/test_assert.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/auth-send-whatsapp-otp/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/auth-send-whatsapp-otp/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/auth-send-whatsapp-otp/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/archive_v3.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/archive_v3_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/dispatch_observed_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/dispatch_v2_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-android-gateway/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-notification-operator/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-exception-worker/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-exception-worker/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-exception-worker/observed_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/collect-receipt-supervisor/wire_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/dispatch-notifications/dispatcher.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/dispatch-notifications/dispatcher_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/dispatch-notifications/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/ingest-payment-sms/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/parse-payment-sms/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/reconciliation-finalize/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/reconciliation-finalize/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/reconciliation-finalize/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/send-notification/handler.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/send-notification/handler_test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/send-notification/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "supabase/functions/verify-play-integrity/index.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/keychain_store.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/keychain_store.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operational_client.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operational_client.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operational_health.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operational_health.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operational_transport.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operator_client.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operator_client.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operator_login.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/operator_login.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/preflight.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/preflight.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/queue_health.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/runtime_credentials.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/runtime_credentials.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/server.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/server.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/server_transport.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/session_renewal.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/session_renewal.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_cli_options.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_cli_options.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_client.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_client.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_contract.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_stdio.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_stdio.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_supervisor.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/shadow_supervisor.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/stdio_preflight.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/stdio_preflight.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/supervisor_client.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/supervisor_client.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/supervisor_journal.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/supervisor_journal.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/testing/operational_fixture.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/testing/shadow_fixture.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/testing/stdio_harness.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/testing/unattended_fixture.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_client.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_client.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_contract.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enroll_cli.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment_contract.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment_journal.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment_observed.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_enrollment_owner.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_history.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_history.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_host_tick.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_journal.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_journal.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_profile.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_profile.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_profile_preparation.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_revocation.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_runner.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_server.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_stdio.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_stdio.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_store.test.ts",
+      "matches": true,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_store.ts",
+      "matches": false,
+      "exists": true
+    }
+  ],
+  "matching": 444,
+  "total": 462,
+  "mismatches": [
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_data_table.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/admin/shared/components/admin_status_chip.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/app/theme/collect_theme.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/features/landing/collect_landing_page.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "lib/shared/widgets/collect_scaffold_chrome.dart",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "Admin_application_and_reproduction_bindings",
+      "path": "pubspec.yaml",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_host_tick.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_journal.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts",
+      "matches": false,
+      "exists": true
+    },
+    {
+      "section": "MCP_current_candidate_bindings",
+      "path": "tools/collect-notification-mcp/src/unattended_store.ts",
+      "matches": false,
+      "exists": true
+    }
+  ],
+  "limits": "Affected consumer proof is composed with matching unchanged inputs. No claim that657 is a full app suite,413 a fresh rerun, all v2 positive states were executed in the browser, or the latest187 SQL bodies were replayed twice. Synthetic loopback and isolated SQL results do not replace production acceptance.",
+  "counts": {
+    "Admin_production_build_attempts": 2,
+    "MCP_Python_preparation_cases": 12,
+    "browser_checks": 89,
+    "current_Admin_VM_cases": 657,
+    "current_Admin_VM_suites": 19,
+    "current_MCP_unique_composed_cases": 413,
+    "current_query_plan_checks_separate_scope": 37,
+    "new_ordinary_owner_SQL_body_checks": 21,
+    "successful_final_Admin_production_builds": 1
+  },
+  "native_and_Edge_reuse": {
+    "path": "docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/unchanged-consumer-reuse/acceptance.json",
+    "sha256": "1388d438e7e39ad10b948a7639cafbb95185c1204a0a86d46cb3a57a60a5dc19"
+  },
+  "SQL_composition": {
+    "changed_reader": "37 query-plan checks plus21 actual new/retained ordinary-owner checks against7f6aea",
+    "overlapping_SQL_cases_summed_as_unique": false,
+    "prior_full_ordinary_rehearsal": "187 clean plus187 populated applications,36 checks; earlier a835 reader body",
+    "prior_migrations_unchanged": 186,
+    "whole187_latest_body_replayed": false
+  }
+}

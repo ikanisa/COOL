@@ -1,0 +1,4 @@
+Analyzing 2 items...                                            
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/gateway/gateway_platform.dart:34:9 • curly_braces_in_flow_control_structures
+

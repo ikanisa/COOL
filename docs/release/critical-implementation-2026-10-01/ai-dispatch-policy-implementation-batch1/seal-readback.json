@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-10-02T02:10:14.605984+00:00",
+  "status": "pass",
+  "new_indexed_leaves": 213,
+  "maintained_source_inputs": 22,
+  "private_candidate_inputs": 25,
+  "remote_cache_inputs_per_phase": 87,
+  "prior_leaves": 208,
+  "batch_sha256": "da8b8e3692ccaf14224a75e99f803ce4ceb194afd5469ba48d789956232565f5",
+  "index_sha256": "f90b86b4a6868bab67f0babc76b403af05f6220b67ef88adcaf96a1f712bf201",
+  "candidate_patch_sha256": "920b476e03097439515b4f171f3c59827154c22e604c7ab818ce00414d51a9f1",
+  "shared_promotion": false,
+  "real_linux_http_acceptance": false,
+  "whole_BE13_closed": false,
+  "production_acceptance": false,
+  "errors": []
+}

@@ -1,0 +1,15 @@
+{
+  "old_sealed_packets": {
+    "product-capability-batch1": "0baeb0933a4c398e9e5f437611f364a350e6aa31abbd94b7f288ca1d7d815185",
+    "archive-cleanup-batch1": "72fbd62ece5aae41660fa3fcbd4672da0986fb58d5f468646e94e89bda5d130b",
+    "public-media-batch1": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4",
+    "public-media-batch2": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d",
+    "public-share-ui-batch1": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7",
+    "public-media-batch3": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a",
+    "privacy-default-route-batch1": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+  },
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "current_content_contract_sha256": "c3a81d6067fc3533630b786e8b3a0ce125661d5c0fe7b5d41dfb2564747b50ee",
+  "font_or_visual_authority_changed": false,
+  "scope": "Fresh local final-public source/media/browser evidence. All older packets retained."
+}

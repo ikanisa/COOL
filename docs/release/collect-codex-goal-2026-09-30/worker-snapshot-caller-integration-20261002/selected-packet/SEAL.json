@@ -1,0 +1,56 @@
+{
+  "format": "receipt-worker-snapshot-capture-seal-v1",
+  "sealed_at": "2026-10-02T02:04:03.534840+00:00",
+  "packet_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002",
+  "files_manifest": {
+    "path": "FILES.json",
+    "sha256": "21cc8799f872db9e19f359955e948bac18c63a1c7725b33fd2f1e09dbb7466fa",
+    "bytes": 688702,
+    "members": 3536,
+    "member_bytes": 280200290
+  },
+  "handoff": {
+    "path": "HANDOFF.md",
+    "sha256": "ac4289750221ca7f150b5cb80a18de6c1ff5b6529d13c5149df9d31cd1d1dfc8"
+  },
+  "promotion_map": {
+    "path": "PROMOTION_MAP.json",
+    "sha256": "d1841ec3b9c54cc613d10549f4dc01eb7a86d3901f8d498477d0be913924e149"
+  },
+  "accepted_sql": {
+    "path": "proof/sql-attempt6/result.json",
+    "sha256": "05f90efceff4da12bd77dc03671ede107e27b8e86ae3e2cd43985ec561a59f24",
+    "status": "passed",
+    "distinct_checks": 38,
+    "selected_migrations": 205,
+    "all_owned_targets_absent": true
+  },
+  "accepted_units": {
+    "path": "proof/unit-attempt2/result.json",
+    "sha256": "19baf39b6c47705a5feddadfb9ffddc32a0f8971fd2aa74c64c7769e2cef9e0d",
+    "status": "passed",
+    "cases": 33,
+    "assertions": 155
+  },
+  "syntax": {
+    "path": "proof/final-closure/syntax.json",
+    "sha256": "e4635026c3a343aa8c25a2681d94d312d2328abc9d72815dab23a7a5de44ef37",
+    "commands": 5
+  },
+  "source_chronology": {
+    "selected_fixture": 205,
+    "canonical_observed_only": 207,
+    "excluded_versions": [
+      "20261002042000",
+      "20261002080000"
+    ],
+    "scope": "no full207 SQL/recovery acceptance"
+  },
+  "root_only_promotion": true,
+  "no_canonical_hosted_credential_native_scheduler_writes": true,
+  "durable_inactive_overlay": false,
+  "production_owner_role_parity": false,
+  "managed_vault_crypto_acceptance": false,
+  "native_scheduler_device_rpo_rto_acceptance": false,
+  "live_or_production_go": false
+}

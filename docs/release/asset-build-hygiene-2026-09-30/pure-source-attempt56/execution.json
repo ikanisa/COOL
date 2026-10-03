@@ -1,0 +1,293 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "asset-integrity-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_manifest_integrity_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.52,
+      "stdout_sha256": "9355bf58b690176b2d36c64f43488698f9bab694c0e02edf75dacc8e612f2cb8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asset-hygiene-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/asset_hygiene_integration_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.0,
+      "stdout_sha256": "a845e63445f24e715d65ebac215df47f6a6f91643cd6ee40f8f6bf35264a2cf9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/runtime_reachability_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.72,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f12e05c5f19ad53d115d7ef4b899d06db095b7774e4e6a521a635aa498bfd03c"
+    },
+    {
+      "name": "supply-source-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/supply_chain_source_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.81,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b038d6d535945ceeaf227c288c301b56c13c6c00531b8a7350cab7c8c1233e37"
+    },
+    {
+      "name": "public-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.61,
+      "stdout_sha256": "7e05e6334e499262ca22f74bbf58738defb0a8a324ddcfe29848720f578f95dc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "public-browser-graph-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_browser_graph_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.87,
+      "stdout_sha256": "4284ed4b46e7125c8301a0febabed317f6652d99ff8a04b0cd6936beb579428b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "served-resource-observer-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--test",
+        "scripts/tests/public_browser_served_resource_test.mjs"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.2,
+      "stdout_sha256": "ec516ed48959ccd24021ad270ae539d8dd8e19314a8b31a655594cc12e2acd3e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format-inventory-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/dart_format_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.71,
+      "stdout_sha256": "64aa39c86d43964ba3bfc47a44a54d69e3b8129ad3fb7c9b5a0407d882d99190",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "resolved-native-package-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/resolved_native_package_inputs_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.25,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ea5d88261b88fe179dff5c3ab89fd04361fe86e27ef2f4d43f7809e91353eeff"
+    },
+    {
+      "name": "native-export-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/native_source_export_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.52,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "9fba8dad6a26b5db93ae641310d99a8c87408c6f82bdc329d23cac0059d55cf5"
+    },
+    {
+      "name": "native-provenance-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/native_build_provenance_test.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 26.94,
+      "stdout_sha256": "3e1ec51eb6f4567beb825bc4667ade77b9fb1d0f95f177cc3c865deca1faadcf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "media-source-binding-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.63,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4fadd07b393373e0514bdb89c083fc9f5aede766482acc2b32bc219371511907"
+    },
+    {
+      "name": "media-publication-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/public_media_publication_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.79,
+      "stdout_sha256": "2b85f0fa5ae220af9e543bcd1dfb9ba7a4a0e12e58b8afc67b18828a8e05b45a",
+      "stderr_sha256": "14b5f0060e0c654622b8abe61b39182bdc8a9b475c55441219ff6e902b16b08c"
+    },
+    {
+      "name": "observed-native-sbom-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/gradle_observed_sbom_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.33,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6"
+    },
+    {
+      "name": "file-saver-fork-comparison",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/verify_file_saver_fork.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.49,
+      "stdout_sha256": "5c0ea4a02d458facf6c4fede14ffc7c5e21a9e9546a3e125271702aa8f770cef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.75,
+      "stdout_sha256": "82e7c10586a7973faa23715d001dcf826fdb4587422b57051ce7481e61829799",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "group-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.7,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-reachability",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/runtime-reachability.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.97,
+      "stdout_sha256": "87de1fdb62964d3b6bcc705f940a6e759203c34c55ba159f59c20334c7333193",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-inventory.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.98,
+      "stdout_sha256": "c0929390b044968017c2b6e68fce74b0361e814ce6e0445c0c00c5d64b1beed5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.47,
+      "stdout_sha256": "c0c947c5c9954bd00e0926ec5b30e2b0be17d9e865f5c8e0672b5220252b5a8c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.9,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-sbom-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.2,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/pure-source-attempt56/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.01,
+      "stdout_sha256": "f4b59e861ff73d8cf718641b61933ae0e64f354a22983db8bd4db8bec2cebe6f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recorder-syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.24,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

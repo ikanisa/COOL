@@ -1,0 +1,76 @@
+[
+  {
+    "label": "edge",
+    "argv": [
+      "/Users/jeanbosco/.local/bin/deno",
+      "test",
+      "--no-config",
+      "--cached-only",
+      "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/consumers-attempt1/runtime",
+    "started_at": "2026-10-01T21:49:42.090933+00:00",
+    "finished_at": "2026-10-01T21:49:43.486898+00:00",
+    "exit_code": 0,
+    "stdout_sha256": "46ccf37cff5ea1a8d6cb00f1b49c5be30999674a0b08021c2fb778c21b3b8065",
+    "stderr_sha256": "425e5b3fa63d5820dc4fadddda09b32fde9ba190ad7fb4cb7f12b84ea949efaa"
+  },
+  {
+    "label": "mcp",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "--experimental-strip-types",
+      "--test",
+      "tools/collect-notification-mcp/src/unattended_source_busy.test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/consumers-attempt1/runtime",
+    "started_at": "2026-10-01T21:49:43.487506+00:00",
+    "finished_at": "2026-10-01T21:49:43.723133+00:00",
+    "exit_code": 0,
+    "stdout_sha256": "87a6c1f637f287d533cef7daa6440db7ef4c3d973900d7ddbba1b6edcfec5d8a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "label": "admin",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+      "--enable-asserts",
+      "scripts/tests/admin_receipt_source_busy_test.dart",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/consumers-attempt1/runtime/docs/release/collect-codex-goal-2026-09-30/receipt-source-busy-20261001/accepted-sql"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/consumers-attempt1/runtime",
+    "started_at": "2026-10-01T21:49:43.723362+00:00",
+    "finished_at": "2026-10-01T21:49:44.164478+00:00",
+    "exit_code": 0,
+    "stdout_sha256": "a1fbf395874620241072df14c08252d93961ee11b6e84e37a9f122fc0b2d9da8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "label": "mcp-typecheck",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+      "--noEmit",
+      "--target",
+      "ES2023",
+      "--module",
+      "NodeNext",
+      "--moduleResolution",
+      "NodeNext",
+      "--allowImportingTsExtensions",
+      "--strict",
+      "--noUncheckedIndexedAccess",
+      "--exactOptionalPropertyTypes",
+      "--skipLibCheck",
+      "--types",
+      "node",
+      "src/unattended_source_busy.test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/consumers-attempt1/runtime/tools/collect-notification-mcp",
+    "started_at": "2026-10-01T21:49:44.165422+00:00",
+    "finished_at": "2026-10-01T21:49:44.241240+00:00",
+    "exit_code": 1,
+    "stdout_sha256": "5b766b55df5bc15c215149742c8fe88d72a584cb45f5422c7edca1594b6d0cb5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

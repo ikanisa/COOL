@@ -1,0 +1,11 @@
+{
+  "status": "wrapper_failed_on_case_sensitive_diagnostic",
+  "command": [
+    "docker",
+    "inspect",
+    "03d0a3ef2ffd87ddd7189387fc7fe2aab60ee03f4c94faa1eab77ebb2178a5f6"
+  ],
+  "exit_code": 1,
+  "stderr": "error: no such object: 03d0a3ef2ffd87ddd7189387fc7fe2aab60ee03f4c94faa1eab77ebb2178a5f6\n",
+  "next": "Normalize the actual diagnostic casing and finish every selected read-only inspection; no database rerun or target restart"
+}

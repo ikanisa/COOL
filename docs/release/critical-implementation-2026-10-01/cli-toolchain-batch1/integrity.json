@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-01T20:28:11.280587+00:00",
+  "version": "2.114.0",
+  "platform": "darwin-arm64",
+  "release_url": "https://github.com/supabase/cli/releases/tag/v2.114.0",
+  "release_api_url": "https://api.github.com/repos/supabase/cli/releases/tags/v2.114.0",
+  "release_id": 369368274,
+  "published_at": "2026-08-12T16:05:45Z",
+  "immutable": false,
+  "draft": false,
+  "prerelease": false,
+  "release_metadata_sha256": "0f9573569d037a7f009c0642c6b218d800e57327234522fcbb7334715e2dd0d1",
+  "assets": {
+    "checksums.txt": {
+      "official_url": "https://github.com/supabase/cli/releases/download/v2.114.0/checksums.txt",
+      "resolved_url": "https://release-assets.githubusercontent.com/github-production-release-asset/314160187/9d2f72d9-6211-4c7f-ab19-c0a70f161f28",
+      "bytes": 1414,
+      "sha256": "ed484a19890af772cd665c39966ff67b94024e0af17653b9bc365de78a1b8d75",
+      "github_api_digest_matches": true,
+      "redirect_query_retained": false
+    },
+    "supabase_2.114.0_darwin_arm64.tar.gz": {
+      "official_url": "https://github.com/supabase/cli/releases/download/v2.114.0/supabase_2.114.0_darwin_arm64.tar.gz",
+      "resolved_url": "https://release-assets.githubusercontent.com/github-production-release-asset/314160187/e28dee39-749d-4cdf-af9c-251f38f6cf6e",
+      "bytes": 41065954,
+      "sha256": "bdd67161af7c7e537e15ec72db2f2c59bca569b41d959bcaaec7004ba400e653",
+      "github_api_digest_matches": true,
+      "redirect_query_retained": false
+    }
+  },
+  "remote_supabase_operations_performed": false,
+  "secret_reads_performed": false,
+  "authenticated_release_approval": false,
+  "signed_asset_provenance_verified": false,
+  "installation_scope": "task-local cache only; no PATH/profile/global app/plugin changes",
+  "checksums_file_matches_archive": true,
+  "binaries": {
+    "supabase": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase",
+      "bytes": 67434832,
+      "sha256": "372e2b371842ba3c8175a7eeeff694ad48ea383fa9c923d93953b1a29551206b",
+      "cached_npm_path": "/Users/jeanbosco/.npm/_npx/1517203cdeef2779/node_modules/@supabase/cli-darwin-arm64/bin/supabase",
+      "cached_npm_identical_to_official": true,
+      "mode": "0755",
+      "minimum_macos_version": "13.0.0"
+    },
+    "supabase-go": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go",
+      "bytes": 48807360,
+      "sha256": "7223e137d82f38fcc35715c80e6c6d1c0abfc2c91ce880b58b1340060ae8d66e",
+      "cached_npm_path": "/Users/jeanbosco/.npm/_npx/1517203cdeef2779/node_modules/@supabase/cli-darwin-arm64/bin/supabase-go",
+      "cached_npm_identical_to_official": true,
+      "mode": "0755",
+      "minimum_macos_version": "12.0.0"
+    }
+  },
+  "archive_members": [
+    {
+      "name": "supabase",
+      "bytes": 67434832,
+      "type": "regular"
+    },
+    {
+      "name": "supabase-go",
+      "bytes": 48807360,
+      "type": "regular"
+    }
+  ],
+  "local_probes": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "2.114.0",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/file",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase"
+      ],
+      "exit_code": 0,
+      "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase: Mach-O 64-bit executable arm64",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/codesign",
+        "-d",
+        "--verbose=4",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Executable=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase\nIdentifier=com.supabase.cli\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400 size=522889 flags=0x2(adhoc) hashes=16335+2 location=embedded\nVersionPlatform=1\nVersionMin=851968\nVersionSDK=983552\nHash type=sha256 size=32\nCandidateCDHash sha256=c30b4000c348ef1c2f8fb09cc56a85760e2a1d41\nCandidateCDHashFull sha256=c30b4000c348ef1c2f8fb09cc56a85760e2a1d41ced24e85d532686ae8c5dd9d\nHash choices=sha256\nCMSDigest=c30b4000c348ef1c2f8fb09cc56a85760e2a1d41ced24e85d532686ae8c5dd9d\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=60899328\nExecutable Segment flags=0x1\nPage size=4096\nCDHash=c30b4000c348ef1c2f8fb09cc56a85760e2a1d41\nSignature=adhoc\nInfo.plist=not bound\nTeamIdentifier=not set\nSealed Resources=none\nInternal requirements count=0 size=12"
+    },
+    {
+      "argv": [
+        "/usr/bin/codesign",
+        "--verify",
+        "--strict",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "2.114.0",
+      "stderr": "A new version of Supabase CLI is available: v2.119.0 (currently installed v2.114.0)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli"
+    },
+    {
+      "argv": [
+        "/usr/bin/file",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go"
+      ],
+      "exit_code": 0,
+      "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go: Mach-O 64-bit executable arm64",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/codesign",
+        "-d",
+        "--verbose=4",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Executable=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go\nIdentifier=com.supabase.cli-go\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400 size=378508 flags=0x2(adhoc) hashes=11823+2 location=embedded\nVersionPlatform=1\nVersionMin=786432\nVersionSDK=786432\nHash type=sha256 size=32\nCandidateCDHash sha256=574488dbe5fddcbcd6d545016746bd3eed9ace1b\nCandidateCDHashFull sha256=574488dbe5fddcbcd6d545016746bd3eed9ace1bcb0014c5db3136a71f0a2034\nHash choices=sha256\nCMSDigest=574488dbe5fddcbcd6d545016746bd3eed9ace1bcb0014c5db3136a71f0a2034\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=39059456\nExecutable Segment flags=0x1\nPage size=4096\nCDHash=574488dbe5fddcbcd6d545016746bd3eed9ace1b\nSignature=adhoc\nInfo.plist=not bound\nTeamIdentifier=not set\nSealed Resources=none\nInternal requirements count=0 size=12"
+    },
+    {
+      "argv": [
+        "/usr/bin/codesign",
+        "--verify",
+        "--strict",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "version_matches_repository_pin": true,
+  "architecture_matches_host": true,
+  "isolated_probe_environment": "only task-cache SUPABASE_HOME; no keyring; telemetry disabled; no credential variables; system PATH",
+  "status": "verified official checksum/API asset digest/archive member identities, local arm64/version/code-signature probes completed",
+  "host_macos_version": "26.6.2",
+  "pinned_source": {
+    "repository": "https://github.com/supabase/cli",
+    "tag": "v2.114.0",
+    "git_commit": "181bc4a7466559393fbf3bc31b7cfc5e74d81cf2",
+    "metadata_and_docs_do_not_authenticate_human_release_approval": true,
+    "inspected_files": {
+      "apps/cli/docs/binary-distribution.md": "f6a925e96e24e840d738d25f5d351d804829d71b5b9a729da69a6a7f29b78bdd",
+      "apps/cli/src/shared/legacy/go-proxy.layer.ts": "4b3fb84fa90e98f95a5b206c514f6fe55b2ff9aaed54a77cc3dd284d8e1f6fda",
+      "apps/cli/src/legacy/commands/db/push/push.handler.ts": "787a7ddefbe5636adabf1b075b8381f5649f2f6073e39b77d57fa2d80ca52b2c",
+      "apps/cli/src/legacy/commands/functions/deploy/deploy.handler.ts": "dc441bc90e7a20aac46cd7d2202c999463acef320a655e786c327bd4a89432a7"
+    }
+  },
+  "npm_registry_provenance_metadata": {
+    "metadata_url": "https://registry.npmjs.org/@supabase/cli-darwin-arm64/2.114.0",
+    "integrity": "sha512-zdZA+hf8W2sMDQkWWJKYcgOS6AAMsc8oMTaspfYrga41paUqSvuXZ4uAhBaNm3DiNeJmQ0ddb9EaLo0lPxaQpw==",
+    "registry_signature_advertised": true,
+    "attestation_url": "https://registry.npmjs.org/-/npm/v1/attestations/@supabase%2fcli-darwin-arm64@2.114.0",
+    "predicate_type": "https://slsa.dev/provenance/v1",
+    "signature_and_attestation_verified": false,
+    "cached_archive_found_at_sha512_address": false,
+    "cache_binary_identity_basis": "byte comparison to official GitHub archive, not an independently verified cached npm archive"
+  }
+}

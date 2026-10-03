@@ -1,0 +1,121 @@
+{
+  "captured_at": "2026-09-30T22:42:48.431845+00:00",
+  "scope": "Local Android gateway foundation; current source-bound pure/native API/widget verification only.",
+  "status": "local_focused_checks_pass; APK and production acceptance unverified",
+  "native_jvm": {
+    "passed": 38,
+    "total": 38,
+    "report": "jvm-attempt08/validation.json",
+    "network_or_sms": "synthetic fake transport/sender only"
+  },
+  "flutter": {
+    "passed": 18,
+    "total": 18,
+    "business_model_ui_tests": 9,
+    "dialog_lifecycle_tests": 4,
+    "synthetic_capture_tests": 5,
+    "report": "flutter-final04.json"
+  },
+  "current_native_api": {
+    "status": "incremental_compile_pass",
+    "base_full_compile": "android-api-attempt02/validation.json",
+    "current_delta_compile": "android-api-delta01/validation.json",
+    "unchanged_sources_hash_verified": 10,
+    "recompiled_final_sources": 3,
+    "clean_full_rebuild": false,
+    "buildconfig": "explicit test stub internal_gateway"
+  },
+  "analysis": {
+    "exit_code": 0,
+    "report": "dart-analysis-current.json"
+  },
+  "design_authority": {
+    "exit_code": 0,
+    "fidelity_certified": false,
+    "report": "design-authority.json"
+  },
+  "packaging": {
+    "status": "unverified",
+    "apk_count": 0,
+    "prerequisite": "gradle-offline-prerequisite01/result.json",
+    "excluded_cancelled_attempt": "apk-offline-attempt01/cancelled.json",
+    "existing_production_locks_modified": false,
+    "gateway_dependency_graph_reviewed": false
+  },
+  "source_sha256": {
+    "android/app/build.gradle.kts": "804e394da2c29370560810560cac7bd17663b6eb5e78318d113aa5ea1cafc825",
+    "android/app/src/internal_gateway/AndroidManifest.xml": "c778027823da007569079e2dd5e5b28237c4aaf126f8eda4b33dcc5c971041f6",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": "a18761d4017c51c09f6497be00c0180d2d6ccee8d57cde4d36dbde4d5b26d8a1",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": "660b19c973006145e0176344c0a16c230cb8dc3b2612c21aff72b32d5c244e20",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "c94d51cae03d4adad79316cd268412ac1475143d8afc6c462e6d10620807ea72",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "7a653e5788ceb07a8d40a7ee15ddd91f4950d8325126404ad7a59ba15bab2049",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "b8346512be48d74c548fe9b3982500b18d6ce62f9573f10e7d29aac1e983f150",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "a2c2604420b813a1ebd7230ac701e5e4f013b32a5227410412c4ad37beb96124",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayWire.kt": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e",
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": "a74a273bcd61c21b834ee297c44c4c543c8ffb342adf21ac92d7cf413791951a",
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+    "lib/gateway/gateway_app.dart": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "test/gateway/gateway_capture_test.dart": "5b6d53facfc640a698b3dc096fd2ce0e6e2750e8138e3a8ec4d1f64537d75966",
+    "test/gateway/gateway_enrollment_lifecycle_test.dart": "78dfd6f1b0722a5adcc5149d0aa4f168638dfaf3927c3d4f35b810f93858b2d9",
+    "test/gateway/gateway_safety_test.dart": "cf9fccebb5f659df4f2c9144c45a93ac49e8cf5be2dfd3f34e4f3d67506ed50f"
+  },
+  "source_readback_drift": [],
+  "evidence_sha256": {
+    "jvm-attempt08/validation.json": "3352b5c4ded5fe1c5e52941701dabbb3c038672e4e057ce8d5e13f43931a4ed9",
+    "android-api-attempt02/validation.json": "69f210530cfe32e4126f6481be65b6bf3446c513fb1d3516d8211dd026cf8d36",
+    "android-api-delta01/validation.json": "2fb065d51debf2b3a38a5427db1bcb20f804dbf583caa5df130daba943ab5dad",
+    "flutter-final04.json": "45d5c864e29590fa65216a91060ba82806ae2058fe1cb1b498f765fb8a229402",
+    "dart-analysis-current.json": "8cc4ac87de3b07af0f3e97b0cd4663a7f557fae22779faa6b409dee52c8a13a7",
+    "design-authority.json": "2eb0764386c969cb3bdae00a2433d9ebc0a3f55252d33c751248cf6a99caed1e",
+    "gradle-offline-prerequisite01/result.json": "563660362c00de9f57be208c7753abf8cac2d213b7f322ab8fb9189fea5797a7",
+    "apk-offline-attempt01/result.json": "d2b0a9fa1beae0647ec38abdeada4f37b385213752daa46de4f260ccca0618ba",
+    "apk-offline-attempt01/cancelled.json": "9bc45f431203fc681451a85cccc88e9e3a84e86d53f6547ac0dd3bc39885b263",
+    "jvm-attempt08/tests.stdout": "60f7ff5c2dd8269c462e0d1a248f4aff49ff77201c582e8aa37506f62ce101cb",
+    "jvm-attempt08/tests.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jvm-attempt08/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jvm-attempt08/compile.stderr": "839f09e397500cdc323b33d3720517ce76d08fa514357840408bc350becc9d11",
+    "android-api-delta01/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "android-api-delta01/compile.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "flutter-final04.stdout": "34b4e7f662a1dcb70b6db1b8da3571056ea7a4d15f39b7198b80a69023a32871",
+    "flutter-final04.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dart-analysis-current.stdout": "8919c5ef6f4e02378934577bc675fae8b495c95445d1283f6904f09923eff20b",
+    "dart-analysis-current.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "design-authority.stdout": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "design-authority.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "design-evidence.json": "cec423074d599054ae26679a5a092779ba61eb523f4fdd4f26e4080bd6438606",
+    "README.md": "ed809b1130c36cbf9378570a5466da3529f2693d5d8111eb0a1de9081230f8ca"
+  },
+  "physical_android_installed": false,
+  "keystore_real_device_tested": false,
+  "enrolled": false,
+  "hosted_endpoint_invoked": false,
+  "live_provider_or_sms_invoked": false,
+  "otp_invoked": false,
+  "mcp_host_allowlist_modified": false,
+  "production_ready": false,
+  "reviewed_frozen_source": false,
+  "remaining_gates": [
+    "server run-bound policy/caps/grant and arm issuer",
+    "activation/revocation readback and sender operating mode",
+    "reviewed gateway dependency graph and full APK packaging/manifest readback",
+    "real signing/installation/MDM/privacy/OS SMS-provider retention",
+    "physical crash/power-loss/Keystore-loss/SIM/radio/multipart/pause/revoke/callback acceptance",
+    "durable bounded journal retention/reconciliation procedure",
+    "Selected Revolut skill review of the installed artifact, applicable state/comparator/accessibility evidence and owner acceptance"
+  ],
+  "failed_and_prior_reruns_retained": true,
+  "test_counts_additive_across_reruns": false,
+  "owner_design_scope_amendment": {
+    "as_of": "2026-10-01",
+    "scope": "Sole revolut-design authority; separately named mobile checklist and its mandatory gates removed at owner request. Previous integrity claims for changed bytes are withdrawn. Existing technical observations retain their dated scope."
+  }
+}

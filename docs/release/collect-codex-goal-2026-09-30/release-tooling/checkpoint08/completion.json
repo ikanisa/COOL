@@ -1,0 +1,283 @@
+{
+  "acceptance_limits": [
+    "Exact non-atomic checkpoint; provenance/coherence/review/freeze/artifact approval remains open.",
+    "Configured compiler only; no new test/browser/hosted/physical execution.",
+    "177 migration versions are inventory, not full-chain rehearsal.",
+    "Nine later checkout changes retained; no candidate substitution.",
+    "Email remains disabled in separate dated public Auth observation; hosted management/SQL permission denied.",
+    "No physical ADB target or completed Android dependency readiness/APK acceptance."
+  ],
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "build": {
+    "artifact_bytes": 66349535,
+    "artifact_file_count": 155,
+    "artifact_map_sha256": "f49bd984eec9e8bc29704aa243f522c6f00716624a017ea4b248383d5635383b",
+    "artifact_readback": "pass",
+    "compiler_deadline_seconds": 600,
+    "configured": true,
+    "dependency_package_count": 168,
+    "evidence_mode": false,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-01T10:38:22Z",
+    "offline_pub_exit_code": 0,
+    "output": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-08/build/admin_configured",
+    "package_location_counts": {
+      "installed_cache": 156,
+      "installed_sdk": 8,
+      "work_copy": 4
+    },
+    "pub_deadline_seconds": 240,
+    "selected_source_inputs_unchanged": true,
+    "started_at_utc": "2026-10-01T10:37:26Z",
+    "status": "pass",
+    "workspace": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-08"
+  },
+  "classification": "unapproved_non_atomic_implementation_checkpoint",
+  "configuration": {
+    "private_values_in_packet": false,
+    "public_input_metadata_only": {
+      "bytes": 203,
+      "file_mode": "0600",
+      "key_form": "public_publishable_key",
+      "keys": [
+        "APP_ENVIRONMENT",
+        "ENABLE_ADMIN_PANEL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "parent_mode": "0700",
+      "privileged_or_user_credentials_allowed": false,
+      "project_allowlist_match": true,
+      "remote_authentication_attested": false,
+      "sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+      "source_path": "/Users/jeanbosco/.cache/collect-release-config/admin-checkpoint04-public-defines.json",
+      "staged_path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-admin-build-08/.collect-build-inputs/admin-public-defines.json"
+    },
+    "remote_authentication_verified": false
+  },
+  "deployment_verified": false,
+  "diagnostic_attempts_retained": [
+    "pre-export-evidence-path-attempt1.json",
+    "binding-table-attempt1.json",
+    "artifact-readback-attempt1.json"
+  ],
+  "earlier_test_scopes_not_rerun_or_aggregated": [
+    "owner Auth31",
+    "financial-policy43 SQL over frozen175 prerequisites plus feature",
+    "Admin80 distinct and7 published-fixture repeat",
+    "gateway39 native/9 runner/5 synthetic probe",
+    "source06 regression39 and prior MCP/other packet scopes"
+  ],
+  "full_source_test_acceptance": false,
+  "general_owner_work_authorization_received": true,
+  "hosted_mutations": 0,
+  "kind": "source08_local_configured_checkpoint_completion",
+  "later_original_tree_delta": {
+    "candidate_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+    "changes": [
+      {
+        "current_observed_after_comparison": {
+          "bytes": 995,
+          "mode": 420,
+          "sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c"
+        },
+        "path": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+        "prior": {
+          "bytes": 886,
+          "mode": 420,
+          "sha256": "a18761d4017c51c09f6497be00c0180d2d6ccee8d57cde4d36dbde4d5b26d8a1"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 5331,
+          "mode": 420,
+          "sha256": "5d7b8c730b33eef826d6edafafeae72b714128505f0757d4165c6b3c9be9cb9b"
+        },
+        "path": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+        "prior": {
+          "bytes": 2474,
+          "mode": 420,
+          "sha256": "660b19c973006145e0176344c0a16c230cb8dc3b2612c21aff72b32d5c244e20"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 10291,
+          "mode": 420,
+          "sha256": "e8ceb5ec21dce5799c54e377099f686e4a27d7de3d56b64617136c5f2317efe6"
+        },
+        "path": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+        "prior": {
+          "bytes": 10211,
+          "mode": 420,
+          "sha256": "c94d51cae03d4adad79316cd268412ac1475143d8afc6c462e6d10620807ea72"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 1809,
+          "mode": 420,
+          "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a"
+        },
+        "path": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+        "prior": null,
+        "reason": "source_added"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 3696,
+          "mode": 420,
+          "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f"
+        },
+        "path": "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+        "prior": null,
+        "reason": "source_added"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 13967,
+          "mode": 420,
+          "sha256": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c"
+        },
+        "path": "lib/gateway/gateway_app.dart",
+        "prior": {
+          "bytes": 13880,
+          "mode": 420,
+          "sha256": "27383e5780ad5ebdc6ed4c8d2fcb58b8e44ac583013f1f1091a8a892e5e951d7"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 28318,
+          "mode": 420,
+          "sha256": "eb9319f2986cf9c8cf60e4fe3d4a6f40e663906b76957d6de4fa94014a6075a8"
+        },
+        "path": "scripts/qa/current_browser_lifecycle.mjs",
+        "prior": {
+          "bytes": 28000,
+          "mode": 420,
+          "sha256": "5ba9514fb9990da094a1949f7714c89878ea86f1941f2e66bedeeda3cad1fefe"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 11980,
+          "mode": 420,
+          "sha256": "84f7c3cebb8f459bebc7e289da97e3f89973a90bcbba13e74980533564e60f4a"
+        },
+        "path": "scripts/tests/final_flutter_acceptance.py",
+        "prior": {
+          "bytes": 10857,
+          "mode": 420,
+          "sha256": "dbb559a31439e4f83d62cbeb63cc4d5e6f01cb281748a05096c412d5eb37e532"
+        },
+        "reason": "source_changed"
+      },
+      {
+        "current_observed_after_comparison": {
+          "bytes": 3914,
+          "mode": 448,
+          "sha256": "d943617f212d47a116b69d355c14d61f9100e73e0342a2615d3548ad53f7be8a"
+        },
+        "path": "test/supabase_contract_test.dart",
+        "prior": {
+          "bytes": 3810,
+          "mode": 448,
+          "sha256": "a1ea4f3bb51f2349f2ae254c47309e80def9178ef1a9535707db8ab7305f9771"
+        },
+        "reason": "source_changed"
+      }
+    ],
+    "comparison_exit_code": 2,
+    "comparison_report_sha256": "69d9d0d8963ea7708c7b5462215855a86ff90b9e4c5b2c04330d687317ee301a",
+    "critical_pin_changes_at_hash_observation": [],
+    "hash_observed_at_utc": "2026-10-01T10:41:39.185958+00:00",
+    "scope": "Dated comparison paths enriched with exact prior/current hashes. No candidate substitution or original-tree stability/coherence/freeze attestation.",
+    "source_current_tree_accepted": false,
+    "status": "dated_drift_observed"
+  },
+  "latest_separate_public_auth_observation": {
+    "email_enabled": false,
+    "management_mutation": false,
+    "observed_at_utc_minute": "2026-10-01T10:33Z",
+    "owner_packet_manifest_sha256": "d9dd9582fe1d3950640875411da1d86daf7225d578e827745723a1a9a5395ce2",
+    "phone_enabled": true,
+    "reported_by": "root",
+    "sign_in_proof": false,
+    "timestamp_precision": "minute as supplied by parent"
+  },
+  "live_authentication_verified": false,
+  "local_execution_plan_approved": true,
+  "new_tests_added_for_this_checkpoint": 0,
+  "otp_requests": 0,
+  "owner_approved_field_means_specific_artifact_acceptance": true,
+  "physical_device_acceptance": false,
+  "predecessor07": "Safely stopped incomplete export diagnostic; no completed source manifest or build; untouched.",
+  "production_ready": false,
+  "provider_sends": 0,
+  "source": {
+    "auth_bound_input_count": 7,
+    "capture_interval": {
+      "copied_at_utc": "2026-10-01T10:31:23Z",
+      "source_observed_at_utc": "2026-10-01T10:33:17Z",
+      "started_at_utc": "2026-10-01T10:28:53Z"
+    },
+    "critical_pin_inputs": 21,
+    "financial_bound_input_count": 12,
+    "gateway_probe_native_paths": 6,
+    "manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+    "migration_inventory_not_replay_acceptance": true,
+    "migration_version_count": 177,
+    "observed_capture_drift": {
+      "current_indexed_absence": [
+        "web/public/app-screens/terms-377e5eed2d41.png"
+      ],
+      "current_source_manifest_sha256": "579721ec66cbff3064b0de24c888f84a73e902f87c132d2a84da0ba09e7ef9c1",
+      "excluded_upstream_fixtures": [],
+      "indexed_absence_paths": [],
+      "prior_indexed_absence": [
+        "web/public/app-screens/terms-377e5eed2d41.png"
+      ],
+      "selected_files": []
+    },
+    "readback": "pass",
+    "root": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-08",
+    "selected_bytes": 154526055,
+    "selected_files": 1933,
+    "selected_table_sha256": "579721ec66cbff3064b0de24c888f84a73e902f87c132d2a84da0ba09e7ef9c1"
+  },
+  "source_current_tree_accepted": false,
+  "status": "pass_with_unapproved_checkpoint_and_dated_original_tree_delta",
+  "tests_executed_for_this_checkpoint": 0,
+  "tool_sdk_readback": {
+    "hosted_or_device_acceptance": false,
+    "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "observed_at_utc": "2026-10-01T10:39:52.779035+00:00",
+    "public_values_in_packet": false,
+    "reviewed_tools_unchanged": true,
+    "sdk_metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+    "selected_workcopy_source_files_checked": 1933,
+    "status": "pass",
+    "tools": {
+      "docs/release/collect-codex-goal-2026-09-30/release-tooling/prepare_admin_workcopy.py": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2",
+      "docs/release/collect-codex-goal-2026-09-30/release-tooling/run_admin_checkpoint.py": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95",
+      "scripts/qa/collect_release_candidate.py": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+    },
+    "workcopy_source_changes": []
+  },
+  "whole_admin_acceptance": false,
+  "written_at_utc": "2026-10-01T10:42:11.160751+00:00"
+}

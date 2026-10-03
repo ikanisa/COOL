@@ -1,0 +1,11 @@
+{
+  "bound_package_files": 6538,
+  "changes": {},
+  "excluded_historical_generated_inputs": {},
+  "excluded_native_generated_directories": [
+    "android/.cxx"
+  ],
+  "packages": 164,
+  "scope": "Copied hosted compiler/plugin source, assets and native files; actual SDK package source bytes. Root examples/tests/docs/generated caches are excluded. No registry authenticity or complete SDK/toolchain attestation.",
+  "status": "pass"
+}

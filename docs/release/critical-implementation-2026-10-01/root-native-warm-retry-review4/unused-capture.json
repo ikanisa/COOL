@@ -1,0 +1,5 @@
+{
+  "reason": "capture preceded roster integration after a wrapper assumed packet object rather than list; first promotion refused before mutation; capture unused for stage admission",
+  "selected_files": 2514,
+  "retained_failure_is_not_an_acceptance": true
+}

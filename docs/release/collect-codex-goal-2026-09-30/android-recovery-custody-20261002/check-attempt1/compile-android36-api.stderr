@@ -1,0 +1,9 @@
+.cache/collect-native-recovery-custody-20261002/check-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:106:102: error: argument type mismatch: actual type is '(??? (Unknown type for value parameter n)) -> Long', but '() -> Long' was expected.
+            val imported=File(run,"import");GatewayRecoveryTransfer.read(input,imported,{check(op)}) { n -> update(op,"reading",n,sha) }
+                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:106:104: error: cannot infer type for value parameter 'n'. Specify it explicitly.
+            val imported=File(run,"import");GatewayRecoveryTransfer.read(input,imported,{check(op)}) { n -> update(op,"reading",n,sha) }
+                                                                                                       ^
+.cache/collect-native-recovery-custody-20261002/check-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:106:109: error: return type mismatch: expected 'Long', actual 'Unit'.
+            val imported=File(run,"import");GatewayRecoveryTransfer.read(input,imported,{check(op)}) { n -> update(op,"reading",n,sha) }
+                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^

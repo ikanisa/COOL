@@ -1,0 +1,134 @@
+{
+  "ARC09_closed": false,
+  "SDK_reader_deadline_seconds": 300,
+  "actual_native_build_executed": false,
+  "all_capture_verify_compare_ASTs_unchanged": true,
+  "all_flavor_ABI_complete": false,
+  "all_guard2_33_leaves_safe_reader_verified": true,
+  "candidate_promoted": false,
+  "complete_locked_package_pubspec_bindings": 168,
+  "configuration_delta": {
+    "immutable_root_stage_admission_directory": {
+      "after": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-native-stage-review1",
+      "before": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review2"
+    },
+    "only_app_export_and_app_lock_admitted_by_derivative": {
+      "after": false,
+      "before": true
+    },
+    "only_native_admitted_by_derivative": {
+      "after": true,
+      "before": null
+    }
+  },
+  "controller_existing_function_AST_deltas": [
+    "authorization",
+    "export_binding",
+    "main"
+  ],
+  "current12_DROP_authority_sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae",
+  "current_fence_or_actual_app_lock_PASS_not_claimed_by_proposal": true,
+  "exact_unchanged_copies": {
+    "consumer_guards.py": {
+      "copied_byte_identical_to_sealed_guard2": true,
+      "sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a"
+    },
+    "plugin-source-bindings.json": {
+      "copied_byte_identical_to_sealed_guard2": true,
+      "sha256": "9fee5c0601debd04eadd28d6521253bdd589f4fbbad66d60ee0b2f34738a9095"
+    },
+    "publisher_metadata.py": {
+      "copied_byte_identical_to_sealed_guard2": true,
+      "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+    }
+  },
+  "guard2_42_tests_result_sha256": "76da3e758e4dd0df541032f1f2cad48d54e2c9b87b2c394d3114753502e96c52",
+  "guard2_full_readonly_reader_proof_sha256": "fc58b1231c79d414a3568238cf9a4ddc03e9a14eaa266e881c526af37d84daff",
+  "guard2_preparation_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "guard2_prior_protected_metadata_paths_unchanged": 68020,
+  "guard2_prior_reader_seconds": 43.295,
+  "live_free_floor_bytes": 4294967296,
+  "main_only_AST_delta": "Parser --stage choices changes app-export/app-lock to native; all remaining main statements identical to guard2 controller.",
+  "native_admission_tests": {
+    "actual_native_execution": false,
+    "errors": 0,
+    "failures": 0,
+    "fixture_parent": "/private/tmp",
+    "guard2_test42_and_original31_proofs_reused": true,
+    "real_APP_control_SDK_reads_or_writes": false,
+    "skips": 0,
+    "tests": 8
+  },
+  "native_deadline_seconds": 2700,
+  "native_test_process": {
+    "deadline_seconds": 60,
+    "exit_code": 0,
+    "only_internal_tmp_fixtures": true,
+    "seconds": 0.18
+  },
+  "normalized_main_AST_identical_except_parser_choices": true,
+  "original31_and_guard2_42_outcomes_reused": true,
+  "original31_method_ASTs": {
+    "test_actual_ZIP_timestamp_drift_rejected_before_write": "b4ae16bf3694f44c70dca002e1e7f46d69718a5677fa52220cf58e4092fede19",
+    "test_actual_expired_deadline_refuses_child_spawn": "b10d0e065538456cbe984ddb319eb4e75b6337b48bd6b6ce6ec59e384fc3a53c",
+    "test_actual_fast_terminal_deadline_overrun_rejected": "9e58601810d996ec370c885d0f64c6fc9da7e84689bf745ef59e2f9c08a5b837",
+    "test_actual_headroom_failure_distinct_from_timeout": "0acefd6b9e1ce42ab305e633ea987fffd5fd9b5391d19d0ec604a9c113fdc3d9",
+    "test_actual_license_loss_rejected": "95aa46ae29e007e84bfbdf6425a06ab5e902468ac24981f43981dfa3ac600b39",
+    "test_actual_missing_executable_retains_failure_receipt": "9ab0c417653eae314e5382081d6eea73bcdffbeba8387658be8cc1713860d6e9",
+    "test_actual_nonzero_process_and_timeout_fail_closed": "a9e1e112172057b55711bda157dfafe432bf1e58902db2b42a0dd2be346c7b2b",
+    "test_actual_outward_package_lib_and_pubspec_symlinks_rejected": "db4eb40948d754270550963e24907df0adfcbf41cefac1d1e6bd9f2fab718979",
+    "test_actual_package_binding_to_shared_or_remote_root_rejected": "5b179868cb49c80013931ce33bfb8690a17e2a89fc504d03f713c74fefebb939",
+    "test_actual_publisher_central_metadata_positive_read_only": "6194fe1233365f1a89ccb30a11b11182f0b3b28304af7f26741c48926c98cbee",
+    "test_actual_publisher_license_and_snapshot_drift_rejected": "4c0c13dc5a835721ba5cb19064bebb7c703c3bf8c9f2af8e2d0947850abaf95a",
+    "test_actual_reviewed_eight_RAM_delta_and_byte_drift": "4d127c07a17a2f05d8874980902c331cd2534276f1002850082e9a6681c870be",
+    "test_actual_unauthorized_receipt_and_receipt_drift_rejected": "ee7ccdfe83a35c7606b14ab53a76ca3cdf5aa294c6049973f28f4999c35ab085",
+    "test_actual_unreviewed_empty_source_directory_rejected": "ab34c4b4d544ab6dc82f42d75d8d84b4cc0fa8e759868dfb4a7b5e779dc31f48",
+    "test_actual_volume_alias_and_noncanonical_source_path_rejected": "9d8da9f39cf8aa6d63285c7a4605b80792a682f01f97a9daab8602feacd3f0a0",
+    "test_authored_source_and_lock_byte_drift_rejected": "e2ba2986ab67e23039e5e0b541ff07febe27fa764d44a0845c616faaab6548a8",
+    "test_duplicate_JSON_metadata_and_packageUri_escape_rejected": "78b99c86a5ed222f66e749b2c0d6865c80113e59469ec41060deb84912160b53",
+    "test_exact_four_timestamp_restoration_preserves_real_bytes": "b3a529710cd9b52213bb0c94b81f833fc8f7a6d36165a46561d751c04bf74fff",
+    "test_exit_zero_leader_with_owned_live_child_is_rejected": "f7158e401e4938920ded24c988a734c2833ffb80667506c21c38067973881f52",
+    "test_exporter_selected_SDK_launcher_never_executed": "b5f589216258dd4cbe0026c29eeee56daa3adfafb3124ca42a7ec1e570318b4a",
+    "test_protected_actual_mtime_and_identical_leaf_swap_rejected": "b27c891bd70971e5db20bacbcf5c113e66a12c378fcf367bc4f0527508f77d2c",
+    "test_real_descriptor_mutation_rejected": "3487bb4c30d76d541e86b70d4b8dec19d76b204fa12d9b6cadb73b90f5e56f3e",
+    "test_real_identical_byte_named_leaf_swap_rejected": "dc246d5f4e33e257703d241c17ecc4fc3df3207cb272ba4a25aecb945942cc0d",
+    "test_real_source_manifest_metadata_tamper_rejected": "6f7ee14fe3c48af91d29f8921d53f54d9f493d25e9b26a79b141f71db7950512",
+    "test_recomputed_current_manifest_cannot_replace_original_export": "ff76755c313255febb96dc32e216e6c14834d093ff20f17f84d92b62339f45f5",
+    "test_stage_receipt_path_selection_is_exact_and_immutable": "40d7da6c1c88d7bef46e585a6dae9c66d3e3feba3fcfa392283383c06a0b93d5",
+    "test_stamp_byte_drift_rejected_without_inventing_stamp": "67d533c7b0b36f4ec4d73320ec9b77f95ae0acaa0858addbf661dacc9f6389ca",
+    "test_startup_upgrade_and_wrong_engine_rejected": "385d758467d536eb36542f718472b4df05599884c65c2d2ebf94982d2884e37f",
+    "test_symlink_and_hardlink_input_rejected": "319ba407aaa849c3ceb0677c2b4317c90bb9f7134f2178abe115994a17a583c7",
+    "test_unlisted_source_and_generated_symlink_rejected": "8c0f4c239a7776a90c7c4392caf2e14f769c5731509bad5f19ce124c4196dc8c",
+    "test_wrong_metadata_destination_rejected_without_writes": "95b05d901c69255d27641c95f84f8d2dd48913936cd30d1b0b9913d964c449a8"
+  },
+  "original31_test_source_sha256": "e95c100c54b6faad81a30d3581fe536db9a03b980b2eafc2236f1f1fb6b456ea",
+  "original_commands_environment_resource_values_exact": true,
+  "plugin_rules_regenerated": false,
+  "prior_whole_app_lock_was_failed_not_current_runtime_status": true,
+  "production_release_approval": false,
+  "protected_process_raw_seed_JVM_class_functions_identical_to_original": true,
+  "raw_seed_deadline_seconds": 300,
+  "required_export_origin": "fresh preparation2 whole app-export terminal, root-bound terminal SHA and exact export binding SHA; binding source-fence SHA equals native receipt fence",
+  "required_whole_predecessor": "app-lock stage_pass true from exact preparation2 manifest plus separate root-pinned terminal SHA",
+  "runtime": {
+    "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "scope": "Read-only private packet/code/config/proof binding only; no actual APP/control/SDK inspection or native execution.",
+  "source_fence_existing_function_AST_deltas": [
+    "validate_commands"
+  ],
+  "source_fence_required_if_reused": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_lock_attested": false,
+  "source_scope_held_for_strict_export": false,
+  "stage_admission_issued": false,
+  "transient_write_and_restore_absence_attested": false,
+  "unchanged_native_function_ASTs": [
+    "protected_metadata",
+    "run_process",
+    "require_pass",
+    "source_readback",
+    "seed_raw_gradle",
+    "junit_and_classes"
+  ]
+}

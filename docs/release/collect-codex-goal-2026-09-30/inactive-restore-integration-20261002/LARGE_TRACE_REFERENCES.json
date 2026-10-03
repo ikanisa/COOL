@@ -1,0 +1,26 @@
+{
+  "scope": "Three accepted SQL raw traces retained at immutable private paths; full private inventory and seal are copied",
+  "references": [
+    {
+      "path": "proof/sql-attempt17/commands/0229.stderr",
+      "bytes": 97623014,
+      "sha256": "ccdc5f93a5383d8ecd7c2e9f44ae70927c7c477bdc53bc460c668d2d89555d88",
+      "absolute_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/proof/sql-attempt17/commands/0229.stderr",
+      "reason": "Large immutable raw trace referenced by exact bytes and SHA-256; not duplicated"
+    },
+    {
+      "path": "proof/sql-attempt17/inactive/container.log",
+      "bytes": 97636719,
+      "sha256": "aa7f6cccd0cbcb14964c041fc69e9a8beef3e80cb754496f26c26cddb70d4e81",
+      "absolute_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/proof/sql-attempt17/inactive/container.log",
+      "reason": "Large immutable raw trace referenced by exact bytes and SHA-256; not duplicated"
+    },
+    {
+      "path": "proof/sql-attempt17/inactive/queries.sql",
+      "bytes": 9670134,
+      "sha256": "6888fd2d35147f2b99c39b94d6fce79bb71789ceebdeddb7cab5033867848c52",
+      "absolute_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/proof/sql-attempt17/inactive/queries.sql",
+      "reason": "Large immutable raw trace referenced by exact bytes and SHA-256; not duplicated"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "actual_tests": 4,
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-sbom-scope-attempt64/current-source/scripts/tests/gradle_observed_sbom_test.py"
+  ],
+  "original_and_export_source_unchanged": true,
+  "scope": "Exact flavor graph/artifact contract tests only; actual Gradle observer execution and schema/reproducibility acceptance require the fresh final native builds; production locks are never attributed to Gateway",
+  "source_sha256": {
+    "scripts/supply_chain/gradle_observed_sbom.py": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb",
+    "scripts/supply_chain/gradle_runtime_inventory.init.gradle": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6",
+    "scripts/tests/gradle_observed_sbom_test.py": "b6f95a58663385e750f1af7030b64620df4fe05e9b65817cae1d6f9451c91a21"
+  },
+  "status": "pass_scoped_observer_contract"
+}

@@ -1,0 +1,416 @@
+{
+  "SDK_Dart_app_bootstrap_executed": false,
+  "actual_bundle_and_physical_bootstrap_identities": {
+    ".git/HEAD": {
+      "actual_SHA256": "b5c097d4e902fc407dfbfb12cc2e39e85434d694c39501c5456811f890aa2a29",
+      "actual_bytes": 23,
+      "actual_physical_mtime_ns": 1790904635693966607,
+      "body": "ref: refs/heads/stable\n",
+      "publisher_ZIP_CRC": 2794024488,
+      "publisher_ZIP_bytes": 23,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        17,
+        30
+      ]
+    },
+    ".git/config": {
+      "actual_SHA256": "0491834aa9185d62b2de5d1d617bb90296729dca8117811bf4e788eda1cc43f9",
+      "actual_bytes": 308,
+      "actual_physical_mtime_ns": 1790904635694217107,
+      "publisher_ZIP_CRC": 2349121211,
+      "publisher_ZIP_bytes": 308,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        17,
+        34
+      ]
+    },
+    "bin/cache/dart-sdk/bin/dart": {
+      "actual_SHA256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "actual_bytes": 3884832,
+      "actual_physical_mtime_ns": 1790904643362913702,
+      "publisher_ZIP_CRC": 1479582393,
+      "publisher_ZIP_bytes": 3884832,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        23,
+        17,
+        30,
+        40
+      ]
+    },
+    "bin/cache/dart-sdk/version": {
+      "actual_SHA256": "657062bd6c016c431fe7658173ba3611697eeb21357fd82faef0b7d21a491c3f",
+      "actual_bytes": 7,
+      "actual_physical_mtime_ns": 1790904644924058482,
+      "body": "3.12.2\n",
+      "publisher_ZIP_CRC": 3226760046,
+      "publisher_ZIP_bytes": 7,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        23,
+        17,
+        11,
+        8
+      ]
+    },
+    "bin/cache/engine-dart-sdk.stamp": {
+      "actual_SHA256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066",
+      "actual_bytes": 41,
+      "actual_physical_mtime_ns": 1790904644924294399,
+      "body": "a10d8ac38de835021c8d2f920dbf50a920ccc030\n",
+      "publisher_ZIP_CRC": 3138191385,
+      "publisher_ZIP_bytes": 41,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        20,
+        30
+      ]
+    },
+    "bin/cache/engine.realm": {
+      "actual_SHA256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "actual_bytes": 1,
+      "actual_physical_mtime_ns": 1790904644924404940,
+      "body": "\n",
+      "publisher_ZIP_CRC": 852952723,
+      "publisher_ZIP_bytes": 1,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        21,
+        44
+      ]
+    },
+    "bin/cache/engine.stamp": {
+      "actual_SHA256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066",
+      "actual_bytes": 41,
+      "actual_physical_mtime_ns": 1790904644924511190,
+      "body": "a10d8ac38de835021c8d2f920dbf50a920ccc030\n",
+      "publisher_ZIP_CRC": 3138191385,
+      "publisher_ZIP_bytes": 41,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        21,
+        44
+      ]
+    },
+    "bin/cache/flutter_tools.snapshot": {
+      "actual_SHA256": "b5044d15beb40be40af8d8d52c9df7ffb19a2e8dc26a70b95872c9bd2e8f0c70",
+      "actual_bytes": 45150928,
+      "actual_physical_mtime_ns": 1790904645030782420,
+      "publisher_ZIP_CRC": 1514222939,
+      "publisher_ZIP_bytes": 45150928,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        20,
+        42
+      ]
+    },
+    "bin/cache/flutter_tools.stamp": {
+      "actual_SHA256": "ec8f93820205b3e7053c47457ffc28a7c7579631a74d7ebffab8e05106863329",
+      "actual_bytes": 42,
+      "actual_physical_mtime_ns": 1790904645034281965,
+      "body": "ad70ec4617166f1c38e5d2bfd388af71fda14f06:\n",
+      "publisher_ZIP_CRC": 3193071534,
+      "publisher_ZIP_bytes": 42,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        20,
+        42
+      ]
+    },
+    "bin/internal/engine.version": {
+      "actual_SHA256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066",
+      "actual_bytes": 41,
+      "actual_physical_mtime_ns": 1790904645372051629,
+      "body": "a10d8ac38de835021c8d2f920dbf50a920ccc030\n",
+      "publisher_ZIP_CRC": 3138191385,
+      "publisher_ZIP_bytes": 41,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        17,
+        30
+      ]
+    },
+    "packages/flutter_tools/pubspec.lock": {
+      "actual_SHA256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340",
+      "actual_bytes": 23993,
+      "actual_physical_mtime_ns": 1790904648157943483,
+      "publisher_ZIP_CRC": 4133108915,
+      "publisher_ZIP_bytes": 23993,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        20,
+        32
+      ]
+    },
+    "packages/flutter_tools/pubspec.yaml": {
+      "actual_SHA256": "7924b6c341dc618b4cbedcdc893b87279d317b38dfc83d3b19bd70cec27eb4ee",
+      "actual_bytes": 2818,
+      "actual_physical_mtime_ns": 1790904648158106983,
+      "publisher_ZIP_CRC": 1088666540,
+      "publisher_ZIP_bytes": 2818,
+      "publisher_ZIP_date_time_unspecified_timezone": [
+        2026,
+        6,
+        24,
+        16,
+        17,
+        32
+      ]
+    }
+  },
+  "archive_bootstrap_metadata_comparison": {
+    "custom_bootstrap_absent_from_bundle": true,
+    "exact_ZIP_pubspec_older_than_lock": true,
+    "package_config_absent_from_bundle": true,
+    "physical_candidate2_pubspec_newer_than_lock": true,
+    "publisher_relative_time_gap_seconds": 180,
+    "timestamps_have_no_authenticated_timezone": true
+  },
+  "candidate2_bootstrap_source_outputs_or_metadata_modified": false,
+  "completed_candidate2_packet_47_leaves_unchanged": true,
+  "installed_Android_SDK_path": "/Users/jeanbosco/Library/Android/sdk",
+  "installed_Android_SDK_publisher_clearance_claimed": false,
+  "live_headroom": {
+    "/Users/jeanbosco/Library/Caches": {
+      "actual_free_bytes": 231404036096,
+      "device": 16777232
+    },
+    "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09": {
+      "actual_free_bytes": 11896942592,
+      "device": 16777247
+    }
+  },
+  "production_release_approval": false,
+  "proposed_consumer_root_absent": true,
+  "proposed_new_physical_consumer_root": "/Users/jeanbosco/Library/Caches/Codex/COOL-ARC09/native-consumer1",
+  "publisher_bundle_engine_member_prefix_summary": {
+    "": {
+      "expanded_bytes": 0,
+      "regular_member_count": 0
+    },
+    "android-arm": {
+      "expanded_bytes": 114662848,
+      "regular_member_count": 2
+    },
+    "android-arm-profile": {
+      "expanded_bytes": 61152863,
+      "regular_member_count": 4
+    },
+    "android-arm-release": {
+      "expanded_bytes": 55420403,
+      "regular_member_count": 4
+    },
+    "android-arm64": {
+      "expanded_bytes": 180560470,
+      "regular_member_count": 2
+    },
+    "android-arm64-profile": {
+      "expanded_bytes": 62386540,
+      "regular_member_count": 4
+    },
+    "android-arm64-release": {
+      "expanded_bytes": 56723786,
+      "regular_member_count": 4
+    },
+    "android-x64": {
+      "expanded_bytes": 119887858,
+      "regular_member_count": 2
+    },
+    "android-x64-profile": {
+      "expanded_bytes": 62685102,
+      "regular_member_count": 4
+    },
+    "android-x64-release": {
+      "expanded_bytes": 56993141,
+      "regular_member_count": 4
+    },
+    "android-x86": {
+      "expanded_bytes": 115200516,
+      "regular_member_count": 2
+    },
+    "common": {
+      "expanded_bytes": 23712974,
+      "regular_member_count": 5
+    },
+    "darwin-x64": {
+      "expanded_bytes": 239988635,
+      "regular_member_count": 69
+    },
+    "darwin-x64-profile": {
+      "expanded_bytes": 79294578,
+      "regular_member_count": 35
+    },
+    "darwin-x64-release": {
+      "expanded_bytes": 579350585,
+      "regular_member_count": 39
+    },
+    "ios": {
+      "expanded_bytes": 269883237,
+      "regular_member_count": 114
+    },
+    "ios-profile": {
+      "expanded_bytes": 219333977,
+      "regular_member_count": 114
+    },
+    "ios-release": {
+      "expanded_bytes": 473592043,
+      "regular_member_count": 120
+    }
+  },
+  "recorded_utc": "2026-10-02T01:43:09.633073+00:00",
+  "selected_current_app_input_snapshot_atomic_or_acceptance_claimed": false,
+  "selected_current_app_source_inputs": {
+    ".dvmrc": {
+      "SHA256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "bytes": 6
+    },
+    ".fvmrc": {
+      "SHA256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+      "bytes": 26
+    },
+    "android/app/build.gradle.kts": {
+      "SHA256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+      "bytes": 24380
+    },
+    "android/app/gradle.lockfile": {
+      "SHA256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+      "bytes": 15543
+    },
+    "android/build.gradle.kts": {
+      "SHA256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01",
+      "bytes": 886
+    },
+    "android/gradle.properties": {
+      "SHA256": "95fd0bf968de439a85f91c92044114358975325f3e2771953e158416a3fcad2f",
+      "bytes": 517
+    },
+    "android/gradle/wrapper/gradle-wrapper.jar": {
+      "SHA256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3",
+      "bytes": 45457
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "SHA256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1",
+      "bytes": 340
+    },
+    "android/gradlew": {
+      "SHA256": "fb68debc1b1acf8ec55dc0d5e5495e1dedd0bd6b61f304bee61613eeb2bd9b92",
+      "bytes": 8618
+    },
+    "android/settings.gradle.kts": {
+      "SHA256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+      "bytes": 840
+    },
+    "lib/main.dart": {
+      "SHA256": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1",
+      "bytes": 2549
+    },
+    "lib/main_gateway.dart": {
+      "SHA256": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+      "bytes": 396
+    },
+    "pubspec.lock": {
+      "SHA256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "bytes": 39236
+    },
+    "pubspec.yaml": {
+      "SHA256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+      "bytes": 2425
+    },
+    "scripts/qa/collect_release_candidate.py": {
+      "SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+      "bytes": 40672
+    },
+    "scripts/qa/native_source_export.py": {
+      "SHA256": "7cf6285cbadd84626a09aeb51fd1b6a2d70b83f2a03e8892d71b2061ef691276",
+      "bytes": 3858
+    },
+    "scripts/supply_chain/gradle_runtime_inventory.init.gradle": {
+      "SHA256": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6",
+      "bytes": 5209
+    }
+  },
+  "source_and_bootstrap_primary_inputs": {
+    "bin/flutter": {
+      "SHA256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "bytes": 2385,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/flutter"
+    },
+    "bin/internal/shared.sh": {
+      "SHA256": "7029bb28e9f60927807f2119d2afe388742db41d34c26f5e263bf15568911fa2",
+      "bytes": 11776,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/shared.sh"
+    },
+    "bin/internal/update_dart_sdk.sh": {
+      "SHA256": "730d3f3145d0c652147043fa914ac54679ab2b4ac94f8f983e4d44f1e17cb6f7",
+      "bytes": 5941,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_dart_sdk.sh"
+    },
+    "bin/internal/update_engine_version.sh": {
+      "SHA256": "6d71ef5d911243afdc83a4238b65159aad7905d7b19cb2464db40e347536ebb4",
+      "bytes": 3112,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/bin/internal/update_engine_version.sh"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt": {
+      "SHA256": "a8ca02d55798c200d766e245dae9df20565cb9d638d4887b51bf617abac938a1",
+      "bytes": 3279,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt": {
+      "SHA256": "f8fc0e97adf2c492ed519bee5fb2b6cc2d00e6ff8ccd42a78f6ba506cac5fa80",
+      "bytes": 41140,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginConstants.kt": {
+      "SHA256": "d367a170e6eefaf38a2eabeb35b62a247faee1e3bd14cde2ac1ccbf86afc1910",
+      "bytes": 2413,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginConstants.kt"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt": {
+      "SHA256": "4edac47ab150a5e3f6c1ffb7b75bada24e5e5e96bd2e568caf5551cf51d4945d",
+      "bytes": 44999,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt"
+    },
+    "packages/flutter_tools/lib/src/cache.dart": {
+      "SHA256": "ff6a424aa26083ac95204a3704aca2d72540fdc227d02fb2510d79fb93d63e0d",
+      "bytes": 59517,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/cache.dart"
+    },
+    "packages/flutter_tools/lib/src/flutter_cache.dart": {
+      "SHA256": "a0eb7d8ba0457cd6a00e2c6f922f8baaf73ba6caf96a875767f080ab92a4ee64",
+      "bytes": 31470,
+      "primary_source_URL": "https://github.com/flutter/flutter/blob/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/lib/src/flutter_cache.dart"
+    }
+  },
+  "status": "READ_ONLY_NEXT_NATIVE_CONSUMER_PREREQUISITES_OBSERVED__NO_EXECUTION"
+}

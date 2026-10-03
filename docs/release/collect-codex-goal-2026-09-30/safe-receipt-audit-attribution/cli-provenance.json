@@ -1,0 +1,14 @@
+{
+  "cli": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "version": "2.84.2",
+  "generated_path": ".cache/receipt-cancel-audit-preparation/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+  "selected_path": "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+  "commands": [
+    "mkdir -p .cache/receipt-cancel-audit-preparation",
+    "supabase init --workdir .cache/receipt-cancel-audit-preparation",
+    "supabase migration new receipt_cancel_audit_actor --workdir .cache/receipt-cancel-audit-preparation"
+  ],
+  "final_sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+  "cached_selected_equal": true,
+  "cli_database_migration_invoked": false
+}

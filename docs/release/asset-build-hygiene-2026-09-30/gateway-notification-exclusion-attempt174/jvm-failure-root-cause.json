@@ -1,0 +1,242 @@
+[
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "refusalReceiptDoesNotCreateSendAuthority",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "interruptedPruningRecoversFromDurableArchiveWithoutNetworkReplay",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "fullyAcknowledgedAttemptArchiveKeepsOriginalActiveReservation",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "localDeliveryCallbacksWithoutServerReceiptsNeverArchive",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "conflictingSecondServerReceiptIsRefused",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "unknownReconciliationNeverAllowsArchival",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "encryptedArchiveTamperAndWrongFileContextFailClosed",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "acknowledgedCallbackForWrongAttemptOrFenceCannotArchiveAttempt",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "durableReconciliationCanArchiveTheOriginalRequest",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "malformedArchiveOrDigestIsNeverAnEmptySuccessfulRead",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "archiveFailureLeavesEveryActiveIdentityAndBody",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "archivedAttemptIdentityCannotBeReservedAgainEvenWithoutActiveCopy",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "duplicateAcknowledgementPreservesFirstReceiptAndIdentity",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "malformedOrPrivateResultCannotAuthorizeCompaction",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "acknowledgementCommitsArchiveBeforeFreeingOnlyAcknowledgedRequest",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "legacyRecordedFlagAloneCannotCompact",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "sameRequestChangedBodyDigestFailsBeforeArchiveOrPrune",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "concurrentAcknowledgementsDoNotLoseEitherReceipt",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "unknownAndInvocationExceptionAttemptsNeverArchive",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "callbackReceiptsRemainActiveForExistingDuplicateAndLateEvidenceChecks",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "byteCapacityFailureRetainsOriginalRequest",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "archiveCapacityNeverEvictsOldEvidence",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayJournalArchiveTest",
+    "case": "mismatchedDeviceRequestOrActionAcknowledgementsAreRejected",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "initialGrantMapsExistingNativeGrantAndRetainsRunPolicySimLease",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "exactV2ResponseEnvelopeAndUtf8BoundRemainRequired",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "multipartPlanRequiresContiguousGloballyDistinctCallbackIds",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "numericStringsFractionsBooleansAndOverflowAreNeverCoerced",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "statusRequiresExactAttemptFenceCountsAndNoArchiveAcknowledgement",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "duplicateEscapedKeysAndPermissiveJsonExtensionsAreRejectedBeforeJsonObject",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "recordedLookupCannotRecoverGrantBodyOrArmPermit",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "grantRejectsExpiredAndExtendedThirtySecondAuthority",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "exactRefusalsNeverCreateGrantOrArmAuthority",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "sentSuccessRequiresAllSegmentsAndNoConflictWithNoDeliveryConclusion",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "grantRejectsChangedContentDestinationIdentityAndInventedFields",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "lostArmReplyAndUnknownLookupNeverReturnAReusablePermit",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "lookupValidatesNestedCallbacksStatusAndNullUnknownEvidence",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "armBindsAttemptFenceReservationAndOriginalGrantExpiry",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayDispatchWireTest",
+    "case": "normalizedUuidIdentityIsBoundWithoutChangingHashes",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "addedContentOrInventedAuthorityIsRejected",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "malformedTypesAreNeverCoerced",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "grantRefusalCannotBecomeADataDrivenSendGrant",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "refusalRequiresExactDeviceAndRequestBinding",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "callbackAcknowledgmentMustMatchStableCallbackId",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "exactHeartbeatAcknowledgesOnlyKeyPossessionObservation",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "recordedReconciliationCannotInventAnActionOrPrivateField",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "unknownReconciliationCarriesNoUnverifiedResult",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "integerParserRejectsFractionalAndStringValues",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  },
+  {
+    "suite": "app.cool.mobile.gateway.GatewayWireTest",
+    "case": "nonUtcOrInvalidTimestampIsRejected",
+    "message": "java.lang.RuntimeException: Method put in org.json.JSONObject not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+  }
+]

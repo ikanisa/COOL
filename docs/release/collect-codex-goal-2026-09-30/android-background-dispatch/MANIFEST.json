@@ -1,0 +1,844 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-01T12:40:21.136334+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3931,
+      "sha256": "a352dfd0239cabcf533adfb039b85a8064e4e32c5f9c5f8edee8911ee8ca28c8"
+    },
+    {
+      "path": "completion.json",
+      "bytes": 10209,
+      "sha256": "c6b2d9b21a1ff215417062d6a4087c8c587e5aeb099afa83ab3aaaa70e6211e6"
+    },
+    {
+      "path": "dart-source/lib/gateway/gateway_app.dart",
+      "bytes": 15844,
+      "sha256": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0"
+    },
+    {
+      "path": "dart-source/lib/gateway/gateway_platform.dart",
+      "bytes": 5865,
+      "sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4"
+    },
+    {
+      "path": "dart-source/pubspec.lock",
+      "bytes": 39236,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    {
+      "path": "dart-source/test/gateway/gateway_enrollment_lifecycle_test.dart",
+      "bytes": 5084,
+      "sha256": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6"
+    },
+    {
+      "path": "dart-source/test/gateway/gateway_local_dispatch_test.dart",
+      "bytes": 16291,
+      "sha256": "6a77d103959e89af9571cb487354288ad9b795a26b023d01b7e50a7987513862"
+    },
+    {
+      "path": "dart-source/test/gateway/gateway_safety_test.dart",
+      "bytes": 7697,
+      "sha256": "13fd24c28fdf392c9e1b247b7dbc7ae80c743e457754f2aa0b7da7b265fd766c"
+    },
+    {
+      "path": "flutter-affected-rerun/check-0.log",
+      "bytes": 63,
+      "sha256": "f90755e97c021d1bbac76c481c4dfc3cccb3c3b90278903a78bddbb93b534251"
+    },
+    {
+      "path": "flutter-affected-rerun/check-1.log",
+      "bytes": 10689,
+      "sha256": "4b880bc34675a08a0710adea26879feba8be8bef18d145b79058ea3608b5f12d"
+    },
+    {
+      "path": "flutter-affected-rerun/inputs-before.json",
+      "bytes": 605,
+      "sha256": "72889872ac0f8a6631327378c9e41b0bd9543e3a633fc91dbaff3ea32e9a9056"
+    },
+    {
+      "path": "flutter-affected-rerun/verification.json",
+      "bytes": 620,
+      "sha256": "4c201ad9d34cfcb99f26ff8b254d7fecf2e2f99c6aa2e7d3e992b02bfb6f165e"
+    },
+    {
+      "path": "flutter-pre-fix/check-0.log",
+      "bytes": 939,
+      "sha256": "990a6b1dfdd3cf08ca6b33b0a778de901dd828e9a0ba1d7ed665f5a8602e38f1"
+    },
+    {
+      "path": "flutter-pre-fix/check-1.log",
+      "bytes": 226007,
+      "sha256": "a9089149a4e87e4cd912c1f6e685a1db2f3171fefaf35150dd5fb57b1788b855"
+    },
+    {
+      "path": "flutter-pre-fix/inputs-before.json",
+      "bytes": 417090,
+      "sha256": "be46d16ed06633c0071eab3af463ef65fb9bcb532fe419ada2f465f12403ad6c"
+    },
+    {
+      "path": "flutter-pre-fix/verification.json",
+      "bytes": 3103,
+      "sha256": "4fae4d8d6479f34049012aca728198e569c10cc58d24c7ab5b404fdb6e9abe1a"
+    },
+    {
+      "path": "native-uat/api-generated/BuildConfig.kt",
+      "bytes": 85,
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9"
+    },
+    {
+      "path": "native-uat/compile-real-android-api.stderr",
+      "bytes": 4473,
+      "sha256": "ea59be31d011f07a10bc068dee13b6ed64c950822e6ab0930eb6d7c655c9f025"
+    },
+    {
+      "path": "native-uat/compile-real-android-api.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-uat/compile-shim.stderr",
+      "bytes": 353,
+      "sha256": "0d2d6914297cb66f74cdd69fe1510bfbe84203dd96d5cb281a73eabdd27c2d02"
+    },
+    {
+      "path": "native-uat/compile-shim.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-uat/shims/AtomicFile.kt",
+      "bytes": 1298,
+      "sha256": "93752008fc2478a8ab9e800ec569cd34d4457a3edc06ce0ec53baa813a87b1ab"
+    },
+    {
+      "path": "native-uat/shims/Context.kt",
+      "bytes": 270,
+      "sha256": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b"
+    },
+    {
+      "path": "native-uat/shims/Keystore.kt",
+      "bytes": 881,
+      "sha256": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224"
+    },
+    {
+      "path": "native-uat/shims/Os.kt",
+      "bytes": 692,
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e"
+    },
+    {
+      "path": "native-uat/shims/Resources.kt",
+      "bytes": 119,
+      "sha256": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050"
+    },
+    {
+      "path": "native-uat/source/android/app/build.gradle.kts",
+      "bytes": 24380,
+      "sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/AndroidManifest.xml",
+      "bytes": 2558,
+      "sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "bytes": 995,
+      "sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "bytes": 5459,
+      "sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt",
+      "bytes": 2285,
+      "sha256": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+      "bytes": 6000,
+      "sha256": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt",
+      "bytes": 4251,
+      "sha256": "0b8b324a16fce099c981dca0581db0302550fe8ed213dcfdfb1d4e209dfd8c70"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "bytes": 12036,
+      "sha256": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+      "bytes": 1809,
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "bytes": 1898,
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "bytes": 9456,
+      "sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "bytes": 17842,
+      "sha256": "962f6c39617cb14f529e38751b59b5b1246c7f8d3c518cf6005509e317704b3a"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "bytes": 17825,
+      "sha256": "1d95db887506f6af6153efb692a231492555bb9536386318471320f5e4318995"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt",
+      "bytes": 1579,
+      "sha256": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "bytes": 10571,
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "bytes": 21608,
+      "sha256": "fc9f11d3500c970677accaff36f00fef495d5d4caa7db1293990eb0b9260d347"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+      "bytes": 1809,
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "bytes": 20195,
+      "sha256": "31a57f3e5d4fc61b2b2401b57a61158a89c844a650cab9c52dfe91e21a10ee4c"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+      "bytes": 1596,
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "bytes": 2482,
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "bytes": 4069,
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788"
+    },
+    {
+      "path": "native-uat/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+      "bytes": 4173,
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3"
+    },
+    {
+      "path": "native-uat/source/android/app/src/main/AndroidManifest.xml",
+      "bytes": 5323,
+      "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt",
+      "bytes": 15361,
+      "sha256": "92fb1e3d8759cce0e23f4e2bc7fec9187b7aba7080c9d169416fb6cffc3b0b9c"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt",
+      "bytes": 16454,
+      "sha256": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt",
+      "bytes": 15551,
+      "sha256": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt",
+      "bytes": 18454,
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+      "bytes": 3696,
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+      "bytes": 14406,
+      "sha256": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+      "bytes": 6348,
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+      "bytes": 4571,
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt",
+      "bytes": 15201,
+      "sha256": "ff831daa0a618504a2a8478441ddb77424da3700cd92dc7a7d5c6527f401c57e"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt",
+      "bytes": 8873,
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1"
+    },
+    {
+      "path": "native-uat/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt",
+      "bytes": 18931,
+      "sha256": "0d8725ce1ad940701cdfada084c7aae97a687c24499995967c0d8309a3ccc44a"
+    },
+    {
+      "path": "native-uat/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc",
+      "bytes": 8529,
+      "sha256": "c2ac7de1c82ce1f0a00f38ea02c4502747aa9bcfdcc5ae3352f219bea526a382"
+    },
+    {
+      "path": "native-uat/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+      "bytes": 4897,
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6"
+    },
+    {
+      "path": "native-uat/source/scripts/tests/android_gateway_background_jvm.py",
+      "bytes": 12514,
+      "sha256": "e4c27d5a4e38382190ec26e7cafb573c3f54ffb856bd52a6de37f0459869d637"
+    },
+    {
+      "path": "native-uat/tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-uat/tests.stdout",
+      "bytes": 88,
+      "sha256": "7b14b1c501603825219698fb3418b273a18f911dcb9fdd7c46c8f724043b207a"
+    },
+    {
+      "path": "native-uat/validation.json",
+      "bytes": 27496,
+      "sha256": "4213b4f17f88e1e11ea4c86141d5c70327f2e3a37b485b18e86e4f455176babe"
+    },
+    {
+      "path": "prior-native-attempt1/api-generated/BuildConfig.kt",
+      "bytes": 85,
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9"
+    },
+    {
+      "path": "prior-native-attempt1/compile-real-android-api.stderr",
+      "bytes": 4473,
+      "sha256": "f1330bacef7e516babffc6ced552c034bb21cfa777527c1ec5742be9ae087e78"
+    },
+    {
+      "path": "prior-native-attempt1/compile-real-android-api.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt1/compile-shim.stderr",
+      "bytes": 353,
+      "sha256": "85fd7ce0bf7f6113ebfea714401bce4ca39ff138fd750203efe495dbdc0d63af"
+    },
+    {
+      "path": "prior-native-attempt1/compile-shim.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt1/shims/AtomicFile.kt",
+      "bytes": 1298,
+      "sha256": "93752008fc2478a8ab9e800ec569cd34d4457a3edc06ce0ec53baa813a87b1ab"
+    },
+    {
+      "path": "prior-native-attempt1/shims/Context.kt",
+      "bytes": 270,
+      "sha256": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b"
+    },
+    {
+      "path": "prior-native-attempt1/shims/Keystore.kt",
+      "bytes": 881,
+      "sha256": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224"
+    },
+    {
+      "path": "prior-native-attempt1/shims/Os.kt",
+      "bytes": 692,
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e"
+    },
+    {
+      "path": "prior-native-attempt1/shims/Resources.kt",
+      "bytes": 119,
+      "sha256": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/build.gradle.kts",
+      "bytes": 24380,
+      "sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/AndroidManifest.xml",
+      "bytes": 2558,
+      "sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "bytes": 995,
+      "sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "bytes": 5459,
+      "sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt",
+      "bytes": 2183,
+      "sha256": "fd4b8fff5afd5aaffafe458b76b69f7f28ea5dcb6db85a2523c390e5ea2e4e01"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+      "bytes": 5710,
+      "sha256": "4ea0920cf8a8ace100f81fb28f27801f68a9ad83e62a21b1035a5ec5aaa98e78"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt",
+      "bytes": 3901,
+      "sha256": "7db082922dcef3c8546d5db53bcaced01374343bb942f43cb8f7772a1206ea1b"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "bytes": 12036,
+      "sha256": "05039a4bf6f5bd35a54e4ef9c5c61f4e36a71d45ebf5c5346ff09a6fe052e142"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+      "bytes": 1809,
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "bytes": 1898,
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "bytes": 9456,
+      "sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "bytes": 17842,
+      "sha256": "962f6c39617cb14f529e38751b59b5b1246c7f8d3c518cf6005509e317704b3a"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "bytes": 17825,
+      "sha256": "1d95db887506f6af6153efb692a231492555bb9536386318471320f5e4318995"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt",
+      "bytes": 1579,
+      "sha256": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "bytes": 10571,
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "bytes": 21608,
+      "sha256": "fc9f11d3500c970677accaff36f00fef495d5d4caa7db1293990eb0b9260d347"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+      "bytes": 1809,
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "bytes": 19506,
+      "sha256": "d274c2e1f6edaeab01276f535cae74bf9bdcc3c45db3b30815f89708289bc91c"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+      "bytes": 1596,
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "bytes": 2482,
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "bytes": 4069,
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+      "bytes": 4173,
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/main/AndroidManifest.xml",
+      "bytes": 5323,
+      "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt",
+      "bytes": 13601,
+      "sha256": "8034b24ed8b1431760bf4c61a7413c081020693d94f05fb4ed9cb09e6589b485"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt",
+      "bytes": 16454,
+      "sha256": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt",
+      "bytes": 15551,
+      "sha256": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt",
+      "bytes": 18454,
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+      "bytes": 3696,
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+      "bytes": 14406,
+      "sha256": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+      "bytes": 6348,
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+      "bytes": 4571,
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt",
+      "bytes": 15201,
+      "sha256": "ff831daa0a618504a2a8478441ddb77424da3700cd92dc7a7d5c6527f401c57e"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt",
+      "bytes": 8873,
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1"
+    },
+    {
+      "path": "prior-native-attempt1/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt",
+      "bytes": 15039,
+      "sha256": "3ff5212caeda563a3e6e15dc13c90bfa629cbbcb18191ae6b77c4a969246a2af"
+    },
+    {
+      "path": "prior-native-attempt1/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc",
+      "bytes": 8529,
+      "sha256": "0f58fe38ae6352fbd78821435639fbb831ece21221aec71d9c7b404673aa0e42"
+    },
+    {
+      "path": "prior-native-attempt1/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+      "bytes": 4897,
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6"
+    },
+    {
+      "path": "prior-native-attempt1/source/scripts/tests/android_gateway_background_jvm.py",
+      "bytes": 11999,
+      "sha256": "71268847fa2d00fba5621e2b7521f84f70b0c94317256c410901c332a7fd31b1"
+    },
+    {
+      "path": "prior-native-attempt1/tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt1/tests.stdout",
+      "bytes": 201,
+      "sha256": "6f40805e0ded621a17b27e0cf8e40501444fecb2af3b58f34851cfb5c895e7f5"
+    },
+    {
+      "path": "prior-native-attempt1/validation.json",
+      "bytes": 27932,
+      "sha256": "812403865183173637c6fb109a86a5711316e86cfe67928f7479805ce490ad37"
+    },
+    {
+      "path": "prior-native-attempt2/api-generated/BuildConfig.kt",
+      "bytes": 85,
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9"
+    },
+    {
+      "path": "prior-native-attempt2/compile-real-android-api.stderr",
+      "bytes": 4473,
+      "sha256": "60fbffb6be6a6fe12e8256f9e41c3685dfb9b930c84bb8023684ee4d1d0ec3ec"
+    },
+    {
+      "path": "prior-native-attempt2/compile-real-android-api.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt2/compile-shim.stderr",
+      "bytes": 353,
+      "sha256": "0714960415533885f5bc5f539e617cf77170333e9efff2c996e0506d293d8d98"
+    },
+    {
+      "path": "prior-native-attempt2/compile-shim.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt2/shims/AtomicFile.kt",
+      "bytes": 1298,
+      "sha256": "93752008fc2478a8ab9e800ec569cd34d4457a3edc06ce0ec53baa813a87b1ab"
+    },
+    {
+      "path": "prior-native-attempt2/shims/Context.kt",
+      "bytes": 270,
+      "sha256": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b"
+    },
+    {
+      "path": "prior-native-attempt2/shims/Keystore.kt",
+      "bytes": 881,
+      "sha256": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224"
+    },
+    {
+      "path": "prior-native-attempt2/shims/Os.kt",
+      "bytes": 692,
+      "sha256": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e"
+    },
+    {
+      "path": "prior-native-attempt2/shims/Resources.kt",
+      "bytes": 119,
+      "sha256": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/build.gradle.kts",
+      "bytes": 24380,
+      "sha256": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/AndroidManifest.xml",
+      "bytes": 2558,
+      "sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "bytes": 995,
+      "sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "bytes": 5459,
+      "sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt",
+      "bytes": 2183,
+      "sha256": "fd4b8fff5afd5aaffafe458b76b69f7f28ea5dcb6db85a2523c390e5ea2e4e01"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt",
+      "bytes": 6000,
+      "sha256": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt",
+      "bytes": 3901,
+      "sha256": "7db082922dcef3c8546d5db53bcaced01374343bb942f43cb8f7772a1206ea1b"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "bytes": 12036,
+      "sha256": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+      "bytes": 1809,
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "bytes": 1898,
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "bytes": 9456,
+      "sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "bytes": 17842,
+      "sha256": "962f6c39617cb14f529e38751b59b5b1246c7f8d3c518cf6005509e317704b3a"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "bytes": 17825,
+      "sha256": "1d95db887506f6af6153efb692a231492555bb9536386318471320f5e4318995"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt",
+      "bytes": 1579,
+      "sha256": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "bytes": 10571,
+      "sha256": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "bytes": 21608,
+      "sha256": "fc9f11d3500c970677accaff36f00fef495d5d4caa7db1293990eb0b9260d347"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+      "bytes": 1809,
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "bytes": 19602,
+      "sha256": "85d6b842d66f246bfa922e473e4ad2c682d37a5ffdc675dd1916883e4938f531"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+      "bytes": 1596,
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "bytes": 2482,
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "bytes": 4069,
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+      "bytes": 4173,
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/main/AndroidManifest.xml",
+      "bytes": 5323,
+      "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt",
+      "bytes": 15361,
+      "sha256": "92fb1e3d8759cce0e23f4e2bc7fec9187b7aba7080c9d169416fb6cffc3b0b9c"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt",
+      "bytes": 16454,
+      "sha256": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt",
+      "bytes": 15551,
+      "sha256": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt",
+      "bytes": 18454,
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+      "bytes": 3696,
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+      "bytes": 14406,
+      "sha256": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+      "bytes": 6348,
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+      "bytes": 4571,
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt",
+      "bytes": 15201,
+      "sha256": "ff831daa0a618504a2a8478441ddb77424da3700cd92dc7a7d5c6527f401c57e"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt",
+      "bytes": 8873,
+      "sha256": "e2f9c53c90e96fc408960067dbc54b2ef20e55dea2f961574086af22402336f1"
+    },
+    {
+      "path": "prior-native-attempt2/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt",
+      "bytes": 17967,
+      "sha256": "369167ad10b7d4fe04667836ba8f5f21ddf590b896bba5411ae0d580bb2b5f61"
+    },
+    {
+      "path": "prior-native-attempt2/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/__pycache__/run_native_checks.cpython-312.pyc",
+      "bytes": 8529,
+      "sha256": "be4f33b41bd131f8f59cc55f69a14883399f237adb7b6e40290634e4ff3c3a1c"
+    },
+    {
+      "path": "prior-native-attempt2/source/docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py",
+      "bytes": 4897,
+      "sha256": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6"
+    },
+    {
+      "path": "prior-native-attempt2/source/scripts/tests/android_gateway_background_jvm.py",
+      "bytes": 11999,
+      "sha256": "71268847fa2d00fba5621e2b7521f84f70b0c94317256c410901c332a7fd31b1"
+    },
+    {
+      "path": "prior-native-attempt2/tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prior-native-attempt2/tests.stdout",
+      "bytes": 203,
+      "sha256": "f98b688feca351e8c9389f09c31671cd664f2b718f653f83f31fc823e7a0c5d5"
+    },
+    {
+      "path": "prior-native-attempt2/validation.json",
+      "bytes": 27932,
+      "sha256": "50fe4e3f0ea658a3739163d9fe87402258838f7704a5cece65271972c9e95274"
+    },
+    {
+      "path": "review.json",
+      "bytes": 1883,
+      "sha256": "e4fae77288970e2f21b942b555f89b6161318a51ac9eacdfee57f717537b2ebe"
+    }
+  ],
+  "file_count": 167,
+  "bytes": 1895354,
+  "manifest_excluded": true
+}

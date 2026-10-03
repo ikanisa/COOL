@@ -1,0 +1,140 @@
+{
+  "SQL_Docker_runtime_installation_or_provider_execution": false,
+  "all18_reviewed_caller_seams_preserved": true,
+  "all20_catalog_categories_and_raw_rows_preserved": true,
+  "all4157_grants_preserved": true,
+  "business_owner_assignments_verified": false,
+  "commands": {
+    "generation": {
+      "actual_seconds": 3.011,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/generated-current209-lineage1",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "environment": {
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+        "TMPDIR": "/private/tmp"
+      },
+      "exit_code": 0,
+      "owned_process_group_absent": true,
+      "residual_process_group_required_stop": false,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0c096d54826cbd16b8284fe2e8abe8cc9402849251370aac26b44a7c02daf818",
+      "timed_out": false
+    },
+    "verification": {
+      "actual_seconds": 3.458,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/collect_schema_domain_map.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/generated-current209-lineage1",
+        "--verify",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "environment": {
+        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+        "TMPDIR": "/private/tmp"
+      },
+      "exit_code": 0,
+      "owned_process_group_absent": true,
+      "residual_process_group_required_stop": false,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dbc3f59a551ae7836831e2e00dc9440a22a76b16eecb77d4b9507353e52ca121",
+      "timed_out": false
+    }
+  },
+  "coverage": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 777,
+    "functions_with_exact_static_lineage_body_hash_match": 2,
+    "functions_without_exact_body_hash_match": 125,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 34,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 664,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4772,
+    "unclassified_objects": 74
+  },
+  "current12_and_full_transitive_identities_unchanged": true,
+  "dated_baseline_helper_only_authorized_change": [
+    "scripts/supabase_cli_helpers.sh"
+  ],
+  "dynamic27_plus2_plus5_still_unresolved": true,
+  "full_semantic_verification": {
+    "acceptance": "draft-with-open-mappings",
+    "catalog_categories_preserved": 20,
+    "catalog_matches_current_migration_names": true,
+    "catalog_objects_verified": 2543,
+    "grants_verified": 4157,
+    "input_files_verified": 1091,
+    "replayed_migration_bytes_match": true,
+    "semantic_output_files_verified": 5,
+    "status": "PASS",
+    "verification_method": "full-independent-recomputation"
+  },
+  "input_files": 1091,
+  "maintained664_QA_scope_preserved": true,
+  "maintained_writes": false,
+  "only2_static_rename_gaps_resolved": [
+    "collect_hybrid.roster_revision_receipt_v149_frozen(p_revision uuid)",
+    "public.collect_operations_legacy_configure_policy_v1(p_request_id uuid, p_expected_revision bigint, p_mode text, p_emergency_stop boolean, p_reason_code text)"
+  ],
+  "original127_gap_records_reasoned": true,
+  "platform91_distinct_and_unresolved": true,
+  "promotion_or_release_admission_issued": false,
+  "runtime_call_graph_complete": false,
+  "status": "PASS"
+}

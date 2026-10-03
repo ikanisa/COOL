@@ -1,0 +1,15 @@
+{
+  "status": "fail",
+  "argv": [
+    "./gradlew",
+    ":app:testInternal_gatewayDebugUnitTest",
+    "-Ptarget=lib/main_gateway.dart",
+    "-PcollectUnsignedLocalQa=true",
+    "--offline",
+    "--no-daemon"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 146.07,
+  "stdout_sha256": "b1b4ed44b40bc179e92c9ea1abfbb11b8fd5f47d7a03dd4192956797c3c9a962",
+  "stderr_sha256": "24e21881c76e4de9c9aaaa1032d19897854ee5798b660ff7ec4f88b47083d0f0"
+}

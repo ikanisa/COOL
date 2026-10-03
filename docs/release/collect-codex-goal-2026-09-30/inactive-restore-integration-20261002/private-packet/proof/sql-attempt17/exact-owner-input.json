@@ -1,0 +1,14 @@
+{
+  "format": "collect-inactive-restore-input-v1",
+  "restore_id": "54442617-0af0-4baf-b0bc-be895a819095",
+  "target": "collect-recovery-inactive-1adeeef43e02",
+  "source_contract_sha256": "a5484a5b6a3068daa09919ab30bb67020d09d2fbe9ca450b69e606ef6da132a6",
+  "source_catalog_sha256": "c93c25c0b9e5e8ee0c9c1afa49fb3b94288ebebb65f12fe6ac53275515361cb7",
+  "source_vector_sha256": "595bd4b377722ab3be518a6cc77d2272091a629c62fb8fb34ea11f7694ea398e",
+  "archive_sha256": "c0afe5f1e7faf3610e6acda1228d1021052e6abd913980f4f39231be0fa5d311",
+  "comparison_sha256": "c241c44515a7cd6af4875df151b97566c00814370ac1782993e2ceebe3a223fd",
+  "reason": "Synthetic current208 guard fixture authority stop",
+  "tools_sha256": "ad0cf1f06f5bb2f4d52afdf08dc365ebd78630eeba60f884953d44fe9945e372",
+  "sql_sha256": "556ec1f13ae0d331d5495ac85c545a076b40946f082cceabf2b67738117384b3",
+  "expires_at": "2026-10-02T03:38:09.670016Z"
+}

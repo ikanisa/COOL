@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "-Duser.home=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-home",
+    "-Djava.io.tmpdir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-tmp",
+    "-cp",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/*:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/plugins/*",
+    "groovy.ui.GroovyMain",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/limited_groovy_checks.groovy",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/build.gradle",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/test-fixtures"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2",
+  "exit_code": 1,
+  "actual_seconds": 5.396021415988798,
+  "deadline_seconds": 30,
+  "timed_out": false,
+  "owned_group_id": 34292,
+  "Gradle_invoked": false,
+  "network_invoked": false,
+  "stdout_sha256": "9116f23f59d8b21b448ee98242bdfa8a7f0af908640549aeb6925a3380dfef2c",
+  "stderr_sha256": "792bbf5426536ae7b93481bd8a0d5a79a326cca93a9a3fdb1dc72777e38163df",
+  "owned_group_absent": true,
+  "all_reference_external_and_classpath_fences_match_after": true
+}

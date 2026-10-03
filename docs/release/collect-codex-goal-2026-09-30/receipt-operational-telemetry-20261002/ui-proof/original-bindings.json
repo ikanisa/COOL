@@ -1,0 +1,7 @@
+{
+  "lib/admin/core/admin_runtime.dart": "702fbdf480b9b5d0745d60a761dbedec2b3a367ce8548674ddc85c962b7574aa",
+  "lib/admin/core/admin_repository_base.dart": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+  "lib/admin/core/admin_receipt_repository.dart": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+  "lib/admin/core/admin_overview_runtime.dart": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+  "lib/admin/core/admin_automations_page.dart": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31"
+}

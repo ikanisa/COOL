@@ -1,0 +1,47 @@
+✔ scheduler operating CLI invalid input refuses before side effects [] (3.051083ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate"] (0.364958ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","relative","--request-id","99850000-0000-4000-8000-000000000001"] (0.208541ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["status","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001"] (0.098ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","/p","--request-id","PRIVATE_CREDENTIAL_CANARY"] (0.786166ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001","--url","https://other.invalid"] (0.194417ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["reconcile","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001","--lookup-id","99850000-0000-4000-8000-000000000001"] (0.623666ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["prepare","--deployment","/p","--profile","/p","--max-events","11"] (0.398542ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["prepare","--deployment","/p","--profile","/p","--interval-seconds","59"] (0.083167ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["status","--deployment","/p","--deployment","/q"] (0.225917ms)
+✔ scheduler prepare parser is bounded and never implies activation (0.617583ms)
+✔ real preparation is inactive and gated tick performs no operation before explicit activation (1139.645792ms)
+✔ explicit activation validates fresh owner and records original before each exact launchctl command (2086.507958ms)
+✔ default current source/Node binding refuses another private prepared runtime (1232.724833ms)
+✔ unknown bootstrap is manually reconciled from exact job, never replayed (1663.198125ms)
+✔ unknown enable with absent job stays unknown and cannot acquire bootstrap authority (1698.751541ms)
+✔ concurrent activation originals have one exclusive claim and one daemon mutation sequence (1924.575333ms)
+✔ urgent disable racing activation prevents the later bootstrap (2256.544584ms)
+✔ original operation deadline is rechecked after enable and never extended (1485.349417ms)
+✔ failed exclusive bootstrap journal publication permits no daemon bootstrap (1385.470792ms)
+✔ disable latches before IPC, survives uncertain bootout and remains manually reconcilable (1714.832833ms)
+✔ local disabled latch does not falsely prove a loaded process was stopped (2190.815667ms)
+✔ disable and status remain available without owner credentials after helper drift (2460.786292ms)
+✔ profile-permission fails deployment activation before owner or mutation (1469.620083ms)
+✔ profile-bytes fails deployment activation before owner or mutation (1291.826584ms)
+✔ helper-bytes fails deployment activation before owner or mutation (1631.213417ms)
+✔ wrapper-bytes fails deployment activation before owner or mutation (2142.859ms)
+✔ runtime-bytes fails deployment activation before owner or mutation (1721.430417ms)
+✔ symlink fails deployment activation before owner or mutation (1333.453917ms)
+✔ hardlink fails deployment activation before owner or mutation (1462.541709ms)
+✔ manifest-permission fails deployment activation before owner or mutation (1976.300292ms)
+✔ expired service identity refuses activation without owner/daemon mutations (1913.606958ms)
+✔ wrong-key owner validation refuses local activation (1209.852958ms)
+✔ wrong-session owner validation refuses local activation (1326.637792ms)
+✔ stale owner validation refuses local activation (1201.663166ms)
+✔ timeout owner validation refuses local activation (1325.964916ms)
+✔ timed out original command never automatically advances or retries after restart (1012.765ms)
+✔ record replacement or malformed bootstrap claim cannot permit a tick (826.307333ms)
+✔ foreign job arguments or duplicate override entries remain unverified and redacted (893.988125ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 45054.164

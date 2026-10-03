@@ -1,0 +1,425 @@
+{
+  "status": "fail",
+  "base_url": "https://collect.ikanisa.com",
+  "canonical_url": "https://collect.ikanisa.com",
+  "checked_at_utc": "2026-10-01T17:31:39Z",
+  "summary": {
+    "total": 36,
+    "passed": 33,
+    "failed": 3
+  },
+  "checks": [
+    {
+      "id": "route__",
+      "status": "pass",
+      "message": "/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 13607,
+        "elapsed_ms": 1706,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__privacy_",
+      "status": "pass",
+      "message": "/privacy/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 29729,
+        "elapsed_ms": 1080,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__terms_",
+      "status": "pass",
+      "message": "/terms/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 24579,
+        "elapsed_ms": 2239,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__account_deletion_",
+      "status": "pass",
+      "message": "/account-deletion/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 11925,
+        "elapsed_ms": 1570,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__data_deletion_",
+      "status": "pass",
+      "message": "/data-deletion/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 13234,
+        "elapsed_ms": 320,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__c_production_link_audit",
+      "status": "pass",
+      "message": "/c/production-link-audit returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 6255,
+        "elapsed_ms": 530,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__our_partners_",
+      "status": "pass",
+      "message": "/our-partners/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 12042,
+        "elapsed_ms": 316,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__trust_",
+      "status": "pass",
+      "message": "/trust/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 10035,
+        "elapsed_ms": 778,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__security_",
+      "status": "pass",
+      "message": "/security/ returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 9874,
+        "elapsed_ms": 767,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__sitemap_xml",
+      "status": "pass",
+      "message": "/sitemap.xml returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 1588,
+        "elapsed_ms": 326,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "route__robots_txt",
+      "status": "pass",
+      "message": "/robots.txt returns live content-complete HTTP 200.",
+      "details": {
+        "status": 200,
+        "bytes": 72,
+        "elapsed_ms": 342,
+        "missing_text": [
+
+        ]
+      }
+    },
+    {
+      "id": "sitemap_live_routes",
+      "status": "pass",
+      "message": "Every URL listed in the live sitemap returns non-empty HTTP 200 content.",
+      "details": {
+        "route_count": 16,
+        "failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "no_noindex",
+      "status": "pass",
+      "message": "Live root has no noindex marker.",
+      "details": {
+        "x_robots_tag": null
+      }
+    },
+    {
+      "id": "security_headers",
+      "status": "pass",
+      "message": "Live root has required security headers.",
+      "details": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://*.cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "x-content-type-options": "nosniff"
+      }
+    },
+    {
+      "id": "cache_policy",
+      "status": "pass",
+      "message": "Live root cache policy is public and avoids no-store.",
+      "details": {
+        "cache_control": "public, max-age=300, must-revalidate",
+        "cf_cache_status": "MISS"
+      }
+    },
+    {
+      "id": "no_flutter_critical_path",
+      "status": "pass",
+      "message": "Live root has no Flutter/CanvasKit/WASM critical-path markers.",
+      "details": {
+        "found": [
+
+        ]
+      }
+    },
+    {
+      "id": "metadata",
+      "status": "pass",
+      "message": "Live root includes canonical, valid JSON-LD, and social metadata.",
+      "details": {
+        "json_ld_types": [
+          "Organization",
+          "SoftwareApplication"
+        ],
+        "json_ld_parse_error": null
+      }
+    },
+    {
+      "id": "pre_audit_brand_assets",
+      "status": "pass",
+      "message": "Live official logo, PNG favicon, social image, and manifest icon match the governed immutable asset hash.",
+      "details": {
+        "favicon_status": 200,
+        "favicon_bytes": 103231,
+        "manifest_status": 200,
+        "asset_hash_failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "html_route_metadata",
+      "status": "pass",
+      "message": "Every live HTML route has no noindex, canonical URL, social metadata, and valid JSON-LD.",
+      "details": {
+        "failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "public_app_and_whatsapp_support_conversion",
+      "status": "pass",
+      "message": "Live root exposes public app download and lean WhatsApp support CTAs with no support panel or email form.",
+      "details": {
+      }
+    },
+    {
+      "id": "source_backed_market_context",
+      "status": "pass",
+      "message": "Live root presents public market figures.",
+      "details": {
+      }
+    },
+    {
+      "id": "hash_privacy_compatibility",
+      "status": "pass",
+      "message": "Live root supports /#/privacy users by redirecting to the canonical privacy route.",
+      "details": {
+      }
+    },
+    {
+      "id": "policy_deletion_content",
+      "status": "pass",
+      "message": "Live privacy route contains deletion and support contact content.",
+      "details": {
+      }
+    },
+    {
+      "id": "privacy_semantic_links",
+      "status": "pass",
+      "message": "Live privacy policy preserves baseline visible copy while exposing accessible destination links.",
+      "details": {
+      }
+    },
+    {
+      "id": "robots_and_sitemap",
+      "status": "pass",
+      "message": "Live robots and sitemap expose required crawl routes.",
+      "details": {
+      }
+    },
+    {
+      "id": "sitemap_lastmod",
+      "status": "pass",
+      "message": "Live sitemap includes ISO date lastmod for every URL.",
+      "details": {
+        "url_count": 16,
+        "lastmod_count": 16,
+        "lastmod_values": [
+          "2026-09-07"
+        ]
+      }
+    },
+    {
+      "id": "performance_budget",
+      "status": "fail",
+      "message": "Live root and critical first-party assets stay within public-site performance budgets.",
+      "details": {
+        "root_elapsed_ms": 1706,
+        "root_html_bytes": 13607,
+        "css_bytes": 13663,
+        "js_bytes": 6393,
+        "critical_first_party_asset_bytes": 33663
+      }
+    },
+    {
+      "id": "static_accessibility",
+      "status": "pass",
+      "message": "Live root has required static accessibility signals.",
+      "details": {
+      }
+    },
+    {
+      "id": "english_only_language_decision",
+      "status": "pass",
+      "message": "Live site publishes English only and does not offer Kinyarwanda or French routes.",
+      "details": {
+        "retired_language_failures": [
+
+        ]
+      }
+    },
+    {
+      "id": "pre_audit_content_parity",
+      "status": "fail",
+      "message": "Live route copy matches the reviewed current Collect product contract and unreviewed extra routes are absent.",
+      "details": {
+        "status": "fail",
+        "evidence_error": "Reviewed product/content source changed",
+        "scope": "Content evidence is incomplete or changed; no release approval inferred.",
+        "sitemap_routes": [
+          "/",
+          "/account-deletion/",
+          "/community-groups/",
+          "/craas/",
+          "/credit-readiness/",
+          "/data-deletion/",
+          "/diaspora/",
+          "/group-savings/",
+          "/insurance/",
+          "/our-partners/",
+          "/partners/",
+          "/privacy/",
+          "/protection/",
+          "/security/",
+          "/terms/",
+          "/trust/"
+        ],
+        "audit_added_route_statuses": {
+          "/subprocessors/": 404,
+          "/privacy-request/": 404,
+          "/cookies/": 404
+        }
+      }
+    },
+    {
+      "id": "consistent_ctas_without_disclaimer_labels",
+      "status": "pass",
+      "message": "Live root uses the consistent CTA trio without redundant availability labels.",
+      "details": {
+      }
+    },
+    {
+      "id": "partner_status_disclaimer_absent",
+      "status": "pass",
+      "message": "Live routes omit the removed internal partner-status disclaimer.",
+      "details": {
+      }
+    },
+    {
+      "id": "redundant_disclaimer_blocks_absent",
+      "status": "pass",
+      "message": "Live routes omit the removed availability, language, fee, and evidence disclaimer labels.",
+      "details": {
+      }
+    },
+    {
+      "id": "authentic_app_media_structure",
+      "status": "pass",
+      "message": "Live pages use proportional screenshot media and omit invented phone controls; source-image provenance is checked during the build.",
+      "details": {
+      }
+    },
+    {
+      "id": "mobile_nav_css",
+      "status": "pass",
+      "message": "Live CSS includes the compact mobile navigation and first-viewport responsive rules.",
+      "details": {
+      }
+    },
+    {
+      "id": "internal_hyperlink_destinations",
+      "status": "fail",
+      "message": "Published internal hyperlinks resolve to HTTP 200 destinations and existing HTML fragments.",
+      "details": {
+        "links_checked": 217,
+        "destinations_checked": 19,
+        "failures": [
+          {
+            "source": "/privacy/",
+            "href": "/subprocessors/",
+            "status": 404,
+            "reason": "destination_not_http_200"
+          },
+          {
+            "source": "/privacy/",
+            "href": "/privacy-request/",
+            "status": 404,
+            "reason": "destination_not_http_200"
+          },
+          {
+            "source": "/privacy/",
+            "href": "/cookies/",
+            "status": 404,
+            "reason": "destination_not_http_200"
+          },
+          {
+            "source": "/terms/",
+            "href": "/cookies/",
+            "status": 404,
+            "reason": "destination_not_http_200"
+          }
+        ]
+      }
+    }
+  ]
+}

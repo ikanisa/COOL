@@ -7,6 +7,12 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   _CollectLiveReader get _liveReader;
   SmsAccessChannel get _smsAccessChannel;
   bool get _allowLocalWrites;
+  _CollectSessionFence _captureSession();
+  bool _isCurrentSession(_CollectSessionFence session);
+  void _requireCurrentMemberSession(
+    _CollectSessionFence session,
+    String profileId,
+  );
   Uuid get _uuid;
   Future<int>? _smsSyncInFlight;
   bool _smsSyncRequested = false;
@@ -52,6 +58,9 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
     if (supabase != null && supabase.auth.currentUser != null) {
       final user = supabase.auth.currentUser!;
+      final session = _captureSession();
+      void current() => _requireCurrentMemberSession(session, user.id);
+      current();
       final profile = state.currentProfile;
       if (profile == null || profile.id != user.id) {
         throw StateError(
@@ -59,20 +68,25 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         );
       }
       final smsStatus = await refreshSmsAccessStatus();
+      current();
       if (!smsStatus.enabled || !smsStatus.granted) {
         throw StateError(
           'Enable MoMo receipt SMS access before creating a group.',
         );
       }
-      await supabase.rpc<void>(
-        'record_sms_access_consent',
-        params: {
-          'enabled': true,
-          'momo_number_hash': receiverHash,
-          'build_channel': 'android_group_create_attested',
-          'device_label': 'flutter_android_play_integrity',
-        },
-      );
+      await supabase
+          .rpc<void>(
+            'record_sms_access_consent',
+            params: {
+              'enabled': true,
+              'momo_number_hash': receiverHash,
+              'build_channel': 'android_group_create_attested',
+              'device_label': 'flutter_android_play_integrity',
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      current();
       final nonce = _uuid.v4();
       final groupRequest = <String, Object?>{
         'group_name': title.trim(),
@@ -101,6 +115,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       final token = await integrity.requestStandardToken(
         requestHash: requestHash,
       );
+      current();
       if (token == null || token.isEmpty) {
         throw StateError(
           'Install the approved Android build before creating a group.',
@@ -114,21 +129,35 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         nonce: nonce,
         receiverMomoNumberHash: receiverHash,
         groupRequest: groupRequest,
+        accessToken: session.accessToken,
       );
+      current();
       if (verdict?.hasUsableNativeCapability != true) {
         throw StateError('Android device verification did not pass.');
       }
-      final collectionId = await supabase.rpc<String>(
-        'create_private_group_with_owner_media_attested',
-        params: {
-          ...groupRequest..remove('group_is_public'),
-          'native_capability': verdict!.nativeCapability,
-          'group_image_url': imageUrl,
-          'group_accent_color_hex': accentColorHex,
-        },
+      final collectionId = await supabase
+          .rpc<String>(
+            'create_private_group_with_owner_media_attested',
+            params: {
+              ...groupRequest..remove('group_is_public'),
+              'native_capability': verdict!.nativeCapability,
+              'group_image_url': imageUrl,
+              'group_accent_color_hex': accentColorHex,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      current();
+      final collection = await _liveReader.fetchCollection(
+        collectionId,
+        accessToken: session.accessToken,
       );
-      final collection = await _liveReader.fetchCollection(collectionId);
+      current();
+      if (collection.creatorUserId != user.id) {
+        throw const FormatException('Created group owner is invalid.');
+      }
       await loadInitial();
+      current();
       // Read the authoritative media saved in the same transaction as creation.
       final hydratedCollection = collection;
       if (!state.collections.any((item) => item.id == collectionId)) {
@@ -195,24 +224,40 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.rpc<void>(
-        'update_rwanda_momo_group_profile',
-        params: {
-          'p_collection_id': collectionId,
-          'p_group_name': cleanTitle,
-          'p_group_description': description.trim(),
-          'p_group_image_url': imageUrl,
-          'p_group_accent_color_hex': accentColorHex,
-          'p_group_is_public': isPublic,
-          'p_group_recurring_cadence': cadence,
-          'p_group_collection_type': collectionType?.storageValue,
-          'p_group_category_subtype': categorySubtype?.trim(),
-          'p_group_purpose_label': purposeLabel?.trim(),
-          'p_group_is_recurring': isRecurring,
-        },
+      final session = _captureSession();
+      final ownerId = state.currentProfile!.id;
+      void current() => _requireCurrentMemberSession(session, ownerId);
+      current();
+      await supabase
+          .rpc<void>(
+            'update_rwanda_momo_group_profile',
+            params: {
+              'p_collection_id': collectionId,
+              'p_group_name': cleanTitle,
+              'p_group_description': description.trim(),
+              'p_group_image_url': imageUrl,
+              'p_group_accent_color_hex': accentColorHex,
+              'p_group_is_public': isPublic,
+              'p_group_recurring_cadence': cadence,
+              'p_group_collection_type': collectionType?.storageValue,
+              'p_group_category_subtype': categorySubtype?.trim(),
+              'p_group_purpose_label': purposeLabel?.trim(),
+              'p_group_is_recurring': isRecurring,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      current();
+      final collection = await _liveReader.fetchCollection(
+        collectionId,
+        accessToken: session.accessToken,
       );
-      final collection = await _liveReader.fetchCollection(collectionId);
+      current();
+      if (collection.creatorUserId != ownerId) {
+        throw const FormatException('Updated group owner is invalid.');
+      }
       await loadInitial();
+      current();
       return collection;
     }
     if (!_allowLocalWrites) {
@@ -249,9 +294,15 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   Future<PaymentIntentModel> createPaymentIntent(
     PaymentIntentDraft draft,
   ) async {
-    if (draft.amountRwf <= 0) {
-      throw const FormatException('Contribution amount must be above zero');
-    }
+    exactJsonInteger(
+      draft.amountRwf,
+      field: 'contribution.amount_rwf',
+      minimum: 1,
+    );
+    exactJsonIdentifier(
+      draft.collectionId,
+      field: 'contribution.collection_id',
+    );
     final profile = _requireReadyProfile();
     final collection = _requireActiveCollection(draft.collectionId);
     final contributionRail = collection.contributionRailFor(profile);
@@ -283,21 +334,43 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       }
     }
     if (supabase != null && supabase.auth.currentUser != null) {
-      final response = await supabase.rpc<dynamic>(
-        'create_contribution_intent',
-        params: {
-          'collection': draft.collectionId,
-          'p_expected_amount_rwf': draft.amountRwf,
-          'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
-        },
-      );
-      final responseRow = response is List && response.isNotEmpty
-          ? response.first
-          : response;
+      final session = _captureSession();
+      if (session.identity?.userId != profile.id ||
+          session.accessToken == null) {
+        throw StateError('Refresh your signed-in profile before contributing.');
+      }
+      final response = await supabase
+          .rpc<dynamic>(
+            'create_contribution_intent',
+            params: {
+              'collection': draft.collectionId,
+              'p_expected_amount_rwf': draft.amountRwf,
+              'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      if (response is List && response.length != 1) {
+        throw const FormatException('Invalid contribution response');
+      }
+      final responseRow = response is List ? response.single : response;
+      if (responseRow is! Map ||
+          responseRow.keys.any((key) => key is! String)) {
+        throw const FormatException('Invalid contribution response');
+      }
       final intent = PaymentIntentModel.fromJson(
-        Map<String, dynamic>.from(responseRow as Map),
+        Map<String, dynamic>.from(responseRow),
       );
-      if (!mounted || supabase.auth.currentUser?.id != profile.id) {
+      if (intent.collectionId != draft.collectionId ||
+          intent.expectedAmountRwf != draft.amountRwf ||
+          intent.rail != contributionRail ||
+          intent.currency != 'RWF') {
+        throw const FormatException(
+          'Contribution response does not match the request',
+        );
+      }
+      if (!_isCurrentSession(session) ||
+          state.currentProfile?.id != profile.id) {
         throw StateError('Account changed');
       }
       state = state.copyWith(

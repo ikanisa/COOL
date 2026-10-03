@@ -1,0 +1,47 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "scan": {
+      "seeded": 0,
+      "status": "processed",
+      "cleared": 0,
+      "pending": 0,
+      "refused": 0,
+      "activated": 0,
+      "processed": 1,
+      "unchanged": 1,
+      "checked_at": "2026-10-01T12:32:36.127114Z",
+      "expires_at": "2026-10-01T12:34:05.446972Z",
+      "request_id": "ab3e628e-a087-4730-a52a-d63a069abee2",
+      "scan_epoch": 1,
+      "scan_phase": "receipt_backlog",
+      "send_action": false,
+      "contract_version": 1,
+      "financial_action": false,
+      "observations_added": 0,
+      "source_scan_complete": false
+    },
+    "status": "completed",
+    "escalation": {
+      "channel": "admin_inbox",
+      "obsolete": 0,
+      "delivered": 1,
+      "external_send": false,
+      "contract_version": 1,
+      "recipient_unavailable": 0
+    },
+    "expires_at": "2026-10-01T12:34:05.446972Z",
+    "request_id": "ab3e628e-a087-4730-a52a-d63a069abee2",
+    "recorded_at": "2026-10-01T12:32:36.129981Z",
+    "send_action": false,
+    "external_send": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "configuration_revision": 2
+  },
+  "checked_at": "2026-10-01T12:32:36.529576Z",
+  "expires_at": "2026-10-01T12:34:05.446972Z",
+  "request_id": "ab3e628e-a087-4730-a52a-d63a069abee2",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T12:33:36.529576Z"
+}

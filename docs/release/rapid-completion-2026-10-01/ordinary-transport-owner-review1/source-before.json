@@ -1,0 +1,6 @@
+{
+  "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": "e3e1e56a32160db25d903d6cb436279c47e684b1b7e594ff342071e9882c1096",
+  "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+  "scripts/tests/current_ordinary_installer_rehearsal.py": "3ddb6929f46dda6aa3204e5babf401696fac74c2fb3c87055375701de1b9fb1d",
+  "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+}

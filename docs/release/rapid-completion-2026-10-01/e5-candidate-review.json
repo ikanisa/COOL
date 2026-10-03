@@ -1,0 +1,281 @@
+{
+  "status": "read_only_review_complete_final_owned_native_acceptance_and_snapshot_seal_pending",
+  "reviewed_at": "2026-10-01T12:20:49.296829+00:00",
+  "review_scope": "Existing captured source snapshot, existing 27-file Gateway reachability list, pubspec/lock, exact three native differences and captured Gateway Edge/SQL wire boundaries. No tests, builds, broad inventories or other-chat coordination performed.",
+  "candidate_directory": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-essential-source-candidate-20261001",
+  "candidate_manifest_sha256": "9ba767148ecfd9310e316cb366bcb494fcdb72e4539b6f6f6647988ac0e02c0c",
+  "candidate_source_count_recorded": 1953,
+  "candidate_zip_integrity": "Existing source-candidate.json records all declared archive source bytes verified; this review did not repeat archive verification.",
+  "accepted_native_export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway",
+  "gateway_reachability_list": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt173/gateway-bootstrap-readback.json",
+  "gateway_reachability_list_sha256": "ebad16e6b880d17edeb90cec964e704adb4f4dd51b00cab4d048a475c7eff278",
+  "frozen_native_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt174/frozen-173-source-plus-marker-delta.json",
+  "reachable_count": 27,
+  "pubspec_and_lock_count": 2,
+  "all_29_selected_bindings_equal": true,
+  "selected_bindings": {
+    "lib/app/theme/collect_colors.dart": {
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_component_tokens.dart": {
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_icons.dart": {
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_motion.dart": {
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_radius.dart": {
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_runtime_assets.dart": {
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_runtime_tokens.dart": {
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_runtime_typography.dart": {
+      "sha256": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_spacing.dart": {
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_theme.dart": {
+      "sha256": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_typography.dart": {
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/app/theme/collect_universal_tokens.dart": {
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/gateway/gateway_app.dart": {
+      "sha256": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/gateway/gateway_platform.dart": {
+      "sha256": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/main_gateway.dart": {
+      "sha256": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_model_json_helpers.dart": {
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_models.dart": {
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_payment_json.dart": {
+      "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_payment_models.dart": {
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_profile_country_rules.dart": {
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/models/collect_summary_json.dart": {
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/utils/collect_haptics.dart": {
+      "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/widgets/collect_chrome.dart": {
+      "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/widgets/collect_foundation.dart": {
+      "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/widgets/collect_scaffold_chrome.dart": {
+      "sha256": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "lib/shared/widgets/collect_top_chrome.dart": {
+      "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "pubspec.yaml": {
+      "sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    },
+    "pubspec.lock": {
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "candidate_actual_and_manifest_match": true,
+      "accepted_export_and_174_map_match": true
+    }
+  },
+  "retain_stronger_candidate_files": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "decision": "retain_candidate",
+      "candidate_sha256": "9ae91f8240decd514fe10c1bc2fc39367f91848d15399f3e1446175c32e40117",
+      "accepted_native_sha256": "97f99b060f3b92da9757f00587a790822453bc68c26255b71e9cf5c235f7053c",
+      "reason": "Candidate compares returned lease.simRevisionSha256 against sha256 of the current explicit Android subscription. Accepted native export removes this comparison. Readiness/SIM-change checks in GatewayDispatch compare local observations only; they do not bind the returned server digest."
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "decision": "retain_candidate",
+      "candidate_sha256": "e6f93e13030ef2d19588e2e7e262256556d6980f0e8516c1abea7b46e1d23e4e",
+      "accepted_native_sha256": "160865cc1fb93b4f12f5b896e7736d4a1a86dd456072999c17d5c33c9ffa1d02",
+      "reason": "Candidate samples a fresh clock after final device observation and rechecks arm expiry plus grant expiry immediately before the single invocation. Accepted export instead validates the grant using the earlier at value and omits the final arm-expiry check. A delayed final observation can consume the remaining arm lifetime."
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt",
+      "decision": "retain_candidate",
+      "candidate_sha256": "ff831daa0a618504a2a8478441ddb77424da3700cd92dc7a7d5c6527f401c57e",
+      "accepted_native_sha256": "57442edd79cfe59ef9a224a4cd87156952b328bb82bc0ad450c4a44be12cbe90",
+      "reason": "Candidate wrapper echoes request contract_version and exercises V2 OPERATIONS_PAUSED with a retained recorded request. Accepted export hardcodes version1 and expects the earlier GATEWAY_DISPATCH_AUTHORITY_PENDING archive behavior; it does not match the captured V2 backend path."
+    }
+  ],
+  "captured_backend_boundaries": [
+    {
+      "path": "supabase/functions/collect-android-gateway/handler.ts",
+      "sha256": "39756c7e26fc67d82b1c129feb2c731be02d31c53092ba13380b5b749ebb3665",
+      "observation": "V2 fixed action/RPC mapping and strict grant/arm response fields include sim_revision_sha256, exact request/device refs, and nonreplay acknowledgements."
+    },
+    {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "sha256": "a8cc4ab9b08cd781d972f7d9fddccec724c7e08376a0cd466f8744ff3b0ac82a",
+      "observation": "Grant records and returns health SIM digest; arm checks latest health digest against attempt digest. Server health binding does not replace binding returned digest to the handset current subscription."
+    }
+  ],
+  "safe_overlay": {
+    "base": "Preserve original captured directory/zip. Create a separately named frozen candidate from that immutable source.",
+    "allowed_after_final_175_binding": [
+      "android/app/build.gradle.kts",
+      "android/app/gradle.lockfile only if changed by the accepted real-JSON dependency delta"
+    ],
+    "exclude_generated": "Do not incorporate android/build/reports/problems/problems-report.html or other generated native build output.",
+    "do_not_overlay": [
+      "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt"
+    ],
+    "other_chat_changes": "Preserve mutable shared backend/MCP edits in place; record divergence separately without importing them into this bound snapshot."
+  },
+  "required_acceptance_bindings": [
+    "admin-checkpoint-scrub-current4/validation.json and exact source-export inputs; retained earlier session/checkpoint scopes remain separate",
+    "e1-roster-final-email-current1 acceptance inputs and e2-reuse-current1.json/feature-reason-current1 accepted inputs",
+    "font-rights-current1/final-validation.json plus public-golden-review.json and core-interface-current1/current-source-export-bindings.json",
+    "gateway-notification-exclusion-attempt173 Release proof remains bound to its older native source; do not relabel the APK as built from the stronger final candidate",
+    "Final owned native continuation must consume the retained candidate GatewayDispatch, GatewaySignedBackend and V2 archive fixture with the real JSON test runtime and record exact input hashes/results"
+  ],
+  "smallest_finish_route": [
+    "Native owner consumes only the three retained candidate files plus necessary marker/real-JSON Gradle and lock delta; execute the affected dispatch/lease/archive cases once against the frozen export.",
+    "Seal a new snapshot manifest/archive from the captured snapshot plus accepted build-only overlay; verify archive entries and hashes against that frozen manifest, independent of later shared checkout edits.",
+    "Bind named E1/E2/E4 evidence and final native continuation to that snapshot, preserve failures and state exact artifact/source divergences.",
+    "Update E5 handover wording to identify the accepted frozen snapshot and its capture time. Current-source equality can refer to that accepted snapshot; no claim of equality to the concurrently edited whole checkout."
+  ],
+  "remaining_dependency": "Final affected native acceptance for the stronger three candidate files under real JSON, followed by byte-verified frozen candidate sealing and named acceptance bindings. Concurrent human-owned edits alone do not require messaging or interrupting that chat.",
+  "limits": [
+    "Static boundary review does not certify hosted deployment, provider/device/carrier operation, signing, store release, complete design fidelity or whole repository semantics.",
+    "Existing attempt174 records 50 passing and 48 JSONObject stub failures; do not convert this to a full native pass.",
+    "Original packaging/currentness failures remain preserved."
+  ],
+  "recovered_lookup_failures": [
+    "GatewayDispatchContracts.kt path did not exist; actual contract is GatewayDispatch.kt.",
+    "Attempted report paths inside source candidate did not exist because that distributable omits release docs; read authoritative reports in repository instead."
+  ],
+  "mutations": "Only this JSON and companion Markdown review. No production source or captured snapshot edits.",
+  "admin_shared_source_disposition": {
+    "status": "retain_candidate_additions_existing_E1_security_core_bytes_verified_unchanged",
+    "accepted_export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-admin-checkpoint-scrub-current4",
+    "files": [
+      {
+        "path": "lib/admin/core/admin_repository_base.dart",
+        "candidate_sha256": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d",
+        "accepted_scrub4_sha256": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b",
+        "projection_sha256": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b",
+        "exact_projected_bytes_equal": true,
+        "removed_only_additive_import_part_lines": [
+          "import 'admin_receipt_operations_models.dart';\n"
+        ],
+        "additive_receipt_operations_block_sha256": "514174b665ee13848ae133146fcb5a1ad6ffcc9f61260a9e782f3ac35583aab0",
+        "added_methods": [
+          "receiptOperationsPolicy",
+          "configureReceiptOperations",
+          "receiptOperationsOwnerRequest"
+        ]
+      },
+      {
+        "path": "lib/admin/core/admin_runtime.dart",
+        "candidate_sha256": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0",
+        "accepted_scrub4_sha256": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d",
+        "projection_sha256": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d",
+        "exact_projected_bytes_equal": true,
+        "removed_only_additive_import_part_lines": [
+          "import 'admin_receipt_operations_models.dart';\n",
+          "import 'admin_receipt_operations_checkpoint.dart';\n",
+          "part 'admin_receipt_operations_runtime.dart';\n",
+          "part 'admin_receipt_operations_card.dart';\n"
+        ],
+        "additive_receipt_operations_block_sha256": "0e54cf4b32444c6c588650b732aaf9f56ad52ed18219708508cdf7ec41986e03",
+        "added_methods": [
+          "receiptOperationsPolicy",
+          "configureReceiptOperations",
+          "receiptOperationsOwnerRequest"
+        ]
+      }
+    ],
+    "scope": "Removed only exact additive receipt-operations imports/parts and newly added repository-method blocks in memory; reconstructed entire two-file bytes equal accepted scrub4 export. No source/snapshot overlay or test.",
+    "meaning": "Prior E1 scrub/session accepted security flow is byte-preserved despite whole-file hash changes. Added receipt operations controls are a separate workflow and are not accepted by the original scrub8 result. Do not present those two whole files as hash-identical.",
+    "new_provider_boundary": "New receipt operations policy/checkpoint/controller providers are separate names; existing exception/session/identity/dialog helpers are untouched. New card consumes shared _AdminSessionDialog without changing its definition.",
+    "binder_rule": "Record exact candidate file hashes plus accepted security-core projection hashes and added block hashes; retain prior test packet scope rather than a fresh whole-library pass."
+  }
+}

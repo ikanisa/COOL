@@ -1,0 +1,1357 @@
+{
+  "kind": "actual_readonly_new_changed_current_reference_resolution",
+  "scope": "All new/changed current-prefix Markdown links and new canonical JSON artifact path values relative to unchanged integration8 canonical originals. Historical Markdown bodies/unchanged old path values retained; no relinking scope.",
+  "markdown_links_checked": [
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "BE-08 latest current 209-migration verification",
+      "target": "root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "PD-12 criterion-review2",
+      "target": "root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "R8 probe2",
+      "target": "root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "lint metadata3",
+      "target": "root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "publisher metadata",
+      "target": "arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "label": "67 publisher JARs",
+      "target": "root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    }
+  ],
+  "new_JSON_path_occurrences_checked": [
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/7/evidence_packets/45/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/7/evidence_packets/46/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/7/evidence_packets/47/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/7/evidence_packets/48/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/85/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/86/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/87/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/88/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/89/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/90/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/91/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/92/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/93/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/94/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/95/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/96/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/97/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/98/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/99/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/100/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/101/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/102/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/103/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/104/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/105/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/106/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/107/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/108/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/109/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/110/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/111/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/112/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/21/evidence_packets/113/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/37/evidence_packets/46/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/37/evidence_packets/47/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/37/evidence_packets/48/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/37/evidence_packets/49/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/items/37/evidence_packets/50/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/45/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/46/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/47/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/48/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/49/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/50/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/51/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/52/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/53/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/54/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/55/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/56/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/57/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/58/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/59/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/60/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/61/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/62/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/63/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/64/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/65/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/66/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/67/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/68/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/69/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/70/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/71/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/72/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "json_pointer": "/latest_checkpoint/references/73/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/174/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/175/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/176/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/177/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/178/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/179/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/180/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/181/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/182/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/183/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/184/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/185/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/186/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/187/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/188/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/189/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/190/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/191/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/192/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/193/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/194/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/195/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/196/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/197/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/198/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/199/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/200/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/201/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/202/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/45/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/46/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/47/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/48/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/49/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/50/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/51/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/52/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/53/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/54/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/55/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/56/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/57/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/58/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/59/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/60/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/61/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/62/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/63/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/64/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/65/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/66/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/67/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/68/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/69/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/70/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/71/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/72/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/local-implementation-register-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/73/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/174/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/175/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/176/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/177/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/178/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/179/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/180/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/181/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/182/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/183/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/184/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/185/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/186/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/187/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/188/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/189/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/190/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/191/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/192/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/193/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/194/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/195/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/196/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/197/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/198/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/199/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/200/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/201/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_scoped_evidence/202/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/45/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/46/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/47/path",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/48/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/49/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/50/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/51/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/final-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/52/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/53/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/54/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/55/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/56/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/terminal.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/57/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/compiler-provider-observation.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/58/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/59/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/actual-default-rule-readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/60/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/source-fence-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/61/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-probe-observation2/guard-after.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/62/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/63/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/64/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/65/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/66/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/67/path",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-selected-publisher-metadata-acquisition1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/68/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/admission.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/69/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/70/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-full-aab-admission1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/71/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/72/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "exists": true
+    },
+    {
+      "document": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "json_pointer": "/critical_review_implementation_extension/latest_checkpoint/references/73/path",
+      "path": "docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "resolved_actual_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "exists": true
+    }
+  ],
+  "unchanged_current_Markdown_links_not_repaired": 3,
+  "new_changed_Markdown_count": 6,
+  "new_JSON_path_occurrences_count": 183,
+  "new_JSON_unique_paths": 29,
+  "errors": [],
+  "current_canonical_guard_hashes_unchanged": true,
+  "source_cache_build_network_tests_or_canonical_writes": false,
+  "actual_seconds": 0.020085500000277534,
+  "canonical_before_sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "ad6f9b6257aa0e409c9f671acb4d060688a8ac3172a1436eb3ead8329ca7363a",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a0b8b7672f13f600fbd3d3676688499ee29702f32957abdc13ef73148474341d",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "0ceae9d27cd33cfa7e9b0a03c74fe2f07e2c8a6bf39ad7084c337a3be4fafc18",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "e6a45b89f16e26c8b8d319b9845662e8267444b7fdd93d171e0b854b76b43734",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "86f31f9af3274cd2adff3cfeb18959a2c16434f5143c1d16607ec1ed1246c10d",
+    "docs/release/local-implementation-register-2026-09-30.json": "485531ac36b949287f2ceedd81d1f8b5650d9e8f2f0c4b83c94a2a2d6f0f0961",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "2d63e20d4c6116a98a7cf48fc67917cb22a7a32b81eaafd9c2453491384c5cb9"
+  },
+  "proposed_after_sha256": {
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "8b484925d4091aff7a8ac11de5cc54ad95f53b21e7649e394a0a3da6d75e6b30",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "00d18a01f8f2345ed67dcbe3e2c3aa8766fcecf7efef21f1e060e4025ad47f6a",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md": "6a3a164d82f4d1a27151fcc7f3791a71cac4a03e13eaea857a4af0f29f14d061",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "55c2da73ddf0e8182828d53e8ed30efe6d3c87dc3008e342345c14e76256c390",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "fa1b5deb2605a1cc95f9e1f1ec592b110e53c79ba8a4882580ab187d31a0f490",
+    "docs/release/local-implementation-register-2026-09-30.json": "4daccd09775979e7bde7cd05f5a8b8614710ed3250ab0f06e96fa9ea5ec8e90b",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "f7926ee6b1d250e8a069599def24d8935117332740f347713c5be2f16f8d8147"
+  }
+}

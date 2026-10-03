@@ -1,0 +1,129 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T04:01:43.904689+00:00",
+  "actual_case_count": 37,
+  "migration_count": 208,
+  "source_input_count": 215,
+  "copy_files": 645,
+  "copy_bytes": 37145799,
+  "catalogs": [
+    {
+      "phase": "clean",
+      "boundary": "final",
+      "path": "ordinary_clean/final-effective-catalog.json",
+      "sha256": "cc4d61347f9b13b72528c355121747344022514fdd7f752e6d9a46354b8891b1",
+      "canonical_sha256": "60897f466408db73769464da4034d0b931485f7d6063a554e40924e8bc566788",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 208,
+      "counts": {
+        "roles": 30,
+        "types": 602,
+        "columns": 3739,
+        "indexes": 702,
+        "schemas": 37,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 367,
+        "functions": 892,
+        "relations": 993,
+        "extensions": 8,
+        "migrations": 208,
+        "constraints": 1708,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 9830,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    },
+    {
+      "phase": "populated",
+      "boundary": "predecessor",
+      "path": "ordinary_populated/predecessor-effective-catalog.json",
+      "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d",
+      "canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 124,
+      "counts": {
+        "roles": 30,
+        "types": 308,
+        "columns": 2042,
+        "indexes": 360,
+        "schemas": 17,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 101,
+        "functions": 381,
+        "relations": 503,
+        "extensions": 8,
+        "migrations": 124,
+        "constraints": 712,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 4826,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    },
+    {
+      "phase": "populated",
+      "boundary": "final",
+      "path": "ordinary_populated/final-effective-catalog.json",
+      "sha256": "cc4d61347f9b13b72528c355121747344022514fdd7f752e6d9a46354b8891b1",
+      "canonical_sha256": "60897f466408db73769464da4034d0b931485f7d6063a554e40924e8bc566788",
+      "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "migrations": 208,
+      "counts": {
+        "roles": 30,
+        "types": 602,
+        "columns": 3739,
+        "indexes": 702,
+        "schemas": 37,
+        "policies": 153,
+        "settings": 8,
+        "triggers": 367,
+        "functions": 892,
+        "relations": 993,
+        "extensions": 8,
+        "migrations": 208,
+        "constraints": 1708,
+        "memberships": 23,
+        "default_acls": 21,
+        "dependencies": 9830,
+        "event_triggers": 8
+      },
+      "table_rows_exported": false,
+      "managed_hosted_parity": false
+    }
+  ],
+  "preserved_projection_count": 18,
+  "fresh_owned_container_absence": [
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_1b033321c617",
+      "exit_code": 1,
+      "absent": true,
+      "stderr": "Error response from daemon: No such container: collect_current_rehearsal_ordinary_clean_1b033321c617\n"
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_populated_ba309fbae3c9",
+      "exit_code": 1,
+      "absent": true,
+      "stderr": "Error response from daemon: No such container: collect_current_rehearsal_ordinary_populated_ba309fbae3c9\n"
+    }
+  ],
+  "current_source_drift": {},
+  "current_added_migrations": [],
+  "source_current_at_readback": true,
+  "authority_limit": "Local postgres NOSUPERUSER retains platform CREATE ROLE/CREATE DB/BYPASSRLS and trusted role memberships; hosted installer parity is unproved.",
+  "acceptance_limits": [
+    "Domain and caller ownership map",
+    "historical bank and broader retained data coverage",
+    "committed recovery and forward replay",
+    "hosted managed authority parity",
+    "signed JWT and provider/runtime acceptance"
+  ],
+  "full_BE08_closed": false,
+  "production_ready": false
+}

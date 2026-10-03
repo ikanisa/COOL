@@ -1,0 +1,45 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_native_consumer.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/run_native_consumer.py
+@@ -23,7 +23,7 @@
+ BASE = Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1')
+ SDK = BASE / 'flutter'
+ APP = BASE / 'app-source'
+-AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review2'
++AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review3'
+ ORIGINAL_PREPARATION_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
+ SOURCE_FENCE = AUTH_DIR / 'source-fence.json'
+ STAGES = ('foundation', 'sdk-lock', 'startup', 'app-export', 'app-lock', 'native')
+@@ -224,10 +224,12 @@
+     load(HERE / 'consumer_guards.py', 'controller_guards').process_success(record)
+ 
+ 
+-def source_readback(directory, phase, environment):
+-    output = directory / ('SDK-source-' + phase + '.json')
++def source_readback(directory, phase, environment, observation):
++    if observation not in ('before', 'after'):
++        raise ValueError('unreviewed SDK source observation')
++    output = directory / ('SDK-source-' + observation + '-' + phase + '.json')
+     command = [sys.executable, '-I', '-B', str(HERE / 'verify_native_consumer_source.py'), phase, '--output', str(output)]
+-    record = run_process(directory, 'SDK-readback-' + phase, command, 300, HERE, environment)
++    record = run_process(directory, 'SDK-readback-' + observation + '-' + phase, command, 300, HERE, environment)
+     require_pass(record)
+     return {'output_sha256': sha(output), 'process': record}
+ 
+@@ -346,7 +348,7 @@
+                 '--prepared-manifest-sha256', args.prepared_manifest_sha256, '--root-review-sha256', args.root_review_sha256, '--foundation-child']
+             require_pass(run_process(directory, 'exclusive-expansion-and-exact8', argv, 600, HERE, env))
+         else:
+-            source_readback(directory, 'patched' if args.stage == 'sdk-lock' else 'sdk-locked' if args.stage == 'startup' else 'startup' if args.stage == 'app-export' else 'app-locked' if args.stage == 'native' else 'startup', env)
++            source_readback(directory, 'patched' if args.stage == 'sdk-lock' else 'sdk-locked' if args.stage == 'startup' else 'startup' if args.stage == 'app-export' else 'app-locked' if args.stage == 'native' else 'startup', env, 'before')
+             if args.stage == 'app-export':
+                 snapshot_guard.private_destination(APP, BASE)
+                 if APP.exists() or APP.is_symlink() or sha(REPO / 'scripts/qa/collect_release_candidate.py') != config['reviewed_exporter_SHA256']:
+@@ -408,7 +410,7 @@
+                 save(directory / 'actual-app-source-readback.json', guards.app_readback('built' if args.stage == 'native' else 'app-locked', original_export['export_manifest_file_sha256']))
+                 save(directory / 'actual-app-packages.json', guards.package_config(APP / '.dart_tool/package_config.json', (SDK, APP, BASE / 'pub-cache')))
+                 save(directory / 'actual-plugin-bindings.json', guards.plugin_metadata(APP / '.flutter-plugins-dependencies'))
+-            source_readback(directory, 'sdk-locked' if args.stage == 'sdk-lock' else 'built' if args.stage == 'native' else 'app-locked' if args.stage == 'app-lock' else 'startup', env)
++            source_readback(directory, 'sdk-locked' if args.stage == 'sdk-lock' else 'built' if args.stage == 'native' else 'app-locked' if args.stage == 'app-lock' else 'startup', env, 'after')
+             if args.stage == 'native': save(directory / 'actual-production-JVM-and-classes.json', junit_and_classes())
+         protected_after = protected_metadata()
+         if pending_export_binding is not None: save(directory / 'export-source-binding.json', pending_export_binding)

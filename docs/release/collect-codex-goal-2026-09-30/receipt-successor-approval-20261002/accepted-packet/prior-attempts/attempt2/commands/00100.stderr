@@ -1,0 +1,3 @@
+ERROR:  22023: receipt_successor_input_invalid
+CONTEXT:  PL/pgSQL function public.admin_list_receipt_successors_v1(uuid,bigint,integer) line 4 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

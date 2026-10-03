@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "cat /etc/os-release\nuname -m\nid\ncommand -v git\ngit --version\ncommand -v make\nmake --version\ncommand -v ruby\nruby --version\ncommand -v flutter\ncommand -v dart\ngit -C /opt/flutter/flutter rev-parse HEAD\nflutter --version --machine\ndart --version\nsha256sum /opt/flutter/flutter/bin/cache/dart-sdk/bin/dart\ndpkg-query -W ca-certificates curl git make ruby ruby3.2 unzip xz-utils zip libglu1-mesa\n"
+  ],
+  "completed_at_utc": "2026-10-02T00:36:26.646670+00:00",
+  "deadline_seconds": 120,
+  "elapsed_seconds": 3.166111541999271,
+  "exit_code": 0,
+  "log_sha256": "44eb2c73b9d378ddf228a73f5fd225eaad322533cc322a4973bcbe061591b489",
+  "started_at_utc": "2026-10-02T00:36:23.480635+00:00",
+  "timed_out": false
+}

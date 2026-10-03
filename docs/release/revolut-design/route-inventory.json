@@ -1,0 +1,677 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T20:45:04.087450+00:00",
+  "design_authority": "revolut-design",
+  "purpose": "Current declared routes reconciled to registered Flutter routers by passing route_inventory_contract_test; mapping is implementation scope, not a percent score.",
+  "source_sha256": {
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/admin/admin_router.dart": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+    "lib/features/landing/public_page_content.dart": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4",
+    "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3"
+  },
+  "surfaces": {
+    "member_app": {
+      "source": "lib/app/router.dart",
+      "route_count": 37,
+      "routes": [
+        "/",
+        "/auth",
+        "/home",
+        "/offline",
+        "/sync",
+        "/groups",
+        "/groups/join",
+        "/groups/scan",
+        "/groups/create",
+        "/groups/:collectionId",
+        "/groups/:collectionId/members",
+        "/groups/:collectionId/manage",
+        "/groups/:collectionId/profile",
+        "/groups/:collectionId/contribute",
+        "/groups/:collectionId/share",
+        "/groups/:collectionId/invite",
+        "/groups/:collectionId/ledger",
+        "/contribute",
+        "/activity",
+        "/c/:slug",
+        "/share/invalid",
+        "/share/expired",
+        "/share/expired/request",
+        "/app",
+        "/invite/:publicId",
+        "/settings",
+        "/settings/profile",
+        "/settings/notifications",
+        "/settings/permissions",
+        "/settings/appearance",
+        "/settings/security",
+        "/settings/account",
+        "/settings/account/delete",
+        "/settings/privacy",
+        "/settings/help",
+        "/settings/legal/terms",
+        "/settings/legal/privacy"
+      ],
+      "mapping": [
+        {
+          "path": "/",
+          "visual_family": "own_identity_launch",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "brand-adaptation.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/auth",
+          "visual_family": "blue_indigo_auth",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "DESK-001",
+            "DESK-002",
+            "LIVE-002"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/home",
+          "visual_family": "blue_home",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "DESK-003",
+            "LIVE-020"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/offline",
+          "visual_family": "neutral_recovery",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/sync",
+          "visual_family": "neutral_recovery",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups",
+          "visual_family": "teal_groups",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "DESK-004",
+            "LIVE-021",
+            "LIVE-028"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/join",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/scan",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/create",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/members",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/manage",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/profile",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/contribute",
+          "visual_family": "neutral_amount_and_operation",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-060",
+            "LIVE-063",
+            "DESK-021",
+            "DESK-023"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/share",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/invite",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/groups/:collectionId/ledger",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/contribute",
+          "visual_family": "neutral_amount_and_operation",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-060",
+            "LIVE-063",
+            "DESK-021",
+            "DESK-023"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/activity",
+          "visual_family": "purple_activity",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "DESK-005",
+            "LIVE-051"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/c/:slug",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/share/invalid",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/share/expired",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/share/expired/request",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/app",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/invite/:publicId",
+          "visual_family": "existing_redirect_or_share_resolution",
+          "comparison_kind": "adaptation",
+          "source_anchors": [
+            "component-contracts.md"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings",
+          "visual_family": "violet_profile",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "DESK-007",
+            "LIVE-026"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/profile",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/notifications",
+          "visual_family": "neutral_settings_and_selection",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-009",
+            "LIVE-011",
+            "NEX-010"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/permissions",
+          "visual_family": "neutral_settings_and_selection",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-009",
+            "LIVE-011",
+            "NEX-010"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/appearance",
+          "visual_family": "neutral_settings_and_selection",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-009",
+            "LIVE-011",
+            "NEX-010"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/security",
+          "visual_family": "teal_dotted_wave_security_header_and_grouped_tasks",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-013",
+            "DESK-015"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/account",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/account/delete",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/privacy",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/help",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/legal/terms",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        },
+        {
+          "path": "/settings/legal/privacy",
+          "visual_family": "neutral_task_and_grouped_rows",
+          "comparison_kind": "pattern",
+          "source_anchors": [
+            "LIVE-005",
+            "LIVE-009",
+            "LIVE-028",
+            "LIVE-032"
+          ],
+          "own_workflow": "Retain the existing Collect route, content and access controls."
+        }
+      ]
+    },
+    "admin": {
+      "source": "lib/admin/admin_router.dart",
+      "route_count": 28,
+      "routes": [
+        "/admin/login",
+        "/admin/denied",
+        "/admin",
+        "/admin/groups",
+        "/admin/groups/:id",
+        "/admin/users",
+        "/admin/users/:id",
+        "/admin/members",
+        "/admin/members/:id",
+        "/admin/payees",
+        "/admin/transactions",
+        "/admin/transactions/:id",
+        "/admin/reconciliations",
+        "/admin/ledgers",
+        "/admin/sms-receipts",
+        "/admin/sms-receipts/:id",
+        "/admin/notifications",
+        "/admin/notifications/:id",
+        "/admin/audit-logs",
+        "/admin/audit-logs/entity/:kind/:id",
+        "/admin/settings",
+        "/admin/feature-flags",
+        "/admin/system-health",
+        "/admin/automations",
+        "/admin/sms-gateway",
+        "/admin/exceptions",
+        "/admin/admin-users",
+        "/admin/admin-users/:id"
+      ],
+      "mapping": {
+        "cohort": "Business/operator adaptation with separately inspected official static POS Orders comparator",
+        "source_anchors": [
+          "web-patterns.md",
+          "component-contracts.md",
+          "POS-002"
+        ],
+        "record_states": [
+          "resting",
+          "loading",
+          "successful_empty",
+          "redacted_failure",
+          "revoked_access"
+        ],
+        "shared_changes": [
+          "Monetary values right aligned",
+          "Enlarged text uses growing compact records",
+          "Complete titles values and status labels retained"
+        ]
+      }
+    },
+    "public_flutter_fallback": {
+      "source": "lib/features/landing/public_page_content.dart",
+      "route_count": 9,
+      "routes": [
+        "/",
+        "/group-savings",
+        "/community-groups",
+        "/trust",
+        "/security",
+        "/privacy",
+        "/account-deletion",
+        "/data-deletion",
+        "/terms"
+      ],
+      "mapping": {
+        "cohort": "September 2026 public consumer marketing",
+        "source_anchors": [
+          "web-patterns.md",
+          "tokens-evidence.json"
+        ]
+      }
+    },
+    "public_website": {
+      "source": "scripts/public_static_site_build.rb",
+      "generated_html_route_count": 18,
+      "routes": [
+        {
+          "path": "/",
+          "kind": "page",
+          "primary_route": "/"
+        },
+        {
+          "path": "/group-savings/",
+          "kind": "page",
+          "primary_route": "/group-savings/"
+        },
+        {
+          "path": "/insurance/",
+          "kind": "page",
+          "primary_route": "/insurance/"
+        },
+        {
+          "path": "/protection/",
+          "kind": "alias",
+          "primary_route": "/insurance/"
+        },
+        {
+          "path": "/craas/",
+          "kind": "page",
+          "primary_route": "/craas/"
+        },
+        {
+          "path": "/credit-readiness/",
+          "kind": "alias",
+          "primary_route": "/craas/"
+        },
+        {
+          "path": "/community-groups/",
+          "kind": "page",
+          "primary_route": "/community-groups/"
+        },
+        {
+          "path": "/our-partners/",
+          "kind": "page",
+          "primary_route": "/our-partners/"
+        },
+        {
+          "path": "/partners/",
+          "kind": "alias",
+          "primary_route": "/our-partners/"
+        },
+        {
+          "path": "/trust/",
+          "kind": "page",
+          "primary_route": "/trust/"
+        },
+        {
+          "path": "/security/",
+          "kind": "alias",
+          "primary_route": "/trust/"
+        },
+        {
+          "path": "/privacy/",
+          "kind": "page",
+          "primary_route": "/privacy/"
+        },
+        {
+          "path": "/terms/",
+          "kind": "page",
+          "primary_route": "/terms/"
+        },
+        {
+          "path": "/account-deletion/",
+          "kind": "page",
+          "primary_route": "/account-deletion/"
+        },
+        {
+          "path": "/data-deletion/",
+          "kind": "page",
+          "primary_route": "/data-deletion/"
+        },
+        {
+          "path": "/c/",
+          "kind": "share_landing"
+        },
+        {
+          "path": "/group-link/",
+          "kind": "share_landing"
+        },
+        {
+          "path": "/app/",
+          "kind": "share_landing"
+        }
+      ],
+      "redirect_pattern_count": 2,
+      "redirect_patterns": [
+        {
+          "path": "/c/*",
+          "redirect_target": "/group-link/?slug=:splat",
+          "redirect_status": 302
+        },
+        {
+          "path": "/invite/*",
+          "redirect_target": "/app/?publicId=:splat",
+          "redirect_status": 302
+        }
+      ],
+      "mapping": {
+        "cohort": "September 2026 public consumer marketing",
+        "source_anchors": [
+          "web-patterns.md",
+          "tokens-evidence.json"
+        ]
+      }
+    }
+  },
+  "verification": {
+    "route_inventory_contract": "3 route/factory tests passed; member catalogue equals actual nested route registrations; Admin catalogue equals actual helper-generated route registrations",
+    "log": ".cache/revolut-design-20260930/admin-table-reflow-final.log",
+    "log_test_total": 14,
+    "log_scope": [
+      "5 new Admin record checks",
+      "6 existing operations readability checks",
+      "3 route registry/factory checks"
+    ]
+  },
+  "current_verification": {
+    "mobile_cases": 297,
+    "admin_viewports": 112,
+    "public_route_share_cases": 76,
+    "final_matrix": "docs/release/revolut-design/verification/current-20261001/mobile-route-state-final.json",
+    "status": "dated_scoped_packet_current_artifact_unverified",
+    "packet_index_recorded_at": "2026-10-01T18:07:43.046444+00:00"
+  },
+  "source_binding_review": {
+    "recorded_at": "2026-10-01T20:45:04.087450+00:00",
+    "reason": "Legal-only canonical authored request/channel/destination correction changed builder bytes; exact source catalogues and all comparator mappings retained.",
+    "readback": "docs/release/critical-implementation-2026-10-01/design-index-readback/readback.json",
+    "runtime_route_factory_consumer": "docs/release/critical-implementation-2026-10-01/route-inventory-consumer.json",
+    "current_state_role_platform_visual_review": "unverified"
+  }
+}

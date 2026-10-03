@@ -1,0 +1,8 @@
+{
+  "status": "refused_before_mutation",
+  "reason": "Incorrect extra-proof packet index hash supplied. Full proof readback rejected before six-register preservation/mutation.",
+  "wrong_pin": "3d174b5331bc16b84ccae149df2d1f16bdbe5ade1b5b4f5c794c151b3277e71b",
+  "actual_packet_pin": "27ae12789409a78f031015f53ec7f8c155e205e2619ad6d3ea58a3d87e3ec1cb",
+  "ledger_base_unchanged": true,
+  "correction": "Use the independently read exact sealed packet index SHA; proposal SHA remains separately bound."
+}

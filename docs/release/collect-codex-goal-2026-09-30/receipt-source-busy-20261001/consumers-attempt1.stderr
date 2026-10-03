@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/run_consumers.py", line 53, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/run_consumers.py", line 48, in main
+    execute('mcp-typecheck',[str(node),str(tsc),'--noEmit','--target','ES2023','--module','NodeNext','--moduleResolution','NodeNext','--allowImportingTsExtensions','--strict','--noUncheckedIndexedAccess','--exactOptionalPropertyTypes','--skipLibCheck','--types','node','src/unattended_source_busy.test.ts'],runtime/'tools/collect-notification-mcp')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-source-busy-20261001/run_consumers.py", line 43, in execute
+    if r.returncode:raise RuntimeError(label+' failed')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mcp-typecheck failed

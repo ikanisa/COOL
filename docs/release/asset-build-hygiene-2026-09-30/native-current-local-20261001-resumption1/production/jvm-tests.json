@@ -1,0 +1,31 @@
+{
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "suites": [
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.CollectSmsReceiverTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "app.cool.mobile.receiver_sms.SmsQueueWorkerTest",
+      "skipped": "0",
+      "tests": "1"
+    }
+  ]
+}

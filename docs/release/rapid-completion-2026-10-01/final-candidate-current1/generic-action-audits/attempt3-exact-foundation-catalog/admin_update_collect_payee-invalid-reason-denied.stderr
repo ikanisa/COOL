@@ -1,0 +1,3 @@
+ERROR:  P0001: Change reason must be at least 8 characters
+CONTEXT:  PL/pgSQL function admin_update_collect_payee(uuid,text,text) line 12 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

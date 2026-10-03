@@ -1,0 +1,31 @@
+{
+  "observed_at_utc": "2026-10-01T23:41:21.413446+00:00",
+  "design_authority": "revolut-design",
+  "findings": [
+    {
+      "id": "public-invalid-group-action-appearance",
+      "status": "open",
+      "severity": "P2",
+      "observed_in_original_pixels": true,
+      "evidence": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/group-link-direct_mobile_390x844.png",
+      "evidence_sha256": "a8ae084c44f15ff56cee651922f8aeb6006b45dd213807201868843782391159",
+      "description": "The missing-code group route removes the native href, sets aria-disabled=true and shows invalid-link/recovery copy; its Open in Collect action still has the bright enabled primary appearance in the directly inspected original viewport.",
+      "recommendation": "Adapt the current shared link action to the selected Revolut disabled-state pattern, preserve fail-closed target semantics and readable recovery text; verify enabled/invalid/expired states with fresh current-source renders.",
+      "source_fix_performed": false,
+      "scope": "Observed current local UI/copy difference; mechanical route assertions passing do not close visual/product acceptance."
+    },
+    {
+      "id": "public-generic-app-card-label",
+      "status": "open",
+      "severity": "P2",
+      "observed_in_original_pixels": true,
+      "evidence": "docs/release/critical-implementation-2026-10-01/public-media-batch2/supplemental-share-routes/app-direct_compact_320x740.png",
+      "evidence_sha256": "eb70636292144c99bda841ae47369f8610610a38fba258aa6f733850444e5960",
+      "description": "The generic /app/ entry correctly points to collect://app but its shared card reads COLLECT GROUP LINK. This wording also appears in the invalid-app-invite capture.",
+      "recommendation": "Use an accurate Collect app/shared-link label for generic app entries while retaining the group label for group entries; verify truthful route-specific copy after the change.",
+      "source_fix_performed": false,
+      "scope": "Observed current local UI/copy difference; mechanical route assertions passing do not close visual/product acceptance."
+    }
+  ],
+  "production_ready": false
+}

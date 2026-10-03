@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "exit_code": 0,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "format",
+    "lib/admin/admin_shell.dart",
+    "lib/admin/core/admin_action_contracts.dart",
+    "lib/admin/core/admin_runtime.dart"
+  ],
+  "before_sha256": {
+    "lib/admin/admin_shell.dart": "bc80f14aeea99192bbd362d4198448d75d32c846bcd78ffefd0f061c1c7e60e5",
+    "lib/admin/core/admin_action_contracts.dart": "ccad98b50274f6758804e432137d224921148b0c27f8490ceaf0da7917597ef4",
+    "lib/admin/core/admin_runtime.dart": "3d365b69359dc2f5b4811d287a2c343bd247a022d50904c0e98daca718b64711"
+  },
+  "after_sha256": {
+    "lib/admin/admin_shell.dart": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+    "lib/admin/core/admin_action_contracts.dart": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+    "lib/admin/core/admin_runtime.dart": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551"
+  },
+  "scope": "Guarded pinned Dart formatter only; current bytes matched the exact common51 failed-format input. No policy/API/theme/behavior edit. Before bytes retained. Full49 still tests its earlier immutable snapshot.",
+  "source_unchanged_guard_passed": true
+}

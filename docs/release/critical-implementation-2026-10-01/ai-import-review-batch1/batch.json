@@ -1,0 +1,41 @@
+{
+  "id": "BE13-ai-import-review-batch1",
+  "sealed_at": "2026-10-02T01:17:46.399362+00:00",
+  "status": "READ_ONLY_REVIEW_COMPLETE_FINDING_OPEN",
+  "evidence_index": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/evidence-index.json",
+    "sha256": "25dd5a4f9b5fb9d3d7d3ccd0ef0b3332c4eba9d505284129c67849cdc8006cbc"
+  },
+  "review": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/README.md",
+    "sha256": "81297033b01876f045ad34dd3d2f9d61ab2ed930b572aa818189a4444a6489fc"
+  },
+  "source_files": 134,
+  "source_drift": 0,
+  "read_errors": 0,
+  "tests_executed": false,
+  "source_mutations": [],
+  "proposed_filename_patch": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/proposed-filename.patch",
+    "sha256": "6bd0cc783b378bc747ca8cd24f4404b91d0cc94602a5ebba18e6ff45aa7dbf57",
+    "applied": false
+  },
+  "facts": [
+    "Auth/strict schema/tool-free review/atomic quotas/one-attempt replay exist",
+    "Current XLSX independently verified; Admin copy stale",
+    "PDF filename unnecessary in outbound provider payload",
+    "Source/review metadata retains personal data after authority expiry",
+    "Decoder deployment documentation build identity stale"
+  ],
+  "approval_states": {
+    "processor": false,
+    "region": false,
+    "retention": false,
+    "legal_transfer": false,
+    "provider_accuracy": false,
+    "provider_spend": false,
+    "hosted_deployment": false,
+    "production_acceptance": false
+  },
+  "scope_limits": "Current source/tests review; no credentials, customer bodies, live backend/provider/account state; no Admin/policy/legal changes"
+}

@@ -1,0 +1,82 @@
+FFFEFF
+======================================================================
+ERROR: test_actual_unchanged_export_and_bindings_pass (__main__.BrowserSourceBindingTest.test_actual_unchanged_export_and_bindings_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 54, in test_actual_unchanged_export_and_bindings_pass
+    self.verify()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 51, in verify
+    PUBLICATION.validate_browser_source_binding(self.report, self.runtime)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/assets/publish_public_app_media.py", line 218, in validate_browser_source_binding
+    raise ValueError("Explicit canonical browser compilation directory required")
+ValueError: Explicit canonical browser compilation directory required
+
+======================================================================
+FAIL: test_actual_export_runtime_mutation_is_rejected (__main__.BrowserSourceBindingTest.test_actual_export_runtime_mutation_is_rejected)
+----------------------------------------------------------------------
+ValueError: Explicit canonical browser compilation directory required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 58, in test_actual_export_runtime_mutation_is_rejected
+    with self.assertRaisesRegex(ValueError, "captured source differs"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "captured source differs" does not match "Explicit canonical browser compilation directory required"
+
+======================================================================
+FAIL: test_actual_generated_binding_mutation_is_rejected (__main__.BrowserSourceBindingTest.test_actual_generated_binding_mutation_is_rejected)
+----------------------------------------------------------------------
+ValueError: Explicit canonical browser compilation directory required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 63, in test_actual_generated_binding_mutation_is_rejected
+    with self.assertRaisesRegex(ValueError, "binding differs"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "binding differs" does not match "Explicit canonical browser compilation directory required"
+
+======================================================================
+FAIL: test_actual_recorder_mutation_is_rejected (__main__.BrowserSourceBindingTest.test_actual_recorder_mutation_is_rejected)
+----------------------------------------------------------------------
+ValueError: Explicit canonical browser compilation directory required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 77, in test_actual_recorder_mutation_is_rejected
+    with self.assertRaisesRegex(ValueError, "recorder changed"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "recorder changed" does not match "Explicit canonical browser compilation directory required"
+
+======================================================================
+FAIL: test_checkout_drift_and_fabricated_binding_inventory_are_rejected (__main__.BrowserSourceBindingTest.test_checkout_drift_and_fabricated_binding_inventory_are_rejected)
+----------------------------------------------------------------------
+ValueError: Explicit canonical browser compilation directory required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 68, in test_checkout_drift_and_fabricated_binding_inventory_are_rejected
+    with self.assertRaisesRegex(ValueError, "checkout does not match"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "checkout does not match" does not match "Explicit canonical browser compilation directory required"
+
+======================================================================
+FAIL: test_in_checkout_export_and_source_symlink_are_rejected (__main__.BrowserSourceBindingTest.test_in_checkout_export_and_source_symlink_are_rejected)
+----------------------------------------------------------------------
+ValueError: Explicit canonical browser compilation directory required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/public_media_source_binding_test.py", line 82, in test_in_checkout_export_and_source_symlink_are_rejected
+    with self.assertRaisesRegex(ValueError, "outside the checkout"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "outside the checkout" does not match "Explicit canonical browser compilation directory required"
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.121s
+
+FAILED (failures=5, errors=1)

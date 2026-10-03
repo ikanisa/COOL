@@ -1,0 +1,11 @@
+--- docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/current_browser_lifecycle.continuation2.mjs	2026-10-01 15:49:12
++++ scripts/qa/current_browser_lifecycle.mjs	2026-10-01 15:52:32
+@@ -267,7 +267,7 @@
+   const routeStates = {
+     '/admin/login': ['Collect admin login', 'login'],
+     '/admin/denied': ['Admin access required', 'denied'],
+-    '/admin': ['Local synthetic receipts', 'synthetic-summary'],
++    '/admin': ['Payments and receipts · Unavailable', 'unavailable-metrics'],
+     '/admin/groups': ['No groups', 'empty'],
+     '/admin/groups/:id': [readFailure, 'unavailable-read'],
+     '/admin/users': ['No users', 'empty'],

@@ -1,0 +1,15 @@
+{
+  "due_at": null,
+  "status": "resolved",
+  "overdue": false,
+  "checked_at": "2026-10-01T11:25:32.123031Z",
+  "assignee_id": null,
+  "escalations": [],
+  "exception_id": "47f988e8-900f-44ee-8f98-2b6aa3285536",
+  "source_active": false,
+  "source_revision": 2,
+  "contract_version": 1,
+  "workflow_revision": 1,
+  "sample_valid_until": "2026-10-01T11:26:32.123031Z",
+  "recipient_available": false
+}

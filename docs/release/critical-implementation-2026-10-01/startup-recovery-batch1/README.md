@@ -1,0 +1,9 @@
+# Member and Admin startup recovery
+
+The member and Admin entry points now render a shared Collect loading screen before asynchronous Supabase initialization. The provisional fifteen-second display deadline shows a fixed connection error. Retrying while initialization is pending waits on the same operation. A genuinely rejected Supabase initializer is retryable only after the actual partial singleton has been disposed. Unknown/failed cleanup and fatal application faults require a process restart.
+
+Framework and platform failures use fixed public recovery copy and allowlisted structured diagnostics. Raw exceptions, stacks, credentials, URLs, receipt contents and caller maps cannot enter the logger API. Supabase debug logging is disabled. Diagnostics permit64events and one suppression record per minute; the event includes only fixed code/severity/surface/environment, validated build version, bounded attempt and elapsed time. Build version remains unknown unless a valid compile-time version is supplied. Controller ownership remains with the entry point for runtime recovery.
+
+All twelve local tests and focused analysis pass against unchanged recorded inputs. Tests include actual installed Supabase storage failure/disposal/retry without HTTP, overlapping retry prevention, late completion/disposal, sensitive object redaction, handler ownership, and small-screen high-contrast recovery with threefold text. The authority hygiene check passed; visual fidelity is unverified.
+
+This is partial ARC-12 implementation. Browser observers are being adapted so handled structured error events cannot evade verification; no fresh browser/native candidate has been accepted. Named duty ownership, alert transport and delivery, approved capacity/startup budgets, silence/recovery, real outage/backpressure, minimum-device sessions, incident rehearsal and final artifact-bound approval remain open.

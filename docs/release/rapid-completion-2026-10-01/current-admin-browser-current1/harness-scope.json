@@ -1,0 +1,9 @@
+{
+  "before_sha256": "d5195e85fd28b18287aa71d12ab17a6ab602e03641c2dc922061259c8c5bce56",
+  "after_sha256": "6d4c35540b7473db99fc51e5bc193c4f8f58ec461dc6ebf9ecbd10420e40d906",
+  "runtime_changed": false,
+  "direct_vm_source_contract_consumers": [],
+  "affected_node_fixture_boundary": "scripts/tests/local_browser_email_fixture_test.mjs",
+  "scope": "Immutable source-root binding and28route signed-out/authenticated state checks; no source/provider/visual closure implied",
+  "retained_bundle_continuation": "Requires exact compiled inputs/origin/artifact bytes and zero-exit prior command receipts; no second Admin build"
+}

@@ -1,0 +1,80 @@
+{
+  "exact_arm64_release_row": {
+    "archive": "stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+    "channel": "stable",
+    "dart_sdk_arch": "arm64",
+    "dart_sdk_version": "3.12.2",
+    "hash": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "release_date": "2026-06-24T23:26:23.575873Z",
+    "sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+    "version": "3.44.4"
+  },
+  "requests": {
+    "bundle-attestation.jsonl": {
+      "bytes": 4569,
+      "fetched_utc": "2026-10-01T23:47:54.038311+00:00",
+      "final_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip.intoto.jsonl",
+      "headers": {
+        "Content-Length": "4569",
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "\"7fc9f6d7573dde07b8bb799a621784c9\"",
+        "x-goog-generation": "1782343634910827",
+        "x-goog-hash": "crc32c=fuPm2Q=="
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "bundle-attestation.jsonl",
+      "sha256": "ea83c8d0f5527364c0cdf7943bbecbd8140c9ad8bcbdd6b9071378c24020aba4",
+      "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip.intoto.jsonl"
+    },
+    "bundle-head": {
+      "bytes": 0,
+      "fetched_utc": "2026-10-01T23:47:54.037510+00:00",
+      "final_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+      "headers": {
+        "Content-Length": "2210831302",
+        "Content-Type": "application/zip",
+        "ETag": "\"dfc83f8780634d4755677a3f3ed6a862\"",
+        "x-goog-generation": "1782343628635421",
+        "x-goog-hash": "crc32c=h1T9sw=="
+      },
+      "http_status": 200,
+      "method": "HEAD",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip"
+    },
+    "bundle-object-metadata.json": {
+      "bytes": 1033,
+      "fetched_utc": "2026-10-01T23:47:54.038087+00:00",
+      "final_url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/releases%2Fstable%2Fmacos%2Fflutter_macos_arm64_3.44.4-stable.zip",
+      "headers": {
+        "Content-Length": "1033",
+        "Content-Type": "application/json; charset=UTF-8",
+        "ETag": "CJ366LaDoZUDEAE="
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "bundle-object-metadata.json",
+      "sha256": "18e0d4c14e432e545336628bb24932477666b6d3b7fb9aea0f2119f5b4e93bec",
+      "url": "https://storage.googleapis.com/storage/v1/b/flutter_infra_release/o/releases%2Fstable%2Fmacos%2Fflutter_macos_arm64_3.44.4-stable.zip"
+    },
+    "table-attestation.jsonl": {
+      "bytes": 4573,
+      "fetched_utc": "2026-10-01T23:47:54.038394+00:00",
+      "final_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.44.4-stable.zip.intoto.jsonl",
+      "headers": {
+        "Content-Length": "4573",
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "\"16ad7e6b0afa7f418c197cd4d68c0b21\"",
+        "x-goog-generation": "1782344123176730",
+        "x-goog-hash": "crc32c=8xtP9w=="
+      },
+      "http_status": 200,
+      "method": "GET",
+      "retained_file": "table-attestation.jsonl",
+      "sha256": "78a3d0b5e0492a9ce081ae4a671713ef480bfd63c6f96e644d391f51d547ec37",
+      "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.44.4-stable.zip.intoto.jsonl"
+    }
+  },
+  "scope": "Only metadata/HEAD; full bundle bytes not fetched, hashed or extracted. Architecture-specific attestation path is derived from exact publisher catalog archive name and official client intoto suffix; table x64-derived link is retained separately."
+}

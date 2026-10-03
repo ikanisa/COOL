@@ -1,0 +1,75 @@
+{
+  "kind": "receipt_backlog_events_isolated_backend_evidence",
+  "production_deployed": false,
+  "passing_cases": 79,
+  "source": {
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "scripts/tests/receipt_backlog_events_uat.py": {
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    }
+  },
+  "files": {
+    "CONTRACT.md": {
+      "sha256": "71dfd605922a33a2185b71bd718bdaff10efd87cf5e8fbed78dc2e54613ad9ad",
+      "bytes": 8640
+    },
+    "README.md": {
+      "sha256": "11b1b01dac9e2bc5f49e276eabda574a074123483a836723b100ab7c6b9d1f50",
+      "bytes": 5610
+    },
+    "api-acl.sql": {
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+      "bytes": 143763
+    },
+    "backlog.fixture.json": {
+      "sha256": "086680abc7af57d1d3da8589127e3c00d7c635e50e9052e5d1328b20600513bc",
+      "bytes": 2751
+    },
+    "concurrency.log": {
+      "sha256": "201cf02e5cf64acf4a0712ac2bbc2eb58718eba7a2bb3fc659d4ddec0b4883a4",
+      "bytes": 1716
+    },
+    "events.fixture.json": {
+      "sha256": "47c47348a7534f6cfb86fb9de4f37febfab23cfb049b86a84573822d24c32c49",
+      "bytes": 7523
+    },
+    "install.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "install.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "migration-structural.log": {
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60",
+      "bytes": 37
+    },
+    "preexisting-receipt.sql": {
+      "sha256": "9ca924e7ddd42a2f3fcbfba5c763ba180ba0bde92cc800316e525b6b0feeb6cf",
+      "bytes": 932
+    },
+    "queries.log": {
+      "sha256": "81e39396d60b7ce2f3c8188fe0a17b2975da7c93de5201810bdd268eab82266d",
+      "bytes": 219396
+    },
+    "queries.sql": {
+      "sha256": "398701d2c62ed886e4dde1203a3172956d68d93934df22771c68eab00f6d7221",
+      "bytes": 1617942
+    },
+    "restore.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "result.json": {
+      "sha256": "9fe5b4d5d5ad66ac67abc61ca435fcdaf5b9c842b0533721cc95c4935f0da678",
+      "bytes": 19403
+    },
+    "synthetic-seed.sql": {
+      "sha256": "74ce1ca2e095fdb9080335958cd85c86641ce5c4e287737fdf7f119829e0513a",
+      "bytes": 4636
+    }
+  }
+}

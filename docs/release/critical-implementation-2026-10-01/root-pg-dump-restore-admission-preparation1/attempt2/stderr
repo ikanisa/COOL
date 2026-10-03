@@ -1,0 +1,10 @@
+test_dump_argument_bypasses_refuse_before_server_or_dump (__main__.ArchiveAdmissionTest.test_dump_argument_bypasses_refuse_before_server_or_dump) ... ok
+test_existing_artifact_and_output_directory_escape_refuse_without_request (__main__.ArchiveAdmissionTest.test_existing_artifact_and_output_directory_escape_refuse_without_request) ... ok
+test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts) ... ok
+test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read) ... ok
+test_output_directory_parent_symlink_substitution_refuses_before_request (__main__.ArchiveAdmissionTest.test_output_directory_parent_symlink_substitution_refuses_before_request) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 6.876s
+
+OK

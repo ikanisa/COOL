@@ -189,9 +189,9 @@ ruby -r json -r time -e '
   browser_report = JSON.parse(File.read(browser_report_path))
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
-  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 23
+  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 29
   abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 4
-  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 92
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 116
   abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),

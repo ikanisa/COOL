@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-10-02T00:46:07.883646+00:00",
+  "completed_at": "2026-10-02T00:46:15.920734+00:00",
+  "mode": "affected_security",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/features/shared_chrome_accessibility_test.dart",
+    "test/features/security_hub_header_test.dart",
+    "test/features/privacy/privacy_default_route_integration_test.dart"
+  ],
+  "exit_code": 0,
+  "input_count": 1345,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_log_sha256": "f75ae5b4ecec51f380b6470b365e7773ddbfc57440ad1da796eddd1fb8e48e33",
+  "approval": false,
+  "authority_hygiene_is_visual_acceptance": false
+}

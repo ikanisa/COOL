@@ -1,0 +1,292 @@
+{
+  "documents": {
+    "AAB9-failed-artifacts": {
+      "bytes": 7262,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/packet-files.json",
+      "sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d"
+    },
+    "AAB9-retained-current-graphs": {
+      "bytes": 1435,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-current-graph-readback9/readback.json",
+      "sha256": "03ede40616ca460ed9ae1df88068022ccb60212e59e9d9a27d4fcc065d78955d"
+    },
+    "AAB9-root-failure": {
+      "bytes": 1428,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback9/readback.json",
+      "sha256": "9d37428faf8456d946b62e18ea746786cf15557f4d2ef433646845cfd8be3755"
+    },
+    "BE08-literal-artifacts": {
+      "bytes": 4857,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/packet-files.json",
+      "sha256": "feeac33b1af1ccd2f1cc6972a26967e4db46457d554f9c932722d4a7977278fa"
+    },
+    "BE08-literal-readback": {
+      "bytes": 10741,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "sha256": "948be415892f90808a42f812cbc5a4d3c680e0b0a1bad163ffa392da482ca5bb"
+    },
+    "PD12-decision-reader-artifacts": {
+      "bytes": 842,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/packet-files.json",
+      "sha256": "2439a48af28a63ce829a85d731dcf8941f7399b60a80d7032d9626cfb70928de"
+    },
+    "PD12-decision-reader-integration": {
+      "bytes": 1313,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf"
+    },
+    "PD12-decision-reader-test-log": {
+      "bytes": 3231,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/maintained-tests.stderr",
+      "sha256": "8fbbd5b7f5ba784000b3478262e73e67395c79b41206832cf55c441a8ed6443d"
+    },
+    "PD12-original-criterion-review": {
+      "bytes": 2461,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-original-criterion-review1/review.json",
+      "sha256": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+    },
+    "PD12-reviewed-index-epoch1c55": {
+      "bytes": 72863,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    "PD12-reviewed-root-fence-epoch1c55": {
+      "bytes": 922154,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    },
+    "PD12-reviewed-summary-epoch1c55": {
+      "bytes": 23201,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/acceptance-status.json",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    },
+    "readiness-checkpoint8": {
+      "bytes": 4144,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-integration8/receipt.json",
+      "sha256": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804"
+    }
+  },
+  "evidence": [
+    {
+      "context": "current-maintained-tooling",
+      "file_sets": [
+        "separate-named-tooling5",
+        "BE08-literal-actual27leaves"
+      ],
+      "id": "BE08-actual-literal-tooling69",
+      "independent_receipt": "BE08-literal-readback",
+      "limitations": [
+        "Hash equality is not complete lineage, ownership/history, financial authority or BE08 closure.",
+        "Later reader-source current209 generation/verification remains a separate pending root receipt."
+      ],
+      "observed_result": 69,
+      "result_binding": {
+        "document": "BE08-literal-readback",
+        "pointer": "/total_maintained_tests_passed"
+      },
+      "scope": "Actual69 tests and three computed hash matches; original127 gaps and counters remain unresolved. Latest named tooling must match the actual aggregate source.",
+      "supersedes": [
+        "BE08-actual-additive-tooling"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical-AAB9-before-later-source-epochs",
+      "file_sets": [
+        "AAB9-failed-execution-leaves"
+      ],
+      "id": "AAB9-genuine-failed-build",
+      "independent_receipt": "AAB9-root-failure",
+      "limitations": [
+        "Later cache/settings changes do not rewrite this failure.",
+        "Selected157 empty OSV records remain dated coverage; no packaged SBOM/licence/security acceptance."
+      ],
+      "observed_result": "FAIL_missing_offline_lint_gradle32.0.1",
+      "result_binding": {
+        "document": "AAB9-root-failure",
+        "pointer": "/actual_result"
+      },
+      "scope": "Actual159.1s exit1 at enabled picker lint; config and fresh runtime/compile graphs passed, no AAB accepted.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-maintained-reader-tooling",
+      "file_sets": [
+        "current-declared-selected2563",
+        "PD12-decision-reader5leaves"
+      ],
+      "id": "PD12-actual-decision-reader18",
+      "independent_receipt": "PD12-decision-reader-integration",
+      "limitations": [
+        "Tests verify reader behavior; current data consumer and later manual root criterion review remain separate actual work.",
+        "The reader does not confer closure or visual/font/provider/packaged-SBOM/release acceptance."
+      ],
+      "observed_result": 0,
+      "result_binding": {
+        "document": "PD12-decision-reader-integration",
+        "pointer": "/command/exit_code"
+      },
+      "scope": "Actual18 meaningful maintained reader tests; original14 preserved, four new receipt/epoch/forgery/no-grant methods.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    }
+  ],
+  "external_integrator_cli_pins": {
+    "checkpoint": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804",
+    "review": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+  },
+  "facts": [
+    {
+      "document": "BE08-literal-readback",
+      "expected": 69,
+      "id": "BE08-literal-tests69",
+      "kind": "json-pointer",
+      "pointer": "/total_maintained_tests_passed"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 3,
+      "id": "BE08-literal-computed3",
+      "kind": "json-pointer",
+      "pointer": "/semantics/computed_body_candidate_count"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 3,
+      "id": "BE08-literal-hashes3",
+      "kind": "json-pointer",
+      "pointer": "/semantics/computed_hash_matches"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 127,
+      "id": "BE08-literal-unresolved127",
+      "kind": "json-pointer",
+      "pointer": "/semantics/summary/functions_without_exact_body_hash_match"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": true,
+      "id": "BE08-literal-prior57-preserved",
+      "kind": "json-pointer",
+      "pointer": "/old57tests_preserved"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": false,
+      "id": "BE08-literal-no-full-closure",
+      "kind": "json-pointer",
+      "pointer": "/full_be08_acceptance_closed"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": 0,
+      "id": "PD12-decision-reader-command-exit0",
+      "kind": "json-pointer",
+      "pointer": "/command/exit_code"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": false,
+      "id": "PD12-reader-still-no-grant",
+      "kind": "json-pointer",
+      "pointer": "/reader_grants_closure"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119",
+      "id": "PD12-reader-current-source",
+      "kind": "json-pointer",
+      "pointer": "/owned_files/0/after_sha256"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736",
+      "id": "PD12-reader-current-test-source",
+      "kind": "json-pointer",
+      "pointer": "/owned_files/1/after_sha256"
+    },
+    {
+      "document": "PD12-decision-reader-test-log",
+      "expected": "Ran 18 tests",
+      "id": "PD12-actual18-test-log",
+      "kind": "text-includes"
+    }
+  ],
+  "file_sets": {
+    "AAB9-failed-execution-leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "AAB9-failed-artifacts",
+      "expected_count": 41,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact AAB9 failure/config/graph/owned-absence packet; no retained failure becomes PASS.",
+      "shape": "list-metadata"
+    },
+    "BE08-literal-actual27leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "BE08-literal-artifacts",
+      "expected_count": 27,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Actual69 tests/generation/semantic outputs; three computed candidates and all127 unresolved retained.",
+      "shape": "list-metadata"
+    },
+    "BE08-prior-tooling2-retained": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "refresh-source-domains",
+      "expected_count": 2,
+      "pointer": "/BE08_prior_tooling2_retained_fences",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Preserved prior57-test mapper/test bytes; no current app/native claim.",
+      "shape": "map-metadata"
+    },
+    "PD12-decision-reader5leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "PD12-decision-reader-artifacts",
+      "expected_count": 5,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Actual18 maintained tests, exact preserved original14 AST bodies and changed reader/test2 receipt; no reader closure grant.",
+      "shape": "list-metadata"
+    }
+  },
+  "integrator_original_criterion_decision": {
+    "applicability": "recorded-source-epoch-only",
+    "checkpoint_document": "readiness-checkpoint8",
+    "criterion_met": true,
+    "decision_authority": "release/QA integrator",
+    "review_document": "PD12-original-criterion-review",
+    "reviewed_index_document": "PD12-reviewed-index-epoch1c55",
+    "reviewed_source_epoch": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+    "reviewed_summary_document": "PD12-reviewed-summary-epoch1c55"
+  },
+  "schema_version": 1,
+  "status": "PRIVATE_KNOWN_ADDITIONS_ONLY_NOT_A_CURRENT_REFRESH"
+}

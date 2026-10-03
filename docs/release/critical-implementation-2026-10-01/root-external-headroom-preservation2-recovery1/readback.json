@@ -1,0 +1,76 @@
+{
+  "APP_SDK_source_evidence_artifact_paths_deleted": false,
+  "actual_seconds": 0.7636908749991562,
+  "all_eight_preserved_bytes_hashes_modes_mtimes_verified": true,
+  "cache_removal_requested": true,
+  "copied_paths": [
+    ".dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill",
+    "build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill"
+  ],
+  "destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/external-headroom-preservation2",
+  "external_floor_bytes_unchanged": 4294967296,
+  "external_floor_met_after": true,
+  "external_free_after_bytes": 4439175168,
+  "external_free_before_bytes": 4317392896,
+  "kind": "root_exact_cache_preservation",
+  "lsof": [
+    {
+      "argv": [
+        "/usr/sbin/lsof",
+        "-nP",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill"
+      ],
+      "exit_code": 1,
+      "phase": "before-copy",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/usr/sbin/lsof",
+        "-nP",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill"
+      ],
+      "exit_code": 1,
+      "phase": "before-removal",
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "preserved_bytes": 121842984,
+  "production_release_approval": false,
+  "protected_PID_signal_authority": false,
+  "protected_original_PID_scope": 68020,
+  "removed_paths": [
+    ".dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill",
+    ".dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill",
+    "build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill"
+  ],
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "status": "REMOVED_AFTER_VERIFIED_PRESERVATION"
+}

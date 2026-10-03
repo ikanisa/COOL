@@ -1,0 +1,89 @@
+{
+  "files": [
+    {
+      "path": "SDK-readback-after-built.json",
+      "sha256": "ce5bcb783d0edaae215e8d7f81ecb53d70c4ea2a84dbb90abcda1c26c1a2be09",
+      "bytes": 1102
+    },
+    {
+      "path": "SDK-readback-after-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-readback-after-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "SDK-readback-before-built.json",
+      "sha256": "baf7556bc6bd2febfc75354493d264830d862cb0a0546075e3816f2d1f2a6c47",
+      "bytes": 1103
+    },
+    {
+      "path": "SDK-readback-before-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "SDK-readback-before-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "bytes": 756
+    },
+    {
+      "path": "SDK-source-after-built.json",
+      "sha256": "e7a440e6c4b6774f18127cc793e080077ce4f7134fdbb7b0601074c969a4bbd5",
+      "bytes": 6880417
+    },
+    {
+      "path": "SDK-source-before-built.json",
+      "sha256": "c3d63e3cac6ffa789aa96c2d52ceb892f848509cf0e5a8eabf114e28cf2d86f5",
+      "bytes": 6880417
+    },
+    {
+      "path": "actual-app-packages.json",
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2",
+      "bytes": 60531
+    },
+    {
+      "path": "actual-app-source.json",
+      "sha256": "3c883201bad04f015a648b1affc6fe23785e841c9c03e978178db2de4e74e391",
+      "bytes": 893182
+    },
+    {
+      "path": "actual-command.json",
+      "sha256": "ba835fee82ad1b69f4addbf90ea9ab8c79d5a1d14021d5ae5f9719404bfdafd4",
+      "bytes": 792
+    },
+    {
+      "path": "actual-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "actual-command.stdout",
+      "sha256": "44060f88af324595dd0d9c0e9f238a8c0a781971788fef01aea77e5ac26cd428",
+      "bytes": 3349
+    },
+    {
+      "path": "actual-plugin-bindings.json",
+      "sha256": "c318eb70229ae56ec79c2ffbf7916d5b6d4a068566df657e16f1be6d78c558a9",
+      "bytes": 117582
+    },
+    {
+      "path": "readback.json",
+      "sha256": "f43ca2d4d15d74825395d7a771ff617850d2d3d16065303510aff9ae96cecb17",
+      "bytes": 514
+    },
+    {
+      "path": "start.json",
+      "sha256": "eff46501bcf0d1e4acdb588c86c16128eae4a8774720aadbfe94801fbcf6e3c4",
+      "bytes": 417
+    },
+    {
+      "path": "terminal.json",
+      "sha256": "60a70b9e787120f14516e133e297161b0a5557339deed6414f4f07548e26129a",
+      "bytes": 377
+    }
+  ]
+}

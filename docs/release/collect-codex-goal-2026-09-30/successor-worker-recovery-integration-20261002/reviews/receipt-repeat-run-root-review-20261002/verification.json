@@ -1,0 +1,79 @@
+{
+  "status": "verified",
+  "packet_members": 14926,
+  "packet_bytes": 1379252595,
+  "current_binding_vectors": {
+    "source-bindings.json:files": 22,
+    "sql-attempt11/result.json:source_bindings": 223,
+    "consumer-accepted2/consumer-receipt.json:source_bindings": 183,
+    "view-attempt6/inputs.json:canonical_and_overlay": 354,
+    "view-attempt6/inputs.json:private_copy_hashes": 273
+  },
+  "sql_checks": 93,
+  "sql_command_receipts": 507,
+  "consumer_scope": "7 actual readers, 7 mapped negatives, 74 actual Edge contract fixtures",
+  "flutter_scope": "35 checks: 22 unchanged history and 13 mapped recovery; four-file analysis clean",
+  "promotion_files": 10,
+  "targets_absent": [
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_56c3dc2ac84b",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_56c3dc2ac84b"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_149b37e22a0d",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_149b37e22a0d"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_093a59d82336",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_093a59d82336"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_bbacc5afcf89",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_bbacc5afcf89"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_05ec694c27e4",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_05ec694c27e4"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_b0cde3193261",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_b0cde3193261"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_0b02bc66d304",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_0b02bc66d304"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_2182f5bc7e43",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_2182f5bc7e43"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_7ba5ac25d68b",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_7ba5ac25d68b"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_75071c4a9c54",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_75071c4a9c54"
+    },
+    {
+      "name": "collect_current_rehearsal_repeat_run_recovery_46f2191775ac",
+      "exit_code": 1,
+      "stderr": "error: no such object: collect_current_rehearsal_repeat_run_recovery_46f2191775ac"
+    }
+  ],
+  "timestamp": "2026-10-02T01:51:45.321286+00:00",
+  "canonical_mutation": false,
+  "hosted": false,
+  "device": false,
+  "full_candidate_replay": false
+}

@@ -1,0 +1,36 @@
+{
+  "format": "collect-be08-private-source-fences-v1",
+  "paths": [
+    {
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+      "bytes": 67708
+    },
+    {
+      "path": "scripts/tests/collect_schema_domain_map_test.py",
+      "sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82",
+      "bytes": 42318
+    },
+    {
+      "path": "scripts/audits/collect_schema_domain_caller_seams.json",
+      "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077",
+      "bytes": 13792
+    },
+    {
+      "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268
+    },
+    {
+      "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+      "sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "bytes": 8005
+    },
+    {
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "bytes": 16746
+    }
+  ],
+  "maintained_mutation_authorized": false
+}

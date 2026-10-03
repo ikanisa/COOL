@@ -1,0 +1,23 @@
+{
+  "at_utc": "2026-10-02T03:07:01.125325+00:00",
+  "doc_path": "docs/architecture/roster-ai-dispatch-policy.md",
+  "doc_sha256": "74fb10fee5c9db1358c86689c958cc2e43386c89555cf23b56b0bbb1c183482f",
+  "source_paths": [
+    "supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+    "supabase/functions/_shared/openai_roster.ts",
+    "supabase/functions/prepare-roster-import/index.ts",
+    "supabase/functions/prepare-roster-import/handler.ts"
+  ],
+  "source_sha256": {
+    "supabase/functions/_shared/roster_ai_dispatch_policy.ts": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75",
+    "supabase/functions/_shared/openai_roster.ts": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c",
+    "supabase/functions/prepare-roster-import/index.ts": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9",
+    "supabase/functions/prepare-roster-import/handler.ts": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+  },
+  "primary_source": "https://developers.openai.com/api/docs/guides/your-data",
+  "primary_review_date": "2026-10-02",
+  "approval_values_provisioned": false,
+  "policy_field_count": 20,
+  "effective_configuration_field_count": 9,
+  "processor_lifecycle_acceptance": false
+}

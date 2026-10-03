@@ -1,0 +1,610 @@
+{
+  "actual_configurations": {
+    "kotlinCompilerClasspath": {
+      "artifacts": [
+        {
+          "bytes": 17536,
+          "file": "annotations-13.0.jar",
+          "group": "org.jetbrains",
+          "independent_publisher_bytes_match": null,
+          "name": "annotations",
+          "sha256": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+          "version": "13.0"
+        },
+        {
+          "bytes": 468126,
+          "file": "kotlin-build-tools-api-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-tools-api",
+          "sha256": "47a622dce7231b1916334b69a00bc1094adf6577e6492f9f06b3d9c2450fe459",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 135979,
+          "file": "kotlin-build-tools-compat-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-tools-compat",
+          "sha256": "937d2961fc0b957a50c3d85a14fcc1bd0585f2229164136895b623691660c9b4",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 568962,
+          "file": "kotlin-build-tools-cri-impl-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-tools-cri-impl",
+          "sha256": "277d2acc8f7dbef364dca33f777b9ceeaf5fd803f07652c2bda14e155f83076f",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 3455815,
+          "file": "kotlin-build-tools-impl-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-tools-impl",
+          "sha256": "68fb6f266a66463a1ba3ddb99b96e5eb202ab19a5ca4e3b56dad5eec62641c7d",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 58593245,
+          "file": "kotlin-compiler-embeddable-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-compiler-embeddable",
+          "sha256": "cf97161430683fb9af96dc6a7017ffae1fe8737b80d12eee11f2fe3e76f8ded8",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 20366,
+          "file": "kotlin-compiler-runner-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-compiler-runner",
+          "sha256": "cc467c5b63daa7441d6bfb72f3d559d68836ce61cdbf9fc8e1e3a76ec4883d2e",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 265892,
+          "file": "kotlin-daemon-client-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-daemon-client",
+          "sha256": "89532756fc258fbde177cf1654383f15127c048d17525141c922e9aa0969d997",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 393409,
+          "file": "kotlin-daemon-embeddable-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-daemon-embeddable",
+          "sha256": "eef72cf8f17e6d98d33e5b7c7e1cab31a1cf5fc34084dd5e563e7b1f3ef53435",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 3038560,
+          "file": "kotlin-reflect-1.6.10.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-reflect",
+          "sha256": "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203",
+          "version": "1.6.10"
+        },
+        {
+          "bytes": 46531,
+          "file": "kotlin-script-runtime-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-script-runtime",
+          "sha256": "fc5a19df78be445d84e8352e0d01098a6a8181324aa50c6f7bf850338e81e1b4",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 1853314,
+          "file": "kotlin-stdlib-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-stdlib",
+          "sha256": "2226de463d309d4a5500a481320b3dea515a6981dcae1def531fbc158884e25f",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 89152,
+          "file": "kotlin-tooling-core-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-tooling-core",
+          "sha256": "5fc5db083803232857408ed5c25bcc307c703b04bdef6cb2c34ebf4db611a622",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 1548360,
+          "file": "kotlinx-coroutines-core-jvm-1.8.0.jar",
+          "group": "org.jetbrains.kotlinx",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlinx-coroutines-core-jvm",
+          "sha256": "9860906a1937490bf5f3b06d2f0e10ef451e65b95b269f22daf68a3d1f5065c5",
+          "version": "1.8.0"
+        }
+      ],
+      "configuration": "kotlinCompilerClasspath",
+      "modules": [
+        {
+          "group": "org.jetbrains",
+          "name": "annotations",
+          "version": "13.0"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-compat",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-cri-impl",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-impl",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-embeddable",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-runner",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-client",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-embeddable",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-reflect",
+          "version": "1.6.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-script-runtime",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-tooling-core",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-coroutines-core-jvm",
+          "version": "1.8.0"
+        }
+      ],
+      "non_module_components": [
+        {
+          "display_name": "project :gradle",
+          "kind": "non-module"
+        }
+      ]
+    },
+    "runtimeClasspath": {
+      "artifacts": [
+        {
+          "bytes": 298435,
+          "file": "gson-2.11.0.jar",
+          "group": "com.google.code.gson",
+          "independent_publisher_bytes_match": null,
+          "name": "gson",
+          "sha256": "57928d6e5a6edeb2abd3770a8f95ba44dce45f3b23b7a9dc2b309c581552a78b",
+          "version": "2.11.0"
+        },
+        {
+          "bytes": 19370,
+          "file": "error_prone_annotations-2.27.0.jar",
+          "group": "com.google.errorprone",
+          "independent_publisher_bytes_match": null,
+          "name": "error_prone_annotations",
+          "sha256": "24c923372c58e35d0b9f16a028929bb9aedc77521867c274f2bd0735df5ba1f5",
+          "version": "2.27.0"
+        },
+        {
+          "bytes": 17536,
+          "file": "annotations-13.0.jar",
+          "group": "org.jetbrains",
+          "independent_publisher_bytes_match": null,
+          "name": "annotations",
+          "sha256": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+          "version": "13.0"
+        },
+        {
+          "bytes": 86412,
+          "file": "fus-statistics-gradle-plugin-2.4.20-gradle813.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "fus-statistics-gradle-plugin",
+          "sha256": "0c050825d65654d0ac8f6ba9409fba824f87100df00e76300242abfe9a1b989f",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 249122,
+          "file": "kotlin-build-statistics-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-statistics",
+          "sha256": "910ac907ddbcef7b00be2a72755e24deb44646aafc4f48ed69916ee5b06267cb",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 468126,
+          "file": "kotlin-build-tools-api-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-build-tools-api",
+          "sha256": "47a622dce7231b1916334b69a00bc1094adf6577e6492f9f06b3d9c2450fe459",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 20366,
+          "file": "kotlin-compiler-runner-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-compiler-runner",
+          "sha256": "cc467c5b63daa7441d6bfb72f3d559d68836ce61cdbf9fc8e1e3a76ec4883d2e",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 265892,
+          "file": "kotlin-daemon-client-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-daemon-client",
+          "sha256": "89532756fc258fbde177cf1654383f15127c048d17525141c922e9aa0969d997",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 30694269,
+          "file": "kotlin-gradle-plugin-2.4.20-gradle813.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": true,
+          "name": "kotlin-gradle-plugin",
+          "publisher_metadata_sha256": "8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43",
+          "sha256": "e9b18ac15c81b55d6d336356f9197aa1fb9f9371e0e76fbd2b06871cb5cf46b2",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 7207,
+          "file": "kotlin-gradle-plugin-annotations-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-gradle-plugin-annotations",
+          "sha256": "fd400d73f635ed83875e75093c40a587840d4af399dcf6931239ba8fe469ef85",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 277929,
+          "file": "kotlin-gradle-plugin-api-2.4.20-gradle813.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-gradle-plugin-api",
+          "sha256": "fc9e18f84f1a5805532932f5293ec11121769263b396641f779e7b67fb4250a6",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 94633,
+          "file": "kotlin-gradle-plugin-idea-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-gradle-plugin-idea",
+          "sha256": "086734484c7edf19a620ab1a617d097c40e03bc52602e77840ea5ebd6380e514",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 2692446,
+          "file": "kotlin-gradle-plugin-idea-proto-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-gradle-plugin-idea-proto",
+          "sha256": "a3a5535287930428ecbd4a326cb9d7d7c477e9f1a81e9573c3c973940c8f1477",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 73971,
+          "file": "kotlin-klib-commonizer-api-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-klib-commonizer-api",
+          "sha256": "e13c80f2f96afce37d776e77ae8a2f5c4d3c72f4b0526271694b36786f27d331",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 401640,
+          "file": "kotlin-native-utils-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-native-utils",
+          "sha256": "7613fa2f7bcfa893102041ffa57567fb398c31a085834a30043c09e5222e2334",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 1524620,
+          "file": "kotlin-stdlib-1.7.10.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-stdlib",
+          "sha256": "e771fe74250a943e8f6346713201ff1d8cb95c3a5d1a91a22b65a9e04f6a8901",
+          "version": "1.7.10"
+        },
+        {
+          "bytes": 198936,
+          "file": "kotlin-stdlib-common-1.7.10.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-stdlib-common",
+          "sha256": "19f102efe9629f8eabc63853ad15c533e47c47f91fca09285c5bde86e59f91d4",
+          "version": "1.7.10"
+        },
+        {
+          "bytes": 23868,
+          "file": "kotlin-stdlib-jdk7-1.7.10.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-stdlib-jdk7",
+          "sha256": "54f61351b1936ad88f4e53059fe781e723eae51d78ed9e7422d8b403574ec682",
+          "version": "1.7.10"
+        },
+        {
+          "bytes": 19787,
+          "file": "kotlin-stdlib-jdk8-1.7.10.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-stdlib-jdk8",
+          "sha256": "8aafdd60c94f454c92e5066d266a5ed53ecc63c78f623b3fd9db56fea4032873",
+          "version": "1.7.10"
+        },
+        {
+          "bytes": 89152,
+          "file": "kotlin-tooling-core-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-tooling-core",
+          "sha256": "5fc5db083803232857408ed5c25bcc307c703b04bdef6cb2c34ebf4db611a622",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 64794,
+          "file": "kotlin-util-io-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-util-io",
+          "sha256": "944edbec0f4438b40999e81872f6b05b0604abac6ed11d72c27846d19835f24c",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 751137,
+          "file": "kotlin-util-klib-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-util-klib",
+          "sha256": "3a58f9a82378e13ea5045266de2c09a8e5a05c44dd92131c4a83794fd3d1ceca",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 99012,
+          "file": "kotlin-util-klib-metadata-2.4.20.jar",
+          "group": "org.jetbrains.kotlin",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlin-util-klib-metadata",
+          "sha256": "75027fd053a594ab1ff64aa360cb1d6d13e9a7e3775583508b4811e0333823d8",
+          "version": "2.4.20"
+        },
+        {
+          "bytes": 1548360,
+          "file": "kotlinx-coroutines-core-jvm-1.8.0.jar",
+          "group": "org.jetbrains.kotlinx",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlinx-coroutines-core-jvm",
+          "sha256": "9860906a1937490bf5f3b06d2f0e10ef451e65b95b269f22daf68a3d1f5065c5",
+          "version": "1.8.0"
+        },
+        {
+          "bytes": 345423,
+          "file": "kotlinx-serialization-core-jvm-1.4.0.jar",
+          "group": "org.jetbrains.kotlinx",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlinx-serialization-core-jvm",
+          "sha256": "9edfab129cd0a219f06a01a5baf6c03a09b5db8b5a3bec4dd95071edd61d6271",
+          "version": "1.4.0"
+        },
+        {
+          "bytes": 230064,
+          "file": "kotlinx-serialization-json-jvm-1.4.0.jar",
+          "group": "org.jetbrains.kotlinx",
+          "independent_publisher_bytes_match": null,
+          "name": "kotlinx-serialization-json-jvm",
+          "sha256": "a1c344d0e21f14fd82edbcdac374cf160d7289459dcf75dec688a9fbdce6a099",
+          "version": "1.4.0"
+        }
+      ],
+      "configuration": "runtimeClasspath",
+      "modules": [
+        {
+          "group": "com.google.code.gson",
+          "name": "gson",
+          "version": "2.11.0"
+        },
+        {
+          "group": "com.google.errorprone",
+          "name": "error_prone_annotations",
+          "version": "2.27.0"
+        },
+        {
+          "group": "org.jetbrains",
+          "name": "annotations",
+          "version": "13.0"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "fus-statistics-gradle-plugin",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-statistics",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-build-tools-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-compiler-runner",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-daemon-client",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-annotations",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-idea",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugin-idea-proto",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-gradle-plugins-bom",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-klib-commonizer-api",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-native-utils",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-common",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-jdk7",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-stdlib-jdk8",
+          "version": "1.7.10"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-tooling-core",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-io",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-klib",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "name": "kotlin-util-klib-metadata",
+          "version": "2.4.20"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-coroutines-core-jvm",
+          "version": "1.8.0"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-serialization-core",
+          "version": "1.4.0"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-serialization-core-jvm",
+          "version": "1.4.0"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-serialization-json",
+          "version": "1.4.0"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "name": "kotlinx-serialization-json-jvm",
+          "version": "1.4.0"
+        }
+      ],
+      "non_module_components": [
+        {
+          "display_name": "project :gradle",
+          "kind": "non-module"
+        }
+      ]
+    }
+  },
+  "candidate_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+  "primary_core_KGP_module_sha256": "8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43",
+  "root_name": "gradle",
+  "scope": "Real runtime/compiler configuration resolution and artifact hashes. Core KGP bytes match independently authenticated metadata; other artifact publisher/license/advisory checks remain separate until independently bound. No synthetic graph or resolution mutation."
+}

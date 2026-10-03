@@ -1,0 +1,9 @@
+{
+  "status": "source_correction_saved_runtime_pending",
+  "prior_comparison": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt2-root-1000-10000/result.json",
+  "prior_comparison_sha256": "8906858b97529084188d1fdbea3e8d668d321d2cd88c488d72494991bfde0ec0",
+  "prior_source_unchanged": true,
+  "all_clones_removed_and_shared_source_preserved": true,
+  "corrected_runner_sha256": "089192835bbfbd1920d7b77c16c503e1bce03909a1f6b33b840538940c8a4b21",
+  "scope": "Exact physical index metadata and immediate stop on failed candidate checks. Original five failed cases remain retained; no production migration is published."
+}

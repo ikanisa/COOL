@@ -1,0 +1,22 @@
+{
+  "destination": {
+    "bytes": 232491070,
+    "device": 16777232,
+    "inode": 60418004,
+    "mode": 420,
+    "mtime_ns": 1790941383923116036,
+    "nlink": 1,
+    "sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85"
+  },
+  "extracted_global_caches_copied": false,
+  "source": {
+    "bytes": 232491070,
+    "device": 16777232,
+    "inode": 10273133,
+    "mode": 420,
+    "mtime_ns": 1784381057992605604,
+    "nlink": 1,
+    "sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85"
+  },
+  "standard_wrapper_authentication_required": true
+}

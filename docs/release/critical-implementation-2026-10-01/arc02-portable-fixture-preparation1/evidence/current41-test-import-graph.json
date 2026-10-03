@@ -1,0 +1,331 @@
+{
+  "before_local_test_import_edges": [
+    {
+      "from": "test/core/auth_fixture_token_test.dart",
+      "to": "test/support/synthetic_jwt.dart"
+    },
+    {
+      "from": "test/admin_governed_settings_widget_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_governed_settings_widget_test.dart",
+      "to": "test/support/settings_fixture.dart"
+    },
+    {
+      "from": "test/admin_governed_settings_sdk_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_governed_settings_sdk_test.dart",
+      "to": "test/support/settings_fixture.dart"
+    },
+    {
+      "from": "test/admin_governed_settings_models_test.dart",
+      "to": "test/support/settings_fixture.dart"
+    },
+    {
+      "from": "test/admin_investigation_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_investigation_test.dart",
+      "to": "test/support/admin_read_fixture.dart"
+    },
+    {
+      "from": "test/admin_receipt_overview_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_receipt_cancel_repository_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_receipt_cancel_repository_test.dart",
+      "to": "test/admin_receipt_cancel_models_test.dart"
+    },
+    {
+      "from": "test/admin_receipt_principal_integration_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_receipt_operations_sdk_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_history_v2_sdk_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_history_v2_sdk_test.dart",
+      "to": "test/admin_exception_history_v2_models_test.dart"
+    },
+    {
+      "from": "test/admin_exception_history_v2_sdk_test.dart",
+      "to": "test/admin_exception_escalation_inbox_v2_models_test.dart"
+    },
+    {
+      "from": "test/admin_exception_followup_sdk_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_workflow_sdk_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_workflow_sdk_test.dart",
+      "to": "test/admin_exception_workflow_test.dart"
+    },
+    {
+      "from": "test/admin_exception_workflow_test.dart",
+      "to": "test/admin_exception_escalation_inbox_v2_models_test.dart"
+    },
+    {
+      "from": "test/admin_exception_sdk_provider_state_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_sdk_provider_state_test.dart",
+      "to": "test/admin_exception_models_test.dart"
+    },
+    {
+      "from": "test/admin_exception_repository_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_exception_repository_test.dart",
+      "to": "test/admin_exception_models_test.dart"
+    },
+    {
+      "from": "test/admin_automatic_gateway_repository_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_automatic_gateway_repository_test.dart",
+      "to": "test/admin_automatic_gateway_models_test.dart"
+    },
+    {
+      "from": "test/admin_gateway_repository_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_gateway_repository_test.dart",
+      "to": "test/admin_gateway_contracts_test.dart"
+    },
+    {
+      "from": "test/admin_gateway_repository_test.dart",
+      "to": "test/admin_gateway_models_test.dart"
+    },
+    {
+      "from": "test/admin_read_contracts_test.dart",
+      "to": "test/support/admin_read_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_reload_test.dart",
+      "to": "test/support/admin_roster_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_dialog_test.dart",
+      "to": "test/support/admin_roster_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_upload_admission_test.dart",
+      "to": "test/support/admin_roster_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_declared_read_dispatch_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_roster_authority_scope_test.dart",
+      "to": "test/admin_action_session_test.dart"
+    },
+    {
+      "from": "test/admin_roster_authority_scope_test.dart",
+      "to": "test/support/admin_roster_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_gateway_expiry_test.dart",
+      "to": "test/support/admin_read_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_transport_test.dart",
+      "to": "test/support/admin_read_fixture.dart"
+    },
+    {
+      "from": "test/admin_roster_import_test.dart",
+      "to": "test/support/admin_roster_fixture.dart"
+    },
+    {
+      "from": "test/shared/member_roster_test.dart",
+      "to": "test/fixtures/collect_repository_fixture.dart"
+    },
+    {
+      "from": "test/shared/group_join_account_boundary_test.dart",
+      "to": "test/fixtures/collect_repository_fixture.dart"
+    },
+    {
+      "from": "test/shared/group_admin_api_test.dart",
+      "to": "test/fixtures/collect_repository_fixture.dart"
+    },
+    {
+      "from": "test/shared/group_owner_controls_test.dart",
+      "to": "test/fixtures/collect_repository_fixture.dart"
+    },
+    {
+      "from": "test/shared/member_mutation_session_test.dart",
+      "to": "test/shared/member_data_authority_test.dart"
+    },
+    {
+      "from": "test/shared/collect_repository_test.dart",
+      "to": "test/fixtures/collect_repository_fixture.dart"
+    },
+    {
+      "from": "test/admin_route_access_test.dart",
+      "to": "test/support/admin_read_fixture.dart"
+    },
+    {
+      "from": "test/admin_route_access_test.dart",
+      "to": "test/support/admin_gateway_fixture.dart"
+    },
+    {
+      "from": "test/admin_route_access_test.dart",
+      "to": "test/support/admin_exception_fixture.dart"
+    },
+    {
+      "from": "test/admin_route_access_test.dart",
+      "to": "test/support/admin_entity_audit_state_fixture.dart"
+    },
+    {
+      "from": "test/support/admin_entity_audit_state_fixture.dart",
+      "to": "test/support/admin_entity_audit_fixture.dart"
+    }
+  ],
+  "before_test_dart_closure_count": 59,
+  "before_test_files": [
+    "test/admin_action_session_test.dart",
+    "test/admin_automatic_gateway_models_test.dart",
+    "test/admin_automatic_gateway_repository_test.dart",
+    "test/admin_exception_escalation_inbox_v2_models_test.dart",
+    "test/admin_exception_followup_sdk_test.dart",
+    "test/admin_exception_history_v2_models_test.dart",
+    "test/admin_exception_history_v2_sdk_test.dart",
+    "test/admin_exception_models_test.dart",
+    "test/admin_exception_repository_test.dart",
+    "test/admin_exception_sdk_provider_state_test.dart",
+    "test/admin_exception_workflow_sdk_test.dart",
+    "test/admin_exception_workflow_test.dart",
+    "test/admin_gateway_contracts_test.dart",
+    "test/admin_gateway_models_test.dart",
+    "test/admin_gateway_repository_test.dart",
+    "test/admin_governed_settings_models_test.dart",
+    "test/admin_governed_settings_sdk_test.dart",
+    "test/admin_governed_settings_widget_test.dart",
+    "test/admin_header_accessibility_test.dart",
+    "test/admin_investigation_test.dart",
+    "test/admin_permission_refresh_test.dart",
+    "test/admin_pwa_test.dart",
+    "test/admin_read_contracts_test.dart",
+    "test/admin_receipt_cancel_models_test.dart",
+    "test/admin_receipt_cancel_repository_test.dart",
+    "test/admin_receipt_operations_sdk_test.dart",
+    "test/admin_receipt_overview_test.dart",
+    "test/admin_receipt_principal_integration_test.dart",
+    "test/admin_roster_authority_scope_test.dart",
+    "test/admin_roster_declared_read_dispatch_test.dart",
+    "test/admin_roster_dialog_test.dart",
+    "test/admin_roster_gateway_expiry_test.dart",
+    "test/admin_roster_import_test.dart",
+    "test/admin_roster_reload_test.dart",
+    "test/admin_roster_transport_test.dart",
+    "test/admin_roster_upload_admission_test.dart",
+    "test/admin_route_access_test.dart",
+    "test/core/auth_fixture_token_test.dart",
+    "test/core/notification_account_isolation_test.dart",
+    "test/core/notification_registration_recovery_test.dart",
+    "test/fixtures/collect_repository_fixture.dart",
+    "test/shared/collect_repository_test.dart",
+    "test/shared/group_admin_api_test.dart",
+    "test/shared/group_invitation_protection_test.dart",
+    "test/shared/group_join_account_boundary_test.dart",
+    "test/shared/group_owner_controls_test.dart",
+    "test/shared/member_data_authority_test.dart",
+    "test/shared/member_mutation_session_test.dart",
+    "test/shared/member_roster_test.dart",
+    "test/shared/notification_preference_runtime_test.dart",
+    "test/shared/repository_session_fencing_test.dart",
+    "test/support/admin_entity_audit_fixture.dart",
+    "test/support/admin_entity_audit_state_fixture.dart",
+    "test/support/admin_exception_fixture.dart",
+    "test/support/admin_gateway_fixture.dart",
+    "test/support/admin_read_fixture.dart",
+    "test/support/admin_roster_fixture.dart",
+    "test/support/settings_fixture.dart",
+    "test/support/synthetic_jwt.dart"
+  ],
+  "plan_path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/plan.json",
+  "plan_sha256": "ed7d8c14c95a9fc9c4560d566bfa3cc53c3d4aa599b343dbace8c781288fcfd4",
+  "proposed_additional_edges": [
+    {
+      "from": "test/core/notification_registration_recovery_test.dart",
+      "to": "test/support/test_capture_paths.dart"
+    },
+    {
+      "from": "test/admin_investigation_test.dart",
+      "to": "test/support/test_capture_paths.dart"
+    },
+    {
+      "from": "test/admin_receipt_overview_test.dart",
+      "to": "test/support/test_capture_paths.dart"
+    },
+    {
+      "from": "test/admin_roster_dialog_test.dart",
+      "to": "test/support/test_capture_paths.dart"
+    }
+  ],
+  "proposed_test_dart_closure_count": 60,
+  "selected_test_count": 41,
+  "selected_tests": [
+    "test/admin_route_access_test.dart",
+    "test/admin_permission_refresh_test.dart",
+    "test/admin_header_accessibility_test.dart",
+    "test/admin_pwa_test.dart",
+    "test/shared/collect_repository_test.dart",
+    "test/shared/member_mutation_session_test.dart",
+    "test/shared/group_owner_controls_test.dart",
+    "test/shared/group_admin_api_test.dart",
+    "test/shared/group_join_account_boundary_test.dart",
+    "test/shared/group_invitation_protection_test.dart",
+    "test/shared/member_roster_test.dart",
+    "test/shared/notification_preference_runtime_test.dart",
+    "test/core/notification_registration_recovery_test.dart",
+    "test/core/notification_account_isolation_test.dart",
+    "test/shared/repository_session_fencing_test.dart",
+    "test/admin_roster_import_test.dart",
+    "test/admin_roster_transport_test.dart",
+    "test/admin_roster_gateway_expiry_test.dart",
+    "test/admin_roster_authority_scope_test.dart",
+    "test/admin_roster_declared_read_dispatch_test.dart",
+    "test/admin_roster_upload_admission_test.dart",
+    "test/admin_roster_dialog_test.dart",
+    "test/admin_roster_reload_test.dart",
+    "test/admin_action_session_test.dart",
+    "test/admin_read_contracts_test.dart",
+    "test/admin_gateway_repository_test.dart",
+    "test/admin_automatic_gateway_repository_test.dart",
+    "test/admin_exception_repository_test.dart",
+    "test/admin_exception_sdk_provider_state_test.dart",
+    "test/admin_exception_workflow_sdk_test.dart",
+    "test/admin_exception_followup_sdk_test.dart",
+    "test/admin_exception_history_v2_sdk_test.dart",
+    "test/admin_receipt_operations_sdk_test.dart",
+    "test/admin_receipt_principal_integration_test.dart",
+    "test/admin_receipt_cancel_repository_test.dart",
+    "test/admin_receipt_overview_test.dart",
+    "test/admin_investigation_test.dart",
+    "test/admin_governed_settings_models_test.dart",
+    "test/admin_governed_settings_sdk_test.dart",
+    "test/admin_governed_settings_widget_test.dart",
+    "test/core/auth_fixture_token_test.dart"
+  ]
+}

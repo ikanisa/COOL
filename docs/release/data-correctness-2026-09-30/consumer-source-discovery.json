@@ -1,0 +1,2612 @@
+{
+  "status": "discovery_not_acceptance",
+  "source_may_change_until_final_export": true,
+  "file_count": 57,
+  "files": [
+    {
+      "file": "lib/admin/core/admin_detail_specs.dart",
+      "sha256": "21976cb6647a2327123a6284077d3a36034719dc9600d7ed3712e6f2e96f50ca",
+      "references": [
+        {
+          "line": 165,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_operational_health.dart",
+      "sha256": "d9306e827fb7c9288c9ff3e5016e8f17f01ddcb17119921b76a6ca10204b00b3",
+      "references": [
+        {
+          "line": 187,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_receipt_overview.dart",
+      "sha256": "23d54e94cd0bb6e6e2d1160fb8f38a94039fe00ca555a27670fa18186a906fed",
+      "references": [
+        {
+          "line": 48,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_roster_import.dart",
+      "sha256": "1230be91a30a4c08cd8d49af27e8dc6ecac5a688b9d4b06f474a7fc38c6007b8",
+      "references": [
+        {
+          "line": 975,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_roster_models.dart",
+      "sha256": "9289826c0d81b73dfa82ee7db39858aea16ad91f590bf09bfe3f39a061b292c3",
+      "references": [
+        {
+          "line": 75,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_shadow_runs.dart",
+      "sha256": "13ea07e079573fa0fc6ccc84ad35983f1e4836a9792f6cf81fdd8c50137206d4",
+      "references": [
+        {
+          "line": 52,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/admin/core/admin_sms_queue_health.dart",
+      "sha256": "471b24f8d643dfe072e628adf95d7124987ce50e72e0433a5863bc6945c19bcf",
+      "references": [
+        {
+          "line": 35,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/app/router.dart",
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "references": [
+        {
+          "line": 253,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/data/exact_json_values.dart",
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "references": [
+        {
+          "line": 97,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/notifications/collect_notification_service.dart",
+      "sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+      "references": [
+        {
+          "line": 133,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 134,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 298,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 299,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 305,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 679,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/payments/momo_ussd_intent_guard.dart",
+      "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+      "references": [
+        {
+          "line": 7,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 8,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/payments/momo_ussd_launcher.dart",
+      "sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+      "references": [
+        {
+          "line": 5,
+          "symbols": [
+            "MomoUssdLauncher"
+          ]
+        },
+        {
+          "line": 6,
+          "symbols": [
+            "MomoUssdLauncher"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/security/play_integrity_service.dart",
+      "sha256": "c3a922f6ba59b6e02b0169be0878d41013f31722b07249a6e80479a5964a8835",
+      "references": [
+        {
+          "line": 28,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/core/utils/money_format.dart",
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+      "references": [
+        {
+          "line": 3,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 47,
+          "symbols": [
+            "formatRwf"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/activity/activity_screen.dart",
+      "sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+      "references": [
+        {
+          "line": 47,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 50,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 178,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 201,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/collection_detail_screen.dart",
+      "sha256": "14e55cbed3ad5e8926de1f5ef50baf56b9cf8e56eb1af4bd6f3dcd861c7ba4de",
+      "references": [
+        {
+          "line": 70,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 160,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 181,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 189,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 194,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/collection_detail_timeline.dart",
+      "sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+      "references": [
+        {
+          "line": 3,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 4,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 6,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 48,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/collection_manage_screen.dart",
+      "sha256": "c58e53bc686919d265ff7f03e6e9533692c52b6206a7ea253f2535f6fccd47ca",
+      "references": [
+        {
+          "line": 122,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/collections_screen.dart",
+      "sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+      "references": [
+        {
+          "line": 44,
+          "symbols": [
+            "contributedCollectionIdsProvider"
+          ]
+        },
+        {
+          "line": 226,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 251,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 252,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 305,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 306,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 307,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/group_profile_screen.dart",
+      "sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+      "references": [
+        {
+          "line": 209,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 221,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 262,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/group_share_service.dart",
+      "sha256": "f340bd874b3d5c0ddd0403b5f24bc5a898680413795c2e79a6139465abf6b138",
+      "references": [
+        {
+          "line": 11,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 17,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 29,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 39,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 67,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/collections/share_screen.dart",
+      "sha256": "dc2972eba04d84ac889ba5e9f3b43c7fa812eac28fa51d382316c723849afd0c",
+      "references": [
+        {
+          "line": 183,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/home/app_share_service.dart",
+      "sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+      "references": [
+        {
+          "line": 12,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 20,
+          "symbols": [
+            "CollectProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/home/home_public_groups_section.dart",
+      "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+      "references": [
+        {
+          "line": 18,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/home/home_screen.dart",
+      "sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+      "references": [
+        {
+          "line": 63,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/landing/collect_landing_page.dart",
+      "sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+      "references": [
+        {
+          "line": 300,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/landing/public_policy_page_content.dart",
+      "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+      "references": [
+        {
+          "line": 116,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/ledger/ledger_screen.dart",
+      "sha256": "bfe531a40c33451ba8e14bd8d7b2c1731cebea99a55ae0757bc7ec54ac1b8b1b",
+      "references": [
+        {
+          "line": 50,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 159,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 193,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 203,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 273,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 305,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/payments/contribute_entry_screen.dart",
+      "sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+      "references": [
+        {
+          "line": 170,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 171,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 184,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/payments/contribution_flow_screen.dart",
+      "sha256": "ce1fa0a7aade909cd713ff73d0acfe59dcfd50d91cd6754b00a170aed451dcf3",
+      "references": [
+        {
+          "line": 18,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 31,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 32,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 37,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 40,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 67,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 68,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 77,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 78,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 80,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 161,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 227,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 314,
+          "symbols": [
+            "createPaymentIntent"
+          ]
+        },
+        {
+          "line": 352,
+          "symbols": [
+            "createPaymentIntent"
+          ]
+        },
+        {
+          "line": 380,
+          "symbols": [
+            "MomoUssdLauncher"
+          ]
+        },
+        {
+          "line": 414,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 415,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 582,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 608,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 630,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 818,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 819,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/profile/profile_edit_screen.dart",
+      "sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+      "references": [
+        {
+          "line": 26,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 55,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 263,
+          "symbols": [
+            "CollectProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/settings/settings_subscreens.dart",
+      "sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+      "references": [
+        {
+          "line": 101,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 106,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 148,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 158,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 364,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 417,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/features/status/group_members_screen.dart",
+      "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+      "references": [
+        {
+          "line": 36,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 45,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 87,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 500,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 512,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 513,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 524,
+          "symbols": [
+            "CollectMember"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/l10n/collect_localizations.dart",
+      "sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+      "references": [
+        {
+          "line": 39,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 44,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 58,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 80,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover.dart",
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+      "references": [
+        {
+          "line": 82,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover_catalog.dart",
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+      "references": [
+        {
+          "line": 27,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart",
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+      "references": [
+        {
+          "line": 64,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_models.dart",
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "references": [
+        {
+          "line": 63,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 540,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 541,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 561,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 563,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 570,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 580,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 600,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 607,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 623,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 624,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 689,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 694,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 716,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 775,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 799,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 829,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 830,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 838,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 879,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 904,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 911,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 980,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 981,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1007,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1008,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1033,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1034,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 1051,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1052,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1074,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1113,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1127,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1128,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1144,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1145,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_payment_models.dart",
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "references": [
+        {
+          "line": 17,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 18,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 58,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 75,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 115,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 116,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 124,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 134,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 138,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 147,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 169,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 175,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 176,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 196,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        },
+        {
+          "line": 200,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/collect_profile_country_rules.dart",
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "references": [
+        {
+          "line": 2,
+          "symbols": [
+            "CollectProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/models/member_history_page.dart",
+      "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "references": [
+        {
+          "line": 5,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 6,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 20,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 28,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 30,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 43,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 135,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 206,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 234,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 235,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 262,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/providers/collect_app_state.dart",
+      "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+      "references": [
+        {
+          "line": 15,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 16,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 299,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 314,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 340,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_offline_cache.dart",
+      "sha256": "6a29fd42e140034b3c40547214502e3a76c79dc0dc2ffef05475e3fd47d11932",
+      "references": [
+        {
+          "line": 269,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 270,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 271,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 272,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 273,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 274,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 319,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 323,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 327,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 336,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 344,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 400,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 401,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 407,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 458,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 471,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 500,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 518,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 527,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository.dart",
+      "sha256": "285770c803847b786d3d11302052cb49cbdc1d4bb3f7991d86b5c686c3e75f48",
+      "references": [
+        {
+          "line": 34,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 53,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 70,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 107,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 144,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 230,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 385,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 405,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 443,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 454,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 517,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 526,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 530,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 532,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 554,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 559,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 572,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 738,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 745,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 748,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 776,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 791,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 798,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 1097,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1104,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 1130,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1133,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1140,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1143,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1150,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1279,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1282,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1290,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 1331,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1353,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1355,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1364,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1377,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1470,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1556,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1564,
+          "symbols": [
+            "CollectMember"
+          ]
+        },
+        {
+          "line": 1582,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1600,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1609,
+          "symbols": [
+            "OwnerGroupHealth"
+          ]
+        },
+        {
+          "line": 1659,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 1662,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 1668,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 1675,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 1684,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 1695,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 1696,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_contribution_actions.dart",
+      "sha256": "dcf83c33d290d66a88839695f16f95262fdfacc699dbe28606a649851e848991",
+      "references": [
+        {
+          "line": 5,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 17,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 18,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 20,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 21,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 25,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 149,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 175,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 251,
+          "symbols": [
+            "PaymentIntentModel",
+            "createPaymentIntent"
+          ]
+        },
+        {
+          "line": 318,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 326,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 357,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_history.dart",
+      "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+      "references": [
+        {
+          "line": 26,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "sha256": "2c646100b5b59c74a2c88c353b2234467a896c7e6d0fc6ecac2231b7e20da5ae",
+      "references": [
+        {
+          "line": 12,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 28,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 48,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 57,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 61,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 69,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 77,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 90,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 92,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 97,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 115,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 130,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 136,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 145,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 171,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 173,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 210,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        },
+        {
+          "line": 214,
+          "symbols": [
+            "DateTime.tryParse"
+          ]
+        },
+        {
+          "line": 221,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 236,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 243,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 257,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 258,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 273,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 278,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_providers.dart",
+      "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+      "references": [
+        {
+          "line": 90,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 91,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 111,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 117,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 120,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 124,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 129,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 134,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 135,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 144,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 145,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 150,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 154,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 161,
+          "symbols": [
+            "pendingPaymentCountProvider"
+          ]
+        },
+        {
+          "line": 167,
+          "symbols": [
+            "raisedTotalsByCurrencyProvider"
+          ]
+        },
+        {
+          "line": 171,
+          "symbols": [
+            "contributedCollectionIdsProvider"
+          ]
+        },
+        {
+          "line": 184,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 193,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 196,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 206,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 210,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 211,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 214,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/collect_repository_state.dart",
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+      "references": [
+        {
+          "line": 35,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 36,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 37,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 38,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 39,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 40,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        },
+        {
+          "line": 42,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 71,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 72,
+          "symbols": [
+            "PaymentIntentModel"
+          ]
+        },
+        {
+          "line": 73,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 74,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 77,
+          "symbols": [
+            "NotificationEvent"
+          ]
+        },
+        {
+          "line": 91,
+          "symbols": [
+            "CollectProfile"
+          ]
+        },
+        {
+          "line": 98,
+          "symbols": [
+            "MemberHistoryPage"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/repositories/pending_shared_group_intent_store.dart",
+      "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+      "references": [
+        {
+          "line": 38,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 39,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 190,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        },
+        {
+          "line": 199,
+          "symbols": [
+            "PendingSharedGroupIntentStore"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_amount_entry.dart",
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+      "references": [
+        {
+          "line": 292,
+          "symbols": [
+            "formatRwf"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_ledger.dart",
+      "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+      "references": [
+        {
+          "line": 4,
+          "symbols": [
+            "Contribution"
+          ]
+        },
+        {
+          "line": 14,
+          "symbols": [
+            "ParsedPaymentEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_financial_money.dart",
+      "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+      "references": [
+        {
+          "line": 42,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 91,
+          "symbols": [
+            "formatRwf"
+          ]
+        },
+        {
+          "line": 162,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 327,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_editorial.dart",
+      "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+      "references": [
+        {
+          "line": 44,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 45,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 161,
+          "symbols": [
+            "Contribution"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_media.dart",
+      "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+      "references": [
+        {
+          "line": 6,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 47,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 110,
+          "symbols": [
+            "CollectCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_card_metrics.dart",
+      "sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+      "references": [
+        {
+          "line": 10,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 11,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 19,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 61,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/shared/widgets/collect_group_cards.dart",
+      "sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+      "references": [
+        {
+          "line": 23,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 24,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 51,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 52,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 53,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 99,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 100,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 101,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 136,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 137,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 149,
+          "symbols": [
+            "formatCurrencyTotals"
+          ]
+        },
+        {
+          "line": 288,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 289,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        },
+        {
+          "line": 296,
+          "symbols": [
+            "CollectCollection"
+          ]
+        },
+        {
+          "line": 297,
+          "symbols": [
+            "CollectionSummary"
+          ]
+        }
+      ]
+    }
+  ]
+}

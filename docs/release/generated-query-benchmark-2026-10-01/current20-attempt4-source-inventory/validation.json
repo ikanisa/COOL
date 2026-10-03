@@ -1,0 +1,17 @@
+{
+  "status": "failed",
+  "exit_code": 0,
+  "inner_packet": "docs/release/generated-query-benchmark-2026-10-01/current20-attempt4-1000-10000",
+  "inner_result_sha256": "aa35a017abb480ab5bffa8dcd3a7768f4d55d39a2872ad8ba7ac7dd48754d9bd",
+  "migration_input_count": 174,
+  "stage_count": 20,
+  "migration_source_drift": [
+    "20261001004651_receipt_cancel_audit_actor.sql"
+  ],
+  "all_migration_files_exact_before_after": false,
+  "inner_acceptance": "pass_scoped",
+  "database_calls_here": 0,
+  "sql_executed_only_by_owned_inner": true,
+  "provider_truth": false,
+  "completed_at": "2026-10-01T00:52:50.589165+00:00"
+}

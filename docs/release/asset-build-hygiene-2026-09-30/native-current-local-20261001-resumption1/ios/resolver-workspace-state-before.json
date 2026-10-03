@@ -1,0 +1,609 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "abseil-cpp-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/abseil-cpp-binary.git",
+          "name" : "abseil"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/abseil-cpp-binary/absl/absl.xcframework",
+        "source" : {
+          "checksum" : "72d4a03d002a063c6c99e04d9c0310ca830dfb9f39deb9a74ba689d6c1d89ac9",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/bin/abseil/1.2024072200.0/rc0/absl.zip"
+        },
+        "targetName" : "absl"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "firebase-ios-sdk",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/firebase/firebase-ios-sdk",
+          "name" : "Firebase"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework",
+        "source" : {
+          "checksum" : "26a8f4b5b2b454b2caf002296da08d71f241628ec27e1610b5b5a8fd5c61feb5",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/bin/firestore/12.17.0/rc0/FirebaseFirestoreInternal.zip"
+        },
+        "targetName" : "FirebaseFirestoreInternal"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "firebase-ios-sdk",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/firebase/firebase-ios-sdk",
+          "name" : "Firebase"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/firebase-ios-sdk/FirebaseAnalytics/FirebaseAnalytics.xcframework",
+        "source" : {
+          "checksum" : "e9d8457c05640706c5e80f81e46235bf929d55321a127802f8dd7a3c7a98aebb",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/swiftpm/12.17.0/FirebaseAnalytics.zip"
+        },
+        "targetName" : "FirebaseAnalytics"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "google-ads-on-device-conversion-ios-sdk",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
+          "name" : "GoogleAdsOnDeviceConversion"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/google-ads-on-device-conversion-ios-sdk/GoogleAdsOnDeviceConversion/GoogleAdsOnDeviceConversion.xcframework",
+        "source" : {
+          "checksum" : "1c67ea0dbf6cd033a4c2a736301922ac44f26166f1eeae74bc7f30d55641cf55",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/appads/3.6.0/GoogleAdsOnDeviceConversion.zip"
+        },
+        "targetName" : "GoogleAdsOnDeviceConversion"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "googleappmeasurement",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/GoogleAppMeasurement.git",
+          "name" : "GoogleAppMeasurement"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/googleappmeasurement/GoogleAppMeasurement/GoogleAppMeasurement.xcframework",
+        "source" : {
+          "checksum" : "5bf58d72ecbb6a84e0a64f8557c4488f7812c1742d409eb712033bc7edc95992",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/swiftpm/12.17.0/GoogleAppMeasurement.zip"
+        },
+        "targetName" : "GoogleAppMeasurement"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "googleappmeasurement",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/GoogleAppMeasurement.git",
+          "name" : "GoogleAppMeasurement"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/googleappmeasurement/GoogleAppMeasurementIdentitySupport/GoogleAppMeasurementIdentitySupport.xcframework",
+        "source" : {
+          "checksum" : "bfe69866256abe0667616fc764d36f4aa963272815bf5168971b38bb6bbcacb2",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/swiftpm/12.17.0/GoogleAppMeasurementIdentitySupport.zip"
+        },
+        "targetName" : "GoogleAppMeasurementIdentitySupport"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "grpc-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/grpc-binary.git",
+          "name" : "gRPC"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/grpc-binary/openssl_grpc/openssl_grpc.xcframework",
+        "source" : {
+          "checksum" : "52494719d0dda77fa9a65c62207f22814c7799d522b4ae73d1244dbe61cf2b89",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/bin/grpc/1.69.1/rc0/openssl_grpc.zip"
+        },
+        "targetName" : "openssl_grpc"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "grpc-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/grpc-binary.git",
+          "name" : "gRPC"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/grpc-binary/grpcpp/grpcpp.xcframework",
+        "source" : {
+          "checksum" : "c965a70fc06c1323d631d909168ba801fb783df964e3625ca922250dd625b197",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/bin/grpc/1.69.1/rc0/grpcpp.zip"
+        },
+        "targetName" : "grpcpp"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "grpc-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/grpc-binary.git",
+          "name" : "gRPC"
+        },
+        "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/SourcePackages/artifacts/grpc-binary/grpc/grpc.xcframework",
+        "source" : {
+          "checksum" : "61bb6e29798cdc6898d7fcdf2d6a5e5191524dea4ece59d582329a1a56ebbfb3",
+          "type" : "remote",
+          "url" : "https://dl.google.com/firebase/ios/bin/grpc/1.69.1/rc0/grpc.zip"
+        },
+        "targetName" : "grpc"
+      }
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "abseil-cpp-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/abseil-cpp-binary.git",
+          "name" : "abseil"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
+            "version" : "1.2024072200.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "abseil-cpp-binary"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "app-check",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/app-check.git",
+          "name" : "AppCheck"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "3e33dd27dd4c69bd81c7c81fe61d8ccf58846902",
+            "version" : "11.3.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "app-check"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "app_links-7.2.1",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1",
+          "name" : "app_links"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/app_links-7.2.1"
+        },
+        "subpath" : "app_links-7.2.1"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "file_picker_darwin-1.1.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0",
+          "name" : "file_picker_darwin"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/file_picker_darwin-1.1.0"
+        },
+        "subpath" : "file_picker_darwin-1.1.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "file_saver",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/file_saver",
+          "name" : "file_saver"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/file_saver"
+        },
+        "subpath" : "file_saver"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "firebase-ios-sdk",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/firebase/firebase-ios-sdk",
+          "name" : "Firebase"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "33a468adfdb75b53f05a37e7c886ca7c962b5c17",
+            "version" : "12.17.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "firebase-ios-sdk"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "firebase_core-4.13.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0",
+          "name" : "firebase_core"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_core-4.13.0"
+        },
+        "subpath" : "firebase_core-4.13.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "firebase_messaging",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_messaging",
+          "name" : "firebase_messaging"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/firebase_messaging"
+        },
+        "subpath" : "firebase_messaging"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "flutter_local_notifications-22.3.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0",
+          "name" : "flutter_local_notifications"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/flutter_local_notifications-22.3.0"
+        },
+        "subpath" : "flutter_local_notifications-22.3.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "flutterframework",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework",
+          "name" : "FlutterFramework"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework"
+        },
+        "subpath" : "flutterframework"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "google-ads-on-device-conversion-ios-sdk",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
+          "name" : "GoogleAdsOnDeviceConversion"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "dc39082d8881109d35b94b1c122164c0e8d08a55",
+            "version" : "3.6.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "google-ads-on-device-conversion-ios-sdk"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "googleappmeasurement",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/GoogleAppMeasurement.git",
+          "name" : "GoogleAppMeasurement"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "fceaffa07d22dcd5624d3639fd970351a4a5ad8c",
+            "version" : "12.17.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "GoogleAppMeasurement"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "googledatatransport",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/GoogleDataTransport.git",
+          "name" : "GoogleDataTransport"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "ba3358d3c3dbae8ef230b58a46b97ad65e84e974",
+            "version" : "10.1.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "GoogleDataTransport"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "googleutilities",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/GoogleUtilities.git",
+          "name" : "GoogleUtilities"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "9f183ae842be978784f2963a343682e0c46d8fb3",
+            "version" : "8.1.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "GoogleUtilities"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "grpc-binary",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/grpc-binary.git",
+          "name" : "gRPC"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "75b31c842f664a0f46a2e590a570e370249fd8f6",
+            "version" : "1.69.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "grpc-binary"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "gtm-session-fetcher",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/gtm-session-fetcher.git",
+          "name" : "GTMSessionFetcher"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "724a52eea6329b7e12d3ad8300d76ca9f3895fcc",
+            "version" : "5.3.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "gtm-session-fetcher"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "image_picker_ios-0.8.13+6",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6",
+          "name" : "image_picker_ios"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/image_picker_ios-0.8.13+6"
+        },
+        "subpath" : "image_picker_ios-0.8.13+6"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "integration_test",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/integration_test",
+          "name" : "integration_test"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/integration_test"
+        },
+        "subpath" : "integration_test"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "interop-ios-for-google-sdks",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+          "name" : "InteropForGoogle"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
+            "version" : "101.0.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "interop-ios-for-google-sdks"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "leveldb",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/firebase/leveldb.git",
+          "name" : "leveldb"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+            "version" : "1.22.5"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "leveldb"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "mobile_scanner-7.4.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0",
+          "name" : "mobile_scanner"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.0"
+        },
+        "subpath" : "mobile_scanner-7.4.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "nanopb",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/firebase/nanopb.git",
+          "name" : "nanopb"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "3851d94a41890dea16dc3db34caf60e585cb4163",
+            "version" : "2.30910.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "nanopb"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "permission_handler_apple-9.5.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0",
+          "name" : "permission_handler_apple"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/permission_handler_apple-9.5.0"
+        },
+        "subpath" : "permission_handler_apple-9.5.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "promises",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/google/promises.git",
+          "name" : "Promises"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "f4a19a3c313dc2616c70bb49d29a799fb16be837",
+            "version" : "2.4.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "promises"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "share_plus-13.3.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0",
+          "name" : "share_plus"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/share_plus-13.3.0"
+        },
+        "subpath" : "share_plus-13.3.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "shared_preferences_foundation-2.5.6",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6",
+          "name" : "shared_preferences_foundation"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.6"
+        },
+        "subpath" : "shared_preferences_foundation-2.5.6"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "url_launcher_ios-6.4.1",
+          "kind" : "fileSystem",
+          "location" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1",
+          "name" : "url_launcher_ios"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/ios/Flutter/ephemeral/Packages/.packages/url_launcher_ios-6.4.1"
+        },
+        "subpath" : "url_launcher_ios-6.4.1"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

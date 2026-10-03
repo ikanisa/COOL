@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-02T12:55:43.204350+00:00",
+  "status": "PASS",
+  "driver_sha256": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83",
+  "admission_sha256": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384",
+  "packet_sha256": "992d00cf87b010ca01b88845bdc791d7f63e222d8734f87a8672dc6f83745981",
+  "verified_new_payloads": 17,
+  "preserved_predecessor_leaves": [
+    8,
+    9,
+    25
+  ],
+  "prepared_pins": 42,
+  "completed_runtime_reuse_pins": 13,
+  "fixture_result_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/submitted-fixture-tests-result.json",
+  "fixture_result_sha256": "036d1dbd8596e00b9a1687b848dc1c7a1dff5a2caafcbe8f3be778ffab573542",
+  "runtime_graph_rerun": false,
+  "whole_original_bounds_retained": true,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

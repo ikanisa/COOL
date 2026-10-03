@@ -1,0 +1,23 @@
+{
+  "scope": "rw_receipt_content_policy",
+  "checked_at": "2026-10-01T10:05:22.694721Z",
+  "approval_method": "user_delegated_policy_selection",
+  "contract_version": 1,
+  "default_language": "rw",
+  "balance_disclosure": "member_only",
+  "explicit_languages": [
+    "rw",
+    "en",
+    "fr"
+  ],
+  "financial_evidence": "existing_canonical_posting_bound_recorded_confirmation",
+  "sample_valid_until": "2026-10-01T10:06:22.694721Z",
+  "unknown_resolution": "manual_evidence_review_no_blind_retry",
+  "correction_or_resend": false,
+  "content_policy_version": 2,
+  "historical_auto_catchup": false,
+  "dispatch_authority_created": false,
+  "legacy_new_authority_reason": "CONTENT_POLICY_REVIEW_REQUIRED",
+  "provider_settlement_verified": false,
+  "collection_configuration_version": 1
+}

@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "schema": "CycloneDX1.6",
+  "network_fetches": 0,
+  "document_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+  "schema_conformance_only": true,
+  "errors": []
+}

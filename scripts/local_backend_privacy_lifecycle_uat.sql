@@ -4,6 +4,24 @@
 
 begin;
 
+-- Synthetic verified verdicts only; real session admission/mint SQL executes.
+-- Historical pre-admission snapshots execute their original actual mint body.
+create function pg_temp.fixture_integrity_capability(p_actor uuid,p_session uuid,p_action text,
+ p_hash text,p_payload jsonb,p_receiver text)returns uuid language plpgsql as $$
+declare r jsonb;result jsonb;n uuid:=gen_random_uuid();begin
+ if to_regprocedure('public.reserve_play_integrity_admission_v1(uuid,uuid,uuid,text,text,text,text,jsonb)')is null then
+  return public.mint_native_action_capability(p_actor,p_action,p_hash,p_payload,p_receiver,
+   'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp());
+ end if;
+ r:=public.reserve_play_integrity_admission_v1(p_actor,p_session,n,p_action,p_hash,
+  encode(extensions.digest(n::text,'sha256'),'hex'),p_receiver,p_payload);
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'oauth');
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'decode');
+ result:=public.complete_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,
+  p_payload,'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp(),1,200);
+ return(result->>'native_capability')::uuid;
+end$$;
+
 create or replace function pg_temp.assert_true(condition boolean, message text)
 returns void
 language plpgsql
@@ -62,6 +80,12 @@ momo_number_hash = case id
   when :'outsider_id'::uuid then encode(extensions.digest('+250780000003', 'sha256'), 'hex')
 end
 where id in (:'owner_id', :'member_id', :'outsider_id');
+
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
+values
+ ('10000000-0000-4000-8000-000000000092',:'owner_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1'),
+ ('10000000-0000-4000-8000-000000000093',:'member_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1'),
+ ('10000000-0000-4000-8000-000000000094',:'outsider_id',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');
 
 select public_id as member_public_id from public.profiles where id=:'member_id'
 \gset
@@ -214,14 +238,13 @@ select now()::text as sms_device_time,
 -- Minting is a synthetic service fixture, not a real device/provider attestation.
 set local role service_role;
 select set_config('request.jwt.claims','{"role":"service_role"}',true);
-select public.mint_native_action_capability(
-  :'owner_id', 'sms.ingest', repeat('c',64),
+select pg_temp.fixture_integrity_capability(
+  :'owner_id', '10000000-0000-4000-8000-000000000092', 'sms.ingest', repeat('c',64),
   jsonb_build_object('receiver_momo_number_hash', :'receiver_hash',
     'client_envelope_id', '30000000-0000-4000-8000-000000000091',
     'raw_sender', 'CONTROLLED_FIXTURE', 'raw_body_sha256', :'sms_body_hash',
     'received_at_device', :'sms_device_time'),
-  :'receiver_hash', 'app.cool.mobile', 'PLAY_RECOGNIZED',
-  array['MEETS_DEVICE_INTEGRITY'], now()
+  :'receiver_hash'
 ) as sms_capability
 \gset
 select public.ingest_attested_raw_payment_sms(
@@ -310,6 +333,48 @@ select pg_temp.assert_true(
 );
 -- Independent provider evidence is a separate synthetic fixture here; this
 -- rollback-only UAT does not prove any live provider integration.
+reset role;
+select to_regprocedure('public.finalize_approved_reconciliation_v2(uuid)')is not null as governed_finality \gset
+\if :governed_finality
+-- Two explicit synthetic verified approvers; no live policy approval is claimed.
+reset role;
+insert into auth.users(id,aud,role,email,email_confirmed_at,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)values
+ ('99660000-0000-4000-8000-000000000001','authenticated','authenticated','fixture-proposer@example.test',clock_timestamp(),'250788996601',clock_timestamp(),'{}','{}'),
+ ('99660000-0000-4000-8000-000000000002','authenticated','authenticated','fixture-approver@example.test',clock_timestamp(),'250788996602',clock_timestamp(),'{}','{}');
+insert into public.admin_user_roles(user_id,role_id,reason,created_at)
+select u.id,r.id,'Synthetic independent financial fixture authority',clock_timestamp()-interval '1 minute'
+from auth.users u cross join public.admin_roles r where u.id::text like '99660000-%'and r.name='platform_owner';
+do $$begin
+ if to_regclass('collect_admin_access.email_approvals')is not null then
+  insert into collect_admin_access.email_approvals(user_id,email,approved_at,reason)
+  select id,email,clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ else
+  insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+  select id,'+'||ltrim(phone,'+'),clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ end if;
+end$$;
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)values
+ ('99660000-0000-4000-8000-000000000011','99660000-0000-4000-8000-000000000001',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2'),
+ ('99660000-0000-4000-8000-000000000021','99660000-0000-4000-8000-000000000002',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2');
+select (select id from public.payments where parsed_event_id='40000000-0000-4000-8000-000000000001') as fixture_payment_id \gset
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000011"}',true);
+select public.propose_payment_reconciliation_v2(:'fixture_payment_id',repeat('e',64),'PROVIDER-UAT-CONTROLLED-001',clock_timestamp(),'Synthetic independently sourced provider evidence')as fixture_review_id \gset
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000021"}',true);
+select pg_temp.assert_true(public.approve_payment_reconciliation_v2(:'fixture_review_id','Synthetic independent approval of source evidence'),
+ 'independent synthetic approver reviews source evidence');
+select pg_temp.assert_true(public.authorize_reconciliation_finalization_v2(:'fixture_review_id'),
+ 'exact live synthetic approver authorizes finalization');
+reset role;
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select public.finalize_approved_reconciliation_v2(:'fixture_review_id')as provider_finality \gset
+\else
+-- Actual retained owner/service route on a pre-governed historical snapshot.
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select public.process_provider_finality_event(
   '40000000-0000-4000-8000-000000000099', 'payment.confirmed',
   repeat('d',64),
@@ -318,6 +383,7 @@ select public.process_provider_finality_event(
   'mtn_momo', 'CONTROLLED-TXN-001', 'PROVIDER-UAT-CONTROLLED-001',
   :'receiver_hash', 10000, now(), repeat('e',64), null, null
 ) as provider_finality \gset
+\endif
 select pg_temp.assert_true(
   :'provider_finality'::jsonb->>'replayed'='false',
   'separate synthetic provider event posts the candidate'
@@ -483,7 +549,9 @@ values (
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'member_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'member_id', 'role', 'authenticated',
+    'session_id', '10000000-0000-4000-8000-000000000093',
+    'exp', (extract(epoch from clock_timestamp()) + 3600)::bigint)::text,
   true
 );
 
@@ -530,7 +598,9 @@ select pg_temp.assert_true(
 
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'owner_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'owner_id', 'role', 'authenticated',
+    'session_id', '10000000-0000-4000-8000-000000000092',
+    'exp', (extract(epoch from clock_timestamp()) + 3600)::bigint)::text,
   true
 );
 
@@ -548,7 +618,9 @@ select pg_temp.assert_true(
 
 select set_config(
   'request.jwt.claims',
-  json_build_object('sub', :'outsider_id', 'role', 'authenticated')::text,
+  json_build_object('sub', :'outsider_id', 'role', 'authenticated',
+    'session_id', '10000000-0000-4000-8000-000000000094',
+    'exp', (extract(epoch from clock_timestamp()) + 3600)::bigint)::text,
   true
 );
 

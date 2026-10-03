@@ -9,6 +9,8 @@ String readCollectRepositoryLibrary() {
   return [
     'lib/shared/repositories/collect_repository.dart',
     'lib/shared/repositories/collect_repository_contribution_actions.dart',
+    'lib/shared/repositories/collect_repository_notification_actions.dart',
+    'lib/shared/repositories/collect_repository_group_actions.dart',
     'lib/shared/repositories/collect_repository_providers.dart',
     'lib/shared/repositories/collect_repository_state.dart',
     'lib/shared/repositories/collect_repository_live_reader.dart',
@@ -184,9 +186,7 @@ void main() {
       final androidGradle = File(
         'android/app/build.gradle.kts',
       ).readAsStringSync();
-      final repository = File(
-        'lib/shared/repositories/collect_repository.dart',
-      ).readAsStringSync();
+      final repository = readCollectRepositoryLibrary();
       final entitlements = File(
         'ios/Runner/Runner.entitlements',
       ).readAsStringSync();
@@ -291,9 +291,7 @@ void main() {
         '.github/workflows/ios-app-store.yml',
       ).readAsStringSync();
       final main = File('lib/main.dart').readAsStringSync();
-      final repository = File(
-        'lib/shared/repositories/collect_repository.dart',
-      ).readAsStringSync();
+      final repository = readCollectRepositoryLibrary();
 
       expect(fastfile, contains('SUPABASE_PRODUCTION_URL'));
       expect(fastfile, contains('SUPABASE_PRODUCTION_ANON_KEY'));

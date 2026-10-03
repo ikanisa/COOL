@@ -1,0 +1,466 @@
+{
+  "actual_appended_stage_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "supabase/migrations/20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "supabase/migrations/20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+    "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+    "supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql": "2e36bc6083723b78dd82b4666ba7ca2f28e99c61d0554dd8a4c8b88492f61da0",
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001130000_android_dispatch_authority.sql": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001150000_receipt_exception_worker.sql": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "supabase/migrations/20261001170000_android_attempt_archive.sql": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95"
+  },
+  "all_source_tables_catalog_cron_preserved": true,
+  "cached_target_shape_before_reset": {
+    "extensions": [
+      {
+        "name": "pg_graphql",
+        "owner": "supabase_admin",
+        "schema": "graphql",
+        "version": "1.5.11"
+      },
+      {
+        "name": "pg_stat_statements",
+        "owner": "supabase_admin",
+        "schema": "extensions",
+        "version": "1.11"
+      },
+      {
+        "name": "pgcrypto",
+        "owner": "postgres",
+        "schema": "extensions",
+        "version": "1.3"
+      },
+      {
+        "name": "plpgsql",
+        "owner": "supabase_admin",
+        "schema": "pg_catalog",
+        "version": "1.0"
+      },
+      {
+        "name": "supabase_vault",
+        "owner": "supabase_admin",
+        "schema": "vault",
+        "version": "0.3.1"
+      },
+      {
+        "name": "uuid-ossp",
+        "owner": "postgres",
+        "schema": "extensions",
+        "version": "1.1"
+      }
+    ],
+    "schemas": [
+      "auth",
+      "extensions",
+      "graphql",
+      "graphql_public",
+      "public",
+      "realtime",
+      "storage",
+      "vault"
+    ]
+  },
+  "callback_aggregation_limit": "Zero callback rows in this large-volume fixture. Existing small actual Gateway UAT nonzero sent/delivery projections remain separate; this run does not claim1000/10000 callback observations or sender authority.",
+  "cases": [
+    {
+      "name": "gateway-True-all-first",
+      "status": "pass"
+    },
+    {
+      "name": "gateway-True-all-middle",
+      "status": "pass"
+    },
+    {
+      "name": "gateway-True-all-deep",
+      "status": "pass"
+    },
+    {
+      "name": "gateway-True-all-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-all-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-all-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-all-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-all-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-raw_sms-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-raw_sms-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-raw_sms-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-raw_sms-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-allocation-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-allocation-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-allocation-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-allocation-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-payment-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-payment-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-payment-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-payment-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-receipt-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-receipt-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-receipt-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-receipt-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-gateway-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-gateway-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-gateway-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-True-gateway-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-all-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-all-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-all-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-all-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-raw_sms-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-raw_sms-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-raw_sms-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-raw_sms-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-allocation-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-allocation-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-allocation-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-allocation-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-payment-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-payment-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-payment-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-payment-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-receipt-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-receipt-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-receipt-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-receipt-terminal",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-gateway-first",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-gateway-middle",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-gateway-deep",
+      "status": "pass"
+    },
+    {
+      "name": "exceptions-False-gateway-terminal",
+      "status": "pass"
+    }
+  ],
+  "diagnostic_preflight": {
+    "actual": {
+      "actor": "99640000-0000-4000-8000-000000000004",
+      "api_role": "authenticated",
+      "preflight": true,
+      "session": "99760000-0000-4000-8000-000000090001",
+      "session_user": "postgres"
+    },
+    "before_volume_fixtures": true,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "633eb297cf40a84684a83c13d5d8813436bdd3fe5ce5392433eec04ade5da7fe"
+  },
+  "dump_extension_dependencies": [
+    [
+      "pgcrypto",
+      "extensions"
+    ],
+    [
+      "supabase_vault",
+      "vault"
+    ],
+    [
+      "\"uuid-ossp\"",
+      "extensions"
+    ]
+  ],
+  "isolated_database_removed": true,
+  "local_empty_target_schema_reset": [
+    "_realtime",
+    "auth",
+    "collect_admin_access",
+    "collect_auth_security",
+    "collect_hybrid",
+    "collect_member_actions",
+    "collect_profile_access",
+    "collect_security",
+    "extensions",
+    "pgbouncer",
+    "private",
+    "realtime",
+    "storage",
+    "supabase_functions",
+    "supabase_migrations",
+    "vault",
+    "public"
+  ],
+  "local_platform_extension_hook_normalization": {
+    "after": {
+      "issue_pg_cron_access": "O",
+      "issue_pg_net_access": "O"
+    },
+    "application_triggers_disabled": false,
+    "before": {
+      "issue_pg_cron_access": "O",
+      "issue_pg_net_access": "O"
+    },
+    "reason": "Install exact ordinary receipt platform without legacy broad-grant hook or absent managed role"
+  },
+  "local_platform_metadata_normalization": {
+    "functions": [
+      {
+        "name": "http_get",
+        "owner": "supabase_admin",
+        "security_definer": true,
+        "settings": [
+          "search_path=net"
+        ]
+      },
+      {
+        "name": "http_post",
+        "owner": "supabase_admin",
+        "security_definer": true,
+        "settings": [
+          "search_path=net"
+        ]
+      }
+    ],
+    "local_fixture_only": true,
+    "shipping_prerequisite_changed": false,
+    "sql": "alter function net.http_get(text,jsonb,jsonb,integer)security definer;alter function net.http_get(text,jsonb,jsonb,integer)set search_path=net;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)security definer;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)set search_path=net;",
+    "sql_sha256": "99263e92db4b06c811f6bae4a4c81c6173283baf13687d20cac4200c2ae08027"
+  },
+  "net_platform": {
+    "owner": "supabase_admin",
+    "schema": "extensions",
+    "version": "0.20.0"
+  },
+  "ordinary_installer": {
+    "current_role": "postgres",
+    "current_user": "postgres",
+    "superuser": false
+  },
+  "sampled_anchor_navigation_only": true,
+  "scheduler_readback": {
+    "cron": "off",
+    "history": 0,
+    "net": "0",
+    "queued": 0
+  },
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_clone_shadow_lease": {
+    "actor_authority_granted": false,
+    "installed_normalized_parity": true,
+    "seed_sha256": "978879a4928c605bc21f1ef5d939b6ceeda32b8a53b5fcdd80252322b78e2575",
+    "source": "20260930210000_shadow_supervisor_runs.sql",
+    "source_rows_copied": false,
+    "source_sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+    "synthetic_control_singleton": true
+  },
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_oracle_sha256": "1a4d3da3e1508400395dbb4ea1dfdc482169005a40a829c3f4aca574df5216c0",
+  "source_rows_copied": false,
+  "status": "pass_scoped",
+  "synthetic_fixture_sql_sha256": "419bb4fdd37291300a885a0dcce1914e2d929b3f7924e2e2e7c417ba871cbc66",
+  "target": {
+    "container_id": "6c48c7dd88dd6a7d106708c30b86d896bc59da2048534b12661c749c922744d0",
+    "container_name": "collect_current_rehearsal_schema154_private_00c769588373",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "triggers_disabled": false,
+  "trusted_synthetic_private_read_fixture": true,
+  "volume": 1000
+}

@@ -1,0 +1,26 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/proposed-commands.json
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/proposed-commands.json
+@@ -111,10 +111,11 @@
+   "exporter_Node_version_execution_disclosed": true,
+   "exporter_no_Flutter_execution_source_verified": true,
+   "foundation_deadline_seconds": 600,
+-  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1",
++  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2",
+   "later_stage_requires_root_pinned_predecessor_terminal": true,
+   "live_free_floor_bytes": 4294967296,
+   "minimum_free_bytes": 20350276001,
++  "only_app_export_admitted_by_derivative": true,
+   "production_release_approval": false,
+   "raw_Gradle_ZIP_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+   "raw_Gradle_ZIP_bytes": 232491070,
+@@ -123,6 +124,9 @@
+   "raw_published_Gradle_ZIP_source": "/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+   "reviewed_exporter_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+   "separate_root_stage_authorization_required": true,
++  "source_identity_index_membership_fixture_fences_required": true,
+   "source_readback_deadline_seconds": 300,
+-  "strict_current_source_hold_required_for_export": true
++  "source_scope_held_for_strict_export": false,
++  "strict_current_source_comparison_required_for_export": true,
++  "strict_current_source_hold_required_for_export": false
+ }

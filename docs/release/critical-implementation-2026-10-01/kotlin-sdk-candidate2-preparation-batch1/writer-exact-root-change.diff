@@ -1,0 +1,11 @@
+--- reviewed-candidate1/authenticated_candidate_expansion.py
++++ new-candidate2/authenticated_candidate2_expansion.py
+@@ -22,7 +22,7 @@
+ FOUNDATION = HERE.parent / "kotlin-sdk-foundation-batch1"
+ ROOT_REVIEW = HERE.parent / "root-sdk-foundation-review-batch1/exact-checkout-delta-review.json"
+ ARCHIVE = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/flutter_macos_arm64_3.44.4-stable.zip")
+-DESTINATION = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1")
++DESTINATION = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2")
+ INSTALLED = Path("/Volumes/PRO-G40/Development/Flutter/flutter")
+ ARCHIVE_SHA = "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042"
+ FOUNDATION_MANIFEST_SHA = "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"

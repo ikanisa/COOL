@@ -1,0 +1,41 @@
+PRIVATE schema154 restored; appending frozen185 suffix31 as ordinary owner
+PRIVATE exact185 installed; current email-approved synthetic owner fixture ready
+PASS private exact frozen185 registry
+PASS admin_create_platform_public_group-unprivileged-denied
+PASS admin_create_platform_public_group-invalid-reason-denied
+PASS admin_create_platform_public_group actual positive ACK
+PASS admin_create_platform_public_group exact durable attributed audit
+PASS admin_create_collect_payee-unprivileged-denied
+PASS admin_create_collect_payee-invalid-reason-denied
+PASS admin_create_collect_payee actual positive ACK
+PASS admin_create_collect_payee exact durable attributed audit
+PASS admin_update_collect_payee-unprivileged-denied
+PASS admin_update_collect_payee-invalid-reason-denied
+PASS admin_update_collect_payee actual positive ACK
+PASS admin_update_collect_payee exact durable attributed audit
+PASS admin_set_collect_payee_status-unprivileged-denied
+PASS admin_set_collect_payee_status-invalid-reason-denied
+PASS admin_set_collect_payee_status actual positive ACK
+PASS admin_set_collect_payee_status exact durable attributed audit
+PASS payee edit/status preserves exact immutable payment route
+PASS admin_set_group_active-unprivileged-denied
+PASS admin_set_group_active-invalid-reason-denied
+PASS admin_set_group_active actual positive ACK
+PASS admin_set_group_active exact durable attributed audit
+PASS admin_update_collection_support_status-unprivileged-denied
+PASS admin_update_collection_support_status-invalid-reason-denied
+PASS admin_update_collection_support_status actual positive ACK
+PASS admin_update_collection_support_status exact durable attributed audit
+PASS admin_update_platform_public_group_metadata-unprivileged-denied
+PASS admin_update_platform_public_group_metadata-invalid-reason-denied
+PASS admin_update_platform_public_group_metadata actual positive ACK
+PASS admin_update_platform_public_group_metadata exact durable attributed audit
+PASS metadata update preserves prior archived lifecycle
+PASS admin_record_operator_note-unprivileged-denied
+PASS admin_record_operator_note-invalid-reason-denied
+PASS admin_record_operator_note actual positive ACK
+PASS admin_record_operator_note exact durable attributed audit
+PASS operator note durable body/actor exact and audit minimizes body
+PASS propose_payment_reconciliation_v2-unprivileged-denied
+PASS propose_payment_reconciliation_v2-invalid-reason-denied
+FAIL Extra data: line 1 column 2 (char 1)

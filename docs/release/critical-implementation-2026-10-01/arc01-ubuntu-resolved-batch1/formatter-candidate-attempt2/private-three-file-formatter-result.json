@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "dart format lib/admin/core/admin_runtime.dart scripts/tests/admin_receipt_source_busy_test.dart test/features/runtime_component_contract_test.dart"
+  ],
+  "completed_at_utc": "2026-10-02T00:40:15.328275+00:00",
+  "deadline_seconds": 90,
+  "elapsed_seconds": 0.7819802920021175,
+  "exit_code": 0,
+  "log_sha256": "34ad495ced8e2a287803dbbec466637553c4d5095b6bd8fe5b6b620d194a8868",
+  "started_at_utc": "2026-10-02T00:40:14.546323+00:00",
+  "timed_out": false
+}

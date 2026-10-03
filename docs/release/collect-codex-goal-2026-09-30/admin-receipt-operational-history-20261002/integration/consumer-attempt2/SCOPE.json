@@ -1,0 +1,6 @@
+{
+  "status": "passed_preceding_ui_wording",
+  "flutter_checks": 70,
+  "analysis_files": 15,
+  "subsequent_delta": "Plain-language rejected-request wording and two absence assertions; rerun affected current consumer closure after delta"
+}

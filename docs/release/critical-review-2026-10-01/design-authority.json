@@ -1,0 +1,20 @@
+{
+  "status": "fail",
+  "design_authority": "revolut-design",
+  "scope": [
+    "admin",
+    "member_app",
+    "public_website"
+  ],
+  "skill_revision_check": "not_requested",
+  "reference_files_scanned": 65055,
+  "retired_references": [],
+  "competing_declarations": [
+    ".cache/revolut-design-20260930/public-current-browser/independent-visual-review-before-structural-fix.json:design_authority"
+  ],
+  "failures": [
+    "competing_reference_declarations_present"
+  ],
+  "visual_acceptance": "unverified",
+  "meaning": "Reference hygiene only; no route/state fidelity percentage."
+}

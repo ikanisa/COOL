@@ -1,0 +1,255 @@
+{
+  "checked_at": "2026-10-02T01:38:59.531535+00:00",
+  "status": "all_selected_owned_targets_directly_confirmed_absent",
+  "count": 31,
+  "receipts": [
+    {
+      "container_id": "12cd87ae038f51dfb26a2db4dd85fa0ff2f9f593151d6ab8822bbb3a32a50660",
+      "name": "collect_current_rehearsal_close_writer_before_2ef1c84be49f",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 12cd87ae038f51dfb26a2db4dd85fa0ff2f9f593151d6ab8822bbb3a32a50660\n"
+    },
+    {
+      "container_id": "1b4c9642b8c625cfead63c6fc8e91745b68d1bf0e1a53997efe2cab83d7bb2fe",
+      "name": "collect_current_rehearsal_archive_writer_after_258a3c28ba1a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 1b4c9642b8c625cfead63c6fc8e91745b68d1bf0e1a53997efe2cab83d7bb2fe\n"
+    },
+    {
+      "container_id": "209bea2c42f69dc80ad27ea5fbcb61d358e6a569bb690d2fd599b24ba7fb3e87",
+      "name": "collect_current_rehearsal_arm_writer_before_b194be28e765",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 209bea2c42f69dc80ad27ea5fbcb61d358e6a569bb690d2fd599b24ba7fb3e87\n"
+    },
+    {
+      "container_id": "24cc83907250742947ef25631e4f57e0550e04f835bd86f6877efb77e132ac6d",
+      "name": "collect_current_rehearsal_successorexecution_c143fa60758a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt6/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 24cc83907250742947ef25631e4f57e0550e04f835bd86f6877efb77e132ac6d\n"
+    },
+    {
+      "container_id": "27abcbce2602489488a458f5fa01abd91dc895b9cfc735783102f6f6d94a3c18",
+      "name": "collect_current_rehearsal_grant_writer_after_0eff15258c75",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 27abcbce2602489488a458f5fa01abd91dc895b9cfc735783102f6f6d94a3c18\n"
+    },
+    {
+      "container_id": "3b81651a75f8129a1a4f11a3df186f2612aa302fac39831d8ef2e29bf4808d64",
+      "name": "collect_current_rehearsal_revoke_writer_after_d2e9facf58df",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 3b81651a75f8129a1a4f11a3df186f2612aa302fac39831d8ef2e29bf4808d64\n"
+    },
+    {
+      "container_id": "411b1f92757367dd5cfa74a31f6108f7bc934bebb0c6c43cd37641aaba2d32d5",
+      "name": "collect_current_rehearsal_heartbeat_writer_before_c476eba86219",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 411b1f92757367dd5cfa74a31f6108f7bc934bebb0c6c43cd37641aaba2d32d5\n"
+    },
+    {
+      "container_id": "413c6e152d4389d125f97ac83e931af6d173db848763817e011525fd307a4df5",
+      "name": "collect_current_rehearsal_heartbeat_writer_before_cf9915f3d20c",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt1/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 413c6e152d4389d125f97ac83e931af6d173db848763817e011525fd307a4df5\n"
+    },
+    {
+      "container_id": "478edb4c777d37bfb968ea94225ab51aa3e4753f1101bd04986bcf18312569dc",
+      "name": "collect_current_rehearsal_revoke_writer_before_2f82660564e2",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 478edb4c777d37bfb968ea94225ab51aa3e4753f1101bd04986bcf18312569dc\n"
+    },
+    {
+      "container_id": "5c16a4a7313595f19f186bbaa6365140600df2558788eceaeacbe6390592a8bf",
+      "name": "collect_current_rehearsal_arm_writer_after_771651d07005",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 5c16a4a7313595f19f186bbaa6365140600df2558788eceaeacbe6390592a8bf\n"
+    },
+    {
+      "container_id": "62723fde1f45efd706b0efd1ef46ee5c1fb7f32f7d2c6c0e918a6efdab3462d7",
+      "name": "collect_current_rehearsal_successorexecution_489ce9d4c3b1",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt1/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 62723fde1f45efd706b0efd1ef46ee5c1fb7f32f7d2c6c0e918a6efdab3462d7\n"
+    },
+    {
+      "container_id": "684ad8af002671cd691b57ee80f60911dc58ddbf850c433aea91576125e01142",
+      "name": "collect_current_rehearsal_heartbeat_writer_after_67c5afc5715a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 684ad8af002671cd691b57ee80f60911dc58ddbf850c433aea91576125e01142\n"
+    },
+    {
+      "container_id": "6981308f031b9ca15149ca109d6f717b16a65a08891fe58071ca006d3f394df2",
+      "name": "collect_current_rehearsal_successorexecution_de08195a1202",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 6981308f031b9ca15149ca109d6f717b16a65a08891fe58071ca006d3f394df2\n"
+    },
+    {
+      "container_id": "6e79965bd68635149b379385dd4a0e2485b0931424d3c92f88526cdb1a24e471",
+      "name": "collect_current_rehearsal_successorexecution_f2f21013fa4a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt3/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 6e79965bd68635149b379385dd4a0e2485b0931424d3c92f88526cdb1a24e471\n"
+    },
+    {
+      "container_id": "7109314e36a25050ef9983a82d19aba02ab591ceb2a2ff49087101e5d92dd600",
+      "name": "collect_current_rehearsal_approve_writer_before_92c709870afc",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 7109314e36a25050ef9983a82d19aba02ab591ceb2a2ff49087101e5d92dd600\n"
+    },
+    {
+      "container_id": "8c2ff29cc0782cc6d17c60e15a7779e4ce16fb458599c801ed568288936a3bfb",
+      "name": "collect_current_rehearsal_successorexecution_71a8f7671862",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt1/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 8c2ff29cc0782cc6d17c60e15a7779e4ce16fb458599c801ed568288936a3bfb\n"
+    },
+    {
+      "container_id": "931a3afe0c718aa83f579b82ffcfc442501ab4142e5822a1a19090aca5f1cdfc",
+      "name": "collect_current_rehearsal_approve_writer_after_eac8ada3b6dd",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 931a3afe0c718aa83f579b82ffcfc442501ab4142e5822a1a19090aca5f1cdfc\n"
+    },
+    {
+      "container_id": "9abfbc4760c8feac05a18c5fc178099885baacf335fe2c1a4452d2326cf56f02",
+      "name": "collect_current_rehearsal_close_writer_after_4b0059811d27",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: 9abfbc4760c8feac05a18c5fc178099885baacf335fe2c1a4452d2326cf56f02\n"
+    },
+    {
+      "container_id": "a023b6b5aa332e0a9ea46f961a9f5fc65b4b9b171c2d0c00c86abb814e4ea0d8",
+      "name": "collect_current_rehearsal_successorexecution_2a79ed7d030e",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: a023b6b5aa332e0a9ea46f961a9f5fc65b4b9b171c2d0c00c86abb814e4ea0d8\n"
+    },
+    {
+      "container_id": "a17665faa728a98640da14de8863608bfe7e6e29a995bdd18c24f2af92df61a1",
+      "name": "collect_current_rehearsal_successorexecution_356b3fc7833e",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt5/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: a17665faa728a98640da14de8863608bfe7e6e29a995bdd18c24f2af92df61a1\n"
+    },
+    {
+      "container_id": "acb6cfc10c411314d69339976c5bfba95da5d9c6b2e11c8bfadfd63553081f09",
+      "name": "collect_current_rehearsal_grant_writer_before_79866bc5914a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: acb6cfc10c411314d69339976c5bfba95da5d9c6b2e11c8bfadfd63553081f09\n"
+    },
+    {
+      "container_id": "bd1eb9d16434ceaa60e3f2e398ead6301c1906ceb7ca0e3feb1800daac443982",
+      "name": "collect_current_rehearsal_callback_writer_after_fca952b4589a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: bd1eb9d16434ceaa60e3f2e398ead6301c1906ceb7ca0e3feb1800daac443982\n"
+    },
+    {
+      "container_id": "bd49a9293f41d9d26cd975a36238dcf60eab304b0705f5481ae060f1d664a676",
+      "name": "collect_current_rehearsal_successorexecution_200eb4ed518d",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: bd49a9293f41d9d26cd975a36238dcf60eab304b0705f5481ae060f1d664a676\n"
+    },
+    {
+      "container_id": "ce714c5e04edd8a5df5235b98531ba778241adb71d2e5b4a60cd22de18cf667c",
+      "name": "collect_current_rehearsal_successorexecution_65f302729d44",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: ce714c5e04edd8a5df5235b98531ba778241adb71d2e5b4a60cd22de18cf667c\n"
+    },
+    {
+      "container_id": "ceeb48c2a2b7b879f26f59922f1b4feb2e70d4fe85aa6d44c4651f42e5acb236",
+      "name": "collect_current_rehearsal_successorexecution_7bf0c3a88c1d",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: ceeb48c2a2b7b879f26f59922f1b4feb2e70d4fe85aa6d44c4651f42e5acb236\n"
+    },
+    {
+      "container_id": "d4aaeac7ab52c34aa8c44e54140933143125374f91c33c8d8e8b26115260695b",
+      "name": "collect_current_rehearsal_revoke_writer_after_aba055f25e70",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner3_tail/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: d4aaeac7ab52c34aa8c44e54140933143125374f91c33c8d8e8b26115260695b\n"
+    },
+    {
+      "container_id": "ddf41c7c4478f4a0b18e4fab6afbfd87ab8f4300a52bda36eb454cb6ae5d5c35",
+      "name": "collect_current_rehearsal_archive_writer_before_3aabd6971575",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: ddf41c7c4478f4a0b18e4fab6afbfd87ab8f4300a52bda36eb454cb6ae5d5c35\n"
+    },
+    {
+      "container_id": "e406c872fbdd98c12a7d05040c55e7760daf30a249a90182fbe1b013701f33cf",
+      "name": "collect_current_rehearsal_callback_writer_before_71ab358ba08a",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-full430-publication-current1/proof/attempt2/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: e406c872fbdd98c12a7d05040c55e7760daf30a249a90182fbe1b013701f33cf\n"
+    },
+    {
+      "container_id": "ee199e3d0bf5649f90e1254ce197870e39b0fa979fad0189a42d522774571f98",
+      "name": "collect_current_rehearsal_close_writer_before_38e292331ca1",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-owner-publication-current1/proof/owner1/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: ee199e3d0bf5649f90e1254ce197870e39b0fa979fad0189a42d522774571f98\n"
+    },
+    {
+      "container_id": "fca48f7f3c7968405a70cb63f4899077835b1d6d3b52e0dc93da1fe6594831d0",
+      "name": "collect_current_rehearsal_successorexecution_d77f50a352cb",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt7/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: fca48f7f3c7968405a70cb63f4899077835b1d6d3b52e0dc93da1fe6594831d0\n"
+    },
+    {
+      "container_id": "ff74b8aac44da663d4948c491f1dfc1c0b8126ee4205e13194d1cbba35be08d0",
+      "name": "collect_current_rehearsal_successorexecution_c0c6965b2179",
+      "source": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt4/result.json",
+      "exit_code": 1,
+      "confirmed_absent": true,
+      "stderr": "error: no such object: ff74b8aac44da663d4948c491f1dfc1c0b8126ee4205e13194d1cbba35be08d0\n"
+    }
+  ]
+}

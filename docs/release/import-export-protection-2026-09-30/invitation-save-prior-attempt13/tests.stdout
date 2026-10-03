@@ -1,0 +1,91 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-save-prior-attempt13/test/features/group_invitation_save_receipt_test.dart
+00:00 +0: actual Android save receipt rejects null:null
+00:00 +0 -1: actual Android save receipt rejects null:null [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -1: actual Android save receipt rejects 0:
+00:00 +0 -2: actual Android save receipt rejects 0: [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -2: actual Android save receipt rejects 39:Error Wh
+00:00 +0 -3: actual Android save receipt rejects 39:Error Wh [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -3: actual Android save receipt rejects 62:Somethin
+00:00 +0 -4: actual Android save receipt rejects 62:Somethin [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -4: actual Android save receipt rejects 21:relative
+00:00 +0 -5: actual Android save receipt rejects 21:relative [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -5: actual Android save receipt rejects 9:Download
+00:00 +0 -6: actual Android save receipt rejects 9:Download [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -6: actual Android save receipt rejects 21:/private
+00:00 +0 -7: actual Android save receipt rejects 21:/private [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -7: actual Android save receipt rejects 22:/private
+00:00 +0 -8: actual Android save receipt rejects 22:/private [E]
+  Expected: throws <Instance of 'StateError'> with `safe error`: 'QR save did not confirm the requested file.'
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                              expectLater
+  package:flutter_test/src/widget_tester.dart 507:8            expectLater
+  test/features/group_invitation_save_receipt_test.dart 48:15  main.<fn>
+  
+00:00 +0 -8: actual Android absolute requested PNG receipt remains accepted once
+00:00 +1 -8: actual Android channel failure is propagated once without retry
+00:00 +2 -8: Some tests failed.
+
+Failing tests:
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-save-prior-attempt13/test/features/group_invitation_save_receipt_test.dart: actual Android save receipt rejects 0:
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-save-prior-attempt13/test/features/group_invitation_save_receipt_test.dart: actual Android save receipt rejects 21:/private
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-save-prior-attempt13/test/features/group_invitation_save_receipt_test.dart: actual Android save receipt rejects 21:relative
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-save-prior-attempt13/test/features/group_invitation_save_receipt_test.dart: actual Android save receipt rejects 22:/private
+  ... and 4 more

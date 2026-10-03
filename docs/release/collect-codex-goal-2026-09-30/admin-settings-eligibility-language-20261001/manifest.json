@@ -1,0 +1,1474 @@
+{
+  "HANDOFF.md": {
+    "sha256": "da5fff543f1490f3c887d1179bc9cfca22a8a63954f11cab9d8726aa9d840d71",
+    "size": 3108
+  },
+  "canonical-before/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+    "size": 33878
+  },
+  "canonical-before/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+    "size": 32699
+  },
+  "canonical-before/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+    "size": 11084
+  },
+  "canonical-before/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+    "size": 4497
+  },
+  "canonical-before/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+    "size": 5063
+  },
+  "canonical-before/test/support/settings_fixture.dart": {
+    "sha256": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+    "size": 6679
+  },
+  "current-canonical-overlay-inputs.json": {
+    "sha256": "cd0d572ffa5e0e250932364c8c5b80f6922bf28e7a4286aae5c609d88278fcbb",
+    "size": 35514
+  },
+  "fixture-origin.json": {
+    "sha256": "57b8f589202c6d689030d68bbf1640d9960062df1d27bae17a7223da33c1df1c",
+    "size": 785
+  },
+  "lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "size": 38333
+  },
+  "lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "477bd223943ca17cb84ec8f005e50697c5d724ecc3577e7ab002509c7348b90b",
+    "size": 38232
+  },
+  "lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+    "size": 5193
+  },
+  "lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+    "size": 6069
+  },
+  "promotion-manifest.json": {
+    "sha256": "c9926490b71eb53df715143df09c4ef3c0e4bec0b6cdcf610d841417ea6a9961",
+    "size": 3672
+  },
+  "proofs/eligibility-language-acceptance1/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-acceptance1/result.json": {
+    "sha256": "1ece9f4825ddd907b8973005c226e84742767c20e605f54b8353ac4523970806",
+    "size": 1276
+  },
+  "proofs/eligibility-language-acceptance1/runtime-closure.json": {
+    "sha256": "5b692604bcae9d9b15b3020bf85bb9f918583787d8625105a144bc6cf24157ca",
+    "size": 240574
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "size": 38333
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "e488c9a6a13c84b010125093414f7cfc97c59b5179dd4dce9df314dd02d7f753",
+    "size": 38163
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+    "size": 5193
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+    "size": 6069
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "b0857e7c2dde73643b8a9a96e25e022de0796953e911dcbd9eda7a1a352de826",
+    "size": 20403
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-acceptance1/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-acceptance1/source.json": {
+    "sha256": "d5db8d016991d6c7afb2c173067fffc48e92e1a71059e0b3070d88c5d33e802a",
+    "size": 3040
+  },
+  "proofs/eligibility-language-acceptance1/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-acceptance1/stdout.log": {
+    "sha256": "f59178f896009f5453f9f74a84be4001a7573f67c8a0ebd013eaf96c9757955a",
+    "size": 5132
+  },
+  "proofs/eligibility-language-acceptance2/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-acceptance2/executed-runner.py": {
+    "sha256": "c8e0c14de3e5fe311a74fc3ddedfdb764ad9f2e3d88a04b9033ada76baa7d0fe",
+    "size": 4084
+  },
+  "proofs/eligibility-language-acceptance2/result.json": {
+    "sha256": "d8c638b74ba346c2c54028761f71191a624b14abefa9c825757156229706d257",
+    "size": 1276
+  },
+  "proofs/eligibility-language-acceptance2/runner-association.json": {
+    "sha256": "13e06a89bf98a67ba97e493a1c263438dba5e6742dddaadcf20303be1355bb38",
+    "size": 430
+  },
+  "proofs/eligibility-language-acceptance2/runtime-closure.json": {
+    "sha256": "6defce134d31b8d228330bf5e300230548db85860fb7cbeb10ea9d5bc2949497",
+    "size": 240574
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "size": 38333
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "477bd223943ca17cb84ec8f005e50697c5d724ecc3577e7ab002509c7348b90b",
+    "size": 38232
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+    "size": 5193
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+    "size": 6069
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "a86c82c7b218968fc4c2bc18338782bb75e4c6e0a82270c7caae4d3b1479c6f9",
+    "size": 20580
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-acceptance2/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-acceptance2/source.json": {
+    "sha256": "7ca91ef91decea175f5959236e1dc5a418ea5591c3fad5470c941a336ec55583",
+    "size": 3040
+  },
+  "proofs/eligibility-language-acceptance2/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-acceptance2/stdout.log": {
+    "sha256": "68dbc058f4a515367937160d767764d0a4e150eaf691e47d670c67f2e34c972c",
+    "size": 5132
+  },
+  "proofs/eligibility-language-analysis1/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-analysis1/result.json": {
+    "sha256": "12e47af2964cf101d50eae7d7b5db80e8c87ecee55fd1c1b60b4a7058101b69e",
+    "size": 1992
+  },
+  "proofs/eligibility-language-analysis1/runtime-closure.json": {
+    "sha256": "5963ce6cff5eff068649fd4cce6a5e8d0031dd134b3b70d063b5eba7d4df51cd",
+    "size": 240574
+  },
+  "proofs/eligibility-language-analysis1/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-analysis1/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-analysis1/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "08b6cdaa4555a435c7c911e1371f97e581bc553e449a29c0713ae7730b043233",
+    "size": 38055
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-analysis1/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "de60490fc3a5de0507bdf9c85ffc4f909191e7c2da6d5699016c74c4ed3823a2",
+    "size": 20443
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-analysis1/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-analysis1/source.json": {
+    "sha256": "c63bcb6db48956c028f681ce11c0e0dbd994eb86c64f0c8dece36c46a345cb74",
+    "size": 3040
+  },
+  "proofs/eligibility-language-analysis1/stderr.log": {
+    "sha256": "f3a981e9137ad8c7f159147b82fc9037ce740b9b5ad6da43b0953d823275a5c7",
+    "size": 32
+  },
+  "proofs/eligibility-language-analysis1/stdout.log": {
+    "sha256": "b45f19005cb3bac2d99baef560c05340f3bf1ad0330576486ab65e1301d79a86",
+    "size": 3431
+  },
+  "proofs/eligibility-language-analysis2/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-analysis2/executed-runner.py": {
+    "sha256": "9331eff2d779035074ceae20b6fe862046f856f303796c7e3d15d213383750cd",
+    "size": 4241
+  },
+  "proofs/eligibility-language-analysis2/result.json": {
+    "sha256": "1f88b439ecb0385b90b867f9d61164d0513b16516f7600698dac8071824e5d89",
+    "size": 2244
+  },
+  "proofs/eligibility-language-analysis2/runtime-closure.json": {
+    "sha256": "6defce134d31b8d228330bf5e300230548db85860fb7cbeb10ea9d5bc2949497",
+    "size": 240574
+  },
+  "proofs/eligibility-language-analysis2/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-analysis2/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-analysis2/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "size": 38333
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "477bd223943ca17cb84ec8f005e50697c5d724ecc3577e7ab002509c7348b90b",
+    "size": 38232
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2",
+    "size": 5193
+  },
+  "proofs/eligibility-language-analysis2/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a",
+    "size": 6069
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "a86c82c7b218968fc4c2bc18338782bb75e4c6e0a82270c7caae4d3b1479c6f9",
+    "size": 20580
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-analysis2/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-analysis2/source.json": {
+    "sha256": "7ca91ef91decea175f5959236e1dc5a418ea5591c3fad5470c941a336ec55583",
+    "size": 3040
+  },
+  "proofs/eligibility-language-analysis2/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-analysis2/stdout.log": {
+    "sha256": "05280e69695d6984766ef47334f2b04647774112ee5ceb2616fe247012c5d6b3",
+    "size": 97
+  },
+  "proofs/eligibility-language-vm1/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-vm1/result.json": {
+    "sha256": "6954dcc05aadecfee0e767164c8f7f5946705860961b5837d99c21789e65e63e",
+    "size": 1171
+  },
+  "proofs/eligibility-language-vm1/runtime-closure.json": {
+    "sha256": "a78cbc6ffbdbf6cccbb3cfa40c43593e6ff363b038f0aee4201526be50a35368",
+    "size": 237489
+  },
+  "proofs/eligibility-language-vm1/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-vm1/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-vm1/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "89fe3990cdf6cb208518b57715b9ac934530d8e39fca39b006f68962a8725b8a",
+    "size": 37192
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-vm1/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "4eab23afa6814a732b57cf7fc5c4a3e585bc7dac594c1671ae88b56a6c75fcc0",
+    "size": 12033
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "d5a7c5f6545f53d09cbe8209b5bd05bd79abcdeb222aad42871318f5e4c33f34",
+    "size": 16255
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-vm1/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-vm1/source.json": {
+    "sha256": "0bd2705060d45e558dc50181e4787f209c87a837eef97c8b5d4defca611924de",
+    "size": 3040
+  },
+  "proofs/eligibility-language-vm1/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-vm1/stdout.log": {
+    "sha256": "30771af9becebddd5594c4f83aed8a5bc62624feb613dd5013a4b56154941a47",
+    "size": 1647
+  },
+  "proofs/eligibility-language-vm2/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-vm2/result.json": {
+    "sha256": "3c62389a8b81862325c835b7ef07092018658f11282990bc5a8dc28c8c93af51",
+    "size": 1202
+  },
+  "proofs/eligibility-language-vm2/runtime-closure.json": {
+    "sha256": "11790def7628a8d2cefc88457258290f9b536e2d715d24e135ed695dceedf0fc",
+    "size": 240574
+  },
+  "proofs/eligibility-language-vm2/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-vm2/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-vm2/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "89fe3990cdf6cb208518b57715b9ac934530d8e39fca39b006f68962a8725b8a",
+    "size": 37192
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-vm2/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "d5a7c5f6545f53d09cbe8209b5bd05bd79abcdeb222aad42871318f5e4c33f34",
+    "size": 16255
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-vm2/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-vm2/source.json": {
+    "sha256": "e98bfbff872c00f39317ad9b66b9fe85673678c74cf678a30a759d299d3ceebc",
+    "size": 3040
+  },
+  "proofs/eligibility-language-vm2/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-vm2/stdout.log": {
+    "sha256": "0c62c3f1ea8bfbd80d1532f78a8d2c2b2645bec7d1ecda091dac0cd2a3cae0ab",
+    "size": 1060
+  },
+  "proofs/eligibility-language-widgets1/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-widgets1/result.json": {
+    "sha256": "5818f9e5ecb6c8e0cbb19580739595400246f37f5055ca55e99d62ceaef2acd3",
+    "size": 1214
+  },
+  "proofs/eligibility-language-widgets1/runtime-closure.json": {
+    "sha256": "11790def7628a8d2cefc88457258290f9b536e2d715d24e135ed695dceedf0fc",
+    "size": 240574
+  },
+  "proofs/eligibility-language-widgets1/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-widgets1/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-widgets1/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "89fe3990cdf6cb208518b57715b9ac934530d8e39fca39b006f68962a8725b8a",
+    "size": 37192
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-widgets1/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "d5a7c5f6545f53d09cbe8209b5bd05bd79abcdeb222aad42871318f5e4c33f34",
+    "size": 16255
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-widgets1/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-widgets1/source.json": {
+    "sha256": "e98bfbff872c00f39317ad9b66b9fe85673678c74cf678a30a759d299d3ceebc",
+    "size": 3040
+  },
+  "proofs/eligibility-language-widgets1/stderr.log": {
+    "sha256": "d06bdee516485071f9f6cf3cca94fdc62271ca096ba1c50b3080449aec0d9b33",
+    "size": 475
+  },
+  "proofs/eligibility-language-widgets1/stdout.log": {
+    "sha256": "45d5b9aba41c1e62ccfac7dff90f22a53e2a5ee4324c178e9f027f40293865a0",
+    "size": 1580
+  },
+  "proofs/eligibility-language-widgets2/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-widgets2/result.json": {
+    "sha256": "d5a8de285d7d42c0b10450cf2005c9b815593c9772dd434565e3730b291e8fea",
+    "size": 1214
+  },
+  "proofs/eligibility-language-widgets2/runtime-closure.json": {
+    "sha256": "a49715bacd89be119dca1c22af225d72902814eea9277e7961becc05713ff305",
+    "size": 240574
+  },
+  "proofs/eligibility-language-widgets2/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-widgets2/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-widgets2/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "89fe3990cdf6cb208518b57715b9ac934530d8e39fca39b006f68962a8725b8a",
+    "size": 37192
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-widgets2/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "6df82411052d348e463093033882cd777a5bec83ea1478c936bf601ac5caad71",
+    "size": 16357
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-widgets2/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-widgets2/source.json": {
+    "sha256": "50c500180f03ebaaf820de1cd909d0e32795293ff497c95c8062d9c2d519358e",
+    "size": 3040
+  },
+  "proofs/eligibility-language-widgets2/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-widgets2/stdout.log": {
+    "sha256": "c933dfae03db5bca2aec7ba429c3131e2210eeaee026c89dac1204517d061f1c",
+    "size": 11124
+  },
+  "proofs/eligibility-language-widgets3/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-widgets3/result.json": {
+    "sha256": "77208776a7b82bb9955567850b413efc1c974290cc1fe5c8ed6925fa2bf8d34b",
+    "size": 1215
+  },
+  "proofs/eligibility-language-widgets3/runtime-closure.json": {
+    "sha256": "344eb1d209bfa03ca6a9f15424af715f7195ca8fc6497e60b6080ae6374dee45",
+    "size": 240574
+  },
+  "proofs/eligibility-language-widgets3/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-widgets3/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-widgets3/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "89fe3990cdf6cb208518b57715b9ac934530d8e39fca39b006f68962a8725b8a",
+    "size": 37192
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-widgets3/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "995f6545ce6c6d7e9383281684200c5edcfc5b7e62ce9d136624d833243bc605",
+    "size": 16591
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-widgets3/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-widgets3/source.json": {
+    "sha256": "af367133663bc532febd6569ccd37497271d59153829bffa04441c7577b90624",
+    "size": 3040
+  },
+  "proofs/eligibility-language-widgets3/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-widgets3/stdout.log": {
+    "sha256": "ee7f303e30fda3675a13c39d498115c65e1db078ecade4fc1b40a8a226d3e288",
+    "size": 983
+  },
+  "proofs/eligibility-language-widgets4/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-widgets4/result.json": {
+    "sha256": "3918d7208da097e224a785a06a394ae3802b62d1c0e489afc32cfe024b7d09db",
+    "size": 1215
+  },
+  "proofs/eligibility-language-widgets4/runtime-closure.json": {
+    "sha256": "15f3bf495fade82a6b9843cfdb9f3e154f27c15a43e831001e5ddb7947967cb2",
+    "size": 240574
+  },
+  "proofs/eligibility-language-widgets4/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-widgets4/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-widgets4/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "fb74d49387800775ada4d98bfa19eb1ab5c1bd2b31d8a03faff82b29cbf8a348",
+    "size": 38036
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-widgets4/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "de60490fc3a5de0507bdf9c85ffc4f909191e7c2da6d5699016c74c4ed3823a2",
+    "size": 20443
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-widgets4/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-widgets4/source.json": {
+    "sha256": "968f06d4f6404887dab6f0001233f2c387df82088b2e6c60eebb95dcea7de1d2",
+    "size": 3040
+  },
+  "proofs/eligibility-language-widgets4/stderr.log": {
+    "sha256": "83eb62283c29a031e319beb577ee26417c7a40707e3d8b54c26d5c3fa3ef3c8f",
+    "size": 619
+  },
+  "proofs/eligibility-language-widgets4/stdout.log": {
+    "sha256": "a5f16ba3b69aa5badb7097ba4eba2eab3860f95926fcc8e19dc632ffa0fe32cf",
+    "size": 1726
+  },
+  "proofs/eligibility-language-widgets5/dependencies.json": {
+    "sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "size": 498246
+  },
+  "proofs/eligibility-language-widgets5/result.json": {
+    "sha256": "5115fc3ed1e83b5378d994905c36e1a058651025475c41dffe313fbf61c829a2",
+    "size": 1214
+  },
+  "proofs/eligibility-language-widgets5/runtime-closure.json": {
+    "sha256": "5963ce6cff5eff068649fd4cce6a5e8d0031dd134b3b70d063b5eba7d4df51cd",
+    "size": 240574
+  },
+  "proofs/eligibility-language-widgets5/source-copies/integration/admin_repository_base.dart.patch": {
+    "sha256": "b0c0947d536409a732126158dbb395e1776774725ac2f9c6029d511ae2af9ca1",
+    "size": 654
+  },
+  "proofs/eligibility-language-widgets5/source-copies/integration/admin_router.dart.patch": {
+    "sha256": "3f80ac4934a0c6205fbca66220e637b33dc70c0848952bcf2ee36c791ccff294",
+    "size": 514
+  },
+  "proofs/eligibility-language-widgets5/source-copies/integration/admin_runtime.dart.patch": {
+    "sha256": "f72a288f4ff2bef366b874aa21ed715d729b19fa2590d6e55b60d67f563cf01a",
+    "size": 1222
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+    "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "size": 782
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+    "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "size": 122
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+    "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "size": 6539
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_controller.dart": {
+    "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "size": 7708
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "35bdedadeddebd965e6b4830b2a3f9d7ab44a638b7d6519d08ade00f2041f842",
+    "size": 38315
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_page.dart": {
+    "sha256": "08b6cdaa4555a435c7c911e1371f97e581bc553e449a29c0713ae7730b043233",
+    "size": 38055
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_registry.dart": {
+    "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787",
+    "size": 11129
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_runtime.dart": {
+    "sha256": "7cc29f32c9f8eafdb32efef692a0c0f4b8d4ff69ba9e6728a64b1d94c1d8978b",
+    "size": 5181
+  },
+  "proofs/eligibility-language-widgets5/source-copies/lib/admin/core/admin_governed_settings_sdk.dart": {
+    "sha256": "d69a3a494ec52b224b7a278a7de4d124ce5a1ab50b350947f11995fad0870493",
+    "size": 6053
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_action_session_test.dart": {
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+    "size": 14184
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_checkpoint_browser_test.dart": {
+    "sha256": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "size": 7121
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_controller_test.dart": {
+    "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "size": 8035
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "de60490fc3a5de0507bdf9c85ffc4f909191e7c2da6d5699016c74c4ed3823a2",
+    "size": 20443
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_models_test.dart": {
+    "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "size": 12960
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_sdk_test.dart": {
+    "sha256": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "size": 8020
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/admin_governed_settings_widget_test.dart": {
+    "sha256": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "size": 14107
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/fixtures/observed_runtime_v2.json": {
+    "sha256": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350",
+    "size": 8648
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "proofs/eligibility-language-widgets5/source-copies/test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "proofs/eligibility-language-widgets5/source.json": {
+    "sha256": "c63bcb6db48956c028f681ce11c0e0dbd994eb86c64f0c8dece36c46a345cb74",
+    "size": 3040
+  },
+  "proofs/eligibility-language-widgets5/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "proofs/eligibility-language-widgets5/stdout.log": {
+    "sha256": "60b05f07006fcc33172b0a6f078ce6ea3d37925ef9077c23470780c82c88edc3",
+    "size": 1171
+  },
+  "run-followon.py": {
+    "sha256": "9331eff2d779035074ceae20b6fe862046f856f303796c7e3d15d213383750cd",
+    "size": 4241
+  },
+  "test/admin_governed_settings_eligibility_test.dart": {
+    "sha256": "72ba2b253cdc74baf5136eb0f5f868126f6f5e710c51ebd42dd4acb8ca032d2c",
+    "size": 12214
+  },
+  "test/admin_governed_settings_eligibility_widget_test.dart": {
+    "sha256": "a86c82c7b218968fc4c2bc18338782bb75e4c6e0a82270c7caae4d3b1479c6f9",
+    "size": 20580
+  },
+  "test/fixtures/observed_runtime_eligibility_v1.json": {
+    "sha256": "73b829dd726fcf291ae4efa5ae11ceb70b026a6e6c4a523aa148575a02744f58",
+    "size": 16707
+  },
+  "test/fixtures/observed_sms_language_catalog_v2.json": {
+    "sha256": "0f99e481ed2656130f9c0769e5b9909fdcddc652f78b86fd2603cc8d1124f965",
+    "size": 1042
+  },
+  "test/support/settings_eligibility_fixture.dart": {
+    "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa",
+    "size": 4467
+  },
+  "test/support/settings_fixture.dart": {
+    "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc",
+    "size": 8116
+  },
+  "unmodified-peer-inputs.json": {
+    "sha256": "fad789c4c353a581bf73a2b99bc6da34d67a87d4f2f4d7ddea788d3b264eab22",
+    "size": 34158
+  },
+  "verification.json": {
+    "sha256": "7a02e972186ac7b1aa7903c33988fdc7f278a0e8b6887401f2e873bd9943bd13",
+    "size": 3063
+  }
+}

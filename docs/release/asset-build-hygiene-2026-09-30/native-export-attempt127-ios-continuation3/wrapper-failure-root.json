@@ -1,0 +1,10 @@
+{
+  "status": "failed_before_build",
+  "observed_terminal_exit_code": 1,
+  "failure": "Copied binary artifacts differ from the preserved cache",
+  "difference_count": 56,
+  "all_differences": "symlink mode0755 versus preserved0777",
+  "binary_sha_or_symlink_target_differences": 0,
+  "xcode_compilation_executed": false,
+  "at_utc": "2026-10-01T09:20:06.582412+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T08:07:14.466172+00:00",
+  "packet_sha256": "ee79028e37a0cbf9272584705994341b86304eb886a2631dfc8819126eb814f2",
+  "safe_leaves_checked": 31,
+  "frozen_inputs_checked": 222,
+  "current216_source_hashes_unchanged": true,
+  "original34_test_bytes_unchanged": true,
+  "only_existing_function_or_class_AST_changes": [
+    "Runner",
+    "main"
+  ],
+  "only_Runner_method_changed": "call",
+  "exact_EAGAIN_EWOULDBLOCK_handling_diff_and_six_focused_tests_reviewed": true,
+  "actual_eight_affected_pipe_tests_verified": true,
+  "unchanged_seven_SQL_scope_derivatives": true,
+  "complete_compatibility_matrix_unchanged": true,
+  "whole_bounds": [
+    600,
+    540,
+    60
+  ],
+  "scope": "owned_networkless_synthetic_fixture_only",
+  "shipping_or_human_release_approval": false,
+  "production_ready": false,
+  "execution_admission_sha256": "7a914c78fd117eeda273e2e2b71a5b986fa4dd34757e228998fbe7806a682c1f"
+}

@@ -1,0 +1,436 @@
+{
+  "kind": "C34_synthetic_offline_postgresql_backup_restore_schema153_subset",
+  "started_at": "2026-10-01T01:08:00.309604+00:00",
+  "production_written": false,
+  "shared_database_written": false,
+  "private_source_rows_read": false,
+  "hosted_auth_storage_configuration_read": false,
+  "provider_or_sender_called": false,
+  "real_keys_created": false,
+  "approved_rpo_rto_claimed": false,
+  "full_current_or_hosted_acceptance": false,
+  "cases": [
+    {
+      "name": "20260930211605_android_gateway_identity.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930213000_operator_email_auth.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930220527_operator_email_cutover_guard.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230100_receipt_backlog_events.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230200_admin_receipt_overview.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20260930230300_admin_transaction_lifecycle.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000100_operational_exception_inbox.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000200_admin_gateway_reads.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000300_admin_exception_reads.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000400_receipt_supervisor_identity.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001000519_safe_unstarted_receipt_cancel.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001001457_joined_operator_audit.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001003338_unattended_operating_policy.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "20261001004651_receipt_cancel_audit_actor.sql preserves existing synthetic financial primary receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "critical recovery projections are actually nonempty",
+      "status": "pass",
+      "detail": {
+        "public.payments": 3,
+        "collect_hybrid.momo_journal_entries": 3,
+        "collect_hybrid.momo_journal_lines": 6,
+        "collect_hybrid.momo_balance_snapshots": 3,
+        "collect_hybrid.sms_notification_outbox": 2,
+        "auth.users": 2,
+        "auth.sessions": 2,
+        "collect_admin_access.email_approvals": 2,
+        "public.admin_user_roles": 2,
+        "collect_gateway.devices": 1,
+        "collect_gateway.admin_requests": 3,
+        "collect_gateway.requests": 1,
+        "collect_gateway.health_observations": 1,
+        "collect_supervisor.identities": 1,
+        "collect_supervisor.owner_requests": 2,
+        "collect_supervisor.requests": 2,
+        "collect_receipt_actions.cancellations": 1,
+        "collect_automation.operating_policy": 1,
+        "collect_automation.policy_requests": 3,
+        "collect_operator_audit.shadow_events": 3,
+        "public.audit_logs": 14,
+        "collect_ops.exception_actions": 1,
+        "collect_hybrid.receipt_monitor_acknowledgements": 1,
+        "public.feature_flags": 1
+      }
+    },
+    {
+      "name": "the dump contains only synthetic Auth mocks and no Storage object/blob fixture",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "real custom dump is nonempty mode0600 with owners and ACLs retained",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored roles owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored types owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored views owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored columns owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored indexes owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored schemas owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored database owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored policies owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored triggers owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored functions owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored relations owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored extensions owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored constraints owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored default_acl owners authority and definitions match exactly",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "all table rows restore exactly with original identities and state",
+      "status": "pass",
+      "detail": {
+        "table_count": 181
+      }
+    },
+    {
+      "name": "all sequence positions restore exactly",
+      "status": "pass",
+      "detail": {
+        "sequence_count": 3
+      }
+    },
+    {
+      "name": "public.payments recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_hybrid.momo_journal_entries recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_hybrid.momo_journal_lines recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_hybrid.momo_balance_snapshots recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_hybrid.sms_notification_outbox recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "auth.users recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "auth.sessions recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_admin_access.email_approvals recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "public.admin_user_roles recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_gateway.devices recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_gateway.admin_requests recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_gateway.requests recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_gateway.health_observations recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_supervisor.identities recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_supervisor.owner_requests recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_supervisor.requests recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_receipt_actions.cancellations recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_automation.operating_policy recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_automation.policy_requests recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_operator_audit.shadow_events recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "public.audit_logs recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_ops.exception_actions recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "collect_hybrid.receipt_monitor_acknowledgements recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "public.feature_flags recovery retains exact nonempty row projections",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "paused dispatch preserves the queued primary receipt and cancelled identity separately",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "financial journals remain canonical two-line balanced pairs",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored original cancellation UUID replay is identical historical receipt",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "name": "restored original policy UUID replay does not grant a new action",
+      "status": "pass",
+      "detail": null
+    }
+  ],
+  "captured_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+  },
+  "executed_helpers_sha256": {
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/android_gateway_identity_uat.py": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+  },
+  "runner_sha256": "99f5439e57794411bdb3cb03226d2d7b62c1e9b0fb59aa3b0ffe817a0f04287d",
+  "baseline": {
+    "count": 153,
+    "row_free_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "owners_previously_normalized": true
+  },
+  "source_target": {
+    "container_id": "3a588c4161f92e5fd73b791fb83fd0a3c00419a9f845f594df8b520c09ab2671",
+    "container_name": "collect_current_rehearsal_c34_source_342ae03b4fc9",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "backup": {
+    "sha256": "a4264cd0f9d3f6b8e65f7dc297d5c14be78172dd6faa4cac68b4398d78a53ae7",
+    "bytes": 2154223,
+    "mode": "0o600",
+    "format": "PostgreSQL custom archive",
+    "dump_seconds": 0.4026613329988322,
+    "dump_options": [
+      "--format=custom",
+      "--username=postgres",
+      "--dbname=<synthetic-source>"
+    ],
+    "owner_and_acl_omission_flags_used": false,
+    "restore_seconds": 1.1670186669980467,
+    "restore_options": [
+      "--exit-on-error",
+      "--username=postgres",
+      "--dbname=<empty-synthetic-destination>"
+    ]
+  },
+  "restore_target": {
+    "container_id": "2949a09d0675efe29105b3da40a9bff963b3a09c71d177ade78999e5804faeb5",
+    "container_name": "collect_current_rehearsal_c34_restored_8bb1263785da",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "status": "failed",
+  "error_type": "AssertionError",
+  "error": "restored original gateway enrollment UUID retains its historical identity",
+  "database_cleanup": {
+    "collect_c34_restore_d46459070fb1": true,
+    "collect_c34_source_e96ab6f4cb01": true
+  },
+  "case_count": 61,
+  "completed_at": "2026-10-01T01:08:55.940675+00:00"
+}

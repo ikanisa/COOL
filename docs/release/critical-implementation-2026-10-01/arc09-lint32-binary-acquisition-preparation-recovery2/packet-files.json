@@ -1,0 +1,66 @@
+{
+  "payload_files": [
+    {
+      "bytes": 1139,
+      "path": "README.md",
+      "sha256": "04b4779e2db85ce7f251c99f6dbf6d5c510d555c9dbac6c89bf49d576dd39215"
+    },
+    {
+      "bytes": 16717,
+      "path": "acquire_binaries.py",
+      "sha256": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d"
+    },
+    {
+      "bytes": 881,
+      "path": "commands.json",
+      "sha256": "93621f2d7e6caca94a7b918b6230d04efb6e870f2e6f6190c93010dc748a24a1"
+    },
+    {
+      "bytes": 1073,
+      "path": "main-inputs-preflight-readback.json",
+      "sha256": "4b4de8facc6f729aa7854d37fd1b3ec4c995d642af24d94ce7454448ba2165a6"
+    },
+    {
+      "bytes": 2880,
+      "path": "main_inputs_preflight.py",
+      "sha256": "1c392bb329fea799febedf6ad8b4bb28c7e8de329d95e53f8303904b0f62ad23"
+    },
+    {
+      "bytes": 218102,
+      "path": "plan.json",
+      "sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593"
+    },
+    {
+      "bytes": 3000,
+      "path": "primary-fallback-contract.json",
+      "sha256": "f0675fb1c64b065960eda82fddbcf2bbf281eaee9ac2ca5a79edafc087702640"
+    },
+    {
+      "bytes": 5016,
+      "path": "references-before.json",
+      "sha256": "0e2d87fdabc925218a75483aaf6bf64dfc0717073cf3b478c441dc2b84279899"
+    },
+    {
+      "bytes": 3939,
+      "path": "request_worker.py",
+      "sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4"
+    },
+    {
+      "bytes": 1288,
+      "path": "runtime-byte-bound.patch",
+      "sha256": "d92e61ce7bc83b194c233a26330a182be71cf812181a5c04123767c6de925d65"
+    },
+    {
+      "bytes": 51078,
+      "path": "source-fences.json",
+      "sha256": "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b"
+    },
+    {
+      "bytes": 2523,
+      "path": "static-readback.json",
+      "sha256": "c073baff4c804114f3e86ccdd927a8dbf6e93093c37e07148d63d9b1ca738272"
+    }
+  ],
+  "private_unexecuted_preparation": true,
+  "schema_version": 1
+}

@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:40:45.674281+00:00",
+  "before_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "03f5b083e96bd49951e05f70db2b1625a0800e99f713cae1adff6797d5bcc38d",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "df40437dc2708ade51ee3da89cf23595418877e9a02f6f60eca0c0e4c2745f8d",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "827a90c24238ea285fa7540ef860f3b1fb38f815159443873cd3004fac71a049",
+    "docs/release/local-implementation-register-2026-09-30.json": "aff045cbf36524cd35a639f32b242473414d5bf9177fc6574ab8180d9ce81b31",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "93dd51466c2a065f9e693ee1e847dec33363bfcb1ebf0e05dc9f05a5282cb12c"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "03f5b083e96bd49951e05f70db2b1625a0800e99f713cae1adff6797d5bcc38d",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "df40437dc2708ade51ee3da89cf23595418877e9a02f6f60eca0c0e4c2745f8d",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "11ffff62b0d57891d1036dc7d801b18caa8e6370ebf7e556081337747b3577b0",
+    "docs/release/local-implementation-register-2026-09-30.json": "aff045cbf36524cd35a639f32b242473414d5bf9177fc6574ab8180d9ce81b31",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "da5c23c04d17269ddc71b87f9cebcd04dcbe3a5db28436817d306b262fc06e39"
+  },
+  "changed_files": [
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md"
+  ],
+  "scope": "Inline historical/superseded labels only; original recorded text and acceptance rows preserved",
+  "ledger_and_JSON_registers_unchanged": true,
+  "criteria40_production102_local24_unchanged": true,
+  "closed": 3,
+  "fully_open": 37,
+  "release_decision": "NO-GO",
+  "goal_status": "active"
+}

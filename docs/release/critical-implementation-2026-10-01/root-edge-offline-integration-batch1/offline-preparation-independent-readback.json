@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-02T01:49:17.983932+00:00",
+  "result": "PASS",
+  "packet_sha256": "4cab4ece35b0ae8c823854569b34a5205b872cb1c65500c2c22b3562e81b8911",
+  "packet_leaves": 37,
+  "checksum_rows": 38,
+  "maintained_sources": {
+    "scripts/qa/roster_wheelhouse.py": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+    "scripts/tests/roster_wheelhouse_test.py": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "prepared_copied_files": 17,
+  "linux_wheels": 6,
+  "wheel_bytes": 9936126,
+  "historical_source_count": 137,
+  "external_count": 16,
+  "intentional_later_root_ci_delta": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.github/workflows/ci.yml",
+    "before_sha256": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+    "current_sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624"
+  },
+  "scope": "Independent packet, maintained source and prepared bytes readback. No package install, image build, acquisition or canonical execution claimed."
+}

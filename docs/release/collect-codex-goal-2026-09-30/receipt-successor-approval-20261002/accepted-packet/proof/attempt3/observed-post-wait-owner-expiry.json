@@ -1,0 +1,6 @@
+{
+  "actual_wait": true,
+  "blocker_exit": 0,
+  "approval_exit": 3,
+  "stderr": "ERROR:  42501: notification_registration_session_required\nCONTEXT:  PL/pgSQL function _lock_notification_registration_session() line 13 at RAISE\nPL/pgSQL function collect_receipt_actions.actor(boolean) line 5 at assignment\nSQL statement \"SELECT collect_receipt_actions.actor(true)\"\nPL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 24 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+}

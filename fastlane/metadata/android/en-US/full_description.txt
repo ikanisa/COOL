@@ -1,7 +1,9 @@
-Collect helps Rwanda savings groups organize members, record whole-RWF contributions, and review reconciled group activity.
+Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.
 
-Members see the exact MTN MoMo or Airtel Money group receiver and amount before opening the provider USSD prompt. The member authorizes payment with the mobile network; Collect never asks for a MoMo PIN or OTP and does not hold member funds.
+Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.
 
-On eligible Android receiver devices, members may explicitly consent to Collect receiving newly arriving MoMo transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off. An observed SMS is not independent settlement proof; pending and ambiguous contributions require governed reconciliation before a production confirmation claim.
+Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.
 
-Collect provides in-app account support and deletion controls. The service is operated by IKANISA for Rwanda group-contribution and record-keeping workflows.
+Eligible Android receiver devices may explicitly consent to newly arriving MoMo receipt SMS as candidate evidence. Collect does not read SMS history, send SMS or access Call Logs. SMS access can be turned off. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.
+
+For a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion. Collect does not provide loans, insurance or deposit custody.

@@ -1,0 +1,442 @@
+{
+  "scope": "read-only maintained boundaries and original tests before private focused cohort",
+  "files": [
+    {
+      "path": "scripts/qa/postgres_admission.py",
+      "bytes": 17725,
+      "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+      "mode": 420
+    },
+    {
+      "path": "scripts/qa/backend_release_delivery.py",
+      "bytes": 34346,
+      "sha256": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6",
+      "mode": 420
+    },
+    {
+      "path": "scripts/qa/collect_release_candidate.py",
+      "bytes": 40672,
+      "sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+      "mode": 420
+    },
+    {
+      "path": "scripts/supabase_cli_helpers.sh",
+      "bytes": 13085,
+      "sha256": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+      "mode": 420
+    },
+    {
+      "path": "scripts/supabase_logical_backup.sh",
+      "bytes": 3193,
+      "sha256": "18e4c8075240375947d23df47cfa1270d2ed3fe0c52ec2728fa1cc5f18e6440e",
+      "mode": 448
+    },
+    {
+      "path": "scripts/audits/collect_encrypted_database_backup.rb",
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada",
+      "mode": 448
+    },
+    {
+      "path": "scripts/audits/collect_recovery_source.rb",
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0",
+      "mode": 420
+    },
+    {
+      "path": "scripts/audits/collect_receipt_worker_snapshot.rb",
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d",
+      "mode": 420
+    },
+    {
+      "path": "scripts/sql/collect_recovery_source_catalog.sql",
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+      "mode": 420
+    },
+    {
+      "path": "scripts/tests/test_postgres_admission.py",
+      "bytes": 16650,
+      "sha256": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13",
+      "mode": 420,
+      "original_tests": [
+        {
+          "name": "test_exact_client_and_matrix_then_first_read_and_operation",
+          "ast_sha256": "f9b567fc4001348bfdf98a2644ea2c19ad6b7f2b968759545329d63072da0100"
+        },
+        {
+          "name": "test_local_admission_scrubs_credentials_before_executable_version",
+          "ast_sha256": "fd57c4819d141150cccd5d6faf1fdb1019f68fab48c11780238da72cc4ce9e2f"
+        },
+        {
+          "name": "test_request_environment_scrubs_unbound_credentials_and_options",
+          "ast_sha256": "5091191b52cb3dc3b61f998a6093f216f4bf0a88911342f896b811b9ba2d6550"
+        },
+        {
+          "name": "test_unbound_manifest_no_client_or_network_request",
+          "ast_sha256": "caa8f75ad09483f7a6546943d27e46f6b70cb3b574d7240eb51e2ce1d447509f"
+        },
+        {
+          "name": "test_wrong_manifest_digest_refuses_before_client_execution",
+          "ast_sha256": "df8f52c0df294cc5a46a35bfb39accef49a2a67fd59093b0179c19a3c971e124"
+        },
+        {
+          "name": "test_byte_different_forged_matching_version_is_not_admitted",
+          "ast_sha256": "5cc1ca661157933db3029cd7ecad11006fc1582da5757e1b07609748d22bfd9b"
+        },
+        {
+          "name": "test_whole_hash_bound_wrong_version_is_not_admitted",
+          "ast_sha256": "c66bda77ff2e192b56391911935249ddbd7fd5f2a0991cc160b6b6c5d5dfbd59"
+        },
+        {
+          "name": "test_extra_version_output_refused_without_echoing_secret",
+          "ast_sha256": "88537e78c603c0ed96be541775aa10763398ff52d3973dd7071fec556ce7a959"
+        },
+        {
+          "name": "test_explicit_override_of_reviewed_absolute_client_is_refused",
+          "ast_sha256": "205562c10903a32bca0dda8dbfd44349b9806ee2a16856fd92ace72ad8ad0f60"
+        },
+        {
+          "name": "test_path_substitute_is_never_selected_or_executed",
+          "ast_sha256": "c52bee1fdb9033a5efcaafe0ace7911c73a02c4349bbe233115253453d8c0449"
+        },
+        {
+          "name": "test_symlink_client_and_symlink_parent_refused",
+          "ast_sha256": "1a0942633312ba9e6aca290d19cfc3a2d03c22b945861e7433628bc4d857d43e"
+        },
+        {
+          "name": "test_hardlinked_client_is_refused",
+          "ast_sha256": "0445b7fe1bfadd3066d254dacc38cca2ad22482452f302489a5cc9e3595a802b"
+        },
+        {
+          "name": "test_client_drift_after_admission_refused_before_first_request",
+          "ast_sha256": "8e3ff9fd602661c0a9972ae20de5b8a1018d443bd6c0b51bf650c95cce45a76d"
+        },
+        {
+          "name": "test_manifest_content_drift_after_admission_refused",
+          "ast_sha256": "c1c0b6cf4b83ddbb415dfeb39c79901dd2c1fc46e3aeb250cf9c69ea1e39ac17"
+        },
+        {
+          "name": "test_same_bytes_manifest_inode_substitution_is_refused_in_process",
+          "ast_sha256": "fbb7439a861020a495305af414cdddbb00a57c9b8340a42bfe3f53eb52f64291"
+        },
+        {
+          "name": "test_duplicate_json_keys_unknown_fields_and_overlarge_manifest_refused",
+          "ast_sha256": "f637a8cb5932d36128b7740a038ac9dd5644bffaff19515690df633398937a63"
+        },
+        {
+          "name": "test_claimed_unsupported_client_cannot_expand_source_cohort",
+          "ast_sha256": "4f0dfc54256b5bf4b09ba392f14ab758e41e54bfe50c04b40a32c660ede094fb"
+        },
+        {
+          "name": "test_claimed_unsupported_server_or_restore_cannot_expand_source_cohort",
+          "ast_sha256": "5a8b2d7083b069c09dc8f030e3b3cf2823fd2372a5e57c6644cc4376b4d5134d"
+        },
+        {
+          "name": "test_unknown_or_incompatible_server_stops_before_first_write",
+          "ast_sha256": "767aaf30a4696bac616f74639a01608b33d396d5afda39f5a53c026e4c62efe2"
+        },
+        {
+          "name": "test_changed_server_matrix_range_and_operation_are_refused",
+          "ast_sha256": "f2f5affdacd32581ea7a0e2edff0cd912a0c619e2e606ab0228f368ed4365c0c"
+        },
+        {
+          "name": "test_wrong_service_target_and_project_refuse_before_request",
+          "ast_sha256": "cfef8b8cb4818eb3acf65af832ac9d5fa00405c598ad8d2c4ee4e58b4b7610e6"
+        },
+        {
+          "name": "test_connection_argument_override_is_refused_before_request",
+          "ast_sha256": "0835c9bc8f9bb8ee5c410ef7ce1b116e9684f236cd590c70b88fe76f492972f1"
+        },
+        {
+          "name": "test_service_permissions_and_unbound_connection_options_refused",
+          "ast_sha256": "908c1dc245b1bf231315242b1d83b72993ee652c5f696052a85dfc9fc84390ed"
+        },
+        {
+          "name": "test_management_target_and_exact_single_integer_row_required",
+          "ast_sha256": "61acea9a7d58fd21796b3f6e4b1873fdbf5a607f8621f22fec174e1039e990af"
+        },
+        {
+          "name": "test_local_version_timeout_is_bounded_and_makes_no_request",
+          "ast_sha256": "31087da8b5aca8ab4b6a15f2fa7b4e5942e0c5450199f28a444d9ee58bc8ec7b"
+        },
+        {
+          "name": "test_server_read_timeout_never_runs_write",
+          "ast_sha256": "cc5128b3f58c52c1f512b9ebcde771b9620101ebb6ad8c9e0a607cc21ba4d8b6"
+        },
+        {
+          "name": "test_output_limit_refuses_without_raw_output_or_secrets",
+          "ast_sha256": "e3c747ab8cc0a0bbe678f8e4e6ff321d509165874a4e90fae9e06b5e324b53c5"
+        },
+        {
+          "name": "test_descendant_holding_pipe_is_killed_on_timeout",
+          "ast_sha256": "2627747bab045b3253a1eab4ad752e2670def5ae672bb5c6cda82a99a76954a7"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/supabase_secret_transport_test.py",
+      "bytes": 15846,
+      "sha256": "ee97ea89c524c1325a63be3a2890caa67b84d768e7cfc22219dbd498890844ec",
+      "mode": 420,
+      "original_tests": [
+        {
+          "name": "test_auth_config_and_secret_retries_keep_values_out_of_argv",
+          "ast_sha256": "29df13c649d275b9da66abc618477d1cc8c5c944cba9191e61415769a8f96555"
+        },
+        {
+          "name": "test_management_query_uses_stdin_and_rejects_header_injection",
+          "ast_sha256": "f77630722431d66356feda5d0314f32ea8bbf2b89a6c7abb1335ba3d5f3807e8"
+        },
+        {
+          "name": "test_direct_database_url_is_only_in_owner_only_service_file",
+          "ast_sha256": "9fd972adff25ddd029a52c085fbe6f7377d293724458e17b5a907d02612057a2"
+        },
+        {
+          "name": "test_readiness_source_does_not_pass_auth_config_or_password_to_argv",
+          "ast_sha256": "56fa01644bef06754f3534dbdcbd94396efebaaa09b7db0b057a4d01956ca578"
+        },
+        {
+          "name": "test_failure_paths_remove_secret_files",
+          "ast_sha256": "ab3ad558ea35a58b3e22aa639710a81085d01974124eb2d82e5916932d327c24"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/supabase_delivery_contract_test.py",
+      "bytes": 39094,
+      "sha256": "67e0edfec3d5378d4312e91005f1d7e73d1a685d8ca206d878b100b8950e2d71",
+      "mode": 420,
+      "original_tests": [
+        {
+          "name": "test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness",
+          "ast_sha256": "552d615f7c69a2bf47b1e1036f65ba401d2949f944fa6b39e061b24a8a205a1b"
+        },
+        {
+          "name": "test_wrong_cli_pin_stops_before_any_project_operation",
+          "ast_sha256": "3c0f8c73613eefd03f3466c11d3ec2fcb3d5682fe32c0620c9d541b9f900246c"
+        },
+        {
+          "name": "test_missing_and_swapped_companion_are_refused_before_project_calls",
+          "ast_sha256": "7af566aff07f08edc089c67381a825fe8b2430b12e4cf497a591c7fa9be5f6d3"
+        },
+        {
+          "name": "test_unapproved_companion_override_is_refused",
+          "ast_sha256": "537e934f6880ad84b1dc114d7a71258526a0c45fcce14471e44296c8cde72461"
+        },
+        {
+          "name": "test_companion_drift_after_preflight_stops_before_first_write",
+          "ast_sha256": "0327b0a0ca8c60dd32e8939501d14bab0c5284167a9e82e175224737b0d8bb9c"
+        },
+        {
+          "name": "test_missing_local_function_stops_before_any_project_operation",
+          "ast_sha256": "b100e55316cd88d0669ddd6d4da20c09c0c738c66242df02f04e396edf78fa4d"
+        },
+        {
+          "name": "test_connectivity_fallback_preserves_strict_readiness",
+          "ast_sha256": "213dd36f20758e26bb3316f63d8de6423c5bd8b38a319f22f431a8b2739672a8"
+        },
+        {
+          "name": "test_missing_approval_and_invalid_operation_scope_have_no_remote_effect",
+          "ast_sha256": "b8c47ae26cc2e85299dbcae48a8a176799a36d0b96304089cfc375551b1f436d"
+        },
+        {
+          "name": "test_missing_strict_readiness_inputs_and_wrong_database_target_stop_before_remote",
+          "ast_sha256": "7d822354d81afd57a8277b76473a9f119f67a53f2cd98748eebe1f1cefc74013"
+        },
+        {
+          "name": "test_wrong_approval_hash_blocks_before_any_remote_call",
+          "ast_sha256": "7c81149f664f93b85e87f2ca56c12a45ba4e2f2437575446079ec9a354be1bab"
+        },
+        {
+          "name": "test_expired_approval_with_matching_hash_is_still_refused",
+          "ast_sha256": "2a32635bea54ed530be7cc426ee5480ce5b584b199687f75073173e590bc3993"
+        },
+        {
+          "name": "test_wrong_target_environment_and_url_are_refused",
+          "ast_sha256": "f7f137031368df15ed4bbbe44468e8500e3fed16eedca1a19f6b416f30d118cb"
+        },
+        {
+          "name": "test_wrong_source_approval_binding_is_refused",
+          "ast_sha256": "c840bc3ea5e60ede0ca803715590bad404dbfe285fc24d223404976d31d37d1a"
+        },
+        {
+          "name": "test_unbound_candidate_manifest_is_refused",
+          "ast_sha256": "4ca50083ff423b8ef6ffec080e9afed2524c1739aeb2b79de7642b649aa92d26"
+        },
+        {
+          "name": "test_dirty_candidate_and_unlisted_candidate_source_are_refused",
+          "ast_sha256": "dec2cb749d48a283d6b72380042bf227b79a15cc07e6c1fa7d8a2e140f0f6021"
+        },
+        {
+          "name": "test_candidate_runtime_metadata_is_not_ignored_by_preflight",
+          "ast_sha256": "7ac774d56f272876a6b0774ad82bd30abba83dee42f2503ec6f24395ffd70269"
+        },
+        {
+          "name": "test_stale_worktree_helper_and_added_backend_source_are_refused",
+          "ast_sha256": "61a083d64b18587addf864fc9fd518aa2af159657a04bc7a71efee7a9e60900b"
+        },
+        {
+          "name": "test_missing_transitive_module_is_refused_before_project_calls",
+          "ast_sha256": "8e83445bfea9219fc5e126f74f4af1d1e537da709f2949686d9e0f04726a2c5c"
+        },
+        {
+          "name": "test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect",
+          "ast_sha256": "cc593a33e140df77eec1460d22c47c1b21842d4157141b66acbcc1db23c0ab0e"
+        },
+        {
+          "name": "test_mid_run_worktree_drift_stops_before_first_write",
+          "ast_sha256": "53fd4d8ff9b9dba74146d338cedecf1f2f921bba0240be59bea2a093d0dbe727"
+        },
+        {
+          "name": "test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes",
+          "ast_sha256": "1f739d6a833559c23812a89898fdf99393359366cf430c631ec327c9633f1560"
+        },
+        {
+          "name": "test_wrong_runtime_link_and_unapproved_dry_run_failure_stop_writes",
+          "ast_sha256": "5bd78031d5fef04e02292336d90e424262e2c5ac4e817196d5f9e51ffacdfe46"
+        },
+        {
+          "name": "test_partial_function_failure_keeps_receipt_and_stops_later_mutations",
+          "ast_sha256": "86540a40de91c3f9061a56a7d42824335d0eea38283be9f4c8d30e069a39e835"
+        },
+        {
+          "name": "test_lost_migration_reply_is_reconciled_without_retry_or_function_mutation",
+          "ast_sha256": "c36136a588033dcbc95bc6b6ff68695e86cf085fc68f0372640592f3be3ef6bc"
+        },
+        {
+          "name": "test_management_partial_failure_retains_commits_and_stops_functions",
+          "ast_sha256": "5a06c05a2823f26de540c527ee5a6d86182d69484d443470ef58dfdecc5525e2"
+        },
+        {
+          "name": "test_management_mid_run_drift_stops_the_next_transport_request",
+          "ast_sha256": "a59490fc367443c8d90e5bc4b691caa3d5ba73aa0fffe0bc6684cbb035cb479f"
+        },
+        {
+          "name": "test_staging_edge_scope_executes_export_without_production_acceptance",
+          "ast_sha256": "3aa2d38b172dc303891dcded1a655884a3a732f6e151a8a8ec5f1d0cc28cccf3"
+        },
+        {
+          "name": "test_mandatory_migration_readback_failure_blocks_functions",
+          "ast_sha256": "bd4da79f5d292cb9a527aa8e33ea12932ccff4f80a47a1cb7f8f37a2603e167c"
+        },
+        {
+          "name": "test_unsigned_probes_cover_thirteen_endpoints_and_use_no_hook_secret",
+          "ast_sha256": "37b989eab80d1f556f9926d20ed90bb0d5cec428801c50810a997b7c51494dec"
+        },
+        {
+          "name": "test_unsigned_successor_probe_is_empty_json_without_signed_device_or_bearer_inputs",
+          "ast_sha256": "7fa3f0067e04d122941d079a5454e26e523c409daabf3f603890d6c411441c18"
+        },
+        {
+          "name": "test_missing_successor_endpoint_refuses_readiness",
+          "ast_sha256": "63c909032ba6d3192d1ad10bdc6934ebb710c7dafc62ea08bdd2787de1d66c94"
+        },
+        {
+          "name": "test_missing_successor_deploy_readback_stops_before_strict_readiness",
+          "ast_sha256": "86dec19a091f9058b19a597850df580acc5457620ce9fdf31c5a50d6e458f6dc"
+        },
+        {
+          "name": "test_missing_successor_local_source_refuses_before_any_project_operation",
+          "ast_sha256": "350e8e09dbbefd337966deb7f6f40d8ad928747163568e3f7bff21d4ff7c1658"
+        },
+        {
+          "name": "test_legacy_edge_only_approval_succeeds_without_postgres_configuration",
+          "ast_sha256": "fa9d47403396b992140ea4bb7de21d5cac07b431e65997ac741a0e5fbb520cc4"
+        },
+        {
+          "name": "test_legacy_edge_only_shape_still_refuses_changed_target_before_requests",
+          "ast_sha256": "4e75ce750134c454e21e07aab7323ca61a3e3daeb61ca158c9fa526c17f9554e"
+        },
+        {
+          "name": "test_database_approval_without_postgres_binding_refuses_before_requests",
+          "ast_sha256": "57a1dc112b5b06ed58c5728fd22ae5c4e2848bab24fd887c1376047df8df92e0"
+        },
+        {
+          "name": "test_wrong_postgres_manifest_hash_and_override_refuse_before_requests",
+          "ast_sha256": "a8615e44cbe26f9c27677091e9435bf444c753f0c99082b98367aa065aa2f29e"
+        },
+        {
+          "name": "test_postgres_client_byte_drift_refuses_before_requests",
+          "ast_sha256": "fb3d31e8d4ae607b2f9466819deab47bfd874e112606577e76e05db84ae4b806"
+        },
+        {
+          "name": "test_incompatible_server_is_observed_by_read_only_query_before_any_write",
+          "ast_sha256": "f5aa3058a95f427644183e41807699260b437e9ad43dfe2e03a8949777b860da"
+        },
+        {
+          "name": "test_postgres_manifest_drift_after_dry_run_stops_first_write",
+          "ast_sha256": "f90ca5e7986de59912711a94d8e8c5ce3a26264035278bee6efafabec81dee41"
+        },
+        {
+          "name": "test_postgres_client_drift_after_dry_run_stops_first_write",
+          "ast_sha256": "556299e4a23e8d603d2f9314dc15594cc4385228c4c25b0421dc5aef101569ed"
+        },
+        {
+          "name": "test_server_drift_after_dry_run_stops_first_write",
+          "ast_sha256": "b0b7141ccd877acd2c2341024e3f2bfd24ea04363f2212f589f330e29d492f43"
+        },
+        {
+          "name": "test_server_read_precedes_every_release_mutation_and_management_migration",
+          "ast_sha256": "7998d3844ebc4bad6b092a177f521c17055a9ed771ab59bcd9118daab2b29a4a"
+        },
+        {
+          "name": "test_main_binary_drift_after_dry_run_stops_first_write",
+          "ast_sha256": "451c26ee81a88040fcb2e1f1ea67366efb692898bc3eab6679b578c3ef8c66d0"
+        },
+        {
+          "name": "test_make_tool_defaults_use_path_and_keep_explicit_overrides",
+          "ast_sha256": "78799190774332a6b7207589bac767f6ac4942ebf572026ddb5d16dda8f57502"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/backup_export_contract_test.rb",
+      "bytes": 1020,
+      "sha256": "88bcf83ae9f2a8a5aeade50b079be2d5aa1c6d3a7c8b67796ea25919b2262f5e",
+      "mode": 448
+    },
+    {
+      "path": "scripts/tests/collect_encrypted_database_backup_test.rb",
+      "bytes": 1761,
+      "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+      "mode": 448
+    },
+    {
+      "path": "scripts/tests/collect_recovery_source_test.rb",
+      "bytes": 10123,
+      "sha256": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a",
+      "mode": 420
+    },
+    {
+      "path": "scripts/tests/collect_worker_snapshot_test.rb",
+      "bytes": 6050,
+      "sha256": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b",
+      "mode": 420
+    },
+    {
+      "path": "scripts/tests/production_archive_restore_test.rb",
+      "bytes": 4644,
+      "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+      "mode": 448
+    },
+    {
+      "path": "scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867",
+      "mode": 448
+    },
+    {
+      "path": "Makefile",
+      "bytes": 18021,
+      "sha256": "a538b503bfccd6f8876c6700cb740cb34811095f9f5136bd3de485670556269b",
+      "mode": 420
+    }
+  ],
+  "unchanged_recovery5_reused_without_rerun": {
+    "ordinary-recovery-replay-execution5/packet-files.json": "c75e8a35ea208f855217b11b73492eb9e58b8f9341286c353b9b62c0b70553ba",
+    "ordinary-recovery-replay-execution5/actual-result.json": "8ea040fcc835d24671c568cb039b217f61a76b3745ff7ae4f024bf149631efa7",
+    "ordinary-recovery-replay-execution5/readback.json": "e5a5164f14636855cfa86be25fac2c7b218e7dfc40c5eb0a89afbe5589f968f9"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "name": "git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "elapsed_seconds": 0.6,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "76401385c6805ec02fe715c7d221f5e52072a35080ca4d94de3d47c275720e8a"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 6.79,
+      "exit_code": 0,
+      "name": "pub-enforce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/.gradle",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/android/.gradle"
+      ],
+      "elapsed_seconds": 0.02,
+      "exit_code": 0,
+      "name": "clone-cache-android-.gradle",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/build"
+      ],
+      "elapsed_seconds": 8.46,
+      "exit_code": 0,
+      "name": "clone-cache-build",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/real-json-runtime.init.gradle",
+        ":app:assembleInternal_gatewayRelease",
+        ":app:lintInternal_gatewayRelease",
+        ":app:testInternal_gatewayDebugUnitTest",
+        ":app:collectRuntimeGraph",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "-PcollectInventoryConfiguration=internal_gatewayReleaseRuntimeClasspath",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayDebug",
+        "--offline",
+        "--no-daemon",
+        "--max-workers=2",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 3474.81,
+      "exit_code": 0,
+      "name": "unsigned-native-build-lint-jvm-graph",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "01ed26ea0b97066c76f92de10802f16c764489460eb1afa41b264e465e82ddad"
+    },
+    {
+      "command": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway/scripts/tests/android_gateway_attempt_archive_jvm.py",
+        "--packet",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/gateway-standalone"
+      ],
+      "elapsed_seconds": 96.63,
+      "exit_code": 0,
+      "name": "gateway-native-archive-dispatch-harness",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "deac69dd1618c5d2c19cf7651b2be967a664ce09c30049892ea198a885a898f6"
+    }
+  ],
+  "error": "",
+  "pid": 67090,
+  "source_manifest_sha256": "38c1bd75691d7cd57ae1e66b8b0094be1d90ffdec768f7878e4ab84046f486a7",
+  "stage": "gateway-native-archive-dispatch-harness",
+  "status": "fail"
+}

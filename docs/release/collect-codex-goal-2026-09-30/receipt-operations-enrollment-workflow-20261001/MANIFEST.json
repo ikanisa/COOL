@@ -1,0 +1,1384 @@
+{
+  "scope": "Focused current CLI/client/Swift evidence plus immutable SQL child seal association; excludes broad current candidate/history acceptance",
+  "sealed_at": "2026-10-01T13:26:18.608851+00:00",
+  "files": {
+    "README.md": {
+      "sha256": "5de9c6c22a27198a5c299a66e2174ce7c85ddb3ab226dd1ca8a49636811a3731",
+      "bytes": 4774
+    },
+    "checks-affected-final/associated-tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "checks-affected-final/commands.json": {
+      "sha256": "2bfd12d22f1a0adf5a624b6276a9410238ec9feae3a17b079b3e02fa62d7174f",
+      "bytes": 2233
+    },
+    "checks-affected-final/dependencies-after.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-affected-final/dependencies-before.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-affected-final/node.log": {
+      "sha256": "b52a039d274f69554af643a7b6d53f63697f78bb25431a9632d9f98b5cbec675",
+      "bytes": 17579
+    },
+    "checks-affected-final/source/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_affected_checks.py": {
+      "sha256": "f801e29c0e60abb3b0f5ab1b4f3fa0c94d64a0c07b288a15e7e4e4271acde8d9",
+      "bytes": 7048
+    },
+    "checks-affected-final/source/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_node_checks.py": {
+      "sha256": "71adf0e2d088a4e79a93b37c084d2ba7c867f6df56e80d92650cea0ebb249983",
+      "bytes": 5730
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bytes": 18100
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "bytes": 11780
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/index.ts": {
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "bytes": 411
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/operations_contract.ts": {
+      "sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "bytes": 8649
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": {
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "bytes": 11092
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": {
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "bytes": 1148
+    },
+    "checks-affected-final/source/supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "bytes": 1169
+    },
+    "checks-affected-final/source/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": {
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+      "bytes": 20563
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/ENROLLMENT.md": {
+      "sha256": "34f2cc644dc8c98f688a576612ac3f8918a65d129202af8087bbbfde37309d30",
+      "bytes": 5322
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/package.json": {
+      "sha256": "7bbb9abc49eb4f2dbb56b341b35dfb5db57e92dd7db5e72ba65b96803e77dd44",
+      "bytes": 688
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+      "bytes": 8909
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/keychain.swift": {
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff",
+      "bytes": 2065
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+      "bytes": 2420
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/keychain_store.ts": {
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+      "bytes": 2562
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "sha256": "20678f7ceee30ff65313d71bc89170907cab49d73c993a5777633129302c60de",
+      "bytes": 10018
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operational_client.ts": {
+      "sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "bytes": 10991
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+      "bytes": 3536
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operational_health.ts": {
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+      "bytes": 6985
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+      "bytes": 8770
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+      "bytes": 2603
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operator_client.ts": {
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+      "bytes": 2798
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6",
+      "bytes": 3375
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/operator_login.ts": {
+      "sha256": "f5bb25396a1b8e40865aa7af803b619acd1767c3f0b3b232d02d8ed79e61e1f3",
+      "bytes": 6274
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/preflight.test.ts": {
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+      "bytes": 4043
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/preflight.ts": {
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+      "bytes": 4022
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/queue_health.ts": {
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+      "bytes": 862
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+      "bytes": 1779
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+      "bytes": 760
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/server.test.ts": {
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab",
+      "bytes": 2560
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/server.ts": {
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+      "bytes": 10762
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99",
+      "bytes": 6965
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "sha256": "91205a587b00fa5dcb111aa3876fe63687f4546902fc3a92abfb8655755755dc",
+      "bytes": 14556
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/session_renewal.ts": {
+      "sha256": "c069c29746546ee719eff42b344c5df6d219419bf117835eae469214b5f4706d",
+      "bytes": 9911
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392",
+      "bytes": 1285
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874",
+      "bytes": 1143
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93",
+      "bytes": 7837
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_client.ts": {
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "bytes": 5247
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988",
+      "bytes": 10541
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114",
+      "bytes": 1748
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c",
+      "bytes": 5684
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248",
+      "bytes": 12412
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40",
+      "bytes": 5391
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+      "bytes": 2755
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+      "bytes": 4704
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/supervisor_client.test.ts": {
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859",
+      "bytes": 9566
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/supervisor_client.ts": {
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975",
+      "bytes": 9009
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/supervisor_journal.test.ts": {
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0",
+      "bytes": 23237
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/supervisor_journal.ts": {
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758",
+      "bytes": 23474
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/supervisor_keychain.swift": {
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c",
+      "bytes": 9023
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe",
+      "bytes": 2871
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11",
+      "bytes": 2383
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77",
+      "bytes": 1135
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79",
+      "bytes": 5553
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-lookup-v3.json": {
+      "sha256": "e3eff82c4d4fc6581ddcde2bfa224c76be0c75cc27c063a6d08f557a15575a90",
+      "bytes": 801
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-v3.json": {
+      "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4",
+      "bytes": 476
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-input-v3.json": {
+      "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57",
+      "bytes": 410
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-lookup-v3.json": {
+      "sha256": "d5a2192cf0e29158d04eb6a915f175f95d04228d2aa2c06013fe9ce477a1a480",
+      "bytes": 798
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-v3.json": {
+      "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3",
+      "bytes": 475
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-active-v3.json": {
+      "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c",
+      "bytes": 547
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-expired-active-v3.json": {
+      "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736",
+      "bytes": 547
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-pages-v3.json": {
+      "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88",
+      "bytes": 16143
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-revoked-v3.json": {
+      "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7",
+      "bytes": 573
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-in-progress-v3.json": {
+      "sha256": "4372c688b26e17901ea27efb7532bae1ec96b4bf6370ae39ab18c314cdbd3f03",
+      "bytes": 280
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-not-recorded-v3.json": {
+      "sha256": "bb131c98cce62b137e1eff642e6b524b8618bdce17c6263a9229a4b7c5c5f962",
+      "bytes": 281
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-active-v3.json": {
+      "sha256": "b013dc8afc0996d76773af46782a314d8489004b543c6507987f05d109d2daaa",
+      "bytes": 562
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-pending-v3.json": {
+      "sha256": "9a7e8df4db3336ea94a70f8786e37299f33a1acdb7e91be6e4ba47568b4d0caf",
+      "bytes": 562
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-input-v3.json": {
+      "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2",
+      "bytes": 466
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-lookup-v3.json": {
+      "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a",
+      "bytes": 887
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-v3.json": {
+      "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b",
+      "bytes": 562
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/provenance.json": {
+      "sha256": "9f611082bece1cb1c07b45b0f5050f7169f36a13914fcca72f805f6702bee0e1",
+      "bytes": 5143
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/testing/unattended_fixture.ts": {
+      "sha256": "96d0f92b349732722f6df55013e19a7686b32f028d0594735f7569334fba26aa",
+      "bytes": 4054
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_client.test.ts": {
+      "sha256": "7549d3403ae745ba78a0c2d0d435ad94a53a9deb23eed8cec7bee12babc06548",
+      "bytes": 9698
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_client.ts": {
+      "sha256": "6aebbf046272783d7de1f75c1db7b36f140d5043aabf81dc01fc583b69549847",
+      "bytes": 6495
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_contract.ts": {
+      "sha256": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+      "bytes": 11141
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enroll_cli.ts": {
+      "sha256": "e4ca680971333beb503940db39b127b3e47a60dd39898efcbe5dd813f63ce56b",
+      "bytes": 10578
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment.test.ts": {
+      "sha256": "9aaa6a709f7d5d59e68b2bc73984df22ce1f58210dc3ad66c8accc8565abd230",
+      "bytes": 39201
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment.ts": {
+      "sha256": "c081494a65b579f31a85f6c3b31b34bc13aca976a0286baebc74255c9497e07f",
+      "bytes": 12059
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment_contract.ts": {
+      "sha256": "0a2bc6e8ce95c88b099e84a61c35fe492e074288fdd85c38519d6eaf14f75d8d",
+      "bytes": 11732
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment_journal.ts": {
+      "sha256": "890c063a707447730d37591eb967da4cbfbf888633cfc29a6077e362781f6abe",
+      "bytes": 11816
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment_observed.test.ts": {
+      "sha256": "423100c9c58551a54c41c6f85a6b75a393467771830e85685d29458bb3f3479d",
+      "bytes": 4770
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_enrollment_owner.ts": {
+      "sha256": "81c263e59bf16a9853c78b93a032ba69abef6026a026be377bf5427dc93947b3",
+      "bytes": 6419
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_history.test.ts": {
+      "sha256": "d4b62f4d85039c61ebbc41ce3049c533f2ac9c2615f4588788401083cba0a081",
+      "bytes": 16405
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_history.ts": {
+      "sha256": "04b7ddf52a5f2d39d163ddc402f1038e0334f3b51b4ee8c6d52c48d8e4217b9d",
+      "bytes": 11890
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_journal.test.ts": {
+      "sha256": "74ac844cc408d7fb0c3696770b07d8bcccaafea966c9b626e47d81e45566e417",
+      "bytes": 30374
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_journal.ts": {
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "bytes": 15438
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_keychain.swift": {
+      "sha256": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+      "bytes": 11939
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_profile.test.ts": {
+      "sha256": "3f1a0ce47cba878ab34b4d0948b7b08131e01649c5a75ea124099559cc7e21e0",
+      "bytes": 4121
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_profile.ts": {
+      "sha256": "2d40f66e167bcb78ae94bb73039c075dcce81333fe9604ca548813d2cf14fcde",
+      "bytes": 3938
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_profile_preparation.ts": {
+      "sha256": "4b32b8b4e6b67e74aecd6b51ee5179427a99f676f673842f6715933fccb63f87",
+      "bytes": 11830
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_revocation.ts": {
+      "sha256": "7bac670c9078c0208538318f5dd98d1e96358f1f4f44928ee40807e3898dad14",
+      "bytes": 4213
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_runner.test.ts": {
+      "sha256": "d4793ddb922353fa63498f69f9f7791289cefe5ee378a9a7e4dc701319019d2a",
+      "bytes": 11638
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61",
+      "bytes": 16552
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_scheduler.test.ts": {
+      "sha256": "6081a1254d2c03950ae05b4b17f38c7c2733b113f2d274e9da01e68aba6c43a6",
+      "bytes": 10792
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c",
+      "bytes": 8912
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_server.ts": {
+      "sha256": "781b478284153da218c203e0015905b15e35005e6bf65580e6b2fa650cc2fde6",
+      "bytes": 4893
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_stdio.test.ts": {
+      "sha256": "ac5f9b87401f3352dda52ae90357cced8d4889d5ffe83269aca1341ff374b7c6",
+      "bytes": 4988
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_stdio.ts": {
+      "sha256": "c475747fefee2701a492e0a76a3fc69d63f483db295320d6f1851566b0e72e55",
+      "bytes": 5922
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_store.test.ts": {
+      "sha256": "799f39546ae752bea554477ba017475cbb72f110b2f4f02e80d95e6f0bf10ba3",
+      "bytes": 12246
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/src/unattended_store.ts": {
+      "sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "bytes": 9855
+    },
+    "checks-affected-final/source/tools/collect-notification-mcp/tsconfig.json": {
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84",
+      "bytes": 333
+    },
+    "checks-affected-final/sources-after.json": {
+      "sha256": "7a4e9c8aba63ee2797c7efbe8ac335328f576a2bc1f910661248ff7dd77d8434",
+      "bytes": 14332
+    },
+    "checks-affected-final/sources-before.json": {
+      "sha256": "7a4e9c8aba63ee2797c7efbe8ac335328f576a2bc1f910661248ff7dd77d8434",
+      "bytes": 14332
+    },
+    "checks-affected-final/swift-compile.log": {
+      "sha256": "c500265c35987141e5dc26dde211fd6930e3223d25341a3729ca9cb5a41184ac",
+      "bytes": 88
+    },
+    "checks-affected-final/verification.json": {
+      "sha256": "1c91551ceded70a32a786aa375ababe791b5dd5c77a41dbaec26f858f9c6948e",
+      "bytes": 3194
+    },
+    "checks-final/setup-failure.json": {
+      "sha256": "bf84402d69a9e5c1ef5bf0d85091ead967a073c9a55719939d601fd696420c77",
+      "bytes": 488
+    },
+    "checks-final-attempt2/commands.json": {
+      "sha256": "43cf79b334bf9f63c85ab6c3ba68ea771ac1bf6d80cd16617eed600d1ca71730",
+      "bytes": 1237
+    },
+    "checks-final-attempt2/dependencies-after.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-final-attempt2/dependencies-before.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-final-attempt2/node.log": {
+      "sha256": "5ccb5f0744c0e4c35a42583332b9cb7fdedeec99b9a4d0871009d56d5ded0306",
+      "bytes": 9325
+    },
+    "checks-final-attempt2/source/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_node_checks.py": {
+      "sha256": "bcf7aa080e1932d33ff53d76f646db26a3c4e0b7d9cfb2e9f1e871bcb11e3759",
+      "bytes": 5730
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bytes": 18100
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "bytes": 11780
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/index.ts": {
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "bytes": 411
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/operations_contract.ts": {
+      "sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "bytes": 8649
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": {
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "bytes": 11092
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": {
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "bytes": 1148
+    },
+    "checks-final-attempt2/source/supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "bytes": 1169
+    },
+    "checks-final-attempt2/source/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": {
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+      "bytes": 20563
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/ENROLLMENT.md": {
+      "sha256": "97dc48fa3c667a5a4a897ec6902bd0f504e080a62b503e10438d02c10b1b5057",
+      "bytes": 4881
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/package.json": {
+      "sha256": "7bbb9abc49eb4f2dbb56b341b35dfb5db57e92dd7db5e72ba65b96803e77dd44",
+      "bytes": 688
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+      "bytes": 8909
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/keychain.swift": {
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff",
+      "bytes": 2065
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+      "bytes": 2420
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/keychain_store.ts": {
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+      "bytes": 2562
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "sha256": "20678f7ceee30ff65313d71bc89170907cab49d73c993a5777633129302c60de",
+      "bytes": 10018
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operational_client.ts": {
+      "sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "bytes": 10991
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+      "bytes": 3536
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operational_health.ts": {
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+      "bytes": 6985
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+      "bytes": 8770
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+      "bytes": 2603
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operator_client.ts": {
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+      "bytes": 2798
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6",
+      "bytes": 3375
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/operator_login.ts": {
+      "sha256": "f5bb25396a1b8e40865aa7af803b619acd1767c3f0b3b232d02d8ed79e61e1f3",
+      "bytes": 6274
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/preflight.test.ts": {
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+      "bytes": 4043
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/preflight.ts": {
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+      "bytes": 4022
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/queue_health.ts": {
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+      "bytes": 862
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+      "bytes": 1779
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+      "bytes": 760
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/server.test.ts": {
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab",
+      "bytes": 2560
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/server.ts": {
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+      "bytes": 10762
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99",
+      "bytes": 6965
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "sha256": "91205a587b00fa5dcb111aa3876fe63687f4546902fc3a92abfb8655755755dc",
+      "bytes": 14556
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/session_renewal.ts": {
+      "sha256": "c069c29746546ee719eff42b344c5df6d219419bf117835eae469214b5f4706d",
+      "bytes": 9911
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392",
+      "bytes": 1285
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874",
+      "bytes": 1143
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93",
+      "bytes": 7837
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_client.ts": {
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "bytes": 5247
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988",
+      "bytes": 10541
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114",
+      "bytes": 1748
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c",
+      "bytes": 5684
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248",
+      "bytes": 12412
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40",
+      "bytes": 5391
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+      "bytes": 2755
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+      "bytes": 4704
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/supervisor_client.test.ts": {
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859",
+      "bytes": 9566
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/supervisor_client.ts": {
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975",
+      "bytes": 9009
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/supervisor_journal.test.ts": {
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0",
+      "bytes": 23237
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/supervisor_journal.ts": {
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758",
+      "bytes": 23474
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/supervisor_keychain.swift": {
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c",
+      "bytes": 9023
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe",
+      "bytes": 2871
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11",
+      "bytes": 2383
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77",
+      "bytes": 1135
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79",
+      "bytes": 5553
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-lookup-v3.json": {
+      "sha256": "e3eff82c4d4fc6581ddcde2bfa224c76be0c75cc27c063a6d08f557a15575a90",
+      "bytes": 801
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-v3.json": {
+      "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4",
+      "bytes": 476
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-input-v3.json": {
+      "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57",
+      "bytes": 410
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-lookup-v3.json": {
+      "sha256": "d5a2192cf0e29158d04eb6a915f175f95d04228d2aa2c06013fe9ce477a1a480",
+      "bytes": 798
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-v3.json": {
+      "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3",
+      "bytes": 475
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-active-v3.json": {
+      "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c",
+      "bytes": 547
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-expired-active-v3.json": {
+      "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736",
+      "bytes": 547
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-pages-v3.json": {
+      "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88",
+      "bytes": 16143
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-revoked-v3.json": {
+      "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7",
+      "bytes": 573
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-in-progress-v3.json": {
+      "sha256": "4372c688b26e17901ea27efb7532bae1ec96b4bf6370ae39ab18c314cdbd3f03",
+      "bytes": 280
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-not-recorded-v3.json": {
+      "sha256": "bb131c98cce62b137e1eff642e6b524b8618bdce17c6263a9229a4b7c5c5f962",
+      "bytes": 281
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-active-v3.json": {
+      "sha256": "b013dc8afc0996d76773af46782a314d8489004b543c6507987f05d109d2daaa",
+      "bytes": 562
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-pending-v3.json": {
+      "sha256": "9a7e8df4db3336ea94a70f8786e37299f33a1acdb7e91be6e4ba47568b4d0caf",
+      "bytes": 562
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-input-v3.json": {
+      "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2",
+      "bytes": 466
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-lookup-v3.json": {
+      "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a",
+      "bytes": 887
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-v3.json": {
+      "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b",
+      "bytes": 562
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/provenance.json": {
+      "sha256": "9f611082bece1cb1c07b45b0f5050f7169f36a13914fcca72f805f6702bee0e1",
+      "bytes": 5143
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/testing/unattended_fixture.ts": {
+      "sha256": "96d0f92b349732722f6df55013e19a7686b32f028d0594735f7569334fba26aa",
+      "bytes": 4054
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_client.test.ts": {
+      "sha256": "7549d3403ae745ba78a0c2d0d435ad94a53a9deb23eed8cec7bee12babc06548",
+      "bytes": 9698
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_client.ts": {
+      "sha256": "6aebbf046272783d7de1f75c1db7b36f140d5043aabf81dc01fc583b69549847",
+      "bytes": 6495
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_contract.ts": {
+      "sha256": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+      "bytes": 11141
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enroll_cli.ts": {
+      "sha256": "dc3f0f4a3276a84184252b3a5069dca0446e94e2d3269d7858f7b4d386722b21",
+      "bytes": 10069
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment.test.ts": {
+      "sha256": "35195f5b0fab46b83b652f2a1ea47a6ef99781e17c043bc0c613624f2a8108d7",
+      "bytes": 35172
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment.ts": {
+      "sha256": "c081494a65b579f31a85f6c3b31b34bc13aca976a0286baebc74255c9497e07f",
+      "bytes": 12059
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment_contract.ts": {
+      "sha256": "0a2bc6e8ce95c88b099e84a61c35fe492e074288fdd85c38519d6eaf14f75d8d",
+      "bytes": 11732
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment_journal.ts": {
+      "sha256": "890c063a707447730d37591eb967da4cbfbf888633cfc29a6077e362781f6abe",
+      "bytes": 11816
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment_observed.test.ts": {
+      "sha256": "423100c9c58551a54c41c6f85a6b75a393467771830e85685d29458bb3f3479d",
+      "bytes": 4770
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_enrollment_owner.ts": {
+      "sha256": "81c263e59bf16a9853c78b93a032ba69abef6026a026be377bf5427dc93947b3",
+      "bytes": 6419
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_history.test.ts": {
+      "sha256": "d4b62f4d85039c61ebbc41ce3049c533f2ac9c2615f4588788401083cba0a081",
+      "bytes": 16405
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_history.ts": {
+      "sha256": "04b7ddf52a5f2d39d163ddc402f1038e0334f3b51b4ee8c6d52c48d8e4217b9d",
+      "bytes": 11890
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_journal.test.ts": {
+      "sha256": "74ac844cc408d7fb0c3696770b07d8bcccaafea966c9b626e47d81e45566e417",
+      "bytes": 30374
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_journal.ts": {
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "bytes": 15438
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_keychain.swift": {
+      "sha256": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+      "bytes": 11939
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_profile.test.ts": {
+      "sha256": "3f1a0ce47cba878ab34b4d0948b7b08131e01649c5a75ea124099559cc7e21e0",
+      "bytes": 4121
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_profile.ts": {
+      "sha256": "2d40f66e167bcb78ae94bb73039c075dcce81333fe9604ca548813d2cf14fcde",
+      "bytes": 3938
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_profile_preparation.ts": {
+      "sha256": "4b32b8b4e6b67e74aecd6b51ee5179427a99f676f673842f6715933fccb63f87",
+      "bytes": 11830
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_revocation.ts": {
+      "sha256": "6c8cb90b045caaf0415bb5e8f33b49ef8d0fec531f1f56716c20d179bd3696b9",
+      "bytes": 3521
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_runner.test.ts": {
+      "sha256": "d4793ddb922353fa63498f69f9f7791289cefe5ee378a9a7e4dc701319019d2a",
+      "bytes": 11638
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61",
+      "bytes": 16552
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_scheduler.test.ts": {
+      "sha256": "6081a1254d2c03950ae05b4b17f38c7c2733b113f2d274e9da01e68aba6c43a6",
+      "bytes": 10792
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c",
+      "bytes": 8912
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_server.ts": {
+      "sha256": "781b478284153da218c203e0015905b15e35005e6bf65580e6b2fa650cc2fde6",
+      "bytes": 4893
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_stdio.test.ts": {
+      "sha256": "ac5f9b87401f3352dda52ae90357cced8d4889d5ffe83269aca1341ff374b7c6",
+      "bytes": 4988
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_stdio.ts": {
+      "sha256": "c475747fefee2701a492e0a76a3fc69d63f483db295320d6f1851566b0e72e55",
+      "bytes": 5922
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_store.test.ts": {
+      "sha256": "799f39546ae752bea554477ba017475cbb72f110b2f4f02e80d95e6f0bf10ba3",
+      "bytes": 12246
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/src/unattended_store.ts": {
+      "sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "bytes": 9855
+    },
+    "checks-final-attempt2/source/tools/collect-notification-mcp/tsconfig.json": {
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84",
+      "bytes": 333
+    },
+    "checks-final-attempt2/sources-after.json": {
+      "sha256": "8e1caf3133469703a2160cd218e19df58b0632c4fdbd09d43a046039884bd740",
+      "bytes": 14145
+    },
+    "checks-final-attempt2/sources-before.json": {
+      "sha256": "8e1caf3133469703a2160cd218e19df58b0632c4fdbd09d43a046039884bd740",
+      "bytes": 14145
+    },
+    "checks-final-attempt2/tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "checks-final-attempt2/verification.json": {
+      "sha256": "7aa96a19e825ec11e8f71cec47637cea82ecef712c8fa5ac9ff21586235d5985",
+      "bytes": 2063
+    },
+    "checks-final-attempt3/commands.json": {
+      "sha256": "2fd1a8eff723b804dc7d5aa35eb816dbb2bcac02402973bda7ec48b1ae085229",
+      "bytes": 1237
+    },
+    "checks-final-attempt3/dependencies-after.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-final-attempt3/dependencies-before.json": {
+      "sha256": "f982a25f3ce5616494d7474d4facddf2d56765fa2a5b73f67a3fb16c18c2bba5",
+      "bytes": 253183
+    },
+    "checks-final-attempt3/node.log": {
+      "sha256": "3413583b3239c7c4d17f309d1f54ee83315614e363e9d912210c6e2941dfb50e",
+      "bytes": 9758
+    },
+    "checks-final-attempt3/source/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_node_checks.py": {
+      "sha256": "71adf0e2d088a4e79a93b37c084d2ba7c867f6df56e80d92650cea0ebb249983",
+      "bytes": 5730
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+      "bytes": 18100
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+      "bytes": 11780
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/index.ts": {
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15",
+      "bytes": 411
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/operations_contract.ts": {
+      "sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "bytes": 8649
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": {
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+      "bytes": 11092
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": {
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+      "bytes": 1148
+    },
+    "checks-final-attempt3/source/supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+      "bytes": 1169
+    },
+    "checks-final-attempt3/source/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": {
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+      "bytes": 20563
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/ENROLLMENT.md": {
+      "sha256": "34f2cc644dc8c98f688a576612ac3f8918a65d129202af8087bbbfde37309d30",
+      "bytes": 5322
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/package.json": {
+      "sha256": "7bbb9abc49eb4f2dbb56b341b35dfb5db57e92dd7db5e72ba65b96803e77dd44",
+      "bytes": 688
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3",
+      "bytes": 8909
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/keychain.swift": {
+      "sha256": "40eb76b195cd43b3957d67ba09351087f5319fc7084f9bec14f570304fef5aff",
+      "bytes": 2065
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/keychain_store.test.ts": {
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6",
+      "bytes": 2420
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/keychain_store.ts": {
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224",
+      "bytes": 2562
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operational_client.test.ts": {
+      "sha256": "20678f7ceee30ff65313d71bc89170907cab49d73c993a5777633129302c60de",
+      "bytes": 10018
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operational_client.ts": {
+      "sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd",
+      "bytes": 10991
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operational_health.test.ts": {
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b",
+      "bytes": 3536
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operational_health.ts": {
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8",
+      "bytes": 6985
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operational_transport.test.ts": {
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612",
+      "bytes": 8770
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operator_client.test.ts": {
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7",
+      "bytes": 2603
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operator_client.ts": {
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9",
+      "bytes": 2798
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operator_login.test.ts": {
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6",
+      "bytes": 3375
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/operator_login.ts": {
+      "sha256": "f5bb25396a1b8e40865aa7af803b619acd1767c3f0b3b232d02d8ed79e61e1f3",
+      "bytes": 6274
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/preflight.test.ts": {
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428",
+      "bytes": 4043
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/preflight.ts": {
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae",
+      "bytes": 4022
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/queue_health.ts": {
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d",
+      "bytes": 862
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/runtime_credentials.test.ts": {
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a",
+      "bytes": 1779
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/runtime_credentials.ts": {
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377",
+      "bytes": 760
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/server.test.ts": {
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab",
+      "bytes": 2560
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/server.ts": {
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8",
+      "bytes": 10762
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/server_transport.test.ts": {
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99",
+      "bytes": 6965
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/session_renewal.test.ts": {
+      "sha256": "91205a587b00fa5dcb111aa3876fe63687f4546902fc3a92abfb8655755755dc",
+      "bytes": 14556
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/session_renewal.ts": {
+      "sha256": "c069c29746546ee719eff42b344c5df6d219419bf117835eae469214b5f4706d",
+      "bytes": 9911
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_cli_options.test.ts": {
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392",
+      "bytes": 1285
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_cli_options.ts": {
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874",
+      "bytes": 1143
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_client.test.ts": {
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93",
+      "bytes": 7837
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_client.ts": {
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f",
+      "bytes": 5247
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_contract.ts": {
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988",
+      "bytes": 10541
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_stdio.test.ts": {
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114",
+      "bytes": 1748
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_stdio.ts": {
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c",
+      "bytes": 5684
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_supervisor.test.ts": {
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248",
+      "bytes": 12412
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/shadow_supervisor.ts": {
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40",
+      "bytes": 5391
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/stdio_preflight.test.ts": {
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51",
+      "bytes": 2755
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/stdio_preflight.ts": {
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649",
+      "bytes": 4704
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/supervisor_client.test.ts": {
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859",
+      "bytes": 9566
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/supervisor_client.ts": {
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975",
+      "bytes": 9009
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/supervisor_journal.test.ts": {
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0",
+      "bytes": 23237
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/supervisor_journal.ts": {
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758",
+      "bytes": 23474
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/supervisor_keychain.swift": {
+      "sha256": "562a9bddb8f08fe7ae4da49a4ee3ff13b44e66a47a1f9a447bd1647b065f1a7c",
+      "bytes": 9023
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/operational_fixture.ts": {
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe",
+      "bytes": 2871
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/shadow_fixture.ts": {
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11",
+      "bytes": 2383
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts": {
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77",
+      "bytes": 1135
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/stdio_harness.ts": {
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79",
+      "bytes": 5553
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-lookup-v3.json": {
+      "sha256": "e3eff82c4d4fc6581ddcde2bfa224c76be0c75cc27c063a6d08f557a15575a90",
+      "bytes": 801
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-activate-v3.json": {
+      "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4",
+      "bytes": 476
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-input-v3.json": {
+      "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57",
+      "bytes": 410
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-lookup-v3.json": {
+      "sha256": "d5a2192cf0e29158d04eb6a915f175f95d04228d2aa2c06013fe9ce477a1a480",
+      "bytes": 798
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-enroll-v3.json": {
+      "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3",
+      "bytes": 475
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-active-v3.json": {
+      "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c",
+      "bytes": 547
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-expired-active-v3.json": {
+      "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736",
+      "bytes": 547
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-pages-v3.json": {
+      "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88",
+      "bytes": 16143
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-identity-revoked-v3.json": {
+      "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7",
+      "bytes": 573
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-in-progress-v3.json": {
+      "sha256": "4372c688b26e17901ea27efb7532bae1ec96b4bf6370ae39ab18c314cdbd3f03",
+      "bytes": 280
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-not-recorded-v3.json": {
+      "sha256": "bb131c98cce62b137e1eff642e6b524b8618bdce17c6263a9229a4b7c5c5f962",
+      "bytes": 281
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-active-v3.json": {
+      "sha256": "b013dc8afc0996d76773af46782a314d8489004b543c6507987f05d109d2daaa",
+      "bytes": 562
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-expired-pending-v3.json": {
+      "sha256": "9a7e8df4db3336ea94a70f8786e37299f33a1acdb7e91be6e4ba47568b4d0caf",
+      "bytes": 562
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-input-v3.json": {
+      "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2",
+      "bytes": 466
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-lookup-v3.json": {
+      "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a",
+      "bytes": 887
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/observed-revoke-v3.json": {
+      "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b",
+      "bytes": 562
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_enrollment_observed/provenance.json": {
+      "sha256": "9f611082bece1cb1c07b45b0f5050f7169f36a13914fcca72f805f6702bee0e1",
+      "bytes": 5143
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/testing/unattended_fixture.ts": {
+      "sha256": "96d0f92b349732722f6df55013e19a7686b32f028d0594735f7569334fba26aa",
+      "bytes": 4054
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_client.test.ts": {
+      "sha256": "7549d3403ae745ba78a0c2d0d435ad94a53a9deb23eed8cec7bee12babc06548",
+      "bytes": 9698
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_client.ts": {
+      "sha256": "6aebbf046272783d7de1f75c1db7b36f140d5043aabf81dc01fc583b69549847",
+      "bytes": 6495
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_contract.ts": {
+      "sha256": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+      "bytes": 11141
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enroll_cli.ts": {
+      "sha256": "e4ca680971333beb503940db39b127b3e47a60dd39898efcbe5dd813f63ce56b",
+      "bytes": 10578
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment.test.ts": {
+      "sha256": "9aaa6a709f7d5d59e68b2bc73984df22ce1f58210dc3ad66c8accc8565abd230",
+      "bytes": 39201
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment.ts": {
+      "sha256": "c081494a65b579f31a85f6c3b31b34bc13aca976a0286baebc74255c9497e07f",
+      "bytes": 12059
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment_contract.ts": {
+      "sha256": "0a2bc6e8ce95c88b099e84a61c35fe492e074288fdd85c38519d6eaf14f75d8d",
+      "bytes": 11732
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment_journal.ts": {
+      "sha256": "890c063a707447730d37591eb967da4cbfbf888633cfc29a6077e362781f6abe",
+      "bytes": 11816
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment_observed.test.ts": {
+      "sha256": "423100c9c58551a54c41c6f85a6b75a393467771830e85685d29458bb3f3479d",
+      "bytes": 4770
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_enrollment_owner.ts": {
+      "sha256": "81c263e59bf16a9853c78b93a032ba69abef6026a026be377bf5427dc93947b3",
+      "bytes": 6419
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_history.test.ts": {
+      "sha256": "d4b62f4d85039c61ebbc41ce3049c533f2ac9c2615f4588788401083cba0a081",
+      "bytes": 16405
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_history.ts": {
+      "sha256": "04b7ddf52a5f2d39d163ddc402f1038e0334f3b51b4ee8c6d52c48d8e4217b9d",
+      "bytes": 11890
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_journal.test.ts": {
+      "sha256": "74ac844cc408d7fb0c3696770b07d8bcccaafea966c9b626e47d81e45566e417",
+      "bytes": 30374
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_journal.ts": {
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "bytes": 15438
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_keychain.swift": {
+      "sha256": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+      "bytes": 11939
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_profile.test.ts": {
+      "sha256": "3f1a0ce47cba878ab34b4d0948b7b08131e01649c5a75ea124099559cc7e21e0",
+      "bytes": 4121
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_profile.ts": {
+      "sha256": "2d40f66e167bcb78ae94bb73039c075dcce81333fe9604ca548813d2cf14fcde",
+      "bytes": 3938
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_profile_preparation.ts": {
+      "sha256": "4b32b8b4e6b67e74aecd6b51ee5179427a99f676f673842f6715933fccb63f87",
+      "bytes": 11830
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_revocation.ts": {
+      "sha256": "7bac670c9078c0208538318f5dd98d1e96358f1f4f44928ee40807e3898dad14",
+      "bytes": 4213
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_runner.test.ts": {
+      "sha256": "d4793ddb922353fa63498f69f9f7791289cefe5ee378a9a7e4dc701319019d2a",
+      "bytes": 11638
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61",
+      "bytes": 16552
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_scheduler.test.ts": {
+      "sha256": "6081a1254d2c03950ae05b4b17f38c7c2733b113f2d274e9da01e68aba6c43a6",
+      "bytes": 10792
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c",
+      "bytes": 8912
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_server.ts": {
+      "sha256": "781b478284153da218c203e0015905b15e35005e6bf65580e6b2fa650cc2fde6",
+      "bytes": 4893
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_stdio.test.ts": {
+      "sha256": "ac5f9b87401f3352dda52ae90357cced8d4889d5ffe83269aca1341ff374b7c6",
+      "bytes": 4988
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_stdio.ts": {
+      "sha256": "c475747fefee2701a492e0a76a3fc69d63f483db295320d6f1851566b0e72e55",
+      "bytes": 5922
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_store.test.ts": {
+      "sha256": "799f39546ae752bea554477ba017475cbb72f110b2f4f02e80d95e6f0bf10ba3",
+      "bytes": 12246
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/src/unattended_store.ts": {
+      "sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "bytes": 9855
+    },
+    "checks-final-attempt3/source/tools/collect-notification-mcp/tsconfig.json": {
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84",
+      "bytes": 333
+    },
+    "checks-final-attempt3/sources-after.json": {
+      "sha256": "c7bb7693357cbf414d615cf30674f819cee79ba7da2c04d2fb75b78798e0ad76",
+      "bytes": 14145
+    },
+    "checks-final-attempt3/sources-before.json": {
+      "sha256": "c7bb7693357cbf414d615cf30674f819cee79ba7da2c04d2fb75b78798e0ad76",
+      "bytes": 14145
+    },
+    "checks-final-attempt3/tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "checks-final-attempt3/verification.json": {
+      "sha256": "6383f0fd106f55239ec168b6a516b1439cf264a3c060aff69579d15e90667955",
+      "bytes": 2063
+    },
+    "completion.json": {
+      "sha256": "5c231db6da1a64259096050804bee1968c8e0466a4f62e92cc7e1348105af924",
+      "bytes": 5920
+    },
+    "run_affected_checks.py": {
+      "sha256": "f801e29c0e60abb3b0f5ab1b4f3fa0c94d64a0c07b288a15e7e4e4271acde8d9",
+      "bytes": 7048
+    },
+    "run_node_checks.py": {
+      "sha256": "71adf0e2d088a4e79a93b37c084d2ba7c867f6df56e80d92650cea0ebb249983",
+      "bytes": 5730
+    },
+    "run_swift_checks.py": {
+      "sha256": "e6493955df425a774c0f74238fa29d20a2d9371493f019ab9b96c48f6c5f387f",
+      "bytes": 3859
+    },
+    "sql/README.md": {
+      "sha256": "84437d241854cf2d905d18badbc5deacb3c67445d8309df465320638e6bb80eb",
+      "bytes": 4214
+    },
+    "sql/attempt3/result.json": {
+      "sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13",
+      "bytes": 74265
+    },
+    "sql/evidence-seal.json": {
+      "sha256": "a2a98b8a8e1d86ca2a82a187958c6a03cd586fac8bf49c0cb836919b27d86fe6",
+      "bytes": 216320
+    },
+    "swift-explicit-sdk/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "swift-explicit-sdk/self-test.log": {
+      "sha256": "66858528fbaa10668faea0a3f0c9ac01ec3f92cf8b3ef03894424aa22335b70b",
+      "bytes": 73
+    },
+    "swift-explicit-sdk/source.swift": {
+      "sha256": "d8c6492a30cfda2a190f34dbcc4eb89706f58eb4683d1d0c268055ed8e3cfb4b",
+      "bytes": 11939
+    },
+    "swift-explicit-sdk/unattended-keychain-self-test": {
+      "sha256": "8d8a80dce696cd0e6057cdbf210727f266ad9f5e78000da3984cdff6b6b51225",
+      "bytes": 167024
+    },
+    "swift-explicit-sdk/verification.json": {
+      "sha256": "2de2a1449a55a9bf2796e67b31e88101a21496eb335c78556d07c2100295cb6e",
+      "bytes": 4183
+    }
+  },
+  "independently_sealed_child": {
+    "directory": "sql",
+    "seal": "sql/evidence-seal.json",
+    "seal_sha256": "a2a98b8a8e1d86ca2a82a187958c6a03cd586fac8bf49c0cb836919b27d86fe6",
+    "file_count": 1147
+  }
+}

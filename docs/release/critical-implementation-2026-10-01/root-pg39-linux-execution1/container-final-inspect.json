@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 1.01,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "inspect",
+    "--type=container",
+    "collect-pg39-linux-root-119c96e7564b43339a3e95e8e635b4bb"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 15,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T10:24:35.885709+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 31887,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T10:24:34.876169+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "1d6e2ec544c1f023c25bf58af0e5e3119c0b15c3b57e13941e8e06dd98af29b4",
+  "timed_out": false
+}

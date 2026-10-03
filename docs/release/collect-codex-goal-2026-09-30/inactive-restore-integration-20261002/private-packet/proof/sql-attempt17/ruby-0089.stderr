@@ -1,0 +1,6 @@
+ERROR:  55P03: canceling statement due to lock timeout
+CONTEXT:  while updating tuple (0,4) in relation "job"
+SQL statement "update cron.job set active = $1 where jobid = $2 and username = $3"
+SQL statement "SELECT cron.alter_job(item.jobid,active:=false)"
+PL/pgSQL function inline_code_block line 294 at PERFORM
+LOCATION:  ProcessInterrupts, postgres.c:3398

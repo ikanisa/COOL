@@ -1,0 +1,23 @@
+{
+  "observed_at_utc": "2026-10-02T02:29:37.747680+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "fmt",
+    "--check",
+    "--no-config",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation1/inputs/scripts/qa/edge_http_runtime_uat.ts"
+  ],
+  "deadline_seconds": 15,
+  "exit_code": 1,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "9988eb9a943999d31af3db895e1af7030770b61e7b37ce6ef6512f00ff23863b",
+  "diagnostic_changes_identical_ignoring_line_numbers": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation1/minimal/scripts/qa/edge_http_runtime_uat.ts:": true,
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation1/candidate/scripts/qa/edge_http_runtime_uat.ts:": true
+  },
+  "original_formatter_diagnostic_lines": 145,
+  "review_files_formatted": false,
+  "source_or_candidate_mutated": false,
+  "behavior_or_canonical_execution": false,
+  "scope": "Both candidate diagnostics request precisely the same pre-existing formatting changes as actual unchanged baseline; no formatter waiver or pass claim."
+}

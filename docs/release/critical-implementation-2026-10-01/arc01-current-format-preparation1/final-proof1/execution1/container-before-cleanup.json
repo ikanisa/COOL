@@ -1,0 +1,261 @@
+[
+    {
+        "Id": "71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf",
+        "Created": "2026-10-02T10:58:34.452876839Z",
+        "Path": "/bin/sleep",
+        "Args": [
+            "720"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 46856,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-02T10:58:34.623973964Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:9f7337c32d1c03ade6f785fb71e018c02cce33b8b88a2c14e3c8edae1328935e",
+        "ResolvConfPath": "/var/lib/docker/containers/71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf/hostname",
+        "HostsPath": "/var/lib/docker/containers/71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf/hosts",
+        "LogPath": "/var/lib/docker/containers/71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf/71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf-json.log",
+        "Name": "/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68-format",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "Tmpfs": {
+                "/home/arc01": "rw,uid=501,gid=1001,size=64m",
+                "/tmp": "rw,size=256m"
+            },
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 4294967296,
+            "NanoCpus": 3000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 8589934592,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": 256,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68/checkout",
+                    "Target": "/work/checkout"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/runtime",
+                    "Target": "/opt/flutter",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/pub-cache",
+                    "Target": "/work/pub-cache",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68/harness",
+                    "Target": "/opt/arc01",
+                    "ReadOnly": true
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "71e4148c70bf782282757ef82f6dee6559f6837f1cee45ccd800ebc330b10faf",
+                "LowerDir": "/var/lib/docker/overlay2/de455607cc70c6fcaf8eeefc143a874abcfc80c40d8b2fec4eb3b1d8f25013c0-init/diff:/var/lib/docker/overlay2/fedos17bzrjl7e6vvkwf9i84q/diff:/var/lib/docker/overlay2/xtvyiir3tdlv1fi81y9ucpqff/diff:/var/lib/docker/overlay2/44nb4bo0rmqkx7ep2p5gnk985/diff:/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/de455607cc70c6fcaf8eeefc143a874abcfc80c40d8b2fec4eb3b1d8f25013c0/merged",
+                "UpperDir": "/var/lib/docker/overlay2/de455607cc70c6fcaf8eeefc143a874abcfc80c40d8b2fec4eb3b1d8f25013c0/diff",
+                "WorkDir": "/var/lib/docker/overlay2/de455607cc70c6fcaf8eeefc143a874abcfc80c40d8b2fec4eb3b1d8f25013c0/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68/checkout",
+                "Destination": "/work/checkout",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/runtime",
+                "Destination": "/opt/flutter",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/pub-cache",
+                "Destination": "/work/pub-cache",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68/harness",
+                "Destination": "/opt/arc01",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "71e4148c70bf",
+            "Domainname": "",
+            "User": "arc01",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "FLUTTER_SUPPRESS_ANALYTICS=true",
+                "PUB_CACHE=/work/pub-cache",
+                "DART=/opt/flutter/flutter/bin/cache/dart-sdk/bin/dart",
+                "CI=true",
+                "DART_SUPPRESS_ANALYTICS=true",
+                "PATH=/opt/flutter/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sleep",
+                "720"
+            ],
+            "Image": "sha256:9f7337c32d1c03ade6f785fb71e018c02cce33b8b88a2c14e3c8edae1328935e",
+            "Volumes": null,
+            "WorkingDir": "/work/checkout",
+            "Entrypoint": null,
+            "Labels": {
+                "com.collect.arc01.owner": "collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "c32ba6d5bb96939f8c4120f0aa2d0a883ea58c142a842a5399414134b6b99e91",
+            "SandboxKey": "/var/run/docker/netns/c32ba6d5bb96",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "162f38a9111ebf460add19c45ab093a5dd9b9e9e66261a9c47fb51d1ac655d60",
+                    "EndpointID": "2fd71fb44cf8c28cc0fba5813b778173a9184686afaa231cb9c3878987269c0d",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

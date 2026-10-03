@@ -1,0 +1,2805 @@
+{
+  "files": {
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/cache-v2-98bbc4d17ed6318fb290.json": {
+      "bytes": 26362,
+      "sha256": "58067fe5c702591a1cae0834a9be0d914a68609f74c54b9eb6ecab4097da5e19"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-8ed0784912d490d3eecd.json": {
+      "bytes": 18553,
+      "sha256": "810b42b0c2d9f9216efaa003306a7e1d8bc3848404b723fa9cf254079b681e50"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-ba5da2317424ca9821b7.json": {
+      "bytes": 1108,
+      "sha256": "a1b786665e1f13d30678e3a2a9c2be98d3485a1628fb77c5afb2689bbd0920c6"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T14-31-22-0932.json": {
+      "bytes": 1702,
+      "sha256": "6895b81af927e3bb76d7b0c76c3826a251d0bc79b833054c21713da4328bb925"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/target-jni-Debug-0adf93775b17b02843d9.json": {
+      "bytes": 2757,
+      "sha256": "db03cfc9b9f3ca53cb8b8669f78aa0776882bbde1e95764c6d17d673954ee821"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.ninja_deps": {
+      "bytes": 16120,
+      "sha256": "e47b500f7cf1fad25e44206a8979d80aaa829f9d824bcb848698f375874c8d08"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.ninja_log": {
+      "bytes": 464,
+      "sha256": "38540ff6919f0e1355ac9227777346bfb222ed31efd8a4fef38877715a363ac6"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeCache.txt": {
+      "bytes": 15997,
+      "sha256": "ab4fe6c04227189e853ca5d5c8225c0fee3bbc7d29fb4fe4d14621e8bcbfd36d"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3685,
+      "sha256": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7880,
+      "sha256": "0224ccbf900d7397b349cab09dd51c6f4c6d0ca3d103d094c9b1d2ab76db814c"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 6112,
+      "sha256": "7e843bad23782b2ee027d7a4cb49f924687f242855b76d822913560e93b8d5e1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21718,
+      "sha256": "f01e7e2ac44518d77a92978f11b6c16c0e83460d9eed42094c9db6e9d3eec3d9"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 506,
+      "sha256": "f3101ff515525cf28c91d19857840967e07de313ad14f1cde37f3307d1e4a04d"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 87728,
+      "sha256": "4801f2f3f56f212a13e1bc5a560b100e728d98f155a3c500aa075761124604d8"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 34168,
+      "sha256": "bd1858784077395a428b7be528f4cf613ff77eeca0567b5db2df3c0249ea2ab5"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 277056,
+      "sha256": "7e43e5d11daee1f99ecb7da5e0181dd25310d47c0ffdda6ee6231d269001693c"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/rules.ninja": {
+      "bytes": 2846,
+      "sha256": "c635e8bdbdca48f0d67c9040d2f0ccf226cf10fa5964ff9284ea68a738d78364"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/android_gradle_build.json": {
+      "bytes": 1535,
+      "sha256": "768ff54ad6d2a3fff2678a65409da90110377fec06f549715f26381e730b656f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/android_gradle_build_mini.json": {
+      "bytes": 1109,
+      "sha256": "469db758da3997451de06ec3ab16e46142e9d8fdc740ef6fb3daa4a79cca6f38"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/build.ninja": {
+      "bytes": 30611,
+      "sha256": "e975b475b3c6241f42a779f29966baf1d8a1fbe789584c85ee946c9713acbec1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/cmake_install.cmake": {
+      "bytes": 1920,
+      "sha256": "86f8214ec1131748166b4bbb928503dc613b9dbd08dd6a25415813dc07421c6f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/compile_commands.json": {
+      "bytes": 2957,
+      "sha256": "32d818debab92fab0a419620de3d91a3702e353cbd8a92bb028150d85727efb1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/compile_commands.json.bin": {
+      "bytes": 1411,
+      "sha256": "931f32c5879b48b98ae02c1d8325bb2a93c89ed41ecbec61eae90cae399ece7b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/configure_fingerprint.bin": {
+      "bytes": 2446,
+      "sha256": "234a20e92d07983fb2c4eb8dadb0b3bd90839204b30ca1c901158daca267bdca"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/metadata_generation_command.txt": {
+      "bytes": 1273,
+      "sha256": "f46d692b3ba9394a4e887c628bb3308cb9945da0b60cb0b6bd94335b4259c89a"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/arm64-v8a/symbol_folder_index.txt": {
+      "bytes": 136,
+      "sha256": "d15331b6c666faf877db375d75d57434b1b354f9327b2b536dd0662507f3589d"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/cache-v2-d1d6073415cfd83d4105.json": {
+      "bytes": 26374,
+      "sha256": "bdd25ee12b9dd74ed258210a2ec4b67c52e567f58e7de4bef3bd94718d68cee5"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-ac37251421226946cd8f.json": {
+      "bytes": 18561,
+      "sha256": "af662ee010e97d4b22fc2e29277f9a4e87211b6e14e66eb6a9199d07f239c2ac"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-4307b32742b807dea55b.json": {
+      "bytes": 1110,
+      "sha256": "84bf06e9e94845e6669fca4bd1fa3a5be189814ca3683ac60ef79e8f10977793"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T14-31-23-0763.json": {
+      "bytes": 1702,
+      "sha256": "3e3fde372664c49eec29abdf68330007900fee1f68929ab232f244519e63693f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/target-jni-Debug-d43142f87b3fd386eec7.json": {
+      "bytes": 2782,
+      "sha256": "ee20803ecbd5dda420d7ee3a6bcd8363a1a31191c3730b098305b6edbb4db8fc"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.ninja_deps": {
+      "bytes": 15640,
+      "sha256": "96673f354060e19bc0860a4cc261a24eaa07f0e29a6f5e49ac879f273a063780"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.ninja_log": {
+      "bytes": 465,
+      "sha256": "665db4188cb200ef459921a8cdca305d5304e9886b4a126260e852898d4352db"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeCache.txt": {
+      "bytes": 16011,
+      "sha256": "41b6089ab3bdd5bd06074580119ebd0388b9de0075d352d1dab180ffff2177eb"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5944,
+      "sha256": "4ad87dbfa424af824bfaba7c03c5aa979772062fd2cb1b5b347d62834cfddf64"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4208,
+      "sha256": "f42a5d44688277402f8649d9dd0d8e2ddcfc6c1d3e109cc7a3e50a45be8dcc58"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 23226,
+      "sha256": "944d5c3af384e9a6df9caa6967eae2201541a33ef658efdcb2879ae653cc38c1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 512,
+      "sha256": "56a9234a8c7a1d97b6995e7978efc02f0376d28af9c721ab86e90fd39f14e426"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 66808,
+      "sha256": "50f1139b759755d80740a963f03f8d2678590b141d62ac4589d55800b1ddfa1f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 22664,
+      "sha256": "e8e76b3d90a6ea3d4da432a7ca9ad6a4ee24583dffb099e594f3ed73da87f9c3"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 216696,
+      "sha256": "fe0ac9d1c1af162ec4c0849dbde62e6e4ff7ddbed996e3785bdb3a2955a80d84"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/rules.ninja": {
+      "bytes": 2852,
+      "sha256": "92906b7c2bb8c25c8679093fdd389806f5a0720cc80dbbc8c12b111cc81e729c"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/android_gradle_build.json": {
+      "bytes": 1543,
+      "sha256": "51d21eef87d91acc83f93ad69c801360f6739852573d3fa1f5fd22f0a1bb9cae"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/android_gradle_build_mini.json": {
+      "bytes": 1117,
+      "sha256": "386993185514bf6efeb2a1749bb85addbd9092755abecbcaaaf8f28efb347398"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/build.ninja": {
+      "bytes": 30735,
+      "sha256": "257c6ad85e020e4a8aca37dfe6eabc7840fc51b16c09fe642c253795ce13baa6"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/cmake_install.cmake": {
+      "bytes": 1922,
+      "sha256": "a7900a8503a4d1e4b426cd2e67580bee02bcd80104aa40d15244349d6a062e7f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/compile_commands.json": {
+      "bytes": 3038,
+      "sha256": "68772116c5c32f4dee8652e802a120d0914dc8b0c8da4ebaaee08116f09033cd"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/compile_commands.json.bin": {
+      "bytes": 1452,
+      "sha256": "be0d9d2a2d33f3c66f9d50ceb6600af522f6a748270531ba6c72f59968f6ef3b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/configure_fingerprint.bin": {
+      "bytes": 2468,
+      "sha256": "0d1608c972619014593373b08ded5aacf5dd63832f9a6b743fe77b870c9c1df1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/metadata_generation_command.txt": {
+      "bytes": 1283,
+      "sha256": "532ddad0014d814a7e20272479dda75e2ce9f8146fe94673ebab6be6cc00eb37"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/symbol_folder_index.txt": {
+      "bytes": 138,
+      "sha256": "bb230db85a6beadd781bf22c42977e55d31efd3dbc71c3b5ae23d7232a92fd19"
+    },
+    "android/.cxx/Debug/2y3z2l3m/hash_key.txt": {
+      "bytes": 1409,
+      "sha256": "9bac7dee999fe174cbffbb15b3b4b3f4aa152d70747107ac6cfd6735fa168cde"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/cache-v2-14a055f2f9aadf6ee910.json": {
+      "bytes": 26326,
+      "sha256": "f11a6eea2d1d6035ae231866030a67d91f80effc0e07befd4b8c85b4b8dee261"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/cmakeFiles-v1-631c6cf431fdde569eee.json": {
+      "bytes": 18529,
+      "sha256": "6bd30d7c0d65a970d8513234ceaebe2fdce6468e1b7e6c6e6e79bd0367aa567b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/codemodel-v2-7bee3e20beaf44c4dd17.json": {
+      "bytes": 1102,
+      "sha256": "d076e8e670228dcc98f19658abbead540a09a35f56569dcb3b9310ee1751b1ab"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/index-2026-09-30T14-31-24-0459.json": {
+      "bytes": 1702,
+      "sha256": "b1e32e9a9bb4e166639937279f936fddee41c04d25ea388e7e2e4e9411227f46"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/target-jni-Debug-f87d940e9ed587962092.json": {
+      "bytes": 2766,
+      "sha256": "4d555628e3d918c392cfddbf08be644a34074780168acf31e788cad5ffbfff27"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.ninja_deps": {
+      "bytes": 15956,
+      "sha256": "8b889d3031da12f7f5c274c2641548ce0a31f01f8ec897eaf4a9ebdcffabb6c8"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/.ninja_log": {
+      "bytes": 456,
+      "sha256": "4efe95c8b397e58efe882f7b61f3fa98b7b4f4a0864aaa598c84fafad44fbc32"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeCache.txt": {
+      "bytes": 15955,
+      "sha256": "3437c8483b6f40df758b290b4d9574b798110b0657d7dea94ca2b180ef654d86"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3673,
+      "sha256": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5788,
+      "sha256": "396fcb3f61de7cf3d237177360d9d6eb01f36a522d61a3d335be8d96032ec248"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 452,
+      "sha256": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 3992,
+      "sha256": "d4037b6b23492ab92bf2d7756425c24e73e9afbc46d3094184b6a7516689e574"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/CMakeOutput.log": {
+      "bytes": 20999,
+      "sha256": "22316dcf70db3ad2e9622a6e156181a61f49b78624a7ab23fc9e6e023d6f88dd"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 488,
+      "sha256": "ec977a2690ebebadf986594c3808cb50d684244c50fecfe048b6fe5f0071cdae"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 64440,
+      "sha256": "35b76f8836d42dcb96442ad42c57b830bdc1e4eeb44cfca57e0a523b92e3222b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 22416,
+      "sha256": "55c430ab04cab314688c86b98941021edb658f53a6c3065f0b4df41b847697e2"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 201952,
+      "sha256": "36663aee578f74d22d1a0e4672e249ce91457d8a1b6c0630de4915aad29139f7"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/rules.ninja": {
+      "bytes": 2834,
+      "sha256": "3556819fa6701a0e587b68c8b3df62881a66538f6778316ba53b42c13d9cfbb2"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/android_gradle_build.json": {
+      "bytes": 1511,
+      "sha256": "2a47f8881d679629ad93cabe4023827c8c2441beeb018de204ea7a8e9fdcade8"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/android_gradle_build_mini.json": {
+      "bytes": 1085,
+      "sha256": "aa4e0a57ef6ddcc44976854b8ec4e176523fd722d4715b9dee2ecf3b11c60c74"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/build.ninja": {
+      "bytes": 30575,
+      "sha256": "2e474f9245da37d2218110c4cde27919ea76928ea4e54e87f85793edf116eedd"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/cmake_install.cmake": {
+      "bytes": 1914,
+      "sha256": "f589829a84af27cd0ea3b3a55cfd2ca353507cd03aa29be0a8202a1e6de6d95f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/compile_commands.json": {
+      "bytes": 2975,
+      "sha256": "c4fc1a930dc4fcb329e5a5186119336fcc9089cd598e3d4fac79d5d9188dcb86"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/compile_commands.json.bin": {
+      "bytes": 1424,
+      "sha256": "ea67194e91858095da87b705664265c587a3d311d479d98d2e7376a7566f4a6a"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/configure_fingerprint.bin": {
+      "bytes": 2380,
+      "sha256": "6be135e348a849ac58ee8834ef132fe537a6408c0b0927b3fc0c5cfa0e18960e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/metadata_generation_command.txt": {
+      "bytes": 1243,
+      "sha256": "1444499417f2c4c71d7a72a5c17f5c3625db39457fdf47a5eb8abb07042f0471"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86/symbol_folder_index.txt": {
+      "bytes": 130,
+      "sha256": "b63ad00da64b9caaab6ecc0bc52b8fbe03a6a6dcae3ccbaefe9c1d7d59152d85"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/cache-v2-7ff3c61263760565d90a.json": {
+      "bytes": 26344,
+      "sha256": "05f83645fd40a9ffb7b624dce1dda60da8f3ccde2e1b7cfdc4df9bb0551686d4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-d4af1b962e433c8ab48c.json": {
+      "bytes": 18541,
+      "sha256": "de2ee39946add270d482d7d1e9dd1af6c05e9fe8098e129467652ec716d3bf89"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/codemodel-v2-720929714a80e8006c62.json": {
+      "bytes": 1105,
+      "sha256": "900130e5a7351ceb68c23097bfe212c7dcb24ca02a3860c21e96fdd1a69e9a25"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/index-2026-09-30T14-31-25-0093.json": {
+      "bytes": 1702,
+      "sha256": "3d5fba6198b763129d778b7f8072a4b3db3de3f9dd18b079acb6d4da4c4b346f"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/target-jni-Debug-193cfad12628474f0dc4.json": {
+      "bytes": 2754,
+      "sha256": "b060b4865ec39aa87e8df9bc9f6cb1facf75c59b084df5d9b94792b3ea10e892"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.ninja_deps": {
+      "bytes": 15960,
+      "sha256": "b7386ef35af5415a88877208cec645c0468325350de446629e1a3be274abe9d0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/.ninja_log": {
+      "bytes": 459,
+      "sha256": "2a9a00b87fb83b6fb69d6f6659bf8f61fa5b68317da8066b864fd9e0f1d401d7"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeCache.txt": {
+      "bytes": 15976,
+      "sha256": "2dcd543734af4e1b4d2c6d756c3a2d14272a27ad86f466cde49f1f49f36c43d0"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7232,
+      "sha256": "9f5e620df0ae1b9a9ecb1f04d374cec66c33fe8047c05d8b994e00d714b2f45e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 454,
+      "sha256": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 5504,
+      "sha256": "c4373972d882db616f11825ed2beba209c1cc8bc61ad048c037420d1869dd7b1"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21288,
+      "sha256": "7a6c5c3380f2d756a56e6ee28dbf5f617faf7392311cbd17f4e9fad5544192fb"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 497,
+      "sha256": "fec53a3d9550a668a900dca5d00ee6670bcd26728c79f3113065f1152614e800"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 85960,
+      "sha256": "db23f34365031df06d468248881891c470ef8e2cf98979940c088b662f3b6347"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 31896,
+      "sha256": "c157ec8048f27d3ebb80285866dc113aa3c6faa9b1ca74f55dc262daa24095f4"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 276168,
+      "sha256": "df13e7d373a79ec9c55d7f7d005f528b852f474e49ca0b8326ffb88d53cf55c3"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/rules.ninja": {
+      "bytes": 2841,
+      "sha256": "2f2e30e45a4d73d7e6a09f687d3911fa89569d4fdcdece12f20643409b4b3a6b"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/android_gradle_build.json": {
+      "bytes": 1523,
+      "sha256": "af797d21d9ca944336fd053559f673afac233c105a0461a4407b355af7edeff2"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/android_gradle_build_mini.json": {
+      "bytes": 1097,
+      "sha256": "70a623c817c9c2808824d936ca7b44a22ccf068928d0868b163bc333a9cec632"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/build.ninja": {
+      "bytes": 30563,
+      "sha256": "e2541dcd4937cce91df9d3b13698d7889e751a3b14fbaf5dd9a833304bce7b27"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/cmake_install.cmake": {
+      "bytes": 1917,
+      "sha256": "4f906ed7a4adf8bd2fdd72f70141436b32b28c3fb31550768fbd93417ca2e817"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/compile_commands.json": {
+      "bytes": 2945,
+      "sha256": "a22043c1af0cc44e33109484473f96fa1c634db5bdd5e7af87e95275db247a31"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/compile_commands.json.bin": {
+      "bytes": 1407,
+      "sha256": "8c49aeaa9f7f7fcd478a492c07eebecf57458a06339de65a879101e6a8b70a83"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/configure_fingerprint.bin": {
+      "bytes": 2413,
+      "sha256": "29380a76ea53404879968db4525365011d920a4494740b5a650d3887f3af8d06"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/metadata_generation_command.txt": {
+      "bytes": 1258,
+      "sha256": "5c5ba677751c0a5381888a9fb5e86c5a95e3581d4a1d4ca4cc1bf890132cec0c"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/Debug/2y3z2l3m/x86_64/symbol_folder_index.txt": {
+      "bytes": 133,
+      "sha256": "8ba296a8d48e9de61c860d1f43f82687d13fdfb68acb895a15bbb29610f1bda0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/cache-v2-933497dcb1c39581a1b7.json": {
+      "bytes": 26409,
+      "sha256": "157ae352aae8ef70b69b74bbc29511d0f0c69c0c526d468bd25fecffb53cff1d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-882e52c1f3ada2d8a9bd.json": {
+      "bytes": 18589,
+      "sha256": "c9d0b1532d4ba9149f264e6bdb00b69711d3a04068b374b7e8efc61619f43b79"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-7a1c79f5bb47d5fd54ec.json": {
+      "bytes": 1144,
+      "sha256": "a215c580b7e2426fd99b3e1f08139f96d9203c446284c659471b1386e939b75c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T18-52-18-0731.json": {
+      "bytes": 1702,
+      "sha256": "b773759a1c41e962d5a059798f348610ffece71943bbc97dcbe08a3be67723bf"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-d76aea6f5f1a7a98255f.json": {
+      "bytes": 2779,
+      "sha256": "a360004fda6d25182785f74ef0f54ef50051d31c61eeab9019d6ff9dd3514c6c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.ninja_deps": {
+      "bytes": 16120,
+      "sha256": "8152bfd07ffd8249e22e657f5d1ffe5f1f5fdecd5316a9b3439254b41ce2bbfd"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.ninja_log": {
+      "bytes": 476,
+      "sha256": "ae4cc6a081499f72fff497d8bb6a42f1ff6b0febf8d45fd6be4f1e2ca1f9cb43"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeCache.txt": {
+      "bytes": 16053,
+      "sha256": "93dd1399304378b2de3d342124d0e65938fc60c03ba9efb482785b9bf3dbbfc2"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3685,
+      "sha256": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7888,
+      "sha256": "5f50404247e0e87346e7c75fcb6deed28288681773317e14408824cbe931ce91"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 6120,
+      "sha256": "fac8e06e0d401272a94811a62c372b261c713add951302de6583d3a9b51179de"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21781,
+      "sha256": "1096cd8633ed49d9baf8184316ca3d1cbadca59336258af567178c7971859ed5"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 533,
+      "sha256": "02a2992acf54326c6b5b1c3a993ed6f725986cc7fb5c892c3ad1a879e9b170a1"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 114032,
+      "sha256": "91358ff383a0d7484642519186526f37920665035944f9613f526ee8a72dd763"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48448,
+      "sha256": "8afd114f6d02490902972824de47a2b6003fd57a71562d9a4249b8d7d00a8877"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 640048,
+      "sha256": "1cae9bab1e4ed3c7c41c56c7130bdb18c4b424b929f9f7223fdb7805333c5dbe"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/rules.ninja": {
+      "bytes": 2882,
+      "sha256": "f1ab9cdfdd474767c54fbcee65b982dc6bc14eb6027df5f960479450b8b86f8c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/android_gradle_build.json": {
+      "bytes": 1563,
+      "sha256": "a8659fdfd71c368f63765813b0423b135b6caa0c8ab25c4472cea154dea5189d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/android_gradle_build_mini.json": {
+      "bytes": 1137,
+      "sha256": "6c611217fa03d6ec4d96f56c8824b1a97888e050a3bcbaba3c2cc259b52a6b8b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/build.ninja": {
+      "bytes": 30810,
+      "sha256": "39385d26f5f486d9d39decc91a149ab901fbe39f5f6845e23cf5ad4bfa192e1e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/cmake_install.cmake": {
+      "bytes": 1938,
+      "sha256": "054f4f6023e765a17f90c9198d8de8119b686cae502cb599b41aeb84f3dc2906"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/compile_commands.json": {
+      "bytes": 2963,
+      "sha256": "7f50436660231ad51a48483fe5cac2572cb603cec16654f6c5e3cf34c9670d34"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/compile_commands.json.bin": {
+      "bytes": 1422,
+      "sha256": "9d8a0a2defe366d32529eb96692704618c37b805da52502a26ff371e969d0227"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/configure_fingerprint.bin": {
+      "bytes": 2545,
+      "sha256": "1249279ad0e5f8667d6b13c5325eb015ab0eaed50f898ab25b84ac75c295728e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/metadata_generation_command.txt": {
+      "bytes": 1311,
+      "sha256": "de9abc928e8a6eb98c53b3db2e8b71d78585790947b2def6765576d7f12ee331"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/symbol_folder_index.txt": {
+      "bytes": 146,
+      "sha256": "b2dfe2bf1cd1b36d315631dc6d499b2ae197b967da747167b2749e0511a0b802"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/cache-v2-b00f0305f8e6750fe99a.json": {
+      "bytes": 26421,
+      "sha256": "405c19ad70e6bac6e1d3107e7048e55022936c8fccf9ddefe154c6c6594d8cbe"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-37a976135d885af84dbe.json": {
+      "bytes": 18597,
+      "sha256": "3fd8c3ab037acefa6bdf4b7b461a136e9832409af1444f6b339ddd48f3e1ad53"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-9cbbea35b57c42bcf1da.json": {
+      "bytes": 1146,
+      "sha256": "4259f8c5d9899d1860c80b41d8eb99af58821795e6c2bc7c6311961455cfab77"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T18-52-21-0912.json": {
+      "bytes": 1702,
+      "sha256": "9207e1afb119661a7881433426cb57c497e227d65498ea48fee9c151a901ee46"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-4ade9bd7db57c9659ebe.json": {
+      "bytes": 2804,
+      "sha256": "1bf8cd83928ace9adf71bc4d1b7970a10678c64ded58b190eb954a2c1ce097a6"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.ninja_deps": {
+      "bytes": 15640,
+      "sha256": "31dd7fff402f82276f483a5df69458eb612d986f5680c3e8d3ade5631338d784"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.ninja_log": {
+      "bytes": 479,
+      "sha256": "be3e8ee8390b4f8ea2ac798104bb27fd44b7ed7d4a0ea7219b4d5b39058b9c32"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeCache.txt": {
+      "bytes": 16067,
+      "sha256": "9e74d8a19c1b1b9e202fc38cc4f466e96c7e7a63cda44e87c69f726431a04681"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5952,
+      "sha256": "1ba2a3f18cc5ed52fee7675e2c89703a4c5f04f0dcd4fddacf06ebe77e044959"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4216,
+      "sha256": "66e7ce0d11c2c8697fdf018d2184eec7d86ee9eb9a2f5e804c899e0c7232f63e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 23289,
+      "sha256": "38d59d641a268bdda53798444ec1aba13d4a901351341a75e90cb38e95316bfc"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 539,
+      "sha256": "4a2684bc1caa15ecb1957f6abb0e877fa75d877c0ae0bef5c62bac1bfc67b667"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 74868,
+      "sha256": "6fecadf9909eb86999447064d0ebfae0cadb0cd67a1a3cdd011d97dde4b19c9f"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 30780,
+      "sha256": "72d137857a5fcecc681ea0716ccc521d9acb6c52b92b83cbe2d16b802210f86f"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 375100,
+      "sha256": "bbcdc8d94ed378c7fa038c6c86c5424f039ab1c2852d84ecb14852e1e60dbc75"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/rules.ninja": {
+      "bytes": 2888,
+      "sha256": "c920ac5d078938638934fefc4c735d1d8b091d08c5994851ed1cc826b559e6a7"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/android_gradle_build.json": {
+      "bytes": 1571,
+      "sha256": "146771137b252d6c1725fa2f0871e58f625794ea3755e4f68187ff158734fb97"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/android_gradle_build_mini.json": {
+      "bytes": 1145,
+      "sha256": "d2127299eb6613c9497121cfa16d6a268c645550e077f36e5eefce72e3633d2c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/build.ninja": {
+      "bytes": 30934,
+      "sha256": "75a6a72cd723b5663d5828f503bb9cdca5e5dea7bc7a4f87b7c451292c44ba5c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/cmake_install.cmake": {
+      "bytes": 1940,
+      "sha256": "d3f077fd087c4d6b8bce97de088cb5a5e667ffda181607e93bf547a9b71a7654"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/compile_commands.json": {
+      "bytes": 3044,
+      "sha256": "d32e1e4d79d52c225692cfc7f550ad0e464a733a1ab7e63cabdab48b83f1e13f"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/compile_commands.json.bin": {
+      "bytes": 1463,
+      "sha256": "5f88530add4a8f21e675bb8cba9e701a4b52a109455f29a5b75ee676daeb04f6"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/configure_fingerprint.bin": {
+      "bytes": 2567,
+      "sha256": "b4d15c79150af245959d6899c9cfe035bc85a8f2117bb6bdda2043ab2adbd332"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/metadata_generation_command.txt": {
+      "bytes": 1321,
+      "sha256": "6ea3467fc257357b3336f537cc5528a9a2ba2aebd6fd87c586ac1cc4a021539b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/symbol_folder_index.txt": {
+      "bytes": 148,
+      "sha256": "062c4dcc0bb9811c54a8bcce424f10b950f5b59693b9eb11856a1bbd149495aa"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/hash_key.txt": {
+      "bytes": 1447,
+      "sha256": "03e78a78e9422fe98b6473a1f9e2f3a1c50bab57ee81c18e719bbe1f9aad13d4"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/cache-v2-7136f187841aca5f2cbc.json": {
+      "bytes": 26373,
+      "sha256": "336406145ccba532b46fc4df21f07e8df28fb0487cad10d943626c074fb4d386"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/cmakeFiles-v1-a04034958b9789e1a321.json": {
+      "bytes": 18565,
+      "sha256": "cab3455a61069ac492a2155c231282bfa225a5c08b7c65bdde4ec967557723b3"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/codemodel-v2-da9f30b3fec256230062.json": {
+      "bytes": 1138,
+      "sha256": "ccf29e7f9a5302e3cb482a497fc31354d3cc7bc7e95cc3d39aa1f95bd3e19a1a"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/index-2026-09-30T18-52-25-0339.json": {
+      "bytes": 1702,
+      "sha256": "c8abd3d9f807e9fba38efe45be17018d4530aefcb6393fafc07295818aa137d2"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/target-jni-RelWithDebInfo-d892ed3729687838bc2a.json": {
+      "bytes": 2788,
+      "sha256": "aa3fbeff5c833c275d64ba1e2856c9ccd3babc44ff6a74b065ab43572816e988"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.ninja_deps": {
+      "bytes": 15956,
+      "sha256": "ac5ae6d0d34392df459b310077b29650c4ce5ecce69ad04f4c132946a04e2c37"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.ninja_log": {
+      "bytes": 471,
+      "sha256": "db27049b630394b765b973112079ed28a4f83080a3eb479eafb6f6a2780012f6"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeCache.txt": {
+      "bytes": 16011,
+      "sha256": "0ad23ade9f089e07a2a8522720e495d965080c25fc91cd98f978a3de4e0d8d22"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3673,
+      "sha256": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5796,
+      "sha256": "a2f8028f5a78777ebc62f30330a244d271eaa696e83517176767b4fca861f9a9"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 452,
+      "sha256": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4000,
+      "sha256": "f97a65ada9eda9655dce85a3f1d930f19c86ad9ba44ff53873dc58042c6d0c7b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21062,
+      "sha256": "95c4a3bfc2cec8a92123db874e79fa9002ee5e53306761f972889d1c047c50a5"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 515,
+      "sha256": "ef01979cf06675ad763babfe1d581c633c8497c6e5de96798acda849beb203b0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 69960,
+      "sha256": "b4db586582895583be4db2818a4c6d18bce3ae530ccf2dd31e38f1a7d4fdc838"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 31652,
+      "sha256": "1243a086a4248c68a9b4ee559a15310e540f9427ded42852df386821609e2777"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 319344,
+      "sha256": "196249ae124c1d006c219e10cdfe878a2cb913df20988e8ea9b557740829babd"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/rules.ninja": {
+      "bytes": 2870,
+      "sha256": "18feb4a6836367580aa81ca329b5fd677ac2a8526d12e0efb06601fc63252d7d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/android_gradle_build.json": {
+      "bytes": 1539,
+      "sha256": "1ec78454288bb526e09975c67775d4fd33b21bfe2ddd4631aaa2aae087bad999"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/android_gradle_build_mini.json": {
+      "bytes": 1113,
+      "sha256": "6bf70b2a77ab20810dacfe4b5cf30ebf590836eae65b648e8f3b042595bd98db"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/build.ninja": {
+      "bytes": 30774,
+      "sha256": "19e3ee8f1e523ab502d4f65d348ec78c15a7338bf42fd42c62de519ac1aaa55d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/cmake_install.cmake": {
+      "bytes": 1932,
+      "sha256": "83aa7975b41fc627b911ccb3e06c739c053c2f214e9fcedd5162000aab21c39c"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/compile_commands.json": {
+      "bytes": 2981,
+      "sha256": "75cb38e6c3044668a6420ef85718ccff19c92b82cc4db76eacd7888434f52c56"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/compile_commands.json.bin": {
+      "bytes": 1435,
+      "sha256": "b294a896d259245bfba66bb15b593805c66bcbc6aefe1d86e254e8204f427367"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/configure_fingerprint.bin": {
+      "bytes": 2479,
+      "sha256": "2dc1d6d80a96d49253dcc24488b0a796de54848a8f2f02261a0161907f195c5b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/metadata_generation_command.txt": {
+      "bytes": 1281,
+      "sha256": "268aa0a8e8d094ee39f57ac18e853d047a25008c9d26f4a051797fdc55f967d7"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/symbol_folder_index.txt": {
+      "bytes": 140,
+      "sha256": "b254d37e51f64b6e2cca5bbb60a2b6de4e18e67a52efe946171806764ceac82a"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/cache-v2-93b4b6d588ecb314ce6f.json": {
+      "bytes": 26391,
+      "sha256": "cad850212af295716c95dc5c357ded41ada15f224790bb9c4ac815bcec23e8c6"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-1c8ff47b570c07acfc72.json": {
+      "bytes": 18577,
+      "sha256": "58040f6cd7b39c384475830753cdeb52b42dd1fafa6cc77bd1f214fe7f18d382"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/codemodel-v2-11572f2a77cb971e35d3.json": {
+      "bytes": 1141,
+      "sha256": "19a364c9dab27feb8735e1903e81716b630995817ae0ee4776eb420504015985"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/index-2026-09-30T18-52-28-0627.json": {
+      "bytes": 1702,
+      "sha256": "6009320b66bb4f656a0917bb6aa99741d8b13714825ea4f477cef7de74d10128"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/target-jni-RelWithDebInfo-b56464441082a97c9630.json": {
+      "bytes": 2776,
+      "sha256": "05c369b6d38f20e6bf920bd89492aeaa98435bc9856249933b81a0995680f79d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.ninja_deps": {
+      "bytes": 15960,
+      "sha256": "9c7865aa943213f20acf6ea210957b286f4634a4e9b620d22fa0b1eca14e2bda"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.ninja_log": {
+      "bytes": 475,
+      "sha256": "6d47c7e758990f656408078c5d716c2ca67a9d1d179dfbfcacd12f27896368f2"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeCache.txt": {
+      "bytes": 16032,
+      "sha256": "5db39e71a6fc453d6e95d83f4933ca8e35dc687274a2b634b1ab3c598996615d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7240,
+      "sha256": "4057ae656c940d511fccf0ce8b15ad3f74a48b2d216c18a103cfeb87d9453f32"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 454,
+      "sha256": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 5520,
+      "sha256": "77511e7dd965b3e7d5f1abae37228731d1f3df7603cc36b3170a88c0f233120d"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21351,
+      "sha256": "93cc7af2817b30a7e5067aa024934b2e05258c2bc687891a902156bebfdf15b8"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 524,
+      "sha256": "45adc5552acd82f43e2bfc323838ec6aba9ff0eabf1569e2f58039f712920980"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 107208,
+      "sha256": "5f26718df3b540d2220b38bd7e063c96023eb68718ba5aab3894c7d91fc1b795"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48024,
+      "sha256": "b95362912c370d9d0c6930de47e2289f1fe72a3c792882a1b2155d3a434ec30b"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 584264,
+      "sha256": "571b911da2640e4571982f3228376bec7e126b760f22296dec285344ffcb4725"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/rules.ninja": {
+      "bytes": 2877,
+      "sha256": "b80007e7222b6cbb9a9df731705c8f8df4efdbaa52362cc53fe191d9c98520bf"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/android_gradle_build.json": {
+      "bytes": 1551,
+      "sha256": "bcb7f4c4f22036c97a3cf0f0922b3aff9736577c88009b429d5bdfb224f0feb0"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/android_gradle_build_mini.json": {
+      "bytes": 1125,
+      "sha256": "e51d439358d75b44bf09087acde5831a33a5a7bdeb5877239e64f13bce5add37"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/build.ninja": {
+      "bytes": 30762,
+      "sha256": "df7ece4dbda25e0f6940c1aed49e6e1f9c2613dfb2c29d037e5d891e3738edef"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/cmake_install.cmake": {
+      "bytes": 1935,
+      "sha256": "1c29d0e9934dd9ff0ff0f867713f8ea1a1a4e4f9125a3eaf866a7c550887875a"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/compile_commands.json": {
+      "bytes": 2951,
+      "sha256": "58d758c58b372641703d4be3d5c3122a464cd8304fb974f3fa1bec52ef37a38a"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/compile_commands.json.bin": {
+      "bytes": 1418,
+      "sha256": "f35e0e7b41b423629a05345c2df753db04bcee334ea89ad93846cf73c0811bba"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/configure_fingerprint.bin": {
+      "bytes": 2512,
+      "sha256": "e5989b97190475a006cc52351e9b5dcf440b3f55839c3a9134a44922ec347251"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/metadata_generation_command.txt": {
+      "bytes": 1296,
+      "sha256": "ec8a5d54eee6bd08e3616b4bfbaad37980b2b8fb1cc91875926ffc59c4b9804e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/symbol_folder_index.txt": {
+      "bytes": 143,
+      "sha256": "e332032c033e9553b185b19f1b2e78942c1ec4a10d935cc9861372c249c2a14a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/cache-v2-8317c03dd6b60f43dadc.json": {
+      "bytes": 26661,
+      "sha256": "85ea0e2794efec6a744603c2364605e4dc79505de048e12f9bca3d7d6179f8f4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-dcbf3ec0f95170908fd2.json": {
+      "bytes": 18804,
+      "sha256": "1563e29f48a613bfd9ac6b768fd0099e24b8a2b8dde7cc688b708322c2078efb"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-69c6ec4424f4feb54024.json": {
+      "bytes": 1230,
+      "sha256": "c5cd09ca0fe760537d6fded021fc9c63caba7b0fb081af1be387d031257cd67b"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/index-2026-10-01T13-44-07-0541.json": {
+      "bytes": 1702,
+      "sha256": "36720987a42862bcfc7aa057cd972078c13caddee235497fafb27fb56a0ba3e7"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-673f233594523b5cdb6d.json": {
+      "bytes": 2819,
+      "sha256": "cf0aed803b17e9d1d8beb42a86a0125235aedf9ea760da7d3f78ebbf3e9dd70d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.ninja_deps": {
+      "bytes": 16596,
+      "sha256": "69029e908cbe42c9b1825706b12e71276a44e3ecaba062554b2d87a487990f2a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/.ninja_log": {
+      "bytes": 520,
+      "sha256": "a04ca6fdf131cf6de17de6fbc9a088529665cba38e3433d3aeb8199214b15508"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeCache.txt": {
+      "bytes": 16348,
+      "sha256": "461d10e7d196662b7bade510abcfad53eb43d76e112ac4ea41096872d11321d4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3685,
+      "sha256": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7856,
+      "sha256": "63508317f430a4e5d679895e00697017f5932cb4d09a0909e46f59e70dbac1c4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 6160,
+      "sha256": "d7647257e57a1fbeff3acb2ef07bd1895dd028424d32a076faa0923e7625b017"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 22082,
+      "sha256": "b82f7d386ab8882e82079ffe494ede41a5d12108a1561d69cffe3e5f9542548f"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 662,
+      "sha256": "bb2c00a0c2bafb34fcaab2efba28bf8f0a5f036404a020161f7fb22f524142e0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 114448,
+      "sha256": "38ad184cdf62362e6a29205de68d9c23c40f52b1d62c72060d960ef9331604f8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48664,
+      "sha256": "f939c2fc3c45ab90e829e9a39304573deea39847c74e6d00affc9a982ac76961"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 640280,
+      "sha256": "a51ac4c56ccd2cdb4da4dc40c1eb3c6613031a96f9f201854a44ab1b68da96e8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/CMakeFiles/rules.ninja": {
+      "bytes": 2968,
+      "sha256": "9db680b56250723baef2f8a0f1a98a1c574540c5399f53419ae458c66156bda3"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/android_gradle_build.json": {
+      "bytes": 1732,
+      "sha256": "aa92cd489ec8194d83ab021cbdf24a953d65fad4472fa91b92e861fc2a544d9d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/android_gradle_build_mini.json": {
+      "bytes": 1306,
+      "sha256": "cac84520feb0e902c6ba88fb00ee776c26b37edcc9f5b7418e481cc45712876c"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/build.ninja": {
+      "bytes": 31769,
+      "sha256": "afd7aad50b67047da4dd59114dbe7b5779744dfb471bb26732ec39df65cbeb13"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/build_file_index.txt": {
+      "bytes": 167,
+      "sha256": "6e71cbcf3706bffa2bba06f8f73d717d575b9f884ba34a1ac10ef9c742962cb1"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/cmake_install.cmake": {
+      "bytes": 2024,
+      "sha256": "223df58a3131edf0c768b13c421e8a1798b27fed78849feb89e89c5e0bf3fbc8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/compile_commands.json": {
+      "bytes": 3350,
+      "sha256": "594e54b139958b52926303442c3676cfbb45c1a397cfa287d1f55b58423fee34"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/compile_commands.json.bin": {
+      "bytes": 1594,
+      "sha256": "d1af0b7822d07122a839b6093f42f76895989250b64b3d0b5fca5cf7e5cc44a5"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/configure_fingerprint.bin": {
+      "bytes": 3064,
+      "sha256": "a2ead244ef89230b725c19572eb778deefcf939bc879beb163256b859fa83b5e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/metadata_generation_command.txt": {
+      "bytes": 1477,
+      "sha256": "29fd540cb688c92cddf796d241f69ac94798413a260f12e84f63f6537ba2994e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/arm64-v8a/symbol_folder_index.txt": {
+      "bytes": 186,
+      "sha256": "f8942cebe7dd70be6b2adc592b3d869f7fb8a90eb94a618ae5daa2c360d78fa3"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/cache-v2-522c631f2fb73b2c1bf2.json": {
+      "bytes": 26673,
+      "sha256": "38043383871215e7a3b7add4952dc973f7f641593be2f8b16044b164ee3a2dbd"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-ff168e05f4313437af04.json": {
+      "bytes": 18812,
+      "sha256": "e9219de4adcb14b40a50ee1599417e343b94f9b461c1af0dbadd63034e5dc051"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-cf86923b1dc66cf03e13.json": {
+      "bytes": 1232,
+      "sha256": "b925fddc08b668b0f691d436800c2199cb94c07f98b22b33f04dcce324da08a7"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/index-2026-10-01T13-44-19-0858.json": {
+      "bytes": 1702,
+      "sha256": "794308b1b19e4e49f3f255ec7addddefd2d91300b1d69967ced9bd0ff8e29f96"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-92db3b214681bf468934.json": {
+      "bytes": 2844,
+      "sha256": "10e399c364dde47e0d364b9c0e60d25f7e86e30bf42c05d440dbc928b956d9b1"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.ninja_deps": {
+      "bytes": 16116,
+      "sha256": "793c953d10596a82d71a006542e8df1ee5e3b477492a9a0339c8d36b7991130f"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/.ninja_log": {
+      "bytes": 522,
+      "sha256": "f16840c271c42ede82a060a83530eb86f949a30961fc2ba6c049a68151ad721d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeCache.txt": {
+      "bytes": 16362,
+      "sha256": "5fe1da52d03bfc6a08cbed987f8b49f90b645505d745ecd3a55a755e5dab4e29"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5920,
+      "sha256": "be502f938492a6c16789b8341863ddb78c247450ddc6873e8c2239f5c940dcaa"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4260,
+      "sha256": "8163d5ab8057c76bc60ee8af5e8c2f8db91c3d95c6816a26a0431a39a1100aec"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 23590,
+      "sha256": "2865071a80da6d8d52b6687cf662cb46f94d30fed0be539c98c2253e5120e3f6"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 668,
+      "sha256": "07052ab5b06fbf71a7fd949aa1f95ecea77151aac3cfe8e62e46f8888939fbb8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 75192,
+      "sha256": "80bce9e6f4539e15a55176efd9627c4f2c3bf4bd4215bc59d4657a8c2677c119"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 30904,
+      "sha256": "e5a36b00ae4de719766910c9f53b6ada72eb34a8087dad5a511f0ad331376ec8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 375272,
+      "sha256": "deaf1548329eee8defaf54a652f8eb326ed05431a803d4caa701674c1c457eb5"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/CMakeFiles/rules.ninja": {
+      "bytes": 2974,
+      "sha256": "e664d693e69c96aae262941598d56ef80701d342cf4b14d2c5199f6907b0da5b"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/android_gradle_build.json": {
+      "bytes": 1740,
+      "sha256": "bf25b24a74da5ef6d03f48cafde75c1ec60a7356b92979997893edf01f531223"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/android_gradle_build_mini.json": {
+      "bytes": 1314,
+      "sha256": "14f60d3e2fc234fb8eb84586df5e6553d9b8f5ba3e7d2a9eb287ec7a2bd96e7b"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/build.ninja": {
+      "bytes": 31893,
+      "sha256": "474694a10f1c8b0d99f5e9b14624a1d794c1e74cc5a20cde27d55727b5bf65b8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/build_file_index.txt": {
+      "bytes": 167,
+      "sha256": "6e71cbcf3706bffa2bba06f8f73d717d575b9f884ba34a1ac10ef9c742962cb1"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/cmake_install.cmake": {
+      "bytes": 2026,
+      "sha256": "fd77545478906f1b8cd881e63c887d1dc5c90c95f78385d945e2dab2028eb740"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/compile_commands.json": {
+      "bytes": 3431,
+      "sha256": "ab68b52e9bc225ed55563e4f54fd1cb989616128985fd5e1eb3920427bcbdae7"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/compile_commands.json.bin": {
+      "bytes": 1635,
+      "sha256": "dd33e2e4d9ba378973d1c5c2eb1328da07082ea83d14cf3fbdb07928777cd135"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/configure_fingerprint.bin": {
+      "bytes": 3086,
+      "sha256": "29335c2925d1cf471bfbb8bfbfeb4a37e6cc35f1fa52f87408fbeb1b406543df"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/metadata_generation_command.txt": {
+      "bytes": 1487,
+      "sha256": "50798db39deccdfa5b07f03d6dce3401d94089ac279749f6d73f96811fbb2f09"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/armeabi-v7a/symbol_folder_index.txt": {
+      "bytes": 188,
+      "sha256": "e22fcefc852162a3ea4a2293112bdd49ae0d6960713a32a805857e3aeec0a795"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/hash_key.txt": {
+      "bytes": 1613,
+      "sha256": "9d091826b1b6016be68a20d7aa16e1290f22907f26fb927e4f39727e2a7a7155"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/cache-v2-cdb44e51913af5cb4174.json": {
+      "bytes": 26625,
+      "sha256": "ef122e8f913b4043e1d404e1297120bebbb4218724e33d49690a7a07d3c5a63c"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/cmakeFiles-v1-96c1039c227fae4208b4.json": {
+      "bytes": 18780,
+      "sha256": "bb7c5e72f810645e4223260b14efe50ced95837e16bbe8832990ffde8119e885"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/codemodel-v2-ec96f137add70024308a.json": {
+      "bytes": 1224,
+      "sha256": "d74bf4459ead9055def27c730a5f01d20b8240424aa25f0b9aba779ca85b14b0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/index-2026-10-01T13-44-37-0464.json": {
+      "bytes": 1702,
+      "sha256": "84f45dc97e0ed74d368c3bc30b41fb7a6c388c2f0b0629edab6c1e7a8c2823cc"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.cmake/api/v1/reply/target-jni-RelWithDebInfo-07324cf9c7a2e95ebd5b.json": {
+      "bytes": 2828,
+      "sha256": "4df2290f3783e23d04e1d381ee3031ec28f1483fe1989c2916fc6813357eb26b"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.ninja_deps": {
+      "bytes": 16432,
+      "sha256": "24639d7220481eaf5e397fe1545235aa45646b6308deaccf6b78b5a112a065c3"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/.ninja_log": {
+      "bytes": 518,
+      "sha256": "7fe14ed41232104bb9150287d5484a09c150fc4df1b3461fb258dd9421e0b8bb"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeCache.txt": {
+      "bytes": 16306,
+      "sha256": "6bd27064d9b54ca9950b79f2886133612c49297b6840b4c012af7dfe24a7a433"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3673,
+      "sha256": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5764,
+      "sha256": "87a74fc280d5abf2288519f4dcc39ff751560d725729158af7f8b37d20212224"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 452,
+      "sha256": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4044,
+      "sha256": "0e014539a6c703874fc2b7eefc2b042e5adb689792f331cf459b353250ff2c0d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21363,
+      "sha256": "f7b946ca1b97b4895f8a0d3585b393b4e55053b6ca8848cd0385bc31dac8bf8d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 644,
+      "sha256": "f3452e29514904c3118c79e4054adebcfa4d44159c080991ba8868b96f451525"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 70372,
+      "sha256": "862a13a63d38ad98c0440b0725ad9dfe316f546501b6b569b3b9e82a13f14a6d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 31872,
+      "sha256": "eee6128eba95ad7407eb0253daad9d1963367ef8a543eae1c03db9bf81cc88ed"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 319576,
+      "sha256": "dd62fc14d9b9a76e1d7d1b9d47e456268c19b48cbf9a684d5293e703e00d8e14"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/CMakeFiles/rules.ninja": {
+      "bytes": 2956,
+      "sha256": "e5ced7b76e5d612fb5cc6ca787ce9934f35a542feb4f7ecbf4e1d67c9bdee7b5"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/android_gradle_build.json": {
+      "bytes": 1708,
+      "sha256": "bbf633fd5058d6bfe88db1d1c53119c79a812a60d23b478c0ab878efe3765b7f"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/android_gradle_build_mini.json": {
+      "bytes": 1282,
+      "sha256": "dbee2a5add33a98a1715e507449d051b4ec1b52f0f28a8cd63fcbf6f58218c1e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/build.ninja": {
+      "bytes": 31733,
+      "sha256": "8b2cb55677f99e90212a01aa20a634d325a7d8f5c1f4ccdce19e88516758706f"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/build_file_index.txt": {
+      "bytes": 167,
+      "sha256": "6e71cbcf3706bffa2bba06f8f73d717d575b9f884ba34a1ac10ef9c742962cb1"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/cmake_install.cmake": {
+      "bytes": 2018,
+      "sha256": "2229e9235f2c1ad3abed1e77757017f013cf4b868f0a705c7f1a5300c5d07037"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/compile_commands.json": {
+      "bytes": 3368,
+      "sha256": "5ce1ed0b02e71cd3f2e45c1fc873167e81df42d0a65fbf7b049560f9686eeb90"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/compile_commands.json.bin": {
+      "bytes": 1607,
+      "sha256": "3d3ff4ab6c7331111a47aae300b99e226118f2ee88a48e47f6287104501a70e9"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/configure_fingerprint.bin": {
+      "bytes": 2998,
+      "sha256": "60612b110cd48acc7dda470fd1550df00b8a02ed38a5b2119f28f08c717e12b3"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/metadata_generation_command.txt": {
+      "bytes": 1447,
+      "sha256": "d870ac0338f8755c124ef05b779a1c2d0097590074229fb99b691387a4886aee"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86/symbol_folder_index.txt": {
+      "bytes": 180,
+      "sha256": "557a5b78c18f6df686d82e428306a1d7b3dcc0f2dc7747c7d7129414d84c87c6"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/cache-v2-677936cd5d1070e0ccbf.json": {
+      "bytes": 26643,
+      "sha256": "91dace02dad01db10306a1508664f8e7668c0ed3093a486f7c470ec82bc7f3fb"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-e4e880c300da6482c66c.json": {
+      "bytes": 18792,
+      "sha256": "6c11d0bafea9218eefc5108f5f8050a8a9cadb3293dfe093bbc088ee6a7631d0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/codemodel-v2-a57957effad8ad4a9960.json": {
+      "bytes": 1227,
+      "sha256": "df74e0c78337faadc62a45c99e84dee2ff728aa4f6a76ca28d8c37c21483d5c8"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/index-2026-10-01T13-44-55-0248.json": {
+      "bytes": 1702,
+      "sha256": "d63aa544b9727863809155cfb9074c2fe58605ceb8bf814d9dc5b60399a7e9d9"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.cmake/api/v1/reply/target-jni-RelWithDebInfo-eaaddd5cd9c36e685527.json": {
+      "bytes": 2816,
+      "sha256": "39d276d0bb92eda175411e21b986ec177ed24827e485965c7c9fef4adfa2a405"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.ninja_deps": {
+      "bytes": 16436,
+      "sha256": "f205d2da7f3ba38db9780fa3f552eefa4eadc5ec92eb9d28fab6ea6202a0f598"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/.ninja_log": {
+      "bytes": 516,
+      "sha256": "9977a17697b60bcf4fe0454da35ab483c4af8afe19da87747abe70110adbac21"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeCache.txt": {
+      "bytes": 16327,
+      "sha256": "143bdebe7bddfe5113dd0b735a1b88767ec30771b7719abb74f95f8a6df50055"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7208,
+      "sha256": "b3df3034cc6312de3ee14c1942d3fd925219b601687f2f899c9906545da9040d"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 454,
+      "sha256": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 5560,
+      "sha256": "db3bb0f237365074e1d5e18134b8f101fe74be7f9406ceb7fdb06a1a29b8cf9a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21652,
+      "sha256": "7c9f01c6e57405048ba6cfe0cb843171012251d38e575514a13c9e3b079d7515"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 653,
+      "sha256": "236cc0a7853c97837453be0d098012371117dea29d14ca7dc9b892ad0d8ec613"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 107528,
+      "sha256": "c32126d53f32a3b6ace4c40932d23ee9a7a9a11112fcdce417f1f13a89060bc3"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48232,
+      "sha256": "fb14e40200dda321a2115518f4a9a4b929cb6b285e77e7074c207c5d6db9d9f0"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 584488,
+      "sha256": "c216150d9502affcd8fa260ed36de6c13d5512cdddf457828f394a6e2e1eba24"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/CMakeFiles/rules.ninja": {
+      "bytes": 2963,
+      "sha256": "1e38a553e419b210e39ec9fcd5066c8131fc1358bf1d324d30d671d4920052dd"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/android_gradle_build.json": {
+      "bytes": 1720,
+      "sha256": "925e8b12b17364752c0ff0169d7697400312fac70aa41afd087eb663ed27a14a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/android_gradle_build_mini.json": {
+      "bytes": 1294,
+      "sha256": "7bdeaa6ecdb342a8e4ada0848750b8868c036022cdbffd8f2015e5662d59db42"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/build.ninja": {
+      "bytes": 31721,
+      "sha256": "fb526c01e6de4be8cb10afc10feb6965ac37d1078ed1cf746f4b0c1c08723dc6"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/build_file_index.txt": {
+      "bytes": 167,
+      "sha256": "6e71cbcf3706bffa2bba06f8f73d717d575b9f884ba34a1ac10ef9c742962cb1"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/cmake_install.cmake": {
+      "bytes": 2021,
+      "sha256": "9196b6db930ced3dc66c93ac814aa829d4fe64fbf5cc20c5135bd4cc9a19338c"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/compile_commands.json": {
+      "bytes": 3338,
+      "sha256": "043069f2480526572d4adbc81c198cdf579c1991ca78a9322d468335b0deaf02"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/compile_commands.json.bin": {
+      "bytes": 1590,
+      "sha256": "bebdbf96b905ed10f8d9882a544ae0a41726377f0d5ba54324138c607ef359cf"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/configure_fingerprint.bin": {
+      "bytes": 3031,
+      "sha256": "8901b178941de855f00154994f6f315a274634efa432116d7612c110b4f23e1a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/metadata_generation_command.txt": {
+      "bytes": 1462,
+      "sha256": "08cba0697fb79fff7b21f6b2506268ad80935232853dec3d9c5c5de7ad8b9f8a"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/5d431w5v/x86_64/symbol_folder_index.txt": {
+      "bytes": 183,
+      "sha256": "2d6860f2fc8de0ceca323ee24b970dcfee07e629534f69a88459d89c36fd22d0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/cache-v2-b62257a426c6f4bd73e0.json": {
+      "bytes": 26425,
+      "sha256": "491aa0ed4c21f6fa8ac51e970b9a878875a0108bb7d8110bd25726bbb7961ede"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-70012decef15b92f394d.json": {
+      "bytes": 18589,
+      "sha256": "493a7d7803e929336bb9a3b1e9c60b5ec0cfb2b869629df1aac92898d175f215"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-e898a444c8095af26b54.json": {
+      "bytes": 1144,
+      "sha256": "b59ac9e7981d4469dc2787c0ec25ff1f708737baa9cd439c9d61436ccf36e3ff"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T15-14-59-0934.json": {
+      "bytes": 1702,
+      "sha256": "02196d01c6c7b312c7b68fbe13acf3ad2aac9c9e69e112ffef93bd670adb1937"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-03c9072509e51ea89782.json": {
+      "bytes": 2787,
+      "sha256": "fbac67458c2051814c1178a59aebcf47dd352e2cd4e8bf6dfc994c97b3ae988a"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.ninja_deps": {
+      "bytes": 16120,
+      "sha256": "e6a02ef5026fd7c98277d13efb4925589dd0a6846144e41bd6886e2f249b85b3"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.ninja_log": {
+      "bytes": 482,
+      "sha256": "779a7a6a84012eb54457114c8a1dbe357e16200f48129bf09ad53de6b6eaa0b3"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeCache.txt": {
+      "bytes": 16069,
+      "sha256": "34d6c4c5c5ed786f53a04f44f11b8f1d9c4886737fac9c2db7d4d2324e8a3a7b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3685,
+      "sha256": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7888,
+      "sha256": "993d1efd50abebc1ca0a70d189398a28c56945dfcedf4e20a8dcd8a4bd66e1a3"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 6120,
+      "sha256": "d977e37564c8a9fdd864f2aa0c1ed4c76e69b297c355a9c435978e90e8c312cc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21781,
+      "sha256": "1148ffcfb3b1ca3cbc2cdbcdf1011f75af369a20b419f7928c37b3b27f61fb51"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 533,
+      "sha256": "440cecce518f6543a2e5eb46244355528d8eff7cd921dfd450457c340248f239"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 114032,
+      "sha256": "c0ab559519fbe6e7c797e47dccfcc2adf7fddc045e84b06cdc766391c4374ffd"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48448,
+      "sha256": "f8418c9432bf83bf397146df49f03831699fd2ca85771f48c7a81da3a93b4118"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 640048,
+      "sha256": "d70fc29d7ea0c861839b78294098d0ca970ad4444abb78886ba5df43c5168cd6"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/rules.ninja": {
+      "bytes": 2882,
+      "sha256": "c23250468566e93bb0bf4f129be05da3033dbf22349d03925451f9842e732434"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/android_gradle_build.json": {
+      "bytes": 1571,
+      "sha256": "09c9007d90639484ec7e4cfc4779ec0f8750d6b3a70e7f574d7c6870fb77f6fd"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/android_gradle_build_mini.json": {
+      "bytes": 1145,
+      "sha256": "074cce90c9ccd1a809a2deeb431ca6fb5d2afc8cb68a40f743a1fe7a878292e1"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/build.ninja": {
+      "bytes": 30890,
+      "sha256": "c2ef10b45fcb2a893975080519e4f7d8ad50da803ddc173a8cd75d071dde4adc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/cmake_install.cmake": {
+      "bytes": 1938,
+      "sha256": "483a1c00a1a97d536265b05b79b04674fd69946427b638dcc647e9136dbd36c4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/compile_commands.json": {
+      "bytes": 2963,
+      "sha256": "aaabae28eafe016cb29a8e2c0ad80bd5bc6eee1caec577ba06d5845ee4b0eb3b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/compile_commands.json.bin": {
+      "bytes": 1422,
+      "sha256": "246657490a064fa91d89c1d6dd7338cee66a2fdfce5b1c3b794dc6f6071ffa3a"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/configure_fingerprint.bin": {
+      "bytes": 2545,
+      "sha256": "52b66964f108ebca1d12888f454eef89a94a4de4cc6925f9db702140c1caa3d5"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/metadata_generation_command.txt": {
+      "bytes": 1327,
+      "sha256": "315584e9ff89fe05c5bcd679f42d951f5924b6f44343fa38f0e23460fe3ba113"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/symbol_folder_index.txt": {
+      "bytes": 154,
+      "sha256": "93ee1401f1da7a15a73dbb243d47c6dac8409802764d68d36f714b331e69a870"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/cache-v2-6a72127c164573e343ec.json": {
+      "bytes": 26437,
+      "sha256": "89fb264e5e19f56cfe947ce7b835c95a92761ed4292ee7e93e89be818be6c30a"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-3aac2f3fd8831c2a2a40.json": {
+      "bytes": 18597,
+      "sha256": "04aaa2a99559df6fbcf18383af896981ff24ab5e2a6cf9bafec6e083a0fc5fa3"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-27da6303c689de1198c9.json": {
+      "bytes": 1146,
+      "sha256": "6eba3674e93c747f97a320f1b9c3a5e1f4fa38e1e18135b84b53eb422990a275"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T15-15-01-0036.json": {
+      "bytes": 1702,
+      "sha256": "16f50a4f8b07f685ae6b342e0c9aeec56dbf8c006951dffe37c2de2997591e5f"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-77242abd78962b275605.json": {
+      "bytes": 2812,
+      "sha256": "8cacc9d2d5f7c1c8c7f7e00f2e97aba6117e4216450036b7f5bd5a0a88b4713f"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.ninja_deps": {
+      "bytes": 15640,
+      "sha256": "df3afe589ec608c2e58854ce56f333e5c5a14ee2e6902caa1eac7d822a6928da"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.ninja_log": {
+      "bytes": 484,
+      "sha256": "9a41460cc2bb28af3c84c077f17d454b3ddaff476c5e20b6163ed5281391ab94"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeCache.txt": {
+      "bytes": 16083,
+      "sha256": "3ce80d690cc151c587961b3745da56ff6ec82d22fd491fc5e04ba5a2552eb5a6"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5952,
+      "sha256": "fb98c2f21dc457dc6d454733a2aaf70ccb0e4688fae756ef47fab4f9c084ec5c"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 455,
+      "sha256": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4216,
+      "sha256": "03a47cb1a6bd854753cf2b1a0b6a1c80845a56ce169ea27ec1d8ed701c695172"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/CMakeOutput.log": {
+      "bytes": 23289,
+      "sha256": "92dc25320cdc3397a63e434e691c69772c1c3383e9284f26674a7e48f81556eb"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 539,
+      "sha256": "a683418d2508fd4e9cc27413f956b8624a897735e0b623b8655667d83ab53335"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 74868,
+      "sha256": "065323da49bef0d70634c8e694df1ddc5d684be0599a206b6c1ee6654394a640"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 30780,
+      "sha256": "f9e2f44b1ddc3cc5610de25a965e194b3e9fa4d98733a67a0252fa3eea827855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 375100,
+      "sha256": "8f631e412fd36e73b0364b974c3f737da84365a9f6e91fb181ca6e96e9ffea98"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/rules.ninja": {
+      "bytes": 2888,
+      "sha256": "df1e92ba7ce7d35132b3acc5811cfc95fc5a88f24e57690b2020d8842e4bbd47"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/android_gradle_build.json": {
+      "bytes": 1579,
+      "sha256": "875f44cfc7d40cbf384ea95c1878494f6f0a50695531938f905e8cb173bcacc7"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/android_gradle_build_mini.json": {
+      "bytes": 1153,
+      "sha256": "6da88f8aaed487eca73094e00699a893b5b532e399a93e22b858f2ffecf5b011"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/build.ninja": {
+      "bytes": 31014,
+      "sha256": "4a8692234e56287ca9e8f619c454d24e29c7e5f167babf7f1807739d6c6f7219"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/cmake_install.cmake": {
+      "bytes": 1940,
+      "sha256": "69b911e43c677cfeeec6a51ef1b9f3ff66a46ae7173b9866cd5c181c81949c7b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/compile_commands.json": {
+      "bytes": 3044,
+      "sha256": "ed52e0700cd28a34905c6df2f9d332f99450e1f9a3417e86cf4ca782c31a7a50"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/compile_commands.json.bin": {
+      "bytes": 1463,
+      "sha256": "1b3c515ab87b77c323ea95b4c77d09fdb61a21af7b3c45efd1894864686860d5"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/configure_fingerprint.bin": {
+      "bytes": 2567,
+      "sha256": "36b3c62eba8ae0d3178a45e3b0321d28c09e68a95d60ea98f2518d8c081faebc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/metadata_generation_command.txt": {
+      "bytes": 1337,
+      "sha256": "ea4806a01bcb01aad1a241ee24a1b28a64ab199d495ac984098449250ab6e514"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/symbol_folder_index.txt": {
+      "bytes": 156,
+      "sha256": "d8c30edf0379bc5d9d53202bdedf479e2b5e62438c496743fa3988cfba855ff0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/hash_key.txt": {
+      "bytes": 1463,
+      "sha256": "1cb224e7d81771e4acfe8654e01fc19ddf1c9e7f42b600737291f1c48023834a"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/cache-v2-c19713d2a4c17df3dbbc.json": {
+      "bytes": 26389,
+      "sha256": "70e6ff0ec8c5ebbdc09933e55f61d17a3a5653830d79ff0b49e5ebe8052ba7f4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/cmakeFiles-v1-6f60724c905ff729dc6b.json": {
+      "bytes": 18565,
+      "sha256": "a165a9fa6d6c5da6dbfe80fc77faa2620075c3fd9623daacdafe7c22d3844d2f"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/codemodel-v2-8fa851c451d0b80ecce1.json": {
+      "bytes": 1138,
+      "sha256": "19ab5350a430d143483ec3241a092619400e073eca39f8fc546585467d3831d3"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/index-2026-09-30T15-15-02-0061.json": {
+      "bytes": 1702,
+      "sha256": "295155e3bdf2169cf67f7e17ff7497f0f16ad4837f92d630f29b3218ed6faae2"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/target-jni-RelWithDebInfo-9c655eacd355acd74293.json": {
+      "bytes": 2796,
+      "sha256": "448d49abaf1ce7c2712aba58b67aa0dbedd6d1fda770005fef475c3d2465f39b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.ninja_deps": {
+      "bytes": 15956,
+      "sha256": "2ffb17cf08b6d85219df837502bd536200bfd9f2004241009b5f985ce93d3b17"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.ninja_log": {
+      "bytes": 476,
+      "sha256": "7dbce2a49966e2a83d4ad81a3e8295507a14218c79bdbcd70be6ce698c9061b9"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeCache.txt": {
+      "bytes": 16027,
+      "sha256": "73b66eb08ff0bdcb53b140224a0750498accfdf59ad1b0961db0627d9e91638b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3673,
+      "sha256": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 5796,
+      "sha256": "2fea98c713c974d71a88c23e923d6017d235b6534440e3b31ecb036556caaedc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 452,
+      "sha256": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 4000,
+      "sha256": "83fd90cc03a13bf7e5b3cc601cdf0d0e6ab9102e14e2db8a8ca14322d9c8489b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21062,
+      "sha256": "6d360f118f5acab1befa2a34f65551ac50db7385c56345c7766fcc17e961bdfd"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 515,
+      "sha256": "b1cc330111b24c4e4da81f13791f9fef38e52f3624632db0167e9fad15714784"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 69960,
+      "sha256": "e81dd1c6743caba63cdd5cb9e41a4a160582bad9d0570eff09cb50ee3f6e4c47"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 31652,
+      "sha256": "48d88908ce51ee9b55d9a4f320d6b839b976fd48dd4cc69043be7f9edf8dff8f"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 319344,
+      "sha256": "c59611ce296170bc54e4797a4299bfbf6f867ca816b7ddb92515ed3cfb4f3b72"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/rules.ninja": {
+      "bytes": 2870,
+      "sha256": "239d4a3a5fa8a0c143df9182fd6e21cf35d0a8a6cfd96ca20a3fcb7425595e58"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/android_gradle_build.json": {
+      "bytes": 1547,
+      "sha256": "f317b96c560fa0dd71e0d383ccc7878be6d075a2057edae6d852c5c066c6e735"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/android_gradle_build_mini.json": {
+      "bytes": 1121,
+      "sha256": "6e2ff6486a960b9e31e8079f43bd21411824ec8f3bb548e819f29adcbb7b6e5b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/build.ninja": {
+      "bytes": 30854,
+      "sha256": "e52f0f1b7be4080ef60189f1f6532040484c24f16c0ddaa40ada1683cabc8559"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/cmake_install.cmake": {
+      "bytes": 1932,
+      "sha256": "a2000fb0221d3923019d67dc2a187920837cc713a4ab5126a9f986db51ab8f0e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/compile_commands.json": {
+      "bytes": 2981,
+      "sha256": "c364d0af1816fdebb08ab27515b831ff1ca74de34cb2d5ee05df73a979c2d02c"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/compile_commands.json.bin": {
+      "bytes": 1435,
+      "sha256": "deea64425fcaef0f8ef2b1b87a3c8ad8faf85fb5991255978894c005dd65143b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/configure_fingerprint.bin": {
+      "bytes": 2479,
+      "sha256": "1958b65214ed05633e2361ba6b3aaddb6cebcbb5ad061b59e13d6c16aa11053e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/metadata_generation_command.txt": {
+      "bytes": 1297,
+      "sha256": "2c9a22e551bc0dff3134edb278ab9aad885d5d70a11b40c44e29a166afee222e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/symbol_folder_index.txt": {
+      "bytes": 148,
+      "sha256": "42df755eeab9ca2a00c4326372e19df8d7608ee1e89838b586e8a7a90f9dc190"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/cache-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/cache-v2-f00723fa0ed8284672b2.json": {
+      "bytes": 26407,
+      "sha256": "30cc98963dcb1945779d9c50574566e9e2d1cf930594b6acd09e2ce2bc473f70"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-6330f1b53db19d6a79a7.json": {
+      "bytes": 18577,
+      "sha256": "80162ab416e92278f62fad06255deec7418db83c7102080ca25f33c7dbbf67df"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/codemodel-v2-0486f7f2bd2e6dda3e70.json": {
+      "bytes": 1141,
+      "sha256": "58692b27ed81adc9ffbebd20c6cf2732ead4749fe7f15eed1f3075e01128fbd5"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": {
+      "bytes": 154,
+      "sha256": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/index-2026-09-30T15-15-03-0060.json": {
+      "bytes": 1702,
+      "sha256": "2f47f2a8e66ebc9e63291f8dbb46c3f54c2749f66a273d07138d347c526c1fa6"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/target-jni-RelWithDebInfo-1963f37fd236b26798a2.json": {
+      "bytes": 2784,
+      "sha256": "bda6c07b20a7a3c20713f1d205e0985cd74decc61a75a52423cfc5c218674e64"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.ninja_deps": {
+      "bytes": 15960,
+      "sha256": "b0b341c8c335f3e605525b3a8d8e07f3fcc778c36a0a2d50f5ef69fab13bf7ed"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.ninja_log": {
+      "bytes": 479,
+      "sha256": "290c76b86af8ef7200639c968c99b1e36cf2232feceb5798915424d43d660155"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeCache.txt": {
+      "bytes": 16048,
+      "sha256": "fb603580ed9fe651da13f0ea6af646e31e5e1c93bb2cc2e53017609c401618fc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": {
+      "bytes": 3681,
+      "sha256": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": {
+      "bytes": 7240,
+      "sha256": "dafc9ea442f65354500f2562608a9695115ea6f290ac64eba4ed0e57f0039c62"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": {
+      "bytes": 454,
+      "sha256": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": {
+      "bytes": 24853,
+      "sha256": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": {
+      "bytes": 5520,
+      "sha256": "6371935d16aeae431d24790ac0130b222dcdaf96b542ece79df71737195747bf"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/CMakeOutput.log": {
+      "bytes": 21351,
+      "sha256": "e90bb92578f82e715bca044065174a43305210462a1cbb5e412e97f268443ab9"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/TargetDirectories.txt": {
+      "bytes": 524,
+      "sha256": "25e2c576423535dc1f8de946b49daa47d63f3264ca443936929e838ffe9fb1a7"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/cmake.check_cache": {
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/dartjni.c.o": {
+      "bytes": 107208,
+      "sha256": "2f9b18228803378def0585c996f9bca3bd38464b72b00d33f66e4b7135b63f4c"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": {
+      "bytes": 48024,
+      "sha256": "b85047a5f7458b2a3e542543885c6cd222457e3ed5a8c73eade43e6a59c621cc"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": {
+      "bytes": 584264,
+      "sha256": "ef563ed21c0553f3ecfa159318df6f0ef46006cde837ac2d435b2dd9436e0591"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/rules.ninja": {
+      "bytes": 2877,
+      "sha256": "5f296c10370dfc5d2d8cd902d6a731d4c5da24bd6b58c43581f597226912b1fd"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/additional_project_files.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/android_gradle_build.json": {
+      "bytes": 1559,
+      "sha256": "f8d84db1cba13e5ad5039f1c8e28779bf7f6e230d8e4273ea0fadf4322c04962"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/android_gradle_build_mini.json": {
+      "bytes": 1133,
+      "sha256": "e8c9a1899a08afcf764b072434112aee4bfd3e40d218152492b39957f734a6f8"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/build.ninja": {
+      "bytes": 30842,
+      "sha256": "609a07cf5dd9aee658cb8ee9d9dbdf1fc5afe8cb1497f5564c4c92dc8cffd334"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/build_file_index.txt": {
+      "bytes": 124,
+      "sha256": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/cmake_install.cmake": {
+      "bytes": 1935,
+      "sha256": "39a7451db3b8cf3e5707e1545c6db67d30ffe56e069dd0b532402a6aa4bd9531"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/compile_commands.json": {
+      "bytes": 2951,
+      "sha256": "7489a1d336cc9e9d2ab33726faca41f76502d5f0a5014bd8babf905512a6171e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/compile_commands.json.bin": {
+      "bytes": 1418,
+      "sha256": "e731779d5c4cdc8a8e43d17e8a97abb5ff9b8cae3d8d8446c0c60efcc6f2224e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/configure_fingerprint.bin": {
+      "bytes": 2512,
+      "sha256": "7c38faedc507c01d854dc0ef12ffe7b6214145273b823cdfa8abe21c53194284"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/metadata_generation_command.txt": {
+      "bytes": 1312,
+      "sha256": "208aaf8d4108134583918afd6a44119fbc6e2b2328f2b1f35643b86107d2fe15"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/prefab_config.json": {
+      "bytes": 40,
+      "sha256": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e"
+    },
+    "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/symbol_folder_index.txt": {
+      "bytes": 151,
+      "sha256": "1ca19170ddf0cbbade95c9ed97fbfef19cbfb31dee46e8a70988111aaaeb9f22"
+    },
+    "android/.cxx/tools/profile/arm64-v8a/compile_commands.json": {
+      "bytes": 2957,
+      "sha256": "32d818debab92fab0a419620de3d91a3702e353cbd8a92bb028150d85727efb1"
+    },
+    "android/.cxx/tools/profile/armeabi-v7a/compile_commands.json": {
+      "bytes": 3038,
+      "sha256": "68772116c5c32f4dee8652e802a120d0914dc8b0c8da4ebaaee08116f09033cd"
+    },
+    "android/.cxx/tools/profile/x86/compile_commands.json": {
+      "bytes": 2975,
+      "sha256": "c4fc1a930dc4fcb329e5a5186119336fcc9089cd598e3d4fac79d5d9188dcb86"
+    },
+    "android/.cxx/tools/profile/x86_64/compile_commands.json": {
+      "bytes": 2945,
+      "sha256": "a22043c1af0cc44e33109484473f96fa1c634db5bdd5e7af87e95275db247a31"
+    },
+    "android/.cxx/tools/release/arm64-v8a/compile_commands.json": {
+      "bytes": 3350,
+      "sha256": "594e54b139958b52926303442c3676cfbb45c1a397cfa287d1f55b58423fee34"
+    },
+    "android/.cxx/tools/release/armeabi-v7a/compile_commands.json": {
+      "bytes": 3431,
+      "sha256": "ab68b52e9bc225ed55563e4f54fd1cb989616128985fd5e1eb3920427bcbdae7"
+    },
+    "android/.cxx/tools/release/x86/compile_commands.json": {
+      "bytes": 3368,
+      "sha256": "5ce1ed0b02e71cd3f2e45c1fc873167e81df42d0a65fbf7b049560f9686eeb90"
+    },
+    "android/.cxx/tools/release/x86_64/compile_commands.json": {
+      "bytes": 3338,
+      "sha256": "043069f2480526572d4adbc81c198cdf579c1991ca78a9322d468335b0deaf02"
+    }
+  },
+  "historical_generated_before_hashes": {
+    "jni": {
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/cache-v2-98bbc4d17ed6318fb290.json": "58067fe5c702591a1cae0834a9be0d914a68609f74c54b9eb6ecab4097da5e19",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-8ed0784912d490d3eecd.json": "810b42b0c2d9f9216efaa003306a7e1d8bc3848404b723fa9cf254079b681e50",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-ba5da2317424ca9821b7.json": "a1b786665e1f13d30678e3a2a9c2be98d3485a1628fb77c5afb2689bbd0920c6",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T14-31-22-0932.json": "6895b81af927e3bb76d7b0c76c3826a251d0bc79b833054c21713da4328bb925",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.cmake/api/v1/reply/target-jni-Debug-0adf93775b17b02843d9.json": "db03cfc9b9f3ca53cb8b8669f78aa0776882bbde1e95764c6d17d673954ee821",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.ninja_deps": "e47b500f7cf1fad25e44206a8979d80aaa829f9d824bcb848698f375874c8d08",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/.ninja_log": "38540ff6919f0e1355ac9227777346bfb222ed31efd8a4fef38877715a363ac6",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeCache.txt": "ab4fe6c04227189e853ca5d5c8225c0fee3bbc7d29fb4fe4d14621e8bcbfd36d",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "0224ccbf900d7397b349cab09dd51c6f4c6d0ca3d103d094c9b1d2ab76db814c",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "7e843bad23782b2ee027d7a4cb49f924687f242855b76d822913560e93b8d5e1",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/CMakeOutput.log": "f01e7e2ac44518d77a92978f11b6c16c0e83460d9eed42094c9db6e9d3eec3d9",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/TargetDirectories.txt": "f3101ff515525cf28c91d19857840967e07de313ad14f1cde37f3307d1e4a04d",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": "4801f2f3f56f212a13e1bc5a560b100e728d98f155a3c500aa075761124604d8",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "bd1858784077395a428b7be528f4cf613ff77eeca0567b5db2df3c0249ea2ab5",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "7e43e5d11daee1f99ecb7da5e0181dd25310d47c0ffdda6ee6231d269001693c",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/CMakeFiles/rules.ninja": "c635e8bdbdca48f0d67c9040d2f0ccf226cf10fa5964ff9284ea68a738d78364",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/android_gradle_build.json": "768ff54ad6d2a3fff2678a65409da90110377fec06f549715f26381e730b656f",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/android_gradle_build_mini.json": "469db758da3997451de06ec3ab16e46142e9d8fdc740ef6fb3daa4a79cca6f38",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/build.ninja": "e975b475b3c6241f42a779f29966baf1d8a1fbe789584c85ee946c9713acbec1",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/cmake_install.cmake": "86f8214ec1131748166b4bbb928503dc613b9dbd08dd6a25415813dc07421c6f",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/compile_commands.json": "32d818debab92fab0a419620de3d91a3702e353cbd8a92bb028150d85727efb1",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/compile_commands.json.bin": "931f32c5879b48b98ae02c1d8325bb2a93c89ed41ecbec61eae90cae399ece7b",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/configure_fingerprint.bin": "234a20e92d07983fb2c4eb8dadb0b3bd90839204b30ca1c901158daca267bdca",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/metadata_generation_command.txt": "f46d692b3ba9394a4e887c628bb3308cb9945da0b60cb0b6bd94335b4259c89a",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/Debug/2y3z2l3m/arm64-v8a/symbol_folder_index.txt": "d15331b6c666faf877db375d75d57434b1b354f9327b2b536dd0662507f3589d",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/cache-v2-d1d6073415cfd83d4105.json": "bdd25ee12b9dd74ed258210a2ec4b67c52e567f58e7de4bef3bd94718d68cee5",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-ac37251421226946cd8f.json": "af662ee010e97d4b22fc2e29277f9a4e87211b6e14e66eb6a9199d07f239c2ac",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-4307b32742b807dea55b.json": "84bf06e9e94845e6669fca4bd1fa3a5be189814ca3683ac60ef79e8f10977793",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T14-31-23-0763.json": "3e3fde372664c49eec29abdf68330007900fee1f68929ab232f244519e63693f",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.cmake/api/v1/reply/target-jni-Debug-d43142f87b3fd386eec7.json": "ee20803ecbd5dda420d7ee3a6bcd8363a1a31191c3730b098305b6edbb4db8fc",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.ninja_deps": "96673f354060e19bc0860a4cc261a24eaa07f0e29a6f5e49ac879f273a063780",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/.ninja_log": "665db4188cb200ef459921a8cdca305d5304e9886b4a126260e852898d4352db",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeCache.txt": "41b6089ab3bdd5bd06074580119ebd0388b9de0075d352d1dab180ffff2177eb",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "4ad87dbfa424af824bfaba7c03c5aa979772062fd2cb1b5b347d62834cfddf64",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "f42a5d44688277402f8649d9dd0d8e2ddcfc6c1d3e109cc7a3e50a45be8dcc58",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/CMakeOutput.log": "944d5c3af384e9a6df9caa6967eae2201541a33ef658efdcb2879ae653cc38c1",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/TargetDirectories.txt": "56a9234a8c7a1d97b6995e7978efc02f0376d28af9c721ab86e90fd39f14e426",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": "50f1139b759755d80740a963f03f8d2678590b141d62ac4589d55800b1ddfa1f",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "e8e76b3d90a6ea3d4da432a7ca9ad6a4ee24583dffb099e594f3ed73da87f9c3",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "fe0ac9d1c1af162ec4c0849dbde62e6e4ff7ddbed996e3785bdb3a2955a80d84",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/CMakeFiles/rules.ninja": "92906b7c2bb8c25c8679093fdd389806f5a0720cc80dbbc8c12b111cc81e729c",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/android_gradle_build.json": "51d21eef87d91acc83f93ad69c801360f6739852573d3fa1f5fd22f0a1bb9cae",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/android_gradle_build_mini.json": "386993185514bf6efeb2a1749bb85addbd9092755abecbcaaaf8f28efb347398",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/build.ninja": "257c6ad85e020e4a8aca37dfe6eabc7840fc51b16c09fe642c253795ce13baa6",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/cmake_install.cmake": "a7900a8503a4d1e4b426cd2e67580bee02bcd80104aa40d15244349d6a062e7f",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/compile_commands.json": "68772116c5c32f4dee8652e802a120d0914dc8b0c8da4ebaaee08116f09033cd",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/compile_commands.json.bin": "be0d9d2a2d33f3c66f9d50ceb6600af522f6a748270531ba6c72f59968f6ef3b",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/configure_fingerprint.bin": "0d1608c972619014593373b08ded5aacf5dd63832f9a6b743fe77b870c9c1df1",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/metadata_generation_command.txt": "532ddad0014d814a7e20272479dda75e2ce9f8146fe94673ebab6be6cc00eb37",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/Debug/2y3z2l3m/armeabi-v7a/symbol_folder_index.txt": "bb230db85a6beadd781bf22c42977e55d31efd3dbc71c3b5ae23d7232a92fd19",
+      "android/.cxx/Debug/2y3z2l3m/hash_key.txt": "9bac7dee999fe174cbffbb15b3b4b3f4aa152d70747107ac6cfd6735fa168cde",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/cache-v2-14a055f2f9aadf6ee910.json": "f11a6eea2d1d6035ae231866030a67d91f80effc0e07befd4b8c85b4b8dee261",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/cmakeFiles-v1-631c6cf431fdde569eee.json": "6bd30d7c0d65a970d8513234ceaebe2fdce6468e1b7e6c6e6e79bd0367aa567b",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/codemodel-v2-7bee3e20beaf44c4dd17.json": "d076e8e670228dcc98f19658abbead540a09a35f56569dcb3b9310ee1751b1ab",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/index-2026-09-30T14-31-24-0459.json": "b1e32e9a9bb4e166639937279f936fddee41c04d25ea388e7e2e4e9411227f46",
+      "android/.cxx/Debug/2y3z2l3m/x86/.cmake/api/v1/reply/target-jni-Debug-f87d940e9ed587962092.json": "4d555628e3d918c392cfddbf08be644a34074780168acf31e788cad5ffbfff27",
+      "android/.cxx/Debug/2y3z2l3m/x86/.ninja_deps": "8b889d3031da12f7f5c274c2641548ce0a31f01f8ec897eaf4a9ebdcffabb6c8",
+      "android/.cxx/Debug/2y3z2l3m/x86/.ninja_log": "4efe95c8b397e58efe882f7b61f3fa98b7b4f4a0864aaa598c84fafad44fbc32",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeCache.txt": "3437c8483b6f40df758b290b4d9574b798110b0657d7dea94ca2b180ef654d86",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "396fcb3f61de7cf3d237177360d9d6eb01f36a522d61a3d335be8d96032ec248",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "d4037b6b23492ab92bf2d7756425c24e73e9afbc46d3094184b6a7516689e574",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/CMakeOutput.log": "22316dcf70db3ad2e9622a6e156181a61f49b78624a7ab23fc9e6e023d6f88dd",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/TargetDirectories.txt": "ec977a2690ebebadf986594c3808cb50d684244c50fecfe048b6fe5f0071cdae",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/dartjni.c.o": "35b76f8836d42dcb96442ad42c57b830bdc1e4eeb44cfca57e0a523b92e3222b",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "55c430ab04cab314688c86b98941021edb658f53a6c3065f0b4df41b847697e2",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "36663aee578f74d22d1a0e4672e249ce91457d8a1b6c0630de4915aad29139f7",
+      "android/.cxx/Debug/2y3z2l3m/x86/CMakeFiles/rules.ninja": "3556819fa6701a0e587b68c8b3df62881a66538f6778316ba53b42c13d9cfbb2",
+      "android/.cxx/Debug/2y3z2l3m/x86/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86/android_gradle_build.json": "2a47f8881d679629ad93cabe4023827c8c2441beeb018de204ea7a8e9fdcade8",
+      "android/.cxx/Debug/2y3z2l3m/x86/android_gradle_build_mini.json": "aa4e0a57ef6ddcc44976854b8ec4e176523fd722d4715b9dee2ecf3b11c60c74",
+      "android/.cxx/Debug/2y3z2l3m/x86/build.ninja": "2e474f9245da37d2218110c4cde27919ea76928ea4e54e87f85793edf116eedd",
+      "android/.cxx/Debug/2y3z2l3m/x86/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/Debug/2y3z2l3m/x86/cmake_install.cmake": "f589829a84af27cd0ea3b3a55cfd2ca353507cd03aa29be0a8202a1e6de6d95f",
+      "android/.cxx/Debug/2y3z2l3m/x86/compile_commands.json": "c4fc1a930dc4fcb329e5a5186119336fcc9089cd598e3d4fac79d5d9188dcb86",
+      "android/.cxx/Debug/2y3z2l3m/x86/compile_commands.json.bin": "ea67194e91858095da87b705664265c587a3d311d479d98d2e7376a7566f4a6a",
+      "android/.cxx/Debug/2y3z2l3m/x86/configure_fingerprint.bin": "6be135e348a849ac58ee8834ef132fe537a6408c0b0927b3fc0c5cfa0e18960e",
+      "android/.cxx/Debug/2y3z2l3m/x86/metadata_generation_command.txt": "1444499417f2c4c71d7a72a5c17f5c3625db39457fdf47a5eb8abb07042f0471",
+      "android/.cxx/Debug/2y3z2l3m/x86/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/Debug/2y3z2l3m/x86/symbol_folder_index.txt": "b63ad00da64b9caaab6ecc0bc52b8fbe03a6a6dcae3ccbaefe9c1d7d59152d85",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/cache-v2-7ff3c61263760565d90a.json": "05f83645fd40a9ffb7b624dce1dda60da8f3ccde2e1b7cfdc4df9bb0551686d4",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-d4af1b962e433c8ab48c.json": "de2ee39946add270d482d7d1e9dd1af6c05e9fe8098e129467652ec716d3bf89",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/codemodel-v2-720929714a80e8006c62.json": "900130e5a7351ceb68c23097bfe212c7dcb24ca02a3860c21e96fdd1a69e9a25",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/index-2026-09-30T14-31-25-0093.json": "3d5fba6198b763129d778b7f8072a4b3db3de3f9dd18b079acb6d4da4c4b346f",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.cmake/api/v1/reply/target-jni-Debug-193cfad12628474f0dc4.json": "b060b4865ec39aa87e8df9bc9f6cb1facf75c59b084df5d9b94792b3ea10e892",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.ninja_deps": "b7386ef35af5415a88877208cec645c0468325350de446629e1a3be274abe9d0",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/.ninja_log": "2a9a00b87fb83b6fb69d6f6659bf8f61fa5b68317da8066b864fd9e0f1d401d7",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeCache.txt": "2dcd543734af4e1b4d2c6d756c3a2d14272a27ad86f466cde49f1f49f36c43d0",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "9f5e620df0ae1b9a9ecb1f04d374cec66c33fe8047c05d8b994e00d714b2f45e",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "c4373972d882db616f11825ed2beba209c1cc8bc61ad048c037420d1869dd7b1",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/CMakeOutput.log": "7a6c5c3380f2d756a56e6ee28dbf5f617faf7392311cbd17f4e9fad5544192fb",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/TargetDirectories.txt": "fec53a3d9550a668a900dca5d00ee6670bcd26728c79f3113065f1152614e800",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/dartjni.c.o": "db23f34365031df06d468248881891c470ef8e2cf98979940c088b662f3b6347",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "c157ec8048f27d3ebb80285866dc113aa3c6faa9b1ca74f55dc262daa24095f4",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "df13e7d373a79ec9c55d7f7d005f528b852f474e49ca0b8326ffb88d53cf55c3",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/CMakeFiles/rules.ninja": "2f2e30e45a4d73d7e6a09f687d3911fa89569d4fdcdece12f20643409b4b3a6b",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/android_gradle_build.json": "af797d21d9ca944336fd053559f673afac233c105a0461a4407b355af7edeff2",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/android_gradle_build_mini.json": "70a623c817c9c2808824d936ca7b44a22ccf068928d0868b163bc333a9cec632",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/build.ninja": "e2541dcd4937cce91df9d3b13698d7889e751a3b14fbaf5dd9a833304bce7b27",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/cmake_install.cmake": "4f906ed7a4adf8bd2fdd72f70141436b32b28c3fb31550768fbd93417ca2e817",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/compile_commands.json": "a22043c1af0cc44e33109484473f96fa1c634db5bdd5e7af87e95275db247a31",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/compile_commands.json.bin": "8c49aeaa9f7f7fcd478a492c07eebecf57458a06339de65a879101e6a8b70a83",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/configure_fingerprint.bin": "29380a76ea53404879968db4525365011d920a4494740b5a650d3887f3af8d06",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/metadata_generation_command.txt": "5c5ba677751c0a5381888a9fb5e86c5a95e3581d4a1d4ca4cc1bf890132cec0c",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/Debug/2y3z2l3m/x86_64/symbol_folder_index.txt": "8ba296a8d48e9de61c860d1f43f82687d13fdfb68acb895a15bbb29610f1bda0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/cache-v2-933497dcb1c39581a1b7.json": "157ae352aae8ef70b69b74bbc29511d0f0c69c0c526d468bd25fecffb53cff1d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-882e52c1f3ada2d8a9bd.json": "c9d0b1532d4ba9149f264e6bdb00b69711d3a04068b374b7e8efc61619f43b79",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-7a1c79f5bb47d5fd54ec.json": "a215c580b7e2426fd99b3e1f08139f96d9203c446284c659471b1386e939b75c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T18-52-18-0731.json": "b773759a1c41e962d5a059798f348610ffece71943bbc97dcbe08a3be67723bf",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-d76aea6f5f1a7a98255f.json": "a360004fda6d25182785f74ef0f54ef50051d31c61eeab9019d6ff9dd3514c6c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.ninja_deps": "8152bfd07ffd8249e22e657f5d1ffe5f1f5fdecd5316a9b3439254b41ce2bbfd",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/.ninja_log": "ae4cc6a081499f72fff497d8bb6a42f1ff6b0febf8d45fd6be4f1e2ca1f9cb43",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeCache.txt": "93dd1399304378b2de3d342124d0e65938fc60c03ba9efb482785b9bf3dbbfc2",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "5f50404247e0e87346e7c75fcb6deed28288681773317e14408824cbe931ce91",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "fac8e06e0d401272a94811a62c372b261c713add951302de6583d3a9b51179de",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/CMakeOutput.log": "1096cd8633ed49d9baf8184316ca3d1cbadca59336258af567178c7971859ed5",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/TargetDirectories.txt": "02a2992acf54326c6b5b1c3a993ed6f725986cc7fb5c892c3ad1a879e9b170a1",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": "91358ff383a0d7484642519186526f37920665035944f9613f526ee8a72dd763",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "8afd114f6d02490902972824de47a2b6003fd57a71562d9a4249b8d7d00a8877",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "1cae9bab1e4ed3c7c41c56c7130bdb18c4b424b929f9f7223fdb7805333c5dbe",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/CMakeFiles/rules.ninja": "f1ab9cdfdd474767c54fbcee65b982dc6bc14eb6027df5f960479450b8b86f8c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/android_gradle_build.json": "a8659fdfd71c368f63765813b0423b135b6caa0c8ab25c4472cea154dea5189d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/android_gradle_build_mini.json": "6c611217fa03d6ec4d96f56c8824b1a97888e050a3bcbaba3c2cc259b52a6b8b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/build.ninja": "39385d26f5f486d9d39decc91a149ab901fbe39f5f6845e23cf5ad4bfa192e1e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/cmake_install.cmake": "054f4f6023e765a17f90c9198d8de8119b686cae502cb599b41aeb84f3dc2906",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/compile_commands.json": "7f50436660231ad51a48483fe5cac2572cb603cec16654f6c5e3cf34c9670d34",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/compile_commands.json.bin": "9d8a0a2defe366d32529eb96692704618c37b805da52502a26ff371e969d0227",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/configure_fingerprint.bin": "1249279ad0e5f8667d6b13c5325eb015ab0eaed50f898ab25b84ac75c295728e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/metadata_generation_command.txt": "de9abc928e8a6eb98c53b3db2e8b71d78585790947b2def6765576d7f12ee331",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/arm64-v8a/symbol_folder_index.txt": "b2dfe2bf1cd1b36d315631dc6d499b2ae197b967da747167b2749e0511a0b802",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/cache-v2-b00f0305f8e6750fe99a.json": "405c19ad70e6bac6e1d3107e7048e55022936c8fccf9ddefe154c6c6594d8cbe",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-37a976135d885af84dbe.json": "3fd8c3ab037acefa6bdf4b7b461a136e9832409af1444f6b339ddd48f3e1ad53",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-9cbbea35b57c42bcf1da.json": "4259f8c5d9899d1860c80b41d8eb99af58821795e6c2bc7c6311961455cfab77",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T18-52-21-0912.json": "9207e1afb119661a7881433426cb57c497e227d65498ea48fee9c151a901ee46",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-4ade9bd7db57c9659ebe.json": "1bf8cd83928ace9adf71bc4d1b7970a10678c64ded58b190eb954a2c1ce097a6",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.ninja_deps": "31dd7fff402f82276f483a5df69458eb612d986f5680c3e8d3ade5631338d784",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/.ninja_log": "be3e8ee8390b4f8ea2ac798104bb27fd44b7ed7d4a0ea7219b4d5b39058b9c32",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeCache.txt": "9e74d8a19c1b1b9e202fc38cc4f466e96c7e7a63cda44e87c69f726431a04681",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "1ba2a3f18cc5ed52fee7675e2c89703a4c5f04f0dcd4fddacf06ebe77e044959",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "66e7ce0d11c2c8697fdf018d2184eec7d86ee9eb9a2f5e804c899e0c7232f63e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/CMakeOutput.log": "38d59d641a268bdda53798444ec1aba13d4a901351341a75e90cb38e95316bfc",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/TargetDirectories.txt": "4a2684bc1caa15ecb1957f6abb0e877fa75d877c0ae0bef5c62bac1bfc67b667",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": "6fecadf9909eb86999447064d0ebfae0cadb0cd67a1a3cdd011d97dde4b19c9f",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "72d137857a5fcecc681ea0716ccc521d9acb6c52b92b83cbe2d16b802210f86f",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "bbcdc8d94ed378c7fa038c6c86c5424f039ab1c2852d84ecb14852e1e60dbc75",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/CMakeFiles/rules.ninja": "c920ac5d078938638934fefc4c735d1d8b091d08c5994851ed1cc826b559e6a7",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/android_gradle_build.json": "146771137b252d6c1725fa2f0871e58f625794ea3755e4f68187ff158734fb97",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/android_gradle_build_mini.json": "d2127299eb6613c9497121cfa16d6a268c645550e077f36e5eefce72e3633d2c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/build.ninja": "75a6a72cd723b5663d5828f503bb9cdca5e5dea7bc7a4f87b7c451292c44ba5c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/cmake_install.cmake": "d3f077fd087c4d6b8bce97de088cb5a5e667ffda181607e93bf547a9b71a7654",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/compile_commands.json": "d32e1e4d79d52c225692cfc7f550ad0e464a733a1ab7e63cabdab48b83f1e13f",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/compile_commands.json.bin": "5f88530add4a8f21e675bb8cba9e701a4b52a109455f29a5b75ee676daeb04f6",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/configure_fingerprint.bin": "b4d15c79150af245959d6899c9cfe035bc85a8f2117bb6bdda2043ab2adbd332",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/metadata_generation_command.txt": "6ea3467fc257357b3336f537cc5528a9a2ba2aebd6fd87c586ac1cc4a021539b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/armeabi-v7a/symbol_folder_index.txt": "062c4dcc0bb9811c54a8bcce424f10b950f5b59693b9eb11856a1bbd149495aa",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/hash_key.txt": "03e78a78e9422fe98b6473a1f9e2f3a1c50bab57ee81c18e719bbe1f9aad13d4",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/cache-v2-7136f187841aca5f2cbc.json": "336406145ccba532b46fc4df21f07e8df28fb0487cad10d943626c074fb4d386",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/cmakeFiles-v1-a04034958b9789e1a321.json": "cab3455a61069ac492a2155c231282bfa225a5c08b7c65bdde4ec967557723b3",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/codemodel-v2-da9f30b3fec256230062.json": "ccf29e7f9a5302e3cb482a497fc31354d3cc7bc7e95cc3d39aa1f95bd3e19a1a",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/index-2026-09-30T18-52-25-0339.json": "c8abd3d9f807e9fba38efe45be17018d4530aefcb6393fafc07295818aa137d2",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.cmake/api/v1/reply/target-jni-RelWithDebInfo-d892ed3729687838bc2a.json": "aa3fbeff5c833c275d64ba1e2856c9ccd3babc44ff6a74b065ab43572816e988",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.ninja_deps": "ac5ae6d0d34392df459b310077b29650c4ce5ecce69ad04f4c132946a04e2c37",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/.ninja_log": "db27049b630394b765b973112079ed28a4f83080a3eb479eafb6f6a2780012f6",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeCache.txt": "0ad23ade9f089e07a2a8522720e495d965080c25fc91cd98f978a3de4e0d8d22",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "a2f8028f5a78777ebc62f30330a244d271eaa696e83517176767b4fca861f9a9",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "f97a65ada9eda9655dce85a3f1d930f19c86ad9ba44ff53873dc58042c6d0c7b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/CMakeOutput.log": "95c4a3bfc2cec8a92123db874e79fa9002ee5e53306761f972889d1c047c50a5",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/TargetDirectories.txt": "ef01979cf06675ad763babfe1d581c633c8497c6e5de96798acda849beb203b0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/dartjni.c.o": "b4db586582895583be4db2818a4c6d18bce3ae530ccf2dd31e38f1a7d4fdc838",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "1243a086a4248c68a9b4ee559a15310e540f9427ded42852df386821609e2777",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "196249ae124c1d006c219e10cdfe878a2cb913df20988e8ea9b557740829babd",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/CMakeFiles/rules.ninja": "18feb4a6836367580aa81ca329b5fd677ac2a8526d12e0efb06601fc63252d7d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/android_gradle_build.json": "1ec78454288bb526e09975c67775d4fd33b21bfe2ddd4631aaa2aae087bad999",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/android_gradle_build_mini.json": "6bf70b2a77ab20810dacfe4b5cf30ebf590836eae65b648e8f3b042595bd98db",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/build.ninja": "19e3ee8f1e523ab502d4f65d348ec78c15a7338bf42fd42c62de519ac1aaa55d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/cmake_install.cmake": "83aa7975b41fc627b911ccb3e06c739c053c2f214e9fcedd5162000aab21c39c",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/compile_commands.json": "75cb38e6c3044668a6420ef85718ccff19c92b82cc4db76eacd7888434f52c56",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/compile_commands.json.bin": "b294a896d259245bfba66bb15b593805c66bcbc6aefe1d86e254e8204f427367",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/configure_fingerprint.bin": "2dc1d6d80a96d49253dcc24488b0a796de54848a8f2f02261a0161907f195c5b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/metadata_generation_command.txt": "268aa0a8e8d094ee39f57ac18e853d047a25008c9d26f4a051797fdc55f967d7",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86/symbol_folder_index.txt": "b254d37e51f64b6e2cca5bbb60a2b6de4e18e67a52efe946171806764ceac82a",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/cache-v2-93b4b6d588ecb314ce6f.json": "cad850212af295716c95dc5c357ded41ada15f224790bb9c4ac815bcec23e8c6",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-1c8ff47b570c07acfc72.json": "58040f6cd7b39c384475830753cdeb52b42dd1fafa6cc77bd1f214fe7f18d382",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/codemodel-v2-11572f2a77cb971e35d3.json": "19a364c9dab27feb8735e1903e81716b630995817ae0ee4776eb420504015985",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/index-2026-09-30T18-52-28-0627.json": "6009320b66bb4f656a0917bb6aa99741d8b13714825ea4f477cef7de74d10128",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.cmake/api/v1/reply/target-jni-RelWithDebInfo-b56464441082a97c9630.json": "05c369b6d38f20e6bf920bd89492aeaa98435bc9856249933b81a0995680f79d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.ninja_deps": "9c7865aa943213f20acf6ea210957b286f4634a4e9b620d22fa0b1eca14e2bda",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/.ninja_log": "6d47c7e758990f656408078c5d716c2ca67a9d1d179dfbfcacd12f27896368f2",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeCache.txt": "5db39e71a6fc453d6e95d83f4933ca8e35dc687274a2b634b1ab3c598996615d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "4057ae656c940d511fccf0ce8b15ad3f74a48b2d216c18a103cfeb87d9453f32",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "77511e7dd965b3e7d5f1abae37228731d1f3df7603cc36b3170a88c0f233120d",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/CMakeOutput.log": "93cc7af2817b30a7e5067aa024934b2e05258c2bc687891a902156bebfdf15b8",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/TargetDirectories.txt": "45adc5552acd82f43e2bfc323838ec6aba9ff0eabf1569e2f58039f712920980",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/dartjni.c.o": "5f26718df3b540d2220b38bd7e063c96023eb68718ba5aab3894c7d91fc1b795",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "b95362912c370d9d0c6930de47e2289f1fe72a3c792882a1b2155d3a434ec30b",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "571b911da2640e4571982f3228376bec7e126b760f22296dec285344ffcb4725",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/CMakeFiles/rules.ninja": "b80007e7222b6cbb9a9df731705c8f8df4efdbaa52362cc53fe191d9c98520bf",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/android_gradle_build.json": "bcb7f4c4f22036c97a3cf0f0922b3aff9736577c88009b429d5bdfb224f0feb0",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/android_gradle_build_mini.json": "e51d439358d75b44bf09087acde5831a33a5a7bdeb5877239e64f13bce5add37",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/build.ninja": "df7ece4dbda25e0f6940c1aed49e6e1f9c2613dfb2c29d037e5d891e3738edef",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/cmake_install.cmake": "1c29d0e9934dd9ff0ff0f867713f8ea1a1a4e4f9125a3eaf866a7c550887875a",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/compile_commands.json": "58d758c58b372641703d4be3d5c3122a464cd8304fb974f3fa1bec52ef37a38a",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/compile_commands.json.bin": "f35e0e7b41b423629a05345c2df753db04bcee334ea89ad93846cf73c0811bba",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/configure_fingerprint.bin": "e5989b97190475a006cc52351e9b5dcf440b3f55839c3a9134a44922ec347251",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/metadata_generation_command.txt": "ec8a5d54eee6bd08e3616b4bfbaad37980b2b8fb1cc91875926ffc59c4b9804e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/2k1r2z1r/x86_64/symbol_folder_index.txt": "e332032c033e9553b185b19f1b2e78942c1ec4a10d935cc9861372c249c2a14a",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/cache-v2-b62257a426c6f4bd73e0.json": "491aa0ed4c21f6fa8ac51e970b9a878875a0108bb7d8110bd25726bbb7961ede",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-70012decef15b92f394d.json": "493a7d7803e929336bb9a3b1e9c60b5ec0cfb2b869629df1aac92898d175f215",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-e898a444c8095af26b54.json": "b59ac9e7981d4469dc2787c0ec25ff1f708737baa9cd439c9d61436ccf36e3ff",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/index-2026-09-30T15-14-59-0934.json": "02196d01c6c7b312c7b68fbe13acf3ad2aac9c9e69e112ffef93bd670adb1937",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-03c9072509e51ea89782.json": "fbac67458c2051814c1178a59aebcf47dd352e2cd4e8bf6dfc994c97b3ae988a",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.ninja_deps": "e6a02ef5026fd7c98277d13efb4925589dd0a6846144e41bd6886e2f249b85b3",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/.ninja_log": "779a7a6a84012eb54457114c8a1dbe357e16200f48129bf09ad53de6b6eaa0b3",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeCache.txt": "34d6c4c5c5ed786f53a04f44f11b8f1d9c4886737fac9c2db7d4d2324e8a3a7b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "175f9e95415c0e33eab9754e1df858e6bf073ab62c61de06a643080ed7648586",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "993d1efd50abebc1ca0a70d189398a28c56945dfcedf4e20a8dcd8a4bd66e1a3",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aae9c0289a94a36a986940d551f467956fd4fc3d9194f12fa63fed51eda35bed",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "d977e37564c8a9fdd864f2aa0c1ed4c76e69b297c355a9c435978e90e8c312cc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/CMakeOutput.log": "1148ffcfb3b1ca3cbc2cdbcdf1011f75af369a20b419f7928c37b3b27f61fb51",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/TargetDirectories.txt": "440cecce518f6543a2e5eb46244355528d8eff7cd921dfd450457c340248f239",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/dartjni.c.o": "c0ab559519fbe6e7c797e47dccfcc2adf7fddc045e84b06cdc766391c4374ffd",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "f8418c9432bf83bf397146df49f03831699fd2ca85771f48c7a81da3a93b4118",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "d70fc29d7ea0c861839b78294098d0ca970ad4444abb78886ba5df43c5168cd6",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/CMakeFiles/rules.ninja": "c23250468566e93bb0bf4f129be05da3033dbf22349d03925451f9842e732434",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/android_gradle_build.json": "09c9007d90639484ec7e4cfc4779ec0f8750d6b3a70e7f574d7c6870fb77f6fd",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/android_gradle_build_mini.json": "074cce90c9ccd1a809a2deeb431ca6fb5d2afc8cb68a40f743a1fe7a878292e1",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/build.ninja": "c2ef10b45fcb2a893975080519e4f7d8ad50da803ddc173a8cd75d071dde4adc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/cmake_install.cmake": "483a1c00a1a97d536265b05b79b04674fd69946427b638dcc647e9136dbd36c4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/compile_commands.json": "aaabae28eafe016cb29a8e2c0ad80bd5bc6eee1caec577ba06d5845ee4b0eb3b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/compile_commands.json.bin": "246657490a064fa91d89c1d6dd7338cee66a2fdfce5b1c3b794dc6f6071ffa3a",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/configure_fingerprint.bin": "52b66964f108ebca1d12888f454eef89a94a4de4cc6925f9db702140c1caa3d5",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/metadata_generation_command.txt": "315584e9ff89fe05c5bcd679f42d951f5924b6f44343fa38f0e23460fe3ba113",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/arm64-v8a/symbol_folder_index.txt": "93ee1401f1da7a15a73dbb243d47c6dac8409802764d68d36f714b331e69a870",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/cache-v2-6a72127c164573e343ec.json": "89fb264e5e19f56cfe947ce7b835c95a92761ed4292ee7e93e89be818be6c30a",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/cmakeFiles-v1-3aac2f3fd8831c2a2a40.json": "04aaa2a99559df6fbcf18383af896981ff24ab5e2a6cf9bafec6e083a0fc5fa3",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/codemodel-v2-27da6303c689de1198c9.json": "6eba3674e93c747f97a320f1b9c3a5e1f4fa38e1e18135b84b53eb422990a275",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/index-2026-09-30T15-15-01-0036.json": "16f50a4f8b07f685ae6b342e0c9aeec56dbf8c006951dffe37c2de2997591e5f",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.cmake/api/v1/reply/target-jni-RelWithDebInfo-77242abd78962b275605.json": "8cacc9d2d5f7c1c8c7f7e00f2e97aba6117e4216450036b7f5bd5a0a88b4713f",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.ninja_deps": "df3afe589ec608c2e58854ce56f333e5c5a14ee2e6902caa1eac7d822a6928da",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/.ninja_log": "9a41460cc2bb28af3c84c077f17d454b3ddaff476c5e20b6163ed5281391ab94",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeCache.txt": "3ce80d690cc151c587961b3745da56ff6ec82d22fd491fc5e04ba5a2552eb5a6",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "96bf9c29d4f704b5e9f882c01624c3eedb27e4960a84863f4667c92b7258dd28",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "fb98c2f21dc457dc6d454733a2aaf70ccb0e4688fae756ef47fab4f9c084ec5c",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "ace02b3232fe45ab536ef461b133727fd57ea187a7b522abce2856e76006dfea",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "03a47cb1a6bd854753cf2b1a0b6a1c80845a56ce169ea27ec1d8ed701c695172",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/CMakeOutput.log": "92dc25320cdc3397a63e434e691c69772c1c3383e9284f26674a7e48f81556eb",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/TargetDirectories.txt": "a683418d2508fd4e9cc27413f956b8624a897735e0b623b8655667d83ab53335",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/dartjni.c.o": "065323da49bef0d70634c8e694df1ddc5d684be0599a206b6c1ee6654394a640",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "f9e2f44b1ddc3cc5610de25a965e194b3e9fa4d98733a67a0252fa3eea827855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "8f631e412fd36e73b0364b974c3f737da84365a9f6e91fb181ca6e96e9ffea98",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/CMakeFiles/rules.ninja": "df1e92ba7ce7d35132b3acc5811cfc95fc5a88f24e57690b2020d8842e4bbd47",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/android_gradle_build.json": "875f44cfc7d40cbf384ea95c1878494f6f0a50695531938f905e8cb173bcacc7",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/android_gradle_build_mini.json": "6da88f8aaed487eca73094e00699a893b5b532e399a93e22b858f2ffecf5b011",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/build.ninja": "4a8692234e56287ca9e8f619c454d24e29c7e5f167babf7f1807739d6c6f7219",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/cmake_install.cmake": "69b911e43c677cfeeec6a51ef1b9f3ff66a46ae7173b9866cd5c181c81949c7b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/compile_commands.json": "ed52e0700cd28a34905c6df2f9d332f99450e1f9a3417e86cf4ca782c31a7a50",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/compile_commands.json.bin": "1b3c515ab87b77c323ea95b4c77d09fdb61a21af7b3c45efd1894864686860d5",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/configure_fingerprint.bin": "36b3c62eba8ae0d3178a45e3b0321d28c09e68a95d60ea98f2518d8c081faebc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/metadata_generation_command.txt": "ea4806a01bcb01aad1a241ee24a1b28a64ab199d495ac984098449250ab6e514",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/armeabi-v7a/symbol_folder_index.txt": "d8c30edf0379bc5d9d53202bdedf479e2b5e62438c496743fa3988cfba855ff0",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/hash_key.txt": "1cb224e7d81771e4acfe8654e01fc19ddf1c9e7f42b600737291f1c48023834a",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/cache-v2-c19713d2a4c17df3dbbc.json": "70e6ff0ec8c5ebbdc09933e55f61d17a3a5653830d79ff0b49e5ebe8052ba7f4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/cmakeFiles-v1-6f60724c905ff729dc6b.json": "a165a9fa6d6c5da6dbfe80fc77faa2620075c3fd9623daacdafe7c22d3844d2f",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/codemodel-v2-8fa851c451d0b80ecce1.json": "19ab5350a430d143483ec3241a092619400e073eca39f8fc546585467d3831d3",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/index-2026-09-30T15-15-02-0061.json": "295155e3bdf2169cf67f7e17ff7497f0f16ad4837f92d630f29b3218ed6faae2",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.cmake/api/v1/reply/target-jni-RelWithDebInfo-9c655eacd355acd74293.json": "448d49abaf1ce7c2712aba58b67aa0dbedd6d1fda770005fef475c3d2465f39b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.ninja_deps": "2ffb17cf08b6d85219df837502bd536200bfd9f2004241009b5f985ce93d3b17",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/.ninja_log": "7dbce2a49966e2a83d4ad81a3e8295507a14218c79bdbcd70be6ce698c9061b9",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeCache.txt": "73b66eb08ff0bdcb53b140224a0750498accfdf59ad1b0961db0627d9e91638b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "bb8d85e11c9952d9be398911c0c7f3022fb48ae9d477b556cc9a8e4bd3e22a90",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "2fea98c713c974d71a88c23e923d6017d235b6534440e3b31ecb036556caaedc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "aac42606c85a37ec243171efe351036a37672ca06a5e2f5491a0a5560837e005",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "83fd90cc03a13bf7e5b3cc601cdf0d0e6ab9102e14e2db8a8ca14322d9c8489b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/CMakeOutput.log": "6d360f118f5acab1befa2a34f65551ac50db7385c56345c7766fcc17e961bdfd",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/TargetDirectories.txt": "b1cc330111b24c4e4da81f13791f9fef38e52f3624632db0167e9fad15714784",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/dartjni.c.o": "e81dd1c6743caba63cdd5cb9e41a4a160582bad9d0570eff09cb50ee3f6e4c47",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "48d88908ce51ee9b55d9a4f320d6b839b976fd48dd4cc69043be7f9edf8dff8f",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "c59611ce296170bc54e4797a4299bfbf6f867ca816b7ddb92515ed3cfb4f3b72",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/CMakeFiles/rules.ninja": "239d4a3a5fa8a0c143df9182fd6e21cf35d0a8a6cfd96ca20a3fcb7425595e58",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/android_gradle_build.json": "f317b96c560fa0dd71e0d383ccc7878be6d075a2057edae6d852c5c066c6e735",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/android_gradle_build_mini.json": "6e2ff6486a960b9e31e8079f43bd21411824ec8f3bb548e819f29adcbb7b6e5b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/build.ninja": "e52f0f1b7be4080ef60189f1f6532040484c24f16c0ddaa40ada1683cabc8559",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/cmake_install.cmake": "a2000fb0221d3923019d67dc2a187920837cc713a4ab5126a9f986db51ab8f0e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/compile_commands.json": "c364d0af1816fdebb08ab27515b831ff1ca74de34cb2d5ee05df73a979c2d02c",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/compile_commands.json.bin": "deea64425fcaef0f8ef2b1b87a3c8ad8faf85fb5991255978894c005dd65143b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/configure_fingerprint.bin": "1958b65214ed05633e2361ba6b3aaddb6cebcbb5ad061b59e13d6c16aa11053e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/metadata_generation_command.txt": "2c9a22e551bc0dff3134edb278ab9aad885d5d70a11b40c44e29a166afee222e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86/symbol_folder_index.txt": "42df755eeab9ca2a00c4326372e19df8d7608ee1e89838b586e8a7a90f9dc190",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/cache-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/cmakeFiles-v1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/query/client-agp/codemodel-v2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/cache-v2-f00723fa0ed8284672b2.json": "30cc98963dcb1945779d9c50574566e9e2d1cf930594b6acd09e2ce2bc473f70",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/cmakeFiles-v1-6330f1b53db19d6a79a7.json": "80162ab416e92278f62fad06255deec7418db83c7102080ca25f33c7dbbf67df",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/codemodel-v2-0486f7f2bd2e6dda3e70.json": "58692b27ed81adc9ffbebd20c6cf2732ead4749fe7f15eed1f3075e01128fbd5",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/directory-.-RelWithDebInfo-f5ebdc15457944623624.json": "86e7a30b8b63ba3392582621985aeef407bddffc28967e4e9f1ebcf80cb8b8a0",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/index-2026-09-30T15-15-03-0060.json": "2f47f2a8e66ebc9e63291f8dbb46c3f54c2749f66a273d07138d347c526c1fa6",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.cmake/api/v1/reply/target-jni-RelWithDebInfo-1963f37fd236b26798a2.json": "bda6c07b20a7a3c20713f1d205e0985cd74decc61a75a52423cfc5c218674e64",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.ninja_deps": "b0b341c8c335f3e605525b3a8d8e07f3fcc778c36a0a2d50f5ef69fab13bf7ed",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/.ninja_log": "290c76b86af8ef7200639c968c99b1e36cf2232feceb5798915424d43d660155",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeCache.txt": "fb603580ed9fe651da13f0ea6af646e31e5e1c93bb2cc2e53017609c401618fc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeCCompiler.cmake": "296095f08deb4b7cfb74f137ac40f3ede2dd1ce9aa2e4eafa7dbcdcd3d292c1b",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeDetermineCompilerABI_C.bin": "dafc9ea442f65354500f2562608a9695115ea6f290ac64eba4ed0e57f0039c62",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CMakeSystem.cmake": "acc3910a80f737493ed0e16fa5a056c059702d12ccedb37ef34419a5340ced70",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.c": "f88399a39d56b310a14aa58ca95c614022a5899dc39317b98006d9f8dc71cbee",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/3.22.1-g37088a8/CompilerIdC/CMakeCCompilerId.o": "6371935d16aeae431d24790ac0130b222dcdaf96b542ece79df71737195747bf",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/CMakeOutput.log": "e90bb92578f82e715bca044065174a43305210462a1cbb5e412e97f268443ab9",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/TargetDirectories.txt": "25e2c576423535dc1f8de946b49daa47d63f3264ca443936929e838ffe9fb1a7",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/cmake.check_cache": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/dartjni.c.o": "2f9b18228803378def0585c996f9bca3bd38464b72b00d33f66e4b7135b63f4c",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/include/dart_api_dl.c.o": "b85047a5f7458b2a3e542543885c6cd222457e3ed5a8c73eade43e6a59c621cc",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/jni.dir/third_party/global_jni_env.c.o": "ef563ed21c0553f3ecfa159318df6f0ef46006cde837ac2d435b2dd9436e0591",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/CMakeFiles/rules.ninja": "5f296c10370dfc5d2d8cd902d6a731d4c5da24bd6b58c43581f597226912b1fd",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/additional_project_files.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/android_gradle_build.json": "f8d84db1cba13e5ad5039f1c8e28779bf7f6e230d8e4273ea0fadf4322c04962",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/android_gradle_build_mini.json": "e8c9a1899a08afcf764b072434112aee4bfd3e40d218152492b39957f734a6f8",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/build.ninja": "609a07cf5dd9aee658cb8ee9d9dbdf1fc5afe8cb1497f5564c4c92dc8cffd334",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/build_file_index.txt": "fdb8deb85f9cc16e579684fe22e3f983b50828264cbf8777ce147d45f187ca45",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/cmake_install.cmake": "39a7451db3b8cf3e5707e1545c6db67d30ffe56e069dd0b532402a6aa4bd9531",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/compile_commands.json": "7489a1d336cc9e9d2ab33726faca41f76502d5f0a5014bd8babf905512a6171e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/compile_commands.json.bin": "e731779d5c4cdc8a8e43d17e8a97abb5ff9b8cae3d8d8446c0c60efcc6f2224e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/configure_fingerprint.bin": "7c38faedc507c01d854dc0ef12ffe7b6214145273b823cdfa8abe21c53194284",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/metadata_generation_command.txt": "208aaf8d4108134583918afd6a44119fbc6e2b2328f2b1f35643b86107d2fe15",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/prefab_config.json": "49d9b46541d1200043f62d4db4020feed6336d9c0778630f5e33a0c260206a5e",
+      "android/.cxx/RelWithDebInfo/d2v2u1c6/x86_64/symbol_folder_index.txt": "1ca19170ddf0cbbade95c9ed97fbfef19cbfb31dee46e8a70988111aaaeb9f22",
+      "android/.cxx/tools/profile/arm64-v8a/compile_commands.json": "32d818debab92fab0a419620de3d91a3702e353cbd8a92bb028150d85727efb1",
+      "android/.cxx/tools/profile/armeabi-v7a/compile_commands.json": "68772116c5c32f4dee8652e802a120d0914dc8b0c8da4ebaaee08116f09033cd",
+      "android/.cxx/tools/profile/x86/compile_commands.json": "c4fc1a930dc4fcb329e5a5186119336fcc9089cd598e3d4fac79d5d9188dcb86",
+      "android/.cxx/tools/profile/x86_64/compile_commands.json": "a22043c1af0cc44e33109484473f96fa1c634db5bdd5e7af87e95275db247a31",
+      "android/.cxx/tools/release/arm64-v8a/compile_commands.json": "7f50436660231ad51a48483fe5cac2572cb603cec16654f6c5e3cf34c9670d34",
+      "android/.cxx/tools/release/armeabi-v7a/compile_commands.json": "d32e1e4d79d52c225692cfc7f550ad0e464a733a1ab7e63cabdab48b83f1e13f",
+      "android/.cxx/tools/release/x86/compile_commands.json": "75cb38e6c3044668a6420ef85718ccff19c92b82cc4db76eacd7888434f52c56",
+      "android/.cxx/tools/release/x86_64/compile_commands.json": "58d758c58b372641703d4be3d5c3122a464cd8304fb974f3fa1bec52ef37a38a"
+    }
+  },
+  "original_recorder_failure_sha256": "cac0c957c5726e54b2f43c974a212862e7db16b4dd6de5b27faf24ef53b7ddef",
+  "role": "Actual AGP CMake/Ninja scratch outputs; never relabelled as authored source"
+}

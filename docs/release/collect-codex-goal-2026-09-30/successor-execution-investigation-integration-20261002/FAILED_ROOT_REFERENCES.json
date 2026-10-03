@@ -1,0 +1,139 @@
+{
+  "status": "all_three_completed_scopes_failed",
+  "scope": "Failed async/pending/clock fixtures and strict analysis records; individual test successes are not aggregate acceptance. No commands rerun.",
+  "rows": [
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/result.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt1/result.json",
+      "sha256": "05bbf71ef048e4700c6fa44472cd5540010dbc1b64785e8fd58e7dd98abebecd",
+      "bytes": 910,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/inputs.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt1/inputs.json",
+      "sha256": "82e20295b0eb26ce2281032a26a6b54196078db94f5878fa89c3a34739d66708",
+      "bytes": 68296,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/flutter-test.stdout",
+      "capsule_path": "failed-root-inputs/mounted-attempt1/flutter-test.stdout",
+      "sha256": "bd25d7b78bf1212d3091d3fc17ed8bc8bc43d4cb6737566f775445bbd21bb4cb",
+      "bytes": 62275,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/flutter-test.stderr",
+      "capsule_path": "failed-root-inputs/mounted-attempt1/flutter-test.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt1/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "capsule_path": "failed-root-inputs/mounted-attempt1/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "sha256": "0690ec1d62044692484b7060ed0e778fb64d4cdfb35465de50ac91180f4d6108",
+      "bytes": 15320,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/result.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/result.json",
+      "sha256": "d43e229cfb24aad2728dfbad44cf2bd579cc32586f3d926e5f9d32ed953e8c77",
+      "bytes": 910,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/inputs.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/inputs.json",
+      "sha256": "805c428b9bd2811869f24117c361a9fae68b3bb248180361b96f085117a055ae",
+      "bytes": 68296,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/flutter-test.stdout",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/flutter-test.stdout",
+      "sha256": "efe86e3c40671e15275df7f1af7c41cab55dfefdda7b3e710c161bc005bed7af",
+      "bytes": 5239,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/flutter-test.stderr",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/flutter-test.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "sha256": "612fb6f38c733fd1677da92358782c2a37ae53356427fcfc98d703cb7e65ee11",
+      "bytes": 15670,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt2/source-copies/check_mounted.py",
+      "capsule_path": "failed-root-inputs/mounted-attempt2/source-copies/check_mounted.py",
+      "sha256": "808791d0fc2da137280abe866ee11184de0530d3eb8a7acd46daca87c3ada714",
+      "bytes": 3292,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/result.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/result.json",
+      "sha256": "1c9951f25c5c2a83612e400fefa2552d4147b980d08536ba78f492363aa7cbe3",
+      "bytes": 1488,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/inputs.json",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/inputs.json",
+      "sha256": "6940aeff19d64a0ff0447972eeb8550c4ed7ed3e19e6a6efef673a97294eb12d",
+      "bytes": 68132,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/flutter-test.stdout",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/flutter-test.stdout",
+      "sha256": "2da303037e8375793bfccf2eaa438f32f561a82b9b3634924783b088e35a1aff",
+      "bytes": 740,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/analysis.stdout",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/analysis.stdout",
+      "sha256": "507d3a16d683313e9a18d09fe0b8a878e4dd7b9cc2f57081c54b7e85d8165750",
+      "bytes": 321,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/analysis.stderr",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/analysis.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/flutter-test.stderr",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/flutter-test.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/source-copies/admin_receipt_successor_execution_mount_test.dart",
+      "sha256": "81b34cc47e240101d74391303d8b413682f0d9f6976a84132957545cdc173a7e",
+      "bytes": 15919,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/mounted-attempt3/source-copies/check_mounted.py",
+      "capsule_path": "failed-root-inputs/mounted-attempt3/source-copies/check_mounted.py",
+      "sha256": "ba3253775ab4e228336d129e6cf13043367ae0b34edee0f6605ba236da8e8c2d",
+      "bytes": 3345,
+      "scope": "retained failed mounted attempt; no pass relabeling"
+    }
+  ]
+}

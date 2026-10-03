@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+    "source_prefix": "begin;\nset local lock_timeout='2s';\nselect pg_advisory_xact_lock(hashtext('collect-receipt-repeat-run-recovery'));\nlock table collect_receipt_operations.requests,collect_receipt_operations.reservations,collect_receipt_operations.backlog_results,collect_ops.receipt_backlog_budget_deferrals in share row exclusive mode;\n",
+    "remaining_transaction_terminator": false,
+    "maintained_normalizer_would_refuse": false
+  },
+  {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+    "source_prefix": "-- Specific governed controls for lossless700 hot/cold maintenance. No expiry,\n-- erasure, sender, run or financial authority. Existing prepare stays unchanged.\nbegin;\ndo $$begin\n",
+    "remaining_transaction_terminator": true,
+    "maintained_normalizer_would_refuse": true
+  }
+]

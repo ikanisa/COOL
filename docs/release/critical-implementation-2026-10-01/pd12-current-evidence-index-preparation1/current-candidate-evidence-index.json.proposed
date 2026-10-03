@@ -1,0 +1,1365 @@
+{
+  "PD12_closed": false,
+  "acceptance_boundaries": {
+    "complete_packaged_SBOM": "unverified",
+    "font_distribution_rights": "unverified",
+    "full_visual_acceptance": "unverified",
+    "hosted_candidate_parity": "unverified",
+    "production_release_approval": false
+  },
+  "candidate": {
+    "archived_candidate_current_repository_equivalence": false,
+    "id": "captured-app2561-abf7eb091e48-before-future-AAB",
+    "identity_bindings": [
+      {
+        "document": "app-scope",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-binding",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-before",
+        "pointer": "/app/source_manifest_sha256"
+      },
+      {
+        "document": "app-plan",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-terminal",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-root-acceptance",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "native-readback",
+        "pointer": "/source_manifest_sha256"
+      }
+    ],
+    "scope_binding_model": "Archived tested2561/abf private export; separately checked current relevant captured2556 and named tooling5 delta. No whole current repository hash equivalence or unaffected app/native rerun is inferred.",
+    "source_file_count": 2561,
+    "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "source_scope": "Actual private app export capture used by completed app/native consumers, not an inferred whole repository/deployed identity."
+  },
+  "closure_owner": "release/QA integrator",
+  "documents": {
+    "acceptance-summary": {
+      "bytes": 18997,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/captured-acceptance-status.before-proposal.json",
+      "sha256": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+    },
+    "app-artifacts": {
+      "bytes": 6468,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/execution-packet-files.json",
+      "sha256": "db514609ad4f2dfd434a822bfb279ab64875a52748366803680303d6e3e9de6e"
+    },
+    "app-before": {
+      "bytes": 2356785,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/app-before.json",
+      "sha256": "d6a9390b2fcc46d11bb7b9a9ee133bf9fc7f0258d5dabc0fffb3d751f2d8358a"
+    },
+    "app-binding": {
+      "bytes": 464,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/export-source-binding.json",
+      "sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c"
+    },
+    "app-failed3": {
+      "bytes": 13271,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/terminal.json",
+      "sha256": "63d393334a427063cd7029213d41d3f678597e5ef278a7b35782e6a446cb6436"
+    },
+    "app-plan": {
+      "bytes": 6297,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/plan.json",
+      "sha256": "9de964cb75f0f03a1cee7e56be4d4fb56e12e4fbdd61319c60b876ab2178afc5"
+    },
+    "app-root-acceptance": {
+      "bytes": 570,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/root-acceptance.json",
+      "sha256": "e2a72e7ecddc88730b4d999b60d0ef7cb21eba28a264d082497c279c51c0a530"
+    },
+    "app-scope": {
+      "bytes": 773954,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/actual-app-source.json",
+      "sha256": "100af8cd1aa6cafbe61bf5975c509a0deb8bdf7e8f4b6d92d24c13d5a7ff99f5"
+    },
+    "app-terminal": {
+      "bytes": 14359,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/terminal.json",
+      "sha256": "22d37a5f52394e344c9c14615274cb6158a5096af0efee0ef88438c9d6c49e0c"
+    },
+    "backend-artifacts": {
+      "bytes": 80859,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/SHA256SUMS",
+      "sha256": "d794eda0e1fb64cd86c623f7b307e8b2b03b90df79490a56ef20247c4959bd12"
+    },
+    "backend-composition": {
+      "bytes": 31662,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-backend-ci-composition-readback1/readback.json",
+      "sha256": "21322d5485736c5e811f7fdec5c42092419043216b7573eac30c693c3df94b8f"
+    },
+    "backend-result": {
+      "bytes": 1508,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/result.json",
+      "sha256": "dee5c13743d8461ff73850b295c3bd11e5e75ecc8fa70cee2e0bf8809c2be0c5"
+    },
+    "current-projection": {
+      "bytes": 775148,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/current-relevant-source-projection.json",
+      "sha256": "9daf2436a2c00b23e559022d45243ef6928a287b3a062c1cd7d06b0bacdf49c6"
+    },
+    "font-copy-historical": {
+      "bytes": 3739,
+      "content": "json",
+      "path": "docs/release/revolut-design/verification/public-content-font-adapter-review.json",
+      "sha256": "b10b2ec1522ffebd3af45d0f857550e9423bb094a2005d92e0ee767e68493c9e"
+    },
+    "get-artifacts": {
+      "bytes": 4682,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1/packet-files.json",
+      "sha256": "a128caf2269b6dc406901be7c46ab09ae6207b03d8ae9766c7fa2ad0112b416c"
+    },
+    "get-independent": {
+      "bytes": 705,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public-provider-readback-review1/review.json",
+      "sha256": "979ea63845c66fec849418f2bc2f47db0bd5a919e34909ce663559ff833a734f"
+    },
+    "native-artifacts": {
+      "bytes": 9243,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/packet-files.json",
+      "sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e"
+    },
+    "native-readback": {
+      "bytes": 2219,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    "native-sdk-physical-captured": {
+      "bytes": 6880418,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/SDK-source-after-built.json",
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052"
+    },
+    "osv-artifacts": {
+      "bytes": 8879,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+      "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+    },
+    "osv-independent": {
+      "bytes": 1314,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+      "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+    },
+    "osv-results": {
+      "bytes": 176008,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/query-results.json",
+      "sha256": "0c07342e37d9b7b6d01a093b6f48dc0a6c2874b12f4a954e070d6420fa31854a"
+    },
+    "public-artifacts": {
+      "bytes": 179996,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+      "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+    },
+    "public-batch": {
+      "bytes": 12849,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+      "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+    },
+    "public-final": {
+      "bytes": 1083637,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/final-readback.json",
+      "sha256": "7dd2ca7b6079669392a5ba01c4a67b569ac8f0212074750fe85f08865cad5685"
+    },
+    "public-independent": {
+      "bytes": 227133,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+      "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+    },
+    "public-static-execution": {
+      "bytes": 110759,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/static-build-execution.json",
+      "sha256": "826c9d0b623bbc115765094752e9b79c1b28846f34f78f30d25bf7171714e20e"
+    },
+    "public-visual-scoped": {
+      "bytes": 1350,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+      "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+    },
+    "report": {
+      "bytes": 52965,
+      "content": "text",
+      "path": "docs/release/critical-review-2026-10-01/product-design.md",
+      "sha256": "dd57786c230fb43501c5dfba66644f8d809ce1b46640f037a87ef698dd75c3f3"
+    },
+    "runtime-graph": {
+      "bytes": 403254,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    "runtime-readback": {
+      "bytes": 1580,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    },
+    "sql-artifacts": {
+      "bytes": 131898,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/packet-files.json",
+      "sha256": "3ca42ee701ad57dc4ebc328153f4ebd8f81910117261a14d8149187e4ebee34d"
+    },
+    "sql-inputs": {
+      "bytes": 63994,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/execution-inputs.json",
+      "sha256": "3c4f5a2c8e447b05faaa11ec1827e6ca3fd2abe53756de0322be8d6d563df8c6"
+    },
+    "sql-verification": {
+      "bytes": 6377,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/verification.json",
+      "sha256": "cbd1d03efb0ef0c3ee303ef77a8a446baddaecaeaf961ccf3d424963137a2530"
+    },
+    "typography-css": {
+      "bytes": 22026,
+      "content": "text",
+      "path": "web/public/revolut.css",
+      "sha256": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7"
+    },
+    "typography-dart": {
+      "bytes": 581,
+      "content": "text",
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+    },
+    "typography-declaration": {
+      "bytes": 2425,
+      "content": "text",
+      "path": "pubspec.yaml",
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+    },
+    "typography-source-fences": {
+      "bytes": 1191,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/typography-current-source-fences.json",
+      "sha256": "cf5c6a9c8231c06762740f53c18eaec550483320c3e02ad3a684d7b58454c290"
+    }
+  },
+  "evidence": [
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "app-failed3",
+      "independent_receipt": null,
+      "limitations": [
+        "No old pass, source hash or failed stage is converted to current acceptance."
+      ],
+      "observed_result": "failed",
+      "result_binding": {
+        "document": "app-failed3",
+        "pointer": "/status"
+      },
+      "scope": "Original candidate3 failed41 attempt, source2517/2dac97\u2026 at10:35UTC.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "app-authored2561",
+        "app-external-library3337",
+        "app-execution41leaves"
+      ],
+      "id": "app2561-current1114-41",
+      "independent_receipt": "app-root-acceptance",
+      "limitations": [
+        "Retained root independent original ARC02 criterion review; no whole visual/font/provider/native packaging/release approval.",
+        "Private export is the execution source; maintained checkout parity and new source additions require actual integration readback.",
+        "Named audit-only changes are tracked separately from archived source; current2556 known path match must be actual, not expected. No entire current repo==abf claim or automatic unaffected consumer rerun."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "app-terminal",
+        "pointer": "/status"
+      },
+      "scope": "Current captured app abf7\u20262561, strict analysis and1114 successful/unskipped checks,41 affected suites.",
+      "supersedes": [
+        "app-failed3"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "native46leaves",
+        "app-authored2561"
+      ],
+      "id": "native12-20",
+      "independent_receipt": "native-readback",
+      "limitations": [
+        "SDK physical/source/allowed8 and protected68020 proof retained in pinned receipt; generic index does not reconstruct directory/link/inode proof.",
+        "No built package, canonical packaged graph, visual acceptance or future AAB result."
+      ],
+      "observed_result": "PASS",
+      "result_binding": {
+        "document": "native-readback",
+        "pointer": "/status"
+      },
+      "scope": "Current captured native JVM12 unskipped tests,3 suites,20 actual release classes, sourceabf7\u20262561.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "backend-CI-pending-dated",
+      "independent_receipt": "backend-composition",
+      "limitations": [
+        "True pending flag remains true in the historical receipt; later local SQL37 pass supersedes this pending statement only within its actual scope."
+      ],
+      "observed_result": true,
+      "result_binding": {
+        "document": "backend-composition",
+        "pointer": "/current_SQL_recipe_acceptance_pending"
+      },
+      "scope": "Dated only-CIjob ordinary-sql composition preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "backend156-composition",
+        "backend559leaves"
+      ],
+      "id": "backend156",
+      "independent_receipt": "backend-result",
+      "limitations": [
+        "One CI input has later exact composition proof; original156 test outcome still binds its original CI bytes.",
+        "No provider/release or external CI acceptance."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "backend-result",
+        "pointer": "/status"
+      },
+      "scope": "Backend original156 capture canonical aggregate pass:668 units/109 HTTP,92types and retained Linux32/212/14/6 scopes.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "sql219inputs",
+        "sql669leaves"
+      ],
+      "id": "SQL219-209-37",
+      "independent_receipt": "sql-verification",
+      "limitations": [
+        "No hosted catalog, provider, remote Linux new CI or fullBE10 closure."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "sql-verification",
+        "pointer": "/status"
+      },
+      "scope": "Actual local ordinary clean/populated recipe,219 inputs/209 migrations/37 original cases/418 applications.",
+      "supersedes": [
+        "backend-CI-pending-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "public-font-copy15-historical",
+      "independent_receipt": null,
+      "limitations": [
+        "Generator hash and preserved copy prove only that historical engineering comparison; no fonts, distribution rights, native/full public output or legal acceptance."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "font-copy-historical",
+        "pointer": "/status"
+      },
+      "scope": "Dated15-route unchanged public-copy source comparison.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "superseded-summary",
+      "file_sets": [],
+      "id": "public-summary-stale-media-dated",
+      "independent_receipt": null,
+      "limitations": [
+        "Stale app media blocker and no-recapture wording are superseded only by public4 local scope.",
+        "Existing summary requires the attached unapplied correction; old drift arrays/date are preserved as dated facts."
+      ],
+      "observed_result": "dated_scoped_review_pass_current_candidate_unverified",
+      "result_binding": {
+        "document": "acceptance-summary",
+        "pointer": "/surfaces/public_website/status"
+      },
+      "scope": "Dated2026-10-01T20:44 retained source/artifact readback in the existing summary.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "public344media-source",
+        "public4-reviewed-production-leaves",
+        "public4-private-resolution",
+        "public66-static-inputs",
+        "public3-static-toolchain",
+        "public55-static-artifacts",
+        "public704-evidence-leaves"
+      ],
+      "id": "public4-local",
+      "independent_receipt": "public-independent",
+      "limitations": [
+        "Retained independent input equality and original visual subset review; whole mutable candidate explicitly unaccepted.",
+        "66 static inputs+3 executables are observed lists, not proof of complete generator/transitive closure; symlink/external toolchain identities unproved by this minimal reader.",
+        "No whole Revolut visual match, font rights, legal/publication, hosted/provider/device/store or production acceptance."
+      ],
+      "observed_result": "sealed_pass_current_local_public_candidate_scope",
+      "result_binding": {
+        "document": "public-batch",
+        "pointer": "/status"
+      },
+      "scope": "Completed fresh private synthetic media/static/browser public4 local scope,344media/55quality/104render-share cases and exact55artifacts.",
+      "supersedes": [
+        "public-summary-stale-media-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "external-dated-readback",
+      "file_sets": [
+        "liveGET40leaves"
+      ],
+      "id": "public-GET-dated",
+      "independent_receipt": "get-independent",
+      "limitations": [
+        "Retained root readback only; no new provider request in preparation.",
+        "Seven sampled live HTML hashes differ local reviewed artifacts; this does not provide deployed candidate parity, legal approval or request outcome acceptance."
+      ],
+      "observed_result": false,
+      "result_binding": {
+        "document": "get-independent",
+        "pointer": "/current_artifact_published"
+      },
+      "scope": "Actual dated anonymous public GET bytes: reviewed local artifact is unpublished/unbound; three promised legal/support targets404.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "file_sets": [],
+      "id": "selected-runtime-graph",
+      "independent_receipt": "runtime-readback",
+      "limitations": [
+        "Exact graph bytes are pinned; graph141 filenames/hash records do not independently locate/reopen packaged bytes.",
+        "AAB_built=false belongs to the captured12:42UTC failure readback; active future AAB result is not known or prefilled."
+      ],
+      "observed_result": "successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved",
+      "result_binding": {
+        "document": "runtime-readback",
+        "pointer": "/status"
+      },
+      "scope": "Selected productionReleaseRuntimeClasspath graph173components/995edges/141 artifact-hash records, graph exit0/41.261s while whole monitorFAIL is preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "file_sets": [
+        "selectedOSV51payloads"
+      ],
+      "id": "selected-runtime-OSV157",
+      "independent_receipt": "osv-independent",
+      "limitations": [
+        "No known OSV records returned for these exact157 versions at retained query time.",
+        "No pagination/advisory IDs; no exploitability, licence approval, whole security clearance, complete packaged SBOM or ARC09 closure."
+      ],
+      "observed_result": "verified_exact_selected_runtime_query_capture",
+      "result_binding": {
+        "document": "osv-independent",
+        "pointer": "/status"
+      },
+      "scope": "Actual exact157 Maven query/empty OSV readback bound to selected graph20bb8\u2026;16 local projects unqueryable.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-declaration",
+      "file_sets": [
+        "typography-leaves"
+      ],
+      "id": "typography-current-declarations",
+      "independent_receipt": null,
+      "limitations": [
+        "Supplied files/metadata/OFL-Inter presence do not establish Aeonik distribution rights, loaded output, native metrics or full visual fidelity."
+      ],
+      "observed_result": "selected_full_faces_implemented_distribution_rights_unverified",
+      "result_binding": {
+        "document": "acceptance-summary",
+        "pointer": "/marketing_typography/status"
+      },
+      "scope": "Current declarations use Aeonik Pro400/500 for marketing and Inter for member/operator/financial roles.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "current-relevant-scope",
+      "file_sets": [
+        "current-known-captured2556",
+        "separate-named-tooling5"
+      ],
+      "id": "current-relevant-known-inputs",
+      "independent_receipt": null,
+      "limitations": [
+        "This proposal has not run these current binding checks.",
+        "Future five tooling changes require exact maintained hashes/diff and meaningful tests; unknown additions remain unverified.",
+        "Archived completed app/native outcome is preserved independently."
+      ],
+      "observed_result": false,
+      "result_binding": {
+        "document": "current-projection",
+        "pointer": "/full_current_repo_equals_abf"
+      },
+      "scope": "Actual current bytes for2556 retained known source paths and separately named audit-tooling5; current full repository equivalence to abf is explicitly false.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    }
+  ],
+  "facts": [
+    {
+      "document": "report",
+      "expected": "current index machine-checks relevant source/transitive inputs and exact artifacts, and identifies independently validated vs unverified areas without contradictory current-state claims.",
+      "id": "original-PD12-criterion",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "app-terminal",
+      "expected": "pass",
+      "id": "app-current-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 2561,
+      "id": "app-source-count",
+      "kind": "json-pointer",
+      "pointer": "/source_files"
+    },
+    {
+      "document": "app-plan",
+      "expected": 41,
+      "id": "affected-suites41",
+      "kind": "json-pointer",
+      "pointer": "/affected_suites"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 1114,
+      "id": "app-successful-unskipped1114",
+      "kind": "json-pointer",
+      "pointer": "/test_counts/successful_unskipped"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 0,
+      "id": "app-zero-failed-skipped",
+      "kind": "json-pointer",
+      "pointer": "/test_counts/failed_or_skipped"
+    },
+    {
+      "document": "app-root-acceptance",
+      "expected": true,
+      "id": "app-independent-scope-acceptance",
+      "kind": "json-pointer",
+      "pointer": "/whole_current_candidate_pass"
+    },
+    {
+      "document": "app-root-acceptance",
+      "expected": true,
+      "id": "failed-attempts-retained",
+      "kind": "json-pointer",
+      "pointer": "/original_failed_attempts_remain_failed"
+    },
+    {
+      "document": "app-failed3",
+      "expected": "failed",
+      "id": "app-historical-failed3",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "native-readback",
+      "expected": 12,
+      "id": "native12-tests",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/tests"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-failures",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/failures"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-errors",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/errors"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-skips",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/skipped"
+    },
+    {
+      "document": "native-readback",
+      "expected": 20,
+      "id": "native20-classes",
+      "kind": "json-pointer",
+      "pointer": "/actual_release_classes"
+    },
+    {
+      "document": "native-readback",
+      "expected": true,
+      "id": "native-actual-copied-readback",
+      "kind": "json-pointer",
+      "pointer": "/raw_JVM_XML_and_classes_independently_read_and_copied"
+    },
+    {
+      "document": "native-readback",
+      "expected": false,
+      "id": "native-readback-had-no-package",
+      "kind": "json-pointer",
+      "pointer": "/native_packages_built"
+    },
+    {
+      "document": "native-readback",
+      "expected": false,
+      "id": "native-readback-no-packaged-SBOM",
+      "kind": "json-pointer",
+      "pointer": "/canonical_packaged_SBOM_graphs"
+    },
+    {
+      "document": "native-sdk-physical-captured",
+      "expected": 15660,
+      "id": "SDK-retained-source-count",
+      "kind": "json-pointer",
+      "pointer": "/source_entries"
+    },
+    {
+      "document": "backend-result",
+      "expected": "pass",
+      "id": "backend-actual-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "backend-result",
+      "expected": 156,
+      "id": "backend156",
+      "kind": "json-pointer",
+      "pointer": "/current156_source_files"
+    },
+    {
+      "document": "backend-result",
+      "expected": 668,
+      "id": "backend-unit668",
+      "kind": "json-pointer",
+      "pointer": "/unit_tests"
+    },
+    {
+      "document": "backend-result",
+      "expected": 109,
+      "id": "backend-HTTP109",
+      "kind": "json-pointer",
+      "pointer": "/HTTP_checks"
+    },
+    {
+      "document": "backend-composition",
+      "expected": 155,
+      "id": "backend155-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/unchanged_count"
+    },
+    {
+      "document": "backend-composition",
+      "expected": "ordinary-sql",
+      "id": "CIcomposition-only-new-job",
+      "kind": "json-pointer",
+      "pointer": "/only_new_CI_job"
+    },
+    {
+      "document": "backend-composition",
+      "expected": true,
+      "id": "dated-CIcomposition-SQL-pending-retained",
+      "kind": "json-pointer",
+      "pointer": "/current_SQL_recipe_acceptance_pending"
+    },
+    {
+      "document": "sql-verification",
+      "expected": "pass",
+      "id": "SQL-local-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "sql-verification",
+      "expected": 37,
+      "id": "SQL-original37",
+      "kind": "json-pointer",
+      "pointer": "/actual_case_count"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL-cases-not-expanded",
+      "kind": "json-pointer",
+      "pointer": "/cases_exact_original37"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL209-set",
+      "kind": "json-pointer",
+      "pointer": "/current209_migration_set_exact"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL219-source-binding",
+      "kind": "json-pointer",
+      "pointer": "/source219_before_after_captured_exact"
+    },
+    {
+      "document": "sql-verification",
+      "expected": 418,
+      "id": "SQL418-applications",
+      "kind": "json-pointer",
+      "pointer": "/migration_applications"
+    },
+    {
+      "document": "sql-verification",
+      "expected": false,
+      "id": "SQL-remote-CI-unrun",
+      "kind": "json-pointer",
+      "pointer": "/new_Linux_CI_recipe_run"
+    },
+    {
+      "document": "public-batch",
+      "expected": true,
+      "id": "public4-fresh-capture",
+      "kind": "json-pointer",
+      "pointer": "/fresh_compilation_and_capture"
+    },
+    {
+      "document": "public-batch",
+      "expected": false,
+      "id": "public4-originals-unaltered",
+      "kind": "json-pointer",
+      "pointer": "/original_pixels_edited"
+    },
+    {
+      "document": "public-batch",
+      "expected": 55,
+      "id": "public55-files",
+      "kind": "json-pointer",
+      "pointer": "/static_artifact_file_count"
+    },
+    {
+      "document": "public-independent",
+      "expected": 344,
+      "id": "public-independent344",
+      "kind": "json-pointer",
+      "pointer": "/public/current_media_inputs_checked"
+    },
+    {
+      "document": "public-independent",
+      "expected": 55,
+      "id": "public-quality55",
+      "kind": "json-pointer",
+      "pointer": "/public/quality_checks"
+    },
+    {
+      "document": "public-independent",
+      "expected": 104,
+      "id": "public-browser104",
+      "kind": "json-pointer",
+      "pointer": "/public/actual_browser_cases"
+    },
+    {
+      "document": "public-independent",
+      "expected": false,
+      "id": "public-whole-candidate-unaccepted",
+      "kind": "json-pointer",
+      "pointer": "/whole_mutable_candidate_accepted"
+    },
+    {
+      "document": "public-final",
+      "expected": false,
+      "id": "public-oldbatch3-superseded",
+      "kind": "json-pointer",
+      "pointer": "/original_batch3_source_is_current_acceptance"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-provider-binding-unverified",
+      "kind": "json-pointer",
+      "pointer": "/provider_domain_binding_verified"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-current-artifact-unpublished",
+      "kind": "json-pointer",
+      "pointer": "/current_artifact_published"
+    },
+    {
+      "document": "get-independent",
+      "expected": 3,
+      "id": "GET-three404",
+      "kind": "json-pointer",
+      "pointer": "/anonymous_legal_404_targets"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-request-outcome-unverified",
+      "kind": "json-pointer",
+      "pointer": "/promised_request_outcome_verified"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 0,
+      "id": "runtime-graph-exit0",
+      "kind": "json-pointer",
+      "pointer": "/runtime_exit_code"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 41.261,
+      "id": "runtime41seconds-retained",
+      "kind": "json-pointer",
+      "pointer": "/runtime_seconds"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 173,
+      "id": "runtime173components",
+      "kind": "json-pointer",
+      "pointer": "/components"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 995,
+      "id": "runtime995edges",
+      "kind": "json-pointer",
+      "pointer": "/edges"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 141,
+      "id": "runtime141hashrecords",
+      "kind": "json-pointer",
+      "pointer": "/artifacts"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": true,
+      "id": "runtime-whole-monitor-failure-preserved",
+      "kind": "json-pointer",
+      "pointer": "/original_monitor_failure_preserved"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": false,
+      "id": "dated-runtime-capture-AAB-unbuilt",
+      "kind": "json-pointer",
+      "pointer": "/AAB_built"
+    },
+    {
+      "document": "osv-independent",
+      "expected": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+      "id": "OSV-exact-graph-bound",
+      "kind": "json-pointer",
+      "pointer": "/bound_graph_sha256"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 157,
+      "id": "OSV157exact",
+      "kind": "json-pointer",
+      "pointer": "/exactMaven_queries"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 157,
+      "id": "OSV157empty",
+      "kind": "json-pointer",
+      "pointer": "/empty_OSV_results"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 16,
+      "id": "OSV16-unqueryable",
+      "kind": "json-pointer",
+      "pointer": "/local_projects_not_queryable_asMaven"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 200,
+      "id": "OSV-HTTP200",
+      "kind": "json-pointer",
+      "pointer": "/HTTP_status"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 0,
+      "id": "OSV-TLSverified",
+      "kind": "json-pointer",
+      "pointer": "/TLS_verification_result"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-packageSBOM",
+      "kind": "json-pointer",
+      "pointer": "/complete_package_SBOM"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-security-approval",
+      "kind": "json-pointer",
+      "pointer": "/exploitability_or_security_acceptance"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-licence-approval",
+      "kind": "json-pointer",
+      "pointer": "/license_approval"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "Aeonik Pro",
+      "id": "summary-Aeonik",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/family"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "Inter",
+      "id": "summary-native-Inter",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/native_operator_family"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "unverified",
+      "id": "summary-rights-unverified",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/distribution_rights/status"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "unverified",
+      "id": "summary-visual-unverified",
+      "kind": "json-pointer",
+      "pointer": "/full_visual_acceptance"
+    },
+    {
+      "document": "typography-dart",
+      "expected": "fontFamily = 'Inter';",
+      "id": "current-dart-Inter",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-dart",
+      "expected": "marketingFontFamily = 'Aeonik Pro';",
+      "id": "current-dart-Aeonik",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-css",
+      "expected": "--type-marketing-family: \"Aeonik Pro\", \"Inter\", sans-serif;",
+      "id": "current-css-Aeonik",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-declaration",
+      "expected": "asset: assets/typefaces/AeonikPro-Regular.ttf",
+      "id": "current-pubspec-Aeonik-face",
+      "kind": "text-includes",
+      "pointer": ""
+    }
+  ],
+  "file_sets": {
+    "app-authored2561": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "app-scope",
+      "expected_count": 2561,
+      "pointer": "/source_files_exact",
+      "prefix": "",
+      "resource": "app-copy",
+      "role": "source",
+      "scope": "Exact captured private app export source leaves2561; source manifest abf7eb09\u2026 and maintained checkout identity remain distinct.",
+      "shape": "map-metadata"
+    },
+    "app-execution41leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "app-artifacts",
+      "expected_count": 41,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "41 retained execution packet leaves; this count is distinct from41 affected suites.",
+      "shape": "list-metadata"
+    },
+    "app-external-library3337": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "app-before",
+      "expected_count": 3337,
+      "pointer": "/libraries/external_package_files",
+      "prefix": "",
+      "resource": "native-consumer-parent",
+      "role": "transitive-input",
+      "scope": "Exact3337 captured external library file paths. No library resolution performed by index; added package/graph completeness remains unknown.",
+      "shape": "map-metadata"
+    },
+    "backend156-composition": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "digest_overrides": {
+        ".github/workflows/ci.yml": {
+          "document": "backend-composition",
+          "pointer": "/differences/0/current_sha256"
+        }
+      },
+      "document": "backend-composition",
+      "expected_count": 156,
+      "pointer": "/retained_original156_inputs",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Original backend156 capture plus exactly one independently retained CI composition digest. Original backend pass and old CI bytes remain historical facts.",
+      "shape": "map-metadata"
+    },
+    "backend559leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "backend-artifacts",
+      "expected_count": 559,
+      "pointer": "",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact559 sealed checksum rows, including actual canonical report,513 copied output files and original source snapshots; no generated state used as active source.",
+      "shape": "checksum-lines"
+    },
+    "current-known-captured2556": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 2556,
+      "pointer": "/known_captured_inputs_without_named_tooling5",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact2556 known captured source paths excluding only the five separately bound named audit/tooling paths. Hashes are actually read by the proposed consumer; new/unlisted inputs remain unverified. Later tooling edits do not rewrite the archived abf/2561 app/native outcome.",
+      "shape": "map-metadata"
+    },
+    "liveGET40leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "get-artifacts",
+      "expected_count": 40,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact retained anonymous public GET request/response bytes; dated404/local-live differences do not certify a hosted candidate.",
+      "shape": "map-digest"
+    },
+    "native46leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "native-artifacts",
+      "expected_count": 46,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Raw JVM XML,20 release class files, three dated flat native graphs and exact readback leaves.",
+      "shape": "list-metadata"
+    },
+    "public3-static-toolchain": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-static-execution",
+      "expected_count": 3,
+      "pointer": "/toolchain_before",
+      "prefix": "",
+      "resource": "explicit-system-inputs",
+      "role": "transitive-input",
+      "scope": "Three explicitly recorded Python/bash/Ruby executable path digests. Symlink target identity is unproved by digest-only rows; index does not follow them.",
+      "shape": "map-digest",
+      "unproved_symlink_bindings": true
+    },
+    "public344media-source": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 344,
+      "pointer": "/current_media_graph",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Captured344 media inputs for private synthetic public4 scope. If current source changed later, retain pass while reporting drift.",
+      "shape": "map-digest"
+    },
+    "public4-private-resolution": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 4,
+      "pointer": "/private_runtime_bindings",
+      "prefix": "",
+      "resource": "public-fixture",
+      "role": "transitive-input",
+      "scope": "Four private pub resolution/runtime leaves only; complete resolution/transitive compiler closure not inferred.",
+      "shape": "map-digest"
+    },
+    "public4-reviewed-production-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 4,
+      "pointer": "/root_reviewed_production_sources",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Only four explicitly reviewed production leaves; whole current application equivalence was not accepted.",
+      "shape": "map-digest"
+    },
+    "public55-static-artifacts": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 55,
+      "pointer": "/static_artifact_sha256",
+      "prefix": ".cache/public-static-current-20261002-batch4-attempt1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact local public static artifact55 files. No hosted parity, legal acceptance or whole visual match.",
+      "shape": "map-digest"
+    },
+    "public66-static-inputs": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-static-execution",
+      "expected_count": 66,
+      "pointer": "/inputs_before",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "transitive-input",
+      "scope": "66 explicitly observed static generator inputs at the completed public4 execution. Added/unlisted inputs remain unknown.",
+      "shape": "map-digest"
+    },
+    "public704-evidence-leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "public-artifacts",
+      "expected_count": 704,
+      "pointer": "/files",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact704 retained local evidence leaves including original PNGs/build/browser/static records; no edits to originals.",
+      "shape": "list-metadata"
+    },
+    "selectedOSV51payloads": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "osv-artifacts",
+      "expected_count": 51,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact public docs/request/response/query mapping capture for157 selected Maven coordinates;16 local projects explicitly unqueryable.",
+      "shape": "list-metadata"
+    },
+    "separate-named-tooling5": {
+      "binding_domain": "separate-maintained-tooling",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 5,
+      "pointer": "/named_tooling5_current_leaf_fences",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "verification-tooling",
+      "scope": "Five explicit audit/probe paths bound to actual current leaf bytes at this preparation. Later changes must update these fences from actual maintained diff and meaningful suite readback; no guessed future hash/test result.",
+      "shape": "map-metadata"
+    },
+    "sql219inputs": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "sql-inputs",
+      "expected_count": 219,
+      "pointer": "/source219_before",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact219 inputs to completed local clean/populated ordinary SQL recipe,209 migrations; neither219 migrations nor hosted SQL acceptance.",
+      "shape": "map-digest"
+    },
+    "sql669leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "sql-artifacts",
+      "expected_count": 669,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact669 packet artifacts for original37 local cases/418 migration applications; external CI and hosted/provider acceptance remain separate.",
+      "shape": "map-metadata"
+    },
+    "typography-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "typography-source-fences",
+      "expected_count": 7,
+      "pointer": "/files",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact current font declarations and supplied font/OFL files. Bytes alone do not establish distribution rights or loaded output.",
+      "shape": "map-metadata"
+    }
+  },
+  "format": "collect-current-candidate-evidence-index-v1",
+  "integration_state": "unapplied-private-proposal",
+  "pending_areas": [
+    {
+      "area": "PD12 integration",
+      "reason": "Code/data/schema/summary correction are private and unapplied; no verifier run or integrator original-criterion review occurred.",
+      "state": "unverified"
+    },
+    {
+      "area": "public generator/transitive input completeness",
+      "reason": "Retained66+3 actual input list and named manifest leaves are exact; closed current generator source/asset/compiler set including additions is not proved by matching old rows.",
+      "state": "unverified"
+    },
+    {
+      "area": "SDK physical identity/current execution binding",
+      "reason": "Retained source/physical snapshot/readback exact hashes remain pinned. Generic byte reader does not reinterpret directory/link/inode/allowed8 semantics or read4.24GB physical SDK; next actual AAB consumer owns its SDK fence.",
+      "state": "retained-independent-scope-only"
+    },
+    {
+      "area": "maintained candidate to private export binding",
+      "reason": "Completed producers prove their captured private source. Do not infer that a fresh maintained checkout or added inputs equal it without retained or actual scoped integration proof.",
+      "state": "unverified-by-this-proposal"
+    },
+    {
+      "area": "future AAB/artifact graph",
+      "reason": "No AAB digest/path/result or complete package graph is prefilled. Add only after actual root result and exact source/toolchain/artifact fences are reviewed.",
+      "state": "pending-actual-result"
+    },
+    {
+      "area": "five named future BE08/ARC03 tooling deltas",
+      "reason": "Original abf source/hash rows and current unmodified hashes are pinned. Future hashes, actual diff/test result and preserved acceptance tuples/counters are absent; root owns them after AAB. Unobserved changes remain unknown/drift.",
+      "state": "pending-actual-maintained-review-and-tests"
+    },
+    {
+      "area": "new or unlisted current source inputs",
+      "reason": "No completeness claim is made from captured2556 lists. Scope projection cannot omit further captured inputs, but additions need existing producer scope evidence or an actual defined inventory check; no arbitrary exemption or automatic consumer rerun.",
+      "state": "unverified"
+    },
+    {
+      "area": "live maintained summary reconciliation binding",
+      "reason": "The old exact summary is retained as captured-acceptance-status.before-proposal.json. After root applies correction, add/refresh the exact live summary fence and pointer/value assertions; do not relabel this archived summary as the current output.",
+      "state": "pending-root-application-and-actual-check"
+    }
+  ],
+  "recorded_at_utc": "2026-10-02T13:30:14.680262+00:00",
+  "resources": {
+    "app-copy": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+    "explicit-system-inputs": "/",
+    "native-consumer-parent": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+    "public-fixture": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch4-attempt1",
+    "workspace": "."
+  },
+  "scope_relations": [
+    {
+      "excluded_exact_paths": [
+        "scripts/audits/collect_schema_domain_map.py",
+        "scripts/tests/collect_schema_domain_map_test.py",
+        "scripts/edge_function_inventory.rb",
+        "scripts/supabase_production_readiness.sh",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "original_document": "app-scope",
+      "original_pointer": "/source_files_exact",
+      "projected_document": "current-projection",
+      "projected_pointer": "/known_captured_inputs_without_named_tooling5"
+    }
+  ],
+  "summary_corrections_unapplied": [
+    "Existing dated public summary blocked/no recapture wording must be scoped and superseded using attached patch.",
+    "PD12 next_action failed41 must be replaced with captured1114/41 PASS and12+20 native PASS, preserving failed historical attempts."
+  ]
+}

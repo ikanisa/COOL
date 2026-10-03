@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "status": "new_metadata_output_compressed_with_full_byte_equality",
+  "input_sha256": "36ea95cba947e5e9a192fc4060bb120a1c0bcb9f1529f73aea0131f840ceee16",
+  "input_bytes": 160031459,
+  "input_rows": 361062,
+  "compressed_path": "file-inventory.jsonl.gz",
+  "compressed_bytes": 9073149,
+  "compressed_sha256": "07180c98f80c739038a56a2869bca3978d8f0197aed7598764833f1f75796022",
+  "decompressed_sha256": "36ea95cba947e5e9a192fc4060bb120a1c0bcb9f1529f73aea0131f840ceee16",
+  "decompressed_rows": 361062,
+  "full_original_decompressed_byte_equality": true,
+  "refined_classes": {
+    "authored_or_copied_code_unclassified": {
+      "files": 23113,
+      "logical_bytes": 1232912826,
+      "allocated_bytes": 1284968448
+    },
+    "binary_archive_or_generated_component": {
+      "files": 236,
+      "logical_bytes": 1683763793,
+      "allocated_bytes": 1684303872
+    },
+    "compiled_or_packaged_artifact": {
+      "files": 1033,
+      "logical_bytes": 433182063,
+      "allocated_bytes": 435634176
+    },
+    "copied_source_or_candidate_tree": {
+      "files": 282933,
+      "logical_bytes": 22809905631,
+      "allocated_bytes": 23487934464
+    },
+    "dependency_or_compiler_cache": {
+      "files": 219,
+      "logical_bytes": 6049077631,
+      "allocated_bytes": 6049529856
+    },
+    "execution_log_or_text_evidence": {
+      "files": 36386,
+      "logical_bytes": 1451175667,
+      "allocated_bytes": 1492353024
+    },
+    "image_or_visual_evidence": {
+      "files": 2414,
+      "logical_bytes": 510415852,
+      "allocated_bytes": 515702784
+    },
+    "other_unclassified": {
+      "files": 1067,
+      "logical_bytes": 218908085,
+      "allocated_bytes": 221343744
+    },
+    "report_document_or_page": {
+      "files": 630,
+      "logical_bytes": 5970132,
+      "allocated_bytes": 7368704
+    },
+    "structured_report_manifest_or_data": {
+      "files": 13031,
+      "logical_bytes": 1359093104,
+      "allocated_bytes": 1395892224
+    }
+  },
+  "class_transitions": [
+    {
+      "from": "authored_or_copied_code_unclassified",
+      "to": "copied_source_or_candidate_tree",
+      "files": 157948
+    },
+    {
+      "from": "binary_archive_or_generated_component",
+      "to": "copied_source_or_candidate_tree",
+      "files": 2140
+    },
+    {
+      "from": "dependency_or_compiler_cache",
+      "to": "copied_source_or_candidate_tree",
+      "files": 2590
+    },
+    {
+      "from": "execution_log_or_text_evidence",
+      "to": "copied_source_or_candidate_tree",
+      "files": 3631
+    },
+    {
+      "from": "image_or_visual_evidence",
+      "to": "copied_source_or_candidate_tree",
+      "files": 23139
+    },
+    {
+      "from": "other_unclassified",
+      "to": "copied_source_or_candidate_tree",
+      "files": 17113
+    },
+    {
+      "from": "other_unclassified",
+      "to": "dependency_or_compiler_cache",
+      "files": 100
+    },
+    {
+      "from": "report_document_or_page",
+      "to": "copied_source_or_candidate_tree",
+      "files": 10657
+    },
+    {
+      "from": "structured_report_manifest_or_data",
+      "to": "copied_source_or_candidate_tree",
+      "files": 28436
+    }
+  ],
+  "classification_method": "Refined path/extension metadata heuristic only; class does not determine uniqueness, approval or discardability.",
+  "root_authorized_own_raw_output_replacement": true,
+  "original_release_files_removed": 0,
+  "raw_new_output_removed_after_equality_proof": true
+}

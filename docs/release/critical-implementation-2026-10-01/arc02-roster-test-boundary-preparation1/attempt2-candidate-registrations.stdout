@@ -1,0 +1,510 @@
+[
+  {
+    "name": "source hash is SHA256 of exact UTF8 bytes including whitespace",
+    "body_sha256": "274787681e7fb48ae86fcca5cded7e23b14df537e49a599a997bc99e5b5875ba"
+  },
+  {
+    "name": "source rejects forged actor_id instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged session_id instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged source_sha256 instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged source_size instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged model instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged import_id instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "source rejects forged ai_consent instead of treating it as evidence",
+    "body_sha256": "264f1341d9e9773c8832e93a150aa61cbe163911137d41007ac9c57476cf4c00"
+  },
+  {
+    "name": "uploaded csv hashes original bytes and produces a human-review-required preview",
+    "body_sha256": "23be40f9cf310951d55363e4bec3f546ccfaaf06bb319f9e11d5267245e55aa6"
+  },
+  {
+    "name": "uploaded txt hashes original bytes and produces a human-review-required preview",
+    "body_sha256": "23be40f9cf310951d55363e4bec3f546ccfaaf06bb319f9e11d5267245e55aa6"
+  },
+  {
+    "name": "uploaded malformed UTF8 cannot be silently replaced",
+    "body_sha256": "be41cfede63cb0fcc00ee7163750ac75c6d925fc9d08fc51fbb8038e7944aa43"
+  },
+  {
+    "name": "XLSX framing stores separate original and explicitly client-derived TSV hashes",
+    "body_sha256": "687fb695c02f5c62d25423cb4226f214f44830287f109945f8adeadff3af3da5"
+  },
+  {
+    "name": "Auth verification precedes decoding and any RPC or provider access",
+    "body_sha256": "27777470bab65814a20e888e33f831a59a85f15bad09f72141ab8edc4532ea25"
+  },
+  {
+    "name": "verified-user session boundary rejects {\"sub\":\"22222222-2222-4222-8222-222222222222\"}",
+    "body_sha256": "0f0d52702fea335a47ef06dca9ba8223da9cffd3d104e4724059d52d24f17d02"
+  },
+  {
+    "name": "verified-user session boundary rejects {\"session_id\":\"invalid\"}",
+    "body_sha256": "0f0d52702fea335a47ef06dca9ba8223da9cffd3d104e4724059d52d24f17d02"
+  },
+  {
+    "name": "verified-user session boundary rejects {\"role\":\"service_role\"}",
+    "body_sha256": "0f0d52702fea335a47ef06dca9ba8223da9cffd3d104e4724059d52d24f17d02"
+  },
+  {
+    "name": "session decoding returns verified actor and original session only",
+    "body_sha256": "0d623a930db53d57f8f7001186e850b37d0e2ae6c2bd53461d7c094210c788de"
+  },
+  {
+    "name": "AI consent {\"ai_consent\":false} is rejected before source/provider",
+    "body_sha256": "e5cc9ecfc698e517ebd4dd1a01f04df89249a5be60743806cb36b5e80cc7d3ce"
+  },
+  {
+    "name": "AI consent {\"consent_version\":\"forged\"} is rejected before source/provider",
+    "body_sha256": "e5cc9ecfc698e517ebd4dd1a01f04df89249a5be60743806cb36b5e80cc7d3ce"
+  },
+  {
+    "name": "AI consent {\"ai_consent\":\"true\"} is rejected before source/provider",
+    "body_sha256": "e5cc9ecfc698e517ebd4dd1a01f04df89249a5be60743806cb36b5e80cc7d3ce"
+  },
+  {
+    "name": "AI source and consent receipt precede provider; final preview binds original hash and safe metadata",
+    "body_sha256": "74c990e56b22b98ca1a2ebdbaa44e1dc1cfb175d671c1e6b16bd8acc9bd4a138"
+  },
+  {
+    "name": "source RPC roster_session_required blocks extraction safely",
+    "body_sha256": "3e384443038856c69d308e0b94c05b4542ebd66f161b89198ae0c72f15f8b69c"
+  },
+  {
+    "name": "source RPC roster_import_in_progress blocks extraction safely",
+    "body_sha256": "3e384443038856c69d308e0b94c05b4542ebd66f161b89198ae0c72f15f8b69c"
+  },
+  {
+    "name": "source RPC roster_request_conflict blocks extraction safely",
+    "body_sha256": "3e384443038856c69d308e0b94c05b4542ebd66f161b89198ae0c72f15f8b69c"
+  },
+  {
+    "name": "source RPC private SQL detail blocks extraction safely",
+    "body_sha256": "3e384443038856c69d308e0b94c05b4542ebd66f161b89198ae0c72f15f8b69c"
+  },
+  {
+    "name": "malformed source ACK {\"source_sha256\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"source_size\":0} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"import_id\":42} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"extraction_id\":null} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"replayed\":\"false\"} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"source_kind\":\"text\"} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "malformed source ACK {\"unknown\":true} never permits provider",
+    "body_sha256": "422d089189809e47efdb1b9fe9083b59f5e637c5d62edad9ca6bb08c5cc74b7a"
+  },
+  {
+    "name": "completed exact request replay returns original immutable preview with no second extraction",
+    "body_sha256": "0088f066ebd63693045ef356a65986789771efe53139ae9f39818fe30cc9df7f"
+  },
+  {
+    "name": "failed request replay returns saved safe failure without provider or failure mutation",
+    "body_sha256": "1ef323c9152a9ad6a0a1d17a5bcd6d9f5d6456fb9a7a0a26a145b4ad5cfae2e1"
+  },
+  {
+    "name": "provider network records a sanitized terminal failure",
+    "body_sha256": "5409710a463e4f6f1072b63d37b628624d8d7d68ac78a8e36ce1fd19625c9ed2"
+  },
+  {
+    "name": "provider timeout records a sanitized terminal failure",
+    "body_sha256": "5409710a463e4f6f1072b63d37b628624d8d7d68ac78a8e36ce1fd19625c9ed2"
+  },
+  {
+    "name": "missing configured key records unavailable attempt without provider",
+    "body_sha256": "4c097e4b9e4091083bd58f1819bcbccc237e81f5a91fc889e6cc460d6cd8b3fc"
+  },
+  {
+    "name": "invalid provider JSON is not persisted or exposed",
+    "body_sha256": "7a7eaaf9860ba468c6919a8f4a96910d8bbc1a5a8005cd0c94819ee1b3eced9d"
+  },
+  {
+    "name": "provider overrun cancels bounded stream and records failure",
+    "body_sha256": "39101a740363aa67a47180a78ea0a3deeb392a10945426a720a36b26925c0c68"
+  },
+  {
+    "name": "failed durable failure acknowledgement is not reported as recorded success",
+    "body_sha256": "ba10996115223760c1a06086c8f3e0c93fd4e361395aabc2740d5d6486ec9ea2"
+  },
+  {
+    "name": "lost completion ACK cannot overwrite possibly completed revision as failed",
+    "body_sha256": "7d01e444791631713df9205c555ccb738fdb06b22155a37e625a81ef06cef3bf"
+  },
+  {
+    "name": "malformed preview ACK {\"can_submit\":true} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"requires_human_review\":false} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"source_sha256\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"revision_number\":2} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"row_count\":2} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"ready_count\":9} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "malformed preview ACK {\"normalized_rows\":[]} cannot be used",
+    "body_sha256": "b05b2855e9f3e5adc3edbd6656ba03bca32d0f13485d478aa65c1ec1d0b3fa6d"
+  },
+  {
+    "name": "oversized request is rejected before source receipt or provider",
+    "body_sha256": "2f145fe4299325da8adae0b8a2af7335cc4e8c8b7ce3802dd80bece91f96c74e"
+  },
+  {
+    "name": "oversized deterministic rows are rejected before completion",
+    "body_sha256": "5b9f419a834b5893363abccc64c7f08dc946a6d149accdc75163d74b041f579d"
+  },
+  {
+    "name": "Rwanda phone prefixes align with authoritative SQL admitted prefixes",
+    "body_sha256": "3eedbdeb8e008eb5c12c18b84727dd355f68a3fa6058df17d8a154622a6216e8"
+  },
+  {
+    "name": "a pending source receipt cannot release provider work before its ACK",
+    "body_sha256": "3aa933e17c0c011b71f64d95d18c762a0279a633a8fa6c4df3bc89b8f79ab09f"
+  },
+  {
+    "name": "rejected delayed source receipt does not leak a provider call",
+    "body_sha256": "3a21bab6b87fb98e45827d43167b10424b090f3ea68bf648d6f8ba4b6fef96ba"
+  },
+  {
+    "name": "server candidate integer limit is checked before preview RPC",
+    "body_sha256": "f877c244e7418e654384fbfca62788f2a96b3888ce5371f417cb649bc3344038"
+  },
+  {
+    "name": "overlong deterministic fields fail before preview RPC",
+    "body_sha256": "75ef69c38932e07b42682ac5c83bf62bc15b5b935123fcf8231ffcb838cedfdc"
+  },
+  {
+    "name": "bounded correctable deterministic names remain visible with issues",
+    "body_sha256": "24522c1996a9815ef09e0f5d9fffd61276d8ef27d1707450066356dea79ba8cf"
+  },
+  {
+    "name": "500 headerless deterministic members is accepted and 501 rejected",
+    "body_sha256": "0c800e38b019625cf61736c50043d1fd9e8afe7d2cf75e1f1a51b9de6c526788"
+  },
+  {
+    "name": "provider HTTP failure body is cancelled and never exposed",
+    "body_sha256": "baf5b8a6491babc40107339c6f40df69a010d6190ee480cd2f2c293de9c880fc"
+  },
+  {
+    "name": "completion rejects a different model instead of silently relabelling lineage",
+    "body_sha256": "9aa361639ca322331b78fa2b5a713714703c7599933c4cabc1ccb9c12cb4f22d"
+  },
+  {
+    "name": "completion rejects substituted source provenance",
+    "body_sha256": "fdac4712f52b66069ab98f35a6ec6a605ce04a423e8b6c99a10224aef3b919b9"
+  },
+  {
+    "name": "normalized preview rows must be the same ordered ready rows",
+    "body_sha256": "5e5da7cc48be64f301d8258c1bbec1dcaae4c021dfd7920bae322364c7570dc2"
+  },
+  {
+    "name": "OPTIONS and unsupported methods cannot invoke Auth, SQL or provider",
+    "body_sha256": "8c7ffa77e56de29a6de6d2e959247f2d9a6f078b40eb590bf8eb03036ceae850"
+  },
+  {
+    "name": "serialized candidate envelope is bounded before SQL despite valid source text size",
+    "body_sha256": "3e02b0fbe036aac06460605b4ee3361e1562e3f07f5012b5e362bcc7aa781c73"
+  },
+  {
+    "name": "PDF source keeps its display filename internally and forwards original bytes only with a fixed provider filename",
+    "body_sha256": "09c9e1e253b9e2d645e4538907ee2196bbfd9d9c90e15a0228b60465d860fcd1"
+  },
+  {
+    "name": "provider body timeout records timeout rather than returning or storing its partial bytes",
+    "body_sha256": "15b55758eb89e05e22ce3dbe220fdcdeab1e75d71b894196379400852327d207"
+  },
+  {
+    "name": "PostgreSQL JSONB resource estimate includes separators, UTF8 and expanded numeric confidence",
+    "body_sha256": "2c3ecc2bb06b05638208f05b8e596e1898dbac756a19589f97ccc671aff0fb6e"
+  },
+  {
+    "name": "near-limit compact candidate envelope cannot bypass PostgreSQL separator expansion bound",
+    "body_sha256": "4892bd9580544d43a4a6d48e945c4f14a6890d151edcc6a89ef4558757f96779"
+  },
+  {
+    "name": "multibyte names are bounded by UTF8 bytes despite smaller codepoint count",
+    "body_sha256": "f209978fc2e13fb324900dba326d63eb622269ff5ff45cab50283ca570dc68dd"
+  },
+  {
+    "name": "provider exponent expansion is bounded before SQL and records a terminal failure",
+    "body_sha256": "2b60ca8ad8840eaf4727860de3931c389445842db4636f12443cebbaef1e61cb"
+  },
+  {
+    "name": "deterministic NUL never reaches JSONB completion and produces a durable invalid-preview failure",
+    "body_sha256": "b73410f81d450d0f293161bef890a135680cdb60f9b86d6e6d65b14dde8187b7"
+  },
+  {
+    "name": "definitive SQL candidate rejection is terminally recorded without a provider rerun",
+    "body_sha256": "7e78dcc167f87d22abbd8503ab55170a3d282557e3297657f935802514cb823e"
+  },
+  {
+    "name": "daily source limit maps to safe429 without a provider call",
+    "body_sha256": "717aee1b63e08735e18bf9f388ef6fe3869c835f4877df35a765a541095cdc7a"
+  },
+  {
+    "name": "valid expired source receipt prompts a new upload with409 and no provider",
+    "body_sha256": "ef20a265d40a891c7a31886a311121f731eacc75162994656baa00950e724964"
+  },
+  {
+    "name": "expired cached preview never silently restarts extraction",
+    "body_sha256": "6fd44e0044e6f1ae9a52796e1252618eb1cdeabbd788bb5fcfb3ca7993effe25"
+  },
+  {
+    "name": "AI dispatch policy absent approval blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy absent digest blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy malformed JSON blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy oversized JSON blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy unbound digest blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy missing organization blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy wrong organization blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy wrong project blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy wrong model blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy wrong decoder URL blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy wrong decoder build blocks all charged/external effects",
+    "body_sha256": "277f18255fb0f15931a40c0aab5810cea2c94655c9c16a121e938d147bde5a50"
+  },
+  {
+    "name": "AI dispatch policy disabled is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy not approved is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy string boolean is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy wrong purpose is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy wrong processor is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy foreign endpoint is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy regional endpoint unsupported is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy expired is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy future is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy missing region evidence is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy missing retention evidence is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy missing decoder processor evidence is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy unknown field is denied despite consent and key",
+    "body_sha256": "9abf130a3cfb55e251a9b064c819ae23ab922aa92cd884efe19d808a42e19448"
+  },
+  {
+    "name": "AI dispatch policy cannot be authorized by caller fields",
+    "body_sha256": "065552fec670402ce80e80cc5cb2149d9a6ea0c36a54c4d9abf9683de8bbf227"
+  },
+  {
+    "name": "AI dispatch policy approved tuple selects request scope without changing data/body custody",
+    "body_sha256": "0f4ea78719df00b99963124df63ac31191399e12d991e88af7cf92810f691622"
+  },
+  {
+    "name": "AI dispatch policy preflight preserves deterministic and XLSX paths without approval",
+    "body_sha256": "78733553b6e6deff704d60fed2d1b6d9395d95c092db4d776bfe0c268d4d69b8"
+  },
+  {
+    "name": "AI dispatch policy raw approval bytes drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy raw policy digest drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy model drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy organization drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy project drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy decoder URL drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy decoder build drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy API key drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy signing secret drift during held source ACK blocks provider and records failed charge",
+    "body_sha256": "07c246e95c6bd2e6eed2500f62f13dd1a312afedff06e4f0650eef27bfe64f57"
+  },
+  {
+    "name": "AI dispatch policy revocation during held reserve blocks decoder with existing failed charge",
+    "body_sha256": "9617ac009104d6d8c6c2bf17eb2757232459df3b78dede8b62c050e6c473e1b7"
+  },
+  {
+    "name": "AI dispatch policy revocation after actual held digest prevents transmission",
+    "body_sha256": "b5d8f733dc0a448f2e842f32df0a95c19ac8862bd4ab6f9ea2904123b1b884ae"
+  },
+  {
+    "name": "AI dispatch policy expiry after actual held digest prevents transmission",
+    "body_sha256": "b5d8f733dc0a448f2e842f32df0a95c19ac8862bd4ab6f9ea2904123b1b884ae"
+  },
+  {
+    "name": "AI dispatch policy revocation after actual held hmac prevents transmission",
+    "body_sha256": "b5d8f733dc0a448f2e842f32df0a95c19ac8862bd4ab6f9ea2904123b1b884ae"
+  },
+  {
+    "name": "AI dispatch policy expiry after actual held hmac prevents transmission",
+    "body_sha256": "b5d8f733dc0a448f2e842f32df0a95c19ac8862bd4ab6f9ea2904123b1b884ae"
+  },
+  {
+    "name": "AI dispatch policy active replay remains immutable and revoked upload replay has no new effects",
+    "body_sha256": "5712aeb300f8bf094d0f6bce535571e72600c2cdb990afba316f76aa83cfaf64"
+  },
+  {
+    "name": "AI dispatch policy approved provider uncertainty retains ambiguous charge and no automatic retry",
+    "body_sha256": "9669b071ae9dc6b68d8439974f2e68990797831d4fd7c865ad8af3f9ebfb5013"
+  },
+  {
+    "name": "AI dispatch policy policy digest drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy model drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy organization drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy project drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy decoder URL drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy decoder build drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy API key drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy signing secret drift after awaited HMAC stops decoder entry",
+    "body_sha256": "532376cc902ae43122c8214bd1ffdc1e359467e3144b89034dea3148c8ee00d7"
+  },
+  {
+    "name": "AI dispatch policy expiry during held reserve_roster_resources prevents next transmission",
+    "body_sha256": "3b3a0a0ec9ebc3f3306b507ab8e3c0aa009d16b6005d747fbdca7470ed31336f"
+  },
+  {
+    "name": "AI dispatch policy expiry during held create_roster_import_source prevents next transmission",
+    "body_sha256": "3b3a0a0ec9ebc3f3306b507ab8e3c0aa009d16b6005d747fbdca7470ed31336f"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-10-02T02:43:23.569636+00:00",
+  "packet_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "checked_packet_leaves": 33,
+  "foundation_packet_sha256": "c76d92111dd1f167022245add0c5e2f3949137c1965abd4972ecbb2aabaeb2b5",
+  "foundation_checked_leaves": 16,
+  "required_predecessor_terminal_sha256": "cd987c5c877f3d3e6867dd0c84ef6531e9611c5e81288e763ac61ccb675da9cf",
+  "errors": [],
+  "execution_stage_admissions": {
+    "foundation": false,
+    "sdk-lock": true,
+    "startup": false,
+    "app-export": false,
+    "app-lock": false,
+    "native": false
+  },
+  "current_source_export_authorized": false,
+  "source_scope_held_for_strict_export": false,
+  "scope": "One private enforced SDK pub resolution only, original lock/source bytes preserved; no shared SDK selection, startup/app/native or release approval. Full foundation hashes and 12 current SDK metadata/source leaves independently checked.",
+  "SDK_selection_or_release_approval": false
+}

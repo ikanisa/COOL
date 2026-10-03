@@ -1,0 +1,33 @@
+{
+  "additional_probe_assertions": "exact209 readback, last208+209 versions, preserved comment, human/release flags false",
+  "all_original_probe_statements_and_assertions_retained_as_exact_ast_prefix": true,
+  "complete_helper_delta_is_only_reviewed_line_comment_normalizer_and_comment": true,
+  "current_helper_identity": {
+    "bytes": 13085,
+    "device": 16777247,
+    "inode": 17481828,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925383023620002,
+    "sha256": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128"
+  },
+  "not_claimed": "new full45 run, new full27 run, green original4 probe run, real database/provider acceptance",
+  "old_helper_identity": {
+    "bytes": 12971,
+    "device": 16777247,
+    "inode": 17860130,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925382992747059,
+    "sha256": "ce97076d3c0d8fc3e26a832a05e8b7705a964b03c039607e749dfa386abb839d"
+  },
+  "original_failed_probe_method_ast_sha256": "e2baf9352390d8c3e8573e062bebc03d6c6826ef1a916a026e627ac1e91fabe3",
+  "remaining_terminator_commit_readback_server_guards_unchanged": true,
+  "source_changes_since_original_failure": [
+    "scripts/supabase_cli_helpers.sh"
+  ],
+  "unaffected_previous_results": {
+    "additional3": "full staging and two readiness refusals PASS historical source; no normalization-path execution",
+    "maintained27": "27PASS historical source before parser correction; normalization path not exercised"
+  }
+}

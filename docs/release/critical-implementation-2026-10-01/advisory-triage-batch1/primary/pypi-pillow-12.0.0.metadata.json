@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:50 GMT",
+    "content-type": "application/json",
+    "etag": "\"PlLEVb/lOXoWdtBI41xhnw\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/pillow/12.0.0/json",
+  "requested_at": "2026-10-01T21:22:50.103454+00:00",
+  "response_bytes": 189112,
+  "response_path": "primary/pypi-pillow-12.0.0.response",
+  "response_sha256": "5e3d8d27754753282a84d56464a9d80b79e2f11b45017a57f5ab7e8e6d6c1c09",
+  "response_url": "https://pypi.org/pypi/pillow/12.0.0/json",
+  "retrieved_at": "2026-10-01T21:22:51.292296+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

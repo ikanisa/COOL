@@ -1,0 +1,27 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "gateway-native-sequence",
+      "argv": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/scripts/qa/gateway_notification_dependencies.init.gradle",
+        ":app:generateCollectInternal_gatewayReleasePluginRegistrant",
+        ":app:generateCollectProductionReleasePluginRegistrant",
+        ":app:verifyCollectGatewayNotificationDependencies",
+        ":app:assembleInternal_gatewayRelease",
+        ":app:lintInternal_gatewayRelease",
+        ":app:testInternal_gatewayDebugUnitTest",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 565.38,
+      "stdout_sha256": "cfbca676067f28248834da96ab3514e64f0549926a3f951eb183f3c3a0a075aa",
+      "stderr_sha256": "8322f28533e69c0fc11d16389d3668169b899cc5b2d2a07d12cf2266072b3b58"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "SDK_script_bootstrap_or_patch_executed": false,
+  "all14_upstream_sdk_JUnit_test_sources": [
+    "packages/flutter_tools/gradle/src/test/kotlin/AppLinkSettingsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/BaseApplicationNameHandlerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterExtensionTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/IntentFilterCheckTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionFetcherTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionUtilsTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/plugins/PluginHandlerTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/BaseFlutterTaskHelperTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/DeepLinkJsonFromManifestTaskTest.kt",
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/FlutterTaskHelperTest.kt"
+  ],
+  "allowed_source_patch_sha256": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+  "allowed_source_paths_exactly3": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "RAM_reconstructed_reviewed_after_bytes": 2867,
+      "RAM_reconstructed_reviewed_after_sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 2866,
+      "actual_physical_original_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "official_original_git_blob_sha1": "43f5e8368bc410140bbed3f47c38412010e2c922"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "RAM_reconstructed_reviewed_after_bytes": 16177,
+      "RAM_reconstructed_reviewed_after_sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 16176,
+      "actual_physical_original_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "official_original_git_blob_sha1": "23186ac7e0f12187022dd2e3822d3e97541c7fb6"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "RAM_reconstructed_reviewed_after_bytes": 21312,
+      "RAM_reconstructed_reviewed_after_sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 21048,
+      "actual_physical_original_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "official_original_git_blob_sha1": "aad40b31d3402042d5e746e5176487bec1150d3a"
+    }
+  },
+  "candidate_absent": true,
+  "candidate_promotion": false,
+  "candidate_role": "Physically independent Collect-only three-file SDK fork, no global SDK substitution/support claim.",
+  "current_free_bytes": 33233539072,
+  "first_command_environment": {
+    "GRADLE_USER_HOME": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+  },
+  "first_command_fixed_actual_timeout_seconds": 2700,
+  "first_command_not_run": true,
+  "first_genuine_command_argv": [
+    "bash",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle",
+    "--no-daemon",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-I",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/observe-kotlin.init.gradle",
+    "--rerun-tasks",
+    "compileKotlin",
+    "compileTestKotlin",
+    "validatePlugins",
+    "test",
+    "jar"
+  ],
+  "first_genuine_command_cwd": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle",
+  "first_required_terminal_proof": [
+    "Actual compileKotlin/compileTestKotlin/validatePlugins/test/jar terminal success with no unresolved dependencies or skipped compilation.",
+    "All14 SDK test classes collected in actual JUnit XML; prior-pin rejection and exact-stable checker behavior from reviewed amended test executed.",
+    "Applied JVM KGP2.4.20 classloader/code source and compiler artifact identity; strict actual SDK runtimeClasspath resolves KGP2.4.20. No declaration-only acceptance.",
+    "Publisher module/POM/plugin-marker digests bound to all actually selected critical KGP artifacts; original vs Gradle-transformed loaded bytes retained separately.",
+    "Gradle9.1.0 distribution checksum/readback, actual JVM/Gradle versions and byte-identical command/wrapper identities.",
+    "Official source/license readback: precisely3 reviewed changes; all other retained publisher source/license/symlinks unchanged.",
+    "Fresh candidate regular nlink1 and zero corresponding pristine/shared SDK inode matches; hashes before/after preserved.",
+    "Every generated .gradle/build/config/cache delta separately inventoried with actual producing task and hashes; generated outputs do not extend official source whitelist.",
+    "Actual failures/deadlines retained; no silent cache/version overrides or replacement by source-string tests."
+  ],
+  "foundation_pristine_retention_required": true,
+  "future_java_home": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+  "future_materialization": "Prepare separately reviewed exclusive publisher-archive writer bound to the NEW exact candidate destination and unchanged sealed admission; full physical readback first. Do not modify frozen writer or pristine foundation.",
+  "gradle_distribution_exact_url": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip",
+  "gradle_distribution_published_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "gradle_home_absent": true,
+  "gradle_wrapper_jar_sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3",
+  "gradle_wrapper_properties_sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1",
+  "gradle_wrapper_script_sha256": "fb68debc1b1acf8ec55dc0d5e5495e1dedd0bd6b61f304bee61613eeb2bd9b92",
+  "java_executable": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+  "java_executable_sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+  "java_identity_limit": "Configured existing JDK metadata/file identities; future actual JVM build observations required. No new JDK publisher authentication claimed.",
+  "jdk_release_sha256": "af522ed21472dd6b1f2e1b2647225a7a2de434eb3b1be054bd52f9c6cb280768",
+  "new_independent_candidate": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1",
+  "new_owned_gradle_home": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1",
+  "next_runtime_observer_plan": {
+    "future_graph_command_template": [
+      "bash",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradlew",
+      "-p",
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle",
+      "--no-daemon",
+      "--no-build-cache",
+      "--console=plain",
+      "--max-workers=2",
+      "-I",
+      "<NEW_REVIEWED_CANDIDATE_RUNTIME_OBSERVER>",
+      "collectSdkRuntimeGraph"
+    ],
+    "new_candidate_observer_required": "Retain actual runtimeClasspath resolution/unresolved rejection/artifact hashes; update stale installed-SDK scope text only in a NEW reviewed observer and bind candidate physical/source identity.",
+    "not_executed": true,
+    "source_basis": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/observe-sdk-runtime.init.gradle",
+    "source_basis_sha256": "26810bd04672221a6d84c3285b50e4e33022713fc5c9769a294af41892b390ab"
+  },
+  "no_hardlink_or_external_object_store_reuse": true,
+  "observed_jdk_release_fields": {
+    "IMPLEMENTOR": "JetBrains s.r.o.",
+    "JAVA_RUNTIME_VERSION": "21.0.8+-14196175-b1038.72",
+    "JAVA_VERSION": "21.0.8",
+    "OS_ARCH": "x86_64",
+    "OS_NAME": "Darwin"
+  },
+  "patch_admission": "Require exact original physical/Git bytes and exact reviewed after bytes for all3; refuse any other official tracked source/license change. No auto-learning/reblessing.",
+  "primary_gradle_checksum_url": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+  "pristine_foundation": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1",
+  "production_release_approval": false,
+  "publisher_provenance_bases": {
+    "current_affected_advisory_url": "https://github.com/advisories/GHSA-r937-wjx7-w2jp",
+    "existing_authenticated_target_packet": "kotlin-dependency-batch1/public-origin/authentication.json",
+    "existing_target_advisory_packet": "kotlin-dependency-batch1/advisory-crosscheck.json",
+    "flutter_archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+    "flutter_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "flutter_license_sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+    "kotlin_module_sha256": "8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43",
+    "kotlin_module_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.4.20/kotlin-gradle-plugin-2.4.20.module",
+    "kotlin_pom_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.4.20/kotlin-gradle-plugin-2.4.20.pom",
+    "no_substitution": "Reuse only unchanged independent primary metadata, compare actually selected bodies/variants; warm cache bytes never establish publisher origin."
+  },
+  "recorded_utc": "2026-10-02T00:34:43.436094+00:00",
+  "repo_or_shared_SDK_or_pin_lock_write": false,
+  "required_separate_followthrough": [
+    "Current Collect application source freeze/copied private local.properties pointing only to candidate; root settings reads that file, so -Pflutter.sdk cannot silently select another SDK.",
+    "App/FileSaver all-flavor actual native compile/JVM/unsigned checks and applied/plugin-loader classloader ABI consumer proof; existing old-SDK native receipt does not accept this candidate.",
+    "Current strict compile/runtime inventories, reviewed lock deltas only if genuine resolution changes them, current final SBOM and advisory/license review.",
+    "Old2.0.0/2.2.20/2.3.20 negative behavioral/artifact guards, exact source-delta/license/unsafe path drift negatives.",
+    "Gradle-utils Dart consumer with candidate Dart/package config after separate SDK-execution authorization; no Flutter scripts/bootstrap/pub resolution executed now.",
+    "Controlled candidate selection/promotion and external release acceptance remain separate."
+  ],
+  "retained_source_scope_limit": {
+    "generic_scaffolding_global_SDK_support_claimed": false,
+    "maxKnownAndSupportedKgpVersion": "2.3.20",
+    "official_file": "packages/flutter_tools/lib/src/android/gradle_utils.dart",
+    "source_unchanged_under_exact3_scope": true,
+    "templateKotlinGradlePluginVersion": "2.3.20"
+  },
+  "status": "CONCRETE_PLAN_ONLY__NO_PATCH_NO_SDK_EXECUTION"
+}

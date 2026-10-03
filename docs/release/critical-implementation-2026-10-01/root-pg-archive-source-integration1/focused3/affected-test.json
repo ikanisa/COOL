@@ -1,0 +1,24 @@
+{
+  "actual_seconds": 2.009,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py",
+    "ArchiveAdmissionTest.test_incompatible_or_forged_numeric_server_is_never_written",
+    "-v"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T09:31:08.955834+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 90286,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T09:31:06.947162+00:00",
+  "stderr_sha256": "e5305ec381ac7ca8e1a8f524e146611bf053d299cbef9e5760961f607b477ca2",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

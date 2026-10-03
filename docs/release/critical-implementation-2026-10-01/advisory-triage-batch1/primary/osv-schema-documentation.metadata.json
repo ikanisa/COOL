@@ -1,0 +1,20 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:52 GMT",
+    "ETag": "\"6a7425b7-35fe6\"",
+    "Last-Modified": "Thu, 06 Aug 2026 06:12:07 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://ossf.github.io/osv-schema/",
+  "requested_at": "2026-10-01T21:22:51.340662+00:00",
+  "response_bytes": 221158,
+  "response_path": "primary/osv-schema-documentation.response",
+  "response_sha256": "938319f65a14429f67e3808f162d9b45a22a78a4e7d8a0d7b72d7191bae7ac5f",
+  "response_url": "https://ossf.github.io/osv-schema/",
+  "retrieved_at": "2026-10-01T21:22:52.354811+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

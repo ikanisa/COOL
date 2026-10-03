@@ -1,0 +1,13 @@
+{
+  "ARC02_closed": false,
+  "decoder_compatibility_pass": false,
+  "kind": "static_preparation_review_only",
+  "local_Dart_source_closure_identical_count": 209,
+  "no_actual_tests_or_SDK_commands_or_SQL_or_Pub_or_builds": true,
+  "pinned_input_count": 29,
+  "production_ready": false,
+  "root_review_pending": true,
+  "script_AST_parse_and_compile": true,
+  "script_line_count": 314,
+  "script_sha256": "4d9ca29245a49dafb785e7d03e738eabba4842176524205d8e4c4ac2dc6b38c7"
+}

@@ -1,0 +1,143 @@
+{
+  "kind": "exception_lifecycle_isolated_sql",
+  "status": "failed",
+  "cases": [
+    {
+      "name": "additive install preserves financial evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unassigned source has no fabricated owner or deadline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "assignment records approved current owner and bounded deadline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exact request replay preserves immutable receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "request collision cannot reinterpret the original action",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "stale workflow revision refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "exception_workflow_source_changed"
+      }
+    },
+    {
+      "name": "active source cannot be marked resolved",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "exception_workflow_source_state_invalid"
+      }
+    },
+    {
+      "name": "past deadline refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_deadline_invalid"
+      }
+    },
+    {
+      "name": "unknown unapproved assignee refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_workflow_recipient_unavailable"
+      }
+    },
+    {
+      "name": "separate escalation requests deduplicate delivery work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unknown response reconciles by original actor request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "missing response lookup remains explicit not recorded",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "delivery pump requires service role",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot inspect owner workflow",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot inspect owner workflow",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "durable delivery commits once without external send",
+      "status": "failed",
+      "error": "ERROR:  42702: column reference \"e.id\" is ambiguous\nLINE 1: ...tion_workflows x join collect_ops.exceptions e on e.id=x.exc...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  select x.* from collect_ops.exception_workflows x join collect_ops.exceptions e on e.id=x.exception_id\n  where e.active and x.due_at<=at and not exists(select 1 from collect_ops.exception_escalations s\n   where s.exception_id=e.id and s.source_revision=e.revision and s.recipient_id=x.assignee_id)\n  order by x.due_at,x.exception_id limit p_limit\nCONTEXT:  PL/pgSQL function public.process_exception_escalations_v1(integer) line 11 at FOR over SELECT rows\nLOCATION:  plpgsql_post_column_ref, pl_comp.c:1133\n"
+    }
+  ],
+  "hosted_called": false,
+  "carrier_called": false,
+  "shared_database_written": false,
+  "source_rows_copied": false,
+  "auth_provider_tested": false,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "e680fda134cfc283547cfbf78aa850b34ca2e8b76ba0bc2e8ece528271cee1e6",
+    "scripts/tests/exception_lifecycle_uat.py": "9af41c4eed17ab39166b06129f461e74909ca3af2f28f9f869f871aecacb76c2"
+  },
+  "target": {
+    "container_id": "607cf013fa28786907dd5847fe9b17c9b09a386a211e2c7312ec481a027573a5",
+    "container_name": "collect_current_rehearsal_exception_lifecycle_ca5c9b8664dc",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "sources_unchanged": true,
+  "finished_at": "2026-10-01T11:10:30.036266+00:00"
+}

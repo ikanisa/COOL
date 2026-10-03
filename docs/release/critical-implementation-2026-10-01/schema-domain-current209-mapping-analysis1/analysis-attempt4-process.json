@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py"
+  ],
+  "actual_seconds": 0.885,
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "code_sha256_before": "7f68aba3cc15f59f858666a5311483705533685e5f01caf371aa89e4551af967",
+  "code_sha256_after": "7f68aba3cc15f59f858666a5311483705533685e5f01caf371aa89e4551af967",
+  "SQL_executed": false,
+  "maintained_changes": false
+}

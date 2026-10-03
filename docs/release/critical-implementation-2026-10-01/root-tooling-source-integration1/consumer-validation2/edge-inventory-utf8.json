@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/usr/bin/ruby",
+    "scripts/edge_function_inventory.rb",
+    "auth-check"
+  ],
+  "environment_delta": {
+    "LC_ALL": "en_US.UTF-8",
+    "LANG": "en_US.UTF-8"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 0.071,
+  "timeout_seconds": 15,
+  "pid": 34231,
+  "process_group_absent": true,
+  "stdout_sha256": "cde3cadd5b8dad14527950d5b8f43b799562a6e77a2f86ffdcb4e83988f38109",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

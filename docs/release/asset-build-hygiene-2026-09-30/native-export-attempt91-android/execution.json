@@ -1,0 +1,9 @@
+{
+  "commands": [],
+  "status": "fail",
+  "failure_phase": "resolved_native_package_source_binding",
+  "failure": "Prepared guard requires a Dart lib directory on valid asset-only and native-only packages",
+  "native_compile_started": false,
+  "runner_exit_code": 1,
+  "finished_at": "2026-09-30T23:41:02.244720+00:00"
+}

@@ -1,0 +1,96 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: owner health ACK is exactly bound to requested group
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: owner health cannot truncate/default invalid count null
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: owner health cannot truncate/default invalid count -1
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: owner health cannot truncate/default invalid count 1.5
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: owner health cannot truncate/default invalid count 9007199254740992
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: roster IDs and exact amount cannot be duplicated or forged as own
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: health old reply is fenced after same-user new-session and pins request authority
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: health old reply is fenced after A to B to A original-session and pins request authority
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: roster old reply is fenced after same-user new-session and pins request authority
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: roster old reply is fenced after A to B to A original-session and pins request authority
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: history old reply is fenced after same-user new-session and pins request authority
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: history old reply is fenced after A to B to A original-session and pins request authority
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: retained history controller cannot publish after same-user replacement session
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: resolved health provider reloads for same-user replacement session
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: late health provider result cannot replace current-session result
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_data_authority_test.dart: production offline history without aggregate metadata stays unavailable
+00:00 +16: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart
+00:04 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (setUpAll)
+00:04 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent complete aggregates remain unknown despite partial owned rows
+00:04 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks empty partial ownership as incomplete
+00:05 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks partial positive ownership as incomplete
+00:05 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Could not load data": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart:125:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart line 125
+The test description was:
+  absent activity page cannot be shown as zero confirmed history
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +19 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history [E]
+  Test failed. See exception logs above.
+  The test description was: absent activity page cannot be shown as zero confirmed history
+  
+00:05 +19 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: refreshing retained roster removes previous IDs and amounts before reply
+00:05 +20 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (tearDownAll)
+00:05 +20 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart
+00:06 +20 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects foreign profile before publishing finance/notifications
+00:06 +21 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects duplicate group before publishing finance/notifications
+00:06 +22 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects inexact pending count before publishing finance/notifications
+00:06 +23 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects inexact modern total before publishing finance/notifications
+00:06 +24 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects foreign event before publishing finance/notifications
+00:06 +25 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_read_integrity_test.dart: production SDK read rejects duplicate event before publishing finance/notifications
+00:06 +26 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart
+00:07 +26 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart: unsafe amount 0 never reaches the native USSD bridge
+00:07 +27 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart: unsafe amount -1 never reaches the native USSD bridge
+00:07 +28 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart: unsafe amount 9007199254740992 never reaches the native USSD bridge
+00:07 +29 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/momo_ussd_amount_boundary_test.dart: exact maximum is preserved as decimal text at the native boundary
+00:07 +30 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart
+00:07 +30 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: unsafe digit input is rejected before web parsing or regrouping
+00:07 +31 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: groups digits as the user types
+00:07 +32 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: accepts grouped paste and normalizes leading zeroes
+00:07 +33 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: rejects fractions signs and letters instead of changing their value
+00:07 +34 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: retains cursor position on middle insertion
+00:07 +35 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: backspace across comma removes the preceding digit
+00:07 +36 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: forward delete across comma removes the following digit
+00:07 +37 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: preserves a reverse selection by digit position
+00:07 +38 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: retains a caret immediately after an existing grouping separator
+00:07 +39 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: clearing and replacing selected text remain editable
+00:07 +40 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: does not round unsafe long input into another amount
+00:07 +41 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/rwf_amount_input_formatter_test.dart: does not modify active IME composition
+00:07 +42 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart
+00:08 +42 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-02-30T12:00:00Z cannot acquire a fresh TTL
+00:08 +43 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28T11:00:00 cannot acquire a fresh TTL
+00:08 +44 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28 cannot acquire a fresh TTL
+00:08 +45 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 0000-07-28T11:00:00Z cannot acquire a fresh TTL
+00:08 +46 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28T11:00:00+24:00 cannot acquire a fresh TTL
+00:08 +47 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: writing a DateTime instant serializes UTC and preserves exact TTL
+00:08 +48 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: pending group intent survives a store and controller recreation
+00:08 +49 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a signed-out invitation binds once and rejects another account
+00:08 +50 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a stale same-slug completion cannot clear a later invitation
+00:08 +51 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: duplicate warm App Links keep the visible intent generation
+00:08 +52 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: stale, malformed, and oversized pending intents fail closed
+00:08 +53 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: only the matching completed intent can clear persisted recovery
+00:08 +54 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a persistence failure does not expose an in-memory-only intent
+00:08 +55 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: slug normalization accepts only bounded canonical URL segments
+00:08 +56 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: external app links accept only the canonical Collect group origin
+00:08 +57 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: app sharing links route only canonical app and invite targets
+00:08 +58 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history

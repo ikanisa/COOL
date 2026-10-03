@@ -1,0 +1,328 @@
+{
+  "status": "pass",
+  "scope": "Computed flat-background contrast; images, gradients and opacity remain visually unverified",
+  "checkedAt": "2026-10-01T18:05:26.150Z",
+  "failures": 0,
+  "results": [
+    {
+      "route": "/",
+      "width": 320,
+      "checked": 84,
+      "failures": [],
+      "unverified": [
+        {
+          "tag": "strong",
+          "classes": "",
+          "text": "Collect",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "small",
+          "classes": "",
+          "text": "by IKANISA",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "h1",
+          "classes": "",
+          "text": "Microsavings and group savings for daily earners",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "p",
+          "classes": "hero-intro",
+          "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness s",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "a",
+          "classes": "button ghost cta-group",
+          "text": "Create Group Saving",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "a",
+          "classes": "button ghost cta-touch",
+          "text": "Get in Touch",
+          "reason": "image or gradient"
+        }
+      ]
+    },
+    {
+      "route": "/account-deletion/",
+      "width": 320,
+      "checked": 86,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/community-groups/",
+      "width": 320,
+      "checked": 68,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/craas/",
+      "width": 320,
+      "checked": 97,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/credit-readiness/",
+      "width": 320,
+      "checked": 97,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/data-deletion/",
+      "width": 320,
+      "checked": 103,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/group-savings/",
+      "width": 320,
+      "checked": 82,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/insurance/",
+      "width": 320,
+      "checked": 71,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/our-partners/",
+      "width": 320,
+      "checked": 80,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/partners/",
+      "width": 320,
+      "checked": 80,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/privacy/",
+      "width": 320,
+      "checked": 345,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/protection/",
+      "width": 320,
+      "checked": 55,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/security/",
+      "width": 320,
+      "checked": 52,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/terms/",
+      "width": 320,
+      "checked": 317,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/trust/",
+      "width": 320,
+      "checked": 52,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "checked": 84,
+      "failures": [],
+      "unverified": [
+        {
+          "tag": "strong",
+          "classes": "",
+          "text": "Collect",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "small",
+          "classes": "",
+          "text": "by IKANISA",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "Group Savings",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "Insurance",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "CRaaS",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "Community Groups",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "Our Partners",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "a",
+          "classes": "nav-link",
+          "text": "Trust & Security",
+          "reason": "non-ancestor image backdrop"
+        },
+        {
+          "tag": "h1",
+          "classes": "",
+          "text": "Microsavings and group savings for daily earners",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "p",
+          "classes": "hero-intro",
+          "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness s",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "a",
+          "classes": "button ghost cta-group",
+          "text": "Create Group Saving",
+          "reason": "image or gradient"
+        },
+        {
+          "tag": "a",
+          "classes": "button ghost cta-touch",
+          "text": "Get in Touch",
+          "reason": "image or gradient"
+        }
+      ]
+    },
+    {
+      "route": "/account-deletion/",
+      "width": 1440,
+      "checked": 92,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/community-groups/",
+      "width": 1440,
+      "checked": 74,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/craas/",
+      "width": 1440,
+      "checked": 103,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/credit-readiness/",
+      "width": 1440,
+      "checked": 103,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/data-deletion/",
+      "width": 1440,
+      "checked": 109,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/group-savings/",
+      "width": 1440,
+      "checked": 88,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/insurance/",
+      "width": 1440,
+      "checked": 77,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/our-partners/",
+      "width": 1440,
+      "checked": 86,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/partners/",
+      "width": 1440,
+      "checked": 86,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/privacy/",
+      "width": 1440,
+      "checked": 351,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/protection/",
+      "width": 1440,
+      "checked": 61,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/security/",
+      "width": 1440,
+      "checked": 58,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/terms/",
+      "width": 1440,
+      "checked": 323,
+      "failures": [],
+      "unverified": []
+    },
+    {
+      "route": "/trust/",
+      "width": 1440,
+      "checked": 58,
+      "failures": [],
+      "unverified": []
+    }
+  ]
+}

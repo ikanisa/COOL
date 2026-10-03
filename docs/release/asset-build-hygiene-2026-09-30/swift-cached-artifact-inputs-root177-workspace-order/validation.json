@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "verified_at_utc": "2026-10-01T09:32:35.547029+00:00",
+  "command": [
+    "python3",
+    "scripts/tests/swift_cached_artifact_inputs_test.py"
+  ],
+  "exit_code": 0,
+  "passed_tests": 35,
+  "source_sha256": {
+    "scripts/qa/swift_cached_artifact_inputs.py": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63",
+    "scripts/tests/swift_cached_artifact_inputs_test.py": "e8b1320c33aef43fcd022a901839ec7843576f8f89bfb99ad8790ce6562619e8"
+  },
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "88635646a7e7e9852373c50132cf4250b95aaa6d1c99f10b1750853307862311",
+  "source_unchanged": true,
+  "scope": "Original strict binary/mode/symlink/local/compiler/lock controls plus unordered resolver-row acceptance; checksum/content omissions and duplicates still refuse. Pure tests do not accept actual iOS build or artifacts."
+}

@@ -1,0 +1,155 @@
+{
+  "browser_builds": false,
+  "changed_source_sha256": {
+    "lib/admin/core/admin_list_runtime.dart": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921",
+    "lib/admin/shared/components/admin_confirm_dialog.dart": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f",
+    "test/admin_custom_action_ui_test.dart": "23016c22dab6936681c7ba479648afeabf53181a1cd89001e40a116669767552"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 18292,
+      "seconds": 0.18,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 18320,
+      "seconds": 1.136,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/shared/components/admin_confirm_dialog.dart",
+        "lib/admin/core/admin_list_runtime.dart",
+        "test/admin_custom_action_ui_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-format",
+      "parent_exit_confirmed": true,
+      "process_group": 18378,
+      "seconds": 0.077,
+      "sha256": "dd4701be149ea0ea302dbc675dbbc55acbd35bd19cd68e84799b1e14498e2d78",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/shared/components/admin_confirm_dialog.dart",
+        "lib/admin/core/admin_list_runtime.dart",
+        "test/admin_custom_action_ui_test.dart",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 18379,
+      "seconds": 5.395,
+      "sha256": "24e94464fdefae012a4d24c612aa9f59b59b9ad15e2ad6ccc6ca9b31a254cd87",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/feature-reason-current1/feature-flag.machine.jsonl",
+        "--plain-name",
+        "featureFlag production UI",
+        "test/admin_custom_action_ui_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "feature-flag-ui",
+      "parent_exit_confirmed": true,
+      "process_group": 18607,
+      "seconds": 14.538,
+      "sha256": "e471798d387c56f58d6e35258ff7bc43bddf9449bd17ed8982e4142201b8596e",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/feature-reason-current1/shared-default.machine.jsonl",
+        "test/admin_reason_dialog_bounds_test.dart",
+        "test/admin_reason_dialog_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "shared-default-and-focus",
+      "parent_exit_confirmed": true,
+      "process_group": 18984,
+      "seconds": 3.623,
+      "sha256": "dfed59d8b793f7e02392b00542125509e1040330df3372bce307c2923d922eb1",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "consumed_source_input_count": 617,
+  "export_drift": [],
+  "feature_flag_summary": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 17,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "native_builds": false,
+  "non_consumed_source_drift": [],
+  "package_inputs_unchanged": true,
+  "provider_credentials_supplied": false,
+  "scope": "One 17-case actual production featureFlag UI selection with locked SDK synthetic HTTP; nine shared default-bound/focus regressions. Selected format/analysis only. No full Admin, server audit or runtime-family closure claim.",
+  "sdk_unchanged": true,
+  "shared_default_summary": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 9,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "source_drift": {},
+  "sql_executed": false,
+  "status": "pass"
+}

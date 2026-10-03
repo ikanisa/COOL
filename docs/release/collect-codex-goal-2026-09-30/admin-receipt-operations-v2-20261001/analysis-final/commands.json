@@ -1,0 +1,37 @@
+[
+  {
+    "name": "analysis",
+    "command": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+      "analyze",
+      "lib/admin/core/admin_receipt_operations_checkpoint.dart",
+      "lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+      "lib/admin/core/admin_receipt_operations_runtime.dart",
+      "lib/admin/core/admin_receipt_operations_models.dart",
+      "lib/admin/core/admin_receipt_operations_card.dart",
+      "lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+      "test/admin_receipt_operations_card_test.dart",
+      "test/admin_receipt_operations_checkpoint_test.dart",
+      "test/admin_receipt_operations_models_test.dart",
+      "test/admin_receipt_operations_sdk_test.dart",
+      "test/admin_receipt_operations_runtime_test.dart",
+      "test/admin_receipt_operations_checkpoint_browser_test.dart",
+      "test/support/admin_receipt_operations_fixture.dart"
+    ],
+    "started_at": "2026-10-01T12:01:16.540112+00:00",
+    "finished_at": "2026-10-01T12:01:21.711628+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 60
+  },
+  {
+    "name": "hygiene",
+    "command": [
+      "/usr/bin/make",
+      "revolut-design-authority"
+    ],
+    "started_at": "2026-10-01T12:01:21.712232+00:00",
+    "finished_at": "2026-10-01T12:01:52.540737+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 90
+  }
+]

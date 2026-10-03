@@ -1,0 +1,245 @@
+{
+  "cases": [
+    {
+      "anchor": "return SupabaseClient(env.supabaseUrl, env.supabaseAnonKey);",
+      "authorization": "not-inferred",
+      "id": "member-session-client",
+      "line": 23,
+      "observation": "Member/shared Dart client is initialized with the configured public key; the maintained Auth session supplies user identity. This is source wiring evidence and does not attest deployment or current authorization.",
+      "path": "lib/core/supabase/supabase_module.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df"
+    },
+    {
+      "anchor": "var request = supabase.rpc<dynamic>('get_current_member_profile');",
+      "authorization": "not-inferred",
+      "id": "member-profile-read",
+      "line": 20,
+      "observation": "The maintained reader checks currentUser against requested userId and sends the profile RPC using the client session; optional exact Authorization header is set when a captured token is passed. The SQL/RLS/current session checks remain separate.",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "get_current_member_profile"
+      ],
+      "source_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37"
+    },
+    {
+      "anchor": "var request = _supabase!.rpc<dynamic>(rpc);",
+      "authorization": "not-inferred",
+      "id": "member-dynamic-financial-reader",
+      "line": 133,
+      "observation": "_financialRows accepts a name supplied by maintained callers. Literal references are candidates; the generic site remains dynamic until arguments and the full helper call graph are reviewed.",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37"
+    },
+    {
+      "anchor": "Future<Map<String, dynamic>> rpcMap(",
+      "authorization": "not-inferred",
+      "id": "admin-rpc-map",
+      "line": 978,
+      "observation": "rpcMap delegates to _requireClient().rpc under _withSession and sets Authorization to the captured session token. The generator recognizes rpcMap only under lib/admin; arbitrary functions ending in Rpc are not treated as database calls.",
+      "path": "lib/admin/core/admin_runtime.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b"
+    },
+    {
+      "anchor": "export function serviceClient()",
+      "authorization": "not-inferred",
+      "id": "edge-service-and-user-clients",
+      "line": 4,
+      "observation": "serviceClient takes the service key environment name; userClient uses the anon key and passed Authorization header, and requireUser calls Auth.getUser. Names alone do not prove actual database role, role permissions, or business authority.",
+      "path": "supabase/functions/_shared/supabase.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "anchor": "const { data, error } = await serviceClient().rpc(",
+      "authorization": "not-inferred",
+      "id": "operator-edge-dispatch",
+      "line": 64,
+      "observation": "The operator endpoint checks the verified user identity and command.permission before dispatching command.rpc through the service client. The finite command registry is maintained separately in _shared/notification_operator.ts; the generic dispatch site remains dynamic.",
+      "path": "supabase/functions/collect-notification-operator/index.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_current_user"
+      ],
+      "source_sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72"
+    },
+    {
+      "anchor": "String get rpc => 'admin_${name}_gateway_device_v1';",
+      "authorization": "not-inferred",
+      "id": "gateway-enum-interpolation",
+      "line": 53,
+      "observation": "The enum directly declares enroll, activate and revoke. These are reviewed finite interpolation candidates; no request execution or business approval is inferred.",
+      "path": "lib/admin/core/admin_gateway_contracts.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_enroll_gateway_device_v1",
+        "admin_activate_gateway_device_v1",
+        "admin_revoke_gateway_device_v1"
+      ],
+      "source_sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    {
+      "anchor": "String get rpcName => 'admin_${name}_receipt_operations_identity_v3';",
+      "authorization": "not-inferred",
+      "id": "receipt-principal-enum-interpolation",
+      "line": 27,
+      "observation": "The enum declares enroll, activate and revoke and produces the identity action RPC name. These are reviewed finite candidates; the generic Admin request path remains explicit.",
+      "path": "lib/admin/core/admin_receipt_principal_models.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_enroll_receipt_operations_identity_v3",
+        "admin_activate_receipt_operations_identity_v3",
+        "admin_revoke_receipt_operations_identity_v3"
+      ],
+      "source_sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842"
+    },
+    {
+      "anchor": "val connection = try { connect(URL(if (successor)",
+      "authorization": "not-inferred",
+      "id": "native-gateway-fixed-transport",
+      "line": 57,
+      "observation": "Native gateway HTTP transport selects the fixed collect-android-gateway or collect-receipt-successor-gateway Edge route, adds key-id and exact-byte signature headers, and follows no redirects. Native code does not select SQL RPC names here; Edge handler maps actions.",
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "5b4e158273a0851e540e1e343504821705e48484413e6eb43bca854afeb2a13f"
+    },
+    {
+      "anchor": "export const RPC = {",
+      "authorization": "not-inferred",
+      "id": "successor-action-map",
+      "line": 4,
+      "observation": "The maintained successor action map defines six public RPC names. Handler uses RPC[action] after family/action/signature validation, and index.ts supplies serviceClient. These source facts do not attest a deployed edge configuration.",
+      "path": "supabase/functions/collect-receipt-successor-gateway/wire.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "gateway_receipt_successor_grant_v1",
+        "gateway_receipt_successor_arm_v1",
+        "gateway_receipt_successor_reconcile_v1",
+        "gateway_receipt_successor_callback_v1",
+        "gateway_receipt_successor_attempt_status_v1",
+        "gateway_receipt_successor_archive_v1"
+      ],
+      "source_sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14"
+    },
+    {
+      "anchor": "const name = operational ?",
+      "authorization": "not-inferred",
+      "id": "supervisor-action-dispatch",
+      "line": 384,
+      "observation": "The maintained handler verifies the signed dedicated-principal envelope and chooses the operations execution or original supervisor observe/reconcile names. Action payload and current database authority cannot be established from ACL alone.",
+      "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "receipt_operations_execute_v2",
+        "receipt_supervisor_reconcile_v1",
+        "receipt_supervisor_observe_v1",
+        "receipt_supervisor_key_v1"
+      ],
+      "source_sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8"
+    },
+    {
+      "anchor": "/rest/v1/rpc/${rpc}",
+      "authorization": "not-inferred",
+      "id": "operator-postgrest-session",
+      "line": 150,
+      "observation": "Operator/worker read uses a dynamic RPC URL with validated operational environment, Bearer access token, public apikey and explicit public profile headers. Static assignments list health, one receipt and list receipts; current role/business authority is a server decision.",
+      "path": "tools/collect-notification-mcp/src/operational_client.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_system_health",
+        "admin_get_hybrid_sms_receipt",
+        "admin_list_hybrid_sms_receipts"
+      ],
+      "source_sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd"
+    },
+    {
+      "anchor": "/rest/v1/rpc/${rpc}",
+      "authorization": "not-inferred",
+      "id": "shadow-action-postgrest",
+      "line": 55,
+      "observation": "The helper maps begin/get/sample/complete to four database names and sends an authenticated PostgREST request with public profiles. MCP action strings are not themselves database RPC names.",
+      "path": "tools/collect-notification-mcp/src/shadow_client.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "begin_collect_shadow_run_v1",
+        "get_collect_shadow_run_v1",
+        "sample_collect_shadow_run_v1",
+        "finish_collect_shadow_run_v1"
+      ],
+      "source_sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    {
+      "anchor": "return await userClient(authorization).rpc(",
+      "authorization": "not-inferred",
+      "id": "reconciliation-two-client-boundary",
+      "line": 8,
+      "observation": "The Edge adapter first calls the authorization RPC with the caller user client, then the finalization RPC with the service client. Source wiring is explicit; maintained SQL checks determine maker/checker/current-session business authorization.",
+      "path": "supabase/functions/reconciliation-finalize/index.ts",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "authorize_reconciliation_finalization_v2",
+        "finalize_approved_reconciliation_v2"
+      ],
+      "source_sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c"
+    },
+    {
+      "anchor": "repository.rpcMap(name, params: params, automaticRetry: false)",
+      "authorization": "not-inferred",
+      "id": "retention-209-admin-callback",
+      "line": 45,
+      "observation": "The new retention SDK callback uses Admin rpcMap with automatic retry disabled. _call in admin_sender_retention_sdk.dart lists read/configure/request lookup names represented in migration 209.",
+      "path": "lib/admin/core/admin_sender_retention_host.dart",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_get_receipt_retention_controls_v1",
+        "admin_configure_receipt_retention_controls_v1",
+        "admin_get_receipt_retention_control_request_v1"
+      ],
+      "source_sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3"
+    },
+    {
+      "anchor": "private var snapshotChannel:",
+      "authorization": "not-inferred",
+      "id": "ios-native-channel-boundary",
+      "line": 9,
+      "observation": "Maintained iOS Runner code supplies secure snapshot and notification Flutter channels. No direct SQL/PostgREST RPC site was found by the lexical scanner in this native set; shared Dart network callers remain the backend entry points.",
+      "path": "ios/Runner/AppDelegate.swift",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f"
+    },
+    {
+      "anchor": "grant select(id,status_code,content,timed_out,error_msg,created)on net._http_response to postgres;",
+      "authorization": "not-inferred",
+      "id": "platform-net-reader-boundary",
+      "line": 37,
+      "observation": "Platform prerequisite SQL requires trusted definer dispatch, revokes queue/table and column grants from application readers, then grants narrow postgres reader columns. The effective catalog separately records the resulting owners/ACLs; the app configuration does not grant them.",
+      "path": "scripts/sql/receipt_transport_platform_prerequisites.sql",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [],
+      "source_sha256": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f"
+    },
+    {
+      "anchor": "body:=pg_get_functiondef('public.admin_list_receipt_operation_evidence_v1",
+      "authorization": "not-inferred",
+      "id": "dynamic-historical-sql-patch",
+      "line": 152,
+      "observation": "Applied history uses pg_get_functiondef and replace(body,needle,replacement) to amend existing functions. The small generator does not execute or simulate this SQL; patched effective body hashes with no exact CREATE-body source match remain exposed.",
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "review_status": "source-read-only",
+      "reviewed_public_name_candidates": [
+        "admin_list_receipt_operation_evidence_v1"
+      ],
+      "source_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998"
+    }
+  ],
+  "format": "collect-reviewed-caller-seams-v1"
+}

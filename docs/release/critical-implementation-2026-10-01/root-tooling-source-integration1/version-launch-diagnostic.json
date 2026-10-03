@@ -1,0 +1,21 @@
+{
+  "diagnostic_only_not_replacement_test": "10-second diagnostic matches policy maximum; original tests remain1s and unchanged",
+  "results": [
+    {
+      "name": "env-python",
+      "elapsed_seconds": 2.433,
+      "code": 0,
+      "stdout": "psql (PostgreSQL) 17.6\n",
+      "synthetic_client_sha256": "8cadaea798402ca2ca44fe02405cdce3f52b1385ae0bcb594c14523830c23cce",
+      "only_version_executed": true
+    },
+    {
+      "name": "absolute-python",
+      "elapsed_seconds": 0.645,
+      "code": 0,
+      "stdout": "psql (PostgreSQL) 17.6\n",
+      "synthetic_client_sha256": "ad967df3c5448e78a5428b6a19437aa45aadc34bdf22d2d1a5969fca6ee2ba98",
+      "only_version_executed": true
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "scope": "Final API profiles and actual synthetic command/stdio observations, not usable approval",
+  "final_candidate": "candidate5",
+  "version_observation": {
+    "clients": [
+      "psql",
+      "pg_dump",
+      "pg_restore"
+    ],
+    "argv_suffix": [
+      "--version"
+    ],
+    "credential_free": true,
+    "exact_banner_version": "17.6",
+    "numeric_receipt_version": 170006
+  },
+  "server_observation": {
+    "client": "exact bound psql",
+    "target": "exact operation-bound collect_readiness service",
+    "transaction": "BEGIN READ ONLY / fixed statement_timeout / unchanged SERVER_QUERY / COMMIT",
+    "numeric_version": 170006,
+    "before_first_write": true,
+    "cannot_precede_first_remote_read": true
+  },
+  "profiles": {
+    "public_schema": {
+      "caller": [
+        "service=collect_readiness",
+        "--schema=public",
+        "--schema-only",
+        "--no-owner",
+        "--no-privileges",
+        "--file=DIR/public_schema.sql"
+      ],
+      "actual_prefix": [
+        "EXACT_PG_DUMP_PATH",
+        "--dbname=service=collect_readiness",
+        "-w"
+      ],
+      "artifact": "exclusive0600 stdout file"
+    },
+    "public_data": {
+      "caller": [
+        "service=collect_readiness",
+        "--schema=public",
+        "--data-only",
+        "--no-owner",
+        "--no-privileges",
+        "--format=plain",
+        "--file=DIR/public_data.sql"
+      ]
+    },
+    "full_custom": {
+      "caller": [
+        "service=collect_readiness",
+        "--format=custom",
+        "--lock-wait-timeout=10s",
+        "--file=DIR/database.dump"
+      ],
+      "artifact_header": "PGDMP",
+      "source_semantics_accepted": false
+    },
+    "restore_custom": {
+      "caller": [
+        "service=collect_readiness",
+        "--exit-on-error",
+        "--single-transaction",
+        "EXACT_ARCHIVE_PATH"
+      ],
+      "offline_list": [
+        "EXACT_PG_RESTORE_PATH",
+        "--list"
+      ],
+      "actual_write": [
+        "EXACT_PG_RESTORE_PATH",
+        "--dbname=service=collect_readiness",
+        "-w",
+        "--exit-on-error",
+        "--single-transaction"
+      ],
+      "stdin": "same admitted open archive inode",
+      "target_kind": "local_rehearsal only",
+      "full_comparators_executed": false
+    }
+  },
+  "hosted_restore": "refused before any tool; shipping controller absent",
+  "actual_final_command_receipt": "final-latest-attempt1/result.json",
+  "safe_order_and_stdio_trace": "final-latest-attempt1/safe-traces/test_custom_dump_stream_and_receipt_then_local_restore_exact_input_and_order/calls.jsonl",
+  "actual_partial_helper_trace": "final-latest-attempt1/safe-traces/test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts/calls.jsonl",
+  "approved_values_provisioned": false
+}

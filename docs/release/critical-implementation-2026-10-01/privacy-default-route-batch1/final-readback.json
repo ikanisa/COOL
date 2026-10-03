@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-02T00:51:48.918891+00:00",
+  "independent_process": true,
+  "evidence_files_read": 141,
+  "read_errors": [],
+  "batch_sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a",
+  "index_sha256": "5ec929c9fb459a99e6a958f99fccf7e4d20993fd51bef4f8d3e4d29e7425408c",
+  "final_source_readback_sha256": "56251a4fc888ced2aeca533ee2a9fabed7a88cde5911688e6b80875c3f628fea",
+  "final_md_sha256": "0316caf5276a82a14a798d95c13701f1a8b1b30705192408f78bd5d43948b2eb",
+  "production_source_count": 4,
+  "original_attempts_and_failures_preserved": true,
+  "scope": "Exact current local default-route/test evidence only"
+}

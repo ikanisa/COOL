@@ -1,0 +1,42 @@
+test_full_staging_migrations_and_thirteen_functions_use_reviewed_export (__main__.AdditionalOrdering.test_full_staging_migrations_and_thirteen_functions_use_reviewed_export) ... FAIL
+test_management_fallback_checks_exact_version_before_each_sql_write (__main__.AdditionalOrdering.test_management_fallback_checks_exact_version_before_each_sql_write) ... FAIL
+test_readiness_unknown_manifest_project_refuses_before_first_query (__main__.AdditionalOrdering.test_readiness_unknown_manifest_project_refuses_before_first_query) ... ok
+test_readiness_incompatible_server_stops_after_exact_read_before_later_requests (__main__.AdditionalOrdering.test_readiness_incompatible_server_stops_after_exact_read_before_later_requests) ... ERROR
+
+======================================================================
+ERROR: test_readiness_incompatible_server_stops_after_exact_read_before_later_requests (__main__.AdditionalOrdering.test_readiness_incompatible_server_stops_after_exact_read_before_later_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/additional-ordering.py", line 81, in test_readiness_incompatible_server_stops_after_exact_read_before_later_requests
+    self.assertEqual(query_log.read_text(), SERVER_QUERY)
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/tmp9yd92dm1/readiness-query.json'
+
+======================================================================
+FAIL: test_full_staging_migrations_and_thirteen_functions_use_reviewed_export (__main__.AdditionalOrdering.test_full_staging_migrations_and_thirteen_functions_use_reviewed_export)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/additional-ordering.py", line 20, in test_full_staging_migrations_and_thirteen_functions_use_reviewed_export
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+======================================================================
+FAIL: test_management_fallback_checks_exact_version_before_each_sql_write (__main__.AdditionalOrdering.test_management_fallback_checks_exact_version_before_each_sql_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/consumer-validation2/attempt2/additional-ordering.py", line 39, in test_management_fallback_checks_exact_version_before_each_sql_write
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : [supabase-deploy][FAIL] DEPLOY_OPERATION_FAILED:edge_inventory
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 12.848s
+
+FAILED (failures=2, errors=1)

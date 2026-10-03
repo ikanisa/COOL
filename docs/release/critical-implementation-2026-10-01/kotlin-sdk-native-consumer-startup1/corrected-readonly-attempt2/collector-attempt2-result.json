@@ -1,0 +1,12 @@
+{
+  "SDK_invocation_repeated": false,
+  "actual_execution_source_path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-startup1/collect_startup.py",
+  "actual_exit_code": 0,
+  "core_source_validator_or_source_exception_changed": false,
+  "exact_executed_source_SHA256": "bd5e1bcc3966322babdce93fb0f983090d161236419524993e94b7f177f33fce",
+  "observation_source": "Actual exec_command return for corrected read-only collector, executed before receipt retention was moved to this separate subtree. No SDK rerun.",
+  "observed_UTC": "2026-10-02T02:54:05.797891+00:00",
+  "original_failed_reader_at_original_path_restored": true,
+  "retained_execution_source_path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-startup1/corrected-readonly-attempt2/collect_startup.py",
+  "tool_wall_time_seconds": 1.9747415830000001
+}

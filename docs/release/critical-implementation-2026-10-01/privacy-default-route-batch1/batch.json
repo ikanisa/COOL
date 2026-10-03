@@ -1,0 +1,198 @@
+{
+  "schema": "collect.local-consumer-evidence.v1",
+  "batch": "privacy-default-route-batch1",
+  "sealed_at": "2026-10-02T00:51:35.324621+00:00",
+  "status": "SCOPED LOCAL DEFAULT PRIVACY ROUTE INTEGRATION PASS",
+  "original_failure_preserved": true,
+  "behavior_acceptance": {
+    "cases": 4,
+    "final_original_source_attempt": "attempt6",
+    "post_header_replay": "affected-security-attempt1"
+  },
+  "broader_consumers": {
+    "actual_cases": 136,
+    "passes": 134,
+    "failures": 2,
+    "receipt": "consumers-attempt1/receipt.json",
+    "fresh_final_full_136_claimed": false
+  },
+  "affected_final_replay": {
+    "actual_cases": 37,
+    "passes": 37,
+    "failures": 0
+  },
+  "real_cache_home": {
+    "passes": 1,
+    "source_scope": "pre-header source; only final production amendment is heading semantics"
+  },
+  "final_analyzer_exit": 0,
+  "post_header_authority_exit": 0,
+  "all_executed_input_maps_unchanged": true,
+  "attempts": {
+    "attempt1": {
+      "receipt": "attempt1/receipt.json",
+      "receipt_sha256": "feffa554d27d3b2dcffafae7924d7fba27f2e9ad01ab8e640120f52ea431a61a",
+      "log": "attempt1/actual-test.log",
+      "log_sha256": "5d4976baa4a60a4be19c4d6f2cb52d36bf7aa8b374fd5c1de160dadb751fa04a",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "attempt2": {
+      "receipt": "attempt2/receipt.json",
+      "receipt_sha256": "1bede167e6ee3cdbddc7eee095cf4c70ad955a779025f0b031a7eb6bf89e015b",
+      "log": "attempt2/actual-test.log",
+      "log_sha256": "b4b6691338e004b0860ff941bbfcc37662474f22f1a5ec01f7f57beef8173bcf",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "attempt3": {
+      "receipt": "attempt3/receipt.json",
+      "receipt_sha256": "65185239e8f9b1186e476babc9a8275cff68a489cf679dae27b9f74312cb168e",
+      "log": "attempt3/actual-test.log",
+      "log_sha256": "ded1ae5037c03d527b0828388cb21b4d797d3f7d0aa48591fd6afc6bbbfdfe91",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "attempt4": {
+      "receipt": "attempt4/receipt.json",
+      "receipt_sha256": "58acaf50743e9da73722acc3b16f66571fed77fe5b8904e861cc491729ae6763",
+      "log": "attempt4/actual-test.log",
+      "log_sha256": "a57890b9781ad7d4be043fb9688a23295aa977cc237a01da94bcd04ded49f8d8",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "attempt5": {
+      "receipt": "attempt5/receipt.json",
+      "receipt_sha256": "fca47e813d8d0d8fc358c4f920de7723726a04211573a03e755eea4a467cd378",
+      "log": "attempt5/actual-test.log",
+      "log_sha256": "2f16e5fa714917372822490f9dddb570f01795a78f36da8d826c1a6bd966201b",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "attempt6": {
+      "receipt": "attempt6/receipt.json",
+      "receipt_sha256": "680e3dda1cb0e5367a700a4c5ac088f825f5d8e0d3f1411c862a8c713770f2a1",
+      "log": "attempt6/actual-test.log",
+      "log_sha256": "61dd76012069635bff913a2aeee6d8897859ccb4d1efcf1f83997540810d6916",
+      "exit_code": 0,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "owner-switch-diagnostic-attempt1": {
+      "receipt": "owner-switch-diagnostic-attempt1/receipt.json",
+      "receipt_sha256": "a47c673985320ecf8504d4b48db4f1209ac3a0b194c80541afbf206093c5b48f",
+      "log": "owner-switch-diagnostic-attempt1/actual-test.log",
+      "log_sha256": "a771074aff33addd9143c8ae0067ffaa458bd0007c0e43ebe08a15db5fe9e6e0",
+      "exit_code": 1,
+      "bound_input_count": 587,
+      "inputs_unchanged": true
+    },
+    "analyzer-attempt1": {
+      "receipt": "analyzer-attempt1/receipt.json",
+      "receipt_sha256": "fccc65747c37b253a3409ea6cddd9dff3cc1051b98599fe30066b237b95cf6ae",
+      "log": "analyzer-attempt1/actual.log",
+      "log_sha256": "9bc89660b15ecb6c068b25cd6aeab46ec1d082743d7955274c66d27ed4fa5428",
+      "exit_code": 1,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "analyzer-attempt2": {
+      "receipt": "analyzer-attempt2/receipt.json",
+      "receipt_sha256": "041774e992c5e866076fb0dc9843e25e4c2eae988482c7500f37ca612758660d",
+      "log": "analyzer-attempt2/actual.log",
+      "log_sha256": "ec710ccb495feb6a9fb805137bc3300790bad47757e9c3158001c66ba9b17acd",
+      "exit_code": 1,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "analyzer-attempt3": {
+      "receipt": "analyzer-attempt3/receipt.json",
+      "receipt_sha256": "e55a6f18897a3434b7d0bbd6e0e249a172847d5a47930b705e623b23aa2b0f80",
+      "log": "analyzer-attempt3/actual.log",
+      "log_sha256": "c38c4e830941710525850f8e260b82b1ce5e4c4a0e5a1b39290d08d72a6e6c34",
+      "exit_code": 0,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "consumers-attempt1": {
+      "receipt": "consumers-attempt1/receipt.json",
+      "receipt_sha256": "6e3be1f40a69421df9dffe55375968e8cf6f4199a42dea4fec2bc72929f111d9",
+      "log": "consumers-attempt1/actual.log",
+      "log_sha256": "4d6db79b0f69488a17d0b610843400a0dca3d02c9f3631214331ec510ed9db8e",
+      "exit_code": 1,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "stale-home-attempt1": {
+      "receipt": "stale-home-attempt1/receipt.json",
+      "receipt_sha256": "fd7c1f6d1cd2753c7fe4e55f67eca97dff3e421027cb703e412d0119e6ba6b4c",
+      "log": "stale-home-attempt1/actual.log",
+      "log_sha256": "02725c204ddc6aac62a849fb66dc2715f9313114f6d1a66c3a91ac50b1322167",
+      "exit_code": 0,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "authority-attempt1": {
+      "receipt": "authority-attempt1/receipt.json",
+      "receipt_sha256": "ebb11dd008483431b178529b950d2dc5acedc499bb4daafd639595be5b1ea7c2",
+      "log": "authority-attempt1/actual.log",
+      "log_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "exit_code": 0,
+      "bound_input_count": 1344,
+      "inputs_unchanged": true
+    },
+    "affected-security-attempt1": {
+      "receipt": "affected-security-attempt1/receipt.json",
+      "receipt_sha256": "d676155c01d3d49dc6d1774a4c645ea2f5bb0396beb52c06818bd515440d709f",
+      "log": "affected-security-attempt1/actual.log",
+      "log_sha256": "f75ae5b4ecec51f380b6470b365e7773ddbfc57440ad1da796eddd1fb8e48e33",
+      "exit_code": 0,
+      "bound_input_count": 1345,
+      "inputs_unchanged": true
+    },
+    "analyzer-attempt4": {
+      "receipt": "analyzer-attempt4/receipt.json",
+      "receipt_sha256": "143280a98ad16d44a144587f05abf696657c63d562909761d7853367083966d3",
+      "log": "analyzer-attempt4/actual.log",
+      "log_sha256": "b42f402c3bb9fee771abdbfd69939d696394ac4ca67d0cb8ffe2010488d69749",
+      "exit_code": 0,
+      "bound_input_count": 1345,
+      "inputs_unchanged": true
+    },
+    "authority-attempt2": {
+      "receipt": "authority-attempt2/receipt.json",
+      "receipt_sha256": "a061b2e449debc1b2f8bc644a8b609e974cb0714e4babb15be6b6148810ed7c0",
+      "log": "authority-attempt2/actual.log",
+      "log_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "exit_code": 0,
+      "bound_input_count": 1345,
+      "inputs_unchanged": true
+    }
+  },
+  "final_production_source_sha256": {
+    "lib/app/router.dart": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb",
+    "lib/shared/repositories/collect_repository.dart": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f",
+    "lib/shared/widgets/screen_scaffold.dart": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd",
+    "lib/features/settings/security_hub_header.dart": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+  },
+  "test_source_sha256": "9f4575aeb0bdde8c29d415a49423ef7ec177dd8ef23eb6a5ceed55e408fff2f2",
+  "current_source_readback": {
+    "path": "final-source-readback.json",
+    "sha256": "56251a4fc888ced2aeca533ee2a9fabed7a88cde5911688e6b80875c3f628fea"
+  },
+  "evidence_index": {
+    "path": "evidence-files.json",
+    "sha256": "5ec929c9fb459a99e6a958f99fccf7e4d20993fd51bef4f8d3e4d29e7425408c",
+    "file_count": 141
+  },
+  "production_approval": false,
+  "native_hosted_visual_legal_full_lifecycle_acceptance": false,
+  "design_authority_hygiene_is_visual_acceptance": false,
+  "prior_public_media_batch3_is_current_source_acceptance": false,
+  "no_external_actions": true
+}

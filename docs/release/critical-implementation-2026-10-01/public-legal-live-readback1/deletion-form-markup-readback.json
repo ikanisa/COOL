@@ -1,0 +1,36 @@
+{
+  "live": {
+    "path": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1/responses/account-deletion-9e7d2e79d0.html",
+    "sha256": "960f8bda950c9b1a057c6bdabea5b7c488730c9c46e462b05f731cd71fb4cccd",
+    "form_count": 0,
+    "forms": [],
+    "input_count": 0,
+    "inputs": [],
+    "buttons": [
+      {
+        "class": "menu-button",
+        "type": "button",
+        "data-menu-button": null,
+        "aria-expanded": "false",
+        "aria-controls": "site-nav"
+      }
+    ]
+  },
+  "candidate": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+    "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+    "form_count": 0,
+    "forms": [],
+    "input_count": 0,
+    "inputs": [],
+    "buttons": [
+      {
+        "class": "menu-button",
+        "type": "button",
+        "data-menu-button": null,
+        "aria-expanded": "false",
+        "aria-controls": "site-nav"
+      }
+    ]
+  }
+}

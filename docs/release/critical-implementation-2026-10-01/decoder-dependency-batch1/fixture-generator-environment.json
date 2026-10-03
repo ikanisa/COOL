@@ -1,0 +1,67 @@
+{
+  "observed_at_utc": "2026-10-01T21:27:13.319119+00:00",
+  "status": "pass",
+  "macos_wheels_verified": [
+    {
+      "package": "pillow",
+      "version": "12.3.0",
+      "filename": "pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "sha256": "ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7",
+      "bytes": 4780323,
+      "wheel_url": "https://files.pythonhosted.org/packages/d8/66/9a386a92561f402389a4fc70c18838bf6d35eb5eb5c6850b4b2dc64f5048/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "local_wheel": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "purpose": "macOS ARM64 task-local fixture generator only; not production Linux wheel lock"
+    },
+    {
+      "package": "pypdfium2",
+      "version": "5.2.0",
+      "filename": "pypdfium2-5.2.0-py3-none-macosx_11_0_arm64.whl",
+      "sha256": "73523ae69cd95c084c1342096893b2143ea73c36fdde35494780ba431e6a7d6e",
+      "bytes": 2816428,
+      "wheel_url": "https://files.pythonhosted.org/packages/5e/7d/efa013e3795b41c59dd1e472f7201c241232c3a6553be4917e3a26b9f225/pypdfium2-5.2.0-py3-none-macosx_11_0_arm64.whl",
+      "local_wheel": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pypdfium2-5.2.0-py3-none-macosx_11_0_arm64.whl",
+      "purpose": "macOS ARM64 task-local fixture generator only; not production Linux wheel lock"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-m",
+        "venv",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-venv"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-index",
+        "--only-binary=:all:",
+        "--require-hashes",
+        "--find-links",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels",
+        "-r",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/fixture-generator-macos-arm64.lock"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "installed_versions": {
+    "python": "3.12.14",
+    "packages": {
+      "Pillow": "12.3.0",
+      "pypdf": "6.19.0",
+      "pypdfium2": "5.2.0",
+      "openpyxl": "3.1.5",
+      "defusedxml": "0.7.1",
+      "et-xmlfile": "2.0.0"
+    }
+  },
+  "macos_fixture_lock_sha256": "32e5ead6d9034cd0ee0f62a8057f2fd77671280476b920666d0918c6dc804de3",
+  "global_install": false,
+  "public_provider_calls": 0
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "integrated_at": "2026-10-01T16:29:34.350910+00:00",
+  "source_freeze_released_by_authorized_build_owner": true,
+  "evidence_packet_manifest_sha256": "7422acb9119215e474b577fa33e2127414b0c97d459aadf11835bbbef52cf982",
+  "passing_scope": "one complete39-check staged SQL execution; canonical bytes exactly match",
+  "promoted_files": [
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/20261001210000_receipt_worker_bounded_sweep.sql",
+      "canonical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+      "sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+      "bytes": 8005
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/receipt_worker_bounded_sweep_uat.py",
+      "canonical": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/receipt_worker_bounded_sweep_uat.py",
+      "sha256": "9719ccd02ae144abda24e3793f7d84ec5b98b93a959d05955aa71d7a2f9add1e",
+      "bytes": 32012
+    }
+  ],
+  "captured_prior_candidates_preserved": true,
+  "whole_current_candidate_replayed": false,
+  "canonical_migrations": 188,
+  "hosted_changes": false,
+  "sms_sent": false,
+  "complete_worker_retention": false,
+  "readback": "PASS"
+}

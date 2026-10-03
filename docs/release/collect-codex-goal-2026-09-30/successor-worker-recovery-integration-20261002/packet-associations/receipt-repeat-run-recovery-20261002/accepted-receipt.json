@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "sql_checks": 93,
+  "sql_command_receipts": 507,
+  "owned_docker_targets_removed": 11,
+  "current_owned_target_inventory": {
+    "argv": [
+      "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "ps",
+      "-a",
+      "--filter",
+      "name=repeat_run_recovery",
+      "--format",
+      "{{.Names}}"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "tool_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34"
+  },
+  "actual_reader_fixtures": 7,
+  "mapped_negative_checks": 7,
+  "actual_edge_producer_contract_fixtures": 74,
+  "flutter_checks": 35,
+  "analysis_files": 4,
+  "sole_design_authority_hygiene": "pass",
+  "source_and_tools_verified_current_at_seal": true,
+  "promotion_files": 10,
+  "additions": 9,
+  "modifications": 1,
+  "sql_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+  "model_base": {
+    "base": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_operational_history_models.dart",
+    "base_sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9",
+    "proposed_sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c",
+    "sql_namespace": "c1c49625-b8d9-4278-998e-6758a0b945d4",
+    "legacy_rule_preserved": true,
+    "new_mapped_actions": 1,
+    "new_mapped_sms_segments": 0
+  },
+  "scope": "retained synthetic192 checkpoint plus10 exact selected current definitions, exact admitted private430, canonical corrected600 and private700 then800; actual NOSUPERUSER installation and finite mapped-source compatibility proof; no complete203/current candidate replay",
+  "no_canonical_writes": true,
+  "hosted_provider_device_signed_http_or_full_visual_claim": false,
+  "finished_at": "2026-10-02T01:40:45.941346+00:00"
+}

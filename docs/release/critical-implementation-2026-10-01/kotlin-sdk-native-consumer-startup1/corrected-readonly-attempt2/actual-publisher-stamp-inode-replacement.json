@@ -1,0 +1,53 @@
+{
+  "authenticated_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "before_after_difference": {
+    "flutter/bin/cache/engine.stamp": {
+      "after": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 58897783,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      },
+      "before": {
+        "CRC": 3138191385,
+        "bytes": 41,
+        "device": 16777232,
+        "inode": 58771407,
+        "kind": "regular",
+        "mode": 420,
+        "nlink": 1,
+        "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+      }
+    }
+  },
+  "core_source_validator_or_execution_authorization_changed": false,
+  "current_stable_stamp": {
+    "bytes": 41,
+    "device": 16777232,
+    "inode": 58897783,
+    "mode": 420,
+    "mtime_ns": 1790909458138051112,
+    "nlink": 1,
+    "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "exact_publisher_updater_source": {
+    "bytes": 3112,
+    "device": 16777232,
+    "inode": 58772077,
+    "mode": 493,
+    "mtime_ns": 1790908558042331112,
+    "nlink": 1,
+    "sha256": "6d71ef5d911243afdc83a4238b65159aad7905d7b19cb2464db40e347536ebb4"
+  },
+  "publisher_updater_source_lines": [
+    67,
+    69,
+    71
+  ],
+  "scope": "Actual one named owned inode replacement only; no source/binary byte or mode exception.",
+  "unchanged_source_statement": "echo \"$ENGINE_VERSION\" >\"$es_tmp\" && mv \"$es_tmp\" \"$FLUTTER_ROOT/bin/cache/engine.stamp\""
+}

@@ -1,0 +1,4 @@
+{
+  "proposed_resolver_or_tests_changed_due_to_plan_error": false,
+  "retained_preparation_error": "Initial optional cached-module inspection assumed module.component equals URL coordinate; assertion stopped before writing a plan. Coroutines reciprocal-root metadata disproved that assumption. Final plan records linkage explicitly and admits no artifacts."
+}

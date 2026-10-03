@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/qa/roster_wheelhouse.py", line 149, in read_file
+    fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fds[-1])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'publisher-inputs.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/tests/verify_roster_decoder.py", line 189, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/tests/verify_roster_decoder.py", line 71, in main
+    result['wheelhouse']=prepare_build_context(decoder_directory=ROOT/'tools/roster-decoder',
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/qa/roster_wheelhouse.py", line 348, in prepare_build_context
+    pinned = read_file(receipt, budget, MAX_RECEIPT)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/qa/roster_wheelhouse.py", line 169, in read_file
+    deny("file_missing_or_unsafe")
+  File "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3/source/scripts/qa/roster_wheelhouse.py", line 41, in deny
+    raise WheelhouseError(code)
+roster_wheelhouse.WheelhouseError: file_missing_or_unsafe

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/security/phone_normalizer.dart';
+import 'admin_email_otp.dart';
 import 'admin_auth_guard.dart';
 import 'admin_repository_base.dart';
 import 'admin_review_credentials.dart';
@@ -21,7 +21,6 @@ List<Override> adminEvidenceOverrides() {
 const _evidenceAdmin = AdminIdentity(
   userId: '00000000-0000-0000-0000-00000000e001',
   displayName: 'Collect evidence admin',
-  phoneMasked: '+250***6816',
   roles: ['admin'],
   permissions: [
     'overview.read',
@@ -103,6 +102,23 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     String rpcName,
     Map<String, dynamic> params,
   ) async {
+    if (rpcName == 'admin_get_operator_approval_v1') {
+      final granted = '${params['p_user_id']}'.startsWith('99740000-');
+      return {
+        'contract_version': 1,
+        'user_id': params['p_user_id'],
+        'provider': 'email',
+        'mode': 'email',
+        'identity_masked': 'o***@***',
+        'approved_at': granted ? '2026-09-02T10:00:00Z' : null,
+        'expires_at': null,
+        'status': granted ? 'approved' : 'not_approved',
+        'approved': granted,
+        'role_granted': granted,
+        'admin_access': granted,
+        'access_status': granted ? 'active' : 'revoked',
+      };
+    }
     if (rpcName == 'admin_get_whatsapp_approval') {
       final granted = '${params['p_user_id']}'.startsWith('admin-user-');
       return {
@@ -412,7 +428,9 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
 
   @override
   Future<void> sendOtp({required String phone}) async {
-    _requireReviewPhone(phone);
+    throw UnsupportedError(
+      'Legacy phone OTP is unavailable in this email review fixture.',
+    );
   }
 
   @override
@@ -423,7 +441,22 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     required String phone,
     required String otp,
   }) async {
-    _requireReviewPhone(phone);
+    throw UnsupportedError(
+      'Legacy phone OTP is unavailable in this email review fixture.',
+    );
+  }
+
+  @override
+  Future<void> sendEmailOtp({required String email}) async {
+    _requireReviewEmail(email);
+  }
+
+  @override
+  Future<AdminIdentity?> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    _requireReviewEmail(email);
     if (otp.trim() != adminEvidenceOtp) {
       throw const FormatException('Developer OTP token is invalid.');
     }
@@ -431,12 +464,10 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   }
 }
 
-void _requireReviewPhone(String phone) {
-  final normalized = PhoneNormalizer.normalizeRwanda(phone);
-  if (normalized != adminEvidenceWhatsAppPhone) {
-    throw const FormatException(
-      'Use the dedicated developer admin WhatsApp phone.',
-    );
+void _requireReviewEmail(String email) {
+  final normalized = normalizeAdminEmail(email);
+  if (normalized != adminEvidenceEmail) {
+    throw const FormatException('Use the synthetic local review email.');
   }
 }
 
@@ -476,7 +507,8 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_members' ||
   'admin_list_non_member_users' => 'user-$index',
   'admin_list_collections' => 'collection-$index',
-  'admin_list_admin_users' => 'admin-user-$index',
+  'admin_list_admin_users' =>
+    '99740000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
   'admin_list_notifications' => 'notification-$index',
   'admin_list_hybrid_sms_receipts' => 'sms-receipt-$index',
   _ => 'momo-$rpcName-$index',
@@ -508,7 +540,7 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
     2 => 'MoMo receipt intake',
     _ => 'Member notifications',
   },
-  'admin_list_admin_users' => '+250 78•••${6800 + index}',
+  'admin_list_admin_users' => 'Synthetic operator $index',
   _ => 'Rwanda MoMo record $index',
 };
 
@@ -596,7 +628,7 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
   }
   if (rpcName == 'admin_list_admin_users') {
     return {
-      'phone_masked': '+250 78•••${6800 + index}',
+      'phone_masked': null,
       'roles': ['admin'],
     };
   }

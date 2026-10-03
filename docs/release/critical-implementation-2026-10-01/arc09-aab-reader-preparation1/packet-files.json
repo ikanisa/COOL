@@ -1,0 +1,92 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 5978,
+    "sha256": "69096df2435b6e00216c579381375547b3abf92ca379c65e11126619b27b92d9",
+    "mode": "0o644"
+  },
+  {
+    "path": "aab_readback.py",
+    "bytes": 15627,
+    "sha256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f",
+    "mode": "0o644"
+  },
+  {
+    "path": "bindings.example.json",
+    "bytes": 1816,
+    "sha256": "177903b0d14f8dbe3ca4e67ef8ea94e0d59a042ec33591de9a36aef32be53c01",
+    "mode": "0o644"
+  },
+  {
+    "path": "final-tests-result.json",
+    "bytes": 1578,
+    "sha256": "5878e62db08d87191f86934549dbeba07da6b6afc143d86818e9cc103a937702",
+    "mode": "0o644"
+  },
+  {
+    "path": "final-tests.stderr",
+    "bytes": 1689,
+    "sha256": "7070df331de6fb5084f403975a189cdc77ad0127ca7edc2c45107d87b1a69463",
+    "mode": "0o644"
+  },
+  {
+    "path": "final-tests.stdout",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mode": "0o644"
+  },
+  {
+    "path": "handoff.json",
+    "bytes": 1002,
+    "sha256": "b3ac446fee76e2d5cf5cc6156a7c2b1231cf7ccc5ff3374e0ffce63e73245758",
+    "mode": "0o644"
+  },
+  {
+    "path": "inspected-reference-inputs.json",
+    "bytes": 1237,
+    "sha256": "1a93a8b4db2fae6eff3714529a30b49610cf1add4759a3381681e1e1e452c99e",
+    "mode": "0o644"
+  },
+  {
+    "path": "submitted-tests-result.json",
+    "bytes": 1819,
+    "sha256": "830b2241ab6673ebe8d6467cd567ae401a6c584b7689f627bc9f6aec3d94a48a",
+    "mode": "0o644"
+  },
+  {
+    "path": "submitted-tests.stderr",
+    "bytes": 1689,
+    "sha256": "a0cfadef618d7c68adb523f2161ad1917e3ff964278449aa0a618800b9efebd7",
+    "mode": "0o644"
+  },
+  {
+    "path": "submitted-tests.stdout",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mode": "0o644"
+  },
+  {
+    "path": "test_aab_readback.py",
+    "bytes": 9273,
+    "sha256": "046aa42d82068f757e1c2735e71515a35a67ee04c8f26ba772cca7aeb683d457",
+    "mode": "0o644"
+  },
+  {
+    "path": "tests-result.json",
+    "bytes": 1578,
+    "sha256": "094c69cc353ff549777479517ee0116a0f222a42bc2f17f0e266842045231d43",
+    "mode": "0o644"
+  },
+  {
+    "path": "tests.stderr",
+    "bytes": 1204,
+    "sha256": "0217f4b9af9e12c69d955c85903a2d9f3cda0123c2473ba3018da1dabbdd25af",
+    "mode": "0o644"
+  },
+  {
+    "path": "tests.stdout",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mode": "0o644"
+  }
+]

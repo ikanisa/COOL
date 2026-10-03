@@ -1,0 +1,70 @@
+{
+  "canonical_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "promoter": "root only",
+  "changes": [
+    {
+      "path": "supabase/migrations/20261001260000_receipt_source_busy_deferral.sql",
+      "old_sha256": null,
+      "new_sha256": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-supervisor/operations_contract.ts",
+      "old_sha256": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+      "new_sha256": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_contract.ts",
+      "old_sha256": "077ff4a8199244dd2401279d8658883dc5b3ce179b2e6f2d32a19a689bb10eb3",
+      "new_sha256": "a26e4b8bfadb5fc787413d93d283916035240c44d615778a8b7ce3be6b11fa61",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_models.dart",
+      "old_sha256": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5",
+      "new_sha256": "d5fc9be9c24266c2ad8d9e48ee78b0eb05485785e1e068f501225f21cbbbaa28",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_deferral_models.dart",
+      "old_sha256": "de0973a727b0c56cba30fe25a8e5ed209f795b4fbd2ef8ff3f9defd2f29004e9",
+      "new_sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66",
+      "old_mode": 420,
+      "promotion_mode": 420,
+      "status": "modify"
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_source_busy.test.ts",
+      "old_sha256": null,
+      "new_sha256": "588a07e3a53c4ad95e3a223a04e6c6f3d1e3a27d863581b728febcbec3e4dd2d",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new"
+    },
+    {
+      "path": "scripts/tests/admin_receipt_source_busy_test.dart",
+      "old_sha256": null,
+      "new_sha256": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new"
+    },
+    {
+      "path": "scripts/tests/receipt_source_busy_uat.py",
+      "old_sha256": null,
+      "new_sha256": "f6d3cbbb68eccdd60a101064afc261fe9052003029dd5e66227d5b1867025c57",
+      "old_mode": null,
+      "promotion_mode": 420,
+      "status": "new"
+    }
+  ]
+}

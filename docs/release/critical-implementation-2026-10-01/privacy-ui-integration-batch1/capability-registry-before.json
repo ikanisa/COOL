@@ -1,0 +1,904 @@
+{
+  "schema_version": 1,
+  "product": "Collect",
+  "region": "RW",
+  "currency": "RWF",
+  "status": "engineering_observed",
+  "approval": {
+    "owner_approved": false,
+    "publication_approved": false,
+    "legal_release_approved": false,
+    "provider_approved": false,
+    "approved_by": null,
+    "approval_evidence": null
+  },
+  "source_inputs": {
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "lib/features/collections/group_creation_platform.dart": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+    "lib/core/payments/momo_ussd_launcher.dart": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+    "lib/core/security/sms_access_channel.dart": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+    "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt": "9c8ce69748cf70944f60e73802acdcbc4fac7e6273e57d43858a848903108b5d",
+    "ios/Runner/AppDelegate.swift": "363b1ae041190433ebb878971dd47959ac3e90d0a21014fdec4c82cf8d219c3f",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/settings/settings_subscreens.dart": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f"
+  },
+  "capabilities": [
+    {
+      "id": "group_records",
+      "label": "Group records",
+      "availability": {
+        "android": "supported",
+        "ios": "supported",
+        "web": "supported",
+        "basic_phone": "unavailable"
+      },
+      "summary": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.",
+      "evidence": [
+        "docs/PRODUCT.md",
+        "lib/shared/models/collect_models.dart",
+        "lib/shared/models/collect_profile_country_rules.dart",
+        "lib/app/router.dart"
+      ],
+      "eligibility": [
+        "Rwanda (RW); RWF",
+        "Verified Rwanda WhatsApp sign-in and complete Rwanda MoMo profile for member operations",
+        "Membership and role permissions apply"
+      ],
+      "implemented_action": {
+        "label": "Get the App",
+        "href": "https://play.google.com/store/apps/details?id=app.cool.mobile"
+      },
+      "fallback_action": {
+        "label": "Ask about Collect",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "private_group_creation",
+      "label": "Private-group creation",
+      "availability": {
+        "android": "supported",
+        "ios": "unavailable",
+        "web": "unavailable",
+        "basic_phone": "unavailable"
+      },
+      "summary": "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.",
+      "evidence": [
+        "docs/PRODUCT.md",
+        "lib/features/collections/group_creation_platform.dart"
+      ],
+      "eligibility": [
+        "Eligible Android build",
+        "Recorded SMS consent",
+        "Play Integrity device verification"
+      ],
+      "implemented_action": {
+        "label": "Create a group on Android",
+        "href": "https://play.google.com/store/apps/details?id=app.cool.mobile"
+      },
+      "fallback_action": {
+        "label": "Ask about Collect",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "momo_ussd",
+      "label": "MoMo USSD handoff",
+      "availability": {
+        "android": "supported",
+        "ios": "unavailable",
+        "web": "unavailable",
+        "basic_phone": "unavailable"
+      },
+      "summary": "Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt.",
+      "evidence": [
+        "docs/PRODUCT.md",
+        "lib/core/payments/momo_ussd_launcher.dart",
+        "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "ios/Runner/AppDelegate.swift",
+        "lib/shared/models/collect_models.dart"
+      ],
+      "eligibility": [
+        "Rwanda MTN MoMo or Airtel Money",
+        "Whole-RWF amount",
+        "Approved group receiver; complete member profile",
+        "Provider authorization and governed finality remain separate"
+      ],
+      "implemented_action": {
+        "label": "Use the Android app",
+        "href": "https://play.google.com/store/apps/details?id=app.cool.mobile"
+      },
+      "fallback_action": {
+        "label": "Ask about Collect",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "receipt_sms",
+      "label": "Consented receipt SMS",
+      "availability": {
+        "android": "supported",
+        "ios": "unavailable",
+        "web": "unavailable",
+        "basic_phone": "unavailable"
+      },
+      "summary": "Eligible Android receiver devices may submit newly arriving MoMo receipt SMS as candidate evidence. Consent can be withdrawn; SMS history and Call Logs are not read.",
+      "evidence": [
+        "lib/core/security/sms_access_channel.dart",
+        "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt"
+      ],
+      "eligibility": [
+        "Eligible Android receiver device",
+        "Explicit current consent and permissions",
+        "Candidate evidence only"
+      ],
+      "implemented_action": {
+        "label": "Read about Android receipt consent",
+        "href": "https://play.google.com/store/apps/details?id=app.cool.mobile"
+      },
+      "fallback_action": {
+        "label": "Ask about Collect",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "support",
+      "label": "Support and deletion requests",
+      "availability": {
+        "android": "assisted",
+        "ios": "assisted",
+        "web": "assisted",
+        "basic_phone": "unavailable"
+      },
+      "summary": "For a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion.",
+      "evidence": [
+        "lib/features/settings/settings_screen.dart",
+        "lib/features/settings/settings_subscreens.dart",
+        "lib/features/status/account_legal_screens.dart"
+      ],
+      "eligibility": [
+        "Identity verification may be required",
+        "Eligible deletion; lawful retention and holds apply"
+      ],
+      "implemented_action": {
+        "label": "Email Collect support",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "fallback_action": {
+        "label": "Ask about Collect",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "basic_phone",
+      "label": "Basic-phone access",
+      "availability": {
+        "android": "planned",
+        "ios": "planned",
+        "web": "planned",
+        "basic_phone": "planned"
+      },
+      "summary": "A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service.",
+      "evidence": [
+        "docs/PRODUCT.md"
+      ],
+      "eligibility": [
+        "No verified basic-phone Collect journey"
+      ],
+      "implemented_action": {
+        "label": "Ask about basic-phone plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "fallback_action": {
+        "label": "Ask about basic-phone plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "credit_readiness",
+      "label": "Credit readiness",
+      "availability": {
+        "android": "planned",
+        "ios": "planned",
+        "web": "planned",
+        "basic_phone": "planned"
+      },
+      "summary": "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+      "evidence": [
+        "docs/PRODUCT.md"
+      ],
+      "eligibility": [
+        "No approved service intake or service-delivery evidence"
+      ],
+      "implemented_action": {
+        "label": "Ask about credit-readiness plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "fallback_action": {
+        "label": "Ask about credit-readiness plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "loans",
+      "label": "Bank and credit directions",
+      "availability": {
+        "android": "provider_dependent",
+        "ios": "provider_dependent",
+        "web": "provider_dependent",
+        "basic_phone": "provider_dependent"
+      },
+      "summary": "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.",
+      "evidence": [
+        "docs/PRODUCT.md"
+      ],
+      "eligibility": [
+        "Named licensed provider and approved arrangement required",
+        "Provider eligibility, assessment, pricing and approval required"
+      ],
+      "implemented_action": {
+        "label": "Ask about provider plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "fallback_action": {
+        "label": "Ask about provider plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    },
+    {
+      "id": "insurance",
+      "label": "Insurance direction",
+      "availability": {
+        "android": "provider_dependent",
+        "ios": "provider_dependent",
+        "web": "provider_dependent",
+        "basic_phone": "provider_dependent"
+      },
+      "summary": "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+      "evidence": [
+        "docs/PRODUCT.md"
+      ],
+      "eligibility": [
+        "Named licensed insurer and approved arrangement required",
+        "Policy terms, pricing, eligibility and working enrollment/claims routes required"
+      ],
+      "implemented_action": {
+        "label": "Ask about insurance plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "fallback_action": {
+        "label": "Ask about insurance plans",
+        "href": "mailto:info@ikanisa.com"
+      },
+      "owner_approved": false,
+      "provider_approved": false,
+      "hosted_conversion_verified": false
+    }
+  ],
+  "common": {
+    "product_summary": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.",
+    "payment_summary": "Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt.",
+    "payment_safety": "Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.",
+    "finality": "A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.",
+    "creation": "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.",
+    "platform_limits": "The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake.",
+    "basic_phone": "A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service.",
+    "credit_readiness": "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+    "loans": "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.",
+    "insurance": "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+    "support": "For a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion.",
+    "regulatory_footer": "IKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app."
+  },
+  "static_pages": {
+    "/": {
+      "description": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.",
+      "intro": "Collect helps ibimina, community groups and daily earners keep clearer Rwanda MoMo contribution records. Credit readiness and insurance remain planned directions with separate provider requirements.",
+      "h1": "Microsavings and group savings for daily earners",
+      "sections": [
+        [
+          "Microsavings and daily savings",
+          "Record small, regular whole-RWF contributions for people who earn daily.",
+          [
+            "Rwanda; RWF",
+            "Eligible Android USSD handoff",
+            "Provider charges may apply"
+          ]
+        ],
+        [
+          "Group savings",
+          "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.",
+          [
+            "Private member-led groups",
+            "Membership and role controls",
+            "Contribution history"
+          ]
+        ],
+        [
+          "Credit-readiness direction",
+          "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+          [
+            "Planned service",
+            "No active preparation intake",
+            "Contact IKANISA for information"
+          ]
+        ],
+        [
+          "Bank and credit directions",
+          "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.",
+          [
+            "Provider-dependent",
+            "No lending or deposit custody",
+            "No approval promise"
+          ]
+        ],
+        [
+          "Insurance direction",
+          "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+          [
+            "Provider-dependent",
+            "No enrollment or claims service",
+            "No cover or payout promise"
+          ]
+        ]
+      ]
+    },
+    "/group-savings/": {
+      "description": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.",
+      "intro": "Your group keeps its own governance. Collect adds Rwanda MoMo contribution records, with pending, review and reconciled states shown separately."
+    },
+    "/insurance/": {
+      "description": "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+      "h1": "A planned direction for everyday protection.",
+      "intro": "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+      "summary_label": "Planned insurance direction",
+      "sections_heading": "Illustrative provider products, not available Collect cover",
+      "sections": [
+        [
+          "Income Protection",
+          "A future insurer could define a benefit for covered income interruption. No Collect policy or benefit is offered here.",
+          []
+        ],
+        [
+          "Credit Life Protection",
+          "A future insurer could define cover for an eligible outstanding loan. Provider eligibility and exclusions would apply; no Collect cover is offered here.",
+          []
+        ],
+        [
+          "Credit Repayment Protection",
+          "A future insurer could define temporary repayment cover. No Collect cover or payout is offered here.",
+          []
+        ],
+        [
+          "Group Savings Protection",
+          "A future insurer could define contribution-related cover. No Collect policy, enrollment or payout is offered here.",
+          []
+        ]
+      ]
+    },
+    "/craas/": {
+      "description": "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+      "intro": "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+      "h1": "A planned approach to credit-readiness support.",
+      "summary_label": "Planned credit-readiness direction",
+      "sections_heading": "Proposed preparation stages, not an active service",
+      "sections": [
+        [
+          "Loan inquiry",
+          "A future preparation service would begin with the business’s financing purpose and needs.",
+          []
+        ],
+        [
+          "Service intake",
+          "An approved service would need a real intake, scope and responsible service owner. None is offered on this page.",
+          []
+        ],
+        [
+          "Requirement mapping",
+          "Any future file would use a named lender’s current requirements, without promising eligibility.",
+          []
+        ],
+        [
+          "Document preparation",
+          "Any professional assistance would require separately confirmed scope, availability and engagement.",
+          []
+        ],
+        [
+          "Service coordination",
+          "Coordination and specialist services remain planned until supported delivery arrangements exist.",
+          []
+        ],
+        [
+          "Provider review",
+          "A lender would retain its own assessment, pricing, approval and disbursement decisions.",
+          []
+        ]
+      ]
+    },
+    "/community-groups/": {
+      "intro": "Collect adds Rwanda group-contribution records while your group keeps its own relationships, leadership and rules. Bank credit, insurance and basic-phone Collect access are separate planned directions.",
+      "infographic": {
+        "title": "What the current app supports",
+        "body": "The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake.",
+        "steps": [
+          [
+            "For group leaders",
+            [
+              "Create private groups on eligible Android builds",
+              "Invite members by private link or QR",
+              "Review contributions within authorized roles",
+              "Keep group and payer records separate"
+            ]
+          ],
+          [
+            "For members",
+            [
+              "Inspect the Rwanda MoMo receiver and whole-RWF amount",
+              "Use Android for the app’s USSD handoff",
+              "Review pending and reconciled contribution records",
+              "Keep personal evidence out of public links"
+            ]
+          ]
+        ]
+      },
+      "sections": [
+        [
+          "Moto-taxi groups",
+          "Set a contribution purpose such as licensing, taxes or a future insurance purchase. Collect does not supply insurance.",
+          []
+        ],
+        [
+          "Agricultural cooperatives",
+          "Track contributions toward inputs, equipment or working-capital goals without an automatic finance offer.",
+          []
+        ],
+        [
+          "Women and youth groups",
+          "Keep clearer Rwanda contribution records. Credit-readiness assistance remains planned.",
+          []
+        ],
+        [
+          "MSME associations",
+          "Coordinate group records for business goals. Loan and professional service availability requires separate arrangements.",
+          []
+        ]
+      ]
+    },
+    "/our-partners/": {
+      "description": "Collect’s current group-record system and prospective licensed-provider directions for Rwanda. No current banking or insurance partnership is claimed.",
+      "intro": "Collect records Rwanda group contributions. Bank-linked deposits, credit, micro-repayments and insurance are prospective provider directions; no named arrangement or active service is offered here.",
+      "summary_label": "Prospective provider directions",
+      "infographic": {
+        "title": "A prospective provider workflow",
+        "body": "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.",
+        "steps": [
+          [
+            "Contribution records",
+            "Collect’s existing role is group record keeping, without deposit custody."
+          ],
+          [
+            "Preparation direction",
+            "Readiness services would need separately approved intake and delivery."
+          ],
+          [
+            "Provider decisions",
+            "A licensed provider would keep eligibility, pricing, approval and disbursement."
+          ],
+          [
+            "Discuss the plans",
+            "Contact IKANISA for information; this is not a product application."
+          ]
+        ]
+      }
+    }
+  },
+  "public_faqs": {
+    "/": [
+      [
+        "What is Collect?",
+        "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service."
+      ],
+      [
+        "Does Collect hold customer deposits?",
+        "Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect."
+      ],
+      [
+        "Can I use Collect without a smartphone?",
+        "A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service."
+      ],
+      [
+        "Is credit guaranteed?",
+        "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised."
+      ]
+    ],
+    "/group-savings/": [
+      [
+        "Can an existing ibimina use Collect?",
+        "The app supports Rwanda group-contribution records. Each group keeps its own agreed rules."
+      ],
+      [
+        "Who sees member records?",
+        "Membership and role controls determine access. Public pages do not expose customer receipts or phone numbers."
+      ],
+      [
+        "How does a group start?",
+        "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups."
+      ],
+      [
+        "When is a contribution confirmed?",
+        "A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy."
+      ]
+    ],
+    "/insurance/": [
+      [
+        "Is insurance available through Collect?",
+        "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here."
+      ],
+      [
+        "Does Collect issue insurance?",
+        "No. Any future policy would require a named licensed insurer, approved arrangement and policy terms."
+      ],
+      [
+        "What happens during a claim?",
+        "No Collect claims journey is available here. A future insurer would retain claim decisions and payouts."
+      ],
+      [
+        "How can I ask about the plans?",
+        "Email info@ikanisa.com for information, not enrollment."
+      ]
+    ],
+    "/craas/": [
+      [
+        "What does CRaaS mean?",
+        "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans."
+      ],
+      [
+        "Is there an active preparation service?",
+        "No approved intake or delivery arrangement is offered on this page."
+      ],
+      [
+        "Does this replace a lender’s credit team?",
+        "No. Any future lender retains assessment, pricing and approval."
+      ],
+      [
+        "How can I ask about the plans?",
+        "Email info@ikanisa.com for information, not a loan application."
+      ]
+    ],
+    "/community-groups/": [
+      [
+        "Which groups can use Collect?",
+        "Rwanda ibimina, family, community, faith, sport and event groups can keep contribution records, subject to membership and profile requirements."
+      ],
+      [
+        "Does Collect replace group leaders?",
+        "No. Groups keep their own governance; Collect supports records."
+      ],
+      [
+        "Can groups save toward a goal?",
+        "A group can state a contribution purpose. Naming insurance or a business goal does not provide that product or finance."
+      ],
+      [
+        "Can members use USSD?",
+        "The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake. A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service."
+      ]
+    ],
+    "/our-partners/": [
+      [
+        "Does this page name a current partner?",
+        "No. Bank, credit and insurance directions need separate approved provider arrangements."
+      ],
+      [
+        "Does Collect take over regulated obligations?",
+        "No. A licensed provider would retain its own obligations and decisions."
+      ],
+      [
+        "Are market numbers Collect traction?",
+        "No. Market figures describe the opportunity, not Collect customer volume."
+      ],
+      [
+        "How should an institution start?",
+        "Email info@ikanisa.com to discuss the plans; no partnership or product approval is implied."
+      ]
+    ],
+    "/trust/": [
+      [
+        "Does Collect sell personal data?",
+        "The public privacy notice states that personal data is not sold."
+      ],
+      [
+        "Does AI make financial decisions?",
+        "Collect is a record-keeping service. Any future lender or insurer retains its decisions."
+      ],
+      [
+        "How do customers request deletion?",
+        "For a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion."
+      ],
+      [
+        "Why does limited retention exist?",
+        "Eligible deletion is subject to lawful record retention and holds described in the privacy notice."
+      ]
+    ]
+  },
+  "detail": {
+    "home_journey_heading": "From contributions to clearer records, with future service directions kept separate",
+    "home_journey": [
+      [
+        "Save",
+        "Use the eligible Android app for Rwanda MoMo USSD contributions."
+      ],
+      [
+        "Build a record",
+        "Review pending and reconciled group activity."
+      ],
+      [
+        "Preparation plans",
+        "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans."
+      ],
+      [
+        "Credit direction",
+        "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised."
+      ],
+      [
+        "Protection direction",
+        "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here."
+      ],
+      [
+        "Group goals",
+        "Keep a stated contribution purpose; no investment or finance return is promised."
+      ]
+    ],
+    "home_products": [
+      [
+        "Group Savings",
+        "Keep Rwanda MoMo group records. Provider charges may apply.",
+        "/group-savings/",
+        "Explore Group Savings"
+      ],
+      [
+        "Credit Readiness",
+        "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+        "/craas/",
+        "Read the CRaaS plans"
+      ],
+      [
+        "Insurance",
+        "Insurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.",
+        "/insurance/",
+        "Read the insurance plans"
+      ]
+    ],
+    "msme_summary": "MSMEs can keep group-contribution records. Coordinated loan preparation and specialist services remain planned.",
+    "group_how_steps": [
+      [
+        "Create the group",
+        "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups."
+      ],
+      [
+        "Invite members",
+        "Use a private link or QR code. Member operations require a complete Rwanda MoMo profile."
+      ],
+      [
+        "Approve in USSD",
+        "Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt."
+      ],
+      [
+        "Review the record",
+        "A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy."
+      ],
+      [
+        "Future directions",
+        "Partner-led credit and insurance are not available through the current app. Contact IKANISA for information."
+      ]
+    ],
+    "group_features": [
+      [
+        "Transparent group ledger",
+        "Reconciled contributions are allocated to the authorized member and group."
+      ],
+      [
+        "Member records",
+        "Members review personal contribution activity within their permissions."
+      ],
+      [
+        "Group purpose",
+        "Groups keep their own agreed contribution purpose and rules."
+      ],
+      [
+        "Role controls",
+        "Authorized group roles see appropriate records; private details remain protected."
+      ],
+      [
+        "Purpose-based goals",
+        "A group can contribute toward school fees, assets or emergencies. Naming a purpose does not provide insurance, credit or an investment product."
+      ],
+      [
+        "Basic-phone plans",
+        "A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service."
+      ],
+      [
+        "No custody",
+        "Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect."
+      ],
+      [
+        "Credit direction",
+        "Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised."
+      ]
+    ],
+    "accumulation_summary": "Groups choose their own rotation or accumulation rules. Collect records contributions; it does not hold group capital, establish collateral, provide investments or promise credit. Any financial arrangement needs separate supported provider terms.",
+    "insurance_how_steps": [
+      "This is a planned, provider-dependent direction; no product is available here.",
+      "A future offering would need a named licensed insurer and approved arrangement.",
+      "Eligibility, premium, exclusions and policy terms would need to be clear before enrollment.",
+      "Premium collection and proof of cover require a separately validated provider journey.",
+      "Claims support requires confirmed service scope and working customer routes.",
+      "The licensed insurer would retain claim decisions and any valid payout."
+    ],
+    "premium_finance": "Premium finance is a prospective licensed-provider direction. No bank arrangement, credit offer or premium financing is available through this page.",
+    "craas_specialist_heading": "Possible specialist scopes for a future service",
+    "craas_bank_heading": "Possible file contents for future provider review",
+    "craas_benefits_heading": "Potential benefits, subject to a supported service arrangement",
+    "partner_engine_intro": "These are prospective opportunities, not current Collect deposit, lending or insurance services.",
+    "partner_deposits": "A future licensed bank arrangement would require separately supported account, payment and customer journeys. Collect does not mobilise or hold deposits here.",
+    "partner_lending": "Daily-income lending and repayment remain prospective licensed-provider directions. No loan product or repayment integration is offered in Collect.",
+    "partner_records": "A member may discuss their own records with a provider; no provider recognition, collateral value or credit eligibility is promised.",
+    "partner_credit_readiness": "Credit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.",
+    "partner_collect_heading": "Current Collect role and planned scopes",
+    "partner_collect_provides": [
+      "Eligible Android private-group creation",
+      "Permission-controlled group and member records",
+      "Planned credit-readiness direction; no active service intake",
+      "Prospective micro-repayment direction; no active integration"
+    ],
+    "partner_bank_heading": "A future licensed provider would need to supply",
+    "partner_value_heading": "Potential provider value",
+    "partner_value_intro": "A future supported provider arrangement could explore these outcomes; they are not observed Collect delivery:"
+  },
+  "flutter_pages": [
+    {
+      "path": "/group-savings",
+      "navLabel": "How it works",
+      "title": "Rwanda MoMo contributions in one clear ledger.",
+      "intro": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.",
+      "sections": [
+        {
+          "title": "Create the group and invite members",
+          "body": "Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.",
+          "bullets": [
+            "Members use six-digit Collect IDs",
+            "Rwanda groups show their approved MoMo receiver",
+            "Private group links can be rotated"
+          ]
+        },
+        {
+          "title": "Approve with MoMo USSD",
+          "body": "Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake.",
+          "bullets": [
+            "Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.",
+            "Members do not upload receipts or report transaction IDs",
+            "Payment approval stays in the provider’s USSD prompt"
+          ]
+        },
+        {
+          "title": "Review pending and reconciled records",
+          "body": "A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.",
+          "bullets": [
+            "The group total and payer total update together after governed posting",
+            "Duplicate receipt evidence cannot post twice",
+            "Incomplete or ambiguous receipts remain in the authorized Admin review queue"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/community-groups",
+      "navLabel": "Community Groups",
+      "title": "A contribution ledger for the groups people already trust.",
+      "intro": "Collect supports Rwanda savings circles, families, churches, teams, wedding committees and other member-led contribution groups.",
+      "sections": [
+        {
+          "title": "Use the group structure that fits",
+          "body": "Choose a group purpose, invite the right members and keep each contribution visible to the people who should see it.",
+          "bullets": [
+            "Ikimina and recurring savings groups",
+            "Family, community and member-support groups",
+            "Church, sport and event contributions"
+          ]
+        },
+        {
+          "title": "Keep private details private",
+          "body": "Member surfaces use Collect IDs and safe contribution status. Full phone numbers and MoMo receipts stay out of public pages.",
+          "bullets": [
+            "Private group access is membership-gated",
+            "Payer-level balances are visible only to the payer and authorized group roles",
+            "Public evidence must contain no customer receipt data"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/trust",
+      "navLabel": "Trust",
+      "title": "Evidence, reconciliation and posting are separate controls.",
+      "intro": "Collect accepts consented Android MoMo receipt SMS as candidate evidence and keeps contribution posting on the server.",
+      "sections": [
+        {
+          "title": "Evidence ingestion is controlled",
+          "body": "Eligible Android receiver devices request consent for newly arriving MoMo receipt SMS. Receipt intake requires authentication and duplicate protection.",
+          "bullets": [
+            "Consent and permission state are recorded",
+            "Only likely MoMo receipt messages are submitted",
+            "iOS and web do not read receipt SMS"
+          ]
+        },
+        {
+          "title": "Receipt facts stay separate from posting",
+          "body": "Deterministic parsers validate receipt facts without choosing a group or posting a balance.",
+          "bullets": [
+            "References, amounts and transaction identifiers are normalized",
+            "Raw evidence has separate audited reveal permission",
+            "Failed, outgoing or incomplete messages do not post"
+          ]
+        },
+        {
+          "title": "Governed reconciliation is required",
+          "body": "A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.",
+          "bullets": [
+            "Receiver, payer, exact whole-RWF amount and transaction identity must match",
+            "Group and payer credits are created in one governed transaction",
+            "The audit record and notification link to the same contribution"
+          ]
+        }
+      ]
+    }
+  ],
+  "flutter_home": {
+    "title": "Rwanda MoMo contributions, clearly recorded.",
+    "intro": "Rwanda groups record whole-RWF MoMo contributions. Group creation, the app’s USSD handoff and receipt SMS require eligible Android devices.",
+    "request_body": "Create a whole-RWF request for the approved Rwanda MoMo receiver.",
+    "approve_body": "Eligible Android members approve payment in the provider’s USSD prompt.",
+    "posting_body": "Pending receipt evidence requires governed reconciliation before confirmation."
+  },
+  "store_metadata": {
+    "fastlane/metadata/en-GB/description.txt": "Collect helps Rwanda savings groups organize member records and review whole-RWF MoMo contribution activity.\n\nOn iOS, members can inspect group activity and use account and privacy controls. Private-group creation, the app’s MTN MoMo or Airtel Money USSD handoff, and consented receipt-SMS intake require an eligible Android build; these actions are not available in the iOS app.\n\nA pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nCollect never asks for a MoMo PIN or payment provider OTP. Your WhatsApp sign-in code is used only to sign in to Collect. Collect is a technology and record-keeping service, not a bank or wallet, and does not hold customer funds or provide loans or insurance.\n\nFor support, email info@ikanisa.com. In the app, request eligible data deletion through Settings → Security → Delete data. Collect is operated by IKANISA for Rwanda group-contribution workflows.",
+    "fastlane/metadata/en-GB/promotional_text.txt": "Review Rwanda MoMo group-contribution records and member activity, with clear account and privacy controls.",
+    "fastlane/metadata/en-GB/keywords.txt": "Rwanda,MoMo,savings groups,contributions,ledger,group records,member activity",
+    "fastlane/metadata/en-GB/review_notes.txt": "A real review account and supported Sign-In Information must be supplied separately for the artifact under review; no reviewer credentials or authentication bypass are embedded in the app. Sign-in uses a verified Rwanda WhatsApp number.\n\nUse synthetic review data and do not send real funds. iOS supports group records, activity and account controls. Private-group creation, Collect’s MoMo USSD handoff and receipt-SMS intake require eligible Android builds and are unavailable on iOS. No SEPA, bank-transfer or Revolut handoff is implemented. Pending requests and receipt SMS are not independent settlement proof; production confirmation requires governed finality and reconciliation acceptance.\n\nIn the app, eligible data deletion is requested through Settings → Security → Delete data. Support: info@ikanisa.com. These source notes do not prove hosted review-account access, provider UAT, artifact approval or App Store readiness.",
+    "fastlane/metadata/en-GB/release_notes.txt": "Rwanda MoMo group-contribution records, member activity and account/privacy controls. Android-only group creation, USSD handoff and receipt-SMS intake are unavailable on iOS. No bank-transfer journey is included.",
+    "fastlane/metadata/android/en-US/full_description.txt": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.\n\nPrivate-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.\n\nEligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.\n\nEligible Android receiver devices may explicitly consent to newly arriving MoMo receipt SMS as candidate evidence. Collect does not read SMS history, send SMS or access Call Logs. SMS access can be turned off. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nFor a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion. Collect does not provide loans, insurance or deposit custody.",
+    "fastlane/metadata/android/en-US/short_description.txt": "Rwanda MoMo group contributions, member records and clear group activity."
+  },
+  "remaining_approval_requirements": [
+    "Product owner must approve the capability facts and publication scope",
+    "Named availability evidence and responsible owners for any assisted or partner service",
+    "Observed hosted conversion paths for every advertised active service",
+    "Current signed platform artifact, provider/device UAT and store/release review remain separate"
+  ]
+}

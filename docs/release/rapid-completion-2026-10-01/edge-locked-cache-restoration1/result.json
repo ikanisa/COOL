@@ -1,0 +1,17 @@
+{
+  "command": [
+    ".cache/roster-deno-2.5.6-20260929/deno",
+    "cache",
+    "--no-config",
+    "--frozen",
+    "--lock=supabase/functions/deno.lock",
+    "scripts/qa/edge_http_runtime_uat.ts"
+  ],
+  "exit_code": 0,
+  "lock_before": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+  "lock_after": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+  "lock_unchanged": true,
+  "entrypoints_executed": false,
+  "provider_called": false,
+  "scope": "Frozen dependency download and integrity verification only"
+}

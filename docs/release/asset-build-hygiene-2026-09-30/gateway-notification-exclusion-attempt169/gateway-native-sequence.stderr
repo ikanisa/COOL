@@ -1,0 +1,17 @@
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/settings.gradle.kts' line: 20
+
+* What went wrong:
+Error resolving plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+> Project with path ':app' could not be found in project ':gradle'.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 13s

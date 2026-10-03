@@ -1,0 +1,36 @@
+--- before/scripts/public_static_site_build.rb
++++ after/scripts/public_static_site_build.rb
+@@ -1563,7 +1563,7 @@
+           <div class="hero-device">
+             <div class="hero-widget share-link-widget" aria-label="Collect shared link preview">
+               <img src="/icons/collect.png" alt="" width="72" height="72">
+-              <span>COLLECT GROUP LINK</span>
++              <span>#{group_link ? "COLLECT GROUP LINK" : "COLLECT APP LINK"}</span>
+               <strong>Private details stay in the app.</strong>
+               <p>Receiver numbers, raw payment messages and member phone numbers are never placed in this public link.</p>
+             </div>
+@@ -1571,10 +1571,10 @@
+         </section>
+         <section class="start-section" aria-labelledby="share-link-help-heading">
+           <div>
+-            <h2 id="share-link-help-heading">A link that survives onboarding</h2>
++            <h2 id="share-link-help-heading">#{group_link ? "A link that survives onboarding" : "Continue in the Collect app"}</h2>
+           </div>
+           <div>
+-            <p>Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.</p>
++            <p>#{group_link ? "Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current." : "Open Collect if it is installed, or use the store link for this device to install the app. Group invitations are confirmed separately after sign-in."}</p>
+             <p>Having a link does not expose payment credentials or confirm a payment.</p>
+           </div>
+         </section>
+--- before/web/public/revolut.css
++++ after/web/public/revolut.css
+@@ -40,7 +40,8 @@
+ .revolut-public :is(button, .button):not(:disabled):not([aria-disabled="true"]):hover { opacity: .85; }
+ .revolut-public :is(button, .button):focus-visible { opacity: 1; outline: 2px solid var(--web-focus-outer); outline-offset: 2px; box-shadow: inset 0 0 0 2px var(--web-focus-inner), inset 0 0 0 3.6px var(--web-canvas); }
+ .revolut-public :is(button, .button):disabled,
+-.revolut-public .hero .button[aria-disabled="true"] { background: var(--web-card-border); color: var(--web-secondary); border-color: var(--web-card-border); cursor: default; opacity: 1; }
++.revolut-public .hero .button[aria-disabled="true"],
++.revolut-public.route-share-link .hero .button[aria-disabled="true"] { background: var(--web-card-border); color: var(--web-secondary); border-color: var(--web-card-border); cursor: default; opacity: 1; }
+ .revolut-public .site-header { padding: 16px var(--web-gutter); min-height: 80px; background: var(--web-canvas); color: var(--web-ink); border: 0; backdrop-filter: none; }
+ .revolut-public .brand small { color: var(--web-secondary); font-weight: var(--type-weight-regular); }
+ .revolut-public .brand strong { font-weight: var(--type-weight-medium); }

@@ -1,0 +1,84 @@
+{
+  "Gradle_version": "9.1.0",
+  "no_internal_resolution_metadata_API_added": true,
+  "no_variant_filenames_inferred": true,
+  "sources": [
+    {
+      "bytes": 1904,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/result/ResolvedVariantResult.java",
+      "public_API_lines": [
+        {
+          "lines": [
+            38
+          ],
+          "pattern": "getOwner"
+        },
+        {
+          "lines": [
+            43
+          ],
+          "pattern": "getAttributes"
+        },
+        {
+          "lines": [
+            57
+          ],
+          "pattern": "getCapabilities"
+        },
+        {
+          "lines": [
+            67
+          ],
+          "pattern": "getExternalVariant"
+        }
+      ],
+      "sha256": "c419eff6c5ccab969aa26bf081acd9ad63a7e77a18a0d60bf6ff8d32dd9af74c"
+    },
+    {
+      "bytes": 3991,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/result/ResolvedComponentResult.java",
+      "public_API_lines": [
+        {
+          "lines": [
+            81,
+            90
+          ],
+          "pattern": "getVariants"
+        }
+      ],
+      "sha256": "cffd582223350c1dcea3a86a71c4c0555c624ab8a97991d049f00cba5b1b20db"
+    },
+    {
+      "bytes": 4286,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/core-api/org/gradle/api/artifacts/query/ArtifactResolutionQuery.java",
+      "public_API_lines": [
+        {
+          "lines": [
+            44,
+            63,
+            70
+          ],
+          "pattern": "forComponents"
+        },
+        {
+          "lines": [
+            45,
+            91,
+            102,
+            106
+          ],
+          "pattern": "withArtifacts"
+        },
+        {
+          "lines": [
+            46,
+            105,
+            108
+          ],
+          "pattern": "execute"
+        }
+      ],
+      "sha256": "170eca06d51b19e8b5b57b366aaf8759371771374c9d4515ba73d5fef622ea26"
+    }
+  ]
+}

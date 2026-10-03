@@ -1,0 +1,8 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: replacement same-user session clears completed prepared payment
+00:01 +1: old preparation reply cannot rebuild a payment after replacement session
+00:01 +2: old preflight reply cannot launch USSD after replacement session
+00:01 +3: current captured session completes existing payment workflow
+00:01 +4: (tearDownAll)
+00:01 +4: All tests passed!

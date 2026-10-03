@@ -1,0 +1,1 @@
+Reconstructed after execution from the private successor using only named CLI/test additions; every byte SHA matches the actual attempt1 before/after input receipt. These are reconstructed exact inputs, not contemporaneous execution snapshots. Original failed output/result unchanged.

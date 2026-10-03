@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "completed_utc": "2026-10-01T19:40:53.093289+00:00",
+  "findings": [
+    "PD-08",
+    "PD-09",
+    "PD-10"
+  ],
+  "status": "pass_scoped_local",
+  "changes": [
+    "Stable monetary input name and separately associated validation error",
+    "Explicit live status for preparation failure and pending USSD handoff",
+    "Complete grouped monetary value readback at enlarged text, with scroll-reachable actions and no new amount limit",
+    "Rwanda/RWF MTN/Airtel manifest description"
+  ],
+  "verification": [
+    {
+      "command": "flutter test --no-pub --timeout=30s --dart-define=PRODUCT_PAYMENT_CAPTURE=true test/features/contribution_amount_accessibility_test.dart test/features/contribution_flow_session_test.dart test/features/contribution_landscape_keyboard_test.dart test/features/contribution_prelaunch_guard_test.dart test/core/rwf_amount_input_formatter_test.dart",
+      "passed": 29,
+      "failed": 0,
+      "exit_code": 0,
+      "log": "docs/release/critical-implementation-2026-10-01/product-payment-focused-current4.log"
+    },
+    {
+      "command": "flutter analyze --no-pub lib/features/payments/contribution_amount_widgets.dart lib/features/payments/contribution_flow_screen.dart test/features/contribution_amount_accessibility_test.dart",
+      "exit_code": 0,
+      "issues": 0,
+      "log": "docs/release/critical-implementation-2026-10-01/product-payment-analysis-current.log"
+    }
+  ],
+  "source_inputs_before": {
+    "lib/features/payments/contribution_amount_widgets.dart": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+    "lib/features/payments/contribution_flow_screen.dart": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+    "test/features/contribution_amount_accessibility_test.dart": "86c6418dd9ab5f64ce188af7fae71514980d0448358bc0599abac366f0cf8bd6",
+    "test/features/contribution_flow_session_test.dart": "98e7862f3a02c5c643df8dabbcff06240fbb5a862ac2f05e767f3f9407d546d2",
+    "test/features/contribution_landscape_keyboard_test.dart": "56e57b09cc59e7f854f8a5b52e35f2c2906e88ab558eea05d855ac32ad530c2a",
+    "test/features/contribution_prelaunch_guard_test.dart": "13b4855621b9ceaf66245e200fb22614d9a29525e3a198096dcdf54b5c8b2f44",
+    "test/core/rwf_amount_input_formatter_test.dart": "116dfac160319cf9cfa02258a7af0e6849f0a60ffa3b974e9f3f89252619799a",
+    "lib/core/utils/money_format.dart": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "web/manifest.json": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "source_inputs_after": {
+    "lib/features/payments/contribution_amount_widgets.dart": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+    "lib/features/payments/contribution_flow_screen.dart": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+    "test/features/contribution_amount_accessibility_test.dart": "86c6418dd9ab5f64ce188af7fae71514980d0448358bc0599abac366f0cf8bd6",
+    "test/features/contribution_flow_session_test.dart": "98e7862f3a02c5c643df8dabbcff06240fbb5a862ac2f05e767f3f9407d546d2",
+    "test/features/contribution_landscape_keyboard_test.dart": "56e57b09cc59e7f854f8a5b52e35f2c2906e88ab558eea05d855ac32ad530c2a",
+    "test/features/contribution_prelaunch_guard_test.dart": "13b4855621b9ceaf66245e200fb22614d9a29525e3a198096dcdf54b5c8b2f44",
+    "test/core/rwf_amount_input_formatter_test.dart": "116dfac160319cf9cfa02258a7af0e6849f0a60ffa3b974e9f3f89252619799a",
+    "lib/core/utils/money_format.dart": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "web/manifest.json": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "input_drift": {},
+  "evidence_hashes": {
+    "docs/release/critical-implementation-2026-10-01/product-payment-focused-current4.log": "049b14d4c8d605d6099c7dc0565b9cdc213c6dbc7041b5502a29f69d949717fb",
+    "docs/release/critical-implementation-2026-10-01/product-payment-analysis-current.log": "bd789c460e6c09095ee2d02e5d6c58b4f69522be3a6a65ce70dd5c1d9cafbd2b",
+    "docs/release/critical-implementation-2026-10-01/product-payment-captures/compact-validation-200.png": "5fd2e188ee795d38e6da2f7a15e1b4d389fc1907629cd1d8311923f21b5957b6",
+    "docs/release/critical-implementation-2026-10-01/product-payment-captures/compact-review-200.png": "c6968333f63c461e6d103449c430070762fac0b0e25d66c59990a0dd4aa69d84",
+    "docs/release/critical-implementation-2026-10-01/product-payment-captures/normal-entry.png": "fcc5ce8bb729fa154a0f8272d63bdad917ff8bbc0ee60550c13d4b6c2295c095",
+    "docs/release/critical-implementation-2026-10-01/product-payment-captures/compact-entry-200-keyboard.png": "ba3dbd7521369c08c55fdcb68b11ff613d68d264ff2cd11d9f749696b4b14253",
+    "docs/release/critical-implementation-2026-10-01/product-payment-captures/pending-status.png": "48e2d5372420c8755bd85f66da97d1110950a5fcec42956c7e48425317198ce3"
+  },
+  "captures_inspected": [
+    "normal-entry",
+    "compact-entry-200-keyboard",
+    "compact-review-200",
+    "compact-validation-200",
+    "pending-status"
+  ],
+  "capture_scope": "Synthetic Flutter test renderer, bundled Inter text, debug controls/icons; compact/enlarged captures show scrolled portions of a larger surface and a synthetic keyboard inset. These are layout evidence, not installed native or full visual comparison proof.",
+  "limits": [
+    "Actual VoiceOver/TalkBack task completion unverified",
+    "No selected native/Business visual comparator acceptance",
+    "No hosted/static publication or installed-store artifact acceptance",
+    "Failed/interrupted earlier attempts retained as dated evidence"
+  ],
+  "release_accepted": false
+}

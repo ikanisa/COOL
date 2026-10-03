@@ -1,0 +1,36 @@
+{
+  "reviewed_at_utc": "2026-10-02T00:07:47.811854+00:00",
+  "source": "scripts/qa/public_browser_app_media.mjs",
+  "before_sha256": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+  "after_sha256": "0bbb116f123b4a856f469a5635cd3eecc7275ec643560f9f0fd684346b0a7956",
+  "exact_delta": "Replace the obsolete deletion-form marker with the actual no-service deletion state for the maintained fixture that deliberately supplies no Supabase client. All route/visibility/current-resource/source/runtime and diagnostic requirements remain unchanged.",
+  "observed_diagnostic": "docs/release/critical-implementation-2026-10-01/public-media-batch3/deletion-marker-diagnostic/report.json",
+  "observed_diagnostic_sha256": "81fec29d8313e95e9448d9bc66102c5836ff9f51cfb72f5d16b834b3ff418980",
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "started_at_utc": "2026-10-02T00:07:47.633685+00:00",
+      "exit_code": 0,
+      "log": "marker-check-0.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "scripts/tests/public_media_bootstrap_test.mjs"
+      ],
+      "started_at_utc": "2026-10-02T00:07:47.729864+00:00",
+      "exit_code": 0,
+      "log": "marker-check-1.log",
+      "sha256": "1ec51653f67f82baa416d8fb4a653bc7f92f0de5aec7e009a7980dba110a0af7"
+    }
+  ],
+  "fresh_capture_required": true,
+  "old_failed_capture_accepted": false,
+  "provider_accepted": false,
+  "production_ready": false
+}

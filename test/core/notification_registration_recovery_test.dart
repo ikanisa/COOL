@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -17,6 +16,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../support/test_capture_paths.dart';
 
 const _a = '99910000-0000-4000-8000-000000000001';
 const _b = '99910000-0000-4000-8000-000000000002';
@@ -437,10 +438,9 @@ void main() {
         await tester.runAsync(() async {
           final image = await boundary.toImage(pixelRatio: 1);
           final data = await image.toByteData(format: ui.ImageByteFormat.png);
-          final file = File(
-            'docs/release/notification-recovery-ui-2026-09-30/settings-${dark ? 'dark' : 'large-light'}.png',
+          final file = collectTestCaptureFile(
+            'settings-${dark ? 'dark' : 'large-light'}.png',
           );
-          await file.parent.create(recursive: true);
           await file.writeAsBytes(data!.buffer.asUint8List());
           image.dispose();
         });

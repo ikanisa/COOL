@@ -1,0 +1,145 @@
+{
+  "files": {
+    "lib/admin/core/admin_entity_audit_link.dart": {
+      "observed_live_sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf",
+      "reviewed_private_sha256": "718914ead1b31e54ed159c42c28387ca15959a9e01caddc9d8790bdb0bb8b4a2",
+      "state": "changed"
+    },
+    "lib/admin/core/admin_entity_audit_page.dart": {
+      "observed_live_sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+      "reviewed_private_sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_assignment_dialog.dart": {
+      "observed_live_sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b",
+      "reviewed_private_sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_escalation_inbox_v2_models.dart": {
+      "observed_live_sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4",
+      "reviewed_private_sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "observed_live_sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765",
+      "reviewed_private_sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_history_runtime.dart": {
+      "observed_live_sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a",
+      "reviewed_private_sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_history_v2_models.dart": {
+      "observed_live_sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c",
+      "reviewed_private_sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_exception_workflow_card.dart": {
+      "observed_live_sha256": "f2cd5c7e4ca46d5e28a6ede63aa4afe97984b14a466b4eaba6d614c41e8d8c7d",
+      "reviewed_private_sha256": "bbb313252977950514b7ed2235bd80a6369b9f4a9658cb828f1ea004a9aea732",
+      "state": "changed"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "observed_live_sha256": "b4e6e14731ab0d546b45a285a136fe854022f40a4ae59e1e5fa06bff5ccf5ee4",
+      "reviewed_private_sha256": "b4e6e14731ab0d546b45a285a136fe854022f40a4ae59e1e5fa06bff5ccf5ee4",
+      "state": "exact_private_reuse_candidate"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "observed_live_sha256": "377456cf245319890602764dad970a1360d2347815554bae2ff363b2af46182b",
+      "reviewed_private_sha256": "377456cf245319890602764dad970a1360d2347815554bae2ff363b2af46182b",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_entity_audit_links_test.dart": {
+      "observed_live_sha256": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee",
+      "reviewed_private_sha256": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_entity_audit_page_test.dart": {
+      "observed_live_sha256": "b1cb9e6c17a10830f230bb5679cd7dfd2b8b18b3f5dc9d0808a0c54f25acd5e6",
+      "reviewed_private_sha256": "b1cb9e6c17a10830f230bb5679cd7dfd2b8b18b3f5dc9d0808a0c54f25acd5e6",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_assignment_test.dart": {
+      "observed_live_sha256": "a770b0f8c347a1dd37dac0204160714b0f48d19688f7dff9ff6f183047a31698",
+      "reviewed_private_sha256": "a770b0f8c347a1dd37dac0204160714b0f48d19688f7dff9ff6f183047a31698",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_escalation_inbox_v2_models_test.dart": {
+      "observed_live_sha256": "5a250467e20ee6dde6a243c97e7d5ce95dd567ed1d7c14badf14f2103509ae06",
+      "reviewed_private_sha256": "2f62de33d18795795764eef5059f60aa6889e550dc9900d616b8db750c24a723",
+      "state": "changed"
+    },
+    "test/admin_exception_escalation_inbox_v2_test.dart": {
+      "observed_live_sha256": "469da41d1ff7d4124ab347a1f9506d4b911afde344eb2f3b7462cb52256b2a6b",
+      "reviewed_private_sha256": null,
+      "state": "new"
+    },
+    "test/admin_exception_followup_sdk_test.dart": {
+      "observed_live_sha256": "6371c6240bb8f2df5de436e9dbd3b60973f53c648c47f3a6b839281c17c405cd",
+      "reviewed_private_sha256": "6371c6240bb8f2df5de436e9dbd3b60973f53c648c47f3a6b839281c17c405cd",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_followup_v2_models_test.dart": {
+      "observed_live_sha256": "319d24497407dd080924ea2fba463ae50d354a155debfd781d2d8ea5577026ca",
+      "reviewed_private_sha256": "319d24497407dd080924ea2fba463ae50d354a155debfd781d2d8ea5577026ca",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_history_v2_models_test.dart": {
+      "observed_live_sha256": "f0438ca77aa8feafeb43c5f3dcaef9023e770cc23b43e29fb56c023b4fed918e",
+      "reviewed_private_sha256": "03b934e63c09add0d1f662656eaae997c5f4fb51af3caa41b859213d248a2784",
+      "state": "changed"
+    },
+    "test/admin_exception_history_v2_page_test.dart": {
+      "observed_live_sha256": "3407990893fdbcabaad19429e1fc0f2e2f325b1c73539cdf1586062d576d5e7c",
+      "reviewed_private_sha256": null,
+      "state": "new"
+    },
+    "test/admin_exception_history_v2_sdk_test.dart": {
+      "observed_live_sha256": "230aea711172debcf5745e83bf7dc3ef8b521a39f0c2304c524407d2a5ecd1e8",
+      "reviewed_private_sha256": "230aea711172debcf5745e83bf7dc3ef8b521a39f0c2304c524407d2a5ecd1e8",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_workflow_sdk_test.dart": {
+      "observed_live_sha256": "61b3fa26707f11e1cce39f52a90942ce8cdfe8ee48af8e9dc3439d34a2e3daed",
+      "reviewed_private_sha256": "61b3fa26707f11e1cce39f52a90942ce8cdfe8ee48af8e9dc3439d34a2e3daed",
+      "state": "exact_private_reuse_candidate"
+    },
+    "test/admin_exception_workflow_test.dart": {
+      "observed_live_sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f",
+      "reviewed_private_sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f",
+      "state": "exact_private_reuse_candidate"
+    }
+  },
+  "fixture_sha256": {
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-audit-final.json": "72a43b0e2be4ff20b75a9716c10204aeb7535563cc51074756461420042724f2",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-older.json": "2a7d9d25a432121482be199f28b4222ee0a0f51dc272075810392c4fdab7d680",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-page.json": "5b1983f96149c10035473bfb5ae1a16694c924b0460d9572aca01c1ae12dca4d",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-inbox-final.json": "91f656b29dabfaefd9e14c33ae56cbcda57d06092bf173512f9bb08154619fa3",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-public-small-page.json": "c6630a100395b146cad52029f4cc02d4eab7861764239c3f8a8a12c680f49ce1",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-read-provenance.json": "38726f4e6305e2a970647883b09f52011c0fadf3035b73761c730f49dc3982f4",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-after-pump-commit.json": "42c0ac58b22c6c5b39c11526dff3926724808bbbafbcff63d331e1a38d8b83e1",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-allocation-event.json": "12d00c0c1d3796b4c55997b92fb7cf686aa8472c535a7d3e3793b919349fe5f6",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-complete.json": "44455fea1fb84ed5e8ecab7eb6a7db9d7ed4385b3784dcf1eebb0c176c858a78",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-final.json": "e2e1176858e0623fd38a18b85c751269181d4f82835beb769354d089647c5134",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-first.json": "87311b0a7c2970e82dd092f11b21ec5197779a77118a5bc84cf49ca71bdeec2b",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-last.json": "184fc1ee3e78b0766c73cc297aa42838a621d246d68d2c9bc71c9413481f53ea",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-legacy-target-refusal.json": "80955a36b55db78ad0a7080f9f87ecf29db59b80e51526326328e9df0da13913",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-obsolete-resolved.json": "1f71bc31d891537339d6489139b542fc430100c8b2e101a18c9a9cb93053179f",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_backlog.json": "267927c1463c8678a0f0cf416e65d44972513acd5ad85c68310ee68a0a38b0f1",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_event.json": "5c3c413fe61333855d72dfc3250f498083306d43ce4673ad478844f8eb805b7f",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-retained.json": "af9e65828014a76a21a018dcce5da482329c69ca18be9963162e0db9be5b4b06",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unavailable.json": "c3d948973836bc4eb4daa060616e444272d3cf92a3cc948115298f07b527c1e5",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unknown.json": "f8c5c520f7e04af7caf60357b8d2046dc3b6e9f155616b9438e7e046f13ba5fc",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unscoped.json": "0580dfceb27f9d978fcd1dc146f7440c9dc7b758c116d5b87d3873e52a44f9b3",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-final.json": "9e923a6ebe7bf977bacb4827ace2dbf97a7c522a0c3d88dee657ecf40e0f3dd5",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-first.json": "ccc4814cc88a2d7433bde955cd5976c96352d39af389e12018b37f1b37dbf950",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-foreign.json": "af3c976e4a8a77dc2c9f0d040060f86e60540d5f3cdac684da646a84394da0b3",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-last.json": "384f2b3852702f858cac99934ffb57842daffb377dff5a7dc9c768d613fe9ba5",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-opened-ack.json": "74b5593a3a30c78f116ea2a5534c75af2b3ad35adc55bbfa1253b528e3ebede5",
+    "scripts/tests/fixtures/exception_inbox_audit_v2/provenance.json": "162398912fceefeabc6f7885bfedd7a5ccb808b4a72ec9515969040301ad45b0"
+  },
+  "scope": "Read-only finite10runtime/12test+declarednewSQLfixture inputs; observed bytes, not final frozen candidate",
+  "source_ownership_released": false,
+  "two_reads_match": true
+}

@@ -3,7 +3,18 @@ import java.io.File
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.util.Locale
+import java.nio.file.Files
 import org.gradle.api.artifacts.dsl.LockMode
+import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+import groovy.json.JsonSlurper
 
 plugins {
     id("com.android.application")
@@ -11,13 +22,38 @@ plugins {
     id("com.google.gms.google-services")
 }
 
-// Native Android release intermediates are unreliable on the external project
-// volume. Release automation may point this module at an internal APFS root
-// while keeping the repository and the public `build/` path in place.
-val collectAndroidBuildRoot =
-    providers.environmentVariable("COLLECT_ANDROID_BUILD_ROOT").orNull
-if (!collectAndroidBuildRoot.isNullOrBlank()) {
-    layout.buildDirectory.set(file(collectAndroidBuildRoot).resolve("app"))
+abstract class CollectVariantPluginRegistrant : DefaultTask() {
+    @get:InputDirectory
+    abstract val originalJavaDirectory: DirectoryProperty
+
+    @get:InputFile
+    abstract val adapterSource: RegularFileProperty
+
+    @get:Input
+    abstract val omitNotifications: Property<Boolean>
+
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val originalDirectory = originalJavaDirectory.get().asFile
+        val original = originalDirectory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
+        val files = originalDirectory.walkTopDown().filter { it.isFile }.toList()
+        check(files == listOf(original) && !Files.isSymbolicLink(original.toPath())) {
+            "Collect registrant adapter requires main/java to contain only the regular tool-generated registrant"
+        }
+        check(originalDirectory.walkTopDown().none { Files.isSymbolicLink(it.toPath()) }) {
+            "Collect registrant adapter refuses aliased main/java input"
+        }
+        val output = outputDirectory.get().asFile.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
+        val javaExecutable = File(System.getProperty("java.home"), "bin/java")
+        val process = ProcessBuilder(
+            javaExecutable.absolutePath, "--source", "17", adapterSource.get().asFile.absolutePath,
+            original.absolutePath, output.absolutePath, omitNotifications.get().toString(),
+        ).inheritIO().start()
+        check(process.waitFor() == 0) { "Collect generated registrant adapter refused an unknown input" }
+    }
 }
 
 // Explicit source-only QA exports may build an unsigned production-flavour
@@ -28,6 +64,13 @@ require(collectUnsignedLocalQaRaw == null || collectUnsignedLocalQaRaw in setOf(
     "collectUnsignedLocalQa must be explicitly true or false"
 }
 val collectUnsignedLocalQa = collectUnsignedLocalQaRaw == "true"
+
+// Public installation target only. A matching host is neither enrollment nor
+// send authority; the default keeps the internal gateway offline.
+val collectGatewayHost = providers.gradleProperty("collectGatewayHost").orNull.orEmpty()
+require(collectGatewayHost.isEmpty() || collectGatewayHost == "lhbowpbcpwoiparwnwgt.supabase.co") {
+    "collectGatewayHost must match the governed Collect backend host"
+}
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
@@ -131,6 +174,7 @@ android {
 
     buildFeatures {
         buildConfig = true
+        resValues = true
     }
 
     defaultConfig {
@@ -187,6 +231,12 @@ android {
             applicationIdSuffix = ".receiver"
             manifestPlaceholders["enableSmsReceiver"] = true
         }
+        create("internal_gateway") {
+            dimension = "channel"
+            applicationIdSuffix = ".gateway"
+            resValue("string", "app_name", "Collect Gateway")
+            resValue("string", "collect_gateway_backend_host", collectGatewayHost)
+        }
         create("production") {
             dimension = "channel"
         }
@@ -201,6 +251,104 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+// Flutter's pinned loader adds native plugins to build-type Api configurations,
+// regardless of flavor. Keep local/FCM notifications on every member/receiver
+// flavor, while the internal sender remains free of both notification plugins.
+val collectPluginMetadataFile = rootProject.file("../.flutter-plugins-dependencies")
+check(collectPluginMetadataFile.isFile && !Files.isSymbolicLink(collectPluginMetadataFile.toPath())) {
+    "Collect native flavor adapter requires regular Flutter plugin metadata; run flutter pub get first"
+}
+val collectPluginMetadata = JsonSlurper().parse(collectPluginMetadataFile) as Map<*, *>
+val collectAndroidPluginRows = (collectPluginMetadata["plugins"] as Map<*, *>)["android"] as List<*>
+val collectNotificationPluginDependencies = mapOf(
+    "flutter_local_notifications" to emptyList<String>(),
+    "firebase_messaging" to listOf("firebase_core"),
+)
+collectNotificationPluginDependencies.forEach { (pluginName, expectedDependencies) ->
+    val rows = collectAndroidPluginRows.filter { (it as Map<*, *>)["name"] == pluginName }
+    check(rows.size == 1) { "Unknown Flutter notification plugin topology: $pluginName" }
+    val row = rows.single() as Map<*, *>
+    check(
+        row["native_build"] == true && row["dev_dependency"] == false &&
+            row["dependencies"] == expectedDependencies &&
+            collectAndroidPluginRows.none {
+                pluginName in ((it as Map<*, *>)["dependencies"] as List<*>)
+            },
+    ) { "Unknown Flutter notification native dependency topology: $pluginName" }
+}
+val collectNotificationProjects = collectNotificationPluginDependencies.keys.map { project(":$it") }
+val collectNotificationProjectPaths = collectNotificationPluginDependencies.keys.map { ":$it" }.toSet()
+val collectNonGatewayFlavors = android.productFlavors.filter { it.name != "internal_gateway" }
+check(android.productFlavors.any { it.name == "internal_gateway" } && collectNonGatewayFlavors.isNotEmpty()) {
+    "Collect native notification adapter requires the declared Gateway and member flavors"
+}
+collectNonGatewayFlavors.forEach { flavor ->
+    collectNotificationProjects.forEach { dependency ->
+        dependencies.add("${flavor.name}Api", dependency)
+    }
+}
+val collectBuildTypeApis = android.buildTypes.map { "${it.name}Api" }.toSet()
+val collectNotificationRelocations = mutableSetOf<String>()
+extensions.extraProperties["collectNotificationRelocations"] = collectNotificationRelocations
+configurations.configureEach {
+    if (name in collectBuildTypeApis) {
+        val apiConfiguration = this
+        fun relocateNotification(dependency: ProjectDependency) {
+            check(collectNotificationRelocations.add("${apiConfiguration.name}:${dependency.path}")) {
+                "Duplicate Flutter notification build-type dependency in ${apiConfiguration.name}: ${dependency.path}"
+            }
+            check(apiConfiguration.dependencies.remove(dependency)) {
+                "Unable to relocate Flutter notification native dependency"
+            }
+        }
+        // Flutter can add the plugin in a later afterEvaluate callback. Observe
+        // that exact addition without requiring it during earlier dependency
+        // inspection; already-present dependencies are handled before use.
+        dependencies.whenObjectAdded {
+            if (this is ProjectDependency && path in collectNotificationProjectPaths) {
+                relocateNotification(this)
+            }
+        }
+        withDependencies {
+            val notifications = filterIsInstance<ProjectDependency>().filter {
+                it.path in collectNotificationProjectPaths
+            }
+            check(notifications.groupBy { it.path }.values.all { it.size == 1 }) {
+                "Duplicate Flutter notification build-type dependency in $name"
+            }
+            notifications.forEach { relocateNotification(it) }
+        }
+    }
+}
+
+// Java classes do not support flavor overlays. Replace only the shared Java
+// source directory (which must contain exactly this generated file) with one
+// task-generated directory per variant, leaving Flutter's original untouched.
+val collectOriginalJavaDirectory = file("src/main/java")
+val collectOriginalRegistrant = collectOriginalJavaDirectory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
+check(
+    collectOriginalJavaDirectory.walkTopDown().filter { it.isFile }.toList() == listOf(collectOriginalRegistrant),
+) { "Collect native flavor adapter refuses additional main/java source" }
+android.sourceSets.named("main") {
+    val declared = java.directories
+    check(declared.any { file(it).canonicalFile == collectOriginalJavaDirectory.canonicalFile }) {
+        "Unknown Android main Java source directory topology"
+    }
+    java.setSrcDirs(declared.filter { file(it).canonicalFile != collectOriginalJavaDirectory.canonicalFile })
+}
+androidComponents.onVariants { variant ->
+    val generateRegistrant = tasks.register<CollectVariantPluginRegistrant>(
+        "generateCollect${variant.name.replaceFirstChar { it.uppercase() }}PluginRegistrant",
+    ) {
+        originalJavaDirectory.set(collectOriginalJavaDirectory)
+        adapterSource.set(rootProject.file("gradle/CollectPluginRegistrant.java"))
+        omitNotifications.set(variant.productFlavors.any { it.first == "channel" && it.second == "internal_gateway" })
+        outputDirectory.set(layout.buildDirectory.dir("generated/collectPluginRegistrants/${variant.name}"))
+    }
+    variant.sources.java?.addGeneratedSourceDirectory(generateRegistrant) { it.outputDirectory }
+        ?: error("Android variant ${variant.name} has no generated Java source adapter")
 }
 
 gradle.taskGraph.whenReady {
@@ -279,17 +427,25 @@ if (collectUnsignedLocalQa) {
     // The directory is static for this build; its explicit pre-build dependency
     // below keeps marker generation ordered before asset merging.
     android.sourceSets.getByName("production").assets.srcDir(markerDir.get().asFile)
-    tasks.matching { it.name == "preProductionReleaseBuild" }.configureEach { dependsOn(marker) }
+    android.sourceSets.getByName("internal_gateway").assets.srcDir(markerDir.get().asFile)
+    val markerPreBuildNames = listOf("Production", "Internal_gateway").flatMap { flavor ->
+        android.buildTypes.map { type ->
+            "pre${flavor}${type.name.replaceFirstChar { it.uppercase() }}Build"
+        }
+    }.toSet()
+    tasks.matching { it.name in markerPreBuildNames }.configureEach { dependsOn(marker) }
 }
 
 dependencies {
     // Kotlin's metadata alignment can materialize this already-selected compile
     // dependency only after strict runtime lock constraints are applied. Declare
     // the same pinned compiler version so lock generation observes it as well.
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.3.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.4.20")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
+    // Gateway JVM contracts need real JSON; Android's mockable API throws.
+    add("testInternal_gatewayImplementation", "org.json:json:20250517")
 }
 
 // Firebase is configured only for the store/staging application IDs. Keep
@@ -299,14 +455,18 @@ tasks.configureEach {
     if (
         name.matches(
             Regex(
-                "process(?:Dev|Internal_receiver)(?:Debug|Profile|Release)GoogleServices",
+                "process(?:Dev|Internal_receiver|Internal_gateway)(?:Debug|Profile|Release)GoogleServices",
                 RegexOption.IGNORE_CASE,
             ),
         )
     ) {
         enabled = false
     }
-    if (collectUnsignedLocalQa && name == "processProductionReleaseGoogleServices") {
+    if (
+        collectUnsignedLocalQa && name in setOf(
+            "processProductionReleaseGoogleServices", "processProductionDebugGoogleServices",
+        )
+    ) {
         enabled = false
     }
 }

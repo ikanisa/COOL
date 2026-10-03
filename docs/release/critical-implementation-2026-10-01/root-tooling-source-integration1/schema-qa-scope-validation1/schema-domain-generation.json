@@ -1,0 +1,32 @@
+{
+  "actual_seconds": 2.962,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+    "--replay-migrations",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/generated-current209-complete-qa",
+    "--require-current"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 120,
+  "environment": {
+    "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+  },
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T06:58:35.630271+00:00",
+  "owned_process_group_absent": true,
+  "pid": 34154,
+  "residual_process_group_required_stop": false,
+  "started_utc": "2026-10-02T06:58:32.668415+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "b722dc8be9fb8a1ebc3465946ffcded18a9b185f1f6b3b9dd59c9a04e6ae3760",
+  "timed_out": false
+}

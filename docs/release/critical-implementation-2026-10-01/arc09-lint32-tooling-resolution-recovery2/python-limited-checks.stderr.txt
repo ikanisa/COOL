@@ -1,0 +1,12 @@
+test_checkpoint_persistence_and_bounds (__main__.PreparationTests.test_checkpoint_persistence_and_bounds) ... ok
+test_exact_root_runtime_attributes_and_guard_bounds (__main__.PreparationTests.test_exact_root_runtime_attributes_and_guard_bounds) ... ok
+test_metadata_does_not_admit_artifacts (__main__.PreparationTests.test_metadata_does_not_admit_artifacts) ... ok
+test_metadata_precedes_binary_resolution (__main__.PreparationTests.test_metadata_precedes_binary_resolution) ... ok
+test_selected_variant_public_provenance_and_external_bridge (__main__.PreparationTests.test_selected_variant_public_provenance_and_external_bridge) ... ok
+test_sources_fenced_and_python_compiles_without_execution (__main__.PreparationTests.test_sources_fenced_and_python_compiles_without_execution) ... ok
+test_unmodified_settings_publisher_and_lifecycle (__main__.PreparationTests.test_unmodified_settings_publisher_and_lifecycle) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.005s
+
+OK

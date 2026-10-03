@@ -1,0 +1,2 @@
+{"name": "collect_current_rehearsal_ordinary_clean_1b033321c617", "label": "collect.rehearsal.owner=collect_current_rehearsal_ordinary_clean_1b033321c617", "phase": "ordinary_clean", "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"}
+{"name": "collect_current_rehearsal_ordinary_populated_ba309fbae3c9", "label": "collect.rehearsal.owner=collect_current_rehearsal_ordinary_populated_ba309fbae3c9", "phase": "ordinary_populated", "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"}

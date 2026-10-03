@@ -1,0 +1,20 @@
+{
+  "build_started": false,
+  "files_removed": 0,
+  "final_destination_present_at_stop": false,
+  "kind": "task_owned_superseded_source07_export_stop",
+  "observed_at_utc": "2026-10-01T10:14:56.631939+00:00",
+  "pid": 6342,
+  "process_exact_command_matched": true,
+  "production_ready": false,
+  "reason": "Root peer review found two Auth Python source defects; this export is superseded before build.",
+  "shared_processes_terminated": 0,
+  "sigterm_sent": true,
+  "source_receipt_present_at_stop": false,
+  "staging_directories_observed": [
+    {
+      "file_count_at_stop": 1933,
+      "path": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/.collect-export-cwzm54sk"
+    }
+  ]
+}

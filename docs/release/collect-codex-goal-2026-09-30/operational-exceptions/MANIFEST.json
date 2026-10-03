@@ -1,0 +1,680 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2519,
+      "sha256": "a68bb32f8baa7921830f3605608527d856f33cbf3d440ea54eca42471d79f5cd"
+    },
+    "prior-attempt1/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt1/backlog.fixture.json": {
+      "bytes": 2752,
+      "sha256": "1223a6f18ae8f1a3a992e2f97356e65c4b9ade3862f724e454a51af5a3c24ee0"
+    },
+    "prior-attempt1/concurrency.log": {
+      "bytes": 1716,
+      "sha256": "aa792c4d69217af8942db357d4fba514e1df849b7da70a064c6250a9d11e78bd"
+    },
+    "prior-attempt1/events.fixture.json": {
+      "bytes": 7528,
+      "sha256": "53628f3c83d9e3832668f187a8c9909a4ff0d057e5420a6669fe0ffbfcb4cadb"
+    },
+    "prior-attempt1/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt1/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt1/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt1/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt1/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt1/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt1/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 22104,
+      "sha256": "fc822422fac6bb856a82388a055b5edf70a8953ad6755619c5e052a97767004e"
+    },
+    "prior-attempt1/executed-runner.py": {
+      "bytes": 19874,
+      "sha256": "f4c1d9b115630c1e592f1cab35897612ed4782117c6bbf353315116475d394be"
+    },
+    "prior-attempt1/queries.log": {
+      "bytes": 279378,
+      "sha256": "2c8d0c8ccce6f82997e1643ed59e65f1fe9369cda6c8548d08871dd029326d39"
+    },
+    "prior-attempt1/queries.sql": {
+      "bytes": 1770215,
+      "sha256": "8263734b0c981748ad5e8212668222305305d6ebfee6af159cb333aef89261d8"
+    },
+    "prior-attempt1/result.json": {
+      "bytes": 21942,
+      "sha256": "1b962aca9c66ecce8287c3d0c168b9121d3bf86dfc7a0f756a56714fa0425fba"
+    },
+    "prior-attempt1/root_exceptions/container.log": {
+      "bytes": 28545,
+      "sha256": "6dc33508a950b58de0a48b544a56703bd1dd0e5bd2a5ce1a521376eda195931c"
+    },
+    "prior-attempt1/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt1/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "prior-attempt2/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt2/backlog.fixture.json": {
+      "bytes": 2752,
+      "sha256": "b203f3c05716c38f371b957f24241e472591bf832a492bf42fa4dc496bbec9c0"
+    },
+    "prior-attempt2/concurrency.log": {
+      "bytes": 2003,
+      "sha256": "7400562d9ee62a5645c52e7e750042830b441582814f47900895dff0a8dcb2f4"
+    },
+    "prior-attempt2/events.fixture.json": {
+      "bytes": 7527,
+      "sha256": "41765714cf6c30f283ac15c8dc3619d4e582d309fe34ad4b42a656a2d328ba10"
+    },
+    "prior-attempt2/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt2/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt2/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt2/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt2/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt2/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt2/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 23349,
+      "sha256": "a3692e41c648d64ea52d5cad3febd16ddfcfc8abded81210b552709416b342a4"
+    },
+    "prior-attempt2/executed-runner.py": {
+      "bytes": 24388,
+      "sha256": "b1f6589884ff25b87e3778f2692a32f4b3030860bfb88f1677eb442c8cdb0637"
+    },
+    "prior-attempt2/queries.log": {
+      "bytes": 298111,
+      "sha256": "5d95cbae190e95aacb2d25e8527a9735c104c121827fad6e2652f7fd4820fb48"
+    },
+    "prior-attempt2/queries.sql": {
+      "bytes": 1782626,
+      "sha256": "2a346bc0be2493cc9d1ada088bcec1c52c3d17b57661358cf3879e6717b171e5"
+    },
+    "prior-attempt2/result.json": {
+      "bytes": 25058,
+      "sha256": "33b6e5140274e38300fedcddf20d842d7557d4bf0e4ab52e81b4ac9f45e78034"
+    },
+    "prior-attempt2/root_exceptions/container.log": {
+      "bytes": 34373,
+      "sha256": "c83b07d26711d93cbef35cf4e63a900b9344c5940dda98610fe8af499a0157fd"
+    },
+    "prior-attempt2/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt2/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "prior-attempt3/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt3/backlog.fixture.json": {
+      "bytes": 2749,
+      "sha256": "e6024ddb4a7c10a49fbad5226837dfea0c5affb8aac8ef05357252cb5c37ac75"
+    },
+    "prior-attempt3/concurrency.log": {
+      "bytes": 2288,
+      "sha256": "aa4049cc8a9341f98e35e23530a35b98e0887a72707a833762a0e98185cbfdfe"
+    },
+    "prior-attempt3/events.fixture.json": {
+      "bytes": 7527,
+      "sha256": "27a20bd6d0f27fbda62def4baf2a7ef7604747a233ac7c8736b8b825feb504db"
+    },
+    "prior-attempt3/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt3/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt3/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt3/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt3/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt3/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt3/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 23982,
+      "sha256": "8b51e2eef5ff1f58e3045e34fc36e108a09925d8cbd28f4b3a86d8fad2344a93"
+    },
+    "prior-attempt3/executed-runner.py": {
+      "bytes": 26161,
+      "sha256": "4fc3ac831c9ee3b6046e249838cea16470bd3df2f369074838d37b98d960ac64"
+    },
+    "prior-attempt3/queries.log": {
+      "bytes": 304482,
+      "sha256": "5697da0d42ad65a4f027a7acb3d364778fe2253de07a27d26b762888967364d8"
+    },
+    "prior-attempt3/queries.sql": {
+      "bytes": 1789148,
+      "sha256": "2d92c8b353884b71224e581d3419c46d6e334d8a9db892e754ee341913b426f5"
+    },
+    "prior-attempt3/race-input.sql": {
+      "bytes": 466,
+      "sha256": "0054a3424b990d8cdda620c8ab97a91f78fdd317dd5b2f8bfddffa1dd596d195"
+    },
+    "prior-attempt3/result.json": {
+      "bytes": 27567,
+      "sha256": "a432fe9b33dc24cd5c3ae23febccd1621125d9e448deb57463583f1c02b61e13"
+    },
+    "prior-attempt3/root_exceptions/container.log": {
+      "bytes": 35982,
+      "sha256": "25c70f6256f05b2918be37fec78ac0d82a332457eac4fe881411b51542f238d2"
+    },
+    "prior-attempt3/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt3/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "prior-attempt4/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt4/backlog.fixture.json": {
+      "bytes": 2752,
+      "sha256": "e10c8020626937c51c179311a9438b821376a9f72a29ad109ec865ba367e4ee8"
+    },
+    "prior-attempt4/concurrency.log": {
+      "bytes": 2288,
+      "sha256": "ca795eb0504680ae797f8e9a4cedf5fa514556ef1d227a93f71c4360c84d1c20"
+    },
+    "prior-attempt4/events.fixture.json": {
+      "bytes": 7528,
+      "sha256": "cc41bb4a27ff434af6dcc77e1cc7bb27887be655c53ce776c9070b81b28d80b4"
+    },
+    "prior-attempt4/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt4/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt4/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt4/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt4/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt4/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt4/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 23982,
+      "sha256": "8b51e2eef5ff1f58e3045e34fc36e108a09925d8cbd28f4b3a86d8fad2344a93"
+    },
+    "prior-attempt4/executed-runner.py": {
+      "bytes": 26664,
+      "sha256": "739aa58d3fb6ca9909a2a5953f6989e176befda6daf14daf6a5be790767c543b"
+    },
+    "prior-attempt4/queries.log": {
+      "bytes": 304317,
+      "sha256": "c6fb833bcc1a239929006b408d699b75e8f2b4b3f221784b2f6908c2d4744f48"
+    },
+    "prior-attempt4/queries.sql": {
+      "bytes": 1789225,
+      "sha256": "2acb393764c98a6b681beacd2a07392a39b49b2f94e3b7f13f3a800ed5b32c51"
+    },
+    "prior-attempt4/race-input.sql": {
+      "bytes": 466,
+      "sha256": "a390e99b8a04d49babb76538eaa94abdcf6cabc471258d29685404131396959d"
+    },
+    "prior-attempt4/result.json": {
+      "bytes": 27525,
+      "sha256": "604593db634668ec38dfbe5efaafa89bb46915e158edcaa7d3717cd72f9b132a"
+    },
+    "prior-attempt4/root_exceptions/container.log": {
+      "bytes": 35771,
+      "sha256": "27a0081e219d8d3e19e0fa69c9dfa7be58f1ca224ddd7fad98569d40ca705a0d"
+    },
+    "prior-attempt4/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt4/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "prior-attempt5/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt5/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt5/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt5/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt5/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt5/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt5/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24026,
+      "sha256": "90770e6cce2400076404ab5d0687eb64d2c141ddc733dfa62a458e5d84bc8802"
+    },
+    "prior-attempt5/executed-runner.py": {
+      "bytes": 28812,
+      "sha256": "1927ecf19f09089fd4c471cb9e59c40a6f58f93a208c88ac2df5cc8e8f314d65"
+    },
+    "prior-attempt5/queries.log": {
+      "bytes": 647,
+      "sha256": "399ab37baa7526a2a1e8cb570f896268e8662b716020d98132046f4e95da3ee9"
+    },
+    "prior-attempt5/queries.sql": {
+      "bytes": 1437231,
+      "sha256": "5afc6ba25ed0bcf638134604be76d85523db5b78fc4f404e3d6024981efed086"
+    },
+    "prior-attempt5/result.json": {
+      "bytes": 2462,
+      "sha256": "9bd2a2354e86e5716b1c24a028809f9c8e78bc1e874e4c55e2294f30cf590c07"
+    },
+    "prior-attempt5/root_exceptions/container.log": {
+      "bytes": 16391,
+      "sha256": "01b20227bce19bd279ac0d2f2bf9e991044a8d2bc04b0b602f7d6919c2ae43f2"
+    },
+    "prior-attempt5/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt5/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "prior-attempt6/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prior-attempt6/backlog.fixture.json": {
+      "bytes": 2751,
+      "sha256": "4f01eeadb2f92939985a86123920c82e50f14f5378b3143c7fd681a810fc8ab6"
+    },
+    "prior-attempt6/concurrency.log": {
+      "bytes": 2806,
+      "sha256": "6afc3d3cfaa23f59efa0b0eae9d5ad4d96fe14c5384c694542f39380ce5ff744"
+    },
+    "prior-attempt6/events.fixture.json": {
+      "bytes": 7526,
+      "sha256": "644150d28c39bdd8134474e8e747c9d8b9e928bcfa6a6d3dcf307a78277de339"
+    },
+    "prior-attempt6/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "prior-attempt6/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "prior-attempt6/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "prior-attempt6/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "prior-attempt6/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "prior-attempt6/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "prior-attempt6/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24026,
+      "sha256": "90770e6cce2400076404ab5d0687eb64d2c141ddc733dfa62a458e5d84bc8802"
+    },
+    "prior-attempt6/executed-runner.py": {
+      "bytes": 28812,
+      "sha256": "1927ecf19f09089fd4c471cb9e59c40a6f58f93a208c88ac2df5cc8e8f314d65"
+    },
+    "prior-attempt6/observed-inbox.json": {
+      "bytes": 3801,
+      "sha256": "d7b6b0b8b3a400949dad409254e80d55eafeebb5c3a6346e751c7ef5d0e86a24"
+    },
+    "prior-attempt6/queries.log": {
+      "bytes": 328176,
+      "sha256": "ce695291c1cf0aff63f8bebcfef8411b87f5c7c65b6a6186f0300153cafa4e51"
+    },
+    "prior-attempt6/queries.sql": {
+      "bytes": 1811099,
+      "sha256": "f3e644613bde0f3d39dfcceb30433df95d98690889f1b79bb2b4e721ebde84e8"
+    },
+    "prior-attempt6/race-input.sql": {
+      "bytes": 466,
+      "sha256": "9bd7037e5880bcbb4356d0ca72acdff27b563c0dc945e6792e4165d385d59fc2"
+    },
+    "prior-attempt6/result.json": {
+      "bytes": 30918,
+      "sha256": "6f2da7499f4bf62bf09551c3f9159c1c3a3478cc4b2da241ead176b9762cb4e8"
+    },
+    "prior-attempt6/root_exceptions/container.log": {
+      "bytes": 38653,
+      "sha256": "0a9e378bf68e7804c3e4902fcacd66a0ad7c253abe2d0db46b20c41d1cd81b32"
+    },
+    "prior-attempt6/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "prior-attempt6/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "sql-attempt7/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt7/backlog.fixture.json": {
+      "bytes": 2751,
+      "sha256": "e6cf2d585fa540c1c1a5d382fd3292559d7d122b744b3edf5cc0f2328bd23949"
+    },
+    "sql-attempt7/concurrency.log": {
+      "bytes": 2806,
+      "sha256": "28f9ae630f665a3509eaafd700978dd4d984aee3da414163f7ce89084f10252e"
+    },
+    "sql-attempt7/events.fixture.json": {
+      "bytes": 7528,
+      "sha256": "339eafa9356e64a0f5da0aaad4f3b090d973d0c232d3e62ff280845a18cd7d5c"
+    },
+    "sql-attempt7/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "sql-attempt7/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "sql-attempt7/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "sql-attempt7/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "sql-attempt7/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "sql-attempt7/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "sql-attempt7/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    "sql-attempt7/executed-runner.py": {
+      "bytes": 30148,
+      "sha256": "236be45f10ce592ea657c19707af09360a296680d81c277e405cd1afbf44643d"
+    },
+    "sql-attempt7/observed-inbox.json": {
+      "bytes": 3801,
+      "sha256": "4682035d3374a53f2935e0c2c83f70fbb72d2aa426a84a15dfeb2d0de3af83da"
+    },
+    "sql-attempt7/queries.log": {
+      "bytes": 328864,
+      "sha256": "d5b96565199b102380761d78cf03bb6c9c0a9e9177c9d3bee459f392a7373727"
+    },
+    "sql-attempt7/queries.sql": {
+      "bytes": 1812998,
+      "sha256": "f64410d482812f7158d33065ec9f786111fa6974c375dbb7cd0eda1a871f63b3"
+    },
+    "sql-attempt7/race-input.sql": {
+      "bytes": 466,
+      "sha256": "7b897c91bb39a00bc6dcdf08056623f2d6b8439f8d27a653dbdbf18a2fb35e77"
+    },
+    "sql-attempt7/result.json": {
+      "bytes": 31224,
+      "sha256": "b1b5d68dd5f76e70440dc895ad3572b0ab4359888d4b6b1faee8cca02ca10a12"
+    },
+    "sql-attempt7/root_exceptions/container.log": {
+      "bytes": 38650,
+      "sha256": "cd911c052cd8df7ef50b3ebf67defa02174e06e54d83aca0ce3673c053d3ce65"
+    },
+    "sql-attempt7/root_exceptions/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "sql-attempt7/root_exceptions/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "validation.json": {
+      "bytes": 1421,
+      "sha256": "1575a0b9b67a778085f428f00112ad9bad058966ec5cc9141cf3d63283880ec2"
+    }
+  },
+  "passing_cases": 144,
+  "production_ready": false,
+  "runner_sha256": "236be45f10ce592ea657c19707af09360a296680d81c277e405cd1afbf44643d",
+  "source_sha256": {
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+  }
+}

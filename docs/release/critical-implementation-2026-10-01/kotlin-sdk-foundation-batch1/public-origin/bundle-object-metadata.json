@@ -1,0 +1,20 @@
+{
+  "kind": "storage#object",
+  "id": "flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip/1782343628635421",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/flutter_infra_release/o/releases%2Fstable%2Fmacos%2Fflutter_macos_arm64_3.44.4-stable.zip",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/flutter_infra_release/o/releases%2Fstable%2Fmacos%2Fflutter_macos_arm64_3.44.4-stable.zip?generation=1782343628635421&alt=media",
+  "name": "releases/stable/macos/flutter_macos_arm64_3.44.4-stable.zip",
+  "bucket": "flutter_infra_release",
+  "generation": "1782343628635421",
+  "metageneration": "1",
+  "contentType": "application/zip",
+  "storageClass": "STANDARD",
+  "size": "2210831302",
+  "md5Hash": "38g/h4BjTUdVZ3o/PtaoYg==",
+  "crc32c": "h1T9sw==",
+  "etag": "CJ366LaDoZUDEAE=",
+  "timeCreated": "2026-06-24T23:27:08.731Z",
+  "updated": "2026-06-24T23:27:08.731Z",
+  "timeStorageClassUpdated": "2026-06-24T23:27:08.731Z",
+  "timeFinalized": "2026-06-24T23:27:08.731Z"
+}

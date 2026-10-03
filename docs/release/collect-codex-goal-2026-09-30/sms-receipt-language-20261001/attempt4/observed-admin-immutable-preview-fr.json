@@ -1,0 +1,82 @@
+{
+  "kind": "receipt",
+  "scope": "rwanda_momo",
+  "payment": {
+    "times": {
+      "ingested_at": "2026-10-01T18:37:33.343079+00:00",
+      "payment_posted_at": "2026-10-01T18:37:33.402322+00:00",
+      "parsed_recorded_at": "2026-10-01T18:37:33.343079+00:00",
+      "received_at_device": "2026-10-01T18:37:33.343713+00:00",
+      "provider_confirmed_at": "2026-10-01T18:37:33.402322+00:00",
+      "rejection_occurred_at": null,
+      "rejection_recorded_at": null,
+      "allocation_recorded_at": null,
+      "confirmation_recorded_at": "2026-10-01T18:37:33.40164+00:00"
+    },
+    "event_id": "b71bf845-4c58-4ed2-b9b2-d7d1d690afa7",
+    "journals": [
+      {
+        "id": "14ed379d-8be9-41a2-bd7f-93797826dec2",
+        "snapshot": {
+          "id": "a31a8fa5-4b5c-41ff-881f-587952935558",
+          "delta_rwf": "100",
+          "captured_at": "2026-10-01T18:37:33.40164+00:00",
+          "group_balance_rwf": "1450",
+          "member_balance_rwf": "1450"
+        },
+        "posted_at": "2026-10-01T18:37:33.40164+00:00",
+        "amount_rwf": "100",
+        "entry_type": "receipt"
+      }
+    ],
+    "lifecycle": {
+      "ledger": "posted",
+      "allocation": "allocated",
+      "notification": "queued",
+      "verification": "confirmation_recorded",
+      "evidence_limit": "confirmation_record_is_not_external_settlement_proof",
+      "contract_version": 1
+    },
+    "payment_id": "c17ac8f3-6026-4c73-8181-de9e1506ae66",
+    "raw_sms_id": "a182f108-9d7a-4491-bc7d-db5bef7cdc7d",
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "current_balances": {
+      "group_rwf": "1450",
+      "member_rwf": "1450",
+      "group_updated_at": "2026-10-01T18:37:33.40164+00:00",
+      "member_updated_at": "2026-10-01T18:37:33.40164+00:00"
+    },
+    "member_record_id": "99780000-0000-4000-8000-000000040001"
+  },
+  "receipt": {
+    "id": "5947d87a-13f6-4493-a187-3a8a47dc4cb3",
+    "state": "queued",
+    "attempts": [],
+    "approvals": [],
+    "amount_rwf": "100",
+    "created_at": "2026-10-01T18:37:33.40164+00:00",
+    "payment_id": "c17ac8f3-6026-4c73-8181-de9e1506ae66",
+    "updated_at": "2026-10-01T18:37:33.40164+00:00",
+    "snapshot_id": "a31a8fa5-4b5c-41ff-881f-587952935558",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_total": 0,
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "approval_total": 0,
+    "preview_source": "immutable_posting_snapshot",
+    "member_record_id": "99780000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 2,
+    "group_balance_rwf": "1450",
+    "masked_destination": "+250•••201",
+    "member_balance_rwf": "1450",
+    "snapshot_captured_at": "2026-10-01T18:37:33.40164+00:00",
+    "masked_snapshot_preview": "BuriMunsi: Épargne enregistrée: 100 RWF. Votre épargne enregistrée dans ce groupe au 2026-10-01 20:37 CAT: 1,450 RWF. Réf: snapshot-52935558."
+  },
+  "target_id": "5947d87a-13f6-4493-a187-3a8a47dc4cb3",
+  "checked_at": "2026-10-01T18:37:33.706019+00:00",
+  "history_limit": 50,
+  "payment_state": "available",
+  "receipt_state": "available",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T18:38:33.706019+00:00"
+}

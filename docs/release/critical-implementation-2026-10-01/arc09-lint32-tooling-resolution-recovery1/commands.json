@@ -1,0 +1,44 @@
+{
+  "Gradle_transport_retry_policy_not_asserted": true,
+  "automatic_retries": false,
+  "no_automatic_AAB_advance": true,
+  "outer_root_observation_allowance_seconds": 420,
+  "production_release_approval": false,
+  "root_dependency": "com.android.tools.lint:lint-gradle:32.0.1",
+  "schema_version": 1,
+  "sequential_commands": [
+    {
+      "Gradle_command_seconds": 180,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/run_resolution.py",
+        "--source-fences-sha256",
+        "17eed1ce8922fafe104973c87ef40708976f74fe32d55a2b104207e58d6abacf",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution-recovery1"
+      ],
+      "label": "exact-lint32-tooling-resolution",
+      "requires_fresh_output": true,
+      "separate_reviewed_lifecycle_cleanup_seconds": 30
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/read_publisher_provenance.py",
+        "--graph",
+        "<ACTUAL_FIRST_PHASE_SELECTED_GRAPH_PATH>",
+        "--graph-sha256",
+        "<ACTUAL_FIRST_PHASE_SELECTED_GRAPH_SHA256>",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-recovery-readback1"
+      ],
+      "inflight_curl_reap_margin_seconds": 2,
+      "label": "exact-lint32-publisher-readback",
+      "public_request_and_item_work_seconds": 180,
+      "requires_complete_actual_graph": true,
+      "requires_fresh_output": true
+    }
+  ],
+  "status": "UNEXECUTED_ROOT_REVIEW_RECOVERY",
+  "original_failure_graph_sha256": "874a4c20281347dd0c53a677f094c8d5ea61aee6321cf2aa261d3905defd1061"
+}

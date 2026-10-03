@@ -1,0 +1,53 @@
+{
+  "ARC09_closed": false,
+  "SHA256SUMS_excludes_self_and_packet_files": true,
+  "file_count": 8,
+  "files": {
+    "README.md": {
+      "bytes": 5235,
+      "mode": 256,
+      "sha256": "b8ec8d568fa5d0b6ca7ab03fa85bb633b21913367d144eb66dbd451dbbb2f3e8"
+    },
+    "SHA256SUMS": {
+      "bytes": 611,
+      "mode": 256,
+      "sha256": "d3f966fde90376e3d818574995b270ea9408b5502b95eece2cf97b7f02d58171"
+    },
+    "handoff.json": {
+      "bytes": 2782,
+      "mode": 256,
+      "sha256": "ab0d4e06a857d5789dd0472fcd53178d4782e7aa4c0d37b6270578a93545508f"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+    },
+    "prepared-reference-readback.json": {
+      "bytes": 12174,
+      "mode": 256,
+      "sha256": "5593fd51be2abed9a0e645dca05662a0b19e3c7ff255fbf7428bc472698c000d"
+    },
+    "root-admission-template.json": {
+      "bytes": 4239,
+      "mode": 256,
+      "sha256": "27ac878f7c69303d41c7399f276ec348bcd3db31d61a5203356c0919a93004db"
+    },
+    "run_selected_aab.py": {
+      "bytes": 42172,
+      "mode": 256,
+      "sha256": "2d02812554a5ff04d552c03f48175d8189bc3dd4e15e2f904656e663afd4360a"
+    },
+    "static-review.json": {
+      "bytes": 3352,
+      "mode": 256,
+      "sha256": "6b22d80a76134df8579d2bd3a71b8a7387b205014643261f3070ae33151beb8a"
+    }
+  },
+  "kind": "private_selected_AAB_driver_preparation",
+  "packet_files_excludes_self": true,
+  "production_release_approval": false,
+  "root_execution_owner": true,
+  "schema_version": 1,
+  "status": "static-reviewed-unexecuted"
+}

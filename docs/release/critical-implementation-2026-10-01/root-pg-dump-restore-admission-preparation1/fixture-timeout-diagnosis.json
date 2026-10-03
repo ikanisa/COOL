@@ -1,0 +1,29 @@
+{
+  "scope": "Exact retained failed setup timeout diagnosis; read-only runtime observation, no retry",
+  "failed_case": "test_wrong_service_target_options_or_permissions_refuse_before_request",
+  "failure_code": "PG_COMMAND_TIMEOUT",
+  "failure_stage": "base Admission.__init__ psql --version before any database request",
+  "selected_fixture_executable": "/private/tmp/collect-archive-admission-6nqeevsp/psql",
+  "fixture_shebang_from_exact_test_source": "#!/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "outer_argv_python": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "runtime_sys_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "runtime_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "runtime_resolved_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "runtime_binary_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "env_python3_selection_used": false,
+  "fixture_stdlib_imports": [
+    "hashlib",
+    "json",
+    "os",
+    "subprocess",
+    "sys",
+    "time",
+    "pathlib.Path"
+  ],
+  "version_seconds": 1,
+  "database_requests_observed": 0,
+  "original_bounds_or_assertions_relaxed": false,
+  "load_or_filesystem_cause_proved": false,
+  "source_after_unchanged": true,
+  "retained_calls": null
+}

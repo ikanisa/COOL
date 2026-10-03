@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-02T01:58:11.503963+00:00",
+  "result": "PASS",
+  "source_before": {
+    ".github/workflows/ci.yml": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+    ".github/workflows/codeql.yml": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70",
+    ".github/workflows/hardening-contracts.yml": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    ".github/workflows/public-website.yml": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+    ".github/workflows/supabase-readiness.yml": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8"
+  },
+  "source_after": {
+    ".github/workflows/ci.yml": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+    ".github/workflows/codeql.yml": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70",
+    ".github/workflows/hardening-contracts.yml": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    ".github/workflows/public-website.yml": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+    ".github/workflows/supabase-readiness.yml": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "scripts.tests.test_collect_ci_policy",
+        "-v"
+      ],
+      "deadline_seconds": 60,
+      "elapsed_seconds": 1.0925030409998726,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "scripts/qa/collect_ci_policy.py",
+        "--root",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+      ],
+      "deadline_seconds": 60,
+      "elapsed_seconds": 0.4403122080002504,
+      "exit_code": 0,
+      "timed_out": false
+    }
+  ],
+  "scope": "Actual maintained12CI policy tests and current six workflow declarations only; no hosted execution or remote settings changes"
+}

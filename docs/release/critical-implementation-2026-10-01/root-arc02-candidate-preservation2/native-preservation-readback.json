@@ -1,0 +1,30 @@
+{
+  "SDK_and_warm_pub_Gradle_caches_moved": false,
+  "archive": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/arc02-20261002-attempt1-311263323570496385daceff4cc433b6",
+  "protected_originals": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "raw_symlinks_followed": false,
+  "results": {
+    "app-export-control": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 25,
+      "renamed_root_ctime_after": 1790935941765784365,
+      "renamed_root_ctime_before": 1790934773652169608
+    },
+    "app-lock-control": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 17,
+      "renamed_root_ctime_after": 1790935941781423465,
+      "renamed_root_ctime_before": 1790934909771730300
+    },
+    "app-source": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 2923,
+      "renamed_root_ctime_after": 1790935941400426074,
+      "renamed_root_ctime_before": 1790934893864548481
+    }
+  },
+  "stage_admitted": false
+}

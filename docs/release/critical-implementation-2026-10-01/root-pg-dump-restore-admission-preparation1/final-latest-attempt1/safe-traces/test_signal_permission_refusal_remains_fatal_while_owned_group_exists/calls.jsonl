@@ -1,0 +1,1 @@
+{"tool": "genuine_sleep_with_injected_live_group_EPERM", "stage": "runner_refusal", "EPERM_fatal_while_group_exists": true, "owned_group_removed_by_test_finally": true, "operation_bound_seconds": 0.05}

@@ -7,6 +7,7 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -133,6 +134,17 @@ void main() {
           ) {
             await tester.pump(const Duration(milliseconds: 100));
           }
+          if (find.textContaining(expectedText).evaluate().isEmpty &&
+              find.byType(Scrollable).evaluate().isNotEmpty) {
+            // Enlarged content is built lazily below the first viewport.
+            // Reach the declared control through the user's page scroll.
+            await tester.scrollUntilVisible(
+              find.textContaining(expectedText),
+              160,
+              scrollable: find.byType(Scrollable).first,
+              maxScrolls: 30,
+            );
+          }
         }
         // A marker can exist in an outgoing or offstage page while a redirect
         // or primary-branch transition is still painting. Drain a bounded set
@@ -155,15 +167,46 @@ void main() {
             reason: '${spec.route} visible route marker',
           );
         }
-        expect(find.text('Screen not found'), findsNothing, reason: spec.route);
+        expect(
+          find.text('Screen not found'),
+          spec.removedRoute ? findsOneWidget : findsNothing,
+          reason: spec.route,
+        );
+        if (spec.removedRoute) {
+          expect(spec.route, '/settings/bank-transfer');
+          expect(find.text('This screen is unavailable.'), findsOneWidget);
+          for (final label in ['Home', 'Groups']) {
+            final recovery = find.widgetWithText(CollectButton, label);
+            if (recovery.evaluate().isEmpty) {
+              await tester.scrollUntilVisible(
+                find.text(label),
+                160,
+                scrollable: find.byType(Scrollable).first,
+                maxScrolls: 30,
+              );
+            }
+            expect(recovery, findsOneWidget);
+            await tester.ensureVisible(recovery);
+            await tester.pump(const Duration(milliseconds: 100));
+            expect(recovery.hitTestable(), findsOneWidget);
+            expect(tester.takeException(), isNull, reason: spec.name);
+            if (screenshotsEnabled) {
+              await binding.takeScreenshot(
+                'detail_${spec.name}_recovery_${label.toLowerCase()}',
+              );
+            }
+          }
+        }
         for (final text in spec.forbiddenText) {
           expect(find.textContaining(text), findsNothing, reason: spec.name);
         }
-        expect(
-          find.text('This screen is unavailable.'),
-          findsNothing,
-          reason: spec.route,
-        );
+        if (!spec.removedRoute) {
+          expect(
+            find.text('This screen is unavailable.'),
+            findsNothing,
+            reason: spec.route,
+          );
+        }
         if (screenshotsEnabled) {
           // Native keyboard surfaces are outside Flutter's screenshot layer.
           // Close the keyboard and wait for viewport restoration so the app
@@ -251,8 +294,13 @@ const _routeSpecs = <_RouteSpec>[
     expectedText: 'Profile',
   ),
   _RouteSpec('home', '/home', 'primary', expectedText: 'RWF 35,000'),
-  _RouteSpec('offline', '/offline', 'utility', expectedText: 'You are offline'),
-  _RouteSpec('sync', '/sync', 'utility', expectedText: 'Sync needs attention'),
+  _RouteSpec(
+    'offline',
+    '/offline',
+    'utility',
+    expectedText: 'Refresh your data',
+  ),
+  _RouteSpec('sync', '/sync', 'utility', expectedText: 'Refresh your data'),
   _RouteSpec('groups', '/groups', 'primary', expectedText: 'Groups'),
   _RouteSpec(
     'contribute-entry',
@@ -299,8 +347,7 @@ const _routeSpecs = <_RouteSpec>[
     'shared-group-link',
     '/c/qa-private-group',
     'entry',
-    expectedPath: '/groups/qa-private-group',
-    expectedText: 'QA private group',
+    expectedText: 'Review this group invitation',
   ),
   _RouteSpec(
     'app-share-entry',
@@ -355,7 +402,7 @@ const _routeSpecs = <_RouteSpec>[
     'diaspora-public-buri-momo',
     '/groups/col-public-savings-fixture/contribute',
     'workflow',
-    expectedText: 'Continue to MoMo',
+    expectedText: 'Contribution unavailable',
     diaspora: true,
     forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
   ),
@@ -363,8 +410,9 @@ const _routeSpecs = <_RouteSpec>[
     'diaspora-contribution',
     '/groups/qa-private-group/contribute',
     'workflow',
-    expectedText: 'Review transfer',
+    expectedText: 'Contribution unavailable',
     diaspora: true,
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR', 'Continue to MoMo'],
   ),
   _RouteSpec(
     'ledger',
@@ -397,18 +445,21 @@ const _routeSpecs = <_RouteSpec>[
     expectedText: 'Account details',
   ),
   _RouteSpec(
-    'settings-bank-transfer',
+    'removed-bank-transfer-route',
     '/settings/bank-transfer',
     'workflow',
-    expectedPath: '/settings/profile',
-    expectedText: 'Profile',
+    expectedText: 'This screen is unavailable.',
+    removedRoute: true,
+    forbiddenText: ['Bank transfer details', 'IBAN', 'EUR'],
   ),
   _RouteSpec(
-    'diaspora-bank-transfer',
+    'diaspora-removed-bank-transfer-route',
     '/settings/bank-transfer',
     'workflow',
     diaspora: true,
-    expectedText: 'Bank transfer details',
+    expectedText: 'This screen is unavailable.',
+    removedRoute: true,
+    forbiddenText: ['Bank transfer details', 'IBAN', 'EUR'],
   ),
   _RouteSpec(
     'settings-permissions',
@@ -481,6 +532,7 @@ class _RouteSpec {
     this.signedIn = true,
     this.diaspora = false,
     this.forbiddenText = const [],
+    this.removedRoute = false,
   });
 
   final String name;
@@ -494,6 +546,7 @@ class _RouteSpec {
   final bool signedIn;
   final bool diaspora;
   final List<String> forbiddenText;
+  final bool removedRoute;
 
   bool get isProductScreen => routeClass != 'compatibility';
 

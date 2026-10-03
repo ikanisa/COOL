@@ -1,0 +1,19 @@
+{
+  "checked_at_utc": "2026-10-02T00:52:53.240347+00:00",
+  "checked_evidence_leaves": 141,
+  "batch_sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a",
+  "index_sha256": "5ec929c9fb459a99e6a958f99fccf7e4d20993fd51bef4f8d3e4d29e7425408c",
+  "current_production_sources_checked": 4,
+  "errors": [],
+  "actual_scopes": {
+    "causal_default_route": 4,
+    "broader_consumers_pass_fail": [
+      134,
+      2
+    ],
+    "affected_post_header_replay": 37,
+    "real_cache_home": 1,
+    "full_fresh_136_claimed": false
+  },
+  "scope": "Independent sealed-artifact and current4production readback; local consumer acceptance only."
+}

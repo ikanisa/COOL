@@ -1,0 +1,35 @@
+{
+  "rows": [
+    {
+      "id": "momo:99730000-0000-4000-8000-000000000001",
+      "rail": "rw_momo",
+      "title": "Receipt 11111111",
+      "amount": "",
+      "status": "pending",
+      "event_id": null,
+      "subtitle": "Rwanda \u00b7 MoMo SMS \u00b7 Synthetic receipt foundation",
+      "lifecycle": {
+        "ledger": "not_posted",
+        "allocation": "pending_parse",
+        "notification": "not_created",
+        "verification": "pending",
+        "evidence_limit": "confirmation_record_is_not_external_settlement_proof",
+        "contract_version": 1
+      },
+      "reference": null,
+      "created_at": "2026-09-30T21:55:24.409127+00:00",
+      "group_name": "Synthetic receipt foundation",
+      "payment_id": null,
+      "raw_sms_id": "99730000-0000-4000-8000-000000000001",
+      "payee_label": "Collection receiver",
+      "country_code": "RW",
+      "source_label": "MoMo receipt SMS",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "sender_masked": "M-Money",
+      "payer_name_masked": null,
+      "payment_intent_id": null,
+      "allocated_member_id": null
+    }
+  ],
+  "total": 1
+}

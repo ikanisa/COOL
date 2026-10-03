@@ -19,6 +19,15 @@ void main() {
   late ProviderContainer container;
   late Future<http.Response> Function() retry;
   late int retryCalls;
+  final identityState = StateProvider<AdminIdentity?>(
+    (_) => const AdminIdentity(
+      userId: fixture.actor,
+      displayName: 'Synthetic operator',
+      roles: ['admin'],
+      permissions: ['notifications.read', 'notifications.manage'],
+    ),
+  );
+  final delayedIdentity = StateProvider<Future<AdminIdentity?>?>((_) => null);
   var disposed = false;
   setUp(() async {
     retryCalls = 0;
@@ -62,14 +71,10 @@ void main() {
     container = ProviderContainer(
       overrides: [
         supabaseClientProvider.overrideWithValue(client),
-        adminIdentityProvider.overrideWith(
-          (_) async => const AdminIdentity(
-            userId: fixture.actor,
-            displayName: 'Synthetic operator',
-            roles: ['admin'],
-            permissions: ['notifications.read', 'notifications.manage'],
-          ),
-        ),
+        adminIdentityProvider.overrideWith((ref) {
+          final identity = ref.watch(identityState);
+          return ref.watch(delayedIdentity) ?? Future.value(identity);
+        }),
       ],
     );
   });
@@ -140,6 +145,104 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(retryCalls, 0);
     expect(find.text('Failed delivery returned to queue'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await finish(tester);
+  });
+  testWidgets(
+    'permission revocation in the same session clears an open reason dialog',
+    (tester) async {
+      await page(tester);
+      expect(find.byType(AlertDialog), findsOneWidget);
+      container.read(identityState.notifier).state = const AdminIdentity(
+        userId: fixture.actor,
+        displayName: 'Synthetic operator',
+        roles: ['admin'],
+        permissions: ['notifications.read'],
+      );
+      await network(tester);
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(retryCalls, 0);
+      expect(find.text('Failed delivery returned to queue'), findsNothing);
+      expect(tester.takeException(), isNull);
+      await finish(tester);
+    },
+  );
+  testWidgets('unresolved identity refresh clears a sensitive draft', (
+    tester,
+  ) async {
+    await page(tester);
+    final pending = Completer<AdminIdentity?>();
+    container.read(delayedIdentity.notifier).state = pending.future;
+    await network(tester);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(retryCalls, 0);
+    pending.complete(container.read(identityState));
+    await network(tester);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(tester.takeException(), isNull);
+    await finish(tester);
+  });
+  testWidgets(
+    'role revocation clears the open draft even with retained capabilities',
+    (tester) async {
+      await page(tester);
+      container.read(identityState.notifier).state = const AdminIdentity(
+        userId: fixture.actor,
+        displayName: 'Synthetic operator',
+        roles: [],
+        permissions: ['notifications.read', 'notifications.manage'],
+      );
+      await network(tester);
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(retryCalls, 0);
+      expect(tester.takeException(), isNull);
+      await finish(tester);
+    },
+  );
+  testWidgets('blank audit reason and cancelled review dispatch no request', (
+    tester,
+  ) async {
+    await page(tester);
+    await tester.enterText(find.byType(TextField), '   ');
+    await network(tester);
+    final submit = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Retry delivery'),
+    );
+    expect(submit.onPressed, isNull);
+    expect(retryCalls, 0);
+    await tester.tap(find.text('Cancel'));
+    await network(tester);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(retryCalls, 0);
+    expect(container.read(adminRealtimeTickProvider), 0);
+    expect(tester.takeException(), isNull);
+    await finish(tester);
+  });
+  testWidgets('permission A-B-A cannot resurrect an already dispatched ACK', (
+    tester,
+  ) async {
+    final release = Completer<http.Response>();
+    retry = () => release.future;
+    await page(tester);
+    await tester.tap(find.text('Retry delivery'));
+    await network(tester);
+    expect(retryCalls, 1);
+    final identity = container.read(identityState);
+    container.read(identityState.notifier).state = const AdminIdentity(
+      userId: fixture.actor,
+      displayName: 'Synthetic operator',
+      roles: ['admin'],
+      permissions: ['notifications.read'],
+    );
+    await network(tester);
+    container.read(identityState.notifier).state = identity;
+    await network(tester);
+    release.complete(
+      fixture.response({'ok': true, 'status': 'queued', 'delivery_count': 1}),
+    );
+    await network(tester);
+    expect(find.text('Failed delivery returned to queue'), findsNothing);
+    expect(container.read(adminRealtimeTickProvider), 0);
     expect(tester.takeException(), isNull);
     await finish(tester);
   });

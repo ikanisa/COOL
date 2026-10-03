@@ -1,0 +1,172 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/shared/contribution_intent_binding_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt4-sdk-only/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:30:55.199960+00:00",
+    "exit_code": 0,
+    "timed_out": false,
+    "owned_process_group": 91695,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 1.954,
+    "stdout_sha256": "59319757917e172e68a00c3460de505c3e9a03d5da3fc35dfa056e14ba5f2acb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "machine": {
+    "runner_completed_successfully": true,
+    "passed": 23,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "unsafe input 0 makes no create RPC and publishes no intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe input -1 makes no create RPC and publishes no intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "unsafe input 9007199254740992 makes no create RPC and publishes no intent",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "valid map ACK is bound to submitted group and exact amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "valid singleton list ACK is bound to submitted group and exact amount",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong group ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "wrong amount ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "multiple rows ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "empty rows ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "null ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "scalar ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "inexact amount ACK cannot enter client state or mark membership",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "late create ACK denied after same-user new session with pinned old request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "late create ACK denied after A to B to A original session with pinned old request authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "same-session token refresh retains valid intent authority",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "503 makes one mutation POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "transport loss makes one mutation POST per explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh foreign ID is denied without replacing the immutable request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh extra row is denied without replacing the immutable request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh inexact count is denied without replacing the immutable request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh changed group is denied without replacing the immutable request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refresh changed amount is denied without replacing the immutable request",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "old-session refresh response cannot publish into fresh same-user state",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

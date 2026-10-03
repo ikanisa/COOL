@@ -1,0 +1,216 @@
+{
+  "actual_environment": "Official Ubuntu24.04.5 amd64 via Docker Desktop emulation on ARM64 macOS",
+  "all_owned_containers_absent": true,
+  "applicable_dart_count": 670,
+  "arc01_complete": false,
+  "canonical_pub_bootstrap": {
+    "at_utc": "2026-10-02T00:38:56.476989+00:00",
+    "lockfile_after_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "lockfile_before_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "package_config_sha256": "03e0bd6ebf667efd48345768d052a791a1bfbad6fad7a59b6b6ac8c870e98c26",
+    "private_source_byte_changes": 0,
+    "process": {
+      "argv": [
+        "docker",
+        "exec",
+        "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub",
+        "/bin/bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "flutter pub get --enforce-lockfile"
+      ],
+      "completed_at_utc": "2026-10-02T00:38:56.223454+00:00",
+      "deadline_seconds": 420,
+      "elapsed_seconds": 140.77766654199877,
+      "exit_code": 0,
+      "log_sha256": "44060f88af324595dd0d9c0e9f238a8c0a781971788fef01aea77e5ac26cd428",
+      "started_at_utc": "2026-10-02T00:36:35.448252+00:00",
+      "timed_out": false
+    },
+    "pub_cache_initially_empty": true,
+    "root_source_written": false,
+    "selected_generated_packages": [
+      {
+        "languageVersion": "3.12",
+        "name": "file_saver",
+        "packageUri": "lib/",
+        "rootUri": "../third_party/file_saver"
+      },
+      {
+        "languageVersion": "3.6",
+        "name": "firebase_messaging",
+        "packageUri": "lib/",
+        "rootUri": "../third_party/firebase_messaging"
+      },
+      {
+        "languageVersion": "3.8",
+        "name": "flutter_lints",
+        "packageUri": "lib/",
+        "rootUri": "file:///work/pub-cache/hosted/pub.dev/flutter_lints-6.0.0"
+      },
+      {
+        "languageVersion": "3.9",
+        "name": "gotrue",
+        "packageUri": "lib/",
+        "rootUri": "../third_party/gotrue"
+      },
+      {
+        "languageVersion": "3.12",
+        "name": "collect_app",
+        "packageUri": "lib/",
+        "rootUri": "../"
+      }
+    ],
+    "status": "ACTUAL_CANONICAL_PUB_BOOTSTRAP_PASS"
+  },
+  "current_applicable_count_at_readback": 670,
+  "current_root_acceptance": false,
+  "dart_binary_sha256": "c03ad868b5c53e31461b0fef22dc6eb6aeb56b7567efff6ca488ce9c4a6f8a6a",
+  "finding": "ARC-01",
+  "formatter_result": {
+    "at_utc": "2026-10-02T00:40:32.314947+00:00",
+    "current_root_acceptance": false,
+    "fixture_removed": true,
+    "full_applicable_dart_count": 670,
+    "malformed_fixture_actual_rejection": {
+      "argv": [
+        "docker",
+        "exec",
+        "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+        "/bin/bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "make format-check"
+      ],
+      "completed_at_utc": "2026-10-02T00:40:25.804423+00:00",
+      "deadline_seconds": 120,
+      "elapsed_seconds": 5.1144716659982805,
+      "exit_code": 2,
+      "formatted_files": 671,
+      "log_sha256": "322dd0dd4f6b691208d8d4917bd3f78ce8c4f02ba10d821067d459dd869105cf",
+      "started_at_utc": "2026-10-02T00:40:20.690053+00:00",
+      "timed_out": false,
+      "would_change_paths": [
+        "tool/qa/arc01_malformed_formatter_fixture.dart"
+      ]
+    },
+    "only_private_correction_paths": [
+      "lib/admin/core/admin_runtime.dart",
+      "scripts/tests/admin_receipt_source_busy_test.dart",
+      "test/features/runtime_component_contract_test.dart"
+    ],
+    "original_source_actual_failure": {
+      "argv": [
+        "docker",
+        "exec",
+        "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+        "/bin/bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "make format-check"
+      ],
+      "completed_at_utc": "2026-10-02T00:40:14.517147+00:00",
+      "deadline_seconds": 120,
+      "elapsed_seconds": 6.459375084003113,
+      "exit_code": 2,
+      "formatted_files": 670,
+      "log_sha256": "be19fb8213d6f6c69e4484aa2674b831b82eefd3f3ca5df63300f3e5884050d1",
+      "started_at_utc": "2026-10-02T00:40:08.057939+00:00",
+      "timed_out": false,
+      "would_change_paths": [
+        "lib/admin/core/admin_runtime.dart",
+        "scripts/tests/admin_receipt_source_busy_test.dart",
+        "test/features/runtime_component_contract_test.dart"
+      ]
+    },
+    "private_candidate_actual_pass": {
+      "argv": [
+        "docker",
+        "exec",
+        "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+        "/bin/bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "make format-check"
+      ],
+      "completed_at_utc": "2026-10-02T00:40:20.336539+00:00",
+      "deadline_seconds": 120,
+      "elapsed_seconds": 4.499673457998142,
+      "exit_code": 0,
+      "formatted_files": 670,
+      "log_sha256": "2ac674ac6550b5d503aaaed9dc3fe9f207d03f51c615910c979175663f92f651",
+      "started_at_utc": "2026-10-02T00:40:15.836978+00:00",
+      "timed_out": false,
+      "would_change_paths": []
+    },
+    "restored_candidate_actual_pass": {
+      "argv": [
+        "docker",
+        "exec",
+        "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+        "/bin/bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "make format-check"
+      ],
+      "completed_at_utc": "2026-10-02T00:40:32.273311+00:00",
+      "deadline_seconds": 120,
+      "elapsed_seconds": 5.991611792000185,
+      "exit_code": 0,
+      "formatted_files": 670,
+      "log_sha256": "3e7e29ff9986a38102cd85f368e91ee67435669231ce6ce0b11baba8db56398c",
+      "started_at_utc": "2026-10-02T00:40:26.281842+00:00",
+      "timed_out": false,
+      "would_change_paths": []
+    },
+    "root_source_written": false,
+    "status": "DATED_PRIVATE_CANDIDATE_MAKE_PASS"
+  },
+  "official_dart_version": "3.12.2",
+  "official_linux_flutter_version": "3.44.4",
+  "private_candidate_all_bytes_exact": true,
+  "private_candidate_correction_paths": [
+    "lib/admin/core/admin_runtime.dart",
+    "scripts/tests/admin_receipt_source_busy_test.dart",
+    "test/features/runtime_component_contract_test.dart"
+  ],
+  "proposal_diff": "formatter-candidate-attempt2/private-three-file-candidate.diff",
+  "receipt_sha256": {
+    "README.md": "9ce80b378870830257ee66b952125263d8f577b47eb3a5012ee75bb3dd4e9ed2",
+    "acquisition-attempt1/result.json": "05ed0d271d44bd91432794b7dc25d3eda8937fa2efa1e3139c3d5fe9cf666e42",
+    "final-runtime-readback.json": "0654bc2ae518de4cb850aaff7170206123addaa9de430713e34ef8fecf91b252",
+    "final-source-and-candidate-readback.json": "f9ddf9fe03462df15a4f4e31b1e5258f5cc13463f730c9460f28b4fae3835880",
+    "formatter-candidate-attempt2/container-cleanup.json": "d6f8d8c8facc876021876085038bc97139a6ea33b22749ff4ec89eb6f5d861ac",
+    "formatter-candidate-attempt2/private-candidate-source.json": "07ba9821bb48ba3bacf9e1a1e9b23d97c832d04deeea83b01fec51db7b2c24e5",
+    "formatter-candidate-attempt2/private-three-file-candidate.diff": "cf77b44ac732f72a758468749e6b241f7d4129b124a688ede00858c46d2d6c2e",
+    "formatter-candidate-attempt2/result.json": "e7c1101bfebfcf4fa42e9b19b60b47f382d55d1b783e17123c3e2cc96c012c01",
+    "pub-bootstrap-attempt1/cleanup-post-diagnostic-confirmation.json": "5b96c1feba8f4cbdc8e0175b37ecc456eca06efdfd59739ed8680a04dd5f7246",
+    "pub-bootstrap-attempt1/result.json": "6175801cded11e55f4d7d20cad80a09a8206a545fe2a24cfbb5e59f8622865c4",
+    "sdk-extraction-attempt1/result.json": "a7010d0d5c7dc0af6609b65c37343762f6c15d1ef4829dbbfa6e6ea73e3922c2",
+    "source-export-attempt1/source-inventory.json": "c78de64e9ab3555c68cd2ede5584f100715a2c949c67db71b4ebc2c9609c9e39"
+  },
+  "remaining": "Owner-reviewed safe integration of3 formatter corrections, then fresh current full source capture + actual Make proof with all intervening source changes bound. No source/platform/provider/CI/production claim beyond dated candidate.",
+  "retained_failed_attempts": [
+    "ubuntu-build-attempt1/failure.json",
+    "pub-bootstrap-attempt1/execution-failure.json",
+    "pub-bootstrap-attempt1/container-cleanup.json"
+  ],
+  "root_drift_since_dated_export_paths": [
+    "lib/app/router.dart",
+    "lib/features/landing/public_capability_content.dart",
+    "lib/features/landing/public_marketing_page_content.dart",
+    "lib/shared/repositories/collect_repository.dart",
+    "lib/shared/widgets/screen_scaffold.dart"
+  ],
+  "root_source_written": false,
+  "sdk_git_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "sealed_at_utc": "2026-10-02T00:42:45.822998+00:00",
+  "source_inputs": 823,
+  "status": "DATED_PRIVATE_CANDIDATE_PASS_CURRENT_ROOT_PENDING",
+  "structured_original_pub_cleanup_confirmation": "pub-bootstrap-attempt1/cleanup-post-diagnostic-confirmation.json"
+}

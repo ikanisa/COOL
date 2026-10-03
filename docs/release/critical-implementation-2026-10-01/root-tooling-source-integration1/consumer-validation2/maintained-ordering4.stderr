@@ -1,0 +1,73 @@
+test_full_staging_migrations_and_thirteen_functions_use_reviewed_export (__main__.AdditionalOrdering.test_full_staging_migrations_and_thirteen_functions_use_reviewed_export) ... ERROR
+test_management_fallback_checks_exact_version_before_each_sql_write (__main__.AdditionalOrdering.test_management_fallback_checks_exact_version_before_each_sql_write) ... ERROR
+test_readiness_unknown_manifest_project_refuses_before_first_query (__main__.AdditionalOrdering.test_readiness_unknown_manifest_project_refuses_before_first_query) ... ERROR
+test_readiness_incompatible_server_stops_after_exact_read_before_later_requests (__main__.AdditionalOrdering.test_readiness_incompatible_server_stops_after_exact_read_before_later_requests) ... ERROR
+
+======================================================================
+ERROR: test_full_staging_migrations_and_thirteen_functions_use_reviewed_export (__main__.AdditionalOrdering.test_full_staging_migrations_and_thirteen_functions_use_reviewed_export)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_management_fallback_checks_exact_version_before_each_sql_write (__main__.AdditionalOrdering.test_management_fallback_checks_exact_version_before_each_sql_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_readiness_unknown_manifest_project_refuses_before_first_query (__main__.AdditionalOrdering.test_readiness_unknown_manifest_project_refuses_before_first_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_readiness_incompatible_server_stops_after_exact_read_before_later_requests (__main__.AdditionalOrdering.test_readiness_incompatible_server_stops_after_exact_read_before_later_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.474s
+
+FAILED (errors=4)

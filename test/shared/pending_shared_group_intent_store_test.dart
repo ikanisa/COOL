@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/pending_shared_group_intent_store.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,6 +8,79 @@ void main() {
   final now = DateTime.utc(2026, 7, 28, 12);
   const firstUser = '11111111-1111-4111-8111-111111111111';
   const secondUser = '22222222-2222-4222-8222-222222222222';
+
+  for (final time in [
+    '2026-02-30T12:00:00Z',
+    '2026-07-28T11:00:00',
+    '2026-07-28',
+    '0000-07-28T11:00:00Z',
+    '2026-07-28T11:00:00+24:00',
+  ]) {
+    test(
+      'invalid invitation timestamp $time cannot acquire a fresh TTL',
+      () async {
+        final preferences = _MemoryPreferences();
+        preferences.values[PendingSharedGroupIntentStore
+            .defaultPreferencesKey] = jsonEncode({
+          'version': 2,
+          'slug': 'qa-private-group',
+          'intent_id': '33333333-3333-4333-8333-333333333333',
+          'owner_user_id': firstUser,
+          'captured_at': time,
+        });
+        final store = PendingSharedGroupIntentStore(
+          preferences: preferences,
+          clock: () => now,
+        );
+        expect(await store.read(), isNull);
+        expect(preferences.values, isEmpty);
+      },
+    );
+  }
+  test(
+    'impossible calendar date cannot normalize into the current TTL window',
+    () async {
+      final preferences = _MemoryPreferences();
+      preferences.values[PendingSharedGroupIntentStore.defaultPreferencesKey] =
+          jsonEncode({
+            'version': 2,
+            'slug': 'qa-private-group',
+            'intent_id': '33333333-3333-4333-8333-333333333333',
+            'owner_user_id': firstUser,
+            'captured_at': '2026-02-30T11:00:00Z',
+          });
+      final store = PendingSharedGroupIntentStore(
+        preferences: preferences,
+        clock: () => DateTime.utc(2026, 3, 2, 12),
+      );
+      expect(await store.read(), isNull);
+      expect(preferences.values, isEmpty);
+    },
+  );
+  test(
+    'writing a DateTime instant serializes UTC and preserves exact TTL',
+    () async {
+      final preferences = _MemoryPreferences();
+      final store = PendingSharedGroupIntentStore(
+        preferences: preferences,
+        clock: () => now,
+      );
+      final instant = DateTime.fromMillisecondsSinceEpoch(
+        now.subtract(const Duration(hours: 1)).millisecondsSinceEpoch,
+      );
+      await store.write(
+        PendingSharedGroupIntent(
+          slug: 'qa-private-group',
+          intentId: '33333333-3333-4333-8333-333333333333',
+          ownerUserId: firstUser,
+          capturedAt: instant,
+        ),
+      );
+      final payload = jsonDecode(preferences.values.values.single) as Map;
+      expect(payload['captured_at'], instant.toUtc().toIso8601String());
+      expect((await store.read())!.capturedAt, instant.toUtc());
+    },
+  );
 
   test(
     'pending group intent survives a store and controller recreation',

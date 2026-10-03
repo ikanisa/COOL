@@ -1,0 +1,38 @@
+{
+  "files": {
+    "README.md": {
+      "sha256": "46ea1fe0b8d16643abfaab9d95397111b255bbf198961b688a0ea23eeab07496",
+      "bytes": 1752
+    },
+    "ci-source-readback.json": {
+      "sha256": "323eeb73ecf50c927060c487e2f4447fc327e5e6b4b5b3614047bd8ab26ab876",
+      "bytes": 755
+    },
+    "ci.after.yml": {
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+      "bytes": 23831
+    },
+    "ci.before.yml": {
+      "sha256": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+      "bytes": 22631
+    },
+    "code-review.json": {
+      "sha256": "fc7be5b87d0be7778999c0acd93370360f45eb0cb4cdd38cd9e3f863f292a186",
+      "bytes": 2071
+    },
+    "decoder-README.after.md": {
+      "sha256": "6012e40affbe5c7f9e3ae5f886cf0603d043c2747fc093f546d134924553cf00",
+      "bytes": 7074
+    },
+    "decoder-README.before.md": {
+      "sha256": "de722f939bbe759dd5592963937bab38ed17f58362d1158339d4bbd3a1b8b029",
+      "bytes": 4716
+    },
+    "offline-preparation-independent-readback.json": {
+      "sha256": "1ac7df50d108e1aa6aa6d98bc233cafd4440e68e42531288a105716289eaa600",
+      "bytes": 1526
+    }
+  },
+  "scope": "Sealed root review and CI/documentation integration; fresh full gate remains separate",
+  "sealed_at": "2026-10-02T01:51:29.010912+00:00"
+}

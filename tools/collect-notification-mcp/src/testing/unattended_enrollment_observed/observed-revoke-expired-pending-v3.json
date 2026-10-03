@@ -1,0 +1,13 @@
+{
+  "scope": "rw_receipt_operations",
+  "action": "revoke",
+  "key_sha256": "e80cc3a9dffb9e5f77509bf8a1727193081d446f265cc2bc94821e998a2347c1",
+  "request_id": "103e7d1f-cd84-41ea-9b1e-80265ba14f4e",
+  "recorded_at": "2026-10-01T13:03:21.163718Z",
+  "principal_id": "0d0310d4-98f8-4f84-95dd-d69761d67d7f",
+  "reason_sha256": "b83473c9a111b12d2afd5098de19646e13c2d77a7e2652535e8886c4f19800c0",
+  "state_at_action": "revoked",
+  "contract_version": 3,
+  "request_expires_at": "2026-10-01T13:04:51.074812Z",
+  "identity_expires_at": "2026-10-01T13:03:04.958165Z"
+}

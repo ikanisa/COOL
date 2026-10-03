@@ -1,0 +1,2558 @@
+{
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "bytes": 38333
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.github/workflows/ci.yml": {
+    "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+    "bytes": 23831
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.dart_tool/package_config.json": {
+    "sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+    "bytes": 33414
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/pubspec.lock": {
+    "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "bytes": 39236
+  },
+  "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart": {
+    "sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+    "bytes": 3884832
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/pubspec.yaml": {
+    "sha256": "7f5569ad761ada0c0db369abe3960e1f06e58a4905b1aa84e8e95e368b63470f",
+    "bytes": 1135
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/analysis_rule.dart": {
+    "sha256": "dcdf28e080ecfedeecd6a5c43c6ebc7ebb2fe2d5010763a02db6a9c0386b965d",
+    "bytes": 8815
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/pubspec.dart": {
+    "sha256": "3574fed9fb3a6af207ac16d54cbcb243d89ff34302659b52c84dd09615433dc0",
+    "bytes": 6187
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/rule_context.dart": {
+    "sha256": "32a9ff65b9098ef516879d6a82c6a64845b1d2d94681242bb81d79ef0d5bc2e1",
+    "bytes": 2509
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/rule_state.dart": {
+    "sha256": "db45e2c34019e83761e1811a54a25b2b0784d9040f9e00acebb3573ef9a3a912",
+    "bytes": 2526
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/rule_visitor_registry.dart": {
+    "sha256": "6b740f05b284fb0fa239383bc60826e2f1224f214f35d95ca61f2100bca36145",
+    "bytes": 362
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/analysis_rule/rule_visitor_registry.g.dart": {
+    "sha256": "210cb7b3770f0f02fbcbc17bb9fa0a8c88fc3c7c74f61a8f86cb9a4e063e2d24",
+    "bytes": 14656
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/analysis_context.dart": {
+    "sha256": "7ee5a489025c5bd69213bb70f68fa2b8e44afdfb182aa85305abc7e7ed950fd9",
+    "bytes": 2979
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/analysis_context_collection.dart": {
+    "sha256": "d8bc821cc7dbc561567c2f3d4223498803f9ebe6ec30f7cbe53ababf303a4241",
+    "bytes": 1759
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/analysis_options.dart": {
+    "sha256": "46140718d4128cb1342ce4f0cb7a425ab72f1d21d1fe78c75b214002800e72e4",
+    "bytes": 3201
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/code_style_options.dart": {
+    "sha256": "d40c1f7eb5f87b1c5778ecfb9975484d93fdd23b3b1d97f7976f86d31d55f329",
+    "bytes": 2392
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/context_root.dart": {
+    "sha256": "f3764e84d6f9e1cfc23aaec570ab6c7ced7dab296af4470fc5619f0cc570f006",
+    "bytes": 2941
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/declared_variables.dart": {
+    "sha256": "dfb994d8ecc2b0997f3d38c100e4cb102c57442e03f2ec2090b6899d55c00582",
+    "bytes": 1338
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/features.dart": {
+    "sha256": "233a17bd16f11f0b70314389be44a19e47440d25849b1b985ee92d3fcb793ba3",
+    "bytes": 7141
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/formatter_options.dart": {
+    "sha256": "fc446ee7c3f0543f9ebc00db225a675da0ce1ef31928e5aa96715daea61b018a",
+    "bytes": 740
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/results.dart": {
+    "sha256": "4e301e35f5420d666413e2a85392a613184e5f6007559caa64aec128ea39733e",
+    "bytes": 15280
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/session.dart": {
+    "sha256": "47711bc01a155062a0c8fba098a045773e467d9644134a1e19861197b8521872",
+    "bytes": 5035
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/uri_converter.dart": {
+    "sha256": "90061ec430312483a07947ab3b1003d22dec0a2fb3dd6d8a9c5678f28a576da9",
+    "bytes": 1261
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/analysis/utilities.dart": {
+    "sha256": "16c64d2a741e372675b1e138a0b9fa154653bcbb5572abbed5462a6de81e09a5",
+    "bytes": 7323
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/ast.dart": {
+    "sha256": "bb658dc0e087b6505bec61d56a54f3b7734a53fe69c237325f2dd6e95bd10d7d",
+    "bytes": 7960
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/doc_comment.dart": {
+    "sha256": "74bc8a675a558eac886da6e10634962bdc58a67f0aff57ca00431c203f8a65c5",
+    "bytes": 15508
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/precedence.dart": {
+    "sha256": "afe7024429b24a4218305027b4245ad4ec8046c4298c20539b099af31220318a",
+    "bytes": 6606
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/syntactic_entity.dart": {
+    "sha256": "62e0eb8dc80a77f1295e60651286b9178d60a3809fadf66ee8c8945a09ddc3ed",
+    "bytes": 310
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/token.dart": {
+    "sha256": "c65ddac3eea2df48d42c0d99bdfb061d440b2ff3e3af54f5cf70c9d497325b11",
+    "bytes": 490
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/visitor.dart": {
+    "sha256": "ac8751e0b3c7f403e6ca731a1bae5359e2a33b422f6c31fa77852066d44477ac",
+    "bytes": 5180
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/ast/visitor.g.dart": {
+    "sha256": "97838174d6580e724495e0febd1a41f0b64e3b8319adc5abcbe2691c338a41c3",
+    "bytes": 120664
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/constant/value.dart": {
+    "sha256": "e8e81e083e97fe649b505264a27d601d3e7970c952a9faf39be13a3774a3317e",
+    "bytes": 8047
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/element.dart": {
+    "sha256": "043f726bffb99f0d34e4aa7bb57e0495c3a686f4a7809f9a373b654778ee298e",
+    "bytes": 142116
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/element2.dart": {
+    "sha256": "ac2d16cf659419f533acbed630765ad53ef4115a16297314c07c4b2565e25197",
+    "bytes": 322
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/nullability_suffix.dart": {
+    "sha256": "9029c5bf9615245c98be5ba7c0219f5fe8042ba58db6ec57002d41e914e77e84",
+    "bytes": 324
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/scope.dart": {
+    "sha256": "d2eeac19112fa8c0f01a1cf258ce5ba3e3923fc9dff08978515b98b7e85b7952",
+    "bytes": 1006
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/type.dart": {
+    "sha256": "b3525d334e4daf42683cfa719f3324e7f5c21ef3b7e340e014de7371cfce2f34",
+    "bytes": 23947
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/type_provider.dart": {
+    "sha256": "cca93b0c0342d7df2d129171ee85bce24ccad000b72573cdc526b3921f9addba",
+    "bytes": 9442
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/type_system.dart": {
+    "sha256": "cdaf7b5d3a3d4db2d2061ecc645e9fdd66397c4ee7aa0cb0146faec684624584",
+    "bytes": 7883
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/type_visitor.dart": {
+    "sha256": "ea5b64ac06f4144e0cacc84ec838d6d7a855058cb169999419869b3f073469cf",
+    "bytes": 3562
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/element/visitor2.dart": {
+    "sha256": "840a823ff4d96f5afedd060921a2ef4362f9cdf711ba8377cff7a56b8d00573a",
+    "bytes": 15823
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/dart/sdk/build_sdk_summary.dart": {
+    "sha256": "72f7476fd09fe004ceef57295646232ca060a4888ece48b6a264489df1a0e2c4",
+    "bytes": 2774
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/diagnostic/diagnostic.dart": {
+    "sha256": "90508116589faac5b9686c777f20f6d3964df0592e340f03b738e54e1b7458f1",
+    "bytes": 399
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/error/error.dart": {
+    "sha256": "2de6d7ef63735ac3090f6c15fba1872e0d0c790d8a1c9d8fed84fe040ff01c00",
+    "bytes": 2222
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/error/listener.dart": {
+    "sha256": "a59b207c48b72c9871b34f4db97f02d79b4c066d62469632b6b448318cbaba16",
+    "bytes": 4444
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/exception/exception.dart": {
+    "sha256": "55217b59e82eb4bad15db471d097d16d7bef95c7b722da2172c539cae8c42505",
+    "bytes": 3441
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/file_system/file_system.dart": {
+    "sha256": "baeea5156e83df377702a674e4482e6288f22ee764364783c947be439f5126a5",
+    "bytes": 10854
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/file_system/memory_file_system.dart": {
+    "sha256": "ed438e9e0cd153389d0c34ccf1dcbccb8c0ce6b972cc9f5f648eebf502fbfba1",
+    "bytes": 18839
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/file_system/overlay_file_system.dart": {
+    "sha256": "de94e197cf782f474d176db6d62ee939651c331c6d96d9d8606f7452534bada6",
+    "bytes": 12019
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/file_system/physical_file_system.dart": {
+    "sha256": "3e2b86d7a5a0f205c55b25cfe05418edfbc6b5f2b66ca6ccda0fbca977dd828d",
+    "bytes": 12045
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/file_instrumentation.dart": {
+    "sha256": "95149c27f104e3e3e4050e9cb4fa6feed9baa5f0ff7e48b580e223f48a7c2afc",
+    "bytes": 794
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/instrumentation.dart": {
+    "sha256": "ffdeb87ad1486baccb4b9c84f28e2442e03d6776c473139d85b30e5ff41bca24",
+    "bytes": 574
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/log_adapter.dart": {
+    "sha256": "18a324396f58ad8a464507fa29550b9730d02355a21ff47a69fd0bcdc8ee8bd5",
+    "bytes": 6911
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/logger.dart": {
+    "sha256": "1e07c6dc896e57836948e4843cc32f6b4d8a4e85f098ad7ccd7d529a39084ea3",
+    "bytes": 630
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/multicast_service.dart": {
+    "sha256": "a6764a8fe96412d67a497751a19a9345db4a9e581df6fd6895a217044ea5684d",
+    "bytes": 3618
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/noop_service.dart": {
+    "sha256": "cc3456ffc1c610e3637bb48d5ab6a3af53f913248fdbf35c40140e71340fc817",
+    "bytes": 1928
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/plugin_data.dart": {
+    "sha256": "8ef6e78dbf1b02ee2a0c0872d3324e19d81d5cc2421e6dc04fc92af541554111",
+    "bytes": 849
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/instrumentation/service.dart": {
+    "sha256": "56b27d12baea55194a30d088383f78a5b41a631d5b3ca02feee65f3895a08c1c",
+    "bytes": 3797
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/error_processor.dart": {
+    "sha256": "a686c98b8200f6171900fda5849d5403a27df9248bfd6220b627e37857ee697b",
+    "bytes": 3672
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/file_source.dart": {
+    "sha256": "81ce1e5f450206ef1e8cbafa31af7a11b4708accd8271cb6a7bea7db1539d4be",
+    "bytes": 2616
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/line_info.dart": {
+    "sha256": "c9e141dbb79931e5c0253f2127684adedf841a25979d00e42e1bfd4e76e7c359",
+    "bytes": 4198
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/source.dart": {
+    "sha256": "4b52031d96e94f1b5b2d205fb484beb4875183b13564bf99533dba21b62c56da",
+    "bytes": 287
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/source_range.dart": {
+    "sha256": "2e4a791ce7691bad5ff006f8fff64c0350acb04bf5eb0994f87041b75b20ecd8",
+    "bytes": 3469
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/source/timestamped_data.dart": {
+    "sha256": "bade1f00b27df695b04d8a615789db4c6c6e89935142c16e2c42d5db041ee34c",
+    "bytes": 310
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/analysis_options_file.dart": {
+    "sha256": "cad0fce3bd828866bf8267ad5c63044eea221c02f6c6cdc9877d978778ba846a",
+    "bytes": 3809
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/analysis_options_provider.dart": {
+    "sha256": "3dcff52d082603265476c601c3be1db5396aca7036adba03685f24954b700ee9",
+    "bytes": 7639
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/code_style_options.dart": {
+    "sha256": "12b8bdb5a608a3ecbcf3a3a93825b4b7e6e61bcd5188af719ff3964e80cb5a42",
+    "bytes": 3142
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/error/option_codes.dart": {
+    "sha256": "4040bd5788232c007efd7208c987d7369fa34178550dcd60ddfae7c12dc0c01b",
+    "bytes": 348
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/error/option_codes.g.dart": {
+    "sha256": "49d2e84b596b727dd13b36afc722cdc08ddc9fa99509665c58c9d8df0c08ac1a",
+    "bytes": 25943
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/options_file_validator.dart": {
+    "sha256": "2bfabff64799d6d0ec91e556fb1b383e9616717131ea8ac824e9c9b22a08c8e1",
+    "bytes": 39156
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_options/options_validator.dart": {
+    "sha256": "245193ea3a6d296e2d17bbe6b49dbd16263eed1bc1d5f6ab280f85f1c4414ada",
+    "bytes": 657
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/analysis_rule/rule_context.dart": {
+    "sha256": "1afb0f149bb65ec4263a4dde70f835b786481f6f362a01e3f68f9f45b8b9a11c",
+    "bytes": 3363
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/binary/binary_reader.dart": {
+    "sha256": "ffa421813289f912b72fb13070958138d5036c4bcd14f614203c63e40bb1b0ff",
+    "bytes": 6090
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/binary/binary_writer.dart": {
+    "sha256": "70945f1fa99276375773c0de8ae57dca9804dd141bd1bb6a5d9138eb0e5db13a",
+    "bytes": 6910
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/binary/string_table.dart": {
+    "sha256": "3620eb6a77d3edd951fb0f420afe1f6ffcfa9aa2dd1567db7ef872d8ecddc46b",
+    "bytes": 6121
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/clients/build_resolvers/build_resolvers.dart": {
+    "sha256": "ba0237bab2d87b7030e729f707cda0001fcf09e7818d5fc4106782f25438c8c5",
+    "bytes": 4831
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/clients/dart_style/rewrite_cascade.dart": {
+    "sha256": "b55cf07e02fd5051483a769cd87c9f01f6fd7a5c3e64c00d2c8a8297d0de7fdd",
+    "bytes": 4538
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/context/builder.dart": {
+    "sha256": "1d33c9c5f509a31bcc54eff6fcfc435a85136406909cb6b47c729916bd4142f6",
+    "bytes": 2944
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/context/context.dart": {
+    "sha256": "77a63da1d198426a60ba45cd11b04f182bce48f45949ec414be71548a46b1419",
+    "bytes": 2195
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/context/packages.dart": {
+    "sha256": "7c449f10cdc573174312a04287dd6274358c1f21fd5fa05b65cba7d8746bb6dc",
+    "bytes": 3331
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/context/source.dart": {
+    "sha256": "8cb559b0734370c0bad06e70a38c820081e52516866eeba6020a7098d63946db",
+    "bytes": 5976
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/analysis_context_collection.dart": {
+    "sha256": "26ab3f74eb0d0ef6344141f81d789e5d5bfbde5069d313fb500ef2bdbca037c9",
+    "bytes": 7469
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/analysis_options.dart": {
+    "sha256": "d647185c9d70a37d46af69b346e82ba2ec5801141d99fb25b2c6929296638c78",
+    "bytes": 26900
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/analysis_options_map.dart": {
+    "sha256": "fb4bdfa58ae0aa0bc0a7f2f47029857bee5c7b57924adc6947fb59bc0ec3c5a1",
+    "bytes": 3644
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/byte_store.dart": {
+    "sha256": "8e22b0ff6fd13e21d6bae5b6ab21b6fcf282177e5896932856626cc36976db5d",
+    "bytes": 4282
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/cache.dart": {
+    "sha256": "b76a895afcfe7ede74a25159c85d27dbf516a4c2a1456ad6f9982caf387a17db",
+    "bytes": 1209
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/context_builder.dart": {
+    "sha256": "8ea14ae5b84535b0b5d21d6617f637c7a83b71670d0ec2a51a1658114c5aa28c",
+    "bytes": 11580
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/context_locator.dart": {
+    "sha256": "0c6462c3107ee81c50bb90e423055e94b0719c6245b34ac86ba2027dde36b42c",
+    "bytes": 31553
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/context_root.dart": {
+    "sha256": "5c33cbcfc6a3636b28e81807e1addc1e4a7f99b0e16ad967f423c6821679955f",
+    "bytes": 5351
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/crc32.dart": {
+    "sha256": "953a683d522d3410e03947f1a6f03ed340f01dcbe1908ba338df05bcc23bb756",
+    "bytes": 4790
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/defined_names.dart": {
+    "sha256": "654a2f71b87c876c0b090ce756643b39799944bde2449cdf80633371d67991d2",
+    "bytes": 2096
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/driver.dart": {
+    "sha256": "b6bb42a5a90f44630b677a09b63e5705174b482b9465c8b345406243203ecebc",
+    "bytes": 98763
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/driver_based_analysis_context.dart": {
+    "sha256": "b7b9187543ef109e965e3750c1986f412e4311a0d5ac9e338400557abde358ee",
+    "bytes": 2018
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/driver_event.dart": {
+    "sha256": "b8f560e0a5ff6f241084543800951c1a1737831bed7d0e9d1c5f131394611eb5",
+    "bytes": 2754
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/experiments.dart": {
+    "sha256": "7c2f96bd502cfe4cea928f535fd17e0a5d70023bce3d9c86eebae30542970145",
+    "bytes": 6492
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/experiments.g.dart": {
+    "sha256": "af7e6cf180a10d93ed8f3d81fe17d563756258a9f6c8f7dc345c5a23766d4018",
+    "bytes": 38513
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/experiments_impl.dart": {
+    "sha256": "6aa29c8e64b340c5262a4ad65cc648bf8bff261c49af0f48fdfa8f231488c195",
+    "bytes": 15501
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/feature_set_provider.dart": {
+    "sha256": "0ad8361175abc5e1fb6cc3d2fc270dbe46c10334b64b6d122e1a47ead44b712d",
+    "bytes": 5424
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_analysis.dart": {
+    "sha256": "bd4872ddef0a0b1c5b36bb614ac565ef7aef277bbc9dd900a7304f393bd54db4",
+    "bytes": 1222
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_byte_store.dart": {
+    "sha256": "955c2b74b36599d29513c7801c4d83cd9fcd1959449636e19afa6e027994d319",
+    "bytes": 9178
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_content_cache.dart": {
+    "sha256": "b19218e90aa8a9a637a84e2e38ad7ea0e73ce23598d907f864a4b747d30d31cd",
+    "bytes": 2643
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_state.dart": {
+    "sha256": "a96679fb03b23fc012bbf63c20bfaaab6d0373178ad74a884583165bfcf9ff68",
+    "bytes": 69320
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_state_filter.dart": {
+    "sha256": "8f47a059a4c35d10b7fc7288c72207179af494362feb51c7affe8094a6f89c41",
+    "bytes": 4385
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/file_tracker.dart": {
+    "sha256": "1658b90f0f49531852f635c71cf7c798caa77455c192715f2bf8bf11076380a2",
+    "bytes": 8304
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/fletcher16.dart": {
+    "sha256": "c5077c3d5d19fd65b8106ea891e64f81512b66b094fad176af8c99bca191c6bf",
+    "bytes": 635
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/index.dart": {
+    "sha256": "354248f190a47b6edddcc1932bc05d21afba6fd905f0f5840727a35cd625bf82",
+    "bytes": 49076
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/library_analyzer.dart": {
+    "sha256": "5b15782192af6e7c6346df64a44d9091d20ff2645b4ea27195756702d6ab2b08",
+    "bytes": 38324
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/library_context.dart": {
+    "sha256": "489abee067a096850077bdf3fb595509d5faf81a0a26f096b72c88555071d1bc",
+    "bytes": 20287
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/library_diagnostics.dart": {
+    "sha256": "9b9c35c272f0b51c6f3366b66d9623ba74d533f21f237afc68c2fa6d8bf7236b",
+    "bytes": 2186
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/library_graph.dart": {
+    "sha256": "45790bc53cfb627bf4e1f969b836667a31281a2922d8f28cad2fc5c2ae1bcfcb",
+    "bytes": 8368
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/mutex.dart": {
+    "sha256": "e5e82b719010999ec83cd8aef772c80b01dcc44f14f7a9bd362db9750c6f3f9c",
+    "bytes": 1180
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/performance_logger.dart": {
+    "sha256": "da564cb20a1ae9b557424a596ee6cb773a78fa72001a4109fed8a705cfb7e228",
+    "bytes": 2975
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/referenced_names.dart": {
+    "sha256": "c488e3078c354076aa164b8a31972372f6599ae0cc34125521bc43bb5d7fe99b",
+    "bytes": 10793
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/results.dart": {
+    "sha256": "38ce9ab0069544065992efe363a4b500a72ba4af79ef1a6392fa271cbb53e9d7",
+    "bytes": 14555
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/search.dart": {
+    "sha256": "a3da58e74ce5b6cd2e7b7f74e7a0d731fc22d69482583f7e0cb5602811dc2cfd",
+    "bytes": 52887
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/session.dart": {
+    "sha256": "6a83318dae625beeb2523a90294e3e39a3e3bacf29de14d65ac5859d222e0b08",
+    "bytes": 5158
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/session_helper.dart": {
+    "sha256": "2635cb622221d965ffadc225c7d3c1374aacab7274c46ec09e13e87a667441c2",
+    "bytes": 5030
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/status.dart": {
+    "sha256": "1c91f845509e70c0091d38d89c5074c379e5b7c4fce2e8df04d7fadbbb76f07e",
+    "bytes": 3364
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/testing_data.dart": {
+    "sha256": "c16b0163762c3b37d5efe6a22cc9678e3862426f8b23e5fbde3d0f84157f77a8",
+    "bytes": 2009
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/unlinked_api_signature.dart": {
+    "sha256": "14ea64ae1aceaced825290ccd86000c8f197f5ef3bd2ca2ef7e7432e93c4716c",
+    "bytes": 7279
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/unlinked_data.dart": {
+    "sha256": "426f0fd153d1dab4629340b83a5109cc733cb95cad8fd279e525597f2bc307f8",
+    "bytes": 16520
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/unlinked_unit_store.dart": {
+    "sha256": "84c0683ed8956e17361afdce47764f2f4cff6834954c7f64f8adaacebb807638",
+    "bytes": 1464
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/analysis/uri_converter.dart": {
+    "sha256": "de6c9f6994962331e15463cb7592420bafc7e1cc18438a67501fb43ebb5dbde0",
+    "bytes": 1562
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/ast.dart": {
+    "sha256": "5556a92db049a886030bee5743ddb82aec7853cfc7405d9842ad6f3c213e9fcf",
+    "bytes": 671208
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/ast.g.dart": {
+    "sha256": "2af0c58ebe4b824423ab014ddcda176413aa75d0b4171fb58000b528ea59b471",
+    "bytes": 10472
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/constant_evaluator.dart": {
+    "sha256": "6fac8ef44305275ff1ae821304bdf56dabbe765f3303470d6f537ccc1e4ccd9b",
+    "bytes": 15650
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/element_locator.dart": {
+    "sha256": "f174ba5d0b3fb323079f6b2ace9e9028dd2ee33b003466e1fc0f9ec7dfad2146",
+    "bytes": 8598
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/extensions.dart": {
+    "sha256": "feda3659c0daf75e54f9d71a3b6d4f19040d3692164b786161652881adaf3ad2",
+    "bytes": 10107
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/invokes_super_self.dart": {
+    "sha256": "9b347aacff1040576736618560b890b8f665590c3bdd63ad3aae1f4da033f03b",
+    "bytes": 2284
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/mixin_super_invoked_names.dart": {
+    "sha256": "9d357eb68f6f90908212e3f096c727fcd25e9e27e37b3c2dbd05d08742e932e1",
+    "bytes": 2012
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/to_source_visitor.dart": {
+    "sha256": "754ad33962b95b69309961f9b19f8ef5a4d9834a958256aefbcee7f9b10bfb36",
+    "bytes": 41618
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/token.dart": {
+    "sha256": "8cd02ae864f5ae7b8ddff1084dd3d102754bf8780a38582c9557ea2ad86ac403",
+    "bytes": 560
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/ast/utilities.dart": {
+    "sha256": "f31eea745baa2f522af2f65f0dde2ece15d244ce12962df9c0368763bab02bc4",
+    "bytes": 55105
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/compute.dart": {
+    "sha256": "3332ac18418c8143602c8a86458dbd8b332d8a61957d616d73cd1b76f37e3520",
+    "bytes": 3113
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/constant_verifier.dart": {
+    "sha256": "37e403d6f6aad3b12c58475ff6ac6de2d71d0b62aad87272ad7b0c6be9cde135",
+    "bytes": 56776
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/evaluation.dart": {
+    "sha256": "805e7dde686359c066b102678d4270ea1dabdc07b24c51bd90a6faf272f6d90f",
+    "bytes": 128508
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/from_environment_evaluator.dart": {
+    "sha256": "f4fcc1440db3285991df7a6f7224aa3a2bdda451a67a551d811ad643a1b2a247",
+    "bytes": 4892
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/has_invalid_type.dart": {
+    "sha256": "3aa23318077c2e1532a237f3ff13f45bf446a273c843d3027ad2ec47ffac87d5",
+    "bytes": 1202
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/has_type_parameter_reference.dart": {
+    "sha256": "9108ae87a8e5744a05e1e7a158672f638b53fa3728a701421f12e1801832c081",
+    "bytes": 1233
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/potentially_constant.dart": {
+    "sha256": "5b80bdef01b0652f32ae83de727d7a32f6bdaa13ff60f229aad17b14407f849b",
+    "bytes": 12028
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/utilities.dart": {
+    "sha256": "42ed4d364ee4eab3dea2572527122d774e229c646cfcaf366c8a5378769484e0",
+    "bytes": 9369
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/constant/value.dart": {
+    "sha256": "e354a150e7b7a8c14144bb61190d8765d953409db4b9686bcb00b1bec8b21077",
+    "bytes": 96534
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/class_hierarchy.dart": {
+    "sha256": "cdde609ad06a2210782851a516360dc60f85b4de3ed15afe9b848695b035549f",
+    "bytes": 6110
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/display_string_builder.dart": {
+    "sha256": "bfa9236274de533d926348fa9b71881d83d792527eb25d782e2b544dd1f98f87",
+    "bytes": 17360
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/element.dart": {
+    "sha256": "dde9f6590d21379f45ac9cfb2429b04835338c05b28e31b2c83266ccbc1fd26f",
+    "bytes": 300667
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/element.g.dart": {
+    "sha256": "d8942700ded621f329e58e6a7f3df8daa9deec34cf1c2d4cc017223bc0bfe5f5",
+    "bytes": 8439
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/extensions.dart": {
+    "sha256": "5ab47d4328d095b2ece166b00df162aed8a2e1ad6d4c061b11e0150192aa9f80",
+    "bytes": 9153
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/field_name_non_promotability_info.dart": {
+    "sha256": "96f3b98fccf1da42c8c4dc717a423e34e444763423c2056fde3c0b3a881772e8",
+    "bytes": 1715
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/generic_inferrer.dart": {
+    "sha256": "90ffb3b78de69a4c1feb55b8589da6ddbeda7cbac85a520697d4f5bf24aa037f",
+    "bytes": 27809
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/greatest_lower_bound.dart": {
+    "sha256": "ccf272166cf75695c7956de127d54b372509c1283325e1f84969e24c1e68dbfe",
+    "bytes": 12461
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/inheritance_manager3.dart": {
+    "sha256": "bab2262263709d46a47fc8ce53a21d943d79ec953c4da536f3da3dfaea1db1bb",
+    "bytes": 46935
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/least_greatest_closure.dart": {
+    "sha256": "396f11000a23bd3e69d47c58405a7f22e5436608770ad765f8535a01d87e7159",
+    "bytes": 3922
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/least_upper_bound.dart": {
+    "sha256": "abd89a9086ccc8456395386fcffb88c4a45959910b7d671c4994ad0619c9c8b4",
+    "bytes": 28277
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/member.dart": {
+    "sha256": "763f62860829685e9bcc79bb574c7cd94b8d20a9e33553ddc94c56633dd00fc0",
+    "bytes": 36924
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/name_union.dart": {
+    "sha256": "0c144394094999bbf9a3fdd7e88a2c8140569064a59d5b9b6dabd91b52db190e",
+    "bytes": 3750
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/non_covariant_type_parameter_position.dart": {
+    "sha256": "f1aa972c267bda7e5c451e1221b1beae5a37d2984d5a4cefe1cf6f64f4f218c0",
+    "bytes": 2254
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/normalize.dart": {
+    "sha256": "9701d1df2ceec62072017f3f7138bd68873f7f1fb059dc0e14d03c29658f59a2",
+    "bytes": 8392
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/replace_top_bottom_visitor.dart": {
+    "sha256": "598e3999bc3275e5c7b96d68ab41dc90d15e7ddbe2a84b0cb8216c1734c380a3",
+    "bytes": 4178
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/replacement_visitor.dart": {
+    "sha256": "f641cd68c54dac57a16c3e9804783537079b7ece4ba3c51d5ed2a8c16b9c5d56",
+    "bytes": 17550
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/runtime_type_equality.dart": {
+    "sha256": "988179a2367e0e41c5635c70d1f96ebedf1b244d7558e73b9d948c6468035027",
+    "bytes": 7412
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/scope.dart": {
+    "sha256": "b118fb837d9a9e14c78579d30f5e2f7032cc6a5789de2e51f2a1ece3f4708e7d",
+    "bytes": 24781
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/since_sdk_version.dart": {
+    "sha256": "a714f4104746772ca7e219ba9b8dcdb7ae4765ecc094d347264d932c1c949f32",
+    "bytes": 2536
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/subtype.dart": {
+    "sha256": "a9192797ed583d181380e3115e0dce5a727333bd027d4275bf93e4bd9a1b74a3",
+    "bytes": 16697
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/top_merge.dart": {
+    "sha256": "89de89013d349296db4b6bf09c93cbea39b4335e977faa57f7b0c22273288f7e",
+    "bytes": 12817
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type.dart": {
+    "sha256": "cd55e818c448b69d29509d5523da99269fae8b3a6238db66da41381f0ed73d6f",
+    "bytes": 50332
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_algebra.dart": {
+    "sha256": "90e3c8b004dbc8eb5d075d69ab91977b4eb40addc146bca4d5c5d1d45d7b085e",
+    "bytes": 19672
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_constraint_gatherer.dart": {
+    "sha256": "6bff23d239a2bd5e58f7f615e2a8564c13edea3e9489c9d754295d62cda52147",
+    "bytes": 10418
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_demotion.dart": {
+    "sha256": "1851ef9c734e0e19d98d240038f2c88bb9288fc9174b0a68ab84cf81b99afa27",
+    "bytes": 940
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_provider.dart": {
+    "sha256": "a894cf342fd368d2934e52543fed6869c728b99370ca8f08b3e6c269198ea8af",
+    "bytes": 18613
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_schema.dart": {
+    "sha256": "c31a83a0ebb42bada62698ed0cfd47ad5d227f57a10366a7db5ee141caa54de9",
+    "bytes": 3701
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_schema_elimination.dart": {
+    "sha256": "aebef55c5619184dcce507f124283c93cac2244b06ab54d1c20989e63a413324",
+    "bytes": 1765
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_system.dart": {
+    "sha256": "cd648566f35974c164d11f9c095359c9196e67238b2187f1a0ebad12f2471a23",
+    "bytes": 74145
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/type_visitor.dart": {
+    "sha256": "bf16841b966587e2bc251371a9622399cb85f47e07c9d674a26d4813849ab825",
+    "bytes": 3364
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/element/well_bounded.dart": {
+    "sha256": "c924363524b8a4d762f2b5be4cae1160b313e9dbe0cbdf5a5aed0496e596e7d0",
+    "bytes": 3936
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/ffi_code.dart": {
+    "sha256": "fbe549bcfe6a2f6ab8634ab1d0a9d93d65c0b667225730bbad6e7c4a9ec4094b",
+    "bytes": 382
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/ffi_code.g.dart": {
+    "sha256": "77b9843be5cb736700db35c0d49eedbd27899c0ed7f9d75f4a9632e77ed3e5c2",
+    "bytes": 31307
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/hint_codes.dart": {
+    "sha256": "f393c98b8f476dace76e52424448846614dd5b3dbf3f93b8fd17ac871c141920",
+    "bytes": 334
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/hint_codes.g.dart": {
+    "sha256": "f86ee42f33f8cbd4473f2572be9901fe3dc38a49212646d770b797bed92777fa",
+    "bytes": 7547
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/lint_codes.dart": {
+    "sha256": "1babf4dd4e8b249152c4b6c5e27ec56cbd37917d43765a4dd36e54ff11d602a7",
+    "bytes": 2917
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/syntactic_errors.dart": {
+    "sha256": "6197cf1f8c26ff92f316392b18bd10a9545934f04c1e553d23e5282a540ff876",
+    "bytes": 429
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/syntactic_errors.g.dart": {
+    "sha256": "b64349f193615af6fe34c3562fc328f53d35bdd80bee513db2984bcc9ad79f40",
+    "bytes": 106914
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/todo_codes.dart": {
+    "sha256": "dee053f8c37a5b97692a7c689ddeff2e4494a040721b7239278c3646ba2e666f",
+    "bytes": 1618
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/error/todo_codes.g.dart": {
+    "sha256": "cbed9fafe9b55d32a0bcf129e5201f7338eb70cddcab39df1a320a985499ac97",
+    "bytes": 4208
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/micro/analysis_context.dart": {
+    "sha256": "d43916fc21f9411cd5aa6f3c26d8894580826256e8b50ebe0ef24c35c00d5c5c",
+    "bytes": 6556
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/micro/resolve_file.dart": {
+    "sha256": "2c9971e3d21c299fa6a8bb7b07780fb7ec35455fad9d20415ec0c834b7298c84",
+    "bytes": 31255
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/micro/utils.dart": {
+    "sha256": "7b552fc1bd11a08188c424b2fa34662731aabfc1e7b1b9c9056160586ac9ffb0",
+    "bytes": 15142
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/annotation_resolver.dart": {
+    "sha256": "9a64d3cfaf2d2e3d61497634d97a8a1bd594e619f6fb465c7caa0cc60f2ed3ca",
+    "bytes": 14470
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/applicable_extensions.dart": {
+    "sha256": "7d3df0299896122a4f30caed1686fb06bcc2107b21212001c6877a1fd1712107",
+    "bytes": 8303
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/assignment_expression_resolver.dart": {
+    "sha256": "9a8c0dfe94179cb26d6d111fdc3528f94fae92248a02572479b762178415edc3",
+    "bytes": 13004
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/ast_rewrite.dart": {
+    "sha256": "05e51218c2f013b37a79858712560b13c33b73874ea76bca0812cc9c4403bae5",
+    "bytes": 24954
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/binary_expression_resolver.dart": {
+    "sha256": "01b2098215cdea32789474ae6774cb35ad988967c6bc5cb9cb58d2109bb4bcb7",
+    "bytes": 15900
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/body_inference_context.dart": {
+    "sha256": "deca2fa0e99eaf357a14ad58ebb91f61a81bc7eca787987e63b7befa07a8e8ab",
+    "bytes": 7061
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/comment_reference_resolver.dart": {
+    "sha256": "059700349a1ff4af8dfac40918ea032a494f282b5ec1652fd4264272b399b7e1",
+    "bytes": 7742
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/constructor_reference_resolver.dart": {
+    "sha256": "9fccbded48532b10beacaa671a623c5be652d38b498e38934212e7924c0a402e",
+    "bytes": 6549
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/exit_detector.dart": {
+    "sha256": "4cd3b9035891147f38f4fa8707b0fc59fcee094b6a7bc364e7abcb9ef7ce1611",
+    "bytes": 22641
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/extension_member_resolver.dart": {
+    "sha256": "eb74aa6467168724f23d9341b2ca08996483a036ac530a9c3510ba100f055210",
+    "bytes": 17934
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/flow_analysis_visitor.dart": {
+    "sha256": "710897814c0c0027b10662e7700aba5232b3ca38a2730806bff3d21136c54a5c",
+    "bytes": 40644
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/for_resolver.dart": {
+    "sha256": "52f0f6006b036609b7731306eb2ff1c2f850232e700237629e65889ed4d266d9",
+    "bytes": 9022
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/function_expression_invocation_resolver.dart": {
+    "sha256": "fcaeae230c6fbdb163bdb770402594981a2a7d03eb09ccc4bc7a6545216252fe",
+    "bytes": 7903
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/function_expression_resolver.dart": {
+    "sha256": "b965704d2f6374d5ad8d716771764e068240444700ee383435aa0a09ef6389c3",
+    "bytes": 7548
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/function_reference_resolver.dart": {
+    "sha256": "7ac90e6b7275ef412765d9b05b4c3fa38855fe3c23656e0db385dad7cc44520c",
+    "bytes": 34035
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/instance_creation_expression_resolver.dart": {
+    "sha256": "1e350cf6f032eda904dc9810add1363bbe1e5473a2b5cb1474c6485d9130615f",
+    "bytes": 8197
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/invocation_inference_helper.dart": {
+    "sha256": "520a01b50276c0ae98cd684a27a73360647a31143b3f9c4b5ba5e075ae981557",
+    "bytes": 7730
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/invocation_inferrer.dart": {
+    "sha256": "d5f40f9685cc7aa70b73550b959e93834b28b5768dc27b037e928e316cee0300",
+    "bytes": 29470
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/lexical_lookup.dart": {
+    "sha256": "f14616a73e13396e1aceee778856a4c9b5d062c8c8e99f9eb4523fe431c59cd7",
+    "bytes": 2584
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/list_pattern_resolver.dart": {
+    "sha256": "80971b24dc600277282b15876d3178ca44453938bd2d278fb4ae52c2325a89ee",
+    "bytes": 1810
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/method_invocation_resolver.dart": {
+    "sha256": "af550c16706af63eaf708c2c26b3e919498a3e925f9d8936fd3e39216f81dfa6",
+    "bytes": 51470
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/named_type_resolver.dart": {
+    "sha256": "5e30f5f1afa690b43d77f9aa55e57a7d4ea73ddf94216806ded7b0c55bbce1b9",
+    "bytes": 26332
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/postfix_expression_resolver.dart": {
+    "sha256": "045e3bdb48ed9214a112296757955ce482a352afd2cfc559057beb95d90f2d8a",
+    "bytes": 8134
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/prefix_expression_resolver.dart": {
+    "sha256": "fdf5d79ef28376b951b4e3a8300e628d59579d45e5a506c2767c675204b4f4ee",
+    "bytes": 9414
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/prefixed_identifier_resolver.dart": {
+    "sha256": "2a37026ceae58eccb90573d1b902c914e068b5b2f225759e7f99403b71466121",
+    "bytes": 6796
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/property_element_resolver.dart": {
+    "sha256": "f6470af2626afa607aa3fffdd562f66dfe3bb8a3cebb1389a9be21be038633cd",
+    "bytes": 34498
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/record_literal_resolver.dart": {
+    "sha256": "b43137e73ad1a59e3ac930fb55f90b363cd14e4ae22716cc41d8d905be525ac4",
+    "bytes": 7516
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/record_type_annotation_resolver.dart": {
+    "sha256": "9a3da062015ba262bd5fb7e8e0ef7b86eda6ed86ca403438294b011e43345998",
+    "bytes": 4624
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/resolution_result.dart": {
+    "sha256": "87cabcd50503acbb29510f9b805803306d4a80a1aba203943281a6aef7df915d",
+    "bytes": 2445
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/resolution_visitor.dart": {
+    "sha256": "69dc4f45a50b78bc221828d4be43321be338dc9c88eae43e2ea3a95efdfe23d5",
+    "bytes": 63515
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/scope.dart": {
+    "sha256": "1ea65ef5a8092952e26e72fcf89c333643324a91f1ea441e5e7248f8caa85934",
+    "bytes": 12388
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/shared_type_analyzer.dart": {
+    "sha256": "23362d243325e9d670720f4152c12ad520fb02a97bddcfe1e3c4d2c3e88558b1",
+    "bytes": 7416
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/simple_identifier_resolver.dart": {
+    "sha256": "81a58f07b7b99fbb4545bc46941e732579765d30f229a3c117306104f17a9de0",
+    "bytes": 12054
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/this_lookup.dart": {
+    "sha256": "8e1164266c2b423e7154f4882d40971e7c1ccc78e1d5cae1b06253df0b131fe9",
+    "bytes": 2866
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/type_analyzer_options.dart": {
+    "sha256": "96f6e789a38fc7b965333377f1741f43a0b85f4c1f0fae31577274eaf901812c",
+    "bytes": 1060
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/type_property_resolver.dart": {
+    "sha256": "3acac8c7a147a7d005a88099df7a514e9a1a571ad5564553aca10303ad84fac8",
+    "bytes": 11572
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/typed_literal_resolver.dart": {
+    "sha256": "086984d1ddca73286860ae7642a8641dd0806808d5e0c2de40e87cef1f9bce33",
+    "bytes": 38044
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/variable_declaration_resolver.dart": {
+    "sha256": "a630969597ec1cfc9fc688218056b9cf735e7d8cab376dd99775f01d5729f425",
+    "bytes": 3161
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/resolver/yield_statement_resolver.dart": {
+    "sha256": "c972610754d2ecb84031699fb2e9ccd5fa4a5941abfbc309bae5a214afebec53",
+    "bytes": 6686
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/scanner/reader.dart": {
+    "sha256": "321ecd6e7070f40b12c048f9c1058a31e945d50942b8edd2d2b52230047f179c",
+    "bytes": 1658
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/scanner/scanner.dart": {
+    "sha256": "55c5cdbda2ee575c069166b0e3ffe192442554fd8acbd0f05a1ca3739a9f0004",
+    "bytes": 7902
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/sdk/sdk.dart": {
+    "sha256": "50806a06f416bc697db85ab44132df4131668c9c2cd97448faaed4bbceb2ad65",
+    "bytes": 20115
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dart/sdk/sdk_utils.dart": {
+    "sha256": "5213db9dac0bac462d0dae539ce97611f877069e9017a6e0e1a0a34ed864df7a",
+    "bytes": 3034
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/dartdoc/dartdoc_directive_info.dart": {
+    "sha256": "02fe52c43dc32ab503c54d8a099e24f51326e00aa9f0679815171b650f1b5044",
+    "bytes": 8025
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/debug_helpers.dart": {
+    "sha256": "f67f99f7a1d8dd38f8ba44c8ed9e39aa140a202b91a99e124662b098a86dbdf1",
+    "bytes": 373
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/diagnostic/diagnostic.dart": {
+    "sha256": "45869c1c943e27f13d53076e76aab4818641edbb69a091d30ec50999ea8f3a92",
+    "bytes": 318
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/diagnostic/diagnostic_code_values.g.dart": {
+    "sha256": "55905518c21708bcf828aeeebdc4bc545b3a8490d1f149af40e165e92b116a49",
+    "bytes": 54835
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/diagnostic/diagnostic_factory.dart": {
+    "sha256": "277b3b9fb9c53a5c44053c9851aaa6ebfeb10cb7fd0c2fcdd8b7b601a157aa72",
+    "bytes": 16804
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/annotation_verifier.dart": {
+    "sha256": "dddacc11741fddcd61abb5097769202931f86fd8ba697e597831fd25f6d43e6e",
+    "bytes": 25506
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/assignment_verifier.dart": {
+    "sha256": "7ee38035ff4d7756832fb0dc9ea97e96fdcdb6bc4232ce2af5c9290540c07fd8",
+    "bytes": 3917
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/base_or_final_type_verifier.dart": {
+    "sha256": "f8946b049f507971d55852242f34960ca23b37a5df14001cc6eaeeb9884ba9ff",
+    "bytes": 12225
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/best_practices_verifier.dart": {
+    "sha256": "ce5d1e0886b374f66783aaa0f5d18835b3361b3c9c3408705fa654462cc5f0c9",
+    "bytes": 70316
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/bool_expression_verifier.dart": {
+    "sha256": "3ede9a4ba1fbfd50d41d5efa26118c29f74399c02461d745983bdbd9465c7615",
+    "bytes": 4242
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/codes.dart": {
+    "sha256": "44c44b04b60abd9159054f71bd28a3cb5bb45fadcd5923990f25fed1ec256012",
+    "bytes": 766
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/codes.g.dart": {
+    "sha256": "845c8bc5e3c77b16868b0c858678d1f5ec5156f2cfb0c231c3dbbb5970473462",
+    "bytes": 487432
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/const_argument_verifier.dart": {
+    "sha256": "c4918ad4797e6bd430e4f6b7ce33a2391497d11e7441d63c0dadcb4205ac60f0",
+    "bytes": 4819
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/constructor_fields_verifier.dart": {
+    "sha256": "0d87dddaeffe3fb823d36bb359ae4046d6d19e283ef35ceed89a8ca243be95e3",
+    "bytes": 9631
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/correct_override.dart": {
+    "sha256": "298fae54c2ab0dfabf0f1861a58a242234738aac5fb265db1e7a7855897b2249",
+    "bytes": 9092
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/dead_code_verifier.dart": {
+    "sha256": "e520e95d004dcf9c83836cbeb167fc24128eb6ca7127dba8d2b858d4e1506173",
+    "bytes": 20868
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/deprecated_functionality_verifier.dart": {
+    "sha256": "bd241a21ebc7a922af6312e2861be21a687a963d79c4ab6f59a6ed91c4097e38",
+    "bytes": 4557
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/deprecated_member_use_verifier.dart": {
+    "sha256": "9a9bd4215078e18b2ae2c25857d5f7f31f44a4e2e7732e69245bb68a54fcc4d4",
+    "bytes": 11697
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/doc_comment_verifier.dart": {
+    "sha256": "615b1a0342ebd7da518b8dbaac255c542bdcf72d9ea52b3be8ca68bd86139ed4",
+    "bytes": 6529
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/duplicate_definition_verifier.dart": {
+    "sha256": "ab4552b8a001d13dbed6f5918a04b1ea44b33b41b1a7806dd6e3439d11a6e104",
+    "bytes": 32442
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/error_handler_verifier.dart": {
+    "sha256": "46ac9bdf1119f6b153975ae45ea98ecf780d13b0afed6f8659f3c062241b828d",
+    "bytes": 11088
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/getter_setter_types_verifier.dart": {
+    "sha256": "78cc5e103bab5c17d14de017d5ea91ecd5edc5121c5919a23af961778139e36a",
+    "bytes": 5041
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/ignore_validator.dart": {
+    "sha256": "66097885c71022d191ea12ee569f74878b449e64fe05658077f893ab9d62a699",
+    "bytes": 11171
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/imports_verifier.dart": {
+    "sha256": "f4833492473aeef97f1a495b7fa7f0425f314b92309dd235acfb6f39aef82c68",
+    "bytes": 14816
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/inference_error.dart": {
+    "sha256": "b0ebaab3757773c3bf51a51dd158a407e788fe4faeccd907bcb75d153021534c",
+    "bytes": 1713
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/inheritance_override.dart": {
+    "sha256": "e56f7ed38be4623a4adb14ffd9a7503f5ba27eaaaba77d7104f8a0294a71c75c",
+    "bytes": 33475
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/language_version_override_verifier.dart": {
+    "sha256": "33f5239d6733a55e31dfb2e948b02f6ca9802bf302bc72a214be8fe495ad8017",
+    "bytes": 11398
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/listener.dart": {
+    "sha256": "f2343c9fc336741ee1c813a4e0b5ff2a0d2e9d5ef2aaaef9a2a796512a0ba7b5",
+    "bytes": 16968
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/literal_element_verifier.dart": {
+    "sha256": "11feba9e7e4263faa36ae29aea6704866129b4df03d78ba5171f7001fdc6695c",
+    "bytes": 12373
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/must_call_super_verifier.dart": {
+    "sha256": "323d43c11bea919d6a7460d2cccca797333fe8ef55e2f6957edfc1a35e0f2fee",
+    "bytes": 6562
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/null_safe_api_verifier.dart": {
+    "sha256": "22174622deeccf890728fd23fe10d40bdb6040977fa65c6ac3f38747373d0b1a",
+    "bytes": 3211
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/nullable_dereference_verifier.dart": {
+    "sha256": "1b0af39d59d83a5df6b9475c8454801795d018aa9201f5087068c939c85fd658",
+    "bytes": 3245
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/override_verifier.dart": {
+    "sha256": "d147f00b3429ef7af7ca50df5a659c4f6cbe62d68572a11176a26b46afcc1691",
+    "bytes": 3115
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/redeclare_verifier.dart": {
+    "sha256": "13d355ad7e627c6bae8bcf18a6e1e95ae701fa4095515746a9b95e21dcceca8f",
+    "bytes": 2526
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/required_parameters_verifier.dart": {
+    "sha256": "9c94251e1438e6629683663d2c0c007a9e9c19323e7065e14776944e8403c746",
+    "bytes": 9004
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/return_type_verifier.dart": {
+    "sha256": "ba8d5d4d7c02a6d3004278a449b2b283b9c9786abb5ac4bcd9591e655f181e08",
+    "bytes": 11133
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/super_formal_parameters_verifier.dart": {
+    "sha256": "0e4d51b8e0ed3a61567934ae2486d9b43c47f73a8da0b19673ea9fbbd937a864",
+    "bytes": 1636
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/todo_finder.dart": {
+    "sha256": "d718f4fb44b411630ca812133c70b262fcd712ad68b99b8482fe91c49595ab7b",
+    "bytes": 6057
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/type_arguments_verifier.dart": {
+    "sha256": "e2ab0c2c5a03c2eb3099937dc7e349bc23e2933d9a67b253f3f9040fb1956c4e",
+    "bytes": 23021
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/unicode_text_verifier.dart": {
+    "sha256": "6bf77f6216612b3704b75bd9c3632b106b57842b39f3b9dfe17fe37d671ec37d",
+    "bytes": 1676
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/unused_local_elements_verifier.dart": {
+    "sha256": "16cd9328046394b318bb1650146d34a57024a986b0db205530d9c3047d50deae",
+    "bytes": 39057
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/use_result_verifier.dart": {
+    "sha256": "2401af53f0b8b1602a940f726c21628ecdb9db04905559f0b2c30d46d083db8b",
+    "bytes": 7192
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error/widget_preview_verifier.dart": {
+    "sha256": "c817e262e3f26fa511caf358a06cc30519210d264d358e78dedcad79464e5422",
+    "bytes": 8579
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/error.dart": {
+    "sha256": "443963861b90691167c82c1b0f7aa52f6c479de5516001ccb8cc6fc0ba3e61dc",
+    "bytes": 3755
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/exception/exception.dart": {
+    "sha256": "8267fd379a003e190bd5711f805ab9896dfe1c4d9fc27ba9c6a801db7c6087bb",
+    "bytes": 643
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fasta/ast_builder.dart": {
+    "sha256": "e5ff3ddfe1a2d1cd3c2d2f0ff48364ce6f68c027a27c06e62c15cf49fa252ce3",
+    "bytes": 195875
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fasta/doc_comment_builder.dart": {
+    "sha256": "79b3d4a3c83b1e7b029277e3a8078cea5b6e0050d3f0e24397c7cf5d46c8e05b",
+    "bytes": 42327
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fasta/error_converter.dart": {
+    "sha256": "8aae53c24e3f0bc471aa837e9a91e437ae9d9b4b0c136734326ea83ca0e55175",
+    "bytes": 14921
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fasta/token_utils.dart": {
+    "sha256": "f78b58bb2e96a1d77dd07f5724add0fbf14f1968097f05cb75122dfd8bbc309d",
+    "bytes": 809
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/file_system/file_system.dart": {
+    "sha256": "eaf3eb1df15e9f79dff45d12d9b3711d4d3245f9b9add896d1275743065e3f48",
+    "bytes": 1243
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/annotations.dart": {
+    "sha256": "69070de0f23f96358a9022af34de52df94fc74b4e027fd28c27c722a02e16715",
+    "bytes": 3741
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/library_manifest.dart": {
+    "sha256": "8148f159e744d4f3b5345263fafbdc258f2422b221602bd8a74cebe64bde14b7",
+    "bytes": 54558
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/lookup_name.dart": {
+    "sha256": "42203f1b552e1922a1b541c32fdc84479a1f0fe2677e971acd5c6a835587d3b8",
+    "bytes": 4379
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/manifest_ast.dart": {
+    "sha256": "0fcf152ba73f38ffb72eef93b768b384e8c0493cdd6415c026da94565803364a",
+    "bytes": 13314
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/manifest_context.dart": {
+    "sha256": "28a671854c64cfe655de8176f7fc14287ca411d16128d3d789120e3e292c63b1",
+    "bytes": 14563
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/manifest_id.dart": {
+    "sha256": "666cf446f3b55e9a3f57653f480d8e0f099e060af88ac271810cf52b3dc3c1fe",
+    "bytes": 3693
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/manifest_item.dart": {
+    "sha256": "ead0dbf6933ceb3aee056992817751c808d651341a016dac2d548a5e0ec63650",
+    "bytes": 69726
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/manifest_type.dart": {
+    "sha256": "7d394a3cd0854f6763f6e85c4d944ce3b942ce096c8e0a4f3b0af3de194a6937",
+    "bytes": 22200
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/requirement_failure.dart": {
+    "sha256": "98b7649c9076a69d95052d058276f986c98af957ad4af1085fedd76bdd101726",
+    "bytes": 13532
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/fine/requirements.dart": {
+    "sha256": "d64a33b49e6efcc77d95dda1a377d865e8f6e0da2b7317eb02aefc52f1a01bdf",
+    "bytes": 82077
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/element_resolver.dart": {
+    "sha256": "fa03ad2276f1ae4474b6af959a68fd313690e9f988ee473fd00eb658ef00d514",
+    "bytes": 17882
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/element_walker.dart": {
+    "sha256": "b30e5ef90845c24bc83149cb3097caf0d6c834cbc9c99300b907d5ff5e0bf65f",
+    "bytes": 9642
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/engine.dart": {
+    "sha256": "fdf5388cecf0f60edd9481903ac2cec014cff0fbf49064a84008286cebfeb5ab",
+    "bytes": 5125
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/error_detection_helpers.dart": {
+    "sha256": "f2298560fe64afe97491e2df2c0631bcce08d79002504876ef97b0f675b61288",
+    "bytes": 14532
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/error_verifier.dart": {
+    "sha256": "f6a17047271e668c579a11eddb8443fd6568f480bee9713efe83582231004502",
+    "bytes": 216866
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/exhaustiveness.dart": {
+    "sha256": "4a697a458ddb6c45eb2aa9476b692801c5ce2d403d727bf2ca71381611452935",
+    "bytes": 25817
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/ffi_verifier.dart": {
+    "sha256": "25da28e76219d82ac5dc18e8e8dbe2a9719513e152ea4e58a7e31c99c1833636",
+    "bytes": 86125
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/inference_log.dart": {
+    "sha256": "fe235ca743ff666c8024ecbe97e33a996e6f70a038b8c862ec0d4bf90ba00f2d",
+    "bytes": 9447
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/interner.dart": {
+    "sha256": "03a8343ee716de4173a92a7c7d91e2962e2752aec2a06d7a2e88cad9d33ff471",
+    "bytes": 872
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/java_core.dart": {
+    "sha256": "3f5e3b88e80e8209bd17824eb275f382ce2e266d34638837a5d7f5ab516f4aa2",
+    "bytes": 291
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/java_engine_io.dart": {
+    "sha256": "c02736552609ae64a3496f8c1c554f73e3bae3b688bb41974a31a4235a2dd68d",
+    "bytes": 449
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/parser.dart": {
+    "sha256": "83e6b4ae44751cb673b7a11bc631d2406159e75ad7297d031152f0f2285267db",
+    "bytes": 9284
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/resolver.dart": {
+    "sha256": "277e1aeb1cbf451a9938ba31c59045d25fbea0d29e786099adac2c92994f2e33",
+    "bytes": 194342
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/scope_helpers.dart": {
+    "sha256": "d057e0058fb882f3ab8cb087aae3c48dcd6ce5fec644d1b02766f1d3f7347c5a",
+    "bytes": 1999
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/sdk.dart": {
+    "sha256": "ebeb52a83721f91bbd3b8c8069d6d70efd3198be9ba4dfdc68b17678ca02056b",
+    "bytes": 12469
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/source.dart": {
+    "sha256": "7d06e54335ad9f2a2728323ab356fa759bfdfdc423dd53ca82e53e0365a09938",
+    "bytes": 7202
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/static_type_analyzer.dart": {
+    "sha256": "3378efcb64998337636f0d74f1c6c6809a857ed6ec728d6f3366c1c40ca54b6f",
+    "bytes": 13277
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/super_context.dart": {
+    "sha256": "e8164a3cc7c20d5ed54531d80022b455d35ec12524efdc3b1916726310ecd79a",
+    "bytes": 2869
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/testing/test_type_provider.dart": {
+    "sha256": "7c4bdbdc7cffc6dedbc4745fc10f7da54f7e8ba6df995c31441b40c606e031a4",
+    "bytes": 2461
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/testing/token_factory.dart": {
+    "sha256": "dbafffd8d18d3612607b8ed5232fc2aede923a7077b3003f3d2996b8b03ff3b5",
+    "bytes": 795
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/timestamped_data.dart": {
+    "sha256": "1b2e778c43edae0e3f6fd54d46fbd396d708feb2458f73fe318a80ca2ae3d0c1",
+    "bytes": 735
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/utilities_collection.dart": {
+    "sha256": "2f9891a08de5845f716dc3b43e1433cd8a1d4c7655069be0a6cd7c3398b1f5b2",
+    "bytes": 372
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/utilities_collection_js.dart": {
+    "sha256": "572510dac3ea23a06f1d67eb84ccd463cf9ae09f8ec75233ff6b0fd0784a875e",
+    "bytes": 1916
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/utilities_collection_native.dart": {
+    "sha256": "a5709f94f69d476616a652ca757dc56c14727811b90835d11fb2051c2cce3591",
+    "bytes": 1440
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/utilities_dart.dart": {
+    "sha256": "2081147e5102517529e5e5ef50535fa57281767e05f9a445dd72041011a1ccfc",
+    "bytes": 5309
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/utilities_general.dart": {
+    "sha256": "654a16f671bebf197340ff4db1b9dd2f5b91e6c2fdb1b7cdedb6c494e0cb2365",
+    "bytes": 1362
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/generated/variable_type_provider.dart": {
+    "sha256": "05890488b0185b8a6111817a3257878a3de77543aaf2c5ffeaf9fa060bfb5f3e",
+    "bytes": 655
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/hint/sdk_constraint_extractor.dart": {
+    "sha256": "6bec6de76d9ae31645eae6a94f8a0dad0687738a0e1788bd1488d5fbeb80e839",
+    "bytes": 3426
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/hint/sdk_constraint_verifier.dart": {
+    "sha256": "49bb50687a0dfcdf05ba47cc5f67707f52863e6542cdc0867d2e086c11c9b1f4",
+    "bytes": 8294
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/ignore_comments/ignore_info.dart": {
+    "sha256": "a3a10b4f55f85214f0b76871a87a66520d6ea38c1e30b162941293e4fa6c9244",
+    "bytes": 14528
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/analysis_rule_timers.dart": {
+    "sha256": "fe3ddcd3414789f95e3db22f165b421ad0154e42bbc040a62a445ec145b85172",
+    "bytes": 761
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/config.dart": {
+    "sha256": "6dea6000ed71021fc4c4fc4af86c6823cd40298bfae6ccedb248adeff4e01f97",
+    "bytes": 4893
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/constants.dart": {
+    "sha256": "d8acb7bcb18d0e8308cb5992bebbc5dcc23167f0c46c32e865d4938aa7131386",
+    "bytes": 5252
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/linter.dart": {
+    "sha256": "8d17faaaef050b864cec3f7dfd7f93eb2568580ee419b70f26a1e5692591a83f",
+    "bytes": 610
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/linter_visitor.dart": {
+    "sha256": "4eebec84ebd207cf3de36541b7df5e7e1c1c1ebedbaad6f15cdc7ca141f94303",
+    "bytes": 1144
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/linter_visitor.g.dart": {
+    "sha256": "51c1be242017fbb12c7c2cde097ed81cf124875c789accef7a12f9f2def34921",
+    "bytes": 75966
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/options_rule_validator.dart": {
+    "sha256": "1c3bc37027de69c1828e03d9cd4c4764f13a94d802615a8ea0c4c927e98f7756",
+    "bytes": 16550
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/pub.dart": {
+    "sha256": "f7e4c2822081e39e08ac109e0fedd51db1f34e082d0ad1f53bbc0d75d3d966e6",
+    "bytes": 15287
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/lint/registry.dart": {
+    "sha256": "a640a9b3fe3e903b3e9d290600496f90b29c3e73e371cbc3cb360c78215f02ab",
+    "bytes": 3466
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/manifest/charcodes.dart": {
+    "sha256": "84619977debfaeb1841b92ad624cd165f35cc8e1a535f398956ecb10e14b1c02",
+    "bytes": 885
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/manifest/manifest_validator.dart": {
+    "sha256": "1aab39d284688973030dc33f5f656a695dddf7df85c8182c43ad2221cc2f5f2a",
+    "bytes": 21599
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/manifest/manifest_values.dart": {
+    "sha256": "96783e28c79a42944c9a8f424f2b4ca1c74fb6a73ac7c65690dfdb9cefe1e599",
+    "bytes": 4251
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/manifest/manifest_warning_code.dart": {
+    "sha256": "02332bff501691b268dba0ed12b2506bf39e791bedbc43206671fe0af2e1e79d",
+    "bytes": 343
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/manifest/manifest_warning_code.g.dart": {
+    "sha256": "23de109d4be2619d127f630d1da9104b2f1b537340398e2f74ae3d94d44e03ca",
+    "bytes": 7361
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/pubspec_validator.dart": {
+    "sha256": "c54affb4929bdd66ed4741da436d9216f9e8b5b9604855fd3209c895a7c3acb4",
+    "bytes": 6331
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/pubspec_warning_code.dart": {
+    "sha256": "9fa119beba43af52fee0472229227b910b8dddd4738f498b7784222ccac77970",
+    "bytes": 341
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/pubspec_warning_code.g.dart": {
+    "sha256": "afbed9448f8c924e7f1ccf443880b137ea08fb31ca6f3b9cf829fac9ce5179e3",
+    "bytes": 15242
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/dependency_validator.dart": {
+    "sha256": "5ae1cfdf007a304fefaf8687968fb955bae2586b83d0ee70ebd457d3e1f8d8c6",
+    "bytes": 4558
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/field_validator.dart": {
+    "sha256": "2ab240c7b7dde72b788e2245ee81ea182fd482026adec1763454409c27ce1930",
+    "bytes": 853
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/flutter_validator.dart": {
+    "sha256": "09ad3bece01cf5cdaa7e1cfc986a076afaece2a92f7ad76ff87fa8cf7d6de533",
+    "bytes": 4340
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/missing_dependency_validator.dart": {
+    "sha256": "2a77c88789cee9d11d93400bd0e790690a1022d454266eb7241aab7db79a81b1",
+    "bytes": 5925
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/name_validator.dart": {
+    "sha256": "582c02b5f76369f15a57f7b795f02212361316e41db6dab6d2807049b108be2d",
+    "bytes": 1038
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/platforms_validator.dart": {
+    "sha256": "bac6e30fd1453131088e29b68cc288669c322261fd1c6494f0813cd0b3f6dd0c",
+    "bytes": 1637
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/screenshot_validator.dart": {
+    "sha256": "e819ce707c5bc2ee3d324ca13a548132b012bc1a6aa7df46af17d1f2e1a8e137",
+    "bytes": 1471
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/pubspec/validators/workspace_validator.dart": {
+    "sha256": "adceaae21360af1e4ad44855090aea51d949e73ca28ac238e6ca4399e7f2793c",
+    "bytes": 2448
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/services/top_level_declarations.dart": {
+    "sha256": "f0a4c89c2185b531c2b4b9e2a85566ff409be1d0ce5d65dfb48dc26f675dfc83",
+    "bytes": 3840
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/source/package_map_provider.dart": {
+    "sha256": "9966d4f9fed7304c5ce671dc471cc1704250e74c64f16a35c43f452d44ec366a",
+    "bytes": 1375
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/source/package_map_resolver.dart": {
+    "sha256": "f61bd7651bce35643a8f7586142ee46408870dd63ae65cc8c50a2c75e06946b4",
+    "bytes": 3495
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/source/path_filter.dart": {
+    "sha256": "a2e41d61277a3e6c4966d3f82e10357232ebcee3576ec978752416f692100991",
+    "bytes": 2716
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/string_source.dart": {
+    "sha256": "b6df13d5d44529381b8374cce0346938d2e78a26a173dcb6de3d2a1981d2dea4",
+    "bytes": 1654
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/api_signature.dart": {
+    "sha256": "3179e8861b0d02256dafc6189da8ce9ab611f9b59c8a504040c8579498152ac7",
+    "bytes": 5712
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/base.dart": {
+    "sha256": "fa68a5bda183e6e974a5c4db6c02c54600915487b119487f82dcf50f4c520d65",
+    "bytes": 1818
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/flat_buffers.dart": {
+    "sha256": "94c4eeb7d6c8818fcf722516b11e80543134e73b93d7e72fa5a66b5f275e0f06",
+    "bytes": 25097
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/format.dart": {
+    "sha256": "b6c98a76a76b792c7a069daea7cecf49ce080ed1ffec9d48469247c7e2dc25a9",
+    "bytes": 71815
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/idl.dart": {
+    "sha256": "6d271d9df4cc846f5064383d5a9da0bf53a78169f3807eca318c76bdc948e429",
+    "bytes": 14042
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/package_bundle_reader.dart": {
+    "sha256": "5a70f5b15e068350fddd267f9dd61811c7407ca45adbf8eb567f76dcf57bc4b5",
+    "bytes": 5183
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary/summary_sdk.dart": {
+    "sha256": "71cab720dce92f4a70359b9fd73616663710fd9cc9bd188cad1b264867b72202",
+    "bytes": 2576
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_binary_flags.dart": {
+    "sha256": "c679b73dd0ac6f6d9d603c70a256a8dead0c25f99f7ee9a0da27303e5e2648c9",
+    "bytes": 12252
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_binary_reader.dart": {
+    "sha256": "df49e8c717cef583cae0ee0f8160707d79ac94971dacb9825d2a8b1b66abd1cd",
+    "bytes": 46943
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_binary_tag.dart": {
+    "sha256": "ddb7ccf940c0155ef11701455bd1e5b8416cad0a47e7b4e4bc9511f3aeb94b5f",
+    "bytes": 5285
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_binary_tokens.dart": {
+    "sha256": "3f5c7f279f92e9d76c94402503f4d0a1adfdf163253b9c79ede8b373823a6ff5",
+    "bytes": 7609
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_binary_writer.dart": {
+    "sha256": "58fdffea02b1c9b807a92640fc32ded3297a67a9fc3f2fb98f1aeb046725699d",
+    "bytes": 27639
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/ast_resolver.dart": {
+    "sha256": "7fca8037509dc26d4a4d14df99e275a485a033c41deaa55897c5517b8480a783",
+    "bytes": 4928
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/binary_format_doc.dart": {
+    "sha256": "5c5dcd57641bb86753248d75dc91657e6344be6665d35f4d67798b475cdb62c9",
+    "bytes": 5559
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/bundle_reader.dart": {
+    "sha256": "d9d6d9f83ec6a20233a428720f89f5813678009a42e35bf1b162619bf7b5967f",
+    "bytes": 65100
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/bundle_writer.dart": {
+    "sha256": "50351a5b6d18d499cacfa63c8bfdd511af205922b6f17734ae9d2cff96590e4b",
+    "bytes": 45723
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/combinator.dart": {
+    "sha256": "b89d4a2a7dcd6ed989b78fd45aa8c0e18db4ab43ecad63e66a703d3dd177bd59",
+    "bytes": 1525
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/constructor_initializer_resolver.dart": {
+    "sha256": "1fca24b3215ceb6f6f13b9bcdcc1e115fb8e072602cb58f2ade2182bb8b86e71",
+    "bytes": 2548
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/default_types_builder.dart": {
+    "sha256": "558339677e19bc57b73b9f03bbb9af313ecc2b87dbe57b1241dd228149ae3826",
+    "bytes": 16587
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/default_value_resolver.dart": {
+    "sha256": "16752c0b25d2085cece92e5deb6fcbd82b06f778f67c7fb21096a8ed78ccbe9b",
+    "bytes": 3641
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/detach_nodes.dart": {
+    "sha256": "1d4508aeb8f7ebfe0d658f5e07ea5e638f0657e21905ea6fc539ec7ceffbe777",
+    "bytes": 4638
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/element_builder.dart": {
+    "sha256": "e757a8d8febdb0cdd41058085eda9a2514ff4d4253beab5b28a7b3d312e77d8f",
+    "bytes": 63826
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/enclosing_type_parameters_flag.dart": {
+    "sha256": "0893ce49d1d51a435591fc755d21538a918b567f55b077bbfbb92903c51a8297",
+    "bytes": 3260
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/export.dart": {
+    "sha256": "c3853d30dca05e90c5d6d76e306722712b2fac896b29696f23e389d0ea13063c",
+    "bytes": 3699
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/extension_type.dart": {
+    "sha256": "dfa6e774ee6a09b8e9f4a49509e973b5c2d96b8107c07df8295591f92e5250f5",
+    "bytes": 3900
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/function_type_builder.dart": {
+    "sha256": "93913a0a264740ffe068ae82129476ff89e71fa8db098056f13a0b405330699b",
+    "bytes": 6077
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/informative_data.dart": {
+    "sha256": "824eb241d6529071f443516126a16b6be9c406fbade3cd07fd27e407801e0ea6",
+    "bytes": 78109
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/instance_member_inferrer.dart": {
+    "sha256": "b231af0ea0a2b35f83b773648d7a9930127942a387e93c60fb729435815234b0",
+    "bytes": 25544
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/interface_cycles.dart": {
+    "sha256": "0e0b3f2390a2f83da18cab82c3698f9c7f26572c54aada00112cafed41f1a440",
+    "bytes": 3285
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/library_builder.dart": {
+    "sha256": "ba7a8840131b504720a06cfd474c0b418ce8fcea9267a27972889cc3c25c6be9",
+    "bytes": 32449
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/link.dart": {
+    "sha256": "acd1f50514468cc3f385836f2ed1e9a7c3f270b9aa5cabb62f92d1567adb52d6",
+    "bytes": 12627
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/linked_element_factory.dart": {
+    "sha256": "7aff6065d7fb565d5d4a0cda7073a7a2bd56aa5ee147e2bb8a8f8d4d324631b8",
+    "bytes": 8941
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/linking_node_scope.dart": {
+    "sha256": "1d870116239db8402a9d6c4bebb489ac1e685b4a031a9cc85fcd3a57ed88551f",
+    "bytes": 767
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/metadata_resolver.dart": {
+    "sha256": "560170ff78c596de8fb02e6ff3dc412de97bb01ed93739383fef80e533a8268f",
+    "bytes": 6844
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/named_type_builder.dart": {
+    "sha256": "c097b9df0e29cc77e92b4c55380ba0fe9b8b94fbe046aabbdab967292eebd7f0",
+    "bytes": 10011
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/not_serializable_nodes.dart": {
+    "sha256": "130cd3ee3270dacdcd516e1bce5015cef33dc8b219c7a91fa5aa0647ac7ec580",
+    "bytes": 1398
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/package_bundle_format.dart": {
+    "sha256": "f724b375c7f6d8985bc49c3befbe1bae006bda3f977155a39898db75306b4164",
+    "bytes": 3194
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/package_bundle_reader.dart": {
+    "sha256": "3051098300abac1e1f90dcd0b061efae20b0f2afcebc10f05fdff73f846ee941",
+    "bytes": 377
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/record_type_builder.dart": {
+    "sha256": "ff917e6d6d923424625b1a2fc23bd2f5d14f0dc0291a38853729f8d9475beb81",
+    "bytes": 3627
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/reference.dart": {
+    "sha256": "b76e05b545072ffa775967d0b591a2673d0e1460a7d54de3ff81469ded3c71a7",
+    "bytes": 7189
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/reference_resolver.dart": {
+    "sha256": "3d59e20342a0ab0daeb7ab6c896d44f2aec74c7ed31db22fe55b5060f1dd404d",
+    "bytes": 16172
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/simply_bounded.dart": {
+    "sha256": "5817192c1ca2a8d3fe0da553ffa71a3da81590a023a2a08f69d8c825a7636e58",
+    "bytes": 12681
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/super_constructor_resolver.dart": {
+    "sha256": "b52815a34646e190b40d8b474cf8fea8f148c669e8b16411e7a69e764ade9c65",
+    "bytes": 2040
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/tokens_context.dart": {
+    "sha256": "827b490e97883a0b1766ea6edc0942b6e2d2a9215bf4fa11d4117929ae38c32e",
+    "bytes": 10973
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/tokens_writer.dart": {
+    "sha256": "216e84c509e2b6e8eca2ee8d803693fcd3c2d08db5b330f7332fd9c7c3ce8ed6",
+    "bytes": 12609
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/top_level_inference.dart": {
+    "sha256": "dae88ae6a310122df5f9825d63b252c3186e9f2e5fb8668693d1e2345bb69c96",
+    "bytes": 8873
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/type_alias.dart": {
+    "sha256": "9d81153ae4f2a94781146341bec19e1ed923420d0a3c9d0d8d445fd78114f8f3",
+    "bytes": 4303
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/type_builder.dart": {
+    "sha256": "1d78f5cf32dfc4d1b92f68ee77b374cf4466c342e5cc347daf21fb4be7b73db7",
+    "bytes": 693
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/types_builder.dart": {
+    "sha256": "d82883e811dbd68ee4ec34dab3db4adc333f5cb8adf7845f613027799acb2ce6",
+    "bytes": 22235
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/unlinked_token_type.dart": {
+    "sha256": "32cdbabc9b0f64474367f2a24bb40c186944dcd7e444f93ebf570b5e07248520",
+    "bytes": 1738
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/summary2/variance_builder.dart": {
+    "sha256": "41d6b6d9d92f112c1c2195d3b073ec2c058341c4ed970c47b76c56d9d4548fe6",
+    "bytes": 8058
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/find_element2.dart": {
+    "sha256": "b8261b3b41eda799cd90fb3f687ecce3c63ab027cd594b43560e6bb1f734b171",
+    "bytes": 15574
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/find_node.dart": {
+    "sha256": "b66dfa4ea7bfb7e8c64def72d3ab2752720c33271644c9b472b5b90d7aa2ce23",
+    "bytes": 28423
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/function_ast_visitor.dart": {
+    "sha256": "fcd9970b6f4ab1f48c55db557188b55db30df06b0a46a27ed88e4a404a6cad35",
+    "bytes": 6638
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/lint_registration_mixin.dart": {
+    "sha256": "f8e584e327c11787728b9f972b5ee66f97015e3472402bda49083776b415e0be",
+    "bytes": 1147
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/mock_packages.dart": {
+    "sha256": "936259127045e673d23b3d83f589b02d43920610a62a42d72dbb1a705102805b",
+    "bytes": 9233
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/mock_sdk.dart": {
+    "sha256": "445ab95b4a2dedb4b80301dc8599c37f703013d6aafe679aecef45dcad9267b6",
+    "bytes": 40926
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/mock_sdk_elements.dart": {
+    "sha256": "3110fe3b9478b83761c7495bcc8f790a299cb89ff286e69d6901e400061c5f2d",
+    "bytes": 4509
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/platform.dart": {
+    "sha256": "5e8dec2ea0ff54d956ab3972d23b6776fcb1e4eeb795d9e2961c3288985fc754",
+    "bytes": 1459
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/test_code_format.dart": {
+    "sha256": "f1531413c4d994e828121f20ee954ec69bdbe80cebc938b964ad1f77456186fb",
+    "bytes": 9135
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/test_utilities/test_library_builder.dart": {
+    "sha256": "2a8681f083455c2f064429918c44c5cc2f5509120e7514a644cf2af1f77c1c71",
+    "bytes": 20831
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/ast_data_extractor.dart": {
+    "sha256": "aad1495953200a4027c638499afb78297547046119b07c071868b76b8bb09b87",
+    "bytes": 7819
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/collection.dart": {
+    "sha256": "42673c1c7cc80a2f1e9b08e0df171f5feeb77fc1ee49b7238ce0dc446d7789cf",
+    "bytes": 624
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/comment.dart": {
+    "sha256": "b5ec1a84d4ec35d391ecd9c7057b5d8e0f2b2c4c916679a8c5c1e70ea3170e85",
+    "bytes": 2395
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/either.dart": {
+    "sha256": "31cd913b36fa5f7f9c9afdf1b696a2979159d9572a9cb2e79da59bd2916163b0",
+    "bytes": 670
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/file_paths.dart": {
+    "sha256": "7c0e9ae6a4146fb7be3672fc7ea56232530119442c6515cea87dc73a1e8eca64",
+    "bytes": 4045
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/glob.dart": {
+    "sha256": "b35610282380a814db9ff91fac6629db31b0a47aa7c0221392c980b9cc5eb22d",
+    "bytes": 3505
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/graph.dart": {
+    "sha256": "2e8a5e915ec3582e5c4ed270ddd5b62f58381166b9f90c3268030d8f21df4353",
+    "bytes": 2673
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/lru_map.dart": {
+    "sha256": "03d5e861dbc211a0d6460d41ba06e1359fa254e371e05bc8ef2c9666e66ad71e",
+    "bytes": 1506
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/performance/operation_performance.dart": {
+    "sha256": "a1069483f3bc2c1e04c810c0df152eee7793a4b3f9538dc679b9fa9ddd487300",
+    "bytes": 5335
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/performance/utilities_timing.dart": {
+    "sha256": "2b302154e4c6fa24cf25947811c069ebb3b69c6d80f7f0e5ecf4b45d71e9ca43",
+    "bytes": 851
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/sdk.dart": {
+    "sha256": "410e7e0463615b9137c0ea47ea6ddbeb1b846d0f8f86d87f5e897989ba99de87",
+    "bytes": 402
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/uri.dart": {
+    "sha256": "aa19e9997fe5b35f9da17859b4334cac9cd005c155a4d4826683830723f473ad",
+    "bytes": 1055
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/util/yaml.dart": {
+    "sha256": "e19abfb92bd1ba5688a1a3e6c301ebbd798d23cea7ed790339b32a004d345d6e",
+    "bytes": 4661
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/cancellation.dart": {
+    "sha256": "028bce51575b10333880f7ef589b9f64065882e13362e128a2668818b612c5ad",
+    "bytes": 2264
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/completion_matcher.dart": {
+    "sha256": "d7c6fff5c5fc7340dfe571c1eec12ff35d93347404c76ee150dcb475c4e58293",
+    "bytes": 1003
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/dot_shorthands.dart": {
+    "sha256": "8a15278cb346a4a3ac342d20514c5fbc80a2d69cb46b5724206f84c1051b31be",
+    "bytes": 6022
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/analysis_session.dart": {
+    "sha256": "21ef74c65b8769c5f11afbac5713cb8a04dbdcf0280a7cefab9f1464c49acc11",
+    "bytes": 904
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/ast.dart": {
+    "sha256": "d8282aa0e2049bdee4f727696769f6571d50421803ed5f3eaa66eff3c2ad3087",
+    "bytes": 5587
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/async.dart": {
+    "sha256": "6990af91698c9d3a0d3c11125faaa078c71f29b4d5def8478e52776af234c48a",
+    "bytes": 539
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/collection.dart": {
+    "sha256": "f11f287ab196d2ae3f4b8642911aad188963a7d2c9ead4c4b03261be5d06838e",
+    "bytes": 4229
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/diagnostic.dart": {
+    "sha256": "38c94caa3add349c84e46e4f4393b073921d6e536335d7bf2b8398e5e64fd731",
+    "bytes": 470
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/element.dart": {
+    "sha256": "a2b069277f7c8b84b6e13516795d1c7e9a20121900d4755849d8d7efc724802f",
+    "bytes": 11389
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/file_system.dart": {
+    "sha256": "6d5808b255be6fdeca7277eb70756cdf800d84872179e4518db178de0b444f3d",
+    "bytes": 1771
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/flutter.dart": {
+    "sha256": "04d9e41aa0690d5b21d24061a0feb58b40b51fb872594ee08ce6385db2116f0e",
+    "bytes": 16893
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/object.dart": {
+    "sha256": "ae463886539f06ae1abbf929e22bce8b84a4504974d8997fb77bd17846434d33",
+    "bytes": 408
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/results.dart": {
+    "sha256": "4f26efcd09b18caa1b3c6f9ca1a6a3fddfb49ccf831e204861633e715e3bc5ee",
+    "bytes": 716
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/stream.dart": {
+    "sha256": "f9cb28f52800a1883b334093636074028ba5bf2f9f5daf2775e01bff961adb95",
+    "bytes": 936
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/string.dart": {
+    "sha256": "04e623a9ed9fb022242c349df48102c562f31381d3ba5ed4e401e8523cbe5dc0",
+    "bytes": 6482
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/extensions/version.dart": {
+    "sha256": "b467a9aa448559660b2eaa57935b50ead1ec93b55a43e36039e1939eb1219666",
+    "bytes": 1610
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/fuzzy_matcher.dart": {
+    "sha256": "3b4420c7847f6a17dec21d306e146a8e0402d3554ee2b59959fc6a581f467d81",
+    "bytes": 17504
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/utilities/uri_cache.dart": {
+    "sha256": "d95ef8d412243ce1065ea046167f1f0b37535e49e7a47de7866c9a4b7ba50314",
+    "bytes": 2823
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/ast_to_ir.dart": {
+    "sha256": "1a781f548a63e4b4db84644de4dc4f0b1c94df0891b3f654c5f68b6d48751015",
+    "bytes": 38314
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/call_descriptor.dart": {
+    "sha256": "a83ea06cf42e58ef958ac2225d4aed80108e8d43e0738dc563bd53650127676f",
+    "bytes": 1023
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/coded_ir.dart": {
+    "sha256": "fc7599ebd47d917419c4d366e87089556892b350b80fa041e2a137ab54d462e4",
+    "bytes": 3423
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/interpreter.dart": {
+    "sha256": "ed5139de896b84c5bc1a9f3bd3ab9223ada707d46bd558983ca7924f5115e52f",
+    "bytes": 17544
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/ir.dart": {
+    "sha256": "913e86a8a731ed1541f5a0bcf7aa8c58b74dec58c3776688ddb383e7f3d18ae6",
+    "bytes": 12188
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/ir.g.dart": {
+    "sha256": "368352ad5d016b661d31fed564d5c5a1e8478488f894dbef367631ec814e8646",
+    "bytes": 10353
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/scope_analyzer.dart": {
+    "sha256": "0b1507e81031a5cef23194e86d2a20c31f8131742b27669d717987d686d207ef",
+    "bytes": 21012
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/wolf/ir/validator.dart": {
+    "sha256": "9d9d74f373adb7c5ab833c8314370cb409c494f3cfc17f85178dc0b7648ee48f",
+    "bytes": 12112
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/basic.dart": {
+    "sha256": "4ee443292bb99fe42c591b0c2e3154b632c4bc7668629cb9420e1717b3170ca6",
+    "bytes": 3131
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/blaze.dart": {
+    "sha256": "437236b52114f57dcdcc96bce30ac72fbaff8665eec4bf690d8e3ceef7906294",
+    "bytes": 22892
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/blaze_watcher.dart": {
+    "sha256": "22da7650d67b4a1651a05cf5ff218c73df336559b791c5dfeac179f1a8e708f0",
+    "bytes": 20996
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/gn.dart": {
+    "sha256": "349f641c52deaab90eab59aa0fc77ca83879911b3551321085103af2f49abdef",
+    "bytes": 8790
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/pub.dart": {
+    "sha256": "dbb9d7188dff46b703add24703029b9f7b3e42dcab806b474e3959d09a7d3073",
+    "bytes": 17015
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/simple.dart": {
+    "sha256": "17ccf919ac14bbb42352b7ac2f1299c43f422b590bca70f66f18ff03fe7b356a",
+    "bytes": 2009
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/src/workspace/workspace.dart": {
+    "sha256": "8bdd2e494050895a5424f0d03ecb20db1d6b52afc41821e9412bab92594f6773",
+    "bytes": 5408
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/utilities/extensions/ast.dart": {
+    "sha256": "11247ba95e3af0abb367edc0d782500e189278b3a1172fe8b5d9fd74e1013a9b",
+    "bytes": 983
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/utilities/extensions/element.dart": {
+    "sha256": "32895592c3a22fd2a439f46ac959619c8c0e72a6bb55576856717b649a2aee96",
+    "bytes": 495
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/utilities/extensions/uri.dart": {
+    "sha256": "280397a950fc707332408e1e3f00b354cf07754dd788a242373f77f1998458a3",
+    "bytes": 840
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/utilities/package_config_file_builder.dart": {
+    "sha256": "a2a49c97916671dc4e5a9044af22ab6117142f902028ada844e299abce6befdd",
+    "bytes": 2891
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/analyzer-8.2.0/lib/workspace/workspace.dart": {
+    "sha256": "fa191b13c8af8f89838a931265042619f70ad75c375b5a4898deb2dfb42599ae",
+    "bytes": 753
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/pubspec.yaml": {
+    "sha256": "ca7b631abcefd8cbeb18d971f194370fee4f4c71bf236fd99eb4dead1bb616d7",
+    "bytes": 734
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/analyzer_public_api.dart": {
+    "sha256": "8094009c1980aa89dfa43e32c5d778ab0a14f384282c55213f7c7ccb8f51e6c0",
+    "bytes": 1335
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/customized_codes.dart": {
+    "sha256": "0e8a83870ba33bcbaa4fe589142febd10e79b3b6e10672eb72bdf1c98dae97ed",
+    "bytes": 431
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/diagnostic_message.dart": {
+    "sha256": "b971a32eba734b031895f65675b6bbdc7c5779cf7ba362be4ea22b7d50d383a0",
+    "bytes": 3019
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/errors.dart": {
+    "sha256": "9c6aea848681c7e5b71bfe9b631d2e12529629f5a53ff3194c23e795f57d4d18",
+    "bytes": 21518
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/source.dart": {
+    "sha256": "6912a677665813e03f38a01fc9353f812b85382a57c9d46baed4c8e57f7b98bb",
+    "bytes": 3653
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/syntactic_entity.dart": {
+    "sha256": "db56ab5c559b6adbb4f3f1c71bb8b9ddb8109f192c3a9d1703183c0b33eaf3a7",
+    "bytes": 960
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/base/timestamped_data.dart": {
+    "sha256": "9b57cd8575fb54d12c5572057c43fe9ef0b7afd7c8186dcf523bf6ceb45f0fc2",
+    "bytes": 804
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/debug_helpers/debug_helpers.dart": {
+    "sha256": "0e6a0b97aca038fd180b790d6ab04a0a82687f8f246e924cf15ed7730e630dd5",
+    "bytes": 265
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/debug_helpers/print.dart": {
+    "sha256": "bff1abec9af0083bc93d190c8e290ecba7b15055fa5e0edbef8d9c95fbfb2844",
+    "bytes": 1850
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/debug_helpers/stack_trace.dart": {
+    "sha256": "a138d5acf49ec33fa51a356ace40a02ba190e14532e5db79cfbc6146ea947702",
+    "bytes": 6010
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/deferred_function_literal_heuristic.dart": {
+    "sha256": "e92debb196607f59e5ca844bbffa183700a69a79ddcebc6ef25087a41fe0efe2",
+    "bytes": 7710
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/dart_template_buffer.dart": {
+    "sha256": "bdf60cd5f7874fd92a85538e41cde27126f5a30b5533b16d4d762166d7536663",
+    "bytes": 4046
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/exhaustive.dart": {
+    "sha256": "5f290b601f1915b57b5eadac332e8e0662d3e03d27134ce2ce40983c95916c1e",
+    "bytes": 17190
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/key.dart": {
+    "sha256": "53c13193a3b93b8de0093595bc7df806a75db38ff1c7b304f2a5467d7ef07cd1",
+    "bytes": 6641
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/path.dart": {
+    "sha256": "5ae5dcf72f49a515b6c0bd68ec625cef7188cec97d8663d9cbed5f44854669e8",
+    "bytes": 1805
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/profile.dart": {
+    "sha256": "c9f255500cc1782919dd7b97628f5a04cf41bc4ce51fb2c2cac89f09e14e7ca8",
+    "bytes": 1100
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/shared.dart": {
+    "sha256": "c3e3ce2ace66a21c10d57daeed145eafefc098c0962d21e07723ce13ae5fd660",
+    "bytes": 33292
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/space.dart": {
+    "sha256": "78ec73748654151a2df64546e87c469d361aab92f707f8fe3038a975cff9b821",
+    "bytes": 4057
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/static_type.dart": {
+    "sha256": "d65d33fe5949054739f9b3bd8fda5d83b823efc304d26cef225c76d2d02278b6",
+    "bytes": 14794
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/test_helper.dart": {
+    "sha256": "111fa458c6834018f3452d7814ffc75dd4fb4152fc0d0e29c412cddf5ddbbebc",
+    "bytes": 3096
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/bool.dart": {
+    "sha256": "61a36b8c5df83a8625e3e090b08e4a7c98ddc2c239cde3175dcf7a14daae1d3f",
+    "bytes": 1477
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/enum.dart": {
+    "sha256": "50361dba849fd88b1d201b6b9a98cffb823ff69c901cb2ddc431f2fdbec64719",
+    "bytes": 5976
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/future_or.dart": {
+    "sha256": "6040a41e52c2d312449785eb3c31f0562ca0385db657cf01e7a1f38fc2da46f4",
+    "bytes": 937
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/list.dart": {
+    "sha256": "e499df529f3099b1b20d78493fff9cacd235f09d9bffd0221f3c604aade618d9",
+    "bytes": 9619
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/map.dart": {
+    "sha256": "016f09ed6b8315b9da45012a2b17de466c46faf4be26c6e85821535b8d3648b8",
+    "bytes": 4338
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/record.dart": {
+    "sha256": "0e88dea92be9ce9fc9a3771b1017bcef4b49c5e94db7ce9538221a6d73b3bf91",
+    "bytes": 3519
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types/sealed.dart": {
+    "sha256": "88715d19c7323bf979cb38bd25d7dfef1e482f49c51ce8cd4b3c53ddb3a9af0e",
+    "bytes": 4315
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/types.dart": {
+    "sha256": "ed5750166ae32d69ded41cb8b0789c23d56ba57de455f3ce1b22ff77abc57793",
+    "bytes": 7015
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/exhaustiveness/witness.dart": {
+    "sha256": "bbd5ae88b659a5fb535b2cdc58b609a0459f50af70b34170516e561cf5fab8d6",
+    "bytes": 4990
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/experiments/errors.dart": {
+    "sha256": "db50fc8daa1c1df4899fc66dacd5b47f690bf918d4033405707dd345a7a9dfd8",
+    "bytes": 751
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/experiments/flags.dart": {
+    "sha256": "103185f9c53a10dee5ebb5902fab0d4702026c19e17b4e713e03d51a31bbe699",
+    "bytes": 9326
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/field_promotability.dart": {
+    "sha256": "ff5d13bc233f2c9d01443af8024e1411e641704f6ec276f74b151c435b9d33f0",
+    "bytes": 20022
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/flow_analysis/factory_type_test_helper.dart": {
+    "sha256": "abbc803982b27db6b63e8c51fd4b0b20e1f824f113675c45ab44172f620747ea",
+    "bytes": 2601
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/flow_analysis/flow_analysis.dart": {
+    "sha256": "6da1b5c4242a5d9b249d2711e301e28c343434c6110f0e630b775c7966f5686d",
+    "bytes": 296945
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/flow_analysis/flow_analysis_operations.dart": {
+    "sha256": "71ea809a395444a6b6db4f253708b59f7e4a366921270e90601676ff8a43c70c",
+    "bytes": 6477
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/flow_analysis/flow_link.dart": {
+    "sha256": "39a867ffe0bfa3fb1f90853570f8f1a0a7c3d0909b1c029d82b71f65a04cb13b",
+    "bytes": 15487
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/messages/codes.dart": {
+    "sha256": "56d71c403a934e13828c43ef005e1c7cc0030328af265956461ba905be11ec0d",
+    "bytes": 11436
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/messages/codes_generated.dart": {
+    "sha256": "88c32147dbfccea32f868e090d09b6d12e211403010cace987db26f97588c470",
+    "bytes": 125245
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/messages/conversions.dart": {
+    "sha256": "c6cb2a4de6c06a75e54f62e9c766ef06f830bd92144b02a85205e240371aa243",
+    "bytes": 1643
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/messages/diagnostic_message.dart": {
+    "sha256": "90b73f42870ab66dc8537a53276d280fe190ebb43e3eccf3e5b47af4a8fad429",
+    "bytes": 2726
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/messages/severity.dart": {
+    "sha256": "9db9589019939814ea9a9a0393e11d3b36ecde96500be03478535012030cbc79",
+    "bytes": 1155
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/arguments.dart": {
+    "sha256": "743acb9c6eca8f0f9b6bd68e2d9fab8f4c018ad00d007d964b2a715bca388cfe",
+    "bytes": 1407
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/ast.dart": {
+    "sha256": "633bf5b6a07b68837283997098596bfc4e176bbabd880df9a343f3cd626f9f64",
+    "bytes": 470
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/elements.dart": {
+    "sha256": "9e02a2356ba423278ae4598e9b8422cbf87b3ced9e28e2caf2063289222141af",
+    "bytes": 3202
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/evaluate.dart": {
+    "sha256": "2706cfcf7e0f1729512f7695ffd3884a2f72bba2638261a225dda4551ee74d0c",
+    "bytes": 24422
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/expressions.dart": {
+    "sha256": "1f7920b438c24b97dd4629b9d54b35af5a3636d98c33baa768ada137fb0767d7",
+    "bytes": 16580
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/formal_parameters.dart": {
+    "sha256": "937d19c82ae45836ea6309d4ef2a817cf0210cc5de2fbcc32c108e198adff937",
+    "bytes": 2191
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/parser.dart": {
+    "sha256": "046dafa5abf23ee09737e7a6346ea02d34ebd0fa6013d3f183d240551824f278",
+    "bytes": 41094
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/proto.dart": {
+    "sha256": "46133c95435a107bd114a79303dcec7ba79db41d5ad76fbf7802349543cbcf6d",
+    "bytes": 42048
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/record_fields.dart": {
+    "sha256": "c1cda2a055d91039559904bdc6040ed9bd49ebe822464da27b59840748d82b18",
+    "bytes": 1478
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/references.dart": {
+    "sha256": "c1d508d4d9f24833c44f67f880d0e017a61cbe1ed0cf8f8e6d01a927e3239ac2",
+    "bytes": 2208
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/scope.dart": {
+    "sha256": "78b46585a8612d7a52ce3dbbc848cf122150e764a3d8bdc8e4ae77b0d6078c46",
+    "bytes": 6946
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/string_literal_parts.dart": {
+    "sha256": "21d4b38b474bcb9f78f1adc90396837179692b962988658d7f2d4a44445b96b9",
+    "bytes": 1212
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/type_annotations.dart": {
+    "sha256": "9fd1bce6f5a1dd3d87cc690086a39f1177c584916dde8ae7ae5c8c71083a4333",
+    "bytes": 8285
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/metadata/util.dart": {
+    "sha256": "0a985eb7841f6a60b20cd2cba85b45320e43ec94225242ae0037dacf4a8b5c54",
+    "bytes": 844
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/assert.dart": {
+    "sha256": "b5376c14e5408b51fd11b7d4893743f3bedb10b0321c5792ddfdb60cb0bdc8a9",
+    "bytes": 555
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/async_modifier.dart": {
+    "sha256": "e59658ac7e51208a5a526f45b484093bbdc54e0c8e9fe40f74f57f309c4a90a6",
+    "bytes": 325
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/block_kind.dart": {
+    "sha256": "b89462d8df93ffdad3bc326a0fe3231e78937abadf9955f48c30256033994d32",
+    "bytes": 2235
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/class_member_parser.dart": {
+    "sha256": "2d009798a7494ed598ebb75a147bdf484d192e4ccc26f06e6040604ab63fdcd2",
+    "bytes": 2496
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/constructor_reference_context.dart": {
+    "sha256": "9ee2be66e7b84fae2db42b97c91b8aad92d924e7af2bcac081ecebc487e2b4e9",
+    "bytes": 768
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/declaration_kind.dart": {
+    "sha256": "e213ddf8015ab309c20033396cfdbce687ef06cf8da919359b14bef5a550c796",
+    "bytes": 957
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/directive_context.dart": {
+    "sha256": "32c416ee34fa4793c6ccd548205f309f6d5f4b7179f59305052a23bed3576d1a",
+    "bytes": 4124
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/error_delegation_listener.dart": {
+    "sha256": "3967ed7d289a1d0d8f2116fcd1237728aeb6d05ddf9797f14bd1b65e5112c72a",
+    "bytes": 752
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/formal_parameter_kind.dart": {
+    "sha256": "92b6931e054604bae2b67fc497f2ee9705d433e595d44f6f64e82307857c3c98",
+    "bytes": 1022
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/forwarding_listener.dart": {
+    "sha256": "d879c49cbb12603cd300895f1e738d599ddabd2c2cce708676fa7590772d2bbf",
+    "bytes": 57813
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/identifier_context.dart": {
+    "sha256": "327a353e1dd4a2bd2082277748dc14d8302422eb081dd8c8bf586df6204c6c57",
+    "bytes": 18361
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/identifier_context_impl.dart": {
+    "sha256": "2728cce799da1c2b340e909bb30180f54d8d2303d02c261e52c04031d1af14ba",
+    "bytes": 56006
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/listener.dart": {
+    "sha256": "d7e1be426ead9220ca0f6039a52704d941128e7867ee983c4e4611f51fab6a84",
+    "bytes": 79860
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/literal_entry_info.dart": {
+    "sha256": "04f3140196679b5fb79acb01c3da03cfd740bcdd361be864cb8dc62c2408f22e",
+    "bytes": 3093
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/literal_entry_info_impl.dart": {
+    "sha256": "a1d16dd412712c4071a9f99798045e09d07b9029be414efe733f71e9bc87af65",
+    "bytes": 10667
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/loop_state.dart": {
+    "sha256": "d4ddeb5dafbf1b5e531b0565c3457c3fc06711cdbaf05bd87a6403b1f1dd3d21",
+    "bytes": 403
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/member_kind.dart": {
+    "sha256": "293f908436a1ef2b1294a6a98162a1961c8dab2f17f2e8da7b88837d3436a495",
+    "bytes": 1375
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/modifier_context.dart": {
+    "sha256": "e89db1abbf8b952068b40d2794c275c7975caa2f13a67b2727956b0ee7323765",
+    "bytes": 24524
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/parser.dart": {
+    "sha256": "e957840bf2896266b84e9c59d5b0be6459614042b5fe0c4da43fa2248eb0651c",
+    "bytes": 2242
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/parser_error.dart": {
+    "sha256": "016cd700accad1616250e00942529415391b3266a52b9662f51e599739bb1e5b",
+    "bytes": 934
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/parser_impl.dart": {
+    "sha256": "0b5b4ba3ac0342d4a2d427220eebe6b891e18ad54f88395e51f595d078a9c0ef",
+    "bytes": 404359
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/parser_main.dart": {
+    "sha256": "cb5b7448438f54df53044ccbda8b8ad75ce2c7d6dc0607107fc2e04494f9eba2",
+    "bytes": 1513
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/quote.dart": {
+    "sha256": "47e4fb185be85408eed5e6bf0debf79321be590023a48169ca0edf50a53a8f69",
+    "bytes": 11129
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/recovery_listeners.dart": {
+    "sha256": "becb221824e54a8f8016c1533cbcf9c736719c49cbe935a8f7c438f5d9a12556",
+    "bytes": 2566
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/stack_listener.dart": {
+    "sha256": "44f1170e828082f32fcc0f4ec19c0313f8aea20666b0927c1ae069cfac748957",
+    "bytes": 21164
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/token_stream_rewriter.dart": {
+    "sha256": "447c7c0cb9d4e5e5357da51ef13c234e2909b3b57e632900f5859cf4e3c33c86",
+    "bytes": 13567
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/top_level_parser.dart": {
+    "sha256": "fcccd7b1f2ae0dc453ba83f45e879c19d0fdda42ef326461685773998937dee9",
+    "bytes": 883
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/type_info.dart": {
+    "sha256": "1301b6c5775f54bc4357e90b066eeb49b3d6b9ac46f1fd5f76dc49b51a220754",
+    "bytes": 21540
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/type_info_impl.dart": {
+    "sha256": "cf22e7ffe18968bc50958f04ad09255fc84d4efc1425ee13da87cc4f2953452b",
+    "bytes": 52965
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/parser/util.dart": {
+    "sha256": "c9ce13ddc9e9cac2e77432ed2818d45ebc012574860df12ce8a5ec69db03085f",
+    "bytes": 9816
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/abstract_scanner.dart": {
+    "sha256": "54cd462b9a670f655707ca9188252e3193836afa8ab31b18351f1950289245d4",
+    "bytes": 76295
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/characters.dart": {
+    "sha256": "301f41767d0507fec6f1457da0adc92f3809295be0aae4fc23036da77295abc6",
+    "bytes": 3137
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/error_token.dart": {
+    "sha256": "11c01467ba079b6b5fbe41c91e6a9c55d825756cfa4e8290a8e0147b8e848110",
+    "bytes": 6749
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/errors.dart": {
+    "sha256": "3b65e6fda197cb7011cdd95df17b423bb85be23b3cc24141af079a12ed1b1686",
+    "bytes": 4923
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/errors.g.dart": {
+    "sha256": "d7abb48239878d019af98d36affaea1a5e1908c3fbfd6ef59ee5ad893517911e",
+    "bytes": 6747
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/internal_utils.dart": {
+    "sha256": "1c222b3c7def454e4e9e8c3d8c81503cada515a2627296dfd1a882d1adbbb3b0",
+    "bytes": 2851
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/interner.dart": {
+    "sha256": "931b1d2dcc8d963d9d3748b66ec9c466c0f6dcd5d5743b078a7954b50341107b",
+    "bytes": 737
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/io.dart": {
+    "sha256": "2fb0fe20ec301776f9e3f569de653532e826a41d7f4a14b032a5a41171100384",
+    "bytes": 531
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/keyword_state.dart": {
+    "sha256": "51dad9fd4f07e55736c9bc21ed248aebb0bbff27f525b6a133b6e91a443e07e2",
+    "bytes": 2598
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/reader.dart": {
+    "sha256": "31d3ef78b12e0e9bfde47bc9723b8aa14f0a9f0a1ae7b80b6e05fbe5f30c0d40",
+    "bytes": 3821
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/recover.dart": {
+    "sha256": "ec894a788d874566da555e4dc810b8b67562199bb7167dbb9a47160ad1840b77",
+    "bytes": 597
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/scanner.dart": {
+    "sha256": "74c5965632ee2dc2f9b2a21fb14aaa6a0bd1cd03143d12340fcdba376c28bb0c",
+    "bytes": 4213
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/scanner_main.dart": {
+    "sha256": "ba044b305d04341b33a70a886c5e0bf4c3102d0217b5a7601fca540b5103dd59",
+    "bytes": 3048
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/string_canonicalizer.dart": {
+    "sha256": "ef7dc822e6bc149bc7ac67a1e23be4b88c81228892779b1be7e36ec50583a7a8",
+    "bytes": 10795
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/string_scanner.dart": {
+    "sha256": "d9ec350355262a6d0d3e6b6dd2ca46a22f6f5399d95ca3cb1fed339448d38394",
+    "bytes": 6005
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/string_utilities.dart": {
+    "sha256": "20b9d4dfc1ced17406c7b069fff2f047804d4e594b7a791cb4c726dea5639627",
+    "bytes": 384
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/token.dart": {
+    "sha256": "d90b8fd0599d64a37eafe121a9ae3010ae431b7eb5531718d102618e8b0b5c94",
+    "bytes": 66418
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/token_constants.dart": {
+    "sha256": "204f17292bd29e5e5c5442374a82d659cfb2468548287f6faaf0bbe6198696c7",
+    "bytes": 3978
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/token_impl.dart": {
+    "sha256": "f3783d8d3fe016b89b7bebe936bcdb643ec56337a94bdb4b8e3e31ebfb2b7414",
+    "bytes": 9434
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/scanner/utf8_bytes_scanner.dart": {
+    "sha256": "30d34a566a7e470e4599ac4933a9fe8090e1661aef82e0402951f949dc3cc40e",
+    "bytes": 18551
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/sdk/allowed_experiments.dart": {
+    "sha256": "61c474eeb2caa11df10e6049ce945d869f1f7dc9c61100336aee6edf9ef6b527",
+    "bytes": 6983
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/annotated_code_helper.dart": {
+    "sha256": "4cd64dc5a90fc80cfd5a478dfdae2391589dbad2c85b378c9b36212c5a98fa52",
+    "bytes": 9789
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/features.dart": {
+    "sha256": "abbc514467612ee55188073bf986d2c53b8087e8b83444986c096018942d1810",
+    "bytes": 11601
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/id.dart": {
+    "sha256": "0d539185c9014bb41eef8f33738598d30feae9ec27fe60e0726d5a894489f74f",
+    "bytes": 11771
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/id_generation.dart": {
+    "sha256": "80b225a67c9545091665fa187bb8eada8a64b6dd3552875e632d87939d6e82b6",
+    "bytes": 8892
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/id_testing.dart": {
+    "sha256": "b028393aca19d8719156976dadf9d826976da415bc12214e8d88af6566239b64",
+    "bytes": 39339
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/testing/metadata_helper.dart": {
+    "sha256": "e21664b378aff58c40af6a3a0379c9e3ce71d72996da748288558dcd6fc159c6",
+    "bytes": 25699
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/assigned_variables.dart": {
+    "sha256": "9eb3a2ef007e5e95e4d8bb1bf16c8446e3dca38cb28ca1f115a9c777330a6231",
+    "bytes": 14435
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/null_shorting.dart": {
+    "sha256": "3cf517ed5f57f8db4ebb6818ffbccd294e8099398220cb5579d880ecf1421530",
+    "bytes": 5536
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/nullability_suffix.dart": {
+    "sha256": "3ee9f5b3f2c3ee473d6a3fd78a49eaeeec53715e44df111d41b7ba674ae8a6e3",
+    "bytes": 1597
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/promotion_key_store.dart": {
+    "sha256": "e27cbcbbcbfdb41fa750c8b191813a6f1aa27f736496a57264f1d5da791d36f4",
+    "bytes": 1996
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/shared_inference_log.dart": {
+    "sha256": "ce6e2ac54ecacbab895edac735681c19d7b1f5d95f3ddf3fdc7643c05128cf2e",
+    "bytes": 27394
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/type_analysis_result.dart": {
+    "sha256": "da3281fa994eb98e9ce342d8fe6b8631180db2f6ad5ae51df6db91e3743e9d0a",
+    "bytes": 18176
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/type_analyzer.dart": {
+    "sha256": "c70ea48cd76808f02a67e3f33bfe9e6af94b626006338f267bed60a54bda3ca1",
+    "bytes": 112544
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/type_analyzer_operations.dart": {
+    "sha256": "aa6b714d62d0b5915673655cfa2218cdcc8ea6f450a5ac49e8b99cbd25026ee7",
+    "bytes": 105156
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/type_constraint.dart": {
+    "sha256": "55a9c28e8fcee4ef4f03efb9ccc84625399a28fce002448865ddf7a545623797",
+    "bytes": 13249
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/type_inference/variable_bindings.dart": {
+    "sha256": "4bd021a0059a6705cadb547fbf5f0e9fa137631e77c4d4e314c5940eb91aa56a",
+    "bytes": 10008
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/types/shared_type.dart": {
+    "sha256": "a857bd8b0dfb75ddcb8e9a3762dd991497e07dc32d696de46f7bcce6ad97c5ee",
+    "bytes": 13989
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/colors.dart": {
+    "sha256": "6395049893210e4d1d90322591f02e972a429388ceaa4caee936212518ee5dc7",
+    "bytes": 5938
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/dependency_walker.dart": {
+    "sha256": "055ee1da32765587a04a0d5a877dafdd3a831ff8167d27cda0bb79bd20211ba3",
+    "bytes": 6475
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/filenames.dart": {
+    "sha256": "cbaffab2e60824a4a12a8b9a4ff69187d13669026f4e03bbc2ae1cb9d8ca590a",
+    "bytes": 1173
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/libraries_specification.dart": {
+    "sha256": "0e5062d2f5606aa7d22b6f331c995125a56c3cc4a6481b18e0ed73322bfa2b91",
+    "bytes": 18240
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/link.dart": {
+    "sha256": "2f89fe9e994a68acb4d5d3790018bdbc36fc37f183f7443ad4d7600b2e66883d",
+    "bytes": 5672
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/link_implementation.dart": {
+    "sha256": "66d2bcd8516afd867e7e9043854d6b10cb5497e58ed367a4406b5e378e49ec07",
+    "bytes": 5041
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/null_value.dart": {
+    "sha256": "c95e565f62ba9d6102e176294f9157948a0797864bc49185af89c919e11dcdc0",
+    "bytes": 740
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/options.dart": {
+    "sha256": "612e3e73cd5e0fdbf6c5da9c8b8d1f13975efb552bce6063e57da406ffddc137",
+    "bytes": 11171
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/relativize.dart": {
+    "sha256": "3441fcd8d5725f4a465deeea6363e3e21814bb688279c03c45acd16f28faf57a",
+    "bytes": 2358
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/resolve_input_uri.dart": {
+    "sha256": "cd1ef8c874d10253e85eaa2df4a1aaf2d3b0c6499f45a073f233af044badd979",
+    "bytes": 1048
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/resolve_relative_uri.dart": {
+    "sha256": "9a30816b0a4c61f804975c5a8150c0d3ec79fc4b5cb0f5b0662342b8c42f44fe",
+    "bytes": 831
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/runtimes.dart": {
+    "sha256": "8b6ad26b31901a29ec2144d8dcaf8f04ba1093d5a515f87f7384771403f80ca9",
+    "bytes": 995
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/stack_checker.dart": {
+    "sha256": "6dbbc938cc0064e11a007eb398329791703158e877c43393ecf28d3752d6a9d8",
+    "bytes": 8451
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-89.0.0/lib/src/util/value_kind.dart": {
+    "sha256": "517e0df8d6be748ce80a8350aedf4e2bdefdf17b106a2f1d463a5ca8eb52b791",
+    "bytes": 2386
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/pubspec.yaml": {
+    "sha256": "2500027a5a72ef32e877538c2656be680df534c0cc1a25122a80c14118dca72c",
+    "bytes": 511
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/glob.dart": {
+    "sha256": "c35d4b0988cc54b350bcb44636e708445135f2ffa72e21a8b6bf740edb543326",
+    "bytes": 7748
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/list_local_fs.dart": {
+    "sha256": "ba275b171d5a4764c0821f74aa82c56f1d543bbc0435b1af8e6a16af11766f0a",
+    "bytes": 981
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/src/ast.dart": {
+    "sha256": "0f603d3a0aab2503f6d35c25bd40e87b76a6780af28cdc9e7a9f2ca0a1f33dca",
+    "bytes": 15618
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/src/list_tree.dart": {
+    "sha256": "66877edefb02f93bc234d787a5a7a1186944d8f4dd01631f09e9f38c8174a69c",
+    "bytes": 19043
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/src/parser.dart": {
+    "sha256": "8ba78482596d53db3d36b5eb38d28eee282e12a5206f30592b7c93e78ce9399a",
+    "bytes": 5265
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/glob-2.2.0/lib/src/utils.dart": {
+    "sha256": "8494929e4a5c9fe1913f5456f4365b59230415213f52e60152f7cb17960eb177",
+    "bytes": 2393
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/pubspec.yaml": {
+    "sha256": "b696d132a6ef7b099e8a63b4b8f8dadf2757be7fbffd04982f832b4d86e0d769",
+    "bytes": 572
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/async_queue.dart": {
+    "sha256": "4e948ba7a8721433a108dbb2a6f8d477b22268b1461e397a5ff90e6c3cdd472f",
+    "bytes": 2335
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/custom_watcher_factory.dart": {
+    "sha256": "2329375b83c04109fb64f9cb6a7d528b69eca3f9d1f0da0a559983696ac7c2b3",
+    "bytes": 3444
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/linux/linux_directory_watcher.dart": {
+    "sha256": "1f56ea9649e69785b2b1b1f3d2fcdda437befce774c18ef84ff1efa3ca141054",
+    "bytes": 1536
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/linux/native_watch.dart": {
+    "sha256": "7146ce0a95cc1db665339567dc6b326b1e1f53ff5f2905c0952e3835f4067352",
+    "bytes": 5875
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/linux/watch_tree.dart": {
+    "sha256": "41c3571df6c8a52891235ec61e0808aa5abd154829915763513d761f5a82c60e",
+    "bytes": 12479
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/linux/watch_tree_root.dart": {
+    "sha256": "45890baa66477bfcb8a9ffb5ab472770d69b560ca65e75f58ae1275454c5cbcb",
+    "bytes": 2396
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/polling/directory_list.dart": {
+    "sha256": "72c5b03cfa61f0242259b24a335a9a89a82ab22645eeb7b46df5ea641a8e2c5e",
+    "bytes": 8379
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/polling/polling_directory_watcher.dart": {
+    "sha256": "a6a89693810c5df8486c6654b9e23dc5d68624de22f8a4d26e3bb73233bc95f3",
+    "bytes": 6908
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/directory_tree.dart": {
+    "sha256": "330490f9b35179843f50ad01721530097a261ce65e359accc30ee0007604c7da",
+    "bytes": 7641
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/event_tree.dart": {
+    "sha256": "bd850ee9e5deee5ca2fe9ee92a8f0fcd21241bc851c6385c227bed5d56e64f50",
+    "bytes": 2002
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/isolate_recursive_directory_watcher.dart": {
+    "sha256": "f45bd5e952675c1bddaab26915a6f4ad05f1eb5a75b287e9490a29539ce9bb23",
+    "bytes": 5864
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/recursive_directory_watcher.dart": {
+    "sha256": "8bddfecf555c0efddb0119a64fa15308f625a2bd0d9e99ad7d43f085d9eba3a0",
+    "bytes": 2042
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/recursive_native_watch.dart": {
+    "sha256": "36ce56d63269bf3a70eb0497d3a9e7c2c5b4a98ce650b2dccf498b7c715e7254",
+    "bytes": 8637
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher/recursive/watched_directory_tree.dart": {
+    "sha256": "504afe0e70456fa0754514b55554b69058629ec9fb9451d799376efa740437f7",
+    "bytes": 5364
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/directory_watcher.dart": {
+    "sha256": "b2a5fd3ebef7811bea0247410f5ccb075c9542467268c25281fe1d4158f7d0b1",
+    "bytes": 2984
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/event.dart": {
+    "sha256": "506adf3e6af0ed2744159b2112b852b67e7785ff572d24be957fffdef5c20447",
+    "bytes": 4639
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/event_batching.dart": {
+    "sha256": "fe37d4573ab1f913dd6024901899c76fa460ea8d0408fffb2205a04fa545a501",
+    "bytes": 4680
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/file_watcher/native.dart": {
+    "sha256": "4a5b16f7693632d38ac95cbf423bb5e080b4f95dbd9bc6680eed3bad19d4b093",
+    "bytes": 3655
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/file_watcher/polling.dart": {
+    "sha256": "20c22a7b28d7da97845040f2184a00f62a9b798c55be0b78641a17c29e4c86f2",
+    "bytes": 2979
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/file_watcher.dart": {
+    "sha256": "5909fdb1e99567b25c79f6b2eaa26775bf0645c62a83d066e0711398be1a0a17",
+    "bytes": 2283
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/paths.dart": {
+    "sha256": "d090dfb29e19ee83fee98f9152cf1d3e33cf355055ca845cbdb5833be3617d20",
+    "bytes": 4475
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/polling.dart": {
+    "sha256": "11b9a72a35513584df4847886593db97f283e53795d00d5b9a281f77e916dea2",
+    "bytes": 1377
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/resubscribable.dart": {
+    "sha256": "1fd3aca2e7149b1bc0a2061fd6cea07ead87a594df1e2dbcfc147bef6944583e",
+    "bytes": 3540
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/testing.dart": {
+    "sha256": "3bc61a24f886e06c56828852b760e27177c6c3e3889f059f726448ebf2d0d2c4",
+    "bytes": 1102
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/src/watch_event.dart": {
+    "sha256": "ccf410810d50d1a87cb2b145045494086cbc54e1d178aec37316c7447e2c8812",
+    "bytes": 1067
+  },
+  "/Users/jeanbosco/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib/watcher.dart": {
+    "sha256": "cdc3322d00c402d76997054e1c847721f79de8ea4f28a0297ef864ad4f80ed30",
+    "bytes": 2858
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/before/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "bytes": 38333
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/candidate-final/lib/admin/core/admin_governed_settings_models.dart": {
+    "sha256": "5b71afad52aba4781e0b10f4250c1dbb6a0ca8fa46023a1def7d1db7e3fe238c",
+    "bytes": 33084
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/candidate-final/lib/admin/core/admin_governed_settings_history_models.dart": {
+    "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+    "bytes": 5349
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/declaration_preservation.dart": {
+    "sha256": "096e240cab788c522b6a2f125d331dab37c9374b56ccd08664e5ac099e41fca9",
+    "bytes": 2169
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/package_config.json": {
+    "sha256": "f12b56fd30ace0ee74821024a4b35f175f1afda2d1ba172d274fee425632994b",
+    "bytes": 34367
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-settings-model-boundary-preparation1/proposal-final.json": {
+    "sha256": "817c8110ff47983be881704fb0462a31e1cd60baaecda75358acdb471ee3e63a",
+    "bytes": 1404
+  }
+}

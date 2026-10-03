@@ -1,0 +1,22 @@
+[
+  {
+    "path": "DOMAIN_MAP.md",
+    "sha256": "e5bd1ebc46e8726b5d331b2086a4bb977b7ed214d42db337709ccd7175ccc0b4"
+  },
+  {
+    "path": "coverage.json",
+    "sha256": "0ac0b8fccbbb13fe45ced82afb76a4b1d2f126ae3bd9390aeb9dd28d53f472aa"
+  },
+  {
+    "path": "gaps.json",
+    "sha256": "d00a10acc7c3c3a224a69f388abb80d665de72c12dbd7263e17afe8c1db5a97d"
+  },
+  {
+    "path": "input-manifest.json",
+    "sha256": "6258428bdc06cf397fb392a98eeb0e200bcb103f34e7f09c78a31da72f43ba1e"
+  },
+  {
+    "path": "schema-domain-map.json",
+    "sha256": "eab3bab2c18c3b2b7d214cbb1cb147a2ac78b38d6083e2a8517767f683ba838b"
+  }
+]

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.BaseApplicationNameHandlerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:16.861Z" hostname="Jeans-Mac-mini.local" time="1.993">
+  <properties/>
+  <testcase name="setBaseName defaults to correct value()" classname="com.flutter.gradle.BaseApplicationNameHandlerTest" time="1.981"/>
+  <testcase name="setBaseName respects Flutter tool property()" classname="com.flutter.gradle.BaseApplicationNameHandlerTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.17/e3c251a39dc90badaf71c83427ba46840f219d8d/byte-buddy-agent-1.14.17.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

@@ -1,0 +1,28 @@
+{
+  "state": "unobserved",
+  "alerts": [
+    "WORKER_STALE"
+  ],
+  "enabled": true,
+  "checked_at": "2026-10-01T12:32:35.383097Z",
+  "send_action": false,
+  "day_jobs_cap": 1440,
+  "last_outcome": null,
+  "external_send": false,
+  "last_created_at": null,
+  "last_expires_at": null,
+  "last_request_id": null,
+  "pending_sources": 1,
+  "contract_version": 1,
+  "financial_action": false,
+  "last_recorded_at": null,
+  "day_jobs_reserved": 0,
+  "sample_valid_until": "2026-10-01T12:33:35.383097Z",
+  "day_escalations_cap": 28800,
+  "day_scan_sources_cap": 36000,
+  "source_scan_complete": false,
+  "transport_configured": true,
+  "configuration_revision": 2,
+  "day_escalations_reserved": 0,
+  "day_scan_sources_reserved": 0
+}

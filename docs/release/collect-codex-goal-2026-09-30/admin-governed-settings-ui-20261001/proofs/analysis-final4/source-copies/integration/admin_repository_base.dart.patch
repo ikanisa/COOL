@@ -1,0 +1,20 @@
+--- a/lib/admin/core/admin_repository_base.dart
++++ b/lib/admin/core/admin_repository_base.dart
+@@ -11,6 +11,7 @@
+ import 'admin_exception_escalation_inbox_v2_models.dart';
+ import 'admin_receipt_operations_models.dart';
+ import 'admin_receipt_principal_models.dart';
++import 'admin_governed_settings_sdk.dart';
+ 
+ export 'admin_models.dart';
+ export 'admin_reconciliation_models.dart';
+@@ -18,6 +19,9 @@
+ 
+ abstract class AdminRepositoryBase {
+   const AdminRepositoryBase();
++
++  AdminGovernedSettingsApi get governedSettings =>
++      throw UnsupportedError('Governed Settings are unavailable.');
+ 
+   Future<void> sendOtp({required String phone});
+ 

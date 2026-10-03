@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "scripts.tests.test_collect_release_candidate",
+    "-v"
+  ],
+  "exit_code": 0,
+  "log_sha256": "4d4dd151566e9a325dec6ca257acddffacabe0a51127040cee0c29ae9686f22a",
+  "exporter_sha256": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356",
+  "tests_sha256": "5e3f5b062b7a533f8a3b81056fa77e75e1cef215e0bba8fc4912a96380e7c5da",
+  "observed_at_utc": "2026-09-30T23:27:33Z",
+  "scope": "Synthetic source/Git/SDK/stdio checks; no hosted or keychain calls"
+}

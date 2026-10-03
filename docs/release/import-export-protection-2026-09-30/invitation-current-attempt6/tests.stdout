@@ -1,0 +1,23 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-current-attempt6/test/shared/group_invitation_protection_test.dart
+00:00 +0: late read rejects account completion
+00:00 +1: late read rejects session completion
+00:00 +2: late read rejects A-B-A completion
+00:00 +3: late rotate rejects account completion
+00:00 +4: late rotate rejects session completion
+00:00 +5: late rotate rejects A-B-A completion
+00:00 +6: share read rejects malformed code 
+00:00 +7: share read rejects malformed code bad-code
+00:00 +8: share read rejects malformed code https://attacker.invalid
+00:00 +9: share read rejects malformed code   40000000-0000-4000-8000-000000000001
+00:00 +10: share read rejects malformed code 40000000-0000-4000-8000-000000000001x
+00:00 +11: rotation has one actual SDK mutation request after lost
+00:00 +12: rotation has one actual SDK mutation request after 503
+00:00 +13: rotation rejects exact receipt defect empty
+00:00 +14: rotation rejects exact receipt defect extra
+00:00 +15: rotation rejects exact receipt defect target
+00:00 +16: rotation rejects exact receipt defect request
+00:00 +17: rotation rejects exact receipt defect code
+00:00 +18: rotation rejects exact receipt defect boolean
+00:00 +19: rotation rejects exact receipt defect version
+00:00 +20: valid rotation binds exact request and captured Bearer
+00:00 +21: All tests passed!

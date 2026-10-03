@@ -1,0 +1,391 @@
+--- a/scripts/audits/collect_schema_domain_map.py
++++ b/scripts/audits/collect_schema_domain_map.py
+@@ -415,8 +415,72 @@
+     signature,closing=sql_signature(text,tokens,0)
+     return signature if closing==len(tokens)-1 else None
+ 
++def dollarquoted_replacement_recipes(body, tokens):
++    """Recognize a bounded straightline DO subset; this does not execute PL/pgSQL.
++
++    Only body/needle/replacement text variables, dollarquoted literal values,
++    literal regprocedure reads and two raise-on-drift guards are admitted.
++    Any other statement, branch, expression or write rejects the whole block.
++    """
++    recipes={};values={};declared=set();j=0
++    if any(t.kind=="id" and body[t.start:t.start+1]=='"' for t in tokens):return {}
++    def spelling(part):
++        return [t.value.lower() if t.kind=="id" else t.value if t.kind=="symbol" else ("literal",t.value) for t in part]
++    def dollar(part):
++        if len(part)!=1 or part[0].kind!="string":return None
++        t=part[0];raw=body[t.start:t.end]
++        m=re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",raw)
++        return t if m and raw.endswith(m[0]) and raw==m[0]+t.value+m[0] else None
++    def statement(start):
++        end=next((k for k in range(start,len(tokens)) if tokens[k].kind=="symbol" and tokens[k].value==";"),None)
++        return (tokens[start:end],end+1) if end is not None else (None,None)
++    if not tokens or spelling(tokens[:1])!=["declare"]:return {}
++    j=1
++    while j<len(tokens) and spelling(tokens[j:j+1])!=["begin"]:
++        part,end=statement(j)
++        if part is None or len(part)<2 or part[0].kind!="id" or body[part[0].start:part[0].start+1]=='"':return {}
++        name=part[0].value.lower()
++        if name not in {"body","needle","replacement"} or name in declared or spelling(part[1:2])!=["text"]:return {}
++        declared.add(name)
++        if len(part)>2:
++            literal=dollar(part[4:]) if spelling(part[2:4])==[":","="] else None
++            if name=="body" or literal is None:return {}
++            values[name]=literal
++        j=end
++    if declared!={"body","needle","replacement"} or j>=len(tokens):return {}
++    j+=1
++    getdef=["body",":","=","pg_get_functiondef","("]
++    while j<len(tokens):
++        if spelling(tokens[j:]) in [["end"],["end",";"]]:return recipes
++        part,end=statement(j)
++        if part is None or len(part)!=10 or spelling(part[:5])!=getdef or part[5].kind!="string" or spelling(part[6:])!=[":",":","regprocedure",")"]:return {}
++        if body[part[5].start:part[5].start+1]!="'":return {}
++        predecessor=part;j=end
++        while j<len(tokens) and spelling(tokens[j:j+1]) in [["needle"],["replacement"]]:
++            part,end=statement(j)
++            if part is None or spelling(part[1:3])!=[":","="]:return {}
++            literal=dollar(part[3:]);name=part[0].value.lower()
++            if literal is None or name in values:return {}
++            values[name]=literal;j=end
++        if set(values)!={"needle","replacement"}:return {}
++        guard_start=j;part,end=statement(j)
++        if part is None:return {}
++        condition1=["if","strpos","(","body",",","needle",")","=","0","then","raise","exception"]
++        condition2=["if","(","length","(","body",")","-","length","(","replace","(","body",",","needle",",",("literal",""), ")", ")", ")", "/", "length", "(", "needle", ")", "<", ">", "1", "then", "raise", "exception"]
++        prefix=condition1 if spelling(part[:len(condition1)])==condition1 else condition2 if spelling(part[:len(condition2)])==condition2 else None
++        tail=part[len(prefix):] if prefix else []
++        if not(prefix and len(tail)==5 and tail[0].kind=="string" and tail[4].kind=="string" and spelling(tail[1:])==["using","errcode","=",("literal","55000")]):return {}
++        j=end
++        if spelling(tokens[j:j+3])!=["end","if",";"]:return {}
++        j+=3;guard=tokens[guard_start:j]
++        part,end=statement(j)
++        if part is None or spelling(part)!=["execute","replace","(","body",",","needle",",","replacement",")"]:return {}
++        recipes[part[0].start]={"predecessor":predecessor,"needle":values["needle"],"replacement":values["replacement"],"guard":guard}
++        values={};j=end
++    return {}
++
+ def sql_transformation_candidates(text, path, version):
+-    """Syntactic DO hints only. Never execute SQL or reconstruct expected bodies.
++    """Syntactic DO hints and bounded literal recipes; never execute SQL.
+ 
+     Exact spans refer to character offsets in the original UTF-8 source text.
+     All anonymous-effect fences remain in sql_lineage_uncertainty unchanged.
+@@ -455,6 +519,7 @@
+         delimiter=re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",raw)
+         if not delimiter or not raw.endswith(delimiter[0]):continue
+         base=block.start+len(delimiter[0]);body=block.value;tokens=lex(body,sql=True)
++        literal_recipes=dollarquoted_replacement_recipes(body,tokens)
+         def span(start,end):
+             return {"path":path,"version":version,"line":text.count("\n",0,start)+1,
+                     "start_character_offset":start,"end_character_offset":end,
+@@ -496,7 +561,17 @@
+             for part in parts[1:]:
+                 source=assignments.get(part[0].value.lower()) if len(part)==1 and part[0].kind=="id" else None
+                 assigned.append(expression(source) if source else None)
+-            result.append({**common,"operation":operation,"target":target,"predecessor":predecessor,
++            recipe=literal_recipes.get(t.start)
++            literal_recipe={}
++            if recipe:
++                def literal_evidence(value):
++                    return {"value":value.value,"source_span":span(base+value.start,base+value.end),
++                            "value_sha256":sha(value.value.encode()),"value_utf8_bytes":len(value.value.encode())}
++                literal_recipe={"_literal_replacement_recipe":{
++                    "needle":literal_evidence(recipe["needle"]),"replacement":literal_evidence(recipe["replacement"]),
++                    "predecessor_assignment_source":span(base+recipe["predecessor"][0].start,base+recipe["predecessor"][-1].end),
++                    "guard_source":span(base+recipe["guard"][0].start,base+recipe["guard"][-1].end)}}
++            result.append({**common,**literal_recipe,"operation":operation,"target":target,"predecessor":predecessor,
+                 "identity_binding":"literal-regprocedure-signature" if target["signature_types"] is not None else "name-only-unsupported-signature",
+                 "operation_source":span(base+t.start,base+tokens[closing+1].end),
+                 "replace_argument_expressions":[expression(p) for p in parts],
+@@ -548,7 +623,63 @@
+                    c.get("operation_source",c["anonymous_block"])["start_character_offset"],
+                    c["operation"],c["target"]["schema"],c["target"]["name"]))
+ 
+-def transformation_candidate_review(obj, definitions, transformations):
++def literal_replacement_computation(candidate, definitions, migration_texts, required_hash):
++    """Compute one raw literal prosrc candidate without admitting its lineage."""
++    recipe=candidate.get("_literal_replacement_recipe")
++    if not recipe:return None
++    result={"computation_format":"collect-literal-prosrc-replacement-candidate-v1",
++            "evaluation_scope":"raw-literal-prosrc-body-candidate",
++            "predecessor_assignment_source":recipe["predecessor_assignment_source"],
++            "guard_source":recipe["guard_source"],
++            "needle_literal":{k:v for k,v in recipe["needle"].items() if k!="value"},
++            "replacement_literal":{k:v for k,v in recipe["replacement"].items() if k!="value"},
++            "computed":False,"catalog_prosrc_hash_match":None,
++            "installed_predecessor_state_verified":False,"pg_get_functiondef_ddl_evaluated":False,
++            "dynamic_SQL_evaluation_performed":False,"lineage_complete":False,"resolved":False}
++    operation=candidate["operation_source"];key=(operation["path"],operation["version"])
++    recipe_text=migration_texts.get(key)
++    if recipe_text is None or sha(recipe_text.encode())!=candidate["source_migration_sha256"]:
++        return {**result,"reason":"recipe-source-bytes-unavailable-or-drifted"}
++    spans=[candidate["anonymous_block"],operation,recipe["predecessor_assignment_source"],recipe["guard_source"],
++           recipe["needle"]["source_span"],recipe["replacement"]["source_span"]]
++    for span in spans:
++        start=span["start_character_offset"];end=span["end_character_offset"]
++        if (span["path"],span["version"])!=key or not(0<=start<end<=len(recipe_text)) or sha(recipe_text[start:end].encode())!=span["sha256"]:
++            return {**result,"reason":"recipe-source-span-mismatch"}
++    bound=[c for c in sql_transformation_candidates(recipe_text,*key) if c["operation_source"]==operation
++           and c["anonymous_block"]==candidate["anonymous_block"] and c["target"]==candidate["target"]
++           and c["predecessor"]==candidate["predecessor"] and c.get("_literal_replacement_recipe")==recipe]
++    if len(bound)!=1:return {**result,"reason":"recipe-does-not-rebind-to-source"}
++    predecessor=candidate["predecessor"];target=candidate["target"]
++    if candidate["operation"]!="function-definition-replace" or predecessor["signature_types"] is None or any(target[k]!=predecessor[k] for k in ["schema","name","signature_types"]):
++        return {**result,"reason":"unsupported-target-or-signature"}
++    sources=[d for d in definitions if d["routine_kind"]=="function"
++             and (d["schema"],d["name"],d["signature_types"])==(predecessor["schema"],predecessor["name"],predecessor["signature_types"])
++             and (d["version"],d["definition_offset"])<(candidate["anonymous_block"]["version"],candidate["anonymous_block"]["start_character_offset"])]
++    if len(sources)!=1:return {**result,"reason":"literal-predecessor-not-unique","predecessor_definition_count":len(sources)}
++    source=sources[0];text=migration_texts.get((source["path"],source["version"]))
++    if text is None:return {**result,"reason":"predecessor-source-bytes-unavailable"}
++    admitted=[d for d in sql_definitions(text,source["path"],source["version"]) if d==source]
++    body_token=next((t for t in lex(text,sql=True) if t.kind=="string" and t.value==source["body"] and
++                     re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",text[t.start:]) and
++                     t.start+len(re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",text[t.start:])[0])==source["body_offset"]),None)
++    if len(admitted)!=1 or body_token is None or sha(source["body"].encode())!=source["prosrc_sha256"]:
++        return {**result,"reason":"predecessor-not-exact-dollarquoted-source"}
++    needle=recipe["needle"]["value"];replacement=recipe["replacement"]["value"]
++    count=source["body"].count(needle) if needle else 0
++    if count!=1:return {**result,"reason":"needle-not-exactly-once-in-literal-prosrc","needle_occurrences":count}
++    raw=source["body"].replace(needle,replacement).encode();expected=sha(raw)
++    body_start=source["body_offset"];body_end=body_start+len(source["body"])
++    proof={"path":source["path"],"version":source["version"],"line":text.count("\n",0,body_start)+1,
++           "start_character_offset":body_start,"end_character_offset":body_end,
++           "sha256":source["prosrc_sha256"],"utf8_bytes":len(source["body"].encode()),
++           "source_migration_sha256":sha(text.encode()),"declaration_sha256":source["declaration_sha256"]}
++    return {**result,"computed":True,"reason":"exact-dollarquoted-literal-body-candidate",
++            "predecessor_literal_body":proof,"needle_occurrences":count,
++            "computed_prosrc_utf8_bytes":len(raw),"computed_prosrc_sha256":expected,
++            "catalog_prosrc_hash_match":expected==required_hash}
++
++def transformation_candidate_review(obj, definitions, transformations, migration_texts=None):
+     """Attach identity candidates without participating in any match decision."""
+     signature=transformation_signature(obj["catalog_row"][2]);result=[]
+     for candidate in transformations:
+@@ -561,13 +692,23 @@
+             and d["signature_types"] is not None and predecessor["signature_types"] is not None
+             and d["signature_types"]==predecessor["signature_types"]
+             and (d["version"],d["definition_offset"])<(candidate["anonymous_block"]["version"],candidate["anonymous_block"]["start_character_offset"])]
+-        result.append({**candidate,"catalog_identity":obj["identity"],
++        public={k:v for k,v in candidate.items() if not k.startswith("_")}
++        computation=literal_replacement_computation(candidate,definitions,migration_texts or {},obj["prosrc_sha256"])
++        if computation:
++            public["literal_replacement_computation"]=computation
++            public["expected_body_computed"]=computation["computed"]
++            public["expected_body_hash_match"]=computation["catalog_prosrc_hash_match"]
++            if computation["computed"]:
++                public["limitations"]=["anonymous effects and installed predecessor state unproved",
++                    "raw literal prosrc candidate computed; pg_get_functiondef DDL replacement scope unproved",
++                    "predecessor installed state and effective history unproved"]
++        result.append({**public,"catalog_identity":obj["identity"],
+                        "required_final_prosrc_sha256":obj["prosrc_sha256"],
+                        "predecessor_source_definition_candidates":source_candidates,
+                        "predecessor_candidates_are_installed_state":False})
+     return result
+ 
+-def function_source_review(obj, definitions, lineage_candidates, matches, transformations=()):
++def function_source_review(obj, definitions, lineage_candidates, matches, transformations=(), migration_texts=None):
+     """Candidate evidence explains gaps; same bodies never imply name lineage."""
+     literal=[d for d in definitions if (d["schema"],d["name"])==(obj["schema"],obj["name"])]
+     other=[d for d in definitions if d["prosrc_sha256"]==obj["prosrc_sha256"] and (d["schema"],d["name"])!=(obj["schema"],obj["name"])]
+@@ -580,7 +721,7 @@
+             "same_body_other_name_candidates":[evidence(d) for d in other],
+             "static_lineage_candidates":[evidence(d) for d in lineage_candidates],
+             "same_body_other_name_is_match":False,"dynamic_SQL_evaluation_performed":False,
+-            "transformation_candidates":transformation_candidate_review(obj,definitions,transformations)}
++            "transformation_candidates":transformation_candidate_review(obj,definitions,transformations,migration_texts)}
+ 
+ def sql_definitions(text, path, version):
+     """Body hashes bind candidates to pg_proc.prosrc; arguments are never inferred."""
+@@ -712,13 +853,14 @@
+         raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+-    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; uncertainty=[]; transformations=[]; versions=[]
++    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; uncertainty=[]; transformations=[]; versions=[]; migration_texts={}
+     for path in migration_files:
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+         if not m: raise ValueError("migration filename")
+         version=m.group(1); versions.append(version); raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"original-migration","version":version,"represented_in_catalog":version in catalog["migrations"]})
++        migration_texts[(relative,version)]=raw.decode("utf-8")
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
+         alterations.extend(sql_static_alterations(raw.decode("utf-8"),relative,version))
+         uncertainty.extend(sql_lineage_uncertainty(raw.decode("utf-8"),relative,version))
+@@ -752,7 +894,7 @@
+             signature,_=sql_signature("("+obj["catalog_row"][2]+")",signature_tokens,0)
+             candidates=[d for (schema,name,types),d in lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and obj["catalog_row"][3]=="f" and signature is not None and types==signature]
+             matches=[d for d in candidates if d["prosrc_sha256"]==obj["prosrc_sha256"]]
+-            review=function_source_review(obj,admitted_definitions,candidates,matches,admitted_transformations)
++            review=function_source_review(obj,admitted_definitions,candidates,matches,admitted_transformations,migration_texts)
+             withdrawn=[d for (schema,name,types),d in unfenced_lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and types==signature and d["prosrc_sha256"]==obj["prosrc_sha256"]] if not matches else []
+             if withdrawn:
+                 review["reason"]="intervening-unproved-function-effects"
+--- a/scripts/tests/collect_schema_domain_map_test.py
++++ b/scripts/tests/collect_schema_domain_map_test.py
+@@ -551,4 +551,160 @@
+                     path.write_text(json.dumps(data))
+                     with self.assertRaisesRegex(ValueError,'semantic recomputation mismatch: '+artifact):M.verify_bundle(root,out)
+ 
++class LiteralReplacementCandidateTests(unittest.TestCase):
++    build=LineageAndGapTests.build
++    find=LineageAndGapTests.find
++
++    def definition(self,body="SELECT 1;",arguments=""):
++        return "CREATE FUNCTION public.saved("+arguments+") RETURNS int LANGUAGE sql AS $fn$"+body+"$fn$;\n"
++
++    def recipe(self,needle="SELECT 1;",replacement="SELECT 2;",signature="",declaration=False,count_guard=False):
++        literals="needle:=$old$"+needle+"$old$;replacement:=$new$"+replacement+"$new$;"
++        declarations=("needle text:=$old$"+needle+"$old$;replacement text:=$new$"+replacement+"$new$;") if declaration else "needle text;replacement text;"
++        guard="if(length(body)-length(replace(body,needle,'')))/length(needle)<>1" if count_guard else "if strpos(body,needle)=0"
++        return ("DO $do$ DECLARE body text;"+declarations+"BEGIN body:=pg_get_functiondef('public.saved("+signature+")'::regprocedure);"
++                +(literals if not declaration else "")+guard+" then raise exception 'patch_drift' using errcode='55000';end if;"
++                "execute replace(body,needle,replacement);END $do$;")
++
++    def review(self,sql,expected="SELECT 2;",arguments=""):
++        with tempfile.TemporaryDirectory() as tmp:
++            doc,_=self.build(Path(tmp),sql,[function('saved',expected,arguments=arguments)])
++            obj=self.find(doc,'saved')
++            return obj['source_match_review'],doc
++
++    def candidate(self,sql):
++        return M.sql_transformation_candidates(sql,"synthetic.sql","20260101000000")[0]
++
++    def computation(self,sql,candidate=None,definitions=None):
++        candidate=candidate or self.candidate(sql)
++        definitions=definitions if definitions is not None else M.sql_definitions(sql,"synthetic.sql","20260101000000")
++        return M.literal_replacement_computation(candidate,definitions,{("synthetic.sql","20260101000000"):sql},M.sha(b'SELECT 2;'))
++
++    def test_partial_raw_body_candidate_matches_catalog_without_resolving_lineage(self):
++        sql=self.definition()+self.recipe();review,doc=self.review(sql)
++        candidate=review['transformation_candidates'][0];proof=candidate['literal_replacement_computation']
++        self.assertTrue(candidate['expected_body_computed']);self.assertTrue(candidate['expected_body_hash_match'])
++        self.assertEqual(proof['computed_prosrc_sha256'],M.sha(b'SELECT 2;'));self.assertEqual(proof['computed_prosrc_utf8_bytes'],9)
++        self.assertEqual(proof['needle_occurrences'],1)
++        self.assertFalse(review['resolved']);self.assertFalse(candidate['resolved']);self.assertFalse(candidate['lineage_complete'])
++        self.assertFalse(proof['installed_predecessor_state_verified']);self.assertFalse(proof['pg_get_functiondef_ddl_evaluated'])
++        self.assertFalse(proof['dynamic_SQL_evaluation_performed'])
++        self.assertEqual(doc['summary']['functions_without_exact_body_hash_match'],1)
++        self.assertEqual(self.find(doc,'saved')['matched_body_sources'],[])
++        self.assertNotIn('_literal_replacement_recipe',candidate)
++
++    def test_full_body_declaration_recipe_and_occurrence_guard_preserve_exact_bytes(self):
++        body="\nSELECT 'é';\n";replacement="\nSELECT '雪';\n"
++        sql=self.definition(body)+self.recipe(body,replacement,declaration=True,count_guard=True)
++        review,_=self.review(sql,replacement);candidate=review['transformation_candidates'][0]
++        proof=candidate['literal_replacement_computation'];self.assertTrue(candidate['expected_body_hash_match'])
++        self.assertEqual(proof['predecessor_literal_body']['utf8_bytes'],len(body.encode()))
++        self.assertEqual(proof['computed_prosrc_utf8_bytes'],len(replacement.encode()))
++        for span in [candidate['anonymous_block'],candidate['operation_source'],proof['guard_source'],proof['predecessor_assignment_source'],proof['needle_literal']['source_span'],proof['replacement_literal']['source_span'],proof['predecessor_literal_body']]:
++            self.assertEqual(span['sha256'],M.sha(sql[span['start_character_offset']:span['end_character_offset']].encode()))
++        self.assertGreater(len(sql.encode()),len(sql))
++
++    def test_expected_body_hash_mismatch_remains_a_computed_unresolved_candidate(self):
++        review,_=self.review(self.definition()+self.recipe(),'SELECT 3;')
++        candidate=review['transformation_candidates'][0]
++        self.assertTrue(candidate['expected_body_computed']);self.assertFalse(candidate['expected_body_hash_match'])
++        self.assertEqual(candidate['literal_replacement_computation']['computed_prosrc_sha256'],M.sha(b'SELECT 2;'))
++        self.assertFalse(review['resolved'])
++
++    def test_e_strings_singlequotes_branches_loops_and_dynamic_effects_are_rejected(self):
++        recipe=self.recipe()
++        cases=[recipe.replace('$new$SELECT 2;$new$',"E'SELECT 2;'"),
++               recipe.replace('$new$SELECT 2;$new$',"'SELECT 2;'"),
++               recipe.replace('$new$SELECT 2;$new$',"$new$SELECT 2;$new$||$more$SELECT 3;$more$"),
++               recipe.replace('execute replace','if current_setting(\'flag\')=\'yes\' then execute replace').replace('END $do$','end if;END $do$'),
++               recipe.replace('execute replace','LOOP execute replace').replace('END $do$','END LOOP;END $do$'),
++               recipe.replace('execute replace',"PERFORM public.unknown_effect();execute replace"),
++               recipe.replace('execute replace',"body:=runtime_body();execute replace"),
++               recipe.replace('execute replace',"needle:=$again$SELECT 1;$again$;execute replace"),
++               recipe.replace('end if;',"else replacement:=$other$SELECT 9;$other$;end if;"),
++               recipe.replace("'55000'","'22023'"),
++               recipe.replace('strpos(body,needle)=0','strpos(body,needle)>0'),
++               recipe.replace('BEGIN ', "'BEGIN' "),
++               recipe.replace('if strpos', "'if' strpos"),
++               recipe.replace('body:=pg_get_functiondef', "body:='pg_get_functiondef'"),
++               recipe.replace('body:=pg_get_functiondef', 'body:="pg_get_functiondef"'),
++               recipe.replace('body:=pg_get_functiondef', 'body:=other_get_functiondef')]
++        for changed in cases:
++            with self.subTest(recipe=changed):
++                candidates=M.sql_transformation_candidates(changed,'synthetic.sql','20260101000000')
++                self.assertTrue(all('_literal_replacement_recipe' not in c for c in candidates))
++
++    def test_missing_or_duplicate_needle_and_empty_needle_are_not_computed(self):
++        for body,needle,count in [('SELECT 9;','SELECT 1;',0),('SELECT 1; SELECT 1;','SELECT 1;',2),('SELECT 1;','',0)]:
++            with self.subTest(body=body,needle=needle):
++                sql=self.definition(body)+self.recipe(needle,'SELECT 2;')
++                proof=self.computation(sql)
++                self.assertFalse(proof['computed']);self.assertIsNone(proof['catalog_prosrc_hash_match'])
++                self.assertEqual(proof['needle_occurrences'],count)
++
++    def test_exact_signature_selects_only_its_literal_predecessor(self):
++        sql=self.definition(arguments='p_id uuid')+self.definition('SELECT 9;','p_id text')+self.recipe(signature='uuid')
++        proof=self.computation(sql);self.assertTrue(proof['computed']);self.assertTrue(proof['catalog_prosrc_hash_match'])
++        review,_=self.review(sql,arguments='p_id uuid')
++        self.assertEqual(len(review['transformation_candidates']),1)
++        self.assertEqual(len(review['transformation_candidates'][0]['predecessor_source_definition_candidates']),1)
++        changed=sql.replace("public.saved(uuid)'::regprocedure","public.saved(text)'::regprocedure")
++        proof=self.computation(changed);self.assertFalse(proof['computed']);self.assertEqual(proof['needle_occurrences'],0)
++
++    def test_ambiguous_missing_and_later_literal_predecessors_fail_closed(self):
++        recipe=self.recipe()
++        for sql,count in [(recipe,0),(self.definition()+self.definition()+recipe,2),(recipe+self.definition(),0)]:
++            with self.subTest(count=count):
++                proof=self.computation(sql)
++                self.assertFalse(proof['computed']);self.assertEqual(proof['predecessor_definition_count'],count)
++        body=self.definition().replace('FUNCTION','PROCEDURE')+recipe
++        self.assertFalse(self.computation(body)['computed'])
++
++    def test_singlequoted_and_inexact_predecessor_source_bytes_fail_closed(self):
++        sql="CREATE FUNCTION public.saved() RETURNS int LANGUAGE sql AS 'SELECT 1;';"+self.recipe()
++        proof=self.computation(sql);self.assertFalse(proof['computed']);self.assertEqual(proof['reason'],'predecessor-not-exact-dollarquoted-source')
++        sql=self.definition()+self.recipe();definitions=M.sql_definitions(sql,'synthetic.sql','20260101000000')
++        definitions[0]['body']='SELECT 9;'
++        proof=self.computation(sql,definitions=definitions);self.assertFalse(proof['computed'])
++
++    def test_unknown_intervening_do_keeps_source_review_and_existing_counters_unresolved(self):
++        sql=self.definition()+"DO $$BEGIN PERFORM public.unknown_effect();END$$;"+self.recipe()
++        review,doc=self.review(sql);candidate=review['transformation_candidates'][0]
++        self.assertTrue(candidate['expected_body_hash_match']);self.assertFalse(review['resolved'])
++        self.assertEqual(doc['summary']['functions_without_exact_body_hash_match'],1)
++        self.assertFalse(doc['summary']['runtime_call_graph_complete']);self.assertFalse(doc['summary']['business_owner_assignments_verified'])
++
++    def test_multiple_straightline_recipes_do_not_share_reassigned_literal_state(self):
++        first=self.recipe('SELECT 1;','SELECT 2;')
++        second=self.recipe('SELECT 2;','SELECT 3;')
++        sql=self.definition()+first.replace('END $do$;',second.split('BEGIN ',1)[1])
++        candidates=M.sql_transformation_candidates(sql,'synthetic.sql','20260101000000')
++        self.assertEqual(len(candidates),2);self.assertTrue(all('_literal_replacement_recipe' in c for c in candidates))
++        self.assertTrue(self.computation(sql,candidates[0])['catalog_prosrc_hash_match'])
++        proof=self.computation(sql,candidates[1]);self.assertFalse(proof['computed']);self.assertEqual(proof['needle_occurrences'],0)
++        # Reusing old assignments after another get_functiondef read is refused.
++        changed=sql.replace('needle:=$old$SELECT 2;$old$;replacement:=$new$SELECT 3;$new$;','')
++        self.assertTrue(all('_literal_replacement_recipe' not in c for c in M.sql_transformation_candidates(changed,'synthetic.sql','20260101000000')))
++
++    def test_recipe_span_value_signature_and_migration_drift_fail_source_rebinding(self):
++        sql=self.definition()+self.recipe();candidate=self.candidate(sql)
++        cases=[]
++        altered=copy.deepcopy(candidate);altered['_literal_replacement_recipe']['needle']['source_span']['sha256']='0'*64;cases.append(altered)
++        altered=copy.deepcopy(candidate);altered['_literal_replacement_recipe']['replacement']['value']='SELECT 9;';cases.append(altered)
++        altered=copy.deepcopy(candidate);altered['target']['signature_types']=('uuid',);cases.append(altered)
++        altered=copy.deepcopy(candidate);altered['source_migration_sha256']='0'*64;cases.append(altered)
++        for altered in cases:
++            with self.subTest(candidate=altered):
++                proof=self.computation(sql,altered);self.assertFalse(proof['computed']);self.assertIsNone(proof['catalog_prosrc_hash_match'])
++
++    def test_computed_hash_match_artifact_tamper_is_rejected_by_semantic_recomputation(self):
++        sql=self.definition()+self.recipe()
++        for name in ['schema-domain-map.json','gaps.json']:
++            with self.subTest(artifact=name),tempfile.TemporaryDirectory() as tmp:
++                root=Path(tmp);_,out=self.build(root,sql,[function('saved','SELECT 2;')]);path=out/name;data=json.loads(path.read_text())
++                review=next(o for o in data['objects'] if o['kind']=='function')['source_match_review'] if name=='schema-domain-map.json' else data['function_body_match_review'][0]
++                candidate=review['transformation_candidates'][0];self.assertTrue(candidate['expected_body_hash_match'])
++                candidate['literal_replacement_computation']['computed_prosrc_sha256']='0'*64;path.write_text(json.dumps(data))
++                with self.assertRaisesRegex(ValueError,'semantic recomputation mismatch: '+name):M.verify_bundle(root,out)
++
+ if __name__=="__main__":unittest.main(verbosity=2)

@@ -1,0 +1,62 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart
+00:00 +0: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:00 +1: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_focus_test.dart: reason remains editable with compact keyboard and large text
+00:00 +2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+00:00 +3: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: <Closure: () => void>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart:13:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart line 13
+The test description was:
+  reason rejects 1001 code points
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +3 -1: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points [E]
+  Test failed. See exception logs above.
+  The test description was: reason rejects 1001 code points
+  
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: <Closure: () => void>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart:13:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart line 13
+The test description was:
+  reason rejects 1001 code points
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +3 -2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points [E]
+  Test failed. See exception logs above.
+  The test description was: reason rejects 1001 code points
+  
+00:00 +3 -2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:01 +4 -2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason preserves 1000 code point input
+00:01 +5 -2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason preserves 22 code point input
+00:01 +6 -2: /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: oversize reason is retained for correction and cancellation
+00:01 +7 -2: Some tests failed.
+
+Failing tests:
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-reason-prior-attempt2/test/admin_reason_dialog_bounds_test.dart: reason rejects 1001 code points

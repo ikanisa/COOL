@@ -1,0 +1,25 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart
+00:00 +0: unsafe input 0 makes no create RPC and publishes no intent
+00:00 +1: unsafe input -1 makes no create RPC and publishes no intent
+00:00 +2: unsafe input 9007199254740992 makes no create RPC and publishes no intent
+00:00 +3: valid map ACK is bound to submitted group and exact amount
+00:00 +4: valid singleton list ACK is bound to submitted group and exact amount
+00:00 +5: wrong group ACK cannot enter client state or mark membership
+00:00 +6: wrong amount ACK cannot enter client state or mark membership
+00:00 +7: multiple rows ACK cannot enter client state or mark membership
+00:00 +8: empty rows ACK cannot enter client state or mark membership
+00:00 +9: null ACK cannot enter client state or mark membership
+00:00 +10: scalar ACK cannot enter client state or mark membership
+00:00 +11: inexact amount ACK cannot enter client state or mark membership
+00:00 +12: late create ACK denied after same-user new session with pinned old request authority
+00:00 +13: late create ACK denied after A to B to A original session with pinned old request authority
+00:00 +14: same-session token refresh retains valid intent authority
+00:00 +15: 503 makes one mutation POST per explicit caller
+00:00 +16: transport loss makes one mutation POST per explicit caller
+00:00 +17: refresh foreign ID is denied without replacing the immutable request
+00:00 +18: refresh extra row is denied without replacing the immutable request
+00:00 +19: refresh inexact count is denied without replacing the immutable request
+00:00 +20: refresh changed group is denied without replacing the immutable request
+00:00 +21: refresh changed amount is denied without replacing the immutable request
+00:00 +22: old-session refresh response cannot publish into fresh same-user state
+00:00 +23: All tests passed!

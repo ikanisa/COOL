@@ -1,0 +1,24 @@
+{
+  "route": {
+    "route_kind": "receipt_successor",
+    "approval_id": "a9d1ee02-5372-4104-a725-7f5b4ef89c23",
+    "route_version": 1,
+    "dispatch_job_id": "861c92e0-0678-4fda-b9c4-563d6b6ba384",
+    "primary_receipt_id": "1be2fab9-4247-466c-851b-2e995b62bca6"
+  },
+  "state": "armed_unknown",
+  "armed_at": "2026-10-02T00:20:01.857585Z",
+  "attempt_id": "f823a51e-b3c2-4cf5-a399-f242916b0fb4",
+  "carrier_proof": false,
+  "fence_version": 1,
+  "segment_count": 1,
+  "send_authority": false,
+  "delivery_proven": false,
+  "protocol_family": "receipt_successor",
+  "contract_version": 1,
+  "sent_observations": 0,
+  "failed_observations": false,
+  "terminal_archive_ack": false,
+  "delivery_observations": 0,
+  "conflicting_observations": false
+}

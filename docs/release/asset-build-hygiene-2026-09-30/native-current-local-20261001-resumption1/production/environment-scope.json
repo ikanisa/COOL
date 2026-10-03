@@ -1,0 +1,26 @@
+{
+  "developer_dir": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer",
+  "environment_names": [
+    "CI",
+    "COCOAPODS_DISABLE_STATS",
+    "CP_CACHE_DIR",
+    "CP_HOME_DIR",
+    "DEVELOPER_DIR",
+    "FLUTTER_SUPPRESS_ANALYTICS",
+    "HOME",
+    "JAVA_HOME",
+    "LANG",
+    "LC_ALL",
+    "LC_CTYPE",
+    "LOGNAME",
+    "PATH",
+    "PUB_CACHE",
+    "SHELL",
+    "TMPDIR",
+    "USER"
+  ],
+  "java_home": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+  "private_provider_signing_environment_supplied": false,
+  "pub_cache": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930",
+  "sdk": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23"
+}

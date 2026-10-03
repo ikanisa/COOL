@@ -1,0 +1,114 @@
+[
+  {
+    "phase": "types",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "check",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.3600830830037012,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "048f455bd5ef946ecca1477084f47083e2dd9198492421a6777f641a2910ce11"
+  },
+  {
+    "phase": "format",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "fmt",
+      "--no-config",
+      "--check",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts",
+      "supabase/functions/prepare-roster-import/handler_test_fixture.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.02366562499810243,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+  },
+  {
+    "phase": "lint",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "lint",
+      "--no-config",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts",
+      "supabase/functions/prepare-roster-import/handler_test_fixture.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.045129207996069454,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+  },
+  {
+    "phase": "registrations",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "run",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "--cached-only",
+      "--no-prompt",
+      "--allow-read=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/collect_registrations.ts",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.08162641599483322,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "6d5abf868449b7a123d80e7a20564947160c4da277df5ea6074f93fd40e61cef",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "phase": "tests",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "test",
+      "--no-config",
+      "--no-remote",
+      "--no-npm",
+      "--frozen",
+      "--lock=supabase/functions/deno.lock",
+      "--cached-only",
+      "--no-prompt",
+      "--junit-path=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/final-tests.junit.xml",
+      "supabase/functions/prepare-roster-import/handler_test.ts",
+      "supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate",
+    "timeout_seconds": 120,
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.1993269579979824,
+    "owned_process_group_absent": true,
+    "stdout_sha256": "3bb874b72c4ed8147f69395190ce37de9564e00f39ab3dda426b99766f142eb6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

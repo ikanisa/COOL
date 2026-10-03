@@ -1,0 +1,15 @@
+{
+  "action": "complete_run",
+  "run_id": "5ebb7098-c42d-41ea-9e42-c39a6e74e4b0",
+  "status": "completed",
+  "request_id": "982f80c7-3d7e-496b-aff1-d383bd785350",
+  "observed_at": "2026-10-01T12:10:24.714384Z",
+  "action_count": 1,
+  "principal_id": "1bf5e272-f794-4218-866a-309d94282801",
+  "sms_segments": 0,
+  "fence_version": 3,
+  "handled_count": 1,
+  "deferred_count": 2,
+  "business_handled": false,
+  "contract_version": 2
+}

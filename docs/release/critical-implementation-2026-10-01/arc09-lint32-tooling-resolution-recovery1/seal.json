@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "packet_sha256": "fa307182af10a3d80628d4355d9287c7e80163be6717e56483d540c6f8b73469",
+  "sha256sums_sha256": "8ae655c149a693f3adb4790c64ed0dd6aa656fd83900d7f09bdff1ea569fd025",
+  "payload_files": 25,
+  "total_files": 28,
+  "file_modes": "0400",
+  "os_immutable_claimed": false,
+  "actual_Gradle_resolution_unexecuted": true
+}

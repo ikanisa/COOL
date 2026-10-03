@@ -1,0 +1,8 @@
+{
+  "checked_at_utc": "2026-10-02T00:43:57.558850+00:00",
+  "checked_artifacts": 117,
+  "batch_sha256": "951ba5f8ab1c826708c1a0f7415f4210f50856390527ab30e66637a979c37e1c",
+  "seal_sha256": "b8c2b013291f59918cd594769d6162404293b8b695228e7d2a849c30067cb052",
+  "errors": [],
+  "scope": "Actual dated canonical Ubuntu private670 candidate pass and671 malformed rejection;3 proposal files not promoted, current source acceptance false."
+}

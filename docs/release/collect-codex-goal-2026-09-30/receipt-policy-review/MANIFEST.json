@@ -1,0 +1,35 @@
+{
+  "kind": "pending_receipt_policy_source_review",
+  "files": {
+    "README.md": {
+      "bytes": 4347,
+      "sha256": "6b2055d9538a1d5bc42993a45e23c6b997455102b1be1899cffcf06217b4dc71"
+    },
+    "decision-draft.json": {
+      "bytes": 5376,
+      "sha256": "dd0ff1b90fd997a30821e301e810e80be522b59482710f9dcf44521d9c3fe1a5"
+    },
+    "source-snapshot/supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql": {
+      "bytes": 97254,
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+    },
+    "source-snapshot/supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql": {
+      "bytes": 46086,
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9"
+    },
+    "source-snapshot/supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "source-snapshot/supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "source-snapshot/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    }
+  },
+  "approved": false,
+  "production_ready": false
+}

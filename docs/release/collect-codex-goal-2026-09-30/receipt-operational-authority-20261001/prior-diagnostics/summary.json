@@ -1,0 +1,74 @@
+[
+  {
+    "attempt": 1,
+    "status": "failed",
+    "checks_observed": 16,
+    "passed_observed": 16,
+    "error": "query: ERROR:  22023: gateway_payload_invalid\nCONTEXT:  PL/pgSQL function collect_gateway.payload_time(jsonb,text) line 3 at RAISE\nPL/pgSQL function public.gateway_heartbeat_v1(uuid,uuid,text,jsonb) line 14 at assignment\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "migration_sha256": "4e40780b562c720ac71ff7070c6189636596ecfeefa27d74aa219b4f5b7cc0a8",
+    "runner_sha256": "26d1b365c065433a358db776531c383ed61a155d1cb7fcffa1723bb2ade30a6f",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  },
+  {
+    "attempt": 2,
+    "status": "failed",
+    "checks_observed": 20,
+    "passed_observed": 20,
+    "error": "list index out of range",
+    "migration_sha256": "4e40780b562c720ac71ff7070c6189636596ecfeefa27d74aa219b4f5b7cc0a8",
+    "runner_sha256": "4e3ca2287a754968221f5743214f14577460e9dbe09984a123f35746a032f9a9",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  },
+  {
+    "attempt": 3,
+    "status": "pass",
+    "checks_observed": 48,
+    "passed_observed": 48,
+    "error": null,
+    "migration_sha256": "ce0e55d28e060b3eecaa741936d3298131328ed2e1a966bbaf01d91c7ae4a7aa",
+    "runner_sha256": "a1c83c64bea7629cbed7c0dc526d3083ba9e5a7838cecc05403fb816573e2ae6",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  },
+  {
+    "attempt": 4,
+    "status": "failed",
+    "checks_observed": 51,
+    "passed_observed": 51,
+    "error": "query: ERROR:  42601: syntax error at or near \"recorded_at\"\nLINE 1: ...ect_receipt_operations.reservations where trueand recorded_a...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+    "migration_sha256": "1eb33a136a3c8d01e1068d08feda5f085782073eaf1de66a0dad238557739ff3",
+    "runner_sha256": "d88f60480a58d09d3156b56a96ab43f2c74b83cd95b4a4057374b3fd7a78b2da",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  },
+  {
+    "attempt": 5,
+    "status": "pass",
+    "checks_observed": 68,
+    "passed_observed": 68,
+    "error": null,
+    "migration_sha256": "1eb33a136a3c8d01e1068d08feda5f085782073eaf1de66a0dad238557739ff3",
+    "runner_sha256": "fc9a15b06495b3daff097a71622129c262048213853b65c1c6593909e7dd3960",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  },
+  {
+    "attempt": 6,
+    "status": "pass",
+    "checks_observed": 71,
+    "passed_observed": 71,
+    "error": null,
+    "migration_sha256": "92a80a5291daebff019f035dc34cf776f8257253153d8f077b57f9b6c1db137a",
+    "runner_sha256": "96bb825856f93c620cd73a275f1a997a86128c93b2b37f0d0f9ce02be5caf1a8",
+    "source_unchanged": true,
+    "removed": true,
+    "accepted_final": false
+  }
+]

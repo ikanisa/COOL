@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-10-01T22:40:04.177668+00:00",
+  "status": "observed",
+  "public_package_origin_only": true,
+  "installed_packages": false,
+  "provider_calls": 0,
+  "production_mutations": false,
+  "artifact_metadata_sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+  "public_wheel_filename": "pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+  "public_wheel_sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+  "checks": {
+    "host": {
+      "exit_code": null,
+      "deadline_expired": true
+    },
+    "docker_default_network": {
+      "exit_code": null,
+      "deadline_expired": true
+    }
+  },
+  "owned_container_cleanup_verified": true,
+  "finished_at_utc": "2026-10-01T22:41:34.419391+00:00",
+  "artifacts": {
+    "docker_default_network.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docker_default_network.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "probe.py": "ecfb4d6f23459ae41b81cec944f99fad71b84219d46d87aaae7f8e4bf9cf2949"
+  }
+}

@@ -1,0 +1,8 @@
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/handler_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/prepare-roster-import/index.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/openai_roster_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_response_policy_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/functions/_shared/roster_decoder_integration_test.ts
+Check file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/roster_extraction_evaluation_test.ts

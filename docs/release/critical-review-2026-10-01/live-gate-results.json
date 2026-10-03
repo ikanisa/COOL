@@ -1,0 +1,31 @@
+{
+  "captured_utc": "2026-10-01T17:31:39.933426+00:00",
+  "results": [
+    {
+      "name": "public-live",
+      "command": [
+        "/bin/bash",
+        "scripts/public_website_live_gate.sh",
+        "--json"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 21.14,
+      "status": "fail"
+    },
+    {
+      "name": "admin-live",
+      "command": [
+        "/bin/bash",
+        "scripts/admin_pwa_live_gate.sh",
+        "--json"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 2.5,
+      "status": "fail",
+      "blocker_keys": [],
+      "failure_keys": [
+        "admin_pwa_live_deployment"
+      ]
+    }
+  ]
+}

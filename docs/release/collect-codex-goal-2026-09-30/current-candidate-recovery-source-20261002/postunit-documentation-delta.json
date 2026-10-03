@@ -1,0 +1,13 @@
+{
+  "path": "docs/platform/CURRENT_CANDIDATE_RECOVERY.md",
+  "before": {
+    "sha256": "12d467062d9392d09d98c91991128cc1213d30db8132732858762ed266cb247b",
+    "mode": 420
+  },
+  "after": {
+    "sha256": "f8531600e2fac860b9f44b4c44abcd168952ec51050c315159de2e56607760be",
+    "mode": 420
+  },
+  "scope": "word spacing only; no runtime or test consumer change",
+  "technical_eight_inputs_still_unchanged": true
+}

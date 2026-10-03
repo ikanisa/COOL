@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "stage": "fixture path lookup before validation",
+  "validator_sha256": "ace4a7acafd5ee1842b83dfb0c736d4e9926864f8d6e340b763d0ae62c5e0ac9",
+  "error": "FileNotFoundError: /Volumes/PRO-G40/Projects/Recovered-G-PRO/scripts/tests/fixtures/exception_followup_v2/schema.json",
+  "cause": "validator repository ancestor was parents[5], required parents[4]",
+  "database_or_hosted_calls": false
+}

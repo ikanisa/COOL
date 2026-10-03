@@ -1,0 +1,85 @@
+{
+  "acceptance-current1": {
+    "session_id": 19672,
+    "initial_chunk": "db47ce",
+    "terminal_chunk": "50530a",
+    "exit_code": 0,
+    "actual_cases": 21
+  },
+  "analysis-current1": {
+    "session_id": 45515,
+    "initial_chunk": "2b6e5a",
+    "terminal_chunk": "f33c88",
+    "exit_code": 0,
+    "analysis_items": 14
+  },
+  "browser-attempt1": {
+    "session_id": 50749,
+    "initial_chunk": "e0852f",
+    "terminal_chunk": "73011e",
+    "exit_code": 0,
+    "actual_cases": 2
+  },
+  "capture-tail1": {
+    "session_id": 99314,
+    "initial_chunk": "855b66",
+    "terminal_chunk": "cdc844",
+    "exit_code": 0,
+    "actual_cases": 1,
+    "superseded_by": "acceptance-current1"
+  },
+  "acceptance-attempt4": {
+    "session_id": 70755,
+    "initial_chunk": "40bb2e",
+    "terminal_chunk": "44bbfd",
+    "exit_code": 1,
+    "not_accepted": true
+  },
+  "acceptance-attempt3": {
+    "session_id": 82515,
+    "initial_chunk": "687615",
+    "terminal_chunk": "3b2457",
+    "exit_code": 0,
+    "not_accepted": true,
+    "reason": "Owned SIGINT interruption; no All tests passed output; explicit interrupted.json retained"
+  },
+  "acceptance-attempt2": {
+    "session_id": 22762,
+    "initial_chunk": "3740c7",
+    "terminal_chunk": "814d81",
+    "exit_code": 0,
+    "actual_cases": 20,
+    "superseded_by": "acceptance-current1"
+  },
+  "acceptance-attempt1": {
+    "session_id": 84524,
+    "initial_chunk": "1255a0",
+    "terminal_chunk": "1f3a1e",
+    "exit_code": 1
+  },
+  "analysis-attempt2": {
+    "session_id": 36664,
+    "initial_chunk": "934f82",
+    "terminal_chunk": "a9a6c3",
+    "exit_code": 1
+  },
+  "analysis-attempt3": {
+    "session_id": 24561,
+    "initial_chunk": "843fe4",
+    "terminal_chunk": "6d526e",
+    "exit_code": 1
+  },
+  "analysis-attempt4": {
+    "session_id": 88970,
+    "initial_chunk": "cacccc",
+    "terminal_chunk": "198ba6",
+    "exit_code": 0,
+    "superseded_by": "analysis-current1"
+  },
+  "analysis-attempt5": {
+    "session_id": 29693,
+    "initial_chunk": "d76604",
+    "terminal_chunk": "c0ecb0",
+    "exit_code": 1
+  }
+}

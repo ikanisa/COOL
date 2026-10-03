@@ -1,0 +1,83 @@
+{
+  "status": "pass_scoped_local",
+  "completed_at_utc": "2026-10-01T20:09:15.210785+00:00",
+  "related_findings": [
+    "ARC-02",
+    "PD-08"
+  ],
+  "observed_failure": "Two existing dark/light Overview tests at320px with2x text overflowed66px in the attention row",
+  "change": "Replace unbounded horizontal reference/status Row with width-bounded wrapping content; existing text, status, colors, interactions and financial meaning preserved",
+  "verification": [
+    {
+      "command": "flutter test --no-pub test/admin_receipt_overview_test.dart",
+      "exit_code": 0,
+      "passed": 25,
+      "failed": 0,
+      "log": "overview-responsive-test.log"
+    },
+    {
+      "command": "flutter analyze --no-pub lib/admin/core/admin_overview_runtime.dart",
+      "exit_code": 0,
+      "issues": 0,
+      "log": "overview-responsive-analyze.log"
+    },
+    {
+      "command": "make revolut-design-authority",
+      "exit_code": 0,
+      "result": "pass",
+      "scope": "Sole-authority hygiene, no visual fidelity certification"
+    }
+  ],
+  "selected_design_references": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/state-lifecycle-validation.md": "56c77cade8ba211cb23d12eafa6a73025cd15e325094bce8bcb1b650d68bb60c"
+  },
+  "reference_scope": "Direct selected-skill responsive/accessibility guidance applied to Collect operator content; no new source visual comparator or native/Business fidelity claim",
+  "evidence_hashes": {
+    "docs/release/critical-implementation-2026-10-01/overview-responsive-inputs-before.json": "686cf3ea98a8ef711f725336c86670a6e5b3aafbcbf2e78f4320efb8938b2349",
+    "docs/release/critical-implementation-2026-10-01/overview-responsive-test.log": "348feb115cc0bf8aa06d460b549ffb81894973069075a85cbf1626218438c0bf",
+    "docs/release/critical-implementation-2026-10-01/overview-responsive-analyze.log": "4b06ef44e49f8970e04c2cec7f77183093c6eafe80b5b2453d15fc6b2cbad81a"
+  },
+  "limits": [
+    "Synthetic test renderer and viewport; installed reader/device and complete selected Business comparator acceptance remain unverified",
+    "Other user changes in the same Dart file are preserved; this receipt claims the specific wrapping correction only"
+  ],
+  "release_accepted": false,
+  "verification_inputs_before": {
+    "lib/admin/core/admin_overview_runtime.dart": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+    "lib/admin/core/admin_runtime.dart": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+    "lib/admin/core/admin_repository_base.dart": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+    "lib/admin/core/admin_evidence_mode.dart": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+    "lib/admin/core/admin_receipt_overview.dart": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+    "lib/admin/shared/components/admin_status_chip.dart": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f",
+    "test/admin_receipt_overview_test.dart": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f",
+    "lib/admin/admin_shell.dart": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+    "lib/admin/admin_router.dart": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "verification_inputs_after": {
+    "lib/admin/core/admin_overview_runtime.dart": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+    "lib/admin/core/admin_runtime.dart": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+    "lib/admin/core/admin_repository_base.dart": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+    "lib/admin/core/admin_evidence_mode.dart": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+    "lib/admin/core/admin_receipt_overview.dart": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+    "lib/admin/shared/components/admin_status_chip.dart": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f",
+    "test/admin_receipt_overview_test.dart": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f",
+    "lib/admin/admin_shell.dart": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+    "lib/admin/admin_router.dart": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "verification_input_drift": [],
+  "source_hash_scope": "The11-input snapshot was captured before focused verification, after the wrapping edit; it is not a pre-edit code snapshot.",
+  "changed_source_paths": [
+    "lib/admin/core/admin_overview_runtime.dart"
+  ],
+  "prior_admin_inventory_capture": {
+    "path": "docs/release/critical-implementation-2026-10-01/refactor-batch1-admin-source-inventory/sources/lib/admin/core/admin_overview_runtime.dart",
+    "sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40",
+    "scope": "Before the root wrapping fix: source preserved by the refactor owner; direct diff shows only the attention header Row-to-Wrap correction."
+  }
+}

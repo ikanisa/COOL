@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "status": "PRIVATE_RECOVERY_PREPARATION_LIMITED_CHECKS_PASS_ACTUAL_RESOLUTION_UNEXECUTED",
+  "write_boundary": "new private arc09-lint32-tooling-resolution-recovery1 only",
+  "proposed_behavioral_diff": "minimal-project/build.gradle only",
+  "build_gradle_sha256": "024e70146a7462a36c9e422ab52d7bbb2e2efe3ed175f5183b98fe097f4046c0",
+  "patch_sha256": "55f9b0822c67f8f4c73319a4b4538418e2ce973856dba59f53fe2685019131f5",
+  "source_fences_sha256": "17eed1ce8922fafe104973c87ef40708976f74fe32d55a2b104207e58d6abacf",
+  "unchanged_original_runner_publisher_settings": {
+    "run_resolution.py": "7aacec28779a0c94302be789803958ae3d2ae28679c3ed4516131b93e9f719c3",
+    "read_publisher_provenance.py": "0e9f4ad268cd2faf5d3b427fee1a0fcdf596d9bd47837f4ed293873bebea81ae",
+    "minimal-project/settings.gradle": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+  },
+  "original_preparation_packet_sha256": "f197dfac9ab0f2ed412074a16f1bb1eea88b538762be3378d9632ea4b860b12b",
+  "original_failed_graph_sha256": "874a4c20281347dd0c53a677f094c8d5ea61aee6321cf2aa261d3905defd1061",
+  "original_failure": {
+    "exit_code": 1,
+    "actual_seconds": 19.119,
+    "counts": {
+      "components": 64,
+      "edges": 175,
+      "artifacts": 0,
+      "poms": 0
+    },
+    "exact_underlying_cause_not_saved": true
+  },
+  "diagnosis": "missing Java runtime and standard-JVM consumer attributes is a supported hypothesis, not confirmed old failure cause",
+  "observed_cached_guava_module_sha256": "41858c84753fd96a6b7c51122fccef39558c91cc08264e08506bcf20e0e63733",
+  "consumer_attributes": {
+    "org.gradle.usage": "java-runtime",
+    "org.gradle.jvm.environment": "standard-jvm"
+  },
+  "metadata_candidate": "jreRuntimeElements",
+  "hypothesis_confirmation_requires_root_actual_resolution": true,
+  "old_external_inputs_preserved_and_unchanged": 15,
+  "new_private_project_path_bindings": 2,
+  "checks": {
+    "python-limited-checks": {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/limited_preparation_test.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1",
+      "exit_code": 0,
+      "actual_seconds": 0.04155275000084657,
+      "deadline_seconds": 30,
+      "timed_out": false,
+      "owned_group_id": 24923,
+      "Gradle_invoked": false,
+      "network_invoked": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "028c455352eb3990507e4e58fffe04e95907b65107d1929cc74c4593d356b2c5",
+      "owned_group_absent": true,
+      "all_reference_external_and_classpath_fences_match_after": true
+    },
+    "groovy-limited-checks": {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-Duser.home=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/test-home",
+        "-Djava.io.tmpdir=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/test-tmp",
+        "-cp",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/*:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/plugins/*",
+        "groovy.ui.GroovyMain",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/limited_groovy_checks.groovy",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/minimal-project/build.gradle"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1",
+      "exit_code": 0,
+      "actual_seconds": 5.102375040994957,
+      "deadline_seconds": 30,
+      "timed_out": false,
+      "owned_group_id": 24926,
+      "Gradle_invoked": false,
+      "network_invoked": false,
+      "stdout_sha256": "c11dd44318236b60dd1e5f683639efea70e05c04331ad97ae882311e2742453d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_group_absent": true,
+      "all_reference_external_and_classpath_fences_match_after": true
+    }
+  },
+  "Python_tests_passed": 7,
+  "standalone_Groovy_check_groups_passed": 4,
+  "Gradle_invoked_during_preparation": false,
+  "artifact_network_acquisition_during_preparation": false,
+  "primary_documentation_browsed_read_only": true,
+  "cache_or_APP_SDK_maintained_settings_mutations": false,
+  "publisher_reader_unchanged": true,
+  "actual_selected_graph_complete": false,
+  "publisher_admission_complete": false,
+  "production_release_approval": false,
+  "proposed_commands": [
+    {
+      "Gradle_command_seconds": 180,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/run_resolution.py",
+        "--source-fences-sha256",
+        "17eed1ce8922fafe104973c87ef40708976f74fe32d55a2b104207e58d6abacf",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-resolution-recovery1"
+      ],
+      "label": "exact-lint32-tooling-resolution",
+      "requires_fresh_output": true,
+      "separate_reviewed_lifecycle_cleanup_seconds": 30
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/read_publisher_provenance.py",
+        "--graph",
+        "<ACTUAL_FIRST_PHASE_SELECTED_GRAPH_PATH>",
+        "--graph-sha256",
+        "<ACTUAL_FIRST_PHASE_SELECTED_GRAPH_SHA256>",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-publisher-recovery-readback1"
+      ],
+      "inflight_curl_reap_margin_seconds": 2,
+      "label": "exact-lint32-publisher-readback",
+      "public_request_and_item_work_seconds": 180,
+      "requires_complete_actual_graph": true,
+      "requires_fresh_output": true
+    }
+  ],
+  "original_root_dependency_preserved": "com.android.tools.lint:lint-gradle:32.0.1",
+  "source_rebinding_if_R8_settings_changes_required": true
+}

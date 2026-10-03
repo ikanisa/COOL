@@ -1,0 +1,30 @@
+{
+  "Python_runtime": {
+    "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "all1094_input_bytes_modes_equal_before_after_and_final_seal": true,
+  "all_five_outputs_equal_execution_readback": true,
+  "extra_code_files_unchanged": 9,
+  "gap_counts": {
+    "function_body_match_review": 127,
+    "functions_without_exact_body_match": 127,
+    "source_lineage_uncertainty": 84,
+    "sql_resolution_review": 318,
+    "unclassified_objects": 74,
+    "unrepresented_migration_sources": 0,
+    "unresolved_callers": 58
+  },
+  "generation_process_group_absent": true,
+  "independent_temporary_recompute_directory_empty": true,
+  "input_entries": 1094,
+  "maintained_APP_SDK_DB_writes": 0,
+  "mapper_test_SQL37_SQL27_PG39_replays": 0,
+  "new_commands_executed": [
+    "original mapper generation with output replacement only",
+    "original mapper independent verification with output replacement only"
+  ],
+  "output_count": 5,
+  "retained_SQL37_recovery27_PG39_receipts_unchanged": true,
+  "verification_process_group_absent": true
+}

@@ -1,0 +1,1014 @@
+{
+  "file_sha256": "b72e5dfd23e5878a0de3a673599b3a4575d26370a75d9dd0babd9e3438d79e27",
+  "only_exact_owned_bindings": true,
+  "packages": [
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.76",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.76/lib",
+      "name": "_flutterfire_internals",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/android_file_picker-1.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/android_file_picker-1.1.0/lib",
+      "name": "android_file_picker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1/lib",
+      "name": "app_links",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_linux-1.0.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_linux-1.0.3/lib",
+      "name": "app_links_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_platform_interface-2.0.4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_platform_interface-2.0.4/lib",
+      "name": "app_links_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_web-1.0.4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_web-1.0.4/lib",
+      "name": "app_links_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/archive-3.6.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/archive-3.6.1/lib",
+      "name": "archive",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/args-2.7.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/args-2.7.0/lib",
+      "name": "args",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/async-2.13.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/async-2.13.1/lib",
+      "name": "async",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/boolean_selector-2.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/boolean_selector-2.1.2/lib",
+      "name": "boolean_selector",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/characters-1.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/characters-1.4.1/lib",
+      "name": "characters",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/clock-1.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/clock-1.1.2/lib",
+      "name": "clock",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/code_assets-1.2.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/code_assets-1.2.1/lib",
+      "name": "code_assets",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/collection-1.19.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/collection-1.19.1/lib",
+      "name": "collection",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/convert-3.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/convert-3.1.2/lib",
+      "name": "convert",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/country_picker-2.0.28",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/country_picker-2.0.28/lib",
+      "name": "country_picker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/cross_file-0.3.5+4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/cross_file-0.3.5+4/lib",
+      "name": "cross_file",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/crypto-3.0.7",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/crypto-3.0.7/lib",
+      "name": "crypto",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/cupertino_icons-1.0.9",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/cupertino_icons-1.0.9",
+      "name": "cupertino_icons",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dart_jsonwebtoken-3.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dart_jsonwebtoken-3.4.1/lib",
+      "name": "dart_jsonwebtoken",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dbus-0.7.15",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dbus-0.7.15/lib",
+      "name": "dbus",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dio-5.11.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dio-5.11.0/lib",
+      "name": "dio",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dio_web_adapter-2.2.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/dio_web_adapter-2.2.1/lib",
+      "name": "dio_web_adapter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/equatable-2.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/equatable-2.1.0/lib",
+      "name": "equatable",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/excel-4.0.6",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/excel-4.0.6/lib",
+      "name": "excel",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/fake_async-1.3.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/fake_async-1.3.3/lib",
+      "name": "fake_async",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/ffi-2.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/ffi-2.2.0/lib",
+      "name": "ffi",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/ffi_leak_tracker-0.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/ffi_leak_tracker-0.1.2/lib",
+      "name": "ffi_leak_tracker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file-7.0.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file-7.0.1/lib",
+      "name": "file",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker-12.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker-12.2.0/lib",
+      "name": "file_picker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0/lib",
+      "name": "file_picker_darwin",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_linux-1.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_linux-1.1.0/lib",
+      "name": "file_picker_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_platform_interface-3.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_platform_interface-3.3.0/lib",
+      "name": "file_picker_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_web-3.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_web-3.1.0/lib",
+      "name": "file_picker_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver/lib",
+      "name": "file_saver",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_linux-0.9.4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_linux-0.9.4/lib",
+      "name": "file_selector_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_macos-0.9.5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_macos-0.9.5/lib",
+      "name": "file_selector_macos",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_platform_interface-2.7.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_platform_interface-2.7.0/lib",
+      "name": "file_selector_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+5/lib",
+      "name": "file_selector_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0/lib",
+      "name": "firebase_core",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_platform_interface-8.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_platform_interface-8.1.0/lib",
+      "name": "firebase_core_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_web-3.10.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_web-3.10.0/lib",
+      "name": "firebase_core_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/firebase_messaging",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/firebase_messaging/lib",
+      "name": "firebase_messaging",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.9.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.9.3/lib",
+      "name": "firebase_messaging_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_web-4.2.4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_web-4.2.4/lib",
+      "name": "firebase_messaging_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/fixnum-1.1.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/fixnum-1.1.1/lib",
+      "name": "fixnum",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter/lib",
+      "name": "flutter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_driver",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_driver/lib",
+      "name": "flutter_driver",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_lints-6.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_lints-6.0.0/lib",
+      "name": "flutter_lints",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0/lib",
+      "name": "flutter_local_notifications",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.1/lib",
+      "name": "flutter_local_notifications_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-12.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-12.2.0/lib",
+      "name": "flutter_local_notifications_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_web-1.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_web-1.0.0/lib",
+      "name": "flutter_local_notifications_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.1.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.1.1/lib",
+      "name": "flutter_local_notifications_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_localizations",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_localizations/lib",
+      "name": "flutter_localizations",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35",
+      "name": "flutter_plugin_android_lifecycle",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_riverpod-2.6.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_riverpod-2.6.1/lib",
+      "name": "flutter_riverpod",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_test",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_test/lib",
+      "name": "flutter_test",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_web_plugins",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_web_plugins/lib",
+      "name": "flutter_web_plugins",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/font_awesome_flutter-11.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/font_awesome_flutter-11.0.0/lib",
+      "name": "font_awesome_flutter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/fuchsia_remote_debug_protocol",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/fuchsia_remote_debug_protocol/lib",
+      "name": "fuchsia_remote_debug_protocol",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/functions_client-2.7.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/functions_client-2.7.1/lib",
+      "name": "functions_client",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/go_router-16.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/go_router-16.3.0/lib",
+      "name": "go_router",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/gotrue",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/gotrue/lib",
+      "name": "gotrue",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/gtk-2.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/gtk-2.2.0/lib",
+      "name": "gtk",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/hooks-2.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/hooks-2.0.2/lib",
+      "name": "hooks",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/http-1.6.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/http-1.6.0/lib",
+      "name": "http",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/http_parser-4.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/http_parser-4.1.2/lib",
+      "name": "http_parser",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker-1.2.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker-1.2.3/lib",
+      "name": "image_picker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19/lib",
+      "name": "image_picker_android",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_for_web-3.1.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_for_web-3.1.1/lib",
+      "name": "image_picker_for_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6/lib",
+      "name": "image_picker_ios",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_linux-0.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_linux-0.2.2/lib",
+      "name": "image_picker_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_macos-0.2.2+1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_macos-0.2.2+1/lib",
+      "name": "image_picker_macos",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_platform_interface-2.11.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_platform_interface-2.11.1/lib",
+      "name": "image_picker_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_windows-0.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_windows-0.2.2/lib",
+      "name": "image_picker_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test/lib",
+      "name": "integration_test",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/intl-0.20.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/intl-0.20.2/lib",
+      "name": "intl",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni-1.0.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni-1.0.3/lib",
+      "name": "jni",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_flutter-1.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_flutter-1.0.2/lib",
+      "name": "jni_flutter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_util-1.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_util-1.0.0/lib",
+      "name": "jni_util",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/json_annotation-4.12.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/json_annotation-4.12.0/lib",
+      "name": "json_annotation",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker-11.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker-11.0.2/lib",
+      "name": "leak_tracker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.10",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.10/lib",
+      "name": "leak_tracker_flutter_testing",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.2/lib",
+      "name": "leak_tracker_testing",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/lints-6.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/lints-6.1.0/lib",
+      "name": "lints",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/logger-2.7.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/logger-2.7.0/lib",
+      "name": "logger",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/logging-1.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/logging-1.3.0/lib",
+      "name": "logging",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/matcher-0.12.19",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/matcher-0.12.19/lib",
+      "name": "matcher",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/material_color_utilities-0.13.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/material_color_utilities-0.13.0/lib",
+      "name": "material_color_utilities",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/meta-1.18.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/meta-1.18.0/lib",
+      "name": "meta",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mime-2.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mime-2.0.0/lib",
+      "name": "mime",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0/lib",
+      "name": "mobile_scanner",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/objective_c-9.5.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/objective_c-9.5.0/lib",
+      "name": "objective_c",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/package_config-3.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/package_config-3.0.0/lib",
+      "name": "package_config",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/passkeys_platform_interface-2.9.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/passkeys_platform_interface-2.9.0/lib",
+      "name": "passkeys_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path-1.9.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path-1.9.1/lib",
+      "name": "path",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider-2.1.6",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider-2.1.6/lib",
+      "name": "path_provider",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_android-2.3.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_android-2.3.1/lib",
+      "name": "path_provider_android",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/lib",
+      "name": "path_provider_foundation",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_linux-2.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_linux-2.2.2/lib",
+      "name": "path_provider_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_platform_interface-2.1.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_platform_interface-2.1.3/lib",
+      "name": "path_provider_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_windows-2.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/lib",
+      "name": "path_provider_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler-12.0.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler-12.0.3/lib",
+      "name": "permission_handler",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_android-13.0.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_android-13.0.1",
+      "name": "permission_handler_android",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0",
+      "name": "permission_handler_apple",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_html-0.1.4+1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_html-0.1.4+1/lib",
+      "name": "permission_handler_html",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_platform_interface-4.4.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_platform_interface-4.4.0/lib",
+      "name": "permission_handler_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_windows-0.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_windows-0.2.2",
+      "name": "permission_handler_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/petitparser-7.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/petitparser-7.0.2/lib",
+      "name": "petitparser",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/platform-3.1.6",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/platform-3.1.6/lib",
+      "name": "platform",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8/lib",
+      "name": "plugin_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/pointycastle-4.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/pointycastle-4.0.0/lib",
+      "name": "pointycastle",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/postgrest-2.9.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/postgrest-2.9.1/lib",
+      "name": "postgrest",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/process-5.0.5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/process-5.0.5/lib",
+      "name": "process",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/pub_semver-2.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/pub_semver-2.2.0/lib",
+      "name": "pub_semver",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/qr-3.0.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/qr-3.0.2/lib",
+      "name": "qr",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/qr_flutter-4.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/qr_flutter-4.1.0/lib",
+      "name": "qr_flutter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/realtime_client-2.13.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/realtime_client-2.13.0/lib",
+      "name": "realtime_client",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/record_use-0.6.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/record_use-0.6.0/lib",
+      "name": "record_use",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/riverpod-2.6.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/riverpod-2.6.1/lib",
+      "name": "riverpod",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0/lib",
+      "name": "share_plus",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus_platform_interface-7.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus_platform_interface-7.2.0/lib",
+      "name": "share_plus_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences-2.5.5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences-2.5.5/lib",
+      "name": "shared_preferences",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/lib",
+      "name": "shared_preferences_android",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6/lib",
+      "name": "shared_preferences_foundation",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1/lib",
+      "name": "shared_preferences_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.2/lib",
+      "name": "shared_preferences_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_web-2.4.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_web-2.4.3/lib",
+      "name": "shared_preferences_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1/lib",
+      "name": "shared_preferences_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/pkg/sky_engine",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/pkg/sky_engine/lib",
+      "name": "sky_engine",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/source_span-1.10.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/source_span-1.10.2/lib",
+      "name": "source_span",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/stack_trace-1.12.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/stack_trace-1.12.1/lib",
+      "name": "stack_trace",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/state_notifier-1.0.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/state_notifier-1.0.0/lib",
+      "name": "state_notifier",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/storage_client-2.8.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/storage_client-2.8.0/lib",
+      "name": "storage_client",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/stream_channel-2.1.4",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/stream_channel-2.1.4/lib",
+      "name": "stream_channel",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/string_scanner-1.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/string_scanner-1.4.1/lib",
+      "name": "string_scanner",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase-2.16.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase-2.16.0/lib",
+      "name": "supabase",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase_common-0.1.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase_common-0.1.2/lib",
+      "name": "supabase_common",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase_flutter-2.17.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/supabase_flutter-2.17.1/lib",
+      "name": "supabase_flutter",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/sync_http-0.3.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/sync_http-0.3.1/lib",
+      "name": "sync_http",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/term_glyph-1.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/term_glyph-1.2.2/lib",
+      "name": "term_glyph",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/test_api-0.7.11",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/test_api-0.7.11/lib",
+      "name": "test_api",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/timezone-0.11.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/timezone-0.11.1/lib",
+      "name": "timezone",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/typed_data-1.4.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/typed_data-1.4.0/lib",
+      "name": "typed_data",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/universal_io-2.3.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/universal_io-2.3.1/lib",
+      "name": "universal_io",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher-6.3.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher-6.3.2/lib",
+      "name": "url_launcher",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_android-6.3.32",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_android-6.3.32/lib",
+      "name": "url_launcher_android",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/lib",
+      "name": "url_launcher_ios",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib",
+      "name": "url_launcher_linux",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/lib",
+      "name": "url_launcher_macos",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_platform_interface-2.3.2",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_platform_interface-2.3.2/lib",
+      "name": "url_launcher_platform_interface",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_web-2.4.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_web-2.4.3/lib",
+      "name": "url_launcher_web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib",
+      "name": "url_launcher_windows",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/uuid-4.6.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/uuid-4.6.0/lib",
+      "name": "uuid",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/vector_math-2.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/vector_math-2.2.0/lib",
+      "name": "vector_math",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/vm_service-15.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/vm_service-15.2.0/lib",
+      "name": "vm_service",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web-1.1.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web-1.1.1/lib",
+      "name": "web",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web_socket-1.0.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web_socket-1.0.1/lib",
+      "name": "web_socket",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web_socket_channel-3.0.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/web_socket_channel-3.0.3/lib",
+      "name": "web_socket_channel",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/webdriver-3.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/webdriver-3.1.0/lib",
+      "name": "webdriver",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/win32-6.4.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/win32-6.4.0/lib",
+      "name": "win32",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/windows_file_picker-1.2.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/windows_file_picker-1.2.0/lib",
+      "name": "windows_file_picker",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/xdg_directories-1.1.0",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/xdg_directories-1.1.0/lib",
+      "name": "xdg_directories",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/xml-6.6.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/xml-6.6.1/lib",
+      "name": "xml",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/yaml-3.1.3",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/yaml-3.1.3/lib",
+      "name": "yaml",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/yet_another_json_isolate-2.1.1",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/yet_another_json_isolate-2.1.1/lib",
+      "name": "yet_another_json_isolate",
+      "package_uri": "lib/"
+    },
+    {
+      "exact_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "existing_physical_package_prefix": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/lib",
+      "name": "collect_app",
+      "package_uri": "lib/"
+    }
+  ]
+}

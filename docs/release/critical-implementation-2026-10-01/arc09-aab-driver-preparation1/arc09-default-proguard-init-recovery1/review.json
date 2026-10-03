@@ -1,0 +1,52 @@
+{
+  "AAB_bound_seconds": 2700,
+  "AAB_copy_bound_seconds": 120,
+  "APP_and_source_bindings_unchanged": {
+    "current_manifest": {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+      "sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7"
+    },
+    "current_source_fence": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    }
+  },
+  "ARC09_closed": false,
+  "UTC": "2026-10-02T14:15:18.234650+00:00",
+  "actual_Groovy_execution_verified": false,
+  "actual_new_pure_fixture_tests": 27,
+  "all_other_plan_metadata_argv_flags_task_cwd_and_300s_bound_unchanged": true,
+  "configuration_readback_bound_seconds": 300,
+  "driver_bytes_unchanged": true,
+  "driver_sha256": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+  "graph_bounds_seconds_each": 300,
+  "guard_exact_physical_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+  "helper_sha256": "f3ba27d448e78a4fd3a06c5eaad3fa09f70a403ed1e9431d07bbdeedce77bef4",
+  "included_builds_skipped_before_app_lookup": true,
+  "init_guard_before_app_lookup": true,
+  "kind": "included_build_init_guard_and_exact_probe_override_derivative_review",
+  "new_helper_function": "validate_probe_override",
+  "original58_tracker_fixture_receipt_reused": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/argv-fixture-tests-result.json",
+    "rerun": false,
+    "reused_for_unchanged_metadata_scope": true,
+    "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+  },
+  "original_admit_AST_identical_after_removing_one_override_assignment": true,
+  "original_helper_functions_unchanged": [
+    "canonical",
+    "source_rows",
+    "strict_manifest",
+    "validate_manifest_overlay",
+    "validate_pin_delta",
+    "validate_proguard_output"
+  ],
+  "plan_only_changed_argument_index": 15,
+  "prepared42_pin_bytes_unchanged": true,
+  "prepared42_pins_sha256": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+  "prepared_pin_count": 42,
+  "prior_helper_sha256": "3f66e7dde55dae7024bbc0d5ccbd5c05da353dcf01d0db9de175a5aab402af69",
+  "production_release_approval": false,
+  "schema_version": 1,
+  "whole_bound_seconds": 5070
+}

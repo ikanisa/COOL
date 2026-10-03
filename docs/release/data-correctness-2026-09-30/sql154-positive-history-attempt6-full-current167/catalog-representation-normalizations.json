@@ -1,0 +1,19 @@
+{
+  "exact_check_forms": {
+    "constraint:collect_security.signed_otp_requests.signed_otp_hook_v3": [
+      "CHECK ((((char_length(hook_id) >= 1) AND (char_length(hook_id) <= 256)) AND (hook_id ~ '^[A-Za-z0-9_:.-]+$'::text)))",
+      "CHECK (((char_length(hook_id) >= 1) AND (char_length(hook_id) <= 256) AND (hook_id ~ '^[A-Za-z0-9_:.-]+$'::text)))"
+    ],
+    "constraint:notification_events.notification_events_copy_length_check": [
+      "CHECK ((((char_length(TRIM(BOTH FROM title)) >= 1) AND (char_length(TRIM(BOTH FROM title)) <= 120)) AND ((char_length(TRIM(BOTH FROM body)) >= 1) AND (char_length(TRIM(BOTH FROM body)) <= 500)))) NOT VALID",
+      "CHECK (((char_length(TRIM(BOTH FROM title)) >= 1) AND (char_length(TRIM(BOTH FROM title)) <= 120) AND ((char_length(TRIM(BOTH FROM body)) >= 1) AND (char_length(TRIM(BOTH FROM body)) <= 500)))) NOT VALID"
+    ],
+    "constraint:provider_finality_requests.provider_finality_requests_provider_network_check": [
+      "CHECK (((provider_network IS NULL) OR (((char_length(provider_network) >= 2) AND (char_length(provider_network) <= 32)) AND (provider_network ~ '^[a-z0-9_]+$'::text))))",
+      "CHECK (((provider_network IS NULL) OR ((char_length(provider_network) >= 2) AND (char_length(provider_network) <= 32) AND (provider_network ~ '^[a-z0-9_]+$'::text))))"
+    ]
+  },
+  "policy_role_and_column_acl_order_only": true,
+  "raw_source_and_clone_catalog_preserved": true,
+  "regenerated_internal_fk_names_only": true
+}

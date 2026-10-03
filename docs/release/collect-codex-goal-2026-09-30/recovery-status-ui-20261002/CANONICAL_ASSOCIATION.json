@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-10-02T03:19:43.961609+00:00",
+  "scope": "Canonical two-file Android recovery UI storage-refusal consumer",
+  "canonical_files": {
+    "lib/gateway/gateway_recovery_page.dart": "22f00a6fda86dfd328dd84b1f4ab6ddefced68d7402698eabe0fd5c617eb5b44",
+    "test/gateway/gateway_recovery_test.dart": "9fbf290619557e404ebdc5b9189e1753f7b692332b73930b24b864eecc86628e"
+  },
+  "original_files": {
+    "lib/gateway/gateway_recovery_page.dart": "7f2895cfd173cab6f766db707c33199c8581b3b05ce0319f1932ae5de16e3087",
+    "test/gateway/gateway_recovery_test.dart": "bf6cae6fbff220c8d017c253ff1a1e7f16357d909d27b7839571200eb3b81c48"
+  },
+  "result_sha256": "6b8c601baac84b2a34ad28a047fc5f14361e77c9adba314296831bb0ccf8fa81",
+  "captured_inputs": 1130,
+  "input_drift": [],
+  "tests": 12,
+  "analysis_files": 2,
+  "limitations": [
+    "Synthetic native transport",
+    "No physical handset or actual reader speech",
+    "No direct source comparator or final artifact/hosted acceptance"
+  ]
+}

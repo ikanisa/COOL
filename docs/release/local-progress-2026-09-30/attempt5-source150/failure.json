@@ -1,0 +1,5 @@
+{
+  "status": "failed_before_register_writes",
+  "reason": "Native JVM artifact uses a list of suites, not a status dictionary; refresh rejected schema assumption",
+  "canonical_registers_unchanged": true
+}

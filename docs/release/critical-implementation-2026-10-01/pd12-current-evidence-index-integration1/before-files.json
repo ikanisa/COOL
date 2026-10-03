@@ -1,0 +1,32 @@
+{
+  "authorized_write_boundary": [
+    "scripts/audits/collect_current_evidence_index.py",
+    "scripts/tests/collect_current_evidence_index_test.py",
+    "docs/release/revolut-design/current-candidate-evidence-index.json",
+    "docs/release/revolut-design/current-candidate-evidence-index.schema.json",
+    "docs/release/revolut-design/acceptance-status.json"
+  ],
+  "current_maintained_before": {
+    "docs/release/revolut-design/acceptance-status.json": {
+      "bytes": 18997,
+      "exists": true,
+      "preserved_at": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/before/docs/release/revolut-design/acceptance-status.json",
+      "sha256": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+    },
+    "docs/release/revolut-design/current-candidate-evidence-index.json": {
+      "exists": false
+    },
+    "docs/release/revolut-design/current-candidate-evidence-index.schema.json": {
+      "exists": false
+    },
+    "scripts/audits/collect_current_evidence_index.py": {
+      "exists": false
+    },
+    "scripts/tests/collect_current_evidence_index_test.py": {
+      "exists": false
+    }
+  },
+  "maintained_writes": false,
+  "recorded_at_utc": "2026-10-02T13:58:47.284354+00:00",
+  "root_Android_snapshot_hold": true
+}

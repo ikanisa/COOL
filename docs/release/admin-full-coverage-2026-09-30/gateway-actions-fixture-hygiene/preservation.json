@@ -1,0 +1,5 @@
+{
+  "before_sha256": "27e576a3e93fbfc97d1d80640317e6b7650096c24d8c652918574d5d4007bbce",
+  "after_sha256": "e191772bfdd3791051bf191bc06639a8c3ef37d7799516dae8399fd7c2584e22",
+  "scope": "Unused barrel-redundant import and one const-only fixture correction; no production edits."
+}

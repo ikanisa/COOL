@@ -1,0 +1,5 @@
+Analyzing export-attempt69...                                   
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/actual_member_history_sql_receipts_test.dart:193:11 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/actual_member_history_sql_receipts_test.dart:199:9 • curly_braces_in_flow_control_structures
+

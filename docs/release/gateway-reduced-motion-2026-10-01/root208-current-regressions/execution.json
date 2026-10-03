@@ -1,0 +1,140 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-git-init",
+      "parent_exit_confirmed": true,
+      "process_group": 16854,
+      "seconds": 0.039,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "-f",
+        "--pathspec-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root208-current-regressions/declared-paths.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-index",
+      "parent_exit_confirmed": true,
+      "process_group": 16855,
+      "seconds": 7.458,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 17828,
+      "seconds": 0.353,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 17857,
+      "seconds": 1.299,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_app.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "third_party/gotrue/test/client_test.dart",
+        "test/supabase_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "format-changed",
+      "parent_exit_confirmed": true,
+      "process_group": 17902,
+      "seconds": 0.131,
+      "sha256": "2ccd718946510ed38922cb26bb8228cb8dafcdca1f087a96261014eea7cc9a01",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "--fatal-warnings"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "fatal-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 17904,
+      "seconds": 12.659,
+      "sha256": "a3a12a67dca5f0cf1eafb46cf5af7e3c9d21b51aeda505ce1cabac62f4f269ee",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=2",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root208-current-regressions/tests.machine.jsonl",
+        "test/app_shell_test.dart",
+        "test/security_hygiene_test.dart",
+        "test/release_docs_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/admin_receipt_content_v2_test.dart",
+        "test/supabase_contract_test.dart",
+        "test/gateway/gateway_capture_test.dart",
+        "test/gateway/gateway_device_probe_test.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "test/gateway/gateway_safety_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 0,
+      "name": "changed-and-omitted-regressions",
+      "parent_exit_confirmed": true,
+      "process_group": 18112,
+      "seconds": 46.791,
+      "sha256": "12d0a49bed8043cc826094e9a2af88955e758373a3f238e6baf2cfc90eff9dcb",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "status": "running"
+}

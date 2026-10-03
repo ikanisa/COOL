@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-20261002-deabfee579f3-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "cat /etc/os-release\nuname -a\nid\ncommand -v git\ngit --version\ncommand -v make\nmake --version\ncommand -v ruby\nruby --version\ncommand -v dart\ndart --version\nsha256sum /opt/dart/dart-sdk/bin/dart\ndpkg-query -W git make ruby ruby3.2 ca-certificates\ntest \"$(. /etc/os-release; printf '%s' \"$ID\")\" = ubuntu\ntest \"$(. /etc/os-release; printf '%s' \"$VERSION_ID\")\" = 24.04\ntest \"$(uname -m)\" = aarch64\ntest \"$(command -v dart)\" = /opt/dart/dart-sdk/bin/dart\ndart --version 2>&1 | grep -F '3.12.2'\n"
+  ],
+  "deadline_seconds": 90,
+  "pid": 70535,
+  "started_at_utc": "2026-10-02T00:12:27.074877+00:00"
+}

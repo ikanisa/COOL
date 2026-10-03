@@ -1,0 +1,27 @@
+{
+  "SQL_executed": false,
+  "actual_seconds": 0.088,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-invalidation-preparation1/scripts/tests/collect_schema_lineage_invalidation_test.py"
+  ],
+  "code_after": {
+    "scripts/audits/collect_schema_domain_map.py": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+    "scripts/tests/collect_schema_lineage_invalidation_test.py": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+  },
+  "code_before": {
+    "scripts/audits/collect_schema_domain_map.py": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+    "scripts/tests/collect_schema_lineage_invalidation_test.py": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+  },
+  "code_unchanged": true,
+  "deadline_seconds": 30,
+  "environment": {
+    "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"
+  },
+  "exit_code": 0,
+  "group_absent": true,
+  "maintained_changes": false,
+  "timed_out": false
+}

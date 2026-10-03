@@ -1,0 +1,10 @@
+{
+  "status": "outer_readback_refused_after_new9_tests_passed",
+  "reason": "Actual3 retained TOC differs from reviewed preparation3",
+  "cause": "Compared fresh actual3 OID-bearing TOC bytes against prior actual2-derived proposal. Corrected to prove unchanged parser against sealed actual3 logical TOC and actual3 explicit CREATE comments; no runtime or comparator change.",
+  "outputs": {
+    "focused-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "focused-tests.stderr": "3bd108a958bb92a7e090f250e35473f1c7895a35360c5eaa0657de532da770c7"
+  },
+  "docker_executed": false
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "reviewable_preservation_first_recommendation_no_execution",
+  "finding": "ARC-10",
+  "original_report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+  "original_report_sha256": "c4bda181a539262366ab786d0d9fde6bfd7280cdd5693aa2908d38efcb17e46e",
+  "original_acceptance": "Before/after file/class/byte counts; every removed path recoverable identically or justified reproducible discard; report/fixture links resolve; isolated clean build/tests without archive; classified secret/customer data and access controls.",
+  "candidate_manifest": "first-batch-candidate-manifest.json",
+  "candidate_manifest_sha256": "da7af8d83064ab7311940d3bdf361d6e64e55013fb680048284a4805976f9408",
+  "exact_candidate_trees": [
+    "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/",
+    "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/"
+  ],
+  "candidate_files": 98,
+  "logical_bytes": 73167256,
+  "unique_whole_file_objects": 98,
+  "disposition": "Preserve all objects before any later approved original removal; no justified-discard shortcut.",
+  "preserve_siblings": [
+    "verification.json",
+    "current.o",
+    "prior/current stdout/stderr",
+    "prior/current compiler .d/.dia metadata",
+    "common-args.resp",
+    "all other evidence and source-snapshot/upstream-package original comparators"
+  ],
+  "consumer_evidence": [
+    "maintained-consumers.json",
+    "consumer-repair-matrix.json",
+    "bounded-link-review.json",
+    "exact-index-consumers.json",
+    "compressed-index-consumers.json",
+    "large-index-consumers.json"
+  ],
+  "ordered_required_checks": [
+    "Freeze only the exact assigned historical cohort and all relevant incoming indexes; re-read each of98 original paths against this manifest. Deny path traversal, symlink ancestors, nonregular files, mismatch/missing objects and source/index drift.",
+    "Preserve all98 exact bytes plus path/mode/mtime/owner/ACL/xattr/source/toolchain/provenance as applicable in the approved encrypted engine; retain a full exact snapshot ID and catalog digest. Metadata not currently captured (owner/ACL/xattr) must be inventoried before operation; mode/mtime/inode are in the present manifest.",
+    "Run full repository data integrity verification (for the researched engine, check --read-data), record actual version/config/repository/snapshot identity and exit status. Do not replace it with a sampled/no-data check.",
+    "A separate verification implementation/operator restores the exact snapshot into a NEW private outside-checkout directory from archive only, without reading original payload bytes for reconstruction. Independently compare all98 relative paths, SHA256, sizes, modes and required metadata. Record 98/98 result and actual repository/snapshot/catalog identities.",
+    "Exercise denial cases on isolated verifier fixtures: missing/wrong object, tampered payload/index, path traversal, symlink alias, wrong snapshot/repository and changed source. Reject before removal; no damage to source/archive.",
+    "Verify the approved second encrypted failure-domain copy and key recovery. Distinguish restored byte identity from backup availability, signing, native acceptance or deployment approval.",
+    "Create append-only immutable original-path relocation catalog entries for all98 objects. Preserve original dated verification/hash-index bytes, and have a separately assigned fail-closed resolver verify every exact path+hash consumer listed in this packet against archive/restored payloads. Preserve compiler command/dependency records as historical values; never insert empty stubs or symlinks that masquerade as original files.",
+    "Prove relevant regression/source/compile checks in a new isolated clean checkout with the archive absent and no historical cache/copy fallback. Preserve required original Firebase source comparator until its separate promotion is genuinely complete.",
+    "Root reviews preservation, independent restore, consumer/index resolution, metadata/access/retention and the new evidence-free build result; root then assigns exact removal ownership. Remove only manifest-listed originals that still match and record actual before/after class/file/byte/path counts. Any divergence stops the batch.",
+    "Finally recheck all affected original report/hash-index references through the durable resolver, prove approved restores still work after removal, retain root removal receipt, and keep broader ARC10 open until its full clean-checkout/sensitivity/link criteria are achieved."
+  ],
+  "space_interpretation": "73,167,256 original logical bytes are relocation candidates, not net or physical space savings.98 unique objects remain retained outside checkout, and same-volume preservation can consume space until approved removal; compression/dedup/clone allocation and second copy require actual measurements.",
+  "deferred_sets": [
+    "All active native current/prior APKs even where exact duplicates",
+    "All dated source exports/candidate bundles and unique SQL/code/source/licence variants",
+    "All customer/auth/raw/archive backups, images, report manifests and active test fixtures until class/consumers/retention/restore proof is complete"
+  ],
+  "original_files_removed": 0,
+  "archives_created": 0,
+  "independent_archive_restores_run": 0,
+  "clean_checkout_without_archive_verified": false,
+  "sensitivity_classification_complete": false,
+  "all_arbitrary_incoming_links_verified": false,
+  "original_removal_authorized": false,
+  "ARC10_full_acceptance_met": false,
+  "production_release_approved": false
+}

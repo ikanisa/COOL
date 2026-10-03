@@ -1,0 +1,11 @@
+# Private lint32 publisher JAR intake preparation
+
+Unexecuted root-owned controller and exact67-file plan: seven publisher selected-module declarations and60 standard Maven/Gradle9.1 unclassified JAR contracts after authenticated POM+official module404. Every coordinate/variant/owner is bound to successful actual metadata3. Coroutines BOM and duplicate root available-at component add no separate JAR. Guava uses only its authenticated selected jreRuntimeElements declaration.
+
+The Maven default/layout contract and actual installed Gradle9.1 sources support absent/jar/bundle packaging; failureaccess and jimfs bundle metadata choose extensionjar. primary-fallback-contract.json pins the official references and installed source hashes. No new coordinate/classifier/version/repository is introduced.
+
+Eleven limited fixture tests passed. They cover67-item binding, plain and namedGNU checksums includingjavax/kxml, exact URL/classifier/hash/size guards, Content-Length/encoding, cumulative intake reservation, actual fixture CRC corruption and path/symlink refusal, streamed transport with fake process, publisher hash/size partial failure preservation and both unreaped cleanup paths. No actual binary HTTP or shared-cache/source mutation occurred.
+
+commands.json contains the exact root command, fresh internal output only. Global work180seconds, request30seconds plus separately bounded2second reap, four workers maximum,128MiB/body and512MiB conservative cumulative intake. Budget permits fewer concurrent large transfers when needed. Transport streams installed curl with default verifiedHTTPS, no credential/config/proxy/redirect/retry settings. Certificate verification is stated as the invocation/default inference; no ssl_verify_result is invented. Every communicate/wait fallback is bounded, and unreaped groups remain failed qualifications.
+
+Artifacts require Content-Length, publisher artifact SHA1, all module-declared hashes/sizes and safe JAR CRC checks. Readback exposes simple artifacts fields and acquired partial failures; full_graph_admission staysfalse. No cache admission or Gradle internal metadata writer exists. Root must review actual receipts, admit only verified raw blob bytes, and compare normal full Gradle selected artifact/graph results before lint/AAB/license/release claims.

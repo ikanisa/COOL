@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "docker",
+    "start",
+    "collect-arc01-ubuntu-20261002-deabfee579f3-format"
+  ],
+  "deadline_seconds": 30,
+  "pid": 70533,
+  "started_at_utc": "2026-10-02T00:12:26.845559+00:00"
+}

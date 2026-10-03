@@ -1,0 +1,16 @@
+{
+  "admin_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt49-current-admin-gateway",
+  "common_manifest": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt51/source-export.json",
+  "common_manifest_sha256": "7f7f8a6a45c852558f4448facb6235d3d2416557b673a5bd3d07be8f5d0df804",
+  "admin_manifest_sha256": "38bec2d9365ccbe3a410f9c09c89596eadadef3a1ec04f8c5a693bc4d537cad8",
+  "scope": "Exact overlap of application runtime, owned forks, assets and dependency configuration; native-only and SQL-only inputs are outside the Admin acceptance scope. Formatting corrections after these copies remain separate drift.",
+  "shared_input_count": 591,
+  "differences": [],
+  "admin_selected_inputs_missing_from_common": [
+    "third_party/gotrue/example/README.md",
+    "third_party/gotrue/example/main.dart"
+  ],
+  "common_only_native_inputs_count": 144,
+  "acceptance_claim": false,
+  "selected_overlap_identical": false
+}

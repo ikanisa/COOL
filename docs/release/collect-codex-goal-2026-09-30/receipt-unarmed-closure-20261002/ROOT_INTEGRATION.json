@@ -1,0 +1,14 @@
+{
+  "integrated_at": "2026-10-01T22:43:39.845506+00:00",
+  "canonical_file": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20261002040000_receipt_unarmed_closure.sql",
+  "canonical_sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+  "previously_absent": true,
+  "reviewed_packet_members": 4573,
+  "reviewed_packet_manifest_sha256": "c9f48d4940e18d098ed8a781fd89971290f7a33768207418360bc208e9eb84a7",
+  "current_prerequisite_bindings": 189,
+  "actual_focused_sql_checks": 51,
+  "whole_candidate_pass": false,
+  "hosted_deployed": false,
+  "configuration_enabled": false,
+  "successor_jobs_or_send_authority": false
+}

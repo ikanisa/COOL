@@ -1,0 +1,254 @@
+{
+  "created_at_utc": "2026-09-30T23:05:32.796684+00:00",
+  "scope": "C14 SMS Gateway Admin operations source and scoped verification",
+  "route": "/admin/sms-gateway",
+  "design_authority": "revolut-design",
+  "production_acceptance": false,
+  "whole_collect_acceptance": false,
+  "source_frozen": false,
+  "candidate_binding": "pending later exact release candidate; point-in-time shared source hashes only",
+  "tests": {
+    "distinct_scoped_cases_passing": 69,
+    "not_a_single_combined_69_case_run": true,
+    "by_file": {
+      "admin_gateway_contracts_test.dart": 4,
+      "admin_gateway_models_test.dart": 23,
+      "admin_gateway_repository_test.dart": 9,
+      "admin_gateway_page_test.dart": 28,
+      "admin_gateway_observed_test.dart": 5
+    },
+    "passing_coverage": "56 passing in tests-attempt2, both pending-provider fixture failures corrected and passed in additional-tests-attempt2, five new widget cases and five actual SQL-output cases passed in that same 12-case run, one final denial-copy case passed separately.",
+    "initial_contract_sdk_run": "32/32",
+    "failed_attempts_retained": [
+      "page-tests-attempt1: 17/19, revocation-dialog transition and uncertain-result scroll/transition waits corrected in test harness.",
+      "additional-tests-attempt1: exit79, repeated --plain-name filters had AND semantics; no tests ran and no passing cases counted.",
+      "tests-attempt2: 56/58, two provider tests awaited container.pump before async identity fixture had started the service read; fixture synchronization corrected and rerun 2/2."
+    ],
+    "no_network_auth_or_live_sends": true
+  },
+  "analysis": {
+    "initial_scoped_files": 15,
+    "final_15_file_log": "analysis-final.log",
+    "production_diagnostics": 0,
+    "final_15_file_test_fixture_lints": 2,
+    "corrections": "Removed unused test import and added test-only if braces; final two affected files include shared shell denial-copy change.",
+    "affected_file_recheck": "analysis-corrections-final.log",
+    "affected_file_recheck_result": "No issues found!",
+    "commands": [
+      "flutter analyze <15 gateway and integration sources/tests>",
+      "dart analyze lib/admin/admin_shell.dart test/admin_gateway_page_test.dart"
+    ]
+  },
+  "sole_authority_hygiene": {
+    "result": "pass",
+    "latest_log": "design-authority-after-denial-copy.log",
+    "visual_fidelity_certification": false
+  },
+  "backend_observations": {
+    "cases_passing": 84,
+    "captured_prerequisites": 163,
+    "environment": "isolated synthetic PostgreSQL UAT, actual read outputs",
+    "packet": "../gateway-admin/README.md",
+    "physical_device_or_carrier_proof": false
+  },
+  "source_and_contract_hashes": [
+    {
+      "path": "lib/admin/core/admin_gateway_contracts.dart",
+      "bytes": 8356,
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_models.dart",
+      "bytes": 13628,
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_runtime.dart",
+      "bytes": 3400,
+      "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_dialogs.dart",
+      "bytes": 4489,
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_page.dart",
+      "bytes": 29970,
+      "sha256": "1e631e33cdb40f9adadac0954610cd4e2b3316dad0ab52430c7ab17a846bc935"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "bytes": 3707,
+      "sha256": "e1a95e05049ba6c53f25cb148f4d2a1505d3df937e4091b4b30b7ef6c63c6f4a"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "bytes": 31365,
+      "sha256": "3d365b69359dc2f5b4811d287a2c343bd247a022d50904c0e98daca718b64711"
+    },
+    {
+      "path": "lib/admin/core/admin_action_contracts.dart",
+      "bytes": 7267,
+      "sha256": "ccad98b50274f6758804e432137d224921148b0c27f8490ceaf0da7917597ef4"
+    },
+    {
+      "path": "lib/admin/admin_router.dart",
+      "bytes": 10137,
+      "sha256": "6b5f9ecf848b303be2b6c5a7869f2583f209391ebc08bfe30ad2191d574d58c5"
+    },
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "bytes": 43566,
+      "sha256": "bc80f14aeea99192bbd362d4198448d75d32c846bcd78ffefd0f061c1c7e60e5"
+    },
+    {
+      "path": "test/admin_gateway_contracts_test.dart",
+      "bytes": 5677,
+      "sha256": "56424872aedbd09f40b477aa4f701dde63e8b89f9ba9673d1d4ac5c606dcaad0"
+    },
+    {
+      "path": "test/admin_gateway_models_test.dart",
+      "bytes": 8577,
+      "sha256": "782c44452902639ddc94a179ffad7a696641e629f456f48957b3e461fb355cf9"
+    },
+    {
+      "path": "test/admin_gateway_repository_test.dart",
+      "bytes": 7349,
+      "sha256": "0d8ae808f26774ba9d00c964d9700ad76a8b63720a9e83ee96f124f1bb7887fc"
+    },
+    {
+      "path": "test/admin_gateway_page_test.dart",
+      "bytes": 30679,
+      "sha256": "8572384856863e284fd4385c07b9e7efc01d12279162bc808fd83925347de3ac"
+    },
+    {
+      "path": "test/admin_gateway_observed_test.dart",
+      "bytes": 2220,
+      "sha256": "a9d6f28ae8ee97a87a65617df21b1ccb1290abe95c9766d6bd7d7b8f4e85ea66"
+    },
+    {
+      "path": "contracts/collect-admin-gateway-v1.schema.json",
+      "bytes": 11766,
+      "sha256": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3"
+    },
+    {
+      "path": "contracts/collect-admin-gateway-v1.fixture.json",
+      "bytes": 1723,
+      "sha256": "e63217f04ab19c404815685686501c115f1896d315e02cc9ee8a6a3a99868d5e"
+    },
+    {
+      "path": "contracts/collect-admin-gateway-owner-request-v1.fixture.json",
+      "bytes": 831,
+      "sha256": "37e4fea9a7b86011702a7278e1eb9e0661932cdb31898fee6293fe6aae781ba9"
+    },
+    {
+      "path": "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/CONTRACT.md",
+      "bytes": 5555,
+      "sha256": "84e2275a1bf919b6859753f9975834fe81675274d8642336edd33e4019ff735a"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/gateway-admin/MANIFEST.json",
+      "bytes": 36540,
+      "sha256": "1e2c4e1542f0fd65de637dc1d5d53e06ef55fedadec5b713b68237f7b2c3fd4b"
+    }
+  ],
+  "logs": [
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/additional-tests-attempt1.log",
+      "bytes": 213,
+      "sha256": "a5ea4885fec33dc57db68b98404248f51e05e92afb0f4370f733b16833a2d16e"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/additional-tests-attempt2.log",
+      "bytes": 2358,
+      "sha256": "f1e36f84257d851dd01619c2172ab82b83c46f2d6c4e7ea3b3123623aca953a3"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/analysis-attempt1.log",
+      "bytes": 2456,
+      "sha256": "8bdf5036d118974bc8d2bd15c0ef41f3c7df8ce8b229aac8b079b8e22d1978ab"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/analysis-corrections-final.log",
+      "bytes": 77,
+      "sha256": "3dd16096f9ffb5ecb93f1a68f70632705d591440661768d71d2301971ab42e05"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/analysis-final.log",
+      "bytes": 470,
+      "sha256": "a189c35d53b5dc96ef223749e3f6a49db3d04d1f0c9b3871ab806d52dc8c032c"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/contracts-sdk-attempt1.log",
+      "bytes": 5108,
+      "sha256": "696347274944b710571c862f9e7acde3018e97c4f59a455c409146d96987a911"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/denial-copy-test.log",
+      "bytes": 234,
+      "sha256": "49cb4ac3979b98f96f806bb742defb004b92bb5f73eabe5a294b970f1bd40ec2"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/design-authority-after-denial-copy.log",
+      "bytes": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/design-authority-final.log",
+      "bytes": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/page-tests-attempt1.log",
+      "bytes": 7221,
+      "sha256": "5eb2fe6f5a45af34024c42b382ac203a20ee4c7c8ece26f11efad295d8bb998f"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/revoke-attempt2.log",
+      "bytes": 259,
+      "sha256": "5a5cb9a1a2fdcd34eeb9e6184f930ca1c84408744c48ea9e4c27aac91476b38b"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/tests-attempt2.log",
+      "bytes": 10627,
+      "sha256": "db6c3047574edbec532b1c4aee0c383ef9ed3b9bda99e36c40a43d6ad5525f8f"
+    }
+  ],
+  "captures": [
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/gateway-dark-synthetic.png",
+      "bytes": 358660,
+      "sha256": "e033ef41180ec9f26640d2149f8e38fc9deb410177ac4a557c7a6ed827a06e1a",
+      "width": 1440,
+      "height": 2200,
+      "synthetic": true,
+      "visually_inspected": true,
+      "scope": "desktop viewport; below-fold route interactions covered separately by scoped widgets, real browser acceptance pending"
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/admin-gateway/gateway-light-synthetic.png",
+      "bytes": 363264,
+      "sha256": "5fef6d9959bd3524f4332648d0904cc959677a1ff3a3ce0cbbdc186c5d8c597d",
+      "width": 1440,
+      "height": 2200,
+      "synthetic": true,
+      "visually_inspected": true,
+      "scope": "desktop viewport; below-fold route interactions covered separately by scoped widgets, real browser acceptance pending"
+    }
+  ],
+  "remaining_acceptance": [
+    "Later exact source candidate/export/release build binding.",
+    "Hosted migration/Auth/current-owner and server navigation readback.",
+    "Controlled real owner/device enrollment, key possession and identity actions.",
+    "Signed organization-owned Android install, permissions, SIM, network, local pause and observation ageing.",
+    "Authenticated browser/PWA route/state, keyboard, assistive-reader, responsive and deep-link acceptance.",
+    "Authenticated desktop reference comparison; static Business source was inspected only.",
+    "Dispatch/governed run-policy-cap authority and physical delivery proof remain separate service gates."
+  ]
+}

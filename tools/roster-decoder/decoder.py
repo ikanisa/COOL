@@ -30,8 +30,8 @@ MAX_FRAMES = 20
 MAX_PAGES = 20
 MAX_EXPANDED = 32 * 1024 * 1024
 TOOLCHAIN = {
-    "python": "3.12", "pillow": "12.0.0", "pypdfium2": "5.2.0",
-    "pypdf": "6.7.0", "openpyxl": "3.1.5", "defusedxml": "0.7.1",
+    "python": "3.12", "pillow": "12.3.0", "pypdfium2": "5.2.0",
+    "pypdf": "6.19.0", "openpyxl": "3.1.5", "defusedxml": "0.7.1",
 }
 
 

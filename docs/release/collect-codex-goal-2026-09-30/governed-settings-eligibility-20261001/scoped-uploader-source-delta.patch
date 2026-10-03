@@ -1,0 +1,141 @@
+--- original_full_uat.py
++++ final_scope_uat.py
+@@ -99,61 +99,62 @@
+    return dict(request_id=request_id,family=k,identity=ident,raw=raw,revision=revision,deadline=deadline,reason=reason,fingerprint=fingerprint,sql=f'public.admin_update_runtime_control_v2({q(request_id)},{q(k)},{j(ident)},{q(raw)},{revision},{q(reason)},{q(deadline)})')
+   def lookup(r):return f"public.admin_get_runtime_control_request_v2({q(r['request_id'])},{q(r['family'])},{j(r['identity'])},{q(r['fingerprint'])},{q(r['deadline'])})"
+   receipts={};requests={}
+-  KEYS=set('contract_version scope family identity revision patch_sha256 checked_at sample_valid_until can_manage permitted_fields permitted_statuses create_allowed blocker'.split())
+   def eligible(k,patch=None,identity=None,revision=None,raw=None):
+    ident=identity if identity is not None else identity_for(k)
+    rev=rpc(get(k,ident))['revision']if revision is None else revision
+    raw=raw if raw is not None else json.dumps(patch or{},ensure_ascii=False,separators=(',',':'))
+    return f'public.admin_get_runtime_control_eligibility_v1({q(k)},{j(ident)},{rev},{q(raw)})'
+-  observed={}
+-  for k in families:
+-   v=rpc(eligible(k));observed[k]=v
+-   case(k+' closed fresh eligibility with exact raw discovery digest',set(v)==KEYS and v['contract_version']==1 and v['scope']=='runtime_control_eligibility'and v['patch_sha256']==sha(b'{}')and v['identity']==identity_for(k)and v['revision']==rpc(get(k))['revision']and v['can_manage']is True and set(v['permitted_fields'])<=set(specs[k]['writable'])and not {'value','session_id','reason','relation'}&set(v),v)
+-  (P/'observed-eligibility.json').write_text(json.dumps(observed,indent=2)+'\n')
+-  case('actual draft sections are editable with immutable wiring excluded',set(observed['policy_document_sections']['permitted_fields'])==set(specs['policy_document_sections']['writable'])-{'policy_document_id','section_key'}and observed['policy_document_sections']['blocker']is None)
+-  case('actual all-draft template admits locale/event/metadata edits',set(observed['notification_templates']['permitted_fields'])==set(specs['notification_templates']['writable']))
+-  case('policy with actual sections admits publication','published'in observed['policy_documents']['permitted_statuses'])
+-  case('version with actual template admits publication','published'in observed['notification_template_versions']['permitted_statuses'])
+-  newsection={'id':str(uuid.uuid4())};newversion={'id':str(uuid.uuid4())};missing=str(uuid.uuid4())
+-  v=rpc(eligible('policy_document_sections',identity=newsection,revision=0));case('new section requires a prospective exact parent',v['blocker']=='parent_required'and not v['permitted_fields'])
+-  v=rpc(eligible('policy_document_sections',identity=newsection,revision=0,patch={'policy_document_id':missing}));case('missing exact prospective section parent is refused',v['blocker']=='patch_not_permitted'and not v['permitted_fields'])
+-  v=rpc(eligible('policy_document_sections',identity=newsection,revision=0,patch={'policy_document_id':identity_for('policy_documents')['id']}));case('new section with actual draft parent admits immutable wiring at creation',v['blocker']is None and 'policy_document_id'in v['permitted_fields']and v['create_allowed'])
+-  v=rpc(eligible('notification_template_versions',identity=newversion,revision=0,patch={'template_key':'missing_template'}));case('new version with missing prospective template is refused',v['blocker']=='patch_not_permitted'and not v['permitted_fields'])
+-  raw=' {"body":"Eligible UTF8 α"} ';v=rpc(eligible('policy_document_sections',raw=raw));case('eligibility binds exact UTF8 whitespace and text bytes',v['patch_sha256']==sha(raw.encode()))
+-  case('stale requested revision is refused',bool(denied(eligible('policy_documents',revision=observed['policy_documents']['revision']+1),'40001','runtime_control_conflict')))
+-  for raw in ['[1]','{"unknown":1}','{"body":',' '*65537]:case('invalid raw patch refused '+str(len(raw)),bool(denied(eligible('policy_document_sections',raw=raw),'22023')))
+-  for role in ['anon','service_role']:case(role+' eligibility execution denied',bool(denied(eligible('policy_documents'),role=role)))
+-  case('member-owned preferences are excluded',bool(denied("public.admin_get_runtime_control_eligibility_v1('notification_preferences','{}',0,'{}')",'22023','runtime_control_family_invalid')))
+-  e=eligible('policy_documents')
+-  rr=u.psql(db,'begin isolation level repeatable read;'+u.auth(f.UID,f.SID)+'select '+e+';rollback;',False);case('repeatable read eligibility refused',rr.returncode!=0 and '25001:'in rr.stderr)
+-  def permission_probe(permission,expression):return u.psql(db,'begin;delete from public.admin_role_permissions where role_id='+q(f.ROLE)+'and permission_name='+q(permission)+';'+u.auth(f.UID,f.SID)+'select '+expression+';rollback;',False)
+-  rr=permission_probe('settings.manage',e);v=json.loads(rr.stdout.strip().splitlines()[-1]);case('read-authorized missing manage is exact false capability without fields',rr.returncode==0 and v['can_manage']is False and v['blocker']=='manage_required'and not v['permitted_fields'])
+-  rr=permission_probe('settings.read',e);case('missing family read denies eligibility',rr.returncode!=0 and '42501:'in rr.stderr)
+-  rr=permission_probe('audit.read',e);case('eligibility requires family read independently of audit',rr.returncode==0)
+-  rr=permission_probe('settings.read',f"public.admin_list_runtime_control_history_v2('policy_documents',{j(identity_for('policy_documents'))},1,null,null)");case('independent audit history unaffected by missing settings read',rr.returncode==0)
+-  for label,change in [('revoked approval',f'update collect_admin_access.email_approvals set revoked_at=clock_timestamp()where user_id={q(f.UID)};'),('expired Auth',f"update auth.sessions set not_after=clock_timestamp()-interval '1 second'where id={q(f.SID)};"),('revoked role',f'update public.admin_user_roles set revoked_at=clock_timestamp()where user_id={q(f.UID)};')]:
+-   rr=u.psql(db,'begin;'+change+u.auth(f.UID,f.SID)+'select '+e+';rollback;',False);case(label+' refuses eligibility rather than false capability',rr.returncode!=0 and '42501:'in rr.stderr)
+-  def mutate(k,patch,revision=None):return rpc(make(k,patch=patch,revision=revision)['sql'])
+-  before=rpc(get('policy_document_sections'));mutate('policy_document_sections',{'body':'Supported draft section edit'});case('actual v2 mutation admits supported draft section edit',rpc(get('policy_document_sections'))['value']['body']=='Supported draft section edit')
+-  old_revision=before['revision'];case('eligibility cannot override changed current revision',bool(denied(eligible('policy_document_sections',revision=old_revision),'40001','runtime_control_conflict')))
+-  v=rpc(eligible('notification_templates',patch={'locale':'fr'}));mutate('notification_templates',{'locale':'fr'});case('draft template contextual edit then original v2 mutation is supported',v['blocker']is None and rpc(get('notification_templates'))['value']['locale']=='fr')
+-  v=rpc(eligible('notification_template_versions',patch={'status':'published'}));mutate('notification_template_versions',{'status':'published'});case('approved existing version publication goes through unchanged v2 final guards',v['blocker']is None and rpc(get('notification_template_versions'))['value']['status']=='published')
+-  v=rpc(eligible('notification_templates'));case('any actual non-draft version restricts template to enabled only',v['permitted_fields']==['enabled'])
+-  v=rpc(eligible('notification_template_versions'));case('published version exposes status-only permitted transitions',v['permitted_fields']==['status']and v['permitted_statuses']==['published','archived'])
+-  case('published version cannot return to draft',rpc(eligible('notification_template_versions',patch={'status':'draft'}))['blocker']=='status_not_permitted')
+-  case('published version content cannot be edited',rpc(eligible('notification_template_versions',patch={'body_template':'Forbidden'}))['blocker']=='patch_not_permitted')
+-  mutate('notification_template_versions',{'status':'archived'});case('archived version cannot unarchive',rpc(eligible('notification_template_versions'))['permitted_statuses']==['archived'])
+-  v=rpc(eligible('policy_documents',patch={'status':'published'}));mutate('policy_documents',{'status':'published'});case('actual policy publication with sections is supported by final v2 guard',v['blocker']is None and rpc(get('policy_documents'))['value']['status']=='published')
+-  v=rpc(eligible('policy_document_sections'));case('section eligibility changes immediately after actual parent publication',v['blocker']=='parent_published'and not v['permitted_fields'])
+-  case('stale draft eligibility cannot bypass final parent publication guard',bool(denied(make('policy_document_sections',patch={'body':'Forbidden after publication'})['sql'],'55000','runtime_control_published_immutable')))
+-  mutate('policy_documents',{'status':'archived'});case('archived policy cannot unarchive',rpc(eligible('policy_documents'))['permitted_statuses']==['archived'])
+-  # A fresh policy without sections has an actual context; publication alone
+-  # remains refused by both the reader and the unchanged v1 final guard.
+-  newdoc={'id':str(uuid.uuid4())};patch={'kind':'privacy','locale':'en','version':'eligibility-empty','title':'Synthetic empty draft'}
+-  request=make('policy_documents',patch=patch,revision=0);request['identity']=newdoc
+-  request['sql']=f"public.admin_update_runtime_control_v2({q(str(uuid.uuid4()))},'policy_documents',{j(newdoc)},{q(json.dumps(patch,separators=(',',':')))},0,'Synthetic draft policy creation',{q(UTC(dt.datetime.now(dt.timezone.utc)+dt.timedelta(seconds=90)))})"
+-  rpc(request['sql']);v=rpc(eligible('policy_documents',identity=newdoc));case('empty draft policy cannot publish without sections','published'not in v['permitted_statuses'])
+-  case('requested empty policy publication returns redacted sections blocker',rpc(eligible('policy_documents',identity=newdoc,patch={'status':'published'}))['blocker']=='sections_required')
++  if a.scope!='final-only':
++   KEYS=set('contract_version scope family identity revision patch_sha256 checked_at sample_valid_until can_manage permitted_fields permitted_statuses create_allowed blocker'.split())
++   observed={}
++   for k in families:
++    v=rpc(eligible(k));observed[k]=v
++    case(k+' closed fresh eligibility with exact raw discovery digest',set(v)==KEYS and v['contract_version']==1 and v['scope']=='runtime_control_eligibility'and v['patch_sha256']==sha(b'{}')and v['identity']==identity_for(k)and v['revision']==rpc(get(k))['revision']and v['can_manage']is True and set(v['permitted_fields'])<=set(specs[k]['writable'])and not {'value','session_id','reason','relation'}&set(v),v)
++   (P/'observed-eligibility.json').write_text(json.dumps(observed,indent=2)+'\n')
++   case('actual draft sections are editable with immutable wiring excluded',set(observed['policy_document_sections']['permitted_fields'])==set(specs['policy_document_sections']['writable'])-{'policy_document_id','section_key'}and observed['policy_document_sections']['blocker']is None)
++   case('actual all-draft template admits locale/event/metadata edits',set(observed['notification_templates']['permitted_fields'])==set(specs['notification_templates']['writable']))
++   case('policy with actual sections admits publication','published'in observed['policy_documents']['permitted_statuses'])
++   case('version with actual template admits publication','published'in observed['notification_template_versions']['permitted_statuses'])
++   newsection={'id':str(uuid.uuid4())};newversion={'id':str(uuid.uuid4())};missing=str(uuid.uuid4())
++   v=rpc(eligible('policy_document_sections',identity=newsection,revision=0));case('new section requires a prospective exact parent',v['blocker']=='parent_required'and not v['permitted_fields'])
++   v=rpc(eligible('policy_document_sections',identity=newsection,revision=0,patch={'policy_document_id':missing}));case('missing exact prospective section parent is refused',v['blocker']=='patch_not_permitted'and not v['permitted_fields'])
++   v=rpc(eligible('policy_document_sections',identity=newsection,revision=0,patch={'policy_document_id':identity_for('policy_documents')['id']}));case('new section with actual draft parent admits immutable wiring at creation',v['blocker']is None and 'policy_document_id'in v['permitted_fields']and v['create_allowed'])
++   v=rpc(eligible('notification_template_versions',identity=newversion,revision=0,patch={'template_key':'missing_template'}));case('new version with missing prospective template is refused',v['blocker']=='patch_not_permitted'and not v['permitted_fields'])
++   raw=' {"body":"Eligible UTF8 α"} ';v=rpc(eligible('policy_document_sections',raw=raw));case('eligibility binds exact UTF8 whitespace and text bytes',v['patch_sha256']==sha(raw.encode()))
++   case('stale requested revision is refused',bool(denied(eligible('policy_documents',revision=observed['policy_documents']['revision']+1),'40001','runtime_control_conflict')))
++   for raw in ['[1]','{"unknown":1}','{"body":',' '*65537]:case('invalid raw patch refused '+str(len(raw)),bool(denied(eligible('policy_document_sections',raw=raw),'22023')))
++   for role in ['anon','service_role']:case(role+' eligibility execution denied',bool(denied(eligible('policy_documents'),role=role)))
++   case('member-owned preferences are excluded',bool(denied("public.admin_get_runtime_control_eligibility_v1('notification_preferences','{}',0,'{}')",'22023','runtime_control_family_invalid')))
++   e=eligible('policy_documents')
++   rr=u.psql(db,'begin isolation level repeatable read;'+u.auth(f.UID,f.SID)+'select '+e+';rollback;',False);case('repeatable read eligibility refused',rr.returncode!=0 and '25001:'in rr.stderr)
++   def permission_probe(permission,expression):return u.psql(db,'begin;delete from public.admin_role_permissions where role_id='+q(f.ROLE)+'and permission_name='+q(permission)+';'+u.auth(f.UID,f.SID)+'select '+expression+';rollback;',False)
++   rr=permission_probe('settings.manage',e);v=json.loads(rr.stdout.strip().splitlines()[-1]);case('read-authorized missing manage is exact false capability without fields',rr.returncode==0 and v['can_manage']is False and v['blocker']=='manage_required'and not v['permitted_fields'])
++   rr=permission_probe('settings.read',e);case('missing family read denies eligibility',rr.returncode!=0 and '42501:'in rr.stderr)
++   rr=permission_probe('audit.read',e);case('eligibility requires family read independently of audit',rr.returncode==0)
++   rr=permission_probe('settings.read',f"public.admin_list_runtime_control_history_v2('policy_documents',{j(identity_for('policy_documents'))},1,null,null)");case('independent audit history unaffected by missing settings read',rr.returncode==0)
++   for label,change in [('revoked approval',f'update collect_admin_access.email_approvals set revoked_at=clock_timestamp()where user_id={q(f.UID)};'),('expired Auth',f"update auth.sessions set not_after=clock_timestamp()-interval '1 second'where id={q(f.SID)};"),('revoked role',f'update public.admin_user_roles set revoked_at=clock_timestamp()where user_id={q(f.UID)};')]:
++    rr=u.psql(db,'begin;'+change+u.auth(f.UID,f.SID)+'select '+e+';rollback;',False);case(label+' refuses eligibility rather than false capability',rr.returncode!=0 and '42501:'in rr.stderr)
++   def mutate(k,patch,revision=None):return rpc(make(k,patch=patch,revision=revision)['sql'])
++   before=rpc(get('policy_document_sections'));mutate('policy_document_sections',{'body':'Supported draft section edit'});case('actual v2 mutation admits supported draft section edit',rpc(get('policy_document_sections'))['value']['body']=='Supported draft section edit')
++   old_revision=before['revision'];case('eligibility cannot override changed current revision',bool(denied(eligible('policy_document_sections',revision=old_revision),'40001','runtime_control_conflict')))
++   v=rpc(eligible('notification_templates',patch={'locale':'fr'}));mutate('notification_templates',{'locale':'fr'});case('draft template contextual edit then original v2 mutation is supported',v['blocker']is None and rpc(get('notification_templates'))['value']['locale']=='fr')
++   v=rpc(eligible('notification_template_versions',patch={'status':'published'}));mutate('notification_template_versions',{'status':'published'});case('approved existing version publication goes through unchanged v2 final guards',v['blocker']is None and rpc(get('notification_template_versions'))['value']['status']=='published')
++   v=rpc(eligible('notification_templates'));case('any actual non-draft version restricts template to enabled only',v['permitted_fields']==['enabled'])
++   v=rpc(eligible('notification_template_versions'));case('published version exposes status-only permitted transitions',v['permitted_fields']==['status']and v['permitted_statuses']==['published','archived'])
++   case('published version cannot return to draft',rpc(eligible('notification_template_versions',patch={'status':'draft'}))['blocker']=='status_not_permitted')
++   case('published version content cannot be edited',rpc(eligible('notification_template_versions',patch={'body_template':'Forbidden'}))['blocker']=='patch_not_permitted')
++   mutate('notification_template_versions',{'status':'archived'});case('archived version cannot unarchive',rpc(eligible('notification_template_versions'))['permitted_statuses']==['archived'])
++   v=rpc(eligible('policy_documents',patch={'status':'published'}));mutate('policy_documents',{'status':'published'});case('actual policy publication with sections is supported by final v2 guard',v['blocker']is None and rpc(get('policy_documents'))['value']['status']=='published')
++   v=rpc(eligible('policy_document_sections'));case('section eligibility changes immediately after actual parent publication',v['blocker']=='parent_published'and not v['permitted_fields'])
++   case('stale draft eligibility cannot bypass final parent publication guard',bool(denied(make('policy_document_sections',patch={'body':'Forbidden after publication'})['sql'],'55000','runtime_control_published_immutable')))
++   mutate('policy_documents',{'status':'archived'});case('archived policy cannot unarchive',rpc(eligible('policy_documents'))['permitted_statuses']==['archived'])
++   # A fresh policy without sections has an actual context; publication alone
++   # remains refused by both the reader and the unchanged v1 final guard.
++   newdoc={'id':str(uuid.uuid4())};patch={'kind':'privacy','locale':'en','version':'eligibility-empty','title':'Synthetic empty draft'}
++   request=make('policy_documents',patch=patch,revision=0);request['identity']=newdoc
++   request['sql']=f"public.admin_update_runtime_control_v2({q(str(uuid.uuid4()))},'policy_documents',{j(newdoc)},{q(json.dumps(patch,separators=(',',':')))},0,'Synthetic draft policy creation',{q(UTC(dt.datetime.now(dt.timezone.utc)+dt.timedelta(seconds=90)))})"
++   rpc(request['sql']);v=rpc(eligible('policy_documents',identity=newdoc));case('empty draft policy cannot publish without sections','published'not in v['permitted_statuses'])
++   case('requested empty policy publication returns redacted sections blocker',rpc(eligible('policy_documents',identity=newdoc,patch={'status':'published'}))['blocker']=='sections_required')
+   def session(name):
+    x=u.Session(db,name);sessions.append(x);x.write("select pg_backend_pid();select 'PID_READY';");lines=x.read('PID_READY');x.pid=int(next(v for v in lines if v.isdigit()));return x
+   def blocked(x,by):
+@@ -162,17 +163,18 @@
+     if scalar(f'select {by.pid}=any(pg_blocking_pids({x.pid}));')=='t':result['actual_blocking_races']+=1;return True
+     time.sleep(.02)
+    raise AssertionError('expected actual blocking absent')
+-  b=session('context_writer');b.write("begin;lock table public.notification_template_versions in row exclusive mode;select 'CONTEXT_HELD';");b.read('CONTEXT_HELD');case('concurrent version insertion predicate writer refuses eligibility NOWAIT',bool(denied(eligible('notification_templates'),'42501','runtime_control_eligibility_unavailable')));b.write("rollback;select 'CONTEXT_RELEASED';");b.read('CONTEXT_RELEASED')
+-  # Read holds exact context predicate fences through its transaction; actual
+-  # parent mutation blocks, then a later observation sees the committed change.
+-  b=session('eligibility_context_observer');b.write('begin;'+u.auth(f.UID,f.SID)+'select '+eligible('policy_documents',identity=newdoc)+";select 'ELIGIBILITY_HELD';");b.read('ELIGIBILITY_HELD')
+-  w=session('parent_change');w.write('begin;update public.policy_documents set title=\'Changed after eligibility\'where id='+q(newdoc['id'])+";commit;select 'PARENT_CHANGED';");case('actual parent writer waits behind retained eligibility context fence',blocked(w,b));b.write("commit;select 'ELIGIBILITY_RELEASED';");b.read('ELIGIBILITY_RELEASED');lines=w.read('PARENT_CHANGED');case('parent change commits after eligibility transaction release',not any('ERROR:'in x for x in lines),lines)
+-  case('new eligibility rejects superseded parent revision',bool(denied(eligible('policy_documents',identity=newdoc,revision=v['revision']),'40001','runtime_control_conflict')))
++  if a.scope!='final-only':
++   b=session('context_writer');b.write("begin;lock table public.notification_template_versions in row exclusive mode;select 'CONTEXT_HELD';");b.read('CONTEXT_HELD');case('concurrent version insertion predicate writer refuses eligibility NOWAIT',bool(denied(eligible('notification_templates'),'42501','runtime_control_eligibility_unavailable')));b.write("rollback;select 'CONTEXT_RELEASED';");b.read('CONTEXT_RELEASED')
++   # Read holds exact context predicate fences through its transaction; actual
++   # parent mutation blocks, then a later observation sees the committed change.
++   b=session('eligibility_context_observer');b.write('begin;'+u.auth(f.UID,f.SID)+'select '+eligible('policy_documents',identity=newdoc)+";select 'ELIGIBILITY_HELD';");b.read('ELIGIBILITY_HELD')
++   w=session('parent_change');w.write('begin;update public.policy_documents set title=\'Changed after eligibility\'where id='+q(newdoc['id'])+";commit;select 'PARENT_CHANGED';");case('actual parent writer waits behind retained eligibility context fence',blocked(w,b));b.write("commit;select 'ELIGIBILITY_RELEASED';");b.read('ELIGIBILITY_RELEASED');lines=w.read('PARENT_CHANGED');case('parent change commits after eligibility transaction release',not any('ERROR:'in x for x in lines),lines)
++   case('new eligibility rejects superseded parent revision',bool(denied(eligible('policy_documents',identity=newdoc,revision=v['revision']),'40001','runtime_control_conflict')))
+   # Clock authority must be rechecked after an actual non-context head wait.
+   sql(f"update collect_admin_access.email_approvals set expires_at=clock_timestamp()+interval '2 seconds'where user_id={q(f.UID)};")
+   revision=rpc(get('brand_entities'),sid=u.SID2 if False else f.SID)['revision']
+   b=session('eligibility_head_blocker');b.write("begin;select 1 from collect_security.runtime_control_heads where family='brand_entities'and identity="+j(identity_for('brand_entities'))+" for update;select 'HEAD_HELD';");b.read('HEAD_HELD')
+-  w=session('eligibility_expiry_waiter');w.write('begin;'+u.auth(f.UID,f.SID)+'select '+eligible('brand_entities',revision=revision)+";commit;select 'EXPIRY_DONE';");case('actual eligibility head wait observed',blocked(w,b));time.sleep(2.1);b.write("rollback;select 'HEAD_RELEASED';");b.read('HEAD_RELEASED');lines=w.read('EXPIRY_DONE');case('approval expiry after actual head wait denies instead of publishing stale observation',any('42501: runtime_control_session_required'in x for x in lines),lines);sql(f'update collect_admin_access.email_approvals set expires_at=null where user_id={q(f.UID)};')
++  w=session('eligibility_expiry_waiter');w.write('begin;'+u.auth(f.UID,f.SID)+'select '+eligible('brand_entities',revision=revision)+";commit;select 'EXPIRY_DONE';");case('actual eligibility head wait observed',blocked(w,b));time.sleep(2.1);b.write("rollback;select 'HEAD_RELEASED';");b.read('HEAD_RELEASED');lines=w.read('EXPIRY_DONE');case('approval expiry after actual head wait denies instead of publishing stale observation',any('42501: runtime_control_permission_required'in x or '42501: runtime_control_session_required'in x for x in lines),lines);sql(f'update collect_admin_access.email_approvals set expires_at=null where user_id={q(f.UID)};')
+   case('read-only eligibility and governed mutations preserve financial evidence',f.business_fingerprint(db)==financial)
+   case('captured exact source inputs unchanged',all(sha(path.read_bytes())==result['source_sha256'][key]for key,path in sources.items()))
+   result['status']='pass';result['completed_at']=now()

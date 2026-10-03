@@ -1,0 +1,34 @@
+{
+  "status": "ready_for_root_review",
+  "sealed_at": "2026-10-01T21:54:59.391483+00:00",
+  "sql": {
+    "checks": 36,
+    "unique_checks": 36,
+    "passed": 36,
+    "command_receipts": 547,
+    "prerequisites": 185,
+    "migration_sha256": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+    "source_unchanged": true,
+    "target_removed": true,
+    "result_sha256": "5f17ded665f39ce1da3aaa497b37f8b4f0abee9bec5ded683891c743f4e02946"
+  },
+  "consumers": {
+    "edge": 31,
+    "mcp": 7,
+    "admin_models": 7,
+    "typecheck": "separate corrected terminal0 tail",
+    "composed": true,
+    "fresh_whole_command": false,
+    "source_inputs": 98,
+    "dependency_files": 1608,
+    "symlink_inputs": 12,
+    "frozen_inputs_sha256": "4966d8ae7412eea4a770414f2693c6007d62c11296f6225ab24a5f7fd9df805c",
+    "tail_result_sha256": "6d80ff649227163c99cf215b8c00949d010a5054eb82299202f3f1f5d8a1d4d6"
+  },
+  "migration_count_at_seal": 196,
+  "complete_candidate": false,
+  "hosted": false,
+  "rendered_admin": false,
+  "sms_sent": false,
+  "canonical_source_written": false
+}

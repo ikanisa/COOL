@@ -1,0 +1,17 @@
+{
+  "analysis": "Original15 scope retained; store2, contract5 and currentUI4 affected scopes are separately clean; overlap is not summed into a new aggregate.",
+  "browser": "original Chrome14 remains predecessor; final six store cases were actually rerun against revised model. Do not sum as20 distinct/current cases.",
+  "inputs": {
+    "lib/admin/core/admin_sender_picker.dart": "ddfbf2a0315bf7357cc1becd481244873c576f42d5738b6ad38d5f430b6ac5f1",
+    "lib/admin/core/admin_sender_retention_host.dart": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3",
+    "lib/admin/core/admin_sender_retention_sdk.dart": "d12f904a57ac2932b0548091ce36ed75d7b7b17d16f9da4ce1fd476898d14737",
+    "lib/admin/core/admin_sender_retention_view.dart": "68deed4f8404d37e9ad1ebef506a1d98ac7e135b14f24bb7cf220d2055109135",
+    "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d",
+    "test/admin_sender_retention_view_test.dart": "5eb0e7d943681db5b4212e8b0478f53f35acee8bae236540d19a28380ad66c65",
+    "test/support/retention_api_fixture.dart": "6ac442be2d40e0266e7f34880eba6c0aeaad4ccf32872d052327333f54212305",
+    "test/support/retention_fixture.dart": "70753d50acbbfe6cce3184c6bc165217b4d6eea8dfcad8aea8b32729bb607c36"
+  },
+  "models": "12 strict model cases inside protocol-correction1 remain exactly source-associated; current model, exact fixture/support and model test are unchanged. Its14 earlier controller cases are superseded by current15 controller scope.",
+  "sql": "45+3 predecessor and12 corrected lookup separate scopes; no SQL byte changed or SQL rerun after either browser/model correction",
+  "widget": "Current validation-correction1 actually passed15 controller+6 widget cases on exact final model/controller/store and producer fixture graph. Earlier widget6 and VM23 remain historical independent scopes, not additive new acceptance."
+}

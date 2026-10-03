@@ -1,0 +1,25 @@
+--- reviewed/lib/admin/core/admin_entity_audit_link.dart
++++ observed/lib/admin/core/admin_entity_audit_link.dart
+@@ -6,11 +6,13 @@
+     required this.kind,
+     required this.id,
+     this.onOpenHistory,
++    this.enabled = true,
+     super.key,
+   });
+   final AdminAuditEntityKind kind;
+   final String id;
+   final VoidCallback? onOpenHistory;
++  final bool enabled;
+ 
+   @override
+   Widget build(BuildContext context, WidgetRef ref) {
+@@ -29,7 +31,7 @@
+     }
+     return OutlinedButton.icon(
+       key: ValueKey('entity-audit-link-${kind.wire}-$id'),
+-      onPressed: onOpenHistory ?? () => context.push(path),
++      onPressed: enabled ? onOpenHistory ?? () => context.push(path) : null,
+       icon: const Icon(Icons.history),
+       label: const Text('View action history'),
+     );

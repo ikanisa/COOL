@@ -1,0 +1,7 @@
+test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request (__main__.ArchiveAdmissionTest.test_hosted_dump_requires_verify_full_and_exact_pinned_rootcert_before_request) ... ok
+test_pinned_rootcert_drift_refuses_before_first_request (__main__.ArchiveAdmissionTest.test_pinned_rootcert_drift_refuses_before_first_request) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.543s
+
+OK

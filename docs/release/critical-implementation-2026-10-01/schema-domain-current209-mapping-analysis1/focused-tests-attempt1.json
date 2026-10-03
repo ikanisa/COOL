@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/scripts/tests/collect_schema_function_lineage_test.py"
+  ],
+  "actual_seconds": 0.778,
+  "deadline_seconds": 30,
+  "exit_code": 1
+}

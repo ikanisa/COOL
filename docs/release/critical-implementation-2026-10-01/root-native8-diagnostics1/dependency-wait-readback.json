@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "utc": "2026-10-02T11:59:01.999604+00:00",
+  "owned_pid": 74694,
+  "identity_verified": true,
+  "dependency_download_frames": [
+    "DefaultExternalResourceArtifactResolver.resolveArtifact",
+    "DownloadAction.execute"
+  ],
+  "open_download_leaves": [
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle15830891491277334542.bin",
+      "size": 162545,
+      "mtime_ns": 1790941477466888137
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle13822220669423647442.bin",
+      "size": 89753,
+      "mtime_ns": 1790941477466881679
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle6247810805927525620.bin",
+      "size": 7511,
+      "mtime_ns": 1790941490929682232
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle4510092640256302520.bin",
+      "size": 4762,
+      "mtime_ns": 1790941490929667524
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/problems-report3594481128292295015.html",
+      "size": 57344,
+      "mtime_ns": 1790941580989010134
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle13921277007163358274.bin",
+      "size": 179420,
+      "mtime_ns": 1790941618787786517
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle16155786818642869669.bin",
+      "size": 77978,
+      "mtime_ns": 1790941618787772766
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle2920282513461507783.bin",
+      "size": 137006,
+      "mtime_ns": 1790941624336041354
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle13518671488518816591.bin",
+      "size": 59048,
+      "mtime_ns": 1790941624336017478
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle_download10938969223111776897bin",
+      "size": 173048993,
+      "mtime_ns": 1790942341590550284
+    },
+    {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/.tmp/gradle_download13678201948270186631bin",
+      "size": 55320804,
+      "mtime_ns": 1790942341973766721
+    }
+  ],
+  "owned_tcp_readback": "COMMAND   PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\njava    74694 jeanbosco  305u  IPv6 0x8b7efbb6e2790dd6      0t0  TCP 127.0.0.1:61703 (LISTEN)\njava    74694 jeanbosco  306u  IPv6 0xb5027d58a5ead237      0t0  TCP 127.0.0.1:61703->127.0.0.1:61705 (ESTABLISHED)\njava    74694 jeanbosco 1010u  IPv6 0xe37d863527cf30a4      0t0  TCP 192.168.1.40:61896->192.178.202.93:443 (CLOSE_WAIT)\njava    74694 jeanbosco 1016u  IPv6 0x4d06f3856d9b935c      0t0  TCP 192.168.1.40:61902->104.154.125.27:443 (ESTABLISHED)\njava    74694 jeanbosco 1058u  IPv6 0x6229414057991029      0t0  TCP 192.168.1.40:61883->192.178.202.93:443 (CLOSE_WAIT)\njava    74694 jeanbosco 1059u  IPv6 0x9d0e2794ce94b5a9      0t0  TCP 192.168.1.40:61884->192.178.202.93:443 (CLOSE_WAIT)\njava    74694 jeanbosco 1062u  IPv6 0x91b203aa3838e247      0t0  TCP [::192.168.1.40]:61887->[::104.18.18.12]:443 (CLOSED)\njava    74694 jeanbosco 1063u  IPv6 0xe3d48590a2b1b34d      0t0  TCP [::192.168.1.40]:61888->[::104.18.18.12]:443 (CLOSED)\njava    74694 jeanbosco 1065u  IPv6 0x6a53f28a07cfa744      0t0  TCP [::192.168.1.40]:61897->[::104.18.18.12]:443 (CLOSED)\njava    74694 jeanbosco 1067u  IPv6  0xa42bb4d355e3acc      0t0  TCP 192.168.1.40:61901->104.154.125.27:443 (ESTABLISHED)\n",
+  "mutations": "diagnostic evidence only; no process or build changes"
+}

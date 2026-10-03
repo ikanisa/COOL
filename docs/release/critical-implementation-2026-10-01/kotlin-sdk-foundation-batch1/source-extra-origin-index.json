@@ -1,0 +1,55 @@
+{
+  "requests": {
+    "DependencyVersionChecker.kt": {
+      "bytes": 16176,
+      "fetched_utc": "2026-10-01T23:53:03.968005+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+      "http_status": 200,
+      "retained_file": "DependencyVersionChecker.kt",
+      "sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "source_path": "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt"
+    },
+    "DependencyVersionCheckerTest.kt": {
+      "bytes": 21048,
+      "fetched_utc": "2026-10-01T23:53:05.705636+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt",
+      "http_status": 200,
+      "retained_file": "DependencyVersionCheckerTest.kt",
+      "sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "source_path": "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt"
+    },
+    "official-LICENSE": {
+      "bytes": 1519,
+      "fetched_utc": "2026-10-01T23:53:03.967337+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/LICENSE",
+      "http_status": 200,
+      "retained_file": "official-LICENSE",
+      "sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+      "source_path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/LICENSE"
+    },
+    "resolve_dependencies.gradle.kts": {
+      "bytes": 2848,
+      "fetched_utc": "2026-10-01T23:53:03.967751+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/resolve_dependencies.gradle.kts",
+      "http_status": 200,
+      "retained_file": "resolve_dependencies.gradle.kts",
+      "sha256": "10a6cdd619b5f38d56acd628198f097c2777e4ad75d9d2a78a3cfefbd4e1d647",
+      "source_path": "packages/flutter_tools/gradle/resolve_dependencies.gradle.kts",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/resolve_dependencies.gradle.kts"
+    },
+    "sdk-build.gradle.kts": {
+      "bytes": 2866,
+      "fetched_utc": "2026-10-01T23:53:03.967905+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/build.gradle.kts",
+      "http_status": 200,
+      "retained_file": "sdk-build.gradle.kts",
+      "sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "source_path": "packages/flutter_tools/gradle/build.gradle.kts",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/ad70ec4617166f1c38e5d2bfd388af71fda14f06/packages/flutter_tools/gradle/build.gradle.kts"
+    }
+  },
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+}

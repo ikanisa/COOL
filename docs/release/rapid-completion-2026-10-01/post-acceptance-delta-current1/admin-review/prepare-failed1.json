@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "cause": "copytree followed unrelated MCP node_modules symlink, introducing unconsumed files; declared composite files and source bytes all matched",
+  "preserved_copy": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/post-acceptance-admin-review-prepare-failed1",
+  "correction": "copy only2519 declared composite files, never follow unrelated directory symlinks"
+}

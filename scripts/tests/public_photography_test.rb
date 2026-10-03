@@ -143,10 +143,13 @@ class PublicPhotographyTest < Minitest::Test
   end
 
   def test_stylesheet_cache_version_changes_with_delivery_dependencies
-    %w[scripts/public_static_site_build.rb scripts/public_photography.rb web/public/revolut.css].each { |file| write(file, 'initial source') }
+    %w[scripts/public_static_site_build.rb scripts/public_photography.rb web/public/layout.css web/public/revolut.css].each { |file| write(file, 'initial source') }
     first = PublicPhotography.asset_version(@directory)
     assert_equal first, PublicPhotography.asset_version(@directory)
     write('web/public/revolut.css', 'updated picture selector')
     refute_equal first, PublicPhotography.asset_version(@directory)
+    changed_styles = PublicPhotography.asset_version(@directory)
+    write('web/public/layout.css', 'updated public responsive layout')
+    refute_equal changed_styles, PublicPhotography.asset_version(@directory)
   end
 end

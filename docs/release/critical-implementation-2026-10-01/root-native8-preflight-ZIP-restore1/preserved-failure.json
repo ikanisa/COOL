@@ -1,0 +1,190 @@
+{
+  "actual_native_command_not_spawned": true,
+  "all_bytes_and_other_identities_exact": true,
+  "archive": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/native8-preflight-missing-rawzip-32af4986767144ee809d65011bbc6593",
+  "before_inventory": {
+    ".": {
+      "ctime_ns": 1790941054348103899,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417338,
+      "kind": "directory",
+      "mode": 16832,
+      "mtime_ns": 1790941054348103899,
+      "nlink": 12,
+      "size": 384,
+      "uid": 501
+    },
+    "SDK-readback-before-built.json": {
+      "ctime_ns": 1790941044644623221,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417353,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941044644623221,
+      "nlink": 1,
+      "sha256": "2f0c22888d0255e1db0eeba7ae362b903a5a9f1b65cf66142693bbff2e42680e",
+      "size": 1101,
+      "uid": 501
+    },
+    "SDK-readback-before-built.stderr": {
+      "ctime_ns": 1790941035588640464,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417341,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941035588625797,
+      "nlink": 1,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "uid": 501
+    },
+    "SDK-readback-before-built.stdout": {
+      "ctime_ns": 1790941043903687797,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417340,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941043903687797,
+      "nlink": 1,
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "size": 756,
+      "uid": 501
+    },
+    "SDK-source-before-built.json": {
+      "ctime_ns": 1790941043902597906,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417351,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941043902597906,
+      "nlink": 1,
+      "sha256": "dc44b7b2da3a6056f53aa33c8060ba1dd6779f35fd526fe265564c2e3271007a",
+      "size": 6880417,
+      "uid": 501
+    },
+    "actual-failure-SDK-source.json": {
+      "ctime_ns": 1790941053549755102,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417389,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941053549755102,
+      "nlink": 1,
+      "sha256": "dc44b7b2da3a6056f53aa33c8060ba1dd6779f35fd526fe265564c2e3271007a",
+      "size": 6880417,
+      "uid": 501
+    },
+    "failure-source-readback.json": {
+      "ctime_ns": 1790941053849117901,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417390,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941053849117901,
+      "nlink": 1,
+      "sha256": "9497b511c739021b713542b61cf81dd18fc13ea057a4e19ca2e324b4a1021478",
+      "size": 1103,
+      "uid": 501
+    },
+    "failure-source-readback.stderr": {
+      "ctime_ns": 1790941044782901905,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417355,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941044782886030,
+      "nlink": 1,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "uid": 501
+    },
+    "failure-source-readback.stdout": {
+      "ctime_ns": 1790941053551221916,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417354,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941053551221916,
+      "nlink": 1,
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "size": 756,
+      "uid": 501
+    },
+    "start.json": {
+      "ctime_ns": 1790941035588066663,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417339,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941035588066663,
+      "nlink": 1,
+      "sha256": "becaab3ac95a0883cab16e8c287dc8876105b755110e55e3d71ad20dc093ab3f",
+      "size": 415,
+      "uid": 501
+    },
+    "terminal.json": {
+      "ctime_ns": 1790941054348265777,
+      "dev": 16777232,
+      "gid": 20,
+      "ino": 60417395,
+      "kind": "regular",
+      "mode": 33188,
+      "mtime_ns": 1790941054348265777,
+      "nlink": 1,
+      "sha256": "5c0c3bf83c458defec71950890e1d633b03bd9a8e2318be6b15f202c0e387bd4",
+      "size": 1842,
+      "uid": 501
+    }
+  },
+  "failed_terminal": {
+    "actual_error_type": "FileNotFoundError",
+    "actual_failure_diagnostics": {
+      "actual_failure_source_process": {
+        "actual_seconds": 9.065,
+        "argv": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+          "built",
+          "--output",
+          "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/native/actual-failure-SDK-source.json"
+        ],
+        "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+        "deadline_seconds": 300,
+        "exit_code": 0,
+        "finished_utc": "2026-10-02T11:37:33.847479+00:00",
+        "headroom_failure": false,
+        "owned_process_group_absent": true,
+        "pid": 73599,
+        "residual_process_group_required_stop": false,
+        "spawned": true,
+        "started_utc": "2026-10-02T11:37:24.782698+00:00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+        "timed_out": false
+      },
+      "protected_after_failure": {
+        "no_original_metadata_restoration_performed": true,
+        "protected_metadata_paths_unchanged": 68020
+      }
+    },
+    "partial_failure_preserved": true,
+    "production_release_approval": false,
+    "public_error": "[Errno 2] No such file or directory: '/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip'",
+    "retry_or_next_stage_admitted": false,
+    "stage": "native",
+    "stage_pass": false
+  },
+  "no_APP_SDK_or_native_build_moved": true
+}

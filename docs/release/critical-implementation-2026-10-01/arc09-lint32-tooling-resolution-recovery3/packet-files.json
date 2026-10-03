@@ -1,0 +1,162 @@
+{
+  "payload_files": [
+    {
+      "bytes": 2251,
+      "path": "README.md",
+      "sha256": "01681246050878688f4586cd1d14fc8b4b62d653ae1c951601dec67f30be7676"
+    },
+    {
+      "bytes": 2367,
+      "path": "commands.json",
+      "sha256": "c1b14368a2b6aeff360a39eb585c4580cd1eebfac938cfdc9ef429260eb0f369"
+    },
+    {
+      "bytes": 8139,
+      "path": "exact-source-rebind.json",
+      "sha256": "eb4b0f2f969c7199a262921384b5d3c9a4bf6271e73efe069f3c0a16807eb8c9"
+    },
+    {
+      "bytes": 1908,
+      "path": "groovy-limited-checks.json",
+      "sha256": "2a06cbe2827df4c4d4a7287fa789ca32ffc865fc79bfeed9bb5141fd4c0cc29d"
+    },
+    {
+      "bytes": 0,
+      "path": "groovy-limited-checks.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 817,
+      "path": "groovy-limited-checks.stdout.txt",
+      "sha256": "041f35869fec5659fd64d749a9d10766292255c4c1ccb2cf3d867d32fe84530a"
+    },
+    {
+      "bytes": 1556,
+      "path": "installed-public-POM-result-API-readback.json",
+      "sha256": "187fd27dc0af3f287ae637617ff9a9d987664a62e5fe36499a8d999afdf88753"
+    },
+    {
+      "bytes": 95203,
+      "path": "limited-test-classpath-fences-after.json",
+      "sha256": "9dc6e5c88d0b4903a4a3edc9c408e198dff41533e2d2d4a41ad9318663de2281"
+    },
+    {
+      "bytes": 95429,
+      "path": "limited-test-classpath-fences-before.json",
+      "sha256": "3061140077ce4e56cfcc6c808070342119559b9afa824ed6e1ba28de9d97f575"
+    },
+    {
+      "bytes": 9099,
+      "path": "limited_groovy_checks.groovy",
+      "sha256": "2f84837d15e6df9a76a2ce8c28adf9cd9cf91c7d3cfba5136502af01b9c1b223"
+    },
+    {
+      "bytes": 3951,
+      "path": "limited_preparation_test.py",
+      "sha256": "2d4f267a51ecc68bcb33e6931a77f2a9b1ee2e769467b9266b523103eb027db4"
+    },
+    {
+      "bytes": 13097,
+      "path": "minimal-project/build.gradle",
+      "sha256": "d205c5246f02e110913384e4f249b0855801461b1a1d809b3843fd0041fd1b65"
+    },
+    {
+      "bytes": 390,
+      "path": "minimal-project/settings.gradle",
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    {
+      "bytes": 360,
+      "path": "plan-preparation-note.json",
+      "sha256": "9ad26bcfcc83c767ccb62719dd6df4aa2a22ad2cb99cc06c92edd7b346b039f2"
+    },
+    {
+      "bytes": 1930,
+      "path": "public-POM-result-API.patch",
+      "sha256": "f2fcfce1e307dc455d4396b68a033322ed018aafd2bd7f09b6e43790b6702fe6"
+    },
+    {
+      "bytes": 195683,
+      "path": "publisher-filename-binding-plan.json",
+      "sha256": "c989c543c08a8150e79e6f0e71d736102c31d98e65b7594a1db6b89225aa598c"
+    },
+    {
+      "bytes": 893,
+      "path": "python-limited-checks.json",
+      "sha256": "0ce4022ac67ff3f780d36908ff39e6fcbe891f5b512fbd493a53c725fb1655a3"
+    },
+    {
+      "bytes": 1019,
+      "path": "python-limited-checks.stderr.txt",
+      "sha256": "1f5448c8076d732f929847d50b8b1e927c3892ec917c893b791ca357f1f4a6ac"
+    },
+    {
+      "bytes": 0,
+      "path": "python-limited-checks.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 16093,
+      "path": "read_publisher_provenance.py",
+      "sha256": "0e9f4ad268cd2faf5d3b427fee1a0fcdf596d9bd47837f4ed293873bebea81ae"
+    },
+    {
+      "bytes": 4006,
+      "path": "reference-fences-after.json",
+      "sha256": "2be4bff4817ac33d9f58a81be403e145673a7ebbcd234669132fe1c80433db64"
+    },
+    {
+      "bytes": 3863,
+      "path": "reference-fences-before.json",
+      "sha256": "001ddb5fbadacde4637ef59659d58def964fa9fb5b918155fd4b4bbcb4a49303"
+    },
+    {
+      "bytes": 3485,
+      "path": "run-limited-checks.py",
+      "sha256": "9688249dcfd3011319b3e582924b52ddb5c18df08aee0e0bf2d6f1d8ccca087d"
+    },
+    {
+      "bytes": 9796,
+      "path": "run_resolution.py",
+      "sha256": "53a89d40f693f110d4fd5ae834e889d2090fe1ff72d078a259cd244cccd47e58"
+    },
+    {
+      "bytes": 12129,
+      "path": "source-fences.json",
+      "sha256": "587d18bb3a1b2889304b74cd3a406af9aff9d15e4b4821fb38275f815bcd215d"
+    },
+    {
+      "bytes": 6136,
+      "path": "static-readback.json",
+      "sha256": "a544fcbca3fd21ee6d8a6a06598784d3219731d4e5d71e5903f0f6d7ebf09b49"
+    },
+    {
+      "bytes": 1485,
+      "path": "test-fixtures/fixture-metadata.json",
+      "sha256": "a9acdf835140c751e59593b87918c34a8d030790a8b288e6da8ba0a6e582f4d8"
+    },
+    {
+      "bytes": 740,
+      "path": "test-fixtures/fixture-metadata.json.checkpoint-0.json",
+      "sha256": "902f967d98eda5c5a1531a1ae585c2de7370a22b406094dd64d4e84e06db05a3"
+    },
+    {
+      "bytes": 1107,
+      "path": "test-fixtures/fixture-metadata.json.checkpoint-1.json",
+      "sha256": "9b9121a67d0e6c9de3613640388a501d61d745c477db19bacb4084da62b55313"
+    },
+    {
+      "bytes": 1485,
+      "path": "test-fixtures/fixture-metadata.json.checkpoint-2.json",
+      "sha256": "a9acdf835140c751e59593b87918c34a8d030790a8b288e6da8ba0a6e582f4d8"
+    },
+    {
+      "bytes": 10,
+      "path": "test-fixtures/one-public-facade-fixture.pom",
+      "sha256": "618a333ca21cdc97fc758355c6127cb83ae2a1b0c892a8b7a1b726b02d378a54"
+    }
+  ],
+  "private_preparation_only": true,
+  "schema_version": 1,
+  "source_fences_sha256": "587d18bb3a1b2889304b74cd3a406af9aff9d15e4b4821fb38275f815bcd215d"
+}

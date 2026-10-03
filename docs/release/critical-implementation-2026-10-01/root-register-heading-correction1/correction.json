@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T03:26:44.933509+00:00",
+  "scope": "Correct one stale closure-count sentence in the critical register heading after exact six-file hash guard; no JSON criterion/task/state/source mutation. Prior sealed registers-after remain unchanged historical copies.",
+  "changed_file": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+  "before_sha256": "25b20c19b3727949cf0dcdf91df74bb3170a0eecddc3a3d58ad685dd2714fdd1",
+  "after_sha256": "835d3b1400fdd50481bf34e990b57794dd9c0e1921ef6ae2d164b5b91d7c2bb0",
+  "replaced_before": "PD-02 local provenance/downstream proof and PD-14 sole-authority hygiene are closed;38 findings remain open in full.",
+  "replacement": "ARC-04\u2019s original local CI contract, PD-02 local provenance/downstream proof and PD-14 sole-authority hygiene are closed; 37 findings remain open in full.",
+  "original40_requirements_preserved": true,
+  "original102_production_and24_local_rows_preserved": true,
+  "closed_ids": [
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_findings_open": 37,
+  "production_ready": false,
+  "goal_status": "active",
+  "current_six_register_hashes": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "54cbf430bc6498498c939a9120f143d246b091c2ecfc3511fc878923d8b70934",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "835d3b1400fdd50481bf34e990b57794dd9c0e1921ef6ae2d164b5b91d7c2bb0",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "ae06b13a14209553b8d0c912275438261ad1d46a40829ea33711dc1385fd50dd",
+    "docs/release/local-implementation-register-2026-09-30.json": "0d525637a288cc98e16a001c0f2bee04bec8e76aace6de4ef8a4c5a3833911d0",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "c114626d22bec85828fd17089270b40fd1041ed5f0ddc866db850b74c6cbe200",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "436fa817a48307e80289ee39983b80c4c1066e1941fe94c988dda3fe7c3ed0a8"
+  },
+  "prior_reconciliation_packet_sha256": "785dab0200c94b900f2f38b6b0ee316c0a545b5f17a1d4b00863b799fb85973d",
+  "maintained_runtime_mutations": 0
+}

@@ -1,0 +1,4 @@
+ERROR:  55P03: could not obtain lock on row in relation "feature_flags"
+CONTEXT:  SQL statement "SELECT to_jsonb(f)                     FROM public.feature_flags f WHERE key='hybrid_sms_notifications' FOR UPDATE NOWAIT"
+PL/pgSQL function inline_code_block line 46 at SQL statement
+LOCATION:  heap_lock_tuple, heapam.c:4985

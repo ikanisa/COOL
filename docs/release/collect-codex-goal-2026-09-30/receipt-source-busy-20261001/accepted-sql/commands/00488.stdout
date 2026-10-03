@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"action": "complete_run", "run_id": "25b98d8b-f084-4bfe-9d6e-00dde5a8d8d0", "status": "completed", "request_id": "746759d6-39e1-4f7f-a81d-2eb09dc23a10", "observed_at": "2026-10-01T21:48:57.791511Z", "action_count": 1, "principal_id": "e3a569ea-ecd1-4da7-bd89-c4414b5dee05", "sms_segments": 0, "fence_version": 2, "handled_count": 0, "deferred_count": 1, "business_handled": false, "contract_version": 2}

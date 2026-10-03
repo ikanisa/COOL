@@ -1,0 +1,82 @@
+{
+  "current-inventory-auth-check": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1) (allow default) (deny network*)",
+      "/usr/bin/ruby",
+      "scripts/edge_function_inventory.rb",
+      "auth-check"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 20,
+    "elapsed_seconds": 0.08726229099920602,
+    "exit_code": 1,
+    "logs": {
+      "stderr": {
+        "bytes": 118,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-inventory-auth-check.stderr",
+        "sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-inventory-auth-check.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "timed_out": false
+  },
+  "current-readiness-shell-syntax": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1) (allow default) (deny network*)",
+      "/bin/bash",
+      "-n",
+      "scripts/supabase_production_readiness.sh"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 20,
+    "elapsed_seconds": 0.01411812500009546,
+    "exit_code": 0,
+    "logs": {
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-readiness-shell-syntax.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-readiness-shell-syntax.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "timed_out": false
+  },
+  "current-ruby-inventory-tests": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1) (allow default) (deny network*)",
+      "/usr/bin/ruby",
+      "scripts/tests/edge_function_inventory_test.rb"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 180,
+    "elapsed_seconds": 0.4244713750013034,
+    "exit_code": 1,
+    "logs": {
+      "stderr": {
+        "bytes": 0,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-ruby-inventory-tests.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 601,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-current-readback1/current-ruby-inventory-tests.stdout",
+        "sha256": "cac8c8ff29aa1a03f985da3a63749d727f4cb71f1acd0332f6f287d454aee01d"
+      }
+    },
+    "timed_out": false
+  }
+}

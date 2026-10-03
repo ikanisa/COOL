@@ -1,0 +1,13 @@
+{
+  "integrated_at": "2026-10-01T21:47:18.086870+00:00",
+  "manifest_members_verified": 81,
+  "composed_unique_passing_cases": 79,
+  "canonical_sha256": {
+    "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "scripts/tests/runtime_control_edit_eligibility_uat.py": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238"
+  },
+  "predecessor_and_tool_inputs_verified": true,
+  "whole_candidate_rehearsed": false,
+  "tail_scope_only": "10 actual passes; seven duplicate prerequisite cases not added",
+  "terminal_handle_limit": "write_stdin authoritatively returned Unknown process id; retained completed pass artifact, no invented process exit code"
+}

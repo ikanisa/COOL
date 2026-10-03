@@ -1,0 +1,157 @@
+{
+  "integrated_at": "2026-10-01T21:43:38.144857+00:00",
+  "packet_members_verified": 305,
+  "canonical_consumers_inspected": 646,
+  "preserved_newer_canonical_deltas": [
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "before_sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+      "current_sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12"
+    },
+    {
+      "path": "lib/features/landing/public_content.dart",
+      "before_sha256": "db904222faa1e96e183b3fee364743ecae98b61e58c58562e13da770d8240d71",
+      "current_sha256": "5b5b4ab791cd40ff6c45501492fdbf4a987b54586683f6118a3dd7acd7b0c8a8"
+    },
+    {
+      "path": "lib/features/landing/collect_landing_page.dart",
+      "before_sha256": "7dbae0784268e481772f2eb9e67e018b77189f59a150f5b105f5741f6469a94f",
+      "current_sha256": "d4f98b406b98b5125fceda5d72779545c5874bd3dea1b5cc833d45063348b3e5"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "before_sha256": "06b465eea80b04e0d3c662a748cf12a69b1faf79a6dbf6a5e185e0b1689ee625",
+      "current_sha256": "918f4249030efdd3f205f9d564af08bf84041e6c5e0552784ada641df3aca94b"
+    },
+    {
+      "path": "lib/features/payments/contribution_flow_screen.dart",
+      "before_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+      "current_sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_import.dart",
+      "before_sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+      "current_sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "before_sha256": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+      "current_sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42"
+    },
+    {
+      "path": "lib/admin/core/admin_overview_runtime.dart",
+      "before_sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40",
+      "current_sha256": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository.dart",
+      "before_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "current_sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1"
+    },
+    {
+      "path": "third_party/file_saver/COLLECT_FORK.md",
+      "before_sha256": "053efdd24d6b5629ead516a31bea70aaf9c399cb1cf4c4fb3b5a784b3b73d454",
+      "current_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7"
+    },
+    {
+      "path": "third_party/file_saver/android/build.gradle",
+      "before_sha256": "d81ac67b597d40d5e01e8cabfbb97d745d943d7793fa032f4778a232d96755fc",
+      "current_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+    }
+  ],
+  "rebased_integration": {
+    "lib/admin/core/admin_runtime.dart": {
+      "current_old_sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+      "sealed_old_sha256": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+      "sealed_new_sha256": "d3212228bcad6f53b131ecd2f7bd95a5dbdb8d79894f4271c61e003494bfbedb",
+      "current_new_sha256": "702fbdf480b9b5d0745d60a761dbedec2b3a367ce8548674ddc85c962b7574aa"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "current_old_sha256": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+      "sealed_old_sha256": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509",
+      "sealed_new_sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+      "current_new_sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184"
+    },
+    "lib/admin/admin_router.dart": {
+      "current_old_sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+      "sealed_old_sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276",
+      "sealed_new_sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "current_new_sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360"
+    }
+  },
+  "dependency_files_and_links_inspected": 1464,
+  "changed_external_tool": [
+    {
+      "path": "/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "before_sha256": "4e0c9634bbafc4007a5d5d72cfcb7101fda2ac519daf7cf2beefcbbed4136361",
+      "current_sha256": "b4a14b08946ab78756169696fd272d6c3040a22df52da4f83f665225685f4c10"
+    }
+  ],
+  "canonical_promoted_sha256": {
+    "lib/admin/core/admin_runtime.dart": "702fbdf480b9b5d0745d60a761dbedec2b3a367ce8548674ddc85c962b7574aa",
+    "lib/admin/core/admin_repository_base.dart": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+    "lib/admin/admin_router.dart": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+    "lib/admin/core/admin_governed_settings_models.dart": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+    "lib/admin/core/admin_governed_settings_runtime.dart": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+    "lib/admin/core/admin_governed_settings_controller.dart": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+    "lib/admin/core/admin_governed_settings_checkpoint_stub.dart": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+    "lib/admin/core/admin_governed_settings_page.dart": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+    "lib/admin/core/admin_governed_settings_registry.dart": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+    "lib/admin/core/admin_governed_settings_sdk.dart": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+    "lib/admin/core/admin_governed_settings_checkpoint.dart": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+    "test/admin_governed_settings_controller_test.dart": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa",
+    "test/admin_governed_settings_sdk_test.dart": "cb0526028ebd4f99199cabc1890de3120c082e8770075baafb7b25afe4d69db8",
+    "test/admin_governed_settings_checkpoint_browser_test.dart": "824ddb0da7c489f968251686e8da5e668b32405129f233a2cb5d779f61dbbdaa",
+    "test/admin_governed_settings_models_test.dart": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0",
+    "test/admin_governed_settings_widget_test.dart": "a3f308e43dc478223d85bbf713d4777c47bfecc84beff541946e63fdddf5c5d7",
+    "test/support/settings_fixture.dart": "238d692912abb640fbbcadf1c5db452753ddf65b98ffd89e1db5b0a36aafdba7",
+    "test/fixtures/observed_runtime_v2.json": "3a8312eb9ccea04be39a5fc3fce125a912bad66a1fd45f8117988d8ba7a26350"
+  },
+  "original_scoped_actual_results": {
+    "vm-sealed6": {
+      "exit_code": 0,
+      "cases_or_analysis_files": 40
+    },
+    "browser-sealed4": {
+      "exit_code": 0,
+      "cases_or_analysis_files": 6
+    },
+    "widgets-sealed9": {
+      "exit_code": 0,
+      "cases_or_analysis_files": 11
+    },
+    "analysis-sealed7": {
+      "exit_code": 0,
+      "cases_or_analysis_files": 18
+    }
+  },
+  "current_rebased_integration_checks": {
+    "proof": "current-integration2/result.json",
+    "actual_test_counts": {
+      "sdk": 13,
+      "widgets": 11,
+      "browser": 6
+    },
+    "analyzed_files": 21,
+    "sources_verified_unchanged": 1008,
+    "dependency_and_tool_bindings_verified_unchanged": 1464,
+    "original_models_controller_only": "27 preceding actual passing cases retain exact unchanged module/fixture/API inputs; no new whole-suite count",
+    "setup_failure": "current-integration/sdk.json terminal1 before any test; missing copied package_graph.json corrected only in next owned fixture",
+    "sole_authority_gate": {
+      "make_command": "make revolut-design-authority",
+      "make_owned_exec": 62368,
+      "make_exit_code": 0,
+      "make_stdout": "[revolut-design-authority] pass\n",
+      "verified_skill_command": "python3 scripts/qa/revolut_design_authority.py --verify-skill",
+      "verified_skill_owned_exec": 45536,
+      "verified_skill_exit_code": 0,
+      "verified_skill_stdout": "[revolut-design-authority] pass\n",
+      "skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+      "fidelity_certified": false
+    }
+  },
+  "baseline_complete_goal14": false,
+  "backup_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-canonical-before-20261001",
+  "copied_auth_test_promoted": false
+}

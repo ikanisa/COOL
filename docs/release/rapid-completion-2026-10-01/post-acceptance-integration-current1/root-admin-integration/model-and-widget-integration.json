@@ -1,0 +1,19 @@
+{
+  "status": "integrated_released_model_and_regression_files",
+  "at_utc": "2026-10-01T15:48:37.487019+00:00",
+  "ownership": "Cross-chat explicitly released model and assignment test; card remains held",
+  "before": {
+    "lib/admin/core/admin_exception_followup_v2_models.dart": "a275cbec4c658c6503b3e295197f9d2a925252bb1a490ea2c1a21bbabe6e8f10",
+    "test/admin_exception_assignment_test.dart": "7a4a9e5000f6a09f48e2550df87ffce3bf0a9243581876a54444f6c9b6e96c0e"
+  },
+  "after": {
+    "lib/admin/core/admin_exception_followup_v2_models.dart": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765",
+    "test/admin_exception_assignment_test.dart": "a770b0f8c347a1dd37dac0204160714b0f48d19688f7dff9ff6f183047a31698"
+  },
+  "tests_executed_now": false,
+  "prior_private_tests": "322 cases incl2 resource regressions; final current19suite owner in otherchat",
+  "changes": [
+    "lib/admin/core/admin_exception_followup_v2_models.dart",
+    "test/admin_exception_assignment_test.dart"
+  ]
+}

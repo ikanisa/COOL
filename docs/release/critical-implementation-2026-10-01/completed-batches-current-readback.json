@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T22:32:12.092965+00:00",
+  "purpose": "Integrate sealed scoped results without promoting historical source to whole candidate acceptance.",
+  "packets": {
+    "ruby-dependency-batch1/batch.json": {
+      "sha256": "832e424c42ae1cb676ce1be9b635ee8a1c6bfcf016f425cff9f05c76cd636a5b",
+      "recorded_status": "scoped_source_dependency_repair_and_networkless_runtime_contracts_passed",
+      "artifact_count": 84,
+      "artifact_mismatches": [],
+      "source_count": 3,
+      "current_source_drift": []
+    },
+    "product-capability-batch1/batch.json": {
+      "sha256": "0baeb0933a4c398e9e5f437611f364a350e6aa31abbd94b7f288ca1d7d815185",
+      "recorded_status": "local_source_batch_verified",
+      "artifact_count": 14,
+      "artifact_mismatches": [],
+      "source_count": 18,
+      "current_source_drift": []
+    },
+    "decoder-sql-admission-batch1/batch.json": {
+      "sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862",
+      "recorded_status": "pass_local_normalized_decoder_sql_admission",
+      "artifact_count": 1691,
+      "artifact_mismatches": [],
+      "source_count": 5,
+      "current_source_drift": [],
+      "migration_count": 197,
+      "current_migration_drift": []
+    },
+    "decoder-dependency-batch1/batch.json": {
+      "sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d",
+      "recorded_status": "decoder_dependency_remediation_verified_locally",
+      "artifact_count": 169,
+      "artifact_mismatches": [],
+      "source_count": 6,
+      "current_source_drift": []
+    }
+  },
+  "full_current_candidate_accepted": false,
+  "production_release_approved": false
+}

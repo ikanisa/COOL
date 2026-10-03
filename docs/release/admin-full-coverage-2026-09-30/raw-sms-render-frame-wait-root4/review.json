@@ -1,0 +1,9 @@
+{
+  "diagnostic_packet": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt55-root-raw-sms-state-diagnostic/acceptance/tests.machine.jsonl",
+  "observed": "Actual detail-provider AsyncData contains the exact current transaction and raw SMS ID. Rendered widgets still show Loading transaction. Wait for the actual replacement control to render, while asserting old private evidence remains absent on every intervening frame.",
+  "earlier_subtype_hypothesis_incorrect": true,
+  "original_button_finder_restored": true,
+  "production_source_changed": false,
+  "assertions_removed": false,
+  "diagnostic_prints_removed": true
+}

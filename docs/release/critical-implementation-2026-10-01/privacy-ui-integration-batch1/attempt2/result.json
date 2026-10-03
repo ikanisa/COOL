@@ -1,0 +1,86 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "ended_at_utc": "2026-10-02T00:00:03.646503+00:00",
+      "exit_code": 0,
+      "log": "command-0.log",
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "started_at_utc": "2026-10-02T00:00:03.258753+00:00"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "lib/features/privacy/privacy_request_screen.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/shared/repositories/collect_repository_providers.dart",
+        "lib/features/status/account_legal_screens.dart",
+        "lib/features/auth/widgets/auth_otp_entry.dart",
+        "lib/app/router.dart",
+        "test/features/privacy/privacy_logout_integration_test.dart"
+      ],
+      "ended_at_utc": "2026-10-02T00:00:11.634074+00:00",
+      "exit_code": 0,
+      "log": "command-1.log",
+      "sha256": "10449fc25e88e5f3c8527d9c13b2c830cfe59ee52fbdb958c98f35fbb9789ceb",
+      "started_at_utc": "2026-10-02T00:00:03.646714+00:00"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "json",
+        "test/features/privacy/privacy_logout_integration_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/features/auth_error_recovery_test.dart"
+      ],
+      "ended_at_utc": "2026-10-02T00:00:16.059900+00:00",
+      "exit_code": 0,
+      "log": "command-2.log",
+      "sha256": "09851305facfcc7a692989e06c516c92c51efaf1158d8d21fbb66b06529cd194",
+      "started_at_utc": "2026-10-02T00:00:11.634344+00:00"
+    },
+    {
+      "argv": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "ended_at_utc": "2026-10-02T00:01:11.563806+00:00",
+      "exit_code": 0,
+      "log": "command-3.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "started_at_utc": "2026-10-02T00:00:16.060125+00:00"
+    }
+  ],
+  "completed_at_utc": "2026-10-02T00:01:11.649415+00:00",
+  "erasure_completed": false,
+  "failed": 0,
+  "hosted_accepted": false,
+  "input_count": 426,
+  "passed": 39,
+  "physical_device_accepted": false,
+  "production_ready": false,
+  "runner_done": [
+    {
+      "success": true,
+      "time": 3386,
+      "type": "done"
+    }
+  ],
+  "scope": "Actual default repository/provider logout fence, local session preservation and affected OTP error/reflow checks with synthetic SDK/network/native fixtures. No live provider, physical-device, full candidate, erasure or visual fidelity acceptance.",
+  "skipped": 0,
+  "source_drift": {},
+  "started_at_utc": "2026-10-02T00:00:03.258629+00:00",
+  "status": "pass",
+  "visible_tests": 39,
+  "visual_fidelity_accepted": false
+}

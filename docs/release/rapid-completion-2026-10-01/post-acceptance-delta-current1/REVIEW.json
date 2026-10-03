@@ -1,0 +1,77 @@
+{
+  "accepted_base_manifest_sha256": "dba11a4a0deb5822c528c92d770c79d50fa705037f5f23fbd8aed08bcc907fdd",
+  "bindings": {
+    "admin-review/accepted-union.json": "4a19bca8d5b3bf4acab77b4219cae3256d6b8a640fce37fad666cf1a3292a909",
+    "mcp-review/review.json": "5351f447425b83c96b62041fdf0c33c4b874f1e6d6f64dcaa9b43986afd35334",
+    "patch-applicability.json": "718257b85c0443d7afd8abc4ec5225d4a0d62559244c394801ac19dea897237a",
+    "sql-current/readback.json": "23257146330163a593a9acbcb711a11863b0df779ea732cbb90df77ab2820157",
+    "sql-ordinary187/validation.json": "e09a076aa7492f4d0632cdf9119a18c616948069c03b0d4eab4e6729967be20c"
+  },
+  "captured_delta": {
+    "added": 29,
+    "files": 44,
+    "modified": 15,
+    "timestamp": "2026-10-01T15:25:51.535067+00:00"
+  },
+  "created_at_utc": "2026-10-01T15:43:04.864538+00:00",
+  "findings": [
+    {
+      "correction": "Recheck durable local permission and current identity after admission and diagnostic awaits; close known non-invoked diagnostics.",
+      "file": "tools/collect-notification-mcp/src/unattended_host_tick.ts",
+      "id": "MCP-P1-LOCAL-STOP-AWAIT",
+      "implementation_scope": "Private derivative only",
+      "patch": "mcp-review/late-authority-fence.patch",
+      "patch_sha256": "a7965787a7fd07a79c08d5ee63b86b6ca3d7d0b752147a5cfe0275fcde2bfcfe",
+      "priority": "P1"
+    },
+    {
+      "correction": "Bound stored code units before UTF8 allocation and bound bytes before JSON parsing; preserve sanitized blocked recovery.",
+      "file": "lib/admin/core/admin_exception_workflow_card.dart",
+      "id": "ADMIN-P2-RECOVERY-ADMISSION",
+      "implementation_scope": "Private derivative only",
+      "patch": "admin-review/runtime-resource-admission.patch",
+      "patch_sha256": "17b690663c7a4b7d1054fc89a05dff6bda2815025043ee6a13ad4c955b76d30a",
+      "priority": "P2"
+    }
+  ],
+  "limits": [
+    "Case counts across different suites are not a unique overall case count.",
+    "CurrentSQL100 proof is owner-normalized synthetic subset;187 ordinary install is separate actual offline proof.",
+    "Later live changes remain excluded until explicitly captured and verified.",
+    "No real launchd,Keychain,hosted Auth,provider,device,signing,store or production acceptance is inferred."
+  ],
+  "live_runtime_files_written": false,
+  "preserved_accepted_archives": true,
+  "production_release": "NO-GO",
+  "remaining_integration": [
+    {
+      "dependency": "Explicit human authorization for cross-chat messaging has been requested and remains pending.",
+      "task": "Coordinate ownership with the actively editing Connect Collect to Codex MCP chat and apply reviewed fixes"
+    },
+    {
+      "dependency": "Reconciled source ownership and applied fixes.",
+      "task": "Capture combined final source and verify only later changed inputs/consumers"
+    },
+    {
+      "dependency": "Combined stable source; current review does not provide a new browser bundle.",
+      "task": "Refresh actual Admin production/browser/PWA artifact and affected state checks"
+    }
+  ],
+  "shared_current_source_accepted": false,
+  "status": "review_complete_private_fixes_verified_shared_integration_pending",
+  "verified_results": {
+    "admin_actual_sql_response_decoder_cases": 12,
+    "admin_resource_regression_cases": 2,
+    "admin_scoped_cases": 322,
+    "admin_strict_analysis_format": "pass",
+    "current_exception_sql_checks": 100,
+    "mcp_affected_cases": 66,
+    "mcp_composed_unique_cases": 413,
+    "mcp_typecheck": "pass",
+    "mcp_unchanged_cases_reused": 347,
+    "ordinary_applications": 374,
+    "ordinary_checks": 36,
+    "ordinary_migrations_per_phase": 187,
+    "python_preparation_cases": 12
+  }
+}

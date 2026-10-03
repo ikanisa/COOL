@@ -1,0 +1,7 @@
+{
+  "UTC": "2026-10-02T10:12:50.997866+00:00",
+  "script_only_delta": "review namespace3 to4; seven originaladmission tests unchanged except identity hash",
+  "actual_unit_tests": 7,
+  "status": "pass",
+  "production_release_approval": false
+}

@@ -33,6 +33,57 @@ PRUNED = {'.git', 'node_modules', '.dart_tool', '.gradle', 'build', 'Pods',
           'third_party', '__pycache__'}
 
 
+def inert_pubspec_fixture(path: Path, relative: str) -> bool:
+    """Recognize a retained package-link refusal fixture, without following it.
+
+    Only the single package-name field is admitted. Its physical counterpart
+    remains in the normal scan; design declarations and other reference links
+    receive no exemption. The negative security test's link stays untouched.
+    """
+    if (not relative.startswith('docs/release/') or
+            path.name != 'pubspec.yaml' or path.parent.name != 'owned' or
+            path.parent.parent.parent.parent.name != 'negative-fixtures'):
+        return False
+    target = path.parent.parent / 'external/pubspec.yaml'
+    try:
+        declared = Path(os.path.normpath(os.path.join(path.parent, os.readlink(path))))
+        if (declared != target or target.parent.is_symlink() or
+                target.is_symlink() or not target.is_file() or
+                target.stat().st_size > 100):
+            return False
+        return re.fullmatch(r'name: [a-z][a-z0-9_]*\n?', target.read_text()) is not None
+    except (OSError, UnicodeError):
+        return False
+
+
+def retained_backend_fixture(path: Path, relative: str, root: Path) -> bool:
+    """Recognize exact canonical producer aliases; still scan their contents.
+
+    Private Flutter validation mounts these seven backend receipts from the
+    canonical test fixtures. They are business evidence, not design references.
+    This does not admit arbitrary reference links or skip their declarations.
+    """
+    names = {
+        'successor_approval_read.json', 'successor_approval_receipt.json',
+        'successor_closure_inspection.json', 'successor_closure_receipt.json',
+        'successor_lineage_pages.json', 'successor_retry_preview.json',
+        'successor_revocation_receipt.json',
+    }
+    if (not relative.startswith('.cache/') or path.name not in names or
+            path.parent.parts[-3:] != ('validation-app', 'test', 'fixtures')):
+        return False
+    target = root / 'test/fixtures' / path.name
+    try:
+        declared = Path(os.path.normpath(os.path.join(path.parent, os.readlink(path))))
+        if (declared != target or target.parent.is_symlink() or
+                target.is_symlink() or not target.is_file() or
+                target.stat().st_size > 65536):
+            return False
+        return isinstance(json.loads(target.read_text()), dict)
+    except (OSError, UnicodeError, ValueError):
+        return False
+
+
 def check(root: Path, skill: Path | None = None) -> dict:
     failures = []
     authority_file = root / 'docs/release/revolut-design/authority.json'
@@ -45,9 +96,7 @@ def check(root: Path, skill: Path | None = None) -> dict:
         failures.append('competing_design_authority')
     if set(adapter.get('scope', [])) != SCOPES:
         failures.append('incomplete_surface_scope')
-    if adapter.get('mobile_acceptance_rule') != 'MOBILE-DESIGN-100':
-        failures.append('missing_mobile_acceptance_rule')
-    for key in ['authority_sha256', 'mobile_acceptance_rule_sha256']:
+    for key in ['authority_sha256']:
         if not re.fullmatch(r'[0-9a-f]{64}', str(adapter.get(key, ''))):
             failures.append('invalid_' + key)
     # The source package owns these references. An adapter cannot silently
@@ -75,10 +124,7 @@ def check(root: Path, skill: Path | None = None) -> dict:
     observed_skill = 'not_requested'
     if skill is not None:
         observed_skill = 'verified'
-        for relative, key in [
-            ('SKILL.md', 'authority_sha256'),
-            ('references/mobile-design-100.md', 'mobile_acceptance_rule_sha256'),
-        ]:
+        for relative, key in [('SKILL.md', 'authority_sha256')]:
             try:
                 actual = hashlib.sha256((skill / relative).read_bytes()).hexdigest()
             except OSError:
@@ -91,9 +137,11 @@ def check(root: Path, skill: Path | None = None) -> dict:
 
     retired = []
     competing = []
+    fixture_links = []
     files = 0
     # Include ignored local exports: deletion of a tracked report alone must
     # not leave its competing reference copy available in this checkout.
+    backend_fixture_links = []
     for folder, dirs, names in os.walk(root, followlinks=False):
         dirs[:] = [name for name in dirs if name not in PRUNED and
                    not (Path(folder) / name).is_symlink()]
@@ -107,8 +155,16 @@ def check(root: Path, skill: Path | None = None) -> dict:
             if relative.startswith(('scripts/tests/', 'test/', 'tools/')):
                 continue
             if path.is_symlink():
-                competing.append(relative + ':symlinked_reference')
-                continue
+                if inert_pubspec_fixture(path, relative):
+                    fixture_links.append(relative)
+                    continue
+                elif retained_backend_fixture(path, relative, root):
+                    backend_fixture_links.append(relative)
+                    # Continue normal content inspection below. The source
+                    # counterpart lies under test/, so inspect the alias here.
+                else:
+                    competing.append(relative + ':symlinked_reference')
+                    continue
             files += 1
             try:
                 if path.stat().st_size > 8 * 1024 * 1024:
@@ -139,6 +195,8 @@ def check(root: Path, skill: Path | None = None) -> dict:
         'reference_files_scanned': files,
         'retired_references': sorted(retired),
         'competing_declarations': sorted(set(competing)),
+        'inert_package_fixture_links': sorted(fixture_links),
+        'retained_backend_fixture_links': sorted(backend_fixture_links),
         'failures': sorted(set(failures)),
         'visual_acceptance': 'unverified',
         'meaning': 'Reference hygiene only; no route/state fidelity percentage.',

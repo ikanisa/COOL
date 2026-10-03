@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "--plain-name",
+    "actual member SDK retained rows stay stale when failed refresh has no readable cache",
+    "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-prior.machine.jsonl",
+    "test/shared/member_realtime_sdk_session_test.dart"
+  ],
+  "exit_code": 1,
+  "timed_out": false,
+  "seconds": 35.548,
+  "stdout_sha256": "fa395c0009e60c25f58cba84623cf231ce87b31fd72b9d9e7fc5cad38866d782",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_binding": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-prior-inputs.json"
+}

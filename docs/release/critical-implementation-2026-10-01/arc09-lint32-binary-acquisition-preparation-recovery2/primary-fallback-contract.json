@@ -1,0 +1,68 @@
+{
+  "bundle_components": [
+    "com.google.guava:failureaccess:1.0.2",
+    "com.google.jimfs:jimfs:1.1"
+  ],
+  "fallback_prerequisites": "exact authenticated POM/current selecteddefaultvariant +official module404 +absent/jar/bundle packaging +no relocation/classifier",
+  "installed_Gradle9.1_sources": [
+    {
+      "bytes": 30830,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/PomReader.java",
+      "relevant_lines": [
+        345,
+        348,
+        561
+      ],
+      "sha256": "9d281b81ed1d137967bd98f1afe0510981badb4ba494c028abf0a48ef52b965f"
+    },
+    {
+      "bytes": 13296,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/internal/component/external/model/maven/DefaultMavenModuleResolveMetadata.java",
+      "relevant_lines": [
+        57,
+        76,
+        211,
+        226
+      ],
+      "sha256": "e87a27695e6e027b80344d02ea7d64b9d840e2551c3efd68cd1c5bbe5cca3a93"
+    },
+    {
+      "bytes": 17681,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/src/dependency-management/org/gradle/internal/component/external/model/maven/RealisedMavenModuleResolveMetadata.java",
+      "relevant_lines": [
+        215,
+        217,
+        219,
+        222,
+        226,
+        246,
+        291,
+        306
+      ],
+      "sha256": "d76ae0afa9a500b9147d0c76604163b95db7b3725aa8a96a4424343d2099fc59"
+    }
+  ],
+  "no_Guava_fallback": "Guava comes only from exact authenticated jreRuntimeElements files",
+  "official_sources": [
+    {
+      "fact": "Absent packaging defaults to jar",
+      "section": "Packaging",
+      "url": "https://maven.apache.org/pom.html"
+    },
+    {
+      "fact": "Fixed coordinate plus jar extension produces artifactId-version.jar at group path/artifact/version/",
+      "section": "unclassified artifact layout",
+      "url": "https://maven.apache.org/repositories/layout.html"
+    },
+    {
+      "fact": "JAR_PACKAGINGS includes bundle",
+      "url": "https://raw.githubusercontent.com/gradle/gradle/v9.1.0/platforms/software/dependency-management/src/main/java/org/gradle/internal/component/external/model/maven/DefaultMavenModuleResolveMetadata.java"
+    },
+    {
+      "fact": "Known JAR packaging chooses unclassified artifact typejar extensionjar",
+      "url": "https://raw.githubusercontent.com/gradle/gradle/v9.1.0/platforms/software/dependency-management/src/main/java/org/gradle/internal/component/external/model/maven/RealisedMavenModuleResolveMetadata.java"
+    }
+  ],
+  "root_whole_graph_verification_remains_required": true,
+  "status": "PRIMARY_CONTRACT_VERIFIED_FOR_PRECISE_INSTALLED_SCOPE"
+}

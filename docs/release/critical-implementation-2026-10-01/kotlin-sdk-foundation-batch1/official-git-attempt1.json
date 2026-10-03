@@ -1,0 +1,87 @@
+{
+  "checkout_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-source-batch1",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "init",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-source-batch1"
+      ],
+      "elapsed_seconds": 0.07,
+      "exit_code": 0,
+      "finished_utc": "2026-10-01T23:43:35.858359+00:00",
+      "started_utc": "2026-10-01T23:43:35.783593+00:00",
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-source-batch1",
+        "remote",
+        "add",
+        "origin",
+        "https://github.com/flutter/flutter.git"
+      ],
+      "elapsed_seconds": 0.04,
+      "exit_code": 0,
+      "finished_utc": "2026-10-01T23:43:35.903736+00:00",
+      "started_utc": "2026-10-01T23:43:35.858798+00:00",
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-source-batch1",
+        "fetch",
+        "--no-tags",
+        "--depth=1",
+        "origin",
+        "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+      ],
+      "elapsed_seconds": 600.01,
+      "exit_code": -15,
+      "finished_utc": "2026-10-01T23:53:35.783438+00:00",
+      "started_utc": "2026-10-01T23:43:35.904121+00:00",
+      "timed_out": true,
+      "timeout_seconds": 600
+    }
+  ],
+  "official_url": "https://github.com/flutter/flutter.git",
+  "pinned_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "scope": "Fresh public official Git source only; credentials/hooks/global config disabled. No source patches, Flutter execution/bootstrap, binaries, existing SDK writes or production acceptance.",
+  "transcript_sha256": "fa140cb4f68a87f912d25995c6770408ade9c86cebae7bbd47ac1edfc1ba9174"
+}

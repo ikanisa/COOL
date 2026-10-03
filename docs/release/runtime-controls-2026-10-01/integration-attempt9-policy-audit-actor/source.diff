@@ -1,0 +1,11 @@
+--- 
++++ 
+@@ -165,7 +165,7 @@
+  perform public.create_audit_log('automation.operating_policy.configured','unattended_operating_policy',p.id,
+   jsonb_build_object('request_id',p_request_id,'expected_revision',p_expected_revision,'revision',next_revision,
+    'changed',changed,'mode',p_mode,'emergency_stop',p_emergency_stop,'reason_code',p_reason_code,
+-   'financial_action',false,'send_action',false,'approval_granted',false,'schedule_changed',false),null);
++   'financial_action',false,'send_action',false,'approval_granted',false,'schedule_changed',false),auth.uid());
+  return collect_automation.receipt(prior);
+ end$$;
+ 

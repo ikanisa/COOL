@@ -1,0 +1,11 @@
+{
+  "scope": "Generated public package/plugin and pinned local toolchain bindings; no ignored private source copied",
+  "sha256": {
+    ".dart_tool/package_config.json": "63fdc2231cbda83488621286f9a4b995f047615821acfdb3768539efe98eb013",
+    ".flutter-plugins-dependencies": "e4c8963a9a58e4fe21e5b19e067e79abf1852dd91e2fb6385e01249258f78b1f",
+    "ios/Flutter/Generated.xcconfig": "b889fe7553472e703faf9cd270667aa42bc5b4eac28cb2e5832a9b1a552f5167",
+    "ios/Flutter/flutter_export_environment.sh": "fbb3201809d23c3267291b3e45c98845b220f4a9d0ee08572d1b88a0b5898140",
+    "ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift": "bcfcf81d0aa8cca8476990e119bee1120cf37016221a11a4f097398bf143aa36",
+    "ios/Pods/Manifest.lock": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e"
+  }
+}

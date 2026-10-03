@@ -1,0 +1,33 @@
+{
+  "status": "private_proposal",
+  "main_before": {
+    "path": "lib/admin/core/admin_governed_settings_models.dart",
+    "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+    "bytes": 38333,
+    "lines": 1252
+  },
+  "main_proposed": {
+    "path": "lib/admin/core/admin_governed_settings_models.dart",
+    "sha256": "6bc13f762c745e40ee4bc69201294715b14cb30423b0011612afbfc134f64085",
+    "bytes": 33085,
+    "lines": 1085
+  },
+  "history_proposed": {
+    "path": "lib/admin/core/admin_governed_settings_history_models.dart",
+    "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565",
+    "bytes": 5349,
+    "lines": 171
+  },
+  "exact_byte_reconstruction": true,
+  "unchanged_ci_hard_limit": 1200,
+  "extracted_capability": "governed settings change-history DTOs, event validation and paired-cursor pagination",
+  "extracted_classes": [
+    "AdminSettingsHistoryCursor",
+    "AdminSettingsHistoryEvent",
+    "AdminSettingsHistory"
+  ],
+  "same_dart_library_private_access_and_public_type_identity": true,
+  "maintained_source_written": false,
+  "sdk_or_app_source_written": false,
+  "root_promotion_and_current_candidate_validation_required": true
+}

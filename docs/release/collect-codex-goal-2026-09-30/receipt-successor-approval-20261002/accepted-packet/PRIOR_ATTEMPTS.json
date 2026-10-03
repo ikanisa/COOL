@@ -1,0 +1,29 @@
+{
+  "purpose": "Retain original test-only failures, never sum or reuse their partial passes as acceptance. Full SQL/tool logs retained; unchanged source/runtime copies held once in final proof. Original directories remain.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "passing": 19,
+      "case_count": 19,
+      "error": "TypeError: unsupported operand type(s) for +: 'PosixPath' and 'str'",
+      "result_sha256": "4176b358a9d81a12673b2a048f145640b3fb13a11709999a126b7e091590f66a",
+      "observed_session_id": 56018,
+      "observed_terminal_chunk_id": "d07426",
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 2,
+      "status": "failed",
+      "passing": 51,
+      "case_count": 51,
+      "error": "RuntimeError: query: ERROR:  42703: column \"details\" does not exist\nLINE 1: ...t('action',action,'entity_id',entity_id,'details',details)or...\n                                                             ^\nLOCATION:  errorMissingColumn, parse_relation.c:3716\n",
+      "result_sha256": "bda5cb714297230086ceb578eb1b12684e8234f9183a1365bbb4d6957f00e9c3",
+      "observed_session_id": 61861,
+      "observed_terminal_chunk_id": "67618d",
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    }
+  ]
+}

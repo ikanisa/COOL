@@ -1,0 +1,16 @@
+{
+  "actual_seconds": 0.08509416599554243,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "image",
+    "inspect",
+    "sha256:75496575cd8e3aeb3fe561f0384f661d490c14770eda935d2302d61ca20a0b2d",
+    "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "owned_process_group_absent": true,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "1e69ab717cc688df0794da61385eef3a7f8a13ab8072fe7cd1d27e1705be1c6b",
+  "timed_out": false
+}

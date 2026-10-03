@@ -1,0 +1,16 @@
+{
+  "observed_at_utc": "2026-10-01T09:54:54.259511+00:00",
+  "python_version": "3.12.14",
+  "adb": {
+    "path": "/Volumes/PRO-G40/Development/Android/Library-Android/sdk/platform-tools/adb",
+    "sha256": "9fdf861259dc807937b13afdd5f053c7fda9f3b7726933fe0e0f45130ecb8dc7",
+    "version": [
+      "Android Debug Bridge version 1.0.41",
+      "Version 37.0.0-14910828"
+    ]
+  },
+  "java": {
+    "path": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+  }
+}

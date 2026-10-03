@@ -1,0 +1,12 @@
+{
+  "captured_count": 327,
+  "current_count": 327,
+  "captured_runtime": "bb29041c6c318e128ea00cc2342957c2ce0bda7257c9b8559c146a0748733822",
+  "current_runtime": "820d65ba810dbd5e7f324f81204541f45402a4270dca752bd422fe3b95236277",
+  "changes": {
+    "lib/shared/repositories/collect_repository.dart": {
+      "captured": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+      "current": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3"
+    }
+  }
+}

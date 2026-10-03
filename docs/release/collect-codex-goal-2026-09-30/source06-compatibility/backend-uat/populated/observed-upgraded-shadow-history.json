@@ -1,0 +1,15 @@
+{
+  "mode": "shadow",
+  "rows": [],
+  "lease": {
+    "state": "idle",
+    "active_run_id": null,
+    "fence_version": 0,
+    "lease_expires_at": null
+  },
+  "scope": "collect_platform",
+  "total": 0,
+  "checked_at": "2026-10-01T08:55:09.513215+00:00",
+  "next_cursor": null,
+  "contract_version": 1
+}

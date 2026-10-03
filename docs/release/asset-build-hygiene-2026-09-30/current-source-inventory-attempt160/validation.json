@@ -1,0 +1,163 @@
+{
+  "status": "pass",
+  "verified_at": "2026-10-01T00:53:16.691801+00:00",
+  "commands": [
+    {
+      "name": "file-saver-fork-provenance",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/verify_file_saver_fork.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.77,
+      "stdout_sha256": "5c0ea4a02d458facf6c4fede14ffc7c5e21a9e9546a3e125271702aa8f770cef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-asset-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/asset_manifest_integrity.rb",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.75,
+      "stdout_sha256": "82e7c10586a7973faa23715d001dcf826fdb4587422b57051ce7481e61829799",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-group-integrity",
+      "command": [
+        "ruby",
+        "scripts/qa/group_runtime_integrity.rb",
+        "--root",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.58,
+      "stdout_sha256": "13eaf63d81cb0b4257ac29656158e2926439e06947208b12f405b402792e89e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-reachability",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/runtime-reachability.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.66,
+      "stdout_sha256": "87de1fdb62964d3b6bcc705f940a6e759203c34c55ba159f59c20334c7333193",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reachability-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/qa/runtime_reachability.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/runtime-reachability.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.85,
+      "stdout_sha256": "cf9ce759369db106bf33004531edd178c7453ac2e1cc558fd9564dea273992da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-source-inventory",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-inventory.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.42,
+      "stdout_sha256": "dd84ba3ff699096b49b9e65b372c07b25718aef824a7d31425cf193e9ee9bf28",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "inventory-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.19,
+      "stdout_sha256": "98eb19281147482833e5181652d4ebc9bb86ef407860a20653c1572c70f4d9e6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "current-source-sbom",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.01,
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sbom-reproduction",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.65,
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "offline-schema",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/current-source-inventory-attempt160/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.53,
+      "stdout_sha256": "71c326b8452d5bcbee5bb19645c5cf4d2c2ae93d4db32f5caa1e5ed930381c53",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "tool_source_sha256": {
+    "scripts/supply_chain/inventory.py": "b4ee5595f54dd67aaccbfd211d29a2de654b0d836c417d8be2fc29002ddd84e7",
+    "scripts/supply_chain/source_sbom.py": "df0061cf747584466a6d5db25840a4db56db7abedcc6e38619b258f15b7dad51",
+    "scripts/supply_chain/validate_source_sbom.py": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+    "scripts/supply_chain/verify_file_saver_fork.py": "f419092dde3e9d2aba32a14bbe3d8b50ffef0a19ee34eb6614e3d6574bf4f8e8",
+    "scripts/qa/runtime_reachability.py": "1a3307ff527d5b0ce3c06511745145cb351168d536ac1f0402657e8aaa352e8c",
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "scripts/qa/group_runtime_integrity.rb": "1bf7bd754ab82f1e38acb48cf31581114b8db1f3fb87634a371365c13762ebe7"
+  },
+  "prior_accepted_pure_regression_receipt_sha256": "59bbb116fe350e101a3f9be7b353b7ba63f42eb6e18afd91af4123c0652bd751",
+  "unchanged_tool_regressions_reused": true,
+  "runtime_source_count": 242,
+  "runtime_reachable_count": 242,
+  "missing_directives": [],
+  "runtime_unreachable": [],
+  "unresolved_bundled_assets": [],
+  "bundled_asset_count": 95,
+  "sbom_components": 688,
+  "source_sbom_sha256": "a0b32119c47710ff98bc7dd9d17050be667119d94ab0cfd20d2388af51917e41",
+  "inventory_sha256": "33c47d49a3a46842bc34c874e95d6e4e977a196e6b0f9765882c120b67a7d6af",
+  "source_and_tools_unchanged_after_actual_checks": true,
+  "scope": "Current actual source/assets/fork integrity and deterministic aggregate source inventory/SBOM with offline official schema. Native observed graphs/artifacts, external licenses/providers/signing/stores/design remain separate. Reuses accepted tests only for byte-identical tool code; all current output checks executed."
+}

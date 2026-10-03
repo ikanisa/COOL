@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-10-02T03:02:57.848933+00:00",
+  "kind": "evidence_sealer_failure",
+  "original_source_sha256": "8e6eacc7995ff2ceab24b50d5d2eb6eded1e343b4be009da7a6409163d2437be",
+  "failure": "AssertionError at original line62: packet(PREP)[\"leaves\"] == prepared[\"prep4_artifacts_before\"]",
+  "diagnostic_origin": "Earlier tool-returned traceback, transcribed after failure; no raw redirect log was created.",
+  "cause": "Full observed rows contain physical identity fields; originally bound preparation rows intentionally contain only whole-file SHA256, byte size and mode. Comparing unequal dictionary schemas incorrectly failed.",
+  "canonical_gate_rerun": false,
+  "canonical_gate_result_unchanged": "pass",
+  "complete_output_copies_retained": true,
+  "correction": "Verify exact matching keys and SHA/size/mode for every preparation leaf; strictly read back existing canonical copies and original physical identities before reusing the completed copy checkpoint."
+}

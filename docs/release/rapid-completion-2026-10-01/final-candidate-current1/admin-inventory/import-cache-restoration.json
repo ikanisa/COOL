@@ -1,0 +1,10 @@
+{
+  "created_path": "scripts/tests/__pycache__/admin_full_coverage_inventory.cpython-312.pyc",
+  "created_sha256": "d993db163472089f080669bdc52fef9d9498656f7d2e3467dcc18e57e4a3e971",
+  "absent_from_before": true,
+  "only_new_file": true,
+  "all_original_files_unchanged": true,
+  "cache_preserved_at": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/admin-inventory/retained-import-cache/admin_full_coverage_inventory.cpython-312.pyc",
+  "own_generated_cache_removed": true,
+  "original_failure_preserved": true
+}

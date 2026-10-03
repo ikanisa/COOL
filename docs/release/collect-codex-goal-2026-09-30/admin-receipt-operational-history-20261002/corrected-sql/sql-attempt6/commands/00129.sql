@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role authenticated;select set_config('request.jwt.claims','{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}',true);select public.admin_list_receipt_operation_evidence_v1('7168565d-69e8-4415-aa47-c59123ecaa3e','events',1,'2026-10-02T00:46:55.287703Z','98e5ddee-2cf5-4638-9638-995f88e57868');commit;

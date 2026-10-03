@@ -1,0 +1,47 @@
+{
+  "hashes": {
+    "/": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+    "/account-deletion/": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+    "/community-groups/": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+    "/craas/": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+    "/credit-readiness/": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+    "/data-deletion/": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+    "/group-savings/": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+    "/insurance/": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+    "/our-partners/": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+    "/partners/": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+    "/privacy/": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+    "/protection/": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+    "/security/": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+    "/terms/": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+    "/trust/": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5"
+  },
+  "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+  "historical_git_commit": "f0b8b37a0e5c7e97a222127924fb3a7942e74ed2",
+  "legal_release_approved": false,
+  "publication_approved": false,
+  "reviewed_changes": {
+    "browser_preview_label": "Identify the actual local browser interface preview, preserving example data and unmodified capture pixels.",
+    "deletion_minimization": "Five deletion form hint changes from required to optional; underlying identity/session/account workflow is not certified by a text hash.",
+    "legal_copy": "Current Rwanda terminology, fees and section numbering recorded as source facts; substantive governing-law/privacy legal release review remains external.",
+    "partner_scope": "Replace foreign bank/collateral promises with eligible Rwanda provider review based on contribution records.",
+    "rwanda_only_scope": "Remove Diaspora, SEPA, foreign bank and collateral routes/claims; retain actual Rwanda MoMo/USSD contributions and provider eligibility boundaries."
+  },
+  "reviewed_source_sha256": {
+    "content/legal/collect_delete_account.yaml": "c9dc4b93794c319151ae320bdae854abf19977784056e8b3520089db0828dbf1",
+    "content/legal/collect_legal_pages_bundle.yaml": "b358ae43034bef4fbb55f74e411f3b38a3b2fc55b739d542229f6e65f83b5f51",
+    "content/legal/collect_privacy_policy.yaml": "f9b8bf803b63e7e2dd648dfd3520a5821097da79e2a1a73d726ace78f2913e20",
+    "content/legal/collect_terms_of_use.yaml": "bcb7cd3d0702c9d99d307d858a951f9c8fce65d00e1b8dcc835497a0a479dd4e",
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "scripts/public_static_site_build.rb": "37b27f0bb2ef64df53ab08db44bf33434213e6b04ea7374d1a20b0b628a41d46"
+  },
+  "schema_version": 1,
+  "scope": "Locally reviewed Collect Rwanda-only product-copy regression contract, retaining the historical baseline as dated evidence. This is not legal approval, visual certification or authorization to publish.",
+  "sole_design_authority": "revolut-design; this file records Collect content evidence only",
+  "status": "local_engineering_reviewed",
+  "unresolved_external_release_evidence": [
+    "Owner publication/content sign-off where required",
+    "Substantive current privacy/terms legal release review"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "after_sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+  "before_sha256": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957",
+  "changed_modules": [
+    "org.jetbrains.kotlin:kotlin-stdlib-common",
+    "org.jetbrains.kotlin:kotlin-stdlib"
+  ],
+  "configurations": [
+    "productionReleaseCompileClasspath",
+    "productionReleaseRuntimeClasspath"
+  ],
+  "current": "2.4.20",
+  "evidence": [
+    "resolve-compile-attempt4.json",
+    "resolve-runtime-attempt1.json",
+    "production-compile-graph.json",
+    "production-runtime-graph.json",
+    "resolved-lock-observation.patch"
+  ],
+  "native_compile_and_unit_acceptance": false,
+  "previous": "2.3.20",
+  "production_release_approval": false,
+  "scope": "Only two version replacements produced by controlled actual compile/runtime resolution and confirmed strict hashed graphs. All other bytes unchanged."
+}

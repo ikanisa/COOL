@@ -1,0 +1,58 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/features/contribution_flow_session_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt13-flow-subscription/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T21:05:55.936844+00:00",
+    "exit_code": 0,
+    "timed_out": false,
+    "owned_process_group": 70828,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 5.515,
+    "stdout_sha256": "014de09d845b63cfd1382a22203b8161acb4253cc44c843e6f4d22af5278a3db",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "machine": {
+    "runner_completed_successfully": true,
+    "passed": 4,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "replacement same-user session clears completed prepared payment",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "old preparation reply cannot rebuild a payment after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "old preflight reply cannot launch USSD after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "current captured session completes existing payment workflow",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

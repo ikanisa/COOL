@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-02T12:52:55.354248+00:00",
+  "scope": "actual private proposed mapper fixture suite; maintained source unchanged; not captured current output acceptance",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-private-proposal-review1/scripts/tests/collect_schema_domain_map_test.py"
+  ],
+  "deadline_seconds": 60,
+  "actual_seconds": 0.3078187919963966,
+  "exit_code": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "5ba66fa987b96666f51c259a53305ddc6f354ff6d307c07672f0ae1b874d26a8",
+  "proposal_checksums_sha256": "f395a9920e992a7b028eed7ef7ac2d66e6d08608c3e438b5fa71ca4e7be7f2de",
+  "fenced_inputs": 29,
+  "maintained_source_changed": false,
+  "AAB_APP_SDK_changed": false,
+  "original127_current_captured_parity_verified": false,
+  "BE08_closed": false
+}

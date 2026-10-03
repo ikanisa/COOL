@@ -1,0 +1,36 @@
+{
+  "actual_driver_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/query_driver.py"
+  ],
+  "driver_sha256": "01f06dc3b45f2305c00829c8feaee865e5d265baefb244a19cd99bcfc3c67b13",
+  "format": "collect-selected-runtime-osv-execution-receipt-v1",
+  "independent_raw_response_readback_performed": true,
+  "no_automatic_retries": true,
+  "not_native_or_security_acceptance": true,
+  "observed_tool_process_exit_code": 0,
+  "public_summary": {
+    "AAB_built": false,
+    "ARC09_closed": false,
+    "Maven_query_count": 157,
+    "distinct_returned_advisory_ids": 0,
+    "exploitability_established": false,
+    "finished_utc": "2026-10-02T12:54:11.142910+00:00",
+    "graph_components": 173,
+    "license_approval": false,
+    "official_details_retained": 0,
+    "packaged_SBOM_complete": false,
+    "project_unqueryable_count": 16,
+    "public_request_count": 5,
+    "query_status_counts": {
+      "no-known-OSV-records-returned-for-exact-query": 157
+    },
+    "security_acceptance": false,
+    "started_utc": "2026-10-02T12:53:58.326663+00:00",
+    "whole_public_actual_seconds": 12.816335
+  },
+  "unified_exec_session_id": 66907,
+  "working_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+}

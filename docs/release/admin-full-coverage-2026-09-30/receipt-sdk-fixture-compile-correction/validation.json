@@ -1,0 +1,5 @@
+{
+  "before_sha256": "a075223467b3d33005afbf47e38bf27831e81d6ccf13ae671faecbe7b44e7dc8",
+  "after_sha256": "dcadab696c977124fcd53b32f44add3cb6f2282b0f4f12ad97da38b0e0c5022c",
+  "scope": "Correct owned fixture Map.values iteration; no runtime change; prior12 compile failure retained."
+}

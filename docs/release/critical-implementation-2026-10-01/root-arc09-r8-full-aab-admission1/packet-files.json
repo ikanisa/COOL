@@ -1,0 +1,23 @@
+{
+  "AAB_execution_occurred": false,
+  "files": {
+    "admission.json": {
+      "bytes": 16253,
+      "sha256": "edeafcf36f88f069e54013c6ba3bbf06793f8a1a13f029ab5371e750edc30cc0"
+    },
+    "readback.json": {
+      "bytes": 2548,
+      "sha256": "cd5e1b0518c3a983196c0a9ba2212d832633b57b5861877cebe2dd4e4c7b7f82"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 813,
+      "sha256": "762005e50548122cc4b7416a9f9bfd7502b54fb4978f3b38ae36316ee9e448f4"
+    }
+  },
+  "kind": "root_full_AAB_admission_actual_assembly",
+  "production_release_approval": false
+}

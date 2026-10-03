@@ -1,0 +1,31 @@
+{
+  "excluded_generated_state_components": [],
+  "files": {
+    "acquire.py": {
+      "bytes": 3881,
+      "sha256": "d7f856cd01e28f08ebbd4f074ac250ffd7b4bbc5f72aa1cced529f132bd28e41"
+    },
+    "command.json": {
+      "bytes": 957,
+      "sha256": "348a2ff5484a6cfb423e5cd7fc8132bf34696b6ceb646c02df37e0398170fd19"
+    },
+    "failure.json": {
+      "bytes": 86,
+      "sha256": "de466b7efbf7b5549b953d87c2e23e96fffdf748023562f733f7d637fa33e6ad"
+    },
+    "readback.json": {
+      "bytes": 1451,
+      "sha256": "401f7a88d479e7c9014990b7a5c312bfc5cd4790aae2539a70bd34a592b49c9d"
+    },
+    "validate-acquired.py": {
+      "bytes": 3603,
+      "sha256": "a17fd5cf7a354a39e9cfa381ee7d36a7790486f50bb6fde75d520a954fd09486"
+    },
+    "version-command.json": {
+      "bytes": 525,
+      "sha256": "b02846e993130ae9967a231cf30f043588c84f44251e3940070ee6b9769a7c01"
+    }
+  },
+  "payload_count": 6,
+  "schema_version": 1
+}

@@ -1,0 +1,6 @@
+{
+  "source": "scripts/tests/local_schema_uat.py",
+  "prior_sha256": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+  "defect": "Schema-only --no-privileges clone omitted explicit column ACLs and grant options",
+  "prior_actual_evidence": "docs/release/data-correctness-2026-09-30/sql154-positive-history-attempt4-candidate235000/result.json"
+}

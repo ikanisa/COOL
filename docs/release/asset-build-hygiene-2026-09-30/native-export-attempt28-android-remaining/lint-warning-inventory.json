@@ -1,0 +1,434 @@
+[
+  {
+    "id": "ScopedStorage",
+    "severity": "Warning",
+    "message": "READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/AndroidManifest.xml",
+        "line": "18",
+        "column": "23"
+      }
+    ]
+  },
+  {
+    "id": "ScopedStorage",
+    "severity": "Warning",
+    "message": "WRITE_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to write to shared storage, use the `MediaStore.createWriteRequest` intent.",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/AndroidManifest.xml",
+        "line": "21",
+        "column": "23"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "396",
+        "column": "79"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "66",
+        "column": "71"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "117",
+        "column": "76"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "126",
+        "column": "76"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "182",
+        "column": "86"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "188",
+        "column": "78"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "198",
+        "column": "79"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "203",
+        "column": "78"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "221",
+        "column": "79"
+      }
+    ]
+  },
+  {
+    "id": "ApplySharedPref",
+    "severity": "Warning",
+    "message": "Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "224",
+        "column": "78"
+      }
+    ]
+  },
+  {
+    "id": "UnusedAttribute",
+    "severity": "Warning",
+    "message": "Attribute `enableOnBackInvokedCallback` is only used in API level 33 and higher (current min is 24)",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/AndroidManifest.xml",
+        "line": "31",
+        "column": "9"
+      }
+    ]
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of com.android.tools:desugar_jdk_libs than 2.1.4 is available: 2.1.5",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/build.gradle.kts",
+        "line": "290",
+        "column": "27"
+      }
+    ]
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+      }
+    ]
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+      }
+    ]
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+      }
+    ]
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+      }
+    ]
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+      }
+    ]
+  },
+  {
+    "id": "IconLocation",
+    "severity": "Warning",
+    "message": "Found bitmap drawable `res/drawable/collect_launcher_icon.png` in densityless folder",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/res/drawable/collect_launcher_icon.png"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "395",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `String.toUri` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "437",
+        "column": "23"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+        "line": "579",
+        "column": "20"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "66",
+        "column": "17"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "114",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "123",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "129",
+        "column": "22"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "150",
+        "column": "9"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "160",
+        "column": "9"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "172",
+        "column": "26"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "182",
+        "column": "21"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "188",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "198",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "203",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "210",
+        "column": "16"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "221",
+        "column": "13"
+      }
+    ]
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "locations": [
+      {
+        "file": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+        "line": "224",
+        "column": "13"
+      }
+    ]
+  }
+]

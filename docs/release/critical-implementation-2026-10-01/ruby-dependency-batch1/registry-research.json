@@ -1,0 +1,492 @@
+{
+  "checked_at_utc": "2026-10-01T21:24:57.662593+00:00",
+  "source": "Official RubyGems HTTPS public metadata; no package installation/lock/source mutation or independent publisher attestation",
+  "records": [
+    {
+      "label": "fastlane-current",
+      "url": "https://rubygems.org/api/v1/gems/fastlane.json",
+      "raw_sha256": "28aadae6e96f5f64f9cc8c807ea32e422c76f4df34c83ed2a5dee6f801047697",
+      "version": "2.240.1",
+      "sha": "cf792bc99ec6af6574ea416cda6530f519c8b4b3a46b1a3b52488ebf1696aa5c",
+      "gem_uri": "https://rubygems.org/gems/fastlane-2.240.1.gem",
+      "dependencies": {
+        "development": [],
+        "runtime": [
+          {
+            "name": "abbrev",
+            "requirements": "~> 0.1"
+          },
+          {
+            "name": "addressable",
+            "requirements": ">= 2.9.0, < 3.0.0"
+          },
+          {
+            "name": "artifactory",
+            "requirements": "~> 3.0"
+          },
+          {
+            "name": "aws-sdk-s3",
+            "requirements": "~> 1.197"
+          },
+          {
+            "name": "babosa",
+            "requirements": ">= 1.0.3, < 2.0.0"
+          },
+          {
+            "name": "base64",
+            "requirements": "~> 0.2"
+          },
+          {
+            "name": "benchmark",
+            "requirements": ">= 0.1.0"
+          },
+          {
+            "name": "bundler",
+            "requirements": ">= 2.4.0, < 5.0.0"
+          },
+          {
+            "name": "CFPropertyList",
+            "requirements": ">= 2.3, < 5.0.0"
+          },
+          {
+            "name": "cgi",
+            "requirements": "~> 0.4"
+          },
+          {
+            "name": "colored",
+            "requirements": "~> 1.2"
+          },
+          {
+            "name": "commander",
+            "requirements": "~> 4.6"
+          },
+          {
+            "name": "csv",
+            "requirements": "~> 3.3"
+          },
+          {
+            "name": "dotenv",
+            "requirements": ">= 2.1.1, < 3.0.0"
+          },
+          {
+            "name": "emoji_regex",
+            "requirements": ">= 0.1, < 4.0"
+          },
+          {
+            "name": "excon",
+            "requirements": ">= 0.71.0, < 2.0.0"
+          },
+          {
+            "name": "faraday",
+            "requirements": "~> 2.7"
+          },
+          {
+            "name": "faraday-cookie_jar",
+            "requirements": "~> 0.0.8"
+          },
+          {
+            "name": "faraday-follow_redirects",
+            "requirements": "~> 0.3"
+          },
+          {
+            "name": "faraday-multipart",
+            "requirements": "~> 1.0"
+          },
+          {
+            "name": "faraday-retry",
+            "requirements": "~> 2.0"
+          },
+          {
+            "name": "fastimage",
+            "requirements": ">= 2.1.0, < 3.0.0"
+          },
+          {
+            "name": "fastlane-sirp",
+            "requirements": ">= 1.1.0"
+          },
+          {
+            "name": "gh_inspector",
+            "requirements": ">= 1.1.2, < 2.0.0"
+          },
+          {
+            "name": "google-apis-androidpublisher_v3",
+            "requirements": "~> 0.99"
+          },
+          {
+            "name": "google-apis-playcustomapp_v1",
+            "requirements": "~> 0.1"
+          },
+          {
+            "name": "google-cloud-env",
+            "requirements": ">= 1.6.0, < 2.4.0"
+          },
+          {
+            "name": "google-cloud-storage",
+            "requirements": "~> 1.31"
+          },
+          {
+            "name": "highline",
+            "requirements": "~> 2.0"
+          },
+          {
+            "name": "irb",
+            "requirements": ">= 1.8"
+          },
+          {
+            "name": "json",
+            "requirements": "< 3.0.0"
+          },
+          {
+            "name": "jwt",
+            "requirements": ">= 2.10.3, < 4"
+          },
+          {
+            "name": "logger",
+            "requirements": ">= 1.6, < 2.0"
+          },
+          {
+            "name": "mini_magick",
+            "requirements": ">= 4.9.4, < 5.0.0"
+          },
+          {
+            "name": "multi_json",
+            "requirements": "~> 1.12"
+          },
+          {
+            "name": "multipart-post",
+            "requirements": ">= 2.0.0, < 3.0.0"
+          },
+          {
+            "name": "mutex_m",
+            "requirements": "~> 0.3"
+          },
+          {
+            "name": "naturally",
+            "requirements": "~> 2.2"
+          },
+          {
+            "name": "nkf",
+            "requirements": "~> 0.2"
+          },
+          {
+            "name": "optparse",
+            "requirements": ">= 0.1.1, < 1.0.0"
+          },
+          {
+            "name": "ostruct",
+            "requirements": ">= 0.1.0"
+          },
+          {
+            "name": "plist",
+            "requirements": ">= 3.1.0, < 4.0.0"
+          },
+          {
+            "name": "rubyzip",
+            "requirements": ">= 3.4.0, < 4.0.0"
+          },
+          {
+            "name": "security",
+            "requirements": "~> 0.3"
+          },
+          {
+            "name": "simctl",
+            "requirements": "~> 1.6.3"
+          },
+          {
+            "name": "terminal-notifier",
+            "requirements": ">= 2.0.0, < 3.0.0"
+          },
+          {
+            "name": "terminal-table",
+            "requirements": "~> 4"
+          },
+          {
+            "name": "tty-screen",
+            "requirements": ">= 0.6.3, < 1.0.0"
+          },
+          {
+            "name": "tty-spinner",
+            "requirements": ">= 0.8.0, < 1.0.0"
+          },
+          {
+            "name": "word_wrap",
+            "requirements": "~> 1.0.0"
+          },
+          {
+            "name": "xcodeproj",
+            "requirements": ">= 1.13.0, < 2.0.0"
+          },
+          {
+            "name": "xcpretty",
+            "requirements": "~> 0.4.1"
+          },
+          {
+            "name": "xcpretty-travis-formatter",
+            "requirements": ">= 0.0.3, < 2.0.0"
+          }
+        ]
+      },
+      "ruby_version": null
+    },
+    {
+      "label": "fastlane-pinned",
+      "url": "https://rubygems.org/api/v2/rubygems/fastlane/versions/2.237.0.json",
+      "raw_sha256": "552539013e5d9cf7feabec6fdcceaa79f24b928c9942ad1bb5d7a413c0b1f545",
+      "version": "2.237.0",
+      "sha": "bb1e867bc070fb328741b5e6e7606d5ba596941a9ecca0478f60ef22d1009db9",
+      "gem_uri": "https://rubygems.org/gems/fastlane-2.237.0.gem",
+      "dependencies": {
+        "development": [],
+        "runtime": [
+          {
+            "name": "abbrev",
+            "requirements": "~> 0.1"
+          },
+          {
+            "name": "addressable",
+            "requirements": ">= 2.9.0, < 3.0.0"
+          },
+          {
+            "name": "artifactory",
+            "requirements": "~> 3.0"
+          },
+          {
+            "name": "aws-sdk-s3",
+            "requirements": "~> 1.197"
+          },
+          {
+            "name": "babosa",
+            "requirements": ">= 1.0.3, < 2.0.0"
+          },
+          {
+            "name": "base64",
+            "requirements": "~> 0.2"
+          },
+          {
+            "name": "benchmark",
+            "requirements": ">= 0.1.0"
+          },
+          {
+            "name": "bundler",
+            "requirements": ">= 2.4.0, < 5.0.0"
+          },
+          {
+            "name": "CFPropertyList",
+            "requirements": ">= 2.3, < 5.0.0"
+          },
+          {
+            "name": "colored",
+            "requirements": "~> 1.2"
+          },
+          {
+            "name": "commander",
+            "requirements": "~> 4.6"
+          },
+          {
+            "name": "csv",
+            "requirements": "~> 3.3"
+          },
+          {
+            "name": "dotenv",
+            "requirements": ">= 2.1.1, < 3.0.0"
+          },
+          {
+            "name": "emoji_regex",
+            "requirements": ">= 0.1, < 4.0"
+          },
+          {
+            "name": "excon",
+            "requirements": ">= 0.71.0, < 2.0.0"
+          },
+          {
+            "name": "faraday",
+            "requirements": "~> 1.0"
+          },
+          {
+            "name": "faraday-cookie_jar",
+            "requirements": "~> 0.0.6"
+          },
+          {
+            "name": "faraday_middleware",
+            "requirements": "~> 1.0"
+          },
+          {
+            "name": "fastimage",
+            "requirements": ">= 2.1.0, < 3.0.0"
+          },
+          {
+            "name": "fastlane-sirp",
+            "requirements": ">= 1.1.0"
+          },
+          {
+            "name": "gh_inspector",
+            "requirements": ">= 1.1.2, < 2.0.0"
+          },
+          {
+            "name": "google-apis-androidpublisher_v3",
+            "requirements": "~> 0.3"
+          },
+          {
+            "name": "google-apis-playcustomapp_v1",
+            "requirements": "~> 0.1"
+          },
+          {
+            "name": "google-cloud-env",
+            "requirements": ">= 1.6.0, < 2.3.0"
+          },
+          {
+            "name": "google-cloud-storage",
+            "requirements": "~> 1.31"
+          },
+          {
+            "name": "highline",
+            "requirements": "~> 2.0"
+          },
+          {
+            "name": "http-cookie",
+            "requirements": "~> 1.0.5"
+          },
+          {
+            "name": "json",
+            "requirements": "< 3.0.0"
+          },
+          {
+            "name": "jwt",
+            "requirements": ">= 2.10.3, < 4"
+          },
+          {
+            "name": "logger",
+            "requirements": ">= 1.6, < 2.0"
+          },
+          {
+            "name": "mini_magick",
+            "requirements": ">= 4.9.4, < 5.0.0"
+          },
+          {
+            "name": "multi_json",
+            "requirements": "~> 1.12"
+          },
+          {
+            "name": "multipart-post",
+            "requirements": ">= 2.0.0, < 3.0.0"
+          },
+          {
+            "name": "mutex_m",
+            "requirements": "~> 0.3"
+          },
+          {
+            "name": "naturally",
+            "requirements": "~> 2.2"
+          },
+          {
+            "name": "nkf",
+            "requirements": "~> 0.2"
+          },
+          {
+            "name": "optparse",
+            "requirements": ">= 0.1.1, < 1.0.0"
+          },
+          {
+            "name": "ostruct",
+            "requirements": ">= 0.1.0"
+          },
+          {
+            "name": "plist",
+            "requirements": ">= 3.1.0, < 4.0.0"
+          },
+          {
+            "name": "rubyzip",
+            "requirements": ">= 2.0.0, < 3.0.0"
+          },
+          {
+            "name": "security",
+            "requirements": "= 0.1.5"
+          },
+          {
+            "name": "simctl",
+            "requirements": "~> 1.6.3"
+          },
+          {
+            "name": "terminal-notifier",
+            "requirements": ">= 2.0.0, < 3.0.0"
+          },
+          {
+            "name": "terminal-table",
+            "requirements": "~> 3"
+          },
+          {
+            "name": "tty-screen",
+            "requirements": ">= 0.6.3, < 1.0.0"
+          },
+          {
+            "name": "tty-spinner",
+            "requirements": ">= 0.8.0, < 1.0.0"
+          },
+          {
+            "name": "word_wrap",
+            "requirements": "~> 1.0.0"
+          },
+          {
+            "name": "xcodeproj",
+            "requirements": ">= 1.13.0, < 2.0.0"
+          },
+          {
+            "name": "xcpretty",
+            "requirements": "~> 0.4.1"
+          },
+          {
+            "name": "xcpretty-travis-formatter",
+            "requirements": ">= 0.0.3, < 2.0.0"
+          }
+        ]
+      },
+      "ruby_version": ">= 3.0"
+    },
+    {
+      "label": "rubyzip-fixed",
+      "url": "https://rubygems.org/api/v2/rubygems/rubyzip/versions/3.4.0.json",
+      "raw_sha256": "ffef73acec8fc5a44d9a1528fd7cc373aba76da3276faeacdfc1c7bc1e8c6f3c",
+      "version": "3.4.0",
+      "sha": "6de39bc9eba302b635a476d16c9e16b0872ad24517c2f98f2b3a7ea23caff57b",
+      "gem_uri": "https://rubygems.org/gems/rubyzip-3.4.0.gem",
+      "dependencies": {
+        "development": [
+          {
+            "name": "minitest",
+            "requirements": "~> 5.25"
+          },
+          {
+            "name": "rake",
+            "requirements": "~> 13.2"
+          },
+          {
+            "name": "rdoc",
+            "requirements": "~> 6.11"
+          },
+          {
+            "name": "rubocop",
+            "requirements": "~> 1.80.2"
+          },
+          {
+            "name": "rubocop-performance",
+            "requirements": "~> 1.26.0"
+          },
+          {
+            "name": "rubocop-rake",
+            "requirements": "~> 0.7.1"
+          },
+          {
+            "name": "simplecov",
+            "requirements": "~> 0.22.0"
+          },
+          {
+            "name": "simplecov-lcov",
+            "requirements": "~> 0.8"
+          }
+        ],
+        "runtime": []
+      },
+      "ruby_version": ">= 3.0"
+    }
+  ]
+}

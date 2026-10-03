@@ -130,3 +130,43 @@ fastlane/report.xml
 /docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/admin-build/
 /docs/release/local-browser-lifecycle-2026-09-30/attempt5-current-logout/public-build/
 /docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/*-module-cache/
+
+# Dated validation runs retain source and reports in Git; their generated
+# builds, dependency blobs and compiler output remain available locally.
+/docs/release/**/build/
+/docs/release/**/admin-build/
+/docs/release/**/public-build/
+/docs/release/**/dependencies/by-sha256/
+/docs/release/**/*-module-cache/
+/docs/release/**/*.app/
+/docs/release/**/*.xcarchive/
+/docs/release/**/*.apk
+/docs/release/**/*.aab
+/docs/release/**/*.ipa
+/docs/release/**/*.jar
+/docs/release/**/*.dill
+/docs/release/**/*.o
+/docs/release/**/*.pcm
+/docs/release/**/*.pch
+/docs/release/**/*.dylib
+/docs/release/**/*.so
+
+# Raw validation copies and temporary test repositories retain their exact
+# bytes locally; their reports and source-binding records remain publishable.
+/docs/release/**/source-export/
+/docs/release/**/negative-fixtures/
+/docs/release/**/third_party/gotrue/test/client_test.dart
+/docs/release/**/third_party/gotrue/test/get_claims_test.dart
+/docs/release/**/scripts/tests/test_pg_archive_admission.py
+/docs/release/critical-implementation-2026-10-01/root-pg-archive-constructor-correction1/integration.diff
+/docs/release/critical-implementation-2026-10-01/root-pg-archive-fixture-startup-correction1/before.py
+/docs/release/critical-implementation-2026-10-01/root-pg-archive-fixture-startup-correction1/experimental-lazy-fixture.py
+/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/integration.diff
+/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/precursor-integration.diff
+/docs/release/critical-implementation-2026-10-01/pg39-linux-runtime-preparation*/prepare_runtime.py
+/docs/release/critical-implementation-2026-10-01/pg39-linux-runtime-preparation2/runtime-import-smoke.json
+/docs/release/critical-implementation-2026-10-01/pg39-linux-runtime-preparation2/cleanup-inspect-collect-pg39-runtime-smoke-9e8538ad3fe24a6890f5bc5993460d6e.stdout
+
+# Historical failure traces contain upstream JWT fixture output.
+/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/initial-read.stdout
+/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/tests.machine.jsonl

@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "before.dart",
+      "sha256": "be63e1d5fe5c20084aca3ea3f3747c6c5ead5a54a25478f705d0d371bda71026",
+      "bytes": 38333
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "e33e487f9d1efa50cb2bcfa80445dc8db1a01cac19f0d4fe99d8a9615801afcf",
+      "bytes": 773
+    }
+  ]
+}

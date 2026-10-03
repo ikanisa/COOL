@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 43.295,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/read_failed_candidate.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2",
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T08:09:22.768806+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 44648,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T08:08:39.473430+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f5be454fd0ab32993f4968331bdab6213b9561aaf9d49741a8c498f29a9d81b9",
+  "timed_out": false
+}

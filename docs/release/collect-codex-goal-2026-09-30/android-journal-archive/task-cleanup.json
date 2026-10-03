@@ -1,0 +1,47 @@
+{
+  "targets": [
+    {
+      "receipt": "prior-pure-71",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-jvm-wkofqfsk",
+      "existed_before_cleanup": true,
+      "absent_after": true
+    },
+    {
+      "receipt": "failed-storage-attempt1",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-0scj3n_u",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    },
+    {
+      "receipt": "failed-storage-attempt1",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-0scj3n_u",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    },
+    {
+      "receipt": "prior-storage-79",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-dqlzuthq",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    },
+    {
+      "receipt": "prior-storage-79",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-dqlzuthq",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    },
+    {
+      "receipt": "integrated-87",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-icnaujzl",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    },
+    {
+      "receipt": "integrated-87",
+      "task_target": "/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-gateway-archive-jvm-icnaujzl",
+      "existed_before_cleanup": false,
+      "absent_after": true
+    }
+  ],
+  "scope": "Only exact task-owned class directories derived from retained compile commands; dedicated runner temporary contexts had already disposed their targets."
+}

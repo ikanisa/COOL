@@ -1,0 +1,182 @@
+{
+  "root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+  "dart_closure_count": 35,
+  "overlaid": [
+    "lib/shared/repositories/collect_repository.dart"
+  ],
+  "inputs": {
+    "lib/app/env/app_env.dart": {
+      "source_sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+      "export_sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035"
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "source_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "export_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+    },
+    "lib/core/security/durable_sms_receipt.dart": {
+      "source_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+      "export_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e"
+    },
+    "lib/core/security/hash_utils.dart": {
+      "source_sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+      "export_sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6"
+    },
+    "lib/core/security/phone_normalizer.dart": {
+      "source_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+      "export_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8"
+    },
+    "lib/core/security/play_integrity_service.dart": {
+      "source_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+      "export_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d"
+    },
+    "lib/core/security/protected_snapshot_store.dart": {
+      "source_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+      "export_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0"
+    },
+    "lib/core/security/public_id_generator.dart": {
+      "source_sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+      "export_sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2"
+    },
+    "lib/core/security/sms_access_channel.dart": {
+      "source_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+      "export_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981"
+    },
+    "lib/core/supabase/browser_auth_memory.dart": {
+      "source_sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+      "export_sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9"
+    },
+    "lib/core/supabase/browser_auth_storage_stub.dart": {
+      "source_sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+      "export_sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04"
+    },
+    "lib/core/supabase/browser_auth_storage_web.dart": {
+      "source_sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+      "export_sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036"
+    },
+    "lib/core/supabase/realtime_invalidation.dart": {
+      "source_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+      "export_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907"
+    },
+    "lib/core/supabase/supabase_module.dart": {
+      "source_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+      "export_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a"
+    },
+    "lib/shared/models/collect_model_json_helpers.dart": {
+      "source_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "export_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+    },
+    "lib/shared/models/collect_models.dart": {
+      "source_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "export_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59"
+    },
+    "lib/shared/models/collect_payment_json.dart": {
+      "source_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "export_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e"
+    },
+    "lib/shared/models/collect_payment_models.dart": {
+      "source_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "export_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8"
+    },
+    "lib/shared/models/collect_profile_country_rules.dart": {
+      "source_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "export_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+    },
+    "lib/shared/models/collect_summary_json.dart": {
+      "source_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "export_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+    },
+    "lib/shared/models/member_history_page.dart": {
+      "source_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "export_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2"
+    },
+    "lib/shared/repositories/collect_invitation_protection.dart": {
+      "source_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+      "export_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9"
+    },
+    "lib/shared/repositories/collect_offline_cache.dart": {
+      "source_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+      "export_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f"
+    },
+    "lib/shared/repositories/collect_repository.dart": {
+      "source_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "export_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3"
+    },
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": {
+      "source_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+      "export_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1"
+    },
+    "lib/shared/repositories/collect_repository_helpers.dart": {
+      "source_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+      "export_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572"
+    },
+    "lib/shared/repositories/collect_repository_history.dart": {
+      "source_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+      "export_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74"
+    },
+    "lib/shared/repositories/collect_repository_live_reader.dart": {
+      "source_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "export_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37"
+    },
+    "lib/shared/repositories/collect_repository_providers.dart": {
+      "source_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+      "export_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710"
+    },
+    "lib/shared/repositories/collect_repository_state.dart": {
+      "source_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+      "export_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd"
+    },
+    "lib/shared/repositories/runtime_control_contract.dart": {
+      "source_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "export_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d"
+    },
+    "test/fixtures/collect_repository_fixture.dart": {
+      "source_sha256": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+      "export_sha256": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a"
+    },
+    "test/shared/collect_offline_cache_test.dart": {
+      "source_sha256": "85cbb0180dd17eeb915440a63629920b6a364dbb2260e78c0d0a8129fca84e29",
+      "export_sha256": "85cbb0180dd17eeb915440a63629920b6a364dbb2260e78c0d0a8129fca84e29"
+    },
+    "test/shared/member_realtime_sdk_session_test.dart": {
+      "source_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc",
+      "export_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc"
+    },
+    "test/shared/realtime_invalidation_recovery_test.dart": {
+      "source_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b",
+      "export_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b"
+    },
+    "pubspec.yaml": {
+      "source_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+      "export_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+    },
+    "pubspec.lock": {
+      "source_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "export_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "analysis_options.yaml": {
+      "source_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+      "export_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440"
+    },
+    ".dart_tool/package_config.json": {
+      "source_sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+      "export_sha256": "3a31fca2ce8f76c53a7a4b76706ea096d096f977e63ba4da259855138fff9d83"
+    },
+    ".dart_tool/package_graph.json": {
+      "source_sha256": "b100222a6618c5ec5cad77806d61627d099c14857e11563ea43947cae2da20f1",
+      "export_sha256": "b100222a6618c5ec5cad77806d61627d099c14857e11563ea43947cae2da20f1"
+    },
+    ".dart_tool/version": {
+      "source_sha256": "e556da0f4fa326a56dbbcea324ed8f99698f0c98093ee7506ee8311de7c1a853",
+      "export_sha256": "e556da0f4fa326a56dbbcea324ed8f99698f0c98093ee7506ee8311de7c1a853"
+    },
+    ".flutter-plugins-dependencies": {
+      "source_sha256": "b49574f49d8665854d5e147ec403fb8ba09eaea2ba7d11631fee5fd9e4eb9573",
+      "export_sha256": "295080f35d3cecc8986618bb5578353e5672f9be595615c9776ffc88f54f652d"
+    },
+    ".fvmrc": {
+      "source_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+      "export_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    }
+  }
+}

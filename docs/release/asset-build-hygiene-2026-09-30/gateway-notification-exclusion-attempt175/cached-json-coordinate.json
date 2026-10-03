@@ -1,0 +1,9 @@
+{
+  "coordinate": "org.json:json:20250517",
+  "cached_artifact_sha256": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
+  "cached_artifact_bytes": 82710,
+  "standalone_runner": "scripts/tests/android_gateway_archive_jvm.py",
+  "runner_sha256": "f5a0082b67285328b9e72ce0ee12a2e6f6409189176cc74f39339f30d6bcbeec",
+  "runner_coordinate_verified": true,
+  "cached_descriptor_exists": true
+}

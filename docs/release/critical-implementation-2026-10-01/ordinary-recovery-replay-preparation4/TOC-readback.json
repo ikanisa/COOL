@@ -1,0 +1,40 @@
+{
+  "status": "pass",
+  "actual3_TOC_sha256": "b8b90b019060f71288c8b506e4061da69960cf81741bd1576d9ae44ec029d8c4",
+  "proposal_sha256": "b8b90b019060f71288c8b506e4061da69960cf81741bd1576d9ae44ec029d8c4",
+  "restore_list_AST_unchanged": true,
+  "every_line_unchanged": true,
+  "additional_commented_entries": [],
+  "every_ACL_data_history_and_other_DDL_entry_retained": true,
+  "explicit_existing_preinstalled_CREATE_entries": [
+    "7; 3079 17158 EXTENSION - pg_cron",
+    "13; 2615 16394 SCHEMA - extensions postgres",
+    "25; 2615 16574 SCHEMA - graphql supabase_admin",
+    "24; 2615 16563 SCHEMA - graphql_public supabase_admin",
+    "8; 3079 17209 EXTENSION - pg_net",
+    "22; 2615 16603 SCHEMA - vault supabase_admin",
+    "6; 3079 16639 EXTENSION - pg_graphql",
+    "4; 3079 16515 EXTENSION - pg_stat_statements",
+    "3; 3079 16406 EXTENSION - pgcrypto",
+    "5; 3079 16604 EXTENSION - supabase_vault",
+    "2; 3079 16395 EXTENSION - uuid-ossp"
+  ],
+  "exact_archive_omission_proof": {
+    "index_name_occurrences_in_uncompressed_archive": 0,
+    "index_name_occurrences_in_TOC": 0,
+    "six_graphql_extension_function_definitions_and_ACLs_absent_from_TOC": true,
+    "sequence_definition_and_ACL_absent_from_TOC": true,
+    "sequence_extension_membership": [
+      "e",
+      "sequence",
+      "graphql",
+      "graphql.seq_schema_version",
+      "extension",
+      null,
+      "pg_graphql"
+    ],
+    "no_archive_line_omitted_or_rewritten_by_this_proof": true
+  },
+  "archive_sha256": "b3875e92a841cedc8a202628bd0c5db2e423223d3a1ebd05bfbcecdf5ff25a33",
+  "docker_executed": false
+}

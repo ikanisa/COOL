@@ -1,0 +1,8 @@
+{
+  "cause": "Missing prerequisite synthetic payments.read/audit.read catalog seed before navigation stage; same seed exists in accepted37 runner.",
+  "scope": "Test fixture setup only; no application source, permissions, negative assertions or acceptance requirement changed.",
+  "failed_result_sha256": "7f8b8c0f0c035a9d1cb50ad1ac9c5619f816121209ab0fab17e618943a54c7bb",
+  "prior_harness_sha256": "b40370cd9db7f6a109ae1d10a7980ff8258182a2997d3dc61fdeac14330285a5",
+  "corrected_harness_sha256": "f47d6e2ca2e6f9a32f15d55b02004a972c0e53711e8f93dc8e6ed7e6b6c35450",
+  "retry_output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/sql-ordinary-current-body/attempt2"
+}

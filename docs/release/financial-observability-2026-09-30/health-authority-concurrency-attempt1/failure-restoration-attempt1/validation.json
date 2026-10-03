@@ -1,0 +1,41 @@
+{
+  "all146_table_catalog_cron_fingerprints_restored": true,
+  "allowed_transaction_ids": [
+    "3285",
+    "3286",
+    "3287",
+    "3290",
+    "3291",
+    "3292",
+    "3295",
+    "3296",
+    "3299",
+    "3302",
+    "3303",
+    "3304",
+    "3305",
+    "3308",
+    "3309",
+    "3310"
+  ],
+  "cleanup_sql_sha256": "62484549c41ffb552dbfcf138a24232f55533e6d43476fdcad5571c3b68f03bb",
+  "expected_attributed_realtime_rows": 37,
+  "guard": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "hosted_called": false,
+  "original_failed_acceptance_preserved": true,
+  "provider_called": false,
+  "security_failure_remains_open": true,
+  "sequences_restored": false,
+  "status": "pass"
+}

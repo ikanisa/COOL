@@ -1,0 +1,61 @@
+{
+  "canonical_current_units": {
+    "actual_assertions": 155,
+    "actual_cases": 33,
+    "exit_code": 0,
+    "four_completed_commands": true,
+    "session_id": 31668,
+    "source_association_sha256": "70ad6004e69f13d6bc5c4ff3c6ef1e95460cb390ac2365918dd5e7ea8a215cc0",
+    "terminal_chunk": "c022b4"
+  },
+  "hosted": false,
+  "new_tests_or_recovery_commands_run": false,
+  "production_GO": false,
+  "remaining": [
+    "Full current chronology and full restore including privacy420/repeat-run800/440 when integrated",
+    "Real production owner/dump-role and managed Vault crypto/remount parity",
+    "Storage object bytes, independent keys/offsite recovery",
+    "Native Android/scheduler journal integration",
+    "Durable business inactive policy overlay and explicit fresh resume",
+    "Owner-approved RPO/RTO/device/provider/release acceptance"
+  ],
+  "reused_selected_recovery": {
+    "205_selected_current_version_source_equality": true,
+    "COPY_full_data_comparison": {
+      "all_match": true,
+      "other_data": 0,
+      "rows": 6266,
+      "sequences": 4,
+      "tables": 272
+    },
+    "Ruby_commands": 28,
+    "SQL_result_sha256": "05f90efceff4da12bd77dc03671ede107e27b8e86ae3e2cd43985ec561a59f24",
+    "actual_distinct_outer_checks": 38,
+    "does_not_replay_current207": true,
+    "embedded_driver_checks": 30,
+    "excluded_versions": [
+      "20261002042000",
+      "20261002080000"
+    ],
+    "outer_commands": 73,
+    "selected_migrations": 205,
+    "snapshot_FILES_sha256": "21cc8799f872db9e19f359955e948bac18c63a1c7725b33fd2f1e09dbb7466fa",
+    "snapshot_packet_seal_sha256": "2cc06138e510f731cd8b228d35ccbf2f1c8e6a68bb897d8e4e564205048f0d1f",
+    "unit_predecessor_cases_not_added_again": 33,
+    "worker_comparison": {
+      "durable_inactive_overlay": false,
+      "exact_logical_rows": 2042,
+      "exact_objects": 84,
+      "financial_action": false,
+      "format": "collect-worker-snapshot-v1",
+      "reader_lifecycle": {
+        "child_reaped": true,
+        "ended_at": "2026-10-02T01:59:27.080555Z",
+        "ended_successfully": true,
+        "started_at": "2026-10-02T01:59:25.117385Z"
+      },
+      "send_action": false,
+      "source_state_compared_before_overlay": true
+    }
+  }
+}

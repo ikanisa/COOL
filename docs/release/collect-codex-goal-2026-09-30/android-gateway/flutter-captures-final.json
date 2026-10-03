@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "test/gateway/gateway_capture_test.dart",
+    "--reporter",
+    "expanded"
+  ],
+  "capture_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/android-gateway/captures03",
+  "exit_code": 0,
+  "status": "pass",
+  "source_sha256": {
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "lib/gateway/gateway_app.dart": "8e1167d9e83e9f5dfa67e5cef50ba006c6d4a614cf2d5477a0763af76617256b",
+    "test/gateway/gateway_capture_test.dart": "846eda0cfca84abd264d4c5e872a704ff120ffeedbac381c8b65dff296c0f754",
+    "test/gateway/gateway_safety_test.dart": "cd438c8c5b42f002df7618ee3a8a130bfe705f0a54f4bbd965f54e53519a91d6",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  "source_changes": [],
+  "fonts": "actual bundled Inter and SDK MaterialIcons; previous captures02 default Ahem font is unsuitable for visual comparison"
+}

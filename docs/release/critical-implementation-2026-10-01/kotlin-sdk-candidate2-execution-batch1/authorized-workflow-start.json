@@ -1,0 +1,31 @@
+{
+  "actual_free_bytes": 17267277824,
+  "cache_reuse_readback": {
+    "critical_artifact_fingerprints": {
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin.jvm/org.jetbrains.kotlin.jvm.gradle.plugin/2.4.20/8ff3cef18602b35ef60c71fbd82b9d1cdca3145e/org.jetbrains.kotlin.jvm.gradle.plugin-2.4.20.pom": "97ffd2004e0be1df8f80f28f451b9f6aaaed08b6ff37e6979df825cbc314a4dd",
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.4.20/23b042894dcabe39edd0f8bd30b7be0f25fe9933/kotlin-compiler-embeddable-2.4.20.jar": "cf97161430683fb9af96dc6a7017ffae1fe8737b80d12eee11f2fe3e76f8ded8",
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.4.20/f430b290536dd753888f3f1ae020a991f42b8722/kotlin-compiler-embeddable-2.4.20.pom": "269d98cc4c68670c11e4aeb404e1c7c6f31b782321908d7268ba25cd236d59b2",
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/96795a83dccfa62e6f7ad209b2a10c1ed9db0ce7/kotlin-gradle-plugin-2.4.20-gradle813.jar": "e9b18ac15c81b55d6d336356f9197aa1fb9f9371e0e76fbd2b06871cb5cf46b2",
+      "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/ac8340312efbef06cb46519e44a2e24470b35c20/kotlin-gradle-plugin-2.4.20.pom": "934dba7a977a17c008dac6c8670c8c86519a91cedb759b9a8f77040005e95dc5"
+    },
+    "global_shared_caches_or_source_outputs_copied": false,
+    "previous_daemons": [
+      {
+        "log": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/daemon/9.1.0/daemon-17361.out.log",
+        "pid": 17361,
+        "process_absent": true
+      }
+    ],
+    "same_owner_cache_idle": true
+  },
+  "candidate2": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2",
+  "exact_command_sha256": "c3f280e329807ab4d20e968a7d1c6420cc71499b5941c942c6d73479cf2736af",
+  "failed_candidate1_sources_or_outputs_transferred": false,
+  "minimum_free_bytes": 6391632289,
+  "prepared_leaf_files": 14,
+  "prepared_manifest_sha256": "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6",
+  "recorded_utc": "2026-10-02T01:30:33.240331+00:00",
+  "root_review_receipt_sha256": "ed394ba365d0623294d51f91707b844b467fc9bc2771fa962c6758d4ed48b4bd",
+  "runner_sha256": "f1485b07efa314c53728469e174f863c88064e413ef23c8bf9c87817aa2cf2c3",
+  "same_owned_Gradle_home": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1"
+}

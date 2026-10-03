@@ -1,0 +1,83 @@
+{
+  "status": "observed_pending_bounded_drift_readback",
+  "observed_at_utc": "2026-10-01T22:15:30.194444+00:00",
+  "method": "Actual PublicAppMedia.browser_source_snapshot maintained conservative fixture-entrypoint Dart graph, declared assets/fonts/licenses, local forks/provenance, web scaffold and actual helpers. No scope weakening.",
+  "capture_recorder": "scripts/qa/public_browser_app_media.mjs",
+  "exact_browser_cohort_file": "docs/release/critical-implementation-2026-10-01/public-media-batch1/media-source-cohort.before.json",
+  "exact_browser_cohort_file_sha256": "a20816b9d5fc39bbd94bbee4a67c7c0b2f833bcff433f5314df8ed19e3c16acc",
+  "runtime_sha256": "a4ad67c1b55404e7ef2eb8013c6c2f405e59e8d5d64c491130409d65602877b3",
+  "file_count": 333,
+  "counts_by_top_level": {
+    ".fvmrc": 1,
+    ".metadata": 1,
+    "analysis_options.yaml": 1,
+    "assets": 95,
+    "lib": 150,
+    "pubspec.lock": 1,
+    "pubspec.yaml": 1,
+    "scripts": 2,
+    "test": 1,
+    "third_party": 64,
+    "tool": 1,
+    "web": 15
+  },
+  "first_strict_export_drift": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "lib/gateway/gateway_app.dart",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "scripts/tests/admin_receipt_source_busy_test.dart",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "scripts/tests/receipt_source_busy_uat.py",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "scripts/tests/runtime_control_edit_eligibility_uat.py",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "scripts/tests/sms_receipt_language_uat.py",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+      "in_actual_browser_cohort": false
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_source_busy.test.ts",
+      "in_actual_browser_cohort": false
+    }
+  ],
+  "compilation_binding_inputs": [
+    ".dart_tool/package_config.json",
+    ".flutter-plugins-dependencies"
+  ],
+  "compilation_binding_scope": "Must be generated within any eventual strict isolated export, then frozen and verified against its own local package/plugin roots. No current checkout bindings copied.",
+  "additional_product_content_review_inputs": [
+    "content/product/collect_capabilities.json",
+    "scripts/product_capabilities.rb",
+    "scripts/generate_product_capability_content.rb",
+    "scripts/public_static_site_build.rb"
+  ],
+  "source_export": "Still requires successful maintained strict broad export; smaller monitored cohort does not accept broad source or authorize a subset export.",
+  "native_acceptance": false,
+  "production_release_accepted": false,
+  "writer_holds_released_after_terminal_failure": true,
+  "additional_product_content_review_sha256": {
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+    "scripts/product_capabilities.rb": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+    "scripts/generate_product_capability_content.rb": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d",
+    "scripts/public_static_site_build.rb": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47"
+  }
+}

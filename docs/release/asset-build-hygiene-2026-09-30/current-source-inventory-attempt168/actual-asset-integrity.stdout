@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "manifest": "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256",
+  "approved_count": 174,
+  "observed_count": 174,
+  "missing": [
+
+  ],
+  "unexpected": [
+
+  ],
+  "hash_mismatches": [
+
+  ],
+  "manifest_errors": [
+
+  ],
+  "scope": "Current Git tracked and non-ignored untracked visual assets, with absent indexed paths reported separately; no Git history or submodule traversal",
+  "asset_mutations": false,
+  "indexed_absent_visual_paths": [
+    "web/public/app-screens/terms-377e5eed2d41.png"
+  ]
+}

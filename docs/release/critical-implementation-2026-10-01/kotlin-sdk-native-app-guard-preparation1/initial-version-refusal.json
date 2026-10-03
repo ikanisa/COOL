@@ -1,0 +1,13 @@
+{
+  "status": "REFUSED",
+  "reason": "pinned SDK integration_test omits version; current lock uses SDK default0.0.0",
+  "affected_packages": [
+    {
+      "name": "integration_test",
+      "pubspec_name": "integration_test",
+      "pubspec_version": null,
+      "locked_version": "0.0.0"
+    }
+  ],
+  "SDK_app_or_control_writes": false
+}

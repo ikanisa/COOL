@@ -1,0 +1,41 @@
+{
+  "actual_error_type": "ValueError",
+  "actual_failure_diagnostics": {
+    "actual_failure_source_process": {
+      "actual_seconds": 10.03,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py",
+        "built",
+        "--output",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/native/actual-failure-SDK-source.json"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1",
+      "deadline_seconds": 300,
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T09:02:57.891452+00:00",
+      "headroom_failure": false,
+      "owned_process_group_absent": true,
+      "pid": 53084,
+      "residual_process_group_required_stop": false,
+      "spawned": true,
+      "started_utc": "2026-10-02T09:02:47.861225+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca",
+      "timed_out": false
+    },
+    "protected_after_failure": {
+      "no_original_metadata_restoration_performed": true,
+      "protected_metadata_paths_unchanged": 68020
+    }
+  },
+  "candidate_promoted": false,
+  "partial_failure_preserved": true,
+  "production_release_approval": false,
+  "public_error": "genuine terminal stage failure; no next stage or acceptance",
+  "retry_or_next_stage_admitted": false,
+  "stage": "native",
+  "stage_pass": false
+}

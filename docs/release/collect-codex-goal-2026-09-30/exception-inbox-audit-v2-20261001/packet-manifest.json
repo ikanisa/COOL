@@ -1,0 +1,2796 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6741,
+      "sha256": "3097fa0fb22baab66e020ba28ecd6bf5be1da7154aaaac079f987a5b6e982d6d"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "affected-plan-attempt1/concurrency.log",
+      "bytes": 161917,
+      "sha256": "87658aff7594ba6df71b94f3409ce6d3632d65ed62cb3ae60d638e4ed4f6ce94"
+    },
+    {
+      "path": "affected-plan-attempt1/exception_history/container.log",
+      "bytes": 17266,
+      "sha256": "5b8ece369fd634da35de7b73b2903560747f098c7dc2e4b828f76cc0fe0a15ee"
+    },
+    {
+      "path": "affected-plan-attempt1/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "affected-plan-attempt1/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/scripts/tests/exception_inbox_audit_v2_plan_uat.py",
+      "bytes": 20295,
+      "sha256": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "affected-plan-attempt1/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 18961,
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+    },
+    {
+      "path": "affected-plan-attempt1/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-audit-final.json",
+      "bytes": 4321,
+      "sha256": "72a43b0e2be4ff20b75a9716c10204aeb7535563cc51074756461420042724f2"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-authenticated-public-older.json",
+      "bytes": 12981,
+      "sha256": "2a7d9d25a432121482be199f28b4222ee0a0f51dc272075810392c4fdab7d680"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-authenticated-public-page.json",
+      "bytes": 12981,
+      "sha256": "5b1983f96149c10035473bfb5ae1a16694c924b0460d9572aca01c1ae12dca4d"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inbox-final.json",
+      "bytes": 1051,
+      "sha256": "91f656b29dabfaefd9e14c33ae56cbcda57d06092bf173512f9bb08154619fa3"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inner-query-owner-context.json",
+      "bytes": 168,
+      "sha256": "3d65a4d0441acb72c9053cae29a01173daa9cacc9361232b3fb867fe41ea8933"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inner-query-page-after.json",
+      "bytes": 12981,
+      "sha256": "5dd960e3d82fd6ba5df925b235fe003e6608c3a70613eaae619153db2226ffb6"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inner-query-page-before.json",
+      "bytes": 12981,
+      "sha256": "5dd960e3d82fd6ba5df925b235fe003e6608c3a70613eaae619153db2226ffb6"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inner-query-plan-after.json",
+      "bytes": 50756,
+      "sha256": "2da20f2e15634f41083998cc505f2122658dad93acb1229a9d7a49df1a270589"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-inner-query-plan-before.json",
+      "bytes": 35711,
+      "sha256": "3a23350f004baae57c5db38019e437b358c890b8a2e97aa96cc4544294836246"
+    },
+    {
+      "path": "affected-plan-attempt1/observed-public-small-page.json",
+      "bytes": 4321,
+      "sha256": "c6630a100395b146cad52029f4cc02d4eab7861764239c3f8a8a12c680f49ce1"
+    },
+    {
+      "path": "affected-plan-attempt1/queries.log",
+      "bytes": 99525,
+      "sha256": "59ef9c6f91e0b4cf92b72f2736384e18218d35cbcbee9878b2a462433b2fc69b"
+    },
+    {
+      "path": "affected-plan-attempt1/queries.sql",
+      "bytes": 1922160,
+      "sha256": "7bf6782b484b029e5bff667a9a889e97471570cb483a4ca8be77733734aadb3a"
+    },
+    {
+      "path": "affected-plan-attempt1/result.json",
+      "bytes": 15662,
+      "sha256": "b9437c27277c5e37cf75c7e20ad6323e1cbb524539af7486318cc28393f09df2"
+    },
+    {
+      "path": "affected-select-delta.diff",
+      "bytes": 3602,
+      "sha256": "3df4fd85bc7b0fef865b6b17d43169387fc4b445a943fbc083a1ed1ac9a69ed8"
+    },
+    {
+      "path": "affected-select-delta.json",
+      "bytes": 472,
+      "sha256": "3204d8cef28c1f7f491d5051998f306fdfa8b0ebc97841bd321218d7951aa222"
+    },
+    {
+      "path": "attempt1/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 417,
+      "sha256": "505223cd6398f824ccdd2658cfe5a03de7483584cabe43fa87b14704b18c8b61"
+    },
+    {
+      "path": "attempt1/exception_history/container.log",
+      "bytes": 16827,
+      "sha256": "0a118301a3b84598886a958579c30162e2c76fa6fdc39f8d5c3edd8353bc9c01"
+    },
+    {
+      "path": "attempt1/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt1/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt1/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt1/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt1/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt1/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt1/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 27604,
+      "sha256": "a42e54015df653cd7536f1e60f4d9ec86fdca39cf23555ac55801409af10513e"
+    },
+    {
+      "path": "attempt1/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt1/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt1/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17353,
+      "sha256": "277195dacaff341ab154ebb9c4661295efd04cef5d3b52ce08087ebff84df761"
+    },
+    {
+      "path": "attempt1/queries.log",
+      "bytes": 26536,
+      "sha256": "ed0d416ed2527d713b800c7e60b162efb58d2262890f603977f3abfcdce59448"
+    },
+    {
+      "path": "attempt1/queries.sql",
+      "bytes": 1606580,
+      "sha256": "fc87925e3959f6f7ca160eaf384eb299494de1d3dbe1df4d60783ac3a2e1090c"
+    },
+    {
+      "path": "attempt1/result.json",
+      "bytes": 6986,
+      "sha256": "82a397f697bf45fbbdbdaf1ef1525cde89d551471cee508a18303c8608751e76"
+    },
+    {
+      "path": "attempt2/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/exception_history/container.log",
+      "bytes": 20040,
+      "sha256": "0f78f66ccab99d4ca869e36a9baeacd745302c8a3929a32d2c01fb614a584a95"
+    },
+    {
+      "path": "attempt2/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt2/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt2/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt2/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt2/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt2/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt2/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 30035,
+      "sha256": "612e2616060a8852a00f49f8f12d67a51d0804c42a15fe35f2add3edc87faa0f"
+    },
+    {
+      "path": "attempt2/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt2/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt2/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17353,
+      "sha256": "277195dacaff341ab154ebb9c4661295efd04cef5d3b52ce08087ebff84df761"
+    },
+    {
+      "path": "attempt2/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt2/queries.log",
+      "bytes": 78808,
+      "sha256": "1b386d5ea98b1aab9ebb1c6df1ec08cb95ee0c9d8448784fb7027bebb26f0bda"
+    },
+    {
+      "path": "attempt2/queries.sql",
+      "bytes": 1906151,
+      "sha256": "0db4e1670bf0b08137fe8dd212be1ee0d902831f494662db3839797f11817a27"
+    },
+    {
+      "path": "attempt2/result.json",
+      "bytes": 13434,
+      "sha256": "4677fc11f5ebe5f93d7c64361e2f7b1537b31f668de2c333095229bd5783f5b8"
+    },
+    {
+      "path": "attempt3/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/exception_history/container.log",
+      "bytes": 16451,
+      "sha256": "4ae0ad2225be01ff98df14b894c92a8dcac45ca20c602a071aa0aaf1640d55ee"
+    },
+    {
+      "path": "attempt3/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt3/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt3/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt3/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt3/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt3/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt3/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 30035,
+      "sha256": "612e2616060a8852a00f49f8f12d67a51d0804c42a15fe35f2add3edc87faa0f"
+    },
+    {
+      "path": "attempt3/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt3/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt3/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17335,
+      "sha256": "af669fcc5bb7c7a3018401dd170c53a4964c93f150cf098870263221a5115500"
+    },
+    {
+      "path": "attempt3/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt3/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "ae015825ebf9e5bb6b9278d623709815bbfa9d442bdbdd5a526a904113c11049"
+    },
+    {
+      "path": "attempt3/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "32bc9d29367f915f55ee469db49e105fa4c73ebffe6592219d01e7ca102e0f20"
+    },
+    {
+      "path": "attempt3/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "ec3d0fe7b8897e06e56a71cea0fe8030a66463689c05ded5020db3f2cdeed2b2"
+    },
+    {
+      "path": "attempt3/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "71b7eec73c0d4d78d9853915c5310a17e2a4adb685abfd5a91bb9413c56bae50"
+    },
+    {
+      "path": "attempt3/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "888738f14d785a395686095ddb60fae1d2449ece022e973632876eb5eeef7104"
+    },
+    {
+      "path": "attempt3/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "a1bbd30a612b513f01423c4ca92da55f7b0f4694c59fa9ecd9bc4000c0cc413a"
+    },
+    {
+      "path": "attempt3/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "33dd6cdd830e4bd1611bd6c2ea49cf3530b2f43d5f9475fa9b8d581aeed87590"
+    },
+    {
+      "path": "attempt3/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "b2efdfc6b6cb525f328353711352a5b7d77b7e22d82d4ec604b0567f8563ca4d"
+    },
+    {
+      "path": "attempt3/queries.log",
+      "bytes": 158063,
+      "sha256": "3dd6be0c1ac6b55720134bc18c6ac0d4fe93055ca133a5891aff6472f6ba9759"
+    },
+    {
+      "path": "attempt3/queries.sql",
+      "bytes": 1958110,
+      "sha256": "7d098592f72104ce805df2f60856dc4553165fc506006a23f847ec2cabc3330f"
+    },
+    {
+      "path": "attempt3/result.json",
+      "bytes": 11006,
+      "sha256": "0b5da1e6777b4892acf278bc085675598f17bdd517ee9e0921a1b98c99ce244a"
+    },
+    {
+      "path": "attempt4/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/exception_history/container.log",
+      "bytes": 17626,
+      "sha256": "54be7458620f39ad7fdeb86a50b1c1e0beb11ec63b971e9825a2f249dcd2998e"
+    },
+    {
+      "path": "attempt4/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt4/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt4/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt4/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt4/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt4/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt4/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 30123,
+      "sha256": "f4442436a7ca9367dcd4bf1ebdb53c278d3b88eb9b04adcf608e71b45b115e83"
+    },
+    {
+      "path": "attempt4/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt4/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt4/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17335,
+      "sha256": "af669fcc5bb7c7a3018401dd170c53a4964c93f150cf098870263221a5115500"
+    },
+    {
+      "path": "attempt4/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt4/observed-audit-allocation-event.json",
+      "bytes": 413,
+      "sha256": "e76c96ab99e807950fe7f3774d12c15f85b5d18b3edae323852a3c94c9e90a9e"
+    },
+    {
+      "path": "attempt4/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "6dd0de7b17838dea919e37af6c349445d7beb579681f037d91cf1ddcdbb5ae76"
+    },
+    {
+      "path": "attempt4/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "41060fbde847bf9eeeecb37a462ade5e52ec9e1849925ece3dfae5690f02b78e"
+    },
+    {
+      "path": "attempt4/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "93177daea1b8b09f1ffe9f87acba75c6802afc3a0f2c298c57482bd88a4ad6ff"
+    },
+    {
+      "path": "attempt4/observed-audit-obsolete-resolved.json",
+      "bytes": 4940,
+      "sha256": "f1f32ea55f06dddfb39a4a79156796eb11175fc98100ba3487ac2875cb1e64fd"
+    },
+    {
+      "path": "attempt4/observed-audit-receipt_backlog.json",
+      "bytes": 413,
+      "sha256": "b8ade6e3bfca4f5d8eb3472a867c7c028ee2f19df56bc5e54c87f808aefc5e34"
+    },
+    {
+      "path": "attempt4/observed-audit-receipt_event.json",
+      "bytes": 413,
+      "sha256": "4dbfbac11fcec3acab976b256f0b4552aeb0829245fda564f37edf77a5bb021f"
+    },
+    {
+      "path": "attempt4/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "99c5e266500ba17ccac64e5800b18ba147106352ce5d2f70c6da8b7e7eb5b0a8"
+    },
+    {
+      "path": "attempt4/observed-audit-unavailable.json",
+      "bytes": 3064,
+      "sha256": "f6a0b0cf0f05dc628d298844db783300aa2f67bc12ab09f2753fd48994f18a66"
+    },
+    {
+      "path": "attempt4/observed-audit-unscoped.json",
+      "bytes": 415,
+      "sha256": "4f50ddb0c0abfe08ead8ccdab56da5c9a8a26e852c1668c50e015cfefd6c4d07"
+    },
+    {
+      "path": "attempt4/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "9ca57754972e4dab96b94bd4f1ce5b3801d5aad0d93a848223924180b3bc1f12"
+    },
+    {
+      "path": "attempt4/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "84ce6fe502bfb279b49492d76366289fe256aab6ffc78b731c7aec549888671a"
+    },
+    {
+      "path": "attempt4/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "04ba8054e327761cf311e4e1a40fc36d9fde7dca7112b5f1466f5db597cfb4cc"
+    },
+    {
+      "path": "attempt4/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "0f3dd46708354e657f12b6f9237dae3763ff102ec8d9c81846a571c8376b0bfb"
+    },
+    {
+      "path": "attempt4/queries.log",
+      "bytes": 182367,
+      "sha256": "f565037b15cf12fbeef1bf3e99f0ba9b0a1d2b6b5cee0aec94fde8128a4d22e5"
+    },
+    {
+      "path": "attempt4/queries.sql",
+      "bytes": 1974049,
+      "sha256": "2fae395c188f81b32b49a46a35dd90cb8bf45e36ffd16f4711c27e8ac9a10da5"
+    },
+    {
+      "path": "attempt4/result.json",
+      "bytes": 12433,
+      "sha256": "dcf4aa0aec66bd7a3f973fd3a198c4e8d1ef9a820663839eb1d012948c03dff3"
+    },
+    {
+      "path": "attempt5/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/exception_history/container.log",
+      "bytes": 17625,
+      "sha256": "44aa300563e5abf6e4b261b66532d4e93947f37f67fd674e7eb718fce61e9af5"
+    },
+    {
+      "path": "attempt5/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt5/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt5/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt5/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt5/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt5/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt5/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 32496,
+      "sha256": "53d929552255304febf9b42d88c84a98f1a534b48a2463f0b5f51e556659aac9"
+    },
+    {
+      "path": "attempt5/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt5/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt5/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    {
+      "path": "attempt5/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt5/observed-audit-allocation-event.json",
+      "bytes": 413,
+      "sha256": "f0b54885d63be1eb83cd874bbc0c6505dee330f7000cae6b3b33307a6d5d38c4"
+    },
+    {
+      "path": "attempt5/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "80701c9d7fd885eed49554266d27c07e9a4da3419652dbb9a7e95fad9576172c"
+    },
+    {
+      "path": "attempt5/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "ce29435bf44a6e120015dd50b749c35fed96128a32c4c81245e6e65a1624387a"
+    },
+    {
+      "path": "attempt5/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "3e0d5247f5ad1cdd8af3ff8d63ea3dc550211c3cc5fe848fda298334a022679f"
+    },
+    {
+      "path": "attempt5/observed-audit-obsolete-resolved.json",
+      "bytes": 4940,
+      "sha256": "0da154f5e6c5d7467e48ad2c978e031d803b14af9d5c287e9a339824ba84a58a"
+    },
+    {
+      "path": "attempt5/observed-audit-receipt_backlog.json",
+      "bytes": 413,
+      "sha256": "98a8bddfbf1343309ece011aac09cdcd53cf093131d4bdaf6e7579ec5d58dbbe"
+    },
+    {
+      "path": "attempt5/observed-audit-receipt_event.json",
+      "bytes": 413,
+      "sha256": "d156899c565dacda5d43fb57fff2bf20d67821f86fbcd11336cca3be1a525d5d"
+    },
+    {
+      "path": "attempt5/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "3535686670a2fa11563ef00b2034fb8ae08382e04a86e3dfd670686243ee54da"
+    },
+    {
+      "path": "attempt5/observed-audit-unavailable.json",
+      "bytes": 3064,
+      "sha256": "7a8879ef9449261993ee2043a89b17a267e76ba0900a956c8c6af6734af3ffb8"
+    },
+    {
+      "path": "attempt5/observed-audit-unscoped.json",
+      "bytes": 415,
+      "sha256": "f35b4627ecc4de1b7f6449e294ff8288dcce5a2e39f175750e1fe789fbc56aba"
+    },
+    {
+      "path": "attempt5/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "0c5e3fd7f3a02aba9cd678ba42cb894164e5b85438a08e039097041c0aeb9e52"
+    },
+    {
+      "path": "attempt5/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "89c4b01f71d1dddad1f7cffd542ae9c6616fc267bf9d79ad891869e4386e8510"
+    },
+    {
+      "path": "attempt5/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "ba99e7bd69af3e9b87f5a37fd79f5e1456e42629cd41b19d451165b0fcac60d8"
+    },
+    {
+      "path": "attempt5/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "ea5949fab6a2d9d2490e374832ac7a1de143a6f9c669fe55918988b03903b8f9"
+    },
+    {
+      "path": "attempt5/queries.log",
+      "bytes": 182355,
+      "sha256": "5e77484d0056192be5662d806d0a471c865f7a73f9d5b346ead550862b84b5fd"
+    },
+    {
+      "path": "attempt5/queries.sql",
+      "bytes": 1974550,
+      "sha256": "41ad520f79df5f9fb1847590b0c9f75e340db4482db2dc905a74f7dddc89df8e"
+    },
+    {
+      "path": "attempt5/result.json",
+      "bytes": 12432,
+      "sha256": "6c27df1c17d7517f089c62bb6b641939f702ffabfe9e54b26bacaf2703303335"
+    },
+    {
+      "path": "attempt6/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt6/concurrency.log",
+      "bytes": 734,
+      "sha256": "697f3a7754d0932ebd5a3dd190e7bcfb9bfa4d5b73876201d5402db29730d68b"
+    },
+    {
+      "path": "attempt6/exception_history/container.log",
+      "bytes": 41645,
+      "sha256": "0af80d696e17fe504e73b1674c45f489d43e9e89d70b627017839f22e7bd590f"
+    },
+    {
+      "path": "attempt6/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt6/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt6/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt6/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt6/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt6/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt6/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 33583,
+      "sha256": "7c9d84244b564ae2159cc275fef9e39f37f1c426bcccb131dbb2c4dc3e730fb8"
+    },
+    {
+      "path": "attempt6/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt6/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt6/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    {
+      "path": "attempt6/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt6/observed-audit-after-pump-commit.json",
+      "bytes": 3052,
+      "sha256": "9a1c5005a42a7819b7c8731775728af91374a5021908c56be4074d0dc922a01a"
+    },
+    {
+      "path": "attempt6/observed-audit-allocation-event.json",
+      "bytes": 413,
+      "sha256": "4a7529229d414444c9dc71b892f644822d7319c1cf8763fd5e497f74495e63e5"
+    },
+    {
+      "path": "attempt6/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "6e7d8fd7cea9b3639ddf2cbc8fec663b5b1e71e957328d7c9b52cd0161aa2288"
+    },
+    {
+      "path": "attempt6/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "6867c65911d10d24d908b702873a691341cb038e59db135fb8ad445fd132db29"
+    },
+    {
+      "path": "attempt6/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "bf538425d1745bdd282d270b99c28622bd4fa718b461a4c47c8fe4005f776508"
+    },
+    {
+      "path": "attempt6/observed-audit-legacy-target-refusal.json",
+      "bytes": 415,
+      "sha256": "7048ab7aa145bbdb7ee9de388656d55fa2e38c531688c3164f5ab6aaced5105a"
+    },
+    {
+      "path": "attempt6/observed-audit-obsolete-resolved.json",
+      "bytes": 4940,
+      "sha256": "28b46540bf99ccd0351766b9c869bf7ca6d40bd77f3bc9e2287d215237212373"
+    },
+    {
+      "path": "attempt6/observed-audit-receipt_backlog.json",
+      "bytes": 413,
+      "sha256": "4d70dc27d15d202d1718dde119ecbf898085b9e64666010624e47b0dd7550b24"
+    },
+    {
+      "path": "attempt6/observed-audit-receipt_event.json",
+      "bytes": 413,
+      "sha256": "d45c39a8e46172276f46f4b66db9e603969d322ad59552f4f5e491abebf371f1"
+    },
+    {
+      "path": "attempt6/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "a5421b6b3ca42d481f08a43eac554a66e528767057024cbda105bee82e40cd16"
+    },
+    {
+      "path": "attempt6/observed-audit-unavailable.json",
+      "bytes": 3064,
+      "sha256": "d4c6f53abbd98486290af58c17f8d3596ec20c32449d1bf71681fe78725eba00"
+    },
+    {
+      "path": "attempt6/observed-audit-unknown.json",
+      "bytes": 415,
+      "sha256": "8e97602a05d13829b1bd6c8eda644253ae8a78cf7ceba2dc50f825573c5bcbf5"
+    },
+    {
+      "path": "attempt6/observed-audit-unscoped.json",
+      "bytes": 415,
+      "sha256": "34a820a89756f06cb3961850b56870835776a57fb486ac25eb26193b7a73bb84"
+    },
+    {
+      "path": "attempt6/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "c026832f15f328e537d0db228f6687c6c2f9f82859d29165287721c5b64a2303"
+    },
+    {
+      "path": "attempt6/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "cbe8bbe9b85626aae09c7766a2853f19e9236812defa40749ab9364980169fe1"
+    },
+    {
+      "path": "attempt6/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "3d8c3cf868f8dd8d2ad22fe4f458885e7c7985487614025c6e4a29b28dd1ba8b"
+    },
+    {
+      "path": "attempt6/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "508ff6950242cbde23c6f1261c2ff221ae079ccb1e8432756acda4f1386e6a06"
+    },
+    {
+      "path": "attempt6/queries.log",
+      "bytes": 229307,
+      "sha256": "42393c0e2e40e11190d6d8a7f6359f42fde5a0281f1308aee12b7825773d773a"
+    },
+    {
+      "path": "attempt6/queries.sql",
+      "bytes": 2001422,
+      "sha256": "e1a6584a85535e5f6eac9a993613f00cba68e1b1b3840050d63280d3261b35e6"
+    },
+    {
+      "path": "attempt6/result.json",
+      "bytes": 18124,
+      "sha256": "ce5df76237aea003574ad1ed521c62f92b4720a73a16a91bb5a5f2975fbc5f62"
+    },
+    {
+      "path": "attempt7/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt7/concurrency.log",
+      "bytes": 2719,
+      "sha256": "9df1fedc285e4e320503bb76d49b713c6aa08713b64e29f0f20f42de5a770802"
+    },
+    {
+      "path": "attempt7/exception_history/container.log",
+      "bytes": 43728,
+      "sha256": "ef8a39ee2fca1c463eb1fcf8114e30a29fe38fd191ae9de60a9cb84c6e2d4aa6"
+    },
+    {
+      "path": "attempt7/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt7/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt7/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt7/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt7/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt7/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt7/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 33640,
+      "sha256": "d7f5807934d5d567e3d6c598ca3170481fcdec269102de6682f05377cc63843a"
+    },
+    {
+      "path": "attempt7/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt7/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt7/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    {
+      "path": "attempt7/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt7/observed-audit-after-pump-commit.json",
+      "bytes": 3052,
+      "sha256": "75f33f3c278bcc101e1ab311bbeda510b69cbc54aad30857943d9e1f5586701d"
+    },
+    {
+      "path": "attempt7/observed-audit-allocation-event.json",
+      "bytes": 413,
+      "sha256": "ed289abc50edf69d6db32a4f38cac190405adfc57aa7676960d8eca37d07779f"
+    },
+    {
+      "path": "attempt7/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "ebadb25a0edf39515fd0357776db3fd99f39fe1ad57768e535f49828e6117304"
+    },
+    {
+      "path": "attempt7/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "d1f0d99f1c71e49f7faea797d5dcd3fead89a865c1504651e88c13f9bcaac5aa"
+    },
+    {
+      "path": "attempt7/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "0ccbd3feab432aa5bb7e600a399502703738089ec3c928353c67ad0b940307a1"
+    },
+    {
+      "path": "attempt7/observed-audit-legacy-target-refusal.json",
+      "bytes": 415,
+      "sha256": "a777fd90bca4d674ffe6a8b180611186dcae21cb61c143689ec3492db8aa334e"
+    },
+    {
+      "path": "attempt7/observed-audit-obsolete-resolved.json",
+      "bytes": 4940,
+      "sha256": "f6d56d429379eaa94f6d6d5e0be890354077fe5b47f1367a7efb26c8dfc29697"
+    },
+    {
+      "path": "attempt7/observed-audit-receipt_backlog.json",
+      "bytes": 413,
+      "sha256": "49cd4bc7af18860248e25b84636f7af32a34bda975c3c13bf80e7e55a1f90036"
+    },
+    {
+      "path": "attempt7/observed-audit-receipt_event.json",
+      "bytes": 413,
+      "sha256": "31acff4f6c909dc240c92b246af09e9e1bb50c9c1641d1607a559edd34f55c02"
+    },
+    {
+      "path": "attempt7/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "a830df30385e4f4f64ffd5c2e2c7b9caaef7c5bf9818628fe7c2f66784fbcdeb"
+    },
+    {
+      "path": "attempt7/observed-audit-unavailable.json",
+      "bytes": 3064,
+      "sha256": "dfbdc306c023f71e4a9d95dc20a6aa1a5c336d02e8c3c24e1c4c5a2bc6531a08"
+    },
+    {
+      "path": "attempt7/observed-audit-unknown.json",
+      "bytes": 415,
+      "sha256": "4ea315ac054073cde39111786483ceda5891c2bb14f7e90c29673e46d9fbb657"
+    },
+    {
+      "path": "attempt7/observed-audit-unscoped.json",
+      "bytes": 415,
+      "sha256": "ad8bc04e88189317494e0332ab252b480aacefecf5dc505c42a68e6429bf61ca"
+    },
+    {
+      "path": "attempt7/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "9af4f6748fc5bbc68593417d2fea7748e77836aab8b2e411b70d271abfbae068"
+    },
+    {
+      "path": "attempt7/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "0b624f46bc87a4ca6627f400dd53a29e6421f1d7ce85e0eb46165b9decfe7253"
+    },
+    {
+      "path": "attempt7/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "f51177d637520fd2b624d4e5720f954509fb38cbdc15a568f2fd09a0aff8e3e7"
+    },
+    {
+      "path": "attempt7/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "e09d0990ca6ddceaeca4e8aca8634027fe162926e1f243483d81fe5c1491eeae"
+    },
+    {
+      "path": "attempt7/queries.log",
+      "bytes": 229632,
+      "sha256": "c162bdca94c45ac404d39b95e56a800d454c0244a34c0445f13e3546154a3cbb"
+    },
+    {
+      "path": "attempt7/queries.sql",
+      "bytes": 2001758,
+      "sha256": "e8e475e23c6e7b6f4a152325820a1de778387d2044db978ca83a0593149cd1c7"
+    },
+    {
+      "path": "attempt7/result.json",
+      "bytes": 19639,
+      "sha256": "ef91b63aca7467ae50c371c2e50a5bdeafab3db1b375f6d0880883f866fe3d12"
+    },
+    {
+      "path": "attempt8/20260930211605_android_gateway_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20260930213000_operator_email_auth.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20260930220527_operator_email_cutover_guard.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20260930230100_receipt_backlog_events.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20260930230200_admin_receipt_overview.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20260930230300_admin_transaction_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001000100_operational_exception_inbox.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001000300_admin_exception_reads.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001000400_receipt_supervisor_identity.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001000519_safe_unstarted_receipt_cancel.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001001457_joined_operator_audit.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001003338_unattended_operating_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001004651_receipt_cancel_audit_actor.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001100000_receipt_financial_policy.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001110000_receipt_operational_authority.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001120000_operational_exception_lifecycle.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001140000_receipt_deferral_exceptions.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/20261001190000_exception_followup_v2.sql.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt8/concurrency.log",
+      "bytes": 50291,
+      "sha256": "f81fd3180a406cd8be155d0ac5650968b8ac0b22361411ae778bffa13f104ac5"
+    },
+    {
+      "path": "attempt8/exception_history/container.log",
+      "bytes": 42903,
+      "sha256": "169f88fdf0a3724b5c92f85bfb04f0026a0421d1d5487db888e701025ed865fe"
+    },
+    {
+      "path": "attempt8/exception_history/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "attempt8/exception_history/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "attempt8/executed-inputs/api-acl.sql",
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "attempt8/executed-inputs/schema-only.sql",
+      "bytes": 1289085,
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "attempt8/executed-inputs/scripts/tests/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "attempt8/executed-inputs/scripts/tests/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "attempt8/executed-inputs/scripts/tests/exception_inbox_audit_v2_uat.py",
+      "bytes": 34044,
+      "sha256": "001108fa11c8118fe27df3f8bce404f25eee972ecab26bbc434c0cbb11afaf12"
+    },
+    {
+      "path": "attempt8/executed-inputs/scripts/tests/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "attempt8/executed-inputs/scripts/tests/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "bytes": 37268,
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001190000_exception_followup_v2.sql",
+      "bytes": 9247,
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    {
+      "path": "attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 17836,
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    {
+      "path": "attempt8/feature.install.log",
+      "bytes": 2,
+      "sha256": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+    },
+    {
+      "path": "attempt8/observed-actual-read-plan.json",
+      "bytes": 40750,
+      "sha256": "3471502b8e81ba06a2a01333bb718ef8527eb341a1751f12e46f8139b87caa4a"
+    },
+    {
+      "path": "attempt8/observed-audit-after-pump-commit.json",
+      "bytes": 3052,
+      "sha256": "42c0ac58b22c6c5b39c11526dff3926724808bbbafbcff63d331e1a38d8b83e1"
+    },
+    {
+      "path": "attempt8/observed-audit-allocation-event.json",
+      "bytes": 413,
+      "sha256": "12d00c0c1d3796b4c55997b92fb7cf686aa8472c535a7d3e3793b919349fe5f6"
+    },
+    {
+      "path": "attempt8/observed-audit-complete.json",
+      "bytes": 4321,
+      "sha256": "44455fea1fb84ed5e8ecab7eb6a7db9d7ed4385b3784dcf1eebb0c176c858a78"
+    },
+    {
+      "path": "attempt8/observed-audit-final.json",
+      "bytes": 4321,
+      "sha256": "e2e1176858e0623fd38a18b85c751269181d4f82835beb769354d089647c5134"
+    },
+    {
+      "path": "attempt8/observed-audit-first.json",
+      "bytes": 1780,
+      "sha256": "87311b0a7c2970e82dd092f11b21ec5197779a77118a5bc84cf49ca71bdeec2b"
+    },
+    {
+      "path": "attempt8/observed-audit-last.json",
+      "bytes": 3061,
+      "sha256": "184fc1ee3e78b0766c73cc297aa42838a621d246d68d2c9bc71c9413481f53ea"
+    },
+    {
+      "path": "attempt8/observed-audit-legacy-target-refusal.json",
+      "bytes": 415,
+      "sha256": "80955a36b55db78ad0a7080f9f87ecf29db59b80e51526326328e9df0da13913"
+    },
+    {
+      "path": "attempt8/observed-audit-obsolete-resolved.json",
+      "bytes": 4940,
+      "sha256": "1f71bc31d891537339d6489139b542fc430100c8b2e101a18c9a9cb93053179f"
+    },
+    {
+      "path": "attempt8/observed-audit-receipt_backlog.json",
+      "bytes": 413,
+      "sha256": "267927c1463c8678a0f0cf416e65d44972513acd5ad85c68310ee68a0a38b0f1"
+    },
+    {
+      "path": "attempt8/observed-audit-receipt_event.json",
+      "bytes": 413,
+      "sha256": "5c3c413fe61333855d72dfc3250f498083306d43ce4673ad478844f8eb805b7f"
+    },
+    {
+      "path": "attempt8/observed-audit-retained.json",
+      "bytes": 3616,
+      "sha256": "af9e65828014a76a21a018dcce5da482329c69ca18be9963162e0db9be5b4b06"
+    },
+    {
+      "path": "attempt8/observed-audit-unavailable.json",
+      "bytes": 3064,
+      "sha256": "c3d948973836bc4eb4daa060616e444272d3cf92a3cc948115298f07b527c1e5"
+    },
+    {
+      "path": "attempt8/observed-audit-unknown.json",
+      "bytes": 415,
+      "sha256": "f8c5c520f7e04af7caf60357b8d2046dc3b6e9f155616b9438e7e046f13ba5fc"
+    },
+    {
+      "path": "attempt8/observed-audit-unscoped.json",
+      "bytes": 415,
+      "sha256": "0580dfceb27f9d978fcd1dc146f7440c9dc7b758c116d5b87d3873e52a44f9b3"
+    },
+    {
+      "path": "attempt8/observed-inbox-final.json",
+      "bytes": 7438,
+      "sha256": "9e923a6ebe7bf977bacb4827ace2dbf97a7c522a0c3d88dee657ecf40e0f3dd5"
+    },
+    {
+      "path": "attempt8/observed-inbox-first.json",
+      "bytes": 7413,
+      "sha256": "ccc4814cc88a2d7433bde955cd5976c96352d39af389e12018b37f1b37dbf950"
+    },
+    {
+      "path": "attempt8/observed-inbox-foreign.json",
+      "bytes": 1001,
+      "sha256": "af3c976e4a8a77dc2c9f0d040060f86e60540d5f3cdac684da646a84394da0b3"
+    },
+    {
+      "path": "attempt8/observed-inbox-last.json",
+      "bytes": 2451,
+      "sha256": "384f2b3852702f858cac99934ffb57842daffb377dff5a7dc9c768d613fe9ba5"
+    },
+    {
+      "path": "attempt8/observed-opened-ack.json",
+      "bytes": 159,
+      "sha256": "74b5593a3a30c78f116ea2a5534c75af2b3ad35adc55bbfa1253b528e3ebede5"
+    },
+    {
+      "path": "attempt8/queries.log",
+      "bytes": 252564,
+      "sha256": "55f00362ae4fef391bfb482ba306ea60ffbbde7233aa8e928f67926444c54025"
+    },
+    {
+      "path": "attempt8/queries.sql",
+      "bytes": 2013508,
+      "sha256": "d7f6f9c1bc0096d550e0be405dcbda7e9416b2e96495c744598f3131cd33d4fb"
+    },
+    {
+      "path": "attempt8/result.json",
+      "bytes": 23580,
+      "sha256": "6dfee27cf600f95bd33ce0d20e6b4e7bf42dd968b9729e869d898d97fb6c9e5e"
+    },
+    {
+      "path": "schema-readback.json",
+      "bytes": 7452,
+      "sha256": "162398912fceefeabc6f7885bfedd7a5ccb808b4a72ec9515969040301ad45b0"
+    },
+    {
+      "path": "target-absence-readback.json",
+      "bytes": 3275,
+      "sha256": "5eeff646bf8f6151f2de5496c71a516b817ca04a6949007fdc826eaee0f9d832"
+    }
+  ],
+  "files_count": 558,
+  "bytes": 37728392
+}

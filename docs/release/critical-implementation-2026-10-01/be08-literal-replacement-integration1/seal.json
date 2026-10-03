@@ -1,0 +1,11 @@
+{
+  "format": "collect-be08-maintained-literal-replacement-integration-seal-v1",
+  "packet_sha256": "feeac33b1af1ccd2f1cc6972a26967e4db46457d554f9c932722d4a7977278fa",
+  "sha256sums_sha256": "711cd939af75ceee40a1eb66333d5bbb3ad1905c6926bf6a814bba725975af65",
+  "payload_files": 27,
+  "total_files": 30,
+  "file_mode": "0400",
+  "os_immutability_claimed": false,
+  "source_ownership_released": true,
+  "root_aggregate_source_fence_required_after_android_owner": true
+}

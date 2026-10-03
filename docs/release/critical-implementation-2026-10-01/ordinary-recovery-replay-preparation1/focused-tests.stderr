@@ -1,0 +1,15 @@
+test_actual_tool_versions (__main__.AdmissionTests.test_actual_tool_versions) ... ok
+test_database_acl_parser (__main__.AdmissionTests.test_database_acl_parser) ... ok
+test_exact_proposed_fixture_cohort (__main__.AdmissionTests.test_exact_proposed_fixture_cohort) ... ok
+test_owned_container_guard (__main__.AdmissionTests.test_owned_container_guard) ... ok
+test_review_drift_and_scope_are_refused (__main__.AdmissionTests.test_review_drift_and_scope_are_refused) ... ok
+test_unknown_and_duplicate_json_fields_refused (__main__.AdmissionTests.test_unknown_and_duplicate_json_fields_refused) ... ok
+test_dump_integrity_and_substitutions (__main__.ArchiveTests.test_dump_integrity_and_substitutions) ... ok
+test_preinstalled_extension_entries_keep_all_data_history_and_acl (__main__.ArchiveTests.test_preinstalled_extension_entries_keep_all_data_history_and_acl) ... ok
+test_concurrent_input_and_output (__main__.RunnerTests.test_concurrent_input_and_output) ... ok
+test_tool_output_and_wall_time_are_bounded (__main__.RunnerTests.test_tool_output_and_wall_time_are_bounded) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.138s
+
+OK

@@ -1,0 +1,5 @@
+usage: sms_receipt_language_uat.py [-h] --report-dir REPORT_DIR
+
+options:
+  -h, --help            show this help message and exit
+  --report-dir REPORT_DIR

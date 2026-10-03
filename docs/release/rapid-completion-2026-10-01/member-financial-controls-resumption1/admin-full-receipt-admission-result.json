@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "current_admin_query_benchmark_test.FullReceiptAdmissionTest"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests",
+  "exit_code": 0,
+  "seconds": 0.327,
+  "source_sha256": {
+    "scripts/tests/current_admin_query_benchmark_uat.py": "57c259815567a23041a282c30c09e000e47540d382274043e621ae3051172bd5",
+    "scripts/tests/current_admin_query_benchmark_test.py": "40163be327c6e5512af8416fe2b473fce8e59142efa50fa3cd9995598782f975"
+  },
+  "source_stable": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "670a39115e7523a8984e4842e16547cb2094b03fad392b037b4b9dc8b2656e62",
+  "sql_or_docker_executed": false,
+  "actual_volume_executed": false
+}

@@ -1,0 +1,30 @@
+{
+  "mode": "Paused",
+  "scope": "receipt_operations_configured_collections",
+  "alerts": [],
+  "backlog": null,
+  "budgets": null,
+  "unknown": null,
+  "handling": null,
+  "callbacks": null,
+  "checked_at": "2026-10-01T22:41:52.876029Z",
+  "window_end": "2026-10-01T22:41:52.876029Z",
+  "send_action": false,
+  "window_start": "2026-09-30T22:41:52.876029Z",
+  "emergency_stop": true,
+  "window_seconds": 86400,
+  "policy_revision": 1,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T22:42:52.876029Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only",
+    "no_configured_scope"
+  ],
+  "configured_collection_count": 0
+}

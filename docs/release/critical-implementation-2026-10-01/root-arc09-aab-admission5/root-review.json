@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-02T13:30:10.475618+00:00",
+  "status": "PASS",
+  "scope": "unchanged reviewed driver, only fresh output name differs from admission4",
+  "driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "admission_sha256": "0e0c101a919fcf2f4698ade66687c934a6b114ff5200ea67aad0fba82e20edce",
+  "previous_review_sha256": "cadefd0e7c42e415931c089a48dc9fc11b693cc7b3be90f252325ddb56e4e364",
+  "failed_stage4_readback_sha256": "72829862d4f881b9d9baf942777e5706fda2b3ba2a8945da3c83eceb845d1ae2",
+  "exact_dependency_metadata_resolution_readback_sha256": "2591eb1ba9f0033bd1cb6f1d4c395c61d01c2ee6142499d45f5eee4f85a0badc",
+  "only_changed_build_input": "owned private exact desugar2.1.4 repository cache registration",
+  "AAB_only": true,
+  "runtime_compile_graphs_reused": true,
+  "production_release_approval": false
+}

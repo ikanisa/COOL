@@ -1,0 +1,10 @@
+{
+  "files": {
+    "CONTINUATION.md": "c0687427a33d4c852564701eee589e2fe345d436abf5760d8ae5835f70088b83",
+    "admission-schema.json": "12ef836bf3a530989c83fbd2f72b9b3e485426310a8ba49b552516312322dbba",
+    "continuation-commands.json": "a6c5922a80d9f7e1ed40dd4d0cc1bfda96ee01696eb20eb3afa517a6203ec001",
+    "preservation-plan.json": "fbb5fd3721184f77a1634c1a2492790057731dc2c1b6b3781bd48ab6614f6e7b",
+    "preserve_failed_candidate.py": "bf5598ce69f48c1068a1cffd7eb467306da64b0620ed00d606a54752b896e80e"
+  },
+  "scope": "Only these five support leaves; root-owned fence/review files excluded. No stage authority."
+}

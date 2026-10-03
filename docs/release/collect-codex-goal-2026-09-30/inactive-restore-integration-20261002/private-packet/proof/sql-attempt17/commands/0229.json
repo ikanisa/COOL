@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "logs",
+    "collect-recovery-inactive-1adeeef43e02"
+  ],
+  "input_sha256": null,
+  "exit_code": 0,
+  "stdout_sha256": "fa7edd3d8442b58265e646d46d6578b40a894206364c37649735a7e14208f491",
+  "stderr_sha256": "ccdc5f93a5383d8ecd7c2e9f44ae70927c7c477bdc53bc460c668d2d89555d88"
+}

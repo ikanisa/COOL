@@ -1,0 +1,9 @@
+{
+  "script_sha256": "de1a14aaedb0b2ed2c5db0a7c925a79dd5dc68e94cee6abc85597e43b419b514",
+  "only_review_namespace_changed": true,
+  "original_seven_admission_tests_reused": true,
+  "new_admission_tests_executed": false,
+  "new_stage_executed": false,
+  "reason": "Include final five formatter-only fixes in a fresh current candidate before consumer admission",
+  "production_release_approval": false
+}

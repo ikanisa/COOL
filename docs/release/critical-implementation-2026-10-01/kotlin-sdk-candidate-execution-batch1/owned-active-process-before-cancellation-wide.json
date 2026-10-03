@@ -1,0 +1,8 @@
+[
+  {
+    "pid": 61323,
+    "ppid": 86284,
+    "pgid": 61323,
+    "command": "python3 -I -B docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/run_candidate_workflow.py"
+  }
+]

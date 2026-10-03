@@ -1,0 +1,25 @@
+{
+  "runners": {
+    "run-native-android-attempt53.py": {
+      "before": "17011828e7ccc501242578e81669576f7c9224f3ee4f379bab2f56d3a5d61029",
+      "after": "6c9b78bb3814589a605f23badacb25adddfd796ddd689dbcc81ccec41f912c26"
+    },
+    "run-native-gateway-attempt63.py": {
+      "before": "1b35b24e045a56f2df278a47c85950ff3df543a33e8e357581e6bf6b079814d0",
+      "after": "1dab1018fcb8ef98c3185cad6bd96d124304ed09f4ef8c4f62f3c3eb1fc935aa"
+    },
+    "run-native-ios-attempt52.py": {
+      "before": "f67660f1b70881f86cf133b6e5c8891699d7d35008c4b9e9df8b7250e8c51d80",
+      "after": "e8a770e79fb63407717d0d5e26e3f9c08be6b19e37c1b5ef605aac0f25652a3d"
+    },
+    "verify-native-ios-attempt52.py": {
+      "before": "6485bbb3c581425bb192e5371ee80dedcffd775cd27ccda7d94a3118d04e6e19",
+      "after": "7436533bc390e0caad3ea4d643975cf1643c01ebd064a6b80beca8d027da3e81"
+    },
+    "run-observed-native-attempt65.py": {
+      "before": "52649f5ea9e331872576d38ac8c25a2b24dce08aeb03fc5fe56e152ded24db61",
+      "after": "33d2bfb4178d5d6e6f01ca6c5df8c260fb4833a7296eb7e691ee8a884a0a2eb2"
+    }
+  },
+  "scope": "Prepared unlaunched native runners bind actual hosted and SDK package source bytes using accepted helper87; copied hosted sources are redirected in generated package/plugin bindings. No registry/provider/signed release acceptance"
+}

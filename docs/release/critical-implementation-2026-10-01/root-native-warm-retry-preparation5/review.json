@@ -1,0 +1,8 @@
+{
+  "only_script_delta": "review namespace4 to5",
+  "reused_admission7_proof": "root-native-warm-retry-preparation4/packet-files.json",
+  "proof_packet_sha256": "93421cfbc5ce31c8f5a233190e5bf0851f6a3702044c2ec0ca89f267a0485ae4",
+  "negative_guard_and_real_child_filename_logic_unchanged": true,
+  "no_new_actual7_run_claim": true,
+  "production_release_approval": false
+}

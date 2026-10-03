@@ -1,0 +1,399 @@
+{
+  "created_at": "2026-10-01T09:52:28.571475+00:00",
+  "file_count": 78,
+  "files": [
+    {
+      "bytes": 10243,
+      "path": "README.md",
+      "sha256": "e6b5b0dc27a32dc1fb8a24dec6e045a25baeed47c7e71c8570da2221146e50da"
+    },
+    {
+      "bytes": 76203,
+      "path": "acceptance-matrix-observation01.json",
+      "sha256": "ac21db369d6ba87c6246549c32f414e68e2c47804d29b59f6cbe968b5807f2f0"
+    },
+    {
+      "bytes": 76322,
+      "path": "acceptance-matrix-observation02.json",
+      "sha256": "3c8cda0de1675866ff6db851c54d2d21488ff7fe73d3967d94780b757e8b43ab"
+    },
+    {
+      "bytes": 4077,
+      "path": "checks.json",
+      "sha256": "2c12be093160ae0cae967bf027df267fe8369e0bc4a5da31ddcf28afa543aec0"
+    },
+    {
+      "bytes": 0,
+      "path": "ci-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 269,
+      "path": "ci-policy.stdout.log",
+      "sha256": "9f7360353f2892159c7a623b26deb42896c03bd15665ef3a5a5a01ce40e34c53"
+    },
+    {
+      "bytes": 1155,
+      "path": "github-actions-current-readback.json",
+      "sha256": "b59d1ca2327dc1522c28b0c3c33cb323a05ecdd279fe9a0eef76e73dc91a503e"
+    },
+    {
+      "bytes": 559,
+      "path": "github-owner-and-latest-job-scope.json",
+      "sha256": "9e6ea0c71572f5c1999514f93d65782451fdc34e83070f1c50760ffd5afb107f"
+    },
+    {
+      "bytes": 1381,
+      "path": "github-workflow-defaults-change.json",
+      "sha256": "ddaa2ce6f456dda81a0344b7d874994214f70121832e14aa5d7b88e3191d4b48"
+    },
+    {
+      "bytes": 593,
+      "path": "host-read-allowlist-observation.json",
+      "sha256": "52360f1ca800e8fc6f8067182e22e7e4f57ecf881c36cc0d6ca3f8df6fbc74ac"
+    },
+    {
+      "bytes": 601,
+      "path": "mcp-current-observation.json",
+      "sha256": "1ea17911834b9727c78b6b439c5ceb6318ee90b79457a0ee4d86d31aa32549e9"
+    },
+    {
+      "bytes": 0,
+      "path": "mcp-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 13678,
+      "path": "mcp-tests.stdout.log",
+      "sha256": "b3963bfcaa30cb4fbb5967fff543c6345783c0cbed13ab0776eb5ddebdea0eb7"
+    },
+    {
+      "bytes": 3997,
+      "path": "run_checks.py",
+      "sha256": "78b5ebea2293a8188005d118c9a988c0ecaf80e93905079fd8657bf412833af0"
+    },
+    {
+      "bytes": 20903,
+      "path": "source/.github/workflows/ci.yml",
+      "sha256": "6386b0e4983e8ca99eea44568263176101e650edc26bcabe000e806fa055834d"
+    },
+    {
+      "bytes": 1381,
+      "path": "source/.github/workflows/codeql.yml",
+      "sha256": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70"
+    },
+    {
+      "bytes": 1233,
+      "path": "source/.github/workflows/hardening-contracts.yml",
+      "sha256": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417"
+    },
+    {
+      "bytes": 6243,
+      "path": "source/.github/workflows/ios-app-store.yml",
+      "sha256": "47893eb02148ce116d9e57ba6a6f16dd22dbdcf43f4d63585772ea127250d6db"
+    },
+    {
+      "bytes": 3673,
+      "path": "source/.github/workflows/public-website.yml",
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0"
+    },
+    {
+      "bytes": 1794,
+      "path": "source/.github/workflows/supabase-readiness.yml",
+      "sha256": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b"
+    },
+    {
+      "bytes": 3997,
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/release-acceptance-followup-20261001/run_checks.py",
+      "sha256": "78b5ebea2293a8188005d118c9a988c0ecaf80e93905079fd8657bf412833af0"
+    },
+    {
+      "bytes": 6581,
+      "path": "source/scripts/qa/collect_ci_policy.py",
+      "sha256": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a"
+    },
+    {
+      "bytes": 8217,
+      "path": "source/scripts/qa/collect_release_acceptance.py",
+      "sha256": "a2632387b7efb45d86b88928dda6b1d04bf734e1cb0182ad47336cf7e1edebb4"
+    },
+    {
+      "bytes": 5121,
+      "path": "source/scripts/tests/test_collect_ci_policy.py",
+      "sha256": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8"
+    },
+    {
+      "bytes": 3279,
+      "path": "source/scripts/tests/test_collect_release_acceptance.py",
+      "sha256": "600b656cb86646a649c6f55c6b3a17ac0eda9c5aaaad71cd7e7dba4b8c97dcf9"
+    },
+    {
+      "bytes": 17099,
+      "path": "source/tools/collect-notification-mcp/README.md",
+      "sha256": "e89c20d2e351dbdf9182e438edd0263fbfec2e89e2c4a5d19b454d670960a523"
+    },
+    {
+      "bytes": 522,
+      "path": "source/tools/collect-notification-mcp/package.json",
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    {
+      "bytes": 8909,
+      "path": "source/tools/collect-notification-mcp/pnpm-lock.yaml",
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    {
+      "bytes": 2420,
+      "path": "source/tools/collect-notification-mcp/src/keychain_store.test.ts",
+      "sha256": "45e275fc79ef03f370351dc2925d6a7715afd90d1e4bcc6cf0df269c07192ce6"
+    },
+    {
+      "bytes": 2562,
+      "path": "source/tools/collect-notification-mcp/src/keychain_store.ts",
+      "sha256": "c072d76f43e2ea533d014b26ea592570d04ea5e7c9c51454f9cbcb07975c2224"
+    },
+    {
+      "bytes": 10018,
+      "path": "source/tools/collect-notification-mcp/src/operational_client.test.ts",
+      "sha256": "20678f7ceee30ff65313d71bc89170907cab49d73c993a5777633129302c60de"
+    },
+    {
+      "bytes": 10991,
+      "path": "source/tools/collect-notification-mcp/src/operational_client.ts",
+      "sha256": "a07e26118c81c61d7851d3c6fcba167a6e0aa5e7a916060ca64d79cd992d3dcd"
+    },
+    {
+      "bytes": 3536,
+      "path": "source/tools/collect-notification-mcp/src/operational_health.test.ts",
+      "sha256": "20cb77823062b498e30061d9a5bfdb8ccc35b548f2978b424ae3736bf770a52b"
+    },
+    {
+      "bytes": 6985,
+      "path": "source/tools/collect-notification-mcp/src/operational_health.ts",
+      "sha256": "09049fe4368aa6deffad76a52e85559cef569210d065418a04d66955591292c8"
+    },
+    {
+      "bytes": 8770,
+      "path": "source/tools/collect-notification-mcp/src/operational_transport.test.ts",
+      "sha256": "b4efc2d3ca6c5a0aa5b15316122edc3de759c48d80fea8ba590cd2832c468612"
+    },
+    {
+      "bytes": 2603,
+      "path": "source/tools/collect-notification-mcp/src/operator_client.test.ts",
+      "sha256": "fbdae0864fc304427195196cb80cf64b0c70aff198d7b5cf53d86147c173b4f7"
+    },
+    {
+      "bytes": 2798,
+      "path": "source/tools/collect-notification-mcp/src/operator_client.ts",
+      "sha256": "79a06cebabf8ce347905b21a68e25bc44f46fc570de6f729f44561907ef566e9"
+    },
+    {
+      "bytes": 3375,
+      "path": "source/tools/collect-notification-mcp/src/operator_login.test.ts",
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6"
+    },
+    {
+      "bytes": 6274,
+      "path": "source/tools/collect-notification-mcp/src/operator_login.ts",
+      "sha256": "f5bb25396a1b8e40865aa7af803b619acd1767c3f0b3b232d02d8ed79e61e1f3"
+    },
+    {
+      "bytes": 4043,
+      "path": "source/tools/collect-notification-mcp/src/preflight.test.ts",
+      "sha256": "6b968cb6adc7f5ef4b6894f3eb3ba6d7737d361ef216ba0443a44d8a9dce0428"
+    },
+    {
+      "bytes": 4022,
+      "path": "source/tools/collect-notification-mcp/src/preflight.ts",
+      "sha256": "2a247e6178e5aa7343093b96ec05b19c09fa71b6384e202f78116315c14f1cae"
+    },
+    {
+      "bytes": 862,
+      "path": "source/tools/collect-notification-mcp/src/queue_health.ts",
+      "sha256": "aaab7d7ec546963b860733b0334f4eb6f7b7477bbcbe5030719e18939803699d"
+    },
+    {
+      "bytes": 1779,
+      "path": "source/tools/collect-notification-mcp/src/runtime_credentials.test.ts",
+      "sha256": "16cb64554d59fe1bd6bcc854bef6d34ba75ff556ee3e6d84ee40d80fd95b482a"
+    },
+    {
+      "bytes": 760,
+      "path": "source/tools/collect-notification-mcp/src/runtime_credentials.ts",
+      "sha256": "9eeee1554647fc6f3967ebaef94ac213ef9847c710f8a5b2263791a5c6475377"
+    },
+    {
+      "bytes": 2560,
+      "path": "source/tools/collect-notification-mcp/src/server.test.ts",
+      "sha256": "298b0c0214ce05f5a772212091b20334256e7c8c60e9bffa6865d114502d22ab"
+    },
+    {
+      "bytes": 10762,
+      "path": "source/tools/collect-notification-mcp/src/server.ts",
+      "sha256": "8b1d98a3018316c5061eb09962af2f3bfb3cd32eb5353c56321804f79910bde8"
+    },
+    {
+      "bytes": 6965,
+      "path": "source/tools/collect-notification-mcp/src/server_transport.test.ts",
+      "sha256": "70367d99dee1ec01d603dc63e4f0a5e88185593e21c01d78a34a1b7cfc034f99"
+    },
+    {
+      "bytes": 14556,
+      "path": "source/tools/collect-notification-mcp/src/session_renewal.test.ts",
+      "sha256": "91205a587b00fa5dcb111aa3876fe63687f4546902fc3a92abfb8655755755dc"
+    },
+    {
+      "bytes": 9911,
+      "path": "source/tools/collect-notification-mcp/src/session_renewal.ts",
+      "sha256": "c069c29746546ee719eff42b344c5df6d219419bf117835eae469214b5f4706d"
+    },
+    {
+      "bytes": 1285,
+      "path": "source/tools/collect-notification-mcp/src/shadow_cli_options.test.ts",
+      "sha256": "a2bad3027386842d7b29a42be94f08e337047e511753ed1ad75f4882ad916392"
+    },
+    {
+      "bytes": 1143,
+      "path": "source/tools/collect-notification-mcp/src/shadow_cli_options.ts",
+      "sha256": "34797cb731d610779a66d68a169ab5a554748feae27ff9bf68869b205bfdb874"
+    },
+    {
+      "bytes": 7837,
+      "path": "source/tools/collect-notification-mcp/src/shadow_client.test.ts",
+      "sha256": "d9e395da65a931a8eb80063c057e2fbee615575f9e26b35a22a5302a61234c93"
+    },
+    {
+      "bytes": 5247,
+      "path": "source/tools/collect-notification-mcp/src/shadow_client.ts",
+      "sha256": "365e9583876b600d336d5b1520983200863758ad80a151a361aed9a659a0952f"
+    },
+    {
+      "bytes": 10541,
+      "path": "source/tools/collect-notification-mcp/src/shadow_contract.ts",
+      "sha256": "2e8f7cb824f7a27f299ff4121ee682a12ea6f706a979391ef16028a607bb7988"
+    },
+    {
+      "bytes": 1748,
+      "path": "source/tools/collect-notification-mcp/src/shadow_stdio.test.ts",
+      "sha256": "226080f8bdf63afd6c44f893cd5f5b953d31224b5495b6f2868cb000b2b2e114"
+    },
+    {
+      "bytes": 5684,
+      "path": "source/tools/collect-notification-mcp/src/shadow_stdio.ts",
+      "sha256": "ecd8fdca0ccf15a40d1387c2597c6d6eaba13bbf4dea0111712b58c2fd1e284c"
+    },
+    {
+      "bytes": 12412,
+      "path": "source/tools/collect-notification-mcp/src/shadow_supervisor.test.ts",
+      "sha256": "8328d0d35ce74b04236de5b74877d7df2762a94ba772c51afab00e5a48a27248"
+    },
+    {
+      "bytes": 5391,
+      "path": "source/tools/collect-notification-mcp/src/shadow_supervisor.ts",
+      "sha256": "81f9103fedc7643e6654ed4e31fa6b3b7af84cbfd1d734f1c903ce1bb20eda40"
+    },
+    {
+      "bytes": 2755,
+      "path": "source/tools/collect-notification-mcp/src/stdio_preflight.test.ts",
+      "sha256": "700d1747347e6cadf398734a8bc189bcdf25b8eb563d8ba7fea648aa00faec51"
+    },
+    {
+      "bytes": 4704,
+      "path": "source/tools/collect-notification-mcp/src/stdio_preflight.ts",
+      "sha256": "479a5426184590bbcb42a5469c58d63b4494554d96510e7053c420e5705ba649"
+    },
+    {
+      "bytes": 9566,
+      "path": "source/tools/collect-notification-mcp/src/supervisor_client.test.ts",
+      "sha256": "1bb579f19d761061da501d6f481016238ced59cdb08f431272582dc9519a4859"
+    },
+    {
+      "bytes": 9009,
+      "path": "source/tools/collect-notification-mcp/src/supervisor_client.ts",
+      "sha256": "515be8f48fc28145c7cf5aeab7edc64797ce7ceb7010f8634d83e611c2a10975"
+    },
+    {
+      "bytes": 23237,
+      "path": "source/tools/collect-notification-mcp/src/supervisor_journal.test.ts",
+      "sha256": "f56a22dafc758301ba05e959dff7fc770480ac2e4511881cd2f971867d4ac9b0"
+    },
+    {
+      "bytes": 23474,
+      "path": "source/tools/collect-notification-mcp/src/supervisor_journal.ts",
+      "sha256": "b58b993048f02cdbed33ee638f636a958919b9d58ecc499705dcf03583467758"
+    },
+    {
+      "bytes": 2871,
+      "path": "source/tools/collect-notification-mcp/src/testing/operational_fixture.ts",
+      "sha256": "6a23596e648b03f58ba620ef55794e366c214b3b3c7e6ac3cb88c42b5e4340fe"
+    },
+    {
+      "bytes": 2383,
+      "path": "source/tools/collect-notification-mcp/src/testing/shadow_fixture.ts",
+      "sha256": "3c0284200386fddbcf2078baee39f960b5b70cf2cabb8d219fb872e39f0d8e11"
+    },
+    {
+      "bytes": 1135,
+      "path": "source/tools/collect-notification-mcp/src/testing/shadow_stdio_fixture.ts",
+      "sha256": "57fcd587f761af4cbc11f97e17e9d420bbe0f99e774e9c04ca3a73d8bb546d77"
+    },
+    {
+      "bytes": 5553,
+      "path": "source/tools/collect-notification-mcp/src/testing/stdio_harness.ts",
+      "sha256": "154dc69d5a636f3a050185a74a6c410e4637448050684989f65570bfb7a6ce79"
+    },
+    {
+      "bytes": 333,
+      "path": "source/tools/collect-notification-mcp/tsconfig.json",
+      "sha256": "c388b34c11309e32462919acec1f4e6f9c1071f554c68176ab53afc5cda82c84"
+    },
+    {
+      "bytes": 6834,
+      "path": "source-after.json",
+      "sha256": "74f2dc267d726a1b1b3ba59ab028c2c6c26c219e3265c7bab1c86c447efda047"
+    },
+    {
+      "bytes": 6834,
+      "path": "source-before.json",
+      "sha256": "74f2dc267d726a1b1b3ba59ab028c2c6c26c219e3265c7bab1c86c447efda047"
+    },
+    {
+      "bytes": 716,
+      "path": "source-readback.json",
+      "sha256": "c3d163af88313d0235c518d2ab6aae69b78d97e12d832799d0719dd458516438"
+    },
+    {
+      "bytes": 3015,
+      "path": "tooling-tests.stderr.log",
+      "sha256": "f73135a056cc921256503c205f6246102afe788d2cd2be7caaa61126ddc9beaa"
+    },
+    {
+      "bytes": 0,
+      "path": "tooling-tests.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "typescript.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "typescript.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 447,
+      "path": "whitespace-check.json",
+      "sha256": "cbc3513cbc15f641efb95df94275f688a31c5b4ffb956eb5d0b4156af6e6c16a"
+    },
+    {
+      "bytes": 2867,
+      "path": "workflow-permission-compatibility.json",
+      "sha256": "5a6c2e1f5706550e893192d164873c78704d9cf28e70e678f634a7fc5b283004"
+    }
+  ],
+  "historical_packets_mutated": false,
+  "scope": "Current release/MCP/security follow-up; no master closures, current-tree freeze, hosted test success or production GO",
+  "source06_manifest_reference": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f"
+}

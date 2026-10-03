@@ -2,6 +2,8 @@
 """Exercise release secret transport without calling Supabase or a provider."""
 
 import json
+import hashlib
+import sys
 import os
 from pathlib import Path
 import shutil
@@ -64,6 +66,9 @@ import stat
 import sys
 
 args = sys.argv[1:]
+if args == ["--version"]:
+    print("2.114.0")
+    sys.exit(0)
 env_file = Path(args[args.index("--env-file") + 1])
 record = {
     "argv": args,
@@ -81,6 +86,8 @@ from pathlib import Path
 import stat
 import sys
 
+if sys.argv[1:] == ["--version"]:
+    print("psql (PostgreSQL) 17.6");sys.exit(0)
 service_file = Path(os.environ["PGSERVICEFILE"])
 password_file = Path(os.environ["PGPASSFILE"]) if "PGPASSFILE" in os.environ else None
 record = {
@@ -95,7 +102,10 @@ record = {
 (Path(os.environ["MOCK_LOG_DIR"]) / "psql.json").write_text(json.dumps(record))
 if os.environ.get("MOCK_PSQL_FAIL") == "1":
     sys.exit(9)
-print("connected")
+if any("server_version_num" in a for a in sys.argv):
+    print("170006")
+else:
+    print("connected")
 '''
 
 
@@ -103,14 +113,17 @@ class SupabaseSecretTransportTest(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.log = self.root / "log"
         self.log.mkdir()
         self.mock_bin = self.root / "bin"
         self.mock_bin.mkdir()
         self._executable(self.mock_bin / "curl", MOCK_CURL)
         self._executable(self.mock_bin / "mock-supabase", MOCK_SUPABASE)
-        self._executable(self.mock_bin / "mock-psql", MOCK_PSQL)
+        self._executable(
+            self.mock_bin / "mock-psql",
+            MOCK_PSQL.replace("#!/usr/bin/env python3", f"#!{sys.executable}", 1),
+        )
         self.env = os.environ.copy()
         self.env.update(
             {
@@ -130,6 +143,14 @@ class SupabaseSecretTransportTest(unittest.TestCase):
             }
         )
 
+        manifest={"schema_version":1,"kind":"collect_postgres_admission","review_reference":"synthetic-test-only/not-human-reviewed",
+                  "client":{"path":str(self.mock_bin/"mock-psql"),"sha256":hashlib.sha256((self.mock_bin/"mock-psql").read_bytes()).hexdigest(),"version":"17.6"},
+                  "server_matrix":[{"client_version":"17.6","server_version_num_min":170006,"server_version_num_max":170006,"operations":["query"]}],
+                  "targets":[{"kind":"local_rehearsal","project_ref":None,"host":h,"port":5432,"user":"test_user","database":"test_db"} for h in ("localhost","::1")],
+                  "timeouts":{"version_seconds":1,"server_seconds":3,"operation_seconds":10}}
+        manifest_path=self.root/"postgres-admission.json";manifest_path.write_text(json.dumps(manifest,sort_keys=True)+"\n")
+        self.env.update(COLLECT_POSTGRES_ADMISSION=str(manifest_path),COLLECT_POSTGRES_ADMISSION_SHA256=hashlib.sha256(manifest_path.read_bytes()).hexdigest())
+
     @staticmethod
     def _executable(path, contents):
         path.write_text(contents)
@@ -147,6 +168,7 @@ class SupabaseSecretTransportTest(unittest.TestCase):
             "load_dotenv_strict.sh",
         ):
             shutil.copy2(ROOT / "scripts" / name, scripts / name)
+        shutil.copy2(ROOT / ".supabase-cli-version", self.root / ".supabase-cli-version")
 
         run = subprocess.run(
             ["bash", str(scripts / "supabase_apply_auth_hardening.sh")],
@@ -171,6 +193,14 @@ class SupabaseSecretTransportTest(unittest.TestCase):
         self.assertIn('"password_hibp_enabled":true', calls[0]["body"])
         self.assertNotIn('"password_hibp_enabled"', calls[1]["body"])
         for call in calls:
+            payload = json.loads(call["body"])
+            self.assertTrue(payload["external_email_enabled"])
+            self.assertTrue(payload["external_phone_enabled"])
+            self.assertFalse(payload["mailer_autoconfirm"])
+            self.assertFalse(payload["mailer_allow_unverified_email_sign_ins"])
+            self.assertEqual(payload["mailer_otp_length"], 6)
+            self.assertEqual(payload["mailer_otp_exp"], 600)
+            self.assertEqual(payload["smtp_max_frequency"], 60)
             self.assertEqual(call["config_mode"], 0o600)
             self.assertEqual(call["config"], f'header = "Authorization: Bearer {TOKEN}"\n')
             self.assertIn(HOOK, call["body"])
@@ -240,7 +270,7 @@ class SupabaseSecretTransportTest(unittest.TestCase):
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertIn("connected", run.stdout)
         record = json.loads((self.log / "psql.json").read_text())
-        self.assertEqual(record["argv"], ["service=collect_readiness", "-Atq", "-c", "select 1"])
+        self.assertEqual(record["argv"], ["service=collect_readiness", "-Atq", "-c", "select 1", "-X", "-w"])
         self.assertEqual(record["service_mode"], 0o600)
         self.assertNotIn("db_test_secret", record["service_content"])
         self.assertEqual(record["password_mode"], 0o600)

@@ -1,0 +1,55 @@
+{
+  "actual_blocking_races": 6,
+  "actual_cases": 6,
+  "all_table_catalog_cron_fingerprints_restored": true,
+  "case_checkpoint_sha256": "c3de01ed7b07052679a04b8bc7ac787e245b20500aeb2965a93fc215016b035e",
+  "command": [
+    "ruby",
+    "-EUTF-8:UTF-8",
+    "scripts/tests/operational_health_authority_concurrency.rb"
+  ],
+  "elapsed_seconds": 12.418884541999887,
+  "guard": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "guard_error": null,
+  "hosted_called": false,
+  "provider_called": false,
+  "return_code": 1,
+  "scope": "Actual installed health reads with gated access and Auth revocation in both orders and established Repeatable Read snapshots; not final whole-system acceptance",
+  "sequences_restored": false,
+  "source_after": {
+    "scripts/tests/local_offline_verification.py": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/operational_health_authority_concurrency.rb": "aecb5ca9bd56fd824ea0af0fc94090294ba34b21b904b81ae9e13cbb3f5160a5",
+    "scripts/tests/operational_metric_concurrency_uat.rb": "18402a22292a11f3c7e08561c6bd4b1f68045a9b32b992f42b04763461a32e6f",
+    "scripts/tests/run_operational_metric_acceptance.py": "d041945063d99ebcfe05b1c4464254fc11332cf95f7ca70e0a042797f297c1f9",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+  },
+  "source_before": {
+    "scripts/tests/local_offline_verification.py": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/operational_health_authority_concurrency.rb": "aecb5ca9bd56fd824ea0af0fc94090294ba34b21b904b81ae9e13cbb3f5160a5",
+    "scripts/tests/operational_metric_concurrency_uat.rb": "18402a22292a11f3c7e08561c6bd4b1f68045a9b32b992f42b04763461a32e6f",
+    "scripts/tests/run_operational_metric_acceptance.py": "d041945063d99ebcfe05b1c4464254fc11332cf95f7ca70e0a042797f297c1f9",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+  },
+  "source_unchanged": true,
+  "status": "fail",
+  "stderr_sha256": "cbc5824361f7a7acb0ce5d858c6e5cf34e703ff087ffc17578f20ee608b7b7bd",
+  "stdout_sha256": "15607ced10edbb943449d25e9c720cab4777ee6db8ca1cd082c2f04e9052358e",
+  "suite": "health_authority",
+  "table_count": 146,
+  "timed_out": false
+}

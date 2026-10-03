@@ -1,0 +1,47 @@
+{
+  "files": {
+    "handoff.md": {
+      "bytes": 3005,
+      "sha256": "fbc4b383ac1d4b2f9b1ed576dda675c76599bec5c94ec10e636d48daf006e00c"
+    },
+    "preparation-reference-path-failure.json": {
+      "bytes": 435,
+      "sha256": "3e463cc419d2f928922212c658b7863358ef30fe3d33c444f111288f5edfa780"
+    },
+    "pure-fixture-tests-result.json": {
+      "bytes": 1630,
+      "sha256": "cfd689af0b97caf1d9ece94b82073c633c4c30f237be2f02ee8def3d9a88feed"
+    },
+    "pure-fixtures.stderr": {
+      "bytes": 1157,
+      "sha256": "ecb52376424c91b1972143a976880079e7606836f24214da26377d70fcc9fdd4"
+    },
+    "pure-fixtures.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "review.json": {
+      "bytes": 505,
+      "sha256": "baf3fbb6259f69a5cee717cfdcacce4a262a42cc57870e67841bfecb19ba3e23"
+    },
+    "reviewed-probe-only-plan.json": {
+      "bytes": 2178,
+      "sha256": "55649c1e04d5d3cd505339dafc03ba90e60044f801640674bc5025682a7c7bc9"
+    },
+    "reviewed-reference-pins.json": {
+      "bytes": 2677,
+      "sha256": "09dcb7036d9ed6f693eda039bdf76798b0c089ebd9cc521febad5080c5e4ba77"
+    },
+    "run_probe_only.py": {
+      "bytes": 10473,
+      "sha256": "d7923d691b34315bad2f390a2afdd3935e7a77e0c2ddea705fc37dcfc3783c69"
+    },
+    "test_probe_only.py": {
+      "bytes": 7413,
+      "sha256": "78c8fe34bcca8d26e3cca8534e149b5e6bfca6d19c7190de5ea4c3823e7055b5"
+    }
+  },
+  "kind": "sealed_private_R8_probe_only_preparation",
+  "production_release_approval": false,
+  "schema_version": 1
+}

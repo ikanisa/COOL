@@ -68,24 +68,35 @@ class AuthPhoneConfirmationSheet extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pop(true),
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(56),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CollectSpacing.x6,
+                    vertical: CollectSpacing.x4,
+                  ),
                   backgroundColor: colors.authForeground,
                   foregroundColor: colors.authActionForeground,
                   shape: const StadiumBorder(),
                 ),
-                child: const Text('Confirm and send'),
+                child: const Text(
+                  'Confirm and send',
+                  textAlign: TextAlign.center,
+                ),
               ),
               CollectSpacing.gap12,
               FilledButton(
                 onPressed: () => Navigator.of(context).pop(false),
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(56),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CollectSpacing.x6,
+                    vertical: CollectSpacing.x4,
+                  ),
                   backgroundColor: colors.authForeground.withValues(
                     alpha: 0.14,
                   ),
                   foregroundColor: colors.authForeground,
                   shape: const StadiumBorder(),
                 ),
-                child: const Text('Edit number'),
+                child: const Text('Edit number', textAlign: TextAlign.center),
               ),
             ],
           ),

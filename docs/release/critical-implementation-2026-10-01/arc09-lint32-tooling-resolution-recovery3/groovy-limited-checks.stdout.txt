@@ -1,0 +1,10 @@
+PASS single nested cause + suppressed detail + JSON roundtrip
+PASS actual Gradle 9.1.0 multi-cause full trace
+PASS proposed complete Gradle build script compilation only; no script execution or Gradle invocation
+PASS actual installed Gradle 9.1.0 attribute constants
+PASS fsynced distinct checkpoint leaves + actual same-filesystem atomic latest replacement
+PASS metadata completion retains zero binaries and full-graph false
+PASS checkpoint leaf collision fails without overwriting prior proof
+PASS finite checkpoint bound refuses extra leaf
+PASS selected variant owner/capabilities/attributes and external bridge retention; no filename projection
+PASS ONE concrete installed ArtifactResolutionResult facade fixture: old property rejected, resolved POM retained, unresolved component reported, count guard unchanged

@@ -1,0 +1,9 @@
+{
+  "correction": "Track runner invocation; post-invocation uncertainty uses null and retains original request UUID when available; pre-invocation refusal remains false.",
+  "material_finding": "Post-run terminal diagnostic persistence failure incorrectly asserted business_handled:false.",
+  "other_paths_parent_review": "No other concrete finding in finite admission, stop bypass, append-only diagnostics and separated projections.",
+  "recorded_at": "2026-10-01T14:57:30.083393Z",
+  "regression_evidence": "attempt3-uncertainty/node-controls.log: actual signed synthetic Edge/journal/runner restart case retains five calls and same original UUID",
+  "review_is_not_whole_candidate_certification": true,
+  "scope": "scheduler storage/caller integration only"
+}

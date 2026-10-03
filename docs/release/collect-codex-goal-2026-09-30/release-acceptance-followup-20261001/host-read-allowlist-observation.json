@@ -1,0 +1,18 @@
+{
+  "credentials_or_environment_values_retained": false,
+  "current_source_after_fixes_reloaded_in_host_verified": false,
+  "enabled_tools": [
+    "collect_notification_health",
+    "collect_list_pending_receipts",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "enabled_tools_exact_five_reads": true,
+  "host_config_changed": false,
+  "observed_at": "2026-10-01T09:48:49.498312+00:00",
+  "server": "collect-notifications",
+  "startup_timeout_sec": 15.0,
+  "successful_authenticated_backend_read_verified": false,
+  "tool_timeout_sec": 45.0
+}

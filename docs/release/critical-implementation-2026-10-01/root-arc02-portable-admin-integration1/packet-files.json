@@ -1,0 +1,99 @@
+{
+  "files": [
+    {
+      "path": "before/scripts/admin_pwa_authenticated_render_smoke.sh",
+      "bytes": 8717,
+      "sha256": "796b0445ad3ab570f24eac7b88d9611718e5a40535bf52bef1c1398518c2b343"
+    },
+    {
+      "path": "before/scripts/admin_pwa_browser_qa.mjs",
+      "bytes": 60050,
+      "sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b"
+    },
+    {
+      "path": "before/test/admin_exception_models_test.dart",
+      "bytes": 9911,
+      "sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d"
+    },
+    {
+      "path": "before/test/admin_exception_workflow_test.dart",
+      "bytes": 32295,
+      "sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f"
+    },
+    {
+      "path": "before/test/admin_investigation_test.dart",
+      "bytes": 28810,
+      "sha256": "ad13dc60b22527165586c539c8683cac6605931e2fca8c37d88575de7389bd73"
+    },
+    {
+      "path": "before/test/admin_pwa_test.dart",
+      "bytes": 26852,
+      "sha256": "b2e797a77378084b6a02b77aba6c1f1eaddff61ac4abe0412cc3f8cee137a39a"
+    },
+    {
+      "path": "before/test/admin_receipt_cancel_models_test.dart",
+      "bytes": 6317,
+      "sha256": "65d46e4684d3d78d8da775f15f862d802ea500a176e9ee07a324cfdd6a7de5bf"
+    },
+    {
+      "path": "before/test/admin_receipt_operations_sdk_test.dart",
+      "bytes": 9905,
+      "sha256": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e"
+    },
+    {
+      "path": "before/test/admin_receipt_overview_test.dart",
+      "bytes": 23768,
+      "sha256": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f"
+    },
+    {
+      "path": "before/test/admin_receipt_principal_integration_test.dart",
+      "bytes": 47510,
+      "sha256": "c6d054fa1485f33dd079279cc8f9658f9e8e8f55773a7bf7e01938d2e7b4457f"
+    },
+    {
+      "path": "before/test/admin_roster_dialog_test.dart",
+      "bytes": 14010,
+      "sha256": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582"
+    },
+    {
+      "path": "before/test/admin_route_access_test.dart",
+      "bytes": 14140,
+      "sha256": "6d197779dc7a265cb12a6565447bffcba389f137101db954f765475a1b106e26"
+    },
+    {
+      "path": "before/test/core/notification_registration_recovery_test.dart",
+      "bytes": 21519,
+      "sha256": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd"
+    },
+    {
+      "path": "before/test/support/admin_exception_fixture.dart",
+      "bytes": 944,
+      "sha256": "4f7ac29d058553965c7962016cde214b909d3425c702bf827cc5d5cf0efc2539"
+    },
+    {
+      "path": "dart-files-to-format.json",
+      "bytes": 585,
+      "sha256": "c9a64031f440b38c1c54a7fc8c4f98a85b5f473e91a6f9da92524e01f8a7bc31"
+    },
+    {
+      "path": "format.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "format.stdout",
+      "bytes": 328,
+      "sha256": "6e4ca01aad0017259a94a9d4a86ef82889aa28a93e39e47237b26e16aaa2f5a4"
+    },
+    {
+      "path": "integration-before-format.json",
+      "bytes": 13577,
+      "sha256": "776e99c717be72a889e25d92cd2eebb04095a082b122847b936b0c6338bbce77"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 22812,
+      "sha256": "770191a380a4ad0faf38fa36567b99b6e70fa5c78813fd151f0d1816b1eef784"
+    }
+  ]
+}

@@ -1,0 +1,363 @@
+{
+  "actual_seconds": 4.571,
+  "at_utc": "2026-10-02T06:27:53.703275+00:00",
+  "bytes_preserved": 2152830136,
+  "file_count": 29,
+  "files": {
+    "build/04bbeb8941cb0c923efaf507caa5db11.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790774246047601348,
+        "dev": 16777247,
+        "ino": 9541412,
+        "mode": 33188,
+        "mtime_ns": 1790774245999694396,
+        "nlink": 1,
+        "size": 56361272
+      },
+      "sha256": "0a6d9fc820934934831660ae7dcf191bcb64fa4890ffee81a22d5e3167f90fdc"
+    },
+    "build/1233ef03296c0f79e99c5dfeb89e523e.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790876329829264726,
+        "dev": 16777247,
+        "ino": 15785141,
+        "mode": 33188,
+        "mtime_ns": 1790876329734157571,
+        "nlink": 1,
+        "size": 83018216
+      },
+      "sha256": "fe5cb1cf4ae33f559071db22a5aeda98454ef44db93a85123754899fceaf09f8"
+    },
+    "build/175a27dd6074cbb92634e9fcc5234965.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790723345192109684,
+        "dev": 16777247,
+        "ino": 9284755,
+        "mode": 33188,
+        "mtime_ns": 1790723345135016153,
+        "nlink": 1,
+        "size": 59884304
+      },
+      "sha256": "19513c6281e9536fcc8025def8345ff986d2540e29eaf799713fb372d90326f4"
+    },
+    "build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790914458809854344,
+        "dev": 16777247,
+        "ino": 5710712,
+        "mode": 33188,
+        "mtime_ns": 1790914458739334567,
+        "nlink": 1,
+        "size": 88598288
+      },
+      "sha256": "36ffa0fe21ce12807aff70617e38e629145f255ff7cdf3067dce542e9b3ea228"
+    },
+    "build/20fc0d8a8f174221a61e0726f544f7d8.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790721287961614715,
+        "dev": 16777247,
+        "ino": 8919670,
+        "mode": 33188,
+        "mtime_ns": 1790721287907997511,
+        "nlink": 1,
+        "size": 59844024
+      },
+      "sha256": "50ff2fa4ff9f1f39ccfc32a3b764e357f23147123bff3f803a97e2b03ab06c87"
+    },
+    "build/26b8d85bb0ef1f9a545e49fc21f1c12a.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790875091112150097,
+        "dev": 16777247,
+        "ino": 15765143,
+        "mode": 33188,
+        "mtime_ns": 1790875091033458084,
+        "nlink": 1,
+        "size": 83017152
+      },
+      "sha256": "fa198e870ef6c6c272dde6ad602c3ca5cc60f463e8ac6ce9bbc924b036aaadf6"
+    },
+    "build/36bf2e5a590b951424fece7e9bae0adf.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874501754086872,
+        "dev": 16777247,
+        "ino": 15714104,
+        "mode": 33188,
+        "mtime_ns": 1790874501658619604,
+        "nlink": 1,
+        "size": 82999976
+      },
+      "sha256": "fc17df48fc26e03b2408dd364092ecf3ef9d2c42bd4449aa1e49a9715ee55b00"
+    },
+    "build/42f11a182ed54e4a12266caa3e52deef.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790806653132009200,
+        "dev": 16777247,
+        "ino": 10076995,
+        "mode": 33188,
+        "mtime_ns": 1790806653046666158,
+        "nlink": 1,
+        "size": 60020616
+      },
+      "sha256": "2f6d2eb4d160e89b5d437dcd386a71593d81f261e13513a80e1476c50a7a0c3f"
+    },
+    "build/48e036a636031c5d77300b46d728fc4a.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874082520504347,
+        "dev": 16777247,
+        "ino": 15725481,
+        "mode": 33188,
+        "mtime_ns": 1790874082451795933,
+        "nlink": 1,
+        "size": 83009000
+      },
+      "sha256": "955ca68ce90780eefdbe423c391b7cc33fe8ce95498c996a0a3e23852ee8204a"
+    },
+    "build/569e953f03e0a964f622b19e4964670e.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790875014405556920,
+        "dev": 16777247,
+        "ino": 15764789,
+        "mode": 33188,
+        "mtime_ns": 1790875014341701371,
+        "nlink": 1,
+        "size": 83016560
+      },
+      "sha256": "64f2d3eb0aed50c1659783d7d1da15638d34712fd843271000f5339c672be921"
+    },
+    "build/5e504d40f242b86d2d41363a64deb2d3.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874815536864230,
+        "dev": 16777247,
+        "ino": 15764116,
+        "mode": 33188,
+        "mtime_ns": 1790874815463090085,
+        "nlink": 1,
+        "size": 83010736
+      },
+      "sha256": "4c252090f1fdcad0cf19bb8fe7a80af04840e633596577df08905ebf9b6a0121"
+    },
+    "build/5f64047d66768ca4637f349242f617b2.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874248889278697,
+        "dev": 16777247,
+        "ino": 15730234,
+        "mode": 33188,
+        "mtime_ns": 1790874248813078497,
+        "nlink": 1,
+        "size": 83010424
+      },
+      "sha256": "367c1983b19f57a4a31af2477c0699511f137577a55e62e649e86343f0740d9e"
+    },
+    "build/6ec632e53bb67b24001bf62ba6c03f3f.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790883499160654720,
+        "dev": 16777247,
+        "ino": 15884836,
+        "mode": 33188,
+        "mtime_ns": 1790883499113519361,
+        "nlink": 1,
+        "size": 55089128
+      },
+      "sha256": "2a3e6f685b38e18e3bb0e8f827859481fde61d9b6086a3c9b4a8ea63497fc198"
+    },
+    "build/6edb90a4ce8fff2fc5ea0f393b003a2c.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790876518102369146,
+        "dev": 16777247,
+        "ino": 15785827,
+        "mode": 33188,
+        "mtime_ns": 1790876518029990050,
+        "nlink": 1,
+        "size": 83018216
+      },
+      "sha256": "91445e09fba9ccffd5ae591ba9b8d0318366666ca5813052aeca8468c844333a"
+    },
+    "build/76aeb8cd347653a9380088c954e28abb.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790787480418081304,
+        "dev": 16777247,
+        "ino": 10065869,
+        "mode": 33188,
+        "mtime_ns": 1790787480360796419,
+        "nlink": 1,
+        "size": 60337048
+      },
+      "sha256": "e0508e201a0484ca9af1ce2959367ddbb57ca16139b93efbe3af5df23455b743"
+    },
+    "build/90bbe2d784109708498e4de52d371261.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790875205307832536,
+        "dev": 16777247,
+        "ino": 15769979,
+        "mode": 33188,
+        "mtime_ns": 1790875205176993286,
+        "nlink": 1,
+        "size": 83017896
+      },
+      "sha256": "853dc18ae5454d0f157567ff346877deb736e8143cb3b32690492d729132c054"
+    },
+    "build/99fbf092eb8f21939bacb57b54889a29.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874667778555110,
+        "dev": 16777247,
+        "ino": 15763010,
+        "mode": 33188,
+        "mtime_ns": 1790874667702486034,
+        "nlink": 1,
+        "size": 83010392
+      },
+      "sha256": "4449ac9fe8b89ffb983fd9813247d14f46280c4ca4ff4c84c30fee60af462b63"
+    },
+    "build/b6743a37fd298c018bf8810b14e71e4b.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790876431588151215,
+        "dev": 16777247,
+        "ino": 15785554,
+        "mode": 33188,
+        "mtime_ns": 1790876431505897019,
+        "nlink": 1,
+        "size": 83018224
+      },
+      "sha256": "7446f39ebe8e0176dcce3a4e534115807af924840124ff2a2dd5895145e59923"
+    },
+    "build/cba862599081441a646cf0ef83ddeb1f.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874361700389584,
+        "dev": 16777247,
+        "ino": 15741080,
+        "mode": 33188,
+        "mtime_ns": 1790874361613888337,
+        "nlink": 1,
+        "size": 83010744
+      },
+      "sha256": "3963aebf635ba1c28808b8dc5923c70cb58dde9ed3de2e14f516a996bda26583"
+    },
+    "build/ccb9191c1b5b956cb3ada797d8c50eb1.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790876246718619008,
+        "dev": 16777247,
+        "ino": 15780821,
+        "mode": 33188,
+        "mtime_ns": 1790876246603424567,
+        "nlink": 1,
+        "size": 83018288
+      },
+      "sha256": "ed3780079560b33b4fcb5a6bf1c0ba6108ece2f9680f411178c510cce67a5f7f"
+    },
+    "build/ce1006fb3649415a608e41a34589dcc1.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790877722648931715,
+        "dev": 16777247,
+        "ino": 15802122,
+        "mode": 33188,
+        "mtime_ns": 1790877722576192124,
+        "nlink": 1,
+        "size": 83028648
+      },
+      "sha256": "9e5dca8b228fca28a3a19ac3dc2ed20bb84d9885001fe36b3a0e167b3a03ffb2"
+    },
+    "build/cf722c2652aa19f85a59cb981d4dedb0.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790779304602911531,
+        "dev": 16777247,
+        "ino": 9868691,
+        "mode": 33188,
+        "mtime_ns": 1790779304551038627,
+        "nlink": 1,
+        "size": 56409232
+      },
+      "sha256": "222f340547db38eaa2b6b33d62cee97ed4f22126f7a569b518196a23527094b5"
+    },
+    "build/d456b3b6ec5dbdceff2df5721d5ba880.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790774483612655072,
+        "dev": 16777247,
+        "ino": 9750282,
+        "mode": 33188,
+        "mtime_ns": 1790774483550853697,
+        "nlink": 1,
+        "size": 56403032
+      },
+      "sha256": "f3f79563b9b14e116bb751a7a0878f877544d9839bf1e439d21e343eac14073f"
+    },
+    "build/d79d88930addef6b19014f8a31446f47.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790877840954926169,
+        "dev": 16777247,
+        "ino": 15778675,
+        "mode": 33188,
+        "mtime_ns": 1790877840811504767,
+        "nlink": 1,
+        "size": 83019344
+      },
+      "sha256": "e4a69d9cc0072dd09884819a2ef59184ceddae15e6ba2bbf6c874cbd22cedf70"
+    },
+    "build/e140549386685f8336bd291fa7933f4d.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790719413618701369,
+        "dev": 16777247,
+        "ino": 8866283,
+        "mode": 33188,
+        "mtime_ns": 1790719413581740929,
+        "nlink": 1,
+        "size": 49306904
+      },
+      "sha256": "fa4c730f3fae0226f98201d26e658dd7fdc76f7cb71f9b356d19f0bb3bde3225"
+    },
+    "build/e47021902d57d3c97bdced686c2f4933.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874579631890411,
+        "dev": 16777247,
+        "ino": 15752559,
+        "mode": 33188,
+        "mtime_ns": 1790874579560214284,
+        "nlink": 1,
+        "size": 83010400
+      },
+      "sha256": "5d53b0112d98d57c85baf968a8fb98cbef4cd16904a037adc958b4899f9afc0d"
+    },
+    "build/e8384a067f080ad9b53994c035e7d110.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790877783657188331,
+        "dev": 16777247,
+        "ino": 15802713,
+        "mode": 33188,
+        "mtime_ns": 1790877783578345525,
+        "nlink": 1,
+        "size": 83028648
+      },
+      "sha256": "50ab7bdc26dbc2c39053ec247cba0d5af3cb773c7ba60c1653eec80fca73bfea"
+    },
+    "build/e96fc87fab3a61fde28d190e6b671848.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790724635181216311,
+        "dev": 16777247,
+        "ino": 9645546,
+        "mode": 33188,
+        "mtime_ns": 1790724635116481679,
+        "nlink": 1,
+        "size": 56297240
+      },
+      "sha256": "31f7994a263e73b49715abb2a1ea40139ef96fa847ab3f13b60deb518aae1022"
+    },
+    "build/edde9e38ab5c4e0da9d51f3ff7864675.cache.dill.track.dill": {
+      "identity": {
+        "ctime_ns": 1790874963345837034,
+        "dev": 16777247,
+        "ino": 15764539,
+        "mode": 33188,
+        "mtime_ns": 1790874963257753430,
+        "nlink": 1,
+        "size": 83016184
+      },
+      "sha256": "1586272e2cc4e3619437fe2ddc5250db7106b56695e368df16f0d422780f704e"
+    }
+  },
+  "preserved_copy": "/Users/jeanbosco/Library/Caches/COOL-SPACE-RECOVERY/20261002-test-cache1",
+  "protected_original_metadata_restored": false,
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/build/test_cache",
+  "source_code_or_evidence_deleted": false,
+  "status": "generated_cache_relocated_after_exact_copy_verification",
+  "volume_free_after": 5342834688,
+  "volume_free_before": 3190288384
+}

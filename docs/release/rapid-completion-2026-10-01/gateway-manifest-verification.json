@@ -1,0 +1,32 @@
+{
+  "captured_at_utc": "2026-10-01T11:25:16.923968+00:00",
+  "command": [
+    "./gradlew",
+    ":app:processInternal_gatewayReleaseMainManifest",
+    "-Ptarget=lib/main_gateway.dart",
+    "--offline",
+    "--no-daemon"
+  ],
+  "full_native_lint_repeated": false,
+  "logs": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "56cf655e22884fe49ff78223ed43082bb8f38cabc5ccf79ded7bc8ece7952ffe"
+  },
+  "merged_manifest_verified": false,
+  "notification_plugin_lint_error_still_open": true,
+  "repeat_scheduled": false,
+  "source_features": {
+    "android.hardware.camera": "false",
+    "android.hardware.telephony": "false"
+  },
+  "source_permission_removals": [
+    "android.permission.CALL_PHONE",
+    "android.permission.CAMERA",
+    "android.permission.POST_NOTIFICATIONS",
+    "android.permission.RECEIVE_SMS"
+  ],
+  "source_sha256": "b2f1301a7ea3e5c69720df0eb813bbcd0b8e14b6bdd6e09b6ca272d4e8996995",
+  "source_xml_check": "pass",
+  "status": "incomplete_merge_timeout",
+  "timeout_seconds": 150
+}

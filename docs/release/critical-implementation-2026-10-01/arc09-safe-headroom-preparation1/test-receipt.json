@@ -1,0 +1,21 @@
+{
+  "actual_lsof_subprocesses_Gradle_network_cache_or_source_mutations": false,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation1/test_refusals.py"
+  ],
+  "controller_sha256": "70d7dd18dbbf0d9767e2dfdfd2e76c7f6043fe0036bedb1b8848effde0804161",
+  "exit_code": 0,
+  "historical_58_tracker_and_7_probe_and_36_artifact_fixtures_reused_not_rerun": true,
+  "kind": "private_helper_focused_refusal_tests",
+  "only_private_temporary_fixtures_written": true,
+  "outer_elapsed_note": "not independently retained; tool output showed unittest duration",
+  "outer_elapsed_seconds": null,
+  "reported_unittest_seconds": 0.031,
+  "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.031s\n\nOK\n",
+  "stdout": "",
+  "test_source_sha256": "1e935b76d649c5bffc305e01c56d36b924a69ffe4cc243c05bfbe4f8f047889f",
+  "tests": 7
+}

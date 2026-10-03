@@ -1,0 +1,58 @@
+{
+  "gateway": {
+    "internal_gatewayReleaseCompileClasspath": [
+      ":android_file_picker",
+      ":app",
+      ":app_links",
+      ":file_saver",
+      ":firebase_core",
+      ":flutter_plugin_android_lifecycle",
+      ":image_picker_android",
+      ":jni",
+      ":jni_flutter",
+      ":mobile_scanner",
+      ":permission_handler_android",
+      ":share_plus",
+      ":shared_preferences_android",
+      ":url_launcher_android"
+    ],
+    "internal_gatewayReleaseRuntimeClasspath": [
+      ":android_file_picker",
+      ":app",
+      ":app_links",
+      ":file_saver",
+      ":firebase_core",
+      ":flutter_plugin_android_lifecycle",
+      ":image_picker_android",
+      ":jni",
+      ":jni_flutter",
+      ":mobile_scanner",
+      ":permission_handler_android",
+      ":share_plus",
+      ":shared_preferences_android",
+      ":url_launcher_android"
+    ]
+  },
+  "retained_non_gateway_flavors": {
+    "devApi": [
+      ":firebase_messaging",
+      ":flutter_local_notifications"
+    ],
+    "internal_receiverApi": [
+      ":firebase_messaging",
+      ":flutter_local_notifications"
+    ],
+    "productionApi": [
+      ":firebase_messaging",
+      ":flutter_local_notifications"
+    ]
+  },
+  "relocated_build_type_configurations": [
+    "debugApi::firebase_messaging",
+    "debugApi::flutter_local_notifications",
+    "profileApi::firebase_messaging",
+    "profileApi::flutter_local_notifications",
+    "releaseApi::firebase_messaging",
+    "releaseApi::flutter_local_notifications"
+  ]
+}

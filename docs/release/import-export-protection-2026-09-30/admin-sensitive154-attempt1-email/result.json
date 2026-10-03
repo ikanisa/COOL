@@ -1,0 +1,535 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": true,
+      "name": "candidate preserves all existing routine names/results/arguments/owners/ACLs and all unrelated bodies",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all62 explicitly reviewed transitive readers are writable VOLATILE RPCs",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "current email-approved owner can reveal exact synthetic body",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "raw reveal creates both current-actor audit records without raw-body leakage",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot reveal raw SMS",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "approved ordinary member without Admin role cannot reveal",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "compliance_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "operations_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "payments_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "moderation_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "support_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "read_only_admin cannot bypass existing platform-owner-only eligibility even with raw permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing specific permission refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked grant refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "revoked email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired email approval refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new approval requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "new role requires newer sign-in refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "unverified email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "changed email refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "deleted Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "banned Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous Auth user refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "expired Auth session refuses sensitive public RPC",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "session bound to another user is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "missing Auth session is refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason None refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '   ' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\\t\\n\\r' refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Reason is required",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid reason '\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9 refuses reveal before output/audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Raw SMS not found",
+        "sqlstate": "P0001"
+      },
+      "name": "nonexistent SMS does not produce success",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "all denied reveal attempts leave audit counts unchanged",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 1000 reveals normally",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "bounded valid reason length 24 reveals normally",
+      "status": "pass"
+    }
+  ],
+  "catalog_changes": {
+    "collect_admin_access.approval_status(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.caller_eligible(uuid)": [
+      "body"
+    ],
+    "collect_admin_access.get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "collect_admin_access.list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public._admin_list_people_by_membership(boolean, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_get_admin_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_allocation_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_destination_change_request(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_evidence(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transaction(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_bank_transfer_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_collect_transaction(text)": [
+      "volatility"
+    ],
+    "public.admin_get_collection(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_hybrid_sms_receipt(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_journal_entry(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_member_record(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_event(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_payment_intent(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_queue_sla(text)": [
+      "volatility"
+    ],
+    "public.admin_get_receiver(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_exception(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_reconciliation_run(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_sms_metadata(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_user(uuid)": [
+      "volatility"
+    ],
+    "public.admin_get_whatsapp_approval(uuid)": [
+      "volatility"
+    ],
+    "public.admin_list_admin_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_allocations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_audit_logs(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_allocation_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destination_change_requests(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_destinations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_evidence(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transactions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_bank_transfer_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_ledgers(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_payees(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_reconciliations(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collect_transactions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_collections(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_country_scoped(text, text, text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_hybrid_sms_receipts(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_journal_entries(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_ledger(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_members(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_non_member_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_notifications(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_events(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payment_intents(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_payments(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_platform_payee_candidates(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_receivers(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_exceptions(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_reconciliation_runs(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_settings(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_sms_metadata(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_unallocated(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text)": [
+      "volatility"
+    ],
+    "public.admin_list_users(text, text, integer, integer, text)": [
+      "volatility"
+    ],
+    "public.admin_overview()": [
+      "volatility"
+    ],
+    "public.admin_retry_notification(uuid, text)": [
+      "body"
+    ],
+    "public.admin_reveal_raw_sms(uuid, text)": [
+      "body"
+    ],
+    "public.assert_admin_permission(text)": [
+      "body",
+      "config",
+      "volatility"
+    ],
+    "public.has_admin_permission(text, uuid)": [
+      "body"
+    ]
+  },
+  "completed_at": "2026-09-30T21:57:13.694869+00:00",
+  "database": "collect_local_uat_f354a51a006f4559",
+  "failure": "ERROR:  42601: syntax error at or near \"and1000\"\nLINE 1: ...n=btrim(reason) and char_length(reason) between 1 and1000) f...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+  "hosted_called": false,
+  "installed_in_shared_source": false,
+  "isolated_database_removed": true,
+  "kind": "actual_sensitive_admin_email_authority_schema154",
+  "migration_sources": {
+    "20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "schema_only_sha256": "692a6466b0368955a0cecf48ba4e4d8419242c6e02280399d7dcd6f2aaa93227",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T21:56:59.160482+00:00",
+  "status": "failed"
+}

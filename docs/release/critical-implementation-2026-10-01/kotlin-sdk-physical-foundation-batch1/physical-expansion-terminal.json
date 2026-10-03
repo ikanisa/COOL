@@ -1,0 +1,14 @@
+{
+  "SDK_executed": false,
+  "actual_elapsed_seconds": 33.955,
+  "actual_process_timeout_seconds": 600,
+  "candidate_promoted": false,
+  "exit_code": 0,
+  "physical_result_present": true,
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T00:30:07.257933+00:00",
+  "source_patch_applied": false,
+  "status": "PHYSICAL_FOUNDATION_VERIFIED__NO_SDK_EXECUTION",
+  "terminal_utc": "2026-10-02T00:30:41.213505+00:00",
+  "timed_out": false
+}

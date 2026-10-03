@@ -1,0 +1,2095 @@
+LOG:  00000: duration: 0.015 ms  plan:
+{
+  "Query Text": "select set_config('request.jwt.claims','{\"sub\": \"99640000-0000-4000-8000-000000000004\", \"session_id\": \"99740000-0000-4000-8000-000000090001\", \"role\": \"authenticated\", \"aal\": \"aal2\"}',true);",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.009 ms  plan:
+{
+  "Query Text": "\n  select pg_catalog.pg_advisory_xact_lock_shared(193517,141);\n",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.133 ms  plan:
+{
+  "Query Text": "SELECT public._lock_notification_session_gate()",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 6,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.044 ms  plan:
+{
+  "Query Text": "SELECT 1 from auth.sessions s where s.id=session_id and s.user_id=auth.uid() for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.15,
+    "Total Cost": 8.20,
+    "Plan Rows": 1,
+    "Plan Width": 10,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "sessions_pkey",
+        "Relation Name": "sessions",
+        "Alias": "s",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.19,
+        "Plan Rows": 1,
+        "Plan Width": 10,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(id = '99740000-0000-4000-8000-000000090001'::uuid)",
+        "Rows Removed by Index Recheck": 0,
+        "Filter": "(user_id = (COALESCE(NULLIF(current_setting('request.jwt.claim.sub'::text, true), ''::text), ((NULLIF(current_setting('request.jwt.claims'::text, true), ''::text))::jsonb ->> 'sub'::text)))::uuid)",
+        "Rows Removed by Filter": 0,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.198 ms  plan:
+{
+  "Query Text": "\n  select exists(select 1 from auth.sessions s join auth.users u on u.id=s.user_id\n    where s.id=p_session and s.user_id=p_user and s.created_at is not null and isfinite(s.created_at)\n      and s.aal::text in ('aal1','aal2')\n      and (s.not_after is null or s.not_after>clock_timestamp())\n      and u.deleted_at is null and not coalesce(u.is_anonymous,false)\n      and (u.phone_confirmed_at is not null or u.email_confirmed_at is not null)\n      and (u.banned_until is null or u.banned_until<=clock_timestamp()));\n",
+  "Query Parameters": "$1 = '99740000-0000-4000-8000-000000090001', $2 = '99640000-0000-4000-8000-000000000004'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 16.35,
+    "Total Cost": 16.36,
+    "Plan Rows": 1,
+    "Plan Width": 1,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 7,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Nested Loop",
+        "Parent Relationship": "InitPlan",
+        "Subplan Name": "InitPlan 1",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Join Type": "Inner",
+        "Startup Cost": 0.28,
+        "Total Cost": 16.35,
+        "Plan Rows": 1,
+        "Plan Width": 0,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Inner Unique": false,
+        "Shared Hit Blocks": 7,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Index Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "sessions_user_id_idx",
+            "Relation Name": "sessions",
+            "Alias": "s",
+            "Startup Cost": 0.15,
+            "Total Cost": 8.18,
+            "Plan Rows": 1,
+            "Plan Width": 16,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Index Cond": "(user_id = $2)",
+            "Rows Removed by Index Recheck": 0,
+            "Filter": "((created_at IS NOT NULL) AND isfinite(created_at) AND (id = $1) AND ((not_after IS NULL) OR (not_after > clock_timestamp())) AND ((aal)::text = ANY ('{aal1,aal2}'::text[])))",
+            "Rows Removed by Filter": 1,
+            "Shared Hit Blocks": 5,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          {
+            "Node Type": "Index Scan",
+            "Parent Relationship": "Inner",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "users_pkey",
+            "Relation Name": "users",
+            "Alias": "u",
+            "Startup Cost": 0.14,
+            "Total Cost": 8.16,
+            "Plan Rows": 1,
+            "Plan Width": 16,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Index Cond": "(id = $2)",
+            "Rows Removed by Index Recheck": 0,
+            "Filter": "((deleted_at IS NULL) AND (NOT COALESCE(is_anonymous, false)) AND ((phone_confirmed_at IS NOT NULL) OR (email_confirmed_at IS NOT NULL)) AND ((banned_until IS NULL) OR (banned_until <= clock_timestamp())))",
+            "Rows Removed by Filter": 0,
+            "Shared Hit Blocks": 2,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select pg_catalog.pg_advisory_xact_lock_shared(193517,141);\n",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.062 ms  plan:
+{
+  "Query Text": "SELECT public._lock_notification_session_gate()",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "SELECT pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'))",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.006 ms  plan:
+{
+  "Query Text": "p_actor is null or p_session is null or p_role_name is null or p_role_name !~ '^[a-z_]+$'\n  or p_permission_names is null or cardinality(p_permission_names) not between 1 and 30\n  or exists(select 1 from unnest(p_permission_names)n where n is null or n !~ '^[a-z_]+(\\.[a-z_]+)+$')",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.02,
+    "Total Cost": 0.03,
+    "Plan Rows": 1,
+    "Plan Width": 1,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Function Scan",
+        "Parent Relationship": "InitPlan",
+        "Subplan Name": "InitPlan 1",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Function Name": "unnest",
+        "Alias": "n",
+        "Startup Cost": 0.00,
+        "Total Cost": 0.02,
+        "Plan Rows": 1,
+        "Plan Width": 0,
+        "Actual Rows": 0,
+        "Actual Loops": 1,
+        "Filter": "((n IS NULL) OR (n !~ '^[a-z_]+(\\.[a-z_]+)+$'::text))",
+        "Rows Removed by Filter": 1,
+        "Shared Hit Blocks": 0,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.045 ms  plan:
+{
+  "Query Text": "select mode                 from collect_admin_access.operator_auth_policy where id for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.15,
+    "Total Cost": 13.72,
+    "Plan Rows": 555,
+    "Plan Width": 38,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "operator_auth_policy_pkey",
+        "Relation Name": "operator_auth_policy",
+        "Alias": "operator_auth_policy",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.17,
+        "Plan Rows": 555,
+        "Plan Width": 38,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(id = true)",
+        "Rows Removed by Index Recheck": 0,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.009 ms  plan:
+{
+  "Query Text": "select *        from auth.users where id=p_actor for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.14,
+    "Total Cost": 8.16,
+    "Plan Rows": 1,
+    "Plan Width": 5959,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "users_pkey",
+        "Relation Name": "users",
+        "Alias": "users",
+        "Startup Cost": 0.14,
+        "Total Cost": 8.15,
+        "Plan Rows": 1,
+        "Plan Width": 5959,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(id = '99640000-0000-4000-8000-000000000004'::uuid)",
+        "Rows Removed by Index Recheck": 0,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "select *        from auth.sessions where id=p_session and user_id=p_actor for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.15,
+    "Total Cost": 8.18,
+    "Plan Rows": 1,
+    "Plan Width": 274,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "user_id_created_at_idx",
+        "Relation Name": "sessions",
+        "Alias": "sessions",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.17,
+        "Plan Rows": 1,
+        "Plan Width": 274,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(user_id = '99640000-0000-4000-8000-000000000004'::uuid)",
+        "Rows Removed by Index Recheck": 0,
+        "Filter": "(id = '99740000-0000-4000-8000-000000090001'::uuid)",
+        "Rows Removed by Filter": 1,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.011 ms  plan:
+{
+  "Query Text": "select approved_at                    from collect_admin_access.email_approvals a\n   where a.user_id=p_actor and a.email=lower(btrim(u.email)) and a.revoked_at is null\n    and (a.expires_at is null or a.expires_at>clock_timestamp()) for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.15,
+    "Total Cost": 8.18,
+    "Plan Rows": 1,
+    "Plan Width": 14,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "email_approvals_email_key",
+        "Relation Name": "email_approvals",
+        "Alias": "a",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.17,
+        "Plan Rows": 1,
+        "Plan Width": 14,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(email = 'synthetic-maker@collect.example'::text)",
+        "Rows Removed by Index Recheck": 0,
+        "Filter": "((revoked_at IS NULL) AND (user_id = '99640000-0000-4000-8000-000000000004'::uuid) AND ((expires_at IS NULL) OR (expires_at > clock_timestamp())))",
+        "Rows Removed by Filter": 0,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.000 ms  plan:
+{
+  "Query Text": "approval_time is null and mode_value='transition' and u.phone_confirmed_at is not null\n  and not exists(select 1 from collect_admin_access.email_approvals where user_id=p_actor)",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 1,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.112 ms  plan:
+{
+  "Query Text": "select r.id                from public.admin_user_roles ur\n  join public.admin_roles r on r.id=ur.role_id and r.name=p_role_name\n  where ur.user_id=p_actor and ur.revoked_at is null and s.created_at>=ur.created_at\n   and approval_time is not null and s.created_at>=approval_time\n  order by ur.created_at for share of ur,r",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 16.37,
+    "Total Cost": 16.38,
+    "Plan Rows": 1,
+    "Plan Width": 36,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 9,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Sort",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 16.37,
+        "Total Cost": 16.37,
+        "Plan Rows": 1,
+        "Plan Width": 36,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Sort Key": ["ur.created_at"],
+        "Sort Method": "quicksort",
+        "Sort Space Used": 25,
+        "Sort Space Type": "Memory",
+        "Shared Hit Blocks": 7,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Nested Loop",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Join Type": "Inner",
+            "Startup Cost": 0.30,
+            "Total Cost": 16.36,
+            "Plan Rows": 1,
+            "Plan Width": 36,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Inner Unique": true,
+            "Join Filter": "(ur.role_id = r.id)",
+            "Rows Removed by Join Filter": 0,
+            "Shared Hit Blocks": 4,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "admin_user_roles_pkey",
+                "Relation Name": "admin_user_roles",
+                "Alias": "ur",
+                "Startup Cost": 0.15,
+                "Total Cost": 8.18,
+                "Plan Rows": 1,
+                "Plan Width": 30,
+                "Actual Rows": 1,
+                "Actual Loops": 1,
+                "Index Cond": "((user_id = '99640000-0000-4000-8000-000000000004'::uuid) AND (created_at <= '2026-10-01 00:45:02.517273+00'::timestamp with time zone))",
+                "Rows Removed by Index Recheck": 0,
+                "Filter": "(revoked_at IS NULL)",
+                "Rows Removed by Filter": 0,
+                "Shared Hit Blocks": 2,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Inner",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "admin_roles_name_key",
+                "Relation Name": "admin_roles",
+                "Alias": "r",
+                "Startup Cost": 0.15,
+                "Total Cost": 8.17,
+                "Plan Rows": 1,
+                "Plan Width": 22,
+                "Actual Rows": 1,
+                "Actual Loops": 1,
+                "Index Cond": "(name = 'platform_owner'::text)",
+                "Rows Removed by Index Recheck": 0,
+                "Shared Hit Blocks": 2,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.010 ms  plan:
+{
+  "Query Text": "SELECT 1 from public.admin_role_permissions where role_id=role_uuid and permission_name=permission for share",
+  "Plan": {
+    "Node Type": "LockRows",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.15,
+    "Total Cost": 8.18,
+    "Plan Rows": 1,
+    "Plan Width": 10,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Index Scan",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "admin_role_permissions_pkey",
+        "Relation Name": "admin_role_permissions",
+        "Alias": "admin_role_permissions",
+        "Startup Cost": 0.15,
+        "Total Cost": 8.17,
+        "Plan Rows": 1,
+        "Plan Width": 10,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "((role_id = '99640000-0000-4000-8000-000000030001'::uuid) AND (permission_name = 'notifications.read'::text))",
+        "Rows Removed by Index Recheck": 0,
+        "Shared Hit Blocks": 2,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.017 ms  plan:
+{
+  "Query Text": "select distinct n from unnest(p_permission_names)n order by n",
+  "Query Parameters": "$1 = NULL, $2 = NULL, $3 = NULL, $4 = '{notifications.read}', $5 = NULL, $6 = NULL, $7 = NULL, $8 = NULL, $9 = NULL, $10 = NULL, $11 = NULL, $12 = NULL, $13 = NULL, $14 = NULL, $15 = NULL, $16 = NULL, $17 = NULL, $18 = NULL, $19 = NULL, $20 = NULL, $21 = NULL, $22 = NULL, $23 = NULL, $24 = NULL, $25 = NULL, $26 = NULL, $27 = NULL, $28 = NULL",
+  "Plan": {
+    "Node Type": "Unique",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.02,
+    "Total Cost": 0.03,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 3,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Sort",
+        "Parent Relationship": "Outer",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 0.02,
+        "Total Cost": 0.03,
+        "Plan Rows": 1,
+        "Plan Width": 32,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Sort Key": ["n"],
+        "Sort Method": "quicksort",
+        "Sort Space Used": 25,
+        "Sort Space Type": "Memory",
+        "Shared Hit Blocks": 3,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Function Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Function Name": "unnest",
+            "Alias": "n",
+            "Startup Cost": 0.00,
+            "Total Cost": 0.01,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 3.644 ms  plan:
+{
+  "Query Text": "SELECT collect_hybrid.require_roster_actor_authority(auth.uid(),sid,'platform_owner',array[permission])",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.28,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 711,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 8.265 ms  plan:
+{
+  "Query Text": "SELECT public.assert_admin_permission('notifications.read')",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 4,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 1560,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.023 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '084593ab-efdd-4a86-a49c-40dcf563a72e', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.007 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '0da9d149-102b-4bde-a4ea-992a0e1aee3c', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '0e123831-2158-4674-a8fb-dae2e9834d3c', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.010 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '0eb4cd03-a4be-400f-98e6-a207f3231ade', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '1072d266-772b-4252-9be8-d67ba23ed6e4', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.003 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '1238e2a1-36b0-4dc9-82c0-297fd2988365', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.013 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '12b99495-5aaa-4f07-bf5c-770eb389e17f', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.006 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '16f7469d-4f91-4df0-8d32-2ca341d0570d', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '1ef8ed78-b6a0-4399-871e-94e27f2ef839', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.006 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '1fd136c4-cc5a-4ffa-bde3-3337d278e1bd', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '21706908-facb-4ba4-b330-4c263c693ad1', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '239f9f35-4108-4184-acc4-c07825a0a58e', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '25099e97-ef0f-4b1b-bdcb-14309b3bb6bb', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '28045ac5-622f-42aa-9d0b-dbab7b60e257', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '29ef67e7-f543-4659-8b70-51066d77c610', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.005 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '2c9a637f-809d-4d5e-b5e2-f1f73843421f', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '2f21cc95-2ba5-4ca0-9910-66128785114a', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.004 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '3028ce7d-5666-49e0-be4b-442ffbd28a5a', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.007 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '304ea40d-c45d-4716-86b6-82d6741bbe05', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.003 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '31103714-8c22-4d16-8836-31afbb4712a5', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '3b49c839-16f8-4fc9-8530-40deadc9259f', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '3bc169f4-4c37-4533-9390-6064b01315d5', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '3fb00152-6f33-4d61-833a-80b35c1286ea', $2 = 'Contribution Confirmed', $3 = 'Collect ID 886265 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '3fc2526b-9b68-4523-b977-28957d2c5839', $2 = 'Contribution Confirmed', $3 = 'Collect ID 986259 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 0.002 ms  plan:
+{
+  "Query Text": "\n  select jsonb_build_object(\n    'id', p_id,\n    'title', coalesce(p_title, 'Record'),\n    'subtitle', coalesce(p_subtitle, ''),\n    'status', coalesce(p_status, 'unknown'),\n    'amount', coalesce(p_amount, ''),\n    'created_at', p_created_at\n  ) || coalesce(p_extra, '{}'::jsonb);\n",
+  "Query Parameters": "$1 = '41ce41fa-5423-4d25-8821-851a2cc860a5', $2 = 'Contribution Confirmed', $3 = 'Collect ID 748027 • 0 deliveries', $4 = 'queued', $5 = '', $6 = '2026-10-01 00:45:05.539913+00', $7 = '{\"failed_deliveries\": 0}'",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.01,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 0,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 7.640 ms  plan:
+{
+  "Query Text": "with page as materialized (\n    select event.id, event.type, event.status, event.created_at,\n      profile.public_id\n    from public.notification_events event\n    join public.profiles profile on profile.id = event.user_id\n    where (p_status is null or event.status = p_status)\n      and (\n        p_search is null\n        or event.type ilike '%' || p_search || '%'\n        or profile.public_id = p_search\n      )\n    order by\n      case when coalesce(p_sort, 'created_at_desc') = 'created_at_asc'\n        then event.created_at end asc nulls last,\n      event.created_at desc,\n      event.id\n    limit v_limit offset v_offset\n  ), enriched as (\n    select page.*,\n      delivery_counts.delivery_count,\n      delivery_counts.failed_count\n    from page\n    left join lateral (\n      select count(*)::bigint as delivery_count,\n        count(*) filter (where delivery.status = 'failed')::bigint\n          as failed_count\n      from public.notification_deliveries delivery\n      where delivery.event_id = page.id\n    ) delivery_counts on true\n  )\n  select jsonb_build_object(\n    'rows', coalesce((\n      select jsonb_agg(\n        public._admin_row(\n          row.id,\n          replace(initcap(replace(row.type, '_', ' ')), 'Momo', 'MoMo'),\n          'Collect ID ' || row.public_id || ' • ' ||\n            row.delivery_count || ' deliveries',\n          row.status,\n          case when row.failed_count > 0\n            then row.failed_count || ' failed' else '' end,\n          row.created_at,\n          jsonb_build_object('failed_deliveries', row.failed_count)\n        )\n        order by\n          case when coalesce(p_sort, 'created_at_desc') = 'created_at_asc'\n            then row.created_at end asc nulls last,\n          row.created_at desc,\n          row.id\n      )\n      from enriched row\n    ), '[]'::jsonb),\n    'total', (\n      select count(*)\n      from public.notification_events event\n      join public.profiles profile on profile.id = event.user_id\n      where (p_status is null or event.status = p_status)\n        and (\n          p_search is null\n          or event.type ilike '%' || p_search || '%'\n          or profile.public_id = p_search\n        )\n    )\n  )",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 135.03,
+    "Total Cost": 135.04,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 333,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0,
+    "Plans": [
+      {
+        "Node Type": "Limit",
+        "Parent Relationship": "InitPlan",
+        "Subplan Name": "CTE page",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 69.38,
+        "Total Cost": 73.53,
+        "Plan Rows": 25,
+        "Plan Width": 90,
+        "Actual Rows": 25,
+        "Actual Loops": 1,
+        "Shared Hit Blocks": 296,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Nested Loop",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Join Type": "Inner",
+            "Startup Cost": 0.43,
+            "Total Cost": 138.50,
+            "Plan Rows": 833,
+            "Plan Width": 90,
+            "Actual Rows": 441,
+            "Actual Loops": 1,
+            "Inner Unique": true,
+            "Shared Hit Blocks": 296,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "notification_events_admin_created_idx",
+                "Relation Name": "notification_events",
+                "Alias": "event",
+                "Startup Cost": 0.28,
+                "Total Cost": 116.89,
+                "Plan Rows": 833,
+                "Plan Width": 70,
+                "Actual Rows": 441,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 290,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              {
+                "Node Type": "Memoize",
+                "Parent Relationship": "Inner",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.15,
+                "Total Cost": 0.23,
+                "Plan Rows": 1,
+                "Plan Width": 44,
+                "Actual Rows": 1,
+                "Actual Loops": 441,
+                "Cache Key": "event.user_id",
+                "Cache Mode": "logical",
+                "Cache Hits": 438,
+                "Cache Misses": 3,
+                "Cache Evictions": 0,
+                "Cache Overflows": 0,
+                "Peak Memory Usage": 1,
+                "Shared Hit Blocks": 6,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "profiles_pkey",
+                    "Relation Name": "profiles",
+                    "Alias": "profile",
+                    "Startup Cost": 0.14,
+                    "Total Cost": 0.22,
+                    "Plan Rows": 1,
+                    "Plan Width": 44,
+                    "Actual Rows": 1,
+                    "Actual Loops": 3,
+                    "Index Cond": "(id = event.user_id)",
+                    "Rows Removed by Index Recheck": 0,
+                    "Shared Hit Blocks": 6,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Node Type": "Aggregate",
+        "Strategy": "Plain",
+        "Partial Mode": "Simple",
+        "Parent Relationship": "InitPlan",
+        "Subplan Name": "InitPlan 2",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 8.44,
+        "Total Cost": 8.45,
+        "Plan Rows": 1,
+        "Plan Width": 32,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Shared Hit Blocks": 305,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Nested Loop",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Join Type": "Left",
+            "Startup Cost": 0.01,
+            "Total Cost": 1.19,
+            "Plan Rows": 25,
+            "Plan Width": 132,
+            "Actual Rows": 25,
+            "Actual Loops": 1,
+            "Inner Unique": false,
+            "Shared Hit Blocks": 296,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "CTE Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "CTE Name": "page",
+                "Alias": "page",
+                "Startup Cost": 0.00,
+                "Total Cost": 0.50,
+                "Plan Rows": 25,
+                "Plan Width": 116,
+                "Actual Rows": 25,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 296,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              {
+                "Node Type": "Aggregate",
+                "Strategy": "Plain",
+                "Partial Mode": "Simple",
+                "Parent Relationship": "Inner",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.01,
+                "Total Cost": 0.02,
+                "Plan Rows": 1,
+                "Plan Width": 16,
+                "Actual Rows": 1,
+                "Actual Loops": 25,
+                "Shared Hit Blocks": 0,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Seq Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Relation Name": "notification_deliveries",
+                    "Alias": "delivery",
+                    "Startup Cost": 0.00,
+                    "Total Cost": 0.00,
+                    "Plan Rows": 1,
+                    "Plan Width": 32,
+                    "Actual Rows": 0,
+                    "Actual Loops": 25,
+                    "Filter": "(event_id = page.id)",
+                    "Rows Removed by Filter": 0,
+                    "Shared Hit Blocks": 0,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Node Type": "Aggregate",
+        "Strategy": "Plain",
+        "Partial Mode": "Simple",
+        "Parent Relationship": "InitPlan",
+        "Subplan Name": "InitPlan 3",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 53.04,
+        "Total Cost": 53.05,
+        "Plan Rows": 1,
+        "Plan Width": 8,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Shared Hit Blocks": 28,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Hash Join",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Join Type": "Inner",
+            "Startup Cost": 13.38,
+            "Total Cost": 50.96,
+            "Plan Rows": 833,
+            "Plan Width": 0,
+            "Actual Rows": 833,
+            "Actual Loops": 1,
+            "Inner Unique": true,
+            "Hash Cond": "(event_1.user_id = profile_1.id)",
+            "Shared Hit Blocks": 28,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Seq Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Relation Name": "notification_events",
+                "Alias": "event_1",
+                "Startup Cost": 0.00,
+                "Total Cost": 35.33,
+                "Plan Rows": 833,
+                "Plan Width": 16,
+                "Actual Rows": 833,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 27,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              {
+                "Node Type": "Hash",
+                "Parent Relationship": "Inner",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 11.50,
+                "Total Cost": 11.50,
+                "Plan Rows": 150,
+                "Plan Width": 16,
+                "Actual Rows": 5,
+                "Actual Loops": 1,
+                "Hash Buckets": 1024,
+                "Original Hash Buckets": 1024,
+                "Hash Batches": 1,
+                "Original Hash Batches": 1,
+                "Peak Memory Usage": 9,
+                "Shared Hit Blocks": 1,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Seq Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Relation Name": "profiles",
+                    "Alias": "profile_1",
+                    "Startup Cost": 0.00,
+                    "Total Cost": 11.50,
+                    "Plan Rows": 150,
+                    "Plan Width": 16,
+                    "Actual Rows": 5,
+                    "Actual Loops": 1,
+                    "Shared Hit Blocks": 1,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431
+LOG:  00000: duration: 35.385 ms  plan:
+{
+  "Query Text": "select public.admin_list_notifications(null,null,25,416,'created_at_desc');",
+  "Plan": {
+    "Node Type": "Result",
+    "Parallel Aware": false,
+    "Async Capable": false,
+    "Startup Cost": 0.00,
+    "Total Cost": 0.26,
+    "Plan Rows": 1,
+    "Plan Width": 32,
+    "Actual Rows": 1,
+    "Actual Loops": 1,
+    "Shared Hit Blocks": 2714,
+    "Shared Read Blocks": 0,
+    "Shared Dirtied Blocks": 0,
+    "Shared Written Blocks": 0,
+    "Local Hit Blocks": 0,
+    "Local Read Blocks": 0,
+    "Local Dirtied Blocks": 0,
+    "Local Written Blocks": 0,
+    "Temp Read Blocks": 0,
+    "Temp Written Blocks": 0
+  }
+}
+LOCATION:  explain_ExecutorEnd, auto_explain.c:431

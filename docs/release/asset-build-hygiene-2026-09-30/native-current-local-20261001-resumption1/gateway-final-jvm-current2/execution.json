@@ -1,0 +1,41 @@
+{
+  "acceptance": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-current2-acceptance.json",
+  "acceptance_sha256": "6dbc3dea3b06ef291eff37b8537ed9b47383943f4149a92efa574ae50b62d223",
+  "commands": [
+    {
+      "argv": [
+        "./gradlew",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-final-jvm-current2/real-json-runtime.init.gradle",
+        ":app:testInternal_gatewayDebugUnitTest",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayDebug",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon",
+        "--max-workers=2",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 278.2,
+      "exit_code": 0,
+      "name": "full-gateway-debug-jvm",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "68ee41e570f8e9458015ccb28c807f3e31952c6671a55e9bb317954715a7b338"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/scripts/tests/android_gateway_attempt_archive_jvm.py",
+        "--packet",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-final-jvm-current2/standalone"
+      ],
+      "elapsed_seconds": 278.2,
+      "exit_code": 0,
+      "name": "full-standalone-jvm",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "deac69dd1618c5d2c19cf7651b2be967a664ce09c30049892ea198a885a898f6"
+    }
+  ],
+  "status": "pass"
+}

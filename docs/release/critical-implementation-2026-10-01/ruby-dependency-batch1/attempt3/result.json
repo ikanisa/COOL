@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-01T22:10:06.379090+00:00",
+  "completed_status": "pass",
+  "actual_container_exit": 0,
+  "terminal_execution_session": 51226,
+  "current_runtime_checks_completed": 8,
+  "current_zip_cases_passed": 3,
+  "ios_offline_contract_tests_passed": 25,
+  "prior_comparison": {
+    "version": "2.4.1",
+    "actual_api": "extract_v3",
+    "benign_passed": true,
+    "hostile_sibling_directory_cases_failed": 2,
+    "expected_exit": 1,
+    "legacy_default_extract_api_vulnerability_claim": false
+  },
+  "current_zip_version": "3.4.0",
+  "fastlane_version": "2.240.1",
+  "ruby_version": "3.3.12",
+  "source_pair_published_and_current": true,
+  "source_pair_sha256": {
+    "Gemfile": "c507b94b39939c6a7060ca97507b5e57ef998a08ed9dc8c2d7762b1876733745",
+    "Gemfile.lock": "bc7fc3647cf9661fac7f481f6017881d3118d64ce570ed6b9189f8cbde914745"
+  },
+  "current_input_bindings_match": true,
+  "runtime_image": "ruby@sha256:db0c2089bdb31c206de726a6719d2bec464580ddf898679959678c0bd09bc718",
+  "network_none_requested": true,
+  "provider_signing_effects": false,
+  "container_cleanup": {
+    "inspect_exit": 1,
+    "absent": true,
+    "stderr": "error: no such object: collect-ruby-advisory-offline3-20261001"
+  },
+  "parent_receipt_repair": "Completion artifacts were copied and source pair published before an overly strict uppercase cleanup-output assertion failed. Lowercase actual no-such-object output confirms absence. Passed runtime checks were not repeated.",
+  "scope_limits": [
+    "Linux ARM64 local dependency and source contract proof; macOS signing/store delivery and hosted CI unverified.",
+    "Prior vulnerability reproduction uses the actual V3 compatibility API; the separate legacy default API was not demonstrated vulnerable.",
+    "Public HTTPS archive checksums do not prove license rights or final signed artifact dependency parity."
+  ],
+  "artifacts": {
+    "Gemfile": "c507b94b39939c6a7060ca97507b5e57ef998a08ed9dc8c2d7762b1876733745",
+    "Gemfile.lock": "bc7fc3647cf9661fac7f481f6017881d3118d64ce570ed6b9189f8cbde914745",
+    "check.rb": "c5dc754329083b9b725993cd6289ed5f21b4f670d43fd861280e35bb47d1c498",
+    "fastlane-action-load.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fastlane-action-load.stdout": "d52908164c45df8f47b756f2437be81f8edd73789f20bcda3f04839f4a186c45",
+    "fastlane-lanes.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fastlane-lanes.stdout": "3443841a3a113636857d62d1f39eefcfeda4ec4521566ada5666dd9c2e112565",
+    "fastlane-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fastlane-version.stdout": "4ee5483fcbdcd15d2d76b4d42ef8fa1f40100d71d607c66dd0dccbc529981826",
+    "frozen-bundle-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-bundle-check.stdout": "c98ac32c9fa6b9d4ab4578017b8e217afd7989cb947cd3bdf5b80e07e7cab391",
+    "ios-offline-contract.stderr": "85e56f2c53409fcf884b5ce86d2896afeccb90624b3cd9d8f1a90217b8851124",
+    "ios-offline-contract.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "offline-checks-progress.json": "dec2bab4026777a48cef6d78229ff7b93b9aac0cfb35cfbc74bd52040fa92004",
+    "offline-completion.json": "b5b09b606b0ee0981293f6d0e0c1bcbcb17ea7a6038258220aa6b0137af8aa15",
+    "offline-source-binding.json": "c566fa7ba7d032855e9c88d7c62dfd1b88c17a825907ef4624f9a431559404df",
+    "prior-rubyzip-install.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "prior-rubyzip-install.stdout": "80de099dd4429d047add72c9440fb2c51de11c46cea5344024fa275251623189",
+    "prior-rubyzip-security.stderr": "fcb4d4ad642255ff3ccaf2647d3b9c68edc115dfa34b6370cf82b88e83c58403",
+    "prior-rubyzip-security.stdout": "9e14b32053021745e7d03cc7b7173877a10df328d03428adb81eb810799a6bb4",
+    "python-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python-version.stdout": "cb64a3a0ddcaff0ce013ea3612beda0be4a4d3537087505bd8850d8f8476f4f8",
+    "resolve.rb": "179c5de0b0f11ea660f4c8b27ae29d6bcc4eaf44b8863c85c95ee8e2e746797a",
+    "resolver-completion.json": "4f3fc4dd970992b471698447037ea337ab5a2b3c444b99900ab9d3e0d1654706",
+    "ruby-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ruby-version.stdout": "e031e5921b3a382746e8d5485ab4549c0e40feb3dd64a30debf9334e2c745eee",
+    "rubyzip-security.stderr": "585e94ac14cc0ce6619ae38ea7599018ffe8b90ebdfe28b14c2dfd0c3de41d67",
+    "rubyzip-security.stdout": "6684b334a5182f99a31984a425eaf56baf10de9959ec3da767cccdf09bfd605c"
+  }
+}

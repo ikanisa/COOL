@@ -1,0 +1,43 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+
+repositories {
+    maven {
+        url = uri('https://storage.googleapis.com/r8-releases/raw')
+        content { includeModule('com.android.tools', 'r8') }
+    }
+}
+configurations {
+    r8Exact { canBeResolved = true; canBeConsumed = false; transitive = false }
+}
+dependencies { r8Exact 'com.android.tools:r8:9.1.29' }
+
+tasks.register('resolveExactR8') {
+    doLast {
+        def expectedSha = providers.gradleProperty('collectR8ExpectedSha256').get()
+        if (!(expectedSha ==~ /[0-9a-f]{64}/)) throw new GradleException('Root admitted exact R8 SHA-256 is required')
+        def artifacts = configurations.r8Exact.resolvedConfiguration.resolvedArtifacts
+        if (artifacts.size() != 1) throw new GradleException('Exactly one R8 artifact required')
+        def artifact = artifacts.iterator().next()
+        if (artifact.moduleVersion.id.toString() != 'com.android.tools:r8:9.1.29') {
+            throw new GradleException('Different R8 coordinate selected')
+        }
+        def bytes = artifact.file.bytes
+        def actualSha = MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString()
+        def actualMd5 = MessageDigest.getInstance('MD5').digest(bytes).encodeHex().toString()
+        if (actualSha != expectedSha || actualMd5 != '60e153b8c1dba4d97e9b1ef2d75c2e61' || bytes.length != 56139715) {
+            throw new GradleException('Resolved R8 differs from root admitted publisher JAR')
+        }
+        def graph = [kind: 'exact_r8_selected_tooling_graph', root_requested: 'com.android.tools:r8:9.1.29',
+            complete_selected_tooling_graph: true, errors: [],
+            counts: [components: 1, artifacts: 1],
+            artifacts: [[coordinate: artifact.moduleVersion.id.toString(), path: artifact.file.canonicalPath,
+                sha256: actualSha, bytes: bytes.length, md5_hex: actualMd5]],
+            resolved_from_restricted_official_repository: true,
+            APP_or_SDK_compiled: false, R8_invoked: false, production_release_approval: false]
+        def output = new File(providers.gradleProperty('collectR8GraphOutput').get())
+        if (output.exists()) throw new GradleException('Graph output must be fresh')
+        output.text = JsonOutput.prettyPrint(JsonOutput.toJson(graph)) + '\n'
+        println('COLLECT_EXACT_R8_RESOLUTION=' + JsonOutput.toJson(graph))
+    }
+}

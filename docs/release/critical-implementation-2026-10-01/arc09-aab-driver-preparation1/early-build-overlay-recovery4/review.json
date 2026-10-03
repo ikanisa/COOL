@@ -1,0 +1,69 @@
+{
+  "AAB_bound_seconds": 2700,
+  "AAB_copy_bound_seconds": 120,
+  "ARC09_closed": false,
+  "Android_root_file_bound_separately_by_exact_reviewed_overlay": true,
+  "DaemonTracker_AST_unchanged": true,
+  "UTC": "2026-10-02T14:05:51.989854+00:00",
+  "actual_current_APP_and_repo_guards_not_run_by_worker": true,
+  "admission_template_sha256": "014a6264ec4a5931c9da19cff2d997b04f498b42f1edea1145ad2d5df28b82b2",
+  "all_original_native_context_validation_statements_unchanged": true,
+  "all_other_existing_AST_definitions_unchanged": [
+    "digest",
+    "physical",
+    "plain_read",
+    "document",
+    "save",
+    "module",
+    "metadata_command",
+    "process_table",
+    "group_absent",
+    "DaemonTracker",
+    "copied_aab",
+    "extract_graph",
+    "validate_runtime_reuse",
+    "reuse_runtime_graph"
+  ],
+  "before_driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "build_Graph_APP_SDK_cache_probes_or_provider_actions_performed_by_worker": false,
+  "changed_existing_prepared_pin_paths": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts"
+  ],
+  "changed_top_level_AST_nodes": [
+    "context",
+    "guard_phase",
+    "main"
+  ],
+  "configuration_readback_bound_seconds": 300,
+  "current_APP_manifest_root_reported_sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7",
+  "current_APP_source_map_root_reported_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+  "current_native_whole_pass_claimed": false,
+  "current_repository_fence_root_reported_sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d",
+  "current_repository_source_map_root_reported_sha256": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+  "driver_sha256": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+  "extra_configuration_readback_uses_actual_remaining_original_envelope": true,
+  "graph_bound_seconds_each": 300,
+  "kind": "private_exact_two_file_Android_artifact_configuration_derivative",
+  "new_changed_consumer_fixture_receipt": {
+    "actual_seconds": 0.3160059159999946,
+    "actual_tests": 13,
+    "exit_code": 0,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/early-build-overlay-recovery4/overlay-fixture-tests-result.json",
+    "sha256": "b7978108595bf2993b79e5c192a241899a4f5a034849bb406e677840d9043767"
+  },
+  "next_output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8",
+  "original58_fixture_receipt": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/argv-fixture-tests-result.json",
+    "rerun": false,
+    "reused_for_unchanged_metadata_scope": true,
+    "sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5"
+  },
+  "original_native_evidence_logs_ownership_and_historical_graph_refs_identical": true,
+  "overlay_helper_sha256": "3f66e7dde55dae7024bbc0d5ccbd5c05da353dcf01d0db9de175a5aab402af69",
+  "prepared42_pins_sha256": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+  "production_release_approval": false,
+  "reader_command_bound_seconds": 150,
+  "reader_inner_bound_seconds": 120,
+  "whole_bound_seconds": 5070,
+  "whole_bound_was_not_raised": true
+}

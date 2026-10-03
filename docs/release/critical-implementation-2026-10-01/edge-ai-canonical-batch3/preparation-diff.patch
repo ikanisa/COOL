@@ -1,0 +1,91 @@
+--- docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/prepare_private_cohort.py
++++ docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/prepare_private_cohort.py
+@@ -1,4 +1,4 @@
+-"""Physically copy failed140 and replace only the root-approved HTTP fixture."""
++"""Physically copy failed140 and replace only the root-approved typed HTTP fixture."""
+ from pathlib import Path
+ import datetime as dt
+ import hashlib
+@@ -11,10 +11,10 @@
+ 
+ E = Path(__file__).absolute().parent
+ ROOT = E.parents[3]
+-FAILED = E.parent / "edge-ai-canonical-batch1"
++FAILED = E.parent / "edge-ai-canonical-batch2"
+ ORIGINAL = E.parent / "edge-offline-canonical-batch1"
+-PROMOTION = E.parent / "root-edge-ai-http-fixture-promotion1"
+-COHORT = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH2")
++PROMOTION = E.parent / "root-edge-ai-http-fixture-promotion2"
++COHORT = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-20261002-BATCH3")
+ QA = "scripts/qa/edge_http_runtime_uat.ts"
+ 
+ 
+@@ -59,10 +59,12 @@
+ 
+ def main():
+     started = dt.datetime.now(dt.timezone.utc).isoformat()
+-    assert observe(FAILED / "batch.json")["sha256"] == "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7"
++    assert observe(FAILED / "batch.json")["sha256"] == "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7"
+     assert observe(ORIGINAL / "batch.json")["sha256"] == "5c237457fb73a5eed997207e1e054969174b3777fa6ceeebe34cb46d5bfd327c"
+     failed_before, original_before = packet(FAILED), packet(ORIGINAL)
+-    assert len(failed_before["leaves"]) == 400 and len(original_before["leaves"]) == 519
++    earlier_failed400 = packet(E.parent / "edge-ai-canonical-batch1")
++    assert len(earlier_failed400["leaves"]) == 400
++    assert len(failed_before["leaves"]) == 181 and len(original_before["leaves"]) == 519
+     prior = json.loads((FAILED / "private-source-freeze.json").read_text())
+     composition = json.loads((FAILED / "composition-provenance.json").read_text())
+     baseline = Path(prior["private_candidate"])
+@@ -77,14 +79,14 @@
+     root25 = {n: observe(ROOT / n) for n in composition["current25_promotion_closure_before_after"]}
+     assert root39 == composition["root39_before_after"] and root25 == composition["current25_promotion_closure_before_after"]
+     fixture_seal = observe(PROMOTION / "packet-files.json")
+-    assert fixture_seal["sha256"] == "863ca86bf7360384372be6576cb2e884d8dc9ec3994b13bfdd946ecb2118eea9"
+-    fixture_manifest = json.loads((PROMOTION / "packet-files.json").read_text())["files"]
+-    fixture4 = {n: observe(PROMOTION / n) for n in fixture_manifest}
+-    assert all(fixture4[n]["sha256"] == sha for n, sha in fixture_manifest.items())
++    assert fixture_seal["sha256"] == "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac"
++    fixture_manifest = {row["path"]: row for row in json.loads((PROMOTION / "packet-files.json").read_text())["files"]}
++    fixture4 = {n: observe(ROOT / n) for n in fixture_manifest}
++    assert all(fixture4[n]["sha256"] == row["sha256"] and fixture4[n]["bytes"] == row["bytes"] for n, row in fixture_manifest.items())
+     fixture_promotion = json.loads((PROMOTION / "promotion.json").read_text())
+-    assert fixture_promotion["candidate_sha256"] == "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7"
++    assert fixture_promotion["applied_sha256"] == "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9"
+     current_qa = observe(ROOT / QA)
+-    assert current_qa["sha256"] == fixture_promotion["candidate_sha256"]
++    assert current_qa["sha256"] == fixture_promotion["applied_sha256"]
+     assert prior_before[QA]["sha256"] == fixture_promotion["base_sha256"]
+     COHORT.mkdir(mode=0o700)
+     candidate, inputs, cache = COHORT / "source", COHORT / "inputs", COHORT / "deno-cache"
+@@ -119,9 +121,10 @@
+              "original_mode": copied["before"]["mode"], "copy_mode": copied["copied"]["mode"],
+              "original_identity": copied["before"]["identity"], "copy_identity": copied["copied"]["identity"]})
+     auxiliary = copy(Path(prior["auxiliary_dated12_manifest"]["copy"]), inputs / "dated12-edge-functions.json")
+-    assert current_qa == observe(ROOT / QA) and fixture4 == {n: observe(PROMOTION / n) for n in fixture4}
++    assert current_qa == observe(ROOT / QA) and fixture4 == {n: observe(ROOT / n) for n in fixture4}
+     assert fixture_seal == observe(PROMOTION / "packet-files.json")
+     assert failed_before == packet(FAILED) and original_before == packet(ORIGINAL)
++    assert earlier_failed400 == packet(E.parent / "edge-ai-canonical-batch1")
+     assert prior_before == {n: observe(baseline / n) for n in prior_before}
+     assert original137 == {n: observe(original_source / n) for n in original137}
+     assert root39 == {n: observe(ROOT / n) for n in root39} and root25 == {n: observe(ROOT / n) for n in root25}
+@@ -140,17 +143,17 @@
+         "network_acquisition": False, "full_gate_started": False}
+     save("private-source-freeze.json", freeze)
+     save("composition-provenance.json", {"started_at_utc": started, "frozen_at_utc": freeze["frozen_at_utc"],
+-        "original_failed400_before_after": failed_before, "original_passed519_before_after": original_before,
++        "original_failed181_before_after": failed_before, "earlier_failed400_before_after": earlier_failed400, "original_passed519_before_after": original_before,
+         "failed140_before_after": prior_before, "original137_before_after": original137,
+         "root39_before_after": root39, "current25_promotion_closure_before_after": root25,
+-        "root_fixture4_before_after": fixture4, "root_fixture_promotion_seal": fixture_seal,
++        "root_fixture3_before_after": fixture4, "root_fixture_promotion_seal": fixture_seal,
+         "baseline140_physical_copies": source_copies, "sole_approved_QA_delta": approved_delta,
+         "external_physical_copies": external_copies, "source140_discovered": discovered,
+         "current_checkout_acceptance_claimed": False, "unchanged_default_format_failure_disclosed": True})
+     (E / "private-source-freeze.sha256").write_text(observe(E / "private-source-freeze.json")["sha256"] + "\n")
+     print(json.dumps({"status": "private140_frozen", "source_count": len(manifest),
+           "initial_cache_count": 0, "sole_delta_sha256": current_qa["sha256"],
+-          "prior400_519_and140_137_unchanged": True, "current_checkout_acceptance_claimed": False}, indent=2))
++          "prior181_400_519_and140_137_unchanged": True, "current_checkout_acceptance_claimed": False}, indent=2))
+ 
+ 
+ if __name__ == "__main__":

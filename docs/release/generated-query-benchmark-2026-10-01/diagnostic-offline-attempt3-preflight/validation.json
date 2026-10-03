@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_generated_query_benchmark_test.py"
+    ],
+    "started_utc": "2026-10-01T00:39:06.155669+00:00",
+    "exit_code": 0,
+    "timed_out": false,
+    "owned_process_group": 95814,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 0.675,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "ab1c76d703857d911b0a24bfc350c32412dc676ee5dd4bc596dab5cc6ab93c45"
+  },
+  "source_inputs_unchanged": true,
+  "inputs_sha256": "b63ebb25538c4ea3fd554eca651e618867d0b6da9a7bf179c83c0aa78215242d",
+  "sql_executed": false,
+  "docker_executed": false,
+  "hosted_called": false,
+  "provider_called": false,
+  "actual_shell_segment_executed_with_fake_psql": true,
+  "credential_fixture": "synthetic offline sentinel; no QA credential read or copied",
+  "scope": "Argument/role-transition/failure/plan admission mechanics only; actual server diagnostic connection remains unproved."
+}

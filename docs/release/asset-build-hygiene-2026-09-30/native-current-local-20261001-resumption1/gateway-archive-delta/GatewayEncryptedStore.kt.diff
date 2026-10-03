@@ -1,0 +1,71 @@
+--- android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt original candidate
++++ android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt final archive correction
+@@ -275,6 +275,10 @@
+         val value = load(AtomicFile(File(directory, "cold-control.bin")), "cold-control")
+         if (value == null) {
+             if (marker != null) throw GatewayStateException("gateway_cold_archive_missing")
++            // Losing both control files cannot erase an established stop or
++            // shard catalog while immutable cold/late/ACK evidence remains.
++            val entries = directory.list() ?: throw GatewayStateException("gateway_storage_unavailable")
++            if (entries.any { it.startsWith("cold-") }) throw GatewayStateException("gateway_cold_archive_missing")
+             return JSONObject().put("contract_version", 3).put("stopped", false).put("late_attempt_ids", JSONArray()).put("cold_shards", JSONArray())
+         }
+         if (marker == null) invalidArchive()
+@@ -372,6 +376,57 @@
+     override fun unresolvedArchivedEvidence(): Boolean = coldStop()
+     override fun terminalArchivedAttempt(attemptId: String): Boolean = synchronized(GatewayJournal.PROCESS_LOCK) {
+         readColdAttempt(attemptId) != null
++    }
++
++    override fun archiveCompactionPending(attemptId: String): Boolean = synchronized(GatewayJournal.PROCESS_LOCK) {
++        val rows = readRequests().getJSONArray("requests")
++        (0 until rows.length()).any { val r = GatewayStoredRequest.parse(rows.getJSONObject(it))
++            r.action == "archive_attempt" && requireUuid(r.envelope.getJSONObject("payload"), "attempt_id") == attemptId }
++    }
++
++    override fun stopArchiveUncertainty() = synchronized(GatewayJournal.PROCESS_LOCK) {
++        val control = coldControl();control.put("stopped", true);saveColdControl(control)
++    }
++
++    internal fun readUncompactableAck(attemptId: String): JSONObject? = synchronized(GatewayJournal.PROCESS_LOCK) {
++        if (!validUuid(attemptId)) invalidArchive()
++        val v = load(AtomicFile(File(directory, "cold-uncompactable-$attemptId.bin")), "cold-uncompactable-$attemptId") ?: return@synchronized null
++        requireKeys(v, setOf("contract_version", "archive_request", "acknowledgement", "retained_at"))
++        if (strictInteger(v, "contract_version") != 3L) invalidArchive()
++        strictTimestamp(v, "retained_at")
++        val r = GatewayStoredRequest.parse(v.getJSONObject("archive_request"));val p = r.envelope.getJSONObject("payload")
++        if (r.action != "archive_attempt" || requireUuid(p, "attempt_id") != attemptId) invalidArchive()
++        val ack = v.getJSONObject("acknowledgement")
++        validateGatewayArchiveAck(ack, r.requestId, r.deviceId, p)
++        if (!strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) invalidArchive()
++        v
++    }
++
++    override fun retainUncompactableAck(original: GatewayStoredRequest, ack: JSONObject) = synchronized(GatewayJournal.PROCESS_LOCK) {
++        val p = original.envelope.getJSONObject("payload");val id = requireUuid(p, "attempt_id")
++        validateGatewayArchiveAck(ack, original.requestId, original.deviceId, p)
++        if (original.action != "archive_attempt" || !strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) invalidArchive()
++        val rows = readRequests().getJSONArray("requests")
++        val source = (0 until rows.length()).map { GatewayStoredRequest.parse(rows.getJSONObject(it)) }.singleOrNull { it.requestId == original.requestId }
++            ?: throw GatewayStateException("gateway_archive_request_missing")
++        requireSameRequest(original, source)
++        stopArchiveUncertainty() // durable stop before ACK or transport-state changes
++        val before = readUncompactableAck(id)
++        if (before != null) {
++            requireSameRequest(original, GatewayStoredRequest.parse(before.getJSONObject("archive_request")))
++            if (!archiveJsonEqual(before.getJSONObject("acknowledgement"), ack)) invalidArchive()
++        } else {
++            val v = JSONObject().put("contract_version", 3).put("archive_request", original.row).put("acknowledgement", JSONObject(ack.toString()))
++                .put("retained_at", gatewayWireTime(java.time.Instant.now()))
++            save(AtomicFile(File(directory, "cold-uncompactable-$id.bin")), "cold-uncompactable-$id", v)
++        }
++        val readback = readUncompactableAck(id) ?: invalidArchive()
++        requireSameRequest(original, GatewayStoredRequest.parse(readback.getJSONObject("archive_request")))
++        if (!archiveJsonEqual(readback.getJSONObject("acknowledgement"), ack)) invalidArchive()
++        // This means only that the exact transport request was recorded. Its
++        // unknown hot attempt/callback originals remain ineligible for pruning.
++        for (i in 0 until rows.length()) if (rows.getJSONObject(i).getString("request_id") == original.requestId) rows.getJSONObject(i).put("state", "recorded")
++        saveRequests(JSONObject().put("contract_version", 1).put("requests", rows))
+     }
+ 
+     override fun recordArchivedCallback(callback: GatewayCallback): Boolean = synchronized(GatewayJournal.PROCESS_LOCK) {

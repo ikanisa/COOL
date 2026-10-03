@@ -1,0 +1,2561 @@
+{
+  "auth.audit_log_entries": [],
+  "auth.custom_oauth_providers": [],
+  "auth.flow_state": [],
+  "auth.identities": [],
+  "auth.instances": [],
+  "auth.mfa_amr_claims": [],
+  "auth.mfa_challenges": [],
+  "auth.mfa_factors": [],
+  "auth.oauth_authorizations": [],
+  "auth.oauth_client_states": [],
+  "auth.oauth_clients": [],
+  "auth.oauth_consents": [],
+  "auth.one_time_tokens": [],
+  "auth.refresh_tokens": [],
+  "auth.saml_providers": [],
+  "auth.saml_relay_states": [],
+  "auth.schema_migrations": [],
+  "auth.sessions": [
+    {
+      "id": "99710000-0000-4000-8000-000000010001",
+      "ip": null,
+      "aal": "aal1",
+      "tag": null,
+      "scopes": null,
+      "user_id": "99710000-0000-4000-8000-000000000001",
+      "factor_id": null,
+      "not_after": "2026-10-01T02:10:22.57466+00:00",
+      "created_at": "2026-10-01T01:10:22.574659+00:00",
+      "updated_at": "2026-10-01T01:10:22.574659+00:00",
+      "user_agent": null,
+      "refreshed_at": null,
+      "oauth_client_id": null,
+      "refresh_token_counter": null,
+      "refresh_token_hmac_key": null
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000010003",
+      "ip": null,
+      "aal": "aal1",
+      "tag": null,
+      "scopes": null,
+      "user_id": "99710000-0000-4000-8000-000000000002",
+      "factor_id": null,
+      "not_after": "2026-10-01T02:10:22.575055+00:00",
+      "created_at": "2026-10-01T01:10:22.575055+00:00",
+      "updated_at": "2026-10-01T01:10:22.575055+00:00",
+      "user_agent": null,
+      "refreshed_at": null,
+      "oauth_client_id": null,
+      "refresh_token_counter": null,
+      "refresh_token_hmac_key": null
+    }
+  ],
+  "auth.sso_domains": [],
+  "auth.sso_providers": [],
+  "auth.users": [
+    {
+      "id": "99710000-0000-4000-8000-000000000001",
+      "aud": "authenticated",
+      "role": "authenticated",
+      "email": "restore-owner@collect.example",
+      "phone": "250788971001",
+      "created_at": null,
+      "deleted_at": null,
+      "invited_at": null,
+      "updated_at": null,
+      "instance_id": null,
+      "is_sso_user": false,
+      "banned_until": null,
+      "confirmed_at": "2026-10-01T01:10:22.569412+00:00",
+      "email_change": null,
+      "is_anonymous": false,
+      "phone_change": "",
+      "is_super_admin": null,
+      "recovery_token": null,
+      "last_sign_in_at": null,
+      "recovery_sent_at": null,
+      "raw_app_meta_data": {},
+      "confirmation_token": null,
+      "email_confirmed_at": "2026-10-01T01:10:34.358481+00:00",
+      "encrypted_password": null,
+      "phone_change_token": "",
+      "phone_confirmed_at": "2026-10-01T01:10:22.569412+00:00",
+      "raw_user_meta_data": {},
+      "confirmation_sent_at": null,
+      "email_change_sent_at": null,
+      "phone_change_sent_at": null,
+      "email_change_token_new": null,
+      "reauthentication_token": "",
+      "reauthentication_sent_at": null,
+      "email_change_token_current": "",
+      "email_change_confirm_status": 0
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000000002",
+      "aud": "authenticated",
+      "role": "authenticated",
+      "email": "restore-other@collect.example",
+      "phone": "250788971002",
+      "created_at": null,
+      "deleted_at": null,
+      "invited_at": null,
+      "updated_at": null,
+      "instance_id": null,
+      "is_sso_user": false,
+      "banned_until": null,
+      "confirmed_at": "2026-10-01T01:10:22.569412+00:00",
+      "email_change": null,
+      "is_anonymous": false,
+      "phone_change": "",
+      "is_super_admin": null,
+      "recovery_token": null,
+      "last_sign_in_at": null,
+      "recovery_sent_at": null,
+      "raw_app_meta_data": {},
+      "confirmation_token": null,
+      "email_confirmed_at": "2026-10-01T01:10:34.40668+00:00",
+      "encrypted_password": null,
+      "phone_change_token": "",
+      "phone_confirmed_at": "2026-10-01T01:10:22.569412+00:00",
+      "raw_user_meta_data": {},
+      "confirmation_sent_at": null,
+      "email_change_sent_at": null,
+      "phone_change_sent_at": null,
+      "email_change_token_new": null,
+      "reauthentication_token": "",
+      "reauthentication_sent_at": null,
+      "email_change_token_current": "",
+      "email_change_confirm_status": 0
+    }
+  ],
+  "auth.webauthn_challenges": [],
+  "auth.webauthn_credentials": [],
+  "collect_admin_access.email_approvals": [
+    {
+      "email": "restore-other@collect.example",
+      "reason": "Synthetic recovery owner",
+      "user_id": "99710000-0000-4000-8000-000000000002",
+      "expires_at": null,
+      "revoked_at": null,
+      "revoked_by": null,
+      "approved_at": "2026-10-01T01:08:34.407231+00:00",
+      "approved_by": null
+    },
+    {
+      "email": "restore-owner@collect.example",
+      "reason": "Synthetic recovery owner",
+      "user_id": "99710000-0000-4000-8000-000000000001",
+      "expires_at": null,
+      "revoked_at": null,
+      "revoked_by": null,
+      "approved_at": "2026-10-01T01:08:34.359014+00:00",
+      "approved_by": null
+    }
+  ],
+  "collect_admin_access.operator_auth_policy": [
+    {
+      "id": true,
+      "mode": "email",
+      "revision": 2,
+      "updated_at": "2026-10-01T01:10:34.485674+00:00"
+    }
+  ],
+  "collect_admin_access.whatsapp_approvals": [
+    {
+      "reason": "Synthetic foundation identity",
+      "user_id": "99710000-0000-4000-8000-000000000001",
+      "expires_at": null,
+      "phone_e164": "+250788971001",
+      "revoked_at": null,
+      "revoked_by": null,
+      "approved_at": "2026-10-01T01:08:22.573679+00:00",
+      "approved_by": null,
+      "revoke_reason": null
+    },
+    {
+      "reason": "Synthetic foundation identity",
+      "user_id": "99710000-0000-4000-8000-000000000002",
+      "expires_at": null,
+      "phone_e164": "+250788971002",
+      "revoked_at": null,
+      "revoked_by": null,
+      "approved_at": "2026-10-01T01:08:22.573807+00:00",
+      "approved_by": null,
+      "revoke_reason": null
+    }
+  ],
+  "collect_auth_security.otp_phone_locks": [],
+  "collect_automation.operating_policy": [
+    {
+      "id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "revision": 3,
+      "singleton": true,
+      "updated_at": "2026-10-01T01:10:35.640971+00:00",
+      "emergency_stop": true,
+      "initialized_at": "2026-10-01T01:10:32.881587+00:00",
+      "configured_mode": "Paused",
+      "last_change_request_id": "0c1bb2f3-2a20-4322-8b71-4a004058d8c5"
+    }
+  ],
+  "collect_automation.policy_requests": [
+    {
+      "changed": false,
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "revision": 2,
+      "policy_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "mode_after": "Shadow",
+      "request_id": "cac40306-3e77-425c-80ee-505a08558245",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "stop_after": false,
+      "mode_before": "Shadow",
+      "reason_code": "operator_reviewed_configuration",
+      "recorded_at": "2026-10-01T01:10:35.578055+00:00",
+      "stop_before": false,
+      "expected_revision": 2
+    },
+    {
+      "changed": true,
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "revision": 2,
+      "policy_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "mode_after": "Shadow",
+      "request_id": "d70df2b4-7f89-45a6-a760-c0170adaae02",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "stop_after": false,
+      "mode_before": "Paused",
+      "reason_code": "operator_reviewed_configuration",
+      "recorded_at": "2026-10-01T01:10:35.523564+00:00",
+      "stop_before": true,
+      "expected_revision": 1
+    },
+    {
+      "changed": true,
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "revision": 3,
+      "policy_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "mode_after": "Paused",
+      "request_id": "0c1bb2f3-2a20-4322-8b71-4a004058d8c5",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "stop_after": true,
+      "mode_before": "Shadow",
+      "reason_code": "operator_emergency_stop",
+      "recorded_at": "2026-10-01T01:10:35.640971+00:00",
+      "stop_before": false,
+      "expected_revision": 2
+    }
+  ],
+  "collect_gateway.admin_requests": [
+    {
+      "input": [
+        "ced6f852-dcf7-4b2b-b14e-33708873c5a2",
+        "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==",
+        "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "action": "enroll",
+      "result": {
+        "replay": false,
+        "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+        "request_id": "7a464725-adb8-4311-aef9-fcbe50bc8246",
+        "recorded_at": "2026-10-01T01:10:34.988733Z",
+        "state_at_action": "pending"
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "7a464725-adb8-4311-aef9-fcbe50bc8246",
+      "recorded_at": "2026-10-01T01:10:34.988733+00:00"
+    },
+    {
+      "input": [
+        "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+        "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "action": "activate",
+      "result": {
+        "replay": false,
+        "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+        "request_id": "8810c6f3-b6db-484c-9de3-6b42a7d54b1d",
+        "recorded_at": "2026-10-01T01:10:35.137364Z",
+        "state_at_action": "active"
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "8810c6f3-b6db-484c-9de3-6b42a7d54b1d",
+      "recorded_at": "2026-10-01T01:10:35.137364+00:00"
+    },
+    {
+      "input": [
+        "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+        "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "action": "revoke",
+      "result": {
+        "replay": false,
+        "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+        "request_id": "5f0780f1-2c24-4f6b-b94e-d55a8b0a8d5f",
+        "recorded_at": "2026-10-01T01:10:35.200700Z",
+        "state_at_action": "revoked"
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "5f0780f1-2c24-4f6b-b94e-d55a8b0a8d5f",
+      "recorded_at": "2026-10-01T01:10:35.2007+00:00"
+    }
+  ],
+  "collect_gateway.devices": [
+    {
+      "id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "state": "revoked",
+      "created_at": "2026-10-01T01:10:34.988733+00:00",
+      "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+      "revoked_at": "2026-10-01T01:10:35.2007+00:00",
+      "activated_at": "2026-10-01T01:10:35.137364+00:00",
+      "owner_actor_id": "99710000-0000-4000-8000-000000000001",
+      "installation_id": "ced6f852-dcf7-4b2b-b14e-33708873c5a2",
+      "owner_session_id": "99710000-0000-4000-8000-000000010001",
+      "enrollment_request_id": "7a464725-adb8-4311-aef9-fcbe50bc8246",
+      "public_key_spki_base64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==",
+      "signing_certificate_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "collect_gateway.dispatch_arms": [],
+  "collect_gateway.health_observations": [
+    {
+      "id": "f8786f6b-9ee2-48bf-9248-ce23f66143a2",
+      "network": "offline",
+      "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "telephony": "unknown",
+      "request_id": "8ea2b1f4-49e5-40b6-8d9d-c1181ff92e0b",
+      "ingested_at": "2026-10-01T01:10:35.068109+00:00",
+      "local_pause": true,
+      "reported_at": "2026-10-01T01:10:35.065445+00:00",
+      "sim_selected": false,
+      "sms_permission": false,
+      "sim_revision_sha256": null
+    }
+  ],
+  "collect_gateway.requests": [
+    {
+      "action": "heartbeat",
+      "result": {
+        "replay": false,
+        "ingested_at": "2026-10-01T01:10:35.068109Z",
+        "carrier_proof": false,
+        "observation_id": "f8786f6b-9ee2-48bf-9248-ce23f66143a2"
+      },
+      "payload": {
+        "network": "offline",
+        "telephony": "unknown",
+        "local_pause": true,
+        "reported_at": "2026-10-01T01:10:35.065445Z",
+        "sim_selected": false,
+        "sms_permission": false,
+        "sim_revision_sha256": null
+      },
+      "device_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "request_id": "8ea2b1f4-49e5-40b6-8d9d-c1181ff92e0b",
+      "recorded_at": "2026-10-01T01:10:35.068109+00:00",
+      "request_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  ],
+  "collect_gateway.segment_callbacks": [],
+  "collect_hybrid.collection_balances": [
+    {
+      "updated_at": "2026-10-01T01:10:34.561039+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "confirmed_rwf": 400
+    }
+  ],
+  "collect_hybrid.group_creation_requests": [],
+  "collect_hybrid.legacy_bank_scheduler_observations": [],
+  "collect_hybrid.legacy_bank_scheduler_retirements": [],
+  "collect_hybrid.legacy_bank_scheduler_verifications": [],
+  "collect_hybrid.member_account_claims": [],
+  "collect_hybrid.member_balances": [
+    {
+      "updated_at": "2026-10-01T01:10:34.561039+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "confirmed_rwf": 400,
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    }
+  ],
+  "collect_hybrid.member_momo_identities": [
+    {
+      "last3": "201",
+      "revision": 1,
+      "match_key": "5286702fc1a65b243438d4906ebce117dec90dc5bfa44bfb18873177ef5b7a66",
+      "member_id": "99710000-0000-4000-8000-000000040001",
+      "momo_name": "SYNTHETIC MEMBER",
+      "created_at": "2026-10-01T01:10:22.581888+00:00",
+      "member_name": "Synthetic member",
+      "momo_number": "+250788971201",
+      "normalized_name": "SYNTHETIC MEMBER"
+    },
+    {
+      "last3": "202",
+      "revision": 1,
+      "match_key": "fc848848cd78c21c8431d83aff4d581d335cfb23ef2aa470e1de1797eca4ec33",
+      "member_id": "99710000-0000-4000-8000-000000040002",
+      "momo_name": "NO CONSENT MEMBER",
+      "created_at": "2026-10-01T01:10:22.581888+00:00",
+      "member_name": "No consent member",
+      "momo_number": "+250788971202",
+      "normalized_name": "NO CONSENT MEMBER"
+    }
+  ],
+  "collect_hybrid.member_receiving_assignments": [],
+  "collect_hybrid.member_records": [
+    {
+      "id": "99710000-0000-4000-8000-000000000001",
+      "origin": "app",
+      "lifecycle": "active",
+      "collect_id": "584569",
+      "created_at": "2026-10-01T01:10:22.569412+00:00",
+      "created_by": null,
+      "linked_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000000002",
+      "origin": "app",
+      "lifecycle": "active",
+      "collect_id": "699231",
+      "created_at": "2026-10-01T01:10:22.569412+00:00",
+      "created_by": null,
+      "linked_user_id": "99710000-0000-4000-8000-000000000002"
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000040001",
+      "origin": "admin_assisted",
+      "lifecycle": "active",
+      "collect_id": "971201",
+      "created_at": "2026-10-01T01:10:22.581608+00:00",
+      "created_by": "99710000-0000-4000-8000-000000000001",
+      "linked_user_id": null
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000040002",
+      "origin": "admin_assisted",
+      "lifecycle": "active",
+      "collect_id": "971202",
+      "created_at": "2026-10-01T01:10:22.581608+00:00",
+      "created_by": "99710000-0000-4000-8000-000000000001",
+      "linked_user_id": null
+    }
+  ],
+  "collect_hybrid.momo_balance_snapshots": [
+    {
+      "id": "60796369-aae6-4e7d-8bc1-eec47cce700e",
+      "delta_rwf": 50,
+      "event_type": "receipt",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "captured_at": "2026-10-01T01:10:22.857804+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "journal_entry_id": "77305765-e6e1-43d3-8b7c-03d0dc691a99",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "group_balance_after_rwf": 300,
+      "member_balance_after_rwf": 300
+    },
+    {
+      "id": "d14ba2e5-d12e-4ef0-bfc5-68128e3f3e41",
+      "delta_rwf": 250,
+      "event_type": "receipt",
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "captured_at": "2026-10-01T01:10:22.652978+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "journal_entry_id": "a9becc95-84d6-4a61-bde4-09706c7e03d9",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "group_balance_after_rwf": 250,
+      "member_balance_after_rwf": 250
+    },
+    {
+      "id": "f5393622-cc09-4507-92cb-c52e7e805cf9",
+      "delta_rwf": 100,
+      "event_type": "receipt",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "captured_at": "2026-10-01T01:10:34.561039+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "journal_entry_id": "19ed307e-0bd4-4793-a30a-5d0ee1fab837",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "group_balance_after_rwf": 400,
+      "member_balance_after_rwf": 400
+    }
+  ],
+  "collect_hybrid.momo_journal_entries": [
+    {
+      "id": "19ed307e-0bd4-4793-a30a-5d0ee1fab837",
+      "posted_at": "2026-10-01T01:10:34.561039+00:00",
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "created_by": null,
+      "entry_type": "receipt",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "parsed_event_id": null,
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "reverses_entry_id": null,
+      "external_reference": "FOUNDATION-00050002"
+    },
+    {
+      "id": "77305765-e6e1-43d3-8b7c-03d0dc691a99",
+      "posted_at": "2026-10-01T01:10:22.857804+00:00",
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "created_by": null,
+      "entry_type": "receipt",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "parsed_event_id": null,
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "reverses_entry_id": null,
+      "external_reference": "FOUNDATION-00050001"
+    },
+    {
+      "id": "a9becc95-84d6-4a61-bde4-09706c7e03d9",
+      "posted_at": "2026-10-01T01:10:22.652978+00:00",
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "created_by": null,
+      "entry_type": "receipt",
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "parsed_event_id": null,
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "reverses_entry_id": null,
+      "external_reference": "FOUNDATION-00050000"
+    }
+  ],
+  "collect_hybrid.momo_journal_lines": [
+    {
+      "id": "2cda1205-40b7-4dbc-97b5-d7c1409d60a4",
+      "direction": "credit",
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "account_code": "member_savings_liability:RWF",
+      "journal_entry_id": "77305765-e6e1-43d3-8b7c-03d0dc691a99"
+    },
+    {
+      "id": "4332dc2c-374b-4de9-af82-6aeea09b4059",
+      "direction": "debit",
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "account_code": "momo_receiving_asset:RWF",
+      "journal_entry_id": "a9becc95-84d6-4a61-bde4-09706c7e03d9"
+    },
+    {
+      "id": "4801cf1a-dd5c-4412-a73d-fd9a6797f918",
+      "direction": "credit",
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "account_code": "member_savings_liability:RWF",
+      "journal_entry_id": "19ed307e-0bd4-4793-a30a-5d0ee1fab837"
+    },
+    {
+      "id": "9c7dd9c4-fd0a-42cf-96e2-7a6057cc4c48",
+      "direction": "credit",
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "account_code": "member_savings_liability:RWF",
+      "journal_entry_id": "a9becc95-84d6-4a61-bde4-09706c7e03d9"
+    },
+    {
+      "id": "b4a127bb-5d64-45e3-bc3b-66b1b446ada2",
+      "direction": "debit",
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "account_code": "momo_receiving_asset:RWF",
+      "journal_entry_id": "19ed307e-0bd4-4793-a30a-5d0ee1fab837"
+    },
+    {
+      "id": "ee502326-9435-49d8-bbd2-b11f74ccbce8",
+      "direction": "debit",
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "account_code": "momo_receiving_asset:RWF",
+      "journal_entry_id": "77305765-e6e1-43d3-8b7c-03d0dc691a99"
+    }
+  ],
+  "collect_hybrid.momo_reconciliation_exceptions": [],
+  "collect_hybrid.momo_reversal_requests": [],
+  "collect_hybrid.payer_identity_reconciliation": [],
+  "collect_hybrid.payment_provider_rejections": [],
+  "collect_hybrid.receipt_business_event_heads": [
+    {
+      "version": 1,
+      "signature": [
+        "payment_posted",
+        "99710000-0000-4000-8000-000000030001",
+        "99880000-0000-4000-8000-000000050002",
+        "99710000-0000-4000-8000-000000040001",
+        null,
+        null,
+        "posted"
+      ],
+      "source_id": "99880000-0000-4000-8000-000000050002",
+      "source_kind": "payment"
+    },
+    {
+      "version": 1,
+      "signature": [
+        "receipt_created",
+        "99710000-0000-4000-8000-000000030001",
+        "99880000-0000-4000-8000-000000050002",
+        "99710000-0000-4000-8000-000000040001",
+        "f5393622-cc09-4507-92cb-c52e7e805cf9",
+        "3b5ac2a2-1f6b-437b-a08c-441144c47c66",
+        "queued"
+      ],
+      "source_id": "3b5ac2a2-1f6b-437b-a08c-441144c47c66",
+      "source_kind": "receipt"
+    },
+    {
+      "version": 1,
+      "signature": [
+        "receipt_suppressed",
+        "99710000-0000-4000-8000-000000030001",
+        "99880000-0000-4000-8000-000000050001",
+        "99710000-0000-4000-8000-000000040001",
+        "60796369-aae6-4e7d-8bc1-eec47cce700e",
+        "7d77592a-b618-4adf-8702-9a00e8837145",
+        "suppressed"
+      ],
+      "source_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "source_kind": "receipt"
+    }
+  ],
+  "collect_hybrid.receipt_business_events": [
+    {
+      "id": "43f60b29-1524-41d1-8f06-c8920d43e85a",
+      "outbox_id": "3b5ac2a2-1f6b-437b-a08c-441144c47c66",
+      "source_id": "3b5ac2a2-1f6b-437b-a08c-441144c47c66",
+      "created_at": "2026-10-01T01:10:34.573454+00:00",
+      "event_kind": "receipt_created",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "snapshot_id": "f5393622-cc09-4507-92cb-c52e7e805cf9",
+      "source_kind": "receipt",
+      "source_state": "queued",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "source_version": 1,
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "c4d0ac89-553b-4f73-b847-2c48080f34d8",
+      "outbox_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "source_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "created_at": "2026-10-01T01:10:34.694316+00:00",
+      "event_kind": "receipt_suppressed",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "snapshot_id": "60796369-aae6-4e7d-8bc1-eec47cce700e",
+      "source_kind": "receipt",
+      "source_state": "suppressed",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "source_version": 1,
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "c630d79c-236c-4f3c-88ad-fe767f4b8b25",
+      "outbox_id": null,
+      "source_id": "99880000-0000-4000-8000-000000050002",
+      "created_at": "2026-10-01T01:10:34.575788+00:00",
+      "event_kind": "payment_posted",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "snapshot_id": null,
+      "source_kind": "payment",
+      "source_state": "posted",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "source_version": 1,
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    }
+  ],
+  "collect_hybrid.receipt_monitor_acknowledgements": [
+    {
+      "outcome": "observed",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "43f60b29-1524-41d1-8f06-c8920d43e85a",
+      "request_id": "1b2a4d2c-61ed-44ac-bf9c-342073dbcc1d",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "consumer_id": "e8081327-d47d-47d7-b08d-564c01e5ae5e",
+      "reason_code": "monitoring_only",
+      "acknowledged_at": "2026-10-01T01:10:36.025048+00:00"
+    }
+  ],
+  "collect_hybrid.receipt_monitor_consumers": [
+    {
+      "id": "e8081327-d47d-47d7-b08d-564c01e5ae5e",
+      "scope": "collect_platform",
+      "purpose": "manual_receipt_monitor",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "created_at": "2026-10-01T01:10:35.907263+00:00",
+      "created_session_id": "99710000-0000-4000-8000-000000010001"
+    }
+  ],
+  "collect_hybrid.receipt_monitor_observed_events": [
+    {
+      "event_id": "43f60b29-1524-41d1-8f06-c8920d43e85a",
+      "consumer_id": "e8081327-d47d-47d7-b08d-564c01e5ae5e",
+      "acknowledgement_id": "1b2a4d2c-61ed-44ac-bf9c-342073dbcc1d"
+    }
+  ],
+  "collect_hybrid.receiving_assignment_requests": [],
+  "collect_hybrid.roster_batches": [],
+  "collect_hybrid.roster_import_commits": [],
+  "collect_hybrid.roster_import_editor_drafts": [],
+  "collect_hybrid.roster_import_extractions": [],
+  "collect_hybrid.roster_import_recovery_intents": [],
+  "collect_hybrid.roster_import_results": [],
+  "collect_hybrid.roster_import_revisions": [],
+  "collect_hybrid.roster_import_sources": [],
+  "collect_hybrid.roster_recovery_budget": [],
+  "collect_hybrid.roster_recovery_guard_inventory": [],
+  "collect_hybrid.roster_recovery_transfers": [],
+  "collect_hybrid.roster_resource_completions": [],
+  "collect_hybrid.roster_resource_policy": [],
+  "collect_hybrid.roster_resource_reservations": [],
+  "collect_hybrid.roster_source_verifications": [],
+  "collect_hybrid.sms_notification_attempts": [],
+  "collect_hybrid.sms_notification_claim_requests": [],
+  "collect_hybrid.sms_notification_confirmations": [],
+  "collect_hybrid.sms_notification_outbox": [
+    {
+      "id": "3b5ac2a2-1f6b-437b-a08c-441144c47c66",
+      "state": "queued",
+      "reference": "FOUNDATION-00050002",
+      "amount_rwf": 100,
+      "claimed_by": null,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "updated_at": "2026-10-01T01:10:34.561039+00:00",
+      "body_sha256": "5b6bc6e94ac9b39b2da3942e864fe1ed609ad6e0ae675bc4c9f9589d6ecafc17",
+      "claim_token": null,
+      "snapshot_id": "f5393622-cc09-4507-92cb-c52e7e805cf9",
+      "message_body": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 100 RWF. Balance yawe: 400 RWF; balance y'itsinda: 400 RWF. Ref: FOUNDATION-00050002.",
+      "template_key": "buri_munsi.payment_received",
+      "attempt_count": 0,
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "fence_version": 0,
+      "policy_revision": 1,
+      "claim_expires_at": null,
+      "consent_revision": 1,
+      "destination_e164": "+250788971201",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "observed_sent_at": null,
+      "template_version": 1,
+      "group_balance_rwf": 400,
+      "destination_sha256": "8cc0b87fb6c94510ba8bc138aa1e0b14cbf1a09ad47a4c1fefc25e2917001db6",
+      "member_balance_rwf": 400,
+      "suppression_reason": null,
+      "destination_revision": 1
+    },
+    {
+      "id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "state": "suppressed",
+      "reference": "FOUNDATION-00050001",
+      "amount_rwf": 50,
+      "claimed_by": null,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "updated_at": "2026-10-01T01:10:34.693856+00:00",
+      "body_sha256": "f13012cf523c4c4d451c1aa4d84617936f7929b14dfbdf25a2595624b335c0dc",
+      "claim_token": null,
+      "snapshot_id": "60796369-aae6-4e7d-8bc1-eec47cce700e",
+      "message_body": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 50 RWF. Balance yawe: 300 RWF; balance y'itsinda: 300 RWF. Ref: FOUNDATION-00050001.",
+      "template_key": "buri_munsi.payment_received",
+      "attempt_count": 0,
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "fence_version": 0,
+      "policy_revision": 1,
+      "claim_expires_at": null,
+      "consent_revision": 1,
+      "destination_e164": "+250788971201",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "observed_sent_at": null,
+      "template_version": 1,
+      "group_balance_rwf": 300,
+      "destination_sha256": "8cc0b87fb6c94510ba8bc138aa1e0b14cbf1a09ad47a4c1fefc25e2917001db6",
+      "member_balance_rwf": 300,
+      "suppression_reason": "manual_pre_send_cancel",
+      "destination_revision": 1
+    }
+  ],
+  "collect_hybrid.sms_operator_heartbeats": [],
+  "collect_hybrid.sms_receipt_member_consents": [
+    {
+      "reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "enabled": true,
+      "revision": 1,
+      "recorded_at": "2026-10-01T01:10:22.587514+00:00",
+      "recorded_by": "99710000-0000-4000-8000-000000000001",
+      "capture_method": "written",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    }
+  ],
+  "collect_hybrid.sms_receipt_policies": [
+    {
+      "reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "enabled": true,
+      "revision": 1,
+      "updated_at": "2026-10-01T01:10:22.585377+00:00",
+      "updated_by": "99710000-0000-4000-8000-000000000001",
+      "template_key": "buri_munsi.payment_received",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "template_version": 1
+    }
+  ],
+  "collect_operator_audit.shadow_events": [
+    {
+      "action": "shadow.completed",
+      "run_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "54fa0178-be05-4e69-a270-14eb39ceccaa",
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "recorded_at": "2026-10-01T01:10:34.926653+00:00",
+      "fence_version": 1
+    },
+    {
+      "action": "shadow.sampled",
+      "run_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "c969c323-f40f-49e0-b2ff-5f80e50a0334",
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "recorded_at": "2026-10-01T01:10:34.859162+00:00",
+      "fence_version": 1
+    },
+    {
+      "action": "shadow.started",
+      "run_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "37eacd69-2a4e-4de5-a1a7-c5e03c9226b7",
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "recorded_at": "2026-10-01T01:10:34.759544+00:00",
+      "fence_version": 1
+    }
+  ],
+  "collect_ops.exception_actions": [
+    {
+      "action": "acknowledge",
+      "result": {
+        "action": "acknowledge",
+        "revision": 1,
+        "request_id": "5277cf8b-1af9-431f-8763-4733e739f110",
+        "recorded_at": "2026-10-01T01:10:35.846300Z",
+        "send_action": false,
+        "exception_id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+        "source_resolved": false,
+        "contract_version": 1,
+        "financial_action": false,
+        "escalation_delivery_verified": false
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "5277cf8b-1af9-431f-8763-4733e739f110",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "reason_code": "review_started",
+      "recorded_at": "2026-10-01T01:10:35.8463+00:00",
+      "exception_id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+      "expected_revision": 1
+    }
+  ],
+  "collect_ops.exception_observations": [
+    {
+      "active": false,
+      "revision": 2,
+      "observed_at": "2026-10-01T01:10:34.569726+00:00",
+      "exception_id": "74baa415-8135-4bbd-a5db-b73b60f4cd20",
+      "source_sha256": "5dc09730c2e2c0bf5ac86328de5dd6e0f66492b1f73aa4ee099c91125a1df996"
+    },
+    {
+      "active": false,
+      "revision": 2,
+      "observed_at": "2026-10-01T01:10:35.202569+00:00",
+      "exception_id": "abede841-cd10-4d46-80fb-3122268c361b",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e"
+    },
+    {
+      "active": false,
+      "revision": 2,
+      "observed_at": "2026-10-01T01:10:35.202885+00:00",
+      "exception_id": "2f8e38e6-d60b-4f51-ad8c-80a0c6ca74b9",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e"
+    },
+    {
+      "active": false,
+      "revision": 2,
+      "observed_at": "2026-10-01T01:10:35.202952+00:00",
+      "exception_id": "6f39371a-e721-47ee-8ca3-a0700c624106",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e"
+    },
+    {
+      "active": false,
+      "revision": 2,
+      "observed_at": "2026-10-01T01:10:35.202984+00:00",
+      "exception_id": "73aa00e6-559f-4360-bbe3-ddb4d9f71cda",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:34.56808+00:00",
+      "exception_id": "74baa415-8135-4bbd-a5db-b73b60f4cd20",
+      "source_sha256": "be2349db6128005a40c3f09a9369a58f90a6b5ad274383125acbf28fe461bcff"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:34.697463+00:00",
+      "exception_id": "59c1af87-54bb-47d8-8875-9603ccc6351b",
+      "source_sha256": "8d0a2250f2921e32490a4b34c21a3bb33309e93dd74ceec7b1d97dbb2b2621df"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:35.139039+00:00",
+      "exception_id": "6f39371a-e721-47ee-8ca3-a0700c624106",
+      "source_sha256": "6b48af27a08758d67c2b79b8cb578e7c70bf4e02821300872f81e3ccb1b30a75"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:35.139429+00:00",
+      "exception_id": "abede841-cd10-4d46-80fb-3122268c361b",
+      "source_sha256": "6b48af27a08758d67c2b79b8cb578e7c70bf4e02821300872f81e3ccb1b30a75"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:35.139512+00:00",
+      "exception_id": "73aa00e6-559f-4360-bbe3-ddb4d9f71cda",
+      "source_sha256": "6b48af27a08758d67c2b79b8cb578e7c70bf4e02821300872f81e3ccb1b30a75"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:35.13959+00:00",
+      "exception_id": "2f8e38e6-d60b-4f51-ad8c-80a0c6ca74b9",
+      "source_sha256": "6b48af27a08758d67c2b79b8cb578e7c70bf4e02821300872f81e3ccb1b30a75"
+    },
+    {
+      "active": true,
+      "revision": 1,
+      "observed_at": "2026-10-01T01:10:35.714424+00:00",
+      "exception_id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+      "source_sha256": "f47dc5b93fd3fdbe8d8f32237bf36c83cf2fb0f9cacb2ff8cd720954a40c14ef"
+    }
+  ],
+  "collect_ops.exceptions": [
+    {
+      "id": "2f8e38e6-d60b-4f51-ad8c-80a0c6ca74b9",
+      "active": false,
+      "revision": 2,
+      "source_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "reason_code": "GATEWAY_SIM",
+      "source_kind": "gateway",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e",
+      "last_changed_at": "2026-10-01T01:10:35.202885+00:00",
+      "first_observed_at": "2026-10-01T01:10:35.13959+00:00"
+    },
+    {
+      "id": "59c1af87-54bb-47d8-8875-9603ccc6351b",
+      "active": true,
+      "revision": 1,
+      "source_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "reason_code": "RECEIPT_SUPPRESSED",
+      "source_kind": "receipt",
+      "source_sha256": "8d0a2250f2921e32490a4b34c21a3bb33309e93dd74ceec7b1d97dbb2b2621df",
+      "last_changed_at": "2026-10-01T01:10:34.697463+00:00",
+      "first_observed_at": "2026-10-01T01:10:34.697463+00:00"
+    },
+    {
+      "id": "6f39371a-e721-47ee-8ca3-a0700c624106",
+      "active": false,
+      "revision": 2,
+      "source_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "reason_code": "GATEWAY_SMS_PERMISSION",
+      "source_kind": "gateway",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e",
+      "last_changed_at": "2026-10-01T01:10:35.202952+00:00",
+      "first_observed_at": "2026-10-01T01:10:35.139039+00:00"
+    },
+    {
+      "id": "73aa00e6-559f-4360-bbe3-ddb4d9f71cda",
+      "active": false,
+      "revision": 2,
+      "source_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "reason_code": "GATEWAY_TELEPHONY",
+      "source_kind": "gateway",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e",
+      "last_changed_at": "2026-10-01T01:10:35.202984+00:00",
+      "first_observed_at": "2026-10-01T01:10:35.139512+00:00"
+    },
+    {
+      "id": "74baa415-8135-4bbd-a5db-b73b60f4cd20",
+      "active": false,
+      "revision": 2,
+      "source_id": "99880000-0000-4000-8000-000000050002",
+      "reason_code": "VERIFICATION_PENDING",
+      "source_kind": "payment",
+      "source_sha256": "5dc09730c2e2c0bf5ac86328de5dd6e0f66492b1f73aa4ee099c91125a1df996",
+      "last_changed_at": "2026-10-01T01:10:34.569726+00:00",
+      "first_observed_at": "2026-10-01T01:10:34.56808+00:00"
+    },
+    {
+      "id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+      "active": true,
+      "revision": 1,
+      "source_id": "6d2c29f6-4008-41cc-8c25-75511701f503",
+      "reason_code": "PARSING_FAILED",
+      "source_kind": "raw_sms",
+      "source_sha256": "f47dc5b93fd3fdbe8d8f32237bf36c83cf2fb0f9cacb2ff8cd720954a40c14ef",
+      "last_changed_at": "2026-10-01T01:10:35.714424+00:00",
+      "first_observed_at": "2026-10-01T01:10:35.714424+00:00"
+    },
+    {
+      "id": "abede841-cd10-4d46-80fb-3122268c361b",
+      "active": false,
+      "revision": 2,
+      "source_id": "ff31dcff-c928-4219-98aa-785a0b3f1ea0",
+      "reason_code": "GATEWAY_NETWORK",
+      "source_kind": "gateway",
+      "source_sha256": "934a95988e7c65bb273ff0fe740fcfb828673f5db81b4d6c8526dea87a96b90e",
+      "last_changed_at": "2026-10-01T01:10:35.202569+00:00",
+      "first_observed_at": "2026-10-01T01:10:35.139429+00:00"
+    }
+  ],
+  "collect_receipt_actions.cancellations": [
+    {
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "revision": 2,
+      "outbox_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "request_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "reason_code": "operator_cancelled",
+      "recorded_at": "2026-10-01T01:10:34.698888+00:00",
+      "expected_revision": 1
+    }
+  ],
+  "collect_receipt_actions.revisions": [
+    {
+      "revision": 1,
+      "outbox_id": "3b5ac2a2-1f6b-437b-a08c-441144c47c66"
+    },
+    {
+      "revision": 2,
+      "outbox_id": "7d77592a-b618-4adf-8702-9a00e8837145"
+    }
+  ],
+  "collect_security.operational_metric_buckets": [],
+  "collect_security.otp_policy": [],
+  "collect_security.reconciliation_reviews": [],
+  "collect_security.runtime_control_events": [
+    {
+      "id": "2a9b6530-66f2-4ecf-891d-c958b0f51203",
+      "family": "feature_flags",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 2,
+      "authority": "database_owner",
+      "operation": "update",
+      "new_sha256": "e573998a7e50fdef576792bca948383a9fc4f709ddebb82dbdd0fffeb8665dac",
+      "old_sha256": "345382138eb60492d14d13e76a26f9d68d9bf6140d648fd8a65c3a7678b85621",
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:22.857353+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "enabled"
+      ],
+      "identity_sha256": "d432f318f457a440500a2c1cc542472dfc2cc9836bae766c8deb99c42cac77f0",
+      "previous_revision": 1,
+      "reason_characters": 26
+    },
+    {
+      "id": "40dc51b6-2860-4287-b0aa-edec406379c8",
+      "family": "sms_receipt_member_consents",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 1,
+      "authority": "database_owner",
+      "operation": "insert",
+      "new_sha256": "7a2bcf57c5d6362a530f11c1f4a89038030abf0791b4e0b3d8edcab5cc9f8599",
+      "old_sha256": null,
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:22.588804+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "capture_method",
+        "enabled",
+        "member_record_id",
+        "revision"
+      ],
+      "identity_sha256": "738191151e85f308b1a1c7d7231b68a866b1067bdaf167eef3a486d08da6c2b7",
+      "previous_revision": 0,
+      "reason_characters": 26
+    },
+    {
+      "id": "4a5cce0f-2d5f-47df-be99-8bed84360ed3",
+      "family": "admin_navigation_items",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 1,
+      "authority": "database_owner",
+      "operation": "insert",
+      "new_sha256": "a9045d71cd0d73d25cc819479afd0199fe6208767503ccfa3123bb3ed9fa8f40",
+      "old_sha256": null,
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:29.160078+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "display_order",
+        "enabled",
+        "icon_key",
+        "key",
+        "label",
+        "metadata",
+        "required_permission",
+        "route_path"
+      ],
+      "identity_sha256": "ddfbfbb22e18f9291c895cade19172c243bb8b738d6090a06c965374399f39a2",
+      "previous_revision": 0,
+      "reason_characters": 26
+    },
+    {
+      "id": "4face2d8-9e5f-4b51-b328-ce6f4394472d",
+      "family": "sms_receipt_policies",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 1,
+      "authority": "database_owner",
+      "operation": "insert",
+      "new_sha256": "2b613b5501e26ff350817680961aeb361d9e75400d50362bcb96e0e38526af29",
+      "old_sha256": null,
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:22.585778+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "collection_id",
+        "enabled",
+        "revision",
+        "template_key",
+        "template_version"
+      ],
+      "identity_sha256": "2dcf26a375885c3a724df8aca640b1fcfea5f549f0eb58c031d5961caeb10dc7",
+      "previous_revision": 0,
+      "reason_characters": 26
+    },
+    {
+      "id": "57ac9446-ca7e-48cf-b42a-585849f7e4d4",
+      "family": "admin_navigation_items",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 1,
+      "authority": "database_owner",
+      "operation": "insert",
+      "new_sha256": "d8951bb3b33974904c2eb9942768def3309165ff93d0eb693c72e82e0ac7b2d7",
+      "old_sha256": null,
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:29.800787+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "display_order",
+        "enabled",
+        "icon_key",
+        "key",
+        "label",
+        "metadata",
+        "required_permission",
+        "route_path"
+      ],
+      "identity_sha256": "b6239ba313f10c1914d42caf78304620944f78d5ea87e51a7545b514a1340c68",
+      "previous_revision": 0,
+      "reason_characters": 26
+    },
+    {
+      "id": "b1366c09-0c62-44b9-9c07-183c354c7d03",
+      "family": "feature_flags",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 1,
+      "authority": "database_owner",
+      "operation": "insert",
+      "new_sha256": "345382138eb60492d14d13e76a26f9d68d9bf6140d648fd8a65c3a7678b85621",
+      "old_sha256": null,
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:22.580628+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "description",
+        "enabled",
+        "key",
+        "metadata"
+      ],
+      "identity_sha256": "d432f318f457a440500a2c1cc542472dfc2cc9836bae766c8deb99c42cac77f0",
+      "previous_revision": 0,
+      "reason_characters": 26
+    },
+    {
+      "id": "ea5112fa-f7ab-41e3-a42c-e64d8fea53ea",
+      "family": "feature_flags",
+      "actor_id": null,
+      "redacted": false,
+      "revision": 3,
+      "authority": "database_owner",
+      "operation": "update",
+      "new_sha256": "345382138eb60492d14d13e76a26f9d68d9bf6140d648fd8a65c3a7678b85621",
+      "old_sha256": "e573998a7e50fdef576792bca948383a9fc4f709ddebb82dbdd0fffeb8665dac",
+      "session_id": null,
+      "recorded_at": "2026-10-01T01:10:22.872612+00:00",
+      "reason_sha256": "87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "changed_fields": [
+        "enabled"
+      ],
+      "identity_sha256": "d432f318f457a440500a2c1cc542472dfc2cc9836bae766c8deb99c42cac77f0",
+      "previous_revision": 2,
+      "reason_characters": 26
+    }
+  ],
+  "collect_security.runtime_control_heads": [
+    {
+      "family": "admin_navigation_items",
+      "identity": {
+        "key": "exceptions"
+      },
+      "revision": 1,
+      "updated_at": "2026-10-01T01:10:29.800586+00:00",
+      "content_sha256": "d8951bb3b33974904c2eb9942768def3309165ff93d0eb693c72e82e0ac7b2d7"
+    },
+    {
+      "family": "admin_navigation_items",
+      "identity": {
+        "key": "sms_gateway"
+      },
+      "revision": 1,
+      "updated_at": "2026-10-01T01:10:29.159846+00:00",
+      "content_sha256": "a9045d71cd0d73d25cc819479afd0199fe6208767503ccfa3123bb3ed9fa8f40"
+    },
+    {
+      "family": "feature_flags",
+      "identity": {
+        "key": "hybrid_sms_notifications"
+      },
+      "revision": 3,
+      "updated_at": "2026-10-01T01:10:22.872498+00:00",
+      "content_sha256": "345382138eb60492d14d13e76a26f9d68d9bf6140d648fd8a65c3a7678b85621"
+    },
+    {
+      "family": "sms_receipt_member_consents",
+      "identity": {
+        "member_record_id": "99710000-0000-4000-8000-000000040001"
+      },
+      "revision": 1,
+      "updated_at": "2026-10-01T01:10:22.588635+00:00",
+      "content_sha256": "7a2bcf57c5d6362a530f11c1f4a89038030abf0791b4e0b3d8edcab5cc9f8599"
+    },
+    {
+      "family": "sms_receipt_policies",
+      "identity": {
+        "collection_id": "99710000-0000-4000-8000-000000030001"
+      },
+      "revision": 1,
+      "updated_at": "2026-10-01T01:10:22.585622+00:00",
+      "content_sha256": "2b613b5501e26ff350817680961aeb361d9e75400d50362bcb96e0e38526af29"
+    }
+  ],
+  "collect_security.shadow_supervisor_lease": [
+    {
+      "id": true,
+      "active_run_id": null,
+      "fence_version": 1,
+      "lease_expires_at": null
+    }
+  ],
+  "collect_security.shadow_supervisor_runs": [
+    {
+      "id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "mode": "shadow",
+      "scope": "collect_platform",
+      "status": "completed",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "started_at": "2026-10-01T01:10:34.759544+00:00",
+      "completed_at": "2026-10-01T01:10:34.926653+00:00",
+      "fence_version": 1,
+      "lease_expires_at": "2026-10-01T01:12:34.759544+00:00"
+    }
+  ],
+  "collect_security.shadow_supervisor_samples": [
+    {
+      "id": "e193188b-8a1b-4d63-a064-d851b6318987",
+      "body": {
+        "summary": {
+          "sms_queue": {
+            "queued": 1,
+            "enabled": false,
+            "uncertain": 0,
+            "suppressed": 1,
+            "send_started": 0,
+            "active_workers": 0,
+            "awaiting_confirmation": 0
+          },
+          "alert_counts": {
+            "ok": 8,
+            "unknown": 0,
+            "attention": 0,
+            "not_applicable": 5
+          },
+          "health_status": "ok",
+          "provider_sends": 0,
+          "checks_recorded": 13,
+          "samples_recorded": 1,
+          "business_mutations": 0
+        },
+        "sms_queue": {
+          "queued": 1,
+          "enabled": false,
+          "uncertain": 0,
+          "suppressed": 1,
+          "observed_at": "2026-10-01T01:10:34.856672+00:00",
+          "send_started": 0,
+          "active_workers": 0,
+          "oldest_queued_at": "2026-10-01T01:10:34.561039+00:00",
+          "awaiting_confirmation": 0
+        },
+        "checked_at": "2026-10-01T01:10:34.859162+00:00",
+        "system_health": {
+          "id": "system",
+          "auth": "authenticated",
+          "alerts": [
+            {
+              "code": "receipt_parse_backlog",
+              "state": "ok",
+              "metric": "sms_pending",
+              "threshold": 100
+            },
+            {
+              "code": "receipt_parse_age",
+              "state": "not_applicable",
+              "metric": "sms_pending_age_seconds",
+              "threshold": 300
+            },
+            {
+              "code": "receipt_parse_failure",
+              "state": "ok",
+              "metric": "sms_failed_24h",
+              "threshold": 1
+            },
+            {
+              "code": "receipt_parser_lease_expired",
+              "state": "ok",
+              "metric": "sms_expired_parse_leases",
+              "threshold": 1
+            },
+            {
+              "code": "payment_unmatched",
+              "state": "ok",
+              "metric": "unallocated_events",
+              "threshold": 1
+            },
+            {
+              "code": "payment_review_age",
+              "state": "not_applicable",
+              "metric": "payment_review_age_seconds",
+              "threshold": 3600
+            },
+            {
+              "code": "reconciliation_exception",
+              "state": "ok",
+              "metric": "reconciliation_open",
+              "threshold": 1
+            },
+            {
+              "code": "push_queue_age",
+              "state": "not_applicable",
+              "metric": "push_due_age_seconds",
+              "threshold": 120
+            },
+            {
+              "code": "push_expired_lease",
+              "state": "ok",
+              "metric": "push_expired_leases",
+              "threshold": 1
+            },
+            {
+              "code": "push_missing_lease",
+              "state": "ok",
+              "metric": "push_missing_leases",
+              "threshold": 1
+            },
+            {
+              "code": "push_attempt_failure",
+              "state": "ok",
+              "metric": "push_failed_24h",
+              "threshold": 5
+            },
+            {
+              "code": "receipt_telemetry_stale",
+              "state": "not_applicable",
+              "metric": "receipt_telemetry_age_seconds",
+              "threshold": 300
+            },
+            {
+              "code": "push_scheduler_stale",
+              "state": "not_applicable",
+              "metric": "push_scheduler_age_seconds",
+              "threshold": 180
+            }
+          ],
+          "metrics": {
+            "push_due": 0,
+            "push_failed": 0,
+            "push_queued": 0,
+            "sms_pending": 0,
+            "reversals_24h": 0,
+            "push_retry_24h": 0,
+            "sms_failed_24h": 0,
+            "sms_parsed_24h": 0,
+            "payments_review": 0,
+            "push_failed_24h": 0,
+            "push_processing": 0,
+            "push_attempts_24h": 0,
+            "unallocated_events": 0,
+            "finality_processing": 0,
+            "payments_posted_24h": 3,
+            "push_expired_leases": 0,
+            "push_latency_p95_ms": null,
+            "push_missing_leases": 0,
+            "reconciliation_open": 0,
+            "durable_receipts_24h": 0,
+            "push_due_age_seconds": null,
+            "receipt_rejected_24h": 0,
+            "finality_processed_24h": 0,
+            "sms_pending_age_seconds": null,
+            "sms_expired_parse_leases": 0,
+            "push_provider_accepts_24h": 0,
+            "receipt_ack_generated_24h": 0,
+            "payment_review_age_seconds": null,
+            "push_scheduler_age_seconds": null,
+            "receipt_ack_latency_mean_ms": null,
+            "receipt_telemetry_age_seconds": null
+          },
+          "database": "reachable",
+          "scheduler": {
+            "state": "unknown",
+            "configuration_verified": false
+          },
+          "checked_at": "2026-10-01T01:10:34.847675+00:00",
+          "health_status": "ok",
+          "window_seconds": 86400,
+          "evidence_limits": [
+            "ACK generation does not prove device receipt.",
+            "Provider acceptance does not prove user delivery.",
+            "Scheduler activation does not prove provider configuration."
+          ],
+          "contract_version": 1,
+          "failed_sms_parse": 0,
+          "threshold_version": 1,
+          "parser_pending_sms": 0,
+          "sample_valid_until": "2026-10-01T01:11:34.847675+00:00",
+          "unallocated_events": 0,
+          "failed_notifications": 0,
+          "queued_notifications": 0,
+          "processing_notifications": 0
+        }
+      },
+      "run_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "checked_at": "2026-10-01T01:10:34.859162+00:00",
+      "content_sha256": "f767b0cdc532cbe625f0366e16ba61a21a51deaefa4856b42cb26ed136e8115c"
+    }
+  ],
+  "collect_security.signed_otp_evidence": [],
+  "collect_security.signed_otp_requests": [],
+  "collect_supervisor.identities": [
+    {
+      "id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+      "scope": "rw_receipt_shadow",
+      "state": "active",
+      "created_at": "2026-10-01T01:10:35.251604+00:00",
+      "expires_at": "2026-10-02T01:10:35.211582+00:00",
+      "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+      "revoked_at": null,
+      "activated_at": "2026-10-01T01:10:35.39629+00:00",
+      "owner_actor_id": "99710000-0000-4000-8000-000000000001",
+      "owner_session_id": "99710000-0000-4000-8000-000000010001",
+      "enrollment_request_id": "d61f7048-0571-4e35-a5b8-f62f2f311203",
+      "public_key_spki_base64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfPJ7GI0DT36KUjgDBLUaw8CJaeJ38hs1pgtI/EdmmXgHd1UQ247QQCk9msafdDDbun2t5jzpgimeBLedInhz0Q=="
+    }
+  ],
+  "collect_supervisor.owner_requests": [
+    {
+      "input": [
+        "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+        "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba"
+      ],
+      "action": "activate",
+      "result": {
+        "scope": "rw_receipt_shadow",
+        "expires_at": "2026-10-02T01:10:35.211582Z",
+        "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+        "request_id": "9599237d-24a8-4c8c-807a-c802a84201d9",
+        "recorded_at": "2026-10-01T01:10:35.396290Z",
+        "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+        "state_at_action": "active",
+        "contract_version": 1
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "9599237d-24a8-4c8c-807a-c802a84201d9",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "recorded_at": "2026-10-01T01:10:35.39629+00:00"
+    },
+    {
+      "input": [
+        "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfPJ7GI0DT36KUjgDBLUaw8CJaeJ38hs1pgtI/EdmmXgHd1UQ247QQCk9msafdDDbun2t5jzpgimeBLedInhz0Q==",
+        "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+        "2026-10-02T01:10:35.211582+00:00"
+      ],
+      "action": "enroll",
+      "result": {
+        "scope": "rw_receipt_shadow",
+        "expires_at": "2026-10-02T01:10:35.211582Z",
+        "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+        "request_id": "d61f7048-0571-4e35-a5b8-f62f2f311203",
+        "recorded_at": "2026-10-01T01:10:35.251604Z",
+        "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+        "state_at_action": "pending",
+        "contract_version": 1
+      },
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "request_id": "d61f7048-0571-4e35-a5b8-f62f2f311203",
+      "session_id": "99710000-0000-4000-8000-000000010001",
+      "recorded_at": "2026-10-01T01:10:35.251604+00:00"
+    }
+  ],
+  "collect_supervisor.requests": [
+    {
+      "action": "prove_key",
+      "result": {
+        "mode": "Shadow",
+        "scope": "rw_receipt_shadow",
+        "action": "prove_key",
+        "expires_at": "2026-10-02T01:10:35.211582Z",
+        "request_id": "fb5ccb8b-3da3-4861-9d98-2009cc1da298",
+        "observed_at": "2026-10-01T01:10:35.323023Z",
+        "send_action": false,
+        "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+        "business_handled": false,
+        "contract_version": 1,
+        "financial_action": false
+      },
+      "issued_at": "2026-10-01T01:10:35.320056+00:00",
+      "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+      "request_id": "fb5ccb8b-3da3-4861-9d98-2009cc1da298",
+      "recorded_at": "2026-10-01T01:10:35.323023+00:00",
+      "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+      "request_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+    },
+    {
+      "action": "shadow_health",
+      "result": {
+        "mode": "Shadow",
+        "scope": "rw_receipt_shadow",
+        "action": "shadow_health",
+        "expires_at": "2026-10-02T01:10:35.211582Z",
+        "request_id": "aef4e33f-4341-4241-88d5-27155305353c",
+        "observed_at": "2026-10-01T01:10:35.455123Z",
+        "send_action": false,
+        "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+        "queued_count": 1,
+        "unknown_count": 0,
+        "business_handled": false,
+        "contract_version": 1,
+        "dispatch_enabled": false,
+        "financial_action": false,
+        "sample_valid_until": "2026-10-01T01:11:35.455123Z",
+        "failed_no_send_count": 0
+      },
+      "issued_at": "2026-10-01T01:10:35.45329+00:00",
+      "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+      "request_id": "aef4e33f-4341-4241-88d5-27155305353c",
+      "recorded_at": "2026-10-01T01:10:35.455123+00:00",
+      "principal_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+      "request_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+    }
+  ],
+  "cron.job": [],
+  "cron.job_run_details": [],
+  "public.account_request_reason_options": [],
+  "public.admin_navigation_items": [
+    {
+      "key": "exceptions",
+      "label": "Exceptions",
+      "enabled": true,
+      "icon_key": "warning_amber",
+      "metadata": {},
+      "created_at": "2026-10-01T01:10:29.792663+00:00",
+      "route_path": "/admin/exceptions",
+      "updated_at": "2026-10-01T01:10:29.800112+00:00",
+      "updated_by": null,
+      "display_order": 147,
+      "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "required_permission": "payments.read"
+    },
+    {
+      "key": "sms_gateway",
+      "label": "SMS Gateway",
+      "enabled": true,
+      "icon_key": "router",
+      "metadata": {},
+      "created_at": "2026-10-01T01:10:29.146311+00:00",
+      "route_path": "/admin/sms-gateway",
+      "updated_at": "2026-10-01T01:10:29.159537+00:00",
+      "updated_by": null,
+      "display_order": 146,
+      "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143",
+      "required_permission": "notifications.read"
+    }
+  ],
+  "public.admin_notes": [],
+  "public.admin_permissions": [
+    {
+      "name": "admin_users.manage",
+      "created_at": "2026-10-01T01:10:22.735539+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "audit.read",
+      "created_at": "2026-10-01T01:10:22.735539+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "collections.moderate",
+      "created_at": "2026-10-01T01:10:22.568047+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "notifications.manage",
+      "created_at": "2026-10-01T01:10:22.568047+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "notifications.read",
+      "created_at": "2026-10-01T01:10:22.568047+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "payments.allocate",
+      "created_at": "2026-10-01T01:10:22.568047+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "payments.read",
+      "created_at": "2026-10-01T01:10:22.735539+00:00",
+      "description": "Synthetic"
+    },
+    {
+      "name": "system_health.read",
+      "created_at": "2026-10-01T01:10:22.568047+00:00",
+      "description": "Synthetic"
+    }
+  ],
+  "public.admin_queue_filter_options": [],
+  "public.admin_queue_signals": [],
+  "public.admin_queue_sla_policies": [],
+  "public.admin_queue_specs": [],
+  "public.admin_role_permissions": [
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.568273+00:00",
+      "permission_name": "collections.moderate"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.568273+00:00",
+      "permission_name": "notifications.manage"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.568273+00:00",
+      "permission_name": "notifications.read"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.568273+00:00",
+      "permission_name": "payments.allocate"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.568273+00:00",
+      "permission_name": "system_health.read"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.736055+00:00",
+      "permission_name": "admin_users.manage"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.736055+00:00",
+      "permission_name": "audit.read"
+    },
+    {
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "created_at": "2026-10-01T01:10:22.736055+00:00",
+      "permission_name": "payments.read"
+    }
+  ],
+  "public.admin_roles": [
+    {
+      "id": "99710000-0000-4000-8000-000000020001",
+      "name": "platform_owner",
+      "created_at": "2026-10-01T01:10:22.567405+00:00",
+      "description": "Synthetic foundation owner"
+    }
+  ],
+  "public.admin_sensitive_access_logs": [],
+  "public.admin_user_roles": [
+    {
+      "reason": "Synthetic foundation grant",
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "user_id": "99710000-0000-4000-8000-000000000001",
+      "created_at": "2026-10-01T01:09:22.57407+00:00",
+      "granted_by": null,
+      "revoked_at": null,
+      "revoked_by": null,
+      "revoke_reason": null
+    },
+    {
+      "reason": "Synthetic foundation grant",
+      "role_id": "99710000-0000-4000-8000-000000020001",
+      "user_id": "99710000-0000-4000-8000-000000000002",
+      "created_at": "2026-10-01T01:09:22.574155+00:00",
+      "granted_by": null,
+      "revoked_at": null,
+      "revoked_by": null,
+      "revoke_reason": null
+    }
+  ],
+  "public.app_realtime_events": [
+    {
+      "id": "00907242-082c-4727-ad9a-3fb1f4d3f7b7",
+      "area": "settings",
+      "created_at": "2026-10-01T01:10:29.792663+00:00"
+    },
+    {
+      "id": "0bc2f7c4-030e-49e2-ba05-d6009b2646c1",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.7543+00:00"
+    },
+    {
+      "id": "0e87cdd0-2252-476a-b39c-b09ebd315623",
+      "area": "sms_events",
+      "created_at": "2026-10-01T01:10:35.710178+00:00"
+    },
+    {
+      "id": "128dd431-59d0-45f1-b274-85f7a2813b04",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:22.652978+00:00"
+    },
+    {
+      "id": "18ad8603-2f49-4e80-962d-02878d3c9d14",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.633775+00:00"
+    },
+    {
+      "id": "257806ce-e847-4ef1-8fca-385acb6565f3",
+      "area": "feature_flags",
+      "created_at": "2026-10-01T01:10:22.57545+00:00"
+    },
+    {
+      "id": "2890636d-fb26-4c3f-83f4-db0c7521600a",
+      "area": "profiles",
+      "created_at": "2026-10-01T01:10:22.569412+00:00"
+    },
+    {
+      "id": "2a5847c7-1e69-43e5-a255-cd3efa96486d",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:22.857804+00:00"
+    },
+    {
+      "id": "2d516e07-605a-4857-a3c3-b26616e6c486",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.839215+00:00"
+    },
+    {
+      "id": "2ed0815e-760b-4cb9-855d-5fb32172ca19",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:22.857804+00:00"
+    },
+    {
+      "id": "395590af-d1e2-4488-8fa4-969b5d534702",
+      "area": "feature_flags",
+      "created_at": "2026-10-01T01:10:22.85065+00:00"
+    },
+    {
+      "id": "3f82c436-2146-48b6-ae84-05d15f540c95",
+      "area": "receivers",
+      "created_at": "2026-10-01T01:10:22.736957+00:00"
+    },
+    {
+      "id": "4662f474-791c-4952-9bcf-b39344594b19",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:34.561039+00:00"
+    },
+    {
+      "id": "561a3256-268e-4d86-b29d-946ccf47f292",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.919299+00:00"
+    },
+    {
+      "id": "58dd9ba1-a0ce-44e4-8ba0-24bb8ea735b9",
+      "area": "members",
+      "created_at": "2026-10-01T01:10:22.582424+00:00"
+    },
+    {
+      "id": "7c3788a9-b1ef-4298-807e-f0de7b39b215",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.837744+00:00"
+    },
+    {
+      "id": "94aff556-d89c-424e-9b63-2e432996f78d",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.571999+00:00"
+    },
+    {
+      "id": "9e15623b-b87a-4857-a30b-78af2ae28f4b",
+      "area": "admin_roles",
+      "created_at": "2026-10-01T01:10:22.573983+00:00"
+    },
+    {
+      "id": "ab457f52-78a6-48e4-922f-fa12f426aa3e",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:22.857804+00:00"
+    },
+    {
+      "id": "ad943be8-7950-472e-adfa-80226744161d",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.680254+00:00"
+    },
+    {
+      "id": "afb26783-4947-4221-bb92-7f303fea5b95",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:34.561039+00:00"
+    },
+    {
+      "id": "b0fd699e-4590-4cda-99a5-cee28301c5ae",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:34.561039+00:00"
+    },
+    {
+      "id": "bc8fabaa-4316-48ae-99b2-32da527e566b",
+      "area": "settings",
+      "created_at": "2026-10-01T01:10:29.146311+00:00"
+    },
+    {
+      "id": "c17e8362-8c52-475a-be70-7744a12e887a",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:22.652978+00:00"
+    },
+    {
+      "id": "c6f117ce-2a4c-4c57-9776-d8175ce031c8",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.516946+00:00"
+    },
+    {
+      "id": "c6f7dd66-f344-4d40-9982-cd77c7c4d53f",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:22.857804+00:00"
+    },
+    {
+      "id": "c8d94dba-852c-4dec-9db2-625cedbed211",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.561039+00:00"
+    },
+    {
+      "id": "cd21100d-74c2-4ccc-9f91-019a7a420c11",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:34.561039+00:00"
+    },
+    {
+      "id": "d05f2b82-f4c8-4c1f-a3a3-15cf8936c9e3",
+      "area": "feature_flags",
+      "created_at": "2026-10-01T01:10:22.868159+00:00"
+    },
+    {
+      "id": "d0d0279e-b7e2-434d-9f86-2215a5b50d76",
+      "area": "members",
+      "created_at": "2026-10-01T01:10:22.582424+00:00"
+    },
+    {
+      "id": "d5f72304-d1dc-4d53-897d-6679beab9538",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:22.652978+00:00"
+    },
+    {
+      "id": "dbf46704-042c-47c0-9cd2-d0a81e71603a",
+      "area": "collections",
+      "created_at": "2026-10-01T01:10:22.581043+00:00"
+    },
+    {
+      "id": "dcdd3040-61cb-42e3-bfc3-8a2788f41503",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:22.652978+00:00"
+    },
+    {
+      "id": "de17ae80-e2a9-41f1-b64f-e153b42702da",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:34.475798+00:00"
+    },
+    {
+      "id": "e160130a-a3f7-4ef1-92e4-5fb473bd4203",
+      "area": "admin_roles",
+      "created_at": "2026-10-01T01:10:22.573983+00:00"
+    },
+    {
+      "id": "e7486bb5-733b-4916-ab01-fb1bfd4e4091",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.245362+00:00"
+    },
+    {
+      "id": "eb300505-79bb-45a9-b8ef-03779a5d4456",
+      "area": "ledger",
+      "created_at": "2026-10-01T01:10:22.652978+00:00"
+    },
+    {
+      "id": "ef6513fc-6594-43ac-b97a-dca6c0719840",
+      "area": "payments",
+      "created_at": "2026-10-01T01:10:22.857804+00:00"
+    },
+    {
+      "id": "ef6d0bb5-b98b-4079-abbf-80dacebeaec6",
+      "area": "audit",
+      "created_at": "2026-10-01T01:10:35.390635+00:00"
+    },
+    {
+      "id": "fae8fa81-3766-43a1-9f35-25a436b0d0e2",
+      "area": "profiles",
+      "created_at": "2026-10-01T01:10:22.569412+00:00"
+    }
+  ],
+  "public.audit_logs": [
+    {
+      "id": "07d93ae2-54e0-495c-98c7-5ecd1d499044",
+      "action": "automation.operating_policy.configured",
+      "metadata": {
+        "mode": "Shadow",
+        "changed": true,
+        "revision": 2,
+        "request_id": "d70df2b4-7f89-45a6-a760-c0170adaae02",
+        "reason_code": "operator_reviewed_configuration",
+        "send_action": false,
+        "emergency_stop": false,
+        "approval_granted": false,
+        "financial_action": false,
+        "schedule_changed": false,
+        "expected_revision": 1
+      },
+      "entity_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "created_at": "2026-10-01T01:10:35.516946+00:00",
+      "entity_type": "unattended_operating_policy",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "0b92ff3f-bb1b-4492-a6c0-29c6af50d190",
+      "action": "notification.sms.cancelled_unstarted",
+      "metadata": {
+        "revision": 2,
+        "request_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+        "reason_code": "operator_cancelled",
+        "send_action": false,
+        "financial_action": false,
+        "expected_revision": 1
+      },
+      "entity_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+      "created_at": "2026-10-01T01:10:34.680254+00:00",
+      "entity_type": "sms_notification_outbox",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "1dc34e80-cf6b-461c-b04d-5eef304dc1ce",
+      "action": "admin.auth.email_cutover",
+      "metadata": {
+        "reason": "Synthetic offline restore email mode"
+      },
+      "entity_id": null,
+      "created_at": "2026-10-01T01:10:34.475798+00:00",
+      "entity_type": "operator_auth_policy",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "371ed8a2-9b65-4a50-a353-83cce8d628c7",
+      "action": "payment.provider_confirmed",
+      "metadata": {
+        "confirmed_at": "2026-10-01T01:10:34.568807+00:00",
+        "ledger_posted": true,
+        "provider_network": "mtn_momo",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050002"
+      },
+      "entity_id": "99880000-0000-4000-8000-000000050002",
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "entity_type": "payment",
+      "actor_user_id": null
+    },
+    {
+      "id": "37eacd69-2a4e-4de5-a1a7-c5e03c9226b7",
+      "action": "shadow.started",
+      "metadata": {
+        "mode": "shadow",
+        "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+        "send_action": false,
+        "fence_version": 1,
+        "financial_action": false
+      },
+      "entity_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "created_at": "2026-10-01T01:10:34.759544+00:00",
+      "entity_type": "collect_shadow_run",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "44b440b8-2913-4d32-8af2-0a4fdeafcd09",
+      "action": "payment.provider_confirmed",
+      "metadata": {
+        "confirmed_at": "2026-10-01T01:10:22.860077+00:00",
+        "ledger_posted": true,
+        "provider_network": "mtn_momo",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050001"
+      },
+      "entity_id": "99880000-0000-4000-8000-000000050001",
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "entity_type": "payment",
+      "actor_user_id": null
+    },
+    {
+      "id": "4f48fb9d-5675-4ff2-8e90-037f28a76e5b",
+      "action": "operations.exception.acknowledge",
+      "metadata": {
+        "revision": 1,
+        "request_id": "5277cf8b-1af9-431f-8763-4733e739f110",
+        "reason_code": "review_started",
+        "send_action": false,
+        "financial_action": false
+      },
+      "entity_id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+      "created_at": "2026-10-01T01:10:35.837744+00:00",
+      "entity_type": "operational_exception",
+      "actor_user_id": null
+    },
+    {
+      "id": "54fa0178-be05-4e69-a270-14eb39ceccaa",
+      "action": "shadow.completed",
+      "metadata": {
+        "mode": "shadow",
+        "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+        "send_action": false,
+        "fence_version": 1,
+        "financial_action": false
+      },
+      "entity_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "created_at": "2026-10-01T01:10:34.926653+00:00",
+      "entity_type": "collect_shadow_run",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "9aac7de9-bfd8-4474-8ce6-e4473153e242",
+      "action": "supervisor.identity.activate",
+      "metadata": {
+        "scope": "rw_receipt_shadow",
+        "request_id": "9599237d-24a8-4c8c-807a-c802a84201d9"
+      },
+      "entity_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+      "created_at": "2026-10-01T01:10:35.390635+00:00",
+      "entity_type": "receipt_supervisor",
+      "actor_user_id": null
+    },
+    {
+      "id": "aec921c9-5ef1-4bea-bb1a-e85820321ba6",
+      "action": "payment.provider_confirmed",
+      "metadata": {
+        "confirmed_at": "2026-10-01T01:10:22.657432+00:00",
+        "ledger_posted": true,
+        "provider_network": "mtn_momo",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050000"
+      },
+      "entity_id": "99710000-0000-4000-8000-000000050000",
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "entity_type": "payment",
+      "actor_user_id": null
+    },
+    {
+      "id": "c969c323-f40f-49e0-b2ff-5f80e50a0334",
+      "action": "shadow.sampled",
+      "metadata": {
+        "mode": "shadow",
+        "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+        "send_action": false,
+        "fence_version": 1,
+        "financial_action": false
+      },
+      "entity_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+      "created_at": "2026-10-01T01:10:34.859162+00:00",
+      "entity_type": "collect_shadow_run",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "e344bb96-66ed-48a9-a5af-e74be11e6de9",
+      "action": "automation.operating_policy.configured",
+      "metadata": {
+        "mode": "Shadow",
+        "changed": false,
+        "revision": 2,
+        "request_id": "cac40306-3e77-425c-80ee-505a08558245",
+        "reason_code": "operator_reviewed_configuration",
+        "send_action": false,
+        "emergency_stop": false,
+        "approval_granted": false,
+        "financial_action": false,
+        "schedule_changed": false,
+        "expected_revision": 2
+      },
+      "entity_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "created_at": "2026-10-01T01:10:35.571999+00:00",
+      "entity_type": "unattended_operating_policy",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "e9d127db-9672-401c-a13d-863d6bd1826f",
+      "action": "automation.operating_policy.configured",
+      "metadata": {
+        "mode": "Paused",
+        "changed": true,
+        "revision": 3,
+        "request_id": "0c1bb2f3-2a20-4322-8b71-4a004058d8c5",
+        "reason_code": "operator_emergency_stop",
+        "send_action": false,
+        "emergency_stop": true,
+        "approval_granted": false,
+        "financial_action": false,
+        "schedule_changed": false,
+        "expected_revision": 2
+      },
+      "entity_id": "067bdf09-b739-4ee6-bca5-32bd53cd4782",
+      "created_at": "2026-10-01T01:10:35.633775+00:00",
+      "entity_type": "unattended_operating_policy",
+      "actor_user_id": "99710000-0000-4000-8000-000000000001"
+    },
+    {
+      "id": "ea1520fe-3cee-4309-81f4-d7a24f0ad196",
+      "action": "supervisor.identity.enroll",
+      "metadata": {
+        "scope": "rw_receipt_shadow",
+        "expires_at": "2026-10-02T01:10:35.211582+00:00",
+        "request_id": "d61f7048-0571-4e35-a5b8-f62f2f311203"
+      },
+      "entity_id": "8e5f5646-3979-4c2b-a692-af130af9fbe6",
+      "created_at": "2026-10-01T01:10:35.245362+00:00",
+      "entity_type": "receipt_supervisor",
+      "actor_user_id": null
+    }
+  ],
+  "public.bank_allocation_change_requests": [],
+  "public.bank_destination_change_requests": [],
+  "public.bank_evidence_events": [],
+  "public.bank_statement_imports": [],
+  "public.bank_statement_lines": [],
+  "public.bank_transaction_allocations": [],
+  "public.bank_transactions": [],
+  "public.bank_transfer_destinations": [],
+  "public.bank_transfer_intents": [],
+  "public.brand_entities": [],
+  "public.collection_category_subtypes": [],
+  "public.collection_invites": [],
+  "public.collection_members": [
+    {
+      "id": "2584d89c-4800-401e-9e80-daaf4c82d13b",
+      "role": "member",
+      "status": "active",
+      "user_id": null,
+      "created_at": "2026-10-01T01:10:22.582424+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "invited_phone_hash": null
+    },
+    {
+      "id": "f5398ba7-87b5-46e6-bb1b-dd20b8d1a390",
+      "role": "member",
+      "status": "active",
+      "user_id": null,
+      "created_at": "2026-10-01T01:10:22.582424+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040002",
+      "invited_phone_hash": null
+    }
+  ],
+  "public.collection_purpose_templates": [],
+  "public.collection_receivers": [
+    {
+      "id": "d22550c4-bbd1-4fc8-900b-c5b299b9c184",
+      "label": "Collection receiver",
+      "network": "mtn_momo",
+      "is_active": true,
+      "created_at": "2026-10-01T01:10:22.736957+00:00",
+      "momo_number": "+250788971001",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "receiver_user_id": "99710000-0000-4000-8000-000000000001"
+    }
+  ],
+  "public.collection_reports": [],
+  "public.collection_share_secrets": [],
+  "public.collection_type_catalog": [],
+  "public.collection_type_country_rules": [],
+  "public.collections": [
+    {
+      "id": "99710000-0000-4000-8000-000000030001",
+      "slug": "foundation-synthetic",
+      "title": "Synthetic receipt foundation",
+      "category": "Family / friends",
+      "currency": "RWF",
+      "created_at": "2026-10-01T01:10:22.581043+00:00",
+      "updated_at": "2026-10-01T01:10:22.581043+00:00",
+      "visibility": "private",
+      "archived_at": null,
+      "deadline_at": null,
+      "description": "",
+      "is_recurring": false,
+      "public_status": "private",
+      "purpose_label": null,
+      "recurring_rule": null,
+      "allow_anonymous": false,
+      "collection_type": "ikimina",
+      "cover_image_url": null,
+      "creation_origin": "admin_assisted",
+      "creator_user_id": "99710000-0000-4000-8000-000000000001",
+      "accent_color_hex": null,
+      "category_subtype": null,
+      "diaspora_enabled": false,
+      "diaspora_regions": [],
+      "moderation_status": "not_requested",
+      "recurring_cadence": "monthly",
+      "target_amount_rwf": null,
+      "suggested_amount_rwf": null,
+      "allow_public_comments": false,
+      "is_platform_sponsored": false,
+      "bank_transfer_currency": "EUR",
+      "receiver_display_label": null,
+      "contribution_visibility": "members"
+    }
+  ],
+  "public.daily_bank_closes": [],
+  "public.feature_flags": [
+    {
+      "key": "hybrid_sms_notifications",
+      "enabled": false,
+      "metadata": {},
+      "created_at": "2026-10-01T01:10:22.57545+00:00",
+      "updated_at": "2026-10-01T01:10:22.872373+00:00",
+      "updated_by": null,
+      "description": "Synthetic dispatch gate",
+      "updated_reason": "runtime_control:87be30fccf4b24439eb4f6803a1544f52216469488bcab0b6ddaf73f9b5e8143"
+    }
+  ],
+  "public.journal_entries": [],
+  "public.journal_lines": [],
+  "public.ledger_entries": [
+    {
+      "id": "2560fb06-71fa-46c2-af1d-496dc5ceee16",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050000"
+      },
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "entry_type": "collection_credit",
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "visibility": "public_safe",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "5fb05755-6bb3-4952-9756-c2144a95c272",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050000"
+      },
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "entry_type": "member_credit",
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "visibility": "private",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "8716b062-d5dd-482f-babf-512e2ea94686",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050001"
+      },
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "entry_type": "member_credit",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "visibility": "private",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "9e14a811-d35a-48db-875a-aa526f8f4887",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050002"
+      },
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "entry_type": "collection_credit",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "visibility": "public_safe",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "cb6e92dc-4dc4-4418-b1d7-e095ded011eb",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050001"
+      },
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "entry_type": "collection_credit",
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "visibility": "public_safe",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    {
+      "id": "dc50d813-cc2a-42c4-8878-37d792b2b5b4",
+      "user_id": null,
+      "currency": "RWF",
+      "metadata": {
+        "allocation_method": "provider_confirmed",
+        "provider_confirmation_id": "CONF-FOUNDATION-00050002"
+      },
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "entry_type": "member_credit",
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "visibility": "private",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    }
+  ],
+  "public.member_obligations": [],
+  "public.mobile_account_deletion_requests": [],
+  "public.mobile_support_requests": [],
+  "public.moderation_flags": [],
+  "public.native_action_capabilities": [],
+  "public.notification_channels": [],
+  "public.notification_deliveries": [],
+  "public.notification_delivery_attempts": [],
+  "public.notification_device_tokens": [],
+  "public.notification_event_types": [],
+  "public.notification_events": [],
+  "public.notification_preferences": [],
+  "public.notification_template_versions": [],
+  "public.notification_templates": [],
+  "public.otp_rate_limits": [],
+  "public.parsed_payment_events": [],
+  "public.payment_allocations": [],
+  "public.payment_entrypoints": [],
+  "public.payment_evidence_links": [],
+  "public.payment_intents": [],
+  "public.payment_provider_confirmations": [
+    {
+      "id": "1fe31388-8068-4806-af61-ce6d6067f84e",
+      "currency": "RWF",
+      "amount_rwf": 50,
+      "payment_id": "99880000-0000-4000-8000-000000050001",
+      "recorded_at": "2026-10-01T01:10:22.857804+00:00",
+      "confirmed_at": "2026-10-01T01:10:22.860077+00:00",
+      "transaction_id": "FOUNDATION-00050001",
+      "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "provider_network": "mtn_momo",
+      "provider_confirmation_id": "CONF-FOUNDATION-00050001",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "2c58774e-b093-4379-b9ec-f2d631578623",
+      "currency": "RWF",
+      "amount_rwf": 250,
+      "payment_id": "99710000-0000-4000-8000-000000050000",
+      "recorded_at": "2026-10-01T01:10:22.652978+00:00",
+      "confirmed_at": "2026-10-01T01:10:22.657432+00:00",
+      "transaction_id": "FOUNDATION-00050000",
+      "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "provider_network": "mtn_momo",
+      "provider_confirmation_id": "CONF-FOUNDATION-00050000",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "8e631166-d99c-4fa8-b386-04637de98bc2",
+      "currency": "RWF",
+      "amount_rwf": 100,
+      "payment_id": "99880000-0000-4000-8000-000000050002",
+      "recorded_at": "2026-10-01T01:10:34.561039+00:00",
+      "confirmed_at": "2026-10-01T01:10:34.568807+00:00",
+      "transaction_id": "FOUNDATION-00050002",
+      "evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "provider_network": "mtn_momo",
+      "provider_confirmation_id": "CONF-FOUNDATION-00050002",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "public.payments": [
+    {
+      "id": "99710000-0000-4000-8000-000000050000",
+      "source": "manual_admin",
+      "status": "posted",
+      "currency": "RWF",
+      "posted_at": "2026-10-01T01:10:22.657432+00:00",
+      "amount_rwf": 250,
+      "created_at": "2026-10-01T01:10:22.652978+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "transaction_id": "FOUNDATION-00050000",
+      "parsed_event_id": null,
+      "anonymity_choice": "anonymous",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "provider_network": "mtn_momo",
+      "receiver_user_id": "99710000-0000-4000-8000-000000000001",
+      "payment_intent_id": null,
+      "contributor_user_id": null,
+      "contributor_public_id": "971201",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "99880000-0000-4000-8000-000000050001",
+      "source": "manual_admin",
+      "status": "posted",
+      "currency": "RWF",
+      "posted_at": "2026-10-01T01:10:22.860077+00:00",
+      "amount_rwf": 50,
+      "created_at": "2026-10-01T01:10:22.857804+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "transaction_id": "FOUNDATION-00050001",
+      "parsed_event_id": null,
+      "anonymity_choice": "anonymous",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "provider_network": "mtn_momo",
+      "receiver_user_id": "99710000-0000-4000-8000-000000000001",
+      "payment_intent_id": null,
+      "contributor_user_id": null,
+      "contributor_public_id": "971201",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "99880000-0000-4000-8000-000000050002",
+      "source": "manual_admin",
+      "status": "posted",
+      "currency": "RWF",
+      "posted_at": "2026-10-01T01:10:34.568807+00:00",
+      "amount_rwf": 100,
+      "created_at": "2026-10-01T01:10:34.561039+00:00",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "transaction_id": "FOUNDATION-00050002",
+      "parsed_event_id": null,
+      "anonymity_choice": "anonymous",
+      "member_record_id": "99710000-0000-4000-8000-000000040001",
+      "provider_network": "mtn_momo",
+      "receiver_user_id": "99710000-0000-4000-8000-000000000001",
+      "payment_intent_id": null,
+      "contributor_user_id": null,
+      "contributor_public_id": "971201",
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "public.policy_acceptance_events": [],
+  "public.policy_document_sections": [],
+  "public.policy_documents": [],
+  "public.profile_country_rules": [],
+  "public.profiles": [
+    {
+      "id": "99710000-0000-4000-8000-000000000001",
+      "public_id": "584569",
+      "avatar_url": null,
+      "created_at": "2026-10-01T01:10:22.569412+00:00",
+      "updated_at": "2026-10-01T01:10:22.569412+00:00",
+      "momo_number": null,
+      "country_code": null,
+      "display_name": null,
+      "revolut_link": null,
+      "revolut_name": null,
+      "currency_code": null,
+      "momo_pay_code": null,
+      "momo_provider": null,
+      "whatsapp_phone": "250788971001",
+      "revolut_account": null,
+      "momo_number_hash": null,
+      "anonymity_default": "anonymous",
+      "is_platform_admin": false,
+      "momo_number_verified_at": null
+    },
+    {
+      "id": "99710000-0000-4000-8000-000000000002",
+      "public_id": "699231",
+      "avatar_url": null,
+      "created_at": "2026-10-01T01:10:22.569412+00:00",
+      "updated_at": "2026-10-01T01:10:22.569412+00:00",
+      "momo_number": null,
+      "country_code": null,
+      "display_name": null,
+      "revolut_link": null,
+      "revolut_name": null,
+      "currency_code": null,
+      "momo_pay_code": null,
+      "momo_provider": null,
+      "whatsapp_phone": "250788971002",
+      "revolut_account": null,
+      "momo_number_hash": null,
+      "anonymity_default": "anonymous",
+      "is_platform_admin": false,
+      "momo_number_verified_at": null
+    }
+  ],
+  "public.provider_finality_requests": [],
+  "public.raw_payment_evidence": [],
+  "public.raw_payment_sms": [
+    {
+      "id": "6d2c29f6-4008-41cc-8c25-75511701f503",
+      "raw_body": "Synthetic recovery failed-parser record",
+      "body_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "created_at": "2026-10-01T01:10:35.710178+00:00",
+      "raw_sender": "M-Money",
+      "ingested_at": "2026-10-01T01:10:35.710178+00:00",
+      "parse_status": "failed",
+      "collection_id": "99710000-0000-4000-8000-000000030001",
+      "parse_lease_id": null,
+      "parse_started_at": null,
+      "receiver_user_id": "99710000-0000-4000-8000-000000000001",
+      "client_envelope_id": null,
+      "device_attested_at": null,
+      "received_at_device": null,
+      "attestation_request_hash": null,
+      "receiver_momo_number_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "native_action_capability_id": null
+    }
+  ],
+  "public.receiver_mode_consents": [],
+  "public.reconciliation_exceptions": [],
+  "public.reconciliation_matches": [],
+  "public.reconciliation_runs": [],
+  "public.recurring_periods": [],
+  "public.support_channels": [],
+  "public.system_settings": [],
+  "supabase_functions.hooks": [],
+  "supabase_functions.migrations": [],
+  "supabase_migrations.schema_migrations": [],
+  "vault.secrets": []
+}

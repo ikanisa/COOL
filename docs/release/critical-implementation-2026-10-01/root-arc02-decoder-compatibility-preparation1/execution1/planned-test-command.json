@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+    "--suppress-analytics",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--timeout=30s",
+    "--name",
+    "^(actual\\ SQL\\ deterministic\\ and\\ AI\\ status\\ receipts\\ bind\\ their\\ source,\\ revision\\ and\\ commit|root\\-owned\\ actual\\ SQL\\ read\\ receipts\\ satisfy\\ the\\ routed\\ contracts|actual\\ rollback\\ SQL144\\ receipts\\ decode\\ staged\\ and\\ completed\\ recovery\\ exactly)$",
+    "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/receipts/admin148.stdout",
+    "--dart-define=ROSTER_RELOAD_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/receipts/roster144.stdout",
+    "--dart-define=ROSTER_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/receipts/roster142.stdout",
+    "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+    "--reporter=expanded",
+    "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/execution1/tests.events.jsonl",
+    "test/admin_roster_import_test.dart",
+    "test/admin_read_contracts_test.dart",
+    "test/admin_roster_reload_test.dart"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source"
+}

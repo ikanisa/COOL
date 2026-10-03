@@ -1,0 +1,21 @@
+--- attempt-1/GatewayLateBackendTest.kt
++++ attempt-3/GatewayLateBackendTest.kt
+@@ -101,10 +101,17 @@
+         f.failNextCallback = true;refuse { f.cycle() };val target = f.requests.single().getString("request_id")
+         f.unknown.clear()
+         val rows = f.f.store().readRequests();rows.getJSONArray("requests").getJSONObject(0).put("state", "recorded");f.f.store().saveRequests(rows)
+-        f.f.append(a, f.f.callback(a, 100, 100))
++        val priorEvidence = f.f.store().coldCallbackPage(null, 8).entries.first().evidenceKey
++        var tick = 100
++        var fresh = f.f.callback(a, 100, tick)
++        fun rawKey(c: GatewayCallback) = sha256(retentionCanonical(JSONObject().put("contract_version", 5).put("attempt_id", a.attemptId).put("callback", gatewayLateCallbackJson(c)))).take(32)
++        while (rawKey(fresh) >= priorEvidence && tick < 65_636) { tick++;fresh = f.f.callback(a, 100, tick) }
++        assertTrue(rawKey(fresh) < priorEvidence)
++        f.f.append(a, fresh)
+         repeat(24) { f.cycle() }
+         assertTrue(f.requests.any { it.getString("action") == "reconcile" && it.getJSONObject("payload").getString("target_request_id") == target })
+         assertEquals(19, f.requests.count { it.getString("action") == "callback" });assertEquals(0, f.f.store().readRequests().getJSONArray("requests").length())
+         assertNotNull(f.f.store().readRequestReceipt(target));assertTrue(f.f.store().coldStop())
++        assertEquals(1, f.requests.count { it.getString("action") == "callback" && it.getJSONObject("payload").getInt("result_code") == 100 })
+     }
+ }

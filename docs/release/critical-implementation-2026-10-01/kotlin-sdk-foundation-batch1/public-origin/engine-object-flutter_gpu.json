@@ -1,0 +1,20 @@
+{
+  "kind": "storage#object",
+  "id": "flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_gpu.zip/1782260997054474",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_gpu.zip",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_gpu.zip?generation=1782260997054474&alt=media",
+  "name": "flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_gpu.zip",
+  "bucket": "flutter_infra_release",
+  "generation": "1782260997054474",
+  "metageneration": "1",
+  "contentType": "application/zip",
+  "storageClass": "STANDARD",
+  "size": "49085",
+  "md5Hash": "LQ/4G8hdsZCUfYe01Sjscg==",
+  "crc32c": "MeU09A==",
+  "etag": "CIrAgc3PnpUDEAE=",
+  "timeCreated": "2026-06-24T00:29:57.159Z",
+  "updated": "2026-06-24T00:29:57.159Z",
+  "timeStorageClassUpdated": "2026-06-24T00:29:57.159Z",
+  "timeFinalized": "2026-06-24T00:29:57.159Z"
+}

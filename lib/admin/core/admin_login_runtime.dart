@@ -8,7 +8,8 @@ class AdminLoginPage extends ConsumerStatefulWidget {
 }
 
 class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
-  final _phone = TextEditingController();
+  final _email = TextEditingController();
+  String? _requestedEmail;
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
@@ -17,14 +18,12 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   String? _statusMessage;
   Timer? _resendTimer;
 
-  String get _phoneForAuth {
-    return PhoneNormalizer.normalizeRwanda(_phone.text);
-  }
+  String get _emailForAuth => normalizeAdminEmail(_email.text);
 
   @override
   void dispose() {
     _resendTimer?.cancel();
-    _phone.dispose();
+    _email.dispose();
     _otp.dispose();
     super.dispose();
   }
@@ -113,8 +112,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                   ),
                                 ),
                                 child: Text(
-                                  'Local review credentials\n'
-                                  '$adminEvidenceWhatsAppPhone • OTP $adminEvidenceOtp',
+                                  'Synthetic local review credentials\n'
+                                  '$adminEvidenceEmail • OTP $adminEvidenceOtp\nNo email is sent in this fixture.',
                                   style: textTheme.bodyMedium?.copyWith(
                                     color: colors.textPrimary,
                                     fontWeight:
@@ -125,15 +124,19 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               ),
                             ],
                             const SizedBox(height: 28),
-                            Text(
-                              'WhatsApp phone',
-                              style: textTheme.labelLarge?.copyWith(
-                                color: colors.textPrimary,
-                                fontWeight: CollectTypography.weightBold,
-                              ),
+                            const Text(
+                              'Use the email of your enrolled and approved operator account.',
                             ),
                             const SizedBox(height: 8),
-                            _AdminPhoneInput(controller: _phone),
+                            _AdminEmailInput(
+                              controller: _email,
+                              enabled: !_isBusy && !_otpSent,
+                              onSubmitted: (_) {
+                                if (!_isBusy && !_otpSent) {
+                                  _submit();
+                                }
+                              },
+                            ),
                             if (_otpSent) ...[
                               const SizedBox(height: 18),
                               Text(
@@ -144,7 +147,15 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              _AdminOtpInput(controller: _otp),
+                              _AdminOtpInput(
+                                controller: _otp,
+                                enabled: !_isBusy,
+                                onSubmitted: (_) {
+                                  if (!_isBusy) {
+                                    _submit();
+                                  }
+                                },
+                              ),
                             ],
                             if (_error != null) ...[
                               const SizedBox(height: 14),
@@ -168,11 +179,11 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                             Semantics(
                               button: true,
                               label: _otpSent
-                                  ? 'Verify admin WhatsApp OTP'
-                                  : 'Send admin WhatsApp OTP',
+                                  ? 'Verify admin email code'
+                                  : 'Send admin email code',
                               hint: _otpSent
                                   ? 'Submits the code.'
-                                  : 'Sends the OTP.',
+                                  : 'Requests an email sign-in code.',
                               enabled: !_isBusy,
                               child: FilledButton.icon(
                                 onPressed: _isBusy ? null : _submit,
@@ -180,7 +191,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                   minimumSize: const Size.fromHeight(58),
                                   backgroundColor:
                                       CollectColors.referenceChromeBlack,
-                                  foregroundColor: colors.onImagePrimary,
+                                  foregroundColor: CollectColors.publicWhite,
                                   disabledBackgroundColor:
                                       colors.neutralContainer,
                                   disabledForegroundColor: colors.textMuted,
@@ -199,19 +210,17 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                         height: 18,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          color: colors.onImagePrimary,
+                                          color: colors.textMuted,
                                         ),
                                       )
                                     : Icon(
                                         _otpSent
                                             ? Icons.verified_user_outlined
-                                            : Icons.chat_bubble_outline,
+                                            : Icons.mail_outline,
                                         size: 20,
                                       ),
                                 label: Text(
-                                  _otpSent
-                                      ? 'Verify code'
-                                      : 'Send WhatsApp OTP',
+                                  _otpSent ? 'Verify code' : 'Send code',
                                 ),
                               ),
                             ),
@@ -220,8 +229,8 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                               Semantics(
                                 button: true,
                                 label: _resendSecondsRemaining > 0
-                                    ? 'Resend admin WhatsApp OTP available in $_resendSecondsRemaining seconds'
-                                    : 'Resend admin WhatsApp OTP',
+                                    ? 'Resend admin email OTP available in $_resendSecondsRemaining seconds'
+                                    : 'Resend admin email OTP',
                                 enabled:
                                     !_isBusy && _resendSecondsRemaining == 0,
                                 child: TextButton.icon(
@@ -233,9 +242,13 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                   label: Text(
                                     _resendSecondsRemaining > 0
                                         ? 'Resend code in ${_resendSecondsRemaining}s'
-                                        : 'Resend WhatsApp OTP',
+                                        : 'Resend email OTP',
                                   ),
                                 ),
+                              ),
+                              TextButton(
+                                onPressed: _isBusy ? null : _changeEmail,
+                                child: const Text('Use a different email'),
                               ),
                             ],
                             const SizedBox(height: 18),
@@ -255,6 +268,9 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   }
 
   Future<void> _submit() async {
+    if (_isBusy) {
+      return;
+    }
     setState(() {
       _isBusy = true;
       _error = null;
@@ -263,22 +279,28 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     try {
       final repository = ref.read(adminRepositoryProvider);
       if (!_otpSent) {
-        await repository.sendOtp(phone: _phoneForAuth);
+        final email = _emailForAuth;
+        await repository.sendEmailOtp(email: email);
         if (mounted) {
           setState(() {
+            _requestedEmail = email;
+            _email.text = email;
             _otpSent = true;
-            _statusMessage = 'WhatsApp OTP sent. It expires in 10 minutes.';
+            _statusMessage =
+                'Email code requested. Check your approved operator inbox.';
           });
           _startResendCooldown();
         }
       } else {
-        final identity = await repository.verifyOtp(
-          phone: _phoneForAuth,
-          otp: _otp.text,
+        final identity = await repository.verifyEmailOtp(
+          email: _requestedEmail!,
+          otp: normalizeAdminEmailOtp(_otp.text),
         );
         ref.invalidate(adminAuthGuardProvider);
         ref.invalidate(adminIdentityProvider);
-        if (!mounted) return;
+        if (!mounted) {
+          return;
+        }
         if (identity == null) {
           await repository.signOut();
           ref.invalidate(adminAuthGuardProvider);
@@ -292,31 +314,46 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
         }
       }
     } catch (error) {
-      if (mounted) setState(() => _error = _adminLoginErrorMessage(error));
+      if (mounted) {
+        setState(() => _error = _adminLoginErrorMessage(error));
+      }
     } finally {
-      if (mounted) setState(() => _isBusy = false);
+      if (mounted) {
+        setState(() => _isBusy = false);
+      }
     }
   }
 
   Future<void> _resendOtp() async {
+    if (_isBusy || _resendSecondsRemaining > 0 || _requestedEmail == null) {
+      return;
+    }
     setState(() {
       _isBusy = true;
       _error = null;
       _statusMessage = null;
     });
     try {
-      await ref.read(adminRepositoryProvider).sendOtp(phone: _phoneForAuth);
-      if (!mounted) return;
+      await ref
+          .read(adminRepositoryProvider)
+          .sendEmailOtp(email: _requestedEmail!);
+      if (!mounted) {
+        return;
+      }
       _otp.clear();
       setState(
         () => _statusMessage =
-            'A new WhatsApp OTP was sent. Earlier codes are no longer accepted.',
+            'A new email code was requested. Use the latest message in your approved inbox.',
       );
       _startResendCooldown();
     } catch (error) {
-      if (mounted) setState(() => _error = _adminLoginErrorMessage(error));
+      if (mounted) {
+        setState(() => _error = _adminLoginErrorMessage(error));
+      }
     } finally {
-      if (mounted) setState(() => _isBusy = false);
+      if (mounted) {
+        setState(() => _isBusy = false);
+      }
     }
   }
 
@@ -337,98 +374,116 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     });
   }
 
+  void _changeEmail() {
+    _resendTimer?.cancel();
+    setState(() {
+      _otpSent = false;
+      _requestedEmail = null;
+      _otp.clear();
+      _resendSecondsRemaining = 0;
+      _error = null;
+      _statusMessage = null;
+    });
+  }
+
   String _adminLoginErrorMessage(Object error) {
     final message = error.toString().toLowerCase();
-    if (adminPwaEvidenceMode && message.contains('dedicated developer')) {
-      return 'Use the local review number $adminEvidenceWhatsAppPhone.';
+    if (adminPwaEvidenceMode && message.contains('review email')) {
+      return 'Use the synthetic local review email $adminEvidenceEmail.';
     }
     if (adminPwaEvidenceMode && message.contains('developer otp')) {
-      return 'Use the local review OTP $adminEvidenceOtp.';
+      return 'Use the synthetic local review OTP $adminEvidenceOtp.';
     }
-    if (message.contains('status code returned from hook') ||
-        message.contains('authretryablefetchexception') ||
-        message.contains('error sending confirmation') ||
-        message.contains('send_sms') ||
-        message.contains('hook') && message.contains('sms') ||
-        message.contains('whatsapp otp delivery') ||
-        message.contains('whatsapp otp send failed')) {
-      return 'WhatsApp could not send the OTP. Check the approved template and try again.';
+    if (message.contains('email otp') && message.contains('six digits')) {
+      return 'Enter the six-digit email code.';
     }
-    if (message.contains('token has expired or is invalid') ||
+    if (message.contains('format') || message.contains('email is invalid')) {
+      return 'Enter a valid operator email address.';
+    }
+    if (message.contains('signup') ||
+        message.contains('signups') ||
+        message.contains('user not found') ||
+        message.contains('user_not_found')) {
+      return 'This email is not provisioned for operator sign-in. Ask the platform owner to enroll and approve the account.';
+    }
+    if (message.contains('token has expired') ||
         message.contains('expired or is invalid') ||
-        message.contains('invalid token')) {
-      return 'That code could not be verified. Check the latest WhatsApp code or request a new one.';
+        message.contains('invalid token') ||
+        message.contains('otp_expired')) {
+      return 'That code could not be verified. Use the latest email code or request a new one.';
     }
-    if (message.contains('format') || message.contains('phone')) {
-      return 'Enter a valid Rwanda WhatsApp number.';
+    if (message.contains('rate limit') ||
+        message.contains('over_email_send_rate_limit') ||
+        message.contains('too many requests')) {
+      return 'Please wait before requesting another email code.';
     }
     if (message.contains('not authorized') ||
         message.contains('overview.read') ||
-        message.contains('platform admin')) {
-      return 'WhatsApp verified, but this profile is not approved for admin access.';
+        message.contains('platform admin') ||
+        message.contains('42501') ||
+        message.contains('permission')) {
+      return 'Email verified, but this account is not approved for Admin access. Ask the platform owner to review its enrollment and permissions.';
     }
-    return 'Admin sign-in failed. Try again.';
+    if (message.contains('session')) {
+      return 'The sign-in session changed. Request a new email code.';
+    }
+    if (message.contains('network') ||
+        message.contains('socket') ||
+        message.contains('timeout') ||
+        message.contains('failed host lookup')) {
+      return 'The sign-in service could not be reached. Try again.';
+    }
+    if (message.contains('confirmation') ||
+        message.contains('email send') ||
+        message.contains('smtp') ||
+        message.contains('authretryable')) {
+      return 'The email code could not be sent. Try again or contact the platform owner.';
+    }
+    if (error is UnsupportedError) {
+      return 'Email operator sign-in is unavailable on this service.';
+    }
+    return 'Admin email sign-in failed. Try again.';
   }
 }
 
-class _AdminPhoneInput extends StatelessWidget {
-  const _AdminPhoneInput({required this.controller});
-
+class _AdminEmailInput extends StatelessWidget {
+  const _AdminEmailInput({
+    required this.controller,
+    required this.enabled,
+    required this.onSubmitted,
+  });
   final TextEditingController controller;
-
+  final bool enabled;
+  final ValueChanged<String> onSubmitted;
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Semantics(
-      textField: true,
-      label: 'WhatsApp phone',
-      hint: 'Registered Rwanda WhatsApp number used for Collect admin sign-in.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceMuted,
-          borderRadius: BorderRadius.circular(CollectRadius.md),
-          border: Border.all(color: colors.controlBorder),
+    return TextField(
+      key: const Key('admin-operator-email'),
+      controller: controller,
+      enabled: enabled,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.done,
+      textCapitalization: TextCapitalization.none,
+      autocorrect: false,
+      enableSuggestions: false,
+      autofillHints: const [AutofillHints.username, AutofillHints.email],
+      onSubmitted: onSubmitted,
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(color: colors.textPrimary),
+      decoration: InputDecoration(
+        labelText: 'Operator email',
+        hintText: 'name@organization.com',
+        filled: true,
+        fillColor: colors.surfaceMuted,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
         ),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 14),
-              child: Text(
-                '+250',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                  letterSpacing: CollectTypography.trackingDefault,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-              child: VerticalDivider(
-                width: 1,
-                thickness: 1,
-                color: colors.controlBorder,
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                controller: controller,
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-                decoration: const InputDecoration(
-                  hintText: 'Phone number',
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                ),
-              ),
-            ),
-          ],
+        border: OutlineInputBorder(
+          borderRadius: CollectRadius.mdBorder,
+          borderSide: BorderSide(color: colors.controlBorder),
         ),
       ),
     );
@@ -436,9 +491,15 @@ class _AdminPhoneInput extends StatelessWidget {
 }
 
 class _AdminOtpInput extends StatelessWidget {
-  const _AdminOtpInput({required this.controller});
+  const _AdminOtpInput({
+    required this.controller,
+    required this.enabled,
+    required this.onSubmitted,
+  });
 
   final TextEditingController controller;
+  final bool enabled;
+  final ValueChanged<String> onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -447,9 +508,12 @@ class _AdminOtpInput extends StatelessWidget {
     return Semantics(
       textField: true,
       label: 'OTP code',
-      hint: 'Six digit WhatsApp one-time password for admin sign-in.',
+      hint: 'Six digit email one-time password for admin sign-in.',
       child: TextField(
         controller: controller,
+        enabled: enabled,
+        onSubmitted: onSubmitted,
+        autofillHints: const [AutofillHints.oneTimeCode],
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(

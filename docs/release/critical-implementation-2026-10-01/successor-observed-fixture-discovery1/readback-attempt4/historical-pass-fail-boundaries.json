@@ -1,0 +1,220 @@
+[
+  {
+    "family": "first_job",
+    "attempt": "attempt1",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt1/result.json",
+    "result_sha256": "8200172b73ee12b7892f88081596f6b04ef0141d0ff9b43ba99927e3ab9a1e52",
+    "status": "failed",
+    "finished_at": "2026-10-01T23:46:32.448529Z",
+    "checks_passed": 17,
+    "checks_failed": 0,
+    "command_count": 77,
+    "error": "RuntimeError: query: ERROR:  42703: record \"new\" has no field \"event_kind\"\nCONTEXT:  PL/pgSQL assignment \"kind:=case when tg_table_name='arms'then 'arm'else new.event_kind end\"\nPL/pgSQL function collect_receipt_successors.verify_execution() line 7 at assignment\nLOCATION:  plpgsql_exec_get_datum_type_info, pl_exec.c:5609\n",
+    "migration_sha256": "3f71bb735e9a6e0b97878e1a560b47df14bd5179b7d5e5b685f618acc5414ebe",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt2",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt2/result.json",
+    "result_sha256": "5c1a789f3f92e9cb01160035e365a5f54fe32d0d36259bb4c9b83d9eaf01656d",
+    "status": "failed",
+    "finished_at": "2026-10-01T23:47:08.987143Z",
+    "checks_passed": 27,
+    "checks_failed": 0,
+    "command_count": 94,
+    "error": "RuntimeError: query: ERROR:  42702: column reference \"j.candidate\" is ambiguous\nLINE 2: ...ct 1 from collect_receipt_successors.jobs j where(j.candidat...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  result:=collect_receipt_successors.refusal(p_device_id,p_request_id,case\n   when exists(select 1 from collect_receipt_successors.jobs j where(j.candidate->>'collection_id')::uuid=any(r.collection_ids))then 'SUCCESSOR_EXECUTION_PRESENT'\n   when exists(select 1 from collect_receipt_successors.approvals a where(a.candidate->>'collection_id')::uuid=any(r.collection_ids))then 'APPROVAL_REVIEW_REQUIRED'\n   else 'NO_SUCCESSOR_INTENT'end)\nCONTEXT:  PL/pgSQL function public.gateway_receipt_successor_grant_v1(uuid,uuid,text,jsonb) line 23 at assignment\nLOCATION:  plpgsql_post_column_ref, pl_comp.c:1133\n",
+    "migration_sha256": "70580a9096b11b4e81bb40a044ff22505548c9dfd0b20c4479af36889ff8549f",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt3",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt3/result.json",
+    "result_sha256": "54c43c7ae449cc8c5d10d71f3560c5ae79435d85b06c336de8229e4e8ec3ea6b",
+    "status": "passed",
+    "finished_at": "2026-10-02T00:03:32.334316Z",
+    "checks_passed": 34,
+    "checks_failed": 0,
+    "command_count": 100,
+    "error": null,
+    "migration_sha256": "03b913789bccaa734598a4e605772961b6c839294db3baeb295744aebe067452",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt4",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt4/result.json",
+    "result_sha256": "c59c0aea6fcc18db97f4c24bfc459eba37ef0f3c569a8b504ff47d09fe685431",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:05:52.660131Z",
+    "checks_passed": 9,
+    "checks_failed": 0,
+    "command_count": 61,
+    "error": "RuntimeError: query: ERROR:  23514: new row for relation \"policy\" violates check constraint \"policy_check\"\nDETAIL:  Failing row contains (t, 2, Paused, f, {43d9dec3-c0f7-40ca-aee9-0c369bc8150a}, {99780000-0000-4000-8000-000000030001}, {30562dcb-fa91-4c25-a396-3ca502ab0412}, {\"run_actions\": 10, \"group_actions\": 100, \"device_actions\": 100,..., f, 24, 2026-10-02 00:05:51.852331+00, 99780000-0000-4000-8000-000000000001).\nSCHEMA NAME:  collect_receipt_operations\nTABLE NAME:  policy\nCONSTRAINT NAME:  policy_check\nLOCATION:  ExecConstraints, execMain.c:2033\n",
+    "migration_sha256": "e76f43beec3f3d7de716e97677386f3a24c382d6786a55a4390ef89dbe3499cc",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt5",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt5/result.json",
+    "result_sha256": "e10522c916db1316e17afa7e123e4848932912b20bb4c8d1a7f846b418c2137b",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:06:27.460135Z",
+    "checks_passed": 10,
+    "checks_failed": 1,
+    "command_count": 61,
+    "error": "AssertionError: revoked unattended principal cannot grant successor",
+    "migration_sha256": "e76f43beec3f3d7de716e97677386f3a24c382d6786a55a4390ef89dbe3499cc",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt6",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt6/result.json",
+    "result_sha256": "98914e80efe52c4741d48ad575eddee263f485afbe387538dacef9925baa26c3",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:07:13.239517Z",
+    "checks_passed": 41,
+    "checks_failed": 0,
+    "command_count": 122,
+    "error": "RuntimeError: query: ERROR:  42601: syntax error at or near \"=\"\nLINE 1: ..._receipt_successors.owner_requestswhere request_id='4c14fd4a...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+    "migration_sha256": "e76f43beec3f3d7de716e97677386f3a24c382d6786a55a4390ef89dbe3499cc",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt7",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt7/result.json",
+    "result_sha256": "0e24275e665f45348955cd972bdefed3fa157906f868587c6374c209ae293ecc",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:07:29.232853Z",
+    "checks_passed": 10,
+    "checks_failed": 1,
+    "command_count": 61,
+    "error": "AssertionError: actual owner-revoked unattended principal cannot grant successor",
+    "migration_sha256": "e76f43beec3f3d7de716e97677386f3a24c382d6786a55a4390ef89dbe3499cc",
+    "source_unchanged": true
+  },
+  {
+    "family": "first_job",
+    "attempt": "attempt8",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-first-job-execution-current1/proof/attempt8/result.json",
+    "result_sha256": "453db56ba0eaeea2c8c4b5c118ca05d50a637b22fd5cebc65d8457a129d492cd",
+    "status": "passed",
+    "finished_at": "2026-10-02T00:09:44.972939Z",
+    "checks_passed": 52,
+    "checks_failed": 0,
+    "command_count": 166,
+    "error": null,
+    "migration_sha256": "3bee0ca12ebd6c1e42420eee3b001593276777a54a532120ecd100a44a1879f6",
+    "source_unchanged": true
+  },
+  {
+    "family": "callback_archive",
+    "attempt": "attempt1",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt1/result.json",
+    "result_sha256": "594365fa9a660d5a3f036feb18c14b75d754c7e6eb7e3eb2907948ffe2c5341a",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:16:59.992449Z",
+    "checks_passed": 4,
+    "checks_failed": 0,
+    "command_count": 61,
+    "error": "RuntimeError: query: ERROR:  42501: permission denied for schema collect_receipt_successors\nLINE 1: declare c collect_receipt_successors.callbacks;e collect_rec...\n                  ^\nQUERY:  declare c collect_receipt_successors.callbacks;e collect_receipt_successors.observation_events;\n a collect_receipt_successors.attempts;arm collect_receipt_successors.arms;j collect_receipt_successors.jobs;r collect_receipt_successors.gateway_requests;begin\n select *into c from collect_receipt_successors.callbacks where request_id=new.request_id;\n select *into e from collect_receipt_successors.observation_events where request_id=new.request_id;\n select *into a from collect_receipt_successors.attempts where id=c.attempt_id;select *into arm from collect_receipt_successors.arms where attempt_id=a.id;\n select *into j from collect_receipt_successors.jobs where id=a.job_id;select *into r from collect_receipt_successors.gateway_requests where request_id=c.request_id;\n if c.request_id is null or e.request_id is null or a.id is null or arm.attempt_id is null or j.id is null or r.request_id is null\n  or e.attempt_id<>a.id or e.root_outbox_id<>j.root_outbox_id or e.recorded_at<>c.recorded_at\n  or r.action<>'callback'or r.device_id<>a.device_id or r.recorded_at<c.recorded_at or r.route is distinct from collect_receipt_successors.route(j.id)\n  or r.payload->'route' is distinct from r.route\n  or r.payload->>'callback_id' is distinct from c.callback_id::text or r.payload->>'attempt_id' is distinct from a.id::text\n  or r.payload->>'fence_version' is distinct from a.fence_version::text or r.payload->>'segment_count' is distinct from a.segment_count::text\n  or r.payload->>'segment_index' is distinct from c.segment_index::text or r.payload->>'callback_kind' is distinct from c.callback_kind\n  or r.payload->>'body_sha256' is distinct from a.body_sha256 or r.payload->>'destination_sha256' is distinct from a.destination_sha256\n  or r.payload->>'result_code' is distinct from c.result_code::text or(r.payload->>'tp_status')is distinct from c.tp_status::text\n  or(r.payload->>'occurred_at')::timestamptz is distinct from c.occurred_at\n  or c.segment_index>=a.segment_count or c.callback_id is distinct from((arm.callback_plan->c.segment_index)->>case c.callback_kind when'sent'then'sent_callback_id'else'delivery_callback_id'end)::uuid\n  or r.result->>'state' is distinct from e.observed_state or r.result->'route' is distinct from r.route\n  or r.result->>'callback_id' is distinct from c.callback_id::text or r.result->>'attempt_id' is distinct from a.id::text\n  or r.result->'send_authority' is distinct from 'false'::jsonb or r.result->'carrier_proof' is distinct from 'false'::jsonb or r.result->'delivery_proven' is distinct from 'false'::jsonb then\n  raise exception 'receipt_successor_callback_proof_invalid'using errcode='55000';end if;return null;end\nCONTEXT:  compilation of PL/pgSQL function \"verify_callback_proof\" near line 1\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "migration_sha256": "abe7cbc17288305e4fdd1b297a5fd29a61d2d1bbf8eca8897777ae8fc0b9f7ac",
+    "source_unchanged": true
+  },
+  {
+    "family": "callback_archive",
+    "attempt": "attempt2",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt2/result.json",
+    "result_sha256": "6ef303156eadd532355bf6e59d0e99fa0e178384145c0eb51bb0a59b2b53f6a3",
+    "status": "failed",
+    "finished_at": "2026-10-02T00:17:25.002595Z",
+    "checks_passed": 12,
+    "checks_failed": 0,
+    "command_count": 76,
+    "error": "RuntimeError: query: ERROR:  42883: function public.admin_revoke_gateway_device_v1(unknown, unknown, unknown) does not exist\nLINE 1: select public.admin_revoke_gateway_device_v1('dd3d7737-d0b2-...\n               ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\nLOCATION:  ParseFuncOrColumn, parse_func.c:629\n",
+    "migration_sha256": "bb3ad50ef27de9f699bf5507f1e4899f30909a8bdf8dc586e1c3955eb5b673c5",
+    "source_unchanged": true
+  },
+  {
+    "family": "callback_archive",
+    "attempt": "attempt3",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt3/result.json",
+    "result_sha256": "787be59c875db349b72846dbae49c665d10f4259d7ea2987413ec0a8e9703908",
+    "status": "passed",
+    "finished_at": "2026-10-02T00:18:18.188117Z",
+    "checks_passed": 19,
+    "checks_failed": 0,
+    "command_count": 86,
+    "error": null,
+    "migration_sha256": "bb3ad50ef27de9f699bf5507f1e4899f30909a8bdf8dc586e1c3955eb5b673c5",
+    "source_unchanged": true
+  },
+  {
+    "family": "callback_archive",
+    "attempt": "attempt4",
+    "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/proof/attempt4/result.json",
+    "result_sha256": "80c46483108f830e7078cf3af06f54a94b806c9fea7756f0d89b375451b1be2b",
+    "status": "passed",
+    "finished_at": "2026-10-02T00:20:04.703679Z",
+    "checks_passed": 22,
+    "checks_failed": 0,
+    "command_count": 94,
+    "error": null,
+    "migration_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+    "source_unchanged": true
+  },
+  {
+    "family": "edge",
+    "attempt": "attempt2",
+    "status": "failed",
+    "exit_code": 1,
+    "result_sha256": "b3dadcc9ad8c9a2733a4a02c36de199cb04b1fcdde3289cbdb4efb950ddad0c7",
+    "stdout_sha256": "d73d37ed623c435305b952714106b580b472e7a720370a0194979bdd2d3ac122",
+    "stderr_sha256": "b35b7419845abaaaa15824a80613ad1f6950c07acecc3d21c0321545f8c47470",
+    "actual_stdout_summaries": [
+      [
+        "FAILED",
+        "23",
+        "2"
+      ]
+    ],
+    "command": [
+      "/Users/jeanbosco/.local/bin/deno",
+      "test",
+      "--no-config",
+      "--cached-only",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice5/proof/attempt2/source/supabase/functions/collect-receipt-successor-gateway/handler_test.ts"
+    ],
+    "deno_sha256": "b3ac3bd206e48c26026cadd80c1367e96c149f9c66130952382a642b09fa8a71",
+    "completion_limit": "No wall-clock started/finished fields in original edge receipt; completed process exit and stdout summary retained."
+  },
+  {
+    "family": "edge",
+    "attempt": "attempt3",
+    "status": "passed",
+    "exit_code": 0,
+    "result_sha256": "4b1c42e3e52da92a46b3feb7ca594c1ac63c00fe1f515dc6514a3cee626be503",
+    "stdout_sha256": "026c350428a287066600277026a2daa219df6cd97e653cd29873c025e8ac3ae8",
+    "stderr_sha256": "a52539e1af069f285c587644b3170d7c449b7b4861706bcba27e4f714e105c48",
+    "actual_stdout_summaries": [
+      [
+        "ok",
+        "25",
+        "0"
+      ]
+    ],
+    "command": [
+      "/Users/jeanbosco/.local/bin/deno",
+      "test",
+      "--no-config",
+      "--cached-only",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice5/proof/attempt3/source/supabase/functions/collect-receipt-successor-gateway/handler_test.ts"
+    ],
+    "deno_sha256": "b3ac3bd206e48c26026cadd80c1367e96c149f9c66130952382a642b09fa8a71",
+    "completion_limit": "No wall-clock started/finished fields in original edge receipt; completed process exit and stdout summary retained."
+  }
+]

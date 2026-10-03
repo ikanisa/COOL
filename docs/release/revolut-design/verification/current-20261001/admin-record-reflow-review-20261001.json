@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T16:54:05.463241+00:00",
+  "design_authority": "revolut-design",
+  "kind": "Scoped shared Admin record design and reflow completion",
+  "changes": [
+    "Right aligned monetary values preserve exact RWF display strings.",
+    "Enlarged text uses growing compact records at both narrow and wide viewports.",
+    "Record titles, contextual values and outcome labels wrap fully.",
+    "Status pill width follows enlarged text while parent constraints preserve narrow layout.",
+    "Open action moves below the enlarged heading to retain its full content width."
+  ],
+  "source": {
+    "cohort": "Official static POS web Orders (POS-002), inspected as a separate operator visual comparator",
+    "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/assets/public-web-followup-20260905/pos-web-orders.png",
+    "sha256": "90cb24046f88f9f2c98cc5f4890f590446c028289a1f6ff1e06f04e8d16a622d",
+    "scope": "Neutral grouped records, quiet column headers and right aligned monetary values. Compact/enlarged presentation is the selected skill accessibility adaptation; source artwork remains private evidence."
+  },
+  "inputs_sha256": {
+    "lib/admin/shared/components/admin_data_table.dart": "3bc96731fea31559cb74eb95d5c42eb0021ce2db29654e37846b159328ecbe56",
+    "lib/admin/shared/components/admin_status_chip.dart": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f",
+    "test/admin_data_table_reflow_test.dart": "df085ccb2142a2585b4099e78ab300dacc1558e006945e60540cd52914d6c400"
+  },
+  "verification": {
+    "focused_suite": "pass",
+    "tests": 14,
+    "breakdown": {
+      "new_record_checks": 5,
+      "existing_operations_readability": 6,
+      "actual_route_registry_and_factory_checks": 3
+    },
+    "log": ".cache/revolut-design-20260930/admin-table-reflow-final.log",
+    "log_sha256": "e0d4a3c9389617b53efb40579d9808009b10aa626e73362d2bf0467aedcc3929",
+    "analysis": "No issues found",
+    "authority": "pass",
+    "authority_log": ".cache/revolut-design-20260930/admin-table-design-authority.log",
+    "diff_check": "pass"
+  },
+  "captures": [
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/dark-1440-3.2x-bottom.png",
+      "sha256": "4ee09de18d89b0a54033275fca91dfb844bbb62ae8709888bdd1eae9d902d145",
+      "width": 1440,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/dark-1440-3.2x-top.png",
+      "sha256": "36155d9709ec96869182328c17bd0469178c9b271c3a082b177482a255ca239a",
+      "width": 1440,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/dark-320-3.2x-bottom.png",
+      "sha256": "1c1cd375201770593f662ba57f732b7928f3224191d2d69b72bdd45784ecb7d0",
+      "width": 320,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/dark-320-3.2x-top.png",
+      "sha256": "1a0b62f4585a092ba5830ea8646ab4b962dc46e74f26ba87e2d3b7b8edb42432",
+      "width": 320,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/desktop-light-right-aligned.png",
+      "sha256": "27a82b90383a0e1337baa9732303146621e430869b3db6de5e1e19726db3bc4b",
+      "width": 1440,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/light-1440-3.2x-bottom.png",
+      "sha256": "1477a4890526994bd0b261ebc18b2f0a323ef7d4f558e6f4bd6a42a2cc0a33a2",
+      "width": 1440,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/light-1440-3.2x-top.png",
+      "sha256": "c8d7285d6b1b59283cbf3479ace414bdc67ae891e64b84ed378bf4cea92576cd",
+      "width": 1440,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/light-320-3.2x-bottom.png",
+      "sha256": "df786a27a8e38fde603ac371645cebec080ffe837b73bd659aa5cdbc38b6ae25",
+      "width": 320,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    },
+    {
+      "path": ".cache/revolut-design-20260930/admin-record-reflow-renders/light-320-3.2x-top.png",
+      "sha256": "2dba58de884f733aeeae9f9c1cc3d36450afb8fc0bd69a221534210a2db1355b",
+      "width": 320,
+      "height": 900,
+      "review": "Inspected current rendered Inter and MaterialIcons output. Growing record content uses vertical scrolling at enlarged text; final date and action are reachable in the matching behavioral tests."
+    }
+  ],
+  "reproduced_before_fix": "Four enlarged-text checks failed for clipped/truncated record content and wide fixed-height overflow. The initial monetary lookup used an unprefixed fixture and was corrected to the actual RWF display contract before geometry verification."
+}

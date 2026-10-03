@@ -1,0 +1,40 @@
+{
+  "official_symlinks": [
+    {
+      "absolute_or_escape": false,
+      "bytes": 17,
+      "chain_cycle": false,
+      "contained_in_official_tree": true,
+      "fetched_utc": "2026-10-01T23:57:08.334253+00:00",
+      "git_blob_sha1": "2b7a412b8fa0fb7e985b0793321bd4e698f2b6cd",
+      "http_status": 200,
+      "metadata_sha256": "c4c5543568cd5b0410950f7c1bc409fe3aa436a8de901022acafcdbe89143fdb",
+      "normalized_target": ".agents/skills",
+      "path": ".claude/skills",
+      "retained_file": "symlink-blob-2b7a412b8fa0fb7e985b0793321bd4e698f2b6cd.json",
+      "target": "../.agents/skills",
+      "target_mode": "040000",
+      "target_sha256": "3c74c93317f015d16370349a76529b6f8332c808bdd589e7640eeba6a1b1b874",
+      "url": "https://api.github.com/repos/flutter/flutter/git/blobs/2b7a412b8fa0fb7e985b0793321bd4e698f2b6cd"
+    },
+    {
+      "absolute_or_escape": false,
+      "bytes": 47,
+      "chain_cycle": false,
+      "contained_in_official_tree": true,
+      "fetched_utc": "2026-10-01T23:57:08.334595+00:00",
+      "git_blob_sha1": "5b24b2e4aae0bb890f5622a65dfd78507a44a151",
+      "http_status": 200,
+      "metadata_sha256": "7d67cdee092c554d16c9555fe040d0ab9e2bdfc4b9071a644ab3ca9f574c1289",
+      "normalized_target": "engine/src/flutter/lib/web_ui/test/webparagraph/paragraph_performance_test.dart",
+      "path": "engine/src/flutter/lib/web_ui/test/ui/paragraph_performance_test.dart",
+      "retained_file": "symlink-blob-5b24b2e4aae0bb890f5622a65dfd78507a44a151.json",
+      "target": "../webparagraph/paragraph_performance_test.dart",
+      "target_mode": "100644",
+      "target_sha256": "fdb24d39c69f53dc4acb7cbd294adefb570ec09ddc7a2b18f5533f87dc6c646c",
+      "url": "https://api.github.com/repos/flutter/flutter/git/blobs/5b24b2e4aae0bb890f5622a65dfd78507a44a151"
+    }
+  ],
+  "passed": true,
+  "scope": "Two exact publisher link blobs and internal target identities only; no symlinks/worktree/extraction created, no upstream instruction/skill execution or Codex registration."
+}

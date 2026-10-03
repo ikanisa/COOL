@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "files": 1600,
+  "bytes": 33270815,
+  "manifest_sha256": "71df9a32fcc04068a345eecdb5230b0c5210c0edf288fef76d33627518f5155e",
+  "source_drift": [],
+  "all_targets_removed": true
+}

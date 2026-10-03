@@ -1,0 +1,53 @@
+{
+  "SDK_source_modified_or_executed": false,
+  "actual_process_deadline_seconds": 120,
+  "actual_seconds": 2.155,
+  "private_source_sent": false,
+  "records": {
+    "kotlin-assertFailsWith.html": {
+      "SHA256": "e617fa03c7593384c9b41012c166ea43b185743af20c82a29daf992aef9ecab2",
+      "actual_seconds": 0.857,
+      "bytes": 49014,
+      "final_url": "https://kotlinlang.org/api/core/kotlin-test/kotlin.test/assert-fails-with.html",
+      "http_status": 200,
+      "primary_url": "https://kotlinlang.org/api/core/kotlin-test/kotlin.test/assert-fails-with.html",
+      "request_timeout_seconds": 30
+    },
+    "kotlin-assertTrue.html": {
+      "SHA256": "77bb5ed0ed0c044ffa96b7a820b3a3fbd2bb60c65c98d635bffa64aa67f2bceb",
+      "actual_seconds": 0.847,
+      "bytes": 44641,
+      "final_url": "https://kotlinlang.org/api/core/kotlin-test/kotlin.test/assert-true.html",
+      "http_status": 200,
+      "primary_url": "https://kotlinlang.org/api/core/kotlin-test/kotlin.test/assert-true.html",
+      "request_timeout_seconds": 30
+    },
+    "kotlin-test-junit5.module": {
+      "SHA256": "7b0b9a68debb4750ad920a430c7be087f69705d47125f5056e8787ffdc2a76ad",
+      "actual_seconds": 1.307,
+      "bytes": 4851,
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test-junit5/2.4.20/kotlin-test-junit5-2.4.20.module",
+      "http_status": 200,
+      "primary_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test-junit5/2.4.20/kotlin-test-junit5-2.4.20.module",
+      "request_timeout_seconds": 30
+    },
+    "kotlin-test-junit5.pom": {
+      "SHA256": "18c4e3def0568ed351feed96245e42b4ed14104d1d559c3cec8740837b4ae6b5",
+      "actual_seconds": 1.253,
+      "bytes": 2300,
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test-junit5/2.4.20/kotlin-test-junit5-2.4.20.pom",
+      "http_status": 200,
+      "primary_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test-junit5/2.4.20/kotlin-test-junit5-2.4.20.pom",
+      "request_timeout_seconds": 30
+    },
+    "kotlin-test.module": {
+      "SHA256": "0d3008eef3e2931524308e21f40ef88a1cd54be1d5fdcfc02a4cdf2599fe2d0c",
+      "actual_seconds": 1.406,
+      "bytes": 20293,
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test/2.4.20/kotlin-test-2.4.20.module",
+      "http_status": 200,
+      "primary_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-test/2.4.20/kotlin-test-2.4.20.module",
+      "request_timeout_seconds": 30
+    }
+  }
+}

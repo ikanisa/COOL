@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "lint",
+    "--no-config",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate/supabase/functions/prepare-roster-import/handler_test.ts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate/supabase/functions/prepare-roster-import/handler_test_fixture.ts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc02-roster-test-boundary-preparation1/candidate/supabase/functions/prepare-roster-import/ai_dispatch_policy_test.ts"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 0.04261904199665878
+}

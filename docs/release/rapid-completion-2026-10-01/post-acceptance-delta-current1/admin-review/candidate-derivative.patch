@@ -1,0 +1,1771 @@
+--- a/lib/admin/core/admin_exception_followup_v2_models.dart
++++ b/lib/admin/core/admin_exception_followup_v2_models.dart
+@@ -184,7 +184,7 @@
+     String exceptionId,
+   ) {
+     _owner(ownerDigest, currentActorId, exceptionId);
+-    if (utf8.encode(encoded).length > 2048) {
++    if (encoded.length > 2048 || utf8.encode(encoded).length > 2048) {
+       exceptionInvalid();
+     }
+     final row = exceptionObject(jsonDecode(encoded), {
+@@ -249,7 +249,7 @@
+     String? requestId;
+     AdminExceptionFollowupReference? reference;
+     try {
+-      if (utf8.encode(encoded).length <= 16384) {
++      if (encoded.length <= 16384 && utf8.encode(encoded).length <= 16384) {
+         final row = jsonDecode(encoded);
+         if (row is Map &&
+             row['version'] is int &&
+@@ -300,7 +300,7 @@
+       currentActorId,
+       exceptionId,
+     );
+-    if (utf8.encode(encoded).length > 2048) {
++    if (encoded.length > 2048 || utf8.encode(encoded).length > 2048) {
+       exceptionInvalid();
+     }
+     final row = exceptionObject(jsonDecode(encoded), {
+--- a/lib/admin/core/admin_exception_history_v2_models.dart
++++ b/lib/admin/core/admin_exception_history_v2_models.dart
+@@ -150,7 +150,11 @@
+     }
+     final eventId = auditUuid(row['event_id']),
+         recordId = auditUuid(row['source_record_id']);
+-    if (eventId != const Uuid().v5('c5a97546-80ab-5b57-a267-754aac043bd0', '$source:$recordId')) {
++    if (eventId !=
++        const Uuid().v5(
++          'c5a97546-80ab-5b57-a267-754aac043bd0',
++          '$source:$recordId',
++        )) {
+       auditInvalid();
+     }
+     final actorId = row['actor_id'] == null ? null : auditUuid(row['actor_id']);
+--- a/lib/admin/core/admin_exception_workflow_card.dart
++++ b/lib/admin/core/admin_exception_workflow_card.dart
+@@ -156,7 +156,9 @@
+           if (saved != null) {
+             Object? decoded;
+             try {
+-              decoded = jsonDecode(saved);
++              if (saved.length <= 16384 && utf8.encode(saved).length <= 16384) {
++                decoded = jsonDecode(saved);
++              }
+             } catch (_) {
+               // Unknown bytes remain blocked after privacy sanitization.
+             }
+--- a/test/admin_entity_audit_links_test.dart
++++ b/test/admin_entity_audit_links_test.dart
+@@ -115,13 +115,21 @@
+   }
+ 
+   @override
+-  Future<Map<String, dynamic>> exceptionEntityAudit(AdminEntityAuditQuery query) async {
++  Future<Map<String, dynamic>> exceptionEntityAudit(
++    AdminEntityAuditQuery query,
++  ) async {
+     reads.add(query);
+     // Declared joined presentation double, rebound only for this route clock.
+     final raw = joined.historyFixture();
+     for (final row in raw['rows'] as List) {
+-      (row as Map)['recorded_at'] = exceptions.exceptionUtc(_now.subtract(const Duration(hours: 1)));
+-      if (row['due_at'] != null) { row['due_at'] = exceptions.exceptionUtc(_now.add(const Duration(hours: 1))); }
++      (row as Map)['recorded_at'] = exceptions.exceptionUtc(
++        _now.subtract(const Duration(hours: 1)),
++      );
++      if (row['due_at'] != null) {
++        row['due_at'] = exceptions.exceptionUtc(
++          _now.add(const Duration(hours: 1)),
++        );
++      }
+     }
+     return joined.historyWindow(_fresh(raw), query);
+   }
+--- a/test/admin_entity_audit_page_test.dart
++++ b/test/admin_entity_audit_page_test.dart
+@@ -68,25 +68,46 @@
+   }
+ 
+   @override
+-  Future<Map<String, dynamic>> exceptionEntityAudit(AdminEntityAuditQuery query) async {
++  Future<Map<String, dynamic>> exceptionEntityAudit(
++    AdminEntityAuditQuery query,
++  ) async {
+     queries.add(query);
+-    if (!started.isCompleted) { started.complete(); }
+-    if (error != null) { throw error!; }
++    if (!started.isCompleted) {
++      started.complete();
++    }
++    if (error != null) {
++      throw error!;
++    }
+     // Strict v2 presentation projection of observed immutable v1 review rows.
+     // Other entity kinds and all old v1 DTO/provider tests remain unchanged.
+     final source = gate == null ? raw : await gate!.future;
+-    final projected = auditCopy(source)..remove('historical_shadow_audit_backfilled')
++    final projected = auditCopy(source)
++      ..remove('historical_shadow_audit_backfilled')
+       ..['contract_version'] = 2;
+     projected['rows'] = (source['rows'] as List).map((item) {
+       final row = item as Map;
+-      return {...row, 'event_id': joined.historyEventId('exception_action', row['request_id'] as String),
+-        'source_record_id': row['request_id'], 'actor_kind': 'operator',
+-        'workflow_revision': null, 'escalation_id': null, 'origin': 'immutable_request',
+-        'assignee_id': null, 'due_at': null}..remove('fence_version');
++      return {
++        ...row,
++        'event_id': joined.historyEventId(
++          'exception_action',
++          row['request_id'] as String,
++        ),
++        'source_record_id': row['request_id'],
++        'actor_kind': 'operator',
++        'workflow_revision': null,
++        'escalation_id': null,
++        'origin': 'immutable_request',
++        'assignee_id': null,
++        'due_at': null,
++      }..remove('fence_version');
+     }).toList();
+-    (projected['rows'] as List).sort((a,b){
+-      final time=DateTime.parse((b as Map)['recorded_at'] as String).compareTo(DateTime.parse((a as Map)['recorded_at'] as String));
+-      return time==0 ? (b['event_id'] as String).compareTo(a['event_id'] as String) : time;
++    (projected['rows'] as List).sort((a, b) {
++      final time = DateTime.parse(
++        (b as Map)['recorded_at'] as String,
++      ).compareTo(DateTime.parse((a as Map)['recorded_at'] as String));
++      return time == 0
++          ? (b['event_id'] as String).compareTo(a['event_id'] as String)
++          : time;
+     });
+     return auditWindow(projected, query);
+   }
+@@ -263,7 +284,10 @@
+         );
+         final first = (repository.raw['rows'] as List).first as Map;
+         expect(find.text(first['request_id'] as String), findsWidgets);
+-        expect(find.text(name == 'exception' ? 'Operator ID' : 'Actor ID'), findsWidgets);
++        expect(
++          find.text(name == 'exception' ? 'Operator ID' : 'Actor ID'),
++          findsWidgets,
++        );
+         expect(find.textContaining('of total'), findsNothing);
+         expect(find.text('Send'), findsNothing);
+         expect(find.text('Retry'), findsNothing);
+--- a/test/admin_exception_assignment_test.dart
++++ b/test/admin_exception_assignment_test.dart
+@@ -420,6 +420,54 @@
+ }
+ 
+ void main() {
++  for (final (kind, privatePayload) in [
++    ('code units', 'X' * 16385),
++    ('UTF8 bytes', 'é' * 8193),
++  ]) {
++    testWidgets(
++      'oversized $kind recovery sanitizes bounded metadata and blocks all actions across reload',
++      (tester) async {
++        final h = _Harness();
++        final raw = jsonDecode(_corruptOriginal()) as Map<String, dynamic>;
++        raw['private'] = privatePayload;
++        h.store.values[_owner] = jsonEncode(raw);
++        await h.mount(tester);
++        final saved = h.store.values[_owner]!;
++        expect(saved.length, lessThanOrEqualTo(2048));
++        expect(utf8.encode(saved).length, lessThanOrEqualTo(2048));
++        final quarantine = AdminExceptionFollowupQuarantine.parse(
++          saved,
++          _owner,
++          _actor.userId,
++          _id,
++        );
++        expect(quarantine.reference, isNull);
++        expect(quarantine.requestId, isNull);
++        expect(saved, isNot(contains(privatePayload)));
++        expect(
++          _button(tester, 'Choose operator and deadline').onPressed,
++          isNull,
++        );
++        expect(find.text('Check original assignment proof'), findsNothing);
++        expect(find.text('Check follow-up request'), findsNothing);
++        expect(h.repository.actions, isEmpty);
++        expect(h.repository.lookups, isEmpty);
++        expect(h.repository.legacyLookupIds, isEmpty);
++        await h.close(tester);
++        final reloaded = _Harness();
++        reloaded.store.values[_owner] = saved;
++        await reloaded.mount(tester);
++        expect(reloaded.store.values[_owner], saved);
++        expect(
++          _button(tester, 'Choose operator and deadline').onPressed,
++          isNull,
++        );
++        expect(reloaded.repository.actions, isEmpty);
++        expect(reloaded.repository.lookups, isEmpty);
++        expect(reloaded.repository.legacyLookupIds, isEmpty);
++      },
++    );
++  }
+   testWidgets(
+     'private malformed v3 becomes sanitized quarantine and only matching v2 recorded proof clears it',
+     (tester) async {
+--- a/test/admin_exception_escalation_inbox_v2_models_test.dart
++++ b/test/admin_exception_escalation_inbox_v2_models_test.dart
+@@ -1,4 +1,5 @@
+ import 'dart:convert';
++import 'dart:io';
+ import 'package:collect_app/admin/core/admin_exception_escalation_inbox_v2_models.dart';
+ import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
+ import 'package:flutter_test/flutter_test.dart';
+@@ -6,95 +7,344 @@
+ const inboxRecipientId = '99430000-0000-4000-8000-000000000001';
+ const inboxExceptionId = '99520000-0000-4000-8000-000000000001';
+ const inboxChecked = '2026-10-01T20:00:00.000000Z';
+-Map<String, dynamic> inboxCopy(Map<String, dynamic> row) => jsonDecode(jsonEncode(row)) as Map<String, dynamic>;
+-String inboxWire(DateTime at) => at.toUtc().toIso8601String().replaceFirstMapped(RegExp(r'\.(\d{3})Z$'), (m) => '.${m[1]}000Z');
++Map<String, dynamic> inboxCopy(Map<String, dynamic> row) =>
++    jsonDecode(jsonEncode(row)) as Map<String, dynamic>;
++String inboxWire(DateTime at) => at
++    .toUtc()
++    .toIso8601String()
++    .replaceFirstMapped(RegExp(r'\.(\d{3})Z$'), (m) => '.${m[1]}000Z');
+ Map<String, dynamic> inboxRow(int index) => {
+-  'escalation_id': '99520000-0000-4000-8000-${index.toString().padLeft(12,'0')}',
+-  'exception_id': inboxExceptionId, 'source_revision': 1,
++  'escalation_id':
++      '99520000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
++  'exception_id': inboxExceptionId,
++  'source_revision': 1,
+   'reason_code': index.isEven ? 'deadline_exceeded' : 'operator_escalation',
+-  'source_active': true, 'current_source_revision': 1,
+-  'delivered_at': '2026-10-01T19:00:00.000000Z', 'read_at': null,
++  'source_active': true,
++  'current_source_revision': 1,
++  'delivered_at': '2026-10-01T19:00:00.000000Z',
++  'read_at': null,
+ };
+ // Declared contract double; actual new SQL observations are added separately.
+-Map<String, dynamic> inboxFixture({String recipientId = inboxRecipientId, int count = 35}) => {
+-  'contract_version': 2, 'channel': 'admin_inbox', 'scope': 'current_operator',
+-  'recipient_id': recipientId, 'checked_at': inboxChecked,
+-  'sample_valid_until': '2026-10-01T20:01:00.000000Z', 'limit': 20,
+-  'rows': List.generate(count, (i) => inboxRow(count-i)), 'next_cursor': null,
++Map<String, dynamic> inboxFixture({
++  String recipientId = inboxRecipientId,
++  int count = 35,
++}) => {
++  'contract_version': 2,
++  'channel': 'admin_inbox',
++  'scope': 'current_operator',
++  'recipient_id': recipientId,
++  'checked_at': inboxChecked,
++  'sample_valid_until': '2026-10-01T20:01:00.000000Z',
++  'limit': 20,
++  'rows': List.generate(count, (i) => inboxRow(count - i)),
++  'next_cursor': null,
+ };
+-Map<String, dynamic> inboxWindow(Map<String, dynamic> raw, AdminExceptionEscalationInboxQuery query) {
++Map<String, dynamic> inboxWindow(
++  Map<String, dynamic> raw,
++  AdminExceptionEscalationInboxQuery query,
++) {
+   final candidates = (raw['rows'] as List).where((value) {
+     final row = value as Map;
+-    return query.before == null || AdminExceptionEscalationInboxCursor(deliveredAt: DateTime.parse(row['delivered_at'] as String), escalationId: row['escalation_id'] as String).compareTo(query.before!) < 0;
++    return query.before == null ||
++        AdminExceptionEscalationInboxCursor(
++              deliveredAt: DateTime.parse(row['delivered_at'] as String),
++              escalationId: row['escalation_id'] as String,
++            ).compareTo(query.before!) <
++            0;
+   }).toList();
+   final rows = candidates.take(query.limit).toList();
+-  return inboxCopy(raw)..['limit'] = query.limit..['rows'] = rows
+-    ..['next_cursor'] = candidates.length > query.limit ? {'delivered_at': (rows.last as Map)['delivered_at'], 'escalation_id': (rows.last as Map)['escalation_id']} : null;
++  return inboxCopy(raw)
++    ..['limit'] = query.limit
++    ..['rows'] = rows
++    ..['next_cursor'] = candidates.length > query.limit
++        ? {
++            'delivered_at': (rows.last as Map)['delivered_at'],
++            'escalation_id': (rows.last as Map)['escalation_id'],
++          }
++        : null;
+ }
++
++Map<String, dynamic> _currentSql(String name) => Map<String, dynamic>.from(
++  jsonDecode(
++        File(
++          'scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-$name.json',
++        ).readAsStringSync(),
++      )
++      as Map,
++);
+ void main() {
++  for (final name in ['first', 'last', 'foreign', 'final']) {
++    test(
++      'actual observed SQL current inbox $name decodes recipient and paired delivery cursor',
++      () {
++        final raw = _currentSql('inbox-$name');
++        final first = _currentSql('inbox-first');
++        final query = AdminExceptionEscalationInboxQuery(
++          limit: raw['limit'] as int,
++          before: name == 'last'
++              ? AdminExceptionEscalationInboxCursor.parse(first['next_cursor'])
++              : null,
++        );
++        final value = AdminExceptionEscalationInboxSnapshot.parse(
++          raw,
++          query: query,
++          recipientId: raw['recipient_id'] as String,
++        );
++        expect(value.recipientId, raw['recipient_id']);
++        expect(
++          value.rows.map((e) => e.id),
++          (raw['rows'] as List).map((e) => e['escalation_id']),
++        );
++        expect(
++          value.nextCursor?.escalationId,
++          raw['next_cursor']?['escalation_id'],
++        );
++        expect(value.isFresh(value.checkedAt), isTrue);
++        expect(value.isFresh(value.validUntil), isFalse);
++        expect(
++          () => AdminExceptionEscalationInboxSnapshot.parse(
++            raw,
++            query: query,
++            recipientId: '99520000-0000-4000-8000-000000000001',
++          ),
++          throwsFormatException,
++        );
++      },
++    );
++  }
++
+   const query = AdminExceptionEscalationInboxQuery();
+-  test('strict current recipient pages beyond20 preserve delivery identity and ties', () {
+-    final raw = inboxFixture(), first = AdminExceptionEscalationInboxSnapshot.parse(inboxWindow(raw, query), query: query, recipientId: inboxRecipientId);
+-    final nextQuery = AdminExceptionEscalationInboxQuery(before: first.nextCursor);
+-    final next = AdminExceptionEscalationInboxSnapshot.parse(inboxWindow(raw, nextQuery), query: nextQuery, recipientId: inboxRecipientId);
+-    expect(first.rows, hasLength(20)); expect(next.rows, hasLength(15)); expect(next.nextCursor, isNull);
+-    expect({...first.rows.map((e)=>e.id), ...next.rows.map((e)=>e.id)}, hasLength(35));
+-    expect(first.rows.first, isA<AdminExceptionInboxDelivery>());
+-    expect(() => first.rows.clear(), throwsUnsupportedError);
+-    expect(nextQuery.parameters, {'p_limit': 20, 'p_before_delivered_at': '2026-10-01T19:00:00.000000Z', 'p_before_escalation_id': first.rows.last.id});
+-    expect(nextQuery, AdminExceptionEscalationInboxQuery(before: first.nextCursor));
+-    expect(nextQuery.hashCode, AdminExceptionEscalationInboxQuery(before: first.nextCursor).hashCode);
+-  });
+-  test('recipient channel scope and exact echoed limit cannot cross current operator', () {
+-    final raw = inboxWindow(inboxFixture(), query);
+-    for (final patch in [
+-      {'contract_version':1}, {'contract_version':2.0}, {'channel':'sms'}, {'scope':'platform_global'},
+-      {'recipient_id':inboxExceptionId}, {'limit':25}, {'limit':20.0}, {'email':'PRIVATE_CONTACT'},
+-      {'sample_valid_until':'2026-10-01T20:01:00.000001Z'},
+-    ]) { expect(() => AdminExceptionEscalationInboxSnapshot.parse({...raw,...patch},query:query,recipientId:inboxRecipientId),throwsFormatException); }
+-    for(final key in raw.keys) { expect(() => AdminExceptionEscalationInboxSnapshot.parse(inboxCopy(raw)..remove(key),query:query,recipientId:inboxRecipientId),throwsFormatException); }
+-  });
+-  test('inbox row immutable delivery and current source state remain independently truthful', () {
+-    final raw = inboxWindow(inboxFixture(count:1),query), row = (raw['rows'] as List).single as Map;
+-    row['source_active'] = false; row['current_source_revision'] = 2; row['read_at'] = '2026-10-01T19:30:00.000000Z';
+-    final value = AdminExceptionEscalationInboxSnapshot.parse(raw,query:query,recipientId:inboxRecipientId).rows.single;
+-    expect(value.sourceActive,isFalse); expect(value.sourceRevision,1); expect(value.currentSourceRevision,2); expect(value.readAt,isNotNull);
+-    for (final patch in [{'current_source_revision':0},{'read_at':'2026-10-01T18:59:59.999999Z'},{'read_at':'2026-10-01T20:00:00.000001Z'}, {'reason_code':'delivered_sms'},{'recipient_email':'PRIVATE'}]) {
+-      final bad=inboxCopy(raw); (bad['rows'] as List)[0]={...row,...patch};
+-      expect(() => AdminExceptionEscalationInboxSnapshot.parse(bad,query:query,recipientId:inboxRecipientId),throwsFormatException);
+-    }
+-  });
+-  test('duplicate reversed overlimit mismatched or shortpage cursors are refused', () {
+-    final raw=inboxWindow(inboxFixture(),query);
+-    final duplicate=inboxCopy(raw); ((duplicate['rows'] as List).last as Map)['escalation_id']=(duplicate['rows'] as List).first['escalation_id'];
+-    final reverse=inboxCopy(raw)..['rows']=(raw['rows'] as List).reversed.toList();
+-    final over=inboxCopy(raw); (over['rows'] as List).add(inboxRow(0));
+-    final cursor=inboxCopy(raw)..['next_cursor']={'delivered_at':inboxChecked,'escalation_id':inboxExceptionId};
+-    final short=inboxWindow(inboxFixture(count:1),query)..['next_cursor']={'delivered_at':'2026-10-01T19:00:00.000000Z','escalation_id':inboxRow(1)['escalation_id']};
+-    for(final bad in [duplicate,reverse,over,cursor,short]) { expect(() => AdminExceptionEscalationInboxSnapshot.parse(bad,query:query,recipientId:inboxRecipientId),throwsFormatException); }
+-  });
+-  test('query finite bounds invalid identity and calendar fail before dispatch parameters', () {
+-    for(final bad in [const AdminExceptionEscalationInboxQuery(limit:0),const AdminExceptionEscalationInboxQuery(limit:26),
+-      AdminExceptionEscalationInboxQuery(before:AdminExceptionEscalationInboxCursor(deliveredAt:DateTime.utc(0),escalationId:inboxExceptionId)),
+-      AdminExceptionEscalationInboxQuery(before:AdminExceptionEscalationInboxCursor(deliveredAt:DateTime.utc(2026),escalationId:'PRIVATE'))]) {
+-      expect(() => bad.parameters,throwsFormatException);
+-    }
+-    expect(() => AdminExceptionEscalationInboxCursor.parse({'delivered_at':'2026-02-30T00:00:00.000000Z','escalation_id':inboxExceptionId}),throwsFormatException);
+-    expect(() => query.parameters['p_limit']=25,throwsUnsupportedError);
+-  });
+-  test('strict60s read expiry does not grant previous rows a fresh actor session', () {
+-    final raw=inboxWindow(inboxFixture(),query),value=AdminExceptionEscalationInboxSnapshot.parse(raw,query:query,recipientId:inboxRecipientId);
+-    expect(value.isFresh(value.checkedAt.subtract(const Duration(microseconds:1))),isFalse);
+-    expect(value.isFresh(value.checkedAt),isTrue); expect(value.isFresh(value.validUntil),isFalse);
+-    expect(value.rows.first.readAt,isNull);
+-  });
+-  test('new current-authority opening receipt binds original delivered escalation only', () {
+-    final row=inboxRow(1), id=row['escalation_id'] as String;
+-    final raw={'contract_version':2,'escalation_id':id,'read_at':'2026-10-01T19:30:00.000000Z','source_resolved':false};
+-    final receipt=AdminExceptionEscalationReadReceipt.parse(raw,escalationId:id,deliveredAt:DateTime.parse(row['delivered_at'] as String));
+-    expect(receipt.escalationId,id); expect(receipt.readAt,DateTime.utc(2026,10,1,19,30));
+-    for(final patch in [{'contract_version':1},{'escalation_id':inboxExceptionId},{'read_at':'2026-10-01T18:59:59.999999Z'},{'source_resolved':true},{'payload':'PRIVATE'}]) {
+-      expect(() => AdminExceptionEscalationReadReceipt.parse({...raw,...patch},escalationId:id,deliveredAt:DateTime.parse(row['delivered_at'] as String)),throwsFormatException);
+-    }
+-  });
++  test(
++    'strict current recipient pages beyond20 preserve delivery identity and ties',
++    () {
++      final raw = inboxFixture(),
++          first = AdminExceptionEscalationInboxSnapshot.parse(
++            inboxWindow(raw, query),
++            query: query,
++            recipientId: inboxRecipientId,
++          );
++      final nextQuery = AdminExceptionEscalationInboxQuery(
++        before: first.nextCursor,
++      );
++      final next = AdminExceptionEscalationInboxSnapshot.parse(
++        inboxWindow(raw, nextQuery),
++        query: nextQuery,
++        recipientId: inboxRecipientId,
++      );
++      expect(first.rows, hasLength(20));
++      expect(next.rows, hasLength(15));
++      expect(next.nextCursor, isNull);
++      expect({
++        ...first.rows.map((e) => e.id),
++        ...next.rows.map((e) => e.id),
++      }, hasLength(35));
++      expect(first.rows.first, isA<AdminExceptionInboxDelivery>());
++      expect(() => first.rows.clear(), throwsUnsupportedError);
++      expect(nextQuery.parameters, {
++        'p_limit': 20,
++        'p_before_delivered_at': '2026-10-01T19:00:00.000000Z',
++        'p_before_escalation_id': first.rows.last.id,
++      });
++      expect(
++        nextQuery,
++        AdminExceptionEscalationInboxQuery(before: first.nextCursor),
++      );
++      expect(
++        nextQuery.hashCode,
++        AdminExceptionEscalationInboxQuery(before: first.nextCursor).hashCode,
++      );
++    },
++  );
++  test(
++    'recipient channel scope and exact echoed limit cannot cross current operator',
++    () {
++      final raw = inboxWindow(inboxFixture(), query);
++      for (final patch in [
++        {'contract_version': 1},
++        {'contract_version': 2.0},
++        {'channel': 'sms'},
++        {'scope': 'platform_global'},
++        {'recipient_id': inboxExceptionId},
++        {'limit': 25},
++        {'limit': 20.0},
++        {'email': 'PRIVATE_CONTACT'},
++        {'sample_valid_until': '2026-10-01T20:01:00.000001Z'},
++      ]) {
++        expect(
++          () => AdminExceptionEscalationInboxSnapshot.parse(
++            {...raw, ...patch},
++            query: query,
++            recipientId: inboxRecipientId,
++          ),
++          throwsFormatException,
++        );
++      }
++      for (final key in raw.keys) {
++        expect(
++          () => AdminExceptionEscalationInboxSnapshot.parse(
++            inboxCopy(raw)..remove(key),
++            query: query,
++            recipientId: inboxRecipientId,
++          ),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'inbox row immutable delivery and current source state remain independently truthful',
++    () {
++      final raw = inboxWindow(inboxFixture(count: 1), query),
++          row = (raw['rows'] as List).single as Map;
++      row['source_active'] = false;
++      row['current_source_revision'] = 2;
++      row['read_at'] = '2026-10-01T19:30:00.000000Z';
++      final value = AdminExceptionEscalationInboxSnapshot.parse(
++        raw,
++        query: query,
++        recipientId: inboxRecipientId,
++      ).rows.single;
++      expect(value.sourceActive, isFalse);
++      expect(value.sourceRevision, 1);
++      expect(value.currentSourceRevision, 2);
++      expect(value.readAt, isNotNull);
++      for (final patch in [
++        {'current_source_revision': 0},
++        {'read_at': '2026-10-01T18:59:59.999999Z'},
++        {'read_at': '2026-10-01T20:00:00.000001Z'},
++        {'reason_code': 'delivered_sms'},
++        {'recipient_email': 'PRIVATE'},
++      ]) {
++        final bad = inboxCopy(raw);
++        (bad['rows'] as List)[0] = {...row, ...patch};
++        expect(
++          () => AdminExceptionEscalationInboxSnapshot.parse(
++            bad,
++            query: query,
++            recipientId: inboxRecipientId,
++          ),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'duplicate reversed overlimit mismatched or shortpage cursors are refused',
++    () {
++      final raw = inboxWindow(inboxFixture(), query);
++      final duplicate = inboxCopy(raw);
++      ((duplicate['rows'] as List).last as Map)['escalation_id'] =
++          (duplicate['rows'] as List).first['escalation_id'];
++      final reverse = inboxCopy(raw)
++        ..['rows'] = (raw['rows'] as List).reversed.toList();
++      final over = inboxCopy(raw);
++      (over['rows'] as List).add(inboxRow(0));
++      final cursor = inboxCopy(raw)
++        ..['next_cursor'] = {
++          'delivered_at': inboxChecked,
++          'escalation_id': inboxExceptionId,
++        };
++      final short = inboxWindow(inboxFixture(count: 1), query)
++        ..['next_cursor'] = {
++          'delivered_at': '2026-10-01T19:00:00.000000Z',
++          'escalation_id': inboxRow(1)['escalation_id'],
++        };
++      for (final bad in [duplicate, reverse, over, cursor, short]) {
++        expect(
++          () => AdminExceptionEscalationInboxSnapshot.parse(
++            bad,
++            query: query,
++            recipientId: inboxRecipientId,
++          ),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'query finite bounds invalid identity and calendar fail before dispatch parameters',
++    () {
++      for (final bad in [
++        const AdminExceptionEscalationInboxQuery(limit: 0),
++        const AdminExceptionEscalationInboxQuery(limit: 26),
++        AdminExceptionEscalationInboxQuery(
++          before: AdminExceptionEscalationInboxCursor(
++            deliveredAt: DateTime.utc(0),
++            escalationId: inboxExceptionId,
++          ),
++        ),
++        AdminExceptionEscalationInboxQuery(
++          before: AdminExceptionEscalationInboxCursor(
++            deliveredAt: DateTime.utc(2026),
++            escalationId: 'PRIVATE',
++          ),
++        ),
++      ]) {
++        expect(() => bad.parameters, throwsFormatException);
++      }
++      expect(
++        () => AdminExceptionEscalationInboxCursor.parse({
++          'delivered_at': '2026-02-30T00:00:00.000000Z',
++          'escalation_id': inboxExceptionId,
++        }),
++        throwsFormatException,
++      );
++      expect(() => query.parameters['p_limit'] = 25, throwsUnsupportedError);
++    },
++  );
++  test(
++    'strict60s read expiry does not grant previous rows a fresh actor session',
++    () {
++      final raw = inboxWindow(inboxFixture(), query),
++          value = AdminExceptionEscalationInboxSnapshot.parse(
++            raw,
++            query: query,
++            recipientId: inboxRecipientId,
++          );
++      expect(
++        value.isFresh(
++          value.checkedAt.subtract(const Duration(microseconds: 1)),
++        ),
++        isFalse,
++      );
++      expect(value.isFresh(value.checkedAt), isTrue);
++      expect(value.isFresh(value.validUntil), isFalse);
++      expect(value.rows.first.readAt, isNull);
++    },
++  );
++  test(
++    'new current-authority opening receipt binds original delivered escalation only',
++    () {
++      final row = inboxRow(1), id = row['escalation_id'] as String;
++      final raw = {
++        'contract_version': 2,
++        'escalation_id': id,
++        'read_at': '2026-10-01T19:30:00.000000Z',
++        'source_resolved': false,
++      };
++      final receipt = AdminExceptionEscalationReadReceipt.parse(
++        raw,
++        escalationId: id,
++        deliveredAt: DateTime.parse(row['delivered_at'] as String),
++      );
++      expect(receipt.escalationId, id);
++      expect(receipt.readAt, DateTime.utc(2026, 10, 1, 19, 30));
++      for (final patch in [
++        {'contract_version': 1},
++        {'escalation_id': inboxRow(2)['escalation_id']},
++        {'read_at': '2026-10-01T18:59:59.999999Z'},
++        {'source_resolved': true},
++        {'payload': 'PRIVATE'},
++      ]) {
++        expect(
++          () => AdminExceptionEscalationReadReceipt.parse(
++            {...raw, ...patch},
++            escalationId: id,
++            deliveredAt: DateTime.parse(row['delivered_at'] as String),
++          ),
++          throwsFormatException,
++        );
++      }
++    },
++  );
+ }
+--- a/test/admin_exception_history_v2_models_test.dart
++++ b/test/admin_exception_history_v2_models_test.dart
+@@ -1,4 +1,5 @@
+ import 'dart:convert';
++import 'dart:io';
+ 
+ import 'package:collect_app/admin/core/admin_entity_audit.dart';
+ import 'package:collect_app/admin/core/admin_exception_history_v2_models.dart';
+@@ -10,178 +11,573 @@
+ const historyEscalationId = '99510000-0000-4000-8000-000000000099';
+ const historyChecked = '2026-10-01T20:00:00.000000Z';
+ const historyActions = [
+-  'exception.acknowledge', 'exception.escalate',
+-  'exception.workflow.assign', 'exception.workflow.escalate', 'exception.workflow.resolve',
+-  'exception.escalation.queued', 'exception.escalation.delivered', 'exception.escalation.opened',
+-  'exception.escalation.obsolete', 'exception.escalation.recipient_unavailable',
++  'exception.acknowledge',
++  'exception.escalate',
++  'exception.workflow.assign',
++  'exception.workflow.escalate',
++  'exception.workflow.resolve',
++  'exception.escalation.queued',
++  'exception.escalation.delivered',
++  'exception.escalation.opened',
++  'exception.escalation.obsolete',
++  'exception.escalation.recipient_unavailable',
+ ];
+-Map<String, dynamic> historyCopy(Map<String, dynamic> row) => jsonDecode(jsonEncode(row)) as Map<String, dynamic>;
+-String historyWire(DateTime value) => value.toUtc().toIso8601String().replaceFirstMapped(RegExp(r'\.(\d{3})Z$'), (m) => '.${m[1]}000Z');
+-String historyEventId(String source, String recordId) => const Uuid().v5('c5a97546-80ab-5b57-a267-754aac043bd0', '$source:$recordId');
++Map<String, dynamic> historyCopy(Map<String, dynamic> row) =>
++    jsonDecode(jsonEncode(row)) as Map<String, dynamic>;
++String historyWire(DateTime value) => value
++    .toUtc()
++    .toIso8601String()
++    .replaceFirstMapped(RegExp(r'\.(\d{3})Z$'), (m) => '.${m[1]}000Z');
++String historyEventId(String source, String recordId) => const Uuid().v5(
++  'c5a97546-80ab-5b57-a267-754aac043bd0',
++  '$source:$recordId',
++);
+ Map<String, dynamic> historyEvent(String action) {
+   final index = historyActions.indexOf(action) + 1;
+   final workflow = action.startsWith('exception.workflow.');
+   final lifecycle = action.startsWith('exception.escalation.');
+   final record = '99510000-0000-4000-8000-${index.toString().padLeft(12, '0')}';
+-  final source = lifecycle ? 'exception_escalation_event' : workflow ? 'exception_workflow_request' : 'exception_action';
++  final source = lifecycle
++      ? 'exception_escalation_event'
++      : workflow
++      ? 'exception_workflow_request'
++      : 'exception_action';
+   return {
+     'event_id': historyEventId(source, record),
+     'source': source,
+-    'source_record_id': record, 'action': action, 'recorded_at': '2026-10-01T19:00:00.000000Z',
+-    'actor_kind': lifecycle ? 'service' : 'operator', 'actor_id': lifecycle ? null : historyActorId,
+-    'request_id': lifecycle ? null : record, 'revision': 1, 'workflow_revision': workflow ? 1 : null,
+-    'escalation_id': lifecycle || action == 'exception.workflow.escalate' ? historyEscalationId : null,
+-    'reason_code': lifecycle ? 'operator_escalation' : action == 'exception.workflow.resolve' ? 'source_rechecked' : 'review_started',
++    'source_record_id': record,
++    'action': action,
++    'recorded_at': '2026-10-01T19:00:00.000000Z',
++    'actor_kind': lifecycle ? 'service' : 'operator',
++    'actor_id': lifecycle ? null : historyActorId,
++    'request_id': lifecycle ? null : record,
++    'revision': 1,
++    'workflow_revision': workflow ? 1 : null,
++    'escalation_id': lifecycle || action == 'exception.workflow.escalate'
++        ? historyEscalationId
++        : null,
++    'reason_code': lifecycle
++        ? 'operator_escalation'
++        : action == 'exception.workflow.resolve'
++        ? 'source_rechecked'
++        : 'review_started',
+     'origin': lifecycle ? 'captured_transition' : 'immutable_request',
+-    'assignee_id': action == 'exception.workflow.assign' ? historyActorId : null,
+-    'due_at': action == 'exception.workflow.assign' ? '2026-10-02T20:00:00.000000Z' : null,
++    'assignee_id': action == 'exception.workflow.assign'
++        ? historyActorId
++        : null,
++    'due_at': action == 'exception.workflow.assign'
++        ? '2026-10-02T20:00:00.000000Z'
++        : null,
+   };
+ }
++
+ // Explicit presentation/contract double, not an observed SQL reply. New SQL
+ // observations are consumed separately once the backend packet is available.
+ Map<String, dynamic> historyFixture() => {
+-  'contract_version': 2, 'scope': 'rw_operator_entity_audit', 'entity_kind': 'exception',
+-  'entity_id': historyExceptionId, 'status': 'available', 'checked_at': historyChecked,
+-  'sample_valid_until': '2026-10-01T20:01:00.000000Z', 'limit': 20,
+-  'history_complete': false, 'financial_action': false, 'send_action': false,
+-  'rows': (historyActions.map(historyEvent).toList()..sort((a,b)=>(b['event_id'] as String).compareTo(a['event_id'] as String))), 'next_cursor': null,
++  'contract_version': 2,
++  'scope': 'rw_operator_entity_audit',
++  'entity_kind': 'exception',
++  'entity_id': historyExceptionId,
++  'status': 'available',
++  'checked_at': historyChecked,
++  'sample_valid_until': '2026-10-01T20:01:00.000000Z',
++  'limit': 20,
++  'history_complete': false,
++  'financial_action': false,
++  'send_action': false,
++  'rows': (historyActions.map(historyEvent).toList()
++    ..sort(
++      (a, b) => (b['event_id'] as String).compareTo(a['event_id'] as String),
++    )),
++  'next_cursor': null,
+ };
+-AdminEntityAuditQuery historyQuery({String id = historyExceptionId, int limit = 20, AdminEntityAuditCursor? before}) =>
+-  AdminEntityAuditQuery(kind: AdminAuditEntityKind.exception, id: id, limit: limit, before: before);
+-Map<String, dynamic> historyWindow(Map<String, dynamic> raw, AdminEntityAuditQuery query) {
++AdminEntityAuditQuery historyQuery({
++  String id = historyExceptionId,
++  int limit = 20,
++  AdminEntityAuditCursor? before,
++}) => AdminEntityAuditQuery(
++  kind: AdminAuditEntityKind.exception,
++  id: id,
++  limit: limit,
++  before: before,
++);
++Map<String, dynamic> historyWindow(
++  Map<String, dynamic> raw,
++  AdminEntityAuditQuery query,
++) {
+   final candidates = (raw['rows'] as List).where((item) {
+     final row = item as Map;
+-    return query.before == null || AdminEntityAuditCursor(recordedAt: DateTime.parse(row['recorded_at'] as String), eventId: row['event_id'] as String).compareTo(query.before!) < 0;
++    return query.before == null ||
++        AdminEntityAuditCursor(
++              recordedAt: DateTime.parse(row['recorded_at'] as String),
++              eventId: row['event_id'] as String,
++            ).compareTo(query.before!) <
++            0;
+   }).toList();
+   final rows = candidates.take(query.limit).toList();
+-  return historyCopy(raw)..['entity_id'] = query.id..['limit'] = query.limit..['rows'] = rows
+-    ..['next_cursor'] = candidates.length > query.limit ? {'recorded_at': (rows.last as Map)['recorded_at'], 'event_id': (rows.last as Map)['event_id']} : null;
++  return historyCopy(raw)
++    ..['entity_id'] = query.id
++    ..['limit'] = query.limit
++    ..['rows'] = rows
++    ..['next_cursor'] = candidates.length > query.limit
++        ? {
++            'recorded_at': (rows.last as Map)['recorded_at'],
++            'event_id': (rows.last as Map)['event_id'],
++          }
++        : null;
+ }
++
++Map<String, dynamic> _currentSql(String name) => Map<String, dynamic>.from(
++  jsonDecode(
++        File(
++          'scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-$name.json',
++        ).readAsStringSync(),
++      )
++      as Map,
++);
+ void main() {
++  for (final name in [
++    'complete',
++    'retained',
++    'unknown',
++    'unavailable',
++    'unscoped',
++    'first',
++    'last',
++    'final',
++  ]) {
++    test(
++      'actual observed SQL joined history $name decodes exact immutable rows and paired cursor',
++      () {
++        final raw = _currentSql('audit-$name');
++        final first = _currentSql('audit-first');
++        final query = AdminEntityAuditQuery(
++          kind: AdminAuditEntityKind.exception,
++          id: raw['entity_id'] as String,
++          limit: raw['limit'] as int,
++          before: name == 'last'
++              ? AdminEntityAuditCursor(
++                  recordedAt: DateTime.parse(
++                    first['next_cursor']['recorded_at'] as String,
++                  ),
++                  eventId: first['next_cursor']['event_id'] as String,
++                )
++              : null,
++        );
++        final value = AdminExceptionHistorySnapshot.parse(raw, query: query);
++        expect(value.available, raw['status'] == 'available');
++        expect(
++          value.rows.map((e) => e.eventId),
++          (raw['rows'] as List).map((e) => e['event_id']),
++        );
++        expect(
++          value.rows.map((e) => e.actorKind),
++          (raw['rows'] as List).map((e) => e['actor_kind']),
++        );
++        expect(
++          value.rows.map((e) => e.actorId),
++          (raw['rows'] as List).map((e) => e['actor_id']),
++        );
++        expect(value.nextCursor?.eventId, raw['next_cursor']?['event_id']);
++        expect(value.isFresh(value.checkedAt), isTrue);
++        expect(value.isFresh(value.validUntil), isFalse);
++        expect(raw['history_complete'], isFalse);
++        expect(raw['financial_action'], isFalse);
++        expect(raw['send_action'], isFalse);
++      },
++    );
++  }
++
+   for (final action in historyActions) {
+-    test('$action retains exact finite evidence without current action authority', () {
+-      final raw = historyEvent(action), event = AdminExceptionHistoryEvent.parse(raw);
+-      expect(event.action, action); expect(event.actionLabel, isNotEmpty); expect(event.sourceRecordId, raw['source_record_id']);
+-      expect(event.cursor.eventId, raw['event_id']); expect(event.recordedAt, DateTime.parse(raw['recorded_at'] as String));
+-      expect(event.revision, 1); expect(event.reasonLabel, isNotNull);
+-      if (action == 'exception.workflow.assign') { expect(event.assigneeId, historyActorId); expect(event.dueAt, isNotNull); }
+-      if (action.startsWith('exception.escalation.')) { expect(event.requestId, isNull); expect(event.workflowRevision, isNull); expect(event.actorId, isNull); }
+-    });
++    test(
++      '$action retains exact finite evidence without current action authority',
++      () {
++        final raw = historyEvent(action),
++            event = AdminExceptionHistoryEvent.parse(raw);
++        expect(event.action, action);
++        expect(event.actionLabel, isNotEmpty);
++        expect(event.sourceRecordId, raw['source_record_id']);
++        expect(event.cursor.eventId, raw['event_id']);
++        expect(event.recordedAt, DateTime.parse(raw['recorded_at'] as String));
++        expect(event.revision, 1);
++        expect(event.reasonLabel, isNotNull);
++        if (action == 'exception.workflow.assign') {
++          expect(event.assigneeId, historyActorId);
++          expect(event.dueAt, isNotNull);
++        }
++        if (action.startsWith('exception.escalation.')) {
++          expect(event.requestId, isNull);
++          expect(event.workflowRevision, isNull);
++          expect(event.actorId, isNull);
++        }
++      },
++    );
+   }
+-  test('joined source IDs may repeat across sources while stable event IDs stay distinct', () {
+-    final raw = historyFixture();
+-    final rows = raw['rows'] as List;
+-    final review = rows.singleWhere((e)=>(e as Map)['action']=='exception.acknowledge') as Map;
+-    final assignment = rows.singleWhere((e)=>(e as Map)['action']=='exception.workflow.assign') as Map;
+-    assignment['source_record_id'] = review['source_record_id'];
+-    assignment['request_id'] = review['request_id'];
+-    assignment['event_id'] = historyEventId(assignment['source'] as String, assignment['source_record_id'] as String);
+-    rows.sort((a,b)=>(b['event_id'] as String).compareTo(a['event_id'] as String));
+-    final snapshot = AdminExceptionHistorySnapshot.parse(raw, query: historyQuery());
+-    expect(snapshot.rows.map((e) => e.eventId).toSet(), hasLength(10));
+-    final reviewEvent=snapshot.rows.singleWhere((e)=>e.action=='exception.acknowledge');
+-    final assignmentEvent=snapshot.rows.singleWhere((e)=>e.action=='exception.workflow.assign');
+-    expect(reviewEvent.sourceRecordId,assignmentEvent.sourceRecordId);
+-    expect(reviewEvent.eventId,isNot(assignmentEvent.eventId));
+-  });
+-  test('wrong namespace cross-source record or invented stable event identity is refused', () {
+-    final row=historyEvent('exception.workflow.assign');
+-    for(final bad in [
+-      {...row,'event_id':const Uuid().v5('00000000-0000-0000-0000-000000000000','${row['source']}:${row['source_record_id']}')},
+-      {...row,'event_id':historyEventId('exception_action',row['source_record_id'] as String)},
+-      {...row,'event_id':historyEventId(row['source'] as String,historyEscalationId)},
+-    ]) { expect(()=>AdminExceptionHistoryEvent.parse(bad),throwsFormatException); }
+-  });
+-  test('unknown retained attribution and actual service transitions never invent a human actor', () {
+-    final retained = historyEvent('exception.escalation.delivered')..['origin'] = 'retained_source'..['actor_kind'] = 'unknown';
+-    expect(AdminExceptionHistoryEvent.parse(retained).actorKindLabel, 'Actor not recorded');
+-    for (final bad in [
+-      {...retained, 'actor_kind': 'service'}, {...retained, 'actor_id': historyActorId},
+-      {...historyEvent('exception.escalation.opened'), 'actor_kind': 'operator'},
+-      {...historyEvent('exception.escalation.delivered'), 'actor_id': historyActorId},
+-    ]) { expect(() => AdminExceptionHistoryEvent.parse(bad), throwsFormatException); }
+-    final operator = historyEvent('exception.escalation.opened')..['actor_kind'] = 'operator'..['actor_id'] = historyActorId;
+-    expect(AdminExceptionHistoryEvent.parse(operator).actorId, historyActorId);
+-  });
+-  test('historical assignment deadline remains dated even when read long after it', () {
+-    final raw = historyFixture()..['checked_at'] = '2026-10-10T20:00:00.000000Z'..['sample_valid_until'] = '2026-10-10T20:01:00.000000Z';
+-    final snapshot = AdminExceptionHistorySnapshot.parse(raw, query: historyQuery());
+-    final assigned = snapshot.rows.singleWhere((e) => e.action == 'exception.workflow.assign');
+-    expect(assigned.dueAt!.isBefore(snapshot.checkedAt), isTrue);
+-  });
+-  test('cross-phase actor request escalation assignment and reason claims fail closed', () {
+-    final bad = <Map<String, dynamic>>[
+-      {...historyEvent('exception.acknowledge'), 'request_id': historyEscalationId},
+-      {...historyEvent('exception.acknowledge'), 'workflow_revision': 1},
+-      {...historyEvent('exception.escalate'), 'escalation_id': historyEscalationId},
+-      {...historyEvent('exception.acknowledge'), 'reason_code': 'source_rechecked'},
+-      {...historyEvent('exception.workflow.assign'), 'assignee_id': null},
+-      {...historyEvent('exception.workflow.assign'), 'due_at': null},
+-      {...historyEvent('exception.workflow.resolve'), 'reason_code': 'review_started'},
+-      {...historyEvent('exception.workflow.escalate'), 'escalation_id': null},
+-      {...historyEvent('exception.workflow.resolve'), 'due_at': '2026-10-02T20:00:00.000000Z'},
+-      {...historyEvent('exception.escalation.opened'), 'request_id': historyEscalationId},
+-      {...historyEvent('exception.escalation.queued'), 'reason_code': 'review_started'},
+-      {...historyEvent('exception.escalation.obsolete'), 'origin': 'immutable_request'},
+-    ];
+-    for (final raw in bad) { expect(() => AdminExceptionHistoryEvent.parse(raw), throwsFormatException); }
+-  });
+-  test('query exception scope paired exactUTC6 and limits stay isolated from oldv1 kinds', () {
+-    final before = AdminEntityAuditCursor(recordedAt: DateTime.utc(2026, 10, 1, 19), eventId: historyEvent(historyActions.last)['event_id'] as String);
+-    final query = historyQuery(limit: 1, before: before);
+-    expect(adminExceptionHistoryParameters(query), {'p_exception_id': historyExceptionId, 'p_limit': 1, 'p_before_at': '2026-10-01T19:00:00.000000Z', 'p_before_event_id': before.eventId});
+-    for (final bad in [historyQuery(limit: 0), historyQuery(limit: 26), historyQuery(id: 'PRIVATE_UUID'),
+-      const AdminEntityAuditQuery(kind: AdminAuditEntityKind.receipt, id: historyExceptionId),
+-      historyQuery(before: AdminEntityAuditCursor(recordedAt: DateTime.utc(0), eventId: historyExceptionId))]) {
+-      expect(() => adminExceptionHistoryParameters(bad), throwsFormatException);
+-    }
+-  });
+-  test('paired audit pages preserve exact time ties immutable rows and last cursor', () {
+-    final raw = historyFixture(), query = historyQuery(limit: 3);
+-    final first = AdminExceptionHistorySnapshot.parse(historyWindow(raw, query), query: query);
+-    final nextQuery = historyQuery(limit: 3, before: first.nextCursor);
+-    final next = AdminExceptionHistorySnapshot.parse(historyWindow(raw, nextQuery), query: nextQuery);
+-    expect(first.rows, hasLength(3)); expect(next.rows, hasLength(3));
+-    expect({...first.rows.map((e) => e.eventId), ...next.rows.map((e) => e.eventId)}, hasLength(6));
+-    expect(() => first.rows.clear(), throwsUnsupportedError);
+-    final mismatched = historyWindow(raw, nextQuery)..['next_cursor'] = {'recorded_at': historyChecked, 'event_id': historyExceptionId};
+-    expect(() => AdminExceptionHistorySnapshot.parse(mismatched, query: nextQuery), throwsFormatException);
+-  });
+-  test('malformed private impossible complete financial or send claims cannot become history', () {
+-    final original = historyFixture();
+-    for (final patch in [
+-      {'contract_version': 1}, {'contract_version': 2.0}, {'scope': 'current_operator'}, {'entity_kind': 'receipt'}, {'entity_id': historyEscalationId},
+-      {'limit': 25}, {'history_complete': true}, {'financial_action': true}, {'send_action': true},
+-      {'history_complete': 'false'}, {'status': 'healthy'}, {'status': 'unavailable'}, {'authorization': 'PRIVATE_CANARY'},
+-      {'checked_at': '2026-02-30T00:00:00.000000Z'}, {'sample_valid_until': '2026-10-01T20:01:00.000001Z'},
+-    ]) { expect(() => AdminExceptionHistorySnapshot.parse({...original, ...patch}, query: historyQuery()), throwsFormatException); }
+-    for (final key in original.keys) { expect(() => AdminExceptionHistorySnapshot.parse(historyCopy(original)..remove(key), query: historyQuery()), throwsFormatException); }
+-  });
++  test(
++    'joined source IDs may repeat across sources while stable event IDs stay distinct',
++    () {
++      final raw = historyFixture();
++      final rows = raw['rows'] as List;
++      final review =
++          rows.singleWhere(
++                (e) => (e as Map)['action'] == 'exception.acknowledge',
++              )
++              as Map;
++      final assignment =
++          rows.singleWhere(
++                (e) => (e as Map)['action'] == 'exception.workflow.assign',
++              )
++              as Map;
++      assignment['source_record_id'] = review['source_record_id'];
++      assignment['request_id'] = review['request_id'];
++      assignment['event_id'] = historyEventId(
++        assignment['source'] as String,
++        assignment['source_record_id'] as String,
++      );
++      rows.sort(
++        (a, b) => (b['event_id'] as String).compareTo(a['event_id'] as String),
++      );
++      final snapshot = AdminExceptionHistorySnapshot.parse(
++        raw,
++        query: historyQuery(),
++      );
++      expect(snapshot.rows.map((e) => e.eventId).toSet(), hasLength(10));
++      final reviewEvent = snapshot.rows.singleWhere(
++        (e) => e.action == 'exception.acknowledge',
++      );
++      final assignmentEvent = snapshot.rows.singleWhere(
++        (e) => e.action == 'exception.workflow.assign',
++      );
++      expect(reviewEvent.sourceRecordId, assignmentEvent.sourceRecordId);
++      expect(reviewEvent.eventId, isNot(assignmentEvent.eventId));
++    },
++  );
++  test(
++    'wrong namespace cross-source record or invented stable event identity is refused',
++    () {
++      final row = historyEvent('exception.workflow.assign');
++      for (final bad in [
++        {
++          ...row,
++          'event_id': const Uuid().v5(
++            '00000000-0000-0000-0000-000000000000',
++            '${row['source']}:${row['source_record_id']}',
++          ),
++        },
++        {
++          ...row,
++          'event_id': historyEventId(
++            'exception_action',
++            row['source_record_id'] as String,
++          ),
++        },
++        {
++          ...row,
++          'event_id': historyEventId(
++            row['source'] as String,
++            historyEscalationId,
++          ),
++        },
++      ]) {
++        expect(
++          () => AdminExceptionHistoryEvent.parse(bad),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'unknown retained attribution and actual service transitions never invent a human actor',
++    () {
++      final retained = historyEvent('exception.escalation.delivered')
++        ..['origin'] = 'retained_source'
++        ..['actor_kind'] = 'unknown';
++      expect(
++        AdminExceptionHistoryEvent.parse(retained).actorKindLabel,
++        'Actor not recorded',
++      );
++      for (final bad in [
++        {...retained, 'actor_kind': 'service'},
++        {...retained, 'actor_id': historyActorId},
++        {
++          ...historyEvent('exception.escalation.opened'),
++          'actor_kind': 'operator',
++        },
++        {
++          ...historyEvent('exception.escalation.delivered'),
++          'actor_id': historyActorId,
++        },
++      ]) {
++        expect(
++          () => AdminExceptionHistoryEvent.parse(bad),
++          throwsFormatException,
++        );
++      }
++      final operator = historyEvent('exception.escalation.opened')
++        ..['actor_kind'] = 'operator'
++        ..['actor_id'] = historyActorId;
++      expect(
++        AdminExceptionHistoryEvent.parse(operator).actorId,
++        historyActorId,
++      );
++    },
++  );
++  test(
++    'historical assignment deadline remains dated even when read long after it',
++    () {
++      final raw = historyFixture()
++        ..['checked_at'] = '2026-10-10T20:00:00.000000Z'
++        ..['sample_valid_until'] = '2026-10-10T20:01:00.000000Z';
++      final snapshot = AdminExceptionHistorySnapshot.parse(
++        raw,
++        query: historyQuery(),
++      );
++      final assigned = snapshot.rows.singleWhere(
++        (e) => e.action == 'exception.workflow.assign',
++      );
++      expect(assigned.dueAt!.isBefore(snapshot.checkedAt), isTrue);
++    },
++  );
++  test(
++    'cross-phase actor request escalation assignment and reason claims fail closed',
++    () {
++      final bad = <Map<String, dynamic>>[
++        {
++          ...historyEvent('exception.acknowledge'),
++          'request_id': historyEscalationId,
++        },
++        {...historyEvent('exception.acknowledge'), 'workflow_revision': 1},
++        {
++          ...historyEvent('exception.escalate'),
++          'escalation_id': historyEscalationId,
++        },
++        {
++          ...historyEvent('exception.acknowledge'),
++          'reason_code': 'source_rechecked',
++        },
++        {...historyEvent('exception.workflow.assign'), 'assignee_id': null},
++        {...historyEvent('exception.workflow.assign'), 'due_at': null},
++        {
++          ...historyEvent('exception.workflow.resolve'),
++          'reason_code': 'review_started',
++        },
++        {...historyEvent('exception.workflow.escalate'), 'escalation_id': null},
++        {
++          ...historyEvent('exception.workflow.resolve'),
++          'due_at': '2026-10-02T20:00:00.000000Z',
++        },
++        {
++          ...historyEvent('exception.escalation.opened'),
++          'request_id': historyEscalationId,
++        },
++        {
++          ...historyEvent('exception.escalation.queued'),
++          'reason_code': 'review_started',
++        },
++        {
++          ...historyEvent('exception.escalation.obsolete'),
++          'origin': 'immutable_request',
++        },
++      ];
++      for (final raw in bad) {
++        expect(
++          () => AdminExceptionHistoryEvent.parse(raw),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'query exception scope paired exactUTC6 and limits stay isolated from oldv1 kinds',
++    () {
++      final before = AdminEntityAuditCursor(
++        recordedAt: DateTime.utc(2026, 10, 1, 19),
++        eventId: historyEvent(historyActions.last)['event_id'] as String,
++      );
++      final query = historyQuery(limit: 1, before: before);
++      expect(adminExceptionHistoryParameters(query), {
++        'p_exception_id': historyExceptionId,
++        'p_limit': 1,
++        'p_before_at': '2026-10-01T19:00:00.000000Z',
++        'p_before_event_id': before.eventId,
++      });
++      for (final bad in [
++        historyQuery(limit: 0),
++        historyQuery(limit: 26),
++        historyQuery(id: 'PRIVATE_UUID'),
++        const AdminEntityAuditQuery(
++          kind: AdminAuditEntityKind.receipt,
++          id: historyExceptionId,
++        ),
++        historyQuery(
++          before: AdminEntityAuditCursor(
++            recordedAt: DateTime.utc(0),
++            eventId: historyExceptionId,
++          ),
++        ),
++      ]) {
++        expect(
++          () => adminExceptionHistoryParameters(bad),
++          throwsFormatException,
++        );
++      }
++    },
++  );
++  test(
++    'paired audit pages preserve exact time ties immutable rows and last cursor',
++    () {
++      final raw = historyFixture(), query = historyQuery(limit: 3);
++      final first = AdminExceptionHistorySnapshot.parse(
++        historyWindow(raw, query),
++        query: query,
++      );
++      final nextQuery = historyQuery(limit: 3, before: first.nextCursor);
++      final next = AdminExceptionHistorySnapshot.parse(
++        historyWindow(raw, nextQuery),
++        query: nextQuery,
++      );
++      expect(first.rows, hasLength(3));
++      expect(next.rows, hasLength(3));
++      expect({
++        ...first.rows.map((e) => e.eventId),
++        ...next.rows.map((e) => e.eventId),
++      }, hasLength(6));
++      expect(() => first.rows.clear(), throwsUnsupportedError);
++      final mismatched = historyWindow(raw, nextQuery)
++        ..['next_cursor'] = {
++          'recorded_at': historyChecked,
++          'event_id': historyExceptionId,
++        };
++      expect(
++        () => AdminExceptionHistorySnapshot.parse(mismatched, query: nextQuery),
++        throwsFormatException,
++      );
++    },
++  );
++  test(
++    'malformed private impossible complete financial or send claims cannot become history',
++    () {
++      final original = historyFixture();
++      for (final patch in [
++        {'contract_version': 1},
++        {'contract_version': 2.0},
++        {'scope': 'current_operator'},
++        {'entity_kind': 'receipt'},
++        {'entity_id': historyEscalationId},
++        {'limit': 25},
++        {'history_complete': true},
++        {'financial_action': true},
++        {'send_action': true},
++        {'history_complete': 'false'},
++        {'status': 'healthy'},
++        {'status': 'unavailable'},
++        {'authorization': 'PRIVATE_CANARY'},
++        {'checked_at': '2026-02-30T00:00:00.000000Z'},
++        {'sample_valid_until': '2026-10-01T20:01:00.000001Z'},
++      ]) {
++        expect(
++          () => AdminExceptionHistorySnapshot.parse({
++            ...original,
++            ...patch,
++          }, query: historyQuery()),
++          throwsFormatException,
++        );
++      }
++      for (final key in original.keys) {
++        expect(
++          () => AdminExceptionHistorySnapshot.parse(
++            historyCopy(original)..remove(key),
++            query: historyQuery(),
++          ),
++          throwsFormatException,
++        );
++      }
++    },
++  );
+   test('unsupported and empty windows remain distinct incomplete evidence', () {
+     final empty = historyFixture()..['rows'] = [];
+-    expect(AdminExceptionHistorySnapshot.parse(empty, query: historyQuery()).available, isTrue);
++    expect(
++      AdminExceptionHistorySnapshot.parse(
++        empty,
++        query: historyQuery(),
++      ).available,
++      isTrue,
++    );
+     empty['status'] = 'unavailable';
+-    expect(AdminExceptionHistorySnapshot.parse(empty, query: historyQuery()).available, isFalse);
++    expect(
++      AdminExceptionHistorySnapshot.parse(
++        empty,
++        query: historyQuery(),
++      ).available,
++      isFalse,
++    );
+   });
+-  test('event closed fields finite UUID UTC revisions and time order reject private rows', () {
+-    final event = historyEvent('exception.workflow.assign');
+-    for (final patch in [
+-      {'source': 'raw_sms'}, {'action': 'send_sms'}, {'origin': 'approved'}, {'actor_kind': 'admin'},
+-      {'actor_id': 'PRIVATE_ACTOR'}, {'event_id': 'UPPER_UUID'}, {'revision': 0}, {'revision': 1000000001},
+-      {'workflow_revision': 0}, {'due_at': '2026-02-30T00:00:00.000000Z'}, {'payload': 'PRIVATE_TEXT'},
+-    ]) { expect(() => AdminExceptionHistoryEvent.parse({...event, ...patch}), throwsFormatException); }
+-    for (final key in event.keys) { expect(() => AdminExceptionHistoryEvent.parse(historyCopy(event)..remove(key)), throwsFormatException); }
+-    final raw = historyFixture(); final rows = raw['rows'] as List;
+-    rows.add(historyCopy(rows.first as Map<String, dynamic>));
+-    expect(() => AdminExceptionHistorySnapshot.parse(raw, query: historyQuery()), throwsFormatException);
+-    final reversed = historyFixture()..['rows'] = (historyFixture()['rows'] as List).reversed.toList();
+-    expect(() => AdminExceptionHistorySnapshot.parse(reversed, query: historyQuery()), throwsFormatException);
+-  });
+-  test('history read expires at exactboundary without renewing original evidence', () {
+-    final value = AdminExceptionHistorySnapshot.parse(historyFixture(), query: historyQuery());
+-    expect(value.isFresh(value.checkedAt.subtract(const Duration(seconds: 5))), isTrue);
+-    expect(value.isFresh(value.checkedAt.subtract(const Duration(seconds: 5, microseconds: 1))), isFalse);
+-    expect(value.isFresh(value.validUntil), isFalse);
+-    expect(value.rows.first.recordedAt.isBefore(value.checkedAt), isTrue);
+-  });
++  test(
++    'event closed fields finite UUID UTC revisions and time order reject private rows',
++    () {
++      final event = historyEvent('exception.workflow.assign');
++      for (final patch in [
++        {'source': 'raw_sms'},
++        {'action': 'send_sms'},
++        {'origin': 'approved'},
++        {'actor_kind': 'admin'},
++        {'actor_id': 'PRIVATE_ACTOR'},
++        {'event_id': 'UPPER_UUID'},
++        {'revision': 0},
++        {'revision': 1000000001},
++        {'workflow_revision': 0},
++        {'due_at': '2026-02-30T00:00:00.000000Z'},
++        {'payload': 'PRIVATE_TEXT'},
++      ]) {
++        expect(
++          () => AdminExceptionHistoryEvent.parse({...event, ...patch}),
++          throwsFormatException,
++        );
++      }
++      for (final key in event.keys) {
++        expect(
++          () =>
++              AdminExceptionHistoryEvent.parse(historyCopy(event)..remove(key)),
++          throwsFormatException,
++        );
++      }
++      final raw = historyFixture();
++      final rows = raw['rows'] as List;
++      rows.add(historyCopy(rows.first as Map<String, dynamic>));
++      expect(
++        () => AdminExceptionHistorySnapshot.parse(raw, query: historyQuery()),
++        throwsFormatException,
++      );
++      final reversed = historyFixture()
++        ..['rows'] = (historyFixture()['rows'] as List).reversed.toList();
++      expect(
++        () => AdminExceptionHistorySnapshot.parse(
++          reversed,
++          query: historyQuery(),
++        ),
++        throwsFormatException,
++      );
++    },
++  );
++  test(
++    'history read expires at exactboundary without renewing original evidence',
++    () {
++      final value = AdminExceptionHistorySnapshot.parse(
++        historyFixture(),
++        query: historyQuery(),
++      );
++      expect(
++        value.isFresh(value.checkedAt.subtract(const Duration(seconds: 5))),
++        isTrue,
++      );
++      expect(
++        value.isFresh(
++          value.checkedAt.subtract(const Duration(seconds: 5, microseconds: 1)),
++        ),
++        isFalse,
++      );
++      expect(value.isFresh(value.validUntil), isFalse);
++      expect(value.rows.first.recordedAt.isBefore(value.checkedAt), isTrue);
++    },
++  );
+ }
+--- a/test/admin_exception_history_v2_sdk_test.dart
++++ b/test/admin_exception_history_v2_sdk_test.dart
+@@ -19,95 +19,231 @@
+   late Future<http.Response> Function(http.Request) respond;
+   final query = history.historyQuery();
+   const inboxQuery = AdminExceptionEscalationInboxQuery();
+-  final row = inbox.inboxRow(1), id = inbox.inboxRow(1)['escalation_id'] as String;
+-  final historyRaw = history.historyFixture(), inboxRaw = inbox.inboxWindow(inbox.inboxFixture(), inboxQuery);
+-  final ack = {'contract_version':2,'escalation_id':id,'read_at':'2026-10-01T19:30:00.000000Z','source_resolved':false};
+-  final operations = <String, Future<Map<String,dynamic>> Function()>{
+-    'admin_get_exception_entity_audit_v2':()=>repository.exceptionEntityAudit(query),
+-    'admin_list_exception_escalation_inbox_v2':()=>repository.exceptionEscalationInboxPage(inboxQuery),
+-    'admin_read_exception_escalation_v2':()=>repository.readExceptionEscalationCurrent(id),
++  final row = inbox.inboxRow(1),
++      id = inbox.inboxRow(1)['escalation_id'] as String;
++  final historyRaw = history.historyFixture(),
++      inboxRaw = inbox.inboxWindow(inbox.inboxFixture(), inboxQuery);
++  final ack = {
++    'contract_version': 2,
++    'escalation_id': id,
++    'read_at': '2026-10-01T19:30:00.000000Z',
++    'source_resolved': false,
+   };
+-  final responses = {'admin_get_exception_entity_audit_v2':historyRaw,'admin_list_exception_escalation_inbox_v2':inboxRaw,'admin_read_exception_escalation_v2':ack};
++  final operations = <String, Future<Map<String, dynamic>> Function()>{
++    'admin_get_exception_entity_audit_v2': () =>
++        repository.exceptionEntityAudit(query),
++    'admin_list_exception_escalation_inbox_v2': () =>
++        repository.exceptionEscalationInboxPage(inboxQuery),
++    'admin_read_exception_escalation_v2': () =>
++        repository.readExceptionEscalationCurrent(id),
++  };
++  final responses = {
++    'admin_get_exception_entity_audit_v2': historyRaw,
++    'admin_list_exception_escalation_inbox_v2': inboxRaw,
++    'admin_read_exception_escalation_v2': ack,
++  };
+   setUp(() async {
+-    requests=[]; respond=(_)async=>auth.response(historyRaw);
+-    client=SupabaseClient('https://synthetic.invalid','synthetic-public',authOptions:const AuthClientOptions(autoRefreshToken:false),
+-      httpClient:MockClient((request)async{
+-        if(request.url.path.endsWith('/verify')){
+-          final parts=(jsonDecode(request.body)['token'] as String).split('|');
+-          return auth.response(auth.authReceipt(parts[0],parts[1]));
++    requests = [];
++    respond = (_) async => auth.response(historyRaw);
++    client = SupabaseClient(
++      'https://synthetic.invalid',
++      'synthetic-public',
++      authOptions: const AuthClientOptions(autoRefreshToken: false),
++      httpClient: MockClient((request) async {
++        if (request.url.path.endsWith('/verify')) {
++          final parts = (jsonDecode(request.body)['token'] as String).split(
++            '|',
++          );
++          return auth.response(auth.authReceipt(parts[0], parts[1]));
+         }
+-        if(request.url.path.endsWith('/logout')) { return auth.response({}); }
+-        requests.add(request);final response=await respond(request);
+-        return http.Response.bytes(response.bodyBytes,response.statusCode,headers:response.headers,request:request);
+-      }));
+-    await auth.session(client,'history-a'); repository=AdminRepository(client);
++        if (request.url.path.endsWith('/logout')) {
++          return auth.response({});
++        }
++        requests.add(request);
++        final response = await respond(request);
++        return http.Response.bytes(
++          response.bodyBytes,
++          response.statusCode,
++          headers: response.headers,
++          request: request,
++        );
++      }),
++    );
++    await auth.session(client, 'history-a');
++    repository = AdminRepository(client);
+   });
+-  tearDown(()=>client.dispose());
+-  for(final entry in operations.entries){
+-    test('${entry.key} pinned SDK exactRPC currentBearer oneattempt',()async{
+-      respond=(_)async=>auth.response(responses[entry.key]);await entry.value();
+-      expect(requests.single.url.path,'/rest/v1/rpc/${entry.key}');
+-      expect(requests.single.headers['Authorization'],'Bearer ${client.auth.currentSession!.accessToken}');
+-      expect(jsonDecode(requests.single.body),entry.key=='admin_get_exception_entity_audit_v2'?{
+-        'p_exception_id':query.id,'p_limit':20,'p_before_at':null,'p_before_event_id':null
+-      }:entry.key=='admin_list_exception_escalation_inbox_v2'?inboxQuery.parameters:{'p_escalation_id':id});
++  tearDown(() => client.dispose());
++  for (final entry in operations.entries) {
++    test('${entry.key} pinned SDK exactRPC currentBearer oneattempt', () async {
++      respond = (_) async => auth.response(responses[entry.key]);
++      await entry.value();
++      expect(requests.single.url.path, '/rest/v1/rpc/${entry.key}');
++      expect(
++        requests.single.headers['Authorization'],
++        'Bearer ${client.auth.currentSession!.accessToken}',
++      );
++      expect(
++        jsonDecode(requests.single.body),
++        entry.key == 'admin_get_exception_entity_audit_v2'
++            ? {
++                'p_exception_id': query.id,
++                'p_limit': 20,
++                'p_before_at': null,
++                'p_before_event_id': null,
++              }
++            : entry.key == 'admin_list_exception_escalation_inbox_v2'
++            ? inboxQuery.parameters
++            : {'p_escalation_id': id},
++      );
+     });
+-    for(final status in [403,500,503]){
+-      test('${entry.key} HTTP$status never retries or fabricates empty evidence',()async{
+-        respond=(_)async=>auth.response({'code':status==403?'42501':'XX000','message':'PRIVATE_CANARY'},status);
+-        await expectLater(entry.value(),throwsA(isA<PostgrestException>()));expect(requests,hasLength(1));
+-      });
++    for (final status in [403, 500, 503]) {
++      test(
++        '${entry.key} HTTP$status never retries or fabricates empty evidence',
++        () async {
++          respond = (_) async => auth.response({
++            'code': status == 403 ? '42501' : 'XX000',
++            'message': 'PRIVATE_CANARY',
++          }, status);
++          await expectLater(entry.value(), throwsA(isA<PostgrestException>()));
++          expect(requests, hasLength(1));
++        },
++      );
+     }
+-    test('${entry.key} private or wrongcontract successful body is rejected once',()async{
+-      for(final bad in [{'ok':true},{...responses[entry.key]!,'destination':'PRIVATE_CANARY'},{...responses[entry.key]!,'contract_version':1}]){
+-        respond=(_)async=>auth.response(bad);await expectLater(entry.value(),throwsFormatException);
+-      }
+-      expect(requests,hasLength(3));
++    test(
++      '${entry.key} private or wrongcontract successful body is rejected once',
++      () async {
++        for (final bad in [
++          {'ok': true},
++          {...responses[entry.key]!, 'destination': 'PRIVATE_CANARY'},
++          {...responses[entry.key]!, 'contract_version': 1},
++        ]) {
++          respond = (_) async => auth.response(bad);
++          await expectLater(entry.value(), throwsFormatException);
++        }
++        expect(requests, hasLength(3));
++      },
++    );
++    for (final back in [false, true]) {
++      test(
++        '${entry.key} sticky SDK session departure back=$back suppresses oldresponse',
++        () async {
++          final held = Completer<http.Response>(), started = Completer<void>();
++          respond = (_) {
++            started.complete();
++            return held.future;
++          };
++          final assertion = expectLater(
++            entry.value(),
++            throwsA(isA<AdminSessionChanged>()),
++          );
++          await started.future;
++          await auth.session(client, 'history-b');
++          if (back) {
++            await auth.session(client, 'history-a', nonce: 2);
++          }
++          held.complete(auth.response(responses[entry.key]));
++          await assertion;
++          expect(requests, hasLength(1));
++        },
++      );
++    }
++    test('${entry.key} signedout caller dispatches zero RPCs', () async {
++      await client.auth.signOut();
++      await expectLater(entry.value(), throwsA(isA<AdminSessionChanged>()));
++      expect(requests, isEmpty);
+     });
+-    for(final back in [false,true]){
+-      test('${entry.key} sticky SDK session departure back=$back suppresses oldresponse',()async{
+-        final held=Completer<http.Response>(),started=Completer<void>();
+-        respond=(_){started.complete();return held.future;};
+-        final assertion=expectLater(entry.value(),throwsA(isA<AdminSessionChanged>()));await started.future;
+-        await auth.session(client,'history-b');if(back){await auth.session(client,'history-a',nonce:2);}
+-        held.complete(auth.response(responses[entry.key]));await assertion;expect(requests,hasLength(1));
+-      });
+-    }
+-    test('${entry.key} signedout caller dispatches zero RPCs',()async{
+-      await client.auth.signOut();await expectLater(entry.value(),throwsA(isA<AdminSessionChanged>()));expect(requests,isEmpty);
+-    });
+-    testWidgets('${entry.key} bounded15s timeout keeps one original attempt',(tester)async{
+-      final held=Completer<http.Response>();respond=(_)=>held.future;
+-      final assertion=expectLater(entry.value(),throwsA(isA<TimeoutException>()));
+-      await tester.runAsync(()=>Future<void>.delayed(Duration.zero));await tester.pump(const Duration(seconds:14));expect(requests,hasLength(1));
+-      await tester.pump(const Duration(seconds:1));await assertion;held.complete(auth.response(responses[entry.key]));
+-      await tester.runAsync(()=>Future<void>.delayed(Duration.zero));expect(requests,hasLength(1));
++    testWidgets('${entry.key} bounded15s timeout keeps one original attempt', (
++      tester,
++    ) async {
++      final held = Completer<http.Response>();
++      respond = (_) => held.future;
++      final assertion = expectLater(
++        entry.value(),
++        throwsA(isA<TimeoutException>()),
++      );
++      await tester.runAsync(() => Future<void>.delayed(Duration.zero));
++      await tester.pump(const Duration(seconds: 14));
++      expect(requests, hasLength(1));
++      await tester.pump(const Duration(seconds: 1));
++      await assertion;
++      held.complete(auth.response(responses[entry.key]));
++      await tester.runAsync(() => Future<void>.delayed(Duration.zero));
++      expect(requests, hasLength(1));
+     });
+   }
+-  test('audit and inbox paired cursors are exact independent windows',()async{
+-    final firstQuery=history.historyQuery(limit:3);
+-    final first=history.historyWindow(historyRaw,firstQuery);
+-    final parsed=AdminExceptionHistorySnapshot.parse(first,query:firstQuery);
+-    final nextQuery=history.historyQuery(limit:3,before:parsed.nextCursor);
+-    respond=(_)async=>auth.response(history.historyWindow(historyRaw,nextQuery));await repository.exceptionEntityAudit(nextQuery);
+-    expect(jsonDecode(requests.single.body),{'p_exception_id':query.id,'p_limit':3,'p_before_at':'2026-10-01T19:00:00.000000Z','p_before_event_id':parsed.nextCursor!.eventId});
+-    final firstInbox=AdminExceptionEscalationInboxSnapshot.parse(inboxRaw,query:inboxQuery,recipientId:auth.actor);
+-    final nextInbox=AdminExceptionEscalationInboxQuery(before:firstInbox.nextCursor);
+-    respond=(_)async=>auth.response(inbox.inboxWindow(inbox.inboxFixture(),nextInbox));await repository.exceptionEscalationInboxPage(nextInbox);
+-    expect(jsonDecode(requests.last.body),nextInbox.parameters);expect(requests,hasLength(2));
+-  });
+-  test('wrong exception recipient or original escalation identity is refused',()async{
+-    for(final name in operations.keys){
+-      final bad={...responses[name]!};
+-      bad[name=='admin_get_exception_entity_audit_v2'?'entity_id':name=='admin_list_exception_escalation_inbox_v2'?'recipient_id':'escalation_id']=history.historyEscalationId;
+-      respond=(_)async=>auth.response(bad);await expectLater(operations[name]!(),throwsFormatException);
+-    }
+-    expect(requests,hasLength(3));
+-    expect(row['delivered_at'],'2026-10-01T19:00:00.000000Z');
+-  });
+-  test('invalid query kind IDs limit or cursor fails before SDK dispatch',()async{
+-    await expectLater(repository.exceptionEntityAudit(history.historyQuery(limit:26)),throwsFormatException);
+-    await expectLater(repository.exceptionEscalationInboxPage(const AdminExceptionEscalationInboxQuery(limit:26)),throwsFormatException);
+-    await expectLater(repository.readExceptionEscalationCurrent('PRIVATE_UUID'),throwsFormatException);expect(requests,isEmpty);
+-  });
++  test(
++    'audit and inbox paired cursors are exact independent windows',
++    () async {
++      final firstQuery = history.historyQuery(limit: 3);
++      final first = history.historyWindow(historyRaw, firstQuery);
++      final parsed = AdminExceptionHistorySnapshot.parse(
++        first,
++        query: firstQuery,
++      );
++      final nextQuery = history.historyQuery(
++        limit: 3,
++        before: parsed.nextCursor,
++      );
++      respond = (_) async =>
++          auth.response(history.historyWindow(historyRaw, nextQuery));
++      await repository.exceptionEntityAudit(nextQuery);
++      expect(jsonDecode(requests.single.body), {
++        'p_exception_id': query.id,
++        'p_limit': 3,
++        'p_before_at': '2026-10-01T19:00:00.000000Z',
++        'p_before_event_id': parsed.nextCursor!.eventId,
++      });
++      final firstInbox = AdminExceptionEscalationInboxSnapshot.parse(
++        inboxRaw,
++        query: inboxQuery,
++        recipientId: auth.actor,
++      );
++      final nextInbox = AdminExceptionEscalationInboxQuery(
++        before: firstInbox.nextCursor,
++      );
++      respond = (_) async =>
++          auth.response(inbox.inboxWindow(inbox.inboxFixture(), nextInbox));
++      await repository.exceptionEscalationInboxPage(nextInbox);
++      expect(jsonDecode(requests.last.body), nextInbox.parameters);
++      expect(requests, hasLength(2));
++    },
++  );
++  test(
++    'wrong exception recipient or original escalation identity is refused',
++    () async {
++      for (final name in operations.keys) {
++        final bad = {...responses[name]!};
++        bad[name == 'admin_get_exception_entity_audit_v2'
++                ? 'entity_id'
++                : name == 'admin_list_exception_escalation_inbox_v2'
++                ? 'recipient_id'
++                : 'escalation_id'] =
++            history.historyEscalationId;
++        respond = (_) async => auth.response(bad);
++        await expectLater(operations[name]!(), throwsFormatException);
++      }
++      expect(requests, hasLength(3));
++      expect(row['delivered_at'], '2026-10-01T19:00:00.000000Z');
++    },
++  );
++  test(
++    'invalid query kind IDs limit or cursor fails before SDK dispatch',
++    () async {
++      await expectLater(
++        repository.exceptionEntityAudit(history.historyQuery(limit: 26)),
++        throwsFormatException,
++      );
++      await expectLater(
++        repository.exceptionEscalationInboxPage(
++          const AdminExceptionEscalationInboxQuery(limit: 26),
++        ),
++        throwsFormatException,
++      );
++      await expectLater(
++        repository.readExceptionEscalationCurrent('PRIVATE_UUID'),
++        throwsFormatException,
++      );
++      expect(requests, isEmpty);
++    },
++  );
+ }
+--- a/test/admin_exception_workflow_sdk_test.dart
++++ b/test/admin_exception_workflow_sdk_test.dart
+@@ -39,9 +39,14 @@
+   final container = ProviderContainer(
+     overrides: [
+       supabaseClientProvider.overrideWithValue(client),
+-      adminIdentityProvider.overrideWith((ref) async => AdminIdentity(
+-        userId: _recipient.userId, displayName: _recipient.displayName,
+-        roles: const ['platform_owner'], permissions: _recipient.permissions)),
++      adminIdentityProvider.overrideWith(
++        (ref) async => AdminIdentity(
++          userId: _recipient.userId,
++          displayName: _recipient.displayName,
++          roles: const ['platform_owner'],
++          permissions: _recipient.permissions,
++        ),
++      ),
+       adminClockProvider.overrideWithValue(() => checkedAt),
+     ],
+   );
+@@ -564,8 +569,14 @@
+ 
+     // Production widget uses current-owner v2 services; original v1 SDK and
+     // provider proof above remains unchanged, including its original fixtures.
+-    final uiInbox = {...inbox, 'contract_version': 2, 'scope': 'current_operator',
+-      'recipient_id': auth.actor, 'limit': 20, 'next_cursor': null};
++    final uiInbox = {
++      ...inbox,
++      'contract_version': 2,
++      'scope': 'current_operator',
++      'recipient_id': auth.actor,
++      'limit': 20,
++      'next_cursor': null,
++    };
+     final uiAcknowledgement = {...acknowledgement, 'contract_version': 2};
+     Future<http.Response> validUiResponse(http.Request request) async =>
+         auth.response(
+@@ -623,7 +634,10 @@
+               ...uiAcknowledgement,
+               'escalation_id': intent.requestId,
+             },
+-            'resolved-source' => {...uiAcknowledgement, 'source_resolved': true},
++            'resolved-source' => {
++              ...uiAcknowledgement,
++              'source_resolved': true,
++            },
+             'private-extra' => {
+               ...uiAcknowledgement,
+               'raw_phone': 'SYNTHETIC_PRIVATE_CANARY',
+--- a/test/admin_exception_workflow_test.dart
++++ b/test/admin_exception_workflow_test.dart
+@@ -146,16 +146,23 @@
+   Future<Map<String, dynamic>> exceptionEscalationInbox() async =>
+       observed('inbox');
+   @override
+-  Future<Map<String, dynamic>> exceptionEscalationInboxPage(AdminExceptionEscalationInboxQuery query) async {
++  Future<Map<String, dynamic>> exceptionEscalationInboxPage(
++    AdminExceptionEscalationInboxQuery query,
++  ) async {
+     // V2 presentation adapter preserves exact observed v1 delivery rows.
+-    final raw = observed('inbox')..['contract_version'] = 2
+-      ..['scope'] = 'current_operator'..['recipient_id'] = _actor.userId
+-      ..['limit'] = query.limit..['next_cursor'] = null;
++    final raw = observed('inbox')
++      ..['contract_version'] = 2
++      ..['scope'] = 'current_operator'
++      ..['recipient_id'] = _actor.userId
++      ..['limit'] = query.limit
++      ..['next_cursor'] = null;
+     return paged.inboxWindow(raw, query);
+   }
+-  @override
+-  Future<Map<String, dynamic>> readExceptionEscalationCurrent(String id) async =>
+-    {...await readExceptionEscalation(id), 'contract_version': 2};
++
++  @override
++  Future<Map<String, dynamic>> readExceptionEscalationCurrent(
++    String id,
++  ) async => {...await readExceptionEscalation(id), 'contract_version': 2};
+   @override
+   Future<Map<String, dynamic>> readExceptionEscalation(String id) async {
+     openedEscalations.add(id);

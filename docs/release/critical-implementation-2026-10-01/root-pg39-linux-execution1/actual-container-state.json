@@ -1,0 +1,22 @@
+{
+  "id": "df20c078d0856b9781a06d34e45374d21a72b0ede0ceda565424c6220fbcf60f",
+  "image": "sha256:9e287b1fe11e6c79b66d13a0893c2b23b1d9b679ce4a5deceb8ebeba7b3fd0cf",
+  "label": {
+    "com.collect.arc01.owner": "collect-arc01-ubuntu-20261002-deabfee579f3",
+    "com.collect.pg39.owner": "root-pg39-linux-execution1",
+    "org.opencontainers.image.version": "24.04"
+  },
+  "state": {
+    "Dead": false,
+    "Error": "",
+    "ExitCode": 0,
+    "FinishedAt": "2026-10-02T10:24:34.359345131Z",
+    "OOMKilled": false,
+    "Paused": false,
+    "Pid": 0,
+    "Restarting": false,
+    "Running": false,
+    "StartedAt": "2026-10-02T10:23:52.729340667Z",
+    "Status": "exited"
+  }
+}

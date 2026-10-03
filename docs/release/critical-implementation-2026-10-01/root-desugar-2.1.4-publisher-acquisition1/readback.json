@@ -1,0 +1,73 @@
+{
+  "utc": "2026-10-02T13:17:58.550053+00:00",
+  "status": "publisher_bytes_verified_not_installed",
+  "coordinate": {
+    "groupId": "com.android.tools",
+    "artifactId": "desugar_jdk_libs",
+    "version": "2.1.4"
+  },
+  "requests": {
+    "artifact": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 6112690,
+      "sha256": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+      "actual_seconds": 4.113636,
+      "no_retries": true
+    },
+    "publisher-sha1": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar.sha1",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar.sha1",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 40,
+      "sha256": "ff671c6f7cfa4b5d2adcdf76281612e034f399644edf39e2ceb439b2ce39979a",
+      "actual_seconds": 0.706102,
+      "no_retries": true
+    },
+    "publisher-sha256": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar.sha256",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.jar.sha256",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 64,
+      "sha256": "3da83d92ec1abfb95ec67525d4ce1f88937e546a668a9ea82468338b92497543",
+      "actual_seconds": 0.70612,
+      "no_retries": true
+    },
+    "publisher-pom": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.pom",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.pom",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 1257,
+      "sha256": "0c0c8e1970349bf3572bf24551ee677665690203704fbb16b367d3a375961f30",
+      "actual_seconds": 0.599114,
+      "no_retries": true
+    }
+  },
+  "whole_seconds": 4.162463790999027,
+  "artifact_sha256": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+  "artifact_sha1": "34c5d10b7a184e8c340dd967ea9481e448f7b89e",
+  "publisher_sha256_matches": true,
+  "publisher_SHA256_available": true,
+  "JAR_members": 1459,
+  "CRC_all_members_pass": true,
+  "publisher_license_declarations": [
+    {
+      "name": "GNU General Public License, version 2, with the Classpath Exception",
+      "URL": "https://github.com/google/desugar_jdk_libs/blob/master/LICENSE"
+    }
+  ],
+  "cache_modified": false,
+  "APP_SDK_protected_source_modified": false,
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

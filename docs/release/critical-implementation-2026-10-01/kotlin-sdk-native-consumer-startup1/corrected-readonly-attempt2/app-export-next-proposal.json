@@ -1,0 +1,37 @@
+{
+  "ARC09_closed": false,
+  "SDK_or_shared_selection_app_resolution_Gradle_native_authorized": false,
+  "candidate_promoted": false,
+  "current_source_export_authorized": false,
+  "exact_export_command": {
+    "argv": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-I",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py",
+      "--root",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "export",
+      "--destination",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "--flutter-sdk",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+      "--report",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/source-export.json"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "deadline_seconds": 300
+  },
+  "exporter_must_not_execute_Flutter_and_must_retain_unapproved_source_binding": true,
+  "live_floor_bytes": 4294967296,
+  "no_dated_discovery_hashes_substitute_for_actual_export": true,
+  "preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "production_release_approval": false,
+  "required_new_immutable_root_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/app-export-admission.json",
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "reviewed_exporter_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+  "scope": "Next strict source export only proposed; requires separately coordinated current source and independent immutable root receipt.",
+  "source_readback_deadline_seconds": 300,
+  "source_scope_held_for_strict_export": false,
+  "strict_export_only_no_retain_drift": true
+}

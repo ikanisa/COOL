@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"ok": true, "code": "DISPATCH_ARMED", "replay": false, "armed_at": "2026-10-02T03:36:08.836645Z", "device_id": "0472a587-bf38-48bb-b6f5-14f1ecee8506", "attempt_id": "160d1e0e-5359-4ac9-a273-2feb202d455e", "expires_at": "2026-10-02T03:36:38.760745Z", "request_id": "e078a621-56cf-4fa1-aace-e8f0e4a067b8", "carrier_proof": false, "fence_version": 2, "reservation_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}

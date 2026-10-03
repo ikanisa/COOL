@@ -1,0 +1,8 @@
+{
+  "passed": false,
+  "phase": "package_binding_before_any_flutter_run",
+  "failure": "IndexError: empty path parts for collect_app root; corrected export rebinding in next attempt",
+  "database_called": false,
+  "provider_called": false,
+  "source_copy_verified": true
+}

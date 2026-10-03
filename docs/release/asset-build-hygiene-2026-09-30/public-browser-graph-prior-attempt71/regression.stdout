@@ -1,0 +1,29 @@
+Run options: --name /test_actual_unrelated_/ --seed 7638
+
+# Running:
+
+FF
+
+Finished in 0.215626s, 9.2753 runs/s, 9.2753 assertions/s.
+
+  1) Failure:
+PublicBrowserGraphTest#test_actual_unrelated_native_callback_change_preserves_browser_fingerprint [/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/public-browser-graph-prior-attempt71/prior-regression.rb:62]:
+--- expected
++++ actual
+@@ -1,2 +1,2 @@
+ # encoding: US-ASCII
+-"34fa81ceb28cbd02a7aa0a7cc92fc47177bb784d9a12423f7a855ba04c26ab7c"
++"ba4c5a5efc1f11df65d3694359e076ff9db2f6816a1455fcac2c35162dad82ca"
+
+
+  2) Failure:
+PublicBrowserGraphTest#test_actual_unrelated_admin_and_gateway_additions_preserve_browser_fingerprint [/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/public-browser-graph-prior-attempt71/prior-regression.rb:52]:
+--- expected
++++ actual
+@@ -1,2 +1,2 @@
+ # encoding: US-ASCII
+-"34fa81ceb28cbd02a7aa0a7cc92fc47177bb784d9a12423f7a855ba04c26ab7c"
++"16a63a89f93f42d836cf0bcbe4be2519dc01ff87215a2dfbc73d6911ca5c0b2c"
+
+
+2 runs, 2 assertions, 2 failures, 0 errors, 0 skips

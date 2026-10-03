@@ -1,0 +1,22 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:24:00 GMT",
+    "ETag": "W/\"4edeb1e3a17ac4ded30972f1311a56b8ca671e64c9b263cccc7c9578b0927243\"",
+    "Last-Modified": "Sat, 13 Jun 2026 08:50:58 GMT",
+    "X-RateLimit-Remaining": "38",
+    "X-RateLimit-Reset": "1790890738"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.github.com/repos/rubyzip/rubyzip/commits/17edfbf4423b83211b075acc23a7d8640da63449",
+  "requested_at": "2026-10-01T21:23:59.839804+00:00",
+  "response_bytes": 6337,
+  "response_path": "primary/rubyzip-upstream-fix.response",
+  "response_sha256": "8f9d8cadd6ee4600ec627bcb880ce1432070edfc590011bb8a92c35a4a4c73a4",
+  "response_url": "https://api.github.com/repos/rubyzip/rubyzip/commits/17edfbf4423b83211b075acc23a7d8640da63449",
+  "retrieved_at": "2026-10-01T21:24:00.492190+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-02T12:10:00.820727+00:00",
+  "proposal_sums_sha256": "e7f5155b30275bf86d6cc7564bfdd1200fffb829136c3bb6dd692a1bc41c4269",
+  "all_six_sealed_leaves_verified": true,
+  "root_review_scope": "proposed SQL and actual source/consumer boundaries; no execution or installation",
+  "route_selected": false,
+  "maintained_writes": false,
+  "BE02_closed": false,
+  "review_findings": [
+    "Selected source adapter and policy decision remain missing; draft helper equality is not authentication or retained-object custody.",
+    "Current proposal/approval/locked finalizer and reversal callers are not overridden by the draft; full integration and consumer tests remain required.",
+    "Future policy event writer must use exact advisory key financial-evidence-policy:<uuid> matching guard; draft comment policy:<id> is shorthand and must not become a different lock.",
+    "Amount/currency/time and provider/receiver/transaction restrictions must remain consistent with actual current payment contract and selected policy.",
+    "Preserve immutable consumed historical replay; never manufacture source or settlement metadata."
+  ],
+  "test_or_approval_claimed": false
+}

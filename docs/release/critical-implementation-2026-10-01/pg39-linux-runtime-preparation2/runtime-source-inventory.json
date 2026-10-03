@@ -1,0 +1,15 @@
+{
+  "actual_seconds": 0.3691915829986101,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "start",
+    "-a",
+    "6c1b5f300ee7a76fe189a417bad4fb80c211b723875f5f83df9f52e676669955"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "owned_process_group_absent": true,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "7d71391119689a1e5cc4512aaca7afd9661d937952564111734caba7ebefe7e8",
+  "timed_out": false
+}

@@ -1,0 +1,46 @@
+{
+  "status": "pass",
+  "static_html_entries": [
+    "/",
+    "/account-deletion/",
+    "/app/",
+    "/c/",
+    "/community-groups/",
+    "/craas/",
+    "/credit-readiness/",
+    "/data-deletion/",
+    "/group-link/",
+    "/group-savings/",
+    "/insurance/",
+    "/our-partners/",
+    "/partners/",
+    "/privacy/",
+    "/protection/",
+    "/security/",
+    "/terms/",
+    "/trust/"
+  ],
+  "static_html_entry_count": 18,
+  "sitemap_route_count": 15,
+  "actual_direct_supplemental_entries": [
+    "/app/",
+    "/c/",
+    "/group-link/"
+  ],
+  "viewports": [
+    "compact_320x740",
+    "desktop_1440x1000",
+    "mobile_390x844",
+    "tablet_834x1194"
+  ],
+  "maintained_page_viewport_cases": 60,
+  "maintained_group_share_cases": 16,
+  "supplemental_static_share_and_ua_cases": 28,
+  "all_static_html_entry_viewport_cases_covered": 72,
+  "uncovered_static_entry_viewports": [],
+  "original_browser_png_count": 378,
+  "blocked_network_requests": [],
+  "console_page_or_diagnostic_failures": 0,
+  "scope": "Actual 18 local static HTML entries rendered across four viewports plus maintained synthetic group-share cases and actual synthetic app-invitation/UA destination checks. Local wildcard/group rewrites do not prove hosted CDN redirects, scheme invocation, installed apps, store/provider availability or native acceptance.",
+  "native_links_or_store_destinations_clicked": false
+}

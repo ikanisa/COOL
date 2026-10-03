@@ -1,0 +1,3141 @@
+{
+  "contract_version": 1,
+  "generated_at": "2026-10-01T22:03:32.944584+00:00",
+  "files": {
+    "jdk-runtime-closure.json": {
+      "sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a",
+      "size": 107410
+    },
+    "reused-core-artifacts.json": {
+      "sha256": "967f06e8efc15c4fa48b4e5509475cb32949f9ef616ee2e75dae760b317048c7",
+      "size": 86333
+    },
+    "RECOVERY_OPERATOR_CONTRACT.md": {
+      "sha256": "bcfd7a992fb4e145a1fb6115a2fae6860a8410e57e8010a7b360e28178c12926",
+      "size": 4461
+    },
+    "dart-dependency-baseline.json": {
+      "sha256": "41e4c9ee7e4efd32db9c6dbb114acbcc0674e37dc82853b8d4b0e86744f3b10b",
+      "size": 709885
+    },
+    "native_proof.py": {
+      "sha256": "63a2124e2ef6efcc3c914e680f28a18a2b018d25b85bbf74e8f838a5a41d7984",
+      "size": 6816
+    },
+    "baseline.json": {
+      "sha256": "a8ab59e98594dcedf0d6e0b083188115d3a46dc7294fa3c0677698535d5d4f7a",
+      "size": 8095
+    },
+    "runner-registration.json": {
+      "sha256": "a4f01f1d100097a1386a1cdc4cd7c0dc799c958d4db4f244dd0b5421351da6df",
+      "size": 2173
+    },
+    "dart_proof.py": {
+      "sha256": "4c03e33001cf295cb7d59f6e51253fe2dfdd6a151d5b3c096c92d3632d44eb08",
+      "size": 4620
+    },
+    "promotion-manifest.json": {
+      "sha256": "b37f47db6a117ab51fa0b8737a6fab6da0f911ba0ed0cd92cd421008bd099a9c",
+      "size": 11260
+    },
+    "compiled-artifacts.json": {
+      "sha256": "139d6d93d539b2919d6ccdf5aa5fa7984382dcc4dac74407c0c91e5444d20250",
+      "size": 60942
+    },
+    "terminal.json": {
+      "sha256": "1f1233340f047504d04a4c5ffaa363f9b37550d95f48c806dc60cc4b54749ad7",
+      "size": 540
+    },
+    "final-source-association.json": {
+      "sha256": "573770181c99f7a5942f89ae4229160fa026b5b3224ccd889d95f45296ae5dfc",
+      "size": 79292
+    },
+    "retained-attempts.json": {
+      "sha256": "f7ab1a02bd465ece3bcfedd83d59d295648a602c16f150e6ec28b6ae6fce23ab",
+      "size": 891
+    },
+    "DESIGN_REVIEW.md": {
+      "sha256": "c1f69102bdf673403dddaee051e32cb3972ef4f4bed10d25bf9758e1e1397a53",
+      "size": 1642
+    },
+    "HANDOFF.md": {
+      "sha256": "0407ee0fbf9ad0548cb7abf96ae8a08c877b2f4a3a9fe45406d7cd9d8b5cb58f",
+      "size": 4072
+    },
+    "captures/dark_task.png": {
+      "sha256": "4cc1a37e11f28668d828b419ad829d9a91a874fcd95f37b0845c4b6d139f6303",
+      "size": 97473
+    },
+    "captures/dark_opaque.png": {
+      "sha256": "924623e573df665a0e20be15bddac2df96a66cd5315846a7dce19b4044ccfcc9",
+      "size": 93502
+    },
+    "dart-inputs/frozen-inputs.json": {
+      "sha256": "0996d29c1bbe16addd6f485c652b5953ccf110578cab4a51d57ec07d30a68f14",
+      "size": 64228
+    },
+    "dart-inputs/pubspec.lock": {
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "size": 39236
+    },
+    "dart-inputs/pubspec.yaml": {
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+      "size": 2425
+    },
+    "dart-inputs/analysis_options.yaml": {
+      "sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+      "size": 1156
+    },
+    "retained-capture-harness/disposition.json": {
+      "sha256": "45942a3e400c9e8ff8782bab1c18970e851cde885b00ff25916e180856d7045c",
+      "size": 387
+    },
+    "retained-capture-harness/dark_task.png": {
+      "sha256": "1b686042233397783196a8dc3914beddb595dd3a2a4d0532a357253a7d6e1ca3",
+      "size": 98229
+    },
+    "retained-capture-harness/dark_opaque.png": {
+      "sha256": "1964bd6b52150a41070ae6a657edba2567624ac20366e6c507a215f9b3788c58",
+      "size": 94239
+    },
+    "dart-inputs/lib/main_gateway.dart": {
+      "sha256": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+      "size": 396
+    },
+    "dart-inputs/lib/main_public.dart": {
+      "sha256": "3614ad22111462144ce7a94d3ea06fd122bb82909257e4ae3b4d55f9f32af95a",
+      "size": 3950
+    },
+    "dart-inputs/lib/main.dart": {
+      "sha256": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+      "size": 1915
+    },
+    "dart-inputs/lib/main_admin.dart": {
+      "sha256": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381",
+      "size": 769
+    },
+    "dart-inputs/.dart_tool/package_config.json": {
+      "sha256": "e20b7188e6167e77685486f3ef1ad8a7379ef957a9cb9433d629d86fe95f6c27",
+      "size": 33567
+    },
+    "dart-inputs/.dart_tool/package_graph.json": {
+      "sha256": "b100222a6618c5ec5cad77806d61627d099c14857e11563ea43947cae2da20f1",
+      "size": 32014
+    },
+    "dart-inputs/test/gateway/gateway_device_probe_test.dart": {
+      "sha256": "19c1a13276893732a667880ffd55c35086a5fbbadaffe5fe8c14170ca2802422",
+      "size": 4487
+    },
+    "dart-inputs/test/gateway/gateway_capture_test.dart": {
+      "sha256": "5b6d53facfc640a698b3dc096fd2ce0e6e2750e8138e3a8ec4d1f64537d75966",
+      "size": 3112
+    },
+    "dart-inputs/test/gateway/gateway_enrollment_lifecycle_test.dart": {
+      "sha256": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6",
+      "size": 5084
+    },
+    "dart-inputs/test/gateway/gateway_local_dispatch_test.dart": {
+      "sha256": "6a77d103959e89af9571cb487354288ad9b795a26b023d01b7e50a7987513862",
+      "size": 16291
+    },
+    "dart-inputs/test/gateway/gateway_safety_test.dart": {
+      "sha256": "13fd24c28fdf392c9e1b247b7dbc7ae80c743e457754f2aa0b7da7b265fd766c",
+      "size": 7697
+    },
+    "dart-inputs/test/gateway/gateway_recovery_test.dart": {
+      "sha256": "bf6cae6fbff220c8d017c253ff1a1e7f16357d909d27b7839571200eb3b81c48",
+      "size": 12419
+    },
+    "dart-inputs/test/gateway/gateway_recovery_capture_test.dart": {
+      "sha256": "1df42d8d23071b87debf8d7145e37210b29a3bed3060cc2cc01077d347e58055",
+      "size": 2966
+    },
+    "dart-inputs/lib/l10n/collect_localizations.dart": {
+      "sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+      "size": 3448
+    },
+    "dart-inputs/lib/app/router.dart": {
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "size": 22095
+    },
+    "dart-inputs/lib/app/app.dart": {
+      "sha256": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+      "size": 16133
+    },
+    "dart-inputs/lib/admin/admin_router.dart": {
+      "sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+      "size": 10621
+    },
+    "dart-inputs/lib/admin/admin_app.dart": {
+      "sha256": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9",
+      "size": 868
+    },
+    "dart-inputs/lib/admin/admin_shell_navigation.dart": {
+      "sha256": "525110030352b7594639f5759c105929b2e48576a4f8dce054adb6a06d25460f",
+      "size": 9084
+    },
+    "dart-inputs/lib/admin/admin_shell.dart": {
+      "sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+      "size": 35225
+    },
+    "dart-inputs/lib/gateway/gateway_platform.dart": {
+      "sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4",
+      "size": 5865
+    },
+    "dart-inputs/lib/gateway/gateway_recovery_page.dart": {
+      "sha256": "7f2895cfd173cab6f766db707c33199c8581b3b05ce0319f1932ae5de16e3087",
+      "size": 11807
+    },
+    "dart-inputs/lib/gateway/gateway_recovery_platform.dart": {
+      "sha256": "1ab4512869b4b578fe3e4a1706f9126b9aef8405a192d411804220721d788a57",
+      "size": 5519
+    },
+    "dart-inputs/lib/gateway/gateway_app.dart": {
+      "sha256": "a847a14f9a2f7e1387f091a1385f7245b9481bb0aa5417b9fe09633cb320cea3",
+      "size": 16760
+    },
+    "dart-inputs/lib/core/payments/momo_ussd_launcher.dart": {
+      "sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+      "size": 1109
+    },
+    "dart-inputs/lib/core/payments/rwanda_momo_number.dart": {
+      "sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+      "size": 972
+    },
+    "dart-inputs/lib/core/payments/momo_ussd_intent_guard.dart": {
+      "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+      "size": 1342
+    },
+    "dart-inputs/lib/core/security/sms_access_channel.dart": {
+      "sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+      "size": 6900
+    },
+    "dart-inputs/lib/core/security/public_id_generator.dart": {
+      "sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+      "size": 444
+    },
+    "dart-inputs/lib/core/security/protected_snapshot_store.dart": {
+      "sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+      "size": 1852
+    },
+    "dart-inputs/lib/core/security/durable_sms_receipt.dart": {
+      "sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+      "size": 1934
+    },
+    "dart-inputs/lib/core/security/phone_normalizer.dart": {
+      "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+      "size": 917
+    },
+    "dart-inputs/lib/core/security/hash_utils.dart": {
+      "sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+      "size": 336
+    },
+    "dart-inputs/lib/core/security/play_integrity_service.dart": {
+      "sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+      "size": 5802
+    },
+    "dart-inputs/lib/core/utils/date_format.dart": {
+      "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+      "size": 445
+    },
+    "dart-inputs/lib/core/utils/money_format.dart": {
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+      "size": 1421
+    },
+    "dart-inputs/lib/core/supabase/realtime_invalidation.dart": {
+      "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+      "size": 7232
+    },
+    "dart-inputs/lib/core/supabase/auth_otp_gateway.dart": {
+      "sha256": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+      "size": 1225
+    },
+    "dart-inputs/lib/core/supabase/browser_auth_storage_web.dart": {
+      "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+      "size": 907
+    },
+    "dart-inputs/lib/core/supabase/browser_auth_memory.dart": {
+      "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+      "size": 935
+    },
+    "dart-inputs/lib/core/supabase/supabase_module.dart": {
+      "sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+      "size": 2038
+    },
+    "dart-inputs/lib/core/supabase/browser_auth_storage_stub.dart": {
+      "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+      "size": 78
+    },
+    "dart-inputs/lib/core/data/exact_json_values.dart": {
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "size": 3650
+    },
+    "dart-inputs/lib/core/logging/app_logger.dart": {
+      "sha256": "fb114d1e6e4b26f4a6076a021480813dee725fc1a98afac5b0494fa683aadc82",
+      "size": 265
+    },
+    "dart-inputs/lib/core/notifications/collect_notification_service.dart": {
+      "sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+      "size": 29313
+    },
+    "dart-inputs/lib/core/widgets/collect_shell.dart": {
+      "sha256": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+      "size": 12465
+    },
+    "dart-inputs/lib/app/env/app_env.dart": {
+      "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+      "size": 2173
+    },
+    "dart-inputs/lib/app/theme/collect_motion.dart": {
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+      "size": 769
+    },
+    "dart-inputs/lib/app/theme/collect_theme_controller.dart": {
+      "sha256": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4",
+      "size": 2185
+    },
+    "dart-inputs/lib/app/theme/collect_component_tokens.dart": {
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+      "size": 3980
+    },
+    "dart-inputs/lib/app/theme/collect_runtime_tokens.dart": {
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+      "size": 8988
+    },
+    "dart-inputs/lib/app/theme/collect_runtime_assets.dart": {
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+      "size": 894
+    },
+    "dart-inputs/lib/app/theme/collect_universal_tokens.dart": {
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+      "size": 8012
+    },
+    "dart-inputs/lib/app/theme/collect_radius.dart": {
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+      "size": 863
+    },
+    "dart-inputs/lib/app/theme/collect_icons.dart": {
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+      "size": 2698
+    },
+    "dart-inputs/lib/app/theme/app_theme.dart": {
+      "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+      "size": 365
+    },
+    "dart-inputs/lib/app/theme/collect_theme.dart": {
+      "sha256": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+      "size": 14130
+    },
+    "dart-inputs/lib/app/theme/collect_typography.dart": {
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+      "size": 8038
+    },
+    "dart-inputs/lib/app/theme/collect_spacing.dart": {
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+      "size": 1454
+    },
+    "dart-inputs/lib/app/theme/collect_colors.dart": {
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+      "size": 15171
+    },
+    "dart-inputs/lib/app/theme/collect_runtime_typography.dart": {
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+      "size": 581
+    },
+    "dart-inputs/lib/app/theme/collect_semantic_icons.dart": {
+      "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8",
+      "size": 1434
+    },
+    "dart-inputs/lib/features/settings/app_permissions_screen.dart": {
+      "sha256": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+      "size": 11748
+    },
+    "dart-inputs/lib/features/settings/settings_screen.dart": {
+      "sha256": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+      "size": 8054
+    },
+    "dart-inputs/lib/features/settings/settings_subscreens.dart": {
+      "sha256": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+      "size": 33511
+    },
+    "dart-inputs/lib/features/settings/security_hub_header.dart": {
+      "sha256": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+      "size": 4217
+    },
+    "dart-inputs/lib/features/home/home_public_groups_section.dart": {
+      "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+      "size": 2868
+    },
+    "dart-inputs/lib/features/home/app_share_service.dart": {
+      "sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+      "size": 1797
+    },
+    "dart-inputs/lib/features/home/home_screen.dart": {
+      "sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+      "size": 7555
+    },
+    "dart-inputs/lib/features/landing/public_page_content.dart": {
+      "sha256": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4",
+      "size": 1646
+    },
+    "dart-inputs/lib/features/landing/public_marketing_hero.dart": {
+      "sha256": "45f234e8f75be670a0125afe6a8202f5274e400bf15afb11e481af3035f228bb",
+      "size": 6020
+    },
+    "dart-inputs/lib/features/landing/public_capability_content.dart": {
+      "sha256": "42ad83dfc12e040dc3f0fdc444909d17379a279944049a1cf89ded27724a31ac",
+      "size": 7013
+    },
+    "dart-inputs/lib/features/landing/public_content.dart": {
+      "sha256": "5b5b4ab791cd40ff6c45501492fdbf4a987b54586683f6118a3dd7acd7b0c8a8",
+      "size": 2136
+    },
+    "dart-inputs/lib/features/landing/collect_landing_page.dart": {
+      "sha256": "d4f98b406b98b5125fceda5d72779545c5874bd3dea1b5cc833d45063348b3e5",
+      "size": 22579
+    },
+    "dart-inputs/lib/features/landing/public_marketing_page_content.dart": {
+      "sha256": "918f4249030efdd3f205f9d564af08bf84041e6c5e0552784ada641df3aca94b",
+      "size": 5752
+    },
+    "dart-inputs/lib/features/landing/public_policy_page_content.dart": {
+      "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+      "size": 5231
+    },
+    "dart-inputs/lib/features/landing/public_marketing_theme.dart": {
+      "sha256": "72875b3b0a58a3aeb208a7303ae31f9a9460a52ce94c7e6fb312ea151518c75e",
+      "size": 4347
+    },
+    "dart-inputs/lib/features/payments/contribute_entry_screen.dart": {
+      "sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+      "size": 6771
+    },
+    "dart-inputs/lib/features/payments/contribution_amount_widgets.dart": {
+      "sha256": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+      "size": 6129
+    },
+    "dart-inputs/lib/features/payments/contribution_flow_screen.dart": {
+      "sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+      "size": 28855
+    },
+    "dart-inputs/lib/features/ledger/ledger_screen.dart": {
+      "sha256": "5a0ad3e21f3c1a53cdfc4ea1e66f21bbf161ab6bb9700b9107f254b88cbb7784",
+      "size": 14875
+    },
+    "dart-inputs/lib/features/auth/auth_screen.dart": {
+      "sha256": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+      "size": 13541
+    },
+    "dart-inputs/lib/features/activity/activity_screen.dart": {
+      "sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+      "size": 10774
+    },
+    "dart-inputs/lib/features/launch/launch_splash_screen.dart": {
+      "sha256": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0",
+      "size": 675
+    },
+    "dart-inputs/lib/features/status/group_members_screen.dart": {
+      "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+      "size": 17113
+    },
+    "dart-inputs/lib/features/status/account_legal_screens.dart": {
+      "sha256": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+      "size": 12790
+    },
+    "dart-inputs/lib/features/status/production_state_screens.dart": {
+      "sha256": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54",
+      "size": 116
+    },
+    "dart-inputs/lib/features/status/connection_recovery_screens.dart": {
+      "sha256": "f3651a8fe3e9ed02da33df1c90a6a99310d19ed72afaee6b4237d92ba9e1174b",
+      "size": 8096
+    },
+    "dart-inputs/lib/features/status/native_permission_sheets.dart": {
+      "sha256": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+      "size": 9432
+    },
+    "dart-inputs/lib/features/profile/profile_edit_screen.dart": {
+      "sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+      "size": 13512
+    },
+    "dart-inputs/lib/features/profile/profile_edit_widgets.dart": {
+      "sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+      "size": 9884
+    },
+    "dart-inputs/lib/features/profile/member_profile_gate.dart": {
+      "sha256": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+      "size": 783
+    },
+    "dart-inputs/lib/features/collections/group_invitation_transport.dart": {
+      "sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+      "size": 4015
+    },
+    "dart-inputs/lib/features/collections/group_profile_form_controls.dart": {
+      "sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+      "size": 7926
+    },
+    "dart-inputs/lib/features/collections/group_link_screen.dart": {
+      "sha256": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+      "size": 11402
+    },
+    "dart-inputs/lib/features/collections/group_profile_media.dart": {
+      "sha256": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d",
+      "size": 5303
+    },
+    "dart-inputs/lib/features/collections/collection_detail_screen.dart": {
+      "sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+      "size": 7816
+    },
+    "dart-inputs/lib/features/collections/collections_screen.dart": {
+      "sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+      "size": 11651
+    },
+    "dart-inputs/lib/features/collections/group_qr_scanner_screen.dart": {
+      "sha256": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0",
+      "size": 17300
+    },
+    "dart-inputs/lib/features/collections/collection_create_widgets.dart": {
+      "sha256": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+      "size": 8686
+    },
+    "dart-inputs/lib/features/collections/group_creation_platform.dart": {
+      "sha256": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+      "size": 2597
+    },
+    "dart-inputs/lib/features/collections/group_profile_screen.dart": {
+      "sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+      "size": 10288
+    },
+    "dart-inputs/lib/features/collections/share_screen.dart": {
+      "sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+      "size": 20041
+    },
+    "dart-inputs/lib/features/collections/group_share_service.dart": {
+      "sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+      "size": 4576
+    },
+    "dart-inputs/lib/features/collections/group_empty_state.dart": {
+      "sha256": "b10f4238ac48551c5a621c59986ad7d785d8ea56033f6b5c74e6e59aa436e83b",
+      "size": 2676
+    },
+    "dart-inputs/lib/features/collections/collection_detail_timeline.dart": {
+      "sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+      "size": 4519
+    },
+    "dart-inputs/lib/features/collections/collection_create_screen.dart": {
+      "sha256": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+      "size": 11390
+    },
+    "dart-inputs/lib/features/collections/collection_manage_screen.dart": {
+      "sha256": "3ff8b19c88b6f1ca0d8308bfb520da930c5e6543f93391aee73af9b7c5592b57",
+      "size": 15486
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_screen_widgets.dart": {
+      "sha256": "298a82ba484c00576fabb0dd417dd9bcf83a5e7eeb9ca6ece4df3c76fe04e013",
+      "size": 388
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_action_dock.dart": {
+      "sha256": "a1262896d83c63944ba67e6faf4b45cb3cad7e7c945318bf1b138fd408a4adab",
+      "size": 6541
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_input_panel.dart": {
+      "sha256": "92248ae71bb0f498c03652a4faac289b730dd8d233f04577e182bc04f26f7ed4",
+      "size": 7908
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": {
+      "sha256": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+      "size": 4008
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_otp_entry.dart": {
+      "sha256": "1d155f07ca839a62cdf28faa1263545b7cf03e363686d4c3980ec2604cd41d26",
+      "size": 2466
+    },
+    "dart-inputs/lib/features/auth/widgets/auth_identity_header.dart": {
+      "sha256": "1d1db05f8df2ca89f7057cd1cd45ee4946d9f49543a9efb7cd61a8bd3b55567f",
+      "size": 2463
+    },
+    "dart-inputs/lib/admin/core/admin_exception_page.dart": {
+      "sha256": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015",
+      "size": 30535
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_worker_transport_models.dart": {
+      "sha256": "e6e2118d59cb0e8e694c0164577bd779a5415842f80a776f3e33da8ce65f3d15",
+      "size": 15478
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_runtime.dart": {
+      "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956",
+      "size": 3131
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_card.dart": {
+      "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f",
+      "size": 24268
+    },
+    "dart-inputs/lib/admin/core/admin_roster_checkpoint.dart": {
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb",
+      "size": 3781
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_deferral_models.dart": {
+      "sha256": "de0973a727b0c56cba30fe25a8e5ed209f795b4fbd2ef8ff3f9defd2f29004e9",
+      "size": 6250
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_worker_transport_card.dart": {
+      "sha256": "46025a42090c4749978ae267ff489e2c81d0fe875b90f0defea8ed693460bec5",
+      "size": 9458
+    },
+    "dart-inputs/lib/admin/core/admin_exception_checkpoint.dart": {
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e",
+      "size": 1975
+    },
+    "dart-inputs/lib/admin/core/admin_operation_tables.dart": {
+      "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78",
+      "size": 27052
+    },
+    "dart-inputs/lib/admin/core/admin_detail_formatters.dart": {
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+      "size": 4684
+    },
+    "dart-inputs/lib/admin/core/admin_operational_health.dart": {
+      "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+      "size": 16347
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_checkpoint_stub.dart": {
+      "sha256": "ca9263e4b17ee9f53c2a3d73b2e4e71331ebe1cff52e890782820f7077bbf12d",
+      "size": 142
+    },
+    "dart-inputs/lib/admin/core/admin_automatic_gateway_runtime.dart": {
+      "sha256": "c83452da32a8057ce733035317f0a73a951bd20287ccb6c83df3225b6d5f7ef0",
+      "size": 2858
+    },
+    "dart-inputs/lib/admin/core/admin_exception_runtime.dart": {
+      "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2",
+      "size": 4007
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_checkpoint_stub.dart": {
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06",
+      "size": 110
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_overview.dart": {
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7",
+      "size": 4951
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_checkpoint_web.dart": {
+      "sha256": "1ea1e78acf6554208019cd69fb2a3a66559e6816d0d0e29eddc45a4e76f6bfb3",
+      "size": 7560
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_runtime.dart": {
+      "sha256": "7dc0858a4443f8dd700028b5a49f0e06b18de402b7e788fefb0ab471dd015fac",
+      "size": 5467
+    },
+    "dart-inputs/lib/admin/core/admin_sms_queue_health.dart": {
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578",
+      "size": 2639
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_contracts.dart": {
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310",
+      "size": 8356
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_deferral_card.dart": {
+      "sha256": "71bcf9f8d4e1679a1ada67077a5981f3c5cf8c4aae9bf0bac1498ddcacc538d2",
+      "size": 7930
+    },
+    "dart-inputs/lib/admin/core/admin_operating_policy_models.dart": {
+      "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1",
+      "size": 7317
+    },
+    "dart-inputs/lib/admin/core/admin_login_runtime.dart": {
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd",
+      "size": 23457
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_checkpoint.dart": {
+      "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f",
+      "size": 3915
+    },
+    "dart-inputs/lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a",
+      "size": 116
+    },
+    "dart-inputs/lib/admin/core/admin_reconciliation_models.dart": {
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6",
+      "size": 1919
+    },
+    "dart-inputs/lib/admin/core/admin_roster_import.dart": {
+      "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b",
+      "size": 37855
+    },
+    "dart-inputs/lib/admin/core/admin_automatic_gateway_models.dart": {
+      "sha256": "4d5c6d0d478a9b7fdebc29fbae0cb3891243ee8c1021e75143cc1e9ddc536c88",
+      "size": 19149
+    },
+    "dart-inputs/lib/admin/core/admin_operator_approval.dart": {
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f",
+      "size": 4827
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_card.dart": {
+      "sha256": "454454ef0f25875d39d0bf90a85ca6eebf21b12eb938adfec8e110049cb5bfab",
+      "size": 23603
+    },
+    "dart-inputs/lib/admin/core/admin_exception_escalation_inbox_v2_models.dart": {
+      "sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4",
+      "size": 5948
+    },
+    "dart-inputs/lib/admin/core/admin_investigation_view.dart": {
+      "sha256": "31c06dc7df0ec4a2758e29cb2b7318a3c86d876113497803eb3a69f347805f8b",
+      "size": 22943
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_runtime.dart": {
+      "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2",
+      "size": 3400
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_checkpoint.dart": {
+      "sha256": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559",
+      "size": 4915
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_models.dart": {
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7",
+      "size": 10561
+    },
+    "dart-inputs/lib/admin/core/admin_display_formatters.dart": {
+      "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829",
+      "size": 1997
+    },
+    "dart-inputs/lib/admin/core/admin_roster_models.dart": {
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9",
+      "size": 34778
+    },
+    "dart-inputs/lib/admin/core/admin_error_boundary.dart": {
+      "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f",
+      "size": 3125
+    },
+    "dart-inputs/lib/admin/core/admin_exception_history_runtime.dart": {
+      "sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a",
+      "size": 14050
+    },
+    "dart-inputs/lib/admin/core/admin_evidence_mode.dart": {
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+      "size": 22003
+    },
+    "dart-inputs/lib/admin/core/admin_platform_access.dart": {
+      "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c",
+      "size": 17093
+    },
+    "dart-inputs/lib/admin/core/roster_file_parser.dart": {
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b",
+      "size": 3081
+    },
+    "dart-inputs/lib/admin/core/admin_runtime.dart": {
+      "sha256": "702fbdf480b9b5d0745d60a761dbedec2b3a367ce8548674ddc85c962b7574aa",
+      "size": 38126
+    },
+    "dart-inputs/lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765",
+      "size": 20645
+    },
+    "dart-inputs/lib/admin/core/admin_reconciliation_runtime.dart": {
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667",
+      "size": 38720
+    },
+    "dart-inputs/lib/admin/core/admin_exception_repository.dart": {
+      "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a",
+      "size": 5043
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_models.dart": {
+      "sha256": "4818c5ae498c49c191718c3fdd93d25aa3e299d312b99889d1412883d0374ac4",
+      "size": 33878
+    },
+    "dart-inputs/lib/admin/core/admin_reconciliation_step_up.dart": {
+      "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02",
+      "size": 10303
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_models.dart": {
+      "sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842",
+      "size": 24662
+    },
+    "dart-inputs/lib/admin/core/admin_shadow_runs.dart": {
+      "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af",
+      "size": 27159
+    },
+    "dart-inputs/lib/admin/core/admin_investigation.dart": {
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b",
+      "size": 18098
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_checkpoint_web.dart": {
+      "sha256": "d2fba1d070551cc36c7a3481c224b1979798af04cf9774a52f778932d58fa22d",
+      "size": 6539
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_page.dart": {
+      "sha256": "e7436487b84d88a459e4264f9d79ca6b83fdc7ea7da926dd21c7d5bbafda3c98",
+      "size": 35750
+    },
+    "dart-inputs/lib/admin/core/admin_group_runtime.dart": {
+      "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd",
+      "size": 13183
+    },
+    "dart-inputs/lib/admin/core/admin_list_specs.dart": {
+      "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183",
+      "size": 22187
+    },
+    "dart-inputs/lib/admin/core/admin_exception_models.dart": {
+      "sha256": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5",
+      "size": 16432
+    },
+    "dart-inputs/lib/admin/core/admin_exception_history_v2_models.dart": {
+      "sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c",
+      "size": 11287
+    },
+    "dart-inputs/lib/admin/core/admin_models.dart": {
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+      "size": 10471
+    },
+    "dart-inputs/lib/admin/core/admin_roster_upload.dart": {
+      "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636",
+      "size": 4714
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_checkpoint.dart": {
+      "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867",
+      "size": 1718
+    },
+    "dart-inputs/lib/admin/core/admin_review_credentials.dart": {
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362",
+      "size": 168
+    },
+    "dart-inputs/lib/admin/core/admin_action_contracts.dart": {
+      "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253",
+      "size": 7442
+    },
+    "dart-inputs/lib/admin/core/admin_roster_gateway.dart": {
+      "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183",
+      "size": 14265
+    },
+    "dart-inputs/lib/admin/core/admin_overview_components.dart": {
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa",
+      "size": 28760
+    },
+    "dart-inputs/lib/admin/core/admin_transaction_lifecycle.dart": {
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d",
+      "size": 3481
+    },
+    "dart-inputs/lib/admin/core/admin_automations_page.dart": {
+      "sha256": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31",
+      "size": 17373
+    },
+    "dart-inputs/lib/admin/core/admin_detail_specs.dart": {
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea",
+      "size": 12015
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_runtime.dart": {
+      "sha256": "124e112193b966da34f478375fe16ca216678b3dfcbd83e93fc769222ce44a40",
+      "size": 4497
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_checkpoint.dart": {
+      "sha256": "32ab3b64e5115d836c9f96c443923e4f519123a8a00636e2d95eb9ad62522f04",
+      "size": 3578
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_checkpoint_web.dart": {
+      "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3",
+      "size": 971
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_checkpoint_web.dart": {
+      "sha256": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b",
+      "size": 3589
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_runtime.dart": {
+      "sha256": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3",
+      "size": 10570
+    },
+    "dart-inputs/lib/admin/core/admin_roster_checkpoint_stub.dart": {
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db",
+      "size": 98
+    },
+    "dart-inputs/lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+      "size": 986
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_dialogs.dart": {
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e",
+      "size": 4489
+    },
+    "dart-inputs/lib/admin/core/admin_repository_base.dart": {
+      "sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+      "size": 9597
+    },
+    "dart-inputs/lib/admin/core/admin_exception_assignment_dialog.dart": {
+      "sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b",
+      "size": 11552
+    },
+    "dart-inputs/lib/admin/core/admin_operating_policy_card.dart": {
+      "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e",
+      "size": 5521
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_worker_health.dart": {
+      "sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019",
+      "size": 7121
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_checkpoint_web.dart": {
+      "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd",
+      "size": 1007
+    },
+    "dart-inputs/lib/admin/core/admin_entity_audit.dart": {
+      "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335",
+      "size": 10999
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_controller.dart": {
+      "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9",
+      "size": 7708
+    },
+    "dart-inputs/lib/admin/core/roster_xlsx_preflight.dart": {
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757",
+      "size": 26641
+    },
+    "dart-inputs/lib/admin/core/admin_roster_checkpoint_web.dart": {
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59",
+      "size": 683
+    },
+    "dart-inputs/lib/admin/core/admin_entity_audit_link.dart": {
+      "sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf",
+      "size": 1216
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_models.dart": {
+      "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2",
+      "size": 13697
+    },
+    "dart-inputs/lib/admin/core/admin_operating_policy_runtime.dart": {
+      "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10",
+      "size": 1599
+    },
+    "dart-inputs/lib/admin/core/admin_overview_runtime.dart": {
+      "sha256": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+      "size": 34860
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_worker_card.dart": {
+      "sha256": "e9c6279fab3606dfcaaba2c189ac24f9cbae6878d434d9ffc3fa62d80ddbda82",
+      "size": 7275
+    },
+    "dart-inputs/lib/admin/core/admin_email_otp.dart": {
+      "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7",
+      "size": 1316
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_checkpoint_stub.dart": {
+      "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d",
+      "size": 122
+    },
+    "dart-inputs/lib/admin/core/admin_gateway_models.dart": {
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f",
+      "size": 13628
+    },
+    "dart-inputs/lib/admin/core/admin_detail_runtime.dart": {
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a",
+      "size": 38218
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_card.dart": {
+      "sha256": "0fb788576b006d56e06dee7a1a0c6389806045bfc6fc347df70621ee74cc39ab",
+      "size": 19154
+    },
+    "dart-inputs/lib/admin/core/admin_exception_workflow_models.dart": {
+      "sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+      "size": 20490
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_repository.dart": {
+      "sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "size": 6423
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_principal_controller.dart": {
+      "sha256": "a826594bd27bf4c95d75560f9945e82ceecef927714c574138693b9bcd58d52d",
+      "size": 11526
+    },
+    "dart-inputs/lib/admin/core/admin_auth_guard.dart": {
+      "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c",
+      "size": 6190
+    },
+    "dart-inputs/lib/admin/core/admin_automatic_gateway_view.dart": {
+      "sha256": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+      "size": 17174
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart": {
+      "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5",
+      "size": 129
+    },
+    "dart-inputs/lib/admin/core/admin_list_paging.dart": {
+      "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833",
+      "size": 3686
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_page.dart": {
+      "sha256": "0aef2c593e7cf0f7c997984de39cdd71700391a024115b543a0988377ece049e",
+      "size": 32699
+    },
+    "dart-inputs/lib/admin/core/admin_read_contracts.dart": {
+      "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+      "size": 14844
+    },
+    "dart-inputs/lib/admin/core/admin_receipt_operations_checkpoint_stub.dart": {
+      "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc",
+      "size": 141
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_registry.dart": {
+      "sha256": "5a98c681af31e70bfaf8a846dfaf5753d0da6cbfef3e7b541f1783d31bdf6777",
+      "size": 11084
+    },
+    "dart-inputs/lib/admin/core/admin_roster_dialog.dart": {
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8",
+      "size": 27073
+    },
+    "dart-inputs/lib/admin/core/admin_entity_audit_page.dart": {
+      "sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+      "size": 13859
+    },
+    "dart-inputs/lib/admin/core/admin_operation_components.dart": {
+      "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c",
+      "size": 21731
+    },
+    "dart-inputs/lib/admin/core/admin_entity_audit_runtime.dart": {
+      "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b",
+      "size": 1697
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_sdk.dart": {
+      "sha256": "0672699dcdd85ccbc08d23cc9e106c32f154f0ad5b08b08bf7eda5580f30b9bd",
+      "size": 5063
+    },
+    "dart-inputs/lib/admin/core/admin_payee_runtime.dart": {
+      "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f",
+      "size": 13134
+    },
+    "dart-inputs/lib/admin/core/admin_exception_workflow_card.dart": {
+      "sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116",
+      "size": 41091
+    },
+    "dart-inputs/lib/admin/core/admin_governed_settings_checkpoint.dart": {
+      "sha256": "344a626b8c13f092ad1d571cee0cc22adf295502a12ffd82e7ca3b10053751a7",
+      "size": 782
+    },
+    "dart-inputs/lib/admin/core/admin_list_runtime.dart": {
+      "sha256": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921",
+      "size": 31085
+    },
+    "dart-inputs/lib/admin/shared/components/admin_sensitive_data_gate.dart": {
+      "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183",
+      "size": 4105
+    },
+    "dart-inputs/lib/admin/shared/components/admin_data_table.dart": {
+      "sha256": "3bc96731fea31559cb74eb95d5c42eb0021ce2db29654e37846b159328ecbe56",
+      "size": 20611
+    },
+    "dart-inputs/lib/admin/shared/components/admin_confirm_dialog.dart": {
+      "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f",
+      "size": 3792
+    },
+    "dart-inputs/lib/admin/shared/components/admin_loading_state.dart": {
+      "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f",
+      "size": 600
+    },
+    "dart-inputs/lib/admin/shared/components/admin_empty_state.dart": {
+      "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265",
+      "size": 2131
+    },
+    "dart-inputs/lib/admin/shared/components/admin_status_chip.dart": {
+      "sha256": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f",
+      "size": 6670
+    },
+    "dart-inputs/lib/admin/shared/components/admin_page.dart": {
+      "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534",
+      "size": 4596
+    },
+    "dart-inputs/lib/admin/shared/components/admin_filter_bar.dart": {
+      "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425",
+      "size": 7945
+    },
+    "dart-inputs/lib/shared/providers/collect_app_state.dart": {
+      "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+      "size": 12586
+    },
+    "dart-inputs/lib/shared/utils/support_contact.dart": {
+      "sha256": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e",
+      "size": 692
+    },
+    "dart-inputs/lib/shared/utils/collect_share_links.dart": {
+      "sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+      "size": 796
+    },
+    "dart-inputs/lib/shared/utils/collect_share_origin.dart": {
+      "sha256": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428",
+      "size": 502
+    },
+    "dart-inputs/lib/shared/utils/collect_haptics.dart": {
+      "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+      "size": 365
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_notification_actions.dart": {
+      "sha256": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+      "size": 11648
+    },
+    "dart-inputs/lib/shared/repositories/collect_offline_cache.dart": {
+      "sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+      "size": 20079
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_history.dart": {
+      "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+      "size": 4720
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_live_reader.dart": {
+      "sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "size": 10426
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_contribution_actions.dart": {
+      "sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+      "size": 26521
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository.dart": {
+      "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+      "size": 38608
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_group_actions.dart": {
+      "sha256": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+      "size": 17657
+    },
+    "dart-inputs/lib/shared/repositories/collect_invitation_protection.dart": {
+      "sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+      "size": 2853
+    },
+    "dart-inputs/lib/shared/repositories/pending_shared_group_intent_store.dart": {
+      "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+      "size": 9185
+    },
+    "dart-inputs/lib/shared/repositories/runtime_control_contract.dart": {
+      "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "size": 3678
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_helpers.dart": {
+      "sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+      "size": 1087
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_state.dart": {
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+      "size": 4188
+    },
+    "dart-inputs/lib/shared/repositories/collect_repository_providers.dart": {
+      "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+      "size": 7665
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_weddings.dart": {
+      "sha256": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91",
+      "size": 3646
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_education.dart": {
+      "sha256": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc",
+      "size": 2687
+    },
+    "dart-inputs/lib/shared/models/collect_payment_json.dart": {
+      "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "size": 2193
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_community_projects.dart": {
+      "sha256": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153",
+      "size": 2749
+    },
+    "dart-inputs/lib/shared/models/collect_model_json_helpers.dart": {
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "size": 1332
+    },
+    "dart-inputs/lib/shared/models/collect_models.dart": {
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "size": 39421
+    },
+    "dart-inputs/lib/shared/models/collect_payment_models.dart": {
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "size": 7307
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog.dart": {
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+      "size": 1536
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_sport_culture.dart": {
+      "sha256": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689",
+      "size": 3889
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover.dart": {
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+      "size": 4633
+    },
+    "dart-inputs/lib/shared/models/collect_profile_country_rules.dart": {
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "size": 893
+    },
+    "dart-inputs/lib/shared/models/collect_summary_json.dart": {
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "size": 1961
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_family_solidarity.dart": {
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+      "size": 4138
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_faith_giving.dart": {
+      "sha256": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07",
+      "size": 4640
+    },
+    "dart-inputs/lib/shared/models/member_history_page.dart": {
+      "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "size": 10556
+    },
+    "dart-inputs/lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart": {
+      "sha256": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538",
+      "size": 5977
+    },
+    "dart-inputs/lib/shared/widgets/collect_feature_surfaces.dart": {
+      "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+      "size": 6498
+    },
+    "dart-inputs/lib/shared/widgets/collect_foundation.dart": {
+      "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+      "size": 18892
+    },
+    "dart-inputs/lib/shared/widgets/collect_financial_amount_entry.dart": {
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+      "size": 14083
+    },
+    "dart-inputs/lib/shared/widgets/collect_chrome.dart": {
+      "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+      "size": 624
+    },
+    "dart-inputs/lib/shared/widgets/collect_state_illustrations.dart": {
+      "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+      "size": 3298
+    },
+    "dart-inputs/lib/shared/widgets/collect_financial_components.dart": {
+      "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465",
+      "size": 771
+    },
+    "dart-inputs/lib/shared/widgets/collect_components.dart": {
+      "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+      "size": 1487
+    },
+    "dart-inputs/lib/shared/widgets/collect_tone_icon.dart": {
+      "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a",
+      "size": 1695
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_image.dart": {
+      "sha256": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+      "size": 1763
+    },
+    "dart-inputs/lib/shared/widgets/collect_top_chrome.dart": {
+      "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+      "size": 9407
+    },
+    "dart-inputs/lib/shared/widgets/collect_bento_actions.dart": {
+      "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6",
+      "size": 11061
+    },
+    "dart-inputs/lib/shared/widgets/collect_loading_surfaces.dart": {
+      "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+      "size": 19526
+    },
+    "dart-inputs/lib/shared/widgets/collect_inputs.dart": {
+      "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a",
+      "size": 5271
+    },
+    "dart-inputs/lib/shared/widgets/collect_display_primitives.dart": {
+      "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+      "size": 8515
+    },
+    "dart-inputs/lib/shared/widgets/collect_state_feedback.dart": {
+      "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48",
+      "size": 7939
+    },
+    "dart-inputs/lib/shared/widgets/collect_action_controls.dart": {
+      "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c",
+      "size": 7194
+    },
+    "dart-inputs/lib/shared/widgets/collect_financial_payments.dart": {
+      "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+      "size": 1617
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_card_metrics.dart": {
+      "sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+      "size": 5029
+    },
+    "dart-inputs/lib/shared/widgets/collect_history_footer.dart": {
+      "sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+      "size": 1417
+    },
+    "dart-inputs/lib/shared/widgets/collect_form_viewport.dart": {
+      "sha256": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04",
+      "size": 1910
+    },
+    "dart-inputs/lib/shared/widgets/collect_confirmation_sheet.dart": {
+      "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+      "size": 3727
+    },
+    "dart-inputs/lib/shared/widgets/collect_data_load_failure.dart": {
+      "sha256": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089",
+      "size": 829
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_card_media.dart": {
+      "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+      "size": 3752
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_cards.dart": {
+      "sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+      "size": 9574
+    },
+    "dart-inputs/lib/shared/widgets/collect_selection_controls.dart": {
+      "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5",
+      "size": 1575
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_photo_picker.dart": {
+      "sha256": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+      "size": 22034
+    },
+    "dart-inputs/lib/shared/widgets/collect_financial_money.dart": {
+      "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+      "size": 12649
+    },
+    "dart-inputs/lib/shared/widgets/collect_state_panels.dart": {
+      "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6",
+      "size": 641
+    },
+    "dart-inputs/lib/shared/widgets/collect_financial_ledger.dart": {
+      "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+      "size": 5148
+    },
+    "dart-inputs/lib/shared/widgets/collect_scaffold_chrome.dart": {
+      "sha256": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+      "size": 30301
+    },
+    "dart-inputs/lib/shared/widgets/collect_group_card_editorial.dart": {
+      "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+      "size": 7305
+    },
+    "dart-inputs/lib/shared/widgets/screen_scaffold.dart": {
+      "sha256": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+      "size": 1989
+    },
+    "dart-inputs/assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": {
+      "sha256": "34bead86f83806bb6a4bfab88457c69afe03cbcec65e53dab323455d56c25cf1",
+      "size": 23055
+    },
+    "dart-inputs/assets/marketing/SOURCE.json": {
+      "sha256": "1b4326a79526fe2fd96eeb9e2dc0dd0ca86c8fb03181bfb29510c055ac264756",
+      "size": 7254
+    },
+    "dart-inputs/assets/typefaces/AeonikPro-Medium.ttf": {
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+      "size": 159752
+    },
+    "dart-inputs/assets/typefaces/Inter-Variable.ttf": {
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "size": 876576
+    },
+    "dart-inputs/assets/typefaces/AeonikPro-Regular.ttf": {
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+      "size": 134268
+    },
+    "dart-inputs/assets/typefaces/OFL-Inter.txt": {
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+      "size": 4377
+    },
+    "dart-inputs/assets/group_covers/rwanda/README.md": {
+      "sha256": "876139730e170b590e25d862c2aa0adc9eebc8b671e96720470bbf5896ad2d41",
+      "size": 2702
+    },
+    "dart-inputs/assets/group_covers/rwanda/runtime-manifest.json": {
+      "sha256": "35a6aab429e853299e77168d4fd5898a9232cce12c7b4c1a7ae2140afa721e32",
+      "size": 37690
+    },
+    "dart-inputs/assets/group_covers/rwanda/catalog.v1.json": {
+      "sha256": "9a40ad95a58ddf3e47d47d95d61ce2a22e49e3fe3db94a4b3467fe88ff810b7d",
+      "size": 165918
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": {
+      "sha256": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63",
+      "size": 8668
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": {
+      "sha256": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8",
+      "size": 12852
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": {
+      "sha256": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de",
+      "size": 8782
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": {
+      "sha256": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4",
+      "size": 7082
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": {
+      "sha256": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b",
+      "size": 10896
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": {
+      "sha256": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa",
+      "size": 9740
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": {
+      "sha256": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843",
+      "size": 7944
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": {
+      "sha256": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9",
+      "size": 8956
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": {
+      "sha256": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6",
+      "size": 9474
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": {
+      "sha256": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619",
+      "size": 8522
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": {
+      "sha256": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4",
+      "size": 10680
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": {
+      "sha256": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58",
+      "size": 9004
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": {
+      "sha256": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67",
+      "size": 9166
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": {
+      "sha256": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72",
+      "size": 9408
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": {
+      "sha256": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff",
+      "size": 7146
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": {
+      "sha256": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4",
+      "size": 10434
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": {
+      "sha256": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695",
+      "size": 10960
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": {
+      "sha256": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854",
+      "size": 14456
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": {
+      "sha256": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1",
+      "size": 9256
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": {
+      "sha256": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347",
+      "size": 6796
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": {
+      "sha256": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41",
+      "size": 9132
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": {
+      "sha256": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e",
+      "size": 11900
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": {
+      "sha256": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4",
+      "size": 9740
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": {
+      "sha256": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316",
+      "size": 7966
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "sha256": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae",
+      "size": 11292
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": {
+      "sha256": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3",
+      "size": 13022
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": {
+      "sha256": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2",
+      "size": 9006
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": {
+      "sha256": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85",
+      "size": 8624
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": {
+      "sha256": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa",
+      "size": 13522
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": {
+      "sha256": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e",
+      "size": 9182
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": {
+      "sha256": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685",
+      "size": 12380
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": {
+      "sha256": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3",
+      "size": 9264
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": {
+      "sha256": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f",
+      "size": 11604
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": {
+      "sha256": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496",
+      "size": 9352
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": {
+      "sha256": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9",
+      "size": 10758
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "sha256": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
+      "size": 7628
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": {
+      "sha256": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75",
+      "size": 7750
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": {
+      "sha256": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a",
+      "size": 7454
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": {
+      "sha256": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319",
+      "size": 9336
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": {
+      "sha256": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f",
+      "size": 10590
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": {
+      "sha256": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2",
+      "size": 12170
+    },
+    "dart-inputs/assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": {
+      "sha256": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1",
+      "size": 9242
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": {
+      "sha256": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14",
+      "size": 69836
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": {
+      "sha256": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc",
+      "size": 128152
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": {
+      "sha256": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+      "size": 91120
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": {
+      "sha256": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89",
+      "size": 57468
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": {
+      "sha256": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725",
+      "size": 87056
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": {
+      "sha256": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf",
+      "size": 76306
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": {
+      "sha256": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89",
+      "size": 65894
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": {
+      "sha256": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3",
+      "size": 74162
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": {
+      "sha256": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa",
+      "size": 87730
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": {
+      "sha256": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7",
+      "size": 68962
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": {
+      "sha256": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8",
+      "size": 110940
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": {
+      "sha256": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a",
+      "size": 77186
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": {
+      "sha256": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0",
+      "size": 80510
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": {
+      "sha256": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799",
+      "size": 90216
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": {
+      "sha256": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd",
+      "size": 64730
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": {
+      "sha256": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676",
+      "size": 124558
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": {
+      "sha256": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c",
+      "size": 112830
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": {
+      "sha256": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9",
+      "size": 172526
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": {
+      "sha256": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e",
+      "size": 71940
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": {
+      "sha256": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23",
+      "size": 50120
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": {
+      "sha256": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949",
+      "size": 94484
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": {
+      "sha256": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891",
+      "size": 133052
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": {
+      "sha256": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22",
+      "size": 85336
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": {
+      "sha256": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a",
+      "size": 82244
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "sha256": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c",
+      "size": 103282
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": {
+      "sha256": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f",
+      "size": 151124
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": {
+      "sha256": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b",
+      "size": 92366
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": {
+      "sha256": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b",
+      "size": 92776
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": {
+      "sha256": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14",
+      "size": 141452
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": {
+      "sha256": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1",
+      "size": 109146
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": {
+      "sha256": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479",
+      "size": 105844
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": {
+      "sha256": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb",
+      "size": 84244
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": {
+      "sha256": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8",
+      "size": 104332
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": {
+      "sha256": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47",
+      "size": 117548
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": {
+      "sha256": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+      "size": 98740
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "sha256": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa",
+      "size": 77456
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": {
+      "sha256": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b",
+      "size": 85256
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": {
+      "sha256": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344",
+      "size": 51958
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": {
+      "sha256": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c",
+      "size": 125592
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": {
+      "sha256": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849",
+      "size": 110826
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": {
+      "sha256": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3",
+      "size": 160882
+    },
+    "dart-inputs/assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": {
+      "sha256": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b",
+      "size": 107440
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-37-away-match-travel-v1.png": {
+      "sha256": "7cac7d730701f186a8a7d6e560fb1b5027438213e6b413508e36c5e48eaf6de4",
+      "size": 2317690
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-43-church-congregation-v1.png": {
+      "sha256": "72fa01c1a74a48c0cf091a625bb7ae8984c67dc217c25bde159ae97a37f07fc1",
+      "size": 2269947
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-05-moto-riders-shared-goal-v1.png": {
+      "sha256": "b597cf3ee63e57bad4b69fa8ed774e106f356aecf1ece19ea725d49bdbbcd5b4",
+      "size": 2350576
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-42-gikundiro-v1.png": {
+      "sha256": "1b7022a1763291b2dbc447063d4492cae8c8c77d77b6b277155a19cee23ea198",
+      "size": 2117891
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-15-church-community-offering-v1.png": {
+      "sha256": "359023dd4521f2916d3b8f4b6c161e18def03fe370c643eb91c344258d06d348",
+      "size": 2130418
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-04-market-traders-stock-v1.png": {
+      "sha256": "b9e9557dc9e341c09120f82a63d553496c89823331761cc1f8768446fbb96327",
+      "size": 2563096
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-01-neighbourhood-ikimina-v1.png": {
+      "sha256": "3b5ffed81d4f95a9946323554e415618d89dd895cef972c0e834498613310e53",
+      "size": 2333809
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v1.png": {
+      "sha256": "c09ecffb62e7dad2477c59741614d89438b6e5c623a30cec19b9bf490c0f5a6e",
+      "size": 2367361
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-06-farmers-season-inputs-v1.png": {
+      "sha256": "944e8fdbc13cefa70f819353b2dc28e97d5c821b8fa44f45a37a103d89d64a19",
+      "size": 2413077
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-33-community-hall-improvement-v1.png": {
+      "sha256": "e5a085ccdfd5ad85acd15cd33187180d51c52131f5f03bad2edc66626c96652a",
+      "size": 2398443
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-12-wedding-reception-table-v2.png": {
+      "sha256": "00d58d57516534c825b2c1e136630296645dec34380240330925620d10466c2f",
+      "size": 2219927
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-23-health-cover-contribution-v1.png": {
+      "sha256": "424d197df5effd659dbf450b833c4bac19fbb05be505bb2a1cd8f005f333cc08",
+      "size": 2026748
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-09-wedding-committee-v2.png": {
+      "sha256": "2b8bbf2d1796bbf62324ebef8544baf673a0ab5360562154b187a16190d80e64",
+      "size": 2616339
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-18-muslim-community-giving-v1.png": {
+      "sha256": "054d0afeb2f93cf00406c095eab5d42fff0bb2e14496c3f82d563e20c1807450",
+      "size": 2185566
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-44-football-fans-matchday-v1.png": {
+      "sha256": "1ecf53a0258071d9df770ccb164a19c8c3b1455e4b80bf5102aa509431394da1",
+      "size": 2034232
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-09-wedding-committee-v1.png": {
+      "sha256": "a8c2561881794daa8bbecac34277bb6920ecd8296bd4c2aae6a55fbc23214fb2",
+      "size": 2714871
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-17-choir-shared-equipment-v1.png": {
+      "sha256": "ecb97fe567faec342cbb9c5bd9a2bb05508f79a67077645fff026541c2e03a15",
+      "size": 1991871
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-20-community-giving-parcels-v1.png": {
+      "sha256": "3850d6c40dbd823834967913d1c8add363cefb40ab48b370fbed8677e544f83e",
+      "size": 2152537
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v1.png": {
+      "sha256": "f7db1e6b5728ce9fe314210dd487425a5ff47830bf3287f4da2dc1bf4752697f",
+      "size": 2454794
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-35-football-fan-community-v1.png": {
+      "sha256": "913fb68d679553b8f90c83df8d6969934ca19e0c2e6d31f2bd219ab4d44ab3c7",
+      "size": 2126780
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-02-women-savings-circle-v1.png": {
+      "sha256": "26f5ab2ef664a526a94f38d2f3e379f1d414f10d90da547e742f75bf52fe204d",
+      "size": 2611189
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-41-buri-munsi-v1.png": {
+      "sha256": "d98bdf35e429adea9cf45e93f9eb27df9427fe93e0af49f7120b5208ceacfc08",
+      "size": 2493286
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-30-youth-skills-training-v1.png": {
+      "sha256": "40118eccb02864e4016b93385bdbf5207bb75b7912fb9cdb2f65bccc8cfa2f97",
+      "size": 2167810
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-03-young-professionals-goal-v1.png": {
+      "sha256": "a6c20290602c8d054cf2175d6831e90e95c2402addbb6e2c85dee462e8e649fd",
+      "size": 2066976
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-10-gusaba-gukwa-gathering-v2.png": {
+      "sha256": "14d0bedd6e8df497465532d03293cdcf9ca4f049435042ac0ba187875f05804b",
+      "size": 2180440
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-22-medical-care-support-v1.png": {
+      "sha256": "2d95c4273bead2c109c047f7711fed1af3bce9ed46a39b56fb982d6ab317d32d",
+      "size": 2262915
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-07-family-home-goal-v1.png": {
+      "sha256": "df52e7bf64e88558bcfbf1e27c76c13d433e059fe65d6fea37e2e7cd7f49482d",
+      "size": 2251480
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-19-ramadan-community-meal-v1.png": {
+      "sha256": "f31a33a8b93ea514a55a99af3ef97aeb7557dd18673b7dc991a4a420bf9ae759",
+      "size": 2117213
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-27-school-supplies-v1.png": {
+      "sha256": "044e3c98ed6eb28a563f94336f6752f7ab8ca229df2358e4600cf13fea2e6178",
+      "size": 2216900
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-29-higher-study-support-v1.png": {
+      "sha256": "c0ae00edca3948dd9b7f8b1de30e0a83aecd887aff0ccaf3b38ae6dddbca8ed3",
+      "size": 2073690
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-36-local-team-equipment-v1.png": {
+      "sha256": "d73c382c94d5bf441e6bb1cbefe8a009a40a26e23aedaa07c6455a7ccdbc4b31",
+      "size": 2260399
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-25-family-everyday-support-v1.png": {
+      "sha256": "bf2fdb281b62c32d80d2d5afb5f8966adecb3303b5b24aa4b5712b7be6b5b03c",
+      "size": 1991370
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-32-shared-water-point-v1.png": {
+      "sha256": "0b2103f200a5f8a51a2d1efc329a904be20b4eb954aab1b1a954186198ecd8cc",
+      "size": 2733099
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v1.png": {
+      "sha256": "e95a29a7f7c22152772ce1a2fdf742f490832006314f767ca3188327737d6544",
+      "size": 2032022
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v1.png": {
+      "sha256": "7672cb001ef02e403c8da1d5ee8720e0e3304b99e5191a1cc95178f7aef2743e",
+      "size": 2140856
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png": {
+      "sha256": "60f40dac9c130a8276d29de9593c5691afd29aefed4d6e10dac6da8ebc1f7ce4",
+      "size": 2580289
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-08-craft-cooperative-tools-v1.png": {
+      "sha256": "ba8d3bc39c024dc4cb2295e42a7faaf75e74b85fb28ea11e8e313943e6d9fe17",
+      "size": 2032733
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-16-church-building-project-v1.png": {
+      "sha256": "b95eb3bc3cd2f5f6b192223ab109bf1329ae46b5f4c3fedbe051419080a1f8a2",
+      "size": 2501000
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-26-welcoming-new-baby-v1.png": {
+      "sha256": "38db7f8f6a2ebaf70b5e435d0827c07bc8a8c1c8e61621ef95c68394007373cf",
+      "size": 1969347
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-13-new-home-wedding-gift-v2.png": {
+      "sha256": "6b414166e3685b7e26ee1f37fad4a106e60ca218639e39ffdcf07ff3112e9a8b",
+      "size": 2199088
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-11-wedding-attire-preparation-v2.png": {
+      "sha256": "c5c9757639a49edd9d77cc8a7f00ee5aaee065dc6dd8903237829e95222daad0",
+      "size": 1973693
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-14-wedding-day-family-v2.png": {
+      "sha256": "887f00b78b82a8e349a1a827b64392a40b313008d5d1d06424170aca33af89ff",
+      "size": 2360946
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-31-umuganda-project-tools-v1.png": {
+      "sha256": "fe091f4736e13b14ab868e884520a9585d04e0abde3b3d4266ae62e518e84c92",
+      "size": 2551193
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-28-school-meal-support-v1.png": {
+      "sha256": "24cda7b8aeb34d46c90b6d8773024d38c2dbfae933cbccfaf3ee91160dc6dddb",
+      "size": 2193700
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-21-bereavement-support-v1.png": {
+      "sha256": "cc961295152da174c785d695220d24879e2155e34f761a205997568b8ae4f597",
+      "size": 1912704
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-34-tree-planting-neighbours-v1.png": {
+      "sha256": "b372d9786c620198ad2ceac1fe2cc7232a3d13c32affa22744d69ca822696707",
+      "size": 2714009
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-38-cultural-troupe-rehearsal-v1.png": {
+      "sha256": "a5f9d0060a169b2e900a1efba5ee0e274229ebdaec8f4688eb1cad532b4700e5",
+      "size": 2106350
+    },
+    "dart-inputs/assets/group_covers/rwanda/source/rw-24-neighbours-recovery-support-v1.png": {
+      "sha256": "42d89a77f68215e468e8ea4702c3c6a48f71d2087cb6dc8eb2cf46dd4bac56d4",
+      "size": 2396159
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-28-school-meal-support-v1.json": {
+      "sha256": "9cb59d7cc9ba9a9ae5f9c6582c6f8f5d4dcfce42ab728077c58eb6fc75b197d2",
+      "size": 1386
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-38-cultural-troupe-rehearsal-v1.json": {
+      "sha256": "001d9e7393daaebb773e5dabfb36ea1b2880fd059e85f506f807f66b965e2590",
+      "size": 1398
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-21-bereavement-support-v1.json": {
+      "sha256": "b831810fcfbd8c5202e01d850a8334e6f1e873850d494209e49538c4407e7b5b",
+      "size": 1386
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-05-moto-riders-shared-goal-v1.json": {
+      "sha256": "b91bf67d56bf4730a108e0dc2ddcfba169030a982e1f97e646e12613f3cb89c2",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-32-shared-water-point-v1.json": {
+      "sha256": "d9f2999a1ba77cc27b853a5d29371cf22a5182b73c50a20f25cd8fe8e52febd7",
+      "size": 1384
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v2.json": {
+      "sha256": "9327aa423e15e3a23b3854e37c29a959ce642865aa1668b5e0a1c0cb0dc57f34",
+      "size": 1390
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-16-church-building-project-v1.json": {
+      "sha256": "7bd4cbbe9b8e4a3e8634f0aa7df60b0ceadce1be91519621061b0638bba5c8e9",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-14-wedding-day-family-v1.json": {
+      "sha256": "0e98e96aaa90d8dd42fc4fbed65910ba2ed3f82289efeef28b319cf607e6a2f2",
+      "size": 1384
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v1.json": {
+      "sha256": "27ea9c48450c161c3732f9725eb98c45d424a4e6277a952283be83c63668605f",
+      "size": 1400
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v2.json": {
+      "sha256": "b4a73c8c3c0283654777ec0da30bef6b818ca6b8af7abe3213bfdd3279aca718",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-18-muslim-community-giving-v1.json": {
+      "sha256": "1c5944ce91291d0c5914726e978ce4b36de0e4e1fc567ca8f3abf0e87cca0045",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-06-farmers-season-inputs-v1.json": {
+      "sha256": "9e2fb36ad4c953a39cd050d0bdcf8bfcff0281f837be52c5c39166431bdc11ba",
+      "size": 1390
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-01-neighbourhood-ikimina-v1.json": {
+      "sha256": "3b59e43188e3d68d0ecece3266d9d921c76038c014f9980f26f098d339896227",
+      "size": 1390
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-36-local-team-equipment-v1.json": {
+      "sha256": "699df83dc669bea952841db3665ae3f6c71d9f3005dc3144825840022b741796",
+      "size": 1388
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-02-women-savings-circle-v1.json": {
+      "sha256": "44308d67167afd5a771481dfef551c752cf48c13be501b6d26b74f8051091544",
+      "size": 1388
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-15-church-community-offering-v1.json": {
+      "sha256": "b5351dc9a90fe88329a96a16623d55a79e57b546430aa642d852b27789ee81ec",
+      "size": 1398
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-33-community-hall-improvement-v1.json": {
+      "sha256": "fa91a4ac5e02baa486a38e3cbbedb62d2a8f787d6010a88dfacae62627db7fa9",
+      "size": 1400
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-09-wedding-committee-v2.json": {
+      "sha256": "9d8d3073bfc013cf446b96b01130609b9eea7c0609d2c0f970193285bc8aab2e",
+      "size": 1382
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-07-family-home-goal-v1.json": {
+      "sha256": "4a6d692f79ded7a04f0cdee084745415cee4f4e60fc616f659dc15d1c2dbcec2",
+      "size": 1380
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-37-away-match-travel-v1.json": {
+      "sha256": "4bbf997e4c20257b3e02ec46d0a0f72ab2beba1e10f2f331027be60384ab6e02",
+      "size": 1382
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-19-ramadan-community-meal-v1.json": {
+      "sha256": "48b255644d7449c6f09d0646fded85e1ccd5bfa9d66dc6e7da69fc010e34766c",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-26-welcoming-new-baby-v1.json": {
+      "sha256": "f7753bea5399bde79291320ba2759b600036fe577e57c776e29193d0f09f7ece",
+      "size": 1384
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-34-tree-planting-neighbours-v1.json": {
+      "sha256": "a7c545914c5f1c3f7ca1d78b74c18a800e962bd55a4ae9d116e148ac6c93a92c",
+      "size": 1396
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-04-market-traders-stock-v1.json": {
+      "sha256": "e6efff0aa7e0d5b90a99771f1df12053711a848e6a4b69944c54a8b9da083947",
+      "size": 1388
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v2.json": {
+      "sha256": "a07dbf4d41dc7d0ca9d845756adbadb0ec4c2d0dbac305a153a5dbceb5efead4",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-43-church-congregation-v1.json": {
+      "sha256": "2c41c1a5965df08949047f028283d736b8cdda947a826959ecfc0586f2fa5627",
+      "size": 1386
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-22-medical-care-support-v1.json": {
+      "sha256": "2fd1450d411b3141eee37f4eea83ff7a16ee00354ce7d9b0b9017dcdaf635a2f",
+      "size": 1388
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-10-gusaba-gukwa-gathering-v1.json": {
+      "sha256": "39c08828f3bb4a715a8d84a3794ab91cdba59c696aba92694d4bfdf68f7e8f8e",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-31-umuganda-project-tools-v1.json": {
+      "sha256": "84a55a2a489d0e444103c426477e38cf98043f105b62dc2fecdb3896bc768b0b",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-24-neighbours-recovery-support-v1.json": {
+      "sha256": "7c25b8651d26918b9d649c165218a4befb77f4421787ac630129d0bb1bb3e16f",
+      "size": 1402
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-08-craft-cooperative-tools-v1.json": {
+      "sha256": "d9408692bca4b537afd8002a65a1876cb70711a770086b8d3c8aa0f461d4125c",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-27-school-supplies-v1.json": {
+      "sha256": "d54e37adf40a8e3e3e231f8f401edb160598689586088ec7ceb0c10cbe617b8c",
+      "size": 1378
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-09-wedding-committee-v1.json": {
+      "sha256": "abd2ae96729c714ec2e3641aefb94b575bfecfae52da74092b348f385a2b44e7",
+      "size": 1382
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-35-football-fan-community-v1.json": {
+      "sha256": "0b5882469cfc6de95d419e42e01032149e7d536f08ba110b22ee6b58f563d4b9",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-25-family-everyday-support-v1.json": {
+      "sha256": "a20d4e81fc9aea338abf216825cd009bc8c92b4dd38ecb187d5adaaed04160fd",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-44-football-fans-matchday-v1.json": {
+      "sha256": "d5f204d7409b9698e3fe723a94d13b2b2717b0dc45adbdb8949c14c4196c2493",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-17-choir-shared-equipment-v1.json": {
+      "sha256": "98d44de80ae62f22df4598393fa9c6b5987a1c2e08d286f58de849da4d039820",
+      "size": 1392
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-14-wedding-day-family-v2.json": {
+      "sha256": "591541002013ea97f904ff22ee13463adcaf164384ab366f164c8344a658c3d8",
+      "size": 1384
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-11-wedding-attire-preparation-v2.json": {
+      "sha256": "b43b06756d5422d1a2b28a8f6c383d76e8f0fc22d912df6341773d88ff75ad0f",
+      "size": 1400
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-30-youth-skills-training-v1.json": {
+      "sha256": "9d7a321ae9cefe909c70d4978eeb9ac10206806f4cebf89a756ff79a65456912",
+      "size": 1390
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-29-higher-study-support-v1.json": {
+      "sha256": "4e354031004f4434e989c78cbdc1c2be1e5aef6c3d4c5c2083b21da6aa5ea072",
+      "size": 1388
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-12-wedding-reception-table-v1.json": {
+      "sha256": "bc7557b9dfb0ab58c1771a61d9c7c9a77ed82cf2c4a5dc7319bf636dffee3185",
+      "size": 1394
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-41-buri-munsi-v1.json": {
+      "sha256": "63421b5281c4a4219703cca0ca943478f6e39bf5c677affe353e9883bacc8f57",
+      "size": 1368
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-03-young-professionals-goal-v1.json": {
+      "sha256": "c1d450d2da291a606a451626b10912a6577f5aabff2b60e77117924b03aa9b82",
+      "size": 1396
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-13-new-home-wedding-gift-v1.json": {
+      "sha256": "1064145c7393ac335725bb1b39c14e8f3521c24602ac953c20523ef48c513a49",
+      "size": 1390
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-20-community-giving-parcels-v1.json": {
+      "sha256": "55af861a3a695a398d41237e6b3e21f1dffb11e239df97a8c8c286f0b5987c4f",
+      "size": 1396
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-42-gikundiro-v1.json": {
+      "sha256": "fbdf1a3063f68f21c2600fd4bbeca909325a90e4a181c68bd089c5d90d4edb80",
+      "size": 1366
+    },
+    "dart-inputs/assets/group_covers/rwanda/production/rw-23-health-cover-contribution-v1.json": {
+      "sha256": "5f125f8a208302cb8db729a1f965e1900f7780783a3454649708d418c8d0a3fd",
+      "size": 1398
+    },
+    "dart-inputs/assets/brand/collect_runtime/app_icons/app-icon-rule.png": {
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+      "size": 103231
+    },
+    "dart-inputs/assets/marketing/rwanda/shared-goals.png": {
+      "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+      "size": 2159060
+    },
+    "dart-inputs/assets/marketing/rwanda/everyday-payments.png": {
+      "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+      "size": 1941761
+    },
+    "dart-inputs/assets/marketing/rwanda/PROMPTS_ADDITIONAL.json": {
+      "sha256": "656f8b3238bbaff135acfff9b176f8e3030531c9f636ee7e55884b6c712e0fe8",
+      "size": 3707
+    },
+    "dart-inputs/assets/marketing/rwanda/kigali-hills.png": {
+      "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+      "size": 1897870
+    },
+    "dart-inputs/assets/marketing/rwanda/PROMPTS.json": {
+      "sha256": "259621b70e42691b8851727cd68fd03afb8868ee6466d74e5d4cd9766702ccf1",
+      "size": 2213
+    },
+    "dart-inputs/assets/marketing/rwanda/banking-together.png": {
+      "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+      "size": 2166126
+    },
+    "dart-inputs/assets/marketing/rwanda/community-savings.png": {
+      "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+      "size": 2426242
+    },
+    "dart-inputs/assets/marketing/rwanda/kigali-woman-hero.png": {
+      "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+      "size": 668684
+    },
+    "artifacts/test-classes/META-INF/gateway_transfer_tests.kotlin_module": {
+      "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+      "size": 24
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$1$1.class": {
+      "sha256": "a448941b3db8aa6707bca4e0778883a327d828f51a3c241e73375c3e85412c87",
+      "size": 1768
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$3$1.class": {
+      "sha256": "a898638a36115f38bc4fff4e37ae148df91999ebabacec4413af23a8e55273e9",
+      "size": 1768
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$2$1.class": {
+      "sha256": "ceb5ba5919afebaafdbb39e042c62604f44a27a113292fef66a197054d2eec7a",
+      "size": 1783
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$2$1.class": {
+      "sha256": "aea8048df24feb6874d8f15ff35e025ddb41663b4386748ffa4b91819d852bdc",
+      "size": 1768
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$4$1.class": {
+      "sha256": "ccf35ee9e4fdb1573bc8ccfd24efacd2b926f011243308e8f8aa9d1fb70db50f",
+      "size": 1768
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$5$1.class": {
+      "sha256": "e44676a0a57c31cc0883aadcd3ee351c388b01a7f9993509d5f33779b6e63f19",
+      "size": 1768
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$1.class": {
+      "sha256": "a51144d0598a923dc30b44ce61b54c274a60f8b3e9cc9ce1d86292ace97ea2b8",
+      "size": 1779
+    },
+    "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest.class": {
+      "sha256": "16604a77dad09dfdefdafb452bf68a82a9db02fe2b72532eae4fd435964973e4",
+      "size": 33876
+    },
+    "artifacts/classes/META-INF/gateway_transfer.kotlin_module": {
+      "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+      "size": 24
+    },
+    "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class": {
+      "sha256": "68dad6a3950a70837b9bda012ef98a6db6cfbb07dbc63c6ecf9e32fa700db66d",
+      "size": 3685
+    },
+    "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class": {
+      "sha256": "d901f857f9027d4370d2ab661633f20cc41d6a2e9ee72e07ec000dcdeb3bb1b6",
+      "size": 2150
+    },
+    "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class": {
+      "sha256": "7f3df74644fb82e1e42bcf4e9b03e40b4bfb1a2a84383e3a6608ed474d3b0123",
+      "size": 19002
+    },
+    "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryPause.class": {
+      "sha256": "e0c847c976459afee47101ffc36b99af0c53cd7ab46466da54c0faf186660425",
+      "size": 4399
+    },
+    "artifacts/api-classes/META-INF/main.kotlin_module": {
+      "sha256": "625bb1c0503f2b79e1e998abbe68f83ed6c6103db23b486e3a30b822c8e36b61",
+      "size": 280
+    },
+    "artifacts/api-classes/app/cool/mobile/BuildConfig.class": {
+      "sha256": "46ef44ebd46c9306d3c28d8cad186ba30a6bd691739fd5250f0d7d8fa9f34dca",
+      "size": 778
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class": {
+      "sha256": "e08cd685de2ef027582666fd95769bb2d873480b66c18f4fb5fd56f8057e69e8",
+      "size": 3180
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+      "sha256": "5cb85c0f7742dabe453ea642bfb90c2a1f6f215884835123db66885e05ec4837",
+      "size": 11707
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+      "sha256": "804d01a4d6fa2940a6eb4dea9d6559d9ec5ce6689c768ea354a59dfeae165d46",
+      "size": 6371
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+      "sha256": "ca14850d0ee4c2a790f6b8d2f49b949f8e7482f596263b612adddd175bb86ff0",
+      "size": 41804
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class": {
+      "sha256": "ac6ac8b8b043092b738a5a9bff7afa26a402b5defc7a99e8828fcafce04a2792",
+      "size": 2380
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+      "sha256": "cf09ba3fc38eef36f870f65be9141b443e6c97fae4fbc46e2d69b57aff2b8be5",
+      "size": 2672
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge.class": {
+      "sha256": "3764b34eee1b450408fbb9269068cf8c45476daf2876b914d23b661d01ee373c",
+      "size": 27007
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+      "sha256": "d853e0a737f6bb2d9fb64fd8373111ab4cbf9ed04e54d5512abb1274b8b2b1ca",
+      "size": 2364
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+      "sha256": "7b36f0c96de2733d3df155ebd056033f01f01395be074d537d483730c0c8a13a",
+      "size": 3889
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class": {
+      "sha256": "9f2ecfce786dd16ffb829c9d72d82a0839dcfcab6fd84a78bc0be2d1dab3fd87",
+      "size": 915
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class": {
+      "sha256": "7c2f60ab42ca914e48dc35fa695f15eb3860b1647c0f5b23b8419b713113f7f9",
+      "size": 8374
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+      "sha256": "b0d5f09411f1ebeb2348507a6aa94efb8a033d1b236b044f12a4d4e6cf05b379",
+      "size": 4661
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Operation.class": {
+      "sha256": "39396436c175b962f435a7b93cee791dd4a65b3ec07ec283a551b8d85e3c8c25",
+      "size": 2267
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class": {
+      "sha256": "abe82089fdd68519da20123f19657441f396ae275ed9ef3a7c03da60d734889e",
+      "size": 3635
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+      "sha256": "163ef04cdaf529bac255ee3d496e91187e43bc6afcf1aea7a4b3ad70fb1326ee",
+      "size": 6184
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetention.class": {
+      "sha256": "1db90013398ca14022c8cb17093853627c27a5be70ed9d8f8efc16201cc222f7",
+      "size": 21838
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+      "sha256": "811eb63bbe33d47c3dc9abbf96b5dec43c55ec200255af7c13c815fe3a1ff75c",
+      "size": 1553
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+      "sha256": "364cec1fabef8965fafd3ef85ffa1cfc62c1a47ede5db01dca5c7f68745204ec",
+      "size": 2973
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+      "sha256": "75ff2f77e4784c65cf5aa3c8012282eac8aae3187f43f2f43f8574d1830d699f",
+      "size": 9852
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+      "sha256": "e9fcb14ffa5635b0bc796593a01a86b512117687a8e1fd1e1b99c515e7657e10",
+      "size": 1942
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+      "sha256": "eecd0f015af90dc297a715275b71b1097dba7569024b6bd26a1713987d2cd365",
+      "size": 2091
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class": {
+      "sha256": "e1e9b6cb11da842b48bc1c435cb76c9f4c8e4027c05c5dfe69fc64dd5187bdac",
+      "size": 4784
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+      "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+      "size": 1441
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class": {
+      "sha256": "ae744c4f31dddda3ada4ddd71f7ccb809044ee54b43f11116ff2ad609844c537",
+      "size": 1343
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class": {
+      "sha256": "7f87db62f5aa075a272f4b606d13f62654d6faa3b3af2a83f59035f98ce995e5",
+      "size": 1330
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+      "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+      "size": 1637
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+      "sha256": "818ab7a2ce370fae6d4b087d39cc77e48164192e4bb0b0e354ce06c35f9c1aba",
+      "size": 1159
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+      "sha256": "3f1204487f7b1295ac30647e2fe9a42331587ec7b5ebab11efa2423b92bbc7ba",
+      "size": 3627
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class": {
+      "sha256": "7daa086f8b43549b85028bee74ec036a037ceda634f9d22d7c04b4cfa20ed616",
+      "size": 1343
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class": {
+      "sha256": "09c90767f53a8e9869736b288b78b710418dd9924335a961422e620828333b4e",
+      "size": 2434
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+      "sha256": "5669ea917279c01bac034072f23ffa96bb3cf8ccdb0df77798bfdde71a4321dc",
+      "size": 17773
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayActivity.class": {
+      "sha256": "38a88ca32239377c2f89ab82bdf87d0188b469ce7df441207cd7bf30bc680c65",
+      "size": 3160
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+      "sha256": "f77129ca841840d485ddc72a10254c8abcd56a37731355aab72fce0a1f95fb8d",
+      "size": 4429
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class": {
+      "sha256": "2572f8876d425274fcabd5c815a5c317cdfaa3d9ac241672fc1d4d6df93f3809",
+      "size": 849
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecovery.class": {
+      "sha256": "8fce8c34f9b684e2d7245b0706585da005e5b9e6f2d7ebb4c6acf5a348b7fed0",
+      "size": 25566
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/CallbackKind.class": {
+      "sha256": "16282286f6edc96de47309b8e63dda0ab5e4ff5e2637cb7d2910200cb796a689",
+      "size": 1786
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+      "sha256": "423c07967e2754502615e9ddf25b21e24f999a9f339e9eb59bf0a1d676826174",
+      "size": 2854
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+      "sha256": "67d1579c78c519e2787f16738b85842d3c623139d1b1143ab338d3fec15537be",
+      "size": 3659
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+      "sha256": "efc0c3d253d9f4ef6ca793110ae49d4e165779175add283c7a5825492d4e87f1",
+      "size": 17798
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class": {
+      "sha256": "07dc1ece3fbead36a70800103f5b083c0ae0205f9b63fa7d4b41a9373176db1f",
+      "size": 2100
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class": {
+      "sha256": "2062dc1a730236e4038d843272806ae6c07f4a45fdc0776f6aec79baff649315",
+      "size": 5764
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class": {
+      "sha256": "8643c86e500ef2e40d45e8aa8d82d5691428639b3ed88a7a7d4a9f32ff10408c",
+      "size": 18976
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class": {
+      "sha256": "79cf1750c03b2b65fd48173dcaca152337a974c920ae1e3ca5eb74155ff3dff9",
+      "size": 10069
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class": {
+      "sha256": "76498beafdb61e31a5466b99022cb3763efc19cb5ac5136dd2c4d7e44788cced",
+      "size": 3284
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+      "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+      "size": 1441
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class": {
+      "sha256": "6e016d5741d93453b39d75399824b7262bd749308e546cbd085b701f636c3800",
+      "size": 3592
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class": {
+      "sha256": "25fab9c402f62351a3f079417a3135a71add1d914ff66050f93f7e131dbc7d0c",
+      "size": 1346
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCallback.class": {
+      "sha256": "93161a8f010f67a2a2b14341eb5af697e3ea0a164fe7024ef5421be3e78a5cea",
+      "size": 6046
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournal.class": {
+      "sha256": "b2e1f8c7d7e0dc63c8779fcb4fe559940725e178c7fcbda311185cf8aa13c1fc",
+      "size": 14309
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+      "sha256": "546f89a32860b43a62d2ddb1ef9931f7005a2fb6a7f43e5e1ede617d942d8001",
+      "size": 3193
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+      "sha256": "db2d8479b6295eba693cd622a4313823433d8e0f249c0c623ef2e8cfb5885d9d",
+      "size": 5918
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+      "sha256": "55678a526b644e71f29459a68dff0c6cd5a1e9b93231656912701dc4adf5f876",
+      "size": 1010
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+      "sha256": "295bad022dae782cf3429694bcba764c28fbcd6af4884d9eabedf16910b0dd1d",
+      "size": 10116
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+      "sha256": "54e93c3d9cbbbe1a1313caed5321a225628b22f17c764f8f84a4f70628ced407",
+      "size": 3586
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+      "sha256": "cbf2ee238c8094ec1a86680abd5c4ac22ccc69490b73c5ef46b6a804bdcb5a85",
+      "size": 1089
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+      "sha256": "7953e31393832fa2bae350599e5f702841395f543e0350633107157dc41ddc91",
+      "size": 3373
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryPause.class": {
+      "sha256": "2f9ae3ab732e8d3a3ca2a2822d3e0382387ec6274ee299c980ecd059d8c019c5",
+      "size": 4370
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+      "sha256": "b3e00399e36964a69dca6403a4f435926b9a9a5b2139b9db469a53a4b4cad183",
+      "size": 3547
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class": {
+      "sha256": "af3a1de76c4361bea3a08b348b5d6bf42a9708307c2aa299fd56d479665eb1b4",
+      "size": 1337
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+      "sha256": "1f6c25a2d32b4ac3a103588bf30ed12df630f4c8c07b608df9b0ced4849dcd35",
+      "size": 3194
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+      "sha256": "9845f8cb07bbc235cda8c64376446f25535ec4b761e9886a40f3e9f21e7ede64",
+      "size": 2392
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class": {
+      "sha256": "e5e2dad8d4cc1b17d058ff58990c3ab6cf986c2939791050b2b62db4d01cf499",
+      "size": 3388
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+      "sha256": "134fceb2036327c7f68f69e182f6bb6c6995493be1c4ee8b51a8b919bb7d5082",
+      "size": 20274
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class": {
+      "sha256": "0f61a8483d5e4391951d79fb0f3b40114e3e2c8fff9f81c8232e3ddebb2813f1",
+      "size": 1377
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+      "sha256": "ef56b1848d5b8aa9d14eb92d1fe98717de9b4920f337caeae04ce90c8c69f3eb",
+      "size": 5197
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class": {
+      "sha256": "b5f8262da164d397d000b71257c45e30662914a07b22e7899e4d73ac75feca58",
+      "size": 977
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+      "sha256": "7065af765178b44a0f16146c7e2b46fd82f131df23b41775a836b25594338f84",
+      "size": 100283
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class": {
+      "sha256": "2d66fab62f76173d25dabb9ae0bde5be5db57cfed01dbe63c3894728fe6e3a00",
+      "size": 1364
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+      "sha256": "8ff4e6039c9169e8ee1f76cd7e39bee5b7a0e31abf3fceaf21f30f280bdc5e2f",
+      "size": 5103
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+      "sha256": "6ef68f94303bda2525487342350a3f3e679b99bb7ab76d6d2ef31756f4a897d5",
+      "size": 2329
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+      "sha256": "0e14b57febcba12fd753c617b51c58ed0f6aa9105bd156606d86255d893519f3",
+      "size": 8019
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+      "sha256": "0beb3b26841c375dffbd61232878fecafb31cbb4143493935625141ec879ba6d",
+      "size": 9606
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+      "sha256": "39e9cb4cc48f7e8c642bedb83ee0afb461a41baa1625f0203083c74e89d65f24",
+      "size": 2505
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Companion.class": {
+      "sha256": "95f4e4f102158fac91492b7e7f24010845f0c9167ba4e6c0afb9b4d7fdc0f519",
+      "size": 884
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class": {
+      "sha256": "0f0031ac15bb9b37ea707865c824f4c03b55bc5eab8f2ead29184ee948c443f7",
+      "size": 8289
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+      "sha256": "2ca48ddb1601c2e134d9d79445557e7ce596a0b863693b225b096e52590d1d60",
+      "size": 2068
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+      "sha256": "545183e9bfcd34adde7353fe200afc2580a1adc209916e10d8be20477e766ebf",
+      "size": 6091
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayObservations.class": {
+      "sha256": "053aaa695f7096fce320d7756f864d7b32d78cc7fa9a10351dbfe0211ba31d85",
+      "size": 5529
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+      "sha256": "f3a27b42543ff3bf80b6f7a18cd9941a6748600c7ed1b5dd05500e4b5247269c",
+      "size": 6450
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class": {
+      "sha256": "92c001a34eb10ea9a1023742efb6e92118cd3e30de71cd2d751e2a0d265ebd1f",
+      "size": 2106
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+      "sha256": "444d88d8a349d31db6d4a9d69f377e6191007e2ca76c65f2b736e8c0f2867390",
+      "size": 1893
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackend.class": {
+      "sha256": "dbe0bb7b3df1f671acccc3366afc5d6c7090191785c0c2b4dcaa4abd02380555",
+      "size": 2493
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+      "sha256": "c0220a5df152d31412bd2e02bc7cc75323d2bb1f5c4d27df654ae96d4416fea0",
+      "size": 5658
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+      "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+      "size": 1465
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+      "sha256": "6c18458ef0c364bf3735e35072a25433f4da3cf1766282c716dc08593f5d80a4",
+      "size": 10217
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+      "sha256": "31fd1bcbfc1f123a9cffa2b4f8209f695d55aace4e9a60ae8257b0982826a27e",
+      "size": 13942
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class": {
+      "sha256": "b70db3020343648c3ef789b33524a4faeb6696a1a13d042e81e80effbc645e32",
+      "size": 3423
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+      "sha256": "a2c81e149a8fc2a8932597abc7c2d69168c1a973a5c595ba5f9415b39f8eddac",
+      "size": 4181
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class": {
+      "sha256": "e6eb34e6a1cdae305bef31b9f913c0d9c62d4a9051076796bac1131877c20c25",
+      "size": 4326
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+      "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+      "size": 1450
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+      "sha256": "687a71c01893237f2b8ff84497e75f25e28b7d9f05bd3f8acd77b8fae7fb1af7",
+      "size": 3027
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayStateException.class": {
+      "sha256": "273ed3e9e73bc34ae4fc23ba3c7778d4958ca05e97703ea1d2abfefc41adf689",
+      "size": 1120
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class": {
+      "sha256": "9a38c20386e0441373f285b9e5653c56588f18746d9982286c35c0b088611fad",
+      "size": 1371
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+      "sha256": "b10712e07a294e0f51dafda6769e746ce5399067338d972383b92355cab4327a",
+      "size": 3079
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class": {
+      "sha256": "28e9a39077f5ffadf178e2138990630b008272e67f81924e42460336b3039b6b",
+      "size": 5537
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class": {
+      "sha256": "bf0c892874c76e0a271a942c34eefd42973b0dbb7c80dd67721a98d449266856",
+      "size": 6819
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+      "sha256": "75a058213baba452f221bdd0393843d3adf4ebf4750a910167a41cde53b1e1eb",
+      "size": 1228
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+      "sha256": "284da6ee87bb57789f87625483ba8b3ebfc3fb310434cca9c41d1d335b078a2a",
+      "size": 4373
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class": {
+      "sha256": "87046511d2e8916b950b8b171f68c4d5a9b9a429b92c062f5234f555076fa3a0",
+      "size": 6454
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator.class": {
+      "sha256": "e6c6218db4c03a63be897eed5dcd070766dd9a8ac3810e37468e9dc9234ed66f",
+      "size": 27491
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class": {
+      "sha256": "515a5060998feb78ce3c1e86118919789d8880c0a72926fe25471378b302de9b",
+      "size": 1282
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+      "sha256": "224c6f895e06292eb885d4d89ad717641073a31fe2bad2755cfb23a2fb3d6fe2",
+      "size": 16189
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+      "sha256": "d3dacc67a72427c9e1dc962a4cb9b8e91d40a864ab5cf5b7438c51bae103b6b7",
+      "size": 1288
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class": {
+      "sha256": "43c8056e97e68d40312271fe12de5afd54c686eeefea9991d817ae2096c174eb",
+      "size": 3747
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+      "sha256": "a93add8b39cf21bcdc1da053bb1ad99492618933982d5c4e6c681db0a6ea81dc",
+      "size": 881
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+      "sha256": "1a0ceb164b94310bfbea985625aec411a4222fae64828a9bbe7d42f963c31726",
+      "size": 1708
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+      "sha256": "a99d2229b620337bc3fed032a474e1ce1312250074ea28f88840b9c1a67a1ea3",
+      "size": 870
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class": {
+      "sha256": "87670d77b4b41f8b7ab2882d77f19d355c84cf5b838e139fc2ee63661bb01036",
+      "size": 3295
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+      "sha256": "ddb2cf1e7e70746438e3afbda3efb3825aa6579df0d35b78acb90fe5cf81ab29",
+      "size": 6977
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class": {
+      "sha256": "c8779359d8ffc0ab3c5f54a5efc38d641ac13fb91199cd93d9b91bdfb9478d07",
+      "size": 18782
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+      "sha256": "44c885b6f794936cfa5c7ba6a3ef5603ea1ef072c55e1a527068fc82be6561f4",
+      "size": 1361
+    },
+    "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class": {
+      "sha256": "d2ace0a725ef724797dfc04556d7704f95469520ed3c0b2a9ce2c3d08781a806",
+      "size": 757
+    },
+    "source/test/gateway/gateway_recovery_test.dart": {
+      "sha256": "bf6cae6fbff220c8d017c253ff1a1e7f16357d909d27b7839571200eb3b81c48",
+      "size": 12419
+    },
+    "source/test/gateway/gateway_recovery_capture_test.dart": {
+      "sha256": "1df42d8d23071b87debf8d7145e37210b29a3bed3060cc2cc01077d347e58055",
+      "size": 2966
+    },
+    "source/android/app/src/internal_gateway/AndroidManifest.xml": {
+      "sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63",
+      "size": 2558
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt": {
+      "sha256": "92fb1e3d8759cce0e23f4e2bc7fec9187b7aba7080c9d169416fb6cffc3b0b9c",
+      "size": 15361
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236",
+      "size": 6348
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8",
+      "size": 4571
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "sha256": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093",
+      "size": 14406
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt": {
+      "sha256": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6",
+      "size": 15551
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt": {
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f",
+      "size": 3696
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": {
+      "sha256": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+      "size": 18454
+    },
+    "source/android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt": {
+      "sha256": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee",
+      "size": 16454
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": {
+      "sha256": "61551a4ceba0a7911260175c0810412e7f6da8cb943011450d909bbf957cdb8a",
+      "size": 17866
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRetentionMigrationTest.kt": {
+      "sha256": "26ff7700ac3d7ef451f0126ff4841e2e893a7562db91da16a582faaea43abdc2",
+      "size": 11384
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": {
+      "sha256": "73c648f4af466d7d78b03a7bb7a3ff08f5315b210d67427e0ccd74ad8119073a",
+      "size": 15412
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.kt": {
+      "sha256": "7995fae82e44ee805cc34f46c9fe2ddad207ed4c0ebbdff0477f2704250aa1cf",
+      "size": 8020
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt": {
+      "sha256": "8c2b7c76422547e507c432c015e7b65599a7f6f2a319b38f9c2bec9e0736c4b2",
+      "size": 13720
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt": {
+      "sha256": "29a1c5adf51da63f94909f49b196a8e8b2b476555520668a3b7d401d00a8a830",
+      "size": 9689
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt": {
+      "sha256": "2ef00317828578662c6e9e5b3aab7d26323cd0735aa0ad5d562b92adf5ddfb33",
+      "size": 16141
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransferTest.kt": {
+      "sha256": "b71574f87447eefc31d3ae26a8b2e715af8238d68b1d4d307c831ffce86fa484",
+      "size": 10851
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt": {
+      "sha256": "0c264f9f8dace9b126b0529b60f69c84c41281906bc5258a1965d4c80c5d2947",
+      "size": 20438
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt": {
+      "sha256": "3fabcaf022f8b98f0e2e1f290daef1788054def2fa1d3071d6e446fbfde2010e",
+      "size": 19024
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt": {
+      "sha256": "6a17533df754e0072d0be0c04182cf56828f748ad26e82f7e34fd9a3185fbb3b",
+      "size": 12743
+    },
+    "source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": {
+      "sha256": "8afd14874cbd2434a64a949d39991ded01dd96c8a6a1f0627ae737c2eea42ba6",
+      "size": 31955
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": {
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+      "size": 1596
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt": {
+      "sha256": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4",
+      "size": 1579
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "sha256": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+      "size": 27400
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveWire.kt": {
+      "sha256": "62addb08265838b74ebb892239c3c318105c0b47f31a7ecfc3d1622b9543c116",
+      "size": 5518
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+      "size": 1809
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "sha256": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+      "size": 12163
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransfer.kt": {
+      "sha256": "108b99822f3392359a7527e45baab45f78749eb1533cec2a50634da094b955d6",
+      "size": 6633
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt": {
+      "sha256": "84a51578060450b2b56827b9e60a4b71500ae7048f36b1ee68530685d5d98441",
+      "size": 17935
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+      "size": 4173
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": {
+      "sha256": "e6d91ee121752d90365749bb3f3053246035e55b40107fb2a16346e329c5125c",
+      "size": 25063
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt": {
+      "sha256": "4af73ad30e75041e13fa23bcf28df2b20b605cf526954bf604eeef2f1a13a660",
+      "size": 2327
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+      "size": 9456
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt": {
+      "sha256": "0b8b324a16fce099c981dca0581db0302550fe8ed213dcfdfb1d4e209dfd8c70",
+      "size": 4251
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "sha256": "7f85fa1b2abb949d1b0f8ec5f0b1b8f4399e555640c4019d53d8c170281aba96",
+      "size": 5826
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+      "size": 71348
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": {
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+      "size": 2482
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt": {
+      "sha256": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157",
+      "size": 6000
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": {
+      "sha256": "d0491fa8513c12e19d88d1274bb2343bfaa8d505b05f9f08ddc6ed37402677ff",
+      "size": 1430
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": {
+      "sha256": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+      "size": 11093
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryPause.kt": {
+      "sha256": "7edd33a1276819403d4a4f5c2c368f57a7bcf79943c1ce24ffceab3e53743e89",
+      "size": 1751
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryAdmission.kt": {
+      "sha256": "5ccc2dea20a95251269fabba9cda491022300de0b892379b9a001603b7d9fa56",
+      "size": 1646
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": {
+      "sha256": "929bf916059126e8bbad1997ec63a100b884a8bc4b3fb7795291d4be516124da",
+      "size": 12098
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt": {
+      "sha256": "3b3cbca7704f79f1e15868c3933b5723571de6ba5270de6decbc7657d07e99de",
+      "size": 10179
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": {
+      "sha256": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+      "size": 5459
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": {
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+      "size": 1898
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": {
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+      "size": 1809
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt": {
+      "sha256": "9ee512d6d99b5f3b5e41312719c142b51361d6000a314745cd180cbd444adfe0",
+      "size": 11405
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt": {
+      "sha256": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+      "size": 19666
+    },
+    "source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt": {
+      "sha256": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c",
+      "size": 9909
+    },
+    "source/scripts/tests/android_gateway_attempt_archive_jvm.py": {
+      "sha256": "3e566f880c07201a7d152e0aac1816eb1b39177d703775e5b9e7554f3a296a53",
+      "size": 15065
+    },
+    "source/lib/gateway/gateway_platform.dart": {
+      "sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4",
+      "size": 5865
+    },
+    "source/lib/gateway/gateway_recovery_page.dart": {
+      "sha256": "7f2895cfd173cab6f766db707c33199c8581b3b05ce0319f1932ae5de16e3087",
+      "size": 11807
+    },
+    "source/lib/gateway/gateway_recovery_platform.dart": {
+      "sha256": "1ab4512869b4b578fe3e4a1706f9126b9aef8405a192d411804220721d788a57",
+      "size": 5519
+    },
+    "source/lib/gateway/gateway_app.dart": {
+      "sha256": "a847a14f9a2f7e1387f091a1385f7245b9481bb0aa5417b9fe09633cb320cea3",
+      "size": 16760
+    },
+    "proofs/native-attempt-4/test-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/transfer-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/transfer-tests.stdout": {
+      "sha256": "1424d851d45186b722e8d75340a2f17840c62625e0c499b355eefb89eb52ef21",
+      "size": 2855
+    },
+    "proofs/native-attempt-4/transfer-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/transfer-tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/test-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/commands.json": {
+      "sha256": "2ed266009859636cd93027bffe2093abe48f73d4bb6933c4217f1e435bc98a76",
+      "size": 17629
+    },
+    "proofs/native-attempt-4/inputs.json": {
+      "sha256": "62126c967c04934a79556cf8d04e054f17556d65bfa74b92bac11d1cf7d067fe",
+      "size": 8340
+    },
+    "proofs/native-attempt-4/validation.json": {
+      "sha256": "ca68ec4e4c05957cdde1e8ff14531d8f3299b7d44f15b2e658c6025b279d2009",
+      "size": 31796
+    },
+    "proofs/native-attempt-4/android36-api.stderr": {
+      "sha256": "e1a4f60936b3cade956ebaaf7a0edfd50871b81fab4ab282b555a59381a3e66c",
+      "size": 5600
+    },
+    "proofs/native-attempt-4/android36-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/native-attempt-4/BuildConfig.kt": {
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9",
+      "size": 85
+    },
+    "proofs/dart-attempt-3/dependencies.json": {
+      "sha256": "46f804e73bd4e111c97a2757bd1d14cebe4ce8305b1d4b33286fc3918749c36b",
+      "size": 497791
+    },
+    "proofs/dart-attempt-3/widgets.stdout": {
+      "sha256": "911cb777e1eafd0658aea88181d22994b0a9eced4441163cf2175632f965e815",
+      "size": 10656
+    },
+    "proofs/dart-attempt-3/analysis.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/dart-attempt-3/analysis.stdout": {
+      "sha256": "6127d1f4a0b266c28f12f176d8b4166c630fd397bc910fe29dcedeecf58101d1",
+      "size": 97
+    },
+    "proofs/dart-attempt-3/widgets.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/dart-attempt-3/commands.json": {
+      "sha256": "98e5bd8e10d9c69f0a831c6716874d0fa2201f8aa613265dee7bbaf63f7494b4",
+      "size": 1625
+    },
+    "proofs/dart-attempt-3/inputs.json": {
+      "sha256": "07455fc7191dd0e1f0f22cca015ced08a5e7bca545f985243555d4cf892c5dab",
+      "size": 64107
+    },
+    "proofs/dart-attempt-3/validation.json": {
+      "sha256": "800c7ff0e985936009b067891609c5fb49a574aac709e15842fc57e97ff93e7a",
+      "size": 3304
+    },
+    "proofs/dart-attempt-5/dependencies.json": {
+      "sha256": "46f804e73bd4e111c97a2757bd1d14cebe4ce8305b1d4b33286fc3918749c36b",
+      "size": 497791
+    },
+    "proofs/dart-attempt-5/widgets.stdout": {
+      "sha256": "0c2f9aa43556b44194d2ab4b6336b1bfecce0771cb8155868b20661fe0d6668f",
+      "size": 330
+    },
+    "proofs/dart-attempt-5/analysis.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/dart-attempt-5/analysis.stdout": {
+      "sha256": "4f39015b8da77173e50d16e9fe47304a0816abc662a6485365a7d181e91bd16a",
+      "size": 97
+    },
+    "proofs/dart-attempt-5/widgets.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "proofs/dart-attempt-5/commands.json": {
+      "sha256": "c970545bd7584cc65d3520989f82eb28c9ba0b327add7336a0af03e70d6fd066",
+      "size": 1341
+    },
+    "proofs/dart-attempt-5/inputs.json": {
+      "sha256": "0996d29c1bbe16addd6f485c652b5953ccf110578cab4a51d57ec07d30a68f14",
+      "size": 64228
+    },
+    "proofs/dart-attempt-5/validation.json": {
+      "sha256": "fa79dc417560b1431eb8bb63fc12fb752b45f507159361c4da787330b9ec6b1d",
+      "size": 3007
+    },
+    "retained/native-attempt-1/test-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/transfer-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/transfer-tests.stdout": {
+      "sha256": "cfbc897342be71211b16e109021d0626132f62417e56c6e74878072d13e29431",
+      "size": 1761
+    },
+    "retained/native-attempt-1/transfer-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/transfer-tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/test-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/commands.json": {
+      "sha256": "64ceb04cd0e03ec155f17f695054df914e2cd1404ccc9f42b89e09930508811f",
+      "size": 16743
+    },
+    "retained/native-attempt-1/inputs.json": {
+      "sha256": "254554ba6add2874e8c74e79235c66ca9724935db03e4730ad8b649534c655fc",
+      "size": 8577
+    },
+    "retained/native-attempt-1/validation.json": {
+      "sha256": "25cffe3b43a679bc59aefebe276db3a6ea5148f90d0f43d3111d552af3a25b25",
+      "size": 30521
+    },
+    "retained/native-attempt-1/android36-api.stderr": {
+      "sha256": "fcd457a3aa3a851ede7416240bfd484601a548eb8b41b3fe44da212e03fa7f6d",
+      "size": 845
+    },
+    "retained/native-attempt-1/android36-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-1/BuildConfig.kt": {
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9",
+      "size": 85
+    },
+    "retained/native-attempt-3/test-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/transfer-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/transfer-tests.stdout": {
+      "sha256": "0f47b7222dece782e96809700c21f0948e72d3399c5dd02b8c65dad374ddaac8",
+      "size": 2283
+    },
+    "retained/native-attempt-3/transfer-compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/transfer-tests.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/test-compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/commands.json": {
+      "sha256": "5d1ca0cfe7cc306e41d4172269d2f016f09818bad0bfb3e52280805a72ff942e",
+      "size": 17179
+    },
+    "retained/native-attempt-3/inputs.json": {
+      "sha256": "e75578883b9e7035e5742b91a048f3949738ed34e4a91cdf4aeda7f0b4aa050f",
+      "size": 8175
+    },
+    "retained/native-attempt-3/validation.json": {
+      "sha256": "b0bb9e668382ad74b418ef651219bc6053502cb904f7b5232c765ee9a546fb89",
+      "size": 30891
+    },
+    "retained/native-attempt-3/android36-api.stderr": {
+      "sha256": "69fdfb2920d6373dfee0ebc02036332a71fe64059fb43aafa37d5e5b7ded4fe7",
+      "size": 5600
+    },
+    "retained/native-attempt-3/android36-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-3/BuildConfig.kt": {
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9",
+      "size": 85
+    },
+    "retained/dart-attempt-4/dependencies.json": {
+      "sha256": "46f804e73bd4e111c97a2757bd1d14cebe4ce8305b1d4b33286fc3918749c36b",
+      "size": 497791
+    },
+    "retained/dart-attempt-4/widgets.stdout": {
+      "sha256": "10ef1070254ea9737c46b8f18bb6da97d4cc0cc370c15a14f722808ebe5d6c43",
+      "size": 330
+    },
+    "retained/dart-attempt-4/analysis.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/dart-attempt-4/analysis.stdout": {
+      "sha256": "d520ff1ddd0159c889c360b1f91874ae42ce8521bf2fdcb35950b0448ad52ec6",
+      "size": 97
+    },
+    "retained/dart-attempt-4/widgets.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/dart-attempt-4/commands.json": {
+      "sha256": "4368413615d37c00c5d9263ea45fa591c5141492ebc279cb98b0e47599f214bc",
+      "size": 1341
+    },
+    "retained/dart-attempt-4/inputs.json": {
+      "sha256": "2f5cf0679cc7c039834b9e7ee2826741377a9b7ad6f6cf29b70fa425dfdf6532",
+      "size": 64228
+    },
+    "retained/dart-attempt-4/validation.json": {
+      "sha256": "b82f956fe970d805c36ff2830ea07a1c5ae0ac4667f7a89c6c36b172cec39ebb",
+      "size": 3007
+    },
+    "retained/native-attempt-2/commands.json": {
+      "sha256": "ca194dedd2695250e117cf5c8db4b6dcba07d7d8e1999e64af60de0487e0dce5",
+      "size": 8734
+    },
+    "retained/native-attempt-2/inputs.json": {
+      "sha256": "107eb0cd1007909393fb8a3c2db0ad9ae8fe8b82177b382d47a8bebeb73d68a0",
+      "size": 8014
+    },
+    "retained/native-attempt-2/validation.json": {
+      "sha256": "fb1ccb0c71abf5c52e8364d2915272e9ea3a0527cf7426fba8483b1c293548a1",
+      "size": 22052
+    },
+    "retained/native-attempt-2/android36-api.stderr": {
+      "sha256": "69fdfb2920d6373dfee0ebc02036332a71fe64059fb43aafa37d5e5b7ded4fe7",
+      "size": 5600
+    },
+    "retained/native-attempt-2/android36-api.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/native-attempt-2/BuildConfig.kt": {
+      "sha256": "8ee2045e80a40b422938be73248d4b89aaea077ddc898c0e9eae75ed7c5ae4d9",
+      "size": 85
+    },
+    "retained/dart-attempt-2/dependencies.json": {
+      "sha256": "46f804e73bd4e111c97a2757bd1d14cebe4ce8305b1d4b33286fc3918749c36b",
+      "size": 497791
+    },
+    "retained/dart-attempt-2/widgets.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "retained/dart-attempt-2/analysis.stderr": {
+      "sha256": "8ac4fcd08d316b494ba8241e10e56db4b4cc11450a6d00ec15966eb1dba28c94",
+      "size": 31
+    },
+    "retained/dart-attempt-2/analysis.stdout": {
+      "sha256": "78b41b93d695e6be2da0740055009082d8f4c6d0b4beabc0ab4fcba288f6cf29",
+      "size": 2012
+    },
+    "retained/dart-attempt-2/widgets.stderr": {
+      "sha256": "3bb5dc775680acd55dd2c9ffd4ba7249f6c3e51643fd6ca7c91b0c81675748c3",
+      "size": 595
+    },
+    "retained/dart-attempt-2/commands.json": {
+      "sha256": "e683480a371242cb008e1afbd8bde20c943a95fb0edc7f34adaee31b3c120d8d",
+      "size": 1628
+    },
+    "retained/dart-attempt-2/inputs.json": {
+      "sha256": "3bcb2cc36438421ee47ee8d07f651424013b3199882688de4f5bb7a7c681e8b9",
+      "size": 64004
+    },
+    "retained/dart-attempt-2/validation.json": {
+      "sha256": "ae8415ff299e5a1bd1dbced77c2b4a3332a87e88bac247084b9d9f094db82c9f",
+      "size": 3309
+    }
+  },
+  "member_count": 783,
+  "proof_scope": "11 native focused observations; all29 Android36 API inputs;44 affected Flutter tests;2 actual route captures; separate runner AST check",
+  "not_production_acceptance": true
+}

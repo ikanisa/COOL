@@ -1,0 +1,5 @@
+{
+  "recorder_sha256": "140e93778d777d1e3ce67098db97cc232fd68bcb6ded1939a070a10f250ebfe7",
+  "failed_execution": "public-capture-execution-attempt77",
+  "scope": "Prior actual uncaught response-body failure retained; strict served-byte observation correction only"
+}

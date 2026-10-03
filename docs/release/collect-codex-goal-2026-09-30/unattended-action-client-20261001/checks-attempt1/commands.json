@@ -1,0 +1,61 @@
+[
+  {
+    "name": "typescript",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "started_at": "2026-10-01T11:28:20.598282+00:00",
+    "finished_at": "2026-10-01T11:28:21.249465+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 60
+  },
+  {
+    "name": "node",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "--experimental-strip-types",
+      "--test",
+      "src/keychain_store.test.ts",
+      "src/operational_client.test.ts",
+      "src/operational_health.test.ts",
+      "src/operational_transport.test.ts",
+      "src/operator_client.test.ts",
+      "src/operator_login.test.ts",
+      "src/preflight.test.ts",
+      "src/runtime_credentials.test.ts",
+      "src/server.test.ts",
+      "src/server_transport.test.ts",
+      "src/session_renewal.test.ts",
+      "src/shadow_cli_options.test.ts",
+      "src/shadow_client.test.ts",
+      "src/shadow_stdio.test.ts",
+      "src/shadow_supervisor.test.ts",
+      "src/stdio_preflight.test.ts",
+      "src/supervisor_client.test.ts",
+      "src/supervisor_journal.test.ts",
+      "src/unattended_client.test.ts",
+      "src/unattended_journal.test.ts",
+      "src/unattended_profile.test.ts",
+      "src/unattended_runner.test.ts",
+      "src/unattended_stdio.test.ts",
+      "src/unattended_store.test.ts"
+    ],
+    "started_at": "2026-10-01T11:28:21.249944+00:00",
+    "finished_at": "2026-10-01T11:28:50.250666+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 120
+  },
+  {
+    "name": "hardware-parser",
+    "command": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-unattended-mcp-helper/unattended-keychain-self-test",
+      "self-test"
+    ],
+    "started_at": "2026-10-01T11:28:50.252872+00:00",
+    "finished_at": "2026-10-01T11:28:50.336309+00:00",
+    "exit_code": 0,
+    "timeout_seconds": 10
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-01T00:33:24.453061+00:00",
+  "generated_before_edit": true,
+  "cli_version": "2.84.2",
+  "tested_cache_path": ".cache/joined-operator-audit-preparation/supabase/migrations/20261001001457_joined_operator_audit.sql",
+  "published_path": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+  "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+  "published_equals_executed": true,
+  "sql_cases": 59,
+  "private_database_and_container_removed": true,
+  "full_current_chain_or_hosted_acceptance": false,
+  "independent_readonly_review_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+  "independent_review_scope": "No concrete security/privacy/authority/order defect found; executing-owner expiry and transactional capture failure then tested in actual SQL",
+  "earlier_failed_attempts_retained_in_cache": [
+    "attempt1 missing predecessor singleton seed",
+    "attempt2 fixture scalar UUID incorrectly parsed as JSON",
+    "attempt3 fixture attempted gateway exception after revocation",
+    "attempt4 reserved SQL alias in synthetic stale-lease setup"
+  ],
+  "runner_publication": {
+    "executed_runner_sha256": "fc32019fa4bd981ce3b2eaf08f904329d80e3ed154963bd1e0c40cb2f0d10f05",
+    "published_runner_sha256": "c8ee741de3ee0ed67753ac26c144884456a0931541ee18abd75a0bc6e5f45abd",
+    "only_change": "Default migration points to byte-identical canonical published path",
+    "verified_exact_substitution": true
+  }
+}

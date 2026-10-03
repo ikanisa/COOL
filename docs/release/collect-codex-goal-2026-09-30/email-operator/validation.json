@@ -1,0 +1,250 @@
+{
+  "stage_date": "2026-09-30",
+  "captured_at_utc": "2026-09-30T22:24:38.867108+00:00",
+  "scope": "Admin operator email login and approval plus fixed-target MCP CLI",
+  "production_acceptance": false,
+  "visual_match_percentage": null,
+  "source_frozen": false,
+  "belongs_to_snapshot02": false,
+  "hosted_sign_in_performed": false,
+  "otp_sent": false,
+  "sms_sent": false,
+  "production_written": false,
+  "deployed": false,
+  "committed": false,
+  "flutter_unique_cases_with_pass_evidence": 98,
+  "single_current_green_combined_run": false,
+  "latest_login_recovery_passed": 19,
+  "latest_approval_passed": 21,
+  "preserved_legacy_panel_passed": 15,
+  "preserved_pwa_passed": 27,
+  "preserved_localhost_auth_transport_passed": 16,
+  "cli_cases_passed": 5,
+  "flutter_analysis": {
+    "items": 16,
+    "issues": 0,
+    "log": "analysis-final.log"
+  },
+  "typescript_analysis": "passed",
+  "supabase_cli": {
+    "version": "2.84.2",
+    "path": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase"
+  },
+  "design_authority": {
+    "initial_run": "passed",
+    "final_run": "passed",
+    "fidelity_certified": false
+  },
+  "backend_email_cutover_scope": {
+    "cases": 67,
+    "packet": "docs/release/collect-codex-goal-2026-09-30/email-auth/MANIFEST-attempt6.json",
+    "hosted_auth_tested": false
+  },
+  "notes": [
+    "Counts describe distinct cases across retained scoped runs; failed historical assertions and compile attempts remain visible.",
+    "Source files are a point-in-time manifest of a concurrently edited checkout; later candidate freeze/build and hosted acceptance remain pending.",
+    "The 58 preserved non-login/non-new-approval cases passed in flutter-tests-attempt6.log; its two approval assertion failures were fixed and the complete21-case file passed afterward."
+  ],
+  "files": [
+    {
+      "path": "lib/admin/core/admin_email_otp.dart",
+      "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7",
+      "bytes": 1316
+    },
+    {
+      "path": "lib/admin/core/admin_login_runtime.dart",
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd",
+      "bytes": 23457
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "sha256": "87208108f8a7f0b3e60b044035d1df18dd28418919a3b608de3eae558a70d438",
+      "bytes": 29542
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "sha256": "16ab16c09caec18081e00855adc9f1c1b5b1f76238e2731455566090706a40cc",
+      "bytes": 3150
+    },
+    {
+      "path": "lib/admin/core/admin_review_credentials.dart",
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362",
+      "bytes": 168
+    },
+    {
+      "path": "lib/admin/core/admin_evidence_mode.dart",
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426",
+      "bytes": 22003
+    },
+    {
+      "path": "lib/admin/core/admin_platform_access.dart",
+      "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c",
+      "bytes": 17093
+    },
+    {
+      "path": "lib/admin/core/admin_operator_approval.dart",
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f",
+      "bytes": 4827
+    },
+    {
+      "path": "lib/admin/core/admin_action_contracts.dart",
+      "sha256": "f7b977903a94159414ad8e3131f543036a131eaed3f1aaf32ace565a6cbcde5a",
+      "bytes": 7036
+    },
+    {
+      "path": "test/admin_email_login_test.dart",
+      "sha256": "10c606e02a0c1adc902eac1d76c1b323ec53a913cea7f9d2f7aceeab49cd73ca",
+      "bytes": 17679
+    },
+    {
+      "path": "test/admin_email_transport_session_test.dart",
+      "sha256": "d1278937927497a3aeb1e2bbab77b64180e32ac8e3fbbef87e06721b37c09d38",
+      "bytes": 11359
+    },
+    {
+      "path": "test/admin_login_recovery_test.dart",
+      "sha256": "502757e95fcd7a4a8e63bcf58c23f38496371dc6b7a767743e505b9cf1b23a2c",
+      "bytes": 2340
+    },
+    {
+      "path": "test/admin_pwa_test.dart",
+      "sha256": "07ef78d50966cb387352fcbd5deaaf99f38f770498c3dc82d165b074fb3ddd26",
+      "bytes": 26315
+    },
+    {
+      "path": "test/admin_platform_access_test.dart",
+      "sha256": "146127999fda285b3cea5c28047838a494e9170bec0e7afe5aeb1007ef967c11",
+      "bytes": 13507
+    },
+    {
+      "path": "test/admin_operator_approval_test.dart",
+      "sha256": "3bcc640968fb445515d8b53031cb118ef62a2d9da3ab444e8aa69d7c11f4503d",
+      "bytes": 20525
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_login.ts",
+      "sha256": "41815f090404207ae2bd24fb336e6259975debd54b334c8d43ffaa752d537dfc",
+      "bytes": 6246
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/operator_login.test.ts",
+      "sha256": "d241613603b2d880fefe49f776fd02429bc0661824502e043a3f9c9878eb23f6",
+      "bytes": 3375
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/README.md",
+      "sha256": "432eab0e10ab7e7861d3c0f46abcdcace9e59795e9fecd39b1718e4e5f372666",
+      "bytes": 6221
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/analysis-attempt1.log",
+      "sha256": "a02c12e64edcaa2b2071f50516e388fc59f7c1bfd9e8bf624776302165c41339",
+      "bytes": 1316
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/analysis-final.log",
+      "sha256": "2f4161d882835a9bdb0976249b5ec18c7d8f775eba6fbf5fa658fb940782accf",
+      "bytes": 97
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/approval-tests-final.log",
+      "sha256": "7a47f89f5345d0b819a4f058076c0422a90764b0c8dadc174e747acb09daccf1",
+      "bytes": 1889
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/cli-analysis-final.log",
+      "sha256": "3055a85d85fae7a2338c9a468dfe3b93d0db2c123c60836129a650435317169a",
+      "bytes": 57
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/cli-analysis.log",
+      "sha256": "3055a85d85fae7a2338c9a468dfe3b93d0db2c123c60836129a650435317169a",
+      "bytes": 57
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/cli-tests-final.log",
+      "sha256": "3b4d5a811c347fb599022b6bd6e9a73c4da6eaee6236feec72890dc2778cec13",
+      "bytes": 574
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/cli-tests.log",
+      "sha256": "e4a7810bbca5965b57b0253346fdccf9196f71cf0a02f783af9492ed828e3905",
+      "bytes": 480
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/design-authority.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "bytes": 32
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-approval-dark-synthetic.png",
+      "sha256": "b6bfdfa88bfdfdf74126e50c29efc4992605785b2f558113fc5e1b7fd2cbe120",
+      "bytes": 33775
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-approval-light-synthetic.png",
+      "sha256": "2c618110eac147ba34d9b21e5612990965d2540f09563f2fc858b81c0ebb407b",
+      "bytes": 34552
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-dark-synthetic.png",
+      "sha256": "09582fbafdee937eaf9f586c7179173770c2e7e4a8ac5a03c37130f09e3790e7",
+      "bytes": 38431
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-light-synthetic.png",
+      "sha256": "3b903597939d5d93d42b3cd36677453d3f5b11b1f99b8509bc9ecb2daff0cf20",
+      "bytes": 38760
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/flutter-tests-attempt1.log",
+      "sha256": "fbab4b775fb4c4738351d8064c6ec2f5c1dcbed5cb463c788943b468f6c69e10",
+      "bytes": 177131
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/flutter-tests-attempt2.log",
+      "sha256": "98dd08725b58d1b700426fa20f2ce7bd7b8a774e15018cd0510bdda2ae833920",
+      "bytes": 3023
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/flutter-tests-attempt3.log",
+      "sha256": "e4d2a8424d241f90f21d319b1127ef42260b2cfab0481f7af5e8d329c65fffa7",
+      "bytes": 76249
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/flutter-tests-attempt5-compile.log",
+      "sha256": "ca3041b5fbe01391975cd08b64013c95aa1e541bf76b5ad4a17020428559901a",
+      "bytes": 4746
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/flutter-tests-attempt6.log",
+      "sha256": "0b24d612a02bbc929f6eab287d6253fe07b38d96411976def6fe8cf0f7959755",
+      "bytes": 21512
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/login-tests-final.log",
+      "sha256": "0e42f8e3bc2c3f80ec971753ba6d0d40ee5698330d93f4e9a8038ceaaff017db",
+      "bytes": 3405
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/pwa-auth-tests.log",
+      "sha256": "35ce49295d37ccbd8c2594245e147e362f52df67899ee62c717e2e6f06053e3e",
+      "bytes": 339
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/pwa-tests-attempt4.log",
+      "sha256": "86a3e0ffd93f9045d592709e415388a121d1ff68a8a1edfd437e24ad8e5e1f15",
+      "bytes": 32729
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/pwa-tests-final.log",
+      "sha256": "c945c9fe31c991324f7101cd330d754e3d2b8f95d79ec09778d2acde0b3200be",
+      "bytes": 2001
+    },
+    {
+      "path": "docs/release/collect-codex-goal-2026-09-30/email-operator/design-authority-final.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "bytes": 32
+    }
+  ]
+}

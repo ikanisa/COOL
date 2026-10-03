@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "integrated_at": "2026-10-01T18:00:21.128773+00:00",
+  "scope": "continuous bounded encrypted late-conflict evidence and fair indexed paging; exact authenticated late-v2 transport retention only",
+  "worker_manifest_sha256": "3346f94446eaa88fb6e4a1985cab1e195787b20900e1e3882e9d6d55588fa078",
+  "worker_members": 113,
+  "fresh_actual_unique_cases": 109,
+  "native_API_compilation_sources": 24,
+  "canonical_files": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "c7f4328a127f3d6c2e90eb63541fe29f8c5b5b7a3530f0204c1f92f4a500572e",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": "8afd14874cbd2434a64a949d39991ded01dd96c8a6a1f0627ae737c2eea42ba6",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt": "29a1c5adf51da63f94909f49b196a8e8b2b476555520668a3b7d401d00a8a830",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt": "8c2b7c76422547e507c432c015e7b65599a7f6f2a319b38f9c2bec9e0736c4b2",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "a3e90aa0060f4dd63ba7b0827bec9b3b0a23935e4b799eda4cef50ffa011d27c"
+  },
+  "selected_inputs": 41,
+  "verified_JDK_entries": 550,
+  "verified_dependencies": 14,
+  "verified_compiled_artifacts": 248,
+  "owned_terminal_commands": 19,
+  "preceding_packet_original_members_unchanged": 93,
+  "old_canonical_bytes_preserved_at": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-canonical-before-20261001",
+  "full_candidate": false,
+  "portable_Keystore_recovery": false,
+  "read_lookup_exception_fairness": false,
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false
+}

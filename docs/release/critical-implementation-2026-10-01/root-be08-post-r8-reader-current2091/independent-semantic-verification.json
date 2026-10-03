@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209",
+    "--verify"
+  ],
+  "pid": 38414,
+  "pgid": 38414,
+  "exit_code": 0,
+  "timed_out": false,
+  "deadline_seconds": 30,
+  "actual_seconds": 5.127004374997341,
+  "started_at_utc": "2026-10-02T15:26:38.611045+00:00",
+  "owned_process_group_absent": true,
+  "stdout_sha256": "5579f05fb873e0f4d65a6a214127ce6de6ce01c99427c21962299f0469baa4f8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

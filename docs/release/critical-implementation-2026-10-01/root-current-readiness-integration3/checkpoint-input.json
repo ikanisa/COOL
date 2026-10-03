@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": null,
+  "recovery5": {
+    "packet": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/packet-files.json",
+      "sha256": "c75e8a35ea208f855217b11b73492eb9e58b8f9341286c353b9b62c0b70553ba"
+    },
+    "readback": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/readback.json",
+      "sha256": "e5a5164f14636855cfa86be25fac2c7b218e7dfc40c5eb0a89afbe5589f968f9"
+    },
+    "actual_result": {
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/actual-result.json",
+      "sha256": "8ea040fcc835d24671c568cb039b217f61a76b3745ff7ae4f024bf149631efa7"
+    }
+  },
+  "native_guard": {
+    "final": false,
+    "packet": {
+      "path": null,
+      "sha256": null
+    },
+    "readback": {
+      "path": null,
+      "sha256": null
+    },
+    "terminal_status": {
+      "pointer": null,
+      "expected": null
+    },
+    "passing_cases": {
+      "pointer": null,
+      "expected": 42
+    },
+    "total_cases": {
+      "pointer": null,
+      "expected": 42
+    },
+    "reader_pass": {
+      "pointer": null,
+      "expected": true
+    },
+    "reader_seconds": {
+      "pointer": null,
+      "expected": null
+    }
+  },
+  "native_stages": {
+    "final": false,
+    "packet": {
+      "path": null,
+      "sha256": null
+    },
+    "readback": {
+      "path": null,
+      "sha256": null
+    },
+    "terminal_status": {
+      "pointer": null,
+      "expected": null
+    },
+    "whole_export": {
+      "outcome": null,
+      "stage_identity": {
+        "pointer": null,
+        "expected": "app-export"
+      },
+      "observation": {
+        "pointer": null,
+        "expected": null
+      }
+    },
+    "whole_app_lock": {
+      "outcome": null,
+      "stage_identity": {
+        "pointer": null,
+        "expected": "app-lock"
+      },
+      "observation": {
+        "pointer": null,
+        "expected": null
+      }
+    },
+    "whole_native": {
+      "outcome": null,
+      "stage_identity": {
+        "pointer": null,
+        "expected": "native"
+      },
+      "observation": {
+        "pointer": null,
+        "expected": null
+      }
+    },
+    "native_admitted": {
+      "pointer": null,
+      "expected": null
+    },
+    "native_packages_built": {
+      "pointer": null,
+      "expected": false
+    }
+  }
+}

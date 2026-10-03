@@ -1,0 +1,94 @@
+{
+  "ARC09_closed": false,
+  "SHA256SUMS_excludes_self_and_packet_files": true,
+  "file_count": 16,
+  "files": {
+    "README.md": {
+      "bytes": 3215,
+      "mode": 256,
+      "sha256": "4e80227af7054108cdb101ddf0be703458de731f6acabfdd5d72fe7a8a697ecd"
+    },
+    "SHA256SUMS": {
+      "bytes": 1335,
+      "mode": 256,
+      "sha256": "ef2aa7bfb04ebf68ad9de945d8680e6590fc80c4c4fbe4d57e70f235c3ea4bd1"
+    },
+    "captured-fixture.json": {
+      "bytes": 4938187,
+      "mode": 256,
+      "sha256": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5"
+    },
+    "captured-lifecycle-fixture.json": {
+      "bytes": 3085467,
+      "mode": 256,
+      "sha256": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63"
+    },
+    "correction.diff": {
+      "bytes": 18279,
+      "mode": 256,
+      "sha256": "451bddd85ff2be170348dfdbcb8869729738f053a33082b94efa57fde26224eb"
+    },
+    "handoff.json": {
+      "bytes": 2090,
+      "mode": 256,
+      "sha256": "65d31ec9ef185afcf8273bc7746cd7084660b0c4eb2a7bb8238c57e91d7a5161"
+    },
+    "input-fences.json": {
+      "bytes": 12416,
+      "mode": 256,
+      "sha256": "137e4b5fd422f78fe61d609f63ee4c3f3c95eda02f6d5f1b7ea16de479951109"
+    },
+    "lifecycle-fixture-tests-result.json": {
+      "bytes": 2590,
+      "mode": 256,
+      "sha256": "963afdbdaffd4372512da5f17cc9af5cc64449c2a42cb35bb74aa9f04c50243c"
+    },
+    "lifecycle-fixture-tests.stderr": {
+      "bytes": 6106,
+      "mode": 256,
+      "sha256": "705124a900dfb84fcf792b141fb5f632522099fe6e2a325c128801f22b0bdbc1"
+    },
+    "lifecycle-fixture-tests.stdout": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prepared-input-pins.json": {
+      "bytes": 10527,
+      "mode": 256,
+      "sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e"
+    },
+    "review.json": {
+      "bytes": 3790,
+      "mode": 256,
+      "sha256": "9057aa959f15912ce7247663130991976bc6e1854bf724e91528ca8dedbc48ea"
+    },
+    "root-admission-template.json": {
+      "bytes": 12517,
+      "mode": 256,
+      "sha256": "4f909d5de4454e7d0d2a13e559ae370a2d5d0ba271e24cae309d75c32353b83d"
+    },
+    "run_selected_aab.py": {
+      "bytes": 57642,
+      "mode": 256,
+      "sha256": "ac231155f02477a6aaf3217f05e1499b1ceb18d3d725e5dc3969d0279e1aa6f3"
+    },
+    "test_lifecycle_metadata.py": {
+      "bytes": 8032,
+      "mode": 256,
+      "sha256": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3"
+    },
+    "test_owned_metadata.py": {
+      "bytes": 12544,
+      "mode": 256,
+      "sha256": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+    }
+  },
+  "kind": "private_terminal_lifecycle_two_graph_reuse_recovery",
+  "old_aggregate_failures_remain_failed": true,
+  "original_successful_graphs_reused_not_rerun": true,
+  "packet_files_excludes_self": true,
+  "production_release_approval": false,
+  "schema_version": 1,
+  "status": "root-reviewed43-fixtures-pass-actual-driver-unexecuted"
+}

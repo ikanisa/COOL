@@ -1,0 +1,15 @@
+{
+  "scope": "rw_receipt_manual_cancel",
+  "status": "available",
+  "receipt": {
+    "state": "suppressed",
+    "revision": 2,
+    "outbox_id": "0c331e9d-f817-4b14-93bd-68c53fc0ee50",
+    "can_cancel": false,
+    "reason_code": "already_cancelled"
+  },
+  "outbox_id": "0c331e9d-f817-4b14-93bd-68c53fc0ee50",
+  "checked_at": "2026-10-01T00:51:37.688966Z",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T00:52:37.688966Z"
+}

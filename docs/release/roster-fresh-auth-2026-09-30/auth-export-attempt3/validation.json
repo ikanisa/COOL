@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "started_utc": "2026-09-30T18:03:40.876699+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/core/browser_auth_memory_test.dart",
+        "test/core/supabase_session_persistence_test.dart",
+        "test/admin_roster_fresh_auth_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "--reporter",
+        "expanded"
+      ],
+      "started_utc": "2026-09-30T18:03:42.448758+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "f3f3a9f981bc86925673e69f68af3943778a84e92c827acc516183bfc5bc1aca",
+      "stderr_sha256": "d04e7c159d30db903b8446977c72e1449c41b3c222f2617165b726d50baab3eb"
+    }
+  ],
+  "test_count": null,
+  "immutable_export_unchanged": true,
+  "sdk_libraries_unchanged": true,
+  "live_source_unchanged": true,
+  "live_source_drift": [],
+  "inputs_sha256": "933f01bd3da86ec47ceb994d5ffe480b2d44009b94f10fdfbeb9bbb873c0a96e",
+  "export_source_count": 4303,
+  "browser_report_sha256": null,
+  "database_calls": 0,
+  "provider_calls": 0,
+  "hosted_calls": 0,
+  "normal_admin_recovery_browser_verified": false,
+  "actual_sql149_receipts_verified": false,
+  "whole_L01_complete": false,
+  "scope": "Copied current roster/Auth Dart tests and real vendored SDK Chrome loopback privacy fixture; not normal Admin149 integration"
+}

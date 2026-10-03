@@ -1,0 +1,12 @@
+{
+  "status": "reviewed_pending_execution",
+  "source_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+  "source": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+  "new_private_tables": 1,
+  "new_public_read_signatures": 1,
+  "business_mutation_or_dispatch_authority": false,
+  "historical_backfill": false,
+  "review": "Current email/owner/session/permission locks; bounded paired cursor. Five entity-scoped source unions expose a fixed redacted row set. Payment/receipt/exception visibility requires Rwanda source conjunction including linked-parser consistency. Existing shadow samples are unique by run; three lifecycle trigger events preserve that idempotency. Private events are immutable and RLS/no direct API grants. Indexes preserve entity/order predicates.",
+  "positive_lifecycle_acceptance": "Required in current ordinary-owner staged rehearsal; not inferred from source inspection.",
+  "source_unchanged_after_capture": true
+}

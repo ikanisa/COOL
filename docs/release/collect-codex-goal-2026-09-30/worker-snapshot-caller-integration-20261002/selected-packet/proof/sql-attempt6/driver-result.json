@@ -1,0 +1,1468 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "actual local holder/archive/restore effective and session roles match declared isolated split",
+      "passed": true
+    },
+    {
+      "name": "exact205 original source vector/catalog and all4 approved owner API body hashes",
+      "passed": true
+    },
+    {
+      "name": "actual admitted maintenance and shipping configuration producer commit after export without holder blocking",
+      "passed": true
+    },
+    {
+      "name": "fresh independent post-capture catalog unchanged while real data/tier producers committed",
+      "passed": true
+    },
+    {
+      "name": "snapshot holder ended successfully and was reaped after actual full custom dump import",
+      "passed": true
+    },
+    {
+      "name": "logical and object inventories both actually page and finish with empty terminal",
+      "passed": true
+    },
+    {
+      "name": "MVCC/sequence/global-role and inactive limits explicit",
+      "passed": true
+    },
+    {
+      "name": "held inventory excludes actual later admitted original configuration key",
+      "passed": true
+    },
+    {
+      "name": "held object inventory retains export cohort despite later committed cold additions",
+      "passed": true
+    },
+    {
+      "name": "restored wrapper exact source definition owner ACL config dependency",
+      "passed": true
+    },
+    {
+      "name": "full source archive/restored financial and all table/sequence/other-data fingerprints identical",
+      "passed": true
+    },
+    {
+      "name": "entire source/restored catalog owner ACL extension RLS logical dependency association exact",
+      "passed": true
+    },
+    {
+      "name": "exact raw source restoration under independent physical stop guards without overlay",
+      "passed": true
+    },
+    {
+      "name": "actual single RR target reader verifies all exact binding/tier/logical sets and object bytes",
+      "passed": true
+    },
+    {
+      "name": "original worker UUID lookup reconstructs recorded receipt without absence fabrication",
+      "passed": true
+    },
+    {
+      "name": "closed original holder makes actual later snapshot import fail",
+      "passed": true
+    },
+    {
+      "name": "closed original holder makes actual pg_dump import fail",
+      "passed": true
+    },
+    {
+      "name": "archive association conflict refuses restore input",
+      "passed": true,
+      "controlled_error": "Worker snapshot manifest association mismatch"
+    },
+    {
+      "name": "altered private page byte digest refuses restore input",
+      "passed": true,
+      "controlled_error": "Worker snapshot file byte association mismatch"
+    },
+    {
+      "name": "missing declared private page refuses restore input",
+      "passed": true,
+      "controlled_error": "Worker snapshot file unavailable or invalid"
+    },
+    {
+      "name": "missing terminal page refuses complete stream",
+      "passed": true,
+      "controlled_error": "Worker snapshot descriptor mismatch"
+    },
+    {
+      "name": "coherent false tier with unchanged logical hash fails actual exact restored reader",
+      "passed": true,
+      "controlled_error": "Worker snapshot restored exact inventory differs"
+    },
+    {
+      "name": "extra restored cold object refuses exact full-set comparison",
+      "passed": true,
+      "controlled_error": "Worker snapshot restored exact inventory differs"
+    },
+    {
+      "name": "actual known cold corruption raises55000 through original owner inventory API",
+      "passed": true
+    },
+    {
+      "name": "diagnostic corruption rollback preserves immutable trigger/check and object bytes",
+      "passed": true
+    },
+    {
+      "name": "actual holder departure during paging cannot publish success manifest",
+      "passed": true,
+      "controlled_error": "Worker snapshot holder closed"
+    },
+    {
+      "name": "partial holder-loss evidence retained without archive or manifest",
+      "passed": true
+    },
+    {
+      "name": "actual bounded exporter lifetime timeout refuses completion",
+      "passed": true,
+      "controlled_error": "Worker snapshot holder timed out"
+    },
+    {
+      "name": "actual source binding mutation refuses captured association",
+      "passed": true,
+      "controlled_error": "Worker snapshot source/tool changed"
+    },
+    {
+      "name": "all frozen Ruby/tool dependencies unchanged after strict failure cases",
+      "passed": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "exit_code": 0,
+      "stdout_sha256": "1a987b2101d1d6d806a9dc082de78975f3830cf201809ec28fbf0b0869d870ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0000"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "exit_code": 0,
+      "stdout_sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0001"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "91963a8d73a674a94027dd41cd30aea8a47f63e180b0884bfda94309ba8815ae",
+      "exit_code": 0,
+      "stdout_sha256": "bcc1fbd7c98205e383061467fb22e9609ffc2c50cbde4ffe4e3c0c002a82d402",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0002"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "exit_code": 0,
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0003"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "--version"
+      ],
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "stdout_sha256": "6c3eedd3ebbb15c84b8d8ac36c69542bf7639ee6e572e195985d5d34fe5678ea",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0004"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "--version"
+      ],
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "stdout_sha256": "98fb151d2307dca3d212b476581c7625837e7c12d9a436ccc54dd26eb2a88467",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0005"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_dump",
+        "--version"
+      ],
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "stdout_sha256": "1116b135549f5bf787252acd868434319ab7cccf8d075fd23c47007ce31e4820",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0006"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "0c20427e9f5fc5ba6265789d18247bff6744bb7e5dd6dbd484011a17a8d67739",
+      "exit_code": 0,
+      "stdout_sha256": "05149c67a737756cc090492378f5c5c485d5844b1f762d6db1647ddbdaa908ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0007"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "eb358f40f69f138617cc7d97574c2330dea269f5060a78624ec9ecffaedd5746",
+      "exit_code": 0,
+      "stdout_sha256": "01f6c841d76c69d0f5ead79465a14b6299bb2a7a8af7c716a1e1175f8ee50432",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0008"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "0c20427e9f5fc5ba6265789d18247bff6744bb7e5dd6dbd484011a17a8d67739",
+      "exit_code": 0,
+      "stdout_sha256": "f03201e3480284d3885bd7ee5952b79e1759c63bdc1ce754e4802f298b31821d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0009"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "315820bd97d5aace4673cb73e9a1ad0bc40aabd830667ff69f8e304e4ced99f0",
+      "exit_code": 0,
+      "stdout_sha256": "28656fe50f63446cb55ede774b1ad4391cf810946d31bc483c780f1b8d75f706",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0010"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "exit_code": 0,
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0011"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_restore",
+        "--data-only",
+        "--file=-"
+      ],
+      "input_sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b",
+      "exit_code": 0,
+      "stdout_sha256": "505130aaf80ec166c865ca997dcf36cf5ab1edb2627c523ea57d84a35a3a60e6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0012"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "pg_restore",
+        "--clean",
+        "--if-exists",
+        "--file=-"
+      ],
+      "input_sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b",
+      "exit_code": 0,
+      "stdout_sha256": "0e7918fac7dc1406bd36b20bc6da35d2bef5665954e6ffa91aa083fea4b34c49",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0013"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "f8350d2b31846072344a513da7cbd99cb1ca726df4ef3ebd06960e260721f998",
+      "exit_code": 0,
+      "stdout_sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0014"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "a267cf49c01ad5a63fcb1c22b94378205f6bcb05c9da72fff788c3d181124c1f",
+      "exit_code": 0,
+      "stdout_sha256": "351c2f6fb1e4291080b50d462195d5f6d0e5c3810e0e27bf136a25f837ead579",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0015"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "083289b0e2d3ecfd6d0f063f17d6145ad38174a2f26567bcd876796228c317c0",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0016"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "f8350d2b31846072344a513da7cbd99cb1ca726df4ef3ebd06960e260721f998",
+      "exit_code": 0,
+      "stdout_sha256": "f87f6c59c1835314964b6ef0913d306b7a716944808154435bb23b2cb80110fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0017"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "pg_dump",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "--data-only"
+      ],
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "stdout_sha256": "6553ffc440a1d8529c391e806c3ab851bcc908fb83ef6acd31f020461f217b16",
+      "stderr_sha256": "6fabd11ae9e8be601ba766939d61d3ac696191d4813c8fd7cc72ef5bb8cebba3",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0018"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "fa97ac401554b47e4a03285a6e6dbb7f6ec619a1d023d613dd4d6a9ca547d58b",
+      "exit_code": 0,
+      "stdout_sha256": "23bacc27fce8a822b0c00acb2b2f1a689867b11a5c1754e128092fb40a4206f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0019"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "bb6d2009832eb37207d9372d778d4cd369e7955cc42ede7e894da3ec2a86f78d",
+      "exit_code": 0,
+      "stdout_sha256": "723bc35ad0cea090c4900f5864ac0a128a8a2a725fa036460c7256f297bb723e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0020"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "f4c2919c4bce50b5f812f09e8dcc40d396dc01f62a553a0d0a3ceb9e319f9634",
+      "exit_code": 0,
+      "stdout_sha256": "2c25967927c703645375f9662a671036621417e8c3af2489129b232ca9ca7759",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0021"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_source_43470b88474c",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "249a4eb917f7f8cee2d0848952bae8a2050986884d9e0e9cceb187306ee982dc",
+      "exit_code": 3,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "36827956add7683630e7eaf26a64c0b157f8c44fd226c15f3f036e6e497bce27",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0022"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "collect_current_rehearsal_source_43470b88474c",
+        "pg_dump",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "--format=custom",
+        "--snapshot=0000003A-00000002-1"
+      ],
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3935d8e524d66cdb2f16119051fbce14482f872230b51a554988e95ecf81db46",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0023"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "e329f2708e52340d2c1ebc567563e961170c244b57fe5246ab4a1db4496ae9e6",
+      "exit_code": 0,
+      "stdout_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0024"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "d51a85d2748913d2dfa176fb63a3751dfd774aed4f99b8e061d81701fc85f468",
+      "exit_code": 0,
+      "stdout_sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0025"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "c32311fdb896f41dc87c06cfa438c4ed1c5c641c3d99f9965c1c265b276d1d8b",
+      "exit_code": 3,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "064329e174d0da9b9d9007296297f0877202bcc747d7d34778837c211eb1db57",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0026"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "collect_current_rehearsal_restore_9a9a20347d34",
+        "psql",
+        "-XqAt",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "input_sha256": "d51a85d2748913d2dfa176fb63a3751dfd774aed4f99b8e061d81701fc85f468",
+      "exit_code": 0,
+      "stdout_sha256": "c31ec80e6412aa841ca7e8dcc7eeb8d1374c9dad728c3837008576d3cd0591f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt_prefix": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/proof/sql-attempt6/ruby-0027"
+    }
+  ],
+  "scope": "selected205/excluded420 and newer current sources; ordinary postgres holder/inventory/maintenance; isolated supabase_admin archive/restore only; no hosted caller parity or durable inactive overlay",
+  "actual_effective_and_session_roles": {
+    "holder": {
+      "effective": "postgres",
+      "session": "postgres",
+      "database": "postgres",
+      "superuser": false
+    },
+    "archive": {
+      "effective": "supabase_admin",
+      "session": "supabase_admin",
+      "database": "postgres",
+      "superuser": true
+    },
+    "restore": {
+      "effective": "supabase_admin",
+      "session": "supabase_admin",
+      "database": "postgres",
+      "superuser": true
+    }
+  },
+  "full_data_comparison": {
+    "tables": 272,
+    "rows": 6266,
+    "sequences": 4,
+    "other_data": 0,
+    "all_match": true
+  },
+  "worker_comparison": {
+    "format": "collect-worker-snapshot-v1",
+    "exact_logical_rows": 2042,
+    "exact_objects": 84,
+    "source_state_compared_before_overlay": true,
+    "durable_inactive_overlay": false,
+    "financial_action": false,
+    "send_action": false,
+    "reader_lifecycle": {
+      "started_at": "2026-10-02T01:59:25.117385Z",
+      "ended_successfully": true,
+      "child_reaped": true,
+      "ended_at": "2026-10-02T01:59:27.080555Z"
+    }
+  },
+  "capture_manifest_sha256": "1c0e2df4e9ee19a99b4d5ba4c9fae31fb28ac8dec2f6cc645b6fa1cc947f8ab2",
+  "capture_archive": {
+    "bytes": 4333036,
+    "sha256": "32b06c370fa292b651555fb5db8e42ce0056502b1182a576933fbfe6d18f710b"
+  },
+  "source_bindings": [
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean.rb",
+      "bytes": 3531,
+      "sha256": "e39f396b28461b92196fa1f9a4b01e9271f892129ce4ab3f3cb4dde1682ccb08"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/core_ext/name_error.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/core_ext/name_error.rb",
+      "bytes": 497,
+      "sha256": "24a779c37af0514921129df7c4be1c3c0cf91d58eac15ac27fdeba837e2d2b8d"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/formatters/plain_formatter.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/formatters/plain_formatter.rb",
+      "bytes": 1002,
+      "sha256": "4f0ff9bfe359509419e2eca77fb0cab109e83bff204031055b8fd0a94323f170"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/jaro_winkler.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/jaro_winkler.rb",
+      "bytes": 1833,
+      "sha256": "a4cbdaec33ba3b4c672b52bea67c3b1935a1478750d3c7b3e7604e9cf8a58b71"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/levenshtein.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/levenshtein.rb",
+      "bytes": 1377,
+      "sha256": "dec74858613e9f920df5d2daff548ea29b1b8a63642591c288b1ba3d9ed504bf"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checker.rb",
+      "bytes": 1324,
+      "sha256": "f222bdf6427dc27c24d30f7b8a4c8d4303dac540eaa242a15578b6c5f0e72e79"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/key_error_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/key_error_checker.rb",
+      "bytes": 310,
+      "sha256": "dfab98374b11b918c2584831d41fd8b632c380fc3edc1432bb2de2c5c71c65b9"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/method_name_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/method_name_checker.rb",
+      "bytes": 1532,
+      "sha256": "d4667bd0369fdb34acad11a42f0d435e60a8a207bcf5f919a4ee18eadc311cd3"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers.rb",
+      "bytes": 605,
+      "sha256": "a21ad7907dc7e236d5a5097817eb7388caf14bbae65c24291530955f8e2cebca"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers/class_name_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers/class_name_checker.rb",
+      "bytes": 1242,
+      "sha256": "33f075ae6dcf9a8c08520de13136f64fdfdb697707a9d1a0fd473dea5ed6f35c"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers/variable_name_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/name_error_checkers/variable_name_checker.rb",
+      "bytes": 1988,
+      "sha256": "837726441622c22c21129225c5f41a0712dd25813fa4dc5dd8ab4da9c5fc6307"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/null_checker.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/spell_checkers/null_checker.rb",
+      "bytes": 104,
+      "sha256": "56762b297f7e655aca9f38942b9860c346aad8a7d7549c16aebe60887d6c7074"
+    },
+    {
+      "path": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/version.rb",
+      "realpath": "/Library/Ruby/Gems/2.6.0/gems/did_you_mean-1.3.0/lib/did_you_mean/version.rb",
+      "bytes": 42,
+      "sha256": "ee25bd91c33173a57764570d24eb5982905181c4b4a7f7c807454756d144a7ca"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby",
+      "bytes": 134912,
+      "sha256": "5bfbea92fc5650cd28eb4bdbcf9b8eae654e61760673684c3c6293ad155ced5d"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/base64.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/base64.rb",
+      "bytes": 3375,
+      "sha256": "06bcb56e089cbb04d802814da487708a701445a123d4c52708afa41043778c41"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/date.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/date.rb",
+      "bytes": 1033,
+      "sha256": "4c566e793b71011b458f4191c01073627e4277f29920b2fd42385a969389f6bb"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/delegate.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/delegate.rb",
+      "bytes": 10695,
+      "sha256": "eb4daaf1b6ea85e962aaeaf5b922131971edb69924413ef2e9408bf1e3d1866f"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/digest.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/digest.rb",
+      "bytes": 2894,
+      "sha256": "eae3ead98eab5aba9c41030d7827b7225b223968a8f7e921c2dca72e72f7abcc"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/ipaddr.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/ipaddr.rb",
+      "bytes": 20032,
+      "sha256": "22e281d2e34ff8d8573f9bf8de19db6d8200a25fcf1baa6b9e03d3466ef3936f"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json.rb",
+      "bytes": 1809,
+      "sha256": "c8be18a279705593f35a9078773710a5e09bb715a2b5d08503b8f0620a6d7c26"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/common.rb",
+      "bytes": 15340,
+      "sha256": "f27e766b87230f32ba84202148da1f5436ff0d20189a5109e0e029e2f7a5a75b"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/ext.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/ext.rb",
+      "bytes": 391,
+      "sha256": "6759cf47337135c9954218820995d1f1337395906a1881264bba6c0cdb5d61cb"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/generic_object.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/generic_object.rb",
+      "bytes": 1428,
+      "sha256": "74244c827f6c26ac278dbfcd819fb0bde8572650a525de9b390ff5f672feb0f2"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/version.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/json/version.rb",
+      "bytes": 302,
+      "sha256": "3f0180bfd061cf17032d613c0a275dcf02b48b51a323dd103e43010c37dae1d7"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/monitor.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/monitor.rb",
+      "bytes": 8055,
+      "sha256": "fffc5804c24f4a893b9b8d83c193be33d9123cf2c33f4264bda0a901a370b50c"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http.rb",
+      "bytes": 52175,
+      "sha256": "6b04d89eff7a454df76fffaf31decd776dd7c8f8205daa8097fc856b54bc16c0"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/backward.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/backward.rb",
+      "bytes": 609,
+      "sha256": "f913c6453829a20219bf87bede40391e673de368f39124206ce5a774cc3300ce"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/exceptions.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/exceptions.rb",
+      "bytes": 873,
+      "sha256": "e1bb68b087f85157f119e37fa0df0d7707071a24b2d0f43f2566336231aa4114"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/generic_request.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/generic_request.rb",
+      "bytes": 9723,
+      "sha256": "e9f6651795a4388cc7f70e73bd25a2975b6ee3ff76f50e15018291d5a4bf0d31"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/header.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/header.rb",
+      "bytes": 16210,
+      "sha256": "8c99b86236260291dcff48a155d1b85541578796d0deefc973b23670c26c4c44"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/proxy_delta.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/proxy_delta.rb",
+      "bytes": 272,
+      "sha256": "af7a7bad871e123f7391b77c16c04163f4f6e4b1149a30414f4bdda1e549f1b7"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/request.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/request.rb",
+      "bytes": 746,
+      "sha256": "cb5e541c70b663dcbde4e1426310a15aef5c7522423f4a8f1451f8c23eb61cac"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/requests.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/requests.rb",
+      "bytes": 2981,
+      "sha256": "62c1a0c240886b476db44aff5e6f1745a53b4cec4f67d780e7705f6964d1f27a"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/response.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/response.rb",
+      "bytes": 10502,
+      "sha256": "34984d485eb51234022c0741f38ad63724b882a3ccd8f49f988f802de8657e97"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/responses.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/http/responses.rb",
+      "bytes": 10040,
+      "sha256": "856a9ff5e4bd7edcce22632b13b5127b95e3a5dced8fd05663680fef1f51dc60"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/protocol.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/net/protocol.rb",
+      "bytes": 10997,
+      "sha256": "e2754cb85421d1f409e53d954417c36026b9fb157ed03d82fed222d599c5d92f"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/open3.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/open3.rb",
+      "bytes": 22336,
+      "sha256": "9f9a0c275058b66dd1daa9b3c0823db9d9494c387f7840041f82189a0c9230fd"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl.rb",
+      "bytes": 469,
+      "sha256": "f0f8a510a1c92014481540323cf63a05ca964c069bb4def4e000a2a1902454f6"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/bn.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/bn.rb",
+      "bytes": 708,
+      "sha256": "b9ca36ca650b6d8edcc98e042098493f63d62c4583696fb7a65487a24c4fde35"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/buffering.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/buffering.rb",
+      "bytes": 9916,
+      "sha256": "964bb058d865de6accb0cb493f6b3e6bcac7d5293b45816b191ad39d92a90785"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/cipher.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/cipher.rb",
+      "bytes": 1745,
+      "sha256": "7c271aa92dba51e1991265aa09e50467451fb8ad4dc19bf5c6a380df0ce1c0ec"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/config.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/config.rb",
+      "bytes": 12267,
+      "sha256": "aca46bf5a2f5b98b80c3e65e36dfa88a1737f756bcb667288def53b465d7ca7a"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/digest.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/digest.rb",
+      "bytes": 1754,
+      "sha256": "3373a4dc5b17d1a8515fe759ffdaaf2870f1d5afeac887778fc9ff0ca0310ab2"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/pkcs5.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/pkcs5.rb",
+      "bytes": 614,
+      "sha256": "303ce7efc085e97d965fcd385dc64e4399117f4bd4f2e9d3a343d2683ed6a6f4"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/pkey.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/pkey.rb",
+      "bytes": 663,
+      "sha256": "c88fa9c44831bb8e564879145573d6759a6063bb78850afabfe399b4420be2e7"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/ssl.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/ssl.rb",
+      "bytes": 16363,
+      "sha256": "c95a8f217f7e7929a3bbe3dea8d749bf5c5761d7a42b4694d3ee09506d282364"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/x509.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/openssl/x509.rb",
+      "bytes": 5955,
+      "sha256": "ab938ec6f285195f5733eaa27f0ae054b55238565f7e7ea9a3689a10273e2f9a"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/ostruct.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/ostruct.rb",
+      "bytes": 10904,
+      "sha256": "917f9c5043db84d650c35f2f79b4f9624b06d73935357378663fea6dfbbcd655"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/pathname.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/pathname.rb",
+      "bytes": 16562,
+      "sha256": "499b3e1563a54c1e80ee5abb1998da9e337b9aca843020539c9a99fb4773b5f2"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems.rb",
+      "bytes": 36972,
+      "sha256": "973016836517de1cba10fb5f2aa17eaa40e2d3e8d0876a1203381300604f6238"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/basic_specification.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/basic_specification.rb",
+      "bytes": 7515,
+      "sha256": "756a12f94491fa8a732134af29e2b4ecf6df1023b5044b85bb787c6f222b1692"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/bundler_version_finder.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/bundler_version_finder.rb",
+      "bytes": 2846,
+      "sha256": "fa588f890a03d1b563ec8471178c1c4447b1d5292d80c482575da887e52df44a"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/compatibility.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/compatibility.rb",
+      "bytes": 1014,
+      "sha256": "6d05397b3c84964bb92556e03659d17b0477b9ce5c7edebe1644f01f85521f5d"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_gem.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_gem.rb",
+      "bytes": 2567,
+      "sha256": "3d5165b6b6e46ff105ec16968c6ae0d4e9ba61e896aab76e1a1b70e8ebff855d"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb",
+      "bytes": 4021,
+      "sha256": "0e68d52b55768f33dfd3618e2324575ccb2f2802a92e1827f09af98ef89e08ad"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_warn.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/core_ext/kernel_warn.rb",
+      "bytes": 1108,
+      "sha256": "b674ab4ab2e5b9c2f981f06d4cf16ce521d1aa190c2b266b401bfdb4a517eb08"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/defaults.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/defaults.rb",
+      "bytes": 5032,
+      "sha256": "ae742af802acfbe5aab743b8b7944ad8acc8c60437cafada3294896a65e4f959"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/dependency.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/dependency.rb",
+      "bytes": 8622,
+      "sha256": "d25df2ce19df746f7ec30d3f904ae2f02071c5148237fadce9af563f9ec45cba"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/deprecate.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/deprecate.rb",
+      "bytes": 1773,
+      "sha256": "7eaacfddca500fc6bf0cd2dd0cbb341a6aace6adf7479aeeac81b4e92c16c07e"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/errors.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/errors.rb",
+      "bytes": 4738,
+      "sha256": "cbfec94df1fe3908b5b2c29b3b3f617198d92bc8bc56f580c34a17290862a898"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/exceptions.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/exceptions.rb",
+      "bytes": 6781,
+      "sha256": "944e89c2826a84e25cb70dc00d5d9bae9ae1dd0b42e5154fb0bf280d10c4515d"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/path_support.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/path_support.rb",
+      "bytes": 1915,
+      "sha256": "7ef490e5958dadc658520b7296d4471a249b101d6f7ce48dfc5ba0ee13591aa0"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/platform.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/platform.rb",
+      "bytes": 6400,
+      "sha256": "1a282b3535686580d863afdce847f0510553b416cd0422c0da336ef9d2aa1c99"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/requirement.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/requirement.rb",
+      "bytes": 7554,
+      "sha256": "376aac4e19a432fdd3bb7bb2c1060f7856b07885d611841f5f1cd27b1e513119"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/specification.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/specification.rb",
+      "bytes": 74448,
+      "sha256": "de8cb780ac6a120d2941922572d4c7e6f9913d1cba4092721368365326f44700"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/specification_policy.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/specification_policy.rb",
+      "bytes": 10942,
+      "sha256": "13c9d185b194e63b687aafd35e94776ead6eab98c1174bd1512b439900e3dce3"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/stub_specification.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/stub_specification.rb",
+      "bytes": 4928,
+      "sha256": "0f24def32cecf79931563e361cdb981bcff0895fe8da005172539e2d3a296181"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/util.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/util.rb",
+      "bytes": 2761,
+      "sha256": "6021ae9fd036c0f9953b3dc1e0d911b703cf3962b7c9f10e51b61a6327505da6"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/util/list.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/util/list.rb",
+      "bytes": 585,
+      "sha256": "44e570b03a9d21880e675fd1f6293230ea75c750a6c02b6acce0ecbc86c97d4f"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/version.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/rubygems/version.rb",
+      "bytes": 12509,
+      "sha256": "a4ba9a551f5d4a52d27a7ffe7d75ea6c53aff1fdf49463d3f6373755228da9f2"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/securerandom.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/securerandom.rb",
+      "bytes": 9200,
+      "sha256": "e6cb24e25d12d1d7ebde6781a4da5e7280452c48e0644028b9ff6e4d941bcd72"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/socket.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/socket.rb",
+      "bytes": 44554,
+      "sha256": "72fc396171abc06ece8955b8529271d6a8753b8d87ad61b0cc24bc946f29f3f9"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/time.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/time.rb",
+      "bytes": 24120,
+      "sha256": "087b8f10797f173b1384561785c28db0b9623abb65e5dcce8e687cfffd767b5d"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/timeout.rb",
+      "bytes": 3899,
+      "sha256": "6b103856c51951913557814e856f1bad07fd1be951e68c3fdba47c981900f8d3"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/date_core.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/date_core.bundle",
+      "bytes": 502576,
+      "sha256": "5aa28e5089298a49b4afdfa4d910f1d5fe7730f28c9ff7f925fe13a01fabe153"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/digest.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/digest.bundle",
+      "bytes": 119664,
+      "sha256": "640e3b7f20a0f65cf014bf699c74530e345d3c4bbd8b9d07478be8025e0eddf7"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/digest/sha2.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/digest/sha2.bundle",
+      "bytes": 101248,
+      "sha256": "19e8db515d668ad2dba104957d7c65d2270e118e408b2fd6dc52d4994e0245b3"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/encdb.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/encdb.bundle",
+      "bytes": 117312,
+      "sha256": "1837b369a58b106569e1911f5a81f085344359541fccc5df4dd5516a91ea61a0"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/trans/transdb.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/trans/transdb.bundle",
+      "bytes": 116944,
+      "sha256": "d5878c3fc5ab3dd287fa7243447071be33c2dc995fe9d0655d94c509846a8721"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/windows_31j.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/enc/windows_31j.bundle",
+      "bytes": 117840,
+      "sha256": "5f20ad1782cf72ed91453b8bf58d49545425c4b8a7005051500891c8cfa28bdf"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/console.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/console.bundle",
+      "bytes": 120384,
+      "sha256": "482de62cc0a83f024d775d82adc76a8982d72f870a54141461d005bf64aa8f37"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/nonblock.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/nonblock.bundle",
+      "bytes": 101200,
+      "sha256": "6a20df7295e1ec9b157aa3e47233fa5bcad32f352854e60001a7f8dce03b05e8"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/wait.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/io/wait.bundle",
+      "bytes": 101440,
+      "sha256": "234fabf4a346acda6203fd338e9a2541b5e3e506405c599b038839082655a83f"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/json/ext/generator.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/json/ext/generator.bundle",
+      "bytes": 153488,
+      "sha256": "356f92e64a611ebd7a672705871ceea31f7a1407571492b087c8de9a4c9ff02c"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/json/ext/parser.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/json/ext/parser.bundle",
+      "bytes": 136768,
+      "sha256": "ff31273463da5db5f3eb17cd5fdfab7965b4104f25a5265f82e220be07696891"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/openssl.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/openssl.bundle",
+      "bytes": 696656,
+      "sha256": "c28ed79f50f2513da0265a8ab6db4c6916eecdc59be426fc34e4b4a36315c863"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/pathname.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/pathname.bundle",
+      "bytes": 152912,
+      "sha256": "6dd2804e45f777ccd2a9fe1669cb50cd34f819cb4425bc8116d344861c712e5e"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/rbconfig.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/rbconfig.rb",
+      "bytes": 15887,
+      "sha256": "eedb12cd66cbfcf07f9444273b3087ba44698ddbc5faad7e756bf120f357d1a4"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/socket.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/socket.bundle",
+      "bytes": 398144,
+      "sha256": "c484d2891ca290e464c7b00a7594c48962221c13ab4173d3006ebaa1a1ad9a48"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/stringio.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/stringio.bundle",
+      "bytes": 155328,
+      "sha256": "3ce509968f0bb1b1b3cd2bfbab5fb6769fb9bb0802410f00aff03b9c7ffc1ba9"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/zlib.bundle",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/zlib.bundle",
+      "bytes": 192048,
+      "sha256": "6354464b1f29fe66ed0f39e3568139ff5cc7f171f9c26fbdbb23b20d2b166aac"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri.rb",
+      "bytes": 3196,
+      "sha256": "d115de71679aa6fe9663f9898aebbb597101dad6419ad2b15f049b146aff9810"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/common.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/common.rb",
+      "bytes": 20162,
+      "sha256": "9a2f1c08b7f45f34d44e233b52cb3677145b7b72f8f85bffed74d6240728717c"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/file.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/file.rb",
+      "bytes": 2064,
+      "sha256": "79029d2c9f5fdc226049bb28103db42222d4c14953dcff53eac25490eb9b15f5"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ftp.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ftp.rb",
+      "bytes": 7254,
+      "sha256": "bfd46a6ea7bef5cfd2a2ad7612f78f9692f1cb3e6d6b2d40f1591d1a41b991aa"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/generic.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/generic.rb",
+      "bytes": 37096,
+      "sha256": "0f50d4319cb6ac6acd07646fdf518e79919b8bbabd1a09fe765d21d77113f799"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/http.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/http.rb",
+      "bytes": 2456,
+      "sha256": "11ed0a40b3b5f7b636c892df803834e52e23e3532363cecc30e386019e701a3c"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/https.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/https.rb",
+      "bytes": 619,
+      "sha256": "56425a999735723e412e40cd5d8f41ce8d7747517e47571769f0774a66b929f8"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ldap.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ldap.rb",
+      "bytes": 5974,
+      "sha256": "0c6672e14ca4ab0f8d0631c5e60d3f53b03928facec1cfbe85f9476ca56d0644"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ldaps.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/ldaps.rb",
+      "bytes": 506,
+      "sha256": "ec5df39ad465c7e3f68593c50c47c88e8eafa550c7731b5f732d5d1da3cf152b"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/mailto.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/mailto.rb",
+      "bytes": 8072,
+      "sha256": "104761e515782f63a09bf042da41ee18d6b0286d76187700e1566abd33e18807"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/rfc2396_parser.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/rfc2396_parser.rb",
+      "bytes": 17821,
+      "sha256": "2cd168912911542dbbcb2b5c3b28aeb0bdc6ff148759a923d345dfa9218ddbb0"
+    },
+    {
+      "path": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/rfc3986_parser.rb",
+      "realpath": "/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/uri/rfc3986_parser.rb",
+      "bytes": 6364,
+      "sha256": "31f928a46f8e904d8e6722374429e0550b01184272d03b4145cfea4659455654"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "realpath": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+      "bytes": 41375408,
+      "sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/inputs/700.sql",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/sql-attempt12/inputs/700.sql",
+      "bytes": 103624,
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_backup_network_probe.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_backup_network_probe.rb",
+      "bytes": 4709,
+      "sha256": "de8a344ff55a4d880193b19d4ef39b2a999db206037939268b4c5c54ce18e84a"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_encrypted_database_backup.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_encrypted_database_backup.rb",
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb",
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb",
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/sql/collect_recovery_source_catalog.sql",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/sql/collect_recovery_source_catalog.sql",
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb",
+      "realpath": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/snapshot_driver.rb",
+      "bytes": 20083,
+      "sha256": "0cd201d121d8dd683f7eeaaf13dcec32019dcd5de1a292f74d0b51497359b5fd"
+    }
+  ],
+  "export_lifecycle": {
+    "started_at": "2026-10-02T01:59:20.995723Z",
+    "ended_successfully": true,
+    "child_reaped": true,
+    "ended_at": "2026-10-02T01:59:22.472055Z"
+  },
+  "snapshot": {
+    "snapshot_id": "00000032-00000002-1",
+    "snapshot": "8151:8151:",
+    "database": "postgres",
+    "session_user": "postgres",
+    "current_user": "postgres",
+    "server_version": "17.6",
+    "backend_pid": 568,
+    "isolation": "repeatable read",
+    "read_only": "on",
+    "exported_at": "2026-10-02T01:59:21.032392Z"
+  }
+}

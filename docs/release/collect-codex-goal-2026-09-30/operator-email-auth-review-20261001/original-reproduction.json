@@ -1,0 +1,35 @@
+{
+  "kind": "independent_auth_source_review_synthetic_reproduction",
+  "observed_at": "2026-10-01T10:15:51.810761+00:00",
+  "subject_sha256": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62",
+  "findings": {
+    "enabled_invalid_hook_uses_smtp_fallback": {
+      "status": "CONFIGURED_READBACK_VERIFIED",
+      "calls": [
+        "GET",
+        "PATCH",
+        "GET"
+      ],
+      "unexpected_acceptance": true
+    },
+    "selected_field_reflects_untyped_content": {
+      "status": "READ_SUCCEEDED",
+      "calls": [
+        "GET"
+      ],
+      "canary_reflected": true
+    },
+    "boolean_integer_equality_accepts_wrong_types": {
+      "status": "ALREADY_CONFIGURED",
+      "calls": [
+        "GET"
+      ],
+      "unexpected_acceptance": true
+    }
+  },
+  "hosted_calls": 0,
+  "credential_accesses": 0,
+  "otp_requests": 0,
+  "source_edits": 0,
+  "production_acceptance": false
+}

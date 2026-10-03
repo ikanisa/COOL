@@ -1,0 +1,25 @@
+{
+  "app_export_resolution_Gradle_native_requested": false,
+  "free_bytes": 227626999808,
+  "observed_UTC": "2026-10-02T02:50:40.159072+00:00",
+  "one_invocation_no_retry": true,
+  "physical_device": 16777232,
+  "physical_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+  "preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "producing_argv_exact": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py",
+    "--stage",
+    "startup",
+    "--prepared-manifest-sha256",
+    "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+    "--root-review-sha256",
+    "062361abe65088d82a85581ca3fabfad14f7620d21093c81ebe4a43e6d4613b8"
+  ],
+  "required_predecessor_terminal_sha256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+  "root_admission_sha256": "062361abe65088d82a85581ca3fabfad14f7620d21093c81ebe4a43e6d4613b8",
+  "source_readback_deadline_seconds": 300,
+  "startup_deadline_seconds": 300
+}

@@ -1,0 +1,42 @@
+{
+  "rows": [
+    {
+      "attempt": 1,
+      "outcome": "AUTH_REFUSED",
+      "http_status": 403,
+      "observed_at": "2026-10-01T13:02:52.576403Z",
+      "response_at": "2026-10-01T13:02:47.567360Z",
+      "dispatched_at": "2026-10-01T13:02:47.481088Z",
+      "evidence_sha256": "8a002b7afbecefa5c267b7a60fc5f5d88bcb8c8ca26ca704a405e9ecc9264116",
+      "http_request_id": "5",
+      "evidence_revision": 1,
+      "worker_error_code": null,
+      "transport_terminal": true,
+      "response_rows_observed": 1
+    }
+  ],
+  "alerts": [
+    "AUTH_REFUSED"
+  ],
+  "collector": {
+    "day_cap": 36000,
+    "day_inspections": 24,
+    "last_request_id": "b4c125f9-db39-45c2-8d4c-a396ceb13988",
+    "quota_exhausted": false,
+    "last_recorded_at": "2026-10-01T13:02:53.841778Z",
+    "source_schema_valid": true,
+    "configuration_revision": 1
+  },
+  "checked_at": "2026-10-01T13:02:54.243951Z",
+  "request_id": "b598f994-ed17-4c80-ba1b-b09e32861742",
+  "send_action": false,
+  "resend_action": false,
+  "original_status": "pending",
+  "scan_request_id": null,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T13:03:54.243951Z",
+  "original_expires_at": "2026-10-01T13:04:17.293851Z",
+  "source_scan_complete": false,
+  "original_receipt_status": null
+}

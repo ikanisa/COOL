@@ -1,0 +1,37 @@
+{
+  "actual_fence_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-native-stage-review1/source-fence.json",
+  "actual_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-native-stage-review1/native-admission.json",
+  "digest_rule": "Every dynamic SHA must be replaced by root independently read exact 64 lowercase hex file digest; proposal manifest/count must match verified frozen leaves.",
+  "predecessor_rule": "Require app-lock stage_pass:true, stage:app-lock and prepared_manifest_sha256:8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c; export terminal independently requires same producer manifest, stage_pass:true, and actual_export_binding_sha256 equal the pinned binding.",
+  "required_document_template": {
+    "checked_packet_leaves": "ROOT_VERIFIED_NATIVE_PROPOSAL_LEAF_COUNT",
+    "current_source_export_authorized": true,
+    "errors": [],
+    "execution_stage_admissions": {
+      "app-export": false,
+      "app-lock": false,
+      "foundation": false,
+      "native": true,
+      "sdk-lock": false,
+      "startup": false
+    },
+    "native_admitted": true,
+    "packet_manifest_sha256": "ROOT_PINNED_NATIVE_PROPOSAL_MANIFEST_SHA256",
+    "private_snapshot_exclusive": true,
+    "production_release_approval": false,
+    "required_app_export_binding_sha256": "ROOT_READ_ACTUAL_FRESH_PREPARATION2_EXPORT_BINDING_SHA256",
+    "required_app_export_terminal_sha256": "ROOT_READ_ACTUAL_FRESH_PREPARATION2_APP_EXPORT_PASS_TERMINAL_SHA256",
+    "required_guard2_preparation_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+    "required_predecessor_terminal_sha256": "ROOT_READ_ACTUAL_WHOLE_PREPARATION2_APP_LOCK_PASS_TERMINAL_SHA256",
+    "required_reviewed_guard_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+    "required_source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+    "source_lock_attested": false,
+    "source_scope_held_for_strict_export": false,
+    "strict_current_source_comparison_required": true,
+    "transient_write_and_restore_absence_attested": false
+  },
+  "root_actual_outcomes_not_assumed": true,
+  "scope": "Template only. Root must not create a native admission before genuine whole app-lock PASS from preparation2. No actual receipt/admission exists in this proposal.",
+  "single_stage_rule": "Only native is true. Every other stage true, including unrecognized names, is refused.",
+  "source_fence_rule": "Reuse/copy22a874 only if source unchanged; export binding root_pinned_source_fence_sha256 must equal this receipt/fence hash. No source-lock or transient-absence claim is permitted."
+}

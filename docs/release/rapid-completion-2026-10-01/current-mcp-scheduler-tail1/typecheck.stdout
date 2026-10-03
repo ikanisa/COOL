@@ -1,0 +1,7 @@
+src/unattended_scheduler_control.test.ts(9,72): error TS2307: Cannot find module './unattended_deployment.ts' or its corresponding type declarations.
+src/unattended_scheduler_control.test.ts(10,144): error TS2307: Cannot find module './unattended_scheduler_control.ts' or its corresponding type declarations.
+src/unattended_scheduler_control.test.ts(11,40): error TS2307: Cannot find module './unattended_host_tick.ts' or its corresponding type declarations.
+src/unattended_scheduler_control.test.ts(12,47): error TS2307: Cannot find module './unattended_schedule_cli.ts' or its corresponding type declarations.
+src/unattended_scheduler_control.test.ts(42,38): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/unattended_scheduler_control.test.ts(104,19): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/unattended_scheduler_control.test.ts(140,33): error TS7006: Parameter 'result' implicitly has an 'any' type.

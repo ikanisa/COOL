@@ -3,6 +3,24 @@
 -- assertions require SMS observation to leave money unposted; a separate
 -- synthetic provider fixture exercises positive settlement on a rollback clone.
 begin;
+
+-- Synthetic verified verdicts only; real session admission/mint SQL executes.
+-- Historical pre-admission snapshots execute their original actual mint body.
+create function pg_temp.fixture_integrity_capability(p_actor uuid,p_session uuid,p_action text,
+ p_hash text,p_payload jsonb,p_receiver text)returns uuid language plpgsql as $$
+declare r jsonb;result jsonb;n uuid:=gen_random_uuid();begin
+ if to_regprocedure('public.reserve_play_integrity_admission_v1(uuid,uuid,uuid,text,text,text,text,jsonb)')is null then
+  return public.mint_native_action_capability(p_actor,p_action,p_hash,p_payload,p_receiver,
+   'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp());
+ end if;
+ r:=public.reserve_play_integrity_admission_v1(p_actor,p_session,n,p_action,p_hash,
+  encode(extensions.digest(n::text,'sha256'),'hex'),p_receiver,p_payload);
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'oauth');
+ perform public.begin_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,'decode');
+ result:=public.complete_play_integrity_admission_v1(p_actor,p_session,(r->>'reservation_id')::uuid,
+  p_payload,'app.cool.mobile','PLAY_RECOGNIZED',array['MEETS_DEVICE_INTEGRITY'],clock_timestamp(),1,200);
+ return(result->>'native_capability')::uuid;
+end$$;
 set local statement_timeout = '30s';
 
 do $$ begin
@@ -38,13 +56,13 @@ begin
   );
 end;
 $$;
-grant all on pg_temp.test_results to service_role;
+grant all on pg_temp.test_results to service_role,authenticated;
 
 set local role service_role;
 select set_config('request.jwt.claims', '{"role":"service_role"}', true);
 select pg_temp.assert_true(
-  public.attested_sms_contract_version() = 0,
-  'installed clients remain on the legacy SMS contract before rollout acceptance'
+  public.attested_sms_contract_version() = case when to_regprocedure('public.reserve_play_integrity_admission_v1(uuid,uuid,uuid,text,text,text,text,jsonb)')is null then 0 else 2 end,
+  'historical clients remain legacy; current receipt-v2 contract remains fixed before flag changes'
 );
 reset role;
 update public.feature_flags
@@ -53,8 +71,8 @@ where key = 'native_sms_attestation_enforcement';
 set local role service_role;
 select set_config('request.jwt.claims', '{"role":"service_role"}', true);
 select pg_temp.assert_true(
-  public.attested_sms_contract_version() = 1,
-  'accepted rollout can activate the attested SMS contract independently'
+  public.attested_sms_contract_version() = case when to_regprocedure('public.reserve_play_integrity_admission_v1(uuid,uuid,uuid,text,text,text,text,jsonb)')is null then 1 else 2 end,
+  'historical accepted rollout can activate contract1; current receipt-v2 flag changes never downgrade contract2'
 );
 reset role;
 
@@ -64,6 +82,9 @@ insert into auth.users(
   '99000000-0000-4000-8000-000000000001', 'authenticated', 'authenticated',
   '250788990001', now(), '{}', '{}'
 );
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)values('99000000-0000-4000-8000-000000000092','99000000-0000-4000-8000-000000000001',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');
+update public.profiles set country_code='RW',currency_code='RWF',momo_provider='mtn_momo',momo_number_verified_at=clock_timestamp(),momo_number='0788990001',momo_number_hash=encode(extensions.digest('+250788990001','sha256'),'hex')where id='99000000-0000-4000-8000-000000000001';
+
 insert into public.collections(
   id, slug, creator_user_id, title, category, visibility, public_status,
   collection_type, contribution_visibility, allow_anonymous,
@@ -85,24 +106,24 @@ insert into public.collection_receivers(
 ) values (
   '99000000-0000-4000-8000-000000000020',
   '99000000-0000-4000-8000-000000000010',
-  '99000000-0000-4000-8000-000000000001', '0788990001', repeat('a', 64),
+  '99000000-0000-4000-8000-000000000001', '0788990001', encode(extensions.digest('+250788990001','sha256'),'hex'),
   'mtn_momo', 'Attested UAT receiver', true
 );
 insert into public.receiver_mode_consents(
   id, user_id, enabled, momo_number_hash, build_channel, device_label, created_at
 ) values (
   '99000000-0000-4000-8000-000000000030',
-  '99000000-0000-4000-8000-000000000001', true, repeat('a', 64),
+  '99000000-0000-4000-8000-000000000001', true, encode(extensions.digest('+250788990001','sha256'),'hex'),
   'android_sms_ingest_attested', 'synthetic_play_integrity', now()
 );
 
 set local role service_role;
 select set_config('request.jwt.claims', '{"role":"service_role"}', true);
-select public.mint_native_action_capability(
-  '99000000-0000-4000-8000-000000000001',
+select pg_temp.fixture_integrity_capability(
+  '99000000-0000-4000-8000-000000000001', '99000000-0000-4000-8000-000000000092',
   'sms.ingest', repeat('b', 64),
   jsonb_build_object(
-    'receiver_momo_number_hash', repeat('a', 64),
+    'receiver_momo_number_hash', encode(extensions.digest('+250788990001','sha256'),'hex'),
     'client_envelope_id', '99000000-0000-4000-8000-000000000040',
     'raw_sender', 'M-Money',
     'raw_body_sha256', encode(extensions.digest(
@@ -110,8 +131,7 @@ select public.mint_native_action_capability(
     ), 'hex'),
     'received_at_device', null
   ),
-  repeat('a', 64), 'app.cool.mobile', 'PLAY_RECOGNIZED',
-  array['MEETS_DEVICE_INTEGRITY'], now()
+  encode(extensions.digest('+250788990001','sha256'),'hex')
 ) as capability_id \gset
 
 select public.ingest_attested_raw_payment_sms(
@@ -121,7 +141,7 @@ select public.ingest_attested_raw_payment_sms(
   encode(extensions.digest(
     'You have received RWF 1,234. Transaction ID ATTESTED1234', 'sha256'
   ), 'hex'),
-  '99000000-0000-4000-8000-000000000040', repeat('a', 64), null
+  '99000000-0000-4000-8000-000000000040', encode(extensions.digest('+250788990001','sha256'),'hex'), null
 ) as ingestion \gset
 
 select pg_temp.assert_true(
@@ -151,7 +171,7 @@ select public.ingest_attested_raw_payment_sms(
   encode(extensions.digest(
     'You have received RWF 1,234. Transaction ID ATTESTED1234', 'sha256'
   ), 'hex'),
-  '99000000-0000-4000-8000-000000000040', repeat('a', 64), null
+  '99000000-0000-4000-8000-000000000040', encode(extensions.digest('+250788990001','sha256'),'hex'), null
 ) as replay \gset
 select pg_temp.assert_true(
   :'replay'::jsonb ->> 'replay' = 'true'
@@ -176,7 +196,7 @@ insert into public.parsed_payment_events(
   '99000000-0000-4000-8000-000000000050',
   (:'ingestion'::jsonb ->> 'id')::uuid,
   '99000000-0000-4000-8000-000000000001', true, 'mtn_momo', 'incoming',
-  1234, 'RWF', 'ATTESTED1234', repeat('a', 64), 0.99,
+  1234, 'RWF', 'ATTESTED1234', encode(extensions.digest('+250788990001','sha256'),'hex'), 0.99,
   'collect.sms_parser.v4', 'needs_review', now()
 );
 insert into public.payments(
@@ -188,7 +208,7 @@ insert into public.payments(
   '99000000-0000-4000-8000-000000000050',
   '99000000-0000-4000-8000-000000000010',
   '99000000-0000-4000-8000-000000000001',
-  '99000000-0000-4000-8000-000000000001', repeat('a', 64), 1234,
+  '99000000-0000-4000-8000-000000000001', encode(extensions.digest('+250788990001','sha256'),'hex'), 1234,
   'ATTESTED1234', 'mtn_momo', 'sms_auto', 'review', 'anonymous', null
 );
 
@@ -238,12 +258,54 @@ select pg_temp.assert_true(
 );
 -- This separate synthetic service fixture models an independently obtained
 -- provider record. No SMS field is used as the provider request/evidence hash.
+reset role;
+select to_regprocedure('public.finalize_approved_reconciliation_v2(uuid)')is not null as governed_finality \gset
+\if :governed_finality
+-- Two explicit synthetic verified approvers; no live policy approval is claimed.
+reset role;
+insert into auth.users(id,aud,role,email,email_confirmed_at,phone,phone_confirmed_at,raw_app_meta_data,raw_user_meta_data)values
+ ('99660000-0000-4000-8000-000000000001','authenticated','authenticated','fixture-proposer@example.test',clock_timestamp(),'250788996601',clock_timestamp(),'{}','{}'),
+ ('99660000-0000-4000-8000-000000000002','authenticated','authenticated','fixture-approver@example.test',clock_timestamp(),'250788996602',clock_timestamp(),'{}','{}');
+insert into public.admin_user_roles(user_id,role_id,reason,created_at)
+select u.id,r.id,'Synthetic independent financial fixture authority',clock_timestamp()-interval '1 minute'
+from auth.users u cross join public.admin_roles r where u.id::text like '99660000-%'and r.name='platform_owner';
+do $$begin
+ if to_regclass('collect_admin_access.email_approvals')is not null then
+  insert into collect_admin_access.email_approvals(user_id,email,approved_at,reason)
+  select id,email,clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ else
+  insert into collect_admin_access.whatsapp_approvals(user_id,phone_e164,approved_at,reason)
+  select id,'+'||ltrim(phone,'+'),clock_timestamp()-interval '2 minutes','Synthetic financial fixture approval only'
+  from auth.users where id::text like '99660000-%';
+ end if;
+end$$;
+insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)values
+ ('99660000-0000-4000-8000-000000000011','99660000-0000-4000-8000-000000000001',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2'),
+ ('99660000-0000-4000-8000-000000000021','99660000-0000-4000-8000-000000000002',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal2');
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000011"}',true);
+select public.propose_payment_reconciliation_v2('99000000-0000-4000-8000-000000000060',repeat('e',64),'PROVIDER-UAT-ATTESTED1234',clock_timestamp(),'Synthetic independently sourced provider evidence')as fixture_review_id \gset
+select set_config('request.jwt.claims','{"sub":"99660000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal2","session_id":"99660000-0000-4000-8000-000000000021"}',true);
+select pg_temp.assert_true(public.approve_payment_reconciliation_v2(:'fixture_review_id','Synthetic independent approval of source evidence'),
+ 'independent synthetic approver reviews source evidence');
+select pg_temp.assert_true(public.authorize_reconciliation_finalization_v2(:'fixture_review_id'),
+ 'exact live synthetic approver authorizes finalization');
+reset role;
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
+select public.finalize_approved_reconciliation_v2(:'fixture_review_id')as provider_finality \gset
+\else
+-- Actual retained owner/service route on a pre-governed historical snapshot.
+set local role service_role;
+select set_config('request.jwt.claims','{"role":"service_role"}',true);
 select public.process_provider_finality_event(
   '99000000-0000-4000-8000-000000000070', 'payment.confirmed',
   repeat('d', 64), '99000000-0000-4000-8000-000000000060',
   'mtn_momo', 'ATTESTED1234', 'PROVIDER-UAT-ATTESTED1234',
-  repeat('a', 64), 1234, now(), repeat('e', 64), null, null
+  encode(extensions.digest('+250788990001','sha256'),'hex'), 1234, now(), repeat('e', 64), null, null
 ) as provider_finality \gset
+\endif
 select pg_temp.assert_true(
   :'provider_finality'::jsonb ->> 'payment_id'
     = '99000000-0000-4000-8000-000000000060'

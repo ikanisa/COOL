@@ -1,0 +1,102 @@
+{
+  "rows": [
+    {
+      "id": "b7bf5d6c-59fd-4c56-9dfa-c74411da2328",
+      "active": true,
+      "revision": 1,
+      "source_id": "2fe1503a-6aa9-4c8b-90cc-b8edb4031e2d",
+      "reason_code": "VERIFICATION_REJECTED",
+      "source_kind": "payment",
+      "acknowledged": false,
+      "source_sha256": "9ad5065eeac6a694eba9b2bafd999b52e8a373853020f3d2190c86f325a3b8de",
+      "last_changed_at": "2026-09-30T23:07:26.279645Z",
+      "first_observed_at": "2026-09-30T23:07:26.279645Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "424c11e6-394b-4174-b476-2118643e2aa6",
+      "active": true,
+      "revision": 5,
+      "source_id": "99790000-0000-4000-8000-000000060001",
+      "reason_code": "PARSING_FAILED",
+      "source_kind": "raw_sms",
+      "acknowledged": false,
+      "source_sha256": "f47dc5b93fd3fdbe8d8f32237bf36c83cf2fb0f9cacb2ff8cd720954a40c14ef",
+      "last_changed_at": "2026-09-30T23:07:24.514787Z",
+      "first_observed_at": "2026-09-30T23:07:21.422234Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "0072ce20-c8c9-4a0b-bf7b-9627de779edc",
+      "active": true,
+      "revision": 1,
+      "source_id": "f9e20223-f94a-4661-b2d1-e03d2430abe7",
+      "reason_code": "RECEIPT_SUPPRESSED",
+      "source_kind": "receipt",
+      "acknowledged": false,
+      "source_sha256": "8d0a2250f2921e32490a4b34c21a3bb33309e93dd74ceec7b1d97dbb2b2621df",
+      "last_changed_at": "2026-09-30T23:07:10.681442Z",
+      "first_observed_at": "2026-09-30T23:07:10.681442Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "6328700d-027a-4a3e-bd65-e86ad696e772",
+      "active": true,
+      "revision": 1,
+      "source_id": "0a388472-8865-42e8-81a2-1e29c185d0e6",
+      "reason_code": "SEND_FAILED_NO_SEND",
+      "source_kind": "receipt",
+      "acknowledged": false,
+      "source_sha256": "f5cbb04cd66dd4c6fe1af1e91209e329b637984792ed25280cfc2fdbcd34da2a",
+      "last_changed_at": "2026-09-30T23:07:07.902389Z",
+      "first_observed_at": "2026-09-30T23:07:07.902389Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "67594652-d4e0-437e-b0e7-a5c179f8ab7f",
+      "active": true,
+      "revision": 1,
+      "source_id": "0e4101c7-1ba6-45d2-a4b6-283a76230ef4",
+      "reason_code": "RECEIPT_SUPPRESSED",
+      "source_kind": "receipt",
+      "acknowledged": false,
+      "source_sha256": "8d0a2250f2921e32490a4b34c21a3bb33309e93dd74ceec7b1d97dbb2b2621df",
+      "last_changed_at": "2026-09-30T23:07:05.930618Z",
+      "first_observed_at": "2026-09-30T23:07:05.930618Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "ac1e2c91-ebac-4a77-9e88-144eecf98342",
+      "active": true,
+      "revision": 1,
+      "source_id": "3c478be9-9b6d-4a30-85a6-3428e2217fad",
+      "reason_code": "RECEIPT_SUPPRESSED",
+      "source_kind": "receipt",
+      "acknowledged": false,
+      "source_sha256": "8d0a2250f2921e32490a4b34c21a3bb33309e93dd74ceec7b1d97dbb2b2621df",
+      "last_changed_at": "2026-09-30T23:06:52.898314Z",
+      "first_observed_at": "2026-09-30T23:06:52.898314Z",
+      "escalation_requested": false
+    },
+    {
+      "id": "b9bc1194-ef3d-45e4-baaa-1ab646d7d229",
+      "active": true,
+      "revision": 1,
+      "source_id": "8265b3c1-9d12-4c0e-aff1-9117bd5811a0",
+      "reason_code": "SEND_UNCERTAIN",
+      "source_kind": "receipt",
+      "acknowledged": false,
+      "source_sha256": "f571e664d15f7cd34c71ac70d260dd9df9b7c8fe9319a27ce39edb3ca8e9b9c4",
+      "last_changed_at": "2026-09-30T23:06:45.529949Z",
+      "first_observed_at": "2026-09-30T23:06:45.529949Z",
+      "escalation_requested": false
+    }
+  ],
+  "limit": 50,
+  "active": true,
+  "checked_at": "2026-09-30T23:07:36.246581Z",
+  "next_cursor": null,
+  "contract_version": 1,
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false
+}

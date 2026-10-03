@@ -1,0 +1,36 @@
+{
+  "utc": "2026-10-02T12:30:14.981540+00:00",
+  "basis_checkpoint7_packet_sha256": "f918599390b3c7617281e359bf8662c15af3275e7a6329f0b757ff1ae04b125f",
+  "markdown_changes": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "before_sha256": "54ccde6b51e294f386d4be1c9d9e71cdba24790cab8528efc31020a3bdd96280",
+      "after_sha256": "f344a29f5b7ab0a08c7a1cda24c8609a22f780c4ef0f57fd521ef20a85da7c86",
+      "changes": "remove accidental spaces in two thousands separators only"
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "before_sha256": "9e47598b3ae3ea6862bfe009496775a49d4bae6745c14c3c8d32a6f33842001e",
+      "after_sha256": "5567a0be0fdb1cf6ecee212ac5db31b9beb72e1b1006514aa6ae9c4499d42340",
+      "changes": "remove accidental spaces in two thousands separators only"
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "before_sha256": "3f53827b331e409914558b666655d8c61519d37b14a8e761602d31042ea3b0a0",
+      "after_sha256": "1a00c464b31709d210e067bd251342eb6e8be97deaf23dcccbc57852e6467ba1",
+      "changes": "remove accidental spaces in two thousands separators only"
+    }
+  ],
+  "current_six_after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "9c0edad7b072e98837283b0e962008c047b43e68bcc54ac0cb11369f12d8659e",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "ee3280cd9beccc48868eb8e6a07e7e2a95eff627211d8d65f1e5e2aa3690466d",
+    "docs/release/local-implementation-register-2026-09-30.json": "b49c9392705a8b634fbb8e94778db989e5bd9574c5078eac446ca6e4e9e29a78",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "f344a29f5b7ab0a08c7a1cda24c8609a22f780c4ef0f57fd521ef20a85da7c86",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "5567a0be0fdb1cf6ecee212ac5db31b9beb72e1b1006514aa6ae9c4499d42340",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "1a00c464b31709d210e067bd251342eb6e8be97deaf23dcccbc57852e6467ba1"
+  },
+  "all_original_contracts_acceptance_counts_and_JSON_unchanged": true,
+  "closed": 6,
+  "open": 34,
+  "release_decision": "NO-GO"
+}

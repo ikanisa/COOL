@@ -1,0 +1,576 @@
+{
+  "scope": "Bounded current roster/decoder/SQL consumer review, source and tests; no secret/environment read",
+  "observed_at": "2026-10-02T01:12:08.862883+00:00",
+  "files": [
+    {
+      "path": "content/legal/collect_legal_pages_bundle.yaml",
+      "bytes": 40864,
+      "sha256": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94"
+    },
+    {
+      "path": "content/legal/collect_privacy_policy.yaml",
+      "bytes": 18679,
+      "sha256": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540"
+    },
+    {
+      "path": "docs/PRIVACY_AND_COMPLIANCE_NOTES.md",
+      "bytes": 6429,
+      "sha256": "187b21b35819119bf929cf1ea68aebae6fd11001b89e8457a577259eee8c26e5"
+    },
+    {
+      "path": "docs/admin/ROSTER_IMPORT_PROVENANCE_CONTRACT.md",
+      "bytes": 13674,
+      "sha256": "1e170497c37b4fd72e51c2338466d025764eecc6e3d66a2269adc503f54cd43e"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "bytes": 32624,
+      "sha256": "b0a38382fb1b286626146791b6fd0b58cdacba1729fdead80f225555a79bb3c6"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/specialist-findings.json",
+      "bytes": 10193,
+      "sha256": "5e3221a7b64e36a440c3d82b6fd2a6c3b466736944f074a18a5389870cb14535"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "bytes": 9941,
+      "sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint.dart",
+      "bytes": 3781,
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint_stub.dart",
+      "bytes": 98,
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint_web.dart",
+      "bytes": 683,
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_dialog.dart",
+      "bytes": 27073,
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_gateway.dart",
+      "bytes": 14265,
+      "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_import.dart",
+      "bytes": 37855,
+      "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_models.dart",
+      "bytes": 34778,
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_upload.dart",
+      "bytes": 4714,
+      "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "bytes": 38435,
+      "sha256": "7b8ccb9969714ebfe59e6fe9ed932cb9c0366760ec18b3a3291b5aa7f4550755"
+    },
+    {
+      "path": "lib/admin/core/roster_file_parser.dart",
+      "bytes": 3081,
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+    },
+    {
+      "path": "lib/admin/core/roster_xlsx_preflight.dart",
+      "bytes": 26641,
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+    },
+    {
+      "path": "scripts/tests/hybrid_roster_import_uat.sql",
+      "bytes": 8029,
+      "sha256": "7ada3c5cee235c574d8c45d8d34390c80afcb30df619e94cb50c7b7cef95a533"
+    },
+    {
+      "path": "scripts/tests/member_roster_access_uat.sql",
+      "bytes": 6166,
+      "sha256": "bd16c92e736db1bf83e734e3492d79dfcf0cbf84d4d28a44c746d68459fb8cd3"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "scripts/tests/roster_fresh_auth_concurrency_uat.rb",
+      "bytes": 71297,
+      "sha256": "f2d9f52d858a67759fa20eedee48207617388d9967174175166a0cafef2b37dc"
+    },
+    {
+      "path": "scripts/tests/roster_fresh_auth_gate.py",
+      "bytes": 20421,
+      "sha256": "283e7195f29f46cf948a2e8349efa89ac4416c1cf3016b64b691a035e4693894"
+    },
+    {
+      "path": "scripts/tests/roster_fresh_auth_post_vm_uat.py",
+      "bytes": 9547,
+      "sha256": "b07582981c40131763c133e7433bd954a24e6bfb33113b54168f494ee8232282"
+    },
+    {
+      "path": "scripts/tests/roster_fresh_auth_recovery_uat.sql",
+      "bytes": 36816,
+      "sha256": "2baf8a43b60ae4140dd6264504c4e604ed394aca7947dc419605b5ea7268c618"
+    },
+    {
+      "path": "scripts/tests/roster_import_provenance_concurrency_uat.rb",
+      "bytes": 39250,
+      "sha256": "94fd6a7e7859ad2f220b88cf6419dcc99f46701411fd32eafc33ccd1f4a1e1b9"
+    },
+    {
+      "path": "scripts/tests/roster_import_provenance_receipts_uat.sql",
+      "bytes": 8906,
+      "sha256": "126e8179af488095d86b44c72deb3a580a6eebdec43fd7f6e52506970f3220e4"
+    },
+    {
+      "path": "scripts/tests/roster_import_provenance_recovery_uat.rb",
+      "bytes": 11109,
+      "sha256": "666c66c853665fc2d993a87e42ea5e7cc83df9f7ee1b994e9ebfd69cd4cd8166"
+    },
+    {
+      "path": "scripts/tests/roster_import_provenance_source_test.rb",
+      "bytes": 8485,
+      "sha256": "1954b5cee87df6e23a64877f6973648a670d52f53741be347d60fdf50443c369"
+    },
+    {
+      "path": "scripts/tests/roster_import_provenance_uat.sql",
+      "bytes": 30454,
+      "sha256": "79363d1bd98895af40e3a5b1b0582a1a8779e10ea5ce5da82f4f7fd708bb6514"
+    },
+    {
+      "path": "scripts/tests/roster_import_reload_adversarial_uat.sql",
+      "bytes": 13749,
+      "sha256": "f821bcb759463c6151142a55d5de6a98832acb2606d5ecd29900886320c40f97"
+    },
+    {
+      "path": "scripts/tests/roster_import_reload_concurrency_uat.rb",
+      "bytes": 37936,
+      "sha256": "29b02596640b27465346d52270efbb8d5b556e105ea4fbef7325ff15eb370757"
+    },
+    {
+      "path": "scripts/tests/roster_import_reload_receipts_uat.sql",
+      "bytes": 13654,
+      "sha256": "ad20f40487df61370c5c5a8d0706e140383de2f581c56c1cc65a2fc7dbbd347c"
+    },
+    {
+      "path": "scripts/tests/roster_resource_concurrency_uat.rb",
+      "bytes": 42215,
+      "sha256": "485f331b96c34f26ba24efcb8c9c728cebeb74557693ed4eb7591daf10200e49"
+    },
+    {
+      "path": "scripts/tests/roster_resource_final_compatibility_uat.sql",
+      "bytes": 6161,
+      "sha256": "66d06aeeda1e8badce413ecb96e27a4a97f2ac0467122172beda9d1bee3d6377"
+    },
+    {
+      "path": "scripts/tests/roster_resource_integrity_uat.sql",
+      "bytes": 14516,
+      "sha256": "8d1aa1706e05e19c14bbfb88cc22d865226a0cbbfe2e7162d005d89dd8143a0e"
+    },
+    {
+      "path": "scripts/tests/roster_resource_runtime_verification.py",
+      "bytes": 4983,
+      "sha256": "4abf9b37788a8c4d5939b9b238f94f4337a0be878f895a6d64984543f9bd0c3f"
+    },
+    {
+      "path": "scripts/tests/run_roster_fresh_auth_acceptance.py",
+      "bytes": 8146,
+      "sha256": "13b44d66578673d9ea8655f3c08ed1034e445f17ad5d0a91948212cd23a66ca7"
+    },
+    {
+      "path": "scripts/tests/test_roster_fresh_auth_runner.py",
+      "bytes": 3440,
+      "sha256": "83d7401a7fdd157f2ec23d3618605e0aa76769f747a1ab76591133baf32c11d0"
+    },
+    {
+      "path": "scripts/tests/verify_roster_decoder.py",
+      "bytes": 12665,
+      "sha256": "e2f102db709793c14b897db9f829e09b427e9ae2822b6f7152d5f931f9a914d6"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3294,
+      "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 2468,
+      "sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a"
+    },
+    {
+      "path": "supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "bytes": 16045,
+      "sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_test.ts",
+      "bytes": 6181,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_file_policy_test.ts",
+      "bytes": 6694,
+      "sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_import_test.ts",
+      "bytes": 2317,
+      "sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "supabase/functions/_shared/supabase.ts",
+      "bytes": 1265,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 37689,
+      "sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "bytes": 714,
+      "sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb"
+    },
+    {
+      "path": "supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql",
+      "bytes": 37822,
+      "sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+    },
+    {
+      "path": "supabase/migrations/20260901210000_admin_single_access_role.sql",
+      "bytes": 8882,
+      "sha256": "0929ac6a97ba7e09e171a84cdb01d08d059b70dfd6f74fa8b423a1c2e0bb8137"
+    },
+    {
+      "path": "supabase/migrations/20260902091314_member_group_roster.sql",
+      "bytes": 4971,
+      "sha256": "79196683ec664b2c02965cc1e9908405740793b3e808911a6707fe3f99a021b8"
+    },
+    {
+      "path": "supabase/migrations/20260902120555_hybrid_member_registry.sql",
+      "bytes": 17576,
+      "sha256": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de"
+    },
+    {
+      "path": "supabase/migrations/20260902140151_platform_admin_whatsapp_approval.sql",
+      "bytes": 23489,
+      "sha256": "2799ce6ed756cd121042a14f1ea51ea7b72642cbb1c1bd49f4029a320de70caf"
+    },
+    {
+      "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "bytes": 97254,
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+    },
+    {
+      "path": "supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql",
+      "bytes": 10024,
+      "sha256": "dfa19ad7cde6ec400558bda9a8e5e068ee912d62f4e9f6dcc3b6d1ebd88023ac"
+    },
+    {
+      "path": "supabase/migrations/20260903091500_hybrid_member_directory_views.sql",
+      "bytes": 16379,
+      "sha256": "34c2429840f7bed1999d86cac73e49c60ea5db9cebb047db3fef7ec06ee557e5"
+    },
+    {
+      "path": "supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql",
+      "bytes": 6013,
+      "sha256": "5b0322b195b6956b2aac600b00fae96834064e255d5b3473689fe75bdcdad285"
+    },
+    {
+      "path": "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+      "bytes": 22307,
+      "sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142"
+    },
+    {
+      "path": "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+      "bytes": 45659,
+      "sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+    },
+    {
+      "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "bytes": 38882,
+      "sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7"
+    },
+    {
+      "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "bytes": 20025,
+      "sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9"
+    },
+    {
+      "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "bytes": 17752,
+      "sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b"
+    },
+    {
+      "path": "supabase/migrations/20260930150000_runtime_control_governance.sql",
+      "bytes": 63024,
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f"
+    },
+    {
+      "path": "supabase/migrations/20260930160000_redacted_operational_health.sql",
+      "bytes": 12679,
+      "sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+    },
+    {
+      "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "bytes": 44807,
+      "sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d"
+    },
+    {
+      "path": "supabase/migrations/20260930180000_operational_health_authority.sql",
+      "bytes": 7435,
+      "sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747"
+    },
+    {
+      "path": "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+      "bytes": 26516,
+      "sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424"
+    },
+    {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "supabase/migrations/20260930220000_runtime_control_authority.sql",
+      "bytes": 2971,
+      "sha256": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba"
+    },
+    {
+      "path": "supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "supabase/migrations/20260930230000_group_share_rotation_receipts.sql",
+      "bytes": 9213,
+      "sha256": "cd03ad8b7715bcc70e62264fa806a1d97ebef88fad936607a29259ae4e11bf07"
+    },
+    {
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+      "bytes": 12253,
+      "sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1"
+    },
+    {
+      "path": "supabase/migrations/20260930235500_operator_reason_whitespace.sql",
+      "bytes": 5762,
+      "sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f"
+    },
+    {
+      "path": "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql",
+      "bytes": 6841,
+      "sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef"
+    },
+    {
+      "path": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "bytes": 21389,
+      "sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653"
+    },
+    {
+      "path": "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "bytes": 19487,
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0"
+    },
+    {
+      "path": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "bytes": 18961,
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+    },
+    {
+      "path": "supabase/migrations/20261001220000_governed_settings_requests.sql",
+      "bytes": 25667,
+      "sha256": "ebb12ea2c17e5d336fd15347371156f79967679f58e4475139d42d84efe4c49e"
+    },
+    {
+      "path": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "bytes": 22197,
+      "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+    },
+    {
+      "path": "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+      "bytes": 4320,
+      "sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254"
+    },
+    {
+      "path": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "bytes": 52641,
+      "sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e"
+    },
+    {
+      "path": "supabase/migrations/20261002031500_privacy_request_intake.sql",
+      "bytes": 12799,
+      "sha256": "9650c23b3a3ae70f66e71cb439326264e8f08e75063f7a738f66018c6a0e6412"
+    },
+    {
+      "path": "tools/roster-decoder/.dockerignore",
+      "bytes": 45,
+      "sha256": "c41fb82d8404ca5dc6ddb2de07c81654cf762fced3dc8674fd2a54cd3ab6939c"
+    },
+    {
+      "path": "tools/roster-decoder/.gitignore",
+      "bytes": 25,
+      "sha256": "196d3d720ecbde1efdf6076374681a07c19bc6aa3853ce6b4e65583f61021aee"
+    },
+    {
+      "path": "tools/roster-decoder/Dockerfile",
+      "bytes": 413,
+      "sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a"
+    },
+    {
+      "path": "tools/roster-decoder/README.md",
+      "bytes": 4716,
+      "sha256": "de722f939bbe759dd5592963937bab38ed17f58362d1158339d4bbd3a1b8b029"
+    },
+    {
+      "path": "tools/roster-decoder/decoder.py",
+      "bytes": 17044,
+      "sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df"
+    },
+    {
+      "path": "tools/roster-decoder/generate_fixtures.py",
+      "bytes": 9231,
+      "sha256": "8e53bdc5442866287ff8b37a0922de2c3044e3ce9a10c273805568f67991d109"
+    },
+    {
+      "path": "tools/roster-decoder/requirements.in",
+      "bytes": 98,
+      "sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267"
+    },
+    {
+      "path": "tools/roster-decoder/requirements.lock",
+      "bytes": 661,
+      "sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16"
+    },
+    {
+      "path": "tools/roster-decoder/server.py",
+      "bytes": 7142,
+      "sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4"
+    },
+    {
+      "path": "tools/roster-decoder/test_dependency_security.py",
+      "bytes": 5123,
+      "sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed"
+    }
+  ]
+}

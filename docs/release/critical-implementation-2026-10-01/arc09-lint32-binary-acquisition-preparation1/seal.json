@@ -1,0 +1,8 @@
+{
+  "SHA256SUMS_sha256": "7c3b7a268f40b3982da6ec49464005ed21e91153b489952caf55c7011a482342",
+  "file_mode": "0400 read-only bytes; no OS immutable flag",
+  "packet_files_sha256": "f0df21ebaa99a603942a231b9d14bfd0e0d3930fe68cfd003d4e0d4be221f642",
+  "payload_files": 12,
+  "schema_version": 1,
+  "static_readback_sha256": "bb27789151bf0d54dcf181f05057cf7c6008c865581da0a0895374fc8e330b43"
+}

@@ -1,0 +1,1497 @@
+{
+  "exit_code": 0,
+  "calls": [
+    [
+      "projects",
+      "list",
+      "-o",
+      "json"
+    ],
+    [
+      "link",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "db",
+      "push",
+      "--dry-run",
+      "--skip-vault"
+    ],
+    [
+      "functions",
+      "list",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "-o",
+      "json"
+    ],
+    [
+      "functions",
+      "delete",
+      "stripe-webhook",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--yes"
+    ],
+    [
+      "functions",
+      "deploy",
+      "auth-send-whatsapp-otp",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-notification-operator",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-android-gateway",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-successor-gateway",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-supervisor",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-exception-worker",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "dispatch-notifications",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "ingest-payment-sms",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "parse-payment-sms",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "prepare-roster-import",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "reconciliation-finalize",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "send-notification",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "verify-play-integrity",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "list",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "-o",
+      "json"
+    ]
+  ],
+  "events": [
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "projects",
+        "list",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "link",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "db",
+        "push",
+        "--dry-run",
+        "--skip-vault"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "begin;\nset local lock_timeout='2s';\nselect pg_advisory_xact_lock(hashtext('collect-receipt-repeat-run-recovery'));\nlock table collect_receipt_operations.requests,collect_receipt_operations.reservations,collect_receipt_operations.backlog_results,collect_ops.receipt_backlog_budget_deferrals in share row exclusive mode;\ndo $guard$declare e record;begin\n for e in select *from(values\n('public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamptz,text,jsonb)','976035f110ddf0bc66db9740548cf5b596c0a4a4180d7a3d5dac727515b6d6bd'), \n('collect_ops.capture_receipt_backlog_budget_refusal()','81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190'), \n('public.admin_list_receipt_operation_evidence_v1(uuid,text,integer,timestamptz,text)','e3aba82f32570be3d8987e75f3ac81113497af8165c46208c4e184558f96cbe9'), \n('collect_receipt_operations.require_run(uuid,bigint,uuid)','ba72bca1a106782ba84cc7a8828c948f6839c9f3d4b55b8f830b9e914d023f9a'), \n('collect_receipt_operations.reserve_budget(uuid,bigint,uuid,uuid,uuid,integer,integer)','31c2b94098a18086c9cc851804ce1b69bb3d7939bb3c41140c0caaa4197ef7c3'), \n('collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)','12912903ceedef3bfe389a0398d69c7e19a109b70cf4f72a57b4e839e2c4bd94')\n )v(signature,body_sha256)loop\n  if to_regprocedure(e.signature)is null or(select encode(extensions.digest(prosrc,'sha256'),'hex')from pg_proc where oid=to_regprocedure(e.signature))is distinct from e.body_sha256 then\n   raise exception 'receipt_repeat_run_predecessor_drift:%',e.signature using errcode='55000';end if;\n end loop;\n if not exists(select 1 from pg_trigger where tgrelid='collect_receipt_operations.requests'::regclass and tgname='receipt_backlog_budget_refusal'and tgfoid='collect_ops.capture_receipt_backlog_budget_refusal()'::regprocedure and tgtype=5 and tgenabled='O'and tgnargs=0 and tgconstraint=0)\n or not exists(select 1 from pg_trigger where tgrelid='collect_ops.receipt_backlog_budget_deferrals'::regclass and tgname='receipt_exception_budget'and tgfoid='collect_ops.queue_receipt_exception_source()'::regprocedure and tgtype=5 and tgenabled='O'and tgnargs=0 and tgconstraint=0)\n then raise exception 'receipt_repeat_run_trigger_drift'using errcode='55000';end if;\nend$guard$;\n\n-- New immutable provenance; no legacy reservation or outcome is moved/backfilled.\ncreate table collect_receipt_operations.backlog_attempts(\n run_id uuid not null references collect_receipt_operations.runs(id)on delete restrict,\n snapshot_id uuid not null references collect_hybrid.momo_balance_snapshots(id)on delete restrict,\n reservation_id uuid not null unique references collect_receipt_operations.reservations(id)on delete restrict,\n request_id uuid not null references collect_receipt_operations.requests(request_id)on delete restrict deferrable initially deferred,\n recorded_at timestamptz not null check(isfinite(recorded_at)),primary key(run_id,snapshot_id),\n foreign key(run_id,snapshot_id)references collect_receipt_operations.backlog_results(run_id,snapshot_id)on delete restrict);\nalter table collect_receipt_operations.backlog_attempts enable row level security;\nrevoke all on collect_receipt_operations.backlog_attempts from public,anon,authenticated,service_role;\ncreate index receipt_backlog_attempt_request on collect_receipt_operations.backlog_attempts(request_id,run_id,snapshot_id);\ncreate index receipt_backlog_first_handled on collect_receipt_operations.backlog_results(snapshot_id,recorded_at,run_id)where business_handled;\ncreate function collect_receipt_operations.backlog_inspection_id(p_run uuid,p_snapshot uuid)returns uuid\nlanguage sql immutable strict set search_path=''as $$select extensions.uuid_generate_v5('c1c49625-b8d9-4278-998e-6758a0b945d4'::uuid,p_run::text||':'||p_snapshot::text)$$;\ncreate function collect_receipt_operations.backlog_attempt_immutable()returns trigger\nlanguage plpgsql set search_path=''as $$begin raise exception 'receipt_backlog_attempt_immutable'using errcode='42501';end$$;\ncreate trigger receipt_backlog_attempt_retained before update or delete on collect_receipt_operations.backlog_attempts for each row execute function collect_receipt_operations.backlog_attempt_immutable();\ncreate trigger receipt_backlog_attempt_no_truncate before truncate on collect_receipt_operations.backlog_attempts for each statement execute function collect_receipt_operations.backlog_attempt_immutable();\ncreate function collect_receipt_operations.validate_backlog_attempt()returns trigger\nlanguage plpgsql security definer set search_path=''as $$\ndeclare request collect_receipt_operations.requests;run collect_receipt_operations.runs;charge collect_receipt_operations.reservations;\n source collect_hybrid.momo_balance_snapshots;outcome collect_receipt_operations.backlog_results;n integer;done integer;deferred integer;begin\n select *into request from collect_receipt_operations.requests where request_id=new.request_id;\n select *into run from collect_receipt_operations.runs where id=new.run_id;\n select *into charge from collect_receipt_operations.reservations where id=new.reservation_id;\n select *into source from collect_hybrid.momo_balance_snapshots where id=new.snapshot_id;\n select *into outcome from collect_receipt_operations.backlog_results where run_id=new.run_id and snapshot_id=new.snapshot_id;\n if request.request_id is null or run.id is null or charge.id is null or source.id is null or outcome.snapshot_id is null\n or request.action<>'reconcile_backlog'or request.principal_id<>run.principal_id\n or request.input->>'run_id'is distinct from run.id::text or request.input->>'fence_version'is distinct from run.fence_version::text\n or request.result->>'run_id'is distinct from run.id::text or request.result->>'fence_version'is distinct from run.fence_version::text\n or charge.run_id<>run.id or charge.fence_version<>run.fence_version or charge.collection_id<>source.collection_id\n or not charge.collection_id=any(run.collection_ids)or charge.device_id is distinct from run.device_id\n or charge.actions<>1 or charge.sms_segments<>0 or source.event_type<>'receipt'\n or new.reservation_id<>collect_receipt_operations.backlog_inspection_id(run.id,source.id)\n or new.recorded_at<charge.recorded_at or new.recorded_at<outcome.recorded_at or new.recorded_at>request.recorded_at\n then raise exception 'receipt_backlog_attempt_provenance_invalid'using errcode='23514';end if;\n -- Probe at most26 mapped results; the public batch contract permits at most25.\n select count(*),count(*)filter(where business_handled),count(*)filter(where not business_handled)into n,done,deferred\n from(select b.business_handled from collect_receipt_operations.backlog_attempts a join collect_receipt_operations.backlog_results b\n  on b.run_id=a.run_id and b.snapshot_id=a.snapshot_id where a.request_id=new.request_id limit 26)bounded;\n if n>25 or n is distinct from(request.result->>'examined')::integer\n or done is distinct from(request.result->>'handled')::integer or deferred is distinct from(request.result->>'deferred')::integer\n or n>(request.input->>'limit')::integer then raise exception 'receipt_backlog_attempt_counts_invalid'using errcode='23514';end if;\n return new;end$$;\ncreate constraint trigger receipt_backlog_attempt_provenance after insert on collect_receipt_operations.backlog_attempts deferrable initially deferred for each row execute function collect_receipt_operations.validate_backlog_attempt();\ncreate function collect_receipt_operations.backlog_reservation_snapshot(p_reservation uuid,p_run uuid)returns uuid\nlanguage sql stable set search_path=''as $$select s.id from collect_hybrid.momo_balance_snapshots s\n where s.id=coalesce((select a.snapshot_id from collect_receipt_operations.backlog_attempts a where a.reservation_id=p_reservation and a.run_id=p_run),p_reservation)\n and collect_operator_audit.exception_scope_v2('receipt_backlog',s.id)$$;\nrevoke all on function collect_receipt_operations.backlog_inspection_id(uuid,uuid),collect_receipt_operations.backlog_attempt_immutable(),collect_receipt_operations.validate_backlog_attempt(),collect_receipt_operations.backlog_reservation_snapshot(uuid,uuid)from public,anon,authenticated,service_role;\n\ndo $patch$declare body text;needle text:=$old$snapshot collect_hybrid.momo_balance_snapshots;v_payment_id uuid;$old$;replacement text:=$new$snapshot collect_hybrid.momo_balance_snapshots;backlog_reservation uuid;backlog_refused_snapshot uuid;v_payment_id uuid;$new$;begin\n body:=pg_get_functiondef('public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamptz,text,jsonb)'::regprocedure);\n if(length(body)-length(replace(body,needle,'')))/length(needle)<>1 then raise exception 'receipt_repeat_run_patch_drift'using errcode='55000';end if;\n execute replace(body,needle,replacement);end$patch$;\ndo $patch$declare body text;needle text:=$old$  elsif p_action='reconcile_backlog'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   if p.catchup_enabled and r.mode in('Live','Live-limited')then\n    for snapshot in select s.* from collect_hybrid.momo_balance_snapshots s\n     where s.event_type='receipt'and s.collection_id=any(r.collection_ids)and s.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n     and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=s.payment_id and o.template_key='buri_munsi.payment_received')\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=s.id)\n     order by s.captured_at,s.id limit lim loop\n     if not collect_receipt_operations.reserve_budget(r.id,r.fence_version,snapshot.id,snapshot.collection_id,r.device_id,1,0)then exit;end if;\n     row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);examined:=examined+1;handled:=(row->>'business_handled')::boolean;\n     if handled then done:=done+1;else deferred:=deferred+1;end if;\n     insert into collect_receipt_operations.backlog_results values(r.id,snapshot.id,row->>'code',handled,(row->>'receipt_id')::uuid,clock_timestamp());\n    end loop;\n   end if;result:=base||jsonb_build_object('examined',examined,'handled',done,'deferred',deferred);\n$old$;replacement text:=$new$  elsif p_action='reconcile_backlog'then\n   perform collect_gateway.payload_keys(p_payload,array['run_id','fence_version','limit']);lim:=collect_gateway.payload_int(p_payload,'limit',1,25);\n   if p.catchup_enabled and r.mode in('Live','Live-limited')then\n    for snapshot in select s.* from collect_hybrid.momo_balance_snapshots s\n     where s.event_type='receipt'and s.collection_id=any(r.collection_ids)and s.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n     and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=s.payment_id and o.template_key='buri_munsi.payment_received')\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=s.id)\n     and not exists(select 1 from collect_receipt_operations.backlog_results b where b.snapshot_id=s.id and b.business_handled)\n     order by s.captured_at,s.id limit lim loop\n     backlog_reservation:=collect_receipt_operations.backlog_inspection_id(r.id,snapshot.id);\n     -- Refuse unrelated/colliding charges and inconsistent legacy same-run\n     -- charges; never adopt, release, move or recharge an unknown old attempt.\n     if exists(select 1 from collect_receipt_operations.reservations where id=backlog_reservation)\n      or exists(select 1 from collect_receipt_operations.reservations where id=snapshot.id and run_id=r.id)then\n      raise exception 'operations_budget_conflict'using errcode='22023';end if;\n     if not collect_receipt_operations.reserve_budget(r.id,r.fence_version,backlog_reservation,snapshot.collection_id,r.device_id,1,0)then\n      backlog_refused_snapshot:=snapshot.id;exit;end if;\n     row:=collect_receipt_operations.ensure_snapshot(snapshot.id,true);examined:=examined+1;handled:=(row->>'business_handled')::boolean;\n     if handled then done:=done+1;else deferred:=deferred+1;end if;\n     insert into collect_receipt_operations.backlog_results values(r.id,snapshot.id,row->>'code',handled,(row->>'receipt_id')::uuid,clock_timestamp());\n     insert into collect_receipt_operations.backlog_attempts values(r.id,snapshot.id,backlog_reservation,p_request_id,clock_timestamp());\n    end loop;\n   end if;result:=base||jsonb_build_object('examined',examined,'handled',done,'deferred',deferred);\n$new$;begin\n body:=pg_get_functiondef('public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamptz,text,jsonb)'::regprocedure);\n if(length(body)-length(replace(body,needle,'')))/length(needle)<>1 then raise exception 'receipt_repeat_run_patch_drift'using errcode='55000';end if;\n execute replace(body,needle,replacement);end$patch$;\ndo $patch$declare body text;needle text:=$old$ insert into collect_receipt_operations.requests values(p_request_id,p_principal_id,p_action,p_request_sha256,p_payload,p_issued_at,clock_timestamp(),result);$old$;replacement text:=$new$ insert into collect_receipt_operations.requests values(p_request_id,p_principal_id,p_action,p_request_sha256,p_payload,p_issued_at,clock_timestamp(),result);\n if backlog_refused_snapshot is not null then\n  insert into collect_ops.receipt_backlog_budget_deferrals(request_id,run_id,snapshot_id)values(p_request_id,r.id,backlog_refused_snapshot);end if;$new$;begin\n body:=pg_get_functiondef('public.receipt_operations_execute_v2(uuid,uuid,text,text,timestamptz,text,jsonb)'::regprocedure);\n if(length(body)-length(replace(body,needle,'')))/length(needle)<>1 then raise exception 'receipt_repeat_run_patch_drift'using errcode='55000';end if;\n execute replace(body,needle,replacement);end$patch$;\ndo $patch$declare body text;needle text:=$old$\ndeclare r collect_receipt_operations.runs;p collect_receipt_operations.policy;s collect_hybrid.momo_balance_snapshots;begin\n if new.action<>'reconcile_backlog'then return new;end if;\n r:=collect_receipt_operations.require_run((new.input->>'run_id')::uuid,(new.input->>'fence_version')::bigint,new.principal_id);\n select * into p from collect_receipt_operations.policy where singleton;\n if p.catchup_enabled and r.mode in('Live','Live-limited')and(new.result->>'examined')::integer<(new.input->>'limit')::integer then\n  select * into s from collect_hybrid.momo_balance_snapshots snapshot\n   where snapshot.event_type='receipt'and snapshot.collection_id=any(r.collection_ids)\n    and snapshot.captured_at>=clock_timestamp()-make_interval(hours=>p.catchup_hours)\n    and not exists(select 1 from collect_hybrid.sms_notification_outbox o where o.payment_id=snapshot.payment_id and o.template_key='buri_munsi.payment_received')\n    and not exists(select 1 from collect_receipt_operations.backlog_results b where b.run_id=r.id and b.snapshot_id=snapshot.id)\n   order by snapshot.captured_at,snapshot.id limit 1;\n  if s.id is not null and not collect_ops.receipt_exception_run_budget_available(r.id,s.collection_id)then\n   insert into collect_ops.receipt_backlog_budget_deferrals(request_id,run_id,snapshot_id)values(new.request_id,r.id,s.id);\n  end if;\n end if;return new;end$old$;replacement text:=$new$\ndeclare r collect_receipt_operations.runs;begin\n if new.action<>'reconcile_backlog'then return new;end if;\n -- Keep the original unconditional final current lease/policy/principal guard.\n -- The exact reserve_budget false candidate is inserted by the producer after\n -- its original request row exists; no later-clock/four-action-cap inference.\n r:=collect_receipt_operations.require_run((new.input->>'run_id')::uuid,(new.input->>'fence_version')::bigint,new.principal_id);\n return new;end$new$;begin\n body:=pg_get_functiondef('collect_ops.capture_receipt_backlog_budget_refusal()'::regprocedure);\n if(length(body)-length(replace(body,needle,'')))/length(needle)<>1 then raise exception 'receipt_repeat_run_patch_drift'using errcode='55000';end if;\n execute replace(body,needle,replacement);end$patch$;\ndo $patch$declare body text;needle text:=$old$case when exists(select 1 from collect_hybrid.momo_balance_snapshots s where s.id=shown.id and collect_operator_audit.exception_scope_v2('receipt_backlog',s.id))then shown.id end$old$;replacement text:=$new$collect_receipt_operations.backlog_reservation_snapshot(shown.id,shown.run_id)$new$;begin\n body:=pg_get_functiondef('public.admin_list_receipt_operation_evidence_v1(uuid,text,integer,timestamptz,text)'::regprocedure);\n if(length(body)-length(replace(body,needle,'')))/length(needle)<>1 then raise exception 'receipt_repeat_run_patch_drift'using errcode='55000';end if;\n execute replace(body,needle,replacement);end$patch$;\ninsert into supabase_migrations.schema_migrations (version, statements, name, created_by) values ('20261002080000', array['Applied transactionally through the Supabase Management API'], 'receipt_repeat_run_recovery', 'codex-management-api');\ncommit;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select count(*) from supabase_migrations.schema_migrations where version = '20261002080000' and name = 'receipt_repeat_run_recovery';"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "begin;\n-- Specific governed controls for lossless700 hot/cold maintenance. No expiry,\n-- erasure, sender, run or financial authority. Existing prepare stays unchanged.\ndo $$begin\n if not exists(select 1 from pg_proc where oid='collect_receipt_worker_history.prepare(bigint,boolean,integer,integer)'::regprocedure\n and pg_get_userbyid(proowner)='postgres' and prosecdef and proconfig=array['search_path=\"\"','lock_timeout=2s']\n and proacl=array['postgres=X/postgres']::aclitem[]\n and encode(sha256(convert_to(prosrc,'UTF8')),'hex')='3c661e6791647f931d3248c29b517448d3b8647f418107101cfc2f0abbff0122')\n or not exists(select 1 from pg_proc where oid='collect_receipt_worker_history.source_proof(text,uuid,uuid,uuid)'::regprocedure\n and encode(sha256(convert_to(prosrc,'UTF8')),'hex')='ac9c55abcc29e42b5485bbad7eeca81cce30a5aed6204fabdd450f994514861b')\n then raise exception 'receipt_retention_predecessor_changed' using errcode='55000';end if;\nend$$;\ncreate schema collect_receipt_retention_controls authorization postgres;\nrevoke all on schema collect_receipt_retention_controls from public,anon,authenticated,service_role;\ncreate table collect_receipt_retention_controls.adoption(\n singleton boolean primary key default true check(singleton),\n adopted_at timestamptz not null check(isfinite(adopted_at)),\n configuration jsonb not null check(jsonb_typeof(configuration)='object'),\n protocol_sha256 text not null check(protocol_sha256~'^[0-9a-f]{64}$')\n);\ninsert into collect_receipt_retention_controls.adoption\n select true,clock_timestamp(),to_jsonb(c)-'singleton','c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3' from collect_receipt_worker_history.configuration c where singleton;\ndo $$begin if(select count(*)from collect_receipt_retention_controls.adoption)<>1 then\n raise exception 'receipt_retention_configuration_unavailable'using errcode='55000';end if;end$$;\ncreate table collect_receipt_retention_controls.requests(\n request_id uuid primary key check(request_id<>'00000000-0000-0000-0000-000000000000'),\n actor_id uuid not null references auth.users(id), session_id uuid not null references auth.sessions(id),\n fingerprint_sha256 text not null check(fingerprint_sha256~'^[0-9a-f]{64}$'),\n intent jsonb not null check(jsonb_typeof(intent)='object'),\n recorded_at timestamptz not null check(isfinite(recorded_at)),\n before_configuration jsonb not null, after_configuration jsonb not null,\n before_cron jsonb not null, after_cron jsonb not null, result jsonb not null\n);\nalter table collect_receipt_retention_controls.adoption enable row level security;\nalter table collect_receipt_retention_controls.requests enable row level security;\nrevoke all on all tables in schema collect_receipt_retention_controls from public,anon,authenticated,service_role;\ncreate function collect_receipt_retention_controls.immutable()returns trigger language plpgsql set search_path='' as $$begin\n raise exception 'receipt_retention_record_immutable'using errcode='55000';end$$;\ncreate trigger immutable before update or delete on collect_receipt_retention_controls.adoption for each row execute function collect_receipt_retention_controls.immutable();\ncreate trigger immutable before update or delete on collect_receipt_retention_controls.requests for each row execute function collect_receipt_retention_controls.immutable();\ncreate function collect_receipt_retention_controls.actor(p_manage boolean)returns uuid\nlanguage plpgsql security definer set search_path='' as $$declare sid uuid;begin\n sid:=collect_supervisor.owner_actor();\n perform collect_hybrid.require_roster_actor_authority(auth.uid(),sid,'platform_owner',\n case when p_manage then array['settings.read','settings.manage']else array['settings.read']end);\n return sid;\nend$$;\ncreate function collect_receipt_retention_controls.utc(p_at timestamptz)returns text\nlanguage sql immutable strict set search_path='' as $$select to_char(p_at at time zone 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"')$$;\ncreate function collect_receipt_retention_controls.configuration(c jsonb)returns jsonb\nlanguage sql immutable strict set search_path=''as $$select c||jsonb_build_object('updated_at',collect_receipt_retention_controls.utc((c->>'updated_at')::timestamptz))$$;\ncreate function collect_receipt_retention_controls.cron()returns jsonb\nlanguage plpgsql security definer set search_path='' as $$declare rows jsonb; r jsonb;begin\n select coalesce(jsonb_agg(to_jsonb(j)),'[]'::jsonb)into rows from\n (select jobid,schedule,command,active,username,database from cron.job\n where jobname='collect-receipt-history-maintenance'order by jobid limit 2)j;\n if jsonb_array_length(rows)>1 then raise exception 'receipt_retention_cron_ambiguous'using errcode='55000';end if;\n if jsonb_array_length(rows)=0 then return jsonb_build_object('state','absent','job_id',null,'schedule',null,'command_sha256',null);end if;\n r:=rows->0;\n if r->>'username'<>current_user or r->>'database'<>current_database()\n or r->>'command'<>'select collect_receipt_worker_history.run_schedule();'or r->>'schedule'<>'* * * * *' then\n raise exception 'receipt_retention_cron_binding_changed'using errcode='55000';end if;\n return jsonb_build_object('state',case when(r->>'active')::boolean then 'active'else 'inactive'end,\n 'job_id',(r->>'jobid')::bigint,'schedule',r->>'schedule','command_sha256',encode(sha256(convert_to(r->>'command','UTF8')),'hex'));\nexception when insufficient_privilege then\n return jsonb_build_object('state','unavailable','job_id',null,'schedule',null,'command_sha256',null);\nend$$;\ncreate function public.admin_get_receipt_retention_controls_v1()returns jsonb\nlanguage plpgsql volatile security definer set search_path='' set statement_timeout='15s' as $$\ndeclare sid uuid; c collect_receipt_worker_history.configuration; t timestamptz; j jsonb; manage boolean:=true;begin\n sid:=collect_receipt_retention_controls.actor(false);\n select * into c from collect_receipt_worker_history.configuration where singleton for share;\n if not found then raise exception 'receipt_retention_configuration_unavailable'using errcode='55000';end if;\n j:=collect_receipt_retention_controls.cron();\n if collect_receipt_retention_controls.actor(false)<>sid then raise exception 'receipt_retention_session_changed'using errcode='42501';end if;\n begin perform collect_receipt_retention_controls.actor(true);exception when insufficient_privilege then manage:=false;end;\n t:=clock_timestamp();\n return jsonb_build_object('contract_version',1,'scope','rw_receipt_retention_controls','actor_id',auth.uid(),'session_id',sid,\n 'checked_at',collect_receipt_retention_controls.utc(t),'sample_valid_until',collect_receipt_retention_controls.utc(t+interval '60 seconds'),\n 'configuration',collect_receipt_retention_controls.configuration(to_jsonb(c)-'singleton'),'cron',j,\n 'retention',jsonb_build_object('cold_expiry_allowed',false,'raw_financial_expiry_allowed',false,\n 'unknown_outcome_hold_required',true,'late_callback_bindings_retained',true,'protocol_sha256','c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3'),\n 'platform_policies',jsonb_build_object('scheduler',jsonb_build_object('specification_sha256','559819220b3503ddb0ad13af669cf878bb00107b0c88accae0b86a3fb042c5b6','verification_state','release_declared','observed_at',null),\n 'android',jsonb_build_object('specification_sha256','e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c','verification_state','release_declared','observed_at',null)), 'mutation_allowed',manage);\nend$$;\ncreate function collect_receipt_retention_controls.intent(p_request_id uuid,p_actor uuid,p_session uuid,p_expected_revision bigint,\n p_enabled boolean,p_batch_limit integer,p_byte_limit integer,p_reason text,p_expires_at timestamptz)returns jsonb\nlanguage sql immutable set search_path='' as $$select jsonb_build_object('request_id',p_request_id,'actor_id',p_actor,'session_id',p_session,\n 'expected_revision',p_expected_revision,'enabled',p_enabled,'batch_limit',p_batch_limit,'byte_limit',p_byte_limit,\n 'reason',p_reason,'expires_at',collect_receipt_retention_controls.utc(p_expires_at),'protocol_sha256','c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3')$$;\ncreate function collect_receipt_retention_controls.fingerprint(i jsonb)returns text\nlanguage sql immutable strict set search_path=''as $$select encode(sha256(convert_to(\n 'receipt-retention-v1'||chr(10)||concat_ws(chr(10),i->>'request_id',i->>'actor_id',i->>'session_id',i->>'expected_revision',i->>'enabled',\n i->>'batch_limit',i->>'byte_limit',encode(sha256(convert_to(i->>'reason','UTF8')),'hex'),i->>'expires_at',i->>'protocol_sha256'),'UTF8')),'hex')$$;\ncreate function public.admin_configure_receipt_retention_controls_v1(p_request_id uuid,p_expected_revision bigint,p_enabled boolean,\n p_batch_limit integer,p_byte_limit integer,p_reason text,p_expires_at timestamptz)returns jsonb\nlanguage plpgsql volatile security definer set search_path='' set statement_timeout='15s' as $$\ndeclare sid uuid; i jsonb; fp text; old collect_receipt_retention_controls.requests; before_c jsonb;after_c jsonb; before_j jsonb;after_j jsonb;t timestamptz;r jsonb;begin\n sid:=collect_receipt_retention_controls.actor(true);\n if p_request_id is null or p_request_id='00000000-0000-0000-0000-000000000000' or p_expected_revision is null or p_expected_revision<1 or p_expected_revision>=1000000000\n or p_enabled is null or p_batch_limit is null or p_batch_limit not between 1 and 25 or p_byte_limit is null or p_byte_limit not between 1 and 4194304\n or p_reason is null or length(p_reason)not between 10 and 500 or p_reason<>btrim(p_reason)or p_reason~'[[:cntrl:]]'\n or p_expires_at is null or not isfinite(p_expires_at) then raise exception 'receipt_retention_intent_invalid'using errcode='22023';end if;\n i:=collect_receipt_retention_controls.intent(p_request_id,auth.uid(),sid,p_expected_revision,p_enabled,p_batch_limit,p_byte_limit,p_reason,p_expires_at);\n fp:=collect_receipt_retention_controls.fingerprint(i);\n perform pg_advisory_xact_lock(hashtext('collect-receipt-retention-request:'||p_request_id::text));\n if collect_receipt_retention_controls.actor(true)<>sid then raise exception 'receipt_retention_session_changed'using errcode='42501';end if;\n select *into old from collect_receipt_retention_controls.requests where request_id=p_request_id;\n if found then\n if old.actor_id<>auth.uid()or old.session_id<>sid or old.intent is distinct from i or old.fingerprint_sha256<>fp\n then raise exception 'receipt_retention_request_conflict'using errcode='55000';end if;\n return old.result;\n end if;\n t:=clock_timestamp();\n if p_expires_at<=t or p_expires_at>t+interval '120 seconds'then raise exception 'receipt_retention_request_expired'using errcode='22023';end if;\n -- Same actual700 publication/maintenance lock, before config; nonblocking.\n if not pg_try_advisory_xact_lock(hashtext('collect-receipt-history-maintenance'))then raise exception 'receipt_worker_history_held'using errcode='P0002';end if;\n select collect_receipt_retention_controls.configuration(to_jsonb(c)-'singleton')into before_c from collect_receipt_worker_history.configuration c where singleton for update nowait;\n if before_c is null then raise exception 'receipt_retention_configuration_unavailable'using errcode='55000';end if;\n before_j:=collect_receipt_retention_controls.cron();\n after_c:=collect_receipt_retention_controls.configuration(collect_receipt_worker_history.prepare(p_expected_revision,p_enabled,p_batch_limit,p_byte_limit));\n after_j:=collect_receipt_retention_controls.cron();\n if after_j->>'state'<>(case when p_enabled then 'active'else 'inactive'end)then raise exception 'receipt_retention_cron_unavailable'using errcode='55000';end if;\n if collect_receipt_retention_controls.actor(true)<>sid then raise exception 'receipt_retention_session_changed'using errcode='42501';end if;\n t:=clock_timestamp();if p_expires_at<=t then raise exception 'receipt_retention_request_expired'using errcode='22023';end if;\n r:=jsonb_build_object('contract_version',1,'scope','rw_receipt_retention_control_request','status','recorded','request_id',p_request_id,\n 'actor_id',auth.uid(),'session_id',sid,'fingerprint_sha256',fp,'intent',i,'recorded_at',collect_receipt_retention_controls.utc(t),\n 'before_configuration',before_c,'after_configuration',after_c,'before_cron',before_j,'after_cron',after_j);\n insert into collect_receipt_retention_controls.requests values(p_request_id,auth.uid(),sid,fp,i,t,before_c,after_c,before_j,after_j,r);\n return r;\nend$$;\ncreate function public.admin_get_receipt_retention_control_request_v1(p_request_id uuid,p_fingerprint_sha256 text,p_intent jsonb)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set statement_timeout='15s'as $$\ndeclare sid uuid;old collect_receipt_retention_controls.requests;i jsonb;begin\n sid:=collect_receipt_retention_controls.actor(false);\n if p_request_id is null or p_request_id='00000000-0000-0000-0000-000000000000'or p_fingerprint_sha256 is null or p_fingerprint_sha256!~'^[0-9a-f]{64}$'\n then raise exception 'receipt_retention_intent_invalid'using errcode='22023';end if;\n if p_intent is null or jsonb_typeof(p_intent)<>'object' then raise exception 'receipt_retention_intent_invalid'using errcode='22023';end if;\n i:=collect_receipt_retention_controls.intent(p_request_id,auth.uid(),sid,(p_intent->>'expected_revision')::bigint,\n (p_intent->>'enabled')::boolean,(p_intent->>'batch_limit')::integer,(p_intent->>'byte_limit')::integer,p_intent->>'reason',(p_intent->>'expires_at')::timestamptz);\n if p_intent is distinct from i or collect_receipt_retention_controls.fingerprint(i)is distinct from p_fingerprint_sha256\n or not coalesce((i->>'expected_revision')::bigint between 1 and 999999999,false)\n or not coalesce((i->>'batch_limit')::integer between 1 and 25,false)\n or not coalesce((i->>'byte_limit')::integer between 1 and 4194304,false)\n or i->>'enabled'is null or i->>'expires_at'is null or not isfinite((i->>'expires_at')::timestamptz)\n or not coalesce(length(i->>'reason')between 10 and 500,false)or i->>'reason'<>btrim(i->>'reason')or i->>'reason'~'[[:cntrl:]]'\n then raise exception 'receipt_retention_request_conflict'using errcode='55000';end if;\n perform pg_advisory_xact_lock(hashtext('collect-receipt-retention-request:'||p_request_id::text));\n if collect_receipt_retention_controls.actor(false)<>sid then raise exception 'receipt_retention_session_changed'using errcode='42501';end if;\n select *into old from collect_receipt_retention_controls.requests where request_id=p_request_id;\n if not found then return jsonb_build_object('contract_version',1,'scope','rw_receipt_retention_control_request','status','not_recorded',\n 'request_id',p_request_id,'actor_id',auth.uid(),'session_id',sid,'fingerprint_sha256',p_fingerprint_sha256,'intent',null,\n 'checked_at',collect_receipt_retention_controls.utc(clock_timestamp()),'recorded_at',null,'before_configuration',null,'after_configuration',null,'before_cron',null,'after_cron',null);end if;\n if old.actor_id<>auth.uid()or old.session_id<>sid or old.fingerprint_sha256<>p_fingerprint_sha256\n then raise exception 'receipt_retention_request_conflict'using errcode='55000';end if;\n return old.result;\nend$$;\nrevoke all on all functions in schema collect_receipt_retention_controls from public,anon,authenticated,service_role;\nrevoke all on function public.admin_get_receipt_retention_controls_v1(),\n public.admin_configure_receipt_retention_controls_v1(uuid,bigint,boolean,integer,integer,text,timestamptz),\n public.admin_get_receipt_retention_control_request_v1(uuid,text,jsonb)from public,anon,service_role;\ngrant execute on function public.admin_get_receipt_retention_controls_v1(),\n public.admin_configure_receipt_retention_controls_v1(uuid,bigint,boolean,integer,integer,text,timestamptz),\n public.admin_get_receipt_retention_control_request_v1(uuid,text,jsonb)to authenticated;\ninsert into supabase_migrations.schema_migrations (version, statements, name, created_by) values ('20261002090000', array['Applied transactionally through the Supabase Management API'], 'governed_receipt_retention_controls', 'codex-management-api');\ncommit;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select count(*) from supabase_migrations.schema_migrations where version = '20261002090000' and name = 'governed_receipt_retention_controls';"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "list",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "delete",
+        "stripe-webhook",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--yes"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "auth-send-whatsapp-otp",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-notification-operator",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-android-gateway",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-successor-gateway",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-supervisor",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-exception-worker",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "dispatch-notifications",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "ingest-payment-sms",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "parse-payment-sms",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "prepare-roster-import",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "reconciliation-finalize",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "send-notification",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "verify-play-integrity",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "list",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    }
+  ],
+  "controller_receipt": {
+    "approval_id": "fc288398-2059-4a90-8eab-bde0fae56557",
+    "approval_sha256": "5d7b68acabeac603786852aea3bb438c78b5dd4d6acfdbc922249561bd62a5ee",
+    "approved_operations": [
+      "migrations",
+      "retired_functions",
+      "edge_functions",
+      "strict_production_readiness"
+    ],
+    "attempt_id": "d847b2c8-de47-4bf4-a889-36c1f575865f",
+    "automatic_retries": 0,
+    "backend_manifest_sha256": "f17cd7447edf2822c10d62133f555bdd5d4ab7b0301cad97bc757991030a25df",
+    "candidate_manifest_sha256": "83427846e8ed754e01b2d2a01fd43028e0ed1a98d6b3f8900e3da613b97da3c4",
+    "execution": {
+      "runtime_metadata": "generated target-bound link plus explicitly validated CLI cache names",
+      "source": "private verified copy of reviewed export",
+      "worktree_executed": false
+    },
+    "finished_at_utc": "2026-10-02T07:23:14.064450+00:00",
+    "human_identity_authenticated": false,
+    "kind": "collect_backend_delivery_receipt",
+    "migration_versions_before": [
+      "202605230001",
+      "202605230002",
+      "202605230003",
+      "202605230004",
+      "202605230005",
+      "202605230006",
+      "202605230007",
+      "202605230008",
+      "202605230009",
+      "202605230010",
+      "202605230011",
+      "202605230012",
+      "202605230013",
+      "202605230014",
+      "202605230015",
+      "202605230016",
+      "202605230017",
+      "20260523203132",
+      "20260523204235",
+      "20260523205502",
+      "20260523210723",
+      "20260523212244",
+      "20260523213113",
+      "202605250001",
+      "202605270001",
+      "20260531162852",
+      "20260531190000",
+      "20260601230000",
+      "20260602050000",
+      "20260607130500",
+      "20260608090000",
+      "20260611111500",
+      "20260611113000",
+      "20260611114500",
+      "20260611171920",
+      "20260611184934",
+      "20260612103000",
+      "20260612110000",
+      "20260612111500",
+      "20260612113000",
+      "20260619003000",
+      "20260622090000",
+      "20260626193000",
+      "20260627143000",
+      "20260627171000",
+      "20260627183000",
+      "20260627184500",
+      "20260627190000",
+      "20260627191000",
+      "20260701090000",
+      "20260701100000",
+      "20260703170000",
+      "20260703224559",
+      "20260703225455",
+      "20260704100000",
+      "20260704110000",
+      "20260704120000",
+      "20260704133000",
+      "20260730134500",
+      "20260804150000",
+      "20260805120000",
+      "20260808093000",
+      "20260812073431",
+      "20260812080000",
+      "20260812090000",
+      "20260812100000",
+      "20260812110000",
+      "20260815050900",
+      "20260815051035",
+      "20260815054500",
+      "20260815062536",
+      "20260815071500",
+      "20260815082500",
+      "20260815083000",
+      "20260815083500",
+      "20260815084000",
+      "20260815084500",
+      "20260815085000",
+      "20260820160000",
+      "20260820162240",
+      "20260820185500",
+      "20260828100000",
+      "20260831084239",
+      "20260831084646",
+      "20260831095454",
+      "20260901134820",
+      "20260901135728",
+      "20260901141842",
+      "20260901160000",
+      "20260901183000",
+      "20260901193000",
+      "20260901194500",
+      "20260901200000",
+      "20260901210000",
+      "20260901220000",
+      "20260901223000",
+      "20260901230000",
+      "20260902073741",
+      "20260902075721",
+      "20260902081017",
+      "20260902081830",
+      "20260902083940",
+      "20260902090210",
+      "20260902091314",
+      "20260902093609",
+      "20260902100046",
+      "20260902120435",
+      "20260902120555",
+      "20260902134420",
+      "20260902140151",
+      "20260902212721",
+      "20260903083947",
+      "20260903084000",
+      "20260903085000",
+      "20260903090000",
+      "20260903090500",
+      "20260903091000",
+      "20260903091500",
+      "20260903092000",
+      "20260903092500",
+      "20260903200322",
+      "20260903201326",
+      "20260906093000",
+      "20260906160000",
+      "20260914165641",
+      "20260914213600",
+      "20260925190000",
+      "20260928150000",
+      "20260928160000",
+      "20260928170000",
+      "20260928171000",
+      "20260928172000",
+      "20260928174000",
+      "20260929110000",
+      "20260929120000",
+      "20260929130000",
+      "20260929140000",
+      "20260929150000",
+      "20260929160000",
+      "20260929170000",
+      "20260929180000",
+      "20260930100000",
+      "20260930110000",
+      "20260930120000",
+      "20260930130000",
+      "20260930140000",
+      "20260930150000",
+      "20260930160000",
+      "20260930170000",
+      "20260930180000",
+      "20260930200000",
+      "20260930210000",
+      "20260930211605",
+      "20260930213000",
+      "20260930220000",
+      "20260930220527",
+      "20260930230000",
+      "20260930230100",
+      "20260930230200",
+      "20260930230300",
+      "20260930230400",
+      "20260930233000",
+      "20260930234000",
+      "20260930235000",
+      "20260930235500",
+      "20260930235600",
+      "20260930235700",
+      "20261001000100",
+      "20261001000200",
+      "20261001000300",
+      "20261001000400",
+      "20261001000519",
+      "20261001001457",
+      "20261001003338",
+      "20261001004651",
+      "20261001095000",
+      "20261001100000",
+      "20261001110000",
+      "20261001120000",
+      "20261001130000",
+      "20261001140000",
+      "20261001150000",
+      "20261001160000",
+      "20261001170000",
+      "20261001180000",
+      "20261001190000",
+      "20261001200000",
+      "20261001210000",
+      "20261001220000",
+      "20261001230000",
+      "20261001233000",
+      "20261001234000",
+      "20261001235000",
+      "20261001235500",
+      "20261002000000",
+      "20261002010000",
+      "20261002020000",
+      "20261002030000",
+      "20261002031500",
+      "20261002040000",
+      "20261002041000",
+      "20261002042000",
+      "20261002043000",
+      "20261002044000",
+      "20261002050000",
+      "20261002060000",
+      "20261002070000"
+    ],
+    "operations": [
+      {
+        "elapsed_seconds": 0.288,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "edge_inventory",
+        "output_bytes": 97,
+        "output_sha256": "cde3cadd5b8dad14527950d5b8f43b799562a6e77a2f86ffdcb4e83988f38109",
+        "started_at_utc": "2026-10-02T07:21:39.189972+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.012,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_validation",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:21:40.177389+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.038,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "frozen_cached_handler_closure",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:21:40.798276+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.734,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:21:41.385414+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "project_visibility",
+        "output_bytes": 33,
+        "output_sha256": "56aa77eec8d16c0bd4601497e6d7594a93c082acefe2953b129eccfaabc8b01b",
+        "started_at_utc": "2026-10-02T07:21:44.678425+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.078,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "isolated_target_link",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:21:45.308301+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.217,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_pre_readback",
+        "output_bytes": 14803,
+        "output_sha256": "b08044e4f48452be41b7d3bc27771bb4d22514e812c60a7be9cbc1f9f0bf3f44",
+        "started_at_utc": "2026-10-02T07:21:45.941721+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.078,
+        "exit_code": 1,
+        "mutating": false,
+        "name": "migration_dry_run",
+        "output_bytes": 30,
+        "output_sha256": "7e3adde03e5e4a2404e89f6eae590ad16e82fc8572ff8071689ca45dfb022709",
+        "started_at_utc": "2026-10-02T07:21:48.701349+00:00",
+        "status": "failed"
+      },
+      {
+        "elapsed_seconds": 2.227,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:21:49.876760+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 13.704,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "migration_apply_management",
+        "output_bytes": 304,
+        "output_sha256": "cc920d475a40fc81def6014f834fb6785a0d12cd4c77867e8bc699f4aff470ee",
+        "started_at_utc": "2026-10-02T07:21:52.687977+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.356,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_readback",
+        "output_bytes": 14951,
+        "output_sha256": "732d84fd6beeae7394991d3719158f56611b7d4cd630bd42585ed12b3a350054",
+        "started_at_utc": "2026-10-02T07:22:06.977424+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "retired_function_inventory",
+        "output_bytes": 50,
+        "output_sha256": "e5967cd7b536566bb97d069b76295df01753cc3852035864fd1e06bf1e860fef",
+        "started_at_utc": "2026-10-02T07:22:09.928388+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.311,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:11.103484+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.071,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "delete_retired:stripe-webhook",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:13.963231+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.248,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:15.128542+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:auth-send-whatsapp-otp",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:17.923120+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.28,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:19.077921+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-notification-operator",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:21.950725+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.197,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:23.147074+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-android-gateway",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:25.886837+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.194,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:27.125448+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-successor-gateway",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:29.866663+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.152,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:31.039599+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.071,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-supervisor",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:33.733630+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.224,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:34.912688+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-exception-worker",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:37.695103+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.269,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:38.876291+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.068,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:dispatch-notifications",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:41.694050+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.366,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:42.866288+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:ingest-payment-sms",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:45.833215+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.42,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:47.084131+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.078,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:parse-payment-sms",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:50.079242+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.317,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:51.265512+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.072,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:prepare-roster-import",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:54.150525+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.489,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:55.377073+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.073,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:reconciliation-finalize",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:22:58.425079+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.314,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:22:59.665028+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:send-notification",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:23:02.555343+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.318,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:23:03.737585+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:verify-play-integrity",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:23:06.645005+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.307,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_readback",
+        "output_bytes": 14951,
+        "output_sha256": "732d84fd6beeae7394991d3719158f56611b7d4cd630bd42585ed12b3a350054",
+        "started_at_utc": "2026-10-02T07:23:07.290106+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "function_readback",
+        "output_bytes": 755,
+        "output_sha256": "ed10f87b69bb75f52ed0b7f641f2ebad50ffb3be6621f2a28e323996227e0329",
+        "started_at_utc": "2026-10-02T07:23:10.146240+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.15,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:23:11.349541+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.005,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "strict_production_readiness_including_rollback_uat",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:23:14.040725+00:00",
+        "status": "acknowledged"
+      }
+    ],
+    "production_release_accepted": false,
+    "readback": {
+      "functions": {
+        "matches_candidate_scope": true,
+        "observed_auth_modes": {
+          "auth-send-whatsapp-otp": false,
+          "collect-android-gateway": false,
+          "collect-notification-operator": true,
+          "collect-receipt-exception-worker": false,
+          "collect-receipt-successor-gateway": false,
+          "collect-receipt-supervisor": false,
+          "dispatch-notifications": false,
+          "ingest-payment-sms": true,
+          "parse-payment-sms": false,
+          "prepare-roster-import": true,
+          "reconciliation-finalize": true,
+          "send-notification": false,
+          "verify-play-integrity": true
+        }
+      },
+      "migrations": {
+        "matches_candidate": true,
+        "versions": [
+          "202605230001",
+          "202605230002",
+          "202605230003",
+          "202605230004",
+          "202605230005",
+          "202605230006",
+          "202605230007",
+          "202605230008",
+          "202605230009",
+          "202605230010",
+          "202605230011",
+          "202605230012",
+          "202605230013",
+          "202605230014",
+          "202605230015",
+          "202605230016",
+          "202605230017",
+          "20260523203132",
+          "20260523204235",
+          "20260523205502",
+          "20260523210723",
+          "20260523212244",
+          "20260523213113",
+          "202605250001",
+          "202605270001",
+          "20260531162852",
+          "20260531190000",
+          "20260601230000",
+          "20260602050000",
+          "20260607130500",
+          "20260608090000",
+          "20260611111500",
+          "20260611113000",
+          "20260611114500",
+          "20260611171920",
+          "20260611184934",
+          "20260612103000",
+          "20260612110000",
+          "20260612111500",
+          "20260612113000",
+          "20260619003000",
+          "20260622090000",
+          "20260626193000",
+          "20260627143000",
+          "20260627171000",
+          "20260627183000",
+          "20260627184500",
+          "20260627190000",
+          "20260627191000",
+          "20260701090000",
+          "20260701100000",
+          "20260703170000",
+          "20260703224559",
+          "20260703225455",
+          "20260704100000",
+          "20260704110000",
+          "20260704120000",
+          "20260704133000",
+          "20260730134500",
+          "20260804150000",
+          "20260805120000",
+          "20260808093000",
+          "20260812073431",
+          "20260812080000",
+          "20260812090000",
+          "20260812100000",
+          "20260812110000",
+          "20260815050900",
+          "20260815051035",
+          "20260815054500",
+          "20260815062536",
+          "20260815071500",
+          "20260815082500",
+          "20260815083000",
+          "20260815083500",
+          "20260815084000",
+          "20260815084500",
+          "20260815085000",
+          "20260820160000",
+          "20260820162240",
+          "20260820185500",
+          "20260828100000",
+          "20260831084239",
+          "20260831084646",
+          "20260831095454",
+          "20260901134820",
+          "20260901135728",
+          "20260901141842",
+          "20260901160000",
+          "20260901183000",
+          "20260901193000",
+          "20260901194500",
+          "20260901200000",
+          "20260901210000",
+          "20260901220000",
+          "20260901223000",
+          "20260901230000",
+          "20260902073741",
+          "20260902075721",
+          "20260902081017",
+          "20260902081830",
+          "20260902083940",
+          "20260902090210",
+          "20260902091314",
+          "20260902093609",
+          "20260902100046",
+          "20260902120435",
+          "20260902120555",
+          "20260902134420",
+          "20260902140151",
+          "20260902212721",
+          "20260903083947",
+          "20260903084000",
+          "20260903085000",
+          "20260903090000",
+          "20260903090500",
+          "20260903091000",
+          "20260903091500",
+          "20260903092000",
+          "20260903092500",
+          "20260903200322",
+          "20260903201326",
+          "20260906093000",
+          "20260906160000",
+          "20260914165641",
+          "20260914213600",
+          "20260925190000",
+          "20260928150000",
+          "20260928160000",
+          "20260928170000",
+          "20260928171000",
+          "20260928172000",
+          "20260928174000",
+          "20260929110000",
+          "20260929120000",
+          "20260929130000",
+          "20260929140000",
+          "20260929150000",
+          "20260929160000",
+          "20260929170000",
+          "20260929180000",
+          "20260930100000",
+          "20260930110000",
+          "20260930120000",
+          "20260930130000",
+          "20260930140000",
+          "20260930150000",
+          "20260930160000",
+          "20260930170000",
+          "20260930180000",
+          "20260930200000",
+          "20260930210000",
+          "20260930211605",
+          "20260930213000",
+          "20260930220000",
+          "20260930220527",
+          "20260930230000",
+          "20260930230100",
+          "20260930230200",
+          "20260930230300",
+          "20260930230400",
+          "20260930233000",
+          "20260930234000",
+          "20260930235000",
+          "20260930235500",
+          "20260930235600",
+          "20260930235700",
+          "20261001000100",
+          "20261001000200",
+          "20261001000300",
+          "20261001000400",
+          "20261001000519",
+          "20261001001457",
+          "20261001003338",
+          "20261001004651",
+          "20261001095000",
+          "20261001100000",
+          "20261001110000",
+          "20261001120000",
+          "20261001130000",
+          "20261001140000",
+          "20261001150000",
+          "20261001160000",
+          "20261001170000",
+          "20261001180000",
+          "20261001190000",
+          "20261001200000",
+          "20261001210000",
+          "20261001220000",
+          "20261001230000",
+          "20261001233000",
+          "20261001234000",
+          "20261001235000",
+          "20261001235500",
+          "20261002000000",
+          "20261002010000",
+          "20261002020000",
+          "20261002030000",
+          "20261002031500",
+          "20261002040000",
+          "20261002041000",
+          "20261002042000",
+          "20261002043000",
+          "20261002044000",
+          "20261002050000",
+          "20261002060000",
+          "20261002070000",
+          "20261002080000",
+          "20261002090000"
+        ]
+      },
+      "postgresql": {
+        "client_sha256": "9ca00291fda9ace9944905369d4711030bb42f00008c7e3dfb7fb4b5b2046abe",
+        "client_version": "17.6",
+        "human_review_authenticated": false,
+        "manifest_sha256": "a6c827f9c2e3f8c168115447cd052a884150fb45e45bc14bc869774549f74add",
+        "observed_after_target_bound_read": true,
+        "operation": "migration",
+        "server_version_num": 170006
+      }
+    },
+    "schema_version": 1,
+    "started_at_utc": "2026-10-02T07:21:35.646097+00:00",
+    "status": "delivered_and_read_back",
+    "target": {
+      "environment": "production",
+      "project_ref": "abcdefghijklmnopqrst",
+      "url": "https://abcdefghijklmnopqrst.supabase.co"
+    },
+    "toolchain": {
+      "deno": {
+        "binary_sha256": "ac9da3a80bf94255aabed114f294aa83ec5dc7ae694395448f4de5644645a80b",
+        "version": "2.5.6"
+      },
+      "postgresql": {
+        "manifest_sha256": "a6c827f9c2e3f8c168115447cd052a884150fb45e45bc14bc869774549f74add"
+      },
+      "supabase": {
+        "binary_sha256": "7483e49e5f433973ce491795564417c7640511e58935ba0ebb6491dce19251a6",
+        "version": "2.114.0"
+      },
+      "supabase_go": {
+        "binary_sha256": "56c064702b1c61b402fae12bd5551bf335d4e81195e20f39f41cdbe6737c61fa",
+        "version": "2.114.0"
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": "",
+  "capture_position": "inside run_deploy before the test returns and cleanup"
+}

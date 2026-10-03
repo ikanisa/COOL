@@ -1,0 +1,152 @@
+{
+  "format": "collect-inactive-overlay-proposal-source-v1",
+  "observed_at": "2026-10-02T02:13:55.349631+00:00",
+  "scope": "proposal-only read-only file bindings; no install/test/target/mutation; canonical207 plus read-only private440 and sealed snapshot caller association",
+  "files": [
+    {
+      "path": "supabase/migrations/202605230008_admin_panel.sql",
+      "bytes": 33617,
+      "sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783"
+    },
+    {
+      "path": "supabase/migrations/20260930150000_runtime_control_governance.sql",
+      "bytes": 63024,
+      "sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f"
+    },
+    {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "bytes": 42033,
+      "sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c"
+    },
+    {
+      "path": "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "bytes": 19487,
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0"
+    },
+    {
+      "path": "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+      "bytes": 25037,
+      "sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d"
+    },
+    {
+      "path": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "bytes": 11348,
+      "sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2"
+    },
+    {
+      "path": "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql",
+      "bytes": 20563,
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95"
+    },
+    {
+      "path": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "bytes": 22197,
+      "sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+    },
+    {
+      "path": "supabase/migrations/20261001234000_play_integrity_admission.sql",
+      "bytes": 19025,
+      "sha256": "f7602666cdd6d1afa09250c74ae2f09afa0c051990074adc7b04900fc47de275"
+    },
+    {
+      "path": "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+      "bytes": 59572,
+      "sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c"
+    },
+    {
+      "path": "supabase/migrations/20261002040000_receipt_unarmed_closure.sql",
+      "bytes": 20369,
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a"
+    },
+    {
+      "path": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "bytes": 105502,
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c"
+    },
+    {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "bytes": 103624,
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3"
+    },
+    {
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "bytes": 16746,
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998"
+    },
+    {
+      "path": "supabase/functions/collect-android-gateway/handler.ts",
+      "bytes": 27054,
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344"
+    },
+    {
+      "path": "supabase/functions/collect-receipt-successor-gateway/handler.ts",
+      "bytes": 9031,
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760"
+    },
+    {
+      "path": "scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    {
+      "path": "scripts/audits/collect_recovery_source.rb",
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    {
+      "path": "docs/platform/CURRENT_CANDIDATE_RECOVERY.md",
+      "bytes": 8784,
+      "sha256": "52f26823f6b3b7cafe67e44fc12bd25c62ab9a7e6997b335be630cbf8727a8ca"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/SEAL.json",
+      "bytes": 1891,
+      "sha256": "2cc06138e510f731cd8b228d35ccbf2f1c8e6a68bb897d8e4e564205048f0d1f"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/PROMOTION_MAP.json",
+      "bytes": 3563,
+      "sha256": "d1841ec3b9c54cc613d10549f4dc01eb7a86d3901f8d498477d0be913924e149"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb",
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    {
+      "path": ".cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb",
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    {
+      "path": ".cache/receipt-successor-workflows-20261001/accepted-successor-execution-read-backend-current1/supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+      "bytes": 14442,
+      "sha256": "f082950cbc11766d336e514ebde35c1c3407d32118c5d0faf8ef5d8e27a67230"
+    }
+  ]
+}

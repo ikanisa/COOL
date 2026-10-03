@@ -1,0 +1,32 @@
+{
+  "ARC09_closed": false,
+  "SDK_lock_original_SHA256": "1aa193fc5df798338a2ca97d1737450f9c2cc1984ec0095b2efbaa0f4dcad340",
+  "actual_required_source_bytes": "All retained publisher bytes +exact8; no cache binary/JSON override.",
+  "candidate_promoted": false,
+  "live_floor_bytes": 4294967296,
+  "locked_resolution_command_exact": {
+    "argv": [
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart",
+      "pub",
+      "--suppress-analytics",
+      "get",
+      "--enforce-lockfile"
+    ],
+    "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools",
+    "deadline_seconds": 1200
+  },
+  "owned_resolved_package_roots": [
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache"
+  ],
+  "post_pub_lock_mtime_may_change_only_from_actual_enforced_pub": true,
+  "preparation_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "production_release_approval": false,
+  "required_new_immutable_root_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1/sdk-lock-admission.json",
+  "required_predecessor_terminal_sha256": "cd987c5c877f3d3e6867dd0c84ef6531e9611c5e81288e763ac61ccb675da9cf",
+  "scope": "Next SDK-only enforced locked resolution proposed; not authorized or executed by this foundation proof.",
+  "sdk_lock_executed": false,
+  "source_and_lock_bytes_must_remain_exact": true,
+  "source_readback_deadline_seconds": 300,
+  "startup_app_export_Gradle_native_authorized": false
+}

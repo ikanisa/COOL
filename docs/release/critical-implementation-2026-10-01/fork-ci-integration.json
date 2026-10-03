@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T21:22:11.689192+00:00",
+  "status": "local_ci_caller_contract_verified",
+  "source_sha256": {
+    ".github/workflows/ci.yml": "d4c7b0c70bee2a29d7aac3f34bef2ecce41eb35dbe2d622b839d0052ecb5619b",
+    "scripts/supply_chain/verify_pub_forks.py": "34d23d29fb61c23ddbaf8c949309fde2c7ebcab58ebad834b1d01d4956f4126d",
+    "scripts/tests/pub_fork_origin_test.py": "b6ddeb21b685b3b8de8c1052dab5b0a1908fdab9be145723dede4a5494856fda"
+  },
+  "job": "analyze",
+  "checks": {
+    "existing_workflow_semantics_preserved_except_new_step": true,
+    "unchanged_frozen_pub_resolution_first": true,
+    "existing_file_saver_check_retained": true,
+    "fresh_public_archive_fetch_then_offline_verify": true,
+    "caller_runs_adversarial_verifier_tests": true,
+    "shell_syntax_pass": true
+  },
+  "exact_run_recipe": "python3 scripts/tests/pub_fork_origin_test.py\npython3 scripts/supply_chain/verify_pub_forks.py fetch --cache-dir \"$RUNNER_TEMP/collect-pub-forks\"\npython3 scripts/supply_chain/verify_pub_forks.py verify --cache-dir \"$RUNNER_TEMP/collect-pub-forks\" --output \"$RUNNER_TEMP/collect-pub-forks-verification.json\"\n",
+  "fork_origin_receipt": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/batch.json",
+  "fork_origin_receipt_sha256": "c724b537bea07709be0d0ce9f899b9f2afc990dd6deba5e3d71e6f028e8bb9cc",
+  "reused_verified_tests": 30,
+  "reused_actual_copy_negatives": 14,
+  "provider_called": false,
+  "hosted_ci_executed": false,
+  "full_acceptance_closed": false,
+  "limitations": [
+    "Local structural/syntax caller contract and previously executed unchanged callee tests; fresh hosted job execution remains open.",
+    "Earlier cold Edge source closure is dated and now differs at ci.yml by this independent fork-authentication step; later decoder remediation requires its own consumer rerun."
+  ]
+}

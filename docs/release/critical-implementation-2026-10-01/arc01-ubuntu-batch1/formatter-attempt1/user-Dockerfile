@@ -1,0 +1,3 @@
+FROM collect-arc01-ubuntu-20261002-deabfee579f3:proof
+RUN useradd --create-home --uid 501 --user-group arc01
+USER arc01

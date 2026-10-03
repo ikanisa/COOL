@@ -1,0 +1,14 @@
+{
+  "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+  "scripts/qa/runtime_reachability.py": "dc210e11c357e5a3a47ae97fb92189cd98ee3d7fc23c4602d487e20616e93a7a",
+  "scripts/supply_chain/inventory.py": "b4ee5595f54dd67aaccbfd211d29a2de654b0d836c417d8be2fc29002ddd84e7",
+  "scripts/supply_chain/source_sbom.py": "df0061cf747584466a6d5db25840a4db56db7abedcc6e38619b258f15b7dad51",
+  "scripts/supply_chain/validate_source_sbom.py": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+  "scripts/tests/asset_manifest_integrity_test.rb": "c0ae5f0bcc990d9a3b85c4e80a4f97c4c15b4269d9183b53d2f066af53f9e645",
+  "scripts/tests/asset_hygiene_integration_test.rb": "905f2f16eb9a6439090bdf13f119d51b9285d1a870f1036d6fcc29e1c66b384e",
+  "scripts/tests/runtime_reachability_test.py": "8d91af9907458c769d23aa7da0ab15efefd18ca4967b9aefdb7bbc4a51db699d",
+  "scripts/tests/supply_chain_source_test.py": "b87767583d06ab83bdcff912672b7c9982313b5f5cf58bd3b38c8101170efd47",
+  "scripts/tests/public_app_media_test.rb": "cc81b82e23939796afa3377ef761f7f722fb995c8993a5cb6243fb4e5c1f76af",
+  "scripts/tests/dart_format_test.rb": "3e08ffb2b61d0dcbd005319c9d4125839c60e25f01b02f07ccacbd075c91e27f",
+  "scripts/tests/native_source_export_test.py": "e51d6036d9a93c0a4004699eb3557a0c2273623629e02a9df333adaebe779085"
+}

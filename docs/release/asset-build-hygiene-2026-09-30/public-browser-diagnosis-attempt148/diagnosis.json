@@ -1,0 +1,94 @@
+{
+  "status": "observed",
+  "completed_at": "2026-10-01T00:48:11.092Z",
+  "rows": [
+    {
+      "route": "craas/",
+      "gridWidth": 280,
+      "gridTemplateColumns": "128px 128px",
+      "mobileMediaMatches": true,
+      "headings": [
+        {
+          "text": "For businesses",
+          "left": 53,
+          "right": 115,
+          "textRight": 148.953125,
+          "overflowWrap": "normal"
+        },
+        {
+          "text": "For banks",
+          "left": 205,
+          "right": 267,
+          "textRight": 256.453125,
+          "overflowWrap": "normal"
+        }
+      ]
+    },
+    {
+      "route": "credit-readiness/",
+      "gridWidth": 280,
+      "gridTemplateColumns": "128px 128px",
+      "mobileMediaMatches": true,
+      "headings": [
+        {
+          "text": "For businesses",
+          "left": 53,
+          "right": 115,
+          "textRight": 148.953125,
+          "overflowWrap": "normal"
+        },
+        {
+          "text": "For banks",
+          "left": 205,
+          "right": 267,
+          "textRight": 256.453125,
+          "overflowWrap": "normal"
+        }
+      ]
+    },
+    {
+      "route": "c/",
+      "storeControls": [
+        {
+          "text": "Get Collect",
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "parentClass": "mobile-menu-actions",
+          "width": 0,
+          "height": 0,
+          "visible": false
+        },
+        {
+          "text": "Get Collect",
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "parentClass": "header-actions",
+          "width": 0,
+          "height": 0,
+          "visible": false
+        },
+        {
+          "text": "Get Collect",
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "parentClass": "hero-actions",
+          "width": 131.75,
+          "height": 44,
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "served": {
+    "craas/index.html": "cf1b2e51cfed71f169691879d9a2b5a671946e2b41b096df857b38f1994d51ec",
+    "styles.css": "0105bddaca5e3b339b261b33e7ce59febb519e85b8e2e8afa9a53ac81c6a9e17",
+    "sections.css": "afb3ac9e2ac9da415b8816cc9d3dc9be282846be2234911b61ba9a7cbfe4a9e4",
+    "revolut.css": "0ba582c4ccbf941e713085b392258da7d5403ca29bacfc63ffebe9137616346f",
+    "assets/marketing/rwanda/banking-together-4b392d8a72b7.webp": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+    "icons/collect.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "site.js": "45d44bf91a49f6d58cdcba0ff241e3f89ad2af3111a3c570e6da6de3508dd1df",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "credit-readiness/index.html": "22b54722d70c266ef824861356e94b2da138bba21a955d80ff353a6a8071dd1d",
+    "c/index.html": "2c0b90dca0765855cf5b852a57fc8a955a77b82dea670fc101f5013af81b2844"
+  },
+  "denied": [],
+  "scope": "Actual prior static142 computed CSS and raw element captures; two-heading clipping and first hidden selector diagnosed separately. No style edits, external services or design approval."
+}

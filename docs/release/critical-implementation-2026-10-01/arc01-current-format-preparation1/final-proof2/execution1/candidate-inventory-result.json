@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "ruby /opt/arc01/inventory.rb"
+  ],
+  "completed_at_utc": "2026-10-02T11:05:22.508636+00:00",
+  "deadline_seconds": 30,
+  "elapsed_seconds": 0.29963470900111133,
+  "exit_code": 0,
+  "log_sha256": "9943be4e9f245cebd9e3a4535eb8b9081678dd1f5bbbb1b54d1c341c5b7c1bfc",
+  "started_at_utc": "2026-10-02T11:05:22.209023+00:00",
+  "timed_out": false
+}

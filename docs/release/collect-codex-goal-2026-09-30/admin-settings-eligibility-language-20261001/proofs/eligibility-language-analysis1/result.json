@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-01T21:50:48.671051+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/admin/core/admin_governed_settings_models.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart",
+    "lib/admin/core/admin_governed_settings_runtime.dart",
+    "lib/admin/core/admin_governed_settings_controller.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_stub.dart",
+    "lib/admin/core/admin_governed_settings_page.dart",
+    "lib/admin/core/admin_governed_settings_registry.dart",
+    "lib/admin/core/admin_governed_settings_sdk.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/admin_router.dart",
+    "test/admin_governed_settings_eligibility_test.dart",
+    "test/admin_governed_settings_eligibility_widget_test.dart",
+    "test/support/settings_eligibility_fixture.dart",
+    "test/support/settings_fixture.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "mode": "analysis",
+  "source_sha256": "c63bcb6db48956c028f681ce11c0e0dbd994eb86c64f0c8dece36c46a345cb74",
+  "runtime_closure_sha256": "5963ce6cff5eff068649fd4cce6a5e8d0031dd134b3b70d063b5eba7d4df51cd",
+  "dependencies_sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+  "tools": {
+    "flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a"
+  },
+  "prior_runtime_scope": "current canonical lib overlay frozen in current-canonical-overlay-inputs.json with9 staged governedSettingsmodules",
+  "exit_code": 1,
+  "elapsed_seconds": 71.16642074999982,
+  "completed_at": "2026-10-01T21:51:59.841729+00:00",
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "dependencies_unchanged": true
+}

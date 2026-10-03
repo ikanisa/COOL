@@ -1,0 +1,225 @@
+{
+  "between_earlier_suite_and_current_copies": [
+    {
+      "copied_sha256": "9c7d966aa6b799eb3aef63b3a65bc43658451fe8cfdca2d4f89fc9bdb1b3939e",
+      "earlier_sha256": "2ebe56e65c253811b8e9c5de25584f85a717008294da72a2c34b880cca06c21f",
+      "path": "lib/admin/core/admin_operating_policy_card.dart"
+    },
+    {
+      "copied_sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1",
+      "earlier_sha256": "a231bdaebca00eeca55ed7fb652dfc1c4b333fbe98330c7a5029a89441237268",
+      "path": "lib/admin/core/admin_operating_policy_models.dart"
+    },
+    {
+      "copied_sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956",
+      "earlier_sha256": "78dd59093e29597dd734981935e82133bd72c048fc0697a2a9c5a52cb97d3a2f",
+      "path": "lib/admin/core/admin_receipt_cancel_runtime.dart"
+    },
+    {
+      "copied_sha256": "a946489399a838c64c9e6d02bc9385671702dd5870a8a9d90174287f9933ac04",
+      "earlier_sha256": "d269229916c0c15828238359621edf993dd7c8ee7956f326dce33d628abb7757",
+      "path": "lib/admin/core/admin_runtime.dart"
+    },
+    {
+      "copied_sha256": "37a1c2ac032e1f0f72c07e545146fcd1810eff4e4d4067c5abbab8ce0c64745a",
+      "earlier_sha256": "376d2c22693178fbea07755f34bb5abff2a53493ad53496779c1edd1c2408ee5",
+      "path": "test/admin_entity_audit_page_test.dart"
+    }
+  ],
+  "captured_assets": {
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": {
+      "bytes": 103231,
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
+    },
+    "assets/typefaces/Inter-Variable.ttf": {
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    }
+  },
+  "captures": {
+    "captures-logo-loaded/audit-dark-1440x2200.png": {
+      "bytes": 251650,
+      "height": 2200,
+      "notes": "Both load Inter, Material Icons and immutable logo; real registered local route/shell; synthetic evidence only.",
+      "sha256": "69895697eccc9ad32ff2508f912e2f32958f3fd91cb319283edbe337855876d4",
+      "visually_inspected": true,
+      "width": 1440
+    },
+    "captures-logo-loaded/audit-light-1440x2200.png": {
+      "bytes": 254219,
+      "height": 2200,
+      "notes": "Both load Inter, Material Icons and immutable logo; real registered local route/shell; synthetic evidence only.",
+      "sha256": "f764c39e15c097dc0806ec589e438e5a938ac4dbedfff0968b1b79e20d0845d0",
+      "visually_inspected": true,
+      "width": 1440
+    }
+  },
+  "checks": {
+    "analyze-capture-current": {
+      "check_completed_successfully": true,
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "test/admin_entity_audit_page_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "dependency_resolution": "installed package_config; --no-pub",
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-01T08:35:04.742467Z",
+      "hosted_auth_or_backend_calls_requested": false,
+      "live_sends_requested": false,
+      "log_sha256": "6db69af2c22a86d744e4d9b978affc1cf5331c39b5df2a14705ac56043fb9c0c",
+      "production_acceptance": false,
+      "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+      "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+      "selected_source_unchanged": true,
+      "source_file_count": 181,
+      "started_at_utc": "2026-10-01T08:35:01.227508Z"
+    },
+    "analyze-final": {
+      "check_completed_successfully": true,
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_entity_audit.dart",
+        "lib/admin/core/admin_entity_audit_runtime.dart",
+        "lib/admin/core/admin_entity_audit_page.dart",
+        "lib/admin/core/admin_shadow_runs.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/admin_router.dart",
+        "test/support/admin_entity_audit_fixture.dart",
+        "test/admin_entity_audit_models_test.dart",
+        "test/admin_entity_audit_repository_test.dart",
+        "test/admin_entity_audit_page_test.dart",
+        "test/admin_entity_audit_authority_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "dependency_resolution": "installed package_config; --no-pub",
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-01T00:51:18.263852Z",
+      "hosted_auth_or_backend_calls_requested": false,
+      "live_sends_requested": false,
+      "log_sha256": "c531ea05d85d69851337b32eed95ba80af1ab0e6a6a7605ae6c0d9d33e285896",
+      "production_acceptance": false,
+      "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+      "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+      "selected_source_unchanged": true,
+      "source_file_count": 181,
+      "started_at_utc": "2026-10-01T00:51:05.951916Z"
+    },
+    "captures-logo-loaded": {
+      "check_completed_successfully": true,
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--timeout",
+        "30s",
+        "--reporter",
+        "expanded",
+        "--plain-name",
+        "dark and light local audit captures",
+        "test/admin_entity_audit_page_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "dependency_resolution": "installed package_config; --no-pub",
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-01T08:34:43.560088Z",
+      "hosted_auth_or_backend_calls_requested": false,
+      "live_sends_requested": false,
+      "log_sha256": "507900e670201dd4043ab0c2e0201c09b0f4b69ceaa02e726fce045013f47c8f",
+      "production_acceptance": false,
+      "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+      "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+      "selected_source_unchanged": true,
+      "source_file_count": 181,
+      "started_at_utc": "2026-10-01T08:34:40.050028Z"
+    },
+    "page-after-capture-fix": {
+      "check_completed_successfully": true,
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--timeout",
+        "30s",
+        "--reporter",
+        "expanded",
+        "test/admin_entity_audit_page_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "dependency_resolution": "installed package_config; --no-pub",
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-01T01:19:23.815517Z",
+      "hosted_auth_or_backend_calls_requested": false,
+      "live_sends_requested": false,
+      "log_sha256": "2afe83d985aa58faa96c0582c9a1c43a56e2a7be3ac9ce814ce61cc531d24d48",
+      "production_acceptance": false,
+      "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+      "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+      "selected_source_unchanged": true,
+      "source_file_count": 181,
+      "started_at_utc": "2026-10-01T01:18:57.288272Z"
+    },
+    "tests-final-attempt04": {
+      "check_completed_successfully": true,
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--timeout",
+        "30s",
+        "--reporter",
+        "expanded",
+        "test/admin_entity_audit_models_test.dart",
+        "test/admin_entity_audit_repository_test.dart",
+        "test/admin_entity_audit_page_test.dart",
+        "test/admin_entity_audit_authority_test.dart",
+        "test/admin_shadow_runs_test.dart",
+        "test/admin_shadow_runs_repository_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "dart_binary_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+      "dependency_resolution": "installed package_config; --no-pub",
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-01T00:50:50.234252Z",
+      "hosted_auth_or_backend_calls_requested": false,
+      "live_sends_requested": false,
+      "log_sha256": "e1fb9cc8679ee3420e6f495097e377c0efae226b38caa67882750facb848c064",
+      "production_acceptance": false,
+      "runner_sha256": "e62aec86837060191316621911078206a50a46fe01064bbc42f55378a3afb91c",
+      "scope": "Synthetic isolated SQL outputs, mock SDK transport and local widgets.",
+      "selected_source_unchanged": true,
+      "source_file_count": 181,
+      "started_at_utc": "2026-10-01T00:50:20.485149Z"
+    }
+  },
+  "counts_are_not_additive": true,
+  "design_fidelity_100_percent": false,
+  "earlier_attempts_retained": [
+    "tests-attempt01",
+    "tests-attempt02",
+    "tests-final-attempt03",
+    "captures",
+    "captures-final"
+  ],
+  "historical_sql_fixtures_byte_identical": true,
+  "hosted_browser_auth_or_rpc_acceptance": false,
+  "live_send_or_financial_mutation": false,
+  "production_accepted": false,
+  "recorded_at_utc": "2026-10-01T08:35:39.466700+00:00",
+  "scope": "Locally implemented read-only entity-audit client; exact isolated synthetic SQL outputs, injected SDK HTTP and local widgets.",
+  "shared_sources_copied_after_earlier_suite": true,
+  "test_counts_by_separate_scope": {
+    "captures-logo-loaded": 1,
+    "page-after-capture-fix": 32,
+    "tests-final-attempt04": 216
+  }
+}

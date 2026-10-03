@@ -1,0 +1,23 @@
+{
+  "android/app/build.gradle.kts": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+  "android/app/src/internal_gateway/AndroidManifest.xml": "b2f1301a7ea3e5c69720df0eb813bbcd0b8e14b6bdd6e09b6ca272d4e8996995",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/ARCHIVE_CONTRACT.md": "0d51ffa0de919bccf692339129b5b4abdad39f77bd77bdced2db13c4ff4fed93",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "e8ceb5ec21dce5799c54e377099f686e4a27d7de3d56b64617136c5f2317efe6",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "160865cc1fb93b4f12f5b896e7736d4a1a86dd456072999c17d5c33c9ffa1d02",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt": "962f6c39617cb14f529e38751b59b5b1246c7f8d3c518cf6005509e317704b3a",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "1d95db887506f6af6153efb692a231492555bb9536386318471320f5e4318995",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "25c7933025f5cde23a61335a59ba63086faeb558c054e8cfa65b61224c40b9f7",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": "fc9f11d3500c970677accaff36f00fef495d5d4caa7db1293990eb0b9260d347",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "97f99b060f3b92da9757f00587a790822453bc68c26255b71e9cf5c235f7053c",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788",
+  "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+  "android/gradle/CollectPluginRegistrant.java": "bee00b8b251d1355bb7d9694e5adc1d67733df738baa21ffcf134d030758a248",
+  "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08"
+}

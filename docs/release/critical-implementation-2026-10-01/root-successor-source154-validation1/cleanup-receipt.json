@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "verified_at_utc": "2026-10-02T03:21:24.805435+00:00",
+  "exact_image_id": "sha256:7a558c0f11c80e57b58fac250371687547d3a64231880a0a3e3e06de7e05b86d",
+  "sole_owned_tag": "collect_roster_decoder_14cea6c1dd58:qa",
+  "image_container_listing_empty": true,
+  "image_removed": true,
+  "command_exit_codes": {
+    "image_inspect_before": 0,
+    "image_containers_list": 0,
+    "exact_image_remove": 0,
+    "image_inspect_after": 1
+  },
+  "exact_absence_diagnostic": true,
+  "supervisor_absent": true,
+  "owned_live_pids": [],
+  "canonical_process_retried": false,
+  "maintained_cleanup_mutations": 0
+}

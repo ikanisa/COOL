@@ -1,0 +1,53 @@
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): mobile_scanner
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing 
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:lintInternal_gatewayRelease'.
+> Lint found errors in the project; aborting build.
+  
+  Fix the issues identified by lint, or create a baseline to see only new errors.
+  To create a baseline, run `gradlew updateLintBaseline` after adding the following to the module's build.gradle file:
+  ```
+  android {
+      lint {
+          baseline = file("lint-baseline.xml")
+      }
+  }
+  ```
+  For more details, see https://developer.android.com/studio/write/lint#snapshot
+  
+  Lint found 8 errors, 41 warnings. First failure:
+  
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:34: Error: Missing permissions required by TelephonyManager.getServiceState: android.permission.ACCESS_COARSE_LOCATION [MissingPermission]
+                      inService = telephony?.serviceState?.state == ServiceState.STATE_IN_SERVICE
+                                  ~~~~~~~~~~~~~~~~~~~~~~~
+  
+     Explanation for issues of type "MissingPermission":
+     This check scans through your code and libraries and looks at the APIs
+     being used, and checks this against the set of permissions required to
+     access those APIs. If the code using those APIs is called at runtime, then
+     the program will crash.
+  
+     Furthermore, for permissions that are revocable (with targetSdkVersion 23),
+     client code must also be prepared to handle the calls throwing an exception
+     if the user rejects the request for permission at runtime.
+  
+  
+  The full lint text report is located at:
+    /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt126-gateway/build/app/intermediates/lint_intermediate_text_report/internal_gatewayRelease/lintReportInternal_gatewayRelease/lint-results-internal_gatewayRelease.txt
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 7m 17s

@@ -1,0 +1,54 @@
+{
+  "status": "pass",
+  "checked_at": "2026-10-01T00:07:04.768572+00:00",
+  "cases": [
+    {
+      "case": "actual-current-spaced-css",
+      "expected_responsive_pass": true,
+      "actual_responsive_status": "pass",
+      "preserved_historical_baseline_failure": true,
+      "exit_code": 1,
+      "stdout_sha256": "2ab73b986e18684e0ed9b657d36f9d8ed51ba8dbee9b6375f218ac2027d14e15",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "valid-extra-css-whitespace",
+      "expected_responsive_pass": true,
+      "actual_responsive_status": "pass",
+      "preserved_historical_baseline_failure": true,
+      "exit_code": 1,
+      "stdout_sha256": "ce0a1fc10f5d213f85488ea5da662f7d3e6b5c5dd4e6cc0087d89629d148d030",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "wrong-reduced-motion-value",
+      "expected_responsive_pass": false,
+      "actual_responsive_status": "fail",
+      "preserved_historical_baseline_failure": true,
+      "exit_code": 1,
+      "stdout_sha256": "caf08493a5188c7d477e3dab50f9e59c8db0476c507cca6fa65cb2a9636a183b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "wrong-forced-colors-value",
+      "expected_responsive_pass": false,
+      "actual_responsive_status": "fail",
+      "preserved_historical_baseline_failure": true,
+      "exit_code": 1,
+      "stdout_sha256": "fc67e293a58bb90d3604e4c624d2803ea467374b24cf0dbf419982664312eb55",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "comment-only-correct-queries",
+      "expected_responsive_pass": false,
+      "actual_responsive_status": "fail",
+      "preserved_historical_baseline_failure": true,
+      "exit_code": 1,
+      "stdout_sha256": "aca38626e881d6754cafb169e6bc7546e28a8fed5149fdc06083e784b2f23da2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "prior_gate_sha256": "986c467134666fee2efa20dbcc0368da555e6438a82b10eb3957b27e5b61e832",
+  "current_gate_sha256": "c21eca3a88bf3ae7bb068f0a0e49cb686399ce96f6fbd1ef0f529d3563fe8428",
+  "scope": "Actual full local quality-gate runs prove existing valid media-query whitespace passes, wrong values and commented-only queries fail; historical visible-content mismatch remains explicit. No CSS/product/reference/owner-approval change."
+}

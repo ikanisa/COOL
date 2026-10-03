@@ -1,0 +1,7 @@
+{
+  "reproduced_failure": "Second independently empty clone reused mutated session globals, inserting a duplicated fresh fixture ID before genuine postings",
+  "correction": "Reset initial maker/checker IDs before each independent clone, matching the previously accepted comparator",
+  "production_sources_changed": false,
+  "volume1000_terminal146PASS_preserved": true,
+  "retry_scope": "Only failed10000 volume; successful1000 queries need no repeat"
+}

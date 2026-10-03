@@ -36,7 +36,7 @@ export function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) return invalid();
   return value as Record<string, unknown>;
 }
-function exactObject(value: unknown, keys: readonly string[]) {
+export function exactObject(value: unknown, keys: readonly string[]) {
   const row = object(value);
   if (Object.keys(row).length !== keys.length || keys.some(key => !Object.hasOwn(row, key))) return invalid();
   return row;

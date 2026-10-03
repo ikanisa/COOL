@@ -1,0 +1,2416 @@
+{
+  "format": "be08-captured-application-function-transform-review-v1",
+  "status": "source-grounded-candidates-only",
+  "captured_map_sha256": "9a444ae4e547cd5b5f52ae3c6d03e565876b8313fb88395065ebd82a32eeb55e",
+  "captured_gaps_sha256": "3022cb7894610bba4cf3cdd143370b04e40ab979470c3c79012ee8d4c2251f31",
+  "captured_packet_manifest_sha256": "7595bf5a891ade7d85db6cecec2cb6fb742605713aa76acf695253574bb6256c",
+  "application_functions": 36,
+  "reason_counts": {
+    "no-literal-effective-name-definition": 16,
+    "intervening-unproved-function-effects": 2,
+    "literal-effective-name-body-hash-mismatch": 18
+  },
+  "transform_class_counts": {
+    "dynamic-private-schema-move-and-rename": 13,
+    "static-rename-with-unproved-intervening-effects": 2,
+    "guarded-body-rewrite": 5,
+    "header-copy-alias": 2,
+    "generated-public-wrapper": 14
+  },
+  "all_captured_resolved_flags_preserved": true,
+  "no_unidentified_name_after_bounded_source_trace": true,
+  "complete_lineage_proven": false,
+  "mapper_or_reconstruction_or_tests_or_replay_executed": false,
+  "rows": [
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid._create_roster_import_source_v142_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "10fa9dd98ca9595fcbd959c2edbb21ff2380570bfb095259ff2c95977e58ec1f",
+          "line": 206,
+          "name": "create_roster_import_source",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "line_start": 181,
+          "line_end": 204,
+          "source_file_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+          "span_sha256": "e15fae4434449ddaa524118ccc6a9f604844decf8b840afaa34bfbb79a1deb1a",
+          "operation": "two-stage source rename and resource wrapper before recovery move",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_commit_roster_import_guarded_149(p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "9aaeee473d64e66fbddf5cf7b31efa0d45f5d143e8a13db81f30b07b854777ae",
+          "line": 364,
+          "name": "admin_commit_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "boolean",
+            "text",
+            "uuid",
+            "text",
+            "text"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_execute_roster_import_intent_guarded_149(p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "9c210cf56470b6cf2a91357154b9329739ee75a5f5ebeb40cf56309a3191ba31",
+          "line": 155,
+          "name": "admin_execute_roster_import_intent",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "text",
+            "boolean"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_get_roster_import_guarded_149(p_import_id uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "c90132eaadfddae45bff72088728d33d7802e4327e047f42b2733ee495fea226",
+          "line": 424,
+          "name": "admin_get_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_recover_roster_import_guarded_149(p_upload_request_id uuid, p_pending_request_id uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "a5996fc943ef75402dc0efa7d829e023f126c3cd3fa19d89725c65b85af2f2aa",
+          "line": 175,
+          "name": "admin_recover_roster_import",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_review_roster_import_guarded_149(p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "6b6957219ff05da691622993cc0d8af7326929ffa06179c0f11768e2f983f104",
+          "line": 333,
+          "name": "admin_review_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "jsonb",
+            "text",
+            "uuid"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_save_roster_import_draft_guarded_149(p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "85ab4232577f2bfa334c2b34c888a88b45d3b81f411731cde0c17af6f95fa76d",
+          "line": 98,
+          "name": "admin_save_roster_import_draft",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.admin_stage_roster_import_intent_guarded_149(p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "1015acfdeaf025ee22c2941f4f0ddab691be7855cd05aebe59c5e9f7cf4156eb",
+          "line": 126,
+          "name": "admin_stage_roster_import_intent",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.complete_roster_import_preview_guarded_149(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "9bcd7e0a2c336f597642755635d4200219a8c76db104d7e4d65d8871f452a1db",
+          "line": 270,
+          "name": "complete_roster_import_preview",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "jsonb",
+            "jsonb"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.create_roster_import_source_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "21878069039d1c6dd0358127a8d71eaad4c8269a95a811daa291a3f17ce994ec",
+          "line": 185,
+          "name": "create_roster_import_source",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "line_start": 181,
+          "line_end": 204,
+          "source_file_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+          "span_sha256": "e15fae4434449ddaa524118ccc6a9f604844decf8b840afaa34bfbb79a1deb1a",
+          "operation": "two-stage source rename and resource wrapper before recovery move",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.fail_roster_import_preview_guarded_149(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "9f635de0058dfbcd452cce6da04b4461bd25016138f8c266119dd62d90cfa17e",
+          "line": 310,
+          "name": "fail_roster_import_preview",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.finish_roster_resources_guarded_149(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "1a988bfe16db1e52de365243bd0fb6bb149bf79b235b9b42c0b05ac4b49b05cb",
+          "line": 159,
+          "name": "finish_roster_resources",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.reserve_roster_resources_guarded_149(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "9e94d991903b3bf64dd0b78237538800ff23cc6678ebdc5ea8619f236cc91696",
+          "line": 58,
+          "name": "reserve_roster_resources",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "dynamic-private-schema-move-and-rename",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 501,
+          "line_end": 508,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "8232ee33a3b3ddc537e9b05c20c4ac2f26fd089294eb68ee011014a5f0e5da43",
+          "operation": "predecessor declarations and ordered names read from pg_proc",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 538,
+          "line_end": 540,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "87cf81632951e67bb8db5d8092aff41ca7a814f3025992c266ea6963f898a7ba",
+          "operation": "schema move plus private alias rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_hybrid.roster_revision_receipt_v149_frozen(p_revision uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "intervening-unproved-function-effects",
+      "required_final_prosrc_sha256": "5eb422cb484051bed5d446b823e1ffa8c7dd3b127d1446ecfdfdb97eea50c520",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "ecd4cc82988f75ffe53e8263ad1ce9668922fc611cc868a19d42d1314418c179",
+          "line": 190,
+          "name": "roster_revision_receipt",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "5eb422cb484051bed5d446b823e1ffa8c7dd3b127d1446ecfdfdb97eea50c520",
+          "routine_kind": "function",
+          "schema": "collect_hybrid",
+          "signature_types": [
+            "uuid"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_hybrid",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "withdrawn_static_lineage_candidates": [
+        {
+          "declaration_sha256": "ecd4cc82988f75ffe53e8263ad1ce9668922fc611cc868a19d42d1314418c179",
+          "line": 190,
+          "name": "roster_revision_receipt",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "5eb422cb484051bed5d446b823e1ffa8c7dd3b127d1446ecfdfdb97eea50c520",
+          "routine_kind": "function",
+          "schema": "collect_hybrid",
+          "signature_types": [
+            "uuid"
+          ],
+          "static_lineage": [
+            {
+              "destination": "roster_revision_receipt_v149_frozen",
+              "line": 147,
+              "name": "roster_revision_receipt",
+              "operation": "rename",
+              "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+              "schema": "collect_hybrid",
+              "signature_types": [
+                "uuid"
+              ],
+              "statement_sha256": "d435c370a1afef965b5a9911f8afedfcb25ede064a88421e126aa7fc8cb53356",
+              "version": "20260930170000"
+            }
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "source_transform_class": "static-rename-with-unproved-intervening-effects",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 147,
+          "line_end": 148,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "eedade12ae57055070bacd112449f1f4f9787f0c805536bfc08ffc607a3ec4d6",
+          "operation": "literal signature-bound rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 466,
+          "line_end": 474,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "d6c3c35268ce16c64e70454b53f60b1eadcec108aefc83c075721d19053e8877",
+          "operation": "later anonymous trigger installation uncertainty",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "later generated installation uncertainty",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_ops.capture_receipt_backlog_budget_refusal()",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "a9e60ff29afd6dd39921f83f428cc3112392ba827b1a668d324a6e5a8c92943b",
+          "line": 153,
+          "name": "capture_receipt_backlog_budget_refusal",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "81b2a894c03d74e6394b893da730d7b405c0d65ded6ac8adb57e2c0e2a4c4190",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [],
+          "version": "20261001140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "403688ec34f93edba0670241442d26a153c0aa48dd22d2f50c79fbb22fc7d6df",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_ops",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "guarded-body-rewrite",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 5,
+          "line_end": 20,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "eccc9db1fdaa1273ddd836897e01bc8702830ebdbde40ca075ad99cd952de227",
+          "operation": "declared predecessor digest and trigger guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 125,
+          "line_end": 150,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "53433da65e575a975bb7d2f74a257685d2bd8f838fa23702fa288671c1fd3feb",
+          "operation": "replace trigger body with final current-run guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_ops.queue_receipt_exception_source()",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "e2f4baa9f5faf4a07ec332d5130247b5a2a3447bf0e38a9dfd14d8e9be7dcd84",
+          "line": 59,
+          "name": "queue_receipt_exception_source",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "8a1283f5172d8ce673aba5226244eb051789f050f07cad9b037039472cffec86",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [],
+          "version": "20261001140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "368e24280a4071f19e619f71438e4334b75d1b8bb534f13ffa0d9207004df8c5",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_ops",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "guarded-body-rewrite",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "line_start": 12,
+          "line_end": 26,
+          "source_file_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+          "span_sha256": "8204938ec88c0d877a4f5cd85151238d9f1598d4d5547efaf65251bbe2e8f4ac",
+          "operation": "declared predecessor digest guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "line_start": 48,
+          "line_end": 60,
+          "source_file_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+          "span_sha256": "2d0f6741523d73d10b78d54a09e5ea52971609a962ccb93c5199529d8e669404",
+          "operation": "literal producer fragment replacement",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_ops.receipt_exception_base_refresh_source(p_kind text, p_source uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "07af1e02b0dd5cbcc878a03171c9523bb3b77668a491d49b150187569b61cc66",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "5f582ba7df427274db2d9ec291421e54ac85b1aab9c1adddc2445fa332db4b75",
+          "line": 122,
+          "name": "refresh_source",
+          "path": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+          "prosrc_sha256": "07af1e02b0dd5cbcc878a03171c9523bb3b77668a491d49b150187569b61cc66",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [
+            "text",
+            "uuid"
+          ],
+          "version": "20261001000100"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_ops",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "header-copy-alias",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "line_start": 77,
+          "line_end": 82,
+          "source_file_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "span_sha256": "43c7c7e3e55602848a94ddf316a318d2f31900778dc26c87f9a04a1ddcf3a75a",
+          "operation": "copy pg_get_functiondef with literal qualified header replacement",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_ops.receipt_exception_base_transaction_sms_id(p_kind text, p_source uuid)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "1f51f99901caea83f44479442536d8dc1ed699e576be365bfbe5cb3becb39b2a",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "4e72b3561f5b71a9564133e9237b4b895e65205ae33f85f28dcac66133e663ad",
+          "line": 4,
+          "name": "transaction_sms_id",
+          "path": "supabase/migrations/20261001000300_admin_exception_reads.sql",
+          "prosrc_sha256": "1f51f99901caea83f44479442536d8dc1ed699e576be365bfbe5cb3becb39b2a",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [
+            "text",
+            "uuid"
+          ],
+          "version": "20261001000300"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_ops",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "header-copy-alias",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "line_start": 77,
+          "line_end": 82,
+          "source_file_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "span_sha256": "43c7c7e3e55602848a94ddf316a318d2f31900778dc26c87f9a04a1ddcf3a75a",
+          "operation": "copy pg_get_functiondef with literal qualified header replacement",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "collect_ops.receipt_exception_quota_available(p_kind text, p_source uuid)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "0ceaea020c46ed8d04cab898e99ff1780a259542a6a6aed305e53c8c4822c8b0",
+          "line": 138,
+          "name": "receipt_exception_quota_available",
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "prosrc_sha256": "72cdef85c2611a4e36107306dfe58a1740c3987aeb61e04a94469262bf738746",
+          "routine_kind": "function",
+          "schema": "collect_ops",
+          "signature_types": [
+            "text",
+            "uuid"
+          ],
+          "version": "20261001140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "92b8e73053749e3cc21ae9ba9b497220edc582214f344cd72301b842c80089e9",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "collect_ops",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "guarded-body-rewrite",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "line_start": 12,
+          "line_end": 26,
+          "source_file_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+          "span_sha256": "8204938ec88c0d877a4f5cd85151238d9f1598d4d5547efaf65251bbe2e8f4ac",
+          "operation": "declared predecessor digest guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+          "line_start": 85,
+          "line_end": 94,
+          "source_file_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+          "span_sha256": "571aac43e3b5e17667166978293024c4daaf72bd9bbb8796b29873e5a4f1f07b",
+          "operation": "literal source-local quota fragment replacement",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public._create_roster_import_source_v142(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "literal_effective_name_candidates": [],
+      "reason": "no-literal-effective-name-definition",
+      "required_final_prosrc_sha256": "ee7ba62a8a1584b3725f1b2ee8097f9f4e8a197d7e5a5034df0eb4bb15f64030",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "line_start": 181,
+          "line_end": 204,
+          "source_file_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+          "span_sha256": "e15fae4434449ddaa524118ccc6a9f604844decf8b840afaa34bfbb79a1deb1a",
+          "operation": "two-stage source rename and resource wrapper before recovery move",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_commit_roster_import(p_request_id uuid, p_import_id uuid, p_revision_id uuid, p_reviewed_rows_sha256 text, p_human_affirmed boolean, p_mode text, p_collection_id uuid, p_title text, p_reason text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "9aaeee473d64e66fbddf5cf7b31efa0d45f5d143e8a13db81f30b07b854777ae",
+          "line": 364,
+          "name": "admin_commit_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "51712549cff286f12b5adef29505e96c8e9b71c45750e475ef86c6037b473da5",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "boolean",
+            "text",
+            "uuid",
+            "text",
+            "text"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "b8991f3092d22c78f305979c8a166950601a4c15166740e256c17cef2a4fbd72",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_execute_roster_import_intent(p_request_id uuid, p_payload_sha256 text, p_human_affirmed boolean)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "9c210cf56470b6cf2a91357154b9329739ee75a5f5ebeb40cf56309a3191ba31",
+          "line": 155,
+          "name": "admin_execute_roster_import_intent",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "39676560eb421265a1000df19840f741711d12ba999f907d6c8e71579a699070",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "text",
+            "boolean"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "838b4b9b780d9807cb52f64d698f884f72df259cd1e4462ff31501451735b349",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_get_roster_import(p_import_id uuid)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "c90132eaadfddae45bff72088728d33d7802e4327e047f42b2733ee495fea226",
+          "line": 424,
+          "name": "admin_get_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "c3077d66a9afcfee6ef8e0a8a0a0cc73034e9ff7a1efa54cc9dc4ffd62071df6",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "9e3c7d111739a7e7106e4b61e8d3f639af19a97acb918d6d96f57b890b07996b",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 526,
+          "line_end": 536,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "7226d7d80d095eae1eaea5f065b7557c2ecfc63aab6299426cca7b2f8241e6bc",
+          "operation": "special expired-source return fragment",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_list_receipt_operation_evidence_v1(p_run_id uuid, p_section text, p_limit integer, p_before_at timestamp with time zone, p_before_id text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "43f06a35699e1093099d515d70deb0bff09aad752e54d0ef1a6b9e96d59c577b",
+          "line": 104,
+          "name": "admin_list_receipt_operation_evidence_v1",
+          "path": "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+          "prosrc_sha256": "e3aba82f32570be3d8987e75f3ac81113497af8165c46208c4e184558f96cbe9",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": null,
+          "version": "20261002060000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "423af9b26c85b6c92d67332fc5fb1fe580dd03d23340c11ffc0dc8aa6578bf8f",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "guarded-body-rewrite",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 5,
+          "line_end": 20,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "eccc9db1fdaa1273ddd836897e01bc8702830ebdbde40ca075ad99cd952de227",
+          "operation": "declared predecessor digest guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 151,
+          "line_end": 154,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "a14f408c7a7fdbea5c871aa0f2e2d518d5254247b2489416167da33aed4a4b53",
+          "operation": "replace shown reservation target with bound snapshot resolver",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_recover_roster_import(p_upload_request_id uuid, p_pending_request_id uuid)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "a5996fc943ef75402dc0efa7d829e023f126c3cd3fa19d89725c65b85af2f2aa",
+          "line": 175,
+          "name": "admin_recover_roster_import",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "6b804f889f98197bc90acf0aee21d73f1c15f7f19d786aed18f8a69590c7b4ec",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "372fe6fe0ae4df8f303d2204b46d324d16dcb2bf02d81d1898a586e07c0a029b",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_review_roster_import(p_import_id uuid, p_parent_revision_id uuid, p_rows jsonb, p_reason text, p_request_id uuid)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "6b6957219ff05da691622993cc0d8af7326929ffa06179c0f11768e2f983f104",
+          "line": 333,
+          "name": "admin_review_roster_import",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "4cbd18f128affb156642f4ea913afe9461944f230a7bc7c80e3aff9435eee460",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "jsonb",
+            "text",
+            "uuid"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "935e3d11017b0f13615322d1f9ae48c678916b8d2cc1a05331e3db15fe49dff8",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_save_roster_import_draft(p_import_id uuid, p_checkpoint_id uuid, p_previous_checkpoint_id uuid, p_payload text, p_payload_sha256 text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "85ab4232577f2bfa334c2b34c888a88b45d3b81f411731cde0c17af6f95fa76d",
+          "line": 98,
+          "name": "admin_save_roster_import_draft",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "e63a10bcf48736057d55bb201a829caec9341c705f1b543e5f7d889a3708c843",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "05300a9f0772dd14d3e9d4d55d8470faf31401f4d80df3488b6935c855245be8",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.admin_stage_roster_import_intent(p_request_id uuid, p_import_id uuid, p_kind text, p_payload text, p_payload_sha256 text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "1015acfdeaf025ee22c2941f4f0ddab691be7855cd05aebe59c5e9f7cf4156eb",
+          "line": 126,
+          "name": "admin_stage_roster_import_intent",
+          "path": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+          "prosrc_sha256": "b805010c4c8fc15578a667431f8766ecb52886c02b002b5651cbcaeec1a5f219",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text"
+          ],
+          "version": "20260930120000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "39654170c49a82a9fee202166aee5867c8b14cf43723f12512f04b9ba17a6b07",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.collect_operations_legacy_configure_policy_v1(p_request_id uuid, p_expected_revision bigint, p_mode text, p_emergency_stop boolean, p_reason_code text)",
+      "literal_effective_name_candidates": [],
+      "reason": "intervening-unproved-function-effects",
+      "required_final_prosrc_sha256": "b6acf58021e71472261025fa46b8015932f7fa88a782f9c98e7e4ba26bcacf11",
+      "resolved": false,
+      "same_body_other_name_candidates": [
+        {
+          "declaration_sha256": "ae56e4cf64b91b532f87ef944f72f47e1f760d741c4530f805795ec26058886e",
+          "line": 126,
+          "name": "admin_configure_unattended_operating_policy_v1",
+          "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+          "prosrc_sha256": "b6acf58021e71472261025fa46b8015932f7fa88a782f9c98e7e4ba26bcacf11",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "bigint",
+            "text",
+            "boolean",
+            "text"
+          ],
+          "version": "20261001003338"
+        }
+      ],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "withdrawn_static_lineage_candidates": [
+        {
+          "declaration_sha256": "ae56e4cf64b91b532f87ef944f72f47e1f760d741c4530f805795ec26058886e",
+          "line": 126,
+          "name": "admin_configure_unattended_operating_policy_v1",
+          "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+          "prosrc_sha256": "b6acf58021e71472261025fa46b8015932f7fa88a782f9c98e7e4ba26bcacf11",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "bigint",
+            "text",
+            "boolean",
+            "text"
+          ],
+          "static_lineage": [
+            {
+              "destination": "collect_operations_legacy_configure_policy_v1",
+              "line": 228,
+              "name": "admin_configure_unattended_operating_policy_v1",
+              "operation": "rename",
+              "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+              "schema": "public",
+              "signature_types": [
+                "uuid",
+                "bigint",
+                "text",
+                "boolean",
+                "text"
+              ],
+              "statement_sha256": "bb4e90d6b59d4f302627bc80ddd978e608babac923e1b120dd1483cf5f385b8f",
+              "version": "20261001110000"
+            }
+          ],
+          "version": "20261001003338"
+        }
+      ],
+      "source_transform_class": "static-rename-with-unproved-intervening-effects",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+          "line_start": 228,
+          "line_end": 229,
+          "source_file_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+          "span_sha256": "8d054d0a5e998b1ef3e0be1ebaaa1e1a86650d7e3e9b3e8c5fab1aa706427faf",
+          "operation": "literal signature-bound rename",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+          "line_start": 91,
+          "line_end": 99,
+          "source_file_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+          "span_sha256": "bf54f509be1d607e4e27bee894472c1395db60e46ff22089d982e2c769846e8e",
+          "operation": "earlier anonymous table/trigger installation uncertainty",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.complete_roster_import_preview(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_candidates jsonb, p_processing_metadata jsonb)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "9bcd7e0a2c336f597642755635d4200219a8c76db104d7e4d65d8871f452a1db",
+          "line": 270,
+          "name": "complete_roster_import_preview",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "28b7175d7ea5a66389c091382ae981b705ce09e4a4cfab043be1d72fa2cfa423",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "jsonb",
+            "jsonb"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "dbd931c93ff2207c6cb7a9795fe41f5b116dcbc3aadb65cea27570bdd4e058c9",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.create_roster_import_source(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_kind text, p_original_sha256 text, p_original_size bigint, p_client_filename text, p_declared_mime text, p_detected_type text, p_derived_sha256 text, p_derived_size bigint, p_ai_consent boolean, p_consent_version text, p_ai_metadata jsonb)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "10fa9dd98ca9595fcbd959c2edbb21ff2380570bfb095259ff2c95977e58ec1f",
+          "line": 206,
+          "name": "create_roster_import_source",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "a83ee9ae8c173d589b1267b258a034f94c7e3e58f1b51c5f188b4051ece2538a",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "version": "20260930100000"
+        },
+        {
+          "declaration_sha256": "21878069039d1c6dd0358127a8d71eaad4c8269a95a811daa291a3f17ce994ec",
+          "line": 185,
+          "name": "create_roster_import_source",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "d7d6dcaaec7eab79c2a1894f690dba713a500bd9c6945ebc6c71a3bba40f3423",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text",
+            "text",
+            "text",
+            "text",
+            "bigint",
+            "boolean",
+            "text",
+            "jsonb"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "78523a6c25f1adf989fa7121cf2149b5abfaf88b01d6c32cd25a851379115e6c",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "line_start": 181,
+          "line_end": 204,
+          "source_file_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+          "span_sha256": "e15fae4434449ddaa524118ccc6a9f604844decf8b840afaa34bfbb79a1deb1a",
+          "operation": "two-stage source rename and resource wrapper before recovery move",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.fail_roster_import_preview(p_import_id uuid, p_actor_id uuid, p_session_id uuid, p_error_code text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "9f635de0058dfbcd452cce6da04b4461bd25016138f8c266119dd62d90cfa17e",
+          "line": 310,
+          "name": "fail_roster_import_preview",
+          "path": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+          "prosrc_sha256": "4b749d0f3562c1b427e492480ca11a44821157198f116394c904a283fb2fa6d4",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ],
+          "version": "20260930100000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "83fa4c64a7359caecb87d98d9962fcded7d681d42e5ee37d3ba2f75388cf26ef",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.finish_roster_resources(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_outcome text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "1a988bfe16db1e52de365243bd0fb6bb149bf79b235b9b42c0b05ac4b49b05cb",
+          "line": 159,
+          "name": "finish_roster_resources",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "a049428b90a960216635deda1243ce1ac13e87a475a253767b36268a1fb355fc",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "0e430001b9f494aff3595d9f68094d658b93f44bc5cc47585db3f1aa7e3ed5a2",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.receipt_operations_execute_v2(p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "73d485c7b9a02773d22da07544d716bc55c15fbaa6dcd929e3b001c1c3d53ec3",
+          "line": 331,
+          "name": "receipt_operations_execute_v2",
+          "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+          "prosrc_sha256": "5d7ec3beb3f4b8bfac9c7d9c58b5e7a49acbbe45c7ca03581b091a1b4d480ed1",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": null,
+          "version": "20261001110000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "17834420c49b4bf171daa35755f3c40705e3ff18d13f9a6d1e07ac14ac48ee4b",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "guarded-body-rewrite",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+          "line_start": 177,
+          "line_end": 182,
+          "source_file_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+          "span_sha256": "8f937be0b5221c259f650a0ffd345f8b38d30171b305e200463a79a8140610d4",
+          "operation": "append exact quota deferral completion count",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 5,
+          "line_end": 20,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "eccc9db1fdaa1273ddd836897e01bc8702830ebdbde40ca075ad99cd952de227",
+          "operation": "declared predecessor digest guard",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 74,
+          "line_end": 77,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "9e3755ca9f64487fb89f334b3561022df4745653ab5c32653a617d608a9fdeeb",
+          "operation": "add backlog reservation/refusal local variables",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 78,
+          "line_end": 118,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "d8e826e7bd28faa20c83a057ad948d5473d462d9934df0ec0b8882ab69c129b2",
+          "operation": "replace exact reconcile_backlog branch",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+          "line_start": 119,
+          "line_end": 124,
+          "source_file_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+          "span_sha256": "73e3cc986e6ae7380fe8a829483c46855cc90fa7d09e42703b10993bd334f6e1",
+          "operation": "append actual refused snapshot after request insertion",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.reserve_roster_resources(p_actor_id uuid, p_session_id uuid, p_request_id uuid, p_source_sha256 text, p_source_kind text, p_source_bytes bigint, p_derived_sha256 text)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "9e94d991903b3bf64dd0b78237538800ff23cc6678ebdc5ea8619f236cc91696",
+          "line": 58,
+          "name": "reserve_roster_resources",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "d40f5ce516ca697bb18039153c43ea541e8e643aa58cabab2e84d31b2ae84f15",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "bigint",
+            "text"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "29bf94711090c577aa14948571409c1bc8cbaa5ee5b1dabc9ff809e4982212c4",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    },
+    {
+      "dynamic_SQL_evaluation_performed": false,
+      "identity": "public.verify_roster_source_integrity(p_reservation_id uuid, p_actor_id uuid, p_session_id uuid, p_decoder_receipt_sha256 text, p_decoder_build_sha256 text, p_policy_version text, p_toolchain jsonb, p_summary jsonb)",
+      "literal_effective_name_candidates": [
+        {
+          "declaration_sha256": "4b312245c33cfcc9f31dcbc9d1e6260c79f6c38557061bd427680fc29838bf0e",
+          "line": 121,
+          "name": "verify_roster_source_integrity",
+          "path": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+          "prosrc_sha256": "f51cad9daa3496a69c8daead0773909632f51faffbe51f5aa70823f2d3876a37",
+          "routine_kind": "function",
+          "schema": "public",
+          "signature_types": [
+            "uuid",
+            "uuid",
+            "uuid",
+            "text",
+            "text",
+            "text",
+            "jsonb",
+            "jsonb"
+          ],
+          "version": "20260930140000"
+        }
+      ],
+      "reason": "literal-effective-name-body-hash-mismatch",
+      "required_final_prosrc_sha256": "e2b9e636df5062455346ade72bf7937683541647b5df4cb48d7d5009f1ee5419",
+      "resolved": false,
+      "same_body_other_name_candidates": [],
+      "same_body_other_name_is_match": false,
+      "schema": "public",
+      "source_scope": "application-schema-or-public",
+      "static_lineage_candidates": [],
+      "source_transform_class": "generated-public-wrapper",
+      "transformation_sources": [
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 490,
+          "line_end": 548,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "5bfd744c1788e5e8c299647e10382299a3463fa0021bd72cc7c7caf081ba7aab",
+          "operation": "finite catalog-driven installation block",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 506,
+          "line_end": 525,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "6cd92762e95b8be003cc91cadfb6c82a7a2e0d3faf3d78e4ee5c47cb8de3ae64",
+          "operation": "argument forwarding and guard branch construction",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+          "line_start": 541,
+          "line_end": 542,
+          "source_file_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+          "span_sha256": "e52ddb70e5e1ee4c5d15237c83bd04c37ba4e734d646e0af238ce041159f233c",
+          "operation": "raw dollar-quoted generated public body",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        },
+        {
+          "path": "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+          "line_start": 8,
+          "line_end": 53,
+          "source_file_sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+          "span_sha256": "a0d42220db44ae559b9552f3e28c78fba55c32b77972dc45eeb3fd7179eb173c",
+          "operation": "later literal private helper replacement; public wrapper body not replaced",
+          "evidence_status": "source_identified_candidate_not_proved_lineage"
+        }
+      ],
+      "review_conclusion": "identifiable source operation; captured unresolved status retained",
+      "expected_body_reconstruction_performed": false,
+      "static_lineage_claim_created": false,
+      "business_owner_or_financial_authority_inferred": false
+    }
+  ]
+}

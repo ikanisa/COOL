@@ -1,0 +1,881 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_native_consumer.py
+@@ -16,13 +16,16 @@
+ import xml.etree.ElementTree as ET
+ from pathlib import Path
+ 
+-HERE = Path(__file__).resolve().parent
+-RELEASE = HERE.parent
++PROPOSAL = Path(__file__).resolve().parent
++RELEASE = PROPOSAL.parent
++HERE = RELEASE / 'kotlin-sdk-native-consumer-preparation1'
+ REPO = RELEASE.parents[2]
+ BASE = Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1')
+ SDK = BASE / 'flutter'
+ APP = BASE / 'app-source'
+-AUTH_DIR = RELEASE / 'root-sdk-native-consumer-preparation-review1'
++AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review2'
++ORIGINAL_PREPARATION_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
++SOURCE_FENCE = AUTH_DIR / 'source-fence.json'
+ STAGES = ('foundation', 'sdk-lock', 'startup', 'app-export', 'app-lock', 'native')
+ MIN_FREE = 20350276001
+ LIVE_FLOOR = 4 * 1024**3
+@@ -67,7 +70,10 @@
+ 
+ 
+ def authorization(args):
+-    manifest = packet(HERE, args.prepared_manifest_sha256)
++    if args.stage != 'app-export' or getattr(args, 'foundation_child', False):
++        raise ValueError('this separately reviewed derivative admits only app-export')
++    manifest = packet(PROPOSAL, args.prepared_manifest_sha256)
++    packet(HERE, ORIGINAL_PREPARATION_MANIFEST)
+     row, body = reader().stable_read(receipt_path(args.stage), True)
+     if row['sha256'] != args.root_review_sha256: raise ValueError('separate root authorization receipt differs')
+     document = json.loads(body)
+@@ -75,9 +81,16 @@
+             or document.get('checked_packet_leaves') != len(manifest['files'])
+             or document.get('execution_stage_admissions', {}).get(args.stage) is not True):
+         raise ValueError('exact stage/full preparation not separately authorized')
+-    if args.stage == 'app-export' and (document.get('current_source_export_authorized') is not True
+-            or document.get('source_scope_held_for_strict_export') is not True):
+-        raise ValueError('strict current source export lacks root-coordinated held boundary')
++    if (document.get('current_source_export_authorized') is not True
++            or document.get('strict_current_source_comparison_required') is not True
++            or document.get('private_snapshot_exclusive') is not True
++            or document.get('source_scope_held_for_strict_export') is not False
++            or document.get('source_lock_attested') is not False
++            or document.get('transient_write_and_restore_absence_attested') is not False):
++        raise ValueError('strict snapshot admission must require comparisons and disclose absence of a source lock')
++    expected_fence = document.get('required_source_fence_sha256')
++    if not isinstance(expected_fence, str) or not re.fullmatch('[0-9a-f]{64}', expected_fence) or sha(SOURCE_FENCE) != expected_fence:
++        raise ValueError('root-pinned source identity/index/membership/fixture fence differs')
+     index = STAGES.index(args.stage)
+     if index:
+         prior = BASE / '.control' / STAGES[index - 1] / 'terminal.json'
+@@ -280,12 +293,14 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--stage', required=True, choices=STAGES)
++    parser.add_argument('--stage', required=True, choices=('app-export',))
+     parser.add_argument('--prepared-manifest-sha256', required=True)
+     parser.add_argument('--root-review-sha256', required=True)
+     parser.add_argument('--foundation-child', action='store_true')
+     args = parser.parse_args(); authorization(args)
+-    config = json.loads((HERE / 'proposed-commands.json').read_text())
++    config = json.loads((PROPOSAL / 'proposed-commands.json').read_text())
++    snapshot_guard = load(PROPOSAL / 'source_fence.py', 'strict_snapshot_guard')
++    snapshot_guard.validate_commands(config, HERE, PROPOSAL, REPO, BASE, SDK, APP, AUTH_DIR)
+     if (str(Path(sys.executable).resolve()) != config['Python_executable']
+             or sha(Path(config['Python_executable'])) != config['Python_SHA256']):
+         raise ValueError('reviewed Python actual runtime differs')
+@@ -324,7 +339,7 @@
+     try:
+         save(directory / 'start.json', {'stage': args.stage, 'prepared_manifest_sha256': args.prepared_manifest_sha256,
+               'separate_root_receipt_sha256': args.root_review_sha256, 'actual_free_bytes': shutil.disk_usage(BASE).free,
+-              'protected_before': protected_metadata(), 'argv_configuration_sha256': sha(HERE / 'proposed-commands.json'),
++              'protected_before': protected_metadata(), 'argv_configuration_sha256': sha(PROPOSAL / 'proposed-commands.json'),
+               'private_environment_exact': env, 'no_provider_or_signing_variables_inherited': True})
+         if args.stage == 'foundation':
+             argv = [sys.executable, '-I', '-B', str(Path(__file__).resolve()), '--stage', 'foundation',
+@@ -333,9 +348,15 @@
+         else:
+             source_readback(directory, 'patched' if args.stage == 'sdk-lock' else 'sdk-locked' if args.stage == 'startup' else 'startup' if args.stage == 'app-export' else 'app-locked' if args.stage == 'native' else 'startup', env)
+             if args.stage == 'app-export':
+-                if APP.exists() or sha(REPO / 'scripts/qa/collect_release_candidate.py') != config['reviewed_exporter_SHA256']:
++                snapshot_guard.private_destination(APP, BASE)
++                if APP.exists() or APP.is_symlink() or sha(REPO / 'scripts/qa/collect_release_candidate.py') != config['reviewed_exporter_SHA256']:
+                     raise ValueError('strict export destination/caller identity differs')
+                 if sha(Path(config['Node_executable'])) != config['Node_SHA256']: raise ValueError('reviewed Node identity differs')
++                fence_command = [sys.executable, '-I', '-B', str(PROPOSAL / 'source_fence.py'), 'verify',
++                    '--root', str(REPO), '--binding', str(SOURCE_FENCE), '--binding-sha256',
++                    guards.read_json(receipt_path(args.stage), args.root_review_sha256)['required_source_fence_sha256'],
++                    '--output', str(directory / 'source-fence-before-capture.json')]
++                require_pass(run_process(directory, 'source-fence-before', fence_command, 300, PROPOSAL, env))
+             if args.stage in ('app-lock', 'native'):
+                 original_export = export_binding(args)
+                 source = guards.app_readback('app-export' if args.stage == 'app-lock' else 'app-locked', original_export['export_manifest_file_sha256'])
+@@ -362,6 +383,10 @@
+             if args.stage == 'startup': save(directory / 'actual-version.json', guards.startup_version(stdout, stderr))
+             if args.stage == 'sdk-lock': save(directory / 'resolved-SDK-packages.json', guards.package_config(SDK / 'packages/flutter_tools/.dart_tool/package_config.json', (SDK, BASE / 'pub-cache')))
+             if args.stage == 'app-export':
++                after_command = list(fence_command)
++                after_command[-1] = str(directory / 'source-fence-after-capture.json')
++                require_pass(run_process(directory, 'source-fence-after', after_command, 300, PROPOSAL, env))
++                snapshot_guard.private_candidate(APP, BASE)
+                 exported = guards.app_readback('app-export')
+                 save(directory / 'exact-app-export-readback.json', exported)
+                 pending_export_binding = {
+@@ -369,7 +394,15 @@
+                     'export_manifest_file_sha256': exported['export_manifest_file_sha256'],
+                     'source_manifest_sha256': exported['source_manifest_sha256'],
+                     'original_app_lock_sha256': exported['source_files_exact']['pubspec.lock']['sha256'],
+-                    'production_release_approval': False, 'candidate_promoted': False}
++                    'production_release_approval': False, 'candidate_promoted': False,
++                    'source_scope_held_for_strict_export': False, 'source_lock_attested': False,
++                    'transient_write_and_restore_absence_attested': False,
++                    'source_identity_index_membership_fixture_fences_passed': True,
++                    'source_fence_before_sha256': sha(directory / 'source-fence-before-capture.json'),
++                    'source_fence_after_sha256': sha(directory / 'source-fence-after-capture.json'),
++                    'root_pinned_source_fence_sha256': sha(SOURCE_FENCE),
++                    'private_snapshot_exclusive': True,
++                    'authored_snapshot_immutability': 'exact hash/mode/source manifest binding; no OS immutable flag or production freeze attested'}
+             if args.stage in ('app-lock', 'native'):
+                 guards.require_lock(APP / 'pubspec.lock', app_lock)
+                 save(directory / 'actual-app-source-readback.json', guards.app_readback('built' if args.stage == 'native' else 'app-locked', original_export['export_manifest_file_sha256']))
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/proposed-commands.json
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/proposed-commands.json
+@@ -111,10 +111,11 @@
+   "exporter_Node_version_execution_disclosed": true,
+   "exporter_no_Flutter_execution_source_verified": true,
+   "foundation_deadline_seconds": 600,
+-  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-consumer-preparation-review1",
++  "immutable_root_stage_admission_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2",
+   "later_stage_requires_root_pinned_predecessor_terminal": true,
+   "live_free_floor_bytes": 4294967296,
+   "minimum_free_bytes": 20350276001,
++  "only_app_export_admitted_by_derivative": true,
+   "production_release_approval": false,
+   "raw_Gradle_ZIP_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+   "raw_Gradle_ZIP_bytes": 232491070,
+@@ -123,6 +124,9 @@
+   "raw_published_Gradle_ZIP_source": "/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+   "reviewed_exporter_SHA256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+   "separate_root_stage_authorization_required": true,
++  "source_identity_index_membership_fixture_fences_required": true,
+   "source_readback_deadline_seconds": 300,
+-  "strict_current_source_hold_required_for_export": true
++  "source_scope_held_for_strict_export": false,
++  "strict_current_source_comparison_required_for_export": true,
++  "strict_current_source_hold_required_for_export": false
+ }
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/test_preparation.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/test_original_guards.py
+@@ -15,8 +15,8 @@
+ import zipfile
+ from pathlib import Path
+ 
+-HERE = Path(__file__).resolve().parent
+-FIXTURES = HERE / 'negative-fixtures/preparation-attempt4'
++HERE = Path(__file__).resolve().parent.parent / 'kotlin-sdk-native-consumer-preparation1'
++FIXTURES = Path(__file__).resolve().parent / 'negative-fixtures/regression-attempt1'
+ 
+ 
+ def module(file, name):
+--- /dev/null
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/source_fence.py
+@@ -0,0 +1,272 @@
++#!/usr/bin/env python3
++"""Bounded read-only source identity fences; no export, SDK or build execution."""
++import argparse
++import hashlib
++import importlib.util
++import json
++import os
++import re
++import shutil
++import stat
++import subprocess
++import time
++import types
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++RELEASE = HERE.parent
++REPO = RELEASE.parents[2]
++ORIGINAL = RELEASE / 'kotlin-sdk-native-consumer-preparation1'
++EXPORTER_SHA256 = '1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690'
++LIVE_FLOOR = 4 * 1024**3
++
++
++def module(path, name):
++    spec = importlib.util.spec_from_file_location(name, path)
++    value = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(value)
++    return value
++
++
++def canonical(value):
++    return (json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n').encode()
++
++
++def metadata():
++    return module(ORIGINAL / 'publisher_metadata.py', 'snapshot_metadata_reader')
++
++
++def stable(path):
++    path = Path(path)
++    before = path.lstat()
++    reader = metadata()
++    row, _ = reader.stable_read(path)
++    after = path.lstat()
++    if reader.identity(before) != reader.identity(after) or before.st_uid != after.st_uid or before.st_gid != after.st_gid:
++        raise ValueError('source identity changed during bounded read')
++    row.update(ctime_ns=before.st_ctime_ns, uid=before.st_uid, gid=before.st_gid)
++    return row
++
++
++def physical_directory(path):
++    path = Path(path)
++    if path.absolute() != path or path.resolve() != path:
++        raise ValueError('physical directory path or ancestor alias refused')
++    row = path.lstat()
++    if not stat.S_ISDIR(row.st_mode):
++        raise ValueError('physical directory required')
++    return {'device': row.st_dev, 'inode': row.st_ino, 'mode': stat.S_IMODE(row.st_mode),
++            'uid': row.st_uid, 'gid': row.st_gid}
++
++
++def private_destination(app, base):
++    app, base = Path(app), Path(base)
++    if app.parent != base or app == base or app.exists() or app.is_symlink():
++        raise ValueError('new exclusive app destination must be absent in owned root')
++    row = physical_directory(base)
++    if row['uid'] != os.getuid() or row['mode'] != 0o700:
++        raise ValueError('private owned native root must retain owner-only mode')
++    return row
++
++
++def private_candidate(app, base):
++    app, base = Path(app), Path(base)
++    if app.parent != base:
++        raise ValueError('candidate must belong to reviewed private root')
++    for root in (base, app):
++        row = physical_directory(root)
++        if row['uid'] != os.getuid() or row['mode'] != 0o700:
++            raise ValueError('candidate and owner root must remain private')
++    for parent, directories, names in os.walk(app, followlinks=False):
++        for name in directories:
++            row = physical_directory(Path(parent) / name)
++            if row['uid'] != os.getuid():
++                raise ValueError('candidate directory owner differs')
++        for name in names:
++            path = Path(parent) / name
++            row = path.lstat()
++            if (not stat.S_ISREG(row.st_mode) or row.st_nlink != 1
++                    or row.st_uid != os.getuid() or row.st_mode & (stat.S_ISUID | stat.S_ISGID)):
++                raise ValueError('candidate leaf is not independently owned safe regular source')
++    return {'private_root_and_candidate_mode': 0o700, 'authored_leaves_single_link': True,
++            'OS_immutable_flag_attested': False, 'production_freeze_attested': False}
++
++
++def validate_commands(config, original, proposal, repo, base, sdk, app, auth):
++    original_config = json.loads((Path(original) / 'proposed-commands.json').read_text())
++    keys = ('Python_executable', 'Python_SHA256', 'Node_executable', 'Node_SHA256',
++            'JDK_java_executable', 'JDK_java_SHA256', 'environment_exact', 'commands',
++            'minimum_free_bytes', 'live_free_floor_bytes', 'foundation_deadline_seconds',
++            'source_readback_deadline_seconds', 'reviewed_exporter_SHA256',
++            'raw_Gradle_ZIP_SHA256', 'raw_Gradle_ZIP_bytes',
++            'raw_Gradle_ZIP_owned_relative_destination', 'raw_Gradle_seed_deadline_seconds',
++            'raw_published_Gradle_ZIP_source', 'SDK', 'app', 'base',
++            'separate_root_stage_authorization_required', 'later_stage_requires_root_pinned_predecessor_terminal',
++            'app_lock_native_require_root_pinned_original_export_binding')
++    if any(config.get(key) != original_config.get(key) for key in keys):
++        raise ValueError('original exact tool/env/root/command/deadline/resource invariant changed')
++    expected_config = dict(original_config)
++    expected_config.update(immutable_root_stage_admission_directory=str(auth),
++                           strict_current_source_hold_required_for_export=False,
++                           strict_current_source_comparison_required_for_export=True,
++                           source_scope_held_for_strict_export=False,
++                           source_identity_index_membership_fixture_fences_required=True,
++                           only_app_export_admitted_by_derivative=True)
++    if config != expected_config:
++        raise ValueError('only declared snapshot admission fields may differ from original full configuration')
++    command = config['commands']['app-export']
++    expected = [config['Python_executable'], '-I', '-B', str(Path(repo) / 'scripts/qa/collect_release_candidate.py'),
++                '--root', str(repo), 'export', '--destination', str(app), '--flutter-sdk', str(sdk),
++                '--report', str(Path(base) / '.control/app-export/source-export.json')]
++    if (command != {'argv': expected, 'cwd': str(repo), 'deadline_seconds': 300}
++            or config['reviewed_exporter_SHA256'] != EXPORTER_SHA256
++            or config.get('strict_current_source_hold_required_for_export') is not False
++            or config.get('strict_current_source_comparison_required_for_export') is not True
++            or config.get('source_scope_held_for_strict_export') is not False
++            or config.get('source_identity_index_membership_fixture_fences_required') is not True
++            or config.get('only_app_export_admitted_by_derivative') is not True
++            or config.get('immutable_root_stage_admission_directory') != str(auth)
++            or config.get('candidate_promoted') is not False or config.get('production_release_approval') is not False):
++        raise ValueError('honest strict-only app snapshot command/admission contract differs')
++
++
++def capture(root, seconds=300, floor=LIVE_FLOOR):
++    """Two identity/index/name reads fence one selected byte/fixture capture."""
++    root = Path(root)
++    started = time.monotonic()
++    deadline = started + seconds
++
++    def bound():
++        if time.monotonic() >= deadline:
++            raise ValueError('read-only source fence deadline exceeded')
++        if shutil.disk_usage(root).free < floor:
++            raise ValueError('read-only source fence headroom floor breached')
++
++    bound()
++    root_row = physical_directory(root)
++    exporter_path = root / 'scripts/qa/collect_release_candidate.py'
++    exporter_row = stable(exporter_path)
++    if exporter_row['sha256'] != EXPORTER_SHA256:
++        raise ValueError('reviewed strict exporter bytes changed')
++    verified_row, exporter_bytes = metadata().stable_read(exporter_path, True)
++    if verified_row['sha256'] != EXPORTER_SHA256 or stable(exporter_path) != exporter_row:
++        raise ValueError('reviewed exporter raced before byte-bound module loading')
++    exporter = types.ModuleType('snapshot_reviewed_exporter')
++    exporter.__file__ = str(exporter_path)
++    exec(compile(exporter_bytes, str(exporter_path), 'exec'), exporter.__dict__)
++    env = {'PATH': '/usr/bin:/bin', 'GIT_OPTIONAL_LOCKS': '0', 'LC_ALL': 'C'}
++
++    def git(*args):
++        bound()
++        return subprocess.check_output(['/usr/bin/git', *args], cwd=root, env=env,
++                                       stderr=subprocess.DEVNULL, timeout=min(20, max(.01, deadline-time.monotonic())))
++
++    def selection():
++        names = sorted({exporter.safe_relative(value.decode('utf-8'))
++                        for value in git('ls-files', '--cached', '--others', '--exclude-standard', '-z').split(b'\0') if value})
++        return [name for name in names if exporter.exclusion(name) in (None, 'upstream_qa_fixture_source')]
++
++    head = git('rev-parse', 'HEAD').decode('ascii').strip()
++    if not re.fullmatch('[0-9a-f]{40,64}', head):
++        raise ValueError('actual indexed repository HEAD malformed')
++    index = Path(git('rev-parse', '--git-path', 'index').decode('utf-8').strip())
++    if not index.is_absolute():
++        index = root / index
++    index_row = stable(index)
++    names = selection()
++    files, fixtures, absent, directories = {}, {}, [], {}
++    for name in names:
++        bound()
++        path = root / name
++        for parent in path.parents:
++            if parent == root:
++                break
++            if parent.exists() or parent.is_symlink():
++                directories[parent.relative_to(root).as_posix()] = physical_directory(parent)
++        reason = exporter.exclusion(name)
++        if not path.exists() and not path.is_symlink():
++            if reason == 'upstream_qa_fixture_source':
++                fixtures[name] = {'reason': reason, 'absent': True}
++            else:
++                absent.append(name)
++            continue
++        row = stable(path)
++        if reason == 'upstream_qa_fixture_source':
++            fixtures[name] = dict(row, reason=reason)
++        else:
++            files[name] = row
++    if not exporter.REQUIRED <= files.keys():
++        raise ValueError('selected source lacks exact exporter prerequisites')
++    exporter.migration_versions(files)
++    bound()
++    if (selection() != names or git('rev-parse', 'HEAD').decode('ascii').strip() != head
++            or stable(index) != index_row or physical_directory(root) != root_row):
++        raise ValueError('source index/head/membership/root changed during capture')
++    for name, expected in directories.items():
++        if physical_directory(root / name) != expected:
++            raise ValueError('source directory identity changed during capture')
++    for name, expected in {**files, **fixtures}.items():
++        bound()
++        if expected.get('absent'):
++            if (root / name).exists() or (root / name).is_symlink():
++                raise ValueError('excluded indexed absence changed during capture')
++        elif stable(root / name) != {key: value for key, value in expected.items() if key != 'reason'}:
++            raise ValueError('selected/excluded fixture identity changed during capture')
++    for name in absent:
++        if (root / name).exists() or (root / name).is_symlink():
++            raise ValueError('selected indexed absence changed during capture')
++    selected = {name: {key: row[key] for key in ('sha256', 'bytes', 'mode')} for name, row in files.items()}
++    excluded = {name: ({'reason': row['reason'], 'absent': True} if row.get('absent') else
++                      {key: row[key] for key in ('reason', 'sha256', 'bytes', 'mode')}) for name, row in fixtures.items()}
++    return {'schema_version': 1, 'kind': 'strict_current_source_identity_fence', 'source_root': str(root),
++            'root_identity': root_row, 'HEAD': head, 'index_path': str(index), 'index_identity': index_row,
++            'selection_names': names, 'source_files_identity': files, 'source_directories_identity': directories,
++            'excluded_upstream_fixture_identity': fixtures, 'absent_indexed_source_paths': absent,
++            'source_manifest_sha256': hashlib.sha256(exporter.canonical(selected)).hexdigest(),
++            'excluded_upstream_qa_sha256': hashlib.sha256(exporter.canonical(excluded)).hexdigest(),
++            'source_scope_held_for_strict_export': False, 'source_lock_attested': False,
++            'transient_write_and_restore_absence_attested': False, 'production_release_approval': False}
++
++
++def compare(expected, actual):
++    if expected != actual:
++        changed = sorted(key for key in expected.keys() | actual.keys() if expected.get(key) != actual.get(key))
++        raise ValueError('root-pinned source identity/index/membership/fixture drift: ' + ', '.join(changed))
++
++
++def save(path, value):
++    with Path(path).open('xb') as output:
++        output.write(canonical(value)); output.flush(); os.fsync(output.fileno())
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('mode', choices=('capture', 'verify'))
++    parser.add_argument('--root', required=True, type=Path)
++    parser.add_argument('--output', required=True, type=Path)
++    parser.add_argument('--binding', type=Path)
++    parser.add_argument('--binding-sha256')
++    args = parser.parse_args()
++    if args.output.exists() or args.output.is_symlink():
++        raise ValueError('new retained source-fence output must be absent')
++    actual = capture(args.root)
++    if args.mode == 'verify':
++        if not args.binding or not re.fullmatch('[0-9a-f]{64}', args.binding_sha256 or ''):
++            raise ValueError('verify requires exact root-pinned source fence')
++        row = stable(args.binding)
++        if row['sha256'] != args.binding_sha256:
++            raise ValueError('root-pinned source fence file changed')
++        expected = json.loads(args.binding.read_text())
++        compare(expected, actual)
++        if stable(args.binding) != row:
++            raise ValueError('root source-fence binding raced during verification')
++    save(args.output, actual)
++    print(json.dumps({'source_identity_fence': 'pass', 'selected_files': len(actual['source_files_identity']),
++                      'excluded_fixture_paths': len(actual['excluded_upstream_fixture_identity']),
++                      'source_manifest_sha256': actual['source_manifest_sha256'], 'source_lock_attested': False,
++                      'production_release_approval': False}, sort_keys=True))
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+--- /dev/null
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/test_snapshot_guards.py
+@@ -0,0 +1,319 @@
++#!/usr/bin/env python3
++"""Real synthetic source/index/path mutations; no real app, SDK or build execution."""
++import argparse
++import hashlib
++import importlib.util
++import json
++import os
++import shutil
++import subprocess
++import sys
++import types
++import unittest
++from pathlib import Path
++from unittest import mock
++
++HERE = Path(__file__).resolve().parent
++FIXTURES = HERE / 'negative-fixtures/snapshot-attempt3'
++ORIGINAL = HERE.parent / 'kotlin-sdk-native-consumer-preparation1'
++REPO = HERE.parents[3]
++
++
++def module(name):
++    spec = importlib.util.spec_from_file_location('snapshot_test_' + name, HERE / (name + '.py'))
++    value = importlib.util.module_from_spec(spec); spec.loader.exec_module(value)
++    return value
++
++
++fence = module('source_fence')
++controller = module('run_native_consumer')
++exporter = fence.module(REPO / 'scripts/qa/collect_release_candidate.py', 'snapshot_test_exporter')
++
++
++class SourceMutation(unittest.TestCase):
++    def setUp(self):
++        self.root = FIXTURES / self._testMethodName
++        self.root.mkdir(parents=True, mode=0o700)
++        self.source = self.root / 'source'
++        self.source.mkdir(mode=0o700)
++        self.git('init', '-q')
++        self.git('config', 'user.email', 'synthetic@example.invalid')
++        self.git('config', 'user.name', 'Synthetic Guard Fixture')
++        for name in sorted(exporter.REQUIRED | {'scripts/qa/collect_release_candidate.py', '.gitignore'}):
++            path = self.source / name
++            path.parent.mkdir(parents=True, exist_ok=True)
++            path.write_bytes((REPO / name).read_bytes() if name == 'scripts/qa/collect_release_candidate.py' else
++                             b'**/.cache/\n' if name == '.gitignore' else b'synthetic source fixture\n')
++        self.git('add', '.')
++        self.git('commit', '-qm', 'Synthetic admission fixture')
++
++    def git(self, *args):
++        return subprocess.check_output(['/usr/bin/git', *args], cwd=self.source,
++                                       env={'PATH': '/usr/bin:/bin', 'GIT_OPTIONAL_LOCKS': '0', 'LC_ALL': 'C'},
++                                       stderr=subprocess.DEVNULL, timeout=20)
++
++    def capture(self):
++        return fence.capture(self.source, seconds=20)
++
++    def reject_drift(self, before):
++        with self.assertRaisesRegex(ValueError, 'drift'):
++            fence.compare(before, self.capture())
++
++    def test_exact_stable_source_capture_passes_without_held_claim(self):
++        first = self.capture(); fence.compare(first, self.capture())
++        self.assertFalse(first['source_scope_held_for_strict_export'])
++        self.assertFalse(first['source_lock_attested'])
++        self.assertFalse(first['transient_write_and_restore_absence_attested'])
++        self.assertFalse(first['production_release_approval'])
++        self.assertEqual(len(first['source_files_identity']), len(exporter.REQUIRED | {'scripts/qa/collect_release_candidate.py', '.gitignore'}))
++
++    def test_same_bytes_atomic_replacement_restored_mtime_refused(self):
++        before = self.capture(); path = self.source / 'lib/main.dart'; row = path.stat()
++        temporary = path.with_suffix('.replacement'); temporary.write_bytes(path.read_bytes())
++        os.utime(temporary, ns=(row.st_atime_ns, row.st_mtime_ns)); temporary.replace(path)
++        self.reject_drift(before)
++
++    def test_content_write_restore_and_mtime_restore_refused_by_ctime(self):
++        before = self.capture(); path = self.source / 'lib/main.dart'; row = path.stat(); body = path.read_bytes()
++        path.write_bytes(body + b'transient synthetic change'); path.write_bytes(body)
++        os.utime(path, ns=(row.st_atime_ns, row.st_mtime_ns))
++        self.reject_drift(before)
++
++    def test_selected_byte_change_refused(self):
++        before = self.capture(); (self.source / 'lib/main.dart').write_bytes(b'changed bytes\n')
++        self.reject_drift(before)
++
++    def test_selected_mode_change_refused(self):
++        before = self.capture(); (self.source / 'lib/main.dart').chmod(0o600)
++        self.reject_drift(before)
++
++    def test_untracked_selected_membership_change_refused(self):
++        before = self.capture(); (self.source / 'lib/added.dart').write_bytes(b'new source\n')
++        self.reject_drift(before)
++
++    def test_missing_indexed_file_reappearance_refused(self):
++        path = self.source / 'lib/absent.dart'; path.write_bytes(b'indexed original\n'); self.git('add', 'lib/absent.dart')
++        path.unlink(); before = self.capture(); path.write_bytes(b'indexed original\n')
++        self.reject_drift(before)
++
++    def test_excluded_upstream_fixture_change_refused(self):
++        path = self.source / 'third_party/fork/test/auth_fixture.dart'; path.parent.mkdir(parents=True)
++        path.write_bytes(b'excluded fixture original\n'); before = self.capture()
++        self.assertIn('third_party/fork/test/auth_fixture.dart', before['excluded_upstream_fixture_identity'])
++        path.write_bytes(b'excluded fixture changed\n'); self.reject_drift(before)
++
++    def test_excluded_upstream_fixture_indexed_absence_change_refused(self):
++        path = self.source / 'third_party/fork/test/absent.dart'; path.parent.mkdir(parents=True)
++        path.write_bytes(b'fixture original\n'); self.git('add', 'third_party/fork/test/absent.dart')
++        path.unlink(); before = self.capture(); path.write_bytes(b'fixture original\n'); self.reject_drift(before)
++
++    def test_ignored_cache_is_outside_selected_source_fence(self):
++        before = self.capture(); path = self.source / 'lib/.cache/ignored'
++        path.parent.mkdir(); path.write_bytes(b'ignored cache generation\n')
++        fence.compare(before, self.capture())
++
++    def test_git_index_identity_change_refused_without_payload_change(self):
++        before = self.capture(); self.git('update-index', '--assume-unchanged', 'lib/main.dart')
++        self.reject_drift(before)
++
++    def test_head_commit_change_refused(self):
++        before = self.capture(); self.git('commit', '--allow-empty', '-qm', 'Synthetic concurrent commit')
++        self.reject_drift(before)
++
++    def test_selected_hardlink_refused(self):
++        path = self.source / 'lib/main.dart'; os.link(path, self.root / 'hardlink')
++        with self.assertRaisesRegex(ValueError, 'exclusive safe regular'):
++            self.capture()
++
++    def test_source_parent_symlink_refused(self):
++        path = self.source / 'lib'; alternate = self.root / 'lib-alternate'; path.rename(alternate); path.symlink_to(alternate)
++        with self.assertRaises(ValueError):
++            self.capture()
++
++    def test_index_symlink_refused(self):
++        path = self.source / '.git/index'; alternate = self.root / 'index-alternate'; path.rename(alternate); path.symlink_to(alternate)
++        with self.assertRaisesRegex(ValueError, 'link ancestor'):
++            self.capture()
++
++    def test_exporter_tamper_refused_before_loading_modified_module(self):
++        path = self.source / 'scripts/qa/collect_release_candidate.py'; path.write_text('raise RuntimeError("unreviewed executable")\n')
++        with self.assertRaisesRegex(ValueError, 'reviewed strict exporter bytes'):
++            self.capture()
++
++    def test_source_fence_deadline_and_headroom_refused(self):
++        with self.assertRaisesRegex(ValueError, 'deadline'):
++            fence.capture(self.source, seconds=0)
++        with self.assertRaisesRegex(ValueError, 'headroom'):
++            fence.capture(self.source, floor=2**63)
++
++    def test_in_capture_source_mutation_refused(self):
++        real_stable = fence.stable; changed = False
++        def mutate(path):
++            nonlocal changed
++            result = real_stable(path)
++            if Path(path) == self.source / 'lib/main.dart' and not changed:
++                changed = True; Path(path).write_bytes(b'concurrent synthetic mutation\n')
++            return result
++        with mock.patch.object(fence, 'stable', mutate), self.assertRaisesRegex(ValueError, 'during capture'):
++            self.capture()
++
++    def test_capture_cli_and_exact_binding_verify_write_exclusive_evidence(self):
++        binding = self.root / 'source-fence.json'; output = self.root / 'verified.json'
++        with mock.patch('sys.argv', ['source_fence.py', 'capture', '--root', str(self.source), '--output', str(binding)]):
++            self.assertEqual(fence.main(), 0)
++        digest = hashlib.sha256(binding.read_bytes()).hexdigest()
++        with mock.patch('sys.argv', ['source_fence.py', 'verify', '--root', str(self.source), '--binding', str(binding),
++                                    '--binding-sha256', digest, '--output', str(output)]):
++            self.assertEqual(fence.main(), 0)
++        self.assertEqual(binding.read_bytes(), output.read_bytes())
++        with mock.patch('sys.argv', ['source_fence.py', 'capture', '--root', str(self.source), '--output', str(output)]), self.assertRaisesRegex(ValueError, 'absent'):
++            fence.main()
++
++    def test_wrong_binding_hash_refused_without_pass_evidence(self):
++        binding = self.root / 'source-fence.json'; fence.save(binding, self.capture()); output = self.root / 'refused.json'
++        with mock.patch('sys.argv', ['source_fence.py', 'verify', '--root', str(self.source), '--binding', str(binding),
++                                    '--binding-sha256', '0'*64, '--output', str(output)]), self.assertRaisesRegex(ValueError, 'fence file changed'):
++            fence.main()
++        self.assertFalse(output.exists())
++
++    def test_actual_capture_child_and_process_receipt_have_distinct_paths(self):
++        output = self.root / 'source-fence-before-capture.json'
++        command = [sys.executable, '-I', '-B', str(HERE/'source_fence.py'), 'capture',
++                   '--root', str(self.source), '--output', str(output)]
++        record = controller.run_process(self.root, 'source-fence-before', command, 20, HERE,
++                                        {'PATH': '/usr/bin:/bin', 'GIT_OPTIONAL_LOCKS': '0', 'LC_ALL': 'C'})
++        self.assertEqual(record['exit_code'], 0)
++        self.assertTrue(record['owned_process_group_absent'])
++        receipt = self.root / 'source-fence-before.json'
++        self.assertEqual(json.loads(receipt.read_text())['argv'], command)
++        self.assertEqual(json.loads(output.read_text())['kind'], 'strict_current_source_identity_fence')
++        self.assertNotEqual(output, receipt)
++
++
++class SnapshotAdmission(unittest.TestCase):
++    def setUp(self):
++        self.root = FIXTURES / self._testMethodName
++        self.root.mkdir(parents=True, mode=0o700)
++        self.auth = self.root / 'root-review'; self.auth.mkdir(mode=0o700)
++        self.base = self.root / 'native'; self.base.mkdir(mode=0o700)
++        self.app = self.base / 'app-source'
++        self.binding = self.auth / 'source-fence.json'; self.binding.write_text('{}\n')
++        prior = self.base / '.control/startup/terminal.json'; prior.parent.mkdir(parents=True)
++        prior.write_text(json.dumps({'stage': 'startup', 'stage_pass': True}))
++        self.document = {'errors': [], 'packet_manifest_sha256': '1'*64, 'checked_packet_leaves': 2,
++                         'execution_stage_admissions': {'app-export': True}, 'current_source_export_authorized': True,
++                         'strict_current_source_comparison_required': True, 'private_snapshot_exclusive': True,
++                         'source_scope_held_for_strict_export': False, 'source_lock_attested': False,
++                         'transient_write_and_restore_absence_attested': False,
++                         'required_source_fence_sha256': hashlib.sha256(self.binding.read_bytes()).hexdigest(),
++                         'required_predecessor_terminal_sha256': hashlib.sha256(prior.read_bytes()).hexdigest()}
++
++    def authorize(self, stage='app-export', child=False):
++        receipt = self.auth / (stage+'-admission.json'); receipt.write_text(json.dumps(self.document))
++        args = argparse.Namespace(stage=stage, foundation_child=child, prepared_manifest_sha256='1'*64,
++                                  root_review_sha256=hashlib.sha256(receipt.read_bytes()).hexdigest())
++        with mock.patch.object(controller, 'AUTH_DIR', self.auth), mock.patch.object(controller, 'SOURCE_FENCE', self.binding), \
++             mock.patch.object(controller, 'BASE', self.base), mock.patch.object(controller, 'packet', return_value={'files': {'a': 'x', 'b': 'y'}}) as packets:
++            result = controller.authorization(args)
++        self.assertEqual(packets.call_count, 4)
++        return result
++
++    def test_honest_strict_source_comparison_admission_passes(self):
++        self.authorize()
++
++    def test_source_lock_or_transient_absence_attestation_refused(self):
++        for field in ('source_scope_held_for_strict_export', 'source_lock_attested', 'transient_write_and_restore_absence_attested'):
++            with self.subTest(field=field):
++                self.document[field] = True
++                with self.assertRaisesRegex(ValueError, 'disclose absence'):
++                    self.authorize()
++                self.document[field] = False
++
++    def test_required_comparison_and_private_destination_admission_missing_refused(self):
++        for field in ('current_source_export_authorized', 'strict_current_source_comparison_required', 'private_snapshot_exclusive'):
++            with self.subTest(field=field):
++                self.document[field] = False
++                with self.assertRaisesRegex(ValueError, 'strict snapshot admission'):
++                    self.authorize()
++                self.document[field] = True
++
++    def test_wrong_or_missing_source_fence_digest_refused(self):
++        for value in (None, '0'*64, 'invalid'):
++            self.document['required_source_fence_sha256'] = value
++            with self.assertRaisesRegex(ValueError, 'source identity/index/membership/fixture fence'):
++                self.authorize()
++
++    def test_actual_predecessor_mutation_refused(self):
++        path = self.base / '.control/startup/terminal.json'; path.write_text(json.dumps({'stage': 'startup', 'stage_pass': False}))
++        with self.assertRaisesRegex(ValueError, 'predecessor terminal'):
++            self.authorize()
++
++    def test_prior_or_next_stage_and_foundation_child_refused(self):
++        for stage in ('foundation', 'sdk-lock', 'startup', 'app-lock', 'native'):
++            with self.assertRaisesRegex(ValueError, 'only app-export'):
++                self.authorize(stage=stage)
++        with self.assertRaisesRegex(ValueError, 'only app-export'):
++            self.authorize(child=True)
++
++    def test_existing_or_symlink_candidate_destination_refused(self):
++        fence.private_destination(self.app, self.base)
++        self.app.mkdir(mode=0o700)
++        with self.assertRaisesRegex(ValueError, 'must be absent'):
++            fence.private_destination(self.app, self.base)
++        self.app.rmdir(); self.app.symlink_to(self.root/'missing')
++        with self.assertRaisesRegex(ValueError, 'must be absent'):
++            fence.private_destination(self.app, self.base)
++
++    def test_nonprivate_root_or_candidate_refused(self):
++        self.base.chmod(0o755)
++        with self.assertRaisesRegex(ValueError, 'owner-only mode'):
++            fence.private_destination(self.app, self.base)
++        self.base.chmod(0o700); self.app.mkdir(mode=0o755)
++        with self.assertRaisesRegex(ValueError, 'remain private'):
++            fence.private_candidate(self.app, self.base)
++
++    def test_private_candidate_hardlink_and_symlink_refused(self):
++        self.app.mkdir(mode=0o700); source = self.app/'source'; source.write_bytes(b'private synthetic snapshot\n')
++        fence.private_candidate(self.app, self.base); os.link(source, self.root/'outside-alias')
++        with self.assertRaisesRegex(ValueError, 'independently owned'):
++            fence.private_candidate(self.app, self.base)
++        (self.root/'outside-alias').unlink(); source.unlink(); source.symlink_to(self.root/'absent')
++        with self.assertRaisesRegex(ValueError, 'safe regular'):
++            fence.private_candidate(self.app, self.base)
++
++    def test_exact_commands_preserved_and_drift_mode_or_deadline_mutation_refused(self):
++        config = json.loads((HERE/'proposed-commands.json').read_text())
++        validate = lambda: fence.validate_commands(config, ORIGINAL, HERE, REPO, controller.BASE,
++                                                   controller.SDK, controller.APP, controller.AUTH_DIR)
++        validate()
++        config['commands']['app-export']['argv'].append('--retain-source-drift')
++        with self.assertRaisesRegex(ValueError, 'invariant changed'):
++            validate()
++        config['commands']['app-export']['argv'].pop(); config['commands']['app-export']['deadline_seconds'] = 301
++        with self.assertRaisesRegex(ValueError, 'invariant changed'):
++            validate()
++
++    def test_private_environment_or_resource_floor_mutation_refused(self):
++        for field, value in (('live_free_floor_bytes', 0), ('minimum_free_bytes', 0),
++                             ('environment_exact', {'PATH': '/usr/bin'}), ('Python_SHA256', '0'*64)):
++            config = json.loads((HERE/'proposed-commands.json').read_text()); config[field] = value
++            with self.assertRaisesRegex(ValueError, 'invariant changed'):
++                fence.validate_commands(config, ORIGINAL, HERE, REPO, controller.BASE, controller.SDK, controller.APP, controller.AUTH_DIR)
++
++    def test_preparation_packet_leaf_tamper_refused(self):
++        packet = self.root/'packet'; packet.mkdir(); leaf = packet/'leaf'; leaf.write_bytes(b'exact leaf\n')
++        manifest = packet/'packet-files.json'; manifest.write_text(json.dumps({'files': {'leaf': hashlib.sha256(leaf.read_bytes()).hexdigest()}}))
++        expected = hashlib.sha256(manifest.read_bytes()).hexdigest(); controller.packet(packet, expected)
++        leaf.write_bytes(b'tampered leaf\n')
++        with self.assertRaisesRegex(ValueError, 'packet leaf changed'):
++            controller.packet(packet, expected)
++
++    def test_unexpected_configuration_or_nonadmission_flag_change_refused(self):
++        for field, value in (('unreviewed_config', True), ('all_flavors_ABI_followthrough_open', False)):
++            config = json.loads((HERE/'proposed-commands.json').read_text()); config[field] = value
++            with self.assertRaisesRegex(ValueError, 'only declared snapshot admission fields'):
++                fence.validate_commands(config, ORIGINAL, HERE, REPO, controller.BASE, controller.SDK, controller.APP, controller.AUTH_DIR)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- /dev/null
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py
+@@ -0,0 +1,117 @@
++#!/usr/bin/env python3
++"""Run unchanged guard suites in new private fixtures with retained source fences."""
++import argparse
++import hashlib
++import importlib.util
++import json
++import os
++import stat
++import sys
++import time
++import unittest
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++ORIGINAL = HERE.parent / 'kotlin-sdk-native-consumer-preparation1'
++ORIGINAL_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
++SUITES = {'snapshot': ('test_snapshot_guards.py', 34), 'original': ('test_original_guards.py', 31)}
++
++
++def identity(row):
++    return (row.st_dev, row.st_ino, row.st_size, row.st_mode, row.st_nlink,
++            row.st_mtime_ns, row.st_ctime_ns, row.st_uid, row.st_gid)
++
++
++def fingerprint(path, system_git=False):
++    path = Path(path)
++    if path.resolve() != path:
++        raise ValueError('suite source has aliased ancestor or leaf')
++    before = path.lstat()
++    system_git_allowed = system_git and path == Path('/usr/bin/git') and before.st_uid == 0
++    if not stat.S_ISREG(before.st_mode) or (before.st_nlink != 1 and not system_git_allowed):
++        raise ValueError('suite source must be independent regular file')
++    digest = hashlib.sha256()
++    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
++    with os.fdopen(descriptor, 'rb') as source:
++        if identity(os.fstat(source.fileno())) != identity(before):
++            raise ValueError('suite source raced during FD opening')
++        for chunk in iter(lambda: source.read(1024**2), b''):
++            digest.update(chunk)
++        if identity(os.fstat(source.fileno())) != identity(before):
++            raise ValueError('suite source mutated during reading')
++    if identity(path.lstat()) != identity(before):
++        raise ValueError('suite source named leaf replaced')
++    return {'sha256': digest.hexdigest(), 'bytes': before.st_size, 'device': before.st_dev,
++            'inode': before.st_ino, 'mode': stat.S_IMODE(before.st_mode), 'nlink': before.st_nlink,
++            'mtime_ns': before.st_mtime_ns, 'ctime_ns': before.st_ctime_ns,
++            'uid': before.st_uid, 'gid': before.st_gid}
++
++
++def save(path, value):
++    with Path(path).open('x') as output:
++        json.dump(value, output, indent=2, sort_keys=True); output.write('\n')
++        output.flush(); os.fsync(output.fileno())
++
++
++def inputs():
++    manifest = ORIGINAL / 'packet-files.json'
++    if fingerprint(manifest)['sha256'] != ORIGINAL_MANIFEST:
++        raise ValueError('original frozen preparation differs')
++    entries = json.loads(manifest.read_text())['files']
++    paths = [manifest, *(ORIGINAL / name for name in entries),
++             *(HERE / name for name in ('run_native_consumer.py', 'source_fence.py', 'proposed-commands.json',
++                                        'test_snapshot_guards.py', 'test_original_guards.py', 'run_bound_guard_suite.py'))]
++    rows = {str(path): fingerprint(path) for path in paths}
++    for name, expected in entries.items():
++        if Path(name).is_absolute() or '..' in Path(name).parts or rows[str(ORIGINAL/name)]['sha256'] != expected:
++            raise ValueError('original frozen guard dependency changed')
++    config = json.loads((HERE/'proposed-commands.json').read_text())
++    python = Path(config['Python_executable'])
++    if str(Path(sys.executable).resolve()) != str(python.resolve()) or fingerprint(python)['sha256'] != config['Python_SHA256']:
++        raise ValueError('exact reviewed Python runtime required')
++    rows[str(python.resolve())] = fingerprint(python.resolve())
++    # This read-only macOS system tool can have several signed-system links.
++    # Preserve its actual nlink/hash/identity; never treat it as a copied source leaf.
++    rows['/usr/bin/git'] = fingerprint(Path('/usr/bin/git'), system_git=True)
++    return rows
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--suite', required=True, choices=SUITES)
++    parser.add_argument('--fixture-root', required=True, type=Path)
++    args = parser.parse_args()
++    fixture_root = args.fixture_root
++    if (fixture_root.parent != HERE/'negative-fixtures' or fixture_root.exists() or fixture_root.is_symlink()
++            or fixture_root.absolute() != fixture_root or fixture_root.parent.resolve() != fixture_root.parent):
++        raise ValueError('new fixture root must be absent and private to this proposal')
++    before = inputs()
++    save(HERE/(args.suite+'-bound-before.json'), {'files': before, 'suite': args.suite,
++         'fixture_root': str(fixture_root), 'previous_negative_fixtures_executed': False,
++         'real_app_export_SDK_Gradle_native_executed': False})
++    script, expected = SUITES[args.suite]
++    spec = importlib.util.spec_from_file_location('source_bound_'+args.suite, HERE/script)
++    suite_module = importlib.util.module_from_spec(spec); spec.loader.exec_module(suite_module)
++    suite_module.FIXTURES = fixture_root
++    suite = unittest.TestLoader().loadTestsFromModule(suite_module)
++    if suite.countTestCases() != expected:
++        raise ValueError('exact guard suite count differs before execution')
++    started = time.monotonic()
++    result = unittest.TextTestRunner(verbosity=2).run(suite)
++    after = inputs()
++    unchanged = before == after
++    receipt = {'suite': args.suite, 'expected_tests': expected, 'actual_tests_run': result.testsRun,
++               'actual_seconds': round(time.monotonic()-started, 6), 'failures': len(result.failures),
++               'errors': len(result.errors), 'skips': len(result.skipped),
++               'source_inputs_unchanged': unchanged, 'files': after,
++               'fixture_root': str(fixture_root), 'fixture_override_changes_output_path_only': True,
++               'real_app_export_SDK_Gradle_native_executed': False,
++               'previous_negative_fixtures_executed': False, 'production_ready': False}
++    save(HERE/(args.suite+'-bound-after.json'), receipt)
++    if not unchanged:
++        raise ValueError('actual suite source/tool/identity changed during execution')
++    return 0 if result.wasSuccessful() and not result.skipped and result.testsRun == expected else 1
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())

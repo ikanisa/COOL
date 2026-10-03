@@ -1,0 +1,36 @@
+{
+  "PD12_criterion_met": true,
+  "actual101facts_26sets_14tests_schema_authority_pass_verified": true,
+  "canonical_row_changed_by_this_review": false,
+  "captured_at_utc": "2026-10-02T14:31:24.985372+00:00",
+  "current_index_sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca",
+  "current_summary_sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89",
+  "expected_archived_Android2_drift_retained": [
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/app/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    },
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    }
+  ],
+  "full_visual_match": false,
+  "integrator_decision": "original_PD12_current_index_reconciliation_criterion_met_in_declared_scope",
+  "later_source_epochs_require_new_current_index_binding": true,
+  "no_zero_error_or_external_PD01_PD03_PD05_gate_added": true,
+  "original_acceptance_requirement_unchanged": [
+    "**Recommendation:** retain historical packets, but produce one current index per candidate that records exact source scope, artifact, result, superseded packet and still-open gates. Amend status rather than rewriting old outcomes. **Owner:** release/QA integrator. **Closure:** current index machine-checks relevant source/transitive inputs and exact artifacts, and identifies independently validated vs unverified areas without contradictory current-state claims."
+  ],
+  "production_release_approval": false,
+  "scope_limits": [
+    "Captured selected source lists are explicit scopes, not a whole repository/OS lock or complete added/unlisted compiler graph.",
+    "Public observed66+3 transitive inputs and exact55 local artifacts are verified; whole current visual/public generator graph, Aeonik rights, legal/publication and hosted/provider parity remain unverified.",
+    "Original native12 JVM tests/20 release classes remain archived2561/abf; Android2 and current privateAPP/f997 are a later epoch without wholesale current native test acceptance.",
+    "Original SDK physical/source/allowed8 proof is pinned; no full4.24GB SDK re-read or directory/link/inode proof reconstructed.",
+    "Exact157 empty OSV query scope and graph173/995/141 records do not grant complete packaged SBOM, licence/security acceptance or future AAB result."
+  ],
+  "whole_current_native_pass": false
+}

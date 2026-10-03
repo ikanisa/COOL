@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "change": "Only reviewed_source_sha256.scripts/public_static_site_build.rb is updated after actual generated15-route visible text and catalog exactly match the reviewed contract. The builder diff removes exactly two deleted unlicensed Aeonik assets from the copy list; no route, renderer or product/legal source edit.",
+  "old_builder_sha256": "37b27f0bb2ef64df53ab08db44bf33434213e6b04ea7374d1a20b0b628a41d46",
+  "new_builder_sha256": "d0326289f1c374dcd7456d9517ad263a037de8e8adebe9fb0f013d6e49472ace",
+  "current_contract_before_sha256": "f5d03515e68dd38f95b9770a3fabe417b7d58215380e8ee171be6fcfe70f3abc",
+  "current_contract_after_sha256": "7e15b1541fa2e2e109d224fb43911e6e377581845ce42ef80ebaa749290790a3",
+  "changed_contract_fields": [
+    "reviewed_source_sha256.scripts/public_static_site_build.rb"
+  ],
+  "visible_text_route_count": 15,
+  "visible_text_hashes_unchanged": true,
+  "route_catalog_unchanged": true,
+  "other_five_reviewed_source_hashes_unchanged": true,
+  "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+  "historical_bytes_unchanged": true,
+  "legal_release_approved": false,
+  "publication_approved": false,
+  "helper_unchanged_sha256": "31b30f93a71a12cc6852450a23a0257d71f36f69d04e7a512520864841e72235",
+  "media_publication_receipt": "docs/release/asset-build-hygiene-2026-09-30/public-current-inter-media-20261001-attempt2/publication/publication.json",
+  "static_output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-current-inter-static-20261001-attempt2",
+  "generated_route_proof_sha256": "0d3b9096aaf279632d4a1599c6fbf7e021ee468a57b5e1ea1cfe36540947c7a4"
+}

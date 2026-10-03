@@ -1,0 +1,340 @@
+{
+  "admin_addition_scope": {
+    "accepted_export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-essential-admin-checkpoint-scrub-current4",
+    "binder_rule": "Record exact candidate file hashes plus accepted security-core projection hashes and added block hashes; retain prior test packet scope rather than a fresh whole-library pass.",
+    "files": [
+      {
+        "accepted_scrub4_sha256": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b",
+        "added_methods": [
+          "receiptOperationsPolicy",
+          "configureReceiptOperations",
+          "receiptOperationsOwnerRequest"
+        ],
+        "additive_receipt_operations_block_sha256": "514174b665ee13848ae133146fcb5a1ad6ffcc9f61260a9e782f3ac35583aab0",
+        "candidate_sha256": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d",
+        "exact_projected_bytes_equal": true,
+        "path": "lib/admin/core/admin_repository_base.dart",
+        "projection_sha256": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b",
+        "removed_only_additive_import_part_lines": [
+          "import 'admin_receipt_operations_models.dart';\n"
+        ]
+      },
+      {
+        "accepted_scrub4_sha256": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d",
+        "added_methods": [
+          "receiptOperationsPolicy",
+          "configureReceiptOperations",
+          "receiptOperationsOwnerRequest"
+        ],
+        "additive_receipt_operations_block_sha256": "0e54cf4b32444c6c588650b732aaf9f56ad52ed18219708508cdf7ec41986e03",
+        "candidate_sha256": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0",
+        "exact_projected_bytes_equal": true,
+        "path": "lib/admin/core/admin_runtime.dart",
+        "projection_sha256": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d",
+        "removed_only_additive_import_part_lines": [
+          "import 'admin_receipt_operations_models.dart';\n",
+          "import 'admin_receipt_operations_checkpoint.dart';\n",
+          "part 'admin_receipt_operations_runtime.dart';\n",
+          "part 'admin_receipt_operations_card.dart';\n"
+        ]
+      }
+    ],
+    "meaning": "Prior E1 scrub/session accepted security flow is byte-preserved despite whole-file hash changes. Added receipt operations controls are a separate workflow and are not accepted by the original scrub8 result. Do not present those two whole files as hash-identical.",
+    "new_provider_boundary": "New receipt operations policy/checkpoint/controller providers are separate names; existing exception/session/identity/dialog helpers are untouched. New card consumes shared _AdminSessionDialog without changing its definition.",
+    "scope": "Removed only exact additive receipt-operations imports/parts and newly added repository-method blocks in memory; reconstructed entire two-file bytes equal accepted scrub4 export. No source/snapshot overlay or test.",
+    "status": "retain_candidate_additions_existing_E1_security_core_bytes_verified_unchanged"
+  },
+  "bindings": [
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "eaac36ec164286c63473771b444044ba3508fe6f0cd8507a148655f1061d5f19"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "07b538def17e7b038fa9fd388dc98f4090039e15986c3fdc6098fce3f11546eb"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/REPORT.md",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "0053e8b0cd2451d52b0be7e71f65f94b3e9317f6ce9d2cae2ae1c0a22bcb675e"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/execution.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "62cf5955de36d2fad6d6d39ec13c35b5ed6a3ed24f0f3602505f9da6cbfa74b6"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/final-flat-native-inputs-after.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "04dc910670936d0d6621a746360f69cfe7e434cb8a7dc8a94415252da915972c"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/reused-flutter-output-inputs.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "ea86c851919d52d129ca6ad5222231947a3c7683679731d0c2e0ce5126e3fbd3"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/standalone-dispatch-archive/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "6eac08b9558a34ca6e60fc4e5c700d3b9e2e2bd4a315517ea559dc19621eec2e"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-final-native-candidate-attempt176/verification.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "5291edc6c827b35147e9f2a26525ec325e28cc15ddac83fde0fb33e309b45ed0"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt174/jvm-failure-root-cause.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "eb8737619c255bde54b4de367fbd6748c70d626c394363e37bf8f1213003c8d6"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt174/terminal-readback.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "dbb13dd5b5e057e7afe37e41bac98719399debbf21f9b3cf0c48c6d777cc40c3"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt175/actual-json-class-origins.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "fc32fdf62b3e849810d2d4adc4024bd920b6d8c0350aaf1815d1908193f5d1be"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt175/verification.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "a520739bf740f0192ff82ab7962d3a335f3c5596cde3b74a47b31b9b7249adbc"
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-current3/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "c946d4b1d921c9134f0ca80b087d685bce3540ea60bb80b419fe8b9596f1c44a"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-scrub-current4/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "5702856e9f96ee5fc834914c0c07280e2d0ea46b196fba17c0a112877bc14b97"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/admin-essential-review.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "592ce009d25c11a4a6dd69b55a832ec89e0dbe1a5f59521eef0b0e3ac902e80f"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/admin-session-current1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "6931a7fcb6af3d49c0cf0a87df3adcbe00f74ba06dedd51253304ede3f3a81d1"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/core-interface-current1/current-source-export-bindings.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "000e1a3f33a1efb6935a2809370073080888d713d6f75f3ae1504c9f5bb88dc8"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/core-interface-current1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "167502d5efe8fc4773c65fd0fdb056c9a74553cfe902549894c43f7de6cc6acf"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt5-exact-inspection-contract/result.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "aef08b67add5b8fa1128c4aa7f21b2580aaa0007e8af586fd0533e09907012d1"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "7de3991aed4ea7c2a3ce8e51994c6abd8d61dedb8a3c35ac6a7d2ebb03635dae"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e2-reuse-current1.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "e011d8908fe82ab32aee50a91435e37d441b14f1821f9e10c36fbfb62b735160"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e4-core-comparison-current1.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "08793967e0c5a86050cd6de8fb78826e701ac4f049ea89952b2923d4e0952e9e"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e5-candidate-review.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "f103c92926bc921ffbcf4ba5b0d772c5f6271038048aaf5c60f431603e0e79b8"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/e5-candidate-review.md",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "0022a852bf04dc1a7d6aa9e5bea0611ab00056e7422b3f63e8044c1994e54623"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/feature-reason-current1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/final-validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "8e0a1326b0eb9f54f08e48e4b82645edaa9b0e581a08358102c4bcc102c87d04"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/public-golden-review.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/validation.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "910d4b3e79ad00cb50e5ae652698a4a6fb70b22df4e98a405f9d729789fe348f"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/revolut-authority-current1.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "387d0e7884c60f9677e33a70144089f27d290196f3e192628ee67485ef6f55ba"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/source-candidate-initial-drift.json",
+      "scope": "Retains its captured input identity, commands/output hashes and acceptance limits; no whole-suite inference.",
+      "sha256": "031190eeb68dac583db43591b55ed4ee7d4e5895e242ee29c2afb224a864c147"
+    }
+  ],
+  "cancelled_or_deferred_nonessential_work": [
+    "repeated broad suites and benchmarks",
+    "duplicate production/iOS builds",
+    "exhaustive retrospective/dependency inventories",
+    "optional polish and pruning",
+    "future receipt/MCP additions managed by the separate chat"
+  ],
+  "candidate_acceptance_sources": {
+    "android/app/build.gradle.kts": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "e6f93e13030ef2d19588e2e7e262256556d6980f0e8516c1abea7b46e1d23e4e",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "9ae91f8240decd514fe10c1bc2fc39367f91848d15399f3e1446175c32e40117",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": "ff831daa0a618504a2a8478441ddb77424da3700cd92dc7a7d5c6527f401c57e",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt": "67a396f5889882d3a891fa1639c04c3b16bec11c5a9515963cc973093c351f26",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "lib/admin/admin_app.dart": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9",
+    "lib/admin/admin_shell.dart": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+    "lib/admin/core/admin_detail_formatters.dart": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+    "lib/admin/core/admin_display_formatters.dart": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829",
+    "lib/admin/core/admin_exception_page.dart": "478bca7ebaf7cb18f630abf6df4fd39a67acfdd0ed2f3d4404a9080637b3127c",
+    "lib/admin/core/admin_exception_workflow_card.dart": "f5b87c324190fe01c9a4ea1341c781c107521d447dbd2aff445ade402577d7ee",
+    "lib/admin/core/admin_exception_workflow_models.dart": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+    "lib/admin/core/admin_list_runtime.dart": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921",
+    "lib/admin/core/admin_models.dart": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+    "lib/admin/core/admin_read_contracts.dart": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+    "lib/admin/core/admin_repository_base.dart": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d",
+    "lib/admin/core/admin_runtime.dart": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0",
+    "lib/admin/shared/components/admin_confirm_dialog.dart": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_component_tokens.dart": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+    "lib/app/theme/collect_icons.dart": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/app/theme/collect_radius.dart": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+    "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+    "lib/app/theme/collect_runtime_tokens.dart": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+    "lib/app/theme/collect_runtime_typography.dart": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "lib/features/collections/collection_detail_screen.dart": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/status/group_members_screen.dart": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+    "lib/gateway/gateway_app.dart": "533270a9bae47d4d96377a11553c965c356a32d81bf80624fbc8488e939c2f8c",
+    "lib/gateway/gateway_platform.dart": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+    "lib/main_gateway.dart": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08",
+    "lib/shared/models/collect_model_json_helpers.dart": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_payment_json.dart": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+    "lib/shared/models/collect_payment_models.dart": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/shared/models/collect_summary_json.dart": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+    "lib/shared/models/member_history_page.dart": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+    "lib/shared/repositories/collect_repository.dart": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+    "lib/shared/repositories/collect_repository_live_reader.dart": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+    "lib/shared/repositories/runtime_control_contract.dart": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+    "lib/shared/utils/collect_haptics.dart": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_components.dart": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c",
+    "scripts/tests/exception_lifecycle_uat.py": "c525d54d7d7627c3fbfe43aac4168d021eb797f840f115ace4148dcc5537ee3c",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "test/admin_custom_action_ui_test.dart": "23016c22dab6936681c7ba479648afeabf53181a1cd89001e40a116669767552",
+    "test/admin_exception_page_test.dart": "66e218e0893e00a631bcb6b4cdfd86ba1870422f988114ac61c71a88da97e7e9",
+    "test/admin_exception_workflow_test.dart": "bc20786eef3191f1ef36ad0718cb268061280c8c9995b11539afb424986af9c1",
+    "test/admin_header_accessibility_test.dart": "c40123ccf394c2eba642527f34252d088bdbc006bcad9759488730910726432c",
+    "test/admin_read_contracts_test.dart": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886",
+    "test/admin_value_integrity_test.dart": "e9d8bed43a602d67d90fbf91961f37d98d5da54c61e5d40e61ef15c23d8e82e9",
+    "test/admin_value_screen_integrity_test.dart": "0588f06e0a0d9f180d7c6cc5f2ef5255b5efdcc41ee239032108e993958b3406",
+    "test/features/collect_surface_keyboard_focus_test.dart": "3e002978adb430b444c21be65018526a417e52dee3b9401944ba9504446bae94",
+    "test/features/notification_preferences_recovery_ui_test.dart": "7476a5ace60355f6958bfb1b87f65c9ed16a6c674789dc9e90d6260b6b801a38",
+    "test/features/shared_chrome_accessibility_test.dart": "92cd0eb29d0f4811fa543adcc27bac8bf84f7e4ea60e5d55c5637deaf0be5431",
+    "test/fixtures/collect_repository_fixture.dart": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+    "test/goldens/GOLDEN_MANIFEST.sha256": "602324d40471dcaff33a38c460d453522355c89d4d6d0c9734051c0f08c945ea",
+    "test/goldens/baselines/public_home_desktop.png": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4"
+  },
+  "captured_at_utc": "2026-10-01T12:35:47.164927+00:00",
+  "essential_results": {
+    "E1": "identified session/checkpoint/roster gaps corrected;25 SQL checks/two actual races; existing role/security evidence retains its original scopes",
+    "E2": "26 affected feature/shared cases pass; selected financial/settings source evidence reused",
+    "E3": "final stronger frozen candidate assemble/lint pass0errors40warnings;41 actual affected JVM and124 standalone cases pass",
+    "E4": "actual Inter font/public11 and core13 cases pass; sole-authority hygiene pass; complete visual/native fidelity not claimed",
+    "E5": "frozen captured manifest plus exact native Gradle correction; final archive byte sealing follows"
+  },
+  "native_artifact": {
+    "aeonik_absent": true,
+    "bytes": 82297842,
+    "inter_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-final-gateway-attempt176/app-internal_gateway-release-unsigned.apk",
+    "post_notifications_absent": true,
+    "qa_marker": {
+      "kind": "local_unsigned_native_qa",
+      "provider_configuration": false,
+      "signing": false,
+      "store_acceptance": false
+    },
+    "sha256": "a9fe16524f3b13f7bc85b40efb00875ab44bb17925a97163e5d9a12c364c3f1e",
+    "unsigned_verified": true
+  },
+  "native_final_acceptance_pass": true,
+  "original_full_flutter_result": {
+    "failed": 17,
+    "passed": 4450,
+    "rewritten_as_whole_pass": false
+  },
+  "original_full_local_and_production_criteria_closed": false,
+  "production_release_decision": "NO-GO",
+  "remaining_release_gates": [
+    "hosted activation and provider evidence",
+    "signing and physical device/carrier/store acceptance",
+    "full applicable Revolut comparisons and states",
+    "original full-register criteria outside the narrowed essential cycle"
+  ],
+  "retained_native_cases": "Prior17548 and17450 are separate captured results; no new whole98 rerun claim.",
+  "scope": "This seals the owner-narrowed essential local implementation cycle. Detailed original logs remain in their repository packets; embedded records carry their exact commands/output hashes. Concurrent later checkout edits are preserved but excluded from this candidate acceptance.",
+  "shared_checkout_equality_claimed": false,
+  "status": "accepted_scoped_evidence_ready_for_frozen_candidate_seal"
+}

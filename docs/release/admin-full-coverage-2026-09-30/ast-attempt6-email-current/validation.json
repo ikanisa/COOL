@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/dart",
+    "--packages=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/ast-attempt6-email-current/package_config.json",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/admin_ast_inventory.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  ],
+  "source_unchanged": true,
+  "source_count": 59,
+  "admin_units": 55,
+  "active_admin_units": 53,
+  "parser_errors": [],
+  "declarations": 1165,
+  "invocations": 6067,
+  "providers": 27,
+  "dialogs": 13,
+  "callbacks": 165,
+  "inventory_sha256": "0518f69ae688300c19786112250721c4cef98756de6d3e21e45af53529db460f",
+  "parser_dependencies_sha256": "15701540957c7c43b7062fb2d0737ffa08c742dd756a9460a578c69021a6874a",
+  "app_dependency_configuration_changed": false,
+  "database_called": false,
+  "provider_called": false,
+  "network_called": false,
+  "semantic_reachability_verified": false
+}

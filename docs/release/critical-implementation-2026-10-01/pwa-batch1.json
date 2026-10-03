@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "task": "ARC-07 Admin PWA update/cache policy",
+  "status": "local_batch_verified_full_hosted_acceptance_open",
+  "completed_utc": "2026-10-01T20:20:19.198410+00:00",
+  "owned_files": [
+    "scripts/templates/admin_pwa_service_worker.js",
+    "scripts/admin_pwa_release_build.sh",
+    "scripts/admin_pwa_manifest_gate.sh",
+    "scripts/admin_pwa_hosting_gate.sh",
+    "scripts/admin_pwa_live_gate.sh",
+    "web/flutter_bootstrap.js",
+    "web/_headers",
+    "scripts/qa/admin_pwa_update_policy.mjs",
+    "scripts/qa/admin_pwa_lifecycle_qa.mjs",
+    "scripts/qa/local_browser_lifecycle.mjs",
+    "scripts/qa/current_browser_lifecycle.mjs",
+    "scripts/tests/admin_pwa_worker_cache_test.mjs",
+    "scripts/tests/admin_pwa_update_browser_test.mjs",
+    "test/admin_pwa_test.dart"
+  ],
+  "source_hashes_at_completion": {
+    "scripts/templates/admin_pwa_service_worker.js": "306b2e045006a73adf35847445e0a0e01e71663cd3dde6bac0fa6e199e323df5",
+    "scripts/admin_pwa_release_build.sh": "dbca2f536bacb436578bb34dfe7530b1d7691760a2c014be16d8a06a442e6948",
+    "scripts/admin_pwa_manifest_gate.sh": "03159813903e6990231dcbb5bf1db41d25b59f373d7fe305243caeeaf4eb5047",
+    "scripts/admin_pwa_hosting_gate.sh": "768be3f0fb2dff0a3a7e6b7ee33bda38a4bdc72fc7c04a41392e2ec98a88c5f3",
+    "scripts/admin_pwa_live_gate.sh": "d0a7520c5f6d9472d65f758c91d602856d69980c841026a9bf04ef3c58e38edf",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "scripts/qa/admin_pwa_update_policy.mjs": "c868b40baf4965d4257450d6a3f5fd6517fd3879b9fcff372494b0f419cc23ab",
+    "scripts/qa/admin_pwa_lifecycle_qa.mjs": "a9000d4c3242f435564047d386972643d4087d3cb978a7febddc92c2dc3d1446",
+    "scripts/qa/local_browser_lifecycle.mjs": "056818a319868243442fa7a8fdd2349cfd4bae69a9acb92d86d1af65d400ad2a",
+    "scripts/qa/current_browser_lifecycle.mjs": "d7accdc7ddf19728ea9987e5671bbf553bd0b9b5d018d9731d5f9ba2207015cf",
+    "scripts/tests/admin_pwa_worker_cache_test.mjs": "0cb09db6f93c1300acc034e6d2aed5a0ac7bd1cc02aaa0276aa456127951496b",
+    "scripts/tests/admin_pwa_update_browser_test.mjs": "642387d68596420f408147a4c5e30f835328e8fb73540b00b64b44db69e554a7",
+    "test/admin_pwa_test.dart": "b2e797a77378084b6a02b77aba6c1f1eaddff61ac4abe0412cc3f8cee137a39a"
+  },
+  "browser_source_hashes_before": {
+    "scripts/tests/admin_pwa_update_browser_test.mjs": "642387d68596420f408147a4c5e30f835328e8fb73540b00b64b44db69e554a7",
+    "scripts/qa/admin_pwa_update_policy.mjs": "c868b40baf4965d4257450d6a3f5fd6517fd3879b9fcff372494b0f419cc23ab",
+    "scripts/templates/admin_pwa_service_worker.js": "306b2e045006a73adf35847445e0a0e01e71663cd3dde6bac0fa6e199e323df5",
+    "scripts/admin_pwa_release_build.sh": "dbca2f536bacb436578bb34dfe7530b1d7691760a2c014be16d8a06a442e6948",
+    "scripts/admin_pwa_manifest_gate.sh": "03159813903e6990231dcbb5bf1db41d25b59f373d7fe305243caeeaf4eb5047",
+    "scripts/admin_pwa_hosting_gate.sh": "768be3f0fb2dff0a3a7e6b7ee33bda38a4bdc72fc7c04a41392e2ec98a88c5f3",
+    "scripts/admin_pwa_live_gate.sh": "d0a7520c5f6d9472d65f758c91d602856d69980c841026a9bf04ef3c58e38edf",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+    "web/icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+  },
+  "browser_source_hashes_after": {
+    "scripts/tests/admin_pwa_update_browser_test.mjs": "642387d68596420f408147a4c5e30f835328e8fb73540b00b64b44db69e554a7",
+    "scripts/qa/admin_pwa_update_policy.mjs": "c868b40baf4965d4257450d6a3f5fd6517fd3879b9fcff372494b0f419cc23ab",
+    "scripts/templates/admin_pwa_service_worker.js": "306b2e045006a73adf35847445e0a0e01e71663cd3dde6bac0fa6e199e323df5",
+    "scripts/admin_pwa_release_build.sh": "dbca2f536bacb436578bb34dfe7530b1d7691760a2c014be16d8a06a442e6948",
+    "scripts/admin_pwa_manifest_gate.sh": "03159813903e6990231dcbb5bf1db41d25b59f373d7fe305243caeeaf4eb5047",
+    "scripts/admin_pwa_hosting_gate.sh": "768be3f0fb2dff0a3a7e6b7ee33bda38a4bdc72fc7c04a41392e2ec98a88c5f3",
+    "scripts/admin_pwa_live_gate.sh": "d0a7520c5f6d9472d65f758c91d602856d69980c841026a9bf04ef3c58e38edf",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+    "web/icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+  },
+  "browser_source_inputs_unchanged": true,
+  "browser_report": ".cache/pwa-critical-20261001/browser-attempt3/report.json",
+  "browser_report_sha256": "f7824a3f6fe0291f766b35117c791bb726bde69de471eccd2511d0e7f0e2320d",
+  "checks": {
+    "real_chromium_loopback_contract_and_lifecycle": {
+      "status": "pass",
+      "passed": 28,
+      "failed": 0,
+      "browser": {
+        "version": "154.0.8037.59",
+        "executable": "/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "executable_sha256": "4e0c9634bbafc4007a5d5d72cfcb7101fda2ac519daf7cf2beefcbbed4136361"
+      },
+      "scope": "real_chromium_loopback_tiny_static_fixtures_current_production_postprocessor",
+      "actual_admin_business_workflow": false,
+      "installed_os_pwa": false
+    },
+    "dart_affected_consumer": {
+      "command": "flutter test --no-pub test/admin_pwa_test.dart",
+      "passed": 27,
+      "failed": 0,
+      "log": ".cache/pwa-critical-20261001/admin-pwa-consumer-test.log",
+      "qualification": "source/SDK consumer tests, not an application build"
+    },
+    "worker_vm_boundaries": {
+      "command": "node scripts/tests/admin_pwa_worker_cache_test.mjs",
+      "status": "pass",
+      "qualification": "VM unit mocks; real waiting lifecycle covered separately in Chromium"
+    },
+    "ruby_bundle_gate": {
+      "command": "ruby scripts/tests/admin_pwa_bundle_gate_test.rb",
+      "runs": 2,
+      "assertions": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "postprocess_idempotence": {
+      "status": "pass",
+      "files": 13,
+      "receipt": ".cache/pwa-critical-20261001/idempotent-postprocess/idempotence.json"
+    },
+    "bash_node_syntax_and_owned_diff_check": "pass"
+  },
+  "dated_actual_flutter_compatibility": {
+    "original_compiled_artifact": "build/web",
+    "original_source_age": "2026-09-30 artifact; no fresh current-Dart compilation claimed",
+    "hash_manifest_in_browser_report": true,
+    "observed": "Actual compiled Admin login and Flutter loader/CanvasKit/fonts render with current versioned asset-base configuration in real Chromium; HTTPS requests blocked during this compatibility probe.",
+    "qualification": "Current-source authenticated Admin workflow and visual acceptance remain unverified"
+  },
+  "runtime_changes": [
+    "Content-derived SHA-256 namespace _build/<64hex>/ for runtime main/assets/icons/CanvasKit and static runtime files; original stable compatibility aliases require revalidation.",
+    "Bootstrap uses documented Flutter entrypointBaseUrl/assetBase plus namespaced CanvasKit; shell font/icon and manifest icon use the same namespace.",
+    "Worker stable URL updateViaCache:none, naturally waits while old controlled clients remain; no skipWaiting, claim, automatic operator reload or local storage removal.",
+    "Each precache response requires credential omission, redirect rejection, exact response URL and matching generated SHA-256; all writes settle before failed cache deletion.",
+    "Missing installed static entries return no-store HTTP503 rather than mixing new network bytes with old running app.",
+    "Only after natural activation are old owned Admin and three explicitly retired Flutter caches removed; unrelated caches remain.",
+    "Local/served gates verify natural waiting, namespace, mutable/immutable header distinction and static binding; served gate samples three runtime resources.",
+    "Three existing lifecycle consumers now model explicit closure of all scoped tabs before asserting update activation."
+  ],
+  "evidence_hashes": {
+    ".cache/pwa-critical-20261001/browser-attempt3/report.json": "f7824a3f6fe0291f766b35117c791bb726bde69de471eccd2511d0e7f0e2320d",
+    ".cache/pwa-critical-20261001/browser-attempt3/loopback-live-contract-positive.live-gate.json": "b517eee0c6b18290ab8f7711f64410069b932b307f1632bde8fe4a262cb61cca",
+    ".cache/pwa-critical-20261001/browser-attempt3/loopback-live-contract-rejects-mixed-runtime-bytes.live-gate.json": "08c10f2cd53601022ad2b522372ce3784808d53de9dca4cc06d9b3510c7c3a78",
+    ".cache/pwa-critical-20261001/browser-attempt3/loopback-live-contract-rejects-immutable-stable-bundle.live-gate.json": "991c47f3b661e53c67b68374f37acf7dd0ba87764a0c595aadbcce0816fe8234",
+    ".cache/pwa-critical-20261001/idempotent-postprocess/idempotence.json": "1670d2ac0e4603518bdef6012ec3f4cc5410268bc25f7be532c04e26535ec740",
+    ".cache/pwa-critical-20261001/admin-pwa-consumer-test.log": "06c294a1a6acd18a953246e22fae7d812afc58c60c8bb352623247f88a28fd21",
+    ".cache/pwa-critical-20261001/worker-final.log": "0d9b60cca415253a812ccc9f7284b1e7f5025a91f3c8f35db54dfd60066b637f",
+    ".cache/pwa-critical-20261001/bundle-gate-final.log": "0f6a8bca44df1e477738f8f57c889c59b3151ec17ad62c1c70d3f40f51af3199",
+    ".cache/pwa-critical-20261001/browser-attempt3/dated-flutter-login-compatibility.png": "718ed8652d905272a1fd5bccaccdea95575d35dafa9732f753e315ebda73a625"
+  },
+  "all_scoped_checks_pass": true,
+  "remote_mutations": [],
+  "final_acceptance": false,
+  "remaining": [
+    "Full original ARC-07 acceptance still needs two reviewed real hosted Admin builds and exact served-resource hashes across first visit, installed warm update, pending authenticated operator tasks/multiple tabs, failed install, offline and rollback.",
+    "Run a fresh immutable current-source Admin build and authenticated business workflow/browser evidence; dated compatibility artifact is only a loader integration probe.",
+    "Installed OS PWA window lifecycle, browser engine/device matrix and live Cloudflare header/CDN/atomic deployment behavior are unverified.",
+    "Old controlled tabs intentionally remain on their installed version until every Admin tab/window closes. Release operations must coordinate this with task completion and backend API backward compatibility.",
+    "Live gate samples main, icon and one Flutter asset; it does not attest every deployed resource.",
+    "No user state, production browser profile, hosted cache or provider was cleared. Existing cached old immutable aliases remain, and new runtime namespaces bypass them."
+  ],
+  "research": [
+    {
+      "url": "https://docs.flutter.dev/platform-integration/web/initialization",
+      "supports": "entrypointBaseUrl, assetBase and canvasKitBaseUrl accepted loader options and default config forwarding"
+    },
+    {
+      "url": "https://developer.chrome.com/docs/workbox/service-worker-lifecycle",
+      "supports": "natural worker waiting and client lifecycle"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting",
+      "supports": "skipWaiting forces activation"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim",
+      "supports": "claim takes over already loaded client pages"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register",
+      "supports": "stable registration URL and updateViaCache option"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+      "supports": "no-cache revalidation vs immutable freshness"
+    }
+  ]
+}

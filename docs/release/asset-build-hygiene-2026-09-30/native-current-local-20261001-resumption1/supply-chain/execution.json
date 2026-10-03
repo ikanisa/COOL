@@ -1,0 +1,70 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json"
+      ],
+      "exit_code": 0,
+      "name": "candidate-inventory",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "227502afd5b68caec7246442d330d5280cb2abaac9e79e38fe9682ccaca5160d"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/inventory.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "name": "candidate-inventory-reproduction",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4e73f743052817c81790a3a3aef0aa8c6b1b794cf71376b6ae2b6a3651fcae1f"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "02ccd9a00fc582ac793d3fd3e78b48cb7062f883a3e0f7f162f01c6045538e22"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/source_sbom.py",
+        "--inventory",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/candidate-inventory.json",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json",
+        "--check"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom-reproduction",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3704bfa8c6e8d4bcfcddd4542b49a68abfbe57842cfa54b4978757bdafef7d4c"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/inventory-native-current-local-20261001-resumption1/scripts/supply_chain/validate_source_sbom.py",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/source-sbom.cdx.json"
+      ],
+      "exit_code": 0,
+      "name": "source-sbom-schema",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "22e70ec367525f7b3dcf295e2f5717c4fc8377b0b73a200c2d2c078c4540eea3"
+    }
+  ],
+  "status": "running"
+}

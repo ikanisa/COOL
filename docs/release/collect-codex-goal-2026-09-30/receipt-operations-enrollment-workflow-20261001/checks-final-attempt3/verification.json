@@ -1,0 +1,61 @@
+{
+  "status": "INCOMPLETE",
+  "bound_source_count": 101,
+  "bound_dependency_file_count": 1608,
+  "source_drift": [],
+  "dependency_drift": [],
+  "tool_hashes_before": {
+    "node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "swiftc": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717"
+  },
+  "tool_hashes_after": {
+    "node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "swiftc": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717"
+  },
+  "source_copy_readback": true,
+  "checks": [
+    {
+      "name": "tsc",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "started_at": "2026-10-01T13:15:43.560454+00:00",
+      "completed_at": "2026-10-01T13:15:44.178918+00:00",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "node",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_client.test.ts",
+        "src/unattended_history.test.ts",
+        "src/unattended_journal.test.ts",
+        "src/unattended_profile.test.ts",
+        "src/unattended_runner.test.ts",
+        "src/unattended_scheduler.test.ts",
+        "src/unattended_stdio.test.ts",
+        "src/unattended_store.test.ts",
+        "src/unattended_enrollment.test.ts",
+        "src/unattended_enrollment_observed.test.ts"
+      ],
+      "timeout_seconds": 360,
+      "exit_code": 124,
+      "started_at": "2026-10-01T13:15:44.179220+00:00",
+      "completed_at": "2026-10-01T13:21:44.232860+00:00",
+      "log_sha256": "3413583b3239c7c4d17f309d1f54ee83315614e363e9d912210c6e2941dfb50e",
+      "counts": {}
+    }
+  ],
+  "hosted_calls": false,
+  "keychain_calls": false,
+  "real_keys_created": false,
+  "host_profile_changed": false,
+  "scheduler_installed": false,
+  "scheduler_started": false
+}

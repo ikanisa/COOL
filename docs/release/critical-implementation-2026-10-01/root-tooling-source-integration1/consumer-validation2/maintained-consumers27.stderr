@@ -1,0 +1,464 @@
+test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness) ... ERROR
+test_wrong_cli_pin_stops_before_any_project_operation (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_cli_pin_stops_before_any_project_operation) ... ERROR
+test_missing_and_swapped_companion_are_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_and_swapped_companion_are_refused_before_project_calls) ... ERROR
+test_unapproved_companion_override_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_unapproved_companion_override_is_refused) ... ERROR
+test_companion_drift_after_preflight_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_companion_drift_after_preflight_stops_before_first_write) ... ERROR
+test_wrong_approval_hash_blocks_before_any_remote_call (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_approval_hash_blocks_before_any_remote_call) ... ERROR
+test_wrong_target_environment_and_url_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_target_environment_and_url_are_refused) ... ERROR
+test_wrong_source_approval_binding_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_source_approval_binding_is_refused) ... ERROR
+test_dirty_candidate_and_unlisted_candidate_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_dirty_candidate_and_unlisted_candidate_source_are_refused) ... ERROR
+test_stale_worktree_helper_and_added_backend_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_stale_worktree_helper_and_added_backend_source_are_refused) ... ERROR
+test_missing_transitive_module_is_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_transitive_module_is_refused_before_project_calls) ... ERROR
+test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect) ... ERROR
+test_mid_run_worktree_drift_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_worktree_drift_stops_before_first_write) ... ERROR
+test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes) ... ERROR
+test_staging_edge_scope_executes_export_without_production_acceptance (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_staging_edge_scope_executes_export_without_production_acceptance) ... ERROR
+test_legacy_edge_only_approval_succeeds_without_postgres_configuration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_approval_succeeds_without_postgres_configuration) ... ERROR
+test_legacy_edge_only_shape_still_refuses_changed_target_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_shape_still_refuses_changed_target_before_requests) ... ERROR
+test_database_approval_without_postgres_binding_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_database_approval_without_postgres_binding_refuses_before_requests) ... ERROR
+test_wrong_postgres_manifest_hash_and_override_refuse_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_postgres_manifest_hash_and_override_refuse_before_requests) ... ERROR
+test_postgres_client_byte_drift_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_byte_drift_refuses_before_requests) ... ERROR
+test_incompatible_server_is_observed_by_read_only_query_before_any_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_incompatible_server_is_observed_by_read_only_query_before_any_write) ... ERROR
+test_postgres_manifest_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write) ... ERROR
+test_postgres_client_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_drift_after_dry_run_stops_first_write) ... ERROR
+test_server_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_drift_after_dry_run_stops_first_write) ... ERROR
+test_server_read_precedes_every_release_mutation_and_management_migration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_read_precedes_every_release_mutation_and_management_migration) ... ERROR
+test_main_binary_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_main_binary_drift_after_dry_run_stops_first_write) ... ERROR
+test_make_tool_defaults_use_path_and_keep_explicit_overrides (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_make_tool_defaults_use_path_and_keep_explicit_overrides) ... ERROR
+
+======================================================================
+ERROR: test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_all_thirteen_deploy_with_manifest_auth_modes_and_strict_readiness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_cli_pin_stops_before_any_project_operation (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_cli_pin_stops_before_any_project_operation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_missing_and_swapped_companion_are_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_and_swapped_companion_are_refused_before_project_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_unapproved_companion_override_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_unapproved_companion_override_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_companion_drift_after_preflight_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_companion_drift_after_preflight_stops_before_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_approval_hash_blocks_before_any_remote_call (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_approval_hash_blocks_before_any_remote_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_target_environment_and_url_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_target_environment_and_url_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_source_approval_binding_is_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_source_approval_binding_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_dirty_candidate_and_unlisted_candidate_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_dirty_candidate_and_unlisted_candidate_source_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_stale_worktree_helper_and_added_backend_source_are_refused (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_stale_worktree_helper_and_added_backend_source_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_missing_transitive_module_is_refused_before_project_calls (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_missing_transitive_module_is_refused_before_project_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_frozen_closure_failure_and_wrong_deno_pin_have_no_remote_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_mid_run_worktree_drift_stops_before_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_worktree_drift_stops_before_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_mid_run_execution_drift_and_unlisted_runtime_metadata_stop_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_staging_edge_scope_executes_export_without_production_acceptance (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_staging_edge_scope_executes_export_without_production_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_legacy_edge_only_approval_succeeds_without_postgres_configuration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_approval_succeeds_without_postgres_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_legacy_edge_only_shape_still_refuses_changed_target_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_legacy_edge_only_shape_still_refuses_changed_target_before_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_database_approval_without_postgres_binding_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_database_approval_without_postgres_binding_refuses_before_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_wrong_postgres_manifest_hash_and_override_refuse_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_wrong_postgres_manifest_hash_and_override_refuse_before_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_postgres_client_byte_drift_refuses_before_requests (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_byte_drift_refuses_before_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_incompatible_server_is_observed_by_read_only_query_before_any_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_incompatible_server_is_observed_by_read_only_query_before_any_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_postgres_manifest_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_manifest_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_postgres_client_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_postgres_client_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_server_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_server_read_precedes_every_release_mutation_and_management_migration (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_server_read_precedes_every_release_mutation_and_management_migration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_main_binary_drift_after_dry_run_stops_first_write (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_main_binary_drift_after_dry_run_stops_first_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+======================================================================
+ERROR: test_make_tool_defaults_use_path_and_keep_explicit_overrides (supabase_delivery_contract_test.SupabaseDeliveryContractTest.test_make_tool_defaults_use_path_and_keep_explicit_overrides)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 201, in setUp
+    self.reviewed_fixture()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/supabase_delivery_contract_test.py", line 206, in reviewed_fixture
+    result = self.candidate.export_candidate(self.root, export, self.sdk)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 373, in export_candidate
+    toolchain = collect_toolchain(root, flutter_sdk)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py", line 302, in collect_toolchain
+    raise ReleaseError("CANDIDATE_NODE_REQUIRED")
+collect_release_candidate.ReleaseError: CANDIDATE_NODE_REQUIRED
+
+----------------------------------------------------------------------
+Ran 27 tests in 10.303s
+
+FAILED (errors=27)

@@ -1,0 +1,57 @@
+{
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+    "--offline",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget-platform=android-arm,android-arm64,android-x64",
+    "-Ptarget=lib/main.dart",
+    "-Pandroid.builder.sdkDownload=false",
+    "--init-script",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/verify-default-proguard-and-r8.init.gradle",
+    ":app:collectVerifyDefaultProguardDirectory"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 300,
+  "does_not_prove": [
+    "R8 success",
+    "AAB success",
+    "Signing",
+    "Full source equality with archived abf",
+    "Production readiness"
+  ],
+  "environment_note": "Keep the original pinned JAVA_HOME, Flutter SDK, PUB_CACHE and remaining stage environment from the admitted AAB7 command. Do not infer a new environment from this partial mapping.",
+  "executed": false,
+  "expected_task_scope": [
+    ":app:extractProguardFiles",
+    ":app:collectVerifyDefaultProguardDirectory"
+  ],
+  "next_affected_verification": "One controlled local AAB retry after this same bounded readback and root actual source/artifact admission. Retain prior JVM evidence scoped to archived source and 2558 unchanged rows; do not rerun full SDK/native JVM solely for this R8 override.",
+  "preconditions": [
+    "Root seals previous failed observations, owns process cleanup and applies only the proposed settings file over the existing two-file Android overlay.",
+    "Root acquires and admits the exact official R8 artifact, refreshes actual APP/current source bindings, and prepares the unchanged original controlled environment.",
+    "Retain all existing finite ownership, cleanup, source and protected guards."
+  ],
+  "preserve_prior_controlled_environment": true,
+  "proves": [
+    "All concrete release default ProGuard rule paths use the same configured app directory.",
+    "The actual extractor output covers the expected regular file.",
+    "Shrinking remains enabled and generated default file hash/size is observed.",
+    "Actual AGP R8Tool classloader selects R8 and its public main(--version) reports exactly 9.1.29.",
+    "Resolved exact Maven artifact and actual compiler JAR provider identities are captured separately for root admission."
+  ],
+  "required_environment_values": {
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home"
+  },
+  "result_parser": "Capture and parse exactly one COLLECT_DEFAULT_PROGUARD_READBACK= JSON line after exit zero; retain stdout, stderr, actual command and process cleanup result.",
+  "root_owned_only": true,
+  "schema_version": 1
+}

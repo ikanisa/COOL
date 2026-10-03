@@ -1,0 +1,858 @@
+{
+  "public.payments": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_notes": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_roles": {
+    "count": 7,
+    "rows_sha256": "8d73e1151a5d359456ce8fc85143dfa35999908aad87f86e614926a3a34c7d56"
+  },
+  "public.collections": {
+    "count": 2,
+    "rows_sha256": "5de33bba78da9453d85c14d55dfb0bc14c034c6ccd1ad7862a8b585f5fccbf76"
+  },
+  "public.feature_flags": {
+    "count": 8,
+    "rows_sha256": "b69e9fb289546ebaee063a69c8be399b00ed638d79a97f627f5a9846a49de85d"
+  },
+  "public.journal_lines": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.brand_entities": {
+    "count": 1,
+    "rows_sha256": "4b0d37eba316a515977daf04f8e5f8c3b90769de80f8ed65424c2ce1c3ab6103"
+  },
+  "public.ledger_entries": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exceptions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.journal_entries": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.otp_rate_limits": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.payment_intents": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.raw_payment_sms": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.system_settings": {
+    "count": 2,
+    "rows_sha256": "d7cd6d1bbad3e00e371a47053d52cc565ed97139d841ec5c5f7666e3dabbdc77"
+  },
+  "collect_gateway.devices": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_user_roles": {
+    "count": 1,
+    "rows_sha256": "3f48ec475e9f42ca4f291d44a783498098ef1cd833220bf534ecc8a5c5e40618"
+  },
+  "public.moderation_flags": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.policy_documents": {
+    "count": 4,
+    "rows_sha256": "831e704edd0c3fe2e6d255c76ee098275df831fc7b65afa8985025e938a58604"
+  },
+  "public.support_channels": {
+    "count": 2,
+    "rows_sha256": "5e78d2784abeae6aa86a597b124c53a7011a39ee0ed537c8b8638edfa712c096"
+  },
+  "collect_gateway.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_integrity.phases": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_integrity.policy": {
+    "count": 1,
+    "rows_sha256": "99e54d0e4f4c9bf2b777bd85e7916f24d1b991350e06c82f18e9e88bded9c9a6"
+  },
+  "public.admin_permissions": {
+    "count": 35,
+    "rows_sha256": "cdd21251b1584168859081b85defa204a9a9d2daa89e59051215b89bda7d0aae"
+  },
+  "public.admin_queue_specs": {
+    "count": 31,
+    "rows_sha256": "594a91e5555d384e26f11856c70f654e38edf2eb20926c055d4a4226773ddfca"
+  },
+  "public.bank_transactions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.daily_bank_closes": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.recurring_periods": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_invites": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_members": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_reports": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.member_obligations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_queue_signals": {
+    "count": 30,
+    "rows_sha256": "3d1ce7f8a1b20da402d92db634ebf9e1df3e20ab152c95c07cb1696587b87b60"
+  },
+  "public.app_realtime_events": {
+    "count": 519,
+    "rows_sha256": "4b32298f14c115a492063928562742f4e20e5496b9ab59c1884430b038a90c20"
+  },
+  "public.notification_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.payment_allocations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.payment_entrypoints": {
+    "count": 1,
+    "rows_sha256": "b25b01857ab9958eb4ce8d2a17fe2cc5b7832d26d7abe89eb00fbadc7785c610"
+  },
+  "public.reconciliation_runs": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.otp_policy": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_supervisor.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.bank_evidence_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.bank_statement_lines": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_receivers": {
+    "count": 2,
+    "rows_sha256": "fa62d35545451aea049f3a50ad929fb43265e2d8b21ab11caf0468fc506574c4"
+  },
+  "public.raw_payment_evidence": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.bank_transfer_intents": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_channels": {
+    "count": 1,
+    "rows_sha256": "230e52e762758aed12c2d38429df02d9987bf263ee30ea847968daab4c61e286"
+  },
+  "public.parsed_payment_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.profile_country_rules": {
+    "count": 1,
+    "rows_sha256": "88ef25354ef04b81070f8b04c791c675002e17080ab97fa4a74dd27053b28626"
+  },
+  "collect_gateway.dispatch_arms": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_dispatch.arms": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.member_records": {
+    "count": 9,
+    "rows_sha256": "cda75b19830d482ce2302b8bbabb9bdc2c913cf1d562b74f14dbb9f87af4e2ad"
+  },
+  "collect_hybrid.roster_batches": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_integrity.completions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_actions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_supervisor.identities": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_navigation_items": {
+    "count": 34,
+    "rows_sha256": "9cc69831a41bf968ebc9889bf2ab046857b3fd21d81b9a7a485fd0fd118f2058"
+  },
+  "public.admin_role_permissions": {
+    "count": 125,
+    "rows_sha256": "d64a46beb7832cf9a882e2bd17d9266290c30c09f2e79046f7a3cbef71e49c05"
+  },
+  "public.bank_statement_imports": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_templates": {
+    "count": 4,
+    "rows_sha256": "a6eed1b45871ce13ef01f65371885b314796d43167f6bf4c3b921d16306858b4"
+  },
+  "public.payment_evidence_links": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.receiver_mode_consents": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.reconciliation_matches": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway.admin_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.member_balances": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_integrity.reservations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_type_catalog": {
+    "count": 5,
+    "rows_sha256": "2e3df8bb951203d5cc054106155daf68095fb50638e7010a3599c79947d9c784"
+  },
+  "public.mobile_support_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_deliveries": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_workflows": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_worker_jobs": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.runs": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_queue_sla_policies": {
+    "count": 28,
+    "rows_sha256": "1f964024322c05b6451780a9cc2a23d1de06d956d7574a237054304bb6a954e3"
+  },
+  "public.collection_share_secrets": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_event_types": {
+    "count": 4,
+    "rows_sha256": "31165cd64d2d12ec0fd97a09edb5b5283e9333222a13affab9fa18f0802f701d"
+  },
+  "public.notification_preferences": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.policy_acceptance_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.policy_document_sections": {
+    "count": 20,
+    "rows_sha256": "9d4cbcb037e3321c8169faec3aadc0892d6f677f84648d245a581e5d0e97f18b"
+  },
+  "collect_gateway_archive.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.fence": {
+    "count": 1,
+    "rows_sha256": "5dbe8c1b489753f443821d8800fabfed9ce123056d0cbe835889eab6d9b87bc6"
+  },
+  "collect_receipt_policy.decisions": {
+    "count": 1,
+    "rows_sha256": "b1a0a062675180981b9abc8d1160e740d66ce5ea748633690a137efb4019b17d"
+  },
+  "public.reconciliation_exceptions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway.segment_callbacks": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_dispatch.attempts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_dispatch.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.momo_journal_lines": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_escalations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_inbox_reads": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_actions.revisions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.policy": {
+    "count": 1,
+    "rows_sha256": "27c7778ed30584aca9ed491278365c874e6843fd808902059a5315527b978923"
+  },
+  "collect_supervisor.owner_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_queue_filter_options": {
+    "count": 182,
+    "rows_sha256": "848dfc3a6b14ce0f8d19a150d7472a59b638726e04af0f7ec501c1980fe5a331"
+  },
+  "public.bank_transfer_destinations": {
+    "count": 1,
+    "rows_sha256": "3d5c3c58e98111dc9a974340b6043fc546250efc986491c8432c53c8788cd8d5"
+  },
+  "public.native_action_capabilities": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_device_tokens": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.provider_finality_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_automation.policy_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_dispatch.callbacks": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.collection_balances": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_exception_work": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.admin_sensitive_access_logs": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_automation.operating_policy": {
+    "count": 1,
+    "rows_sha256": "b1d7cf1affd25b98dd28a691d95d1f23fbdef0e4dcfaf7a652945acb772b1f73"
+  },
+  "collect_gateway.health_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.momo_journal_entries": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_receipt_policies": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_exception_scans": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_transport_heads": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_worker_receipts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.bank_transaction_allocations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_category_subtypes": {
+    "count": 13,
+    "rows_sha256": "5b0385e2df238f78aca3c58387e3ea4dc9c14f5026cf04bfb6d9c6c42ebaff1a"
+  },
+  "public.collection_purpose_templates": {
+    "count": 9,
+    "rows_sha256": "c03060d168b04e8f445b8b5103a9194033db45f58338192718b24df79f7eb0df"
+  },
+  "collect_admin_access.email_approvals": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.member_account_claims": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_commits": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_results": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_sources": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_operator_audit.shadow_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.signed_otp_evidence": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.signed_otp_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.collection_type_country_rules": {
+    "count": 5,
+    "rows_sha256": "9579ee1953909700d92fe0706a0aea2d5ea7720ddf29a509c15809594d186484"
+  },
+  "collect_auth_security.otp_phone_locks": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.member_momo_identities": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.momo_balance_snapshots": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.momo_reversal_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_recovery_budget": {
+    "count": 1,
+    "rows_sha256": "42910d0fb889faded3ff86cdc9368935e55c86239d51091871388efa555e0153"
+  },
+  "collect_hybrid.roster_resource_policy": {
+    "count": 1,
+    "rows_sha256": "bd2691079e7c4e8188ccfa4066bf273d50d0c3209675313a53e0e65729279148"
+  },
+  "collect_ops.receipt_worker_dispatches": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_actions.cancellations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.run_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.alert_heads": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.account_request_reason_options": {
+    "count": 3,
+    "rows_sha256": "8f308a262c5ef3ae48da5a11d8b5ca8808a2e8286914181664e8e7a971e7ed25"
+  },
+  "public.notification_delivery_attempts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_template_versions": {
+    "count": 4,
+    "rows_sha256": "4394b25ca0e6d415daf4a6ea66798c0ea3a6d0f2453dce7331c25a192ab0a24d"
+  },
+  "public.payment_provider_confirmations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.group_creation_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receipt_business_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_revisions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_notification_outbox": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_operator_heartbeats": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_inbox_deliveries": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_exception_progress": {
+    "count": 1,
+    "rows_sha256": "ed7d58f6a089afffca5fbd6005f385c4454e304319d0cb7931660eeba52ddf14"
+  },
+  "collect_ops.receipt_transport_progress": {
+    "count": 1,
+    "rows_sha256": "89c9bddf12c3463142bd6b011af71ade87f3ca9f81a341edcc57598ccafc56e0"
+  },
+  "collect_ops.receipt_transport_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_worker_expirations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.runtime_control_heads": {
+    "count": 392,
+    "rows_sha256": "26cbaea6c7982a000cbe0bb2c84bd3dd529f98682f2e929beca764a133e6b070"
+  },
+  "public.bank_allocation_change_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_admin_access.whatsapp_approvals": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_escalation_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_workflow_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.reservations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_policy.content_evidence": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.configuration": {
+    "count": 1,
+    "rows_sha256": "0bbc3939bd0ce721f24b0baf8009d6cb6d52ef416f2146029688dcfb8378a5a4"
+  },
+  "collect_security.reconciliation_reviews": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.runtime_control_events": {
+    "count": 2,
+    "rows_sha256": "e76fbf834c5e2be3a0fa168879fff5fe2f2985dd2b46d97feccd1925db9dfb88"
+  },
+  "collect_security.shadow_supervisor_runs": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.bank_destination_change_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_archive.acknowledgements": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receipt_monitor_consumers": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_extractions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_recovery_transfers": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_notification_attempts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_worker_configuration": {
+    "count": 1,
+    "rows_sha256": "1114212b71fdb6d83a7fbb0931d1aa9a4dcfa221ef94d04719f62eb2a9099f34"
+  },
+  "collect_receipt_successors.configuration": {
+    "count": 1,
+    "rows_sha256": "638d9cd5958a149712397cf349c75dd53c0402e652986c9b515dd38355c2d7e9"
+  },
+  "collect_receipt_successors.lineage_heads": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.pending_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.shadow_supervisor_lease": {
+    "count": 1,
+    "rows_sha256": "3484e5a5a7cb4366d302939b535953fcee72070d6a5dfb0f0ef54d29b5c61621"
+  },
+  "collect_admin_access.operator_auth_policy": {
+    "count": 1,
+    "rows_sha256": "084957d1ec8f66e0b76f9742c5ef55eff4ab832f726dac3425a29bbc97478cc8"
+  },
+  "collect_ops.receipt_backlog_sweep_sources": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_transport_inspections": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.handled_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.owner_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_successors.owner_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.runtime_control_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_gateway_dispatch.callback_bindings": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.payment_provider_rejections": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_editor_drafts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_resource_completions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_source_verifications": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_receipt_member_consents": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_transport_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.backlog_results": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.event_deferrals": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.shadow_supervisor_samples": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.member_receiving_assignments": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receipt_business_event_heads": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_resource_reservations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_transport_configuration": {
+    "count": 1,
+    "rows_sha256": "cb9b642d0f1b802f24312c9aa72c7585b4e8e718287d4e03ca2ca6a9f71fcdb3"
+  },
+  "collect_receipt_operations.run_batch_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_successors.content_policies": {
+    "count": 1,
+    "rows_sha256": "c53144832298392901b27089b31440943954017c9d0d511450b8c7177061a1fa"
+  },
+  "collect_security.operational_metric_buckets": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.payer_identity_reconciliation": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receiving_assignment_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_member_actions.group_share_rotations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_backlog_budget_deferrals": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_successors.original_closures": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.alert_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.momo_reconciliation_exceptions": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_import_recovery_intents": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_notification_confirmations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_telemetry.open_armed_attempts": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receipt_monitor_observed_events": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.roster_recovery_guard_inventory": {
+    "count": 16,
+    "rows_sha256": "137ec9cfdee2c69286788cb6228d98accc9e20993540e60ff29c4a029df44245"
+  },
+  "collect_hybrid.sms_notification_claim_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_security.assisted_sms_session_evidence": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.receipt_monitor_acknowledgements": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_exception_scan_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.legacy_bank_scheduler_retirements": {
+    "count": 1,
+    "rows_sha256": "4d5328e75fedd565a880f5a3ad28ba45177bfd253f91936828ee014d6f7e8337"
+  },
+  "collect_ops.receipt_worker_configuration_history": {
+    "count": 1,
+    "rows_sha256": "8cb40ef2d8cc008fecc1bc4d20f13d8b5bf0128717e0b557c02e087fecbd308d"
+  },
+  "collect_receipt_telemetry.configuration_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.legacy_bank_scheduler_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.legacy_bank_scheduler_verifications": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.receipt_transport_request_observations": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_receipt_operations.enrollment_workflow_requests": {
+    "count": 0,
+    "rows_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

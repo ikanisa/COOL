@@ -1,0 +1,15 @@
+{
+  "cli": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "version": "2.84.2",
+  "generated_path": ".cache/receipt-safe-action-preparation/supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+  "commands": [
+    "supabase init --workdir .cache/receipt-safe-action-preparation",
+    "supabase migration new safe_unstarted_receipt_cancel --workdir .cache/receipt-safe-action-preparation"
+  ],
+  "selected_path": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+  "implementation_note": "The CLI-generated filename was implemented in selected source and copied byte-for-byte to the cached CLI-generated migration path. The earlier provenance hash is historical; this final byte binding does not invoke a CLI database migration.",
+  "recorded_at": "2026-10-01T00:07:24.413425+00:00",
+  "prior_implementation_sha256": "c30ea26d0f4ac37b072927250c42603d36cdcc5d8d2e00b1d15c15cf2dc8b523",
+  "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+  "final_binding_at": "2026-10-01T00:25:04.177549+00:00"
+}

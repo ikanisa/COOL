@@ -1,0 +1,32 @@
+{
+  "POM_sha256": "136af50c91e46198fc439f2e233094edd39c5d68df88f33045526b872a4a6e06",
+  "actual_acquisition": {
+    "HTTP_code": 200,
+    "TLS_verify_result": 0,
+    "deadline_seconds": 120,
+    "effective_url": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar",
+    "maximum_bytes": 60000000,
+    "observed": true
+  },
+  "coordinate": "com.android.tools:r8:9.1.29",
+  "jar": {
+    "bytes": 56139715,
+    "md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/r8-9.1.29-publisher-acquisition1/r8-9.1.29.jar",
+    "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+  },
+  "kind": "root_selected_exact_r8_artifact_admission",
+  "production_release_approval": false,
+  "publisher_acquisition_readback": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-publisher-acquisition1/readback.json",
+    "sha256": "401f7a88d479e7c9014990b7a5c312bfc5cd4790aae2539a70bd34a592b49c9d"
+  },
+  "publisher_content_length": 56139715,
+  "publisher_crc32c_base64": "wwtxyA==",
+  "publisher_generation": "1770813549786388",
+  "publisher_md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+  "publisher_url": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar",
+  "root_pinned_transformed_providers": [],
+  "schema_version": 1,
+  "version": "9.1.29"
+}

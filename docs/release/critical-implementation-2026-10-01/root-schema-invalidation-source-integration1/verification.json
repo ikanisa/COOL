@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 4.023,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-invalidation-source-integration1/generated-current209-maintained1",
+    "--verify",
+    "--require-current"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T09:39:15.112933+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 97547,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T09:39:11.089889+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "8f2384d6dd80bf7ebac0bb3def9a35c3e62f99ff9e3de11456adb0ab2de6ace7",
+  "timed_out": false
+}

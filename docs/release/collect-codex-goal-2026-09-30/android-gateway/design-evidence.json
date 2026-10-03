@@ -1,0 +1,50 @@
+{
+  "authority": "revolut-design",
+  "authority_inputs_sha256": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "59ed494b2dd61684a8f2f516385ba601cfa549b7541bc1e9706df50e28fe3e1a"
+  },
+  "reference_id": "DESK-014",
+  "cohort": "user desktop September5 2026 native profile Dark/Glow consistent; build/theme setting not independently read",
+  "reference_location": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.26.37.png",
+  "reference_sha256": "f44a61a9d024a143310c95821088a6ef8c10a54e53e4688b690e3b66347cc72f",
+  "reference_pixels_inspected": true,
+  "adaptation": "quiet internal gateway utility using existing Collect tokens/theme/spacing/CollectHeadingText and own operations; no source identity/artwork",
+  "light_comparator_verified": false,
+  "installed_artifact_verified": false,
+  "mobile_design_100": "unverified",
+  "independent_review": false,
+  "owner_acceptance": false,
+  "fidelity_percentage": null,
+  "current_synthetic_captures": {
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04/dark_enrollment.png": {
+      "sha256": "12b47d8bdcb236b638d301223b0ce90cac52729920bd016696d15d97d3e4dc75",
+      "pixels_inspected": true,
+      "installed_android": false
+    },
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04/dark_failure.png": {
+      "sha256": "338a81c17b797e594dcabf50fcb9b9b1ca7767d3b9c42fb8416f03484595af8d",
+      "pixels_inspected": true,
+      "installed_android": false
+    },
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04/dark_loading.png": {
+      "sha256": "9be6855d3b0f701b906d9db2bb55009ac76d45ced34e2972b6e8380d6266b99f",
+      "pixels_inspected": true,
+      "installed_android": false
+    },
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04/dark_offline.png": {
+      "sha256": "f5a0336f11bfb16402a82f71cc750b72b11605090f4f993b7a69b418d9330f12",
+      "pixels_inspected": true,
+      "installed_android": false
+    },
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/captures04/light_offline.png": {
+      "sha256": "40c0cf253d6f56f083113d91e7c12207eda49a1ff50de7017765ecbc7756a94d",
+      "pixels_inspected": true,
+      "installed_android": false
+    }
+  },
+  "excluded_prior_captures": "captures01/02 used Ahem or interrupted source; captures03 precede final local header navigation fix; no visual-acceptance claims.",
+  "owner_design_scope_amendment": {
+    "as_of": "2026-10-01",
+    "scope": "Sole revolut-design authority; separately named mobile checklist and its mandatory gates removed at owner request. Previous integrity claims for changed bytes are withdrawn. Existing technical observations retain their dated scope."
+  }
+}

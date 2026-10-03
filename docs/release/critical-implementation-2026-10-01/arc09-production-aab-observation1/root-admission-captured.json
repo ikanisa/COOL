@@ -1,0 +1,72 @@
+{
+  "driver_sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e",
+  "kind": "root_selected_unsigned_AAB_admission",
+  "native_evidence": {
+    "APP_source": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-app-source.json",
+      "sha256": "472b0beb1658ae1550d122bc0958d1421279ef3892fa75df958d14340d7d2619"
+    },
+    "JVM_classes": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-production-JVM-and-classes.json",
+      "sha256": "cf3deecb28642d2d0b228c919af0437b452526933f7b2b1500dd2546c77e6876"
+    },
+    "SDK_after": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/SDK-source-after-built.json",
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052"
+    },
+    "SDK_before": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/SDK-source-before-built.json",
+      "sha256": "dc44b7b2da3a6056f53aa33c8060ba1dd6779f35fd526fe265564c2e3271007a"
+    },
+    "command": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-command.json",
+      "sha256": "14964fb2847f80589ad4aecb2b1ecdd31a4a5a3cbfd7fed30d6a9d267d0ca962"
+    },
+    "daemon_absence": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    "packages": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-app-packages.json",
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2"
+    },
+    "plugins": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-plugin-bindings.json",
+      "sha256": "47b1b5806e8f1eb841abf22e2c2a8ae0451b0d624629eefa5b0b3dfd3ad282d5"
+    },
+    "root_readback": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    "terminal": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/terminal.json",
+      "sha256": "bafcc7a1425467ff93aa8b64bf8e618fe3bca69887f2723fb8746374b083525c"
+    }
+  },
+  "native_logs": {
+    "stderr": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-command.stderr",
+      "sha256": "98d991fe6115975bf174327f05510ff59d82e048f4281ee38ec1aa3c33ebc577"
+    },
+    "stdout": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/actual-command.stdout",
+      "sha256": "49579db3d946f2b0f4d819869315eb42e8c9ed42ea2ee959075cb9fad084628e"
+    }
+  },
+  "native_observed_daemons": [
+    {
+      "ownership_evidence": {
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native8-diagnostics1/dependency-wait-readback.json",
+        "sha256": "fc53a00752639f81ac927ba3d981804e58e24c3f72d47ed21be0cdc2031e585d"
+      },
+      "pgid": 74694,
+      "pid": 74694,
+      "wrapper_pid": 74680
+    }
+  ],
+  "native_whole_pass": true,
+  "output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1",
+  "prepared_input_pins_sha256": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+  "production_release_approval": false,
+  "schema_version": 1
+}

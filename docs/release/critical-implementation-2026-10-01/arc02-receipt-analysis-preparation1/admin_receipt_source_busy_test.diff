@@ -1,0 +1,12 @@
+--- scripts/tests/admin_receipt_source_busy_test.dart
++++ scripts/tests/admin_receipt_source_busy_test.dart
+@@ -1,7 +1,7 @@
+ import 'dart:convert';
+ import 'dart:io';
+-import '../../lib/admin/core/admin_exception_models.dart';
+-import '../../lib/admin/core/admin_receipt_deferral_models.dart';
++import 'package:collect_app/admin/core/admin_exception_models.dart';
++import 'package:collect_app/admin/core/admin_receipt_deferral_models.dart';
+ 
+ void main(List<String> args) {
+   if (args.length != 1) throw ArgumentError('Actual SQL fixture directory required');

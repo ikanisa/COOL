@@ -1,0 +1,7 @@
+{
+  "sources": {
+    "lib/admin/core/admin_platform_access.dart": "ea366533881261d3bea4ee0e5b358c44f524423d5f98f129b2b37faeb1cd064a",
+    "lib/admin/core/admin_login_runtime.dart": "8d83a586b1c5b0f270d343584ba574ca8e3eed6bc4509716a34849fd8ccaeab0"
+  },
+  "scope": "Nonsemantic enum-name/const compile hygiene; existing CollectStatusTone adapter values preserved."
+}

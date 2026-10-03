@@ -1,0 +1,28 @@
+-j/--concurrency was parsed but will be ignored, this option is not supported when running Integration Tests or web tests.
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":7859,"type":"start","time":0}
+{"suite":{"id":0,"platform":"chrome","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_principal_browser_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_principal_browser_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2}
+{"count":1,"time":8,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":8339}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":10,"line":null,"column":null,"url":null},"type":"group","time":8392}
+{"test":{"id":3,"name":"real store reload uses original lookup only and retains resolved bytes","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":361,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8393}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8464}
+{"test":{"id":4,"name":"actual lock serializes exact-UUID concurrent publication and prevents overwrite","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":543,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8465}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8475}
+{"test":{"id":5,"name":"actual lock refuses distinct pending revoke UUIDs for one target","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":592,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8475}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8480}
+{"test":{"id":6,"name":"urgent different-target revoke can publish alongside original activation","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":621,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8488}
+{"testID":6,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8495}
+{"test":{"id":7,"name":"authority-lost queued publication acquires no permission to write","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":666,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8496}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8505}
+{"test":{"id":8,"name":"five-second aborted lock acquisition never publishes after eventual release","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":708,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":8507}
+{"testID":8,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13550}
+{"test":{"id":9,"name":"controller timeout closes queued publication before lock becomes available","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":751,"column":17,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":13553}
+{"testID":9,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13622}
+{"test":{"id":10,"name":"changed-original actual browser bytes fail closed on reload","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":852,"column":19,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":13622}
+{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13629}
+{"test":{"id":11,"name":"changed-marker actual browser bytes fail closed on reload","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":852,"column":19,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":13629}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13638}
+{"test":{"id":12,"name":"orphan-marker actual browser bytes fail closed on reload","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":852,"column":19,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/admin_receipt_principal_browser_test.dart.js"},"type":"testStart","time":13638}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13645}
+{"success":true,"type":"done","time":13674}

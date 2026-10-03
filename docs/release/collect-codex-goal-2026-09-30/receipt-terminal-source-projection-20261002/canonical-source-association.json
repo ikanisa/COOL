@@ -1,0 +1,40 @@
+{
+  "status": "integrated_scoped_local",
+  "checked_at": "2026-10-01T23:52:48.717606+00:00",
+  "source_review": "root read full449-line migration and implementation/unread contracts",
+  "canonical": {
+    "path": "supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+    "staged_path": "promote/supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+    "old_sha256": null,
+    "new_sha256": "e5b41167b6cd3f5dc1561eb78757578323d01cc0693a43f400e9f8448cf75e44"
+  },
+  "canonical_sha256": "e5b41167b6cd3f5dc1561eb78757578323d01cc0693a43f400e9f8448cf75e44",
+  "packet_manifest_sha256": "8b5594167f514f77a712c5bff5aee595bcbdcd79d58231e625c865ab2aafc21f",
+  "direct_members_verified": 41,
+  "main_checks": 77,
+  "additional_distinct_owner_checks": [
+    "ordinary application owner has no cron table DML and uses matching platform owner APIs",
+    "ordinary application owner schedules and unschedules through real APIs with full rollback"
+  ],
+  "main_source_bindings_verified": 393,
+  "supplemental_source_bindings_verified": 393,
+  "raw_archive_sha256_verified": "d3aef225deb95071aba02b23a489d25b50770fba3dc1400a61599d8d4a877a4c",
+  "raw_decompression_reused": "worker sealed actual18434-member verification; root verified exact archive and raw manifest hashes",
+  "scope": "selected201 definitions through400/410; no full201 replay,420 interaction or complete worker journal relocation",
+  "ui_changed": false,
+  "hosted_changed": false,
+  "sms_sent": false,
+  "required_next": [
+    "complete successor430\u2192500 transport/exception graph acceptance",
+    "final complete migration sequence rehearsal",
+    "complete worker/scan history storage and recovery"
+  ],
+  "canonical_migration_inventory": {
+    "count": 203,
+    "additional_to_selected201": [
+      "20261002042000_privacy_current_request_status.sql",
+      "20261002050000_receipt_terminal_source_projection.sql"
+    ],
+    "privacy420": "separately authored and preserved; no complete feature or final-sequence acceptance implied"
+  }
+}

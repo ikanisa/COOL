@@ -1,0 +1,19 @@
+{
+  "kind": "current_graph_scoped_public_route_capture_execution",
+  "started_at": "2026-09-30T22:59:43.584903+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_browser_app_media.mjs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-app-media-attempt77"
+  ],
+  "caller_sha256": "140e93778d777d1e3ce67098db97cc232fd68bcb6ded1939a070a10f250ebfe7",
+  "source_preparation_sha256": "31a1ce731e7fa7224a617dfa08802c799391aba26a7ad5c5f1b6ef98cd5dbcda",
+  "scope": "Actual immutable current runtime browser capture; no provider, hosted, database or native visual acceptance",
+  "status": "fail",
+  "exit_code": 1,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "410aeba654956906894622a314a9f126c8047aadb5cddc64daa68bfaf7c64ceb",
+  "capture_report_sha256": null,
+  "additional_source_drift": {},
+  "finished_at": "2026-09-30T23:11:38.700133+00:00"
+}

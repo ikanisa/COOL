@@ -1,0 +1,14 @@
+{
+  "container_id": "81ef99f5b2079c92555867bb401a88e27ea7e7d1dfd21e73ee005fd5b08a3693",
+  "container_name": "collect_current_rehearsal_source_busy_9a071f5be34c",
+  "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+  "guard": {
+    "network": "none",
+    "published_ports": false,
+    "labels_verified": true,
+    "net": "0",
+    "cron": "off",
+    "listen": "",
+    "server": "17.6"
+  }
+}

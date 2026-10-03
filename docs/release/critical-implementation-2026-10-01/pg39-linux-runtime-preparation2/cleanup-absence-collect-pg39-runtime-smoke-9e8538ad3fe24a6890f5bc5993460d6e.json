@@ -1,0 +1,15 @@
+{
+  "actual_seconds": 0.013915709001594223,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "inspect",
+    "--type=container",
+    "collect-pg39-runtime-smoke-9e8538ad3fe24a6890f5bc5993460d6e"
+  ],
+  "deadline_seconds": 30,
+  "exit_code": 1,
+  "owned_process_group_absent": true,
+  "stderr_sha256": "c55dafe01e7521196ba6daa437fc9f7e3b6e9c0c3ef6aea09da1ff8dd60170ed",
+  "stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "timed_out": false
+}

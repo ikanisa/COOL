@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "scope": "actual before-seal read-only source drift; no input updated or writes to maintained source",
+  "changed": [
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "before": {
+        "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+        "bytes": 38513
+      },
+      "after": {
+        "sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+        "bytes": 38508
+      }
+    }
+  ],
+  "all_four_proposal_preimages_unchanged": true,
+  "candidate_acceptance_requires_root_current_source_rebinding": true
+}

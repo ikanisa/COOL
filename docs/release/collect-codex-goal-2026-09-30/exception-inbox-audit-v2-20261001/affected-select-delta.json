@@ -1,0 +1,8 @@
+{
+  "scope": "only v2 audit SELECT source branches bounded before union; original authority, other helpers/triggers/RPCs/ACLs unchanged",
+  "old_sql_sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+  "new_sql_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+  "outside_audit_function_byte_identical": true,
+  "prior_domain_result": "attempt8/result.json",
+  "affected_result": "affected-plan-attempt1/result.json"
+}

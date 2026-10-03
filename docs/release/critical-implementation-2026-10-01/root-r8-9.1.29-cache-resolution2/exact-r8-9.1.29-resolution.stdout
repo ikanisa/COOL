@@ -1,0 +1,7 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :resolveExactR8
+COLLECT_EXACT_R8_RESOLUTION={"kind":"exact_r8_selected_tooling_graph","root_requested":"com.android.tools:r8:9.1.29","complete_selected_tooling_graph":true,"errors":[],"counts":{"components":1,"artifacts":1},"artifacts":[{"coordinate":"com.android.tools:r8:9.1.29","path":"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar","sha256":"9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a","bytes":56139715,"md5_hex":"60e153b8c1dba4d97e9b1ef2d75c2e61"}],"resolved_from_restricted_official_repository":true,"APP_or_SDK_compiled":false,"R8_invoked":false,"production_release_approval":false}
+
+BUILD SUCCESSFUL in 4m 48s
+1 actionable task: 1 executed

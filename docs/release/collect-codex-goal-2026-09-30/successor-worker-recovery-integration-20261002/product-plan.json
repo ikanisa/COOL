@@ -1,0 +1,218 @@
+{
+  "status": "reviewed_product_plan_awaiting_sealed_runner_delta",
+  "entries": [
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-observations-archive-current1/supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "target": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/index.ts",
+      "target": "supabase/functions/collect-receipt-successor-gateway/index.ts",
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/handler.ts",
+      "target": "supabase/functions/collect-receipt-successor-gateway/handler.ts",
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/wire.ts",
+      "target": "supabase/functions/collect-receipt-successor-gateway/wire.ts",
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-edge-current1/supabase/functions/collect-receipt-successor-gateway/handler_test.ts",
+      "target": "supabase/functions/collect-receipt-successor-gateway/handler_test.ts",
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+      "sha256": "5a0a1caa0e8795a1cd69160beb8cd239a952af47d9bec92955f87c25c3b65558",
+      "base_sha256": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "sha256": "ca4b96443c04e353704637b85084b85dcaddb98ee93b6ced1b2d12832de9ea55",
+      "base_sha256": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt",
+      "sha256": "4086789a6e02ea61f6a08ec7a38cfe291125847558de99017b8deda59ae48c06",
+      "base_sha256": "84a51578060450b2b56827b9e60a4b71500ae7048f36b1ee68530685d5d98441",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "sha256": "067dc32c9f46746b955fddbf32ce2299bfa7b32f485566105765af873f3bcc2e",
+      "base_sha256": "a165da525edfa2cb4624547cb0eb3c5906d313145efb1370f5abb217e670c8a4",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "sha256": "0f1bbbebc43ebc117f81cfac25a26eceba5571f41f41326293f1baeb18bfa0b6",
+      "base_sha256": "343e6a28002cd31ad6db76dfd0903366ad53d69f9ae63ad2bb4c86da2d52259e",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "sha256": "498c30b45e5bc715917b6a2ad3808fad5705219a89dc20ab57e7d30e7f5f88a0",
+      "base_sha256": "e6d91ee121752d90365749bb3f3053246035e55b40107fb2a16346e329c5125c",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt",
+      "sha256": "afadd047d656f805ac0bfcef902c170ee44ad648002be680918ddcab72469d37",
+      "base_sha256": "4d3b5a3458d6adddd27b4a48c33893337b6b5f7ceffc2049be2940a5d2ba5ced",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "sha256": "da71f51a509bf682284793cb8d82bb047700c43a2c5eb36e3863f87d6ff6798a",
+      "base_sha256": "328a4b1e3d68389d3724d965865efca599c8456249475744b54240826113aba0",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "sha256": "5b4e158273a0851e540e1e343504821705e48484413e6eb43bca854afeb2a13f",
+      "base_sha256": "7f85fa1b2abb949d1b0f8ec5f0b1b8f4399e555640c4019d53d8c170281aba96",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchRoute.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchRoute.kt",
+      "sha256": "1ff162b38bfa7bdc2b3f3391b99807407afc0f89eef51a416b6d6ebfaa04d979",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/accepted-successor-native-primary-delta-current1/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySuccessorWire.kt",
+      "target": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySuccessorWire.kt",
+      "sha256": "c20ccb0fd6d37ec295040fcd4746018f86bcd639370dfea3bd2efd7d306a2a51",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/promote/supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "target": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-history-storage-20261002/promote/docs/platform/RECEIPT_WORKER_HISTORY_STORAGE.md",
+      "target": "docs/platform/RECEIPT_WORKER_HISTORY_STORAGE.md",
+      "sha256": "f1c72a3229a5e1c123bff5c080e6a5aef32676fc5182149d0a96050c65310279",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/lib/admin/core/admin_receipt_operational_history_models.dart",
+      "target": "lib/admin/core/admin_receipt_operational_history_models.dart",
+      "sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c",
+      "base_sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9",
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "target": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/admin_receipt_operational_history_recovery_test.dart",
+      "target": "test/admin_receipt_operational_history_recovery_test.dart",
+      "sha256": "ad81fc450100702b2434bc2fbd156c0bedaa1a80da449742f2febd5093dc7853",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/legacy-backlog-after-handling.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/legacy-backlog-after-handling.json",
+      "sha256": "2fdd066fa17c7f7653b5026a323080973ef85e95d4274317d0fd1c89340bbb37",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/legacy-reservations.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/legacy-reservations.json",
+      "sha256": "32221f96a33109537ab1351408ea228c0b717b82e625a4317da7e5b9cdba2e40",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/mapped-backlog.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/mapped-backlog.json",
+      "sha256": "a76401360401420db80af15c170f4f3ae21be323fdbf300bacc786b4df3d9329",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/mapped-reservations.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/mapped-reservations.json",
+      "sha256": "b3fcf61a24231304483dd290aec3d72a19329ef2a1950b5241efe9be68975b70",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/partial-refused-budget.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/partial-refused-budget.json",
+      "sha256": "8c59ce939e3ebb80f8d601ec37ddde840c28ee227521804369c6495e2a9187bd",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/short-principal-run.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/short-principal-run.json",
+      "sha256": "15030d7e8983b00ad0bf49e80cc8fb0068c9603a00769771f33746e309ed3b94",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-repeat-run-recovery-20261002/promote/test/fixtures/admin_receipt_operational_recovery_actual/zero-sms-budget-refusal.json",
+      "target": "test/fixtures/admin_receipt_operational_recovery_actual/zero-sms-budget-refusal.json",
+      "sha256": "34caf47df7db4d82bea3a8fd380a1e38e7a5f29adb3e40280297e2310c05b8e1",
+      "base_sha256": null,
+      "mode": 420
+    },
+    {
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-canonical-integration-20261002/supabase-config.toml",
+      "target": "supabase/config.toml",
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+      "base_sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+      "mode": 420
+    }
+  ],
+  "current_migrations": 204,
+  "planned_migrations": 207,
+  "integration_order": [
+    "430",
+    "700",
+    "800"
+  ],
+  "canonical_written": false,
+  "runner_stage": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002",
+  "map_sha256": "0227f38f2b97b5486a467a5a04523199751a04275e2135abba39f6e63e7c1052"
+}

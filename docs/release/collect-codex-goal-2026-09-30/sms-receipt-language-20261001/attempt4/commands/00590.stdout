@@ -1,0 +1,3 @@
+language-account-claim
+{"sub": "89aca4ba-7ff0-4fb1-a855-f6e23ed7688f", "session_id": "0fa2ea38-a1d5-4741-80ee-dd74237aa208", "role": "authenticated", "aal": "aal1"}
+{"ok": true, "status": "claimed", "collect_id": "978201", "member_record_id": "99780000-0000-4000-8000-000000040001", "payments_attached": 13, "sms_jobs_suppressed": 6}

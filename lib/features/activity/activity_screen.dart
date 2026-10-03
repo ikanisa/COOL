@@ -45,12 +45,9 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     final feed = ref.watch(memberHistoryProvider(query));
     final controller = ref.read(memberHistoryProvider(query).notifier);
     final visible = feed.page?.items ?? const <Contribution>[];
-    final totals = feed.page?.totals ?? const <String, int>{};
-    final total = formatCurrencyTotals(
-      totals,
-      separator: '\n',
-      emptyCurrency: 'RWF',
-    );
+    final total = feed.page == null
+        ? 'Not available'
+        : formatCurrencyTotals(feed.page!.totals, separator: '\n');
     final isInitialLoading =
         (feed.loading && feed.page == null) ||
         (state.isLoading &&
@@ -140,8 +137,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   skeletonCount: 3,
                 ),
               ]
-            : state.hasInitialLoadFailure ||
-                  (feed.error != null && feed.page == null)
+            : state.hasInitialLoadFailure || feed.page == null
             ? [
                 CollectDataLoadFailure(
                   onRetry: () async {

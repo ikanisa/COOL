@@ -1,0 +1,10 @@
+{
+  "tool": "Supabase CLI",
+  "version": "2.84.2",
+  "binary": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "project_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-exception-v2-preparation",
+  "generated_name": "20260930232633_admin_exception_reads.sql",
+  "reserved_name": "20261001000300_admin_exception_reads.sql",
+  "selected_source_written": false,
+  "draft_sql_sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+}

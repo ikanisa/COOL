@@ -1,0 +1,390 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/README.md",
+      "bytes": 5545,
+      "sha256": "8018af83cb0e8482f3f9ef1b36eecaf82ee8508401fc9a77feda86789e940fbc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3317,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 4582,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/after/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 38170,
+      "sha256": "572d7d8b00ba433a4733ad452a2808f0e5d68c32d8f8804694ae717d2ce8222b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/baseline-owned-lint.stderr",
+      "bytes": 1674,
+      "sha256": "760e7dabd49c9add8cd6b291ea204a7b3a13a5572ba51f9abbecf633111a7b65"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/baseline-owned-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/.dvmrc",
+      "bytes": 6,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/scripts/tests/roster_extraction_evaluation.ts",
+      "bytes": 7629,
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/scripts/tests/roster_extraction_evaluation_test.ts",
+      "bytes": 2330,
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/cors.ts",
+      "bytes": 1247,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/openai_roster.ts",
+      "bytes": 3294,
+      "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/openai_roster_test.ts",
+      "bytes": 2468,
+      "sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/production_contract.ts",
+      "bytes": 5120,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_decoder.ts",
+      "bytes": 8205,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_file_policy.ts",
+      "bytes": 8127,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_import.ts",
+      "bytes": 7987,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_provenance.ts",
+      "bytes": 7593,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_resource_budget.ts",
+      "bytes": 1982,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_response_policy.ts",
+      "bytes": 8416,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/roster_response_policy_test.ts",
+      "bytes": 11038,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/_shared/test_assert.ts",
+      "bytes": 326,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/deno.lock",
+      "bytes": 7115,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/prepare-roster-import/handler.ts",
+      "bytes": 22086,
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/before/supabase/functions/prepare-roster-import/handler_test.ts",
+      "bytes": 37689,
+      "sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/changed-helper-lint.stderr",
+      "bytes": 16,
+      "sha256": "0ac7c2631e5af776de63c5209860d6c55979825c853537ecee2289736c3856fd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/changed-helper-lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/lint.json",
+      "bytes": 355,
+      "sha256": "64874533917d1fcb23a9c8f32dbc1bbdedcd7b16a5c30e403af9d2bf67b17bca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/lint.stderr",
+      "bytes": 1602,
+      "sha256": "925417f9288f70cc71b38506a0ea3d4a34b1750adb59f25311ba1b3e64dcd4f3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/result.json",
+      "bytes": 63355,
+      "sha256": "ff878837966ff3f46e019f08c64ede5de6966ba6d3f4bf303c322de4553a3103"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/runtime-version.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/source-copy.json",
+      "bytes": 2229,
+      "sha256": "b87a77912c0db0a0c961751934383ea3bb9b211dbc6ae9dd491b014480d5b56e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/tests.json",
+      "bytes": 526,
+      "sha256": "b03f307aa58543393d1caad9fc9eb280ae0817f2c7a404f446748162c3d477f3"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/tests.stdout",
+      "bytes": 9300,
+      "sha256": "8080ea1a02ada7973c4f5f51c71b405fb8f03b6d81a25f3eececd9fdbebaf999"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/types.json",
+      "bytes": 542,
+      "sha256": "fc6d5ec8f477020456f585bb9e77692594b655814d363654c2ffa412b8f21e17"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/types.stderr",
+      "bytes": 699,
+      "sha256": "a8c3c22f8e5aa435858669c94fae6e6950ccf446872cf819d430745a01e1cf0e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/corrected-source/types.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/implementation.diff",
+      "bytes": 5905,
+      "sha256": "6f71989f60f0d03a7cb3d16c5568e9c7216e82e180191f1a885d5bdf29c36a44"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/lint-format-followup.json",
+      "bytes": 15442,
+      "sha256": "cf0a12ea9b9dba1881ab303cebe0273b52eed71ed5fff439f9ce8b7f376dfb67"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/executed-runner.py",
+      "bytes": 5889,
+      "sha256": "d5c280d9a1844848557c2989dd835a392e60dba873079b6caab020cf2baae181"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/graph-1.json",
+      "bytes": 334,
+      "sha256": "ae544bca964b988d9c68e4a119cc420f765cce3bfebc43584166c2ce06c3cf62"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/graph-1.stderr",
+      "bytes": 161,
+      "sha256": "b60bfa7ea1427655dc52fed6bf83377b55992670252cde9891c745309f3a73b2"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/graph-1.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/result.json",
+      "bytes": 7858,
+      "sha256": "f95d75156b0e4d940ea969a05d63de5d9600b05865fc57ae3630613ed55ce8cf"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/runtime-version.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative/source-copy.json",
+      "bytes": 2229,
+      "sha256": "5e104dbf30f3cb09b66822bfa8ba58da3750ec3acdea80a956a3f013009ed6a4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/result.json",
+      "bytes": 62342,
+      "sha256": "d5b5ceedae79c29fa69f37ac616615ba5f8644f0a6b4e988f1c403efa49b088d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/runtime-version.txt",
+      "bytes": 88,
+      "sha256": "0d1ad1ff469c8789b6c81e05ce8706fcbc1dd0ce5df7c72e16ae06fcbc5196c0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/source-copy.json",
+      "bytes": 2229,
+      "sha256": "5e104dbf30f3cb09b66822bfa8ba58da3750ec3acdea80a956a3f013009ed6a4"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/tests.json",
+      "bytes": 526,
+      "sha256": "bce1ba43853e56ba9819ed6a384646807be3dea8a2fa356416074115d01b993b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/tests.stderr",
+      "bytes": 766,
+      "sha256": "0f5be8c5a240f37d9f4269c854087af51043c8088ad7eea635a0bda1ecea7808"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/old-source-negative-attempt2/tests.stdout",
+      "bytes": 13508,
+      "sha256": "e52597997e21acc6dc084d6c0fb05de21e195f11b05353977a1f38b8008f85ee"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/owned-format-check.stderr",
+      "bytes": 16,
+      "sha256": "f1ceb13c7c95afab86ef305e6680ede5175e5cebb631874e9595f77b66cca5ca"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/owned-format-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/run_lint_format_followup.py",
+      "bytes": 2860,
+      "sha256": "db96c6cebe37b109ec732d5e835ec5047a0ed09275c8ef50caf9d29b59c05a02"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/run_scoped_checks.py",
+      "bytes": 5667,
+      "sha256": "9552d667223b5d5076128ec5999b7d629b715d00c6db2dd7ceadc7411706c7e8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/source-after.json",
+      "bytes": 4600,
+      "sha256": "b05d8c91dc0721df9ad6a2d0d958c2c1422b9060e29a2ca137725391106537b0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/source-before.json",
+      "bytes": 3603,
+      "sha256": "26f47bef97dbbda4889830f402c018e77ddb2d308129618e0897f3272cca2d00"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/test-preparation-format.json",
+      "bytes": 420,
+      "sha256": "8d550f1637b6d888e00575b4d3ecb717936e442f54ba3cdccf9af6b8112b9d02"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/test-preparation-format.stderr",
+      "bytes": 16,
+      "sha256": "0ac7c2631e5af776de63c5209860d6c55979825c853537ecee2289736c3856fd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/test-preparation-format.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Current filename minimization source/test/evidence only; original packets preserved"
+}

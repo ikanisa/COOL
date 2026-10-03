@@ -1,0 +1,122 @@
+{
+  "Gradle_or_APP_compilation_executed": false,
+  "actual_seconds": 0.49759445899690036,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "-cp",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder/9.0.1/b841690e7e6560a46305d0d14ca0fc8296ecc029/builder-9.0.1.jar",
+    "com.android.tools.r8.R8",
+    "--version"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 5,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T14:26:27.427797+00:00",
+  "input_after": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "device": 16777232,
+      "inode": 60412969,
+      "mode": 420,
+      "mtime_ns": 1790940553031710125,
+      "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts": {
+      "bytes": 840,
+      "device": 16777232,
+      "inode": 60413133,
+      "mode": 448,
+      "mtime_ns": 1790940553078603632,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder/9.0.1/b841690e7e6560a46305d0d14ca0fc8296ecc029/builder-9.0.1.jar": {
+      "bytes": 15557814,
+      "device": 16777232,
+      "inode": 60171963,
+      "mode": 420,
+      "mtime_ns": 1790930230090382492,
+      "sha256": "cdbad6d56863995a2564c8534108ed0e5d4581a4c12c614df2b6cca570d7e6b2"
+    },
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java": {
+      "bytes": 33792,
+      "device": 16777247,
+      "inode": 210829,
+      "mode": 493,
+      "mtime_ns": 1764609609000000000,
+      "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "device": 16777247,
+      "inode": 9957351,
+      "mode": 420,
+      "mtime_ns": 1790895742022114935,
+      "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts": {
+      "bytes": 840,
+      "device": 16777247,
+      "inode": 2693285,
+      "mode": 448,
+      "mtime_ns": 1790890344793082217,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    }
+  },
+  "input_before": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "device": 16777232,
+      "inode": 60412969,
+      "mode": 420,
+      "mtime_ns": 1790940553031710125,
+      "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts": {
+      "bytes": 840,
+      "device": 16777232,
+      "inode": 60413133,
+      "mode": 448,
+      "mtime_ns": 1790940553078603632,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder/9.0.1/b841690e7e6560a46305d0d14ca0fc8296ecc029/builder-9.0.1.jar": {
+      "bytes": 15557814,
+      "device": 16777232,
+      "inode": 60171963,
+      "mode": 420,
+      "mtime_ns": 1790930230090382492,
+      "sha256": "cdbad6d56863995a2564c8534108ed0e5d4581a4c12c614df2b6cca570d7e6b2"
+    },
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java": {
+      "bytes": 33792,
+      "device": 16777247,
+      "inode": 210829,
+      "mode": 493,
+      "mtime_ns": 1764609609000000000,
+      "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "device": 16777247,
+      "inode": 9957351,
+      "mode": 420,
+      "mtime_ns": 1790895742022114935,
+      "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts": {
+      "bytes": 840,
+      "device": 16777247,
+      "inode": 2693285,
+      "mode": 448,
+      "mtime_ns": 1790890344793082217,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    }
+  },
+  "inputs_unchanged": true,
+  "kind": "pinned_embedded_R8_version_only_readback",
+  "process_metadata_probes_or_signals_sent": false,
+  "schema_version": 1,
+  "started_utc": "2026-10-02T14:26:26.923011+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "4f64dc7a8981883f68fd02ea9d0ecbc4faf2c711133203baa633ae6334a5593a"
+}

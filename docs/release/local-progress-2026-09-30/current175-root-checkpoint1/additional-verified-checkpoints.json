@@ -1,0 +1,21 @@
+{
+  "scope": "Additive checkpoints; query candidate remains failed/unpublished and native/fullAdmin jobs are pending",
+  "packets": [
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt167/execution.json",
+      "sha256": "134de0cdc0c4142399e5b0a9a35ecdd95dc0d04832103a10e4e22c6fbc02fee6",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/swift-cached-artifact-inputs-root169/validation.json",
+      "sha256": "d896a6a637891bc7136a7463ea8e20b940b4d9908a83966f1def455fec6eb3da",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt2-root-1000-10000/result.json",
+      "sha256": "8906858b97529084188d1fdbea3e8d668d321d2cd88c488d72494991bfde0ec0",
+      "status": "failed"
+    }
+  ],
+  "whole_goal_complete": false
+}

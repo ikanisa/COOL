@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "kind": "business_receipt_decision_draft",
+  "created_at": "2026-10-01T00:38:03.722923+00:00",
+  "approved": false,
+  "production_release_authorized": false,
+  "approver_identity": null,
+  "owner_names_requested": false,
+  "selected_sender": "organization_owned_android_gateway",
+  "operator_email": "info@ikanisa.com",
+  "source_bindings": {
+    "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql": {
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "bytes": 97254
+    },
+    "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql": {
+      "sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "bytes": 46086
+    },
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "bytes": 37881
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793
+    },
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "bytes": 21394
+    }
+  },
+  "decisions": [
+    {
+      "id": "F01",
+      "subject": "Receipt-eligible financial event",
+      "status": "pending",
+      "current_evidence": "Posted positive whole-RWF payment with canonical receipt journal/snapshot; independently scoped Rwanda inbound evidence. Stored confirmation is distinct from external settlement verification.",
+      "decision_needed": "Approve the exact trusted ingestion/verification/allocation/posting chain that establishes receipt eligibility."
+    },
+    {
+      "id": "F02",
+      "subject": "Balance definitions and timing",
+      "status": "pending",
+      "current_evidence": "Per-member/per-collection confirmed RWF and collection confirmed RWF are posting-time snapshots; later payments/reversals change independent current balances.",
+      "decision_needed": "Approve these names/definitions for members and whether group totals may be disclosed."
+    },
+    {
+      "id": "F03",
+      "subject": "Payer, allocated member and recipient",
+      "status": "pending",
+      "current_evidence": "Current SMS creation uses the active allocated account-independent member identity for the payment collection, enabled group policy and enabled member consent. App-linked members use existing push.",
+      "decision_needed": "Approve the allocated member as primary recipient when payer differs, and define ambiguity/contact-change handling."
+    },
+    {
+      "id": "F04",
+      "subject": "Consent and group-total disclosure",
+      "status": "pending",
+      "current_evidence": "Existing consent records method/enabled/revision; existing SMS body includes member and group balances. Dedicated language/disclosure approval is not recorded by the simple consent switch.",
+      "decision_needed": "Approve explicit consent/disclosure requirements and choose whether primary SMS may include a group total."
+    },
+    {
+      "id": "F05",
+      "subject": "Exact primary receipt text",
+      "status": "pending",
+      "current_evidence": "Fixed buri_munsi.payment_received version1 renderer and immutable body/destination/snapshot hashes.",
+      "decision_needed": "Approve or replace the retained exact wording without rewriting existing receipt evidence or recreating a primary receipt."
+    },
+    {
+      "id": "F06",
+      "subject": "Supported language and fallback",
+      "status": "pending",
+      "current_evidence": "The current fixed renderer uses Kinyarwanda wording with Balance/Ref labels; there is no approved per-member SMS language/fallback contract.",
+      "decision_needed": "Choose approved languages, reviewed translations, member-language source and fallback behavior."
+    },
+    {
+      "id": "F07",
+      "subject": "Historical paused/missed-receipt recovery",
+      "status": "pending",
+      "current_evidence": "New local pause semantics preserve eligible queued work; historical reconciliation deliberately returns CATCHUP_POLICY_PENDING and creates nothing. Current contact/consent cannot reconstruct historical revisions.",
+      "decision_needed": "Choose the authorized lookback, historical/current consent rules, snapshot/date wording and review needed before catch-up."
+    },
+    {
+      "id": "F08",
+      "subject": "Reversal, correction and approved resend",
+      "status": "pending",
+      "current_evidence": "Reversals use compensating journals and new snapshots. Existing primary receipts remain immutable. Safe cancellation stops pristine queued work only.",
+      "decision_needed": "Approve separate linked correction/resend policy and wording; avoid replacing primary receipt evidence or treating SMS recall as possible."
+    },
+    {
+      "id": "F09",
+      "subject": "Uncertain outcomes and exposure",
+      "status": "pending",
+      "current_evidence": "Unknown transport/callback outcomes retain original action identity and do not authorize replay; recorded observations are distinct from delivery.",
+      "decision_needed": "Approve permitted evidence, escalation and human resolution for unknown outcomes before any retry/resend authority."
+    }
+  ]
+}

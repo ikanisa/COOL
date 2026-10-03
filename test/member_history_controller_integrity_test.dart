@@ -26,24 +26,27 @@ const _other = CollectProfile(
   momoNumber: '0700000002',
 );
 
-Contribution _row(int index) => Contribution(
+Contribution _row(int index, {int amount = 10}) => Contribution(
   id: 'history-$index',
   collectionId: 'group',
-  amountRwf: 10,
+  amountRwf: amount,
   supporterLabel: 'Collect member',
   createdAt: DateTime.utc(2026, 9, 1).subtract(Duration(minutes: index)),
 );
 MemberHistoryPage _page(List<int> ids, {bool more = false, int total = 20}) =>
-    MemberHistoryPage.fromJson({
-      'total_count': 2,
-      'totals': {'RWF': total},
-      'own_totals': {'RWF': 0},
-      'own_collection_ids': <String>[],
-      'revision': _revision,
-      'next_cursor': more
-          ? {'revision': _revision, 'after': _row(ids.last).id}
-          : null,
-    }, ids.map(_row).toList());
+    MemberHistoryPage.fromJson(
+      {
+        'total_count': 2,
+        'totals': {'RWF': total},
+        'own_totals': {'RWF': 0},
+        'own_collection_ids': <String>[],
+        'revision': _revision,
+        'next_cursor': more
+            ? {'revision': _revision, 'after': _row(ids.last).id}
+            : null,
+      },
+      [for (final id in ids) _row(id, amount: id == 0 ? total - 10 : 10)],
+    );
 
 class _Repository extends CollectRepository {
   _Repository({bool withPage = true})

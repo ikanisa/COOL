@@ -1,0 +1,14 @@
+{
+  "scope": "Two production files only; no peer test/source write; do not apply if expected source hash differs",
+  "files": {
+    "lib/admin/core/admin_exception_workflow_card.dart": {
+      "expected_sha256": "da31c11b93d3f45cdeb01f20f0eebdbb3d11163cbc54338ccf95e4ff7030dc1f",
+      "private_corrected_sha256": "bbb313252977950514b7ed2235bd80a6369b9f4a9658cb828f1ea004a9aea732"
+    },
+    "lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "expected_sha256": "a275cbec4c658c6503b3e295197f9d2a925252bb1a490ea2c1a21bbabe6e8f10",
+      "private_corrected_sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765"
+    }
+  },
+  "patch_sha256": "17b690663c7a4b7d1054fc89a05dff6bda2815025043ee6a13ad4c955b76d30a"
+}

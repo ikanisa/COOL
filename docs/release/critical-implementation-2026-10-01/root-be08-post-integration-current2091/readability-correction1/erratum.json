@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-02T14:06:22.350804+00:00",
+  "status": "explanatory_README_erratum_only",
+  "original_packet_sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c",
+  "original_readback_sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921",
+  "original_README_sha256": "c68c6fcba21a5a2f3c3361d0bc853e7711bca0a765d48e6059f19d6650b79967",
+  "original_bytes_preserved": true,
+  "corrected_statement": "All 718 caller semantics are exactly identical after removing only line/offset. Eight caller rows have positional changes: seven helper RPC references move +10 lines; the readiness Auth-hook Edge URL reference moves -17 lines. Readiness caller rows are not byte-for-byte identical because that one source position changed. New evidence-index script adds no database caller.",
+  "structured_readback_and_caller_parity_remain_correct": true,
+  "no_new_execution_or_source_change": true
+}

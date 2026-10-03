@@ -1,0 +1,448 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "approve invalid reason boundary 3",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "approve invalid reason boundary 4",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "approve invalid reason boundary 5",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "revoke invalid reason boundary 3",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "revoke invalid reason boundary 4",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "revoke invalid reason boundary 5",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "cutover invalid reason boundary 3",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "cutover invalid reason boundary 4",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 0,
+        "intended_error_observed": false,
+        "returned_ack": true
+      },
+      "name": "cutover invalid reason boundary 5",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "all staged inputs remain byte-identical",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T22:43:49.173126+00:00",
+  "database": "collect_local_uat_fb567cd254c5497f",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_email_admin_action_reason_and_ack_bounds",
+  "migration_sources": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "2f97656e92f2e5b522a276ecb395b57dab5278d0331e9da8f528c4b00ab0ab6a",
+    "local_schema_uat.py": "977e0d0270a66129e3b5e2cb7800c5be242353fa9ddb37236b5da7f530fe20ca",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "ebce41791a3abb54d224fd40924302fea356f9ebc176020a88427b8b7ab8c59a",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T22:43:29.284499+00:00",
+  "status": "failed"
+}

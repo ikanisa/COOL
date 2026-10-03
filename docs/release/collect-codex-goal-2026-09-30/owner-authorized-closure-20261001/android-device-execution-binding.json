@@ -1,0 +1,15 @@
+{
+  "started_at": "2026-10-01T10:12:01.271923+00:00",
+  "finished_at": "2026-10-01T10:12:01.541554+00:00",
+  "runner": "docs/release/collect-codex-goal-2026-09-30/android-gateway-device-acceptance-2026-10-01/source/scripts/android_gateway_device_acceptance.py",
+  "runner_sha256": "67357b38420e12d26582a7ac568276fc3a0b3a55ea44139a54442126ac684754",
+  "adb_sha256": "9fdf861259dc807937b13afdd5f053c7fda9f3b7726933fe0e0f45130ecb8dc7",
+  "exit_code": 2,
+  "output": "android-device-current.json",
+  "device_mutations": 0,
+  "backend_calls": 0,
+  "sms_invocations": 0,
+  "status": "blocked",
+  "reason": "device_not_connected",
+  "target_count": 0
+}

@@ -1,0 +1,49 @@
+{
+  "scope": "actual browser principal recovery persistence/locking",
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+        "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+        "lib/admin/core/admin_receipt_principal_controller.dart",
+        "lib/admin/core/admin_receipt_principal_models.dart",
+        "test/admin_receipt_principal_browser_test.dart"
+      ],
+      "returncode": 0,
+      "duration_seconds": 51.68
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=2",
+        "--platform",
+        "chrome",
+        "test/admin_receipt_principal_browser_test.dart",
+        "--reporter",
+        "json"
+      ],
+      "returncode": 0,
+      "duration_seconds": 181.2
+    }
+  ],
+  "accepted": true,
+  "expected_cases": 10,
+  "visible_cases": 10,
+  "completed_visible_cases": 10,
+  "terminal": {
+    "success": true,
+    "type": "done",
+    "time": 13674
+  },
+  "inputs": 1278,
+  "changed_inputs": [],
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "visual_comparator_accepted": false,
+  "full_candidate_regression": false,
+  "optional_visual_capture_environment_disabled": true
+}

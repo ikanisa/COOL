@@ -1,0 +1,467 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4/test/shared/group_invitation_protection_test.dart
+00:00 +0: late read rejects account completion
+00:00 +0 -1: late read rejects account completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -1: late read rejects session completion
+00:00 +0 -2: late read rejects session completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -2: late read rejects A-B-A completion
+00:00 +0 -3: late read rejects A-B-A completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -3: late rotate rejects account completion
+00:00 +0 -4: late rotate rejects account completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -4: late rotate rejects session completion
+00:00 +0 -5: late rotate rejects session completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -5: late rotate rejects A-B-A completion
+00:00 +0 -6: late rotate rejects A-B-A completion [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+                  
+            which is not an instance of 'StateError'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 32:25  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 25:19  main.<fn>
+  
+00:00 +0 -6: share read rejects malformed code 
+00:00 +0 -7: share read rejects malformed code  [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+  
+00:00 +0 -7: share read rejects malformed code bad-code
+00:00 +0 -8: share read rejects malformed code bad-code [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+  
+00:00 +0 -8: share read rejects malformed code https://attacker.invalid
+00:00 +0 -9: share read rejects malformed code https://attacker.invalid [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+  
+00:00 +0 -9: share read rejects malformed code   40000000-0000-4000-8000-000000000001
+00:00 +0 -10: share read rejects malformed code   40000000-0000-4000-8000-000000000001 [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+  
+00:00 +0 -10: share read rejects malformed code 40000000-0000-4000-8000-000000000001x
+00:00 +0 -11: share read rejects malformed code 40000000-0000-4000-8000-000000000001x [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27      PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18      PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                          expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+                  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                               _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                          expectLater
+  package:flutter_test/src/widget_tester.dart 507:8        expectLater
+  test/shared/group_invitation_protection_test.dart 58:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                               _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 57:17  main.<fn>
+  
+00:00 +0 -11: rotation has one actual SDK mutation request after lost
+00:00 +0 -12: rotation has one actual SDK mutation request after lost [E]
+  Expected: '/rest/v1/rpc/rotate_group_share_code_v2'
+    Actual: '/rest/v1/rpc/rotate_group_share_code'
+     Which: is different. Both strings start the same, but the actual value is missing the following trailing characters: _v2
+  
+  package:matcher                                         expect
+  package:flutter_test/src/widget_tester.dart 473:18      expect
+  test/shared/group_invitation_protection_test.dart 73:7  main.<fn>
+  
+00:00 +0 -12: rotation has one actual SDK mutation request after 503
+00:00 +0 -13: rotation has one actual SDK mutation request after 503 [E]
+  Expected: '/rest/v1/rpc/rotate_group_share_code_v2'
+    Actual: '/rest/v1/rpc/rotate_group_share_code'
+     Which: is different. Both strings start the same, but the actual value is missing the following trailing characters: _v2
+  
+  package:matcher                                         expect
+  package:flutter_test/src/widget_tester.dart 473:18      expect
+  test/shared/group_invitation_protection_test.dart 73:7  main.<fn>
+  
+00:00 +0 -13: rotation rejects exact receipt defect empty
+00:00 +0 -14: rotation rejects exact receipt defect empty [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -14: rotation rejects exact receipt defect extra
+00:00 +0 -15: rotation rejects exact receipt defect extra [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -15: rotation rejects exact receipt defect target
+00:00 +0 -16: rotation rejects exact receipt defect target [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -16: rotation rejects exact receipt defect request
+00:00 +0 -17: rotation rejects exact receipt defect request [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -17: rotation rejects exact receipt defect code
+00:00 +0 -18: rotation rejects exact receipt defect code [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -18: rotation rejects exact receipt defect boolean
+00:00 +0 -19: rotation rejects exact receipt defect boolean [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -19: rotation rejects exact receipt defect version
+00:00 +0 -20: rotation rejects exact receipt defect version [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Instance of 'Future<String>'>
+     Which: threw _TypeError:<Null check operator used on a null value>
+            stack package:postgrest/src/postgrest_builder.dart 462:27       PostgrestBuilder._parseResponse
+                  package:postgrest/src/postgrest_builder.dart 412:18       PostgrestBuilder._execute
+                  ===== asynchronous gap ===========================
+                  package:matcher                                           expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+                  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                                _CustomZone.registerUnaryCallback
+                  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+                  
+            which is not an instance of 'FormatException'
+  
+  package:matcher                                           expectLater
+  package:flutter_test/src/widget_tester.dart 507:8         expectLater
+  test/shared/group_invitation_protection_test.dart 113:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                _CustomZone.registerUnaryCallback
+  test/shared/group_invitation_protection_test.dart 93:17   main.<fn>
+  
+00:00 +0 -20: valid rotation binds exact request and captured Bearer
+00:00 +0 -21: valid rotation binds exact request and captured Bearer [E]
+  Null check operator used on a null value
+  package:postgrest/src/postgrest_builder.dart 462:27  PostgrestBuilder._parseResponse
+  package:postgrest/src/postgrest_builder.dart 412:18  PostgrestBuilder._execute
+  
+00:00 +0 -21: Some tests failed.
+
+Failing tests:
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4/test/shared/group_invitation_protection_test.dart: late read rejects A-B-A completion
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4/test/shared/group_invitation_protection_test.dart: late read rejects account completion
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4/test/shared/group_invitation_protection_test.dart: late read rejects session completion
+  /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-invitation-prior-attempt4/test/shared/group_invitation_protection_test.dart: late rotate rejects A-B-A completion
+  ... and 17 more

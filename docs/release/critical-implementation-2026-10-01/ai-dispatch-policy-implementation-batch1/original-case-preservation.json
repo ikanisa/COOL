@@ -1,0 +1,7 @@
+{
+  "original_test_case_suffix_sha256": "b5d4faadb0359a8fe2711a1378c0a681df5849e9fe167f5427f72831c45677dd",
+  "candidate_original_test_case_suffix_sha256": "b5d4faadb0359a8fe2711a1378c0a681df5849e9fe167f5427f72831c45677dd",
+  "all_original_cases_and_assertions_unchanged": true,
+  "boundary_only_difference": "one separating blank line before new policy cases",
+  "fixturePromise_preserved": true
+}

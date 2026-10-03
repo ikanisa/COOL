@@ -1,0 +1,20 @@
+{
+  "actual_blocking_races": 0,
+  "cases": [],
+  "completed_at": "2026-10-01T17:12:51.413142+00:00",
+  "failure": "[Errno 2] No such file or directory: '/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/executed-inputs/.cache/receipt-foundation-attempt8/schema-only.sql'",
+  "fixture_limits": [
+    "Retained row-free schema153/ACL, current scoped prerequisites and all26 existing synthetic control fixtures.",
+    "Fresh feature DDL and API SQL execute as actual postgres NOSUPERUSER; original v1 catalog/body preserved.",
+    "Platform/Auth schema is owner-normalized; mock cron; no hosted or signed-JWT acceptance; not whole-candidate migration replay."
+  ],
+  "hosted_called": false,
+  "kind": "governed_settings_v2_networkless_sql",
+  "provider_called": false,
+  "shared_database_written": false,
+  "signed_jwt_tested": false,
+  "source_rows_copied": false,
+  "started_at": "2026-10-01T17:12:51.412242+00:00",
+  "status": "failed",
+  "target": {}
+}

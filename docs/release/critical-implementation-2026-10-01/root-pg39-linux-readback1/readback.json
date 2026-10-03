@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "actual_linux_tests": 39,
+  "unittest_seconds": 41.272,
+  "whole_seconds": 48.790148084000975,
+  "current_source_before_after_exact": true,
+  "runtime3_12_14_exact1721_entries": true,
+  "owned_container_removed_and_absent_with_exact_daemon_no_such_readback": true,
+  "all_owned_groups_absent": true,
+  "synthetic_trace_cases_retained": 39,
+  "execution_packet_sha256": "efa5bbe47e50a7b518d32a2a515cc75a4960acfe6ee101ff45f07895f3571040",
+  "macOS_failures_resolved": false,
+  "real_archive_shipping_matrix_or_recovery_accepted": false,
+  "production_release_approval": false
+}

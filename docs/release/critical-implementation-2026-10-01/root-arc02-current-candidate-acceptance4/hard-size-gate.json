@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 2.013,
+  "argv": [
+    "/bin/bash",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance4/exact-size-gate.sh"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 60,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T11:14:40.813290+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 60377,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T11:14:38.800692+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "0f7cc63586cca012b581eeec729f5150b65ae5c821b928e7b0c74afb01e57a64",
+  "timed_out": false
+}

@@ -1,0 +1,7 @@
+{
+  "operation": "Packet retention precondition",
+  "status": "refused",
+  "reason": "Expected selected inventory count169, but a post-completion new migration made count170. No packet was created by that attempt; no SQL test failed. Retention is now explicitly scoped to captured169.",
+  "source_change_kind": "new file only; no captured source modification",
+  "addition_observed": "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql"
+}

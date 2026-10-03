@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-02T00:20:28.171912+00:00",
+  "captured_input_count": 751,
+  "cohort_claim_is_bound_to_saved_source_hashes": true,
+  "current_applicable_count": 669,
+  "missing_applicable_paths": [],
+  "new_applicable_paths": [],
+  "private_changes_since_frozen_cohort": {},
+  "root_changes_since_frozen_cohort": {},
+  "root_source_written_by_this_task": false
+}

@@ -1,0 +1,1 @@
+insert into collect_gateway.dispatch_arms(device_id,attempt_id,fence_version,body_sha256,destination_sha256,segment_count)values('ab7b10e5-99a1-4252-af4a-92f144de929c','2787c82e-ac8e-4093-8bef-ae94357c7b15',1,'adc57c54916b498ec8481d39f076fd54ce50b664839b393282f90eeeb6ed052f','b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2',1);

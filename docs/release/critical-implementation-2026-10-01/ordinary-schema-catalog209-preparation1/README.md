@@ -1,0 +1,3 @@
+# Current 209-migration candidate preparation
+
+216 regular single-link inputs were copied byte-for-byte to a new physical internal-volume candidate. All 215 prior inputs are unchanged; the sole addition is the governed receipt-retention migration. Source identities and hashes before/after copying are recorded. The exact reviewed controller changes only its preparation-folder reference; existing 600-second deadline, image binding, original assertions and owned cleanup remain. No maintained source or application SQL was changed by this preparation. The separate execution packet records the actual result.

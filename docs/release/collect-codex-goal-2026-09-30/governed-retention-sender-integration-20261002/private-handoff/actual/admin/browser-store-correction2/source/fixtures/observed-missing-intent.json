@@ -1,0 +1,12 @@
+{
+  "reason": "Synthetic governed maintenance test",
+  "enabled": false,
+  "actor_id": "99780000-0000-4000-8000-000000000001",
+  "byte_limit": 1048576,
+  "expires_at": "2026-10-02T03:19:25.300755Z",
+  "request_id": "ca3b4e18-f087-4a06-b342-78506ce43332",
+  "session_id": "99780000-0000-4000-8000-000000010001",
+  "batch_limit": 12,
+  "protocol_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+  "expected_revision": 7
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "storage#object",
+  "id": "flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_patched_sdk_product.zip/1782260196394293",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_patched_sdk_product.zip",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fflutter_patched_sdk_product.zip?generation=1782260196394293&alt=media",
+  "name": "flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/flutter_patched_sdk_product.zip",
+  "bucket": "flutter_infra_release",
+  "generation": "1782260196394293",
+  "metageneration": "1",
+  "contentType": "application/zip",
+  "storageClass": "STANDARD",
+  "size": "3970187",
+  "md5Hash": "9wQC3YlPGCx0JToJxXsegQ==",
+  "crc32c": "0E6MxA==",
+  "etag": "CLWKnc/MnpUDEAE=",
+  "timeCreated": "2026-06-24T00:16:36.509Z",
+  "updated": "2026-06-24T00:16:36.509Z",
+  "timeStorageClassUpdated": "2026-06-24T00:16:36.509Z",
+  "timeFinalized": "2026-06-24T00:16:36.509Z"
+}

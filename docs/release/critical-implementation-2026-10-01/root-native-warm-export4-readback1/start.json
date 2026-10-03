@@ -1,0 +1,11 @@
+{
+  "production_release_approval": false,
+  "protected_before": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "review_sha256": "1be1b70454ebb3cad16e2ac7539e60014a4a970d4c5c552f188a322b4af33b53",
+  "source_lock_attested": false,
+  "stage": "app-export",
+  "warm_retry_script_sha256": "143be6f145c8db9c71651c26d26fd458a59b377d392a69530757d5bdc990d7ff"
+}

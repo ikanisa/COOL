@@ -1,0 +1,42 @@
+{
+  "docs/architecture/postgres-admission.md": {
+    "bytes": 7033,
+    "mode": 420,
+    "sha256": "52201fccc5d975d6c8d93d1ab06d8f9ce88d090b7582a407f49447983c6d3b6a"
+  },
+  "scripts/qa/backend_release_delivery.py": {
+    "bytes": 34346,
+    "mode": 420,
+    "sha256": "809e8085614694d1f357d8b20f044684b2af991f221a55fb32e228f44e1e96f6"
+  },
+  "scripts/qa/postgres_admission.py": {
+    "bytes": 17725,
+    "mode": 420,
+    "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92"
+  },
+  "scripts/supabase_cli_helpers.sh": {
+    "bytes": 12971,
+    "mode": 448,
+    "sha256": "ce97076d3c0d8fc3e26a832a05e8b7705a964b03c039607e749dfa386abb839d"
+  },
+  "scripts/supabase_production_readiness.sh": {
+    "bytes": 63263,
+    "mode": 448,
+    "sha256": "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40"
+  },
+  "scripts/tests/supabase_delivery_contract_test.py": {
+    "bytes": 39051,
+    "mode": 420,
+    "sha256": "3ffe17e32513a665a2ed96735c3a3fb7169299435601d0c19cfe13fe8aa6b9f5"
+  },
+  "scripts/tests/supabase_secret_transport_test.py": {
+    "bytes": 15751,
+    "mode": 420,
+    "sha256": "da345c197a8c46cd7702222028d4c63092be4b737927c7924c62b0c730291dde"
+  },
+  "scripts/tests/test_postgres_admission.py": {
+    "bytes": 16650,
+    "mode": 420,
+    "sha256": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13"
+  }
+}

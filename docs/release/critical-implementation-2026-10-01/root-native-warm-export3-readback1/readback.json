@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "stage": "app-export",
+  "stage_pass": true,
+  "actual_terminal_sha256": "47fee23b64d967f54fb7d54992cacc834d7231f47b753b4afa674ae3dec1a929",
+  "actual_binding_sha256": "12ea1533d6aeb1333012f929b5f627f19c1912a048e81d9f277fba09b2ec2f9e",
+  "source_files": 2513,
+  "source_manifest_sha256": "3acfeb3148ce19ddf550e62a33b119f9f5d4efbcd693d1b00511c5b078a4ebc6",
+  "whole_strict_current_export_and_both_source_fences_pass": true,
+  "all_owned_groups_absent": true,
+  "original_protected_paths_unchanged": 68020,
+  "packages_built": false,
+  "production_release_approval": false,
+  "ARC09_closed": false
+}

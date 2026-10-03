@@ -1,0 +1,5 @@
+{
+  "status": "failed_own_comparison",
+  "source_mutations": [],
+  "cause": "Dedented byte comparison was too strict: Deno formatter added a block around existing single-line sourceError early return and wrapped consent assertion with trailing comma. Both are recorded before review; no root source change occurred."
+}

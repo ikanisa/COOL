@@ -1,0 +1,13 @@
+{
+  "session_id": 62990,
+  "exit_code": 1,
+  "status": "fail",
+  "admin_build_exit": 0,
+  "public_build_exit": 0,
+  "passed_checks": 69,
+  "route_states": 56,
+  "failure": "Exact editor value wait timed out during post-reload email reentry",
+  "source_inputs_stable": true,
+  "production_bundles_preserved": true,
+  "no_third_build_authorized": true
+}

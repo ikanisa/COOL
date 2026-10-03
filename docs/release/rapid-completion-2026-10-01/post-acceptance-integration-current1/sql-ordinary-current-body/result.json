@@ -1,0 +1,105 @@
+{
+  "all_task_containers_removed": true,
+  "baseline_sha256": {
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+  },
+  "cases": [
+    {
+      "name": "outside changed function and its signature/configuration are exact old accepted bytes",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-10-01T15:55:08.760426+00:00",
+  "failure": "predecessor setup supabase/migrations/20261001000300_admin_exception_reads.sql: ERROR:  23503: insert or update on table \"admin_navigation_items\" violates foreign key constraint \"admin_navigation_items_required_permission_fkey\"\nDETAIL:  Key (required_permission)=(payments.read) is not present in table \"admin_permissions\".\nSCHEMA NAME:  public\nTABLE NAME:  admin_navigation_items\nCONSTRAINT NAME:  admin_navigation_items_required_permission_fkey\nLOCATION:  ri_ReportViolation, ri_triggers.c:2599\n",
+  "fixture_limits": [
+    "Owner-normalized row-free schema153 plus captured18-stage predecessor setup before demotion.",
+    "Mock cron catalogs; no scheduler, Vault, net, Auth service or signed-JWT invocation.",
+    "Only the current v2 feature install/replacement and reads are fresh ordinary-owner acceptance."
+  ],
+  "hosted_called": false,
+  "kind": "ordinary_owner_changed_exception_audit_body",
+  "managed_hosted_owner_parity": false,
+  "phases": {
+    "new": {
+      "database": "ordinary_body_new_bc8205198b",
+      "stage": "privileged predecessor fixture setup"
+    }
+  },
+  "provider_called": false,
+  "query_plan37_repeated": false,
+  "replacement_sha256": "ab2dd135b164e5395a74767dd9ecc67939e7a2c38f29d47b615a6f0511d4ab41",
+  "reused_proofs": {
+    "current37_query_proof": {
+      "cases": 37,
+      "migration_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json",
+      "sha256": "b9437c27277c5e37cf75c7e20ad6323e1cbb524539af7486318cc28393f09df2"
+    },
+    "full187_structural_ordinary_installer": {
+      "applications": 374,
+      "checks": 36,
+      "migration_sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/validation.json",
+      "sha256": "e09a076aa7492f4d0632cdf9119a18c616948069c03b0d4eab4e6729967be20c"
+    }
+  },
+  "runner_sha256": "b40370cd9db7f6a109ae1d10a7980ff8258182a2997d3dc61fdeac14330285a5",
+  "shared_database_written": false,
+  "signed_jwt_tested": false,
+  "source_rows_copied": false,
+  "source_sha256": {
+    "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/exception_inbox_audit_v2_plan_uat.py": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+  },
+  "started_at": "2026-10-01T15:55:03.845890+00:00",
+  "status": "failed",
+  "target": {
+    "container_id": "2e3e9408974e2a12c04be980b0d8ceb55124bcbf3f26dadf5bf2509ae04ea276",
+    "container_name": "collect_current_rehearsal_ordinary_body_2a027258dd7e",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "tools": {
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+    "python_path": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "python_sha256": "dff595035109e19c43c4b3e73ee08b5f4651e719f25f8b4713f819d28964dc19"
+  },
+  "whole187_current_body_replayed": false
+}

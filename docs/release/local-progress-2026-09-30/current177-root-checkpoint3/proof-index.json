@@ -1,0 +1,133 @@
+{
+  "captured_at": "2026-10-01T11:10:30.395405+00:00",
+  "installed_migrations": 154,
+  "installed_tables": 153,
+  "local_closed": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13",
+    "L18"
+  ],
+  "local_open": [
+    "L01",
+    "L03",
+    "L04",
+    "L05",
+    "L07",
+    "L08",
+    "L12",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
+    "L23",
+    "L24"
+  ],
+  "production_decision": "NO-GO",
+  "proofs": [
+    {
+      "observed_status": "pass_scoped",
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+      "scope": "Current published history optimization and scoped recent-intent/notification APIs on the identical frozen177 reviewed execution set. Each independently generated volume has all146 checks and preserved shared database. Earlier setup/session-ID collision failure and later peer receipt policy delta remain separate.",
+      "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt5-final-policy/result.json",
+      "scope": null,
+      "sha256": "725ed7276dceaf3873e184385147a460892285cd7d1a65eb567b95af1309c664"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt24-current23-final-policy/result.json",
+      "scope": null,
+      "sha256": "df1fb753be6f9cb75052aa79272910d86bd7741b88699a40a56df8b69971cf68"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-progress-2026-09-30/accepted-qa-publication-root194/validation.json",
+      "scope": "Publish the exact independently executed corrected QA sources; every original failed run and prior source byte sequence remains preserved. These QA changes do not provide whole source acceptance.",
+      "sha256": "77eb77813c78457235903ed0c8c041133487f754fc248708cbf335f92785c6b6"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/review.json",
+      "scope": "Actual current127 generic-device compilation diagnostics, individually retained by exact message/source bytes and bound prerequisite snapshots; no camera/picker/provider/device runtime acceptance",
+      "sha256": "ddf14c23fac3c17efc790fa99a3461ef7b2cce31c48089a229e2933d5f299f6d"
+    },
+    {
+      "observed_status": "fail",
+      "path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/validation.json",
+      "scope": "All declared Flutter VM tests and fatal analysis on one isolated source set; no whole browser/native/backend/release acceptance",
+      "sha256": "dd008338c4e96a1d69b778970f3db255a70dc5e5cc27cbf589a3c22ec6368717"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/gateway-reduced-motion-2026-10-01/root216-current-regressions/validation.json",
+      "scope": "Full affected app-shell/security/release/runtime contract files, all Gateway files and new peer receipt decoder file; isolated declared current source. Native Gateway compilation and complete current browser/native release acceptance remain separate.",
+      "sha256": "6397d671ac5b195d9b206cc71def2fd12c9f16c8d48e9b0917bf99f7db544eed"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/gateway-reduced-motion-2026-10-01/root224-current-format/validation.json",
+      "scope": "Current app/test/tool Dart formatter gate using the accepted immutable root216 export; no native/device/store acceptance",
+      "sha256": "b8a0364f7a47f283271500e7c0e6c2fb34987730ca02f387175b128232690e6d"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/validation.json",
+      "scope": "Implementing-agent review of intentional product/layout changes and thirteen isolated regression captures; no native/design/store/production acceptance",
+      "sha256": "106951c4e892cd5a480d15dfecb83fe824ddc7b7c8c13c4fdc58a43124d7fcc0"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/publication.json",
+      "scope": "Five reviewed regression captures only. Existing tolerance preserved; no design fidelity, owner acceptance or native release claim.",
+      "sha256": "90e7558d2c4df4d24d9da330db64cd476422154effc62456e7b6c868eaaf35ce"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-browser-lifecycle-2026-09-30/current-email-memory-auth-root218-attempt17/validation.json",
+      "scope": "Actual current normal Admin/Public entrypoints and browser lifecycle including installed standalone PWA offline; no SQL/provider/physical-device/design or whole repository/release acceptance",
+      "sha256": "2a360b3686a5d1e563893efe1b39e27ce212f8105be563f3fcfce878fb127ec0"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/native-gateway-observation-2026-10-01/current-pure-jvm-root210/validation.json",
+      "scope": "Actual pure journal/crypto/dispatch source; fake backend and fake sender only. No Android OS, HTTP, physical handset, enrollment, provider or production acceptance.",
+      "sha256": "7944edffbbcc6b8d6cc7c5d3add8ef479f1088855893775cc00a21cfdf0a0cd4"
+    },
+    {
+      "observed_status": "Move privileged Gateway implementation and its JVM suite exclusively into the existing internal_gateway flavor. Customer/receiver/dev source sets retain no Gateway implementation. No new permissions or lint suppressions.",
+      "path": "docs/release/native-gateway-observation-2026-10-01/flavor-boundary-relocation-root206.json",
+      "scope": "Move privileged Gateway implementation and its JVM suite exclusively into the existing internal_gateway flavor. Customer/receiver/dev source sets retain no Gateway implementation. No new permissions or lint suppressions.",
+      "sha256": "00b9a88a05d5393ffb39a09508eb3d775aadd65e906fc38c39026c942a26ae9b"
+    },
+    {
+      "observed_status": null,
+      "path": "docs/release/native-gateway-observation-2026-10-01/hardware-compatibility-root216.json",
+      "scope": null,
+      "sha256": "02665415f712c8b1cc20f554d7c51ae1f81bcea79f8e9711e7040ed68f558020"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/local-progress-2026-09-30/current177-browser-closure-root222/validation.json",
+      "scope": "Register integrity and scoped154 progress only; not whole-system acceptance",
+      "sha256": "e6d9158f76e51fe4e8078eb8b433d8dda26426bc60e4b292d2985e2c0c4623f3"
+    }
+  ],
+  "running": [
+    "Current production unsigned artifact/JVM/manifest/package proof: root197 actual-native4",
+    "Current Gateway API24-compatible conditional hardware build/lint/JVM: root197 actual-native6-current-gateway"
+  ],
+  "scope": "Current checkpoint; exact cited completed proofs bound. Running tests are not claimed passed and may update after this checkpoint. No production acceptance.",
+  "source_migrations": 177,
+  "staged_sources": 23
+}

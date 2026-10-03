@@ -1,0 +1,20 @@
+{
+  "checked_at_utc": "2026-10-02T00:59:06.888369+00:00",
+  "method": "Root directly viewed exact original PNG with view_image detail original, and read actual fallback body source.",
+  "image_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-media-current-20261002-batch4-attempt1/screenshots/terms.png",
+  "image_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+  "image_dimensions": [
+    1170,
+    2532
+  ],
+  "fallback_source_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/shared/models/collect_models.dart",
+  "fallback_source_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+  "observed": "The first Using Collect paragraph is visibly complete from its opening through transfer information. No opening-line clipping or missing fallback content is apparent.",
+  "earlier_viewer_omission_impression": "unconfirmed; no production defect established",
+  "limits": [
+    "Lower document continuation and full scrolling are not verified by this single original.",
+    "No exact native Terms comparator exists in this cohort.",
+    "This image is a synthetic private preview, not main-entry/native/task/fidelity/legal/production acceptance."
+  ],
+  "production_approval": false
+}

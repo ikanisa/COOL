@@ -1,0 +1,28 @@
+{
+  "captured_at_utc": "2026-10-02T11:04:10.000702+00:00",
+  "format_only": true,
+  "prior_710_failure_retained": true,
+  "files": {
+    "lib/admin/core/admin_receipt_repository.dart": {
+      "before_sha256": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+      "after_sha256": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9"
+    },
+    "test/admin_receipt_history_labels_capture_test.dart": {
+      "before_sha256": "237fb482065317736b3dafcb9b4f37c76da628dbd40c9bf6f185c6124c5f5baa",
+      "after_sha256": "2f1fcb08b049e07e1a4c8bd99a488cf4d15269b20092b7e8bb6a8dad543bf890"
+    },
+    "test/admin_sender_retention_browser_test.dart": {
+      "before_sha256": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+      "after_sha256": "e0cf4e9786235771fe0ef4290e4ebda42efce173480819d3feb040314d4caf3c"
+    },
+    "test/admin_sender_retention_controller_test.dart": {
+      "before_sha256": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+      "after_sha256": "bf2b5b73ac2caf35361177d327b8bf5eafcb1406f720aaa7833ebecd47a2548a"
+    },
+    "test/admin_sender_retention_models_test.dart": {
+      "before_sha256": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0",
+      "after_sha256": "51028525a6ebc57a74fc6b93aebf6b44367e419980269778fc02cdd26d714ec4"
+    }
+  },
+  "full_current_Make_acceptance": "pending"
+}

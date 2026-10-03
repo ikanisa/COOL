@@ -1,0 +1,36 @@
+{
+  "scope": "Guarded nonsemantic braces around existing auditInvalid calls and pinned formatter; no condition, capability, contract or policy changes.",
+  "saved": true,
+  "files": [
+    {
+      "file": "lib/admin/core/admin_entity_audit.dart",
+      "before_sha256": "c58ba4723b72cd0e5f12c291e3850aa188c1f367425ed9b78bf8c289042841be",
+      "brace_only_changes": 9,
+      "after_sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335"
+    },
+    {
+      "file": "lib/admin/core/admin_entity_audit_runtime.dart",
+      "before_sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b",
+      "brace_only_changes": 0,
+      "after_sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+    },
+    {
+      "file": "lib/admin/core/admin_entity_audit_page.dart",
+      "before_sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912",
+      "brace_only_changes": 0,
+      "after_sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912"
+    },
+    {
+      "file": "lib/admin/core/admin_runtime.dart",
+      "before_sha256": "beaa5fb1b4c42584f2f3726a4064fb4aa30a555ce666e0a615d06bd2b3d02f76",
+      "brace_only_changes": 0,
+      "after_sha256": "ad44de901041bc3acac804bc7ea6bd4efb9bfb0259ff03e3008dc6800afab567"
+    },
+    {
+      "file": "lib/admin/core/admin_repository_base.dart",
+      "before_sha256": "469d1fce6cef2c7ce3b24799ec8de954cfcf84096224ab63c53f8b90ae2c8711",
+      "brace_only_changes": 0,
+      "after_sha256": "bcef17aaa1b977894d716609a08cc824e487fbf199054c07a91ab71790c22a18"
+    }
+  ]
+}

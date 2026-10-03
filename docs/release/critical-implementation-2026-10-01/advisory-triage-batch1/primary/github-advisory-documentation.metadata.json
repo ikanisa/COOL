@@ -1,0 +1,18 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:52 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://docs.github.com/en/rest/security-advisories/global-advisories?apiVersion=2022-11-28",
+  "requested_at": "2026-10-01T21:22:51.563842+00:00",
+  "response_bytes": 327328,
+  "response_path": "primary/github-advisory-documentation.response",
+  "response_sha256": "484abf7361220576381db02185a12c227bea2650bef8511f0807618e56e2c2cc",
+  "response_url": "https://docs.github.com/en/rest/security-advisories/global-advisories?apiVersion=2022-11-28",
+  "retrieved_at": "2026-10-01T21:22:52.837554+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

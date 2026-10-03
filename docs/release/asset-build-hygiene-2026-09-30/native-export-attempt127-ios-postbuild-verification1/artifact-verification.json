@@ -1,0 +1,145 @@
+{
+  "resolved_package_binding_sha256": "f45ac675ce64ec46463fd2f9483ee583b3701028256b5daa5c3bb67f86bc6322",
+  "resolved_package_verification_sha256": "bf1a31d5849b1131e8c7dd683b94d4bac9000a76fba761f6e4857d498dd90152",
+  "resolved_package_inputs_unchanged": true,
+  "original_checkout_drift": {
+    "scripts/qa/current_browser_lifecycle.mjs": {
+      "before_sha256": null,
+      "after_sha256": "5ba9514fb9990da094a1949f7714c89878ea86f1941f2e66bedeeda3cad1fefe"
+    },
+    "scripts/qa/local_browser_api_fixture.mjs": {
+      "before_sha256": "40cf27386b16c5647595e92f389b6aa4e2013e4c972315d4b238624d74988eed",
+      "after_sha256": "70b4cf450250820bf5423ca15e16dad91aa77f398311c9f380a80ee84f4fd73b"
+    },
+    "scripts/qa/swift_cached_artifact_inputs.py": {
+      "before_sha256": "0984dd6c267b692340e66d01b519c5a6b4ce14f6a70ea573fd8647a63cbdedb1",
+      "after_sha256": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63"
+    },
+    "scripts/tests/local_browser_email_fixture_test.mjs": {
+      "before_sha256": null,
+      "after_sha256": "17c3dfe39e95c650ca7f6bcc3277ea0378cc01c0aeefb973772846aede7abc24"
+    },
+    "scripts/tests/swift_cached_artifact_inputs_test.py": {
+      "before_sha256": "315db0728f745bea2b9df8f62a05f2d7c5d570d7b8e4d0a24431f6c045531a28",
+      "after_sha256": "e8b1320c33aef43fcd022a901839ec7843576f8f89bfb99ad8790ce6562619e8"
+    },
+    "test/admin_platform_access_test.dart": {
+      "before_sha256": "146127999fda285b3cea5c28047838a494e9170bec0e7afe5aeb1007ef967c11",
+      "after_sha256": "6e6086faf1cb7068d312d1193f2abdf6a51e4b556b1468f6395f130cbabe2f85"
+    },
+    "test/admin_sensitive_permission_test.dart": {
+      "before_sha256": "95e8cf5608f81b58f52d62f965b43caafbd552b3b22a044810ed071202c7537d",
+      "after_sha256": "08781e936a4f331894d21b73368ed9bedd1245f7b16d16137ff1062918b50c56"
+    }
+  },
+  "current_checkout_acceptance": false,
+  "build_execution_sha256": "0f092fa1514e550ec6cdecf877ab90d7f5290079e5087a4d0d71c287dd6767c9",
+  "status": "pass",
+  "kind": "local_unsigned_ios_qa_artifact",
+  "bundle": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+  "bundle_file_count": 199,
+  "bundle_regular_file_bytes": 41609096,
+  "bundle_manifest_sha256": "1ca23f2cd39d7b97170f271b6dbf1c12d96cec1cf1e830fa0a7e5492c27ceba6",
+  "main_executable_sha256": "c8db66f153d5394ad2966bbb2359db4bb8b9833ac5cd7ac50a12fad5a8e5725a",
+  "bundle_identifier": "app.cool.mobile",
+  "version": "1.2.4+23",
+  "sdk": "iphoneos27.0",
+  "compiled_platform": "iOS device arm64, generic destination",
+  "root_bundle_unsigned_verified": true,
+  "embedded_provisioning_profile_absent": true,
+  "declared_exported_sources_unchanged": true,
+  "source_file_count": 1041,
+  "commands": [
+    {
+      "name": "app-signature",
+      "command": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "--deep",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "7cff3a98f8254425e94b86e79454c77414e45d70641f0facb7525626b3dd8e71"
+    },
+    {
+      "name": "app-signature-details",
+      "command": [
+        "codesign",
+        "--display",
+        "--verbose=4",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "bba9ef0bd5700e0dcaa37bfea424435eddc385467aa185ba76273338b952a157"
+    },
+    {
+      "name": "app-platform",
+      "command": [
+        "xcrun",
+        "vtool",
+        "-show-build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app/Collect"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6b91e3a7cff9cc409741853d0ca210fca15657fce75cf6682a42582baba67b0d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "marker": {
+    "kind": "local_unsigned_native_qa",
+    "signing": false,
+    "store_acceptance": false,
+    "provider_configuration": false
+  },
+  "scope": "Actual retained source export including all three forks, complete compilation and unsigned artifact inspection; no device/simulator, native visual, signed store, provider or current whole-runtime acceptance",
+  "total_bound_input_count": 1538,
+  "declared_exported_sources_and_tooling_unchanged": true,
+  "scope_drift_includes_additions_and_deletions": true,
+  "application_and_native_input_checkout_drift": {},
+  "application_and_native_inputs_current": true,
+  "other_declared_input_drift": {
+    "scripts/qa/current_browser_lifecycle.mjs": {
+      "before_sha256": null,
+      "after_sha256": "5ba9514fb9990da094a1949f7714c89878ea86f1941f2e66bedeeda3cad1fefe"
+    },
+    "scripts/qa/local_browser_api_fixture.mjs": {
+      "before_sha256": "40cf27386b16c5647595e92f389b6aa4e2013e4c972315d4b238624d74988eed",
+      "after_sha256": "70b4cf450250820bf5423ca15e16dad91aa77f398311c9f380a80ee84f4fd73b"
+    },
+    "scripts/qa/swift_cached_artifact_inputs.py": {
+      "before_sha256": "0984dd6c267b692340e66d01b519c5a6b4ce14f6a70ea573fd8647a63cbdedb1",
+      "after_sha256": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63"
+    },
+    "scripts/tests/local_browser_email_fixture_test.mjs": {
+      "before_sha256": null,
+      "after_sha256": "17c3dfe39e95c650ca7f6bcc3277ea0378cc01c0aeefb973772846aede7abc24"
+    },
+    "scripts/tests/swift_cached_artifact_inputs_test.py": {
+      "before_sha256": "315db0728f745bea2b9df8f62a05f2d7c5d570d7b8e4d0a24431f6c045531a28",
+      "after_sha256": "e8b1320c33aef43fcd022a901839ec7843576f8f89bfb99ad8790ce6562619e8"
+    },
+    "test/admin_platform_access_test.dart": {
+      "before_sha256": "146127999fda285b3cea5c28047838a494e9170bec0e7afe5aeb1007ef967c11",
+      "after_sha256": "6e6086faf1cb7068d312d1193f2abdf6a51e4b556b1468f6395f130cbabe2f85"
+    },
+    "test/admin_sensitive_permission_test.dart": {
+      "before_sha256": "95e8cf5608f81b58f52d62f965b43caafbd552b3b22a044810ed071202c7537d",
+      "after_sha256": "08781e936a4f331894d21b73368ed9bedd1245f7b16d16137ff1062918b50c56"
+    }
+  },
+  "currentness_scope": "All drift is retained. SQL/QA/test scripts are separate from application/native/build-caller inputs; no whole-repository currentness claim.",
+  "actual_generated_compiler_inputs_unchanged": true,
+  "generated_compiler_binding_sha256": "25f451652fe8da13118fdee8f9f7d0c815f5b9fccf5aa786ff0a566749556ca8",
+  "swift_prelaunch_binding_sha256": "34f5808a6b5614f117a003da71a2835214ef4e5ece9f2e1f33c2cf64286d69fb",
+  "swift_after_build_binding_sha256": "b3af402631fa24a3197536f6ca4453b2ae7bdf0e979a284fc9b6c1f69fc63360",
+  "actual_cached_binary_inputs_unchanged": true,
+  "cached_binary_binding_sha256": "624109852359d21c921436925c7f3b3518b8b68708066648eb7c8a8a116d7a3b",
+  "cached_binary_verification_sha256": "00050c8210238c3e129b7814eef9dc239147f515724307338fade1474435c896",
+  "postbuild_control_binding_sha256": "9059b9269a6bbf1b7d788c0c94f621e60864a6c3ecb11075f3ab4b3403f8db58",
+  "actual_compilation_reused_without_input_changes": true,
+  "original_failed_postbuild_verifier_retained": true,
+  "corrected_verifier_source_sha256": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63"
+}

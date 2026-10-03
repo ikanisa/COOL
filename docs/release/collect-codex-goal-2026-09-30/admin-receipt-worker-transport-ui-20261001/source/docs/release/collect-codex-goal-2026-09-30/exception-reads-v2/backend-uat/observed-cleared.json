@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "id": "c3542350-0d2c-44f8-8af0-5372ffb31811",
+      "active": false,
+      "revision": 2,
+      "source_id": "99770000-0000-4000-8000-000000060001",
+      "reason_code": "PARSING_FAILED",
+      "source_kind": "raw_sms",
+      "acknowledged": false,
+      "source_sha256": "ed7c5224f960f951d80d9d2c0265fc672658f86e315d07179468bf9b17a38bf7",
+      "last_changed_at": "2026-09-30T23:32:24.580574Z",
+      "first_observed_at": "2026-09-30T23:31:43.045130Z",
+      "transaction_sms_id": "99770000-0000-4000-8000-000000060001",
+      "escalation_requested": false
+    }
+  ],
+  "limit": 50,
+  "scope": "platform_global",
+  "active": false,
+  "checked_at": "2026-09-30T23:32:25.060257Z",
+  "next_cursor": null,
+  "source_kind": "raw_sms",
+  "contract_version": 2,
+  "sample_valid_until": "2026-09-30T23:33:25.060257Z",
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false
+}

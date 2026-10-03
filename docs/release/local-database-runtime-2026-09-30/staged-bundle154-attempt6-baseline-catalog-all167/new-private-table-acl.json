@@ -1,0 +1,82 @@
+[
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_admin_access.email_approvals"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_admin_access.operator_auth_policy"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.admin_requests"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.devices"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.dispatch_arms"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.health_observations"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.requests"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_gateway.segment_callbacks"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_hybrid.receipt_business_event_heads"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_hybrid.receipt_business_events"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_hybrid.receipt_monitor_acknowledgements"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_hybrid.receipt_monitor_consumers"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_hybrid.receipt_monitor_observed_events"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_ops.exception_actions"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_ops.exception_observations"
+  },
+  {
+    "no_api_dml": true,
+    "rls": true,
+    "table": "collect_ops.exceptions"
+  }
+]

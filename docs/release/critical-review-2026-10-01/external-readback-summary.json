@@ -1,0 +1,22 @@
+{
+  "snapshot_utc": "2026-10-01T17:37:07.935205+00:00",
+  "repo": "ikanisa/COOL",
+  "remote_main_sha": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "local_main_sha": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "fresh_github_run_sample": 8,
+  "sample_all_startup_failure": true,
+  "sample_created_utc_range": [
+    "2026-09-30T17:28:47Z",
+    "2026-09-30T17:29:14Z"
+  ],
+  "head_run": "https://github.com/ikanisa/COOL/actions/runs/36751713381",
+  "recent_pr_run": "https://github.com/ikanisa/COOL/actions/runs/36751716611",
+  "startup_cause_diagnosed": false,
+  "branch_protection_readback_http_status": 403,
+  "branch_protection_status": "unknown",
+  "supabase_linked_project_ref": "lhbowpbcpwoiparwnwgt",
+  "supabase_metadata_and_advisors_response": "INVALID_ARGUMENT",
+  "linked_project_in_accessible_connection_list": false,
+  "live_sql_executed": false,
+  "meaning": "Read-only metadata scope; local HEAD equality does not include dirty changes and connector visibility does not prove remote outage."
+}

@@ -1,0 +1,11 @@
+{
+    "task": "testInternal_gatewayDebugUnitTest",
+    "coordinate": "org.json:json:20250517",
+    "configuration": "testInternal_gatewayImplementation",
+    "artifact": "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.json/json/20250517/d67181bbd819ccceb929b580a4e2fcb0c8b17cd8/json-20250517.jar",
+    "sha256": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
+    "runtime_declarations_absent": true,
+    "mockable_android_jars": [
+        
+    ]
+}

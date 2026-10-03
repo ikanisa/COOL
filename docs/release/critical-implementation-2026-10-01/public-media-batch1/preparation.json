@@ -1,0 +1,49 @@
+{
+  "status": "prepared_pending_strict_source_export",
+  "scope": "Current synthetic app previews for website media and actual complete local static/browser route proof",
+  "design_authority": "revolut-design",
+  "native_acceptance": false,
+  "provider_calls_authorized": false,
+  "hosted_release_acceptance": false,
+  "reference_scope": "Privately inspected native reference compositions; no private reference pixels or account data copied into product. Legal/document/delete content has no exact direct comparator; utility and form patterns only.",
+  "references": [
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/020-home-current-clean.jpg",
+      "sha256": "dbe799cc878a14cd7db4b04cdfce86f5eba42268743bfc2f33f06aba540837a5",
+      "inspected_original": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/021-invest-overview.jpg",
+      "sha256": "c8f3e0ad366fdf575f55fd328ef5707453cbb32c6feac440a7b722ea2f6f697a",
+      "inspected_original": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/048-card-control-detail.jpg",
+      "sha256": "faf18a597d26349533a8b3a836a12024389b8d24640695089974a25fa070fe9f",
+      "inspected_original": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/013-security-hub.jpg",
+      "sha256": "274df6617b36d555e1b1c21fd82b273aaba32674ecce216577bc5f111676ee5e",
+      "inspected_original": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/049-card-more-menu.jpg",
+      "sha256": "6ac0bc8dde9ac1acb1025c15c1e954e9d3acbdb408f8f5d27523dff4072edf9b",
+      "inspected_original": true
+    },
+    {
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg",
+      "sha256": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606",
+      "inspected_original": true
+    }
+  ],
+  "flutter_sdk": "/Volumes/PRO-G40/Development/Flutter/flutter",
+  "flutter_pin": "3.44.4",
+  "chrome": "/Users/jeanbosco/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  "playwright_core": "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.js",
+  "capture_directory": ".cache/public-media-current-20261001-batch1",
+  "provisional_source_export": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-critical-candidates/20261001-public-media-provisional-batch1",
+  "full_static_destination": ".cache/public-static-current-20261001-batch1",
+  "source_export_freeze": "Pending parent coordination; strict tool forbids source drift."
+}

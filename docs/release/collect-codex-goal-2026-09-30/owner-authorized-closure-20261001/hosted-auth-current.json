@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-10-01T09:36:00.306321+00:00",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "credential_source": "designated_supabase_cli_token",
+  "production_mutations": 0,
+  "otp_requests": 0,
+  "raw_response_saved": false,
+  "http_status": 403,
+  "response_sha256": "8b87bfe64a40e4ec6dbfc28d69cced775557e68906f648f4c3d9cd7cd17cc8fd",
+  "status": "MANAGEMENT_AUTH_CONFIG_ACCESS_DENIED"
+}

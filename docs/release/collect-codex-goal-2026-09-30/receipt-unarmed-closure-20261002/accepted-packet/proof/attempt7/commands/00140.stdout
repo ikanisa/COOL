@@ -1,0 +1,4 @@
+successor-race-arm-first
+{"role":"service_role"}
+{"ok": true, "code": "DISPATCH_ARMED", "replay": false, "armed_at": "2026-10-01T22:32:04.050082Z", "device_id": "77275aea-d5a7-4c5a-bcf9-7d4ce08aa315", "attempt_id": "928270e1-afdf-4739-8959-c96c27e7ce8b", "expires_at": "2026-10-01T22:32:33.851757Z", "request_id": "a9554a15-ec7c-441b-9529-23fdb05b4132", "carrier_proof": false, "fence_version": 1, "reservation_sha256": "71f0d826a07847fd10c650697fed9843a34f72ed7649dabecf03716eb10c5101"}
+

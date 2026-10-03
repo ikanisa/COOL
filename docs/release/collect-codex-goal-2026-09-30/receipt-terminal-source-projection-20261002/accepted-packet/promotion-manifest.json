@@ -1,0 +1,14 @@
+{
+  "scope": "root-only additive500 promotion; source/tool/fixture evidence stays separate",
+  "changes": [
+    {
+      "path": "supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+      "staged_path": "promote/supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+      "old_sha256": null,
+      "new_sha256": "e5b41167b6cd3f5dc1561eb78757578323d01cc0693a43f400e9f8448cf75e44"
+    }
+  ],
+  "prerequisites": "all201 exact selected files bound in main result;192 restored plus9 actual DDL; root full201 rehearsal separate",
+  "no_hosted_write": true,
+  "no_mcp_allowlist_change": true
+}

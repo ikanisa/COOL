@@ -1,0 +1,15 @@
+{
+  "at_utc": "2026-10-02T00:39:15.889900+00:00",
+  "name": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub",
+  "owner": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+  "inspect": {
+    "exit_code": 1,
+    "stdout": "[]\n",
+    "stderr": "Error response from daemon: No such container: collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-pub\n"
+  },
+  "owned_listing": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

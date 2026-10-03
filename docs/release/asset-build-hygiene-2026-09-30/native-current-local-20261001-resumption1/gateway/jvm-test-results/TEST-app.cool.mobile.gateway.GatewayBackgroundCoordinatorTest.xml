@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" tests="24" skipped="0" failures="0" errors="0" timestamp="2026-10-01T14:24:53.618Z" hostname="Jeans-Mac-mini.local" time="1.41">
+  <properties/>
+  <testcase name="guardedRealInvocationPortRefusesAfterLifecycleStop" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.489"/>
+  <testcase name="reconciliationUncertaintyPreventsNewGrant" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.099"/>
+  <testcase name="newerPauseInvalidatesOlderAllowanceEvenAfterVerificationDelay" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.014"/>
+  <testcase name="processRestartCannotInvokeAReservedAttemptAgain" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.586"/>
+  <testcase name="healthOnlyCycleNeverRequestsGrantEvenWithLocalAllowance" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.001"/>
+  <testcase name="unvalidatedNetworkDoesNotAttemptWritesOrSms" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.001"/>
+  <testcase name="cancellationDuringArmPreservesUnknownAndDoesNotInvoke" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.071"/>
+  <testcase name="closingLifecycleInvalidatesQueuedAllowIntent" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.0"/>
+  <testcase name="corruptJournalNeverBecomesAnEmptyDispatchableJournal" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.003"/>
+  <testcase name="boundedBackoffDoesNotGrowOrAcceptBadFailureCounters" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.013"/>
+  <testcase name="unconfiguredCycleNeverCallsBackend" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.001"/>
+  <testcase name="defaultPauseRecordsHealthAndExistingEvidenceWithoutGrant" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.002"/>
+  <testcase name="explicitAllowOnlyClearsLocalPauseAndMakesNoBackendOrSenderCall" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.002"/>
+  <testcase name="overlapRefusesWithoutDuplicateHealthGrantOrInvocation" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.009"/>
+  <testcase name="installedEnrollmentAndConfigurationAreRequiredForLocalAllowance" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.005"/>
+  <testcase name="missingOrExtraEnrollmentCannotClearLocalPause" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.019"/>
+  <testcase name="separateThreadPauseDoesNotWaitForArmHttpAndWinsBeforeInvocation" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.045"/>
+  <testcase name="revokedHealthFailureStillReconcilesPriorEvidenceAndNeverGrants" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.001"/>
+  <testcase name="stopReturnsOnlyAfterAlreadyAdmittedInvocationAndBlocksAnyLaterOne" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.007"/>
+  <testcase name="stopOrDeadlineAfterHealthPreventsReconciliationAndDispatch" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.004"/>
+  <testcase name="missingSmsAndSimStillRecordIndependentHealthAndReconcile" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.001"/>
+  <testcase name="exactInstalledPublicIdentityIsRequiredNotJustAnyDocument" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.002"/>
+  <testcase name="stopDuringEngineHeartbeatNeverRequestsLifetimeGrant" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.002"/>
+  <testcase name="healthyAllowedCycleUsesEngineAndOneDurableReservation" classname="app.cool.mobile.gateway.GatewayBackgroundCoordinatorTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,295 @@
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+Using language tag "en-US" for ICU locale "en_US.UTF-8".
+The database cluster will be initialized with this locale configuration:
+  locale provider:   icu
+  default collation: en-US
+  LC_COLLATE:  en_US.UTF-8
+  LC_CTYPE:    en_US.UTF-8
+  LC_MESSAGES: en_US.UTF-8
+  LC_MONETARY: en_US.UTF-8
+  LC_NUMERIC:  en_US.UTF-8
+  LC_TIME:     en_US.UTF-8
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/collect-rehearsal/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default "max_connections" ... 100
+selecting default "shared_buffers" ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    /nix/var/nix/profiles/default/bin/pg_ctl -D /var/lib/postgresql/collect-rehearsal/data -l logfile start
+
+waiting for server to start....2026-10-01 22:26:37.273 UTC [42] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:26:37.277 UTC [42] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:26:37.280 UTC [45] LOG:  database system was shut down at 2026-10-01 22:26:37 UTC
+2026-10-01 22:26:37.285 UTC [42] LOG:  database system is ready to accept connections
+2026-10-01 22:26:37.291 UTC [49] LOG:  pg_cron scheduler started
+ done
+server started
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/init-scripts
+
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/migrate.sh
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00-schema.sql
+CREATE ROLE
+REVOKE
+CREATE SCHEMA
+CREATE FUNCTION
+REVOKE
+GRANT
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00000000000000-initial-schema.sql
+CREATE PUBLICATION
+ALTER ROLE
+CREATE ROLE
+CREATE ROLE
+GRANT ROLE
+GRANT
+CREATE ROLE
+GRANT ROLE
+CREATE SCHEMA
+CREATE EXTENSION
+CREATE EXTENSION
+CREATE ROLE
+CREATE ROLE
+CREATE ROLE
+CREATE ROLE
+GRANT ROLE
+GRANT ROLE
+GRANT ROLE
+GRANT ROLE
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+GRANT
+ALTER ROLE
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER ROLE
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00000000000001-auth-schema.sql
+CREATE SCHEMA
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+COMMENT
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMENT
+CREATE TABLE
+COMMENT
+CREATE TABLE
+CREATE INDEX
+COMMENT
+CREATE TABLE
+COMMENT
+INSERT 0 7
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+GRANT
+CREATE ROLE
+GRANT
+GRANT
+GRANT
+ALTER ROLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00000000000002-storage-schema.sql
+CREATE SCHEMA
+CREATE ROLE
+ALTER ROLE
+GRANT
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/init-scripts/00000000000003-post-setup.sql
+ALTER ROLE
+ALTER ROLE
+CREATE FUNCTION
+CREATE EVENT TRIGGER
+COMMENT
+CREATE FUNCTION
+COMMENT
+DO
+CREATE ROLE
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+DO
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/00-extension.sql
+CREATE SCHEMA
+CREATE EXTENSION
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/10000000000000_demote-postgres.sql
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+DO
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20211115181400_update-auth-permissions.sql
+GRANT
+GRANT
+GRANT
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+GRANT
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20211118015519_create-realtime-schema.sql
+CREATE SCHEMA
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20211122051245_update-realtime-permissions.sql
+GRANT
+GRANT
+GRANT
+GRANT
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20211124212715_update-auth-owner.sql
+DO
+DO
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20211130151719_update-realtime-permissions.sql
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220118070449_enable-safeupdate-postgrest.sql
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql
+DROP EVENT TRIGGER
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220224211803_fix-postgrest-supautils.sql
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql
+CREATE SCHEMA
+DROP FUNCTION
+CREATE FUNCTION
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+CREATE FUNCTION
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+COMMENT
+CREATE FUNCTION
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+COMMENT
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql
+DROP EVENT TRIGGER
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+DROP EVENT TRIGGER
+CREATE EVENT TRIGGER
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220322085208_gotrue-session-limit.sql
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DROP EXTENSION
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220609081115_grant-supabase-auth-admin-and-supabase-storage-admin-to-postgres.sql
+GRANT ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220613123923_pg_graphql-pg-dump-perms.sql
+CREATE FUNCTION
+DROP EXTENSION
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20220713082019_pg_cron-pg_net-temp-perms-fix.sql
+DO
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20221028101028_set_authenticator_timeout.sql
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20221103090837_revoke_admin.sql
+REVOKE ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20221207154255_create_pgsodium_and_vault.sql
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20230201083204_grant_auth_roles_to_postgres.sql
+GRANT ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20230224042246_grant_extensions_perms_for_postgres.sql
+GRANT
+GRANT
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20230306081037_grant_pg_monitor_to_postgres.sql
+GRANT ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20230327032006_grant_auth_roles_to_supabase_storage_admin.sql
+GRANT ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20230529180330_alter_api_roles_for_inherit.sql
+ALTER ROLE
+ALTER ROLE
+ALTER ROLE
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20231013070755_grant_authenticator_to_supabase_storage_admin.sql
+GRANT ROLE
+REVOKE ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20231017062225_grant_pg_graphql_permissions_for_custom_roles.sql
+CREATE FUNCTION
+DROP EXTENSION
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20231020085357_revoke_writes_on_cron_job_from_postgres.sql
+DO
+CREATE FUNCTION
+DROP EVENT TRIGGER
+ALTER FUNCTION
+CREATE EVENT TRIGGER
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20231130133139_set_lock_timeout_to_authenticator_role.sql
+ALTER ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20240124080435_alter_lo_export_lo_import_owner.sql
+ALTER FUNCTION
+ALTER FUNCTION
+ALTER FUNCTION
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20240606060239_grant_predefined_roles_to_postgres.sql
+GRANT ROLE
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20241031003909_create_orioledb.sql
+DO
+/docker-entrypoint-initdb.d/migrate.sh: running /docker-entrypoint-initdb.d/migrations/20241215003910_backfill_pgmq_metadata.sql

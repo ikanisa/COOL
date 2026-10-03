@@ -1,0 +1,18 @@
+{
+  "scripts/audits/collect_encrypted_database_backup.rb": {
+    "sha256": "7ccfb051b88bbf5e30b01ca570b81d42d921d574dc9e05d4cb178346e90015a9",
+    "mode": 448
+  },
+  "scripts/tests/production_archive_restore.rb": {
+    "sha256": "3a29a39aea6eaaf7e4142c9a6db782bc0fbb7b261c52a859895545343df4db16",
+    "mode": 448
+  },
+  "scripts/tests/collect_encrypted_database_backup_test.rb": {
+    "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+    "mode": 448
+  },
+  "scripts/tests/production_archive_restore_test.rb": {
+    "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+    "mode": 448
+  }
+}

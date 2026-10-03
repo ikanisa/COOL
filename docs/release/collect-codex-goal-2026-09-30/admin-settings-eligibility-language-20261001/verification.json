@@ -1,0 +1,51 @@
+{
+  "external_scope": {
+    "hosted_called": false,
+    "live_send": false,
+    "physical_device": false,
+    "provider_called": false
+  },
+  "failure_retention": "Original VM fixture lacked HTTPResponse.request; widgets1getter compilation failure; widgets2nested-reader settling failure; widgets4nullable local compilation failure; analysis1brace/import findings. Raw outputs and source copies preserved. Superseded passes are not added to19.",
+  "functional_scope": {
+    "accepted_result_sha256": "d8c638b74ba346c2c54028761f71191a624b14abefa9c825757156229706d257",
+    "actual_new_cases": 19,
+    "analysis": "No issues found",
+    "analysis_items": 16,
+    "analysis_result_sha256": "1f88b439ecb0385b90b867f9d61164d0513b16516f7600698dac8071824e5d89",
+    "command_scope": "same final acceptance2 command,9newmodel/SDK +10newwidgets, no retained baseline cases added",
+    "dependency_entries": 1463,
+    "excluded_dependency": "Chrome is not consumed by this VM/widget/analyzer scope; its changed current-binary browser baseline is separately root owned",
+    "exit_codes": [
+      0,
+      0
+    ],
+    "same_final_dependencies": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+    "same_final_runtime_closure": "6defce134d31b8d228330bf5e300230548db85860fb7cbeb10ea9d5bc2949497",
+    "same_final_stage_source": "7ca91ef91decea175f5959236e1dc5a418ea5591c3fad5470c941a336ec55583"
+  },
+  "integration_scope": "Current canonical lib snapshot copied before9staged governed Settings modules overlay; root baseline current integration including separate receipt/exception parts retained.11 exact promotion files; no integration patches in this packet.",
+  "runner_provenance": "Acceptance2 runner copy was captured after terminal with explicit unchanged invocation association. Analysis2 captures its exact runner before command; the only driver delta adds driver/Python hashes, leaving source/command/dependency behavior identical.",
+  "selected_skill": {
+    "context": "Collect Admin operator settings, existing shared CollectTheme and components; no competing design authority introduced.",
+    "fidelity_status": "unverified",
+    "limits": "Named widget state evidence includes390px/1.3scale selector flow. No full current authenticated source comparator, browser/keyboard/reader acceptance, or production bundle claim. Root must rerun sole-authority hygiene after exact shared-component promotion.",
+    "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md",
+    "sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "used_references": [
+      "references/brand-adaptation.md",
+      "references/DESIGN.md",
+      "references/web-patterns.md",
+      "references/component-contracts.md"
+    ]
+  },
+  "status": "ready_for_root_integration",
+  "terminal": {
+    "all_previous_owned_handles_terminal": true,
+    "matching_owned_processes": [],
+    "observed_at": "2026-10-01T21:57:42.331827+00:00",
+    "owned_handles_reaped_terminal0": [
+      89844,
+      29948
+    ]
+  }
+}

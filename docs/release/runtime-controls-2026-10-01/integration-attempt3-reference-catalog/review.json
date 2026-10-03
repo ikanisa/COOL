@@ -1,0 +1,6 @@
+{
+  "failure_preserved": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt9-current16-runtime-reason/result.json",
+  "actual_error": "23503 admin_navigation_items.required_permission payments.read absent in schema-only clone",
+  "classification": "missing migration-seeded reference row, not a new source-migration defect",
+  "scope": "restore exactly pinned original payments.read catalog row; no actor grants; no source rows copied; migrations unchanged"
+}

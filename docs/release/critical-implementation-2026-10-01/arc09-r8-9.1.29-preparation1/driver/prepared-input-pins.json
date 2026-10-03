@@ -1,0 +1,212 @@
+{
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts": {
+    "bytes": 24009,
+    "mode": 448,
+    "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/gradle.lockfile": {
+    "bytes": 15543,
+    "mode": 420,
+    "sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/assets/typefaces/AeonikPro-Medium.ttf": {
+    "bytes": 159752,
+    "mode": 420,
+    "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/assets/typefaces/AeonikPro-Regular.ttf": {
+    "bytes": 134268,
+    "mode": 420,
+    "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/assets/typefaces/Inter-Variable.ttf": {
+    "bytes": 876576,
+    "mode": 448,
+    "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/assets/typefaces/OFL-Inter.txt": {
+    "bytes": 4377,
+    "mode": 448,
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/schema/bom-1.6.schema.json": {
+    "bytes": 252625,
+    "mode": 420,
+    "sha256": "3e92dddbc30cf7f6a02b80f0942b1a4cfd4fb1c26f1dfc4310afa9d613cafb93"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/schema/jsf-0.82.schema.json": {
+    "bytes": 8058,
+    "mode": 420,
+    "sha256": "8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/schema/provenance.json": {
+    "bytes": 472,
+    "mode": 420,
+    "sha256": "b541145f59fc45bfca95bf2668001f8aae99359bcd009100e91653f8e7ea4b9d"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/schema/spdx.schema.json": {
+    "bytes": 14269,
+    "mode": 420,
+    "sha256": "baa9d3bd1ed57b6751b0887edead6b5063ff53ff7429cf85d476c6c94af0166e"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py": {
+    "bytes": 15627,
+    "mode": 420,
+    "sha256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/handoff.json": {
+    "bytes": 1002,
+    "mode": 420,
+    "sha256": "b3ac446fee76e2d5cf5cc6156a7c2b1231cf7ccc5ff3374e0ffce63e73245758"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/packet-files.json": {
+    "bytes": 2464,
+    "mode": 420,
+    "sha256": "dc50ac74ed960da353a062087b56b03623ebb1fc4877d9814397feab39adb4eb"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/submitted-tests-result.json": {
+    "bytes": 1819,
+    "mode": 420,
+    "sha256": "830b2241ab6673ebe8d6467cd567ae401a6c584b7689f627bc9f6aec3d94a48a"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/submitted-tests.stderr": {
+    "bytes": 1689,
+    "mode": 420,
+    "sha256": "a0cfadef618d7c68adb523f2161ad1917e3ff964278449aa0a618800b9efebd7"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/test_aab_readback.py": {
+    "bytes": 9273,
+    "mode": 420,
+    "sha256": "046aa42d82068f757e1c2735e71515a35a67ee04c8f26ba772cca7aeb683d457"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/protected-original-metadata.json": {
+    "bytes": 25332204,
+    "mode": 420,
+    "sha256": "1bdf9bec101aeb1e1c474724cb332f0c09ae08786f83f2bbb1e2ce1d261dce4a"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/verify_native_consumer_source.py": {
+    "bytes": 13554,
+    "mode": 420,
+    "sha256": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/consumer_guards.py": {
+    "bytes": 41565,
+    "mode": 420,
+    "sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json": {
+    "bytes": 6532,
+    "mode": 420,
+    "sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/publisher_metadata.py": {
+    "bytes": 5704,
+    "mode": 420,
+    "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py": {
+    "bytes": 31226,
+    "mode": 420,
+    "sha256": "167d48b4e756043a87621feffcabccb41aca108232cfb943914b69fc5b090fe7"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/source_fence.py": {
+    "bytes": 14287,
+    "mode": 420,
+    "sha256": "5c70fe6e6f946846325df052a0ff42a2fadae53c22ed719faf6b1e7fd7f7b7ea"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/export-source-binding.json": {
+    "bytes": 464,
+    "mode": 420,
+    "sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/readback.json": {
+    "bytes": 596,
+    "mode": 420,
+    "sha256": "a6ff813267709ba828268e208e1a9d1713097f3bbe25720eefa96a33318dd956"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-lock8-readback1/readback.json": {
+    "bytes": 404,
+    "mode": 420,
+    "sha256": "e1db26d7c97f664d012d957d0005600168548fdbf1403390993311078498da71"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation4/review-and-tests.json": {
+    "bytes": 244,
+    "mode": 420,
+    "sha256": "af361db731d2be4b40e3f88ba734d9c95645f16660e370c0cee6cdd85a6179a4"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation4/test_stage_admission.py": {
+    "bytes": 7362,
+    "mode": 420,
+    "sha256": "5c040f557c96aff5f4ce9280bb1d9a2a3ba6011e55ac6526fe0c54c8d0612468"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation7/review.json": {
+    "bytes": 402,
+    "mode": 420,
+    "sha256": "04fd5792ca40e7cdc9bc51129fb803f6fef17757908b8a662dcb0f4d6c53f25e"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/packet-files.json": {
+    "bytes": 313,
+    "mode": 420,
+    "sha256": "a853282708df66df69282191644966c8ddb6fbcbffdedf3e77d51b1a4cfb6219"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/review.json": {
+    "bytes": 649,
+    "mode": 420,
+    "sha256": "6729de6b7fe5b14099e0515c4de3e1154473e9e6f51d75b330f6a328de94dfe1"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/run_stage.py": {
+    "bytes": 12982,
+    "mode": 420,
+    "sha256": "803bf024a36e008c390aec7bd7405836afd6831a85008bad606b0ae0e556b93c"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-review8/native-review.json": {
+    "bytes": 440,
+    "mode": 420,
+    "sha256": "458bd1c90f39c79279f016a0cf19dd88c47c341b7a1c1fc5112a06474d442faf"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-review8/source-fence.json": {
+    "bytes": 921482,
+    "mode": 420,
+    "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/pubspec.lock": {
+    "bytes": 39236,
+    "mode": 448,
+    "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/pubspec.yaml": {
+    "bytes": 2425,
+    "mode": 448,
+    "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/gradle_observed_sbom.py": {
+    "bytes": 6470,
+    "mode": 420,
+    "sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/gradle_runtime_inventory.init.gradle": {
+    "bytes": 5209,
+    "mode": 420,
+    "sha256": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/source_sbom.py": {
+    "bytes": 8095,
+    "mode": 420,
+    "sha256": "df0061cf747584466a6d5db25840a4db56db7abedcc6e38619b258f15b7dad51"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/supply_chain/validate_source_sbom.py": {
+    "bytes": 2140,
+    "mode": 420,
+    "sha256": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51"
+  },
+  "/bin/ps": {
+    "bytes": 170432,
+    "mode": 2541,
+    "sha256": "3bbba882e30d91fc4ff6e6844ca7c59fef4351b9a3fea35dca55708d6d487d1c"
+  },
+  "/usr/sbin/lsof": {
+    "bytes": 306768,
+    "mode": 493,
+    "sha256": "b1b9151bbc56f4749890dbe4e533af9a4f8700240ad431a6c9ddf70fe137c165"
+  }
+}

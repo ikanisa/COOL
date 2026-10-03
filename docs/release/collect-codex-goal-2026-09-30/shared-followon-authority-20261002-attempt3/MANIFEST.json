@@ -1,0 +1,16 @@
+{
+  "files": {
+    "stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "result.json": {
+      "sha256": "4e96546caf9cae7febc3abc0dfd418fde03770ef43fea8c52ae55400efb42f1c",
+      "size": 5934
+    },
+    "stdout.log": {
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "size": 32
+    }
+  }
+}

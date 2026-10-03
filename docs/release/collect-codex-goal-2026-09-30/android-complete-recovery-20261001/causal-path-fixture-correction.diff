@@ -1,0 +1,53 @@
+--- android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt attempt-4
++++ android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRecoveryTest.kt corrected
+@@ -29,7 +29,7 @@
+     @Test fun fullMultiPageInventoryRestoresHotUnknownOriginalsColdTerminalAndExactLateEvidenceInactive() = test { f ->
+         val cold=f.seed(2);repeat(10) { f.append(cold,f.callback(cold,it,it,it%2)) };f.store().nextColdCallbackPage(8)
+         val unknown=cold.copy(attemptId=f.id(),jobId=f.id(),segments=listOf(SegmentEvidence(f.id(),f.id())),invocationException=true)
+-        f.storage.commit(GatewayJournalState(false,listOf(unknown)))
++        f.storage.commit(GatewayJournalState(true,listOf(unknown)))
+         val request=f.request("heartbeat",JSONObject(),1);f.store().saveRequests(JSONObject().put("contract_version",1).put("requests",JSONArray().put(request)))
+         val before=bytes(f.directory);var pages=0
+         assertEquals(before.size.toLong(),GatewayRecovery.inventory(f.directory) { assertTrue(it.size in 1..8);pages++ });assertTrue(pages>2)
+--- android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt attempt-4
++++ android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt corrected
+@@ -26,16 +26,16 @@
+     private fun cancelled(check: () -> Boolean) { if (check()) throw GatewayStateException("gateway_recovery_cancelled") }
+     private fun safeDirectory(dir: File) {
+         if (android.os.Build.VERSION.SDK_INT < 26) throw GatewayStateException("gateway_recovery_api_required")
+-        if (Files.isSymbolicLink(dir.toPath()) || !Files.isDirectory(dir.toPath(), LinkOption.NOFOLLOW_LINKS) || dir.canonicalFile != dir.absoluteFile) refuse()
++        if (Files.isSymbolicLink(dir.toPath()) || !Files.isDirectory(dir.toPath(), LinkOption.NOFOLLOW_LINKS)) refuse()
+     }
+     private fun fresh(dir: File) {
+-        if (dir.exists() || Files.isSymbolicLink(dir.toPath()) || dir.canonicalFile != dir.absoluteFile) refuse()
++        if (dir.exists() || Files.isSymbolicLink(dir.toPath())) refuse()
+         safeDirectory(dir.parentFile)
+         if (!dir.mkdir()) refuse()
+         sync(dir.parentFile)
+     }
+     private fun regular(file: File) {
+-        if (Files.isSymbolicLink(file.toPath()) || !Files.isRegularFile(file.toPath(), LinkOption.NOFOLLOW_LINKS) || file.canonicalFile != file.absoluteFile) refuse()
++        if (Files.isSymbolicLink(file.toPath()) || !Files.isRegularFile(file.toPath(), LinkOption.NOFOLLOW_LINKS)) refuse()
+     }
+     private fun sync(dir: File) {
+         val fd = android.system.Os.open(dir.path, android.system.OsConstants.O_RDONLY, 0)
+@@ -83,7 +83,7 @@
+     }
+     fun export(source: File, destination: File, cancelled: () -> Boolean = { false }): GatewayRecoveryArchive {
+         safeDirectory(source)
+-        if (destination.absolutePath.startsWith(source.absolutePath+File.separator)) refuse()
++        if (destination.canonicalPath.startsWith(source.canonicalPath+File.separator)) refuse()
+         fresh(destination);val objects=File(destination,"objects");fresh(objects)
+         val manifest=File(destination,MANIFEST)
+         var count=0L
+@@ -132,8 +132,8 @@
+      * default installation merge, resumption or network call exists here. */
+     fun restore(archive: File, manifestSha256: String, destination: File, activeDirectory: File,
+         cancelled: () -> Boolean = { false }, validate: (File,Long) -> Boolean): GatewayRecoveryResult {
+-        if(destination.canonicalFile==activeDirectory.canonicalFile || destination.absolutePath.startsWith(activeDirectory.absolutePath+File.separator) ||
+-            activeDirectory.absolutePath.startsWith(destination.absolutePath+File.separator) || destination.absolutePath.startsWith(archive.absolutePath+File.separator))refuse()
++        if(destination.canonicalFile==activeDirectory.canonicalFile || destination.canonicalPath.startsWith(activeDirectory.canonicalPath+File.separator) ||
++            activeDirectory.canonicalPath.startsWith(destination.canonicalPath+File.separator) || destination.canonicalPath.startsWith(archive.canonicalPath+File.separator))refuse()
+         fresh(destination)
+         text(File(destination,INACTIVE),JSONObject().put("contract_version",1).put("inactive",true).put("manifest_sha256",manifestSha256).toString())
+         val original=File(destination,"original");fresh(original);val view=File(destination,"view");fresh(view)

@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select jsonb_agg(jsonb_build_object('role',rolname,'member',pg_has_role(current_user,oid,'MEMBER'),'usage',pg_has_role(current_user,oid,'USAGE'))order by rolname)from pg_roles;

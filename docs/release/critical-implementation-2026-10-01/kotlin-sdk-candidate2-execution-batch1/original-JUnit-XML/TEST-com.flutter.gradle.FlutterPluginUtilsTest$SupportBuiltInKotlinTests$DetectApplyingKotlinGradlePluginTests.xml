@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:33.370Z" hostname="Jeans-Mac-mini.local" time="0.177">
+  <properties/>
+  <testcase name="logs app and plugin warning when legacy KGP configuration is applied in both app and plugins(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.09"/>
+  <testcase name="logs app warning when KGP is only applied in app(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.019"/>
+  <testcase name="logs app and plugin warning when KGP is applied in both app and plugins(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.014"/>
+  <testcase name="does not log when migrated to Built-in Kotlin(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.011"/>
+  <testcase name="logs plugin warning when KGP is only applied in one plugin(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.007"/>
+  <testcase name="logs when KGP is applied but fails to apply(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests" time="0.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

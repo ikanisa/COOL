@@ -1,0 +1,2597 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "cases": [
+    {
+      "detail": {
+        "api_count": 11,
+        "privilege_and_grant_option_unchanged": true,
+        "raw_acl_order_normalized": true
+      },
+      "name": "restored API definitions and exact API grants match installed154",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "full_identity_hashes_distinct": true,
+        "same_last_three": true
+      },
+      "name": "confirmed full phone identities distinguish equal suffixes",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "id": "99640000-0000-4000-8000-000000000001",
+        "momo_number": "0788640123",
+        "momo_pay_code": null,
+        "momo_provider": "mtn_momo",
+        "public_id": "417334",
+        "whatsapp_phone": "250788640123"
+      },
+      "name": "own profile payload uses exact immutable actor and Collect ID",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "groups": [
+          {
+            "accent_color_hex": null,
+            "archived_at": null,
+            "category_subtype": null,
+            "collection_type": "ikimina",
+            "created_at": "2026-09-30T08:00:00+00:00",
+            "creator_user_id": "99640000-0000-4000-8000-000000000001",
+            "currency": "RWF",
+            "description": "",
+            "id": "99640000-0000-4000-8000-000000020001",
+            "is_member": true,
+            "is_platform_sponsored": false,
+            "is_public": false,
+            "is_recurring": false,
+            "moderation_status": "not_requested",
+            "purpose_label": null,
+            "receiver_display_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_network": "mtn_momo",
+            "recurring_cadence": "monthly",
+            "slug": "data-uat-020001",
+            "suggested_amount_rwf": null,
+            "title": "Synthetic private data",
+            "updated_at": "2026-09-30T21:54:33.306877+00:00",
+            "visibility_status": "private"
+          },
+          {
+            "accent_color_hex": null,
+            "archived_at": null,
+            "category_subtype": null,
+            "collection_type": "ikimina",
+            "created_at": "2026-09-30T08:00:00+00:00",
+            "creator_user_id": "99640000-0000-4000-8000-000000000001",
+            "currency": "RWF",
+            "description": "",
+            "id": "99640000-0000-4000-8000-000000020002",
+            "is_member": true,
+            "is_platform_sponsored": false,
+            "is_public": true,
+            "is_recurring": false,
+            "moderation_status": "not_requested",
+            "purpose_label": null,
+            "receiver_display_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_network": "mtn_momo",
+            "recurring_cadence": "monthly",
+            "slug": "data-uat-020002",
+            "suggested_amount_rwf": null,
+            "title": "Synthetic public data",
+            "updated_at": "2026-09-30T21:54:33.306877+00:00",
+            "visibility_status": "public_approved"
+          },
+          {
+            "accent_color_hex": null,
+            "archived_at": null,
+            "category_subtype": null,
+            "collection_type": "ikimina",
+            "created_at": "2026-09-30T08:00:00+00:00",
+            "creator_user_id": "99640000-0000-4000-8000-000000000001",
+            "currency": "RWF",
+            "description": "",
+            "id": "99640000-0000-4000-8000-000000020004",
+            "is_member": true,
+            "is_platform_sponsored": false,
+            "is_public": false,
+            "is_recurring": false,
+            "moderation_status": "not_requested",
+            "purpose_label": null,
+            "receiver_display_label": null,
+            "receiver_momo_number": null,
+            "receiver_network": null,
+            "recurring_cadence": "monthly",
+            "slug": "data-uat-020004",
+            "suggested_amount_rwf": null,
+            "title": "Synthetic no receiver",
+            "updated_at": "2026-09-30T21:54:33.306877+00:00",
+            "visibility_status": "private"
+          }
+        ]
+      },
+      "name": "visible groups exclude foreign and forged IDs and deterministically order ties",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000020003"
+      },
+      "name": "unreadable exact collection 020003",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000099999"
+      },
+      "name": "unreadable exact collection 099999",
+      "status": "pass"
+    },
+    {
+      "detail": [
+        {
+          "balances": [
+            {
+              "amount_raised_minor": 0,
+              "currency": "RWF",
+              "current_user_balance_minor": 0
+            }
+          ],
+          "collection_id": "99640000-0000-4000-8000-000000020001",
+          "supporter_count": 0
+        },
+        {
+          "balances": [
+            {
+              "amount_raised_minor": 0,
+              "currency": "RWF",
+              "current_user_balance_minor": 0
+            }
+          ],
+          "collection_id": "99640000-0000-4000-8000-000000020002",
+          "supporter_count": 0
+        },
+        {
+          "balances": [
+            {
+              "amount_raised_minor": 0,
+              "currency": "RWF",
+              "current_user_balance_minor": 0
+            }
+          ],
+          "collection_id": "99640000-0000-4000-8000-000000020004",
+          "supporter_count": 0
+        }
+      ],
+      "name": "actual readable empty balances explicitly return zero, not unavailable",
+      "status": "pass"
+    },
+    {
+      "detail": [
+        {
+          "balances": [
+            {
+              "amount_raised_minor": 0,
+              "currency": "RWF",
+              "current_user_balance_minor": 0
+            }
+          ],
+          "collection_id": "99640000-0000-4000-8000-000000020001",
+          "supporter_count": 0
+        },
+        {
+          "balances": [
+            {
+              "amount_raised_minor": 0,
+              "currency": "RWF",
+              "current_user_balance_minor": 0
+            }
+          ],
+          "collection_id": "99640000-0000-4000-8000-000000020002",
+          "supporter_count": 0
+        }
+      ],
+      "name": "nonmember private balances remain absent while public zero is visible",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Contribution amount must be above zero",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid nonpositive amount None",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Contribution amount must be above zero",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid nonpositive amount 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Contribution amount must be above zero",
+        "sqlstate": "P0001"
+      },
+      "name": "invalid nonpositive amount -1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Private group membership",
+        "sqlstate": "P0001"
+      },
+      "name": "cross-group or forged contribution target 020003",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Private group membership",
+        "sqlstate": "P0001"
+      },
+      "name": "cross-group or forged contribution target 099999",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "no active receiver",
+        "sqlstate": "P0001"
+      },
+      "name": "missing group receiver refuses contribution",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "identity verification failed",
+        "sqlstate": "P0001"
+      },
+      "name": "forged or absent payer hash None",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "identity verification failed",
+        "sqlstate": "P0001"
+      },
+      "name": "forged or absent payer hash ",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "identity verification failed",
+        "sqlstate": "P0001"
+      },
+      "name": "forged or absent payer hash f86078e1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "identity verification failed",
+        "sqlstate": "P0001"
+      },
+      "name": "forged or absent payer hash ffffffff",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000020001",
+        "contributor_public_id": "417334",
+        "created_at": "2026-09-30T21:54:35.781649+00:00",
+        "expected_amount_rwf": 2000,
+        "expires_at": "2026-10-01T21:54:35.781649+00:00",
+        "id": "70587d7a-81ef-4ea6-889f-aa93b1cbe8b3",
+        "network": "mtn_momo",
+        "receiver_label": "Synthetic receiver",
+        "receiver_momo_number": "0788640123",
+        "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "status": "pending"
+      },
+      "name": "contribution receipt binds amount collection payer route and pending lifetime",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000020001",
+        "contributor_public_id": "417334",
+        "created_at": "2026-09-30T21:54:35.781649+00:00",
+        "expected_amount_rwf": 2000,
+        "expires_at": "2026-10-01T21:54:35.781649+00:00",
+        "id": "70587d7a-81ef-4ea6-889f-aa93b1cbe8b3",
+        "network": "mtn_momo",
+        "receiver_label": "Synthetic receiver",
+        "receiver_momo_number": "0788640123",
+        "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "status": "pending"
+      },
+      "name": "identical live contribution request reuses exact intent",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000020001",
+        "contributor_public_id": "417334",
+        "created_at": "2026-09-30T21:54:36.070915+00:00",
+        "expected_amount_rwf": 1,
+        "expires_at": "2026-10-01T21:54:36.070915+00:00",
+        "id": "6b2b72db-36e5-442e-bf4e-56033e6ac9ee",
+        "network": "mtn_momo",
+        "receiver_label": "Synthetic receiver",
+        "receiver_momo_number": "0788640123",
+        "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "status": "pending"
+      },
+      "name": "exact JSON amount boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "collection_id": "99640000-0000-4000-8000-000000020001",
+        "contributor_public_id": "417334",
+        "created_at": "2026-09-30T21:54:36.272885+00:00",
+        "expected_amount_rwf": 9007199254740991,
+        "expires_at": "2026-10-01T21:54:36.272885+00:00",
+        "id": "14524a21-4ec0-483c-8acc-1b306a31262b",
+        "network": "mtn_momo",
+        "receiver_label": "Synthetic receiver",
+        "receiver_momo_number": "0788640123",
+        "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+        "status": "pending"
+      },
+      "name": "exact JSON amount boundary 9007199254740991",
+      "status": "pass"
+    },
+    {
+      "error": "{\"defect\": \"server accepts amount outside exact JSON integer range\", \"requested_amount\": 9007199254740992, \"actual_receipt\": {\"id\": \"2f197ab9-7ca4-4889-9d1a-ced0a6d01497\", \"status\": \"pending\", \"network\": \"mtn_momo\", \"created_at\": \"2026-09-30T21:54:36.442769+00:00\", \"expires_at\": \"2026-10-01T21:54:36.442769+00:00\", \"collection_id\": \"99640000-0000-4000-8000-000000020001\", \"receiver_label\": \"Synthetic receiver\", \"sender_phone_hash\": \"34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f\", \"expected_amount_rwf\": 9007199254740992, \"receiver_momo_number\": \"0788640123\", \"contributor_public_id\": \"417334\", \"receiver_momo_number_hash\": \"34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f\"}}",
+      "name": "unsafe JSON amount rejected 9007199254740992",
+      "status": "failed"
+    },
+    {
+      "error": "{\"defect\": \"server accepts amount outside exact JSON integer range\", \"requested_amount\": 9223372036854775807, \"actual_receipt\": {\"id\": \"3374ae21-c4b7-495d-9ce1-a7562bffd59d\", \"status\": \"pending\", \"network\": \"mtn_momo\", \"created_at\": \"2026-09-30T21:54:36.557714+00:00\", \"expires_at\": \"2026-10-01T21:54:36.557714+00:00\", \"collection_id\": \"99640000-0000-4000-8000-000000020001\", \"receiver_label\": \"Synthetic receiver\", \"sender_phone_hash\": \"34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f\", \"expected_amount_rwf\": 9223372036854775807, \"receiver_momo_number\": \"0788640123\", \"contributor_public_id\": \"417334\", \"receiver_momo_number_hash\": \"34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f\"}}",
+      "name": "unsafe JSON amount rejected 9223372036854775807",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22003"
+      },
+      "name": "signed bigint overflow is rejected by actual parameter type",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "receipts": [
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10001,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "f9e6c342-f7ae-4129-b44d-6ba4d996b7bc",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10002,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "56b30970-59dd-45ac-83cb-4b8613cc9dc2",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10003,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6ec1a442-114c-4424-95fc-ab281ef4002e",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10004,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "12ab78cd-cc40-408c-ae0f-69959970e62f",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10005,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "7a1a647c-806c-481b-93c4-e9914904da9b",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10006,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "48b10020-0c62-456c-8ef6-666d4d43a58a",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10007,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6e7457a2-2b9e-4e64-99d0-60d9b8f81bbe",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10008,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6d8dd9ad-e9ef-456e-acf5-0ffa13933660",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10009,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "14fb69c3-a8a4-449d-951c-59929bbe4c15",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10010,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "cba0286e-c3f9-4845-ac2a-0bc4bd9a40c7",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10011,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "7394b906-0d4a-4c5b-ae5c-31de56685bd7",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10012,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "59730454-935a-4409-899d-579cf367bfe4",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10013,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "77071a33-207e-48c4-b3b5-be4ae7fed707",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10014,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "2762b20c-b3d7-4062-97de-cc27fb6d7e76",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10015,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "846a92f5-88e6-411d-9e1c-759732fd8226",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10016,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "d06d27be-f396-46bd-a63d-741ee163525d",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10017,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "72b445d0-30df-4dad-844f-ecc161dd1d03",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10018,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "918f9a72-2f84-4917-b032-64cba065639a",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10019,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "27443e73-fb76-4d5e-acd6-48b7f64a6ea2",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10020,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "51e48ece-ded1-4b78-81cc-6613d5843613",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10021,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8e38797b-6283-4d47-a914-43692a81e316",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10022,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b63f6f1d-6e5a-4a93-b090-aa99d529dd31",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10023,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "5a4b1196-392f-4078-b86f-1d1b0e538d51",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10024,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "ac477054-1b8f-470a-8f15-81afc91364d2",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10025,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "03dbd2c5-35bd-46d8-8f59-34575faed181",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10026,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "604328b0-6ab8-487f-8e68-dc0dd1c701e3",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10027,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8f7816f6-f28d-4f7d-833a-ea37b6cd06e5",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10028,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "59067fdd-1320-4c33-b0f2-adf5461b5621",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10029,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "ba98a5f5-c10d-4df7-a95b-ec2270279030",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10030,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "15f2433a-f8f8-487e-9213-03c31e7578b9",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10031,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "02ca2656-bb93-4dab-bd63-a6bf393e2d2f",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10032,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "dc0e30da-a387-40c4-9065-ea181746d146",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10033,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "47f510ed-8240-4bb4-9e13-c2bf19849c99",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10034,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b5283351-7722-4fc5-b784-5e59c6e77199",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10035,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8754cae5-3ad2-474d-bbae-6ecd95d20afe",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10036,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "0bba37d6-5b0f-40fa-b1d2-5a3c5df93389",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10037,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "97e06a6f-62b4-468f-a03e-9cca8908351d",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10038,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "400ae4bd-b172-4a7b-a5c5-e5cf7de93d6f",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10039,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "21d12444-acec-4a16-9293-33094e36a4d5",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10040,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "587280c6-0acb-4426-b522-eb4164c33c6c",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10041,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "da3c37a4-9ee5-4f80-9c37-9cb2492372d8",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10042,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "163925ed-2d88-4e5f-b65a-9d65d65d11fb",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10043,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "ce59c8a6-7751-49e0-a373-e401fa3efdab",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10044,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "846a0ab4-6956-4415-a8b2-403458ad448a",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10045,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "90b5462f-8d81-451c-a8e1-e4021f9f8f1d",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10046,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "2d29c2d5-86c7-4834-9680-09df38336b16",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10047,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "bc5624f1-9023-420e-8d2a-3def3e720c48",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10048,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "575427be-5f8f-4786-ad05-193d3b63d7cb",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10049,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "385b980c-5d87-48eb-b15b-3156c2b65b7a",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10050,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b4319efc-82e1-4b8b-9c10-6c28b60d6a20",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10051,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "eac56be4-b36f-4109-9e38-6183be4992a1",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10052,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "aa5ab4f1-10b6-45a8-8ad8-f9afd3698792",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10053,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "957ee57a-5d98-4140-b45c-99864bdc3f04",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10054,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b34a0871-1c04-4344-bd4c-fc4a638ca5b1",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10055,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "747308a2-1828-4ae4-aa25-9689827d1121",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10056,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "66669c25-bc43-4967-b7f6-e1d68ff9caf3",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10057,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "1f0eadd6-afb3-409b-8cff-698600904443",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10058,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "cf0e4c34-6491-4f56-9ccf-4332a6e05edc",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10059,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "4b00102b-d445-4771-aef0-de2a098492c5",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10060,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "3456dddf-13a7-4aee-91d0-3c3289a2649f",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          },
+          {
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "contributor_public_id": "417334",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "expected_amount_rwf": 10061,
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b32738a2-f9b1-4fcf-a231-ce87e56b33ea",
+            "network": "mtn_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "receiver_momo_number_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "sender_phone_hash": "34c27cbbd17669ab2e3f283f1caf88edbf2b56eb0f73f906b4a019cae8f29c6f",
+            "status": "pending"
+          }
+        ]
+      },
+      "name": "61 real contribution calls preserve distinct request and collection bindings",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [
+          {
+            "amount_minor": 10031,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "02ca2656-bb93-4dab-bd63-a6bf393e2d2f",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10025,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "03dbd2c5-35bd-46d8-8f59-34575faed181",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10036,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "0bba37d6-5b0f-40fa-b1d2-5a3c5df93389",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10004,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "12ab78cd-cc40-408c-ae0f-69959970e62f",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10009,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "14fb69c3-a8a4-449d-951c-59929bbe4c15",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10030,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "15f2433a-f8f8-487e-9213-03c31e7578b9",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10042,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "163925ed-2d88-4e5f-b65a-9d65d65d11fb",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10057,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "1f0eadd6-afb3-409b-8cff-698600904443",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10039,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "21d12444-acec-4a16-9293-33094e36a4d5",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10019,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "27443e73-fb76-4d5e-acd6-48b7f64a6ea2",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10014,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "2762b20c-b3d7-4062-97de-cc27fb6d7e76",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10046,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "2d29c2d5-86c7-4834-9680-09df38336b16",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10060,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "3456dddf-13a7-4aee-91d0-3c3289a2649f",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10049,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "385b980c-5d87-48eb-b15b-3156c2b65b7a",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10038,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "400ae4bd-b172-4a7b-a5c5-e5cf7de93d6f",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10033,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "47f510ed-8240-4bb4-9e13-c2bf19849c99",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10006,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "48b10020-0c62-456c-8ef6-666d4d43a58a",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10059,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "4b00102b-d445-4771-aef0-de2a098492c5",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10020,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "51e48ece-ded1-4b78-81cc-6613d5843613",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10002,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "56b30970-59dd-45ac-83cb-4b8613cc9dc2",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10048,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "575427be-5f8f-4786-ad05-193d3b63d7cb",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10040,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "587280c6-0acb-4426-b522-eb4164c33c6c",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10028,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "59067fdd-1320-4c33-b0f2-adf5461b5621",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10012,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "59730454-935a-4409-899d-579cf367bfe4",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10023,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "5a4b1196-392f-4078-b86f-1d1b0e538d51",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10026,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "604328b0-6ab8-487f-8e68-dc0dd1c701e3",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10056,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "66669c25-bc43-4967-b7f6-e1d68ff9caf3",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10008,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6d8dd9ad-e9ef-456e-acf5-0ffa13933660",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10007,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6e7457a2-2b9e-4e64-99d0-60d9b8f81bbe",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10003,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "6ec1a442-114c-4424-95fc-ab281ef4002e",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10017,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "72b445d0-30df-4dad-844f-ecc161dd1d03",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10011,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "7394b906-0d4a-4c5b-ae5c-31de56685bd7",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10055,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "747308a2-1828-4ae4-aa25-9689827d1121",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10013,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "77071a33-207e-48c4-b3b5-be4ae7fed707",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10005,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "7a1a647c-806c-481b-93c4-e9914904da9b",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10044,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "846a0ab4-6956-4415-a8b2-403458ad448a",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10015,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "846a92f5-88e6-411d-9e1c-759732fd8226",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10035,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8754cae5-3ad2-474d-bbae-6ecd95d20afe",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10021,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8e38797b-6283-4d47-a914-43692a81e316",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10027,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "8f7816f6-f28d-4f7d-833a-ea37b6cd06e5",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10045,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "90b5462f-8d81-451c-a8e1-e4021f9f8f1d",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10018,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "918f9a72-2f84-4917-b032-64cba065639a",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10053,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "957ee57a-5d98-4140-b45c-99864bdc3f04",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10037,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "97e06a6f-62b4-468f-a03e-9cca8908351d",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10052,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "aa5ab4f1-10b6-45a8-8ad8-f9afd3698792",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10024,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "ac477054-1b8f-470a-8f15-81afc91364d2",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10061,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b32738a2-f9b1-4fcf-a231-ce87e56b33ea",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10054,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b34a0871-1c04-4344-bd4c-fc4a638ca5b1",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10050,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b4319efc-82e1-4b8b-9c10-6c28b60d6a20",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          },
+          {
+            "amount_minor": 10034,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:36.769713+00:00",
+            "id": "b5283351-7722-4fc5-b784-5e59c6e77199",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          }
+        ],
+        "pending_count": 62
+      },
+      "name": "recent50 window has exact full62 pending count and deterministic ties",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [
+          {
+            "amount_minor": 2000,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:35.781649+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-10-01T21:54:35.781649+00:00",
+            "id": "70587d7a-81ef-4ea6-889f-aa93b1cbe8b3",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "pending"
+          }
+        ],
+        "pending_count": 62
+      },
+      "name": "exact old intent outside50 remains request-bound with full pending count",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "pending_count": 0
+      },
+      "name": "foreign exact intent cannot leak even to another active member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "pending_count": 62
+      },
+      "name": "forged intent preserves own full pending count without creating a row",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [
+          {
+            "amount_minor": 10001,
+            "collection_id": "99640000-0000-4000-8000-000000020001",
+            "created_at": "2026-09-30T21:54:36.769713+00:00",
+            "currency": "RWF",
+            "expires_at": "2026-09-30T21:54:36.675224+00:00",
+            "id": "f9e6c342-f7ae-4129-b44d-6ba4d996b7bc",
+            "network": "mtn_momo",
+            "rail": "rwanda_momo",
+            "receiver_label": "Synthetic receiver",
+            "receiver_momo_number": "0788640123",
+            "status": "expired"
+          }
+        ],
+        "pending_count": 61
+      },
+      "name": "expired pending request reports expired and reduces exact full count",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "next_cursor": null,
+        "own_collection_ids": [],
+        "own_totals": {},
+        "revision": "c1e5dd5578df43911825e2e617b72c6d",
+        "total_count": 0,
+        "totals": {}
+      },
+      "name": "history empty exact totals and valid sort newest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "next_cursor": null,
+        "own_collection_ids": [],
+        "own_totals": {},
+        "revision": "6f00b7d82b57de152846942c58b8db0d",
+        "total_count": 0,
+        "totals": {}
+      },
+      "name": "history empty exact totals and valid sort oldest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "next_cursor": null,
+        "own_collection_ids": [],
+        "own_totals": {},
+        "revision": "b2057cdf673cc6b3eb35ee59cbf66727",
+        "total_count": 0,
+        "totals": {}
+      },
+      "name": "history empty exact totals and valid sort highest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "items": [],
+        "next_cursor": null,
+        "own_collection_ids": [],
+        "own_totals": {},
+        "revision": "32c5f78be3b9741ec82db10dcc75a907",
+        "total_count": 0,
+        "totals": {}
+      },
+      "name": "history empty exact totals and valid sort lowest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,'','newest',null,0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,'','newest',null,101",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,'','forged',null,20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,repeat('x',81),'newest',null,20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,'','newest','[]',20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "22023"
+      },
+      "name": "invalid history query null,'','newest','{\"revision\":\"forged\"}',20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "History changed",
+        "sqlstate": "P0001"
+      },
+      "name": "forged cursor anchor rejected even with current exact revision",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "event_id": "99640000-0000-4000-8000-000000031001",
+        "status": "needs_review"
+      },
+      "name": "name and suffix without full payer hash cannot create payment candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "event_id": "99640000-0000-4000-8000-000000031002",
+        "status": "needs_review"
+      },
+      "name": "payer hash conflicts with declared Collect ID cannot create payment candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "event_id": "99640000-0000-4000-8000-000000031003",
+        "status": "needs_review"
+      },
+      "name": "receiver hash does not match configured route cannot create payment candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "event_id": "99640000-0000-4000-8000-000000031004",
+        "status": "needs_review"
+      },
+      "name": "cross-group parsed target cannot consume private intent cannot create payment candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Device-attested SMS evidence",
+        "sqlstate": "P0001"
+      },
+      "name": "first exact payer still requires actual native attestation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Device-attested SMS evidence",
+        "sqlstate": "P0001"
+      },
+      "name": "same-suffix second exact payer still requires actual native attestation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actor": {
+          "items": [
+            {
+              "amount_minor": 2000,
+              "collection_id": "99640000-0000-4000-8000-000000020001",
+              "created_at": "2026-09-30T21:54:35.781649+00:00",
+              "currency": "RWF",
+              "expires_at": "2026-10-01T21:54:35.781649+00:00",
+              "id": "70587d7a-81ef-4ea6-889f-aa93b1cbe8b3",
+              "network": "mtn_momo",
+              "rail": "rwanda_momo",
+              "receiver_label": "Synthetic receiver",
+              "receiver_momo_number": "0788640123",
+              "status": "pending"
+            }
+          ],
+          "pending_count": 61
+        },
+        "peer": {
+          "items": [
+            {
+              "amount_minor": 2000,
+              "collection_id": "99640000-0000-4000-8000-000000020001",
+              "created_at": "2026-09-30T21:54:39.245984+00:00",
+              "currency": "RWF",
+              "expires_at": "2026-10-01T21:54:39.245984+00:00",
+              "id": "dba4315b-cc87-436d-ad50-56f735dafed1",
+              "network": "mtn_momo",
+              "rail": "rwanda_momo",
+              "receiver_label": "Synthetic receiver",
+              "receiver_momo_number": "0788640123",
+              "status": "pending"
+            }
+          ],
+          "pending_count": 1
+        }
+      },
+      "name": "equal amount payer intents remain separately bound and pending",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous SQL role denies select public.list_current_member_history_page",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous SQL role denies select public.list_current_member_recent_intents",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous SQL role denies select public.list_current_member_collection_balances",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous SQL role denies select public.list_current_user_collections",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anonymous SQL role denies select public.create_contribution_intent",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "authenticated role cannot forge profile Collect identity",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "authenticated role cannot call private payment poster directly",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "after": {
+          "collect_hybrid.collection_balances": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.member_balances": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.momo_journal_entries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_outbox": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_operator_heartbeats": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_deliveries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_delivery_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payment_allocations": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payments": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "before": {
+          "collect_hybrid.collection_balances": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.member_balances": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.momo_journal_entries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_notification_outbox": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "collect_hybrid.sms_operator_heartbeats": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_deliveries": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.notification_delivery_attempts": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payment_allocations": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.payments": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "name": "financial rows balances journal and delivery fingerprints unchanged",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:54:42.741211+00:00",
+  "current_server_acceptance": false,
+  "database": "collect_local_uat_ce03385d02484b1f",
+  "financial_after": {
+    "collect_hybrid.collection_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_operator_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_delivery_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "financial_before": {
+    "collect_hybrid.collection_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.member_balances": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.momo_journal_entries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_notification_outbox": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "collect_hybrid.sms_operator_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.notification_delivery_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "public.payments": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "fixture": {
+    "confirmed_status_fabricated": false,
+    "groups": 4,
+    "native_capabilities_fabricated": false,
+    "posted_rows_created": 0,
+    "profiles_created_by_actual_auth_trigger": true,
+    "source_rows_copied": false,
+    "synthetic_identities": 3,
+    "triggers_disabled": false
+  },
+  "hosted_called": false,
+  "installed_api_definitions": [
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public._authenticated_momo_phone_hash(p_user_id uuid)\n RETURNS text\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'auth', 'extensions'\nAS $function$\ndeclare\n  profile_digits text;\n  auth_digits text;\n  canonical_profile_phone text;\n  canonical_auth_phone text;\n  auth_phone_confirmed_at timestamptz;\nbegin\n  select\n    regexp_replace(coalesce(profile.momo_number, ''), '[^0-9]', '', 'g'),\n    regexp_replace(coalesce(auth_user.phone, ''), '[^0-9]', '', 'g'),\n    auth_user.phone_confirmed_at\n    into profile_digits, auth_digits, auth_phone_confirmed_at\n  from public.profiles profile\n  join auth.users auth_user on auth_user.id = profile.id\n  where profile.id = p_user_id\n    and auth_user.deleted_at is null\n    and profile.country_code = 'RW';\n\n  if profile_digits ~ '^250[0-9]{9}$' then\n    canonical_profile_phone := '+' || profile_digits;\n  elsif profile_digits ~ '^0[0-9]{9}$' then\n    canonical_profile_phone := '+250' || substr(profile_digits, 2);\n  elsif profile_digits ~ '^[0-9]{9}$' then\n    canonical_profile_phone := '+250' || profile_digits;\n  else\n    return null;\n  end if;\n\n  if auth_digits ~ '^250[0-9]{9}$' then\n    canonical_auth_phone := '+' || auth_digits;\n  elsif auth_digits ~ '^0[0-9]{9}$' then\n    canonical_auth_phone := '+250' || substr(auth_digits, 2);\n  elsif auth_digits ~ '^[0-9]{9}$' then\n    canonical_auth_phone := '+250' || auth_digits;\n  else\n    return null;\n  end if;\n\n  if auth_phone_confirmed_at is null\n     or canonical_profile_phone <> canonical_auth_phone then\n    return null;\n  end if;\n\n  return encode(extensions.digest(canonical_auth_phone, 'sha256'), 'hex');\nend;\n$function$\n",
+      "identity": "_authenticated_momo_phone_hash(uuid)"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.allocate_parsed_payment_event(event_id uuid)\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  event_row public.parsed_payment_events;\n  evidence_time timestamptz;\n  intent_count integer := 0;\n  intent_id uuid;\n  intent_collection_id uuid;\n  intent_receiver_hash text;\n  intent_member_id uuid;\n  direct_count integer := 0;\n  direct_assignment_id uuid;\n  direct_collection_id uuid;\n  direct_member_id uuid;\n  direct_enabled boolean;\n  result_status text;\n  existing_payment_status text;\nbegin\n  select event.* into event_row\n  from public.parsed_payment_events event\n  where event.id = event_id\n  for update;\n  if event_row.id is null then raise exception 'Parsed event not found'; end if;\n  select coalesce(raw.received_at_device, raw.ingested_at)\n  into evidence_time\n  from public.raw_payment_sms raw\n  where raw.id = event_row.raw_sms_id;\n  select payment.status into existing_payment_status\n  from public.payments payment\n  where payment.parsed_event_id = event_id;\n  if existing_payment_status = 'posted'\n     or event_row.allocation_status = 'allocated' then\n    return 'already_allocated';\n  elsif existing_payment_status = 'review' then\n    return 'awaiting_provider_confirmation';\n  elsif existing_payment_status = 'reversed'\n     or event_row.allocation_status = 'ignored' then\n    return 'ignored';\n  end if;\n  if not event_row.is_mobile_money_payment\n     or event_row.direction <> 'incoming'\n     or event_row.currency <> 'RWF'\n     or event_row.amount_rwf is null\n     or event_row.amount_rwf <= 0\n     or event_row.transaction_id is null\n     or event_row.confidence < 0.90\n     or evidence_time is null then\n    update public.parsed_payment_events\n    set allocation_status = 'needs_review',\n        review_reason = 'SMS evidence is incomplete or not reliable enough for candidate matching'\n    where id = event_id;\n    perform collect_hybrid.record_momo_exception(\n      event_id, 'no_candidate', jsonb_build_object('stage', 'evidence_validation')\n    );\n    return 'needs_review';\n  end if;\n\n  -- Serialize every route on the same provider reference and treat the\n  -- reference as consumed even after rejection or compensating reversal.\n  perform pg_advisory_xact_lock(hashtextextended(\n    event_row.network || ':' || upper(btrim(event_row.transaction_id)), 0\n  ));\n  if exists (\n    select 1 from public.payments payment\n    where payment.provider_network = event_row.network\n      and upper(btrim(payment.transaction_id)) = upper(btrim(event_row.transaction_id))\n  ) then\n    update public.parsed_payment_events\n    set allocation_status = 'ignored',\n        review_reason = 'Provider transaction evidence was already consumed'\n    where id = event_id;\n    return 'ignored';\n  end if;\n\n  update public.payment_intents set status = 'expired'\n  where status = 'pending' and expires_at <= now();\n  if event_row.transaction_id is not null then\n    with candidates as (\n      select distinct\n        intent.id,\n        intent.collection_id,\n        intent.receiver_momo_number_hash,\n        intent.contributor_user_id,\n        intent.contributor_public_id,\n        intent.created_at\n      from public.payment_intents intent\n      join public.collection_receivers route\n        on route.collection_id = intent.collection_id\n       and route.momo_number_hash = intent.receiver_momo_number_hash\n       and route.is_active\n       and route.receiver_user_id = event_row.receiver_user_id\n      where intent.status = 'pending'\n        and (event_row.collection_id is null or intent.collection_id = event_row.collection_id)\n        and (event_row.receiver_phone_hash is null\n          or intent.receiver_momo_number_hash = event_row.receiver_phone_hash)\n        and intent.expected_amount_rwf = event_row.amount_rwf\n        and evidence_time between intent.created_at - interval '15 minutes'\n          and intent.expires_at + interval '2 hours'\n        and event_row.sender_phone_hash is not null\n        and intent.sender_phone_hash = event_row.sender_phone_hash\n        and intent.sender_phone_hash =\n          public._authenticated_momo_phone_hash(intent.contributor_user_id)\n        and (event_row.detected_user_public_id is null\n          or intent.contributor_public_id = event_row.detected_user_public_id)\n    )\n    select count(*),\n      (array_agg(candidate.id order by candidate.created_at))[1],\n      (array_agg(candidate.collection_id order by candidate.created_at))[1],\n      (array_agg(candidate.receiver_momo_number_hash order by candidate.created_at))[1],\n      (array_agg(member.id order by candidate.created_at))[1]\n    into intent_count, intent_id, intent_collection_id, intent_receiver_hash, intent_member_id\n    from candidates candidate\n    left join collect_hybrid.member_records member\n      on member.linked_user_id = candidate.contributor_user_id\n      or (\n        candidate.contributor_user_id is null\n        and candidate.contributor_public_id is not null\n        and member.collect_id = candidate.contributor_public_id\n      );\n  end if;\n\n  direct_enabled := coalesce((select flag.enabled from public.feature_flags flag\n    where flag.key = 'hybrid_direct_ussd_allocation'), false);\n  if direct_enabled and event_row.transaction_id is not null\n     and event_row.receiver_phone_hash is not null\n     and event_row.payer_match_key is not null then\n    with candidates as (\n      select distinct\n        assignment.id,\n        assignment.collection_id,\n        assignment.member_record_id,\n        assignment.created_at\n      from collect_hybrid.member_receiving_assignments assignment\n      join public.collection_receivers route\n        on route.id = assignment.collection_receiver_id\n       and route.collection_id = assignment.collection_id\n       and route.is_active\n       and route.receiver_user_id = event_row.receiver_user_id\n       and route.momo_number_hash = event_row.receiver_phone_hash\n       and route.network = event_row.network\n       and assignment.route_key = encode(extensions.digest(\n         route.receiver_user_id::text || '|' || route.momo_number_hash || '|' || route.network,\n         'sha256'\n       ), 'hex')\n      join collect_hybrid.member_records member\n        on member.id = assignment.member_record_id and member.lifecycle = 'active'\n      join collect_hybrid.member_momo_identities identity\n        on identity.member_id = member.id and identity.match_key = event_row.payer_match_key\n      join public.collection_members membership\n        on membership.member_record_id = member.id\n       and membership.collection_id = assignment.collection_id\n       and membership.status = 'active'\n      where assignment.status = 'active'\n        and evidence_time >= assignment.starts_at\n        and (assignment.ended_at is null or evidence_time <= assignment.ended_at)\n        and (event_row.collection_id is null or assignment.collection_id = event_row.collection_id)\n    )\n    select count(*),\n      (array_agg(candidate.id order by candidate.created_at))[1],\n      (array_agg(candidate.collection_id order by candidate.created_at))[1],\n      (array_agg(candidate.member_record_id order by candidate.created_at))[1]\n    into direct_count, direct_assignment_id, direct_collection_id, direct_member_id\n    from candidates candidate;\n  end if;\n\n  if intent_count > 1 or direct_count > 1 then\n    update public.parsed_payment_events\n    set allocation_status = 'ambiguous',\n        review_reason = 'Multiple payer-verified destinations matched this SMS evidence'\n    where id = event_id;\n    perform collect_hybrid.record_momo_exception(\n      event_id, 'ambiguous_candidate',\n      jsonb_build_object('intent_candidates', intent_count, 'direct_candidates', direct_count)\n    );\n    return 'ambiguous';\n  end if;\n  if intent_count = 1 and direct_count = 1\n     and (intent_collection_id <> direct_collection_id\n       or intent_member_id is distinct from direct_member_id) then\n    update public.parsed_payment_events\n    set allocation_status = 'ambiguous',\n        review_reason = 'Payment intent and direct receiving assignment disagree'\n    where id = event_id;\n    perform collect_hybrid.record_momo_exception(\n      event_id, 'intent_direct_disagreement',\n      jsonb_build_object(\n        'intent_collection_id', intent_collection_id,\n        'direct_collection_id', direct_collection_id,\n        'intent_member_record_id', intent_member_id,\n        'direct_member_record_id', direct_member_id\n      )\n    );\n    return 'ambiguous';\n  end if;\n  if direct_count = 1 and event_row.detected_user_public_id is not null\n     and exists (\n       select 1 from collect_hybrid.member_records member\n       where member.id = direct_member_id\n         and member.collect_id is distinct from event_row.detected_user_public_id\n     ) then\n    update public.parsed_payment_events\n    set allocation_status = 'ambiguous',\n        review_reason = 'SMS payer identifier conflicts with the direct receiving assignment'\n    where id = event_id;\n    perform collect_hybrid.record_momo_exception(\n      event_id, 'payer_identity_conflict',\n      jsonb_build_object(\n        'direct_member_record_id', direct_member_id,\n        'detected_user_public_id', event_row.detected_user_public_id\n      )\n    );\n    return 'ambiguous';\n  end if;\n  if intent_count = 1 then\n    if event_row.receiver_phone_hash is null then\n      update public.parsed_payment_events\n      set receiver_phone_hash = intent_receiver_hash,\n          collection_id = coalesce(collection_id, intent_collection_id)\n      where id = event_id;\n    end if;\n    perform public.post_payment_from_event(\n      event_id, intent_id, intent_collection_id,\n      case when direct_count = 1 then\n        'Matched by one agreeing payment intent and direct receiving assignment'\n      when event_row.receiver_phone_hash is null then\n        'Matched by native SMS transaction ID plus one unique owned receiver, amount, payer, and time window'\n      else\n        'Matched by native SMS transaction ID, receiver, amount, payer, and time window'\n      end\n    );\n    select event.allocation_status::text into result_status\n    from public.parsed_payment_events event where event.id = event_id;\n    if result_status = 'allocated' then\n      update collect_hybrid.momo_reconciliation_exceptions\n      set status = 'resolved', resolved_at = now()\n      where parsed_event_id = event_id and status = 'open';\n      return 'allocated';\n    elsif result_status = 'needs_review' then\n      return 'awaiting_provider_confirmation';\n    end if;\n    return 'ignored';\n  end if;\n  if direct_count = 1 then\n    perform collect_hybrid.post_direct_ussd_payment(\n      event_id, direct_assignment_id,\n      'Matched by exact normalized MoMo name plus last three digits and one explicit active receiving assignment'\n    );\n    select event.allocation_status::text into result_status\n    from public.parsed_payment_events event where event.id = event_id;\n    if result_status = 'allocated' then\n      return 'allocated';\n    elsif result_status = 'needs_review' then\n      return 'awaiting_provider_confirmation';\n    end if;\n    return 'ignored';\n  end if;\n\n  update public.parsed_payment_events\n  set allocation_status = 'needs_review',\n      review_reason = case when direct_enabled then\n        'No payer-verified payment intent or direct receiving assignment matched this SMS evidence'\n      else 'No payer-verified pending payment intent matched this SMS evidence' end\n  where id = event_id;\n  perform collect_hybrid.record_momo_exception(\n    event_id, 'no_candidate',\n    jsonb_build_object(\n      'intent_candidates', intent_count,\n      'direct_candidates', direct_count,\n      'direct_allocation_enabled', direct_enabled\n    )\n  );\n  return 'needs_review';\nend;\n$function$\n",
+      "identity": "allocate_parsed_payment_event(uuid)"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION collect_member_actions.history_page(p_collection_id uuid, p_query text, p_sort text, p_cursor jsonb, p_limit integer)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  actor uuid := auth.uid();\n  query_text text := lower(btrim(coalesce(p_query, '')));\n  anchor_id uuid;\n  anchor_at timestamptz;\n  anchor_amount bigint;\n  total_count bigint;\n  total_amount bigint;\n  own_amount bigint;\n  own_collection_ids jsonb;\n  revision text;\n  page_items jsonb;\n  has_more boolean;\n  last_id text;\n  keyset_predicate text;\n  source_order text;\n  window_order text;\nbegin\n  if actor is null then\n    raise exception 'Authentication required' using errcode = '28000';\n  end if;\n  if p_limit is null or p_limit not between 1 and 100 or length(query_text) > 80\n     or p_sort is null or p_sort not in ('newest', 'oldest', 'highest', 'lowest') then\n    raise exception 'Invalid history query' using errcode = '22023';\n  end if;\n  if p_cursor is not null then\n    if jsonb_typeof(p_cursor) <> 'object'\n       or coalesce(p_cursor->>'revision', '') !~ '^[a-f0-9]{32}$'\n       or coalesce(p_cursor->>'after', '') !~\n         '^momo:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$' then\n      raise exception 'Invalid history cursor' using errcode = '22023';\n    end if;\n    anchor_id := substring(p_cursor->>'after' from 6)::uuid;\n  end if;\n\n  with readable as materialized (\n    select collection.id from public.collections collection\n    where public.user_can_read_collection(collection.id, actor)\n  ), scoped as (\n    select payment.id, payment.collection_id, payment.amount_rwf,\n      payment.posted_at,\n      coalesce(payment.contributor_user_id = actor, false) as own,\n      case when payment.contributor_user_id = actor\n        then payment.transaction_id end as transaction_id,\n      case when payment.contributor_user_id = actor then 'You'\n        when payment.anonymity_choice = 'public_id'\n          and payment.contributor_public_id is not null\n          then 'Collect ID ' || payment.contributor_public_id\n        else 'Anonymous supporter' end as supporter_label,\n      collection.title,\n      payment.collection_id in (select id from readable) as can_read_collection\n    from public.payments payment\n    join public.collections collection on collection.id = payment.collection_id\n    where payment.status = 'posted' and payment.currency = 'RWF'\n      and (p_collection_id is null or payment.collection_id = p_collection_id)\n      and (payment.contributor_user_id = actor\n        or payment.collection_id in (select id from readable))\n  ), matched as (\n    select * from scoped\n    where query_text = ''\n      or strpos(lower(supporter_label), query_text) > 0\n      or strpos(lower(coalesce(transaction_id, '')), query_text) > 0\n      or (can_read_collection and strpos(lower(title), query_text) > 0)\n  )\n  select count(*)::bigint,\n    coalesce(sum(amount_rwf), 0)::bigint,\n    coalesce(sum(amount_rwf) filter (where own), 0)::bigint,\n    coalesce(to_jsonb(array_agg(distinct collection_id::text\n      order by collection_id::text) filter (where own)), '[]'::jsonb),\n    -- A 256-bit XOR of per-row SHA-256 digests has constant aggregate space.\n    -- Row identity is included, so a changed/missing row changes the revision\n    -- with overwhelming probability; count also distinguishes cardinality.\n    md5(row(actor, p_collection_id, query_text, p_sort, count(*),\n      coalesce(bit_xor(('x' || encode(extensions.digest(\n        row(id, collection_id, amount_rwf, posted_at, own,\n          transaction_id, supporter_label)::text, 'sha256'), 'hex'))::bit(256)),\n        repeat('0', 256)::bit(256)))::text)\n  into total_count, total_amount, own_amount, own_collection_ids, revision\n  from matched;\n\n  if p_cursor is not null and revision <> p_cursor->>'revision' then\n    raise exception 'History changed. Refresh before loading more.'\n      using errcode = 'P0001';\n  end if;\n  if anchor_id is not null then\n    with readable as materialized (\n      select collection.id from public.collections collection\n      where public.user_can_read_collection(collection.id, actor)\n    )\n    select payment.posted_at, payment.amount_rwf\n    into anchor_at, anchor_amount\n    from public.payments payment\n    join public.collections collection on collection.id = payment.collection_id\n    where payment.id = anchor_id\n      and payment.status = 'posted' and payment.currency = 'RWF'\n      and (p_collection_id is null or payment.collection_id = p_collection_id)\n      and (payment.contributor_user_id = actor\n        or payment.collection_id in (select id from readable))\n      and (query_text = ''\n        or strpos(lower(case when payment.contributor_user_id = actor then 'You'\n          when payment.anonymity_choice = 'public_id'\n            and payment.contributor_public_id is not null\n            then 'Collect ID ' || payment.contributor_public_id\n          else 'Anonymous supporter' end), query_text) > 0\n        or (payment.contributor_user_id = actor\n          and strpos(lower(coalesce(payment.transaction_id, '')), query_text) > 0)\n        or (payment.collection_id in (select id from readable)\n          and strpos(lower(collection.title), query_text) > 0));\n    if not found then\n      raise exception 'History changed. Refresh before loading more.'\n        using errcode = 'P0001';\n    end if;\n  end if;\n\n  -- These fragments are selected solely from the four validated enum values.\n  -- All user data remains in EXECUTE USING parameters, never in SQL text.\n  if p_sort = 'newest' then\n    keyset_predicate := '($4::uuid is null or payment.posted_at < $5 or '\n      || '(payment.posted_at = $5 and payment.id > $4))';\n    source_order := 'payment.posted_at desc, payment.id';\n    window_order := 'posted_at desc, id';\n  elsif p_sort = 'oldest' then\n    keyset_predicate := '($4::uuid is null or payment.posted_at > $5 or '\n      || '(payment.posted_at = $5 and payment.id > $4))';\n    source_order := 'payment.posted_at, payment.id';\n    window_order := 'posted_at, id';\n  elsif p_sort = 'highest' then\n    keyset_predicate := '($4::uuid is null or payment.amount_rwf < $6 or '\n      || '(payment.amount_rwf = $6 and (payment.posted_at < $5 or '\n      || '(payment.posted_at = $5 and payment.id > $4))))';\n    source_order := 'payment.amount_rwf desc, payment.posted_at desc, payment.id';\n    window_order := 'amount_rwf desc, posted_at desc, id';\n  else\n    keyset_predicate := '($4::uuid is null or payment.amount_rwf > $6 or '\n      || '(payment.amount_rwf = $6 and (payment.posted_at < $5 or '\n      || '(payment.posted_at = $5 and payment.id > $4))))';\n    source_order := 'payment.amount_rwf, payment.posted_at desc, payment.id';\n    window_order := 'amount_rwf, posted_at desc, id';\n  end if;\n\n  execute format($page$\n    with readable as materialized (\n      select collection.id from public.collections collection\n      where public.user_can_read_collection(collection.id, $1)\n    ), candidate as (\n      select payment.id, payment.collection_id, payment.amount_rwf,\n        payment.posted_at, payment.contributor_user_id, payment.transaction_id,\n        payment.anonymity_choice, payment.contributor_public_id\n      from public.payments payment\n      join public.collections collection on collection.id = payment.collection_id\n      where payment.status = 'posted' and payment.currency = 'RWF'\n        and ($2::uuid is null or payment.collection_id = $2)\n        and (payment.contributor_user_id = $1\n          or payment.collection_id in (select id from readable))\n        and ($3 = ''\n          or strpos(lower(case when payment.contributor_user_id = $1 then 'You'\n            when payment.anonymity_choice = 'public_id'\n              and payment.contributor_public_id is not null\n              then 'Collect ID ' || payment.contributor_public_id\n            else 'Anonymous supporter' end), $3) > 0\n          or (payment.contributor_user_id = $1\n            and strpos(lower(coalesce(payment.transaction_id, '')), $3) > 0)\n          or (payment.collection_id in (select id from readable)\n            and strpos(lower(collection.title), $3) > 0))\n        and %s\n      order by %s\n      limit $7 + 1\n    ), numbered as (\n      select candidate.*, row_number() over (order by %s) as position\n      from candidate\n    )\n    select coalesce(jsonb_agg(jsonb_build_object(\n      'payment_id', 'momo:' || id,\n      'collection_id', collection_id,\n      'amount_minor', amount_rwf,\n      'currency', 'RWF',\n      'rail', 'rwanda_momo',\n      'posted_at', posted_at,\n      'transaction_id', case when contributor_user_id = $1 then transaction_id end,\n      'is_current_user_contribution', coalesce(contributor_user_id = $1, false),\n      'supporter_label', case when contributor_user_id = $1 then 'You'\n        when anonymity_choice = 'public_id' and contributor_public_id is not null\n          then 'Collect ID ' || contributor_public_id\n        else 'Anonymous supporter' end\n    ) order by position) filter (where position <= $7), '[]'::jsonb),\n    count(*) > $7,\n    max(case when position = $7 then 'momo:' || id end)\n    from numbered\n  $page$, keyset_predicate, source_order, window_order)\n  into page_items, has_more, last_id\n  using actor, p_collection_id, query_text, anchor_id, anchor_at,\n    anchor_amount, p_limit;\n\n  return jsonb_build_object(\n    'items', page_items,\n    'total_count', total_count,\n    'totals', case when total_count = 0 then '{}'::jsonb\n      else jsonb_build_object('RWF', total_amount) end,\n    'own_totals', case when total_count = 0 then '{}'::jsonb\n      else jsonb_build_object('RWF', own_amount) end,\n    'own_collection_ids', own_collection_ids,\n    'revision', revision,\n    'next_cursor', case when has_more then\n      jsonb_build_object('revision', revision, 'after', last_id) end\n  );\nend;\n$function$\n",
+      "identity": "collect_member_actions.history_page(uuid,text,text,jsonb,integer)"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION collect_member_actions.recent_intents(p_intent_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  actor uuid := auth.uid();\n  items jsonb;\n  pending_count bigint;\nbegin\n  if actor is null then\n    raise exception 'Authentication required' using errcode = '28000';\n  end if;\n  select count(*)::bigint into pending_count\n  from public.payment_intents intent\n  where intent.contributor_user_id = actor\n    and intent.status = 'pending' and intent.expires_at > now();\n\n  if p_intent_id is null then\n    with selected as materialized (\n      select intent.id, intent.collection_id, intent.expected_amount_rwf,\n        intent.receiver_momo_number_hash, intent.status, intent.created_at,\n        intent.expires_at\n      from public.payment_intents intent\n      where intent.contributor_user_id = actor\n      order by intent.created_at desc, intent.id\n      limit 50\n    )\n    select coalesce(jsonb_agg(jsonb_build_object(\n      'id', intent.id,\n      'collection_id', intent.collection_id,\n      'rail', 'rwanda_momo',\n      'amount_minor', intent.expected_amount_rwf,\n      'currency', 'RWF',\n      'receiver_momo_number', receiver.momo_number,\n      'receiver_label', receiver.label,\n      'network', receiver.network,\n      'status', case when intent.status = 'pending' and intent.expires_at <= now()\n        then 'expired' else intent.status::text end,\n      'created_at', intent.created_at,\n      'expires_at', intent.expires_at\n    ) order by intent.created_at desc, intent.id), '[]'::jsonb)\n    into items\n    from selected intent\n    left join lateral (\n      select route.momo_number, route.label, route.network\n      from public.collection_receivers route\n      where route.collection_id = intent.collection_id\n        and route.momo_number_hash = intent.receiver_momo_number_hash\n      order by route.created_at desc, route.id limit 1\n    ) receiver on true;\n  else\n    select coalesce(jsonb_agg(jsonb_build_object(\n      'id', intent.id,\n      'collection_id', intent.collection_id,\n      'rail', 'rwanda_momo',\n      'amount_minor', intent.expected_amount_rwf,\n      'currency', 'RWF',\n      'receiver_momo_number', receiver.momo_number,\n      'receiver_label', receiver.label,\n      'network', receiver.network,\n      'status', case when intent.status = 'pending' and intent.expires_at <= now()\n        then 'expired' else intent.status::text end,\n      'created_at', intent.created_at,\n      'expires_at', intent.expires_at\n    )), '[]'::jsonb)\n    into items\n    from public.payment_intents intent\n    left join lateral (\n      select route.momo_number, route.label, route.network\n      from public.collection_receivers route\n      where route.collection_id = intent.collection_id\n        and route.momo_number_hash = intent.receiver_momo_number_hash\n      order by route.created_at desc, route.id limit 1\n    ) receiver on true\n    where intent.id = p_intent_id and intent.contributor_user_id = actor;\n  end if;\n\n  return jsonb_build_object('items', items, 'pending_count', pending_count);\nend;\n$function$\n",
+      "identity": "collect_member_actions.recent_intents(uuid)"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.create_contribution_intent(collection uuid, p_expected_amount_rwf bigint DEFAULT NULL::bigint, p_sender_phone_hash text DEFAULT NULL::text)\n RETURNS TABLE(id uuid, collection_id uuid, expected_amount_rwf bigint, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, network text, sender_phone_hash text, status payment_intent_status, contributor_public_id character, created_at timestamp with time zone, expires_at timestamp with time zone)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n  requested_collection_id uuid := collection;\n  verified_sender_phone_hash text;\n  receiver_row public.collection_receivers;\n  intent_row public.payment_intents;\n  member_public_id char(6);\nbegin\n  perform collect_profile_access.assert_ready('rwanda');\n  if auth.uid() is null then raise exception 'Authentication required'; end if;\n  if not exists (\n    select 1\n    from public.collections collection_row\n    where collection_row.id = requested_collection_id\n      and collection_row.archived_at is null\n      and (\n        collection_row.public_status = 'public_approved'\n        or collection_row.creator_user_id = auth.uid()\n        or exists (\n          select 1\n          from public.collection_members member_check\n          where member_check.collection_id = collection_row.id\n            and member_check.user_id = auth.uid()\n            and member_check.status = 'active'\n        )\n      )\n  ) then\n    raise exception 'Private group membership is required';\n  end if;\n  if p_expected_amount_rwf is null or p_expected_amount_rwf <= 0 then\n    raise exception 'Contribution amount must be above zero';\n  end if;\n\n  verified_sender_phone_hash := public._authenticated_momo_phone_hash(auth.uid());\n  if verified_sender_phone_hash is null then\n    raise exception 'Use your verified WhatsApp number as your MoMo payer number before contributing';\n  end if;\n  if nullif(trim(p_sender_phone_hash), '') is null\n     or lower(trim(p_sender_phone_hash)) <> verified_sender_phone_hash then\n    raise exception 'Contributor MoMo identity verification failed';\n  end if;\n\n  perform pg_advisory_xact_lock(hashtextextended(\n    'contribution-intent:' || auth.uid()::text || ':' || requested_collection_id::text,\n    0\n  ));\n  update public.payment_intents intent\n  set status = case\n    when intent.expires_at <= now() then 'expired'::public.payment_intent_status\n    else 'cancelled'::public.payment_intent_status\n  end\n  where intent.contributor_user_id = auth.uid()\n    and intent.collection_id = requested_collection_id\n    and intent.status = 'pending'\n    and (\n      intent.expires_at <= now()\n      or intent.sender_phone_hash is distinct from verified_sender_phone_hash\n    );\n\n  select profile.public_id into member_public_id\n  from public.profiles profile where profile.id = auth.uid();\n  if member_public_id is null then\n    raise exception 'Collect ID is required before contributing';\n  end if;\n\n  select receiver.* into receiver_row\n  from public.collection_receivers receiver\n  where receiver.collection_id = requested_collection_id\n    and receiver.is_active\n  order by receiver.created_at\n  limit 1\n  for update;\n  if receiver_row.id is null then raise exception 'Group has no active receiver'; end if;\n\n  perform public.ensure_public_contributor_membership(\n    requested_collection_id,\n    auth.uid()\n  );\n\n  select intent.* into intent_row\n  from public.payment_intents intent\n  where intent.collection_id = requested_collection_id\n    and intent.contributor_user_id = auth.uid()\n    and intent.expected_amount_rwf = p_expected_amount_rwf\n    and intent.receiver_momo_number_hash = receiver_row.momo_number_hash\n    and intent.sender_phone_hash = verified_sender_phone_hash\n    and intent.status = 'pending'\n    and intent.expires_at > now()\n  order by intent.created_at desc\n  limit 1\n  for update;\n\n  if intent_row.id is null then\n    insert into public.payment_intents (\n      collection_id,\n      contributor_user_id,\n      contributor_public_id,\n      expected_amount_rwf,\n      receiver_momo_number_hash,\n      sender_phone_hash\n    ) values (\n      requested_collection_id,\n      auth.uid(),\n      member_public_id,\n      p_expected_amount_rwf,\n      receiver_row.momo_number_hash,\n      verified_sender_phone_hash\n    ) returning * into intent_row;\n  end if;\n\n  return query select\n    intent_row.id,\n    intent_row.collection_id,\n    intent_row.expected_amount_rwf,\n    receiver_row.momo_number,\n    intent_row.receiver_momo_number_hash,\n    receiver_row.label,\n    receiver_row.network,\n    intent_row.sender_phone_hash,\n    intent_row.status,\n    intent_row.contributor_public_id,\n    intent_row.created_at,\n    intent_row.expires_at;\nend;\n$function$\n",
+      "identity": "create_contribution_intent(uuid,bigint,text)"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        },
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.get_current_member_profile()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if auth.uid() is null then\n    raise exception 'Authentication required' using errcode = '28000';\n  end if;\n  return (select public._member_profile_payload(profile) from public.profiles profile where profile.id=auth.uid());\nend;\n$function$\n",
+      "identity": "get_current_member_profile()"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        },
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.list_current_member_collection_balances()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare result jsonb;\nbegin\n  if auth.uid() is null then\n    raise exception 'Authentication required' using errcode = '28000';\n  end if;\n  with visible as (\n    select collection.id from public.collections collection\n    where public.user_can_read_collection(collection.id, auth.uid())\n      and collection.currency = 'RWF' and not collection.diaspora_enabled\n  )\n  select coalesce(jsonb_agg(jsonb_build_object(\n    'collection_id', visible.id,\n    'balances', jsonb_build_array(jsonb_build_object(\n      'currency', 'RWF',\n      'amount_raised_minor', coalesce(balance.confirmed_rwf, 0),\n      'current_user_balance_minor', coalesce((\n        select sum(member_balance.confirmed_rwf)::bigint\n        from collect_hybrid.member_balances member_balance\n        where member_balance.collection_id = visible.id\n          and collect_hybrid.member_record_belongs_to_user(\n            member_balance.member_record_id, auth.uid()\n          )\n      ), 0)\n    )),\n    'supporter_count', (\n      select case when count(*) filter (where payment.contributor_user_id is null) > 0\n        then null else count(distinct payment.contributor_user_id) end\n      from public.payments payment\n      where payment.collection_id = visible.id and payment.status = 'posted'\n        and payment.currency = 'RWF'\n    )\n  ) order by visible.id), '[]'::jsonb)\n  into result\n  from visible\n  left join collect_hybrid.collection_balances balance on balance.collection_id = visible.id;\n  return result;\nend;\n$function$\n",
+      "identity": "list_current_member_collection_balances()"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        },
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.list_current_member_history_page(p_collection_id uuid DEFAULT NULL::uuid, p_query text DEFAULT ''::text, p_sort text DEFAULT 'newest'::text, p_cursor jsonb DEFAULT NULL::jsonb, p_limit integer DEFAULT 50)\n RETURNS jsonb\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$ select collect_member_actions.history_page(p_collection_id,p_query,p_sort,p_cursor,p_limit); $function$\n",
+      "identity": "list_current_member_history_page(uuid,text,text,jsonb,integer)"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        },
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.list_current_member_recent_intents(p_intent_id uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$ select collect_member_actions.recent_intents(p_intent_id); $function$\n",
+      "identity": "list_current_member_recent_intents(uuid)"
+    },
+    {
+      "acl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+      "api_privileges": [
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "authenticated"
+        },
+        {
+          "grantable": false,
+          "privilege": "EXECUTE",
+          "role": "service_role"
+        }
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.list_current_user_collections(p_collection_id uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare result jsonb;\nbegin\n  if auth.uid() is null then\n    raise exception 'Authentication required' using errcode = '28000';\n  end if;\n  select coalesce(jsonb_agg(\n    (to_jsonb(collection) - 'diaspora_enabled' - 'diaspora_regions')\n      || jsonb_strip_nulls(jsonb_build_object(\n        'payment_rail', route.payment_rail,\n        'settlement_currency', route.settlement_currency,\n        'receiver_momo_number', route.receiver_momo_number,\n        'receiver_display_label', route.receiver_display_label,\n        'receiver_network', route.receiver_network\n      )) order by collection.created_at desc, collection.id\n  ), '[]'::jsonb)\n  into result\n  from public.member_collections_view collection\n  left join lateral public.public_collection_payment_route(collection.id) route on true\n  where (p_collection_id is null or collection.id = p_collection_id)\n    and public.user_can_read_collection(collection.id, auth.uid());\n  return result;\nend;\n$function$\n",
+      "identity": "list_current_user_collections(uuid)"
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "api_privileges": null,
+      "definition": "CREATE OR REPLACE FUNCTION public.post_payment_from_event(event_id uuid, intent_id uuid, target_collection_id uuid, allocation_reason text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  event_row public.parsed_payment_events;\n  intent_row public.payment_intents;\n  raw_row public.raw_payment_sms;\n  receiver_id uuid;\n  candidate_payment_id uuid;\nbegin\n  select event.* into event_row\n  from public.parsed_payment_events event\n  where event.id = event_id\n  for update;\n  if event_row.id is null then raise exception 'Parsed event not found'; end if;\n\n  select payment.id into candidate_payment_id\n  from public.payments payment\n  where payment.parsed_event_id = event_id;\n  if candidate_payment_id is not null then return candidate_payment_id; end if;\n\n  if not event_row.is_mobile_money_payment\n     or event_row.direction <> 'incoming'\n     or event_row.currency <> 'RWF'\n     or event_row.amount_rwf is null\n     or event_row.amount_rwf <= 0\n     or event_row.transaction_id is null\n     or event_row.receiver_phone_hash is null\n     or event_row.confidence < 0.90 then\n    raise exception 'SMS payment evidence is incomplete or below the review threshold';\n  end if;\n\n  select intent.* into intent_row\n  from public.payment_intents intent\n  where intent.id = intent_id\n  for update;\n  if intent_row.id is null then raise exception 'Payment intent not found'; end if;\n  if intent_row.status <> 'pending' or intent_row.expires_at <= now() then\n    raise exception 'Payment intent is not active';\n  end if;\n  if intent_row.collection_id <> target_collection_id\n     or intent_row.receiver_momo_number_hash <> event_row.receiver_phone_hash\n     or intent_row.expected_amount_rwf <> event_row.amount_rwf then\n    raise exception 'Payment intent does not match the SMS evidence';\n  end if;\n  if event_row.sender_phone_hash is null\n     or intent_row.sender_phone_hash is distinct from event_row.sender_phone_hash\n     or intent_row.sender_phone_hash is distinct from\n       public._authenticated_momo_phone_hash(intent_row.contributor_user_id)\n     or (event_row.detected_user_public_id is not null\n       and intent_row.contributor_public_id is distinct from\n         event_row.detected_user_public_id) then\n    raise exception 'Payer identity does not match the payment intent';\n  end if;\n\n  select raw.* into raw_row\n  from public.raw_payment_sms raw\n  where raw.id = event_row.raw_sms_id;\n  if raw_row.id is null\n     or raw_row.native_action_capability_id is null\n     or raw_row.attestation_request_hash is null\n     or raw_row.device_attested_at is null\n     or coalesce(raw_row.received_at_device, raw_row.ingested_at)\n       not between intent_row.created_at - interval '15 minutes'\n         and intent_row.expires_at + interval '2 hours' then\n    raise exception 'Device-attested SMS evidence is required within the payment intent window';\n  end if;\n\n  perform pg_advisory_xact_lock(hashtextextended(\n    event_row.network || ':' || upper(btrim(event_row.transaction_id)), 0\n  ));\n  select payment.id into candidate_payment_id\n  from public.payments payment\n  where payment.provider_network = event_row.network\n    and upper(btrim(payment.transaction_id)) = upper(btrim(event_row.transaction_id))\n  order by payment.created_at\n  limit 1;\n  if candidate_payment_id is not null then\n    update public.parsed_payment_events\n    set allocation_status = 'ignored',\n        review_reason = 'Duplicate provider transaction evidence'\n    where id = event_id;\n    return candidate_payment_id;\n  end if;\n\n  select receiver.receiver_user_id into receiver_id\n  from public.collection_receivers receiver\n  where receiver.collection_id = target_collection_id\n    and receiver.momo_number_hash = event_row.receiver_phone_hash\n    and receiver.is_active\n  order by receiver.created_at desc\n  limit 1;\n  if receiver_id is null or receiver_id <> event_row.receiver_user_id then\n    raise exception 'SMS receiver is not configured for the target group';\n  end if;\n\n  insert into public.payments(\n    parsed_event_id, payment_intent_id, collection_id,\n    contributor_user_id, contributor_public_id, receiver_user_id,\n    receiver_momo_number_hash, amount_rwf, transaction_id,\n    provider_network, source, status, anonymity_choice, posted_at\n  ) values (\n    event_id, intent_id, target_collection_id,\n    intent_row.contributor_user_id, intent_row.contributor_public_id, receiver_id,\n    event_row.receiver_phone_hash, event_row.amount_rwf, event_row.transaction_id,\n    event_row.network, 'sms_auto', 'review', intent_row.anonymity_choice, null\n  ) returning id into candidate_payment_id;\n\n  insert into public.payment_allocations(\n    payment_id, parsed_event_id, collection_id, payment_intent_id,\n    allocated_by, allocation_method, confidence, reason\n  ) values (\n    candidate_payment_id, event_id, target_collection_id, intent_id,\n    null, 'auto_native_sms', event_row.confidence,\n    allocation_reason || '; awaiting independent provider confirmation'\n  );\n  update public.parsed_payment_events\n  set allocation_status = 'needs_review',\n      review_reason = 'Matched to one payer-verified intent; awaiting independent provider confirmation'\n  where id = event_id;\n  update public.payment_intents set status = 'matched' where id = intent_id;\n  perform collect_hybrid.record_momo_exception(\n    event_id, 'provider_confirmation_pending',\n    jsonb_build_object('payment_id', candidate_payment_id, 'payment_intent_id', intent_id)\n  );\n  perform public.create_audit_log(\n    'payment.awaiting_provider_confirmation', 'payment', candidate_payment_id,\n    jsonb_build_object(\n      'parsed_event_id', event_id,\n      'payment_intent_id', intent_id,\n      'method', 'native_sms_candidate',\n      'ledger_posted', false\n    ),\n    null\n  );\n  return candidate_payment_id;\nend;\n$function$\n",
+      "identity": "post_payment_from_event(uuid,uuid,uuid,text)"
+    }
+  ],
+  "isolated_database_removed": true,
+  "kind": "installed154_schema_only_member_data_uat",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "remaining_acceptance": [
+    "Posted history positive sorting/ties/filter matched counts/full money totals require an authentic posting fixture; no posted or provider-confirmed state was manufactured.",
+    "No current API provides recent-intent paging; actual API is a bounded50 window with complete count and request-bound exact-ID lookup, both exercised.",
+    "Positive native-SMS candidate posting needs verified native capability; no native/provider attestation was fabricated."
+  ],
+  "schema_only_sha256": "93861fc6bb7b07bfa49d835003b29749e995b194e50df48422dc9ee0c366104c",
+  "signed_jwt_tested": false,
+  "source_database_written": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_inputs": {
+    "scripts/tests/data_correctness_sql_uat.py": "f3d8a2947bd8f9097ee8e07d04a9d00c2688ff670e4ccc3c2a38cfa3424d9eca",
+    "scripts/tests/local_offline_verification.py": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+    "scripts/tests/local_schema_uat.py": "8ef305e6d67de12a76e1cc7eadbaf74012062f0ccca044dc9e1f9545ad27f0ca",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "source_inputs_unchanged": true,
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T21:54:23.048281+00:00",
+  "status": "failed"
+}

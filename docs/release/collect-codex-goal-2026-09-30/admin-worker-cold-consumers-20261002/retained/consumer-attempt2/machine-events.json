@@ -1,0 +1,244 @@
+[
+  {
+    "protocolVersion": "0.1.1",
+    "runnerVersion": null,
+    "pid": 20381,
+    "type": "start",
+    "time": 0
+  },
+  {
+    "suite": {
+      "id": 0,
+      "platform": "vm",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "suite",
+    "time": 0
+  },
+  {
+    "test": {
+      "id": 1,
+      "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart",
+      "suiteID": 0,
+      "groupIDs": [],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": null,
+      "column": null,
+      "url": null
+    },
+    "type": "testStart",
+    "time": 0
+  },
+  {
+    "count": 1,
+    "time": 2,
+    "type": "allSuites"
+  },
+  {
+    "testID": 1,
+    "result": "success",
+    "skipped": false,
+    "hidden": true,
+    "type": "testDone",
+    "time": 5060
+  },
+  {
+    "group": {
+      "id": 2,
+      "suiteID": 0,
+      "parentID": null,
+      "name": "",
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "testCount": 16,
+      "line": null,
+      "column": null,
+      "url": null
+    },
+    "type": "group",
+    "time": 5061
+  },
+  {
+    "test": {
+      "id": 3,
+      "name": "SDK health pre exact RPC parameters captured Bearer and actual SQL result",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 274,
+      "column": 7,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 5061
+  },
+  {
+    "testID": 3,
+    "error": "Null check operator used on a null value",
+    "stackTrace": "package:postgrest/src/postgrest_builder.dart 462:27                   PostgrestBuilder._parseResponse\npackage:postgrest/src/postgrest_builder.dart 412:18                   PostgrestBuilder._execute\n===== asynchronous gap ===========================\ndart:async                                                            _Completer.completeError\npackage:riverpod/src/async_notifier/base.dart 260:11                  FutureHandlerProviderElementMixin.onError\npackage:riverpod/src/async_notifier/base.dart 393:11                  FutureHandlerProviderElementMixin._handleAsync.<fn>\npackage:riverpod/src/async_notifier/base.dart 363:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n===== asynchronous gap ===========================\ndart:async                                                            Future.then\npackage:riverpod/src/async_notifier/base.dart 354:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>\npackage:riverpod/src/async_notifier/base.dart 388:47                  FutureHandlerProviderElementMixin._handleAsync\npackage:riverpod/src/async_notifier/base.dart 335:5                   FutureHandlerProviderElementMixin.handleFuture\npackage:riverpod/src/future_provider/base.dart 116:5                  FutureProviderElement.create\npackage:riverpod/src/framework/element.dart 426:7                     ProviderElementBase.buildState\npackage:riverpod/src/framework/element.dart 228:5                     ProviderElementBase.mount\npackage:riverpod/src/framework/container.dart 47:11                   _StateReader._create\npackage:riverpod/src/framework/container.dart 35:52                   _StateReader.getElement\npackage:riverpod/src/framework/container.dart 440:40                  ProviderContainer.readProviderElement.<fn>\npackage:riverpod/src/framework/container.dart 475:8                   ProviderContainer.readProviderElement\npackage:riverpod/src/framework/proxy_provider_listenable.dart 134:26  ProviderElementProxy.read\npackage:riverpod/src/framework/container.dart 241:21                  ProviderContainer.read\ntest/admin_worker_cold_consumer_test.dart 146:35                      Harness.start\n===== asynchronous gap ===========================\ndart:async                                                            _CustomZone.registerUnaryCallback\ntest/admin_worker_cold_consumer_test.dart 130:5                       Harness.start\ntest/admin_worker_cold_consumer_test.dart 276:17                      main.<fn>\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 5129
+  },
+  {
+    "testID": 3,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 5129
+  },
+  {
+    "test": {
+      "id": 4,
+      "name": "SDK health post exact RPC parameters captured Bearer and actual SQL result",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 274,
+      "column": 7,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 5130
+  },
+  {
+    "testID": 4,
+    "error": "Null check operator used on a null value",
+    "stackTrace": "package:postgrest/src/postgrest_builder.dart 462:27                   PostgrestBuilder._parseResponse\npackage:postgrest/src/postgrest_builder.dart 412:18                   PostgrestBuilder._execute\n===== asynchronous gap ===========================\ndart:async                                                            _Completer.completeError\npackage:riverpod/src/async_notifier/base.dart 260:11                  FutureHandlerProviderElementMixin.onError\npackage:riverpod/src/async_notifier/base.dart 393:11                  FutureHandlerProviderElementMixin._handleAsync.<fn>\npackage:riverpod/src/async_notifier/base.dart 363:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n===== asynchronous gap ===========================\ndart:async                                                            Future.then\npackage:riverpod/src/async_notifier/base.dart 354:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>\npackage:riverpod/src/async_notifier/base.dart 388:47                  FutureHandlerProviderElementMixin._handleAsync\npackage:riverpod/src/async_notifier/base.dart 335:5                   FutureHandlerProviderElementMixin.handleFuture\npackage:riverpod/src/future_provider/base.dart 116:5                  FutureProviderElement.create\npackage:riverpod/src/framework/element.dart 426:7                     ProviderElementBase.buildState\npackage:riverpod/src/framework/element.dart 228:5                     ProviderElementBase.mount\npackage:riverpod/src/framework/container.dart 47:11                   _StateReader._create\npackage:riverpod/src/framework/container.dart 35:52                   _StateReader.getElement\npackage:riverpod/src/framework/container.dart 440:40                  ProviderContainer.readProviderElement.<fn>\npackage:riverpod/src/framework/container.dart 475:8                   ProviderContainer.readProviderElement\npackage:riverpod/src/framework/proxy_provider_listenable.dart 134:26  ProviderElementProxy.read\npackage:riverpod/src/framework/container.dart 241:21                  ProviderContainer.read\ntest/admin_worker_cold_consumer_test.dart 146:35                      Harness.start\n===== asynchronous gap ===========================\ndart:async                                                            _CustomZone.registerUnaryCallback\ntest/admin_worker_cold_consumer_test.dart 130:5                       Harness.start\ntest/admin_worker_cold_consumer_test.dart 276:17                      main.<fn>\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 5140
+  },
+  {
+    "testID": 4,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 5140
+  },
+  {
+    "test": {
+      "id": 5,
+      "name": "SDK health exact observed55000 refuses one invocation without absence or retry",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 285,
+      "column": 5,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 5141
+  },
+  {
+    "testID": 5,
+    "error": "Null check operator used on a null value",
+    "stackTrace": "package:postgrest/src/postgrest_builder.dart 462:27                   PostgrestBuilder._parseResponse\npackage:postgrest/src/postgrest_builder.dart 412:18                   PostgrestBuilder._execute\n===== asynchronous gap ===========================\ndart:async                                                            _Completer.completeError\npackage:riverpod/src/async_notifier/base.dart 260:11                  FutureHandlerProviderElementMixin.onError\npackage:riverpod/src/async_notifier/base.dart 393:11                  FutureHandlerProviderElementMixin._handleAsync.<fn>\npackage:riverpod/src/async_notifier/base.dart 363:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n===== asynchronous gap ===========================\ndart:async                                                            Future.then\npackage:riverpod/src/async_notifier/base.dart 354:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>\npackage:riverpod/src/async_notifier/base.dart 388:47                  FutureHandlerProviderElementMixin._handleAsync\npackage:riverpod/src/async_notifier/base.dart 335:5                   FutureHandlerProviderElementMixin.handleFuture\npackage:riverpod/src/future_provider/base.dart 116:5                  FutureProviderElement.create\npackage:riverpod/src/framework/element.dart 426:7                     ProviderElementBase.buildState\npackage:riverpod/src/framework/element.dart 228:5                     ProviderElementBase.mount\npackage:riverpod/src/framework/container.dart 47:11                   _StateReader._create\npackage:riverpod/src/framework/container.dart 35:52                   _StateReader.getElement\npackage:riverpod/src/framework/container.dart 440:40                  ProviderContainer.readProviderElement.<fn>\npackage:riverpod/src/framework/container.dart 475:8                   ProviderContainer.readProviderElement\npackage:riverpod/src/framework/proxy_provider_listenable.dart 134:26  ProviderElementProxy.read\npackage:riverpod/src/framework/container.dart 241:21                  ProviderContainer.read\ntest/admin_worker_cold_consumer_test.dart 146:35                      Harness.start\n===== asynchronous gap ===========================\ndart:async                                                            _CustomZone.registerUnaryCallback\ntest/admin_worker_cold_consumer_test.dart 130:5                       Harness.start\ntest/admin_worker_cold_consumer_test.dart 287:15                      main.<fn>\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 5152
+  },
+  {
+    "testID": 5,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 5152
+  },
+  {
+    "test": {
+      "id": 6,
+      "name": "SDK pending reconstructed health read rejects departed session after response",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 296,
+      "column": 5,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 5152
+  },
+  {
+    "testID": 6,
+    "error": "Null check operator used on a null value",
+    "stackTrace": "package:postgrest/src/postgrest_builder.dart 462:27                   PostgrestBuilder._parseResponse\npackage:postgrest/src/postgrest_builder.dart 412:18                   PostgrestBuilder._execute\n===== asynchronous gap ===========================\ndart:async                                                            _Completer.completeError\npackage:riverpod/src/async_notifier/base.dart 260:11                  FutureHandlerProviderElementMixin.onError\npackage:riverpod/src/async_notifier/base.dart 393:11                  FutureHandlerProviderElementMixin._handleAsync.<fn>\npackage:riverpod/src/async_notifier/base.dart 363:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n===== asynchronous gap ===========================\ndart:async                                                            Future.then\npackage:riverpod/src/async_notifier/base.dart 354:16                  FutureHandlerProviderElementMixin.handleFuture.<fn>\npackage:riverpod/src/async_notifier/base.dart 388:47                  FutureHandlerProviderElementMixin._handleAsync\npackage:riverpod/src/async_notifier/base.dart 335:5                   FutureHandlerProviderElementMixin.handleFuture\npackage:riverpod/src/future_provider/base.dart 116:5                  FutureProviderElement.create\npackage:riverpod/src/framework/element.dart 426:7                     ProviderElementBase.buildState\npackage:riverpod/src/framework/element.dart 228:5                     ProviderElementBase.mount\npackage:riverpod/src/framework/container.dart 47:11                   _StateReader._create\npackage:riverpod/src/framework/container.dart 35:52                   _StateReader.getElement\npackage:riverpod/src/framework/container.dart 440:40                  ProviderContainer.readProviderElement.<fn>\npackage:riverpod/src/framework/container.dart 475:8                   ProviderContainer.readProviderElement\npackage:riverpod/src/framework/proxy_provider_listenable.dart 134:26  ProviderElementProxy.read\npackage:riverpod/src/framework/container.dart 241:21                  ProviderContainer.read\ntest/admin_worker_cold_consumer_test.dart 146:35                      Harness.start\n===== asynchronous gap ===========================\ndart:async                                                            _CustomZone.registerUnaryCallback\ntest/admin_worker_cold_consumer_test.dart 130:5                       Harness.start\ntest/admin_worker_cold_consumer_test.dart 298:15                      main.<fn>\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 5162
+  },
+  {
+    "testID": 6,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 5162
+  },
+  {
+    "test": {
+      "id": 7,
+      "name": "Actual health card shows fresh reconstructed original evidence via repository",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 174,
+      "column": 5,
+      "url": "package:flutter_test/src/widget_tester.dart",
+      "root_line": 311,
+      "root_column": 5,
+      "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 5162
+  },
+  {
+    "testID": 1,
+    "error": "Bad state: Cannot close sink while adding stream.",
+    "stackTrace": "package:stream_channel/src/guarantee_channel.dart 180:7      _GuaranteeSink.close\npackage:flutter_tools/src/test/flutter_platform.dart 766:43  FlutterPlatform._startTest\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 55955
+  },
+  {
+    "testID": 7,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 55959
+  }
+]

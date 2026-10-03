@@ -1,0 +1,2 @@
+NOTICE:  00000: policy "payment intents update contributor txn or admin" for relation "payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

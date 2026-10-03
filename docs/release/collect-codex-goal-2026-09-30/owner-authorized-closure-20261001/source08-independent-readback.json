@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-01T10:36:10.672893+00:00",
+  "kind": "independent_source08_readback",
+  "candidate": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-source-08",
+  "manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "source_manifest_sha256": "579721ec66cbff3064b0de24c888f84a73e902f87c132d2a84da0ba09e7ef9c1",
+  "files": 1933,
+  "bytes": 154526055,
+  "migration_inventory": 177,
+  "status": "pass",
+  "errors": [],
+  "capture_classification": "unapproved_non_atomic_implementation_checkpoint",
+  "capture_window_drift": {
+    "current_indexed_absence": [
+      "web/public/app-screens/terms-377e5eed2d41.png"
+    ],
+    "current_source_manifest_sha256": "579721ec66cbff3064b0de24c888f84a73e902f87c132d2a84da0ba09e7ef9c1",
+    "excluded_upstream_fixtures": [],
+    "indexed_absence_paths": [],
+    "prior_indexed_absence": [
+      "web/public/app-screens/terms-377e5eed2d41.png"
+    ],
+    "selected_files": []
+  },
+  "atomic_reviewed_trusted_source_accepted": false,
+  "whole177_migration_chain_accepted": false,
+  "hosted_deployed": false,
+  "general_owner_authorization_received": true,
+  "specific_artifact_release_acceptance_verified": false
+}

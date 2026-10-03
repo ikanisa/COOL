@@ -1,0 +1,300 @@
+{
+  "captured_at_utc": "2026-10-02T14:14:26.447056+00:00",
+  "references": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc01-current-format-preparation1/final-proof2/packet-files.json",
+      "sha256": "8035002b7108f93776afb83c6f3b2d9c4f9f32627c00a5e059e12ed7b2ac6d37"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc01-current-format-preparation1/current-style-readback1/packet-files.json",
+      "sha256": "88ef36bfe19d8f51f40834fa0c880046d099fe6b9bc87957baa3a99c81ecd496"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-portable-admin-integration1/packet-files.json",
+      "sha256": "8a160e33eaeadcd6cce454ee81ffa6073f110fef6c92a9fbc551b21c0f412640"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-style-seam-integration1/packet-files.json",
+      "sha256": "4a7124297524d06b664255fde90479605290ae291bd5605011e65099777759d0"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be10-sql-ci-integration1/packet-files.json",
+      "sha256": "f5c7f5401801e82429cb7331d1e2105c6a521cb125aa5d760e965dd90c0202cd"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/SHA256SUMS",
+      "sha256": "d794eda0e1fb64cd86c623f7b307e8b2b03b90df79490a56ef20247c4959bd12"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-backend-ci-composition-readback1/packet-files.json",
+      "sha256": "1f3d5578352c71b176c6c8a9320680f3e3bb50c2a5c404ecad4f3b3beecf46b8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/packet-files.json",
+      "sha256": "3ca42ee701ad57dc4ebc328153f4ebd8f81910117261a14d8149187e4ebee34d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-schema-current-sql-ci-refresh1/SHA256SUMS",
+      "sha256": "7595bf5a891ade7d85db6cecec2cb6fb742605713aa76acf695253574bb6256c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/packet-files.json",
+      "sha256": "4483449898ddfadfe0bc1c8c9bdcc0793e73f4aa24038052a10495528ad528c7"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-lock8-readback1/packet-files.json",
+      "sha256": "fe240be06dfc6f280550c37357a852674f7b0803810ac760322bda168baa7599"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/execution-packet-files.json",
+      "sha256": "db514609ad4f2dfd434a822bfb279ab64875a52748366803680303d6e3e9de6e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/packet-files.json",
+      "sha256": "a853282708df66df69282191644966c8ddb6fbcbffdedf3e77d51b1a4cfb6219"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/packet-files.json",
+      "sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/be02-evidence-admission-preparation1/SHA256SUMS",
+      "sha256": "e7f5155b30275bf86d6cc7564bfdd1200fffb829136c3bb6dd692a1bc41c4269"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be02-proposal-review1/review.json",
+      "sha256": "dda9fc2a3d920b988a83e91ade3de6b3eab05c9c1ded468768f67a351edd81fe"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/be08-app-provenance-gap-review1/SHA256SUMS",
+      "sha256": "6dc5701077566b3e890eb5165ecd4c05b31b3441967ef26896eb86e2b6daa54b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-classification-review1/review-and-path-correction.json",
+      "sha256": "973e7ca993726004fc391714850e0663b324fd17755febd2364799a0afe6f48a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-aab-execution-preparation2/reviewed-final/SHA256SUMS",
+      "sha256": "3ec4e4c71bb88efd0bccd227882b6c569563978fda4ba6eb6adf9aa3bede4964"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/packet-files.json",
+      "sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/readback.json",
+      "sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/readback.json",
+      "sha256": "cd695eae9bd74b34fdd0910c67d709b13f38479e1d0fe9dc511f87ee64510a0e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/packet-files.json",
+      "sha256": "e294057807c30bab88c1f67423dc6e4703a81082c0ac8f600c359e997b0a602c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readback.json",
+      "sha256": "7d3f316a08017bf2c5abbf9bc566fd51474398b1e991209763a65fd3526e3921"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/readability-correction1/erratum.json",
+      "sha256": "c38d4f50f73d40364233e1fa88553522d801779637d5d74e1fcf98cae64f92a9"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+      "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+      "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback7/readback.json",
+      "sha256": "2516e105405bafdc3053f52d86479dd195e31507406d7961cbd31f83bf28a74e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation7/packet-files.json",
+      "sha256": "d36422e5bedfed5295ccd09cf423c7fc15163b0da5dc701644059eed34499d44"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback8/readback.json",
+      "sha256": "88f503a1ef6cc96ec15dfe38fedc304e19f30613439010ab7655a86ad14f6b9b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8/packet-files.json",
+      "sha256": "281d1eade6d8728623a0108bc88bc68962e8b3345a75c6b157eb046fd3aa6cd6"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+      "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/current-repo-APP-difference.json",
+      "sha256": "471e4a30b4db4477a93e5670f14c9114a42ad5dbd4efe113b7b8fb8ae5cf3ef5"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/scripts-applied.json",
+      "sha256": "cc8d0687644b1dbe39d532a5ba8d4c2389594559dbe0dd78b98680533d4fab91"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/maintained-tests.json",
+      "sha256": "6195a9c0bdb8b65c03e863ef6393ecb9ea6ab57acb5a4963703cd235b1448e2c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.json",
+      "sha256": "75d3ef4e408db0718b63aa28420c7d928c80c0ba23fe2d462e9a6ac4a1240ef2"
+    }
+  ],
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_findings_open": 34,
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "mapper_current_tests_reused": 57,
+  "mapper_input_count": 1095,
+  "mapper_maintained_caller_files": 668,
+  "mapper_callers": 718,
+  "mapper_source_matches": 775,
+  "mapper_static_matches": 0,
+  "mapper_source_gaps": 127,
+  "ARC01_full710_Make_and_negative_restored": true,
+  "ARC01_two_current_files_checked_other708_and14_controls_unchanged": true,
+  "backend_current156_canonical_pass": true,
+  "backend155_unchanged_one_CI_only_addition": true,
+  "SQL_CI_current219_original37": {
+    "status": "pass",
+    "successful_cases": 37,
+    "recipe_seconds": 158.253204,
+    "Python_orchestration": "macOS using Python 3.12.14",
+    "database_platform": "Linux/arm64",
+    "source_unchanged": true,
+    "both_owned_containers_absent": true,
+    "remote_GitHub_execution_observed": false
+  },
+  "archive39_Linux": {
+    "status": "pass",
+    "successful_tests": 39,
+    "original_timeouts_and_cleanup_preserved": true,
+    "shipping_restore_acceptance": false
+  },
+  "ARC02_current2561": {
+    "hard_size_gate": "pass",
+    "strict_analysis": "pass",
+    "telemetry_boundary_checks": 56,
+    "dated_source_busy_checks": 7,
+    "affected_suites": 41,
+    "successful_unskipped": 1114,
+    "failed_or_skipped": 0,
+    "error_events": 0,
+    "actual_dated_decoders_unskipped": 3,
+    "whole": "pass",
+    "APP_after_structural_readback": "pass",
+    "authored_and_external_source_unchanged": true,
+    "SDK_after": "pass"
+  },
+  "current_native_retry": {
+    "app_export": "prior_bound_export_pass_new_private_derivative_manifest_unapproved",
+    "app_lock": "prior_bound_lock_pass_derivative_source_lock_attested_false",
+    "native": "prior_bound_native8_pass_not_whole_new_Gradle_candidate_verification",
+    "actual_seconds": 1858.452,
+    "original_bound_seconds": 2700,
+    "actual_JVM_tests": 12,
+    "actual_JVM_errors_failures_skips": 0,
+    "actual_JVM_suites": 3,
+    "actual_release_classes": 20,
+    "observed_wrapper_and_separate_daemon_groups_absent": true,
+    "SDK_source_entries": 15660,
+    "SDK_allowed_source_deltas": 8,
+    "protected_original_paths_unchanged": 68020,
+    "unsigned_AAB": "attempt7_R8_failure_preserved_attempt8_private_probe_failed_before_graphs_AAB_retry9_pending",
+    "prior_native_source_map_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "private_derivative_APP_manifest_sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7",
+    "private_derivative_APP_source_map_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+    "current_maintained_source_count": 2563,
+    "current_maintained_source_map_sha256": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+    "current_whole_candidate_acceptance": false
+  },
+  "native_packages_built": false,
+  "additional_mandatory_flavour_graph_counts_from_original_ARC09": false,
+  "BE02_route_neutral_proposal": "reviewed_uninstalled_route_policy_custody_pending",
+  "BE08_app_transform_candidates": {
+    "count": 36,
+    "classes": {
+      "private_move_rename": 13,
+      "public_wrapper": 14,
+      "header_copy": 2,
+      "body_rewrite": 5,
+      "static_rename_intervening_unknown": 2
+    },
+    "reconstruction_or_resolution_performed": false,
+    "status": "additive_mapper_hints_implemented_unresolved",
+    "review_records_with_additive_candidates": 34,
+    "additive_candidate_records": 37
+  },
+  "checkpoint_number": 8,
+  "mapper_current209_refresh": {
+    "status": "pass",
+    "generation_seconds": 3.598863,
+    "independent_verify_seconds": 4.040712,
+    "source_before_after_unchanged": true,
+    "mapper_tests": 57,
+    "new_tests": 8,
+    "unresolved_functions": 127,
+    "unresolved_application": 36,
+    "unresolved_platform": 91,
+    "candidate_reviews": 34,
+    "candidate_records": 37,
+    "caller_semantics_exact_after_only_position_removal": true,
+    "caller_position_changes": 8,
+    "new_evidence_index_database_callers": 0,
+    "owner_body_resolution_accepted": false
+  },
+  "ARC03_manifest_probes": {
+    "status": "implemented_local_pass",
+    "active_endpoints": 13,
+    "ruby_tests": 22,
+    "ruby_assertions": 258,
+    "python_probes": 3,
+    "failures_errors_skips": 0,
+    "source_fences": 36,
+    "corrected_Python_consumer_input_count": 389,
+    "initial_missing_Node_PATH_failure_retained": true,
+    "full_finding_closed": false
+  },
+  "ARC09_selected_runtime_OSV": {
+    "status": "no_known_OSV_records_returned_for_queried_versions",
+    "Maven_versions": 157,
+    "local_projects_outside_Maven_query_scope": 16,
+    "bound_runtime_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+    "HTTP_status": 200,
+    "TLS_verification_result": 0,
+    "complete_package_SBOM_or_licence_or_exploitability_acceptance": false,
+    "scope": "Exact earlier resolved graph; revised Gradle candidate graph comparison pending."
+  },
+  "PD12_current_index": {
+    "status": "implemented14_tests_pass_reader1_two_binding_drifts_reconciliation_pending",
+    "tests": 14,
+    "reader1_seconds": 3.7336595419910736,
+    "reader1_exit_code": 1,
+    "reader1_facts": 90,
+    "reader1_errors": 2,
+    "reader1_errors_scope": "archived APP against current two Android Gradle inputs",
+    "full_finding_closed": false,
+    "root_final_index_and_closure_decision_pending": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "files": {
+    "command1.stderr.log": "b8838a6f9bfc37b672aaf7a9e70e4d486218510bc2daacf9550a799681a0cb18",
+    "command1.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "command2.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "command2.stdout.log": "9f7360353f2892159c7a623b26deb42896c03bd15665ef3a5a5a01ce40e34c53",
+    "result.json": "6cb755bb7e27f66e2e3f6512debbf062f15ed2692a83d5aa1dde650e4c3a417f"
+  },
+  "scope": "Actual maintained12CI policy tests and current six workflow declarations only; no hosted execution or remote settings changes"
+}

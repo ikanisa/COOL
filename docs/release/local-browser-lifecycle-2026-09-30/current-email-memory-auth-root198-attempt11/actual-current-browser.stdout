@@ -1,0 +1,7 @@
+{"id":"pinned-flutter-runtime","status":"pass"}
+{"id":"shipped-security-headers","status":"pass"}
+{"id":"email-sign-in-keeps-admin-route","status":"pass"}
+{"id":"confirmed-email-sign-in-stores-no-browser-credentials","status":"pass"}
+{"id":"authenticated-groups-navigation","status":"pass"}
+{"id":"reference-only-roster-storage","status":"pass"}
+{"id":"reload-never-restores-auth-or-private-editor","status":"pass"}

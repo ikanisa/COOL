@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.VersionFetcherTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:33.572Z" hostname="Jeans-Mac-mini.local" time="0.152">
+  <properties/>
+  <testcase name="getGradleVersion returns version when gradleVersion has hyphen()" classname="com.flutter.gradle.VersionFetcherTest" time="0.003"/>
+  <testcase name="getKGPVersion returns version from KotlinAndroidPluginWrapper()" classname="com.flutter.gradle.VersionFetcherTest" time="0.135"/>
+  <testcase name="getAGPVersion returns version when agpVersion is set()" classname="com.flutter.gradle.VersionFetcherTest" time="0.004"/>
+  <testcase name="getGradleVersion returns version when gradleVersion is set()" classname="com.flutter.gradle.VersionFetcherTest" time="0.001"/>
+  <testcase name="getKGPVersion returns version when kotlin_version is set()" classname="com.flutter.gradle.VersionFetcherTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

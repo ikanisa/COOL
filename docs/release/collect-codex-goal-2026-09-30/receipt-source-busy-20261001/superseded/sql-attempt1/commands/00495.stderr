@@ -1,0 +1,4 @@
+ERROR:  22007: invalid input syntax for type timestamp with time zone: "receipt_event"
+LINE 1: ...blic.admin_list_operational_exceptions_v2(true,20,'receipt_e...
+                                                             ^
+LOCATION:  DateTimeParseError, datetime.c:4140

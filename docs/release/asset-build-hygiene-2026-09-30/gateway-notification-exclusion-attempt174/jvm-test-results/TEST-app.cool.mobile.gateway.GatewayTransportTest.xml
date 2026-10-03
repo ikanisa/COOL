@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayTransportTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-01T12:10:48.850Z" hostname="Jeans-Mac-mini.local" time="10.28">
+  <properties/>
+  <testcase name="redirectAndRevocationAreUnknownWithoutASecondRequest" classname="app.cool.mobile.gateway.GatewayTransportTest" time="0.217"/>
+  <testcase name="deadlineBeforeConnectionDoesNotOpenConnectionAfterSignerReturns" classname="app.cool.mobile.gateway.GatewayTransportTest" time="5.026"/>
+  <testcase name="timeoutDisconnectsAndPreservesUnknownWithoutRetry" classname="app.cool.mobile.gateway.GatewayTransportTest" time="5.015"/>
+  <testcase name="exactBytesAndSignatureHeadersUseOnlyGovernedHttpsWithoutBearerOrRedirects" classname="app.cool.mobile.gateway.GatewayTransportTest" time="0.003"/>
+  <testcase name="missingIdentityOrOversizedRequestCannotOpenConnection" classname="app.cool.mobile.gateway.GatewayTransportTest" time="0.005"/>
+  <testcase name="overBoundResponseStaysUnknownAndIsNotRetried" classname="app.cool.mobile.gateway.GatewayTransportTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,193 @@
+--- preparation3/rehearsal.py
++++ preparation4/rehearsal.py
+@@ -57,6 +57,24 @@
+ GRAPHQL_TRIGGER = ['issue_pg_graphql_access', 'ddl_command_end', 'supabase_admin',
+                    'extensions.grant_pg_graphql_access()', 'O', ['CREATE FUNCTION']]
+ GRAPHQL_MEMBERSHIP_SQL = 'alter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);'
++COMPATIBILITY_SOURCE_SHA = '31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404'
++COMPATIBILITY_RESTORED_SHA = '4f5fb4d590dc8aa6eebd0127b5bec74098be649f3fd68cf05a0832e5c08eb90b'
++CAPTURED_SOURCE_FILE_SHA = '6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d'
++CAPTURED_RESTORED_FILE_SHA = 'b4ae2ac11f2c6c55b0f9510a2e76ac0ba8e1d7b5f3f0a1e9741e14ef0c219846'
++GRAPHQL_GRANTS_SQL = '''begin;
++grant usage on schema graphql,graphql_public to postgres,anon,authenticated,service_role;
++grant usage on schema graphql,graphql_public to postgres with grant option;
++grant execute on function graphql._internal_resolve(text,jsonb,text,jsonb),graphql.comment_directive(text),graphql.exception(text),graphql.get_schema_version(),graphql.increment_schema_version(),graphql.resolve(text,jsonb,text,jsonb) to postgres,anon,authenticated,service_role;
++grant select,update,usage on sequence graphql.seq_schema_version to postgres,anon,authenticated,service_role;
++'''
++TRANSPORT_INDEX_SQL = 'create index if not exists collect_receipt_http_response_id on net._http_response(id);'
++NOTIFICATION_EXPRESSION = '\n    char_length(trim(title)) between 1 and 120\n    and char_length(trim(body)) between 1 and 500'
++PROVIDER_EXPRESSION = "\n    provider_network is null or (\n      char_length(provider_network) between 2 and 32 and provider_network ~ '^[a-z0-9_]+$'\n    )"
++CHECK_REPAIR_SQL = ('begin;\n'
++    'alter table public.notification_events drop constraint notification_events_copy_length_check;\n'
++    'alter table public.notification_events add constraint notification_events_copy_length_check check (' + NOTIFICATION_EXPRESSION + '\n  ) not valid;\n'
++    'alter table public.provider_finality_requests drop constraint provider_finality_requests_provider_network_check;\n'
++    'alter table public.provider_finality_requests add constraint provider_finality_requests_provider_network_check check (' + PROVIDER_EXPRESSION + '\n  );\ncommit;')
+ 
+ 
+ class Refused(ValueError):
+@@ -464,6 +482,100 @@
+         return subprocess.CompletedProcess(argv, result.returncode, result.stdout.decode(), result.stderr.decode())
+ 
+ 
++def canonical_catalog_sha(value):
++    return sha(json.dumps(value, sort_keys=True, separators=(',', ':')).encode())
++
++
++def compatibility_source_scope(source, captured_restored, hook_sql, transport_sql, notification_sql, provider_sql):
++    # Complete captured catalog hashes admit every category/row, not just names
++    # or ACLs. Any additional object, changed body, owner, ACL or flag refuses.
++    if canonical_catalog_sha(source) != COMPATIBILITY_SOURCE_SHA or canonical_catalog_sha(captured_restored) != COMPATIBILITY_RESTORED_SHA:
++        raise Refused('EXACT_CAPTURED_COMPATIBILITY_CATALOGS_REQUIRED')
++    files = [(hook_sql, '77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d'),
++        (transport_sql, 'f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f'),
++        (notification_sql, '33a57d2d756089b842e906cfa051cc09cfcb19d99a0ae6adde0803187cd66105'),
++        (provider_sql, '1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f')]
++    if any(sha(text.encode()) != digest for text, digest in files):
++        raise Refused('EXACT_FROZEN_COMPATIBILITY_SOURCE_SQL_REQUIRED')
++    graphql_source_scope(hook_sql, source)
++    notification = re.findall(r'^alter table notification_events\n  add constraint notification_events_copy_length_check check \((.*?)\n  \) not valid;', notification_sql, re.M | re.S)
++    provider = re.findall(r'^  provider_network text check \((.*?)\n  \),', provider_sql, re.M | re.S)
++    index = re.findall(r'^create index if not exists collect_receipt_http_response_id on net\._http_response\(id\);$', transport_sql, re.M)
++    if notification != [NOTIFICATION_EXPRESSION] or provider != [PROVIDER_EXPRESSION] or index != [TRANSPORT_INDEX_SQL]:
++        raise Refused('EXACT_ORIGINAL_BETWEEN_EXPRESSIONS_AND_INDEX_REQUIRED')
++    functions = [row for row in source['functions'] if row[0] == 'graphql']
++    signatures = [row[:3] for row in functions]
++    expected = [['graphql', '_internal_resolve', 'query text, variables jsonb, "operationName" text, extensions jsonb'],
++        ['graphql', 'comment_directive', 'comment_ text'], ['graphql', 'exception', 'message text'],
++        ['graphql', 'get_schema_version', ''], ['graphql', 'increment_schema_version', ''],
++        ['graphql', 'resolve', 'query text, variables jsonb, "operationName" text, extensions jsonb']]
++    if signatures != expected or any(row[4] != 'supabase_admin' for row in functions):
++        raise Refused('EXACT_GRAPHQL_GRANT_OBJECTS_REQUIRED')
++    index_rows = {key: [row for row in source[key] if row[:2] == ['net', 'collect_receipt_http_response_id']]
++                  for key in ('columns', 'relations', 'indexes')}
++    index_dependencies = [row for row in source['dependencies'] if row[2:4] == ['net', 'net.collect_receipt_http_response_id']]
++    table_member = ['e', 'table', 'net', 'net._http_response', 'extension', None, 'pg_net']
++    if (table_member not in source['dependencies'] or len(index_rows['indexes']) != 1 or
++            index_rows['indexes'][0][2:] != [True, True, True, '9328daab9410518dca5727ad8889381de3d298d548b204d8bed7fd1437a90df3'] or
++            index_dependencies != [['a', 'index', 'net', 'net.collect_receipt_http_response_id', 'table column', 'net', 'net._http_response.id']]):
++        raise Refused('EXACT_SOURCE_EXTENSION_TABLE_AND_INDEX_REQUIRED')
++    constraints = [row for row in source['constraints'] if row[2] in
++        ('notification_events_copy_length_check', 'provider_finality_requests_provider_network_check')]
++    restored_constraints = [row for row in captured_restored['constraints'] if row[2] in
++        ('notification_events_copy_length_check', 'provider_finality_requests_provider_network_check')]
++    if constraints != [
++        ['public', 'public.notification_events', 'notification_events_copy_length_check', 'c', False, False, False, 'd39f28d2b96e15bb3abe3c66ef153a22ec19a6381e78c24db1965407925a9e87'],
++        ['public', 'public.provider_finality_requests', 'provider_finality_requests_provider_network_check', 'c', True, False, False, '05c313d4a8d16cf1745983feb6df49956260bf6fa1dc8eaf65ccc10630086d51']]:
++        raise Refused('EXACT_SOURCE_CHECK_IDENTITIES_FLAGS_AND_HASHES_REQUIRED')
++    return dict(source_catalog_canonical_sha256=COMPATIBILITY_SOURCE_SHA,
++        captured_restored_catalog_canonical_sha256=COMPATIBILITY_RESTORED_SHA,
++        graphql_functions=functions, graphql_schemas=[row for row in source['schemas'] if row[0] in ('graphql','graphql_public')],
++        graphql_sequence=[row for row in source['relations'] if row[:2] == ['graphql','seq_schema_version']],
++        graphql_extension_function_members=[row for row in source['dependencies'] if row[0]=='e' and row[1:3]==['function','graphql']],
++        source_index_rows=index_rows, source_index_dependencies=index_dependencies, underlying_table_extension_membership=table_member,
++        source_constraints=constraints, exact_admitted_restored_constraints=restored_constraints,
++        notification_original_expression=notification[0], provider_original_expression=provider[0],
++        admin_sql=GRAPHQL_GRANTS_SQL + index[0] + '\ncommit;', postgres_sql=CHECK_REPAIR_SQL,
++        schema_or_function_rewrite=False, generic_GRANT_ALL=False, full_catalog_comparator_unchanged=True,
++        graphql_public_nonpostgres_usage_grants_proven_by_captured_schema_ACL=True)
++
++
++def compatibility_plan(source, restored, scope):
++    if (canonical_catalog_sha(source) != COMPATIBILITY_SOURCE_SHA or
++            scope['source_catalog_canonical_sha256'] != COMPATIBILITY_SOURCE_SHA or
++            scope['captured_restored_catalog_canonical_sha256'] != COMPATIBILITY_RESTORED_SHA or
++            scope['admin_sql'] != GRAPHQL_GRANTS_SQL + TRANSPORT_INDEX_SQL + '\ncommit;' or
++            scope['postgres_sql'] != CHECK_REPAIR_SQL):
++        raise Refused('SOURCE_COMPATIBILITY_SCOPE_CHANGED')
++    observed = canonical_catalog_sha(restored)
++    if observed == COMPATIBILITY_SOURCE_SHA:
++        return dict(admin_sql='', postgres_sql='', reason='already_exact_source_catalog')
++    if observed != COMPATIBILITY_RESTORED_SHA:
++        raise Refused('UNKNOWN_RESTORED_METADATA_ACL_INDEX_OR_CHECK')
++    return dict(admin_sql=scope['admin_sql'], postgres_sql=scope['postgres_sql'],
++                reason='only_exact_retained_recovery3_catalog_difference_admitted')
++
++
++def projection_parity(observed, committed):
++    if not isinstance(observed, dict) or not isinstance(committed, dict) or len(observed) != 18 or len(committed) != 18 or observed != committed:
++        raise Refused('ALL18_COMMITTED_PROJECTIONS_MUST_MATCH_AROUND_REPAIRS')
++    return True
++
++
++def compatibility_archive_proof(source, toc, dump):
++    if canonical_catalog_sha(source) != COMPATIBILITY_SOURCE_SHA:
++        raise Refused('EXACT_SOURCE_ARCHIVE_OMISSION_PROVENANCE_REQUIRED')
++    sequence_member = ['e', 'sequence', 'graphql', 'graphql.seq_schema_version', 'extension', None, 'pg_graphql']
++    if (sequence_member not in source['dependencies'] or
++            'collect_receipt_http_response_id' in toc or b'collect_receipt_http_response_id' in dump or
++            re.search(r'^\d+;\s+\d+\s+\d+\s+(?:FUNCTION|ACL|SEQUENCE) graphql ', toc, re.M)):
++        raise Refused('EXACT_KNOWN_EXTENSION_OBJECT_INDEX_ARCHIVE_OMISSIONS_REQUIRED')
++    return dict(index_name_occurrences_in_uncompressed_archive=0,index_name_occurrences_in_TOC=0,
++        six_graphql_extension_function_definitions_and_ACLs_absent_from_TOC=True,
++        sequence_definition_and_ACL_absent_from_TOC=True,sequence_extension_membership=sequence_member,
++        no_archive_line_omitted_or_rewritten_by_this_proof=True)
++
++
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--inputs', type=Path, default=HERE / 'inputs.json')
+@@ -479,7 +591,7 @@
+     review = admit_review(json.loads(review_body, object_pairs_hook=unique), sha(code_body), sha(inputs_body))
+     inputs = json.loads(inputs_body, object_pairs_hook=unique)
+     candidate = Path(inputs['candidate'])
+-    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate3')
++    expected_candidate = Path('/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate4')
+     report = args.output.resolve()
+     if candidate != expected_candidate or report.exists() or not report.is_relative_to(candidate / 'docs/release'):
+         raise Refused('FRESH_PRIVATE_OWNED_OUTPUT_REQUIRED')
+@@ -531,6 +643,19 @@
+     graphql_query = graphql_inventory_query(read(candidate / CATALOG).decode())
+     (report / 'graphql-wrapper-query.sql').write_text(graphql_query)
+     record['graphql_wrapper_admitted_source_scope'] = graphql_scope
++    captured_source_body = read(candidate / 'reference/compatibility3/source-predecessor-catalog.json')
++    captured_restored_body = read(candidate / 'reference/compatibility3/restored-predecessor-catalog.json')
++    if sha(captured_source_body) != CAPTURED_SOURCE_FILE_SHA or sha(captured_restored_body) != CAPTURED_RESTORED_FILE_SHA:
++        raise Refused('CAPTURED_RECOVERY3_CATALOG_FILE_BINDING_CHANGED')
++    captured_source, captured_restored = json.loads(captured_source_body), json.loads(captured_restored_body)
++    if reference_pre != captured_source:
++        raise Refused('FROZEN_PREDECESSOR_NOT_EXACT_CAPTURED_SOURCE')
++    compatibility_scope = compatibility_source_scope(captured_source, captured_restored,
++        read(candidate / '.cache/receipt-foundation-attempt8/schema-only.sql').decode(),
++        read(candidate / TRANSPORT).decode(),
++        read(candidate / 'supabase/migrations/20260804150000_native_push_delivery.sql').decode(),
++        read(candidate / 'supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql').decode())
++    record['admitted_compatibility_repair_scope'] = compatibility_scope
+     items = []
+     for row in reference['source_inventory']:
+         body = read(candidate / row['path'])
+@@ -822,6 +947,7 @@
+             case('exact source GraphQL wrapper metadata and extension membership verified before archive ACL',
+                  graphql_restore_plan(graphql_scope, after_graphql) == '')
+             toc = restored.tool('pg_restore', ['--list'], read(dump_path)).stdout.decode()
++            record['exact_extension_object_index_archive_omission_proof'] = compatibility_archive_proof(committed, toc, sealed_dump(dump_path, record['dump_seal']['sha256']))
+             listing, omitted = restore_list(toc, committed, graphql_scope)
+             list_path = report / 'full-restore-list.txt'; list_path.write_text(listing)
+             # The allow-list is copied only into this labelled, networkless
+@@ -847,7 +973,27 @@
+             restored.tool('pg_restore', ['--exit-on-error', '--no-password', '--username=supabase_admin', '--dbname=postgres', '--use-list=/tmp/collect-full-restore-list.txt'], sealed_dump(dump_path, record['dump_seal']['sha256']))
+             restored.sql('alter role postgres nosuperuser;', user='supabase_admin', label='end explicit privileged local restore before any forward migration')
+             ordinary(restored)
++            before_metadata, _ = catalog(restored, 'before-compatibility-repairs', [i['version'] for i in items[:124]])
++            repair = compatibility_plan(committed, before_metadata, compatibility_scope)
++            record['compatibility_repair_plan'] = repair
++            # Fingerprints bracket only the two bounded compatibility SQL
++            # transactions. No source rows or migration history are rewritten.
++            before_repair = replay.fingerprints(restored, reference['preserved_columns'])
++            record['fresh_before_compatibility_fingerprints'] = before_repair
++            case('all18 restored projections equal committed source immediately before compatibility repairs',
++                 projection_parity(before_repair, preserved))
++            if repair['admin_sql']:
++                restored.sql(repair['admin_sql'], user='supabase_admin', label='exact captured GraphQL grants and source extension-table index prerequisite')
++                restored.sql(repair['postgres_sql'], label='transactional exact original BETWEEN CHECK parity restoration with original validation flags')
++            after_repair = replay.fingerprints(restored, reference['preserved_columns'])
++            record['fresh_after_compatibility_fingerprints'] = after_repair
++            case('all18 committed projections survive compatibility repairs immediately after both transactions',
++                 projection_parity(after_repair, preserved) and projection_parity(after_repair, before_repair))
+             roundtrip, _ = catalog(restored, 'restored-predecessor', [i['version'] for i in items[:124]])
++            after_constraints = [row for row in roundtrip['constraints'] if row[2] in
++                ('notification_events_copy_length_check', 'provider_finality_requests_provider_network_check')]
++            case('both CHECK identities validation flags and exact source definition hashes verified before continuing',
++                 after_constraints == compatibility_scope['source_constraints'])
+             case('complete restored predecessor catalog and effective ACLs exactly equal committed source', roundtrip == committed)
+             fresh = replay.fingerprints(restored, reference['preserved_columns'])
+             record['fresh_restored_predecessor_fingerprints'] = fresh

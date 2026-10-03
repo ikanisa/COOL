@@ -1,0 +1,2 @@
+  "collect-receipt-successor-gateway": () =>
+    import("../../supabase/functions/collect-receipt-successor-gateway/index.ts"),

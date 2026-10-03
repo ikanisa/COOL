@@ -1,0 +1,36 @@
+{
+  "observed_at": "2026-10-02T02:09:30.525705+00:00",
+  "status": "pass",
+  "packets": [
+    {
+      "packet": "ai-import-review-batch1",
+      "indexed_leaves": 9,
+      "batch_sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933",
+      "index_sha256": "25dd5a4f9b5fb9d3d7d3ccd0ef0b3332c4eba9d505284129c67849cdc8006cbc",
+      "errors": []
+    },
+    {
+      "packet": "ai-import-minimization-batch1",
+      "indexed_leaves": 77,
+      "batch_sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e",
+      "index_sha256": "4e11f895869b8f9d75d7ceb52ca7b33e63e225a55ac23f2491133565da854310",
+      "errors": []
+    },
+    {
+      "packet": "ai-import-fixture-lint-batch1",
+      "indexed_leaves": 76,
+      "batch_sha256": "b3ff1456d00f31f742433e166b60733c2a312ce11b251f44ba18b4fb396df352",
+      "index_sha256": "50c780f71ae41e27da3f34dc0e7ef9b2bb6c88f8ee86eb4d9925bff3620635cd",
+      "errors": []
+    },
+    {
+      "packet": "ai-dispatch-policy-review-batch1",
+      "indexed_leaves": 46,
+      "batch_sha256": "4296a3a89cb186bf7b02a37332418e85670659b97fcc5efd8e5f34a8d6d7ad4e",
+      "index_sha256": "cdfece9f2ec37e7fcab797072b3266ba2c7e264ed4dc1eb7bdd498e93fde0a3b",
+      "errors": []
+    }
+  ],
+  "indexed_leaves": 208,
+  "originals_untouched": true
+}

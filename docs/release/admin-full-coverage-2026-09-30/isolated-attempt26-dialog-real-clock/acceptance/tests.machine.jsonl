@@ -1,0 +1,24 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":15764,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt26-dialog-real-clock/source-export/test/admin_custom_action_ui_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt26-dialog-real-clock/source-export/test/admin_custom_action_ui_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":1}
+{"count":1,"time":103,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":16160}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":16163}
+{"test":{"id":3,"name":"createGroup production UI success","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":202,"root_column":7,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt26-dialog-real-clock/source-export/test/admin_custom_action_ui_test.dart"},"type":"testStart","time":16164}
+{"testID":3,"messageType":"print","message":"custom matrix: setup starts","type":"print","time":16443}
+{"testID":3,"messageType":"print","message":"custom matrix: session ready","type":"print","time":16505}
+{"testID":3,"messageType":"print","message":"custom matrix: identity ready","type":"print","time":16530}
+{"testID":3,"messageType":"print","message":"custom matrix: network starts","type":"print","time":17046}
+{"testID":3,"messageType":"print","message":"custom matrix: animation settled","type":"print","time":17079}
+{"testID":3,"messageType":"print","message":"custom matrix: network ends","type":"print","time":17129}
+{"testID":3,"messageType":"print","message":"custom matrix: network starts","type":"print","time":17247}
+{"testID":3,"messageType":"print","message":"custom matrix: animation settled","type":"print","time":18162}
+{"testID":3,"messageType":"print","message":"custom matrix: network ends","type":"print","time":18247}
+{"testID":3,"messageType":"print","message":"custom matrix: network starts","type":"print","time":19017}
+{"testID":3,"messageType":"print","message":"custom matrix: animation settled","type":"print","time":19206}
+{"testID":3,"messageType":"print","message":"custom matrix: network ends","type":"print","time":19294}
+{"testID":3,"messageType":"print","message":"custom matrix: assertions complete","type":"print","time":19301}
+{"testID":3,"messageType":"print","message":"custom matrix: widgets unmounted","type":"print","time":19319}
+{"testID":3,"messageType":"print","message":"custom matrix: container disposed","type":"print","time":19331}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":19342}
+{"success":true,"type":"done","time":19364}

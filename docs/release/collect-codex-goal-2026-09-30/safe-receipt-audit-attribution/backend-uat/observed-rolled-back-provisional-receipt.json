@@ -1,0 +1,17 @@
+{
+  "scope": "rw_receipt_manual_cancel",
+  "action": "cancel_unstarted",
+  "revision": 2,
+  "outbox_id": "8cae5f09-b1ea-4eb8-ba39-847248f93b0c",
+  "request_id": "e0022029-1749-4d82-9f34-2a1bba80fb6e",
+  "reason_code": "operator_cancelled",
+  "recorded_at": "2026-10-01T00:52:13.807302Z",
+  "send_action": false,
+  "state_after": "suppressed",
+  "state_before": "queued",
+  "contract_version": 1,
+  "financial_action": false,
+  "expected_revision": 1,
+  "primary_receipt_retained": true,
+  "provider_delivery_verified": false
+}

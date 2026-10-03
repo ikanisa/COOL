@@ -1,0 +1,10 @@
+lib/admin/core/admin_login_runtime.dart:117:37: Error: The getter 'adminEvidenceWhatsAppPhone' isn't defined for the type '_AdminLoginPageState'.
+ - '_AdminLoginPageState' is from 'package:collect_app/admin/core/admin_runtime.dart' ('lib/admin/core/admin_runtime.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'adminEvidenceWhatsAppPhone'.
+                                  '$adminEvidenceWhatsAppPhone • OTP $adminEvidenceOtp',
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/admin/core/admin_login_runtime.dart:343:44: Error: The getter 'adminEvidenceWhatsAppPhone' isn't defined for the type '_AdminLoginPageState'.
+ - '_AdminLoginPageState' is from 'package:collect_app/admin/core/admin_runtime.dart' ('lib/admin/core/admin_runtime.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'adminEvidenceWhatsAppPhone'.
+      return 'Use the local review number $adminEvidenceWhatsAppPhone.';
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^

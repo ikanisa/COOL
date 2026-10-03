@@ -1,0 +1,1284 @@
+[
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.072072664725560731,
+          0.95753971493677914,
+          0.1231502695980235,
+          0.022420569807055646
+        ],
+        "text" : "20:04"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.77044025107209868,
+          0.96220930219159206,
+          0.050314464732112985,
+          0.0072674419830949244
+        ],
+        "text" : "...."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19496855221866893,
+          0.88226744205447871,
+          0.36477987175313831,
+          0.024709302290544244
+        ],
+        "text" : "Delete request"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19811321549373337,
+          0.77172195883892447,
+          0.39308174328926282,
+          0.017522226577686539
+        ],
+        "text" : "I no longer use Collect"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19811320871619431,
+          0.69622093083663938,
+          0.32704402564937229,
+          0.019023935188426044
+        ],
+        "text" : "I joined by mistake"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19811322027363293,
+          0.62045813605238331,
+          0.4779873839810363,
+          0.017772511848341166
+        ],
+        "text" : "I prefer not to keep my data"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616362783031357,
+          0.55213270137896309,
+          0.4591194870125534,
+          0.017772511848341277
+        ],
+        "text" : "Select a reason to submit."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.46845334165255809,
+          0.50417329768425156,
+          0.1259863959418403,
+          0.014909218461215956
+        ],
+        "text" : "Submit"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/account-deletion.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075383246468633341,
+          0.96063894869528776,
+          0.11652910281450321,
+          0.01912907966505295
+        ],
+        "text" : "20:03"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.77358490683729786,
+          0.96220930233694091,
+          0.050314464732112985,
+          0.0072674419830949244
+        ],
+        "text" : "...."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.068685011673653498,
+          0.87975531278720398,
+          0.28086897369123931,
+          0.031187048455550204
+        ],
+        "text" : "& Group"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.12857921714545426,
+          0.66338189686682703,
+          0.74284156734107909,
+          0.067131557735786607
+        ],
+        "text" : "RWF 35,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.33018867706547683,
+          0.64098837231102745,
+          0.33962264101729434,
+          0.020544012952566582
+        ],
+        "text" : "QA private group"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.45911949692511711,
+          0.60465116342059844,
+          0.075471698728382108,
+          0.017441859554152117
+        ],
+        "text" : "is: 1"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.059635589649005574,
+          0.4822836214000058,
+          0.17947095561231308,
+          0.016537408693141797
+        ],
+        "text" : "Contribute"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.30158914900631856,
+          0.48182123700710999,
+          0.16097264738164396,
+          0.016008688940256088
+        ],
+        "text" : "Members"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440252943948989,
+          0.43601895745666663,
+          0.41194966634114583,
+          0.01461295418641384
+        ],
+        "text" : "Your confirmed balance"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20426936901567508,
+          0.40233410673941039,
+          0.21410277276976494,
+          0.022366669882342038
+        ],
+        "text" : "RWF 35,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.56594941408789479,
+          0.48388006152991392,
+          0.10080557277059965,
+          0.014798016721415119
+        ],
+        "text" : "Share"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.78201683896802598,
+          0.48137954116850323,
+          0.13696393396100426,
+          0.016300662433931579
+        ],
+        "text" : "Manage"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.040880505470521675,
+          0.31686046519738775,
+          0.19496855124449114,
+          0.024709302290544244
+        ],
+        "text" : "Activity"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20430787218071719,
+          0.26146524881353883,
+          0.15113268469133948,
+          0.019220665544506854
+        ],
+        "text" : "038491"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440251580817356,
+          0.22669826210987165,
+          0.30817610259748929,
+          0.020537124802527673
+        ],
+        "text" : "2 Sep 2026, 10:00"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440251561124057,
+          0.17441860483009874,
+          0.15094339745676416,
+          0.018895348101430565
+        ],
+        "text" : "038491"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440251955871536,
+          0.14098837246741325,
+          0.31761005108173079,
+          0.02180232519598746
+        ],
+        "text" : "2 Sep 2026, 07:00"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.65083392398814288,
+          0.25700912958516819,
+          0.2706592005542201,
+          0.025225927856107888
+        ],
+        "text" : "RWF 10,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.64774225048834222,
+          0.16993145272799648,
+          0.27369789058326655,
+          0.026416163873898446
+        ],
+        "text" : "RWF 25,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.11609068642669207,
+          0.056296961445023497,
+          0.079139383430154919,
+          0.012406077241822189
+        ],
+        "text" : "Home"
+      },
+      {
+        "confidence" : 0.5,
+        "normalized_box_bottom_left" : [
+          0.35220125788449808,
+          0.077034883547044908,
+          0.069182391044421032,
+          0.015988372513468296
+        ],
+        "text" : ":8:"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.33333333322386177,
+          0.053779069765936049,
+          0.10062892946422614,
+          0.014534883966189849
+        ],
+        "text" : "Groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.5628930836955599,
+          0.053779069717486472,
+          0.10062892946422608,
+          0.014534883966189738
+        ],
+        "text" : "Activity"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.80180462048458456,
+          0.056561536005757973,
+          0.081925351395566226,
+          0.011876928109505025
+        ],
+        "text" : "Profile"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/group-detail.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.07547169510691322,
+          0.96075581451033121,
+          0.11635220519497864,
+          0.018895348101430565
+        ],
+        "text" : "20:03"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.27358491381526473,
+          0.88372093057099432,
+          0.29874212802984779,
+          0.020348836648709012
+        ],
+        "text" : "Search groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.039994612449242684,
+          0.8242756564021726,
+          0.18411425729083197,
+          0.022455706603907499
+        ],
+        "text" : "Groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.16318227637758553,
+          0.7638987412802265,
+          0.14847821618756679,
+          0.018714145461529941
+        ],
+        "text" : "Church"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761020018898137,
+          0.35900474007640548,
+          0.4685534354967949,
+          0.027646129541864073
+        ],
+        "text" : "QA private group"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081514312363893893,
+          0.33068363364176412,
+          0.30552482931022967,
+          0.024679244223740793
+        ],
+        "text" : "• RWF 35,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616352768671197,
+          0.30959302399874344,
+          0.081761006412343087,
+          0.01598837100687367
+        ],
+        "text" : ":2:1"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.15694378949422777,
+          0.22482348936410146,
+          0.15152122301933091,
+          0.02128325367425854
+        ],
+        "text" : "lkimina"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.11949685629618628,
+          0.058139535048093993,
+          0.075471698728382081,
+          0.010174418324354506
+        ],
+        "text" : "Home"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.33647798655994643,
+          0.055232558322521164,
+          0.097484275622245598,
+          0.013081395418911401
+        ],
+        "text" : "Groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.56289308133982063,
+          0.055232558031823364,
+          0.097484275622245598,
+          0.013081395418911401
+        ],
+        "text" : "Activity"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.80184932091104177,
+          0.056629565904581902,
+          0.081835950541700009,
+          0.011740868313805941
+        ],
+        "text" : "Profile"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/groups.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075374718708553501,
+          0.96205737720067519,
+          0.11654616135817308,
+          0.016292222491561148
+        ],
+        "text" : "20:03"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.22327044017690015,
+          0.8895348833965051,
+          0.034591195522210544,
+          0.015988372513468185
+        ],
+        "text" : "Q"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.28616353026494901,
+          0.88507109003312512,
+          0.28616351266192575,
+          0.018998677131689012
+        ],
+        "text" : "Search groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.12843873195331709,
+          0.67328378807126632,
+          0.74312253772702985,
+          0.072037074614851759
+        ],
+        "text" : "RWF 35,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.097484275492139658,
+          0.47093023250780075,
+          0.17924528203458867,
+          0.015988372513468185
+        ],
+        "text" : "Contribute"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.037735848214232426,
+          0.42296511625298372,
+          0.1949685512444912,
+          0.024709302290544244
+        ],
+        "text" : "Activity"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.36792452987029245,
+          0.4694767447868774,
+          0.26100628192608177,
+          0.017490079617613286
+        ],
+        "text" : "Explore Groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.76082040249690452,
+          0.47067701088890213,
+          0.10100070268679895,
+          0.016494815760125903
+        ],
+        "text" : "Share"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.21379259218801355,
+          0.35311809821874829,
+          0.13530789888822115,
+          0.016147524636315302
+        ],
+        "text" : "038491"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.21383647986975696,
+          0.31831395371460736,
+          0.31446541028145036,
+          0.023313218760076082
+        ],
+        "text" : "2 Sep 2026, 10:00"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.21061679902810787,
+          0.27167444244486227,
+          0.13851482684795674,
+          0.017697626568883185
+        ],
+        "text" : "038491"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.21383647825550123,
+          0.23837209310006402,
+          0.31446541028145036,
+          0.020348836648709123
+        ],
+        "text" : "2 Sep 2026, 07:00"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.57848396926408185,
+          0.33253900985623175,
+          0.23611382378472223,
+          0.022421979979504458
+        ],
+        "text" : "RWF 10,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.58161672265132802,
+          0.25257344462978859,
+          0.23299297104533911,
+          0.022469389495126446
+        ],
+        "text" : "RWF 25,000"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.040284473395615319,
+          0.14825028533707085,
+          0.26848765316172546,
+          0.027627336282112336
+        ],
+        "text" : "My groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.8017366409980422,
+          0.15524127928284837,
+          0.13866508027427216,
+          0.016552326238550852
+        ],
+        "text" : "View all"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.11921684560595955,
+          0.056285869966508417,
+          0.076031715849525922,
+          0.012428260339191533
+        ],
+        "text" : "Home"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.33962264075570048,
+          0.056686046709532367,
+          0.091194967938284577,
+          0.011627906871632954
+        ],
+        "text" : "Groups"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.56289308133982063,
+          0.055232558031823364,
+          0.097484275622245598,
+          0.013081395418911401
+        ],
+        "text" : "Activity"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.80184932091104177,
+          0.056629565904581902,
+          0.081835950541700009,
+          0.011740868313805941
+        ],
+        "text" : "Profile"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/home.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075471695279869189,
+          0.96075581447883895,
+          0.11635220519497863,
+          0.018895348101430565
+        ],
+        "text" : "20:03"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19496856306212573,
+          0.85465116285363774,
+          0.35534589718549681,
+          0.024890701541026794
+        ],
+        "text" : "Privacy Policy"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761003148694708,
+          0.7645348836249104,
+          0.30817610259748929,
+          0.015988372513468185
+        ],
+        "text" : "Data we collect"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761007502349548,
+          0.72077409156618233,
+          0.7452830257578793,
+          0.022116903633491281
+        ],
+        "text" : "Collect stores your numeric Collect ID,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761013323896778,
+          0.69186046498883225,
+          0.80817610259748951,
+          0.023384400830261276
+        ],
+        "text" : "Rwanda profile, WhatsApp sign-in phone,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081358159276476175,
+          0.66345689890021942,
+          0.7618380033052885,
+          0.02582842328160484
+        ],
+        "text" : "and MoMo provider and number, group"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761023578637557,
+          0.63662790711494233,
+          0.71383646125467415,
+          0.02180232519598746
+        ],
+        "text" : "memberships, contribution requests,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075471709434012921,
+          0.60742496052603134,
+          0.83647794805021369,
+          0.022116903633491392
+        ],
+        "text" : "ledger records, and permission status. The"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616362056649236,
+          0.58135861007232514,
+          0.78616348657852564,
+          0.018957345971563955
+        ],
+        "text" : "member app does not request or display"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081415525687654741,
+          0.5522327926753392,
+          0.71444034413394764,
+          0.022033995738338419
+        ],
+        "text" : "personal names. Names contained in"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616359492175061,
+          0.52470930262079629,
+          0.69811317900307157,
+          0.018895348101430676
+        ],
+        "text" : "consented MoMo receipts remain in"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616341669803899,
+          0.49842022103225514,
+          0.75786164112580123,
+          0.016192733017377559
+        ],
+        "text" : "access-controlled Admin reconciliation"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616352735849077,
+          0.46802325644385412,
+          0.16666666666666666,
+          0.017441859554152228
+        ],
+        "text" : "records."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761003264937751,
+          0.41271721943082385,
+          0.33962264101729434,
+          0.017515338427647631
+        ],
+        "text" : "How we use data"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.07861636261792436,
+          0.37045813577143649,
+          0.83333333333333337,
+          0.022116903633491392
+        ],
+        "text" : "We use this data to create and join groups,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616365747932487,
+          0.34302325592467653,
+          0.78930815346220617,
+          0.020348836648709012
+        ],
+        "text" : "verify MoMo contributions, keep ledgers"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616340570743487,
+          0.31395348852119231,
+          0.72012579502203522,
+          0.02180232519598746
+        ],
+        "text" : "accurate, show notifications, prevent"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616354161973739,
+          0.28475513396326668,
+          0.73899369199051812,
+          0.022116903633491281
+        ],
+        "text" : "misuse, provide support, and maintain"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616372405698062,
+          0.26017441892893589,
+          0.54402512770432698,
+          0.019051489295176083
+        ],
+        "text" : "reconciliation audit records."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.08176101021305468,
+          0.20203488425558724,
+          0.37735848712106035,
+          0.020348836648709012
+        ],
+        "text" : "What stays private"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081760996457539759,
+          0.16271721926615623,
+          0.75786164112580123,
+          0.021875804069482974
+        ],
+        "text" : "Sign-in phones, MoMo numbers, payer"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761020110100724,
+          0.13372093069779112,
+          0.71069179437099361,
+          0.021887284319547673
+        ],
+        "text" : "details, raw receipt text, and support"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081464763200956622,
+          0.10624203450694913,
+          0.77744954427083335,
+          0.025083636785570462
+        ],
+        "text" : "evidence are not shown on public group"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761013915913408,
+          0.078488372300645426,
+          0.82704399956597219,
+          0.020348836648709012
+        ],
+        "text" : "cards or public share links. Member-facing"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761002365545829,
+          0.052132701651492197,
+          0.63207548744658115,
+          0.017772511848341166
+        ],
+        "text" : "screens use Collect IDs and safe"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/privacy.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075357123942990406,
+          0.96204480088405697,
+          0.1165813478649172,
+          0.017770863633961853
+        ],
+        "text" : "20:03"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.42083839180270866,
+          0.70682132387078345,
+          0.26209680280114844,
+          0.032578283011630793
+        ],
+        "text" : "Security"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20125786982076985,
+          0.63226744246454625,
+          0.48427671774839742,
+          0.018996380328378804
+        ],
+        "text" : "Approve payments in MoMo"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440252741039749,
+          0.604651163464203,
+          0.70125784588675222,
+          0.017441859554152228
+        ],
+        "text" : "Never share your MoMo PIN. Enter it only"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19811319911162903,
+          0.57977883092487759,
+          0.60377358982705664,
+          0.019058378198512194
+        ],
+        "text" : "in your provider's payment prompt."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440252039152587,
+          0.50710900442025231,
+          0.33018866644965283,
+          0.019053786098486181
+        ],
+        "text" : "Session and profile"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440252188713753,
+          0.43167456534995363,
+          0.41509433322482642,
+          0.01619273301737767
+        ],
+        "text" : "Contribution verification"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.88364779903709745,
+          0.43023255842059827,
+          0.025157232366056492,
+          0.017441859554152117
+        ],
+        "text" : ">"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440252105897419,
+          0.35174418622544756,
+          0.28616351266192575,
+          0.018895348101430565
+        ],
+        "text" : "Payment privacy"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.20440251520584671,
+          0.27761627889868801,
+          0.19496855124449117,
+          0.014642805096474087
+        ],
+        "text" : "Delete data"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/security.png"
+  },
+  {
+    "method" : "Apple Vision accurate OCR of unchanged original PNG pixels",
+    "observations" : [
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.075413027838010974,
+          0.96067842865910669,
+          0.11646954137035924,
+          0.019050119047481329
+        ],
+        "text" : "20:04"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.77044025274924754,
+          0.96220930233694091,
+          0.050314464732112985,
+          0.0072674419830949244
+        ],
+        "text" : "...."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.19182390722959258,
+          0.85742496046789185,
+          0.49371066623263887,
+          0.022116903633491392
+        ],
+        "text" : "Terms & Conditions"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081467891110696189,
+          0.75930698259059215,
+          0.27102648091112447,
+          0.022083709590242862
+        ],
+        "text" : "Using Collect"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761001193387445,
+          0.72235387079940572,
+          0.57861635909121267,
+          0.020537124802527673
+        ],
+        "text" : "Collect helps groups organize"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081551099719620795,
+          0.69181010507636331,
+          0.81492930355235038,
+          0.023978141435138101
+        ],
+        "text" : "contributions, open Rwanda MoMo USSD,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.08176102354721014,
+          0.66424418602119228,
+          0.73584902510683758,
+          0.021802325195987571
+        ],
+        "text" : "share group QR codes, and maintain a"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078229631844156863,
+          0.63589243588410937,
+          0.8120936206263355,
+          0.024706848048109298
+        ],
+        "text" : "verified contribution ledger. You must use"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761011077715384,
+          0.60742496063400475,
+          0.8081761025974894,
+          0.022116903633491392
+        ],
+        "text" : "accurate group, receiver, beneficiary, and"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616358262323424,
+          0.58135861015711199,
+          0.40251571785690438,
+          0.018957345971563955
+        ],
+        "text" : "transfer information."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761008943397454,
+          0.52761627890496643,
+          0.34591194870125536,
+          0.015988372513468296
+        ],
+        "text" : "Contribution rails"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081760995025147207,
+          0.48538704555677525,
+          0.73270441038995726,
+          0.020537124802527673
+        ],
+        "text" : "Members approve MoMo payments in"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761020308191101,
+          0.45494186043979701,
+          0.8176100510817309,
+          0.02180232519598746
+        ],
+        "text" : "USSD. Collect never asks for a MoMo PIN,"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.07861635942142671,
+          0.42877906997506399,
+          0.76100625584268156,
+          0.020348836648709012
+        ],
+        "text" : "card details or payment provider OTPs."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616373572369724,
+          0.39968404398078006,
+          0.76100625584268167,
+          0.021827584006021805
+        ],
+        "text" : "Your WhatsApp sign-in code is only for"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616356313702659,
+          0.37203791449663881,
+          0.39937105097322378,
+          0.020537124802527673
+        ],
+        "text" : "signing in to Collect."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.08176101560038504,
+          0.31540697711857602,
+          0.34905658950153584,
+          0.02187580331618566
+        ],
+        "text" : "Group ownership"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761008407224972,
+          0.27761627960442448,
+          0.75786164112580123,
+          0.020348836648709012
+        ],
+        "text" : "Every member-created group is private"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616352649396509,
+          0.25000000027704616,
+          0.75157230735844016,
+          0.018957345971564066
+        ],
+        "text" : "and can be created only in the Android"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616354323931131,
+          0.22077409164144035,
+          0.81446538419805026,
+          0.019051489295176083
+        ],
+        "text" : "app. Group owners manage profile details"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761020558194925,
+          0.19186046545471525,
+          0.68867923051883018,
+          0.020348836648709012
+        ],
+        "text" : "and membership. Public groups are"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761026711853993,
+          0.16424418646631123,
+          0.72327040973891554,
+          0.019010158135051025
+        ],
+        "text" : "platform-sponsored and approved by"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081116791547245437,
+          0.13761406135196597,
+          0.15245729104066508,
+          0.016412947415175627
+        ],
+        "text" : "Collect."
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.081761004084365069,
+          0.07848837244599427,
+          0.50314466688368054,
+          0.020348836648709012
+        ],
+        "text" : "Disputes and corrections"
+      },
+      {
+        "confidence" : 1,
+        "normalized_box_bottom_left" : [
+          0.078616371360087811,
+          0.037790697488832126,
+          0.75157230735844016,
+          0.023425731990386334
+        ],
+        "text" : "If a contribution is missing, duplicated,"
+      }
+    ],
+    "path" : "\/Volumes\/PRO-G40\/Projects\/Recovered-G-PRO\/COOL\/.cache\/revolut-design-20260930\/native-media\/display-final-20261001-attempt11\/screenshots\/terms.png"
+  }
+]

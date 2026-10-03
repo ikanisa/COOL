@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+update collect_hybrid.sms_receipt_policies set enabled=true,updated_at=clock_timestamp()where collection_id='99780000-0000-4000-8000-000000030001';

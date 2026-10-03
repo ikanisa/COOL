@@ -1,0 +1,5 @@
+Analyzing app-source...                                         
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • scripts/tests/admin_receipt_source_busy_test.dart:8:5 • curly_braces_in_flow_control_structures
+   info • Unnecessary 'late' modifier. Try removing the 'late' • test/support/test_capture_paths.dart:18:1 • unnecessary_late
+

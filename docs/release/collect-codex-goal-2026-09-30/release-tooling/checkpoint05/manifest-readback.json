@@ -1,0 +1,9 @@
+{
+  "changes": [],
+  "file_count": 39,
+  "manifest_sha256": "56b5d49fd94d9f2dc906d8653ef19216a60f4e9169bd94fefdebf44a2cf58b4f",
+  "scope": "Packet bytes/readback only; no source trust, reviewed freeze, owner approval or production acceptance.",
+  "status": "pass",
+  "total_bytes": 767795,
+  "unexpected_paths": []
+}

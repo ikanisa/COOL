@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T01:07:36.137113+00:00",
+  "scope": "Exact before-registers and one-shot scoped reconciliation; results are dated, not a claim of current whole-source acceptance.",
+  "artifacts": [
+    {
+      "path": "reconcile_registers.py",
+      "bytes": 15825,
+      "sha256": "c1062da743570ec9778925f7dec0cced0f1f8f9bf3fc546e14271f942924a8fb"
+    },
+    {
+      "path": "register-reconciliation.json",
+      "bytes": 1387,
+      "sha256": "b07d2f3d617461216177964cb110fceb62362d5896884ee4a577b660e0d580ed"
+    },
+    {
+      "path": "registers-before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 20948,
+      "sha256": "d64b391433a714dc8a094b95de7856071f22b3a8755f2bc114b4d6a81a259a69"
+    },
+    {
+      "path": "registers-before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 36100,
+      "sha256": "ea321e9ce8d8cae9fa156dc8043a9720209c304bc21bb477caab22b1ab47b16b"
+    },
+    {
+      "path": "registers-before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 31206,
+      "sha256": "049d623895c57f93ef75c313d5ed6a841cfa93e7b8bdccd5a6b1039dc97f65eb"
+    },
+    {
+      "path": "registers-before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 99163,
+      "sha256": "05e6f678cddb2586e04dc1e00a2828edc4af70b6a950d22d121cbeebf12c5b91"
+    },
+    {
+      "path": "registers-before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 136007,
+      "sha256": "9621c4dbd07dd8d86ca430f3e4838d47c9f47fcea46d247e15b4875984e2734f"
+    },
+    {
+      "path": "registers-before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 325165,
+      "sha256": "add649783c5bef0a91db13598312bcb8cb206a6352966fb238f8ab455963e049"
+    }
+  ],
+  "production_ready": false,
+  "goal_status": "active"
+}

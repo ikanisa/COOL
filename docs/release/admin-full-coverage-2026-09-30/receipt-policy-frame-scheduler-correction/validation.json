@@ -1,0 +1,11 @@
+{
+  "scope": "Bounded real SDK event-loop and widget-frame settlement, preserving initial positive controls and all denial/TTL assertions. No runtime behavior change.",
+  "before": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "ea305ba0afbb72cdc5c965e5d696d3be5556ca883cfa33deb1cb8cfba22e257c",
+    "test/admin_operating_policy_runtime_test.dart": "5a5a02d38a98c763c16d209adf63072662309fde3a487117d54cdab80742a69f"
+  },
+  "after": {
+    "test/admin_receipt_cancel_sdk_authority_test.dart": "1f30886435b3c609ad1b1ee417929a4c254314e3650577f8a2c219eb89fa28f0",
+    "test/admin_operating_policy_runtime_test.dart": "c365424c86974762201d669187ba8c9e4a457805b1f219bee889da97c6db8608"
+  }
+}

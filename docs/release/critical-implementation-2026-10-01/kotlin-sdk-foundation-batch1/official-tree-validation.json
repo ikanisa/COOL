@@ -1,0 +1,119 @@
+{
+  "expected_root_tree": "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa",
+  "negative_results": [
+    {
+      "case": "actual_source_blob_identity_drift",
+      "error": "tree object reconstruction mismatch: /",
+      "rejected": true
+    },
+    {
+      "case": "actual_license_entry_loss",
+      "error": "tree object reconstruction mismatch: /",
+      "rejected": true
+    },
+    {
+      "case": "actual_duplicate_tree_path",
+      "error": "duplicate tree path",
+      "rejected": true
+    },
+    {
+      "case": "actual_unsafe_path",
+      "error": "unsafe tree component",
+      "rejected": true
+    },
+    {
+      "case": "truncated_publisher_tree",
+      "error": "root identity/truncation mismatch",
+      "rejected": true
+    },
+    {
+      "case": "actual_retained_license_byte_drift",
+      "error": "changed bytes do not match publisher tree blob",
+      "rejected": true
+    }
+  ],
+  "passed": true,
+  "scope": "Complete official Git tree metadata reconstruction and selected raw source/license exact-byte binding. Full pristine worktree contents, symlink target containment, bundle extraction, crypto signature verification, execution and ABI acceptance remain separate.",
+  "selected_regular_file_bindings": {
+    "LICENSE": {
+      "bytes": 1519,
+      "git_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+      "mode": "100644",
+      "retained_file": "official-LICENSE",
+      "sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20"
+    },
+    "bin/internal/engine.version": {
+      "bytes": 41,
+      "git_blob_sha1": "4b166aa1bc2e9f76cbb6e30631a3cb73a98adb09",
+      "mode": "100644",
+      "retained_file": "engine.version",
+      "sha256": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+    },
+    "bin/internal/update_dart_sdk.sh": {
+      "bytes": 5941,
+      "git_blob_sha1": "41f419112e1f4c4bbe62e16b7d44d046f647790d",
+      "mode": "100755",
+      "retained_file": "update_dart_sdk.sh",
+      "sha256": "730d3f3145d0c652147043fa914ac54679ab2b4ac94f8f983e4d44f1e17cb6f7"
+    },
+    "bin/internal/update_engine_version.sh": {
+      "bytes": 3112,
+      "git_blob_sha1": "79554989526629a6d33e57b91dc18610185a7318",
+      "mode": "100755",
+      "retained_file": "update_engine_version.sh",
+      "sha256": "6d71ef5d911243afdc83a4238b65159aad7905d7b19cb2464db40e347536ebb4"
+    },
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "bytes": 2866,
+      "git_blob_sha1": "43f5e8368bc410140bbed3f47c38412010e2c922",
+      "mode": "100644",
+      "retained_file": "sdk-build.gradle.kts",
+      "sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4"
+    },
+    "packages/flutter_tools/gradle/resolve_dependencies.gradle.kts": {
+      "bytes": 2848,
+      "git_blob_sha1": "35afd528ff2e63e37969e636d245dd6acf2b5668",
+      "mode": "100644",
+      "retained_file": "resolve_dependencies.gradle.kts",
+      "sha256": "10a6cdd619b5f38d56acd628198f097c2777e4ad75d9d2a78a3cfefbd4e1d647"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "bytes": 16176,
+      "git_blob_sha1": "23186ac7e0f12187022dd2e3822d3e97541c7fb6",
+      "mode": "100644",
+      "retained_file": "DependencyVersionChecker.kt",
+      "sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "bytes": 21048,
+      "git_blob_sha1": "aad40b31d3402042d5e746e5176487bec1150d3a",
+      "mode": "100644",
+      "retained_file": "DependencyVersionCheckerTest.kt",
+      "sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849"
+    },
+    "packages/flutter_tools/lib/src/cache.dart": {
+      "bytes": 59517,
+      "git_blob_sha1": "49e35e71706fbf7d7d85f35594b44a17b0f210f8",
+      "mode": "100644",
+      "retained_file": "cache.dart",
+      "sha256": "ff6a424aa26083ac95204a3704aca2d72540fdc227d02fb2510d79fb93d63e0d"
+    },
+    "packages/flutter_tools/lib/src/flutter_cache.dart": {
+      "bytes": 31470,
+      "git_blob_sha1": "bf144dbc2a5e5e303deeb5bdaf2ec69130cbf376",
+      "mode": "100644",
+      "retained_file": "flutter_cache.dart",
+      "sha256": "a0eb7d8ba0457cd6a00e2c6f922f8baaf73ba6caf96a875767f080ab92a4ee64"
+    }
+  },
+  "source_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "summary": {
+    "casefold_aliases": [],
+    "entries": 19283,
+    "gitlinks": 0,
+    "reconstructed_tree_objects": 3624,
+    "regular_blobs": 15658,
+    "symlinks": 2
+  },
+  "tree_transfer_sha256": "6eb614dd689d1c5997270a7e9df10f82e55ee1fc8235f19748738c5df83cd6ca"
+}

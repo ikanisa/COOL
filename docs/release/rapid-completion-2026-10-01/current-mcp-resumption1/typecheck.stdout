@@ -1,0 +1,11 @@
+src/supervisor_client.test.ts(6,39): error TS2307: Cannot find module '../../../supabase/functions/collect-receipt-supervisor/handler.ts' or its corresponding type declarations.
+src/supervisor_client.test.ts(19,64): error TS7006: Parameter 'name' implicitly has an 'any' type.
+src/supervisor_client.ts(4,40): error TS2307: Cannot find module '../../../supabase/functions/collect-receipt-supervisor/handler.ts' or its corresponding type declarations.
+src/supervisor_client.ts(90,56): error TS18046: 'result.result' is of type 'unknown'.
+src/testing/unattended_fixture.ts(3,39): error TS2307: Cannot find module '../../../../supabase/functions/collect-receipt-supervisor/handler.ts' or its corresponding type declarations.
+src/testing/unattended_fixture.ts(27,76): error TS7006: Parameter 'name' implicitly has an 'any' type.
+src/testing/unattended_fixture.ts(27,82): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/unattended_client.test.ts(6,68): error TS2307: Cannot find module '../../../supabase/functions/collect-receipt-supervisor/operations_contract.ts' or its corresponding type declarations.
+src/unattended_enrollment.test.ts(19,39): error TS2307: Cannot find module '../../../supabase/functions/collect-receipt-supervisor/handler.ts' or its corresponding type declarations.
+src/unattended_enrollment.test.ts(237,61): error TS7006: Parameter 'name' implicitly has an 'any' type.
+src/unattended_enrollment.test.ts(237,67): error TS7006: Parameter 'args' implicitly has an 'any' type.

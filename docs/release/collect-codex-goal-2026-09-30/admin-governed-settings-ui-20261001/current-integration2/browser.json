@@ -1,0 +1,22 @@
+{
+  "name": "browser",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--platform=chrome",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_checkpoint_browser_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/settings-current-integration-proof-20261001-current-integration2/runtime",
+  "pid": 27909,
+  "started_at": "2026-10-01T21:46:32.762980+00:00",
+  "finished_at": "2026-10-01T21:47:45.933629+00:00",
+  "elapsed_seconds": 73.17063862500072,
+  "exit_code": 0,
+  "owned_child_reaped": true,
+  "stdout_sha256": "521387411aabd97f6a15d00023f15bffa6dd9354a7d5e0aeb257466531e3d8eb",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_manifest_sha256": "94b29f8e7b383536c8e09cdc8ce9be96869c918384657fa675839df3e584e300"
+}

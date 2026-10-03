@@ -1,0 +1,1422 @@
+{
+  "started_at_utc": "2026-10-02T02:13:16.242371+00:00",
+  "finished_at_utc": "2026-10-02T02:13:16.339121+00:00",
+  "status": "read_only_preparation_complete",
+  "source_count": 29,
+  "source_before": {
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+      "bytes": 9031,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178135,
+        420,
+        9031,
+        1790906145881796726,
+        1790906145881868601,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176",
+      "bytes": 15936,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178137,
+        420,
+        15936,
+        1790906145882157644,
+        1790906145882238853,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+      "bytes": 417,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178134,
+        420,
+        417,
+        1790906145881518766,
+        1790906145881606058,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "bytes": 13374,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178136,
+        420,
+        13374,
+        1790906145881972435,
+        1790906145882049810,
+        1
+      ]
+    },
+    "supabase/config.toml": {
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+      "bytes": 16173,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17178162,
+        448,
+        16173,
+        1790906145888952301,
+        1790906145889029135,
+        1
+      ]
+    },
+    "contracts/edge-functions.json": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904058,
+        420,
+        3836,
+        1790883007901237634,
+        1790883007901237634,
+        1
+      ]
+    },
+    "supabase/functions/_shared/supabase.ts": {
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695562,
+        448,
+        1265,
+        1789031035000000000,
+        1790120862070247640,
+        1
+      ]
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695543,
+        448,
+        1247,
+        1790598913321876381,
+        1790598913321876381,
+        1
+      ]
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "mode": 420,
+      "identity": [
+        16777247,
+        12209737,
+        420,
+        27054,
+        1790859657455398247,
+        1790859657455398247,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.rb": {
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+      "bytes": 6127,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904059,
+        420,
+        6127,
+        1790883007901887093,
+        1790883007901887093,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.sh": {
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+      "bytes": 1610,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904242,
+        420,
+        1610,
+        1790883084543988796,
+        1790883084543988796,
+        1
+      ]
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b",
+      "bytes": 3844,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904555,
+        420,
+        3844,
+        1790883186030693847,
+        1790883186030693847,
+        1
+      ]
+    },
+    "scripts/supabase_deploy.sh": {
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+      "bytes": 345,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695362,
+        448,
+        345,
+        1790885282320260416,
+        1790885282320260416,
+        1
+      ]
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd",
+      "bytes": 62358,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695370,
+        448,
+        62358,
+        1790887432474607839,
+        1790887432474607839,
+        1
+      ]
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+      "bytes": 30962,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16026080,
+        420,
+        30962,
+        1790886720835998388,
+        1790886720835998388,
+        1
+      ]
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+      "bytes": 28103,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904556,
+        420,
+        28103,
+        1790886748558280886,
+        1790886748558280886,
+        1
+      ]
+    },
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+      "bytes": 44961,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695415,
+        448,
+        44961,
+        1790888331327212458,
+        1790888331327212458,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_http_uat.py": {
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+      "bytes": 6603,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695434,
+        448,
+        6603,
+        1790779978830674137,
+        1790779978830674137,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_ci.py": {
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16004547,
+        420,
+        14349,
+        1790904652989003839,
+        1790904652989003839,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_unit_tests.py": {
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "bytes": 9611,
+      "mode": 420,
+      "identity": [
+        16777247,
+        9990360,
+        420,
+        9611,
+        1790893052162988320,
+        1790893052162988320,
+        1
+      ]
+    },
+    "scripts/audits/collect_edge_function_local_gate.rb": {
+      "sha256": "d16f3b374a6bd228c9e5edd977201291c3a87db6c1e2ce0db4ed175dd59ee774",
+      "bytes": 8039,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695386,
+        448,
+        8039,
+        1789464484000000000,
+        1790120861927947096,
+        1
+      ]
+    },
+    "scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "sha256": "4c3657eb119efaa1da02f1488468ca6bb66f7004a55553cdad56c87d235e6b23",
+      "bytes": 5682,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695443,
+        448,
+        5682,
+        1789464484000000000,
+        1790120861976462837,
+        1
+      ]
+    },
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951,
+      "mode": 420,
+      "identity": [
+        16777247,
+        11928944,
+        420,
+        26951,
+        1790804223536059408,
+        1790804223536059408,
+        1
+      ]
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793,
+      "mode": 420,
+      "identity": [
+        16777247,
+        13303881,
+        420,
+        15793,
+        1790814071215878254,
+        1790814071215878254,
+        1
+      ]
+    },
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15049568,
+        420,
+        51801,
+        1790854543223826986,
+        1790854543223826986,
+        1
+      ]
+    },
+    "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+      "bytes": 20369,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16484368,
+        420,
+        20369,
+        1790894619845221559,
+        1790894619845221559,
+        1
+      ]
+    },
+    "supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560",
+      "bytes": 28095,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16578022,
+        420,
+        28095,
+        1790895622245616920,
+        1790895622245616920,
+        1
+      ]
+    },
+    "supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "bytes": 105502,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178132,
+        420,
+        105502,
+        1790906145881161222,
+        1790906145881309473,
+        1
+      ]
+    },
+    "supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "bytes": 103624,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178149,
+        420,
+        103624,
+        1790906145886514581,
+        1790906145886626207,
+        1
+      ]
+    }
+  },
+  "physical_copies": {
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+      "bytes": 9031,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193665,
+        420,
+        9031,
+        1790907196243352884,
+        1790907196243392633,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176",
+      "bytes": 15936,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193666,
+        420,
+        15936,
+        1790907196243667298,
+        1790907196243689339,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+      "bytes": 417,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193667,
+        420,
+        417,
+        1790907196243891421,
+        1790907196243909046,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "bytes": 13374,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193668,
+        420,
+        13374,
+        1790907196244110294,
+        1790907196244129752,
+        1
+      ]
+    },
+    "supabase/config.toml": {
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+      "bytes": 16173,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193669,
+        448,
+        16173,
+        1790907196244429708,
+        1790907196244445250,
+        1
+      ]
+    },
+    "contracts/edge-functions.json": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193671,
+        420,
+        3836,
+        1790907196245021036,
+        1790907196245035536,
+        1
+      ]
+    },
+    "supabase/functions/_shared/supabase.ts": {
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193673,
+        448,
+        1265,
+        1790907196245640531,
+        1790907196245665572,
+        1
+      ]
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193674,
+        448,
+        1247,
+        1790907196245994653,
+        1790907196246020444,
+        1
+      ]
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193676,
+        420,
+        27054,
+        1790907196246736896,
+        1790907196246759563,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.rb": {
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+      "bytes": 6127,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193678,
+        420,
+        6127,
+        1790907196247233225,
+        1790907196247252684,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.sh": {
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+      "bytes": 1610,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193679,
+        420,
+        1610,
+        1790907196247366016,
+        1790907196247383349,
+        1
+      ]
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b",
+      "bytes": 3844,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193681,
+        420,
+        3844,
+        1790907196247515056,
+        1790907196247532265,
+        1
+      ]
+    },
+    "scripts/supabase_deploy.sh": {
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+      "bytes": 345,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193682,
+        448,
+        345,
+        1790907196247819220,
+        1790907196247833679,
+        1
+      ]
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd",
+      "bytes": 62358,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193683,
+        448,
+        62358,
+        1790907196247971428,
+        1790907196247991636,
+        1
+      ]
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+      "bytes": 30962,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193685,
+        420,
+        30962,
+        1790907196248202301,
+        1790907196248221342,
+        1
+      ]
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+      "bytes": 28103,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193686,
+        420,
+        28103,
+        1790907196248370174,
+        1790907196248388091,
+        1
+      ]
+    },
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+      "bytes": 44961,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193687,
+        448,
+        44961,
+        1790907196248939878,
+        1790907196248955502,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_http_uat.py": {
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+      "bytes": 6603,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193688,
+        448,
+        6603,
+        1790907196249284458,
+        1790907196249300458,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_ci.py": {
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193689,
+        420,
+        14349,
+        1790907196250193617,
+        1790907196250216783,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_unit_tests.py": {
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "bytes": 9611,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193690,
+        420,
+        9611,
+        1790907196250728654,
+        1790907196250748362,
+        1
+      ]
+    },
+    "scripts/audits/collect_edge_function_local_gate.rb": {
+      "sha256": "d16f3b374a6bd228c9e5edd977201291c3a87db6c1e2ce0db4ed175dd59ee774",
+      "bytes": 8039,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193692,
+        448,
+        8039,
+        1790907196251088026,
+        1790907196251105859,
+        1
+      ]
+    },
+    "scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "sha256": "4c3657eb119efaa1da02f1488468ca6bb66f7004a55553cdad56c87d235e6b23",
+      "bytes": 5682,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17193693,
+        448,
+        5682,
+        1790907196251226691,
+        1790907196251245441,
+        1
+      ]
+    },
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193695,
+        420,
+        26951,
+        1790907196251400106,
+        1790907196251417648,
+        1
+      ]
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193696,
+        420,
+        15793,
+        1790907196251544564,
+        1790907196251561063,
+        1
+      ]
+    },
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193697,
+        420,
+        51801,
+        1790907196251871394,
+        1790907196251895810,
+        1
+      ]
+    },
+    "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+      "bytes": 20369,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193698,
+        420,
+        20369,
+        1790907196252181933,
+        1790907196252202725,
+        1
+      ]
+    },
+    "supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560",
+      "bytes": 28095,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193699,
+        420,
+        28095,
+        1790907196252824427,
+        1790907196252916218,
+        1
+      ]
+    },
+    "supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "bytes": 105502,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193700,
+        420,
+        105502,
+        1790907196253337631,
+        1790907196253361464,
+        1
+      ]
+    },
+    "supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "bytes": 103624,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17193701,
+        420,
+        103624,
+        1790907196253646004,
+        1790907196253668795,
+        1
+      ]
+    }
+  },
+  "source_after": {
+    "supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760",
+      "bytes": 9031,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178135,
+        420,
+        9031,
+        1790906145881796726,
+        1790906145881868601,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176",
+      "bytes": 15936,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178137,
+        420,
+        15936,
+        1790906145882157644,
+        1790906145882238853,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142",
+      "bytes": 417,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178134,
+        420,
+        417,
+        1790906145881518766,
+        1790906145881606058,
+        1
+      ]
+    },
+    "supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14",
+      "bytes": 13374,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178136,
+        420,
+        13374,
+        1790906145881972435,
+        1790906145882049810,
+        1
+      ]
+    },
+    "supabase/config.toml": {
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392",
+      "bytes": 16173,
+      "mode": 448,
+      "identity": [
+        16777247,
+        17178162,
+        448,
+        16173,
+        1790906145888952301,
+        1790906145889029135,
+        1
+      ]
+    },
+    "contracts/edge-functions.json": {
+      "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+      "bytes": 3836,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904058,
+        420,
+        3836,
+        1790883007901237634,
+        1790883007901237634,
+        1
+      ]
+    },
+    "supabase/functions/_shared/supabase.ts": {
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+      "bytes": 1265,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695562,
+        448,
+        1265,
+        1789031035000000000,
+        1790120862070247640,
+        1
+      ]
+    },
+    "supabase/functions/_shared/cors.ts": {
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+      "bytes": 1247,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695543,
+        448,
+        1247,
+        1790598913321876381,
+        1790598913321876381,
+        1
+      ]
+    },
+    "supabase/functions/collect-android-gateway/handler.ts": {
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344",
+      "bytes": 27054,
+      "mode": 420,
+      "identity": [
+        16777247,
+        12209737,
+        420,
+        27054,
+        1790859657455398247,
+        1790859657455398247,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.rb": {
+      "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9",
+      "bytes": 6127,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904059,
+        420,
+        6127,
+        1790883007901887093,
+        1790883007901887093,
+        1
+      ]
+    },
+    "scripts/edge_function_inventory.sh": {
+      "sha256": "44c448dba432d0e7a2562947ad4bae15dea6a9e7013a9fa815469bc76ce7e2a8",
+      "bytes": 1610,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904242,
+        420,
+        1610,
+        1790883084543988796,
+        1790883084543988796,
+        1
+      ]
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b",
+      "bytes": 3844,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904555,
+        420,
+        3844,
+        1790883186030693847,
+        1790883186030693847,
+        1
+      ]
+    },
+    "scripts/supabase_deploy.sh": {
+      "sha256": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+      "bytes": 345,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695362,
+        448,
+        345,
+        1790885282320260416,
+        1790885282320260416,
+        1
+      ]
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd",
+      "bytes": 62358,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695370,
+        448,
+        62358,
+        1790887432474607839,
+        1790887432474607839,
+        1
+      ]
+    },
+    "scripts/qa/backend_release_delivery.py": {
+      "sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+      "bytes": 30962,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16026080,
+        420,
+        30962,
+        1790886720835998388,
+        1790886720835998388,
+        1
+      ]
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d",
+      "bytes": 28103,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15904556,
+        420,
+        28103,
+        1790886748558280886,
+        1790886748558280886,
+        1
+      ]
+    },
+    "scripts/qa/edge_http_runtime_uat.ts": {
+      "sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+      "bytes": 44961,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695415,
+        448,
+        44961,
+        1790888331327212458,
+        1790888331327212458,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_http_uat.py": {
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925",
+      "bytes": 6603,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695434,
+        448,
+        6603,
+        1790779978830674137,
+        1790779978830674137,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_ci.py": {
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16004547,
+        420,
+        14349,
+        1790904652989003839,
+        1790904652989003839,
+        1
+      ]
+    },
+    "scripts/qa/run_edge_unit_tests.py": {
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3",
+      "bytes": 9611,
+      "mode": 420,
+      "identity": [
+        16777247,
+        9990360,
+        420,
+        9611,
+        1790893052162988320,
+        1790893052162988320,
+        1
+      ]
+    },
+    "scripts/audits/collect_edge_function_local_gate.rb": {
+      "sha256": "d16f3b374a6bd228c9e5edd977201291c3a87db6c1e2ce0db4ed175dd59ee774",
+      "bytes": 8039,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695386,
+        448,
+        8039,
+        1789464484000000000,
+        1790120861927947096,
+        1
+      ]
+    },
+    "scripts/tests/collect_edge_function_local_gate_test.rb": {
+      "sha256": "4c3657eb119efaa1da02f1488468ca6bb66f7004a55553cdad56c87d235e6b23",
+      "bytes": 5682,
+      "mode": 448,
+      "identity": [
+        16777247,
+        2695443,
+        448,
+        5682,
+        1789464484000000000,
+        1790120861976462837,
+        1
+      ]
+    },
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "bytes": 26951,
+      "mode": 420,
+      "identity": [
+        16777247,
+        11928944,
+        420,
+        26951,
+        1790804223536059408,
+        1790804223536059408,
+        1
+      ]
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "bytes": 15793,
+      "mode": 420,
+      "identity": [
+        16777247,
+        13303881,
+        420,
+        15793,
+        1790814071215878254,
+        1790814071215878254,
+        1
+      ]
+    },
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": {
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "bytes": 51801,
+      "mode": 420,
+      "identity": [
+        16777247,
+        15049568,
+        420,
+        51801,
+        1790854543223826986,
+        1790854543223826986,
+        1
+      ]
+    },
+    "supabase/migrations/20261002040000_receipt_unarmed_closure.sql": {
+      "sha256": "67de6de76ad32cc1f59c394b730c47c3f30b2a7890718050152a846d8d5c280a",
+      "bytes": 20369,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16484368,
+        420,
+        20369,
+        1790894619845221559,
+        1790894619845221559,
+        1
+      ]
+    },
+    "supabase/migrations/20261002041000_receipt_successor_approvals.sql": {
+      "sha256": "495d7af708b428b24d18ee5f17bd51f750698cd89cb19760c3816882fcf7e560",
+      "bytes": 28095,
+      "mode": 420,
+      "identity": [
+        16777247,
+        16578022,
+        420,
+        28095,
+        1790895622245616920,
+        1790895622245616920,
+        1
+      ]
+    },
+    "supabase/migrations/20261002043000_receipt_successor_execution.sql": {
+      "sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "bytes": 105502,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178132,
+        420,
+        105502,
+        1790906145881161222,
+        1790906145881309473,
+        1
+      ]
+    },
+    "supabase/migrations/20261002070000_receipt_worker_history_storage.sql": {
+      "sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "bytes": 103624,
+      "mode": 420,
+      "identity": [
+        16777247,
+        17178149,
+        420,
+        103624,
+        1790906145886514581,
+        1790906145886626207,
+        1
+      ]
+    }
+  },
+  "source_drift": {},
+  "source_stable": true,
+  "repo_manifest_entries": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "repo_manifest_count": 12,
+  "source_entries": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "source_entries_after": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "config_entries": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "literal_loader_entries": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "successor_config": {
+    "verify_jwt": false
+  },
+  "six_action_rpc_map": {
+    "dispatch_grant": "gateway_receipt_successor_grant_v1",
+    "arm_dispatch": "gateway_receipt_successor_arm_v1",
+    "reconcile": "gateway_receipt_successor_reconcile_v1",
+    "callback": "gateway_receipt_successor_callback_v1",
+    "attempt_status": "gateway_receipt_successor_attempt_status_v1",
+    "archive_attempt": "gateway_receipt_successor_archive_v1"
+  },
+  "declared_fixture_imports": {
+    "./fixtures/observed-first-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-first-successor-arm.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-grant-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-multipart-callbacks.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-successor-archive-ack.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-armed-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-conflicting-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-original-request-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-incomplete-archive.json": {
+      "exists": false,
+      "symlink": false
+    }
+  },
+  "declared_fixture_imports_after": {
+    "./fixtures/observed-first-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-first-successor-arm.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-grant-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-multipart-callbacks.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-successor-archive-ack.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-armed-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-conflicting-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-original-request-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-incomplete-archive.json": {
+      "exists": false,
+      "symlink": false
+    }
+  },
+  "declared_deno_test_count": 25,
+  "actual_read_only_inventory_command": {
+    "command": [
+      "/usr/bin/ruby",
+      "scripts/edge_function_inventory.rb",
+      "auth-check"
+    ],
+    "deadline_seconds": 20,
+    "exit_code": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887",
+    "expected_inventory_failure_observed": true
+  },
+  "maintained_source_writes": 0,
+  "handler_execution": false,
+  "canonical_gate_executed": false,
+  "current_or_hosted_sql_executed": false,
+  "provider_network_calls": false,
+  "hosted_inventory_observed": false,
+  "other_human_chat_messaged": false,
+  "old_137_source_acceptance_modified_or_relabelled": false
+}

@@ -1,0 +1,6 @@
+{
+  "operation": "move owned transient preparation helper from /tmp into private packet",
+  "exit_error": "OSError errno18 cross-device link",
+  "maintained_or_cache_mutation": false,
+  "recovery": "exact byte copy verified then owned transient helper removed"
+}

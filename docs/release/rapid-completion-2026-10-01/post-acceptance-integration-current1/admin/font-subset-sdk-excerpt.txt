@@ -1,0 +1,26 @@
+205:     _logger.printTrace(
+206:       'Running font-subset: ${cmd.join(' ')}, '
+207:       'using codepoints $codePointsString',
+208:     );
+209:     final Process fontSubsetProcess = await _processManager.start(cmd);
+210:     try {
+211:       await ProcessUtils.writelnToStdinUnsafe(
+212:         stdin: fontSubsetProcess.stdin,
+213:         line: codePointsString,
+214:       );
+215:       await fontSubsetProcess.stdin.flush();
+216:       await fontSubsetProcess.stdin.close();
+217:     } on Exception {
+218:       // handled by checking the exit code.
+219:     }
+220: 
+221:     final int code = await fontSubsetProcess.exitCode;
+222:     if (code != 0) {
+223:       _logger.printTrace(await utf8.decodeStream(fontSubsetProcess.stdout));
+224:       _logger.printError(await utf8.decodeStream(fontSubsetProcess.stderr));
+225:       throw IconTreeShakerException._('Font subsetting failed with exit code $code.');
+226:     }
+227:     final String message = getSubsetSummaryMessage(input, _fs.file(outputPath));
+228:     if (quiet) {
+229:       _logger.printTrace(message);
+230:     } else {

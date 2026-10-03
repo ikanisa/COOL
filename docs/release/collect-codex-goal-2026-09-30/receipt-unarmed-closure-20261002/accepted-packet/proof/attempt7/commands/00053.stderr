@@ -1,0 +1,6 @@
+ERROR:  55000: receipt_dispatch_paused
+CONTEXT:  PL/pgSQL function collect_hybrid.require_receipt_dispatch_enabled() line 7 at RAISE
+SQL statement "SELECT collect_hybrid.require_receipt_dispatch_enabled()"
+PL/pgSQL function public.collect_claim_receipt(uuid,uuid,text,uuid) line 12 at PERFORM
+PL/pgSQL function public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid) line 10 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

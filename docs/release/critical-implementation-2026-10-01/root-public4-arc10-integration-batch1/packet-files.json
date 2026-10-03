@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "at_utc": "2026-10-02T01:16:07.542108+00:00",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "bytes": 2716,
+      "sha256": "d9b448f42b9ddd94f12a91963c2697cd9a40d18ac8c91c39e320a7bab48c7295"
+    },
+    {
+      "path": "final-register-readback.json",
+      "bytes": 1555,
+      "sha256": "9951168d6093c0eb8ab1067c844864f201102ae40911a77772124ee1662689b8"
+    },
+    {
+      "path": "final_corrections.py",
+      "bytes": 6887,
+      "sha256": "5f82d7dd37906d173d3a4a80c1354b29a0f92e1640f675db5557d416b2eac246"
+    },
+    {
+      "path": "independent-packet-readback.json",
+      "bytes": 227133,
+      "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+    },
+    {
+      "path": "public-share-original-visual-review.json",
+      "bytes": 1350,
+      "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+    },
+    {
+      "path": "readback-attempt1.json",
+      "bytes": 443,
+      "sha256": "845ea57fa7d0cfc43bf93ad77cc6d36a256c0a6304d8e281a81d4ece870088fe"
+    },
+    {
+      "path": "readback-attempt2.json",
+      "bytes": 380,
+      "sha256": "c2f7f7dd434e4eddb36d388651c2ec3e8905e8ad786cd8759c8cd5bafe99054f"
+    },
+    {
+      "path": "reconcile_registers.py",
+      "bytes": 16033,
+      "sha256": "954ce2ad9d36e03e1a2aaa040cac231980db12a3521bd5408e9b1077f2ebdce8"
+    },
+    {
+      "path": "register-reconciliation.json",
+      "bytes": 1342,
+      "sha256": "361c53fdc1cacd71e5763b17bda7d83e3d4e7d66d4483ddf140589711cce8eff"
+    },
+    {
+      "path": "registers-before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 20676,
+      "sha256": "060546e20517edd4f4d696dae4b1c2dd8c1d6ba90b162a8bf9ba181445a212f1"
+    },
+    {
+      "path": "registers-before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 35828,
+      "sha256": "6c4f4adb5bf7b685eac3de00fc196193c8305a062ccce1f6cd33b5fcbff7d09d"
+    },
+    {
+      "path": "registers-before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 36597,
+      "sha256": "d85077bcea294e02061fb1c8356a53c2224e00f1dda4690ff2f686b787f787e4"
+    },
+    {
+      "path": "registers-before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 109064,
+      "sha256": "3ee0bd7d971d5c48ac6e475eeff093c6752beec46e611c4594168bc5ef2e7686"
+    },
+    {
+      "path": "registers-before/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 141113,
+      "sha256": "f7dd6ea10105add3562050935f3a43a98c88d8904f9669e6e78a1e5255e4a305"
+    },
+    {
+      "path": "registers-before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 330271,
+      "sha256": "cb5ea48ca266aaa8835e8398c5ac117337e530633e3011453c26b1dd7b4209e0"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "bytes": 20240,
+      "sha256": "1ece26ebac6cd5c83f7176ced8407a2fe98fc06e58f4c1a2c69f7d17a1105069"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "bytes": 35392,
+      "sha256": "5ccb2f55436d74c14dad8a914a31810956d68af39d1e07b5c6c6e7582c769acd"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "bytes": 40597,
+      "sha256": "e085903edc12a93974062f87d3bbbc2cd150ab0bf0e76cf4fc5ee14dac590da9"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "bytes": 116820,
+      "sha256": "557b24d798a6bfbb2d786660de2b6017275706b6784db564aac0a9884110bf20"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/local-implementation-register-2026-09-30.json",
+      "bytes": 142358,
+      "sha256": "57e596f0ce5a417fc0d61b6f22a5a32ea9a3aaade3f0631186cd783c5006bcce"
+    },
+    {
+      "path": "registers-before-counters-and-class-correction/docs/release/production-remaining-tasks-2026-09-30.json",
+      "bytes": 331516,
+      "sha256": "2c32befe1eed99d42f12d46a030039e33b44949a07d83ee4969d24bb610ac488"
+    },
+    {
+      "path": "sdk-execution-independent-readback.json",
+      "bytes": 637,
+      "sha256": "36b80be8f9f06bac2de68fc5b79f7d7707b88daa448cbe61bd988a6b47a4b642"
+    },
+    {
+      "path": "sdk-failure-observation.json",
+      "bytes": 1545,
+      "sha256": "b85d233ab66700caea1b40cc98083177984d4a6c0e616bbe89f1d9ade936b8f8"
+    },
+    {
+      "path": "verify_packets.count-contract.py",
+      "bytes": 5546,
+      "sha256": "9ea6d42d55779de76e84b052340c14909051984e3e8365307dda90d63f41177f"
+    },
+    {
+      "path": "verify_packets.initial-contract-path.py",
+      "bytes": 5824,
+      "sha256": "c716d987aae4bc4e7606c92d5ffc7a8851980923b0e0471959ac6bd1d2b08596"
+    },
+    {
+      "path": "verify_packets.py",
+      "bytes": 5597,
+      "sha256": "147c86c65d045848926ed72517465856ea014bc8c3cf88abd282d2c115a4d2be"
+    }
+  ],
+  "scope": "Scoped source/proof/register integration only",
+  "production_ready": false,
+  "goal_status": "active"
+}

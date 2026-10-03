@@ -1,0 +1,5 @@
+{
+  "returncode": 3,
+  "stdout": "",
+  "stderr": "ERROR:  55000: gateway_dispatch_evidence_immutable\nCONTEXT:  PL/pgSQL function collect_gateway_dispatch.immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+}

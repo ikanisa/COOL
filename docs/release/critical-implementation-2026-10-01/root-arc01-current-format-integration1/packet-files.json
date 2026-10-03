@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "before/lib/admin/core/admin_runtime.dart",
+      "bytes": 38513,
+      "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a"
+    },
+    {
+      "path": "before/scripts/tests/admin_receipt_source_busy_test.dart",
+      "bytes": 2338,
+      "sha256": "d195407bf6fa5bd9e4626d18e3b2ad9d0c24b7b02ec4e296a2b70826693f1073"
+    },
+    {
+      "path": "before/test/features/runtime_component_contract_test.dart",
+      "bytes": 63581,
+      "sha256": "4833cc76b86ba6d56c310d7da3fd532b8118b30e7d049556767c58386b1eede5"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 1069,
+      "sha256": "4b014f06f0887b8c322b83289ce02d71d51210c519451b2ede7a109e4ed9da07"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "status": "staged_only_root_promotion_required",
+  "canonical_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "files": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+      "old_sha256": "e6bc27a704fe9ac5ce27b74479c92617dedd7baeca4487cda1a82e155057fe13",
+      "new_sha256": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "old_sha256": "7d2c0d842866c130a46067eb72e13d6834841118de062ad36f1944f032f974c7",
+      "new_sha256": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt",
+      "old_sha256": null,
+      "new_sha256": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt",
+      "old_sha256": "53caf1f4f7e3e251b5188ccac24c5c145cf0cc4b509f8c54cdd6da36650eb245",
+      "new_sha256": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt"
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "old_sha256": "76f8edecabd4a751d0d23db0b75bbedfce1e1503d98d2aec677b4c5897867bb1",
+      "new_sha256": "c7f4328a127f3d6c2e90eb63541fe29f8c5b5b7a3530f0204c1f92f4a500572e",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt"
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt",
+      "old_sha256": "19c6a269f12fec1d6e248cc6e09aebbe7766555ea52f308139af35fddfdd09ea",
+      "new_sha256": "8afd14874cbd2434a64a949d39991ded01dd96c8a6a1f0627ae737c2eea42ba6",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt"
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt",
+      "old_sha256": null,
+      "new_sha256": "29a1c5adf51da63f94909f49b196a8e8b2b476555520668a3b7d401d00a8a830",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt"
+    },
+    {
+      "path": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt",
+      "old_sha256": null,
+      "new_sha256": "8c2b7c76422547e507c432c015e7b65599a7f6f2a319b38f9c2bec9e0736c4b2",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt"
+    },
+    {
+      "path": "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "old_sha256": "de49b7a2fe0da40f084b9099c8ac0ebea787bc8007afad76236cf409e8139903",
+      "new_sha256": "a3e90aa0060f4dd63ba7b0827bec9b3b0a23935e4b799eda4cef50ffa011d27c",
+      "staged_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-late-conflict-retention-20261001/accepted-packet/source/scripts/tests/android_gateway_attempt_archive_jvm.py"
+    }
+  ],
+  "canonical_before_sha256": "2d59bd181ea373566aca433b3bd7fa92b2b0e466d90c1885496e31c04a1e9c07",
+  "validation_sha256": "595daea04aeca146e8fa8525012385637efd4d9915ea2ec54e2f3e324047afc0"
+}

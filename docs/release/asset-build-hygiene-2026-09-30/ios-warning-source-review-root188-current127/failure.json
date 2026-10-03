@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "scope": "Warning prerequisite binding",
+  "reason": "Dated share-screen saveFile call moved to the current declared invitation transport; recorder refused assuming the prior location remained current",
+  "production_changed": false
+}

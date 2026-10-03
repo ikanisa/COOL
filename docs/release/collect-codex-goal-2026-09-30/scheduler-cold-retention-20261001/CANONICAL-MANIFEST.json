@@ -1,0 +1,221 @@
+{
+  "contract_version": 1,
+  "files": {
+    "BASELINE.json": {
+      "bytes": 9110,
+      "sha256": "5a9ff179b7809084e8344ba5d1b92c5d8d887cca28164b0c912cf62e30ab2b98"
+    },
+    "HANDOFF.md": {
+      "bytes": 4706,
+      "sha256": "409f26f9f611993b8cd70d9e19bf54686178e01991410e1257fd1cf49d756284"
+    },
+    "MANIFEST.json": {
+      "bytes": 9016,
+      "sha256": "fd5ce31ab81750e40a40213fa82981e7f298b120de3e018b45a02460cb43251a"
+    },
+    "README.md": {
+      "bytes": 727,
+      "sha256": "0daca057c379909dff28e92ec8535c1014904e99bd7a3623ffc99e2e5d2ff1a6"
+    },
+    "acceptance.json": {
+      "bytes": 39963,
+      "sha256": "8d9249b9afdfe12a65fda778b5406d5db1c3a8b56059394a480093236593dade"
+    },
+    "canonical-source-association.json": {
+      "bytes": 9380,
+      "sha256": "00f694ecea3be0479d11bdff0ca1895b35d9bfe79f452b730aa9d3d4189e012e"
+    },
+    "fixture-dependency/supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": {
+      "bytes": 20563,
+      "sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95"
+    },
+    "inputs-after.json": {
+      "bytes": 411770,
+      "sha256": "5a8bfb9bdcc938a24e8753175e616edeb6ce80970f3d9b15dd263c09bc81e9f2"
+    },
+    "inputs-before.json": {
+      "bytes": 411770,
+      "sha256": "5a8bfb9bdcc938a24e8753175e616edeb6ce80970f3d9b15dd263c09bc81e9f2"
+    },
+    "observed-fixture.log": {
+      "bytes": 1104,
+      "sha256": "fb6037aae679218a7fafcdca6d87605e8558a375f4778aedd1a5b11ffc25ba31"
+    },
+    "preceding-checks/retention-affected-fix.log": {
+      "bytes": 1682,
+      "sha256": "703f022b2263ee95457992573e708d1aa42c04cfed61072a479c35e6959a111e"
+    },
+    "preceding-checks/retention-attempt1.log": {
+      "bytes": 3491,
+      "sha256": "1d1e7d2b11a666b51caf1c63577e27913145c58f7499cfcb76c15606d2cbb61f"
+    },
+    "preceding-checks/retention-authority-current.log": {
+      "bytes": 2430,
+      "sha256": "9f810cabacc3b94fedf6ea1dfce1eabbf3731e32665cd729bd262d73dc810137"
+    },
+    "preceding-source-bound-family/family.log": {
+      "bytes": 32534,
+      "sha256": "6033654715c56ffa260b9bd6fb05ddea43ac81475b80d8e2d82328aa62517609"
+    },
+    "preceding-source-bound-family/inputs-after.json": {
+      "bytes": 411529,
+      "sha256": "844dddd0f5746076e8bbd9e402b27a64c69e1efbb48d789fcd6bd12df78506d4"
+    },
+    "preceding-source-bound-family/inputs-before.json": {
+      "bytes": 411529,
+      "sha256": "844dddd0f5746076e8bbd9e402b27a64c69e1efbb48d789fcd6bd12df78506d4"
+    },
+    "preceding-source-bound-family/receipt.json": {
+      "bytes": 2033,
+      "sha256": "7b5a8299c5ea766d35be67f7cdc976b32dfa7e451de168e6c71151070fd1e13a"
+    },
+    "preparer.log": {
+      "bytes": 114,
+      "sha256": "df58754aafcf3b57e464489fc4d806fc07c98a78d82566c1cfaefeb2f3472d48"
+    },
+    "promotion-files.json": {
+      "bytes": 6599,
+      "sha256": "d3dbee95c1c6e704feb0e415ad3469ba85611523f3f7317a74542129ed274cf5"
+    },
+    "receipt.json": {
+      "bytes": 2060,
+      "sha256": "770663c4b670921ed4a905624b87ecb7ad394e635fd06eb402643dfdc8d52103"
+    },
+    "root-integration-readback.json": {
+      "bytes": 360,
+      "sha256": "f4c9d9ea3fe5070bb25a97c1ac7121177a11fc55f3a55313da53a5aae42e4c12"
+    },
+    "seal_current2.py": {
+      "bytes": 7824,
+      "sha256": "2ff08404e1fad0b7a97a4dc8d414addcb89f0a62f0dd799dd3df11d3553198a7"
+    },
+    "source/canonical-before/scripts/tests/unattended_launchd_preparation_test.py": {
+      "bytes": 8340,
+      "sha256": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "bytes": 13099,
+      "sha256": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_deployment.ts": {
+      "bytes": 12457,
+      "sha256": "3fda830ac0e1ed1573b2c9ef95559c86f9981a4ea3efde160db36a1a2bf7cc9a"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_host_tick.ts": {
+      "bytes": 4487,
+      "sha256": "dbdc86dd69dbb778a57ede83829ca9e9c589a65866177e4a12f3f432561d3942"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_journal.ts": {
+      "bytes": 15438,
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "bytes": 16552,
+      "sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_schedule_cli.ts": {
+      "bytes": 5185,
+      "sha256": "4ebed38861326f3ff5e94780a7999a6e04f9fe22f2f2caf6ee89d8dd0639dd22"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "bytes": 8912,
+      "sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": {
+      "bytes": 44022,
+      "sha256": "8483c516aa9bf01e78c42f7213c546382bd4354a4288b87d87641669e3325ef4"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_scheduler_control.ts": {
+      "bytes": 22878,
+      "sha256": "cc10e7c0d507d28e6101d803343b4bc4671d73af68d2f8c9506fe7e13d833e8b"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_scheduler_storage.ts": {
+      "bytes": 13314,
+      "sha256": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e"
+    },
+    "source/canonical-before/tools/collect-notification-mcp/src/unattended_store.ts": {
+      "bytes": 9855,
+      "sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7"
+    },
+    "source/staged/scripts/tests/unattended_launchd_preparation_test.py": {
+      "bytes": 9800,
+      "sha256": "3e06976d2e23c2ae950064d5fbd704ac8ef7c8564cda33d10049c4d9cb0c49c0"
+    },
+    "source/staged/tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "bytes": 13751,
+      "sha256": "0eb8f6740f99dd2e8f08a59d290a79abe526aec0d46f9c846893b90d10fa25ae"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_deployment.ts": {
+      "bytes": 12961,
+      "sha256": "1519670a43f654eb5ea986f28fda5645d00dbbe58bb5fb3a9668c2f5169477a3"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_disable_evidence.ts": {
+      "bytes": 5698,
+      "sha256": "82f72edc342ea34ea7355eecb0f33b262d6c92b2e0408c8e69f511ec49b6dbe2"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_host_tick.ts": {
+      "bytes": 4725,
+      "sha256": "d7b644b9fb09a96f608f437bf45f7105ca1684b95f6b052dd5251aef3e964ed3"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_journal.ts": {
+      "bytes": 15628,
+      "sha256": "7c4c9ba7a77e23cdee631a39e1cf854f1f675b70623d405944fcbba1453e47f9"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_retained.ts": {
+      "bytes": 22231,
+      "sha256": "559819220b3503ddb0ad13af669cf878bb00107b0c88accae0b86a3fb042c5b6"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_retention.test.ts": {
+      "bytes": 28630,
+      "sha256": "6edc01ed529b1b391d33a87ac2b8b91caafd916f40b81bb36d66716b73c4ed8b"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_retention.ts": {
+      "bytes": 12455,
+      "sha256": "af82b70696813c47285b2577d64598290411d506e40b192abbf4ecb176128038"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "bytes": 16768,
+      "sha256": "968eacea72b62629d56b18b8039c75ee0eafebf5a75db4e497c87f934f26e2cd"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_schedule_cli.ts": {
+      "bytes": 5594,
+      "sha256": "ca4ec88b7bfd04d5010cad62a2e8e654a4faa2892631225b7f0787d699e7eebd"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "bytes": 9228,
+      "sha256": "ab38a0174b5c9b3baffae5737674152d13d679c6107ee3db4b5b0f2364e482ea"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": {
+      "bytes": 49712,
+      "sha256": "478899bda28af1cd251e734ba35a24e8d036d2e20776a472a3dbfe1661f15381"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_scheduler_control.ts": {
+      "bytes": 24509,
+      "sha256": "2ba0966311f6cf18e26acaa18240f957c86e455aadade7b601c22d24db92ce89"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_scheduler_storage.ts": {
+      "bytes": 13837,
+      "sha256": "c2fc593ff533f5aa3e1c6164c1fd7aa4beba13295a2e77b4822277e48450acbe"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_store.ts": {
+      "bytes": 12549,
+      "sha256": "be1248643b4c0640d5e70c6f4769a6a6f737e5b54a0caa9bad9fc728549248e1"
+    },
+    "source/staged/tools/collect-notification-mcp/src/unattended_store_names.ts": {
+      "bytes": 462,
+      "sha256": "e89decb24c7d00f298be154eb4d0e65dee6fbdca09cca62a3b839d4491a1635c"
+    },
+    "typescript.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verify_current_repair.py": {
+      "bytes": 4003,
+      "sha256": "04a09cd2a83b008a01438567c18280de016c4aae9fa7644a6a6016afdbe8bb58"
+    },
+    "verify_preceding_family.py": {
+      "bytes": 4001,
+      "sha256": "917e73aca93df179df3266b06302066c100dd0d536e935890d0d63313020627f"
+    }
+  }
+}

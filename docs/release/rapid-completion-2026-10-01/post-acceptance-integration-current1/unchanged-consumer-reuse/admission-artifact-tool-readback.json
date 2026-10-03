@@ -1,0 +1,342 @@
+{
+  "admission": {
+    "candidate2 complete declared Edge TypeScript source set": {
+      "actual_count": 77,
+      "added": [],
+      "deleted": [],
+      "expected_count": 77,
+      "status": "pass"
+    },
+    "candidate2 lib/main.dart transitive local Dart closure": {
+      "actual_count": 148,
+      "added": [],
+      "deleted": [],
+      "expected_count": 148,
+      "external_packages": "Captured fork inputs, pubspec configuration and frozen dependency locks compared separately.",
+      "missing_or_unsupported": [],
+      "status": "pass"
+    },
+    "candidate2 lib/main_gateway.dart transitive local Dart closure": {
+      "actual_count": 27,
+      "added": [],
+      "deleted": [],
+      "expected_count": 27,
+      "external_packages": "Captured fork inputs, pubspec configuration and frozen dependency locks compared separately.",
+      "missing_or_unsupported": [],
+      "status": "pass"
+    },
+    "complete declared Android authored source": {
+      "candidate2_added": [],
+      "candidate2_count": 89,
+      "candidate2_deleted": [],
+      "expected_count": 89,
+      "live_added": [],
+      "live_count": 89,
+      "live_deleted": [],
+      "policy": "Original git authored-source admission, original private/generated exclusions; no new whole-repository inventory.",
+      "status": "pass"
+    },
+    "complete declared iOS authored source": {
+      "candidate2_added": [],
+      "candidate2_count": 50,
+      "candidate2_deleted": [],
+      "expected_count": 50,
+      "live_added": [],
+      "live_count": 50,
+      "live_deleted": [],
+      "policy": "Original git authored-source admission, original private/generated exclusions; no new whole-repository inventory.",
+      "status": "pass"
+    },
+    "conservative production authored asset roots": {
+      "candidate2_added": [],
+      "candidate2_count": 196,
+      "candidate2_deleted": [],
+      "expected_count": 196,
+      "live_added": [],
+      "live_count": 196,
+      "live_deleted": [],
+      "policy": "Original git authored-source admission, original private/generated exclusions; no new whole-repository inventory.",
+      "status": "pass"
+    },
+    "live complete declared Edge TypeScript source set": {
+      "actual_count": 77,
+      "added": [],
+      "deleted": [],
+      "expected_count": 77,
+      "status": "pass"
+    },
+    "live lib/main.dart transitive local Dart closure": {
+      "actual_count": 148,
+      "added": [],
+      "deleted": [],
+      "expected_count": 148,
+      "external_packages": "Captured fork inputs, pubspec configuration and frozen dependency locks compared separately.",
+      "missing_or_unsupported": [],
+      "status": "pass"
+    },
+    "live lib/main_gateway.dart transitive local Dart closure": {
+      "actual_count": 27,
+      "added": [],
+      "deleted": [],
+      "expected_count": 27,
+      "external_packages": "Captured fork inputs, pubspec configuration and frozen dependency locks compared separately.",
+      "missing_or_unsupported": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/android/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 8,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/ios/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 4,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/lib/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 15,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/linux/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 3,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/macos/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 6,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/file_saver/windows/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 6,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/firebase_messaging/android/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 20,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/firebase_messaging/ios/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 5,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/firebase_messaging/lib/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 2,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/firebase_messaging/macos/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 5,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    },
+    "third_party/gotrue/lib/": {
+      "candidate2_added": [],
+      "candidate2_deleted": [],
+      "expected_count": 33,
+      "live_added": [],
+      "live_deleted": [],
+      "status": "pass"
+    }
+  },
+  "artifacts": {
+    "gateway": {
+      "accepted_sha256": "cf8a18020375787d83754012d788f468771003398fc3a5a55e03a8fb40aaf3c0",
+      "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-gateway-archive-final/app-internal_gateway-release-unsigned.apk",
+      "bytes": 82314294,
+      "current_sha256": "cf8a18020375787d83754012d788f468771003398fc3a5a55e03a8fb40aaf3c0",
+      "exists": true,
+      "status": "pass"
+    },
+    "ios": {
+      "accepted_bundle_manifest_sha256": "4745a6c0649ed6b737a418ac51e68a68d18301218401c7478b62b2a3a45e1f08",
+      "accepted_file_count": 197,
+      "accepted_main_executable_sha256": "16ead5455b6d3896fb6ccd3c7efc39a4f190a418cff28e126aae0a696b1ca675",
+      "actual_file_count": 197,
+      "added": [],
+      "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+      "bundle_manifest_file_sha256": "4745a6c0649ed6b737a418ac51e68a68d18301218401c7478b62b2a3a45e1f08",
+      "bundle_manifest_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/bundle-manifest.json",
+      "deleted": [],
+      "exists": true,
+      "file_drift": {},
+      "main_executable_sha256": "16ead5455b6d3896fb6ccd3c7efc39a4f190a418cff28e126aae0a696b1ca675",
+      "status": "pass",
+      "symlink_set_matches": true
+    },
+    "production": {
+      "accepted_sha256": "f02d1f96cc3823e76ebea44ef9ebb78fc5947c19cf58e19ce0e49f2843e21a0a",
+      "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-production/app-production-release-unsigned.apk",
+      "bytes": 96406209,
+      "current_sha256": "f02d1f96cc3823e76ebea44ef9ebb78fc5947c19cf58e19ce0e49f2843e21a0a",
+      "exists": true,
+      "status": "pass"
+    }
+  },
+  "candidate2": {
+    "files": 2175,
+    "manifest_file_sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a",
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-integrated-local-candidate-20261001-current2",
+    "source_map_sha256": "4e5a057805c427338b841f7d1b26b2ed74ae6958f1cb88069b9b0b8cee847fa1"
+  },
+  "checked_at": "2026-10-01T16:05:49.464646+00:00",
+  "receipts": {
+    "current_edge": {
+      "accepted_sha256": "0d757b401446a75d4b977eaf19fabb0530a220b173c960811cf970db76cd2606",
+      "current_sha256": "0d757b401446a75d4b977eaf19fabb0530a220b173c960811cf970db76cd2606",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/current-edge-http-terminal1/current-source-rebind.json",
+      "status": "pass"
+    },
+    "edge552": {
+      "accepted_sha256": "a8ad47864833e08d9a0969584f4a8cfdd5919d2ba1ff55e7806eb45d5a240e3a",
+      "current_sha256": "a8ad47864833e08d9a0969584f4a8cfdd5919d2ba1ff55e7806eb45d5a240e3a",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/current-edge-units-resumption2-declared-fixtures/validation.json",
+      "status": "pass"
+    },
+    "final_gateway_full_tests": {
+      "accepted_sha256": "6dbc3dea3b06ef291eff37b8537ed9b47383943f4149a92efa574ae50b62d223",
+      "current_sha256": "6dbc3dea3b06ef291eff37b8537ed9b47383943f4149a92efa574ae50b62d223",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-current2-acceptance.json",
+      "status": "pass"
+    },
+    "ios_artifact": {
+      "accepted_sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+      "current_sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/artifact-verification.json",
+      "status": "pass"
+    },
+    "ios_inputs462": {
+      "accepted_sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e",
+      "current_sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/current-compiler-input-readback.json",
+      "status": "pass"
+    },
+    "native/gateway-archive-final/current-compiler-input-readback.json": {
+      "accepted_sha256": "a180fb4cc56e225616c5375b1a28c0158882159a0109bda604490391c6185e17",
+      "current_sha256": "a180fb4cc56e225616c5375b1a28c0158882159a0109bda604490391c6185e17",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/current-compiler-input-readback.json",
+      "status": "pass"
+    },
+    "native/gateway-archive-final/warning-dispositions.json": {
+      "accepted_sha256": "886809418bdb9b165a106425f7483e80c096833f632a167d681436620faf2ff2",
+      "current_sha256": "886809418bdb9b165a106425f7483e80c096833f632a167d681436620faf2ff2",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/warning-dispositions.json",
+      "status": "pass"
+    },
+    "native/ios/warning-dispositions.json": {
+      "accepted_sha256": "80a50031262b7dd1327bc91121b505ea11351bf22fa821f586bb313be474d3b3",
+      "current_sha256": "80a50031262b7dd1327bc91121b505ea11351bf22fa821f586bb313be474d3b3",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/warning-dispositions.json",
+      "status": "pass"
+    },
+    "native/production/current-compiler-input-readback.json": {
+      "accepted_sha256": "4b74e21b99eed8e4c4278ecab0f18878ff124dc12d8d0de5ef395496da5eb187",
+      "current_sha256": "4b74e21b99eed8e4c4278ecab0f18878ff124dc12d8d0de5ef395496da5eb187",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/current-compiler-input-readback.json",
+      "status": "pass"
+    },
+    "native/production/warning-dispositions.json": {
+      "accepted_sha256": "5259aac67367e89cca3a747066360deda2575712df63ebbf56a01dac18efd28e",
+      "current_sha256": "5259aac67367e89cca3a747066360deda2575712df63ebbf56a01dac18efd28e",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/production/warning-dispositions.json",
+      "status": "pass"
+    },
+    "native/supply-chain/final-source-dependency-equivalence.json": {
+      "accepted_sha256": "431e394b61773dfff522b9a280a011aef6273bd11568f595c92745900a260b2e",
+      "current_sha256": "431e394b61773dfff522b9a280a011aef6273bd11568f595c92745900a260b2e",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/final-source-dependency-equivalence.json",
+      "status": "pass"
+    },
+    "native/supply-chain/validation.json": {
+      "accepted_sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+      "current_sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/validation.json",
+      "status": "pass"
+    },
+    "native_terminal": {
+      "accepted_sha256": "3ecf31c736a246c7b1fbc7a491c6a9d8d4c5f846168ca9c9cf9dd03a652bfec1",
+      "current_sha256": "3ecf31c736a246c7b1fbc7a491c6a9d8d4c5f846168ca9c9cf9dd03a652bfec1",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-acceptance.json",
+      "status": "pass"
+    }
+  },
+  "tool_readbacks": {
+    "deno_executed_pinned_binary": {
+      "current_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+      "declared_version": "2.5.6",
+      "expected_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+      "status": "pass"
+    },
+    "deno_installed_alias_not_used_by_accepted_run": {
+      "classification": "Separate installed alias; fails executed-binary equivalence and is not admitted for reuse. Actual accepted command used the pinned cache path verified independently.",
+      "current_sha256": "b3ac3bd206e48c26026cadd80c1367e96c149f9c66130952382a642b09fa8a71",
+      "declared_version": "2.5.6",
+      "expected_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+      "path": "/Users/jeanbosco/.local/bin/deno",
+      "status": "fail"
+    },
+    "ios_native_flutter": {
+      "SDK": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt28",
+      "dart_version": "3.12.2",
+      "expected_launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "framework_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+      "framework_version": "3.44.4",
+      "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "limit": "Metadata/launcher readback only; accepted artifact retains recorded Xcode/JBR/generated/package compiler-byte proof. No complete installed SDK tree attestation.",
+      "metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+      "status": "pass"
+    },
+    "node": {
+      "current_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+      "declared_version": "v24.19.0",
+      "expected_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+      "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "status": "pass"
+    },
+    "production_native_flutter": {
+      "SDK": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23",
+      "dart_version": "3.12.2",
+      "expected_launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "framework_revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+      "framework_version": "3.44.4",
+      "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+      "limit": "Metadata/launcher readback only; accepted artifact retains recorded Xcode/JBR/generated/package compiler-byte proof. No complete installed SDK tree attestation.",
+      "metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+      "status": "pass"
+    }
+  }
+}

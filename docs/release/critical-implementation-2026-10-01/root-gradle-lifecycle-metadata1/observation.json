@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-02T12:59:45.463367+00:00",
+  "scope": "controlled own pinned java-version process; actual macOS terminal metadata before reap, no Gradle/build/APP/SDK mutation",
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "-version"
+  ],
+  "actual_seconds": 0.31376458301383536,
+  "pid": 94043,
+  "exit_code": 0,
+  "ps_exit_code": 0,
+  "observed_row": {
+    "pid": "94043",
+    "ppid": "94042",
+    "pgid": "94043",
+    "weekday": "Fri",
+    "month": "Oct",
+    "day": "2",
+    "clock": "14:59:45",
+    "year": "2026",
+    "state": "Z",
+    "command": "<defunct>"
+  },
+  "raw_ps": "94043 94042 94043 Fri Oct  2 14:59:45 2026     Z    <defunct>\n",
+  "independent_absence": [
+    {
+      "kind": "PID",
+      "id": 94043,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "PGID",
+      "id": 94043,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "source_modified": false,
+  "zombie_is_absence": false
+}

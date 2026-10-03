@@ -1,15 +1,9 @@
-Collect helps savings groups organize contributions, review member balances, and keep credit-readiness records in one mobile workspace.
+Collect helps Rwanda savings groups organize member records and review whole-RWF MoMo contribution activity.
 
-Members create a contribution request, review the approved beneficiary, amount, and unique reference, then authorize a SEPA bank transfer in their banking app. Collect never asks for banking credentials and never initiates or signs a transfer. A contribution is recorded only after controlled bank evidence and the daily statement reconcile.
+On iOS, members can inspect group activity and use account and privacy controls. Private-group creation, the app’s MTN MoMo or Airtel Money USSD handoff, and consented receipt-SMS intake require an eligible Android build; these actions are not available in the iOS app.
 
-Groups can track collections, member participation, bank-transfer evidence, exceptions, and account status without relying on scattered chat messages or paper notes. The app is designed for savings groups and administrators that need a clearer record of who contributed, what changed, and what still needs follow-up.
+A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.
 
-Key capabilities:
+Collect never asks for a MoMo PIN or payment provider OTP. Your WhatsApp sign-in code is used only to sign in to Collect. Collect is a technology and record-keeping service, not a bank or wallet, and does not hold customer funds or provide loans or insurance.
 
-- Savings group overview and member activity tracking
-- Bank-transfer contribution and reconciliation review
-- Credit-readiness records for organized group review
-- Shareable group context for coordination
-- Account and privacy controls for members
-
-Collect is operated by IKANISA LTD for organized savings, contribution tracking, and credit-readiness recordkeeping. Collect is not a bank or wallet and does not provide credit or custody customer funds.
+For support, email info@ikanisa.com. In the app, request eligible data deletion through Settings → Security → Delete data. Collect is operated by IKANISA for Rwanda group-contribution workflows.

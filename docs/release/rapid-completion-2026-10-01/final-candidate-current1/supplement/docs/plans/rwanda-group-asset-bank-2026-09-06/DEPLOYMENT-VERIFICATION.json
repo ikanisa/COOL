@@ -1,0 +1,145 @@
+{
+  "plan": {
+    "target": "lhbowpbcpwoiparwnwgt",
+    "remote_count": 122,
+    "local_count": 124,
+    "pending": [
+      {
+        "file": "supabase/migrations/20260906093000_member_profile_momo_code.sql",
+        "sha256": "9953619c2d380fd3c45e8c375320a816fec09029d13202cd260c1be3d75f731f"
+      },
+      {
+        "file": "supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql",
+        "sha256": "d63b3ea7a97b7f747bcfb12d1b2e44023fe70092d8d5414473fcef04d9696f89"
+      }
+    ]
+  },
+  "readback": {
+    "rls": true,
+    "applied": [
+      {
+        "name": "member_profile_momo_code",
+        "version": "20260906093000"
+      },
+      {
+        "name": "group_cover_bank_and_atomic_creation_media",
+        "version": "20260906160000"
+      }
+    ],
+    "trigger": "CREATE TRIGGER validate_collect_group_cover_reference BEFORE INSERT OR UPDATE OF cover_image_url ON public.collections FOR EACH ROW EXECUTE FUNCTION validate_collect_group_cover_reference()",
+    "functions": [
+      {
+        "args": "group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text",
+        "name": "create_private_group_with_owner_media_attested",
+        "body_md5": "38b3082908ddc2ad4bf1f9f2d8c8f8c8",
+        "settings": [
+          "search_path=public"
+        ],
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "args": "profile_row profiles",
+        "name": "_member_profile_payload",
+        "body_md5": "1ebc18e75940a327ebc1a4b124684159",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "security_definer": false,
+        "authenticated_execute": false
+      },
+      {
+        "args": "p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text",
+        "name": "update_current_member_profile",
+        "body_md5": "ae125f8722a7c95831bafe348a996215",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "args": "",
+        "name": "validate_collect_group_cover_reference",
+        "body_md5": "a6ecdd42d422187ea7a69270a9f55e86",
+        "settings": [
+          "search_path=public"
+        ],
+        "anon_execute": false,
+        "security_definer": false,
+        "authenticated_execute": false
+      }
+    ],
+    "migration_count": 124,
+    "library_reference_rows": 0,
+    "exact_function_body_matches": 4
+  },
+  "anonymous-api-check": {
+    "http_status": 401,
+    "postgres_code": "42501",
+    "result": "anonymous execution denied for deployed photo RPC",
+    "customer_records_written": false
+  },
+  "advisor-delta": {
+    "before": 236,
+    "after": 238,
+    "new_findings": [
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+        "detail": "Function `public.create_private_group_with_owner_media_attested(group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/create_private_group_with_owner_media_attested`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "metadata": {
+          "name": "create_private_group_with_owner_media_attested",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text",
+          "security_definer": true
+        },
+        "cache_key": "authenticated_security_definer_function_executable_public_create_private_group_with_owner_media_attested_group_name text, group_description text, receiver_momo_number text, receiver_momo_number_hash text, receiver_label text, group_collection_type text, group_category_subtype text, group_purpose_label text, native_capability uuid, group_image_url text, group_accent_color_hex text",
+        "observed_at": "2026-09-06T13:26:04.162Z"
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+        "detail": "Function `public.update_current_member_profile(p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/update_current_member_profile`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "metadata": {
+          "name": "update_current_member_profile",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text",
+          "security_definer": true
+        },
+        "cache_key": "authenticated_security_definer_function_executable_public_update_current_member_profile_p_country_code text, p_momo_provider text, p_momo_number text, p_revolut_link text, p_revolut_account text, p_momo_pay_code text",
+        "observed_at": "2026-09-06T13:26:04.162Z"
+      }
+    ],
+    "assessment": "Two expected authenticated SECURITY DEFINER RPC notices. Both wrappers deliberately preserve the existing gated RPC model, fixed search paths, caller identity checks and explicit grants. They do not expose table writes or anonymous execution. No ERROR-level findings."
+  },
+  "status": "DATABASE_DEPLOYED_AND_VERIFIED",
+  "app_distributed": false,
+  "existing_customer_rows_rewritten": false,
+  "execution": "Existing governed Management API migration helper; exact two-file queue snapshotted and hash-checked before apply",
+  "tests": {
+    "group_cover_with_production_visibility_enum": 9,
+    "momo_prerequisite_supplemental": 6,
+    "retained_docker_rehearsal": "Earlier passing evidence retained; fresh run unavailable because local Docker API did not respond. Pending local commands cancelled."
+  },
+  "scope": "Backend readiness; not authenticated live contribution UAT, cultural approval or mobile release acceptance"
+}

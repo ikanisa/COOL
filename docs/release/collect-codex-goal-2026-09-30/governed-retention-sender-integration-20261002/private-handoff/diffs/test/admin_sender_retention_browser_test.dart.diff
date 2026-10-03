@@ -1,0 +1,35 @@
+--- predecessor/test/admin_sender_retention_browser_test.dart
++++ final/test/admin_sender_retention_browser_test.dart
+@@ -71,4 +71,32 @@
+       );
+     },
+   );
++  test('resolved original cannot be resurrected by a stale writer', () async {
++    final s = browserAdminRetentionStore()!, i = originalIntent();
++    await s.write(i);
++    await s.clear(i);
++    final retained = web.window.localStorage.getItem('$key.resolved.${i.requestId}');
++    await expectLater(s.write(i), throwsFormatException);
++    expect(await s.read(actor, session), isNull);
++    expect(web.window.localStorage.getItem('$key.resolved.${i.requestId}'), retained);
++  });
++  test('stale resolved writer cannot erase or block a newer pending original', () async {
++    final s = browserAdminRetentionStore()!, i = originalIntent();
++    final j = AdminRetentionIntent.parse({
++      ...i.row,
++      'request_id': '33333333-3333-4333-8333-333333333333',
++    });
++    await s.write(i);
++    await s.clear(i);
++    final retained = web.window.localStorage.getItem('$key.resolved.${i.requestId}');
++    final outcomes = await Future.wait([
++      s.write(i).then((_) => true).catchError((_) => false),
++      s.write(j).then((_) => true).catchError((_) => false),
++    ]);
++    expect(outcomes, [false, true]);
++    expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
++    await expectLater(s.write(i), throwsFormatException);
++    expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
++    expect(web.window.localStorage.getItem('$key.resolved.${i.requestId}'), retained);
++  });
+ }

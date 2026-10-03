@@ -1,0 +1,167 @@
+--- a/supabase/functions/prepare-roster-import/handler.ts
++++ b/supabase/functions/prepare-roster-import/handler.ts
+@@ -30,6 +30,14 @@
+ } from "../_shared/roster_response_policy.ts";
+ import { decodeRosterSource } from "../_shared/roster_decoder.ts";
+ import { rosterBudgetReceipt } from "../_shared/roster_resource_budget.ts";
++import {
++  assertRosterAiDispatchApproval,
++  prepareRosterAiDispatchApproval,
++  ROSTER_OPENAI_RESPONSES_ENDPOINT,
++  type RosterAiConfiguration,
++  type RosterAiDispatchApproval,
++  snapshotRosterAiConfiguration,
++} from "../_shared/roster_ai_dispatch_policy.ts";
+ 
+ type Result = {
+   data: unknown;
+@@ -38,13 +46,7 @@
+ export type RosterHandlerDependencies = {
+   authenticate(authorization: string | null): Promise<{ id: string }>;
+   rpc(name: string, args: Record<string, unknown>): Promise<Result>;
+-  configuration(): {
+-    model: string;
+-    apiKey: string | undefined;
+-    decoderUrl?: string;
+-    decoderSecret?: string;
+-    decoderBuildSha256?: string;
+-  };
++  configuration(): RosterAiConfiguration;
+   fetch?: typeof fetch;
+   decoderFetch?: typeof fetch;
+ };
+@@ -303,7 +305,8 @@
+       const derivedHash = source.derived
+         ? await rosterSha256(source.derived)
+         : null;
+-      const config = deps.configuration();
++      const config = snapshotRosterAiConfiguration(deps.configuration());
++      let approval: RosterAiDispatchApproval | null = null;
+       let model: string | null = null;
+       if (source.ai) {
+         try {
+@@ -311,6 +314,10 @@
+         } catch {
+           throw new PublicError("roster_extraction_unavailable", 503);
+         }
++        approval = await prepareRosterAiDispatchApproval(config);
++        // Hash validation has settled. Fresh configuration and time are checked
++        // synchronously before any reservation or external work can start.
++        assertRosterAiDispatchApproval(config, approval, deps.configuration());
+       }
+       const budget = rosterBudgetReceipt(
+         await rpc(deps, "reserve_roster_resources", {
+@@ -329,17 +336,45 @@
+       if (budget.state === "reserved") {
+         reservationId = budget.reservation_id;
+         if (["xlsx", "image", "pdf"].includes(source.kind)) {
+-          const decoded = await decodeRosterSource(
+-            source,
+-            hash,
+-            reservationId,
+-            {
+-              url: config.decoderUrl,
+-              secret: config.decoderSecret,
+-              buildSha256: config.decoderBuildSha256,
+-            },
+-            deps.decoderFetch,
+-          );
++          let approvalDenied = false;
++          const decoderFetch: typeof fetch | undefined = approval
++            ? (input, init) => {
++              try {
++                // decodeRosterSource has finished its awaited HMAC before this
++                // actual fetch entry. No await follows the fresh check.
++                assertRosterAiDispatchApproval(
++                  config,
++                  approval!,
++                  deps.configuration(),
++                );
++              } catch (error) {
++                approvalDenied = true;
++                throw error;
++              }
++              return (deps.decoderFetch ?? fetch)(input, init);
++            }
++            : deps.decoderFetch;
++          let decoded: Awaited<ReturnType<typeof decodeRosterSource>>;
++          try {
++            decoded = await decodeRosterSource(
++              source,
++              hash,
++              reservationId,
++              {
++                url: config.decoderUrl,
++                secret: config.decoderSecret,
++                buildSha256: config.decoderBuildSha256,
++              },
++              decoderFetch,
++            );
++          } catch (error) {
++            // The decoder adapter sanitizes fetch errors. Preserve a local
++            // approval denial without changing genuine decoder error behavior.
++            if (approvalDenied) {
++              throw new PublicError("roster_extraction_unavailable", 503);
++            }
++            throw error;
++          }
+           const verified = record(
+             await rpc(deps, "verify_roster_source_integrity", {
+               p_reservation_id: reservationId,
+@@ -467,31 +502,37 @@
+         if (!config.apiKey) {
+           throw new PublicError("roster_extraction_unavailable", 503);
+         }
++        const init: RequestInit = {
++          method: "POST",
++          headers: {
++            authorization: `Bearer ${config.apiKey}`,
++            "content-type": "application/json",
++            "OpenAI-Organization": approval!.organizationId,
++            "OpenAI-Project": approval!.projectId,
++          },
++          body: JSON.stringify(
++            buildRosterResponsesRequest(
++              model!,
++              source.kind as "pdf" | "image",
++              source.filename!,
++              source.mime,
++              source.base64!,
++            ),
++          ),
++          signal: AbortSignal.timeout(60_000),
++          redirect: "error",
++        };
++        // Source ACK and decoder awaits have settled. Recheck the same approval,
++        // raw configuration and current window directly before the fetch.
++        assertRosterAiDispatchApproval(config, approval!, deps.configuration());
+         let response: Response;
+         // Once a provider request can leave this process, an error does not
+         // prove it was unbilled/stopped. Keep its active lease and full charge.
+         budgetOutcome = "ambiguous";
+         try {
+           response = await (deps.fetch ?? fetch)(
+-            "https://api.openai.com/v1/responses",
+-            {
+-              method: "POST",
+-              headers: {
+-                authorization: `Bearer ${config.apiKey}`,
+-                "content-type": "application/json",
+-              },
+-              body: JSON.stringify(
+-                buildRosterResponsesRequest(
+-                  model!,
+-                  source.kind as "pdf" | "image",
+-                  source.filename!,
+-                  source.mime,
+-                  source.base64!,
+-                ),
+-              ),
+-              signal: AbortSignal.timeout(60_000),
+-              redirect: "error",
+-            },
++            ROSTER_OPENAI_RESPONSES_ENDPOINT,
++            init,
+           );
+         } catch (error) {
+           throw new PublicError(

@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-02T13:27:57.196470+00:00",
+  "status": "genuine_offline_repository_metadata_failure_preserved",
+  "failed_packet_sha256": "7c9efa91c56ab471d255ec77bc90f796d3cfd93087357c5d235d04f8d64506f4",
+  "terminal_sha256": "d0d982346ada8f878c7bf39e1ff2274023fb457cf32100eafeb3a808384e4da9",
+  "command_sha256": "373a0b61fc99a041b9e04f135c80b28805c28f48706607646d7fbee506c11a0b",
+  "exit_code": 1,
+  "actual_seconds": 42.286,
+  "observer_error": null,
+  "owned_daemons_absent": true,
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 98954,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 98980,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 98954,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 98980,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "publisher_raw_JAR_present_but_Gradle_offline_metadata_unavailable": true,
+  "source_failure_readbacks_completed": true,
+  "protected_paths_unchanged": 68020,
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

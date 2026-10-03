@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "format",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+  ],
+  "exit_code": 0,
+  "stdout": "Formatted1 file(1changed)",
+  "before_source_sha256": "f3a83ac5710de27901b2bee752c95212b0651feb900fa9d2c50d99e86edf09c4",
+  "after_source_sha256": "fd9550934df8e320d44f78ade43048b4fc1385e89b58b9b8cebcbec27d6db54b",
+  "after_verified_by": "consumer-attempt6"
+}

@@ -1,0 +1,6 @@
+{
+  "recorded_utc": "2026-10-02T00:27:21.138870+00:00",
+  "runner_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "purpose": "Bind final reviewed code including stricter receipt and prepared writer/readback guards to actual unchanged read-only scan; no expansion invoked.",
+  "actual_deadline_seconds": 300
+}

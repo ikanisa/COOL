@@ -1,0 +1,5 @@
+{
+  "source": "docs/release/LOCAL_SECURITY_AND_AMOUNT_CORRECTIONS_2026-10-01.md",
+  "prior_sha256": "2e6b970dc12973755cdef17f51deeff9b166f92f41ce5f8f9db6b6f92e92291e",
+  "current_bundle_result": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt6-baseline-catalog-all167/result.json"
+}

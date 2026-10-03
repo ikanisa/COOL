@@ -1,0 +1,4 @@
+NOTICE:  00000: trigger "protect_raw_payment_sms_identity_trigger" for relation "public.raw_payment_sms" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: constraint "payments_provider_network_check" of relation "payments" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655

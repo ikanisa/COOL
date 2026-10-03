@@ -1,0 +1,28 @@
+{
+  "more": false,
+  "action": "list_events",
+  "events": [
+    {
+      "event_id": "464ced9a-b6ea-4504-bfbd-0a004cce1ccd",
+      "event_kind": "receipt_created",
+      "payment_id": "99910000-0000-4000-8000-000000100000",
+      "source_state": "queued",
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "source_version": 1
+    },
+    {
+      "event_id": "9b2edb15-4993-4510-aaf9-71b5afbd1f44",
+      "event_kind": "payment_posted",
+      "payment_id": "99910000-0000-4000-8000-000000100000",
+      "source_state": "posted",
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "source_version": 1
+    }
+  ],
+  "run_id": "fdc35f1b-a5a1-45b3-ae69-94eb9be96449",
+  "request_id": "043f02b4-3aa2-441c-b5e8-80f1a9c271a1",
+  "observed_at": "2026-10-01T11:36:31.122225Z",
+  "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+  "fence_version": 1,
+  "contract_version": 2
+}

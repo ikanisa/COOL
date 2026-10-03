@@ -1,0 +1,62 @@
+{
+  "status": "captured_source_candidate_current_binding_incomplete",
+  "created_at_utc": "2026-10-01T12:06:32.976013+00:00",
+  "directory": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-essential-source-candidate-20261001",
+  "zip": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-essential-source-candidate-20261001.zip",
+  "zip_sha256": "51d77cd177f8ede7b519ae2e4263c10d61ee799245105defcb167d93bd115296",
+  "zip_bytes": 136373536,
+  "source_file_count": 1953,
+  "all_declared_archive_source_bytes_verified": true,
+  "current_source_drift": {
+    "android/app/build.gradle.kts": {
+      "captured_sha256": "671a96822366595aebbc61f1f2d38b50b0c0bdcf60d3e5d6525e9663ceff4b69",
+      "current_sha256": "7bc81c594a3caae7d58a77f99211cb264f27e9ad7b653a4ed53dcb1239d47497"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "captured_sha256": "9ae91f8240decd514fe10c1bc2fc39367f91848d15399f3e1446175c32e40117",
+      "current_sha256": "d274c2e1f6edaeab01276f535cae74bf9bdcc3c45db3b30815f89708289bc91c"
+    },
+    "scripts/tests/android_dispatch_authority_uat.py": {
+      "captured_sha256": "4b0df63e78b1cdff26c6264a2fc1cfc8b219610d7c67c1157f4baeff3c11000e",
+      "current_sha256": "6cd4570993a227fe1514435b84f544c0d49407095108c451f6c9a0cfa8acd2c9"
+    },
+    "scripts/tests/receipt_deferral_exceptions_uat.py": {
+      "captured_sha256": "f3183bf13514af51eb7cdcb2b459348225e0883a84c4a44c23241859afc6545a",
+      "current_sha256": "68f031e09fdb43baf1586233e7d01897af7717e6f192ba4ffbd6e91c6b79ee61"
+    },
+    "scripts/tests/unattended_launchd_preparation_test.py": {
+      "captured_sha256": "65b6e7048a70d17ef7e00deca25b07e8b70a56a7470ec2be03b68291c4b7a92e",
+      "current_sha256": "5e547d507b35814091344dde6218f8674f534ea5f01f2df1560ccce62ec7f9c5"
+    },
+    "supabase/migrations/20261001130000_android_dispatch_authority.sql": {
+      "captured_sha256": "a8cc4ab9b08cd781d972f7d9fddccec724c7e08376a0cd466f8744ff3b0ac82a",
+      "current_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c"
+    },
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": {
+      "captured_sha256": "59ec77c8ac25c75d207ac036b4d5fc68ff82b732935efab0e4af41258b6a999a",
+      "current_sha256": "965825163e9198591369de19352c6666ed903ef85bae3c4467cde8598f53828f"
+    },
+    "test/admin_receipt_operations_card_test.dart": {
+      "captured_sha256": "e0229d8ed739bdc6641aae1af27868d377a7b7302251b36f5647848ca97f1b93",
+      "current_sha256": "23e00a1f86020ebeede67677126ff69fa5875608faa1c6dc1675fc665a958fa0"
+    },
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "captured_sha256": "bc0743a5b6f7fac7fe0e370a8a9e7f00ff9f2b049487b1be9960d6ad10ea6685",
+      "current_sha256": "d402ace19597744dc7a45cea6d4b243879d991c5d2ee34223f1243fd1a0852da"
+    },
+    "tools/collect-notification-mcp/src/unattended_runner.ts": {
+      "captured_sha256": "f521a68bcdb28fbfc51191f32546449142216eb38c818328ced9097938a481f9",
+      "current_sha256": "71ae6eb460cc9484884482bd10d8c922415f13df036cc78494a6963f977bcd99"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler.ts": {
+      "captured_sha256": "24da01cfbe8c311da9bb622031a0f8a197dae8178e2d78c0fa6dc8830ab31b56",
+      "current_sha256": "51de93383e3d712de5892667ae242a08780feb9f5da93f5fdfacc4f523c36796"
+    }
+  },
+  "known_concurrent_chat": "Connect Collect to Codex MCP",
+  "coordination_authorization_requested": true,
+  "ignored_or_private_provider_signing_inputs_copied": false,
+  "proprietary_website_font_binaries_included": false,
+  "production_release_authorized": false,
+  "scope": "Preserved exact captured source archive and manifest. Concurrent backend/MCP changes prevent claiming current whole-repository acceptance. No existing snapshot, external task or source edit was discarded."
+}

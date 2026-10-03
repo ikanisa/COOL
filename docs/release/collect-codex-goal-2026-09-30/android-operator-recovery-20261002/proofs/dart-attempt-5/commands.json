@@ -1,0 +1,38 @@
+[
+  {
+    "name": "widgets",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--reporter",
+      "expanded",
+      "test/gateway/gateway_recovery_capture_test.dart"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+    "status": "terminal",
+    "pid": 79576,
+    "exit_code": 0,
+    "owned_child_reaped": true,
+    "wall_seconds": 27.152295333999064,
+    "stdout_sha256": "0c2f9aa43556b44194d2ab4b6336b1bfecce0771cb8155868b20661fe0d6668f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "analysis",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "analyze",
+      "--no-pub",
+      "test/gateway/gateway_recovery_capture_test.dart"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+    "status": "terminal",
+    "pid": 81355,
+    "exit_code": 0,
+    "owned_child_reaped": true,
+    "wall_seconds": 25.4583515409995,
+    "stdout_sha256": "4f39015b8da77173e50d16e9fe47304a0816abc662a6485365a7d181e91bd16a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

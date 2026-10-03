@@ -1,0 +1,53 @@
+{
+  "status": "proposal_only_not_created",
+  "outside_checkout_root_proposal": "/Volumes/PRO-G40/Application Data/Codex/Collect-Evidence-Objects/v1",
+  "engine_proposal": "Owner-selected pinned maintained encrypted content-addressed engine; restic is a researched candidate, not installed or approved here.",
+  "layout_proposal": [
+    "encrypted-repository/ (engine-managed content-addressed encrypted packs, snapshots, indexes)",
+    "catalog manifests included inside exact encrypted snapshots, mapping original relative path + SHA256 + size + mode + epoch/source/toolchain/consumer provenance to snapshot path",
+    "sanitized in-repo relocation receipt with exact repository identity, full snapshot ID, encrypted-catalog digest, cohort totals and restore-receipt hash; no plaintext sensitive bodies/keys"
+  ],
+  "identity": "Whole-file plaintext SHA256+size catalog is independent of engine chunk/pack identifiers; equal bytes can share stored content while preserving every original path/epoch record.",
+  "access": {
+    "directory_mode_proposal": "0700",
+    "local_catalog_mode_proposal": "0600",
+    "operators": "Named evidence custodian and independently authorized restore verifier; proposed roles, no identities granted.",
+    "automation": "Read-only resolver by explicit approved repository identity; no implicit global mount, restored executable discovery, current skill path or automatic network fallback."
+  },
+  "encryption": {
+    "payloads": "Engine authenticated encryption at rest.",
+    "metadata": "Encrypt sensitive path/provenance catalog as well as payloads; sanitize repo-visible pointers.",
+    "key_management": "Owner-approved credential manager/escrow with separately tested key recovery, never repo/log/command output.",
+    "backup": "Verified second encrypted copy on an approved separate failure domain before removal of unique original objects. Same PRO-G40 destination alone is not that copy."
+  },
+  "classes": [
+    {
+      "class": "public_sanitized_receipt",
+      "rule": "Only after actual content review; concise hashes/outcomes may remain in repo, preserve linked-object recovery."
+    },
+    {
+      "class": "internal_source_and_synthetic_test",
+      "rule": "Preserve source/license/toolchain provenance, false acceptance fields and tested fixture semantics; encrypted catalog and named access."
+    },
+    {
+      "class": "restricted_customer_auth_operational_or_unknown",
+      "rule": "Default for unreviewed bodies including caches, raw logs, binaries, backups and archives. No public/cloud transfer until classification/access authority is established."
+    },
+    {
+      "class": "reproducible_scratch",
+      "rule": "Requires an exact genuine regeneration receipt from frozen inputs and approved discard rationale; cache suffix alone is insufficient. First batch preserves bytes anyway."
+    }
+  ],
+  "retention": {
+    "approved_schedule_exists_for_this_task": false,
+    "interim_rule_proposal": "Retain every proposed archived object and original-path catalog; no automatic forget/prune/expiry while legal/incident/release holds and owner-approved class retention remain unresolved.",
+    "decisions_missing": [
+      "Accountable retention/hold owner and exact class schedules",
+      "Approved storage/second-copy location and capacity",
+      "Engine/version/authenticated artifact provenance",
+      "Key custodians/escrow/recovery authorization",
+      "Customer/secret content classification and permitted access/transfer",
+      "Immutable evidence-index resolver contract and independent removal authorization"
+    ]
+  }
+}

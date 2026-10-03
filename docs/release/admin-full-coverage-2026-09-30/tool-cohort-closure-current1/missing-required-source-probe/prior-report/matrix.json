@@ -1,0 +1,2409 @@
+{
+  "scope": "Observed exported-source SDK and widget tests. SQL receipts are retained parser inputs; no SQL, hosted provider, live navigation or persisted audit was executed by this gate.",
+  "aggregate_client_gate_passed": true,
+  "full_Admin_acceptance": false,
+  "inventory_source_matches_tested_shared_inputs": true,
+  "inventory_tested_input_differences": [],
+  "source_export_unchanged": true,
+  "transport_dependencies_unchanged": null,
+  "transport_dependencies_sha256": null,
+  "machine_summary": {},
+  "browser_checkpoint_gate_passed": null,
+  "browser_checkpoint_machine_summary": null,
+  "browser_checkpoint_machine_sha256": null,
+  "packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/tool-cohort-closure-current1/missing-required-source-probe",
+  "inventory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/tool-cohort-closure-current1/missing-required-source-probe/inventory.json",
+  "machine_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "inventory_sha256": "68857152c48fc602dd3140450469d7d6a9aff4755c852056b469fb16d6eb2404",
+  "acceptance_sha256": "5762749ae3e3a9eebfe0e5975092293f482e798b65e0d72dfc87a98f0df57782",
+  "wrapper_sha256": "d0568f87ece0d13a021e6fc77fa53c2348ecc8c6692642d17640e36fe559a533",
+  "reporter_source_sha256": "b9a1d516a9cba7271d8f85f793bf181a2d68136854ecb2fd22aad0984e83eb72",
+  "actual_read_receipt_sha256": "synthetic-not-SQL",
+  "protected_routes": [],
+  "active_endpoints": [],
+  "providers": [],
+  "active_endpoints_without_named_or_reviewed_alias_pass": [],
+  "providers_without_observed_reference_cohort_pass": [],
+  "roster_actual149_decoder_passed": null,
+  "dated_roster_sql149_receipt": null,
+  "custom_ui_actions": [
+    {
+      "ui_action": "createGroup",
+      "operation": "admin_create_platform_public_group",
+      "states": {
+        "success": {
+          "test": "createGroup production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "createGroup production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "createGroup production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "createGroup production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "createGroup production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "createGroup production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "createGroup production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "createGroup production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "createGroup production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "createGroup production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "createGroup production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "createPayee",
+      "operation": "admin_create_collect_payee",
+      "states": {
+        "success": {
+          "test": "createPayee production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "createPayee production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "createPayee production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "createPayee production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "createPayee production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "createPayee production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "createPayee production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "createPayee production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "createPayee production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "createPayee production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "createPayee production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "editPayee",
+      "operation": "admin_update_collect_payee",
+      "states": {
+        "success": {
+          "test": "editPayee production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "editPayee production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "editPayee production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "editPayee production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "editPayee production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "editPayee production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "editPayee production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "editPayee production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "editPayee production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "editPayee production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "editPayee production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "deactivatePayee",
+      "operation": "admin_set_collect_payee_status",
+      "states": {
+        "success": {
+          "test": "deactivatePayee production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "deactivatePayee production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "deactivatePayee production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "deactivatePayee production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "deactivatePayee production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "deactivatePayee production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "deactivatePayee production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "deactivatePayee production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "deactivatePayee production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "deactivatePayee production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "deactivatePayee production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "activatePayee",
+      "operation": "admin_set_collect_payee_status",
+      "states": {
+        "success": {
+          "test": "activatePayee production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "activatePayee production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "activatePayee production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "activatePayee production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "activatePayee production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "activatePayee production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "activatePayee production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "activatePayee production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "activatePayee production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "activatePayee production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "activatePayee production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "deactivateGroup",
+      "operation": "admin_set_group_active",
+      "states": {
+        "success": {
+          "test": "deactivateGroup production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "deactivateGroup production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "deactivateGroup production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "deactivateGroup production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "deactivateGroup production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "deactivateGroup production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "deactivateGroup production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "deactivateGroup production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "deactivateGroup production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "deactivateGroup production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "deactivateGroup production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "activateGroup",
+      "operation": "admin_set_group_active",
+      "states": {
+        "success": {
+          "test": "activateGroup production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "activateGroup production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "activateGroup production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "activateGroup production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "activateGroup production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "activateGroup production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "activateGroup production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "activateGroup production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "activateGroup production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "activateGroup production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "activateGroup production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "approveGroup",
+      "operation": "admin_update_collection_support_status",
+      "states": {
+        "success": {
+          "test": "approveGroup production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "approveGroup production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "approveGroup production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "approveGroup production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "approveGroup production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "approveGroup production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "approveGroup production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "approveGroup production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "approveGroup production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "approveGroup production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "approveGroup production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "rejectGroup",
+      "operation": "admin_update_collection_support_status",
+      "states": {
+        "success": {
+          "test": "rejectGroup production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "rejectGroup production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "rejectGroup production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "rejectGroup production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "rejectGroup production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "rejectGroup production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "rejectGroup production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "rejectGroup production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "rejectGroup production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "rejectGroup production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "rejectGroup production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "metadata",
+      "operation": "admin_update_platform_public_group_metadata",
+      "states": {
+        "success": {
+          "test": "metadata production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "metadata production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "metadata production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "metadata production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "metadata production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "metadata production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "metadata production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "metadata production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "metadata production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "metadata production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "metadata production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "note",
+      "operation": "admin_record_operator_note",
+      "states": {
+        "success": {
+          "test": "note production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "note production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "note production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "note production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "note production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "note production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "note production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "note production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "note production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "note production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "note production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "profileNote",
+      "operation": "admin_record_operator_note",
+      "states": {
+        "success": {
+          "test": "profileNote production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "profileNote production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "profileNote production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "profileNote production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "profileNote production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "profileNote production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "profileNote production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "profileNote production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "profileNote production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "profileNote production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "profileNote production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    },
+    {
+      "ui_action": "featureFlag",
+      "operation": "admin_set_feature_flag_v2",
+      "states": {
+        "success": {
+          "test": "featureFlag production UI success",
+          "observed_pass": false
+        },
+        "cancel": {
+          "test": "featureFlag production UI cancel",
+          "observed_pass": false
+        },
+        "invalid": {
+          "test": "featureFlag production UI invalid",
+          "observed_pass": false
+        },
+        "revoked-draft": {
+          "test": "featureFlag production UI revoked-draft",
+          "observed_pass": false
+        },
+        "role-draft": {
+          "test": "featureFlag production UI role-draft",
+          "observed_pass": false
+        },
+        "loading-draft": {
+          "test": "featureFlag production UI loading-draft",
+          "observed_pass": false
+        },
+        "error-draft": {
+          "test": "featureFlag production UI error-draft",
+          "observed_pass": false
+        },
+        "session-draft": {
+          "test": "featureFlag production UI session-draft",
+          "observed_pass": false
+        },
+        "late-ack": {
+          "test": "featureFlag production UI late-ack",
+          "observed_pass": false
+        },
+        "unknown-ack": {
+          "test": "featureFlag production UI unknown-ack",
+          "observed_pass": false
+        },
+        "denied": {
+          "test": "featureFlag production UI denied",
+          "observed_pass": false
+        }
+      },
+      "proof": "Actual production widget and locked SDK with synthetic HTTP; exact request, captured Bearer, ACK parsing and sticky authority fence.",
+      "server_audit_verified": false
+    }
+  ],
+  "typed_gateway_sdk_and_provider_states": [
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 actual SDK signed-out caller makes no request",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider denies missing notifications.read before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider denies missing system_health.read before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider waits for current identity before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider redacts 42501 service failure",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider redacts PGRST202 service failure",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after permission loss",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after identity loading",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_gateway_devices_v1 production provider suppresses late SDK read after identity error",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 actual SDK signed-out caller makes no request",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider denies missing notifications.read before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider denies missing system_health.read before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider waits for current identity before SDK dispatch",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider redacts 42501 service failure",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider redacts PGRST202 service failure",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after permission loss",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after identity loading",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_gateway_owner_request_v1 production provider suppresses late SDK read after identity error",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_enroll_gateway_device_v1 actual SDK signed-out caller makes no request",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_activate_gateway_device_v1 actual SDK signed-out caller makes no request",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_gateway_device_v1 actual SDK signed-out caller makes no request",
+      "source": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_gateway_production_dialog_states": [
+    {
+      "test": "enroll production dialog SDK success validates exact intent before refresh",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears permission draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after permission",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears role draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after role",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears loading draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after loading",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears error draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after error",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears repository draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after repository",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears session draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after session",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK clears A-B-A draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK suppresses late ACK after A-B-A",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK denied redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK 503 redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK lost redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK wrong-request redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK private-extra redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "enroll production dialog SDK fresh actor permission denial prevents write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK success validates exact intent before refresh",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears permission draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after permission",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears role draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after role",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears loading draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after loading",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears error draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after error",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears repository draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after repository",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears session draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after session",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK clears A-B-A draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK suppresses late ACK after A-B-A",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK denied redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK 503 redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK lost redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK wrong-request redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK private-extra redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK wrong-device redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "activate production dialog SDK fresh actor permission denial prevents write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK success validates exact intent before refresh",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears permission draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after permission",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears role draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after role",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears loading draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after loading",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears error draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after error",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears repository draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after repository",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears session draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after session",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK clears A-B-A draft without write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK suppresses late ACK after A-B-A",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK denied redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK 503 redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK lost redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK wrong-request redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK private-extra redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK wrong-device redacts and preserves uncertainty",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "revoke production dialog SDK fresh actor permission denial prevents write",
+      "source": "test/admin_gateway_action_ui_sdk_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_private_authority_provider_states": [
+    {
+      "test": "admin_runtime_config current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_runtime_config current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_runtime_config current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_runtime_config current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_runtime_config current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_runtime_config current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_user current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collect_transaction current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_notification current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_admin_user current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider pins exact target and SDK bearer",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider denies absent identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider denies missing permission before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider waits for identity before private SDK read",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider suppresses late private SDK read after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider suppresses late private SDK read after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider suppresses late private SDK read after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_system_health current authority provider suppresses late private SDK read after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_loaded_private_detail_states": [
+    {
+      "test": "admin_get_collection production detail hides loaded private content after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after session replacement",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after A-B-A",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_collection production detail hides loaded private content after signed out",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after permission loss",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after absent identity",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after identity loading",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after identity error",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after session replacement",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after A-B-A",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_member_record production detail hides loaded private content after signed out",
+      "source": "test/admin_private_provider_authority_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_exception_sdk_and_provider_states": [
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 actual SDK signed-out caller makes no request",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider denies missing payments.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider denies missing notifications.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider denies missing system_health.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider waits for current identity before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider redacts 42501 service failure",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider redacts PGRST202 service failure",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after permission loss",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after identity loading",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_list_operational_exceptions_v2 production provider suppresses late SDK read after identity error",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK exact target body and captured Bearer",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK denied has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK 503 has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK lost response has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK missing receipt has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK extra private field has no fallback or mutation retry",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK suppresses replaced session switchBack=false",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK suppresses replaced session switchBack=true",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK same-session refresh preserves pinned request token",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 actual SDK signed-out caller makes no request",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider denies missing payments.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider denies missing notifications.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider denies missing system_health.read before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider waits for current identity before SDK dispatch",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider redacts 42501 service failure",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider redacts PGRST202 service failure",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after permission loss",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after identity loading",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operational_exception_action_v2 production provider suppresses late SDK read after identity error",
+      "source": "test/admin_exception_sdk_provider_state_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_gateway_checkpoint_states": [
+    {
+      "test": "bounded checkpoint contains only reviewed nonsensitive references, never the SPKI or replay parameters",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "fixed project and purpose owner binding differs from another actor",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered version",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered owner_digest",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered action",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered request_id",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered installation_id",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered device_id",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered key_sha256",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered signing_certificate_sha256",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "strict checkpoint rejects altered public_key_spki_base64",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "oversized bookmark and missing change-device identity are rejected",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "recorded recovery binds all reviewed fingerprints and original action without recreating a mutation",
+      "source": "test/admin_gateway_checkpoint_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_gateway_checkpoint_page_states": [
+    {
+      "test": "verified nonsensitive original checkpoint precedes enrollment and exact receipt clears it",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "recovery readback corruption blocks enrollment without exposing storage errors",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "recovery write failure blocks enrollment without exposing storage errors",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "unconfirmed enrollment survives fresh same-owner sign-in and busy lookup never clears or replays it",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "unconfirmed enrollment survives fresh same-owner sign-in and unknown lookup never clears or replays it",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "old pending response after session replacement cannot remove persisted reviewed request",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "another owner cannot expose or automatically look up the retained original gateway request",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "known recorded receipt with failed checkpoint clear stays protected until storage recovers",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "a changed stored original request cannot be removed by a different completed response",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "desktop light restored gateway checkpoint synthetic capture",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "desktop dark restored gateway checkpoint synthetic capture",
+      "source": "test/admin_gateway_page_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_actual_browser_checkpoint_states": [
+    {
+      "test": "actual same-tab storage persists exact original intent across adapter recreation and isolates owners",
+      "source": "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "real browser sessionStorage retains only owner-bound same-tab reviewed references across adapter recreation",
+      "source": "test/admin_exception_checkpoint_browser_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "real same-tab browser adapter retains reviewed fingerprints after recreation and isolates owners",
+      "source": "test/admin_gateway_checkpoint_browser_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "actual browser sessionStorage retains only bounded schema references across adapter recreation",
+      "source": "test/admin_roster_bookmark_browser_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_email_approval_sdk_states": [
+    {
+      "test": "admin_get_operator_approval_v1 pins current Bearer exact target request and receipt",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 rejects missing receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 rejects wrong-target receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 rejects private-extra receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 permission is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 503 is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 network is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 suppresses departed session response A-B-A=false",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 suppresses departed session response A-B-A=true",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_get_operator_approval_v1 signed out cannot dispatch",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 pins current Bearer exact target request and receipt",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 rejects missing receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 rejects wrong-target receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 rejects private-extra receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 permission is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 503 is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 network is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 suppresses departed session response A-B-A=false",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 suppresses departed session response A-B-A=true",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_approve_email_operator_v1 signed out cannot dispatch",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 pins current Bearer exact target request and receipt",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 rejects missing receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 rejects wrong-target receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 rejects private-extra receipt without false acceptance",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 permission is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 503 is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 network is one SDK dispatch with no fallback",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 suppresses departed session response A-B-A=false",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 suppresses departed session response A-B-A=true",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "admin_revoke_email_operator_v1 signed out cannot dispatch",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "typed_email_approval_production_panel_states": [
+    {
+      "test": "email approval production SDK panel success",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel cancel",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel invalid",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel denied",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel uncertain",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel permission-loss",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email approval production SDK panel late-session",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    },
+    {
+      "test": "email revocation production SDK panel selects exact operation",
+      "source": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "observed_pass": false
+    }
+  ],
+  "current_active_source_bound_cohorts": {
+    "entity_history_sdk_authority": {
+      "source": "test/admin_entity_audit_authority_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "entity_history_production_page": {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "receipt_sdk_authority_ack_uncertainty": {
+      "source": "test/admin_receipt_cancel_sdk_authority_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "receipt_production_card": {
+      "source": "test/admin_receipt_cancel_card_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "unattended_preparation_policy_sdk_and_card": {
+      "source": "test/admin_operating_policy_runtime_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "feature_flag_runtime_ack_and_session": {
+      "source": "test/admin_feature_flag_runtime_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "notification_preference_sdk_and_session": {
+      "source": "test/shared/notification_preference_runtime_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    },
+    "notification_settings_production_recovery": {
+      "source": "test/features/notification_preferences_recovery_ui_test.dart",
+      "source_sha256": null,
+      "cases": [],
+      "all_surface_states_verified": false,
+      "server_audit_verified": false
+    }
+  },
+  "settings_surface_boundary": "Admin /settings reads admin_list_settings. Admin feature-flag changes are in /feature-flags with reason/ACK/session tests. Member NotificationSettingsScreen uses the separately declared production preference-recovery cohort; no Admin preference editor is invented.",
+  "typed_state_matrix_scope": "Source-bound finite SDK/provider/panel assertions; mock HTTP runs the locked SDK. TimeoutException is synthetic loss, not network retransmission proof. Dated Gateway DTO observations are decoder inputs, not current server installation. These cohorts do not certify every dialog/action or server state.",
+  "required_custom_ui_state_cases": 143,
+  "observed_passing_custom_ui_state_cases": 0,
+  "inventory_inputs_excluded_from_client_export": [
+    "lib/admin/new_enabled_provider.dart"
+  ],
+  "required_route_state_cases": 0,
+  "observed_passing_route_state_cases": 0,
+  "public_auth_routes": [
+    "/admin/login",
+    "/admin/denied"
+  ],
+  "auth_and_session_cases": [],
+  "all_observed_cases": [],
+  "declared_test_exclusions": [
+    {
+      "source": "test/admin_roster_sql_receipts_test.dart",
+      "source_sha256": null,
+      "reason": "Historical PostgreSQL142 parser cohort requires its distinct dated receipts. The current required actual149 decoder has separate mandatory acceptance; no database runs here."
+    }
+  ],
+  "remaining_proof": [
+    "Current installed navigation/server identity is verified by root-owned packets; route fixtures do not prove current database installation.",
+    "Independent financial step-up, platform-access and roster UI proof are in their named cases and separate packets; listed custom widget states are not a whole Admin visual claim.",
+    "Root-owned server authorization races, exact execution and persisted audit per active action.",
+    "Dated actual149 recovery decoder is a copied parser input when included; normal browser and current server recovery proof remain separately bound.",
+    "Required Revolut comparator, interaction and visual evidence per surface."
+  ]
+}

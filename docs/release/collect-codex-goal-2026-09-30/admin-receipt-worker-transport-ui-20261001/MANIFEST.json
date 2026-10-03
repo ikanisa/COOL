@@ -1,0 +1,1766 @@
+{
+  "schema_version": 1,
+  "scope": "current scoped Admin worker transport/health/Automations/deferral proof; full candidate and external acceptance open",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3441,
+      "sha256": "daaf6f77fcc71f40b14f2400c970991296b6687caa2fb6505cb7fa22db56a008"
+    },
+    {
+      "path": "accepted-flutter-attempt2/analysis.log",
+      "bytes": 189,
+      "sha256": "94e6ed83cd6b6cbfbd4a92e7b24fefbb9ee5db3d713792648a548a8c35e0489a"
+    },
+    {
+      "path": "accepted-flutter-attempt2/flutter.jsonl",
+      "bytes": 69158,
+      "sha256": "0776229ae2cef5524501f01c94b2c18455f0cf2d97862088687431e57f80d5d8"
+    },
+    {
+      "path": "accepted-flutter-attempt2/inputs-after.json",
+      "bytes": 429139,
+      "sha256": "0d4db49fdef467675a32886a04d48ce4777ac2f8efb8d3aea21616042ba42f3e"
+    },
+    {
+      "path": "accepted-flutter-attempt2/inputs-before.json",
+      "bytes": 429139,
+      "sha256": "0d4db49fdef467675a32886a04d48ce4777ac2f8efb8d3aea21616042ba42f3e"
+    },
+    {
+      "path": "accepted-flutter-attempt2/verification.json",
+      "bytes": 1432,
+      "sha256": "475d4b42f652f966f5ffec2171d93aa7233c828b99b9ff426d838d20e9e1f7fb"
+    },
+    {
+      "path": "completion.json",
+      "bytes": 949,
+      "sha256": "030f62f9c422a5ebdea32ac3c8fe08d2fec1a1d3b4ee35c94722c5ce1b9eed72"
+    },
+    {
+      "path": "diagnostics/attempt1/analysis.log",
+      "bytes": 987,
+      "sha256": "cdea2bda24868cb7ac92f489e070c027ac26737372a4c0244acb5c15d4e0b95b"
+    },
+    {
+      "path": "diagnostics/attempt1/flutter.jsonl",
+      "bytes": 71725,
+      "sha256": "f2d0729e1d68a88cf9fa6b32b53cbc2c89b9cbd38bae291da0a410afe3ad0ced"
+    },
+    {
+      "path": "diagnostics/attempt1/inputs-after.json",
+      "bytes": 429139,
+      "sha256": "0e52e7d49b7380b19f73841484ab3d8f67f38bf06d4a3e2726e43309fc4f39ed"
+    },
+    {
+      "path": "diagnostics/attempt1/inputs-before.json",
+      "bytes": 429139,
+      "sha256": "0e52e7d49b7380b19f73841484ab3d8f67f38bf06d4a3e2726e43309fc4f39ed"
+    },
+    {
+      "path": "diagnostics/attempt1/verification.json",
+      "bytes": 1433,
+      "sha256": "0605c381c4a33dbb78f1f50af9faf27d61033d892a0c49d07f5c160dab46904d"
+    },
+    {
+      "path": "revolut-design-authority.log",
+      "bytes": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "source/.dart_tool/package_config.json",
+      "bytes": 33414,
+      "sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10"
+    },
+    {
+      "path": "source/analysis_options.yaml",
+      "bytes": 1156,
+      "sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-action-receipt.json",
+      "bytes": 356,
+      "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-cleared.json",
+      "bytes": 912,
+      "sha256": "f4098e216968f91373491059310e9eb54a423a698df02ebd869288c4c234a9e7"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-empty.json",
+      "bytes": 327,
+      "sha256": "da573fe1099c870d7030fffa1fcba253438d2207d2dae516ca09491568d916e5"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-filtered.json",
+      "bytes": 918,
+      "sha256": "026af1cd52b0b3466c5ac835480012d25832ebc2cc03ee5474448d234f8fdbd4"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-populated.json",
+      "bytes": 3702,
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-progress-lookup.json",
+      "bytes": 262,
+      "sha256": "18232f8ab20f43bd4441b5515d932f5125d3da3618d341a4050f3d676c969e6d"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json",
+      "bytes": 632,
+      "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-unknown-lookup.json",
+      "bytes": 263,
+      "sha256": "414f30dc8588b4fec172d574408c74de61a2beb0afcf6e741296b0194448aeae"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/result.json",
+      "bytes": 24550,
+      "sha256": "d43ac5cdeddf5b6d3e066a352ed187b5072012b750a40affe65fe3d27104d632"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/execution-binding.json",
+      "bytes": 1151,
+      "sha256": "b161a7c543929fc0572a9f9c1395632e4cb5b17f1f57268fc7c63c03b8f89d98"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/final-projection.json",
+      "bytes": 15418,
+      "sha256": "190a60b423634cda0864592f98d4dcfc1dfbcf1790769af81a19bef8542838b9"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-backlog-inbox.json",
+      "bytes": 913,
+      "sha256": "b72e5dc01f507a589c26d89cb176c304270d9fe9a86b4d2d053d8cd0ceb7361d"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-budget-completion.json",
+      "bytes": 433,
+      "sha256": "7594f8b59bec41c76cb7a1a84744062dee87119d06c4ddb26ccccb494d271c2c"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-backlog-deferred.json",
+      "bytes": 624,
+      "sha256": "a4c2bd2f07cab5c2fb2d58de2c481e47509419acf3504156e4adbc596b7539cc"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-backlog-handled.json",
+      "bytes": 666,
+      "sha256": "27dc149ab1dd42b23bfba8857429e65a1502f25dc68cf83332e40187a1b0d52b"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-deferred.json",
+      "bytes": 631,
+      "sha256": "b118a1d0d95870aba849d05cef557cdd763a1fb123548de8bbda733405ca1c22"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-handled.json",
+      "bytes": 671,
+      "sha256": "7ceb11e8f52bf1549ee411f5feefd157b3774c1bd4ca4c2226650aa06242ce0f"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-source-cleared.json",
+      "bytes": 680,
+      "sha256": "25c067f537c51685fc269725d7c972a7c5e676027ff4e15cda86ac27648b8255"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-superseded.json",
+      "bytes": 649,
+      "sha256": "8b5fa6c4eb5ab83837eca5af3c8de7b059762fa8cdb3a267380aecf3530d885d"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-event-inbox.json",
+      "bytes": 941,
+      "sha256": "fe16afcad66ba658551b759392c64eaabfbe7512d15b9be3125c76cae99b166c"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-scan-busy.json",
+      "bytes": 483,
+      "sha256": "294aa9192594ca1856971ef96787068e6d2d7ba107a8832bcb2aa12d68e4ae67"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-scan-first.json",
+      "bytes": 485,
+      "sha256": "d333dfff6e7a8aa3530b1c36996a0a14aacab58c53f9f49c1f2fe2f1f54820eb"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-scan-lookup.json",
+      "bytes": 794,
+      "sha256": "b4350cbe75fc8a3b95cfc599f8ca7de699cc67fe168df7d0d93ecbcab9811155"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/result.json",
+      "bytes": 69549,
+      "sha256": "f8b13c37d92dfcaa538f04dc03e0539f042c9e0e9318063a9ba09408fb9ce69f"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-executed.json",
+      "bytes": 1226,
+      "sha256": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-expired-lookup.json",
+      "bytes": 280,
+      "sha256": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-health.json",
+      "bytes": 820,
+      "sha256": "aceac370910f256ad1e1ad19a433bad79092332234ec3ba8a4e66b9cb25f5fa9"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-lookup.json",
+      "bytes": 1375,
+      "sha256": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-quota-health.json",
+      "bytes": 893,
+      "sha256": "b5effde730f972ec90707b91f9704baf962a4b824b0f288207e19360e1fba828"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-unknown-health.json",
+      "bytes": 875,
+      "sha256": "2909b5b18e820f6729a19aafe63ee3c8567f29a32820ecd2e5f95f28c3ac91d1"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-unobserved-health.json",
+      "bytes": 726,
+      "sha256": "b1d822cd55878b9fb354ef39f1ebe3c76cae41d88779f21de11ad6bc6a8c5141"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/execution-binding.json",
+      "bytes": 719,
+      "sha256": "33245449d29845cac66a4e357664e34aef64696d77d10a7374f3adc9f0e26257"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/final-operations-projection.json",
+      "bytes": 15604,
+      "sha256": "bd0eee44183886a3d70ab43fee59039f16658fd17107d74ef83a0b5366ee4ee7"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-backlog.json",
+      "bytes": 347,
+      "sha256": "95159c27bd8b8aa4858316c66d7b3aca73af1ef28b3042720917ae306000d528"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-completion-partial.json",
+      "bytes": 433,
+      "sha256": "8e6af08fe5430615d5ec56903497fc6090741c0e55d15d67e208bfbab8c750fb"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-live-begin.json",
+      "bytes": 401,
+      "sha256": "b4c8b6d0b1a6380407e6822e8ded1d431b65c46d06b902ab0ef9462861cb492c"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-live-ensure.json",
+      "bytes": 497,
+      "sha256": "8ed2077a206e6c6f18832f6d4c25532b69f4f7f7ec9496480a236dbf5c81565e"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-configure.json",
+      "bytes": 243,
+      "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-expired-global_policy.json",
+      "bytes": 255,
+      "sha256": "8da5eb290310e42cb70860f91a0d72e56077da9449e2b86d2d3b6da5daeab054"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-expired-owner_request.json",
+      "bytes": 255,
+      "sha256": "b07d07eb66a09734bc85628f25f69c26f020ede0ad0b6047cc570c27a56de094"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-lookup-progress.json",
+      "bytes": 254,
+      "sha256": "c45b4b7e04aa008ac17ac831a19fa65ecc0ec004abb21faac70b92e8d8ab935a"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-lookup-recorded.json",
+      "bytes": 530,
+      "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-stop-lookup.json",
+      "bytes": 529,
+      "sha256": "b05c0941a6d545d6f71f17f74f3cdfb7fcf5811beace3400fd70ddf80ad1e6e2"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-stop.json",
+      "bytes": 242,
+      "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-policy-default.json",
+      "bytes": 531,
+      "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-proof.json",
+      "bytes": 380,
+      "sha256": "1fbe859b387747e0a407b41ca509106a3cc6cf903ea5b2fe00097aa491c29db1"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-shadow-list.json",
+      "bytes": 907,
+      "sha256": "a6c727faab2a12a112565a9b825d03bbad56b4b67f04714964f40634d48853bb"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-wire-v2.json",
+      "bytes": 5108,
+      "sha256": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/result.json",
+      "bytes": 72759,
+      "sha256": "2481db9232b645d3b0da2b7ac316ce719d907407790e56519f333c03f5897d19"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/inputs/20261001160000_receipt_worker_transport_health.sql",
+      "bytes": 22922,
+      "sha256": "e3e1e56a32160db25d903d6cb436279c47e684b1b7e594ff342071e9882c1096"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-absent.json",
+      "bytes": 1282,
+      "sha256": "22b8009415eef700eae0d1427299513c33ad4343e1449b2e57618c1b429eebd0"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-accepted.json",
+      "bytes": 1269,
+      "sha256": "93fcc05bea214e6f3101c19aad57b14e5f4f9bd7550befc94afe5f3eb47aefe3"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-auth.json",
+      "bytes": 1308,
+      "sha256": "44f8114393bc15d05b9b889b5c04dcc410117161dbb54d001efe6dc7edc276fe"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-authority.json",
+      "bytes": 1290,
+      "sha256": "f7e06dbd966e59a090b11a5c4e652bab11a07df43b5d033d96db0a412ea313ca"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-bad_json.json",
+      "bytes": 1305,
+      "sha256": "ddf2e51a7222b08e914464e1a071b76abc8f327a6cb7b1ab6fd3a7b5471fbfed"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-config-refused.json",
+      "bytes": 1324,
+      "sha256": "f8850174c9da2d89b9eda248a01dc30df6d6c7e7fc196e489bf39848a61381b1"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-conflict.json",
+      "bytes": 1296,
+      "sha256": "c8929a948a773aae713bafc8fda5fde1a57b734bec0c162f4e4445683d8f2f84"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-contradictory.json",
+      "bytes": 1299,
+      "sha256": "e6cc36876e6ce551fdb71d8ddc2345f0dd2677dfe994e59c0cdd81fbfb60c587"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-duplicate_response.json",
+      "bytes": 1277,
+      "sha256": "ec774fb5f7b735647989d9bc8388f824a137c8db500327995bf976a76cf92082"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-endpoint.json",
+      "bytes": 1306,
+      "sha256": "bb5cb1a983743a900d256055b5f7f66bc73376efe36ea6fc4f2a7cc008060212"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-exact_conflict.json",
+      "bytes": 1323,
+      "sha256": "9414df225a7cad73cfd54a1ad78369a8a406209f659521417d6455e1ec3275de"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-expired-fenced.json",
+      "bytes": 1286,
+      "sha256": "97fb71fd7c70a94bcd3128e331773c3442d1b60a29ea54bd9591c706f89e7a53"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-expired-unknown.json",
+      "bytes": 1270,
+      "sha256": "8c6d0b8f5c3a655903c0818358b6a8fed2fe4e8411c73927ecf7a1e4418b25a4"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-invalid.json",
+      "bytes": 1300,
+      "sha256": "632f0cb3f507c3232ea11636dd3ff299aa1f9a2d7f66cc57216c87eed435762c"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-network.json",
+      "bytes": 1298,
+      "sha256": "74594f170b170cc1621c7457d6f4b47b1c5015f4ce5160659b6d72c239fcdb3d"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-not-collected.json",
+      "bytes": 1187,
+      "sha256": "5831c603a563b45598a08a0e3bee357a9fb5847fac04807236dffa4950ba5fa6"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-original-recorded.json",
+      "bytes": 1311,
+      "sha256": "860eb75bf7e5d4b3b88d108a053de6f8d3329bec999878cff1647e927cc63ce3"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-oversized.json",
+      "bytes": 1305,
+      "sha256": "b0862e69338bd808b6bb119625ba9e0ea462a307bc88e46f6a028b55b8c9011b"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-pending.json",
+      "bytes": 1268,
+      "sha256": "b89655c64c49b0d57557fdc18be0bc826b57a122573481a148bd4a945c4f4597"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-queued.json",
+      "bytes": 1276,
+      "sha256": "12972f04b63089db06339d3b4ecafd70932c76da497cf135187da43d56708715"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-quota.json",
+      "bytes": 1354,
+      "sha256": "8528116fb29b8383c248977a42077d1aa4f9810e355f10af7bc7e59f37ab44c9"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-rate.json",
+      "bytes": 1290,
+      "sha256": "950ebef1e066d93ee2998bcd19e1d3931d55e39796e914fa52058a6b67491951"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-redirect.json",
+      "bytes": 1297,
+      "sha256": "5d6709dcf0172f1634d44904cdc7aad7068b6b8e002f04b6eb1ea65de4154466"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-refused.json",
+      "bytes": 1291,
+      "sha256": "317564dcb7484c86194e33e2e5811220b51581ea8a417e16704ee08cc10232d9"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-request.json",
+      "bytes": 1296,
+      "sha256": "7916f8d3ee8707000e13cce028b9c4401d84eaa0123d6b8712e5801cf6cac0e6"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-schema-unavailable.json",
+      "bytes": 1359,
+      "sha256": "3d44468f1a0c653b3246580546a5048a16fb58b9a7837c35fcbac8643c9b66ed"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-server.json",
+      "bytes": 1305,
+      "sha256": "e9a94bbdcd5194943f33dbc080e6c7b359f4e1d87770fe5d8a794144a99ab633"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/observed-detail-timeout.json",
+      "bytes": 1298,
+      "sha256": "968661ec75e7f9a4812000c27e61efaad299283139ae0f157dc44c2c5b164160"
+    },
+    {
+      "path": "source/docs/release/collect-codex-goal-2026-09-30/receipt-worker-transport-health-20261001/accepted-sql-attempt5/result.json",
+      "bytes": 71847,
+      "sha256": "f5da3f33fc1b23f69dee3ffea60b369da429b2de7d399c155121588bdc0ef68f"
+    },
+    {
+      "path": "source/lib/admin/admin_router.dart",
+      "bytes": 10617,
+      "sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276"
+    },
+    {
+      "path": "source/lib/admin/admin_shell.dart",
+      "bytes": 44244,
+      "sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_action_contracts.dart",
+      "bytes": 7442,
+      "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253"
+    },
+    {
+      "path": "source/lib/admin/core/admin_auth_guard.dart",
+      "bytes": 6190,
+      "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_automations_page.dart",
+      "bytes": 17044,
+      "sha256": "36ca21c52aa7ea9311d74de04da041b459bddd3a0f70586957cd5b2a6aff0432"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_formatters.dart",
+      "bytes": 4684,
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_runtime.dart",
+      "bytes": 38218,
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_specs.dart",
+      "bytes": 12015,
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea"
+    },
+    {
+      "path": "source/lib/admin/core/admin_display_formatters.dart",
+      "bytes": 1997,
+      "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829"
+    },
+    {
+      "path": "source/lib/admin/core/admin_email_otp.dart",
+      "bytes": 1316,
+      "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit.dart",
+      "bytes": 10999,
+      "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_link.dart",
+      "bytes": 1057,
+      "sha256": "ad110b34d0a4039951676b034c433f9f8e2bf5797d93db8ba871ebd0361afdef"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_page.dart",
+      "bytes": 13681,
+      "sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_runtime.dart",
+      "bytes": 1697,
+      "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_error_boundary.dart",
+      "bytes": 3125,
+      "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_evidence_mode.dart",
+      "bytes": 22003,
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint.dart",
+      "bytes": 1975,
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint_stub.dart",
+      "bytes": 116,
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint_web.dart",
+      "bytes": 986,
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_models.dart",
+      "bytes": 16432,
+      "sha256": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_page.dart",
+      "bytes": 30535,
+      "sha256": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_runtime.dart",
+      "bytes": 4007,
+      "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_workflow_card.dart",
+      "bytes": 23143,
+      "sha256": "f5b87c324190fe01c9a4ea1341c781c107521d447dbd2aff445ade402577d7ee"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_workflow_models.dart",
+      "bytes": 20490,
+      "sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint.dart",
+      "bytes": 3915,
+      "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint_stub.dart",
+      "bytes": 110,
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint_web.dart",
+      "bytes": 971,
+      "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_contracts.dart",
+      "bytes": 8356,
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_dialogs.dart",
+      "bytes": 4489,
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_models.dart",
+      "bytes": 13628,
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_page.dart",
+      "bytes": 35416,
+      "sha256": "fec178c3e180f350ca18d14fc3cae900cf868b354020c452c566865c7d8fa078"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_runtime.dart",
+      "bytes": 3400,
+      "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_group_runtime.dart",
+      "bytes": 13183,
+      "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_investigation.dart",
+      "bytes": 18098,
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_investigation_view.dart",
+      "bytes": 22641,
+      "sha256": "aa86fda7d8cfe67b7f87ffaadc85d4c6de8e2e0cfb776ffd34ccef203d0ba8c4"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_paging.dart",
+      "bytes": 3686,
+      "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_runtime.dart",
+      "bytes": 31085,
+      "sha256": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_specs.dart",
+      "bytes": 22187,
+      "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183"
+    },
+    {
+      "path": "source/lib/admin/core/admin_login_runtime.dart",
+      "bytes": 23457,
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_models.dart",
+      "bytes": 10471,
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_card.dart",
+      "bytes": 5521,
+      "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_models.dart",
+      "bytes": 7317,
+      "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_runtime.dart",
+      "bytes": 1599,
+      "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operation_components.dart",
+      "bytes": 21731,
+      "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operation_tables.dart",
+      "bytes": 27052,
+      "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operational_health.dart",
+      "bytes": 16347,
+      "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operator_approval.dart",
+      "bytes": 4827,
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_overview_components.dart",
+      "bytes": 28760,
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+    },
+    {
+      "path": "source/lib/admin/core/admin_overview_runtime.dart",
+      "bytes": 34759,
+      "sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40"
+    },
+    {
+      "path": "source/lib/admin/core/admin_payee_runtime.dart",
+      "bytes": 13134,
+      "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_platform_access.dart",
+      "bytes": 17093,
+      "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_read_contracts.dart",
+      "bytes": 14844,
+      "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_card.dart",
+      "bytes": 24268,
+      "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint.dart",
+      "bytes": 1718,
+      "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart",
+      "bytes": 129,
+      "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint_web.dart",
+      "bytes": 1007,
+      "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_models.dart",
+      "bytes": 10561,
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_runtime.dart",
+      "bytes": 3131,
+      "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_deferral_card.dart",
+      "bytes": 7930,
+      "sha256": "71bcf9f8d4e1679a1ada67077a5981f3c5cf8c4aae9bf0bac1498ddcacc538d2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_deferral_models.dart",
+      "bytes": 6250,
+      "sha256": "de0973a727b0c56cba30fe25a8e5ed209f795b4fbd2ef8ff3f9defd2f29004e9"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_card.dart",
+      "bytes": 19154,
+      "sha256": "0fb788576b006d56e06dee7a1a0c6389806045bfc6fc347df70621ee74cc39ab"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint.dart",
+      "bytes": 4915,
+      "sha256": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+      "bytes": 141,
+      "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+      "bytes": 3589,
+      "sha256": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_models.dart",
+      "bytes": 13697,
+      "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_runtime.dart",
+      "bytes": 10570,
+      "sha256": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_overview.dart",
+      "bytes": 4951,
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_worker_card.dart",
+      "bytes": 7275,
+      "sha256": "e9c6279fab3606dfcaaba2c189ac24f9cbae6878d434d9ffc3fa62d80ddbda82"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_worker_health.dart",
+      "bytes": 7121,
+      "sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_worker_transport_card.dart",
+      "bytes": 9458,
+      "sha256": "46025a42090c4749978ae267ff489e2c81d0fe875b90f0defea8ed693460bec5"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_worker_transport_models.dart",
+      "bytes": 15478,
+      "sha256": "e6e2118d59cb0e8e694c0164577bd779a5415842f80a776f3e33da8ce65f3d15"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_models.dart",
+      "bytes": 1919,
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_runtime.dart",
+      "bytes": 38720,
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_step_up.dart",
+      "bytes": 10303,
+      "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02"
+    },
+    {
+      "path": "source/lib/admin/core/admin_repository_base.dart",
+      "bytes": 7011,
+      "sha256": "21995741a267497737654e4b75ab221c17abf29fa0094dc66a6479aed3c79939"
+    },
+    {
+      "path": "source/lib/admin/core/admin_review_credentials.dart",
+      "bytes": 168,
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint.dart",
+      "bytes": 3781,
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint_stub.dart",
+      "bytes": 98,
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint_web.dart",
+      "bytes": 683,
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_dialog.dart",
+      "bytes": 27073,
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_import.dart",
+      "bytes": 56694,
+      "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_models.dart",
+      "bytes": 34778,
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+    },
+    {
+      "path": "source/lib/admin/core/admin_runtime.dart",
+      "bytes": 42021,
+      "sha256": "2b5f4fd442a6c62e6b7567b13393e3f7f91e1c9032937f936c44c27612c48e5f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_shadow_runs.dart",
+      "bytes": 27159,
+      "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+    },
+    {
+      "path": "source/lib/admin/core/admin_sms_queue_health.dart",
+      "bytes": 2639,
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+    },
+    {
+      "path": "source/lib/admin/core/admin_transaction_lifecycle.dart",
+      "bytes": 3481,
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    {
+      "path": "source/lib/admin/core/roster_file_parser.dart",
+      "bytes": 3081,
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+    },
+    {
+      "path": "source/lib/admin/core/roster_xlsx_preflight.dart",
+      "bytes": 26641,
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_confirm_dialog.dart",
+      "bytes": 3792,
+      "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_data_table.dart",
+      "bytes": 19359,
+      "sha256": "c576ff90753838fc0cc5800efa7943354180d4a69eae43988cf9322c72cabf87"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_empty_state.dart",
+      "bytes": 2131,
+      "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_filter_bar.dart",
+      "bytes": 7945,
+      "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_loading_state.dart",
+      "bytes": 600,
+      "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_page.dart",
+      "bytes": 4596,
+      "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_sensitive_data_gate.dart",
+      "bytes": 4105,
+      "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_status_chip.dart",
+      "bytes": 6482,
+      "sha256": "ac955a6f8262abffededaba22596003e1301e65d8b90fd889283c7ee1ebd690a"
+    },
+    {
+      "path": "source/lib/app/env/app_env.dart",
+      "bytes": 2173,
+      "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035"
+    },
+    {
+      "path": "source/lib/app/theme/app_theme.dart",
+      "bytes": 365,
+      "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde"
+    },
+    {
+      "path": "source/lib/app/theme/collect_colors.dart",
+      "bytes": 15171,
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+    },
+    {
+      "path": "source/lib/app/theme/collect_component_tokens.dart",
+      "bytes": 3980,
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388"
+    },
+    {
+      "path": "source/lib/app/theme/collect_icons.dart",
+      "bytes": 2698,
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67"
+    },
+    {
+      "path": "source/lib/app/theme/collect_motion.dart",
+      "bytes": 769,
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0"
+    },
+    {
+      "path": "source/lib/app/theme/collect_radius.dart",
+      "bytes": 863,
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_assets.dart",
+      "bytes": 894,
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_tokens.dart",
+      "bytes": 8988,
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_typography.dart",
+      "bytes": 665,
+      "sha256": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f"
+    },
+    {
+      "path": "source/lib/app/theme/collect_semantic_icons.dart",
+      "bytes": 1434,
+      "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8"
+    },
+    {
+      "path": "source/lib/app/theme/collect_spacing.dart",
+      "bytes": 1454,
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62"
+    },
+    {
+      "path": "source/lib/app/theme/collect_theme.dart",
+      "bytes": 13754,
+      "sha256": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4"
+    },
+    {
+      "path": "source/lib/app/theme/collect_typography.dart",
+      "bytes": 8038,
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b"
+    },
+    {
+      "path": "source/lib/app/theme/collect_universal_tokens.dart",
+      "bytes": 8012,
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910"
+    },
+    {
+      "path": "source/lib/core/data/exact_json_values.dart",
+      "bytes": 3650,
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+    },
+    {
+      "path": "source/lib/core/security/durable_sms_receipt.dart",
+      "bytes": 1934,
+      "sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e"
+    },
+    {
+      "path": "source/lib/core/security/hash_utils.dart",
+      "bytes": 336,
+      "sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6"
+    },
+    {
+      "path": "source/lib/core/security/phone_normalizer.dart",
+      "bytes": 917,
+      "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8"
+    },
+    {
+      "path": "source/lib/core/security/play_integrity_service.dart",
+      "bytes": 5802,
+      "sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d"
+    },
+    {
+      "path": "source/lib/core/security/protected_snapshot_store.dart",
+      "bytes": 1852,
+      "sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0"
+    },
+    {
+      "path": "source/lib/core/security/public_id_generator.dart",
+      "bytes": 444,
+      "sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2"
+    },
+    {
+      "path": "source/lib/core/security/sms_access_channel.dart",
+      "bytes": 6900,
+      "sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_memory.dart",
+      "bytes": 935,
+      "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_storage_stub.dart",
+      "bytes": 78,
+      "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_storage_web.dart",
+      "bytes": 907,
+      "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036"
+    },
+    {
+      "path": "source/lib/core/supabase/realtime_invalidation.dart",
+      "bytes": 7232,
+      "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907"
+    },
+    {
+      "path": "source/lib/core/supabase/supabase_module.dart",
+      "bytes": 2038,
+      "sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a"
+    },
+    {
+      "path": "source/lib/core/utils/date_format.dart",
+      "bytes": 445,
+      "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28"
+    },
+    {
+      "path": "source/lib/core/utils/money_format.dart",
+      "bytes": 1421,
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5"
+    },
+    {
+      "path": "source/lib/features/landing/collect_landing_page.dart",
+      "bytes": 22368,
+      "sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348"
+    },
+    {
+      "path": "source/lib/features/landing/public_content.dart",
+      "bytes": 116,
+      "sha256": "db904222faa1e96e183b3fee364743ecae98b61e58c58562e13da770d8240d71"
+    },
+    {
+      "path": "source/lib/features/landing/public_marketing_hero.dart",
+      "bytes": 6020,
+      "sha256": "45f234e8f75be670a0125afe6a8202f5274e400bf15afb11e481af3035f228bb"
+    },
+    {
+      "path": "source/lib/features/landing/public_marketing_page_content.dart",
+      "bytes": 4851,
+      "sha256": "06b465eea80b04e0d3c662a748cf12a69b1faf79a6dbf6a5e185e0b1689ee625"
+    },
+    {
+      "path": "source/lib/features/landing/public_marketing_theme.dart",
+      "bytes": 4347,
+      "sha256": "72875b3b0a58a3aeb208a7303ae31f9a9460a52ce94c7e6fb312ea151518c75e"
+    },
+    {
+      "path": "source/lib/features/landing/public_page_content.dart",
+      "bytes": 1646,
+      "sha256": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4"
+    },
+    {
+      "path": "source/lib/features/landing/public_policy_page_content.dart",
+      "bytes": 5231,
+      "sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7"
+    },
+    {
+      "path": "source/lib/gateway/gateway_app.dart",
+      "bytes": 15844,
+      "sha256": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0"
+    },
+    {
+      "path": "source/lib/gateway/gateway_platform.dart",
+      "bytes": 5865,
+      "sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4"
+    },
+    {
+      "path": "source/lib/shared/models/collect_model_json_helpers.dart",
+      "bytes": 1332,
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+    },
+    {
+      "path": "source/lib/shared/models/collect_models.dart",
+      "bytes": 39421,
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59"
+    },
+    {
+      "path": "source/lib/shared/models/collect_payment_json.dart",
+      "bytes": 2193,
+      "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e"
+    },
+    {
+      "path": "source/lib/shared/models/collect_payment_models.dart",
+      "bytes": 7307,
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8"
+    },
+    {
+      "path": "source/lib/shared/models/collect_profile_country_rules.dart",
+      "bytes": 893,
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+    },
+    {
+      "path": "source/lib/shared/models/collect_summary_json.dart",
+      "bytes": 1961,
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+    },
+    {
+      "path": "source/lib/shared/models/member_history_page.dart",
+      "bytes": 10556,
+      "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_invitation_protection.dart",
+      "bytes": 2853,
+      "sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_offline_cache.dart",
+      "bytes": 20079,
+      "sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository.dart",
+      "bytes": 65996,
+      "sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_contribution_actions.dart",
+      "bytes": 26521,
+      "sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_helpers.dart",
+      "bytes": 1087,
+      "sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_history.dart",
+      "bytes": 4720,
+      "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_live_reader.dart",
+      "bytes": 10426,
+      "sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_providers.dart",
+      "bytes": 7665,
+      "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710"
+    },
+    {
+      "path": "source/lib/shared/repositories/collect_repository_state.dart",
+      "bytes": 4188,
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd"
+    },
+    {
+      "path": "source/lib/shared/repositories/runtime_control_contract.dart",
+      "bytes": 3678,
+      "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d"
+    },
+    {
+      "path": "source/lib/shared/utils/collect_haptics.dart",
+      "bytes": 365,
+      "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_action_controls.dart",
+      "bytes": 7194,
+      "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_bento_actions.dart",
+      "bytes": 11061,
+      "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_chrome.dart",
+      "bytes": 624,
+      "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_components.dart",
+      "bytes": 1487,
+      "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_confirmation_sheet.dart",
+      "bytes": 3727,
+      "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_display_primitives.dart",
+      "bytes": 8515,
+      "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_feature_surfaces.dart",
+      "bytes": 6498,
+      "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_financial_amount_entry.dart",
+      "bytes": 14083,
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_financial_components.dart",
+      "bytes": 771,
+      "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_financial_ledger.dart",
+      "bytes": 5148,
+      "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_financial_money.dart",
+      "bytes": 12649,
+      "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_financial_payments.dart",
+      "bytes": 1617,
+      "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_foundation.dart",
+      "bytes": 18892,
+      "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_inputs.dart",
+      "bytes": 5271,
+      "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_loading_surfaces.dart",
+      "bytes": 19526,
+      "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_scaffold_chrome.dart",
+      "bytes": 30155,
+      "sha256": "d55a5489e90aef9d4e3af90ee019b53ec87b55d53cc408bb326e031b046747d8"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_selection_controls.dart",
+      "bytes": 1575,
+      "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_state_feedback.dart",
+      "bytes": 7939,
+      "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_state_illustrations.dart",
+      "bytes": 3298,
+      "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_state_panels.dart",
+      "bytes": 641,
+      "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_tone_icon.dart",
+      "bytes": 1695,
+      "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a"
+    },
+    {
+      "path": "source/lib/shared/widgets/collect_top_chrome.dart",
+      "bytes": 9407,
+      "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423"
+    },
+    {
+      "path": "source/pubspec.lock",
+      "bytes": 39236,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    {
+      "path": "source/pubspec.yaml",
+      "bytes": 2232,
+      "sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+    },
+    {
+      "path": "source/supabase/config.toml",
+      "bytes": 16032,
+      "sha256": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67"
+    },
+    {
+      "path": "source/supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "bytes": 19487,
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0"
+    },
+    {
+      "path": "source/test/admin_action_session_test.dart",
+      "bytes": 14184,
+      "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da"
+    },
+    {
+      "path": "source/test/admin_automations_test.dart",
+      "bytes": 14143,
+      "sha256": "bc1b507e90e2b3c7bda051f1efbe686fabe77e9ba34331f9ae94196204ebbcbb"
+    },
+    {
+      "path": "source/test/admin_exception_models_test.dart",
+      "bytes": 9911,
+      "sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d"
+    },
+    {
+      "path": "source/test/admin_exception_page_test.dart",
+      "bytes": 30723,
+      "sha256": "66e218e0893e00a631bcb6b4cdfd86ba1870422f988114ac61c71a88da97e7e9"
+    },
+    {
+      "path": "source/test/admin_exception_repository_test.dart",
+      "bytes": 7518,
+      "sha256": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540"
+    },
+    {
+      "path": "source/test/admin_exception_sdk_provider_state_test.dart",
+      "bytes": 15537,
+      "sha256": "6f9ee018687088c43f0982b3e4d09823c0a43ccb85c0b9d6c0ce91a7cb958486"
+    },
+    {
+      "path": "source/test/admin_exception_workflow_sdk_test.dart",
+      "bytes": 24846,
+      "sha256": "49c664da7e5264388d8023b2dc4ca95f80f147a6b3619c38ac26688097688c6c"
+    },
+    {
+      "path": "source/test/admin_exception_workflow_test.dart",
+      "bytes": 31505,
+      "sha256": "bc20786eef3191f1ef36ad0718cb268061280c8c9995b11539afb424986af9c1"
+    },
+    {
+      "path": "source/test/admin_operating_policy_models_test.dart",
+      "bytes": 5537,
+      "sha256": "9696444e3157a324efe2fec4b2f6677a4bb12815469fd51ed1ab165424443781"
+    },
+    {
+      "path": "source/test/admin_operating_policy_runtime_test.dart",
+      "bytes": 16824,
+      "sha256": "be87c173ed7f85033350dc5806e5c78acbd7dd7c5eec7ec986074309fe222fba"
+    },
+    {
+      "path": "source/test/admin_receipt_deferral_test.dart",
+      "bytes": 26312,
+      "sha256": "53f33ba35dedd5ff52e2fe58ba1930f9b4fd0f6186d6eb0a7a8a3c531503b98a"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_card_test.dart",
+      "bytes": 14353,
+      "sha256": "23e00a1f86020ebeede67677126ff69fa5875608faa1c6dc1675fc665a958fa0"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_checkpoint_test.dart",
+      "bytes": 4490,
+      "sha256": "7e0479b96b72c70753bd9374596b57c199cb902b2f3ba992a5db9737f29edb3b"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_models_test.dart",
+      "bytes": 9761,
+      "sha256": "59888a05f2267754788a125938a48dda6e0807b3bdf3597a38de14d6a23e8bda"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_runtime_test.dart",
+      "bytes": 10447,
+      "sha256": "dbb2fe21c4d0f245091fa4153abc122eaf2d7a7b84528dab84f2f32123fec788"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_sdk_test.dart",
+      "bytes": 9905,
+      "sha256": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e"
+    },
+    {
+      "path": "source/test/admin_receipt_worker_health_test.dart",
+      "bytes": 21497,
+      "sha256": "2b38cda849fed9d74ef3e853832e618b2dc63910b401d0fafbe129badf69e8f9"
+    },
+    {
+      "path": "source/test/admin_receipt_worker_transport_test.dart",
+      "bytes": 21755,
+      "sha256": "a6706bd5dbc4cfb762bd31bbda2e266f6937bcf7cc7b28e3b87df8a44b293eef"
+    },
+    {
+      "path": "source/test/admin_shadow_runs_repository_test.dart",
+      "bytes": 6192,
+      "sha256": "a4e4add34e2d01dcd15072361132e14147f48538ced3aad0215a98abaa8b94c2"
+    },
+    {
+      "path": "source/test/admin_shadow_runs_test.dart",
+      "bytes": 27824,
+      "sha256": "954a4aecf2d4d9e6029e3aff3539da955aa9c72e11127e6d5a6ad0c37cc566e4"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-exception.json",
+      "bytes": 1278,
+      "sha256": "a6a0b8f1596b75487eb0e1fa2734234381f7c103922198a6a6ee677578d0e4b0"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-expiry.json",
+      "bytes": 855,
+      "sha256": "8d6110a9870ab629ef9392e44573e4834464b84aa86d5fb9b5f7dd2a4a4d09a1"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-gateway.json",
+      "bytes": 1257,
+      "sha256": "3edba86daafdfc25c2dab39563b94bcd3c6999a78541979c02416f21d9c7790b"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-receipt.json",
+      "bytes": 877,
+      "sha256": "e78aca5add288bd4c6920a6b2b68854cc071e95eb0746ffce357eddc780a1474"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-shadow.json",
+      "bytes": 1641,
+      "sha256": "9c43a632728a539341d282f501d35a7e160e3aa2a666c7bd7e5e171acbd3d684"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/observed-supervisor.json",
+      "bytes": 1274,
+      "sha256": "2ee09edd617ad97af0ec74ce7c18d7dc3c29362986340bc30f13543263a00b2c"
+    },
+    {
+      "path": "source/test/fixtures/admin_entity_audit/provenance.json",
+      "bytes": 1958,
+      "sha256": "97db2aa9784b144d048388865501e3be4053f60e2bef45ffcacc88f5259206bf"
+    },
+    {
+      "path": "source/test/fixtures/admin_investigation_v1.json",
+      "bytes": 3500,
+      "sha256": "ba060571e5241e113acabd80919bd95563d25655003ec3d2683344f4b35be6dd"
+    },
+    {
+      "path": "source/test/fixtures/admin_operating_policy/current.json",
+      "bytes": 2099,
+      "sha256": "47fce725c5ef8ff9020d2622b000a9bca843611e7eb0048d0c4b46270261b42e"
+    },
+    {
+      "path": "source/test/fixtures/admin_operational_health148.json",
+      "bytes": 4240,
+      "sha256": "1050bf0e916445fd296a3a47269eca7a6d193303d4c09e8e71698b5bb67a0e45"
+    },
+    {
+      "path": "source/test/fixtures/admin_operational_health150.json",
+      "bytes": 4374,
+      "sha256": "01043761767eea5b558415106da96b91db433fd7aa866063dabb8b6040ca578e"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-configure.json",
+      "bytes": 243,
+      "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-expired-global_policy.json",
+      "bytes": 255,
+      "sha256": "8da5eb290310e42cb70860f91a0d72e56077da9449e2b86d2d3b6da5daeab054"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-expired-owner_request.json",
+      "bytes": 255,
+      "sha256": "b07d07eb66a09734bc85628f25f69c26f020ede0ad0b6047cc570c27a56de094"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-progress.json",
+      "bytes": 254,
+      "sha256": "c45b4b7e04aa008ac17ac831a19fa65ecc0ec004abb21faac70b92e8d8ab935a"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-recorded.json",
+      "bytes": 530,
+      "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-stop-lookup.json",
+      "bytes": 529,
+      "sha256": "b05c0941a6d545d6f71f17f74f3cdfb7fcf5811beace3400fd70ddf80ad1e6e2"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-stop.json",
+      "bytes": 242,
+      "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-policy-default.json",
+      "bytes": 531,
+      "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/provenance.json",
+      "bytes": 2667,
+      "sha256": "3ce75fced64bd2cda48b373e01de9cde89eb366c07197554a58fa3ce0691d6bc"
+    },
+    {
+      "path": "source/test/gateway/gateway_enrollment_lifecycle_test.dart",
+      "bytes": 5084,
+      "sha256": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6"
+    },
+    {
+      "path": "source/test/gateway/gateway_local_dispatch_test.dart",
+      "bytes": 16291,
+      "sha256": "6a77d103959e89af9571cb487354288ad9b795a26b023d01b7e50a7987513862"
+    },
+    {
+      "path": "source/test/gateway/gateway_safety_test.dart",
+      "bytes": 7697,
+      "sha256": "13fd24c28fdf392c9e1b247b7dbc7ae80c743e457754f2aa0b7da7b265fd766c"
+    },
+    {
+      "path": "source/test/support/admin_operating_policy_fixture.dart",
+      "bytes": 387,
+      "sha256": "8470262ecd7f136bed0e0c6d96008da560150f8601f337564dab874e3e41ce53"
+    },
+    {
+      "path": "source/test/support/admin_receipt_operations_fixture.dart",
+      "bytes": 3370,
+      "sha256": "c8d08e33d124783fad907a97812432654e20709ea9d5caeb200cb0a4822a3abf"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/gotrue.dart",
+      "bytes": 849,
+      "sha256": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/broadcast_stub.dart",
+      "bytes": 246,
+      "sha256": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/broadcast_web.dart",
+      "bytes": 1373,
+      "sha256": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/collect_browser_invalidation.dart",
+      "bytes": 3418,
+      "sha256": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/constants.dart",
+      "bytes": 2952,
+      "sha256": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/fetch.dart",
+      "bytes": 6221,
+      "sha256": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_admin_api.dart",
+      "bytes": 6981,
+      "sha256": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart",
+      "bytes": 4225,
+      "sha256": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart",
+      "bytes": 1313,
+      "sha256": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart",
+      "bytes": 5413,
+      "sha256": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart",
+      "bytes": 1847,
+      "sha256": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_client.dart",
+      "bytes": 59198,
+      "sha256": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_mfa_api.dart",
+      "bytes": 7739,
+      "sha256": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_oauth_api.dart",
+      "bytes": 11044,
+      "sha256": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/gotrue_passkey_api.dart",
+      "bytes": 8502,
+      "sha256": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/helper.dart",
+      "bytes": 2673,
+      "sha256": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/api_version.dart",
+      "bytes": 1302,
+      "sha256": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/auth_exception.dart",
+      "bytes": 3471,
+      "sha256": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/auth_response.dart",
+      "bytes": 2782,
+      "sha256": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/auth_state.dart",
+      "bytes": 1295,
+      "sha256": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/custom_oauth_provider.dart",
+      "bytes": 12525,
+      "sha256": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/error_code.dart",
+      "bytes": 4446,
+      "sha256": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/fetch_options.dart",
+      "bytes": 515,
+      "sha256": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/gotrue_async_storage.dart",
+      "bytes": 525,
+      "sha256": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/jwt.dart",
+      "bytes": 8005,
+      "sha256": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/mfa.dart",
+      "bytes": 12369,
+      "sha256": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/passkey.dart",
+      "bytes": 4617,
+      "sha256": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/session.dart",
+      "bytes": 4749,
+      "sha256": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/sign_out_reason.dart",
+      "bytes": 820,
+      "sha256": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/types.dart",
+      "bytes": 9074,
+      "sha256": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/user.dart",
+      "bytes": 9143,
+      "sha256": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/types/user_attributes.dart",
+      "bytes": 4802,
+      "sha256": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20"
+    },
+    {
+      "path": "source/third_party/gotrue/lib/src/version.dart",
+      "bytes": 26,
+      "sha256": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598"
+    },
+    {
+      "path": "verification-runner.py",
+      "bytes": 5351,
+      "sha256": "9bdf5f45b6fcd97ed7bb4cec27bbdba611c70a25efc58c82baf2faede561b12a"
+    }
+  ]
+}

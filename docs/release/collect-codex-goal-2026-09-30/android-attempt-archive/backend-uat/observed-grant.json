@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "body": "BuriMunsi: Ubwizigame bwa 100 RWF bwanditswe. Igiteranyo cyawe cyanditswe muri iri tsinda ku 2026-10-01 14:58 CAT: 950 RWF. Ref: DISPATCH-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.",
+  "code": "DISPATCH_GRANTED",
+  "replay": false,
+  "run_id": "722ab5be-d8f8-4fe5-8b1b-d4376f42bbea",
+  "device_id": "1598e070-f42d-409f-a350-cbe696df6cb3",
+  "issued_at": "2026-10-01T12:58:04.734684Z",
+  "attempt_id": "9d0ef3e8-4997-4474-b5bb-5a27708d1b9d",
+  "expires_at": "2026-10-01T12:58:34.734684Z",
+  "receipt_id": "2946c4ea-403f-4a01-acf9-b6027ff927e7",
+  "request_id": "5d634068-1750-40ba-ac78-14746cffb4f5",
+  "body_sha256": "11720019b83c978a021a7dd9e7dd428802d114af28509e0460a4002757c6ae0e",
+  "fence_version": 1,
+  "segment_count": 2,
+  "policy_revision": 2,
+  "destination_e164": "+250788978201",
+  "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2",
+  "sim_revision_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+}

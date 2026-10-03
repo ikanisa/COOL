@@ -1,0 +1,15 @@
+{
+  "cli": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+  "version": "2.84.2",
+  "generated_path": ".cache/unattended-operating-policy-preparation/supabase/migrations/20261001003338_unattended_operating_policy.sql",
+  "selected_path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+  "commands": [
+    "mkdir -p .cache/unattended-operating-policy-preparation",
+    "supabase init --workdir .cache/unattended-operating-policy-preparation",
+    "supabase migration new unattended_operating_policy --workdir .cache/unattended-operating-policy-preparation"
+  ],
+  "initial_tool_failures": "Two invocations before mkdir failed with workdir missing; neither created files nor executed a migration. Corrected commands generated this filename.",
+  "final_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+  "cached_selected_equal": true,
+  "cli_database_migration_invoked": false
+}

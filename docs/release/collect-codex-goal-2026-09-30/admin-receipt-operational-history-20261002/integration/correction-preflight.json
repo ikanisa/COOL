@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "container",
+    "inspect",
+    "collect_current_rehearsal_operational_history_843d7f92614c",
+    "collect_current_rehearsal_operational_history_fb9135a03f75",
+    "collect_current_rehearsal_operational_history_d5caed7f05d0",
+    "collect_current_rehearsal_operational_history_115e28fd8e93",
+    "collect_current_rehearsal_operational_history_d6a8be21643f",
+    "collect_current_rehearsal_operational_history_317d3b010f2b"
+  ],
+  "exit_code": 1,
+  "all_six_owned_targets_absent": true,
+  "stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "stderr_sha256": "b32a3025b8fe079ec76532048ad69b16d7a18d6e4f5c65c932e553c9f3be8ce5",
+  "corrected_members_verified": 15
+}

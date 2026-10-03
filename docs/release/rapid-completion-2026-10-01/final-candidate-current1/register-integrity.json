@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "captured_at_utc": "2026-10-01T15:11:43.688222+00:00",
+  "all24_local_criteria_preserved": true,
+  "all102_production_criteria_and_states_preserved": true,
+  "local_complete": 24,
+  "requested_complete": 18,
+  "local_open_in_accepted_candidate": 0,
+  "production_open": 101,
+  "all_canonical_hashes_match_reconciliation": true,
+  "evidence_binding_sha256": "ba553331e3aecbf0000ae76403f9655510d373a30fba10cc01126d374d52dd86",
+  "canonical_sha256": {
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "916935ba029afca688cef7c1518f3a45a45774c6f4c699d3fc6712251e05c750",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "a3d2a4550823b04e333bd72393f8b82146a6342fd0d6bc3ce04e47d11de723fe",
+    "local-implementation-register-2026-09-30.json": "05e1c64d659654cd6071c7bca21524259b8217b998dba4013a43d5865d0adc7f",
+    "production-remaining-tasks-2026-09-30.json": "8f096a6fefcb062cd80f66312b1cc17e073d072a82106ea98ea23a3f09723a90"
+  },
+  "production_release": "NO-GO",
+  "later_live_edits": "unaccepted and preserved"
+}

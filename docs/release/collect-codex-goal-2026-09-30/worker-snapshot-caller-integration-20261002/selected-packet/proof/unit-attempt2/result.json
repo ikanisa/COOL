@@ -1,0 +1,111 @@
+{
+  "started_at": "2026-10-02T02:00:30.199063+00:00",
+  "source_bindings_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/docs/platform/CURRENT_CANDIDATE_RECOVERY.md": {
+      "bytes": 8784,
+      "sha256": "52f26823f6b3b7cafe67e44fc12bd25c62ab9a7e6997b335be630cbf8727a8ca"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_receipt_worker_snapshot.rb": {
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_recovery_source.rb": {
+      "bytes": 12441,
+      "sha256": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_encrypted_database_backup.rb": {
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/audits/collect_backup_network_probe.rb": {
+      "bytes": 4709,
+      "sha256": "de8a344ff55a4d880193b19d4ef39b2a999db206037939268b4c5c54ce18e84a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/collect_worker_snapshot_test.rb": {
+      "bytes": 6050,
+      "sha256": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/production_archive_restore.rb": {
+      "bytes": 24493,
+      "sha256": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/sql/collect_recovery_source_catalog.sql": {
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/collect_encrypted_database_backup_test.rb": {
+      "bytes": 1793,
+      "sha256": "1cce10e7e28e3e4ec9ca7daa3fbb30d046404a00b2b624c409dd333782533bef"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/worker_snapshot_test.rb": {
+      "bytes": 6066,
+      "sha256": "9768fbd3dce9fb2ebd1fe04257aebcac8196d643fb60e58313ad70eb59cc30bc"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/collect_recovery_source_test.rb": {
+      "bytes": 10139,
+      "sha256": "ed649831ce77d3aff0412d4d57626f64a84d155c22c85a23c129705a8e22a2f3"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/production_archive_restore_test.rb": {
+      "bytes": 4669,
+      "sha256": "733ca0ebb9b29ec6b4873e56e7fd9edf538b44de1f822d7c58e22d2bbaffd509"
+    },
+    "/usr/bin/ruby": {
+      "bytes": 134912,
+      "sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+    }
+  },
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/promote/scripts/tests/collect_worker_snapshot_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "source_sha256": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b",
+      "stdout_sha256": "171fc38f8aab8094775cbf12d9eaaaee42463edb40aa9e2f33677a18cd55092f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/collect_recovery_source_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "source_sha256": "ed649831ce77d3aff0412d4d57626f64a84d155c22c85a23c129705a8e22a2f3",
+      "stdout_sha256": "31205611263e30c7b7b11e6ac7b8da166c35ace539a5e1f14e36ea24dfd0c47b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/collect_encrypted_database_backup_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "source_sha256": "1cce10e7e28e3e4ec9ca7daa3fbb30d046404a00b2b624c409dd333782533bef",
+      "stdout_sha256": "2161df04c01aeec530e7be0a04c44154a705f513d0bc85222ab9b60a9dc981b1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-worker-snapshot-capture-20261002/tests/production_archive_restore_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "source_sha256": "733ca0ebb9b29ec6b4873e56e7fd9edf538b44de1f822d7c58e22d2bbaffd509",
+      "stdout_sha256": "d6f86e7a3d512156c081dcf8ce8ffe16f6fbe42a3667399c43df3ec300b2180f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "new9 boundary cases at canonical test path plus unchanged legacy13 source/4backup/7restore; synthetic local units only; not added to actual SQL38",
+  "source_bindings_unchanged": true,
+  "status": "passed",
+  "finished_at": "2026-10-02T02:00:30.742459+00:00"
+}

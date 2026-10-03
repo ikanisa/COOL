@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "kind": "local_schema153_subset_upgrade_evidence",
+  "production_accepted": false,
+  "cases": 162,
+  "source_runner": {
+    "path": "scripts/tests/collect_admin_combined_upgrade_uat.py",
+    "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+  },
+  "files": {
+    "20260930230100_receipt_backlog_events.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "20260930230100_receipt_backlog_events.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "20260930230200_admin_receipt_overview.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "20260930230200_admin_receipt_overview.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "20260930230300_admin_transaction_lifecycle.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "20260930230300_admin_transaction_lifecycle.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "README.md": {
+      "bytes": 4382,
+      "sha256": "97e974c0950e083d8f83aa932e6d2dd909f12faabcc1c94feba9557354bae557"
+    },
+    "UPGRADE-PREREQUISITES.md": {
+      "bytes": 6086,
+      "sha256": "41e2ecafb10f817cb607d348dda48a9489b2f3a3ccb91d786f8d1390d1d021f2"
+    },
+    "api-acl.sql": {
+      "bytes": 143763,
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    "auxiliary-checks.json": {
+      "bytes": 464,
+      "sha256": "8eac7da02a2b041d07786a2a74020f8ddf86e9892b7c5ed298373d68ea890634"
+    },
+    "backlog.fixture.json": {
+      "bytes": 2752,
+      "sha256": "b19622ed5318a5343392d403c2db5bc35808d436e81713c15b7e99e83085af43"
+    },
+    "concurrency.log": {
+      "bytes": 2628,
+      "sha256": "24a74fe47925c897f5f494914a1fc0426f9fe71bb2c4dc33ae067cea69788a82"
+    },
+    "events.fixture.json": {
+      "bytes": 7527,
+      "sha256": "d37a44643b384ab2724fe7e94b30d42f25cd73a5179de97d95ca504f8bf550bd"
+    },
+    "hosted-upgrade-inventory.json": {
+      "bytes": 8515,
+      "sha256": "32b9e0dd8f729996533e979bc9e4ab67c2dc0553407a28f5c4d42c6e2ca3ed9d"
+    },
+    "observed-overview-all-states.json": {
+      "bytes": 598,
+      "sha256": "b52088fc0c4d85510a137c79556dbdfdec2f60906920ef08f754750d84c4e263"
+    },
+    "observed-overview-paused.json": {
+      "bytes": 598,
+      "sha256": "35a0ccc32812666969276941d58e095c2b67ba1a920a0cb07a97a54b57d731b0"
+    },
+    "observed-transactions-all-states.json": {
+      "bytes": 10689,
+      "sha256": "ad1016a8ab3b2f40a24ab24b5719fdd3699264da884a499fac7c0d3f9e514a9a"
+    },
+    "observed-transactions.json": {
+      "bytes": 10665,
+      "sha256": "95033de6133c07b6a9c0c2334370d58425939dbc7058f9086f7e9575a0d26f53"
+    },
+    "preexisting-receipt.sql": {
+      "bytes": 932,
+      "sha256": "9f8897b63701c88be5f7c2e6412279875b18d3091c17bd01bc4e2187a2e1739a"
+    },
+    "prerequisite-parity.json": {
+      "bytes": 1760,
+      "sha256": "9702b258d44f7ff0f9a7fe66f8bc0cc880ec881b47a55c706d8f1ad3e0c3db61"
+    },
+    "queries.log": {
+      "bytes": 434310,
+      "sha256": "229a4306602e4afe2b85f591256cd86746aac4da064d157eb90ecc548e6e23d3"
+    },
+    "queries.sql": {
+      "bytes": 1778822,
+      "sha256": "0ce2e78fbbfc08c650f48ea4e73cf84aa01614fb38998f065b01265debc79630"
+    },
+    "restore.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "restore.stdout.log": {
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "result.json": {
+      "bytes": 41796,
+      "sha256": "cc80e7c1f4807257c001c7dcd3d3d182af603c1e9215d4ff705e7e4dfff4f9d0"
+    },
+    "snapshot02-prerequisite-parity.json": {
+      "bytes": 1119,
+      "sha256": "5cd11180646ea21c318c3c2b034fcd30cfd38d6ee0f4d52a903a6c92acf2f9e0"
+    },
+    "synthetic-seed.sql": {
+      "bytes": 4636,
+      "sha256": "74ce1ca2e095fdb9080335958cd85c86641ce5c4e287737fdf7f119829e0513a"
+    },
+    "tested-source-readback.json": {
+      "bytes": 2000,
+      "sha256": "823cbbb0cc493f71a0ce054f3aea1f0033bbe35c521348d9d564936c932348b8"
+    }
+  }
+}

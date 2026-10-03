@@ -1,0 +1,20 @@
+{
+  "global_process_quiescence_asserted": false,
+  "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "observed_at_utc": "2026-10-01T10:36:30.825760+00:00",
+  "processes_stopped": 0,
+  "sdk_metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+  "source_readback": "pass",
+  "startup_lock_check": {
+    "exit_code": 1,
+    "held_descriptor_observed": false,
+    "tool": "lsof"
+  },
+  "status": "pass",
+  "tool_hashes": {
+    "docs/release/collect-codex-goal-2026-09-30/release-tooling/prepare_admin_workcopy.py": "a449e94d1703fc64af4f5d0f2347c7847746cc67266597634aefc84e5aab33e2",
+    "docs/release/collect-codex-goal-2026-09-30/release-tooling/run_admin_checkpoint.py": "5eb16c1aee77716db750691c0320d5725da988cf1005db3389e169b45350bb95",
+    "scripts/qa/collect_release_candidate.py": "2974757b1916a9cf7c2687e6568de645e339e4444a4ee8c4dd4abe48ad86d356"
+  },
+  "workcopy_readback": "pass"
+}

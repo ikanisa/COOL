@@ -1,0 +1,37 @@
+// Firebase recommends >=10s requests, >=60s for quota failures and jitter.
+// Apple recommends >=15 minutes before retrying 5xx notification responses.
+// Provider floors are persisted by the fenced completion RPC; no inline retry.
+export const maximumRetryAfterSeconds = 3600;
+export function retryAfterSeconds(header, now = Date.now()) {
+  if (header === null) return null;
+  const value = header.trim();
+  if (!value || value.length > 128) return null;
+  let seconds;
+  if (/^\d+$/.test(value)) {
+    seconds = Number(value);
+  } else {
+    // Accept HTTP-date, not JavaScript's permissive parsing of numeric strings.
+    if (!/^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} GMT$/.test(value)) return null;
+    const date = Date.parse(value);
+    if (!Number.isFinite(date)) return null;
+    seconds = Math.max(0, Math.ceil((date - now) / 1000));
+  }
+  // An excessive provider floor must NOT be clipped into an earlier send.
+  // This sentinel terminalizes the attempt for operator review in SQL.
+  return Math.min(maximumRetryAfterSeconds + 1, seconds);
+}
+export function providerRetryFloor(provider, status, header, now = Date.now()) {
+  const retryable = status === 429 || status >= 500 || provider === "fcm" && status === 408;
+  if (!retryable) return null;
+  const providerMinimum = provider === "apns" && status >= 500 ? 900 : status === 429 ? 60 : 10;
+  return Math.max(providerMinimum, retryAfterSeconds(header, now) ?? 0);
+}
+export const genericPushTitle = "Collect";
+export const genericPushBody = "Open Collect to view your updates";
+export function requirePushRecipient(recipientId) {
+  if (typeof recipientId !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipientId)) {
+    throw new Error("notification_recipient_required");
+  }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZpbGU6Ly8vVm9sdW1lcy9QUk8tRzQwL1Byb2plY3RzL1JlY292ZXJlZC1HLVBSTy9DT09ML2RvY3MvcmVsZWFzZS9jcml0aWNhbC1pbXBsZW1lbnRhdGlvbi0yMDI2LTEwLTAxL3N1Y2Nlc3Nvci1vYnNlcnZlZC1maXh0dXJlLWltcG9ydC1wcm9wb3NhbDEvY2FuZGlkYXRlLXN0YWdlMS9zb3VyY2Uvc3VwYWJhc2UvZnVuY3Rpb25zL19zaGFyZWQvbm90aWZpY2F0aW9uX3JldHJ5LnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIEZpcmViYXNlIHJlY29tbWVuZHMgPj0xMHMgcmVxdWVzdHMsID49NjBzIGZvciBxdW90YSBmYWlsdXJlcyBhbmQgaml0dGVyLlxuLy8gQXBwbGUgcmVjb21tZW5kcyA+PTE1IG1pbnV0ZXMgYmVmb3JlIHJldHJ5aW5nIDV4eCBub3RpZmljYXRpb24gcmVzcG9uc2VzLlxuLy8gUHJvdmlkZXIgZmxvb3JzIGFyZSBwZXJzaXN0ZWQgYnkgdGhlIGZlbmNlZCBjb21wbGV0aW9uIFJQQzsgbm8gaW5saW5lIHJldHJ5LlxuZXhwb3J0IGNvbnN0IG1heGltdW1SZXRyeUFmdGVyU2Vjb25kcyA9IDM2MDA7XG5cbmV4cG9ydCBmdW5jdGlvbiByZXRyeUFmdGVyU2Vjb25kcyhcbiAgaGVhZGVyOiBzdHJpbmcgfCBudWxsLFxuICBub3cgPSBEYXRlLm5vdygpLFxuKTogbnVtYmVyIHwgbnVsbCB7XG4gIGlmIChoZWFkZXIgPT09IG51bGwpIHJldHVybiBudWxsO1xuICBjb25zdCB2YWx1ZSA9IGhlYWRlci50cmltKCk7XG4gIGlmICghdmFsdWUgfHwgdmFsdWUubGVuZ3RoID4gMTI4KSByZXR1cm4gbnVsbDtcbiAgbGV0IHNlY29uZHM6IG51bWJlcjtcbiAgaWYgKC9eXFxkKyQvLnRlc3QodmFsdWUpKSB7XG4gICAgc2Vjb25kcyA9IE51bWJlcih2YWx1ZSk7XG4gIH0gZWxzZSB7XG4gICAgLy8gQWNjZXB0IEhUVFAtZGF0ZSwgbm90IEphdmFTY3JpcHQncyBwZXJtaXNzaXZlIHBhcnNpbmcgb2YgbnVtZXJpYyBzdHJpbmdzLlxuICAgIGlmIChcbiAgICAgICEvXig/Ok1vbnxUdWV8V2VkfFRodXxGcml8U2F0fFN1biksIFxcZHsyfSAoPzpKYW58RmVifE1hcnxBcHJ8TWF5fEp1bnxKdWx8QXVnfFNlcHxPY3R8Tm92fERlYykgXFxkezR9IFxcZHsyfTpcXGR7Mn06XFxkezJ9IEdNVCQvXG4gICAgICAgIC50ZXN0KHZhbHVlKVxuICAgICkgcmV0dXJuIG51bGw7XG4gICAgY29uc3QgZGF0ZSA9IERhdGUucGFyc2UodmFsdWUpO1xuICAgIGlmICghTnVtYmVyLmlzRmluaXRlKGRhdGUpKSByZXR1cm4gbnVsbDtcbiAgICBzZWNvbmRzID0gTWF0aC5tYXgoMCwgTWF0aC5jZWlsKChkYXRlIC0gbm93KSAvIDEwMDApKTtcbiAgfVxuICAvLyBBbiBleGNlc3NpdmUgcHJvdmlkZXIgZmxvb3IgbXVzdCBOT1QgYmUgY2xpcHBlZCBpbnRvIGFuIGVhcmxpZXIgc2VuZC5cbiAgLy8gVGhpcyBzZW50aW5lbCB0ZXJtaW5hbGl6ZXMgdGhlIGF0dGVtcHQgZm9yIG9wZXJhdG9yIHJldmlldyBpbiBTUUwuXG4gIHJldHVybiBNYXRoLm1pbihtYXhpbXVtUmV0cnlBZnRlclNlY29uZHMgKyAxLCBzZWNvbmRzKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIHByb3ZpZGVyUmV0cnlGbG9vcihcbiAgcHJvdmlkZXI6IFwiZmNtXCIgfCBcImFwbnNcIixcbiAgc3RhdHVzOiBudW1iZXIsXG4gIGhlYWRlcjogc3RyaW5nIHwgbnVsbCxcbiAgbm93ID0gRGF0ZS5ub3coKSxcbik6IG51bWJlciB8IG51bGwge1xuICBjb25zdCByZXRyeWFibGUgPSBzdGF0dXMgPT09IDQyOSB8fCBzdGF0dXMgPj0gNTAwIHx8XG4gICAgKHByb3ZpZGVyID09PSBcImZjbVwiICYmIHN0YXR1cyA9PT0gNDA4KTtcbiAgaWYgKCFyZXRyeWFibGUpIHJldHVybiBudWxsO1xuICBjb25zdCBwcm92aWRlck1pbmltdW0gPSBwcm92aWRlciA9PT0gXCJhcG5zXCIgJiYgc3RhdHVzID49IDUwMFxuICAgID8gOTAwXG4gICAgOiBzdGF0dXMgPT09IDQyOVxuICAgID8gNjBcbiAgICA6IDEwO1xuICByZXR1cm4gTWF0aC5tYXgocHJvdmlkZXJNaW5pbXVtLCByZXRyeUFmdGVyU2Vjb25kcyhoZWFkZXIsIG5vdykgPz8gMCk7XG59XG5cbmV4cG9ydCBjb25zdCBnZW5lcmljUHVzaFRpdGxlID0gXCJDb2xsZWN0XCI7XG5leHBvcnQgY29uc3QgZ2VuZXJpY1B1c2hCb2R5ID0gXCJPcGVuIENvbGxlY3QgdG8gdmlldyB5b3VyIHVwZGF0ZXNcIjtcblxuZXhwb3J0IGZ1bmN0aW9uIHJlcXVpcmVQdXNoUmVjaXBpZW50KHJlY2lwaWVudElkOiBzdHJpbmcpOiB2b2lkIHtcbiAgaWYgKFxuICAgIHR5cGVvZiByZWNpcGllbnRJZCAhPT0gXCJzdHJpbmdcIiB8fFxuICAgICEvXlswLTlhLWZdezh9LVswLTlhLWZdezR9LVsxLTVdWzAtOWEtZl17M30tWzg5YWJdWzAtOWEtZl17M30tWzAtOWEtZl17MTJ9JC9pXG4gICAgICAudGVzdChyZWNpcGllbnRJZClcbiAgKSB7XG4gICAgdGhyb3cgbmV3IEVycm9yKFwibm90aWZpY2F0aW9uX3JlY2lwaWVudF9yZXF1aXJlZFwiKTtcbiAgfVxufVxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJFQUEyRTtBQUMzRSw0RUFBNEU7QUFDNUUsK0VBQStFO0FBQy9FLE9BQU8sTUFBTSwyQkFBMkIsS0FBSztBQUU3QyxPQUFPLFNBQVMsa0JBQ2QsTUFBcUIsRUFDckIsTUFBTSxLQUFLLEdBQUcsRUFBRTtFQUVoQixJQUFJLFdBQVcsTUFBTSxPQUFPO0VBQzVCLE1BQU0sUUFBUSxPQUFPLElBQUk7RUFDekIsSUFBSSxDQUFDLFNBQVMsTUFBTSxNQUFNLEdBQUcsS0FBSyxPQUFPO0VBQ3pDLElBQUk7RUFDSixJQUFJLFFBQVEsSUFBSSxDQUFDLFFBQVE7SUFDdkIsVUFBVSxPQUFPO0VBQ25CLE9BQU87SUFDTCw0RUFBNEU7SUFDNUUsSUFDRSxDQUFDLDJIQUNFLElBQUksQ0FBQyxRQUNSLE9BQU87SUFDVCxNQUFNLE9BQU8sS0FBSyxLQUFLLENBQUM7SUFDeEIsSUFBSSxDQUFDLE9BQU8sUUFBUSxDQUFDLE9BQU8sT0FBTztJQUNuQyxVQUFVLEtBQUssR0FBRyxDQUFDLEdBQUcsS0FBSyxJQUFJLENBQUMsQ0FBQyxPQUFPLEdBQUcsSUFBSTtFQUNqRDtFQUNBLHdFQUF3RTtFQUN4RSxxRUFBcUU7RUFDckUsT0FBTyxLQUFLLEdBQUcsQ0FBQywyQkFBMkIsR0FBRztBQUNoRDtBQUVBLE9BQU8sU0FBUyxtQkFDZCxRQUF3QixFQUN4QixNQUFjLEVBQ2QsTUFBcUIsRUFDckIsTUFBTSxLQUFLLEdBQUcsRUFBRTtFQUVoQixNQUFNLFlBQVksV0FBVyxPQUFPLFVBQVUsT0FDM0MsYUFBYSxTQUFTLFdBQVc7RUFDcEMsSUFBSSxDQUFDLFdBQVcsT0FBTztFQUN2QixNQUFNLGtCQUFrQixhQUFhLFVBQVUsVUFBVSxNQUNyRCxNQUNBLFdBQVcsTUFDWCxLQUNBO0VBQ0osT0FBTyxLQUFLLEdBQUcsQ0FBQyxpQkFBaUIsa0JBQWtCLFFBQVEsUUFBUTtBQUNyRTtBQUVBLE9BQU8sTUFBTSxtQkFBbUIsVUFBVTtBQUMxQyxPQUFPLE1BQU0sa0JBQWtCLG9DQUFvQztBQUVuRSxPQUFPLFNBQVMscUJBQXFCLFdBQW1CO0VBQ3RELElBQ0UsT0FBTyxnQkFBZ0IsWUFDdkIsQ0FBQyw2RUFDRSxJQUFJLENBQUMsY0FDUjtJQUNBLE1BQU0sSUFBSSxNQUFNO0VBQ2xCO0FBQ0YifQ==
+// denoCacheMetadata=4049840585957095847,15814751855584229592

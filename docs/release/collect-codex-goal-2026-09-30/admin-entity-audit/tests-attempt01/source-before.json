@@ -1,0 +1,138 @@
+{
+  ".dart_tool/package_config.json": {
+    "bytes": 41735,
+    "sha256": "6e9db07fa874a7ce6d8bb341c5dfbf1deaad6409e17eced195e742538077013f"
+  },
+  "contracts/collect-operator-entity-audit-v1.CONTRACT.md": {
+    "bytes": 3005,
+    "sha256": "0bf86913b2536703295ee200840f732334eb042a9c3a81e75f0551c0f9c7c9ba"
+  },
+  "contracts/collect-operator-entity-audit-v1.schema.json": {
+    "bytes": 5600,
+    "sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60"
+  },
+  "docs/release/collect-codex-goal-2026-09-30/admin-entity-audit/run_checks.py": {
+    "bytes": 4359,
+    "sha256": "d72384db27be93c26d287eb4c99d32d6a9b1250c0c9f17b7942bc4fba132954a"
+  },
+  "lib/admin/admin_router.dart": {
+    "bytes": 10617,
+    "sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276"
+  },
+  "lib/admin/core/admin_auth_guard.dart": {
+    "bytes": 6190,
+    "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+  },
+  "lib/admin/core/admin_entity_audit.dart": {
+    "bytes": 10999,
+    "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335"
+  },
+  "lib/admin/core/admin_entity_audit_page.dart": {
+    "bytes": 13681,
+    "sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912"
+  },
+  "lib/admin/core/admin_entity_audit_runtime.dart": {
+    "bytes": 1697,
+    "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+  },
+  "lib/admin/core/admin_models.dart": {
+    "bytes": 10471,
+    "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+  },
+  "lib/admin/core/admin_repository_base.dart": {
+    "bytes": 5029,
+    "sha256": "bcef17aaa1b977894d716609a08cc824e487fbf199054c07a91ab71790c22a18"
+  },
+  "lib/admin/core/admin_runtime.dart": {
+    "bytes": 37015,
+    "sha256": "ad44de901041bc3acac804bc7ea6bd4efb9bfb0259ff03e3008dc6800afab567"
+  },
+  "lib/admin/core/admin_shadow_runs.dart": {
+    "bytes": 27027,
+    "sha256": "811ea82661038b76458b0504f51f7bbd3c3f3c1f229eb99e582a7cfd0f525fcb"
+  },
+  "lib/app/theme/app_theme.dart": {
+    "bytes": 365,
+    "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde"
+  },
+  "lib/app/theme/collect_theme.dart": {
+    "bytes": 13754,
+    "sha256": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4"
+  },
+  "lib/core/data/exact_json_values.dart": {
+    "bytes": 3650,
+    "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+  },
+  "pubspec.lock": {
+    "bytes": 39236,
+    "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+  },
+  "pubspec.yaml": {
+    "bytes": 2425,
+    "sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+  },
+  "supabase/migrations/20261001001457_joined_operator_audit.sql": {
+    "bytes": 10935,
+    "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+  },
+  "test/admin_action_session_test.dart": {
+    "bytes": 14184,
+    "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da"
+  },
+  "test/admin_entity_audit_authority_test.dart": {
+    "bytes": 13718,
+    "sha256": "687b66412970967908823ebf10e132a7e9f5cf881f7a4b24e2b0e83f65c554f0"
+  },
+  "test/admin_entity_audit_models_test.dart": {
+    "bytes": 10999,
+    "sha256": "877f47fbd95f29bcf6182ae46243fcd68733c8415f373ce38d9e8754671e5207"
+  },
+  "test/admin_entity_audit_page_test.dart": {
+    "bytes": 20559,
+    "sha256": "25bdbb4286773082fea18525a16b2cff986b5050c16f9aa2d8d9c355d66c97f4"
+  },
+  "test/admin_entity_audit_repository_test.dart": {
+    "bytes": 7967,
+    "sha256": "2d9dff9184e7e2c67c6ccf8e7eb6f2299fd8062c8a3714c0bff15c993ab66d13"
+  },
+  "test/admin_shadow_runs_repository_test.dart": {
+    "bytes": 6192,
+    "sha256": "a4e4add34e2d01dcd15072361132e14147f48538ced3aad0215a98abaa8b94c2"
+  },
+  "test/admin_shadow_runs_test.dart": {
+    "bytes": 27824,
+    "sha256": "954a4aecf2d4d9e6029e3aff3539da955aa9c72e11127e6d5a6ad0c37cc566e4"
+  },
+  "test/fixtures/admin_entity_audit/observed-exception.json": {
+    "bytes": 1278,
+    "sha256": "a6a0b8f1596b75487eb0e1fa2734234381f7c103922198a6a6ee677578d0e4b0"
+  },
+  "test/fixtures/admin_entity_audit/observed-expiry.json": {
+    "bytes": 855,
+    "sha256": "8d6110a9870ab629ef9392e44573e4834464b84aa86d5fb9b5f7dd2a4a4d09a1"
+  },
+  "test/fixtures/admin_entity_audit/observed-gateway.json": {
+    "bytes": 1257,
+    "sha256": "3edba86daafdfc25c2dab39563b94bcd3c6999a78541979c02416f21d9c7790b"
+  },
+  "test/fixtures/admin_entity_audit/observed-receipt.json": {
+    "bytes": 877,
+    "sha256": "e78aca5add288bd4c6920a6b2b68854cc071e95eb0746ffce357eddc780a1474"
+  },
+  "test/fixtures/admin_entity_audit/observed-shadow.json": {
+    "bytes": 1641,
+    "sha256": "9c43a632728a539341d282f501d35a7e160e3aa2a666c7bd7e5e171acbd3d684"
+  },
+  "test/fixtures/admin_entity_audit/observed-supervisor.json": {
+    "bytes": 1274,
+    "sha256": "2ee09edd617ad97af0ec74ce7c18d7dc3c29362986340bc30f13543263a00b2c"
+  },
+  "test/fixtures/admin_entity_audit/provenance.json": {
+    "bytes": 1958,
+    "sha256": "97db2aa9784b144d048388865501e3be4053f60e2bef45ffcacc88f5259206bf"
+  },
+  "test/support/admin_entity_audit_fixture.dart": {
+    "bytes": 1607,
+    "sha256": "406321d3effbc2148f9dbc4662ebdf68ec145d95162001e073f26c55276a1ff8"
+  }
+}

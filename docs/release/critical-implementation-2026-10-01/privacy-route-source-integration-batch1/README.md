@@ -1,0 +1,15 @@
+# Default privacy route source integration
+
+The actual default repository and production authentication guard initially removed a verified privacy form during same-account OTP renewal. The default repository cleared its profile before native cache reread, while reporting loading as finished. The guard redirected the form to authentication and discarded the live request state.
+
+The reviewed repository change clears financial data immediately and marks only same-owner renewal pending before asynchronous native/cache work. The privacy route retains an already owned form during that reread. Logout, account changes and completed profile denial remove it. Other routes keep the existing financial profile/loading guard.
+
+The first fixes exposed two further failures. Framework notifications during build needed a guarded post-frame refresh and the scaffold needed to select only its two rendered offline-status fields. A settled authentication redirect also preceded the framework's route-information report: an unchanged old private request was reparsed by later Auth refreshes and could reopen for another account. The actual requested/settled diagnostic retains that failure. The final guard keeps the departed request invalid; a new explicit non-restoration navigation from outside the privacy page admits a fresh form.
+
+Actual attempt 6 passes all four unchanged behavioral cases with 587 before/after identities equal: same-owner verification through native hold and resumed reread, logout, account switch with deliberate clean reentry, and denied-profile/cache clearing. The original test and failed attempts remain dated evidence. The broader ten-file execution retains 134 passes and two genuine Security-heading failures. Adding only headingLevel: 1 to the custom header corrects those failures; the affected 37-case replay, focused analyzer and actual post-header sole-authority check pass. The exact real-cache Home stale-pill case also passes on its explicitly preserved pre-heading scope. This is not a newly executed full 136-case run.
+
+The maintained capability generator completed successfully. Exactly two registry source hashes change, and generated Dart consumers change only the registry digest. All seven store metadata files, capability facts, actions, availability and approval flags remain unchanged. The public copy contract retains all fifteen visible route hashes and updates three reviewed consumer bindings. Previous public media/browser receipts remain dated evidence; a fresh final runtime/media/build is required for this source cohort.
+
+`reviewed-three-source-delta.diff` records the implementation against the preserved pre-fix router/repository/scaffold. `metadata-originals.json` and `before/` retain exact public metadata originals; `metadata-reconciliation.json` records the actual generator and its results.
+
+This packet does not close the full privacy lifecycle, native/provider/hosted acceptance, complete Revolut fidelity, legal release or production readiness.

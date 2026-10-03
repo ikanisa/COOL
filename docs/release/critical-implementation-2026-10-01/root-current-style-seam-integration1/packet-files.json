@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "path": "before/scripts/audits/collect_schema_domain_caller_seams.json",
+      "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc",
+      "bytes": 13792
+    },
+    {
+      "path": "before/scripts/tests/admin_receipt_source_busy_test.dart",
+      "sha256": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+      "bytes": 2555
+    },
+    {
+      "path": "before/test/support/test_capture_paths.dart",
+      "sha256": "83a87fa37aa3934e625a627fbd12844d782f01f70b315083c4fa711ed06aea78",
+      "bytes": 1787
+    },
+    {
+      "path": "receipt-before-two-file-format.json",
+      "sha256": "bb5ba270f01e37c06cf732da0cbaf52246e7ff62aadbaba764fdae1f68622b93",
+      "bytes": 1273
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "85374bfcd2983ee017097d0b5774a9220cca9666d9c256dc99fdf5c399862e32",
+      "bytes": 1645
+    }
+  ]
+}

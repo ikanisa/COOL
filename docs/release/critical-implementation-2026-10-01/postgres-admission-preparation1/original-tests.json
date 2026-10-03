@@ -1,0 +1,14 @@
+[
+  {
+    "name": "supabase_delivery_contract_test.py",
+    "exit_code": 0,
+    "elapsed_seconds": 263.906,
+    "timeout_seconds": 600
+  },
+  {
+    "name": "supabase_secret_transport_test.py",
+    "exit_code": 0,
+    "elapsed_seconds": 2.744,
+    "timeout_seconds": 600
+  }
+]

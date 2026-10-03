@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/admin/core/admin_governed_settings_models.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart",
+    "lib/admin/core/admin_governed_settings_runtime.dart",
+    "lib/admin/core/admin_governed_settings_controller.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_stub.dart",
+    "lib/admin/core/admin_governed_settings_page.dart",
+    "lib/admin/core/admin_governed_settings_registry.dart",
+    "lib/admin/core/admin_governed_settings_sdk.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/admin_router.dart",
+    "test/admin_governed_settings_controller_test.dart",
+    "test/admin_governed_settings_sdk_test.dart",
+    "test/admin_governed_settings_checkpoint_browser_test.dart",
+    "test/admin_governed_settings_models_test.dart",
+    "test/admin_governed_settings_widget_test.dart",
+    "test/support/settings_fixture.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "exit_code": 0,
+  "elapsed_seconds": 3.689370625000265,
+  "source_sha256": "210a3b2b3af2840a33742f4cb2d76fbd23b98b1703ff52525d02f1639365d5cf"
+}

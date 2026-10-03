@@ -1,0 +1,5 @@
+{
+  "supabase/migrations/20260930150000_runtime_control_governance.sql": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+  "supabase/migrations/20260930220000_runtime_control_authority.sql": "ccdfc3492d88dcd486dd5f2721f4f02da433c220ab2ca9c1c78650d6e58538ba",
+  "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef"
+}

@@ -1,0 +1,67 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 22:27:54.615 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:27:54.617 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:27:54.618 UTC [182] LOG:  database system was shut down at 2026-10-01 22:27:54 UTC
+2026-10-01 22:27:54.621 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 22:27:54.625 UTC [186] LOG:  pg_cron scheduler started
+2026-10-01 22:28:09.288 UTC [462] ERROR:  receipt_successor_request_conflict
+2026-10-01 22:28:09.288 UTC [462] CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 15 at RAISE
+2026-10-01 22:28:09.288 UTC [462] STATEMENT:  select public.admin_close_unarmed_receipt_v1('1e56d62f-0b9b-4177-a76b-d42438f3cdf2','40ee3419-ae69-4bb3-9006-120c6a75c5d5',1,1,'definitely_not_invoked','Different accountable closure reason');
+2026-10-01 22:28:10.865 UTC [515] ERROR:  receipt_original_irreversibly_closed
+2026-10-01 22:28:10.865 UTC [515] CONTEXT:  PL/pgSQL function collect_receipt_successors.protect_closed_root() line 4 at RAISE
+2026-10-01 22:28:10.865 UTC [515] STATEMENT:  update collect_hybrid.sms_notification_outbox set state='queued' where id='40ee3419-ae69-4bb3-9006-120c6a75c5d5';
+2026-10-01 22:28:10.997 UTC [522] ERROR:  SMS notification payload and ledger snapshot are immutable
+2026-10-01 22:28:10.997 UTC [522] CONTEXT:  PL/pgSQL function collect_hybrid.protect_sms_outbox_core() line 32 at RAISE
+2026-10-01 22:28:10.997 UTC [522] STATEMENT:  update collect_hybrid.sms_notification_outbox set suppression_reason=null where id='40ee3419-ae69-4bb3-9006-120c6a75c5d5';
+2026-10-01 22:28:11.100 UTC [529] ERROR:  receipt_dispatch_paused
+2026-10-01 22:28:11.100 UTC [529] CONTEXT:  PL/pgSQL function collect_hybrid.require_receipt_dispatch_enabled() line 7 at RAISE
+	SQL statement "SELECT collect_hybrid.require_receipt_dispatch_enabled()"
+	PL/pgSQL function public.collect_claim_receipt(uuid,uuid,text,uuid) line 12 at PERFORM
+	PL/pgSQL function public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid) line 10 at assignment
+2026-10-01 22:28:11.100 UTC [529] STATEMENT:  select public.collect_claim_receipt_v2('99780000-0000-4000-8000-000000000001','99780000-0000-4000-8000-000000010001','40ee3419-ae69-4bb3-9006-120c6a75c5d5','synthetic-closure-worker','d6895204-296b-4423-b14a-a17effeb45e4');
+2026-10-01 22:28:11.405 UTC [543] ERROR:  Notification job is not available to claim
+2026-10-01 22:28:11.405 UTC [543] CONTEXT:  PL/pgSQL function public.collect_claim_receipt(uuid,uuid,text,uuid) line 77 at RAISE
+	PL/pgSQL function public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid) line 10 at assignment
+2026-10-01 22:28:11.405 UTC [543] STATEMENT:  select public.collect_claim_receipt_v2('99780000-0000-4000-8000-000000000001','99780000-0000-4000-8000-000000010001','40ee3419-ae69-4bb3-9006-120c6a75c5d5','synthetic-closure-worker','d6895204-296b-4423-b14a-a17effeb45e4');
+2026-10-01 22:28:11.512 UTC [550] ERROR:  receipt_original_irreversibly_closed
+2026-10-01 22:28:11.512 UTC [550] CONTEXT:  PL/pgSQL function collect_receipt_successors.fence_transport_insert() line 11 at RAISE
+2026-10-01 22:28:11.512 UTC [550] STATEMENT:  insert into collect_hybrid.sms_notification_claim_requests(request_id,outbox_id,operator_user_id,worker_id,result)values('cdba0cfb-bcce-48d3-b66a-d7471d044856','40ee3419-ae69-4bb3-9006-120c6a75c5d5','99780000-0000-4000-8000-000000000001','synthetic-direct-closure','{}'::jsonb);
+2026-10-01 22:28:11.601 UTC [557] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:11.601 UTC [557] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:11.601 UTC [557] STATEMENT:  delete from collect_receipt_successors.original_closures;
+2026-10-01 22:28:11.707 UTC [564] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:11.707 UTC [564] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:11.707 UTC [564] STATEMENT:  truncate collect_receipt_successors.original_closures cascade;
+2026-10-01 22:28:11.789 UTC [571] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:11.789 UTC [571] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:11.789 UTC [571] STATEMENT:  delete from collect_receipt_successors.owner_requests;
+2026-10-01 22:28:11.873 UTC [578] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:11.873 UTC [578] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:11.873 UTC [578] STATEMENT:  truncate collect_receipt_successors.owner_requests cascade;
+2026-10-01 22:28:11.971 UTC [584] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:11.971 UTC [584] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:11.971 UTC [584] STATEMENT:  delete from collect_receipt_successors.content_policies;
+2026-10-01 22:28:12.066 UTC [591] ERROR:  receipt_successor_evidence_immutable
+2026-10-01 22:28:12.066 UTC [591] CONTEXT:  PL/pgSQL function collect_receipt_successors.immutable() line 2 at RAISE
+2026-10-01 22:28:12.066 UTC [591] STATEMENT:  truncate collect_receipt_successors.content_policies cascade;
+2026-10-01 22:28:14.927 UTC [753] ERROR:  gateway_dispatch_arm_fenced
+2026-10-01 22:28:14.927 UTC [753] CONTEXT:  PL/pgSQL function public.gateway_arm_dispatch_v2(uuid,uuid,text,jsonb) line 31 at RAISE
+2026-10-01 22:28:14.927 UTC [753] STATEMENT:  select public.gateway_arm_dispatch_v2('1e8dabae-7c7f-449f-bbd1-866ca6ece397','b0bf5002-7285-4c31-be6e-5cb1b632c857','bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb','{"attempt_id": "403b9ee3-8460-4de6-82e5-d48f906f59cf", "fence_version": 1, "body_sha256": "0388b3f7d8e4660cdef0074bab1b5ab79aa630c26a94801b180c540767236999", "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2", "reservation_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "callbacks": [{"segment_index": 0, "sent_callback_id": "b413ae42-63c8-4cb4-ad34-d4aec4b50587", "delivery_callback_id": "b885d0a2-9a87-4624-b6c9-be3eb4c7ce4c"}]}'::jsonb);
+2026-10-01 22:28:15.033 UTC [759] ERROR:  receipt_original_irreversibly_closed
+2026-10-01 22:28:15.033 UTC [759] CONTEXT:  PL/pgSQL function collect_receipt_successors.fence_transport_insert() line 11 at RAISE
+2026-10-01 22:28:15.033 UTC [759] STATEMENT:  insert into collect_gateway_dispatch.arms(attempt_id,request_id,reservation_sha256,callback_plan,health_observation_id,armed_at,expires_at)select id,'af60035f-4cd5-4c78-88ca-e21b3f3f1f19',repeat('b',64),'[]'::jsonb,health_observation_id,clock_timestamp(),expires_at from collect_gateway_dispatch.attempts where id='403b9ee3-8460-4de6-82e5-d48f906f59cf';
+2026-10-01 22:28:16.102 UTC [813] ERROR:  receipt_successor_original_not_closable
+2026-10-01 22:28:16.102 UTC [813] CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 28 at RAISE
+2026-10-01 22:28:16.102 UTC [813] STATEMENT:  select public.admin_close_unarmed_receipt_v1('c0a70c05-ed01-4e47-86a2-825b9b8f4610','f9ac0103-e51c-4c52-9476-1656e247049c',2,2,'definitely_not_invoked','Synthetic irreversible original closure');

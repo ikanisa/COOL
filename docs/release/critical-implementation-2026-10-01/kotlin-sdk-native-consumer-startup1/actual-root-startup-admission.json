@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-10-02T02:50:13.930685+00:00",
+  "packet_manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "checked_packet_leaves": 33,
+  "sdk_lock_packet_sha256": "8c59acde48be61ff7bc98e28eb09565e13a4cddd10f4cdd96ea4a6ffb9ac8f44",
+  "sdk_lock_checked_leaves": 28,
+  "required_predecessor_terminal_sha256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e",
+  "errors": [],
+  "execution_stage_admissions": {
+    "foundation": false,
+    "sdk-lock": false,
+    "startup": true,
+    "app-export": false,
+    "app-lock": false,
+    "native": false
+  },
+  "current_source_export_authorized": false,
+  "source_scope_held_for_strict_export": false,
+  "scope": "One unchanged private Flutter --version --machine startup, fixed300second runtime/readback limits. Publisher bytes and exact8 unchanged; no additional bootstrap exceptions, shared SDK selection, app/native/Gradle or release approval. Exact28 packet leaves, actual terminal and unchanged lock,103 physical own-root package prefixes independently checked.",
+  "SDK_selection_or_release_approval": false
+}

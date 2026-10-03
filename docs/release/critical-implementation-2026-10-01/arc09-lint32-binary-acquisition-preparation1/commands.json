@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/acquire_binaries.py",
+    "--plan-sha256",
+    "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+    "--source-fences-sha256",
+    "0fc53638285d8d4a6ce46d909bdc4be6f134505cc50700432a222b09bc73fa9a",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1"
+  ],
+  "automatic_retries_or_shared_cache_admission": false,
+  "outer_observation_allowance_seconds": 210,
+  "production_release_approval": false,
+  "root_owned_execution_only": true,
+  "separate_reap_seconds": 2,
+  "status": "UNEXECUTED_PRIVATE_BINARY_INTAKE_PREPARATION",
+  "work_seconds": 180
+}

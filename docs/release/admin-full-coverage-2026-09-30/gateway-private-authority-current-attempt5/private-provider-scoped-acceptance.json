@@ -1,0 +1,581 @@
+{
+  "status": "pass",
+  "scope": "70 actual locked-SDK production-provider authority cases only; parent aggregate remains failed on Gateway fixture expectations. No server audit/hosted or entire Admin acceptance.",
+  "cases": {
+    "admin_runtime_config current authority provider pins exact target and SDK bearer": {
+      "testID": 9,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13589
+    },
+    "admin_runtime_config current authority provider denies absent identity before private SDK read": {
+      "testID": 10,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13625
+    },
+    "admin_runtime_config current authority provider waits for identity before private SDK read": {
+      "testID": 11,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13642
+    },
+    "admin_runtime_config current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 12,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13661
+    },
+    "admin_runtime_config current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 13,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13679
+    },
+    "admin_runtime_config current authority provider suppresses late private SDK read after identity error": {
+      "testID": 14,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13700
+    },
+    "admin_get_collection current authority provider pins exact target and SDK bearer": {
+      "testID": 16,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13784
+    },
+    "admin_get_collection current authority provider denies absent identity before private SDK read": {
+      "testID": 17,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13808
+    },
+    "admin_get_collection current authority provider denies missing permission before private SDK read": {
+      "testID": 18,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13850
+    },
+    "admin_get_collection current authority provider waits for identity before private SDK read": {
+      "testID": 19,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13864
+    },
+    "admin_get_collection current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 20,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13878
+    },
+    "admin_get_collection current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 21,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13891
+    },
+    "admin_get_collection current authority provider suppresses late private SDK read after identity error": {
+      "testID": 22,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13903
+    },
+    "admin_get_collection current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 23,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13914
+    },
+    "admin_get_user current authority provider pins exact target and SDK bearer": {
+      "testID": 25,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13936
+    },
+    "admin_get_user current authority provider denies absent identity before private SDK read": {
+      "testID": 26,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13949
+    },
+    "admin_get_user current authority provider denies missing permission before private SDK read": {
+      "testID": 27,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13966
+    },
+    "admin_get_user current authority provider waits for identity before private SDK read": {
+      "testID": 28,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13976
+    },
+    "admin_get_user current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 29,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 13990
+    },
+    "admin_get_user current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 30,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14010
+    },
+    "admin_get_user current authority provider suppresses late private SDK read after identity error": {
+      "testID": 31,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14020
+    },
+    "admin_get_user current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 32,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14031
+    },
+    "admin_get_member_record current authority provider pins exact target and SDK bearer": {
+      "testID": 34,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14048
+    },
+    "admin_get_member_record current authority provider denies absent identity before private SDK read": {
+      "testID": 35,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14057
+    },
+    "admin_get_member_record current authority provider denies missing permission before private SDK read": {
+      "testID": 36,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14064
+    },
+    "admin_get_member_record current authority provider waits for identity before private SDK read": {
+      "testID": 37,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14072
+    },
+    "admin_get_member_record current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 38,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14080
+    },
+    "admin_get_member_record current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 39,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14092
+    },
+    "admin_get_member_record current authority provider suppresses late private SDK read after identity error": {
+      "testID": 40,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14104
+    },
+    "admin_get_member_record current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 41,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14115
+    },
+    "admin_get_collect_transaction current authority provider pins exact target and SDK bearer": {
+      "testID": 43,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14126
+    },
+    "admin_get_collect_transaction current authority provider denies absent identity before private SDK read": {
+      "testID": 44,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14131
+    },
+    "admin_get_collect_transaction current authority provider denies missing permission before private SDK read": {
+      "testID": 45,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14137
+    },
+    "admin_get_collect_transaction current authority provider waits for identity before private SDK read": {
+      "testID": 46,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14146
+    },
+    "admin_get_collect_transaction current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 47,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14157
+    },
+    "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 48,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14168
+    },
+    "admin_get_collect_transaction current authority provider suppresses late private SDK read after identity error": {
+      "testID": 49,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14179
+    },
+    "admin_get_collect_transaction current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 50,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14194
+    },
+    "admin_get_hybrid_sms_receipt current authority provider pins exact target and SDK bearer": {
+      "testID": 52,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14212
+    },
+    "admin_get_hybrid_sms_receipt current authority provider denies absent identity before private SDK read": {
+      "testID": 53,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14221
+    },
+    "admin_get_hybrid_sms_receipt current authority provider denies missing permission before private SDK read": {
+      "testID": 54,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14233
+    },
+    "admin_get_hybrid_sms_receipt current authority provider waits for identity before private SDK read": {
+      "testID": 55,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14245
+    },
+    "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 56,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14263
+    },
+    "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 57,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14280
+    },
+    "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after identity error": {
+      "testID": 58,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14294
+    },
+    "admin_get_hybrid_sms_receipt current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 59,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14307
+    },
+    "admin_get_notification current authority provider pins exact target and SDK bearer": {
+      "testID": 61,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14318
+    },
+    "admin_get_notification current authority provider denies absent identity before private SDK read": {
+      "testID": 62,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14325
+    },
+    "admin_get_notification current authority provider denies missing permission before private SDK read": {
+      "testID": 63,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14332
+    },
+    "admin_get_notification current authority provider waits for identity before private SDK read": {
+      "testID": 64,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14336
+    },
+    "admin_get_notification current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 65,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14347
+    },
+    "admin_get_notification current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 66,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14359
+    },
+    "admin_get_notification current authority provider suppresses late private SDK read after identity error": {
+      "testID": 67,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14368
+    },
+    "admin_get_notification current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 68,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14376
+    },
+    "admin_get_admin_user current authority provider pins exact target and SDK bearer": {
+      "testID": 70,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14389
+    },
+    "admin_get_admin_user current authority provider denies absent identity before private SDK read": {
+      "testID": 71,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14395
+    },
+    "admin_get_admin_user current authority provider denies missing permission before private SDK read": {
+      "testID": 72,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14405
+    },
+    "admin_get_admin_user current authority provider waits for identity before private SDK read": {
+      "testID": 73,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14541
+    },
+    "admin_get_admin_user current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 74,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14566
+    },
+    "admin_get_admin_user current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 75,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14581
+    },
+    "admin_get_admin_user current authority provider suppresses late private SDK read after identity error": {
+      "testID": 76,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14596
+    },
+    "admin_get_admin_user current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 77,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14613
+    },
+    "admin_system_health current authority provider pins exact target and SDK bearer": {
+      "testID": 79,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14638
+    },
+    "admin_system_health current authority provider denies absent identity before private SDK read": {
+      "testID": 80,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14645
+    },
+    "admin_system_health current authority provider denies missing permission before private SDK read": {
+      "testID": 81,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14661
+    },
+    "admin_system_health current authority provider waits for identity before private SDK read": {
+      "testID": 82,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14672
+    },
+    "admin_system_health current authority provider suppresses late private SDK read after absent identity": {
+      "testID": 83,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14684
+    },
+    "admin_system_health current authority provider suppresses late private SDK read after identity loading": {
+      "testID": 84,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14696
+    },
+    "admin_system_health current authority provider suppresses late private SDK read after identity error": {
+      "testID": 85,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14709
+    },
+    "admin_system_health current authority provider suppresses late private SDK read after permission loss": {
+      "testID": 86,
+      "result": "success",
+      "skipped": false,
+      "hidden": false,
+      "type": "testDone",
+      "time": 14720
+    }
+  },
+  "runtime_source_sha256": {
+    "lib/admin/core/admin_runtime.dart": "b4037e7586459a48c217b174386e68f53b946d541cdb536700d203c172c54b63"
+  },
+  "test_source_sha256": {
+    "test/admin_private_provider_authority_test.dart": "31123e49adf065bac3bb9b87c849382ba51f02c0c21de4edc87542ea798ffa77"
+  },
+  "machine_sha256": "4eb2ea7eb9da3c1b7b91d7065534970e92041060664c52f9cd0c9122871f6900",
+  "analysis_sha256": "06d20d61a41f15f7d76512510892fd4600768e708c7c5c570486ed576536fb1e",
+  "parent_validation_sha256": "7bf55fa4029b28331c02887c3ae6b73b6a16241e98cb383951b53fec5b4fc620",
+  "analysis_clean": true,
+  "export_unchanged": true,
+  "dependencies_unchanged": true,
+  "transport_dependencies_sha256": "1bbf1dd125aad4aa5a321eb74ea9247552a04939b4e3c3724421b38590068240",
+  "sql_executed": false,
+  "provider_called": false
+}

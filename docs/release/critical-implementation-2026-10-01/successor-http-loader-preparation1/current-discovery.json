@@ -1,0 +1,159 @@
+{
+  "Linux_roster_integration_allocation_preserved": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+  "candidate_literal_loaders": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "config_endpoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "current_TS_input_count": 86,
+  "current_literal_loaders": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "current_unit_entryfile_count": 33,
+  "declared_successor_test_count": 25,
+  "declared_tests_executed": false,
+  "manifest_endpoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "missing_successor_fixtures": {
+    "./fixtures/observed-armed-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-grant-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-exact-successor-archive-ack.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-first-successor-arm.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-first-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-incomplete-archive.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-conflicting-status.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-late-original-request-recovery.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-multipart-callbacks.json": {
+      "exists": false,
+      "symlink": false
+    },
+    "./fixtures/observed-successor-grant.json": {
+      "exists": false,
+      "symlink": false
+    }
+  },
+  "no_unit_registration_change_required": true,
+  "source_endpoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-successor-gateway",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "unit_files_dynamically_discovered": [
+    "supabase/functions/_shared/apns_test.ts",
+    "supabase/functions/_shared/fcm_test.ts",
+    "supabase/functions/_shared/hmac_test.ts",
+    "supabase/functions/_shared/integrity_admission_test.ts",
+    "supabase/functions/_shared/momo_sms_hybrid_test.ts",
+    "supabase/functions/_shared/momo_sms_parser_test.ts",
+    "supabase/functions/_shared/notification_operator_test.ts",
+    "supabase/functions/_shared/notification_retry_test.ts",
+    "supabase/functions/_shared/openai_roster_test.ts",
+    "supabase/functions/_shared/operational_metrics_test.ts",
+    "supabase/functions/_shared/play_integrity_binding_test.ts",
+    "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+    "supabase/functions/_shared/roster_decoder_test.ts",
+    "supabase/functions/_shared/roster_file_policy_test.ts",
+    "supabase/functions/_shared/roster_import_test.ts",
+    "supabase/functions/_shared/roster_response_policy_test.ts",
+    "supabase/functions/auth-send-whatsapp-otp/handler_test.ts",
+    "supabase/functions/collect-android-gateway/archive_v3_test.ts",
+    "supabase/functions/collect-android-gateway/dispatch_observed_test.ts",
+    "supabase/functions/collect-android-gateway/dispatch_v2_test.ts",
+    "supabase/functions/collect-android-gateway/handler_test.ts",
+    "supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+    "supabase/functions/collect-receipt-exception-worker/observed_test.ts",
+    "supabase/functions/collect-receipt-successor-gateway/handler_test.ts",
+    "supabase/functions/collect-receipt-supervisor/handler_test.ts",
+    "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+    "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts",
+    "supabase/functions/collect-receipt-supervisor/wire_test.ts",
+    "supabase/functions/dispatch-notifications/dispatcher_test.ts",
+    "supabase/functions/prepare-roster-import/handler_test.ts",
+    "supabase/functions/reconciliation-finalize/handler_test.ts",
+    "supabase/functions/send-notification/handler_test.ts",
+    "scripts/tests/play_integrity_handler_test.ts"
+  ]
+}

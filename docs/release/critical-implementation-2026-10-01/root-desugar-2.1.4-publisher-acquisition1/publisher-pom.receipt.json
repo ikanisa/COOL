@@ -1,0 +1,11 @@
+{
+  "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.pom",
+  "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/2.1.4/desugar_jdk_libs-2.1.4.pom",
+  "HTTP_status": 200,
+  "TLS_verify_result": 0,
+  "curl_exit_code": 0,
+  "bytes": 1257,
+  "sha256": "0c0c8e1970349bf3572bf24551ee677665690203704fbb16b367d3a375961f30",
+  "actual_seconds": 0.599114,
+  "no_retries": true
+}

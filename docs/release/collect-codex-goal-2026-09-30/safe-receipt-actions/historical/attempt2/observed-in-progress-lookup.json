@@ -1,0 +1,9 @@
+{
+  "scope": "rw_receipt_manual_cancel",
+  "status": "in_progress",
+  "receipt": null,
+  "checked_at": "2026-10-01T00:18:49.397694Z",
+  "request_id": "f394cb1d-a2e6-4983-a1db-04fc3b137e49",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T00:19:49.397694Z"
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "prepared_at_utc": "2026-10-02T13:29:31.436879+00:00",
+  "status": "private_unapplied_proposal",
+  "finding": "ARC-03",
+  "gap": "Readiness denial probe slugs are maintained separately from the reviewed Edge manifest.",
+  "current_endpoint_count": 13,
+  "new_tests_proposed": 5,
+  "actual_test_execution": false,
+  "source_inputs_unchanged": true,
+  "owned_files": [
+    "scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh",
+    "scripts/tests/edge_function_inventory_test.rb"
+  ],
+  "proposed_sha256": {
+    "scripts/edge_function_inventory.rb": "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99",
+    "scripts/supabase_production_readiness.sh": "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd",
+    "scripts/tests/edge_function_inventory_test.rb": "3e149e13958f1552cdbf69ac0dd73e43a67011d8b2556f2abd018fe3ca472b95"
+  },
+  "external_acceptance_remains_open": [
+    "deployed bundle/source hash equality",
+    "migrated SQL dependency equality",
+    "approved scheduler configuration",
+    "approved staging denial and positive HTTP readback",
+    "authorized production readback"
+  ],
+  "verification_to_run_after_integration": [
+    "ruby scripts/tests/edge_function_inventory_test.rb",
+    "selected existing unsigned probe regressions in scripts/tests/supabase_delivery_contract_test.py"
+  ],
+  "notes": [
+    "Requests preserve empty POST JSON and only the content-type header.",
+    "JWT/internal modes retain status-only checks and discard bodies.",
+    "Custom auth modes retain their current exact status and error substring policies.",
+    "Unsupported modes and source/config/auth mismatch reject the complete plan before live inventory or HTTP calls.",
+    "Existing manifest order selects probe order; no endpoint is added or altered in maintained source.",
+    "No provider, build, database or maintained-file mutation has occurred."
+  ],
+  "runtime_compatibility_note": "Ruby 2.6.10 supports every proposed test API; no filter_map dependency.",
+  "reviewed_final_note": "Preserved first sealed private proposal; corrected test-only Ruby locale to match existing UTF-8 readback convention before any behavior test execution."
+}

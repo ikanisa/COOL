@@ -1,0 +1,115 @@
+--- frozen177/supabase/migrations/20261001100000_receipt_financial_policy.sql
++++ current/supabase/migrations/20261001100000_receipt_financial_policy.sql
+@@ -269,6 +269,112 @@
+     request_id, operator_user_id, outbox_id, worker_id, result
+   ) values (p_request_id, p_operator_user_id, job.id, clean_worker, result);
+   return result;
++end;
++$$;
++
++create or replace function public.collect_record_send_start(
++  p_operator_user_id uuid,
++  p_job_id uuid,
++  p_claim_token uuid,
++  p_fence_version integer,
++  p_confirmation_id uuid
++)
++returns jsonb
++language plpgsql
++security definer
++set search_path = ''
++as $$
++declare
++  job collect_hybrid.sms_notification_outbox;
++  confirmation collect_hybrid.sms_notification_confirmations;
++  attempt collect_hybrid.sms_notification_attempts;
++begin
++  if not collect_hybrid.operator_authorized(
++    p_operator_user_id, 'notifications.manage'
++  ) then raise exception 'Notification operator manage permission required'; end if;
++  perform collect_hybrid.require_receipt_dispatch_enabled();
++  select item.* into attempt
++  from collect_hybrid.sms_notification_attempts item
++  where item.confirmation_id = p_confirmation_id;
++  if attempt.id is not null then
++    if attempt.outbox_id <> p_job_id
++       or attempt.operator_user_id <> p_operator_user_id
++       or attempt.claim_token <> p_claim_token
++       or attempt.fence_version <> p_fence_version
++       or attempt.confirmation_id <> p_confirmation_id then
++      raise exception 'Send-start confirmation conflict';
++    end if;
++    return jsonb_build_object(
++      'ok', true, 'attempt_id', attempt.id,
++      'state', attempt.state, 'replay', true
++    );
++  end if;
++  select item.* into job
++  from collect_hybrid.sms_notification_outbox item
++  where item.id = p_job_id
++  for update;
++  select item.* into confirmation
++  from collect_hybrid.sms_notification_confirmations item
++  where item.id = p_confirmation_id
++  for update;
++  -- Freeze the current authorization rows across the durable pre-send
++  -- transition. Revocation or payment reversal must complete before or after
++  -- this boundary, never race invisibly through it.
++  perform 1 from public.payments item
++  where item.id = job.payment_id
++  for share;
++  perform 1 from collect_hybrid.member_records item
++  where item.id = job.member_record_id
++  for share;
++  -- Content2 eligibility additionally requires a current savings collection
++  -- and allocation membership; freeze them at the existing pre-send fence.
++  perform 1 from public.collections item where item.id = job.collection_id for share;
++  perform 1 from public.collection_members item
++  where item.collection_id = job.collection_id and item.member_record_id = job.member_record_id for share;
++  perform 1 from collect_hybrid.member_momo_identities item
++  where item.member_id = job.member_record_id
++  for share;
++  perform 1 from collect_hybrid.sms_receipt_policies item
++  where item.collection_id = job.collection_id
++  for share;
++  perform 1 from collect_hybrid.sms_receipt_member_consents item
++  where item.member_record_id = job.member_record_id
++  for share;
++  if job.id is null or confirmation.id is null
++     or job.state <> 'awaiting_confirmation'
++     or job.claim_token is distinct from p_claim_token
++     or job.fence_version <> p_fence_version
++     or job.claim_expires_at <= clock_timestamp()
++     or confirmation.outbox_id <> job.id
++     or confirmation.operator_user_id <> p_operator_user_id
++     or confirmation.claim_token <> p_claim_token
++     or confirmation.fence_version <> p_fence_version
++     or confirmation.destination_revision <> job.destination_revision
++     or confirmation.body_sha256 <> job.body_sha256
++     or confirmation.expires_at <= clock_timestamp()
++     or confirmation.consumed_at is not null
++     or not collect_hybrid.sms_receipt_job_is_current(job.id) then
++    raise exception 'Fresh exact receipt confirmation required before send start';
++  end if;
++  insert into collect_hybrid.sms_notification_attempts(
++    outbox_id, confirmation_id, operator_user_id, worker_id,
++    claim_token, fence_version, attempt_number, destination_sha256,
++    destination_revision, body_sha256
++  ) values (
++    job.id, confirmation.id, p_operator_user_id, job.claimed_by,
++    p_claim_token, p_fence_version, job.attempt_count + 1,
++    job.destination_sha256, job.destination_revision, job.body_sha256
++  ) returning * into attempt;
++  update collect_hybrid.sms_notification_confirmations
++  set consumed_at = clock_timestamp()
++  where id = confirmation.id;
++  update collect_hybrid.sms_notification_outbox
++  set state = 'send_started', attempt_count = attempt.attempt_number
++  where id = job.id;
++  return jsonb_build_object(
++    'ok', true, 'attempt_id', attempt.id,
++    'job_id', job.id, 'state', 'send_started', 'replay', false
++  );
+ end;
+ $$;
+ 

@@ -1,0 +1,31 @@
+{
+  "bytes": 232491070,
+  "copy_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "current_source_readback": "public-origin/current-complete-gradle-archive-readback.json",
+  "official_published_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "retained_cancelled_partial": {
+    "bytes": 65297348,
+    "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip.cancelled-attempt1.part",
+    "sha256": "229776ff6f7777a227a6def410fe2e8205172d0cd62d1149fc0371b6284c0417"
+  },
+  "same_inode_or_hardlink": false,
+  "seconds": 0.232,
+  "shared_extracted_or_module_cache_copied": false,
+  "source_before_after_metadata_stable": true,
+  "source_identity": {
+    "device": 16777232,
+    "inode": 10273133,
+    "nlink": 1
+  },
+  "source_path": "/Users/jeanbosco/.gradle/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+  "source_primary_authentication": "kotlin-dependency-batch1/public-origin/gradle-distribution-authentication.json",
+  "standard_unchanged_wrapper_authentication_extraction_pending": true,
+  "status": "AUTHENTICATED_RAW_DISTRIBUTION_EXCLUSIVE_PHYSICAL_COPY_PASS",
+  "target_full_readback_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+  "target_identity": {
+    "device": 16777247,
+    "inode": 17044429,
+    "nlink": 1
+  },
+  "target_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip"
+}

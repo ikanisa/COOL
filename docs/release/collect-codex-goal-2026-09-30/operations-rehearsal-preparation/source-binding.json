@@ -1,0 +1,78 @@
+{
+  "supabase/migrations/20260930213000_operator_email_auth.sql": {
+    "bytes": 20002,
+    "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+  },
+  "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+    "bytes": 3921,
+    "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+  },
+  "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+    "bytes": 26951,
+    "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+  },
+  "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+    "bytes": 37881,
+    "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+  },
+  "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+    "bytes": 15793,
+    "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+  },
+  "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+    "bytes": 21394,
+    "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+  },
+  "supabase/migrations/20261001001457_joined_operator_audit.sql": {
+    "bytes": 10935,
+    "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+  },
+  "supabase/migrations/20261001003338_unattended_operating_policy.sql": {
+    "bytes": 14079,
+    "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+  },
+  "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": {
+    "bytes": 3408,
+    "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+  },
+  "lib/admin/core/admin_receipt_cancel_runtime.dart": {
+    "bytes": 3131,
+    "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+  },
+  "lib/admin/core/admin_receipt_cancel_card.dart": {
+    "bytes": 24268,
+    "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+  },
+  "lib/admin/core/admin_gateway_page.dart": {
+    "bytes": 35416,
+    "sha256": "fec178c3e180f350ca18d14fc3cae900cf868b354020c452c566865c7d8fa078"
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+    "bytes": 10378,
+    "sha256": "b8346512be48d74c548fe9b3982500b18d6ce62f9573f10e7d29aac1e983f150"
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+    "bytes": 6021,
+    "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830"
+  },
+  "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": {
+    "bytes": 10211,
+    "sha256": "c94d51cae03d4adad79316cd268412ac1475143d8afc6c462e6d10620807ea72"
+  },
+  "docs/release/collect-codex-goal-2026-09-30/android-gateway/README.md": {
+    "bytes": 11380,
+    "sha256": "ed809b1130c36cbf9378570a5466da3529f2693d5d8111eb0a1de9081230f8ca"
+  },
+  "docs/release/collect-codex-goal-2026-09-30/email-auth/prepared-hosted-plan.json": {
+    "bytes": 2228,
+    "sha256": "dfe426967fba72f5c2841e1e8271302ccb23e6fd6280135a459197f0a1f96156"
+  },
+  "docs/SUPABASE_OPERATIONS_RUNBOOK.md": {
+    "bytes": 4418,
+    "sha256": "3c286fb72967eedc70ebdc55fcca72542821ca610c6fa167290f4ba6222d8252"
+  },
+  "docs/RECOVERY_RUNBOOK.md": {
+    "bytes": 8754,
+    "sha256": "a99d4482e36b633c3c9039257d8ba0844406b5c279f215bb6381929eac21828a"
+  }
+}

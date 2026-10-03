@@ -1,0 +1,70 @@
+{
+  "status": "pass_scoped_current_member_realtime",
+  "generated_utc": "2026-10-01T00:37:03.693051+00:00",
+  "packet": "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis",
+  "validation_sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca",
+  "inputs_sha256": "88c2f78e1c961bebae2059a608d6f312c4c1192af980ea4d466ce3fce196c86f",
+  "source_count": 849,
+  "export_count": 6191,
+  "machine": {
+    "passed": 18,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "fatal_analysis_clean": true,
+  "scoped_current_bindings": {
+    "lib/shared/repositories/collect_repository.dart": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+    "lib/core/supabase/realtime_invalidation.dart": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+    "test/shared/member_realtime_sdk_session_test.dart": "a445366869e1aca5670e8b14b15b0937237e0a2e7e6030602daca3e127db3dae",
+    "test/shared/realtime_invalidation_recovery_test.dart": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b"
+  },
+  "reviewed_prior_packets": {
+    "member-realtime-attempt1-prior": {
+      "validation_sha256": "7c0e5b9fd9300fb15ecf8679e6213344dc1760944293cba6b3f7012fb1764ff6",
+      "recorded_status": "fail",
+      "machine": {
+        "passed": 8,
+        "failed": 0,
+        "errors": 10,
+        "skipped": 0
+      }
+    },
+    "member-realtime-attempt2-prior-valid-fixture": {
+      "validation_sha256": "f9cb3025b89e511543845795670a85dbd28fe68de3287b0a32995b77200c5dcf",
+      "recorded_status": "fail",
+      "machine": {
+        "passed": 13,
+        "failed": 4,
+        "errors": 1,
+        "skipped": 0
+      }
+    },
+    "member-realtime-attempt3-current-unique-topic": {
+      "validation_sha256": "c4e99e4ebda26a21e3bdafd0a635a0304ade5ac4200e70b05ac53e1be4c1f093",
+      "recorded_status": "pass",
+      "machine": {
+        "passed": 18,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "data22_reuse": {
+    "packet": "docs/release/data-correctness-2026-09-30/immutable-attempt22-current167-sql-bridge",
+    "old_repository_sha256": "327cfbd76c3113ef305ce0e1dad1e1f5251864e94b85bf8f12b84ebbc95fcdb9",
+    "new_repository_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+    "reviewed_substitution_count": 3,
+    "all_non_realtime_repository_bytes_unchanged": true,
+    "shared_coordinator_unchanged": true,
+    "raw_diff": "docs/release/cache-session-2026-10-01/member-realtime-reviewed-data22.diff",
+    "raw_diff_sha256": "e51cdb9cd5f65b793c9e6baad8f95353fdc7fa7d0cc93e51940e65ce31d94b0b",
+    "scope": "Reuse Data22 only for unchanged repository bodies; current SDK18 separately accepts the changed topic/session/callback path."
+  },
+  "database_calls_here": 0,
+  "tests_or_browser_reexecuted_here": false,
+  "hosted_or_provider_acceptance": false,
+  "whole_L16_or_system_closed": false,
+  "scope": "Actual locked Auth/PostgREST and Phoenix loopback plus production repository/cache/coordinator. Synthetic JWT/HTTP rows are local mechanical fixtures, not signed-token, server RLS, provider or physical-device evidence."
+}

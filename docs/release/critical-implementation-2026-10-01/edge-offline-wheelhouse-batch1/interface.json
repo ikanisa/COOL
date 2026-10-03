@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "helper": "scripts/qa/roster_wheelhouse.py",
+  "modes": {
+    "offline_preparation": {
+      "command": "python3 scripts/qa/roster_wheelhouse.py --decoder-directory <current-decoder> --wheel-source <local-pool> --publisher-receipt <receipt.json> --publisher-sha256 <out-of-band-whole-receipt-sha256> --metadata-directory <raw-primary-json-dir> --destination <fresh-private-context>",
+      "network": false,
+      "docker": false,
+      "package_installation": false,
+      "result_format": "collect_roster_prepared_context_v1"
+    },
+    "separate_official_acquisition": {
+      "command": "python3 scripts/qa/roster_wheelhouse.py --acquire --lock-file tools/roster-decoder/requirements.lock --lock-sha256 <reviewed-checkout-lock-sha256> --destination <fresh-input-root>",
+      "whole_owned_process_deadline_seconds": 300,
+      "metadata_process_deadline_seconds": 45,
+      "wheel_process_deadline_seconds": 60,
+      "socket_timeout_seconds": 10,
+      "request_maximum": 12,
+      "automatic_retries": 0,
+      "redirects": 0,
+      "allowed_hosts": [
+        "pypi.org",
+        "files.pythonhosted.org"
+      ],
+      "metadata_body_maximum": 4194304,
+      "wheel_body_maximum": 33554432,
+      "output": [
+        "primary/ exact6 raw metadata",
+        "wheels/ exact6 locked wheels",
+        "logs/ request stdout/stderr",
+        "requirements.lock exact copy",
+        "publisher-inputs.json only on full pass",
+        "acquisition-result.json retained failure/pass",
+        "sibling <destination>-supervision/ stdout/stderr/supervision-result.json"
+      ],
+      "standalone_no_installation_or_docker": true,
+      "live_execution_here": false
+    }
+  },
+  "receipt": {
+    "top_level_exact_keys": [
+      "format",
+      "platform",
+      "lock_sha256",
+      "wheels"
+    ],
+    "format": "collect_roster_wheelhouse_inputs_v1",
+    "platform": "linux-aarch64-cp312",
+    "row_exact_keys": [
+      "package",
+      "version",
+      "filename",
+      "sha256",
+      "size",
+      "metadata_filename",
+      "metadata_sha256",
+      "metadata_url",
+      "wheel_url"
+    ],
+    "row_count": 6,
+    "expected_pin_authority": "Reviewed acquisition producer/CI stage supplied out of band to offline copier; local dated derivation is only this packet input."
+  },
+  "canonical_flags": [
+    "--wheel-source",
+    "--publisher-receipt",
+    "--publisher-sha256",
+    "--metadata-directory"
+  ],
+  "linux_flags": "same four mandatory flags",
+  "source_inputs": {
+    "scripts/qa/roster_wheelhouse.py": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+    "scripts/tests/roster_wheelhouse_test.py": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "fixed_original_build_deadline_seconds": 300,
+  "fixed_original_linux_phase_deadline_seconds": 600,
+  "ci_root_owner": "root",
+  "ci_currently_missing_required_flags": true
+}

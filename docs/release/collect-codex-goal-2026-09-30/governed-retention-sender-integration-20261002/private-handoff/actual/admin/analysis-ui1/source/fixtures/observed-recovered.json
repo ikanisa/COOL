@@ -1,0 +1,48 @@
+{
+  "scope": "rw_receipt_retention_control_request",
+  "intent": {
+    "reason": "Synthetic governed maintenance test",
+    "enabled": false,
+    "actor_id": "99780000-0000-4000-8000-000000000001",
+    "byte_limit": 1048576,
+    "expires_at": "2026-10-02T03:21:03.831180Z",
+    "request_id": "36645690-8adb-413f-901b-b1c899fa56a6",
+    "session_id": "99780000-0000-4000-8000-000000010001",
+    "batch_limit": 12,
+    "protocol_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+    "expected_revision": 6
+  },
+  "status": "recorded",
+  "actor_id": "99780000-0000-4000-8000-000000000001",
+  "after_cron": {
+    "state": "inactive",
+    "job_id": 16,
+    "schedule": "* * * * *",
+    "command_sha256": "765ed6e1d6b8067b3fc886d80c66f2e7111aa6e1613e517d466167ecc5e19674"
+  },
+  "request_id": "36645690-8adb-413f-901b-b1c899fa56a6",
+  "session_id": "99780000-0000-4000-8000-000000010001",
+  "before_cron": {
+    "state": "inactive",
+    "job_id": 12,
+    "schedule": "* * * * *",
+    "command_sha256": "765ed6e1d6b8067b3fc886d80c66f2e7111aa6e1613e517d466167ecc5e19674"
+  },
+  "recorded_at": "2026-10-02T03:19:23.893574Z",
+  "contract_version": 1,
+  "fingerprint_sha256": "db68606041a262a8bf5093112444d6f7b3476b990f41165ed223f35c214b78a1",
+  "after_configuration": {
+    "enabled": false,
+    "revision": 7,
+    "byte_limit": 1048576,
+    "updated_at": "2026-10-02T03:19:23.892676Z",
+    "batch_limit": 12
+  },
+  "before_configuration": {
+    "enabled": false,
+    "revision": 6,
+    "byte_limit": 4194304,
+    "updated_at": "2026-10-02T01:59:18.840289Z",
+    "batch_limit": 25
+  }
+}

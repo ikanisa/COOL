@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewaySafetyTest" tests="22" skipped="0" failures="0" errors="0" timestamp="2026-10-01T14:56:36.116Z" hostname="Jeans-Mac-mini.local" time="0.044">
+  <properties/>
+  <testcase name="initialPauseRejectsBeforeAnyBackendGrantRequest" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.004"/>
+  <testcase name="corruptJournalNeverBecomesAnEmptyReadyJournal" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.002"/>
+  <testcase name="multipartSegmentsAreIndependentAndMissingCallbackIsUnknown" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.005"/>
+  <testcase name="reservationIsCommittedBeforeTheSingleSenderCall" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.01"/>
+  <testcase name="emergencyPauseWhileFetchingGrantWinsBeforeInvocation" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.002"/>
+  <testcase name="independentMissingDeviceSignalsBlockSending" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="frameworkExceptionRemainsUnknownAndCannotBeRetried" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="identicalCallbackReplayDoesNotRewriteEvidence" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="corruptedHeaderAndOversizedPlaintextFailClosed" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="absentGrantDoesNotCreateAnInvocation" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="expiredEqualExpiryHashMismatchOrWrongDeviceGrantIsRejected" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.004"/>
+  <testcase name="actualSegmentCountMismatchDoesNotInvokeSender" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.002"/>
+  <testcase name="permissionRevokedAfterDurableCommitNeverInvokes" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="correlatedCallbacksAreAcceptedDuringEmergencyPause" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="duplicateOrCrashReservedAttemptCannotBeInvokedAgain" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.002"/>
+  <testcase name="leaseConsumedByDurableCommitNeverInvokesAndReservationCannotBeReused" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="wrongDeviceFenceIndexNonceCallbackIdentityOrTimeIsRefused" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="encryptedJournalIsAuthenticatedAndBoundToItsPurpose" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.004"/>
+  <testcase name="changedSubscriptionBetweenGrantAndInvocationBlocksSending" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.0"/>
+  <testcase name="revokedPendingUnknownOrStaleAuthorityCannotDispatch" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="journalCommitFailureNeverCrossesSenderSeam" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <testcase name="genericFailureOrConflictingCallbackNeverBecomesSuccessful" classname="app.cool.mobile.gateway.GatewaySafetyTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

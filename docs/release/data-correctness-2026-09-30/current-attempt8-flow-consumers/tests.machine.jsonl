@@ -1,0 +1,12 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":41491,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":3,"time":2,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2212}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":null,"column":null,"url":null},"type":"group","time":2214}
+{"test":{"id":3,"name":"(setUpAll)","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":71,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart"},"type":"testStart","time":2214}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2233}
+{"test":{"id":4,"name":"replacement same-user session clears completed prepared payment","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":146,"root_column":3,"root_url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart"},"type":"testStart","time":2233}
+{"testID":4,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":149304}
+{"suite":{"id":5,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart"},"type":"suite","time":149309}
+{"test":{"id":6,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart","suiteID":5,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":149310}

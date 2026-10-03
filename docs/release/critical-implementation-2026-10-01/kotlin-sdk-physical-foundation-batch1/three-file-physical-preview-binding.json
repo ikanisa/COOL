@@ -1,0 +1,36 @@
+{
+  "SDK_executed": false,
+  "candidate_promoted": false,
+  "files": {
+    "packages/flutter_tools/gradle/build.gradle.kts": {
+      "RAM_reconstructed_reviewed_after_bytes": 2867,
+      "RAM_reconstructed_reviewed_after_sha256": "179bce29755a41d4f39221b4d68f78292cd41937e8b7eda6b7242536d360a53a",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 2866,
+      "actual_physical_original_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+      "official_original_git_blob_sha1": "43f5e8368bc410140bbed3f47c38412010e2c922"
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "RAM_reconstructed_reviewed_after_bytes": 16177,
+      "RAM_reconstructed_reviewed_after_sha256": "79bac37d796ad4eaffc2d67de5f72031873fd76a03d7800a7b743d7d59d6b0df",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 16176,
+      "actual_physical_original_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "official_original_git_blob_sha1": "23186ac7e0f12187022dd2e3822d3e97541c7fb6"
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "RAM_reconstructed_reviewed_after_bytes": 21312,
+      "RAM_reconstructed_reviewed_after_sha256": "a34295f3b42ed8bcde1cbbbf530479ead8e0b889802df96769cccb7075685ea3",
+      "SDK_source_written": false,
+      "actual_physical_original_bytes": 21048,
+      "actual_physical_original_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "official_original_git_blob_sha1": "aad40b31d3402042d5e746e5176487bec1150d3a"
+    }
+  },
+  "original_plan_manifest_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+  "physical_foundation_modified": false,
+  "production_release_approval": false,
+  "publisher_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "reviewed_patch_sha256": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+  "status": "PHYSICAL_ORIGINALS_AND_EXACT_REVIEWED_RAM_PREVIEW_MATCH__NOT_APPLIED_NOT_COMPILED"
+}

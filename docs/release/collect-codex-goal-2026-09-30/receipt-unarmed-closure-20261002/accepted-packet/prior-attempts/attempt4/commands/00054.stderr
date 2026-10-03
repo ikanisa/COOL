@@ -1,0 +1,33 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 22:25:13.949 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:25:13.950 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:25:13.951 UTC [177] LOG:  database system was shut down at 2026-10-01 22:25:13 UTC
+2026-10-01 22:25:13.953 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 22:25:13.955 UTC [181] LOG:  pg_cron scheduler started
+2026-10-01 22:25:18.983 UTC [435] ERROR:  receipt_successor_request_conflict
+2026-10-01 22:25:18.983 UTC [435] CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 15 at RAISE
+2026-10-01 22:25:18.983 UTC [435] STATEMENT:  select public.admin_close_unarmed_receipt_v1('c3a99bd7-197e-4dfb-af14-4d04458fc58d','a6c0f4e0-4141-49f4-b6fc-b7b40e41bf61',1,1,'definitely_not_invoked','Different accountable closure reason');
+2026-10-01 22:25:19.388 UTC [484] ERROR:  receipt_original_irreversibly_closed
+2026-10-01 22:25:19.388 UTC [484] CONTEXT:  PL/pgSQL function collect_receipt_successors.protect_closed_root() line 4 at RAISE
+2026-10-01 22:25:19.388 UTC [484] STATEMENT:  update collect_hybrid.sms_notification_outbox set state='queued' where id='a6c0f4e0-4141-49f4-b6fc-b7b40e41bf61';
+2026-10-01 22:25:19.444 UTC [491] ERROR:  SMS notification payload and ledger snapshot are immutable
+2026-10-01 22:25:19.444 UTC [491] CONTEXT:  PL/pgSQL function collect_hybrid.protect_sms_outbox_core() line 32 at RAISE
+2026-10-01 22:25:19.444 UTC [491] STATEMENT:  update collect_hybrid.sms_notification_outbox set suppression_reason=null where id='a6c0f4e0-4141-49f4-b6fc-b7b40e41bf61';
+2026-10-01 22:25:19.517 UTC [498] ERROR:  receipt_dispatch_paused
+2026-10-01 22:25:19.517 UTC [498] CONTEXT:  PL/pgSQL function collect_hybrid.require_receipt_dispatch_enabled() line 7 at RAISE
+	SQL statement "SELECT collect_hybrid.require_receipt_dispatch_enabled()"
+	PL/pgSQL function public.collect_claim_receipt(uuid,uuid,text,uuid) line 12 at PERFORM
+	PL/pgSQL function public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid) line 10 at assignment
+2026-10-01 22:25:19.517 UTC [498] STATEMENT:  select public.collect_claim_receipt_v2('99780000-0000-4000-8000-000000000001','99780000-0000-4000-8000-000000010001','a6c0f4e0-4141-49f4-b6fc-b7b40e41bf61','synthetic-closure-worker','aaa5d4ce-52e5-400c-8073-c44f1620ed01');

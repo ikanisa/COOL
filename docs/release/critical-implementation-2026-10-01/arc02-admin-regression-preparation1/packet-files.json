@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "scope": "four-file private ARC02 admin route/PWA proposal; static proof only; current runtime drift disclosed; root owns combined captured proof",
+  "status": "sealed-for-root-review",
+  "files": {
+    "README.md": {
+      "sha256": "f0711a69211e54963acf08f417bdd979dbbb38814f8943e3700a35b43b823b1a",
+      "bytes": 6600
+    },
+    "actual-four-events.json": {
+      "sha256": "beba9b4ad73ad59fa26ea9d5950c6bcf82faf456b3171367f8a7964f878eef20",
+      "bytes": 11102
+    },
+    "baseline/scripts/admin_pwa_authenticated_render_smoke.sh": {
+      "sha256": "796b0445ad3ab570f24eac7b88d9611718e5a40535bf52bef1c1398518c2b343",
+      "bytes": 8717
+    },
+    "baseline/scripts/admin_pwa_browser_qa.mjs": {
+      "sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+      "bytes": 60050
+    },
+    "baseline/test/admin_pwa_test.dart": {
+      "sha256": "b2e797a77378084b6a02b77aba6c1f1eaddff61ac4abe0412cc3f8cee137a39a",
+      "bytes": 26852
+    },
+    "baseline/test/admin_route_access_test.dart": {
+      "sha256": "6d197779dc7a265cb12a6565447bffcba389f137101db954f765475a1b106e26",
+      "bytes": 14140
+    },
+    "input-drift-observation.json": {
+      "sha256": "c8fc0c21a7852f55026d05c869f00f30134ef6cfaaf6a43afa50f52b1e442779",
+      "bytes": 604
+    },
+    "input-manifest.json": {
+      "sha256": "08a91c0be01495b8c3cf7147bdd4dcfe6f301bffac393011b114dda7d171c052",
+      "bytes": 5267
+    },
+    "local-static-validation.json": {
+      "sha256": "7eaf03c1844c2d55d0d9864af5f68710ecd51469e4b3557fa714a00584c7806a",
+      "bytes": 10286
+    },
+    "local-syntax-1.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "local-syntax-1.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "local-syntax-2.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "local-syntax-2.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "original-test-inventory.json": {
+      "sha256": "49e1c66a40d39f840eed59d6eaf32d7bad0b10186a6b95a8212ae37a7ac4a1c1",
+      "bytes": 28328
+    },
+    "preservation-result.json": {
+      "sha256": "cf3cebe4babe1d7190bb76e845604b17adc8433c6ce97b6d6dbf81b9938b8d8f",
+      "bytes": 5747
+    },
+    "proposal.patch": {
+      "sha256": "49067d13f957df5db67fe16001dc2379b1edab72e678c2afae1ba559d6dcc077",
+      "bytes": 13508
+    },
+    "proposed/scripts/admin_pwa_authenticated_render_smoke.sh": {
+      "sha256": "10d409656753d9e32737b410c4e0345b7d51d646a54031d8d4837e085f491960",
+      "bytes": 8717
+    },
+    "proposed/scripts/admin_pwa_browser_qa.mjs": {
+      "sha256": "348ea14666444ca99a20b8ddc0a3afa835ebc2cfa4850d76eea319bc9ce28bc9",
+      "bytes": 60825
+    },
+    "proposed/test/admin_pwa_test.dart": {
+      "sha256": "cba38f819aeed71c4438b84cb8d04adeefbda010387f963c8d5e762693332d22",
+      "bytes": 27772
+    },
+    "proposed/test/admin_route_access_test.dart": {
+      "sha256": "208e68dd962aceed595eb1b6e9fabb883d8cbeb6b042c1825dc23d0b878070cf",
+      "bytes": 19434
+    }
+  }
+}

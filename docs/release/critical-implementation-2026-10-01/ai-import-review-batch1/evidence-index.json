@@ -1,0 +1,53 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/README.md",
+      "bytes": 34105,
+      "sha256": "81297033b01876f045ad34dd3d2f9d61ab2ed930b572aa818189a4444a6489fc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/additional-source-before.json",
+      "bytes": 3744,
+      "sha256": "2d6e94fbe3c3c087ef155a671df95bc9f12b952bef3ebdbbb41c974b6089826b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/proposed-filename-slice.json",
+      "bytes": 3972,
+      "sha256": "b8c4673a24c40f49ab54c3278f0db6c163798fb2cd86f629878ade222970460b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/proposed-filename.patch",
+      "bytes": 532,
+      "sha256": "6bd0cc783b378bc747ca8cd24f4404b91d0cc94602a5ebba18e6ff45aa7dbf57"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/readback.json",
+      "bytes": 660,
+      "sha256": "245bc07ac750f6683f83e54fdba051004e948397e9c83cfd5972c3d08ef3acf2"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/research.json",
+      "bytes": 1200,
+      "sha256": "743015b2fe8af046819c36b4d5e95128f4d4feaf5e94b0d87acb9d6f04e7debc"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/review-observations.json",
+      "bytes": 1731,
+      "sha256": "42d4ba6b2ea83952da3ca122b2dd8765d699449387b44e0be0cdb5a2363ca5b8"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/source-after.json",
+      "bytes": 25231,
+      "sha256": "4ffb1007a13e54434f2ecc4a59d6ff38f6e31de7aeea6a9a79c1d96fcb790b1c"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/source-before.json",
+      "bytes": 21743,
+      "sha256": "140c55425dd7219870274b9bfa001b21882bf3128774b30d3de15487271a5cf9"
+    }
+  ],
+  "source_scope_files": 134,
+  "source_unchanged": true,
+  "report_only": true,
+  "proposed_patch_applied": false
+}

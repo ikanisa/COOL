@@ -337,6 +337,14 @@ class RwfAmountInputFormatter extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: 0),
       );
     }
+    // Compare decimal text before parsing: web integer conversion may round
+    // an unsafe value into another amount. Never alter the requested amount.
+    const exactBound = '9007199254740991';
+    if (digits.length > exactBound.length ||
+        (digits.length == exactBound.length &&
+            digits.compareTo(exactBound) > 0)) {
+      return oldValue;
+    }
     final formatted = _formatDigitGroups(digits);
     final trimmedZeros = rawDigits.length - digits.length;
     int mapOffset(int offset) {

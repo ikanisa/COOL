@@ -1,0 +1,27 @@
+{
+  "local_ps_manual": {
+    "bytes": 18590,
+    "path": "/usr/share/man/man1/ps.1",
+    "sha256": "fbddf023ce4960c7e6eadebcfb7f0badf0ab6c3f59b2b97c2807d3f67a85142d"
+  },
+  "predecessor_packet": {
+    "files": 16,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/packet-files.json",
+    "sha256": "9774ce5b2c59234d09295a9c4f60ad7b690c334bd10bfa3d5e600430ddd7d14b"
+  },
+  "production-release-aab.daemon-readback.json": {
+    "bytes": 9868,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation3/production-release-aab.daemon-readback.json",
+    "sha256": "c7478073987cd3be1f6f17bba9d46b9bccc3719bf953d6bad93f568e9baf89de"
+  },
+  "production-release-aab.json": {
+    "bytes": 1184,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation3/production-release-aab.json",
+    "sha256": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6"
+  },
+  "production-release-aab.stderr": {
+    "bytes": 1745,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation3/production-release-aab.stderr",
+    "sha256": "9911ef0a6c2733362a3383324d1edfb475e36a2588f8274d56399e70b6eda445"
+  }
+}

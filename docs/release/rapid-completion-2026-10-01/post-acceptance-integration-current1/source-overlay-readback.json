@@ -1,0 +1,500 @@
+{
+  "added_selected_files": 58,
+  "base_archive_current_hash_matches": true,
+  "base_archive_sha256": "2525fe8e5ed34d8bcd858b6419d65f55eebef02fac6559c2f51e5e4fde6cdbd6",
+  "base_member_readback_reused": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/final-candidate-current1/source-archive-readback.json",
+  "base_member_readback_sha256": "65376c7c3b08b26f573523aebb40bbf70baefee76e80b373a59c90157917d53b",
+  "changed_selected_files": 16,
+  "current_manifest_sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a",
+  "current_selected_source_files": 2175,
+  "declared_supplement_files": 374,
+  "deleted_selected_files": 0,
+  "every_overlay_member_read_back": true,
+  "kind": "base_archive_plus_integrated_overlay_readback",
+  "overlay": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/collect-integrated-source-overlay.tar.gz",
+  "overlay_bytes": 444232,
+  "overlay_members": 79,
+  "overlay_sha256": "185e011117f03552b4bb66a1d9486b8564b8c3bbe457ca2865641cfa34de04b9",
+  "production_release_authorized": false,
+  "rows": {
+    ".collect-release-candidate.json": {
+      "bytes": 374796,
+      "mode": 420,
+      "origin": "current_source_metadata",
+      "sha256": "24b1719665694a2f09b18ee78e8cf6d4e33f416a5fd0c42edd747f0f22867a6a"
+    },
+    ".collect-source-overlay.json": {
+      "bytes": 564674,
+      "mode": 420,
+      "origin": "overlay_reconstruction_metadata",
+      "sha256": "572b1b58e9b39343cae4c712b394b072147a158d4aa38beee8f4832d4866f40e"
+    },
+    "contracts/collect-exception-inbox-audit-v2.CONTRACT.md": {
+      "bytes": 8307,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "561c1a07b6cc520e62dbed61fcdb8ee609b1f78c34fdf2043360917a7bf2f740"
+    },
+    "contracts/collect-exception-inbox-audit-v2.schema.json": {
+      "bytes": 21763,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "b92d0c82c23cd3588c60f96fc8c635c43e9b812a0ee99f2548ea6be0a7818a4e"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/affected-plan-attempt1/result.json": {
+      "bytes": 15662,
+      "mode": 420,
+      "origin": "declared_SQL_decoder_reference_fixture",
+      "sha256": "b9437c27277c5e37cf75c7e20ad6323e1cbb524539af7486318cc28393f09df2"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/exception-inbox-audit-v2-20261001/attempt8/executed-inputs/supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 17836,
+      "mode": 420,
+      "origin": "declared_SQL_decoder_reference_fixture",
+      "sha256": "a83543aa0266eb40ba5abd4c94c26b0db6d3fc8e238929bc2794154a7fa773f9"
+    },
+    "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/result.json": {
+      "bytes": 8367,
+      "mode": 420,
+      "origin": "declared_SQL_decoder_reference_fixture",
+      "sha256": "a1dbf79651211b66de2b0f6203f7321e9058914b5919e090c1f0f057d0f6f4c7"
+    },
+    "lib/admin/core/admin_entity_audit_link.dart": {
+      "bytes": 1216,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf"
+    },
+    "lib/admin/core/admin_entity_audit_page.dart": {
+      "bytes": 13859,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a"
+    },
+    "lib/admin/core/admin_exception_assignment_dialog.dart": {
+      "bytes": 11552,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b"
+    },
+    "lib/admin/core/admin_exception_escalation_inbox_v2_models.dart": {
+      "bytes": 5948,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4"
+    },
+    "lib/admin/core/admin_exception_followup_v2_models.dart": {
+      "bytes": 20645,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765"
+    },
+    "lib/admin/core/admin_exception_history_runtime.dart": {
+      "bytes": 14050,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "b1b8088cb3af10d7bcf80e91d89539c3ac307e2d23c14e73eb43f9deddb3fc2a"
+    },
+    "lib/admin/core/admin_exception_history_v2_models.dart": {
+      "bytes": 11287,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c"
+    },
+    "lib/admin/core/admin_exception_workflow_card.dart": {
+      "bytes": 41091,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "bytes": 8922,
+      "mode": 448,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "b4e6e14731ab0d546b45a285a136fe854022f40a4ae59e1e5fa06bff5ccf5ee4"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "bytes": 46784,
+      "mode": 448,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "377456cf245319890602764dad970a1360d2347815554bae2ff363b2af46182b"
+    },
+    "scripts/tests/exception_followup_v2_uat.py": {
+      "bytes": 30159,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b"
+    },
+    "scripts/tests/exception_inbox_audit_v2_plan_uat.py": {
+      "bytes": 20295,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "d73e9a3e93c25fa65e92dc2ab79fcf38eadf4c8b2278e3a40a8ffd285ef3e861"
+    },
+    "scripts/tests/exception_inbox_audit_v2_uat.py": {
+      "bytes": 34044,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "001108fa11c8118fe27df3f8bce404f25eee972ecab26bbc434c0cbb11afaf12"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-after-commit-lookup.json": {
+      "bytes": 851,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "bfa7acc6f516409c716276bc6b9bd8f27a707f79b147ea777c50412d7d45755d"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-assignment-binding.json": {
+      "bytes": 371,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "cdc90013dbbd8aeb064db9ee5f1359fee0bf9fb536c1559d4c7e281fc85e27ce"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-assignment-receipt.json": {
+      "bytes": 461,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "eb521527c2b7c4b89ae33c0a532be7e5366215ddeb3e457a085604ee85e431b7"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-directory-first.json": {
+      "bytes": 4522,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "516cc745e9e0567dedacef7d663d554878910cfcf60b12e6991226aedc000793"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-directory-last.json": {
+      "bytes": 1222,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "e29eb645b97833e0d5fc730a32cd7d99d97515fb70684b814c3555e8c8caf121"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-expired-unrecorded-lookup.json": {
+      "bytes": 373,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "6096a7bcae9ffc676fa4946e6e5444dea5a8554ff447a09cb0cbeb2365d41a94"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-foreign-lookup.json": {
+      "bytes": 373,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "95de414b112de7a12a1bd9f6adbe69a96ae2f8e159925c3788615133f9b507e7"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-in-progress-lookup.json": {
+      "bytes": 372,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "965944534e8960aa8551dc91da92e70bd30b08ecb7f9c5e3e1ec9e768aa2d83b"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/observed-recorded-lookup.json": {
+      "bytes": 851,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "905dfcc6ae461118abe1f45418fbd1589459b4733183bd91a16557e772f58c94"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/provenance.json": {
+      "bytes": 1074,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "cace8c4344574ca8acfa47edaba64f6218347e4a15f5ef7480020242ccd8bf96"
+    },
+    "scripts/tests/fixtures/exception_followup_v2/schema.json": {
+      "bytes": 7809,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "15db4e51d0006a7152fac8f82d6acc167b69322e59602682be5408686c263170"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-audit-final.json": {
+      "bytes": 4321,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "72a43b0e2be4ff20b75a9716c10204aeb7535563cc51074756461420042724f2"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-older.json": {
+      "bytes": 12981,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "2a7d9d25a432121482be199f28b4222ee0a0f51dc272075810392c4fdab7d680"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-authenticated-public-page.json": {
+      "bytes": 12981,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "5b1983f96149c10035473bfb5ae1a16694c924b0460d9572aca01c1ae12dca4d"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-inbox-final.json": {
+      "bytes": 1051,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "91f656b29dabfaefd9e14c33ae56cbcda57d06092bf173512f9bb08154619fa3"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-observed-public-small-page.json": {
+      "bytes": 4321,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "c6630a100395b146cad52029f4cc02d4eab7861764239c3f8a8a12c680f49ce1"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/bounded-read-provenance.json": {
+      "bytes": 2122,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "38726f4e6305e2a970647883b09f52011c0fadf3035b73761c730f49dc3982f4"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-after-pump-commit.json": {
+      "bytes": 3052,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "42c0ac58b22c6c5b39c11526dff3926724808bbbafbcff63d331e1a38d8b83e1"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-allocation-event.json": {
+      "bytes": 413,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "12d00c0c1d3796b4c55997b92fb7cf686aa8472c535a7d3e3793b919349fe5f6"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-complete.json": {
+      "bytes": 4321,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "44455fea1fb84ed5e8ecab7eb6a7db9d7ed4385b3784dcf1eebb0c176c858a78"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-final.json": {
+      "bytes": 4321,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "e2e1176858e0623fd38a18b85c751269181d4f82835beb769354d089647c5134"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-first.json": {
+      "bytes": 1780,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "87311b0a7c2970e82dd092f11b21ec5197779a77118a5bc84cf49ca71bdeec2b"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-last.json": {
+      "bytes": 3061,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "184fc1ee3e78b0766c73cc297aa42838a621d246d68d2c9bc71c9413481f53ea"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-legacy-target-refusal.json": {
+      "bytes": 415,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "80955a36b55db78ad0a7080f9f87ecf29db59b80e51526326328e9df0da13913"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-obsolete-resolved.json": {
+      "bytes": 4940,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "1f71bc31d891537339d6489139b542fc430100c8b2e101a18c9a9cb93053179f"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_backlog.json": {
+      "bytes": 413,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "267927c1463c8678a0f0cf416e65d44972513acd5ad85c68310ee68a0a38b0f1"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-receipt_event.json": {
+      "bytes": 413,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "5c3c413fe61333855d72dfc3250f498083306d43ce4673ad478844f8eb805b7f"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-retained.json": {
+      "bytes": 3616,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "af9e65828014a76a21a018dcce5da482329c69ca18be9963162e0db9be5b4b06"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unavailable.json": {
+      "bytes": 3064,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "c3d948973836bc4eb4daa060616e444272d3cf92a3cc948115298f07b527c1e5"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unknown.json": {
+      "bytes": 415,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "f8c5c520f7e04af7caf60357b8d2046dc3b6e9f155616b9438e7e046f13ba5fc"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-audit-unscoped.json": {
+      "bytes": 415,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "0580dfceb27f9d978fcd1dc146f7440c9dc7b758c116d5b87d3873e52a44f9b3"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-final.json": {
+      "bytes": 7438,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "9e923a6ebe7bf977bacb4827ace2dbf97a7c522a0c3d88dee657ecf40e0f3dd5"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-first.json": {
+      "bytes": 7413,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "ccc4814cc88a2d7433bde955cd5976c96352d39af389e12018b37f1b37dbf950"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-foreign.json": {
+      "bytes": 1001,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "af3c976e4a8a77dc2c9f0d040060f86e60540d5f3cdac684da646a84394da0b3"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-inbox-last.json": {
+      "bytes": 2451,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "384f2b3852702f858cac99934ffb57842daffb377dff5a7dc9c768d613fe9ba5"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/observed-opened-ack.json": {
+      "bytes": 159,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "74b5593a3a30c78f116ea2a5534c75af2b3ad35adc55bbfa1253b528e3ebede5"
+    },
+    "scripts/tests/fixtures/exception_inbox_audit_v2/provenance.json": {
+      "bytes": 7452,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "162398912fceefeabc6f7885bfedd7a5ccb808b4a72ec9515969040301ad45b0"
+    },
+    "scripts/tests/unattended_launchd_preparation_test.py": {
+      "bytes": 8340,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3"
+    },
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": {
+      "bytes": 9247,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7"
+    },
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": {
+      "bytes": 18961,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7"
+    },
+    "test/admin_entity_audit_authority_test.dart": {
+      "bytes": 17153,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "3f03b5126e88fefdd0c96abe14e382d247f749086198ff068f7546627c2cbb62"
+    },
+    "test/admin_entity_audit_links_test.dart": {
+      "bytes": 20082,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee"
+    },
+    "test/admin_entity_audit_page_test.dart": {
+      "bytes": 23278,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "b1cb9e6c17a10830f230bb5679cd7dfd2b8b18b3f5dc9d0808a0c54f25acd5e6"
+    },
+    "test/admin_exception_assignment_test.dart": {
+      "bytes": 42193,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "a770b0f8c347a1dd37dac0204160714b0f48d19688f7dff9ff6f183047a31698"
+    },
+    "test/admin_exception_escalation_inbox_v2_models_test.dart": {
+      "bytes": 14967,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "887d01cdcc541df438303cc9b590a7485d16b96bded9708434803b967fd5f402"
+    },
+    "test/admin_exception_escalation_inbox_v2_test.dart": {
+      "bytes": 29795,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "5c51408c67518462337a5d6a49a208cfb62c95897d2bdc2a781e5987bb3cc0cb"
+    },
+    "test/admin_exception_followup_sdk_test.dart": {
+      "bytes": 10455,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "6371c6240bb8f2df5de436e9dbd3b60973f53c648c47f3a6b839281c17c405cd"
+    },
+    "test/admin_exception_followup_v2_models_test.dart": {
+      "bytes": 39822,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "319d24497407dd080924ea2fba463ae50d354a155debfd781d2d8ea5577026ca"
+    },
+    "test/admin_exception_history_v2_models_test.dart": {
+      "bytes": 27847,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "f0438ca77aa8feafeb43c5f3dcaef9023e770cc23b43e29fb56c023b4fed918e"
+    },
+    "test/admin_exception_history_v2_page_test.dart": {
+      "bytes": 13180,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "3407990893fdbcabaad19429e1fc0f2e2f325b1c73539cdf1586062d576d5e7c"
+    },
+    "test/admin_exception_history_v2_sdk_test.dart": {
+      "bytes": 9229,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "230aea711172debcf5745e83bf7dc3ef8b521a39f0c2304c524407d2a5ecd1e8"
+    },
+    "test/admin_exception_workflow_sdk_test.dart": {
+      "bytes": 26863,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "61b3fa26707f11e1cce39f52a90942ce8cdfe8ee48af8e9dc3439d34a2e3daed"
+    },
+    "test/admin_exception_workflow_test.dart": {
+      "bytes": 32295,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "e84b3e3f8fc66c8e7faeb15c0f3df491a7dae2da7e2dfc76648da2b9d0bc6b6f"
+    },
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": {
+      "bytes": 13099,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c"
+    },
+    "tools/collect-notification-mcp/src/unattended_deployment.ts": {
+      "bytes": 12457,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "3fda830ac0e1ed1573b2c9ef95559c86f9981a4ea3efde160db36a1a2bf7cc9a"
+    },
+    "tools/collect-notification-mcp/src/unattended_host_tick.ts": {
+      "bytes": 4487,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "dbdc86dd69dbb778a57ede83829ca9e9c589a65866177e4a12f3f432561d3942"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": {
+      "bytes": 44022,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "8483c516aa9bf01e78c42f7213c546382bd4354a4288b87d87641669e3325ef4"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.ts": {
+      "bytes": 22878,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "cc10e7c0d507d28e6101d803343b4bc4671d73af68d2f8c9506fe7e13d833e8b"
+    },
+    "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts": {
+      "bytes": 13314,
+      "mode": 420,
+      "origin": "changed_or_added_selected_source",
+      "sha256": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e"
+    }
+  },
+  "source_archive_rebuilt": false,
+  "status": "pass",
+  "supplement_mismatches": [],
+  "test_or_build_rerun": false,
+  "virtual_union_mismatches": []
+}

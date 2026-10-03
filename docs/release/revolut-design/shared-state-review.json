@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-30T18:04:19.553153+00:00",
+  "capture_kind": "flutter_widget_test",
+  "purpose": "Shared implementation state inspection; synthetic widget evidence, not installed native acceptance",
+  "visual_acceptance": "unverified",
+  "screens": [
+    {
+      "id": "error-320-1.0x",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/error-320-1.0x.png",
+      "sha256": "ef44ad6790fdce0d29cddff5fcfb06cc038fdb0e437cf09b1cc064be641a9faf",
+      "width": 320,
+      "height": 568,
+      "review_kind": "implementer inspection",
+      "observation": "Full explanation and retry action visible."
+    },
+    {
+      "id": "error-320-2.0x",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/error-320-2.0x.png",
+      "sha256": "f177ea964551acf20bd4e12ac387b8ca94aab53ebb9bf94a4581288a0ea9b675",
+      "width": 320,
+      "height": 568,
+      "review_kind": "implementer inspection",
+      "observation": "Full explanation uses vertical scroll; retry reachability and action covered by widget test."
+    },
+    {
+      "id": "error-320-3.2x",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/error-320-3.2x.png",
+      "sha256": "a0bf95a669f704c8567080b4da6d44a619daf6437d5fd8cde58c642e3cb115b9",
+      "width": 320,
+      "height": 568,
+      "review_kind": "implementer inspection",
+      "observation": "Heading and explanation use vertical scroll; retry reachability and action covered by widget test."
+    },
+    {
+      "id": "high-contrast-card",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/high-contrast-card.png",
+      "sha256": "f683aab2f22d45e563c9c7e39d7268681eace2dfa66e1738be5c329e22c1bd7a",
+      "width": 390,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Shared card has visible high-contrast outline."
+    },
+    {
+      "id": "loading-and-guidance-large-text",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/loading-and-guidance-large-text.png",
+      "sha256": "a103ceab5f52061c51c391cb2ddfa62e0f577a13ebf1efdb0385bacd72aad7fa",
+      "width": 320,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Loading copy and field guidance wrap without ellipses; lower text uses vertical scroll."
+    },
+    {
+      "id": "search-focused",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/search-focused.png",
+      "sha256": "698f20705d8d59c16f125560996258df27a0c1ba3f99194312dd6f20896ab77f",
+      "width": 390,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Filled query retains accessible name; focus indicator visible."
+    },
+    {
+      "id": "segments-large-text",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/segments-large-text.png",
+      "sha256": "7e2b47c2542a909a7878ba311a4c6051c0e1dc265d639738952eb5b00318c167",
+      "width": 320,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Selected tab visible; additional tab reachable by the tested horizontal scroll."
+    },
+    {
+      "id": "switch-android",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/switch-android.png",
+      "sha256": "d3f1f11cdcce9f860859395efc531f7dac3dc35b2fcc06fbf4f557f299328034",
+      "width": 390,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Selected source switch colours and disabled/off distinction visible."
+    },
+    {
+      "id": "switch-iOS",
+      "capture": ".cache/revolut-design-20260930/shared-state-renders/switch-iOS.png",
+      "sha256": "0f8503bfb060d277629688bd1b3ac41e8425dba569aa610331d05d61d66a52fc",
+      "width": 390,
+      "height": 844,
+      "review_kind": "implementer inspection",
+      "observation": "Selected source switch colours retain native iOS geometry."
+    }
+  ]
+}

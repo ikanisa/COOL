@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "tests": 27,
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "scripts/tests/swift_cached_artifact_inputs_test.py"
+  ],
+  "exit_code": 0,
+  "source_sha256": {
+    "scripts/qa/swift_cached_artifact_inputs.py": "cb000581d5ba0589c80e52081ac08d66000f1f3fff00e1a83bf860af87c39715",
+    "scripts/tests/swift_cached_artifact_inputs_test.py": "a703295fd7aa0085e0ab684b1c8dcdea95c85fb7a4bcaf959124714b440872b5"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "d032ef23bab2d243844275f6bbf96a54619f0463cd583936f1d9f2287bab3bd6",
+  "provider_calls": false,
+  "application_code_changed": false,
+  "scope": "Original17 binary mutation controls plus10 exact generated local compiler/workspace alias controls. Real27-dependency/9-artifact compiler binding and Xcode remain separate."
+}

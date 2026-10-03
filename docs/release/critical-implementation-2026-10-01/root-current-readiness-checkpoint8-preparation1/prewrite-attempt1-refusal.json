@@ -1,0 +1,6 @@
+{
+  "status": "earlier_proposal_attempt_stopped_before_any_plan_or_canonical_write",
+  "cause": "Incorrectly compared2607 selection names to2563 actual source files.",
+  "correction": "Use source_files_identity count2563; selection names include absent indexed paths.",
+  "canonical_bytes_unchanged": true
+}

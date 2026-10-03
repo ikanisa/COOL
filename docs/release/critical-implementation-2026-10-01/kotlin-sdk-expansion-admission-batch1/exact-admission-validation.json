@@ -1,0 +1,16 @@
+{
+  "SDK_executed": false,
+  "actual_deadline_seconds": 300,
+  "destination_absent": true,
+  "expanded_bytes": 4244148641,
+  "final_actual_seconds": 10.434,
+  "final_admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "final_runner_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "first_final_all_member_manifests_identical": true,
+  "members": 22415,
+  "passed": true,
+  "physical_expansion": false,
+  "recorded_utc": "2026-10-02T00:28:36.326293+00:00",
+  "root_review_sha256": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d",
+  "source_entries": 15660
+}

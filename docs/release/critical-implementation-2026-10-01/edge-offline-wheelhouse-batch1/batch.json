@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "finding": "ARC04/ARC09 cold decoder dependency continuation",
+  "sealed_at": "2026-10-02T01:42:34.790287+00:00",
+  "status": "maintained_code_and_preparation_verified_full_canonical_acceptance_pending",
+  "report": "README.md",
+  "interface": "interface.json",
+  "ci_proposal": "ci-integration-proposal.md",
+  "sources": {
+    "scripts/qa/roster_wheelhouse.py": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+    "scripts/tests/roster_wheelhouse_test.py": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+  },
+  "tests": {
+    "maintained_command": [
+      "python3",
+      "-B",
+      "scripts/tests/edge_runner_contract_test.py",
+      "-v"
+    ],
+    "completed": 77,
+    "failures": 0,
+    "skipped": 0,
+    "source_unchanged": true,
+    "scope": "Actual filesystem/byte/parser/caller and synthetic HTTPS contracts plus real owned-process deadline; no live origin acquisition"
+  },
+  "actual_preparation": {
+    "result": "actual-local-preparation/result.json",
+    "current_source_inputs": 137,
+    "source_before_after_equal": true,
+    "external_inputs": 16,
+    "external_before_after_equal": true,
+    "wheel_count": 6,
+    "wheel_bytes": 9936126,
+    "copied_file_count": 17,
+    "publisher_receipt_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+    "actual_context_rechecked_before_seal": true
+  },
+  "retained_attempts": [
+    "attempt1 failed59/two fixture expected-denial mismatches",
+    "attempt2 pass60/preproducer",
+    "attempt3 pass74/pre-whole-process-supervisor",
+    "attempt4 pass77/final"
+  ],
+  "no_execution_claims": [
+    "No live acquisition",
+    "No package installation",
+    "No Docker invocation/image/cache substitution",
+    "No full canonical or32Linux/14HTTP/157regression/6security current acceptance",
+    "No hosted CI/provider/customer/production effects"
+  ],
+  "remaining_gates": [
+    "root producer/CI review and integration",
+    "final current BE13/source hold",
+    "fresh immutable canonical source export and original/copied/after hash equality",
+    "actual fresh 300s build plus32 Linux/14HTTP/157regression/6 security and full frozen Edge phases",
+    "hosted CI and transport proof"
+  ],
+  "artifact_count": 37,
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "bba334111433df503f14c21810d846054556e2cfb125c05247cd145565d9a476",
+      "bytes": 5896
+    },
+    {
+      "path": "actual-local-preparation/prepared-context.json",
+      "sha256": "c27de5e56e3a9ee195b14e05561d0ade16ac85f7a3000a6663eacb6a5a1a3efc",
+      "bytes": 13633
+    },
+    {
+      "path": "actual-local-preparation/result.json",
+      "sha256": "a17b45902c07b7a2fdee0927d45c339177d883ba44e9e2fe92c4b67721cabe1e",
+      "bytes": 57573
+    },
+    {
+      "path": "actual-local-preparation/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "actual-local-preparation/stdout.log",
+      "sha256": "b9fc4d9ece5c689a2be4af38c0422a397772d2f4416277f5e8074e68894ae4a1",
+      "bytes": 11431
+    },
+    {
+      "path": "attempt1/result.json",
+      "sha256": "f0e1f61e5f08c983047ee9cbf47a73edaba38ba2ed32f2c56e211fc3aff164bb",
+      "bytes": 1827
+    },
+    {
+      "path": "attempt1/stderr.log",
+      "sha256": "86cd83a923fe0a73f2c53e9021f17e39355ba6b6f0c9c6f6af06eaba60f637ca",
+      "bytes": 10506
+    },
+    {
+      "path": "attempt1/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "attempt2/result.json",
+      "sha256": "a35c25d84a5a5b6c82797fc775c7c4768a5fdb74382d25c342c3dd5ec092a8a0",
+      "bytes": 1973
+    },
+    {
+      "path": "attempt2/stderr.log",
+      "sha256": "e5e8a5d0a7f84f2fe26e9951b5bd6e9a7b63aa9ec39a174bd82c0ef14d80862e",
+      "bytes": 8911
+    },
+    {
+      "path": "attempt2/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "attempt3/result.json",
+      "sha256": "d97a3eae6882f017289fef5a71ec0c770d029b6de2d8e3141b6f1dcf136439c7",
+      "bytes": 1854
+    },
+    {
+      "path": "attempt3/stderr.log",
+      "sha256": "3969f38d375e7fa267c1eb5c607758f887942ef12a6eaa34870b142dadbcc56b",
+      "bytes": 11489
+    },
+    {
+      "path": "attempt3/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "attempt4/result.json",
+      "sha256": "4be101759126d6df69c08247ada04c50cde2f7eef270a61b5b4339705a69e04c",
+      "bytes": 1855
+    },
+    {
+      "path": "attempt4/stderr.log",
+      "sha256": "557c2e6f9f36ffa9c5fc2ee8cf110552191c4020bd79bacdac57c0ed9416414a",
+      "bytes": 12051
+    },
+    {
+      "path": "attempt4/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "ci-integration-proposal.md",
+      "sha256": "1b66670a0392a295d4a93790750a6b7c9ffdf73303a0db05807c026442abc63c",
+      "bytes": 4709
+    },
+    {
+      "path": "final-source-and-context-readback.json",
+      "sha256": "790db9fee83d6bd80e9012d0fbe821c7b9fbf2d5c42bb5b17a21c2d4f7f4fa98",
+      "bytes": 1503
+    },
+    {
+      "path": "frozen-source/scripts/qa/roster_wheelhouse.py",
+      "sha256": "f9dfbc8d7387256478700e5e014985635c3d0a8eae8c5da9a67cfc53cb8a2bc1",
+      "bytes": 38755
+    },
+    {
+      "path": "frozen-source/scripts/qa/run_edge_ci.py",
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349
+    },
+    {
+      "path": "frozen-source/scripts/tests/edge_runner_contract_test.py",
+      "sha256": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72",
+      "bytes": 11776
+    },
+    {
+      "path": "frozen-source/scripts/tests/roster_wheelhouse_test.py",
+      "sha256": "8b2a89ad26557ae881843e301045df274da4c578ef5c5fddcdd1848fdee68c96",
+      "bytes": 36657
+    },
+    {
+      "path": "frozen-source/scripts/tests/verify_roster_decoder.py",
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "bytes": 13760
+    },
+    {
+      "path": "frozen-source/tools/roster-decoder/Dockerfile",
+      "sha256": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+      "bytes": 560
+    },
+    {
+      "path": "incremental-producer-diff/scripts/qa/roster_wheelhouse.py.patch",
+      "sha256": "e3cb748d94c451c3ddc741a012d1425bb6f7634c84add7e5d09107bf48d6e2db",
+      "bytes": 20958
+    },
+    {
+      "path": "incremental-producer-diff/scripts/tests/edge_runner_contract_test.py.patch",
+      "sha256": "a2212a654aa78f69614697f2ad4d62305b77818b23ca812328430924bbf0e841",
+      "bytes": 450
+    },
+    {
+      "path": "incremental-producer-diff/scripts/tests/roster_wheelhouse_test.py.patch",
+      "sha256": "ec84b58567f0a19bb374116f5f366cec6532391f8af97f1491885af7f79feff9",
+      "bytes": 16414
+    },
+    {
+      "path": "interface.json",
+      "sha256": "228b9a0bc6e1360a3fd590406ea1982fc08285c4d09acbec7165b7be7321a304",
+      "bytes": 3345
+    },
+    {
+      "path": "local-publisher-inputs.json",
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "bytes": 4004
+    },
+    {
+      "path": "local-publisher-receipt-derivation.json",
+      "sha256": "7c2f3ece346005c1aa9da93036da0ca670aa4f7c9869441165e0ca43e9cfc987",
+      "bytes": 1021
+    },
+    {
+      "path": "reviewed-before-producer/scripts/qa/roster_wheelhouse.py",
+      "sha256": "58a7c3673150edfdfb8ff1fa81bceaa7744fc87299aa6d666b3f0636b579ff3d",
+      "bytes": 20911
+    },
+    {
+      "path": "reviewed-before-producer/scripts/qa/run_edge_ci.py",
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+      "bytes": 14349
+    },
+    {
+      "path": "reviewed-before-producer/scripts/tests/edge_runner_contract_test.py",
+      "sha256": "9a2e2ac9e959883d6a78d524689cb92d623c2b44fc903cbe824dd05c11f5bd60",
+      "bytes": 11757
+    },
+    {
+      "path": "reviewed-before-producer/scripts/tests/roster_wheelhouse_test.py",
+      "sha256": "14072fa4aa846eceee17f568ec468a6b17843091452738222eeae20d04110f8a",
+      "bytes": 20928
+    },
+    {
+      "path": "reviewed-before-producer/scripts/tests/verify_roster_decoder.py",
+      "sha256": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+      "bytes": 13760
+    },
+    {
+      "path": "reviewed-before-producer/tools/roster-decoder/Dockerfile",
+      "sha256": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+      "bytes": 560
+    }
+  ]
+}

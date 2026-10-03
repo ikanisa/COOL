@@ -1,0 +1,17 @@
+{
+  "owned_pids": [
+    "7030",
+    "7185",
+    "7339",
+    "7346",
+    "7524",
+    "7562",
+    "8008",
+    "8065",
+    "8108"
+  ],
+  "ps_exit_code": 1,
+  "ps_stdout": "  PID  PPID COMMAND\n",
+  "ps_stderr": "",
+  "all_owned_children_absent": true
+}

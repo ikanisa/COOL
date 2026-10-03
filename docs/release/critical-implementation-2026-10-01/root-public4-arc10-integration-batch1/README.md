@@ -1,0 +1,13 @@
+# Current scoped integration
+
+Root independently read back 704 public4 indexed artifacts, the 344 current media inputs, four final production sources and canonical content metadata. Actual current public4 compilation/capture, 55 quality checks and 104 browser cases passed. Original failure observations remain preserved. PD-02 closes only the original local provenance and downstream served-build/readback/browser requirement. PD-14 remains closed for sole design authority; native fidelity, rights, hosted/provider/store and release acceptance remain open.
+
+Root read the complete new evidence reader and maintained tests, verified its 14 sealed artifacts and 15 checksum entries, and bound both current source files. Its actual 61 tests prove the read-only implementation slice. All 98 real references remain unresolved without trusted archive inputs; original bytes remain intact. No archive, restoration, transfer, key generation, consumer migration or removal occurred.
+
+The SDK's genuine strict command failed. Root verified 57 sealed leaves and all 83 actual main class files against the generated JAR. One module metadata file makes 84 regular main outputs; the earlier shorthand of 84 classes is corrected with dated before-registers retained. Zero SDK JUnit tests executed. Task metadata and test import failures, mixed runtime versions and Kotlin DSL warnings remain acceptance failures. Shared SDK and repository pins/locks remain unchanged.
+
+All six canonical registers are reconciled. All 40 original criteria and original 102 production/24 local rows are preserved. Two scoped critical findings close; 38 remain open in full. The extension closure counters now agree with the ledger. Production remains NO-GO and the implementation goal is active.
+
+The first root readback wrapper used an assumed content-contract path, then assumed a boolean where the worker reported a zero operation count. Both failed wrapper observations and sources are retained; the correction uses the actual canonical path and exact integer count. The initial successful reconciliation missed pre-existing extension closure counters and repeated an intermediate class count; `final_corrections.py` preserves its before-registers, verifies actual SDK outputs and corrects those fields. These changes do not alter worker proof or tests.
+
+`independent-packet-readback.json`, `sdk-execution-independent-readback.json` and `final-register-readback.json` contain the final scoped results. The original Terms viewport and two share-page originals were inspected directly, with limits recorded separately. No newly accepted immutable whole release candidate is claimed. Later mutations or reruns require a new dated evidence cohort.

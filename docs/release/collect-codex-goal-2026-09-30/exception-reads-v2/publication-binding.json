@@ -1,0 +1,46 @@
+{
+  "kind": "path_only_publication_of_exact_tested_cached_draft",
+  "sql_test_case_count": 87,
+  "selected_source_rerun_claimed": false,
+  "cached_uat_kind": "offline_exception_reads_v2_schema153_subset",
+  "draft_uat_retained": true,
+  "entries": [
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-preparation/supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "selected_path": "supabase/migrations/20261001000300_admin_exception_reads.sql",
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+      "exact_byte_equal": true
+    },
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-preparation/schema.json",
+      "selected_path": "contracts/collect-admin-exception-v2.schema.json",
+      "sha256": "41b28ba0b393f945cab31d4b1214a1e5006682a5e7045905b3e6e26c46f381bd",
+      "exact_byte_equal": true
+    },
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-preparation/runner.py",
+      "selected_path": "scripts/tests/admin_exception_reads_uat.py",
+      "sha256": "d090475661c996e46cd48e093d617fd87f5ef2521cf34c17328b15bd1f5deddc",
+      "exact_byte_equal": true
+    },
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-attempt3/observed-populated.json",
+      "selected_path": "contracts/collect-admin-exception-v2.fixture.json",
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b",
+      "exact_byte_equal": true
+    },
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-attempt3/observed-recorded-lookup.json",
+      "selected_path": "contracts/collect-admin-exception-action-v2.fixture.json",
+      "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5",
+      "exact_byte_equal": true
+    },
+    {
+      "tested_cached_path": ".cache/admin-exception-v2-attempt3/observed-action-receipt.json",
+      "selected_path": "contracts/collect-admin-exception-action-v1.fixture.json",
+      "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0",
+      "exact_byte_equal": true
+    }
+  ],
+  "deployment_performed": false
+}

@@ -1,0 +1,57 @@
+--- a/test/admin_exception_assignment_test.dart
++++ b/test/admin_exception_assignment_test.dart
+@@ -420,6 +420,54 @@
+ }
+ 
+ void main() {
++  for (final (kind, privatePayload) in [
++    ('code units', 'X' * 16385),
++    ('UTF8 bytes', 'é' * 8193),
++  ]) {
++    testWidgets(
++      'oversized $kind recovery sanitizes bounded metadata and blocks all actions across reload',
++      (tester) async {
++        final h = _Harness();
++        final raw = jsonDecode(_corruptOriginal()) as Map<String, dynamic>;
++        raw['private'] = privatePayload;
++        h.store.values[_owner] = jsonEncode(raw);
++        await h.mount(tester);
++        final saved = h.store.values[_owner]!;
++        expect(saved.length, lessThanOrEqualTo(2048));
++        expect(utf8.encode(saved).length, lessThanOrEqualTo(2048));
++        final quarantine = AdminExceptionFollowupQuarantine.parse(
++          saved,
++          _owner,
++          _actor.userId,
++          _id,
++        );
++        expect(quarantine.reference, isNull);
++        expect(quarantine.requestId, isNull);
++        expect(saved, isNot(contains(privatePayload)));
++        expect(
++          _button(tester, 'Choose operator and deadline').onPressed,
++          isNull,
++        );
++        expect(find.text('Check original assignment proof'), findsNothing);
++        expect(find.text('Check follow-up request'), findsNothing);
++        expect(h.repository.actions, isEmpty);
++        expect(h.repository.lookups, isEmpty);
++        expect(h.repository.legacyLookupIds, isEmpty);
++        await h.close(tester);
++        final reloaded = _Harness();
++        reloaded.store.values[_owner] = saved;
++        await reloaded.mount(tester);
++        expect(reloaded.store.values[_owner], saved);
++        expect(
++          _button(tester, 'Choose operator and deadline').onPressed,
++          isNull,
++        );
++        expect(reloaded.repository.actions, isEmpty);
++        expect(reloaded.repository.lookups, isEmpty);
++        expect(reloaded.repository.legacyLookupIds, isEmpty);
++      },
++    );
++  }
+   testWidgets(
+     'private malformed v3 becomes sanitized quarantine and only matching v2 recorded proof clears it',
+     (tester) async {

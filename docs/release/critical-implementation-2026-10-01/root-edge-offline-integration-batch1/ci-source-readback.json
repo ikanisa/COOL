@@ -1,0 +1,25 @@
+{
+  "actual_shell_syntax_checks": [
+    {
+      "bash_syntax_exit": 0,
+      "step": "Acquire exact publisher-authenticated Linux decoder wheels"
+    },
+    {
+      "bash_syntax_exit": 0,
+      "step": "Install hash-locked offline decoder fixture dependencies"
+    },
+    {
+      "bash_syntax_exit": 0,
+      "step": "Run canonical frozen Edge and Linux acceptance"
+    }
+  ],
+  "all_other_jobs_equal": true,
+  "changed_jobs": [
+    "deno-check"
+  ],
+  "ci_after_sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624",
+  "ci_before_sha256": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4",
+  "hosted_workflow_executed": false,
+  "platform_and_20_minute_deadline_preserved": true,
+  "production_acceptance": false
+}

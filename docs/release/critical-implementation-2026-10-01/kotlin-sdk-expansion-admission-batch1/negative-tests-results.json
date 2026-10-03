@@ -1,0 +1,13 @@
+{
+  "actual_seconds": 3.591,
+  "all33_individual_canonical_only_rejections": true,
+  "all33_individual_raw_byte_change_rejections": true,
+  "negative_methods": 22,
+  "passed": true,
+  "positive_receipt_method": 1,
+  "scope": "Actual public source/archive-prefix/delta/review/receipt/metadata rejection. No writer invocation or physical SDK expansion acceptance.",
+  "stdout_sha256": "7b929a54dbff2e5f19eca43d5478f60939e9f01195bc4873ae2daf76fc8adba1",
+  "terminal_exit_code": 0,
+  "test_code_sha256": "37f3e038f47fd5ada793fd0d7e5ee8d4df00466b74db5954fe61b8c1380b9ac5",
+  "test_methods": 23
+}

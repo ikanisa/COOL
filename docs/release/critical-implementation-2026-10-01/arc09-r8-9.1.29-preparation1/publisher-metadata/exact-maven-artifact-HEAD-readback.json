@@ -1,0 +1,41 @@
+{
+  "Google_Maven_exact_version_listed": false,
+  "JAR_acquired": false,
+  "TLS_verify_result": 0,
+  "UTC": "2026-10-02T14:32:25.411780+00:00",
+  "argv": [
+    "/usr/bin/curl",
+    "--proto",
+    "=https",
+    "--tlsv1.2",
+    "--location",
+    "--max-redirs",
+    "2",
+    "--connect-timeout",
+    "10",
+    "--max-time",
+    "45",
+    "--silent",
+    "--show-error",
+    "--head",
+    "--dump-header",
+    "docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/publisher-metadata/raw-maven-jar-HEAD.headers",
+    "--output",
+    "docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/publisher-metadata/raw-maven-jar-HEAD.body",
+    "--write-out",
+    "%{json}",
+    "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar"
+  ],
+  "canonical_JAR_HEAD_attempt_status": "previous curl exit56 because its declared content length exceeded the request max-filesize; retained, not a success claim",
+  "effective_url": "https://storage.googleapis.com/r8-releases/raw/com/android/tools/r8/9.1.29/r8-9.1.29.jar",
+  "exact_POM_identity": {
+    "artifactId": "r8",
+    "groupId": "com.android.tools",
+    "version": "9.1.29"
+  },
+  "http_status": 200,
+  "process_exit_code": 0,
+  "response_body_bytes_downloaded": 0,
+  "response_headers_sha256": "96adadcefeda148dd588024d3d74d9ccabbd4e3673389dab5db45330e2d8de6e",
+  "schema_version": 1
+}

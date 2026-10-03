@@ -1,0 +1,58 @@
+{
+  "at_utc": "2026-10-02T00:41:26.403240+00:00",
+  "candidate_bytes_match_final_private_readback": true,
+  "current_applicable_dart_count": 670,
+  "current_root_acceptance": false,
+  "dated_source_count": 823,
+  "missing_applicable_paths_since_dated_copy": [],
+  "new_applicable_paths_since_dated_copy": [],
+  "private_git_status": {
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": " M lib/admin/core/admin_runtime.dart\n M scripts/tests/admin_receipt_source_busy_test.dart\n M test/features/runtime_component_contract_test.dart\n"
+  },
+  "proposed_three_paths": {
+    "lib/admin/core/admin_runtime.dart": {
+      "before": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "candidate": "315722fd6d1a4579e9834861ea876d1d9363e066a75203c64fa30b449e93664f",
+      "current_root": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "root_still_matches_before": true
+    },
+    "scripts/tests/admin_receipt_source_busy_test.dart": {
+      "before": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "candidate": "45d0041bb1c0732ba5a63dc354c314fbe56c851e33a36f866befab4cb6d2c11f",
+      "current_root": "0b0776090280c1b4c9a60c05b8580934459d23087182f34938e3874b1c221767",
+      "root_still_matches_before": true
+    },
+    "test/features/runtime_component_contract_test.dart": {
+      "before": "4833cc76b86ba6d56c310d7da3fd532b8118b30e7d049556767c58386b1eede5",
+      "candidate": "2f6bd060508d7968afaffce62119fd38953238175b48c84a9444dd009fa64d4c",
+      "current_root": "4833cc76b86ba6d56c310d7da3fd532b8118b30e7d049556767c58386b1eede5",
+      "root_still_matches_before": true
+    }
+  },
+  "root_source_drift_since_export": {
+    "lib/app/router.dart": {
+      "copied": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "current": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb"
+    },
+    "lib/features/landing/public_capability_content.dart": {
+      "copied": "d4e317dde5f2895fbc85da662dd1fd11c7e90b44e6a3c30c843fa1e40a0b3672",
+      "current": "f326adac4467bd16bb5056836389a0ef28e0a2025a5b7f1de2b6498e6469ec46"
+    },
+    "lib/features/landing/public_marketing_page_content.dart": {
+      "copied": "97b15eaf956d935db0575a20b068d90b706406aa32f8d7cfea880d0b9df25142",
+      "current": "91067ab43ef0d3da347494f9f429d0282122cab168225ed7a80313a32ae34ee0"
+    },
+    "lib/shared/repositories/collect_repository.dart": {
+      "copied": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e",
+      "current": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    "lib/shared/widgets/screen_scaffold.dart": {
+      "copied": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+      "current": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    }
+  },
+  "root_source_written_by_task": false,
+  "synthetic_fixture_absent": true
+}

@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "failure_phase": "historical_git_archive_path_selection",
+  "reason": "The historical tree has no licenses path; no source extracted or historical builder run.",
+  "active_repository_mutated": false
+}

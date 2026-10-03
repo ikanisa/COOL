@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"action": "reconcile_backlog", "run_id": "7168565d-69e8-4415-aa47-c59123ecaa3e", "handled": 1, "deferred": 0, "examined": 1, "request_id": "79594d40-9829-4904-9666-e842e780c1cf", "observed_at": "2026-10-02T00:46:55.438352Z", "principal_id": "07eb4d13-d1c1-49b2-bb44-a3da7b9551fb", "fence_version": 1, "contract_version": 2}

@@ -1,0 +1,97 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/run_selected_aab.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/early-build-overlay-recovery4/run_selected_aab.py
+@@ -221,9 +221,16 @@
+             or rr['actual_release_classes'] != len(records['JVM_classes']['actual_release_classes'])
+             or terminal['protected_after']['protected_metadata_paths_unchanged'] != rr['original_protected_paths_unchanged']):
+         raise ValueError('root independent JVM/classes/protected readback differs')
++    overlay = module(HERE / 'android_build_overlay.py', admission['overlay_helper_sha256'], 'aab_android_overlay')
++    seam = types.SimpleNamespace(RELEASE=RELEASE, ROOT=ROOT, APP=APP, HEX=HEX,
++                                 document=document, plain_read=plain_read)
++    current_app_export, readback_command = overlay.admit(seam, admission, records, export, pins)
++    matrix = json.loads(json.dumps(matrix))  # Original seven commands/bounds stay intact.
++    matrix['commands'].append(readback_command)
+     return types.SimpleNamespace(reader=reader, guards=guards, controller=controller, fence=fence,
+                                  config=config, matrix=matrix, admission=admission, pins=pins,
+-                                 records=records, export=export)
++                                 records=records, export=export, overlay=overlay,
++                                 current_app_export=current_app_export, readback_command=readback_command)
+ 
+ 
+ def metadata_command(argv, deadline=None):
+@@ -531,7 +538,7 @@
+     if phase == 'failure':
+         diagnostics = {}
+         for label, read in [('SDK-source', lambda: checker.verify('built')),
+-                            ('APP-source', lambda: ctx.guards.app_readback('built', ctx.export['export_manifest_file_sha256'])),
++                            ('APP-source', lambda: ctx.guards.app_readback('built', ctx.current_app_export['current_APP_manifest_pin']['sha256'])),
+                             ('protected', ctx.controller.protected_metadata)]:
+             try:
+                 observation = read(); save(output / (label + '-failure.json'), observation)
+@@ -542,7 +549,7 @@
+         return
+     sdk = checker.verify('built')
+     save(output / ('SDK-source-' + phase + '-built.json'), sdk)
+-    app = ctx.guards.app_readback('built', ctx.export['export_manifest_file_sha256'])
++    app = ctx.guards.app_readback('built', ctx.current_app_export['current_APP_manifest_pin']['sha256'])
+     save(output / ('APP-source-' + phase + '.json'), app)
+     ctx.guards.require_lock(APP / 'pubspec.lock', ctx.export['original_app_lock_sha256'])
+     ctx.guards.require_lock(SDK / 'packages/flutter_tools/pubspec.lock', ctx.guards.SDK_LOCK)
+@@ -824,8 +831,8 @@
+             return record
+         def guards(phase):
+             argv = [ctx.config['Python_executable'], '-I', '-B', str(PREP / 'source_fence.py'), 'verify',
+-                    '--root', str(ROOT), '--binding', str(RELEASE / 'root-native-warm-retry-review8/source-fence.json'),
+-                    '--binding-sha256', ctx.export['source_fence_sha256'],
++                    '--root', str(ROOT), '--binding', ctx.current_app_export['current_repository_source_fence_pin']['path'],
++                    '--binding-sha256', ctx.current_app_export['current_repository_source_fence_pin']['sha256'],
+                     '--output', str(output / ('source-fence-' + phase + '.json'))]
+             invoke('source-fence-' + phase + '-command', argv, 300, PREP)
+             argv = [ctx.config['Python_executable'], '-I', '-B', str(Path(__file__).resolve()),
+@@ -835,12 +842,22 @@
+         save(output / 'root-admission-captured.json', ctx.admission)
+         guards('before')
+         planned = ctx.matrix['commands']; original_output = ctx.matrix['output_directory_proposal']
+-        reuse_runtime_graph(ctx, output)
+-        reuse_runtime_graph(ctx, output, 'compile')
+-        for command in planned[2:3]:
++        save(output / 'current-APP-overlay-binding.json', ctx.current_app_export)
++        readback = ctx.readback_command
++        invoke(readback['label'], readback['argv'], readback['deadline_seconds'], readback['cwd'], True)
++        row = ctx.overlay.validate_proguard_output(
++            (output / (readback['label'] + '.stdout')).read_text(), BASE / 'native-build/app')
++        actual_rule = ctx.reader.stable_read(Path(row['default_proguard_file']))[0]
++        if (actual_rule['sha256'], actual_rule['bytes']) != (row['actual_default_file_sha256'], row['actual_default_file_bytes']):
++            raise ValueError('actual default Proguard file changed after producer readback')
++        save(output / 'default-proguard-readback.json', row)
++        for command in planned[:3]:
+             argv = [token.replace(original_output, str(output)) for token in command['argv']]
+             invoke(command['label'], argv, command['deadline_seconds'], command['cwd'], True)
+-            if command is planned[1]:
++            if command is planned[0]:
++                extract_graph(output / (command['label'] + '.stdout'), output / 'production-runtime-graph.json',
++                              'productionReleaseRuntimeClasspath')
++            elif command is planned[1]:
+                 extract_graph(output / (command['label'] + '.stdout'), output / 'production-compile-graph.json',
+                               'productionReleaseCompileClasspath')
+         source = BASE / 'native-build/app/outputs/bundle/productionRelease/app-production-release.aab'
+@@ -857,7 +874,10 @@
+         template['inputs'] = []
+         selected = {'root_native_admission': ('native-build', args.admission),
+                     'export_manifest': ('source', APP / '.collect-release-candidate.json'),
+-                    'export_binding': ('source', RELEASE / 'root-native-warm-export8-readback1/export-source-binding.json'),
++                    'export_binding': ('source', output / 'current-APP-overlay-binding.json'),
++                    'archived_export8_binding': ('source-history', RELEASE / 'root-native-warm-export8-readback1/export-source-binding.json'),
++                    'current_source_fence': ('source', Path(ctx.current_app_export['current_repository_source_fence_pin']['path'])),
++                    'default_proguard_readback': ('build-configuration', output / 'default-proguard-readback.json'),
+                     'SDK_before': ('sdk', output / 'SDK-source-before-built.json'),
+                     'SDK_after': ('sdk', output / 'SDK-source-after-built.json'),
+                     'APP_before': ('source', output / 'APP-source-before.json'),
+@@ -895,6 +915,8 @@
+         save(output / 'terminal.json', {'status': 'pass', 'selected_local_AAB_observation_pass': True,
+              'elapsed_seconds': time.monotonic() - started, 'whole_bound_seconds': whole - started,
+              'AAB_sha256': aab_hash, 'bindings_sha256': binding_hash, 'daemon_receipts': daemon_receipts,
++             'native_reuse_scope': ctx.current_app_export,
++             'fresh_canonical_runtime_and_compile_graphs': True,
+              'complete_package_SBOM_verified': False, 'signature_or_unsignedness_verified': False,
+              'font_rights_verified': False, 'ARC09_closed': False, 'production_release_approval': False})
+     except BaseException as error:

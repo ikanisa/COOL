@@ -1,0 +1,109 @@
+{
+  "status": "local_pass_hosted_unverified",
+  "recorded_at": "2026-10-01T19:57:30.536947+00:00",
+  "items": [
+    "ARC04",
+    "BE10"
+  ],
+  "scope": "Deno job only; canonical local frozen Edge types/units/actual HTTP/actual Linux decoder; current SQL and hosted workflow separate",
+  "implementation_files": {
+    ".github/workflows/ci.yml": "4cf2188f53ee4e7b01c205fc2d7c9dbb5a6350778a136d70233d0b09b09a95ce",
+    "scripts/qa/run_edge_unit_tests.py": "a650a5d7da47289e1d6d1a115ef1ec2e534b68c752b551c6f8d2ec6152b6a656",
+    "scripts/qa/run_edge_ci.py": "cf1a8b53dacede91f8989c1071e4e4bb2a5eaea41922196c6f2b7ece7d294dcc",
+    "docs/release/critical-implementation-2026-10-01/ci-batch1/test_runner_contract.py": "be58a2feade5d57f5acba5dfda1aa9272cdd3a4b9178fed45b50e860e2a1cb6f"
+  },
+  "acceptance_report": "docs/release/critical-implementation-2026-10-01/ci-batch1/acceptance/validation.json",
+  "acceptance_report_sha256": "091621c9454d856f6d7868baf66548b3ab538b87496ecd247a33e0612a7919c0",
+  "source_unchanged_at_completion": true,
+  "phases": {
+    "runner_contract": {
+      "status": "pass",
+      "exit_code": 0
+    },
+    "frozen_dependency_cache": {
+      "status": "pass",
+      "exit_code": 0
+    },
+    "types": {
+      "status": "pass",
+      "exit_code": 0,
+      "files_checked": 80
+    },
+    "units": {
+      "status": "pass",
+      "exit_code": 0,
+      "test_files": 29,
+      "tests": 554,
+      "ignored": 0
+    },
+    "edge_http": {
+      "status": "pass",
+      "exit_code": 0,
+      "checks": 90
+    },
+    "linux_decoder": {
+      "status": "pass",
+      "exit_code": 0,
+      "cases": 32,
+      "integration": {
+        "tests_passed": 14,
+        "tests_failed": 0,
+        "tests_ignored": 0
+      },
+      "regressions": {
+        "tests_passed": 155,
+        "tests_failed": 0,
+        "tests_ignored": 0
+      },
+      "image_id": "sha256:79afc61b97669e70a7d5dff4219d7be318b3c2220ff7a25b32ad0c15b89933ea"
+    }
+  },
+  "runtime": {
+    "version": "2.5.6",
+    "binary_sha256": "a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0",
+    "decoder_python": "3.12.14",
+    "docker_platform": "linux/aarch64"
+  },
+  "fixture_manifest_sha256": "e5ed738a0aa4dc6cf870bf33352610074a6e46ab82705dd82440571b58a6a657",
+  "fixture_current_sql_acceptance": false,
+  "hosted_ci_executed": false,
+  "current_database_executed": false,
+  "runtime_provider_calls": 0,
+  "workflow_yaml_parsed": true,
+  "local_ci_policy": "pass; 12 policy regression tests pass",
+  "research": [
+    {
+      "title": "GitHub hosted runner ARM64 labels",
+      "url": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+    },
+    {
+      "title": "Deno test runtime permissions",
+      "url": "https://docs.deno.com/runtime/reference/cli/test/"
+    },
+    {
+      "title": "Deno lockfile integrity",
+      "url": "https://docs.deno.com/runtime/fundamentals/modules/"
+    },
+    {
+      "title": "Python exact patch and ARM64 setup",
+      "url": "https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md"
+    },
+    {
+      "title": "Verified3.12.14Linux24.04ARM64release",
+      "url": "https://github.com/actions/python-versions/releases/tag/3.12.14-31661455385"
+    }
+  ],
+  "remaining_gates": [
+    "GitHub execution of this exact workflow and action/binary installation",
+    "Current source-bound SQL acceptance belongs to the distinct SQL gate",
+    "Hosted/provider/device/store/deployment acceptance is outside this local CI packet"
+  ],
+  "negative_runtime_pin_probe": {
+    "expected_exit_code": 1,
+    "actual_exit_code": 1,
+    "status": "pass_rejection_verified",
+    "rejection_report": "docs/release/critical-implementation-2026-10-01/ci-batch1/wrong-pin-rejection/validation.json",
+    "report_sha256": "dc7d28d6a347b72ae52fddf056fb887b0a4910588dcacb61fd4f92b1e545c25c"
+  },
+  "source_files_bound": 131
+}

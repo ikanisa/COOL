@@ -1,0 +1,9 @@
+{
+  "SDK_Gradle_native_executed": false,
+  "app_export_executed": false,
+  "files": {
+    "proposed-commands.json": "d3df58cdf3f06fe138fa00491b8cb90bda0b6bbb4745ca1233d79b02ece34893",
+    "run_native_consumer.py": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+    "source_fence.py": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Collect",
+  "short_name": "Collect",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#000000",
+  "description": "EUR group contributions by SEPA bank transfer with daily reconciliation.",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/collect-web-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

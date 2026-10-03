@@ -1,0 +1,81 @@
+--- sealed-guard2/run_native_consumer.py
++++ private-native-only/run_native_consumer.py
+@@ -23,7 +23,10 @@
+ BASE = Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1')
+ SDK = BASE / 'flutter'
+ APP = BASE / 'app-source'
+-AUTH_DIR = RELEASE / 'root-sdk-native-app-guard-review2'
++AUTH_DIR = RELEASE / 'root-sdk-native-native-stage-review1'
++GUARD2 = RELEASE / 'kotlin-sdk-native-app-guard-preparation2'
++GUARD2_MANIFEST = '8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c'
++GUARD2_SHA256 = 'f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a'
+ ORIGINAL_PREPARATION_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
+ SNAPSHOT_PREPARATION = RELEASE / 'kotlin-sdk-native-snapshot-preparation4'
+ SNAPSHOT_PREPARATION_MANIFEST = 'd40ce77be6faa0afe514dba1ea1193f33eb69f904b852732d028ae0705e1b47d'
+@@ -72,9 +75,13 @@
+ 
+ 
+ def authorization(args):
+-    if args.stage not in ('app-export', 'app-lock') or getattr(args, 'foundation_child', False):
+-        raise ValueError('this separately reviewed derivative admits only fresh app-export and app-lock')
++    if args.stage != 'native' or getattr(args, 'foundation_child', False):
++        raise ValueError('this separately reviewed derivative admits only native after whole preparation2 app-lock PASS')
+     manifest = packet(PROPOSAL, args.prepared_manifest_sha256)
++    guard2 = packet(GUARD2, GUARD2_MANIFEST)
++    for name in ('consumer_guards.py', 'plugin-source-bindings.json', 'publisher_metadata.py'):
++        if sha(PROPOSAL / name) != guard2['files'][name]:
++            raise ValueError('exact sealed guard2/bindings/reader copy changed')
+     packet(HERE, ORIGINAL_PREPARATION_MANIFEST)
+     packet(SNAPSHOT_PREPARATION, SNAPSHOT_PREPARATION_MANIFEST)
+     row, body = reader().stable_read(receipt_path(args.stage), True)
+@@ -84,7 +91,9 @@
+             or document.get('checked_packet_leaves') != len(manifest['files'])
+             or document.get('execution_stage_admissions', {}).get(args.stage) is not True
+             or any(value is True for stage, value in document.get('execution_stage_admissions', {}).items() if stage != args.stage)
+-            or document.get('required_reviewed_guard_sha256') != sha(PROPOSAL / 'consumer_guards.py')):
++            or document.get('required_guard2_preparation_manifest_sha256') != GUARD2_MANIFEST
++            or document.get('required_reviewed_guard_sha256') != GUARD2_SHA256
++            or sha(PROPOSAL / 'consumer_guards.py') != GUARD2_SHA256):
+         raise ValueError('exact stage/full preparation not separately authorized')
+     if (document.get('current_source_export_authorized') is not True
+             or document.get('strict_current_source_comparison_required') is not True
+@@ -105,8 +114,8 @@
+         if (not isinstance(expected, str) or not re.fullmatch('[0-9a-f]{64}', expected) or row['sha256'] != expected
+                 or terminal.get('stage_pass') is not True or terminal.get('stage') != STAGES[index - 1]):
+             raise ValueError('actual predecessor terminal lacks separate exact root readback admission')
+-        if args.stage == 'app-lock' and terminal.get('prepared_manifest_sha256') != args.prepared_manifest_sha256:
+-            raise ValueError('app-lock requires a fresh whole export under this exact reviewed derivative')
++        if terminal.get('prepared_manifest_sha256') != GUARD2_MANIFEST:
++            raise ValueError('native requires genuine whole app-lock PASS from exact preparation2')
+     if args.stage in ('app-lock', 'native'):
+         export_binding(args)
+     packet(RELEASE / 'kotlin-sdk-native-consumer-plan1', PLAN_MANIFEST)
+@@ -123,9 +132,19 @@
+     path = BASE / '.control/app-export/export-source-binding.json'
+     row, body = reader().stable_read(path, True)
+     if row['sha256'] != expected: raise ValueError('original export source/manifest/lock binding changed')
++    terminal_row, terminal_body = reader().stable_read(BASE / '.control/app-export/terminal.json', True)
++    terminal = json.loads(terminal_body)
++    expected_terminal = json.loads(auth_body).get('required_app_export_terminal_sha256')
++    if (not isinstance(expected_terminal, str) or not re.fullmatch('[0-9a-f]{64}', expected_terminal)
++            or terminal_row['sha256'] != expected_terminal
++            or terminal.get('stage_pass') is not True or terminal.get('stage') != 'app-export'
++            or terminal.get('prepared_manifest_sha256') != GUARD2_MANIFEST
++            or terminal.get('actual_export_binding_sha256') != expected):
++        raise ValueError('native requires root-bound fresh whole preparation2 export terminal/binding')
+     binding = json.loads(body)
+     if (binding.get('kind') != 'actual_strict_unapproved_export_binding' or binding.get('export_stage_actual_pass') is not True
+             or binding.get('source_root') != str(APP) or binding.get('production_release_approval') is not False
++            or binding.get('root_pinned_source_fence_sha256') != json.loads(auth_body).get('required_source_fence_sha256')
+             or any(not isinstance(binding.get(key), str) or not re.fullmatch('[0-9a-f]{64}', binding[key])
+                    for key in ('export_manifest_file_sha256', 'source_manifest_sha256', 'original_app_lock_sha256'))):
+         raise ValueError('actual original strict app export binding malformed')
+@@ -302,7 +321,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--stage', required=True, choices=('app-export', 'app-lock'))
++    parser.add_argument('--stage', required=True, choices=('native',))
+     parser.add_argument('--prepared-manifest-sha256', required=True)
+     parser.add_argument('--root-review-sha256', required=True)
+     parser.add_argument('--foundation-child', action='store_true')

@@ -1,0 +1,66 @@
+{
+  "commands": [
+    {
+      "label": "pub",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-integration-current2",
+      "exit_code": 0,
+      "seconds": 11.347,
+      "stdout_sha256": "df36ba3f394f70ab1d9d44b0af31ed83e767734e12dd63b9daeba06fecb3024f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "format",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "test/admin_receipt_principal_integration_test.dart",
+        "lib/admin/core/admin_repository_base.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-integration-current2",
+      "exit_code": 0,
+      "seconds": 0.909,
+      "stdout_sha256": "70bd5cc5f55301f50998ea50c69514d38b66c794ddfeba351eb93c9a6de4c1f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "analysis",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "test/admin_receipt_principal_integration_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-integration-current2",
+      "exit_code": 0,
+      "seconds": 26.311,
+      "stdout_sha256": "3763ef9242af06c64009f9e49de8236b7266f04e04b77ae5bd2c6e1ce1a190bb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cases",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=json",
+        "--concurrency=1",
+        "test/admin_receipt_principal_integration_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-integration-current2",
+      "exit_code": 0,
+      "seconds": 99.869,
+      "stdout_sha256": "6444d9e12701056451ceeed75f1a34959b467a9673098a64da386fee3a8ec1b5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

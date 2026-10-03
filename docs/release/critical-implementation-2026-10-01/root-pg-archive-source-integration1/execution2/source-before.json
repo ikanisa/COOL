@@ -1,0 +1,65 @@
+{
+  "Makefile": {
+    "bytes": 18074,
+    "device": 16777247,
+    "inode": 17481833,
+    "mode": 420,
+    "mtime_ns": 1790933013644394460,
+    "nlink": 1,
+    "sha256": "36cd23c1b3efc7d5064268f0306989558f0feeb40a83a98854b14e3ac5ace78a"
+  },
+  "docs/architecture/postgres-admission.md": {
+    "bytes": 8267,
+    "device": 16777247,
+    "inode": 17481825,
+    "mode": 420,
+    "mtime_ns": 1790933070185769795,
+    "nlink": 1,
+    "sha256": "15c3612d6fe5618d47b6f0749a3c458c82ce165396796ace0b676d0dd7aed8ea"
+  },
+  "scripts/qa/pg_archive_admission.py": {
+    "bytes": 27208,
+    "device": 16777247,
+    "inode": 17974571,
+    "mode": 420,
+    "mtime_ns": 1790933013640407718,
+    "nlink": 1,
+    "sha256": "95f5c3d24bc723d4e570699a6a71af113bdcb5c6af91555e4f6c63f01076eb80"
+  },
+  "scripts/qa/postgres_admission.py": {
+    "bytes": 17725,
+    "device": 16777247,
+    "inode": 17481827,
+    "mode": 420,
+    "mtime_ns": 1790923108361641585,
+    "nlink": 1,
+    "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92"
+  },
+  "scripts/supabase_cli_helpers.sh": {
+    "bytes": 13715,
+    "device": 16777247,
+    "inode": 17481828,
+    "mode": 420,
+    "mtime_ns": 1790933013641908283,
+    "nlink": 1,
+    "sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74"
+  },
+  "scripts/supabase_logical_backup.sh": {
+    "bytes": 2364,
+    "device": 16777247,
+    "inode": 2695366,
+    "mode": 448,
+    "mtime_ns": 1790933013642451443,
+    "nlink": 1,
+    "sha256": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329"
+  },
+  "scripts/tests/test_pg_archive_admission.py": {
+    "bytes": 35649,
+    "device": 16777247,
+    "inode": 17974572,
+    "mode": 420,
+    "mtime_ns": 1790933013641178792,
+    "nlink": 1,
+    "sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6"
+  }
+}

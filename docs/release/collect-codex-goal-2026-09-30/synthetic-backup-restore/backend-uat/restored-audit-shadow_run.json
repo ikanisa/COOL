@@ -1,0 +1,50 @@
+{
+  "rows": [
+    {
+      "action": "shadow.completed",
+      "source": "shadow_audit_event",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "54fa0178-be05-4e69-a270-14eb39ceccaa",
+      "revision": null,
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T01:10:34.926653Z",
+      "fence_version": 1
+    },
+    {
+      "action": "shadow.sampled",
+      "source": "shadow_audit_event",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "c969c323-f40f-49e0-b2ff-5f80e50a0334",
+      "revision": null,
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T01:10:34.859162Z",
+      "fence_version": 1
+    },
+    {
+      "action": "shadow.started",
+      "source": "shadow_audit_event",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "37eacd69-2a4e-4de5-a1a7-c5e03c9226b7",
+      "revision": null,
+      "request_id": "c230a521-8358-4f0c-b1e2-1398517b3293",
+      "reason_code": null,
+      "recorded_at": "2026-10-01T01:10:34.759544Z",
+      "fence_version": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "d357017c-28ad-4068-b52d-b7c20f220f1b",
+  "checked_at": "2026-10-01T01:11:09.133507Z",
+  "entity_kind": "shadow_run",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T01:12:09.133507Z",
+  "historical_shadow_audit_backfilled": false
+}

@@ -1,0 +1,131 @@
+{
+  "observed_at_utc": "2026-10-01T23:57:40.300886+00:00",
+  "design_authority": "revolut-design",
+  "reference_sha256": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/current-web-state-evidence.json": "86f41462a84fa7b543bb3d63d681ee1dfad445a369fa8d9cd916cc73dd036bbc",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/state-theme-desktop-followup.md": "e26da6ce3b1af2d0df75bdb2822b199c2cb843c73945a006d019934c386d9bf3",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606"
+  },
+  "reference_readback_sha256": {
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/current-web-state-evidence.json": "86f41462a84fa7b543bb3d63d681ee1dfad445a369fa8d9cd916cc73dd036bbc",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/state-theme-desktop-followup.md": "e26da6ce3b1af2d0df75bdb2822b199c2cb843c73945a006d019934c386d9bf3",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/024-bug-report-empty-form.jpg": "712dd21d1aadc316873f06d6c88674ab0e08cb15aee71424d1ddeb7ab7aa0606"
+  },
+  "references_unchanged": true,
+  "scope": "Direct inspection of eight original local focused-renderer PNGs, two changed states at each of four viewports; reference pattern application only. No native equivalence, complete visual fidelity, media freshness, legal/provider/hosted/store/release acceptance.",
+  "findings": [
+    {
+      "id": "public-invalid-group-action-appearance",
+      "implemented": true,
+      "scoped_state_checks_passed": true,
+      "full_visual_acceptance": false,
+      "evidence": "The existing muted neutral roles win the actual disabled cascade. Invalid and missing targets retain no href, deny pointer navigation and stay outside Tab focus; valid controls retain their enabled appearance."
+    },
+    {
+      "id": "public-generic-app-card-label",
+      "implemented": true,
+      "scoped_copy_checks_passed": true,
+      "full_visual_acceptance": false,
+      "evidence": "Generic app entry uses COLLECT APP LINK and app installation help. Group routes retain group terminology and backend invitation confirmation wording."
+    }
+  ],
+  "original_pixels": [
+    {
+      "scenario": "app-direct",
+      "viewport": "compact_320x740",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/app-direct_compact_320x740.png",
+      "sha256": "42e80e096e573bed5ffff1acf08bd27486221a1a9d6bd1431c8d02434ed73ec1",
+      "directly_inspected": true,
+      "observed_fix": "COLLECT APP LINK card label and app-specific installation help.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "mobile_390x844",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/app-direct_mobile_390x844.png",
+      "sha256": "6ad4ff0ae993b9fcbe1601ef9c7bb8004edd506dd463596e7c7545b99f4d8d5d",
+      "directly_inspected": true,
+      "observed_fix": "COLLECT APP LINK card label and app-specific installation help.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "tablet_834x1194",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/app-direct_tablet_834x1194.png",
+      "sha256": "de823e6e9b17fc729e2f32f5c67a680ce4baf8fc0f66ac4ea057b6e26045193c",
+      "directly_inspected": true,
+      "observed_fix": "COLLECT APP LINK card label and app-specific installation help.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "app-direct",
+      "viewport": "desktop_1440x1000",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/app-direct_desktop_1440x1000.png",
+      "sha256": "c3bba9f62afc5e54410be1dead56831106272d55ed6296ab00a7ebd8dd6be593",
+      "directly_inspected": true,
+      "observed_fix": "COLLECT APP LINK card label and app-specific installation help.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "compact_320x740",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/group-link-direct_compact_320x740.png",
+      "sha256": "ca8076c8c4208d3a2cc34cb08ff0515b8b69a8a37613e612132bbd69760b4b23",
+      "directly_inspected": true,
+      "observed_fix": "Muted inactive action, with explicit invalid-link recovery copy.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "mobile_390x844",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/group-link-direct_mobile_390x844.png",
+      "sha256": "f20996540306623ae9f4a23a560004fd822974807895f7d198b89ef1ec532be5",
+      "directly_inspected": true,
+      "observed_fix": "Muted inactive action, with explicit invalid-link recovery copy.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "tablet_834x1194",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/group-link-direct_tablet_834x1194.png",
+      "sha256": "f3d744057d405a2674743756539df850efb36b820b81a6464d18f9102b9fbe4c",
+      "directly_inspected": true,
+      "observed_fix": "Muted inactive action, with explicit invalid-link recovery copy.",
+      "full_composition_accepted": false,
+      "framing_limit": null
+    },
+    {
+      "scenario": "group-link-direct",
+      "viewport": "desktop_1440x1000",
+      "original_png": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/browser-share-ui/group-link-direct_desktop_1440x1000.png",
+      "sha256": "288a5b8cd429c9217dccde9ce5b531a07a5ea8f020ed99c8b5dfd19fc891120d",
+      "directly_inspected": true,
+      "observed_fix": "Muted inactive action, with explicit invalid-link recovery copy.",
+      "full_composition_accepted": false,
+      "framing_limit": "Extra white top space after the focused keyboard/scroll sequence; source layout origin not isolated by this capture."
+    }
+  ],
+  "material_limits": [
+    "Desktop invalid-group screenshot framing remains limited after the focus/scroll sequence; it cannot establish exact top-of-page composition.",
+    "WEB-STATE-002 is a public signed-out control and LIVE024 is native. Existing Collect neutral roles adapt their inactive pattern; exact native/public marketing token identity is unverified.",
+    "Full current static builder correctly rejected stale media after the CSS change. Root privacy source integration requires a later fresh current media/content bind."
+  ],
+  "acceptance": {
+    "native": false,
+    "full_visual_fidelity": false,
+    "full_current_static": false,
+    "production": false
+  }
+}

@@ -1,0 +1,354 @@
+{
+  "format": "collect_roster_prepared_context_v1",
+  "context": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context",
+  "wheelhouse": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse",
+  "publisher_inputs": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs",
+  "publisher_before_copy_after_sha256": {
+    "publisher-receipt.json": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+    "defusedxml-0.7.1-pypi.json": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+    "et-xmlfile-2.0.0-pypi.json": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+    "openpyxl-3.1.5-pypi.json": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+    "pillow-12.3.0-pypi.json": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+    "pypdf-6.19.0-pypi.json": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+    "pypdfium2-5.2.0-pypi.json": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961"
+  },
+  "publisher_receipt_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "lock_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+  "context_directory_identity": [
+    16777247,
+    17177323,
+    448
+  ],
+  "wheelhouse_directory_identity": [
+    16777247,
+    17177324,
+    448
+  ],
+  "publisher_directory_identity": [
+    16777247,
+    17177325,
+    448
+  ],
+  "copied_files": [
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/requirements.lock",
+      "sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "size": 661,
+      "fingerprint": [
+        16777247,
+        17177326,
+        292,
+        661,
+        1790906028710786940,
+        1790906028710786940,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/Dockerfile",
+      "sha256": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+      "size": 560,
+      "fingerprint": [
+        16777247,
+        17177327,
+        292,
+        560,
+        1790906028711111900,
+        1790906028711111900,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/decoder.py",
+      "sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "size": 17044,
+      "fingerprint": [
+        16777247,
+        17177328,
+        292,
+        17044,
+        1790906028711349234,
+        1790906028711349234,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/server.py",
+      "sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "size": 7142,
+      "fingerprint": [
+        16777247,
+        17177329,
+        292,
+        7142,
+        1790906028711561069,
+        1790906028711561069,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+      "size": 25604,
+      "fingerprint": [
+        16777247,
+        17177330,
+        292,
+        25604,
+        1790906028711774820,
+        1790906028711774820,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/et_xmlfile-2.0.0-py3-none-any.whl",
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa",
+      "size": 18059,
+      "fingerprint": [
+        16777247,
+        17177331,
+        292,
+        18059,
+        1790906028712043029,
+        1790906028712043029,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2",
+      "size": 250910,
+      "fingerprint": [
+        16777247,
+        17177332,
+        292,
+        250910,
+        1790906028712276114,
+        1790906028712276114,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+      "size": 6266838,
+      "fingerprint": [
+        16777247,
+        17177333,
+        292,
+        6266838,
+        1790906028713143618,
+        1790906028713143618,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/pypdf-6.19.0-py3-none-any.whl",
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14",
+      "size": 395480,
+      "fingerprint": [
+        16777247,
+        17177334,
+        292,
+        395480,
+        1790906028716922511,
+        1790906028716922511,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context/wheelhouse/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec",
+      "size": 2979235,
+      "fingerprint": [
+        16777247,
+        17177335,
+        292,
+        2979235,
+        1790906028717586597,
+        1790906028717586597,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/publisher-receipt.json",
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+      "size": 4004,
+      "fingerprint": [
+        16777247,
+        17177336,
+        292,
+        4004,
+        1790906028719237688,
+        1790906028719237688,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/defusedxml-0.7.1-pypi.json",
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+      "size": 35962,
+      "fingerprint": [
+        16777247,
+        17177337,
+        292,
+        35962,
+        1790906028719461981,
+        1790906028719461981,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/et-xmlfile-2.0.0-pypi.json",
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+      "size": 4816,
+      "fingerprint": [
+        16777247,
+        17177338,
+        292,
+        4816,
+        1790906028719916941,
+        1790906028719916941,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/openpyxl-3.1.5-pypi.json",
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+      "size": 4748,
+      "fingerprint": [
+        16777247,
+        17177339,
+        292,
+        4748,
+        1790906028720162526,
+        1790906028720162526,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/pillow-12.3.0-pypi.json",
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+      "size": 84184,
+      "fingerprint": [
+        16777247,
+        17177340,
+        292,
+        84184,
+        1790906028720506361,
+        1790906028720506361,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/pypdf-6.19.0-pypi.json",
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+      "size": 9248,
+      "fingerprint": [
+        16777247,
+        17177341,
+        292,
+        9248,
+        1790906028720803779,
+        1790906028720803779,
+        1
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-OFFLINE-20261002-BATCH1/source/.cache/canonical/linux-decoder/build-context-publisher-inputs/pypdfium2-5.2.0-pypi.json",
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961",
+      "size": 88511,
+      "fingerprint": [
+        16777247,
+        17177342,
+        292,
+        88511,
+        1790906028721022655,
+        1790906028721022655,
+        1
+      ]
+    }
+  ],
+  "platform": "linux-aarch64-cp312",
+  "source_before_copy_after_sha256": {
+    "requirements.lock": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+    "Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "decoder.py": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+    "server.py": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4"
+  },
+  "wheels": [
+    {
+      "filename": "defusedxml-0.7.1-py2.py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/defusedxml/0.7.1/json",
+      "metadata_sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+      "size": 25604,
+      "wheel_url": "https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "version": "0.7.1",
+      "metadata_filename": "defusedxml-0.7.1-pypi.json",
+      "package": "defusedxml",
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"
+    },
+    {
+      "filename": "et_xmlfile-2.0.0-py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/et-xmlfile/2.0.0/json",
+      "metadata_sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0",
+      "size": 18059,
+      "wheel_url": "https://files.pythonhosted.org/packages/c1/8b/5fe2cc11fee489817272089c4203e679c63b570a5aaeb18d852ae3cbba6a/et_xmlfile-2.0.0-py3-none-any.whl",
+      "version": "2.0.0",
+      "metadata_filename": "et-xmlfile-2.0.0-pypi.json",
+      "package": "et-xmlfile",
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa"
+    },
+    {
+      "filename": "openpyxl-3.1.5-py2.py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/openpyxl/3.1.5/json",
+      "metadata_sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+      "size": 250910,
+      "wheel_url": "https://files.pythonhosted.org/packages/c0/da/977ded879c29cbd04de313843e76868e6e13408a94ed6b987245dc7c8506/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "version": "3.1.5",
+      "metadata_filename": "openpyxl-3.1.5-pypi.json",
+      "package": "openpyxl",
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2"
+    },
+    {
+      "filename": "pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "metadata_url": "https://pypi.org/pypi/Pillow/12.3.0/json",
+      "metadata_sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0",
+      "size": 6266838,
+      "wheel_url": "https://files.pythonhosted.org/packages/25/27/ac8f99618ffd3dde21db0f4d4b1d2ab00c0880595bfd17df103f7f39fd0c/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "version": "12.3.0",
+      "metadata_filename": "pillow-12.3.0-pypi.json",
+      "package": "pillow",
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9"
+    },
+    {
+      "filename": "pypdf-6.19.0-py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/pypdf/6.19.0/json",
+      "metadata_sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+      "size": 395480,
+      "wheel_url": "https://files.pythonhosted.org/packages/3c/2c/c43c03eaf630435f023f1dc61ec4a4a78951ad5530a62c71cc89bde307b7/pypdf-6.19.0-py3-none-any.whl",
+      "version": "6.19.0",
+      "metadata_filename": "pypdf-6.19.0-pypi.json",
+      "package": "pypdf",
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14"
+    },
+    {
+      "filename": "pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "metadata_url": "https://pypi.org/pypi/pypdfium2/5.2.0/json",
+      "metadata_sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961",
+      "size": 2979235,
+      "wheel_url": "https://files.pythonhosted.org/packages/64/64/454a73c49a04c2c290917ad86184e4da959e9e5aba94b3b046328c89be93/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "version": "5.2.0",
+      "metadata_filename": "pypdfium2-5.2.0-pypi.json",
+      "package": "pypdfium2",
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec"
+    }
+  ],
+  "wheel_count": 6,
+  "wheel_bytes": 9936126,
+  "source_before_copy_after_equal": true,
+  "wheel_before_copy_after_equal": true,
+  "network_acquisition_performed": false,
+  "package_installation_performed": false,
+  "docker_execution_performed": false
+}

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "--name",
+    "^(actual member SDK retained rows|(?!(actual member SDK)).*)",
+    "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-final.machine.jsonl",
+    "test/shared/member_realtime_sdk_session_test.dart",
+    "test/shared/realtime_invalidation_recovery_test.dart",
+    "test/shared/collect_offline_cache_test.dart"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+  "exit_code": 0,
+  "timed_out": false,
+  "seconds": 5.218,
+  "root_and_export_stable": true,
+  "source_binding": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-final-inputs-before.json",
+  "stdout_sha256": "f4b4605cc062061aad8c953dacee8f8513409c2dc3996d099e87698bc635ca50",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

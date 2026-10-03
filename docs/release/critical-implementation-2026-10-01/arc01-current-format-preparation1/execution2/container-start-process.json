@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "start",
+    "collect-arc01-current-f92a68e41bba416a8f40bab2d3667051-format"
+  ],
+  "deadline_seconds": 20,
+  "pid": 42584,
+  "started_at_utc": "2026-10-02T10:45:02.878345+00:00"
+}

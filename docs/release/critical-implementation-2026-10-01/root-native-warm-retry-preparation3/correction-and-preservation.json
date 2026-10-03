@@ -1,0 +1,10 @@
+{
+  "previous_script_sha256": "d22b1151badd7c17efbfa5f6e64e7c55df19f455adc9ff77e0088264987ffc37",
+  "script_sha256": "91cbb06372e6209237a0300edfb764f3527bd569986039ccd45d1d21279e7cd9",
+  "correction": "Only source fence semantic outputs gain -output suffix; subprocess receipt names, original commands and deadlines remain separate. New review namespace retains failed controls.",
+  "retained_failed_export_control": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/warm-export-20261002-attempt2-723756523d514c64bf46f045572a3ee2",
+  "all_control_bytes_and_other_identities_preserved": true,
+  "prior_actual_source_fence_passed": true,
+  "prior_export_unexecuted": true,
+  "production_release_approval": false
+}

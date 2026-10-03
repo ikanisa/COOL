@@ -1,0 +1,13 @@
+{
+  "kind": "transaction",
+  "scope": "unclassified",
+  "payment": null,
+  "receipt": null,
+  "target_id": "793c6b62-62a8-4932-91bf-cd9d71fbc799",
+  "checked_at": "2026-09-30T22:04:03.995819+00:00",
+  "history_limit": 50,
+  "payment_state": "missing",
+  "receipt_state": "missing",
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T22:05:03.995819+00:00"
+}

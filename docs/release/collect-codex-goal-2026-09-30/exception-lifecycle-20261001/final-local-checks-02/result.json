@@ -1,0 +1,16 @@
+{
+  "captured_input_count": 217,
+  "changed": [
+    "lib/admin/core/admin_exception_workflow_card.dart",
+    "lib/admin/core/admin_exception_workflow_models.dart",
+    "lib/admin/core/admin_list_runtime.dart",
+    "lib/admin/shared/components/admin_confirm_dialog.dart",
+    "test/admin_custom_action_ui_test.dart",
+    "test/admin_exception_workflow_test.dart"
+  ],
+  "source_stable": false,
+  "flutter_exit_code": 0,
+  "passed_tests": 99,
+  "excluded_test_name_pattern": "synthetic exception capture",
+  "scope": "five named exception model/widget/SDK/repository files; no browser screenshots, hosted Auth or whole-candidate acceptance"
+}

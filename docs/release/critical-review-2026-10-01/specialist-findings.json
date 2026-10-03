@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "findings": [
+    {
+      "id": "BE-01",
+      "title": "P0: hosted parity and security acceptance cannot be established",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-02",
+      "title": "P0: an independent finality evidence policy is still required",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-03",
+      "title": "P1, observed: canonical deploy/readiness inventories omit four current endpoints",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-04",
+      "title": "P1, observed static gap: assisted SMS service bridge drops the originating operator session",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-05",
+      "title": "P1, observed implementation gap: raw-evidence retention and deletion are not an operational workflow",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-06",
+      "title": "P1: Auth/MFA/OTP enablement remains configuration-sensitive",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-07",
+      "title": "P1, source gap with unverified edge mitigation: Play Integrity admission and quota resilience",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-08",
+      "title": "P1: the migration chain needs a canonical current-schema review and final reproducibility proof",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-09",
+      "title": "P1: complete current-version recovery acceptance is absent",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-10",
+      "title": "P1, observed: backend check entrypoints are inconsistent with the current suite",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-11",
+      "title": "P2: phone hashes are pseudonymous identifiers, not anonymized data",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-12",
+      "title": "P1: operational controls are implemented but live operability is unverified",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "BE-13",
+      "title": "P1: AI roster processing requires vendor/region/retention acceptance",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-01",
+      "title": "P1: Linux CI calls a developer-specific Dart path",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-02",
+      "title": "P1: current source violates the repository's hard CI size gate",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-03",
+      "title": "P1: Edge deploy/readiness inventory is obsolete",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-04",
+      "title": "P1: CI does not use the current Edge lock/test contract",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-05",
+      "title": "P1: deployment entrypoint does not bind mutations to approved source/artifacts",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-06",
+      "title": "P1: iOS publication governance is weaker than Android",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-07",
+      "title": "P1: Admin update policy risks mixed versions and stale unversioned assets",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-08",
+      "title": "P1: operational toolchain can silently resolve an arbitrary latest CLI",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-09",
+      "title": "P1: fork/dependency governance is uneven across ecosystems",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-10",
+      "title": "P1: evidence snapshots overwhelm the engineering workspace",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-11",
+      "title": "P0: full recovery acceptance remains unproved for the current system",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-12",
+      "title": "P1: monitoring, support and capacity objectives remain deployment gates",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "ARC-13",
+      "title": "P1: native store/artifact and platform policies need current proof",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-01",
+      "title": "High: complete mobile and cross-surface visual acceptance is still unverified",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-02",
+      "title": "High: public screenshot provenance failure was locally corrected during review",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "locally_corrected_scoped"
+    },
+    {
+      "id": "PD-03",
+      "title": "High: selected marketing font distribution rights remain unverified, and native declaration widens its payload",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-04",
+      "title": "High: public deletion page promises a form but renders a specification",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-05",
+      "title": "High: privacy policy emits links to intentionally absent destinations",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-06",
+      "title": "Medium: deletion instructions use a menu path that the app does not expose",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-07",
+      "title": "High: static marketing's available-service language exceeds the current product contract",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-08",
+      "title": "High: new financial pending/error messages lack an explicit announcement and input-error association",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-09",
+      "title": "Medium: amount text can shrink substantially to fit instead of honoring enlargement",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-10",
+      "title": "Medium: Flutter/Admin PWA metadata still describes EUR/SEPA",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-11",
+      "title": "Medium: design case inventory omits three current Admin routes",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-12",
+      "title": "Medium: typography and public acceptance summaries describe superseded input states",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-13",
+      "title": "Medium: receipt copy does not expose the full production finality boundary",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    },
+    {
+      "id": "PD-14",
+      "title": "Medium: obsolete cache declaration makes sole-authority hygiene fail",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap"
+    }
+  ],
+  "count_before_overlap_consolidation": 40,
+  "meaning": "Detailed findings include overlaps and scoped acceptance gaps, not40independentexploitablevulnerabilities."
+}

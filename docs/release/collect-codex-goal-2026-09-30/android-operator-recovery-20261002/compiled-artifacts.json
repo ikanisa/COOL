@@ -1,0 +1,642 @@
+{
+  "classes/META-INF/gateway_transfer.kotlin_module": {
+    "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/classes/META-INF/gateway_transfer.kotlin_module",
+    "packet_path": "artifacts/classes/META-INF/gateway_transfer.kotlin_module"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class": {
+    "sha256": "68dad6a3950a70837b9bda012ef98a6db6cfbb07dbc63c6ecf9e32fa700db66d",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class",
+    "packet_path": "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class": {
+    "sha256": "d901f857f9027d4370d2ab661633f20cc41d6a2e9ee72e07ec000dcdeb3bb1b6",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class",
+    "packet_path": "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class": {
+    "sha256": "7f3df74644fb82e1e42bcf4e9b03e40b4bfb1a2a84383e3a6608ed474d3b0123",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class",
+    "packet_path": "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryPause.class": {
+    "sha256": "e0c847c976459afee47101ffc36b99af0c53cd7ab46466da54c0faf186660425",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/classes/app/cool/mobile/gateway/GatewayRecoveryPause.class",
+    "packet_path": "artifacts/classes/app/cool/mobile/gateway/GatewayRecoveryPause.class"
+  },
+  "test-classes/META-INF/gateway_transfer_tests.kotlin_module": {
+    "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/META-INF/gateway_transfer_tests.kotlin_module",
+    "packet_path": "artifacts/test-classes/META-INF/gateway_transfer_tests.kotlin_module"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$1$1.class": {
+    "sha256": "a448941b3db8aa6707bca4e0778883a327d828f51a3c241e73375c3e85412c87",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$1$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$1$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$3$1.class": {
+    "sha256": "a898638a36115f38bc4fff4e37ae148df91999ebabacec4413af23a8e55273e9",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$3$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$3$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$2$1.class": {
+    "sha256": "ceb5ba5919afebaafdbb39e042c62604f44a27a113292fef66a197054d2eec7a",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$2$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$2$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$2$1.class": {
+    "sha256": "aea8048df24feb6874d8f15ff35e025ddb41663b4386748ffa4b91819d852bdc",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$2$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$2$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$4$1.class": {
+    "sha256": "ccf35ee9e4fdb1573bc8ccfd24efacd2b926f011243308e8f8aa9d1fb70db50f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$4$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$4$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$5$1.class": {
+    "sha256": "e44676a0a57c31cc0883aadcd3ee351c388b01a7f9993509d5f33779b6e63f19",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$5$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$missingUnpausedChangedInactiveOrSymlinkDirectoryNeverPermitsExport$1$5$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$1.class": {
+    "sha256": "a51144d0598a923dc30b44ce61b54c274a60f8b3e9cc9ce1d86292ace97ea2b8",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$1.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest$durablePauseVerificationPreservesBackupsAndPartialNewFilesWithoutRepair$1$1.class"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest.class": {
+    "sha256": "16604a77dad09dfdefdafb452bf68a82a9db02fe2b72532eae4fd435964973e4",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest.class",
+    "packet_path": "artifacts/test-classes/app/cool/mobile/gateway/GatewayRecoveryTransferTest.class"
+  },
+  "api-classes/META-INF/main.kotlin_module": {
+    "sha256": "625bb1c0503f2b79e1e998abbe68f83ed6c6103db23b486e3a30b822c8e36b61",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/META-INF/main.kotlin_module",
+    "packet_path": "artifacts/api-classes/META-INF/main.kotlin_module"
+  },
+  "api-classes/app/cool/mobile/BuildConfig.class": {
+    "sha256": "46ef44ebd46c9306d3c28d8cad186ba30a6bd691739fd5250f0d7d8fa9f34dca",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/BuildConfig.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/BuildConfig.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class": {
+    "sha256": "e08cd685de2ef027582666fd95769bb2d873480b66c18f4fb5fd56f8057e69e8",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+    "sha256": "5cb85c0f7742dabe453ea642bfb90c2a1f6f215884835123db66885e05ec4837",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+    "sha256": "804d01a4d6fa2940a6eb4dea9d6559d9ec5ce6689c768ea354a59dfeae165d46",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+    "sha256": "ca14850d0ee4c2a790f6b8d2f49b949f8e7482f596263b612adddd175bb86ff0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class": {
+    "sha256": "ac6ac8b8b043092b738a5a9bff7afa26a402b5defc7a99e8828fcafce04a2792",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+    "sha256": "cf09ba3fc38eef36f870f65be9141b443e6c97fae4fbc46e2d69b57aff2b8be5",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge.class": {
+    "sha256": "3764b34eee1b450408fbb9269068cf8c45476daf2876b914d23b661d01ee373c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+    "sha256": "d853e0a737f6bb2d9fb64fd8373111ab4cbf9ed04e54d5512abb1274b8b2b1ca",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+    "sha256": "7b36f0c96de2733d3df155ebd056033f01f01395be074d537d483730c0c8a13a",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCycleToken.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleToken.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class": {
+    "sha256": "9f2ecfce786dd16ffb829c9d72d82a0839dcfcab6fd84a78bc0be2d1dab3fd87",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class": {
+    "sha256": "7c2f60ab42ca914e48dc35fa695f15eb3860b1647c0f5b23b8419b713113f7f9",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class"
+  },
+  "api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+    "sha256": "b0d5f09411f1ebeb2348507a6aa94efb8a033d1b236b044f12a4d4e6cf05b379",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Operation.class": {
+    "sha256": "39396436c175b962f435a7b93cee791dd4a65b3ec07ec283a551b8d85e3c8c25",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Operation.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Operation.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class": {
+    "sha256": "abe82089fdd68519da20123f19657441f396ae275ed9ef3a7c03da60d734889e",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+    "sha256": "163ef04cdaf529bac255ee3d496e91187e43bc6afcf1aea7a4b3ad70fb1326ee",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayWireKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayWireKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetention.class": {
+    "sha256": "1db90013398ca14022c8cb17093853627c27a5be70ed9d8f8efc16201cc222f7",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLateRetention.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetention.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+    "sha256": "811eb63bbe33d47c3dc9abbf96b5dec43c55ec200255af7c13c815fe3a1ff75c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+    "sha256": "364cec1fabef8965fafd3ef85ffa1cfc62c1a47ede5db01dca5c7f68745204ec",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+    "sha256": "75ff2f77e4784c65cf5aa3c8012282eac8aae3187f43f2f43f8574d1830d699f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class"
+  },
+  "api-classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+    "sha256": "e9fcb14ffa5635b0bc796593a01a86b512117687a8e1fd1e1b99c515e7657e10",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/SegmentOutcome.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/SegmentOutcome.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+    "sha256": "eecd0f015af90dc297a715275b71b1097dba7569024b6bd26a1713987d2cd365",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class": {
+    "sha256": "e1e9b6cb11da842b48bc1c435cb76c9f4c8e4027c05c5dfe69fc64dd5187bdac",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+    "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class": {
+    "sha256": "ae744c4f31dddda3ada4ddd71f7ccb809044ee54b43f11116ff2ad609844c537",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class": {
+    "sha256": "7f87db62f5aa075a272f4b606d13f62654d6faa3b3af2a83f59035f98ce995e5",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+    "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+    "sha256": "818ab7a2ce370fae6d4b087d39cc77e48164192e4bb0b0e354ce06c35f9c1aba",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+    "sha256": "3f1204487f7b1295ac30647e2fe9a42331587ec7b5ebab11efa2423b92bbc7ba",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class": {
+    "sha256": "7daa086f8b43549b85028bee74ec036a037ceda634f9d22d7c04b4cfa20ed616",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class": {
+    "sha256": "09c90767f53a8e9869736b288b78b710418dd9924335a961422e620828333b4e",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+    "sha256": "5669ea917279c01bac034072f23ffa96bb3cf8ccdb0df77798bfdde71a4321dc",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayActivity.class": {
+    "sha256": "38a88ca32239377c2f89ab82bdf87d0188b469ce7df441207cd7bf30bc680c65",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayActivity.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayActivity.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+    "sha256": "f77129ca841840d485ddc72a10254c8abcd56a37731355aab72fce0a1f95fb8d",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAuthority.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAuthority.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class": {
+    "sha256": "2572f8876d425274fcabd5c815a5c317cdfaa3d9ac241672fc1d4d6df93f3809",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecovery.class": {
+    "sha256": "8fce8c34f9b684e2d7245b0706585da005e5b9e6f2d7ebb4c6acf5a348b7fed0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecovery.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecovery.class"
+  },
+  "api-classes/app/cool/mobile/gateway/CallbackKind.class": {
+    "sha256": "16282286f6edc96de47309b8e63dda0ab5e4ff5e2637cb7d2910200cb796a689",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/CallbackKind.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/CallbackKind.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+    "sha256": "423c07967e2754502615e9ddf25b21e24f999a9f339e9eb59bf0a1d676826174",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCycleResult.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleResult.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+    "sha256": "67d1579c78c519e2787f16738b85842d3c623139d1b1143ab338d3fec15537be",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+    "sha256": "efc0c3d253d9f4ef6ca793110ae49d4e165779175add283c7a5825492d4e87f1",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class": {
+    "sha256": "07dc1ece3fbead36a70800103f5b083c0ae0205f9b63fa7d4b41a9373176db1f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryAdmission$Ticket.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class": {
+    "sha256": "2062dc1a730236e4038d843272806ae6c07f4a45fdc0776f6aec79baff649315",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class": {
+    "sha256": "8643c86e500ef2e40d45e8aa8d82d5691428639b3ed88a7a7d4a9f32ff10408c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryTransfer.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class": {
+    "sha256": "79cf1750c03b2b65fd48173dcaca152337a974c920ae1e3ca5eb74155ff3dff9",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class": {
+    "sha256": "76498beafdb61e31a5466b99022cb3763efc19cb5ac5136dd2c4d7e44788cced",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+    "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class": {
+    "sha256": "6e016d5741d93453b39d75399824b7262bd749308e546cbd085b701f636c3800",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class": {
+    "sha256": "25fab9c402f62351a3f079417a3135a71add1d914ff66050f93f7e131dbc7d0c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCallback.class": {
+    "sha256": "93161a8f010f67a2a2b14341eb5af697e3ea0a164fe7024ef5421be3e78a5cea",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCallback.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCallback.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournal.class": {
+    "sha256": "b2e1f8c7d7e0dc63c8779fcb4fe559940725e178c7fcbda311185cf8aa13c1fc",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournal.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournal.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+    "sha256": "546f89a32860b43a62d2ddb1ef9931f7005a2fb6a7f43e5e1ede617d942d8001",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+    "sha256": "db2d8479b6295eba693cd622a4313823433d8e0f249c0c623ef2e8cfb5885d9d",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+    "sha256": "55678a526b644e71f29459a68dff0c6cd5a1e9b93231656912701dc4adf5f876",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+    "sha256": "295bad022dae782cf3429694bcba764c28fbcd6af4884d9eabedf16910b0dd1d",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+    "sha256": "54e93c3d9cbbbe1a1313caed5321a225628b22f17c764f8f84a4f70628ced407",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalState.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalState.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+    "sha256": "cbf2ee238c8094ec1a86680abd5c4ac22ccc69490b73c5ef46b6a804bdcb5a85",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+    "sha256": "7953e31393832fa2bae350599e5f702841395f543e0350633107157dc41ddc91",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryPause.class": {
+    "sha256": "2f9ae3ab732e8d3a3ca2a2822d3e0382387ec6274ee299c980ecd059d8c019c5",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryPause.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryPause.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+    "sha256": "b3e00399e36964a69dca6403a4f435926b9a9a5b2139b9db469a53a4b4cad183",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCrypto.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCrypto.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class": {
+    "sha256": "af3a1de76c4361bea3a08b348b5d6bf42a9708307c2aa299fd56d479665eb1b4",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+    "sha256": "1f6c25a2d32b4ac3a103588bf30ed12df630f4c8c07b608df9b0ced4849dcd35",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+    "sha256": "9845f8cb07bbc235cda8c64376446f25535ec4b761e9886a40f3e9f21e7ede64",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class": {
+    "sha256": "e5e2dad8d4cc1b17d058ff58990c3ab6cf986c2939791050b2b62db4d01cf499",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+    "sha256": "134fceb2036327c7f68f69e182f6bb6c6995493be1c4ee8b51a8b919bb7d5082",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class": {
+    "sha256": "0f61a8483d5e4391951d79fb0f3b40114e3e2c8fff9f81c8232e3ddebb2813f1",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+    "sha256": "ef56b1848d5b8aa9d14eb92d1fe98717de9b4920f337caeae04ce90c8c69f3eb",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class": {
+    "sha256": "b5f8262da164d397d000b71257c45e30662914a07b22e7899e4d73ac75feca58",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+    "sha256": "7065af765178b44a0f16146c7e2b46fd82f131df23b41775a836b25594338f84",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class": {
+    "sha256": "2d66fab62f76173d25dabb9ae0bde5be5db57cfed01dbe63c3894728fe6e3a00",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+    "sha256": "8ff4e6039c9169e8ee1f76cd7e39bee5b7a0e31abf3fceaf21f30f280bdc5e2f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+    "sha256": "6ef68f94303bda2525487342350a3f3e679b99bb7ab76d6d2ef31756f4a897d5",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+    "sha256": "0e14b57febcba12fd753c617b51c58ed0f6aa9105bd156606d86255d893519f3",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+    "sha256": "0beb3b26841c375dffbd61232878fecafb31cbb4143493935625141ec879ba6d",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+    "sha256": "39e9cb4cc48f7e8c642bedb83ee0afb461a41baa1625f0203083c74e89d65f24",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Companion.class": {
+    "sha256": "95f4e4f102158fac91492b7e7f24010845f0c9167ba4e6c0afb9b4d7fdc0f519",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class": {
+    "sha256": "0f0031ac15bb9b37ea707865c824f4c03b55bc5eab8f2ead29184ee948c443f7",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+    "sha256": "2ca48ddb1601c2e134d9d79445557e7ce596a0b863693b225b096e52590d1d60",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+    "sha256": "545183e9bfcd34adde7353fe200afc2580a1adc209916e10d8be20477e766ebf",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayObservations.class": {
+    "sha256": "053aaa695f7096fce320d7756f864d7b32d78cc7fa9a10351dbfe0211ba31d85",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayObservations.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayObservations.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+    "sha256": "f3a27b42543ff3bf80b6f7a18cd9941a6748600c7ed1b5dd05500e4b5247269c",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class": {
+    "sha256": "92c001a34eb10ea9a1023742efb6e92118cd3e30de71cd2d751e2a0d265ebd1f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+    "sha256": "444d88d8a349d31db6d4a9d69f377e6191007e2ca76c65f2b736e8c0f2867390",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/AttemptOutcome.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/AttemptOutcome.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackend.class": {
+    "sha256": "dbe0bb7b3df1f671acccc3366afc5d6c7090191785c0c2b4dcaa4abd02380555",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackend.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackend.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+    "sha256": "c0220a5df152d31412bd2e02bc7cc75323d2bb1f5c4d27df654ae96d4416fea0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+    "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+    "sha256": "6c18458ef0c364bf3735e35072a25433f4da3cf1766282c716dc08593f5d80a4",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAttempt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttempt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+    "sha256": "31fd1bcbfc1f123a9cffa2b4f8209f695d55aace4e9a60ae8257b0982826a27e",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class": {
+    "sha256": "b70db3020343648c3ef789b33524a4faeb6696a1a13d042e81e80effbc645e32",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+    "sha256": "a2c81e149a8fc2a8932597abc7c2d69168c1a973a5c595ba5f9415b39f8eddac",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class": {
+    "sha256": "e6eb34e6a1cdae305bef31b9f913c0d9c62d4a9051076796bac1131877c20c25",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+    "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+    "sha256": "687a71c01893237f2b8ff84497e75f25e28b7d9f05bd3f8acd77b8fae7fb1af7",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStateException.class": {
+    "sha256": "273ed3e9e73bc34ae4fc23ba3c7778d4958ca05e97703ea1d2abfefc41adf689",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayStateException.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayStateException.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class": {
+    "sha256": "9a38c20386e0441373f285b9e5653c56588f18746d9982286c35c0b088611fad",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+    "sha256": "b10712e07a294e0f51dafda6769e746ce5399067338d972383b92355cab4327a",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class": {
+    "sha256": "28e9a39077f5ffadf178e2138990630b008272e67f81924e42460336b3039b6b",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class": {
+    "sha256": "bf0c892874c76e0a271a942c34eefd42973b0dbb7c80dd67721a98d449266856",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+    "sha256": "75a058213baba452f221bdd0393843d3adf4ebf4750a910167a41cde53b1e1eb",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+    "sha256": "284da6ee87bb57789f87625483ba8b3ebfc3fb310434cca9c41d1d335b078a2a",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class": {
+    "sha256": "87046511d2e8916b950b8b171f68c4d5a9b9a429b92c062f5234f555076fa3a0",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator.class": {
+    "sha256": "e6c6218db4c03a63be897eed5dcd070766dd9a8ac3810e37468e9dc9234ed66f",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryOperator.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class": {
+    "sha256": "515a5060998feb78ce3c1e86118919789d8880c0a72926fe25471378b302de9b",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+    "sha256": "224c6f895e06292eb885d4d89ad717641073a31fe2bad2755cfb23a2fb3d6fe2",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+    "sha256": "d3dacc67a72427c9e1dc962a4cb9b8e91d40a864ab5cf5b7438c51bae103b6b7",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class": {
+    "sha256": "43c8056e97e68d40312271fe12de5afd54c686eeefea9991d817ae2096c174eb",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+    "sha256": "a93add8b39cf21bcdc1da053bb1ad99492618933982d5c4e6c681db0a6ea81dc",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+    "sha256": "1a0ceb164b94310bfbea985625aec411a4222fae64828a9bbe7d42f963c31726",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayCycleGate.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayCycleGate.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+    "sha256": "a99d2229b620337bc3fed032a474e1ce1312250074ea28f88840b9c1a67a1ea3",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class": {
+    "sha256": "87670d77b4b41f8b7ab2882d77f19d355c84cf5b838e139fc2ee63661bb01036",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class"
+  },
+  "api-classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+    "sha256": "ddb2cf1e7e70746438e3afbda3efb3825aa6579df0d35b78acb90fe5cf81ab29",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/SegmentEvidence.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/SegmentEvidence.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class": {
+    "sha256": "c8779359d8ffc0ab3c5f54a5efc38d641ac13fb91199cd93d9b91bdfb9478d07",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+    "sha256": "44c885b6f794936cfa5c7ba6a3ef5603ea1ef072c55e1a527068fc82be6561f4",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class": {
+    "sha256": "d2ace0a725ef724797dfc04556d7704f95469520ed3c0b2a9ce2c3d08781a806",
+    "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/native-attempt-4/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class",
+    "packet_path": "artifacts/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class"
+  }
+}

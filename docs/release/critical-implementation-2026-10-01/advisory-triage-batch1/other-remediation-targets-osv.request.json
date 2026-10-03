@@ -1,0 +1,1 @@
+{"queries":[{"package":{"ecosystem":"RubyGems","name":"fastlane"},"version":"2.240.1"},{"package":{"ecosystem":"RubyGems","name":"rubyzip"},"version":"3.4.0"},{"package":{"ecosystem":"Maven","name":"org.jetbrains.kotlin:kotlin-gradle-plugin"},"version":"2.4.20-Beta1"}]}

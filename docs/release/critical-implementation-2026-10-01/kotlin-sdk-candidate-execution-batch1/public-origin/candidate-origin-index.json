@@ -1,0 +1,77 @@
+{
+  "SDK_executed_by_fetcher": false,
+  "actual_process_deadline_seconds": 120,
+  "actual_total_seconds": 1.503,
+  "no_private_source_sent": true,
+  "records": {
+    "compiler-jar-sha1": {
+      "actual_seconds": 0.526,
+      "bytes": 40,
+      "content_type": "text/plain",
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.jar.sha1",
+      "http_status": 200,
+      "recorded_utc": "2026-10-02T00:51:40.300053+00:00",
+      "request_timeout_seconds": 30,
+      "sha1": "967f1d8b1e7f6647e9776bbd9973d2d09385ca19",
+      "sha256": "9b4cbf3fc34c1673022d3791d82fa1d050445aa49c0bd540699631e395c34216",
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.jar.sha1"
+    },
+    "compiler-module": {
+      "actual_seconds": 0.523,
+      "failure": true,
+      "failure_body_sha256": "e791ccfcfee9c0d299d07474d9bfcbfcbebf1181323be601220c8a823062ab99",
+      "http_status": 404,
+      "recorded_utc": "2026-10-02T00:51:40.112107+00:00",
+      "request_timeout_seconds": 30,
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.module"
+    },
+    "compiler-pom": {
+      "actual_seconds": 0.452,
+      "bytes": 2647,
+      "content_type": "text/xml",
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom",
+      "http_status": 200,
+      "recorded_utc": "2026-10-02T00:51:39.323727+00:00",
+      "request_timeout_seconds": 30,
+      "sha1": "f430b290536dd753888f3f1ae020a991f42b8722",
+      "sha256": "269d98cc4c68670c11e4aeb404e1c7c6f31b782321908d7268ba25cd236d59b2",
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom"
+    },
+    "compiler-pom-sha1": {
+      "actual_seconds": 0.524,
+      "bytes": 40,
+      "content_type": "text/plain",
+      "final_url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom.sha1",
+      "http_status": 200,
+      "recorded_utc": "2026-10-02T00:51:39.775934+00:00",
+      "request_timeout_seconds": 30,
+      "sha1": "36f4b64b2731ba9499764967cee6628d4e617e50",
+      "sha256": "f784c568672ca94473b5166c99c6fe0303ebfd30f79e9ea749903d6c6d4102d8",
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom.sha1"
+    },
+    "jvm-marker-pom": {
+      "actual_seconds": 0.789,
+      "bytes": 673,
+      "content_type": "application/xml; charset=UTF-8",
+      "final_url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/jvm/org.jetbrains.kotlin.jvm.gradle.plugin/2.4.20/org.jetbrains.kotlin.jvm.gradle.plugin-2.4.20.pom",
+      "http_status": 200,
+      "recorded_utc": "2026-10-02T00:51:39.323307+00:00",
+      "request_timeout_seconds": 30,
+      "sha1": "8ff3cef18602b35ef60c71fbd82b9d1cdca3145e",
+      "sha256": "97ffd2004e0be1df8f80f28f451b9f6aaaed08b6ff37e6979df825cbc314a4dd",
+      "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/jvm/org.jetbrains.kotlin.jvm.gradle.plugin/2.4.20/org.jetbrains.kotlin.jvm.gradle.plugin-2.4.20.pom"
+    },
+    "jvm-marker-pom-sha1": {
+      "actual_seconds": 0.976,
+      "bytes": 40,
+      "content_type": "text/plain; charset=UTF-8",
+      "final_url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/jvm/org.jetbrains.kotlin.jvm.gradle.plugin/2.4.20/org.jetbrains.kotlin.jvm.gradle.plugin-2.4.20.pom.sha1",
+      "http_status": 200,
+      "recorded_utc": "2026-10-02T00:51:39.323608+00:00",
+      "request_timeout_seconds": 30,
+      "sha1": "b6272869c3c3570a2f992c2666d349e204b0aa97",
+      "sha256": "dcb53e3ca7e1a9496f241b10cbdddd79739f331a6bd17f05ca70f03beb90859a",
+      "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/jvm/org.jetbrains.kotlin.jvm.gradle.plugin/2.4.20/org.jetbrains.kotlin.jvm.gradle.plugin-2.4.20.pom.sha1"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "actually_waited": true,
+  "output": [
+    "{\"sub\": \"99790000-0000-4000-8000-000000000001\", \"session_id\": \"99790000-0000-4000-8000-000000010001\", \"role\": \"authenticated\", \"aal\": \"aal1\"}",
+    "ERROR:  42501: exception_workflow_recipient_unavailable",
+    "CONTEXT:  PL/pgSQL function public.admin_act_exception_workflow_v1(uuid,uuid,bigint,bigint,text,uuid,timestamp with time zone,text,timestamp with time zone) line 39 at RAISE",
+    "PL/pgSQL function public.admin_act_exception_workflow_v2(uuid,uuid,bigint,bigint,text,uuid,timestamp with time zone,text,timestamp with time zone) line 7 at assignment",
+    "LOCATION:  exec_stmt_raise, pl_exec.c:3911",
+    "RACE_DONE"
+  ]
+}

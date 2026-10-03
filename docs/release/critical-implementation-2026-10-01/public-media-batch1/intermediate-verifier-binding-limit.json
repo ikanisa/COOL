@@ -1,0 +1,12 @@
+{
+  "scope": "Intermediate actual browser run loaded the verifier before the one accessible-name strengthening edit; keep its true terminal outcome but do not reuse its final-file hash as executed-source proof. Final frozen run follows.",
+  "intermediate_run": "browser-routes-attempt2",
+  "reconstructed_prior_verifier_sha256": "13fbe14cc482f8d6b9452a923bf553b8e94616281822836be49cc0ec22e830cb",
+  "reconstruction_from_known_single_edit": true,
+  "final_verifier_sha256": "fd169b169f63f0e0c77265697a977e21cd5e6c17462c3f68910bcbc7f02c0278",
+  "release_acceptance": false,
+  "true_terminal_status": "pass",
+  "true_terminal_exit": 0,
+  "artifact_unchanged": true,
+  "final_file_hash_in_intermediate_execution_receipt_is_not_an_executed_source_claim": true
+}

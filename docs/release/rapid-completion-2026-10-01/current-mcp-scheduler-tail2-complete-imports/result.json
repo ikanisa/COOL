@@ -1,0 +1,30 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "cases",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_scheduler_control.test.ts"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "current_input_drift": [
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py"
+  ],
+  "export_drift": [],
+  "capture_sha256": "4db6100621d09caa14163cf74d1cfe6d06218b6044cae9c61648df39fb1dd19c",
+  "ended_at": "2026-10-01T14:05:48.722760+00:00"
+}

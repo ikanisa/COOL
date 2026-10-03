@@ -1,0 +1,151 @@
+{
+  "task": "ARC05",
+  "started_at_utc": "2026-10-01T20:19:53.679884+00:00",
+  "state": "original local proof superseded by companion-binding repair; external release remains open",
+  "source_before": {
+    "scripts/supabase_deploy.sh": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+    "scripts/qa/backend_release_delivery.py": "2cf06be4bdad073d5fba317957348dc110e3707589ad84079314e43898994544",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/supabase_delivery_contract_test.py": "51c9bf2c5652378fb852cbf325899130c310d469e39f313f4dbd840c54505d1a",
+    "scripts/tests/test_collect_release_candidate.py": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592",
+    ".supabase-cli-version": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "contracts/edge-functions.json": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+    "supabase/config.toml": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+  },
+  "checks": [
+    {
+      "name": "fake-cli-transport-delivery-contract",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/tests/supabase_delivery_contract_test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 193.387,
+      "log": "delivery-contract-tests.log",
+      "tests_passed": 27,
+      "failures": 0,
+      "skips": 0
+    },
+    {
+      "name": "candidate-export-regression-and-cli-pin",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/tests/test_collect_release_candidate.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.581,
+      "source_sha256": {
+        "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+        "scripts/tests/test_collect_release_candidate.py": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592"
+      },
+      "log": "candidate-export-tests.log",
+      "tests_passed": 39,
+      "failures": 0,
+      "skips": 0
+    },
+    {
+      "name": "python-ast-syntax",
+      "paths": [
+        "scripts/qa/backend_release_delivery.py",
+        "scripts/qa/collect_release_candidate.py",
+        "scripts/tests/supabase_delivery_contract_test.py",
+        "scripts/tests/test_collect_release_candidate.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "bash-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/supabase_deploy.sh"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "owned-git-diff-whitespace",
+      "exit_code": 0
+    }
+  ],
+  "hosted_operations_performed": false,
+  "real_approval_created": false,
+  "source_after_tests": {
+    "scripts/supabase_deploy.sh": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+    "scripts/qa/backend_release_delivery.py": "2cf06be4bdad073d5fba317957348dc110e3707589ad84079314e43898994544",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/supabase_delivery_contract_test.py": "51c9bf2c5652378fb852cbf325899130c310d469e39f313f4dbd840c54505d1a",
+    "scripts/tests/test_collect_release_candidate.py": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592",
+    ".supabase-cli-version": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "contracts/edge-functions.json": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+    "supabase/config.toml": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+  },
+  "owned_inputs_stable_during_tests": true,
+  "finished_at_utc": "2026-10-01T20:25:37.435348+00:00",
+  "verification": {
+    "deployment_contract_tests_passed": 27,
+    "candidate_export_tests_passed": 39,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "all_recorded_checks_passed": true
+  },
+  "backend_input_checkpoint": {
+    "path": "backend-input-checkpoint.json",
+    "sha256": "51e54c554ae8f68b0629c2428d449405ee724a423253c8b0ddb6555686b712a8",
+    "source_stable_during_capture": true,
+    "global_final_source_freeze": false,
+    "file_count": 300,
+    "migration_count": 191,
+    "backend_manifest_sha256": "a8128cac0bb043e6eb010f90b7eb5de010cc3ba04702fcc9e38a6b4f24da6747"
+  },
+  "remaining_acceptance": [
+    "Authentic external human review and target/environment classification",
+    "Protected release-host and CI delivery using approved pinned executable bytes",
+    "Fresh final strict export after BE07 and other authorized source changes",
+    "Actual Supabase CLI target/link/credential-store behavior",
+    "Hosted database migration/function readback and handler bundle/dependency byte acceptance",
+    "Provider/device/store/privacy/performance and complete production acceptance remain separate"
+  ],
+  "local_authority_assumption": "The release host, controller invocation and independently retained metadata must come from an authenticated authorized process; local hashes cannot establish reviewer identity or authorization.",
+  "source_after_final_checks": {
+    "scripts/supabase_deploy.sh": "5fa36265a0947092e18a924286b2034e9c2bb5eaba20fae149530c9e9e668886",
+    "scripts/qa/backend_release_delivery.py": "2cf06be4bdad073d5fba317957348dc110e3707589ad84079314e43898994544",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/supabase_delivery_contract_test.py": "51c9bf2c5652378fb852cbf325899130c310d469e39f313f4dbd840c54505d1a",
+    "scripts/tests/test_collect_release_candidate.py": "5946fe9c7a97e4179036e4d0dcccd9cb195355c0342f016777c16eef18ebc592",
+    ".supabase-cli-version": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+    "contracts/edge-functions.json": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28",
+    "supabase/config.toml": "7151b94ab19ded20073b741c373f6f95c3739405ebed01f7ea33bdd8b7f2cc67",
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6"
+  },
+  "owned_inputs_stable_through_final_checks": true,
+  "superseded_by": "../cli-toolchain-batch1/controller-proof.json",
+  "artifact_sha256_at_original_verification": {
+    "delivery-contract-tests.log": "b7526e57cda7841193bba408655dde2b9704f0b884e59b82a900249e59ce384e",
+    "candidate-export-tests.log": "85dcde68821376a3115f7d450f5a0ba7d79fdc58a2a2f98a78fa5ff343dd3bde",
+    "candidate-tests.json": "27416e2325f5fe656b2bae44c5845a4d1da6fa5fa80e84a5897936fd512f8b1c",
+    "OPERATOR_CONTRACT.md": "e6f62f4ffc7cc51b5b826aa43f2319378ee387b79a970be3e078341c6be5c287",
+    "backend-input-checkpoint.json": "51e54c554ae8f68b0629c2428d449405ee724a423253c8b0ddb6555686b712a8",
+    "README.md": "c6f82b2a029cb01067f078f86a79a33aa99552f50c4e927fdb94f9f2a91b5ca5"
+  },
+  "current_artifact_sha256": {
+    "delivery-contract-tests.log": "b7526e57cda7841193bba408655dde2b9704f0b884e59b82a900249e59ce384e",
+    "candidate-export-tests.log": "85dcde68821376a3115f7d450f5a0ba7d79fdc58a2a2f98a78fa5ff343dd3bde",
+    "candidate-tests.json": "27416e2325f5fe656b2bae44c5845a4d1da6fa5fa80e84a5897936fd512f8b1c",
+    "OPERATOR_CONTRACT.md": "479868a81cab642e5aeb65f2975fef8a9a5bfe6351b73e42b551184db753b803",
+    "backend-input-checkpoint.json": "51e54c554ae8f68b0629c2428d449405ee724a423253c8b0ddb6555686b712a8",
+    "README.md": "336cd48419ba3a8114cc69701d77aa35298a84ef452cbb9d48bb2c863fc745d5"
+  },
+  "current_controller_sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2"
+}

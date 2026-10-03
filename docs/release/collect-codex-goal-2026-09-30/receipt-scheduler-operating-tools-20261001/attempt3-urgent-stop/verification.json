@@ -1,0 +1,43 @@
+{
+  "changed_since_attempt2": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/src/unattended_scheduler_control.ts"
+  ],
+  "commands": {
+    "node-controls": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-concurrency=1",
+        "--test-timeout=30000",
+        "src/unattended_scheduler_control.test.ts"
+      ],
+      "elapsed_seconds": 16.889,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    "tsc": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "elapsed_seconds": 0.334,
+      "exit_code": 0,
+      "timed_out": false
+    }
+  },
+  "dependencies_unchanged": true,
+  "dependency_inputs": 1608,
+  "dependency_links_unchanged": true,
+  "full_history_regression_executed": false,
+  "host_job_installed": false,
+  "host_job_started": false,
+  "hosted_calls": false,
+  "keychain_calls": false,
+  "pass": true,
+  "sender_actions": 0,
+  "source_inputs": 91,
+  "source_unchanged": true
+}

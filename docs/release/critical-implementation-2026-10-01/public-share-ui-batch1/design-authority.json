@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "actual_command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "actual_exit_code": 0,
+  "listed_inputs_unchanged": true,
+  "inputs_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/web/public/revolut.css": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_static_site_build.rb": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "/usr/bin/make": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9"
+  },
+  "inputs_after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/web/public/revolut.css": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_static_site_build.rb": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+    "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "/usr/bin/make": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9"
+  },
+  "scope": "Current sole-design-authority hygiene only; no visual fidelity or product readiness acceptance."
+}

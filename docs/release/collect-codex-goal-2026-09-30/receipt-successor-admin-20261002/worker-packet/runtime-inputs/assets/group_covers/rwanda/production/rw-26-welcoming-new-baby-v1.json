@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-26-welcoming-new-baby",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-26-welcoming-new-baby-v1.png",
+  "source_sha256": "38db7f8f6a2ebaf70b5e435d0827c07bc8a8c1c8e61621ef95c68394007373cf",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "96d0e861fd459f59c681178dea9ebfb01cdd2abc8a45644ea24378341607e6d3",
+  "imported_at_utc": "2026-09-06T11:22:21.827174+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-4430a180-8679-40f0-85a7-25b66068df52.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

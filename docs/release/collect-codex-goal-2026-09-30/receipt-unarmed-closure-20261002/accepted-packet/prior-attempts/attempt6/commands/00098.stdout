@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"state": "observed_sent", "replay": false, "callback_id": "4968119c-39d0-426d-9f1a-c8b44a99a2a7", "recorded_at": "2026-10-01T22:28:16.364135Z", "carrier_proof": false, "sent_observations": 1, "delivery_observations": 0, "conflicting_observations": false}

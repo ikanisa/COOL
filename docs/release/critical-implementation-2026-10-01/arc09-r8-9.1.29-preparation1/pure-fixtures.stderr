@@ -1,0 +1,41 @@
+test_actual_archived_native_source_and_exact_proposed_two_rows (test_android_overlay.OverlayFixtures.test_actual_archived_native_source_and_exact_proposed_two_rows) ... ok
+test_adding_a43rd_pin_instead_of_declared_overlay_is_refused (test_android_overlay.OverlayFixtures.test_adding_a43rd_pin_instead_of_declared_overlay_is_refused) ... ok
+test_archived_export8_source_binding_cannot_be_replaced (test_android_overlay.OverlayFixtures.test_archived_export8_source_binding_cannot_be_replaced) ... ok
+test_archived_native_source_binding_cannot_be_rewritten (test_android_overlay.OverlayFixtures.test_archived_native_source_binding_cannot_be_rewritten) ... ok
+test_changed_main_consumers_use_current_fence_and_fresh_graphs (test_android_overlay.OverlayFixtures.test_changed_main_consumers_use_current_fence_and_fresh_graphs) ... ok
+test_claimed_current_manifest_approval_is_refused (test_android_overlay.OverlayFixtures.test_claimed_current_manifest_approval_is_refused) ... ok
+test_current_APP_guard_uses_current_hash_and_keeps_archived_export (test_android_overlay.OverlayFixtures.test_current_APP_guard_uses_current_hash_and_keeps_archived_export) ... ok
+test_current_source_member_removal_is_refused (test_android_overlay.OverlayFixtures.test_current_source_member_removal_is_refused) ... ok
+test_exact_existing42_pin_amendment_is_accepted (test_android_overlay.OverlayFixtures.test_exact_existing42_pin_amendment_is_accepted) ... ok
+test_one_missing_overlay_change_is_refused (test_android_overlay.OverlayFixtures.test_one_missing_overlay_change_is_refused) ... ok
+test_stale_affected_pin_is_refused (test_android_overlay.OverlayFixtures.test_stale_affected_pin_is_refused) ... ok
+test_third_authored_source_change_is_refused (test_android_overlay.OverlayFixtures.test_third_authored_source_change_is_refused) ... ok
+test_unrelated_prepared_pin_change_is_refused (test_android_overlay.OverlayFixtures.test_unrelated_prepared_pin_change_is_refused) ... ok
+test_R8_compilation_claim_is_refused (test_r8_admission.R8Fixtures.test_R8_compilation_claim_is_refused) ... ok
+test_actual_old9_0_32_compiler_is_refused (test_r8_admission.R8Fixtures.test_actual_old9_0_32_compiler_is_refused) ... ok
+test_declared_version_without_actual_matching_output_is_refused (test_r8_admission.R8Fixtures.test_declared_version_without_actual_matching_output_is_refused) ... ok
+test_different_method_arguments_are_refused (test_r8_admission.R8Fixtures.test_different_method_arguments_are_refused) ... ok
+test_different_publisher_MD5_is_refused (test_r8_admission.R8Fixtures.test_different_publisher_MD5_is_refused) ... ok
+test_different_publisher_url_is_refused (test_r8_admission.R8Fixtures.test_different_publisher_url_is_refused) ... ok
+test_different_resolved_artifact_hash_is_refused (test_r8_admission.R8Fixtures.test_different_resolved_artifact_hash_is_refused) ... ok
+test_dynamic_or_different_coordinate_is_refused (test_r8_admission.R8Fixtures.test_dynamic_or_different_coordinate_is_refused) ... ok
+test_exact_probe_changes_only_init_argument (test_r8_admission.R8Fixtures.test_exact_probe_changes_only_init_argument) ... ok
+test_exact_publisher_compiler_fixture_is_accepted (test_r8_admission.R8Fixtures.test_exact_publisher_compiler_fixture_is_accepted) ... ok
+test_explicit_root_provider_fixture_is_accepted (test_r8_admission.R8Fixtures.test_explicit_root_provider_fixture_is_accepted) ... ok
+test_extra_probe_argument_is_refused (test_r8_admission.R8Fixtures.test_extra_probe_argument_is_refused) ... ok
+test_missing_invocation_is_refused (test_r8_admission.R8Fixtures.test_missing_invocation_is_refused) ... ok
+test_missing_probe_override_is_refused (test_r8_admission.R8Fixtures.test_missing_probe_override_is_refused) ... ok
+test_missing_publisher_TLS_proof_is_refused (test_r8_admission.R8Fixtures.test_missing_publisher_TLS_proof_is_refused) ... ok
+test_non_AGP_loader_selection_is_refused (test_r8_admission.R8Fixtures.test_non_AGP_loader_selection_is_refused) ... ok
+test_nonpublic_method_is_refused (test_r8_admission.R8Fixtures.test_nonpublic_method_is_refused) ... ok
+test_outside_controlled_provider_is_refused (test_r8_admission.R8Fixtures.test_outside_controlled_provider_is_refused) ... ok
+test_preparation_template_is_not_execution_admission (test_r8_admission.R8Fixtures.test_preparation_template_is_not_execution_admission) ... ok
+test_provider_pin_from_another_artifact_is_refused (test_r8_admission.R8Fixtures.test_provider_pin_from_another_artifact_is_refused) ... ok
+test_unknown_probe_hash_is_refused (test_r8_admission.R8Fixtures.test_unknown_probe_hash_is_refused) ... ok
+test_unknown_provider_is_refused (test_r8_admission.R8Fixtures.test_unknown_provider_is_refused) ... ok
+test_unobserved_JAR_acquisition_is_refused (test_r8_admission.R8Fixtures.test_unobserved_JAR_acquisition_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.233s
+
+OK

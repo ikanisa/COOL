@@ -1,0 +1,161 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.component.ModuleComponentSelector
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+import org.gradle.api.artifacts.result.ResolvedArtifactResult
+import org.gradle.maven.MavenModule
+import org.gradle.maven.MavenPomArtifact
+import org.gradle.api.attributes.Usage
+import org.gradle.api.attributes.java.TargetJvmEnvironment
+
+// No plugin, Android project, source set, compilation, lint execution or lock writer.
+configurations {
+    exactLintTooling {
+        transitive = true
+        attributes {
+            attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+            attribute(TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,
+                objects.named(TargetJvmEnvironment, TargetJvmEnvironment.STANDARD_JVM))
+        }
+    }
+}
+dependencies { exactLintTooling 'com.android.tools.lint:lint-gradle:32.0.1' }
+
+def fixedVersion = { String value ->
+    value != null && value ==~ /[A-Za-z0-9][A-Za-z0-9._-]*/ &&
+        !value.toUpperCase(Locale.ROOT).contains('SNAPSHOT') &&
+        !value.toLowerCase(Locale.ROOT).startsWith('latest.')
+}
+configurations.exactLintTooling.resolutionStrategy.eachDependency { details ->
+    if (!fixedVersion(details.requested.version)) {
+        throw new GradleException('Refused nonfixed requested version: ' + details.requested)
+    }
+}
+def hash = { File input, String algorithm ->
+    def digest = MessageDigest.getInstance(algorithm)
+    input.withInputStream { stream ->
+        byte[] buffer = new byte[1024 * 1024]
+        for (int n = stream.read(buffer); n != -1; n = stream.read(buffer)) digest.update(buffer, 0, n)
+    }
+    digest.digest().encodeHex().toString()
+}
+def fileRecord = { File input ->
+    [path: input.canonicalPath, bytes: input.length(), sha256: hash(input, 'SHA-256'), sha1: hash(input, 'SHA-1')]
+}
+
+// Throwable/Gradle multi-cause printing retains the full nested failure trace.
+// Preserve the original terse error fields as well for existing readers.
+def failureDetails = { Throwable failure ->
+    def text = new StringWriter()
+    def writer = new PrintWriter(text)
+    failure.printStackTrace(writer)
+    writer.flush()
+    [type: failure.class.name, message: failure.message, full_stack_trace: text.toString()]
+}
+def attributeRecords = { attributes ->
+    attributes.keySet().sort { it.name }.collect { key ->
+        def value = attributes.getAttribute(key)
+        [name: key.name, type: key.type.name,
+            value: value instanceof org.gradle.api.Named ? value.name : String.valueOf(value)]
+    }
+}
+
+tasks.register('resolveExactLintTooling') {
+    doLast {
+        def target = providers.gradleProperty('collectLintGraphOutput').get()
+        def output = new File(target)
+        if (!output.isAbsolute() || output.exists() || !output.parentFile.isDirectory()) {
+            throw new GradleException('Graph output must be an absent absolute leaf in the owned output directory')
+        }
+        def record = [schema_version: 1, root_requested: 'com.android.tools.lint:lint-gradle:32.0.1',
+            generated_utc: java.time.Instant.now().toString(),
+            repository_scope: ['https://dl.google.com/dl/android/maven2/', 'https://repo.maven.apache.org/maven2/'],
+            actual_artifact_repository_not_exposed_by_this_collector: true,
+            components: [], edges: [], artifacts: [], poms: [], errors: [], failure_details: [],
+            requested_consumer_attributes: attributeRecords(configurations.exactLintTooling.attributes),
+            complete_selected_tooling_graph: false, publisher_admission_complete: false,
+            production_release_approval: false]
+        try {
+            def result = configurations.exactLintTooling.incoming.resolutionResult
+            def components = result.allComponents.sort { it.id.displayName }
+            if (components.size() > 160) throw new GradleException('Selected component bound exceeded')
+            components.each { component ->
+                def id = component.id
+                if (id instanceof ModuleComponentIdentifier) {
+                    if (!fixedVersion(id.version)) throw new GradleException('Nonfixed selected module: ' + id)
+                    record.components << [kind: 'module', group: id.group, name: id.module, version: id.version,
+                        id: id.displayName, selection_reasons: component.selectionReason.descriptions.collect {
+                            [cause: it.cause.toString(), description: it.description]
+                        }]
+                } else {
+                    if (component != result.rootComponent.get()) throw new GradleException('Unexpected transitive project component: ' + id)
+                    record.components << [kind: 'isolated-root-project', id: id.displayName]
+                }
+                component.dependencies.each { edge ->
+                    if (record.edges.size() >= 1024) throw new GradleException('Selected dependency edge bound exceeded')
+                    def row = [from: id.displayName, requested: edge.requested.displayName,
+                        constraint: edge.constraint]
+                    if (edge.requested instanceof ModuleComponentSelector) {
+                        def versions = edge.requested.versionConstraint
+                        row.requested_version_constraint = [required: versions.requiredVersion,
+                            preferred: versions.preferredVersion, strict: versions.strictVersion,
+                            rejected: versions.rejectedVersions]
+                        def declared = [versions.requiredVersion, versions.preferredVersion, versions.strictVersion] + versions.rejectedVersions
+                        if (declared.findAll { it }.any { !fixedVersion(it) }) {
+                            throw new GradleException('Refused nonfixed version constraint: ' + edge.requested)
+                        }
+                    }
+                    if (edge instanceof ResolvedDependencyResult) {
+                        row.selected = edge.selected.id.displayName
+                        row.selected_variant = [name: edge.resolvedVariant.displayName,
+                            attributes: attributeRecords(edge.resolvedVariant.attributes)]
+                    }
+                    else if (edge instanceof UnresolvedDependencyResult) {
+                        row.unresolved = edge.failure.toString(); record.errors << row.unresolved
+                        row.failure_details = failureDetails(edge.failure)
+                        record.failure_details << [from: row.from, requested: row.requested,
+                            detail: row.failure_details]
+                    } else throw new GradleException('Unknown dependency result type')
+                    record.edges << row
+                }
+            }
+            if (record.errors) throw new GradleException('Unresolved selected tooling dependencies')
+            def roots = record.components.findAll { it.kind == 'module' && it.group == 'com.android.tools.lint' && it.name == 'lint-gradle' }
+            if (roots.size() != 1 || roots.first().version != '32.0.1') throw new GradleException('Exact lint root changed')
+            def artifacts = configurations.exactLintTooling.resolvedConfiguration.resolvedArtifacts.sort { it.id.displayName }
+            if (artifacts.size() > 192) throw new GradleException('Selected artifact bound exceeded')
+            artifacts.each { artifact ->
+                def id = artifact.moduleVersion.id
+                if (!fixedVersion(id.version)) throw new GradleException('Nonfixed selected artifact')
+                record.artifacts << fileRecord(artifact.file) + [group: id.group, name: id.name,
+                    version: id.version, classifier: artifact.classifier, type: artifact.type,
+                    extension: artifact.extension, id: artifact.id.displayName]
+            }
+            def modules = components.findAll { it.id instanceof ModuleComponentIdentifier }.collect { it.id }
+            def poms = dependencies.createArtifactResolutionQuery().forComponents(modules)
+                .withArtifacts(MavenModule, MavenPomArtifact).execute()
+            poms.components.sort { it.id.displayName }.each { component ->
+                component.getArtifacts(MavenPomArtifact).each { artifact ->
+                    if (artifact instanceof ResolvedArtifactResult) {
+                        def id = component.id
+                        record.poms << fileRecord(artifact.file) + [group: id.group, name: id.module, version: id.version]
+                    } else record.errors << ('Unresolved POM: ' + artifact.id.displayName + ': ' + artifact.failure)
+                }
+            }
+            poms.unresolvedComponents.each { record.errors << ('Unresolved POM component: ' + it.id.displayName + ': ' + it.failure) }
+            if (record.poms.size() != modules.size()) record.errors << 'Selected module/POM count differs'
+            if (record.errors) throw new GradleException('POM metadata coverage incomplete')
+            record.complete_selected_tooling_graph = true
+        } catch (Throwable failure) {
+            record.errors << failure.toString()
+            record.failure_details << [phase: 'selected-tooling-collection', detail: failureDetails(failure)]
+            throw failure
+        } finally {
+            record.counts = [components: record.components.size(), edges: record.edges.size(), artifacts: record.artifacts.size(), poms: record.poms.size()]
+            output.text = JsonOutput.prettyPrint(JsonOutput.toJson(record)) + '\n'
+        }
+        println('EXACT_LINT_TOOLING_GRAPH ' + output.canonicalPath + ' SHA256=' + hash(output, 'SHA-256'))
+    }
+}

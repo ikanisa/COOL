@@ -25,14 +25,10 @@ class AuthorityTest(unittest.TestCase):
         self.root.mkdir()
         (self.skill / 'references').mkdir(parents=True)
         (self.skill / 'SKILL.md').write_text('Selected sole authority\n')
-        (self.skill / 'references/mobile-design-100.md').write_text('Mandatory acceptance\n')
         self.adapter = json.loads(
             (REPO / 'docs/release/revolut-design/authority.json').read_text()
         )
-        for relative, key in [
-            ('SKILL.md', 'authority_sha256'),
-            ('references/mobile-design-100.md', 'mobile_acceptance_rule_sha256'),
-        ]:
+        for relative, key in [('SKILL.md', 'authority_sha256')]:
             self.adapter[key] = hashlib.sha256(
                 (self.skill / relative).read_bytes()
             ).hexdigest()
@@ -67,8 +63,8 @@ class AuthorityTest(unittest.TestCase):
         self.assertIn('competing_reference_declarations_present',
                       authority.check(self.root)['failures'])
 
-    def test_skill_and_acceptance_rule_revision_drift_fail(self):
-        for relative in ['SKILL.md', 'references/mobile-design-100.md']:
+    def test_skill_revision_drift_fails(self):
+        for relative in ['SKILL.md']:
             with self.subTest(relative=relative):
                 before = (self.skill / relative).read_text()
                 (self.skill / relative).write_text('Changed without review')
@@ -82,11 +78,10 @@ class AuthorityTest(unittest.TestCase):
         self.assertIn('invalid_platform_reference_adapter',
                       authority.check(self.root)['failures'])
 
-    def test_missing_surface_or_mobile_rule_fails(self):
+    def test_missing_surface_fails(self):
         saved = copy.deepcopy(self.adapter)
         for key, value, failure in [
             ('scope', ['member_app'], 'incomplete_surface_scope'),
-            ('mobile_acceptance_rule', 'optional', 'missing_mobile_acceptance_rule'),
         ]:
             with self.subTest(key=key):
                 self.adapter = copy.deepcopy(saved)
@@ -98,6 +93,89 @@ class AuthorityTest(unittest.TestCase):
         self.write('docs/evidence.md', 'Flutter Material/Cupertino controls. Historical widget capture.')
         self.write('docs/evidence.json', '{"design_authority":"revolut-design"}')
         self.assertEqual('pass', authority.check(self.root)['status'])
+
+    def package_link_fixture(self):
+        base = 'docs/release/evidence/negative-fixtures/attempt1/package-link'
+        self.write(base + '/external/pubspec.yaml', 'name: external\n')
+        link = self.root / base / 'owned/pubspec.yaml'
+        link.parent.mkdir()
+        link.symlink_to(link.parent.parent / 'external/pubspec.yaml')
+        return link
+
+    def test_retained_inert_package_refusal_link_preserves_evidence(self):
+        link = self.package_link_fixture()
+        result = authority.check(self.root)
+        self.assertEqual('pass', result['status'])
+        self.assertEqual([link.relative_to(self.root).as_posix()],
+                         result['inert_package_fixture_links'])
+        self.assertTrue(link.is_symlink())
+
+    def test_fixture_link_with_design_declaration_still_fails(self):
+        link = self.package_link_fixture()
+        (link.parent.parent / 'external/pubspec.yaml').write_text(
+            'name: external\ndesign_authority: competing\n')
+        result = authority.check(self.root)
+        self.assertEqual([], result['inert_package_fixture_links'])
+        self.assertIn(link.relative_to(self.root).as_posix() + ':symlinked_reference',
+                      result['competing_declarations'])
+
+    def test_fixture_link_cannot_point_outside_its_physical_case(self):
+        link = self.package_link_fixture()
+        self.write('docs/outside.yaml', 'name: external\n')
+        link.unlink()
+        link.symlink_to(self.root / 'docs/outside.yaml')
+        self.assertEqual('fail', authority.check(self.root)['status'])
+
+    def test_normal_reference_link_has_no_fixture_exemption(self):
+        self.write('docs/package/pubspec.yaml', 'name: external\n')
+        link = self.root / 'docs/pubspec.yaml'
+        link.symlink_to(self.root / 'docs/package/pubspec.yaml')
+        self.assertEqual('fail', authority.check(self.root)['status'])
+
+    def backend_link(self, payload='{"scope":"receipt_successor_approval"}'):
+        name = 'successor_approval_read.json'
+        self.write('test/fixtures/' + name, payload)
+        link = self.root / '.cache/case/validation-app/test/fixtures' / name
+        link.parent.mkdir(parents=True)
+        link.symlink_to(self.root / 'test/fixtures' / name)
+        return link
+
+    def test_exact_backend_alias_is_retained_and_inspected(self):
+        link = self.backend_link()
+        result = authority.check(self.root)
+        self.assertEqual('pass', result['status'])
+        self.assertEqual([link.relative_to(self.root).as_posix()],
+                         result['retained_backend_fixture_links'])
+        self.assertTrue(link.is_symlink())
+        self.assertEqual('unverified', result['visual_acceptance'])
+
+    def test_backend_alias_does_not_hide_competing_declarations(self):
+        self.backend_link('{"design_authority":"competing"}')
+        self.assertEqual('fail', authority.check(self.root)['status'])
+
+    def test_backend_alias_cannot_escape_or_chain(self):
+        link = self.backend_link()
+        self.write('docs/elsewhere.json', '{}')
+        link.unlink()
+        link.symlink_to(self.root / 'docs/elsewhere.json')
+        self.assertEqual('fail', authority.check(self.root)['status'])
+        original = self.root / 'test/fixtures' / link.name
+        original.unlink()
+        original.symlink_to(self.root / 'docs/elsewhere.json')
+        link.unlink()
+        link.symlink_to(original)
+        self.assertEqual('fail', authority.check(self.root)['status'])
+
+    def test_backend_alias_requires_finite_valid_object_and_known_name(self):
+        link = self.backend_link()
+        target = self.root / 'test/fixtures' / link.name
+        for payload in ['not json', '[]', '{"padding":"' + 'x' * 65536 + '"}']:
+            target.write_text(payload)
+            self.assertEqual('fail', authority.check(self.root)['status'])
+        target.write_text('{}')
+        unknown = link.parent / 'design-reference.json'
+        unknown.symlink_to(target)
+        self.assertEqual('fail', authority.check(self.root)['status'])
 
 
 if __name__ == '__main__':

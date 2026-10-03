@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "bytes": 955,
+      "path": "actual-read-only-guard-process.json",
+      "sha256": "4a521e3ffb6481f3ce2c5a28541a5b863f462c62b10677731f6d97964651362e"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-read-only-guard.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 148,
+      "path": "actual-read-only-guard.stdout",
+      "sha256": "f5be454fd0ab32993f4968331bdab6213b9561aaf9d49741a8c498f29a9d81b9"
+    },
+    {
+      "bytes": 63761,
+      "path": "actual-read-only-proof.json",
+      "sha256": "fc58b1231c79d414a3568238cf9a4ddc03e9a14eaa266e881c526af37d84daff"
+    },
+    {
+      "bytes": 836,
+      "path": "readback.json",
+      "sha256": "042a5941f7f3a94f853081b93b87ab36f7e19e48ae3b13496f05716232c8931e"
+    },
+    {
+      "bytes": 5970,
+      "path": "tests-attempt2.stderr",
+      "sha256": "66842300b010fb6651a869a73c6e8a9447eae6777758e6860b4c14781e894dba"
+    },
+    {
+      "bytes": 764,
+      "path": "tests-result.json",
+      "sha256": "76da3e758e4dd0df541032f1f2cad48d54e2c9b87b2c394d3114753502e96c52"
+    }
+  ],
+  "status": "sealed"
+}

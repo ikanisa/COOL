@@ -1,0 +1,20 @@
+{
+  "scope": "additive enrollment workflow on exact source08 prerequisites in fresh owned PG17.6",
+  "started_at": "2026-10-01T12:48:46.583108Z",
+  "source08_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "runner_sha256": "b14f287efdc7efb274817007f948f2282b7687afc887da4ae288cf855489c2d6",
+  "baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "migrations_sha256": {
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "d73b57106b767ce3bcdecd58059a311b7b2ea390755324963fc7a548e708a20e"
+  },
+  "hosted_written": false,
+  "source_rows_copied": false,
+  "private_key_created": false,
+  "auth_provider_tested": false,
+  "signed_jwt_tested": false,
+  "signature_verified_in_sql": false,
+  "sms_sent": false,
+  "device_used": false
+}

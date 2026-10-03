@@ -1,0 +1,16 @@
+{
+  "API_signature_sha256": "1bddf94f71dac8f16e9c123d606488071afa45276f22e0ed38a2ea4f4827b11e",
+  "API_signed_payload_sha256": "c5a402881561ea42ba993ccdc60bde283cf0b2c2c969cb66b8d08189180f60de",
+  "exact_API_payload_and_signature_match_canonical_Git_object": true,
+  "local_PGP_signature_verification_performed": false,
+  "naive_reconstruction_failure_explanation": "Authoritative raw Git gpgsig header retains one terminal empty continuation line (space). The prior splitlines insertion omitted that2-byte header continuation. Failed attempt retained, no newline guessing used for canonical Git proof.",
+  "passed": true,
+  "publisher_signature_report": {
+    "reason": "valid",
+    "verified": true,
+    "verified_at": "2026-06-24T18:07:06Z"
+  },
+  "raw_commit_sha1": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "raw_commit_sha256": "b8ad4686ef429e054b6ce70b2a3de06d5d58175ba53326a0dfb1ae7c7a06f08b",
+  "scope": "Exact byte equality to fetched canonical Git object and publisher API signed payload; local PGP cryptographic verification remains unperformed."
+}

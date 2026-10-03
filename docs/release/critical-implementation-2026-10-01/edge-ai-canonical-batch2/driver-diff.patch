@@ -1,0 +1,8 @@
+--- docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/run_private_canonical.py
++++ docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/run_private_canonical.py
+@@ -1,4 +1,4 @@
+-"""One composed140 AI canonical invocation; no current-checkout acceptance or maintained-source mutation."""
++"""One approved HTTP-fixture successor140 invocation; no current-checkout acceptance or maintained-source mutation."""
+ from pathlib import Path
+ import datetime as dt
+ import hashlib

@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:24:00 GMT",
+    "ETag": "\"28aadae6e96f5f64f9cc8c807ea32e42\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://rubygems.org/api/v1/gems/fastlane.json",
+  "requested_at": "2026-10-01T21:23:58.207847+00:00",
+  "response_bytes": 4376,
+  "response_path": "primary/fastlane-current-public.response",
+  "response_sha256": "28aadae6e96f5f64f9cc8c807ea32e422c76f4df34c83ed2a5dee6f801047697",
+  "response_url": "https://rubygems.org/api/v1/gems/fastlane.json",
+  "retrieved_at": "2026-10-01T21:24:00.173579+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

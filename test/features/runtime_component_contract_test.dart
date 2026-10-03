@@ -264,85 +264,90 @@ void main() {
     expect(tester.binding.transientCallbackCount, 0);
   });
 
-  test('Collect uses Inter for product UI and scoped Aeonik for marketing', () {
-    final pubspec = File('pubspec.yaml').readAsStringSync();
-    final lockfile = File('pubspec.lock').readAsStringSync();
-    final launch = File(
-      'lib/features/launch/launch_splash_screen.dart',
-    ).readAsStringSync();
-    final runtimeAssets = File(
-      'lib/app/theme/collect_runtime_assets.dart',
-    ).readAsStringSync();
-    final runtimeTypography = File(
-      'lib/app/theme/collect_runtime_typography.dart',
-    ).readAsStringSync();
-    final libSources = Directory('lib')
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((file) => file.path.endsWith('.dart'))
-        .map((file) => file.readAsStringSync())
-        .join('\n');
+  test(
+    'Collect keeps Inter product roles and supplied Pro marketing faces',
+    () {
+      final pubspec = File('pubspec.yaml').readAsStringSync();
+      final lockfile = File('pubspec.lock').readAsStringSync();
+      final launch = File(
+        'lib/features/launch/launch_splash_screen.dart',
+      ).readAsStringSync();
+      final runtimeAssets = File(
+        'lib/app/theme/collect_runtime_assets.dart',
+      ).readAsStringSync();
+      final runtimeTypography = File(
+        'lib/app/theme/collect_runtime_typography.dart',
+      ).readAsStringSync();
+      final libSources = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.dart'))
+          .map((file) => file.readAsStringSync())
+          .join('\n');
 
-    expect(CollectRuntimeAssets.usesRepoVisualAssets, isTrue);
-    expect(CollectRuntimeAssets.requiredBlockerKeys, isEmpty);
-    expect(runtimeAssets, contains('immutable pre-audit Collect logo'));
-    expect(Directory('assets/runtime').existsSync(), isFalse);
-    expect(Directory('assets/fonts').existsSync(), isFalse);
-    expect(File('assets/typefaces/Inter-Variable.ttf').existsSync(), isTrue);
-    expect(File('assets/typefaces/OFL-Inter.txt').existsSync(), isTrue);
-    final officialLogo = File(CollectRuntimeAssets.officialLogo);
-    expect(officialLogo.existsSync(), isTrue);
-    expect(
-      sha256.convert(officialLogo.readAsBytesSync()).toString(),
-      CollectRuntimeAssets.officialLogoSha256,
-    );
-    expect(File('web/icons/collect-web-512.png').existsSync(), isTrue);
-    expect(pubspec, isNot(contains('assets/runtime')));
-    expect(pubspec, contains(CollectRuntimeAssets.officialLogo));
-    expect(pubspec, contains('family: Inter'));
-    expect(pubspec, contains('assets/typefaces/Inter-Variable.ttf'));
-    expect(pubspec, contains('assets/typefaces/OFL-Inter.txt'));
-    const removedLegacyFamilies = <String>[
-      'Robo'
-          'to',
-      'JetBrains'
-          ' Mono',
-    ];
-    // An icon font is not a body/display typeface. Apple-platform controls
-    // require this asset; member/Admin styles still use Inter. Marketing is
-    // a separate, owner-selected face.
-    expect(pubspec, contains('cupertino_icons:'));
-    expect(lockfile, contains('cupertino_icons:'));
-    expect(
-      RegExp(
-        r'^\s*- family:\s*([^\r\n]+)',
-        multiLine: true,
-      ).allMatches(pubspec).map((match) => match.group(1)?.trim()),
-      ['Aeonik Pro', 'Inter'],
-    );
-    expect(pubspec, isNot(contains('Collect Runtime')));
-    expect(pubspec, isNot(contains('Collect Display')));
-    expect(CollectRuntimeTypography.fontFamily, 'Inter');
-    expect(CollectRuntimeTypography.displayFontFamily, 'Inter');
-    expect(CollectRuntimeTypography.financialFontFamily, 'Inter');
-    expect(CollectRuntimeTypography.marketingFontFamily, 'Aeonik Pro');
-    expect(runtimeTypography, isNot(contains('fontFamilyFallback')));
-    for (final family in removedLegacyFamilies) {
-      expect(runtimeTypography, isNot(contains(family)));
-      expect(libSources, isNot(contains(family)));
-    }
-    expect(launch, contains('SizedBox.expand'));
-    expect(launch, isNot(contains('CollectRuntimeAssets.officialLogo')));
-    expect(launch, isNot(contains('LinearProgressIndicator')));
-    expect(launch, isNot(contains('Timer(')));
-    expect(launch, isNot(contains("context.go('/auth')")));
-    expect(launch, contains('CollectColors.referenceChromeBlack'));
-    expect(libSources, contains('Image.asset'));
-    expect(libSources, isNot(contains('AssetImage')));
-    expect(libSources, isNot(contains('SvgPicture')));
-    expect(libSources, contains('collect_top_chrome_official_logo'));
-    expect(libSources, isNot(contains('collect_top_chrome_avatar_initial')));
-  });
+      expect(CollectRuntimeAssets.usesRepoVisualAssets, isTrue);
+      expect(CollectRuntimeAssets.requiredBlockerKeys, isEmpty);
+      expect(runtimeAssets, contains('immutable pre-audit Collect logo'));
+      expect(Directory('assets/runtime').existsSync(), isFalse);
+      expect(Directory('assets/fonts').existsSync(), isFalse);
+      expect(File('assets/typefaces/Inter-Variable.ttf').existsSync(), isTrue);
+      expect(File('assets/typefaces/OFL-Inter.txt').existsSync(), isTrue);
+      final officialLogo = File(CollectRuntimeAssets.officialLogo);
+      expect(officialLogo.existsSync(), isTrue);
+      expect(
+        sha256.convert(officialLogo.readAsBytesSync()).toString(),
+        CollectRuntimeAssets.officialLogoSha256,
+      );
+      expect(File('web/icons/collect-web-512.png').existsSync(), isTrue);
+      expect(pubspec, isNot(contains('assets/runtime')));
+      expect(pubspec, contains(CollectRuntimeAssets.officialLogo));
+      expect(pubspec, contains('family: Inter'));
+      expect(pubspec, contains('assets/typefaces/Inter-Variable.ttf'));
+      expect(pubspec, contains('assets/typefaces/OFL-Inter.txt'));
+      const removedLegacyFamilies = <String>[
+        'Robo'
+            'to',
+        'JetBrains'
+            ' Mono',
+      ];
+      // An icon font is not a body/display typeface. Apple-platform controls
+      // require this asset; text roles use the licensed Inter adapter.
+      expect(pubspec, contains('cupertino_icons:'));
+      expect(lockfile, contains('cupertino_icons:'));
+      expect(
+        RegExp(
+          r'^\s*- family:\s*([^\r\n]+)',
+          multiLine: true,
+        ).allMatches(pubspec).map((match) => match.group(1)?.trim()),
+        ['Inter', 'Aeonik Pro'],
+      );
+      expect(pubspec, isNot(contains('Collect Runtime')));
+      expect(pubspec, isNot(contains('Collect Display')));
+      expect(CollectRuntimeTypography.fontFamily, 'Inter');
+      expect(CollectRuntimeTypography.displayFontFamily, 'Inter');
+      expect(CollectRuntimeTypography.financialFontFamily, 'Inter');
+      expect(CollectRuntimeTypography.marketingFontFamily, 'Aeonik Pro');
+      expect(pubspec, contains('assets/typefaces/AeonikPro-Regular.ttf'));
+      expect(pubspec, contains('assets/typefaces/AeonikPro-Medium.ttf'));
+      expect(pubspec, isNot(contains('TRIAL')));
+      expect(runtimeTypography, isNot(contains('fontFamilyFallback')));
+      for (final family in removedLegacyFamilies) {
+        expect(runtimeTypography, isNot(contains(family)));
+        expect(libSources, isNot(contains(family)));
+      }
+      expect(launch, contains('SizedBox.expand'));
+      expect(launch, isNot(contains('CollectRuntimeAssets.officialLogo')));
+      expect(launch, isNot(contains('LinearProgressIndicator')));
+      expect(launch, isNot(contains('Timer(')));
+      expect(launch, isNot(contains("context.go('/auth')")));
+      expect(launch, contains('CollectColors.referenceChromeBlack'));
+      expect(libSources, contains('Image.asset'));
+      expect(libSources, isNot(contains('AssetImage')));
+      expect(libSources, isNot(contains('SvgPicture')));
+      expect(libSources, contains('collect_top_chrome_official_logo'));
+      expect(libSources, isNot(contains('collect_top_chrome_avatar_initial')));
+    },
+  );
 
   test('application typography has no raw or defaulted type styles', () {
     final centralTypography = File(
@@ -396,14 +401,16 @@ void main() {
     final staticSite = File(
       'scripts/public_static_site_build.rb',
     ).readAsStringSync();
-    final generatedCss = staticSite.substring(
-      staticSite.indexOf('def stylesheet'),
-      staticSite.indexOf('def site_js'),
-    );
-    final featureCss = generatedCss.substring(
-      generatedCss.lastIndexOf('font-family: "Inter";') +
-          'font-family: "Inter";'.length,
-    );
+    expect(staticSite, contains('web/public/layout.css'));
+    final publicCss = [
+      File('web/public/layout.css').readAsStringSync(),
+      File('web/public/revolut.css').readAsStringSync(),
+    ].join('\n');
+    // Source adapters may define numeric metrics centrally. Runtime component
+    // rules must consume those roles, including the external served stylesheets.
+    final featureCss = publicCss
+        .replaceAll(RegExp(r'@font-face\s*\{[^}]*\}', dotAll: true), '')
+        .replaceAll(RegExp(r':root\s*\{[^}]*\}', dotAll: true), '');
     expect(featureCss, isNot(matches(RegExp(r'font-weight:\s*[0-9]'))));
     expect(
       featureCss,
@@ -414,10 +421,10 @@ void main() {
       featureCss,
       isNot(matches(RegExp(r'letter-spacing:\s*(?:[0-9.]|-)'))),
     );
-    expect(staticSite, contains('font-weight: 400 700;'));
-    expect(staticSite, isNot(contains('font-weight: 100 900;')));
+    expect(publicCss, contains('font-weight: 400 700;'));
+    expect(publicCss, isNot(contains('font-weight: 100 900;')));
     expect(
-      staticSite,
+      publicCss,
       isNot(
         matches(RegExp(r'font-weight:\s*(?:7[1-9][0-9]|8[0-9]{2}|9[0-9]{2})')),
       ),
@@ -746,13 +753,23 @@ void main() {
       );
     }
 
-    for (final path in <String>[
-      'android/app/src/main/res/drawable/launch_background.xml',
-      'android/app/src/main/res/drawable-v21/launch_background.xml',
-      'android/app/src/main/res/drawable-night/launch_background.xml',
-      'android/app/src/main/res/drawable-night-v21/launch_background.xml',
-    ]) {
-      final text = File(path).readAsStringSync();
+    final launchResources = Directory('android/app/src/main/res')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('/launch_background.xml'))
+        .toList();
+    // Android resolves the default and night drawables for API 21 as well.
+    // Inspect every present variant without requiring removed duplicate files.
+    expect(
+      launchResources.map((file) => file.path),
+      containsAll([
+        'android/app/src/main/res/drawable/launch_background.xml',
+        'android/app/src/main/res/drawable-night/launch_background.xml',
+      ]),
+    );
+    for (final file in launchResources) {
+      final path = file.path;
+      final text = file.readAsStringSync();
       expect(text, contains('@color/collect_launch_background'), reason: path);
       expect(text, isNot(contains('@color/collect_paper')), reason: path);
       expect(text, contains('<bitmap'), reason: path);

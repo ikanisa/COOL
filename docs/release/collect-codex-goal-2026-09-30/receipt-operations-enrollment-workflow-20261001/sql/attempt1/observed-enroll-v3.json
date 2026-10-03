@@ -1,0 +1,12 @@
+{
+  "scope": "rw_receipt_operations",
+  "action": "enroll",
+  "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+  "request_id": "50e79685-896e-4627-87bc-10bb81e895a8",
+  "recorded_at": "2026-10-01T12:49:15.412981Z",
+  "principal_id": "d384fae8-c7fd-4c91-a867-c1d35792a727",
+  "state_at_action": "pending",
+  "contract_version": 3,
+  "request_expires_at": "2026-10-01T12:50:44.682360Z",
+  "identity_expires_at": "2026-10-02T12:49:14.682305Z"
+}

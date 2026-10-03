@@ -1,0 +1,26 @@
+{
+  "actual_seconds": 1.004,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/run_bound_guard_suite.py",
+    "--suite",
+    "snapshot",
+    "--fixture-root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/negative-fixtures/snapshot-bound-attempt4"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2",
+  "deadline_seconds": 300,
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T06:11:08.435596+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 91714,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T06:11:07.431922+00:00",
+  "stderr_sha256": "4ba5fc3d8f501647bbef4d9680faace8f67b2a185133658d7c2eb7097f984221",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

@@ -1,0 +1,47 @@
+{
+  "checked_at_utc": "2026-10-01T15:42:13.388079+00:00",
+  "status": "pass",
+  "patches": [
+    {
+      "patch": "mcp-review/late-authority-fence.patch",
+      "sha256": "a7965787a7fd07a79c08d5ee63b86b6ca3d7d0b752147a5cfe0275fcde2bfcfe",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/late-authority-fence.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "patch": "admin-review/runtime-resource-admission.patch",
+      "sha256": "17b690663c7a4b7d1054fc89a05dff6bda2815025043ee6a13ad4c955b76d30a",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/admin-review/runtime-resource-admission.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "patch": "admin-review/proposed-resource-admission.patch",
+      "sha256": "dcbf5675087362e8742e1c0f026af620c5eeab75b67bc0d32532ba07fedbec5b",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/admin-review/proposed-resource-admission.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "runtime_files_written": false,
+  "scope": "Read-only applicability at this time. Passing check is not source ownership, application or final candidate acceptance."
+}

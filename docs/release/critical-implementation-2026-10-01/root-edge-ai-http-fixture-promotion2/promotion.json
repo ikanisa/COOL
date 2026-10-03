@@ -1,0 +1,12 @@
+{
+  "at_utc": "2026-10-02T02:44:38.952561+00:00",
+  "source": "scripts/qa/edge_http_runtime_uat.ts",
+  "base_sha256": "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7",
+  "applied_sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9",
+  "checked_preparation_leaves": 22,
+  "full_private_types_passed": 86,
+  "root_review": "Complete minimal patch read. Typed four-value environment map followed by explicit override assignment preserves all original request/assertion/restoration bytes.",
+  "runtime_gate_run": false,
+  "existing_formatter_failure_preserved": true,
+  "production_ready": false
+}

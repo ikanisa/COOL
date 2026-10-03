@@ -1,0 +1,280 @@
+{
+  "AAB_built": false,
+  "APP_or_SDK_compiled": false,
+  "Gradle_transport_retry_policy_not_asserted": true,
+  "R8_invoked": false,
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=1",
+    "-Dorg.gradle.internal.http.connectionTimeout=30000",
+    "-Dorg.gradle.internal.http.socketTimeout=30000",
+    "-PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json",
+    "-PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+    "resolveExactR8"
+  ],
+  "cache_population_is_not_publisher_admission": true,
+  "captured_at_utc": "2026-10-02T15:12:26.961121+00:00",
+  "command": {
+    "actual_seconds": 290.353,
+    "argv": [
+      "/bin/bash",
+      "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+      "-p",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project",
+      "--no-daemon",
+      "--no-build-cache",
+      "--no-configuration-cache",
+      "--console=plain",
+      "--max-workers=1",
+      "-Dorg.gradle.internal.http.connectionTimeout=30000",
+      "-Dorg.gradle.internal.http.socketTimeout=30000",
+      "-PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json",
+      "-PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+      "resolveExactR8"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project",
+    "deadline_seconds": 600,
+    "exit_code": 0,
+    "finished_utc": "2026-10-02T15:12:26.704283+00:00",
+    "headroom_failure": false,
+    "owned_process_group_absent": true,
+    "pid": 25955,
+    "residual_process_group_required_stop": false,
+    "spawned": true,
+    "started_utc": "2026-10-02T15:07:36.451562+00:00",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "b503d0bff9332e06a8f8c4db2d904e789dac75f4a2daaebe83f58f033d9bc0c0",
+    "timed_out": false
+  },
+  "daemon_readback": {
+    "last_actual_owned_rows": {},
+    "late_observed_daemon_ids": [],
+    "observation_utc": "2026-10-02T15:12:26.954124+00:00",
+    "observed_ancestry": [
+      {
+        "ancestry": [
+          25955
+        ],
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 -Dorg.gradle.internal.http.connectionTimeout=30000 -Dorg.gradle.internal.http.socketTimeout=30000 -PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json -PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a resolveExactR8",
+        "last_observed_state": "Z",
+        "observed_argv_unavailable_history": [
+          {
+            "actual_current": {
+              "command": "(java)",
+              "pgid": 25955,
+              "pid": 25955,
+              "ppid": 25952,
+              "start": "Fri Oct 2 17:07:36 2026",
+              "state": "Ss"
+            },
+            "argv_unavailable_is_absence": false,
+            "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 -Dorg.gradle.internal.http.connectionTimeout=30000 -Dorg.gradle.internal.http.socketTimeout=30000 -PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json -PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a resolveExactR8",
+            "new_ownership_authorized": false,
+            "signal_authorized_by_unavailable_argv": false,
+            "utc": "2026-10-02T15:12:25.855274+00:00"
+          }
+        ],
+        "observed_terminal_history": [
+          {
+            "actual_current": {
+              "command": "<defunct>",
+              "pgid": 25955,
+              "pid": 25955,
+              "ppid": 25952,
+              "start": "Fri Oct 2 17:07:36 2026",
+              "state": "Z"
+            },
+            "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 -Dorg.gradle.internal.http.connectionTimeout=30000 -Dorg.gradle.internal.http.socketTimeout=30000 -PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json -PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a resolveExactR8",
+            "signal_authorized_by_terminal_state": false,
+            "utc": "2026-10-02T15:12:26.148691+00:00",
+            "zombie_is_absence": false
+          },
+          {
+            "actual_current": {
+              "command": "<defunct>",
+              "pgid": 25955,
+              "pid": 25955,
+              "ppid": 25952,
+              "start": "Fri Oct 2 17:07:36 2026",
+              "state": "Z"
+            },
+            "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 -Dorg.gradle.internal.http.connectionTimeout=30000 -Dorg.gradle.internal.http.socketTimeout=30000 -PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json -PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a resolveExactR8",
+            "signal_authorized_by_terminal_state": false,
+            "utc": "2026-10-02T15:12:26.441720+00:00",
+            "zombie_is_absence": false
+          },
+          {
+            "actual_current": {
+              "command": "<defunct>",
+              "pgid": 25955,
+              "pid": 25955,
+              "ppid": 25952,
+              "start": "Fri Oct 2 17:07:36 2026",
+              "state": "Z"
+            },
+            "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/minimal-project --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=1 -Dorg.gradle.internal.http.connectionTimeout=30000 -Dorg.gradle.internal.http.socketTimeout=30000 -PcollectR8GraphOutput=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json -PcollectR8ExpectedSha256=9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a resolveExactR8",
+            "signal_authorized_by_terminal_state": false,
+            "utc": "2026-10-02T15:12:26.741929+00:00",
+            "zombie_is_absence": false
+          }
+        ],
+        "pgid": 25955,
+        "pid": 25955,
+        "ppid": 25952,
+        "start": "Fri Oct 2 17:07:36 2026",
+        "state": "Ss"
+      },
+      {
+        "ancestry": [
+          25955,
+          25984
+        ],
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+        "observed_session_history": [
+          {
+            "PID_start_command_parent_unchanged": true,
+            "after_pgid": 25984,
+            "before_pgid": 25955,
+            "observed_utc": "2026-10-02T15:07:39.363776+00:00",
+            "private_home_evidence": {
+              "actual_matching_lsof_fields": {
+                "inode": "60487211",
+                "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+                "pid": 25984
+              },
+              "home_identity": [
+                16777232,
+                58765337,
+                448
+              ],
+              "log_device": 16777232,
+              "log_inode": 60487211,
+              "lsof_stdout_sha256": "679e84230a859e4f0fdbff1d6ca41e8dac94439c44126320e4d5cd794d6169fa",
+              "observed_utc": "2026-10-02T15:07:39.363733+00:00",
+              "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+              "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+              "retained_matching_lsof_lines": [
+                "p25984",
+                "i60487211",
+                "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log"
+              ]
+            }
+          }
+        ],
+        "pgid": 25984,
+        "pid": 25984,
+        "ppid": 25955,
+        "start": "Fri Oct 2 17:07:37 2026",
+        "state": "R"
+      }
+    ],
+    "observed_new_daemons": [
+      {
+        "PGID_absent": true,
+        "PID_absent": true,
+        "cleanup": [],
+        "daemon": {
+          "ancestry": [
+            25955,
+            25984
+          ],
+          "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=384m -XX:+HeapDumpOnOutOfMemoryError -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+          "observed_session_history": [
+            {
+              "PID_start_command_parent_unchanged": true,
+              "after_pgid": 25984,
+              "before_pgid": 25955,
+              "observed_utc": "2026-10-02T15:07:39.363776+00:00",
+              "private_home_evidence": {
+                "actual_matching_lsof_fields": {
+                  "inode": "60487211",
+                  "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+                  "pid": 25984
+                },
+                "home_identity": [
+                  16777232,
+                  58765337,
+                  448
+                ],
+                "log_device": 16777232,
+                "log_inode": 60487211,
+                "lsof_stdout_sha256": "679e84230a859e4f0fdbff1d6ca41e8dac94439c44126320e4d5cd794d6169fa",
+                "observed_utc": "2026-10-02T15:07:39.363733+00:00",
+                "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+                "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+                "retained_matching_lsof_lines": [
+                  "p25984",
+                  "i60487211",
+                  "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log"
+                ]
+              }
+            }
+          ],
+          "pgid": 25984,
+          "pid": 25984,
+          "ppid": 25955,
+          "private_home_evidence": {
+            "actual_matching_lsof_fields": {
+              "inode": "60487211",
+              "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+              "pid": 25984
+            },
+            "home_identity": [
+              16777232,
+              58765337,
+              448
+            ],
+            "log_device": 16777232,
+            "log_inode": 60487211,
+            "lsof_stdout_sha256": "679e84230a859e4f0fdbff1d6ca41e8dac94439c44126320e4d5cd794d6169fa",
+            "observed_utc": "2026-10-02T15:07:39.387356+00:00",
+            "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log",
+            "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+            "retained_matching_lsof_lines": [
+              "p25984",
+              "i60487211",
+              "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-25984.out.log"
+            ]
+          },
+          "start": "Fri Oct 2 17:07:37 2026",
+          "state": "R"
+        }
+      }
+    ],
+    "observer_error": null,
+    "owned_daemons_absent": true,
+    "refused_transitions": [],
+    "separate_daemon_required_stop": false,
+    "spontaneous_daemon_shutdown": true,
+    "terminal_Z_is_not_absence_or_signal_authority": true,
+    "unavailable_argv_is_not_absence_ownership_or_signal_authority": true,
+    "unproven_private_home_daemons": [],
+    "wrapper_group_does_not_prove_daemon_absence": true,
+    "wrapper_pid": 25955
+  },
+  "errors": [],
+  "full_APP_SDK_source_guard_is_root_owned_separate_scope": true,
+  "historical_native_pass_not_relabelled_current": true,
+  "production_release_approval": false,
+  "publisher_admission_complete": false,
+  "root_requested": "com.android.tools:r8:9.1.29",
+  "schema_version": 1,
+  "selected_graph": {
+    "bytes": 897,
+    "counts": {
+      "artifacts": 1,
+      "components": 1
+    },
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2/selected-tooling-graph.json",
+    "sha256": "9905a39ad994bc368a50de1ba228e646ca711e6dcf18f1f2028f036e85dea1ee"
+  },
+  "source_fences_sha256": "e8f85e8c108a90708f9aba956510556326bf774cc8a3f210610329e4131f702e",
+  "status": "PASS"
+}

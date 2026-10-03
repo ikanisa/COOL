@@ -1,0 +1,2 @@
+NOTICE:  00000: function public.post_payment_from_event(uuid,uuid,uuid,text,text,uuid) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

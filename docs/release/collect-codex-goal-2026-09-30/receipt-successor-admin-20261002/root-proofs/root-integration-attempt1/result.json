@@ -1,0 +1,29 @@
+{
+  "started_at": "2026-10-01T23:25:47.498727+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "--dart-define=COLLECT_CAPTURE_SUCCESSOR_INTEGRATION=true",
+    "test/admin_receipt_successor_integration_test.dart",
+    "test/admin_investigation_view_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-root-integration-20261002/validation-app",
+  "mode": "tests",
+  "source_sha256": "48037b4db6971f8f5f0f46f3da2049bb6aa5f8380ebe5347ffc29ec7102a2610",
+  "runtime_sha256": "9fc55274da630ad58899dcd9a1741159d90cc6a882e2aec7bd71a51cb8394f11",
+  "dependencies_sha256": "237b6cdd0795928ffe152a0b83dddbea405a85d900042bc7d9996a0ddac10990",
+  "canonical_sha256": "e95610d6d4e39f54f487d3882502f503a10b98307413bed7381f816130926692",
+  "tools_sha256": "6f177112ccfcd429a476ab1a57a708b979ffc54b79b2159b2c5a8d9990b657cd",
+  "exit_code": 0,
+  "elapsed_seconds": 147.2931935,
+  "completed_at": "2026-10-01T23:28:14.793730+00:00",
+  "source_unchanged": true,
+  "canonical_unchanged": true,
+  "runtime_unchanged": true,
+  "dependencies_unchanged": true,
+  "tools_unchanged": true,
+  "accepted": false
+}

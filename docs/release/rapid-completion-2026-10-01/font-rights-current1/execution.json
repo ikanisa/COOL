@@ -1,0 +1,131 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 31101,
+      "seconds": 0.294,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/app/theme/collect_runtime_typography.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "nonwriting-format",
+      "parent_exit_confirmed": true,
+      "process_group": 31129,
+      "seconds": 0.19,
+      "sha256": "87d9b8bdee515410e2af67ab625102aedfd4a779b1739a030092969350277d0b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/app/theme/collect_runtime_typography.dart",
+        "test/goldens/collect_core_surfaces_golden_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_reconciliation_ui_test.dart",
+        "test/features/runtime_component_contract_test.dart",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 31134,
+      "seconds": 13.725,
+      "sha256": "10488cc21089e3640820dcde7944f233faee2e3053ba1f9761255eda9e349d7b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/landing.machine.jsonl",
+        "test/landing_page_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "landing-actual-inter",
+      "parent_exit_confirmed": true,
+      "process_group": 31319,
+      "seconds": 14.063,
+      "sha256": "3d595513973ef8d636c226df276b48e7e3b8809467f19eca537ba0e563e70402",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--plain-name=Collect bundles licensed Inter for product and marketing roles",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/font-rights-current1/font-contract.machine.jsonl",
+        "test/features/runtime_component_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "single-font-contract",
+      "parent_exit_confirmed": true,
+      "process_group": 32210,
+      "seconds": 7.219,
+      "sha256": "d0ec70460ff8132d46c55fca2850f7ecdf7090877d1f54a624fe9d9b26a037ec",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "ruby",
+        "-c",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 0,
+      "name": "ruby-syntax",
+      "parent_exit_confirmed": true,
+      "process_group": 32629,
+      "seconds": 0.13,
+      "sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "ruby",
+        "scripts/tests/public_static_routes_test.rb",
+        "--name=test_repository_static_routes_match_product_baseline_and_include_entry_paths"
+      ],
+      "exit_code": 1,
+      "name": "single-static-source-route-case",
+      "parent_exit_confirmed": true,
+      "process_group": 32641,
+      "seconds": 0.182,
+      "sha256": "6989b77d8269ac03fba0a768dd1fb10379560cd4b635fed58da965cc19a8e0db",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ]
+}

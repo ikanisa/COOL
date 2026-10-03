@@ -5,6 +5,14 @@ import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import net from 'node:net';
+import {collectDiagnosticFailures, collectDiagnosticSourceSnapshot, sanitizeCollectDiagnosticLog} from './qa/collect_diagnostic_observer.mjs';
+
+// BEGIN runtime console failure collection (tested with actual CDP events).
+function runtimeConsoleFailures(logs) {
+  return [...logs.filter(entry => ['error', 'assert'].includes(entry.level) && !isIgnorableBrowserRequest(entry)).map(sanitizeCollectDiagnosticLog),
+    ...collectDiagnosticFailures(logs).map(diagnostic => ({level: 'error', text: 'Collect diagnostic failure', diagnostic}))];
+}
+// END runtime console failure collection.
 
 const [targetUrl, evidenceDir] = process.argv.slice(2);
 
@@ -280,6 +288,7 @@ function isIgnorableBrowserRequest(entry) {
   return /favicon\.ico/i.test(text);
 }
 
+const diagnosticObserverSourcesBefore = await collectDiagnosticSourceSnapshot(import.meta.url);
 const chrome = findChrome();
 if (!chrome) {
   console.error('[admin-pwa-runtime][FAIL] Chrome/Chromium is required for Admin PWA runtime smoke.');
@@ -339,10 +348,8 @@ try {
     await sleep(500);
   }
 
-  const errors = cdp.logs.filter(
-    (entry) => ['error', 'assert'].includes(entry.level) && !isIgnorableBrowserRequest(entry),
-  );
-  const warnings = cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level));
+  const errors = runtimeConsoleFailures(cdp.logs);
+  const warnings = cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level)).map(sanitizeCollectDiagnosticLog);
 
   summary = {
     status: runtime.ok && errors.length === 0 ? 'pass' : 'fail',
@@ -359,12 +366,8 @@ try {
     url: targetUrl,
     error: error.message,
     console: {
-      errors: cdp
-        ? cdp.logs.filter(
-          (entry) => ['error', 'assert'].includes(entry.level) && !isIgnorableBrowserRequest(entry),
-        )
-        : [],
-      warnings: cdp ? cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level)) : [],
+      errors: cdp ? runtimeConsoleFailures(cdp.logs) : [],
+      warnings: cdp ? cdp.logs.filter((entry) => ['warning', 'warn'].includes(entry.level)).map(sanitizeCollectDiagnosticLog) : [],
     },
   };
 } finally {
@@ -388,6 +391,11 @@ try {
   await rm(chromeProfile, { recursive: true, force: true });
 }
 
+summary.diagnostic_observer_sources_after = await collectDiagnosticSourceSnapshot(import.meta.url);
+summary.diagnostic_observer_sources_before = diagnosticObserverSourcesBefore;
+if (JSON.stringify(summary.diagnostic_observer_sources_before) !== JSON.stringify(summary.diagnostic_observer_sources_after)) {
+  summary.status = 'fail'; summary.error = 'Diagnostic observer sources changed';
+}
 await writeFile(join(evidenceDir, 'pwa-runtime.json'), `${JSON.stringify(summary, null, 2)}\n`);
 
 if (summary.status === 'pass') {

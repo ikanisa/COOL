@@ -1,0 +1,48 @@
+{
+  "ARC09_closed": false,
+  "admission": {
+    "bytes": 8086,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/root-admission-template.json",
+    "sha256": "0cbf7d8849929e8ab6f624ac81ada6b89aaf4316b1be51ff5077b540d2ee8384"
+  },
+  "causes": [
+    "Gradle9.1 wrapper command uses exact pinned Java with -jar source-bound gradle-wrapper.jar; previous observer incorrectly required a GradleWrapperMain classname string. Java path spaces already matched raw startswith; shlex was not involved.",
+    "Fresh daemon87105 initially inherited wrapperPGID87082, then used its ownPGID87105 without changing PID/start/command/parent. Previous same() froze PGID and retained it as unproven despite exact private-home/log evidence."
+  ],
+  "changes": [
+    "Exact whole pinned-Java/JAR wrapper command and original arguments; script and JAR SHA/bytes tied to sealed strict APP source. No shlex parsing of unquoted Java executable path.",
+    "Only one newly owned direct Gradle-daemon inherited-wrapper\u2192ownPID session transition, after exact PID/start/command/parent/ancestry and private-home/log identity checks; actual before/after session and exec histories retained. Unrelated baseline/reusedPID/othergroup/log/home changes still refused.",
+    "Root-qualified original completed runtime graph reused, with exact old command/log/graph/failedpacket/rootabsence and actual APP/SDK/protected/source-fence diagnostics; old whole driver remains failed. Copies preserve original graph/process/log bytes. Fresh original source/runtime guards still run.",
+    "Remainder invokes only unchanged compile graph and selected productionRelease AAB, followed by unchanged canonical SBOM export/check/schema and archive reader. No runtime graph rerun."
+  ],
+  "compile_graph_bound_seconds": 300,
+  "driver": {
+    "bytes": 53481,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/run_selected_aab.py",
+    "sha256": "e9ffbdfb3ffeeab421b974a0ac274bc8283adfd80f19a34d4ba85238f85d2b83"
+  },
+  "driver_or_Gradle_or_APP_SDK_sourcefence_execution_by_agent": false,
+  "focused_tests": {
+    "exit_code": 0,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/submitted-fixture-tests-result.json",
+    "scope": "actual captured positive ownership transitions and negative Java/JAR/args/hash/PID/start/parent/group/baseline/private-home/log cases, reuse acceptance/refusals and complete frozen reuse read/copy; no actual metadata/system action",
+    "seconds": 0.3949533330014674,
+    "sha256": "036d1dbd8596e00b9a1687b848dc1c7a1dff5a2caafcbe8f3be778ffab573542",
+    "source_before_after_equal": true,
+    "tests": 31
+  },
+  "old_packets_unchanged": true,
+  "prepared_input_count": 42,
+  "prior30_test_receipt_preserved": true,
+  "production_release_approval": false,
+  "real_ps_lsof_signals_or_provider_actions": false,
+  "remaining_actual_uncertainty": "root must execute/read back the corrected daemon monitor, compile graph/AAB/SBOM/reader; no licensing or full package SBOM closure asserted",
+  "reuse_read_copy_bound_seconds": 30,
+  "schema_version": 1,
+  "selected_AAB_build_bound_seconds": 2700,
+  "status": "private-correction-tested-proposal-no-actual-driver-execution",
+  "utc": "2026-10-02T12:53:10.997549+00:00",
+  "whole_bound_seconds": 5070
+}

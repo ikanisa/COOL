@@ -1,0 +1,15 @@
+lib/admin/core/admin_platform_access.dart:127:36: Error: The getter 'AdminStatusTone' isn't defined for the type '_AdminPlatformAccessPanelState'.
+ - '_AdminPlatformAccessPanelState' is from 'package:collect_app/admin/core/admin_runtime.dart' ('lib/admin/core/admin_runtime.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AdminStatusTone'.
+                      ? (granted ? AdminStatusTone.success : AdminStatusTone.info)
+                                   ^^^^^^^^^^^^^^^
+lib/admin/core/admin_platform_access.dart:127:62: Error: The getter 'AdminStatusTone' isn't defined for the type '_AdminPlatformAccessPanelState'.
+ - '_AdminPlatformAccessPanelState' is from 'package:collect_app/admin/core/admin_runtime.dart' ('lib/admin/core/admin_runtime.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AdminStatusTone'.
+                      ? (granted ? AdminStatusTone.success : AdminStatusTone.info)
+                                                             ^^^^^^^^^^^^^^^
+lib/admin/core/admin_platform_access.dart:128:25: Error: The getter 'AdminStatusTone' isn't defined for the type '_AdminPlatformAccessPanelState'.
+ - '_AdminPlatformAccessPanelState' is from 'package:collect_app/admin/core/admin_runtime.dart' ('lib/admin/core/admin_runtime.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AdminStatusTone'.
+                      : AdminStatusTone.warning,
+                        ^^^^^^^^^^^^^^^

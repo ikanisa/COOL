@@ -1,0 +1,1275 @@
+[
+  {
+    "table": "public.collection_members",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "invited_phone_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "role",
+        "type": "member_role",
+        "default": "'member'::member_role",
+        "notnull": true
+      },
+      {
+        "name": "status",
+        "type": "member_status",
+        "default": "'invited'::member_status",
+        "notnull": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "member_record_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.collection_members FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('members')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.bind_app_membership()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare registered_id uuid;\nbegin\n  if new.user_id is not null then\n    select id into registered_id from collect_hybrid.member_records where linked_user_id = new.user_id;\n    if registered_id is null or (new.member_record_id is not null and new.member_record_id <> registered_id) then\n      raise exception 'Membership account and record do not match';\n    end if;\n    new.member_record_id := registered_id;\n  end if;\n  return new;\nend; $function$\n",
+        "name": "hybrid_bind_app_membership",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_bind_app_membership BEFORE INSERT OR UPDATE OF user_id, member_record_id ON public.collection_members FOR EACH ROW EXECUTE FUNCTION collect_hybrid.bind_app_membership()"
+      }
+    ],
+    "constraints": [
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE",
+      "UNIQUE (collection_id, user_id, role)",
+      "FOREIGN KEY (member_record_id) REFERENCES collect_hybrid.member_records(id) ON DELETE RESTRICT",
+      "PRIMARY KEY (id)",
+      "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    ]
+  },
+  {
+    "table": "public.collection_receivers",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "receiver_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "momo_number",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "network",
+        "type": "text",
+        "default": "'unknown'::text",
+        "notnull": true
+      },
+      {
+        "name": "label",
+        "type": "text",
+        "default": "'Collection receiver'::text",
+        "notnull": true
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "default": "true",
+        "notnull": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.collection_receivers FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('receivers')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.enforce_official_payee_route_immutable()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  if exists (\n    select 1\n    from public.collections collection\n    where collection.id = old.collection_id\n      and collection.is_platform_sponsored\n  ) and (\n    new.momo_number is distinct from old.momo_number\n    or new.momo_number_hash is distinct from old.momo_number_hash\n    or new.network is distinct from old.network\n  ) then\n    raise exception 'Official payee MoMo number or code and provider are immutable; deactivate the route instead';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "collection_receivers_official_route_immutable",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER collection_receivers_official_route_immutable BEFORE UPDATE OF momo_number, momo_number_hash, network ON public.collection_receivers FOR EACH ROW EXECUTE FUNCTION enforce_official_payee_route_immutable()"
+      }
+    ],
+    "constraints": [
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE",
+      "CHECK ((network = ANY (ARRAY['mtn_momo'::text, 'airtel_money'::text, 'unknown'::text])))",
+      "PRIMARY KEY (id)",
+      "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    ]
+  },
+  {
+    "table": "public.collections",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "slug",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "creator_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "default": "''::text",
+        "notnull": true
+      },
+      {
+        "name": "category",
+        "type": "text",
+        "default": "'Other'::text",
+        "notnull": true
+      },
+      {
+        "name": "cover_image_url",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "default": "'RWF'::text",
+        "notnull": true
+      },
+      {
+        "name": "target_amount_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "deadline_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "visibility",
+        "type": "collection_visibility",
+        "default": "'private'::collection_visibility",
+        "notnull": true
+      },
+      {
+        "name": "public_status",
+        "type": "collection_visibility",
+        "default": "'private'::collection_visibility",
+        "notnull": true
+      },
+      {
+        "name": "is_recurring",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "recurring_rule",
+        "type": "jsonb",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "allow_anonymous",
+        "type": "boolean",
+        "default": "true",
+        "notnull": true
+      },
+      {
+        "name": "contribution_visibility",
+        "type": "text",
+        "default": "'public_safe'::text",
+        "notnull": true
+      },
+      {
+        "name": "allow_public_comments",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "receiver_display_label",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "archived_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "accent_color_hex",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "recurring_cadence",
+        "type": "text",
+        "default": "'monthly'::text",
+        "notnull": true
+      },
+      {
+        "name": "collection_type",
+        "type": "text",
+        "default": "'ikimina'::text",
+        "notnull": true
+      },
+      {
+        "name": "category_subtype",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "purpose_label",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "suggested_amount_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "diaspora_enabled",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "diaspora_regions",
+        "type": "text[]",
+        "default": "'{}'::text[]",
+        "notnull": true
+      },
+      {
+        "name": "moderation_status",
+        "type": "text",
+        "default": "'not_requested'::text",
+        "notnull": true
+      },
+      {
+        "name": "bank_transfer_currency",
+        "type": "text",
+        "default": "'EUR'::text",
+        "notnull": true
+      },
+      {
+        "name": "is_platform_sponsored",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "creation_origin",
+        "type": "text",
+        "default": "'member_app'::text",
+        "notnull": true
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.touch_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n",
+        "name": "collections_touch_updated_at",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER collections_touch_updated_at BEFORE UPDATE ON public.collections FOR EACH ROW EXECUTE FUNCTION touch_updated_at()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.collections FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('collections')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.sync_collection_origin()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  -- Preserve origin for future calls to the unchanged public-sponsored RPC.\n  if new.is_platform_sponsored then new.creation_origin := 'platform_sponsored'; end if;\n  return new;\nend; $function$\n",
+        "name": "hybrid_sync_collection_origin",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_sync_collection_origin BEFORE INSERT ON public.collections FOR EACH ROW EXECUTE FUNCTION collect_hybrid.sync_collection_origin()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.validate_collect_group_cover_reference()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  if new.cover_image_url is null or new.cover_image_url not like 'collect-cover:%' then\n    return new;\n  end if;\n  if new.cover_image_url <> all(array[\n    'collect-cover:rw-01-neighbourhood-ikimina:v1',\n    'collect-cover:rw-02-women-savings-circle:v1',\n    'collect-cover:rw-03-young-professionals-goal:v1',\n    'collect-cover:rw-04-market-traders-stock:v1',\n    'collect-cover:rw-05-moto-riders-shared-goal:v1',\n    'collect-cover:rw-06-farmers-season-inputs:v1',\n    'collect-cover:rw-07-family-home-goal:v1',\n    'collect-cover:rw-08-craft-cooperative-tools:v1',\n    'collect-cover:rw-09-wedding-committee:v2',\n    'collect-cover:rw-10-gusaba-gukwa-gathering:v2',\n    'collect-cover:rw-11-wedding-attire-preparation:v2',\n    'collect-cover:rw-12-wedding-reception-table:v2',\n    'collect-cover:rw-13-new-home-wedding-gift:v2',\n    'collect-cover:rw-14-wedding-day-family:v2',\n    'collect-cover:rw-15-church-community-offering:v1',\n    'collect-cover:rw-16-church-building-project:v1',\n    'collect-cover:rw-17-choir-shared-equipment:v1',\n    'collect-cover:rw-18-muslim-community-giving:v1',\n    'collect-cover:rw-19-ramadan-community-meal:v1',\n    'collect-cover:rw-20-community-giving-parcels:v1',\n    'collect-cover:rw-21-bereavement-support:v1',\n    'collect-cover:rw-22-medical-care-support:v1',\n    'collect-cover:rw-23-health-cover-contribution:v1',\n    'collect-cover:rw-24-neighbours-recovery-support:v1',\n    'collect-cover:rw-25-family-everyday-support:v1',\n    'collect-cover:rw-26-welcoming-new-baby:v1',\n    'collect-cover:rw-27-school-supplies:v1',\n    'collect-cover:rw-28-school-meal-support:v1',\n    'collect-cover:rw-29-higher-study-support:v1',\n    'collect-cover:rw-30-youth-skills-training:v1',\n    'collect-cover:rw-31-umuganda-project-tools:v1',\n    'collect-cover:rw-32-shared-water-point:v1',\n    'collect-cover:rw-33-community-hall-improvement:v1',\n    'collect-cover:rw-34-tree-planting-neighbours:v1',\n    'collect-cover:rw-35-football-fan-community:v1',\n    'collect-cover:rw-36-local-team-equipment:v1',\n    'collect-cover:rw-37-away-match-travel:v1',\n    'collect-cover:rw-38-cultural-troupe-rehearsal:v1',\n    'collect-cover:rw-39-diaspora-family-connection:v1',\n    'collect-cover:rw-40-diaspora-community-project:v1',\n    'collect-cover:rw-41-buri-munsi:v1',\n    'collect-cover:rw-42-gikundiro:v1',\n    'collect-cover:rw-43-church-congregation:v1',\n    'collect-cover:rw-44-football-fans-matchday:v1'\n  ]::text[]) then\n    raise exception 'Unknown group cover or version' using errcode = '22023';\n  end if;\n  if new.cover_image_url in ('collect-cover:rw-41-buri-munsi:v1', 'collect-cover:rw-42-gikundiro:v1')\n     and not (coalesce(new.is_platform_sponsored, false)\n       and coalesce(new.public_status::text, '') = 'public_approved'\n       and ((new.slug = 'buri-munsi' and new.cover_image_url = 'collect-cover:rw-41-buri-munsi:v1')\n         or (new.slug = 'gikundiro' and new.cover_image_url = 'collect-cover:rw-42-gikundiro:v1'))) then\n    raise exception 'This cover is reserved for its approved public group' using errcode = '22023';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "validate_collect_group_cover_reference",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER validate_collect_group_cover_reference BEFORE INSERT OR UPDATE OF cover_image_url ON public.collections FOR EACH ROW EXECUTE FUNCTION validate_collect_group_cover_reference()"
+      }
+    ],
+    "constraints": [
+      "CHECK ((bank_transfer_currency = 'EUR'::text))",
+      "CHECK ((category = ANY (ARRAY['Church'::text, 'Artist / Creator'::text, 'Sports team'::text, 'Wedding'::text, 'Funeral'::text, 'Medical support'::text, 'School / education'::text, 'Community event'::text, 'Public figure / fan support'::text, 'Family / friends'::text, 'Other'::text])))",
+      "CHECK ((collection_type = ANY (ARRAY['ikimina'::text, 'sport'::text, 'church'::text, 'wedding'::text, 'other'::text])))",
+      "CHECK ((contribution_visibility = ANY (ARRAY['private'::text, 'members'::text, 'public_safe'::text])))",
+      "CHECK ((creation_origin = ANY (ARRAY['member_app'::text, 'admin_assisted'::text, 'platform_sponsored'::text])))",
+      "FOREIGN KEY (creator_user_id) REFERENCES profiles(id) ON DELETE RESTRICT",
+      "CHECK ((currency = 'RWF'::text))",
+      "CHECK ((moderation_status = ANY (ARRAY['not_requested'::text, 'pending'::text, 'approved'::text, 'rejected'::text, 'restricted'::text])))",
+      "PRIMARY KEY (id)",
+      "CHECK ((recurring_cadence = ANY (ARRAY['daily'::text, 'weekly'::text, 'monthly'::text])))",
+      "CHECK (((currency = 'RWF'::text) AND (NOT diaspora_enabled))) NOT VALID",
+      "UNIQUE (slug)",
+      "CHECK (((suggested_amount_rwf IS NULL) OR (suggested_amount_rwf > 0)))",
+      "CHECK (((target_amount_rwf IS NULL) OR (target_amount_rwf > 0)))",
+      "CHECK (((char_length(TRIM(BOTH FROM title)) >= 3) AND (char_length(TRIM(BOTH FROM title)) <= 120)))",
+      "CHECK ((public_status = ANY (ARRAY['private'::collection_visibility, 'public_requested'::collection_visibility, 'public_approved'::collection_visibility, 'public_rejected'::collection_visibility, 'archived'::collection_visibility])))"
+    ]
+  },
+  {
+    "table": "public.native_action_capabilities",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "action",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "request_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "request_payload",
+        "type": "jsonb",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "receiver_momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "package_name",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "app_verdict",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "device_verdicts",
+        "type": "text[]",
+        "default": "'{}'::text[]",
+        "notnull": true
+      },
+      {
+        "name": "verified_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "consumed_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      }
+    ],
+    "triggers": null,
+    "constraints": [
+      "CHECK ((action = ANY (ARRAY['group.create'::text, 'sms.ingest'::text])))",
+      "CHECK ((expires_at > verified_at))",
+      "CHECK ((expires_at <= (verified_at + '00:05:00'::interval)))",
+      "PRIMARY KEY (id)",
+      "CHECK ((receiver_momo_number_hash ~ '^[0-9a-f]{64}$'::text))",
+      "CHECK ((request_hash ~ '^[0-9a-f]{64}$'::text))",
+      "CHECK ((jsonb_typeof(request_payload) = 'object'::text))",
+      "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    ]
+  },
+  {
+    "table": "public.parsed_payment_events",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "raw_sms_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "receiver_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "is_mobile_money_payment",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "network",
+        "type": "text",
+        "default": "'unknown'::text",
+        "notnull": true
+      },
+      {
+        "name": "direction",
+        "type": "text",
+        "default": "'unknown'::text",
+        "notnull": true
+      },
+      {
+        "name": "amount_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "default": "'unknown'::text",
+        "notnull": true
+      },
+      {
+        "name": "transaction_id",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "sender_name",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "sender_phone_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "receiver_phone_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "transaction_time",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "detected_collection_code",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "detected_user_public_id",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "confidence",
+        "type": "numeric",
+        "default": "0",
+        "notnull": true
+      },
+      {
+        "name": "parser_model",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "parser_schema_version",
+        "type": "text",
+        "default": "'collect.sms_parser.v1'::text",
+        "notnull": true
+      },
+      {
+        "name": "parsed_json",
+        "type": "jsonb",
+        "default": "'{}'::jsonb",
+        "notnull": true
+      },
+      {
+        "name": "allocation_status",
+        "type": "allocation_status",
+        "default": "'unallocated'::allocation_status",
+        "notnull": true
+      },
+      {
+        "name": "review_reason",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "payer_last3",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "payer_match_key",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "wallet_balance_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.parsed_payment_events FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('sms_events')"
+      }
+    ],
+    "constraints": [
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE SET NULL",
+      "CHECK (((confidence >= (0)::numeric) AND (confidence <= (1)::numeric)))",
+      "CHECK ((currency = ANY (ARRAY['RWF'::text, 'unknown'::text])))",
+      "CHECK ((direction = ANY (ARRAY['incoming'::text, 'outgoing'::text, 'unknown'::text])))",
+      "CHECK ((network = ANY (ARRAY['mtn_momo'::text, 'airtel_money'::text, 'unknown'::text])))",
+      "CHECK ((payer_last3 ~ '^[0-9]{3}$'::text))",
+      "CHECK ((payer_match_key ~ '^[0-9a-f]{64}$'::text))",
+      "PRIMARY KEY (id)",
+      "FOREIGN KEY (raw_sms_id) REFERENCES raw_payment_sms(id) ON DELETE CASCADE",
+      "UNIQUE (raw_sms_id)",
+      "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT",
+      "CHECK ((wallet_balance_rwf >= 0))"
+    ]
+  },
+  {
+    "table": "public.payment_intents",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "contributor_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "contribution_code",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "expected_amount_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "receiver_momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "sender_phone_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "reported_transaction_id",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "status",
+        "type": "payment_intent_status",
+        "default": "'pending'::payment_intent_status",
+        "notnull": true
+      },
+      {
+        "name": "anonymity_choice",
+        "type": "text",
+        "default": "'anonymous'::text",
+        "notnull": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamp with time zone",
+        "default": "(now() + '24:00:00'::interval)",
+        "notnull": true
+      },
+      {
+        "name": "contributor_public_id",
+        "type": "character(6)",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.payment_intents FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('payment_intents')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.enforce_active_contributor_membership()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  if new.contributor_user_id is null then\n    raise exception 'Authenticated contributor is required';\n  end if;\n  if not exists (\n    select 1\n    from public.collections collection\n    where collection.id = new.collection_id\n      and collection.archived_at is null\n      and (\n        collection.public_status = 'public_approved'\n        or collection.creator_user_id = new.contributor_user_id\n        or exists (\n          select 1\n          from public.collection_members member_check\n          where member_check.collection_id = collection.id\n            and member_check.user_id = new.contributor_user_id\n            and member_check.status = 'active'\n        )\n      )\n  ) then\n    raise exception 'Join this group before creating a contribution request';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "enforce_active_contributor_membership_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER enforce_active_contributor_membership_trigger BEFORE INSERT OR UPDATE OF collection_id, contributor_user_id ON public.payment_intents FOR EACH ROW EXECUTE FUNCTION enforce_active_contributor_membership()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_profile_access.require_rwanda_momo_collection()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not exists (\n    select 1 from public.collections collection\n    where collection.id = new.collection_id\n      and collection.currency = 'RWF'\n      and not collection.diaspora_enabled\n  ) then\n    raise exception 'Only Rwanda MoMo groups accept new payment activity';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "payment_intents_rwanda_momo_only",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER payment_intents_rwanda_momo_only BEFORE INSERT ON public.payment_intents FOR EACH ROW EXECUTE FUNCTION collect_profile_access.require_rwanda_momo_collection()"
+      }
+    ],
+    "constraints": [
+      "CHECK ((anonymity_choice = ANY (ARRAY['anonymous'::text, 'public_id'::text, 'display_name'::text])))",
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE",
+      "UNIQUE (contribution_code)",
+      "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE SET NULL",
+      "CHECK (((expected_amount_rwf IS NULL) OR (expected_amount_rwf > 0)))",
+      "PRIMARY KEY (id)"
+    ]
+  },
+  {
+    "table": "public.payments",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "parsed_event_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "payment_intent_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "contributor_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "contributor_public_id",
+        "type": "character(6)",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "receiver_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "receiver_momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "amount_rwf",
+        "type": "bigint",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "default": "'RWF'::text",
+        "notnull": true
+      },
+      {
+        "name": "transaction_id",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "source",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "default": "'posted'::text",
+        "notnull": true
+      },
+      {
+        "name": "anonymity_choice",
+        "type": "text",
+        "default": "'anonymous'::text",
+        "notnull": true
+      },
+      {
+        "name": "posted_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "provider_network",
+        "type": "text",
+        "default": "'unknown'::text",
+        "notnull": true
+      },
+      {
+        "name": "member_record_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.payments FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('payments')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.enqueue_contribution_confirmation_notification()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n  group_title text;\nbegin\n  if new.status <> 'posted'\n     or new.contributor_user_id is null\n     or (tg_op = 'UPDATE' and old.status = 'posted') then\n    return new;\n  end if;\n  select title\n  into group_title\n  from public.collections\n  where id = new.collection_id;\n  perform public.enqueue_notification_template_event(\n    new.contributor_user_id,\n    'contribution.confirmed.default',\n    jsonb_build_object(\n      'amount', 'RWF ' || new.amount_rwf::text,\n      'group', coalesce(group_title, 'your group')\n    ),\n    new.collection_id,\n    '/groups/' || new.collection_id::text || '/ledger',\n    'en'\n  );\n  return new;\nend;\n$function$\n",
+        "name": "enqueue_contribution_confirmation_notification_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER enqueue_contribution_confirmation_notification_trigger AFTER INSERT OR UPDATE OF status ON public.payments FOR EACH ROW EXECUTE FUNCTION enqueue_contribution_confirmation_notification()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.bind_payment_member_record()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  resolved_member_id uuid;\n  resolved_collect_id char(6);\nbegin\n  if new.member_record_id is null and new.contributor_user_id is not null then\n    select member.id, member.collect_id\n    into resolved_member_id, resolved_collect_id\n    from collect_hybrid.member_records member\n    where member.linked_user_id = new.contributor_user_id\n      and member.lifecycle = 'active';\n  elsif new.member_record_id is null and new.contributor_public_id is not null then\n    select member.id, member.collect_id\n    into resolved_member_id, resolved_collect_id\n    from collect_hybrid.member_records member\n    where member.collect_id = new.contributor_public_id\n      and member.lifecycle = 'active';\n  elsif new.member_record_id is not null then\n    select member.id, member.collect_id\n    into resolved_member_id, resolved_collect_id\n    from collect_hybrid.member_records member\n    where member.id = new.member_record_id\n      and member.lifecycle = 'active';\n  end if;\n\n  if new.member_record_id is not null and resolved_member_id is null then\n    raise exception 'Active member record required';\n  end if;\n  if resolved_member_id is not null then\n    if new.contributor_user_id is not null\n       and not collect_hybrid.member_record_belongs_to_user(\n         resolved_member_id, new.contributor_user_id\n       ) then\n      raise exception 'Payment account and member record do not match';\n    end if;\n    if new.contributor_public_id is not null\n       and new.contributor_public_id <> resolved_collect_id then\n      raise exception 'Payment Collect ID and member record do not match';\n    end if;\n    new.member_record_id := resolved_member_id;\n    new.contributor_public_id := coalesce(\n      new.contributor_public_id, resolved_collect_id\n    );\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "hybrid_bind_payment_member_record_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_bind_payment_member_record_trigger BEFORE INSERT OR UPDATE OF member_record_id, contributor_user_id, contributor_public_id ON public.payments FOR EACH ROW EXECUTE FUNCTION collect_hybrid.bind_payment_member_record()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.post_momo_receipt_trigger()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if new.status = 'posted'\n     and new.currency = 'RWF'\n     and (tg_op = 'INSERT' or old.status is distinct from 'posted') then\n    perform collect_hybrid.post_momo_receipt(new.id);\n    update collect_hybrid.momo_reconciliation_exceptions exception\n    set status = 'resolved', resolved_at = now()\n    where exception.parsed_event_id = new.parsed_event_id\n      and exception.status = 'open';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "hybrid_post_momo_receipt_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_post_momo_receipt_trigger AFTER INSERT OR UPDATE OF status ON public.payments FOR EACH ROW EXECUTE FUNCTION collect_hybrid.post_momo_receipt_trigger()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.attach_claimed_payment_account()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if new.member_record_id is not null and new.contributor_user_id is null then\n    select claim.user_id into new.contributor_user_id\n    from collect_hybrid.member_account_claims claim\n    where claim.member_record_id = new.member_record_id\n      and claim.user_id is not null;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "account_claim_payment_identity_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER account_claim_payment_identity_trigger BEFORE INSERT OR UPDATE OF member_record_id ON public.payments FOR EACH ROW EXECUTE FUNCTION collect_hybrid.attach_claimed_payment_account()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_profile_access.require_rwanda_momo_collection()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not exists (\n    select 1 from public.collections collection\n    where collection.id = new.collection_id\n      and collection.currency = 'RWF'\n      and not collection.diaspora_enabled\n  ) then\n    raise exception 'Only Rwanda MoMo groups accept new payment activity';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "payments_rwanda_momo_only",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER payments_rwanda_momo_only BEFORE INSERT ON public.payments FOR EACH ROW EXECUTE FUNCTION collect_profile_access.require_rwanda_momo_collection()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.require_confirmed_intent_payer()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  intent_row public.payment_intents;\n  verified_payer_hash text;\n  observed_payer_hash text;\nbegin\n  if tg_op = 'UPDATE' then\n    if old.payment_intent_id is not null or new.payment_intent_id is not null then\n      if new.payment_intent_id is distinct from old.payment_intent_id\n         or new.parsed_event_id is distinct from old.parsed_event_id\n         or new.contributor_user_id is distinct from old.contributor_user_id\n         or new.collection_id is distinct from old.collection_id\n         or new.receiver_user_id is distinct from old.receiver_user_id\n         or new.receiver_momo_number_hash is distinct from old.receiver_momo_number_hash\n         or new.amount_rwf is distinct from old.amount_rwf\n         or new.currency is distinct from old.currency\n         or new.transaction_id is distinct from old.transaction_id\n         or new.provider_network is distinct from old.provider_network\n         or new.member_record_id is distinct from old.member_record_id then\n        raise exception 'Intent-backed payment attribution is immutable'\n          using errcode = '23514';\n      end if;\n    end if;\n  end if;\n\n  if new.status <> 'posted' or new.payment_intent_id is null then\n    return new;\n  end if;\n  if tg_op = 'UPDATE' then\n    if old.status = 'posted' then return new; end if;\n  end if;\n\n  select * into intent_row\n  from public.payment_intents\n  where id = new.payment_intent_id\n  for share;\n  if intent_row.id is null\n     or new.contributor_user_id is distinct from intent_row.contributor_user_id\n     or new.collection_id is distinct from intent_row.collection_id then\n    raise exception 'Payment intent attribution requires reconciliation'\n      using errcode = '23514';\n  end if;\n\n  verified_payer_hash :=\n    public._authenticated_momo_phone_hash(intent_row.contributor_user_id);\n  select event.sender_phone_hash into observed_payer_hash\n  from public.parsed_payment_events event\n  where event.id = new.parsed_event_id;\n  if verified_payer_hash is null\n     or intent_row.sender_phone_hash is distinct from verified_payer_hash\n     or observed_payer_hash is distinct from verified_payer_hash\n     or exists (\n       select 1\n       from collect_hybrid.payer_identity_reconciliation review\n       where review.payment_id = new.id and review.review_status = 'open'\n     ) then\n    raise exception 'Confirmed payer identity and SMS sender evidence are required'\n      using errcode = '23514';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "require_confirmed_intent_payer_before_post",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER require_confirmed_intent_payer_before_post BEFORE INSERT OR UPDATE ON public.payments FOR EACH ROW EXECUTE FUNCTION collect_hybrid.require_confirmed_intent_payer()"
+      }
+    ],
+    "constraints": [
+      "CHECK ((amount_rwf > 0))",
+      "CHECK ((anonymity_choice = ANY (ARRAY['anonymous'::text, 'public_id'::text, 'display_name'::text])))",
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE RESTRICT",
+      "FOREIGN KEY (contributor_user_id) REFERENCES profiles(id) ON DELETE SET NULL",
+      "CHECK ((currency = 'RWF'::text))",
+      "FOREIGN KEY (member_record_id) REFERENCES collect_hybrid.member_records(id) ON DELETE RESTRICT",
+      "FOREIGN KEY (parsed_event_id) REFERENCES parsed_payment_events(id) ON DELETE RESTRICT",
+      "UNIQUE (parsed_event_id)",
+      "FOREIGN KEY (payment_intent_id) REFERENCES payment_intents(id) ON DELETE SET NULL",
+      "PRIMARY KEY (id)",
+      "CHECK (((status <> 'posted'::text) OR (currency <> 'RWF'::text) OR (posted_at IS NOT NULL)))",
+      "CHECK ((provider_network = ANY (ARRAY['mtn_momo'::text, 'airtel_money'::text, 'unknown'::text])))",
+      "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT",
+      "CHECK ((source = ANY (ARRAY['sms_auto'::text, 'manual_sms_paste'::text, 'manual_admin'::text, 'import'::text])))",
+      "CHECK ((status = ANY (ARRAY['posted'::text, 'reversed'::text, 'review'::text])))"
+    ]
+  },
+  {
+    "table": "public.profiles",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "public_id",
+        "type": "character(6)",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "display_name",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "avatar_url",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "whatsapp_phone",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "momo_number",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "anonymity_default",
+        "type": "text",
+        "default": "'anonymous'::text",
+        "notnull": true
+      },
+      {
+        "name": "is_platform_admin",
+        "type": "boolean",
+        "default": "false",
+        "notnull": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "momo_pay_code",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "country_code",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "currency_code",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "revolut_name",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "momo_provider",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "momo_number_verified_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "revolut_link",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "revolut_account",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.touch_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n",
+        "name": "profiles_touch_updated_at",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER profiles_touch_updated_at BEFORE UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION touch_updated_at()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.prevent_client_admin_escalation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'auth'\nAS $function$\nbegin\n  if auth.role() <> 'service_role' and new.is_platform_admin is distinct from old.is_platform_admin then\n    raise exception 'Platform admin flag cannot be changed by clients';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "profiles_prevent_client_admin_escalation",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER profiles_prevent_client_admin_escalation BEFORE UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION prevent_client_admin_escalation()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('profiles')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.guard_profile_collect_id()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  perform pg_advisory_xact_lock(hashtextextended('collect-numeric-member-id', 0));\n  if tg_op = 'UPDATE' and new.public_id is distinct from old.public_id then\n    raise exception 'Collect identity changes require a reviewed account-link workflow';\n  end if;\n  if exists(select 1 from collect_hybrid.member_records m where m.collect_id = new.public_id\n    and m.linked_user_id is distinct from new.id) then\n    raise exception 'Collect ID is already reserved';\n  end if;\n  return new;\nend; $function$\n",
+        "name": "hybrid_guard_profile_collect_id",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_guard_profile_collect_id BEFORE INSERT OR UPDATE OF public_id ON public.profiles FOR EACH ROW EXECUTE FUNCTION collect_hybrid.guard_profile_collect_id()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION collect_hybrid.register_app_member()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  insert into collect_hybrid.member_records(id, collect_id, linked_user_id, origin)\n  values (new.id, new.public_id, new.id, 'app');\n  return new;\nend; $function$\n",
+        "name": "hybrid_register_app_member",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER hybrid_register_app_member AFTER INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION collect_hybrid.register_app_member()"
+      }
+    ],
+    "constraints": [
+      "CHECK ((anonymity_default = ANY (ARRAY['anonymous'::text, 'public_id'::text, 'display_name'::text])))",
+      "CHECK (((country_code IS NULL) OR (country_code ~ '^[A-Z]{2}$'::text)))",
+      "CHECK (((currency_code IS NULL) OR (currency_code ~ '^[A-Z]{3}$'::text)))",
+      "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "CHECK (((momo_number_hash IS NULL) OR ((momo_number ~ '^07[2389][0-9]{7}$'::text) AND (momo_number_hash = encode(digest(('+250'::text || substr(momo_number, 2)), 'sha256'::text), 'hex'::text))) OR ((momo_number ~ '^\\\\+2507[2389][0-9]{7}$'::text) AND (momo_number_hash = encode(digest(momo_number, 'sha256'::text), 'hex'::text)))))",
+      "CHECK (((momo_number IS NULL) OR (momo_number ~ '^07[2389][0-9]{7}$'::text) OR (momo_number ~ '^\\+2507[2389][0-9]{7}$'::text)))",
+      "CHECK (((momo_pay_code IS NULL) OR (momo_pay_code ~ '^[0-9]{4,9}$'::text)))",
+      "CHECK (((momo_provider IS NULL) OR (momo_provider = ANY (ARRAY['mtn_momo'::text, 'airtel_money'::text]))))",
+      "CHECK (((momo_provider IS NULL) OR (momo_number IS NULL) OR ((momo_provider = 'mtn_momo'::text) AND (momo_number ~ '^(\\+250|0)7[89][0-9]{7}$'::text)) OR ((momo_provider = 'airtel_money'::text) AND (momo_number ~ '^(\\+250|0)7[23][0-9]{7}$'::text))))",
+      "PRIMARY KEY (id)",
+      "CHECK ((public_id ~ '^[0-9]{6}$'::text))",
+      "UNIQUE (public_id)",
+      "CHECK (((revolut_account IS NULL) OR ((char_length(btrim(revolut_account)) >= 4) AND (char_length(btrim(revolut_account)) <= 120))))",
+      "CHECK (((revolut_link IS NULL) OR (revolut_link ~ '^https://([a-z0-9-]+\\.)?revolut\\.me/[A-Za-z0-9._~-]+/?$'::text)))",
+      "CHECK (((revolut_name IS NULL) OR ((char_length(TRIM(BOTH FROM revolut_name)) >= 2) AND (char_length(TRIM(BOTH FROM revolut_name)) <= 100))))",
+      "CHECK ((((country_code IS NULL) AND (currency_code IS NULL)) OR ((country_code IS NOT NULL) AND (currency_code IS NOT NULL) AND (country_code = 'RW'::text) AND (currency_code = 'RWF'::text)))) NOT VALID",
+      "UNIQUE (whatsapp_phone)"
+    ]
+  },
+  {
+    "table": "public.raw_payment_sms",
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "default": "gen_random_uuid()",
+        "notnull": true
+      },
+      {
+        "name": "collection_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "receiver_user_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "raw_sender",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "raw_body",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "body_hash",
+        "type": "text",
+        "default": null,
+        "notnull": true
+      },
+      {
+        "name": "receiver_momo_number_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "received_at_device",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "ingested_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "parse_status",
+        "type": "text",
+        "default": "'pending'::text",
+        "notnull": true
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "default": "now()",
+        "notnull": true
+      },
+      {
+        "name": "client_envelope_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "parse_started_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "parse_lease_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "native_action_capability_id",
+        "type": "uuid",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "attestation_request_hash",
+        "type": "text",
+        "default": null,
+        "notnull": false
+      },
+      {
+        "name": "device_attested_at",
+        "type": "timestamp with time zone",
+        "default": null,
+        "notnull": false
+      }
+    ],
+    "triggers": [
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.emit_app_realtime_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n  insert into app_realtime_events (area)\n  values (tg_argv[0]);\n\n  if tg_op = 'DELETE' then\n    return old;\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "app_realtime_event_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER app_realtime_event_trigger AFTER INSERT OR DELETE OR UPDATE ON public.raw_payment_sms FOR EACH ROW EXECUTE FUNCTION emit_app_realtime_event('sms_events')"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.protect_raw_payment_sms_identity()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  if new.collection_id is distinct from old.collection_id\n     or new.receiver_user_id is distinct from old.receiver_user_id\n     or new.raw_sender is distinct from old.raw_sender\n     or new.raw_body is distinct from old.raw_body\n     or new.body_hash is distinct from old.body_hash\n     or new.client_envelope_id is distinct from old.client_envelope_id\n     or new.receiver_momo_number_hash is distinct from old.receiver_momo_number_hash\n     or new.received_at_device is distinct from old.received_at_device\n     or new.ingested_at is distinct from old.ingested_at\n     or new.created_at is distinct from old.created_at then\n    raise exception 'Raw SMS evidence identity is immutable';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "protect_raw_payment_sms_identity_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER protect_raw_payment_sms_identity_trigger BEFORE UPDATE ON public.raw_payment_sms FOR EACH ROW EXECUTE FUNCTION protect_raw_payment_sms_identity()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.protect_raw_payment_sms_attestation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  if old.native_action_capability_id is not null\n     and (\n       new.native_action_capability_id is distinct from old.native_action_capability_id\n       or new.attestation_request_hash is distinct from old.attestation_request_hash\n       or new.device_attested_at is distinct from old.device_attested_at\n     ) then\n    raise exception 'Raw SMS attestation is immutable';\n  end if;\n  if old.native_action_capability_id is null\n     and new.native_action_capability_id is not null\n     and coalesce(auth.role(), '') <> 'service_role' then\n    raise exception 'Service role required to attest raw SMS evidence';\n  end if;\n  return new;\nend;\n$function$\n",
+        "name": "protect_raw_payment_sms_attestation_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER protect_raw_payment_sms_attestation_trigger BEFORE UPDATE OF native_action_capability_id, attestation_request_hash, device_attested_at ON public.raw_payment_sms FOR EACH ROW EXECUTE FUNCTION protect_raw_payment_sms_attestation()"
+      },
+      {
+        "body": "CREATE OR REPLACE FUNCTION public.prevent_raw_payment_sms_delete()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  raise exception 'Raw SMS evidence is retained; deletion requires a governed retention migration';\nend;\n$function$\n",
+        "name": "retain_raw_payment_sms_evidence_trigger",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER retain_raw_payment_sms_evidence_trigger BEFORE DELETE ON public.raw_payment_sms FOR EACH ROW EXECUTE FUNCTION prevent_raw_payment_sms_delete()"
+      }
+    ],
+    "constraints": [
+      "CHECK (((attestation_request_hash IS NULL) OR (attestation_request_hash ~ '^[0-9a-f]{64}$'::text)))",
+      "FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE SET NULL",
+      "FOREIGN KEY (native_action_capability_id) REFERENCES native_action_capabilities(id) ON DELETE RESTRICT",
+      "CHECK ((parse_status = ANY (ARRAY['pending'::text, 'processing'::text, 'parsed'::text, 'failed'::text, 'ignored'::text])))",
+      "PRIMARY KEY (id)",
+      "FOREIGN KEY (receiver_user_id) REFERENCES profiles(id) ON DELETE RESTRICT"
+    ]
+  }
+]

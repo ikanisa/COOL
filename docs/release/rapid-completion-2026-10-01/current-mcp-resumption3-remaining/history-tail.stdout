@@ -1,0 +1,12 @@
+✔ large legacy history migration is bounded, durable and resumes without reusing a mutation UUID (311115.64875ms)
+✔ history names reject invalid sequence/key/principal before any evidence access (2.631292ms)
+✔ a plan prepared during previous backoff is not confused with its later claim time (420.450167ms)
+✔ head source changed during index publication cannot be accepted as a current-head proof (12089.987667ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 324514.1105

@@ -1,0 +1,198 @@
+{
+  "scope": "Runtime-only count; broad inventory reused from root",
+  "source_file_lines": [
+    {
+      "root": "lib",
+      "total_files": 269,
+      "non_generated_files": 269,
+      "over500": 47,
+      "over1200": [
+        {
+          "path": "lib/admin/admin_shell.dart",
+          "lines": 1237
+        },
+        {
+          "path": "lib/admin/core/admin_roster_import.dart",
+          "lines": 1554
+        },
+        {
+          "path": "lib/admin/core/admin_runtime.dart",
+          "lines": 1438
+        },
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "lines": 1830
+        }
+      ],
+      "top": [
+        {
+          "path": "lib/shared/repositories/collect_repository.dart",
+          "lines": 1830
+        },
+        {
+          "path": "lib/admin/core/admin_roster_import.dart",
+          "lines": 1554
+        },
+        {
+          "path": "lib/admin/core/admin_runtime.dart",
+          "lines": 1438
+        },
+        {
+          "path": "lib/admin/admin_shell.dart",
+          "lines": 1237
+        },
+        {
+          "path": "lib/shared/models/collect_models.dart",
+          "lines": 1169
+        },
+        {
+          "path": "lib/admin/core/admin_reconciliation_runtime.dart",
+          "lines": 1163
+        },
+        {
+          "path": "lib/admin/core/admin_exception_workflow_card.dart",
+          "lines": 1132
+        },
+        {
+          "path": "lib/admin/core/admin_detail_runtime.dart",
+          "lines": 1097
+        },
+        {
+          "path": "lib/admin/core/admin_roster_models.dart",
+          "lines": 1049
+        },
+        {
+          "path": "lib/admin/core/admin_overview_runtime.dart",
+          "lines": 1038
+        },
+        {
+          "path": "lib/features/settings/settings_subscreens.dart",
+          "lines": 1004
+        },
+        {
+          "path": "lib/features/payments/contribution_flow_screen.dart",
+          "lines": 994
+        },
+        {
+          "path": "lib/shared/widgets/collect_scaffold_chrome.dart",
+          "lines": 933
+        },
+        {
+          "path": "lib/admin/core/admin_gateway_page.dart",
+          "lines": 929
+        },
+        {
+          "path": "lib/admin/core/admin_list_runtime.dart",
+          "lines": 896
+        }
+      ]
+    },
+    {
+      "root": "supabase/functions",
+      "total_files": 77,
+      "non_generated_files": 77,
+      "over500": 6,
+      "over1200": [],
+      "top": [
+        {
+          "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+          "lines": 1156
+        },
+        {
+          "path": "supabase/functions/collect-android-gateway/handler.ts",
+          "lines": 851
+        },
+        {
+          "path": "supabase/functions/collect-android-gateway/dispatch_v2_test.ts",
+          "lines": 772
+        },
+        {
+          "path": "supabase/functions/prepare-roster-import/handler.ts",
+          "lines": 659
+        },
+        {
+          "path": "supabase/functions/auth-send-whatsapp-otp/handler_test.ts",
+          "lines": 650
+        },
+        {
+          "path": "supabase/functions/collect-android-gateway/handler_test.ts",
+          "lines": 536
+        },
+        {
+          "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+          "lines": 497
+        },
+        {
+          "path": "supabase/functions/collect-receipt-supervisor/handler.ts",
+          "lines": 416
+        },
+        {
+          "path": "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts",
+          "lines": 389
+        },
+        {
+          "path": "supabase/functions/collect-receipt-exception-worker/handler_test.ts",
+          "lines": 352
+        },
+        {
+          "path": "supabase/functions/_shared/roster_response_policy_test.ts",
+          "lines": 345
+        },
+        {
+          "path": "supabase/functions/auth-send-whatsapp-otp/handler.ts",
+          "lines": 313
+        },
+        {
+          "path": "supabase/functions/collect-receipt-exception-worker/handler.ts",
+          "lines": 311
+        },
+        {
+          "path": "supabase/functions/collect-android-gateway/archive_v3_test.ts",
+          "lines": 302
+        },
+        {
+          "path": "supabase/functions/verify-play-integrity/index.ts",
+          "lines": 298
+        }
+      ]
+    }
+  ],
+  "edge_actual_entrypoints": [
+    "auth-send-whatsapp-otp",
+    "collect-android-gateway",
+    "collect-notification-operator",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "reconciliation-finalize",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "edge_deploy_expected": [
+    "auth-send-whatsapp-otp",
+    "collect-notification-operator",
+    "dispatch-notifications",
+    "ingest-payment-sms",
+    "parse-payment-sms",
+    "prepare-roster-import",
+    "send-notification",
+    "verify-play-integrity"
+  ],
+  "omitted_entrypoints": [
+    "collect-android-gateway",
+    "collect-receipt-exception-worker",
+    "collect-receipt-supervisor",
+    "reconciliation-finalize"
+  ],
+  "format_command_dry_run": "DART=\"/Users/jeanbosco/Developer/flutter/bin/dart\" ruby scripts/qa/dart_format.rb --check",
+  "final_targeted_readback_at_utc": "2026-10-01T17:37:53.620543+00:00",
+  "final_overbudget_counts": {
+    "lib/shared/repositories/collect_repository.dart": 1830,
+    "lib/admin/core/admin_roster_import.dart": 1554,
+    "lib/admin/core/admin_runtime.dart": 1501,
+    "lib/admin/admin_shell.dart": 1237
+  }
+}

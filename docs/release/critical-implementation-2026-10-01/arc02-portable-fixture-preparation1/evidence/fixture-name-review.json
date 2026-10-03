@@ -1,0 +1,100 @@
+{
+  "credential_key_scan_matches": [],
+  "dynamic_resolution": {
+    "_observedIntent(action)": [
+      "enroll",
+      "activate",
+      "revoke"
+    ],
+    "adminExceptionListFixture(empty)": [
+      "empty",
+      "populated"
+    ],
+    "cancel_models_name_loops": "Seven inspection names, four lookup names and cancelled-action.",
+    "exception_models_name_loops": "Four list names and three lookup names plus action-receipt; default populated.",
+    "principal_expired_pending": "Uses the existing last identity-pages row via _observation; no separate receipt exists or is required.",
+    "principal_identity_states": [
+      "identity-revoked",
+      "identity-expired-active"
+    ],
+    "workflow_observed_name_loop": [
+      "unassigned",
+      "unassigned-resolved"
+    ]
+  },
+  "history_main_not_selected": "Current41 imports history helper functions through admin_exception_history_v2_sdk_test.dart; it does not invoke the history model main containing separate archive checks.",
+  "new_receipt_count": 34,
+  "operations_reused_names": [
+    "owner-configure",
+    "owner-stop",
+    "owner-lookup-recorded",
+    "policy-default"
+  ],
+  "principal_key_payload": "Existing public_key_spki_base64 and key_sha256 preserved. Producer result explicitly private_key_created false; no private key receipt is copied.",
+  "reused_receipt_count": 4,
+  "selected_families": [
+    {
+      "domain": "admin_exception_reads_v2",
+      "names": [
+        "empty",
+        "populated",
+        "filtered",
+        "cleared",
+        "recorded-lookup",
+        "unknown-lookup",
+        "progress-lookup",
+        "action-receipt"
+      ],
+      "source": "exception-reads-v2/backend-uat",
+      "suffix": ""
+    },
+    {
+      "domain": "admin_exception_lifecycle_v1",
+      "names": [
+        "workflow",
+        "inbox",
+        "unassigned",
+        "unassigned-resolved"
+      ],
+      "source": "exception-lifecycle-20261001/attempt6",
+      "suffix": ""
+    },
+    {
+      "domain": "admin_receipt_cancel_v1",
+      "names": [
+        "linked-rwanda-inspection",
+        "revision-exhausted-inspection",
+        "unavailable-inspection",
+        "prior-attempt-inspection",
+        "unclassified-inspection",
+        "cancelled-inspection",
+        "preexisting-eligible-inspection",
+        "recorded-lookup",
+        "in-progress-lookup",
+        "reauthenticated-original-lookup",
+        "not-recorded-lookup",
+        "cancelled-action"
+      ],
+      "source": "safe-receipt-actions/backend-uat",
+      "suffix": ""
+    },
+    {
+      "domain": "admin_receipt_principal_v3",
+      "names": [
+        "enroll",
+        "activate",
+        "revoke",
+        "enroll-input",
+        "revoke-input",
+        "revoke-lookup",
+        "identity-active",
+        "identity-pages",
+        "identity-revoked",
+        "identity-expired-active"
+      ],
+      "source": "receipt-operations-enrollment-workflow-20261001/sql/attempt3",
+      "suffix": "-v3"
+    }
+  ],
+  "selected_json_parses": true
+}

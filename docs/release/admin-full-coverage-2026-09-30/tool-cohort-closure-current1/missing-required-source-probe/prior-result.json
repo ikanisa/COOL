@@ -1,0 +1,11 @@
+{
+  "command_exit_code": 0,
+  "absent_required_runtime": [
+    "lib/admin/new_enabled_provider.dart"
+  ],
+  "reported_source_match": true,
+  "reported_exclusions": [
+    "lib/admin/new_enabled_provider.dart"
+  ],
+  "defect_reproduced": true
+}

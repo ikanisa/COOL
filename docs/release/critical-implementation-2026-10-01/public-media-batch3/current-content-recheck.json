@@ -1,0 +1,56 @@
+{
+  "scope": "Current55-check quality gate actual emitted content check; no current or dated contract changed in this batch.",
+  "quality_report_sha256": "85241be713ee4ad59a508e2515c3c3d1b0bdb49027df2a49521e4170ee4fac6f",
+  "content_check": {
+    "id": "pre_audit_content_parity",
+    "status": "pass",
+    "message": "Public routes match the reviewed current Collect product-copy contract; historical evidence is retained.",
+    "details": {
+      "status": "pass",
+      "expected_routes": [
+        "/",
+        "/account-deletion/",
+        "/community-groups/",
+        "/craas/",
+        "/credit-readiness/",
+        "/data-deletion/",
+        "/group-savings/",
+        "/insurance/",
+        "/our-partners/",
+        "/partners/",
+        "/privacy/",
+        "/protection/",
+        "/security/",
+        "/terms/",
+        "/trust/"
+      ],
+      "generated_routes": [
+        "/",
+        "/account-deletion/",
+        "/community-groups/",
+        "/craas/",
+        "/credit-readiness/",
+        "/data-deletion/",
+        "/group-savings/",
+        "/insurance/",
+        "/our-partners/",
+        "/partners/",
+        "/privacy/",
+        "/protection/",
+        "/security/",
+        "/terms/",
+        "/trust/"
+      ],
+      "hash_failures": [],
+      "scope": "Exact locally reviewed Collect Rwanda-only product copy and source inputs. Historical baseline retained; no visual, legal, publication or hosted availability acceptance.",
+      "contract_sha256": "758e36201378c6992fc53e43d85f3f03943539160258c486c27a6acce44217f8",
+      "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+      "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+      "current_comparison_sha256": "715ba9509b1f434215d555436be30fde5a6550769f8e25d15648beb482a46b8c",
+      "current_comparison_file": "docs/release/critical-implementation-2026-10-01/public-media-batch1/content-comparison.json",
+      "reviewed_source_count": 20,
+      "legal_release_approved": false,
+      "publication_approved": false
+    }
+  }
+}

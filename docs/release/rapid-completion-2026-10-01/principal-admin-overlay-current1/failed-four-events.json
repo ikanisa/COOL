@@ -1,0 +1,116 @@
+{
+  "cases": [
+    {
+      "name": "Current-owner principal Admin workflow public enrollment saves and verifies metadata before one send",
+      "events": [
+        {
+          "testID": 129,
+          "messageType": "print",
+          "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: a value greater than or equal to <2>\n  Actual: <1>\n   Which: is not a value greater than or equal to <2>\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart:918:9)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart line 918\nThe test description was:\n  public enrollment saves and verifies metadata before one send\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+          "type": "print",
+          "time": 114432
+        },
+        {
+          "testID": 129,
+          "error": "Test failed. See exception logs above.\nThe test description was: public enrollment saves and verifies metadata before one send",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 114508
+        },
+        {
+          "testID": 129,
+          "result": "error",
+          "skipped": false,
+          "hidden": false,
+          "type": "testDone",
+          "time": 114516
+        }
+      ]
+    },
+    {
+      "name": "Current-owner principal Admin workflow pending enrollment leaves investigation and urgent revoke usable",
+      "events": [
+        {
+          "testID": 132,
+          "messageType": "print",
+          "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: an object with length of <1>\n  Actual: []\n   Which: has length of <0>\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart:1002:9)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart line 1002\nThe test description was:\n  pending enrollment leaves investigation and urgent revoke usable\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+          "type": "print",
+          "time": 121281
+        },
+        {
+          "testID": 132,
+          "error": "Test failed. See exception logs above.\nThe test description was: pending enrollment leaves investigation and urgent revoke usable",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 121282
+        },
+        {
+          "testID": 132,
+          "result": "error",
+          "skipped": false,
+          "hidden": false,
+          "type": "testDone",
+          "time": 121283
+        }
+      ]
+    },
+    {
+      "name": "Current-owner principal Admin workflow activation proof refusal retains original and only manual lookup",
+      "events": [
+        {
+          "testID": 133,
+          "messageType": "print",
+          "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: 'recorded'\n  Actual: <null>\n   Which: not an <Instance of 'String'>\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart:1044:9)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart line 1044\nThe test description was:\n  activation proof refusal retains original and only manual lookup\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+          "type": "print",
+          "time": 124118
+        },
+        {
+          "testID": 133,
+          "error": "Test failed. See exception logs above.\nThe test description was: activation proof refusal retains original and only manual lookup",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 124120
+        },
+        {
+          "testID": 133,
+          "result": "error",
+          "skipped": false,
+          "hidden": false,
+          "type": "testDone",
+          "time": 124121
+        }
+      ]
+    },
+    {
+      "name": "Current-owner principal Admin workflow unknown revocation keeps reason hash and manually recovers once",
+      "events": [
+        {
+          "testID": 137,
+          "messageType": "print",
+          "message": "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: an object with length of <1>\n  Actual: []\n   Which: has length of <0>\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart:1093:9)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/principal-admin-overlay-current1/test/admin_receipt_principal_integration_test.dart line 1093\nThe test description was:\n  unknown revocation keeps reason hash and manually recovers once\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+          "type": "print",
+          "time": 130473
+        },
+        {
+          "testID": 137,
+          "error": "Test failed. See exception logs above.\nThe test description was: unknown revocation keeps reason hash and manually recovers once",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 130474
+        },
+        {
+          "testID": 137,
+          "result": "error",
+          "skipped": false,
+          "hidden": false,
+          "type": "testDone",
+          "time": 130475
+        }
+      ]
+    }
+  ]
+}

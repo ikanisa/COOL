@@ -1,0 +1,2265 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T06:22:15.061740+00:00",
+  "base_commit": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "source_findings_sha256": "5e3221a7b64e36a440c3d82b6fd2a6c3b466736944f074a18a5389870cb14535",
+  "scope": "All40 specialist findings from the comprehensive critical review; overlap retained and local engineering progress separated from full closure.",
+  "owner_design_scope": "Direct owner instructions: revolut-design is sole UI/UX/product visual design skill. Competing UI/design skills and separate mandatory mobile checklist/gates removed; technical and professional skills retained.",
+  "candidate_status": "Mutable checkout. Exact AI7 applied with213 affected checks and completed full frozen140 and current154 cold backend acceptance; prior HTTP/type/input failures retained. Successor inventory/readiness5 plus reviewed loader/ten observed imports are applied; current SQL-chain and hosted proof remain pending. Private SDK foundation/locked resolution/startup pass; app/native, hosted/provider/device/store and release acceptance remain open. Current209 isolated ordinary-installer/catalog proof is now complete; domain/historical/recovery and hosted acceptance remain open. Native snapshot preparation is independently reviewed but actual app export/builds are still unexecuted.",
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "items": [
+    {
+      "id": "BE-01",
+      "title": "P0: hosted parity and security acceptance cannot be established",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Backend/release owner must restore authorized read access, bind the frozen candidate to deployed migration/function/configuration hashes, compare effective owners/search paths/table and column grants/RLS/views/private helper grants, and execute the documented anonymous/member/operator/service/cross-group denial matrix in authorized staging. Preserve the failed access result as unknown. A hosted pass requires dated evidence; no absence of access should be converted into a pass or an outage diagnosis."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "BE-02",
+      "title": "P0: an independent finality evidence policy is still required",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Finance and security must select the permitted independent statement/provider evidence route or formally approve a constrained reconciliation policy. Bind the retained source object, provenance, access control, provider/receiver/transaction/amount/currency/time and checker decision; define ambiguous matches, corrections and reversals. Accept only genuine authorized cases and adversarial mismatches with no ledger posting on untrusted or absent evidence. UI and receipt wording must remain aligned to the approved evidence level."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "BE-03",
+      "title": "P1, observed: canonical deploy/readiness inventories omit four current endpoints",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Maintain one typed/versioned endpoint manifest consumed by deploy, auth smoke, secret-name/config checks, dependency binding and readiness. Review each new endpoint's custom authority instead of treating `verify_jwt=false` as automatically insecure. In an isolated/staging target, prove all twelve intended endpoints, exact auth modes and bundle identities; missing/stale/extra retired endpoints must block. This review did not deploy anything."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/architecture-batch1.json",
+          "sha256": "ab5ea8327d40c6baf044a11981152526f3cbf8f1dd07d978237c5f5fbf59f189"
+        }
+      ],
+      "next_action": "Complete remaining original report acceptance after the scoped local batch; no hosted, installed-reader, deployment or release acceptance inferred."
+    },
+    {
+      "id": "BE-04",
+      "title": "P1, observed static gap: assisted SMS service bridge drops the originating operator session",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Carry the validated original session ID through this service bridge; recheck current user, approval, role, permission and required assurance under the same existing lock discipline as the sensitive mutation. Retain the session in confirmation/send-start audit. Test both orderings of logout, expiry, identity/role revocation and confirmation/send-start, including same-user fresh-session replacement. A revoked winning transaction must prevent new sensitive reads and new send permits; a completed permitted operation must retain truthful immutable evidence."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-batch1.json",
+          "sha256": "6b890147e00c069e6a98b0597fcc7a6bbad65b55c69b17c5750b6950eb6d7347"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-positive-batch.json",
+          "sha256": "c9104ad6aac25cb954d94ac89441e98b0adb6a6c7ce9464abc0a1905b913652e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-sensitive-races-batch.json",
+          "sha256": "505c8e6b821fb717631418d6aebbb90259e3149a2d0b98dc19fff2941a8907d5"
+        }
+      ],
+      "next_action": "Actual confirmation/send-start and heartbeat blocking races, fresh-session replacement denials and immutable originating-session provenance passed locally. Bind the final chain/candidate; govern recovery of previously armed unbound legacy capabilities and verify hosted installation/configuration/runtime. Full release acceptance remains open."
+    },
+    {
+      "id": "BE-05",
+      "title": "P1, observed implementation gap: raw-evidence retention and deletion are not an operational workflow",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "actual_default_guarded_privacy_renewal_and_owner_isolation_verified_full_lifecycle_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Privacy/backend/finance owners must approve a per-class schedule covering raw bodies, hashes, names, roster sources/drafts, messages, financial journals, audit, exports/backups and legal holds. Implement a governed, bounded redaction/deletion job that preserves legally required financial facts and irreversibility evidence, revokes sessions, records decisions and reports actual completion to the user. Prove scoped requests, duplicate requests, legal holds, partial failure/restart, derivative/export deletion and preservation of balances/journals. Do not weaken immutable journal retention simply to make account deletion pass."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-lifecycle-batch1/batch.json",
+          "sha256": "0d86fc5305c67df9faeecb98a440a5a9fb43cc25eb79b054bb6dd4951bd1f480"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-intake-batch1/batch.json",
+          "sha256": "c101808f4a0f2bb7ddc563eb5dac84336f554f450c4b8d18404c47432413dd4b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-client-auth-batch1/discovery.json",
+          "sha256": "d94397aae98ed66b37cecc6cc0f52c8c18a3a9659cb53db3a9807823550570a4"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-client-auth-batch2/batch.json",
+          "sha256": "218dc95d32302aa2898deca4a48c775ce5ddd5b032bad5003dfb46004ea5fa68"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-consumer-tests-batch1/batch.json",
+          "sha256": "f68f726c813a87e941678dc5e4e759282560714ea2625a58eea6aaaba82ce3d3"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/batch.json",
+          "sha256": "26b8cff46a752a11e0b55fedb0164629be417859b2638e00d78f70a640a3a849"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+          "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+          "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+          "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+          "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+        }
+      ],
+      "next_action": "Actual default repository/global router initially failed same-owner OTP renewal. The causal fix passes all4 preserved behavioral cases; all587 inputs match. The broader136-case cohort retains134 passes and2 real Security heading failures; the sole headingLevel correction passes37 affected tests, analyzer and post-header authority with1345 inputs unchanged. Exact restored-cache Home case passes on its explicitly pre-heading scope. The prior202-migration27+53 status/intake checks and84 SDK checks remain dated subscopes. Complete approved per-class retention/holds, Auth principal/FK plan, bounded restartable erasure, derivatives/exports/backups/session revocation and preserved financial history. No full erasure/native/hosted acceptance."
+    },
+    {
+      "id": "BE-06",
+      "title": "P1: Auth/MFA/OTP enablement remains configuration-sensitive",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Obtain hosted Auth/hook/provider/SMTP and factor readback, verify test mappings are absent there, configure approved OTP global/per-phone spend limits and upstream bot/source controls, and prove actual email/WhatsApp/MFA sign-in/recovery/cutover with bounded abuse cases. Verify provider outage, delivery ambiguity, template/language failure and secret rotation without blind resend. Keep local convenience separate from a validated release profile."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/batch.json",
+          "sha256": "26b8cff46a752a11e0b55fedb0164629be417859b2638e00d78f70a640a3a849"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+          "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+          "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+          "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+        }
+      ],
+      "next_action": "The privacy consumer disables OTP when configured CAPTCHA has no solver and exposes fixed help while retaining own-server status recovery. Main Auth CAPTCHA/provider integration and actual hosted admission, OTP delivery, account/session changes and recovery still require their original acceptance; no provider pass is inferred from synthetic HTTP."
+    },
+    {
+      "id": "BE-07",
+      "title": "P1, source gap with unverified edge mitigation: Play Integrity admission and quota resilience",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Establish per-user/action and global admission budgets before Google work, fail closed with a stable retryable code, measure decode latency/quota and bound outstanding work. Avoid re-decoding the same uncertain token without a defined recovery policy. Test budget races, quota exhaustion/outage and legitimate queues at expected peak volumes. Retain request-hash/certificate/version/license validation. [Google Play Integrity overview and quotas](https://developer.android.com/google/play/integrity/overview)."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch.json",
+          "sha256": "81b47485684ec29f57ea0f129f959e54bcadd6a179c77dfd201dcaab0732ae48"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-be07-consumers-batch.json",
+          "sha256": "4f3717c39f0f846437d3f15b581255b46cddcdf8107b17b7f67be0a5ee8a1f59"
+        }
+      ],
+      "next_action": "Atomic original-session admission, phase reservation, single-use Google dispatch and lost-ACK recovery retain the dated192-chain89-case resource proof. The193-chain five-suite financial/privacy/audit consumers and cold actual-handler tests pass. Complete approved peak-load/quota/outage and hosted/provider acceptance; engineering budgets remain unapproved. Install Edge admission code before its migration."
+    },
+    {
+      "id": "BE-08",
+      "title": "P1: the migration chain needs a canonical current-schema review and final reproducibility proof",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "current209_ordinary_replay_and_complete_catalogs_verified_domain_recovery_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Add a generated effective-schema/function/grant inventory for the frozen release and a clear domain/caller/owner map; keep applied history immutable. Replay the exact final chain under ordinary intended owners on empty and representative populated predecessor databases; verify late overrides, predecessor fingerprints, historical balances/ACLs, incompatibilities and rollback/roll-forward. Use full timestamp versions. Refactor current definitions and test entrypoints incrementally rather than squashing applied migrations or deleting historical bank evidence."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-positive-batch.json",
+          "sha256": "c9104ad6aac25cb954d94ac89441e98b0adb6a6c7ce9464abc0a1905b913652e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-sensitive-races-batch.json",
+          "sha256": "505c8e6b821fb717631418d6aebbb90259e3149a2d0b98dc19fff2941a8907d5"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-be07-batch.json",
+          "sha256": "81b47485684ec29f57ea0f129f959e54bcadd6a179c77dfd201dcaab0732ae48"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-be07-consumers-batch.json",
+          "sha256": "4f3717c39f0f846437d3f15b581255b46cddcdf8107b17b7f67be0a5ee8a1f59"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/batch.json",
+          "sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/completed-batches-current-readback.json",
+          "sha256": "e5d7f10a600aea5c56ca6c40cd0f310003502c1f20e3e8bd6809894395f5352d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-intake-batch1/batch.json",
+          "sha256": "c101808f4a0f2bb7ddc563eb5dac84336f554f450c4b8d18404c47432413dd4b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-client-auth-batch2/batch.json",
+          "sha256": "218dc95d32302aa2898deca4a48c775ce5ddd5b032bad5003dfb46004ea5fa68"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/migration-version-validation1/packet-files.json",
+          "sha256": "559438742dc3f1f0f753764018ff0ee1f621e164afaa2130881f1420772ea213"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog-preparation1/packet-files.json",
+          "sha256": "8accb69f30c7e964eb31c64f063e7359ab9df4d5ce28bf1e821bf74c24cf3961"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog-execution1/packet-files.json",
+          "sha256": "55cd0abe286d50615fcd13eb37ed0e0d56b10f1bf443ecfbac2065ffb7eafabc"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-preparation1/packet-files.json",
+          "sha256": "129680950a0f8b4018880732833d97fde7c6b524d41eded83a509ec836051c96"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/packet-files.json",
+          "sha256": "9ecf3c89a0197ae3169813863c940138754055a63b1be5bf3980462bb478ea4a"
+        }
+      ],
+      "next_action": "The full-version validator preserves applied12-digit IDs and compares complete14-digit versions, rejecting malformed names and symlinks; all8 behavioral tests and the current209-version validation pass. The earlier208-chain actual37-case proof is retained unchanged. The later209-chain actual37-case rehearsal passes in149.722seconds on216 exact unchanged inputs. All209 application migrations run as postgres NOSUPERUSER after explicit isolated platform preparation; CREATE ROLE/CREATE DB/BYPASSRLS and trusted memberships remain disclosed. The124-version synthetic predecessor retains all18 tested financial/receipt/Auth/approval projections through85 pending migrations. Complete final clean/populated catalogs match byte-for-byte and canonically and inventory38schemas/902functions/997relations/3756columns plus owners, role memberships, effective ACLs, policies and dependencies. Scheduler dispatch stays disabled and both task containers are absent. Complete the domain/caller/owner map, broader historical financial/bank and effective ACL preservation, incompatibility cases, committed predecessor recovery with forward replay, and hosted managed-authority/runtime acceptance. No full BE08 or production closure is inferred."
+    },
+    {
+      "id": "BE-09",
+      "title": "P1: complete current-version recovery acceptance is absent",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Run an authorized isolated current-version restore covering all DB schemas/ACLs/roles/sequence state, Storage bytes, Auth/Edge/configuration and secret inventories through a trusted manager. Keep restored external sends disabled; reconcile post-snapshot revocations. Set accountable RPO/RTO, encrypt and test off-site copies, then measure the actual drill against them. Supabase confirms database backups do not include Storage object bytes. [Supabase backups](https://supabase.com/docs/guides/platform/backups)."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "BE-10",
+      "title": "P1, observed: backend check entrypoints are inconsistent with the current suite",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "current_full_backend_154_verified_current_SQL_and_hosted_integration_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Make CI invoke maintained canonical unit/type/HTTP/decoder/SQL runners with explicit scopes and least permissions, the pinned runtime and frozen lock. Run the clean network-restricted CI recipe against a frozen candidate and retain genuine completion logs. Preserve separate Linux adapter and database integration acceptance; do not silently omit their release gate or weaken assertions. Replace source-string security inference with behavior tests of actual handlers where possible."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/architecture-batch1.json",
+          "sha256": "ab5ea8327d40c6baf044a11981152526f3cbf8f1dd07d978237c5f5fbf59f189"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ci-batch1/batch.json",
+          "sha256": "6322524b0a77807821a43d8e0319bf24eb33dcc4e039d05506eccca27d94e544"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/backend-be07-consumers-batch.json",
+          "sha256": "4f3717c39f0f846437d3f15b581255b46cddcdf8107b17b7f67be0a5ee8a1f59"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-clean-cache-batch1/batch.json",
+          "sha256": "0919809cd09d0181278b4d4df3a395e4d8c473adcc9f0c02485afcb4aff542ee"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/batch.json",
+          "sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/batch.json",
+          "sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/fixture-relocation.json",
+          "sha256": "82608db836086ebeadcff610ce35f7ed2c1c058160956c271054f559d9b9b77e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/ci-source-integration.json",
+          "sha256": "b0cd72ae93ad461792fafcf344925462c68ec9673e8667d8d72ed87b96d96d7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/maintained-contracts/validation.json",
+          "sha256": "1f5011c7a3599bae5e384d5ca571df8ff890d33714c53b488cf0c660b1a566bb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/completed-batches-current-readback.json",
+          "sha256": "e5d7f10a600aea5c56ca6c40cd0f310003502c1f20e3e8bd6809894395f5352d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+          "sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+          "sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/browser-diagnostics-acceptance-batch1/result.json",
+          "sha256": "6e8b0c272cc93742b765abb88738d535a1a799d24de06cbe1cf5f46c91645095"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/packet-files.json",
+          "sha256": "b1bbd91e078226a18892bd79bfa28245f244ad5ace20284617b86fea488a9b9c"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-offline-integration-batch1/packet-files.json",
+          "sha256": "6051997f834d2b18b3226b464249e7bd21ac7fa1d18367779ef0fa0ef84a4ffb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-ci-policy-current-batch1/packet-files.json",
+          "sha256": "3c1a56782766eea0fac884cbd7828fa841c3c88a332e51dba4b4350b9630a38d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-inventory-batch1/batch.json",
+          "sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/batch.json",
+          "sha256": "252b1e0310597fc36dc25ed7f41416ad47412ac66d68d6e64778bbad019957fd"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-successor-consumer-promotion1/packet-files.json",
+          "sha256": "75a25f8f9a116d96e7c955477d996bb98730a0bcace3e80a7b170c91b002f6be"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/batch.json",
+          "sha256": "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation2/batch.json",
+          "sha256": "8327151022c8760bf4ae2f989597cbf663b88ba5210cc1951faa0e38b70e49be"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/packet-files.json",
+          "sha256": "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/batch.json",
+          "sha256": "933a3ed6c02e6b1c75485ef9e93ca815a402c1c9b88ec80eaa0e477db396c222"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-inputs-preparation4/batch.json",
+          "sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/batch.json",
+          "sha256": "60c491c3b045e808175a84cf52d768a42cc4d9215faa74d348945b9ad3956a8b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-discovery1/packet-files.json",
+          "sha256": "1737e9f9b1e322e6a0c11546c2045518bcf7b83325d89895a26a32a8d4f297d1"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/packet-files.json",
+          "sha256": "807bdc7169a82f50dfbf1ba0518e6f540cf1806874bc5357f1822d61c4b7cb9b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/packet-files.json",
+          "sha256": "506057f500a37d5a3f799645cc803d11727a8520373f1ce4d7a61c8dd4f4033d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/batch.json",
+          "sha256": "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7"
+        }
+      ],
+      "next_action": "Offline image acquisition is repaired through exact six Linux wheels, whole publisher metadata and receipt, physical isolated copies, hash-locked no-index installation and unchanged300/600/1200-second deadlines. Root checks the original519 evidence leaves/520 checksum rows: fresh-cache original137 source cohort passes77 contracts,83 types,565 unit tests/32 steps,91 HTTP checks,32 Linux cases,14 signed decoder HTTP cases,159 regressions and6 security tests. The supported compiler rejects a genuinely corrupted imported lock digest with exit10 under OS network denial; the earlier unsupported cached-only check argument and cleanup-parser error remain separate failed diagnostics. Current CI acquisition wiring and12 policy tests/six workflow policies pass locally; hosted CI has not been executed here. Exact AI promotion passes213 affected cases. Earlier frozen140 attempts retain seven HTTP fixture failures, a duplicate-property compiler error, and a missing publisher receipt before the Linux build. The synthetic approval fixture and its duplicate-property type correction are now applied without changing original assertions. The separately completed full140 proof passes77 contracts,86 types,643 units/32 steps,103 HTTP checks,32 Linux cases,14 signed decoder HTTP cases,212 actual regressions and6 security tests, with a fresh no-cache/network-none offline image in44.629seconds. Preserve prior HTTP/type/missing-receipt preparation failures separately. The five successor inventory/readiness consumers are now applied:13 intended repository functions,8 custom auth endpoints,17 current Ruby tests/173 assertions and authentication/Bash syntax pass; exact private34 delivery tests pass with synthetic transport. All ten genuine fixture originals are independently bound to completed52/22 local SQL producers and matching final Edge source. Root reviewed the exact478-line11-file import/loader proposal, prepared the complete154 current source graph and13 physical offline inputs, and completed one fresh full gate in42.519seconds:77 contracts,90 types,33 unit suites/668 tests/32 steps,109 HTTP checks,32 Linux cases,14 signed decoder HTTP cases,212 regressions and6 same-image security tests. All25 gateway tests pass with zero failures/ignored cases. Exactly11 reviewed files are applied; every maintained154 source hash equals the accepted private candidate and all other208 input guards remain unchanged. The literal loader now registers13. Current SQL and hosted acceptance remain separate. Keep actual current database integration separate. The original ARC-04 local criterion is fulfilled by this exact current154 graph, the immutable generated observations and the unchanged lock/runtime corruption proof. Hosted execution, current SQL and release acceptance remain separate findings."
+    },
+    {
+      "id": "BE-11",
+      "title": "P2: phone hashes are pseudonymous identifiers, not anonymized data",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_documentation_added",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Treat existing hashes as personal/pseudonymous data in inventory and retention rules. Where the identifier's threat model warrants it, use a server-keyed, versioned HMAC with planned migration/rotation and explicit separation from publicly exchangeable request hashes. Prove Dart/native/SQL/Edge identity parity and historical matching before changing any financial identifier. First close access/retention/claims gaps; avoid an unplanned hash rewrite across ledgers."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/phone-hash-classification-batch.json",
+          "sha256": "a5f3f85c92630e20ea7377d1cc0cc7102e3f1e3fd8470b8c0d3dffeb34c6ed63"
+        }
+      ],
+      "next_action": "Canonical privacy notes now classify phone hashes as personal/pseudonymous and inventory retention classes without changing identifiers. Obtain approved class schedules/holds and operational deletion proof; assess keyed/versioned identifiers only with cross-runtime and historical financial matching proof."
+    },
+    {
+      "id": "BE-12",
+      "title": "P1: operational controls are implemented but live operability is unverified",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Set a monitored service-level objective for authentication, receipt custody/parse/allocation/finality, notification registration/delivery and worker freshness. Define named on-call ownership and runbooks for oldest backlog, budget exhaustion, stale gateway/SIM, Integrity/OTP/push outages, key revocation and unknown outcomes. Demonstrate alerts with controlled staging faults and real authorized device/provider UAT; annotate observation/simulation/source/freshness in dashboards. Keep action caps, emergency stop and no-blind-retry semantics."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "BE-13",
+      "title": "P1: AI roster processing requires vendor/region/retention acceptance",
+      "report": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "dispatch_guard_and_full_frozen_backend_verified_processor_lifecycle_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation / acceptance:** Document the exact data path and review processor terms, region/transfer authority, permitted purposes and actual retention settings; choose deterministic decoding where sufficient and expose a comprehensible authorized import disclosure. Prove source minimization, prompt-injection failure cases, strict output validation, budget isolation and deletion/hold behavior. OpenAI documents API retention/data-control settings separately from response storage. [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data)."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/batch.json",
+          "sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/batch.json",
+          "sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/batch.json",
+          "sha256": "b3ff1456d00f31f742433e166b60733c2a312ce11b251f44ba18b4fb396df352"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/ai-design-independent-readback.json",
+          "sha256": "54395819050a6da9031a32dfc1fa3eab03cf24471c748479f2f09ab7abae7159"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/ai-fixture-independent-readback.json",
+          "sha256": "1c210aa8f7c0b89f7a32908864dfec048e1ff0bc4fd4cce0101337c86c81b5a3"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-ai-dispatch-promotion-batch1/packet-files.json",
+          "sha256": "22254ff78ce9066b6ff329446f8230edce567dda48996ec6e1c69bf316c62400"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/batch.json",
+          "sha256": "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation2/batch.json",
+          "sha256": "8327151022c8760bf4ae2f989597cbf663b88ba5210cc1951faa0e38b70e49be"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/packet-files.json",
+          "sha256": "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/batch.json",
+          "sha256": "933a3ed6c02e6b1c75485ef9e93ca815a402c1c9b88ec80eaa0e477db396c222"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-inputs-preparation4/batch.json",
+          "sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/batch.json",
+          "sha256": "60c491c3b045e808175a84cf52d768a42cc4d9215faa74d348945b9ad3956a8b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-roster-ai-policy-documentation1/packet-files.json",
+          "sha256": "eef11c4fec051ad5440160c1c22e094fcf19c0f5fdb9f33bb78fb3a696048d7f"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/batch.json",
+          "sha256": "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7"
+        }
+      ],
+      "next_action": "Root fully reviewed and applied exactly seven files. A bounded20-field server approval JSON and independent whole-byte SHA pin bind purpose, active window, processor/project/model/decoder endpoints and build, plus represented evidence references. An immutable nine-value effective configuration snapshot is rechecked synchronously before reservation, inside actual decoder fetch after HMAC, and directly before provider fetch after ACK/body construction. Existing trim/default normalization remains explicit. Missing/revoked/expired/mismatched records deny AI extraction; no actual policy values or approval were provisioned. Original109 cases remain byte-preserved; all213 affected tests, frozen cached-only types, default seven-file lint and format pass on applied source. Earlier private140 attempts preserve seven HTTP fixture failures, a duplicate-property type error and an omitted publisher receipt before Linux. Exact minimal fixture corrections and all13 explicit offline inputs are now verified. The subsequent fresh full140 run passes86 types,643 units/32 steps,103 HTTP checks,32 Linux cases,14 signed decoder HTTP cases,212 regressions and6 security cases with the same image. The later full154 gateway integration also passes and exactly11 reviewed consumer/fixture files are applied by byte agreement. Complete current SQL-chain acceptance remains separate. Source-bound operator documentation now enumerates the exact20 fields/four server values and current data path; official OpenAI data-control guidance was checked2October2026. Actual vendor/project/region/transfer/retention acceptance, durable policy lineage, source/derivative/backup erasure and holds, spend/model accuracy and truthful Admin disclosure remain open; Admin is held by its current writer. A valid representation does not establish real approval."
+    },
+    {
+      "id": "ARC-01",
+      "title": "P1: Linux CI calls a developer-specific Dart path",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "canonical_clean_ubuntu_full_private_formatter_candidate_verified_current_owner_integration_pending",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** Resolve pinned Flutter/Dart executables through the approved environment/FVM or PATH; retain explicit overrides for operator use. Make CI invocation explicit and validate existence/version before collecting pass evidence. **Acceptance:** execute the actual Make command in a clean Ubuntu checkout and demonstrate the formatter rejects a deliberately malformed fixture, then passes the reviewed source. Do not remove the formatting gate."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/architecture-batch1.json",
+          "sha256": "ab5ea8327d40c6baf044a11981152526f3cbf8f1dd07d978237c5f5fbf59f189"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-batch1/batch.json",
+          "sha256": "285b631f5ff23eaad52570fc7f6299c715b2bfe612df8ba5c3775ba19ebf32f6"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-resolved-batch1/batch.json",
+          "sha256": "951ba5f8ab1c826708c1a0f7415f4210f50856390527ab30e66637a979c37e1c"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/arc01-ubuntu-current-preparation-batch1/batch.json",
+          "sha256": "d7e7aab3b84ea2861bbdb442e27fd96b52efa9e143841a650481e4decaf72051"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/arc01-resolved-packet-readback.json",
+          "sha256": "18bf44af9037cd38eb48392eff78d0c81405f2ab0e6c045b48496a96073bc6f8"
+        }
+      ],
+      "next_action": "The original ARM64/no-Pub cohort really fails15 changes. Fresh authenticated Flutter3.44.4/Dart3.12.2 Ubuntu amd64 canonical enforced-lock Pub resolves language metadata and reduces actual full670-source Make failures to exactly3. Formatting only those3 in a private candidate passes670/0; the unchanged maintained Make rejects an added malformed fixture671/1 and passes restored670/0. Root independently checks117 sealed leaves and reviews the whitespace diff. No source promotion: those3 files belong to another active human-owned chat and coordination authorization is pending. A preparatory current823/670 export and171 unchanged dependency identities are frozen, but later Security header drift and no actual current Make mean current acceptance remains false. Integrate by the write owner and prove fresh full current Make without inventory or gate changes."
+    },
+    {
+      "id": "ARC-02",
+      "title": "P1: current source violates the repository's hard CI size gate",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** Extract owned typed services by capability: member/session lifecycle, history reads, notification preferences, receipt transport, roster preparation/recovery and Admin operation controllers. Keep the current public APIs initially; move one boundary with its consumers and behaviour tests. Do not simply raise the budget, add lint exclusions or cut files at arbitrary line positions. **Acceptance:** actual hard size gate, strict analysis and affected boundary/consumer regressions pass on one frozen source candidate; auth-generation and exactly-once semantics remain invariant."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/refactor-batch1.json",
+          "sha256": "ebd63892c7bfd1c74ac730cddaf0e2cd82487419ee472db42e71c96881b2795d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/overview-responsive-batch1.json",
+          "sha256": "14dc8ccda0e8df01fc4f6a8fd18dc308bfd32ee0544fd8ce1073a81e8fa082fa"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/refactor-integration-run.json",
+          "sha256": "48a617aa3bc433da39263a027bd290d6404dab015f474a2241454e1e2dd6805a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/dart-integration-current.json",
+          "sha256": "33969dabc0fb53050ecf40a2a99a9812c285b39f598407211f5c771fe6ddf73d"
+        }
+      ],
+      "next_action": "Four responsibility-based extractions, actual unchanged hard size gate and strict full Flutter analysis pass. Original37 affected suites passed1066 tests with3 SQL-evidence-dependent skips retained; changed PWA consumer subsequently passed27 tests, and five payment suites passed29. Bind the final immutable source and complete skipped SQL/invariant acceptance; do not add overlapping counts."
+    },
+    {
+      "id": "ARC-03",
+      "title": "P1: Edge deploy/readiness inventory is obsolete",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** Maintain one reviewed release manifest of active, staged and retired endpoints, authentication mode, supported caller, secret requirements and rollout order. Derive deployment and readiness inventories from that manifest. Include the new non-JWT signature/scheduler boundaries explicitly, and preserve their independent handler authentication. **Acceptance:** source/deploy/probe inventory equality, immutable function hashes, migrated SQL dependencies, scheduler configuration and denial/positive HTTP readback in approved staging; then perform an authorised production readback."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/architecture-batch1.json",
+          "sha256": "ab5ea8327d40c6baf044a11981152526f3cbf8f1dd07d978237c5f5fbf59f189"
+        }
+      ],
+      "next_action": "Complete remaining original report acceptance after the scoped local batch; no hosted, installed-reader, deployment or release acceptance inferred."
+    },
+    {
+      "id": "ARC-04",
+      "title": "P1: CI does not use the current Edge lock/test contract",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "closed_current_local_frozen_runner_contract",
+      "acceptance_status": "closed_complete_original_local_criterion",
+      "full_finding_closed": true,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** fresh-cache clean-runner compilation and tests with exact lock/runtime and denied unexpected network/provider access, plus a corrupted-lock negative case; evidence-dependent tests consume a generated, immutable packet rather than silently skipping or borrowing an unexplained dated directory."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ci-batch1/batch.json",
+          "sha256": "6322524b0a77807821a43d8e0319bf24eb33dcc4e039d05506eccca27d94e544"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-clean-cache-batch1/batch.json",
+          "sha256": "0919809cd09d0181278b4d4df3a395e4d8c473adcc9f0c02485afcb4aff542ee"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/fixture-relocation.json",
+          "sha256": "82608db836086ebeadcff610ce35f7ed2c1c058160956c271054f559d9b9b77e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/ci-source-integration.json",
+          "sha256": "b0cd72ae93ad461792fafcf344925462c68ec9673e8667d8d72ed87b96d96d7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/maintained-contracts/validation.json",
+          "sha256": "1f5011c7a3599bae5e384d5ca571df8ff890d33714c53b488cf0c660b1a566bb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+          "sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+          "sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/browser-diagnostics-acceptance-batch1/result.json",
+          "sha256": "6e8b0c272cc93742b765abb88738d535a1a799d24de06cbe1cf5f46c91645095"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/packet-files.json",
+          "sha256": "b1bbd91e078226a18892bd79bfa28245f244ad5ace20284617b86fea488a9b9c"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-offline-integration-batch1/packet-files.json",
+          "sha256": "6051997f834d2b18b3226b464249e7bd21ac7fa1d18367779ef0fa0ef84a4ffb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-ci-policy-current-batch1/packet-files.json",
+          "sha256": "3c1a56782766eea0fac884cbd7828fa841c3c88a332e51dba4b4350b9630a38d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-inventory-batch1/batch.json",
+          "sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/batch.json",
+          "sha256": "252b1e0310597fc36dc25ed7f41416ad47412ac66d68d6e64778bbad019957fd"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-successor-consumer-promotion1/packet-files.json",
+          "sha256": "75a25f8f9a116d96e7c955477d996bb98730a0bcace3e80a7b170c91b002f6be"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/batch.json",
+          "sha256": "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation2/batch.json",
+          "sha256": "8327151022c8760bf4ae2f989597cbf663b88ba5210cc1951faa0e38b70e49be"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/packet-files.json",
+          "sha256": "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/batch.json",
+          "sha256": "933a3ed6c02e6b1c75485ef9e93ca815a402c1c9b88ec80eaa0e477db396c222"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-inputs-preparation4/batch.json",
+          "sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/batch.json",
+          "sha256": "60c491c3b045e808175a84cf52d768a42cc4d9215faa74d348945b9ad3956a8b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-discovery1/packet-files.json",
+          "sha256": "1737e9f9b1e322e6a0c11546c2045518bcf7b83325d89895a26a32a8d4f297d1"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/packet-files.json",
+          "sha256": "807bdc7169a82f50dfbf1ba0518e6f540cf1806874bc5357f1822d61c4b7cb9b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/packet-files.json",
+          "sha256": "506057f500a37d5a3f799645cc803d11727a8520373f1ce4d7a61c8dd4f4033d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/batch.json",
+          "sha256": "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7"
+        }
+      ],
+      "next_action": "Original ARC-04 acceptance is fulfilled. Current154 fresh-cache full recipe passes 77 contracts, 90 types, 668 unit tests and 32 steps, 109 HTTP checks and all Linux/signed/regression/security phases. All 25 gateway tests pass on verified generated observations. The current lock/runtime pins retain the valid real corrupted-import rejection under OS network denial. Exact11 promotion binds all154 maintained hashes to the tested candidate; root and independent reviewer verify 548 leaves/549 checksums. Preserve this proof and original failures. Recheck affected inputs if the accepted graph changes. Current SQL, hosted CI and production acceptance remain open in their own findings.",
+      "closure_scope": "Complete original ARC-04 local CI/lock/runner contract: current154 fresh-cache full recipe, exact lock/runtime, narrowly scoped execution, reused genuine corruption negative and generated immutable observations. Current SQL, hosted, native and production requirements remain separate.",
+      "closed_at_utc": "2026-10-02T03:25:49.213473+00:00"
+    },
+    {
+      "id": "ARC-05",
+      "title": "P1: deployment entrypoint does not bind mutations to approved source/artifacts",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** Add a backend-specific reviewed candidate preflight covering migration prerequisites, source hashes, exported handler closure, approval scope, compatibility and rollback/roll-forward. Release from an immutable export rather than the changing workspace. Keep post-deploy readback mandatory and record partial failure per operation. **Acceptance:** fake CLI/transport regressions demonstrate rejection before mutation for dirty/unbound source, wrong target, stale approval and incomplete manifest; staging exercises a partial failure and recovers without data loss or double effects. Avoid a circular demand that all final production checks must pass before a necessary staging/remediation rollout."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/deployment-batch1/batch.json",
+          "sha256": "fc83bfb5cc64ec9d73185108daac4c6bee49bacc74a22973bba2552fe24e2f80"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cli-toolchain-batch1/batch.json",
+          "sha256": "964e8d67a2e65719f67c6bbc33e8dc8dcdfbd45d91fb32a165558b548123ce98"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cli-toolchain-batch1/controller-proof.json",
+          "sha256": "c74ddfd8c78c18d87a758bee2b9d4aeb78b4f20848c51c75f88b6ae5928ed2c6"
+        }
+      ],
+      "next_action": "Immutable backend export/target/operation approval and both Supabase binary identities are locally guarded;30 contract regressions pass. Bind final backend closure and exercise approved staging partial failure/recovery/readback without duplicate effects. No hosted deployment or authentic human release approval is inferred."
+    },
+    {
+      "id": "ARC-06",
+      "title": "P1: iOS publication governance is weaker than Android",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** invalid ref/commit/approval/artifact tests fail before credential import/upload; protected environment enforcement is exported/read back; one signed IPA and its privacy/entitlement inspection is bound to the approved internal or public distribution decision."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ios-batch1/batch.json",
+          "sha256": "ac209fb3ac7bebe7fd9d9a80bad59d39bf20342ccbeb88c59cbce0970259f082"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ios-security-consumer-test.json",
+          "sha256": "f7af8eaa3b2f2284c83e6e9858341c6cd1c46acc1a58e795114393aa67627266"
+        }
+      ],
+      "next_action": "Credential-free preflight, artifact/approval scope and protected-environment enforcement pass30 local contract tests plus the existing iOS Dart consumer. Read-only GitHub currently reports zero environments; await the owner-designated reviewer/team, enforce/read back protections, then bind an actual signed IPA and approved distribution/privacy inspection. No signing/upload performed."
+    },
+    {
+      "id": "ARC-07",
+      "title": "P1: Admin update policy risks mixed versions and stale unversioned assets",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** two real hosted build versions, with changed main bundle/assets, prove first visit, existing HTTP cache without worker, installed warm upgrade, open multi-tab pending actions, interrupted install, offline and rollback. Assert expected bundle/resource hashes and no stale private state. A header or fresh-install pass alone cannot close this issue."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/pwa-batch1.json",
+          "sha256": "6b048cf1fd91cee7e1a349032376241d63ce4b5dc38516f37395ba802ef8e50d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/packet-files.json",
+          "sha256": "e708bf9309e72c2b19e72058e98914a701f3571078633d89552de522e4599f5a"
+        }
+      ],
+      "next_action": "Content-addressed runtime assets, waiting multi-tab update, failed-install cleanup, uncached private responses and rollback passed28 actual Chrome loopback checks plus27 Dart tests. A dated actual Flutter login artifact was compatibility-tested. Complete two current real hosted builds, installed/PWA authenticated pending tasks and supported browser/platform matrix before full acceptance."
+    },
+    {
+      "id": "ARC-08",
+      "title": "P1: operational toolchain can silently resolve an arbitrary latest CLI",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** Pin the reviewed CLI version and package integrity, require a known supported PostgreSQL client/server matrix and record the actual binary/version in deployment evidence. Use explicit offline/locked installation rather than latest resolution during a live operation. **Acceptance:** clean environment selects the same pinned toolchain and wrong/unknown versions fail before remote requests; migration and restore rehearsal uses that exact toolchain."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/architecture-batch1.json",
+          "sha256": "ab5ea8327d40c6baf044a11981152526f3cbf8f1dd07d978237c5f5fbf59f189"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cli-toolchain-batch1/batch.json",
+          "sha256": "964e8d67a2e65719f67c6bbc33e8dc8dcdfbd45d91fb32a165558b548123ce98"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cli-toolchain-batch1/integrity.json",
+          "sha256": "5c9e5a99c3b96a7390c977679fd59c237a89d8691621ddd5b0337a7d3fc41fc9"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/strict-export.json",
+          "sha256": "8f812fa3ee4a4d3a7c1b647b562590193c8c07b0f959ef2fbce3131dd0b30bdb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/batch.json",
+          "sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch2/batch.json",
+          "sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/batch.json",
+          "sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/batch.json",
+          "sha256": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+          "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+          "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+          "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+          "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+        }
+      ],
+      "next_action": "Exact official Supabase2.114.0 archive/checksum/digest and both arm64 executable bytes are recorded; the deployment controller binds launcher and companion and rejects drift. Unsigned/ad-hoc publisher-provenance limitations remain explicit. The shared PostgreSQL proposal is still private and unpromoted. Root review requires a source-reviewed supported client/server cohort, exact manifest/binary/target binding and bounded credential-free probes; a hashed claimed matrix alone is insufficient. Complete affected helper/readiness/deployment regressions and actual migration/restore adapter proof with the admitted exact toolchain. Supabase embedded DB-client/image provenance and pg_dump/pg_restore binding remain separate gaps. No actual external approval or hosted CLI effect is supplied."
+    },
+    {
+      "id": "ARC-09",
+      "title": "P1: fork/dependency governance is uneven across ecosystems",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "private_sdk_foundation_locked_resolution_and_startup_verified_native_app_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** upstream licence and published archive provenance, exact allowed deltas, frozen dependency verification, authenticated advisory triage and packaged AAB/IPA/web SBOM reconciliation. Current inventory/schema validators are useful evidence, not vulnerability or licence acceptance."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/dependency-maintenance-batch.json",
+          "sha256": "f8f397a1e9456175a27aed94836ae423fd2e8c566ffa64e8bde3f848ad901fc3"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/batch.json",
+          "sha256": "c724b537bea07709be0d0ce9f899b9f2afc990dd6deba5e3d71e6f028e8bb9cc"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/fork-ci-integration.json",
+          "sha256": "bc2828827e0896890d44bf9704f6c954b8453c50e61c12cb57251adef4b182fd"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/batch.json",
+          "sha256": "5b28826471cd2b997d0d4c9228116b410578802cda7405521bb2984cba25c1dd"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/ruby-dependency-batch1/batch.json",
+          "sha256": "832e424c42ae1cb676ce1be9b635ee8a1c6bfcf016f425cff9f05c76cd636a5b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/batch.json",
+          "sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-sql-admission-batch1/batch.json",
+          "sha256": "fa46fbfca46edfbfd4ec908a362a63b45f2bc8b835799c460bef7fd2626cf862"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/ci-source-integration.json",
+          "sha256": "b0cd72ae93ad461792fafcf344925462c68ec9673e8667d8d72ed87b96d96d7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/completed-batches-current-readback.json",
+          "sha256": "e5d7f10a600aea5c56ca6c40cd0f310003502c1f20e3e8bd6809894395f5352d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+          "sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+          "sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/production-compile-graph.json",
+          "sha256": "d8177619befcfb5bb8b735d6dc46c19f7a53264cf92fb9e65a1da85fb3199495"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/production-runtime-graph.json",
+          "sha256": "5bdf562379c6473353d1e71c9509c988b54abc8d5fbf7f4772d6945325a4f00a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/sdk-runtime-graph.json",
+          "sha256": "36942628728766688c70164a93f3c4cde118d71775512322dd9effc7e1d3fd6e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/loaded-kotlin-plugins-attempt4.json",
+          "sha256": "791da3c232156c29a4895ac5e629ead2683efb8e1017c1a3ae60def81575b261"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/effective-kgp-authentication.json",
+          "sha256": "87e734260b033b153fcafd74c1c7ef825521c6f5eb423d0202b79d600f23601f"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/reviewed-lock-promotion.json",
+          "sha256": "9a51bb8c88bcc75dbf0ada5470aeebc5e8e0d85dd0f359d3de0a09537ac6dd01"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/public-origin/flutter-included-build-observation.json",
+          "sha256": "055e9153c48ac4e1bc9d547a12afadf1efd67f261456d9860156d1029014be46"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/native-results.json",
+          "sha256": "b401af5e7c4cefd293d737e7ca5a62ed92ffd3f89f8992a33afd7628874c177d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/source-freeze.json",
+          "sha256": "8f8e7903066131ccff29853038d5488aac5a2a0504eb8ce6993ed95ab2cc40c9"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/native-dependency-final-current-readback.json",
+          "sha256": "198a55a080118c388ed01bf3ac56115bdc32e80e95c9a66eda9277a4cc36d066"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-plan1/packet-files.json",
+          "sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-foundation-batch1/packet-files.json",
+          "sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/sealed-packets-readback.json",
+          "sha256": "1b77175c4e4cf9706925e855e72f39b691aff988d575227bff70d71462076fa2"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/exact-checkout-delta-review.json",
+          "sha256": "1e66b0090c19b803b9e4823976d6c1be37ced19d03342147a5188aada06dab7d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-expansion-admission-batch1/packet-files.json",
+          "sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-physical-foundation-batch1/packet-files.json",
+          "sha256": "15fbf2bdda4a5f69b77d9e5eb945217528e63edbef1c372366ceceb33a12e126"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/packet-files.json",
+          "sha256": "1a788b56e4c61299f1981bdc83dff5201f8d742880c987f0f8c49dd22c06f551"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/exact-expansion-admission-review.json",
+          "sha256": "fb47cf9ba888163d2b764bbc4509962ae87b8ac9bffe24d7584e2e6a36acacec"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/physical-foundation-readback.json",
+          "sha256": "494724fa2e7d0586544b231631b9750bac4cd4dc9e456a8e5c6a23d4be52ef99"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/candidate-preparation-readback.json",
+          "sha256": "d7e90aa36f58ec39cdc062b6dcbf16fe7d141e679525a5333aa172a296510e04"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/live-candidate-three-source-readback.json",
+          "sha256": "3974bea350f828a122538c03fd711ab51a77802913ed95957f024d2efc26695b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/sdk-failure-observation.json",
+          "sha256": "b85d233ab66700caea1b40cc98083177984d4a6c0e616bbe89f1d9ade936b8f8"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/packet-files.json",
+          "sha256": "71be02949c0e2c303f8f3e1e1d014035f7ae3a6330cbd9ec05f707bef81aee95"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/source-freeze.json",
+          "sha256": "fbae042714f6157094a0caa9dcff79715c0182f486b116e8ea42eb85b5282a62"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/sdk-execution-independent-readback.json",
+          "sha256": "36b80be8f9f06bac2de68fc5b79f7d7707b88daa448cbe61bd988a6b47a4b642"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-task-compatibility-plan2/packet-files.json",
+          "sha256": "6ec617a0925bf719670e308f51d8ce19728f975500aaabf8fe1958cd29ac3fb3"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/packet-files.json",
+          "sha256": "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/candidate2-preparation-readback.json",
+          "sha256": "ed394ba365d0623294d51f91707b844b467fc9bc2771fa962c6758d4ed48b4bd"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-execution-batch1/packet-files.json",
+          "sha256": "e39ca4e70450d8f5b7bbb5926e9df043ba69377b49ef38119f09fb8dfbfbdf1e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/sdk-candidate2-independent-original-readback.json",
+          "sha256": "f6d9419613c31344a031efda4db316a47e479c5cb666eab57bb011f0338de1e9"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-foundation1/packet-files.json",
+          "sha256": "c76d92111dd1f167022245add0c5e2f3949137c1965abd4972ecbb2aabaeb2b5"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-sdk-lock1/packet-files.json",
+          "sha256": "8c59acde48be61ff7bc98e28eb09565e13a4cddd10f4cdd96ea4a6ffb9ac8f44"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-startup1/packet-files.json",
+          "sha256": "0230bcb675837b43ec67026d5a1f7f25180e5e13126bbfaa2ae27ba4f5459096"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/packet-files.json",
+          "sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/packet-files.json",
+          "sha256": "72aedc2004efaafe192f8e86a05dc08bf7df9425dcd68f08d9dd6898cf01c283"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2/preparation-review.json",
+          "sha256": "cc1a792050dcdadf9781db9b339e9f6bbce63a5a35a57d50561e82c4ae94c40d"
+        }
+      ],
+      "next_action": "Authenticated Flutter3.44.4 publisher archive and exact8 SDK source changes are retained; isolated standalone candidate2 passes strict compile/plugin/JAR checks and137 tests across14 families. The new physically independent internal SDK foundation passes exact22415 publisher members,15660 source entries and71 legal paths; all68020 protected original metadata paths are unchanged. Enforced SDK pub resolution passes with original lock bytes and103 packages bound to owned roots. The unchanged private SDK startup passes in2.019seconds (controller35.085seconds) with exact pinned versions and full source verification. The extra reader inode-equality failure is retained and the publisher atomic same-byte engine.stamp replacement is explained; no SDK retry or byte override occurred. The other human chat completed its current209 retention-control integration; its retained source is preserved. Source export/app resolution/native builds remain unexecuted. Preserve actual source/lock/SDK pins and no automatic stage advancement. Complete all-flavor/ABI native packages and artifact-bound advisory/licence/SBOM reconciliation, including AAB/IPA/web, before closing ARC09; publisher inventory/schema checks alone do not establish those acceptances. The private snapshot derivative is independently reviewed: all56 safe leaves match, only authorization/main controller functions change, and34 snapshot guards plus31 unchanged original regressions pass with all42 source/tool identities current and owned groups absent. A fresh source fence and separate app-export admission remain required before execution. Held-source/workspace-lock/transient-write absence claims stay false; no whole-stage outer deadline or release approval is asserted."
+    },
+    {
+      "id": "ARC-10",
+      "title": "P1: evidence snapshots overwhelm the engineering workspace",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "read_only_pinned_evidence_reader_verified_real_archive_restore_and_consumers_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** before/after file/class/byte counts; every removed path maps to an independently recoverable identical object or a justified reproducible discard; report/fixture links resolve; isolated clean checkout builds/tests without the archive; secret/customer-data classification and access controls remain enforced. The report requests recommendations, so no cleanup has been performed here."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/fixture-relocation.json",
+          "sha256": "82608db836086ebeadcff610ce35f7ed2c1c058160956c271054f559d9b9b77e"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+          "sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/archive-cleanup-batch1/batch.json",
+          "sha256": "72fbd62ece5aae41660fa3fcbd4672da0986fb58d5f468646e94e89bda5d130b"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/archive-resolver-batch1/batch.json",
+          "sha256": "21d0546577fbaba9a85f86dbf260b98910bb975bee01ff19a9ebacdab4f71ff1"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/archive-resolver-batch1/SHA256SUMS",
+          "sha256": "5d043f2d3d3f2d9549f3b7577f38101b2b5088eb35511468ad7bb7ad98e20bd0"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+          "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+        }
+      ],
+      "next_action": "The new explicit pinned byte reader passes61 maintained synthetic filesystem/CLI tests, with full root code/test review and14-leaf/15-checksum/source readback. Its98 real missing-trust probes resolve0 references; all98 original73,167,256 bytes/modes/mtimes and original tree indexes remain unchanged. Future normalized file-cohort receipts do not attest an actual archive or restoration; existing DB/vault receipts cannot authorize this compiler-cache cohort. Choose/authenticate an encrypted engine, classify metadata/sensitivity/retention/holds, establish key recovery and approved independent failure-domain copy, prove full-data check and independent archive-only restore, repair all consumers and clean-build without archive before any unique-original removal. No archive, restore, key, copy, movement or removal occurred."
+    },
+    {
+      "id": "ARC-11",
+      "title": "P0: full recovery acceptance remains unproved for the current system",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** current candidate and representative history restore with table/row/financial/ACL/config/object hashes, observed elapsed time and lost-data window, tested revocation replay, no external sends, independent verifier and recovery-owner signoff."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "ARC-12",
+      "title": "P1: monitoring, support and capacity objectives remain deployment gates",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "member_admin_startup_and_redacted_local_fault_recovery_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** synthetic fault injections produce fixed public errors and redacted actionable alerts delivered to the named duty owner; outage/queue/backpressure and long-session minimum-device runs meet approved budgets; no SMS bodies, credentials or identifying data leak through logs, exports or crash events. Verify alert silence/recovery and run a support/incident rehearsal."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/startup-recovery-batch1/batch.json",
+          "sha256": "b1d7caf1ab6e81b9ebdfb5bbfeff725ce5b8cf09a36b467bd00c71c5c5baccdb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/browser-diagnostics-acceptance-batch1/result.json",
+          "sha256": "6e8b0c272cc93742b765abb88738d535a1a799d24de06cbe1cf5f46c91645095"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        }
+      ],
+      "next_action": "Member/Admin loading, single in-flight retry, actual partial Supabase cleanup and fixed/redacted framework/platform handling pass 12 tests and focused analysis. Browser observer and seven callers pass 58 tests and ten syntax checks from unchanged frozen inputs; handled error/timeout/suppression/malformed events now fail verification at any console level. Ruby/Python publication require exact before/after actual observer+recorder hashes; current maintained source-bound validator/CI tests pass. Fresh media capture is running for the new 338-input graph. Complete actual configured entry-point browser/native recovery, named duty-owner alert delivery/silence/recovery, approved budgets/capacity/backpressure/minimum-device long sessions and incident rehearsal. Full ARC12 remains open."
+    },
+    {
+      "id": "ARC-13",
+      "title": "P1: native store/artifact and platform policies need current proof",
+      "report": "docs/release/critical-review-2026-10-01/architecture-delivery.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Acceptance:** merged AAB/IPA permissions, SDK reason manifests, entitlement/APNS/association/backup policies and privacy answers; exact signed package/version Play SMS permission decision; installed low-end/minimum OS, real SIM and APNS/FCM journeys; store review/availability/readback. No store rejection or approval was observed during this review."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "PD-01",
+      "title": "High: complete mobile and cross-surface visual acceptance is still unverified",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "default_privacy_security_heading_and_current_public_consumers_verified_native_fidelity_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** generate material cases from current production routes/capabilities; register state-appropriate direct/pattern comparators or explicit adaptations; freeze current source, install/read back the exact release candidate, capture settled renderings and verify target task outcomes. Keep implementer, independent visual review and owner acceptance distinct. **Owner:** design lead, native QA, release owner. **Closure:** review current Android/iOS implementations directly against the selected Revolut skill, supported target tasks and applicable references; record the tested source, artifact and observed differences without a separately named checklist gate."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/strict-export.json",
+          "sha256": "8f812fa3ee4a4d3a7c1b647b562590193c8c07b0f959ef2fbce3131dd0b30bdb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/batch.json",
+          "sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch2/batch.json",
+          "sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/batch.json",
+          "sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/batch.json",
+          "sha256": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+          "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-ui-consumer-tests-batch1/batch.json",
+          "sha256": "f68f726c813a87e941678dc5e4e759282560714ea2625a58eea6aaaba82ce3d3"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+          "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+          "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+          "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+          "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+          "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+          "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+          "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+        }
+      ],
+      "next_action": "Actual default privacy4-case and final affected37-case consumers pass; the genuine full136 run retains134 passes and2 Security heading failures before its sole semantic correction. Fresh public4 now recompiles all344 scoped media inputs, captures seven original frames and passes55 quality/104 browser cases. All704 indexed leaves and current media/metadata/source bindings independently match. Native Android/iOS material task/state artifacts, precise Revolut comparators, interactions, rights and owner acceptance remain open; no full fidelity claim."
+    },
+    {
+      "id": "PD-02",
+      "title": "High: public screenshot provenance failure was locally corrected during review",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "locally_corrected_scoped",
+      "review_status": "locally_corrected_scoped",
+      "implementation_status": "current_provenance_and_exact_local_served_build_verified",
+      "acceptance_status": "closed_current_local_provenance_and_downstream_scope",
+      "full_finding_closed": true,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** retain the new canonical provenance and original failure; avoid another recapture unless relevant inputs change. **Owner:** product-media/release engineer. **Closure achieved locally:** validator passes on current graph and validates all seven screen/provenance records. **Separate remaining proof:** generated static build, served media/font readback and affected browser-route checks must bind those same files. This report does not assert that those downstream checks were rerun."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+          "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+          "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+          "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+          "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+        }
+      ],
+      "next_action": "PD-02's stated local criterion is fulfilled: current graph validates all seven provenance records and the exact generated static build, served media/font readback and affected browser routes bind those files. Fresh344-input media compile/7 captures,55 quality checks,104 actual browser cases/72 direct entry-viewports/378 originals pass; root independently checks704 leaves and current media/source/contract equality. The original stale refusal, later four-source delta and wrapper failures remain preserved. Native visual acceptance, font rights, hosted/provider/store and release approval remain distinct open findings; no recapture is needed without relevant input changes.",
+      "closure_scope": "Original PD-02 local provenance criterion plus its separately requested current local downstream build/readback/browser proof only.",
+      "closed_at_utc": "2026-10-02T01:13:01.096731+00:00"
+    },
+    {
+      "id": "PD-03",
+      "title": "High: selected marketing font distribution rights remain unverified, and native declaration widens its payload",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** obtain and retain the exact app/web permitted-use scope or select an explicitly approved licensed fallback under the sole authority; separate marketing-only declarations/build payload where appropriate. Preserve current local work pending the rights decision; do not delete assets based solely on this report. **Owner:** asset-rights owner, design lead, release engineer. **Closure:** documented grant for exact hashes/use scope and actual signed/native/Admin/static artifact readback; or approved fallback plus reviewed geometry and honest fidelity difference."
+      ],
+      "evidence_packets": [],
+      "next_action": "Await the owner rights decision: supply the exact Aeonik permitted-use grant or approve licensed Inter fallback. Preserve current font assets until the decision; verify actual produced app/Admin/static payload and reviewed geometry afterward."
+    },
+    {
+      "id": "PD-04",
+      "title": "High: public deletion page promises a form but renders a specification",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** either implement a real accessible, protected request flow with identity verification/acknowledgment/receipt/status and explicit retention, or make the currently supported support channel the primary truthful action and remove form promises. Do not collect sensitive identity documents without the actual protected workflow. **Owner:** privacy/product, web engineer. **Closure:** observed no-app synthetic request completes or reaches an explicit supported support channel; failure and duplicate-submit recovery work; confirmation identifies request vs completed deletion; applicable labels/error/privacy tests pass."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/legal-batch1/batch.json",
+          "sha256": "f11582f60fba34aafa71cf5d8e001a82a095bda52da72d6f9ca49bfe471dcd25"
+        }
+      ],
+      "next_action": "Canonical support-information content and real app deletion instructions now agree across YAML/rendered pages;40 tests/313 assertions pass. Verify actual supported no-app support request/acknowledgment/status and duplicate/failure outcomes; do not equate requesting deletion with completed erasure."
+    },
+    {
+      "id": "PD-05",
+      "title": "High: privacy policy emits links to intentionally absent destinations",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** repair destinations to working current pages/anchors/channels and revise the canonical legal bundle consistently, or implement the intentionally supported notices rather than resurrecting retired design references. Add link validation to the generated legal page graph. **Owner:** privacy/content and web engineer. **Closure:** every generated legal link resolves to intended content in the exact served build and public live GET/readback; privacy-request outcome works where promised."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/legal-batch1/batch.json",
+          "sha256": "f11582f60fba34aafa71cf5d8e001a82a095bda52da72d6f9ca49bfe471dcd25"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/packet-files.json",
+          "sha256": "e708bf9309e72c2b19e72058e98914a701f3571078633d89552de522e4599f5a"
+        }
+      ],
+      "next_action": "Existing privacy destinations/anchors and generated legal graph pass locally, including unique IDs. The earlier stale-media prerequisite is resolved in the dated public4 build, which has seven fresh compiled captures and bounded downstream evidence. Those captures do not prove every legal destination or privacy outcome. Bind every generated link to intended content in an exact served build, then obtain public live GET/readback and the promised privacy-request outcome. Legal/publication acceptance remains unverified."
+    },
+    {
+      "id": "PD-06",
+      "title": "Medium: deletion instructions use a menu path that the app does not expose",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** use the app's actual labels/path in one canonical instruction source, preserving the existing supported route. **Owner:** product/content. **Closure:** an unassisted user follows the published instructions on each supported platform to the real request screen; public/app/legal bundle text agrees."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/legal-batch1/batch.json",
+          "sha256": "f11582f60fba34aafa71cf5d8e001a82a095bda52da72d6f9ca49bfe471dcd25"
+        }
+      ],
+      "next_action": "One canonical actual Settings/Security/Delete data sequence is mirrored and consumed by legal renderer. Verify unassisted tasks on supported installed Android/iOS products; local copy agreement alone is not platform-task acceptance."
+    },
+    {
+      "id": "PD-07",
+      "title": "High: static marketing's available-service language exceeds the current product contract",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "current_source_capability_bindings_and_exact_public_runtime_verified_owner_availability_open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** reconcile current, assisted, planned and provider-dependent claims against one approved capability/availability register with evidence, eligibility, geography and real next action. Retain legitimate broader business information when supported; do not infer that every marketed partner service belongs in the app. **Owner:** product owner, content/partner owner. **Closure:** approved capability facts, named availability evidence where needed, coherent public/fallback/store/help wording, and observed conversion paths for each advertised active service. Accuracy supports store review as well as trust; [Apple's review guidance](https://developer.apple.com/app-store/review/) requires final content and functioning support/privacy links."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/product-capability-batch1/batch.json",
+          "sha256": "0baeb0933a4c398e9e5f437611f364a350e6aa31abbd94b7f288ca1d7d815185"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/completed-batches-current-readback.json",
+          "sha256": "e5d7f10a600aea5c56ca6c40cd0f310003502c1f20e3e8bd6809894395f5352d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/strict-export.json",
+          "sha256": "8f812fa3ee4a4d3a7c1b647b562590193c8c07b0f959ef2fbce3131dd0b30bdb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch1/batch.json",
+          "sha256": "854b912c4042c98d55b5ae0997309ff0a2f798c2253aa4fea79476332943efa4"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/diagnostic-publication-integration-batch1/result.json",
+          "sha256": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch2/batch.json",
+          "sha256": "d5431f6bb472394aeeb6d12d5b12af13655004ea92b0e2351794372ba140787d"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/batch.json",
+          "sha256": "0b00b15ebc1e089784f2f9528abb6c74a7aaae36b6efef7664fb59c6c7fc0fc7"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/batch.json",
+          "sha256": "33a0f0ddb723971ac9ac55f82e15c3c3bb353e801f0566e99c4a05db9381270a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+          "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-default-route-batch1/batch.json",
+          "sha256": "b654e7fc4211505a2d6b6f24b30ae26b2749191a20bbeede46ee374527536a3a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/privacy-route-source-integration-batch1/packet-files.json",
+          "sha256": "f1bfe90f276b7ffc3a955fe3946780f1f42d47f57c34ec924d889053d32adf53"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+          "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+          "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+          "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+          "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+          "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+        }
+      ],
+      "next_action": "Digest-only registry/generated adapters and20 current reviewed bindings now feed the genuine fresh public4 compilation/publication/static55-quality/104-case browser result. All15 visible-copy route hashes and7 store metadata files remain unchanged. Capability/owner/publication/legal/provider approval fields remain false. Obtain named availability/provider decisions and observe actual authorized hosted conversion/support/store outcomes for advertised active services."
+    },
+    {
+      "id": "PD-08",
+      "title": "High: new financial pending/error messages lack an explicit announcement and input-error association",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** use a shared meaningful status semantic, associate the amount error with its field, keep actionable controls independently reachable and prevent duplicate/chattery announcements. Reuse the established component convention rather than building a new accessibility layer. **Owner:** mobile/shared UI engineer, accessibility reviewer. **Closure:** semantic test verifies status/error association, then actual TalkBack/VoiceOver task checks hear each relevant transition once and can correct/retry without re-entering unrelated data. W3C's [status-message explanation](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html) covers waiting/errors without focus changes; Flutter recommends [actual reader testing](https://docs.flutter.dev/ui/accessibility)."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/product-batch1.json",
+          "sha256": "9c0c4c9f0a7c17e67c9cbfdb516377ce5388f9516df84b71b01cbebb48be1f84"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/overview-responsive-batch1.json",
+          "sha256": "14dc8ccda0e8df01fc4f6a8fd18dc308bfd32ee0544fd8ce1073a81e8fa082fa"
+        }
+      ],
+      "next_action": "Complete remaining original report acceptance after the scoped local batch; no hosted, installed-reader, deployment or release acceptance inferred."
+    },
+    {
+      "id": "PD-09",
+      "title": "Medium: amount text can shrink substantially to fit instead of honoring enlargement",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** define the actual MoMo/product amount limits, preserve visible whole-value precision with a readable minimum, and adapt available layout before font reduction. Any justified finite-size fallback needs explicit tested bounds and an honest design adaptation. **Owner:** financial UI/shared components engineer. **Closure:** compact/large phone, 200%/maximum-supported text, keyboard-open and valid-boundary amount cases preserve all digits and useful enlargement. W3C [Resize Text](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) requires resize without loss of content/functionality; it is a web baseline, with native checks conducted separately."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/product-batch1.json",
+          "sha256": "9c0c4c9f0a7c17e67c9cbfdb516377ce5388f9516df84b71b01cbebb48be1f84"
+        }
+      ],
+      "next_action": "Complete remaining original report acceptance after the scoped local batch; no hosted, installed-reader, deployment or release acceptance inferred."
+    },
+    {
+      "id": "PD-10",
+      "title": "Medium: Flutter/Admin PWA metadata still describes EUR/SEPA",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** give each produced surface accurate product identity, supported rail/currency and start/scope metadata through its existing build path. **Owner:** web/PWA release engineer. **Closure:** actual generated manifests and installed browser identities read back truthful text, icons, scope and deep-link entry for public and private origins."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/product-batch1.json",
+          "sha256": "9c0c4c9f0a7c17e67c9cbfdb516377ce5388f9516df84b71b01cbebb48be1f84"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/packet-files.json",
+          "sha256": "e708bf9309e72c2b19e72058e98914a701f3571078633d89552de522e4599f5a"
+        }
+      ],
+      "next_action": "Complete remaining original report acceptance after the scoped local batch; no hosted, installed-reader, deployment or release acceptance inferred."
+    },
+    {
+      "id": "PD-11",
+      "title": "Medium: design case inventory omits three current Admin routes",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** derive route inventory from the existing canonical router and add material state/platform/role expansions; retain aliases and explicit unsupported states. **Owner:** QA/design integrator. **Closure:** generated inventory matches active router declarations and every supported state links to reviewed evidence; deletion of cases requires a supported-capability reason."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-index-readback/batch.json",
+          "sha256": "f116bc47a0f0f07723f6d3502f60635f52a3417112624302b99f6ef07a38cce6"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/route-inventory-consumer.json",
+          "sha256": "79c0952e07687fa8d4c8b8bda89ee943ca488aed3cbc3c9d2421312249dc3dfa"
+        }
+      ],
+      "next_action": "Machine comparison matches37member/28Admin/9fallback/18public declarations and2 redirects with comparator mappings preserved; existing3 route/factory tests pass. Bind material supported state/role/platform expansions to reviewed current-candidate evidence before full closure."
+    },
+    {
+      "id": "PD-12",
+      "title": "Medium: typography and public acceptance summaries describe superseded input states",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "local_batch_verified",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** retain historical packets, but produce one current index per candidate that records exact source scope, artifact, result, superseded packet and still-open gates. Amend status rather than rewriting old outcomes. **Owner:** release/QA integrator. **Closure:** current index machine-checks relevant source/transitive inputs and exact artifacts, and identifies independently validated vs unverified areas without contradictory current-state claims."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-index-readback/batch.json",
+          "sha256": "f116bc47a0f0f07723f6d3502f60635f52a3417112624302b99f6ef07a38cce6"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/route-inventory-consumer.json",
+          "sha256": "79c0952e07687fa8d4c8b8bda89ee943ca488aed3cbc3c9d2421312249dc3dfa"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+          "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+          "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+          "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+          "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+        }
+      ],
+      "next_action": "Current index now dates retained outcomes and exposes source drift;5168 external and852 artifact entries match. Generate complete current transitive graph/artifact evidence after final integration and any rights decision; retain original packets. Current visual acceptance and font rights remain unverified. Public4 is now the independently checked current local public cohort; public3 remains a preserved dated scope. Whole mutable native/Admin/backend release candidate and broad strict export remain unaccepted."
+    },
+    {
+      "id": "PD-13",
+      "title": "Medium: receipt copy does not expose the full production finality boundary",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "finding_or_acceptance_gap",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "open",
+      "acceptance_status": "open",
+      "full_finding_closed": false,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** resolve finality semantics with the backend/product owner, then apply shared truthful received/pending/reconciled/confirmed wording and recovery actions across flow, Activity, notifications, Admin and public copy. **Owner:** financial product/backend and content owner. **Closure:** actual handoff→candidate receipt→settlement/approved-policy→ledger task shows only supported states; duplicate, ambiguous, unmatched, delayed and reversed outcomes remain truthful. [W3C financial error prevention](https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html) supports review/correction of material information; it does not certify payment reconciliation."
+      ],
+      "evidence_packets": [],
+      "next_action": "Reconcile current implementation and valid evidence, then implement and verify the original acceptance requirement."
+    },
+    {
+      "id": "PD-14",
+      "title": "Medium: obsolete cache declaration makes sole-authority hygiene fail",
+      "report": "docs/release/critical-review-2026-10-01/product-design.md",
+      "status": "closed_scoped_authority_hygiene",
+      "review_status": "finding_or_acceptance_gap",
+      "implementation_status": "complete",
+      "acceptance_status": "closed_scoped_authority_hygiene",
+      "full_finding_closed": true,
+      "acceptance_requirement_from_report": [
+        "**Recommendation:** remove or retire the obsolete competing reference under the existing reference-cleanup convention, preserving any unique product verification evidence without keeping it as an alternative design system. Verify the current selected skill revision when evaluating acceptance. **Owner:** design/release integrator. **Closure:** required authority hygiene passes, the selected current authority binding is recorded, and visual/interaction acceptance remains independently truthful."
+      ],
+      "evidence_packets": [
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/revolut-authority-hygiene-final.log",
+          "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/revolut-authority-revision-check.json",
+          "sha256": "36cf51d71278190ac222a69ab09bc01d701b952b8cda14cfb9ffad9c7fb47751"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/overview-responsive-batch1.json",
+          "sha256": "14dc8ccda0e8df01fc4f6a8fd18dc308bfd32ee0544fd8ce1073a81e8fa082fa"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/sole-design-current-integration.json",
+          "sha256": "fcd5c5ed519b48451a4df5cef2c3c5b9c87cfad90085df3b04ebcded492b6c07"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-owner-request.json",
+          "sha256": "9c2ac6675e1e3069b972ee96585db8f94eb2beb1282408e0e91dc9848cafed6f"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-current-readback.json",
+          "sha256": "8bf9bf8a6f0d05d58b3ee7cc5d061d4d80fae1f1a2f07366970dfb0e1c08f533"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-renewed-path-absence.json",
+          "sha256": "d288306c1bec0d751230b7bdf858386c11beb2ad0e12d0ef5a92b0ea35173b80"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/design-cleanup-final-current-verification.json",
+          "sha256": "0750a3b579f555553688c157d17f744afaac659285e120cbbd0324b5c710d2d6"
+        },
+        {
+          "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/ai-design-independent-readback.json",
+          "sha256": "54395819050a6da9031a32dfc1fa3eab03cf24471c748479f2f09ab7abae7159"
+        }
+      ],
+      "next_action": "Sole-authority hygiene finding closed: final required Make gate passes, exact selected SKILL revision verified, full visual/interaction acceptance remains explicitly unverified and tracked in PD-01.",
+      "completed_utc": "2026-10-01T19:49:14.927016+00:00"
+    }
+  ],
+  "cleanup_receipt": {
+    "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/owner-current-cleanup-verified-20261001T233236Z.json",
+    "sha256": "5be19bd699e2f22ef92a5dbd93c139be8ca1fe488633a15401557a33e947a86e",
+    "verified_removed_paths": 141,
+    "remaining_removed_paths": 0,
+    "current_skill_inputs_checked": 708,
+    "current_instruction_inputs_hashed": 2006,
+    "limits": "Protected/inaccessible discovery paths, pruned Git/dependency/application internals, other archive formats and one invalid nested ZIP in an unrelated financial audit pack were not verified. Existing conversation/history mentions are not installed skills or active acceptance gates. Unrelated technical/professional skills retained per owner clarification."
+  },
+  "evidence_current_readback": {
+    "ci-batch1/acceptance/validation.json": {
+      "checked_at_utc": "2026-10-01T20:11:52.070671+00:00",
+      "inputs": 131,
+      "drift": [],
+      "scope": "Exact packet input readback; does not certify external execution or entire checkout",
+      "current_scope_note": "Prior dated checkpoint; later admission handler/transport tests and new migration require separate final integration."
+    },
+    "backend-positive-batch.json": {
+      "checked_at_utc": "2026-10-01T20:11:52.070671+00:00",
+      "inputs": 202,
+      "drift": [],
+      "scope": "Exact packet input readback; does not certify external execution or entire checkout",
+      "current_scope_note": "Prior dated checkpoint; later admission handler/transport tests and new migration require separate final integration."
+    },
+    "backend-sensitive-races-batch.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 203,
+      "drift": [
+        "scripts/hardening/edge_http.test.cjs"
+      ],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "retained dated scoped evidence"
+    },
+    "dart-integration-current.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 819,
+      "drift": [],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "packet inputs currently unchanged"
+    },
+    "pwa-batch1.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 14,
+      "drift": [],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "packet inputs currently unchanged"
+    },
+    "ios-batch1/batch.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 16,
+      "drift": [],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "packet inputs currently unchanged"
+    },
+    "ios-security-consumer-test.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 10,
+      "drift": [],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "packet inputs currently unchanged"
+    },
+    "phone-hash-classification-batch.json": {
+      "checked_at_utc": "2026-10-01T20:40:21.324551+00:00",
+      "inputs": 5,
+      "drift": [],
+      "scope": "Exact packet input readback only; additions and external/full-candidate execution are not accepted",
+      "packet_result": "packet inputs currently unchanged"
+    },
+    "backend-be07-batch.json": {
+      "checked_at_utc": "2026-10-01T20:59:18.267281+00:00",
+      "inputs": 10,
+      "drift": [
+        "scripts/tests/play_integrity_admission_uat.py"
+      ],
+      "scope": "Exact listed packet inputs only; added files, final whole-candidate and external acceptance remain separate"
+    },
+    "legal-batch1/batch.json": {
+      "checked_at_utc": "2026-10-01T20:59:18.267281+00:00",
+      "inputs": 11,
+      "drift": [],
+      "scope": "Exact listed packet inputs only; added files, final whole-candidate and external acceptance remain separate"
+    },
+    "design-index-readback/batch.json": {
+      "checked_at_utc": "2026-10-01T20:59:18.267281+00:00",
+      "inputs": 2,
+      "drift": [],
+      "scope": "Exact listed packet inputs only; added files, final whole-candidate and external acceptance remain separate"
+    },
+    "cli-toolchain-batch1/controller-proof.json": {
+      "checked_at_utc": "2026-10-01T20:59:18.267281+00:00",
+      "inputs": 7,
+      "drift": [],
+      "scope": "Exact listed packet inputs only; added files, final whole-candidate and external acceptance remain separate"
+    },
+    "dependency-maintenance-batch.json": {
+      "checked_at_utc": "2026-10-01T20:59:18.267281+00:00",
+      "inputs": 8,
+      "drift": [],
+      "scope": "Exact listed packet inputs only; added files, final whole-candidate and external acceptance remain separate"
+    },
+    "edge-clean-cache-batch1/batch.json": {
+      "checked_at_utc": "2026-10-01T21:29:42.300276+00:00",
+      "inputs": 134,
+      "drift": [
+        ".github/workflows/ci.yml",
+        "scripts/tests/verify_roster_decoder.py",
+        "supabase/functions/_shared/roster_decoder.ts",
+        "tools/roster-decoder/decoder.py",
+        "tools/roster-decoder/requirements.in",
+        "tools/roster-decoder/requirements.lock"
+      ],
+      "scope": "Current comparison of exact dated Edge packet inputs; independent fork CI step and decoder security remediation now change inputs. Retained original execution is dated evidence, not a pass for the new source/added tests.",
+      "new_consumer_verification": "in_progress"
+    },
+    "backend-be07-consumers-batch.json": {
+      "checked_at_utc": "2026-10-01T21:11:29.817563+00:00",
+      "inputs": 209,
+      "drift": [],
+      "scope": "Exact recorded input readback; later additions, entire export and external acceptance remain separate"
+    },
+    "completed-batches-current-readback.json": {
+      "checked_at_utc": "2026-10-01T22:35:20.671784+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/completed-batches-current-readback.json",
+      "sha256": "e5d7f10a600aea5c56ca6c40cd0f310003502c1f20e3e8bd6809894395f5352d",
+      "scope": "Four sealed batches:84/14/1691/169 artifacts and declared core inputs checked;197 migration hashes match; no whole-candidate acceptance."
+    },
+    "root-current-cohort-readback-batch1/sealed-artifacts-readback.json": {
+      "checked_at_utc": "2026-10-02T00:21:45.925628+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/sealed-artifacts-readback.json",
+      "sha256": "3c724a47f807499249adb4372c60ffa3879f789813a733c7f37e2fc621a77689",
+      "scope": "Independent sealed artifact readback only; dated cohort limitations remain and the mutable checkout is not accepted."
+    },
+    "root-sdk-foundation-review-batch1/sealed-packets-readback.json": {
+      "checked_at_utc": "2026-10-02T00:21:45.925628+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/sealed-packets-readback.json",
+      "sha256": "1b77175c4e4cf9706925e855e72f39b691aff988d575227bff70d71462076fa2",
+      "scope": "Independent sealed artifact readback only; dated cohort limitations remain and the mutable checkout is not accepted."
+    },
+    "root-current-cohort-readback-batch1/privacy-default-packet-readback.json": {
+      "checked_at_utc": "2026-10-02T00:54:39.751865+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/privacy-default-packet-readback.json",
+      "sha256": "b117b17897e887931af4bd79d517ff23db298f3f377814601d4c1d5ef82f429c",
+      "scope": "Independent scoped artifact/code/current source readback; whole mutable release candidate not accepted."
+    },
+    "root-current-cohort-readback-batch1/arc01-resolved-packet-readback.json": {
+      "checked_at_utc": "2026-10-02T00:54:39.751865+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-cohort-readback-batch1/arc01-resolved-packet-readback.json",
+      "sha256": "18bf44af9037cd38eb48392eff78d0c81405f2ab0e6c045b48496a96073bc6f8",
+      "scope": "Independent scoped artifact/code/current source readback; whole mutable release candidate not accepted."
+    },
+    "root-sdk-foundation-review-batch1/physical-foundation-readback.json": {
+      "checked_at_utc": "2026-10-02T00:54:39.751865+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/physical-foundation-readback.json",
+      "sha256": "494724fa2e7d0586544b231631b9750bac4cd4dc9e456a8e5c6a23d4be52ef99",
+      "scope": "Independent scoped artifact/code/current source readback; whole mutable release candidate not accepted."
+    },
+    "root-sdk-foundation-review-batch1/candidate-preparation-readback.json": {
+      "checked_at_utc": "2026-10-02T00:54:39.751865+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/candidate-preparation-readback.json",
+      "sha256": "d7e90aa36f58ec39cdc062b6dcbf16fe7d141e679525a5333aa172a296510e04",
+      "scope": "Independent scoped artifact/code/current source readback; whole mutable release candidate not accepted."
+    },
+    "root-sdk-foundation-review-batch1/live-candidate-three-source-readback.json": {
+      "checked_at_utc": "2026-10-02T00:54:39.751865+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/live-candidate-three-source-readback.json",
+      "sha256": "3974bea350f828a122538c03fd711ab51a77802913ed95957f024d2efc26695b",
+      "scope": "Independent scoped artifact/code/current source readback; whole mutable release candidate not accepted."
+    },
+    "public-media-batch4/batch.json": {
+      "checked_at_utc": "2026-10-02T01:13:01.096731+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+      "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95",
+      "scope": "Independently reviewed scoped proof; no whole release candidate acceptance."
+    },
+    "public-media-batch4/evidence-files.json": {
+      "checked_at_utc": "2026-10-02T01:13:01.096731+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+      "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb",
+      "scope": "Independently reviewed scoped proof; no whole release candidate acceptance."
+    },
+    "archive-resolver-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T01:13:01.096731+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/archive-resolver-batch1/batch.json",
+      "sha256": "21d0546577fbaba9a85f86dbf260b98910bb975bee01ff19a9ebacdab4f71ff1",
+      "scope": "Independently reviewed scoped proof; no whole release candidate acceptance."
+    },
+    "archive-resolver-batch1/SHA256SUMS": {
+      "checked_at_utc": "2026-10-02T01:13:01.096731+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/archive-resolver-batch1/SHA256SUMS",
+      "sha256": "5d043f2d3d3f2d9549f3b7577f38101b2b5088eb35511468ad7bb7ad98e20bd0",
+      "scope": "Independently reviewed scoped proof; no whole release candidate acceptance."
+    },
+    "root-public4-arc10-integration-batch1/independent-packet-readback.json": {
+      "checked_at_utc": "2026-10-02T01:13:01.096731+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+      "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923",
+      "scope": "Independently reviewed scoped proof; no whole release candidate acceptance."
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T01:14:48.062688+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/packet-files.json",
+      "sha256": "71be02949c0e2c303f8f3e1e1d014035f7ae3a6330cbd9ec05f707bef81aee95",
+      "scope": "Sealed actual failure/current main JAR readback; no SDK or app acceptance."
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/source-freeze.json": {
+      "checked_at_utc": "2026-10-02T01:14:48.062688+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/source-freeze.json",
+      "sha256": "fbae042714f6157094a0caa9dcff79715c0182f486b116e8ea42eb85b5282a62",
+      "scope": "Sealed actual failure/current main JAR readback; no SDK or app acceptance."
+    },
+    "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/sdk-execution-independent-readback.json": {
+      "checked_at_utc": "2026-10-02T01:14:48.062688+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/sdk-execution-independent-readback.json",
+      "sha256": "36b80be8f9f06bac2de68fc5b79f7d7707b88daa448cbe61bd988a6b47a4b642",
+      "scope": "Sealed actual failure/current main JAR readback; no SDK or app acceptance."
+    },
+    "ai-import-review-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-review-batch1/batch.json",
+      "sha256": "0c385cc5cbcc1d4b95af547552c547ec5d55e03ab481f8bd25e268ffaf287933",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "ai-import-minimization-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-minimization-batch1/batch.json",
+      "sha256": "b93aba57fc4910882b13eb17508d7242c9ad102b6c25b7aef1957cb178adcc7e",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "ai-import-fixture-lint-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ai-import-fixture-lint-batch1/batch.json",
+      "sha256": "b3ff1456d00f31f742433e166b60733c2a312ce11b251f44ba18b4fb396df352",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "root-current-integration-batch3/ai-design-independent-readback.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/ai-design-independent-readback.json",
+      "sha256": "54395819050a6da9031a32dfc1fa3eab03cf24471c748479f2f09ab7abae7159",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "root-current-integration-batch3/ai-fixture-independent-readback.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/ai-fixture-independent-readback.json",
+      "sha256": "1c210aa8f7c0b89f7a32908864dfec048e1ff0bc4fd4cce0101337c86c81b5a3",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-task-compatibility-plan2/packet-files.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-task-compatibility-plan2/packet-files.json",
+      "sha256": "6ec617a0925bf719670e308f51d8ce19728f975500aaabf8fe1958cd29ac3fb3",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-candidate2-preparation-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/packet-files.json",
+      "sha256": "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "root-sdk-foundation-review-batch1/candidate2-preparation-readback.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-foundation-review-batch1/candidate2-preparation-readback.json",
+      "sha256": "ed394ba365d0623294d51f91707b844b467fc9bc2771fa962c6758d4ed48b4bd",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-candidate2-execution-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-execution-batch1/packet-files.json",
+      "sha256": "e39ca4e70450d8f5b7bbb5926e9df043ba69377b49ef38119f09fb8dfbfbdf1e",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "root-current-integration-batch3/sdk-candidate2-independent-original-readback.json": {
+      "checked_at_utc": "2026-10-02T01:40:30.314426+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-integration-batch3/sdk-candidate2-independent-original-readback.json",
+      "sha256": "f6d9419613c31344a031efda4db316a47e479c5cb666eab57bb011f0338de1e9",
+      "scope": "Independently checked local scope only; no whole-finding or production approval inferred."
+    },
+    "root-ai-dispatch-promotion-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-ai-dispatch-promotion-batch1/packet-files.json",
+      "sha256": "22254ff78ce9066b6ff329446f8230edce567dda48996ec6e1c69bf316c62400",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-edge-canonical-review-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/packet-files.json",
+      "sha256": "b1bbd91e078226a18892bd79bfa28245f244ad5ace20284617b86fea488a9b9c",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-edge-offline-integration-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-offline-integration-batch1/packet-files.json",
+      "sha256": "6051997f834d2b18b3226b464249e7bd21ac7fa1d18367779ef0fa0ef84a4ffb",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-ci-policy-current-batch1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-ci-policy-current-batch1/packet-files.json",
+      "sha256": "3c1a56782766eea0fac884cbd7828fa841c3c88a332e51dba4b4350b9630a38d",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "successor-gateway-inventory-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-inventory-batch1/batch.json",
+      "sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "successor-gateway-consumer-preparation1/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/batch.json",
+      "sha256": "252b1e0310597fc36dc25ed7f41416ad47412ac66d68d6e64778bbad019957fd",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-successor-consumer-promotion1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-consumer-promotion1/packet-files.json",
+      "sha256": "75a25f8f9a116d96e7c955477d996bb98730a0bcace3e80a7b170c91b002f6be",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-canonical-batch2/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/batch.json",
+      "sha256": "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-http-fixture-preparation2/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation2/batch.json",
+      "sha256": "8327151022c8760bf4ae2f989597cbf663b88ba5210cc1951faa0e38b70e49be",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-edge-ai-http-fixture-promotion2/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/packet-files.json",
+      "sha256": "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-native-consumer-foundation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-foundation1/packet-files.json",
+      "sha256": "c76d92111dd1f167022245add0c5e2f3949137c1965abd4972ecbb2aabaeb2b5",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-native-consumer-sdk-lock1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-sdk-lock1/packet-files.json",
+      "sha256": "8c59acde48be61ff7bc98e28eb09565e13a4cddd10f4cdd96ea4a6ffb9ac8f44",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-native-consumer-startup1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-startup1/packet-files.json",
+      "sha256": "0230bcb675837b43ec67026d5a1f7f25180e5e13126bbfaa2ae27ba4f5459096",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-canonical-batch3/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/batch.json",
+      "sha256": "933a3ed6c02e6b1c75485ef9e93ca815a402c1c9b88ec80eaa0e477db396c222",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-canonical-inputs-preparation4/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-inputs-preparation4/batch.json",
+      "sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-canonical-batch4/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/batch.json",
+      "sha256": "60c491c3b045e808175a84cf52d768a42cc4d9215faa74d348945b9ad3956a8b",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-roster-ai-policy-documentation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-roster-ai-policy-documentation1/packet-files.json",
+      "sha256": "eef11c4fec051ad5440160c1c22e094fcf19c0f5fdb9f33bb78fb3a696048d7f",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "successor-observed-fixture-discovery1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-discovery1/packet-files.json",
+      "sha256": "1737e9f9b1e322e6a0c11546c2045518bcf7b83325d89895a26a32a8d4f297d1",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "successor-observed-fixture-import-proposal1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/packet-files.json",
+      "sha256": "807bdc7169a82f50dfbf1ba0518e6f540cf1806874bc5357f1822d61c4b7cb9b",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "root-successor-source154-validation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/packet-files.json",
+      "sha256": "506057f500a37d5a3f799645cc803d11727a8520373f1ce4d7a61c8dd4f4033d",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "edge-ai-canonical-batch1/batch.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/batch.json",
+      "sha256": "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "kotlin-sdk-native-consumer-preparation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/packet-files.json",
+      "sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "app-snapshot-concurrency-preparation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T03:25:49.213473+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/app-snapshot-concurrency-preparation1/packet-files.json",
+      "sha256": "27ae12789409a78f031015f53ec7f8c155e205e2619ad6d3ea58a3d87e3ec1cb",
+      "scope": "Exact bounded local evidence; no whole-finding or production approval inferred."
+    },
+    "migration-version-validation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/migration-version-validation1/packet-files.json",
+      "sha256": "559438742dc3f1f0f753764018ff0ee1f621e164afaa2130881f1420772ea213",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "ordinary-schema-catalog-preparation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog-preparation1/packet-files.json",
+      "sha256": "8accb69f30c7e964eb31c64f063e7359ab9df4d5ce28bf1e821bf74c24cf3961",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "ordinary-schema-catalog-execution1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog-execution1/packet-files.json",
+      "sha256": "55cd0abe286d50615fcd13eb37ed0e0d56b10f1bf443ecfbac2065ffb7eafabc",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "ordinary-schema-catalog209-preparation1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-preparation1/packet-files.json",
+      "sha256": "129680950a0f8b4018880732833d97fde7c6b524d41eded83a509ec836051c96",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "ordinary-schema-catalog209-execution1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/packet-files.json",
+      "sha256": "9ecf3c89a0197ae3169813863c940138754055a63b1be5bf3980462bb478ea4a",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "kotlin-sdk-native-snapshot-preparation2/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/packet-files.json",
+      "sha256": "72aedc2004efaafe192f8e86a05dc08bf7df9425dcd68f08d9dd6898cf01c283",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "cloudflare-readonly-attempt1/packet-files.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/cloudflare-readonly-attempt1/packet-files.json",
+      "sha256": "e708bf9309e72c2b19e72058e98914a701f3571078633d89552de522e4599f5a",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    },
+    "root-sdk-native-snapshot-review2/preparation-review.json": {
+      "checked_at_utc": "2026-10-02T06:22:15.061740+00:00",
+      "path": "docs/release/critical-implementation-2026-10-01/root-sdk-native-snapshot-review2/preparation-review.json",
+      "sha256": "cc1a792050dcdadf9781db9b339e9f6bbce63a5a35a57d50561e82c4ae94c40d",
+      "scope": "Exact recorded local scope or read-only UI access refusal; no full finding or production acceptance inferred."
+    }
+  },
+  "goal_design_scope": "Current active objective implements findings under sole revolut-design, without the removed named checklist or its gates.",
+  "supplementary_discovered_gaps": {
+    "audit_read_client_boundary": {
+      "status": "local_batch_verified",
+      "migration": "supabase/migrations/20261001235000_admin_audit_read_api_only.sql",
+      "sha256": "9d860d2575b74f3a388dd4ed960cda1ad1d6843b962ab14509c065c2afcabcb4",
+      "observed_gap": "Retained privacy assertion and current readiness contract reject direct client audit reads; effective catalogue exposed an old client table grant while authored consumers use the session-bound Admin RPC only.",
+      "change": "Revoke client table and column SELECT; preserve existing policies, service writes and governed RPC definitions.",
+      "current_chain_count": 193,
+      "acceptance_required": "Real193-chain member/owner/outsider/operator table-and-column denials with healthy approved audit.read RPC and scoped authority; no financial or privacy assertion weakening.",
+      "evidence_packet": "docs/release/critical-implementation-2026-10-01/backend-be07-consumers-batch.json",
+      "evidence_sha256": "4f3717c39f0f846437d3f15b581255b46cddcdf8107b17b7f67be0a5ee8a1f59",
+      "acceptance_observed": "Actual193-chain table/column denials for member, owner, outsider and operator; healthy session-bound approved audit.read RPC and retained service writes; suite rollback snapshot unchanged.",
+      "remaining_acceptance": "Hosted final candidate catalogue and live intended-owner authorization matrix remain open."
+    },
+    "current_dependency_advisories": {
+      "status": "remediation_in_progress",
+      "baseline_packet": "docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/batch.json",
+      "sha256": "5b28826471cd2b997d0d4c9228116b410578802cda7405521bb2984cba25c1dd",
+      "observed_affected_locked_versions": {
+        "pypdf": "6.7.0",
+        "pillow": "12.0.0",
+        "kotlin_gradle_plugin": [
+          "2.3.20",
+          "2.1.0"
+        ],
+        "rubyzip": "2.4.1"
+      },
+      "verified_minimum_targets": {
+        "pypdf": "6.19.0",
+        "pillow": "12.3.0",
+        "kotlin_gradle_plugin": "2.4.20",
+        "fastlane": "2.240.1",
+        "rubyzip": "3.4.0"
+      },
+      "acceptance_required": "Authenticated compatible exact lock resolution, meaningful real consumer regressions/current new-version advisory queries, source/candidate and shipped-artifact binding; keep conditional exposure and source discrepancies explicit."
+    },
+    "flutter_included_gradle_kotlin": {
+      "status": "open",
+      "finding": "Actual included Flutter Gradle build applies KGP2.2.20 and resolves runtime KGP2.0.0; app/file_saver2.4.20 scoped compile/JVM checks do not remediate those SDK components.",
+      "evidence": {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/public-origin/flutter-included-build-observation.json",
+        "sha256": "055e9153c48ac4e1bc9d547a12afadf1efd67f261456d9860156d1029014be46"
+      },
+      "next_action": "Confirm actual selected graph/compiler and use a governed isolated SDK repair with publisher/compatibility proof; preserve shared SDK.",
+      "current_resolution": {
+        "evidence": {
+          "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/packet-files.json",
+          "sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc"
+        },
+        "observed": "Authenticated isolated eight-file candidate2 passed strict compiler/plugin/JAR recipe and137 tests across14 families; shared selected SDK remains unchanged. New independent SDK foundation is expanded and exact8 applied with full source/metadata readback; enforced original SDK lock resolution and unchanged pinned startup also pass. Shared SDK selection, app export, app resolution, native packages and release acceptance remain open."
+      }
+    },
+    "current_image_dependency_transport": {
+      "status": "local_offline_acquisition_and_real_image_build_verified_hosted_producer_open",
+      "observed": "Production Docker build stalls on current Pillow wheel download at300 seconds; independent exact public wheel host/container probes each reach45-second process deadline without completing. No dependency install or provider operation; exact scope does not isolate DNS/TLS/CDN cause.",
+      "evidence": {
+        "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+        "sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792"
+      },
+      "policy": "No identical full-pipeline retry, old-image substitution or increased build deadline without a concrete acquisition correction.",
+      "current_resolution": {
+        "evidence": [
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-edge-canonical-review-batch1/packet-files.json",
+            "sha256": "b1bbd91e078226a18892bd79bfa28245f244ad5ace20284617b86fea488a9b9c"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-edge-offline-integration-batch1/packet-files.json",
+            "sha256": "6051997f834d2b18b3226b464249e7bd21ac7fa1d18367779ef0fa0ef84a4ffb"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-ci-policy-current-batch1/packet-files.json",
+            "sha256": "3c1a56782766eea0fac884cbd7828fa841c3c88a332e51dba4b4350b9630a38d"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-inventory-batch1/batch.json",
+            "sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-consumer-preparation1/batch.json",
+            "sha256": "252b1e0310597fc36dc25ed7f41416ad47412ac66d68d6e64778bbad019957fd"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-successor-consumer-promotion1/packet-files.json",
+            "sha256": "75a25f8f9a116d96e7c955477d996bb98730a0bcace3e80a7b170c91b002f6be"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch2/batch.json",
+            "sha256": "98fc0cb31a6f9509ecd026560b5842bb0371c9d3107aca222cb518f3ddc7f4b7"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-http-fixture-preparation2/batch.json",
+            "sha256": "8327151022c8760bf4ae2f989597cbf663b88ba5210cc1951faa0e38b70e49be"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-edge-ai-http-fixture-promotion2/packet-files.json",
+            "sha256": "eee7156644ad404ab878d8b809d9d0c17876c401541be6ea45755de0362028ac"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch3/batch.json",
+            "sha256": "933a3ed6c02e6b1c75485ef9e93ca815a402c1c9b88ec80eaa0e477db396c222"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-inputs-preparation4/batch.json",
+            "sha256": "2df3ff50d6a6a917e8648b1bcc88f7ab4fb82082470430f2bd729ff090233288"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/batch.json",
+            "sha256": "60c491c3b045e808175a84cf52d768a42cc4d9215faa74d348945b9ad3956a8b"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-discovery1/packet-files.json",
+            "sha256": "1737e9f9b1e322e6a0c11546c2045518bcf7b83325d89895a26a32a8d4f297d1"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/packet-files.json",
+            "sha256": "807bdc7169a82f50dfbf1ba0518e6f540cf1806874bc5357f1822d61c4b7cb9b"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/packet-files.json",
+            "sha256": "506057f500a37d5a3f799645cc803d11727a8520373f1ce4d7a61c8dd4f4033d"
+          },
+          {
+            "path": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch1/batch.json",
+            "sha256": "3fdac5b5fdc8d1e95015f1df18eb6f56546eacfcc61e89d0fddde5771906b5b7"
+          }
+        ],
+        "observed": "Original stalls and preparation failures are retained. Real no-cache offline images and all Linux/security phases pass on the original137, composed140 and current154 graphs with exact six-wheel/publisher inputs. The current154 proof also covers all25 gateway tests and all109 HTTP checks. CI acquisition has synthetic deadline/transport negatives and reviewed wiring; no hosted producer run is claimed."
+      }
+    },
+    "privacy_global_route_consumer": {
+      "status": "causal_default_route_fix_locally_verified_full_lifecycle_open",
+      "observed": "Actual same-owner renewal disposed the guarded form; later failed fixes exposed build-phase notifications and an unchanged encoded old private request reopening for a replacement owner. Requested/settled diagnostics preserved that causal trace.",
+      "verification": "Original4 assertions pass; only test lint corrections afterward.37 affected final checks, analyzer and authority pass. Prior134/136 and exact cache1/1 scopes remain explicitly distinguished.",
+      "next_action": "Fresh final public media/source/build/browser; native/provider/hosted and approved full erasure lifecycle remain open."
+    },
+    "security_heading_level": {
+      "status": "existing_semantics_gap_corrected_affected_tests_verified",
+      "observed": "Two existing shared-chrome Security tests found0 required headingLevel1 nodes. The custom header had header:true without its level.",
+      "change": "Add only headingLevel:1; retain text/layout/Back/visuals.",
+      "verification": "Affected37 checks include both formerly failing cases and all6 maintained header tests. Sole final header source amendment independently bound; no full fresh136 claim."
+    },
+    "successor_edge_consumer_inventory": {
+      "status": "inventory_readiness_and_current154_backend_gate_verified_current_SQL_and_hosted_open",
+      "evidence": {
+        "path": "docs/release/critical-implementation-2026-10-01/successor-gateway-inventory-batch1/batch.json",
+        "sha256": "95f41f4995d9d1c0b7cf400c3d0e2b01929474e006d57f43bb1c994b201e30e0"
+      },
+      "observed": "Dated inventory gap is partly resolved by exact5 applied consumers and current17 Ruby/173 assertions/auth13/8custom/Bash checks, with private34 delivery tests. All ten genuine observation origins are bound to completed52/22 producers, the13-function literal loader and exact ten imports are applied, and the current154 graph passes90 types/668 unit tests including all25 gateway cases/109 HTTP checks and all Linux/regression/security phases. Original144 inputs were unchanged through private testing and the resulting154 maintained hashes equal the tested candidate. Current SQL, hosted activation and SMS/carrier acceptance remain separate. Intended repository active inventory is separate from hosted activation; existing device_signature mode/builtin runtime values suffice."
+    }
+  }
+}

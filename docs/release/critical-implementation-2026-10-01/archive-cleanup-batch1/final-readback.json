@@ -1,0 +1,840 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-10-01T23:13:52.860759+00:00",
+  "python_version": "3.12.14",
+  "status": "read_only_inventory_and_proposal_verification_pass",
+  "inventory_decompressed_sha256": "36ea95cba947e5e9a192fc4060bb120a1c0bcb9f1529f73aea0131f840ceee16",
+  "inventory_rows": 361062,
+  "inventory_logical_bytes": 35754404784,
+  "full_original_decompressed_byte_equality_previously_verified_before_own_raw_removal": true,
+  "final_candidate_source_readback": [
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CFNetwork-1VZIJ7D0NHQ5S.pcm",
+      "sha256": "bc09977a50764837346fad22d9c9c1c83abeb1238ebb6c6d4d82088dda2dc2d8",
+      "bytes": 289224,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreAudio-ABEZC4GPR3LK.pcm",
+      "sha256": "dc8138eed956e7a40bd91aab0e6ff4ba6109934486821e97202445c954079048",
+      "bytes": 55024,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreAudioTypes-273STABQKHSRJ.pcm",
+      "sha256": "354870d0a0a03569eca14979cba815157344643e379f2da616ba884fb939f7c2",
+      "bytes": 198800,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreFoundation-5K6LOYDIY422.pcm",
+      "sha256": "c12d18416b81c32a53a8752ea8b114756ef77fa9065b579dff5062fed317a62c",
+      "bytes": 1100672,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreGraphics-3IFFV9KOM0U16.pcm",
+      "sha256": "b528cfd5cb0c851778035e102caaab4eb14b4c07cd0ff2d07e6dabf410761309",
+      "bytes": 788296,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreImage-BUHVRQZ34IZ1.pcm",
+      "sha256": "901610428de898fa611f9f0f9684772de6de03a0d36eeef0be2bb0ff3e9a2b0e",
+      "bytes": 1078368,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreLocation-1BSDX8U0ZOWR.pcm",
+      "sha256": "6916b810ad27a23d70f972114ed2530f107cfa494e65014e255db980de9c21d4",
+      "bytes": 397600,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreMedia-215VNDFXFTI84.pcm",
+      "sha256": "bb6f8313cca20dbe144d350bfea3817c7eade69cae0726cfccded4169741d70b",
+      "bytes": 1251224,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreMotion-2GP19NIOMFLZV.pcm",
+      "sha256": "a599f895bcbecda3224f02d2730f8f3ff65f5da5941d198af1f3d8abff45e535",
+      "bytes": 312976,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreText-11RA1ISITKOMW.pcm",
+      "sha256": "187cee0eef002d8fdf178d0876793a9dfa669fc8d266357e64ad5091c15a991e",
+      "bytes": 845728,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/CoreVideo-2FSFGLV6TDPKF.pcm",
+      "sha256": "85bc825fe682863739cb2d06d6cbe7b2e371189cb5b31f33fb23a11bb57d1fd1",
+      "bytes": 351096,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Darwin-9JCGC629X82F.pcm",
+      "sha256": "bb401bf2a12ca09337b93cfe33885f0a2266502a70b8aa4cfa3e6ab7383c8e89",
+      "bytes": 3166384,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Dispatch-267OWX219DZVI.pcm",
+      "sha256": "e8ebfa2a27e19b51b456fcff2d8b8a6d95946be0792c3d0d9cc52d5ad8ddb71c",
+      "bytes": 251984,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/FileProvider-16ATKVOQMK21V.pcm",
+      "sha256": "d16b103b211800b1e9b430a992f741b2a5ebcfbf984c85d1ade97ccebb1cc3ed",
+      "bytes": 460160,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/FirebaseCore-21Q8PORK82CYD.pcm",
+      "sha256": "91676f5adcdc7f3da75c7bcc56a003da118333344fcffc731f9df2448ac7b868",
+      "bytes": 94240,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/FirebaseMessaging-3U7Y9H06XAW2F.pcm",
+      "sha256": "2088fdafe19debaa5800a8402757e303a738f79ab72f8b96928268e33035c78c",
+      "bytes": 95896,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Flutter-3KZ5XZIWYFQNE.pcm",
+      "sha256": "28e0e02ec912b3bff5fdcf7f01e55ac04308400053f715f9841d3760382bfd36",
+      "bytes": 250776,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Foundation-Q4J3A60NG1HM.pcm",
+      "sha256": "e1c9613451598c3a25fd2684aedeedd37f958d0295ed94cd2eb5d5374891546c",
+      "bytes": 4595080,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/GoogleUtilities_AppDelegateSwizzler-IETBNP50IPSZ.pcm",
+      "sha256": "f890f51926053d0afc566db59fa3a62bd0227d49154a7332fd08dd7719fc5a2b",
+      "bytes": 95208,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/IOSurface-6M99DKUU8GQ7.pcm",
+      "sha256": "2d6c5e2cc4c464a80a8cfa1de2af4ac40881414b7ac1b7cb842e9a68273e9e05",
+      "bytes": 198232,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/ImageIO-NJEKJRKIOR31.pcm",
+      "sha256": "c5fb9fe4ad4588bb28ff3c5924b61bd482819e8092c14d48d780d576790fde67",
+      "bytes": 861856,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Metal-XYTN48YB56TV.pcm",
+      "sha256": "457e5375d8b799f13f44a3b783256605b7ce118a9f62758e8511bd6f5a06fd66",
+      "bytes": 2285464,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/ObjectiveC-1TEKSYH9TWXHG.pcm",
+      "sha256": "44709800b5b4da2b1d4b062633ebdfe13b51bd4fd49e12d449580e7ee00daf6d",
+      "bytes": 272040,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/OpenGLES-3GUNWOBUQ7HQR.pcm",
+      "sha256": "72a19002ada86b8ef50e19099b38fba3f1bacbf0d6da5cefda7c928f667a6c16",
+      "bytes": 993224,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/QuartzCore-KBQWMJTKNOIM.pcm",
+      "sha256": "881a409604d6d4fb643553a054a93bfc27cbbc1586540eb05d3855148a4099e9",
+      "bytes": 605896,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Security-1LUA8KBNR5KK8.pcm",
+      "sha256": "8eca08ce6b118c9167fd511b4bc6f19fadff091d9b05bcce4cee2e1f769b6982",
+      "bytes": 721000,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/Symbols-2ZQ1R7IDDL5QR.pcm",
+      "sha256": "ebe61eba53d09e7da8c0edca3285d10f3efb6d8831c1d8db17035e7af0eba5c4",
+      "bytes": 121080,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/UIKit-LMEIZF9QVPJM.pcm",
+      "sha256": "7c6340611f389758915cbafd24d347fd733bd6715e731984a45a33d18be3bd30",
+      "bytes": 8812008,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/UIUtilities-LZMJKSE9F4B8.pcm",
+      "sha256": "cda1f683100dbc158a731840225d36a67426d925acc099069eb10214cfc68bbd",
+      "bytes": 71208,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/UserNotifications-2OZMOG28353EC.pcm",
+      "sha256": "5f96513cc776880270aa525ee1dc477aa49c8c7517a4e026570fb5170f73bdc7",
+      "bytes": 257056,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/XPC-3Q3YU5OIMM8EK.pcm",
+      "sha256": "e4f09cbb683ae297976897189895eac582c629e10900ce338cf3588e615431a8",
+      "bytes": 390216,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_AvailabilityInternal-1V05LXZVRH559.pcm",
+      "sha256": "b52e0f21e318542fa128c8eae2c060c7965457ad5e22a3ee282bbcf9f4248d59",
+      "bytes": 468656,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_float-1ACAID2WOMMXW.pcm",
+      "sha256": "f686a02788cacf21fb68a8daa98916e05a51a055a624550f086408c0b52aa0df",
+      "bytes": 48544,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_inttypes-1ACAID2WOMMXW.pcm",
+      "sha256": "9b9b60e3e76801ec67c316e53f2401aabf92e8d1c2cdaa4333abf50c61511b5c",
+      "bytes": 50272,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_limits-1ACAID2WOMMXW.pcm",
+      "sha256": "75ffd6e381a4c3ed40f01b8a598aa506b0ec2ac0b20e109c971958d1d7ce2555",
+      "bytes": 48912,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_stdarg-1ACAID2WOMMXW.pcm",
+      "sha256": "f82e047fa6eca710a1e2f33c25f5a120c393e93d4afdce433e04c1a48baefc49",
+      "bytes": 46160,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_stdbool-1ACAID2WOMMXW.pcm",
+      "sha256": "76e990963d4dc93e1bdf22e5234e16943e9b8f46a6c7625d0feebaef71159348",
+      "bytes": 42648,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_stddef-1ACAID2WOMMXW.pcm",
+      "sha256": "47d4b11ec5dfd36e66a080c8de343c173321dac813add2744fe23a663e524496",
+      "bytes": 48376,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_Builtin_stdint-1ACAID2WOMMXW.pcm",
+      "sha256": "9bf46c2f252ca142de01f055298f13bcaead890b674397a889a93b7c9a3f8aee",
+      "bytes": 49472,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_DarwinFoundation1-1V05LXZVRH559.pcm",
+      "sha256": "de90d1fd4f6aa16a2faba23ec7dd3dbe197bc3a71a37f1555f55b5a9a6c10112",
+      "bytes": 392256,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_DarwinFoundation2-2ORO76TXBMW5B.pcm",
+      "sha256": "c3ce86567a863a8c1474f082747ad6984fcdfb69e2bbdd1e5b31d62916dbc139",
+      "bytes": 451088,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_DarwinFoundation3-NUSZ0YBUVCY7.pcm",
+      "sha256": "5668fc695ad71267d39452cc87e372d729994f48b3ca7dd7b153ee4ed1aa4728",
+      "bytes": 539256,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/_LocationEssentials-3G5PBCQKO3FB6.pcm",
+      "sha256": "8aa6ddf99e49b7545fe464203a38a262e8c8d87e224fd49ba85ffed67f4b27e3",
+      "bytes": 92760,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/firebase_core-3TMIRG4VT1L1D.pcm",
+      "sha256": "1d6ff1140d0c27daab05c870bf81e7fea6214c4c015e4e58f1d4d066d39e938a",
+      "bytes": 129912,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/modules.idx",
+      "sha256": "66f1b1a001118f05270521c078d33452abb531750e830bcfd8f0eda1f4dd6dc2",
+      "bytes": 2653376,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/os_object-3KXDKDR4ZBATD.pcm",
+      "sha256": "a3e71d9e1a1fc558cc1da74139528a114daa97160e710705cb98d3844f4c41ad",
+      "bytes": 62784,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/os_workgroup-3KXDKDR4ZBATD.pcm",
+      "sha256": "1332ee2ff212f9161b93a4a2dd3b5874aa8ae5f775a917e9d9f3a6260c019582",
+      "bytes": 93824,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/ptrauth-1ACAID2WOMMXW.pcm",
+      "sha256": "78c7bc202ce68dd29a6cc8a6e3767a14a45fb81e72a4746a2b3ffe13221f82bb",
+      "bytes": 52896,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/current-module-cache/TK5YWO0Z6U82/ptrcheck-1ACAID2WOMMXW.pcm",
+      "sha256": "6499abeb24e24c1e6b3cceec35ee5e7da9a866e2ba3292a0b76cf436e6fe36d4",
+      "bytes": 45184,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CFNetwork-1VZIJ7D0NHQ5S.pcm",
+      "sha256": "226e7e5893b3f75647f48684930a1c40093659140d645b1fb6ad318c106d464a",
+      "bytes": 289208,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreAudio-ABEZC4GPR3LK.pcm",
+      "sha256": "18901fa6a87a89c721a08f3cf89548593bd51bf06b01fa727de83d7ed0064c2e",
+      "bytes": 55016,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreAudioTypes-273STABQKHSRJ.pcm",
+      "sha256": "bfa6d9b8e7b79ef9625f7d9310c63fc07bfe56eca497daf69f05851033da1a1d",
+      "bytes": 198776,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreFoundation-5K6LOYDIY422.pcm",
+      "sha256": "1d719b4e4ecc404ef1da38e133f3dd4503b898c162b8e41a0e36e2ae2848c6c6",
+      "bytes": 1100608,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreGraphics-3IFFV9KOM0U16.pcm",
+      "sha256": "62aeeede6d4fd58b7459d0363215b733073d98ab586ef1008d50911536683f02",
+      "bytes": 788256,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreImage-BUHVRQZ34IZ1.pcm",
+      "sha256": "1663ac204929ad48a15a291970d0ffdbfb1c57fc872074cd99a1c7cc090b1477",
+      "bytes": 1078312,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreLocation-1BSDX8U0ZOWR.pcm",
+      "sha256": "d240a8d7e03317fbdd4e27673907443429eb986cff518ed13dc7e3a516350c45",
+      "bytes": 397576,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreMedia-215VNDFXFTI84.pcm",
+      "sha256": "3d460b5333f542aefc2bf821da67ac2d77008cacdf7ebf35e6b2c36736090458",
+      "bytes": 1251176,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreMotion-2GP19NIOMFLZV.pcm",
+      "sha256": "e40b08b850de667d69086a2084d58dcac9ab81b84dd4cf025d8e4f199d5d4cba",
+      "bytes": 312944,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreText-11RA1ISITKOMW.pcm",
+      "sha256": "a1645ea731892ab1402ad7f1beb0dc6451df9c47890a04a7762440577c7c26a0",
+      "bytes": 845688,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/CoreVideo-2FSFGLV6TDPKF.pcm",
+      "sha256": "7a019f1338affa0c9f523825bf44b78f806d31bcc0c1ff5f7b174762525746f7",
+      "bytes": 351056,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Darwin-9JCGC629X82F.pcm",
+      "sha256": "9fb2706d327efa3237943ff5e4e9f343313a04d19057c64c310d7b3ea7cf9383",
+      "bytes": 3166344,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Dispatch-267OWX219DZVI.pcm",
+      "sha256": "c2c964ef3b818a7521832f504c956a3c03dc75134be8e68feb793d40f815ef63",
+      "bytes": 251936,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/FileProvider-16ATKVOQMK21V.pcm",
+      "sha256": "bcd461ee9f055bed487bd1884b9badeddc0e1262ffb40ada9b9bcfcef7afdbb2",
+      "bytes": 460144,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/FirebaseCore-21Q8PORK82CYD.pcm",
+      "sha256": "56fc6d6885099e7dbf99aac6e95c287485300ebff55b7bd426521b3d98fb7dbe",
+      "bytes": 94224,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/FirebaseMessaging-3U7Y9H06XAW2F.pcm",
+      "sha256": "c81f598284a604ba20b26f27568ee487074a44dd1609bdc312a8ab07e7c3b81d",
+      "bytes": 95888,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Flutter-3KZ5XZIWYFQNE.pcm",
+      "sha256": "50f1cd0c2b5eb9bf8b0940b882137302a3750c4b1a672eec57310c239afb89aa",
+      "bytes": 250744,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Foundation-Q4J3A60NG1HM.pcm",
+      "sha256": "d17e3cdefe4d8e3cb75f896ec4a67e4684cb8aa6e0aabc2855b32cc2747ba151",
+      "bytes": 4595016,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/GoogleUtilities_AppDelegateSwizzler-IETBNP50IPSZ.pcm",
+      "sha256": "236952382f59e2d8a9fb2396d57d0b0d54268fe2138b9458ae8a48990e310d19",
+      "bytes": 95192,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/IOSurface-6M99DKUU8GQ7.pcm",
+      "sha256": "2c6ccff2885b174b87d6257c91328d2a1a27b38c3a269cd4baa0a52af66e76e5",
+      "bytes": 198200,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/ImageIO-NJEKJRKIOR31.pcm",
+      "sha256": "c5d7d5749c2181c21436c75ba2f206b3987e9b7164dee5ff469697a842b7c1fb",
+      "bytes": 861816,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Metal-XYTN48YB56TV.pcm",
+      "sha256": "b8500494fc6b7e7f8064c75162a5bec080a9721704467bad505b7c077db24357",
+      "bytes": 2285432,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/ObjectiveC-1TEKSYH9TWXHG.pcm",
+      "sha256": "9c7bffe6793471a6a4ab8a5836e334c36523a0515f8a307484c582153e58ff51",
+      "bytes": 271992,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/OpenGLES-3GUNWOBUQ7HQR.pcm",
+      "sha256": "07c5a0df1f97e7e24b056f3224f8cef5814a73562f1a7b856bc2606fe1af73ac",
+      "bytes": 993192,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/QuartzCore-KBQWMJTKNOIM.pcm",
+      "sha256": "adc33d5289335711fe8fc353cdf518affe768cca98f649beda14d6138026e5fe",
+      "bytes": 605824,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Security-1LUA8KBNR5KK8.pcm",
+      "sha256": "b15d59e5a90b0a88ae65a1f8bc359c9661264898cc501b5d66885c89c00b6ac3",
+      "bytes": 720960,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/Symbols-2ZQ1R7IDDL5QR.pcm",
+      "sha256": "26c61d0987b3cc7d5200e410bfb30453f748763a741899973944cf447ad0d073",
+      "bytes": 121064,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/UIKit-LMEIZF9QVPJM.pcm",
+      "sha256": "32301bff13154a887be455cae0c15d7314c8dae77c5c1c4368d3ab9dd3e71a05",
+      "bytes": 8811928,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/UIUtilities-LZMJKSE9F4B8.pcm",
+      "sha256": "13f14309f3666a9c7ea76bef4d7d868e31418a3bdf26dbb339282ae2facd9987",
+      "bytes": 71184,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/UserNotifications-2OZMOG28353EC.pcm",
+      "sha256": "7febe0337b46d34967a486a9324cc6a3a2051b35229249a10abdb6f2878139d5",
+      "bytes": 257040,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/XPC-3Q3YU5OIMM8EK.pcm",
+      "sha256": "747aee080fd64f29b952afea7266fb2ff9301422fe2abfe2d7118491912f0f0f",
+      "bytes": 390168,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_AvailabilityInternal-1V05LXZVRH559.pcm",
+      "sha256": "5c8123de621274c7691da777be05edd9618c139a9f43b7d3fe342aae88975e02",
+      "bytes": 468648,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_float-1ACAID2WOMMXW.pcm",
+      "sha256": "2b8c1c193b62c41d4061a5ada494048c7c0ab4ef935e8d76bb077da7fc29308f",
+      "bytes": 48536,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_inttypes-1ACAID2WOMMXW.pcm",
+      "sha256": "4fb417c3aa9440b841b0a59ed04e263193676a111e895100e1f9908d19c9fd04",
+      "bytes": 50256,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_limits-1ACAID2WOMMXW.pcm",
+      "sha256": "87274ee8366553c4aa7505365a3f40217b642e35a8fe03cb870db82dd6331c1f",
+      "bytes": 48896,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_stdarg-1ACAID2WOMMXW.pcm",
+      "sha256": "f992a89565fb0a0dbd628a30809576ed552687cb250afe740957cea2b9bc4b0f",
+      "bytes": 46152,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_stdbool-1ACAID2WOMMXW.pcm",
+      "sha256": "d787b90261dd62e84caffdc87adc80b4b4f5195b68efc297db57042ac135d962",
+      "bytes": 42640,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_stddef-1ACAID2WOMMXW.pcm",
+      "sha256": "ec526e1b27eb08f77e035afa080a8b01ef267dd0d17f2f037143da79bcf56710",
+      "bytes": 48368,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_Builtin_stdint-1ACAID2WOMMXW.pcm",
+      "sha256": "b93b7e69939ab4253a4656b44e296b58f13061d5bb9c8acb73a83aa2fae470e9",
+      "bytes": 49464,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_DarwinFoundation1-1V05LXZVRH559.pcm",
+      "sha256": "10fa19c1c2efdf4d3132dc5f98b2e07e4d1fcd955d63ce260c2e3e1d8567770e",
+      "bytes": 392232,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_DarwinFoundation2-2ORO76TXBMW5B.pcm",
+      "sha256": "7cffd7722a44fb13fcca31040fd719663bb54da73e711b8da6d08be9b53c05f8",
+      "bytes": 451072,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_DarwinFoundation3-NUSZ0YBUVCY7.pcm",
+      "sha256": "8236896ff331f031ca5350a0b8ea5c3a87490e395f1e71f96931c018656115d7",
+      "bytes": 539224,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/_LocationEssentials-3G5PBCQKO3FB6.pcm",
+      "sha256": "805155c60587b92226203fddbe9e9cdf93a24f28776385b14ebd8746d1b8a58b",
+      "bytes": 92744,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/firebase_core-3TMIRG4VT1L1D.pcm",
+      "sha256": "53d94cda765a82d9dcad4a8d657e468e5fccee10851b4e0c06f5f82c96955a4e",
+      "bytes": 129880,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/modules.idx",
+      "sha256": "292bbee7e4499b54ca91ea81dc1b5b270622b7a5211662de578fb88f9ae26be2",
+      "bytes": 2653232,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/os_object-3KXDKDR4ZBATD.pcm",
+      "sha256": "2bd00afe0468ba50feb7e26778b84574428366c5d6549e342d6de612668dce6b",
+      "bytes": 62768,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/os_workgroup-3KXDKDR4ZBATD.pcm",
+      "sha256": "6a7471d8c764fc4b50cb10777c20ca390e233c7cb47ae3f0273bf8d734cdb8c7",
+      "bytes": 93784,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/ptrauth-1ACAID2WOMMXW.pcm",
+      "sha256": "5a02c57e5d60ab8d36fed8947ca73a298bd799a835ae0a0ff5022eefdac0f577",
+      "bytes": 52888,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/ios-source-compile1/prior-module-cache/TK5YWO0Z6U82/ptrcheck-1ACAID2WOMMXW.pcm",
+      "sha256": "2fdb7ff6fde94c1bf5fe948fd9402557b0402c530e1c3f4e6bf5f4ec2e5b3fae",
+      "bytes": 45176,
+      "mode": 420,
+      "regular_unaliased_stable_read": true,
+      "matches_first_manifest": true
+    }
+  ],
+  "candidate_unique_objects": 98,
+  "index_checks": {
+    "exact-index-consumers.json": {
+      "index_files_read": 1477,
+      "candidate_count": 98,
+      "exact_path_or_digest_index_reference_count": 0,
+      "read_errors": 0
+    },
+    "compressed-index-consumers.json": {
+      "index_files_read": 1,
+      "candidate_count": 98,
+      "exact_path_or_digest_index_reference_count": 0,
+      "read_errors": 0
+    },
+    "large-index-consumers.json": {
+      "index_files_read": 7,
+      "candidate_count": 98,
+      "exact_path_or_digest_index_reference_count": 0,
+      "read_errors": 0
+    }
+  },
+  "python_syntax_checked": [
+    "bounded_duplicate_review.py",
+    "bounded_link_review.py",
+    "compressed_index_review.py",
+    "consumer_inventory.py",
+    "exact_index_consumers.py",
+    "final_readback.py",
+    "inventory.py",
+    "large_index_review.py",
+    "prepare_plan.py",
+    "refine_and_compress_inventory.py",
+    "refine_classes.py"
+  ],
+  "source_payloads_preserved": true,
+  "archives_created": 0,
+  "independent_archive_restores_run": 0,
+  "original_files_removed": 0,
+  "ARC10_full_acceptance_met": false,
+  "limits": [
+    "Third source hash/regular-file/alias/stability readback only; no archive exists and no archive restore has been executed.",
+    "Inventory/consumer epochs are explicit; root/other workers continue unrelated valid source/evidence writes.",
+    "Per-path bounded index mapping does not certify arbitrary computed/unnamed/deep copied-source link closure."
+  ]
+}

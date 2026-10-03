@@ -1,0 +1,41 @@
+{
+  "passed": false,
+  "exit_code": 1,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt25-dialog-trace/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt25-dialog-trace/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt25-dialog-trace/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "60",
+    "--test-file",
+    "test/admin_custom_action_ui_test.dart",
+    "--test-name",
+    "createGroup production UI success"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt25-dialog-trace/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "transport_dependencies_unchanged": true,
+  "transport_dependencies_sha256": "5585909ebe5c9556e9d680aa654d72fdda23a620ee9121732ec3211421c15557",
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "lib/admin/core/admin_operational_health.dart"
+  ],
+  "input_count": 779,
+  "acceptance_sha256": "680b5e11d62f2a04e19c1682fbc2c82164d3e14f7fca4b6e7ec9c21f52539da8",
+  "test_count": null,
+  "analysis_clean": true,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

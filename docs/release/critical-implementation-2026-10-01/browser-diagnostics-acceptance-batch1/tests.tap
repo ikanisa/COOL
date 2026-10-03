@@ -1,0 +1,358 @@
+TAP version 13
+# Subtest: Classifier covers the actual Dart boundary enum, fields and severity contract
+ok 1 - Classifier covers the actual Dart boundary enum, fields and severity contract
+  ---
+  duration_ms: 12.2
+  type: 'test'
+  ...
+# Subtest: Declared startupStarted is observation only
+ok 2 - Declared startupStarted is observation only
+  ---
+  duration_ms: 0.318375
+  type: 'test'
+  ...
+# Subtest: Declared startupWaiting is observation only
+ok 3 - Declared startupWaiting is observation only
+  ---
+  duration_ms: 0.10125
+  type: 'test'
+  ...
+# Subtest: Declared startupReady is observation only
+ok 4 - Declared startupReady is observation only
+  ---
+  duration_ms: 0.044084
+  type: 'test'
+  ...
+# Subtest: Declared startupTimedOut is a failure
+ok 5 - Declared startupTimedOut is a failure
+  ---
+  duration_ms: 0.0455
+  type: 'test'
+  ...
+# Subtest: Declared diagnosticsSuppressed is a failure
+ok 6 - Declared diagnosticsSuppressed is a failure
+  ---
+  duration_ms: 0.044208
+  type: 'test'
+  ...
+# Subtest: Declared startupFailed is a failure
+ok 7 - Declared startupFailed is a failure
+  ---
+  duration_ms: 0.038791
+  type: 'test'
+  ...
+# Subtest: Declared frameworkFailure is a failure
+ok 8 - Declared frameworkFailure is a failure
+  ---
+  duration_ms: 0.037417
+  type: 'test'
+  ...
+# Subtest: Declared platformFailure is a failure
+ok 9 - Declared platformFailure is a failure
+  ---
+  duration_ms: 0.044708
+  type: 'test'
+  ...
+# Subtest: Fixed numeric/build boundary endpoints remain supported
+ok 10 - Fixed numeric/build boundary endpoints remain supported
+  ---
+  duration_ms: 0.172959
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"collect_diagnostic":2}
+ok 11 - Invalid declared payload fails safely: {"collect_diagnostic":2}
+  ---
+  duration_ms: 0.283875
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"collect_diagnostic":"1"}
+ok 12 - Invalid declared payload fails safely: {"collect_diagnostic":"1"}
+  ---
+  duration_ms: 0.053291
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"code":"unrecognized"}
+ok 13 - Invalid declared payload fails safely: {"code":"unrecognized"}
+  ---
+  duration_ms: 0.089792
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"code":"constructor"}
+ok 14 - Invalid declared payload fails safely: {"code":"constructor"}
+  ---
+  duration_ms: 0.042958
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"code":["startupReady"]}
+ok 15 - Invalid declared payload fails safely: {"code":["startupReady"]}
+  ---
+  duration_ms: 0.034083
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"code":"startupFailed","severity":"info"}
+ok 16 - Invalid declared payload fails safely: {"code":"startupFailed","severity":"info"}
+  ---
+  duration_ms: 0.030916
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"severity":"warning"}
+ok 17 - Invalid declared payload fails safely: {"severity":"warning"}
+  ---
+  duration_ms: 0.025292
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"surface":"private-user"}
+ok 18 - Invalid declared payload fails safely: {"surface":"private-user"}
+  ---
+  duration_ms: 0.032292
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"environment":"https://private.invalid"}
+ok 19 - Invalid declared payload fails safely: {"environment":"https://private.invalid"}
+  ---
+  duration_ms: 0.049333
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"build_version":"token-secret"}
+ok 20 - Invalid declared payload fails safely: {"build_version":"token-secret"}
+  ---
+  duration_ms: 0.0345
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"build_version":"1.2.3\\n"}
+ok 21 - Invalid declared payload fails safely: {"build_version":"1.2.3\\n"}
+  ---
+  duration_ms: 0.026375
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"build_version":"111111111111111111111111111111111.2.3"}
+ok 22 - Invalid declared payload fails safely: {"build_version":"111111111111111111111111111111111.2.3"}
+  ---
+  duration_ms: 0.02225
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"attempt":0}
+ok 23 - Invalid declared payload fails safely: {"attempt":0}
+  ---
+  duration_ms: 0.020708
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"attempt":1001}
+ok 24 - Invalid declared payload fails safely: {"attempt":1001}
+  ---
+  duration_ms: 0.052875
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"attempt":1.5}
+ok 25 - Invalid declared payload fails safely: {"attempt":1.5}
+  ---
+  duration_ms: 0.423875
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"attempt":"1"}
+ok 26 - Invalid declared payload fails safely: {"attempt":"1"}
+  ---
+  duration_ms: 0.040708
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"elapsed_ms":-1}
+ok 27 - Invalid declared payload fails safely: {"elapsed_ms":-1}
+  ---
+  duration_ms: 0.089792
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"elapsed_ms":86400001}
+ok 28 - Invalid declared payload fails safely: {"elapsed_ms":86400001}
+  ---
+  duration_ms: 0.173042
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"elapsed_ms":1.5}
+ok 29 - Invalid declared payload fails safely: {"elapsed_ms":1.5}
+  ---
+  duration_ms: 0.246292
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"reason":"private-secret"}
+ok 30 - Invalid declared payload fails safely: {"reason":"private-secret"}
+  ---
+  duration_ms: 0.047459
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"session_id":"private-secret"}
+ok 31 - Invalid declared payload fails safely: {"session_id":"private-secret"}
+  ---
+  duration_ms: 0.029042
+  type: 'test'
+  ...
+# Subtest: Invalid declared payload fails safely: {"url":"https://private.invalid/token-secret"}
+ok 32 - Invalid declared payload fails safely: {"url":"https://private.invalid/token-secret"}
+  ---
+  duration_ms: 0.025625
+  type: 'test'
+  ...
+# Subtest: Missing fields, malformed/oversized declarations and duplicate keys fail without raw text
+ok 33 - Missing fields, malformed/oversized declarations and duplicate keys fail without raw text
+  ---
+  duration_ms: 0.154417
+  type: 'test'
+  ...
+# Subtest: Ordinary console output and JSON cannot manufacture startup acceptance
+ok 34 - Ordinary console output and JSON cannot manufacture startup acceptance
+  ---
+  duration_ms: 0.158041
+  type: 'test'
+  ...
+# Subtest: Real EventEmitter listener catches failures on every console level and detaches
+ok 35 - Real EventEmitter listener catches failures on every console level and detaches
+  ---
+  duration_ms: 5.888458
+  type: 'test'
+  ...
+# Subtest: Declared malformed console entries lose raw text and untrusted URL/detail fields
+ok 36 - Declared malformed console entries lose raw text and untrusted URL/detail fields
+  ---
+  duration_ms: 0.163667
+  type: 'test'
+  ...
+# Subtest: Actual maintained CDP event handling observes log-level handled failures and preserves page exceptions
+ok 37 - Actual maintained CDP event handling observes log-level handled failures and preserves page exceptions
+  ---
+  duration_ms: 0.433459
+  type: 'test'
+  ...
+# Subtest: Diagnostic declarations cannot exploit existing favicon ignore; raw malformed payload is not reported
+ok 38 - Diagnostic declarations cannot exploit existing favicon ignore; raw malformed payload is not reported
+  ---
+  duration_ms: 0.131917
+  type: 'test'
+  ...
+# Subtest: Observer and actual recorder bytes both enter source provenance
+ok 39 - Observer and actual recorder bytes both enter source provenance
+  ---
+  duration_ms: 10.763917
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: qa/public_browser_app_media.mjs
+ok 40 - Maintained caller keeps runtime failure checks and observer provenance: qa/public_browser_app_media.mjs
+  ---
+  duration_ms: 0.923542
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: admin_pwa_browser_qa.mjs
+ok 41 - Maintained caller keeps runtime failure checks and observer provenance: admin_pwa_browser_qa.mjs
+  ---
+  duration_ms: 0.454125
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: admin_pwa_runtime_smoke.mjs
+ok 42 - Maintained caller keeps runtime failure checks and observer provenance: admin_pwa_runtime_smoke.mjs
+  ---
+  duration_ms: 0.217334
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: qa/current_browser_lifecycle.mjs
+ok 43 - Maintained caller keeps runtime failure checks and observer provenance: qa/current_browser_lifecycle.mjs
+  ---
+  duration_ms: 0.420708
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: qa/local_browser_lifecycle.mjs
+ok 44 - Maintained caller keeps runtime failure checks and observer provenance: qa/local_browser_lifecycle.mjs
+  ---
+  duration_ms: 0.163791
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: qa/admin_design_flow_browser_qa.mjs
+ok 45 - Maintained caller keeps runtime failure checks and observer provenance: qa/admin_design_flow_browser_qa.mjs
+  ---
+  duration_ms: 0.1595
+  type: 'test'
+  ...
+# Subtest: Maintained caller keeps runtime failure checks and observer provenance: qa/admin_pwa_lifecycle_qa.mjs
+ok 46 - Maintained caller keeps runtime failure checks and observer provenance: qa/admin_pwa_lifecycle_qa.mjs
+  ---
+  duration_ms: 0.202834
+  type: 'test'
+  ...
+# Subtest: Real HTTP response bytes are verified before identical fulfillment, redirects disabled
+ok 47 - Real HTTP response bytes are verified before identical fulfillment, redirects disabled
+  ---
+  duration_ms: 3.80225
+  type: 'test'
+  ...
+# Subtest: Changed or undeclared actual body aborts and cannot be fulfilled
+ok 48 - Changed or undeclared actual body aborts and cannot be fulfilled
+  ---
+  duration_ms: 1.229542
+  type: 'test'
+  ...
+# Subtest: Delayed failed HTTP body and failed abort cannot escape before caller drain
+ok 49 - Delayed failed HTTP body and failed abort cannot escape before caller drain
+  ---
+  duration_ms: 2.280833
+  type: 'test'
+  ...
+# Subtest: Remote HTTP and redirects are refused without remote follow
+ok 50 - Remote HTTP and redirects are refused without remote follow
+  ---
+  duration_ms: 1.220375
+  type: 'test'
+  ...
+# Subtest: Actual non-200 HTTP bytes are delivered without granting compiled-byte proof
+ok 51 - Actual non-200 HTTP bytes are delivered without granting compiled-byte proof
+  ---
+  duration_ms: 0.186792
+  type: 'test'
+  ...
+# Subtest: Synchronous fetch and fulfillment failures are retained and abort safely
+ok 52 - Synchronous fetch and fulfillment failures are retained and abort safely
+  ---
+  duration_ms: 0.427166
+  type: 'test'
+  ...
+# Subtest: Successful actual compiler receipt may be reused independently of failed browser observation
+ok 53 - Successful actual compiler receipt may be reused independently of failed browser observation
+  ---
+  duration_ms: 0.491542
+  type: 'test'
+  ...
+# Subtest: Changed current reachable source, generated package binding or selected SDK refuses reuse
+ok 54 - Changed current reachable source, generated package binding or selected SDK refuses reuse
+  ---
+  duration_ms: 0.866125
+  type: 'test'
+  ...
+# Subtest: Changed compiled byte manifest refuses reuse
+ok 55 - Changed compiled byte manifest refuses reuse
+  ---
+  duration_ms: 0.100125
+  type: 'test'
+  ...
+# Subtest: Failed, duplicate or altered compiler recipe cannot grant reuse
+ok 56 - Failed, duplicate or altered compiler recipe cannot grant reuse
+  ---
+  duration_ms: 0.575583
+  type: 'test'
+  ...
+# Subtest: Unknown source graph or wrong compiler entrypoint refuses reuse
+ok 57 - Unknown source graph or wrong compiler entrypoint refuses reuse
+  ---
+  duration_ms: 0.249542
+  type: 'test'
+  ...
+# Subtest: Missing or changed diagnostic observer provenance refuses artifact reuse
+ok 58 - Missing or changed diagnostic observer provenance refuses artifact reuse
+  ---
+  duration_ms: 0.255083
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105.767958

@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "actual_test_count": 7,
+  "actual_assertions": 111,
+  "prior_implementation_failed_same_regressions": true,
+  "prior_stdout_sha256": "c43c779c0936d1af1d8de00262e484da6866844702c30316b39133e37cc2d1b3",
+  "current_stdout_sha256": "b3df479e0e3f29e32a527f737fa8c8369458fcd84e2edf8baecd479175f37f72",
+  "current_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "current_checkout_collector_exit_code": 0,
+  "sources_unchanged": true,
+  "source_sha256": {
+    "scripts/qa/native_build_provenance.rb": "e2af106e1d707b7241d1ac29ee30125f2dcb6f2833eb1be9ebef1b57ba249ac0",
+    "scripts/tests/native_build_provenance_test.rb": "42f117bf974082732870476223e4e8140d955b75460e0dd623767d7be9e6c24d",
+    "Makefile": "624d545806459103513d1397be6f9ec80d2d4b0864b51b7e3eae5d47caf3f134"
+  },
+  "scope": "Actual Admin/fork/license/native-lock mutation checks, source escape rejection and inspectable manifest binding; temporary fake artifacts exercise metadata only and confer no native artifact acceptance",
+  "prior_negative_actual_tests": 7,
+  "prior_negative_actual_assertions": 40,
+  "prior_negative_actual_failures": 7,
+  "diagnostic_print_correction": "The runner printed the current process exit0 after prior-negative execution; preserved prior-negative.stdout independently reports7 failures. Acceptance boolean was computed from the prior nonzero result."
+}

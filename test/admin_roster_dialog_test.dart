@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/admin_roster_fixture.dart';
+import 'support/test_capture_paths.dart';
 
 const captureRosterEvidence = bool.fromEnvironment('CAPTURE_ROSTER_EVIDENCE');
 const captureRecoveryEvidence = bool.fromEnvironment(
@@ -34,13 +35,19 @@ class StatusDialogGateway extends FakeRosterGateway {
 }
 
 void main() {
+  if (captureRosterEvidence || captureRecoveryEvidence) {
+    final previousComparator = goldenFileComparator;
+    setUpAll(() {
+      goldenFileComparator = LocalFileComparator(
+        collectTestCaptureFile('feature-revoked.png').uri,
+      );
+    });
+    tearDownAll(() => goldenFileComparator = previousComparator);
+  }
   setUpAll(() async {
     await (FontLoader(
       'Inter',
     )..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'))).load();
-    await (FontLoader('Aeonik Pro')
-          ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Regular.ttf')))
-        .load();
     await (FontLoader(
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
@@ -112,9 +119,7 @@ void main() {
       if (captureRecoveryEvidence) {
         await expectLater(
           find.byType(AlertDialog),
-          matchesGoldenFile(
-            '../docs/release/admin-roster-recovery-2026-09-30/feature-revoked.png',
-          ),
+          matchesGoldenFile(collectTestCaptureFile('feature-revoked.png').uri),
         );
       }
       await tap(tester, 'Close');
@@ -183,7 +188,7 @@ void main() {
         await expectLater(
           find.byType(AlertDialog),
           matchesGoldenFile(
-            '../docs/release/admin-roster-provenance-2026-09-30/roster-page-2-light.png',
+            collectTestCaptureFile('roster-page-2-light.png').uri,
           ),
         );
       }
@@ -236,7 +241,7 @@ void main() {
         await expectLater(
           find.byType(AlertDialog),
           matchesGoldenFile(
-            '../docs/release/admin-roster-recovery-2026-09-30/uncertain-submission.png',
+            collectTestCaptureFile('uncertain-submission.png').uri,
           ),
         );
       }
@@ -376,7 +381,7 @@ void main() {
         await expectLater(
           find.byType(AlertDialog),
           matchesGoldenFile(
-            '../docs/release/admin-roster-provenance-2026-09-30/roster-compact-2x-errors.png',
+            collectTestCaptureFile('roster-compact-2x-errors.png').uri,
           ),
         );
       }

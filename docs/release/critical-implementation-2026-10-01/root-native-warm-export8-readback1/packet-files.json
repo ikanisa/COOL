@@ -1,0 +1,129 @@
+{
+  "files": [
+    {
+      "bytes": 1105,
+      "path": "SDK-readback-after-built.json",
+      "sha256": "1755000af3166133c964a5063d01d9330b92fe9b2d9381191decd197b10023e9"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-after-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-after-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 1105,
+      "path": "SDK-readback-before-built.json",
+      "sha256": "09e591f582df14094824f689475816c2f6a36f05c23b04323c454b198ba0332a"
+    },
+    {
+      "bytes": 0,
+      "path": "SDK-readback-before-built.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 756,
+      "path": "SDK-readback-before-built.stdout",
+      "sha256": "3b214063c4d88e68b15909d75f1344fcbb6ef70befabcea2177e80bc51e851ca"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-after-built.json",
+      "sha256": "ac393fc3da5c1b2627c366507d9f5ec89185bc8c9eba57eda470c9533cf2b730"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-before-built.json",
+      "sha256": "ac393fc3da5c1b2627c366507d9f5ec89185bc8c9eba57eda470c9533cf2b730"
+    },
+    {
+      "bytes": 773954,
+      "path": "actual-app-source.json",
+      "sha256": "100af8cd1aa6cafbe61bf5975c509a0deb8bdf7e8f4b6d92d24c13d5a7ff99f5"
+    },
+    {
+      "bytes": 1191,
+      "path": "actual-command.json",
+      "sha256": "77d7aa52a7285141bd928855df1886b602fb1a73a21929641a7490babe380729"
+    },
+    {
+      "bytes": 0,
+      "path": "actual-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1847,
+      "path": "actual-command.stdout",
+      "sha256": "faf49a618b1878a76f3051baae839a71286335fa714ad8d733b7f494cfeeead8"
+    },
+    {
+      "bytes": 464,
+      "path": "export-source-binding.json",
+      "sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c"
+    },
+    {
+      "bytes": 596,
+      "path": "readback.json",
+      "sha256": "a6ff813267709ba828268e208e1a9d1713097f3bbe25720eefa96a33318dd956"
+    },
+    {
+      "bytes": 1767,
+      "path": "source-export.json",
+      "sha256": "45bb03da292c8e2084a93ec05ddc4faf5ae5e0796395b82617a3a3d3ea0af228"
+    },
+    {
+      "bytes": 921482,
+      "path": "source-fence-after-output.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    {
+      "bytes": 1431,
+      "path": "source-fence-after.json",
+      "sha256": "0db5b2f7224054cf313b8c9063f359dec49e8fc4a9c5d5cda3145e6b109f06bb"
+    },
+    {
+      "bytes": 0,
+      "path": "source-fence-after.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "source-fence-after.stdout",
+      "sha256": "67fad70278ec987630a4d08ccd2eadbf943b4c1c9396b23921d976451bca7fc8"
+    },
+    {
+      "bytes": 921482,
+      "path": "source-fence-before-output.json",
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    {
+      "bytes": 1433,
+      "path": "source-fence-before.json",
+      "sha256": "02b8db499b40312ba9a26d12f6eb6b1fc59cf1005b39f8ecaa7500724c3d1bc3"
+    },
+    {
+      "bytes": 0,
+      "path": "source-fence-before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "source-fence-before.stdout",
+      "sha256": "67fad70278ec987630a4d08ccd2eadbf943b4c1c9396b23921d976451bca7fc8"
+    },
+    {
+      "bytes": 419,
+      "path": "start.json",
+      "sha256": "9053268a2e3d0a801ed15c5904621274b497c4b29a46713e8ad0e9773e27a15a"
+    },
+    {
+      "bytes": 379,
+      "path": "terminal.json",
+      "sha256": "5e198ef0e07dd6b4e79e72f5d430074490659a4c40d25b18f0404b617518844a"
+    }
+  ]
+}

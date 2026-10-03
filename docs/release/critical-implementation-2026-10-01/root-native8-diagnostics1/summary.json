@@ -1,0 +1,63 @@
+{
+  "owned_daemon_pid": 74694,
+  "diagnostic_exit_code": 0,
+  "stdout_sha256": "52e99faf7e49112d3c39d4b0ce1e6b3283e19d8b784f33a79c76a0509fa62d22",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "bytes": 155306,
+  "selected_wait_or_compile_threads": [
+    {
+      "thread": "\"Handler for socket connection from /127.0.0.1:61703 to /127.0.0.1:61705\" #35 [63939] prio=5 os_prio=31 cpu=26.79ms elapsed=609.24s tid=0x00007ff38b01c800 nid=63939 runnable  [0x00",
+      "state": "java.lang.Thread.State: RUNNABLE",
+      "frames": [
+        "at sun.nio.ch.KQueue.poll(java.base@21.0.8/Native Method)",
+        "at sun.nio.ch.KQueueSelectorImpl.doSelect(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.SelectorImpl.lockAndDoSelect(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.SelectorImpl.select(java.base@21.0.8/Unknown Source)",
+        "at org.gradle.internal.remote.internal.inet.SocketConnection$SocketInputStream.read(SocketConnection.java:187)",
+        "at com.esotericsoftware.kryo.io.Input.fill(Input.java:146)",
+        "at com.esotericsoftware.kryo.io.Input.require(Input.java:178)",
+        "at com.esotericsoftware.kryo.io.Input.readVarInt(Input.java:355)",
+        "at com.esotericsoftware.kryo.io.Input.readInt(Input.java:350)",
+        "at org.gradle.internal.serialize.kryo.KryoBackedDecoder.readSmallInt(KryoBackedDecoder.java:133)",
+        "at org.gradle.internal.serialize.DefaultSerializerRegistry$TaggedTypeSerializer.read(DefaultSerializerRegistry.java:159)",
+        "at org.gradle.internal.serialize.Serializers$StatefulSerializerAdapter$1.read(Serializers.java:36)"
+      ]
+    },
+    {
+      "thread": "\"Unconstrained build operations\" #56 [55391] prio=5 os_prio=31 cpu=4417.11ms elapsed=603.83s tid=0x00007ff3eb5f7200 nid=55391 runnable  [0x0000000308daf000]",
+      "state": "java.lang.Thread.State: RUNNABLE",
+      "frames": [
+        "at sun.nio.ch.Net.poll(java.base@21.0.8/Native Method)",
+        "at sun.nio.ch.NioSocketImpl.park(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.timedRead(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.implRead(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.read(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl$1.read(java.base@21.0.8/Unknown Source)",
+        "at java.net.Socket$SocketInputStream.read(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.read(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.readFully(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.decodeInputRecord(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.decode(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLTransport.decode(java.base@21.0.8/Unknown Source)"
+      ]
+    },
+    {
+      "thread": "\"Execution worker\" #61 [87091] prio=5 os_prio=31 cpu=15365.06ms elapsed=599.14s tid=0x00007ff3eb3cee00 nid=87091 runnable  [0x00000003092ba000]",
+      "state": "java.lang.Thread.State: RUNNABLE",
+      "frames": [
+        "at sun.nio.ch.Net.poll(java.base@21.0.8/Native Method)",
+        "at sun.nio.ch.NioSocketImpl.park(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.timedRead(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.implRead(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl.read(java.base@21.0.8/Unknown Source)",
+        "at sun.nio.ch.NioSocketImpl$1.read(java.base@21.0.8/Unknown Source)",
+        "at java.net.Socket$SocketInputStream.read(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.read(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.readFully(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.decodeInputRecord(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLSocketInputRecord.decode(java.base@21.0.8/Unknown Source)",
+        "at sun.security.ssl.SSLTransport.decode(java.base@21.0.8/Unknown Source)"
+      ]
+    }
+  ]
+}

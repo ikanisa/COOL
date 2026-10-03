@@ -1,0 +1,10 @@
+{
+  "candidate_proof_sha256": "56c51ec4327b4f780f678ef16ab782f88bcc03a87593643cd16b1ec6313524a2",
+  "candidate_cases": 127,
+  "actual_blocking_races": 8,
+  "source_migration": "20260930235700_sensitive_reason_whitespace.sql",
+  "source_sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+  "byte_identical_to_accepted_candidate": true,
+  "prior_bundle_runner_sha256": "3c1cde1854485605a194120f28ee01e0b99ccb87ba9ed4ef2f98dfda42ecd6ea",
+  "current_stage_count": 17
+}

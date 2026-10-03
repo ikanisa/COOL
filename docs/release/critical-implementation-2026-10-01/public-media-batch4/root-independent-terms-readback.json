@@ -1,0 +1,20 @@
+{
+  "recorded_at_utc": "2026-10-02T00:59:01.459198+00:00",
+  "reviewer": "root independent direct original-image readback",
+  "basis": "Parent agent explicitly reports reopening the new original at detail original and comparing the current fallback string. This records that independently supplied observation, without altering original capture or publication review evidence.",
+  "png_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-media-current-20261002-batch4-attempt1/screenshots/terms.png",
+  "png_sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+  "png_dimensions": [
+    1170,
+    2532
+  ],
+  "root_observation": "First paragraph fully visible: begins Collect helps groups organize, wraps through expected fallback ending transfer information. within the top viewport. No missing opening content apparent.",
+  "fallback_source": "lib/shared/models/collect_models.dart",
+  "fallback_source_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+  "earlier_omission_impression": "Unconfirmed image-viewer presentation observation; not a confirmed clipping defect.",
+  "whole_document_visible": false,
+  "below_viewport_continuation_needs_scroll": true,
+  "exact_native_terms_comparator_available": false,
+  "original_published_visual_review_preserved": true,
+  "native_or_full_visual_or_legal_acceptance": false
+}

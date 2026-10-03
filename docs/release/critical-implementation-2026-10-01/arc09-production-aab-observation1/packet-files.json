@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "status": "failed_driver_preserved_successful_runtime_command_separate",
+  "files": {
+    "APP-source-before.json": {
+      "sha256": "472b0beb1658ae1550d122bc0958d1421279ef3892fa75df958d14340d7d2619",
+      "bytes": 1425022,
+      "mode": 256
+    },
+    "SDK-source-before-built.json": {
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052",
+      "bytes": 6880418,
+      "mode": 256
+    },
+    "actual-app-packages-before.json": {
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2",
+      "bytes": 60531,
+      "mode": 256
+    },
+    "actual-plugin-bindings-before.json": {
+      "sha256": "47b1b5806e8f1eb841abf22e2c2a8ae0451b0d624629eefa5b0b3dfd3ad282d5",
+      "bytes": 117582,
+      "mode": 256
+    },
+    "combined-guard-before-command.json": {
+      "sha256": "0bce86153ca4bf0d5d816ee2005080451b86341e1bd88e989034d009d448b985",
+      "bytes": 1251,
+      "mode": 256
+    },
+    "combined-guard-before-command.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "combined-guard-before-command.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "failure-diagnostics/APP-source-failure.json": {
+      "sha256": "5a8f2a530534678ea44f0df79f3e75adff17a5e23edf8ff9cecdbbe3e746013b",
+      "bytes": 1425022,
+      "mode": 256
+    },
+    "failure-diagnostics/SDK-source-failure.json": {
+      "sha256": "29eaa3a2f5dcf11c21ef0373fcdb6941d1ab68189fce7667070ca6eebc26ca03",
+      "bytes": 6880418,
+      "mode": 256
+    },
+    "failure-diagnostics/actual-failure-guard-command.json": {
+      "sha256": "dee5aebd610b77d11ed9dc86d9b61b460b3f72826dc4f3766de741c6fc17dd22",
+      "bytes": 1254,
+      "mode": 256
+    },
+    "failure-diagnostics/actual-failure-guard-command.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "failure-diagnostics/actual-failure-guard-command.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "failure-diagnostics/failure-diagnostic-summary.json": {
+      "sha256": "ef0bdd7613a10f82052bd3e7c18c811e483380d99b1a24035de43da96b8fad73",
+      "bytes": 164,
+      "mode": 256
+    },
+    "failure-diagnostics/protected-failure.json": {
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59",
+      "bytes": 104,
+      "mode": 256
+    },
+    "guard-before.json": {
+      "sha256": "06edc87550496be46c1dc387dfd3042bd1537cae9666f85770e098685024ac56",
+      "bytes": 733,
+      "mode": 256
+    },
+    "production-runtime-graph-observation.daemon-readback.json": {
+      "sha256": "583ad4db7eb827b91b0bcc443abd8471a505bdec0d55570c3ba3b42a49634b8c",
+      "bytes": 5658,
+      "mode": 256
+    },
+    "production-runtime-graph-observation.json": {
+      "sha256": "81dd393d5301347967fa90098627266cee5dd5cf7013c798013bfb26ceba0285",
+      "bytes": 1374,
+      "mode": 256
+    },
+    "production-runtime-graph-observation.stderr": {
+      "sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "bytes": 765,
+      "mode": 256
+    },
+    "production-runtime-graph-observation.stdout": {
+      "sha256": "24f3c67e4f7ac4df0fa88162dc43c117399e685bd966ab11d98c91d3ce2fb27c",
+      "bytes": 268208,
+      "mode": 256
+    },
+    "root-admission-captured.json": {
+      "sha256": "f38ff9f5514333e1ad968cb636bc6a918e7efacc2cc715ef10435e24ca863098",
+      "bytes": 4239,
+      "mode": 256
+    },
+    "source-fence-before-command.json": {
+      "sha256": "d1f37642f9c747aff812d5b68f29dde891e9afe371220526a9deee4fb717eab3",
+      "bytes": 1474,
+      "mode": 256
+    },
+    "source-fence-before-command.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 256
+    },
+    "source-fence-before-command.stdout": {
+      "sha256": "67fad70278ec987630a4d08ccd2eadbf943b4c1c9396b23921d976451bca7fc8",
+      "bytes": 251,
+      "mode": 256
+    },
+    "source-fence-before.json": {
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4",
+      "bytes": 921482,
+      "mode": 256
+    },
+    "terminal.json": {
+      "sha256": "346e988f940f39528d32842152e5dd13971b5ba62c8c8b7606c970df0f4143a9",
+      "bytes": 7803,
+      "mode": 256
+    }
+  },
+  "file_count": 25,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

@@ -1,0 +1,38 @@
+{
+  "rows": [
+    {
+      "read_at": null,
+      "reason_code": "deadline_exceeded",
+      "delivered_at": "2026-10-01T11:12:57.782197Z",
+      "exception_id": "9da0b689-d39d-4e4c-989d-5a5f042f2f42",
+      "escalation_id": "2f9a7955-bcb2-4d82-b3a0-ba0db17c2b52",
+      "source_active": false,
+      "source_revision": 5,
+      "current_source_revision": 8
+    },
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T11:12:56.433070Z",
+      "exception_id": "9da0b689-d39d-4e4c-989d-5a5f042f2f42",
+      "escalation_id": "569ba3f9-f671-440a-97c4-cb06ae8c65da",
+      "source_active": false,
+      "source_revision": 3,
+      "current_source_revision": 8
+    },
+    {
+      "read_at": "2026-10-01T11:12:54.419223Z",
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T11:12:54.023935Z",
+      "exception_id": "9da0b689-d39d-4e4c-989d-5a5f042f2f42",
+      "escalation_id": "543d779c-4526-4a9c-bf19-177304de70ae",
+      "source_active": false,
+      "source_revision": 1,
+      "current_source_revision": 8
+    }
+  ],
+  "channel": "admin_inbox",
+  "checked_at": "2026-10-01T11:12:59.410870Z",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T11:13:59.410870Z"
+}

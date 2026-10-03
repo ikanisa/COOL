@@ -1,0 +1,359 @@
+{
+  "compile_graph_test_matrix": [
+    {
+      "build_type": "Debug",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileDevDebugKotlin",
+        ":app:compileDevDebugJavaWithJavac"
+      ],
+      "flavor": "dev",
+      "graphs": [
+        "devDebugCompileClasspath",
+        "devDebugRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testDevDebugUnitTest"
+    },
+    {
+      "build_type": "Profile",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileDevProfileKotlin",
+        ":app:compileDevProfileJavaWithJavac"
+      ],
+      "flavor": "dev",
+      "graphs": [
+        "devProfileCompileClasspath",
+        "devProfileRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testDevProfileUnitTest"
+    },
+    {
+      "build_type": "Release",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileDevReleaseKotlin",
+        ":app:compileDevReleaseJavaWithJavac"
+      ],
+      "flavor": "dev",
+      "graphs": [
+        "devReleaseCompileClasspath",
+        "devReleaseRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testDevReleaseUnitTest"
+    },
+    {
+      "build_type": "Debug",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_receiverDebugKotlin",
+        ":app:compileInternal_receiverDebugJavaWithJavac"
+      ],
+      "flavor": "internal_receiver",
+      "graphs": [
+        "internal_receiverDebugCompileClasspath",
+        "internal_receiverDebugRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_receiverDebugUnitTest"
+    },
+    {
+      "build_type": "Profile",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_receiverProfileKotlin",
+        ":app:compileInternal_receiverProfileJavaWithJavac"
+      ],
+      "flavor": "internal_receiver",
+      "graphs": [
+        "internal_receiverProfileCompileClasspath",
+        "internal_receiverProfileRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_receiverProfileUnitTest"
+    },
+    {
+      "build_type": "Release",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_receiverReleaseKotlin",
+        ":app:compileInternal_receiverReleaseJavaWithJavac"
+      ],
+      "flavor": "internal_receiver",
+      "graphs": [
+        "internal_receiverReleaseCompileClasspath",
+        "internal_receiverReleaseRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_receiverReleaseUnitTest"
+    },
+    {
+      "build_type": "Debug",
+      "entry": "lib/main_gateway.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_gatewayDebugKotlin",
+        ":app:compileInternal_gatewayDebugJavaWithJavac"
+      ],
+      "flavor": "internal_gateway",
+      "graphs": [
+        "internal_gatewayDebugCompileClasspath",
+        "internal_gatewayDebugRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_gatewayDebugUnitTest"
+    },
+    {
+      "build_type": "Profile",
+      "entry": "lib/main_gateway.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_gatewayProfileKotlin",
+        ":app:compileInternal_gatewayProfileJavaWithJavac"
+      ],
+      "flavor": "internal_gateway",
+      "graphs": [
+        "internal_gatewayProfileCompileClasspath",
+        "internal_gatewayProfileRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_gatewayProfileUnitTest"
+    },
+    {
+      "build_type": "Release",
+      "entry": "lib/main_gateway.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileInternal_gatewayReleaseKotlin",
+        ":app:compileInternal_gatewayReleaseJavaWithJavac"
+      ],
+      "flavor": "internal_gateway",
+      "graphs": [
+        "internal_gatewayReleaseCompileClasspath",
+        "internal_gatewayReleaseRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testInternal_gatewayReleaseUnitTest"
+    },
+    {
+      "build_type": "Debug",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileProductionDebugKotlin",
+        ":app:compileProductionDebugJavaWithJavac"
+      ],
+      "flavor": "production",
+      "graphs": [
+        "productionDebugCompileClasspath",
+        "productionDebugRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testProductionDebugUnitTest"
+    },
+    {
+      "build_type": "Profile",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileProductionProfileKotlin",
+        ":app:compileProductionProfileJavaWithJavac"
+      ],
+      "flavor": "production",
+      "graphs": [
+        "productionProfileCompileClasspath",
+        "productionProfileRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": false,
+      "unit_test_candidate": ":app:testProductionProfileUnitTest"
+    },
+    {
+      "build_type": "Release",
+      "entry": "lib/main.dart",
+      "expected_compile_task_candidates": [
+        ":app:compileProductionReleaseKotlin",
+        ":app:compileProductionReleaseJavaWithJavac"
+      ],
+      "flavor": "production",
+      "graphs": [
+        "productionReleaseCompileClasspath",
+        "productionReleaseRuntimeClasspath"
+      ],
+      "names_and_available_tests_require_actual_discovery": true,
+      "strict_dependency_lock_enforced": true,
+      "unit_test_candidate": ":app:testProductionReleaseUnitTest"
+    }
+  ],
+  "controller_created": false,
+  "current12_authority": "root-tooling-source-integration1/current-source-after-drop-correction.json",
+  "environment_exact_reused_from_native_proposal": {
+    "ANDROID_HOME": "/Users/jeanbosco/Library/Android/sdk",
+    "ANDROID_SDK_ROOT": "/Users/jeanbosco/Library/Android/sdk",
+    "CI": "true",
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "FLUTTER_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "GIT_OPTIONAL_LOCKS": "0",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+    "HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/home",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PATH": "/Volumes/PRO-G40/Development/Node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PUB_CACHE": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache",
+    "TMPDIR": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/tmp"
+  },
+  "expected_artifact_coverage": {
+    "each_container_elf_abis": [
+      "armeabi-v7a",
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "filenames_not_assumed": "Bind observed AGP output metadata and physical files; no Flutter output symlink adapters",
+    "marker_literal": "{\"kind\":\"local_unsigned_native_qa\",\"store_acceptance\":false,\"provider_configuration\":false,\"signing\":false}\n",
+    "output_root": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/outputs",
+    "production_aab": true,
+    "qa_marker_required_flavors": [
+      "production",
+      "internal_gateway"
+    ],
+    "release_apk_flavors": [
+      "dev",
+      "internal_receiver",
+      "internal_gateway",
+      "production"
+    ],
+    "split_apks_requested": false,
+    "unsupported_android_x86_requested": false
+  },
+  "guard2_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "guard2_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+  "kind": "read_only_command_and_wiring_proposal_NOT_admission",
+  "native_execution_outcome_observed": false,
+  "not_frozen_until": [
+    "Genuine whole native PASS with root-pinned terminal and unchanged exact producer/source/export binding",
+    "Actual task/variant discovery and all-flavor compile/test/graph prerequisites PASS",
+    "New reviewed exact-root observer captures all 24 graphs, signingConfig absent for all four release variants and actual selected tasks, without dependency/task overrides",
+    "Separately reviewed artifact reader/provenance/SBOM binding and single-stage packaging receipt, clock deadline/private roots/disk floors; no auto advance"
+  ],
+  "packaging_admitted": false,
+  "packaging_raw_child_argv_proposals": [
+    {
+      "argv": [
+        "/bin/bash",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+        "-p",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+        "--no-daemon",
+        "--no-build-cache",
+        "--no-configuration-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--rerun-tasks",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+        "-PcollectUnsignedLocalQa=true",
+        "-Ptarget-platform=android-arm,android-arm64,android-x64",
+        "-Ptarget=lib/main.dart",
+        "-Pandroid.builder.sdkDownload=false",
+        ":app:assembleDevRelease",
+        ":app:assembleInternal_receiverRelease",
+        ":app:assembleProductionRelease",
+        ":app:bundleProductionRelease"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "scope": "non-gateway release APKs and production AAB"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+        "-p",
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+        "--no-daemon",
+        "--no-build-cache",
+        "--no-configuration-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--rerun-tasks",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+        "-PcollectUnsignedLocalQa=true",
+        "-Ptarget-platform=android-arm,android-arm64,android-x64",
+        "-Ptarget=lib/main_gateway.dart",
+        "-Pandroid.builder.sdkDownload=false",
+        ":app:assembleInternal_gatewayRelease"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+      "scope": "gateway release APK"
+    }
+  ],
+  "packaging_target_platforms": [
+    "android-arm",
+    "android-arm64",
+    "android-x64"
+  ],
+  "plugin_bindings_sha256": "9fee5c0601debd04eadd28d6521253bdd589f4fbbad66d60ee0b2f34738a9095",
+  "runtime_installation_download_signing_provider_store_device_actions_executed": false,
+  "separate_future_source_compile_commands": {
+    "admin_web": {
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+        "build",
+        "web",
+        "-t",
+        "lib/main_admin.dart",
+        "--release",
+        "--no-pub",
+        "--dart-define=COLLECT_PUBLIC_LANDING_HOME=false"
+      ],
+      "claim": "Admin source compilation only; no production PWA or deployment acceptance",
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source"
+    },
+    "ios": {
+      "argv": [
+        "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter",
+        "build",
+        "ios",
+        "--no-codesign",
+        "--release",
+        "--flavor",
+        "production",
+        "--no-pub"
+      ],
+      "claim": "Unsigned compilation only; new Xcode/iOS dependency/generated-input guard and prior admission needed",
+      "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source"
+    }
+  },
+  "source_fence_sha256_conditional_on_unchanged_source": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_held_claim": false,
+  "task_discovery_raw_child_argv_proposal": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "--rerun-tasks",
+    "-I",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget-platform=android-arm,android-arm64,android-x64",
+    "-Ptarget=lib/main.dart",
+    "-Pandroid.builder.sdkDownload=false",
+    ":app:tasks",
+    "--all"
+  ],
+  "whole_native_predecessor_manifest_sha256": "a9345a6c699794117e6e3a9bb6e06d4c3e34f1db7fb680a79c7b09f45bcf3452"
+}

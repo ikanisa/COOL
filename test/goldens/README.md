@@ -55,7 +55,7 @@ review of widget regression expectations, not owner or native release approval.
 
 Member surfaces render at 390x844. Public and Admin surfaces render at
 1440x900. Every test uses the Android platform variant, disables animation,
-loads the bundled Inter variable font, public-only Aeonik Pro faces and
+loads the bundled licensed Inter variable font and
 Flutter Material Icons explicitly,
 and uses fixture-only local data.
 
@@ -118,3 +118,15 @@ Only `public_home_desktop.png` was refreshed after agent visual review of the st
 ## 6 September 2026: current Home and recipient labels
 
 The implementing agent opened the two changed candidate images before promoting them: Home now uses Explore Groups, and contribution review shows the beneficiary and number without the redundant network prefix. All 14 checks then passed at the original tolerance. Earlier product baselines and failure composites referenced above have been retired outside the checkout; consult `docs/release/mobile-design/retired-design-assets.json` and the current-system refresh report. This is local regression review, not owner or native release acceptance.
+
+## 1 October 2026: reviewed current product behavior
+
+Five captures were refreshed after individual before/after review and a fresh
+13-capture run: authentication input height, unknown group totals, actual
+connection recovery, Rwanda-only public copy and current Admin measurement
+states. The other eight captures and 0.0005 tolerance remain unchanged.
+All 14 isolated checks pass. Prior PNGs, hashes, failures and the per-item
+rationale are retained in
+`docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/`.
+This is implementing-agent regression review; it does not certify native
+Revolut fidelity, owner acceptance or production readiness.

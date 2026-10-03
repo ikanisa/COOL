@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-10-02T00:49:16.625988+00:00",
+  "completed_at": "2026-10-02T00:50:25.305145+00:00",
+  "mode": "authority",
+  "command": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "exit_code": 0,
+  "input_count": 1345,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_log_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "approval": false,
+  "authority_hygiene_is_visual_acceptance": false
+}

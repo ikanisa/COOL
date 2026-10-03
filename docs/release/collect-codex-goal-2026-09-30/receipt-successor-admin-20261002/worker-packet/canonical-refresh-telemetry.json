@@ -1,0 +1,30 @@
+{
+  "lib/main.dart": {
+    "before": "946724519f815d88c238868d7948dfd1418fec2e58f3c4b6c793c2446704ead7",
+    "now": "ba207a1f6254459527700c72b300523ed9795fc046fda61f98ba9d2867677eb1"
+  },
+  "lib/main_admin.dart": {
+    "before": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381",
+    "now": "3400aa6f9f34a7048203c9a5b6974b0c3f06c0710d5dbd3f446bd75b35d97343"
+  },
+  "lib/core/supabase/supabase_module.dart": {
+    "before": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+    "now": "155dded3af67c6fbfcf7bd58e4dad006f4e7374634b2033e5d6dad833c1f55df"
+  },
+  "lib/core/startup/collect_global_error_handlers.dart": {
+    "before": "20bfa889f4a6935d3cb2f5f76ad0827cdef3323b0dc1cd67adbc9327f39a4841",
+    "now": "8b440132bd47ee4242c702aa2e12a9775c2bf8a4bb46df8ed2172419bec821d2"
+  },
+  "lib/core/startup/collect_startup_controller.dart": {
+    "before": "97fd39c70c0afd2011575b562cf443862d4d1a800d6c76bbb00cb9a9aa962b07",
+    "now": "33c79e3d8a54b7a6b6ccd20de0851a9aa5688b16c8cc2fc11fe6a67f1462cab9"
+  },
+  "lib/core/startup/collect_startup_host.dart": {
+    "before": "d329a9e96bb68bfa37ca06cd688625794c4c315fc05a0e80f4416c5f1a8b38a4",
+    "now": "42e4b1886315df319763b642e922e84710e4670391460d1ccbf13425a23635f2"
+  },
+  "lib/core/logging/app_logger.dart": {
+    "before": "0ab3ccc6cc7471f1779d5afa2546b624237ebef4a5e648e7aee08d5920d2d329",
+    "now": "c2d9869b4fa278d7f44c79ace88a91d29d5f4e5446d5689849ddb8eab97a70a7"
+  }
+}

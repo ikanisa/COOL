@@ -1,0 +1,213 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "64110436b9af941177812229367393a543b50fc444f93e9562c5dc9d423ed4b7",
+  "cases": [
+    {
+      "detail": true,
+      "name": "legacy owner positive control has a real existing secret",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "installation preserves all synthetic financial families",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private immutable receipt table has RLS and no API grants",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "private helpers have no API execute grants",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot rotate invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot read private invitation",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot rotate invitation",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "installation preserves existing invitation code",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "owner and active ordinary member read same current code",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_permission_required",
+        "sqlstate": "42501"
+      },
+      "name": "nonmember read denied",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_permission_required",
+        "sqlstate": "42501"
+      },
+      "name": "ordinary member cannot rotate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_rotation_request_required",
+        "sqlstate": "22023"
+      },
+      "name": "legacy unidentified rotation refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_request_invalid",
+        "sqlstate": "22023"
+      },
+      "name": "null request refused",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "exact bound rotation receipt returns new canonical code",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "same actor replay returns identical receipt",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "replay creates exactly one receipt and redacted audit",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_request_conflict",
+        "sqlstate": "40001"
+      },
+      "name": "request replay cannot bind another collection",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_rotation_superseded",
+        "sqlstate": "55000"
+      },
+      "name": "superseded replay refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_receipt_immutable",
+        "sqlstate": "55000"
+      },
+      "name": "receipt immutability update",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_receipt_immutable",
+        "sqlstate": "55000"
+      },
+      "name": "receipt immutability delete",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "expired JWT refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "malformed JWT expiry refused",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "group_share_session_required",
+        "sqlstate": "42501"
+      },
+      "name": "missing Auth session refused",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:21:53.339120+00:00",
+  "database": "collect_local_uat_5c935c0fcca7488e",
+  "failure": "Session marker timeout RR_DONE ['{\"sub\": \"99710000-0000-4000-8000-000000000002\", \"session_id\": \"99710000-0000-4000-8000-000000010003\", \"role\": \"authenticated\", \"aal\": \"aal1\", \"exp\": 1790806900}', 'ERROR:  40001: could not serialize access due to concurrent update', 'CONTEXT:  PL/pgSQL function collect_member_actions.require_group_share_actor(uuid,boolean) line 38 at FOR over SELECT rows', 'SQL statement \"SELECT collect_member_actions.require_group_share_actor(p_collection_id,false)\"', 'PL/pgSQL function public.get_group_share_code(uuid) line 4 at PERFORM', 'LOCATION:  ExecLockRows, nodeLockRows.c:226', 'ERROR:  25P02: current transaction is aborted, commands ignored until end of transaction block', 'LOCATION:  exec_simple_query, postgres.c:1140']",
+  "hosted_called": false,
+  "installed_in_shared_source": false,
+  "isolated_database_removed": true,
+  "kind": "group_share_rotation_actual_local_schema153",
+  "migration_sha256": "b4a13a9215b08dcdb6fe91780c3c0ab35ada1684d52b6ed090124c4f017a0d5e",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "runner_sha256": "277ce41ab1b78ff28e285543818e18d89d9ccf71f1236e1563d78445395d4b3e",
+  "schema_only_sha256": "ce19b29ad28cd401621ed6397a867bbcb3c32c72539930c98183ab2c8ee42c85",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 153,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930220000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 153,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930220000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 152,
+  "started_at": "2026-09-30T21:21:36.436112+00:00",
+  "status": "failed"
+}

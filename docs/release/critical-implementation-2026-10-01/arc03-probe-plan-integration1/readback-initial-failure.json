@@ -1,0 +1,23 @@
+{
+  "at_utc": "2026-10-02T13:50:50.821704+00:00",
+  "status": "failure_requires_review",
+  "finding": "ARC-03",
+  "original_external_acceptance_remains_open": true,
+  "source_before_count": 36,
+  "source_after_count": 36,
+  "exact_reviewed_changes_only": true,
+  "unexpected_source_drift": [],
+  "owned_maintained_files": [
+    "scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh",
+    "scripts/tests/edge_function_inventory_test.rb"
+  ],
+  "proposal_packet_sha256": "7808975cd0a97e6016be284887c3023db8f8472aa486280055d630e18dac5461",
+  "proposal_patch_sha256": "9e4711a16963a0dd94931c4d08111e12b5cd7172b70ea26ab58b2c7c527820c0",
+  "actual_command_count": 2,
+  "no_provider_calls": true,
+  "no_database_commands": true,
+  "no_app_sdk_cache_mutation": true,
+  "no_builds": true,
+  "no_ledger_changes": true
+}

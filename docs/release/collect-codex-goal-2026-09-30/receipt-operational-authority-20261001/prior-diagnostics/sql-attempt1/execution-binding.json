@@ -1,0 +1,13 @@
+{
+  "scope": "focused operations feature on exact source08 177 prerequisites; local cached PG17.6 only",
+  "started_at": "2026-10-01T11:16:29.711261+00:00",
+  "source08_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "migration_sha256": "4e40780b562c720ac71ff7070c6189636596ecfeefa27d74aa219b4f5b7cc0a8",
+  "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "runner_sha256": "26d1b365c065433a358db776531c383ed61a155d1cb7fcffa1723bb2ade30a6f",
+  "baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "hosted_written": false,
+  "device_used": false,
+  "sms_sent": false,
+  "signature_verified_in_sql": false
+}

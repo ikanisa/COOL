@@ -1,0 +1,75 @@
+[
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-read-initial.json",
+    "sha256": "8f5c18a436135ddfef39d7fa2f672c128ff936f9426a46919d48f933b5ffb427",
+    "fixture": "fixtures/observed-read-initial.json",
+    "embedded_constant": "readInitialRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-attempt6/observed-read-no-manage.json",
+    "sha256": "64fecc06a0c6d500bc8c22b749963e93504dd67ea1b3656389f02eefcbe12f9a",
+    "fixture": "fixtures/observed-read-no-manage.json",
+    "embedded_constant": "readNoManageRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-attempt6/observed-cron-unavailable.json",
+    "sha256": "b7ece6d71e72234faad6f02fb36484e05a004d961f0e87c5ac5069da9b16054e",
+    "fixture": "fixtures/observed-cron-unavailable.json",
+    "embedded_constant": "cronUnavailableRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-recorded.json",
+    "sha256": "df82b6b175fc4efa573049b3edd8ba51c8cbec842275875f575470b2cb86d6f9",
+    "fixture": "fixtures/observed-recorded.json",
+    "embedded_constant": "recordedRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-recovered.json",
+    "sha256": "df82b6b175fc4efa573049b3edd8ba51c8cbec842275875f575470b2cb86d6f9",
+    "fixture": "fixtures/observed-recovered.json",
+    "embedded_constant": "recoveredRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-attempt6/observed-enabled.json",
+    "sha256": "012796c5caaa6b6eda74ea71522433aa504e84b70c6bbaaee2e1f7c98605ff86",
+    "fixture": "fixtures/observed-enabled.json",
+    "embedded_constant": "enabledRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-attempt6/observed-read-enabled.json",
+    "sha256": "391d3a2ec0363064111205c0fed8ff25b790d23a65d8ca2b1084c781ba28b0fc",
+    "fixture": "fixtures/observed-read-enabled.json",
+    "embedded_constant": "readEnabledRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-attempt6/observed-disabled.json",
+    "sha256": "b283908fc7652644c01a0658c73a5e5922fe875fe2f487a5527de5b53111dc6c",
+    "fixture": "fixtures/observed-disabled.json",
+    "embedded_constant": "disabledRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-not-recorded-delayed-predeadline.json",
+    "sha256": "2dede9b2372760b00eabb5deedc76615b2879bdd4498e652f6172b3a7b2894f5",
+    "fixture": "fixtures/observed-not-recorded-delayed-predeadline.json",
+    "embedded_constant": "notRecordedDelayedPredeadlineRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-not-recorded-after-deadline.json",
+    "sha256": "28a62b5013a010e03642782f70539bb0090e62e612143923e919d813bff8b880",
+    "fixture": "fixtures/observed-not-recorded-after-deadline.json",
+    "embedded_constant": "notRecordedAfterDeadlineRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/proof/sql-lookup-tail1/observed-missing-intent.json",
+    "sha256": "2611b7ad1836c8357c0e085674b66aaf1083f4efb7a93b800b4cecbfd5eeb0d3",
+    "fixture": "fixtures/observed-missing-intent.json",
+    "embedded_constant": "missingIntentRaw"
+  },
+  {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/observed-active.json",
+    "sha256": "cd0e4e228b32248186d4774c49ce77d33379333411bd49a0aa709c8027ea3efd",
+    "fixture": "fixtures/gateway-observed-active.json",
+    "embedded_constant": "gatewayActiveRaw",
+    "limit": "real retained single active device page; second-device reorder case is an explicit synthetic identity adaptation, not new enrollment/provider proof"
+  }
+]

@@ -1,0 +1,9 @@
+test/features/member_data_unknown_states_test.dart:39:43: Error: Positional super-initializer parameters cannot be used when the super initializer has positional arguments.
+  _AbsentHistory(super.repository) : super(const MemberHistoryQuery()) {
+                                          ^
+test/features/member_data_unknown_states_test.dart:39:24: Context: This is the super-initializer parameter.
+  _AbsentHistory(super.repository) : super(const MemberHistoryQuery()) {
+                       ^
+test/features/member_data_unknown_states_test.dart:39:43: Error: Too few positional arguments: 2 required, 1 given.
+  _AbsentHistory(super.repository) : super(const MemberHistoryQuery()) {
+                                          ^

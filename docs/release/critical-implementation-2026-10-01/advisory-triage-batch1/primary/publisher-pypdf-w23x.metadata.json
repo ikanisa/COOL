@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:53 GMT",
+    "ETag": "W/\"a3b1e61858ff8590bdf5ef7cb1d79aa8\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-w23x-9jrw-r45c",
+  "requested_at": "2026-10-01T21:22:52.838877+00:00",
+  "response_bytes": 192519,
+  "response_path": "primary/publisher-pypdf-w23x.response",
+  "response_sha256": "c57f04ec1eafaf746bb70a6f183a36f6e9ae262356f887d246017b6423f38d35",
+  "response_url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-w23x-9jrw-r45c",
+  "retrieved_at": "2026-10-01T21:22:55.339409+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

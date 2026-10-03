@@ -1,0 +1,5 @@
+WARNING:  no privileges were granted for "pg_temp_72"
+ERROR:  unterminated quoted string at or near "')::uuid);
+end "
+LINE 39: ...errupted_roster_commit_status((ack->>'to_import_id')::uuid);
+                                                              ^

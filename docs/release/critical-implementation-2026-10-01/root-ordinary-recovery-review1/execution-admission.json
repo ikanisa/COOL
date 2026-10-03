@@ -1,0 +1,16 @@
+{
+  "kind": "collect_local_synthetic_recovery_review_v1",
+  "decision": "admit",
+  "review_reference": "root-ordinary-recovery-review1",
+  "code_sha256": "b6e4c7889acc1248ee8a4bbba2dfe330b4087d8cd6c7198a56e4eac87379a2c0",
+  "inputs_sha256": "d3d2bf7563ec5323a4a5ebd23cb7deabafcfa3bf4d0d0008c5df36d7ab61ccdc",
+  "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+  "client_version": "17.6",
+  "server_version_num": 170006,
+  "operations": [
+    "local_synthetic_dump",
+    "local_synthetic_restore",
+    "ordinary_original_migration_replay"
+  ],
+  "scope": "owned_networkless_synthetic_fixture_only"
+}

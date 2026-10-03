@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "routes": 28,
+  "endpoints": 114,
+  "active_endpoints": 96,
+  "providers": 50,
+  "dialogs": 16,
+  "callbacks": 254,
+  "api_call_sites": 136,
+  "declaration_discovery": 1055,
+  "sources": 420,
+  "source_unchanged": true,
+  "inventory_sha256": "95d6c4df670d48a193efa42d8ce3a81d3cba4bb99d4a4ddbd8409ec5cc3e3530",
+  "complete_Admin_acceptance": false
+}

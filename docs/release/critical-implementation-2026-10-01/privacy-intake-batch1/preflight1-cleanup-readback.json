@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-10-01T22:45:26.391837+00:00",
+  "original_receipt_retained": true,
+  "original_result_sha256": "5a21500b50402b92e8ae6f1aa0644b0afbaab492513b2a20aa0aacb6cb73ee85",
+  "container": "collect_current_rehearsal_privacy_preflight_2d027d3f12db",
+  "exit_code": 1,
+  "stderr": "error: no such object: collect_current_rehearsal_privacy_preflight_2d027d3f12db\n",
+  "absence_verified": true,
+  "original_assertion_gap": "Case-sensitive comparison did not recognize the actual lowercase Docker absence message; original attempt remains failed/stale."
+}

@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-10-01T17:49:24.715750+00:00",
+  "owned_targets": [
+    {
+      "proof": "attempt1",
+      "status": "failed",
+      "container_name": null,
+      "target_created": false,
+      "reported_removed": null
+    },
+    {
+      "proof": "attempt2",
+      "status": "failed",
+      "container_name": null,
+      "target_created": false,
+      "reported_removed": false
+    },
+    {
+      "proof": "attempt3",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_f8f82ac11d70",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "attempt4",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_61954adc4a00",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "attempt5",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_095adfa6e877",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "attempt6",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_82daa68583a8",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "affected-attempt7",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_08f8d2ae0d4e",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "affected-tail-attempt8",
+      "status": "failed",
+      "container_name": "collect_current_rehearsal_governed_settings_2a7e8d5dc940",
+      "target_created": true,
+      "reported_removed": true
+    },
+    {
+      "proof": "final-only-attempt9",
+      "status": "pass",
+      "container_name": "collect_current_rehearsal_governed_settings_ec340b987a78",
+      "target_created": true,
+      "reported_removed": true
+    }
+  ],
+  "direct_inspect_all_owned_targets_absent": true,
+  "inspect_exit_code": 1,
+  "inspect_stderr": "error: no such object: collect_current_rehearsal_governed_settings_f8f82ac11d70\nerror: no such object: collect_current_rehearsal_governed_settings_61954adc4a00\nerror: no such object: collect_current_rehearsal_governed_settings_095adfa6e877\nerror: no such object: collect_current_rehearsal_governed_settings_82daa68583a8\nerror: no such object: collect_current_rehearsal_governed_settings_08f8d2ae0d4e\nerror: no such object: collect_current_rehearsal_governed_settings_2a7e8d5dc940\nerror: no such object: collect_current_rehearsal_governed_settings_ec340b987a78\n",
+  "live_owned_runner_processes": [],
+  "no_other_targets_touched": true
+}

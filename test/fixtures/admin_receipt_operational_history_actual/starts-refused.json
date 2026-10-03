@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {
+      "code": "OPERATIONS_PAUSED",
+      "mode": "Paused",
+      "run_id": null,
+      "run_state": "no_run",
+      "request_id": "6fadef81-3ec0-4ebb-aa1c-b1dd90f70565",
+      "recorded_at": "2026-10-02T00:14:45.164795Z",
+      "principal_id": "8bd4425d-6516-4e8d-a203-5e3c2396b35d"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "section": "starts",
+  "checked_at": "2026-10-02T00:14:45.245857Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:45.245857Z"
+}

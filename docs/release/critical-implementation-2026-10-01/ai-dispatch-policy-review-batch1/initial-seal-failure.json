@@ -1,0 +1,9 @@
+{
+  "exit_code": 1,
+  "status": "observed_source_drift",
+  "cause": "original source readback correctly detected one concurrent root-owned decoder README update; no silent weakening of source equality",
+  "actual_readback": "source-readback.json",
+  "product_source_mutations_by_this_agent": [],
+  "root_review": "intentional documentation-only delta confirmed; exact diff retained and current doc snapshot bound",
+  "initial_stderr_transcription": "Traceback (most recent call last): File <stdin>, line 20, in <module> AssertionError: observed current source drift"
+}

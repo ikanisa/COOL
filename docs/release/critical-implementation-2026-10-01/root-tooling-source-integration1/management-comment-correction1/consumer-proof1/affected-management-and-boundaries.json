@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/management-comment-correction1/consumer-proof1/management-consumer.py",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 100.109,
+  "exit_code": 0,
+  "output_limit_bytes": 4194304,
+  "pgid": 73555,
+  "pid": 73555,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 539,
+    "device": 16777247,
+    "inode": 17861048,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925794336009271,
+    "sha256": "0faf7553487151134661a0d4d7ae49c9f1b7032c48e7d5875490dfae38995ca6"
+  },
+  "stdout": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17861047,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925694263777532,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 350
+}

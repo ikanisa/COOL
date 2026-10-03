@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "reused_pure_proof": "docs/release/asset-build-hygiene-2026-09-30/gateway-notification-exclusion-attempt169/pure-adapter-validation.json",
+  "reused_pure_proof_sha256": "ed668979dae8e29471ccb156afce8715d94183ee9884ac0eee038125cb66697f",
+  "helper_sha256": "66f330f0c98b048013259a7a8cc211224a91381366e972673a2676421c5f4551",
+  "scope": "Exact unchanged Java adapter18 controls; narrow actual Flutter late dependency-order compatibility correction."
+}

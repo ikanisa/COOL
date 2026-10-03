@@ -1,0 +1,11 @@
+{
+  "actual_SHA256": "cf97161430683fb9af96dc6a7017ffae1fe8737b80d12eee11f2fe3e76f8ded8",
+  "bytes": 58593245,
+  "current_outside_repository_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/kotlin-compiler-embeddable-2.4.20-independent.jar",
+  "from_unsealed_packet_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/public-origin/compiler-independent-publisher.jar",
+  "nlink": 1,
+  "original_download_receipt_sha256": "afc4151d455e08548fa9a839819b7dfde185eef50f731e611950f186b61876e5",
+  "reason": "retain complete independent public body outside repository; original producing download receipt unchanged",
+  "same_physical_identity_preserved": true,
+  "status": "PUBLIC_ARTIFACT_RELOCATION_READBACK_PASS"
+}

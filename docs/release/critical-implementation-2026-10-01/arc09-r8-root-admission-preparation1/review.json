@@ -1,0 +1,11 @@
+{
+  "actual_execution_or_maintained_source_cache_network_mutations": false,
+  "actual_source_inputs_bound": true,
+  "admission_sha256": "68a1396919e5b6f7d2f01055659ebc7155ead70793c3bbfa4a52b5c33ec6e6c1",
+  "builder_sha256": "a6385843f0ad033c188b3e85866eaba189760234bb474cb6a9a8942c7e88cef4",
+  "existing36_admission_fixtures_reused_sha256": "a3e7bfdc1bad64290f6eb1a8184aa9a0f3169c399dca469435666c4c6c678471",
+  "existing7_probe_fixtures_reused_sha256": "cfd689af0b97caf1d9ece94b82073c633c4c30f237be2f02ee8def3d9a88feed",
+  "kind": "private_actual_source_admission_proposal_review",
+  "production_release_approval": false,
+  "root_full_AAB_output_pending": true
+}

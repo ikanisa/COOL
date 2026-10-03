@@ -1,0 +1,34 @@
+{
+  "added_inputs": [
+    {
+      "bytes": 20661,
+      "kind": "maintained-caller-source",
+      "mode": 420,
+      "path": "scripts/qa/run_sql_ci.py",
+      "sha256": "6713309fb0815edeba361ad66c8e1a28b3848662c6390f8b592db850c54ac34c"
+    }
+  ],
+  "all_prior1093_hashes_unchanged": true,
+  "baseline_input_entries": 1093,
+  "baseline_input_manifest_sha256": "d4f62a27cf8807f6202f5e11f4bc02fb10f76bdda9cd0c986a5165c186ee2d20",
+  "baseline_maintained_sources": 666,
+  "baseline_packet": "docs/release/critical-implementation-2026-10-01/root-schema-current-style-seam-refresh1",
+  "current_expected_input_entries": 1094,
+  "current_maintained_sources": 667,
+  "outside_mapper_scope": [
+    ".github/workflows/ci.yml",
+    "scripts/tests/sql_ci_runner_test.py",
+    "scripts/tests/fixtures/ordinary_installer_v1/manifest.json",
+    "scripts/tests/fixtures/ordinary_installer_v1/predecessor.json",
+    "scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql"
+  ],
+  "prior1093_hash_changes": [],
+  "registry_already_current": {
+    "bytes": 13792,
+    "mode": 420,
+    "path": "scripts/audits/collect_schema_domain_caller_seams.json",
+    "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077"
+  },
+  "removed_inputs": [],
+  "scope_basis": "Actual maintained_sources roots/extensions/pruned directories plus explicit manifest inputs; new Python under scripts/qa is admitted, CI outside roots and scripts/tests subtree is pruned."
+}

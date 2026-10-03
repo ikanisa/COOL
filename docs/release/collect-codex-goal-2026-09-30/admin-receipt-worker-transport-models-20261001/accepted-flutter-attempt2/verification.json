@@ -1,0 +1,26 @@
+{
+  "scope": "strict transport Admin model using actual160000 SQL fixtures and selected transitive Dart import closure",
+  "command": [
+    "flutter",
+    "test",
+    "--no-pub",
+    "test/admin_receipt_worker_transport_models_test.dart",
+    "--reporter",
+    "json"
+  ],
+  "returncode": 0,
+  "duration_seconds": 3.12,
+  "inputs": 1111,
+  "changed_inputs": [],
+  "visible_cases": 42,
+  "completed_visible_cases": 42,
+  "terminal": {
+    "success": true,
+    "type": "done",
+    "time": 1789
+  },
+  "accepted": true,
+  "hosted_verified": false,
+  "visual_comparator_accepted": false,
+  "full_candidate_regression": false
+}

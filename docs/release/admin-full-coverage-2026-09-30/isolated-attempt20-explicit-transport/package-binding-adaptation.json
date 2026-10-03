@@ -1,0 +1,62 @@
+[
+  {
+    "package": "cross_file",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/cross_file-0.3.5+4",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/cross_file-0.3.5+4",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/cross_file-0.3.5%2B4"
+  },
+  {
+    "package": "file_saver",
+    "original": "../third_party/file_saver",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/file_saver",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt20-explicit-transport/source-export/third_party/file_saver"
+  },
+  {
+    "package": "file_selector_windows",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_selector_windows-0.9.3+5",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_selector_windows-0.9.3+5",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/file_selector_windows-0.9.3%2B5"
+  },
+  {
+    "package": "firebase_messaging",
+    "original": "../third_party/firebase_messaging",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/firebase_messaging",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt20-explicit-transport/source-export/third_party/firebase_messaging"
+  },
+  {
+    "package": "gotrue",
+    "original": "../third_party/gotrue",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/gotrue",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt20-explicit-transport/source-export/third_party/gotrue"
+  },
+  {
+    "package": "image_picker_android",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_android-0.8.13+19",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_android-0.8.13+19",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_android-0.8.13%2B19"
+  },
+  {
+    "package": "image_picker_ios",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13+6",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13+6",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_ios-0.8.13%2B6"
+  },
+  {
+    "package": "image_picker_macos",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_macos-0.2.2+1",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_macos-0.2.2+1",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/image_picker_macos-0.2.2%2B1"
+  },
+  {
+    "package": "permission_handler_html",
+    "original": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_html-0.1.4+1",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_html-0.1.4+1",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/permission_handler_html-0.1.4%2B1"
+  },
+  {
+    "package": "collect_app",
+    "original": "../",
+    "resolved": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "export": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt20-explicit-transport/source-export"
+  }
+]

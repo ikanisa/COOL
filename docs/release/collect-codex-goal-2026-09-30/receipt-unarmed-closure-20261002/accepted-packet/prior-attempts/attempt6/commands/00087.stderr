@@ -1,0 +1,3 @@
+ERROR:  55000: gateway_dispatch_arm_fenced
+CONTEXT:  PL/pgSQL function public.gateway_arm_dispatch_v2(uuid,uuid,text,jsonb) line 31 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

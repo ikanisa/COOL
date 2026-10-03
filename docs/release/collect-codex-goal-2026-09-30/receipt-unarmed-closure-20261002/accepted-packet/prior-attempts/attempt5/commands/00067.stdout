@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"scope": "rw_receipt_operations", "action": "prove_key", "expires_at": "2026-10-02T22:27:09.193824Z", "request_id": "7205534d-c4bd-4a68-b0e5-f7532c45285e", "observed_at": "2026-10-01T22:27:09.636970Z", "send_action": false, "principal_id": "89ffc612-632a-48dd-9809-7bea140ad7f3", "business_handled": false, "contract_version": 2, "financial_action": false}

@@ -1,0 +1,25 @@
+{
+  "actual_make_readiness_claim_owner": "root",
+  "expected_applicable_dart_count": 710,
+  "expected_current_three_file_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9",
+    "lib/admin/core/admin_runtime.dart": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b",
+    "scripts/tests/admin_receipt_source_busy_test.dart": "3dd32f64069704e314487ff409768d8e7b74dc59df05c2d912fd66e2d9a0f0dd",
+    "test/admin_receipt_history_labels_capture_test.dart": "2f1fcb08b049e07e1a4c8bd99a488cf4d15269b20092b7e8bb6a8dad543bf890",
+    "test/admin_sender_retention_browser_test.dart": "e0cf4e9786235771fe0ef4290e4ebda42efce173480819d3feb040314d4caf3c",
+    "test/admin_sender_retention_controller_test.dart": "bf2b5b73ac2caf35361177d327b8bf5eafcb1406f720aaa7833ebecd47a2548a",
+    "test/admin_sender_retention_models_test.dart": "51028525a6ebc57a74fc6b93aebf6b44367e419980269778fc02cdd26d714ec4",
+    "test/features/runtime_component_contract_test.dart": "2f6bd060508d7968afaffce62119fd38953238175b48c84a9444dd009fa64d4c"
+  },
+  "prior_extra_five_proposal_packet_sha256": "9c1a2f612ae88fa2404c24309e65e694b504f3a75ef9b131576897336f843f16",
+  "prior_failed_current_packet_sha256": "c60ed37a21d9b59f5627d948cdc93ea3d5d69131c7f5331fa3120371ada3150e",
+  "private_candidate_correction_paths": [],
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33",
+  "root_checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_integration_packet_sha256": {
+    "root-arc01-current-format-integration1": "b7e9221f26afea0312abbe6d21ae28e0309f46fdff4360b8154c8075b7524ae4",
+    "root-arc01-extra-five-integration1": "c0090dda2fded9b79639b045309b1eafdd5eb8364d02f8d8c6ae5b13b7129172",
+    "root-arc02-portable-admin-integration1": "8a160e33eaeadcd6cce454ee81ffa6073f110fef6c92a9fbc551b21c0f412640"
+  },
+  "root_source_edits_authorized": false
+}

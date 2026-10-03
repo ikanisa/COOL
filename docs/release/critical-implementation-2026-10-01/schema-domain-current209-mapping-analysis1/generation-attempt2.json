@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+    "--catalog",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+    "--replay-migrations",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/generated-current209-proposal2",
+    "--require-current"
+  ],
+  "actual_seconds": 3.657,
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "code_before": {
+    "scripts/audits/collect_schema_domain_map.py": "aa69eb5e75578f4b20556223067871d4f291c495bde0e57c65812062835aea15",
+    "scripts/audits/collect_schema_function_lineage.py": "c7805a1c57208ca1d70932b959c999f984249bf886c0c9ab9bc5ecf5a0013b26"
+  },
+  "code_after": {
+    "scripts/audits/collect_schema_domain_map.py": "aa69eb5e75578f4b20556223067871d4f291c495bde0e57c65812062835aea15",
+    "scripts/audits/collect_schema_function_lineage.py": "c7805a1c57208ca1d70932b959c999f984249bf886c0c9ab9bc5ecf5a0013b26"
+  },
+  "SQL_executed": false,
+  "maintained_changes": false
+}

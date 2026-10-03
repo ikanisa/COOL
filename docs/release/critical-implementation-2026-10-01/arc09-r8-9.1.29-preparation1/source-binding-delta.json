@@ -1,0 +1,51 @@
+{
+  "actual_new_current_manifest_observed": false,
+  "archived_file_count": 2561,
+  "archived_source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "current_native_whole_pass_claimed": false,
+  "existing_two_file_overlay_already_integrated": true,
+  "hypothetical_source_manifest_sha256_if_only_these_three_changes": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "kind": "unapplied_candidate3_delta_over_archived_source",
+  "new_maintained_proposal_only": "android/settings.gradle.kts",
+  "required_follow_up": "Root captures actual current APP manifest and maintained source fence after integration; hypothetical map is never an actual capture.",
+  "schema_version": 1,
+  "three_file_changes": {
+    "android/app/build.gradle.kts": {
+      "archived_before": {
+        "bytes": 24464,
+        "mode": 448,
+        "sha256": "9265b61782db2da150a21b789e32087112bdfdd588cb589ac944b179e8ef8f9f"
+      },
+      "proposed_after": {
+        "bytes": 24009,
+        "mode": 448,
+        "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+      }
+    },
+    "android/build.gradle.kts": {
+      "archived_before": {
+        "bytes": 886,
+        "mode": 448,
+        "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+      },
+      "proposed_after": {
+        "bytes": 1380,
+        "mode": 448,
+        "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+      }
+    },
+    "android/settings.gradle.kts": {
+      "archived_before": {
+        "bytes": 840,
+        "mode": 448,
+        "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+      },
+      "proposed_after": {
+        "bytes": 1163,
+        "mode": 448,
+        "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a"
+      }
+    }
+  },
+  "unchanged_archived_rows": 2558
+}

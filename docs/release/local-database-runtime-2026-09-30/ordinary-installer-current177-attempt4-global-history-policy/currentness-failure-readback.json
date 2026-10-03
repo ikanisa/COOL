@@ -1,0 +1,23 @@
+{
+  "original_status": "failed",
+  "actual_rehearsal_phases": {
+    "clean": {
+      "status": "pass",
+      "applied": 177
+    },
+    "populated": {
+      "status": "pass",
+      "applied": 177
+    }
+  },
+  "all_task_containers_removed": true,
+  "current_migration_drift": {
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": {
+      "before": "9f29613baf2b1caf4f44853f280609a2d4fec5f2b66dda43c0876a14b85a6561",
+      "after": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    }
+  },
+  "status": "dated_scoped_execution_only",
+  "whole_current_set_claimed": false,
+  "scope": "Actual177 clean and populated runs each completed all migrations under NOSUPERUSER, but peer receipt decision JSON gained one metadata field during run; original final source refusal remains."
+}

@@ -1,0 +1,62 @@
+{
+  "at_utc": "2026-10-02T06:56:05.475115+00:00",
+  "reviewed_all_595_rehearsal_lines": true,
+  "reviewed_all_137_test_lines": true,
+  "reviewed_all_20_command_scopes": true,
+  "checked_packet_files": [
+    {
+      "path": "README.md",
+      "bytes": 6204,
+      "sha256": "b1d721d42bc51441c6adb1b94b3644d0de5ce20cf6394be6a45a5b595cfb9151"
+    },
+    {
+      "path": "command-scope-matrix.json",
+      "bytes": 30795,
+      "sha256": "a38c7ee9384674cb3ee44ecb5d69edfb347c07385eb455f673b261bdc1e2aef7"
+    },
+    {
+      "path": "focused-tests.json",
+      "bytes": 1022,
+      "sha256": "d14b838f2e0ab3439f903cf0bc4817250ea5206c15d2b67563d02ee8ecda198a"
+    },
+    {
+      "path": "focused-tests.stderr",
+      "bytes": 1179,
+      "sha256": "ef7396d2d4b0a7f2067cb7f1137d15ddf10f2133f23ef6cf742e83de84991b53"
+    },
+    {
+      "path": "focused-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 32078,
+      "sha256": "d3d2bf7563ec5323a4a5ebd23cb7deabafcfa3bf4d0d0008c5df36d7ab61ccdc"
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 3890,
+      "sha256": "52a89fe61a0dcd1f0d1db7e13a6619799252d6a71a9af1a0cb32d96559db5b90"
+    },
+    {
+      "path": "rehearsal.py",
+      "bytes": 37854,
+      "sha256": "b6e4c7889acc1248ee8a4bbba2dfe330b4087d8cd6c7198a56e4eac87379a2c0"
+    },
+    {
+      "path": "test_rehearsal.py",
+      "bytes": 7526,
+      "sha256": "0d436c4292b4faa402e59d8cc32b0356c0770baa8c6fa2c31e23dbf4bd1e5aa4"
+    }
+  ],
+  "checked_frozen_inputs": 220,
+  "focused_tests_10_reused": true,
+  "review_record_sha256": "d4172d120eac46d5a983cbc618b2366ec95a1daf91ba88e9feb6c1f81f037ae1",
+  "shipping_restore_admitted": false,
+  "human_release_approval": false,
+  "whole_catalog_and_all_18_committed_projection_comparisons_required": true,
+  "whole_bound_seconds": 600,
+  "original_migration_chain": "124 predecessor plus85 forward originals",
+  "production_ready": false
+}

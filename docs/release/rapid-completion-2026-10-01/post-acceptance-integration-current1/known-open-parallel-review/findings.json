@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-01T16:13:14.276803+00:00",
+  "scope": "Read-only current-source review; no canonical runtime changes or new tests in this receipt. Existing145native/413composedMCP proof does not close these requirements.",
+  "source_frozen": true,
+  "source_bindings": [
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "sha256": "9fbf5e35d032b33aad134ed87a3bb9f1b2391a6f4654b5070bcb7a5b65366495",
+      "bytes": 37210
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt",
+      "sha256": "8cc6dba66a1b34c9a641d0ee8daa574ead3e174433fd65c29083eb7607f17900",
+      "bytes": 21801
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "sha256": "652e76751bef39e19c2be7a3ee857f4771d87d4da2c909cf0c531cd1e793f031",
+      "bytes": 25821
+    },
+    {
+      "path": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt",
+      "sha256": "e6bc27a704fe9ac5ce27b74479c92617dedd7baeca4487cda1a82e155057fe13",
+      "bytes": 10260
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_store.ts",
+      "sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "bytes": 9855
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts",
+      "sha256": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e",
+      "bytes": 13314
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_journal.ts",
+      "sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "bytes": 15438
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_history.ts",
+      "sha256": "04b7ddf52a5f2d39d163ddc402f1038e0334f3b51b4ee8c6d52c48d8e4217b9d",
+      "bytes": 11890
+    },
+    {
+      "path": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "bytes": 37268
+    },
+    {
+      "path": "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "bytes": 19487
+    },
+    {
+      "path": "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+      "sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+      "bytes": 25037
+    }
+  ],
+  "findings": [
+    {
+      "id": "RET-ANDROID-ACK",
+      "goal": 11,
+      "state": "open",
+      "evidence": "Successful heartbeat mutations still call the legacy request-ACK archive; max256 requests and512KiB limit bound lifetime sender availability.",
+      "boundary": "GatewaySignedBackend.mutation; GatewayJournalArchive.acknowledge",
+      "required": "Independent immutable ACK store, bounded legacy migration, archive/readback before hot pruning, actual signed-backend test beyond256 heartbeats."
+    },
+    {
+      "id": "RET-ANDROID-UUID",
+      "goal": 11,
+      "state": "open",
+      "evidence": "coldAcknowledgedRequest derives lookup from the newly presented action and attempt_id, so an old compacted request UUID with another action or attempt can bypass native global identity detection. Backend identity controls do not establish native permanent reservation.",
+      "boundary": "GatewayEncryptedStore.coldAcknowledgedRequest/saveRequests",
+      "required": "Permanent requestUUID lookup independent of caller action/payload, exact-original conflict check, changed-action and changed-attempt tests."
+    },
+    {
+      "id": "RET-ANDROID-INDEX",
+      "goal": 11,
+      "state": "open",
+      "evidence": "Cold attempt indexes permit128 IDs per two-hex prefix. Late evidence has256 attempts and64 observations per attempt. Individual ciphertext export omits full control/index closure and is not a portable Keystore restore.",
+      "required": "Expandable bounded indexes and late pages, unresolved retention, complete recovery with independent stop and key/re-enrollment controls."
+    },
+    {
+      "id": "RET-SCHEDULER-HOT",
+      "goal": 13,
+      "state": "open",
+      "evidence": "Control512/diagnostics32768/journal32768 file admission limits fail closed but no integrated lossless maintenance/export/restore exists. History indexes retain dependencies on raw originals.",
+      "required": "Archive-aware permanent basename claims/read-through; bounded automatic maintenance pins incomplete/unknown/contradictory closure; exact inactive recovery."
+    },
+    {
+      "id": "RET-WORKER-SWEEP",
+      "goal": 6,
+      "state": "open",
+      "evidence": "Backlog sweep limits output to25 sources after DISTINCT over lifetime duplicate results/deferrals; latest worker and source-evidence orders lack matching indexes.",
+      "required": "Exact-membership transactional source registry and matching indexes; original ACK/cursor/queue/finance semantics preserved. Full worker retention remains distinct."
+    },
+    {
+      "id": "RET-WORKER-COLD",
+      "goal": 13,
+      "state": "open",
+      "evidence": "Worker/scans/transport history has bounded request work and quotas, without lifetime history compaction or complete restore. Original IDs/ACKs/FK provenance cannot be removed.",
+      "required": "Typed hot/cold closure with permanent anchors and unchanged lookup ACKs, bounded governed maintenance/export/restore."
+    }
+  ],
+  "production_acceptance": false,
+  "execution_proof": false,
+  "canonical_source_mutations": false
+}

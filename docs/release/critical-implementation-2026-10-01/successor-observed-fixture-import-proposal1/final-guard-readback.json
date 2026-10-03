@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "observed_at": "2026-10-02T03:11:10.329807+00:00",
+  "guard_count": 208,
+  "errors": [],
+  "maintained_mutations": 0,
+  "candidate_stage_present": false,
+  "fixtures_imported": 0,
+  "runtime_tests_executed": 0,
+  "source_owner_concurrent_drift": []
+}

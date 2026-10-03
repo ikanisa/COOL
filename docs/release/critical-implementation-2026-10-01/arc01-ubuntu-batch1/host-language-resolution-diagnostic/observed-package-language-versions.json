@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-10-02T00:13:23.118586+00:00",
+  "package_config_sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+  "packages": [
+    {
+      "name": "firebase_messaging",
+      "rootUri": "../third_party/firebase_messaging",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "gotrue",
+      "rootUri": "../third_party/gotrue",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "collect_app",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.12"
+    }
+  ]
+}

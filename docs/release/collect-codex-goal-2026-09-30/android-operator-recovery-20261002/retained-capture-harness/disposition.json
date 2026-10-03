@@ -1,0 +1,8 @@
+{
+  "status": "superseded",
+  "reason": "direct page harness included debug banner and omitted actual pushed-route back control; final capture uses real CollectGatewayApp route",
+  "artifact_sha256": {
+    "dark_task.png": "1b686042233397783196a8dc3914beddb595dd3a2a4d0532a357253a7d6e1ca3",
+    "dark_opaque.png": "1964bd6b52150a41070ae6a657edba2567624ac20366e6c507a215f9b3788c58"
+  }
+}

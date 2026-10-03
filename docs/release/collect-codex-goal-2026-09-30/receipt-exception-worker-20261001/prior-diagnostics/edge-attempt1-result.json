@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "started_at": "2026-10-01T12:29:40.168911+00:00",
+  "sql_result_sha256": "c6373a8a613edf9efb7aca68c0276b12b909e47007647fb7fa3891f413b1f172",
+  "sources": {
+    "supabase/functions/collect-receipt-exception-worker/handler_test.ts": "f0ceb3321444a4d498b851b8635a8e97eacdc409353e73a17368ca584f075685",
+    "supabase/functions/collect-receipt-exception-worker/observed_test.ts": "a20efe8bc124c9606e20b4d6f75b37a9d2f45fba899e1fc9745e418b7938ab15",
+    "supabase/functions/collect-receipt-exception-worker/README.md": "e29774c0deac0dd63ddfe3b695f9dac282aed9cb5758d5aca055d0e538d77808",
+    "supabase/functions/collect-receipt-exception-worker/deployment.toml": "0f45ca59318b2903b58e0c4f7dd9bbfe4f98c950ed3bd254b782a87fec48ff85",
+    "supabase/functions/collect-receipt-exception-worker/index.ts": "fd40a8d1058289b32141ecdc17693142dc14f3d408251ce3cbc736224b5df84e",
+    "supabase/functions/collect-receipt-exception-worker/handler.ts": "a7707c8888178194c3f050fcdbdddd060d65e246fb2d7280e903faaebbb3cb99",
+    "supabase/functions/_shared/supabase.ts": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4",
+    "supabase/functions/_shared/cors.ts": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d",
+    "scripts/tests/receipt_exception_worker_edge_uat.py": "645102bc3b52f9c7759f6fa1ddbdcee2251768dd1ac7e56729524b5a29d25ffe",
+    "sql/observed-worker-executed.json": "6fe05946a59a5392ca580bd6b31f72797dfbe6e8cc43f50044cb44a85370960b",
+    "sql/observed-worker-lookup.json": "95d7ec1d85a8d18b3d8653a912b918eeb1ceb0a4156ae029e90c91a4e5bc9473",
+    "sql/observed-worker-expired-lookup.json": "33159220bec608034df38d624f60bfd88d73546219274d148713c6fba8319e31"
+  },
+  "source_scope": "actual new handler/index/shared service adapter plus3 actual SQL observations;16 focused+1 observed tests",
+  "hosted_used": false,
+  "device_used": false,
+  "sms_sent": false,
+  "rpc_fault_cases": "declared deterministic transport stubs",
+  "http_boundary": "actual loopback request",
+  "deno_version": "deno 2.9.6 (stable, release, aarch64-apple-darwin)\nv8 15.0.245.2-rusty\ntypescript 6.0.3",
+  "checks": 17,
+  "sources_unchanged": true,
+  "finished_at": "2026-10-01T12:29:41.097186+00:00"
+}

@@ -1,0 +1,92 @@
+{
+  "status": "failed",
+  "scope": "Only remaining owner-only private net table/column ACL and exact sampler read tail. Earlier20 controls retained separately. Not full migration/replay, HTTP delivery, live Auth or whole L08/L23 closure.",
+  "shared_database_written": false,
+  "hosted_called": false,
+  "provider_called": false,
+  "source_files_written": false,
+  "cases": [
+    {
+      "name": "owner-only preparation denies ordinary NOSUPERUSER installer42501",
+      "status": "pass"
+    }
+  ],
+  "started_at": "2026-10-01T13:24:59.813339+00:00",
+  "consumed_inputs": {
+    "acl_tail_probe.py": "89f131c60c423c68f3664229d62fd7fb28fd88a7830e511106fb6abecc0bb769",
+    "proposed-platform-prerequisites.sql": "a3e7436bf9664e6b585d295e2345a66a6f9dd30aa08fb703c71920b5b25cdf7f",
+    "candidate-validator.sql": "781ffe19a45ae048f1de2cf050d781588b5f910974139261271a4c335be813c7",
+    "candidate-index-preflight.sql": "cf4464282b3831dfe0177d317b443c6f9bb96e430d1e92255a781e545e8b734f",
+    "exact-source-sample.sql": "0a2f05c0c71a6df16094aa8bb00e6621c335f10fcbbb7bf0dcf2948d143e98c6",
+    "captured-source/scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "owned_target": {
+    "container_id": "dc09f37381718740761ef50f13a3e476aff66dd0c356c56b065d5bf715c9baf9",
+    "container_name": "collect_current_rehearsal_acl_tail_owned_probe_1c40cd90eacd",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "fresh_extension_functions": [
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_delete(text,jsonb,jsonb,integer,jsonb)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_get(text,jsonb,jsonb,integer)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_post(text,jsonb,jsonb,jsonb,integer)"
+    }
+  ],
+  "clone_platform_shape_adjustments": [
+    "http_get",
+    "http_post"
+  ],
+  "retained_shape_functions": [
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_delete(text,jsonb,jsonb,integer,jsonb)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": [
+        "search_path=net"
+      ],
+      "definer": true,
+      "signature": "net.http_get(text,jsonb,jsonb,integer)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": [
+        "search_path=net"
+      ],
+      "definer": true,
+      "signature": "net.http_post(text,jsonb,jsonb,jsonb,integer)"
+    }
+  ],
+  "failure": "preparation has actual prior PUBLIC raw response and queue positive control",
+  "owned_container_removed": true,
+  "source_drift": [],
+  "consumed_input_drift": [],
+  "migration_source_unchanged": true,
+  "completed_at": "2026-10-01T13:25:07.540524+00:00"
+}

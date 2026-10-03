@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "run",
+    "--check",
+    "--no-config",
+    "--lock=supabase/functions/deno.lock",
+    "--frozen",
+    "--cached-only",
+    "--no-prompt",
+    "--allow-env",
+    "--allow-net=127.0.0.1",
+    "--deny-net=graph.facebook.com,oauth2.googleapis.com,playintegrity.googleapis.com,fcm.googleapis.com,api.push.apple.com,api.sandbox.push.apple.com,api.openai.com",
+    "--allow-read=supabase/functions,supabase/config.toml",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-clean-cache-batch1/redirect-probe.ts"
+  ],
+  "exit_code": 0,
+  "probe_sha256": "46fb7d836fe13fe851de3e712aa8f5d53db7accdf8b6c873b194eebc8e5cd137",
+  "runtime_status": "pass",
+  "runtime_error": null,
+  "checks": 90,
+  "permission_changes": false,
+  "production_sources_edited": false
+}

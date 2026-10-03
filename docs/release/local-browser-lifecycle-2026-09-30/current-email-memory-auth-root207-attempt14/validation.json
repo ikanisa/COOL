@@ -1,0 +1,95 @@
+{
+  "actual_browser_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root207-attempt14/report.json",
+  "actual_browser_return_code": 1,
+  "checkout_input_drift": {},
+  "checks": 20,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root207-current-browser",
+      "elapsed_seconds": 0.04,
+      "exit_code": 0,
+      "name": "export-git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root207-current-browser",
+      "elapsed_seconds": 0.24,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4f5effb55519ad86d8ad7e7eda769ef25237fda3dbbeb0685c6ae6c6b69d7deb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root207-current-browser",
+      "elapsed_seconds": 1.58,
+      "exit_code": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root207-attempt14"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 87.92,
+      "exit_code": 1,
+      "name": "actual-current-browser",
+      "stderr_sha256": "fa394990f59376bfbf0ea8dc90b706eefeeaa521f3844157882ca8736c9891a0",
+      "stdout_sha256": "264597b1cd966970e2049b1701643ae92ac83820c898c63046423fce99ad3d7f"
+    }
+  ],
+  "completed_at": "2026-10-01T10:52:15.875398+00:00",
+  "coverage": {
+    "account_switch": true,
+    "email_sign_in": true,
+    "exact_departure_denies": true,
+    "failed_update": false,
+    "installed_pwa": false,
+    "legacy_broadcast_refused": true,
+    "legacy_cache_migration": false,
+    "mismatched_departure_refused": true,
+    "offline_signed_out": false,
+    "private_logout": true,
+    "public_admin_separation": true,
+    "reference_only_storage": true,
+    "reload_requires_sign_in": true,
+    "static_cache_privacy": true,
+    "tabs_do_not_adopt_sign_in": true,
+    "warm_update": false
+  },
+  "database_commands_executed": false,
+  "errors": 1,
+  "export_drift": [],
+  "provider_credentials_supplied": false,
+  "report_sha256": "6a0a0924062ec3be614d41f05d1071bd2ac20cb41faede405d157bb96bfe8eff",
+  "retained_source_binding_sha256": "8000876c8f85fcbf14d4e991dca783fd17ee80ae1bbcfa1a054f68384b7109ac",
+  "runtime_executables_unchanged": true,
+  "scope": "Actual current normal Admin/Public entrypoints and browser lifecycle including installed standalone PWA offline; no SQL/provider/physical-device/design or whole repository/release acceptance",
+  "source_input_count": 2582,
+  "source_inputs_current": true,
+  "status": "fail",
+  "synthetic_browser_profile_excluded_from_repo": true,
+  "whole_L01_complete": false,
+  "whole_L18_original_local_criterion_complete": false
+}

@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "actual_command": [
+    "ruby",
+    "scripts/tests/product_capability_content_test.rb"
+  ],
+  "exit_code": 0,
+  "sources_before": {
+    "scripts/tests/product_capability_content_test.rb": "016db5723aa88f340f2b6d9243aca7cbe2fb12dc7277b2a3d0b7a5eae671780d",
+    "scripts/product_capabilities.rb": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+    "scripts/generate_product_capability_content.rb": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d"
+  },
+  "sources_after": {
+    "scripts/tests/product_capability_content_test.rb": "016db5723aa88f340f2b6d9243aca7cbe2fb12dc7277b2a3d0b7a5eae671780d",
+    "scripts/product_capabilities.rb": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+    "scripts/generate_product_capability_content.rb": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d"
+  },
+  "sources_unchanged": true,
+  "scope": "Actual canonical content, no-approval/provider claims, unsupported/unapproved/mismatched-platform-or-region denial tests; no current source mutation."
+}

@@ -1,0 +1,15 @@
+test_actual_official_archive_and_metadata_origin_mutation_are_rejected (__main__.FileSaverForkProvenanceTest.test_actual_official_archive_and_metadata_origin_mutation_are_rejected) ... ok
+test_actual_official_archive_and_retained_delta_pass (__main__.FileSaverForkProvenanceTest.test_actual_official_archive_and_retained_delta_pass) ... ok
+test_already_allowed_gradle_file_reverted_to_unsafe_version_is_rejected (__main__.FileSaverForkProvenanceTest.test_already_allowed_gradle_file_reverted_to_unsafe_version_is_rejected) ... ok
+test_changed_manifest_bytes_do_not_bless_arbitrary_changed_source (__main__.FileSaverForkProvenanceTest.test_changed_manifest_bytes_do_not_bless_arbitrary_changed_source) ... ok
+test_governance_doc_bytes_are_bound (__main__.FileSaverForkProvenanceTest.test_governance_doc_bytes_are_bound) ... ok
+test_license_loss_or_mutation_is_rejected (__main__.FileSaverForkProvenanceTest.test_license_loss_or_mutation_is_rejected) ... ok
+test_mutating_already_allowed_runtime_file_cannot_be_auto_approved (__main__.FileSaverForkProvenanceTest.test_mutating_already_allowed_runtime_file_cannot_be_auto_approved) ... ok
+test_new_runtime_file_and_removed_retained_file_are_rejected (__main__.FileSaverForkProvenanceTest.test_new_runtime_file_and_removed_retained_file_are_rejected) ... ok
+test_retained_symlink_and_fifo_are_rejected (__main__.FileSaverForkProvenanceTest.test_retained_symlink_and_fifo_are_rejected) ... ok
+test_source_changed_during_real_format_comparison_is_rejected (__main__.FileSaverForkProvenanceTest.test_source_changed_during_real_format_comparison_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.090s
+
+OK

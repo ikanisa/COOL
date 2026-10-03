@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T00:29:32.485274+00:00",
+  "scope": "C14 original gateway request recovery correction",
+  "source_binding": {
+    "lib/admin/core/admin_gateway_checkpoint.dart": {
+      "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f",
+      "bytes": 3915
+    },
+    "lib/admin/core/admin_gateway_checkpoint_stub.dart": {
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06",
+      "bytes": 110
+    },
+    "lib/admin/core/admin_gateway_checkpoint_web.dart": {
+      "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3",
+      "bytes": 971
+    },
+    "lib/admin/core/admin_gateway_page.dart": {
+      "sha256": "db5fec3b6ef742311acac5830d89edd6d7ad3de7a5d52e17008686b4652d73a7",
+      "bytes": 35171
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "2a9e147af0a2dd74b328eb16aa95f583adc235ff386eed62d89e0780dc4b745e",
+      "bytes": 35070
+    },
+    "test/admin_gateway_checkpoint_test.dart": {
+      "sha256": "84ff168083becad3213ba6b0a1e1b9f4ac1fc9930bfff26446e322026d96f77b",
+      "bytes": 5285
+    },
+    "test/admin_gateway_checkpoint_browser_test.dart": {
+      "sha256": "91c4416cc8b0c1dbb714747449c79dd4bd3729f7b320a5914eee7998bf5a9c6c",
+      "bytes": 1578
+    },
+    "test/admin_gateway_page_test.dart": {
+      "sha256": "fc24d77db70873757a6958bcb22390e24d65b9c4d48daa9669b15a036378c97f",
+      "bytes": 43472
+    },
+    "test/admin_gateway_action_ui_sdk_test.dart": {
+      "sha256": "f7a41fb683ccd6893a866a4fcdb470dfb87dc7e97a2e23d4a682f5914c6fdd6c",
+      "bytes": 18305
+    },
+    "test/support/admin_gateway_checkpoint_store.dart": {
+      "sha256": "316a7edd6314ecc3b7c6c2fbdc129a2739827bb030630829192bacb4a4d7b3f3",
+      "bytes": 891
+    },
+    "contracts/collect-admin-gateway-v1.schema.json": {
+      "sha256": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3",
+      "bytes": 11766
+    },
+    "docs/release/collect-codex-goal-2026-09-30/admin-gateway/LATER_SCOPE_NOTICE.md": {
+      "sha256": "988428156947d3a16ff3ff93ccc76c2c9db90e466014c919110349bf27497a9e",
+      "bytes": 980
+    }
+  },
+  "shared_source_freeze": false,
+  "source05_contains_this_correction": false,
+  "local_checks": {
+    "current_models_and_page": {
+      "passed": 52,
+      "failed": 0,
+      "model_cases": 13,
+      "page_cases": 39,
+      "log": "models-page-final.log"
+    },
+    "real_browser_adapter": {
+      "passed": 1,
+      "failed": 0,
+      "log": "browser-checkpoint-tests.log",
+      "profile": "isolated headless Chrome; no personal or hosted Auth state"
+    },
+    "earlier_actual_sdk_ui_regression": {
+      "passed": 65,
+      "log": "vm-tests-attempt1.log",
+      "note": "page load failed in that run; full SDK regression itself passed before the final checkpoint-clearance guard"
+    },
+    "affected_final_actual_sdk_ui": {
+      "passed": 14,
+      "failed": 0,
+      "log": "sdk-clearance-final.log",
+      "overlaps_earlier_65": true
+    },
+    "distinct_cases_across_scoped_runs": 118,
+    "single_all_pass_118_case_run": false,
+    "analysis": {
+      "files": 10,
+      "issues": 0,
+      "log": "analysis-current.log"
+    },
+    "sole_design_authority": {
+      "passed": true,
+      "log": "design-authority.log",
+      "certifies_fidelity": false
+    }
+  },
+  "retained_failed_attempts": [
+    "vm-tests-attempt1.log",
+    "models-page-attempt2.log",
+    "analysis-attempt1.log",
+    "analysis-attempt2.log"
+  ],
+  "capture_evidence": {
+    "files": [
+      "gateway-recovery-dark-synthetic.png",
+      "gateway-recovery-light-synthetic.png"
+    ],
+    "size": [
+      1440,
+      2200
+    ],
+    "fixture": "explicitly synthetic restored review reference plus published synthetic gateway response",
+    "actual_logo_fonts": true,
+    "visually_inspected": true,
+    "authenticated_reference_comparator": false
+  },
+  "backend_wire_review": {
+    "material_mismatch_found": false,
+    "new_SQL_UAT_claimed": false,
+    "gateway_contract_changed": false
+  },
+  "recovery_boundary": {
+    "storage": "same-tab sessionStorage",
+    "owner_binding": "SHA256 fixed Collect project and gateway-review purpose plus current user",
+    "credentials_or_SPKI_saved": false,
+    "Auth_persistence_changed": false,
+    "fresh_sign_in_required_on_reload": true,
+    "current_permission_session_fences_required": true,
+    "lookup": "manual original-request only",
+    "automatic_mutation_replay": false,
+    "unknown_or_busy_proves_failure": false,
+    "cross_device_or_closed_tab_recovery": false
+  },
+  "production_accepted": false,
+  "whole_C14_accepted": false,
+  "visual_fidelity_accepted": false,
+  "remaining": [
+    "later exact candidate/build binding",
+    "hosted Auth/current permissions/menu/SQL readback",
+    "actual same-owner browser sign-in/reload/manual request recovery",
+    "installed browser and reader/keyboard tasks",
+    "authenticated visual route/state comparator",
+    "physical Android key-possession/SIM/network/permission/pause lifecycle",
+    "governed operational and dispatch/provider acceptance"
+  ]
+}

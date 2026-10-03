@@ -1,0 +1,23 @@
+{
+  "contract": "collect-edge-ci-worker-observations-v1",
+  "files": {
+    "inputs/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "inputs/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "inputs/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "inputs/20261001150000_receipt_exception_worker.sql": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+    "inputs/authority-support.py": "5c344108f9c397730cb684b96bb6f5bdf15d78ce35ef465cecacd4d0254678e5",
+    "inputs/executed-helper.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "inputs/executed-runner.py": "076f49062e05dbbc5453b293c0bca0dbcda901fd786085e6ce904975051144a9",
+    "observed-worker-executed.json": "55db85087fa8c8ee3c3eed2e49696f73f24e6dc75fbc9cb41bd5f75ce47c768b",
+    "observed-worker-expired-lookup.json": "2789de5cd8f84c1242f6627a6844938d1d14d6c00edbab2d9c03e44f7a9d4cb4",
+    "observed-worker-lookup.json": "086b66633685c6eb81ac78ad9e55f905aef1eb83db8d8a3aebac239c1194444f",
+    "result.json": "0e055b101524fcea101da88b220e4e91582ef3334ffe9c875ba9ea74cea329bc"
+  },
+  "full_database_prerequisites_retained": false,
+  "origin_baseline_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "origin_finished_at": "2026-10-01T12:34:10.688504+00:00",
+  "origin_packet": "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8",
+  "origin_scope": "trusted worker feature; exact177 prerequisites+sealed110000+120000+140000+150000; no130000 sender integration",
+  "origin_source08_manifest_sha256": "ce43a2a88188cb7c2a8a4e8bd8fed7393c3167d32dadf477babfb58abcf40f80",
+  "scope": "immutable synthetic SQL output consumed by current Edge decoders; no current SQL execution or database acceptance"
+}

@@ -1,0 +1,16 @@
+test_publisher_hash_size_crc_and_partial_failure_receipts (__main__.ArtifactChecks.test_publisher_hash_size_crc_and_partial_failure_receipts) ... ok
+test_ContentLength_and_encoding (__main__.Checks.test_ContentLength_and_encoding) ... ok
+test_JAR_path_duplicate_and_symlink_guards (__main__.Checks.test_JAR_path_duplicate_and_symlink_guards) ... ok
+test_URL_classifier_coordinate_and_hash_guards (__main__.Checks.test_URL_classifier_coordinate_and_hash_guards) ... ok
+test_checksum_plain_and_named_GNU_formats (__main__.Checks.test_checksum_plain_and_named_GNU_formats) ... ok
+test_exact_plan_and_Maven_contract (__main__.Checks.test_exact_plan_and_Maven_contract) ... ok
+test_global_budget_reservation_and_deadline (__main__.Checks.test_global_budget_reservation_and_deadline) ... ok
+test_safe_JAR_and_CRC_corruption (__main__.Checks.test_safe_JAR_and_CRC_corruption) ... ok
+test_streamed_curl_worker_with_fake_process (__main__.Checks.test_streamed_curl_worker_with_fake_process) ... ok
+test_parent_unreaped_group_preserved_after_bounded_TERM_KILL (__main__.CleanupChecks.test_parent_unreaped_group_preserved_after_bounded_TERM_KILL) ... ok
+test_worker_unreaped_curl_recorded_without_unbounded_wait (__main__.CleanupChecks.test_worker_unreaped_curl_recorded_without_unbounded_wait) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.008s
+
+OK

@@ -1,0 +1,38 @@
+--- historical/
++++ current/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -58,9 +57,6 @@
+ Group Savings
+ Digitise group savings via zero-fee microsavings and grow accumulated group capital.
+ Explore Group Savings
+-Diaspora Group Savings
+-Save together through a host-country partner bank and build collateral, access credit and capital to invest home.
+-Explore Diaspora
+ Credit Readiness
+ Move from a loan inquiry to a complete, structured, bank-review-ready loan application file.
+ Explore CRaaS
+@@ -74,8 +70,6 @@
+ People saving in small amounts around daily or irregular income.
+ MSMEs
+ Helps businesses understand requirements, coordinate specialist services and prepare bank review-ready loan file.
+-Diaspora
+-Diaspora group savings at host-country partner banks. Collateral pledged and Credit access.
+ Payments work. Financial progress still does not.
+ Daily-income mismatch
+ 90% of employment is informal, yet finance is designed around monthly salaries and lump-sum payments.
+@@ -85,8 +79,6 @@
+ Rwanda has extensive payment agents, but no scalable last-mile service helping MSMEs prepare complete, bank-ready loan files.
+ Microinsurance gap
+ Premiums and claims processes rarely match small, irregular daily incomes.
+-Diaspora credit barriers
+-Mobility risk, thin credit histories, unstable employment and insufficient acceptable collateral restrict access to affordable host-country loans.
+ Download
+ Collect
+ or Get in Touch

@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:38:05.659804+00:00",
+  "before": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "87ac3639c8e5e1b6e10175a65962d321bc2dfa62006d689b33d3697c4157c3eb",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "189f521b9905e5b92b7a4067d49474f106a0f90d29142edc97c8e7074aa431eb",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "12679ba5f9aaba205a3ef3748291fbd9d288a16c8d7e254c0aa55c317c3e7539",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "3e58411b806d39795060e44049a29a9a5cfa0ca88a8c96c128b5cfc97f01ae98",
+    "docs/release/local-implementation-register-2026-09-30.json": "325831bdcaf78607bd0e25c5a4bbd7eb496e5d62888f63e8ac3cd063ac52c7f3",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "3c864fa8310b90a79e5b41fe16a2fa4af4e3e3439a1d43a42828c1bbaf47aa21"
+  },
+  "after": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "03f5b083e96bd49951e05f70db2b1625a0800e99f713cae1adff6797d5bcc38d",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "df40437dc2708ade51ee3da89cf23595418877e9a02f6f60eca0c0e4c2745f8d",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "827a90c24238ea285fa7540ef860f3b1fb38f815159443873cd3004fac71a049",
+    "docs/release/local-implementation-register-2026-09-30.json": "aff045cbf36524cd35a639f32b242473414d5bf9177fc6574ab8180d9ce81b31",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "93dd51466c2a065f9e693ee1e847dec33363bfcb1ebf0e05dc9f05a5282cb12c"
+  },
+  "original40_criteria_unchanged": true,
+  "original_row_digests": {
+    "production-remaining-tasks-2026-09-30.json": "404b4e7bc68b609af872e02b9523e4d8713a476a1b7b25549c7748df38c9b56f",
+    "local-implementation-register-2026-09-30.json": "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980"
+  },
+  "closed_ids": [
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_findings_open": 37,
+  "production_ready": false,
+  "goal_status": "active"
+}

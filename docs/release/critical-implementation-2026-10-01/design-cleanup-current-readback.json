@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T22:32:55.118103+00:00",
+  "authorized_scope": "Competing UI/design skills and MOBILE-DESIGN-100/gates; unrelated technical/professional skills retained per owner clarification.",
+  "external_receipt": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/design-skill-removal-20261001/owner-final-current-path-readback.json",
+  "external_receipt_sha256": "bc84ad83d181b1816f44b743b145176b8f68b9fb20881787be7687655817537c",
+  "paths_checked": 141,
+  "remaining_removed_paths": [],
+  "named_rule_absent": true,
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "repository_agents_sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+  "authority_make_completed_exit": 0,
+  "scan_limits": "Protected/inaccessible discovery paths, pruned Git/dependency/application internals, other archive formats and one invalid nested ZIP in an unrelated financial audit pack were not verified. Existing conversation/history mentions are not installed skills or active acceptance gates.",
+  "full_visual_acceptance": false,
+  "unrelated_skills_retained": true
+}

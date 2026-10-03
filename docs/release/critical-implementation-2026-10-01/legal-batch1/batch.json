@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T20:39:42.377759+00:00",
+  "findings": [
+    "PD-04",
+    "PD-05",
+    "PD-06"
+  ],
+  "status": "locally_corrected_scoped_external_acceptance_open",
+  "source_sha256": {
+    "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3",
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "content/legal/collect_legal_pages_bundle.yaml": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94",
+    "content/legal/collect_terms_of_use.yaml": "71f1c395fbdcc94d903c0980ba597cfe959c69f8cb8d164e9b9caedf2aebcea7",
+    "content/legal/collect_delete_account.yaml": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f",
+    "content/legal/collect_privacy_policy.yaml": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540"
+  },
+  "test_input_sha256": {
+    "scripts/public_static_site_build.rb": "a4206a7f8b28b98183e8023724cb322702c7f21b5ddbbd104820fde723e56ce3",
+    "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+    "content/legal/collect_legal_pages_bundle.yaml": "0d8842b77c98ee50eb00189c8442ed7fefd980237dc14e5f4cd78cc5460edd94",
+    "content/legal/collect_terms_of_use.yaml": "71f1c395fbdcc94d903c0980ba597cfe959c69f8cb8d164e9b9caedf2aebcea7",
+    "content/legal/collect_delete_account.yaml": "16ced4e5ad74de7176fbf14d46322f5b5daa2a8660759114f2c5658608d3489f",
+    "content/legal/collect_privacy_policy.yaml": "fb796c76edea7e086258b677459ab5968ab08c52f0aa7b7b7211b669bcef8540",
+    "scripts/tests/public_legal_rendering_test.rb": "acfc18bdda90bd3ca6f952b7ad2d66c89f0a839d281ad71604f9c5aff0adc7ed",
+    "scripts/tests/public_content_contract_test.rb": "154bd88005e9f373c5855dede2ccf3bd190693657635674113e22f53b39fafa3",
+    "scripts/tests/public_static_routes_test.rb": "cc2b5f9b45b5259019675c5472829ba131042c6381d0d95c2d8b6b22b5c24c8c",
+    "scripts/qa/public_content_contract.rb": "45b78125fd4a979f94771cda20815f2d61b53028d738e1433fdffd1e9f8d8fa5",
+    "docs/release/public-website-current-content-contract.json": "4d390debc4a7df2735ac2350bfbe4b1de26919d46f053732ff261cf60e3e290a"
+  },
+  "tests_passed": 40,
+  "assertions_passed": 313,
+  "test_inputs_stable": true,
+  "parsed_preservation_checks": 8,
+  "route_text_hash_checks": 15,
+  "current_visible_changed_routes": [
+    "/privacy/",
+    "/terms/"
+  ],
+  "current_visible_unchanged_routes": 13,
+  "rendering_modes": {
+    "actual_current_legal_fragment_in_unchanged_reviewed_page_text": 6,
+    "unchanged_prior_reviewed_product_text_reused": 2,
+    "actual_current_full_page_html": 7
+  },
+  "historical_evidence": [
+    {
+      "path": "docs/release/public-website-content-baseline.json",
+      "sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json",
+      "sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-legal-presentation-20261001/content-comparison.json",
+      "sha256": "11ce6f501e281bdd71f9a934e8c2a16d9576e8e30c492f9e8227a89368558940",
+      "unchanged": true
+    }
+  ],
+  "legal_release_approved": false,
+  "publication_approved": false,
+  "remaining_acceptance": [
+    "Exact served legal/support route and live GET/anchor readback",
+    "Observed no-app synthetic support request outcome and recovery",
+    "Unaided published-instruction app navigation on each supported platform",
+    "Current app-media freshness and full site build acceptance",
+    "Substantive legal/publication authorization and operational fulfilment"
+  ],
+  "evidence_sha256": {
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/README.md": "20d88dfd66790195c7c61fea5f8bef1654feb12bbb8f2bc8378b4085340a21dd",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/account-deletion.current.txt": "5e4b462bac2a8ae62e8e43b9912c2f987ef96cec0f8ff9c5aec55b57934a7745",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/account_deletion.after.html": "b28d9b2228d9a19c23f51c02f390a44f994c55e1d278333bdd2399f0152b9d8e",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/account_deletion.before.html": "b28d9b2228d9a19c23f51c02f390a44f994c55e1d278333bdd2399f0152b9d8e",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/account_deletion.current.txt": "5e4b462bac2a8ae62e8e43b9912c2f987ef96cec0f8ff9c5aec55b57934a7745",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/before.json": "e7bf8bc1fb4ff77c898497388e9240070e1c36443a5bc00bd9a7e39580041dba",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/community-groups.current.txt": "b6ebf3278c35c41012454430259f0a7ab020c711cf4ef860ef4988116f047fab",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/content-comparison.json": "ff7828feb1dc6a219e11a8a3a1e3775ab8bce5ad2a5d3d3d7085533de68b1048",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/craas.current.txt": "843c1c3e3f92db1ad77933c19702cbd416b82565485b3a889cdd72cfd6032bf7",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/credit-readiness.current.txt": "aef944b9d7fbefec4bce324a68ab59fb2417859c490da63c23eaa4d81a770a6d",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/data-deletion.current.txt": "b8d05fa9518d6bda359ceaf2933e63e7a6d988d7de057cdac9a23892111d4dd5",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/data_deletion.after.html": "66496b9fe8cfac66b04f9dffdc00bd352c89f600c67bfe910a7d4fc37cfeb5b2",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/data_deletion.before.html": "ad66e7d9d2a916b53f63ab0709c23ce45ff4402fd3613ea551362fd980795f98",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/data_deletion.current.txt": "b8d05fa9518d6bda359ceaf2933e63e7a6d988d7de057cdac9a23892111d4dd5",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/group-savings.current.txt": "ad25e673dfebd493ad6b3258320d10a0baeaac88e4ebf09e158b96d91bc7b650",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/home.current.txt": "9f843052898fe306153e02c4c916adce1a1b6794fb62dd3a6c67a6456a3032c3",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/insurance.current.txt": "a326970f6dcfbae0a41504dc7f90a900a0b40451a5f301743a10eeabb5ac0d0a",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/our-partners.current.txt": "90d3ae697a7990babc990eb11b876948935e043064465b0c921fea445e748f99",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/partners.current.txt": "15bd973a0c9b886e0aa498bc64197ac2464d5123c7f9b38a31ef329fea8d016a",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/privacy.after.html": "1cdf4cbb65330eba6b2ee034772f7c6bf39c81bd4e8d32abed2eab6f5c7c7a83",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/privacy.before.html": "b4ec8c97cd61c03984ee61f7f099138eb94839f846fb3f60a0b224b1ef022688",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/privacy.current.txt": "cabb7c63cd73d4d44055737ea49c1e249e2a08700a578e620b312c22b622223e",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/protection.current.txt": "e3010b91d4c8de826e1d723c06ffd633ea4f2f6e66de93e71242bd11005733bb",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/rendered-deltas.json": "bf50648a46124e70b7a7a20d5e37201e749d7a58259b31ca60e284b74803cea0",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/security.current.txt": "dfff97f0daf442ac05ce182538e5a22f119e7a6d0b2a49c98737b247e8f905fc",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/source-preservation.json": "50f1ec4ad0835955c36fef8b60c72b8c23b29c8b080337c6e7f6e0b9d9808915",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/terms.after.html": "7e9b9afa089370a6ed5ed499a5e3ce22da0456ce2077956d0388325488c92a4f",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/terms.before.html": "4b743b035b0cb12649011ae745dadd26c47b4a914cdfd0735ea4a3d72abf934e",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/terms.current.txt": "5adaaa9f32f366e48e69d1a801e3608d5885cc81456eb5d1af3fee5a33d15070",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/test-results.json": "d911a9d11609c0d7ba4784074989250ad5d93158026ae5315a453003b167a075",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/trust.after.html": "b7726497bc296aa52df3454da03a3cfa23cceac881c9a6ef6ca75308811dc710",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/trust.before.html": "b7726497bc296aa52df3454da03a3cfa23cceac881c9a6ef6ca75308811dc710",
+    "docs/release/critical-implementation-2026-10-01/legal-batch1/trust.current.txt": "9f2935475ce1d5f5974517feeadd5f34fb9f21ac027f31c79e6c49d7b293d1a7"
+  }
+}

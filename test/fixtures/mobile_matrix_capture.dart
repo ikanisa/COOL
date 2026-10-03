@@ -33,6 +33,14 @@ class MobileMatrixCapture {
       for (final font in {
         'Inter': 'assets/typefaces/Inter-Variable.ttf',
         'MaterialIcons': 'fonts/MaterialIcons-Regular.otf',
+        'packages/font_awesome_flutter/FontAwesomeBrands':
+            'packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf',
+        'packages/font_awesome_flutter/FontAwesomeRegular':
+            'packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Regular-400.otf',
+        'packages/font_awesome_flutter/FontAwesomeSolid':
+            'packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Free-Solid-900.otf',
+        'packages/cupertino_icons/CupertinoIcons':
+            'packages/cupertino_icons/assets/CupertinoIcons.ttf',
       }.entries) {
         await (FontLoader(
           font.key,

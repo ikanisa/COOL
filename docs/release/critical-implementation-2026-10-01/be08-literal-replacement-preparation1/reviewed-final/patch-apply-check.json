@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "git",
+    "apply",
+    "--check",
+    "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/reviewed-final/literal-replacement.patch"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 0.017411084001651034,
+  "deadline_seconds": 10,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "git_apply_mutation_performed": false
+}

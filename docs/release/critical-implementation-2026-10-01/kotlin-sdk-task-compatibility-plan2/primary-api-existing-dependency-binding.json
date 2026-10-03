@@ -1,0 +1,78 @@
+{
+  "Gradle_exact_authenticated_source": {
+    "Gradle-9.1.0-DisableCachingByDefault.java": {
+      "SHA256": "80e05f1513e2e3cc7f4d3ea1f07190014b3a206878519948ac2107da5ee75d07",
+      "bytes": 1930,
+      "exact_authenticated_distribution_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+      "primary_checksum_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+      "primary_distribution_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip",
+      "source_member": "gradle-9.1.0/src/core-api/org/gradle/work/DisableCachingByDefault.java"
+    },
+    "Gradle-9.1.0-PathSensitive.java": {
+      "SHA256": "b6249af27daec53f2c0d5edbeabfb77192d934b53071c4d4e5fb4645ccf429ed",
+      "bytes": 1473,
+      "exact_authenticated_distribution_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+      "primary_checksum_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+      "primary_distribution_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip",
+      "source_member": "gradle-9.1.0/src/core-api/org/gradle/api/tasks/PathSensitive.java"
+    },
+    "Gradle-9.1.0-PathSensitivity.java": {
+      "SHA256": "1439afc5a9489db8a28c39d8ec21720580b4f824d90ba161a246ed0c7604f6ff",
+      "bytes": 2402,
+      "exact_authenticated_distribution_SHA256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+      "primary_checksum_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip.sha256",
+      "primary_distribution_URL": "https://services.gradle.org/distributions/gradle-9.1.0-all.zip",
+      "source_member": "gradle-9.1.0/src/core-api/org/gradle/api/tasks/PathSensitivity.java"
+    }
+  },
+  "assertion_semantics": "Exact original boolean expressions/messages and NPE block/expected exception remain enforced using declared public Kotlin test APIs.",
+  "cache_default_preservation": "Explicit DisableCachingByDefault preserves disabled output caching, still requiring strict property validation.",
+  "exact_publisher_variant_projection": {
+    "group": "org.jetbrains.kotlin",
+    "module": "kotlin-test-junit5",
+    "url": "../../kotlin-test-junit5/2.4.20/kotlin-test-junit5-2.4.20.module",
+    "version": "2.4.20"
+  },
+  "existing_public_JUnit_dependencies": [
+    {
+      "actual_cache_SHA256": "60d5c398c32dc7039b99282514ad6064061d8417cf959a1f6bd2038cc907c913",
+      "actual_cache_artifact_present": true,
+      "actual_runtime_execution_acceptance": false,
+      "artifactId": "junit-jupiter-api",
+      "groupId": "org.junit.jupiter",
+      "scope": "compile",
+      "version": "5.10.1"
+    },
+    {
+      "actual_cache_SHA256": null,
+      "actual_cache_artifact_present": false,
+      "actual_runtime_execution_acceptance": false,
+      "artifactId": "junit-jupiter-engine",
+      "groupId": "org.junit.jupiter",
+      "scope": "runtime",
+      "scope_limit": "Declared runtime engine remains unresolved after test compilation failed; no JUnit acceptance.",
+      "version": "5.10.1"
+    }
+  ],
+  "existing_test_components": {
+    "kotlin-test": {
+      "SHA256": "fa281d657898a34f6b0c7383f374f0a0161e61b6cea0095f135d917721d63f22",
+      "actual_cache_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test/2.4.20/ccb0e2baa3fa3a572a753019ce0be5889c587803/kotlin-test-2.4.20.jar",
+      "bytes": 183223,
+      "independent_publisher_descriptor_match": true,
+      "new_dependency": false
+    },
+    "kotlin-test-junit5": {
+      "SHA256": "07d93fe7fdc4ec5c09df4b1a65db0d8a33c66fdec1469168e4e9a641f9186f06",
+      "actual_cache_path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-junit5/2.4.20/3aaa3b852e405e06171d17a36d630ea057b39f31/kotlin-test-junit5-2.4.20.jar",
+      "bytes": 5183,
+      "independent_publisher_descriptor_match": true,
+      "new_dependency": false
+    }
+  },
+  "full_transitive_license_advisory_acceptance": false,
+  "new_dependency_source_or_SDK_execution": false,
+  "path_default_preservation": "Explicit ABSOLUTE preserves the authenticated Gradle9.1 PathSensitive default; no shared-cache portability claim.",
+  "real_complete_tests_after_patch": "pending actual compiler/JUnit invocation",
+  "status": "PRIMARY_API_AND_EXISTING_DEPENDENCY_REVIEW_BINDINGS_PASS"
+}

@@ -1,0 +1,702 @@
+{
+  "kind": "collect_local_recovery_command_scope_proposal_v1",
+  "status": "prepared_only",
+  "docker_execution_done": false,
+  "execution_requires_parent_code_scope_review": true,
+  "code_sha256": "79389f5985e59dcb30395cf7634fa8d4b02e66817cb16bb96cb089b201020225",
+  "inputs_sha256": "f970c50632d0fa80cbfc850383b46d755304d48b053429aa1666c3194fbdd7fc",
+  "private_candidate": "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate2",
+  "whole_program_seconds": 600,
+  "execution_budget_seconds": 540,
+  "cleanup_budget_seconds": 60,
+  "bounds": {
+    "tool_input_bytes": 67108864,
+    "stdout_bytes": 67108864,
+    "stderr_bytes": 1048576,
+    "tool_seconds_max": 120,
+    "metadata_and_cleanup_seconds_max": 15,
+    "all_tools_clamped_to_remaining_budget": true
+  },
+  "commands": [
+    {
+      "stage": "docker_context",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "context",
+        "inspect",
+        "--format",
+        "{{.Endpoints.docker.Host}}"
+      ],
+      "scope": "read metadata only; reject non-unix socket"
+    },
+    {
+      "stage": "cached_image",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+        "--format",
+        "{{.Id}}"
+      ],
+      "scope": "read cached immutable image only; no pull/download"
+    },
+    {
+      "stage": "owned_create",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--label",
+        "collect.recovery.owner=<owned-name>",
+        "--detach",
+        "--pull=never",
+        "--name",
+        "<owned-name>",
+        "--label",
+        "collect.rehearsal.owner=<owned-name>",
+        "--network",
+        "none",
+        "--tmpfs",
+        "/var/lib/postgresql/collect-rehearsal:rw,size=1073741824",
+        "-e",
+        "POSTGRES_PASSWORD=<random-unlogged>",
+        "-e",
+        "PGDATA=/var/lib/postgresql/collect-rehearsal/data",
+        "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+        "postgres",
+        "-D",
+        "/var/lib/postgresql/collect-rehearsal/data",
+        "-c",
+        "shared_preload_libraries=pg_cron,pg_net,pg_stat_statements",
+        "-c",
+        "wal_level=logical",
+        "-c",
+        "cron.database_name=postgres",
+        "-c",
+        "cron.launch_active_jobs=off",
+        "-c",
+        "cron.log_run=on",
+        "-c",
+        "cron.timezone=UTC",
+        "-c",
+        "pg_net.batch_size=0",
+        "-c",
+        "listen_addresses="
+      ],
+      "scope": "write independently owned local tmpfs only; source and restore unique names"
+    },
+    {
+      "stage": "init_readiness_logs",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "logs",
+        "<owned-name>"
+      ],
+      "scope": "read owned init logs; export output hash/bytes only"
+    },
+    {
+      "stage": "init_readiness_probe",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "pg_isready",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres"
+      ],
+      "scope": "read local unix readiness only; no application SQL"
+    },
+    {
+      "stage": "init_scope_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "<owned-name>",
+        "--format",
+        "{{json .HostConfig}}"
+      ],
+      "scope": "read exact image/owner/network/ports/tmpfs scope"
+    },
+    {
+      "stage": "init_label_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "inspect",
+        "<owned-name>",
+        "--format",
+        "{{json .Config.Labels}}"
+      ],
+      "scope": "read owned labels"
+    },
+    {
+      "stage": "owned_full_inspection",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "container",
+        "inspect",
+        "<owned-name>"
+      ],
+      "scope": "read metadata; retain digest only, never ephemeral password"
+    },
+    {
+      "stage": "tool_resolution",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "/bin/sh",
+        "-c",
+        "command -v <fixed-tool>"
+      ],
+      "scope": "fixed shell text only for psql,pg_dump,pg_restore,postgres; no caller/source expansion"
+    },
+    {
+      "stage": "tool_canonical_path",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "readlink",
+        "-f",
+        "<resolved-tool>"
+      ],
+      "scope": "read fixed in-image absolute executable mapping"
+    },
+    {
+      "stage": "tool_hash",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "sha256sum",
+        "<absolute-tool>"
+      ],
+      "scope": "read actual executable bytes hash; fresh before use"
+    },
+    {
+      "stage": "tool_version",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "<owned-name>",
+        "<absolute-tool>",
+        "--version"
+      ],
+      "scope": "read actual 17.6 version; reject unsupported clients/server"
+    },
+    {
+      "stage": "platform_init",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<owned-name>",
+        "psql",
+        "-XqAt",
+        "-U",
+        "<fixture-role>",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "scope": "pre-discovery image-only local installer normalization/safeguard queries; no application migration"
+    },
+    {
+      "stage": "bound_sql",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<owned-name>",
+        "<absolute-psql>",
+        "-XqAt",
+        "-U",
+        "<fixture-role>",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-v",
+        "VERBOSITY=verbose"
+      ],
+      "scope": "stdin exact fixture/SQL/catalog/original migration or registry insert; all app migrations current_user/current_role postgres NOSUPERUSER"
+    },
+    {
+      "stage": "dump",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<source-owned-name>",
+        "<absolute-pg_dump>",
+        "--format=custom",
+        "--compress=0",
+        "--no-password",
+        "--username=supabase_admin",
+        "--dbname=postgres"
+      ],
+      "scope": "read committed complete synthetic DB to bounded stdin-independent dump; no filters/no owner/no ACL omissions"
+    },
+    {
+      "stage": "database_control",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-psql>",
+        "-XqAt",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "template1",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "scope": "drop only owned target postgres with force; recreate from template0 with exact retained locale/owner"
+    },
+    {
+      "stage": "archive_toc",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-pg_restore>",
+        "--list"
+      ],
+      "scope": "read seal-verified synthetic archive stdin; record exact explicitly preinstalled entries"
+    },
+    {
+      "stage": "restore_list_copy",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "cp",
+        "<private-output>/full-restore-list.txt",
+        "<restore-owned-name>:/tmp/collect-full-restore-list.txt"
+      ],
+      "scope": "write one sealed TOC list inside owned target container only"
+    },
+    {
+      "stage": "restore",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "exec",
+        "-i",
+        "<restore-owned-name>",
+        "<absolute-pg_restore>",
+        "--exit-on-error",
+        "--no-password",
+        "--username=supabase_admin",
+        "--dbname=postgres",
+        "--use-list=/tmp/collect-full-restore-list.txt"
+      ],
+      "scope": "write seal-verified synthetic archive inside independently owned local fixture; local restore proposal only"
+    },
+    {
+      "stage": "cleanup",
+      "argv": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "rm",
+        "--force",
+        "--volumes",
+        "<owned-name>"
+      ],
+      "scope": "remove only freshly inspected exact label/image/network/tmpfs owned target; verify absent"
+    }
+  ],
+  "sql_input_and_authority_matrix": [
+    {
+      "stage": "source_platform",
+      "inputs": [
+        "sealed platform_shape() extraction from baseline hash77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+        "scripts/sql/receipt_transport_platform_prerequisites.sql",
+        "explicit retained pg_cron/pg_net owner/member/cron API prerequisite statements"
+      ],
+      "role": "postgres initial fixture superuser / supabase_admin platform owner; demote before application migration1"
+    },
+    {
+      "stage": "predecessor_original_migrations",
+      "inputs": [
+        "supabase/migrations/202605230001_collect_baseline.sql",
+        "supabase/migrations/202605230002_fix_invite_rpc_lint.sql",
+        "supabase/migrations/202605230003_harden_rls_indexes.sql",
+        "supabase/migrations/202605230004_restore_payment_intent_paid_rpc.sql",
+        "supabase/migrations/202605230005_restore_sms_collection_scope.sql",
+        "supabase/migrations/202605230006_finalize_payment_intent_hardening.sql",
+        "supabase/migrations/202605230007_revoke_public_function_execute.sql",
+        "supabase/migrations/202605230008_admin_panel.sql",
+        "supabase/migrations/202605230009_add_client_safe_views.sql",
+        "supabase/migrations/202605230010_grant_collection_receiver_read.sql",
+        "supabase/migrations/202605230011_fix_receiver_consent_execute_grant.sql",
+        "supabase/migrations/202605230012_admin_rpc_grants.sql",
+        "supabase/migrations/202605230013_admin_settings_flags.sql",
+        "supabase/migrations/202605230014_admin_review_hardening.sql",
+        "supabase/migrations/202605230015_admin_collection_moderation.sql",
+        "supabase/migrations/202605230016_drop_unowned_admin_helpers.sql",
+        "supabase/migrations/202605230017_admin_list_filter_contracts.sql",
+        "supabase/migrations/20260523203132_tighten_admin_role_permissions.sql",
+        "supabase/migrations/20260523204235_set_views_security_invoker.sql",
+        "supabase/migrations/20260523205502_set_helper_function_search_paths.sql",
+        "supabase/migrations/20260523210723_split_permissive_select_policies.sql",
+        "supabase/migrations/20260523212244_revoke_anon_platform_admin_helper.sql",
+        "supabase/migrations/20260523213113_disable_graphql_introspection.sql",
+        "supabase/migrations/202605250001_app_realtime_invalidation.sql",
+        "supabase/migrations/202605270001_sms_first_group_payment_intents.sql",
+        "supabase/migrations/20260531162852_harden_sms_first_function_grants.sql",
+        "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+        "supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql",
+        "supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql",
+        "supabase/migrations/20260607130500_update_collection_profile_rpc.sql",
+        "supabase/migrations/20260608090000_native_notifications.sql",
+        "supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql",
+        "supabase/migrations/20260611113000_harden_notification_rls_initplan.sql",
+        "supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql",
+        "supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql",
+        "supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql",
+        "supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql",
+        "supabase/migrations/20260612110000_admin_payment_event_server_paging.sql",
+        "supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql",
+        "supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql",
+        "supabase/migrations/20260619003000_profile_momo_pay_code.sql",
+        "supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql",
+        "supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql",
+        "supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql",
+        "supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql",
+        "supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql",
+        "supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql",
+        "supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql",
+        "supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql",
+        "supabase/migrations/20260701090000_developer_account_seed_data.sql",
+        "supabase/migrations/20260701100000_group_owner_controls.sql",
+        "supabase/migrations/20260703170000_harden_developer_and_group_rpcs.sql",
+        "supabase/migrations/20260703224559_collection_type_catalog_runtime.sql",
+        "supabase/migrations/20260703225455_notification_templates_runtime.sql",
+        "supabase/migrations/20260704100000_public_runtime_config.sql",
+        "supabase/migrations/20260704110000_admin_runtime_metadata.sql",
+        "supabase/migrations/20260704120000_policy_documents_account_reasons.sql",
+        "supabase/migrations/20260704133000_split_runtime_metadata_select_policies.sql",
+        "supabase/migrations/20260730134500_grant_mobile_request_own_read.sql",
+        "supabase/migrations/20260804150000_native_push_delivery.sql",
+        "supabase/migrations/20260805120000_android_fcm_push_delivery.sql",
+        "supabase/migrations/20260808093000_qualify_notification_token_digest.sql",
+        "supabase/migrations/20260812073431_remove_legacy_mock_groups_and_classify_home.sql",
+        "supabase/migrations/20260812080000_restore_mobile_notification_preferences_grants.sql",
+        "supabase/migrations/20260812090000_expand_momo_pay_code_length.sql",
+        "supabase/migrations/20260812100000_remove_developer_dummy_data.sql",
+        "supabase/migrations/20260812110000_correct_momo_merchant_ussd_template.sql",
+        "supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql",
+        "supabase/migrations/20260815051035_harden_group_creation_journey.sql",
+        "supabase/migrations/20260815054500_close_group_journey_database_lint.sql",
+        "supabase/migrations/20260815062536_complete_admin_operations_control_plane.sql",
+        "supabase/migrations/20260815071500_bind_contribution_payer_identity.sql",
+        "supabase/migrations/20260815082500_close_group_authorization_privacy.sql",
+        "supabase/migrations/20260815083000_require_provider_finality.sql",
+        "supabase/migrations/20260815083500_claim_sms_parser_work.sql",
+        "supabase/migrations/20260815084000_atomic_sms_ingestion.sql",
+        "supabase/migrations/20260815084500_revoke_non_dml_table_privileges.sql",
+        "supabase/migrations/20260815085000_atomic_provider_finality_gateway.sql",
+        "supabase/migrations/20260820160000_restore_momo_sms_standalone.sql",
+        "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+        "supabase/migrations/20260820185500_revoke_direct_bank_transfer_intent_read.sql",
+        "supabase/migrations/20260828100000_profile_country_session_independence.sql",
+        "supabase/migrations/20260831084239_expand_admin_queue_sla_support.sql",
+        "supabase/migrations/20260831084646_hybrid_geographic_payment_rails.sql",
+        "supabase/migrations/20260831095454_collect_admin_operations_model.sql",
+        "supabase/migrations/20260901134820_platform_public_groups.sql",
+        "supabase/migrations/20260901135728_public_group_directory.sql",
+        "supabase/migrations/20260901141842_public_contribution_auto_membership.sql",
+        "supabase/migrations/20260901160000_collect_admin_payee_management.sql",
+        "supabase/migrations/20260901183000_admin_operations_tables.sql",
+        "supabase/migrations/20260901193000_admin_group_lifecycle.sql",
+        "supabase/migrations/20260901194500_admin_users_and_members.sql",
+        "supabase/migrations/20260901200000_localize_public_group_payment_routes.sql",
+        "supabase/migrations/20260901210000_admin_single_access_role.sql",
+        "supabase/migrations/20260901220000_admin_country_scope_contract.sql",
+        "supabase/migrations/20260901223000_live_admin_uat_fixes.sql",
+        "supabase/migrations/20260901230000_admin_people_detail_contract.sql",
+        "supabase/migrations/20260902073741_member_profile_numeric_identity.sql",
+        "supabase/migrations/20260902075721_member_collection_read_contract.sql",
+        "supabase/migrations/20260902081017_hybrid_admin_overview_metrics.sql",
+        "supabase/migrations/20260902081830_member_profile_read_allowlist.sql",
+        "supabase/migrations/20260902083940_member_cross_rail_history.sql",
+        "supabase/migrations/20260902090210_member_group_owner_controls.sql",
+        "supabase/migrations/20260902091314_member_group_roster.sql",
+        "supabase/migrations/20260902093609_member_history_query_plan.sql",
+        "supabase/migrations/20260902100046_member_bounded_history_pages.sql",
+        "supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql",
+        "supabase/migrations/20260902120555_hybrid_member_registry.sql",
+        "supabase/migrations/20260902134420_member_add_group_admin.sql",
+        "supabase/migrations/20260902140151_platform_admin_whatsapp_approval.sql",
+        "supabase/migrations/20260902212721_revoke_official_payee_trigger_execute.sql",
+        "supabase/migrations/20260903083947_member_profile_rpc_only_writes.sql",
+        "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+        "supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql",
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+        "supabase/migrations/20260903090500_admin_sms_receipt_queue.sql",
+        "supabase/migrations/20260903091000_hybrid_verified_account_claim.sql",
+        "supabase/migrations/20260903091500_hybrid_member_directory_views.sql",
+        "supabase/migrations/20260903092000_admin_sms_receipt_failed_filter.sql",
+        "supabase/migrations/20260903092500_revoke_hybrid_internal_function_execute.sql",
+        "supabase/migrations/20260903200322_hybrid_directory_presentation.sql",
+        "supabase/migrations/20260903201326_geographic_member_profile_gates.sql",
+        "supabase/migrations/20260906093000_member_profile_momo_code.sql",
+        "supabase/migrations/20260906160000_group_cover_bank_and_atomic_creation_media.sql"
+      ],
+      "role": "postgres NOSUPERUSER; every original migration and exact original statement registry committed"
+    },
+    {
+      "stage": "synthetic_seed",
+      "inputs": [
+        "captured collect_current_release_upgrade_uat.seed_populated/bootstrap_owner helper; no external rows"
+      ],
+      "role": "postgres NOSUPERUSER and transaction-local synthetic service_role claims; no provider"
+    },
+    {
+      "stage": "source_backup",
+      "inputs": [
+        "committed registry124",
+        "fresh all18 fingerprints",
+        "whole source catalog",
+        "actual pg_dump17.6"
+      ],
+      "role": "supabase_admin read full DB in separate session"
+    },
+    {
+      "stage": "target_restore_prerequisites",
+      "inputs": [
+        "exact admitted image globals plus only observed source supabase_functions_admin prerequisite; complete readonly30-role/23-membership/8-setting equality before pg_restore",
+        "source database template0 identity and owner ACL",
+        "source extension versions/owners and retained trusted net member metadata"
+      ],
+      "role": "explicit local-only supabase_admin platform restore; postgres fixture owner for trusted extensions/database ACL"
+    },
+    {
+      "stage": "readonly_source_and_restore_role_globals",
+      "query": "BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\nSELECT jsonb_build_object(\n 'roles',(SELECT coalesce(jsonb_agg(jsonb_build_array(rolname,rolsuper,rolinherit,rolcreaterole,\n   rolcreatedb,rolcanlogin,rolreplication,rolbypassrls,rolconnlimit,rolvaliduntil::text,\n   encode(sha256(convert_to(ARRAY(SELECT x FROM unnest(rolconfig) x ORDER BY x COLLATE \"C\")::text,'UTF8')),'hex'))\n   ORDER BY rolname COLLATE \"C\"),'[]') FROM pg_roles),\n 'memberships',(SELECT coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(roleid),\n   pg_get_userbyid(member),pg_get_userbyid(grantor),admin_option,inherit_option,set_option)\n   ORDER BY pg_get_userbyid(roleid) COLLATE \"C\",pg_get_userbyid(member) COLLATE \"C\",\n   pg_get_userbyid(grantor) COLLATE \"C\"),'[]') FROM pg_auth_members),\n 'settings',(SELECT coalesce(jsonb_agg(jsonb_build_array(\n   CASE WHEN setdatabase=0 THEN '*' ELSE current_database() END,\n   CASE WHEN setrole=0 THEN '*' ELSE pg_get_userbyid(setrole) END,\n   encode(sha256(convert_to(ARRAY(SELECT x FROM unnest(setconfig) x ORDER BY x COLLATE \"C\")::text,'UTF8')),'hex'))\n   ORDER BY setdatabase=0,CASE WHEN setrole=0 THEN '*' ELSE pg_get_userbyid(setrole) END COLLATE \"C\"),'[]')\n   FROM pg_db_role_setting WHERE setdatabase=0 OR setdatabase=(SELECT oid FROM pg_database WHERE datname=current_database()))\n);\nCOMMIT;\n",
+      "query_sha256": "5ce8becd426f356612a7d9995c2be5b753c8b4e86717735b4f3767213efe0f02",
+      "exact_frozen_catalog_expressions": true,
+      "role": "postgres NOSUPERUSER; read-only repeatable read before pg_restore",
+      "source_role_count": 30,
+      "source_membership_count": 23,
+      "source_settings_count": 8,
+      "unknown_missing_extra_or_differing_role_attrs_memberships_settings_refused": true
+    },
+    {
+      "stage": "target_exact_source_role_prerequisite",
+      "sql": "create role supabase_functions_admin with nosuperuser noinherit createrole nocreatedb login noreplication nobypassrls connection limit -1;",
+      "sql_sha256": "cb1cf5f924a3c4ff938ec0c2f56eedd9a8aa7d074c0a70e6db9f2de2424572e1",
+      "exact_observed_source_role": [
+        "supabase_functions_admin",
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        -1,
+        null,
+        "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      ],
+      "role": "supabase_admin; exact local synthetic-only source global; before pg_restore",
+      "allowed_missing_roles": [
+        "supabase_functions_admin"
+      ],
+      "no_SQL_if_already_exact": true,
+      "image_fixture_complete": false,
+      "single_database_dump_excludes_source_role_globals": true,
+      "all30_roles_memberships_settings_rechecked_before_archive_restore": true
+    },
+    {
+      "stage": "target_archive_restore",
+      "inputs": [
+        "actual fsynced dump bytes+SHA",
+        "exact full TOC with only preinstalled extension/schema CREATE and separately satisfied DB controls commented"
+      ],
+      "role": "local fixture-only supabase_admin; no shipping restore admission"
+    },
+    {
+      "stage": "restored_boundary",
+      "inputs": [
+        "unmodified full catalog query",
+        "all18 fresh predecessor projection cohort"
+      ],
+      "role": "postgres NOSUPERUSER before first forward migration; compare exact whole predecessor"
+    },
+    {
+      "stage": "negative_acl",
+      "inputs": [
+        "BEGIN; GRANT SELECT ON public.payments TO anon; full catalog query; ROLLBACK; full catalog readback"
+      ],
+      "role": "postgres NOSUPERUSER; rollback only deliberate ACL fault, not backup/restore"
+    },
+    {
+      "stage": "forward_original_migrations",
+      "inputs": [
+        "supabase/migrations/20260914165641_restore_member_roster_membership_boundary.sql",
+        "supabase/migrations/20260914213600_atomic_otp_rate_limit.sql",
+        "supabase/migrations/20260925190000_rwanda_momo_only.sql",
+        "supabase/migrations/20260928150000_relational_member_history_pages.sql",
+        "supabase/migrations/20260928160000_sms_observation_never_settles.sql",
+        "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql",
+        "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+        "supabase/migrations/20260928172000_allow_incomplete_rwanda_onboarding_profile.sql",
+        "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql",
+        "supabase/migrations/20260929110000_admin_notification_page_before_delivery_counts.sql",
+        "supabase/migrations/20260929120000_provider_finality_payment_lock_order.sql",
+        "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+        "supabase/migrations/20260929140000_notification_delivery_fencing.sql",
+        "supabase/migrations/20260929150000_notification_retry_eligibility.sql",
+        "supabase/migrations/20260929160000_notification_retry_schedule.sql",
+        "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+        "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+        "supabase/migrations/20260930100000_roster_import_provenance.sql",
+        "supabase/migrations/20260930110000_retire_legacy_bank_scheduler.sql",
+        "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+        "supabase/migrations/20260930130000_signed_otp_uncertain_recovery.sql",
+        "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+        "supabase/migrations/20260930150000_runtime_control_governance.sql",
+        "supabase/migrations/20260930160000_redacted_operational_health.sql",
+        "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+        "supabase/migrations/20260930180000_operational_health_authority.sql",
+        "supabase/migrations/20260930200000_admin_automation_navigation.sql",
+        "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+        "supabase/migrations/20260930211605_android_gateway_identity.sql",
+        "supabase/migrations/20260930213000_operator_email_auth.sql",
+        "supabase/migrations/20260930220000_runtime_control_authority.sql",
+        "supabase/migrations/20260930220527_operator_email_cutover_guard.sql",
+        "supabase/migrations/20260930230000_group_share_rotation_receipts.sql",
+        "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+        "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+        "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+        "supabase/migrations/20260930230400_admin_investigation.sql",
+        "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+        "supabase/migrations/20260930234000_exact_request_amounts.sql",
+        "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+        "supabase/migrations/20260930235500_operator_reason_whitespace.sql",
+        "supabase/migrations/20260930235600_runtime_control_reason_whitespace.sql",
+        "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql",
+        "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+        "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+        "supabase/migrations/20261001000300_admin_exception_reads.sql",
+        "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+        "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+        "supabase/migrations/20261001001457_joined_operator_audit.sql",
+        "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+        "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+        "supabase/migrations/20261001095000_member_history_global_keyset_indexes.sql",
+        "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+        "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+        "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+        "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+        "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+        "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+        "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+        "supabase/migrations/20261001170000_android_attempt_archive.sql",
+        "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql",
+        "supabase/migrations/20261001190000_exception_followup_v2.sql",
+        "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+        "supabase/migrations/20261001210000_receipt_worker_bounded_sweep.sql",
+        "supabase/migrations/20261001220000_governed_settings_requests.sql",
+        "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+        "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+        "supabase/migrations/20261001234000_play_integrity_admission.sql",
+        "supabase/migrations/20261001235000_admin_audit_read_api_only.sql",
+        "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+        "supabase/migrations/20261002000000_runtime_control_edit_eligibility.sql",
+        "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+        "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+        "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+        "supabase/migrations/20261002031500_privacy_request_intake.sql",
+        "supabase/migrations/20261002040000_receipt_unarmed_closure.sql",
+        "supabase/migrations/20261002041000_receipt_successor_approvals.sql",
+        "supabase/migrations/20261002042000_privacy_current_request_status.sql",
+        "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+        "supabase/migrations/20261002044000_receipt_successor_execution_investigation.sql",
+        "supabase/migrations/20261002050000_receipt_terminal_source_projection.sql",
+        "supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+        "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+        "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+        "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql"
+      ],
+      "role": "postgres NOSUPERUSER; each original statement+registry committed; all18 before/after hashes equal fresh predecessor"
+    },
+    {
+      "stage": "final_reference_comparison",
+      "inputs": [
+        "complete effective catalog and all ACLs",
+        "sealed current209 final catalog4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c"
+      ],
+      "role": "postgres NOSUPERUSER; whole catalog byte/canonical equality; historic randomized row hashes not compared"
+    }
+  ],
+  "proposed_execution_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation2/rehearsal.py",
+    "--inputs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation2/inputs.json",
+    "--review-record",
+    "<separately-reviewed-record-path>",
+    "--review-record-sha256",
+    "<actual-record-sha256>",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ORDINARY-RECOVERY/20261002-candidate2/docs/release/committed-recovery2"
+  ],
+  "review_record_schema": {
+    "kind": "literal collect_local_synthetic_recovery_review_v1",
+    "decision": "reviewer supplied admit or refuse; no decision created by preparation",
+    "review_reference": "reviewer supplied retained reference",
+    "code_sha256": "79389f5985e59dcb30395cf7634fa8d4b02e66817cb16bb96cb089b201020225",
+    "inputs_sha256": "f970c50632d0fa80cbfc850383b46d755304d48b053429aa1666c3194fbdd7fc",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "client_version": "17.6",
+    "server_version_num": 170006,
+    "operations": [
+      "local_synthetic_dump",
+      "local_synthetic_restore",
+      "ordinary_original_migration_replay"
+    ],
+    "scope": "owned_networkless_synthetic_fixture_only"
+  },
+  "shipping_restore_admission": false,
+  "shipping_query_migration_policy_changed": false,
+  "production_ready": false,
+  "full_BE08_closed": false,
+  "ARC08_restore_adapter_closed": false,
+  "ARC11_closed": false,
+  "source_role_global_prerequisite": {
+    "stage": "target_exact_source_role_prerequisite",
+    "sql": "create role supabase_functions_admin with nosuperuser noinherit createrole nocreatedb login noreplication nobypassrls connection limit -1;",
+    "sql_sha256": "cb1cf5f924a3c4ff938ec0c2f56eedd9a8aa7d074c0a70e6db9f2de2424572e1",
+    "exact_observed_source_role": [
+      "supabase_functions_admin",
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      -1,
+      null,
+      "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    ],
+    "role": "supabase_admin; exact local synthetic-only source global; before pg_restore",
+    "allowed_missing_roles": [
+      "supabase_functions_admin"
+    ],
+    "no_SQL_if_already_exact": true,
+    "image_fixture_complete": false,
+    "single_database_dump_excludes_source_role_globals": true,
+    "all30_roles_memberships_settings_rechecked_before_archive_restore": true
+  },
+  "retained_failure_readback_sha256": "d33939d832dc7293ffe4552f9b4e99466a5e0476c1b2b40e2cd73d33975b2253"
+}

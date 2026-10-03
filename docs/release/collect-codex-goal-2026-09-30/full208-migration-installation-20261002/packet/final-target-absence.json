@@ -1,0 +1,42 @@
+[
+  {
+    "attempt": 1,
+    "phase": "clean",
+    "name": "collect_current_rehearsal_ordinary_clean_89428aca9da2",
+    "container_id": "278a310a6d98c3f98778e81d1297c8efadf1cd5831058c3438bc122e2670723c",
+    "absence_stdout": "",
+    "exit_code": 0
+  },
+  {
+    "attempt": 2,
+    "phase": "clean",
+    "name": "collect_current_rehearsal_ordinary_clean_4e8acd224d33",
+    "container_id": "303b0ab171b4fd80e36f01feca522f26984a43ccf01e4b0d9f901826421bbda2",
+    "absence_stdout": "",
+    "exit_code": 0
+  },
+  {
+    "attempt": 2,
+    "phase": "populated",
+    "name": "collect_current_rehearsal_ordinary_populated_40ff07238912",
+    "container_id": "eb1d619baf3f6d580ad3c87012e76c9adadbc18bf8babb21af24a1cc286baf70",
+    "absence_stdout": "",
+    "exit_code": 0
+  },
+  {
+    "attempt": 3,
+    "phase": "clean",
+    "name": "collect_current_rehearsal_ordinary_clean_295e2d67651a",
+    "container_id": "bd2b9a05fd3810aa43eec16b089ac1df78d2c053f217eb939132c82606664fc1",
+    "absence_stdout": "",
+    "exit_code": 0
+  },
+  {
+    "attempt": 3,
+    "phase": "populated",
+    "name": "collect_current_rehearsal_ordinary_populated_e8309a71f541",
+    "container_id": "b12198a506d7d00110452d12790934e1db28ff438321ee596891fcb21b4aa063",
+    "absence_stdout": "",
+    "exit_code": 0
+  }
+]

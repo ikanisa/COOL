@@ -1,0 +1,18 @@
+{
+  "cases": 3,
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "scripts.tests.resolved_native_package_inputs_test.NativePackageInputsTest.test_native_cmake_scratch_outputs_are_generated_not_package_source",
+    "scripts.tests.resolved_native_package_inputs_test.NativePackageInputsTest.test_cxx_named_authored_source_outside_exact_scratch_directory_is_bound",
+    "scripts.tests.resolved_native_package_inputs_test.NativePackageInputsTest.test_actual_copied_addition_deletion_and_byte_changes_fail"
+  ],
+  "elapsed_test_seconds": 0.027,
+  "exit_code": 0,
+  "helper_sha256": "3945ac09976373c2585f92d4e9f8719512da84fb3a3a8e596a45a17e35a63e25",
+  "scope": "Exact generated CMake cache/historical command database, authored .cxx lookalike and non-generated addition/deletion/mutation guards. Actual native successful commands not repeated.",
+  "status": "pass",
+  "test_sha256": "6176e72aa59e0ae4a0e74ebdd537ce8bc4eaeb4faaae958dce3589d8ae8c1a3d",
+  "tool_result_chunk": "b8b9bc"
+}

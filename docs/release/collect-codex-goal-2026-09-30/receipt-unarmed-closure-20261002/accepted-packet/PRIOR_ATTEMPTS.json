@@ -1,0 +1,77 @@
+{
+  "purpose": "Preserve original failures and superseded success. None contributes to final 51-case acceptance. Binary/runtime and unchanged predecessor copies are held once in final proof; original directories retained. Each prior complete tool log, SQL program, observed data and changed runner/migration input retained here.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt1",
+      "result_sha256": "43d7aaad27d342ed275b48d697ac535f4c7696e4a63a289a794e6f162d248ddd",
+      "status": "failed",
+      "check_count": 2,
+      "passing": 2,
+      "error": "RuntimeError: exact prerequisite 20261002020000_receipt_source_busy_deferral.sql: ERROR:  55000: receipt_source_busy_predecessor_drift:collect_ops.receipt_exception_source(text,uuid)\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+      "observed_reaped_session_id": 78564,
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 2,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt2",
+      "result_sha256": "1ddb51d4e3c97e84c34dccd3cc4a8850272687f0733fe38c66d910e3fbe079ea",
+      "status": "failed",
+      "check_count": 12,
+      "passing": 11,
+      "error": "AssertionError: closure retains exact original payload snapshot contact and lifetime identity",
+      "observed_reaped_session_id": 11096,
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 3,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt3",
+      "result_sha256": "2ca81ee1099acdf54289280510334779e5ba7319f0b5b187d66991f04a98eac3",
+      "status": "failed",
+      "check_count": 18,
+      "passing": 17,
+      "error": "AssertionError: even owner cannot reopen an irreversibly closed original",
+      "observed_reaped_session_id": 37071,
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 4,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt4",
+      "result_sha256": "98ea5bf8d90c61799c8b5b872c7c02c71e1c93ea2ffe6fdfdac8dfcad1845fb7",
+      "status": "failed",
+      "check_count": 20,
+      "passing": 19,
+      "error": "AssertionError: actual assisted claim RPC cannot issue a post-closure capability",
+      "observed_reaped_session_id": 97196,
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 5,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt5",
+      "result_sha256": "303f59a6b65bb986cd26fdf428e9824792a6f894868a4d0952ba892266cccb83",
+      "status": "failed",
+      "check_count": 28,
+      "passing": 28,
+      "error": "RuntimeError: query: ERROR:  22023: operations_pilot_caps_exceeded\nCONTEXT:  PL/pgSQL function public.admin_configure_receipt_operations_v2(uuid,bigint,text,boolean,uuid[],uuid[],uuid[],jsonb,boolean,integer,text,timestamp with time zone) line 16 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+      "observed_reaped_session_id": 91724,
+      "observed_terminal_exit_code": 1,
+      "acceptance_reused": false
+    },
+    {
+      "attempt": 6,
+      "original_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice1/attempt6",
+      "result_sha256": "08e0ad5a86f0c9fb9c1e0b8ade14464c4b305c8b98258b970bbd7d70d0077375",
+      "status": "passed",
+      "check_count": 37,
+      "passing": 37,
+      "error": null,
+      "observed_reaped_session_id": 69589,
+      "observed_terminal_exit_code": 0,
+      "acceptance_reused": false
+    }
+  ]
+}

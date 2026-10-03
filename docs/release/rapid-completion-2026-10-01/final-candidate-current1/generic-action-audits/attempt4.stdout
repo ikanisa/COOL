@@ -1,0 +1,61 @@
+PRIVATE schema154 restored; appending frozen185 suffix31 as ordinary owner
+PRIVATE exact185 installed; current email-approved synthetic owner fixture ready
+PASS private exact frozen185 registry
+PASS admin_create_platform_public_group-unprivileged-denied
+PASS admin_create_platform_public_group-invalid-reason-denied
+PASS admin_create_platform_public_group actual positive ACK
+PASS admin_create_platform_public_group exact durable attributed audit
+PASS admin_create_collect_payee-unprivileged-denied
+PASS admin_create_collect_payee-invalid-reason-denied
+PASS admin_create_collect_payee actual positive ACK
+PASS admin_create_collect_payee exact durable attributed audit
+PASS admin_update_collect_payee-unprivileged-denied
+PASS admin_update_collect_payee-invalid-reason-denied
+PASS admin_update_collect_payee actual positive ACK
+PASS admin_update_collect_payee exact durable attributed audit
+PASS admin_set_collect_payee_status-unprivileged-denied
+PASS admin_set_collect_payee_status-invalid-reason-denied
+PASS admin_set_collect_payee_status actual positive ACK
+PASS admin_set_collect_payee_status exact durable attributed audit
+PASS payee edit/status preserves exact immutable payment route
+PASS admin_set_group_active-unprivileged-denied
+PASS admin_set_group_active-invalid-reason-denied
+PASS admin_set_group_active actual positive ACK
+PASS admin_set_group_active exact durable attributed audit
+PASS admin_update_collection_support_status-unprivileged-denied
+PASS admin_update_collection_support_status-invalid-reason-denied
+PASS admin_update_collection_support_status actual positive ACK
+PASS admin_update_collection_support_status exact durable attributed audit
+PASS admin_update_platform_public_group_metadata-unprivileged-denied
+PASS admin_update_platform_public_group_metadata-invalid-reason-denied
+PASS admin_update_platform_public_group_metadata actual positive ACK
+PASS admin_update_platform_public_group_metadata exact durable attributed audit
+PASS metadata update preserves prior archived lifecycle
+PASS admin_record_operator_note-unprivileged-denied
+PASS admin_record_operator_note-invalid-reason-denied
+PASS admin_record_operator_note actual positive ACK
+PASS admin_record_operator_note exact durable attributed audit
+PASS operator note durable body/actor exact and audit minimizes body
+PASS propose_payment_reconciliation_v2-unprivileged-denied
+PASS propose_payment_reconciliation_v2-invalid-reason-denied
+PASS propose_payment_reconciliation_v2 actual positive exact review ID
+PASS propose_payment_reconciliation_v2 exact durable attributed audit
+PASS propose exact replay retains one immutable review/audit
+PASS reconciliation-finalize-authenticated-direct-denied
+PASS reconciliation-finalize-unapproved-evidence-denied
+PASS approve_payment_reconciliation_v2-unprivileged-denied
+PASS approve_payment_reconciliation_v2-invalid-reason-denied
+PASS approve_payment_reconciliation_v2-maker-self-approval-denied
+PASS approve_payment_reconciliation_v2 actual checker positive ACK
+PASS approve_payment_reconciliation_v2 exact durable attributed audit
+PASS current checker authorizes Edge finalization of exact approved review
+PASS reconciliation-finalize actual genuine posting ACK
+PASS reconciliation-finalize exact durable payment/review audit
+PASS finalizer explicit replay returns same posted review with no duplicate financial/audit rows
+PASS genuine reconciliation posts exact five RWF
+PASS admin_set_user_access-unprivileged-denied
+PASS admin_set_user_access-invalid-reason-denied
+PASS admin_set_user_access actual positive ACK
+PASS admin_set_user_access exact durable attributed audit
+PASS revoked target has no remaining active Admin grant
+PASS all12 declared generic action audited results present

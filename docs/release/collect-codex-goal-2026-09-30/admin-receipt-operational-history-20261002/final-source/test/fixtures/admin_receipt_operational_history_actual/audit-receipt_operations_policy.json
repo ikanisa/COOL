@@ -1,0 +1,61 @@
+{
+  "rows": [
+    {
+      "action": "supervisor.operations.configure",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "d28b6dd8-58b2-133f-0b3f-4ea31bfa95e4",
+      "revision": 5,
+      "request_id": "3092fdd1-28e2-4a68-a966-228feabe999c",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:52.862328Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.configure",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "eef9b6f1-eda7-cb1e-dde3-9d4406d3bd13",
+      "revision": 4,
+      "request_id": "e32da893-36d0-4dd1-a089-ad0f008b9e4b",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:48.134744Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.configure",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "dc0f4cd6-54b7-5189-52d1-363a0eadccc9",
+      "revision": 3,
+      "request_id": "f3c78fbc-19fa-40f0-b68f-13aad6407b98",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:47.291105Z",
+      "fence_version": null
+    },
+    {
+      "action": "supervisor.operations.configure",
+      "source": "receipt_operations_owner_request",
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "event_id": "be050274-818d-b072-b18d-244cb5a175a4",
+      "revision": 2,
+      "request_id": "423e3460-bca5-4d96-b0b9-df934a5d60c1",
+      "reason_code": null,
+      "recorded_at": "2026-10-02T00:14:46.271038Z",
+      "fence_version": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "00000000-0000-4000-8000-000000000001",
+  "checked_at": "2026-10-02T00:14:53.862689Z",
+  "entity_kind": "receipt_operations_policy",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:53.862689Z",
+  "historical_shadow_audit_backfilled": false
+}

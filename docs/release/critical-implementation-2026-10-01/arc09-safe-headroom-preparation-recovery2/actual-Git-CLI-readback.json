@@ -1,0 +1,48 @@
+{
+  "actual_seconds": 0.12029424999491312,
+  "controller_sha256": "1f4d96d011bc79037e40a5fa82798910b9005999e104a04ae481ff4b8facb827",
+  "copy_removal_lsof_Gradle_source_cache_network_or_signal_actions": false,
+  "fresh_internal_destination_still_absent": true,
+  "ignore": {
+    "argv": [
+      "/usr/bin/git",
+      "check-ignore",
+      "--stdin",
+      "-z"
+    ],
+    "bound_seconds": 15,
+    "exact_eight_set_and_count_pass": true,
+    "exit_code": 0,
+    "stderr": "",
+    "stdin_bytes": 460,
+    "stdin_nul_records": 8,
+    "stdin_sha256": "61d6fe0dd21907bb04695ed8e999e67de40784491e7966ed827338fb8b263bbb",
+    "stdout": ".dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill\u0000.dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill\u0000.dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill\u0000.dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill\u0000.dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill\u0000.dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill\u0000.dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill\u0000build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill\u0000",
+    "stdout_nul_records": 8
+  },
+  "kind": "actual_readonly_recovery_helper_Git_CLI_verification",
+  "original_failure_preserved": true,
+  "original_root_failure_stderr_sha256": "520abebaef6ba7474580a649dbe4221d37e1471c5c23dac8d362fb6d1a9b75a5",
+  "source_identity_hashes_still_exact_all_eight": true,
+  "tracked": {
+    "argv": [
+      "/usr/bin/git",
+      "ls-files",
+      "-z",
+      "--",
+      ".dart_tool/hooks_runner/objective_c/1f2474df3a/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/337ce265dc/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/407c785a7d/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/6782ff62a0/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/aeb97ac750/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/b8c2d55d59/hook.dill",
+      ".dart_tool/hooks_runner/objective_c/cd662d2432/hook.dill",
+      "build/1e57b4283dd269ba75191ea2755bf355.cache.dill.track.dill"
+    ],
+    "bound_seconds": 15,
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "unaffected_seven_fixture_tests_reused_not_rerun": true
+}

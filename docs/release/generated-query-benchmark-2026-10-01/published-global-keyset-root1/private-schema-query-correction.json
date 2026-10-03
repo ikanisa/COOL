@@ -1,0 +1,6 @@
+{
+  "scope": "Extend exact schema enumeration to the two reviewed peer tables; retain RLS and API DML denial; add genuine policy read contract smoke",
+  "prior_failure_preserved": true,
+  "production_source_changed": false,
+  "changed_source_sha256": "f94280aadb4d4dd196f1f458ef294a5a4081e77787a90a88b09a218d1548d354"
+}

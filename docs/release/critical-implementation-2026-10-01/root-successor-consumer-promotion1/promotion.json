@@ -1,0 +1,160 @@
+{
+  "at_utc": "2026-10-02T02:44:16.094198+00:00",
+  "review": "Root reviewed the complete 358-line patch; all original cases remain with inventory-count adaptation and new rejection cases.",
+  "exact_five_applied": {
+    "contracts/edge-functions.json": {
+      "before": {
+        "bytes": 3836,
+        "identity": [
+          16777247,
+          15904058,
+          420,
+          3836,
+          1790883007901237634,
+          1790883007901237634,
+          1
+        ],
+        "mode": 420,
+        "sha256": "fb026f6e853c1107f75848fabcfa8c774edc66afd2f1a7246b233cf21fe89d28"
+      },
+      "candidate": {
+        "bytes": 4243,
+        "identity": [
+          16777247,
+          17206686,
+          420,
+          4243,
+          1790907986162901661,
+          1790907986162901661,
+          1
+        ],
+        "mode": 420,
+        "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2"
+      }
+    },
+    "scripts/edge_function_inventory.rb": {
+      "before": {
+        "bytes": 6127,
+        "identity": [
+          16777247,
+          15904059,
+          420,
+          6127,
+          1790883007901887093,
+          1790883007901887093,
+          1
+        ],
+        "mode": 420,
+        "sha256": "405ff88bdf70524fd21dfee590ee456feb0305c2036cfef1cde9c0f28b83eaa9"
+      },
+      "candidate": {
+        "bytes": 9896,
+        "identity": [
+          16777247,
+          17206700,
+          420,
+          9896,
+          1790907986163221245,
+          1790907986163221245,
+          1
+        ],
+        "mode": 420,
+        "sha256": "f73326cc6f05b4df37bdacc2500f480fbccc8850bd3842ae9b723945905e7d6d"
+      }
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "before": {
+        "bytes": 62358,
+        "identity": [
+          16777247,
+          2695370,
+          448,
+          62358,
+          1790887432474607839,
+          1790887432474607839,
+          1
+        ],
+        "mode": 448,
+        "sha256": "0b52ec79d2d8b193183fc03dbdf7ff958d9f5279ca38fb0d9cdc636be8a604dd"
+      },
+      "candidate": {
+        "bytes": 62426,
+        "identity": [
+          16777247,
+          17206730,
+          448,
+          62426,
+          1790907986163858580,
+          1790907986163858580,
+          1
+        ],
+        "mode": 448,
+        "sha256": "b83f9ea65fd56c301c5c8df2de87f063affa754d9d365664e866e19b004edc4d"
+      }
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "before": {
+        "bytes": 3844,
+        "identity": [
+          16777247,
+          15904555,
+          420,
+          3844,
+          1790883186030693847,
+          1790883186030693847,
+          1
+        ],
+        "mode": 420,
+        "sha256": "aa8ea905718bfc1bcf86a3a3990bc8488967f5ea1742a6aad11a412b33d9734b"
+      },
+      "candidate": {
+        "bytes": 10634,
+        "identity": [
+          16777247,
+          17206738,
+          420,
+          10634,
+          1790908181045691921,
+          1790908181045691921,
+          1
+        ],
+        "mode": 420,
+        "sha256": "53c298cd1b00181ed2183a86962fa75f7778c79e6fac4bccdde11ffef04f619a"
+      }
+    },
+    "scripts/tests/supabase_delivery_contract_test.py": {
+      "before": {
+        "bytes": 28103,
+        "identity": [
+          16777247,
+          15904556,
+          420,
+          28103,
+          1790886748558280886,
+          1790886748558280886,
+          1
+        ],
+        "mode": 420,
+        "sha256": "0d6466630fb28114a3b99c36524abb9fee0c84f0159c2a3f162e48cc5925368d"
+      },
+      "candidate": {
+        "bytes": 31471,
+        "identity": [
+          16777247,
+          17206740,
+          420,
+          31471,
+          1790908055784748978,
+          1790908055784748978,
+          1
+        ],
+        "mode": 420,
+        "sha256": "6f2741778742e6fd13d7b9bf898bc83d91fb9651afa4bfe7e079d9e4eec2f926"
+      }
+    }
+  },
+  "private_delivery_tests_reused": 34,
+  "private_delivery_scope": "Exact unchanged reviewed sources with synthetic transport under OS network denial.",
+  "HTTP_loader_or_SQL_or_handler_changed": false,
+  "hosted_or_provider_operations": false
+}

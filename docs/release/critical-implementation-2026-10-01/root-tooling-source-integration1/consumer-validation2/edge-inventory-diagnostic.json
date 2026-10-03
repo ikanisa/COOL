@@ -1,0 +1,29 @@
+[
+  {
+    "command": [
+      "/usr/bin/ruby",
+      "--version"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.012,
+    "timeout_seconds": 15,
+    "pid": 33985,
+    "process_group_absent": true,
+    "stdout_sha256": "79c717f412b1077b1f79db335cbb49c0d2d9e3d8e82df51e62d5fefbcd4c18e5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/usr/bin/ruby",
+      "scripts/edge_function_inventory.rb",
+      "auth-check"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 0.061,
+    "timeout_seconds": 15,
+    "pid": 33986,
+    "process_group_absent": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "5b095cb01d505fcb03a0724aaece7b63168bf6d397242971aa14b3a7b73bed3c"
+  }
+]

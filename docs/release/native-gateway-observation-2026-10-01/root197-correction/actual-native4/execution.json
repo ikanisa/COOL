@@ -1,0 +1,95 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 3.41,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "./gradlew",
+        ":app:lintProductionRelease",
+        "--offline",
+        "--no-daemon"
+      ],
+      "elapsed_seconds": 373.95,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "corrected-production-native-lint",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "c6113120eef5c0fba25ac7187bc327082bd3d223509cd9b32b1e2746dbb62855"
+    },
+    {
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-Ptarget=lib/main.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "elapsed_seconds": 559.74,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "production-unsigned-assemble",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "41266006b8e8ff6d113af7f868bd0cb91818e6381bb82c2a4c770a11c4c79791"
+    },
+    {
+      "command": [
+        "./gradlew",
+        ":app:testProductionDebugUnitTest",
+        "-Ptarget=lib/main.dart",
+        "--offline",
+        "--no-daemon"
+      ],
+      "elapsed_seconds": 628.27,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "production-jvm",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2",
+      "stdout_sha256": "2d9e58f77dcc8ded169305883c0ab8930b9ffd8669ebda8723ed22ba2416688a"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "elapsed_seconds": 0.72,
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "production-signature",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "elapsed_seconds": 0.08,
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "production-manifest",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "1f57a6058495182a16b35b60c2f410778b418af06037ca477a8047f7226dcefe"
+    }
+  ],
+  "provider_credentials_supplied": false,
+  "source_file_count": 1557,
+  "status": "running"
+}

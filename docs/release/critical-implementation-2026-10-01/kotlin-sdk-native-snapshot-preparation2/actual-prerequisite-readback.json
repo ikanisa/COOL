@@ -1,0 +1,52 @@
+{
+  "SDK_Gradle_native_executed": false,
+  "actual_app_export_executed": false,
+  "actual_private_root": {
+    "device": 16777232,
+    "gid": 20,
+    "inode": 58765332,
+    "mode": 448,
+    "uid": 501
+  },
+  "actual_startup_stage_pass": true,
+  "app_destination_absent": true,
+  "app_export_control_stage_absent": true,
+  "at_utc": "2026-10-02T03:36:30.413327+00:00",
+  "current_tools": {
+    "JDK_java": {
+      "path": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+      "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+    },
+    "Node": {
+      "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+    },
+    "Python": {
+      "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+    }
+  },
+  "frozen_packets": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-execution-batch1": {
+      "checked_leaves": 47,
+      "manifest_sha256": "e39ca4e70450d8f5b7bbb5926e9df043ba69377b49ef38119f09fb8dfbfbdf1e"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-plan1": {
+      "checked_leaves": 2,
+      "manifest_sha256": "ff279d8dbeb0686e89407430dbcc60f6293694989fe8ff2e43b56d0b159fcb44"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1": {
+      "checked_leaves": 33,
+      "manifest_sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc"
+    }
+  },
+  "kind": "read_only_native_snapshot_prerequisites",
+  "original_commands_invariants_unchanged": true,
+  "production_release_approval": false,
+  "protected_originals": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "source_scope_held_for_strict_export": false,
+  "startup_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45"
+}

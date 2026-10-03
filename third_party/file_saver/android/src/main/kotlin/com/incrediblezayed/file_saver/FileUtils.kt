@@ -96,7 +96,7 @@ class FileUtils(var context: Context) {
                             java.lang.Long.valueOf(id)
                         )
                     } catch (e: NumberFormatException) {
-                        e.printStackTrace()
+                        Log.e("FileSaver", "Document path resolution failed")
                     }
                     if (contentUri != null) {
                         return getDataColumn(context, contentUri, null, null)
@@ -167,7 +167,7 @@ class FileUtils(var context: Context) {
                         return cursor.getString(column_index)
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    Log.e("FileSaver", "Document path resolution failed")
                 }
             }
         }
@@ -236,13 +236,11 @@ class FileUtils(var context: Context) {
             while (inputStream.read(buffers).also { read = it } != -1) {
                 outputStream.write(buffers, 0, read)
             }
-            Log.e("File Size", "Size " + file.length())
             inputStream.close()
             outputStream.close()
-            Log.e("File Path", "Path " + file.path)
-            Log.e("File Size", "Size " + file.length())
+            Log.d("FileSaver", "Drive file copy completed")
         } catch (e: Exception) {
-            Log.e("Exception", e.message!!)
+            Log.e("FileSaver", "Drive file copy failed")
         }
         return file.path
     }
@@ -292,7 +290,7 @@ class FileUtils(var context: Context) {
             inputStream.close()
             outputStream.close()
         } catch (e: Exception) {
-            Log.e("Exception", e.message!!)
+            Log.e("FileSaver", "Internal file copy failed")
         }
         return output.path
     }

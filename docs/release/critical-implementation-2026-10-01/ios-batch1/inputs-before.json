@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-10-01T20:09:58.845910+00:00",
+  "files": {
+    ".github/workflows/ios-app-store.yml": "47893eb02148ce116d9e57ba6a6f16dd22dbdcf43f4d63585772ea127250d6db",
+    "fastlane/Fastfile": "74e89b6bb64554f49ffd6d1fd5caaaa2648df9c4392c542a290088c2fe532fac",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/ios_app_store_readiness_gate.sh": "e6ec88d25dead19daafe4d6a50b246e2d4a556b60943d9386d04f3337f5f1a3f",
+    "Gemfile.lock": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "ios/ExportOptionsAppStore.plist": "ed749f37a5b6d27b4c3f2300c51291cfcbc87e980e55e526166ee204ac659218",
+    "ios/Runner/PrivacyInfo.xcprivacy": "6fa20a8d8a3d978aa23fcdea8c717a505c49b3da2699f44604670ee92d4c5da4",
+    "ios/Runner/Runner.entitlements": "7673c1da9e3c952f957fb4389623ef5c97a1793cc90906450334757bbfd68740"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "source": "Actual synthetic SQL attempt2 outputs; no hosted/source records",
+  "fixture_sha256": {
+    "observed-directory-first.json": "516cc745e9e0567dedacef7d663d554878910cfcf60b12e6991226aedc000793",
+    "observed-directory-last.json": "e29eb645b97833e0d5fc730a32cd7d99d97515fb70684b814c3555e8c8caf121",
+    "observed-assignment-binding.json": "cdc90013dbbd8aeb064db9ee5f1359fee0bf9fb536c1559d4c7e281fc85e27ce",
+    "observed-assignment-receipt.json": "eb521527c2b7c4b89ae33c0a532be7e5366215ddeb3e457a085604ee85e431b7",
+    "observed-recorded-lookup.json": "905dfcc6ae461118abe1f45418fbd1589459b4733183bd91a16557e772f58c94",
+    "observed-foreign-lookup.json": "95de414b112de7a12a1bd9f6adbe69a96ae2f8e159925c3788615133f9b507e7",
+    "observed-expired-unrecorded-lookup.json": "6096a7bcae9ffc676fa4946e6e5444dea5a8554ff447a09cb0cbeb2365d41a94",
+    "observed-in-progress-lookup.json": "965944534e8960aa8551dc91da92e70bd30b08ecb7f9c5e3e1ec9e768aa2d83b",
+    "observed-after-commit-lookup.json": "bfa7acc6f516409c716276bc6b9bd8f27a707f79b147ea777c50412d7d45755d"
+  }
+}

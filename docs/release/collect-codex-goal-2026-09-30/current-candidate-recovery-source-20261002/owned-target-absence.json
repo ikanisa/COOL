@@ -1,0 +1,19 @@
+{
+  "owned_targets": [
+    "collect-catalog-restore-86496d1c3e",
+    "collect-catalog-source-86496d1c3e",
+    "collect-catalog-restore-c5eaf1184e",
+    "collect-catalog-source-c5eaf1184e",
+    "collect-catalog-restore-d11445f2e6",
+    "collect-catalog-source-d11445f2e6",
+    "collect-catalog-restore-04e6906186",
+    "collect-catalog-source-04e6906186",
+    "collect-catalog-restore-cebb392659",
+    "collect-catalog-source-cebb392659",
+    "collect-catalog-restore-fb6839b7ec",
+    "collect-catalog-source-fb6839b7ec"
+  ],
+  "all_12_reported_removed": true,
+  "live_docker_list_checked": true,
+  "remaining_owned_targets": []
+}

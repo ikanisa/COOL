@@ -1,0 +1,15 @@
+{
+  "all_declared_deltas_reconstruct_exact_proposed_bytes": true,
+  "assertion_registration_disposal_and_existing_capture_flags_preserved": true,
+  "byte_exact_selected_receipts": 34,
+  "changed_dart_files": 10,
+  "flutter_dart_sql_provider_or_sdk_invocations": 0,
+  "format_analysis_and_current41_runtime_proof": "Pending root integration and execution",
+  "input_bindings_checked": 59,
+  "kind": "collect_private_portable_fixture_static_preservation",
+  "maintained_writes": 0,
+  "new_capture_helper": 1,
+  "proposed_paths": 49,
+  "reused_operations_receipts": 4,
+  "status": "pass"
+}

@@ -1,0 +1,63 @@
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:12:8: warning: 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+import android.telephony.PhoneStateListener
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:20:27: warning: 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+    private var listener: PhoneStateListener? = null
+                          ^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:37:41: warning: 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+                val callback = object : PhoneStateListener() {
+                                        ^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:37:41: warning: 'constructor(): PhoneStateListener' is deprecated. Deprecated in Java.
+                val callback = object : PhoneStateListener() {
+                                        ^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:38:34: warning: this declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+                    override fun onServiceStateChanged(serviceState: ServiceState?) {
+                                 ^^^^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:25: warning: 'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.
+                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)
+                        ^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:42: warning: 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)
+                                         ^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:48:61: warning: 'static field LISTEN_SERVICE_STATE: Int' is deprecated. Deprecated in Java.
+                manager.listen(callback, PhoneStateListener.LISTEN_SERVICE_STATE)
+                                                            ^^^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:27: warning: 'fun listen(p0: PhoneStateListener!, p1: Int): Unit' is deprecated. Deprecated in Java.
+            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }
+                          ^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:44: warning: 'class PhoneStateListener : Any' is deprecated. Deprecated in Java.
+            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }
+                                           ^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt:62:63: warning: 'static field LISTEN_NONE: Int' is deprecated. Deprecated in Java.
+            try { manager.listen(callback, PhoneStateListener.LISTEN_NONE) } catch (_: Exception) { }
+                                                              ^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:36:19: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        directory(file.parentFile)
+                  ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:39:30: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        directory(file);sync(file.parentFile)
+                             ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:60:54: warning: only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'File?'.
+    fun output(file: File, available: () -> Long = { file.parentFile.usableSpace }): OutputStream {
+                                                     ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:61:19: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        directory(file.parentFile)
+                  ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:66:19: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        directory(file.parentFile)
+                  ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:69:64: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        FileOutputStream(file, true).use { it.fd.sync() };sync(file.parentFile)
+                                                               ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:129:65: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        FileOutputStream(target,true).use { it.fd.sync() };sync(target.parentFile)
+                                                                ^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecovery.kt:134:63: warning: Java type mismatch: inferred type is 'File?', but 'File' was expected.
+        FileOutputStream(file,true).use { it.fd.sync() };sync(file.parentFile)
+                                                              ^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryTransfer.kt:52:63: warning: only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'File?'.
+        readWithSpace(input,destination,cancelled,progress) { destination.parentFile.usableSpace }
+                                                              ^^^^^^^^^^^^^^^^^^^^^^
+.cache/collect-native-recovery-custody-20261002/check-attempt3/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt:15:29: warning: 'static fun getSmsManagerForSubscriptionId(p0: Int): SmsManager!' is deprecated. Deprecated in Java.
+            else SmsManager.getSmsManagerForSubscriptionId(subscription)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

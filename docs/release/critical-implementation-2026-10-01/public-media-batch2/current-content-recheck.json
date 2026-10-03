@@ -1,0 +1,59 @@
+{
+  "scope": "Exact content-contract check emitted by the actual current quality gate; no change to either current or dated historical contract.",
+  "current_contract_sha256": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+  "quality_report_sha256": "3d6f892913d400f825f3b1609edf165c5c556fe7ae0c781df69944323bc41dfc",
+  "actual_check": {
+    "id": "pre_audit_content_parity",
+    "status": "pass",
+    "message": "Public routes match the reviewed current Collect product-copy contract; historical evidence is retained.",
+    "details": {
+      "status": "pass",
+      "expected_routes": [
+        "/",
+        "/account-deletion/",
+        "/community-groups/",
+        "/craas/",
+        "/credit-readiness/",
+        "/data-deletion/",
+        "/group-savings/",
+        "/insurance/",
+        "/our-partners/",
+        "/partners/",
+        "/privacy/",
+        "/protection/",
+        "/security/",
+        "/terms/",
+        "/trust/"
+      ],
+      "generated_routes": [
+        "/",
+        "/account-deletion/",
+        "/community-groups/",
+        "/craas/",
+        "/credit-readiness/",
+        "/data-deletion/",
+        "/group-savings/",
+        "/insurance/",
+        "/our-partners/",
+        "/partners/",
+        "/privacy/",
+        "/protection/",
+        "/security/",
+        "/terms/",
+        "/trust/"
+      ],
+      "hash_failures": [],
+      "scope": "Exact locally reviewed Collect Rwanda-only product copy and source inputs. Historical baseline retained; no visual, legal, publication or hosted availability acceptance.",
+      "contract_sha256": "1efec87b39b83dc98d5fd414d6f3f2c19bc1f7d2a0e11ccc1cf8565b03c0e6eb",
+      "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+      "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+      "current_comparison_sha256": "715ba9509b1f434215d555436be30fde5a6550769f8e25d15648beb482a46b8c",
+      "current_comparison_file": "docs/release/critical-implementation-2026-10-01/public-media-batch1/content-comparison.json",
+      "reviewed_source_count": 20,
+      "legal_release_approved": false,
+      "publication_approved": false
+    }
+  },
+  "quality_execution_receipt": "docs/release/critical-implementation-2026-10-01/public-media-batch2/quality-execution.json",
+  "approval_inferred": false
+}

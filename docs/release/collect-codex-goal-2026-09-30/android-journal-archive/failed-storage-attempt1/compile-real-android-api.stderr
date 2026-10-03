@@ -1,0 +1,15 @@
+.cache/gateway-archive-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt:69:135: error: unresolved reference 'O_DIRECTORY'.
+            val descriptor = android.system.Os.open(directory.path, android.system.OsConstants.O_RDONLY or android.system.OsConstants.O_DIRECTORY, 0)
+                                                                                                                                      ^^^^^^^^^^^
+.cache/gateway-archive-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt:243:50: error: unresolved reference 'similar'.
+                if (!before.getJSONObject(index).similar(after.getJSONObject(index))) throw GatewayStateException("gateway_archive_immutable")
+                                                 ^^^^^^^
+.cache/gateway-archive-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt:113:69: error: unresolved reference 'similar'.
+            if (!normalizedResult(existing.getJSONObject("result")).similar(normalizedResult(ack.result))) invalidArchive()
+                                                                    ^^^^^^^
+.cache/gateway-archive-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt:155:49: error: unresolved reference 'similar'.
+            if (!prior.getJSONObject("attempt").similar(encoded)) throw GatewayStateException("gateway_archive_source_conflict")
+                                                ^^^^^^^
+.cache/gateway-archive-storage-attempt1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt:219:43: error: unresolved reference 'similar'.
+        if (!normalizedResult(ack.result).similar(normalizedResult(row.getJSONObject("result")))) invalidArchive()
+                                          ^^^^^^^

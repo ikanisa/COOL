@@ -14,6 +14,7 @@ void main() {
     'amount_minor': 3000,
     'currency': 'RWF',
     'posted_at': '2026-09-02T10:00:00Z',
+    'is_current_user_contribution': true,
   });
 
   test('Rwanda MoMo history keeps whole-franc totals', () {

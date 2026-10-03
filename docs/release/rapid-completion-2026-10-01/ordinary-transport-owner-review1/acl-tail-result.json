@@ -1,0 +1,528 @@
+{
+  "status": "pass",
+  "scope": "Only remaining owner-only private net table/column ACL and exact sampler read tail. Earlier20 controls retained separately. Not full migration/replay, HTTP delivery, live Auth or whole L08/L23 closure.",
+  "shared_database_written": false,
+  "hosted_called": false,
+  "provider_called": false,
+  "source_files_written": false,
+  "cases": [
+    {
+      "name": "owner-only preparation denies ordinary NOSUPERUSER installer42501",
+      "status": "pass"
+    },
+    {
+      "name": "preparation has actual prior PUBLIC raw response and queue positive control",
+      "status": "pass"
+    },
+    {
+      "name": "app validator rejects preexisting raw table exposure",
+      "status": "pass"
+    },
+    {
+      "name": "app preflight refuses exposed platform55000",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary current platform preflight passes after owner preparation",
+      "status": "pass"
+    },
+    {
+      "name": "postgres direct grants exactly seven SELECT columns",
+      "status": "pass"
+    },
+    {
+      "name": "proposal normalizes direct postgres ACL without silently changing inherited read authority",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct response whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct response raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct queue whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct queue raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct response INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct response UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct response DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct queue INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct queue UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "anon actual direct queue DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct response whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct response raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct queue whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct queue raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct response INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct response UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct response DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct queue INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct queue UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "authenticated actual direct queue DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct response whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct response raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct queue whole read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct queue raw-column read denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct response INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct response UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct response DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct queue INSERT denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct queue UPDATE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "service_role actual direct queue DELETE denied42501",
+      "status": "pass"
+    },
+    {
+      "name": "existing trusted net functions are byte-metadata unchanged by platform ACL proposal",
+      "status": "pass"
+    },
+    {
+      "name": "actual C worker retains platform owner identity and table ownership",
+      "status": "pass"
+    },
+    {
+      "name": "existing platform C worker remains up after private ACL changes",
+      "status": "pass"
+    },
+    {
+      "name": "strict app validator rejects column leakage without table ACL",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary preflight refuses raw column exposure55000",
+      "status": "pass"
+    },
+    {
+      "name": "strict seven-column reader profile independently passes",
+      "status": "pass"
+    },
+    {
+      "name": "original empty sampler needs only permitted queue.id read",
+      "status": "pass"
+    },
+    {
+      "name": "original response sampler works with exact minimum six response columns",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects absent net._http_response.content",
+      "status": "pass"
+    },
+    {
+      "name": "actual definer sampler denies absent net._http_response.content42501",
+      "status": "pass"
+    },
+    {
+      "name": "strict validator rejects absent net.http_request_queue.id",
+      "status": "pass"
+    },
+    {
+      "name": "actual definer sampler denies absent net.http_request_queue.id42501",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary installer stays NOSUPERUSER with valid prerequisites no dispatch and zero queue",
+      "status": "pass"
+    }
+  ],
+  "started_at": "2026-10-01T13:25:42.599446+00:00",
+  "consumed_inputs": {
+    "acl_tail_probe.py": "bcbdc5dd4c1594710e41d7122f0d476b6aaf470aadb704bea885655a41f2579b",
+    "proposed-platform-prerequisites.sql": "a3e7436bf9664e6b585d295e2345a66a6f9dd30aa08fb703c71920b5b25cdf7f",
+    "candidate-validator.sql": "781ffe19a45ae048f1de2cf050d781588b5f910974139261271a4c335be813c7",
+    "candidate-index-preflight.sql": "cf4464282b3831dfe0177d317b443c6f9bb96e430d1e92255a781e545e8b734f",
+    "exact-source-sample.sql": "0a2f05c0c71a6df16094aa8bb00e6621c335f10fcbbb7bf0dcf2948d143e98c6",
+    "captured-source/scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "owned_target": {
+    "container_id": "89e45ba38b6e23b02e338af0f78e8c1b8a047787a5db5614f128e2a6e1195ccc",
+    "container_name": "collect_current_rehearsal_acl_tail_owned_probe_8757aeeea4a9",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "clone_schema_shape": "Matches retained net schema PUBLIC and client USAGE; no proposal client grant",
+  "fresh_extension_functions": [
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_delete(text,jsonb,jsonb,integer,jsonb)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_get(text,jsonb,jsonb,integer)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_post(text,jsonb,jsonb,jsonb,integer)"
+    }
+  ],
+  "clone_platform_shape_adjustments": [
+    "http_get",
+    "http_post"
+  ],
+  "retained_shape_functions": [
+    {
+      "owner": "supabase_admin",
+      "config": null,
+      "definer": false,
+      "signature": "net.http_delete(text,jsonb,jsonb,integer,jsonb)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": [
+        "search_path=net"
+      ],
+      "definer": true,
+      "signature": "net.http_get(text,jsonb,jsonb,integer)"
+    },
+    {
+      "owner": "supabase_admin",
+      "config": [
+        "search_path=net"
+      ],
+      "definer": true,
+      "signature": "net.http_post(text,jsonb,jsonb,jsonb,integer)"
+    }
+  ],
+  "direct_column_grants": [
+    {
+      "column": "id",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "status_code",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "content",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "timed_out",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "error_msg",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "created",
+      "relation": "net._http_response",
+      "privilege": "SELECT"
+    },
+    {
+      "column": "id",
+      "relation": "net.http_request_queue",
+      "privilege": "SELECT"
+    }
+  ],
+  "table_direct_grants": {
+    "postgres_dml": false,
+    "inherited_headers_read": true,
+    "inherited_read_all_data": true,
+    "reader_direct_table_acl": false
+  },
+  "actual_role_denials": [
+    {
+      "role": "anon",
+      "operation": "response whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "response raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "queue whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "queue raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "response INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "response UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "response DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "queue INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "queue UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "anon",
+      "operation": "queue DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "response whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "response raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "queue whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "queue raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "response INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "response UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "response DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "queue INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "queue UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "authenticated",
+      "operation": "queue DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "response whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "response raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "queue whole read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "queue raw-column read",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "response INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "response UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "response DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "queue INSERT",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "queue UPDATE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    },
+    {
+      "role": "service_role",
+      "operation": "queue DELETE",
+      "exit_code": 3,
+      "sqlstate_42501": true
+    }
+  ],
+  "worker": [
+    {
+      "role": "supabase_admin",
+      "backend": "pg_net 0.20.0 worker",
+      "owns_tables": true,
+      "response_owner": "supabase_admin"
+    }
+  ],
+  "final_guard": {
+    "net": "0",
+    "cron": "off",
+    "valid": true,
+    "superuser": false,
+    "queue_rows": 0
+  },
+  "owned_container_removed": true,
+  "source_drift": [],
+  "consumed_input_drift": [],
+  "migration_source_unchanged": true,
+  "completed_at": "2026-10-01T13:26:01.386479+00:00"
+}

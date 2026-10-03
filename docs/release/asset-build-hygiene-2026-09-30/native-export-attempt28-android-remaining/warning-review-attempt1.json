@@ -1,0 +1,6 @@
+{
+  "status": "fail_before_output",
+  "cause": "Matching only warning ID, message and source path returned9 intentional synchronous-persistence dispositions for one warning",
+  "correction": "Also bind exact source line and column when supplied by prior review",
+  "product_or_warning_flags_changed": false
+}

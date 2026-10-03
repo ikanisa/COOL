@@ -1,0 +1,359 @@
+PASS schema clone retains exact normalized application catalog and column ACLs
+POSTED 100/1000 through actual public APIs
+POSTED 200/1000 through actual public APIs
+POSTED 300/1000 through actual public APIs
+POSTED 400/1000 through actual public APIs
+POSTED 500/1000 through actual public APIs
+POSTED 600/1000 through actual public APIs
+POSTED 700/1000 through actual public APIs
+POSTED 800/1000 through actual public APIs
+POSTED 900/1000 through actual public APIs
+POSTED 1000/1000 through actual public APIs
+PASS history-newest-all-first
+PASS history-newest-all-middle
+PASS history-newest-all-deep
+PASS history-newest-readable-private-first
+PASS history-newest-readable-private-middle
+PASS history-newest-readable-private-deep
+PASS history-newest-own-unreadable-first
+PASS history-newest-own-unreadable-middle
+PASS history-newest-own-unreadable-deep
+PASS history-newest-anonymous-first
+PASS history-newest-anonymous-middle
+PASS history-newest-anonymous-deep
+PASS history-newest-own-first
+PASS history-newest-own-middle
+PASS history-newest-own-deep
+PASS history-newest-private-title-first
+PASS history-newest-private-title-middle
+PASS history-newest-private-title-deep
+PASS history-newest-own-transactions-first
+PASS history-newest-own-transactions-middle
+PASS history-newest-own-transactions-deep
+PASS history-newest-hidden-title-first
+PASS history-newest-hidden-title-middle
+PASS history-newest-hidden-title-deep
+PASS history-newest-empty-first
+PASS history-newest-empty-middle
+PASS history-newest-empty-deep
+PASS history-oldest-all-first
+PASS history-oldest-all-middle
+PASS history-oldest-all-deep
+PASS history-oldest-readable-private-first
+PASS history-oldest-readable-private-middle
+PASS history-oldest-readable-private-deep
+PASS history-oldest-own-unreadable-first
+PASS history-oldest-own-unreadable-middle
+PASS history-oldest-own-unreadable-deep
+PASS history-oldest-anonymous-first
+PASS history-oldest-anonymous-middle
+PASS history-oldest-anonymous-deep
+PASS history-oldest-own-first
+PASS history-oldest-own-middle
+PASS history-oldest-own-deep
+PASS history-oldest-private-title-first
+PASS history-oldest-private-title-middle
+PASS history-oldest-private-title-deep
+PASS history-oldest-own-transactions-first
+PASS history-oldest-own-transactions-middle
+PASS history-oldest-own-transactions-deep
+PASS history-oldest-hidden-title-first
+PASS history-oldest-hidden-title-middle
+PASS history-oldest-hidden-title-deep
+PASS history-oldest-empty-first
+PASS history-oldest-empty-middle
+PASS history-oldest-empty-deep
+PASS history-highest-all-first
+PASS history-highest-all-middle
+PASS history-highest-all-deep
+PASS history-highest-readable-private-first
+PASS history-highest-readable-private-middle
+PASS history-highest-readable-private-deep
+PASS history-highest-own-unreadable-first
+PASS history-highest-own-unreadable-middle
+PASS history-highest-own-unreadable-deep
+PASS history-highest-anonymous-first
+PASS history-highest-anonymous-middle
+PASS history-highest-anonymous-deep
+PASS history-highest-own-first
+PASS history-highest-own-middle
+PASS history-highest-own-deep
+PASS history-highest-private-title-first
+PASS history-highest-private-title-middle
+PASS history-highest-private-title-deep
+PASS history-highest-own-transactions-first
+PASS history-highest-own-transactions-middle
+PASS history-highest-own-transactions-deep
+PASS history-highest-hidden-title-first
+PASS history-highest-hidden-title-middle
+PASS history-highest-hidden-title-deep
+PASS history-highest-empty-first
+PASS history-highest-empty-middle
+PASS history-highest-empty-deep
+PASS history-lowest-all-first
+PASS history-lowest-all-middle
+PASS history-lowest-all-deep
+PASS history-lowest-readable-private-first
+PASS history-lowest-readable-private-middle
+PASS history-lowest-readable-private-deep
+PASS history-lowest-own-unreadable-first
+PASS history-lowest-own-unreadable-middle
+PASS history-lowest-own-unreadable-deep
+PASS history-lowest-anonymous-first
+PASS history-lowest-anonymous-middle
+PASS history-lowest-anonymous-deep
+PASS history-lowest-own-first
+PASS history-lowest-own-middle
+PASS history-lowest-own-deep
+PASS history-lowest-private-title-first
+PASS history-lowest-private-title-middle
+PASS history-lowest-private-title-deep
+PASS history-lowest-own-transactions-first
+PASS history-lowest-own-transactions-middle
+PASS history-lowest-own-transactions-deep
+PASS history-lowest-hidden-title-first
+PASS history-lowest-hidden-title-middle
+PASS history-lowest-hidden-title-deep
+PASS history-lowest-empty-first
+PASS history-lowest-empty-middle
+PASS history-lowest-empty-deep
+PASS all generated history measurements preserve financial fingerprints
+PASS actual intent recent complete count and request ownership
+PASS actual intent exact-old complete count and request ownership
+PASS actual intent forged complete count and request ownership
+PASS actual intent foreign complete count and request ownership
+PASS recent intent probes preserve all financial rows
+PASS notification created_at_desc first exact page
+PASS notification created_at_desc middle exact page
+PASS notification created_at_desc deep exact page
+PASS notification created_at_asc first exact page
+PASS notification created_at_asc middle exact page
+PASS notification created_at_asc deep exact page
+PASS notification reads preserve financial and notification fingerprints
+PASS notification queue shrink retains known zero and restores every row
+PASS genuine concurrent posting rejects committed stale cursor and accepts refreshed totals
+PASS schema clone retains exact normalized application catalog and column ACLs
+POSTED 100/10000 through actual public APIs
+POSTED 200/10000 through actual public APIs
+POSTED 300/10000 through actual public APIs
+POSTED 400/10000 through actual public APIs
+POSTED 500/10000 through actual public APIs
+POSTED 600/10000 through actual public APIs
+POSTED 700/10000 through actual public APIs
+POSTED 800/10000 through actual public APIs
+POSTED 900/10000 through actual public APIs
+POSTED 1000/10000 through actual public APIs
+POSTED 1100/10000 through actual public APIs
+POSTED 1200/10000 through actual public APIs
+POSTED 1300/10000 through actual public APIs
+POSTED 1400/10000 through actual public APIs
+POSTED 1500/10000 through actual public APIs
+POSTED 1600/10000 through actual public APIs
+POSTED 1700/10000 through actual public APIs
+POSTED 1800/10000 through actual public APIs
+POSTED 1900/10000 through actual public APIs
+POSTED 2000/10000 through actual public APIs
+POSTED 2100/10000 through actual public APIs
+POSTED 2200/10000 through actual public APIs
+POSTED 2300/10000 through actual public APIs
+POSTED 2400/10000 through actual public APIs
+POSTED 2500/10000 through actual public APIs
+POSTED 2600/10000 through actual public APIs
+POSTED 2700/10000 through actual public APIs
+POSTED 2800/10000 through actual public APIs
+POSTED 2900/10000 through actual public APIs
+POSTED 3000/10000 through actual public APIs
+POSTED 3100/10000 through actual public APIs
+POSTED 3200/10000 through actual public APIs
+POSTED 3300/10000 through actual public APIs
+POSTED 3400/10000 through actual public APIs
+POSTED 3500/10000 through actual public APIs
+POSTED 3600/10000 through actual public APIs
+POSTED 3700/10000 through actual public APIs
+POSTED 3800/10000 through actual public APIs
+POSTED 3900/10000 through actual public APIs
+POSTED 4000/10000 through actual public APIs
+POSTED 4100/10000 through actual public APIs
+POSTED 4200/10000 through actual public APIs
+POSTED 4300/10000 through actual public APIs
+POSTED 4400/10000 through actual public APIs
+POSTED 4500/10000 through actual public APIs
+POSTED 4600/10000 through actual public APIs
+POSTED 4700/10000 through actual public APIs
+POSTED 4800/10000 through actual public APIs
+POSTED 4900/10000 through actual public APIs
+POSTED 5000/10000 through actual public APIs
+POSTED 5100/10000 through actual public APIs
+POSTED 5200/10000 through actual public APIs
+POSTED 5300/10000 through actual public APIs
+POSTED 5400/10000 through actual public APIs
+POSTED 5500/10000 through actual public APIs
+POSTED 5600/10000 through actual public APIs
+POSTED 5700/10000 through actual public APIs
+POSTED 5800/10000 through actual public APIs
+POSTED 5900/10000 through actual public APIs
+POSTED 6000/10000 through actual public APIs
+POSTED 6100/10000 through actual public APIs
+POSTED 6200/10000 through actual public APIs
+POSTED 6300/10000 through actual public APIs
+POSTED 6400/10000 through actual public APIs
+POSTED 6500/10000 through actual public APIs
+POSTED 6600/10000 through actual public APIs
+POSTED 6700/10000 through actual public APIs
+POSTED 6800/10000 through actual public APIs
+POSTED 6900/10000 through actual public APIs
+POSTED 7000/10000 through actual public APIs
+POSTED 7100/10000 through actual public APIs
+POSTED 7200/10000 through actual public APIs
+POSTED 7300/10000 through actual public APIs
+POSTED 7400/10000 through actual public APIs
+POSTED 7500/10000 through actual public APIs
+POSTED 7600/10000 through actual public APIs
+POSTED 7700/10000 through actual public APIs
+POSTED 7800/10000 through actual public APIs
+POSTED 7900/10000 through actual public APIs
+POSTED 8000/10000 through actual public APIs
+POSTED 8100/10000 through actual public APIs
+POSTED 8200/10000 through actual public APIs
+POSTED 8300/10000 through actual public APIs
+POSTED 8400/10000 through actual public APIs
+POSTED 8500/10000 through actual public APIs
+POSTED 8600/10000 through actual public APIs
+POSTED 8700/10000 through actual public APIs
+POSTED 8800/10000 through actual public APIs
+POSTED 8900/10000 through actual public APIs
+POSTED 9000/10000 through actual public APIs
+POSTED 9100/10000 through actual public APIs
+POSTED 9200/10000 through actual public APIs
+POSTED 9300/10000 through actual public APIs
+POSTED 9400/10000 through actual public APIs
+POSTED 9500/10000 through actual public APIs
+POSTED 9600/10000 through actual public APIs
+POSTED 9700/10000 through actual public APIs
+POSTED 9800/10000 through actual public APIs
+POSTED 9900/10000 through actual public APIs
+POSTED 10000/10000 through actual public APIs
+PASS history-newest-all-first
+PASS history-newest-all-middle
+PASS history-newest-all-deep
+PASS history-newest-readable-private-first
+PASS history-newest-readable-private-middle
+PASS history-newest-readable-private-deep
+PASS history-newest-own-unreadable-first
+PASS history-newest-own-unreadable-middle
+PASS history-newest-own-unreadable-deep
+PASS history-newest-anonymous-first
+PASS history-newest-anonymous-middle
+PASS history-newest-anonymous-deep
+PASS history-newest-own-first
+PASS history-newest-own-middle
+PASS history-newest-own-deep
+PASS history-newest-private-title-first
+PASS history-newest-private-title-middle
+PASS history-newest-private-title-deep
+PASS history-newest-own-transactions-first
+PASS history-newest-own-transactions-middle
+PASS history-newest-own-transactions-deep
+PASS history-newest-hidden-title-first
+PASS history-newest-hidden-title-middle
+PASS history-newest-hidden-title-deep
+PASS history-newest-empty-first
+PASS history-newest-empty-middle
+PASS history-newest-empty-deep
+PASS history-oldest-all-first
+PASS history-oldest-all-middle
+PASS history-oldest-all-deep
+PASS history-oldest-readable-private-first
+PASS history-oldest-readable-private-middle
+PASS history-oldest-readable-private-deep
+PASS history-oldest-own-unreadable-first
+PASS history-oldest-own-unreadable-middle
+PASS history-oldest-own-unreadable-deep
+PASS history-oldest-anonymous-first
+PASS history-oldest-anonymous-middle
+PASS history-oldest-anonymous-deep
+PASS history-oldest-own-first
+PASS history-oldest-own-middle
+PASS history-oldest-own-deep
+PASS history-oldest-private-title-first
+PASS history-oldest-private-title-middle
+PASS history-oldest-private-title-deep
+PASS history-oldest-own-transactions-first
+PASS history-oldest-own-transactions-middle
+PASS history-oldest-own-transactions-deep
+PASS history-oldest-hidden-title-first
+PASS history-oldest-hidden-title-middle
+PASS history-oldest-hidden-title-deep
+PASS history-oldest-empty-first
+PASS history-oldest-empty-middle
+PASS history-oldest-empty-deep
+PASS history-highest-all-first
+PASS history-highest-all-middle
+PASS history-highest-all-deep
+PASS history-highest-readable-private-first
+PASS history-highest-readable-private-middle
+PASS history-highest-readable-private-deep
+PASS history-highest-own-unreadable-first
+PASS history-highest-own-unreadable-middle
+PASS history-highest-own-unreadable-deep
+PASS history-highest-anonymous-first
+PASS history-highest-anonymous-middle
+PASS history-highest-anonymous-deep
+PASS history-highest-own-first
+PASS history-highest-own-middle
+PASS history-highest-own-deep
+PASS history-highest-private-title-first
+PASS history-highest-private-title-middle
+PASS history-highest-private-title-deep
+PASS history-highest-own-transactions-first
+PASS history-highest-own-transactions-middle
+PASS history-highest-own-transactions-deep
+PASS history-highest-hidden-title-first
+PASS history-highest-hidden-title-middle
+PASS history-highest-hidden-title-deep
+PASS history-highest-empty-first
+PASS history-highest-empty-middle
+PASS history-highest-empty-deep
+PASS history-lowest-all-first
+PASS history-lowest-all-middle
+PASS history-lowest-all-deep
+PASS history-lowest-readable-private-first
+PASS history-lowest-readable-private-middle
+PASS history-lowest-readable-private-deep
+PASS history-lowest-own-unreadable-first
+PASS history-lowest-own-unreadable-middle
+PASS history-lowest-own-unreadable-deep
+PASS history-lowest-anonymous-first
+PASS history-lowest-anonymous-middle
+PASS history-lowest-anonymous-deep
+PASS history-lowest-own-first
+PASS history-lowest-own-middle
+PASS history-lowest-own-deep
+PASS history-lowest-private-title-first
+PASS history-lowest-private-title-middle
+PASS history-lowest-private-title-deep
+PASS history-lowest-own-transactions-first
+PASS history-lowest-own-transactions-middle
+PASS history-lowest-own-transactions-deep
+PASS history-lowest-hidden-title-first
+PASS history-lowest-hidden-title-middle
+PASS history-lowest-hidden-title-deep
+PASS history-lowest-empty-first
+PASS history-lowest-empty-middle
+PASS history-lowest-empty-deep
+PASS all generated history measurements preserve financial fingerprints
+PASS actual intent recent complete count and request ownership
+PASS actual intent exact-old complete count and request ownership
+PASS actual intent forged complete count and request ownership
+PASS actual intent foreign complete count and request ownership
+PASS recent intent probes preserve all financial rows
+PASS notification created_at_desc first exact page
+PASS notification created_at_desc middle exact page
+PASS notification created_at_desc deep exact page
+PASS notification created_at_asc first exact page
+PASS notification created_at_asc middle exact page
+PASS notification created_at_asc deep exact page
+PASS notification reads preserve financial and notification fingerprints
+PASS notification queue shrink retains known zero and restores every row
+PASS genuine concurrent posting rejects committed stale cursor and accepts refreshed totals
+[{"volume": 1000, "status": "pass_scoped", "passed": 124, "failed": 0, "all_source_tables_catalog_cron_preserved": true, "isolated_database_removed": true, "recorder_sources_unchanged": true, "result_sha256": "511d7e44683dac549848888c7ef50b36f90e2fcbb9b62f771f06bea56b5a470f"}, {"volume": 10000, "status": "pass_scoped", "passed": 124, "failed": 0, "all_source_tables_catalog_cron_preserved": true, "isolated_database_removed": true, "recorder_sources_unchanged": true, "result_sha256": "638d972a739d5a227dc98cd6510990a20ca4996b719e3391057711b5f352b87a"}]

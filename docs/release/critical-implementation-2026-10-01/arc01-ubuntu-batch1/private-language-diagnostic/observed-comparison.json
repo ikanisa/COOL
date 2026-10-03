@@ -1,0 +1,29 @@
+{
+  "at_utc": "2026-10-02T00:20:28.173794+00:00",
+  "source_sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+  "modes": {
+    "default": {
+      "output_source_sha256": "0f3f7704617cf194ccb6859754006fc68150e302bd41bc736400c4a3f29ab2c1",
+      "output_matches_frozen_source": false,
+      "diff": [
+        "--- captured-source\n",
+        "+++ default\n",
+        "@@ -3,6 +3,7 @@\n",
+        " \n",
+        " @JS('window.sessionStorage')\n",
+        " external _Storage get _storage;\n",
+        "+\n",
+        " extension type _Storage(JSObject _) implements JSObject {\n",
+        "   external String? getItem(String key);\n",
+        "   external void setItem(String key, String value);\n"
+      ]
+    },
+    "language312": {
+      "output_source_sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+      "output_matches_frozen_source": true,
+      "diff": []
+    }
+  },
+  "diagnostic_only": true,
+  "applied_to_gate": false
+}

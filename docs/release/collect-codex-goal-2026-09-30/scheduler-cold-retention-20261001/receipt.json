@@ -1,0 +1,54 @@
+{
+  "canonical_source_writes": 0,
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "--test-concurrency=1",
+        "src/unattended_enrollment_observed.test.ts"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-cold-retention-20261001/tools/collect-notification-mcp",
+      "elapsed_seconds": 0.09787106513977051,
+      "exit_code": 0,
+      "log_sha256": "fb6037aae679218a7fafcdca6d87605e8558a375f4778aedd1a5b11ffc25ba31",
+      "name": "observed-fixture"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-cold-retention-20261001/tools/collect-notification-mcp",
+      "elapsed_seconds": 0.2346360683441162,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "typescript"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/tests/unattended_launchd_preparation_test.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-cold-retention-20261001",
+      "elapsed_seconds": 1.3508620262145996,
+      "exit_code": 0,
+      "log_sha256": "df58754aafcf3b57e464489fc4d806fc07c98a78d82566c1cfaefeb2f3472d48",
+      "name": "preparer"
+    }
+  ],
+  "contract_version": 1,
+  "export_scope": "cold local evidence only; hot records, credentials, deployment, SQL history and full operational recovery excluded",
+  "family_test_files": [
+    "src/unattended_enrollment_observed.test.ts"
+  ],
+  "input_count": 1780,
+  "inputs_unchanged": true,
+  "launchctl_daemon_calls": 0,
+  "live_http_calls": 0,
+  "live_signer_calls": 0,
+  "scope": "fixture-dependency repair and types/preparer; composition with unchanged passing cases from preceding source-bound family is recorded separately",
+  "status": "accepted"
+}

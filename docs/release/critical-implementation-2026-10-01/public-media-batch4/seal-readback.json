@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "recorded_at_utc": "2026-10-02T01:06:57.035207+00:00",
+  "independent_process": true,
+  "new_indexed_files_read": 704,
+  "errors": [],
+  "batch_sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95",
+  "index_sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb",
+  "readme_sha256": "deb124346e77e50b55a0b11f20af409d17f46270fea1caccc232b64a7524f77a",
+  "final_source_artifact_readback_sha256": "7dd2ca7b6079669392a5ba01c4a67b569ac8f0212074750fe85f08865cad5685",
+  "prior_sealed_batch_files_rechecked": 7,
+  "source_artifact_hold_can_be_released": true,
+  "scope": "Exact newly sealed current local public candidate evidence; no production/native/visual/rights/legal/provider/hosted acceptance."
+}

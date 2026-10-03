@@ -1,0 +1,6 @@
+{
+  "status": "interrupted",
+  "reason": "Own process interrupted with SIGINT before the known unresolved public Android O_DIRECTORY constant was repaired. Source/shims had been captured; no successful tests/API compile or completed validation receipt claimed.",
+  "exit_code_observed": 130,
+  "source_mutated_during_execution": false
+}

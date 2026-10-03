@@ -1,0 +1,28 @@
+{
+  "actual_seconds": 4.032,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-schema-current-refactor-refresh1/generated-current209",
+    "--verify",
+    "--require-current"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T10:15:39.219833+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 26086,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T10:15:35.187966+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "2b6178f030b95e85fea8695d4ebd5f230f7b1a5b02aaf0c109c4e8d6939b4191",
+  "timed_out": false
+}

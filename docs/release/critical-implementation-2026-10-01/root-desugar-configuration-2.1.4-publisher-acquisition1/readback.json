@@ -1,0 +1,68 @@
+{
+  "utc": "2026-10-02T13:32:26.612528+00:00",
+  "status": "publisher_bytes_verified_not_installed",
+  "coordinate": "com.android.tools:desugar_jdk_libs_configuration:2.1.4",
+  "requests": {
+    "artifact": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 55749,
+      "sha256": "5d770c1ba225c2cdf09086bf662954ae765ee481f901b02cd7b1dc3c8077c3f4",
+      "actual_seconds": 0.8935130840109196,
+      "no_retries": true
+    },
+    "publisher-sha1": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha1",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha1",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 40,
+      "sha256": "bf9763e430be4e875af43f030d10c0dc24e052746f9c15d6f44f8605dd2b0ed2",
+      "actual_seconds": 0.6012162919942057,
+      "no_retries": true
+    },
+    "publisher-sha256": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha256",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.jar.sha256",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 64,
+      "sha256": "0c5390a8791e8f23fcb6d86adf8896015a114ea367a748c9395bc96db7c459be",
+      "actual_seconds": 0.8621037919947412,
+      "no_retries": true
+    },
+    "publisher-pom": {
+      "URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.pom",
+      "effective_URL": "https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/2.1.4/desugar_jdk_libs_configuration-2.1.4.pom",
+      "HTTP_status": 200,
+      "TLS_verify_result": 0,
+      "curl_exit_code": 0,
+      "bytes": 1067,
+      "sha256": "31618ac9ef605b980947937ed35ac516a360348571bdb62d512f21dd9051f3fa",
+      "actual_seconds": 1.2525425420026295,
+      "no_retries": true
+    }
+  },
+  "whole_seconds": 1.2573596250003902,
+  "artifact_sha256": "5d770c1ba225c2cdf09086bf662954ae765ee481f901b02cd7b1dc3c8077c3f4",
+  "artifact_sha1": "f62414f2fa972d3ad4320a8a09d27e6d5e26a7e9",
+  "publisher_SHA256_matches": true,
+  "publisher_SHA1_matches": true,
+  "JAR_members": 47,
+  "CRC_all_members_pass": true,
+  "publisher_license_declarations": [
+    {
+      "name": "BSD-3-Clause",
+      "URL": "https://opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
+  "cache_modified": false,
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

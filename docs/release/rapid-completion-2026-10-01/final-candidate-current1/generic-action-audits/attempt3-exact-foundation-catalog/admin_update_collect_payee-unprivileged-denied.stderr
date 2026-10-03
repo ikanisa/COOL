@@ -1,0 +1,5 @@
+ERROR:  42501: Admin permission receivers.manage required
+CONTEXT:  PL/pgSQL function public.assert_admin_permission(text) line 8 at RAISE
+SQL statement "SELECT public.assert_admin_permission('receivers.manage')"
+PL/pgSQL function admin_update_collect_payee(uuid,text,text) line 7 at PERFORM
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

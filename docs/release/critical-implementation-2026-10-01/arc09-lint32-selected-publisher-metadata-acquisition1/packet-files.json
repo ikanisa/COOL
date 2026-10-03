@@ -1,0 +1,16 @@
+{
+  "internal_packet_sha256": "3cd27713752e6482211f0706eb9121bae66f8d88d51eb0384fecd8e91332cbee",
+  "payload_files": [
+    {
+      "bytes": 1940,
+      "path": "README.md",
+      "sha256": "e069cbb10206d828feb12b16cf7469d9c0c1e44e161b20cee40f1ce108cc38a8"
+    },
+    {
+      "bytes": 4629,
+      "path": "readback.json",
+      "sha256": "7d192e813be85c86cad6a4dc18bd924f96053d7862d74ae5f8f5497e60136b65"
+    }
+  ],
+  "schema_version": 1
+}

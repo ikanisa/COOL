@@ -1,0 +1,41 @@
+{
+  "captured_at": "2026-10-01T12:02:39.191110+00:00",
+  "stage": "capture3",
+  "commands": [
+    {
+      "name": "captures",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter",
+        "expanded",
+        "test/admin_receipt_operations_card_test.dart",
+        "--plain-name",
+        "optional source-bound light/dark captures render through actual shared theme"
+      ],
+      "started_at": "2026-10-01T12:02:21.938435+00:00",
+      "finished_at": "2026-10-01T12:02:39.140099+00:00",
+      "exit_code": 0,
+      "timeout_seconds": 90
+    }
+  ],
+  "source_inputs": 133,
+  "source_unchanged": true,
+  "source_delta": [],
+  "dart_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+  "flutter_launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+  "environment_keys": [
+    "COLLECT_RECEIPT_OPERATIONS_CAPTURE_DIRECTORY",
+    "HOME",
+    "LANG",
+    "PATH",
+    "PUB_CACHE",
+    "PYTHONDONTWRITEBYTECODE"
+  ],
+  "hosted_calls": 0,
+  "live_otp_requests": 0,
+  "live_sender_calls": 0,
+  "production_accepted": false,
+  "source_freeze": false
+}

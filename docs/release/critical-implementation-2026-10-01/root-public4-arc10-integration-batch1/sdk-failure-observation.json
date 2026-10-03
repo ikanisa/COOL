@@ -1,0 +1,15 @@
+{
+  "captured_at_utc": "2026-10-02T01:13:01.096731+00:00",
+  "scope": "Actual terminal failure observed; worker full seal and scoped remediation plan pending.",
+  "source_artifacts": {
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/compiler-attempt2-terminal.json": "1f2690d9ec77eae78122ad8558a24d7e779250e01be820f469c8c829a12ce21d",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/sdk-compiler-runtime-attempt2.json": "8fa82a40b219179f99d74199b68487cf182e48e9071c20a973b869157a28a1a2",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/sdk-compiler-runtime-attempt2.stdout": "a80a5e9289f857a31dc743ac2bb899513cffb5f253962b019ecf92bd010cf1ce",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/sdk-compiler-runtime-attempt2.stderr": "e52f861b03ea832e43b69b53fce2b3e6c9712dad688546227eca583e23d36d5c",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/candidate-built-source-attempt2-readback.json": "8baf994a3ba068d76fe50ecf7a5afbf3e428bf3477ac1a7f06033c97abc4b44f"
+  },
+  "observed": "Main compileKotlin/jar executed; validatePlugins and compileTestKotlin failed; no JUnit test completion. Applied/core/compiler2.4.20 are scoped artifacts, while runtime stdlib1.7.10 and compiler reflect1.6.10 remain actual transitive versions.",
+  "candidate_accepted": false,
+  "shared_sdk_changed": false,
+  "production_release_approved": false
+}

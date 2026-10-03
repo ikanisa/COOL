@@ -1,0 +1,16 @@
+NOTICE:  00000: ASSISTED_POSITIVE_PIPELINE=PASS
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_LOGOUT_CASES=9
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update auth.sessions set not_after=clock_timestamp()-interval '1 second' where id='99440000-0000-4000-8000-000000000011'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update auth.users set deleted_at=clock_timestamp()where id='99440000-0000-4000-8000-000000000001'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=delete from collect_hybrid.sms_operator_heartbeats where operator_user_id='99440000-0000-4000-8000-000000000001';delete from auth.users where id='99440000-0000-4000-8000-000000000001'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update public.admin_user_roles set revoked_at=clock_timestamp()where user_id='99440000-0000-4000-8000-000000000001'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=update collect_admin_access.email_approvals set revoked_at=clock_timestamp()where user_id='99440000-0000-4000-8000-000000000001'
+LOCATION:  exec_stmt_raise, pl_exec.c:3911
+NOTICE:  00000: ASSISTED_REVOCATION_CASES=9; mutation=delete from public.admin_role_permissions where role_id=(select id from public.admin_roles where name='platform_owner')and permission_name in('notifications.read','notifications.manage')
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "stage": "app-lock",
+  "stage_pass": true,
+  "actual_terminal_sha256": "76154071fe5c4d687bdd3b0d76ad0fd9ff51b25db66f4b9f730719ac27bab732",
+  "source_files": 2513,
+  "whole_enforced_app_lock_and_both_SDK_readbacks_pass": true,
+  "all_owned_groups_absent": true,
+  "original_protected_paths_unchanged": 68020,
+  "app_lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "packages_built": false,
+  "production_release_approval": false,
+  "ARC09_closed": false
+}

@@ -1,0 +1,14 @@
+{
+  "kind": "direct_owner_authorization",
+  "recorded_at": "2026-10-01T09:42:52.986414+00:00",
+  "statement": "fix these as well you have full authorisation and approval from me. Hosted email authentication is still disabled; the operator session, financial policies, real Android gateway tests and release acceptance remain outstanding",
+  "authorization_received": true,
+  "policy_selection_delegated": true,
+  "repeated_approval_required": false,
+  "operator_email": "info@ikanisa.com",
+  "automatic_sender": "organization_owned_android_gateway",
+  "owner_names_requested": false,
+  "verification_may_not_be_invented": true,
+  "specific_artifact_release_GO_verified": false,
+  "live_recipient_or_message_selected": false
+}

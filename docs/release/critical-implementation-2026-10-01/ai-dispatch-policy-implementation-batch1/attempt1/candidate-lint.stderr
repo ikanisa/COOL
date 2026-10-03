@@ -1,0 +1,62 @@
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:113:19
+    | 
+113 |     authenticate: async () => ({ id: actor }),
+    |                   ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:122:12
+    | 
+122 |     fetch: async (url, init) => {
+    |            ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:165:10
+    | 
+165 |     rpc: async (name, args) => {
+    |          ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:425:21
+    | 
+425 |       authenticate: async () => ({ id: actor }),
+    |                     ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:433:14
+    | 
+433 |       fetch: async () => {
+    |              ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+error[require-await]: Async arrow function has no 'await' expression or 'await using' declaration.
+   --> /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/ai-dispatch-policy-implementation-batch1/candidate/source/supabase/functions/_shared/roster_decoder_integration_test.ts:437:12
+    | 
+437 |       rpc: async (name, args) => {
+    |            ^^^^^
+    = hint: Remove 'async' keyword from the function or use 'await' expression or 'await using' declaration inside.
+
+  docs: https://docs.deno.com/lint/rules/require-await
+
+
+Found 6 problems
+Checked 7 files

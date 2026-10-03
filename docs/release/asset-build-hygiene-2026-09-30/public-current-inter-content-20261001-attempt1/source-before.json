@@ -1,0 +1,21 @@
+{
+  "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "0bd98a4a669d4d5874822d9b86f5f8170f879ea8ccd9a1a317689df7cbb2d78f",
+  "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "content/legal/collect_delete_account.yaml": "c9dc4b93794c319151ae320bdae854abf19977784056e8b3520089db0828dbf1",
+  "content/legal/collect_legal_pages_bundle.yaml": "b358ae43034bef4fbb55f74e411f3b38a3b2fc55b739d542229f6e65f83b5f51",
+  "content/legal/collect_privacy_policy.yaml": "f9b8bf803b63e7e2dd648dfd3520a5821097da79e2a1a73d726ace78f2913e20",
+  "content/legal/collect_terms_of_use.yaml": "bcb7cd3d0702c9d99d307d858a951f9c8fce65d00e1b8dcc835497a0a479dd4e",
+  "docs/PRODUCT.md": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+  "docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+  "docs/release/public-website-content-baseline.json": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+  "scripts/public_photography.rb": "b70d428ba815ccabae774ad5f6a88b2fc24fd16d26a28e4c79ecd92ab7a5e2da",
+  "scripts/public_static_site_build.rb": "d0326289f1c374dcd7456d9517ad263a037de8e8adebe9fb0f013d6e49472ace",
+  "scripts/public_website_quality_gate.sh": "e74b7fa2dd9839ea54b75635c81ad48d7cccb38a58faddc56bee938964f4fa36",
+  "scripts/qa/public_content_contract.rb": "31b30f93a71a12cc6852450a23a0257d71f36f69d04e7a512520864841e72235",
+  "scripts/qa/public_static_routes.rb": "4b430a62b8993953f116251fae33a6cf22497cda959f5b07a1651ef79d99cd51",
+  "web/public/app-screens/capture-provenance.json": "5aedb3590646d06aaca2d8b14b97fdf11ebb81743a620cf32531bcbd70a3321f",
+  "web/public/app-screens/manifest.json": "0605f70c2863f804d44e8591eb55b548ab2313f5d4beea214ee392c456601b03",
+  "web/public/revolut.css": "80fa3251c493329c85e1382b07747864b34b6d57abf2b70b76a18b4c90fdf406"
+}

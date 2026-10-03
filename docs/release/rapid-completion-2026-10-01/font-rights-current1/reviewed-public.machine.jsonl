@@ -1,0 +1,15 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":35295,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":1,"time":2,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2245}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":2248}
+{"test":{"id":3,"name":"(setUpAll)","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":24,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"},"type":"testStart","time":2248}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2271}
+{"test":{"id":4,"name":"historical golden manifest covers every baseline exactly","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":55,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"},"type":"testStart","time":2272}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2318}
+{"test":{"id":5,"name":"public website compares historical desktop baseline (variant: TargetPlatform.android)","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":144,"root_column":3,"root_url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"},"type":"testStart","time":2319}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3237}
+{"test":{"id":6,"name":"(tearDownAll)","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":37,"column":3,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-font-rights-current1/test/goldens/collect_core_surfaces_golden_test.dart"},"type":"testStart","time":3237}
+{"testID":6,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":3239}
+{"success":true,"type":"done","time":3250}

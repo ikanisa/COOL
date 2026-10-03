@@ -1,0 +1,31 @@
+--- docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/current_browser_lifecycle.continuation4.mjs	2026-10-01 15:54:30
++++ scripts/qa/current_browser_lifecycle.mjs	2026-10-01 15:56:25
+@@ -285,14 +285,14 @@
+     '/admin/notifications/:id': [readFailure, 'unavailable-read'],
+     '/admin/audit-logs': ['No audit logs', 'empty'],
+     '/admin/audit-logs/entity/:kind/:id': ['Action history service unavailable', 'unavailable-read'],
+-    '/admin/settings': ['No settings', 'empty'],
+-    '/admin/feature-flags': ['No feature flags', 'empty'],
++    '/admin/settings': ['Permission required: settings.read', 'missing-permission-denied'],
++    '/admin/feature-flags': ['Permission required: feature_flags.read', 'missing-permission-denied'],
+     '/admin/system-health': [readFailure, 'unavailable-read'],
+     '/admin/automations': ['Receipt operations policy service is unavailable.', 'unavailable-policy'],
+     '/admin/sms-gateway': ['Gateway read failed', 'invalid-synthetic-read-refused'],
+     '/admin/exceptions': ['Exception read failed', 'invalid-synthetic-read-refused'],
+-    '/admin/admin-users': ['No admin users', 'empty'],
+-    '/admin/admin-users/:id': [readFailure, 'unavailable-read'],
++    '/admin/admin-users': ['Permission required: admin_users.read', 'missing-permission-denied'],
++    '/admin/admin-users/:id': ['Permission required: admin_users.read', 'missing-permission-denied'],
+   };
+   check('current-route-contract-covers-declared28', declaredRoutes.length === 28
+     && JSON.stringify([...declaredRoutes].sort()) === JSON.stringify(Object.keys(routeStates).sort()));
+@@ -324,6 +324,9 @@
+     await page.waitForFunction(value => decodeURIComponent(location.hash.slice(1)) === decodeURIComponent(value), path);
+     await visible(page, expected);
+     check('authenticated-route:' + pattern, noCredentials(await storage(page)), { state, expected });
++    if (state === 'missing-permission-denied') {
++      check('denied-route-dispatches-no-private-rpc:' + pattern, fixture.calls.length === beforeCalls);
++    }
+     report.route_states.push({ pattern, authority: 'authenticated-email-owner', actual_path: new URL(page.url()).hash,
+       state, expected, calls: fixture.calls.slice(beforeCalls).map(value => value.action), status: 'pass' });
+     if (['/admin/sms-gateway', '/admin/exceptions', '/admin/automations', '/admin/audit-logs/entity/:kind/:id'].includes(pattern)) {

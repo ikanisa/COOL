@@ -249,9 +249,6 @@ void main() {
     await (FontLoader(
       'Inter',
     )..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'))).load();
-    await (FontLoader('Aeonik Pro')
-          ..addFont(rootBundle.load('assets/typefaces/AeonikPro-Regular.ttf')))
-        .load();
     await (FontLoader(
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();

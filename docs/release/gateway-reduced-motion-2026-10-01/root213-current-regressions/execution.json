@@ -1,0 +1,114 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-git-init",
+      "parent_exit_confirmed": true,
+      "process_group": 21156,
+      "seconds": 0.134,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "-f",
+        "--pathspec-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/gateway-reduced-motion-2026-10-01/root213-current-regressions/declared-paths.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "export-index",
+      "parent_exit_confirmed": true,
+      "process_group": 21161,
+      "seconds": 9.598,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 21646,
+      "seconds": 0.448,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 21678,
+      "seconds": 2.49,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_app.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart",
+        "third_party/gotrue/test/client_test.dart",
+        "third_party/gotrue/test/get_claims_test.dart",
+        "test/supabase_contract_test.dart"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "format-changed",
+      "parent_exit_confirmed": true,
+      "process_group": 21790,
+      "seconds": 0.133,
+      "sha256": "630fcbbeb52ca32769c7e608d30cac561a9df94ba05bd27270040c86cbab7573",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=expanded",
+        "--plain-name",
+        "JWT helper functions",
+        "third_party/gotrue/test/get_claims_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 0,
+      "name": "unsigned-claim-parser-fixtures",
+      "parent_exit_confirmed": true,
+      "process_group": 21795,
+      "seconds": 11.309,
+      "sha256": "bef9a0a8580f3db5a0d980a45ac4ed0761cee7cd99668a4236e1ab7401f9b89a",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "status": "running"
+}

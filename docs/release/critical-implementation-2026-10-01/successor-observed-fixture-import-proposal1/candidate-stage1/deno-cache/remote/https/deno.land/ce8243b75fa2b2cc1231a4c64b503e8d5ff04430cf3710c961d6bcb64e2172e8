@@ -1,0 +1,22 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+
+/**
+ * Error thrown when an assertion fails.
+ *
+ * @example
+ * ```ts
+ * import { AssertionError } from "https://deno.land/std@$STD_VERSION/assert/assertion_error.ts";
+ *
+ * throw new AssertionError("Assertion failed");
+ * ```
+ */
+export class AssertionError extends Error {
+  /** Constructs a new instance. */
+  constructor(message: string) {
+    super(message);
+    this.name = "AssertionError";
+  }
+}
+
+// denoCacheMetadata={"headers":{"last-modified":"Thu, 27 Aug 2026 16:21:31 GMT","strict-transport-security":"max-age=63072000; includeSubDomains; preload","cross-origin-opener-policy":"same-origin","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Dxms8kRTdZblASrKr979aJ%2","server":"cloudflare,deployd","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","access-control-allow-headers":"*","server-timing":"fetchSource;dur=30","x-deno-trace-id":"aa8edca842b6c98775e7cddf57265158","x-content-type-options":"nosniff","age":"293294","date":"Thu, 01 Oct 2026 00:05:38 GMT","cache-control":"public, max-age=31536000, immutable","content-length":"517","etag":"\"11dcaa743fad8a3fd04dbddd7ffa1f38\"","x-frame-options":"DENY","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","cf-ray":"a4373784182399d3-AMS","access-control-allow-methods":"GET, HEAD","content-type":"application/typescript; charset=utf-8","cache-status":"deno; hit","access-control-allow-origin":"*","cross-origin-embedder-policy":"same-origin","referrer-policy":"strict-origin-when-cross-origin","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","accept-ranges":"bytes","cross-origin-resource-policy":"same-origin","cf-cache-status":"HIT"},"url":"https://deno.land/std@0.224.0/assert/assertion_error.ts","time":1790910997}

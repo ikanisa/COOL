@@ -1,0 +1,45 @@
+{
+  "id": "BE13-L04-ai-dispatch-policy-review-batch1",
+  "sealed_at": "2026-10-02T01:46:10.898285+00:00",
+  "status": "READ_ONLY_PROPOSAL_COMPLETE_IMPLEMENTATION_AND_ACCEPTANCE_OPEN",
+  "current_source_inputs": 32,
+  "original_investigation_all_inputs_unchanged": false,
+  "root_owned_doc_delta_count": 1,
+  "current_reconciled_inputs_stable": true,
+  "current_source_readback_sha256": "7c5e21548239194f9015f91eceba94062b0d8491cc81bec48fbc69e3f7e95b79",
+  "evidence_index": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-review-batch1/evidence-index.json",
+    "sha256": "cdfece9f2ec37e7fcab797072b3266ba2c7e264ed4dc1eb7bdd498e93fde0a3b",
+    "indexed_leaves": 46
+  },
+  "report": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-review-batch1/README.md",
+    "sha256": "393aa9c23fd40cc1cbf7cc942112bd2fef68ca0585978ce782a275822b387ea3"
+  },
+  "proposal": {
+    "path": "docs/release/critical-implementation-2026-10-01/ai-dispatch-policy-review-batch1/proposal.json",
+    "sha256": "15d7444f5e85b4a9dabf7cf6502ea40eb46f285e8e27e6cd42bf55d0faf185d5"
+  },
+  "proposed_schema_sha256": "07e8c38ad0d0720350d8afc2a3fe52282dcf7b097ee4405a4278f362df236d37",
+  "planned_scenario_groups": 23,
+  "new_policy_tests_run": false,
+  "guard_implemented": false,
+  "selected_owner_policy_values": false,
+  "source_mutations_by_this_agent": [],
+  "provider_calls": 0,
+  "database_calls": 0,
+  "Admin_gateway_writes": false,
+  "prior_packets_preserved": true,
+  "approval_acceptance": false,
+  "whole_BE13_closed": false,
+  "production_acceptance": false,
+  "remaining": [
+    "root review of schema and explicit preflight/replay placement",
+    "scoped guard implementation and real old-source denial proof after Edge freeze",
+    "actual owner/vendor processor/project/region/retention record",
+    "immutable per-attempt policy lineage",
+    "governed config provisioning/current readback",
+    "deterministic decoder/retention/Admin disclosure/evaluation gates",
+    "complete BE13 and production readiness"
+  ]
+}

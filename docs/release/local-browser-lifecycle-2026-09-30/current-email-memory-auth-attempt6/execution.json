@@ -1,0 +1,46 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt172-current-browser",
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt136/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt172-current-browser",
+      "exit_code": 0,
+      "elapsed_seconds": 2.26,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "actual-current-browser",
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-attempt6"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 1,
+      "elapsed_seconds": 138.43,
+      "stdout_sha256": "69048e530475f6b866f4d1d22986d1971080fdfa129901dcc5f31a4adfb9349a",
+      "stderr_sha256": "6d3a5587d0a4e44981e0d3ef0e87b86e47cbfb5a2d4a584fc1c2c310267d42a1"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "status": "passed_scoped_backend_and_actual_strict_decoder; connected_UI_owned_and_sealed_separately_by_root",
+  "main": {
+    "path": "sql-attempt14/result.json",
+    "checks": 67,
+    "command_receipts": 201,
+    "migration_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+    "all_passed": true,
+    "source_unchanged": true
+  },
+  "freshness": {
+    "path": "freshness-tail6/result.json",
+    "checks": 3,
+    "command_receipts": 29,
+    "migration_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+    "all_passed": true,
+    "inputs_unchanged": true
+  },
+  "decoder_boundaries": {
+    "path": "admin/brace-tail/boundaries-retry-result.json",
+    "count": 56,
+    "source_sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+    "actual_SQL_fixture_claim": false
+  },
+  "decoder_analysis": {
+    "path": "admin/brace-tail/analysis.stdout",
+    "exit_code": 0
+  },
+  "fixtures": {
+    "path": "sql-attempt14/observations/fixture-index.json",
+    "groups": {
+      "telemetry": 13,
+      "exception_inbox": 1,
+      "workflow": 6
+    }
+  },
+  "actual_SQL_decoder_widget_proof_owner": "root under separate receipt-telemetry-ui-20261002 stage",
+  "hosted_written": false,
+  "real_SMS_sent": false,
+  "physical_device_proof": false,
+  "source_scope": "192 selected prerequisite source checkpoint restore plus300; not complete current candidate",
+  "check_counts_not_added_to_prior_unrelated_63": true,
+  "actual_SQL_decoder": {
+    "owner": "root",
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt2/result.json",
+    "retained_reference": "root-proof-references/association.json",
+    "actual_checks": 84,
+    "includes_boundaries": 56,
+    "boundaries_not_added_again": true,
+    "exit_code": 0,
+    "frozen_inputs_unchanged": 1468
+  }
+}

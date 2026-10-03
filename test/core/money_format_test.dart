@@ -2,6 +2,16 @@ import 'package:collect_app/core/utils/money_format.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  for (final locale in [null, 'en', 'fr', 'rw']) {
+    test('exact maximum preserves all integer digits in locale $locale', () {
+      final positive = formatRwf(9007199254740991, localeName: locale);
+      final negative = formatRwf(-9007199254740991, localeName: locale);
+      expect(positive.replaceAll(RegExp(r'\D'), ''), '9007199254740991');
+      expect(negative.replaceAll(RegExp(r'\D'), ''), '9007199254740991');
+      expect(negative, contains('-'));
+      expect(positive, contains('RWF'));
+    });
+  }
   test('formats whole Rwanda francs', () {
     expect(formatRwf(0), 'RWF 0');
     expect(formatRwf(5000), 'RWF 5,000');

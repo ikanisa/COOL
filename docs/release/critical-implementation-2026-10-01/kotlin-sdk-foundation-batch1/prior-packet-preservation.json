@@ -1,0 +1,53 @@
+{
+  "observed_utc": "2026-10-02T00:01:45.097031+00:00",
+  "owned_repository_inputs": {
+    "android/app/build.gradle.kts": {
+      "expected_sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+      "observed_sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df"
+    },
+    "android/app/gradle.lockfile": {
+      "expected_sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+      "observed_sha256": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29"
+    },
+    "android/settings.gradle.kts": {
+      "expected_sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+      "observed_sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "scripts/supply_chain/verify_file_saver_fork.py": {
+      "expected_sha256": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+      "observed_sha256": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26"
+    },
+    "scripts/tests/file_saver_fork_provenance_test.py": {
+      "expected_sha256": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+      "observed_sha256": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d"
+    },
+    "third_party/file_saver/COLLECT_FORK.md": {
+      "expected_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+      "observed_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7"
+    },
+    "third_party/file_saver/COLLECT_FORK_DELTA.json": {
+      "expected_sha256": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+      "observed_sha256": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9"
+    },
+    "third_party/file_saver/android/build.gradle": {
+      "expected_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4",
+      "observed_sha256": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+    }
+  },
+  "passed": true,
+  "scope": "Read-only prior sealed evidence/pin/lock preservation observation. Independent changes elsewhere are outside this task and do not imply current whole-repo/native acceptance.",
+  "sealed_packets": {
+    "kotlin-dependency-batch1": {
+      "leaf_count": 83,
+      "mismatches": [],
+      "packet_manifest_sha256": "f46174a0d5f8090ab8965341f8b9e498a7ffd98e3e06d947bbc8bf22b604db14",
+      "passed": true
+    },
+    "kotlin-sdk-candidate-plan1": {
+      "leaf_count": 20,
+      "mismatches": [],
+      "packet_manifest_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+      "passed": true
+    }
+  }
+}

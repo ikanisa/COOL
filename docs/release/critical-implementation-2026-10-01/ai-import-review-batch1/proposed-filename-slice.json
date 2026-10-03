@@ -1,0 +1,77 @@
+{
+  "status": "proposed_only_not_applied",
+  "criterion": "BE13-L03 outbound PDF filename minimization only",
+  "root_authorization_required_before_source_mutation": true,
+  "candidate_source": "supabase/functions/_shared/openai_roster.ts",
+  "current_sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780",
+  "proposed_sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c",
+  "patch_sha256": "6bd0cc783b378bc747ca8cd24f4404b91d0cc94602a5ebba18e6ff45aa7dbf57",
+  "compatibility": "Five positional arguments retained. Rename unused implementation parameter only. PDF bytes/MIME/model/schema/store:false/instructions/output ceiling unchanged; image branch unchanged. Original display filename remains existing internal SQL/source receipt only.",
+  "current_inputs": [
+    {
+      "path": "supabase/functions/_shared/openai_roster.ts",
+      "sha256": "817b634bf834c76b3fcdf9eb301f035f35187723416650306bedd6bde8bba780"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "sha256": "59f0cf6bc5eaba50a7374ad7e0f1b726089586abb06615721db37a4a4f3e104a"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "sha256": "964264c15f33e6d6e798888904379f61eea871d80ff6fc3cd3d3b51104b9109f"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "sha256": "3d4ae62d9f1b100d203d3689c8a92671726560f6839b21ba50a7ce2fe297c247"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation_test.ts",
+      "sha256": "9a54780e2eee862191c8818c17e75008d97bc88bcaadb9452ef0026c88c53075"
+    }
+  ],
+  "affected_callers": [
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "line": 484,
+      "purpose": "Production handler, preserve internal source filename/hash while outbound constant"
+    },
+    {
+      "path": "supabase/functions/_shared/openai_roster_test.ts",
+      "line": 12,
+      "purpose": "Request schema/store/tool-free helper test"
+    },
+    {
+      "path": "scripts/tests/roster_extraction_evaluation.ts",
+      "line": 178,
+      "purpose": "Synthetic evaluation request probe"
+    }
+  ],
+  "targeted_existing_assertion": {
+    "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+    "line": 983,
+    "before": "Expects outbound filename fixture.pdf",
+    "after_proposed": "Expects outbound filename collect-roster.pdf and verifies actual source RPC still stores fixture.pdf and original SHA/size"
+  },
+  "meaningful_new_cases": [
+    "Two distinct synthetic identifying/adversarial filenames produce the same exact PDF request with fixed collect-roster.pdf; original strings absent from serialized outbound JSON",
+    "Exact PDF data URI/model/MIME/schema/store:false/no-tools/developer contract/output ceiling unaffected",
+    "Two image display filenames produce identical unchanged high-detail image data-URI requests with no filename field",
+    "Real synthetic handler path preserves source metadata internally while the mocked outbound provider receives no identifying filename; request/replay/consent controls retained"
+  ],
+  "proposed_validation": [
+    "Read exact before-after source hash cohort for helper, actual handler callers, affected tests and local toolchain",
+    "Existing openai_roster/roster_response_policy/prepare-roster-import handler tests plus added request and handler negatives using current maintained pinned Deno fixture",
+    "Affected Deno check/lint and extraction evaluator tests; no provider calls/compiled app rebuild"
+  ],
+  "excluded": [
+    "Admin UI/dialog and legal YAML",
+    "processor/region/model/retention/quota selection",
+    "provider configuration or network calls",
+    "SQL retention policy/migrations",
+    "existing sealed packets/canonical registers"
+  ]
+}

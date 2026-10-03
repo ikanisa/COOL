@@ -1,0 +1,29 @@
+{
+  "status": "partial_pass",
+  "sequence_elapsed_seconds": 565.38,
+  "gateway_release_assemble_pass": true,
+  "gateway_release_lint_pass": true,
+  "lint_errors": 0,
+  "lint_warnings": 40,
+  "both_gateway_notification_plugins_absent": true,
+  "firebase_core_retained": true,
+  "non_gateway_registrant_byte_identical": true,
+  "tool_main_registrant_unchanged": true,
+  "post_notifications_absent": true,
+  "aeonik_absent": true,
+  "inter_font_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "qa_marker": {
+    "kind": "local_unsigned_native_qa",
+    "store_acceptance": false,
+    "provider_configuration": false,
+    "signing": false
+  },
+  "apk_unsigned_verified": true,
+  "apk": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-gateway-notification-attempt173/app-internal_gateway-release-unsigned.apk",
+    "sha256": "7a66f1b847ec36ab3f34db98b48c993073fedfadb6e08863633000be2fe4423d",
+    "bytes": 82297842
+  },
+  "jvm_stage_failure": "Debug asset merge consumed flavor-wide QA marker without preDebug marker dependency; tests did not run. Exact marker ordering-only correction and Debug JVM continuation follow separately.",
+  "scope": "Current frozen root-source overlay173 Release artifact/lint/dependency/registrant/font checks. Sequence remains failed; no whole-repository or physical-device/store/provider acceptance."
+}

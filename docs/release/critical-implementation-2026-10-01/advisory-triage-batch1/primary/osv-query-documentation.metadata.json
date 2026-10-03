@@ -1,0 +1,20 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:52 GMT",
+    "ETag": "\"6abdf725-80b4\"",
+    "Last-Modified": "Thu, 01 Oct 2026 06:01:09 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://google.github.io/osv.dev/post-v1-query/",
+  "requested_at": "2026-10-01T21:22:51.278696+00:00",
+  "response_bytes": 32948,
+  "response_path": "primary/osv-query-documentation.response",
+  "response_sha256": "ab441f76eed83ede14299cffffbad5fc1d7e3dbe6a827e441625b0aebf738f91",
+  "response_url": "https://google.github.io/osv.dev/post-v1-query/",
+  "retrieved_at": "2026-10-01T21:22:53.587806+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

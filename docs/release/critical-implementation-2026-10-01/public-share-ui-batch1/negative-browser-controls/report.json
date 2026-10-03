@@ -1,0 +1,197 @@
+{
+  "status": "pass",
+  "scope": "Eight real isolated browser negative controls replay old source CSS/copy to prove both defect guards reject those original behaviors at four viewports. These original PNGs are unmodified test pixels and cannot be published or treated as accepted UI. No complete current-source media/native/provider/hosted/store/release acceptance.",
+  "source_before": {
+    "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative_browser_controls.mjs": "0d84a5119bbc471aec8cafa85c5ab650bd837fd97908cdf0afc5a82cb87cfe72",
+    "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/source-before/web/public/revolut.css": "919f09f7161b516e951ba6ec52880567526efd751eb7ae9569cbde52b3442961",
+    ".cache/public-static-current-20261002-batch2-attempt1/app/index.html": "9a8a7671ebb86b5de04e604d180714e0a7e4198fbbce5d5fbe88c470342a8f0d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_local_network.cjs": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3"
+  },
+  "source_after": {
+    "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative_browser_controls.mjs": "0d84a5119bbc471aec8cafa85c5ab650bd837fd97908cdf0afc5a82cb87cfe72",
+    "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/source-before/web/public/revolut.css": "919f09f7161b516e951ba6ec52880567526efd751eb7ae9569cbde52b3442961",
+    ".cache/public-static-current-20261002-batch2-attempt1/app/index.html": "9a8a7671ebb86b5de04e604d180714e0a7e4198fbbce5d5fbe88c470342a8f0d",
+    "scripts/qa/collect_diagnostic_observer.mjs": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+    "scripts/qa/public_browser_local_network.cjs": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3"
+  },
+  "blockedNetworkRequests": [],
+  "results": [
+    {
+      "mutation": "old-disabled-cascade",
+      "viewport": "compact_320x740",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "default",
+        "disabled": true,
+        "href": null,
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-disabled-cascade_compact_320x740.png",
+      "screenshotSha256": "7ac3960710e8e5c1a5cb9ae4f9fa8c4c430f969539f2bc5ab2b86867aa6eb6e5",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-disabled-cascade",
+      "viewport": "mobile_390x844",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "default",
+        "disabled": true,
+        "href": null,
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-disabled-cascade_mobile_390x844.png",
+      "screenshotSha256": "a8ae084c44f15ff56cee651922f8aeb6006b45dd213807201868843782391159",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-disabled-cascade",
+      "viewport": "tablet_834x1194",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "default",
+        "disabled": true,
+        "href": null,
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-disabled-cascade_tablet_834x1194.png",
+      "screenshotSha256": "bff48179e44b919b997bd16bddab017f304cce83a24c406dcae21815723550c1",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-disabled-cascade",
+      "viewport": "desktop_1440x1000",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "default",
+        "disabled": true,
+        "href": null,
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-disabled-cascade_desktop_1440x1000.png",
+      "screenshotSha256": "44cbf9d1bdbeb2e9ca40fc933f7507ea673e885e2426d05d75e294229386fe62",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-generic-app-copy",
+      "viewport": "compact_320x740",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "pointer",
+        "disabled": false,
+        "href": "collect://app",
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-generic-app-copy_compact_320x740.png",
+      "screenshotSha256": "eb70636292144c99bda841ae47369f8610610a38fba258aa6f733850444e5960",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-generic-app-copy",
+      "viewport": "mobile_390x844",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "pointer",
+        "disabled": false,
+        "href": "collect://app",
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-generic-app-copy_mobile_390x844.png",
+      "screenshotSha256": "2726f2e9699404073ddc6f4c655083b394e601c5388485db9e5e97ca7fa782a5",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-generic-app-copy",
+      "viewport": "tablet_834x1194",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "pointer",
+        "disabled": false,
+        "href": "collect://app",
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-generic-app-copy_tablet_834x1194.png",
+      "screenshotSha256": "7adf226d7b305ba722941ed9e91bad25ff48d0e30fa24a17c8670b7bf2cbe669",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    },
+    {
+      "mutation": "old-generic-app-copy",
+      "viewport": "desktop_1440x1000",
+      "expectedRejected": true,
+      "actualRejected": true,
+      "metrics": {
+        "background": "rgb(255, 255, 255)",
+        "foreground": "rgb(25, 28, 31)",
+        "cursor": "pointer",
+        "disabled": false,
+        "href": "collect://app",
+        "cardLabel": "COLLECT GROUP LINK",
+        "helpHeading": "A link that survives onboarding",
+        "helpText": "\n      \n        A link that survives onboarding\n      \n      \n        Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current.\n        Having a link does not expose payment credentials or confirm a payment.\n      \n    "
+      },
+      "consolePageErrors": [],
+      "diagnosticFailures": [],
+      "screenshot": "docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/negative-browser-controls/old-generic-app-copy_desktop_1440x1000.png",
+      "screenshotSha256": "c750426bd50361f75fbce7a1d5bbd39f7b7d6673319447a47237728ce64223d9",
+      "negativeControlOnly": true,
+      "publicationReviewAllowed": false
+    }
+  ]
+}

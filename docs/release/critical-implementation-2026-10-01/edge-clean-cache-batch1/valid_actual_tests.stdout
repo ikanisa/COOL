@@ -1,0 +1,7 @@
+running 3 tests from ./supabase/functions/_shared/apns_test.ts
+APNs JWT contains the configured key, team, and issued-at claims ... ok (5ms)
+APNs sender emits a bounded alert payload and classifies retry ... ok (12ms)
+APNs retry floors follow 15-minute 5xx and throttled-token policy ... ok (2ms)
+
+ok | 3 passed | 0 failed (24ms)
+

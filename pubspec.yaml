@@ -76,12 +76,12 @@ flutter:
   licenses:
     - assets/typefaces/OFL-Inter.txt
   fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/typefaces/Inter-Variable.ttf
     - family: Aeonik Pro
       fonts:
         - asset: assets/typefaces/AeonikPro-Regular.ttf
           weight: 400
         - asset: assets/typefaces/AeonikPro-Medium.ttf
           weight: 500
-    - family: Inter
-      fonts:
-        - asset: assets/typefaces/Inter-Variable.ttf

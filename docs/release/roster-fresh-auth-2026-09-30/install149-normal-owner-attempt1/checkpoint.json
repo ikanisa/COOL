@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/install149-normal-owner-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "31964642ebacc0a343f4d48058c41ce8ef35e098faf689bfe749f673d6cfd357",
+  "executed_sql_sha256": "fdb1b323ac4ca4ee31b67cfae08f700af69cc2011de904b1a1f72f651949bccb",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+  "reviewed_source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T18:00:16.110922+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

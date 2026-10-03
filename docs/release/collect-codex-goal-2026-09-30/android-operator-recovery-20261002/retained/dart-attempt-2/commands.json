@@ -1,0 +1,44 @@
+[
+  {
+    "name": "widgets",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--reporter",
+      "expanded",
+      "test/gateway/gateway_recovery_test.dart",
+      "test/gateway/gateway_safety_test.dart",
+      "test/gateway/gateway_local_dispatch_test.dart",
+      "test/gateway/gateway_enrollment_lifecycle_test.dart"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+    "status": "terminal",
+    "pid": 41737,
+    "exit_code": 1,
+    "owned_child_reaped": true,
+    "wall_seconds": 0.23339266600123665,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "3bb5dc775680acd55dd2c9ffd4ba7249f6c3e51643fd6ca7c91b0c81675748c3"
+  },
+  {
+    "name": "analysis",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "analyze",
+      "--no-pub",
+      "lib/gateway/gateway_app.dart",
+      "lib/gateway/gateway_recovery_page.dart",
+      "lib/gateway/gateway_recovery_platform.dart",
+      "test/gateway/gateway_recovery_test.dart"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-recovery-operator-workflow-20261001/dart-workspace-1",
+    "status": "terminal",
+    "pid": 41766,
+    "exit_code": 1,
+    "owned_child_reaped": true,
+    "wall_seconds": 7.750488041001518,
+    "stdout_sha256": "78b41b93d695e6be2da0740055009082d8f4c6d0b4beabc0ab4fcba288f6cf29",
+    "stderr_sha256": "8ac4fcd08d316b494ba8241e10e56db4b4cc11450a6d00ec15966eb1dba28c94"
+  }
+]

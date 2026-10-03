@@ -11,6 +11,7 @@ final memberHistoryProvider = StateNotifierProvider.autoDispose
       ref.watch(
         collectRepositoryProvider.select(
           (state) => (
+            repository.sessionGeneration,
             state.currentProfile?.id,
             state.lastSuccessfulSyncAt,
             state.usingStaleCache,
@@ -31,9 +32,13 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
   MemberHistoryController(this.repository, this.query)
     : _ownerProfileId = repository.state.currentProfile?.id,
       _ownerAuthId = repository._supabase?.auth.currentUser?.id,
+      _ownerSession = repository._captureSession(),
       super(const MemberHistoryState()) {
     final initial = repository.state.historyPage;
-    if (!repository.isLive && initial == null) {
+    if (repository._allowLocalWrites &&
+        !repository.isLive &&
+        !repository.state.usingStaleCache &&
+        initial == null) {
       state = MemberHistoryState(page: repository.localHistoryPage(query));
     } else if (query.isDefault && initial != null) {
       state = MemberHistoryState(page: initial);
@@ -51,6 +56,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
   final MemberHistoryQuery query;
   final String? _ownerProfileId;
   final String? _ownerAuthId;
+  final _CollectSessionFence _ownerSession;
   int _generation = 0;
   Timer? _debounce;
   bool _refreshing = false;
@@ -58,7 +64,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
 
   bool _contextCurrent() {
     if (!mounted) return false;
-    if (!repository.mounted ||
+    if (!repository._isCurrentSession(_ownerSession) ||
         repository.state.currentProfile?.id != _ownerProfileId ||
         repository._supabase?.auth.currentUser?.id != _ownerAuthId) {
       ++_generation;

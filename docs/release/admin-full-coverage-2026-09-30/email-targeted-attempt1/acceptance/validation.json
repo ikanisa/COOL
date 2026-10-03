@@ -1,0 +1,153 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 482,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 57707,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.504,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "--dart-define=COLLECT_CAPTURE_OPERATIONS=true",
+        "test/admin_email_login_test.dart",
+        "test/admin_email_transport_session_test.dart",
+        "test/admin_login_recovery_test.dart",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 57737,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 140.554,
+      "sha256": "ebbdd413df0f096f3998936cd8753c8f4e12819e4bb256e797ecc41bdcc41e6d"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_email_login_test.dart",
+        "test/admin_email_transport_session_test.dart",
+        "test/admin_login_recovery_test.dart"
+      ],
+      "exit_code": 2,
+      "timed_out": false,
+      "process_group": 66641,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 6.285,
+      "sha256": "b8ffa43cf4e9cbbb6e822d2b6d7a3b905d5546f7fffc7c53c2583180f4504972"
+    }
+  ],
+  "test_files": [
+    "test/admin_email_login_test.dart",
+    "test/admin_email_transport_session_test.dart",
+    "test/admin_login_recovery_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": null,
+  "skipped_test_count": 0,
+  "analysis_clean": false,
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 22,
+    "failed": 4,
+    "errors": 8,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "locked SDK email loopback request is one normalized POST without account creation",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback verification pins new session Bearer for exact current identity",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback request HTTP400 fails once without implicit reissue",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback request HTTP429 fails once without implicit reissue",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback request HTTP503 fails once without implicit reissue",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback request partial response loss stays uncertain until an explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback verification partial response loss stays uncertain until an explicit caller",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback confirmed email without enrolled identity returns no approval",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback replacement while identity is pending respects exact session scope",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback A-B-A while identity is pending respects exact session scope",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback logout while identity is pending respects exact session scope",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      },
+      {
+        "name": "locked SDK email loopback same-session-refresh while identity is pending respects exact session scope",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/test/admin_email_transport_session_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "test_gate_passed": false,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": true,
+  "scope": "actual locally installed Supabase SDK; synthetic MockClient HTTP and Auth records",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "a3392e469b9a6f935960f1d5238032fb08c189a540a75508306682a7962b425a",
+  "source_before_sha256": "be360662c2434d59962562a17135d33b4c5f458229dd673af84e485866e98ff5",
+  "source_after_sha256": "be360662c2434d59962562a17135d33b4c5f458229dd673af84e485866e98ff5"
+}

@@ -1,0 +1,8 @@
+{
+  "version": "0.20.0",
+  "schema_valid": true,
+  "response_indexes": [
+    "CREATE INDEX _http_response_created_idx ON net._http_response USING btree (created)",
+    "CREATE INDEX collect_receipt_http_response_id ON net._http_response USING btree (id)"
+  ]
+}

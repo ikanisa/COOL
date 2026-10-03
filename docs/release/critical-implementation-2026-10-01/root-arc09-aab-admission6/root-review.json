@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-02T13:34:45.642456+00:00",
+  "status": "PASS",
+  "driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "admission_sha256": "d3162320e906ebb4952ea71566829dbb9e830b408f0d3e103db358377ab79455",
+  "previous_review_sha256": "d20b9662add57ac191fab4f90d89011c8730ce46bd8e05b7a9ee08217c7d9b45",
+  "failed_stage5_readback_sha256": "e41e35b1243560f6d8fe35950272bbc286dea541b2393bace711bf66074ba32e",
+  "exact_configuration_metadata_resolution_sha256": "8721232daadb123a8e300ce9d7b18b370201adc46f9fb9c97bc79d126fa73c0c",
+  "publisher_JARs": {
+    "root-desugar-private-cache-admission1": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+    "root-desugar-configuration-private-cache-admission1": "5d770c1ba225c2cdf09086bf662954ae765ee481f901b02cd7b1dc3c8077c3f4"
+  },
+  "only_changed_build_input": "owned exact configuration2.1.4 rawJAR and repository cache registration",
+  "AAB_only": true,
+  "runtime_compile_graphs_reused": true,
+  "production_release_approval": false
+}

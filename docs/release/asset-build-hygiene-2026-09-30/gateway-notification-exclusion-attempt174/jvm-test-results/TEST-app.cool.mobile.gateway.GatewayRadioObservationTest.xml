@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.gateway.GatewayRadioObservationTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-01T12:10:48.640Z" hostname="Jeans-Mac-mini.local" time="0.009">
+  <properties/>
+  <testcase name="registrationStartsUnknownAndCurrentCallbackEstablishesReadiness" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.003"/>
+  <testcase name="expiredRadioEvidenceRequiresFreshRegistration" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.003"/>
+  <testcase name="invalidAndDefaultSentinelSubscriptionsNeverEnterTheGate" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.001"/>
+  <testcase name="switchedSubscriptionRefusesLateOldRadioState" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <testcase name="missingInitialCallbackTimesOutAndOldRegistrationCannotReply" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <testcase name="clockRollbackDoesNotTurnFutureStateIntoCurrentReadiness" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <testcase name="returningToSameSubscriptionDoesNotResurrectDepartedCallback" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <testcase name="outOfServiceCallbackClearsKnownReadiness" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <testcase name="permissionDepartureAndCloseClearEveryOldObservation" classname="app.cool.mobile.gateway.GatewayRadioObservationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

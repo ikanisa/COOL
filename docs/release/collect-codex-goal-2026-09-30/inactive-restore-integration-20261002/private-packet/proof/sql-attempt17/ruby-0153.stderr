@@ -1,0 +1,4 @@
+ERROR:  42501: permission denied for schema collect_recovery_restore
+LINE 1: SELECT *FROM collect_recovery_restore.stops;
+                     ^
+LOCATION:  aclcheck_error, aclchk.c:2843

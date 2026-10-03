@@ -1,0 +1,9 @@
+{
+  "scope": "Execute exact terminal stage23 bodies copied from reviewed proof while peer edits receipt policy; preserved manifest flags entire current acceptance false if any peer delta remains",
+  "required_history_input_drift": "Fails scoped history acceptance",
+  "peer_receipt_policy_drift": "Retained; no whole current-set or receipt-policy acceptance",
+  "baseline_first_page_sql_hashes_exact": true,
+  "deep_cursor_revision_specific": true,
+  "all_other_harness_input_drift_refused": true,
+  "shared_source_write": false
+}

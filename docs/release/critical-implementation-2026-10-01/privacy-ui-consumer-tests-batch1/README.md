@@ -1,0 +1,22 @@
+The production `/settings/account/delete` route passed 25 synthetic widget regressions on 2 October 2026 UTC. `attempt6/result.json` records 25 passes, zero failures, zero skips, zero analyzer issues and 358 identical source inputs before and after execution. `final-source-readback.json` independently confirms the same inputs and path set at sealing. No production defect was established by this packet.
+
+The fixture uses the actual router, production privacy providers, live SDK Auth subject, controller, strict HTTP transport and shared widgets. It replaces the financial repository with an explicitly synthetic fixture and intercepts every HTTP request with MockClient. It does not override the privacy controller or manufacture local success. SDK setup and cleanup run through the widget framework's real asynchronous boundary; there are no real provider, customer or network calls.
+
+The passing cases cover:
+
+- Own canonical server receipt recovery, pending loading, null status, fixed failed-status copy and signed-out denial.
+- Auth-phone masking and destination binding, existing-user WhatsApp OTP, obscured six-digit entry, incomplete-code refusal, actual same-owner session adoption and no profile/MoMo fallback.
+- Confirmation cancellation and dismissal, no request before explicit confirmation, delayed server-only receipt, and rejection of malformed success or erasure claims.
+- Unconfirmed submission, mandatory status observation before explicit retry, identical submission UUID/reason on retry, and canonical status recovery without another write.
+- Fixed OTP errors without raw credential/error text, server fresh-session refusal and mandatory renewed verification.
+- Configured CAPTCHA assistance with no editable backend token, disabled OTP, working help route and continued own-request recovery.
+- Account switch during pending verification, disposal before late verification, old receipt/draft isolation, and account switch while confirmation is open.
+- Actual scroll, OTP, confirmation cancellation and confirmed submission at 320 logical pixels with 3x text and a 260-pixel keyboard inset, in light, dark and both high-contrast themes. Semantics are active during these four flows.
+
+All six attempts remain intact. Attempts 1 and 2 were interrupted pending SDK/fake-clock fixture diagnostics and contain no acceptance claim; attempt 2 truthfully captures allowed parent source changes. Attempt 3 passed 20/25 and exposed offscreen lazy-list assumptions in the fixture. Attempt 4 retained the oversized top-scroll fixture error. Attempt 5 completed the enlarged-screen bodies but failed semantics-handle teardown timing. The final fixture uses bounded public scroll gestures and disposes the semantics handle in `finally`; expectations were preserved. `batch.json` gives each original result and digest. Failure logs and input digests are retained; final accepted source copies do not retrospectively claim to be each failed revision.
+
+`accepted-source/` contains the final test and selected exact consumers. The full 358-input inventory also binds all current Dart product files, privacy tests, local GoTrue libraries, package configuration, lock and font. `installed-sdk-post-run-readback.json` records the installed GoTrue, Supabase, Supabase Flutter and HTTP libraries after the run. External SDK files have post-run readback only; the 27 HTTP files independently equal the earlier sealed mechanics packet. The five mechanics files remain identical to that packet. Flutter/Dart identity is captured in `attempt6/command-0.log`.
+
+Run the maintained additive test with `flutter test --no-pub --timeout 45s test/features/privacy/privacy_request_screen_test.dart`; analyze it with `flutter analyze --no-pub test/features/privacy/privacy_request_screen_test.dart`. The local evidence runner retains version, analyzer, full JSON test output, exact before/after hashes and fail-closed completion metadata.
+
+This is synthetic route behavior and reflow evidence. It does not prove hosted migration application, provider-signed sessions, OTP delivery, device/browser behavior, contrast measurements, governed Revolut visual comparison, erasure, retention/hold approval, processor or backup deletion, production release approval, or full BE05 completion. CAPTCHA has no integrated solver in this version: assistance and disabled OTP remain required. The authoritative pending-review receipt explicitly says the account has not been deleted.

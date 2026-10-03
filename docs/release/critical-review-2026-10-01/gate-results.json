@@ -1,0 +1,74 @@
+{
+  "captured_utc": "2026-10-01T17:33:16.084682+00:00",
+  "results": [
+    {
+      "name": "design-authority",
+      "command": [
+        "python3",
+        "scripts/qa/revolut_design_authority.py",
+        "--json"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 70.44,
+      "status": "fail",
+      "failures": [
+        "competing_reference_declarations_present"
+      ]
+    },
+    {
+      "name": "source-integrity",
+      "command": [
+        "/bin/bash",
+        "scripts/source_integrity_gate.sh",
+        "--json"
+      ],
+      "status": "timeout",
+      "elapsed_seconds": 90
+    },
+    {
+      "name": "mobile-release",
+      "command": [
+        "/bin/bash",
+        "scripts/flutter_mobile_release_gate.sh",
+        "--json"
+      ],
+      "exit_code": 99,
+      "elapsed_seconds": 0.2,
+      "status": "blocked",
+      "blocker_keys": [
+        "android_release_artifacts",
+        "android_release_artifact_signatures",
+        "android_release_signing_review"
+      ]
+    },
+    {
+      "name": "ios-readiness",
+      "command": [
+        "/bin/bash",
+        "scripts/ios_app_store_readiness_gate.sh",
+        "--json"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 1.0,
+      "status": "fail",
+      "failures": [
+        "Expected 5 screenshots matching iphone65-*.png, found 1."
+      ]
+    },
+    {
+      "name": "approval-evidence",
+      "command": [
+        "/bin/bash",
+        "scripts/release_approval_evidence_gate.sh",
+        "--json"
+      ],
+      "exit_code": 99,
+      "elapsed_seconds": 0.15,
+      "status": "blocked",
+      "blocker_keys": [
+        "android_release_signing_review",
+        "release_owner_signoff"
+      ]
+    }
+  ]
+}

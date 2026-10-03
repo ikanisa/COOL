@@ -1,0 +1,95 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/features/contribution_flow_session_test.dart",
+      "test/features/member_data_unknown_states_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt9-flow-event-loop/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:58:17.643768+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 53169,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 22.064,
+    "stdout_sha256": "7e7364dd36f94204038c6e237b37ead3dac6e542d3372cb536354cd88b1ef7ee",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 7,
+    "failed": 0,
+    "errors": 3,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "replacement same-user session clears completed prepared payment",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "old preparation reply cannot rebuild a payment after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "old preflight reply cannot launch USSD after replacement session",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "current captured session completes existing payment workflow",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent complete aggregates remain unknown despite partial owned rows",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks empty partial ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "supported-group filter marks partial positive ownership as incomplete",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent group ledger page cannot claim no confirmed activity",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "absent activity page cannot be shown as zero confirmed history",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "refreshing retained roster removes previous IDs and amounts before reply",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  }
+}

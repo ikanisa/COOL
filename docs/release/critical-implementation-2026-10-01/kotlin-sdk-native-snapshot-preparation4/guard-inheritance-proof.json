@@ -1,0 +1,41 @@
+{
+  "all_tested_behavior_function_ASTs_unchanged": true,
+  "changed_behavior_test_result": "phase-readback-test-result.json",
+  "five_case_logs_and_reports_are_inherited_prep3_evidence": true,
+  "full_suites_not_reexecuted": true,
+  "historical_suites_do_not_certify_changed_reader_behavior": true,
+  "new_binding_wiring_checks": "binding-wiring-readback.json",
+  "new_test_code_byte_identical": true,
+  "no_fresh_collision_test_run": true,
+  "prior_collision_five_case_result_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/phase-readback-test-result.json",
+  "prior_collision_five_case_result_sha256": "fb69b0b2413776188a249b64eabf7917ccdc3d472ccdf5e84400c54b2e0f7569",
+  "prior_test_code_sha256": "32b110779403f82d20f85a35b69c8f32ba16e7b9167f80e19b1ab5f1b59c7d5d",
+  "reason": "All17 runner functions and every other Python file retain preparation3 bytes/ASTs; only the root review path constant/config change. The five collision tests remain valid behavior evidence. New directory/config/refusal wiring is checked read-only.",
+  "review_directory_constant_rebound_by_existing_terminal_test_fixture": true,
+  "suites": {
+    "original": {
+      "changed_current_input_rows": [],
+      "checked_current_input_identity_rows": 42,
+      "current42identities_rechecked_in_preparation4": true,
+      "errors": 0,
+      "failures": 0,
+      "fresh_full_suite_executed": false,
+      "previous_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/original-bound-after.json",
+      "previous_receipt_sha256": "f26b7d92273efc8a2d55109081169f7bb3f1d6febbf9221455611d4eb8d5a937",
+      "skips": 0,
+      "tests": 31
+    },
+    "snapshot": {
+      "changed_current_input_rows": [],
+      "checked_current_input_identity_rows": 42,
+      "current42identities_rechecked_in_preparation4": true,
+      "errors": 0,
+      "failures": 0,
+      "fresh_full_suite_executed": false,
+      "previous_receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/snapshot-bound-after.json",
+      "previous_receipt_sha256": "5224e4e82fb7064c899f56ef47b8823a4607f01c6372ff3b3444d9c0f161a51c",
+      "skips": 0,
+      "tests": 34
+    }
+  }
+}

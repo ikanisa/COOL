@@ -7,8 +7,31 @@
   font-weight: 400 700;
   font-display: swap;
 }
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("/assets/typefaces/AeonikPro-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("/assets/typefaces/AeonikPro-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
 :root {
   color-scheme: light;
+  --type-leading-1-1: 1.1;
+  --type-leading-1-15: 1.15;
+  --type-leading-1-5: 1.5;
+  --type-leading-22px: 22px;
+  --type-size-28px: 28px;
+  --type-size-32px: 32px;
+  --type-size-36px: 36px;
+  --type-size-48px: 48px;
+  --type-tracking-0: 0;
   --type-weight-regular: 400;
   --type-weight-medium: 500;
   --type-size-12px: 12px;
@@ -37,9 +60,9 @@ img { max-width: 100%; }
 .site-header { display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 5; }
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto; }
 .brand img { border-radius: 10px; }
-.brand strong, .brand small { display: block; line-height: 1; }
-.brand strong { font-size: 19px; }
-.brand small { margin-top: 3px; font-size: 12px; }
+.brand strong, .brand small { display: block; line-height: var(--type-leading-1); }
+.brand strong { font-size: var(--type-size-19px); }
+.brand small { margin-top: 3px; font-size: var(--type-size-12px); }
 .site-nav { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; min-width: 0; }
 .nav-link { text-decoration: none; white-space: nowrap; }
 .header-actions, .hero-actions, .start-actions { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -53,23 +76,23 @@ h1 { margin: 0; overflow-wrap: anywhere; }
 .hero-eyebrow { margin: 0 0 18px; }
 .hero-device { display: flex; justify-content: center; align-items: center; max-height: none; }
 .hero-widget { width: 100%; max-width: 450px; border-radius: var(--web-panel); padding: 32px; background: var(--web-on-night-widget); display: grid; gap: 20px; }
-.hero-widget strong { display: block; font-size: 36px; line-height: 1.1; font-weight: 500; }
-.hero-widget p { margin: 0; color: var(--web-on-night-secondary); line-height: 1.5; }
+.hero-widget strong { display: block; font-size: var(--type-size-36px); line-height: var(--type-leading-1-1); font-weight: var(--type-weight-medium); }
+.hero-widget p { margin: 0; color: var(--web-on-night-secondary); line-height: var(--type-leading-1-5); }
 .share-link-hero { min-height: calc(100svh - 80px); }
 .share-link-code { display: inline-flex; max-width: 100%; margin: 0 0 22px; padding: 10px 16px; border: 1px solid var(--web-on-night-secondary); border-radius: var(--web-pill); overflow-wrap: anywhere; }
-.share-link-store-options { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; line-height: 1.5; }
+.share-link-store-options { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; line-height: var(--type-leading-1-5); }
 .share-link-store-options a { min-height: 44px; display: inline-flex; align-items: center; text-underline-offset: 4px; }
-.share-link-status { min-height: 24px; line-height: 1.5; }
-.share-link-validity { max-width: 520px; line-height: 1.5; }
+.share-link-status { min-height: 24px; line-height: var(--type-leading-1-5); }
+.share-link-validity { max-width: 520px; line-height: var(--type-leading-1-5); }
 .app-capture { width: min(100%, 300px); margin: 0; }
 .app-capture img { display: block; width: 100%; height: auto; border-radius: 28px; }
-.app-capture figcaption { margin-top: 14px; color: var(--web-on-night-secondary); text-align: center; font-size: 13px; line-height: 1.5; }
+.app-capture figcaption { margin-top: 14px; color: var(--web-on-night-secondary); text-align: center; font-size: var(--type-size-13px); line-height: var(--type-leading-1-5); }
 .legal-hero .app-capture figcaption { color: var(--web-secondary); }
 .service-photo { width: 100%; margin: 0; }
 .service-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--web-panel); }
 :is(.explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section, .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section) { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: 48px; padding: 96px var(--web-home-gutter); align-items: start; }
 main > section:not(.hero) h2 { margin: 0; }
-main > section:not(.hero) p { line-height: 1.5; }
+main > section:not(.hero) p { line-height: var(--type-leading-1-5); }
 :is(.infographic-band, .content-grid, .legal-content) { padding: 96px var(--web-home-gutter); }
 .infographic-band { display: grid; gap: 40px; }
 .infographic-copy { max-width: 860px; }
@@ -77,39 +100,40 @@ main > section:not(.hero) p { line-height: 1.5; }
 .content-grid-heading { grid-column: 1 / -1; }
 :is(.story-grid, .content-grid, .infographic-grid, .supported-groups-grid, .journey-rail, .insurance-step-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) :is(strong, h3) { display: block; margin: 0 0 12px; }
 :is(.story-grid, .content-grid, .infographic-grid, .journey-rail, .insurance-step-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid) p { margin: 0; }
-.section-number { display: block; margin-bottom: 24px; color: var(--web-secondary); font-size: 14px; }
+.section-number { display: block; margin-bottom: 24px; color: var(--web-secondary); font-size: var(--type-size-14px); }
 .supported-groups-copy { position: sticky; top: 104px; }
 .supported-group-card { display: grid; align-content: start; gap: 12px; }
 .supported-group-card p { margin: 0; }
-.supported-group-index { width: 38px; height: 38px; display: grid; place-items: center; font-size: 12px; }
+.supported-group-index { width: 38px; height: 38px; display: grid; place-items: center; font-size: var(--type-size-12px); }
 .market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .market-grid article { padding: 32px; }
 .market-grid strong, .market-grid span { display: block; }
-.market-grid strong, .partner-metric-grid strong { font-size: 48px; line-height: 1; font-weight: 500; }
-.market-grid span, .partner-metric-grid span { display: block; margin-top: 16px; line-height: 1.4; }
+.market-grid strong, .partner-metric-grid strong { font-size: var(--type-size-48px); line-height: var(--type-leading-1); font-weight: var(--type-weight-medium); }
+.market-grid span, .partner-metric-grid span { display: block; margin-top: 16px; line-height: var(--type-leading-1-4); }
 :is(.change-compare-grid, .craas-benefit-grid, .craas-list-panel, .accumulation-panel, .premium-finance-panel) { min-width: 0; }
 :is(.change-compare-grid, .craas-benefit-grid) > article, .craas-list-panel, .accumulation-panel, .premium-finance-panel { padding: 32px; }
 :is(.craas-list-panel, .craas-benefit-grid, .partner-operating-grid) ul { padding-left: 20px; margin: 0; }
 :is(.craas-list-panel, .craas-benefit-grid, .partner-operating-grid) li + li { margin-top: 12px; }
 .bullet-list, .change-compare-grid ul { margin: 18px 0 0; padding-left: 20px; display: grid; gap: 10px; }
-.bullet-list li, .change-compare-grid li { line-height: 1.5; }
-.story-grid a, .legal-inline-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.bullet-list li, .change-compare-grid li { line-height: var(--type-leading-1-5); }
+.story-grid a { display: flex; align-items: center; width: fit-content; min-height: 44px; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.legal-inline-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
 .brand-word { color: inherit; }
 .start-actions { margin-top: 24px; }
-.source-note { font-size: 13px; line-height: 1.5; }
+.source-note { font-size: var(--type-size-13px); line-height: var(--type-leading-1-5); }
 .legal-layout { display: grid; grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 .legal-layout.no-sidebar { grid-template-columns: minmax(0, 1fr); }
 .legal-sidebar { position: sticky; top: 104px; display: grid; gap: 16px; }
 .legal-main { display: grid; gap: 24px; min-width: 0; }
-.legal-meta { color: var(--web-secondary); line-height: 1.5; margin: 0; }
+.legal-meta { color: var(--web-secondary); line-height: var(--type-leading-1-5); margin: 0; }
 .legal-toc { display: grid; gap: 8px; padding: 24px; }
-.legal-toc a { min-height: 44px; display: flex; align-items: center; padding: 8px 0; line-height: 1.4; }
+.legal-toc a { min-height: 44px; display: flex; align-items: center; padding: 8px 0; line-height: var(--type-leading-1-4); }
 .legal-toc strong { margin-bottom: 8px; }
 :is(.legal-priority, .legal-section, .legal-card) { padding: 32px; }
 .legal-priority { display: grid; gap: 16px; }
-.legal-section :is(h2, h3), .legal-card h3 { margin: 0 0 16px; }
-.legal-section h3 { margin-top: 24px; }
-.legal-section p, .legal-card p, .legal-details dd { color: var(--web-secondary); line-height: 1.5; }
+.legal-main .legal-section :is(h2, h3), .legal-main .legal-card h3 { margin: 0 0 16px; }
+.legal-main .legal-section h3 { margin-top: 24px; }
+.legal-section p, .legal-card p, .legal-details dd { color: var(--web-secondary); line-height: var(--type-leading-1-5); }
 .legal-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .legal-details { display: grid; grid-template-columns: minmax(140px, .35fr) minmax(0, 1fr); gap: 12px 24px; margin: 16px 0; }
 .legal-details dd { margin: 0; overflow-wrap: anywhere; }
@@ -117,7 +141,7 @@ main > section:not(.hero) p { line-height: 1.5; }
 .legal-start-section { padding-block: 64px; }
 .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 48px; padding: 64px var(--web-home-gutter); }
 .footer-identity { max-width: 760px; }
-.footer-identity p { margin: 12px 0 0; color: var(--web-on-night-secondary); font-size: 14px; line-height: 1.5; }
+.footer-identity p { margin: 12px 0 0; color: var(--web-on-night-secondary); font-size: var(--type-size-14px); line-height: var(--type-leading-1-5); }
 .footer-support { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 10px; }
 .site-footer a { min-height: 44px; display: inline-flex; align-items: center; padding: 8px 0; color: var(--web-on-night-secondary); }
@@ -133,5 +157,5 @@ main > section:not(.hero) p { line-height: 1.5; }
   .site-footer nav { justify-content: flex-start; gap: 12px 24px; }
   :is(.explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section, .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section, .infographic-band, .content-grid, .legal-content) { padding: 64px var(--web-gutter); gap: 32px; }
   :is(.legal-priority, .legal-section, .legal-card, .craas-list-panel, .accumulation-panel, .premium-finance-panel) { padding: 24px; }
-  .hero-widget strong { font-size: 28px; }
+  .hero-widget strong { font-size: var(--type-size-28px); }
 }

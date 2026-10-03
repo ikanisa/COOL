@@ -92,7 +92,7 @@ class _PublicNotFoundPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: CollectColors.referenceChromeBlack,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: CollectTypography.weightMedium,
                   ),
                 ),
                 const SizedBox(height: 12),

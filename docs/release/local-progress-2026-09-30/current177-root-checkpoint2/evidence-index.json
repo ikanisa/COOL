@@ -1,0 +1,86 @@
+{
+  "scope": "Accepted and failed local scope checkpoints; no full production or whole goal completion",
+  "packets": [
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt3-root-title-lookup/result.json",
+      "sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2",
+      "status": "pass_scoped"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-keyset-root1/review.json",
+      "sha256": "7d7f394f8906891cbd60dba0f932f1011cce0c00a42b6f97fde9d67e78197cdd",
+      "status": "published_pending_integrated_acceptance"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/result.json",
+      "sha256": "b90134a378d5cc5266a9af8f33d795e8d3b8f491db4c7b5b2080e9deca0e3253",
+      "status": "failed"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/volume-1000/result.json",
+      "sha256": "dc2cdaeaf7dbe48a0209faad530f80c0c1406c099c85f3a0bdbfd112a828312f",
+      "status": "pass_scoped"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt22-current23-private-policy-inventory/result.json",
+      "sha256": "cae8ca62d7ae09ad41fd859779949fc4f79e90eb935f15ff4df0ea8a14866fe9",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt23-current23-policy-scope-metadata/result.json",
+      "sha256": "89e7860ecd63851460728be0fd2093b8400ced94243e9535b8021cd876e2a694",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt4-global-history-policy/result.json",
+      "sha256": "6b9c9ef14858b718678b55c94fd6ae95faf74f4444e76aa47a14906bd4790266",
+      "status": "failed"
+    },
+    {
+      "path": "docs/release/local-database-runtime-2026-09-30/ordinary-installer-current177-attempt4-global-history-policy/currentness-failure-readback.json",
+      "sha256": "98087e5646a15a6efbe86bad2115ecbe24024bba7b87e976be7e9df706742871",
+      "status": "dated_scoped_execution_only"
+    },
+    {
+      "path": "docs/release/local-browser-lifecycle-2026-09-30/current-browser-source-scope-acceptance-root1/validation.json",
+      "sha256": "2738936bfeeffd3ded0841e43085fc3943a92ec6d4ff196e8c64ab7b08eb97dc",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt56-root-raw-sms-rendered-refresh/validation.json",
+      "sha256": "a3e73d803d2d04d2fbdd323e4b001c842cfb915c837c6165711520fdd719967c",
+      "status": "see_scoped_packet"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/inventory-attempt18-root-current95/validation.json",
+      "sha256": "07b31a15ee08d007394fe752e100febb76cd77e2cc5a22c84f7adb794c47862b",
+      "status": "see_scoped_packet"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-postbuild-verification1/artifact-verification.json",
+      "sha256": "761060ea6ad8558910f1b9f19382faa0e62415aef33ff158345867b35a4ac8f1",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/swift-cached-artifact-inputs-root177-workspace-order/validation.json",
+      "sha256": "8de8c11018aa7a6ee8d32ccf77cda1da25c8709a3b2c3284579097986248501b",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/final-local-edge-2026-10-01/current177-unit-attempt1/validation.json",
+      "sha256": "ff5ea11fe761ef0adc123b616b9765d611df00baa143a33b68dd3452fcb8e375",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/final-local-edge-2026-10-01/current-http-attempt3-exact-start-count/validation.json",
+      "sha256": "00c52b3e6e8a95e9b6992720d06af130476143de1c5a85fd7d100069d7b585ab",
+      "status": "pass"
+    },
+    {
+      "path": "docs/release/final-local-mcp-2026-10-01/current-source-attempt3-bounded-sql-fixtures/validation.json",
+      "sha256": "1737d5516a0d7e3c5c781a3885fb8be12e70560ed298dd7e5c553cb81c74cbb9",
+      "status": "pass"
+    }
+  ],
+  "whole_goal_complete": false
+}

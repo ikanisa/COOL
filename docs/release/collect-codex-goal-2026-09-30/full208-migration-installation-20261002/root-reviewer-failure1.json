@@ -1,0 +1,10 @@
+{
+  "status": "failed_review_guard",
+  "tool_chunk": "2f4bd2",
+  "exit_code": 1,
+  "cause": "Root asserted capitalized No such against actual lowercase Docker no such object diagnostic",
+  "actual_confirmation_chunk": "4cd8aa",
+  "actual_confirmation_exit": 1,
+  "no_replay_or_target_created": true,
+  "no_docs_copy_published": true
+}

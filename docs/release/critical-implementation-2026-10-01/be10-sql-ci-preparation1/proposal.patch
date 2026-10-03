@@ -1,0 +1,3306 @@
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -485,6 +485,55 @@
+           include-hidden-files: true
+           retention-days: 14
+ 
++  ordinary-sql:
++    name: Ordinary installer SQL (synthetic clean and populated)
++    runs-on: ubuntu-24.04-arm
++    timeout-minutes: 15
++    permissions:
++      contents: read
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
++        with:
++          persist-credentials: false
++
++      - name: Set up pinned SQL recipe Python
++        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
++        with:
++          python-version: '3.12.14'
++
++      - name: Verify SQL recipe refusal and cleanup boundaries
++        run: python3 -B -m unittest discover -s scripts/tests -p sql_ci_runner_test.py
++
++      - name: Acquire named PostgreSQL image and refuse config drift
++        timeout-minutes: 3
++        run: |
++          set -euo pipefail
++          # Acquisition uses this version tag; execution admits only exact bytes.
++          image="public.ecr.aws/supabase/postgres:17.6.1.095"
++          expected="sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"
++          docker pull --platform=linux/arm64 "$image"
++          test "$(docker image inspect "$image" --format '{{.Id}}')" = "$expected"
++
++      - name: Run canonical current ordinary SQL acceptance
++        run: |
++          set -euo pipefail
++          docker_path="$(python3 -c 'import os,shutil;print(os.path.realpath(shutil.which("docker")))')"
++          docker_pin="$(sha256sum "$docker_path" | cut -d ' ' -f 1)"
++          fixture_pin="$(sha256sum scripts/tests/fixtures/ordinary_installer_v1/manifest.json | cut -d ' ' -f 1)"
++          python3 -B scripts/qa/run_sql_ci.py \
++            --docker "$docker_path" --docker-sha256 "$docker_pin" \
++            --docker-host unix:///var/run/docker.sock \
++            --fixture-lock-sha256 "$fixture_pin" --output .cache/sql-ci
++
++      - name: Preserve completed and failed ordinary SQL evidence
++        if: always()
++        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
++        with:
++          name: ordinary-sql-evidence
++          path: .cache/sql-ci
++          include-hidden-files: true
++          retention-days: 14
++
+   ruby-delivery-tools:
+     name: Frozen Ruby delivery dependencies
+     runs-on: ubuntu-latest
+--- /dev/null
++++ b/scripts/qa/run_sql_ci.py
+@@ -0,0 +1,397 @@
++#!/usr/bin/env python3
++"""Frozen ordinary-installer SQL recipe; hosted/runtime recovery are separate.
++
++Requires an already acquired exact image. Creates only the original two owned,
++networkless synthetic containers; never accepts a database URL or provider key.
++"""
++from __future__ import annotations
++
++import argparse
++import datetime as dt
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import signal
++import stat
++import subprocess
++import sys
++import time
++
++ROOT = Path(__file__).resolve().parents[2]
++FIXTURES = "scripts/tests/fixtures/ordinary_installer_v1"
++PYTHON_VERSION = "3.12.14"
++IMAGE_ID = "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"
++IMAGE_TAG = "public.ecr.aws/supabase/postgres:17.6.1.095"
++PLATFORM_SHA = "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f"
++PREDECESSOR_SHA = "0a9ca2a20bcdb5f3b75ca485eaf2c32f48f0095f4c014ea5d6990e5ac504d8ab"
++OWNER_NAME = re.compile(r"collect_current_rehearsal_ordinary_(clean|populated)_[0-9a-f]{12}\Z")
++HELPERS = (
++    "scripts/tests/current_ordinary_installer_rehearsal.py",
++    "scripts/tests/collect_current_release_upgrade_uat.py",
++    "scripts/sql/receipt_transport_platform_prerequisites.sql",
++    "scripts/sql/collect_recovery_source_catalog.sql",
++)
++IMAGE_FIELDS = '{"Id":{{json .Id}},"Os":{{json .Os}},"Architecture":{{json .Architecture}}}'
++TARGET_FIELDS = ('{"Image":{{json .Image}},"Config":{"Labels":{{json .Config.Labels}}},'
++                 '"HostConfig":{"NetworkMode":{{json .HostConfig.NetworkMode}},'
++                 '"PortBindings":{{json .HostConfig.PortBindings}}}}')
++
++
++class Refused(RuntimeError):
++    pass
++
++
++def sha(body: bytes) -> str:
++    return hashlib.sha256(body).hexdigest()
++
++
++def file_sha(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as stream:
++        for block in iter(lambda: stream.read(65536), b""):
++            digest.update(block)
++    return digest.hexdigest()
++
++
++def read_regular(path: Path, limit: int = 8 * 1024**2) -> bytes:
++    info = path.lstat()
++    if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > limit:
++        raise Refused("SQL_INPUT_NOT_BOUNDED_REGULAR_FILE")
++    return path.read_bytes()
++
++
++def source_inventory(root: Path) -> dict[str, str]:
++    migrations = sorted((root / "supabase/migrations").glob("*.sql"))
++    if len(migrations) < 124:
++        raise Refused("SQL_PREDECESSOR_PREFIX_MISSING")
++    names = [p.name for p in migrations]
++    if any(not re.fullmatch(r"(?:[0-9]{12}|[0-9]{14})_[A-Za-z0-9_]+\.sql", n) for n in names):
++        raise Refused("SQL_MIGRATION_NAME_INVALID")
++    if len({n.split("_", 1)[0] for n in names}) != len(names):
++        raise Refused("SQL_MIGRATION_VERSION_DUPLICATE")
++    paths = [*HELPERS, ".github/workflows/ci.yml", "scripts/qa/run_sql_ci.py",
++             "scripts/tests/sql_ci_runner_test.py",
++             *(f"{FIXTURES}/{n}" for n in ("manifest.json", "platform-bootstrap.sql", "predecessor.json")),
++             *(str(p.relative_to(root)) for p in migrations)]
++    return {rel: sha(read_regular(root / rel)) for rel in paths}
++
++
++def fixture_lock(root: Path, pin: str, sources: dict[str, str]) -> dict:
++    raw = read_regular(root / FIXTURES / "manifest.json", 65536)
++    if not re.fullmatch(r"[0-9a-f]{64}", pin) or sha(raw) != pin:
++        raise Refused("SQL_FIXTURE_WHOLE_LOCK_MISMATCH")
++    lock = json.loads(raw)
++    runtime = lock.get("runtime", {})
++    expected = {"python": PYTHON_VERSION, "image_id": IMAGE_ID,
++                "image_tag": IMAGE_TAG, "required_platform": "linux/arm64"}
++    if lock.get("format") != "collect-ordinary-installer-fixture-v1" or any(
++        runtime.get(key) != value for key, value in expected.items()
++    ):
++        raise Refused("SQL_RUNTIME_COHORT_UNREVIEWED")
++    if lock.get("files") != {"platform-bootstrap.sql": PLATFORM_SHA, "predecessor.json": PREDECESSOR_SHA}:
++        raise Refused("SQL_FIXTURE_COHORT_UNREVIEWED")
++    for name, expected_sha in lock["files"].items():
++        if sources.get(f"{FIXTURES}/{name}") != expected_sha:
++            raise Refused("SQL_FIXTURE_BYTES_DRIFTED")
++    if set(lock.get("helpers", {})) != set(HELPERS) or any(
++        sources.get(rel) != pin for rel, pin in lock["helpers"].items()
++    ):
++        raise Refused("SQL_ORIGINAL_HELPER_BYTES_DRIFTED")
++    cases = lock.get("expected_cases")
++    if not isinstance(cases, list) or len(cases) != 37 or len(set(cases)) != 37 or not all(
++        isinstance(name, str) and 1 <= len(name) <= 240 for name in cases
++    ):
++        raise Refused("SQL_ORIGINAL_CASE_MATRIX_INVALID")
++    predecessor = json.loads(read_regular(root / FIXTURES / "predecessor.json", 32768))
++    prefix = [Path(p).stem.split("_", 1)[0] for p in sources if p.startswith("supabase/migrations/")][:124]
++    if prefix != [r["version"] for r in predecessor["migrations"]] or prefix[-1] != "20260906160000":
++        raise Refused("SQL_HISTORICAL_PREFIX_DRIFTED")
++    return lock
++
++
++def docker_path(path: Path, pin: str) -> Path:
++    if not path.is_absolute() or path.is_symlink() or not os.access(path, os.X_OK):
++        raise Refused("SQL_DOCKER_EXACT_EXECUTABLE_REQUIRED")
++    physical = path.resolve(strict=True)
++    if not re.fullmatch(r"[0-9a-f]{64}", pin) or sha(read_regular(physical, 128 * 1024**2)) != pin:
++        raise Refused("SQL_DOCKER_BYTES_DRIFTED")
++    return physical
++
++
++def local_socket(value: str) -> str:
++    if not re.fullmatch(r"unix:///[-A-Za-z0-9_./]+", value) or "/../" in value or value.endswith("/.."):
++        raise Refused("SQL_LOCAL_UNIX_DOCKER_ENDPOINT_REQUIRED")
++    return value
++
++
++def clean_env(output: Path, socket: str) -> dict[str, str]:
++    home = output / "empty-home"
++    config = output / "empty-docker-config"
++    home.mkdir(mode=0o700)
++    config.mkdir(mode=0o700)
++    return {"PATH": "/usr/bin:/bin", "HOME": str(home), "DOCKER_CONFIG": str(config),
++            "DOCKER_HOST": local_socket(socket), "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8",
++            "PYTHONDONTWRITEBYTECODE": "1", "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
++
++
++def group_absent(pid: int) -> bool:
++    try:
++        os.killpg(pid, 0)
++        return False
++    except ProcessLookupError:
++        return True
++
++
++def run_process(argv: list[str], cwd: Path, env: dict, deadline: float,
++                stdout: Path, stderr: Path, limit: int = 64 * 1024**2) -> dict:
++    started = time.monotonic()
++    if started >= deadline:
++        raise Refused("SQL_PROCESS_DEADLINE_EXPIRED_BEFORE_SPAWN")
++    timed_out = False
++    overflow = False
++    residual = False
++    with stdout.open("xb") as out, stderr.open("xb") as err:
++        child = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
++                                 stdout=out, stderr=err, start_new_session=True)
++        try:
++            while child.poll() is None:
++                timed_out = time.monotonic() >= deadline
++                overflow = stdout.stat().st_size + stderr.stat().st_size > limit
++                if timed_out or overflow:
++                    break
++                time.sleep(min(.02, max(0, deadline - time.monotonic())))
++            # Completion observed after the bound is still a timeout.
++            timed_out = timed_out or time.monotonic() >= deadline
++            residual = child.poll() is not None and not group_absent(child.pid)
++        finally:
++            if child.poll() is None or not group_absent(child.pid):
++                try:
++                    os.killpg(child.pid, signal.SIGKILL)
++                except ProcessLookupError:
++                    pass
++            child.wait(timeout=5)
++        stop_deadline = time.monotonic() + 5
++        absent = False
++        probe_permission_refusals = 0
++        while time.monotonic() < stop_deadline:
++            try:
++                absent = group_absent(child.pid)
++            except PermissionError:
++                # A post-stop probe refusal is not absence. Reobserve inside
++                # the original bound; only an actual ESRCH can prove cleanup.
++                probe_permission_refusals += 1
++            if absent:
++                break
++            time.sleep(.02)
++        overflow = overflow or stdout.stat().st_size + stderr.stat().st_size > limit
++    return {"argv": argv, "pid": child.pid, "exit_code": child.returncode,
++            "timed_out": timed_out, "output_overflow": overflow,
++            "residual_group_required_stop": residual, "owned_process_group_absent": absent,
++            "group_probe_permission_refusals": probe_permission_refusals,
++            "elapsed_seconds": time.monotonic() - started,
++            "stdout_sha256": file_sha(stdout), "stderr_sha256": file_sha(stderr),
++            "pass": child.returncode == 0 and not timed_out and not overflow and not residual and absent}
++
++
++def image_matches(value: object) -> bool:
++    return isinstance(value, list) and len(value) == 1 and isinstance(value[0], dict) and all(
++        value[0].get(k) == v for k, v in {"Id": IMAGE_ID, "Os": "linux", "Architecture": "arm64"}.items()
++    )
++
++
++def owned_target(value: object, name: str) -> bool:
++    return bool(OWNER_NAME.fullmatch(name) and isinstance(value, list) and len(value) == 1 and isinstance(value[0], dict)
++                and value[0].get("Image") == IMAGE_ID
++                and value[0].get("Config", {}).get("Labels", {}).get("collect.rehearsal.owner") == name
++                and value[0].get("HostConfig", {}).get("NetworkMode") == "none"
++                and not value[0].get("HostConfig", {}).get("PortBindings"))
++
++
++def acceptance(result: dict, lock: dict, before: dict[str, str]) -> bool:
++    migrations = []
++    for rel, pin in before.items():
++        if rel.startswith("supabase/migrations/"):
++            version, name = Path(rel).stem.split("_", 1)
++            migrations.append({"path": rel, "version": version, "name": name, "sha256": pin})
++    return (result.get("status") == "pass" and result.get("all_task_containers_removed") is True
++            and result.get("source_inventory") == migrations
++            and result.get("cases") == [{"name": name, "status": "pass"} for name in lock["expected_cases"]]
++            and all(result.get(k) is False for k in ("hosted_called", "provider_called", "source_rows_copied",
++                                                     "shared_database_written", "managed_hosted_owner_parity")))
++
++
++def cleanup_owned(entries: list[dict], metadata, deadline: float) -> tuple[list[dict], bool]:
++    if len(entries) > 2 or len({x["name"] for x in entries}) != len(entries):
++        raise Refused("SQL_OWNED_TARGET_REGISTRY_INVALID")
++    observations = []
++    fallback = False
++    for i, entry in enumerate(entries):
++        name = entry["name"]
++        if not OWNER_NAME.fullmatch(name) or entry["image_id"] != IMAGE_ID:
++            raise Refused("SQL_OWNED_TARGET_IDENTITY_INVALID")
++        inspect = ["container", "inspect", name, "--format", TARGET_FIELDS]
++        result, text, error = metadata(f"cleanup-{i}-inspect", inspect, deadline, (0, 1))
++        missing = lambda value: any(message in value.lower() for message in (
++            "no such container: " + name, "no such object: " + name))
++        absent = result["exit_code"] == 1 and missing(error)
++        if result["exit_code"] == 0:
++            if not owned_target([json.loads(text)], name):
++                raise Refused("SQL_REFUSED_CLEANUP_OF_UNBOUND_TARGET")
++            metadata(f"cleanup-{i}-remove", ["rm", "--force", "--volumes", name], deadline)
++            check, _, error = metadata(f"cleanup-{i}-verify", inspect, deadline, (1,))
++            absent = check["exit_code"] == 1 and missing(error)
++            fallback = True
++        observations.append({"name": name, "verified_absent": absent})
++        if not absent:
++            raise Refused("SQL_OWNED_TARGET_ABSENCE_UNPROVED")
++    return observations, fallback
++
++
++CHILD = r'''import hashlib,importlib,json,os,sys,time
++from pathlib import Path
++config=Path(sys.argv[1]);raw=config.read_bytes()
++assert hashlib.sha256(raw).hexdigest()==sys.argv[2], 'Frozen child configuration changed'
++c=json.loads(raw);root=Path(c['candidate'])
++for rel,pin in c['source_before'].items():
++ assert hashlib.sha256((root/rel).read_bytes()).hexdigest()==pin, 'Captured source changed'
++sys.path.insert(0,str(root/'scripts/tests'))
++replay=importlib.import_module('collect_current_release_upgrade_uat')
++replay.DOCKER=c['docker'];replay.IMAGE=c['image_id'];replay.HOSTED=root/c['predecessor']
++sql=(root/c['platform']).read_bytes()
++assert hashlib.sha256(sql).hexdigest()==c['platform_sha256']
++replay.platform_shape=lambda:(sql.decode(),c['platform_provenance'])
++original_command=replay.command
++def checked_command(args,*a,**kw):
++ assert time.monotonic()<c['execution_deadline'], 'Execution deadline reached'
++ assert args[0]==c['docker'], 'Only the bound Docker executable is admitted'
++ path=Path(c['docker']);assert path.stat().st_size<=128*1024**2, 'Docker exceeds bound'
++ assert hashlib.sha256(path.read_bytes()).hexdigest()==c['docker_sha256'], 'Docker bytes drifted'
++ return original_command(args,*a,**kw)
++replay.command=checked_command
++original_init=replay.Target.__init__
++def register(self,*args,**kwargs):
++ original_init(self,*args,**kwargs)
++ with open(c['owned'],'a') as stream:
++  stream.write(json.dumps({'name':self.name,'phase':self.phase,'image_id':replay.IMAGE_ID})+'\n')
++  stream.flush();os.fsync(stream.fileno())
++replay.Target.__init__=register
++runner=importlib.import_module('current_ordinary_installer_rehearsal')
++sys.argv=[runner.__file__,'--output',c['report']]
++runner.main()
++'''
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
++    parser.add_argument("--docker", type=Path, required=True)
++    parser.add_argument("--docker-sha256", required=True)
++    parser.add_argument("--docker-host", required=True)
++    parser.add_argument("--fixture-lock-sha256", required=True)
++    parser.add_argument("--output", type=Path, required=True)
++    args = parser.parse_args()
++    output = args.output.resolve()
++    if output.exists() or not output.is_relative_to(ROOT / ".cache"):
++        parser.error("Fresh repository-contained .cache output is required")
++    output.mkdir(mode=0o700, parents=True)
++    start = time.monotonic()
++    whole = start + 600
++    execution = start + 540
++    report = {"status": "fail", "scope": "ordinary local synthetic clean/populated SQL only",
++              "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
++              "whole_deadline_seconds": 600, "execution_budget_seconds": 540, "cleanup_budget_seconds": 60,
++              "source_mutations": False, "hosted_or_provider_calls": False, "image_acquisition_performed": False,
++              "current_SQL_executed": False, "full_BE10_closed": False, "commands": [], "cleanup": []}
++    before = None
++    docker = env = None
++    candidate = output / "source"
++
++    def metadata(label: str, tail: list[str], deadline: float, accept: tuple[int, ...] = (0,)):
++        docker_path(docker, args.docker_sha256)
++        result = run_process([str(docker), *tail], ROOT, env, min(time.monotonic() + 15, deadline),
++                             output / (label + ".stdout"), output / (label + ".stderr"), 1024**2)
++        report["commands"].append(result)
++        if (result["exit_code"] not in accept or result["timed_out"] or result["output_overflow"]
++                or result["residual_group_required_stop"] or not result["owned_process_group_absent"]):
++            raise Refused("SQL_DOCKER_METADATA_FAILED")
++        return result, (output / (label + ".stdout")).read_text(), (output / (label + ".stderr")).read_text()
++
++    try:
++        if ".".join(map(str, sys.version_info[:3])) != PYTHON_VERSION:
++            raise Refused("SQL_PINNED_PYTHON_REQUIRED")
++        before = source_inventory(ROOT)
++        lock = fixture_lock(ROOT, args.fixture_lock_sha256, before)
++        docker = docker_path(args.docker, args.docker_sha256)
++        env = clean_env(output, args.docker_host)
++        report.update(source_before=before, fixture_lock_sha256=args.fixture_lock_sha256,
++                      runtime={"python": PYTHON_VERSION, "python_executable": sys.executable,
++                               "python_executable_sha256": file_sha(Path(sys.executable).resolve()),
++                               "docker": str(docker), "docker_sha256": args.docker_sha256,
++                               "docker_host": env["DOCKER_HOST"], "image_id": IMAGE_ID,
++                               "required_platform": "linux/arm64", "prior37_platform_observation": False})
++        for rel, pin in before.items():
++            body = read_regular(ROOT / rel)
++            if sha(body) != pin:
++                raise Refused("SQL_SOURCE_DRIFT_BEFORE_COPY")
++            dest = candidate / rel
++            dest.parent.mkdir(parents=True, exist_ok=True)
++            dest.write_bytes(body)
++        if source_inventory(candidate) != before or source_inventory(ROOT) != before:
++            raise Refused("SQL_SOURCE_DRIFT_AFTER_COPY")
++        _, text, _ = metadata("image-inspect", ["image", "inspect", IMAGE_ID, "--format", IMAGE_FIELDS], execution)
++        if not image_matches([json.loads(text)]):
++            raise Refused("SQL_EXACT_IMAGE_OR_PLATFORM_MISMATCH")
++        config = {"candidate": str(candidate), "docker": str(docker), "docker_sha256": args.docker_sha256,
++                  "image_id": IMAGE_ID, "source_before": before, "execution_deadline": execution,
++                  "platform": f"{FIXTURES}/platform-bootstrap.sql", "platform_sha256": PLATFORM_SHA,
++                  "predecessor": f"{FIXTURES}/predecessor.json", "platform_provenance": lock["platform_provenance"],
++                  "owned": str(output / "owned-targets.jsonl"),
++                  "report": str(candidate / "docs/release/ordinary-sql-ci")}
++        raw = (json.dumps(config, indent=2) + "\n").encode()
++        (output / "child-config.json").write_bytes(raw)
++        (output / "child.py").write_text(CHILD)
++        report["current_SQL_executed"] = None
++        child = run_process([sys.executable, "-B", str(output / "child.py"),
++                             str(output / "child-config.json"), sha(raw)], candidate, env, execution,
++                            output / "rehearsal.stdout", output / "rehearsal.stderr")
++        report["commands"].append(child)
++        result = json.loads(read_regular(Path(config["report"]) / "result.json", 32 * 1024**2))
++        report.update(current_SQL_executed=any(p.get("migrations") for p in result.get("phases", {}).values()),
++                      actual_case_count=len(result.get("cases", [])),
++                      rehearsal_result_sha256=sha((Path(config["report"]) / "result.json").read_bytes()))
++        if not child["pass"] or not acceptance(result, lock, before):
++            raise Refused("SQL_COMPLETE_ORIGINAL_REHEARSAL_FAILED")
++        report["status"] = "pass"
++    except (Exception, KeyboardInterrupt):
++        # Never echo inherited inputs, Docker exception text or credential values.
++        report["failure_code"] = "SQL_RECIPE_FAILED_INSPECT_OWNED_EVIDENCE"
++    finally:
++        try:
++            if docker is not None:
++                docker_path(docker, args.docker_sha256)
++            owned = output / "owned-targets.jsonl"
++            if owned.exists() and docker is not None and env is not None:
++                entries = [json.loads(line) for line in read_regular(owned, 4096).decode().splitlines()]
++                report["cleanup"], fallback = cleanup_owned(entries, metadata, whole)
++                if fallback:
++                    report.update(status="fail", cleanup_fallback_required=True)
++            if before is not None:
++                report["source_after"] = source_inventory(ROOT)
++                report["captured_source_after"] = source_inventory(candidate)
++                report["source_unchanged"] = before == report["source_after"] == report["captured_source_after"]
++                if not report["source_unchanged"]:
++                    report["status"] = "fail"
++            if report["status"] == "pass" and (len(report["cleanup"]) != 2 or time.monotonic() >= whole):
++                report["status"] = "fail"
++        except (Exception, KeyboardInterrupt):
++            report.update(status="fail", cleanup_or_source_refused=True)
++        report.update(elapsed_seconds=time.monotonic() - start,
++                      completed_at=dt.datetime.now(dt.timezone.utc).isoformat())
++        (output / "validation.json").write_text(json.dumps(report, indent=2) + "\n")
++    print(json.dumps({k: report.get(k) for k in ("status", "actual_case_count", "current_SQL_executed", "source_unchanged")}))
++    return 0 if report["status"] == "pass" else 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- /dev/null
++++ b/scripts/tests/fixtures/ordinary_installer_v1/manifest.json
+@@ -0,0 +1,118 @@
++{
++  "format": "collect-ordinary-installer-fixture-v1",
++  "runtime": {
++    "python": "3.12.14",
++    "image_tag": "public.ecr.aws/supabase/postgres:17.6.1.095",
++    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
++    "required_platform": "linux/arm64",
++    "platform_observed_in_prior37": false,
++    "image_acquisition": "Named version tag acquisition is mutable and separate; execution admits only the exact image configID, refuses mismatches, and never pulls."
++  },
++  "files": {
++    "platform-bootstrap.sql": "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f",
++    "predecessor.json": "0a9ca2a20bcdb5f3b75ca485eaf2c32f48f0095f4c014ea5d6990e5ac504d8ab"
++  },
++  "helpers": {
++    "scripts/tests/current_ordinary_installer_rehearsal.py": "cf45ebb988648979189ff6212fa0bf5465245d3a78688961a98c71e4e36b3ce1",
++    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
++    "scripts/sql/receipt_transport_platform_prerequisites.sql": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f",
++    "scripts/sql/collect_recovery_source_catalog.sql": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
++  },
++  "platform_provenance": {
++    "retained_dump_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
++    "extracted_platform_sha256": "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f",
++    "kept_blocks": 188,
++    "omitted_app_triggers": [
++      {
++        "name": "sessions a_notification_auth_session_revocation_gate",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "users a_notification_auth_user_revocation_gate",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "sessions b_notification_auth_session_activity_gate",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "users b_notification_auth_user_activity_gate",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "users on_auth_user_created_collect_profile",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "sessions revoke_notification_session_devices_trigger",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      },
++      {
++        "name": "users revoke_notification_user_devices_trigger",
++        "kind": "TRIGGER",
++        "schema": "auth"
++      }
++    ],
++    "source_rows_copied": false,
++    "platform_role_and_grant_normalization": true,
++    "auth_provider_runtime_tested": false,
++    "storage_runtime_tested": false
++  },
++  "predecessor_provenance": {
++    "original_metadata_path": "docs/release/collect-codex-goal-2026-09-30/hosted-readback/metadata.json",
++    "original_metadata_sha256": "033232f7a67ff2eabec12e12c9f5023f2af6d055a6e2b948f5cfb9995391df8b",
++    "captured_prefix_count": 124,
++    "latest": "20260906160000",
++    "hosted_currentness_verified": false,
++    "fields_selected": [
++      "migrations"
++    ],
++    "project_keys_customer_auth_and_edge_rows_copied": false
++  },
++  "expected_cases": [
++    "clean client and service direct transport tables and columns remain private",
++    "clean retained pg_net platform prerequisite matches reviewed local ownership",
++    "clean application installer is actually NOSUPERUSER before migration 1",
++    "clean managed cron extension and job ownership agree without installer DML",
++    "clean retained cron owner API executes only for the installer among tested roles",
++    "clean ordinary installer schedules and unschedules through owner APIs",
++    "clean rolled-back cron probe leaves no job or run history",
++    "clean retained platform starts without Auth users or application profiles",
++    "every current application migration replays under ordinary local authority",
++    "clean schedules remain disabled with no cron history or network dispatch",
++    "populated client and service direct transport tables and columns remain private",
++    "populated retained pg_net platform prerequisite matches reviewed local ownership",
++    "populated application installer is actually NOSUPERUSER before migration 1",
++    "populated managed cron extension and job ownership agree without installer DML",
++    "populated retained cron owner API executes only for the installer among tested roles",
++    "populated ordinary installer schedules and unschedules through owner APIs",
++    "populated rolled-back cron probe leaves no job or run history",
++    "populated retained platform starts without Auth users or application profiles",
++    "populated predecessor reaches the exact retained version boundary",
++    "nonempty predecessor has 850 RWF, three balanced journals and two immutable primary receipts",
++    "predecessor dispatch is paused with no carrier attempts",
++    "every pending migration preserves 18 predecessor financial receipt Auth and approval projections",
++    "full upgrade registry reaches exact captured count",
++    "confirmed payer migration cancels only the incompatible legacy intent",
++    "Rwanda mode retains existing FR profile while retiring non-Rwanda country configuration",
++    "all retained journals remain two-line balanced",
++    "paused predecessor payment is never silently backfilled",
++    "current investigation reads actual retained posting and independent current balance",
++    "upgraded Overview receipt section remains independently authorized",
++    "manual shadow history exists without any scheduled or claimed runs",
++    "upgraded read calls preserve all predecessor projections",
++    "new handset dispatch authority remains unavailable",
++    "populated schedules remain disabled with no cron history or network dispatch",
++    "complete final clean and populated effective catalogs agree",
++    "both task-owned containers have been removed",
++    "all captured helper source bytes remain unchanged",
++    "entire migration set and source bytes match the captured ordinary rehearsal"
++  ],
++  "original37_result_sha256": "38262086d57566e5357bcff74c6e723e73dc41adb19f4063f48d36b2f653bee4"
++}
+--- /dev/null
++++ b/scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql
+@@ -0,0 +1,1926 @@
++set check_function_bodies=off;set standard_conforming_strings=on;
++drop schema if exists auth cascade;drop schema if exists storage cascade;
++create schema auth;create schema storage;create schema if not exists extensions;
++create extension if not exists pgcrypto with schema extensions;
++create extension if not exists "uuid-ossp" with schema extensions;
++--
++-- Name: aal_level; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.aal_level AS ENUM (
++    'aal1',
++    'aal2',
++    'aal3'
++);
++
++
++
++--
++-- Name: code_challenge_method; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.code_challenge_method AS ENUM (
++    's256',
++    'plain'
++);
++
++
++
++--
++-- Name: factor_status; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.factor_status AS ENUM (
++    'unverified',
++    'verified'
++);
++
++
++
++--
++-- Name: factor_type; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.factor_type AS ENUM (
++    'totp',
++    'webauthn',
++    'phone'
++);
++
++
++
++--
++-- Name: oauth_authorization_status; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.oauth_authorization_status AS ENUM (
++    'pending',
++    'approved',
++    'denied',
++    'expired'
++);
++
++
++
++--
++-- Name: oauth_client_type; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.oauth_client_type AS ENUM (
++    'public',
++    'confidential'
++);
++
++
++
++--
++-- Name: oauth_registration_type; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.oauth_registration_type AS ENUM (
++    'dynamic',
++    'manual'
++);
++
++
++
++--
++-- Name: oauth_response_type; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.oauth_response_type AS ENUM (
++    'code'
++);
++
++
++
++--
++-- Name: one_time_token_type; Type: TYPE; Schema: auth; Owner: -
++--
++
++CREATE TYPE auth.one_time_token_type AS ENUM (
++    'confirmation_token',
++    'reauthentication_token',
++    'recovery_token',
++    'email_change_token_new',
++    'email_change_token_current',
++    'phone_change_token'
++);
++
++
++
++--
++-- Name: email(); Type: FUNCTION; Schema: auth; Owner: -
++--
++
++CREATE FUNCTION auth.email() RETURNS text
++    LANGUAGE sql STABLE
++    AS $$
++  select 
++  coalesce(
++    nullif(current_setting('request.jwt.claim.email', true), ''),
++    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'email')
++  )::text
++$$;
++
++
++
++--
++-- Name: FUNCTION email(); Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON FUNCTION auth.email() IS 'Deprecated. Use auth.jwt() -> ''email'' instead.';
++
++
++
++--
++-- Name: jwt(); Type: FUNCTION; Schema: auth; Owner: -
++--
++
++CREATE FUNCTION auth.jwt() RETURNS jsonb
++    LANGUAGE sql STABLE
++    AS $$
++  select 
++    coalesce(
++        nullif(current_setting('request.jwt.claim', true), ''),
++        nullif(current_setting('request.jwt.claims', true), '')
++    )::jsonb
++$$;
++
++
++
++--
++-- Name: role(); Type: FUNCTION; Schema: auth; Owner: -
++--
++
++CREATE FUNCTION auth.role() RETURNS text
++    LANGUAGE sql STABLE
++    AS $$
++  select 
++  coalesce(
++    nullif(current_setting('request.jwt.claim.role', true), ''),
++    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'role')
++  )::text
++$$;
++
++
++
++--
++-- Name: FUNCTION role(); Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON FUNCTION auth.role() IS 'Deprecated. Use auth.jwt() -> ''role'' instead.';
++
++
++
++--
++-- Name: uid(); Type: FUNCTION; Schema: auth; Owner: -
++--
++
++CREATE FUNCTION auth.uid() RETURNS uuid
++    LANGUAGE sql STABLE
++    AS $$
++  select 
++  coalesce(
++    nullif(current_setting('request.jwt.claim.sub', true), ''),
++    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')
++  )::uuid
++$$;
++
++
++
++--
++-- Name: FUNCTION uid(); Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON FUNCTION auth.uid() IS 'Deprecated. Use auth.jwt() -> ''sub'' instead.';
++
++
++
++--
++-- Name: audit_log_entries; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.audit_log_entries (
++    instance_id uuid,
++    id uuid NOT NULL,
++    payload json,
++    created_at timestamp with time zone,
++    ip_address character varying(64) DEFAULT ''::character varying NOT NULL
++);
++
++
++
++--
++-- Name: TABLE audit_log_entries; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.audit_log_entries IS 'Auth: Audit trail for user actions.';
++
++
++
++--
++-- Name: custom_oauth_providers; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.custom_oauth_providers (
++    id uuid DEFAULT gen_random_uuid() NOT NULL,
++    provider_type text NOT NULL,
++    identifier text NOT NULL,
++    name text NOT NULL,
++    client_id text NOT NULL,
++    client_secret text NOT NULL,
++    acceptable_client_ids text[] DEFAULT '{}'::text[] NOT NULL,
++    scopes text[] DEFAULT '{}'::text[] NOT NULL,
++    pkce_enabled boolean DEFAULT true NOT NULL,
++    attribute_mapping jsonb DEFAULT '{}'::jsonb NOT NULL,
++    authorization_params jsonb DEFAULT '{}'::jsonb NOT NULL,
++    enabled boolean DEFAULT true NOT NULL,
++    email_optional boolean DEFAULT false NOT NULL,
++    issuer text,
++    discovery_url text,
++    skip_nonce_check boolean DEFAULT false NOT NULL,
++    cached_discovery jsonb,
++    discovery_cached_at timestamp with time zone,
++    authorization_url text,
++    token_url text,
++    userinfo_url text,
++    jwks_uri text,
++    created_at timestamp with time zone DEFAULT now() NOT NULL,
++    updated_at timestamp with time zone DEFAULT now() NOT NULL,
++    CONSTRAINT custom_oauth_providers_authorization_url_https CHECK (((authorization_url IS NULL) OR (authorization_url ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_authorization_url_length CHECK (((authorization_url IS NULL) OR (char_length(authorization_url) <= 2048))),
++    CONSTRAINT custom_oauth_providers_client_id_length CHECK (((char_length(client_id) >= 1) AND (char_length(client_id) <= 512))),
++    CONSTRAINT custom_oauth_providers_discovery_url_length CHECK (((discovery_url IS NULL) OR (char_length(discovery_url) <= 2048))),
++    CONSTRAINT custom_oauth_providers_identifier_format CHECK ((identifier ~ '^[a-z0-9][a-z0-9:-]{0,48}[a-z0-9]$'::text)),
++    CONSTRAINT custom_oauth_providers_issuer_length CHECK (((issuer IS NULL) OR ((char_length(issuer) >= 1) AND (char_length(issuer) <= 2048)))),
++    CONSTRAINT custom_oauth_providers_jwks_uri_https CHECK (((jwks_uri IS NULL) OR (jwks_uri ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_jwks_uri_length CHECK (((jwks_uri IS NULL) OR (char_length(jwks_uri) <= 2048))),
++    CONSTRAINT custom_oauth_providers_name_length CHECK (((char_length(name) >= 1) AND (char_length(name) <= 100))),
++    CONSTRAINT custom_oauth_providers_oauth2_requires_endpoints CHECK (((provider_type <> 'oauth2'::text) OR ((authorization_url IS NOT NULL) AND (token_url IS NOT NULL) AND (userinfo_url IS NOT NULL)))),
++    CONSTRAINT custom_oauth_providers_oidc_discovery_url_https CHECK (((provider_type <> 'oidc'::text) OR (discovery_url IS NULL) OR (discovery_url ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_oidc_issuer_https CHECK (((provider_type <> 'oidc'::text) OR (issuer IS NULL) OR (issuer ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_oidc_requires_issuer CHECK (((provider_type <> 'oidc'::text) OR (issuer IS NOT NULL))),
++    CONSTRAINT custom_oauth_providers_provider_type_check CHECK ((provider_type = ANY (ARRAY['oauth2'::text, 'oidc'::text]))),
++    CONSTRAINT custom_oauth_providers_token_url_https CHECK (((token_url IS NULL) OR (token_url ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_token_url_length CHECK (((token_url IS NULL) OR (char_length(token_url) <= 2048))),
++    CONSTRAINT custom_oauth_providers_userinfo_url_https CHECK (((userinfo_url IS NULL) OR (userinfo_url ~~ 'https://%'::text))),
++    CONSTRAINT custom_oauth_providers_userinfo_url_length CHECK (((userinfo_url IS NULL) OR (char_length(userinfo_url) <= 2048)))
++);
++
++
++
++--
++-- Name: flow_state; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.flow_state (
++    id uuid NOT NULL,
++    user_id uuid,
++    auth_code text,
++    code_challenge_method auth.code_challenge_method,
++    code_challenge text,
++    provider_type text NOT NULL,
++    provider_access_token text,
++    provider_refresh_token text,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    authentication_method text NOT NULL,
++    auth_code_issued_at timestamp with time zone,
++    invite_token text,
++    referrer text,
++    oauth_client_state_id uuid,
++    linking_target_id uuid,
++    email_optional boolean DEFAULT false NOT NULL
++);
++
++
++
++--
++-- Name: TABLE flow_state; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.flow_state IS 'Stores metadata for all OAuth/SSO login flows';
++
++
++
++--
++-- Name: identities; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.identities (
++    provider_id text NOT NULL,
++    user_id uuid NOT NULL,
++    identity_data jsonb NOT NULL,
++    provider text NOT NULL,
++    last_sign_in_at timestamp with time zone,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    email text GENERATED ALWAYS AS (lower((identity_data ->> 'email'::text))) STORED,
++    id uuid DEFAULT gen_random_uuid() NOT NULL
++);
++
++
++
++--
++-- Name: TABLE identities; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.identities IS 'Auth: Stores identities associated to a user.';
++
++
++
++--
++-- Name: COLUMN identities.email; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.identities.email IS 'Auth: Email is a generated column that references the optional email property in the identity_data';
++
++
++
++--
++-- Name: instances; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.instances (
++    id uuid NOT NULL,
++    uuid uuid,
++    raw_base_config text,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone
++);
++
++
++
++--
++-- Name: TABLE instances; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.instances IS 'Auth: Manages users across multiple sites.';
++
++
++
++--
++-- Name: mfa_amr_claims; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.mfa_amr_claims (
++    session_id uuid NOT NULL,
++    created_at timestamp with time zone NOT NULL,
++    updated_at timestamp with time zone NOT NULL,
++    authentication_method text NOT NULL,
++    id uuid NOT NULL
++);
++
++
++
++--
++-- Name: TABLE mfa_amr_claims; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.mfa_amr_claims IS 'auth: stores authenticator method reference claims for multi factor authentication';
++
++
++
++--
++-- Name: mfa_challenges; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.mfa_challenges (
++    id uuid NOT NULL,
++    factor_id uuid NOT NULL,
++    created_at timestamp with time zone NOT NULL,
++    verified_at timestamp with time zone,
++    ip_address inet NOT NULL,
++    otp_code text,
++    web_authn_session_data jsonb
++);
++
++
++
++--
++-- Name: TABLE mfa_challenges; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.mfa_challenges IS 'auth: stores metadata about challenge requests made';
++
++
++
++--
++-- Name: mfa_factors; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.mfa_factors (
++    id uuid NOT NULL,
++    user_id uuid NOT NULL,
++    friendly_name text,
++    factor_type auth.factor_type NOT NULL,
++    status auth.factor_status NOT NULL,
++    created_at timestamp with time zone NOT NULL,
++    updated_at timestamp with time zone NOT NULL,
++    secret text,
++    phone text,
++    last_challenged_at timestamp with time zone,
++    web_authn_credential jsonb,
++    web_authn_aaguid uuid,
++    last_webauthn_challenge_data jsonb
++);
++
++
++
++--
++-- Name: TABLE mfa_factors; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.mfa_factors IS 'auth: stores metadata about factors';
++
++
++
++--
++-- Name: COLUMN mfa_factors.last_webauthn_challenge_data; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.mfa_factors.last_webauthn_challenge_data IS 'Stores the latest WebAuthn challenge data including attestation/assertion for customer verification';
++
++
++
++--
++-- Name: oauth_authorizations; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.oauth_authorizations (
++    id uuid NOT NULL,
++    authorization_id text NOT NULL,
++    client_id uuid NOT NULL,
++    user_id uuid,
++    redirect_uri text NOT NULL,
++    scope text NOT NULL,
++    state text,
++    resource text,
++    code_challenge text,
++    code_challenge_method auth.code_challenge_method,
++    response_type auth.oauth_response_type DEFAULT 'code'::auth.oauth_response_type NOT NULL,
++    status auth.oauth_authorization_status DEFAULT 'pending'::auth.oauth_authorization_status NOT NULL,
++    authorization_code text,
++    created_at timestamp with time zone DEFAULT now() NOT NULL,
++    expires_at timestamp with time zone DEFAULT (now() + '00:03:00'::interval) NOT NULL,
++    approved_at timestamp with time zone,
++    nonce text,
++    CONSTRAINT oauth_authorizations_authorization_code_length CHECK ((char_length(authorization_code) <= 255)),
++    CONSTRAINT oauth_authorizations_code_challenge_length CHECK ((char_length(code_challenge) <= 128)),
++    CONSTRAINT oauth_authorizations_expires_at_future CHECK ((expires_at > created_at)),
++    CONSTRAINT oauth_authorizations_nonce_length CHECK ((char_length(nonce) <= 255)),
++    CONSTRAINT oauth_authorizations_redirect_uri_length CHECK ((char_length(redirect_uri) <= 2048)),
++    CONSTRAINT oauth_authorizations_resource_length CHECK ((char_length(resource) <= 2048)),
++    CONSTRAINT oauth_authorizations_scope_length CHECK ((char_length(scope) <= 4096)),
++    CONSTRAINT oauth_authorizations_state_length CHECK ((char_length(state) <= 4096))
++);
++
++
++
++--
++-- Name: oauth_client_states; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.oauth_client_states (
++    id uuid NOT NULL,
++    provider_type text NOT NULL,
++    code_verifier text,
++    created_at timestamp with time zone NOT NULL
++);
++
++
++
++--
++-- Name: TABLE oauth_client_states; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.oauth_client_states IS 'Stores OAuth states for third-party provider authentication flows where Supabase acts as the OAuth client.';
++
++
++
++--
++-- Name: oauth_clients; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.oauth_clients (
++    id uuid NOT NULL,
++    client_secret_hash text,
++    registration_type auth.oauth_registration_type NOT NULL,
++    redirect_uris text NOT NULL,
++    grant_types text NOT NULL,
++    client_name text,
++    client_uri text,
++    logo_uri text,
++    created_at timestamp with time zone DEFAULT now() NOT NULL,
++    updated_at timestamp with time zone DEFAULT now() NOT NULL,
++    deleted_at timestamp with time zone,
++    client_type auth.oauth_client_type DEFAULT 'confidential'::auth.oauth_client_type NOT NULL,
++    token_endpoint_auth_method text NOT NULL,
++    CONSTRAINT oauth_clients_client_name_length CHECK ((char_length(client_name) <= 1024)),
++    CONSTRAINT oauth_clients_client_uri_length CHECK ((char_length(client_uri) <= 2048)),
++    CONSTRAINT oauth_clients_logo_uri_length CHECK ((char_length(logo_uri) <= 2048)),
++    CONSTRAINT oauth_clients_token_endpoint_auth_method_check CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))
++);
++
++
++
++--
++-- Name: oauth_consents; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.oauth_consents (
++    id uuid NOT NULL,
++    user_id uuid NOT NULL,
++    client_id uuid NOT NULL,
++    scopes text NOT NULL,
++    granted_at timestamp with time zone DEFAULT now() NOT NULL,
++    revoked_at timestamp with time zone,
++    CONSTRAINT oauth_consents_revoked_after_granted CHECK (((revoked_at IS NULL) OR (revoked_at >= granted_at))),
++    CONSTRAINT oauth_consents_scopes_length CHECK ((char_length(scopes) <= 2048)),
++    CONSTRAINT oauth_consents_scopes_not_empty CHECK ((char_length(TRIM(BOTH FROM scopes)) > 0))
++);
++
++
++
++--
++-- Name: one_time_tokens; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.one_time_tokens (
++    id uuid NOT NULL,
++    user_id uuid NOT NULL,
++    token_type auth.one_time_token_type NOT NULL,
++    token_hash text NOT NULL,
++    relates_to text NOT NULL,
++    created_at timestamp without time zone DEFAULT now() NOT NULL,
++    updated_at timestamp without time zone DEFAULT now() NOT NULL,
++    CONSTRAINT one_time_tokens_token_hash_check CHECK ((char_length(token_hash) > 0))
++);
++
++
++
++--
++-- Name: refresh_tokens; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.refresh_tokens (
++    instance_id uuid,
++    id bigint NOT NULL,
++    token character varying(255),
++    user_id character varying(255),
++    revoked boolean,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    parent character varying(255),
++    session_id uuid
++);
++
++
++
++--
++-- Name: TABLE refresh_tokens; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.refresh_tokens IS 'Auth: Store of tokens used to refresh JWT tokens once they expire.';
++
++
++
++--
++-- Name: refresh_tokens_id_seq; Type: SEQUENCE; Schema: auth; Owner: -
++--
++
++CREATE SEQUENCE auth.refresh_tokens_id_seq
++    START WITH 1
++    INCREMENT BY 1
++    NO MINVALUE
++    NO MAXVALUE
++    CACHE 1;
++
++
++
++--
++-- Name: refresh_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: auth; Owner: -
++--
++
++ALTER SEQUENCE auth.refresh_tokens_id_seq OWNED BY auth.refresh_tokens.id;
++
++
++
++--
++-- Name: saml_providers; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.saml_providers (
++    id uuid NOT NULL,
++    sso_provider_id uuid NOT NULL,
++    entity_id text NOT NULL,
++    metadata_xml text NOT NULL,
++    metadata_url text,
++    attribute_mapping jsonb,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    name_id_format text,
++    CONSTRAINT "entity_id not empty" CHECK ((char_length(entity_id) > 0)),
++    CONSTRAINT "metadata_url not empty" CHECK (((metadata_url = NULL::text) OR (char_length(metadata_url) > 0))),
++    CONSTRAINT "metadata_xml not empty" CHECK ((char_length(metadata_xml) > 0))
++);
++
++
++
++--
++-- Name: TABLE saml_providers; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.saml_providers IS 'Auth: Manages SAML Identity Provider connections.';
++
++
++
++--
++-- Name: saml_relay_states; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.saml_relay_states (
++    id uuid NOT NULL,
++    sso_provider_id uuid NOT NULL,
++    request_id text NOT NULL,
++    for_email text,
++    redirect_to text,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    flow_state_id uuid,
++    CONSTRAINT "request_id not empty" CHECK ((char_length(request_id) > 0))
++);
++
++
++
++--
++-- Name: TABLE saml_relay_states; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.saml_relay_states IS 'Auth: Contains SAML Relay State information for each Service Provider initiated login.';
++
++
++
++--
++-- Name: schema_migrations; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.schema_migrations (
++    version character varying(255) NOT NULL
++);
++
++
++
++--
++-- Name: TABLE schema_migrations; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.schema_migrations IS 'Auth: Manages updates to the auth system.';
++
++
++
++--
++-- Name: sessions; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.sessions (
++    id uuid NOT NULL,
++    user_id uuid NOT NULL,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    factor_id uuid,
++    aal auth.aal_level,
++    not_after timestamp with time zone,
++    refreshed_at timestamp without time zone,
++    user_agent text,
++    ip inet,
++    tag text,
++    oauth_client_id uuid,
++    refresh_token_hmac_key text,
++    refresh_token_counter bigint,
++    scopes text,
++    CONSTRAINT sessions_scopes_length CHECK ((char_length(scopes) <= 4096))
++);
++
++
++
++--
++-- Name: TABLE sessions; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.sessions IS 'Auth: Stores session data associated to a user.';
++
++
++
++--
++-- Name: COLUMN sessions.not_after; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.sessions.not_after IS 'Auth: Not after is a nullable column that contains a timestamp after which the session should be regarded as expired.';
++
++
++
++--
++-- Name: COLUMN sessions.refresh_token_hmac_key; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.sessions.refresh_token_hmac_key IS 'Holds a HMAC-SHA256 key used to sign refresh tokens for this session.';
++
++
++
++--
++-- Name: COLUMN sessions.refresh_token_counter; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.sessions.refresh_token_counter IS 'Holds the ID (counter) of the last issued refresh token.';
++
++
++
++--
++-- Name: sso_domains; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.sso_domains (
++    id uuid NOT NULL,
++    sso_provider_id uuid NOT NULL,
++    domain text NOT NULL,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    CONSTRAINT "domain not empty" CHECK ((char_length(domain) > 0))
++);
++
++
++
++--
++-- Name: TABLE sso_domains; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.sso_domains IS 'Auth: Manages SSO email address domain mapping to an SSO Identity Provider.';
++
++
++
++--
++-- Name: sso_providers; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.sso_providers (
++    id uuid NOT NULL,
++    resource_id text,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    disabled boolean,
++    CONSTRAINT "resource_id not empty" CHECK (((resource_id = NULL::text) OR (char_length(resource_id) > 0)))
++);
++
++
++
++--
++-- Name: TABLE sso_providers; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.sso_providers IS 'Auth: Manages SSO identity provider information; see saml_providers for SAML.';
++
++
++
++--
++-- Name: COLUMN sso_providers.resource_id; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.sso_providers.resource_id IS 'Auth: Uniquely identifies a SSO provider according to a user-chosen resource ID (case insensitive), useful in infrastructure as code.';
++
++
++
++--
++-- Name: users; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.users (
++    instance_id uuid,
++    id uuid NOT NULL,
++    aud character varying(255),
++    role character varying(255),
++    email character varying(255),
++    encrypted_password character varying(255),
++    email_confirmed_at timestamp with time zone,
++    invited_at timestamp with time zone,
++    confirmation_token character varying(255),
++    confirmation_sent_at timestamp with time zone,
++    recovery_token character varying(255),
++    recovery_sent_at timestamp with time zone,
++    email_change_token_new character varying(255),
++    email_change character varying(255),
++    email_change_sent_at timestamp with time zone,
++    last_sign_in_at timestamp with time zone,
++    raw_app_meta_data jsonb,
++    raw_user_meta_data jsonb,
++    is_super_admin boolean,
++    created_at timestamp with time zone,
++    updated_at timestamp with time zone,
++    phone text DEFAULT NULL::character varying,
++    phone_confirmed_at timestamp with time zone,
++    phone_change text DEFAULT ''::character varying,
++    phone_change_token character varying(255) DEFAULT ''::character varying,
++    phone_change_sent_at timestamp with time zone,
++    confirmed_at timestamp with time zone GENERATED ALWAYS AS (LEAST(email_confirmed_at, phone_confirmed_at)) STORED,
++    email_change_token_current character varying(255) DEFAULT ''::character varying,
++    email_change_confirm_status smallint DEFAULT 0,
++    banned_until timestamp with time zone,
++    reauthentication_token character varying(255) DEFAULT ''::character varying,
++    reauthentication_sent_at timestamp with time zone,
++    is_sso_user boolean DEFAULT false NOT NULL,
++    deleted_at timestamp with time zone,
++    is_anonymous boolean DEFAULT false NOT NULL,
++    CONSTRAINT users_email_change_confirm_status_check CHECK (((email_change_confirm_status >= 0) AND (email_change_confirm_status <= 2)))
++);
++
++
++
++--
++-- Name: TABLE users; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON TABLE auth.users IS 'Auth: Stores user login data within a secure schema.';
++
++
++
++--
++-- Name: COLUMN users.is_sso_user; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON COLUMN auth.users.is_sso_user IS 'Auth: Set this column to true when the account comes from SSO. These accounts can have duplicate emails.';
++
++
++
++--
++-- Name: webauthn_challenges; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.webauthn_challenges (
++    id uuid DEFAULT gen_random_uuid() NOT NULL,
++    user_id uuid,
++    challenge_type text NOT NULL,
++    session_data jsonb NOT NULL,
++    created_at timestamp with time zone DEFAULT now() NOT NULL,
++    expires_at timestamp with time zone NOT NULL,
++    CONSTRAINT webauthn_challenges_challenge_type_check CHECK ((challenge_type = ANY (ARRAY['signup'::text, 'registration'::text, 'authentication'::text])))
++);
++
++
++
++--
++-- Name: webauthn_credentials; Type: TABLE; Schema: auth; Owner: -
++--
++
++CREATE TABLE auth.webauthn_credentials (
++    id uuid DEFAULT gen_random_uuid() NOT NULL,
++    user_id uuid NOT NULL,
++    credential_id bytea NOT NULL,
++    public_key bytea NOT NULL,
++    attestation_type text DEFAULT ''::text NOT NULL,
++    aaguid uuid,
++    sign_count bigint DEFAULT 0 NOT NULL,
++    transports jsonb DEFAULT '[]'::jsonb NOT NULL,
++    backup_eligible boolean DEFAULT false NOT NULL,
++    backed_up boolean DEFAULT false NOT NULL,
++    friendly_name text DEFAULT ''::text NOT NULL,
++    created_at timestamp with time zone DEFAULT now() NOT NULL,
++    updated_at timestamp with time zone DEFAULT now() NOT NULL,
++    last_used_at timestamp with time zone
++);
++
++
++
++--
++-- Name: refresh_tokens id; Type: DEFAULT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.refresh_tokens ALTER COLUMN id SET DEFAULT nextval('auth.refresh_tokens_id_seq'::regclass);
++
++
++
++--
++-- Name: mfa_amr_claims amr_id_pk; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_amr_claims
++    ADD CONSTRAINT amr_id_pk PRIMARY KEY (id);
++
++
++
++--
++-- Name: audit_log_entries audit_log_entries_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.audit_log_entries
++    ADD CONSTRAINT audit_log_entries_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: custom_oauth_providers custom_oauth_providers_identifier_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.custom_oauth_providers
++    ADD CONSTRAINT custom_oauth_providers_identifier_key UNIQUE (identifier);
++
++
++
++--
++-- Name: custom_oauth_providers custom_oauth_providers_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.custom_oauth_providers
++    ADD CONSTRAINT custom_oauth_providers_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: flow_state flow_state_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.flow_state
++    ADD CONSTRAINT flow_state_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: identities identities_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.identities
++    ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: identities identities_provider_id_provider_unique; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.identities
++    ADD CONSTRAINT identities_provider_id_provider_unique UNIQUE (provider_id, provider);
++
++
++
++--
++-- Name: instances instances_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.instances
++    ADD CONSTRAINT instances_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: mfa_amr_claims mfa_amr_claims_session_id_authentication_method_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_amr_claims
++    ADD CONSTRAINT mfa_amr_claims_session_id_authentication_method_pkey UNIQUE (session_id, authentication_method);
++
++
++
++--
++-- Name: mfa_challenges mfa_challenges_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_challenges
++    ADD CONSTRAINT mfa_challenges_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: mfa_factors mfa_factors_last_challenged_at_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_factors
++    ADD CONSTRAINT mfa_factors_last_challenged_at_key UNIQUE (last_challenged_at);
++
++
++
++--
++-- Name: mfa_factors mfa_factors_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_factors
++    ADD CONSTRAINT mfa_factors_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: oauth_authorizations oauth_authorizations_authorization_code_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_authorizations
++    ADD CONSTRAINT oauth_authorizations_authorization_code_key UNIQUE (authorization_code);
++
++
++
++--
++-- Name: oauth_authorizations oauth_authorizations_authorization_id_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_authorizations
++    ADD CONSTRAINT oauth_authorizations_authorization_id_key UNIQUE (authorization_id);
++
++
++
++--
++-- Name: oauth_authorizations oauth_authorizations_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_authorizations
++    ADD CONSTRAINT oauth_authorizations_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: oauth_client_states oauth_client_states_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_client_states
++    ADD CONSTRAINT oauth_client_states_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: oauth_clients oauth_clients_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_clients
++    ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: oauth_consents oauth_consents_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_consents
++    ADD CONSTRAINT oauth_consents_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: oauth_consents oauth_consents_user_client_unique; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_consents
++    ADD CONSTRAINT oauth_consents_user_client_unique UNIQUE (user_id, client_id);
++
++
++
++--
++-- Name: one_time_tokens one_time_tokens_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.one_time_tokens
++    ADD CONSTRAINT one_time_tokens_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: refresh_tokens refresh_tokens_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.refresh_tokens
++    ADD CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: refresh_tokens refresh_tokens_token_unique; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.refresh_tokens
++    ADD CONSTRAINT refresh_tokens_token_unique UNIQUE (token);
++
++
++
++--
++-- Name: saml_providers saml_providers_entity_id_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_providers
++    ADD CONSTRAINT saml_providers_entity_id_key UNIQUE (entity_id);
++
++
++
++--
++-- Name: saml_providers saml_providers_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_providers
++    ADD CONSTRAINT saml_providers_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: saml_relay_states saml_relay_states_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_relay_states
++    ADD CONSTRAINT saml_relay_states_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.schema_migrations
++    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
++
++
++
++--
++-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sessions
++    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: sso_domains sso_domains_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sso_domains
++    ADD CONSTRAINT sso_domains_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: sso_providers sso_providers_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sso_providers
++    ADD CONSTRAINT sso_providers_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: users users_phone_key; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.users
++    ADD CONSTRAINT users_phone_key UNIQUE (phone);
++
++
++
++--
++-- Name: users users_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.users
++    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: webauthn_challenges webauthn_challenges_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.webauthn_challenges
++    ADD CONSTRAINT webauthn_challenges_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: webauthn_credentials webauthn_credentials_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.webauthn_credentials
++    ADD CONSTRAINT webauthn_credentials_pkey PRIMARY KEY (id);
++
++
++
++--
++-- Name: audit_logs_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX audit_logs_instance_id_idx ON auth.audit_log_entries USING btree (instance_id);
++
++
++
++--
++-- Name: confirmation_token_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX confirmation_token_idx ON auth.users USING btree (confirmation_token) WHERE ((confirmation_token)::text !~ '^[0-9 ]*$'::text);
++
++
++
++--
++-- Name: custom_oauth_providers_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX custom_oauth_providers_created_at_idx ON auth.custom_oauth_providers USING btree (created_at);
++
++
++
++--
++-- Name: custom_oauth_providers_enabled_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX custom_oauth_providers_enabled_idx ON auth.custom_oauth_providers USING btree (enabled);
++
++
++
++--
++-- Name: custom_oauth_providers_identifier_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX custom_oauth_providers_identifier_idx ON auth.custom_oauth_providers USING btree (identifier);
++
++
++
++--
++-- Name: custom_oauth_providers_provider_type_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX custom_oauth_providers_provider_type_idx ON auth.custom_oauth_providers USING btree (provider_type);
++
++
++
++--
++-- Name: email_change_token_current_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX email_change_token_current_idx ON auth.users USING btree (email_change_token_current) WHERE ((email_change_token_current)::text !~ '^[0-9 ]*$'::text);
++
++
++
++--
++-- Name: email_change_token_new_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX email_change_token_new_idx ON auth.users USING btree (email_change_token_new) WHERE ((email_change_token_new)::text !~ '^[0-9 ]*$'::text);
++
++
++
++--
++-- Name: factor_id_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX factor_id_created_at_idx ON auth.mfa_factors USING btree (user_id, created_at);
++
++
++
++--
++-- Name: flow_state_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX flow_state_created_at_idx ON auth.flow_state USING btree (created_at DESC);
++
++
++
++--
++-- Name: identities_email_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX identities_email_idx ON auth.identities USING btree (email text_pattern_ops);
++
++
++
++--
++-- Name: INDEX identities_email_idx; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON INDEX auth.identities_email_idx IS 'Auth: Ensures indexed queries on the email column';
++
++
++
++--
++-- Name: identities_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX identities_user_id_idx ON auth.identities USING btree (user_id);
++
++
++
++--
++-- Name: idx_auth_code; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX idx_auth_code ON auth.flow_state USING btree (auth_code);
++
++
++
++--
++-- Name: idx_oauth_client_states_created_at; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX idx_oauth_client_states_created_at ON auth.oauth_client_states USING btree (created_at);
++
++
++
++--
++-- Name: idx_user_id_auth_method; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX idx_user_id_auth_method ON auth.flow_state USING btree (user_id, authentication_method);
++
++
++
++--
++-- Name: mfa_challenge_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX mfa_challenge_created_at_idx ON auth.mfa_challenges USING btree (created_at DESC);
++
++
++
++--
++-- Name: mfa_factors_user_friendly_name_unique; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX mfa_factors_user_friendly_name_unique ON auth.mfa_factors USING btree (friendly_name, user_id) WHERE (TRIM(BOTH FROM friendly_name) <> ''::text);
++
++
++
++--
++-- Name: mfa_factors_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX mfa_factors_user_id_idx ON auth.mfa_factors USING btree (user_id);
++
++
++
++--
++-- Name: oauth_auth_pending_exp_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX oauth_auth_pending_exp_idx ON auth.oauth_authorizations USING btree (expires_at) WHERE (status = 'pending'::auth.oauth_authorization_status);
++
++
++
++--
++-- Name: oauth_clients_deleted_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX oauth_clients_deleted_at_idx ON auth.oauth_clients USING btree (deleted_at);
++
++
++
++--
++-- Name: oauth_consents_active_client_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX oauth_consents_active_client_idx ON auth.oauth_consents USING btree (client_id) WHERE (revoked_at IS NULL);
++
++
++
++--
++-- Name: oauth_consents_active_user_client_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX oauth_consents_active_user_client_idx ON auth.oauth_consents USING btree (user_id, client_id) WHERE (revoked_at IS NULL);
++
++
++
++--
++-- Name: oauth_consents_user_order_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX oauth_consents_user_order_idx ON auth.oauth_consents USING btree (user_id, granted_at DESC);
++
++
++
++--
++-- Name: one_time_tokens_relates_to_hash_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX one_time_tokens_relates_to_hash_idx ON auth.one_time_tokens USING hash (relates_to);
++
++
++
++--
++-- Name: one_time_tokens_token_hash_hash_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX one_time_tokens_token_hash_hash_idx ON auth.one_time_tokens USING hash (token_hash);
++
++
++
++--
++-- Name: one_time_tokens_user_id_token_type_key; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX one_time_tokens_user_id_token_type_key ON auth.one_time_tokens USING btree (user_id, token_type);
++
++
++
++--
++-- Name: reauthentication_token_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX reauthentication_token_idx ON auth.users USING btree (reauthentication_token) WHERE ((reauthentication_token)::text !~ '^[0-9 ]*$'::text);
++
++
++
++--
++-- Name: recovery_token_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX recovery_token_idx ON auth.users USING btree (recovery_token) WHERE ((recovery_token)::text !~ '^[0-9 ]*$'::text);
++
++
++
++--
++-- Name: refresh_tokens_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX refresh_tokens_instance_id_idx ON auth.refresh_tokens USING btree (instance_id);
++
++
++
++--
++-- Name: refresh_tokens_instance_id_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX refresh_tokens_instance_id_user_id_idx ON auth.refresh_tokens USING btree (instance_id, user_id);
++
++
++
++--
++-- Name: refresh_tokens_parent_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX refresh_tokens_parent_idx ON auth.refresh_tokens USING btree (parent);
++
++
++
++--
++-- Name: refresh_tokens_session_id_revoked_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX refresh_tokens_session_id_revoked_idx ON auth.refresh_tokens USING btree (session_id, revoked);
++
++
++
++--
++-- Name: refresh_tokens_updated_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX refresh_tokens_updated_at_idx ON auth.refresh_tokens USING btree (updated_at DESC);
++
++
++
++--
++-- Name: saml_providers_sso_provider_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX saml_providers_sso_provider_id_idx ON auth.saml_providers USING btree (sso_provider_id);
++
++
++
++--
++-- Name: saml_relay_states_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX saml_relay_states_created_at_idx ON auth.saml_relay_states USING btree (created_at DESC);
++
++
++
++--
++-- Name: saml_relay_states_for_email_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX saml_relay_states_for_email_idx ON auth.saml_relay_states USING btree (for_email);
++
++
++
++--
++-- Name: saml_relay_states_sso_provider_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX saml_relay_states_sso_provider_id_idx ON auth.saml_relay_states USING btree (sso_provider_id);
++
++
++
++--
++-- Name: sessions_not_after_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX sessions_not_after_idx ON auth.sessions USING btree (not_after DESC);
++
++
++
++--
++-- Name: sessions_oauth_client_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX sessions_oauth_client_id_idx ON auth.sessions USING btree (oauth_client_id);
++
++
++
++--
++-- Name: sessions_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX sessions_user_id_idx ON auth.sessions USING btree (user_id);
++
++
++
++--
++-- Name: sso_domains_domain_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX sso_domains_domain_idx ON auth.sso_domains USING btree (lower(domain));
++
++
++
++--
++-- Name: sso_domains_sso_provider_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX sso_domains_sso_provider_id_idx ON auth.sso_domains USING btree (sso_provider_id);
++
++
++
++--
++-- Name: sso_providers_resource_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX sso_providers_resource_id_idx ON auth.sso_providers USING btree (lower(resource_id));
++
++
++
++--
++-- Name: sso_providers_resource_id_pattern_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX sso_providers_resource_id_pattern_idx ON auth.sso_providers USING btree (resource_id text_pattern_ops);
++
++
++
++--
++-- Name: unique_phone_factor_per_user; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX unique_phone_factor_per_user ON auth.mfa_factors USING btree (user_id, phone);
++
++
++
++--
++-- Name: user_id_created_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX user_id_created_at_idx ON auth.sessions USING btree (user_id, created_at);
++
++
++
++--
++-- Name: users_email_partial_key; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX users_email_partial_key ON auth.users USING btree (email) WHERE (is_sso_user = false);
++
++
++
++--
++-- Name: INDEX users_email_partial_key; Type: COMMENT; Schema: auth; Owner: -
++--
++
++COMMENT ON INDEX auth.users_email_partial_key IS 'Auth: A partial unique index that applies only when is_sso_user is false';
++
++
++
++--
++-- Name: users_instance_id_email_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX users_instance_id_email_idx ON auth.users USING btree (instance_id, lower((email)::text));
++
++
++
++--
++-- Name: users_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX users_instance_id_idx ON auth.users USING btree (instance_id);
++
++
++
++--
++-- Name: users_is_anonymous_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX users_is_anonymous_idx ON auth.users USING btree (is_anonymous);
++
++
++
++--
++-- Name: webauthn_challenges_expires_at_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX webauthn_challenges_expires_at_idx ON auth.webauthn_challenges USING btree (expires_at);
++
++
++
++--
++-- Name: webauthn_challenges_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX webauthn_challenges_user_id_idx ON auth.webauthn_challenges USING btree (user_id);
++
++
++
++--
++-- Name: webauthn_credentials_credential_id_key; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE UNIQUE INDEX webauthn_credentials_credential_id_key ON auth.webauthn_credentials USING btree (credential_id);
++
++
++
++--
++-- Name: webauthn_credentials_user_id_idx; Type: INDEX; Schema: auth; Owner: -
++--
++
++CREATE INDEX webauthn_credentials_user_id_idx ON auth.webauthn_credentials USING btree (user_id);
++
++
++
++--
++-- Name: identities identities_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.identities
++    ADD CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: mfa_amr_claims mfa_amr_claims_session_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_amr_claims
++    ADD CONSTRAINT mfa_amr_claims_session_id_fkey FOREIGN KEY (session_id) REFERENCES auth.sessions(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: mfa_challenges mfa_challenges_auth_factor_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_challenges
++    ADD CONSTRAINT mfa_challenges_auth_factor_id_fkey FOREIGN KEY (factor_id) REFERENCES auth.mfa_factors(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: mfa_factors mfa_factors_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.mfa_factors
++    ADD CONSTRAINT mfa_factors_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: oauth_authorizations oauth_authorizations_client_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_authorizations
++    ADD CONSTRAINT oauth_authorizations_client_id_fkey FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: oauth_authorizations oauth_authorizations_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_authorizations
++    ADD CONSTRAINT oauth_authorizations_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: oauth_consents oauth_consents_client_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_consents
++    ADD CONSTRAINT oauth_consents_client_id_fkey FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: oauth_consents oauth_consents_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.oauth_consents
++    ADD CONSTRAINT oauth_consents_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: one_time_tokens one_time_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.one_time_tokens
++    ADD CONSTRAINT one_time_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: refresh_tokens refresh_tokens_session_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.refresh_tokens
++    ADD CONSTRAINT refresh_tokens_session_id_fkey FOREIGN KEY (session_id) REFERENCES auth.sessions(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: saml_providers saml_providers_sso_provider_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_providers
++    ADD CONSTRAINT saml_providers_sso_provider_id_fkey FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: saml_relay_states saml_relay_states_flow_state_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_relay_states
++    ADD CONSTRAINT saml_relay_states_flow_state_id_fkey FOREIGN KEY (flow_state_id) REFERENCES auth.flow_state(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: saml_relay_states saml_relay_states_sso_provider_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.saml_relay_states
++    ADD CONSTRAINT saml_relay_states_sso_provider_id_fkey FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: sessions sessions_oauth_client_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sessions
++    ADD CONSTRAINT sessions_oauth_client_id_fkey FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sessions
++    ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: sso_domains sso_domains_sso_provider_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.sso_domains
++    ADD CONSTRAINT sso_domains_sso_provider_id_fkey FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: webauthn_challenges webauthn_challenges_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.webauthn_challenges
++    ADD CONSTRAINT webauthn_challenges_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: webauthn_credentials webauthn_credentials_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
++--
++
++ALTER TABLE ONLY auth.webauthn_credentials
++    ADD CONSTRAINT webauthn_credentials_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
++
++
++
++--
++-- Name: audit_log_entries; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.audit_log_entries ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: flow_state; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.flow_state ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: identities; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.identities ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: instances; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.instances ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: mfa_amr_claims; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.mfa_amr_claims ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: mfa_challenges; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.mfa_challenges ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: mfa_factors; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.mfa_factors ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: one_time_tokens; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.one_time_tokens ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: refresh_tokens; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.refresh_tokens ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: saml_providers; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.saml_providers ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: saml_relay_states; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.saml_relay_states ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: schema_migrations; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.schema_migrations ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: sessions; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.sessions ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: sso_domains; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.sso_domains ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: sso_providers; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.sso_providers ENABLE ROW LEVEL SECURITY;
++
++
++--
++-- Name: users; Type: ROW SECURITY; Schema: auth; Owner: -
++--
++
++ALTER TABLE auth.users ENABLE ROW LEVEL SECURITY;
++
++
++grant usage on schema auth,storage,extensions to anon,authenticated,service_role;
++grant execute on all functions in schema auth to anon,authenticated,service_role;
++create schema if not exists supabase_migrations;
++create table supabase_migrations.schema_migrations(version text primary key,name text,statements text[]);
++do $$begin if not exists(select 1 from pg_publication where pubname='supabase_realtime')then
++ create publication supabase_realtime;end if;end$$;
+--- /dev/null
++++ b/scripts/tests/fixtures/ordinary_installer_v1/predecessor.json
+@@ -0,0 +1,503 @@
++{
++  "kind": "synthetic_historical_predecessor_prefix",
++  "metadata_only": true,
++  "hosted_currentness_verified": false,
++  "migrations": [
++    {
++      "version": "202605230001",
++      "name": "collect_baseline"
++    },
++    {
++      "version": "202605230002",
++      "name": "fix_invite_rpc_lint"
++    },
++    {
++      "version": "202605230003",
++      "name": "harden_rls_indexes"
++    },
++    {
++      "version": "202605230004",
++      "name": "restore_payment_intent_paid_rpc"
++    },
++    {
++      "version": "202605230005",
++      "name": "restore_sms_collection_scope"
++    },
++    {
++      "version": "202605230006",
++      "name": "finalize_payment_intent_hardening"
++    },
++    {
++      "version": "202605230007",
++      "name": "revoke_public_function_execute"
++    },
++    {
++      "version": "202605230008",
++      "name": "admin_panel"
++    },
++    {
++      "version": "202605230009",
++      "name": "add_client_safe_views"
++    },
++    {
++      "version": "202605230010",
++      "name": "grant_collection_receiver_read"
++    },
++    {
++      "version": "202605230011",
++      "name": "fix_receiver_consent_execute_grant"
++    },
++    {
++      "version": "202605230012",
++      "name": "admin_user_receiver_management"
++    },
++    {
++      "version": "202605230013",
++      "name": "admin_role_audit_actions"
++    },
++    {
++      "version": "202605230014",
++      "name": "admin_new_rpc_privileges"
++    },
++    {
++      "version": "202605230015",
++      "name": "admin_collection_moderation"
++    },
++    {
++      "version": "202605230016",
++      "name": "drop_unowned_admin_helpers"
++    },
++    {
++      "version": "202605230017",
++      "name": "admin_list_filter_contracts"
++    },
++    {
++      "version": "20260523203132",
++      "name": "tighten_admin_role_permissions"
++    },
++    {
++      "version": "20260523204235",
++      "name": "set_views_security_invoker"
++    },
++    {
++      "version": "20260523205502",
++      "name": "set_helper_function_search_paths"
++    },
++    {
++      "version": "20260523210723",
++      "name": "split_permissive_select_policies"
++    },
++    {
++      "version": "20260523212244",
++      "name": "revoke_anon_platform_admin_helper"
++    },
++    {
++      "version": "20260523213113",
++      "name": "disable_graphql_introspection"
++    },
++    {
++      "version": "202605250001",
++      "name": "app_realtime_invalidation"
++    },
++    {
++      "version": "202605270001",
++      "name": "sms_first_group_payment_intents"
++    },
++    {
++      "version": "20260531162852",
++      "name": "harden_sms_first_function_grants"
++    },
++    {
++      "version": "20260531190000",
++      "name": "mobile_production_state_support"
++    },
++    {
++      "version": "20260601230000",
++      "name": "preserve_contribution_sender_hash"
++    },
++    {
++      "version": "20260602050000",
++      "name": "harden_mobile_state_rls_initplan"
++    },
++    {
++      "version": "20260607130500",
++      "name": "update_collection_profile_rpc"
++    },
++    {
++      "version": "20260608090000",
++      "name": "native_notifications"
++    },
++    {
++      "version": "20260611111500",
++      "name": "harden_mobile_profile_rpcs"
++    },
++    {
++      "version": "20260611113000",
++      "name": "harden_notification_rls_initplan"
++    },
++    {
++      "version": "20260611114500",
++      "name": "tighten_notification_rpc_grants"
++    },
++    {
++      "version": "20260611171920",
++      "name": "admin_whatsapp_operator_login"
++    },
++    {
++      "version": "20260611184934",
++      "name": "fix_admin_whatsapp_bootstrap_phone_lookup"
++    },
++    {
++      "version": "20260612103000",
++      "name": "disable_browser_admin_bootstrap"
++    },
++    {
++      "version": "20260612110000",
++      "name": "admin_payment_event_server_paging"
++    },
++    {
++      "version": "20260612111500",
++      "name": "drop_legacy_payment_event_queue_overloads"
++    },
++    {
++      "version": "20260612113000",
++      "name": "revoke_anon_admin_queue_paging"
++    },
++    {
++      "version": "20260619003000",
++      "name": "profile_momo_pay_code"
++    },
++    {
++      "version": "20260622090000",
++      "name": "market_expansion_categories_stripe_foundation"
++    },
++    {
++      "version": "20260626193000",
++      "name": "gate_notification_enqueue_by_preferences"
++    },
++    {
++      "version": "20260627143000",
++      "name": "restrict_admin_permission_helper_probing"
++    },
++    {
++      "version": "20260627171000",
++      "name": "harden_diaspora_stripe_table_grants"
++    },
++    {
++      "version": "20260627183000",
++      "name": "add_admin_operator_note_rpc"
++    },
++    {
++      "version": "20260627184500",
++      "name": "add_admin_queue_sla_policies"
++    },
++    {
++      "version": "20260627190000",
++      "name": "add_admin_collection_status_rpc"
++    },
++    {
++      "version": "20260627191000",
++      "name": "add_admin_feature_flag_toggle_rpc"
++    },
++    {
++      "version": "20260701090000",
++      "name": "developer_account_seed_data"
++    },
++    {
++      "version": "20260701100000",
++      "name": "group_owner_controls"
++    },
++    {
++      "version": "20260703170000",
++      "name": "harden_developer_and_group_rpcs"
++    },
++    {
++      "version": "20260703224559",
++      "name": "collection_type_catalog_runtime"
++    },
++    {
++      "version": "20260703225455",
++      "name": "notification_templates_runtime"
++    },
++    {
++      "version": "20260704100000",
++      "name": "public_runtime_config"
++    },
++    {
++      "version": "20260704110000",
++      "name": "admin_runtime_metadata"
++    },
++    {
++      "version": "20260704120000",
++      "name": "policy_documents_account_reasons"
++    },
++    {
++      "version": "20260704133000",
++      "name": "split_runtime_metadata_select_policies"
++    },
++    {
++      "version": "20260730134500",
++      "name": "grant_mobile_request_own_read"
++    },
++    {
++      "version": "20260804150000",
++      "name": "native_push_delivery"
++    },
++    {
++      "version": "20260805120000",
++      "name": "android_fcm_push_delivery"
++    },
++    {
++      "version": "20260808093000",
++      "name": "qualify_notification_token_digest"
++    },
++    {
++      "version": "20260812073431",
++      "name": "remove_legacy_mock_groups_and_classify_home"
++    },
++    {
++      "version": "20260812080000",
++      "name": "restore_mobile_notification_preferences_grants"
++    },
++    {
++      "version": "20260812090000",
++      "name": "expand_momo_pay_code_length"
++    },
++    {
++      "version": "20260812100000",
++      "name": "remove_developer_dummy_data"
++    },
++    {
++      "version": "20260812110000",
++      "name": "correct_momo_merchant_ussd_template"
++    },
++    {
++      "version": "20260815050900",
++      "name": "harden_momo_sms_standalone_posting"
++    },
++    {
++      "version": "20260815051035",
++      "name": "harden_group_creation_journey"
++    },
++    {
++      "version": "20260815054500",
++      "name": "close_group_journey_database_lint"
++    },
++    {
++      "version": "20260815062536",
++      "name": "complete_admin_operations_control_plane"
++    },
++    {
++      "version": "20260815071500",
++      "name": "bind_contribution_payer_identity"
++    },
++    {
++      "version": "20260815082500",
++      "name": "close_group_authorization_privacy"
++    },
++    {
++      "version": "20260815083000",
++      "name": "require_provider_finality"
++    },
++    {
++      "version": "20260815083500",
++      "name": "claim_sms_parser_work"
++    },
++    {
++      "version": "20260815084000",
++      "name": "atomic_sms_ingestion"
++    },
++    {
++      "version": "20260815084500",
++      "name": "revoke_non_dml_table_privileges"
++    },
++    {
++      "version": "20260815085000",
++      "name": "atomic_provider_finality_gateway"
++    },
++    {
++      "version": "20260820160000",
++      "name": "restore_momo_sms_standalone"
++    },
++    {
++      "version": "20260820162240",
++      "name": "bank_transfer_only_financial_control_plane"
++    },
++    {
++      "version": "20260820185500",
++      "name": "revoke_direct_bank_transfer_intent_read"
++    },
++    {
++      "version": "20260828100000",
++      "name": "profile_country_session_independence"
++    },
++    {
++      "version": "20260831084239",
++      "name": "expand_admin_queue_sla_support"
++    },
++    {
++      "version": "20260831084646",
++      "name": "hybrid_geographic_payment_rails"
++    },
++    {
++      "version": "20260831095454",
++      "name": "collect_admin_operations_model"
++    },
++    {
++      "version": "20260901134820",
++      "name": "platform_public_groups"
++    },
++    {
++      "version": "20260901135728",
++      "name": "public_group_directory"
++    },
++    {
++      "version": "20260901141842",
++      "name": "public_contribution_auto_membership"
++    },
++    {
++      "version": "20260901160000",
++      "name": "collect_admin_payee_management"
++    },
++    {
++      "version": "20260901183000",
++      "name": "admin_operations_tables"
++    },
++    {
++      "version": "20260901193000",
++      "name": "admin_group_lifecycle"
++    },
++    {
++      "version": "20260901194500",
++      "name": "admin_users_and_members"
++    },
++    {
++      "version": "20260901200000",
++      "name": "localize_public_group_payment_routes"
++    },
++    {
++      "version": "20260901210000",
++      "name": "admin_single_access_role"
++    },
++    {
++      "version": "20260901220000",
++      "name": "admin_country_scope_contract"
++    },
++    {
++      "version": "20260901223000",
++      "name": "live_admin_uat_fixes"
++    },
++    {
++      "version": "20260901230000",
++      "name": "admin_people_detail_contract"
++    },
++    {
++      "version": "20260902073741",
++      "name": "member_profile_numeric_identity"
++    },
++    {
++      "version": "20260902075721",
++      "name": "member_collection_read_contract"
++    },
++    {
++      "version": "20260902081017",
++      "name": "hybrid_admin_overview_metrics"
++    },
++    {
++      "version": "20260902081830",
++      "name": "member_profile_read_allowlist"
++    },
++    {
++      "version": "20260902083940",
++      "name": "member_cross_rail_history"
++    },
++    {
++      "version": "20260902090210",
++      "name": "member_group_owner_controls"
++    },
++    {
++      "version": "20260902091314",
++      "name": "member_group_roster"
++    },
++    {
++      "version": "20260902093609",
++      "name": "member_history_query_plan"
++    },
++    {
++      "version": "20260902100046",
++      "name": "member_bounded_history_pages"
++    },
++    {
++      "version": "20260902120435",
++      "name": "hybrid_receipt_capture_contract"
++    },
++    {
++      "version": "20260902120555",
++      "name": "hybrid_member_registry"
++    },
++    {
++      "version": "20260902134420",
++      "name": "member_add_group_admin"
++    },
++    {
++      "version": "20260902140151",
++      "name": "platform_admin_whatsapp_approval"
++    },
++    {
++      "version": "20260902212721",
++      "name": "revoke_official_payee_trigger_execute"
++    },
++    {
++      "version": "20260903083947",
++      "name": "member_profile_rpc_only_writes"
++    },
++    {
++      "version": "20260903084000",
++      "name": "hybrid_direct_ussd_financial_core"
++    },
++    {
++      "version": "20260903085000",
++      "name": "hybrid_roster_import_control_plane"
++    },
++    {
++      "version": "20260903090000",
++      "name": "hybrid_sms_notification_outbox"
++    },
++    {
++      "version": "20260903090500",
++      "name": "admin_sms_receipt_queue"
++    },
++    {
++      "version": "20260903091000",
++      "name": "hybrid_verified_account_claim"
++    },
++    {
++      "version": "20260903091500",
++      "name": "hybrid_member_directory_views"
++    },
++    {
++      "version": "20260903092000",
++      "name": "admin_sms_receipt_failed_filter"
++    },
++    {
++      "version": "20260903092500",
++      "name": "revoke_hybrid_internal_function_execute"
++    },
++    {
++      "version": "20260903200322",
++      "name": "hybrid_directory_presentation"
++    },
++    {
++      "version": "20260903201326",
++      "name": "geographic_member_profile_gates"
++    },
++    {
++      "version": "20260906093000",
++      "name": "member_profile_momo_code"
++    },
++    {
++      "version": "20260906160000",
++      "name": "group_cover_bank_and_atomic_creation_media"
++    }
++  ]
++}
+--- /dev/null
++++ b/scripts/tests/sql_ci_runner_test.py
+@@ -0,0 +1,289 @@
++"""SQL recipe boundaries using local synthetic processes; no Docker/SQL calls."""
++import contextlib
++import copy
++import importlib.util
++import io
++import json
++import os
++from pathlib import Path
++import shutil
++import sys
++import tempfile
++import time
++import unittest
++from unittest.mock import patch
++
++BASE = Path(__file__).resolve().parents[2]
++spec = importlib.util.spec_from_file_location("sql_ci", BASE / "scripts/qa/run_sql_ci.py")
++sql = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(sql)
++
++
++class SqlRecipeBoundaries(unittest.TestCase):
++    def setUp(self):
++        cache = BASE / ".cache"
++        cache.mkdir(exist_ok=True)
++        self.temp = tempfile.TemporaryDirectory(prefix="sql-boundary-", dir=cache)
++        self.root = Path(self.temp.name)
++        self.fixture = self.root / sql.FIXTURES
++        self.fixture.mkdir(parents=True)
++        for name in ("manifest.json", "predecessor.json", "platform-bootstrap.sql"):
++            shutil.copyfile(BASE / sql.FIXTURES / name, self.fixture / name)
++        self.lock = json.loads((self.fixture / "manifest.json").read_text())
++        self.pin = sql.file_sha(self.fixture / "manifest.json")
++        self.sources = dict(self.lock["helpers"])
++        self.sources.update({f"{sql.FIXTURES}/{n}": pin for n, pin in self.lock["files"].items()})
++        predecessor = json.loads((self.fixture / "predecessor.json").read_text())
++        self.sources.update({f"supabase/migrations/{r['version']}_{r['name']}.sql": "0" * 64
++                             for r in predecessor["migrations"]})
++        self.env = sql.clean_env(self.root, "unix:///var/run/docker.sock")
++        self.trace_patch = None
++        trace = os.environ.get("SQL_CI_BOUNDARY_TRACE")
++        if trace:
++            directory = Path(trace)
++            directory.mkdir(parents=True, exist_ok=True)
++            original = sql.run_process
++
++            def recorded(*args, **kwargs):
++                result = original(*args, **kwargs)
++                with (directory / "process-results.jsonl").open("a") as stream:
++                    stream.write(json.dumps({"test": self.id(), "result": result}) + "\n")
++                stem = str(result["pid"])
++                for label, path in (("stdout", args[4]), ("stderr", args[5])):
++                    shutil.copyfile(path, directory / (stem + "." + label))
++                return result
++
++            self.trace_patch = patch.object(sql, "run_process", side_effect=recorded)
++            self.trace_patch.start()
++
++    def tearDown(self):
++        if self.trace_patch:
++            self.trace_patch.stop()
++        self.temp.cleanup()
++
++    def test_exact_fixture_lock_and_historical_prefix(self):
++        self.assertEqual(sql.fixture_lock(self.root, self.pin, self.sources), self.lock)
++        prefix = [p for p in self.sources if p.startswith("supabase/migrations/")]
++        self.assertEqual(len(prefix), 124)
++
++    def test_changed_whole_manifest_is_refused(self):
++        path = self.fixture / "manifest.json"
++        path.write_bytes(path.read_bytes() + b"\n")
++        with self.assertRaisesRegex(sql.Refused, "WHOLE_LOCK_MISMATCH"):
++            sql.fixture_lock(self.root, self.pin, self.sources)
++
++    def test_new_hash_does_not_authorize_another_runtime_cohort(self):
++        value = copy.deepcopy(self.lock)
++        value["runtime"]["image_id"] = "sha256:" + "a" * 64
++        path = self.fixture / "manifest.json"
++        path.write_text(json.dumps(value))
++        with self.assertRaisesRegex(sql.Refused, "RUNTIME_COHORT_UNREVIEWED"):
++            sql.fixture_lock(self.root, sql.file_sha(path), self.sources)
++
++    def test_changed_fixture_and_original_helper_bytes_are_refused(self):
++        for rel in (f"{sql.FIXTURES}/platform-bootstrap.sql", sql.HELPERS[0]):
++            with self.subTest(rel=rel):
++                changed = dict(self.sources)
++                changed[rel] = "b" * 64
++                with self.assertRaises(sql.Refused):
++                    sql.fixture_lock(self.root, self.pin, changed)
++
++    def test_prefix_reordering_is_refused(self):
++        prefix = [rel for rel in self.sources if rel.startswith("supabase/migrations/")]
++        other = {rel: pin for rel, pin in self.sources.items() if rel not in prefix}
++        other.update({rel: self.sources[rel] for rel in reversed(prefix)})
++        with self.assertRaisesRegex(sql.Refused, "HISTORICAL_PREFIX_DRIFTED"):
++            sql.fixture_lock(self.root, self.pin, other)
++
++    def test_symlink_fixture_is_refused(self):
++        path = self.fixture / "manifest.json"
++        saved = self.fixture / "original.json"
++        path.rename(saved)
++        path.symlink_to(saved)
++        with self.assertRaisesRegex(sql.Refused, "NOT_BOUNDED_REGULAR_FILE"):
++            sql.fixture_lock(self.root, self.pin, self.sources)
++
++    def test_exact_docker_path_and_bytes_before_any_invocation(self):
++        fake = self.root / "fake-docker"
++        fake.write_text("#!/bin/sh\nexit 0\n")
++        fake.chmod(0o700)
++        pin = sql.file_sha(fake)
++        self.assertEqual(sql.docker_path(fake, pin), fake)
++        fake.write_text("#!/bin/sh\nexit 7\n")
++        with self.assertRaisesRegex(sql.Refused, "DOCKER_BYTES_DRIFTED"):
++            sql.docker_path(fake, pin)
++        with self.assertRaisesRegex(sql.Refused, "EXACT_EXECUTABLE_REQUIRED"):
++            sql.docker_path(Path("fake-docker"), pin)
++
++    def test_remote_socket_and_inherited_credentials_are_refused_or_scrubbed(self):
++        for value in ("tcp://localhost:2375", "ssh://operator@host", "unix:///var/../run/docker.sock"):
++            with self.assertRaises(sql.Refused):
++                sql.local_socket(value)
++        self.assertNotIn("SUPABASE_ACCESS_TOKEN", self.env)
++        self.assertNotIn("DATABASE_URL", self.env)
++        self.assertEqual(self.env["DOCKER_HOST"], "unix:///var/run/docker.sock")
++        self.assertEqual(list(Path(self.env["DOCKER_CONFIG"]).iterdir()), [])
++        result = sql.run_process(["/bin/sh", "-c", "env"], self.root, self.env, time.monotonic() + 5,
++                                 self.root / "env.stdout", self.root / "env.stderr")
++        self.assertTrue(result["pass"])
++        self.assertTrue(result["owned_process_group_absent"])
++
++    def test_real_process_timeout_refuses_success_and_removes_group(self):
++        result = sql.run_process(["/bin/sh", "-c", "sleep 2"], self.root, self.env, time.monotonic() + .05,
++                                 self.root / "timeout.stdout", self.root / "timeout.stderr")
++        self.assertFalse(result["pass"])
++        self.assertTrue(result["timed_out"])
++        self.assertTrue(result["owned_process_group_absent"])
++
++    def test_expired_bound_refuses_before_spawn(self):
++        with self.assertRaisesRegex(sql.Refused, "BEFORE_SPAWN"):
++            sql.run_process(["/bin/sh", "-c", "exit 0"], self.root, self.env, time.monotonic() - 1,
++                            self.root / "late.stdout", self.root / "late.stderr")
++        self.assertFalse((self.root / "late.stdout").exists())
++
++    def test_detached_stdio_descendant_is_not_terminal_success(self):
++        result = sql.run_process(["/bin/sh", "-c", "sleep 2 >/dev/null 2>&1 & exit 0"],
++                                 self.root, self.env, time.monotonic() + 5,
++                                 self.root / "descendant.stdout", self.root / "descendant.stderr")
++        self.assertFalse(result["pass"])
++        self.assertTrue(result["residual_group_required_stop"])
++        self.assertTrue(result["owned_process_group_absent"])
++
++    def test_post_kill_probe_refusal_requires_later_actual_group_absence(self):
++        original = sql.os.killpg
++        killed = False
++        refused = False
++
++        def transient(pgid, sig):
++            nonlocal killed, refused
++            if sig == 0 and killed and not refused:
++                refused = True
++                raise PermissionError(1, 'Synthetic post-stop probe refusal')
++            value = original(pgid, sig)
++            if sig == 9:
++                killed = True
++            return value
++
++        with patch.object(sql.os, 'killpg', side_effect=transient):
++            result = sql.run_process(["/bin/sh", "-c", "sleep 20 >/dev/null 2>&1 & exit 0"],
++                                     self.root, self.env, time.monotonic() + 5,
++                                     self.root / "probe.stdout", self.root / "probe.stderr")
++        self.assertTrue(refused)
++        self.assertFalse(result['pass'])
++        self.assertTrue(result['residual_group_required_stop'])
++        self.assertGreaterEqual(result['group_probe_permission_refusals'], 1)
++        self.assertTrue(result['owned_process_group_absent'])
++        with self.assertRaises(ProcessLookupError):
++            original(result['pid'], 0)
++
++    def cleanup_adapter(self, value, *, daemon_error=False):
++        name = "collect_current_rehearsal_ordinary_clean_abcdef123456"
++        fake = self.root / "cleanup-docker"
++        # Genuine subprocesses implement metadata/absence state only, not SQL.
++        fake.write_text("#!/bin/sh\n"
++                        + f"printf '%s\\n' \"$1\" >> '{self.root / 'calls'}'\n"
++                        + f"if [ \"$1\" = rm ]; then touch '{self.root / 'removed'}'; exit 0; fi\n"
++                        + ("printf 'permission denied\\n' >&2; exit 1\n" if daemon_error else
++                           f"if [ -f '{self.root / 'removed'}' ]; then printf 'No such container: {name}\\n' >&2; exit 1; fi\n"
++                           + "printf '%s\\n' '" + json.dumps(value) + "'\n"))
++        fake.chmod(0o700)
++        results = []
++
++        def metadata(label, tail, deadline, accept=(0,)):
++            result = sql.run_process([str(fake), *tail], self.root, self.env, deadline,
++                                     self.root / (label + ".stdout"), self.root / (label + ".stderr"))
++            results.append(result)
++            if result["exit_code"] not in accept:
++                raise sql.Refused("Synthetic CLI unexpected status")
++            return result, (self.root / (label + ".stdout")).read_text(), (self.root / (label + ".stderr")).read_text()
++
++        entry = {"name": name, "image_id": sql.IMAGE_ID}
++        return name, entry, metadata, results
++
++    def test_owned_cleanup_uses_actual_cli_and_requires_absence_after_remove(self):
++        name = "collect_current_rehearsal_ordinary_clean_abcdef123456"
++        value = {"Image": sql.IMAGE_ID, "Config": {"Labels": {"collect.rehearsal.owner": name}},
++                 "HostConfig": {"NetworkMode": "none", "PortBindings": {}}}
++        name, entry, invoke, results = self.cleanup_adapter(value)
++        observations, fallback = sql.cleanup_owned([entry], invoke, time.monotonic() + 5)
++        self.assertEqual(observations, [{"name": name, "verified_absent": True}])
++        self.assertTrue(fallback)
++        self.assertEqual((self.root / "calls").read_text().splitlines(), ["container", "rm", "container"])
++        self.assertTrue(all(r["owned_process_group_absent"] for r in results))
++
++    def test_cleanup_refuses_unknown_label_or_network_without_removal(self):
++        value = {"Image": sql.IMAGE_ID, "Config": {"Labels": {}},
++                 "HostConfig": {"NetworkMode": "bridge", "PortBindings": {}}}
++        _, entry, invoke, _ = self.cleanup_adapter(value)
++        with self.assertRaisesRegex(sql.Refused, "UNBOUND_TARGET"):
++            sql.cleanup_owned([entry], invoke, time.monotonic() + 5)
++        self.assertEqual((self.root / "calls").read_text().splitlines(), ["container"])
++        self.assertFalse((self.root / "removed").exists())
++
++    def test_daemon_error_is_not_absence(self):
++        _, entry, invoke, _ = self.cleanup_adapter({}, daemon_error=True)
++        with self.assertRaisesRegex(sql.Refused, "ABSENCE_UNPROVED"):
++            sql.cleanup_owned([entry], invoke, time.monotonic() + 5)
++        self.assertFalse((self.root / "removed").exists())
++
++    def test_wrong_image_platform_refuses_before_original_rehearsal(self):
++        stage = self.root / "repo"
++        paths = sql.source_inventory(BASE)
++        for rel in paths:
++            target = stage / rel
++            target.parent.mkdir(parents=True, exist_ok=True)
++            shutil.copyfile(BASE / rel, target)
++        fake = self.root / "wrong-image-docker"
++        trace = self.root / "image-calls"
++        fake.write_text("#!/bin/sh\n" + f"printf '%s\\n' \"$1\" >> '{trace}'\n"
++                        + "printf '%s\\n' '" + json.dumps({"Id": sql.IMAGE_ID, "Os": "linux", "Architecture": "amd64"}) + "'\n")
++        fake.chmod(0o700)
++        output = stage / ".cache/refused-image"
++        argv = ["run_sql_ci", "--docker", str(fake), "--docker-sha256", sql.file_sha(fake),
++                "--docker-host", "unix:///var/run/docker.sock", "--fixture-lock-sha256", self.pin,
++                "--output", str(output)]
++        with patch.object(sql, "ROOT", stage), patch.object(sys, "argv", argv), contextlib.redirect_stdout(io.StringIO()):
++            self.assertEqual(sql.main(), 1)
++        actual = json.loads((output / "validation.json").read_text())
++        self.assertFalse(actual["current_SQL_executed"])
++        self.assertEqual(trace.read_text().splitlines(), ["image"])
++        self.assertTrue(actual["source_unchanged"])
++        self.assertFalse((output / "child.py").exists())
++
++    def test_capture_detects_added_or_changed_migrations(self):
++        stage = self.root / "inventory"
++        paths = sql.source_inventory(BASE)
++        for rel in paths:
++            target = stage / rel
++            target.parent.mkdir(parents=True, exist_ok=True)
++            shutil.copyfile(BASE / rel, target)
++        before = sql.source_inventory(stage)
++        migration = next(rel for rel in before if rel.startswith("supabase/migrations/"))
++        path = stage / migration
++        path.write_bytes(path.read_bytes() + b"\n-- synthetic input drift\n")
++        self.assertNotEqual(sql.source_inventory(stage), before)
++        extra = stage / "supabase/migrations/20990101000000_synthetic_added.sql"
++        extra.write_text("select 1;")
++        self.assertIn(str(extra.relative_to(stage)), sql.source_inventory(stage))
++
++    def test_complete_case_and_current_inventory_binding_cannot_be_narrowed(self):
++        migrations = []
++        for rel, pin in self.sources.items():
++            if rel.startswith("supabase/migrations/"):
++                version, name = Path(rel).stem.split("_", 1)
++                migrations.append({"path": rel, "version": version, "name": name, "sha256": pin})
++        # Report-contract fixture only; no SQL result is claimed or executed.
++        result = {"status": "pass", "all_task_containers_removed": True, "source_inventory": migrations,
++                  "cases": [{"name": name, "status": "pass"} for name in self.lock["expected_cases"]],
++                  **{k: False for k in ("hosted_called", "provider_called", "source_rows_copied",
++                                       "shared_database_written", "managed_hosted_owner_parity")}}
++        self.assertTrue(sql.acceptance(result, self.lock, self.sources))
++        for field in ("cases", "source_inventory"):
++            with self.subTest(field=field):
++                narrowed = copy.deepcopy(result)
++                narrowed[field].pop()
++                self.assertFalse(sql.acceptance(narrowed, self.lock, self.sources))
++
++
++if __name__ == "__main__":
++    unittest.main()

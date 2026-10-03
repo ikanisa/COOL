@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/final-candidate-current1/admin-inventory/generate.py", line 166, in <module>
+    assert before == after, 'Frozen candidate was changed'
+           ^^^^^^^^^^^^^^^
+AssertionError: Frozen candidate was changed

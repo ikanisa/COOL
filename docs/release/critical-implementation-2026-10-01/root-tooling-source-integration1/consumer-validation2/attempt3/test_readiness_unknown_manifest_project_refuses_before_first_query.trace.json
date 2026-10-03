@@ -1,0 +1,8 @@
+{
+  "exit_code": 1,
+  "query_observed": null,
+  "caller_stdout": "[collect-edge-inventory] 13 active endpoints and auth configuration agree; source wiring checked\n[supabase-ready] checking linked project and endpoint binding\n",
+  "caller_stderr": "[postgres-admission][FAIL] PG_APPROVED_PROJECT_NOT_IN_MANIFEST\n",
+  "calls": [],
+  "query_transport": "synthetic local override"
+}

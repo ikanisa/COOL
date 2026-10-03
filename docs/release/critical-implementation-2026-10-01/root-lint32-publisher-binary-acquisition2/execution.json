@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/acquire_binaries.py",
+    "--plan-sha256",
+    "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+    "--source-fences-sha256",
+    "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1"
+  ],
+  "started_utc": "2026-10-02T19:05:47.154786+00:00",
+  "owned_PID_PGID": 31865,
+  "controller_pins": {
+    "acquire_binaries.py": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d",
+    "request_worker.py": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4",
+    "plan.json": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+    "source-fences.json": "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b",
+    "packet-files.json": "c3ad53037ab66a7a359d28129bcfa77b5632fea1d9d9df7868bd968e72607740"
+  },
+  "observation_bound_seconds": 210,
+  "controller_work_bound_seconds": 180,
+  "separate_owned_request_cleanup_seconds": 2
+}

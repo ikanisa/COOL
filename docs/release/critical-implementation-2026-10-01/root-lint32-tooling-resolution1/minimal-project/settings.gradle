@@ -1,0 +1,9 @@
+rootProject.name = 'collect-exact-lint32-tooling-cache-resolution'
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { name = 'OfficialGoogle'; url = uri('https://dl.google.com/dl/android/maven2/') }
+        maven { name = 'OfficialMavenCentral'; url = uri('https://repo.maven.apache.org/maven2/') }
+    }
+}

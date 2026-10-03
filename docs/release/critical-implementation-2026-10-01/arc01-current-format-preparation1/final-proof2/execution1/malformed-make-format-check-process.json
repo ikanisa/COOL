@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-final2-0286c8f7d1a34a599e4a50802a139e33-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "make format-check"
+  ],
+  "deadline_seconds": 120,
+  "pid": 58632,
+  "started_at_utc": "2026-10-02T11:05:22.819792+00:00"
+}

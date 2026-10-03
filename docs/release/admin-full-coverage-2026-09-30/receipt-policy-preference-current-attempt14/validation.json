@@ -1,0 +1,126 @@
+{
+  "passed": false,
+  "exit_code": 1,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "600",
+    "--test-concurrency",
+    "2",
+    "--browser-checkpoint",
+    "--test-file",
+    "test/admin_receipt_cancel_sdk_authority_test.dart",
+    "--test-file",
+    "test/admin_receipt_cancel_models_test.dart",
+    "--test-file",
+    "test/admin_receipt_cancel_repository_test.dart",
+    "--test-file",
+    "test/admin_receipt_cancel_card_test.dart",
+    "--test-file",
+    "test/admin_operating_policy_models_test.dart",
+    "--test-file",
+    "test/admin_operating_policy_runtime_test.dart",
+    "--test-file",
+    "test/shared/notification_preference_runtime_test.dart",
+    "--test-file",
+    "test/features/notification_preferences_recovery_ui_test.dart"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "transport_dependencies_unchanged": true,
+  "transport_dependencies_sha256": "1bbf1dd125aad4aa5a321eb74ea9247552a04939b4e3c3724421b38590068240",
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "scripts/tests/admin_matrix_acceptance.py",
+    "test/admin_entity_audit_page_test.dart",
+    "test/admin_operating_policy_runtime_test.dart",
+    "test/admin_receipt_cancel_sdk_authority_test.dart"
+  ],
+  "input_count": 970,
+  "acceptance_sha256": "e9aae1af9e8f68ae95b2fc6a0995d5cb241144a892b283d51b44a4b0e6114d38",
+  "test_count": null,
+  "analysis_clean": true,
+  "browser_checkpoint_passed": true,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "dated_roster_sql149_receipt": null,
+  "dated_gateway_decoder_inputs": {
+    "result_sha256": "b24eab4392cc3de2cd3443dfd79d2a692a99a683644aaa39003a78ea6a317ab7",
+    "archived_source_sha256": {
+      "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "docs/release/collect-codex-goal-2026-09-30/gateway-admin/backend-uat/captured-source/collect-admin-gateway-v1.schema.json": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3"
+    },
+    "observed_document_sha256": {
+      "empty": "097b617a251c728cdcdae755f891bb5fca27419c893d56a639e942a4a949d87c",
+      "pending": "a68e76c983c2537b0608bc96e87499adaff1231792d500507277853d64d5fe55",
+      "active": "cd0e4e228b32248186d4774c49ce77d33379333411bd49a0aa709c8027ea3efd",
+      "revoked-callbacks": "5fccac5556ac4cf1ae42f4b7c7ce0e934391fe8cc352e39753e975983b1dd483",
+      "owner-request": "f2498a676e7e7febc83f1994bec23dc004f263a553d79aa3331f28ac19c3b802"
+    },
+    "sql_executed_here": false,
+    "current_server_state_verified_here": false,
+    "scope": "Decoder compatibility with archived isolated synthetic-UAT documents; no ordinary-owner installation acceptance."
+  },
+  "dated_exception_decoder_inputs": {
+    "result_sha256": "d43ac5cdeddf5b6d3e066a352ed187b5072012b750a40affe65fe3d27104d632",
+    "archived_source_sha256": {
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    "archived_schema_sha256": "41b28ba0b393f945cab31d4b1214a1e5006682a5e7045905b3e6e26c46f381bd",
+    "observed_document_sha256": {
+      "empty": "da573fe1099c870d7030fffa1fcba253438d2207d2dae516ca09491568d916e5",
+      "populated": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b",
+      "filtered": "026af1cd52b0b3466c5ac835480012d25832ebc2cc03ee5474448d234f8fdbd4",
+      "cleared": "f4098e216968f91373491059310e9eb54a423a698df02ebd869288c4c234a9e7",
+      "recorded-lookup": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5",
+      "unknown-lookup": "414f30dc8588b4fec172d574408c74de61a2beb0afcf6e741296b0194448aeae",
+      "progress-lookup": "18232f8ab20f43bd4441b5515d932f5125d3da3618d341a4050f3d676c969e6d",
+      "action-receipt": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0"
+    },
+    "sql_executed_here": false,
+    "current_server_state_verified_here": false,
+    "scope": "Decoder compatibility with dated isolated synthetic Exceptions documents and their archived sources; no current ordinary-owner installation, hosted Auth or persisted audit acceptance."
+  },
+  "dated_investigation_decoder_inputs": {
+    "result_sha256": "ba1aac56abad57444e8696429389cf2935a40aac70291abffe2ba1e0101a6ac0",
+    "archived_source_sha256": {
+      "docs/release/collect-codex-goal-2026-09-30/investigation-backend/captured-source/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+      "docs/release/collect-codex-goal-2026-09-30/investigation-backend/captured-source/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "docs/release/collect-codex-goal-2026-09-30/investigation-backend/captured-source/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "docs/release/collect-codex-goal-2026-09-30/investigation-backend/captured-source/20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b"
+    },
+    "observed_document_sha256": {
+      "posted-transaction": "f362eca0365bbf09f180b495f83b559b752fe3470b69d6d2ffecba426249ca79",
+      "posted-receipt": "7bbde27b3b48b361dd275f3d53d5ef94112404d825b87d754a173914908d2792",
+      "reversed-transaction": "6955333f8542257f3725d3a8e15cf66cb071f6b087627284b697612bb540ebf9",
+      "bounded-history": "1583b0232c67364829bf97e3692d346ac4aacf7fac27c2e0184521b63895a3e1",
+      "empty": "ccb009c24c1b30f6eb924bc07858378c59cd9309a28eff1184bedb803a3cb4e0"
+    },
+    "sql_executed_here": false,
+    "current_server_state_verified_here": false,
+    "scope": "Dated isolated synthetic investigation DTO compatibility; no current ordinary-owner installation, hosted Auth or persisted audit acceptance."
+  },
+  "synthetic_visual_captures": {},
+  "gateway_visual_capture_requested": false,
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

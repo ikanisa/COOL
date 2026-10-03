@@ -1,0 +1,715 @@
+{
+  "files": [
+    {
+      "path": "FINAL.md",
+      "size": 4242,
+      "sha256": "0316caf5276a82a14a798d95c13701f1a8b1b30705192408f78bd5d43948b2eb"
+    },
+    {
+      "path": "README.md",
+      "size": 4242,
+      "sha256": "0316caf5276a82a14a798d95c13701f1a8b1b30705192408f78bd5d43948b2eb"
+    },
+    {
+      "path": "affected-security-attempt1/actual.log",
+      "size": 28129,
+      "sha256": "f75ae5b4ecec51f380b6470b365e7773ddbfc57440ad1da796eddd1fb8e48e33"
+    },
+    {
+      "path": "affected-security-attempt1/receipt.json",
+      "size": 733,
+      "sha256": "d676155c01d3d49dc6d1774a4c645ea2f5bb0396beb52c06818bd515440d709f"
+    },
+    {
+      "path": "affected-security-attempt1/sources-after.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "affected-security-attempt1/sources-before.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "analyzer-attempt1/actual.log",
+      "size": 495,
+      "sha256": "9bc89660b15ecb6c068b25cd6aeab46ec1d082743d7955274c66d27ed4fa5428"
+    },
+    {
+      "path": "analyzer-attempt1/receipt.json",
+      "size": 871,
+      "sha256": "fccc65747c37b253a3409ea6cddd9dff3cc1051b98599fe30066b237b95cf6ae"
+    },
+    {
+      "path": "analyzer-attempt1/sources-after.json",
+      "size": 227053,
+      "sha256": "5d98bf1c9473930d5b2b1228148bc69ee92a8742683280c6735e96cd8557ad72"
+    },
+    {
+      "path": "analyzer-attempt1/sources-before.json",
+      "size": 227053,
+      "sha256": "5d98bf1c9473930d5b2b1228148bc69ee92a8742683280c6735e96cd8557ad72"
+    },
+    {
+      "path": "analyzer-attempt2/actual.log",
+      "size": 407,
+      "sha256": "ec710ccb495feb6a9fb805137bc3300790bad47757e9c3158001c66ba9b17acd"
+    },
+    {
+      "path": "analyzer-attempt2/receipt.json",
+      "size": 871,
+      "sha256": "041774e992c5e866076fb0dc9843e25e4c2eae988482c7500f37ca612758660d"
+    },
+    {
+      "path": "analyzer-attempt2/reconstructed-test-source-sha-verified.dart",
+      "size": 20077,
+      "sha256": "bfbe0adba07da49e409ceef2859aab638a9a569343fa271dc6d45de519ba7d2d"
+    },
+    {
+      "path": "analyzer-attempt2/sources-after.json",
+      "size": 227053,
+      "sha256": "fc22d41445c76642e0c6e10d1b1c5a8dc69c27f5bec15f595c59a66bc3b2ee25"
+    },
+    {
+      "path": "analyzer-attempt2/sources-before.json",
+      "size": 227053,
+      "sha256": "fc22d41445c76642e0c6e10d1b1c5a8dc69c27f5bec15f595c59a66bc3b2ee25"
+    },
+    {
+      "path": "analyzer-attempt3/actual.log",
+      "size": 97,
+      "sha256": "c38c4e830941710525850f8e260b82b1ce5e4c4a0e5a1b39290d08d72a6e6c34"
+    },
+    {
+      "path": "analyzer-attempt3/receipt.json",
+      "size": 871,
+      "sha256": "e55a6f18897a3434b7d0bbd6e0e249a172847d5a47930b705e623b23aa2b0f80"
+    },
+    {
+      "path": "analyzer-attempt3/sources-after.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "analyzer-attempt3/sources-before.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "analyzer-attempt4/actual.log",
+      "size": 97,
+      "sha256": "b42f402c3bb9fee771abdbfd69939d696394ac4ca67d0cb8ffe2010488d69749"
+    },
+    {
+      "path": "analyzer-attempt4/receipt.json",
+      "size": 925,
+      "sha256": "143280a98ad16d44a144587f05abf696657c63d562909761d7853367083966d3"
+    },
+    {
+      "path": "analyzer-attempt4/sources-after.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "analyzer-attempt4/sources-before.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "attempt1/actual-observations.json",
+      "size": 22921,
+      "sha256": "c63e288c82689e6f488594aca487cf13207cca7949f4d39a7d106416f7c6f5e9"
+    },
+    {
+      "path": "attempt1/actual-test.log",
+      "size": 18417,
+      "sha256": "5d4976baa4a60a4be19c4d6f2cb52d36bf7aa8b374fd5c1de160dadb751fa04a"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/app/router.dart",
+      "size": 22095,
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_providers.dart",
+      "size": 1875,
+      "sha256": "1c3f4a7dbb5bce49c20aa5685b5a866c1518606787cdfcdc355dcd85629204b1"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_request_controller.dart",
+      "size": 8609,
+      "sha256": "527ce7d1a7b4ac8254e4303f42d1ba2e269e78e5d38c99b548f88e82f76696bf"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_request_screen.dart",
+      "size": 17997,
+      "sha256": "8a49063817dc5d4b3768da9fd066f5be214b5a9d9d7e8c3bc04f2315b884f405"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/features/privacy/privacy_session.dart",
+      "size": 6902,
+      "sha256": "24110a65f7dfde6b9de71a51660ef7c785c5f8f3ae816222a53896f780bc4c7b"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38348,
+      "sha256": "56639c734c718adaea585203c06592f9f570d0069384b2d5c4c8a1a174df833e"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository_providers.dart",
+      "size": 7783,
+      "sha256": "57ca1d19be818dfeb84b932ce91f28829cff7379922ad58b267ba744483c508b"
+    },
+    {
+      "path": "attempt1/original-production-source/lib/shared/repositories/collect_repository_state.dart",
+      "size": 4188,
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd"
+    },
+    {
+      "path": "attempt1/receipt.json",
+      "size": 686,
+      "sha256": "feffa554d27d3b2dcffafae7924d7fba27f2e9ad01ab8e640120f52ea431a61a"
+    },
+    {
+      "path": "attempt1/sources-after.json",
+      "size": 96859,
+      "sha256": "8c428c315bd418d16a5af0f0ec886785fdd7cf1f8499ea79d3de771a34c6da5c"
+    },
+    {
+      "path": "attempt1/sources-before.json",
+      "size": 96859,
+      "sha256": "8c428c315bd418d16a5af0f0ec886785fdd7cf1f8499ea79d3de771a34c6da5c"
+    },
+    {
+      "path": "attempt1/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "attempt2/actual-observations.json",
+      "size": 29682,
+      "sha256": "7dc1d201adcb37313a27d0e2434a51f0fd3c5986d1034a89c7c15950036ab3d1"
+    },
+    {
+      "path": "attempt2/actual-test.log",
+      "size": 102070,
+      "sha256": "b4b6691338e004b0860ff941bbfcc37662474f22f1a5ec01f7f57beef8173bcf"
+    },
+    {
+      "path": "attempt2/original-production-source/lib/app/router.dart",
+      "size": 23293,
+      "sha256": "fa3f8c155d0771ee8e5025c89d99d9ede9db7d595db059f951d10cc2f505794c"
+    },
+    {
+      "path": "attempt2/original-production-source/lib/shared/providers/collect_app_state.dart",
+      "size": 12586,
+      "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197"
+    },
+    {
+      "path": "attempt2/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "attempt2/original-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 1989,
+      "sha256": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86"
+    },
+    {
+      "path": "attempt2/receipt.json",
+      "size": 686,
+      "sha256": "1bede167e6ee3cdbddc7eee095cf4c70ad955a779025f0b031a7eb6bf89e015b"
+    },
+    {
+      "path": "attempt2/sources-after.json",
+      "size": 96859,
+      "sha256": "e6500ff02144eccbcbffbafb6dd584ec12b2f9f9cb6051ed930dc0d8a5572b3b"
+    },
+    {
+      "path": "attempt2/sources-before.json",
+      "size": 96859,
+      "sha256": "e6500ff02144eccbcbffbafb6dd584ec12b2f9f9cb6051ed930dc0d8a5572b3b"
+    },
+    {
+      "path": "attempt2/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "attempt3/actual-observations.json",
+      "size": 29607,
+      "sha256": "4426d7ae1265486c46ca64924585e55816b8186334ef669625ca75e94f7d78c9"
+    },
+    {
+      "path": "attempt3/actual-test.log",
+      "size": 22973,
+      "sha256": "ded1ae5037c03d527b0828388cb21b4d797d3f7d0aa48591fd6afc6bbbfdfe91"
+    },
+    {
+      "path": "attempt3/original-production-source/lib/app/router.dart",
+      "size": 23864,
+      "sha256": "4500268d87507a9fd8ec3fe0dd2a3105a935db937c75a45e73ba7ea9ec6a088c"
+    },
+    {
+      "path": "attempt3/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "attempt3/original-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 2114,
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "attempt3/receipt.json",
+      "size": 686,
+      "sha256": "65185239e8f9b1186e476babc9a8275cff68a489cf679dae27b9f74312cb168e"
+    },
+    {
+      "path": "attempt3/sources-after.json",
+      "size": 96859,
+      "sha256": "3cdb58a73b38f2fed7d594d2f70188dba4bf5505c1f4f15a8f77d5c277680ca3"
+    },
+    {
+      "path": "attempt3/sources-before.json",
+      "size": 96859,
+      "sha256": "3cdb58a73b38f2fed7d594d2f70188dba4bf5505c1f4f15a8f77d5c277680ca3"
+    },
+    {
+      "path": "attempt3/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "attempt4/actual-observations.json",
+      "size": 29438,
+      "sha256": "6d4d2fda80d93b95b4da7103b537f5db7726ba4491f99cfe2a10ffd8d7d10f8c"
+    },
+    {
+      "path": "attempt4/actual-test.log",
+      "size": 22698,
+      "sha256": "a57890b9781ad7d4be043fb9688a23295aa977cc237a01da94bcd04ded49f8d8"
+    },
+    {
+      "path": "attempt4/original-production-source/lib/app/router.dart",
+      "size": 24584,
+      "sha256": "b23f3b0cac8e68aac038d7df50be3db2bb5df11ac2d7c561a971fc629620fa55"
+    },
+    {
+      "path": "attempt4/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "attempt4/original-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 2114,
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "attempt4/receipt.json",
+      "size": 686,
+      "sha256": "58acaf50743e9da73722acc3b16f66571fed77fe5b8904e861cc491729ae6763"
+    },
+    {
+      "path": "attempt4/sources-after.json",
+      "size": 96859,
+      "sha256": "5850a3a969309f72264c7d0737a85e25477844885eee9c1d972d8c04ec5d1b09"
+    },
+    {
+      "path": "attempt4/sources-before.json",
+      "size": 96859,
+      "sha256": "5850a3a969309f72264c7d0737a85e25477844885eee9c1d972d8c04ec5d1b09"
+    },
+    {
+      "path": "attempt4/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "attempt5/actual-observations.json",
+      "size": 29607,
+      "sha256": "4426d7ae1265486c46ca64924585e55816b8186334ef669625ca75e94f7d78c9"
+    },
+    {
+      "path": "attempt5/actual-test.log",
+      "size": 22973,
+      "sha256": "2f16e5fa714917372822490f9dddb570f01795a78f36da8d826c1a6bd966201b"
+    },
+    {
+      "path": "attempt5/original-production-source/lib/app/router.dart",
+      "size": 24569,
+      "sha256": "b8c76bcbf2ef449e4f9b7427875857a69b7cd8151d357cf96576795ccfb7a568"
+    },
+    {
+      "path": "attempt5/original-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "attempt5/original-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 2114,
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "attempt5/receipt.json",
+      "size": 686,
+      "sha256": "fca47e813d8d0d8fc358c4f920de7723726a04211573a03e755eea4a467cd378"
+    },
+    {
+      "path": "attempt5/sources-after.json",
+      "size": 96859,
+      "sha256": "0820be1683bf39d466dc903a583e41bf58d90a6a354fecfd9494411093910181"
+    },
+    {
+      "path": "attempt5/sources-before.json",
+      "size": 96859,
+      "sha256": "0820be1683bf39d466dc903a583e41bf58d90a6a354fecfd9494411093910181"
+    },
+    {
+      "path": "attempt5/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "attempt6/actual-observations.json",
+      "size": 29588,
+      "sha256": "40c9ac70d11ae97f37300503efa02c6eb1f04b739def6b3f34a111ab3ca863fe"
+    },
+    {
+      "path": "attempt6/actual-test.log",
+      "size": 20759,
+      "sha256": "61dd76012069635bff913a2aeee6d8897859ccb4d1efcf1f83997540810d6916"
+    },
+    {
+      "path": "attempt6/receipt.json",
+      "size": 686,
+      "sha256": "680e3dda1cb0e5367a700a4c5ac088f825f5d8e0d3f1411c862a8c713770f2a1"
+    },
+    {
+      "path": "attempt6/reviewed-production-source/lib/app/router.dart",
+      "size": 25231,
+      "sha256": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb"
+    },
+    {
+      "path": "attempt6/reviewed-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "attempt6/reviewed-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 2114,
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "attempt6/sources-after.json",
+      "size": 96859,
+      "sha256": "9b9954f4ad573e2554888c6daac3b7c4bac8971336236b3e217b6d65873992ac"
+    },
+    {
+      "path": "attempt6/sources-before.json",
+      "size": 96859,
+      "sha256": "9b9954f4ad573e2554888c6daac3b7c4bac8971336236b3e217b6d65873992ac"
+    },
+    {
+      "path": "attempt6/test-source.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "authority-attempt1/actual.log",
+      "size": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "authority-attempt1/receipt.json",
+      "size": 460,
+      "sha256": "ebb11dd008483431b178529b950d2dc5acedc499bb4daafd639595be5b1ea7c2"
+    },
+    {
+      "path": "authority-attempt1/sources-after.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "authority-attempt1/sources-before.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "authority-attempt2/actual.log",
+      "size": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "authority-attempt2/receipt.json",
+      "size": 460,
+      "sha256": "a061b2e449debc1b2f8bc644a8b609e974cb0714e4babb15be6b6148810ed7c0"
+    },
+    {
+      "path": "authority-attempt2/sources-after.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "authority-attempt2/sources-before.json",
+      "size": 227217,
+      "sha256": "25986466034196cb50bad28e4ded4e77ee98b71ff3b869fe1a60c872e0b69d48"
+    },
+    {
+      "path": "consumer-verifier-extension.diff",
+      "size": 1801,
+      "sha256": "973c212d37f88abdd90f376de35cd00dddc9e6241e7b4d015db42412238cd4c8"
+    },
+    {
+      "path": "consumers-attempt1/actual.log",
+      "size": 51565,
+      "sha256": "4d6db79b0f69488a17d0b610843400a0dca3d02c9f3631214331ec510ed9db8e"
+    },
+    {
+      "path": "consumers-attempt1/original-security-hub-header.dart",
+      "size": 4217,
+      "sha256": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec"
+    },
+    {
+      "path": "consumers-attempt1/receipt.json",
+      "size": 1131,
+      "sha256": "6e3be1f40a69421df9dffe55375968e8cf6f4199a42dea4fec2bc72929f111d9"
+    },
+    {
+      "path": "consumers-attempt1/sources-after.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "consumers-attempt1/sources-before.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "final-production-source/lib/app/router.dart",
+      "size": 25231,
+      "sha256": "42365f9991df314997ef485f584db4027668b38c6155eaba0fc2a1a1d0acd4bb"
+    },
+    {
+      "path": "final-production-source/lib/features/settings/security_hub_header.dart",
+      "size": 4246,
+      "sha256": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+    },
+    {
+      "path": "final-production-source/lib/shared/repositories/collect_repository.dart",
+      "size": 38636,
+      "sha256": "a96a7fe64232d973279d76792e26a1a7bf10d28d0d8ff853fc5122d09de9929f"
+    },
+    {
+      "path": "final-production-source/lib/shared/widgets/screen_scaffold.dart",
+      "size": 2114,
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "final-run-consumers.py",
+      "size": 6327,
+      "sha256": "bdc323afc79e2e4b306961852623951fe74e24fe3c350a0e8da106c45af83f67"
+    },
+    {
+      "path": "final-runtime-source-delta.json",
+      "size": 1491,
+      "sha256": "10c6a2bd1020f5d5ef1c1c58252c32656cfdf1e1987604e493a6611b68d690a3"
+    },
+    {
+      "path": "final-runtime.diff",
+      "size": 6274,
+      "sha256": "60a11def3a297c16d09aba19f982cd2233cd8b668c15bb215dc6428ac2bcc4f8"
+    },
+    {
+      "path": "final-source-readback.json",
+      "size": 1391,
+      "sha256": "56251a4fc888ced2aeca533ee2a9fabed7a88cde5911688e6b80875c3f628fea"
+    },
+    {
+      "path": "initial-compilation-failure.txt",
+      "size": 1070,
+      "sha256": "bc6b6641a75783883291b142a86425a2e40bc337d04d37fcd63dcace437df1da"
+    },
+    {
+      "path": "initial-test-compilation-source.dart",
+      "size": 20047,
+      "sha256": "988c63cb8d7c4d729ce58d429dcd02131adaeec3030618d8e2cdec365278c03e"
+    },
+    {
+      "path": "maintained-test-after-lint-correction.dart",
+      "size": 20148,
+      "sha256": "9f4575aeb0bdde8c29d415a49423ef7ec177dd8ef23eb6a5ceed55e408fff2f2"
+    },
+    {
+      "path": "old-attempt-integrity.json",
+      "size": 2843,
+      "sha256": "4ce1014efd75e0163616476d3a5ce72c01391d1a5eba146b97b123bae56fc946"
+    },
+    {
+      "path": "old-source-finding.json",
+      "size": 3179,
+      "sha256": "e80d1b55d84ab379604e69465521f5d3d4c6b141048bd075971c04c975a7a484"
+    },
+    {
+      "path": "original-maintained-test-before-diagnostic.dart",
+      "size": 20049,
+      "sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/actual-test.log",
+      "size": 17008,
+      "sha256": "a771074aff33addd9143c8ae0067ffaa458bd0007c0e43ebe08a15db5fe9e6e0"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/actual-timing-observations.json",
+      "size": 5083,
+      "sha256": "bfd2ecc415aecd63d71300477b21f36f04904115f91766141150119924839f7e"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/cause.json",
+      "size": 1317,
+      "sha256": "847e06e7db53f9f5ed478b6c8540442ca529ed1ca146c49fabd88529ac13cb50"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/instrumented-root-router.dart",
+      "size": 26209,
+      "sha256": "48bac7d33594337207a6b1df19b93a00db0bee13b2fa013665922abe1f76747b"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/receipt.json",
+      "size": 818,
+      "sha256": "a47c673985320ecf8504d4b48db4f1209ac3a0b194c80541afbf206093c5b48f"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/sources-after.json",
+      "size": 96869,
+      "sha256": "8efcfff1bc68e85447b36275d317aa8c853dd10a72c33c12a89dc76ca29046b8"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/sources-before.json",
+      "size": 96869,
+      "sha256": "8efcfff1bc68e85447b36275d317aa8c853dd10a72c33c12a89dc76ca29046b8"
+    },
+    {
+      "path": "owner-switch-diagnostic-attempt1/test-source.dart",
+      "size": 21176,
+      "sha256": "4355fef2f470095634ee63b1a37455cc4f8c7b9d9ec4779d5c65ecb33a50fe2c"
+    },
+    {
+      "path": "post-header-source-delta.diff",
+      "size": 371,
+      "sha256": "297fbc0c34b6a3dec1faeb4846eadcb1c5d8a4dfc0408b7306462be235dce424"
+    },
+    {
+      "path": "post-header-source-delta.json",
+      "size": 1688,
+      "sha256": "4aacd46c839a765251a205ca7b01138fa2c8c8499c16ae50415a0e4cabbbd697"
+    },
+    {
+      "path": "reconstructed-pre-header-run-consumers.py",
+      "size": 5853,
+      "sha256": "189d49f701aaf63d1ac106343710fe5c784ed47272fd0ff832128f95625bc944"
+    },
+    {
+      "path": "reviewed-patch1-actual-failure.json",
+      "size": 798,
+      "sha256": "6bd57f80a1d9bae50b4a3dee47f7eb2f15ae99d47ce923d84421014d7fe27287"
+    },
+    {
+      "path": "reviewed-patch1-source-delta.json",
+      "size": 732,
+      "sha256": "439ebb162106154b93fac2d541c91be3447d8a73d29c49f1472400f2e5ec5693"
+    },
+    {
+      "path": "reviewed-patch1.diff",
+      "size": 3248,
+      "sha256": "1397eca1f35b0d73bf4b0fd62b01878c2c4a7b391365ed63e02403e35a04944a"
+    },
+    {
+      "path": "reviewed-patch2-actual-failure.json",
+      "size": 721,
+      "sha256": "ffa9f0c11516bc893ac414f26b802cf7c4fdd09857e1b442b342137178b9e93f"
+    },
+    {
+      "path": "reviewed-patch2-source-delta.json",
+      "size": 697,
+      "sha256": "40d635ca2ee6b244fade91b81750ce4e6623f247078888366f784cc96afbdb6b"
+    },
+    {
+      "path": "reviewed-patch2.diff",
+      "size": 1634,
+      "sha256": "8f8bee3a7f77bc00a88d6eb2f1265c742430ad0065160111398c22252128eb11"
+    },
+    {
+      "path": "reviewed-patch3-source-delta.json",
+      "size": 400,
+      "sha256": "d33894c7eecf05d867a90d6cb8defb4a766b45f87bd380288b04271ae0a51a76"
+    },
+    {
+      "path": "reviewed-patch3.diff",
+      "size": 2026,
+      "sha256": "5faee77a2633a177c715ef2916c679e8da9c83ab4b8e6597e37b68519d36b9ba"
+    },
+    {
+      "path": "reviewed-patch4-source-delta.json",
+      "size": 400,
+      "sha256": "5f99bea039fb578afe263499113d76bc0605694adf543b1f7e81e81bfe2cdaef"
+    },
+    {
+      "path": "reviewed-patch4.diff",
+      "size": 851,
+      "sha256": "a3cb31116f8f31c100ee6dd35585861bff25ad92989cb1d6c478170942a86964"
+    },
+    {
+      "path": "run_actual.py",
+      "size": 3470,
+      "sha256": "5b16f0a078764e86d0a5744d11b20950c855e5a28d4c9bdb89af461fc665b503"
+    },
+    {
+      "path": "run_consumers.py",
+      "size": 6327,
+      "sha256": "bdc323afc79e2e4b306961852623951fe74e24fe3c350a0e8da106c45af83f67"
+    },
+    {
+      "path": "run_owner_diagnostic.py",
+      "size": 3592,
+      "sha256": "950bd152d72980aebc5ad0b722941d4df8466af066ae54e2be619b6ec97a0409"
+    },
+    {
+      "path": "seal_packet.py",
+      "size": 11499,
+      "sha256": "13786a4039250a48b9766feea972892aaf48895f6438aaa15dfd2e59a35918c7"
+    },
+    {
+      "path": "stale-home-attempt1/actual.log",
+      "size": 194,
+      "sha256": "02725c204ddc6aac62a849fb66dc2715f9313114f6d1a66c3a91ac50b1322167"
+    },
+    {
+      "path": "stale-home-attempt1/receipt.json",
+      "size": 668,
+      "sha256": "fd7c1f6d1cd2753c7fe4e55f67eca97dff3e421027cb703e412d0119e6ba6b4c"
+    },
+    {
+      "path": "stale-home-attempt1/sources-after.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "stale-home-attempt1/sources-before.json",
+      "size": 227053,
+      "sha256": "25ba1c371cb1487e453547ee76d77ca9d713a9e269dbd948815da4e18e878f9f"
+    },
+    {
+      "path": "test-only-lint-correction.diff",
+      "size": 1668,
+      "sha256": "ecee0ea8cea9d8983210df49250a18999c54ef3035b47515b16bebf0aea123af"
+    }
+  ],
+  "count": 141,
+  "excludes_self_and_seal_readback": [
+    "batch.json",
+    "evidence-files.json",
+    "final-readback.json"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/generated-current209",
+    "--verify"
+  ],
+  "original_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/generated-current209",
+    "--verify"
+  ],
+  "only_outputdirectory_changed": true,
+  "original_command_receipt_sha256": "8c061bb97bbb6a1a9518a04dc7eb19f8bf34333c51237958c8da2ca5d8503ca3",
+  "started_at_utc": "2026-10-02T14:04:25.000317+00:00",
+  "finished_at_utc": "2026-10-02T14:04:29.040957+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "actual_seconds": 4.040712,
+  "deadline_seconds": 30,
+  "pid": 10810,
+  "pgid": 10810,
+  "owned_process_group_absent": true,
+  "stdout_sha256": "5579f05fb873e0f4d65a6a214127ce6de6ce01c99427c21962299f0469baa4f8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

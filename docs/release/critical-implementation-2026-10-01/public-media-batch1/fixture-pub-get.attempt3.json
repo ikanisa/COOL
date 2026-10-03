@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "pub",
+    "get",
+    "--offline",
+    "--enforce-lockfile"
+  ],
+  "cwd": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1-attempt3",
+  "observed_terminal_session": 86339,
+  "authored_sources_unchanged": true,
+  "lock_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+  "package_config_sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+  "stage_manifest_sha256": "302f9a57f5d1392bd8dc83861dd59410808f83b0d8856f98cd882b5458e819d1",
+  "approval": false
+}

@@ -1,0 +1,31 @@
+{
+  "applicable_dart_count": 670,
+  "at_utc": "2026-10-02T00:46:38.934173+00:00",
+  "capture_at_utc": "2026-10-02T00:43:56.415220+00:00",
+  "no_make_executed": true,
+  "no_pub_repeated": true,
+  "no_source_promotion": true,
+  "prior_seals_verified": {
+    "arc01-ubuntu-batch1": {
+      "changed_paths": [],
+      "files_verified": 85,
+      "seal_sha256": "7e2102592e9e38d1b0184baa7c630e84e95ef366a590a756399bc3ce8234d435",
+      "unexpected_paths": []
+    },
+    "arc01-ubuntu-resolved-batch1": {
+      "changed_paths": [],
+      "files_verified": 117,
+      "seal_sha256": "b8c2b013291f59918cd594769d6162404293b8b695228e7d2a849c30067cb052",
+      "unexpected_paths": []
+    }
+  },
+  "private_source_bytes_still_exact": true,
+  "root_changes_since_preparatory_capture": {
+    "lib/features/settings/security_hub_header.dart": {
+      "captured": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+      "current_root": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+    }
+  },
+  "source_inputs": 823,
+  "status": "PREPARATORY_EXPORT_FROZEN_FINAL_ACCEPTANCE_HELD"
+}

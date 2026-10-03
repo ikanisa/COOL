@@ -1,0 +1,27 @@
+{
+  "status": "scoped_private_800_review_accepted_pending430700integration",
+  "migration_sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998",
+  "model_base_sha256": "741095a77bd70c875527a1b6d87231a56f628fac08bde95c00afa8a9c7f35ac9",
+  "model_proposed_sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c",
+  "reviewed_SQL_lines": 155,
+  "reviewed_new_Flutter_test_lines": 160,
+  "source_review": [
+    "Immutable typed run/snapshot provenance binds each new inspection charge to its original signed request and exact result. No legacy charges or outcomes are moved or backfilled.",
+    "Same run and original request replay preserve immutable results; later unhandled work receives a new run-scoped charge with existing atomic caps; any business-handled source is excluded.",
+    "Budget refusal records the actual failed reserve_budget candidate; original unconditional final lease/policy/principal guard and financial/send authority remain unchanged.",
+    "Five exact guarded function substitutions preserve OIDs and ACLs; private tables/functions remain ungranted and integrity/immutability constraints remain active.",
+    "The Admin decoder preserves the legacy equality rule and accepts only exact run/snapshot UUIDv5 identities with one action and zero SMS. Existing uuid4.6.0 direct dependency is reused."
+  ],
+  "blocking_source_defect": null,
+  "verified_evidence": "verification.json",
+  "integration_conditions": [
+    "Exact430 then700 prerequisites and all current selected canonical bases must match.",
+    "Preserve modified model original before promoting nine additions and one modification.",
+    "Run affected canonical consumer closure after model integration; preserve selected checkpoint and failure scopes."
+  ],
+  "limits": [
+    "Selected checkpoint proof, not complete chronological/privacy420/current candidate replay.",
+    "Local SQL, Edge contract, DTO and Flutter scopes remain separate; no hosted signed endpoint, physical sender, complete visual or release acceptance."
+  ],
+  "canonical_written": false
+}

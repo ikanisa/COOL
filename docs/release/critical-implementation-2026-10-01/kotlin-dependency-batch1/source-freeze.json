@@ -1,0 +1,22 @@
+{
+  "fixed_compile_unit_runner_sha256": "c01db50a029f90be4b7a45e1eff5f0cdace04726268b1f87ef78221d254a5d7d",
+  "installed_sdk_gradle_source_sha256": "e68e4e0e16acad8cd333ac54e061c76fdd0f95a19faf144443440354a420a3a4",
+  "native_results_sha256": "b401af5e7c4cefd293d737e7ca5a62ed92ffd3f89f8992a33afd7628874c177d",
+  "owned_source_sha256": {
+    "android/app/build.gradle.kts": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+    "android/app/gradle.lockfile": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+    "android/settings.gradle.kts": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/COLLECT_FORK_DELTA.json": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+    "third_party/file_saver/android/build.gradle": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+  },
+  "packet_manifest_sha256": "f46174a0d5f8090ab8965341f8b9e498a7ffd98e3e06d947bbc8bf22b604db14",
+  "packet_selected_file_count": 83,
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-01T23:33:24.790384+00:00",
+  "scope": "No further writes planned inside this packet or eight owned source files. Independent SDK remediation is only a separate read-only candidate plan until reviewed.",
+  "shared_authenticated_archive_helper_sha256": "34d23d29fb61c23ddbaf8c949309fde2c7ebcab58ebad834b1d01d4956f4126d",
+  "status": "OWNED_SOURCE_AND_SCOPED_NATIVE_EVIDENCE_FROZEN_FULL_ARC09_OPEN"
+}

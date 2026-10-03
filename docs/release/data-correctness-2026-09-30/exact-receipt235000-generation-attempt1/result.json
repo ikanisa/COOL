@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "failure": "Captured history regprocedure is schema-qualified; generator used unqualified key",
+  "migration_written": false,
+  "runner_sha256": "9e8cf5b1519aa761f1611929ccbc028790dd7eb50341c8fc00742c6d70c03107"
+}

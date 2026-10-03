@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/scripts/tests/collect_schema_function_lineage_test.py"
+  ],
+  "actual_seconds": 0.911,
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "code_before": {
+    "scripts/tests/collect_schema_function_lineage_test.py": "010cbfa844edd4ab31319748350233f4655aaf733b78774d9198fa914352946e",
+    "scripts/audits/collect_schema_domain_map.py": "aa69eb5e75578f4b20556223067871d4f291c495bde0e57c65812062835aea15",
+    "scripts/audits/collect_schema_function_lineage.py": "c7805a1c57208ca1d70932b959c999f984249bf886c0c9ab9bc5ecf5a0013b26"
+  },
+  "code_after": {
+    "scripts/tests/collect_schema_function_lineage_test.py": "010cbfa844edd4ab31319748350233f4655aaf733b78774d9198fa914352946e",
+    "scripts/audits/collect_schema_domain_map.py": "aa69eb5e75578f4b20556223067871d4f291c495bde0e57c65812062835aea15",
+    "scripts/audits/collect_schema_function_lineage.py": "c7805a1c57208ca1d70932b959c999f984249bf886c0c9ab9bc5ecf5a0013b26"
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "approved_for_production": false,
+  "completed_at": "2026-10-01T21:27:20.926381+00:00",
+  "coverage_limits": [
+    "CI workflow files are outside this maintained source-inventory manifest; evolving CI inputs are not accepted by this baseline",
+    "New pypdf/Pillow pins and runtime consumers are separately verified by the decoder remediation owner",
+    "Initial recorded versions are not changed in historical query proof",
+    "Final amended inventory/new versions/new Ruby packages require the planned follow-up exact public query capture",
+    "Image/SDK/Actions/native artifact contents, legal licenses, publisher attestation and release approval remain unproven"
+  ],
+  "created_at": "2026-10-01T21:26:50.434651+00:00",
+  "current_readback_of_initial_inventory": {
+    "captured_at": "2026-10-01T21:27:20.926381+00:00",
+    "drifted_inputs": [
+      "supabase/functions/_shared/roster_decoder.ts",
+      "tools/roster-decoder/decoder.py",
+      "tools/roster-decoder/requirements.in",
+      "tools/roster-decoder/requirements.lock"
+    ],
+    "input_count": 277,
+    "scope": "Initial full input manifest is preserved; amended final inputs must be separately bound, not substituted into historical initial proof"
+  },
+  "exact_remediation_candidate_public_evidence": {
+    "other-remediation-targets-osv.response": {
+      "bytes": 22,
+      "sha256": "f92d31fff5868cbfbca45e418de325ce33d18753d1abbe65c26b0dbcafd2206a"
+    },
+    "primary/fastlane-2.240.1.response": {
+      "bytes": 4751,
+      "sha256": "f3376347010634e2ac9748ef27150d656e8910c1927b59f650065a44c4aea234"
+    },
+    "primary/kotlin-stable-fixed-release.response": {
+      "bytes": 156164,
+      "sha256": "0d79ce65636fc98b8ecc67e67f98898b5ef17cdd6f90566d0816e2d4b76c2af2"
+    },
+    "primary/rubyzip-3.4.0.response": {
+      "bytes": 2112,
+      "sha256": "ffef73acec8fc5a44d9a1528fd7cc373aba76da3276faeacdfc1c7bc1e8c6f3c"
+    },
+    "remediation-targets-osv.response": {
+      "bytes": 19,
+      "sha256": "a695960dbd857a99b1fa5950f6b69013974aef100c8b9b4c2dbc4fe8c1fc42e9"
+    },
+    "stable-kotlin-remediation-target-osv.response": {
+      "bytes": 16,
+      "sha256": "a0460b2895f6918d679db4ec8ceaa94dc85b501d9060c02839d05e919aac5e31"
+    }
+  },
+  "files_sha256": {
+    "README.md": "413838f1ac51aeab73beb3e0f58af5aa13143e26874c56185f114a79435f09b0",
+    "exposure-readback.json": "b6de145753dd9ebf8dd5bf52601b6b1b4e2808f19f63771ec1f1c380bd90b13e",
+    "query-mapping.json": "b51e3136b1ac3236cf9f19f257593030365752964aa6f3386f11179da937bf4a",
+    "query-results.json": "60d94ca21a0bbcc5c9f5262114d43e9428dea2a290ed9673b203591012fd46c6",
+    "raw-response-manifest.json": "a2d8e2596f9561d379c851ff8dbc2ed69805e0bbe36f2b5c2d592321804f51f5",
+    "research.py": "5d27492994509a6b5944e291826dbf9ad95fb8c3a0e70d45614466cd68569a74",
+    "version-findings.json": "1484e7a5e43980bad70da2412eff5f3c6b9c12b050d675aefcaf72efddea3e0a"
+  },
+  "final_binding_required": [
+    "A future follow-up must bind final parent source inventory and exact current-source readback",
+    "Query every changed/new dependency version in the final graph, including new Ruby graph",
+    "Actual repair/runtime consumers and immutable candidate evidence remain parent-owned"
+  ],
+  "finding": "ARC-09",
+  "full_finding_closed": false,
+  "initial_inventory": {
+    "final_parent_inventory_pending": true,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/advisory-triage-batch1/preliminary-inventory.json",
+    "sha256": "98adb4d6c96feab4b329c88005d8fd375df6b303cc1f949b116c3b35fd2fced4"
+  },
+  "initial_query_coverage": {
+    "all125_initial_version_pairs_list_exact_queried_version": true,
+    "batch_http_statuses": {
+      "200": 11
+    },
+    "dependency_occurrences": 598,
+    "distinct_advisory_records": 124,
+    "mapped_occurrences": 587,
+    "osv_batch_requests": 11,
+    "pagination_unresolved": [],
+    "query_errors": [],
+    "record_errors": [],
+    "unique_public_package_version_queries": 542,
+    "unmapped_occurrences": [
+      {
+        "inventory_row": {
+          "ecosystem": "cocoapods",
+          "evidence": "ios/Podfile.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "Flutter",
+          "origin": null,
+          "qualifier": null,
+          "relationship": "resolved lock entry",
+          "version": "1.0.0"
+        },
+        "inventory_row_index": 0,
+        "mapping_rationale": "Flutter 1.0.0 local CocoaPods stub does not identify a native SDK version; CocoaPods is not a documented OSV ecosystem",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "flutter",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "direct main",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 47,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "flutter_driver",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "transitive",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 48,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "flutter_localizations",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "direct main",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 55,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "flutter_test",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "direct dev",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 58,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "flutter_web_plugins",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "transitive",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 59,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "fuchsia_remote_debug_protocol",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "transitive",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 61,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "integration_test",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "direct dev",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 77,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "dart",
+          "evidence": "pubspec.lock",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "sky_engine",
+          "origin": "sdk",
+          "qualifier": "sdk",
+          "relationship": "transitive",
+          "version": "0.0.0"
+        },
+        "inventory_row_index": 131,
+        "mapping_rationale": "SDK placeholder 0.0.0 is not a hosted Pub package version; actual SDK/compiler advisories require separately bound toolchain evidence",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "gradle-plugin",
+          "evidence": "android/settings.gradle.kts",
+          "integrity": null,
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "dev.flutter.flutter-plugin-loader",
+          "origin": null,
+          "qualifier": null,
+          "relationship": "direct plugin declaration",
+          "version": "1.0.0"
+        },
+        "inventory_row_index": 227,
+        "mapping_rationale": "Local Flutter SDK loader version is not a separately published Maven package",
+        "public_query": null,
+        "public_query_key": null
+      },
+      {
+        "inventory_row": {
+          "ecosystem": "oci",
+          "evidence": "tools/roster-decoder/Dockerfile",
+          "integrity": "392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e",
+          "license_assertion": null,
+          "license_evidence": "unknown",
+          "name": "python:3.12-slim-bookworm",
+          "origin": "python:3.12-slim-bookworm",
+          "qualifier": "Registry digest declaration; platform image contents not verified by inventory",
+          "relationship": "digest-pinned decoder base image declaration",
+          "version": null
+        },
+        "inventory_row_index": 455,
+        "mapping_rationale": "Image tag/digest cannot be converted to OS package versions without the exact platform manifest and installed package evidence; no container vulnerability clearance",
+        "public_query": null,
+        "public_query_key": null
+      }
+    ]
+  },
+  "initial_source_inventory_summary": {
+    "asset_paths_total": 95,
+    "assets_without_license_assertion": 93,
+    "packages_by_ecosystem": {
+      "cocoapods": 1,
+      "dart": 167,
+      "deno-import": 7,
+      "deno-npm": 5,
+      "deno-remote": 45,
+      "gradle-plugin": 4,
+      "maven": 194,
+      "npm": 32,
+      "oci": 1,
+      "pnpm": 26,
+      "pypi": 6,
+      "rubygems": 97,
+      "swiftpm": 13
+    },
+    "packages_total": 598,
+    "packages_without_license_evidence": 563
+  },
+  "raw_public_response_hash_verification": {
+    "count": 174,
+    "hash_mismatches": [],
+    "scope": "All retained initial connectivity, batch, advisory-detail, documentation, publisher and remediation public response bytes"
+  },
+  "release_approved": false,
+  "remediation_candidates": {
+    "fastlane": "2.240.1 with reviewed full new Ruby graph and rubyzip>=3.4.0",
+    "kotlin-gradle-plugin": "stable2.4.20, both root and fork consumers",
+    "pillow": "12.3.0",
+    "pypdf": "6.19.0",
+    "rubyzip": "3.4.0"
+  },
+  "schema_version": 1,
+  "source_mutations_by_this_batch": [],
+  "status": "dated_pre_remediation_baseline_complete"
+}

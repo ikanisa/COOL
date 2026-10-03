@@ -1,0 +1,8 @@
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_dump", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_restore", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "psql", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_dump", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "pg_restore", "stage": "version", "argv": ["--version"], "secret_env_names": [], "pgoptions": null, "credential_paths_present": false}
+{"tool": "psql", "stage": "server", "argv": ["service=collect_readiness", "-X", "-w", "-Atq", "-v", "ON_ERROR_STOP=1", "-c", "BEGIN READ ONLY; SET LOCAL statement_timeout='15000ms'; select current_setting('server_version_num')::integer as server_version_num; COMMIT;"], "secret_env_names": [], "pgoptions": null}

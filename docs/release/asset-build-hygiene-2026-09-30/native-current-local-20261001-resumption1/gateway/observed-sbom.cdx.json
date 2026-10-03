@@ -1,0 +1,5769 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aandroid_file_picker",
+      "name": ":android_file_picker",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aapp",
+      "name": ":app",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "application"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aapp_links",
+      "name": ":app_links",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Afile_saver",
+      "name": ":file_saver",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Afirebase_core",
+      "name": ":firebase_core",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aflutter_plugin_android_lifecycle",
+      "name": ":flutter_plugin_android_lifecycle",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aimage_picker_android",
+      "name": ":image_picker_android",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Ajni",
+      "name": ":jni",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Ajni_flutter",
+      "name": ":jni_flutter",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Amobile_scanner",
+      "name": ":mobile_scanner",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Apermission_handler_android",
+      "name": ":permission_handler_android",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Ashare_plus",
+      "name": ":share_plus",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Ashared_preferences_android",
+      "name": ":shared_preferences_android",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "collect:local-gradle-project:%3Aurl_launcher_android",
+      "name": ":url_launcher_android",
+      "properties": [
+        {
+          "name": "collect:artifact-scope",
+          "value": "Local project dependency identity only; no project artifact hash or installed plugin source attestation"
+        }
+      ],
+      "type": "library"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.activity/activity-ktx@1.12.4",
+      "group": "androidx.activity",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "def5e67999cdbadc86f5b2703738c6ed2a04d26bd30359ee2fef98ca0bd47883"
+        }
+      ],
+      "name": "activity-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.activity/activity-ktx@1.12.4",
+      "type": "library",
+      "version": "1.12.4"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.activity/activity@1.12.4",
+      "group": "androidx.activity",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9919aced580e70e45a79969baf58a007cdf233117565320753cad82181cee8ca"
+        }
+      ],
+      "name": "activity",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.activity/activity@1.12.4",
+      "type": "library",
+      "version": "1.12.4"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.activity/activity@1.8.1",
+      "group": "androidx.activity",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "66bc2c13bd91fb8ea09e445b21f784d3e5d3a9ec9b180cd07e0e9208c2f939c6"
+        }
+      ],
+      "name": "activity",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.activity/activity@1.8.1",
+      "type": "library",
+      "version": "1.8.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation-experimental@1.4.0",
+      "group": "androidx.annotation",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c6eb7e676011ec65b32428373d450debdfc45179c4f8b3a752174fb87c17b08a"
+        }
+      ],
+      "name": "annotation-experimental",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation-experimental@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+      "group": "androidx.annotation",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6bd4c7c7476f8260cd3bdbb81183583e93fc9f790c27dea7dc314181cbf87aa0"
+        }
+      ],
+      "name": "annotation-experimental",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation-jvm@1.10.0",
+      "group": "androidx.annotation",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ddd072ddbb553178e205517ce777b2f05aa9e412982d9ecb4eedc74f1212f697"
+        }
+      ],
+      "name": "annotation-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation-jvm@1.10.0",
+      "type": "library",
+      "version": "1.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation-jvm@1.8.1",
+      "group": "androidx.annotation",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9aab326d9492800991854360ac248f493ce7f7c3183519309b78ace9e240f6f6"
+        }
+      ],
+      "name": "annotation-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation-jvm@1.8.1",
+      "type": "library",
+      "version": "1.8.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation@1.10.0",
+      "group": "androidx.annotation",
+      "name": "annotation",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation@1.10.0",
+      "type": "library",
+      "version": "1.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.annotation/annotation@1.8.1",
+      "group": "androidx.annotation",
+      "name": "annotation",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.annotation/annotation@1.8.1",
+      "type": "library",
+      "version": "1.8.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.appcompat/appcompat-resources@1.6.1",
+      "group": "androidx.appcompat",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "db915dbf49357863de1669ff9fdd8e9008d65fe357af6cce9ae63043ad5f6617"
+        }
+      ],
+      "name": "appcompat-resources",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.appcompat/appcompat-resources@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.appcompat/appcompat@1.6.1",
+      "group": "androidx.appcompat",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7ea5573b93ababd3bd32312451c6ea48a662b03a140dda81aebe75776a20a422"
+        }
+      ],
+      "name": "appcompat",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.appcompat/appcompat@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.arch.core/core-common@2.2.0",
+      "group": "androidx.arch.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "65308a06b1c00ee186cb9e19321383f043b993813f1522c47f4a3e3303bdba41"
+        }
+      ],
+      "name": "core-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.arch.core/core-common@2.2.0",
+      "type": "library",
+      "version": "2.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+      "group": "androidx.arch.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a1be5e0caa2b07623862af6ae21b3ab0718123245184d0e30dea81b53f990a47"
+        }
+      ],
+      "name": "core-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+      "type": "library",
+      "version": "2.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.asynclayoutinflater/asynclayoutinflater@1.0.0",
+      "group": "androidx.asynclayoutinflater",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f7eab60c57addd94bb06275832fe7600611beaaae1a1ec597c231956faf96c8b"
+        }
+      ],
+      "name": "asynclayoutinflater",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.asynclayoutinflater/asynclayoutinflater@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.browser/browser@1.9.0",
+      "group": "androidx.browser",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b6aa2d575d27252233aee98fd93575e8327715f2ebd1dc14ad7ea4a7d2ec4592"
+        }
+      ],
+      "name": "browser",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.browser/browser@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.camera.featurecombinationquery/featurecombinationquery@1.6.1",
+      "group": "androidx.camera.featurecombinationquery",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e4c9495a9123e99b711f78e8dcd6a8bd31b338ee8ff56f4915b1e43d43b49bfb"
+        }
+      ],
+      "name": "featurecombinationquery",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.camera.featurecombinationquery/featurecombinationquery@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.camera/camera-camera2-pipe@1.6.1",
+      "group": "androidx.camera",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4254e6f684678a55fafa67cc12197c266250fabb59880ec6a72b521165cf2146"
+        }
+      ],
+      "name": "camera-camera2-pipe",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.camera/camera-camera2-pipe@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.camera/camera-camera2@1.6.1",
+      "group": "androidx.camera",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "10d8f0102468d10a311fdf73695fc29a6a69a738bb0445fbcffd9b9c037cb36b"
+        }
+      ],
+      "name": "camera-camera2",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.camera/camera-camera2@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.camera/camera-core@1.6.1",
+      "group": "androidx.camera",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a36f1c323851b51215ba476640e1eb4153882b0c368c0376e9fb905e689df84a"
+        }
+      ],
+      "name": "camera-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.camera/camera-core@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.camera/camera-lifecycle@1.6.1",
+      "group": "androidx.camera",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ad622734db25c8e0ad3dfdc57b00ea478c421aaa7e75fb75d334f1988d7aece0"
+        }
+      ],
+      "name": "camera-lifecycle",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.camera/camera-lifecycle@1.6.1",
+      "type": "library",
+      "version": "1.6.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.collection/collection-jvm@1.4.2",
+      "group": "androidx.collection",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "984ce9bd780055eafb8a105aca3f514686bf7b1b6272ec7c645a98ce40fc7db4"
+        }
+      ],
+      "name": "collection-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.collection/collection-jvm@1.4.2",
+      "type": "library",
+      "version": "1.4.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.collection/collection-ktx@1.4.2",
+      "group": "androidx.collection",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3"
+        }
+      ],
+      "name": "collection-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.collection/collection-ktx@1.4.2",
+      "type": "library",
+      "version": "1.4.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.collection/collection@1.1.0",
+      "group": "androidx.collection",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "632a0e5407461de774409352940e292a291037724207a787820c77daf7d33b72"
+        }
+      ],
+      "name": "collection",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.collection/collection@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.collection/collection@1.4.2",
+      "group": "androidx.collection",
+      "name": "collection",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.collection/collection@1.4.2",
+      "type": "library",
+      "version": "1.4.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.compose.runtime/runtime-annotation-android@1.9.0",
+      "group": "androidx.compose.runtime",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3fba9d6be5307d998403038f6dfaa3fedd924c5618cb45a49f56a5bf6282509d"
+        }
+      ],
+      "name": "runtime-annotation-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.compose.runtime/runtime-annotation-android@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.compose.runtime/runtime-annotation@1.9.0",
+      "group": "androidx.compose.runtime",
+      "name": "runtime-annotation",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.compose.runtime/runtime-annotation@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0",
+      "group": "androidx.concurrent",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1968bf52039e38636aa6f114cd17d7256919d1e8997417716fef9d1da1f24d85"
+        }
+      ],
+      "name": "concurrent-futures-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+      "group": "androidx.concurrent",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0ce067c514a0d1049d1bebdf709e344ed3266fe9744275682937cdcb13334e9e"
+        }
+      ],
+      "name": "concurrent-futures",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.coordinatorlayout/coordinatorlayout@1.0.0",
+      "group": "androidx.coordinatorlayout",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e508c695489493374d942bf7b4ee02abf7571d25aac4c622e57d6cd5cd29eb73"
+        }
+      ],
+      "name": "coordinatorlayout",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.coordinatorlayout/coordinatorlayout@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core-backported-fixes@1.0.0",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "874722634db5f60745ab2f64d734dd81d3ee4eb71f175263e6565dabea54713d"
+        }
+      ],
+      "name": "core-backported-fixes",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core-backported-fixes@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core-ktx@1.18.0",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c7c511e3df838fcbcb61ace36944de6bb7c10eb597be546974f001119939c85d"
+        }
+      ],
+      "name": "core-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core-ktx@1.18.0",
+      "type": "library",
+      "version": "1.18.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core-ktx@1.2.0",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dcb74d510d552b35eff73b0dd27b829649535f3902e5b5a1f26040383c10a940"
+        }
+      ],
+      "name": "core-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core-ktx@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core-viewtree@1.0.0",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dc1b678d58ebcf2bfa1587be68ff826694ce3d221251b9ef30d4d4b36297e6de"
+        }
+      ],
+      "name": "core-viewtree",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core-viewtree@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core@1.13.1",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2c27de199535675005553066597a4b20fa1eea7c228ab4ef6b32b5fe39ca1f59"
+        }
+      ],
+      "name": "core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core@1.13.1",
+      "type": "library",
+      "version": "1.13.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.core/core@1.18.0",
+      "group": "androidx.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "311d83ac67d394076ec21d12ed2d10a44b59cb2929b7dce00e5a90a93842e37d"
+        }
+      ],
+      "name": "core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.core/core@1.18.0",
+      "type": "library",
+      "version": "1.18.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.cursoradapter/cursoradapter@1.0.0",
+      "group": "androidx.cursoradapter",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a81c8fe78815fa47df5b749deb52727ad11f9397da58b16017f4eb2c11e28564"
+        }
+      ],
+      "name": "cursoradapter",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.cursoradapter/cursoradapter@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.customview/customview@1.0.0",
+      "group": "androidx.customview",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "20e5b8f6526a34595a604f56718da81167c0b40a7a94a57daa355663f2594df2"
+        }
+      ],
+      "name": "customview",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.customview/customview@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.customview/customview@1.1.0",
+      "group": "androidx.customview",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "01f76ab043770a97b054046f9815717b82ce0355c02967d16c61981359dc189a"
+        }
+      ],
+      "name": "customview",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.customview/customview@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-android@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "26c12c6417e7e4cfd36386aa8cc2b9839fe87a6792f820805827bde4d27f9e6e"
+        }
+      ],
+      "name": "datastore-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-android@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-core-android@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "adca1d7cde73406fcca2a0eeabac63459adc9d1fe201b79ba08711fa2e331984"
+        }
+      ],
+      "name": "datastore-core-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-core-android@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-core-okio-jvm@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "291506b4fce398249793e327207635bd4df25181d9539808d7181a4abd0875f5"
+        }
+      ],
+      "name": "datastore-core-okio-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-core-okio-jvm@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-core-okio@1.1.7",
+      "group": "androidx.datastore",
+      "name": "datastore-core-okio",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-core-okio@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-core@1.1.7",
+      "group": "androidx.datastore",
+      "name": "datastore-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-core@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences-android@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1b3d703abc765b60517334b04c5b520e6e25168a2f2d73d5b0cd975d20054f8d"
+        }
+      ],
+      "name": "datastore-preferences-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences-android@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences-core-android@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "31cebf4444b1df57876e695109a0a63c9a93ff05df503d27a3927b86af0cfac0"
+        }
+      ],
+      "name": "datastore-preferences-core-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences-core-android@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences-core@1.1.7",
+      "group": "androidx.datastore",
+      "name": "datastore-preferences-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences-core@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences-external-protobuf@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fcb3f373cf743426c85ebb0d3cc644aefaf26f39b7fa55bb90238d41b689eca7"
+        }
+      ],
+      "name": "datastore-preferences-external-protobuf",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences-external-protobuf@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences-proto@1.1.7",
+      "group": "androidx.datastore",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "63686a612f39b8ca603bebe3376d55fb6c9ee28a4a5173efa49c89cbcca8a127"
+        }
+      ],
+      "name": "datastore-preferences-proto",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences-proto@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore-preferences@1.1.7",
+      "group": "androidx.datastore",
+      "name": "datastore-preferences",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.datastore/datastore@1.1.7",
+      "group": "androidx.datastore",
+      "name": "datastore",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.datastore/datastore@1.1.7",
+      "type": "library",
+      "version": "1.1.7"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.documentfile/documentfile@1.0.0",
+      "group": "androidx.documentfile",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "865a061ef2fad16522f8433536b8d47208c46ff7c7745197dfa1eeb481869487"
+        }
+      ],
+      "name": "documentfile",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.documentfile/documentfile@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.drawerlayout/drawerlayout@1.0.0",
+      "group": "androidx.drawerlayout",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9402442cdc5a43cf62fb14f8cf98c63342d4d9d9b805c8033c6cf7e802749ac1"
+        }
+      ],
+      "name": "drawerlayout",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.drawerlayout/drawerlayout@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.emoji2/emoji2-views-helper@1.2.0",
+      "group": "androidx.emoji2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7ffa4d464d9db259fca0cdb50fbd4ab63d6872bcda59468b9f7555504c7d5ac4"
+        }
+      ],
+      "name": "emoji2-views-helper",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.emoji2/emoji2-views-helper@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.emoji2/emoji2@1.2.0",
+      "group": "androidx.emoji2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f31a06c150ecb03073f55a6f7b0b74a240a6a8d727c14ce76726d020570dfa8c"
+        }
+      ],
+      "name": "emoji2",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.emoji2/emoji2@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.exifinterface/exifinterface@1.4.1",
+      "group": "androidx.exifinterface",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "17e17a6b86bb54074d3a7ecfa695ab920eaff4cf667a8371ed82e377580cfcf6"
+        }
+      ],
+      "name": "exifinterface",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.exifinterface/exifinterface@1.4.1",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+      "group": "androidx.exifinterface",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6bb2b68682a2023c55f35f941444ffea0157947b061e4fd7606ba935e2e77425"
+        }
+      ],
+      "name": "exifinterface",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+      "type": "library",
+      "version": "1.4.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.fragment/fragment-ktx@1.7.1",
+      "group": "androidx.fragment",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8facb90718cf525eaffe6d1bd6145dff156d6ae51d3c1f8202cd058ef881f62a"
+        }
+      ],
+      "name": "fragment-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.fragment/fragment-ktx@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.fragment/fragment@1.7.1",
+      "group": "androidx.fragment",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7ddebe9d830a04963733dcb340cab4bac1e69dfca797a6d59aa7bc56282150af"
+        }
+      ],
+      "name": "fragment",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.fragment/fragment@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+      "group": "androidx.interpolator",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "33193135a64fe21fa2c35eec6688f1a76e512606c0fc83dc1b689e37add7732a"
+        }
+      ],
+      "name": "interpolator",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.legacy/legacy-support-core-ui@1.0.0",
+      "group": "androidx.legacy",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0d1260c6e7e6a337f875df71b516931e703f716e90889817cd3a20fa5ac3d947"
+        }
+      ],
+      "name": "legacy-support-core-ui",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.legacy/legacy-support-core-ui@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.legacy/legacy-support-core-utils@1.0.0",
+      "group": "androidx.legacy",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a7edcf01d5b52b3034073027bc4775b78a4764bb6202bb91d61c829add8dd1c7"
+        }
+      ],
+      "name": "legacy-support-core-utils",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.legacy/legacy-support-core-utils@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "497dd84de9f2fd46324f25f9a3af032d3a23d087e87af515c4b19435f6d6a651"
+        }
+      ],
+      "name": "lifecycle-common-java8",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3"
+        }
+      ],
+      "name": "lifecycle-common-java8",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-common-jvm@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "15943082d87bcd78830398fa377f2c8b12643de290d0906ed8e49a2d335ddb54"
+        }
+      ],
+      "name": "lifecycle-common-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-common-jvm@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+      "group": "androidx.lifecycle",
+      "name": "lifecycle-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "533ded8ee0645a18f6653da53fe1ec5a15430e7f36a737d45e410531f30f3318"
+        }
+      ],
+      "name": "lifecycle-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5f18429749a183e19178d8665ae42bf7b6310b50358ae9e0e0cc452afd6e0bc3"
+        }
+      ],
+      "name": "lifecycle-livedata-core-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a97f4c2191ebdd32f99ac229597bd1a92446b01cd1a088d13494cc05cabf0def"
+        }
+      ],
+      "name": "lifecycle-livedata-core-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "12dd61a9843ccebb4547d3ebe2f6d030ca8f6988d22f8fad19c0af93b4a97e95"
+        }
+      ],
+      "name": "lifecycle-livedata-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "af8e11b87e030d6e3107ed39adcf01fa10d6259eb15c43cba6e7b4e3ffaedf27"
+        }
+      ],
+      "name": "lifecycle-livedata-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3e8c009fc88da1c52e4ed05a81269d5ac9bd405046f300307f5e3a17e201a6df"
+        }
+      ],
+      "name": "lifecycle-livedata",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9affa24c6160dc8cadaac9422d4f714e5009537d0243afc4bc74b5b7cf0de4ad"
+        }
+      ],
+      "name": "lifecycle-livedata",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-process@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "10bb5bb12773dca11d8343c014cfd17dfb40967d6ece37e8f15d04d8ceb0775c"
+        }
+      ],
+      "name": "lifecycle-process",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-process@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-process@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6fb33d9473a4933da9d98a0b12b606127e80681bd9b90309ccd2c2230863b939"
+        }
+      ],
+      "name": "lifecycle-process",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-process@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-android@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2193a1573d623f37b20c7d27d1a8f903a72f651cc6f32e5794f85dda744fee75"
+        }
+      ],
+      "name": "lifecycle-runtime-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime-android@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx-android@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "871883703339f87284d232cb436e317c6f4af5612d92b43f27c6b13b92109fa7"
+        }
+      ],
+      "name": "lifecycle-runtime-ktx-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx-android@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx@2.10.0",
+      "group": "androidx.lifecycle",
+      "name": "lifecycle-runtime-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+      "group": "androidx.lifecycle",
+      "name": "lifecycle-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "81c6fb1dbb6a3cd7dc827d7b08e1c8142ed3a400a3422441108480e22f8937c4"
+        }
+      ],
+      "name": "lifecycle-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-android@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9303287030027ca0b8cf98a748ddeb121ec1bfa1312c0069428e4765bbabce78"
+        }
+      ],
+      "name": "lifecycle-viewmodel-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-android@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "54295ac86b67886dc0613e38f621c531995d0662005fc763e340e19a90994f84"
+        }
+      ],
+      "name": "lifecycle-viewmodel-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate-android@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "19404239fa584322c2f81e9659e162bc011b746d29dc950a11d260624d83225e"
+        }
+      ],
+      "name": "lifecycle-viewmodel-savedstate-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate-android@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.10.0",
+      "group": "androidx.lifecycle",
+      "name": "lifecycle-viewmodel-savedstate",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "57c578862e219e360c6957ff0bca6f169707b1e5582d4fa593e284f7f63e33f6"
+        }
+      ],
+      "name": "lifecycle-viewmodel-savedstate",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4b809cf9eb7323d200504e95921feb777ff080215cadb8237742d5ed0ba5b792"
+        }
+      ],
+      "name": "lifecycle-viewmodel",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+      "type": "library",
+      "version": "2.10.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0",
+      "group": "androidx.lifecycle",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4e1d92e289920cd7b50e3671b9191bd413407349cda6f602b0285464f41c1c82"
+        }
+      ],
+      "name": "lifecycle-viewmodel",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.loader/loader@1.0.0",
+      "group": "androidx.loader",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "11f735cb3b55c458d470bed9e25254375b518b4b1bad6926783a7026db0f5025"
+        }
+      ],
+      "name": "loader",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.loader/loader@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.localbroadcastmanager/localbroadcastmanager@1.0.0",
+      "group": "androidx.localbroadcastmanager",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e71c328ceef5c4a7d76f2d86df1b65d65fe2acf868b1a4efd84a3f34336186d8"
+        }
+      ],
+      "name": "localbroadcastmanager",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.localbroadcastmanager/localbroadcastmanager@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.navigationevent/navigationevent-android@1.0.2",
+      "group": "androidx.navigationevent",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3fa191e3da2f6b601e944fb03a09a12278e49418dd1a9b22cd6b99f66e4283fd"
+        }
+      ],
+      "name": "navigationevent-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.navigationevent/navigationevent-android@1.0.2",
+      "type": "library",
+      "version": "1.0.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.navigationevent/navigationevent@1.0.2",
+      "group": "androidx.navigationevent",
+      "name": "navigationevent",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.navigationevent/navigationevent@1.0.2",
+      "type": "library",
+      "version": "1.0.2"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.preference/preference@1.2.1",
+      "group": "androidx.preference",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "40ca8adfdb7effb61facb39bd9ca2e2f3a40d106743b0cd6dc9e21e8bedd4f85"
+        }
+      ],
+      "name": "preference",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.preference/preference@1.2.1",
+      "type": "library",
+      "version": "1.2.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.print/print@1.0.0",
+      "group": "androidx.print",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1d5c7f3135a1bba661fc373fd72e11eb0a4adbb3396787826dd8e4190d5d9edd"
+        }
+      ],
+      "name": "print",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.print/print@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0",
+      "group": "androidx.profileinstaller",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d502141fcce902430f62b674c32aecd0f75262e7ee2cd15c74adb617cd13130a"
+        }
+      ],
+      "name": "profileinstaller",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.recyclerview/recyclerview@1.0.0",
+      "group": "androidx.recyclerview",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "06956fb1ac014027ca9d2b40469a4b42aa61b4957bb11848e1ff352701ab4548"
+        }
+      ],
+      "name": "recyclerview",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.recyclerview/recyclerview@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.resourceinspection/resourceinspection-annotation@1.0.1",
+      "group": "androidx.resourceinspection",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8cff870ec6fb31db48a52f4a792335b4bf8de07e03bd37823181526433ccd5cb"
+        }
+      ],
+      "name": "resourceinspection-annotation",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.resourceinspection/resourceinspection-annotation@1.0.1",
+      "type": "library",
+      "version": "1.0.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.savedstate/savedstate-android@1.4.0",
+      "group": "androidx.savedstate",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1656ce62cd233d488bdbbd42e533b80b22435b7a690acae6dbe7302392512c14"
+        }
+      ],
+      "name": "savedstate-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.savedstate/savedstate-android@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.savedstate/savedstate-ktx@1.4.0",
+      "group": "androidx.savedstate",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "23593939446bc5a154a1e35fddd87b82f19e2adf072207f115bf29a8b431c1d3"
+        }
+      ],
+      "name": "savedstate-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.savedstate/savedstate-ktx@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.savedstate/savedstate@1.2.1",
+      "group": "androidx.savedstate",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "21a7d4bcf6bdb94ad7b9283801529300b4fbb8808ca4f191e0cdce6fd8e4705a"
+        }
+      ],
+      "name": "savedstate",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.savedstate/savedstate@1.2.1",
+      "type": "library",
+      "version": "1.2.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+      "group": "androidx.savedstate",
+      "name": "savedstate",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.slidingpanelayout/slidingpanelayout@1.2.0",
+      "group": "androidx.slidingpanelayout",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5f53339be2a4f90a9abea3571dd59e70a8a49e7f15dd82974a3898b4652e8714"
+        }
+      ],
+      "name": "slidingpanelayout",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.slidingpanelayout/slidingpanelayout@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.startup/startup-runtime@1.1.1",
+      "group": "androidx.startup",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e0a6329a371262fe4c450372b70fdaf33b769ef6917094723787cfce896b1dd3"
+        }
+      ],
+      "name": "startup-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.startup/startup-runtime@1.1.1",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.swiperefreshlayout/swiperefreshlayout@1.0.0",
+      "group": "androidx.swiperefreshlayout",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9761b3a809c9b093fd06a3c4bbc645756dec0e95b5c9da419bc9f2a3f3026e8d"
+        }
+      ],
+      "name": "swiperefreshlayout",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.swiperefreshlayout/swiperefreshlayout@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.tracing/tracing-android@1.3.0",
+      "group": "androidx.tracing",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f59782bbe3470a6b0c531cef262dd1fc9d9a0233490bb5e6d553e1fe6a1816b2"
+        }
+      ],
+      "name": "tracing-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.tracing/tracing-android@1.3.0",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.tracing/tracing-ktx@1.3.0",
+      "group": "androidx.tracing",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7df502d572295cf23c6da4a38b3f199a4794dfcd947780cd36110eea407a0a4d"
+        }
+      ],
+      "name": "tracing-ktx",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.tracing/tracing-ktx@1.3.0",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.tracing/tracing@1.2.0",
+      "group": "androidx.tracing",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6faa90390d1fdbf0adb9a99bf99de67b94c6c6f35aea9510593a9d17973736a2"
+        }
+      ],
+      "name": "tracing",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.tracing/tracing@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.tracing/tracing@1.3.0",
+      "group": "androidx.tracing",
+      "name": "tracing",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/androidx.tracing/tracing@1.3.0",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.transition/transition@1.4.1",
+      "group": "androidx.transition",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "36d28d9ec33a8c64313842bce99c95736da5b27a6b3a513639050de82f075726"
+        }
+      ],
+      "name": "transition",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.transition/transition@1.4.1",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.vectordrawable/vectordrawable-animated@1.1.0",
+      "group": "androidx.vectordrawable",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "76da2c502371d9c38054df5e2b248d00da87809ed058f3363eae87ce5e2403f8"
+        }
+      ],
+      "name": "vectordrawable-animated",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.vectordrawable/vectordrawable-animated@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.vectordrawable/vectordrawable@1.1.0",
+      "group": "androidx.vectordrawable",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "46fd633ac01b49b7fcabc263bf098c5a8b9e9a69774d234edcca04fb02df8e26"
+        }
+      ],
+      "name": "vectordrawable",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.vectordrawable/vectordrawable@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.versionedparcelable/versionedparcelable@1.1.1",
+      "group": "androidx.versionedparcelable",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "57e8d93260d18d5b9007c9eed3c64ad159de90c8609ebfc74a347cbd514535a4"
+        }
+      ],
+      "name": "versionedparcelable",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.versionedparcelable/versionedparcelable@1.1.1",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.viewpager/viewpager@1.0.0",
+      "group": "androidx.viewpager",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "147af4e14a1984010d8f155e5e19d781f03c1d70dfed02a8e0d18428b8fc8682"
+        }
+      ],
+      "name": "viewpager",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.viewpager/viewpager@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.window.extensions.core/core@1.0.0",
+      "group": "androidx.window.extensions.core",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3100854b2dc0de5c4d88b47e1c5db30801770c821dca28189443b7624f4008ae"
+        }
+      ],
+      "name": "core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.window.extensions.core/core@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.window/window-java@1.2.0",
+      "group": "androidx.window",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e3defb5ee3857757505d7ad66275dc3a0b014169301b89d6e4eec03b0e45bcab"
+        }
+      ],
+      "name": "window-java",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.window/window-java@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/androidx.window/window@1.2.0",
+      "group": "androidx.window",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a834c217d973112777533daf1281dab33bd778fadd2d66bebc39b5fe81a890ac"
+        }
+      ],
+      "name": "window",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/androidx.window/window@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.getkeepsafe.relinker/relinker@1.4.5",
+      "group": "com.getkeepsafe.relinker",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b03b4d113a9fef79400ae854c17757c2915725e6ffd1d61116eadaeb5613374a"
+        }
+      ],
+      "name": "relinker",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.getkeepsafe.relinker/relinker@1.4.5",
+      "type": "library",
+      "version": "1.4.5"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+      "group": "com.google.android.datatransport",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e62f73ba1c7f5d15f5d86d8e9a298c42ccd0648e7ce60b9e312f2ecd123b5ed0"
+        }
+      ],
+      "name": "transport-api",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+      "type": "library",
+      "version": "2.2.1"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3",
+      "group": "com.google.android.datatransport",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b22a14d560a590dc875e902424b29a13a02d1faf297b7c39a9007967ffadccbd"
+        }
+      ],
+      "name": "transport-backend-cct",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3",
+      "type": "library",
+      "version": "2.3.3"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+      "group": "com.google.android.datatransport",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d83ad23c134429691161c92476a3c83df236cd1f8badbfd4f00723b4eccd741c"
+        }
+      ],
+      "name": "transport-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+      "type": "library",
+      "version": "2.2.6"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.gms/play-services-base@18.5.0",
+      "group": "com.google.android.gms",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "59a5c0c2da12311d75d965ce1f419498536b1a167fb28ff7dfc2dfd9cefa4157"
+        }
+      ],
+      "name": "play-services-base",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.gms/play-services-base@18.5.0",
+      "type": "library",
+      "version": "18.5.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+      "group": "com.google.android.gms",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c6ed7236b1b3ce0296b508a5c0a09108fd52d83559d35cad2639505cd04ab255"
+        }
+      ],
+      "name": "play-services-basement",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+      "type": "library",
+      "version": "18.9.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.gms/play-services-mlkit-barcode-scanning@18.3.1",
+      "group": "com.google.android.gms",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f58096b98867417a698db55ddfd7c8ed0383b2117fa8f3692fa701d6132f1462"
+        }
+      ],
+      "name": "play-services-mlkit-barcode-scanning",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.gms/play-services-mlkit-barcode-scanning@18.3.1",
+      "type": "library",
+      "version": "18.3.1"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.gms/play-services-tasks@18.2.0",
+      "group": "com.google.android.gms",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7f2aaa8f502068eaf54356ca92aec04271d6e7c416c52c45c0d23440fcbd1654"
+        }
+      ],
+      "name": "play-services-tasks",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.gms/play-services-tasks@18.2.0",
+      "type": "library",
+      "version": "18.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+      "group": "com.google.android.gms",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e3f7666ca0532142ab7c0c3f4e2dbf34113d590c3542845ce03ce79ea6b83d29"
+        }
+      ],
+      "name": "play-services-tasks",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+      "type": "library",
+      "version": "18.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.odml/image@1.0.0-beta1",
+      "group": "com.google.android.odml",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2e71aa31f83a9415277f119de67195726f07d1760e9542c111778c320e3aa1f2"
+        }
+      ],
+      "name": "image",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.odml/image@1.0.0-beta1",
+      "type": "library",
+      "version": "1.0.0-beta1"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.play/core-common@2.0.4",
+      "group": "com.google.android.play",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "36400824014fc61d9379b13dd1ab13f6514847fb04347c0fdfe618bace78f3ed"
+        }
+      ],
+      "name": "core-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.play/core-common@2.0.4",
+      "type": "library",
+      "version": "2.0.4"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.android.play/integrity@1.6.0",
+      "group": "com.google.android.play",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e6a0a877245b1f8c59aeccfa6c2b9bc07a7e44b551e3a372ce091533976b5188"
+        }
+      ],
+      "name": "integrity",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.android.play/integrity@1.6.0",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3",
+      "group": "com.google.auto.value",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0e951fee8c31f60270bc46553a8586001b7b93dbb12aec06373aa99a150392c0"
+        }
+      ],
+      "name": "auto-value-annotations",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3",
+      "type": "library",
+      "version": "1.6.3"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.dagger/dagger@2.59",
+      "group": "com.google.dagger",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "94d5b23812cc12fa903c9ac4a42978e7e7b2622e6b51c17f8b12037ceece43cd"
+        }
+      ],
+      "name": "dagger",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.dagger/dagger@2.59",
+      "type": "library",
+      "version": "2.59"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.errorprone/error_prone_annotations@2.26.0",
+      "group": "com.google.errorprone",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "53cdfc0beb2d766fe03b78f0b11d020554cd419879d20380c38fa1dcf2ba1b50"
+        }
+      ],
+      "name": "error_prone_annotations",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.errorprone/error_prone_annotations@2.26.0",
+      "type": "library",
+      "version": "2.26.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-annotations@17.0.0",
+      "group": "com.google.firebase",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f80305e6f7b5d111278d4df9504f51f7230e06c6457a0fa7c16e236c7613cc71"
+        }
+      ],
+      "name": "firebase-annotations",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-annotations@17.0.0",
+      "type": "library",
+      "version": "17.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-bom@34.17.0",
+      "group": "com.google.firebase",
+      "name": "firebase-bom",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-bom@34.17.0",
+      "type": "library",
+      "version": "34.17.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-common@22.2.0",
+      "group": "com.google.firebase",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a36ff095755a6aad2e118fc983a6e92ef0159498be716539f8ef9bd07277891c"
+        }
+      ],
+      "name": "firebase-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-common@22.2.0",
+      "type": "library",
+      "version": "22.2.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+      "group": "com.google.firebase",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5d79597f7774b2f68ad57e91c2592e89ecef4d09a5f1c5c03c75f573f00cb3e4"
+        }
+      ],
+      "name": "firebase-components",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+      "type": "library",
+      "version": "19.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+      "group": "com.google.firebase",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8295c755bcadc87a2aaee5b9e568f27fd138fd45ff1159a8ee747cf4c3a38d85"
+        }
+      ],
+      "name": "firebase-encoders-json",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+      "type": "library",
+      "version": "17.1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.firebase/firebase-encoders@17.0.0",
+      "group": "com.google.firebase",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "282a5a703f9b7eb56508dde97ea918e95d73318b157050f457f7a86dca750150"
+        }
+      ],
+      "name": "firebase-encoders",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.firebase/firebase-encoders@17.0.0",
+      "type": "library",
+      "version": "17.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.guava/listenablefuture@1.0",
+      "group": "com.google.guava",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e4ad7607e5c0477c6f890ef26a49cb8d1bb4dffb650bab4502afee64644e3069"
+        }
+      ],
+      "name": "listenablefuture",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.guava/listenablefuture@1.0",
+      "type": "library",
+      "version": "1.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.mlkit/barcode-scanning-common@17.0.0",
+      "group": "com.google.mlkit",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cd0e9e71b834078d4a8a7f09e72d7d7c3a22e258e9602da7ac86146677043f14"
+        }
+      ],
+      "name": "barcode-scanning-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.mlkit/barcode-scanning-common@17.0.0",
+      "type": "library",
+      "version": "17.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.mlkit/barcode-scanning@17.3.0",
+      "group": "com.google.mlkit",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "64c5cf48bb94b6c54f2c785c660640a7d167aff6ad72bc2c920706dc4187b79a"
+        }
+      ],
+      "name": "barcode-scanning",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.mlkit/barcode-scanning@17.3.0",
+      "type": "library",
+      "version": "17.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.mlkit/common@18.11.0",
+      "group": "com.google.mlkit",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "66408a08dbb2465687ff5dd0c8f6410b56549ce3ecf449d9096f3712282131d0"
+        }
+      ],
+      "name": "common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.mlkit/common@18.11.0",
+      "type": "library",
+      "version": "18.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.mlkit/vision-common@17.3.0",
+      "group": "com.google.mlkit",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c0085ca5fba00f11529c0a83b12851ea6c599bbcc8affd927e914b29a743459f"
+        }
+      ],
+      "name": "vision-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.mlkit/vision-common@17.3.0",
+      "type": "library",
+      "version": "17.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.google.mlkit/vision-interfaces@16.3.0",
+      "group": "com.google.mlkit",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8f0192a26d01b728a01a15a620d829fff7095822822694438a93127c04cb16fb"
+        }
+      ],
+      "name": "vision-interfaces",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.google.mlkit/vision-interfaces@16.3.0",
+      "type": "library",
+      "version": "16.3.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.squareup.okio/okio-jvm@3.4.0",
+      "group": "com.squareup.okio",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0139ec7a506dbbd54cad62291b019cb850534be097c8c66c1000d5fbe8edef3e"
+        }
+      ],
+      "name": "okio-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/com.squareup.okio/okio-jvm@3.4.0",
+      "type": "library",
+      "version": "3.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/com.squareup.okio/okio@3.4.0",
+      "group": "com.squareup.okio",
+      "name": "okio",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/com.squareup.okio/okio@3.4.0",
+      "type": "library",
+      "version": "3.4.0"
+    },
+    {
+      "bom-ref": "pkg:maven/io.flutter/arm64_v8a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "group": "io.flutter",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "509f736690e81d6fa98aa7709b211bc6ffceecd28a0f8b49e6076901083e674c"
+        }
+      ],
+      "name": "arm64_v8a_release",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/io.flutter/arm64_v8a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "type": "library",
+      "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "bom-ref": "pkg:maven/io.flutter/armeabi_v7a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "group": "io.flutter",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c4a3528f849039527085100d2cb0717b0bac1cba8317a0e019e4e88a389ba41d"
+        }
+      ],
+      "name": "armeabi_v7a_release",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/io.flutter/armeabi_v7a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "type": "library",
+      "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "bom-ref": "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "group": "io.flutter",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8bca1e8c061c3dfe57808bf4f9426e7f61859d85d20320ce71a8f1266b4a145f"
+        }
+      ],
+      "name": "flutter_embedding_release",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "type": "library",
+      "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "bom-ref": "pkg:maven/io.flutter/x86_64_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "group": "io.flutter",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7b6b7fbb1d90649d2484e304d7a75af47b39869657438cc0bca0daf0a1b534a3"
+        }
+      ],
+      "name": "x86_64_release",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/io.flutter/x86_64_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+      "type": "library",
+      "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "bom-ref": "pkg:maven/jakarta.inject/jakarta.inject-api@2.0.1",
+      "group": "jakarta.inject",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f7dc98062fccf14126abb751b64fab12c312566e8cbdc8483598bffcea93af7c"
+        }
+      ],
+      "name": "jakarta.inject-api",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/jakarta.inject/jakarta.inject-api@2.0.1",
+      "type": "library",
+      "version": "2.0.1"
+    },
+    {
+      "bom-ref": "pkg:maven/javax.inject/javax.inject@1",
+      "group": "javax.inject",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+        }
+      ],
+      "name": "javax.inject",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/javax.inject/javax.inject@1",
+      "type": "library",
+      "version": "1"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-android-extensions-runtime@1.9.22",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f00537c7023e604933f6a9563b1bb3b83e61fbfd2cc3d0e9900d616bab6862a4"
+        }
+      ],
+      "name": "kotlin-android-extensions-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-android-extensions-runtime@1.9.22",
+      "type": "library",
+      "version": "1.9.22"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-parcelize-runtime@1.9.22",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f0077f35ec828e148ac92d0c6aa141a732b5eb7a4a391679aeefa59fa9a1a5cc"
+        }
+      ],
+      "name": "kotlin-parcelize-runtime",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-parcelize-runtime@1.9.22",
+      "type": "library",
+      "version": "1.9.22"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@2.3.20",
+      "group": "org.jetbrains.kotlin",
+      "name": "kotlin-stdlib-common",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@2.3.20",
+      "type": "library",
+      "version": "2.3.20"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.0",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4c889d1d9803f5f2eb6c1592a6b7e62369ac7660c9eee15aba16fec059163666"
+        }
+      ],
+      "name": "kotlin-stdlib-jdk7",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.0",
+      "type": "library",
+      "version": "1.8.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.20",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "af1ec40c3b951afdcc0c2a0173c7b81763c5281c2d5bafbf0a8544a24c5dcc0c"
+        }
+      ],
+      "name": "kotlin-stdlib-jdk7",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.20",
+      "type": "library",
+      "version": "1.8.20"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.0",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "05b62804441b0c9a1920b6b7d5cf7329a4e24b6258478e32b1f046ca01900946"
+        }
+      ],
+      "name": "kotlin-stdlib-jdk8",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.0",
+      "type": "library",
+      "version": "1.8.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.20",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e398b67977622718bf18ff99b739c7d9da060f33fb458a2e25203221c16af010"
+        }
+      ],
+      "name": "kotlin-stdlib-jdk8",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.20",
+      "type": "library",
+      "version": "1.8.20"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+      "group": "org.jetbrains.kotlin",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0ae12504a5040ebaf37703908483420d1a5624dd1d93f357665f8c77c848a01e"
+        }
+      ],
+      "name": "kotlin-stdlib",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+      "type": "library",
+      "version": "2.3.20"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/atomicfu-jvm@0.28.0",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "39576ec46b83412ff7a2909d24cccbba90400e91f9aa67b250309bc0872ecf52"
+        }
+      ],
+      "name": "atomicfu-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/atomicfu-jvm@0.28.0",
+      "type": "library",
+      "version": "0.28.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/atomicfu@0.28.0",
+      "group": "org.jetbrains.kotlinx",
+      "name": "atomicfu",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/atomicfu@0.28.0",
+      "type": "library",
+      "version": "0.28.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c2cb206d27017c7d1bf5ff179787397543d13748dbabb0d7237e1585e0b29044"
+        }
+      ],
+      "name": "kotlinx-coroutines-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "107313760c18f8da174e8d8103504a468e806e88f7b55a84bd1c0eaeea118e9a"
+        }
+      ],
+      "name": "kotlinx-coroutines-android",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-coroutines-bom",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.7.1",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-coroutines-bom",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.11.0",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d1d75aa01dffbb4d1c520e67e4c4e7f5f6174718e7cb4632412503f2f0e604fa"
+        }
+      ],
+      "name": "kotlinx-coroutines-core-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.7.1",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7496cffdd3eb10109acdda1c3212f6ac7815789e09380dc9e2ccdec496dba3fc"
+        }
+      ],
+      "name": "kotlinx-coroutines-core-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-coroutines-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-coroutines-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1",
+      "type": "library",
+      "version": "1.7.1"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-play-services@1.11.0",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f441579409a9befc7391ae5620de773590dd6536b979d4a5a2a6e05b5f81e4d4"
+        }
+      ],
+      "name": "kotlinx-coroutines-play-services",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-play-services@1.11.0",
+      "type": "library",
+      "version": "1.11.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-bom@1.7.3",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-serialization-bom",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-bom@1.7.3",
+      "type": "library",
+      "version": "1.7.3"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm@1.7.3",
+      "group": "org.jetbrains.kotlinx",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f0adde45864144475385cf4aa7e0b7feb27f61fcf9472665ed98cc971b06b1eb"
+        }
+      ],
+      "name": "kotlinx-serialization-core-jvm",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm@1.7.3",
+      "type": "library",
+      "version": "1.7.3"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.7.3",
+      "group": "org.jetbrains.kotlinx",
+      "name": "kotlinx-serialization-core",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Selected metadata/platform module; no AAR/JAR bytes reported"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.7.3",
+      "type": "library",
+      "version": "1.7.3"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jetbrains/annotations@23.0.0",
+      "group": "org.jetbrains",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7b0f19724082cbfcbc66e5abea2b9bc92cf08a1ea11e191933ed43801eb3cd05"
+        }
+      ],
+      "name": "annotations",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jetbrains/annotations@23.0.0",
+      "type": "library",
+      "version": "23.0.0"
+    },
+    {
+      "bom-ref": "pkg:maven/org.jspecify/jspecify@1.0.0",
+      "group": "org.jspecify",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+        }
+      ],
+      "name": "jspecify",
+      "properties": [
+        {
+          "name": "collect:license-evidence",
+          "value": "unknown"
+        },
+        {
+          "name": "collect:artifact-scope",
+          "value": "Observed external AAR/JAR bytes"
+        }
+      ],
+      "purl": "pkg:maven/org.jspecify/jspecify@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aandroid_file_picker"
+    },
+    {
+      "dependsOn": [
+        "collect:local-gradle-project:%3Aandroid_file_picker",
+        "collect:local-gradle-project:%3Aapp_links",
+        "collect:local-gradle-project:%3Afile_saver",
+        "collect:local-gradle-project:%3Afirebase_core",
+        "collect:local-gradle-project:%3Aflutter_plugin_android_lifecycle",
+        "collect:local-gradle-project:%3Aimage_picker_android",
+        "collect:local-gradle-project:%3Ajni",
+        "collect:local-gradle-project:%3Ajni_flutter",
+        "collect:local-gradle-project:%3Amobile_scanner",
+        "collect:local-gradle-project:%3Apermission_handler_android",
+        "collect:local-gradle-project:%3Ashare_plus",
+        "collect:local-gradle-project:%3Ashared_preferences_android",
+        "collect:local-gradle-project:%3Aurl_launcher_android",
+        "pkg:maven/com.google.android.play/integrity@1.6.0",
+        "pkg:maven/io.flutter/arm64_v8a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/io.flutter/armeabi_v7a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/io.flutter/x86_64_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@2.3.20",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aapp"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aapp_links"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "collect:local-gradle-project:%3Afile_saver"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.firebase/firebase-bom@34.17.0",
+        "pkg:maven/com.google.firebase/firebase-common@22.2.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Afirebase_core"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aflutter_plugin_android_lifecycle"
+    },
+    {
+      "dependsOn": [
+        "collect:local-gradle-project:%3Aflutter_plugin_android_lifecycle",
+        "pkg:maven/androidx.activity/activity@1.12.4",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aimage_picker_android"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Ajni"
+    },
+    {
+      "dependsOn": [
+        "collect:local-gradle-project:%3Ajni",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Ajni_flutter"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.camera/camera-camera2@1.6.1",
+        "pkg:maven/androidx.camera/camera-lifecycle@1.6.1",
+        "pkg:maven/com.google.mlkit/barcode-scanning@17.3.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+      ],
+      "ref": "collect:local-gradle-project:%3Amobile_scanner"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Apermission_handler_android"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+      ],
+      "ref": "collect:local-gradle-project:%3Ashare_plus"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-preferences@1.1.7",
+        "pkg:maven/androidx.datastore/datastore@1.1.7",
+        "pkg:maven/androidx.preference/preference@1.2.1",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Ashared_preferences_android"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.browser/browser@1.9.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "collect:local-gradle-project:%3Aurl_launcher_android"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity@1.12.4",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.10.0",
+        "pkg:maven/androidx.savedstate/savedstate-ktx@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.activity/activity-ktx@1.12.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/androidx.navigationevent/navigationevent@1.0.2",
+        "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0",
+        "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+        "pkg:maven/androidx.tracing/tracing@1.3.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.activity/activity@1.12.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0",
+        "pkg:maven/androidx.savedstate/savedstate@1.2.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.activity/activity@1.8.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation-experimental@1.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation-experimental@1.4.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation-jvm@1.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation-jvm@1.8.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-jvm@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation@1.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-jvm@1.8.1"
+      ],
+      "ref": "pkg:maven/androidx.annotation/annotation@1.8.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.vectordrawable/vectordrawable-animated@1.1.0",
+        "pkg:maven/androidx.vectordrawable/vectordrawable@1.1.0"
+      ],
+      "ref": "pkg:maven/androidx.appcompat/appcompat-resources@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity@1.12.4",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.appcompat/appcompat-resources@1.6.1",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.cursoradapter/cursoradapter@1.0.0",
+        "pkg:maven/androidx.drawerlayout/drawerlayout@1.0.0",
+        "pkg:maven/androidx.emoji2/emoji2-views-helper@1.2.0",
+        "pkg:maven/androidx.emoji2/emoji2@1.2.0",
+        "pkg:maven/androidx.fragment/fragment@1.7.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/androidx.resourceinspection/resourceinspection-annotation@1.0.1",
+        "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.appcompat/appcompat@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1"
+      ],
+      "ref": "pkg:maven/androidx.arch.core/core-common@2.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0"
+      ],
+      "ref": "pkg:maven/androidx.arch.core/core-runtime@2.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0"
+      ],
+      "ref": "pkg:maven/androidx.asynclayoutinflater/asynclayoutinflater@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity@1.12.4",
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+        "pkg:maven/com.google.guava/listenablefuture@1.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.browser/browser@1.9.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.camera.featurecombinationquery/featurecombinationquery@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.camera.featurecombinationquery/featurecombinationquery@1.6.1",
+        "pkg:maven/com.google.dagger/dagger@2.59",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/atomicfu@0.28.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.camera/camera-camera2-pipe@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.camera/camera-camera2-pipe@1.6.1",
+        "pkg:maven/androidx.camera/camera-core@1.6.1",
+        "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0",
+        "pkg:maven/androidx.core/core-backported-fixes@1.0.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/com.google.dagger/dagger@2.59",
+        "pkg:maven/com.google.guava/listenablefuture@1.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/atomicfu@0.28.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.camera/camera-camera2@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0",
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/androidx.core/core-backported-fixes@1.0.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.10.0",
+        "pkg:maven/androidx.tracing/tracing@1.3.0",
+        "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3",
+        "pkg:maven/com.google.guava/listenablefuture@1.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.camera/camera-core@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.camera/camera-core@1.6.1",
+        "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.tracing/tracing-ktx@1.3.0",
+        "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3",
+        "pkg:maven/com.google.guava/listenablefuture@1.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.camera/camera-lifecycle@1.6.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.collection/collection-jvm@1.4.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection@1.4.2"
+      ],
+      "ref": "pkg:maven/androidx.collection/collection-ktx@1.4.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1"
+      ],
+      "ref": "pkg:maven/androidx.collection/collection@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection-jvm@1.4.2"
+      ],
+      "ref": "pkg:maven/androidx.collection/collection@1.4.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.compose.runtime/runtime-annotation-android@1.9.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.compose.runtime/runtime-annotation-android@1.9.0"
+      ],
+      "ref": "pkg:maven/androidx.compose.runtime/runtime-annotation@1.9.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.concurrent/concurrent-futures-ktx@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.guava/listenablefuture@1.0"
+      ],
+      "ref": "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.customview/customview@1.1.0"
+      ],
+      "ref": "pkg:maven/androidx.coordinatorlayout/coordinatorlayout@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.core/core-backported-fixes@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.core/core-ktx@1.18.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.core/core-ktx@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.core/core-viewtree@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+        "pkg:maven/androidx.versionedparcelable/versionedparcelable@1.1.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.core/core@1.13.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.tracing/tracing@1.3.0",
+        "pkg:maven/androidx.versionedparcelable/versionedparcelable@1.1.1",
+        "pkg:maven/com.google.guava/listenablefuture@1.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.core/core@1.18.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.cursoradapter/cursoradapter@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1"
+      ],
+      "ref": "pkg:maven/androidx.customview/customview@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0"
+      ],
+      "ref": "pkg:maven/androidx.customview/customview@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.datastore/datastore-core-okio@1.1.7",
+        "pkg:maven/androidx.datastore/datastore-core@1.1.7",
+        "pkg:maven/com.squareup.okio/okio@3.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-android@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-parcelize-runtime@1.9.22",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-core-android@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-core@1.1.7",
+        "pkg:maven/com.squareup.okio/okio@3.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-core-okio-jvm@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-core-okio-jvm@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-core-okio@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-core-android@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-core@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-preferences-core@1.1.7",
+        "pkg:maven/androidx.datastore/datastore@1.1.7",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences-android@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-core-okio@1.1.7",
+        "pkg:maven/androidx.datastore/datastore-core@1.1.7",
+        "pkg:maven/androidx.datastore/datastore-preferences-proto@1.1.7",
+        "pkg:maven/com.squareup.okio/okio@3.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences-core-android@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-preferences-core-android@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences-core@1.1.7"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences-external-protobuf@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-preferences-external-protobuf@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences-proto@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-preferences-android@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore-preferences@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.datastore/datastore-android@1.1.7"
+      ],
+      "ref": "pkg:maven/androidx.datastore/datastore@1.1.7"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.documentfile/documentfile@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.customview/customview@1.1.0"
+      ],
+      "ref": "pkg:maven/androidx.drawerlayout/drawerlayout@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.emoji2/emoji2@1.2.0"
+      ],
+      "ref": "pkg:maven/androidx.emoji2/emoji2-views-helper@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-process@2.10.0",
+        "pkg:maven/androidx.startup/startup-runtime@1.1.1"
+      ],
+      "ref": "pkg:maven/androidx.emoji2/emoji2@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.exifinterface/exifinterface@1.4.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.exifinterface/exifinterface@1.4.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity-ktx@1.12.4",
+        "pkg:maven/androidx.collection/collection-ktx@1.4.2",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.fragment/fragment@1.7.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.10.0",
+        "pkg:maven/androidx.savedstate/savedstate-ktx@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.fragment/fragment-ktx@1.7.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity@1.12.4",
+        "pkg:maven/androidx.activity/activity@1.8.1",
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.0",
+        "pkg:maven/androidx.annotation/annotation-experimental@1.4.1",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.collection/collection@1.1.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.core/core-ktx@1.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0",
+        "pkg:maven/androidx.loader/loader@1.0.0",
+        "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0",
+        "pkg:maven/androidx.savedstate/savedstate@1.2.1",
+        "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+        "pkg:maven/androidx.viewpager/viewpager@1.0.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.fragment/fragment@1.7.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.interpolator/interpolator@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.asynclayoutinflater/asynclayoutinflater@1.0.0",
+        "pkg:maven/androidx.coordinatorlayout/coordinatorlayout@1.0.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.cursoradapter/cursoradapter@1.0.0",
+        "pkg:maven/androidx.customview/customview@1.1.0",
+        "pkg:maven/androidx.drawerlayout/drawerlayout@1.0.0",
+        "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+        "pkg:maven/androidx.legacy/legacy-support-core-utils@1.0.0",
+        "pkg:maven/androidx.slidingpanelayout/slidingpanelayout@1.2.0",
+        "pkg:maven/androidx.swiperefreshlayout/swiperefreshlayout@1.0.0",
+        "pkg:maven/androidx.viewpager/viewpager@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.legacy/legacy-support-core-ui@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.documentfile/documentfile@1.0.0",
+        "pkg:maven/androidx.loader/loader@1.0.0",
+        "pkg:maven/androidx.localbroadcastmanager/localbroadcastmanager@1.0.0",
+        "pkg:maven/androidx.print/print@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.legacy/legacy-support-core-utils@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-common-jvm@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-common-jvm@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core-ktx@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.startup/startup-runtime@1.1.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-process@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+        "pkg:maven/androidx.startup/startup-runtime@1.1.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-process@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.arch.core/core-runtime@2.2.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-android@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx-android@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx-android@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime-ktx@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime-android@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.arch.core/core-common@2.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-android@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-ktx@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.7.3"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate-android@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate-android@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core-ktx@1.2.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata-core@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0",
+        "pkg:maven/androidx.savedstate/savedstate@1.2.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-savedstate@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-android@2.10.0"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-livedata@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-viewmodel@2.7.0"
+      ],
+      "ref": "pkg:maven/androidx.loader/loader@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.localbroadcastmanager/localbroadcastmanager@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.compose.runtime/runtime-annotation@1.9.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/androidx.navigationevent/navigationevent-android@1.0.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.navigationevent/navigationevent-android@1.0.2"
+      ],
+      "ref": "pkg:maven/androidx.navigationevent/navigationevent@1.0.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.activity/activity-ktx@1.12.4",
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.appcompat/appcompat@1.6.1",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.fragment/fragment-ktx@1.7.1",
+        "pkg:maven/androidx.recyclerview/recyclerview@1.0.0",
+        "pkg:maven/androidx.slidingpanelayout/slidingpanelayout@1.2.0"
+      ],
+      "ref": "pkg:maven/androidx.preference/preference@1.2.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.print/print@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/androidx.startup/startup-runtime@1.1.1",
+        "pkg:maven/com.google.guava/listenablefuture@1.0"
+      ],
+      "ref": "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.legacy/legacy-support-core-ui@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.recyclerview/recyclerview@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/androidx.resourceinspection/resourceinspection-annotation@1.0.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core-ktx@1.18.0",
+        "pkg:maven/androidx.core/core-viewtree@1.0.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.7.3"
+      ],
+      "ref": "pkg:maven/androidx.savedstate/savedstate-android@1.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.savedstate/savedstate@1.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.savedstate/savedstate-ktx@1.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.savedstate/savedstate@1.2.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.savedstate/savedstate-android@1.4.0"
+      ],
+      "ref": "pkg:maven/androidx.savedstate/savedstate@1.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.customview/customview@1.1.0",
+        "pkg:maven/androidx.transition/transition@1.4.1",
+        "pkg:maven/androidx.window/window@1.2.0"
+      ],
+      "ref": "pkg:maven/androidx.slidingpanelayout/slidingpanelayout@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.tracing/tracing@1.3.0"
+      ],
+      "ref": "pkg:maven/androidx.startup/startup-runtime@1.1.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.interpolator/interpolator@1.0.0"
+      ],
+      "ref": "pkg:maven/androidx.swiperefreshlayout/swiperefreshlayout@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.tracing/tracing-android@1.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.tracing/tracing@1.3.0"
+      ],
+      "ref": "pkg:maven/androidx.tracing/tracing-ktx@1.3.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/androidx.tracing/tracing@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.tracing/tracing-android@1.3.0"
+      ],
+      "ref": "pkg:maven/androidx.tracing/tracing@1.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0"
+      ],
+      "ref": "pkg:maven/androidx.transition/transition@1.4.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.interpolator/interpolator@1.0.0",
+        "pkg:maven/androidx.vectordrawable/vectordrawable@1.1.0"
+      ],
+      "ref": "pkg:maven/androidx.vectordrawable/vectordrawable-animated@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0"
+      ],
+      "ref": "pkg:maven/androidx.vectordrawable/vectordrawable@1.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.collection/collection@1.1.0",
+        "pkg:maven/androidx.collection/collection@1.4.2"
+      ],
+      "ref": "pkg:maven/androidx.versionedparcelable/versionedparcelable@1.1.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.customview/customview@1.0.0",
+        "pkg:maven/androidx.customview/customview@1.1.0"
+      ],
+      "ref": "pkg:maven/androidx.viewpager/viewpager@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/androidx.window.extensions.core/core@1.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.window/window@1.2.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1"
+      ],
+      "ref": "pkg:maven/androidx.window/window-java@1.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.window.extensions.core/core@1.0.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1"
+      ],
+      "ref": "pkg:maven/androidx.window/window@1.2.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.getkeepsafe.relinker/relinker@1.4.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/com.google.android.datatransport/transport-api@2.2.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+        "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+        "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+        "pkg:maven/com.google.firebase/firebase-encoders@17.0.0"
+      ],
+      "ref": "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+        "pkg:maven/javax.inject/javax.inject@1"
+      ],
+      "ref": "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.fragment/fragment@1.7.1",
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0"
+      ],
+      "ref": "pkg:maven/com.google.android.gms/play-services-base@18.5.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.collection/collection@1.1.0",
+        "pkg:maven/androidx.collection/collection@1.4.2",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.fragment/fragment@1.7.1"
+      ],
+      "ref": "pkg:maven/com.google.android.gms/play-services-basement@18.9.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+        "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3",
+        "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+        "pkg:maven/com.google.android.gms/play-services-base@18.5.0",
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/com.google.android.odml/image@1.0.0-beta1",
+        "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+        "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+        "pkg:maven/com.google.firebase/firebase-encoders@17.0.0",
+        "pkg:maven/com.google.mlkit/barcode-scanning-common@17.0.0",
+        "pkg:maven/com.google.mlkit/common@18.11.0",
+        "pkg:maven/com.google.mlkit/vision-common@17.3.0",
+        "pkg:maven/com.google.mlkit/vision-interfaces@16.3.0"
+      ],
+      "ref": "pkg:maven/com.google.android.gms/play-services-mlkit-barcode-scanning@18.3.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0"
+      ],
+      "ref": "pkg:maven/com.google.android.gms/play-services-tasks@18.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0"
+      ],
+      "ref": "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.android.odml/image@1.0.0-beta1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.android.play/core-common@2.0.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.2.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/com.google.android.play/core-common@2.0.4"
+      ],
+      "ref": "pkg:maven/com.google.android.play/integrity@1.6.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.auto.value/auto-value-annotations@1.6.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/jakarta.inject/jakarta.inject-api@2.0.1",
+        "pkg:maven/javax.inject/javax.inject@1",
+        "pkg:maven/org.jspecify/jspecify@1.0.0"
+      ],
+      "ref": "pkg:maven/com.google.dagger/dagger@2.59"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.errorprone/error_prone_annotations@2.26.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/javax.inject/javax.inject@1"
+      ],
+      "ref": "pkg:maven/com.google.firebase/firebase-annotations@17.0.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.firebase/firebase-bom@34.17.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.concurrent/concurrent-futures@1.1.0",
+        "pkg:maven/androidx.datastore/datastore-preferences@1.1.7",
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/com.google.firebase/firebase-annotations@17.0.0",
+        "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-play-services@1.11.0"
+      ],
+      "ref": "pkg:maven/com.google.firebase/firebase-common@22.2.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.errorprone/error_prone_annotations@2.26.0",
+        "pkg:maven/com.google.firebase/firebase-annotations@17.0.0"
+      ],
+      "ref": "pkg:maven/com.google.firebase/firebase-components@19.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/com.google.firebase/firebase-encoders@17.0.0"
+      ],
+      "ref": "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0"
+      ],
+      "ref": "pkg:maven/com.google.firebase/firebase-encoders@17.0.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/com.google.guava/listenablefuture@1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.mlkit/vision-common@17.3.0"
+      ],
+      "ref": "pkg:maven/com.google.mlkit/barcode-scanning-common@17.0.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-mlkit-barcode-scanning@18.3.1",
+        "pkg:maven/com.google.mlkit/barcode-scanning-common@17.0.0",
+        "pkg:maven/com.google.mlkit/common@18.11.0",
+        "pkg:maven/com.google.mlkit/vision-common@17.3.0"
+      ],
+      "ref": "pkg:maven/com.google.mlkit/barcode-scanning@17.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.appcompat/appcompat@1.6.1",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+        "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3",
+        "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+        "pkg:maven/com.google.android.gms/play-services-base@18.5.0",
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+        "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+        "pkg:maven/com.google.firebase/firebase-encoders@17.0.0"
+      ],
+      "ref": "pkg:maven/com.google.mlkit/common@18.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+        "pkg:maven/com.google.android.datatransport/transport-api@2.2.1",
+        "pkg:maven/com.google.android.datatransport/transport-backend-cct@2.3.3",
+        "pkg:maven/com.google.android.datatransport/transport-runtime@2.2.6",
+        "pkg:maven/com.google.android.gms/play-services-base@18.5.0",
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/com.google.android.odml/image@1.0.0-beta1",
+        "pkg:maven/com.google.firebase/firebase-components@19.0.0",
+        "pkg:maven/com.google.firebase/firebase-encoders-json@17.1.0",
+        "pkg:maven/com.google.firebase/firebase-encoders@17.0.0",
+        "pkg:maven/com.google.mlkit/common@18.11.0"
+      ],
+      "ref": "pkg:maven/com.google.mlkit/vision-common@17.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-basement@18.9.0",
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0"
+      ],
+      "ref": "pkg:maven/com.google.mlkit/vision-interfaces@16.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.0"
+      ],
+      "ref": "pkg:maven/com.squareup.okio/okio-jvm@3.4.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.squareup.okio/okio-jvm@3.4.0"
+      ],
+      "ref": "pkg:maven/com.squareup.okio/okio@3.4.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/io.flutter/arm64_v8a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/io.flutter/armeabi_v7a_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/androidx.annotation/annotation@1.10.0",
+        "pkg:maven/androidx.annotation/annotation@1.8.1",
+        "pkg:maven/androidx.core/core@1.13.1",
+        "pkg:maven/androidx.core/core@1.18.0",
+        "pkg:maven/androidx.exifinterface/exifinterface@1.4.1",
+        "pkg:maven/androidx.exifinterface/exifinterface@1.4.2",
+        "pkg:maven/androidx.fragment/fragment@1.7.1",
+        "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common-java8@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-common@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-process@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-process@2.7.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.10.0",
+        "pkg:maven/androidx.lifecycle/lifecycle-runtime@2.7.0",
+        "pkg:maven/androidx.tracing/tracing@1.2.0",
+        "pkg:maven/androidx.tracing/tracing@1.3.0",
+        "pkg:maven/androidx.window/window-java@1.2.0",
+        "pkg:maven/com.getkeepsafe.relinker/relinker@1.4.5"
+      ],
+      "ref": "pkg:maven/io.flutter/flutter_embedding_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/io.flutter/x86_64_release@1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/jakarta.inject/jakarta.inject-api@2.0.1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/javax.inject/javax.inject@1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-android-extensions-runtime@1.9.22"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-android-extensions-runtime@1.9.22",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-parcelize-runtime@1.9.22"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@2.3.20"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.20"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.20",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.20"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains/annotations@23.0.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/atomicfu-jvm@0.28.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlinx/atomicfu-jvm@0.28.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/atomicfu@0.28.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.7.1",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.7.1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.7.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0",
+        "pkg:maven/org.jetbrains/annotations@23.0.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-common@2.3.20",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.7.1",
+        "pkg:maven/org.jetbrains/annotations@23.0.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.7.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.11.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.7.1"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.7.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/com.google.android.gms/play-services-tasks@18.4.0",
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-play-services@1.11.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-bom@1.7.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.3.20",
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-bom@1.7.3"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm@1.7.3"
+    },
+    {
+      "dependsOn": [
+        "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm@1.7.3"
+      ],
+      "ref": "pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.7.3"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/org.jetbrains/annotations@23.0.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:maven/org.jspecify/jspecify@1.0.0"
+    }
+  ],
+  "metadata": {
+    "properties": [
+      {
+        "name": "collect:scope",
+        "value": "Selected compile/runtime graphs and external artifacts; no signed APK/AAB contents, license approval, advisory or device acceptance; Gateway graph observation does not establish the separately reviewed production dependency lock"
+      },
+      {
+        "name": "collect:evidence-sha256",
+        "value": "{\"docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/compile-graph.json\":\"e5f15e0a17819a97953689489534c4f9b9b41652907cdab86944c8beb5a330b7\",\"docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway/runtime-graph.json\":\"0ab07c77ec38fa51e15a17162aaaf40b97bf61dce9646426ee540ad21879f26e\"}"
+      },
+      {
+        "name": "collect:android-flavor",
+        "value": "internal_gateway"
+      },
+      {
+        "name": "collect:constraint-edges",
+        "value": "278"
+      }
+    ]
+  },
+  "specVersion": "1.6",
+  "version": 1
+}

@@ -1,0 +1,14 @@
+{
+  "maintained_inputs_unchanged": true,
+  "changed_maintained_paths": [],
+  "all_original_127_test_names_completed_in_original_order": true,
+  "junit_cases": 127,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "linux_runner_all_other_AST_nodes_unchanged": true,
+  "canonical_unit_discovery": "run_edge_unit_tests.py all Edge *_test.ts except exact actual decoder integration allocation",
+  "canonical_type_discovery": "run_edge_ci.py all Edge *.ts plus explicit extra gates",
+  "CI_large_file_gate_unchanged": true,
+  "root_integration_required": true
+}

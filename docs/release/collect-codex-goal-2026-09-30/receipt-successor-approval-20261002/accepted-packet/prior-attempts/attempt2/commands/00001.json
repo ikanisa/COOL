@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "image",
+    "inspect",
+    "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "--format",
+    "{{.Id}}"
+  ],
+  "input_sha256": null,
+  "started_at": "2026-10-01T22:41:50.561427Z",
+  "finished_at": "2026-10-01T22:41:50.587691Z",
+  "exit_code": 0,
+  "stdout_sha256": "5b0a3bf9b49a7562b3da626e403f5ce566e640d18e195ee1a1fecb8ccd2277f6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

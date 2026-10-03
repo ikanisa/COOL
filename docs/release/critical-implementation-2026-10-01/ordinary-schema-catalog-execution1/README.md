@@ -1,0 +1,5 @@
+# Ordinary installer and complete catalog evidence
+
+The actual frozen 208-migration clean and populated rehearsal passed all 37 checks in 113.805 seconds. All application migrations executed as postgres NOSUPERUSER after explicit platform setup. The 124-version synthetic predecessor retained all 18 tested projections through the remaining migrations. Final complete catalogs are byte-identical and canonically identical; predecessor and final catalogs include owners, role memberships, effective ACLs, columns, policies, functions and dependencies. The observed output is copied byte-for-byte into this packet; source and container cleanup receipts are retained.
+
+This proves the recorded local platform shape, whose installer still has CREATE ROLE, CREATE DB, BYPASSRLS and trusted role memberships. Managed hosted authority parity, runtime/provider acceptance, domain and caller ownership mapping, broader historical bank fixtures, and committed recovery with forward replay remain open. BE-08 is not closed.

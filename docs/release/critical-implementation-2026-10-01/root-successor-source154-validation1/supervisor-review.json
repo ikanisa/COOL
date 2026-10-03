@@ -1,0 +1,13 @@
+{
+  "derived_from": "docs/release/critical-implementation-2026-10-01/edge-ai-canonical-batch4/run_private_canonical.py",
+  "original_sha256": "011e3d8ff57d96b519075343723bdb524f46cbc2e09d76f5965fb0a26e4a8e2e",
+  "current_sha256": "9a04dddb060ada8b333cdfd8582e8c4f045b0f4b5baf681d333bd56b082d55b5",
+  "changes": [
+    "Scope154 and exact new frozen paths",
+    "Compare original144 maintained inputs separately from154 private additions",
+    "Accept exact typed container absence diagnostic already independently reviewed on prior140; no canonical retry"
+  ],
+  "deadlines_unchanged": true,
+  "all_canonical_phases_unchanged": true,
+  "runtime_authorized_invocations": 1
+}

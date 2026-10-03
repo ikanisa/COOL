@@ -1,0 +1,224 @@
+--- before/lib/admin/core/admin_receipt_repository.dart
++++ proposed/lib/admin/core/admin_receipt_repository.dart
+@@ -9,8 +9,10 @@
+ 
+   @override
+   AdminReceiptOperationalHistoryApi get receiptOperationalHistory =>
+-      AdminReceiptOperationalHistoryApi(rpc: (name, parameters) =>
+-          rpcMap(name, params: parameters, automaticRetry: false));
++      AdminReceiptOperationalHistoryApi(
++        rpc: (name, parameters) =>
++            rpcMap(name, params: parameters, automaticRetry: false),
++      );
+ 
+   @override
+   Future<Map<String, dynamic>> receiptOverview({String? countryCode}) async {
+--- before/test/admin_receipt_history_labels_capture_test.dart
++++ proposed/test/admin_receipt_history_labels_capture_test.dart
+@@ -99,7 +99,10 @@
+           expect(find.text('Device SMS segments reserved: 0'), findsOneWidget);
+           expect(find.textContaining('run_actions:'), findsNothing);
+           expect(find.textContaining('global_sms_segments:'), findsNothing);
+-          expect(find.textContaining('operations_budget_conflict'), findsNothing);
++          expect(
++            find.textContaining('operations_budget_conflict'),
++            findsNothing,
++          );
+           expect(find.textContaining('request row'), findsNothing);
+           final checkedAt = tester.widget<Text>(
+             find.textContaining('Checked '),
+--- before/test/admin_sender_retention_browser_test.dart
++++ proposed/test/admin_sender_retention_browser_test.dart
+@@ -75,28 +75,41 @@
+     final s = browserAdminRetentionStore()!, i = originalIntent();
+     await s.write(i);
+     await s.clear(i);
+-    final retained = web.window.localStorage.getItem('$key.resolved.${i.requestId}');
++    final retained = web.window.localStorage.getItem(
++      '$key.resolved.${i.requestId}',
++    );
+     await expectLater(s.write(i), throwsFormatException);
+     expect(await s.read(actor, session), isNull);
+-    expect(web.window.localStorage.getItem('$key.resolved.${i.requestId}'), retained);
++    expect(
++      web.window.localStorage.getItem('$key.resolved.${i.requestId}'),
++      retained,
++    );
+   });
+-  test('stale resolved writer cannot erase or block a newer pending original', () async {
+-    final s = browserAdminRetentionStore()!, i = originalIntent();
+-    final j = AdminRetentionIntent.parse({
+-      ...i.row,
+-      'request_id': '33333333-3333-4333-8333-333333333333',
+-    });
+-    await s.write(i);
+-    await s.clear(i);
+-    final retained = web.window.localStorage.getItem('$key.resolved.${i.requestId}');
+-    final outcomes = await Future.wait([
+-      s.write(i).then((_) => true).catchError((_) => false),
+-      s.write(j).then((_) => true).catchError((_) => false),
+-    ]);
+-    expect(outcomes, [false, true]);
+-    expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
+-    await expectLater(s.write(i), throwsFormatException);
+-    expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
+-    expect(web.window.localStorage.getItem('$key.resolved.${i.requestId}'), retained);
+-  });
++  test(
++    'stale resolved writer cannot erase or block a newer pending original',
++    () async {
++      final s = browserAdminRetentionStore()!, i = originalIntent();
++      final j = AdminRetentionIntent.parse({
++        ...i.row,
++        'request_id': '33333333-3333-4333-8333-333333333333',
++      });
++      await s.write(i);
++      await s.clear(i);
++      final retained = web.window.localStorage.getItem(
++        '$key.resolved.${i.requestId}',
++      );
++      final outcomes = await Future.wait([
++        s.write(i).then((_) => true).catchError((_) => false),
++        s.write(j).then((_) => true).catchError((_) => false),
++      ]);
++      expect(outcomes, [false, true]);
++      expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
++      await expectLater(s.write(i), throwsFormatException);
++      expect((await s.read(actor, session))!.fingerprint, j.fingerprint);
++      expect(
++        web.window.localStorage.getItem('$key.resolved.${i.requestId}'),
++        retained,
++      );
++    },
++  );
+ }
+--- before/test/admin_sender_retention_controller_test.dart
++++ proposed/test/admin_sender_retention_controller_test.dart
+@@ -8,40 +8,54 @@
+ import 'support/retention_api_fixture.dart';
+ 
+ void main() {
+-  test('invalid local draft has no original request and remains correctable', () async {
+-    final api = Api(), store = Store(), c = control(api, store);
+-    await c.refresh();
+-    await c.apply(enabled: false, batchLimit: 26, byteLimit: 1048576, reason: 'Synthetic governed maintenance test');
+-    expect(c.error, 'Check the maintenance limits and reason before recording a change.');
+-    expect(c.pending, isNull);
+-    expect(store.value, isNull);
+-    expect(store.writes, 0);
+-    expect(store.clears, 0);
+-    expect(api.changes, 0);
+-    expect(c.canApply, isTrue);
+-    await apply(c);
+-    expect(api.changes, 1);
+-    expect(store.writes, 1);
+-    expect(store.clears, 1);
+-    expect(c.pending, isNull);
+-    c.dispose();
+-  });
+-  test('SDK rejects drifted v1 protocol authority before any configure call', () async {
+-    final raw = decoded(readInitialRaw), calls = <String>[];
+-    (raw['retention'] as Map)['protocol_sha256'] = 'a' * 64;
+-    final sdk = AdminRetentionSdk(
+-      actorId: actor,
+-      sessionId: session,
+-      isCurrent: () => true,
+-      now: () => fixtureNow,
+-      rpc: (name, p) async {
+-        calls.add(name);
+-        return raw;
+-      },
+-    );
+-    await expectLater(sdk.read(), throwsFormatException);
+-    expect(calls, ['admin_get_receipt_retention_controls_v1']);
+-  });
++  test(
++    'invalid local draft has no original request and remains correctable',
++    () async {
++      final api = Api(), store = Store(), c = control(api, store);
++      await c.refresh();
++      await c.apply(
++        enabled: false,
++        batchLimit: 26,
++        byteLimit: 1048576,
++        reason: 'Synthetic governed maintenance test',
++      );
++      expect(
++        c.error,
++        'Check the maintenance limits and reason before recording a change.',
++      );
++      expect(c.pending, isNull);
++      expect(store.value, isNull);
++      expect(store.writes, 0);
++      expect(store.clears, 0);
++      expect(api.changes, 0);
++      expect(c.canApply, isTrue);
++      await apply(c);
++      expect(api.changes, 1);
++      expect(store.writes, 1);
++      expect(store.clears, 1);
++      expect(c.pending, isNull);
++      c.dispose();
++    },
++  );
++  test(
++    'SDK rejects drifted v1 protocol authority before any configure call',
++    () async {
++      final raw = decoded(readInitialRaw), calls = <String>[];
++      (raw['retention'] as Map)['protocol_sha256'] = 'a' * 64;
++      final sdk = AdminRetentionSdk(
++        actorId: actor,
++        sessionId: session,
++        isCurrent: () => true,
++        now: () => fixtureNow,
++        rpc: (name, p) async {
++          calls.add(name);
++          return raw;
++        },
++      );
++      await expectLater(sdk.read(), throwsFormatException);
++      expect(calls, ['admin_get_receipt_retention_controls_v1']);
++    },
++  );
+   test(
+     'SDK binds real actor/session producer and disables automatic replay by one call seam',
+     () async {
+--- before/test/admin_sender_retention_models_test.dart
++++ proposed/test/admin_sender_retention_models_test.dart
+@@ -6,13 +6,19 @@
+   test('v1 snapshot refuses a different valid retention protocol hash', () {
+     final r = decoded(readInitialRaw);
+     (r['retention'] as Map)['protocol_sha256'] = 'a' * 64;
+-    expect(() => AdminRetentionSnapshot.parse(r, actor, session), throwsFormatException);
++    expect(
++      () => AdminRetentionSnapshot.parse(r, actor, session),
++      throwsFormatException,
++    );
+   });
+   test('v1 intent refuses a different valid retention protocol hash', () {
+-    expect(() => AdminRetentionIntent.parse({
+-      ...originalIntent().row,
+-      'protocol_sha256': 'a' * 64,
+-    }), throwsFormatException);
++    expect(
++      () => AdminRetentionIntent.parse({
++        ...originalIntent().row,
++        'protocol_sha256': 'a' * 64,
++      }),
++      throwsFormatException,
++    );
+   });
+   for (final raw in [
+     readInitialRaw,
+@@ -50,7 +56,10 @@
+       'protocol_sha256': 'f' * 64,
+     }.entries) {
+       if (e.key == 'protocol_sha256') {
+-        expect(() => AdminRetentionIntent.parse({...i.row, e.key: e.value}), throwsFormatException);
++        expect(
++          () => AdminRetentionIntent.parse({...i.row, e.key: e.value}),
++          throwsFormatException,
++        );
+         continue;
+       }
+       final next = AdminRetentionIntent.parse({...i.row, e.key: e.value});

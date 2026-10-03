@@ -1,0 +1,267 @@
+{
+  "ARC09_closed": false,
+  "actual_JVM_totals": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "actual_XML_suites": [
+    {
+      "actual_case_names": [
+        "envelopeIdIsStableForDuplicateBroadcastsAndChangesWithTimestamp",
+        "queueEventBusEmitsMonotonicMetadataOnlySignals",
+        "acceptsScopedEnglishMomoCredit",
+        "rejectsMarketingAndUnrelatedFinancialSms",
+        "rejectsReceiptsWithoutCurrencyOrTransactionIdentity",
+        "envelopePreservesExactEvidenceWhitespace",
+        "acceptsMtnAndAirtelReceiptSenders",
+        "acceptsCompleteMaskedReceiptWithoutProviderReference"
+      ],
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 8
+      },
+      "file": {
+        "bytes": 1494,
+        "device": 16777232,
+        "inode": 60435960,
+        "mode": 420,
+        "mtime_ns": 1790943279685197254,
+        "nlink": 1,
+        "sha256": "ef8f949ffe6744fa913c185802873374fc1f2921a21ae4198ec89054ffcff22e"
+      },
+      "suite": "app.cool.mobile.receiver_sms.CollectSmsReceiverTest"
+    },
+    {
+      "actual_case_names": [
+        "mixedOrUnownedEvidenceNeverLeavesQueue",
+        "onlyCurrentAuthenticatedOwnerCanRead",
+        "disableRequiresTheBoundOwnerAndNeverAcceptsAnEmptyCaller"
+      ],
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 3
+      },
+      "file": {
+        "bytes": 776,
+        "device": 16777232,
+        "inode": 60435961,
+        "mode": 420,
+        "mtime_ns": 1790943279682579742,
+        "nlink": 1,
+        "sha256": "c403d97d3a1c109ecbc78bb705453bcaa1d97d1e3747795afb85d75904148c98"
+      },
+      "suite": "app.cool.mobile.receiver_sms.SmsQueueOwnerPolicyTest"
+    },
+    {
+      "actual_case_names": [
+        "captureCanStartWhileFlutterTaskIsBusy"
+      ],
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "file": {
+        "bytes": 475,
+        "device": 16777232,
+        "inode": 60435962,
+        "mode": 420,
+        "mtime_ns": 1790943279686246109,
+        "nlink": 1,
+        "sha256": "db6d3cb28edb42361dcf9d3206d32adea56732e9b4387bcd6dc4c356c2dd0bb8"
+      },
+      "suite": "app.cool.mobile.receiver_sms.SmsQueueWorkerTest"
+    }
+  ],
+  "actual_release_classes": {
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity$Companion.class": {
+      "bytes": 1316,
+      "device": 16777232,
+      "inode": 60420683,
+      "mode": 420,
+      "mtime_ns": 1790941583955630025,
+      "nlink": 1,
+      "sha256": "56a3753bb37b99dc01cd3b37be308521422acf2ef0e10dcc5cdaa2b5c1da01fe"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity$configureFlutterEngine$2.class": {
+      "bytes": 2233,
+      "device": 16777232,
+      "inode": 60420682,
+      "mode": 420,
+      "mtime_ns": 1790941583955076675,
+      "nlink": 1,
+      "sha256": "6445f1e6bb538b11b8d00c6a9bf86ee8863304f2e71a96a4cec1c814c355c432"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/MainActivity.class": {
+      "bytes": 36242,
+      "device": 16777232,
+      "inode": 60420681,
+      "mode": 420,
+      "mtime_ns": 1790941583952920527,
+      "nlink": 1,
+      "sha256": "bb7e11d1b8174082aca8d6ccd3ec1f1ca5f83f21520096ea1a4a73da124225aa"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver$Companion.class": {
+      "bytes": 1490,
+      "device": 16777232,
+      "inode": 60420686,
+      "mode": 420,
+      "mtime_ns": 1790941583957171405,
+      "nlink": 1,
+      "sha256": "451be7be230698bdb01ba2b0e503ccb7ab21faf40f7b3d61d511f0e1d84ef931"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver$WhenMappings.class": {
+      "bytes": 1088,
+      "device": 16777232,
+      "inode": 60420687,
+      "mode": 420,
+      "mtime_ns": 1790941583957371745,
+      "nlink": 1,
+      "sha256": "63b7422e3a426ce12d7e6f704d166cd0f528f8a176b77f3145058623262735b8"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/CollectSmsReceiver.class": {
+      "bytes": 13222,
+      "device": 16777232,
+      "inode": 60420685,
+      "mode": 420,
+      "mtime_ns": 1790941583956404840,
+      "nlink": 1,
+      "sha256": "2238e3229b88744c0bcecb0172d2f1a80eac95fbdb4d71a5a77783e0c8be6ac4"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptAckPolicy$Envelope.class": {
+      "bytes": 3537,
+      "device": 16777232,
+      "inode": 60420689,
+      "mode": 420,
+      "mtime_ns": 1790941583957914427,
+      "nlink": 1,
+      "sha256": "29afb975febbba21540f4881340761111e527823d2434527120152b13fe056d2"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptAckPolicy.class": {
+      "bytes": 7779,
+      "device": 16777232,
+      "inode": 60420688,
+      "mode": 420,
+      "mtime_ns": 1790941583957770756,
+      "nlink": 1,
+      "sha256": "e738f74720f955e9c3adcdbcc16d5e37bb375dd37604c620d2a89a97c06575c2"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/ReceiptCipher.class": {
+      "bytes": 5023,
+      "device": 16777232,
+      "inode": 60420690,
+      "mode": 420,
+      "mtime_ns": 1790941583958167102,
+      "nlink": 1,
+      "sha256": "dbeb6d51841efce65f1961bb8b33b5b5b868285be3ebd59d2d6f4b63d93be95c"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueEventBus.class": {
+      "bytes": 4254,
+      "device": 16777232,
+      "inode": 60420691,
+      "mode": 420,
+      "mtime_ns": 1790941583958256479,
+      "nlink": 1,
+      "sha256": "20da97ea7f0dcdbc6755e4d7d9afd87b8c3172f6a32221f214c3f060deb996b5"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.class": {
+      "bytes": 3563,
+      "device": 16777232,
+      "inode": 60420692,
+      "mode": 420,
+      "mtime_ns": 1790941583958331232,
+      "nlink": 1,
+      "sha256": "e60c021ec70f86e63c3fded80791020b847bc84f0ab49e62780376000ba1e788"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore$AppendResult.class": {
+      "bytes": 2238,
+      "device": 16777232,
+      "inode": 60420694,
+      "mode": 420,
+      "mtime_ns": 1790941583958876373,
+      "nlink": 1,
+      "sha256": "ef7038cb8fbe7ca1267fd45a2b6a462db7e9186b2d032e6f65092d122dffac22"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore$Companion.class": {
+      "bytes": 1352,
+      "device": 16777232,
+      "inode": 60420695,
+      "mode": 420,
+      "mtime_ns": 1790941583959165590,
+      "nlink": 1,
+      "sha256": "2b2f57e012cba98ff2b558093f1007d1446641d3e771126030fcec1fb3bcc7aa"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueStore.class": {
+      "bytes": 18895,
+      "device": 16777232,
+      "inode": 60420693,
+      "mode": 420,
+      "mtime_ns": 1790941583958700743,
+      "nlink": 1,
+      "sha256": "450cb1bde5b8940bec061fbb8b79f07e116bbbe91c960631a718d57b077d40fe"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/receiver_sms/SmsQueueWorker.class": {
+      "bytes": 3804,
+      "device": 16777232,
+      "inode": 60420696,
+      "mode": 420,
+      "mtime_ns": 1790941583959257051,
+      "nlink": 1,
+      "sha256": "e771ea95883464e0e0db7ac6252556e7900d7f7e5b58fa077feb452c1de728d9"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore$Companion.class": {
+      "bytes": 957,
+      "device": 16777232,
+      "inode": 60420699,
+      "mode": 420,
+      "mtime_ns": 1790941583959544685,
+      "nlink": 1,
+      "sha256": "77ba6cd3def67722acaac100152498e99a57b8524117d87dff02f4ec3ebed5fc"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore$cipher$1.class": {
+      "bytes": 1453,
+      "device": 16777232,
+      "inode": 60420700,
+      "mode": 420,
+      "mtime_ns": 1790941583959880695,
+      "nlink": 1,
+      "sha256": "50b32650e9854291c9d7c1a4aff7f5fb5c9ab8632130fe7480706d6b3f0266d0"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/security/ProtectedSnapshotStore.class": {
+      "bytes": 12772,
+      "device": 16777232,
+      "inode": 60420698,
+      "mode": 420,
+      "mtime_ns": 1790941583959483808,
+      "nlink": 1,
+      "sha256": "b5ee50f38357f1eeb9ab10d224ffd02a3d8a9b09206f25dfebdb1724458080e5"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/security/SnapshotCipher$Companion.class": {
+      "bytes": 2258,
+      "device": 16777232,
+      "inode": 60420702,
+      "mode": 420,
+      "mtime_ns": 1790941583960267707,
+      "nlink": 1,
+      "sha256": "10b288d26cee29030c617fb7c20a0cc5d21c5ecf87c76135a8f614d64d0536ee"
+    },
+    "tmp/kotlin-classes/productionRelease/app/cool/mobile/security/SnapshotCipher.class": {
+      "bytes": 5467,
+      "device": 16777232,
+      "inode": 60420701,
+      "mode": 420,
+      "mtime_ns": 1790941583960193246,
+      "nlink": 1,
+      "sha256": "6074d217f4210ad72d8d1d4b310d83fbb984d29e6f1a29eacabd29d4a82e109a"
+    }
+  },
+  "all_flavor_ABI_artifact_clearance": false,
+  "production_release_approval": false
+}

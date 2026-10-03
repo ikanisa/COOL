@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "curl",
+    "--fail",
+    "--location",
+    "--connect-timeout",
+    "15",
+    "--max-time",
+    "240",
+    "--retry",
+    "0",
+    "--silent",
+    "--show-error",
+    "--dump-header",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc01-ubuntu-batch1/acquisition-attempt1/dart-download-headers.txt",
+    "--write-out",
+    "%{url_effective} %{response_code} %{size_download}\n",
+    "--output",
+    "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/dartsdk-linux-arm64-release.zip",
+    "https://storage.googleapis.com/dart-archive/channels/stable/release/3.12.2/sdk/dartsdk-linux-arm64-release.zip"
+  ],
+  "started_at_utc": "2026-10-02T00:08:15.564197+00:00",
+  "completed_at_utc": "2026-10-02T00:09:58.411202+00:00",
+  "deadline_seconds": 260,
+  "elapsed_seconds": 102.8487255839973,
+  "exit_code": 0,
+  "timed_out": false,
+  "log_sha256": "de213f271f9fd0fff042894616d36bd9ad5fa111668499994a9a9a16ba32f92f"
+}

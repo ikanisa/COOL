@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "finding": "ARC-04/current_dependency_transport",
+  "sealed_at_utc": "2026-10-02T01:17:49.973920+00:00",
+  "status": "read_only_causal_and_available_byte_inventory_with_concrete_continuation_proposal",
+  "report": "README.md",
+  "plan": "continuation-code-plan.md",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "c6a7ec63a5d8c7e574ccb7b6b9fbdee0a0eaa600753f6ef51619f14798892e09",
+      "bytes": 6038
+    },
+    {
+      "path": "available-bytes-and-sources.json",
+      "sha256": "d15b185a653fa6bd7978f9ea8a38313f32f3cb583b0cee2406e651a904acfc75",
+      "bytes": 19818
+    },
+    {
+      "path": "continuation-code-plan.md",
+      "sha256": "a57f069052ded2d3a5ce03ec69f098c9236c58aaea18e01a1831b6fa457843b4",
+      "bytes": 7616
+    },
+    {
+      "path": "dated-verified-decoder-not-substitution.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "dated-verified-decoder-not-substitution.stdout",
+      "sha256": "37658ff27ffeb528cfa895fc648d13de5c13bb8509888712e79285cc7c17d4c4",
+      "bytes": 819
+    },
+    {
+      "path": "failure-causality-and-valid-prior-proof.json",
+      "sha256": "45c84074bf2baa031957b711792071038696d1bf4c06d5fe476b25385b162c2e",
+      "bytes": 8826
+    },
+    {
+      "path": "final-readback.json",
+      "sha256": "ea20ed6217715e80ba8e76ca0e0571b074af1bd649e8b55ec48340cba25822dd",
+      "bytes": 12993
+    },
+    {
+      "path": "fixture-generator-installed-metadata.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "fixture-generator-installed-metadata.stdout",
+      "sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "bytes": 164
+    },
+    {
+      "path": "inventory_readback.py",
+      "sha256": "7c3108e2f8f73425e3a98ce172e9995b2c1c17524b58896ff45994ce3ec6e26b",
+      "bytes": 11015
+    },
+    {
+      "path": "local-docker-platform.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "local-docker-platform.stdout",
+      "sha256": "afc95e0482eccb7b8a13df7f544866870b9863a31055ddf48f938817d8e2e7ff",
+      "bytes": 14
+    },
+    {
+      "path": "local-docker-socket.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "local-docker-socket.stdout",
+      "sha256": "c9b0f9ec0a2d7e845879b36db238d90cb604f1c786b43ed9af1e17c554852a2b",
+      "bytes": 48
+    },
+    {
+      "path": "pinned-python-base.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "pinned-python-base.stdout",
+      "sha256": "cd333cb96b8a1ba44881f8aa810b1448874e7618d0820aebe1988d6cf82f960c",
+      "bytes": 529
+    },
+    {
+      "path": "prior-healthy-proof-integrity-readback.json",
+      "sha256": "5d3d22a17b0679453b3408199387dda330abf3d8f0be0e92ff29e41c627bc115",
+      "bytes": 30084
+    }
+  ],
+  "canonical_attempt2_status": "fail",
+  "canonical_attempt2_passed_types": 83,
+  "canonical_attempt2_passed_unit_tests": 563,
+  "canonical_attempt2_passed_unit_steps": 32,
+  "canonical_attempt2_passed_edge_http_checks": 91,
+  "canonical_attempt2_completed_linux_cases": 0,
+  "original_build_deadline_seconds": 300,
+  "original_linux_phase_deadline_seconds": 600,
+  "original_driver_deadline_seconds": 1200,
+  "original_independent_probe_process_deadline_seconds_from_dated_register": 45,
+  "original_probe_urlopen_timeout_seconds": 30,
+  "transport_root_cause_proven": false,
+  "verified_available_exact_linux_wheels": 6,
+  "verified_available_linux_wheel_bytes": 9936126,
+  "macos_fixture_only_wheels_excluded_from_linux": 2,
+  "actual_existing_generator_installed_version_metadata_matches_prior": true,
+  "fresh_full_installed_file_audit_performed": false,
+  "local_unix_arm64_base_image_metadata_available": true,
+  "dated_verified_decoder_image_inspected_only_not_substituted": true,
+  "prior_healthy_receipt_artifacts_independently_rehashed": 96,
+  "prior_healthy_linux_cases": 32,
+  "prior_healthy_decoder_http_tests": 14,
+  "prior_healthy_regressions": 157,
+  "prior_healthy_dependency_security_tests": 6,
+  "current_core_decoder_source_matches_dated_six_inputs": true,
+  "current_canonical_source_drift": [
+    ".github/workflows/ci.yml"
+  ],
+  "all_prior_inputs_and_wheels_unchanged_in_final_readback": true,
+  "proposed_correction": "Explicit source-supported verified exact-six wheelhouse, fresh real offline/hash-enforced build, unchanged full canonical phases and deadlines",
+  "proposal_implemented": false,
+  "source_or_ci_or_admin_or_cache_or_prior_receipt_mutations": false,
+  "wheel_downloads_or_package_installs": 0,
+  "docker_builds_runs_pulls_or_configuration_changes": 0,
+  "provider_or_customer_operations": 0,
+  "current_canonical_gate_reruns": 0,
+  "official_documentation_read_only": true,
+  "current_canonical_acceptance_met": false,
+  "production_release_approved": false,
+  "required_next_action": "Root review and explicit ownership handoff for bounded maintained acquisition correction; then freeze actual current candidate and execute complete unchanged tests."
+}

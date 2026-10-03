@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/integration-probes.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 136.707,
+  "timeout_seconds": 300,
+  "scope": "exact read-only version observation precedes management fallback migration writes; standalone readiness project/server refusal ordering"
+}

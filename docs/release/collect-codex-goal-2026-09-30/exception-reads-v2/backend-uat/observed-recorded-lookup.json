@@ -1,0 +1,20 @@
+{
+  "scope": "platform_global",
+  "status": "recorded",
+  "receipt": {
+    "action": "acknowledge",
+    "revision": 1,
+    "request_id": "1d2322bd-c7fd-410e-99b5-5b25a05e48f2",
+    "recorded_at": "2026-09-30T23:32:03.416366Z",
+    "send_action": false,
+    "exception_id": "c3542350-0d2c-44f8-8af0-5372ffb31811",
+    "source_resolved": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "escalation_delivery_verified": false
+  },
+  "checked_at": "2026-09-30T23:32:03.799877Z",
+  "request_id": "1d2322bd-c7fd-410e-99b5-5b25a05e48f2",
+  "contract_version": 2,
+  "sample_valid_until": "2026-09-30T23:33:03.799877Z"
+}

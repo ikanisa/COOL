@@ -1,0 +1,11 @@
+{
+  "scope": "Exact isolated financial QA container only",
+  "diagnostic_bootstrap_key_exposed": true,
+  "key_type": "pgsodium_root_key",
+  "key_sha256": [
+    "4bb72687b307acae07be6ac5d5bea9b76c5da1adfc05db5b399d6544b87f84b8"
+  ],
+  "actual_key_written_to_report": false,
+  "key_replacement_complete": false,
+  "original_container_exit_code": 137
+}

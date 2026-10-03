@@ -1,0 +1,230 @@
+test_alias_normalization_refuses_qualified_quoted_and_custom_types_first (__main__.LineageTests.test_alias_normalization_refuses_qualified_quoted_and_custom_types_first) ... ok
+test_all49_original_test_bytes_and_assertion_ASTs_preserved (__main__.LineageTests.test_all49_original_test_bytes_and_assertion_ASTs_preserved) ... ok
+test_changed_reviewed_source_program_refuses (__main__.LineageTests.test_changed_reviewed_source_program_refuses) ... ok
+test_constant_copy_effect_scope_does_not_taint_unrelated_names (__main__.LineageTests.test_constant_copy_effect_scope_does_not_taint_unrelated_names) ... ERROR
+test_current209_retains_only_uninterrupted_fixture_case (__main__.LineageTests.test_current209_retains_only_uninterrupted_fixture_case) ... ERROR
+test_drop_before_installer_invalidates_predecessor (__main__.LineageTests.test_drop_before_installer_invalidates_predecessor) ... ERROR
+test_fragment_or_unknown_execute_effects_are_unbounded (__main__.LineageTests.test_fragment_or_unknown_execute_effects_are_unbounded) ... ERROR
+test_later_known_definition_replaces_derived_body (__main__.LineageTests.test_later_known_definition_replaces_derived_body) ... ERROR
+test_later_multi_target_drop_invalidates_all_derived_overloads (__main__.LineageTests.test_later_multi_target_drop_invalidates_all_derived_overloads) ... ERROR
+test_later_unknown_signature_invalidates_old_derived_name (__main__.LineageTests.test_later_unknown_signature_invalidates_old_derived_name) ... ERROR
+test_loaded_helper_is_exact_captured_manifest_bytes (__main__.LineageTests.test_loaded_helper_is_exact_captured_manifest_bytes) ... ok
+test_missing_or_overloaded_roster_predecessor_refuses (__main__.LineageTests.test_missing_or_overloaded_roster_predecessor_refuses) ... ERROR
+test_nonliteral_patch_or_unreviewed_escape_refuses (__main__.LineageTests.test_nonliteral_patch_or_unreviewed_escape_refuses) ... ok
+test_opaque_before_reviewed_program_withholds_transform (__main__.LineageTests.test_opaque_before_reviewed_program_withholds_transform) ... ERROR
+test_opaque_do_cannot_revive_matching_final_hash (__main__.LineageTests.test_opaque_do_cannot_revive_matching_final_hash) ... ERROR
+test_patch_absent_or_duplicate_needle_refuses (__main__.LineageTests.test_patch_absent_or_duplicate_needle_refuses) ... ok
+test_qualified_unknown_alter_invalidates_source_and_destination (__main__.LineageTests.test_qualified_unknown_alter_invalidates_source_and_destination) ... ERROR
+test_self_contained34_case_hashes_and_controlled_lineage (__main__.LineageTests.test_self_contained34_case_hashes_and_controlled_lineage) ... ERROR
+test_unclosed_or_unknown_do_syntax_refuses (__main__.LineageTests.test_unclosed_or_unknown_do_syntax_refuses) ... ok
+test_unknown_modes_types_and_quoted_or_duplicate_names_refuse (__main__.LineageTests.test_unknown_modes_types_and_quoted_or_duplicate_names_refuse) ... ok
+test_unknown_wrapper_branch_identifier_and_template_refuse (__main__.LineageTests.test_unknown_wrapper_branch_identifier_and_template_refuse) ... ok
+
+======================================================================
+ERROR: test_constant_copy_effect_scope_does_not_taint_unrelated_names (__main__.LineageTests.test_constant_copy_effect_scope_does_not_taint_unrelated_names)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 189, in test_constant_copy_effect_scope_does_not_taint_unrelated_names
+    state = self.lineage(sources=self.synthetic_source(sql))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_current209_retains_only_uninterrupted_fixture_case (__main__.LineageTests.test_current209_retains_only_uninterrupted_fixture_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 74, in test_current209_retains_only_uninterrupted_fixture_case
+    state = self.lineage(sources=self.sources)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_drop_before_installer_invalidates_predecessor (__main__.LineageTests.test_drop_before_installer_invalidates_predecessor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 102, in test_drop_before_installer_invalidates_predecessor
+    state = self.lineage(alterations=[*self.alterations, *drop])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_fragment_or_unknown_execute_effects_are_unbounded (__main__.LineageTests.test_fragment_or_unknown_execute_effects_are_unbounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 202, in test_fragment_or_unknown_execute_effects_are_unbounded
+    state = self.lineage(sources=self.synthetic_source(sql))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_later_known_definition_replaces_derived_body (__main__.LineageTests.test_later_known_definition_replaces_derived_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 122, in test_later_known_definition_replaces_derived_body
+    state = self.lineage(definitions=[*self.definitions, later])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_later_multi_target_drop_invalidates_all_derived_overloads (__main__.LineageTests.test_later_multi_target_drop_invalidates_all_derived_overloads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 109, in test_later_multi_target_drop_invalidates_all_derived_overloads
+    state = self.lineage(alterations=[*self.alterations, *drop])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_later_unknown_signature_invalidates_old_derived_name (__main__.LineageTests.test_later_unknown_signature_invalidates_old_derived_name)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 116, in test_later_unknown_signature_invalidates_old_derived_name
+    state = self.lineage(definitions=[*self.definitions, unknown])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_missing_or_overloaded_roster_predecessor_refuses (__main__.LineageTests.test_missing_or_overloaded_roster_predecessor_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 90, in test_missing_or_overloaded_roster_predecessor_refuses
+    state = self.lineage(definitions=absent)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_opaque_before_reviewed_program_withholds_transform (__main__.LineageTests.test_opaque_before_reviewed_program_withholds_transform)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 183, in test_opaque_before_reviewed_program_withholds_transform
+    state = self.lineage(sources=self.synthetic_source(sql,'20260930165000'))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_opaque_do_cannot_revive_matching_final_hash (__main__.LineageTests.test_opaque_do_cannot_revive_matching_final_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 173, in test_opaque_do_cannot_revive_matching_final_hash
+    original = self.lineage()[key]
+               ^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_qualified_unknown_alter_invalidates_source_and_destination (__main__.LineageTests.test_qualified_unknown_alter_invalidates_source_and_destination)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 162, in test_qualified_unknown_alter_invalidates_source_and_destination
+    self.assertIn(key, self.lineage())
+                       ^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+======================================================================
+ERROR: test_self_contained34_case_hashes_and_controlled_lineage (__main__.LineageTests.test_self_contained34_case_hashes_and_controlled_lineage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 66, in test_self_contained34_case_hashes_and_controlled_lineage
+    state = self.lineage()
+            ^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/tests/collect_schema_function_lineage_test.py", line 56, in lineage
+    return L.reviewed_transform_lineage(M, self.controlled_sources if sources is None else sources,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 284, in reviewed_transform_lineage
+    fences += dynamic_operation_fences(mapper, source['text'], path, source['version'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis2/scripts/audits/collect_schema_function_lineage.py", line 204, in dynamic_operation_fences
+    raise ValueError('unreviewed DO syntax or unterminated block')
+ValueError: unreviewed DO syntax or unterminated block
+
+----------------------------------------------------------------------
+Ran 21 tests in 1.792s
+
+FAILED (errors=12)

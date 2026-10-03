@@ -1,0 +1,16 @@
+{
+  "source_hold_released": true,
+  "source_changes": [],
+  "ordinary216_unchanged": true,
+  "runtime_changed": false,
+  "actual_write_count": 2,
+  "immediately_preceded_by_server_select": [
+    true,
+    true
+  ],
+  "readback_matches": true,
+  "readback_versions": 209,
+  "helper_sha256": "0b782d3eef0f23d9af7ca89661a4b6bd0bc7f079e75381d14a4048fa5c3c9128",
+  "disk_available_bytes": 25546625024,
+  "disk_available_gib": 23.792
+}

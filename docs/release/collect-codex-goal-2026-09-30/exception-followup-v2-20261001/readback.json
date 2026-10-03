@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "file_count": 103,
+  "byte_count": 7382828,
+  "selected_file_count": 13,
+  "manifest_sha256": "7a8452aa0c1632ec2426c02f87080b7d1363ae4943840ae7a0963fdc74310fa0",
+  "task_owned_targets_removed": true,
+  "whole_candidate_frozen": false,
+  "task_target_removal_readback": [
+    {
+      "attempt": "attempt1",
+      "removed": true,
+      "inspect_exit_code": 1,
+      "observed_error": "error: no such object: collect_current_rehearsal_exception_followup_v2_1474d16292a2"
+    },
+    {
+      "attempt": "attempt2",
+      "removed": true,
+      "inspect_exit_code": 1,
+      "observed_error": "error: no such object: collect_current_rehearsal_exception_followup_v2_2b2b42920e07"
+    }
+  ]
+}

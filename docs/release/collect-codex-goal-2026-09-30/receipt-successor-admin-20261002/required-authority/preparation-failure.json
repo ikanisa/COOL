@@ -1,0 +1,7 @@
+{
+  "accepted": false,
+  "gate_executed": false,
+  "exec_chunk": "2ec171",
+  "exit_code": 1,
+  "failure": "FileNotFoundError: canonical DESIGN.md is absent; erroneous optional input assumption. Capture uses the actual selected skill and authority adapter instead; no product source changed."
+}

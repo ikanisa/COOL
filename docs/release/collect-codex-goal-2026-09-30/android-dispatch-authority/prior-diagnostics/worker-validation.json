@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-01T12:03:00.839794+00:00",
+  "scope": "Offline cached pure JVM only; no Android runtime, build, network, provider or device call.",
+  "current_source_sha256": {
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchArmTest.kt": "7403744a01410fce56be615fe9a0bcc92b9d887439b1fd9990a64c17e4343cee",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt": "962f6c39617cb14f529e38751b59b5b1246c7f8d3c518cf6005509e317704b3a",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6",
+    "supabase/functions/collect-android-gateway/handler.ts": "39756c7e26fc67d82b1c129feb2c731be02d31c53092ba13380b5b749ebb3665",
+    "supabase/functions/collect-android-gateway/dispatch_v2_test.ts": "d1e4a998fb3d30c5c21ac157cc134594e063ca673322ead28374fa4aefa05d5e"
+  },
+  "observations": [
+    {
+      "kind": "deno",
+      "tests_passed": 99,
+      "tests_failed": 0,
+      "lint": "pass"
+    },
+    {
+      "kind": "native_before_final_lease_regression",
+      "tests_passed": 66,
+      "tests_failed": 0,
+      "source_drift": [],
+      "limitation": "Includes18 Arm tests before final19th lease regression and engine correction; not final integrated proof."
+    },
+    {
+      "kind": "pre_fix_19_test_compile",
+      "status": "timeout",
+      "timeout_seconds": 120,
+      "phase": "K2JVMCompiler",
+      "junit_executed": false,
+      "observed_exec_session_id": 41935,
+      "error": "subprocess.TimeoutExpired; process returned exit1"
+    },
+    {
+      "kind": "fixed_engine_worker_compile",
+      "status": "cancelled",
+      "phase": "K2JVMCompiler",
+      "junit_executed": false,
+      "observed_exec_session_id": 86352,
+      "observed_exit_code": 143,
+      "reason": "Parent started source-bound integrated runner; stopped only worker-owned duplicate compiler to release resources."
+    }
+  ],
+  "final_integrated_validation": "Owned by parent runner .cache/android-dispatch-native-attempt1; pending at handoff."
+}

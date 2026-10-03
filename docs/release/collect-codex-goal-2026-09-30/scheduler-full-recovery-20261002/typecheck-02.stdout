@@ -1,0 +1,2 @@
+src/unattended_recovery.test.ts(125,87): error TS2353: Object literal may only specify known properties, and 'transport' does not exist in type '{ profile?: (path: string) => Promise<UnattendedProfile>; run?: (args: readonly string[]) => Promise<Json>; now?: () => number; store?: (directory: string) => UnattendedStore; uuid?: () => string; }'.
+src/unattended_recovery.ts(186,140): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.

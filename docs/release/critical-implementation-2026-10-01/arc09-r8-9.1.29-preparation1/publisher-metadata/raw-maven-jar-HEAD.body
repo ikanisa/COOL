@@ -1,0 +1,20 @@
+HTTP/2 200 
+content-type: application/java-archive
+x-guploader-uploadid: AP6rU80fwa-c41Zv1tX6rdju75PArErkeKDXXzXdeQQbn9PJ6QZf4I27I3F6pa88sJ_dqW3E
+expires: Fri, 02 Oct 2026 15:32:25 GMT
+date: Fri, 02 Oct 2026 14:32:25 GMT
+cache-control: public, max-age=3600
+last-modified: Wed, 11 Feb 2026 12:39:09 GMT
+etag: "60e153b8c1dba4d97e9b1ef2d75c2e61"
+x-goog-generation: 1770813549786388
+x-goog-metageneration: 1
+x-goog-stored-content-encoding: identity
+x-goog-stored-content-length: 56139715
+x-goog-hash: crc32c=wwtxyA==
+x-goog-hash: md5=YOFTuMHbpNl+mx7y11wuYQ==
+x-goog-storage-class: STANDARD
+accept-ranges: bytes
+content-length: 56139715
+server: UploadServer
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+

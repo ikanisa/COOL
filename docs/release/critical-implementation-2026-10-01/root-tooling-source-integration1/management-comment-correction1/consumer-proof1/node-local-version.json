@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Node/bin/node",
+    "--version"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 0.057,
+  "exit_code": 0,
+  "output_limit_bytes": 4194304,
+  "pgid": 73550,
+  "pid": 73550,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17861045,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925694206149461,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 9,
+    "device": 16777247,
+    "inode": 17861044,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925694220920727,
+    "sha256": "b7677d3ec37ee1897ba07dc2cfe8292fe421c9ac93396cca5bbece486d1a2a41"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 5
+}

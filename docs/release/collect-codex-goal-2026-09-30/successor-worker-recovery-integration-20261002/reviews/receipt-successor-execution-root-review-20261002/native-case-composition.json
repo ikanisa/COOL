@@ -1,0 +1,118 @@
+{
+  "checked_at": "2026-10-02T01:38:11.395429+00:00",
+  "status": "272_actual_completed_cases_composed_verified",
+  "full_command_cases": 235,
+  "affected_archive_cases": 37,
+  "new_successor_cases": 21,
+  "legacy_cases": 251,
+  "full_aggregate_status": "failed_480_second_archive_timeout_preserved",
+  "affected_actual_API_commands": [
+    {
+      "name": "compile-real-android-api",
+      "exit_code": 0
+    }
+  ],
+  "completed_suites": {
+    "tests-GatewaySuccessorTest": {
+      "cases": 21,
+      "exit_code": 0,
+      "stdout_sha256": "b586d70a99e256bce855f7a29d321c31168b616231a348e43bd221dcb7482404"
+    },
+    "tests-GatewayArchiveStorageTest": {
+      "cases": 12,
+      "exit_code": 0,
+      "stdout_sha256": "ce4515a05881900aab7d5f6705ec799c60b79db47ae32a2c5d7de9147091d4ba"
+    },
+    "tests-GatewayArchiveBackendIntegrationTest": {
+      "cases": 10,
+      "exit_code": 0,
+      "stdout_sha256": "069f04aa9e859adead5f66016f174246c82450d33534850e6dfd7880fb1c99a9"
+    },
+    "tests-GatewayAttemptArchiveBackendTest": {
+      "cases": 7,
+      "exit_code": 0,
+      "stdout_sha256": "e09fb0da50f66c90707459ec64bc06e90a675b4734113ebfe5af8fbd97d4be28"
+    },
+    "tests-GatewayBackgroundCoordinatorTest": {
+      "cases": 24,
+      "exit_code": 0,
+      "stdout_sha256": "258175614a7f1f49fb834853accc30433e53a7987537a30d2e2cc03243d84ed7"
+    },
+    "tests-GatewayDispatchArmTest": {
+      "cases": 19,
+      "exit_code": 0,
+      "stdout_sha256": "414efed404d8b61b527d02fe63a868eef901fab597804e7ec4eefe63130ea9e7"
+    },
+    "tests-GatewayDispatchBackendIntegrationTest": {
+      "cases": 6,
+      "exit_code": 0,
+      "stdout_sha256": "8419fb476425147ccc87ff1722e99b9eddcf6bc74c817c13a288e022a3deb5c0"
+    },
+    "tests-GatewayDispatchWireTest": {
+      "cases": 15,
+      "exit_code": 0,
+      "stdout_sha256": "7d19dbe1fd26b257743b06a8893767a130e2aae871130e729b5f207e8a9cad76"
+    },
+    "tests-GatewayJournalArchiveTest": {
+      "cases": 23,
+      "exit_code": 0,
+      "stdout_sha256": "62de98dc50f0b2bca607aecfb7e4658b6031c80df57c75c2b5c740fafb229b9c"
+    },
+    "tests-GatewayLateBackendTest": {
+      "cases": 4,
+      "exit_code": 0,
+      "stdout_sha256": "a006edf108f92d75e268b38525861e032400e28693486a967fb7449e79d9ef95"
+    },
+    "tests-GatewayLateRetentionTest": {
+      "cases": 8,
+      "exit_code": 0,
+      "stdout_sha256": "e84537d10c08ae8ab045c627ad4b45170ee1c3f71c72578b095a2d24b4ca33bc"
+    },
+    "tests-GatewayLookupFairnessTest": {
+      "cases": 7,
+      "exit_code": 0,
+      "stdout_sha256": "7c09daeeb5140dff1b6759c8a9d2d58b21ae6e8d7e2ea69baa0d55473348b047"
+    },
+    "tests-GatewayRadioObservationTest": {
+      "cases": 9,
+      "exit_code": 0,
+      "stdout_sha256": "999169247c92c67c64a1d920ea025ba1fbc8f884c5296d6546640cf094c77d2e"
+    },
+    "tests-GatewayRecoveryHistoryTest": {
+      "cases": 4,
+      "exit_code": 0,
+      "stdout_sha256": "1082f8e02dc2b34285bd637fb8f5f530faa02b1460b6ca5db6235aed943070a7"
+    },
+    "tests-GatewayRecoveryTransferTest": {
+      "cases": 11,
+      "exit_code": 0,
+      "stdout_sha256": "641670dddc6c5e07774435468a22f9c35e9a8d6cf7f2bc7a54f4ee2e46f2aea3"
+    },
+    "tests-GatewayRetentionMigrationTest": {
+      "cases": 5,
+      "exit_code": 0,
+      "stdout_sha256": "319ba4d36867a6d9c63d5526e85f95a42b34b5424d11c16998e0b92f773e6181"
+    },
+    "tests-GatewaySafetyTest": {
+      "cases": 22,
+      "exit_code": 0,
+      "stdout_sha256": "87e61c211eb0e60b6a380cf9864a80991cdc73c0dd27617dc12527c42351adb7"
+    },
+    "tests-GatewayTransportTest": {
+      "cases": 6,
+      "exit_code": 0,
+      "stdout_sha256": "dce57fb872fee9248b82ab37a495dd999520504ebfb36c456a9939c349c6cefc"
+    },
+    "tests-GatewayWireTest": {
+      "cases": 11,
+      "exit_code": 0,
+      "stdout_sha256": "2f14eb239766b5d4be4686e37d4fc5154bf4e77879eb96052adf5e1f12102f3c"
+    },
+    "tests-GatewayRecoveryTest": {
+      "cases": 11,
+      "exit_code": 0,
+      "stdout_sha256": "5f0b1860e1d95062495ca97ae6b4c5d6875f771223ec06292afd76252b8c5441"
+    }
+  },
+  "scope": "Same captured product/test/API artifacts; no fresh aggregate272 or device acceptance. Root-readRequests coherence correction remains outstanding before promotion."
+}

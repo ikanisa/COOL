@@ -1,0 +1,26 @@
+{
+  "status": "public_schema_and_hash_pass",
+  "observed_at_utc": "2026-09-30T23:10:23Z",
+  "metadata": {
+    "key_form": "public_publishable_key",
+    "keys": [
+      "APP_ENVIRONMENT",
+      "ENABLE_ADMIN_PANEL",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_URL"
+    ],
+    "project_allowlist_match": true,
+    "privileged_or_user_credentials_allowed": false,
+    "remote_authentication_attested": false,
+    "source_path": "/Users/jeanbosco/.cache/collect-release-config/admin-checkpoint04-public-defines.json",
+    "sha256": "78c61fceea0b72981fada0d50af45aeba9d2955e92159927e819b70fd31f9206",
+    "bytes": 203,
+    "file_mode": "0600",
+    "parent_mode": "0700"
+  },
+  "provenance_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/release-tooling/checkpoint04/public-config-readback.json",
+  "provenance_sha256": "cdb32b86a6d368f15fd21f262d88f9071d072d5b0c73ed640e403d2208ca198c",
+  "config_values_reported": false,
+  "hosted_calls_by_runner": 0,
+  "live_authentication_verified": false
+}

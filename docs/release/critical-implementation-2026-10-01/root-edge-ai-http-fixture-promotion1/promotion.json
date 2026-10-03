@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-10-02T02:34:47.076822+00:00",
+  "status": "applied_exact_reviewed_one_file",
+  "reviewed_packet_sha256": "ade33c3197b220311646566f7747551156778f829f87d439afc127e51f26c927",
+  "checked_leaves": 29,
+  "checked_current_context": 9,
+  "whole_patch_reviewed": true,
+  "original91_assertions_order_tail_preserved": true,
+  "additional_denials": 12,
+  "expected_total": 103,
+  "provider_key_absent_and_denials_preserved": true,
+  "baseline_and_candidate_format_check": "Both fail for identical145 original diagnostic lines; no check exception or broad formatting change.",
+  "source_path": "scripts/qa/edge_http_runtime_uat.ts",
+  "base_sha256": "3f1508144f574b3592689a36d3632e8ba21b8dca08a3550dd3f8f5ce95a0c868",
+  "candidate_sha256": "1896e5b1fe1d21a9f0a883ad2222a7fdf5d0594b90bb0edd3c064c7fc32921c7",
+  "authorized_next_execution": "One new physical frozen140 AI cohort using exact approved fixture delta, all required canonical phases and unchanged deadlines. Original failed140/400 and passed137/519 retained separately. No current13-source/SQL/hosted/production acceptance.",
+  "production_acceptance": false
+}

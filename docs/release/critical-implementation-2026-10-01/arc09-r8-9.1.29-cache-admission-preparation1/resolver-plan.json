@@ -1,0 +1,34 @@
+{
+  "actual_Gradle_execution": false,
+  "authorization": "Root explicitly authorized a reviewed600s standard-resolution proposal after original180s timeout and readonly matching partial22,965,278-byte evidence; no silent widening.",
+  "changed_from_original180": "Only the explicit run_process outer stage bound; project/task/dependency/repository/network timeout/env/wrapper/JDK/tracker implementation remains unchanged. Fresh output/copy locations and their source-fence rows are bound to this derivative.",
+  "command_deadline_seconds": 600,
+  "kind": "root_authorized_unexecuted_exact_R8_standard_resolution600",
+  "must_wait_for_lint_resolution2_owned_completion_and_absence": true,
+  "production_release_approval": false,
+  "publisher_JAR_SHA256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+  "raw_or_binary_cache_metadata_import": false,
+  "repository_or_source_mutation": false,
+  "retained_HTTP_connection_and_socket_timeout_ms": 30000,
+  "root_invocation_argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-cache-admission-preparation1/run_resolution.py",
+    "--source-fences-sha256",
+    "e8f85e8c108a90708f9aba956510556326bf774cc8a3f210610329e4131f702e",
+    "--r8-artifact-admission-sha256",
+    "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-r8-9.1.29-cache-resolution2"
+  ],
+  "runner": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-cache-admission-preparation1/run_resolution.py",
+    "sha256": "c96e929d4c52fba601e39a927727b05b39d5376f1980e95458392d04f0bf3928"
+  },
+  "selected_coordinate": "com.android.tools:r8:9.1.29",
+  "source_fences": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-cache-admission-preparation1/resolver-source-fences.json",
+    "sha256": "e8f85e8c108a90708f9aba956510556326bf774cc8a3f210610329e4131f702e"
+  }
+}

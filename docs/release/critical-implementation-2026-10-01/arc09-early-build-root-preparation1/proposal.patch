@@ -1,0 +1,43 @@
+--- a/android/build.gradle.kts
++++ b/android/build.gradle.kts
+@@ -11,9 +11,20 @@
+         .get()
+ rootProject.layout.buildDirectory.value(newBuildDir)
+ 
++// Configure the app output root before its plugins are applied. Flutter resolves
++// its default ProGuard file during plugin application, so a later module-level
++// override would leave that rule pointing at the previous build directory.
++val collectAndroidBuildRoot =
++    providers.environmentVariable("COLLECT_ANDROID_BUILD_ROOT").orNull
++
+ subprojects {
+-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
+-    project.layout.buildDirectory.value(newSubprojectBuildDir)
++    if (project.name == "app" && !collectAndroidBuildRoot.isNullOrBlank()) {
++        project.layout.buildDirectory.set(
++            project.file(collectAndroidBuildRoot).resolve("app"),
++        )
++    } else {
++        project.layout.buildDirectory.value(newBuildDir.dir(project.name))
++    }
+ }
+ subprojects {
+     project.evaluationDependsOn(":app")
+--- a/android/app/build.gradle.kts
++++ b/android/app/build.gradle.kts
+@@ -54,15 +54,6 @@
+         ).inheritIO().start()
+         check(process.waitFor() == 0) { "Collect generated registrant adapter refused an unknown input" }
+     }
+-}
+-
+-// Native Android release intermediates are unreliable on the external project
+-// volume. Release automation may point this module at an internal APFS root
+-// while keeping the repository and the public `build/` path in place.
+-val collectAndroidBuildRoot =
+-    providers.environmentVariable("COLLECT_ANDROID_BUILD_ROOT").orNull
+-if (!collectAndroidBuildRoot.isNullOrBlank()) {
+-    layout.buildDirectory.set(file(collectAndroidBuildRoot).resolve("app"))
+ }
+ 
+ // Explicit source-only QA exports may build an unsigned production-flavour

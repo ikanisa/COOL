@@ -1,0 +1,26 @@
+{
+  "file_count": 20,
+  "files": {
+    "README.md": "a4bad854ba05698a0e7acaeaab3b82f6d146934782b84623b82c5760eb210a7b",
+    "installed-sdk-plan-observation.json": "9b41a5e6e2cd844a793c5dd0243976a36fe7737cbadf072bf696dec6f9b2ee1c",
+    "plan-validation.json": "37174dc5dfa5dfa630866a0efe3a952f7a931b1e69b71a5d89d5e8235c7d3d41",
+    "proposed-collect-only-sdk.patch": "3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68",
+    "proposed-delta.json": "e183401a3ea0461e523513aae3e610edb34aca4d4ac31abefd2d48febfc48c60",
+    "public-origin/additional-origin-index.json": "2b00421d74b6b2533127734e1f7accba6c56d8ee68424c1a9906a75b2fe57125",
+    "public-origin/flutter-3.44.4-checker-test.kt": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+    "public-origin/flutter-3.44.4-checker.kt": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+    "public-origin/flutter-3.44.4-gradle-readme.md": "a65724e262c6792b53f2bcb5398e851c361e784964e74d3ce72fb94de9ba09a6",
+    "public-origin/flutter-3.44.4-gradle-settings.kts": "56fe45270044d31615e1d9b8aa1410511a05b83ef431c24613b7907f225f9779",
+    "public-origin/flutter-3.44.4-gradle-utils.dart": "6dbeb30feb9169a6eb14ac13b558dfad1c268b603f520765048b685cc1a1472e",
+    "public-origin/flutter-3.44.4-license": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+    "public-origin/flutter-archive-page.md": "3cda8c058f78cf10b1cf1290132fa84955afa2e56ef19fe7d93bf33723c8a5ea",
+    "public-origin/flutter-bundles.md": "f383e5afcdbd4ba85311c8a4f2e3829ad25114ed58227111acc5a80dbf9fe2d7",
+    "public-origin/flutter-tag-3.44.4.json": "3726e3bd748075412007d786c8c3b05ecd2f80ff94e3d60ddbdfdfc5bb303639",
+    "public-origin/gradle-9.1-compatibility.html": "a217ae5a3aff8be02554029b2df40e26743736e015b67b46789b2b6ad0dbd1c3",
+    "public-origin/gradle-9.1-kotlin-dsl.html": "04926b3920e7bc9ac6da2b8c87a2f5e2d9113c284074a9215d739b9622e119c0",
+    "public-origin/origin-index.json": "2ed7c5e1c6fb8f2bd46c3c44cd82efa4598599970dc13a03564fc34dca019af9",
+    "public-origin/website-components-origin.json": "26ee4fe9db5b930e64affaec5ba2b9c51e9760dbc7fc7c876505a3bbdfc9f076",
+    "publisher-license-advisory-binds.json": "0cf285a87bd73f925e3217e992e19755aca7f81faa44dea58dcf4b688b1b9e6c"
+  },
+  "scope": "Read-only SDK candidate proposal/public primary receipts. No candidate or SDK mutation and no candidate native test acceptance."
+}

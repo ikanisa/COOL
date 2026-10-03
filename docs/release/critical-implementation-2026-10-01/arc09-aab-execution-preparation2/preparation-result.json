@@ -1,0 +1,20 @@
+{
+  "ARC09_closed": false,
+  "actual_build_graph_SBOM_reader_commands_executed": 0,
+  "actual_native_terminal_observed": false,
+  "all_reference_bytes_modes_unchanged": true,
+  "canonical_exporter_SHA256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb",
+  "canonical_observer_SHA256": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6",
+  "canonical_validator_SHA256": "53da9cac49c9d77fefcdf23889ec84f2aeccd88eab422ee410e57d38c5467e51",
+  "existing_reader_helper_SHA256": "3bcace0d0931ce4d2ca17a23c458af8b840e78538901e4236ce03ebffc616a5f",
+  "finite_proposed_whole_seconds": 5070,
+  "inspected_inputs": 40,
+  "maintained_APP_SDK_running_Gradle_old_packet_writes": 0,
+  "new_execution_admitted": false,
+  "private_owned_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-execution-preparation2",
+  "production_release_approval": false,
+  "selected_proposed_commands": 7,
+  "status": "sealed-proposal-ready-for-root-review",
+  "synthetic_tests_rerun": 0,
+  "warm8_controller_SHA256": "803bf024a36e008c390aec7bd7405836afd6831a85008bad606b0ae0e556b93c"
+}

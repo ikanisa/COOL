@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""All current application migrations under ordinary local installer authority.
+
+Creates only task-owned networkless containers. A privileged setup installs
+the retained Auth/storage platform shape, pg_cron and pg_net before postgres is demoted.
+Every application migration then executes as current_user postgres NOSUPERUSER.
+This proves local installer behavior; managed hosted platform parity is separate.
+"""
+import argparse
+import datetime
+import json
+from pathlib import Path
+
+import hashlib
+import importlib.util
+
+# Exact existing helper, verified before first import; no target at import time.
+REPOSITORY = Path(__file__).resolve().parents[2]
+OWNED = REPOSITORY / '.cache/receipt-full-candidate-rehearsal-20261002'
+HELPER = REPOSITORY / 'scripts/tests/collect_current_release_upgrade_uat.py'
+HELPER_SHA256 = '343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b'
+if hashlib.sha256(HELPER.read_bytes()).hexdigest() != HELPER_SHA256:
+    raise RuntimeError('Reviewed ordinary helper predecessor drift')
+spec = importlib.util.spec_from_file_location('collect_current_release_upgrade_uat', HELPER)
+replay = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(replay)
+
+
+ROOT = replay.ROOT
+TRANSPORT_PLATFORM = ROOT / "scripts/sql/receipt_transport_platform_prerequisites.sql"
+
+
+class OwnedTarget(replay.Target):
+    def close(self):
+        if self.made:
+            labels = json.loads(replay.command([replay.DOCKER, 'inspect', self.name, '--format', '{{json .Config.Labels}}']).stdout)
+            if labels.get('collect.rehearsal.owner') != self.name:
+                raise RuntimeError('Owned target label changed; refusing non-owned cleanup')
+        super().close()
+        if self.evidence.get('task_container_removed'):
+            observed = replay.command([replay.DOCKER, 'ps', '--all', '--quiet', '--filter', 'name=^/' + self.name + '$'])
+            self.evidence['target_absence_verified'] = observed.stdout.strip() == ''
+            if not self.evidence['target_absence_verified']:
+                raise RuntimeError('Owned target remains after removal')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--inventory", type=Path, required=True)
+    parser.add_argument("--inventory-sha256", required=True)
+    args = parser.parse_args()
+    report = args.output.resolve()
+    if report.exists() or not report.is_relative_to(OWNED):
+        parser.error("Fresh private owned evidence directory required")
+    freeze_bytes = args.inventory.resolve().read_bytes()
+    if replay.sha(freeze_bytes) != args.inventory_sha256:
+        raise RuntimeError('Root freeze inventory hash mismatch')
+    freeze = json.loads(freeze_bytes)
+    inventory = freeze.get('source_inventory')
+    if inventory is None:
+        vector = freeze.get('source_bindings', freeze.get('sha256'))
+        if not isinstance(vector, dict):
+            raise RuntimeError('Frozen source_inventory or source hash vector required')
+        inventory = [{'path': path, 'sha256': digest} for path, digest in vector.items()
+                     if path.startswith('supabase/migrations/') and path.endswith('.sql')]
+    expected = {}
+    for item in inventory:
+        path = Path(item['path'])
+        if path.parent != Path('supabase/migrations') or path.suffix != '.sql' or str(path) in expected:
+            raise RuntimeError('Frozen migration path or duplicate invalid')
+        expected[str(path)] = item['sha256']
+    current = {str(p.relative_to(ROOT)): replay.sha(p.read_bytes())
+               for p in sorted((ROOT / 'supabase/migrations').glob('*.sql'))}
+    if not expected or expected != current:
+        raise RuntimeError('Full current canonical graph differs from root freeze')
+    report.mkdir(mode=0o700, parents=True)
+    (report / 'root-frozen-inventory.json').write_bytes(freeze_bytes)
+    items = []
+    captured = report / "captured-migrations"
+    captured.mkdir()
+    for path in sorted((ROOT / "supabase/migrations").glob("*.sql")):
+        body = path.read_bytes()
+        version, name = path.stem.split("_", 1)
+        items.append(dict(path=str(path.relative_to(ROOT)), version=version, name=name,
+            sha256=replay.sha(body), body=body.decode()))
+        (captured / path.name).write_bytes(body)
+    if {i['path']: i['sha256'] for i in items} != expected:
+        raise RuntimeError('Frozen sources changed during capture')
+    if len({i["version"] for i in items}) != len(items):
+        raise RuntimeError("Unique migration versions required")
+    helper_paths = [Path(__file__), Path(replay.__file__), TRANSPORT_PLATFORM, OWNED / 'combined_reader_seam.py']
+    helpers = {p: p.read_bytes() for p in helper_paths}
+    for path, body in helpers.items(): (report / path.name).write_bytes(body)
+    platform, provenance = replay.platform_shape()
+    (report / "platform-bootstrap.sql").write_text(platform)
+    evidence = dict(kind="ordinary_local_installer_all_current_clean_populated", status="running",
+        source_inventory=[{k:v for k,v in i.items() if k != "body"} for i in items],
+        root_frozen_inventory_sha256=args.inventory_sha256,
+        exact_full_current_graph=True,
+        helper_sha256={str(p.relative_to(ROOT)):replay.sha(body)for p,body in helpers.items()},
+        platform_bootstrap=provenance, cases=[], phases={}, shared_database_written=False,
+        platform_prerequisite_sha256={str(TRANSPORT_PLATFORM.relative_to(ROOT)):
+                                     replay.sha(helpers[TRANSPORT_PLATFORM])},
+        source_rows_copied=False, hosted_called=False, provider_called=False,
+        signed_jwt_tested=False, managed_hosted_owner_parity=False,
+        started_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+    targets = []
+    def save(): (report / "result.json").write_text(json.dumps(evidence, indent=2) + "\n")
+    def case(name, value=True):
+        if not value: raise AssertionError(name)
+        evidence["cases"].append(dict(name=name, status="pass")); save(); print("PASS " + name, flush=True)
+    def ordinary(target):
+        state = target.json("select jsonb_build_object('current_user',current_user,'current_role',current_role,'superuser',rolsuper,'create_db',rolcreatedb,'create_role',rolcreaterole,'bypass_rls',rolbypassrls)from pg_roles where rolname=current_user;")
+        if state["current_user"] != "postgres" or state["current_role"] != "postgres" or state["superuser"] is not False:
+            raise RuntimeError("Ordinary installer authority was lost: " + json.dumps(state))
+        return state
+    def apply(target, selected, outcome):
+        for item in selected:
+            authority = ordinary(target)
+            before = replay.fingerprints(target, evidence["preserved_columns"]) if outcome.get("populated_fixture_ready") else None
+            config_before = replay.fingerprints(target, evidence['config_columns']) if before is not None else None
+            replay.apply(target, [item], outcome)
+            outcome["migrations"][-1]["actual_installer_authority"] = authority
+            ordinary(target)
+            if before is not None:
+                after = replay.fingerprints(target, evidence["preserved_columns"])
+                if before != after: raise AssertionError("Canonical predecessor changed at " + item["path"])
+                outcome["migrations"][-1]["canonical_predecessor_preserved"] = True
+                config_after = replay.fingerprints(target, evidence['config_columns'])
+                outcome['migrations'][-1]['configuration_changed_tables'] = [key for key in config_before if config_before[key] != config_after[key]]
+                outcome['migrations'][-1]['configuration_before'] = config_before
+                outcome['migrations'][-1]['configuration_after'] = config_after
+            save()
+    save()
+    try:
+        retained = json.loads(replay.HOSTED.read_text())
+        registered = retained["migrations"]
+        if len(registered) != 124 or [i["version"] for i in items[:124]] != [r["version"] for r in registered]:
+            raise RuntimeError("Reviewed predecessor version prefix changed")
+        (report / "retained-predecessor-metadata.json").write_bytes(replay.HOSTED.read_bytes())
+        evidence["predecessor"] = dict(count=124, latest=registered[-1]["version"],
+            source="Retained metadata and synthetic fixtures; hosted currentness unverified",
+            metadata_sha256=replay.sha(replay.HOSTED.read_bytes()))
+        for phase in ("clean", "populated"):
+            outcome = evidence["phases"][phase] = {}
+            target = OwnedTarget(report, "ordinary_" + phase, outcome)
+            targets.append(target)
+            with target:
+                mounts = json.loads(replay.command([replay.DOCKER, 'inspect', target.name, '--format', '{{json .Mounts}}']).stdout)
+                pgdata_mount = [m for m in mounts if m.get('Destination') == '/var/lib/postgresql/collect-rehearsal']
+                case(phase + ' actual PostgreSQL data directory remains on owned tmpfs',
+                     len(pgdata_mount) == 1 and pgdata_mount[0]['Type'] == 'tmpfs')
+                outcome['actual_pgdata_mount'] = pgdata_mount[0]
+                target.sql(platform, label="privileged retained platform bootstrap before any application migration")
+                # pg_cron's C APIs execute their internal writes as the
+                # extension owner. The cached managed image owns cron.job as
+                # supabase_admin; install its platform extension under that
+                # same role before demoting the application installer.
+                target.sql("create extension if not exists pg_cron with schema pg_catalog;", user="supabase_admin", label="managed platform owner pg_cron prerequisite")
+                # The retained local platform also owns pg_net as
+                # supabase_admin (extensions schema, version0.20.0). Its
+                # installation requires platform authority. Application
+                # migrations may check its presence after postgres is demoted;
+                # they must not acquire superuser to install it themselves.
+                target.sql("create extension if not exists pg_net with schema extensions;", user="supabase_admin", label="retained platform owner pg_net prerequisite before installer demotion")
+                # Local fixture only: reproduce the retained managed platform's
+                # existing trusted get/post owner/definer/search_path metadata.
+                # Shipping owner preparation refuses an invoker platform;
+                # application migrations never receive platform authority.
+                target.sql("alter function net.http_get(text,jsonb,jsonb,integer)security definer;alter function net.http_get(text,jsonb,jsonb,integer)set search_path=net;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)security definer;alter function net.http_post(text,jsonb,jsonb,jsonb,integer)set search_path=net;", user="supabase_admin", label="local exact retained trusted pg_net function metadata before application installer")
+                target.sql(helpers[TRANSPORT_PLATFORM].decode(), user="supabase_admin", label="declared platform-owned index private ACL and seven-column read prerequisites")
+                outcome["transport_platform_prerequisite"] = evidence["platform_prerequisite_sha256"]
+                case(phase + " client and service direct transport tables and columns remain private",
+                    target.scalar("select not exists(select 1 from(values('anon'),('authenticated'),('service_role'))r(role_name)cross join(values('net._http_response'),('net.http_request_queue'))t(relation)where has_table_privilege(r.role_name,t.relation,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER,MAINTAIN')or has_any_column_privilege(r.role_name,t.relation,'SELECT,INSERT,UPDATE,REFERENCES'));") == "t")
+                outcome["transport_installer_authority_scope"] = "Seven direct SELECT column grants; preexisting trusted platform role memberships are not changed or claimed restricted"
+                outcome["net_platform_ownership"] = target.json("select jsonb_build_object('extension_owner',pg_get_userbyid(e.extowner),'schema',n.nspname,'version',e.extversion)from pg_extension e join pg_namespace n on n.oid=e.extnamespace where e.extname='pg_net';")
+                case(phase + " retained pg_net platform prerequisite matches reviewed local ownership",
+                    outcome["net_platform_ownership"] == {"extension_owner":"supabase_admin","schema":"extensions","version":"0.20.0"})
+                # The retained quiet154 managed platform grants postgres the
+                # alter_job owner API, while denying it to anon/authenticated.
+                # A fresh extension installed by supabase_admin does not carry
+                # that installer grant automatically. Recreate only this
+                # execution prerequisite; direct cron DML remains forbidden.
+                target.sql("grant execute on function cron.alter_job(bigint,text,text,text,text,boolean)to postgres;", user="supabase_admin", label="retained platform installer cron owner API execution prerequisite")
+                outcome["platform_bootstrap_privileged"] = True
+                outcome["platform_owner_normalization"] = outcome.pop("installer_normalization")
+                target.sql("alter role postgres nosuperuser;", user="supabase_admin", label="end platform setup and demote application installer")
+                outcome["ordinary_installer"] = ordinary(target)
+                outcome['installer_inherited_roles'] = target.json("select coalesce(jsonb_agg(jsonb_build_object('role',r.rolname,'usage',pg_has_role(current_user,r.oid,'USAGE'))order by r.rolname),'[]'::jsonb)from pg_roles r where r.rolname<>current_user and pg_has_role(current_user,r.oid,'MEMBER');")
+                case(phase + " application installer is actually NOSUPERUSER before migration 1")
+                outcome["cron_platform_ownership"] = target.json("select jsonb_build_object('extension_owner',(select pg_get_userbyid(extowner)from pg_extension where extname='pg_cron'),'job_owner',(select pg_get_userbyid(relowner)from pg_class where oid='cron.job'::regclass),'installer_cron_dml',has_table_privilege(current_user,'cron.job','INSERT,UPDATE,DELETE,MAINTAIN')); ")
+                case(phase + " managed cron extension and job ownership agree without installer DML",
+                    outcome["cron_platform_ownership"] == {"extension_owner":"supabase_admin","job_owner":"supabase_admin","installer_cron_dml":False})
+                outcome["cron_owner_api_authority"] = target.json("select jsonb_build_object('installer_execute',has_function_privilege('postgres','cron.alter_job(bigint,text,text,text,text,boolean)','EXECUTE'),'anon_execute',has_function_privilege('anon','cron.alter_job(bigint,text,text,text,text,boolean)','EXECUTE'),'authenticated_execute',has_function_privilege('authenticated','cron.alter_job(bigint,text,text,text,text,boolean)','EXECUTE')); ")
+                case(phase + " retained cron owner API executes only for the installer among tested roles",
+                    outcome["cron_owner_api_authority"] == {"installer_execute":True,"anon_execute":False,"authenticated_execute":False})
+                # Exercise the real owner API, then roll back the synthetic
+                # probe. Disabled launch controls remain in force throughout.
+                outcome["cron_api_probe"] = target.json("begin;select cron.schedule('collect-ordinary-installer-probe','0 0 1 1 *','select 1');select jsonb_build_object('creator_owned_job',exists(select 1 from cron.job where jobname='collect-ordinary-installer-probe'and username=current_user),'owner_api_unscheduled',cron.unschedule('collect-ordinary-installer-probe'));rollback;")
+                case(phase + " ordinary installer schedules and unschedules through owner APIs",
+                    outcome["cron_api_probe"] == {"creator_owned_job":True,"owner_api_unscheduled":True})
+                case(phase + " rolled-back cron probe leaves no job or run history",
+                    target.scalar("select not exists(select 1 from cron.job where jobname='collect-ordinary-installer-probe')and not exists(select 1 from cron.job_run_details);") == "t")
+                case(phase + " retained platform starts without Auth users or application profiles",
+                    target.scalar("select not exists(select 1 from auth.users)and to_regclass('public.profiles')is null;") == "t")
+                if phase == "clean":
+                    apply(target, items, outcome)
+                    case("every current application migration replays under ordinary local authority",
+                        int(target.scalar("select count(*)from supabase_migrations.schema_migrations;")) == len(items))
+                else:
+                    apply(target, items[:124], outcome)
+                    case("populated predecessor reaches the exact retained version boundary",
+                        target.json("select jsonb_build_object('count',count(*),'latest',max(version))from supabase_migrations.schema_migrations;") == {"count":124,"latest":"20260906160000"})
+                    replay.seed_populated(target, evidence, case)
+                    outcome["populated_fixture_ready"] = True
+                    apply(target, items[124:], outcome)
+                    replay.verify_populated(target, evidence, case, len(items))
+                    reader_path = report / 'combined_reader_seam.py'
+                    reader_spec = importlib.util.spec_from_file_location('full_candidate_combined_reader_seam', reader_path)
+                    reader = importlib.util.module_from_spec(reader_spec)
+                    reader_spec.loader.exec_module(reader)
+                    reader.run(replay, target, evidence, case)
+                ordinary(target)
+                outcome["scheduler_readback"] = target.json("select jsonb_build_object('cron',current_setting('cron.launch_active_jobs'),'net',current_setting('pg_net.batch_size'),'history',(select count(*)from cron.job_run_details));")
+                case(phase + " schedules remain disabled with no cron history or network dispatch",
+                    outcome["scheduler_readback"] == {"cron":"off","net":"0","history":0})
+                outcome["status"] = "pass"; save()
+        case("both task-owned containers have been removed", all(t.evidence.get("task_container_removed") for t in targets))
+        case("all captured helper source bytes remain unchanged", all(p.read_bytes() == body for p,body in helpers.items()))
+        current = {str(p.relative_to(ROOT)):replay.sha(p.read_bytes()) for p in sorted((ROOT / "supabase/migrations").glob("*.sql"))}
+        case("entire migration set and source bytes match the captured ordinary rehearsal",
+            current == {i["path"]:i["sha256"] for i in items})
+        evidence["status"] = "pass"
+    except Exception as error: evidence.update(status="failed", failure=str(error)); save(); raise
+    finally:
+        for target in targets: target.close()
+        evidence["all_task_containers_removed"] = all(not t.made and t.evidence.get("task_container_removed") for t in targets)
+        evidence["completed_at"] = datetime.datetime.now(datetime.timezone.utc).isoformat(); save()
+
+
+if __name__ == "__main__": main()

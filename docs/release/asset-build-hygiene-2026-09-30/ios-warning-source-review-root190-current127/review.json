@@ -1,0 +1,998 @@
+{
+  "actual_build_exit_code": 0,
+  "artifact_verification_sha256": "761060ea6ad8558910f1b9f19382faa0e62415aef33ff158345867b35a4ac8f1",
+  "blanket_warning_suppression": false,
+  "build_execution_sha256": "e4785d8c7ecddaa0879d9a1ca018ce9a84664a7c5c3e8caf4c7f2b51875e2c4c",
+  "captured_at": "2026-10-01T10:18:54.328148+00:00",
+  "duplicate_renderings": 4,
+  "every_diagnostic_matched_by_exact_file_line_message": true,
+  "every_source_byte_difference_individually_reviewed": true,
+  "firebase_scene_return_correction": "Corrected BOOL implementation compiled; prior incompatible callback warning remains absent",
+  "kind": "actual_current_ios_individual_warning_review",
+  "native_runtime_or_release_accepted": false,
+  "novel_diagnostics": [],
+  "preserved_build_stdout_sha256": "b47741486c48cd04d28a626fe9a391236850cef738cf9ddb22c0e58e40131f79",
+  "preserved_sources": {
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/01-IOSFilePickerHandler.swift": "3e77fcd61f76cea11617434104df8b248be25a4f0b9482e0815af5e6bfbc8c06",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/02-FLTFirebaseCorePlugin.m": "57c560fbce5955d043f8d3618fa9e4b1df4a10140375d5a75d72ddcf9ec7b0a5",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/03-FlutterLocalNotificationsPlugin.m": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/04-FlutterLocalNotificationsPlugin.m": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/05-FLTImagePickerImageUtil.m": "25e409145372cbd4fa9611b47ef918053cbb9d88661b62a0216d0b12139103d8",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/06-FLTImagePickerPhotoAssetUtil.m": "8e60047b4f365ac0b1a4e5748241b7356a50159da8024592710e5f052ad2bbec",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/07-FLTImagePickerPlugin.m": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/08-FLTImagePickerPlugin.m": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/09-MobileScannerCameraSelector.swift": "8e39fb5ca77c54dc5f34c1870614d84f89553b2c34fd5a7ed57fb861f0c2c3ac",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/10-MobileScannerPlugin.swift": "557026b918f3681623b868cca3b5895ed6a61dbfa3bc0c01174a3869ce788679",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/11-NotificationPermissionStrategy.m": "b673f3a5276e28b28d39dc0dd1597211af9fe7da8eb408d9d06faafe462134c6",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/12-PhonePermissionStrategy.m": "c13a221486f5316c60b08b1733c513c0c2d8ac30f45c570f3db3f112552cff99",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/13-FPPSharePlusPlugin.m": "140e72c305cad458fa3dba4f11f1adfae21f527508a9be745fb6409624cc1558",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/14-mobile_scanner-Swift.h": "8c015c153cb118f400f22c18eb4cfaafb025fe27c29415e169b900b7129162d5",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/15-FLTFirebaseMessagingPlugin.m": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/16-Dialog.swift": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/captured-FileSaverPlugin.swift": "f6c4c2b8fe768ea08cb5ff8a0b7ad6306c9c08b6a17bfa81f4bbbf5f6114da7b",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/captured-Info.plist": "a4f18229585ade71a156555071a12123f0604f32e134f3a4232c1b1973948d6c",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/captured-Podfile": "59305a73dfde47d853f6f785d3878fd1038c5cec8527e0fb47303e797da8b5cb",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/captured-group_invitation_transport.dart": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+    "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/captured-share_screen.dart": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae"
+  },
+  "primary_diagnostics": 19,
+  "prior_diagnostics_not_emitted": [],
+  "prior_review": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-attempt29/review.json",
+  "prior_review_sha256": "8ca9874520cfcf4cfbc289eb3a8cd70709796bbe85a2e148c9cfeaddc68b1bae",
+  "raw_unique_warning_strings": 23,
+  "rows": [
+    {
+      "disposition": "retained_upstream_window_selection",
+      "id": 1,
+      "line": 361,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/file_picker_darwin/darwin/file_picker_darwin/Sources/file_picker_darwin/IOSFilePickerHandler.swift:361:43: warning: 'windows' was deprecated in iOS 15.0: Use UIWindowScene.windows on a relevant window scene instead [#DeprecatedDeclaration]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/01-IOSFilePickerHandler.swift",
+      "prior_review_id": 4,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/file_picker_darwin/darwin/file_picker_darwin/Sources/file_picker_darwin/IOSFilePickerHandler.swift",
+      "source_excerpt": [
+        {
+          "line": 357,
+          "text": "        }"
+        },
+        {
+          "line": 358,
+          "text": "    }"
+        },
+        {
+          "line": 359,
+          "text": ""
+        },
+        {
+          "line": 360,
+          "text": "    private func topViewController() -> UIViewController? {"
+        },
+        {
+          "line": 361,
+          "text": "        let window = UIApplication.shared.windows.first { $0.isKeyWindow }"
+        },
+        {
+          "line": 362,
+          "text": "        var topController = window?.rootViewController"
+        },
+        {
+          "line": 363,
+          "text": ""
+        },
+        {
+          "line": 364,
+          "text": "        while topController?.presentedViewController != nil {"
+        },
+        {
+          "line": 365,
+          "text": "            topController = topController?.presentedViewController"
+        },
+        {
+          "line": 366,
+          "text": "        }"
+        }
+      ],
+      "source_rationale": "file_picker selects the key window from UIApplication.windows. The captured app disables multiple scenes. The deprecated window enumeration is retained; native picker interaction is not proven by compilation.",
+      "source_sha256": "3e77fcd61f76cea11617434104df8b248be25a4f0b9482e0815af5e6bfbc8c06",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_generated_null_bridge",
+      "id": 2,
+      "line": 92,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/firebase_core/ios/firebase_core/Sources/firebase_core/FLTFirebaseCorePlugin.m:92:35: warning: incompatible pointer types assigning to 'NSString * _Nullable' from 'NSNull * _Nonnull' [-Wincompatible-pointer-types]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/02-FLTFirebaseCorePlugin.m",
+      "prior_review_id": 5,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/firebase_core/ios/firebase_core/Sources/firebase_core/FLTFirebaseCorePlugin.m",
+      "source_excerpt": [
+        {
+          "line": 88,
+          "text": "  pigeonOptions.messagingSenderId = (id)options.GCMSenderID ?: [NSNull null];"
+        },
+        {
+          "line": 89,
+          "text": "  pigeonOptions.projectId = (id)options.projectID ?: [NSNull null];"
+        },
+        {
+          "line": 90,
+          "text": "  pigeonOptions.databaseURL = (id)options.databaseURL ?: [NSNull null];"
+        },
+        {
+          "line": 91,
+          "text": "  pigeonOptions.storageBucket = (id)options.storageBucket ?: [NSNull null];"
+        },
+        {
+          "line": 92,
+          "text": "  pigeonOptions.deepLinkURLScheme = [NSNull null];"
+        },
+        {
+          "line": 93,
+          "text": "  pigeonOptions.iosBundleId = (id)options.bundleID ?: [NSNull null];"
+        },
+        {
+          "line": 94,
+          "text": "  pigeonOptions.iosClientId = (id)options.clientID ?: [NSNull null];"
+        },
+        {
+          "line": 95,
+          "text": "  pigeonOptions.appGroupId = (id)options.appGroupID ?: [NSNull null];"
+        },
+        {
+          "line": 96,
+          "text": "  return pigeonOptions;"
+        },
+        {
+          "line": 97,
+          "text": "}"
+        }
+      ],
+      "source_rationale": "Firebase sets the nullable deepLinkURLScheme property to NSNull. Its generated Pigeon serializer emits this property in an object list using the same null sentinel. The NSString declaration causes the pointer warning; no unsafe string operation on that value is shown by the reviewed bridge.",
+      "source_sha256": "57c560fbce5955d043f8d3618fa9e4b1df4a10140375d5a75d72ddcf9ec7b0a5",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_deprecated_api",
+      "id": 3,
+      "line": 1065,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications/Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m:1065:30: warning: 'UNNotificationPresentationOptionAlert' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/03-FlutterLocalNotificationsPlugin.m",
+      "prior_review_id": 6,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications/Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 1061,
+          "text": "      presentationOptions |= UNNotificationPresentationOptionList;"
+        },
+        {
+          "line": 1062,
+          "text": "    }"
+        },
+        {
+          "line": 1063,
+          "text": "  } else {"
+        },
+        {
+          "line": 1064,
+          "text": "    if (presentAlert) {"
+        },
+        {
+          "line": 1065,
+          "text": "      presentationOptions |= UNNotificationPresentationOptionAlert;"
+        },
+        {
+          "line": 1066,
+          "text": "    }"
+        },
+        {
+          "line": 1067,
+          "text": "  }"
+        },
+        {
+          "line": 1068,
+          "text": "  if (presentSound) {"
+        },
+        {
+          "line": 1069,
+          "text": "    presentationOptions |= UNNotificationPresentationOptionSound;"
+        },
+        {
+          "line": 1070,
+          "text": "  }"
+        }
+      ],
+      "source_rationale": "Firebase foreground notification presentation uses the deprecated Alert option when persisted alert=true. The actual SDK header retains the option and recommends List|Banner; provider/foreground delivery behavior is outside this compile evidence.",
+      "source_sha256": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_static_type_mismatch",
+      "id": 4,
+      "line": 854,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications/Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m:854:24: warning: incompatible pointer types initializing 'NSMutableDictionary *' with an expression of type 'NSDictionary *' [-Wincompatible-pointer-types]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/04-FlutterLocalNotificationsPlugin.m",
+      "prior_review_id": 7,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/flutter_local_notifications/ios/flutter_local_notifications/Sources/flutter_local_notifications/FlutterLocalNotificationsPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 850,
+          "text": ""
+        },
+        {
+          "line": 851,
+          "text": "  if (presentSound && content.sound == nil) {"
+        },
+        {
+          "line": 852,
+          "text": "    content.sound = UNNotificationSound.defaultSound;"
+        },
+        {
+          "line": 853,
+          "text": "  }"
+        },
+        {
+          "line": 854,
+          "text": "  NSMutableDictionary *userDict = [self buildUserDict:arguments[ID]"
+        },
+        {
+          "line": 855,
+          "text": "                                                title:content.title"
+        },
+        {
+          "line": 856,
+          "text": "                                         presentAlert:presentAlert"
+        },
+        {
+          "line": 857,
+          "text": "                                         presentSound:presentSound"
+        },
+        {
+          "line": 858,
+          "text": "                                         presentBadge:presentBadge"
+        },
+        {
+          "line": 859,
+          "text": "                                        presentBanner:presentBanner"
+        }
+      ],
+      "source_rationale": "buildUserDict is declared NSDictionary but allocates and returns NSMutableDictionary. The warning occurs when assigning that mutable runtime object to a mutable variable before adding dismissIsolate. Source review explains the mismatch; no mutability cast or blanket suppression was introduced.",
+      "source_sha256": "42d8a987645116e599bf887b0211851636033418d63a45a414ff162acb5b7bd7",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unreachable_legacy_branch",
+      "id": 5,
+      "line": 125,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerImageUtil.m:125:37: warning: 'kUTTypeGIF' is deprecated: first deprecated in iOS 15.0 - Use UTTypeGIF or UTType.gif (swift) instead. [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/05-FLTImagePickerImageUtil.m",
+      "prior_review_id": 8,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerImageUtil.m",
+      "source_excerpt": [
+        {
+          "line": 121,
+          "text": "  NSString *gifTypeIdentifier;"
+        },
+        {
+          "line": 122,
+          "text": "  if (@available(iOS 14.0, *)) {"
+        },
+        {
+          "line": 123,
+          "text": "    gifTypeIdentifier = UTTypeGIF.identifier;"
+        },
+        {
+          "line": 124,
+          "text": "  } else {"
+        },
+        {
+          "line": 125,
+          "text": "    gifTypeIdentifier = (NSString *)kUTTypeGIF;"
+        },
+        {
+          "line": 126,
+          "text": "  }"
+        },
+        {
+          "line": 127,
+          "text": "  options[(NSString *)kCGImageSourceTypeIdentifierHint] = gifTypeIdentifier;"
+        },
+        {
+          "line": 128,
+          "text": ""
+        },
+        {
+          "line": 129,
+          "text": "  CGImageSourceRef imageSource ="
+        },
+        {
+          "line": 130,
+          "text": "      CGImageSourceCreateWithData((__bridge CFDataRef)data, (__bridge CFDictionaryRef)options);"
+        }
+      ],
+      "source_rationale": "image_picker uses UTTypeGIF on iOS14+ and kUTTypeGIF in the older branch. Captured deployment minimum15.5 selects the modern branch.",
+      "source_sha256": "25e409145372cbd4fa9611b47ef918053cbb9d88661b62a0216d0b12139103d8",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unreachable_legacy_branch",
+      "id": 6,
+      "line": 106,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPhotoAssetUtil.m:106:17: warning: 'kUTTypeGIF' is deprecated: first deprecated in iOS 15.0 - Use UTTypeGIF or UTType.gif (swift) instead. [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/06-FLTImagePickerPhotoAssetUtil.m",
+      "prior_review_id": 9,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPhotoAssetUtil.m",
+      "source_excerpt": [
+        {
+          "line": 102,
+          "text": "  CFStringRef imageType;"
+        },
+        {
+          "line": 103,
+          "text": "  if (@available(iOS 14.0, *)) {"
+        },
+        {
+          "line": 104,
+          "text": "    imageType = (__bridge CFStringRef)UTTypeGIF.identifier;"
+        },
+        {
+          "line": 105,
+          "text": "  } else {"
+        },
+        {
+          "line": 106,
+          "text": "    imageType = kUTTypeGIF;"
+        },
+        {
+          "line": 107,
+          "text": "  }"
+        },
+        {
+          "line": 108,
+          "text": "  CGImageDestinationRef destination = CGImageDestinationCreateWithURL("
+        },
+        {
+          "line": 109,
+          "text": "      (__bridge CFURLRef)[NSURL fileURLWithPath:path], imageType, gifInfo.images.count, NULL);"
+        },
+        {
+          "line": 110,
+          "text": ""
+        },
+        {
+          "line": 111,
+          "text": "  NSDictionary *frameProperties = @{"
+        }
+      ],
+      "source_rationale": "image_picker uses UTTypeGIF on iOS14+ and kUTTypeGIF in the older branch. Captured deployment minimum15.5 selects the modern branch.",
+      "source_sha256": "8e60047b4f365ac0b1a4e5748241b7356a50159da8024592710e5f052ad2bbec",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_deprecated_api",
+      "id": 7,
+      "line": 130,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPlugin.m:130:39: warning: 'kUTTypeImage' is deprecated: first deprecated in iOS 15.0 - Use UTTypeImage or UTType.image (swift) instead. [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/07-FLTImagePickerPlugin.m",
+      "prior_review_id": 10,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 126,
+          "text": "  imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;"
+        },
+        {
+          "line": 127,
+          "text": "  imagePickerController.delegate = self;"
+        },
+        {
+          "line": 128,
+          "text": "  NSMutableArray<NSString *> *mediaTypes = [[NSMutableArray alloc] init];"
+        },
+        {
+          "line": 129,
+          "text": "  if (context.includeImages) {"
+        },
+        {
+          "line": 130,
+          "text": "    [mediaTypes addObject:(NSString *)kUTTypeImage];"
+        },
+        {
+          "line": 131,
+          "text": "  }"
+        },
+        {
+          "line": 132,
+          "text": "  if (context.includeVideo) {"
+        },
+        {
+          "line": 133,
+          "text": "    [mediaTypes addObject:(NSString *)kUTTypeMovie];"
+        },
+        {
+          "line": 134,
+          "text": "    imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;"
+        },
+        {
+          "line": 135,
+          "text": "  }"
+        }
+      ],
+      "source_rationale": "The UIImagePicker image media-type list retains kUTTypeImage. This remains a typed compatibility identifier in the pinned plugin, rather than an app-source warning. Actual picker behavior is separate from compilation.",
+      "source_sha256": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_deprecated_api",
+      "id": 8,
+      "line": 133,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPlugin.m:133:39: warning: 'kUTTypeMovie' is deprecated: first deprecated in iOS 15.0 - Use UTTypeMovie or UTType.movie (swift) instead. [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/08-FLTImagePickerPlugin.m",
+      "prior_review_id": 11,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/image_picker_ios/ios/image_picker_ios/Sources/image_picker_ios/FLTImagePickerPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 129,
+          "text": "  if (context.includeImages) {"
+        },
+        {
+          "line": 130,
+          "text": "    [mediaTypes addObject:(NSString *)kUTTypeImage];"
+        },
+        {
+          "line": 131,
+          "text": "  }"
+        },
+        {
+          "line": 132,
+          "text": "  if (context.includeVideo) {"
+        },
+        {
+          "line": 133,
+          "text": "    [mediaTypes addObject:(NSString *)kUTTypeMovie];"
+        },
+        {
+          "line": 134,
+          "text": "    imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;"
+        },
+        {
+          "line": 135,
+          "text": "  }"
+        },
+        {
+          "line": 136,
+          "text": "  imagePickerController.mediaTypes = mediaTypes;"
+        },
+        {
+          "line": 137,
+          "text": "  if (context.maxDuration != 0.0) {"
+        },
+        {
+          "line": 138,
+          "text": "    imagePickerController.videoMaximumDuration = context.maxDuration;"
+        }
+      ],
+      "source_rationale": "The UIImagePicker video media-type list retains kUTTypeMovie. The optional video path is compiled, and its supported runtime use is not established by this warning review.",
+      "source_sha256": "9ca6beef7119126c761cf83ce17512a99259162e8f53eb070030758635ff50b8",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_fallback",
+      "id": 9,
+      "line": 104,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerCameraSelector.swift:104:41: warning: 'devices(for:)' was deprecated in iOS 10.0: Use AVCaptureDeviceDiscoverySession instead. [#DeprecatedDeclaration]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/09-MobileScannerCameraSelector.swift",
+      "prior_review_id": 12,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerCameraSelector.swift",
+      "source_excerpt": [
+        {
+          "line": 100,
+          "text": "#if os(iOS)"
+        },
+        {
+          "line": 101,
+          "text": "        // Legacy fallback for iOS < 13.0: filter by position."
+        },
+        {
+          "line": 102,
+          "text": "        // On macOS, DiscoverySession handles 10.15+; older macOS falls"
+        },
+        {
+          "line": 103,
+          "text": "        // through to AVCaptureDevice.default(for:) below."
+        },
+        {
+          "line": 104,
+          "text": "        if let device = AVCaptureDevice.devices(for: .video).filter({ $0.position == position }).first {"
+        },
+        {
+          "line": 105,
+          "text": "            return device"
+        },
+        {
+          "line": 106,
+          "text": "        }"
+        },
+        {
+          "line": 107,
+          "text": "#endif"
+        },
+        {
+          "line": 108,
+          "text": ""
+        },
+        {
+          "line": 109,
+          "text": "        // Ultimate fallback: any available video device"
+        }
+      ],
+      "source_rationale": "mobile_scanner uses AVCaptureDevice.devices(for:) after modern DiscoverySession candidates fail. The source comment calls it legacy, but the fallback can still be reached on newer iOS when discovery returns no device. Do not label it unreachable or claim camera acceptance.",
+      "source_sha256": "8e39fb5ca77c54dc5f34c1870614d84f89553b2c34fd5a7ed57fb861f0c2c3ac",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unused_binding",
+      "id": 10,
+      "line": 1004,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerPlugin.swift:1004:20: warning: immutable value 'device' was never used; consider replacing with '_' or removing it [#NoUsage]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/10-MobileScannerPlugin.swift",
+      "prior_review_id": 13,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/mobile_scanner/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerPlugin.swift",
+      "source_excerpt": [
+        {
+          "line": 1000,
+          "text": "            sink?(event)"
+        },
+        {
+          "line": 1001,
+          "text": "#if os(iOS)"
+        },
+        {
+          "line": 1002,
+          "text": "        case #keyPath(AVCaptureDevice.videoZoomFactor):"
+        },
+        {
+          "line": 1003,
+          "text": "            if let zoomScale = change?[.newKey] as? CGFloat,"
+        },
+        {
+          "line": 1004,
+          "text": "               let device = object as? AVCaptureDevice {"
+        },
+        {
+          "line": 1005,
+          "text": "                "
+        },
+        {
+          "line": 1006,
+          "text": "                let scale = getScaleFromZoomFactor(actualScale: zoomScale)"
+        },
+        {
+          "line": 1007,
+          "text": ""
+        },
+        {
+          "line": 1008,
+          "text": "                let event: [String: Any?] = [\"name\": \"zoomScaleState\", \"data\":scale]"
+        },
+        {
+          "line": 1009,
+          "text": "                sink?(event)"
+        }
+      ],
+      "source_rationale": "The bound device value is unused after the object cast gates the zoom-event path. The retained binding preserves that conditional type check; this is not an app runtime or compiler error.",
+      "source_sha256": "557026b918f3681623b868cca3b5895ed6a61dbfa3bc0c01174a3869ce788679",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_deployment_bounded_availability",
+      "id": 11,
+      "line": 57,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple/Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.m:57:9: warning: @available does not guard availability here; use if (@available) instead [-Wunsupported-availability-guard]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/11-NotificationPermissionStrategy.m",
+      "prior_review_id": 14,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple/Sources/permission_handler_apple/strategies/NotificationPermissionStrategy.m",
+      "source_excerpt": [
+        {
+          "line": 53,
+          "text": "+ (PermissionStatus)permissionStatus {"
+        },
+        {
+          "line": 54,
+          "text": "  __block PermissionStatus permissionStatus = PermissionStatusGranted;"
+        },
+        {
+          "line": 55,
+          "text": "  dispatch_semaphore_t sem = dispatch_semaphore_create(0);"
+        },
+        {
+          "line": 56,
+          "text": "  [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {"
+        },
+        {
+          "line": 57,
+          "text": "    if (@available(iOS 12 , *) && settings.authorizationStatus == UNAuthorizationStatusProvisional) {"
+        },
+        {
+          "line": 58,
+          "text": "      permissionStatus = PermissionStatusProvisional;"
+        },
+        {
+          "line": 59,
+          "text": "    } else if (settings.authorizationStatus == UNAuthorizationStatusDenied) {"
+        },
+        {
+          "line": 60,
+          "text": "      permissionStatus = PermissionStatusPermanentlyDenied;"
+        },
+        {
+          "line": 61,
+          "text": "    } else if (settings.authorizationStatus == UNAuthorizationStatusNotDetermined) {"
+        },
+        {
+          "line": 62,
+          "text": "      permissionStatus = PermissionStatusDenied;"
+        }
+      ],
+      "source_rationale": "permission_handler combines @available(iOS12,*) with the provisional authorization check, which Clang does not treat as an availability guard. The captured minimum15.5 already makes the referenced status available. Original source and warning are preserved.",
+      "source_sha256": "b673f3a5276e28b28d39dc0dd1597211af9fe7da8eb408d9d06faafe462134c6",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unreachable_legacy_branch",
+      "id": 12,
+      "line": 50,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple/Sources/permission_handler_apple/strategies/PhonePermissionStrategy.m:50:35: warning: 'subscriberCellularProvider' is deprecated: first deprecated in iOS 12.0 [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/12-PhonePermissionStrategy.m",
+      "prior_review_id": 15,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/permission_handler_apple/ios/permission_handler_apple/Sources/permission_handler_apple/strategies/PhonePermissionStrategy.m",
+      "source_excerpt": [
+        {
+          "line": 46,
+          "text": "    }"
+        },
+        {
+          "line": 47,
+          "text": "    "
+        },
+        {
+          "line": 48,
+          "text": "    return NO;"
+        },
+        {
+          "line": 49,
+          "text": "  } else {"
+        },
+        {
+          "line": 50,
+          "text": "    CTCarrier *carrier = [netInfo subscriberCellularProvider];"
+        },
+        {
+          "line": 51,
+          "text": "    return [self canPlacePhoneCallWithCarrier:carrier];"
+        },
+        {
+          "line": 52,
+          "text": "  }"
+        },
+        {
+          "line": 53,
+          "text": "}"
+        },
+        {
+          "line": 54,
+          "text": ""
+        },
+        {
+          "line": 55,
+          "text": "-(bool)canPlacePhoneCallWithCarrier:(CTCarrier *)carrier {"
+        }
+      ],
+      "source_rationale": "permission_handler uses serviceSubscriberCellularProviders on iOS12+ and subscriberCellularProvider only below12. Captured deployment minimum15.5 does not select the warned branch.",
+      "source_sha256": "c13a221486f5316c60b08b1733c513c0c2d8ac30f45c570f3db3f112552cff99",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unreachable_legacy_branch",
+      "id": 13,
+      "line": 25,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/share_plus/ios/share_plus/Sources/share_plus/FPPSharePlusPlugin.m:25:46: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/13-FPPSharePlusPlugin.m",
+      "prior_review_id": 16,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/.qa_native_dependencies/share_plus/ios/share_plus/Sources/share_plus/FPPSharePlusPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 21,
+          "text": "      }"
+        },
+        {
+          "line": 22,
+          "text": "    }"
+        },
+        {
+          "line": 23,
+          "text": "    return nil;"
+        },
+        {
+          "line": 24,
+          "text": "  } else {"
+        },
+        {
+          "line": 25,
+          "text": "    return [UIApplication sharedApplication].keyWindow.rootViewController;"
+        },
+        {
+          "line": 26,
+          "text": "  }"
+        },
+        {
+          "line": 27,
+          "text": "}"
+        },
+        {
+          "line": 28,
+          "text": ""
+        },
+        {
+          "line": 29,
+          "text": "static UIViewController *"
+        },
+        {
+          "line": 30,
+          "text": "TopViewControllerForViewController(UIViewController *viewController) {"
+        }
+      ],
+      "source_rationale": "share_plus uses connected UIWindowScene windows on iOS13+ and keyWindow only below13. Captured deployment minimum15.5 does not select the warned branch.",
+      "source_sha256": "140e72c305cad458fa3dba4f11f1adfae21f527508a9be745fb6409624cc1558",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_generated_annotation",
+      "id": 14,
+      "line": 390,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps-iphoneos/mobile_scanner-Swift.h:390:31: warning: 'objc_ownership' only applies to Objective-C object or block pointer types; type here is 'CVPixelBufferRef _Nullable' (aka 'struct __CVBuffer *') [-Wignored-attributes]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/14-mobile_scanner-Swift.h",
+      "prior_review_id": 1,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps-iphoneos/mobile_scanner-Swift.h",
+      "source_excerpt": [
+        {
+          "line": 386,
+          "text": "+ (void)registerWithRegistrar:(id <FlutterPluginRegistrar> _Nonnull)registrar;"
+        },
+        {
+          "line": 387,
+          "text": "- (void)handleMethodCall:(FlutterMethodCall * _Nonnull)call result:(FlutterResult _Nonnull)result;"
+        },
+        {
+          "line": 388,
+          "text": "- (FlutterError * _Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(FlutterEventSink _Nonnull)events SWIFT_WARN_UNUSED_RESULT;"
+        },
+        {
+          "line": 389,
+          "text": "- (FlutterError * _Nullable)onCancelWithArguments:(id _Nullable)arguments SWIFT_WARN_UNUSED_RESULT;"
+        },
+        {
+          "line": 390,
+          "text": "- (CVPixelBufferRef _Nullable __unsafe_unretained)copyPixelBuffer SWIFT_WARN_UNUSED_RESULT;"
+        },
+        {
+          "line": 391,
+          "text": "- (void)captureOutput:(AVCaptureOutput * _Nonnull)output didOutputSampleBuffer:(CMSampleBufferRef _Nonnull)sampleBuffer fromConnection:(AVCaptureConnection * _Nonnull)connection;"
+        },
+        {
+          "line": 392,
+          "text": "- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;"
+        },
+        {
+          "line": 393,
+          "text": "- (nonnull instancetype)init SWIFT_UNAVAILABLE;"
+        },
+        {
+          "line": 394,
+          "text": "+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG(\"-init is unavailable\");"
+        },
+        {
+          "line": 395,
+          "text": "@end"
+        }
+      ],
+      "source_rationale": "The generated mobile_scanner Swift bridge applies __unsafe_unretained to CVPixelBufferRef, and Clang reports the annotation ignored. Preserve the generated header; no app source or warning flag was changed. This is not a buffer-ownership runtime test.",
+      "source_sha256": "8c015c153cb118f400f22c18eb4cfaafb025fe27c29415e169b900b7129162d5",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_upstream_deprecated_api",
+      "id": 15,
+      "line": 499,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m:499:32: warning: 'UNNotificationPresentationOptionAlert' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/15-FLTFirebaseMessagingPlugin.m",
+      "prior_review_id": 2,
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/firebase_messaging/ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m",
+      "source_excerpt": [
+        {
+          "line": 495,
+          "text": "    NSDictionary *persistedOptions = [[NSUserDefaults standardUserDefaults]"
+        },
+        {
+          "line": 496,
+          "text": "        dictionaryForKey:kMessagingPresentationOptionsUserDefaults];"
+        },
+        {
+          "line": 497,
+          "text": "    if (persistedOptions != nil) {"
+        },
+        {
+          "line": 498,
+          "text": "      if ([persistedOptions[@\"alert\"] isEqual:@(YES)]) {"
+        },
+        {
+          "line": 499,
+          "text": "        presentationOptions |= UNNotificationPresentationOptionAlert;"
+        },
+        {
+          "line": 500,
+          "text": "      }"
+        },
+        {
+          "line": 501,
+          "text": "      if ([persistedOptions[@\"badge\"] isEqual:@(YES)]) {"
+        },
+        {
+          "line": 502,
+          "text": "        presentationOptions |= UNNotificationPresentationOptionBadge;"
+        },
+        {
+          "line": 503,
+          "text": "      }"
+        },
+        {
+          "line": 504,
+          "text": "      if ([persistedOptions[@\"sound\"] isEqual:@(YES)]) {"
+        }
+      ],
+      "source_rationale": "Firebase foreground notification presentation uses the deprecated Alert option when persisted alert=true. The actual SDK header retains the option and recommends List|Banner; provider/foreground delivery behavior is outside this compile evidence.",
+      "source_sha256": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_unselected_app_capability",
+      "id": 16,
+      "line": 29,
+      "message": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift:29:55: warning: 'keyWindow' was deprecated in iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [#DeprecatedDeclaration]",
+      "preserved_source": "docs/release/asset-build-hygiene-2026-09-30/ios-warning-source-review-root190-current127/source-snapshot/16-Dialog.swift",
+      "prior_review_id": 3,
+      "prior_source_sha256": "1aa23a1d7c11f3f2e241bca51aa56fc9440e09a54deebfce7bf71948dc02ca8a",
+      "runtime_acceptance_claimed": false,
+      "source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/third_party/file_saver/ios/file_saver/Sources/file_saver/Dialog.swift",
+      "source_delta_review": "Exact three logging replacements remove private paths and localized errors. No picker, keyWindow, callback or return statement changed; prior window-selection rationale remains applicable.",
+      "source_diff_limited_to_reviewed_log_redaction": true,
+      "source_excerpt": [
+        {
+          "line": 25,
+          "text": "    ) {"
+        },
+        {
+          "line": 26,
+          "text": "        self.result = result"
+        },
+        {
+          "line": 27,
+          "text": "        self.bytes = byteData"
+        },
+        {
+          "line": 28,
+          "text": "        guard"
+        },
+        {
+          "line": 29,
+          "text": "            let viewController = UIApplication.shared.keyWindow?"
+        },
+        {
+          "line": 30,
+          "text": "                .rootViewController"
+        },
+        {
+          "line": 31,
+          "text": "        else {"
+        },
+        {
+          "line": 32,
+          "text": "            result("
+        },
+        {
+          "line": 33,
+          "text": "                FlutterError("
+        },
+        {
+          "line": 34,
+          "text": "                    code: \"failure\","
+        }
+      ],
+      "source_rationale": "The current declared invitation transport calls FileSaver.saveFile; no saveAs call exists in the captured app Dart tree. The compiled plugin dispatches Dialog only for saveAs. The existing keyWindow fallback is retained without native picker runtime acceptance.",
+      "source_sha256": "c9428edce7684a00e668e79a788f27212751ff6f29ff199f6da766c047887515",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_tool_capability_notice",
+      "id": 17,
+      "message": "2026-10-01 11:28:59.770 appintentsmetadataprocessor[14305:6320445] warning: Metadata extraction skipped, no AppIntents.framework dependency found",
+      "prior_review_id": 17,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "Xcode skipped AppIntents extraction because the app declares no AppIntents framework dependency. No AppIntents capability is claimed by Collect's compile evidence.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_tool_environment_notice",
+      "id": 18,
+      "message": "Warning: unknown environment variable SWIFT_DEBUG_INFORMATION_FORMAT",
+      "prior_review_id": 18,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "The Flutter/native-asset tool did not recognize SWIFT_DEBUG_INFORMATION_FORMAT inherited by the build phase. The generic-device release compile and artifact inspection passed; no SDK/tool environment was rewritten to hide this output.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "retained_tool_environment_notice",
+      "id": 19,
+      "message": "Warning: unknown environment variable SWIFT_DEBUG_INFORMATION_VERSION",
+      "prior_review_id": 19,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "The Flutter/native-asset tool did not recognize SWIFT_DEBUG_INFORMATION_VERSION inherited by the build phase. The exact diagnostic remains retained; no warning suppression was added.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "duplicate_swift_rendering",
+      "duplicates_primary_id": 16,
+      "id": 20,
+      "message": "|                                                       `- warning: 'keyWindow' was deprecated in iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [#DeprecatedDeclaration]",
+      "prior_review_id": 20,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "file_saver Dialog uses UIApplication.keyWindow in native saveAs. Captured Collect runtime calls only FileSaver.saveFile; the plugin enters Dialog only for saveAs. Preserve the optional upstream implementation; this does not approve a future saveAs route.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "duplicate_swift_rendering",
+      "duplicates_primary_id": 1,
+      "id": 21,
+      "message": "|                                           `- warning: 'windows' was deprecated in iOS 15.0: Use UIWindowScene.windows on a relevant window scene instead [#DeprecatedDeclaration]",
+      "prior_review_id": 21,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "file_picker selects the key window from UIApplication.windows. The captured app disables multiple scenes. The deprecated window enumeration is retained; native picker interaction is not proven by compilation.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "duplicate_swift_rendering",
+      "duplicates_primary_id": 9,
+      "id": 22,
+      "message": "|                                         `- warning: 'devices(for:)' was deprecated in iOS 10.0: Use AVCaptureDeviceDiscoverySession instead. [#DeprecatedDeclaration]",
+      "prior_review_id": 22,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "mobile_scanner uses AVCaptureDevice.devices(for:) after modern DiscoverySession candidates fail. The source comment calls it legacy, but the fallback can still be reached on newer iOS when discovery returns no device. Do not label it unreachable or claim camera acceptance.",
+      "warning_suppressed": false
+    },
+    {
+      "disposition": "duplicate_swift_rendering",
+      "duplicates_primary_id": 10,
+      "id": 23,
+      "message": "|                    `- warning: immutable value 'device' was never used; consider replacing with '_' or removing it [#NoUsage]",
+      "prior_review_id": 23,
+      "runtime_acceptance_claimed": false,
+      "source_rationale": "The bound device value is unused after the object cast gates the zoom-event path. The retained binding preserves that conditional type check; this is not an app runtime or compiler error.",
+      "warning_suppressed": false
+    }
+  ],
+  "scope": "Actual current127 generic-device compilation diagnostics, individually retained by exact message/source bytes and bound prerequisite snapshots; no camera/picker/provider/device runtime acceptance",
+  "source_build": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-continuation4",
+  "status": "pass"
+}

@@ -1,0 +1,324 @@
+{
+  "synthetic_http": true,
+  "scope": "Actual canonical repository/provider/cards with pinned synthetic authenticated SDK; no hosted PostgREST/Auth assertion",
+  "observations": [
+    {
+      "test": "sdk-health-pre",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "sdk-health-post",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "sdk-health-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "sdk-health-departed",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "widget-health-healthy",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "widget-health-initial-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "widget-health-refresh-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "b0c151c043d155908d04bb5d38b4b4e40817fb206adb3a6daa2a4134ee156f2f"
+        }
+      ]
+    },
+    {
+      "test": "widget-health-departed",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_exception_worker_health_v1",
+          "parameters": {},
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "sdk-detail-pre",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "sdk-detail-post",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "sdk-detail-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "sdk-detail-departed",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "widget-detail-healthy",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "widget-detail-initial-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "widget-detail-refresh-integrity",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    },
+    {
+      "test": "widget-detail-departed",
+      "synthetic_http": true,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_current_user",
+          "parameters": null,
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        },
+        {
+          "method": "POST",
+          "path": "/rest/v1/rpc/admin_get_receipt_worker_transport_v1",
+          "parameters": {
+            "p_request_id": "9901f085-b9e8-451c-83e9-b2ddaf153b51"
+          },
+          "captured_bearer_sha256": "7f8da1ac95b09ff84f299c92c988796c8218087cb40ada77590817a17caaea8c"
+        }
+      ]
+    }
+  ]
+}

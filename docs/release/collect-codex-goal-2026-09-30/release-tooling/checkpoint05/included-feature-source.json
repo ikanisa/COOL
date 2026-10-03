@@ -1,0 +1,208 @@
+{
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "signed": false,
+    "trusted_source_verified": false
+  },
+  "backend_rehearsal_case_count": 19,
+  "backend_rehearsal_result_sha256": "7051200e81ea8ee6819c3d68eaeb65b3ac855fdaf3e7eecb6f033e44bb42d1c1",
+  "backend_rehearsal_status": "pass",
+  "candidate_manifest_sha256": "1e54a8ad509c48f412dff970cc0694c0ff40191a5e3e891c8cd7622287be43d9",
+  "capture_interval": {
+    "copied_at_utc": "2026-09-30T23:33:51Z",
+    "source_observed_at_utc": "2026-09-30T23:38:13Z",
+    "started_at_utc": "2026-09-30T23:27:42Z"
+  },
+  "excluded_upstream_qa_fixtures": 40,
+  "feature_file_counts": {
+    "admin_entry_and_shared_runtime": 6,
+    "email_and_operator_approval": 6,
+    "exception_inbox_backend_v1": 1,
+    "gateway_admin_page_and_identity": 7,
+    "investigation": 3,
+    "receipt_overview_and_transaction_lifecycle": 5,
+    "shadow_history": 3
+  },
+  "feature_source_files": {
+    "admin_entry_and_shared_runtime": {
+      "lib/admin/admin_router.dart": {
+        "bytes": 10137,
+        "mode": 448,
+        "sha256": "6b5f9ecf848b303be2b6c5a7869f2583f209391ebc08bfe30ad2191d574d58c5"
+      },
+      "lib/admin/admin_shell.dart": {
+        "bytes": 43620,
+        "mode": 448,
+        "sha256": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29"
+      },
+      "lib/admin/core/admin_action_contracts.dart": {
+        "bytes": 7286,
+        "mode": 420,
+        "sha256": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1"
+      },
+      "lib/admin/core/admin_runtime.dart": {
+        "bytes": 31488,
+        "mode": 448,
+        "sha256": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551"
+      },
+      "lib/app/env/app_env.dart": {
+        "bytes": 2173,
+        "mode": 448,
+        "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035"
+      },
+      "lib/main_admin.dart": {
+        "bytes": 769,
+        "mode": 448,
+        "sha256": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381"
+      }
+    },
+    "email_and_operator_approval": {
+      "lib/admin/core/admin_auth_guard.dart": {
+        "bytes": 6190,
+        "mode": 448,
+        "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+      },
+      "lib/admin/core/admin_email_otp.dart": {
+        "bytes": 1316,
+        "mode": 420,
+        "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+      },
+      "lib/admin/core/admin_login_runtime.dart": {
+        "bytes": 23457,
+        "mode": 448,
+        "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+      },
+      "lib/admin/core/admin_operator_approval.dart": {
+        "bytes": 4827,
+        "mode": 420,
+        "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+      },
+      "supabase/migrations/20260930213000_operator_email_auth.sql": {
+        "bytes": 20002,
+        "mode": 420,
+        "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+      },
+      "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": {
+        "bytes": 3921,
+        "mode": 420,
+        "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+      }
+    },
+    "exception_inbox_backend_v1": {
+      "supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+        "bytes": 24054,
+        "mode": 420,
+        "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+      }
+    },
+    "gateway_admin_page_and_identity": {
+      "lib/admin/core/admin_gateway_contracts.dart": {
+        "bytes": 8356,
+        "mode": 420,
+        "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+      },
+      "lib/admin/core/admin_gateway_dialogs.dart": {
+        "bytes": 4489,
+        "mode": 420,
+        "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+      },
+      "lib/admin/core/admin_gateway_models.dart": {
+        "bytes": 13628,
+        "mode": 420,
+        "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+      },
+      "lib/admin/core/admin_gateway_page.dart": {
+        "bytes": 29970,
+        "mode": 420,
+        "sha256": "1e631e33cdb40f9adadac0954610cd4e2b3316dad0ab52430c7ab17a846bc935"
+      },
+      "lib/admin/core/admin_gateway_runtime.dart": {
+        "bytes": 3400,
+        "mode": 420,
+        "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+      },
+      "supabase/migrations/20260930211605_android_gateway_identity.sql": {
+        "bytes": 26951,
+        "mode": 420,
+        "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+      },
+      "supabase/migrations/20261001000200_admin_gateway_reads.sql": {
+        "bytes": 9012,
+        "mode": 420,
+        "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+      }
+    },
+    "investigation": {
+      "lib/admin/core/admin_investigation.dart": {
+        "bytes": 17959,
+        "mode": 420,
+        "sha256": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398"
+      },
+      "lib/admin/core/admin_investigation_view.dart": {
+        "bytes": 21843,
+        "mode": 420,
+        "sha256": "4e1a5218c8dc1a14bac1bac62aa54d56c39f6eff0ebcc40dbce98cdbf4d712b4"
+      },
+      "supabase/migrations/20260930230400_admin_investigation.sql": {
+        "bytes": 8376,
+        "mode": 420,
+        "sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b"
+      }
+    },
+    "receipt_overview_and_transaction_lifecycle": {
+      "lib/admin/core/admin_receipt_overview.dart": {
+        "bytes": 4951,
+        "mode": 420,
+        "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+      },
+      "lib/admin/core/admin_transaction_lifecycle.dart": {
+        "bytes": 3481,
+        "mode": 420,
+        "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+      },
+      "supabase/migrations/20260930230100_receipt_backlog_events.sql": {
+        "bytes": 37881,
+        "mode": 420,
+        "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+      },
+      "supabase/migrations/20260930230200_admin_receipt_overview.sql": {
+        "bytes": 3725,
+        "mode": 420,
+        "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+      },
+      "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": {
+        "bytes": 11105,
+        "mode": 420,
+        "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+      }
+    },
+    "shadow_history": {
+      "lib/admin/core/admin_automations_page.dart": {
+        "bytes": 16166,
+        "mode": 420,
+        "sha256": "27515fbbcbe9f81709f841791989f4908ac7703d7e879e414f36a24f1f62ab3e"
+      },
+      "lib/admin/core/admin_shadow_runs.dart": {
+        "bytes": 26163,
+        "mode": 420,
+        "sha256": "63efcb042621d32fb82bc4e47d19f4575f6506fe98afa7a0d37864ad1e011102"
+      },
+      "supabase/migrations/20260930210000_shadow_supervisor_runs.sql": {
+        "bytes": 26516,
+        "mode": 420,
+        "sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424"
+      }
+    }
+  },
+  "kind": "retained_snapshot_feature_and_migration_bindings",
+  "migration_count": 167,
+  "migration_hash_match_to_full167_rehearsal": true,
+  "migration_hash_mismatches": [],
+  "new_rehearsal_executions": 0,
+  "scope": "Exact retained filenames and hashes, not functional/visual/live acceptance. Full167 SQL receipt is earlier independently retained evidence whose migration bytes match this snapshot; no SQL tests rerun. Later C12 v2/C20 additions are not inferred to be included.",
+  "source_current_tree_accepted": false,
+  "status": "pass"
+}

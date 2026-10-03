@@ -1,0 +1,23 @@
+{
+  "ARC09_closed": false,
+  "SDK_executed": false,
+  "candidate_promoted": false,
+  "current_code_bound_to_actual_final31_suite": true,
+  "exact_current_component_SHA256": {
+    "apply_native_consumer_cumulative8.py": "aafa57dc4b6604326aa1d89a5069a4640a46a52eeb98b084d312cb7827ff9386",
+    "authenticated_native_consumer_expansion.py": "9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12",
+    "consumer_guards.py": "f8ab32c78b0b499f8822b62ba79a8491effc67fad810187a22ac38d5ea2023aa",
+    "observe_native_consumer.init.gradle": "359c745502fd4f3159c26f01f4cbe35fe4c952cb4384bc75d034755f3ff17241",
+    "proposed-commands.json": "d9c92aab9c5ed4dc5009a571dedf8d307220e946a24b7f0330014667a894a189",
+    "publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "run_native_consumer.py": "33788a5bb25509b02e555f5411216c0849fc2590a4b8f6c22176a97bf7afbd86",
+    "test_preparation.py": "e95c100c54b6faad81a30d3581fe536db9a03b980b2eafc2236f1f1fb6b456ea",
+    "verify_native_consumer_source.py": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+  },
+  "frozen_at_UTC": "2026-10-02T02:31:35.656314+00:00",
+  "literal_negative_fixtures_remain_preserved_inert": true,
+  "no_authored_source_or_evidence_writes_after_seal": true,
+  "operational_and_inert_evidence_leaf_count": 33,
+  "packet_manifest_SHA256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+  "production_release_approval": false
+}

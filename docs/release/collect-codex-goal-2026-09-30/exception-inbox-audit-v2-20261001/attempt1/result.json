@@ -1,0 +1,112 @@
+{
+  "kind": "schema153_additive_exception_inbox_audit_v2",
+  "status": "failed",
+  "cases": [
+    {
+      "name": "20260930213000_operator_email_auth.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20260930220527_operator_email_cutover_guard.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20260930230100_receipt_backlog_events.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20260930230200_admin_receipt_overview.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20260930230300_admin_transaction_lifecycle.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20260930211605_android_gateway_identity.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20261001000100_operational_exception_inbox.sql additive install preserves existing nonempty financial evidence",
+      "status": "pass"
+    },
+    {
+      "name": "20261001000300_admin_exception_reads.sql additive install preserves existing nonempty financial evidence",
+      "status": "failed"
+    }
+  ],
+  "target": {
+    "container_id": "f94019c8910c10f87205f32612aad6518ba6854d3257eb786d19db19a6c797d9",
+    "container_name": "collect_current_rehearsal_exception_history_38caffa72a6e",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "hosted_called": false,
+  "source_rows_copied": false,
+  "device_used": false,
+  "provider_called": false,
+  "full_candidate_tested": false,
+  "fixture_limitations": [
+    "Local installer postgres superuser normalization",
+    "Owner-normalized retained schema153 plus captured19-file subset",
+    "Mock cron catalog shape only; no net/Vault/scheduler invocation",
+    "SET LOCAL API roles and synthetic JWT claims; no Auth service/signature verification",
+    "Current185 installer blocker and whole187 candidate acceptance remain outside scope"
+  ],
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+    "supabase/migrations/20261001100000_receipt_financial_policy.sql": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+    "supabase/migrations/20261001110000_receipt_operational_authority.sql": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "277195dacaff341ab154ebb9c4661295efd04cef5d3b52ce08087ebff84df761",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/exception_inbox_audit_v2_uat.py": "a42e54015df653cd7536f1e60f4d9ec86fdca39cf23555ac55801409af10513e"
+  },
+  "baseline_sha256": {
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+  },
+  "cli_provenance": {
+    "path": "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+    "version": "2.84.2",
+    "generated": "20261001151541_exception_inbox_audit_v2.sql",
+    "published": "20261001200000_exception_inbox_audit_v2.sql"
+  },
+  "tools": {
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "cli_sha256": "ff98309522fb619ef7d0a1e65bba597bcd2298cca98657b3b16eaf1f94fa8ab6"
+  },
+  "error": "20261001000300_admin_exception_reads.sql additive install preserves existing nonempty financial evidence",
+  "sources_unchanged": true,
+  "finished_at": "2026-10-01T15:21:09.523471+00:00"
+}

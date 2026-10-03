@@ -1,0 +1,17 @@
+{
+  "sealed_source_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+  "migration_sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+  "normalized_delta": [
+    "--- sealed-C23-function\n",
+    "+++ additive-corrected-function\n",
+    "@@ -37,6 +37,6 @@\n",
+    "  values(p_request_id,job.id,before_revision,after_revision,p_reason_code,auth.uid(),sid,at)returning * into prior;",
+    "  perform public.create_audit_log('notification.sms.cancelled_unstarted','sms_notification_outbox',job.id,",
+    "   jsonb_build_object('request_id',p_request_id,'expected_revision',before_revision,'revision',after_revision,",
+    "-   'reason_code',p_reason_code,'financial_action',false,'send_action',false),null);",
+    "+   'reason_code',p_reason_code,'financial_action',false,'send_action',false),auth.uid());",
+    "  return collect_receipt_actions.receipt(prior);",
+    " end$$;"
+  ],
+  "only_behavior_change": "create_audit_log actor argument null becomes auth.uid(); original immutable private actor/session history is unchanged"
+}

@@ -1,0 +1,69 @@
+{
+  "actual_json_test_classpath_sha256": "806281cf00695f5c0449b3fab43f3d8b1463ef4248eb85a8f7ca3f951274e947",
+  "actual_real_json_class_load": [
+    "[0.965s][info][class,load] org.json.JSONObject source: file:/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.json/json/20250517/d67181bbd819ccceb929b580a4e2fcb0c8b17cd8/json-20250517.jar"
+  ],
+  "all_frozen_inputs_unchanged": true,
+  "both_full_suites_executed_against_final_six_file_derivative": true,
+  "cached_flutter_outputs_unchanged": true,
+  "command_timing_scope": "Commands were dispatched concurrently. elapsed_seconds measures dispatch to parent observation, not independently measured process completion. Gradle reports BUILD SUCCESSFUL in 4m 37s; standalone JUnit reports 46.252 seconds for its 190 behavioral cases, plus compile stages.",
+  "commands": [
+    {
+      "argv": [
+        "./gradlew",
+        "-I",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-final-jvm-current2/real-json-runtime.init.gradle",
+        ":app:testInternal_gatewayDebugUnitTest",
+        "-x",
+        ":app:compileFlutterBuildInternal_gatewayDebug",
+        "-Ptarget=lib/main_gateway.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon",
+        "--max-workers=2",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 278.2,
+      "exit_code": 0,
+      "name": "full-gateway-debug-jvm",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e",
+      "stdout_sha256": "68ee41e570f8e9458015ccb28c807f3e31952c6671a55e9bb317954715a7b338"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-gateway-archive-final/scripts/tests/android_gateway_attempt_archive_jvm.py",
+        "--packet",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-final-jvm-current2/standalone"
+      ],
+      "elapsed_seconds": 278.2,
+      "exit_code": 0,
+      "name": "full-standalone-jvm",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "deac69dd1618c5d2c19cf7651b2be967a664ce09c30049892ea198a885a898f6"
+    }
+  ],
+  "final_flat_native_inputs": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/final-flat-native-inputs.json",
+  "final_flat_native_inputs_sha256": "5fac8ad45ee031b0d98e44f5fbc55c790ff0a8c6a03107fc7d8439fa905ae3a4",
+  "gradle_full_debug_jvm": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 141
+  },
+  "gradle_xml_suites": 11,
+  "kind": "additive_final_native_current_jvm_acceptance",
+  "native_input_count": 89,
+  "parent_final_native_acceptance": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/final-native-acceptance.json",
+  "parent_final_native_acceptance_sha256": "3ecf31c736a246c7b1fbc7a491c6a9d8d4c5f846168ca9c9cf9dd03a652bfec1",
+  "parent_receipt_unchanged": true,
+  "release_apk": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-gateway-archive-final/app-internal_gateway-release-unsigned.apk",
+  "release_apk_sha256": "cf8a18020375787d83754012d788f468771003398fc3a5a55e03a8fb40aaf3c0",
+  "release_apk_unchanged": true,
+  "scope": "Current frozen native derivative full Gradle Debug JVM and full existing standalone real-JSON/synthetic-encrypted-filesystem harness. Reuses already accepted exact Release APK/lint/Flutter/dependency graphs. No mutable whole-repository, signing, device, provider, store or publication claim.",
+  "separate_suites_no_unique_union_sum_claim": true,
+  "source_input_count": 1103,
+  "standalone_full_jvm_cases": 190,
+  "standalone_validation_sha256": "9a10fddb6e29e5a877b8f164a3f8b9d062b6ea5dfcb64ee757c4df00b607064d",
+  "status": "pass"
+}

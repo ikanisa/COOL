@@ -1,0 +1,132 @@
+{
+  "mode": "Live-limited",
+  "scope": "receipt_operations_configured_collections",
+  "alerts": [
+    {
+      "id": "5af3259c-7e84-47cd-a3ad-13dbb685741b",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "ACTION_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:44:59.976705Z",
+      "source_kind": "policy",
+      "exception_id": "5ff5ae55-cea8-4093-acac-7110790896eb",
+      "response_code": "review_limits"
+    },
+    {
+      "id": "60eaec3e-237c-4b0e-ae10-b2a097b32e26",
+      "status": "clear",
+      "episode": 1,
+      "revision": 4,
+      "rule_code": "BACKLOG_AGED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:45:11.530348Z",
+      "source_kind": "policy",
+      "exception_id": "f648a229-87bf-4214-9c3c-42cb955d9014",
+      "response_code": "investigate_backlog"
+    },
+    {
+      "id": "fce206d3-c28c-4199-ba4b-065aeeab06d7",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "DELIVERY_CALLBACK_GAP",
+      "source_id": "5ce571a5-a64c-4266-a1b2-88b2bae47011",
+      "observed_at": "2026-10-01T22:44:59.976705Z",
+      "source_kind": "attempt",
+      "exception_id": "3cc9e3c1-f916-4ca0-ba89-765e2c346dcf",
+      "response_code": "investigate_attempt"
+    },
+    {
+      "id": "7033b499-f707-4c83-8227-00e29eeb9eab",
+      "status": "active",
+      "episode": 1,
+      "revision": 3,
+      "rule_code": "HANDLING_LATENCY_HIGH",
+      "source_id": "d8fdf5f1-281e-4786-8ac0-8634f1dd57eb",
+      "observed_at": "2026-10-01T22:45:11.530348Z",
+      "source_kind": "handled_event",
+      "exception_id": "bd94e78f-048c-4f77-9fd0-403098c3f111",
+      "response_code": "investigate_handling"
+    },
+    {
+      "id": "2fd86928-72bc-4aad-ab85-3170926c9ba1",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SEND_OUTCOME_UNKNOWN",
+      "source_id": "5ce571a5-a64c-4266-a1b2-88b2bae47011",
+      "observed_at": "2026-10-01T22:44:59.976705Z",
+      "source_kind": "attempt",
+      "exception_id": "79fc0b49-2cf7-4b2d-ae84-69ce31d0ef46",
+      "response_code": "reconcile_unknown"
+    },
+    {
+      "id": "ae7c1fca-27c5-4490-8809-ecd5dc051ca9",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SMS_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:44:59.976705Z",
+      "source_kind": "policy",
+      "exception_id": "64c4e958-72b8-465a-b609-94063d5a7d68",
+      "response_code": "review_limits"
+    }
+  ],
+  "backlog": {
+    "due_deferrals": 0,
+    "unhandled_events": 0,
+    "source_busy_deferrals": 0,
+    "oldest_unhandled_age_seconds": null
+  },
+  "budgets": {
+    "scope": "global_utc_day",
+    "actions_cap": 2,
+    "utc_day_start": "2026-10-01T00:00:00.000000Z",
+    "actions_reserved": 2,
+    "sms_segments_cap": 2,
+    "sms_segments_reserved": 2
+  },
+  "unknown": {
+    "uncertain_attempts": 1,
+    "callback_conflict_attempts": 1,
+    "started_without_all_sent_callbacks": 2,
+    "observed_sent_without_all_delivery_callbacks": 0
+  },
+  "handling": {
+    "latency_max_ms": 612056,
+    "latency_p50_ms": 12212,
+    "latency_p95_ms": 612056,
+    "events_created_24h": 13,
+    "events_handled_24h": 13
+  },
+  "callbacks": {
+    "expected_segments": 2,
+    "armed_attempts_24h": 1,
+    "conflicting_attempts": 1,
+    "covered_sent_segments": 1,
+    "covered_delivery_segments": 1,
+    "complete_delivery_callback_attempts": 0
+  },
+  "checked_at": "2026-10-01T22:45:11.530348Z",
+  "window_end": "2026-10-01T22:45:11.530348Z",
+  "send_action": false,
+  "window_start": "2026-09-30T22:45:11.530348Z",
+  "emergency_stop": false,
+  "window_seconds": 86400,
+  "policy_revision": 3,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T22:46:11.530348Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only"
+  ],
+  "configured_collection_count": 1
+}

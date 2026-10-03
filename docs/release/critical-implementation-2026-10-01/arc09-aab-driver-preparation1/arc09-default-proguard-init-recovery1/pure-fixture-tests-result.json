@@ -1,0 +1,172 @@
+{
+  "APP_and_maintained_held_inputs_unchanged": true,
+  "Python_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "Python_executable_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "actual_Gradle_or_process_metadata_probes_signals_APP_SDK_cache_mutations": false,
+  "actual_Groovy_execution_verified": false,
+  "actual_tests": 27,
+  "errors": 0,
+  "failures": 0,
+  "finished_utc": "2026-10-02T14:15:18.222409+00:00",
+  "held_inputs_after": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json": {
+      "bytes": 440859,
+      "device": 16777232,
+      "inode": 60415855,
+      "mode": 420,
+      "mtime_ns": 1790949584606966299,
+      "sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/build.gradle.kts": {
+      "bytes": 24009,
+      "device": 16777232,
+      "inode": 60412968,
+      "mode": 448,
+      "mtime_ns": 1790949584596115502,
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/build.gradle.kts": {
+      "bytes": 1380,
+      "device": 16777232,
+      "inode": 60413123,
+      "mode": 448,
+      "mtime_ns": 1790949584597734062,
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts": {
+      "bytes": 24009,
+      "device": 16777247,
+      "inode": 2693286,
+      "mode": 448,
+      "mtime_ns": 1790949553664623843,
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/build.gradle.kts": {
+      "bytes": 1380,
+      "device": 16777247,
+      "inode": 2693278,
+      "mode": 448,
+      "mtime_ns": 1790949584597532690,
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json": {
+      "bytes": 922154,
+      "device": 16777247,
+      "inode": 18030735,
+      "mode": 420,
+      "mtime_ns": 1790949701310052546,
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    }
+  },
+  "held_inputs_before": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json": {
+      "bytes": 440859,
+      "device": 16777232,
+      "inode": 60415855,
+      "mode": 420,
+      "mtime_ns": 1790949584606966299,
+      "sha256": "5901e79105f0aa6727bd3931b284c00e2d8b58dabfa3aa344841ab273a0336b7"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/app/build.gradle.kts": {
+      "bytes": 24009,
+      "device": 16777232,
+      "inode": 60412968,
+      "mode": 448,
+      "mtime_ns": 1790949584596115502,
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/build.gradle.kts": {
+      "bytes": 1380,
+      "device": 16777232,
+      "inode": 60413123,
+      "mode": 448,
+      "mtime_ns": 1790949584597734062,
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/app/build.gradle.kts": {
+      "bytes": 24009,
+      "device": 16777247,
+      "inode": 2693286,
+      "mode": 448,
+      "mtime_ns": 1790949553664623843,
+      "sha256": "99c33ca69ec07b4e88308902d1754f057f74ac6f8136063fa02aabd7b4b4b684"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/build.gradle.kts": {
+      "bytes": 1380,
+      "device": 16777247,
+      "inode": 2693278,
+      "mode": 448,
+      "mtime_ns": 1790949584597532690,
+      "sha256": "adc97e7aa6eb48775fc2248dbdfee8340b9af68c470000f3d059e20f57d7f5ae"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json": {
+      "bytes": 922154,
+      "device": 16777247,
+      "inode": 18030735,
+      "mode": 420,
+      "mtime_ns": 1790949701310052546,
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    }
+  },
+  "input_hashes_unchanged": true,
+  "input_sha256_after": {
+    "android_build_overlay.py": "f3ba27d448e78a4fd3a06c5eaad3fa09f70a403ed1e9431d07bbdeedce77bef4",
+    "helper.diff": "56b79f2dc55d6e459246006be4452ccde57002aac5784342a995df9f4f4211f6",
+    "init.diff": "5a3d208cc3cd1cbfbd3f4efb39fdd23a5725cd2f0b98371d962e86b76e5af897",
+    "prepared-input-pins.json": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+    "reviewed-source-binding-delta.json": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6",
+    "reviewed-verification-plan.json": "1979fa05ee8e1924a071119cf193b39fa4f29414753eb368dc76a905fe0601cf",
+    "root-admission-template.json": "cb8cbd57275235c1f8d49308b31298e66f36bc30c574d1787a198203fd740202",
+    "run_selected_aab.py": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+    "test_android_overlay.py": "7ce8d1349542c3db32dcc3dc1543f3879ace11d38ac5b909d8c49d6460e2c995",
+    "test_probe_override.py": "fb7217688c83b1c4afde05849e41187c1563b5db1137863c3c243930bcea5ca2",
+    "verify-default-proguard.init.gradle": "2b66f2a0ef61b3f9c8c4a64ab2ae639c359ba406d9b628ff268cab0702e7cf8e"
+  },
+  "input_sha256_before": {
+    "android_build_overlay.py": "f3ba27d448e78a4fd3a06c5eaad3fa09f70a403ed1e9431d07bbdeedce77bef4",
+    "helper.diff": "56b79f2dc55d6e459246006be4452ccde57002aac5784342a995df9f4f4211f6",
+    "init.diff": "5a3d208cc3cd1cbfbd3f4efb39fdd23a5725cd2f0b98371d962e86b76e5af897",
+    "prepared-input-pins.json": "10930c4d70e94300bb4fcd4ce7c461b28e7ac46fde5bba1ddafe58a7f8069c8c",
+    "reviewed-source-binding-delta.json": "3bbfb746db4523556d879b4be0121b357c70c76ab0fbb91aedd716f7211751d6",
+    "reviewed-verification-plan.json": "1979fa05ee8e1924a071119cf193b39fa4f29414753eb368dc76a905fe0601cf",
+    "root-admission-template.json": "cb8cbd57275235c1f8d49308b31298e66f36bc30c574d1787a198203fd740202",
+    "run_selected_aab.py": "6aec0de17f91f3981d2def8be12cc7f0f10eba40fca6c17ffea6f11166a893fc",
+    "test_android_overlay.py": "7ce8d1349542c3db32dcc3dc1543f3879ace11d38ac5b909d8c49d6460e2c995",
+    "test_probe_override.py": "fb7217688c83b1c4afde05849e41187c1563b5db1137863c3c243930bcea5ca2",
+    "verify-default-proguard.init.gradle": "2b66f2a0ef61b3f9c8c4a64ab2ae639c359ba406d9b628ff268cab0702e7cf8e"
+  },
+  "kind": "private_pinned_probe_override_and_affected_overlay_fixture_execution",
+  "runs": [
+    {
+      "actual_seconds": 0.04700224999396596,
+      "actual_tests": 14,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/arc09-default-proguard-init-recovery1/test_probe_override.py"
+      ],
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "stderr_sha256": "bc17a91d3e89c2f982ff10d1a266ff91c48cf043f1b8cd10435277a43e65975c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stem": "probe_override-fixtures"
+    },
+    {
+      "actual_seconds": 0.32072999999218155,
+      "actual_tests": 13,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/arc09-default-proguard-init-recovery1/test_android_overlay.py"
+      ],
+      "deadline_seconds": 30,
+      "exit_code": 0,
+      "stderr_sha256": "f835f52bacd1e98e3aff58abc534f5ededb63cea929bb7af44679a07c2cc2a8a",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stem": "android_overlay-fixtures"
+    }
+  ],
+  "schema_version": 1,
+  "skipped": 0,
+  "started_utc": "2026-10-02T14:15:17.898676+00:00"
+}

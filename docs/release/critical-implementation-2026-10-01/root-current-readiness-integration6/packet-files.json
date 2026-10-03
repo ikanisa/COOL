@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "path": "before/docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "sha256": "5ff0db9c2e366fb38193058fe74987dc62bf5db013ff88db6e0b80105d923f28",
+      "bytes": 31663
+    },
+    {
+      "path": "before/docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "sha256": "c7ef5494337497c8b219a3fd89cafe59d4f8e6b7b808beb0a0cd3fcb29994857",
+      "bytes": 46815
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "sha256": "a044c61de1c145366b0ef8bc37e8c2941eec81962b001e0ed06e754cdb893058",
+      "bytes": 11162
+    },
+    {
+      "path": "before/docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+      "sha256": "20d68633aabf56d447c2298d90ee8a25dc33c19da430bf935e2f2578bd62fe00",
+      "bytes": 220614
+    },
+    {
+      "path": "before/docs/release/local-implementation-register-2026-09-30.json",
+      "sha256": "2872b7b812d33f17db3c82fa57c1bfdce6591df81cd9bebee341d86a1874c7ea",
+      "bytes": 163253
+    },
+    {
+      "path": "before/docs/release/production-remaining-tasks-2026-09-30.json",
+      "sha256": "9a27dc5a13886a4958f627aee0e843b5255eb239d070a96dae43c00ee3ce7e2e",
+      "bytes": 352411
+    },
+    {
+      "path": "before-fence.json",
+      "sha256": "99e94167e24ce11b401796e34930b912aa77bde101c6eea27139f8b87be31600",
+      "bytes": 924
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "9983a8446d270e4362de0ee25fbad5cd189945d31c176fa926676a82462248c9",
+      "bytes": 4858
+    }
+  ]
+}

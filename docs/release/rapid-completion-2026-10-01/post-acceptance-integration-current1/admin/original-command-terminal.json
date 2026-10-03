@@ -1,0 +1,69 @@
+{
+  "session_id": 48445,
+  "exit_code": 1,
+  "status": "fail",
+  "errors": [
+    "Error: admin-build exit 1\n    at run (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-harness-current1/scripts/qa/current_browser_lifecycle.mjs:84:25)\n    at async file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-harness-current1/scripts/qa/current_browser_lifecycle.mjs:227:3"
+  ],
+  "commands": [
+    {
+      "name": "flutter-runtime",
+      "command": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+      "args": [
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "stdout_sha256": "21ea8dae58e9cf8d530901342e74be612c9e0148604403b66da70fb80abaf7d1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "email-fixture-boundaries",
+      "command": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "args": [
+        "scripts/tests/local_browser_email_fixture_test.mjs"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "stdout_sha256": "3ee30b6a8ad38ffc53c024c55f01a48f0f95a254e55ff75218ffc18a596e4ea4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "worker-cache-regression",
+      "command": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "args": [
+        "scripts/tests/admin_pwa_worker_cache_test.mjs"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "stdout_sha256": "19f815f798331b72f00b53c2ed547df449779d1469255e0efe701085e7303eea",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "bundle-gate-regression",
+      "command": "ruby",
+      "args": [
+        "scripts/tests/admin_pwa_bundle_gate_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 0,
+      "stdout_sha256": "39b322a24b4bc97ea2f7800a3464863df95ede09e128f33a4bbf4663792988f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "admin-build",
+      "command": "/bin/bash",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/scripts/admin_pwa_release_build.sh"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+      "exit_code": 1,
+      "stdout_sha256": "6426b100051b8667ada31f17c9a9024b55f28a7f80f80c3c0fa8118567513576",
+      "stderr_sha256": "3c364a371bfe73901a484493ec7cb8346d7bfa89f54d35fb9b25b1a0a6dc4708"
+    }
+  ],
+  "source_inputs_stable": true,
+  "browser_started": false,
+  "reason": "Verified blocked font-subset terminated only after root authorized private causal I/O correction"
+}

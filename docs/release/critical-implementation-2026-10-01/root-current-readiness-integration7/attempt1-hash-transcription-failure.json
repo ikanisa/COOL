@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-02T12:26:52.548606+00:00",
+  "failed_stage": "before canonical mutation; evidence reference validation",
+  "incorrect_copied_expected_sha256": "dda9fc2a3d920b988a83e91ade3de6b3eab05c9c1ded4687685d8725b45224f",
+  "original_root_review_creation_sha256_and_current_sha256": "dda9fc2a3d920b988a83e91ade3de6b3eab05c9c1ded468768f67a351edd81fe",
+  "path": "docs/release/critical-implementation-2026-10-01/root-be02-proposal-review1/review.json",
+  "six_canonical_files_unchanged": true,
+  "backup_bytes_preserved": true,
+  "retry_change": "correct literal transcription only; original contracts/criteria/counts unchanged"
+}

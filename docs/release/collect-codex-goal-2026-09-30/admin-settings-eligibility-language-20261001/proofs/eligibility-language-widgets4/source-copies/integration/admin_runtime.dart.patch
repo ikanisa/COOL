@@ -1,0 +1,34 @@
+--- a/lib/admin/core/admin_runtime.dart
++++ b/lib/admin/core/admin_runtime.dart
+@@ -70,7 +70,13 @@
+ import 'admin_receipt_principal_models.dart';
+ import 'admin_receipt_principal_checkpoint.dart';
+ import 'admin_receipt_principal_controller.dart';
+-
++import 'admin_governed_settings_models.dart';
++import 'admin_governed_settings_sdk.dart';
++import 'admin_governed_settings_checkpoint.dart';
++import 'admin_governed_settings_controller.dart';
++
++part 'admin_governed_settings_runtime.dart';
++part 'admin_governed_settings_page.dart';
+ part 'admin_login_runtime.dart';
+ part 'admin_overview_runtime.dart';
+ part 'admin_overview_components.dart';
+@@ -280,6 +286,16 @@
+   final SupabaseClient? _supabase;
+   final bool Function()? isCurrent;
+ 
++  @override
++  AdminGovernedSettingsApi get governedSettings => AdminGovernedSettingsSdk(
++    rpc: (name, parameters) => rpcMap(
++      name, params: parameters, automaticRetry: false,
++    ),
++    isCurrent: () => isCurrent?.call() != false,
++    now: DateTime.now,
++    currentSession: () => adminSessionKey(_requireClient().auth.currentSession),
++  );
++
+   Future<T> _withSession<T>(
+     Future<T> Function(AdminRequestSession) operation, {
+     bool reconciliation = false,

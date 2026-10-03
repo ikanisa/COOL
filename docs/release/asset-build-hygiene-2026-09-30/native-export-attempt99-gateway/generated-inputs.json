@@ -1,0 +1,8 @@
+{
+  "android/local.properties": "a61556aeda7a068ca4400d9ad728005ede89057bbb53a5f29aff7e038ae275d7",
+  "package_binding_sha256": "b8b5799933844470cabd302a074239921d4e8d9cb9c184bc82e84295829f207f",
+  "plugin_binding_sha256": "858655c384c8e77d59f9b6da0d10a137b594cad6ea480453cfe3e4fbf6cac463",
+  "dart_target": "lib/main_gateway.dart",
+  "flavor": "internal_gateway",
+  "private_provider_signing_environment_supplied": false
+}

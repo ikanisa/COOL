@@ -1,0 +1,69 @@
+{
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "ac19c4971362d3ac1ea54fb567e501f94debf931e8d98b383441487dac4914c8",
+      "bytes": 2834
+    },
+    {
+      "path": "captured-source/lib/core/logging/app_logger.dart",
+      "sha256": "176fa09a7316f889a05cf7f4146df3c05062bbc75be100afb33fc6df7bbdf5e2",
+      "bytes": 2971
+    },
+    {
+      "path": "captured-source/scripts/admin_pwa_browser_qa.mjs",
+      "sha256": "20f5a760bed2855d5f0f7d044066bcc3a69e7a8ec18df514e6d0e4ab181f783b",
+      "bytes": 60050
+    },
+    {
+      "path": "captured-source/scripts/admin_pwa_runtime_smoke.mjs",
+      "sha256": "bc9465175aa1870da972d4bc7252195d26ac235f7f8d5636811227cf5ded6e58",
+      "bytes": 13204
+    },
+    {
+      "path": "captured-source/scripts/qa/admin_design_flow_browser_qa.mjs",
+      "sha256": "02d1e5680ca9b2b5fd2e69a2e556285c7d92283e2314701d488ce7ff0d20107d",
+      "bytes": 7612
+    },
+    {
+      "path": "captured-source/scripts/qa/admin_pwa_lifecycle_qa.mjs",
+      "sha256": "ff9fdf7eb76afcf4e0dfd53d81cab063b986e3e28fffe523db11bc15c9d330ce",
+      "bytes": 29322
+    },
+    {
+      "path": "captured-source/scripts/qa/collect_diagnostic_observer.mjs",
+      "sha256": "090bbf2af575905ac5cbb8f1986871ea83e06b7d858008ace8547b7fa0e68bdd",
+      "bytes": 4333
+    },
+    {
+      "path": "captured-source/scripts/qa/current_browser_lifecycle.mjs",
+      "sha256": "ff7152ef5f8265136d43625a346e1732f2a01ed6e65fa146db18cf32837d7d1b",
+      "bytes": 38139
+    },
+    {
+      "path": "captured-source/scripts/qa/local_browser_lifecycle.mjs",
+      "sha256": "edecbb8c1b68a0a5f6a717c410553d4c0fe4de740e5298c7ac4394449b3df3a5",
+      "bytes": 37352
+    },
+    {
+      "path": "captured-source/scripts/qa/public_browser_app_media.mjs",
+      "sha256": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+      "bytes": 29015
+    },
+    {
+      "path": "captured-source/scripts/tests/collect_diagnostic_observer_test.mjs",
+      "sha256": "25cc7050fa1418dd1a16b44373193ffb2adcd96eb4ae15a3adda551632b96df3",
+      "bytes": 9274
+    },
+    {
+      "path": "captured-source/scripts/tests/public_browser_served_resource_test.mjs",
+      "sha256": "6cf41e048c92fcaae910b54956f50a741fc784caeae64d3f5c322f799da20a59",
+      "bytes": 8056
+    },
+    {
+      "path": "result.json",
+      "sha256": "7bc068f95bbff71b98421a7d6d535293c1f3c6a1c4629ba6b09c73432df6c48b",
+      "bytes": 5982
+    }
+  ]
+}

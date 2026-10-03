@@ -1,0 +1,62 @@
+--- android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt original candidate
++++ android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt final archive correction
+@@ -115,6 +115,7 @@
+     private var loseArchive = false
+     private var lookupUnknown = false
+     private var malformedArchive = false
++    private var conflictBeforeArchiveReply = false
+     private fun archiveResponse(f: Fixture, request: JSONObject): Response {
+         val action = request.getString("action");val p = request.getJSONObject("payload")
+         val result = when (action) {
+@@ -133,6 +134,12 @@
+                     .put("recorded_at", gatewayWireTime(Instant.now())).put("replay", false)
+                     .put("evidence_kind", "complete_framework_callback_observations").put("carrier_proof", false).put("delivery_proven", false).put("send_authority", false)
+                 acknowledged[request.getString("request_id")] = JSONObject(ack.toString())
++                if (conflictBeforeArchiveReply) {
++                    conflictBeforeArchiveReply = false
++                    val a = f.storage.read().attempts.single()
++                    assertTrue(GatewayJournal(f.storage).record(GatewayCallback(a.segments[0].sentCallbackId, a.deviceId, a.attemptId, a.fence,
++                        0, a.callbackNonce, CallbackKind.SENT, 1, gatewayWireTime(Instant.now()))))
++                }
+                 if (loseArchive) throw java.io.IOException("Synthetic recorded ACK reply lost")
+                 if (malformedArchive) return Response(200, wrapper(request, ack).toString().replaceFirst("\"ok\":", "\"ok\":false,\"ok\":").toByteArray())
+                 ack
+@@ -231,4 +238,38 @@
+             assertEquals(1, f.requests.count { it.getString("action") == "archive_attempt" });assertEquals(2, f.requests.count { it.getString("action") == "callback" })
+         } finally { f.dispose() }
+     }
++    @Test fun serverAckCommitBeforeLocalConflictRetainsAllHotEvidenceAndAllowsRawReconciliation() {
++        val f = fixture();var invoked = 0
++        try {
++            val a = dispatched(f) { invoked++ };observed(f, a);conflictBeforeArchiveReply = true
++            f.backend.reconcile(f.storage.read())
++            val request = f.requests.single { it.getString("action") == "archive_attempt" }.getString("request_id")
++            assertTrue(f.storage.coldStop());assertNull(f.storage.readColdAttempt(a.attemptId));assertEquals(1, f.storage.read().attempts.size)
++            val retained = f.storage.readUncompactableAck(a.attemptId)!!
++            assertEquals(request, GatewayStoredRequest.parse(retained.getJSONObject("archive_request")).requestId)
++            assertEquals(3, f.storage.readRequests().getJSONArray("requests").length())
++            f.recreatedBackend(0).reconcile(f.storage.read());f.recreatedBackend(0).reconcile(f.storage.read())
++            assertEquals(1, invoked);assertEquals(1, f.requests.count { it.getString("action") == "archive_attempt" })
++            assertEquals(0, f.requests.count { it.getString("action") == "archive_lookup" })
++            assertEquals(1, f.requests.count { it.getString("action") == "callback" && it.getJSONObject("payload").getInt("result_code") == 1 })
++            assertEquals(4, f.storage.readRequests().getJSONArray("requests").length());assertTrue(f.storage.coldStop())
++            failClosed { GatewayJournal(f.storage).resume() }
++        } finally { f.dispose() }
++    }
++    @Test fun originalAckLookupAfterLostReplyAndConflictDoesNotStarveContradictoryEvidence() {
++        val f = fixture();var invoked = 0
++        try {
++            val a = dispatched(f) { invoked++ };observed(f, a);loseArchive = true
++            failClosed { f.backend.reconcile(f.storage.read()) }
++            val original = f.requests.single { it.getString("action") == "archive_attempt" }.getString("request_id")
++            assertTrue(GatewayJournal(f.storage).record(GatewayCallback(a.segments[0].deliveryCallbackId, device, a.attemptId, a.fence,
++                0, a.callbackNonce, CallbackKind.DELIVERY, 1, gatewayWireTime(Instant.now()))))
++            f.recreatedBackend(0).reconcile(f.storage.read());f.recreatedBackend(0).reconcile(f.storage.read())
++            assertEquals(original, f.requests.single { it.getString("action") == "archive_lookup" }.getJSONObject("payload").getString("target_request_id"))
++            assertEquals(1, f.requests.count { it.getString("action") == "archive_attempt" });assertEquals(1, invoked)
++            assertEquals(1, f.requests.count { it.getString("action") == "callback" && it.getJSONObject("payload").getInt("result_code") == 1 })
++            assertEquals(1, f.storage.read().attempts.size);assertTrue(f.storage.coldStop());assertNull(f.storage.readColdAttempt(a.attemptId))
++            assertEquals(original, GatewayStoredRequest.parse(f.storage.readUncompactableAck(a.attemptId)!!.getJSONObject("archive_request")).requestId)
++        } finally { f.dispose() }
++    }
+ }

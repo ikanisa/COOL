@@ -1,0 +1,189 @@
+{
+  "format": "collect-inactive-overlay-current-guard-map-v1",
+  "scope": "latest source-declared definitions; dynamically derived alias configure/base scheduler seams still require actual catalog matching from approved source contract before mutation",
+  "functions": {
+    "collect_security.govern_runtime_control": {
+      "path": "supabase/migrations/20260930150000_runtime_control_governance.sql",
+      "line": 224,
+      "body_sha256": "348189d8c73bafa91669a3a9829a32256bdbcf7d61d886ce0d99e0f4641bda34",
+      "source_sha256": "8029f6de3cd8618a32b6b68a1a312624b0a7d585a07c43056ecc5046dc345a1f",
+      "declaration": "create function collect_security.govern_runtime_control() returns trigger\nlanguage plpgsql security definer set search_path='' as $$"
+    },
+    "collect_gateway.protect_device_identity": {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 100,
+      "body_sha256": "3b0e86f3c6921c12f471e2effc1786bed706448f427f09c025ef6d47faae0728",
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "declaration": "create function collect_gateway.protect_device_identity() returns trigger\nlanguage plpgsql set search_path='' as $$"
+    },
+    "collect_gateway.require_service": {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 134,
+      "body_sha256": "2d186a8a79d1ee131c1d4b217609f8691d02ee0c57055b2c1951e9ace226a75b",
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "declaration": "create function collect_gateway.require_service(p_device uuid,p_request uuid,p_hash text) returns void language plpgsql set search_path='' as $$"
+    },
+    "public.gateway_device_key_v1": {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 249,
+      "body_sha256": "1604fda27d02be701bcc1b408665c851abcbddb52b798a1174a8ba5130530e1e",
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "declaration": "create function public.gateway_device_key_v1(p_device_id uuid) returns jsonb language plpgsql stable security definer set search_path='' as $$"
+    },
+    "public.gateway_callback_v1": {
+      "path": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 305,
+      "body_sha256": "5ac251445c990c0f19893c9bba90f719f1ebf746d4067e3e9cb03dd05b4c2922",
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "declaration": "create function public.gateway_callback_v1(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)\nreturns jsonb language plpgsql volatile security definer set search_path='' as $$"
+    },
+    "collect_hybrid.require_receipt_dispatch_enabled": {
+      "path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "line": 143,
+      "body_sha256": "9bb170d972480ed60ae95becd592dcd36d0f100ed4175e28a571e56c3cf6a2b6",
+      "source_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "declaration": "create function collect_hybrid.require_receipt_dispatch_enabled() returns void\nlanguage plpgsql security definer set search_path='' as $$"
+    },
+    "collect_supervisor.guard_identity": {
+      "path": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "line": 54,
+      "body_sha256": "6ba029dd30f367c27f41b2893d3cca45a646f395a05fdbfee2e28b31f53896fe",
+      "source_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "declaration": "create function collect_supervisor.guard_identity()returns trigger language plpgsql set search_path=''as $$"
+    },
+    "collect_automation.protect_policy": {
+      "path": "supabase/migrations/20261001003338_unattended_operating_policy.sql",
+      "line": 49,
+      "body_sha256": "87d23d2f7983fed4f19036f02c6275e9952b457a27bd4b374710dbd770540669",
+      "source_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+      "declaration": "create function collect_automation.protect_policy()returns trigger\nlanguage plpgsql set search_path=''as $$"
+    },
+    "collect_receipt_operations.require_identity": {
+      "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "line": 244,
+      "body_sha256": "43356994ec737fb30c1f681ef6423094e8c34cb792bec0cb4d16a824c5fc44e7",
+      "source_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "declaration": "create function collect_receipt_operations.require_identity(p_principal uuid,p_key text,p_request uuid,p_sha text,p_issued timestamptz,p_action text)\nreturns collect_supervisor.identities language plpgsql set search_path=''as $$"
+    },
+    "collect_receipt_operations.require_run": {
+      "path": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "line": 253,
+      "body_sha256": "ba72bca1a106782ba84cc7a8828c948f6839c9f3d4b55b8f830b9e914d023f9a",
+      "source_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "declaration": "create function collect_receipt_operations.require_run(p_run uuid,p_fence bigint,p_principal uuid)\nreturns collect_receipt_operations.runs language plpgsql set search_path=''as $$"
+    },
+    "collect_gateway_dispatch.ready_health": {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 72,
+      "body_sha256": "1fbe73862fce4b1c2cb7952caa36bed53309f5a5f592613c5056734966bf3afa",
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "declaration": "create function collect_gateway_dispatch.ready_health(p_device uuid)returns collect_gateway.health_observations\nlanguage plpgsql set search_path=''as $$"
+    },
+    "public.gateway_dispatch_grant_v2": {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 105,
+      "body_sha256": "d018a8f1aec13fdfbf09a70bcb015f58a18c9251dd74b8434a0ffed5e05e6d6a",
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "declaration": "create function public.gateway_dispatch_grant_v2(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)\nreturns jsonb language plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.gateway_arm_dispatch_v2": {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 144,
+      "body_sha256": "3867cc52c147497dd4bc37ac0e4384d54b8e081882e64cb6e832d666dceb70d4",
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "declaration": "create function public.gateway_arm_dispatch_v2(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)\nreturns jsonb language plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.gateway_callback_v2": {
+      "path": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 198,
+      "body_sha256": "862dd4ade4a35b23b119b4256161a2bb5b40a7d4b79a4864a720c9015682c143",
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "declaration": "create function public.gateway_callback_v2(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)\nreturns jsonb language plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.execute_receipt_exception_worker_v1": {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "line": 501,
+      "body_sha256": "32aaa90685ee143f46ff615cf8d7ce08319c5fdcea10bc9167e14b7353574bcc",
+      "source_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "declaration": "create or replace function public.execute_receipt_exception_worker_v1(p_request_id uuid,p_configuration_revision bigint,p_expires_at timestamptz)\nreturns jsonb language plpgsql volatile security definer set search_path=''set lock_timeout='200ms'as $$"
+    },
+    "collect_ops.run_receipt_exception_schedule": {
+      "path": "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+      "line": 230,
+      "body_sha256": "1448b86c78c49d50eb7f89dd5f9aed186a2d3276345d47449b8db033d5ca7e4a",
+      "source_sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+      "declaration": "create or replace function collect_ops.run_receipt_exception_schedule()returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='200ms'as $$"
+    },
+    "public.configure_receipt_exception_schedule_v1": {
+      "path": "supabase/migrations/20261001150000_receipt_exception_worker.sql",
+      "line": 149,
+      "body_sha256": "867a29c4c4ce51198d24a00878d4598097dd3008a82edc2f89112c60ddc81902",
+      "source_sha256": "dfcfabbe1d57c675d2e7769dda791d7b67b107ebae8133b03a61299d8d2326c0",
+      "declaration": "create function public.configure_receipt_exception_schedule_v1(p_expected_revision bigint,p_enabled boolean,p_scan_limit integer,\n p_escalation_limit integer,p_day_jobs integer,p_day_scan_sources integer,p_day_escalations integer)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='2s'as $$"
+    },
+    "public.process_receipt_operational_telemetry_v1": {
+      "path": "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+      "line": 329,
+      "body_sha256": "c6a69b7cdabd9a4531832f99a9d30f972da81762e6eceebba8ee3866ed6cb72b",
+      "source_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+      "declaration": "create function public.process_receipt_operational_telemetry_v1(p_request_id uuid,p_expires_at timestamptz)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='100ms'as $$"
+    },
+    "public.gateway_receipt_successor_grant_v1": {
+      "path": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "line": 512,
+      "body_sha256": "abde0ee8815ce0c1a5cd585569945ce4b18260c9106c716e75d836fbea9fd23e",
+      "source_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "declaration": "create function public.gateway_receipt_successor_grant_v1(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.gateway_receipt_successor_arm_v1": {
+      "path": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "line": 570,
+      "body_sha256": "08b5e431752f65efcac04fc5c9136ec16eb5aa7f7ddc2e12b6c124e034373343",
+      "source_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "declaration": "create function public.gateway_receipt_successor_arm_v1(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.gateway_receipt_successor_callback_v1": {
+      "path": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "line": 886,
+      "body_sha256": "746f86efee66a69773271e22f164db8e005ba086f36077fea6e826269d39bbf0",
+      "source_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "declaration": "create function public.gateway_receipt_successor_callback_v1(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''as $$"
+    },
+    "public.gateway_receipt_successor_archive_v1": {
+      "path": "supabase/migrations/20261002043000_receipt_successor_execution.sql",
+      "line": 921,
+      "body_sha256": "66c41a0839b949ef6c8bfaadfbcef1ae03ed645306250aa705cb43e9ef7fbc97",
+      "source_sha256": "9793a5d5de2251e00d98221156b8c97e202ebb499f2f79da1f988a99a189001c",
+      "declaration": "create function public.gateway_receipt_successor_archive_v1(p_device_id uuid,p_request_id uuid,p_request_sha256 text,p_payload jsonb)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''as $$"
+    },
+    "collect_ops.receipt_transport_base_schedule": {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "line": 586,
+      "body_sha256": "e2f1cfc9408910de59f801773b03557c3149173d066ff4dc22dd75df3cae00bf",
+      "source_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "declaration": "create or replace function collect_ops.receipt_transport_base_schedule()returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='200ms'as $$"
+    },
+    "collect_receipt_worker_history.maintain": {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "line": 936,
+      "body_sha256": "98f6ffc7ca7ec03fa481699f43085f385a71bee2e835acd7e81c17980f9039fc",
+      "source_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "declaration": "create function collect_receipt_worker_history.maintain(p_request uuid,p_limit integer,p_expires timestamptz)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='200ms'as $$"
+    },
+    "collect_receipt_worker_history.run_schedule": {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "line": 969,
+      "body_sha256": "55b0ce9c4cb59ccbc86755780efd2202c59e114aa4e7c48a9133b4f714b977e2",
+      "source_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "declaration": "create function collect_receipt_worker_history.run_schedule()returns jsonb\nlanguage plpgsql volatile security definer set search_path=''as $$"
+    },
+    "collect_receipt_worker_history.prepare": {
+      "path": "supabase/migrations/20261002070000_receipt_worker_history_storage.sql",
+      "line": 974,
+      "body_sha256": "3c661e6791647f931d3248c29b517448d3b8647f418107101cfc2f0abbff0122",
+      "source_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+      "declaration": "create function collect_receipt_worker_history.prepare(p_expected bigint,p_enabled boolean,p_limit integer,p_bytes integer)returns jsonb\nlanguage plpgsql volatile security definer set search_path=''set lock_timeout='2s'as $$"
+    }
+  },
+  "not_replaced_by_proposal": true
+}

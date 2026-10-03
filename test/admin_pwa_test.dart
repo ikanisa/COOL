@@ -8,8 +8,13 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+String _readAdminShellLibrary() => [
+  'lib/admin/admin_shell.dart',
+  'lib/admin/admin_shell_navigation.dart',
+].map((path) => File(path).readAsStringSync()).join('\n');
+
 void main() {
-  test('admin routes expose only four essential operations pages', () {
+  test('admin routes expose supported operations pages', () {
     expect(
       adminRoutePaths,
       containsAll(<String>[
@@ -23,6 +28,9 @@ void main() {
         '/admin/ledgers',
         '/admin/sms-receipts',
         '/admin/sms-receipts/:id',
+        '/admin/sms-gateway',
+        '/admin/automations',
+        '/admin/exceptions',
         '/admin/notifications',
         '/admin/audit-logs',
         '/admin/settings',
@@ -35,7 +43,6 @@ void main() {
       '/admin/payment-intents',
       '/admin/payment-events',
       '/admin/allocations',
-      '/admin/exceptions',
       '/admin/ledger',
       '/admin/receivers',
       '/admin/sms',
@@ -90,7 +97,7 @@ void main() {
   });
 
   test('admin shell keeps the essential operations navigation clean', () {
-    final source = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final source = _readAdminShellLibrary();
 
     for (final label in <String>[
       'Payees',
@@ -183,7 +190,7 @@ void main() {
     expect(AdminCountryScope.values, <AdminCountryScope>[
       AdminCountryScope.rwanda,
     ]);
-    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final shell = _readAdminShellLibrary();
     expect(shell, contains('Rwanda'));
     const repository = AdminEvidenceRepository();
     final members = await repository.list('admin_list_members', limit: 100);
@@ -282,8 +289,12 @@ void main() {
 
       for (final label in <String>[
         'Reference',
-        'MoMo number',
+        'Receipt sender',
         'Destination',
+        'Verification',
+        'Allocation',
+        'Ledger',
+        'Notification',
         'Access',
         'Owner',
         'Payment profile',
@@ -291,26 +302,30 @@ void main() {
         expect(tableSource, contains("label: '$label'"), reason: label);
       }
       expect(tableSource, isNot(contains("label: 'Collect ID'")));
-      for (final iconOnlyLabel in <String>[
+      for (final visibleLabel in <String>[
         'WhatsApp',
         'Country',
         'Payment profile',
         'Groups',
       ]) {
         expect(
-          RegExp(
-            "label: '$iconOnlyLabel',\\s+iconOnly: true",
-          ).hasMatch(tableSource),
-          isTrue,
-          reason: iconOnlyLabel,
+          tableSource,
+          contains("label: '$visibleLabel'"),
+          reason: visibleLabel,
         );
       }
+      final headingSource = tableSource.substring(
+        tableSource.indexOf('class _AdminColumnLabel'),
+        tableSource.indexOf('class _AdminPrimaryCell'),
+      );
+      expect(headingSource, contains('Text(label)'));
+      expect(headingSource, contains('label: label'));
+      expect(headingSource, isNot(contains('iconOnly')));
       expect(tableSource, contains('IconButton.filledTonal'));
       expect(tableSource, contains('FontAwesomeIcons.whatsapp'));
       expect(tableSource, contains('_transactionDisplayAmount(row)'));
       expect(tableSource, contains("'whatsapp_masked'"));
       expect(tableSource, isNot(contains('hidePrimaryText: true')));
-      expect(tableSource, contains('iconOnlyFields: true'));
       expect(tableSource, contains("label: '\${data.label}: \$value'"));
       expect(tableSource, contains('message: data.label'));
       expect(migration, contains('public.mask_phone(profile.whatsapp_phone)'));
@@ -322,56 +337,48 @@ void main() {
     },
   );
 
-  test(
-    'admin record surfaces use icon-led labels without losing semantics',
-    () {
-      final operations = [
-        'lib/admin/core/admin_operation_tables.dart',
-        'lib/admin/core/admin_operation_components.dart',
-      ].map((path) => File(path).readAsStringSync()).join('\n');
-      final genericTable = File(
-        'lib/admin/shared/components/admin_data_table.dart',
-      ).readAsStringSync();
-      final listRuntime = File(
-        'lib/admin/core/admin_list_runtime.dart',
-      ).readAsStringSync();
-      final detail = File(
-        'lib/admin/core/admin_detail_runtime.dart',
-      ).readAsStringSync();
-      final overview = [
-        'lib/admin/core/admin_overview_runtime.dart',
-        'lib/admin/core/admin_overview_components.dart',
-      ].map((path) => File(path).readAsStringSync()).join('\n');
+  test('admin record surfaces show labels and preserve field semantics', () {
+    final operations = [
+      'lib/admin/core/admin_operation_tables.dart',
+      'lib/admin/core/admin_operation_components.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
+    final genericTable = File(
+      'lib/admin/shared/components/admin_data_table.dart',
+    ).readAsStringSync();
+    final listRuntime = File(
+      'lib/admin/core/admin_list_runtime.dart',
+    ).readAsStringSync();
+    final detail = File(
+      'lib/admin/core/admin_detail_runtime.dart',
+    ).readAsStringSync();
+    final overview = [
+      'lib/admin/core/admin_overview_runtime.dart',
+      'lib/admin/core/admin_overview_components.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
 
-      expect(operations, contains('this.iconOnly = true'));
-      expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
-      expect(operations, contains('iconOnlyFields: true'));
-      expect(operations, contains("'Open \$accountLabel account'"));
-      expect(operations, contains("scopeLabel == 'Members'"));
-      expect(operations, contains("row.status == 'admin'"));
-      expect(operations, contains(': const SizedBox.shrink()'));
-      expect(genericTable, contains('class _AdminDataColumnLabel'));
-      expect(genericTable, contains("label: '\$label: \$value'"));
-      expect(genericTable, contains('_adminFormatCurrency(row.amount)'));
-      expect(genericTable, isNot(contains("currency == 'EUR'")));
-      expect(genericTable, contains("label == 'Debit = credit'"));
-      expect(
-        genericTable,
-        isNot(contains("DataColumn(label: Text('Record'))")),
-      );
-      expect(genericTable, isNot(contains("child: const Text('Open record')")));
-      expect(detail, contains('_adminDetailFieldGlyph('));
-      expect(detail, contains('label: label'));
-      expect(detail, contains('value: value'));
-      expect(detail, contains('Icons.schedule_send_outlined'));
-      expect(detail, contains('Icons.error_outline_rounded'));
-      expect(overview, contains('String _compactAge(String value)'));
-      expect(listRuntime, contains('IconButton.outlined'));
-      expect(listRuntime, contains('IconButton.filledTonal'));
-      expect(listRuntime, isNot(contains("child: const Text('Edit')")));
-      expect(listRuntime, isNot(contains("child: const Text('Reparse')")));
-    },
-  );
+    expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
+    expect(operations, contains("'Open \$accountLabel account'"));
+    expect(operations, contains("scopeLabel == 'Members'"));
+    expect(operations, contains("row.status == 'admin'"));
+    expect(operations, contains(': const SizedBox.shrink()'));
+    expect(genericTable, contains('class _AdminDataColumnLabel'));
+    expect(genericTable, contains("label: '\$label: \$value'"));
+    expect(genericTable, contains('adminFormatRwfAmount(row.amount)'));
+    expect(genericTable, isNot(contains("currency == 'EUR'")));
+    expect(genericTable, contains("label == 'Debit = credit'"));
+    expect(genericTable, isNot(contains("DataColumn(label: Text('Record'))")));
+    expect(genericTable, isNot(contains("child: const Text('Open record')")));
+    expect(detail, contains('_adminDetailFieldGlyph('));
+    expect(detail, contains('label: label'));
+    expect(detail, contains('value: value'));
+    expect(detail, contains('Icons.schedule_send_outlined'));
+    expect(detail, contains('Icons.error_outline_rounded'));
+    expect(overview, contains('String _compactAge(String value)'));
+    expect(listRuntime, contains('IconButton.outlined'));
+    expect(listRuntime, contains('IconButton.filledTonal'));
+    expect(listRuntime, isNot(contains("child: const Text('Edit')")));
+    expect(listRuntime, isNot(contains("child: const Text('Reparse')")));
+  });
 
   test('group admin supports create, detail, activate, and deactivate', () {
     final router = File('lib/admin/admin_router.dart').readAsStringSync();
@@ -410,7 +417,7 @@ void main() {
       'lib/admin/core/admin_roster_dialog.dart',
     ).readAsStringSync();
     final rosterGateway = File(
-      'lib/admin/core/admin_roster_import.dart',
+      'lib/admin/core/admin_roster_gateway.dart',
     ).readAsStringSync();
     expect(rosterDialog, contains('Prepare preview'));
     expect(rosterDialog, contains("'csv'"));
@@ -444,7 +451,7 @@ void main() {
   });
 
   test('users and members are separate admin populations', () {
-    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final shell = _readAdminShellLibrary();
     final router = File('lib/admin/admin_router.dart').readAsStringSync();
     final migration = File(
       'supabase/migrations/20260901194500_admin_users_and_members.sql',
@@ -481,19 +488,19 @@ void main() {
     () async {
       const repository = AdminEvidenceRepository();
 
-      await repository.sendOtp(phone: adminEvidenceWhatsAppPhone);
-      final identity = await repository.verifyOtp(
-        phone: adminEvidenceWhatsAppPhone,
+      await repository.sendEmailOtp(email: adminEvidenceEmail);
+      final identity = await repository.verifyEmailOtp(
+        email: adminEvidenceEmail,
         otp: adminEvidenceOtp,
       );
 
-      expect(identity?.phoneMasked, '+250***6816');
+      expect(identity?.displayName, 'Collect evidence admin');
       await expectLater(
-        repository.sendOtp(phone: '+250788000000'),
+        repository.sendEmailOtp(email: 'other@collect.example'),
         throwsFormatException,
       );
       await expectLater(
-        repository.verifyOtp(phone: adminEvidenceWhatsAppPhone, otp: '000000'),
+        repository.verifyEmailOtp(email: adminEvidenceEmail, otp: '000000'),
         throwsFormatException,
       );
     },
@@ -509,10 +516,10 @@ void main() {
     final guard = File(
       'lib/admin/core/admin_auth_guard.dart',
     ).readAsStringSync();
-    final shell = File('lib/admin/admin_shell.dart').readAsStringSync();
+    final shell = _readAdminShellLibrary();
 
     expect(repository, contains('shouldCreateUser: false'));
-    expect(login, contains('Resend WhatsApp OTP'));
+    expect(login, contains('Resend email OTP'));
     expect(login, contains('_startResendCooldown'));
     expect(login, contains('await repository.signOut()'));
     expect(guard, contains('onAuthStateChange'));
@@ -521,7 +528,7 @@ void main() {
     expect(shell, contains('ref.invalidate(adminIdentityProvider)'));
   });
 
-  test('admin login primary action keeps readable dark-surface contrast', () {
+  test('admin login primary action keeps readable black-surface contrast', () {
     final login = File(
       'lib/admin/core/admin_login_runtime.dart',
     ).readAsStringSync();
@@ -529,27 +536,28 @@ void main() {
     final background = CollectColors.referenceChromeBlack.computeLuminance();
     final contrastRatio = (foreground + 0.05) / (background + 0.05);
 
-    expect(login, contains('foregroundColor: colors.onImagePrimary'));
-    expect(login, contains('color: colors.onImagePrimary'));
+    expect(login, contains('foregroundColor: CollectColors.publicWhite'));
+    expect(login, contains('color: CollectColors.publicWhite'));
     expect(contrastRatio, greaterThanOrEqualTo(4.5));
   });
 
-  test(
-    'admin PWA refreshes immutable bundles during service-worker install',
-    () {
-      final releaseBuild = [
-        'scripts/admin_pwa_release_build.sh',
-        'scripts/templates/admin_pwa_service_worker.js',
-      ].map((path) => File(path).readAsStringSync()).join('\n');
+  test('admin PWA pins static bytes and retains natural update waiting', () {
+    final releaseBuild = [
+      'scripts/admin_pwa_release_build.sh',
+      'scripts/templates/admin_pwa_service_worker.js',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
 
-      expect(
-        releaseBuild,
-        contains('cache_schema_version = "fresh-install-v3"'),
-      );
-      expect(releaseBuild, contains("cache: 'reload'"));
-      expect(releaseBuild, contains('await cache.put(request, response)'));
-    },
-  );
+    expect(
+      releaseBuild,
+      contains('cache_schema_version = "natural-wait-integrity-v4"'),
+    );
+    expect(releaseBuild, contains("cache: 'reload'"));
+    expect(releaseBuild, contains('await cache.put(request, response)'));
+    expect(releaseBuild, contains('CACHE_HASHES'));
+    expect(releaseBuild, contains('Promise.allSettled'));
+    expect(releaseBuild, isNot(contains('self.skipWaiting()')));
+    expect(releaseBuild, isNot(contains('self.clients.claim()')));
+  });
 
   test(
     'local Supabase review auth is isolated from production provisioning',
@@ -581,7 +589,24 @@ void main() {
       'scripts/admin_pwa_authenticated_render_smoke.sh',
     ).readAsStringSync();
 
-    expect(RegExp(r"path: '/admin").allMatches(browserQa).length, 23);
+    final paths = RegExp(
+      r"path: '(/admin[^']*)'",
+    ).allMatches(browserQa).map((match) => match.group(1)!).toList();
+    expect(paths.length, adminRoutePaths.length);
+    expect(paths.toSet().length, paths.length);
+    for (final route in adminRoutePaths) {
+      final concretePattern = route
+          .split('/')
+          .map((part) => part.startsWith(':') ? '[^/]+' : RegExp.escape(part))
+          .join('/');
+      final pattern = RegExp('^$concretePattern\$');
+      expect(
+        paths.where(pattern.hasMatch),
+        hasLength(1),
+        reason:
+            'Current route must have exactly one concrete browser case: $route',
+      );
+    }
     expect(browserQa, contains("path: '/admin/sms-receipts'"));
     expect(browserQa, contains("path: '/admin/sms-receipts/sms-receipt-1'"));
     for (final route in <String>[
@@ -590,6 +615,12 @@ void main() {
       '/admin/transactions',
       '/admin/reconciliations',
       '/admin/ledgers',
+      '/admin/users/user-1',
+      '/admin/automations',
+      '/admin/automations/runs/e805bb70-90fe-4aa7-9a49-3883bbf3607c',
+      '/admin/sms-gateway',
+      '/admin/exceptions',
+      '/admin/audit-logs/entity/gateway_device/99810000-0000-4000-8000-000000000001',
     ]) {
       expect(browserQa, contains("path: '$route'"), reason: route);
     }
@@ -603,9 +634,20 @@ void main() {
     ]) {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
-    expect(renderSmoke, contains('routeCount") == 23'));
+    expect(renderSmoke, contains('routeCount") == 29'));
     expect(renderSmoke, contains('viewportCount") == 4'));
-    expect(renderSmoke, contains('screenshotCount") == 92'));
+    expect(renderSmoke, contains('screenshotCount") == 116'));
+    expect(browserQa, contains('Admin access recovery actions'));
+    expect(browserQa, contains('Refresh run evidence'));
+    expect(
+      browserQa,
+      contains(
+        'A current platform owner with payment, notification and system health read access is required.',
+      ),
+    );
+    expect(browserQa, contains('Send admin email code'));
+    expect(browserQa, contains('operator@collect.example'));
+    expect(browserQa, isNot(contains('Send admin WhatsApp OTP')));
   });
 
   test('Admin PWA runtime probe fails closed on stalled CDP commands', () {
@@ -641,7 +683,10 @@ void main() {
       'scripts/admin_pwa_release_build.sh',
     ).readAsStringSync();
 
-    expect(bootstrap, contains("canvasKitBaseUrl: 'canvaskit/'"));
+    expect(
+      bootstrap,
+      contains("canvasKitBaseUrl: adminAssetBase + 'canvaskit/'"),
+    );
     expect(releaseBuild, contains('must self-host CanvasKit'));
   });
 

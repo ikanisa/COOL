@@ -1,0 +1,153 @@
+FF..................E..........EFF....FE
+======================================================================
+ERROR: test_real_descendant_holding_stdio_is_killed_with_its_owned_group (__main__.ArchiveAdmissionTest.test_real_descendant_holding_stdio_is_killed_with_its_owned_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 140, in run
+    fail(left > 0, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 348, in test_real_descendant_holding_stdio_is_killed_with_its_owned_group
+    with self.assertRaisesRegex(archive.Refused,'TIMEOUT'):self.dump()
+                                                           ^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 132, in dump
+    def dump(self):return self.admit().execute(self.args(),self.env)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 423, in execute
+    _, count = run(argv, readonly, self.base.value['timeouts']['operation_seconds'], self.value['artifact_limit_bytes'], output=output_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 177, in run
+    cleanup_group(process)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 112, in cleanup_group
+    if not group_exists(process.pid):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 81, in group_exists
+    os.killpg(pgid, 0)
+PermissionError: [Errno 1] Operation not permitted
+
+======================================================================
+ERROR: test_same_byte_client_inode_substitution_and_symlink_refuse (__main__.ArchiveAdmissionTest.test_same_byte_client_inode_substitution_and_symlink_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 263, in test_same_byte_client_inode_substitution_and_symlink_refuse
+    a=self.admit();path=self.tools['pg_dump'];replacement=self.root/'replacement';replacement.write_bytes(path.read_bytes());replacement.chmod(0o700);replacement.replace(path)
+      ^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 126, in admit
+    def admit(self):return archive.ArchiveAdmission.from_environment(self.env)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 270, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION'), env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION_SHA256'),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 245, in __init__
+    self.base = pg.Admission(self.value['base_admission']['path'], self.value['base_admission']['sha256'], self.env, 'query')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/postgres_admission.py", line 196, in __init__
+    code, observed = bounded([str(self.client), '--version'], local_environment(), limits['version_seconds'], limit=1024)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 189, in bounded_base_probe
+    stdout, _ = run(argv, env, timeout, limit)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 140, in run
+    fail(left > 0, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+======================================================================
+ERROR: test_wrong_service_target_options_or_permissions_refuse_before_request (__main__.ArchiveAdmissionTest.test_wrong_service_target_options_or_permissions_refuse_before_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 277, in test_wrong_service_target_options_or_permissions_refuse_before_request
+    a=self.admit();self.set_service(self.targets[1])
+      ^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 126, in admit
+    def admit(self):return archive.ArchiveAdmission.from_environment(self.env)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 270, in from_environment
+    return cls(env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION'), env.get('COLLECT_POSTGRES_ARCHIVE_ADMISSION_SHA256'),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 245, in __init__
+    self.base = pg.Admission(self.value['base_admission']['path'], self.value['base_admission']['sha256'], self.env, 'query')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/postgres_admission.py", line 196, in __init__
+    code, observed = bounded([str(self.client), '--version'], local_environment(), limits['version_seconds'], limit=1024)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 189, in bounded_base_probe
+    stdout, _ = run(argv, env, timeout, limit)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 140, in run
+    fail(left > 0, 'PG_ARCHIVE_COMMAND_TIMEOUT')
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/pg_archive_admission.py", line 50, in fail
+    raise Refused(code)
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+======================================================================
+FAIL: test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read (__main__.ArchiveAdmissionTest.test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 376, in test_actual_archive_cli_refuses_operation_mixup_before_any_remote_read
+    self.assertEqual(result.returncode,1);self.assertIn(b'OPERATION_SCOPE_INVALID',result.stderr)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'OPERATION_SCOPE_INVALID' not found in b'[pg-archive-admission][REFUSED] PG_ARCHIVE_COMMAND_TIMEOUT\n'
+
+======================================================================
+FAIL: test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts (__main__.ArchiveAdmissionTest.test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 366, in test_actual_partial_export_wiring_keeps_public_scope_and_private_receipts
+    self.assertEqual(result.returncode,0,result.stderr.decode())
+AssertionError: 1 != 0 : [pg-archive-admission][REFUSED] PG_ARCHIVE_COMMAND_TIMEOUT
+
+
+======================================================================
+FAIL: test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) (setting='change_service_on_server')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 290, in test_service_source_changes_during_read_never_reach_dump
+    self.assertEqual([r['stage'] for r in self.requests()],['server'])
+AssertionError: Lists differ: [] != ['server']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'server'
+
+- []
++ ['server']
+
+======================================================================
+FAIL: test_service_source_changes_during_read_never_reach_dump (__main__.ArchiveAdmissionTest.test_service_source_changes_during_read_never_reach_dump) (setting='change_source_on_server')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 290, in test_service_source_changes_during_read_never_reach_dump
+    self.assertEqual([r['stage'] for r in self.requests()],['server'])
+AssertionError: Lists differ: [] != ['server']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'server'
+
+- []
++ ['server']
+
+======================================================================
+FAIL: test_wrong_actual_version_even_when_tool_bytes_are_bound (__main__.ArchiveAdmissionTest.test_wrong_actual_version_even_when_tool_bytes_are_bound)
+----------------------------------------------------------------------
+collect_archive_pinned_postgres_admission.Refused: PG_ARCHIVE_COMMAND_TIMEOUT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py", line 224, in test_wrong_actual_version_even_when_tool_bytes_are_bound
+    with self.assertRaisesRegex(archive.Refused,'VERSION_UNKNOWN'):self.admit()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "VERSION_UNKNOWN" does not match "PG_ARCHIVE_COMMAND_TIMEOUT"
+
+----------------------------------------------------------------------
+Ran 39 tests in 46.753s
+
+FAILED (failures=5, errors=3)

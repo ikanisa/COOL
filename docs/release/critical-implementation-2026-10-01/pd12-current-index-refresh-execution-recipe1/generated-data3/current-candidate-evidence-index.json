@@ -1,0 +1,2433 @@
+{
+  "PD12_closed": false,
+  "acceptance_boundaries": {
+    "complete_packaged_SBOM": "unverified",
+    "font_distribution_rights": "unverified",
+    "full_visual_acceptance": "unverified",
+    "hosted_candidate_parity": "unverified",
+    "production_release_approval": false
+  },
+  "candidate": {
+    "archived_candidate_current_repository_equivalence": false,
+    "current_APP_after_Android2_source_manifest_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+    "current_APP_source_manifest_sha256": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+    "current_declared_source_file_count": 2563,
+    "current_declared_source_manifest_sha256": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+    "id": "later-selected2563-0843bf6a287e3528-retaining-archivedabf-and-reviewed1c55",
+    "identity_bindings": [
+      {
+        "document": "app-scope",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-binding",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-before",
+        "pointer": "/app/source_manifest_sha256"
+      },
+      {
+        "document": "app-plan",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-terminal",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "app-root-acceptance",
+        "pointer": "/source_manifest_sha256"
+      },
+      {
+        "document": "native-readback",
+        "pointer": "/source_manifest_sha256"
+      }
+    ],
+    "scope_binding_model": "Actual later known2556 + named tooling5 + reader/test2 compose selected2563; actual privateAPP2561 and retained original Android3 composition are separately bound.",
+    "source_file_count": 2561,
+    "source_manifest_role": "archived completed app/native execution-source binding; current selected source has separate exact identity below",
+    "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+    "source_scope": "Archivedabf completed consumers, original reviewed1c55 closure, and later actual selected root/APP are distinct."
+  },
+  "closure_owner": "release/QA integrator",
+  "documents": {
+    "AAB9-failed-artifacts": {
+      "bytes": 7262,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/packet-files.json",
+      "sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d"
+    },
+    "AAB9-retained-current-graphs": {
+      "bytes": 1435,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-current-graph-readback9/readback.json",
+      "sha256": "03ede40616ca460ed9ae1df88068022ccb60212e59e9d9a27d4fcc065d78955d"
+    },
+    "AAB9-root-failure": {
+      "bytes": 1428,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback9/readback.json",
+      "sha256": "9d37428faf8456d946b62e18ea746786cf15557f4d2ef433646845cfd8be3755"
+    },
+    "ARC03-artifacts": {
+      "bytes": 3729,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/packet-files.json",
+      "sha256": "2ddbc2724c25a538891de4c6313b856ceded5ac75bbcc16cd94dba11603eee26"
+    },
+    "ARC03-readback": {
+      "bytes": 2903,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1/readback.json",
+      "sha256": "318963445c6e1735de87d9c87887197eb233079084db461873799eb7620c531d"
+    },
+    "ARC03-reviewed-patch": {
+      "bytes": 13479,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-preparation1/reviewed-final/proposal.patch",
+      "sha256": "9e4711a16963a0dd94931c4d08111e12b5cd7172b70ea26ab58b2c7c527820c0"
+    },
+    "Android-overlay": {
+      "bytes": 1909,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/overlay-readback.json",
+      "sha256": "7a457019e94ca635a7273f8bc7fb1d90b28ccc29802271c1e18b43d15a7c48fc"
+    },
+    "Android3-overlay": {
+      "bytes": 1320,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+      "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+    },
+    "BE08-artifacts": {
+      "bytes": 3082,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/packet-files.json",
+      "sha256": "fe25572a93d9b44489878e9984826b70e7a523437fa56e7b3013b71af54cb853"
+    },
+    "BE08-current209-artifacts": {
+      "bytes": 2318,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "sha256": "ac6b4a91b81391f3f4af2e069a51b7a7dfc55a2cdacdca6b83d68427331beb19"
+    },
+    "BE08-current209-coverage": {
+      "bytes": 1400,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "sha256": "045743fdf7fc88ff5a4adcde4415b339f2cd8a977c07658fd0417d41d29265b5"
+    },
+    "BE08-current209-generation": {
+      "bytes": 1525,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generation.json",
+      "sha256": "87846690651c819c62c9b65abf6206fd9e1e3ad9fe9ae96c4fd656fcba3f326f"
+    },
+    "BE08-current209-independent-semantics": {
+      "bytes": 876,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/independent-semantic-verification.json",
+      "sha256": "fc38ddcb55ba50ee92aace98dc11ad9c8d47c6ac3ce9b987869aa3ea643f45e1"
+    },
+    "BE08-current209-readback": {
+      "bytes": 3332,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "sha256": "7f86a9c7747bb46ca55e3f4a764a2384cabdcf4cf2caee868bdf8e118af60ed5"
+    },
+    "BE08-generation": {
+      "bytes": 1381,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/generation.json",
+      "sha256": "b2b45bacbd2d735a4f67b40b3a49d5b916d05d5d76c92fd93db099c43e8d6d23"
+    },
+    "BE08-independent-semantics": {
+      "bytes": 730,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/independent-semantic-verification.json",
+      "sha256": "8c061bb97bbb6a1a9518a04dc7eb19f8bf34333c51237958c8da2ca5d8503ca3"
+    },
+    "BE08-literal-artifacts": {
+      "bytes": 4857,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/packet-files.json",
+      "sha256": "feeac33b1af1ccd2f1cc6972a26967e4db46457d554f9c932722d4a7977278fa"
+    },
+    "BE08-literal-readback": {
+      "bytes": 10741,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "sha256": "948be415892f90808a42f812cbc5a4d3c680e0b0a1bad163ffa392da482ca5bb"
+    },
+    "BE08-readback": {
+      "bytes": 1313,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/readback.json",
+      "sha256": "cd695eae9bd74b34fdd0910c67d709b13f38479e1d0fe9dc511f87ee64510a0e"
+    },
+    "BE08-reviewed-patch": {
+      "bytes": 27890,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-transformation-implementation-preparation1/proposal.patch",
+      "sha256": "66cd948f25e182b6717cc7df7b1aaa0f9228d415d37c04141db7203c058de270"
+    },
+    "BE08-tests": {
+      "bytes": 472,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/maintained-tests.json",
+      "sha256": "b7d5931b041ee00000f71b13c60ad02d4e54307aed298f243bb0b0a9be72db72"
+    },
+    "PD12-actual-reader1": {
+      "bytes": 36802,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.stdout",
+      "sha256": "032da4a61c23b95fd39c4c4e66999d8bf93260c659842d7085bc70f44754fbf1"
+    },
+    "PD12-actual-reader1-command": {
+      "bytes": 1181,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/reader-attempt1.json",
+      "sha256": "75d3ef4e408db0718b63aa28420c7d928c80c0ba23fe2d462e9a6ac4a1240ef2"
+    },
+    "PD12-applied-scripts": {
+      "bytes": 668,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/scripts-applied.json",
+      "sha256": "cc8d0687644b1dbe39d532a5ba8d4c2389594559dbe0dd78b98680533d4fab91"
+    },
+    "PD12-authority-actual": {
+      "bytes": 769,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/revolut-authority-retry.json",
+      "sha256": "987a2cf20be1ac4ddc1637e81c73358a1e6f9e025f31c5fc0c7b5c92f87c90f7"
+    },
+    "PD12-authority-initial-unknown": {
+      "bytes": 602,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/authority-initial-capture-unknown.json",
+      "sha256": "4427ba93580de1b462e10d46721b2f957fac640c61a928468d311aa10c53971a"
+    },
+    "PD12-decision-reader-artifacts": {
+      "bytes": 842,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/packet-files.json",
+      "sha256": "2439a48af28a63ce829a85d731dcf8941f7399b60a80d7032d9626cfb70928de"
+    },
+    "PD12-decision-reader-integration": {
+      "bytes": 1313,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf"
+    },
+    "PD12-decision-reader-test-log": {
+      "bytes": 3231,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/maintained-tests.stderr",
+      "sha256": "8fbbd5b7f5ba784000b3478262e73e67395c79b41206832cf55c441a8ed6443d"
+    },
+    "PD12-original-criterion-review": {
+      "bytes": 2461,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-original-criterion-review1/review.json",
+      "sha256": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+    },
+    "PD12-reviewed-index-epoch1c55": {
+      "bytes": 72863,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    "PD12-reviewed-root-fence-epoch1c55": {
+      "bytes": 922154,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    },
+    "PD12-reviewed-summary-epoch1c55": {
+      "bytes": 23201,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/acceptance-status.json",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    },
+    "PD12-tests": {
+      "bytes": 852,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/maintained-tests.json",
+      "sha256": "6195a9c0bdb8b65c03e863ef6393ecb9ea6ab57acb5a4963703cd235b1448e2c"
+    },
+    "acceptance-summary": {
+      "bytes": 18997,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/captured-acceptance-status.before-proposal.json",
+      "sha256": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+    },
+    "actual-tooling5-diff": {
+      "bytes": 41454,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/actual-tooling5.diff.patch",
+      "sha256": "56ac399ff3499f5c8fdae6561c990da2f3dfacc98dfee4f4eda3bb3ccf685d75"
+    },
+    "app-artifacts": {
+      "bytes": 6468,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/execution-packet-files.json",
+      "sha256": "db514609ad4f2dfd434a822bfb279ab64875a52748366803680303d6e3e9de6e"
+    },
+    "app-before": {
+      "bytes": 2356785,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/app-before.json",
+      "sha256": "d6a9390b2fcc46d11bb7b9a9ee133bf9fc7f0258d5dabc0fffb3d751f2d8358a"
+    },
+    "app-binding": {
+      "bytes": 464,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/export-source-binding.json",
+      "sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c"
+    },
+    "app-failed3": {
+      "bytes": 13271,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/terminal.json",
+      "sha256": "63d393334a427063cd7029213d41d3f678597e5ef278a7b35782e6a446cb6436"
+    },
+    "app-plan": {
+      "bytes": 6297,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/plan.json",
+      "sha256": "9de964cb75f0f03a1cee7e56be4d4fb56e12e4fbdd61319c60b876ab2178afc5"
+    },
+    "app-root-acceptance": {
+      "bytes": 570,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/root-acceptance.json",
+      "sha256": "e2a72e7ecddc88730b4d999b60d0ef7cb21eba28a264d082497c279c51c0a530"
+    },
+    "app-scope": {
+      "bytes": 773954,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/actual-app-source.json",
+      "sha256": "100af8cd1aa6cafbe61bf5975c509a0deb8bdf7e8f4b6d92d24c13d5a7ff99f5"
+    },
+    "app-terminal": {
+      "bytes": 14359,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/terminal.json",
+      "sha256": "22d37a5f52394e344c9c14615274cb6158a5096af0efee0ef88438c9d6c49e0c"
+    },
+    "backend-artifacts": {
+      "bytes": 80859,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/SHA256SUMS",
+      "sha256": "d794eda0e1fb64cd86c623f7b307e8b2b03b90df79490a56ef20247c4959bd12"
+    },
+    "backend-composition": {
+      "bytes": 31662,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-backend-ci-composition-readback1/readback.json",
+      "sha256": "21322d5485736c5e811f7fdec5c42092419043216b7573eac30c693c3df94b8f"
+    },
+    "backend-result": {
+      "bytes": 1508,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/result.json",
+      "sha256": "dee5c13743d8461ff73850b295c3bd11e5e75ecc8fa70cee2e0bf8809c2be0c5"
+    },
+    "current-APP-manifest": {
+      "bytes": 440913,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/current-APP-manifest.json",
+      "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1"
+    },
+    "current-projection": {
+      "bytes": 3285097,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data1/source-domains.json",
+      "sha256": "cf484614f917137c9b6bcc54b7844c8f7df3824187c636d1cd9917c6a93638ea"
+    },
+    "current-root-source-fence": {
+      "bytes": 922156,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+    },
+    "font-copy-historical": {
+      "bytes": 3739,
+      "content": "json",
+      "path": "docs/release/revolut-design/verification/public-content-font-adapter-review.json",
+      "sha256": "b10b2ec1522ffebd3af45d0f857550e9423bb094a2005d92e0ee767e68493c9e"
+    },
+    "get-artifacts": {
+      "bytes": 4682,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1/packet-files.json",
+      "sha256": "a128caf2269b6dc406901be7c46ab09ae6207b03d8ae9766c7fa2ad0112b416c"
+    },
+    "get-independent": {
+      "bytes": 705,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public-provider-readback-review1/review.json",
+      "sha256": "979ea63845c66fec849418f2bc2f47db0bd5a919e34909ce663559ff833a734f"
+    },
+    "live-current-acceptance-summary": {
+      "bytes": 24810,
+      "content": "json",
+      "path": "docs/release/revolut-design/acceptance-status.json",
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e"
+    },
+    "live-index-schema": {
+      "bytes": 10061,
+      "content": "json",
+      "path": "docs/release/revolut-design/current-candidate-evidence-index.schema.json",
+      "sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244"
+    },
+    "native-artifacts": {
+      "bytes": 9243,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/packet-files.json",
+      "sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e"
+    },
+    "native-readback": {
+      "bytes": 2219,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    "native-sdk-physical-captured": {
+      "bytes": 6880418,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/SDK-source-after-built.json",
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052"
+    },
+    "osv-artifacts": {
+      "bytes": 8879,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+      "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+    },
+    "osv-independent": {
+      "bytes": 1314,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+      "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+    },
+    "osv-results": {
+      "bytes": 176008,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/query-results.json",
+      "sha256": "0c07342e37d9b7b6d01a093b6f48dc0a6c2874b12f4a954e070d6420fa31854a"
+    },
+    "public-artifacts": {
+      "bytes": 179996,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+      "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+    },
+    "public-batch": {
+      "bytes": 12849,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+      "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+    },
+    "public-final": {
+      "bytes": 1083637,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/final-readback.json",
+      "sha256": "7dd2ca7b6079669392a5ba01c4a67b569ac8f0212074750fe85f08865cad5685"
+    },
+    "public-independent": {
+      "bytes": 227133,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+      "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+    },
+    "public-static-execution": {
+      "bytes": 110759,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/static-build-execution.json",
+      "sha256": "826c9d0b623bbc115765094752e9b79c1b28846f34f78f30d25bf7171714e20e"
+    },
+    "public-visual-scoped": {
+      "bytes": 1350,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+      "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+    },
+    "readiness-checkpoint8": {
+      "bytes": 4144,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-integration8/receipt.json",
+      "sha256": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804"
+    },
+    "refresh-source-domains": {
+      "bytes": 3285097,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data1/source-domains.json",
+      "sha256": "cf484614f917137c9b6bcc54b7844c8f7df3824187c636d1cd9917c6a93638ea"
+    },
+    "report": {
+      "bytes": 52965,
+      "content": "text",
+      "path": "docs/release/critical-review-2026-10-01/product-design.md",
+      "sha256": "dd57786c230fb43501c5dfba66644f8d809ce1b46640f037a87ef698dd75c3f3"
+    },
+    "root-APP-current-diff": {
+      "bytes": 2504,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/current-repo-APP-difference.json",
+      "sha256": "471e4a30b4db4477a93e5670f14c9114a42ad5dbd4efe113b7b8fb8ae5cf3ef5"
+    },
+    "runtime-graph": {
+      "bytes": 403254,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    "runtime-readback": {
+      "bytes": 1580,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    },
+    "sql-artifacts": {
+      "bytes": 131898,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/packet-files.json",
+      "sha256": "3ca42ee701ad57dc4ebc328153f4ebd8f81910117261a14d8149187e4ebee34d"
+    },
+    "sql-inputs": {
+      "bytes": 63994,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/execution-inputs.json",
+      "sha256": "3c4f5a2c8e447b05faaa11ec1827e6ca3fd2abe53756de0322be8d6d563df8c6"
+    },
+    "sql-verification": {
+      "bytes": 6377,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/verification.json",
+      "sha256": "cbd1d03efb0ef0c3ee303ef77a8a446baddaecaeaf961ccf3d424963137a2530"
+    },
+    "typography-css": {
+      "bytes": 22026,
+      "content": "text",
+      "path": "web/public/revolut.css",
+      "sha256": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7"
+    },
+    "typography-dart": {
+      "bytes": 581,
+      "content": "text",
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+    },
+    "typography-declaration": {
+      "bytes": 2425,
+      "content": "text",
+      "path": "pubspec.yaml",
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+    },
+    "typography-source-fences": {
+      "bytes": 1191,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/typography-current-source-fences.json",
+      "sha256": "cf5c6a9c8231c06762740f53c18eaec550483320c3e02ad3a684d7b58454c290"
+    }
+  },
+  "evidence": [
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "app-failed3",
+      "independent_receipt": null,
+      "limitations": [
+        "No old pass, source hash or failed stage is converted to current acceptance."
+      ],
+      "observed_result": "failed",
+      "result_binding": {
+        "document": "app-failed3",
+        "pointer": "/status"
+      },
+      "scope": "Original candidate3 failed41 attempt, source2517/2dac97… at10:35UTC.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "archived-completed-candidate",
+      "file_sets": [
+        "app-authored2561",
+        "app-external-library3337",
+        "app-execution41leaves",
+        "archived-Android2-originals",
+        "archived-abf-vs-current-liveAPP2561",
+        "archived-Android3-original"
+      ],
+      "id": "app2561-current1114-41",
+      "independent_receipt": "app-root-acceptance",
+      "limitations": [
+        "Retained root independent original ARC02 criterion review; no whole visual/font/provider/native packaging/release approval.",
+        "Private export is the execution source; maintained checkout parity and new source additions require actual integration readback.",
+        "Named audit-only changes are tracked separately from archived source; current2556 known path match must be actual, not expected. No entire current repo==abf claim or automatic unaffected consumer rerun.",
+        "Actual reviewed Android2 source overlay is a later epoch. Original1114/41 and12/20 outcomes do not grant wholesale current native/app acceptance.",
+        "Later Android3 settings and tooling revisions remain separate from originalabf completed consumer outcomes; no whole current native/application acceptance is inferred."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "app-terminal",
+        "pointer": "/status"
+      },
+      "scope": "Archived completed app2561/abf consumer: strict analysis and1114 successful/unskipped checks across41 affected suites. Current selected source and Android2 epoch are separately bound; no whole current application acceptance is inferred.",
+      "supersedes": [
+        "app-failed3"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "archived-completed-candidate",
+      "file_sets": [
+        "native46leaves",
+        "app-authored2561",
+        "archived-Android2-originals",
+        "archived-abf-vs-current-liveAPP2561",
+        "archived-Android3-original"
+      ],
+      "id": "native12-20",
+      "independent_receipt": "native-readback",
+      "limitations": [
+        "SDK physical/source/allowed8 and protected68020 proof retained in pinned receipt; generic index does not reconstruct directory/link/inode proof.",
+        "No built package, canonical packaged graph, visual acceptance or future AAB result.",
+        "Actual reviewed Android2 source overlay is a later epoch. Original1114/41 and12/20 outcomes do not grant wholesale current native/app acceptance.",
+        "Later Android3 settings and tooling revisions remain separate from originalabf completed consumer outcomes; no whole current native/application acceptance is inferred."
+      ],
+      "observed_result": "PASS",
+      "result_binding": {
+        "document": "native-readback",
+        "pointer": "/status"
+      },
+      "scope": "Archived completed native JVM12 unskipped tests,3 suites and20 actual release classes at source2561/abf. Android2 is a later epoch; no wholesale current native test acceptance is inferred.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "backend-CI-pending-dated",
+      "independent_receipt": "backend-composition",
+      "limitations": [
+        "True pending flag remains true in the historical receipt; later local SQL37 pass supersedes this pending statement only within its actual scope."
+      ],
+      "observed_result": true,
+      "result_binding": {
+        "document": "backend-composition",
+        "pointer": "/current_SQL_recipe_acceptance_pending"
+      },
+      "scope": "Dated only-CIjob ordinary-sql composition preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "backend156-composition",
+        "backend559leaves"
+      ],
+      "id": "backend156",
+      "independent_receipt": "backend-result",
+      "limitations": [
+        "One CI input has later exact composition proof; original156 test outcome still binds its original CI bytes.",
+        "No provider/release or external CI acceptance."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "backend-result",
+        "pointer": "/status"
+      },
+      "scope": "Backend original156 capture canonical aggregate pass:668 units/109 HTTP,92types and retained Linux32/212/14/6 scopes.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "sql219inputs",
+        "sql669leaves"
+      ],
+      "id": "SQL219-209-37",
+      "independent_receipt": "sql-verification",
+      "limitations": [
+        "No hosted/provider/release acceptance; BE10 original local criterion closure is recorded separately. Remote new Linux CI is not asserted by this retained local recipe."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "sql-verification",
+        "pointer": "/status"
+      },
+      "scope": "Actual local ordinary clean/populated recipe,219 inputs/209 migrations/37 original cases/418 applications.",
+      "supersedes": [
+        "backend-CI-pending-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical",
+      "file_sets": [],
+      "id": "public-font-copy15-historical",
+      "independent_receipt": null,
+      "limitations": [
+        "Generator hash and preserved copy prove only that historical engineering comparison; no fonts, distribution rights, native/full public output or legal acceptance."
+      ],
+      "observed_result": "pass",
+      "result_binding": {
+        "document": "font-copy-historical",
+        "pointer": "/status"
+      },
+      "scope": "Dated15-route unchanged public-copy source comparison.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "superseded-summary",
+      "file_sets": [],
+      "id": "public-summary-stale-media-dated",
+      "independent_receipt": null,
+      "limitations": [
+        "Stale app media blocker and no-recapture wording are superseded only by public4 local scope.",
+        "Existing summary requires the attached unapplied correction; old drift arrays/date are preserved as dated facts."
+      ],
+      "observed_result": "dated_scoped_review_pass_current_candidate_unverified",
+      "result_binding": {
+        "document": "acceptance-summary",
+        "pointer": "/surfaces/public_website/status"
+      },
+      "scope": "Dated2026-10-01T20:44 retained source/artifact readback in the existing summary.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "captured-candidate",
+      "file_sets": [
+        "public344media-source",
+        "public4-reviewed-production-leaves",
+        "public4-private-resolution",
+        "public66-static-inputs",
+        "public3-static-toolchain",
+        "public55-static-artifacts",
+        "public704-evidence-leaves"
+      ],
+      "id": "public4-local",
+      "independent_receipt": "public-independent",
+      "limitations": [
+        "Retained independent input equality and original visual subset review; whole mutable candidate explicitly unaccepted.",
+        "66 static inputs+3 executables are observed lists, not proof of complete generator/transitive closure; symlink/external toolchain identities unproved by this minimal reader.",
+        "No whole Revolut visual match, font rights, legal/publication, hosted/provider/device/store or production acceptance."
+      ],
+      "observed_result": "sealed_pass_current_local_public_candidate_scope",
+      "result_binding": {
+        "document": "public-batch",
+        "pointer": "/status"
+      },
+      "scope": "Completed fresh private synthetic media/static/browser public4 local scope,344media/55quality/104render-share cases and exact55artifacts.",
+      "supersedes": [
+        "public-summary-stale-media-dated"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "external-dated-readback",
+      "file_sets": [
+        "liveGET40leaves"
+      ],
+      "id": "public-GET-dated",
+      "independent_receipt": "get-independent",
+      "limitations": [
+        "Retained root readback only; no new provider request in preparation.",
+        "Seven sampled live HTML hashes differ local reviewed artifacts; this does not provide deployed candidate parity, legal approval or request outcome acceptance."
+      ],
+      "observed_result": false,
+      "result_binding": {
+        "document": "get-independent",
+        "pointer": "/current_artifact_published"
+      },
+      "scope": "Actual dated anonymous public GET bytes: reviewed local artifact is unpublished/unbound; three promised legal/support targets404.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "file_sets": [],
+      "id": "selected-runtime-graph",
+      "independent_receipt": "runtime-readback",
+      "limitations": [
+        "Exact graph bytes are pinned; graph141 filenames/hash records do not independently locate/reopen packaged bytes.",
+        "AAB_built=false belongs to the captured12:42UTC failure readback; active future AAB result is not known or prefilled."
+      ],
+      "observed_result": "successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved",
+      "result_binding": {
+        "document": "runtime-readback",
+        "pointer": "/status"
+      },
+      "scope": "Selected productionReleaseRuntimeClasspath graph173components/995edges/141 artifact-hash records, graph exit0/41.261s while whole monitorFAIL is preserved.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "captured-selected-runtime",
+      "file_sets": [
+        "selectedOSV51payloads"
+      ],
+      "id": "selected-runtime-OSV157",
+      "independent_receipt": "osv-independent",
+      "limitations": [
+        "No known OSV records returned for these exact157 versions at retained query time.",
+        "No pagination/advisory IDs; no exploitability, licence approval, whole security clearance, complete packaged SBOM or ARC09 closure."
+      ],
+      "observed_result": "verified_exact_selected_runtime_query_capture",
+      "result_binding": {
+        "document": "osv-independent",
+        "pointer": "/status"
+      },
+      "scope": "Actual exact157 Maven query/empty OSV readback bound to selected graph20bb8…;16 local projects unqueryable.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-declaration",
+      "file_sets": [
+        "typography-leaves"
+      ],
+      "id": "typography-current-declarations",
+      "independent_receipt": null,
+      "limitations": [
+        "Supplied files/metadata/OFL-Inter presence do not establish Aeonik distribution rights, loaded output, native metrics or full visual fidelity."
+      ],
+      "observed_result": "selected_full_faces_implemented_distribution_rights_unverified",
+      "result_binding": {
+        "document": "acceptance-summary",
+        "pointer": "/marketing_typography/status"
+      },
+      "scope": "Current declarations use Aeonik Pro400/500 for marketing and Inter for member/operator/financial roles.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "current-relevant-scope",
+      "file_sets": [
+        "current-known-captured2556",
+        "separate-named-tooling5",
+        "current-declared-selected2563"
+      ],
+      "id": "current-relevant-known-inputs",
+      "independent_receipt": null,
+      "limitations": [
+        "Actual consumer must bind current2556 with Android2 and meaningful five-tooling changes separately from archived native/app scope.",
+        "Current selectedsource2563 includes the two new PD12 scripts; no entire repository/OS-lock/deployed/whole native claim.",
+        "New/unlisted transitive graph completeness remains unverified."
+      ],
+      "observed_result": false,
+      "result_binding": {
+        "document": "current-projection",
+        "pointer": "/full_current_repo_equals_abf"
+      },
+      "scope": "Actual supplied later known2556 rows, named tooling5 and reader/test2 compose selected2563; privateAPP2561 is separately captured. No whole current repository/compiler/native/visual/provider acceptance.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "historical-prior57-test-mapper-epoch",
+      "file_sets": [
+        "BE08-prior-tooling2-retained",
+        "BE08-actual17leaves"
+      ],
+      "id": "BE08-actual-additive-tooling",
+      "independent_receipt": "BE08-readback",
+      "limitations": [
+        "No provider/DB/native rerun, fabricated ownership/financial authority, static resolution lineage or external acceptance.",
+        "Actual unchanged app inputs and archived consumer outcomes remain separate from this tooling validation."
+      ],
+      "observed_result": "PASS",
+      "result_binding": {
+        "document": "BE08-readback",
+        "pointer": "/status"
+      },
+      "scope": "Actual maintained57 tests/current209 generation/independent semantic proof;127 resolution gaps and original counters unchanged.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-maintained-tooling",
+      "file_sets": [
+        "separate-named-tooling5",
+        "tooling5-original-bytes",
+        "ARC03-actual24leaves"
+      ],
+      "id": "ARC03-actual-local-tooling",
+      "independent_receipt": "ARC03-readback",
+      "limitations": [
+        "No provider/DB/native rerun, fabricated ownership/financial authority, static resolution lineage or external acceptance.",
+        "Actual unchanged app inputs and archived consumer outcomes remain separate from this tooling validation."
+      ],
+      "observed_result": "pass_in_local_implemented_scope",
+      "result_binding": {
+        "document": "ARC03-readback",
+        "pointer": "/status"
+      },
+      "scope": "Actual Ruby22/Python3 local probes and reviewed exact3-path delta; original external acceptance remains open.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical-original-current-index-epoch1c55",
+      "file_sets": [],
+      "id": "PD12-actual-index-readback",
+      "independent_receipt": null,
+      "limitations": [
+        "Reader exit1 and both observed drift rows remain visible.",
+        "Retained independent external/app/native scopes stay bounded; current graph completeness and post-Android2 whole native acceptance are unverified.",
+        "PD12 original-criterion decision belongs to release/QA integrator; this verifier does not automatically close findings."
+      ],
+      "observed_result": "binding-drift-or-contradiction",
+      "result_binding": {
+        "document": "PD12-actual-reader1",
+        "pointer": "/status"
+      },
+      "scope": "Retained original101-fact/26-set reader result and two observed Android2 drift rows; later live source binding is a separate actual run.",
+      "supersedes": [],
+      "validation_status": "source-receipt-only"
+    },
+    {
+      "context": "current-maintained-tooling",
+      "file_sets": [
+        "separate-named-tooling5",
+        "BE08-literal-actual27leaves"
+      ],
+      "id": "BE08-actual-literal-tooling69",
+      "independent_receipt": "BE08-literal-readback",
+      "limitations": [
+        "Hash equality is not complete lineage, ownership/history, financial authority or BE08 closure.",
+        "Actual later reader/R8-source current209 generation and verification is bound separately in BE08-current209-actual14leaves;69 unchanged mapper tests remain this dated evidence."
+      ],
+      "observed_result": 69,
+      "result_binding": {
+        "document": "BE08-literal-readback",
+        "pointer": "/total_maintained_tests_passed"
+      },
+      "scope": "Actual69 tests and three computed hash matches; original127 gaps and counters remain unresolved. Latest named tooling must match the actual aggregate source.",
+      "supersedes": [
+        "BE08-actual-additive-tooling"
+      ],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "historical-AAB9-before-later-source-epochs",
+      "file_sets": [
+        "AAB9-failed-execution-leaves"
+      ],
+      "id": "AAB9-genuine-failed-build",
+      "independent_receipt": "AAB9-root-failure",
+      "limitations": [
+        "Later cache/settings changes do not rewrite this failure.",
+        "Selected157 empty OSV records remain dated coverage; no packaged SBOM/licence/security acceptance."
+      ],
+      "observed_result": "FAIL_missing_offline_lint_gradle32.0.1",
+      "result_binding": {
+        "document": "AAB9-root-failure",
+        "pointer": "/actual_result"
+      },
+      "scope": "Actual159.1s exit1 at enabled picker lint; config and fresh runtime/compile graphs passed, no AAB accepted.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-maintained-reader-tooling",
+      "file_sets": [
+        "current-declared-selected2563",
+        "PD12-decision-reader5leaves"
+      ],
+      "id": "PD12-actual-decision-reader18",
+      "independent_receipt": "PD12-decision-reader-integration",
+      "limitations": [
+        "Tests verify reader behavior; current data consumer and later manual root criterion review remain separate actual work.",
+        "The reader does not confer closure or visual/font/provider/packaged-SBOM/release acceptance."
+      ],
+      "observed_result": 0,
+      "result_binding": {
+        "document": "PD12-decision-reader-integration",
+        "pointer": "/command/exit_code"
+      },
+      "scope": "Actual18 meaningful maintained reader tests; original14 preserved, four new receipt/epoch/forgery/no-grant methods.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    },
+    {
+      "context": "current-declared-maintained-source-epoch",
+      "file_sets": [
+        "current-declared-selected2563",
+        "separate-named-tooling5",
+        "BE08-current209-actual14leaves"
+      ],
+      "id": "BE08-current209-after-reader-R8",
+      "independent_receipt": "BE08-current209-readback",
+      "limitations": [
+        "No new DB/catalog replay, provider action or duplicate69-test suite.",
+        "Three computed candidate matches remain typed evidence; all127 unresolved gaps, complete static lineage, runtime call graph and owner authority remain unproved.",
+        "This readback does not confer visual, financial, current whole native, packagedSBOM or release acceptance."
+      ],
+      "observed_result": 0,
+      "result_binding": {
+        "document": "BE08-current209-independent-semantics",
+        "pointer": "/exit_code"
+      },
+      "scope": "Actual current209 generation4.518s and independent semantic verification5.127s, both30s bounds, at declared0843. Held1095 inputs unchanged; only reader caller row changed from69-test integration;668 maintained sources and all coverage fields retained.",
+      "supersedes": [],
+      "validation_status": "retained-independent-scoped-readback"
+    }
+  ],
+  "facts": [
+    {
+      "document": "report",
+      "expected": "current index machine-checks relevant source/transitive inputs and exact artifacts, and identifies independently validated vs unverified areas without contradictory current-state claims.",
+      "id": "original-PD12-criterion",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "app-terminal",
+      "expected": "pass",
+      "id": "app-current-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 2561,
+      "id": "app-source-count",
+      "kind": "json-pointer",
+      "pointer": "/source_files"
+    },
+    {
+      "document": "app-plan",
+      "expected": 41,
+      "id": "affected-suites41",
+      "kind": "json-pointer",
+      "pointer": "/affected_suites"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 1114,
+      "id": "app-successful-unskipped1114",
+      "kind": "json-pointer",
+      "pointer": "/test_counts/successful_unskipped"
+    },
+    {
+      "document": "app-terminal",
+      "expected": 0,
+      "id": "app-zero-failed-skipped",
+      "kind": "json-pointer",
+      "pointer": "/test_counts/failed_or_skipped"
+    },
+    {
+      "document": "app-root-acceptance",
+      "expected": true,
+      "id": "app-independent-scope-acceptance",
+      "kind": "json-pointer",
+      "pointer": "/whole_current_candidate_pass"
+    },
+    {
+      "document": "app-root-acceptance",
+      "expected": true,
+      "id": "failed-attempts-retained",
+      "kind": "json-pointer",
+      "pointer": "/original_failed_attempts_remain_failed"
+    },
+    {
+      "document": "app-failed3",
+      "expected": "failed",
+      "id": "app-historical-failed3",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "native-readback",
+      "expected": 12,
+      "id": "native12-tests",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/tests"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-failures",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/failures"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-errors",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/errors"
+    },
+    {
+      "document": "native-readback",
+      "expected": 0,
+      "id": "native-zero-skips",
+      "kind": "json-pointer",
+      "pointer": "/actual_JVM_tests/skipped"
+    },
+    {
+      "document": "native-readback",
+      "expected": 20,
+      "id": "native20-classes",
+      "kind": "json-pointer",
+      "pointer": "/actual_release_classes"
+    },
+    {
+      "document": "native-readback",
+      "expected": true,
+      "id": "native-actual-copied-readback",
+      "kind": "json-pointer",
+      "pointer": "/raw_JVM_XML_and_classes_independently_read_and_copied"
+    },
+    {
+      "document": "native-readback",
+      "expected": false,
+      "id": "native-readback-had-no-package",
+      "kind": "json-pointer",
+      "pointer": "/native_packages_built"
+    },
+    {
+      "document": "native-readback",
+      "expected": false,
+      "id": "native-readback-no-packaged-SBOM",
+      "kind": "json-pointer",
+      "pointer": "/canonical_packaged_SBOM_graphs"
+    },
+    {
+      "document": "native-sdk-physical-captured",
+      "expected": 15660,
+      "id": "SDK-retained-source-count",
+      "kind": "json-pointer",
+      "pointer": "/source_entries"
+    },
+    {
+      "document": "backend-result",
+      "expected": "pass",
+      "id": "backend-actual-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "backend-result",
+      "expected": 156,
+      "id": "backend156",
+      "kind": "json-pointer",
+      "pointer": "/current156_source_files"
+    },
+    {
+      "document": "backend-result",
+      "expected": 668,
+      "id": "backend-unit668",
+      "kind": "json-pointer",
+      "pointer": "/unit_tests"
+    },
+    {
+      "document": "backend-result",
+      "expected": 109,
+      "id": "backend-HTTP109",
+      "kind": "json-pointer",
+      "pointer": "/HTTP_checks"
+    },
+    {
+      "document": "backend-composition",
+      "expected": 155,
+      "id": "backend155-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/unchanged_count"
+    },
+    {
+      "document": "backend-composition",
+      "expected": "ordinary-sql",
+      "id": "CIcomposition-only-new-job",
+      "kind": "json-pointer",
+      "pointer": "/only_new_CI_job"
+    },
+    {
+      "document": "backend-composition",
+      "expected": true,
+      "id": "dated-CIcomposition-SQL-pending-retained",
+      "kind": "json-pointer",
+      "pointer": "/current_SQL_recipe_acceptance_pending"
+    },
+    {
+      "document": "sql-verification",
+      "expected": "pass",
+      "id": "SQL-local-pass",
+      "kind": "json-pointer",
+      "pointer": "/status"
+    },
+    {
+      "document": "sql-verification",
+      "expected": 37,
+      "id": "SQL-original37",
+      "kind": "json-pointer",
+      "pointer": "/actual_case_count"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL-cases-not-expanded",
+      "kind": "json-pointer",
+      "pointer": "/cases_exact_original37"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL209-set",
+      "kind": "json-pointer",
+      "pointer": "/current209_migration_set_exact"
+    },
+    {
+      "document": "sql-verification",
+      "expected": true,
+      "id": "SQL219-source-binding",
+      "kind": "json-pointer",
+      "pointer": "/source219_before_after_captured_exact"
+    },
+    {
+      "document": "sql-verification",
+      "expected": 418,
+      "id": "SQL418-applications",
+      "kind": "json-pointer",
+      "pointer": "/migration_applications"
+    },
+    {
+      "document": "sql-verification",
+      "expected": false,
+      "id": "SQL-remote-CI-unrun",
+      "kind": "json-pointer",
+      "pointer": "/new_Linux_CI_recipe_run"
+    },
+    {
+      "document": "public-batch",
+      "expected": true,
+      "id": "public4-fresh-capture",
+      "kind": "json-pointer",
+      "pointer": "/fresh_compilation_and_capture"
+    },
+    {
+      "document": "public-batch",
+      "expected": false,
+      "id": "public4-originals-unaltered",
+      "kind": "json-pointer",
+      "pointer": "/original_pixels_edited"
+    },
+    {
+      "document": "public-batch",
+      "expected": 55,
+      "id": "public55-files",
+      "kind": "json-pointer",
+      "pointer": "/static_artifact_file_count"
+    },
+    {
+      "document": "public-independent",
+      "expected": 344,
+      "id": "public-independent344",
+      "kind": "json-pointer",
+      "pointer": "/public/current_media_inputs_checked"
+    },
+    {
+      "document": "public-independent",
+      "expected": 55,
+      "id": "public-quality55",
+      "kind": "json-pointer",
+      "pointer": "/public/quality_checks"
+    },
+    {
+      "document": "public-independent",
+      "expected": 104,
+      "id": "public-browser104",
+      "kind": "json-pointer",
+      "pointer": "/public/actual_browser_cases"
+    },
+    {
+      "document": "public-independent",
+      "expected": false,
+      "id": "public-whole-candidate-unaccepted",
+      "kind": "json-pointer",
+      "pointer": "/whole_mutable_candidate_accepted"
+    },
+    {
+      "document": "public-final",
+      "expected": false,
+      "id": "public-oldbatch3-superseded",
+      "kind": "json-pointer",
+      "pointer": "/original_batch3_source_is_current_acceptance"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-provider-binding-unverified",
+      "kind": "json-pointer",
+      "pointer": "/provider_domain_binding_verified"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-current-artifact-unpublished",
+      "kind": "json-pointer",
+      "pointer": "/current_artifact_published"
+    },
+    {
+      "document": "get-independent",
+      "expected": 3,
+      "id": "GET-three404",
+      "kind": "json-pointer",
+      "pointer": "/anonymous_legal_404_targets"
+    },
+    {
+      "document": "get-independent",
+      "expected": false,
+      "id": "GET-request-outcome-unverified",
+      "kind": "json-pointer",
+      "pointer": "/promised_request_outcome_verified"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 0,
+      "id": "runtime-graph-exit0",
+      "kind": "json-pointer",
+      "pointer": "/runtime_exit_code"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 41.261,
+      "id": "runtime41seconds-retained",
+      "kind": "json-pointer",
+      "pointer": "/runtime_seconds"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 173,
+      "id": "runtime173components",
+      "kind": "json-pointer",
+      "pointer": "/components"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 995,
+      "id": "runtime995edges",
+      "kind": "json-pointer",
+      "pointer": "/edges"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": 141,
+      "id": "runtime141hashrecords",
+      "kind": "json-pointer",
+      "pointer": "/artifacts"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": true,
+      "id": "runtime-whole-monitor-failure-preserved",
+      "kind": "json-pointer",
+      "pointer": "/original_monitor_failure_preserved"
+    },
+    {
+      "document": "runtime-readback",
+      "expected": false,
+      "id": "dated-runtime-capture-AAB-unbuilt",
+      "kind": "json-pointer",
+      "pointer": "/AAB_built"
+    },
+    {
+      "document": "osv-independent",
+      "expected": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+      "id": "OSV-exact-graph-bound",
+      "kind": "json-pointer",
+      "pointer": "/bound_graph_sha256"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 157,
+      "id": "OSV157exact",
+      "kind": "json-pointer",
+      "pointer": "/exactMaven_queries"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 157,
+      "id": "OSV157empty",
+      "kind": "json-pointer",
+      "pointer": "/empty_OSV_results"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 16,
+      "id": "OSV16-unqueryable",
+      "kind": "json-pointer",
+      "pointer": "/local_projects_not_queryable_asMaven"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 200,
+      "id": "OSV-HTTP200",
+      "kind": "json-pointer",
+      "pointer": "/HTTP_status"
+    },
+    {
+      "document": "osv-independent",
+      "expected": 0,
+      "id": "OSV-TLSverified",
+      "kind": "json-pointer",
+      "pointer": "/TLS_verification_result"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-packageSBOM",
+      "kind": "json-pointer",
+      "pointer": "/complete_package_SBOM"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-security-approval",
+      "kind": "json-pointer",
+      "pointer": "/exploitability_or_security_acceptance"
+    },
+    {
+      "document": "osv-independent",
+      "expected": false,
+      "id": "OSV-not-licence-approval",
+      "kind": "json-pointer",
+      "pointer": "/license_approval"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "Aeonik Pro",
+      "id": "summary-Aeonik",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/family"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "Inter",
+      "id": "summary-native-Inter",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/native_operator_family"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "unverified",
+      "id": "summary-rights-unverified",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/distribution_rights/status"
+    },
+    {
+      "document": "acceptance-summary",
+      "expected": "unverified",
+      "id": "summary-visual-unverified",
+      "kind": "json-pointer",
+      "pointer": "/full_visual_acceptance"
+    },
+    {
+      "document": "typography-dart",
+      "expected": "fontFamily = 'Inter';",
+      "id": "current-dart-Inter",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-dart",
+      "expected": "marketingFontFamily = 'Aeonik Pro';",
+      "id": "current-dart-Aeonik",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-css",
+      "expected": "--type-marketing-family: \"Aeonik Pro\", \"Inter\", sans-serif;",
+      "id": "current-css-Aeonik",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "typography-declaration",
+      "expected": "asset: assets/typefaces/AeonikPro-Regular.ttf",
+      "id": "current-pubspec-Aeonik-face",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "Android-overlay",
+      "expected": 2559,
+      "id": "Android-actual-other2559-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/unchanged_other_source_rows"
+    },
+    {
+      "document": "Android-overlay",
+      "expected": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+      "id": "current-AndroidAPP-f997",
+      "kind": "json-pointer",
+      "pointer": "/current_APP_source_manifest_sha256"
+    },
+    {
+      "document": "current-root-source-fence",
+      "expected": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+      "id": "current-selectedroot2563-identity",
+      "kind": "json-pointer",
+      "pointer": "/source_manifest_sha256"
+    },
+    {
+      "document": "BE08-readback",
+      "expected": 57,
+      "id": "BE08-tests57",
+      "kind": "json-pointer",
+      "pointer": "/actual_maintained_tests"
+    },
+    {
+      "document": "BE08-readback",
+      "expected": 8,
+      "id": "BE08-newcases8",
+      "kind": "json-pointer",
+      "pointer": "/new_cases"
+    },
+    {
+      "document": "BE08-readback",
+      "expected": 127,
+      "id": "BE08-original127-unresolved",
+      "kind": "json-pointer",
+      "pointer": "/unresolved_function_count"
+    },
+    {
+      "document": "BE08-readback",
+      "expected": true,
+      "id": "BE08-original-counters-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/all_original_summary_counters_unchanged"
+    },
+    {
+      "document": "BE08-readback",
+      "expected": true,
+      "id": "BE08-all-lineage-flags-unproved",
+      "kind": "json-pointer",
+      "pointer": "/all_candidate_resolution_lineage_and_expected_body_flags_unproved"
+    },
+    {
+      "document": "BE08-generation",
+      "expected": 0,
+      "id": "BE08-actual-generation-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "BE08-independent-semantics",
+      "expected": 0,
+      "id": "BE08-independent-semantic-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": 22,
+      "id": "ARC03-ruby22",
+      "kind": "json-pointer",
+      "pointer": "/ruby_inventory/tests"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": 0,
+      "id": "ARC03-ruby-zero-failures",
+      "kind": "json-pointer",
+      "pointer": "/ruby_inventory/failures"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": 3,
+      "id": "ARC03-python3",
+      "kind": "json-pointer",
+      "pointer": "/selected_python_probes/tests"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": true,
+      "id": "ARC03-python-inputs389-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/selected_python_probes/consumer_inputs_unchanged"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": true,
+      "id": "ARC03-no-other-source-change",
+      "kind": "json-pointer",
+      "pointer": "/no_fourth_source_file_change"
+    },
+    {
+      "document": "ARC03-readback",
+      "expected": true,
+      "id": "ARC03-initial-failure-retained",
+      "kind": "json-pointer",
+      "pointer": "/initial_python_setup_failure/retained_as_failure"
+    },
+    {
+      "document": "PD12-tests",
+      "expected": 14,
+      "id": "PD12-maintained-tests14",
+      "kind": "json-pointer",
+      "pointer": "/actual_tests"
+    },
+    {
+      "document": "PD12-tests",
+      "expected": 0,
+      "id": "PD12-tests-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "live-current-acceptance-summary",
+      "expected": "public4_local_scope_pass_retained_whole_current_candidate_unverified",
+      "id": "live-current-summary-public-status",
+      "kind": "json-pointer",
+      "pointer": "/surfaces/public_website/status"
+    },
+    {
+      "document": "live-current-acceptance-summary",
+      "expected": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+      "id": "live-current-summary-root-source",
+      "kind": "json-pointer",
+      "pointer": "/current_candidate_index/current_declared_source_manifest_sha256"
+    },
+    {
+      "document": "live-current-acceptance-summary",
+      "expected": "unverified",
+      "id": "live-current-summary-visual-unverified",
+      "kind": "json-pointer",
+      "pointer": "/full_visual_acceptance"
+    },
+    {
+      "document": "live-current-acceptance-summary",
+      "expected": "unverified",
+      "id": "live-current-summary-font-rights-unverified",
+      "kind": "json-pointer",
+      "pointer": "/marketing_typography/distribution_rights/status"
+    },
+    {
+      "document": "live-current-acceptance-summary",
+      "expected": "pending_actual_current_epoch_readback",
+      "id": "live-summary-actual-verification-state",
+      "kind": "json-pointer",
+      "pointer": "/current_candidate_index/index_binding_verification"
+    },
+    {
+      "document": "PD12-actual-reader1-command",
+      "expected": 1,
+      "id": "reader1-actual-exit1",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": [
+        {
+          "file_set": "archived-abf-vs-current-liveAPP2561",
+          "path": "android/app/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        },
+        {
+          "file_set": "archived-abf-vs-current-liveAPP2561",
+          "path": "android/build.gradle.kts",
+          "reason": "bytes-or-hash-drift"
+        }
+      ],
+      "id": "reader1-exact-two-errors",
+      "kind": "json-pointer",
+      "pointer": "/errors"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": 2563,
+      "id": "reader1-current2563-actually-matched",
+      "kind": "json-pointer",
+      "pointer": "/file_sets/current-declared-selected2563/matched"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": 2556,
+      "id": "reader1-current2556-actually-matched",
+      "kind": "json-pointer",
+      "pointer": "/file_sets/current-known-captured2556/matched"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": 5,
+      "id": "reader1-tooling5-actually-matched",
+      "kind": "json-pointer",
+      "pointer": "/file_sets/separate-named-tooling5/matched"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": 2559,
+      "id": "reader1-archived-original2559-actually-matched",
+      "kind": "json-pointer",
+      "pointer": "/file_sets/app-authored2561/matched"
+    },
+    {
+      "document": "PD12-actual-reader1",
+      "expected": 2,
+      "id": "reader1-preserved-originalAndroid2-actually-matched",
+      "kind": "json-pointer",
+      "pointer": "/file_sets/archived-Android2-originals/matched"
+    },
+    {
+      "document": "PD12-authority-actual",
+      "expected": 0,
+      "id": "authority-actual-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "PD12-authority-actual",
+      "expected": true,
+      "id": "authority-owned-group-absent",
+      "kind": "json-pointer",
+      "pointer": "/owned_group_absent"
+    },
+    {
+      "document": "PD12-authority-initial-unknown",
+      "expected": false,
+      "id": "authority-initial-unknown-notPASS",
+      "kind": "json-pointer",
+      "pointer": "/claim_PASS"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 69,
+      "id": "BE08-literal-tests69",
+      "kind": "json-pointer",
+      "pointer": "/total_maintained_tests_passed"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 3,
+      "id": "BE08-literal-computed3",
+      "kind": "json-pointer",
+      "pointer": "/semantics/computed_body_candidate_count"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 3,
+      "id": "BE08-literal-hashes3",
+      "kind": "json-pointer",
+      "pointer": "/semantics/computed_hash_matches"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": 127,
+      "id": "BE08-literal-unresolved127",
+      "kind": "json-pointer",
+      "pointer": "/semantics/summary/functions_without_exact_body_hash_match"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": true,
+      "id": "BE08-literal-prior57-preserved",
+      "kind": "json-pointer",
+      "pointer": "/old57tests_preserved"
+    },
+    {
+      "document": "BE08-literal-readback",
+      "expected": false,
+      "id": "BE08-literal-no-full-closure",
+      "kind": "json-pointer",
+      "pointer": "/full_be08_acceptance_closed"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": 0,
+      "id": "PD12-decision-reader-command-exit0",
+      "kind": "json-pointer",
+      "pointer": "/command/exit_code"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": false,
+      "id": "PD12-reader-still-no-grant",
+      "kind": "json-pointer",
+      "pointer": "/reader_grants_closure"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119",
+      "id": "PD12-reader-current-source",
+      "kind": "json-pointer",
+      "pointer": "/owned_files/0/after_sha256"
+    },
+    {
+      "document": "PD12-decision-reader-integration",
+      "expected": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736",
+      "id": "PD12-reader-current-test-source",
+      "kind": "json-pointer",
+      "pointer": "/owned_files/1/after_sha256"
+    },
+    {
+      "document": "PD12-decision-reader-test-log",
+      "expected": "Ran 18 tests",
+      "id": "PD12-actual18-test-log",
+      "kind": "text-includes",
+      "pointer": ""
+    },
+    {
+      "document": "current-APP-manifest",
+      "expected": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+      "id": "later-APP-manifest-identity",
+      "kind": "json-pointer",
+      "pointer": "/source_manifest_sha256"
+    },
+    {
+      "document": "Android3-overlay",
+      "expected": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a",
+      "id": "Android3-actual-settings-hash",
+      "kind": "json-pointer",
+      "pointer": "/changed_settings/actual_after/sha256"
+    },
+    {
+      "document": "BE08-current209-generation",
+      "expected": 0,
+      "id": "BE08-current209-generation-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "BE08-current209-independent-semantics",
+      "expected": 0,
+      "id": "BE08-current209-semantic-exit0",
+      "kind": "json-pointer",
+      "pointer": "/exit_code"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": true,
+      "id": "BE08-current209-held1095-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/held1095_inputs_unchanged_through_generation_and_independent_verify"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": 1094,
+      "id": "BE08-current209-other1094-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/unchanged_other_input_rows"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": [
+        [
+          "scripts/audits/collect_current_evidence_index.py",
+          "maintained-caller-source"
+        ]
+      ],
+      "id": "BE08-current209-only-reader-input-changed",
+      "kind": "json-pointer",
+      "pointer": "/changed_input_rows_since69_integration"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": true,
+      "id": "BE08-current209-coverage-fields-unchanged",
+      "kind": "json-pointer",
+      "pointer": "/coverage_all_fields_unchanged"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+      "id": "BE08-current209-source-epoch",
+      "kind": "json-pointer",
+      "pointer": "/source_manifest_sha256"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": true,
+      "id": "BE08-current209-69-tests-reused",
+      "kind": "json-pointer",
+      "pointer": "/mapper69tests_reused_byte_unchanged"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": false,
+      "id": "BE08-current209-no-full-closure",
+      "kind": "json-pointer",
+      "pointer": "/BE08_closed"
+    },
+    {
+      "document": "BE08-current209-readback",
+      "expected": false,
+      "id": "BE08-current209-no-release-approval",
+      "kind": "json-pointer",
+      "pointer": "/production_release_approval"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": 668,
+      "id": "BE08-current209-maintained668",
+      "kind": "json-pointer",
+      "pointer": "/maintained_source_files"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": 127,
+      "id": "BE08-current209-unresolved127",
+      "kind": "json-pointer",
+      "pointer": "/functions_without_exact_body_hash_match"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": 0,
+      "id": "BE08-current209-static-lineage-unproved",
+      "kind": "json-pointer",
+      "pointer": "/functions_with_exact_static_lineage_body_hash_match"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": false,
+      "id": "BE08-current209-runtime-callgraph-incomplete",
+      "kind": "json-pointer",
+      "pointer": "/runtime_call_graph_complete"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": false,
+      "id": "BE08-current209-owner-assignments-unverified",
+      "kind": "json-pointer",
+      "pointer": "/business_owner_assignments_verified"
+    },
+    {
+      "document": "BE08-current209-coverage",
+      "expected": true,
+      "id": "BE08-current209-current209-names",
+      "kind": "json-pointer",
+      "pointer": "/catalog_matches_current_migration_names"
+    }
+  ],
+  "file_sets": {
+    "AAB9-failed-execution-leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "AAB9-failed-artifacts",
+      "expected_count": 41,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact AAB9 failure/config/graph/owned-absence packet; no retained failure becomes PASS.",
+      "shape": "list-metadata"
+    },
+    "ARC03-actual24leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "ARC03-artifacts",
+      "expected_count": 24,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/arc03-probe-plan-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact meaningful Ruby22/Python3 local probe evidence and retained initial setup failure; no provider execution or original external ARC03 acceptance.",
+      "shape": "map-metadata"
+    },
+    "BE08-actual17leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "BE08-artifacts",
+      "expected_count": 17,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact sealed actual BE08 maintained tests/generation/semantic recomputation and outputs; all127 original resolution gaps remain unproved.",
+      "shape": "list-metadata"
+    },
+    "BE08-current209-actual14leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "BE08-current209-artifacts",
+      "expected_count": 14,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Actual current209 generation and independent semantic verification at declared0843 source epoch; held1095 inputs unchanged. Catalog209 retained, no new DB/provider replay. All127 unresolved gaps remain; actual69 test result is reused only for unchanged mapper/test bytes.",
+      "shape": "list-metadata"
+    },
+    "BE08-literal-actual27leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "BE08-literal-artifacts",
+      "expected_count": 27,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Actual69 tests/generation/semantic outputs; three computed candidates and all127 unresolved retained.",
+      "shape": "list-metadata"
+    },
+    "BE08-prior-tooling2-retained": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "refresh-source-domains",
+      "expected_count": 2,
+      "pointer": "/BE08_prior_tooling2_retained_fences",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Preserved prior57-test mapper/test bytes; no current app/native claim.",
+      "shape": "map-metadata"
+    },
+    "PD12-decision-reader5leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "PD12-decision-reader-artifacts",
+      "expected_count": 5,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Actual18 maintained tests, exact preserved original14 AST bodies and changed reader/test2 receipt; no reader closure grant.",
+      "shape": "list-metadata"
+    },
+    "app-authored2561": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 2558,
+      "pointer": "/archived_private_APP_inputs_without_reviewed_Android3",
+      "prefix": "",
+      "resource": "app-copy",
+      "role": "source",
+      "scope": "Archivedabf2558 live unchanged rows; three preserved original Android rows compose original2561. No current native acceptance.",
+      "shape": "map-metadata"
+    },
+    "app-execution41leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "app-artifacts",
+      "expected_count": 41,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "41 retained execution packet leaves; this count is distinct from41 affected suites.",
+      "shape": "list-metadata"
+    },
+    "app-external-library3337": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "app-before",
+      "expected_count": 3337,
+      "pointer": "/libraries/external_package_files",
+      "prefix": "",
+      "resource": "native-consumer-parent",
+      "role": "transitive-input",
+      "scope": "Exact3337 captured external library file paths. No library resolution performed by index; added package/graph completeness remains unknown.",
+      "shape": "map-metadata"
+    },
+    "archived-Android2-originals": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 2,
+      "pointer": "/archived_Android2_retained_bytes",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Actual preserved original Android2 bytes match archived2561/abf source before the reviewed build-directory overlay; not post-overlay native test acceptance.",
+      "shape": "map-metadata"
+    },
+    "archived-Android3-original": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "refresh-source-domains",
+      "expected_count": 1,
+      "pointer": "/archived_Android3_settings_retained_bytes",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact retained original settings row composing archivedabf2561.",
+      "shape": "map-metadata"
+    },
+    "archived-abf-vs-current-liveAPP2561": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "app-scope",
+      "expected_count": 2561,
+      "pointer": "/source_files_exact",
+      "prefix": "",
+      "resource": "app-copy",
+      "role": "source",
+      "scope": "Historicalabf expectations compared directly with actual later liveAPP; retain every observed Android/source drift without converting it into current PASS.",
+      "shape": "map-metadata"
+    },
+    "backend156-composition": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "digest_overrides": {
+        ".github/workflows/ci.yml": {
+          "document": "backend-composition",
+          "pointer": "/differences/0/current_sha256"
+        }
+      },
+      "document": "backend-composition",
+      "expected_count": 156,
+      "pointer": "/retained_original156_inputs",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Original backend156 capture plus exactly one independently retained CI composition digest. Original backend pass and old CI bytes remain historical facts.",
+      "shape": "map-metadata"
+    },
+    "backend559leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "backend-artifacts",
+      "expected_count": 559,
+      "pointer": "",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact559 sealed checksum rows, including actual canonical report,513 copied output files and original source snapshots; no generated state used as active source.",
+      "shape": "checksum-lines"
+    },
+    "current-declared-selected2563": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "closed_inventory": null,
+      "document": "current-root-source-fence",
+      "expected_count": 2563,
+      "pointer": "/source_files_identity",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Actual supplied later selected2563 root fence; captured list scope only, not a complete repository/compiler/OS graph.",
+      "shape": "map-metadata"
+    },
+    "current-known-captured2556": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "closed_inventory": null,
+      "digest_overrides": {},
+      "document": "current-projection",
+      "expected_count": 2556,
+      "pointer": "/current_known_captured_input_fences",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact later known2556 subset derived from actual selected2563; five tooling + reader/test2 are separately bound, not silently excluded.",
+      "shape": "map-metadata"
+    },
+    "current-liveAPP2561": {
+      "binding_domain": "current-relevant-listed-inputs",
+      "closed_inventory": null,
+      "document": "current-APP-manifest",
+      "expected_count": 2561,
+      "pointer": "/source_files",
+      "prefix": "",
+      "resource": "app-copy",
+      "role": "source",
+      "scope": "Exact current captured liveAPP2561 bytes; no whole current native suite or packaging/security acceptance.",
+      "shape": "map-metadata"
+    },
+    "liveGET40leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "get-artifacts",
+      "expected_count": 40,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact retained anonymous public GET request/response bytes; dated404/local-live differences do not certify a hosted candidate.",
+      "shape": "map-digest"
+    },
+    "native46leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "native-artifacts",
+      "expected_count": 46,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Raw JVM XML,20 release class files, three dated flat native graphs and exact readback leaves.",
+      "shape": "list-metadata"
+    },
+    "public3-static-toolchain": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-static-execution",
+      "expected_count": 3,
+      "pointer": "/toolchain_before",
+      "prefix": "",
+      "resource": "explicit-system-inputs",
+      "role": "transitive-input",
+      "scope": "Three explicitly recorded Python/bash/Ruby executable path digests. Symlink target identity is unproved by digest-only rows; index does not follow them.",
+      "shape": "map-digest",
+      "unproved_symlink_bindings": true
+    },
+    "public344media-source": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 344,
+      "pointer": "/current_media_graph",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Captured344 media inputs for private synthetic public4 scope. If current source changed later, retain pass while reporting drift.",
+      "shape": "map-digest"
+    },
+    "public4-private-resolution": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 4,
+      "pointer": "/private_runtime_bindings",
+      "prefix": "",
+      "resource": "public-fixture",
+      "role": "transitive-input",
+      "scope": "Four private pub resolution/runtime leaves only; complete resolution/transitive compiler closure not inferred.",
+      "shape": "map-digest"
+    },
+    "public4-reviewed-production-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 4,
+      "pointer": "/root_reviewed_production_sources",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Only four explicitly reviewed production leaves; whole current application equivalence was not accepted.",
+      "shape": "map-digest"
+    },
+    "public55-static-artifacts": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "public-final",
+      "expected_count": 55,
+      "pointer": "/static_artifact_sha256",
+      "prefix": ".cache/public-static-current-20261002-batch4-attempt1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact local public static artifact55 files. No hosted parity, legal acceptance or whole visual match.",
+      "shape": "map-digest"
+    },
+    "public66-static-inputs": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "public-static-execution",
+      "expected_count": 66,
+      "pointer": "/inputs_before",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "transitive-input",
+      "scope": "66 explicitly observed static generator inputs at the completed public4 execution. Added/unlisted inputs remain unknown.",
+      "shape": "map-digest"
+    },
+    "public704-evidence-leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "public-artifacts",
+      "expected_count": 704,
+      "pointer": "/files",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact704 retained local evidence leaves including original PNGs/build/browser/static records; no edits to originals.",
+      "shape": "list-metadata"
+    },
+    "selectedOSV51payloads": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "osv-artifacts",
+      "expected_count": 51,
+      "pointer": "/payload_files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact public docs/request/response/query mapping capture for157 selected Maven coordinates;16 local projects explicitly unqueryable.",
+      "shape": "list-metadata"
+    },
+    "separate-named-tooling5": {
+      "binding_domain": "separate-maintained-tooling",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 5,
+      "pointer": "/named_tooling5_actual_current_leaf_fences",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "verification-tooling",
+      "scope": "Actual five current tooling leaves: BE08 latest2 bound to69-test receipt; ARC03 unchanged3 bound to its22+3 tests. Original bytes/diffs and previous57-test mapper epoch retained.",
+      "shape": "map-metadata"
+    },
+    "sql219inputs": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "sql-inputs",
+      "expected_count": 219,
+      "pointer": "/source219_before",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact219 inputs to completed local clean/populated ordinary SQL recipe,209 migrations; neither219 migrations nor hosted SQL acceptance.",
+      "shape": "map-digest"
+    },
+    "sql669leaves": {
+      "binding_domain": "captured-artifact",
+      "closed_inventory": null,
+      "document": "sql-artifacts",
+      "expected_count": 669,
+      "pointer": "/files",
+      "prefix": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1",
+      "resource": "workspace",
+      "role": "artifact",
+      "scope": "Exact669 packet artifacts for original37 local cases/418 migration applications; external CI and hosted/provider acceptance remain separate.",
+      "shape": "map-metadata"
+    },
+    "tooling5-original-bytes": {
+      "binding_domain": "archived-tested-candidate",
+      "closed_inventory": null,
+      "document": "current-projection",
+      "expected_count": 5,
+      "pointer": "/original_tooling5_retained_bytes",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact original before bytes for the five actual tooling changes, each SHA matches archivedabf source and root integration provenance.",
+      "shape": "map-metadata"
+    },
+    "typography-leaves": {
+      "binding_domain": "current-listed-inputs",
+      "closed_inventory": null,
+      "document": "typography-source-fences",
+      "expected_count": 7,
+      "pointer": "/files",
+      "prefix": "",
+      "resource": "workspace",
+      "role": "source",
+      "scope": "Exact current font declarations and supplied font/OFL files. Bytes alone do not establish distribution rights or loaded output.",
+      "shape": "map-metadata"
+    }
+  },
+  "format": "collect-current-candidate-evidence-index-v1",
+  "integration_state": "unapplied-private-proposal",
+  "integrator_original_criterion_decision": {
+    "applicability": "recorded-source-epoch-only",
+    "checkpoint_document": "readiness-checkpoint8",
+    "criterion_met": true,
+    "decision_authority": "release/QA integrator",
+    "review_document": "PD12-original-criterion-review",
+    "reviewed_index_document": "PD12-reviewed-index-epoch1c55",
+    "reviewed_source_epoch": "1c55bbe1af164ec66a146ca3d0e2256e38ab3423647694c7ee8f37faccffeac0",
+    "reviewed_summary_document": "PD12-reviewed-summary-epoch1c55"
+  },
+  "pending_areas": [
+    {
+      "area": "actual current filesystem binding consumer",
+      "reason": "Actual14 maintained tests pass; reader completed3.733660s exit1 with exactly two archivedabf-versus-liveAndroid2 differences. Current declared scopes/artifacts otherwise match; old outcome remains historical and graph completeness remains unverified.",
+      "state": "actual-completed-with-explicit-archived-drift"
+    },
+    {
+      "area": "public generator/transitive graph and new/unlisted inputs",
+      "reason": "Exact observed66+3 inputs/current listed source rows and artifact bytes do not establish complete added/unlisted compilation graph scope.",
+      "state": "unverified"
+    },
+    {
+      "area": "SDK physical identity/current native execution",
+      "reason": "Pinned original SDK physical/source/allowed8 evidence stays exact. Minimal index does not re-read4.24GB SDK or reconstruct directory/link/inode proof; active root AAB consumer owns its current fence.",
+      "state": "retained-independent-scope-only"
+    },
+    {
+      "area": "native test acceptance after Android2 overlay",
+      "reason": "Completed JVM12/20 classes bind original2561/abf scope; actual Android2 differs, and no whole current native test/package result is inferred.",
+      "state": "unverified"
+    },
+    {
+      "area": "future AAB/artifact graph",
+      "reason": "No future AAB hash/result or complete packaged SBOM has been invented; original failed whole monitor/41.261s graph remains dated.",
+      "state": "pending-root-actual-result"
+    },
+    {
+      "area": "archivedabf inputs compared with current liveAPP",
+      "reason": "Actual direct full2561 old expectation comparison found exactly Android2 build-file differences. Original2559+preserved2 source bytes and current reviewed overlay are separately bound; the two drift rows remain errors.",
+      "state": "observed-two-row-drift"
+    },
+    {
+      "area": "later current epoch reader/manual decision",
+      "reason": "Original scoped decision remains reviewed1c55 only; no later closure decision or reader result is invented.",
+      "state": "pending-root-actual-readback-and-manual-review"
+    },
+    {
+      "area": "current later epoch native package",
+      "reason": "Last actual AAB9 failure remains dated at its recorded epoch. Later source/R8/settings/cache scopes do not create an AAB result; source index refresh proceeds with packaging unverified.",
+      "state": "pending-actual-package"
+    }
+  ],
+  "reader_grants_closure": false,
+  "recorded_at_utc": "2026-10-02T15:28:07.727909+00:00",
+  "resources": {
+    "app-copy": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+    "explicit-system-inputs": "/",
+    "native-consumer-parent": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1",
+    "public-fixture": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch4-attempt1",
+    "workspace": "."
+  },
+  "scope_relations": [
+    {
+      "excluded_exact_paths": [
+        "scripts/audits/collect_schema_domain_map.py",
+        "scripts/edge_function_inventory.rb",
+        "scripts/supabase_production_readiness.sh",
+        "scripts/tests/collect_schema_domain_map_test.py",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "original_document": "app-scope",
+      "original_pointer": "/source_files_exact",
+      "projected_document": "current-projection",
+      "projected_pointer": "/known_captured_inputs_without_named_tooling5"
+    },
+    {
+      "excluded_exact_paths": [
+        "android/app/build.gradle.kts",
+        "android/build.gradle.kts"
+      ],
+      "original_document": "app-scope",
+      "original_pointer": "/source_files_exact",
+      "projected_document": "current-projection",
+      "projected_pointer": "/archived_private_APP_inputs_without_Android2"
+    },
+    {
+      "excluded_exact_paths": [
+        "scripts/audits/collect_current_evidence_index.py",
+        "scripts/audits/collect_schema_domain_map.py",
+        "scripts/edge_function_inventory.rb",
+        "scripts/supabase_production_readiness.sh",
+        "scripts/tests/collect_current_evidence_index_test.py",
+        "scripts/tests/collect_schema_domain_map_test.py",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "original_document": "current-root-source-fence",
+      "original_pointer": "/source_files_identity",
+      "projected_document": "refresh-source-domains",
+      "projected_pointer": "/current_known_captured_input_fences"
+    },
+    {
+      "excluded_exact_paths": [
+        "android/app/build.gradle.kts",
+        "android/build.gradle.kts",
+        "android/settings.gradle.kts"
+      ],
+      "original_document": "app-scope",
+      "original_pointer": "/source_files_exact",
+      "projected_document": "refresh-source-domains",
+      "projected_pointer": "/archived_private_APP_inputs_without_reviewed_Android3"
+    }
+  ],
+  "summary_corrections_unapplied": []
+}

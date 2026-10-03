@@ -1,0 +1,262 @@
+{
+  "status": "passed",
+  "scope": "Seven canonical restore changes and exact affected backup/parser callers. Synthetic contract/caller adapters and pure functions; no encrypted archive/Vault/hosted/real restore claim. SQL78 private proof remains separate.",
+  "commands": [
+    {
+      "name": "unit-0",
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_inactive_restore_overlay_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [
+        [
+          "13",
+          "87",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "stdout_sha256": "2516e1abc548e4d812dec7bfeb30d01772a0a8d2bf383bb52339e083452691d9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit-1",
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_inactive_restore_caller_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [
+        [
+          "6",
+          "16",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "stdout_sha256": "7db00c82aca6301ac3f892e0a6d633201bcd0d4ce40e1c0612dfc5e88ca04b1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit-2",
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_recovery_source_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [
+        [
+          "13",
+          "59",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "stdout_sha256": "daa0ff4d7262c4279491a4c3cbd43e90aad79771ad8c0e0e1f604e95638c7377",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit-3",
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [
+        [
+          "7",
+          "25",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "stdout_sha256": "865b1813458886425942b80bc62682285f7065d6395226bee98159467c2e7b41",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit-4",
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_encrypted_database_backup_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [
+        [
+          "4",
+          "23",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "stdout_sha256": "bd6d29ff8a310141bc6dcee9366dd9226960efc43315af5dfc016851f8f6dfdf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-0",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_backup_network_probe.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-1",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_encrypted_database_backup.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-2",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_inactive_restore_overlay.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-3",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_index_inventory.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-4",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_receipt_worker_snapshot.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-5",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_recovery_source.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-6",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_encrypted_database_backup_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-7",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_inactive_restore_caller_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-8",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_inactive_restore_overlay_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-9",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_recovery_source_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-10",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-11",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_archive_restore_test.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "syntax-12",
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/production_upgrade_rehearsal.rb"
+      ],
+      "exit_code": 0,
+      "summary": [],
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "captured_inputs": 227,
+  "input_drift": [],
+  "unit_cases": 43,
+  "unit_assertions": 210,
+  "syntax_checks": 13
+}

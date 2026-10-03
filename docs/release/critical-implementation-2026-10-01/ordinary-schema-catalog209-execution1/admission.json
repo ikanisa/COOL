@@ -1,0 +1,13 @@
+{
+  "status": "admitted_exact_local_rehearsal",
+  "prepared_inputs_sha256": "1205a3977bbdf9462720dd00ca79709c4691582d385967dbb8b31d7b2bed99c7",
+  "controller_sha256": "0a142344a59fb31c9265f7555b5b4121dde3e0c42bbcc00894efc827ded1730e",
+  "child_wrapper_sha256": "5a119ba2a5ee4d0e3cb759a2aa8d29a7f90939b818e31adbed1c7845697ec2b8",
+  "controller_delta": "Only preparation folder reference changes; same 600-second whole deadline, frozen exact image ID, source guards, owned cleanup and complete original rehearsal assertions.",
+  "source_input_count": 216,
+  "migration_count": 209,
+  "first_migration_authority": "Local postgres NOSUPERUSER after explicit isolated platform preparation; CREATE ROLE/CREATE DB/BYPASSRLS and trusted memberships retained, hosted parity unproved.",
+  "external_calls": false,
+  "maintained_changes": false,
+  "output": "Fresh candidate docs/release/ordinary-effective-catalog1"
+}

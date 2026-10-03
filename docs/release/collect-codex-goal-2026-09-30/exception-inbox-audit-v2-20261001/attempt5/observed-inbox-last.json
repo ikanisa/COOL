@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:47.172964Z",
+      "exception_id": "051c5cee-124b-496d-bf2a-7d8248db1d05",
+      "escalation_id": "62df254a-18bf-470f-89d7-b8564ed0b3f3",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:47.172191Z",
+      "exception_id": "168b3930-ab88-4854-a5f3-ec9241aa6948",
+      "escalation_id": "43cba76c-9a92-4b23-90a1-de631e2f9bd0",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:47.171636Z",
+      "exception_id": "58da8fee-c81c-415a-a49e-5fe4a698a7ba",
+      "escalation_id": "32639928-29b3-4765-b62a-cdd3687697fd",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": null,
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:47.169040Z",
+      "exception_id": "d4b4d8bd-2a91-42e0-971a-e86f416c9089",
+      "escalation_id": "a259a626-2175-4e2c-b0de-8cbc26428614",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": "2026-10-01T15:26:38.578128Z",
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:38.519215Z",
+      "exception_id": "b5f6e483-0849-49a7-95fa-f59c87ac207b",
+      "escalation_id": "4c1adb3c-0ee2-4d86-979b-06d6bd75ee5f",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    },
+    {
+      "read_at": "2026-10-01T15:26:35.723304Z",
+      "reason_code": "operator_escalation",
+      "delivered_at": "2026-10-01T15:26:35.667056Z",
+      "exception_id": "f423bf56-3922-46f7-a8e9-153a62d66f72",
+      "escalation_id": "e95c351d-c6d1-4b55-8fed-3281b450de7a",
+      "source_active": true,
+      "source_revision": 1,
+      "current_source_revision": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "current_operator",
+  "channel": "admin_inbox",
+  "checked_at": "2026-10-01T15:26:47.434673Z",
+  "next_cursor": null,
+  "recipient_id": "99790000-0000-4000-8000-000000000001",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T15:27:47.434673Z"
+}

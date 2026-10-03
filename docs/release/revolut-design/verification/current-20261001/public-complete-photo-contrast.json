@@ -1,0 +1,3427 @@
+{
+  "status": "pass",
+  "checkedAt": "2026-10-01T18:05:27.041Z",
+  "baseUrl": "http://127.0.0.1:61108",
+  "method": "Minimum WCAG luminance ratio over every rendered background pixel in each text line rectangle, with glyph fill hidden and original image crops and scrims preserved. Conservative bounds include non-glyph pixels; this is not a screen-reader or native app test.",
+  "sourceCssMatchesRendered": true,
+  "sourceCssSha256": "15236feb0a5111b49d32048bc684db02041190dbacf0f846ccb47ac857637e69",
+  "expectedBuildCssSha256": "b173547e6967438346a43e0ec22006277fac1a3e2d109ec71f8edd248fc6e463",
+  "renderedCssSha256": "b173547e6967438346a43e0ec22006277fac1a3e2d109ec71f8edd248fc6e463",
+  "failures": 0,
+  "results": [
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -3,
+          "width": 264.40625,
+          "height": 50
+        },
+        {
+          "x": 0,
+          "y": 41,
+          "width": 205.265625,
+          "height": 50
+        },
+        {
+          "x": 0,
+          "y": 85,
+          "width": 218.8125,
+          "height": 50
+        },
+        {
+          "x": 0,
+          "y": 129,
+          "width": 255.875,
+          "height": 50
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 44,
+      "minimum": 3,
+      "textWidth": 280,
+      "textHeight": 176,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 9.356110956546253,
+      "sampledPixels": 45737,
+      "worstPixel": {
+        "x": 35,
+        "y": 173,
+        "background": [
+          40,
+          67,
+          90
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-hero-h1-0.png",
+      "backgroundScreenshot": "320-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 263.640625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 278.859375,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 268.890625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 77.5625,
+          "width": 257.421875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 102.75,
+          "width": 272.03125,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 280,
+      "textHeight": 125.9375,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.425910097637208,
+      "sampledPixels": 27939,
+      "worstPixel": {
+        "x": 201,
+        "y": 93,
+        "background": [
+          79,
+          90,
+          98
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-hero-intro-0.png",
+      "backgroundScreenshot": "320-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "320-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.197851342540939,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 13,
+        "y": 26,
+        "background": [
+          81,
+          92,
+          104
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "320-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.763681294520042,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 41,
+        "y": 30,
+        "background": [
+          85,
+          97,
+          108
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "320-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 12.143327603590004,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 1,
+        "y": 8,
+        "background": [
+          22,
+          49,
+          74
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "320-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 11.976135461954192,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 11,
+        "y": 10,
+        "background": [
+          23,
+          50,
+          75
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-site-header-brand-small-0.png",
+      "backgroundScreenshot": "320-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "320-site-header-menu-button-0.png",
+      "backgroundScreenshot": "320-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -4,
+          "width": 288.4375,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 44,
+          "width": 223.921875,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 92,
+          "width": 238.71875,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 140,
+          "width": 279.125,
+          "height": 55
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 48,
+      "minimum": 3,
+      "textWidth": 350,
+      "textHeight": 192,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 9.195512415483286,
+      "sampledPixels": 54764,
+      "worstPixel": {
+        "x": 1,
+        "y": 189,
+        "background": [
+          42,
+          68,
+          91
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-hero-h1-0.png",
+      "backgroundScreenshot": "390-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 328.125,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 314.09375,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 296.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 77.5625,
+          "width": 334.8125,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 102.75,
+          "width": 67.25,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 350,
+      "textHeight": 125.9375,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.471803987728083,
+      "sampledPixels": 27895,
+      "worstPixel": {
+        "x": 327,
+        "y": 93,
+        "background": [
+          80,
+          89,
+          99
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-hero-intro-0.png",
+      "backgroundScreenshot": "390-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "390-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.808705698944077,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 161,
+        "y": 22,
+        "background": [
+          69,
+          87,
+          101
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "390-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.916477737709543,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 25,
+        "y": 28,
+        "background": [
+          85,
+          95,
+          105
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "390-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 11.996584116993636,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 1,
+        "y": 16,
+        "background": [
+          23,
+          50,
+          74
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "390-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 11.976135461954192,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 21,
+        "y": 10,
+        "background": [
+          23,
+          50,
+          75
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-site-header-brand-small-0.png",
+      "backgroundScreenshot": "390-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "390-site-header-menu-button-0.png",
+      "backgroundScreenshot": "390-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -4,
+          "width": 383.390625,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 44,
+          "width": 379.96875,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 92,
+          "width": 279.125,
+          "height": 55
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 48,
+      "minimum": 3,
+      "textWidth": 390,
+      "textHeight": 144,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 9.626988460175118,
+      "sampledPixels": 55044,
+      "worstPixel": {
+        "x": 3,
+        "y": 141,
+        "background": [
+          39,
+          65,
+          88
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-hero-h1-0.png",
+      "backgroundScreenshot": "430-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 363.28125,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 336.453125,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 373.796875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 77.5625,
+          "width": 272.03125,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 390,
+      "textHeight": 100.75,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.480155344661738,
+      "sampledPixels": 27944,
+      "worstPixel": {
+        "x": 255,
+        "y": 91,
+        "background": [
+          80,
+          89,
+          98
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-hero-intro-0.png",
+      "backgroundScreenshot": "430-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "430-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.841784432104831,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 161,
+        "y": 30,
+        "background": [
+          72,
+          86,
+          100
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "430-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 6.110998541677979,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 45,
+        "y": 29,
+        "background": [
+          82,
+          93,
+          104
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "430-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 11.996584116993636,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 3,
+        "y": 12,
+        "background": [
+          23,
+          50,
+          74
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "430-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 11.976135461954192,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 9,
+        "y": 2,
+        "background": [
+          23,
+          50,
+          75
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-site-header-brand-small-0.png",
+      "backgroundScreenshot": "430-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "430-site-header-menu-button-0.png",
+      "backgroundScreenshot": "430-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -4,
+          "width": 524.640625,
+          "height": 55
+        },
+        {
+          "x": 0,
+          "y": 44,
+          "width": 530.125,
+          "height": 55
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 48,
+      "minimum": 3,
+      "textWidth": 680,
+      "textHeight": 96,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 9.923492089650404,
+      "sampledPixels": 54387,
+      "worstPixel": {
+        "x": 9,
+        "y": 95,
+        "background": [
+          37,
+          63,
+          86
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-hero-h1-0.png",
+      "backgroundScreenshot": "720-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 646.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 656.984375,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 46.34375,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 680,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 8.87935196785097,
+      "sampledPixels": 27724,
+      "worstPixel": {
+        "x": 9,
+        "y": 69,
+        "background": [
+          46,
+          70,
+          93
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-hero-intro-0.png",
+      "backgroundScreenshot": "720-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "720-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 8.359411037561769,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 29,
+        "y": 30,
+        "background": [
+          50,
+          74,
+          96
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "720-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 6.80368892724606,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 66,
+        "y": 30,
+        "background": [
+          74,
+          86,
+          100
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "720-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 11.82998464906296,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 1,
+        "y": 16,
+        "background": [
+          24,
+          51,
+          75
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "720-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 11.811713472104042,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 1,
+        "y": 6,
+        "background": [
+          25,
+          51,
+          75
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-site-header-brand-small-0.png",
+      "backgroundScreenshot": "720-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 720,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "720-site-header-menu-button-0.png",
+      "backgroundScreenshot": "720-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -5,
+          "width": 653.765625,
+          "height": 73
+        },
+        {
+          "x": 0,
+          "y": 59,
+          "width": 654.828125,
+          "height": 73
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 64,
+      "minimum": 3,
+      "textWidth": 657,
+      "textHeight": 128,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 6.444135922635524,
+      "sampledPixels": 89667,
+      "worstPixel": {
+        "x": 653,
+        "y": 121,
+        "background": [
+          52,
+          92,
+          123
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-hero-h1-0.png",
+      "backgroundScreenshot": "721-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 469.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 473.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 406.765625,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 480,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.773580535198392,
+      "sampledPixels": 27901,
+      "worstPixel": {
+        "x": 399,
+        "y": 69,
+        "background": [
+          58,
+          88,
+          114
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-hero-intro-0.png",
+      "backgroundScreenshot": "721-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "721-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.52473825771455,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 141,
+        "y": 30,
+        "background": [
+          67,
+          90,
+          110
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "721-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.88880436193589,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 102,
+        "y": 26,
+        "background": [
+          72,
+          97,
+          117
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "721-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 9.958532621445093,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 51,
+        "y": 16,
+        "background": [
+          30,
+          63,
+          91
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "721-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 9.810711433655383,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 59,
+        "y": 10,
+        "background": [
+          31,
+          64,
+          92
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-site-header-brand-small-0.png",
+      "backgroundScreenshot": "721-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 721,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "721-site-header-menu-button-0.png",
+      "backgroundScreenshot": "721-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -5,
+          "width": 653.765625,
+          "height": 73
+        },
+        {
+          "x": 0,
+          "y": 59,
+          "width": 654.828125,
+          "height": 73
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 64,
+      "minimum": 3,
+      "textWidth": 736,
+      "textHeight": 128,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 6.520368777004677,
+      "sampledPixels": 89667,
+      "worstPixel": {
+        "x": 653,
+        "y": 127,
+        "background": [
+          51,
+          91,
+          124
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-hero-h1-0.png",
+      "backgroundScreenshot": "800-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 469.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 473.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 406.765625,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 480,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.687377683701733,
+      "sampledPixels": 27901,
+      "worstPixel": {
+        "x": 469,
+        "y": 45,
+        "background": [
+          57,
+          89,
+          116
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-hero-intro-0.png",
+      "backgroundScreenshot": "800-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "800-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.4403351429595395,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 153,
+        "y": 28,
+        "background": [
+          67,
+          91,
+          111
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "800-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.979230059060006,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 102,
+        "y": 30,
+        "background": [
+          71,
+          96,
+          116
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "800-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 9.942677403531759,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 49,
+        "y": 8,
+        "background": [
+          31,
+          63,
+          91
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "800-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 9.82826124497563,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 59,
+        "y": 0,
+        "background": [
+          31,
+          64,
+          91
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-site-header-brand-small-0.png",
+      "backgroundScreenshot": "800-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 800,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "800-site-header-menu-button-0.png",
+      "backgroundScreenshot": "800-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -5,
+          "width": 653.765625,
+          "height": 73
+        },
+        {
+          "x": 0,
+          "y": 59,
+          "width": 654.828125,
+          "height": 73
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 64,
+      "minimum": 3,
+      "textWidth": 800,
+      "textHeight": 128,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 6.433560828270076,
+      "sampledPixels": 89667,
+      "worstPixel": {
+        "x": 650,
+        "y": 121,
+        "background": [
+          51,
+          92,
+          125
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-hero-h1-0.png",
+      "backgroundScreenshot": "1100-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 469.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 473.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 406.765625,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 480,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.3838155204834175,
+      "sampledPixels": 27901,
+      "worstPixel": {
+        "x": 473,
+        "y": 41,
+        "background": [
+          61,
+          92,
+          118
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-hero-intro-0.png",
+      "backgroundScreenshot": "1100-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "1100-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.351310157464497,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 161,
+        "y": 24,
+        "background": [
+          68,
+          92,
+          111
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "1100-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.941912506957904,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 94,
+        "y": 30,
+        "background": [
+          73,
+          96,
+          117
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "1100-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 9.649493216755959,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 55,
+        "y": 12,
+        "background": [
+          34,
+          65,
+          92
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "1100-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 9.61562129305799,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 55,
+        "y": 10,
+        "background": [
+          35,
+          65,
+          93
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-site-header-brand-small-0.png",
+      "backgroundScreenshot": "1100-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1100,
+      "selector": ".site-header .menu-button",
+      "lines": [
+        {
+          "x": 24,
+          "y": 13,
+          "width": 41.21875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 89.21875,
+      "textHeight": 44,
+      "text": "Menu",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 756,
+      "worstPixel": {
+        "x": 24,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1100-site-header-menu-button-0.png",
+      "backgroundScreenshot": "1100-site-header-menu-button-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -6,
+          "width": 872.375,
+          "height": 96
+        },
+        {
+          "x": 0,
+          "y": 78,
+          "width": 875.703125,
+          "height": 96
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 84,
+      "minimum": 3,
+      "textWidth": 960,
+      "textHeight": 168,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 3.5906582121501227,
+      "sampledPixels": 157410,
+      "worstPixel": {
+        "x": 845,
+        "y": 161,
+        "background": [
+          122,
+          129,
+          135
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-hero-h1-0.png",
+      "backgroundScreenshot": "1101-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 469.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 473.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 406.765625,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 480,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.2560538111515145,
+      "sampledPixels": 27901,
+      "worstPixel": {
+        "x": 403,
+        "y": 71,
+        "background": [
+          67,
+          93,
+          115
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-hero-intro-0.png",
+      "backgroundScreenshot": "1101-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "1101-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.122870080131562,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 161,
+        "y": 30,
+        "background": [
+          73,
+          94,
+          112
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "1101-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.4977128241491835,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 104,
+        "y": 24,
+        "background": [
+          81,
+          101,
+          118
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "1101-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 9.64865588654939,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 55,
+        "y": 16,
+        "background": [
+          33,
+          65,
+          93
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "1101-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 9.615045095680532,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 59,
+        "y": 10,
+        "background": [
+          34,
+          65,
+          94
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-brand-small-0.png",
+      "backgroundScreenshot": "1101-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 93.09375,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 113.09375,
+      "textHeight": 40,
+      "text": "Group Savings",
+      "minimumRatio": 9.218286344031725,
+      "sampledPixels": 1504,
+      "worstPixel": {
+        "x": 98,
+        "y": 27,
+        "background": [
+          34,
+          68,
+          98
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-0.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 62.640625,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 82.640625,
+      "textHeight": 40,
+      "text": "Insurance",
+      "minimumRatio": 8.999874781255441,
+      "sampledPixels": 1008,
+      "worstPixel": {
+        "x": 72,
+        "y": 19,
+        "background": [
+          32,
+          70,
+          100
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-1.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-1-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 42.296875,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 62.296875,
+      "textHeight": 40,
+      "text": "CRaaS",
+      "minimumRatio": 8.848370247432397,
+      "sampledPixels": 688,
+      "worstPixel": {
+        "x": 50,
+        "y": 27,
+        "background": [
+          33,
+          71,
+          102
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-2.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-2-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 124.109375,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 144.109375,
+      "textHeight": 40,
+      "text": "Community Groups",
+      "minimumRatio": 8.723829974415171,
+      "sampledPixels": 2000,
+      "worstPixel": {
+        "x": 116,
+        "y": 27,
+        "background": [
+          28,
+          72,
+          107
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-3.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-3-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 80.640625,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 100.640625,
+      "textHeight": 40,
+      "text": "Our Partners",
+      "minimumRatio": 8.635974257519859,
+      "sampledPixels": 1296,
+      "worstPixel": {
+        "x": 28,
+        "y": 23,
+        "background": [
+          25,
+          73,
+          108
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-4.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-4-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 102.578125,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 122.578125,
+      "textHeight": 40,
+      "text": "Trust & Security",
+      "minimumRatio": 8.543705364195091,
+      "sampledPixels": 1648,
+      "worstPixel": {
+        "x": 31,
+        "y": 27,
+        "background": [
+          18,
+          74,
+          111
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-nav-link-5.png",
+      "backgroundScreenshot": "1101-site-header-nav-link-5-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1101,
+      "selector": ".site-header .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1101-site-header-cta-app-1.png",
+      "backgroundScreenshot": "1101-site-header-cta-app-1-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".hero h1",
+      "lines": [
+        {
+          "x": 0,
+          "y": -6,
+          "width": 872.375,
+          "height": 96
+        },
+        {
+          "x": 0,
+          "y": 78,
+          "width": 875.703125,
+          "height": 96
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 84,
+      "minimum": 3,
+      "textWidth": 960,
+      "textHeight": 168,
+      "text": "Microsavings and group savings for daily earners",
+      "minimumRatio": 3.520860244248985,
+      "sampledPixels": 157410,
+      "worstPixel": {
+        "x": 873,
+        "y": 163,
+        "background": [
+          124,
+          130,
+          139
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-hero-h1-0.png",
+      "backgroundScreenshot": "1440-hero-h1-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".hero-intro",
+      "lines": [
+        {
+          "x": 0,
+          "y": 2,
+          "width": 469.5625,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 27.1875,
+          "width": 473.921875,
+          "height": 20
+        },
+        {
+          "x": 0,
+          "y": 52.375,
+          "width": 406.765625,
+          "height": 20
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 18,
+      "minimum": 4.5,
+      "textWidth": 480,
+      "textHeight": 75.5625,
+      "text": "Collect helps ibimina, community groups, and daily earners turn daily savings into capital accumulation, clearer ledgers, credit-readiness support files, and access to loans.",
+      "minimumRatio": 6.146584980027128,
+      "sampledPixels": 27901,
+      "worstPixel": {
+        "x": 403,
+        "y": 71,
+        "background": [
+          69,
+          94,
+          116
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-hero-intro-0.png",
+      "backgroundScreenshot": "1440-hero-intro-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".hero-actions .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        255,
+        255,
+        255,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 16.48297747532879,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          31,
+          31,
+          31
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-hero-actions-cta-app-0.png",
+      "backgroundScreenshot": "1440-hero-actions-cta-app-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".hero-actions .cta-group",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 151.125,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 177.125,
+      "textHeight": 44,
+      "text": "Create Group Saving",
+      "minimumRatio": 6.02974939319501,
+      "sampledPixels": 2736,
+      "worstPixel": {
+        "x": 161,
+        "y": 26,
+        "background": [
+          74,
+          95,
+          113
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-hero-actions-cta-group-0.png",
+      "backgroundScreenshot": "1440-hero-actions-cta-group-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".hero-actions .cta-touch",
+      "lines": [
+        {
+          "x": 13,
+          "y": 13,
+          "width": 91.875,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 117.875,
+      "textHeight": 44,
+      "text": "Get in Touch",
+      "minimumRatio": 5.701330101140623,
+      "sampledPixels": 1656,
+      "worstPixel": {
+        "x": 98,
+        "y": 28,
+        "background": [
+          76,
+          99,
+          117
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-hero-actions-cta-touch-0.png",
+      "backgroundScreenshot": "1440-hero-actions-cta-touch-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .brand strong",
+      "lines": [
+        {
+          "x": 0,
+          "y": -2,
+          "width": 60.671875,
+          "height": 22
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 19,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 19,
+      "text": "Collect",
+      "minimumRatio": 9.615489193964839,
+      "sampledPixels": 1159,
+      "worstPixel": {
+        "x": 27,
+        "y": 12,
+        "background": [
+          36,
+          65,
+          92
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-brand-strong-0.png",
+      "backgroundScreenshot": "1440-site-header-brand-strong-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .brand small",
+      "lines": [
+        {
+          "x": 0,
+          "y": -1,
+          "width": 59.984375,
+          "height": 13
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 12,
+      "minimum": 4.5,
+      "textWidth": 60.671875,
+      "textHeight": 12,
+      "text": "by IKANISA",
+      "minimumRatio": 9.487362355217048,
+      "sampledPixels": 720,
+      "worstPixel": {
+        "x": 5,
+        "y": 2,
+        "background": [
+          37,
+          66,
+          92
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-brand-small-0.png",
+      "backgroundScreenshot": "1440-site-header-brand-small-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 93.09375,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 113.09375,
+      "textHeight": 40,
+      "text": "Group Savings",
+      "minimumRatio": 8.957442535963532,
+      "sampledPixels": 1504,
+      "worstPixel": {
+        "x": 82,
+        "y": 23,
+        "background": [
+          35,
+          70,
+          100
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-0.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-0-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 62.640625,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 82.640625,
+      "textHeight": 40,
+      "text": "Insurance",
+      "minimumRatio": 8.818364485401396,
+      "sampledPixels": 1008,
+      "worstPixel": {
+        "x": 72,
+        "y": 23,
+        "background": [
+          34,
+          71,
+          103
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-1.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-1-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 42.296875,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 62.296875,
+      "textHeight": 40,
+      "text": "CRaaS",
+      "minimumRatio": 8.728462180454732,
+      "sampledPixels": 688,
+      "worstPixel": {
+        "x": 38,
+        "y": 23,
+        "background": [
+          33,
+          72,
+          103
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-2.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-2-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 124.109375,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 144.109375,
+      "textHeight": 40,
+      "text": "Community Groups",
+      "minimumRatio": 8.590667359522696,
+      "sampledPixels": 2000,
+      "worstPixel": {
+        "x": 54,
+        "y": 27,
+        "background": [
+          32,
+          73,
+          106
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-3.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-3-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 80.640625,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 100.640625,
+      "textHeight": 40,
+      "text": "Our Partners",
+      "minimumRatio": 8.491190845491342,
+      "sampledPixels": 1296,
+      "worstPixel": {
+        "x": 30,
+        "y": 23,
+        "background": [
+          26,
+          74,
+          110
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-4.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-4-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .nav-link",
+      "lines": [
+        {
+          "x": 10,
+          "y": 12,
+          "width": 102.578125,
+          "height": 16
+        }
+      ],
+      "rgba": [
+        244,
+        244,
+        244,
+        1
+      ],
+      "fontSize": 14,
+      "minimum": 4.5,
+      "textWidth": 122.578125,
+      "textHeight": 40,
+      "text": "Trust & Security",
+      "minimumRatio": 8.425509768854452,
+      "sampledPixels": 1648,
+      "worstPixel": {
+        "x": 31,
+        "y": 27,
+        "background": [
+          18,
+          75,
+          112
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-nav-link-5.png",
+      "backgroundScreenshot": "1440-site-header-nav-link-5-background.png"
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "selector": ".site-header .cta-app",
+      "lines": [
+        {
+          "x": 25,
+          "y": 13,
+          "width": 88.640625,
+          "height": 18
+        }
+      ],
+      "rgba": [
+        25,
+        28,
+        31,
+        1
+      ],
+      "fontSize": 16,
+      "minimum": 4.5,
+      "textWidth": 138.640625,
+      "textHeight": 44,
+      "text": "Get the App",
+      "minimumRatio": 17.111818692182336,
+      "sampledPixels": 1602,
+      "worstPixel": {
+        "x": 25,
+        "y": 13,
+        "background": [
+          255,
+          255,
+          255
+        ]
+      },
+      "status": "pass",
+      "screenshot": "1440-site-header-cta-app-1.png",
+      "backgroundScreenshot": "1440-site-header-cta-app-1-background.png"
+    }
+  ]
+}

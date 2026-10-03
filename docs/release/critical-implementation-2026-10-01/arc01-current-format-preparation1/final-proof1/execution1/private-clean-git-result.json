@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-final-253bb4b92cbe4db696f27defc0cf9a68-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "test ! -d .git\ngit init\ngit config user.name 'Collect ARC01 private final proof'\ngit config user.email 'arc01-final@invalid.example'\ngit add --all --force .\ngit commit -m 'Reviewed current formatter source'\ntest -z \"$(git status --porcelain)\"\ntest ! -e .git/objects/info/alternates\ngit rev-parse HEAD"
+  ],
+  "completed_at_utc": "2026-10-02T10:58:37.057022+00:00",
+  "deadline_seconds": 90,
+  "elapsed_seconds": 2.2844398340021144,
+  "exit_code": 0,
+  "log_sha256": "8601ad8269290ed052f491b131a9151ddeed1554da95f6a81a977aa550ae1db6",
+  "started_at_utc": "2026-10-02T10:58:34.772618+00:00",
+  "timed_out": false
+}

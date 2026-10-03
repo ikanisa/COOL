@@ -1,0 +1,40 @@
+{
+  "kind": "operator_email_auth_prepared_plan",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "selected_operator_email": "info@ikanisa.com",
+  "deployed": false,
+  "account_provisioned": false,
+  "email_verified_by_database_migration": false,
+  "smtp_configuration_verified": false,
+  "current_config_readback_http_status": 403,
+  "otp_requests": 0,
+  "auth_config_fields_to_review": {
+    "external_email_enabled": true,
+    "mailer_otp_length": 6,
+    "mailer_otp_exp": 600,
+    "mailer_templates_magic_link_content_source": "supabase/templates/collect_email_sign_in.html",
+    "mailer_templates_magic_link_content_sha256": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+    "mailer_autoconfirm": false,
+    "smtp_max_frequency": 60,
+    "mailer_subjects_magic_link": "Collect sign-in code"
+  },
+  "ordered_operations": [
+    "Freeze reviewed compatible migration source and rehearse clean/populated upgrades.",
+    "Read actual hosted Auth config using authorized management access; inspect SMTP or approved email-hook metadata without exporting credentials.",
+    "Apply only reviewed email fields/template while preserving the member phone provider and unrelated Auth fields.",
+    "Provision the selected existing email through the supported privileged Auth API without auto-confirming email or exporting credentials.",
+    "Reserve only info@ikanisa.com via the controlled service RPC; this does not verify email.",
+    "Perform normal email OTP sign-in privately; require current session, verified email, approval age, role and permissions.",
+    "Verify each enabled MCP hosted read and denial/revocation/expiry cases; save the session in the dedicated Keychain helper.",
+    "Switch to email-only operator access from the current approved email owner and read back the cutover/audit."
+  ],
+  "hosted_actions_performed": [],
+  "no_password_or_otp_in_chat": true,
+  "member_phone_auth_remains_enabled": true,
+  "docs": [
+    "https://supabase.com/docs/guides/auth/auth-email-passwordless",
+    "https://supabase.com/docs/guides/auth/auth-smtp",
+    "https://supabase.com/docs/reference/api/v1-get-auth-service-config",
+    "https://supabase.com/docs/reference/api/v1-update-auth-service-config"
+  ]
+}

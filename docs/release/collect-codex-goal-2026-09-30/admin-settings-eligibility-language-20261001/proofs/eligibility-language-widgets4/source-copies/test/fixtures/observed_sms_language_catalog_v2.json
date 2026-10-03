@@ -1,0 +1,43 @@
+{
+  "rows": [
+    {
+      "value": {
+        "enabled": true,
+        "collection_id": "99780000-0000-4000-8000-000000030001",
+        "receipt_language": "rw"
+      },
+      "exists": true,
+      "identity": {
+        "collection_id": "99780000-0000-4000-8000-000000030001"
+      },
+      "redacted": false,
+      "revision": 2,
+      "content_sha256": "ce9cff4eb19988f625d8800174a9717063251419cfd55632c8675f3bfa82eda8"
+    }
+  ],
+  "limit": 20,
+  "scope": "runtime_controls",
+  "family": "sms_receipt_policies",
+  "checked_at": "2026-10-01T18:37:27.017982Z",
+  "descriptor": {
+    "can_manage": true,
+    "field_types": {
+      "enabled": "boolean",
+      "collection_id": "uuid",
+      "receipt_language": "text"
+    },
+    "create_allowed": true,
+    "identity_fields": [
+      "collection_id"
+    ],
+    "nullable_fields": [],
+    "writable_fields": [
+      "enabled",
+      "receipt_language"
+    ],
+    "immutable_fields": []
+  },
+  "next_cursor": null,
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T18:38:27.017982Z"
+}

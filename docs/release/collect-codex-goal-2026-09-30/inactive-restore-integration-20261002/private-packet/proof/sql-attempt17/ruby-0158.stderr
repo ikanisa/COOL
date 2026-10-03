@@ -1,0 +1,3 @@
+ERROR:  55000: gateway_identity_immutable
+CONTEXT:  PL/pgSQL function collect_gateway.protect_device_identity() line 8 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

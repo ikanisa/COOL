@@ -1,0 +1,6 @@
+{
+  "blocker_seen": true,
+  "blocker_exit": 0,
+  "inspection_exit": 3,
+  "stderr": "ERROR:  55P03: receipt_successor_source_busy\nCONTEXT:  PL/pgSQL function public.admin_inspect_receipt_successor_v1(uuid,text,uuid) line 21 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+}

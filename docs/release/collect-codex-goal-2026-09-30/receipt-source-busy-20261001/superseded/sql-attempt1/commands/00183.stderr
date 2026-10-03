@@ -1,0 +1,10 @@
+NOTICE:  00000: constraint "profiles_momo_provider_check" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_momo_provider_number_match" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_momo_number_rw_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_link_format" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "profiles_revolut_account_length" of relation "profiles" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655

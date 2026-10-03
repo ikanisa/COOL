@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_current_evidence_index.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--index",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.json",
+    "--integrator-review-sha256",
+    "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4",
+    "--integrator-checkpoint-sha256",
+    "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804"
+  ],
+  "pid": 44372,
+  "pgid": 44372,
+  "owned_group_absent": true,
+  "exit_code": 2,
+  "actual_seconds": 0.2929199170030188,
+  "timed_out": false,
+  "deadline_seconds": 30,
+  "stdout_sha256": "10ae12b0479cf7a25d435d7c15676de519235d20e3da5f5aa2363bddd936716d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

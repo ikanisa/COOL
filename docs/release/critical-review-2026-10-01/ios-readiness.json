@@ -1,0 +1,7 @@
+{
+  "generated_at": "2026-10-01T17:33:15Z",
+  "status": "fail",
+  "failures": [
+    "Expected 5 screenshots matching iphone65-*.png, found 1."
+  ]
+}

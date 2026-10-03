@@ -1,0 +1,15 @@
+{
+  "captured_at": "2026-10-01T11:31:55.775604+00:00",
+  "connection": "collect-notifications",
+  "enabled_tools": [
+    "collect_notification_health",
+    "collect_list_pending_receipts",
+    "get_collect_health",
+    "get_notification_status",
+    "list_notification_failures"
+  ],
+  "exact_five_read_tools": true,
+  "installed_profile_mutated": false,
+  "environment_or_credential_values_retained": false,
+  "server_tool_calls": 0
+}

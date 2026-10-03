@@ -1,0 +1,45 @@
+Run options: --seed 41520
+
+# Running:
+
+FFFFFFF
+
+Finished in 1.134738s, 6.1688 runs/s, 35.2504 assertions/s.
+
+  1) Failure:
+NativeBuildProvenanceTest#test_external_source_symlink_is_rejected_without_printing_its_bytes [scripts/tests/native_build_provenance_test.rb:93]:
+Expected true to not be truthy.
+
+  2) Failure:
+NativeBuildProvenanceTest#test_finish_refuses_a_changed_admin_source_before_writing_manifest [scripts/tests/native_build_provenance_test.rb:105]:
+Expected "Missing native artifact: build/app/outputs/flutter-apk/app-production-release.apk\n" to include "Source changed during native build".
+
+  3) Failure:
+NativeBuildProvenanceTest#test_all_three_local_fork_runtime_and_native_inputs_are_bound [scripts/tests/native_build_provenance_test.rb:60]:
+gotrue.
+Expected "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f" to not be equal to "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f".
+
+  4) Failure:
+NativeBuildProvenanceTest#test_admin_compilation_source_addition_and_mutation_change_fingerprint [scripts/tests/native_build_provenance_test.rb:49]:
+Expected "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f" to not be equal to "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f".
+
+  5) Failure:
+NativeBuildProvenanceTest#test_native_lockfiles_and_license_bytes_are_bound [scripts/tests/native_build_provenance_test.rb:73]:
+android/app/gradle.lockfile.
+Expected "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f" to not be equal to "d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f".
+
+  6) Failure:
+NativeBuildProvenanceTest#test_ignored_generated_files_and_indexed_private_inputs_are_excluded [scripts/tests/native_build_provenance_test.rb:85]:
+--- expected
++++ actual
+@@ -1 +1 @@
+-"d5ea022f70a8ef17312fb642da403b41d9d993f68dd4f46cc659740eb55ad98f"
++"e69dfeba5f2b3e0055fed98500403d0ccf0e0d75218e2a4d20fa767e29469c8a"
+
+
+  7) Failure:
+NativeBuildProvenanceTest#test_finish_records_an_inspectable_exact_source_inventory [scripts/tests/native_build_provenance_test.rb:118]:
+Expected: 2
+  Actual: 1
+
+7 runs, 40 assertions, 7 failures, 0 errors, 0 skips

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "recorded_at_utc": "2026-10-01T22:33:17.270623+00:00",
+  "commands": {
+    "runner-contracts": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "scripts/tests/edge_runner_contract_test.py"
+      ],
+      "started_at_utc": "2026-10-01T22:33:13.156629+00:00",
+      "completed_exit": 0
+    },
+    "ci-policy": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "scripts/qa/collect_ci_policy.py"
+      ],
+      "started_at_utc": "2026-10-01T22:33:13.821526+00:00",
+      "completed_exit": 0
+    },
+    "ci-policy-contracts": {
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-B",
+        "scripts/tests/test_collect_ci_policy.py"
+      ],
+      "started_at_utc": "2026-10-01T22:33:14.906304+00:00",
+      "completed_exit": 0
+    }
+  },
+  "source_before": {
+    "scripts/tests/edge_runner_contract_test.py": "a2eb2404cd3b4425696d3b3cb0aada6d0f99a7f061c5a910916c044d00ad657e",
+    "scripts/tests/verify_roster_decoder.py": "e2f102db709793c14b897db9f829e09b427e9ae2822b6f7152d5f931f9a914d6",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8",
+    ".github/workflows/codeql.yml": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70",
+    ".github/workflows/public-website.yml": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+    ".github/workflows/hardening-contracts.yml": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    ".github/workflows/supabase-readiness.yml": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b",
+    ".github/workflows/ci.yml": "1be3c6e9f8dfbca9fab940df2f765b89818b6ca2e20d387978906c7258388583"
+  },
+  "source_after": {
+    "scripts/tests/edge_runner_contract_test.py": "a2eb2404cd3b4425696d3b3cb0aada6d0f99a7f061c5a910916c044d00ad657e",
+    "scripts/tests/verify_roster_decoder.py": "e2f102db709793c14b897db9f829e09b427e9ae2822b6f7152d5f931f9a914d6",
+    "scripts/qa/collect_ci_policy.py": "c53fa729af84d801a8e7b2b08af38d21299292cdbd801e4d30b61447b2230a6a",
+    "scripts/tests/test_collect_ci_policy.py": "3603c9346f54f66a92028b75a4277951cecd0774f990d410c293d0bc0ea7b9d8",
+    ".github/workflows/codeql.yml": "6aecf24ba158592d99822a9d7ad505b6fd7b411ef2642cccfd80e8c14612ec70",
+    ".github/workflows/public-website.yml": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0",
+    ".github/workflows/hardening-contracts.yml": "4bdd55b05ae6c7f588c167dcebdef5d13c1f5edecbc4dbaaa55b329f320bf417",
+    ".github/workflows/ios-app-store.yml": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85",
+    ".github/workflows/supabase-readiness.yml": "84cdc8b5c33e10a8da4c2d0c17be0d77dd42dfd1bfb5dd69d66b5b67615fbd7b",
+    ".github/workflows/ci.yml": "1be3c6e9f8dfbca9fab940df2f765b89818b6ca2e20d387978906c7258388583"
+  },
+  "source_unchanged": true,
+  "scope": "16 real runner/provenance/process-deadline tests;6 workflow policy sources;12 CI policy behavior tests. No hosted CI or production calls.",
+  "artifacts": {
+    "ci-policy.stdout": "9f7360353f2892159c7a623b26deb42896c03bd15665ef3a5a5a01ce40e34c53",
+    "runner-contracts.stderr": "e9ffaa7526ba603b3db0f972930d15a2420d9695b7e6065329aaec80eb03fa47",
+    "ci-policy.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner-contracts.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ci-policy-contracts.stderr": "fee22def845004aa8ed2d58598af478cab6e36b1c94af8a889ca1befde74eff9",
+    "ci-policy-contracts.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

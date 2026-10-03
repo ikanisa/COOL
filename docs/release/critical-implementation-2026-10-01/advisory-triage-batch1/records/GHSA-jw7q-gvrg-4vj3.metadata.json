@@ -1,0 +1,18 @@
+{
+  "authentication": "none",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Thu, 01 Oct 2026 21:20:56 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.osv.dev/v1/vulns/GHSA-jw7q-gvrg-4vj3",
+  "requested_at": "2026-10-01T21:20:56.303556+00:00",
+  "response_bytes": 2831,
+  "response_path": "records/GHSA-jw7q-gvrg-4vj3.response",
+  "response_sha256": "86361f1e3fd1d92b120230c71ef7c3bbe7c1a9e140118dc82cd3ac47f223bbf1",
+  "response_url": "https://api.osv.dev/v1/vulns/GHSA-jw7q-gvrg-4vj3",
+  "retrieved_at": "2026-10-01T21:20:56.836856+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

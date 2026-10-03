@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "scope": "Private proposal only; root owns integration and aggregate proof.",
+  "preimages": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/core/auth_fixture_token_test.dart",
+      "sha256": "68f7816ef4f012395f98e1519200feb27ae337e465afc3e57d7f53310b3c638d",
+      "bytes": 2437,
+      "mode": "0o644"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/third_party/gotrue/test/synthetic_jwt.dart",
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "bytes": 508,
+      "mode": "0o644"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/support/synthetic_jwt.dart",
+      "must_not_exist": true
+    }
+  ],
+  "proposed": [
+    {
+      "path": "test/core/auth_fixture_token_test.dart",
+      "sha256": "9560bf6d52dd8882707795b76628cd5d125c77b4b452d6edcae78096b3501ebe",
+      "bytes": 2418,
+      "change": "Replace only one fixture import with ../support/synthetic_jwt.dart."
+    },
+    {
+      "path": "test/support/synthetic_jwt.dart",
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+      "bytes": 508,
+      "change": "Exact byte copy of local dummy fixture; upstream fixture remains untouched."
+    }
+  ],
+  "preservation": {
+    "test_body_after_main_byte_identical": true,
+    "only_import_replacement": true,
+    "upstream_helper_exact_copy": true,
+    "test_count": 3,
+    "authenticated_session_created": false
+  },
+  "excluded_paths_changed": false,
+  "maintained_source_changed": false
+}

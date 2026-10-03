@@ -1,0 +1,126 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 36717,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.603,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/admin_operational_health_test.dart",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt2-applicable-telemetry/tests.machine.jsonl"
+      ],
+      "exit_code": 1,
+      "timed_out": false,
+      "process_group": 36846,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 14.207,
+      "sha256": "b876faee76ccc10d4835de09eb0b68ffcf6a7618e77ded807c95513d7cc4be83"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/core/admin_operational_health.dart",
+        "test/admin_operational_health_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 37898,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.506,
+      "sha256": "48119b7f93f88ac166398c1576d4686ff2163286c1e198494980483fef718e84"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_operational_health.dart",
+        "test/admin_operational_health_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 37900,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 2.86,
+      "sha256": "515b2e7337378ab8c03de383b21366f715f0b83d6890ec2ce59847b8fd0a8a3b"
+    }
+  ],
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 54,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "backlog boundary is inclusive and attention outranks missing telemetry",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/financial-observability-2026-09-30/ui150-responses-attempt2-applicable-telemetry/source-export/test/admin_operational_health_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "missing_response_cases": [],
+  "event_errors": [
+    {
+      "testID": 5,
+      "error": "FormatException: Health sample could not be validated. Refresh to check again.",
+      "stackTrace": "package:collect_app/admin/core/admin_operational_health.dart 167:30  AdminOperationalHealth._invalid\npackage:collect_app/admin/core/admin_operational_health.dart 294:35  new AdminOperationalHealth.parse\ntest/admin_operational_health_test.dart 106:37                       main.<fn>\n",
+      "isFailure": false,
+      "type": "error",
+      "time": 6942
+    }
+  ],
+  "test_count": 54,
+  "response_cases": 13,
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "live_source_unchanged": true,
+  "live_source_drift": [],
+  "transport_dependencies_unchanged": true,
+  "export_before_sha256": "d3085ff8a070d7da20ea3e203f840dd4984ad9184004b507276f236af1c2dba7",
+  "export_after_sha256": "d3085ff8a070d7da20ea3e203f840dd4984ad9184004b507276f236af1c2dba7",
+  "sql_provenance": {
+    "packet": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+    "installed_migration_count": 150,
+    "table_count": 149,
+    "source_sql_sha256": "aeed4c9bea5d5205576ec7393abebf5a9f4044032b7333835dfe7ba38667c49e",
+    "stdout_sha256": "31d8a6ef87e522f699de0d9263bce5f53b08232676a1d39fdae890bdc0a1d127",
+    "stderr_sha256": "c43c4086600f3f09d079f19544f676094b70d4b1006e29024368da610c9e3961",
+    "result_sha256": "95ea72adc43b0967959a8a6f7dbeb3f4822ad6577b68cbb29c8526de6349aa08"
+  },
+  "machine_log_sha256": "e94690080d85f71eb22f2fd8481782fef3602a5da852206e7fadc90dcba70d9e",
+  "captured_at_utc": "2026-09-30T20:06:30.515107+00:00",
+  "scope": "Actual installed150 SQL receipt; immutable current contract and all13 read-only response guidance/compact320x568/2x expiry interactions",
+  "database_called_during_widget_tests": false,
+  "provider_called": false,
+  "actual_browser_verified": false,
+  "operator_actions_rehearsed": false,
+  "whole_goal_complete": false
+}

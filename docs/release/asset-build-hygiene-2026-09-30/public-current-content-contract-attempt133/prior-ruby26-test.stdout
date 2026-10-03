@@ -1,0 +1,114 @@
+Run options: --seed 48524
+
+# Running:
+
+EEEEEE..EE.EE.......E
+
+Finished in 0.657286s, 31.9496 runs/s, 15.2141 assertions/s.
+
+  1) Error:
+PublicContentContractTest#test_symlinked_evidence_refused:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ad6c730>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:157:in `test_symlinked_evidence_refused'
+
+  2) Error:
+PublicContentContractTest#test_missing_route_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ad982e0>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:72:in `test_missing_route_fails'
+
+  3) Error:
+PublicContentContractTest#test_actual_reviewed_contract_preserves_historical_baseline:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7adee550>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:55:in `test_actual_reviewed_contract_preserves_historical_baseline'
+
+  4) Error:
+PublicContentContractTest#test_changed_builder_source_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7adfa210>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:96:in `test_changed_builder_source_fails'
+
+  5) Error:
+PublicContentContractTest#test_added_route_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ae0b5d8>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:68:in `test_added_route_fails'
+
+  6) Error:
+PublicContentContractTest#test_digest_refresh_cannot_bypass_explicit_delta_review:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7aa24e88>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:149:in `test_digest_refresh_cannot_bypass_explicit_delta_review'
+
+  7) Error:
+PublicContentContractTest#test_changed_actual_product_source_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7aa53468>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:91:in `test_changed_actual_product_source_fails'
+
+  8) Error:
+PublicContentContractTest#test_changed_legal_input_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7a883e08>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:101:in `test_changed_legal_input_fails'
+
+  9) Error:
+PublicContentContractTest#test_unreviewed_visible_copy_change_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ad92de0>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:64:in `test_unreviewed_visible_copy_change_fails'
+
+ 10) Error:
+PublicContentContractTest#test_changed_historical_review_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ada5df0>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:48:in `assert_failed'
+    scripts/tests/public_content_contract_test.rb:143:in `test_changed_historical_review_fails'
+
+ 11) Error:
+PublicContentContractTest#test_duplicate_route_fails:
+NoMethodError: undefined method `filter_map' for #<Array:0x0000000c7ad42ea8>
+Did you mean?  filter
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:60:in `load'
+    /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/public_content_contract.rb:85:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:44:in `evaluate'
+    scripts/tests/public_content_contract_test.rb:76:in `test_duplicate_route_fails'
+
+21 runs, 10 assertions, 0 failures, 11 errors, 0 skips

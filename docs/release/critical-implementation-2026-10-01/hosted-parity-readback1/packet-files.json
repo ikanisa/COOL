@@ -1,0 +1,61 @@
+{
+  "status": "sealed",
+  "scope": "Fresh exact-project permission refusal plus current static and retained dated inventory; no live parity acceptance",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5404,
+      "sha256": "b219e68b92e3dff18334176f7abff5cd2126f081007821c0e96cd6859ecdd123"
+    },
+    {
+      "path": "collect_packet.py",
+      "bytes": 10301,
+      "sha256": "39f3f326781bfc799dfc503ce2b4ab99c83ef300d8dc6cecabbaccdb12ab1196"
+    },
+    {
+      "path": "collector-command-result.json",
+      "bytes": 631,
+      "sha256": "d111c16aae1affaf701c4ed19ac5614191c9c5d2c0b032cd695f883cb2189e6f"
+    },
+    {
+      "path": "connector-discovery.json",
+      "bytes": 2485,
+      "sha256": "3da76345b87511c3d9282b0aaaa22463c8577adda5728cd9b390b5a647726106"
+    },
+    {
+      "path": "exact-project-call.json",
+      "bytes": 1013,
+      "sha256": "4cd5d63c80a45f5f000156a34beb6600b4c1cc83ed5995ac8437d6b079f3aa18"
+    },
+    {
+      "path": "inputs-after.json",
+      "bytes": 78718,
+      "sha256": "8f698c16a0dc17f1292caba9ac164ceab0e4d267e677508b0d35725afe6e8282"
+    },
+    {
+      "path": "inputs-before.json",
+      "bytes": 78718,
+      "sha256": "8f698c16a0dc17f1292caba9ac164ceab0e4d267e677508b0d35725afe6e8282"
+    },
+    {
+      "path": "local-and-retained-inventory.json",
+      "bytes": 107070,
+      "sha256": "c146ef2207c272a8ff0ee033fd900466127657a3bb2ae5758445de95c0982950"
+    },
+    {
+      "path": "observation-summary.json",
+      "bytes": 1176,
+      "sha256": "8c53b52ac9f3883fd084fc6ae115e1fb1f95cc0148a975935149ad910f96fdac"
+    },
+    {
+      "path": "runtime-identities.json",
+      "bytes": 1419,
+      "sha256": "ec7ccd29a6b738c63abaaff0ba3ba6bf8ec35b06d88f8be97d0310b612fbdb30"
+    },
+    {
+      "path": "static-inventory-check.json",
+      "bytes": 688,
+      "sha256": "741b2fb74adc3a6eac1b3b51dffe19c696c250a760d5a1e1618a50f1e451fa0c"
+    }
+  ]
+}

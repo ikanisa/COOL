@@ -1,0 +1,4 @@
+ERROR:  P0001: Notification job is not available to claim
+CONTEXT:  PL/pgSQL function public.collect_claim_receipt(uuid,uuid,text,uuid) line 77 at RAISE
+PL/pgSQL function public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid) line 10 at assignment
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

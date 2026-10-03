@@ -1,0 +1,10 @@
+{
+  "format": "collect-inactive-restore-finite-capsule-seal-v1",
+  "files_manifest": {
+    "bytes": 215112,
+    "sha256": "11e9ae7f7d6c5582b5da945e0c118cb1876cafe25a6f1c36a955ab86dea0ce05"
+  },
+  "member_count": 1154,
+  "total_bytes": 19884868,
+  "scope": "Seven canonical changes and composed scoped evidence; entire21-task goal remains active"
+}

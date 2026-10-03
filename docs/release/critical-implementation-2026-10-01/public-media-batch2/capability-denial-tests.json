@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "actual_command": [
+    "ruby",
+    "scripts/tests/public_capability_contract_test.rb"
+  ],
+  "exit_code": 0,
+  "sources_before": {
+    "scripts/tests/public_capability_contract_test.rb": "bef233bb03754e02c176e0e262e30075f76f47da6b286a01dfb01314768b0529",
+    "scripts/qa/public_capability_contract.rb": "965b9a2484a225703c2d108e64520b7871a5a3b08a092fbe2ae754abe816ce0c",
+    "scripts/product_capabilities.rb": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd"
+  },
+  "sources_after": {
+    "scripts/tests/public_capability_contract_test.rb": "bef233bb03754e02c176e0e262e30075f76f47da6b286a01dfb01314768b0529",
+    "scripts/qa/public_capability_contract.rb": "965b9a2484a225703c2d108e64520b7871a5a3b08a092fbe2ae754abe816ce0c",
+    "scripts/product_capabilities.rb": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+    "content/product/collect_capabilities.json": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd"
+  },
+  "sources_unchanged": true,
+  "scope": "Actual isolated canonical capability qualification/CTA denial mutations; no current source mutation or provider/publication/native acceptance."
+}

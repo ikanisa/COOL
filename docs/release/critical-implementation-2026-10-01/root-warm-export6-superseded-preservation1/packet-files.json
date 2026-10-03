@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "bytes": 275,
+      "path": "app-export-control-intent.json",
+      "sha256": "845744148648d436c18ce1396a45e4ab10a249f824721aecd1e57ab621be5bcd"
+    },
+    {
+      "bytes": 258,
+      "path": "app-source-intent.json",
+      "sha256": "a0e046c7985b158b2bab714756d3e8cba28239e965af11bf5d4a0c40ed6b9cf7"
+    },
+    {
+      "bytes": 1187422,
+      "path": "plan.json",
+      "sha256": "b67e4c4540d730384f2f60537cd760c955518b732b3f2dbaad70d98783960a99"
+    },
+    {
+      "bytes": 484,
+      "path": "readback.json",
+      "sha256": "ab06c6ca0983f3069007970cb08c76b2cfd7687e0fd2b1f92b8793a62b9c2b22"
+    }
+  ]
+}

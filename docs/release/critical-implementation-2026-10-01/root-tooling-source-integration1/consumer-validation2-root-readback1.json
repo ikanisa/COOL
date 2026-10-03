@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "checked_at_utc": "2026-10-02T07:23:22.666156+00:00",
+  "packet_sha256": "059c0825a5eb04ac81e667a2bb7afaa9b0636e0d3b6d4eed759e96e149e88168",
+  "dated_packet_bound_regular_leaves": 115,
+  "dated_27_success_valid": true,
+  "retained_extra_probes": {
+    "pass": 3,
+    "fail": 1
+  },
+  "helper_changed_after_this_packet": true,
+  "current_corrected_management_result_not_inferred": true,
+  "full_finding_closed": false
+}

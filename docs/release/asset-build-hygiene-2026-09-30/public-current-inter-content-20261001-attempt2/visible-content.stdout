@@ -1,0 +1,146 @@
+{
+  "status": "pass",
+  "generated_routes": [
+    "/",
+    "/account-deletion/",
+    "/community-groups/",
+    "/craas/",
+    "/credit-readiness/",
+    "/data-deletion/",
+    "/group-savings/",
+    "/insurance/",
+    "/our-partners/",
+    "/partners/",
+    "/privacy/",
+    "/protection/",
+    "/security/",
+    "/terms/",
+    "/trust/"
+  ],
+  "declared_page_alias_routes": [
+    "/",
+    "/account-deletion/",
+    "/community-groups/",
+    "/craas/",
+    "/credit-readiness/",
+    "/data-deletion/",
+    "/group-savings/",
+    "/insurance/",
+    "/our-partners/",
+    "/partners/",
+    "/privacy/",
+    "/protection/",
+    "/security/",
+    "/terms/",
+    "/trust/"
+  ],
+  "rows": [
+    {
+      "route": "/",
+      "html_sha256": "1c3a21c093a6616006a9b31d211025539716b76f59d56e783819ff50cca916d0",
+      "visible_text_sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "expected_sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/account-deletion/",
+      "html_sha256": "b14152e207897d0262037ce1d672a1b44738209187f0f303509b6c403e2362f3",
+      "visible_text_sha256": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "expected_sha256": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/community-groups/",
+      "html_sha256": "e2141134710c6ed04c3b46828c081a11d56434c89bdf3fa355017b5c661c3a45",
+      "visible_text_sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "expected_sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/craas/",
+      "html_sha256": "2f2140e0e7e401853374d787dbe84dd618a9345811f9c24e1601eb1261237579",
+      "visible_text_sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "expected_sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/credit-readiness/",
+      "html_sha256": "493359dbdf75a2841af2b27ab5fde534c9ff020a044ca328369773e6f409ed86",
+      "visible_text_sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "expected_sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/data-deletion/",
+      "html_sha256": "91c018841fb1e578b729dca50cd6eb3130062f8e046f4816c0f37d1ccc3c1184",
+      "visible_text_sha256": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "expected_sha256": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/group-savings/",
+      "html_sha256": "c949c1b7287b730424127010239303bab20b0a2bdc1f579d81ac672dc5bfa7ff",
+      "visible_text_sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "expected_sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/insurance/",
+      "html_sha256": "5ca457b119c14064fe1625a2720b86942afc2bab74abfba83ebb77c909e25d9b",
+      "visible_text_sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "expected_sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/our-partners/",
+      "html_sha256": "b4ddc8c6246e3e7dd48664ed6402b2fbbcff8b5824eba9e7da5bbc8943205973",
+      "visible_text_sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "expected_sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/partners/",
+      "html_sha256": "f2cb4cf42719b2c93bcedde0e19f4952cd36bf9f76b8fb0e18b1e5087d45e51f",
+      "visible_text_sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "expected_sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/privacy/",
+      "html_sha256": "8ab97996347ed9f46d29f58843e36a96a6631d2866ae617849eec18e61a2c05b",
+      "visible_text_sha256": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "expected_sha256": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/protection/",
+      "html_sha256": "f7c2cc44d9fbbbb2a88f936d5bb1e79c11628248c4f9a662ed2afcd34e384bd0",
+      "visible_text_sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "expected_sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/security/",
+      "html_sha256": "f2c8e19f087e3ef87d9af1600ec1514aad763b62dfc30671d078bcf3ab547792",
+      "visible_text_sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "expected_sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/terms/",
+      "html_sha256": "1aecad7531fc5a8beedf2eaefa27d90cc535af6f26acb2fcd31ce3fe2e93efd5",
+      "visible_text_sha256": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "expected_sha256": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "matches_reviewed_copy": true
+    },
+    {
+      "route": "/trust/",
+      "html_sha256": "1b187291d502dccff71f3dd99ac9eaa851a181cae594f9967709ffc9d295cdec",
+      "visible_text_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "expected_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "matches_reviewed_copy": true
+    }
+  ],
+  "legal_release_approved": false,
+  "publication_approved": false
+}

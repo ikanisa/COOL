@@ -1,0 +1,22 @@
+{
+  "copies_shared_cache_git_environment_or_credentials": false,
+  "created_at_utc": "2026-10-02T00:22:26.375042+00:00",
+  "dart_version": "3.12.2",
+  "flutter_version": "3.44.4",
+  "pending_current_source_gate": "Three owner-coordinated root formatting corrections and concurrent source stability remain required. Private candidate is not current-root acceptance.",
+  "platform": "linux/amd64",
+  "private_candidate_correction_paths": [
+    "lib/admin/core/admin_runtime.dart",
+    "scripts/tests/admin_receipt_source_busy_test.dart",
+    "test/features/runtime_component_contract_test.dart"
+  ],
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+  "publisher_archive_bytes": 1543593524,
+  "publisher_archive_sha256": "c853cda0312a162854c481fe6a1bc286d84fbb74bfab7037c39750061dc9b466",
+  "publisher_archive_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.44.4-stable.tar.xz",
+  "publisher_object_generation": "1782344877588856",
+  "root_checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_source_edits_authorized": false,
+  "sdk_architecture": "x64",
+  "ubuntu_manifest": "ubuntu@sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4"
+}

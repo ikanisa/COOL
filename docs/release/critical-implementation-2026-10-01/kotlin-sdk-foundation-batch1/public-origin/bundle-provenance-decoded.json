@@ -1,0 +1,139 @@
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicate": {
+    "buildType": "//bcid.corp.google.com/build_entry_point/luci/v1",
+    "builder": {
+      "id": "//bcid.corp.google.com/builders/luci"
+    },
+    "invocation": {
+      "configSource": {
+        "entryPoint": "packaging/packaging"
+      }
+    },
+    "materials": [
+      {
+        "digest": {
+          "cipd_instance_id": "xRnh2Jix-R3RiW9MEY2uTCgfDc_tZEPV_mUz122hC1cC"
+        },
+        "uri": "cipd_package://prod/infra/tools/security/provenance_broker/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "wfllXMY8ugTOPjGzb6dVxOIK43rpnEWFiUf3KOuDkCIC"
+        },
+        "uri": "cipd_package://prod/flutter/recipe_bundles/flutter.googlesource.com/recipes"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "-UBwCSQAErDhmS2sh9yrUmI6o__RPxHaB5MkexYdYjsC"
+        },
+        "uri": "cipd_package://prod/infra/tools/cloudtail/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "nQBTQYeBrqY0wOUNet3kHp8NSgE0eDBE8xb_FfnANv4C"
+        },
+        "uri": "cipd_package://prod/infra/tools/git/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "dQ2_u7XIcVxe_1hS9EwNo41FT8J1ufeKLv8la-XiYfUC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci-auth/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "JySCMeYGXIUkyxLBonjwYk_uQ7CA0bFC7KUFCxj5W7MC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/led/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "WoacdWQx6OjwsYXym9UhtPeFvemUfynkUhU2UbO7p1MC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/lucicfg/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "gzNyQrxtVW8EY2fjyod0KSmELqTJvgEFGsN1XMSqUPYC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/git-credential-luci/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "bH-0XmrGNjwAuYILJZEyVUGQoZfWVDegkSAl-pwn4WEC"
+        },
+        "uri": "cipd_package://prod/infra/3pp/tools/cpython3/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "IYEX00ruLfZ6axTWSro4kpf6uZFewbayquUkRDntEMoC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/cas/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "tgtTfY6dghU5WYZ1-KmkdzeXZKMSNeQ_0m9v3HZkrD8C"
+        },
+        "uri": "cipd_package://prod/infra/tools/bb/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "OzjgFHPADg22NMPRyn0KcKo2qdR4ib_9V5tkG_w5PLkC"
+        },
+        "uri": "cipd_package://prod/infra/tools/rdb/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "IYEX00ruLfZ6axTWSro4kpf6uZFewbayquUkRDntEMoC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/cas/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "eMFUNLVdtpgYujft333YjDaGy5wLgAvqt-EOdeNMMZgC"
+        },
+        "uri": "cipd_package://prod/infra/tools/prpc/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "EoYjJcI7TM2K1O8R_-E1JCK4UmSRosgExua_AqYCcJQC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/bbagent/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "fle-4RFkGPJ8i8TmCE9qINW1SFOcE9hyfzckQVWG7PoC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/vpython3/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "eQcuo2BXRiveozVpyGPojQ_bPL8JZ6OJAOKuyLl1rxQC"
+        },
+        "uri": "cipd_package://prod/infra/tools/luci/docker-credential-luci/mac-arm64"
+      },
+      {
+        "digest": {
+          "cipd_instance_id": "H0NvUeMMroGwzIjOfeGYiBLk0CqV4GfbuACOTn5cjsQC"
+        },
+        "uri": "cipd_package://prod/infra/3pp/tools/git/mac-arm64"
+      }
+    ],
+    "metadata": {
+      "buildFinishedOn": "2026-06-24 23:27:14.725815593 +0000 UTC",
+      "buildInvocationId": "mac-33-h527.br.iad65.cr.dev@1782316876:1",
+      "buildStartedOn": "2026-06-24 23:15:40.533879 +0000 UTC",
+      "completeness": {}
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v0.2",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042"
+      },
+      "name": "_"
+    }
+  ]
+}

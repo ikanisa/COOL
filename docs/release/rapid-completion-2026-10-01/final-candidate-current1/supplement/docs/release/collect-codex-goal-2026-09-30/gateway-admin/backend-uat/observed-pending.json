@@ -1,0 +1,67 @@
+{
+  "rows": [
+    {
+      "state": "pending",
+      "health": null,
+      "device_id": "b02f7194-816a-4dc5-beb8-64e9d34324ce",
+      "key_sha256": "dc0ce633dbcc913dafafa4b89ac44d8ce683fdfc3f60c8bdf21213b9f2b534ba",
+      "revoked_at": null,
+      "enrolled_at": "2026-09-30T22:47:41.926854Z",
+      "activated_at": null,
+      "installation_id": "4318a478-bb42-44ba-8554-00503a008735",
+      "last_owner_action": {
+        "action": "enroll",
+        "receipt": {
+          "replay": false,
+          "device_id": "b02f7194-816a-4dc5-beb8-64e9d34324ce",
+          "request_id": "77886760-b30e-48a6-8064-4bc34ea9ad27",
+          "recorded_at": "2026-09-30T22:47:41.926854Z",
+          "state_at_action": "pending"
+        }
+      },
+      "dispatch_authority": "pending",
+      "dispatch_available": false,
+      "callback_observations": {
+        "sent": 0,
+        "total": 0,
+        "delivery": 0
+      },
+      "signing_certificate_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "state": "pending",
+      "health": null,
+      "device_id": "ab7b10e5-99a1-4252-af4a-92f144de929c",
+      "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+      "revoked_at": null,
+      "enrolled_at": "2026-09-30T22:47:41.674653Z",
+      "activated_at": null,
+      "installation_id": "a6690ed4-1cf3-472a-a058-f4f631078a5f",
+      "last_owner_action": {
+        "action": "enroll",
+        "receipt": {
+          "replay": false,
+          "device_id": "ab7b10e5-99a1-4252-af4a-92f144de929c",
+          "request_id": "7a7179ae-51cf-4945-bb57-757efbf045d9",
+          "recorded_at": "2026-09-30T22:47:41.674653Z",
+          "state_at_action": "pending"
+        }
+      },
+      "dispatch_authority": "pending",
+      "dispatch_available": false,
+      "callback_observations": {
+        "sent": 0,
+        "total": 0,
+        "delivery": 0
+      },
+      "signing_certificate_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  ],
+  "limit": 20,
+  "scope": "platform_global",
+  "total": 2,
+  "checked_at": "2026-09-30T22:47:42.292414Z",
+  "next_cursor": null,
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T22:48:42.292414Z"
+}

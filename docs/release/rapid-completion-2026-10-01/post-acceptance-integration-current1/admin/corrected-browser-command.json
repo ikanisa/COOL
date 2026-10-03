@@ -1,0 +1,19 @@
+{
+  "session_id": 62990,
+  "argv": [
+    "node",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-harness-current1/scripts/qa/current_browser_lifecycle.mjs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current2"
+  ],
+  "environment": {
+    "COLLECT_BROWSER_SOURCE_ROOT": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+    "COLLECT_BROWSER_BUILD_ROOT": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+    "COLLECT_BROWSER_FLUTTER": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-integration-io-current1/bin/flutter"
+  },
+  "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/lifecycle-corrected.stdout",
+  "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/lifecycle-corrected.stderr",
+  "fresh_build": true,
+  "retained_report": false,
+  "attempted_builds": 2,
+  "scope": "One causal corrected final lifecycle after the original preserved font stdout-pipe failure. No compiler options changed; no VM, SQL, native, provider or deployment commands."
+}

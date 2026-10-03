@@ -1,0 +1,253 @@
+{
+  "actual_blocking_races": 2,
+  "actual_dependency_definitions": {
+    "admin_commit_roster_import(uuid,uuid,uuid,text,boolean,text,uuid,text,text)": "27494d9ec43843cf0e77faa43dae2bb4bc62d081a6c1d889452b0ae89584826a",
+    "admin_execute_roster_import_intent(uuid,text,boolean)": "3ca1ecf213f33e088d024f7d33aa9f4596e9cfb2f78d369c2b20ad617a385d9b",
+    "admin_recover_roster_import(uuid,uuid)": "83b8badc0c186e4bc17aaa2abbf762be9074112bcc50c10a0dbf4c79b9c05697",
+    "admin_revoke_email_operator_v1(uuid,text)": "454baca7fc880c96d7d7fb94c491c45703e725d09b8f52691f4f69456fd89809",
+    "admin_transfer_interrupted_roster_import(uuid,uuid,text,boolean)": "02895e2fd6b71501ded41dbe96847cda83e1e6246d6a7a41d48889c0b70e0be6",
+    "assert_admin_permission(text)": "620faec8017b23299cc189619a10d410c27b18ee2e7651832ac478cceafe6151",
+    "collect_hybrid.require_fresh_roster_auth()": "6765032b68aa13acd04627bd6f9a3fc6115e8ee6f8f97986ee642f743c4262e5",
+    "collect_hybrid.require_roster_actor(uuid,uuid)": "cc60737f3c11f45648f2f53fbfa59be10ece3e82f21ae13ee8013b44e17b31cc",
+    "collect_hybrid.require_roster_actor_authority(uuid,uuid,text,text[])": "8d97c1f96e0fe295070dfd4a9429d657eeff4c18f79bef95279227c8b08493bc",
+    "collect_hybrid.require_roster_caller()": "49ebc05485e5541e025a5fc738d9299211cc9d354e3cdabf415088796ef8aef4"
+  },
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930213000_operator_email_auth.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930220527_operator_email_cutover_guard.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930233000_sensitive_admin_authority.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "ordinary clone owner applies 20260930235500_operator_reason_whitespace.sql",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "clone owner is NOSUPERUSER with scheduling and network dispatch disabled",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email cutover fixture has no legacy phone approval",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": "roster_draft_superseded",
+        "sqlstate": "55000"
+      },
+      "name": "actual changed draft CAS refuses the genuinely prior etag",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": "roster_import_unavailable",
+        "sqlstate": "42501"
+      },
+      "name": "current email-approved cross-actor cannot inspect another actor import",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "email recovery transfer exact ACK binds request actor fresh session source and immutable proof",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "exact transfer replay is byte-equivalent without another transfer audit",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "recovery preserves saved rows and source proof while requiring new human review",
+      "status": "pass"
+    },
+    {
+      "detail": [
+        {
+          "message": "roster_import_unavailable",
+          "sqlstate": "42501"
+        },
+        {
+          "message": "roster_import_unavailable",
+          "sqlstate": "42501"
+        }
+      ],
+      "name": "current email-approved cross-actor cannot recover or observe exact transfer receipt",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": "roster_actor_unavailable",
+        "sqlstate": "42501"
+      },
+      "name": "committed session revocation denies recovery under final email authority",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": "roster_actor_unavailable",
+        "sqlstate": "42501"
+      },
+      "name": "committed role revocation denies recovery under final email authority",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": "roster_actor_unavailable",
+        "sqlstate": "42501"
+      },
+      "name": "committed email approval revocation denies recovery under final email authority",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": null,
+        "sqlstate": "42501"
+      },
+      "name": "anon cannot use private roster recovery",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "message": null,
+        "sqlstate": "42501"
+      },
+      "name": "service_role cannot use private roster recovery",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "saved review intent executes with exact request payload hash and reviewed revision",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "saved commit intent binds exact reviewed rows request and durable collection",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "explicit commit replay creates one durable commit and one audit",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "durable import audit exactly binds actor collection source reviewed hash affirmation count and reason",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "durable commit recovery returns the same recorded result",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "denial": "40001",
+        "established_snapshot": true,
+        "observed": {
+          "blockers": [
+            17850
+          ],
+          "waiting": true
+        }
+      },
+      "name": "public email revocation wins before established-snapshot transfer and leaves no branch",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "observed": {
+          "blockers": [
+            17899
+          ],
+          "waiting": true
+        },
+        "subsequent_recovery_denied": true,
+        "transfer_committed_before_revoke": true
+      },
+      "name": "transfer wins before public email revocation but cannot be recovered after committed revoke",
+      "status": "pass"
+    },
+    {
+      "detail": true,
+      "name": "captured final dependency source bytes remain unchanged",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-10-01T11:55:40.625875+00:00",
+  "database": "collect_local_uat_0970ec1a72174213",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "essential_final_email_roster_actual_sql",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_policy": {
+    "seed_sha256": "e66e543a826603b82394d22986babfc7c7b0c9c822a969b727c598d9fb46ef4d",
+    "source_rows_copied": false,
+    "source_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b"
+  },
+  "schema_only_sha256": "c55813f87c10f07f4020444801c4bfc5c7e4931d757c8366ec357990a1f213e5",
+  "scope": "Final email roster dependency closure only; no full migration replay, provider extraction or exhaustive matrix",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_sha256": {
+    "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt5-exact-inspection-contract/runner.py": "af7cf163defd9676ff63f17ce2181745b0798158bd363ebd6d97c4072f4af193",
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+    "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f"
+  },
+  "source_table_count": 153,
+  "started_at": "2026-10-01T11:55:33.147547+00:00",
+  "status": "pass"
+}

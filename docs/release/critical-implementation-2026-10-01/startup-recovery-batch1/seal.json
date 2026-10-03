@@ -1,0 +1,14 @@
+{
+  "sealed_at_utc": "2026-10-01T23:08:44.473253+00:00",
+  "files": {
+    "authority-observation.json": "3f8ba42a7f9ec1c4a2c0bc05d21fb11fbadd313cf38b0a8d682d93ca5f988c44",
+    "source-before.json": "172b5caaf4cb1b73cff02123cc02e95cf89af9ca89080bcbf8df97db39b1eeed",
+    "README.md": "5cd59f370374643948362939cbd78167fda11792c6c7c322e68c15dee5a170ec",
+    "batch.json": "b1d7caf1ab6e81b9ebdfb5bbfeff725ce5b8cf09a36b467bd00c71c5c5baccdb",
+    "validation.json": "0d088e4d0960b7883dcff156a9b6420cafd0e332275e83113556201dc17bc1ae",
+    "tests.log": "964adfb07fe7371e219308c2b910dd032005f7c194238d4ecb243baa6835e4e4",
+    "authority-observation.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "analyze.log": "6d6c58d04b81f79388ba27e04fc83023408788386d6eed40d2783525ecfa9dde"
+  },
+  "scope": "Local startup packet leaves; external source hashes remain in batch/validation. Not full release acceptance."
+}

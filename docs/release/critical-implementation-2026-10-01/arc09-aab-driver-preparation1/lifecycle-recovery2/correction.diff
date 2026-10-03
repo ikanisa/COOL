@@ -1,0 +1,271 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/metadata-parser-recovery1/run_selected_aab.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/run_selected_aab.py
+@@ -245,17 +245,17 @@
+ 
+ 
+ def process_table(deadline=None):
+-    rc, out, _ = metadata_command([PS, '-axo', 'pid=,ppid=,pgid=,lstart=,command='], deadline)
++    rc, out, _ = metadata_command([PS, '-axo', 'pid=,ppid=,pgid=,lstart=,stat=,command='], deadline)
+     if rc:
+         raise ValueError('actual process table observation failed')
+     rows = {}
+     for line in out.decode('utf-8', 'strict').splitlines():
+-        fields = line.split(None, 8)
+-        if len(fields) != 9:
++        fields = line.split(None, 9)
++        if len(fields) != 10:
+             raise ValueError('unsupported process table row')
+         pid, ppid, pgid = map(int, fields[:3])
+         rows[pid] = {'pid': pid, 'ppid': ppid, 'pgid': pgid,
+-                     'start': ' '.join(fields[3:8]), 'command': fields[8]}
++                     'start': ' '.join(fields[3:8]), 'state': fields[8], 'command': fields[9]}
+     return rows
+ 
+ 
+@@ -274,10 +274,12 @@
+         self.family, self.daemons, self.unproven = {}, {}, {}
+         self.error = None; self.stop = threading.Event(); self.thread = None
+         self.cleanup_deadline = None
++        self.refused_transitions = []; self.last_owned_rows = {}
+         st = physical(PRIVATE_GRADLE).stat()
+         self.home_identity = (st.st_dev, st.st_ino, stat.S_IMODE(st.st_mode))
+ 
+     def private_identity(self, row):
++        if row.get('state', '').startswith('Z'): return None
+         if (not row['command'].startswith(self.context.config['JDK_java_executable'] + ' ')
+                 or 'org.gradle.launcher.daemon.bootstrap.GradleDaemon ' not in row['command']):
+             return None
+@@ -352,23 +354,53 @@
+     def same(left, right):
+         return all(left[k] == right[k] for k in ('pid', 'pgid', 'start', 'command'))
+ 
++    def refuse_transition(self, reason, owned, current):
++        event = {'reason': reason, 'before': json.loads(json.dumps(owned)),
++                 'current': json.loads(json.dumps(current)),
++                 'utc': datetime.datetime.now(datetime.timezone.utc).isoformat()}
++        if not hasattr(self, 'refused_transitions'): self.refused_transitions = []
++        self.refused_transitions.append(event)
++        raise ValueError(reason)
++
+     def observe(self, finishing=False):
+         table = process_table(self.cleanup_deadline)
++        self.last_owned_rows = {pid: dict(row) for pid, row in table.items()
++                                if pid == self.root or pid in self.family}
+         if self.root in table and self.root not in self.family:
+             row = table[self.root]
+             if self.root in self.baseline or row['ppid'] != os.getpid():
+-                raise ValueError('new wrapper ancestry cannot be established')
++                self.refuse_transition('new wrapper ancestry cannot be established', None, row)
+             self.family[self.root] = dict(row, ancestry=[self.root])
+         # The wrapper legitimately execs Java at the same PID/start/group. Keep the actual exec history.
+         for pid, owned in self.family.items():
+             current = table.get(pid)
++            if current is not None and current.get('state', '').startswith('Z'):
++                if not all(owned[k] == current[k] for k in ('pid', 'start', 'pgid')):
++                    self.refuse_transition('terminal state has changed PID/start/PGID', owned, current)
++                owned.setdefault('observed_terminal_history', []).append(
++                    {'before_command': owned['command'], 'actual_current': dict(current),
++                     'zombie_is_absence': False, 'signal_authorized_by_terminal_state': False,
++                     'utc': datetime.datetime.now(datetime.timezone.utc).isoformat()})
++                owned['last_observed_state'] = current['state']
++                continue  # Keep the established executable identity; wait for actual reap/absence.
++            if current is not None and pid == self.root and not all(
++                    owned[k] == current[k] for k in ('pid', 'start', 'pgid')):
++                self.refuse_transition('live wrapper identity changed PID/start/PGID', owned, current)
+             if (current is not None and owned['pgid'] != current['pgid']
+                     and 'org.gradle.launcher.daemon.bootstrap.GradleDaemon ' in current['command']):
+-                self.refresh_session(pid, owned, current)
++                try:
++                    self.refresh_session(pid, owned, current)
++                except BaseException as error:
++                    self.refuse_transition(str(error), owned, current)
+             if current is not None and all(owned[k] == current[k] for k in ('pid', 'start', 'pgid')):
+                 if owned['command'] != current['command'] and pid not in self.daemons:
+-                    if pid == self.root and not self.exact_wrapper_java(current['command']):
+-                        raise ValueError('wrapper exec transition is not the pinned Java Gradle wrapper')
++                    if pid == self.root:
++                        try:
++                            matched = self.exact_wrapper_java(current['command'])
++                        except BaseException as error:
++                            self.refuse_transition(str(error), owned, current)
++                        if not matched:
++                            self.refuse_transition('wrapper exec transition is not the pinned Java Gradle wrapper', owned, current)
+                     owned.setdefault('observed_exec_history', []).append(
+                         {'before': owned['command'], 'after': current['command']})
+                     owned['command'] = current['command']
+@@ -384,7 +416,10 @@
+         for pid, row in table.items():
+             if self.stop.is_set() and not finishing: break
+             if pid in self.baseline: continue
+-            identity = self.private_identity(row)
++            try:
++                identity = self.private_identity(row)
++            except BaseException as error:
++                self.refuse_transition(str(error), self.family.get(pid), row)
+             if identity is None:
+                 if (pid in self.family and row['command'].startswith(self.context.config['JDK_java_executable'] + ' ')
+                         and 'org.gradle.launcher.daemon.bootstrap.GradleDaemon ' in row['command']
+@@ -435,13 +470,13 @@
+                 table = process_table(self.cleanup_deadline)
+                 if pid in table:
+                     if not verified(adopted, table[pid]):
+-                        raise ValueError('owned daemon identity changed before any signal')
++                        self.refuse_transition('owned daemon identity changed before any signal', adopted, table[pid])
+                     required_stop = True
+                     for sig in (signal.SIGTERM, signal.SIGKILL):
+                         table = process_table(self.cleanup_deadline)
+                         if pid not in table: break
+                         if not verified(adopted, table[pid]):
+-                            raise ValueError('daemon PID reused or private-home/log binding lost')
++                            self.refuse_transition('daemon PID reused or private-home/log binding lost', adopted, table[pid])
+                         # PID-only signal never kills an unverified member of the separate group.
+                         os.kill(pid, sig); cleanup.append({'signal': sig.name, 'identity_verified': True})
+                         limit = min(self.cleanup_deadline, time.monotonic() + 5)
+@@ -458,6 +493,9 @@
+                   'observed_ancestry': list(self.family.values()) if joined else None,
+                   'unproven_private_home_daemons': list(self.unproven.values()) if joined else None,
+                   'late_observed_daemon_ids': late, 'observer_error': self.error,
++                  'refused_transitions': getattr(self, 'refused_transitions', []),
++                  'last_actual_owned_rows': getattr(self, 'last_owned_rows', {}),
++                  'terminal_Z_is_not_absence_or_signal_authority': True,
+                   'separate_daemon_required_stop': required_stop,
+                   'owned_daemons_absent': joined and self.error is None and not self.unproven and not late
+                   and len(results) == len(self.daemons) and all(x['PID_absent'] and x['PGID_absent'] for x in results),
+@@ -567,10 +605,13 @@
+     save(output, graph)
+ 
+ 
+-def validate_runtime_reuse(ctx, data):
++def validate_runtime_reuse(ctx, data, graph_kind='runtime'):
+     """Pure semantic qualification of root-held completed work; failed driver stays failed."""
++    if graph_kind not in ('runtime', 'compile'): raise ValueError('unknown selected graph reuse')
++    index = 0 if graph_kind == 'runtime' else 1
++    configuration = 'productionRelease' + ('Runtime' if index == 0 else 'Compile') + 'Classpath'
+     rr, command = data['root_readback'], data['command']
+-    if (rr['status'] != 'successful_runtime_graph_independent_scope_readback_failed_whole_driver_preserved'
++    if (rr['status'] != 'successful_' + graph_kind + '_graph_independent_scope_readback_failed_whole_driver_preserved'
+             or rr['original_monitor_failure_preserved'] is not True
+             or rr['AAB_built'] is not False or rr['ARC09_closed'] is not False
+             or rr['production_release_approval'] is not False or rr['matching_live_process_rows']):
+@@ -579,17 +620,17 @@
+     ctx.guards.process_success(data['source_fence_command'])
+     ctx.guards.process_success(data['failure_guard_command'])
+     ctx.guards.forbid_upgrade_branch(data['stdout'], data['stderr'])
+-    planned = ctx.matrix['commands'][0]
++    planned = ctx.matrix['commands'][index]
+     if (command['argv'] != planned['argv'] or command['cwd'] != planned['cwd']
+             or command['deadline_seconds'] != planned['deadline_seconds']
+-            or command['exit_code'] != rr['runtime_exit_code']
+-            or command['actual_seconds'] != rr['runtime_seconds']):
++            or command['exit_code'] != rr[graph_kind + '_exit_code']
++            or command['actual_seconds'] != rr[graph_kind + '_seconds']):
+         raise ValueError('completed canonical runtime command differs')
+     terminal = data['terminal']
+     if terminal['status'] != 'fail' or terminal['ARC09_closed'] is not False:
+         raise ValueError('old whole driver failure must be retained')
+     graph = data['graph']
+-    if (graph['configuration'] != 'productionReleaseRuntimeClasspath'
++    if (graph['configuration'] != configuration
+             or len(graph['components']) != rr['components'] or len(graph['edges']) != rr['edges']
+             or len(graph['artifacts']) != rr['artifacts']):
+         raise ValueError('completed canonical runtime graph readback differs')
+@@ -616,7 +657,10 @@
+     family = {r['pid']: r for r in old_monitor['observed_ancestry']}
+     wrapper = command['pid']
+     if wrapper not in family: raise ValueError('old wrapper actual ancestry missing')
+-    owned = [r for r in old_monitor['unproven_private_home_daemons']
++    candidates = (old_monitor['unproven_private_home_daemons'] if index == 0 else
++                  [r['daemon'] for r in old_monitor['observed_new_daemons']
++                   if r['PID_absent'] is True and r['PGID_absent'] is True])
++    owned = [r for r in candidates
+              if r.get('private_home_evidence') and r['pid'] in family
+              and family[r['pid']]['ancestry'] == [wrapper, r['pid']]
+              and r['ppid'] == wrapper and r['pgid'] == r['pid']
+@@ -635,19 +679,20 @@
+             or {(r['kind'], r['id']) for r in absence} != expected_absence
+             or any(r['state'] != 'ESRCH_absent' for r in absence)):
+         raise ValueError('old runtime independent PID/group absence incomplete')
+-    return {'completed_runtime_graph_reused': True, 'old_whole_driver_remains_failed': True,
++    return {'completed_' + graph_kind + '_graph_reused': True, 'old_whole_driver_remains_failed': True,
+             'components': len(graph['components']), 'edges': len(graph['edges']),
+             'artifacts': len(graph['artifacts']), 'wrapper_PID': wrapper, 'daemon_PID': daemon['pid'],
+             'APP_source_SDK_source_and_protected_failure_values_independently_checked': True}
+ 
+ 
+-def reuse_runtime_graph(ctx, output):
++def reuse_runtime_graph(ctx, output, graph_kind='runtime'):
+     deadline = time.monotonic() + 30
+-    supplied = ctx.admission['runtime_graph_reuse']
++    supplied = ctx.admission[graph_kind + '_graph_reuse']
+     expected = {'root_readback', 'failed_packet', 'terminal', 'command', 'stdout', 'stderr', 'graph',
+                 'APP_source_failure', 'SDK_source_failure', 'protected_failure', 'source_fence_before',
+                 'source_fence_command', 'failure_guard_command'}
+-    if set(supplied) != expected: raise ValueError('completed runtime reuse bindings incomplete')
++    if graph_kind == 'compile': expected.update(('runtime_reuse_receipt', 'lifecycle_probe'))
++    if set(supplied) != expected: raise ValueError('completed selected graph reuse bindings incomplete')
+     def read(label):
+         if time.monotonic() >= deadline: raise TimeoutError('completed runtime reuse whole30-second read bound')
+         return plain_read(supplied[label]['path'], supplied[label]['sha256'])
+@@ -656,34 +701,42 @@
+             for k, v in raw.items()}
+     rr = data['root_readback']
+     links = {'terminal': 'driver_terminal_sha256', 'failed_packet': 'failed_output_packet_sha256',
+-             'command': 'runtime_command_sha256', 'stdout': 'runtime_stdout_sha256',
+-             'stderr': 'runtime_stderr_sha256', 'graph': 'runtime_graph_sha256'}
++             'command': graph_kind + '_command_sha256', 'stdout': graph_kind + '_stdout_sha256',
++             'stderr': graph_kind + '_stderr_sha256', 'graph': graph_kind + '_graph_sha256'}
+     for label, field in links.items():
+         if digest(raw[label]) != rr[field]: raise ValueError('root reusable runtime evidence binding differs')
++    if graph_kind == 'compile':
++        for label, field in [('runtime_reuse_receipt', 'runtime_graph_reuse_receipt_sha256'),
++                             ('lifecycle_probe', 'lifecycle_control_probe_sha256')]:
++            if digest(raw[label]) != rr[field]: raise ValueError('compile reuse prior runtime/lifecycle binding differs')
++        if (data['runtime_reuse_receipt']['exact_root_binding_inputs'] != ctx.admission['runtime_graph_reuse']
++                or data['runtime_reuse_receipt']['completed_runtime_graph_reused'] is not True
++                or data['runtime_reuse_receipt']['old_whole_driver_remains_failed'] is not True):
++            raise ValueError('compile reuse previous qualified runtime scope differs')
+     packet_root = Path(supplied['failed_packet']['path']).parent
+     packet = data['failed_packet']['files']
+-    if len(packet) != 25: raise ValueError('preserved failed packet leaf count differs')
+-    for label in expected - {'root_readback', 'failed_packet', 'graph'}:
++    if len(packet) != (25 if graph_kind == 'runtime' else 30): raise ValueError('preserved failed packet leaf count differs')
++    for label in expected - {'root_readback', 'failed_packet', 'graph', 'lifecycle_probe'}:
+         relative = Path(supplied[label]['path']).relative_to(packet_root).as_posix()
+         record = packet[relative]
+         if (record['sha256'] != digest(raw[label]) or record['bytes'] != len(raw[label])
+                 or stat.S_IMODE(Path(supplied[label]['path']).stat().st_mode) != record['mode']):
+             raise ValueError('old reusable runtime input not bound by sealed failed packet')
+-    result = validate_runtime_reuse(ctx, data)
++    result = validate_runtime_reuse(ctx, data, graph_kind)
+     graph_text = data['stdout']; start, end = 'COLLECT_RUNTIME_GRAPH_BEGIN', 'COLLECT_RUNTIME_GRAPH_END'
+     if (graph_text.count(start) != 1 or graph_text.count(end) != 1 or graph_text.index(start) >= graph_text.index(end)
+             or 'COLLECT_UNRESOLVED_DEPENDENCIES_BEGIN' in graph_text
+             or json.loads(graph_text.split(start)[1].split(end)[0].strip()) != data['graph']):
+         raise ValueError('old stdout canonical graph does not equal independently extracted graph')
+-    for label, filename in [('graph', 'production-runtime-graph.json'),
+-                            ('command', 'production-runtime-graph-observation.json'),
+-                            ('stdout', 'production-runtime-graph-observation.stdout'),
+-                            ('stderr', 'production-runtime-graph-observation.stderr')]:
++    for label, filename in [('graph', 'production-' + graph_kind + '-graph.json'),
++                            ('command', 'production-' + graph_kind + '-graph-observation.json'),
++                            ('stdout', 'production-' + graph_kind + '-graph-observation.stdout'),
++                            ('stderr', 'production-' + graph_kind + '-graph-observation.stderr')]:
+         if time.monotonic() >= deadline: raise TimeoutError('completed runtime reuse copy bound')
+         with (output / filename).open('xb') as stream:
+             os.fchmod(stream.fileno(), 0o600); stream.write(raw[label]); stream.flush(); os.fsync(stream.fileno())
+     result['exact_root_binding_inputs'] = supplied
+-    save(output / 'runtime-graph-reuse.json', result)
++    save(output / (graph_kind + '-graph-reuse.json'), result)
+ 
+ 
+ def main():
+@@ -764,7 +817,8 @@
+         guards('before')
+         planned = ctx.matrix['commands']; original_output = ctx.matrix['output_directory_proposal']
+         reuse_runtime_graph(ctx, output)
+-        for command in planned[1:3]:
++        reuse_runtime_graph(ctx, output, 'compile')
++        for command in planned[2:3]:
+             argv = [token.replace(original_output, str(output)) for token in command['argv']]
+             invoke(command['label'], argv, command['deadline_seconds'], command['cwd'], True)
+             if command is planned[1]:

@@ -1,0 +1,53 @@
+{
+  "sealed_at_utc": "2026-10-02T02:53:44.001157+00:00",
+  "status": "review_only_complete_inputs_validated",
+  "source_count": 140,
+  "offline_input_files": 13,
+  "context_files": 17,
+  "wheel_count": 6,
+  "wheel_bytes": 9936126,
+  "publisher_receipt_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "publisher_receipt_bytes": 4004,
+  "all_offline_readonly_single_link": true,
+  "initial_cache_files": 0,
+  "outer_driver_sha256": "011e3d8ff57d96b519075343723bdb524f46cbc2e09d76f5965fb0a26e4a8e2e",
+  "canonical_invocations": 0,
+  "application_HTTP_build_Linux_invocations": 0,
+  "maintained_source_mutations": 0,
+  "previous_packets_sources_caches_preserved": true,
+  "root_review_required": true,
+  "whole_production_acceptance": false,
+  "artifact_count": 6,
+  "artifacts": {
+    "README.md": {
+      "sha256": "ab62f89ab154fe579977c93c1374f95831313fc9596f4342ac47b95a52d97d72",
+      "bytes": 4478,
+      "mode": 420
+    },
+    "actual-cli-input-matrix.json": {
+      "sha256": "7aa445535904a39a3fda095cbd8a8ee5a4993c0407e92f251a84960485cb1794",
+      "bytes": 960499,
+      "mode": 420
+    },
+    "prepare_complete_inputs.py": {
+      "sha256": "4f678adf02451a357b4f4ccf1456c68ef198b1eb7380eb6d97ddcbe41c6f2c29",
+      "bytes": 12067,
+      "mode": 420
+    },
+    "private-source-freeze.json": {
+      "sha256": "ef96137d1a00a29e43bdbc3989751584c78249a200c1e68ebd1991ec62ba6449",
+      "bytes": 149073,
+      "mode": 420
+    },
+    "reviewed-helper-validation.json": {
+      "sha256": "c5f4d769844866dfecc1ff8050c02d9d90ac0fc9d0d7854b7781ad82e1f0fe9f",
+      "bytes": 13873,
+      "mode": 420
+    },
+    "run_private_canonical.py": {
+      "sha256": "011e3d8ff57d96b519075343723bdb524f46cbc2e09d76f5965fb0a26e4a8e2e",
+      "bytes": 13297,
+      "mode": 420
+    }
+  }
+}

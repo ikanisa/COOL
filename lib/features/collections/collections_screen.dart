@@ -46,6 +46,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final routeUri = _maybeRouteUri(context);
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
+    final supportedGroupsUnknown =
+        showContributedOnly && state.historyPage == null;
     final showMembersOnly = routeUri.queryParameters['filter'] == 'member';
     final showFeaturedOnly = routeUri.queryParameters['filter'] == 'featured';
     final memberCollectionIds = ref
@@ -172,8 +174,23 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             label: 'Search group name, type, or purpose',
             onChanged: (value) => setState(() => _query = value),
           ),
+        if (supportedGroupsUnknown)
+          MinimalStatePanel(
+            icon: CollectIcons.collections,
+            title: 'Supported groups unavailable',
+            message:
+                'Connect and refresh to load the complete list of groups you have supported.',
+            tone: CollectStatusTone.warning,
+            primaryAction: CollectButton(
+              label: 'Refresh groups',
+              onPressed: () =>
+                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+            ),
+          ),
         if (visibleCollections.isNotEmpty)
           _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
+        else if (supportedGroupsUnknown)
+          const SizedBox.shrink()
         else if (query.isNotEmpty)
           EmptySearchState(
             title: 'No matching groups',

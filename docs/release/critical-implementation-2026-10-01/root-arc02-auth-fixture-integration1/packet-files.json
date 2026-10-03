@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "before-auth-fixture-token-test.dart",
+      "sha256": "68f7816ef4f012395f98e1519200feb27ae337e465afc3e57d7f53310b3c638d",
+      "bytes": 2437
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "825de479e75760d18f8bd2c67ac82537222725c58886d0bbd4a1769d7863ff5e",
+      "bytes": 1059
+    }
+  ]
+}

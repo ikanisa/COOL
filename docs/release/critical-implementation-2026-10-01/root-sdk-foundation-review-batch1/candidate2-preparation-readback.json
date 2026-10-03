@@ -1,0 +1,33 @@
+{
+  "candidate_selection": false,
+  "checked_at_utc": "2026-10-02T01:30:03.607076+00:00",
+  "checked_leaves": {
+    "README.md": "c6d7780d482fbef3d6edff865a0e411e46c18733a7196315bc7b76f33d6b3ae4",
+    "apply_exact_cumulative8.py": "f3234155a970b88b0207c989d70e61bc47e603924d42e2c7b430ae8778da2409",
+    "authenticated_candidate2_expansion.py": "6f06d64a491c74aa6076c8aa8bea158e58f1443588c126af9e41f6a455775549",
+    "candidate2-next-command.json": "c3f280e329807ab4d20e968a7d1c6420cc71499b5941c942c6d73479cf2736af",
+    "candidate2_preparation_negative_tests.py": "89f28e361bba76ed7b818c8b88c82b653c17b5a05c20f241df725900c1a5c8a6",
+    "observe-candidate2-runtime.init.gradle": "e20b59be3bdedfc0e2767f0203121287574075678f3976d9c2c7fd4727738fad",
+    "observer-exact-root-change.diff": "162bc259acfc9ff7ae9c203e06062771b45313fa175910c700ce94d15903f89d",
+    "preparation-headroom-idle-observation.json": "6c077c492c16786e63d5dd171bfa1f4a09875dbf150507c047d2d5c95c9c3ef2",
+    "preparation-negatives-observation.json": "85bcff1fbb9a27a69f8e1f33ae7422579e437e684274245d32b1e6c67bc6057e",
+    "private-cache-origin-idle-readback.json": "cedfe3e960b9b5c0c6e043ce3c287e44186b4edad7fd37c6dada911b8b627a0c",
+    "run_authorized_candidate2.py": "f1485b07efa314c53728469e174f863c88064e413ef23c8bf9c87817aa2cf2c3",
+    "validator-exact-cumulative8.diff": "c8f4b7b312a1eb0608062c8b3166c5e8c5f9286e8b31c1e1f0004b0ce5659165",
+    "verify_candidate2_source.py": "ffbcf5f5863f9b770a8492b7f702d64deaeb47a16951c6dd61952d2346eefad3",
+    "writer-exact-root-change.diff": "1dbee4d02d5619b5478e0ea9c87fe49485c33a9ceaf8c823f302f7028e529f8d"
+  },
+  "checked_packet_leaves": 14,
+  "errors": [],
+  "local_execution_admitted": true,
+  "manual_review": [
+    "Read complete controller, cumulative validator, exact-eight application and fifteen preparation tests.",
+    "Read exact writer/observer derivatives and source proposal; both derivatives differ only in candidate2 root.",
+    "Validator binds official complete source, exact eight byte changes and final FD/named-leaf read fence.",
+    "Controller requires this independent exact review, fresh absent destination, disk reserve, idle owned cache, fixed actual deadlines and full source readback after compiler terminal.",
+    "Full compiler, all fourteen SDK test classes, strict plugin validation, JAR and observed runtime graph remain required."
+  ],
+  "packet_manifest_sha256": "433aa82ca5a79f5ced1a4129583b74ca737da470dcf2617cb8adbe6ca70ab5f6",
+  "production_release_approval": false,
+  "scope": "One fresh independent candidate2 expansion, exact reviewed eight source changes and unchanged strict 2700-second standalone SDK recipe. Retain all terminal failures; no candidate1/pristine/shared SDK mutation or app/bootstrap/selection/release operation."
+}

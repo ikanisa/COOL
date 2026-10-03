@@ -1,0 +1,23 @@
+{
+  "schema_errors": 0,
+  "facts_matched": 133,
+  "file_sets": 33,
+  "expected_archived_Android_drift_rows": 3,
+  "other_drift_or_unknown_physical_entries": 0,
+  "reader_exit_code": 1,
+  "reader_grants_closure": false,
+  "actual_reader_seconds": 4.055400666009518,
+  "manual_criterion_review": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/review.json",
+    "sha256": "b54a7b00070dbed44b777a05d028ce7c81c3c5919fc2387e19153f3d9b012c56",
+    "bytes": 4232
+  },
+  "after_maintained_sha256": {
+    "current-candidate-evidence-index.json": "381f5cbf577ac8cbd4d88a27e3e74b399edde5b1bc456cc6557c51c39e462cf9",
+    "current-candidate-evidence-index.schema.json": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e",
+    "acceptance-status.json": "528bd8e529d0ceb813d4ec9ecbf5f287e0d285c9ebe85aa9121d6e0c0df8c0e8"
+  },
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "source_or_maintained_reader_test_changes_since18_and69_suites": false,
+  "production_release_approval": false
+}

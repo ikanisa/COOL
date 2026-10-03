@@ -1,0 +1,36 @@
+{
+  "allowed_deltas": [
+    {
+      "new": "One reviewed current156 private invocation",
+      "old": "One reviewed current154 private invocation"
+    },
+    {
+      "new": "        cache_expected = {row[\"path\"]: {k: row[k] for k in (\"sha256\", \"bytes\", \"mode\")}\n                          for row in FREEZE[\"deno_cache_manifest\"]}\n        cache_actual = {str(p.relative_to(Path(ENV[\"DENO_DIR\"]))): observe(p)\n                        for p in Path(ENV[\"DENO_DIR\"]).rglob(\"*\") if p.is_file()}\n        if cache_actual != cache_expected or not cache_actual:\n            raise RuntimeError(\"Exact private copy of completed frozen Deno cache required\")\n        RECORD[\"initial_deno_file_count\"] = len(cache_actual)\n        RECORD[\"initial_deno_cache_sha_mode_verified\"] = True\n        RECORD[\"initially_empty_deno_cache_claimed\"] = False\n        RECORD[\"frozen_dependency_cache_acquisition_requested\"] = False",
+      "old": "        if list(Path(ENV[\"DENO_DIR\"]).iterdir()):\n            raise RuntimeError(\"Initially empty exclusive Deno directory required\")\n        RECORD[\"initial_deno_file_count\"] = 0"
+    },
+    {
+      "new": "\"--metadata-directory\", FREEZE[\"metadata_directory\"], \"--output\", str(OUTPUT)]",
+      "old": "\"--metadata-directory\", FREEZE[\"metadata_directory\"], \"--cache-dependencies\", \"--output\", str(OUTPUT)]"
+    },
+    {
+      "new": "        if not RECORD[\"private_source_unchanged\"] or RECORD[\"root_source_drift\"]:\n            RECORD[\"status\"] = \"fail\"",
+      "old": "        if not RECORD[\"private_source_unchanged\"]:\n            RECORD[\"status\"] = \"fail\""
+    }
+  ],
+  "canonical_runner_path": "scripts/qa/run_edge_ci.py",
+  "canonical_runner_sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+  "copied_completed_frozen_deno_cache": true,
+  "current209_SQL_and39_Linux_admission_reruns": 0,
+  "derived_sha256": "f3e9cbd64249f6ea41b6b5767cf3cbbb0c8446ba98f0c536ee49733041a46831",
+  "fresh_aggregate_invocations_authorized": 1,
+  "offline_inputs": 13,
+  "original_and_current156_canonical_runner_equal": true,
+  "original_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-successor-source154-validation1/run_private_canonical.py",
+  "original_sha256": "9a04dddb060ada8b333cdfd8582e8c4f045b0f4b5baf681d333bd56b082d55b5",
+  "original_whole_build_linux_bounds_unchanged": [
+    1200,
+    300,
+    600
+  ],
+  "root_source_drift_causes_failure": true
+}

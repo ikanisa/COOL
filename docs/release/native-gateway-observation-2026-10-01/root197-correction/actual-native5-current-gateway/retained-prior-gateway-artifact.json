@@ -1,0 +1,6 @@
+{
+  "path": "docs/release/native-gateway-observation-2026-10-01/root197-correction/actual-native5-current-gateway/retained-prior-gateway-unsigned.apk",
+  "sha256": "29226de75520b7f48d3269969d1ed6966716a05cf66e4fd05ed6999066da9bfe",
+  "bytes": 82584981,
+  "scope": "Prior unsigned compilation artifact retained before current correction; prior lint failure remains unaccepted."
+}

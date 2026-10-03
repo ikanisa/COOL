@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-30T18:29:15.404695+00:00",
+  "review_kind": "independent scoped code review followed by implementer tests",
+  "finding": "Keyboard focus on tappable cards/list rows inherited a low-contrast default ink overlay.",
+  "closure": "Visible existing-token ring follows the primary control; single focus node, keyboard/touch modes, disabled actions, nested focus transfer and permanent-border distinction checked.",
+  "code_review_result": "closed_at_declared_scope",
+  "tests": {
+    "passed": 14,
+    "new_focus_cases": 5,
+    "existing_state_cases": 9,
+    "log": "docs/release/revolut-design/verification/surface-focus-tests.log"
+  },
+  "source_sha256": {
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_feature_surfaces.dart": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+    "test/features/collect_surface_keyboard_focus_test.dart": "3e002978adb430b444c21be65018526a417e52dee3b9401944ba9504446bae94"
+  },
+  "full_visual_acceptance": "unverified"
+}

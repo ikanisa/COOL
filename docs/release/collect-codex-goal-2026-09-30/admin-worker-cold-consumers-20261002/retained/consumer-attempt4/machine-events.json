@@ -1,0 +1,212 @@
+[
+  {
+    "protocolVersion": "0.1.1",
+    "runnerVersion": null,
+    "pid": 22524,
+    "type": "start",
+    "time": 0
+  },
+  {
+    "suite": {
+      "id": 0,
+      "platform": "vm",
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "suite",
+    "time": 0
+  },
+  {
+    "test": {
+      "id": 1,
+      "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart",
+      "suiteID": 0,
+      "groupIDs": [],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": null,
+      "column": null,
+      "url": null
+    },
+    "type": "testStart",
+    "time": 0
+  },
+  {
+    "count": 1,
+    "time": 2,
+    "type": "allSuites"
+  },
+  {
+    "testID": 1,
+    "result": "success",
+    "skipped": false,
+    "hidden": true,
+    "type": "testDone",
+    "time": 1788
+  },
+  {
+    "group": {
+      "id": 2,
+      "suiteID": 0,
+      "parentID": null,
+      "name": "",
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "testCount": 16,
+      "line": null,
+      "column": null,
+      "url": null
+    },
+    "type": "group",
+    "time": 1791
+  },
+  {
+    "test": {
+      "id": 3,
+      "name": "SDK health pre exact RPC parameters captured Bearer and actual SQL result",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 298,
+      "column": 7,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 1792
+  },
+  {
+    "testID": 3,
+    "result": "success",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 2020
+  },
+  {
+    "test": {
+      "id": 4,
+      "name": "SDK health post exact RPC parameters captured Bearer and actual SQL result",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 298,
+      "column": 7,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 2021
+  },
+  {
+    "testID": 4,
+    "result": "success",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 2038
+  },
+  {
+    "test": {
+      "id": 5,
+      "name": "SDK health exact observed55000 refuses one invocation without absence or retry",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 309,
+      "column": 5,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 2038
+  },
+  {
+    "testID": 5,
+    "result": "success",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 2059
+  },
+  {
+    "test": {
+      "id": 6,
+      "name": "SDK pending reconstructed health read rejects departed session after response",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 320,
+      "column": 5,
+      "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 2059
+  },
+  {
+    "testID": 6,
+    "result": "success",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 2069
+  },
+  {
+    "test": {
+      "id": 7,
+      "name": "Actual health card shows fresh reconstructed original evidence via repository",
+      "suiteID": 0,
+      "groupIDs": [
+        2
+      ],
+      "metadata": {
+        "skip": false,
+        "skipReason": null
+      },
+      "line": 174,
+      "column": 5,
+      "url": "package:flutter_test/src/widget_tester.dart",
+      "root_line": 335,
+      "root_column": 5,
+      "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+    },
+    "type": "testStart",
+    "time": 2069
+  },
+  {
+    "testID": 1,
+    "error": "Bad state: Cannot close sink while adding stream.",
+    "stackTrace": "package:stream_channel/src/guarantee_channel.dart 180:7      _GuaranteeSink.close\npackage:flutter_tools/src/test/flutter_platform.dart 766:43  FlutterPlatform._startTest\n",
+    "isFailure": false,
+    "type": "error",
+    "time": 30937
+  },
+  {
+    "testID": 7,
+    "result": "error",
+    "skipped": false,
+    "hidden": false,
+    "type": "testDone",
+    "time": 30941
+  }
+]

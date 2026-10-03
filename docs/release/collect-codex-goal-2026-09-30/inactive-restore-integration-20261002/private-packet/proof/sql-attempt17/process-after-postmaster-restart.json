@@ -1,0 +1,12 @@
+{
+  "phase": "after-postmaster-restart",
+  "target_id": "b78b58303ec62f0143bc3949dba2951b96e507fa421ccb915d8951cd883c9a68",
+  "target_name": "/collect-recovery-inactive-1adeeef43e02",
+  "container_running": true,
+  "host_pid1": 28927,
+  "postmaster_pid": 3110,
+  "postmaster_uid": "100",
+  "expected_postmaster_uid": "100",
+  "pgdata": "/var/lib/postgresql/collect-rehearsal/data",
+  "raw_process_sha256": "18b13d8b9940de14b7b010d6f4615e96363a77b55b4e36ae4139e1bddfdeff92"
+}

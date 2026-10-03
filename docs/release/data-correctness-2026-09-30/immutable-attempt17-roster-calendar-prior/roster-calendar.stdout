@@ -1,0 +1,167 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart
+00:00 +0: roster receipt rejects normalized or unsafe expiry 2026-09-31T12:00:00Z
+00:00 +0 -1: roster receipt rejects normalized or unsafe expiry 2026-09-31T12:00:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -1: roster receipt rejects normalized or unsafe expiry 2026-02-30T12:00:00Z
+00:00 +0 -2: roster receipt rejects normalized or unsafe expiry 2026-02-30T12:00:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -2: roster receipt rejects normalized or unsafe expiry 2025-02-29T12:00:00Z
+00:00 +0 -3: roster receipt rejects normalized or unsafe expiry 2025-02-29T12:00:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -3: roster receipt rejects normalized or unsafe expiry 2026-10-01T24:00:00Z
+00:00 +0 -4: roster receipt rejects normalized or unsafe expiry 2026-10-01T24:00:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -4: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:60:00Z
+00:00 +0 -5: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:60:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -5: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:60Z
+00:00 +0 -6: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:60Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -6: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+24:00
+00:00 +0 -7: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+24:00 [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -7: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+02:60
+00:00 +0 -8: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00+02:60 [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -8: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00.1234567Z
+00:00 +0 -9: roster receipt rejects normalized or unsafe expiry 2026-10-01T12:00:00.1234567Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -9: roster receipt rejects normalized or unsafe expiry 0000-10-01T12:00:00Z
+00:00 +0 -10: roster receipt rejects normalized or unsafe expiry 0000-10-01T12:00:00Z [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -10: roster receipt rejects normalized or unsafe expiry 0001-01-01T00:00:00+01:00
+00:00 +0 -11: roster receipt rejects normalized or unsafe expiry 0001-01-01T00:00:00+01:00 [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -11: roster receipt rejects normalized or unsafe expiry 9999-12-31T23:00:00-01:00
+00:00 +0 -12: roster receipt rejects normalized or unsafe expiry 9999-12-31T23:00:00-01:00 [E]
+  Expected: throws <Instance of 'FormatException'>
+    Actual: <Closure: () => AdminRosterPreview>
+     Which: returned <Instance of 'AdminRosterPreview'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 71:7           main.<fn>
+  
+00:00 +0 -12: roster valid expiry retains its actual instant 2026-10-01T12:00:00Z
+00:00 +1 -12: roster valid expiry retains its actual instant 2026-10-01T14:00:00+02:00
+00:00 +2 -12: roster valid expiry retains its actual instant 2024-02-29T12:00:00.123456Z
+00:00 +3 -12: roster valid expiry retains its actual instant 0001-01-01T00:00:00Z
+00:00 +4 -12: roster valid expiry retains its actual instant 9999-12-31T23:59:59.999999Z
+00:00 +5 -12: invalid/mismatched staged expiry cannot execute review: 2026-09-31T12:00:00Z
+00:00 +5 -13: invalid/mismatched staged expiry cannot execute review: 2026-09-31T12:00:00Z [E]
+  Expected: ['admin_stage_roster_import_intent']
+    Actual: ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent']
+     Which: at location [1] is ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent'] which longer than expected
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 111:9          main.<fn>
+  
+00:00 +5 -13: invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:00.0000001Z
+00:00 +5 -14: invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:00.0000001Z [E]
+  Expected: ['admin_stage_roster_import_intent']
+    Actual: ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent']
+     Which: at location [1] is ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent'] which longer than expected
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 111:9          main.<fn>
+  
+00:00 +5 -14: invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:01Z
+00:00 +6 -14: invalid/mismatched staged expiry cannot execute review: 2026-10-01 12:00:00.000Z
+00:00 +6 -15: invalid/mismatched staged expiry cannot execute review: 2026-10-01 12:00:00.000Z [E]
+  Expected: ['admin_stage_roster_import_intent']
+    Actual: ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent']
+     Which: at location [1] is ['admin_stage_roster_import_intent', 'admin_execute_roster_import_intent'] which longer than expected
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/admin_roster_calendar_test.dart 111:9          main.<fn>
+  
+00:00 +6 -15: invalid/mismatched staged expiry cannot execute review: null
+00:00 +7 -15: equivalent zoned staged expiry accepts exact request ACK
+00:00 +8 -15: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart: invalid/mismatched staged expiry cannot execute review: 2026-09-31T12:00:00Z
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart: invalid/mismatched staged expiry cannot execute review: 2026-10-01 12:00:00.000Z
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart: invalid/mismatched staged expiry cannot execute review: 2026-10-01T12:00:00.0000001Z
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt17-roster-calendar-prior/source-export/test/admin_roster_calendar_test.dart: roster receipt rejects normalized or unsafe expiry 0000-10-01T12:00:00Z
+  ... and 11 more

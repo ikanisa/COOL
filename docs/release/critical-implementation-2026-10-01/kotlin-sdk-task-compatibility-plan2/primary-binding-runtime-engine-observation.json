@@ -1,0 +1,8 @@
+{
+  "actual_cause": "Declared junit-jupiter-engine5.10.1 runtime artifact not resolved because compileTestKotlin failed; compile API5.10.1 is present. No JUnit ran.",
+  "correction": "Require existing compile API, reject duplicates, record runtime engine absence as pending; retain declared public POM metadata and no runtime acceptance.",
+  "exception": "ValueError: already resolved public JUnit dependency absent/duplicate",
+  "producer": "complete_primary_api_binding.py",
+  "producer_SHA256": "f11266769636683522b3816904b38428db15007ac2e941fb272d9575fe4937ef",
+  "status": "ACTUAL_READ_ONLY_REVIEW_GUARD_FAILURE_RETAINED"
+}

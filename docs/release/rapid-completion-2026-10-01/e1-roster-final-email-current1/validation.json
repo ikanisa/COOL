@@ -1,0 +1,74 @@
+{
+  "accepted_result": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt5-exact-inspection-contract/result.json",
+  "accepted_result_sha256": "aef08b67add5b8fa1128c4aa7f21b2580aaa0007e8af586fd0533e09907012d1",
+  "accepted_runner_sha256": "af7cf163defd9676ff63f17ce2181745b0798158bd363ebd6d97c4072f4af193",
+  "actual_blocking_races": 2,
+  "actual_check_count": 25,
+  "actual_dependency_definitions": {
+    "admin_commit_roster_import(uuid,uuid,uuid,text,boolean,text,uuid,text,text)": "27494d9ec43843cf0e77faa43dae2bb4bc62d081a6c1d889452b0ae89584826a",
+    "admin_execute_roster_import_intent(uuid,text,boolean)": "3ca1ecf213f33e088d024f7d33aa9f4596e9cfb2f78d369c2b20ad617a385d9b",
+    "admin_recover_roster_import(uuid,uuid)": "83b8badc0c186e4bc17aaa2abbf762be9074112bcc50c10a0dbf4c79b9c05697",
+    "admin_revoke_email_operator_v1(uuid,text)": "454baca7fc880c96d7d7fb94c491c45703e725d09b8f52691f4f69456fd89809",
+    "admin_transfer_interrupted_roster_import(uuid,uuid,text,boolean)": "02895e2fd6b71501ded41dbe96847cda83e1e6246d6a7a41d48889c0b70e0be6",
+    "assert_admin_permission(text)": "620faec8017b23299cc189619a10d410c27b18ee2e7651832ac478cceafe6151",
+    "collect_hybrid.require_fresh_roster_auth()": "6765032b68aa13acd04627bd6f9a3fc6115e8ee6f8f97986ee642f743c4262e5",
+    "collect_hybrid.require_roster_actor(uuid,uuid)": "cc60737f3c11f45648f2f53fbfa59be10ece3e82f21ae13ee8013b44e17b31cc",
+    "collect_hybrid.require_roster_actor_authority(uuid,uuid,text,text[])": "8d97c1f96e0fe295070dfd4a9429d657eeff4c18f79bef95279227c8b08493bc",
+    "collect_hybrid.require_roster_caller()": "49ebc05485e5541e025a5fc738d9299211cc9d354e3cdabf415088796ef8aef4"
+  },
+  "all_shared_tables_catalog_cron_preserved": true,
+  "consumed_source_sha256": {
+    "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt5-exact-inspection-contract/runner.py": "af7cf163defd9676ff63f17ce2181745b0798158bd363ebd6d97c4072f4af193",
+    "supabase/migrations/20260930140000_roster_resource_integrity.sql": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+    "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "supabase/migrations/20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f"
+  },
+  "current_consumed_source_matches": true,
+  "essential_final_email_roster_gap_accepted": true,
+  "exclusions": [
+    "Real email delivery or hosted Auth configuration",
+    "Signed JWT or PostgREST network authorization",
+    "Actual image decoder/provider extraction: controlled synthetic provenance fixture only",
+    "Whole E1 matrix, all product routes or production release acceptance"
+  ],
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "prior_failures": [
+    {
+      "clone_removed": true,
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/result.json",
+      "sha256": "ef9c61caa28a2592480da69d9552f365833c119bde63df81ba096b0492f177c4",
+      "shared_preserved": true
+    },
+    {
+      "clone_removed": true,
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt2-resource-policy-seed/result.json",
+      "sha256": "324e08a4a8fcca1d3f0b8a3a032c3187cf23c60140b84435fcfd7d967300be4d",
+      "shared_preserved": true
+    },
+    {
+      "clone_removed": true,
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt3-reference-singletons/result.json",
+      "sha256": "ddb83e846d72086b4845469e7630abd2efe8a593bbeff77f9a431a5fe7ff6623",
+      "shared_preserved": true
+    },
+    {
+      "clone_removed": true,
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/attempt4-draft-cas-contract/result.json",
+      "sha256": "27a071323ea95700b0c587ea248295cf88308317af182ecc77ea793688aa76da",
+      "shared_preserved": true
+    }
+  ],
+  "provider_called": false,
+  "scope": "Actual final email-approved roster public RPC recovery/CAS/transfer/staged review/commit, exact import audit, session/role/approval/cross-actor/API-role denials and both observed email-approval revocation orders. Reuses unchanged149 recovery/145 resource definitions; applies only four final authority migrations in a schema-only ordinary-owner clone. No whole177/current23/history replay.",
+  "shared_migration_count": 154,
+  "shared_source_written": false,
+  "shared_table_count": 153,
+  "signed_jwt_tested": false,
+  "source_rows_copied": false,
+  "status": "pass",
+  "whole_system_acceptance": false
+}

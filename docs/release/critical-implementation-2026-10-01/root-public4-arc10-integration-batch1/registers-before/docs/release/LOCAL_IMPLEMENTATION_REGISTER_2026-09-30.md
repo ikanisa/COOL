@@ -1,0 +1,156 @@
+# Collect local implementation register
+
+Captured: 2026-10-01T16:21:37.797737+00:00. Revision 15.
+
+**24 of24 local criteria complete against the tested immutable candidate;0 local items remain in this accepted scope.**
+
+**The subsequent Admin/MCP/SQL integration has matching-source local evidence below. Production release remains NO-GO.**
+
+Accepted source: `dba11a4a0deb5822c528c92d770c79d50fa705037f5f23fbd8aed08bcc907fdd`;2,117 files plus371 explicitly selected reproduction files.185 source migrations;370 clean/populated ordinary-installer applications. The retained shared fixture remains154 migrations/153 tables with31 source versions staged.
+
+[Final acceptance packet](rapid-completion-2026-10-01/final-candidate-current1/evidence-binding.json). All original local and production criteria and prior failures are preserved.
+
+## Integrated local update — 2026-10-01T16:21:37.797737+00:00
+
+**The two review corrections are integrated and the current Admin browser/PWA artifact is verified.** The 2,175-file capture contains 187 migrations. The 657-case affected Admin run and strict analysis passed. The 413 MCP cases form a composed proof with matching inputs. The latest SQL reader has 21 ordinary-owner checks plus 37 query-plan checks; the preceding full 187-migration clean/populated rehearsal remains explicitly bound to its earlier reader body. Unchanged native and Edge consumer proof is reused only through the new input/readback maps. All original 24 local criteria and 102 production criteria are preserved; 101 production checks remain open.
+
+[Integrated acceptance](rapid-completion-2026-10-01/post-acceptance-integration-current1/INTEGRATION.md). [Machine-readable evidence](rapid-completion-2026-10-01/post-acceptance-integration-current1/integration-acceptance.json).
+
+| ID | Task | Status | Verified local result |
+| --- | --- | --- | --- |
+| L01 | Roster browser-reload recovery | complete | Actual recovery/CAS/transfer/exact import audit and both final email-approval revocation orders are demonstrated. Production storage/session privacy is demonstrated within named captures. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L02 | Normal-owner bank scheduler retirement | complete | Complete local normal-owner143 acceptance: populated history/adversarial rollback, separate postcommit observation/final verification71.034822seconds,6 canary+9 verification races,32 role/immutability checks, source reapply and current inactive canonical readback. Original productionX02 hosted acceptance remains open. |
+| L03 | Admin session isolation | complete | Session/dialog/departure suppression and legacy-private checkpoint scrub are proved in captured scope. Current principal integration executes exact request/session negatives and reuses unchanged named browser cases. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L04 | Operation acknowledgements | complete | Exact operation parameters/ACK identity, owner lookup failure/uncertainty, replay/deadline and audit contracts are demonstrated by client and actual SQL cases. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L05 | Complete Admin route/action matrix | complete | Existing28-route inventory/base browser execution and current principal loading, denial, expiry, redacted failure, paging, recovery and action cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L06 | Uncertain OTP recovery | complete | Corrected145 source;56 SQL rollback +9 v2-upgrade checks and6 real races; current signed-OTP handler in304 unit tests and actual71 frozen HTTP checks, with ambiguous outcomes never blind resent. |
+| L07 | Error redaction | complete | Client and Edge redacted error cases, malformed/private principal replies and fail-closed lookup are proved in their exact input scopes; local secret replacement remains historical source-backed evidence. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L08 | Local role and cross-group authorization | complete | Actual email roster25 plus both observed revocation orders;92 current principal authorization/replay/deadline/audit cases. Historical126 sensitive API/8 races and19 RLS snapshot cases remain valid only in matched definitions. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L09 | Full upload decoding safety | complete | 32 real Linux codec/auth/resource cases and actual signed adapter integrations coverPNG/JPEG/WebP/PDF/XLSX, malformed/spoofed/polyglot/animation/page/expansion limits and process sandbox. |
+| L10 | Durable concurrent upload/extraction limits | complete | 146 normal-owner apply plus29 assertions and7 real two-session races, exact143-table restore; HTTP/handler budget ACK/replay/ambiguity tests, signed receipts before vendor work. |
+| L11 | Trusted XLSX transformation | complete | Original bounded workbook bytes verified against derived TSV; substituted client TSV rejected; actual146-to142-to144 compatibility and signed decoder handler integrations. |
+| L12 | Import/export and sensitive-action protection | complete | Exact roster import/commit/audit and principal permission/reason/replay/audit contracts are actual SQL tested; historical resource/formula/Unicode/sensitive action proofs remain available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L13 | Multilingual/adversarial evaluation tooling | complete | Labeled multilingual/scanned/malformed/duplicate/ambiguous/prompt-injection corpus;155 deterministic/response/evaluation checks,5 labeled deterministic measurements and3 contract probes. Live-provider accuracy remains explicitly unmeasured. |
+| L14 | Generated-dataset query benchmarks | complete | Genuine1k/10k actual history455 and146 per-volume proofs cover existing all432 windows/sorts/scopes/concurrent4 sorts/queue shrink. Current Admin104 additionally proves order, cursor, owner, health/action aggregation and Gateway count at both volumes. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L15 | Identity/totals/money/ID/date correctness | complete | 744 VM/299 actual Chrome correctness,72 actual postings/history and6VM/6Chrome SQL decoder bridge are preserved at matched scope; current principal immutable IDs/cursors/ACK fields and current query owner/count facts are separately tested. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L16 | Cache/reconnect/session isolation | complete | 18 actual SDK/Phoenix duplicate/missed/reconnect/session cases reuse exact transitive inputs. One demonstrated no-readable-cache503 stale/freshness defect was corrected and15 affected SDK/coordinator/cache cases passed; final runtime736f0715… was captured before the final suites. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L17 | Shared Revolut interface corrections | complete | Historical120 widgets/25 actual Chrome205 assertions plus13 affected current core/header/keyboard cases; actual licensed Inter8+1 tests and reviewed public golden2 pass. Current principal affected interface cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L18 | Actual local browser/PWA lifecycle | complete | Original full26-check/16-case production browser/PWA criterion is accepted in captured scope. Current base browser89 passes with exact source stability; principal15 actual browser cases are current/reused under stated conditions. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L19 | Redacted financial/receipt/push observability | complete | 180 alerts, metric and authority races,1k/10k/50k/2000-write diagnostics and55 read-only UI response/expiry cases are preserved with unchanged semantic SQL definitions. Current scheduler-control tail typechecks/tests PASS. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L20 | Mutable settings/copy governance | complete | Actual26-family108 assertion/78 observed blocking-race receipt PASS with unchanged21 migration bodies. FeatureFlag17+9 cases validate Unicode reason boundaries and preserved shared defaults; current principal and scheduler derivative cases are available. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L21 | Proven asset/code/dependency cleanup | complete | Current264/264 reachability proof and licensed Inter/excluded Aeonik decision are available; seven missing asset reconciliation and actual158 served-asset/amended provenance proofs remain preserved. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L22 | Locks/inventory/SBOM/build hygiene | complete | Current iOS unsigned artifact and462 real compiler inputs pass; enforced Dart/Edge locks, fatal selected analysis/format and current MCP347+terminal scheduler tail are available. Known vendor warnings require their individual dispositions, not a false zero-warning claim. Current reproducible source SBOM and all29-module390-case MCP aggregate pass; Android actual graph/artifact remains pending. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L23 | Final-set integrated local verification | complete | Current185 clean+populated ordinary installer PASS36/370 applications with canonical predecessor preservation. Terminal scoped Edge/MCP/principal/browser/iOS plus accepted auth/ACK/finality/reversal/concurrency proofs are available; initial Flutter and correction failures retained. All29 current MCP modules now have terminal390 unique cases with exact unchanged input bindings. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+| L24 | Bound evidence and handover register | complete | Exact commands/source/dependency/toolchain/artifact hashes and dated failures are preserved in scoped packets. This18-item ledger records revision13 criteria without changing canonical status. Final matching consumer source, named-case union, builds and supplemental fixtures are bound in the final immutable candidate packet. |
+
+## Original local acceptance criteria
+
+### L01 — Roster browser-reload recovery
+
+Implement144 server/client recovery with session-bound reference-only browser storage, exact serialized payload hashes, bounded private drafts/intents, explicit save/recovery/resumption, request replay, expiry/purge and CAS conflict tests. No private rows, reasons, titles, bytes or Auth tokens in browser storage.
+
+### L02 — Normal-owner bank scheduler retirement
+
+Implement143 using owner cron APIs with ordinary installer privileges, immutable pause and postcommit observation/verification, real blocking concurrency and unchanged unrelated jobs/history/business fingerprints.
+
+### L03 — Admin session isolation
+
+Fence every Admin provider, request and dialog with session generation, pinned request authorization, A-to-B-to-A sticky invalidation, expiry and Auth-stream error/done handling. Clear stale private state and suppress old success/freshness side effects.
+
+### L04 — Operation acknowledgements
+
+Inventory every sensitive action and validate its exact response contract, typed fields, request-bound IDs/status and immutable route facts before success. Reject null/malformed/stale/mismatched responses and preserve uncertain outcomes.
+
+### L05 — Complete Admin route/action matrix
+
+Enumerate every local route/action/data source and prove allowed, denied, revoked, loading, empty, failure and durable audited-result behavior. Include grant/export/reveal/retry/reason flows.
+
+### L06 — Uncertain OTP recovery
+
+Implement durable single-send intent and evidence-bound accepted/not-sent/ambiguous/delivered recovery. Simulate timeout, response loss, late completion, replay and concurrent claims; unknown delivery must never trigger blind resend or release spent quota.
+
+### L07 — Error redaction
+
+Exercise secrets, phone/receipt data, provider/SQL details and malformed SDK errors across client/Edge/log/export surfaces. Verify only stable actionable messages and redacted structured telemetry reach users.
+
+### L08 — Local role and cross-group authorization
+
+Run anonymous/member/operator/service and cross-group negative tests, raw-SMS isolation, effective grants/RLS and both concurrent revocation orders against final local definitions.
+
+### L09 — Full upload decoding safety
+
+Implement full bounded image/PDF validation or a validated sandbox with page/object/animation/decompression limits. Test corrupt/spoofed/polyglot/page-heavy/expansion inputs before vendor calls.
+
+### L10 — Durable concurrent upload/extraction limits
+
+Implement actor/global concurrent and resource/cost reservations with idempotent recovery, timeouts, exhaustion, abuse and multiple-worker local tests.
+
+### L11 — Trusted XLSX transformation
+
+Verify original workbook bytes against derived TSV using a trusted bounded parser. Reject inconsistent or substituted content and test workbook expansion, malformed relationships and row/cell limits.
+
+### L12 — Import/export and sensitive-action protection
+
+Test formula injection, row/resource bounds, data minimization, redaction, permission denial, accountable reasons and durable import/export/reveal/grant/retry audit.
+
+### L13 — Multilingual/adversarial evaluation tooling
+
+Create labeled multilingual/scanned/malformed/duplicate/ambiguous/prompt-injection fixtures and a reproducible local evaluation harness measuring error classes and safe rejection/correction.
+
+### L14 — Generated-dataset query benchmarks
+
+Benchmark realistic generated volumes, all sorts/scopes/page depths and concurrent paging. Correct ordering, excessive scanning, whole-history reconstruction, aggregation growth and queue-shrink behavior.
+
+### L15 — Identity/totals/money/ID/date correctness
+
+Audit every consumer and modern/legacy RPC/cache/input path for immutable identity, collision/forgery denial, complete versus partial/absent/stale/zero totals, exact integer bounds, aliases, IDs and valid calendar/timezone behavior.
+
+### L16 — Cache/reconnect/session isolation
+
+Automate duplicate/missed Realtime events, reconnect/offline revocation, bounded refresh, stale completion and account/session switching. No wrong-account private cache or misleading freshness.
+
+### L17 — Shared Revolut interface corrections
+
+Fix compact320x568/enlarged2x text, keyboard reachability, focus, semantic labels and financial/recovery wording through shared components. Preserve Collect workflows and test meaningful affected states.
+
+### L18 — Actual local browser/PWA lifecycle
+
+Build/serve distinct public/Admin artifacts and test route/auth/bundle isolation, updates/failures, offline, real multiple tabs, logout/revocation/session switch and cache invalidation in a local browser.
+
+### L19 — Redacted financial/receipt/push observability
+
+Implement queue age, ACK/parse/unmatched/reconciliation/reversal and push lease/completion/scheduler health metrics. Test redaction, alert thresholds, missing/stale health and local response procedures.
+
+### L20 — Mutable settings/copy governance
+
+Inventory dynamic settings/copy, validate types/ranges/versions, enforce caller permissions and audit updates/conflicts. Preserve stable application strings as code.
+
+### L21 — Proven asset/code/dependency cleanup
+
+Produce reachability evidence, reconcile seven indexed missing assets and remove only demonstrably unused code/assets/dependencies. Preserve licensed/provenance decisions and run affected local regressions.
+
+### L22 — Locks/inventory/SBOM/build hygiene
+
+Reconcile exact pinned-runtime locks and inventories, generate local SBOMs, fix formatting/analyzer/native lint including40 recorded warnings, and prove clean-checkout builds without undeclared ignored/private files.
+
+### L23 — Final-set integrated local verification
+
+Run final frozen migration-set clean and populated upgrades, rollback/roll-forward and incompatible-client tests. Execute full local Dart/native/Edge/database/browser suites and critical auth/ACK/finality/reversal/session concurrency/mutation coverage. Preserve financial/receipt baselines.
+
+### L24 — Bound evidence and handover register
+
+Package source/lock/toolchain/build/test/log hashes and exact commands/exclusions against one final local source set. Preserve dated failures and earlier evidence, refresh this24-item register and reconcile historical versus current packets.
+
+## Critical review implementation extension — 1 October 2026
+
+Updated 2026-10-02T00:54:39.751865+00:00. [The critical findings register](/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md) retains all40 original criteria. Original102 production/24 local rows remain byte-canonical unchanged; only PD-14 authority hygiene is closed.
+
+The actual default-provider/global-router privacy renewal bug is fixed. Same-owner OTP/native reread, logout, owner departure with fresh clean reentry and denied-profile/cache clearing pass the four preserved assertions. The original136-case consumer execution records134 passes and two real Security heading failures. Adding only headingLevel1 corrects them; the37-case affected replay, analyzer and actual post-header authority pass with1345 inputs unchanged. The exact real-cache Home warning case also passes on its distinct pre-heading scope. These are separate receipts, not a newly executed full136-case run. Full approved erasure/retention/hold/Auth-principal/session/derivative/backups/financial-preservation acceptance remains open.
+
+Current capability bindings change two source hashes and two generated digests only; seven store files, public claims/actions/availability/approval flags and all fifteen visible route hashes remain unchanged. Previous public3 passes55 quality and104 browser cases for its dated source. Four later production changes require a fresh final public compilation/media/build/browser cohort, which is underway. Native task outcomes, exact Revolut comparators, rights/legal and hosted/provider/store approvals remain open.
+
+A genuine canonical Ubuntu amd64 Flutter/enforced-lock Pub bootstrap resolves language metadata. The full670-file maintained Make identifies exactly three format errors. The private three-file formatting candidate passes670/0; an untracked malformed fixture is rejected671/1, and the restored candidate passes670/0. The originals remain with their active write owner; a new preparatory source export has no current Make result and later source drift is recorded. Current clean-source acceptance is still open.
+
+Two physically independent SDK foundations/candidates now verify all22415 paths and15660 source leaves with no shared SDK inodes. Root independently confirms the three approved candidate source changes and unchanged pristine originals. The real compiler, fourteen upstream test-class sources and runtime graph invocation is active under one2700-second deadline. The shared SDK and repository pins/locks stay unchanged, and no candidate compiler/runtime/ABI/shipped SBOM acceptance is claimed yet. The unchanged template/maxKnownKGP2.3.20 is an explicit Collect-only fork limit.
+
+The earlier cold Edge download failure, archive relocation/independent restore and archive-free consumers, owner-populated migration/security/financial acceptance, font-rights decision, incident/provider/device/store and immutable final-artifact approval remain open. Production is NO-GO; only PD-14 sole-design-authority hygiene is closed, and the implementation goal remains active.

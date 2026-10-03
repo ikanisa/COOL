@@ -1,0 +1,171 @@
+{
+  "exact_template_rendering": true,
+  "generated_files": {
+    "ios/Runner/GeneratedPluginRegistrant.h": {
+      "actual": {
+        "bytes": 378,
+        "device": 16777232,
+        "inode": 59957525,
+        "mode": 420,
+        "mtime_ns": 1790925219310729193,
+        "nlink": 1,
+        "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+      },
+      "rendered_sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a",
+      "template": "_objcPluginRegistryHeaderTemplate"
+    },
+    "ios/Runner/GeneratedPluginRegistrant.m": {
+      "actual": {
+        "bytes": 3578,
+        "device": 16777232,
+        "inode": 59957526,
+        "mode": 420,
+        "mtime_ns": 1790925219311496627,
+        "nlink": 1,
+        "sha256": "3b2ac015fc041af99a572e0d9f0d698e1353dd6d1db75f2d024f38453e29dad6"
+      },
+      "rendered_sha256": "3b2ac015fc041af99a572e0d9f0d698e1353dd6d1db75f2d024f38453e29dad6",
+      "template": "_objcPluginRegistryImplementationTemplate"
+    }
+  },
+  "input_sha256": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.dart_tool/package_config.json": "b72e5dfd23e5878a0de3a673599b3a4575d26370a75d9dd0babd9e3438d79e27",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.flutter-plugins-dependencies": "709e2ea07ef3aa5f783ebad40a2a989ba484a476cf2a124cd19ae1cd0b313d95",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver/pubspec.yaml": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/firebase_messaging/pubspec.yaml": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/flutter_plugins.dart": "e144c562723c65fbe1de6e62f90cb923d4f0154b41a4afb4b71b882c9db6604b",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/platform_plugins.dart": "18289943e5a3b113fd70811f944416a181e34da66301f3e22578fc00200a251b",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test/pubspec.yaml": "7d967d43522ee820d94aad81adead9dfbf6c7d90387d595265c683b27e92a776",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/android_file_picker-1.1.0/pubspec.yaml": "e0577541d4b04ede07be0e10c9d3695aadeb83902c418c7f59e72f52440bd633",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1/pubspec.yaml": "731801f96b18ed92ede7d5808837a260a8826db157d0320731e6b1361c70391e",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_linux-1.0.3/pubspec.yaml": "a179af248c3c4a1d400cba53180602682a08fca176350aa1e4e0ca16bd01133a",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_web-1.0.4/pubspec.yaml": "fb070392c6efe5670554cf3c2ab0a7a9cb38dd94757b48a6117dcc76e6d5e6d0",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0/pubspec.yaml": "ce10f8159c0bdbd21080c3b4d97e5976a293b562ef976e9a410a9bd49e79714c",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_linux-1.1.0/pubspec.yaml": "76b395df655790af65e1b17442fd21cec1261aefd07b14beeae309defbe2b3b1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_web-3.1.0/pubspec.yaml": "a1dea82e63884a2b02e37017db229a6fde4f2da4b582e7d7d9dea5d6ce1ce070",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_linux-0.9.4/pubspec.yaml": "0b50a443f4c686a27474da253e90676d8d76d8a89494870b498b6e945bd06f87",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_macos-0.9.5/pubspec.yaml": "82d67a3ec2e3d40dac71c0c787fa6564dee78de3feb7132df2e303d74085569e",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+5/pubspec.yaml": "c8c00ff3bd9dac143b3db91b896fa830614454196493b65cc46ef97bd5f304ae",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0/pubspec.yaml": "4dc4e2d34b528d96302bd00a8a907169df83ce87995d4c630af2465c54ded93c",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_web-3.10.0/pubspec.yaml": "ae31e2ec1bd7078673f70ee41dfde8c48114781a7b75128c6da13de307dc0f3e",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_web-4.2.4/pubspec.yaml": "b7764ae3b53ad742ceccc1b9f37b1a2350d5fe4e1bdbf3d7cf1d50cba69107f2",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0/pubspec.yaml": "15bd10c45ad9bb5c48b18a13b7db926ae8e30375b7c320154daf1af54a8d59cd",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.1/pubspec.yaml": "858aff63424b293d7cb0fd37af83cc6932f3725f7c9b1aba70b0257fde19df2c",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_web-1.0.0/pubspec.yaml": "378cb98b79ba9b81dd9d2f424f7d8941b89df90cc161915577c7c3bf2bbf673b",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.1.1/pubspec.yaml": "af48aef2ff2ad2b6793e37e60e2720a6eea6114b045182103401045dd0791ee7",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35/pubspec.yaml": "cc0ef3b95f7966a6a6cc14f5ef819b20f2b50671213cee9fd746f0c27154da52",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/gtk-2.2.0/pubspec.yaml": "e9429829b8e37bffd88c109bf9857b8bbd073e0fd62801273bcb23bde56933e6",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19/pubspec.yaml": "817a12950099262a7a662b769fa763e956bc2fd309fbe48619bba8f1797ac2f3",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_for_web-3.1.1/pubspec.yaml": "3a0078fec6c2e42e403fd9b081ad8a0f00ebd97f583978af130383481fdd6a3c",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6/pubspec.yaml": "c040aa5f2ab8bf9c467864f92d04322ef2df19c40db391d416006b4b681a14e8",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_linux-0.2.2/pubspec.yaml": "f3329298b24ffa77dc92b072d765445b2acd1052aba8bec7d1c6da2e5e303574",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_macos-0.2.2+1/pubspec.yaml": "397be5ca627877a432dcc6c98d7ff4641797e715d5620a8ed690057092af5dca",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_windows-0.2.2/pubspec.yaml": "fb86001be85cb4897bb0931621cfa294a2c8575f2061fcee571f91ce72384a97",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni-1.0.3/pubspec.yaml": "6a3d1e82323e5dede5f8d62a4a450e5ce74a64564e65ccbdd62f4e07819d23dd",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_flutter-1.0.2/pubspec.yaml": "f3a1ec611eb0e6ee495bb94ae95543b249fe039f9bc75fedbf552aa1d17ce2e5",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0/pubspec.yaml": "0e26545debea85d1335a8ab4582415e504787a79b67c355dcdf3e9c4fcbd3eee",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_android-2.3.1/pubspec.yaml": "b80824aedcb8e0ea192403de0dc01c501b22dc2f627588dffb78093f5064dc89",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/pubspec.yaml": "2453954d9201ce4a90a5d26705c4b089c3997a9b943e1c7dc7a95893c262c75d",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_linux-2.2.2/pubspec.yaml": "a08c2fedbf2d91706abd2896a7aff8336bce698cc5ef77486f257e12e6ff38dd",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/pubspec.yaml": "df8b451e532d00b0d4930523d60bede9ae04e0c2356291c38b7c7c30404a6296",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_android-13.0.1/pubspec.yaml": "df859673aa22aa16bae95eb7b62defc0a2806ca030525a9693c1cec9ee358b92",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0/pubspec.yaml": "8ba50ffee4152e31a59a508d88014052fee2b3a14e80c5035278c347dcfec190",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_html-0.1.4+1/pubspec.yaml": "16b1a69f568f47a702943342768e443991467e11edfc7e80312f4f77167434f1",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_windows-0.2.2/pubspec.yaml": "fc8c43398d94282f95aa7ef97668be1be0ac820667efdadd29d9984cf161de1d",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0/pubspec.yaml": "5cb3eeeda094d59f947015cf0435da3ce340013d060d0e4dce36a90456be63b9",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/pubspec.yaml": "8f86a250683f42679c2b77206b9931a07aa0e36a33450651d0e505daa1cc8433",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6/pubspec.yaml": "c6da5d5908727bcf6b74e5381131cd18abbd87033df934a289196307b07e5122",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1/pubspec.yaml": "40b9f7c760097e8e6b284755641fff514af265cbe50eca5d335f68fd79b74c50",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_web-2.4.3/pubspec.yaml": "2cafb88cb05a4debe328c441e82ed11d550237054b694f68842773943f38530e",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1/pubspec.yaml": "bfac6c030216a487e6212b2a74cc58c8e29ef628640989015d9b9abf8a92162b",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_android-6.3.32/pubspec.yaml": "292260e741dc6887d9076e9afa53569bdf98980b2607796c1c772aecb22f7e51",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/pubspec.yaml": "391a5d4ed9bd1670dcffe7654f72b19b16cb1e7f3f67360d0968d78a18c82d9e",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/pubspec.yaml": "eaa7e71c939f9bf9e6c4701cc153d38f85b8569b5c34a9da0d5b03da036a7327",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/pubspec.yaml": "f7126738872122c5424c4e5e8afc7e101b5c24e3d3fd806397776fe6a6a85af6",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_web-2.4.3/pubspec.yaml": "2ea3837b05bcc98c02e1738d7afe0f7cd75fda98b8e525b6ba8375812aa23afe",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/pubspec.yaml": "ed92778de29da17b3a6770d2f95cba3a37ab02b9e108050de3788a25a635d9d8",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/windows_file_picker-1.2.0/pubspec.yaml": "13781b08b4644ce71b695d4cbb10d0c240c4fea9cd49814c030df5825bd39a03"
+  },
+  "method_channel_plugins": [
+    {
+      "class": "AppLinksIosPlugin",
+      "name": "app_links",
+      "prefix": "",
+      "pubspec_sha256": "731801f96b18ed92ede7d5808837a260a8826db157d0320731e6b1361c70391e"
+    },
+    {
+      "class": "FilePickerPlugin",
+      "name": "file_picker_darwin",
+      "prefix": "",
+      "pubspec_sha256": "ce10f8159c0bdbd21080c3b4d97e5976a293b562ef976e9a410a9bd49e79714c"
+    },
+    {
+      "class": "FileSaverPlugin",
+      "name": "file_saver",
+      "prefix": "",
+      "pubspec_sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3"
+    },
+    {
+      "class": "FLTFirebaseCorePlugin",
+      "name": "firebase_core",
+      "prefix": "",
+      "pubspec_sha256": "4dc4e2d34b528d96302bd00a8a907169df83ce87995d4c630af2465c54ded93c"
+    },
+    {
+      "class": "FLTFirebaseMessagingPlugin",
+      "name": "firebase_messaging",
+      "prefix": "",
+      "pubspec_sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88"
+    },
+    {
+      "class": "FlutterLocalNotificationsPlugin",
+      "name": "flutter_local_notifications",
+      "prefix": "",
+      "pubspec_sha256": "15bd10c45ad9bb5c48b18a13b7db926ae8e30375b7c320154daf1af54a8d59cd"
+    },
+    {
+      "class": "FLTImagePickerPlugin",
+      "name": "image_picker_ios",
+      "prefix": "",
+      "pubspec_sha256": "c040aa5f2ab8bf9c467864f92d04322ef2df19c40db391d416006b4b681a14e8"
+    },
+    {
+      "class": "IntegrationTestPlugin",
+      "name": "integration_test",
+      "prefix": "",
+      "pubspec_sha256": "7d967d43522ee820d94aad81adead9dfbf6c7d90387d595265c683b27e92a776"
+    },
+    {
+      "class": "MobileScannerPlugin",
+      "name": "mobile_scanner",
+      "prefix": "",
+      "pubspec_sha256": "0e26545debea85d1335a8ab4582415e504787a79b67c355dcdf3e9c4fcbd3eee"
+    },
+    {
+      "class": "PermissionHandlerPlugin",
+      "name": "permission_handler_apple",
+      "prefix": "",
+      "pubspec_sha256": "8ba50ffee4152e31a59a508d88014052fee2b3a14e80c5035278c347dcfec190"
+    },
+    {
+      "class": "FPPSharePlusPlugin",
+      "name": "share_plus",
+      "prefix": "",
+      "pubspec_sha256": "5cb3eeeda094d59f947015cf0435da3ce340013d060d0e4dce36a90456be63b9"
+    },
+    {
+      "class": "SharedPreferencesPlugin",
+      "name": "shared_preferences_foundation",
+      "prefix": "",
+      "pubspec_sha256": "c6da5d5908727bcf6b74e5381131cd18abbd87033df934a289196307b07e5122"
+    },
+    {
+      "class": "URLLauncherPlugin",
+      "name": "url_launcher_ios",
+      "prefix": "",
+      "pubspec_sha256": "391a5d4ed9bd1670dcffe7654f72b19b16cb1e7f3f67360d0968d78a18c82d9e"
+    }
+  ],
+  "output_hash_allowlist_used": false
+}

@@ -1,0 +1,77 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 58500,
+      "seconds": 2.933,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 58554,
+      "seconds": 10.948,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/gateway/gateway_app.dart",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "format-changed",
+      "parent_exit_confirmed": true,
+      "process_group": 58920,
+      "seconds": 0.132,
+      "sha256": "496e595f1c6c48775fe87dc8f716b26746dc64a8405f3168ac13bf5d14248b1a",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=expanded",
+        "--plain-name=reduced motion removes both real enrollment route transitions",
+        "test/gateway/gateway_enrollment_lifecycle_test.dart"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "original-motion-reproduction",
+      "parent_exit_confirmed": true,
+      "process_group": 58924,
+      "seconds": 128.498,
+      "sha256": "76ef45d6be4011a27093dd33d42632594d781aa314f7e913804cd85a8b3d8104",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ],
+  "status": "running"
+}

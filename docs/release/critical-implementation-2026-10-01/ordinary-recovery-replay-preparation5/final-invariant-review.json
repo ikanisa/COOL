@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "current216_and_candidate222_unchanged": true,
+  "preserved932_files_unchanged": true,
+  "original34_test_bytes_and_AST_unchanged": true,
+  "source_scope_and_SQL_derivatives_unchanged": {
+    "source-role-globals.json": "6ff05c4ffdb58ceb179d453eb215455dda761d9806a55037e78d619d190aa8ab",
+    "graphql-source-scope.json": "6e5e35e2a96c83b0acc5a518e709b7838ab27c9c0d5d83e733ea667a7ef19f44",
+    "graphql-wrapper-query.sql": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc",
+    "source-graphql-prerequisite.sql": "f461df9b4171e8abfc7c77d35b62afe0677bf0c428a2b53679a24c5e5c69adda",
+    "compatibility-source-scope.json": "241db05b1495672e523f9cd1fa8a6fae13a795ab8d9eea31bbae543c1a724db3",
+    "source-graphql-grants-and-transport-index.sql": "326966a8d55a2023b81d698a29d3009ad11b0872bcda1a65694157fd301b4948",
+    "source-original-check-parity.sql": "dbb21ec141a4b4723dd994769a17970f92fadcee1f404e356972d634989a3f78"
+  },
+  "only_Runner_call_and_candidate_main_path_changed": true,
+  "main_AST_equal_after_only_candidate_path_normalization": true,
+  "Runner_init_and_text_AST_unchanged": true,
+  "matrix_exact_parity_except_named_bindings_and_IO_receipt": true,
+  "review_schema_unchanged_except_code_and_inputs_hashes": true,
+  "review_decision_created": false,
+  "actual8_and_all_recorded_child_groups_absent": true,
+  "code_sha256": "c5638cd21b30b5ac66c92682801ba9df01724a0c66423c9a462f28d9f67d6ec7",
+  "inputs_sha256": "96edb560734ec9d0b0a0bf3d4ddd63fded27b103e8866a818dd1759d34293fc3",
+  "docker_executed": false,
+  "SQL_executed": false
+}

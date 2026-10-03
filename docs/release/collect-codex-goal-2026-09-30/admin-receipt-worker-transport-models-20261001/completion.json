@@ -1,0 +1,11 @@
+{
+  "accepted": true,
+  "visible_cases": 42,
+  "inputs": 1111,
+  "repository_inputs_copied": 39,
+  "focused_analysis": "Tool-observed terminal dart analyze of model and test; exit0; No issues found",
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "visual_comparator_accepted": false,
+  "full_candidate_regression": false
+}

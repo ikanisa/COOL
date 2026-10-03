@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "source-binding-tests",
+      "command": [
+        "python3",
+        "scripts/tests/public_media_source_binding_test.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e07d6010e472563caad92fc41e6ffa653b8ecc338f1f5743cfff5ceb58f7d046"
+    },
+    {
+      "name": "public-media-tests",
+      "command": [
+        "ruby",
+        "scripts/tests/public_app_media_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6fff580eb014654ba8ab6450ec2c053acc29b096a79db2e96180188c6fab8237",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "recorder-syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--check",
+        "scripts/qa/public_browser_app_media.mjs"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sole-authority",
+      "command": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "actual_test_count": 27,
+  "actual_ruby_assertions": 53,
+  "source_sha256": {
+    "scripts/qa/public_browser_app_media.mjs": "a50278bb7e883da38daa511f69c10e32b924b00d1a1ff5ae95e956b1596223e8",
+    "scripts/assets/publish_public_app_media.py": "1b08c999e59107e7c8026aa3b02ef62bb9ad499aac64a883cea7d18df91fd006",
+    "scripts/public_app_media.rb": "99c127757105697cd0c0a2f6fd9db0fdd8ccfa371c165984aeed94012a44f293",
+    "scripts/tests/public_app_media_test.rb": "c72d9726d365e2b051e51874376a9352841d95ddb2dc1329b79e27de28567510",
+    "scripts/tests/public_media_source_binding_test.py": "69aa7fbec83d6bf6e68672d855df2efa33cf2740be6327ebd6b49fbb7a695645"
+  },
+  "sources_unchanged": true,
+  "scope": "Actual file mutations and existing provenance regressions for immutable browser compilation; no browser capture or native visual acceptance"
+}

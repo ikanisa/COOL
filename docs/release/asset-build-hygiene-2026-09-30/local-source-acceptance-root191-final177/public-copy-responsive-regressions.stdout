@@ -1,0 +1,10 @@
+00:00 +0: loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root191-final177/test/landing_page_test.dart
+00:00 +0: public marketing action distinguishes disabled and focused states
+00:00 +1: landing page presents Rwanda MoMo USSD
+00:04 +2: homepage explainer action opens the group journey page
+00:05 +3: public route inventory excludes removed financial-expansion pages
+00:05 +4: all standalone public pages render their customer content
+00:07 +5: privacy page covers payment evidence and deletion controls
+00:07 +6: home navigation stays visible and readable beyond the photo
+00:08 +7: public pages remain usable at 320 px and 200 percent text
+00:10 +8: All tests passed!

@@ -1,0 +1,44 @@
+{
+  "status": "blocked",
+  "command": [
+    "./gradlew",
+    ":app:dependencies",
+    "--configuration",
+    "internal_gatewayDebugRuntimeClasspath",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xms128m -Xmx1g -Dfile.encoding=UTF-8",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget=lib/main_gateway.dart",
+    "-PcollectGatewayHost=",
+    "--console=plain"
+  ],
+  "started_at_utc": "2026-10-01T09:48:39.047857+00:00",
+  "finished_at_utc": "2026-10-01T09:50:40.126374+00:00",
+  "deadline_seconds": 120,
+  "timed_out": true,
+  "exit_code": 143,
+  "completion_marker": false,
+  "unresolved_dependencies": false,
+  "source_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "selected_source_changes": [],
+  "generated_bindings": {
+    ".dart_tool/package_config.json": {
+      "prior_sha256": "6e9db07fa874a7ce6d8bb341c5dfbf1deaad6409e17eced195e742538077013f",
+      "generated_sha256": "6e9db07fa874a7ce6d8bb341c5dfbf1deaad6409e17eced195e742538077013f",
+      "scope": "Only workcopy absolute paths rebased; original source/artifacts unchanged."
+    },
+    ".flutter-plugins-dependencies": {
+      "prior_sha256": "73f5a066582baed40e83abd8390ac92c2219b5eb81af2603b2cd99cc3e0eb9dc",
+      "generated_sha256": "82428b43554fefeab65c8ee9ee95a39bd197792ec62bbfa3ba000262268eef42",
+      "scope": "Only workcopy absolute paths rebased; original source/artifacts unchanged."
+    },
+    "android/local.properties": {
+      "generated_sha256": "a0c0c1db8f3aaa498abe4de97317d2efa4fef7485939039240651127c08416c0",
+      "scope": "Public SDK paths/version metadata only."
+    }
+  },
+  "workspace": "/Volumes/PRO-G40/Projects/Collect-Release-Candidates/collect-local-20261001-gateway-build-07",
+  "scope": "One offline exact source06-derived restricted-flavor dependency readiness check only; no APK, Flutter compilation, device, enrollment, backend, signer-key read or SMS."
+}

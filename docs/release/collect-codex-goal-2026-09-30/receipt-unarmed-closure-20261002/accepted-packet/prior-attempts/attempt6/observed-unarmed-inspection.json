@@ -1,0 +1,18 @@
+{
+  "scope": "rw_receipt_successors",
+  "action": "close_unarmed",
+  "status": "available",
+  "can_close": true,
+  "outbox_id": "40ee3419-ae69-4bb3-9006-120c6a75c5d5",
+  "checked_at": "2026-10-01T22:28:08.065388Z",
+  "reason_code": "unarmed_eligible",
+  "send_action": false,
+  "carrier_proof": false,
+  "root_revision": 1,
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "lineage_revision": 1,
+  "sample_valid_until": "2026-10-01T22:29:08.065388Z",
+  "automatic_grant_present": false
+}

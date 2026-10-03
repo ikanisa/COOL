@@ -1,0 +1,34 @@
+{
+  "changed_non_native_declarations": [
+    {
+      "after_scripts": {
+        "check": "tsc --noEmit",
+        "preflight": "node --experimental-strip-types src/preflight.ts",
+        "start": "node --experimental-strip-types src/server.ts",
+        "test": "node --experimental-strip-types --test src/*.test.ts",
+        "unattended:run": "node --experimental-strip-types src/unattended_runner.ts",
+        "unattended:schedule": "node --experimental-strip-types src/unattended_schedule_cli.ts",
+        "unattended:start": "node --experimental-strip-types src/unattended_server.ts"
+      },
+      "before_scripts": {
+        "check": "tsc --noEmit",
+        "preflight": "node --experimental-strip-types src/preflight.ts",
+        "start": "node --experimental-strip-types src/server.ts",
+        "test": "node --experimental-strip-types --test src/*.test.ts",
+        "unattended:run": "node --experimental-strip-types src/unattended_runner.ts",
+        "unattended:start": "node --experimental-strip-types src/unattended_server.ts"
+      },
+      "captured_sha256": "7bbb9abc49eb4f2dbb56b341b35dfb5db57e92dd7db5e72ba65b96803e77dd44",
+      "changed_fields": [
+        "scripts"
+      ],
+      "dependency_fields_identical": true,
+      "final_sha256": "d8773681ef14a850e495e2bf3ff23b21b1cb31fb60c22834c32804715c6a27c7",
+      "path": "tools/collect-notification-mcp/package.json"
+    }
+  ],
+  "native_gradle_and_locks_match": true,
+  "scope": "Source SBOM component/dependency declarations retained from captured provenance; npm script-only change is explicit. No falsely rewritten historical input hash or claim of whole live-source equality.",
+  "source_sbom_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+  "status": "pass"
+}

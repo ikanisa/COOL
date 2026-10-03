@@ -1,0 +1,8 @@
+PASS actual SQL busy detail has distinct deferred unhandled labels
+PASS actual exception inbox parses the closed SOURCE_BUSY reason
+PASS busy detail cannot fabricate business handling
+PASS busy detail cannot invent a finite code
+PASS busy detail cannot invent a receipt identifier
+PASS busy detail cannot add private destination fields
+PASS busy detail cannot claim a financial side effect
+PASS 7 distinct actual Admin model checks

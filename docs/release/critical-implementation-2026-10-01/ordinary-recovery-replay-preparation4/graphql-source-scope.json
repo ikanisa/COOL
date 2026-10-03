@@ -1,0 +1,94 @@
+{
+  "function": [
+    "graphql_public",
+    "graphql",
+    "\"operationName\" text, query text, variables jsonb, extensions jsonb",
+    "f",
+    "supabase_admin",
+    false,
+    "v",
+    "u",
+    false,
+    false,
+    [
+      "=X/supabase_admin",
+      "anon=X/supabase_admin",
+      "authenticated=X/supabase_admin",
+      "postgres=X/supabase_admin",
+      "service_role=X/supabase_admin",
+      "supabase_admin=X/supabase_admin"
+    ],
+    "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+    "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2"
+  ],
+  "hook": [
+    "extensions",
+    "grant_pg_graphql_access",
+    "",
+    "f",
+    "supabase_admin",
+    false,
+    "v",
+    "u",
+    false,
+    false,
+    [
+      "=X/supabase_admin",
+      "postgres=X*/supabase_admin",
+      "supabase_admin=X/supabase_admin"
+    ],
+    "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+    "c3a126f9bf8958b3af27e6bec128aca58627df257259003b59511fdd3af82333"
+  ],
+  "schema": [
+    "graphql_public",
+    "supabase_admin",
+    [
+      "anon=U/supabase_admin",
+      "authenticated=U/supabase_admin",
+      "postgres=U*/supabase_admin",
+      "service_role=U/supabase_admin",
+      "supabase_admin=UC/supabase_admin"
+    ]
+  ],
+  "dependencies": [
+    [
+      "e",
+      "function",
+      "graphql_public",
+      "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+      "extension",
+      null,
+      "pg_graphql"
+    ],
+    [
+      "n",
+      "function",
+      "graphql_public",
+      "graphql_public.graphql(pg_catalog.text,pg_catalog.text,pg_catalog.jsonb,pg_catalog.jsonb)",
+      "schema",
+      null,
+      "graphql_public"
+    ]
+  ],
+  "event_trigger": [
+    "issue_pg_graphql_access",
+    "ddl_command_end",
+    "supabase_admin",
+    "extensions.grant_pg_graphql_access()",
+    "O",
+    [
+      "CREATE FUNCTION"
+    ]
+  ],
+  "source_hook_body_sha256": "ad8bfb866513170056bbc1f817103be550cd62efcb589fa2a3807718efb3eb6a",
+  "source_nested_wrapper_sql_sha256": "f1a08a07934d7df8ab26d675093b2069d1ecfa23be2b331b4a1e84bd48091ea8",
+  "source_wrapper_body_sha256": "03b36c9655c8688b452fba90346ce43dafa2ded68bffb9250da6c236133d467e",
+  "source_function_definition_sha256": "22e0e26950cfdf51038425ad17051de3fb19bc7afa72edefda05c2da3e0d8bb2",
+  "create_schema_sql": "create schema graphql_public authorization supabase_admin;",
+  "create_function_sql": "        create function graphql_public.graphql(\n            \"operationName\" text default null,\n            query text default null,\n            variables jsonb default null,\n            extensions jsonb default null\n        )\n            returns jsonb\n            language sql\n        as $$\n            select graphql.resolve(\n                query := query,\n                variables := coalesce(variables, '{}'),\n                \"operationName\" := \"operationName\",\n                extensions := extensions\n            );\n        $$;",
+  "extension_membership_sql": "alter extension pg_graphql add function graphql_public.graphql(text,text,jsonb,jsonb);",
+  "source_extension_membership_proven": true,
+  "source_hook_only": true,
+  "wrapper_creation_provenance_not_inferred_from_ACL": true
+}

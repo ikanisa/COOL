@@ -1,0 +1,14 @@
+{
+  "kind": "read_only_public_auth_settings",
+  "observed_at": "2026-09-30T22:30:37.416561+00:00",
+  "account_provisioned": false,
+  "otp_sent": false,
+  "config_written": false,
+  "smtp_delivery_verified": false,
+  "template_verified": false,
+  "operator_session_restored": false,
+  "http_status": 200,
+  "email_provider_enabled": false,
+  "disable_signup": false,
+  "response_sha256": "59ff727165a6f9af6973fdb3edd10b346eab9a34e1b2bb668de6b16a7869c6e7"
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate3/scripts/tests",
+    "-p",
+    "supabase_delivery_contract_test.py",
+    "-k",
+    "postgres_manifest_drift"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 15.118,
+  "timeout_seconds": 120,
+  "actual_changed_scope": "one new assertion error-code literal; production modules identical to candidate2; no-write condition retained"
+}

@@ -1,0 +1,11 @@
+{
+  "accepted": false,
+  "reason": "Owned Flutter process42619 was interrupted withSIGINT after rendered/keyboard case stalled; no All tests passed terminal exists",
+  "signal_command_chunk": "080010",
+  "runner_terminal_chunk": "3b2457",
+  "runner_exit_code": 0,
+  "actual_completed_cases": 12,
+  "incomplete_case": "operator review exposes headings, labelled reason and keyboard dismissal with actual rendered captures",
+  "shutdown_error": "Bad state Cannot close sink while adding stream",
+  "fix_hypothesis": "Run real raster image/font tasks inside tester.runAsync to avoid the fake-async test scheduler; preserve this incomplete attempt"
+}

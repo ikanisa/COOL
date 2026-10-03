@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/usr/bin/ruby",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/overlay_driver.rb",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/proof/sql-attempt17/driver.json"
+  ],
+  "input_sha256": null,
+  "exit_code": 0,
+  "stdout_sha256": "f121e448bf074072563a2989c40f8e6c0b8cdfd7022a098ca86e1ef1cf4c556e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

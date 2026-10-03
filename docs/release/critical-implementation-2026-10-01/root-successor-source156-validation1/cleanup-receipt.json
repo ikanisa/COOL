@@ -1,0 +1,66 @@
+{
+  "canonical_process_retried": false,
+  "commands": [
+    {
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "sha256:508ff7d9b8e7e4976436f628005d0e05fc08eaae45df293056856815039607e8"
+      ],
+      "exit_code": 0,
+      "name": "owned-image-before",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8a905a7055a8e9f2ef392aeff1da2692e22c18058fd543b424d0422c30d01a66"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "ps",
+        "-a",
+        "--filter",
+        "ancestor=sha256:508ff7d9b8e7e4976436f628005d0e05fc08eaae45df293056856815039607e8",
+        "--format",
+        "{{.ID}} {{.Names}}"
+      ],
+      "exit_code": 0,
+      "name": "owned-image-containers",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "rm",
+        "sha256:508ff7d9b8e7e4976436f628005d0e05fc08eaae45df293056856815039607e8"
+      ],
+      "exit_code": 0,
+      "name": "owned-image-removal",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cf2e19c46a29b3d95f8aac8eaeeb65a4fac3114c9926377e7b510c949df60cfb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+        "image",
+        "inspect",
+        "sha256:508ff7d9b8e7e4976436f628005d0e05fc08eaae45df293056856815039607e8"
+      ],
+      "exit_code": 1,
+      "name": "owned-image-absence",
+      "stderr_sha256": "0e7c85fc627b4f2e832505bf2ea29b278dc4d6d950a7a08b82fccd5f39a2b063",
+      "stdout_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "exact_absence_diagnostic": true,
+  "exact_image_id": "sha256:508ff7d9b8e7e4976436f628005d0e05fc08eaae45df293056856815039607e8",
+  "image_container_listing_empty": true,
+  "image_removed": true,
+  "maintained_cleanup_mutations": 0,
+  "owned_live_pids": [],
+  "sole_owned_tag": "collect_roster_decoder_e671020e0d91:qa",
+  "status": "pass",
+  "supervisor_absent": true,
+  "verified_at_utc": "2026-10-02T11:01:26.914930+00:00"
+}

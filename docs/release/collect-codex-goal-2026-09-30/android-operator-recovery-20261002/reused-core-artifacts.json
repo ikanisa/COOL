@@ -1,0 +1,1152 @@
+{
+  "classes/META-INF/gateway_product.kotlin_module": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/META-INF/gateway_product.kotlin_module",
+    "sha256": "fd21f2aaa461807a0e39df012d17c4fe61279ff33a9cedd3040feb9f4ef4d1b4",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class",
+    "sha256": "cf44de07ce9d272199c214cf6ef2b52da84ab70531bff8e9f9a3311c7781c12b",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayHttpsTransport.class",
+    "sha256": "0ed243439308cde1701fb76f920043673f673819b6006fea5bd759da085f3e29",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class",
+    "sha256": "216f73b8ddf6385d0148cfddc6d09cc32434b6d77d6adf53f906fb8cb586f2b1",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySignedBackend.class",
+    "sha256": "e631fb8e82b73195bb428fb94ce91d8a5ba9dd87436856d21efce2558a36ba7d",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class",
+    "sha256": "b4d3fad16861816432a7b885c0d608abdeeda67248857a178c474f3899bdf9cb",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class",
+    "sha256": "d853e0a737f6bb2d9fb64fd8373111ab4cbf9ed04e54d5512abb1274b8b2b1ca",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCycleToken.class",
+    "sha256": "6b96252f4e64937f91f99d755daaaaa02fb7f39e715597dca39171534d673905",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class",
+    "sha256": "ef828cd6efd99b27aa791c5d4de270936a805348d0ea42d7ffd2f171d0183c5f",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/DispatchJsonScanner.class",
+    "sha256": "55ec849300bacf638047ad85e9a4b4db7480a0613f7bf235259981ff69f0119b",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayWireKt.class",
+    "sha256": "141b82794e26c192eee30772474f90b01ffd1ca9a52bdd6f625d614e8676858b",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLateRetention.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLateRetention.class",
+    "sha256": "456ffb5ee8747efd7c83fcfa68287e0a3b81b75e9a89cd6e37d692d927d82bc3",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class",
+    "sha256": "741a83f4d6f8c5671ba92eaf18f0e72ec346ee2caacdc8a4bed1479195873f18",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class",
+    "sha256": "e6d0415a9ca1fd4f70e6aa876b0f18e45465f77f04e5fce93d2d2bee04e9cc4b",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchGrant.class",
+    "sha256": "c8d7cd26ca0bbce7cc3fe53c04266ec841c3f5583ebf6f8bb46dface97d1b29c",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/SegmentOutcome.class",
+    "sha256": "25d7b40e6d0e86a5019e7d2f85f3e083a2b3afcf1ad7f628dbe01720770de017",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayEnrollmentState.class",
+    "sha256": "740bce854efeffa8651edc76476e9438e93a1b16e69e3c29748f9fa40d2f4ddc",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class",
+    "sha256": "7f9f5ccba647113dc537a5356ee2e6ea7e60a8dcdf0705dd63ab07dc7753e862",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class",
+    "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class",
+    "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournal$Companion.class",
+    "sha256": "74e8e9dab971906d57fddec98130d0d6c32c6143f241866a3af1b6e38f49ea38",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class",
+    "sha256": "590c05ab8c836ceeb07679a40137b33d83a2a289734eb93c860b79745982edcd",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class",
+    "sha256": "09c90767f53a8e9869736b288b78b710418dd9924335a961422e620828333b4e",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalArchive.class",
+    "sha256": "b7c0ae35d0a063a5ef0734936e759eff2c784f4fdfd95ea22dcd2148a8a87a1c",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayAuthority.class",
+    "sha256": "a6642bd77ddf755acf2e1e1d05484cb8ff5109515624e151a22be6b9fb8af0e8",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecovery.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRecovery.class",
+    "sha256": "a1e56258d56edda83e9bb60d04244da70e80da66f2781546727c32e5ed5161ce",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/CallbackKind.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/CallbackKind.class",
+    "sha256": "47ffc4dbc6f1b2687ac021ae6e377f2ffb5540488fba0206d63573280e3a8fb5",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCycleResult.class",
+    "sha256": "86f7de0e3b0a8d5e457dfa414730e0c8e255fb92a5c6625aff2b2a1a1f3957ad",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRadioObservation.class",
+    "sha256": "7100b2765114da2ed2105be4261e8d6b60e1b7afaec23b53b610931921288e4d",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class",
+    "sha256": "bb151d5d228e96ac9fdcd8afd66ad4bc318ea9f5d43d2681cb5ab4bacfdf1762",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class",
+    "sha256": "66d074cd68a8e5d2b88fac37a94f7c1d4764fe69e499f6daf13962246715f721",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class",
+    "sha256": "017423df56b6769f53d23bfe1ff1f778a81e431321a068d34d7c75dec2d36e6f",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class",
+    "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCallback.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCallback.class",
+    "sha256": "e8cefa58aac7b4895b4bee2d44095da1a8982c7ebd40fd48da10390a6359ea14",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournal.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournal.class",
+    "sha256": "39e5b5a300c7860fdecc03553694b5394fa20cce0e984aa9054882531c74f006",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalStorage.class",
+    "sha256": "cc5039b4e767c35f8e14f0b077c794b175df7bf5a68e4e4c747701067602ca1b",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class",
+    "sha256": "97307bd3ad0de397945bcc84d1060de44782050f08b162f2173105d8349ca679",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class",
+    "sha256": "3122137b4ca167a54cdbc9c4847275f6df0d54289ec6a812a0469fcab707d200",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class",
+    "sha256": "103f98829630301e22820828ec4a87557578978f1bf46c54405b1b340eca8820",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalState.class",
+    "sha256": "e92e627db540062bc77bae8d84f6e4312bfb2c6208d32e50443819f502d1d0f1",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class",
+    "sha256": "bdf2432a64b982ff278ca603eb9654e4cb679bbc17401f2445ec8f028ceb6bc8",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class",
+    "sha256": "4fa971eedb75831ceb07b4097b9bb13d4bbe27e62a17d0213df4fb3510cd9453",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCrypto.class",
+    "sha256": "ee74cecead74a496c2b4b4eda075986cb5b89be1efe25952e0c86865f2dbc1bb",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class",
+    "sha256": "149d908aa878a700cbb50f915da9bd840a7a61cb0b7f58e500f8611ab6772070",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class",
+    "sha256": "9845f8cb07bbc235cda8c64376446f25535ec4b761e9886a40f3e9f21e7ede64",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class",
+    "sha256": "11456e4561fb40e6acb8bd60dd1c4d4d71cfc3f87a9709355191baf8867708cd",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class",
+    "sha256": "9cca9c558492fd8f89517f18550fccd110c3c7cdc51c6c6e68302887387de762",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class",
+    "sha256": "8e2016e56eec8c12b88ea860c8b401acff27c24a2aceae5429a2943b058f18ed",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayEncryptedStore.class",
+    "sha256": "6dae1053350f9ac9e4a9f4c62ae098371fafb4cb196ec77886fc99ccf482b94d",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchLease.class",
+    "sha256": "04ee09c7c7fc77a8ed1ff568ca9254dd26af0b4c6ef6e45875230878a45a5cdc",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class",
+    "sha256": "6ef68f94303bda2525487342350a3f3e679b99bb7ab76d6d2ef31756f4a897d5",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class",
+    "sha256": "6faca8cfc92b3a866655ac881fa36e142f2dfba255965cf901a2409e1d65e4dd",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalKt.class",
+    "sha256": "0f4ddd792c62295b69854588cad8ad35d4b08b6e9bd8a104526f81c7ebd0b3b1",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayArchiveStorage.class",
+    "sha256": "2d07d888356748bb5245201e2bcf8407d9ed5ccb069a6111d97d51a3f5816ecf",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class",
+    "sha256": "f72a2ffcd9da5350f6f9522538358701f99add381c7e699547bcf1b552e60db1",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class",
+    "sha256": "c08a0a4e53c10c5775e0ba856d471fa4b0b00f318aa81c5d4d1ac3bbd97785b0",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayObservations.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayObservations.class",
+    "sha256": "4e75013d7ff28c2506cfa7ba39d97a7c22c50ecd38564eb06c0853d040204664",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class",
+    "sha256": "c34251ab8edbd25a111f31f302700e3150ed2c211c17ca3cdad02c35b58dddfe",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class",
+    "sha256": "b6a470df1edeceda2ff58caf9794997d12f63640e3306e6e1938c9becfd1fc21",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/AttemptOutcome.class",
+    "sha256": "cc23e3183f2e0b30e4857d845178828c05359888545df17b157ff9d5a3249818",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayBackend.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayBackend.class",
+    "sha256": "7f6ef0a82c21bd5b20ed015ff52ab4f49f0d4a8526273900679cc5ecb2322851",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayStoredRequest.class",
+    "sha256": "f68830263b742abdfbef46b4d3cb2bf250fa648d11068731d54fca51a18b63f0",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class",
+    "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayAttempt.class",
+    "sha256": "f9b89daa28eaad4db417523530f4677ef0b3acdada4a485b0905373b13f1799a",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchEngine.class",
+    "sha256": "3167e320c45b679dc66e532c0ca1c1e8f4faf0ac7ec4659659883d7c337544eb",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class",
+    "sha256": "5b5cae3a4c9f9418226f2dadb40aa109c0e1063f5f3ec79bb7cd2f54a8cfd373",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class",
+    "sha256": "a9f82091fbb08829032c4234ed4e8ed7c011f9b5f65b13640a9d6371075d1e88",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class",
+    "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchKt.class",
+    "sha256": "6d50b7f1d24d86b90d105ad7c30bc95c1db21a6e57328895dc5688ffdd6784c2",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayStateException.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayStateException.class",
+    "sha256": "4713259cc9751a3fa7563e4eccaf577f67cea8cbdd634ac778ece40769a2f7da",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class",
+    "sha256": "5ca43d272958787fac728c51624425805afd96dcf9f1c9a7a48bb1af90954d22",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySmsInvoker.class",
+    "sha256": "e4d55b9fb69eaa68f33c431662cd4477fa1cfe5a8070acfa148d8bce85c61059",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class",
+    "sha256": "06ef8e74b9472280f396e6753f39c4385e3270389875eabc144d8a6c35d25d84",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class",
+    "sha256": "c66bbfbce743dd7aa0f97925fab38191ed8b473caf0e178c5f4cf00a329c282c",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayAttemptArchive.class",
+    "sha256": "c8df422a252646daf454e72d2cbc93c89300c05b59b0cef3cc1edfb0849d11da",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class",
+    "sha256": "d3dacc67a72427c9e1dc962a4cb9b8e91d40a864ab5cf5b7438c51bae103b6b7",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRecoveryResult.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRecoveryResult.class",
+    "sha256": "4fbf96ecda45d057142ca64f199c9566631c930864f69fa672a2ee14fbcbfc5c",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class",
+    "sha256": "49cd7542f8dc0f4c440eaa5e7eb5213807681e96d019e55c1ac917b8d3edd2ba",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayCycleGate.class",
+    "sha256": "762afc8fd8deae2aaa04823e2d3baf725e45d3dc8ba978b24cad31a21080e491",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class",
+    "sha256": "0c8da326368214653c0f28095e51c8ca6ecfc4a1fde6daa1c88bcbf062d40b79",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/SegmentEvidence.class",
+    "sha256": "4afcaab0cc571b98ced3e2e5419f5fa388b41c703f4994ed838ebb716765b2af",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayRetentionIndex.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayRetentionIndex.class",
+    "sha256": "37144e95b3d264ac00a7d63f044573267a3d74fa23c0c48356ec275b0bdb6ef0",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class",
+    "sha256": "f357425afcfefff28063419121532b81e2fa3cd351da041800c383d2682be110",
+    "mode": "0o644"
+  },
+  "classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class",
+    "sha256": "e9543dedfcbe3b42a52b76577b414ef2f1c42b4376d2a662fce7528c0c3f8792",
+    "mode": "0o644"
+  },
+  "classes/android/util/AtomicFile.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/util/AtomicFile.class",
+    "sha256": "aae887ae09638352376b805d0bb378af93b055286309fcd722fb06f75b244fd8",
+    "mode": "0o644"
+  },
+  "classes/android/util/AtomicFileFaults.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/util/AtomicFileFaults.class",
+    "sha256": "7ff8aa6bc5ac65775ae0b54475a26951eb5cc7052ca8798b7f94d34762078893",
+    "mode": "0o644"
+  },
+  "classes/android/util/Base64.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/util/Base64.class",
+    "sha256": "2b779e86a3c9a792ee2d1f7a25b5639c09d17a11abc8154ef96cce5c23a05e82",
+    "mode": "0o644"
+  },
+  "classes/android/content/Context.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/content/Context.class",
+    "sha256": "0c3194f5baa98d63b5be1800cca775dc59aa1d414983da05b9858cb4f994ed5f",
+    "mode": "0o644"
+  },
+  "classes/android/system/Os.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/system/Os.class",
+    "sha256": "0c7211ec84c7e18d6cc51c512b5c2eadd10935f9b68577684d5f4c887ddea957",
+    "mode": "0o644"
+  },
+  "classes/android/system/OsConstants.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/system/OsConstants.class",
+    "sha256": "77e28df01f7436310b73b5f616b5e025a38f5fd4cc8dc2c1783280f6090a3a19",
+    "mode": "0o644"
+  },
+  "classes/android/os/Build$VERSION.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/os/Build$VERSION.class",
+    "sha256": "b9f91b06e2f1addcbdfce99bf15df01c2c50fd9db3eb218fc5a64980530505d0",
+    "mode": "0o644"
+  },
+  "classes/android/os/Build.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/os/Build.class",
+    "sha256": "6fdfca4cf1eec5621e4d3157823defd004cf1470484bc557ae627e5357fc4237",
+    "mode": "0o644"
+  },
+  "classes/android/security/keystore/KeyGenParameterSpec$Builder.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/security/keystore/KeyGenParameterSpec$Builder.class",
+    "sha256": "902d0acf95083bee4b8a2a6be16ffd1057d655d7e58efc6764a93e408cb47f4c",
+    "mode": "0o644"
+  },
+  "classes/android/security/keystore/KeyProperties.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/security/keystore/KeyProperties.class",
+    "sha256": "6ab70f62d30e9daf298f8e65700e8dac90f965fb2df1b61742f04eb1cdeb430e",
+    "mode": "0o644"
+  },
+  "classes/android/security/keystore/KeyGenParameterSpec.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/security/keystore/KeyGenParameterSpec.class",
+    "sha256": "36fb4cc6906b63aeaf8ea195a5d325c493d179bd324f545fd7d87baf4ebab966",
+    "mode": "0o644"
+  },
+  "classes/android/content/res/Resources.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/classes/android/content/res/Resources.class",
+    "sha256": "db86c15281983ca16e06adb596e253bb17a75e1a5b05f51f208e5530e3ff2f6a",
+    "mode": "0o644"
+  },
+  "test-classes/META-INF/gateway_tests.kotlin_module": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/META-INF/gateway_tests.kotlin_module",
+    "sha256": "e871d64c498617a57844801a5921b0eb078931ca7429f57b863de02b58cbb2a0",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture$3$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture$3$1.class",
+    "sha256": "a3bce64cd648f9bc5b662ccd442df838dacb0777a3b96f38fdfe6c6dc15a352d",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayRecoveryHistoryTest.class",
+    "sha256": "075e7a9df4a3cc9a9c59f1e56364c5c43cbc0cf65c8b4fbc033fbda79a41b52c",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$TestContext.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$TestContext.class",
+    "sha256": "7d7ab0331b5c622332293aad4b0b5a76c6b7e14260fe1f042f722ad06f5ea6a3",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest$Fixture$3$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest$Fixture$3$1.class",
+    "sha256": "0eab58e4b341b2a5e708d67c0967a87f5e2c6f1de92a669d037391b84b97f94f",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Response.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Response.class",
+    "sha256": "75c861dc671a4ddbb396c72209569aa5426b671c9f77564ec35031a6d4e1145f",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$malformedArmResultCannotCrossSenderAndOriginalRequestRemainsUnknown$1$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$malformedArmResultCannotCrossSenderAndOriginalRequestRemainsUnknown$1$2.class",
+    "sha256": "0ca617a0cdf146425c3bd30f0aa47141f28f4905844ab832c5ecc50f52dc778b",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryHistoryTest$LocalContext.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayRecoveryHistoryTest$LocalContext.class",
+    "sha256": "93f95714e5a4729766a05e6f885d5a7d658ccdfe4d0df71e02b61e897994bb88",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$Fixture.class",
+    "sha256": "c9db141015953ab6df932c2b7edee2aac259210ec424030b0065452e86678ca6",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$lostArmResponseRetainsFsyncedOriginalUUIDAndNeverInvokesOrRearmsOnRead$2$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$lostArmResponseRetainsFsyncedOriginalUUIDAndNeverInvokesOrRearmsOnRead$2$2.class",
+    "sha256": "92cab414a9ae6a3b83cc12672eb6acc97dd8729e72a468bfb3c9452b5de77d64",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayRecoveryTest.class",
+    "sha256": "450827e7cc07ade720d83cc7af302999cddf1abb6d2cc308d9cde2b0d13d2965",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$f$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$f$1.class",
+    "sha256": "3ed77e5714ebf85421559407f1b429685a37848b30558b13431b49865085886a",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayArchiveStorageTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayArchiveStorageTest.class",
+    "sha256": "5b785108ea3122cec8df2ccb2a67e959553ffa4e8799763d70eca08624db5466",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLateRetentionTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLateRetentionTest.class",
+    "sha256": "3cf34f5af8429c32ca2018aa23c44b315caf8166251c6f86478ce0e9411d33e4",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$sender$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$sender$1.class",
+    "sha256": "80a12903744b26433081d6bb5a9adbb7e861c39a6b3b25be68660bb5cff2825e",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest.class",
+    "sha256": "fa7ed5c1502c3c1089586c215f3ad70c80373b703c379c079b34bb245c71af5a",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayRecoveryTest$LocalContext.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayRecoveryTest$LocalContext.class",
+    "sha256": "e68bffe96f4dfe5897856d95439bda2c83bbc7b279ef057c16019d21f9a68f96",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLateFixture.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLateFixture.class",
+    "sha256": "439cd533ac7023dea19b68b417851f68037fb0bd3e2d55c499e7f016b32d03e1",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.class",
+    "sha256": "442b38b873a2e7cb86c49a9dfa1e4e88976b4abf42a316665ea7c7a4f56c1b02",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayArchiveStorageTest$TestContext.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayArchiveStorageTest$TestContext.class",
+    "sha256": "08da438580eaea32de1653081ed59f3e509010b4d2a039b8aa803f39c347062f",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$record$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest$realSignedTransportDurablyReservesThenBindsOriginalArmBeforeOneInvoke$record$2.class",
+    "sha256": "1f569bf3161bdf327a6dce0ed5785724a316f2e8ca668a57358f9d145e83e963",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest$Fixture.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLookupFairnessTest$Fixture.class",
+    "sha256": "872c6f33cbb06b7ffd1d9e5101b68dbd8aaa05f40e791a159caf0020691196c6",
+    "mode": "0o644"
+  },
+  "test-classes/app/cool/mobile/gateway/GatewayLateFixture$LocalContext.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/test-classes/app/cool/mobile/gateway/GatewayLateFixture$LocalContext.class",
+    "sha256": "ee3d78655106720b2177a67cf59451dd783c7173d05f425ba7e454abca537af7",
+    "mode": "0o644"
+  },
+  "runner-classes/CurrentCasesKt$main$request$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/runner-classes/CurrentCasesKt$main$request$1.class",
+    "sha256": "6f1051ebe004696919e1be93d891078095f25ebbd3978a3f2a036df71c3e288b",
+    "mode": "0o644"
+  },
+  "runner-classes/CurrentCasesKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/runner-classes/CurrentCasesKt.class",
+    "sha256": "105ac7ae2bd208111c1187251c614d3bdb4d1f737c1fde9487f0b27a69ca8c9f",
+    "mode": "0o644"
+  },
+  "runner-classes/CurrentCasesKt$main$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/runner-classes/CurrentCasesKt$main$1.class",
+    "sha256": "fc31759acfe8b42d0ceb2aebd2744cd6df0b9de9f14c1e8030342ab7e3d8cfc7",
+    "mode": "0o644"
+  },
+  "runner-classes/META-INF/main.kotlin_module": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/runner-classes/META-INF/main.kotlin_module",
+    "sha256": "58437a19e0252230fcf89a8dd233bdf05f79a6ebe851efe4213eed9fe8029cb3",
+    "mode": "0o644"
+  },
+  "api-classes/META-INF/main.kotlin_module": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/META-INF/main.kotlin_module",
+    "sha256": "625bb1c0503f2b79e1e998abbe68f83ed6c6103db23b486e3a30b822c8e36b61",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/BuildConfig.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/BuildConfig.class",
+    "sha256": "46ef44ebd46c9306d3c28d8cad186ba30a6bd691739fd5250f0d7d8fa9f34dca",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage.class",
+    "sha256": "e08cd685de2ef027582666fd95769bb2d873480b66c18f4fb5fd56f8057e69e8",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport.class",
+    "sha256": "5cb85c0f7742dabe453ea642bfb90c2a1f6f215884835123db66885e05ec4837",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement$Companion.class",
+    "sha256": "804d01a4d6fa2940a6eb4dea9d6559d9ec5ce6689c768ea354a59dfeae165d46",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySignedBackend.class",
+    "sha256": "ca14850d0ee4c2a790f6b8d2f49b949f8e7482f596263b612adddd175bb86ff0",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations$observeRadio$1$callback$1.class",
+    "sha256": "ac6ac8b8b043092b738a5a9bff7afa26a402b5defc7a99e8828fcafce04a2792",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Token.class",
+    "sha256": "cf09ba3fc38eef36f870f65be9141b443e6c97fae4fbc46e2d69b57aff2b8be5",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge.class",
+    "sha256": "3764b34eee1b450408fbb9269068cf8c45476daf2876b914d23b661d01ee373c",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage$DefaultImpls.class",
+    "sha256": "d853e0a737f6bb2d9fb64fd8373111ab4cbf9ed04e54d5512abb1274b8b2b1ca",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleToken.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCycleToken.class",
+    "sha256": "7b36f0c96de2733d3df155ebd056033f01f01395be074d537d483730c0c8a13a",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLateRetention$Companion.class",
+    "sha256": "9f2ecfce786dd16ffb829c9d72d82a0839dcfcab6fd84a78bc0be2d1dab3fd87",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime.class",
+    "sha256": "7c2f60ab42ca914e48dc35fa695f15eb3860b1647c0f5b23b8419b713113f7f9",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/DispatchJsonScanner.class",
+    "sha256": "b0d5f09411f1ebeb2348507a6aa94efb8a033d1b236b044f12a4d4e6cf05b379",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayWireKt.class",
+    "sha256": "163ef04cdaf529bac255ee3d496e91187e43bc6afcf1aea7a4b3ad70fb1326ee",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetention.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLateRetention.class",
+    "sha256": "1db90013398ca14022c8cb17093853627c27a5be70ed9d8f8efc16201cc222f7",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$Companion.class",
+    "sha256": "811eb63bbe33d47c3dc9abbf96b5dec43c55ec200255af7c13c815fe3a1ff75c",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCrypto$Companion.class",
+    "sha256": "364cec1fabef8965fafd3ef85ffa1cfc62c1a47ede5db01dca5c7f68745204ec",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchGrant.class",
+    "sha256": "75ff2f77e4784c65cf5aa3c8012282eac8aae3187f43f2f43f8574d1830d699f",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/SegmentOutcome.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/SegmentOutcome.class",
+    "sha256": "e9fcb14ffa5635b0bc796593a01a86b512117687a8e1fd1e1b99c515e7657e10",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayEnrollmentState.class",
+    "sha256": "eecd0f015af90dc297a715275b71b1097dba7569024b6bd26a1713987d2cd365",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLateCallbackEvidence.class",
+    "sha256": "e1e9b6cb11da842b48bc1c435cb76c9f4c8e4027c05c5dfe69fc64dd5187bdac",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$1.class",
+    "sha256": "ceeb684943f237f2f74f120a1d61a75e6d8152c7e0a8e16caa72adc984913ffa",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$4.class",
+    "sha256": "ae744c4f31dddda3ada4ddd71f7ccb809044ee54b43f11116ff2ad609844c537",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$6.class",
+    "sha256": "7f87db62f5aa075a272f4b606d13f62654d6faa3b3af2a83f59035f98ce995e5",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$3.class",
+    "sha256": "351f727c87bed1b4bced1e607e394f389e1f39e6fdf7041ccc7a3da4d4c8ee6c",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournal$Companion.class",
+    "sha256": "818ab7a2ce370fae6d4b087d39cc77e48164192e4bb0b0e354ce06c35f9c1aba",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRadioObservation$Read.class",
+    "sha256": "3f1204487f7b1295ac30647e2fe9a42331587ec7b5ebab11efa2423b92bbc7ba",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$engine$1.class",
+    "sha256": "7daa086f8b43549b85028bee74ec036a037ceda634f9d22d7c04b4cfa20ed616",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayContinuousArchiveStorage$DefaultImpls.class",
+    "sha256": "09c90767f53a8e9869736b288b78b710418dd9924335a961422e620828333b4e",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalArchive.class",
+    "sha256": "5669ea917279c01bac034072f23ffa96bb3cf8ccdb0df77798bfdde71a4321dc",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayActivity.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayActivity.class",
+    "sha256": "b24147733d612019fbb8d63c4351d9a9c4db41d40a2b4df20216cfc9d0cec461",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAuthority.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAuthority.class",
+    "sha256": "f77129ca841840d485ddc72a10254c8abcd56a37731355aab72fce0a1f95fb8d",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge$Companion.class",
+    "sha256": "2572f8876d425274fcabd5c815a5c317cdfaa3d9ac241672fc1d4d6df93f3809",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecovery.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRecovery.class",
+    "sha256": "8fce8c34f9b684e2d7245b0706585da005e5b9e6f2d7ebb4c6acf5a348b7fed0",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/CallbackKind.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/CallbackKind.class",
+    "sha256": "16282286f6edc96de47309b8e63dda0ab5e4ff5e2637cb7d2910200cb796a689",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleResult.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCycleResult.class",
+    "sha256": "423c07967e2754502615e9ddf25b21e24f999a9f339e9eb59bf0a1d676826174",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRadioObservation.class",
+    "sha256": "67d1579c78c519e2787f16738b85842d3c623139d1b1143ab338d3fec15537be",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalArchiveKt.class",
+    "sha256": "efc0c3d253d9f4ef6ca793110ae49d4e165779175add283c7a5825492d4e87f1",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLateRetentionKt.class",
+    "sha256": "2062dc1a730236e4038d843272806ae6c07f4a45fdc0776f6aec79baff649315",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidObservations.class",
+    "sha256": "79cf1750c03b2b65fd48173dcaca152337a974c920ae1e3ca5eb74155ff3dff9",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRecoveryEntry.class",
+    "sha256": "76498beafdb61e31a5466b99022cb3763efc19cb5ac5136dd2c4d7e44788cced",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$2.class",
+    "sha256": "c30946650e5c34afd72481d5f39ecc219ba818427717f0c929c852a81270e040",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackgroundScheduler.class",
+    "sha256": "6e016d5741d93453b39d75399824b7262bd749308e546cbd085b701f636c3800",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$7.class",
+    "sha256": "25fab9c402f62351a3f079417a3135a71add1d914ff66050f93f7e131dbc7d0c",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCallback.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCallback.class",
+    "sha256": "93161a8f010f67a2a2b14341eb5af697e3ea0a164fe7024ef5421be3e78a5cea",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournal.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournal.class",
+    "sha256": "b2e1f8c7d7e0dc63c8779fcb4fe559940725e178c7fcbda311185cf8aa13c1fc",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalStorage.class",
+    "sha256": "546f89a32860b43a62d2ddb1ef9931f7005a2fb6a7f43e5e1ede617d942d8001",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayColdArchiveExport.class",
+    "sha256": "db2d8479b6295eba693cd622a4313823433d8e0f249c0c623ef2e8cfb5885d9d",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore$Companion.class",
+    "sha256": "55678a526b644e71f29459a68dff0c6cd5a1e9b93231656912701dc4adf5f876",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveWireKt.class",
+    "sha256": "295bad022dae782cf3429694bcba764c28fbcd6af4884d9eabedf16910b0dd1d",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalState.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalState.class",
+    "sha256": "54e93c3d9cbbbe1a1313caed5321a225628b22f17c764f8f84a4f70628ced407",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$Companion.class",
+    "sha256": "cbf2ee238c8094ec1a86680abd5c4ac22ccc69490b73c5ef46b6a804bdcb5a85",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayGuardedSmsInvoker.class",
+    "sha256": "7953e31393832fa2bae350599e5f702841395f543e0350633107157dc41ddc91",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCrypto.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCrypto.class",
+    "sha256": "b3e00399e36964a69dca6403a4f435926b9a9a5b2139b9db469a53a4b4cad183",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBridge$1$2$5.class",
+    "sha256": "af3a1de76c4361bea3a08b348b5d6bf42a9708307c2aa299fd56d479665eb1b4",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLocalDispatchIntent.class",
+    "sha256": "1f6c25a2d32b4ac3a103588bf30ed12df630f4c8c07b608df9b0ced4849dcd35",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage$DefaultImpls.class",
+    "sha256": "9845f8cb07bbc235cda8c64376446f25535ec4b761e9886a40f3e9f21e7ede64",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRecoveryArchive.class",
+    "sha256": "e5e2dad8d4cc1b17d058ff58990c3ab6cf986c2939791050b2b62db4d01cf499",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchWireKt.class",
+    "sha256": "134fceb2036327c7f68f69e182f6bb6c6995493be1c4ee8b51a8b919bb7d5082",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$1.class",
+    "sha256": "0f61a8483d5e4391951d79fb0f3b40114e3e2c8fff9f81c8232e3ddebb2813f1",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayStoredRequest$Companion.class",
+    "sha256": "ef56b1848d5b8aa9d14eb92d1fe98717de9b4920f337caeae04ce90c8c69f3eb",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver$Companion.class",
+    "sha256": "b5f8262da164d397d000b71257c45e30662914a07b22e7899e4d73ac75feca58",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayEncryptedStore.class",
+    "sha256": "7065af765178b44a0f16146c7e2b46fd82f131df23b41775a836b25594338f84",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$3.class",
+    "sha256": "2d66fab62f76173d25dabb9ae0bde5be5db57cfed01dbe63c3894728fe6e3a00",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchLease.class",
+    "sha256": "8ff4e6039c9169e8ee1f76cd7e39bee5b7a0e31abf3fceaf21f30f280bdc5e2f",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalStorage$DefaultImpls.class",
+    "sha256": "6ef68f94303bda2525487342350a3f3e679b99bb7ab76d6d2ef31756f4a897d5",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator.class",
+    "sha256": "0e14b57febcba12fd753c617b51c58ed0f6aa9105bd156606d86255d893519f3",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalKt.class",
+    "sha256": "0beb3b26841c375dffbd61232878fecafb31cbb4143493935625141ec879ba6d",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayArchiveStorage.class",
+    "sha256": "39e9cb4cc48f7e8c642bedb83ee0afb461a41baa1625f0203083c74e89d65f24",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/AndroidGatewaySmsInvoker.class",
+    "sha256": "0f0031ac15bb9b37ea707865c824f4c03b55bc5eab8f2ead29184ee948c443f7",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayArchiveAcknowledgement.class",
+    "sha256": "2ca48ddb1601c2e134d9d79445557e7ce596a0b863693b225b096e52590d1d60",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAttemptArchiveKt.class",
+    "sha256": "545183e9bfcd34adde7353fe200afc2580a1adc209916e10d8be20477e766ebf",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayObservations.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayObservations.class",
+    "sha256": "053aaa695f7096fce320d7756f864d7b32d78cc7fa9a10351dbfe0211ba31d85",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDeviceIdentity.class",
+    "sha256": "f3a27b42543ff3bf80b6f7a18cd9941a6748600c7ed1b5dd05500e4b5247269c",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayLateCallbackExportPage.class",
+    "sha256": "92c001a34eb10ea9a1023742efb6e92118cd3e30de71cd2d751e2a0d265ebd1f",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/AttemptOutcome.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/AttemptOutcome.class",
+    "sha256": "444d88d8a349d31db6d4a9d69f377e6191007e2ca76c65f2b736e8c0f2867390",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackend.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackend.class",
+    "sha256": "dbe0bb7b3df1f671acccc3366afc5d6c7090191785c0c2b4dcaa4abd02380555",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayStoredRequest.class",
+    "sha256": "c0220a5df152d31412bd2e02bc7cc75323d2bb1f5c4d27df654ae96d4416fea0",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackgroundCoordinator$allowGovernedDispatch$1.class",
+    "sha256": "3d699fa9f927836a7f799062ad2f375b8fa5dc89f48ea3f1cc3b187b4c8592dc",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttempt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAttempt.class",
+    "sha256": "6c18458ef0c364bf3735e35072a25433f4da3cf1766282c716dc08593f5d80a4",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchEngine.class",
+    "sha256": "31fd1bcbfc1f123a9cffa2b4f8209f695d55aace4e9a60ae8257b0982826a27e",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackgroundService$Work.class",
+    "sha256": "b70db3020343648c3ef789b33524a4faeb6696a1a13d042e81e80effbc645e32",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayColdArchiveStorage.class",
+    "sha256": "a2c81e149a8fc2a8932597abc7c2d69168c1a973a5c595ba5f9415b39f8eddac",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRetentionIndexKt.class",
+    "sha256": "e6eb34e6a1cdae305bef31b9f913c0d9c62d4a9051076796bac1131877c20c25",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackend$DefaultImpls.class",
+    "sha256": "87fe68a76f3da0e2fb860b22ad1d8e9894b2bbfa91a876797b4b85b02e598656",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchKt.class",
+    "sha256": "687a71c01893237f2b8ff84497e75f25e28b7d9f05bd3f8acd77b8fae7fb1af7",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayStateException.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayStateException.class",
+    "sha256": "273ed3e9e73bc34ae4fc23ba3c7778d4958ca05e97703ea1d2abfefc41adf689",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$2.class",
+    "sha256": "9a38c20386e0441373f285b9e5653c56588f18746d9982286c35c0b088611fad",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayInstalledEnrollment.class",
+    "sha256": "b10712e07a294e0f51dafda6769e746ce5399067338d972383b92355cab4327a",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.class",
+    "sha256": "28e9a39077f5ffadf178e2138990630b008272e67f81924e42460336b3039b6b",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayBackgroundService.class",
+    "sha256": "bf0c892874c76e0a271a942c34eefd42973b0dbb7c80dd67721a98d449266856",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySmsInvoker.class",
+    "sha256": "75a058213baba452f221bdd0393843d3adf4ebf4750a910167a41cde53b1e1eb",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayDispatchArmAck.class",
+    "sha256": "284da6ee87bb57789f87625483ba8b3ebfc3fb310434cca9c41d1d335b078a2a",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayColdCallbackPage.class",
+    "sha256": "87046511d2e8916b950b8b171f68c4d5a9b9a429b92c062f5234f555076fa3a0",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntime$coordinator$4.class",
+    "sha256": "515a5060998feb78ce3c1e86118919789d8880c0a72926fe25471378b302de9b",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAttemptArchive.class",
+    "sha256": "224c6f895e06292eb885d4d89ad717641073a31fe2bad2755cfb23a2fb3d6fe2",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayJournalArchive$1.class",
+    "sha256": "d3dacc67a72427c9e1dc962a4cb9b8e91d40a864ab5cf5b7438c51bae103b6b7",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRecoveryResult.class",
+    "sha256": "43c8056e97e68d40312271fe12de5afd54c686eeefea9991d817ae2096c174eb",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCycleToken$Companion.class",
+    "sha256": "a93add8b39cf21bcdc1da053bb1ad99492618933982d5c4e6c681db0a6ea81dc",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayCycleGate.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayCycleGate.class",
+    "sha256": "1a0ceb164b94310bfbea985625aec411a4222fae64828a9bbe7d42f963c31726",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySignedBackend$Companion.class",
+    "sha256": "a99d2229b620337bc3fed032a474e1ce1312250074ea28f88840b9c1a67a1ea3",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayAndroidRuntimeKt.class",
+    "sha256": "87670d77b4b41f8b7ab2882d77f19d355c84cf5b838e139fc2ee63661bb01036",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/SegmentEvidence.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/SegmentEvidence.class",
+    "sha256": "ddb2cf1e7e70746438e3afbda3efb3825aa6579df0d35b78acb90fe5cf81ab29",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayRetentionIndex.class",
+    "sha256": "c8779359d8ffc0ab3c5f54a5efc38d641ac13fb91199cd93d9b91bdfb9478d07",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewaySchedulePolicy.class",
+    "sha256": "44c885b6f794936cfa5c7ba6a3ef5603ea1ef072c55e1a527068fc82be6561f4",
+    "mode": "0o644"
+  },
+  "api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-complete-recovery-20261001/proof-workspace/attempt-8/api-classes/app/cool/mobile/gateway/GatewayHttpsTransport$LookupUnavailable.class",
+    "sha256": "d2ace0a725ef724797dfc04556d7704f95469520ed3c0b2a9ce2c3d08781a806",
+    "mode": "0o644"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "completed_status": "fail",
+  "actual_container_exit": 1,
+  "failure": "ios-offline-contract lacked mandatory real Node runtime; 25 fixture setup errors, no false pass",
+  "prior_runtime_checks_completed": 7,
+  "rubyzip_regression_limit": "Sibling directories not deliberately pre-created; strengthen fixture before final acceptance",
+  "artifacts": {
+    "ruby-version.stdout": "e031e5921b3a382746e8d5485ab4549c0e40feb3dd64a30debf9334e2c745eee",
+    "fastlane-version.stdout": "4ee5483fcbdcd15d2d76b4d42ef8fa1f40100d71d607c66dd0dccbc529981826",
+    "fastlane-action-load.stdout": "d52908164c45df8f47b756f2437be81f8edd73789f20bcda3f04839f4a186c45",
+    "frozen-bundle-check.stdout": "c98ac32c9fa6b9d4ab4578017b8e217afd7989cb947cd3bdf5b80e07e7cab391",
+    "ios-offline-contract.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rubyzip-security.stdout": "39f49409de799ddbc70621db97536e1b23ef1128bc0ee9e603951d980e7de13d",
+    "python-version.stdout": "cb64a3a0ddcaff0ce013ea3612beda0be4a4d3537087505bd8850d8f8476f4f8",
+    "fastlane-lanes.stdout": "4034a6831568e2343145afa2ddc44883cc967b2abdfaa079eb3274d4279e59e0",
+    "ios-offline-contract.stderr": "82313214f3078313a168034e4802919d523e697a7830e265ef62b8d2ada3b4f1",
+    "fastlane-action-load.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-bundle-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ruby-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fastlane-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fastlane-lanes.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python-version.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rubyzip-security.stderr": "6c384d8b189d978947399b9c7881df391605ab87261d128f3e99c28e18eb7f80",
+    "offline-checks-progress.json": "507f90f47a0b39d076734170ec3d6fb87719f73067de7b1ca7f2d0a155eb261d",
+    "offline-source-binding.json": "633a5f1cc041e092daeb054882136ae51497f476597381a6dfba0677ed0fef73",
+    "check.rb": "bd200e4e4d2bcfdfa978728e27f1f794365d5288149fa5bc1476e12c8f055f1d"
+  },
+  "network_none_requested": true,
+  "provider_signing_effects": false
+}

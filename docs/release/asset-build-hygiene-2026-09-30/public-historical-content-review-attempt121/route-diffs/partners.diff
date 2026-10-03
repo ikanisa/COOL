@@ -1,0 +1,40 @@
+--- historical/partners/
++++ current/partners/
+@@ -4,7 +4,6 @@
+ by IKANISA
+ Menu
+ Group Savings
+-Diaspora
+ Insurance
+ CRaaS
+ Community Groups
+@@ -31,7 +30,7 @@
+ Package MSME and group-backed files for formal bank review.
+ 04
+ Grow relationships
+-Support deposits, lending and diaspora banking under bank approval.
++Support local savings and lending where approved by a Rwanda provider.
+ A large savings and credit market already exists, mostly outside formal banking.
+ RWF 288B+
+ Annual ibimina savings flow
+@@ -49,10 +48,8 @@
+ Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.
+ Daily or periodic micro-repayments
+ Earlier visibility of repayment stress
+-Group-backed and diaspora lending
+-Verified group savings can provide an additional risk-control layer for eligible lending.
+-Bank-held savings collateral
+-Credit-life or income-protection cover
++Rwanda group savings records
++Verified local contribution records can support eligible Rwanda provider review.
+ Stronger MSME credit origination
+ Collect's Credit Readiness-as-a-Service prepares applicants before formal bank review, helping credit teams receive more complete, structured and decision-ready MSME files.
+ What each side brings
+@@ -61,7 +58,6 @@
+ Member and group ledgers
+ Credit Readiness guide and support
+ Daily loan micro-repayment
+-Diaspora group-savings infrastructure
+ What the Partner Bank Provides
+ Regulated savings accounts and account operations
+ KYC, KYB and AML/CFT controls

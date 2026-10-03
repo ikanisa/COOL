@@ -1,0 +1,412 @@
+{
+  "last_actual_owned_rows": {},
+  "late_observed_daemon_ids": [],
+  "observation_utc": "2026-10-02T13:41:46.327659+00:00",
+  "observed_ancestry": [
+    {
+      "ancestry": [
+        3522
+      ],
+      "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android --offline --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=2 -PcollectUnsignedLocalQa=true -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart -Pandroid.builder.sdkDownload=false :app:bundleProductionRelease",
+      "last_observed_state": "Z",
+      "observed_terminal_history": [
+        {
+          "actual_current": {
+            "command": "<defunct>",
+            "pgid": 3522,
+            "pid": 3522,
+            "ppid": 3446,
+            "start": "Fri Oct 2 15:40:37 2026",
+            "state": "Z"
+          },
+          "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android --offline --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=2 -PcollectUnsignedLocalQa=true -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart -Pandroid.builder.sdkDownload=false :app:bundleProductionRelease",
+          "signal_authorized_by_terminal_state": false,
+          "utc": "2026-10-02T13:41:45.695017+00:00",
+          "zombie_is_absence": false
+        },
+        {
+          "actual_current": {
+            "command": "<defunct>",
+            "pgid": 3522,
+            "pid": 3522,
+            "ppid": 3446,
+            "start": "Fri Oct 2 15:40:37 2026",
+            "state": "Z"
+          },
+          "before_command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradle/wrapper/gradle-wrapper.jar -p /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android --offline --no-daemon --no-build-cache --no-configuration-cache --console=plain --max-workers=2 -PcollectUnsignedLocalQa=true -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib/main.dart -Pandroid.builder.sdkDownload=false :app:bundleProductionRelease",
+          "signal_authorized_by_terminal_state": false,
+          "utc": "2026-10-02T13:41:46.009379+00:00",
+          "zombie_is_absence": false
+        }
+      ],
+      "pgid": 3522,
+      "pid": 3522,
+      "ppid": 3446,
+      "start": "Fri Oct 2 15:40:37 2026",
+      "state": "Ss"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544
+      ],
+      "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+      "observed_session_history": [
+        {
+          "PID_start_command_parent_unchanged": true,
+          "after_pgid": 3544,
+          "before_pgid": 3522,
+          "observed_utc": "2026-10-02T13:40:41.848956+00:00",
+          "private_home_evidence": {
+            "actual_matching_lsof_fields": {
+              "inode": "60458270",
+              "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+              "pid": 3544
+            },
+            "home_identity": [
+              16777232,
+              58765337,
+              448
+            ],
+            "log_device": 16777232,
+            "log_inode": 60458270,
+            "lsof_stdout_sha256": "0042623e6206bfca3846ccfc38d637a2a22a0337d1a1e73ca92d26a38cf6514f",
+            "observed_utc": "2026-10-02T13:40:41.848923+00:00",
+            "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+            "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+            "retained_matching_lsof_lines": [
+              "p3544",
+              "i60458270",
+              "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log"
+            ]
+          }
+        }
+      ],
+      "pgid": 3544,
+      "pid": 3544,
+      "ppid": 3522,
+      "start": "Fri Oct 2 15:40:40 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988
+      ],
+      "command": "(dartvm)",
+      "observed_exec_history": [
+        {
+          "after": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dartvm --resolved_executable_name=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart --executable_name=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart --packages=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/.dart_tool/package_config.json /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/flutter_tools.snapshot --quiet assemble --no-version-check --depfile /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_build.d --output /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease -dTargetFile=lib/main.dart -dTargetPlatform=android -dBuildMode=release -dTrackWidgetCreation=true -dFlavor=production -dAndroidArchs=android-arm android-arm64 android-x64 -dMinSdkVersion=24 android_aot_bundle_release_android-arm android_aot_bundle_release_android-arm64 android_aot_bundle_release_android-x64",
+          "before": "bash /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter --quiet assemble --no-version-check --depfile /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_build.d --output /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease -dTargetFile=lib/main.dart -dTargetPlatform=android -dBuildMode=release -dTrackWidgetCreation=true -dFlavor=production -dAndroidArchs=android-arm android-arm64 android-x64 -dMinSdkVersion=24 android_aot_bundle_release_android-arm android_aot_bundle_release_android-arm64 android_aot_bundle_release_android-x64"
+        },
+        {
+          "after": "(dartvm)",
+          "before": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dartvm --resolved_executable_name=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart --executable_name=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/dart-sdk/bin/dart --packages=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/.dart_tool/package_config.json /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/flutter_tools.snapshot --quiet assemble --no-version-check --depfile /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_build.d --output /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease -dTargetFile=lib/main.dart -dTargetPlatform=android -dBuildMode=release -dTrackWidgetCreation=true -dFlavor=production -dAndroidArchs=android-arm android-arm64 android-x64 -dMinSdkVersion=24 android_aot_bundle_release_android-arm android_aot_bundle_release_android-arm64 android_aot_bundle_release_android-x64"
+        }
+      ],
+      "pgid": 3544,
+      "pid": 3988,
+      "ppid": 3544,
+      "start": "Fri Oct 2 15:41:27 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988,
+        4000
+      ],
+      "command": "bash /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/flutter --quiet assemble --no-version-check --depfile /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_build.d --output /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease -dTargetFile=lib/main.dart -dTargetPlatform=android -dBuildMode=release -dTrackWidgetCreation=true -dFlavor=production -dAndroidArchs=android-arm android-arm64 android-x64 -dMinSdkVersion=24 android_aot_bundle_release_android-arm android_aot_bundle_release_android-arm64 android_aot_bundle_release_android-x64",
+      "pgid": 3544,
+      "pid": 4000,
+      "ppid": 3988,
+      "start": "Fri Oct 2 15:41:27 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988,
+        4000,
+        4002
+      ],
+      "command": "bash /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/internal/update_engine_version.sh",
+      "pgid": 3544,
+      "pid": 4002,
+      "ppid": 4000,
+      "start": "Fri Oct 2 15:41:27 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988,
+        4000,
+        4002,
+        4003
+      ],
+      "command": "(dirname)",
+      "pgid": 3544,
+      "pid": 4003,
+      "ppid": 4002,
+      "start": "Fri Oct 2 15:41:27 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988,
+        4031
+      ],
+      "command": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/artifacts/engine/darwin-x64/impellerc --sksl --runtime-stage-gles --runtime-stage-gles3 --runtime-stage-vulkan --iplr --sl=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_assets/shaders/ink_sparkle.frag --spirv=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_assets/shaders/ink_sparkle.frag.spirv --input=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter/lib/src/material/shaders/ink_sparkle.frag --input-type=frag --include=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter/lib/src/material/shaders --include=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/artifacts/engine/darwin-x64/shader_lib",
+      "pgid": 3544,
+      "pid": 4031,
+      "ppid": 3988,
+      "start": "Fri Oct 2 15:41:28 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        3988,
+        4032
+      ],
+      "command": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/artifacts/engine/darwin-x64/impellerc --sksl --runtime-stage-gles --runtime-stage-gles3 --runtime-stage-vulkan --iplr --sl=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_assets/shaders/stretch_effect.frag --spirv=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/flutter/productionRelease/flutter_assets/shaders/stretch_effect.frag.spirv --input=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter/lib/src/material/shaders/stretch_effect.frag --input-type=frag --include=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter/lib/src/material/shaders --include=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/bin/cache/artifacts/engine/darwin-x64/shader_lib",
+      "pgid": 3544,
+      "pid": 4032,
+      "ppid": 3988,
+      "start": "Fri Oct 2 15:41:28 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4096
+      ],
+      "command": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/9.1.0/transforms/dcc79c8643c1f6c2c14b3e9f2c806f4d/transformed/aapt2-9.0.1-14304508-osx/aapt2 m",
+      "pgid": 3544,
+      "pid": 4096,
+      "ppid": 3544,
+      "start": "Fri Oct 2 15:41:35 2026",
+      "state": "U"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4097
+      ],
+      "command": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/9.1.0/transforms/dcc79c8643c1f6c2c14b3e9f2c806f4d/transformed/aapt2-9.0.1-14304508-osx/aapt2 m",
+      "pgid": 3544,
+      "pid": 4097,
+      "ppid": 3544,
+      "start": "Fri Oct 2 15:41:35 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161
+      ],
+      "command": "/Users/jeanbosco/Library/Android/sdk/cmake/3.22.1/bin/cmake -H/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/gradle/src/main/scripts -DCMAKE_SYSTEM_NAME=Android -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SYSTEM_VERSION=24 -DANDROID_PLATFORM=android-24 -DANDROID_ABI=arm64-v8a -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DANDROID_NDK=/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358 -DCMAKE_ANDROID_NDK=/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358 -DCMAKE_TOOLCHAIN_FILE=/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/build/cmake/android.toolchain.cmake -DCMAKE_MAKE_PROGRAM=/Users/jeanbosco/Library/Android/sdk/cmake/3.22.1/bin/ninja -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/cxx/release/6t6z4517/obj/arm64-v8a -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/cxx/release/6t6z4517/obj/arm64-v8a -B/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/build/.cxx/release/6t6z4517/arm64-v8a -GNinja -Wno-dev --no-warn-unused-cli -DCMAKE_BUILD_TYPE=release",
+      "pgid": 3544,
+      "pid": 4161,
+      "ppid": 3544,
+      "start": "Fri Oct 2 15:41:41 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4162
+      ],
+      "command": "(bash)",
+      "pgid": 3544,
+      "pid": 4162,
+      "ppid": 4161,
+      "start": "Fri Oct 2 15:41:41 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4170
+      ],
+      "command": "/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -c --target=aarch64-none-linux-android24 CMakeCCompilerId.c",
+      "pgid": 3544,
+      "pid": 4170,
+      "ppid": 4161,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4183
+      ],
+      "command": "/Users/jeanbosco/Library/Android/sdk/cmake/3.22.1/bin/ninja cmTC_a555b",
+      "pgid": 3544,
+      "pid": 4183,
+      "ppid": 4161,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4183,
+        4185
+      ],
+      "command": "/bin/sh -c : && /Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_a555b.dir/CMakeCCompilerABI.c.o -o cmTC_a555b   && :",
+      "pgid": 4185,
+      "pid": 4185,
+      "ppid": 4183,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4183,
+        4185,
+        4186
+      ],
+      "command": "/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/Users/jeanbosco/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -v CMakeFiles/cmTC_a555b.dir/CMakeCCompilerABI.c.o -o cmTC_a555b",
+      "pgid": 4185,
+      "pid": 4186,
+      "ppid": 4185,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "R"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4194
+      ],
+      "command": "/Users/jeanbosco/Library/Android/sdk/cmake/3.22.1/bin/ninja cmTC_de4df",
+      "pgid": 3544,
+      "pid": 4194,
+      "ppid": 4161,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "S"
+    },
+    {
+      "ancestry": [
+        3522,
+        3544,
+        4161,
+        4194,
+        4195
+      ],
+      "command": "(clang-19)",
+      "pgid": 4195,
+      "pid": 4195,
+      "ppid": 4194,
+      "start": "Fri Oct 2 15:41:42 2026",
+      "state": "R"
+    }
+  ],
+  "observed_new_daemons": [
+    {
+      "PGID_absent": true,
+      "PID_absent": true,
+      "cleanup": [],
+      "daemon": {
+        "ancestry": [
+          3522,
+          3544
+        ],
+        "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx2G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/gradle-daemon-main-9.1.0.jar -javaagent:/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0/lib/agents/gradle-instrumentation-agent-9.1.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.1.0",
+        "observed_session_history": [
+          {
+            "PID_start_command_parent_unchanged": true,
+            "after_pgid": 3544,
+            "before_pgid": 3522,
+            "observed_utc": "2026-10-02T13:40:41.848956+00:00",
+            "private_home_evidence": {
+              "actual_matching_lsof_fields": {
+                "inode": "60458270",
+                "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+                "pid": 3544
+              },
+              "home_identity": [
+                16777232,
+                58765337,
+                448
+              ],
+              "log_device": 16777232,
+              "log_inode": 60458270,
+              "lsof_stdout_sha256": "0042623e6206bfca3846ccfc38d637a2a22a0337d1a1e73ca92d26a38cf6514f",
+              "observed_utc": "2026-10-02T13:40:41.848923+00:00",
+              "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+              "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+              "retained_matching_lsof_lines": [
+                "p3544",
+                "i60458270",
+                "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log"
+              ]
+            }
+          }
+        ],
+        "pgid": 3544,
+        "pid": 3544,
+        "ppid": 3522,
+        "private_home_evidence": {
+          "actual_matching_lsof_fields": {
+            "inode": "60458270",
+            "name": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+            "pid": 3544
+          },
+          "home_identity": [
+            16777232,
+            58765337,
+            448
+          ],
+          "log_device": 16777232,
+          "log_inode": 60458270,
+          "lsof_stdout_sha256": "bb62a38638676833977d13afe55c29d765148945488e7fc7a04fdbcee6d87e53",
+          "observed_utc": "2026-10-02T13:40:41.881918+00:00",
+          "opened_log": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log",
+          "private_gradle_home": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home",
+          "retained_matching_lsof_lines": [
+            "p3544",
+            "i60458270",
+            "n/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/daemon/9.1.0/daemon-3544.out.log"
+          ]
+        },
+        "start": "Fri Oct 2 15:40:40 2026",
+        "state": "R"
+      }
+    }
+  ],
+  "observer_error": null,
+  "owned_daemons_absent": true,
+  "refused_transitions": [],
+  "separate_daemon_required_stop": false,
+  "spontaneous_daemon_shutdown": true,
+  "terminal_Z_is_not_absence_or_signal_authority": true,
+  "unavailable_argv_is_not_absence_ownership_or_signal_authority": true,
+  "unproven_private_home_daemons": [],
+  "wrapper_group_does_not_prove_daemon_absence": true,
+  "wrapper_pid": 3522
+}

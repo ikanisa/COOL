@@ -1,0 +1,47 @@
+{
+  ".github/workflows/ci.yml": {
+    "bytes": 25947,
+    "mode": 448,
+    "sha256": "70ed19155871dcc1086df65611da16f4153daa5d15103a59f4ec1b0e362ddb0f"
+  },
+  "scripts/audits/collect_schema_domain_caller_seams.json": {
+    "bytes": 13792,
+    "mode": 420,
+    "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077"
+  },
+  "scripts/audits/collect_schema_domain_map.py": {
+    "bytes": 55616,
+    "mode": 420,
+    "sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+  },
+  "scripts/tests/collect_schema_domain_map_test.py": {
+    "bytes": 31057,
+    "mode": 420,
+    "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  },
+  "scripts/tests/collect_schema_lineage_invalidation_test.py": {
+    "bytes": 7013,
+    "mode": 420,
+    "sha256": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+  },
+  "scripts/tests/fixtures/ordinary_installer_v1/manifest.json": {
+    "bytes": 6097,
+    "mode": 420,
+    "sha256": "062f1f21d8ab847b4c94db4e4c86dc84af668157904e341e92bd9e6385c5f04d"
+  },
+  "scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql": {
+    "bytes": 50231,
+    "mode": 420,
+    "sha256": "1415f6c49a30dae485de238e9f0945b13350cacccf7ce6b26a52cb55ca95a99f"
+  },
+  "scripts/tests/fixtures/ordinary_installer_v1/predecessor.json": {
+    "bytes": 11808,
+    "mode": 420,
+    "sha256": "0a9ca2a20bcdb5f3b75ca485eaf2c32f48f0095f4c014ea5d6990e5ac504d8ab"
+  },
+  "scripts/tests/sql_ci_runner_test.py": {
+    "bytes": 15253,
+    "mode": 420,
+    "sha256": "2b6ab97b11706f6a47781298255f4ca81130f928007eb206bff8b42278390997"
+  }
+}

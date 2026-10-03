@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "capture_report_sha256": "00f99d8b43c44444c1e5637c2432d3882f94859631159c45ca906c13b16ec99a",
+  "build_manifest_sha256": "c5fc2c605d43c1fb3565ac8162a37e1fc4a3a236785ea988db2437120b68e5d0",
+  "runtime_sha256": "bb29041c6c318e128ea00cc2342957c2ce0bda7257c9b8559c146a0748733822",
+  "reviewed_at": "2026-10-01T13:05:42.579714+00:00",
+  "native_acceptance": false,
+  "review_method": "Direct original-resolution visual inspection of all seven fresh unedited PNGs, complete screenshot framing/content and exact route markers; independent SHA256 equality against the seven historically accepted154/157 PNGs. Fresh compilation, actual local served-resource bodies and Inter-only font declaration bytes are bound by this new capture, without reusing an old compilation or relabeling its runtime fingerprint.",
+  "scope": "Source-bound synthetic Chromium interface previews for local website media only. Full native, design comparator/state/accessibility, legal and public release approvals remain separate.",
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: complete logo/search and RWF35,000 total; three actions, readable numeric activity identifiers, group card continuing below the viewport and complete four-item bottom navigation."
+    },
+    {
+      "id": "groups",
+      "sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: readable synthetic private-group artwork, RWF35,000 total and member count1, complete filter and bottom navigation; next group continues below the viewport."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: title/back navigation, RWF35,000 balance, synthetic QA private group, all four actions, confirmed contribution rows and complete Home/Groups/Activity/Profile navigation."
+    },
+    {
+      "id": "security",
+      "sha256": "39066e3af9a2ea0b69d5cb354c0e2596b2ca3b70885a985e483b5a5abc275ab6",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: title/back navigation, complete provider-only MoMo PIN paragraph, four readable security rows with intact icons/chevrons."
+    },
+    {
+      "id": "privacy",
+      "sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: title/back navigation, readable privacy summary and complete first policy sections; longer policy continues naturally below the viewport."
+    },
+    {
+      "id": "terms",
+      "sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: title/back navigation, complete Collect group organization wording and payment-provider OTP/WhatsApp sign-in-code paragraph; longer terms continue below the viewport."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+      "reviewed_for_website": true,
+      "notes": "Original-resolution direct inspection: title/back navigation, three readable reason choices, instruction and disabled Submit before a reason is selected."
+    }
+  ],
+  "prior_identical_pixel_review": {
+    "path": "docs/release/asset-build-hygiene-2026-09-30/public-media-publication-attempt157/visual-review.json",
+    "sha256": "affd8b4ea11b25ccc62351c6c971aa5dc5c6b400828fef1720cacabfb901a3fb",
+    "all_seven_current_images_identical": true
+  },
+  "image_pixels_edited": false,
+  "compiler_scope": "Fresh pinned Flutter3.44.4/Dart3.12.2 release compilation of the current327-input capture graph; Inter and icon font manifests/actual served resources are source bound; no Aeonik in the built FontManifest."
+}

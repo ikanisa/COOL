@@ -1,0 +1,47 @@
+{
+  "command": {
+    "name": "tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/features/contribution_flow_session_test.dart",
+      "test/features/member_data_unknown_states_test.dart",
+      "test/shared/pending_shared_group_intent_store_test.dart",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/current-attempt8-flow-consumers/tests.machine.jsonl"
+    ],
+    "started_utc": "2026-09-30T20:53:59.118369+00:00",
+    "exit_code": 124,
+    "timed_out": true,
+    "owned_process_group": 41491,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 150.454,
+    "stdout_sha256": "6f43cf1ed800f64029fa77a59d389ee40a71d4ea49a5503b54618e088b614433",
+    "stderr_sha256": "e3eb1adc2a6032c2d18e9af9ee406f51738dd3730e75f87f2c9255f3e3ca4e74"
+  },
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 0,
+    "failed": 0,
+    "errors": 1,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "replacement same-user session clears completed prepared payment",
+        "source": "package:flutter_test/src/widget_tester.dart",
+        "result": "error",
+        "skipped": false
+      }
+    ],
+    "unfinished": [
+      {
+        "name": "loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart",
+        "source": null
+      }
+    ],
+    "event_errors": []
+  }
+}

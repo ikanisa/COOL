@@ -1,0 +1,61 @@
+F..F..FF
+======================================================================
+FAIL: test_absent_declared_gateway_entrypoint_fails_closed (__main__.ReachabilityTest.test_absent_declared_gateway_entrypoint_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/prior-source/scripts/tests/runtime_reachability_test.py", line 74, in test_absent_declared_gateway_entrypoint_fails_closed
+    self.assertEqual('fail', report['status'])
+AssertionError: 'fail' != 'audited'
+- fail
++ audited
+
+
+======================================================================
+FAIL: test_evidence_only_helper_is_not_authorized_for_automatic_deletion (__main__.ReachabilityTest.test_evidence_only_helper_is_not_authorized_for_automatic_deletion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/prior-source/scripts/tests/runtime_reachability_test.py", line 57, in test_evidence_only_helper_is_not_authorized_for_automatic_deletion
+    self.assertEqual([{'path': 'lib/evidence_helper.dart', 'evidence_reachable': True, 'sha256': module.sha(self.root / 'lib/evidence_helper.dart')}], report['runtime_unreachable'])
+AssertionError: Lists differ: [{'pa[133 chars]6de'}] != [{'pa[133 chars]6de'}, {'path': 'lib/gateway/gateway_app.dart'[400 chars]ae'}]
+
+Second list contains 3 additional elements.
+First extra element 1:
+{'path': 'lib/gateway/gateway_app.dart', 'evidence_reachable': False, 'sha256': 'f87b7615f3aef6f86ca00cb8ecece449cf7d9d1f6db360ba1823951872ef7a9e'}
+
+Diff is 884 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_multiline_conditional_imports_and_parts_are_all_reachable (__main__.ReachabilityTest.test_multiline_conditional_imports_and_parts_are_all_reachable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/prior-source/scripts/tests/runtime_reachability_test.py", line 50, in test_multiline_conditional_imports_and_parts_are_all_reachable
+    self.assertEqual([], report['runtime_unreachable'])
+AssertionError: Lists differ: [] != [{'path': 'lib/gateway/gateway_app.dart', [398 chars]ae'}]
+
+Second list contains 3 additional elements.
+First extra element 0:
+{'path': 'lib/gateway/gateway_app.dart', 'evidence_reachable': False, 'sha256': 'f87b7615f3aef6f86ca00cb8ecece449cf7d9d1f6db360ba1823951872ef7a9e'}
+
+- []
++ [{'evidence_reachable': False,
++   'path': 'lib/gateway/gateway_app.dart',
++   'sha256': 'f87b7615f3aef6f86ca00cb8ecece449cf7d9d1f6db360ba1823951872ef7a9e'},
++  {'evidence_reachable': False,
++   'path': 'lib/gateway/gateway_platform.dart',
++   'sha256': '584595db920321d27d4ad47fb14f0d590266adbdf49e2c88ffb68ff7022cd11a'},
++  {'evidence_reachable': False,
++   'path': 'lib/main_gateway.dart',
++   'sha256': '73bcaccc7e0bcc1ed912b77d5b301f9fb0290f505799ad4f476af1d4f86d68ae'}]
+
+======================================================================
+FAIL: test_native_gateway_only_graph_is_a_declared_runtime_root (__main__.ReachabilityTest.test_native_gateway_only_graph_is_a_declared_runtime_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/reachability-gateway-attempt59/prior-source/scripts/tests/runtime_reachability_test.py", line 67, in test_native_gateway_only_graph_is_a_declared_runtime_root
+    self.assertIn('lib/main_gateway.dart', report['runtime_roots'])
+AssertionError: 'lib/main_gateway.dart' not found in ['lib/main.dart', 'lib/main_admin.dart', 'lib/main_public.dart']
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.258s
+
+FAILED (failures=4)

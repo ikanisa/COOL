@@ -1,0 +1,148 @@
+{
+  "utc": "2026-10-02T12:12:42.694325+00:00",
+  "source_binding_sha256": "c22fc2b01cc8b2dc4290df85b84013949568c6cb6a56a372ef9d1eefebf8a4a5",
+  "current_source_inputs_equal": true,
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 1648,
+      "sha256": "12642acf1baacb3b50b791fcad543618f096ed9567e6afaa5c9a58dc6b870128"
+    },
+    {
+      "path": "docs/release/critical-review-2026-10-01/backend-security.md",
+      "bytes": 32624,
+      "sha256": "b0a38382fb1b286626146791b6fd0b58cdacba1729fdead80f225555a79bb3c6"
+    },
+    {
+      "path": "supabase/migrations/20260928160000_sms_observation_never_settles.sql",
+      "bytes": 1267,
+      "sha256": "2b71a2c88cdf873785280952baecf33ed46416832870970d0e745a375770e211"
+    },
+    {
+      "path": "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+      "bytes": 18378,
+      "sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0"
+    },
+    {
+      "path": "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+      "bytes": 17791,
+      "sha256": "96ac54d5084d42211296cc32351997a31817befa1d5f1e134429c429969c408c"
+    },
+    {
+      "path": "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+      "bytes": 22307,
+      "sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142"
+    },
+    {
+      "path": "supabase/migrations/20260929180000_notification_registration_sessions.sql",
+      "bytes": 45659,
+      "sha256": "b8335e9b70339a1a67d50db245147b483610a3a4c76f223bd7a17cfc4876a2bb"
+    },
+    {
+      "path": "supabase/migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+      "bytes": 21253,
+      "sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04"
+    },
+    {
+      "path": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "bytes": 97254,
+      "sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f"
+    },
+    {
+      "path": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "bytes": 35488,
+      "sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "bytes": 9941,
+      "sha256": "822e57598bb6ebcdcd23890d7f685802462befc2f68e8e5370f20cdd161ec72c"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "bytes": 38508,
+      "sha256": "1a2829bf8e2a2b6734ed1a65dd7248a31584f3f5bdd4c70425c9eaccae6edc9b"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_runtime.dart",
+      "bytes": 38720,
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_models.dart",
+      "bytes": 1919,
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    {
+      "path": "lib/admin/core/admin_transaction_lifecycle.dart",
+      "bytes": 3481,
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/index.ts",
+      "bytes": 736,
+      "sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/handler.ts",
+      "bytes": 3691,
+      "sha256": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116"
+    },
+    {
+      "path": "supabase/functions/reconciliation-finalize/handler_test.ts",
+      "bytes": 6815,
+      "sha256": "f681e5a29be57236958ec2edfcf7f8b23af4b0f5b1b31ab142475406c05094c0"
+    },
+    {
+      "path": "scripts/tests/reconciliation_workflow_uat.sql",
+      "bytes": 19834,
+      "sha256": "40e4231e4db13a0ed21b76ef7ba3944b9863b925af9ced4c4bb323f9c7c2f002"
+    },
+    {
+      "path": "scripts/tests/reconciliation_workflow_concurrency_uat.rb",
+      "bytes": 37866,
+      "sha256": "807f85da100d5335b4b40798fc17e2abce6b884445b937baf99c13be58e1bc6a"
+    },
+    {
+      "path": "scripts/tests/financial_finality_content_uat.sql",
+      "bytes": 23483,
+      "sha256": "102aed412fce07e91c6e99ec02701a0726cebcd5c6f122cc24ab48effbb5cca1"
+    },
+    {
+      "path": "scripts/tests/financial_provider_ordering_uat.sql",
+      "bytes": 5478,
+      "sha256": "16ced459ce6641fc0707268812b03dcd091fece1e7f62375be229575b450cd76"
+    },
+    {
+      "path": "scripts/tests/financial_reversal_concurrency_uat.rb",
+      "bytes": 9242,
+      "sha256": "874a37671852e7b54a059d52fb5b7886e13ecadcd19cac1248159a6b8475f05b"
+    },
+    {
+      "path": "scripts/tests/financial_role_boundary_uat.sql",
+      "bytes": 7004,
+      "sha256": "b7a5739c30f5c26fc8c1ef4ba1e604670e2feeda2a46bb4a1261d99173677339"
+    },
+    {
+      "path": "test/admin_reconciliation_repository_test.dart",
+      "bytes": 11610,
+      "sha256": "65aa9fe04ed5ca13529780adf615cf7e72cdefce6b40c6f2acbd6ecaba0aae99"
+    },
+    {
+      "path": "test/admin_reconciliation_ui_test.dart",
+      "bytes": 24567,
+      "sha256": "6baf814bcb2b45f69239adf5588486eb584a1c1900ea65c8cd84262697e3f8df"
+    },
+    {
+      "path": "test/admin_reconciliation_step_up_test.dart",
+      "bytes": 11861,
+      "sha256": "48f01d85d9abd894a6d91a7a22698e87c936a3e600648962caf0958f383a2e8f"
+    }
+  ],
+  "source_or_native_mutations": false
+}

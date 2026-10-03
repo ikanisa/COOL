@@ -1,0 +1,12 @@
+{
+  "kind": "pure_source_two_sensitive_reason_body_correction",
+  "source": "supabase/migrations/20260930233000_sensitive_admin_authority.sql",
+  "source_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+  "candidate": "20260930235700_sensitive_reason_whitespace.sql",
+  "candidate_sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+  "replacement_count": 2,
+  "outer_sql_terminators_retained": true,
+  "database_called": false,
+  "source_migrations_written": false,
+  "sql_acceptance_verified": false
+}

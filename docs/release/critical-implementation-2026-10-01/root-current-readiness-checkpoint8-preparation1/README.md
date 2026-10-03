@@ -1,0 +1,13 @@
+# Private checkpoint8 delta proposal
+
+This proposal records current observed scope only: six original findings closed,34 open, production NO-GO, goal active. It is not applied to any canonical register or open-findings document. Root owns the final update and will refresh actual retry9/PD12 outcomes before one integration.
+
+Entry point: checkpoint8-update-plan.json. source-fences.json binds all six canonical registers, the current-open document and18 exact evidence leaves. checkpoint8.json supplies the new checkpoint; ledger-item-updates.json changes only current implementation/action/evidence for BE08,ARC03,ARC09,PD12. Original finding identity/acceptance tuples and102/24 legacy rows remain unchanged. Snapshot old latest checkpoint under previous_checkpoint_before_update8 before replacing it. Preserve every prior history field and Markdown history body. Serialize the final ledger first, compute its SHA from actual final bytes and propagate only to the two legacy extension ledger bindings.
+
+markdown-update-plan.json holds26 exact current paragraph/row edits; full reports are not duplicated. In-memory simulation proves preservation and counts. Simulated output hashes are examples for this pending proposal, not required final hashes after root incorporates newer results.
+
+Current209 generation and independent verification are actual:1095 input rows,668 sources,718 callers,127 unresolved functions,34 transformation reviews with37 unresolved candidates. Fifty-seven mapper tests retain their exact unchanged implementation scope. Eight caller positions shift (seven helper references and one readiness URL); caller semantics remain identical. The sealed mapper README's explanatory overstatement is corrected by its separate retained erratum.
+
+Archived app/refactor1114/41 and native12/20 results belong to source map abf7eb09..., not the new Android derivative. Two reviewed Gradle files changed; unapproved private APP manifest5901e791.../source-mapf997471d... is distinct from maintained2563 map1c55bbe1.... Actual AAB7 fails R8; attempt8 stops at a private included-build config probe before graphs/AAB. Root-scoped probe correction/retry9 is pending. OSV157 reports no known records for exact queried earlier-graph versions, without package/licence/exploitability acceptance. PD12 fourteen tests pass, but reader1 has two archivedAPP/currentAndroid drift errors and90 facts; reconciliation/final review is pending, so no closure is proposed.
+
+Schema correction retained: selection_names has2607 entries including absent paths; current2563 comes from source_files_identity. The first preparation attempt rejected the wrong count before any plan/canonical write. No build/backend/DB/provider/Gradle or canonical mutation was performed here.

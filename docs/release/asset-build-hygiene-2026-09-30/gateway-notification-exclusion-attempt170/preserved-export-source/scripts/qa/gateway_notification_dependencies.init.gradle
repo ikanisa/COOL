@@ -1,0 +1,37 @@
+import groovy.json.JsonOutput
+import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.artifacts.component.ProjectComponentIdentifier
+
+// Focused observed dependency proof for the repository's flavor adapter.
+// Invoked explicitly by local verification, never part of normal app startup.
+gradle.projectsEvaluated {
+    def app = rootProject.project(':app')
+    app.tasks.register('verifyCollectGatewayNotificationDependencies') {
+        doLast {
+            def scopes = [:]
+            ['internal_gatewayReleaseCompileClasspath', 'internal_gatewayReleaseRuntimeClasspath'].each { name ->
+                def configuration = app.configurations.getByName(name)
+                def projects = configuration.incoming.resolutionResult.allComponents.collect { component ->
+                    def id = component.id
+                    id instanceof ProjectComponentIdentifier ? id.projectPath : null
+                }.findAll { it != null }.sort()
+                assert !projects.contains(':flutter_local_notifications') : 'Notification native project remains in ' + name
+                scopes[name] = projects
+            }
+            def retained = [:]
+            ['dev', 'internal_receiver', 'production'].each { flavor ->
+                def matches = app.configurations.getByName(flavor + 'Api').dependencies.findAll {
+                    it instanceof ProjectDependency && it.path == ':flutter_local_notifications'
+                }
+                assert matches.size() == 1 : 'Member/receiver notification dependency was not preserved'
+                retained[flavor + 'Api'] = matches.collect { it.path }
+            }
+            assert app.configurations.getByName('internal_gatewayApi').dependencies.every {
+                !(it instanceof ProjectDependency) || it.path != ':flutter_local_notifications'
+            }
+            println('COLLECT_GATEWAY_NOTIFICATION_DEPENDENCIES_BEGIN')
+            println(JsonOutput.toJson([gateway: scopes, retained_non_gateway_flavors: retained]))
+            println('COLLECT_GATEWAY_NOTIFICATION_DEPENDENCIES_END')
+        }
+    }
+}

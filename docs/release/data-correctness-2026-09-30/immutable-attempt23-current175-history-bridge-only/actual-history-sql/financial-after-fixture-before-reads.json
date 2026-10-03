@@ -1,0 +1,94 @@
+{
+  "collect_hybrid.collection_balances": {
+    "rows": 4,
+    "sha256": "93c3198ff01155e2502f41b78e409214fda44c7f9383be059d1be8bcf11acee9"
+  },
+  "collect_hybrid.member_balances": {
+    "rows": 5,
+    "sha256": "4ca643662212031e4201c2972458922edf50ad55c868eccc3a350106fd14d1ef"
+  },
+  "collect_hybrid.momo_balance_snapshots": {
+    "rows": 69,
+    "sha256": "fec37215b72985aa5ba1c8e120676f33c481d5b7a10e7bda3978c88cdde1bb82"
+  },
+  "collect_hybrid.momo_journal_entries": {
+    "rows": 69,
+    "sha256": "ebe55cee71adc2f120da29b97edcff41aa7b2d99f09201de000d33e30e707bf6"
+  },
+  "collect_hybrid.momo_journal_lines": {
+    "rows": 138,
+    "sha256": "28116bd091a7f0bdffc4c6a1428a8b6b0ee576a7764e7ace0b0c877171583096"
+  },
+  "collect_hybrid.receipt_business_event_heads": {
+    "rows": 69,
+    "sha256": "37bec1cd90e1aaccff2ebed1d5f9c2df4a39c2f2399bac598b7bcad8b52f03ac"
+  },
+  "collect_hybrid.receipt_business_events": {
+    "rows": 69,
+    "sha256": "ab3c02f42d31d28170d191c0aa9f922582ae30db26c9f5b60618721a243907be"
+  },
+  "collect_hybrid.sms_notification_attempts": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_notification_outbox": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_hybrid.sms_operator_heartbeats": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_actions": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "collect_ops.exception_observations": {
+    "rows": 139,
+    "sha256": "74dde704019921da504a9b99a420958ba1de482f2e021e046aaf5b4b0c5e2979"
+  },
+  "collect_ops.exceptions": {
+    "rows": 70,
+    "sha256": "4afce46710844d0ef52423edfcde1ebc2ba0c59a07aea1e05d9c817251bd9938"
+  },
+  "collect_security.reconciliation_reviews": {
+    "rows": 71,
+    "sha256": "7ba22b716835aaf33c0a419014852d3c086139c20d3fdc55ec2c94af4fd394d4"
+  },
+  "public.audit_logs": {
+    "rows": 281,
+    "sha256": "298e79be995a4833be080f3622cf1116f389a6d770f9b3709a71a69b91228ad1"
+  },
+  "public.ledger_entries": {
+    "rows": 138,
+    "sha256": "f60c5a2e35b09528daaa3a8a445690f0a139fad62a53c5e6251e1a5c0238aae0"
+  },
+  "public.notification_deliveries": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_delivery_attempts": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.notification_events": {
+    "rows": 68,
+    "sha256": "f42987da5156653b791d0abffde676b53bc27cb11b73d32774fa3f804d401e5c"
+  },
+  "public.payment_allocations": {
+    "rows": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "public.payment_provider_confirmations": {
+    "rows": 69,
+    "sha256": "d047c0287d7df058ebce495e76e3f4e22af96edb6f3a594fecf81412ec5ccaa0"
+  },
+  "public.payments": {
+    "rows": 72,
+    "sha256": "6f9a117f170b37a4ebf9c6a7000ee763473a37ce8f537c0eca23f8ddbd5ee0a5"
+  },
+  "public.provider_finality_requests": {
+    "rows": 69,
+    "sha256": "053cbec2922fa1c434382c2e7df8470d884b081454c1c710aec2567b0ec403aa"
+  }
+}

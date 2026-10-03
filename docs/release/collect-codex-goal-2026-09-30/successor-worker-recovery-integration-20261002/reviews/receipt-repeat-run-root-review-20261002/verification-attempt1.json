@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "scope": "Root reviewer path interpretation",
+  "reason": "The private_copy_hashes relative paths belong to view-attempt6/validation-app, not canonical ROOT. The proposed model is intentionally different from its preserved canonical base.",
+  "tool_terminal": "0b088c",
+  "product_change": false
+}

@@ -1,0 +1,31 @@
+{
+  "actual_seconds": 79.565,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/collect_release_candidate.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "export",
+    "--destination",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+    "--flutter-sdk",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter",
+    "--report",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/source-export.json"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T09:52:13.218406+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 9345,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T09:50:53.654497+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "c998646050fafe6284ade4e4cc6f2bf99027d77aa67f1ba3d1861a6deafbac6c",
+  "timed_out": false
+}

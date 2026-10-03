@@ -1,0 +1,20 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:23:59 GMT",
+    "ETag": "\"ed27879a699c4f2e8d41d1698e091dff\"",
+    "last-modified": "Fri, 18 Sep 2026 18:59:59 GMT"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://rubygems.org/api/v2/rubygems/rubyzip/versions/2.4.1.json",
+  "requested_at": "2026-10-01T21:23:58.207370+00:00",
+  "response_bytes": 1917,
+  "response_path": "primary/rubyzip-2.4.1.response",
+  "response_sha256": "f547acb62428f88e409a00adcf10726fef7d9993ab811aaaa02da1af700da761",
+  "response_url": "https://rubygems.org/api/v2/rubygems/rubyzip/versions/2.4.1.json",
+  "retrieved_at": "2026-10-01T21:23:59.838930+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

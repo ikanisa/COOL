@@ -1,0 +1,12 @@
+{
+  "acceptance_granted": false,
+  "integrity_verified": true,
+  "kind": "private-preparation-integrity-seal",
+  "maintained_writes": false,
+  "packet_files": {
+    "path": "packet-files.json",
+    "sha256": "6a400569776841e11ddd947511b22a5eda707bc53067ea3bf4a17f1ae69c68e0"
+  },
+  "payload_count": 21,
+  "sealed_at_utc": "2026-10-02T15:35:52.672791+00:00"
+}

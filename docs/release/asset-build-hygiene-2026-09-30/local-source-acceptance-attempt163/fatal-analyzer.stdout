@@ -1,0 +1,7 @@
+Analyzing export-attempt163...                                  
+
+  error • The getter 'single' isn't defined for the type 'Map<String, String>'. Try importing the library that defines 'single', correcting the name to the name of an existing getter, or defining a getter or field named 'single' • test/admin_receipt_cancel_sdk_authority_test.dart:485:49 • undefined_getter
+  error • The getter 'single' isn't defined for the type 'Map<String, String>'. Try importing the library that defines 'single', correcting the name to the name of an existing getter, or defining a getter or field named 'single' • test/admin_receipt_cancel_sdk_authority_test.dart:507:37 • undefined_getter
+  error • The getter 'single' isn't defined for the type 'Map<String, String>'. Try importing the library that defines 'single', correcting the name to the name of an existing getter, or defining a getter or field named 'single' • test/admin_receipt_cancel_sdk_authority_test.dart:537:49 • undefined_getter
+  error • The getter 'single' isn't defined for the type 'Map<String, String>'. Try importing the library that defines 'single', correcting the name to the name of an existing getter, or defining a getter or field named 'single' • test/admin_receipt_cancel_sdk_authority_test.dart:561:37 • undefined_getter
+

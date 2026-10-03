@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T17:37:30Z",
+  "design_authority": "revolut-design",
+  "scope": "CSS minifier repair; exact current visible-text contract preserved on all15 routes.",
+  "current_builder_sha256": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90",
+  "content_contract_sha256": "e843c7af547dde46470551547c2071cf404bc621d17cab0051ccd2027f5edbfb",
+  "visual_regression": {
+    "status": "pass",
+    "checkedAt": "2026-10-01T17:30:49.313Z",
+    "method": "Actual prior/current repository minifier methods applied to actual layout.css, measured in Chrome",
+    "results": {
+      "before": {
+        "labelDisplay": "inline",
+        "labelGap": 0,
+        "legalHeadingGap": 19.92,
+        "calcWidth": 1280
+      },
+      "after": {
+        "labelDisplay": "block",
+        "labelGap": 12,
+        "legalHeadingGap": 16,
+        "calcWidth": 120
+      }
+    }
+  },
+  "visible_text_routes": [
+    {
+      "route": "/",
+      "expected_sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "actual_sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "unchanged": true
+    },
+    {
+      "route": "/account-deletion/",
+      "expected_sha256": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "actual_sha256": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "unchanged": true
+    },
+    {
+      "route": "/community-groups/",
+      "expected_sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "actual_sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "unchanged": true
+    },
+    {
+      "route": "/craas/",
+      "expected_sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "actual_sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "unchanged": true
+    },
+    {
+      "route": "/credit-readiness/",
+      "expected_sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "actual_sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "unchanged": true
+    },
+    {
+      "route": "/data-deletion/",
+      "expected_sha256": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "actual_sha256": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "unchanged": true
+    },
+    {
+      "route": "/group-savings/",
+      "expected_sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "actual_sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "unchanged": true
+    },
+    {
+      "route": "/insurance/",
+      "expected_sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "actual_sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "unchanged": true
+    },
+    {
+      "route": "/our-partners/",
+      "expected_sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "actual_sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "unchanged": true
+    },
+    {
+      "route": "/partners/",
+      "expected_sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "actual_sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "unchanged": true
+    },
+    {
+      "route": "/privacy/",
+      "expected_sha256": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "actual_sha256": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "unchanged": true
+    },
+    {
+      "route": "/protection/",
+      "expected_sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "actual_sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "unchanged": true
+    },
+    {
+      "route": "/security/",
+      "expected_sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "actual_sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "unchanged": true
+    },
+    {
+      "route": "/terms/",
+      "expected_sha256": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "actual_sha256": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "unchanged": true
+    },
+    {
+      "route": "/trust/",
+      "expected_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "actual_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "unchanged": true
+    }
+  ],
+  "product_copy_changes": 0,
+  "legal_release_approved": false,
+  "publication_approved": false
+}

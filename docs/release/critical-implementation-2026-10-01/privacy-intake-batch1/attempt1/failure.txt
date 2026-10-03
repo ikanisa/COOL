@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/privacy_request_intake_uat.py", line 173, in main
+    before=snapshot(target);execution=target.sql((capture/source).read_text(),label='actual '+label+' privacy rollback UAT')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/privacy-intake-batch1/attempt1/captured-inputs/scripts/tests/collect_current_release_upgrade_uat.py", line 108, in sql
+    raise RuntimeError(label + ': ' + result.stderr[-3500:])
+RuntimeError: actual intake privacy rollback UAT: ERROR:  23502: null value in column "reason" of relation "admin_user_roles" violates not-null constraint
+DETAIL:  Failing row contains (99860000-0000-4000-8000-000000000003, 3dc3b442-06a0-49ec-b8d4-64405dc4a30f, null, null, 2026-10-01 22:52:48.113238+00, null, null, null).
+SCHEMA NAME:  public
+TABLE NAME:  admin_user_roles
+COLUMN NAME:  reason
+LOCATION:  ExecConstraints, execMain.c:1981
+

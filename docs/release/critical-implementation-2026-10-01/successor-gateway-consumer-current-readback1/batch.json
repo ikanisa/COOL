@@ -1,0 +1,81 @@
+{
+  "artifact_count": 15,
+  "artifacts": {
+    "actual-private-results-readback.json": {
+      "bytes": 446,
+      "mode": 420,
+      "sha256": "d57f0e646dfe5e2213f05bb2edae77e4b351cf770af7421bc068b97b31b9f9ab"
+    },
+    "bounded-current-checks.json": {
+      "bytes": 3289,
+      "mode": 420,
+      "sha256": "3b3ecd645b0657f80c1e2a05086cd3b8eb8bca41de856e2d8299db44b849add4"
+    },
+    "current-drift-classification.json": {
+      "bytes": 830,
+      "mode": 420,
+      "sha256": "b8ae4658eed964894e5994bb5fa44ef7aeb50c68407f61a61ce645686d88f768"
+    },
+    "current-inventory-auth-check.stderr": {
+      "bytes": 118,
+      "mode": 420,
+      "sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887"
+    },
+    "current-inventory-auth-check.stdout": {
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "current-readiness-shell-syntax.stderr": {
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "current-readiness-shell-syntax.stdout": {
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "current-ruby-inventory-tests.stderr": {
+      "bytes": 0,
+      "mode": 420,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "current-ruby-inventory-tests.stdout": {
+      "bytes": 601,
+      "mode": 420,
+      "sha256": "cac8c8ff29aa1a03f985da3a63749d727f4cb71f1acd0332f6f287d454aee01d"
+    },
+    "five-consumer-readback.json": {
+      "bytes": 4514,
+      "mode": 420,
+      "sha256": "d58460ee39fb432ee8107444e834cdc490cb1271b2d8d17733e6eb4fc6df9588"
+    },
+    "maintained-inputs-current-after-commands.json": {
+      "bytes": 127927,
+      "mode": 420,
+      "sha256": "3c1546988b9362351b70a629e4bd6599b5a6a936d99865efb43e0903a761a545"
+    },
+    "maintained-inputs-current-before-commands.json": {
+      "bytes": 127927,
+      "mode": 420,
+      "sha256": "3c1546988b9362351b70a629e4bd6599b5a6a936d99865efb43e0903a761a545"
+    },
+    "packet-artifact-readback.json": {
+      "bytes": 175184,
+      "mode": 420,
+      "sha256": "9d6c52f8943792208924d8c4f81a8c41e2799f0586b44e5a42ab4b35ff67e7d7"
+    },
+    "readback.json": {
+      "bytes": 2691,
+      "mode": 420,
+      "sha256": "2934549ea9aa49bedd6fa8fc6bc55a789a80a654db5410fa749c14ff000a78dd"
+    },
+    "reconcile.py": {
+      "bytes": 11384,
+      "mode": 420,
+      "sha256": "9822c7fadd52af5521f514330c00c92f13864ef4b01d97ecabe0be804ef0d533"
+    }
+  },
+  "status": "read_only_current_reconciliation_complete"
+}

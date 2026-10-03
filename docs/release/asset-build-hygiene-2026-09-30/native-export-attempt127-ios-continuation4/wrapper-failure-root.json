@@ -1,0 +1,9 @@
+{
+  "status": "failed_postbuild_verification",
+  "wrapper_exit_code": 1,
+  "actual_unsigned_ios_build_exit_code": 0,
+  "actual_unsigned_ios_build_log_sha256": "b47741486c48cd04d28a626fe9a391236850cef738cf9ddb22c0e58e40131f79",
+  "failure": "Strict verifier compared resolver artifact array order. Actual Xcode reordered the same complete rows. No binary input mutation has been accepted; corrected independent postbuild verifier is pending.",
+  "historical_execution_json_state": "running",
+  "source_packet_rewritten": false
+}

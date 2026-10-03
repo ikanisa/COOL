@@ -1,0 +1,9 @@
+{
+  "status": "generated_not_verified",
+  "source_sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+  "candidate_sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+  "existing_bodies": 3,
+  "identity_policy_changed": false,
+  "source_path": "supabase/migrations/20260930213000_operator_email_auth.sql",
+  "initial_generation_failure": "Semicolon-excluding regex refused to capture body; no candidate was written"
+}

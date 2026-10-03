@@ -1,0 +1,65 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [],
+  "database": "collect_local_uat_016600aab7c44260",
+  "failure": "ERROR:  23505: duplicate key value violates unique constraint \"sessions_pkey\"\nDETAIL:  Key (id)=(99740000-0000-4000-8000-000000090001) already exists.\nSCHEMA NAME:  auth\nTABLE NAME:  sessions\nCONSTRAINT NAME:  sessions_pkey\nLOCATION:  _bt_check_unique, nbtinsert.c:666\n",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "76bb2ff3884174357e44b4ea9054531a7ddb3f7fdb73888c5eddf506deb35f5e",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/current_generated_history_published_frozen3.py\", line 150, in main\n    rows = K.seed(db, count, report, evidence, stages)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_generated_query_benchmark_uat.py\", line 232, in seed\n    U.psql(db, f\"\"\"begin;\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/shadow_supervisor_uat.py\", line 31, in psql\n    if check and r.returncode:raise RuntimeError(r.stderr[-4000:])\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: ERROR:  23505: duplicate key value violates unique constraint \"sessions_pkey\"\nDETAIL:  Key (id)=(99740000-0000-4000-8000-000000090001) already exists.\nSCHEMA NAME:  auth\nTABLE NAME:  sessions\nCONSTRAINT NAME:  sessions_pkey\nLOCATION:  _bt_check_unique, nbtinsert.c:666\n\n",
+  "volume": 10000
+}

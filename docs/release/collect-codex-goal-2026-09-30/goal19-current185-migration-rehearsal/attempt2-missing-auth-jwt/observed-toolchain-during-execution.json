@@ -1,0 +1,8 @@
+{
+  "scope": "Tool readback observed during second rehearsal, not asserted before container creation",
+  "observed_at": "2026-10-01T14:16:40.245410+00:00",
+  "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+  "docker_binary_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+  "image_id": "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a",
+  "docker_client_server_version": "\"29.6.1\" \"29.6.1\""
+}

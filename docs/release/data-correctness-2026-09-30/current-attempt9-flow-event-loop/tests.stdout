@@ -1,0 +1,94 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: (setUpAll)
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: TimeoutException:<TimeoutException after 0:00:03.000000: Future not completed>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart:158:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart line 158
+The test description was:
+  replacement same-user session clears completed prepared payment
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment [E]
+  Test failed. See exception logs above.
+  The test description was: replacement same-user session clears completed prepared payment
+  
+00:06 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preparation reply cannot rebuild a payment after replacement session
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: TimeoutException:<TimeoutException after 0:00:03.000000: Future not completed>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart:172:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart line 172
+The test description was:
+  old preparation reply cannot rebuild a payment after replacement session
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:09 +0 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preparation reply cannot rebuild a payment after replacement session [E]
+  Test failed. See exception logs above.
+  The test description was: old preparation reply cannot rebuild a payment after replacement session
+  
+00:09 +0 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preflight reply cannot launch USSD after replacement session
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: null
+  Actual: TimeoutException:<TimeoutException after 0:00:03.000000: Future not completed>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart:190:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart line 190
+The test description was:
+  old preflight reply cannot launch USSD after replacement session
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +0 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preflight reply cannot launch USSD after replacement session [E]
+  Test failed. See exception logs above.
+  The test description was: old preflight reply cannot launch USSD after replacement session
+  
+00:12 +0 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: current captured session completes existing payment workflow
+00:12 +1 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: (tearDownAll)
+00:12 +1 -3: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart
+00:13 +1 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (setUpAll)
+00:13 +1 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent complete aggregates remain unknown despite partial owned rows
+00:13 +2 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks empty partial ownership as incomplete
+00:14 +3 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks partial positive ownership as incomplete
+00:14 +4 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent group ledger page cannot claim no confirmed activity
+00:14 +5 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history
+00:14 +6 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: refreshing retained roster removes previous IDs and amounts before reply
+00:15 +7 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (tearDownAll)
+00:15 +7 -3: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preflight reply cannot launch USSD after replacement session
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preparation reply cannot rebuild a payment after replacement session
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment

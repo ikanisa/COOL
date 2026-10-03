@@ -1,0 +1,9 @@
+{
+  "scope": "Read-only exact owned overflow group; no signal sent",
+  "owned_pid_pgid": 53490,
+  "signal0_probe": {
+    "errno": 3,
+    "group_absent": true
+  },
+  "cause_of_prior_EPERM_proved": false
+}

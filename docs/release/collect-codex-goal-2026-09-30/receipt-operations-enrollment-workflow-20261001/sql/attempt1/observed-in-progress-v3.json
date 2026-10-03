@@ -1,0 +1,10 @@
+{
+  "action": null,
+  "status": "in_progress",
+  "receipt": null,
+  "checked_at": "2026-10-01T12:49:16.648269Z",
+  "request_id": "f9d15e3c-e20a-4ce5-bfe6-4da126667e84",
+  "contract_version": 3,
+  "request_expires_at": null,
+  "sample_valid_until": "2026-10-01T12:50:16.648269Z"
+}

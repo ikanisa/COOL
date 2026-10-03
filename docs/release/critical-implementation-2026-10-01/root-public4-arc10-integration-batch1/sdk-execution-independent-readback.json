@@ -1,0 +1,15 @@
+{
+  "at_utc": "2026-10-02T01:14:48.062688+00:00",
+  "status": "pass",
+  "sdk_sealed_leaves_checked": 57,
+  "manifest_sha256": "71be02949c0e2c303f8f3e1e1d014035f7ae3a6330cbd9ec05f707bef81aee95",
+  "source_freeze_sha256": "fbae042714f6157094a0caa9dcff79715c0182f486b116e8ea42eb85b5282a62",
+  "actual_compiled_classes_and_jar_members_checked": 83,
+  "main_regular_outputs": 84,
+  "SDK_JUnit_executed": 0,
+  "actual_exit_code": 1,
+  "candidate_accepted": false,
+  "shared_sdk_changed": false,
+  "production_release_approved": false,
+  "scope": "Artifact-bound terminal failure and limited main compilation; preserves all strict failures."
+}

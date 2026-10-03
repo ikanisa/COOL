@@ -1,0 +1,159 @@
+{
+  "status": "scoped_read_only_reuse_review",
+  "observed_at_utc": "2026-10-01T11:57:01.401527+00:00",
+  "bindings": [
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/validation.json",
+      "sha256": "eaac36ec164286c63473771b444044ba3508fe6f0cd8507a148655f1061d5f19"
+    },
+    {
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+      "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt16-root-frame-refresh/validation.json",
+      "sha256": "07b538def17e7b038fa9fd388dc98f4090039e15986c3fdc6098fce3f11546eb"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/feature-reason-current1/validation.json",
+      "sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8"
+    },
+    {
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+      "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+    }
+  ],
+  "selected_consumed_source_comparison": [
+    {
+      "group": "admin_values",
+      "path": "lib/admin/core/admin_models.dart",
+      "captured_sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+      "current_sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "lib/admin/core/admin_read_contracts.dart",
+      "captured_sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+      "current_sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "lib/admin/core/admin_display_formatters.dart",
+      "captured_sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829",
+      "current_sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "lib/admin/core/admin_detail_formatters.dart",
+      "captured_sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+      "current_sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "test/admin_read_contracts_test.dart",
+      "captured_sha256": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886",
+      "current_sha256": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "test/admin_value_integrity_test.dart",
+      "captured_sha256": "e9d8bed43a602d67d90fbf91961f37d98d5da54c61e5d40e61ef15c23d8e82e9",
+      "current_sha256": "e9d8bed43a602d67d90fbf91961f37d98d5da54c61e5d40e61ef15c23d8e82e9",
+      "matches": true
+    },
+    {
+      "group": "admin_values",
+      "path": "test/admin_value_screen_integrity_test.dart",
+      "captured_sha256": "0588f06e0a0d9f180d7c6cc5f2ef5255b5efdcc41ee239032108e993958b3406",
+      "current_sha256": "0588f06e0a0d9f180d7c6cc5f2ef5255b5efdcc41ee239032108e993958b3406",
+      "matches": true
+    },
+    {
+      "group": "settings",
+      "path": "lib/shared/repositories/runtime_control_contract.dart",
+      "captured_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "current_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "matches": true
+    },
+    {
+      "group": "settings",
+      "path": "lib/features/settings/settings_screen.dart",
+      "captured_sha256": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+      "current_sha256": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+      "matches": true
+    },
+    {
+      "group": "settings",
+      "path": "lib/shared/repositories/collect_repository.dart",
+      "captured_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+      "current_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+      "matches": true
+    },
+    {
+      "group": "settings",
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "captured_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "current_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "matches": true
+    },
+    {
+      "group": "settings",
+      "path": "test/features/notification_preferences_recovery_ui_test.dart",
+      "captured_sha256": "7476a5ace60355f6958bfb1b87f65c9ed16a6c674789dc9e90d6260b6b801a38",
+      "current_sha256": "7476a5ace60355f6958bfb1b87f65c9ed16a6c674789dc9e90d6260b6b801a38",
+      "matches": true
+    },
+    {
+      "group": "shared_values",
+      "path": "lib/shared/models/collect_model_json_helpers.dart",
+      "captured_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "current_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "matches": true
+    },
+    {
+      "group": "shared_values",
+      "path": "lib/shared/models/collect_models.dart",
+      "captured_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "current_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "matches": true
+    },
+    {
+      "group": "shared_values",
+      "path": "lib/shared/models/collect_payment_json.dart",
+      "captured_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "current_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "matches": true
+    },
+    {
+      "group": "shared_values",
+      "path": "lib/shared/models/collect_summary_json.dart",
+      "captured_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "current_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "matches": true
+    },
+    {
+      "group": "shared_values",
+      "path": "lib/shared/models/member_history_page.dart",
+      "captured_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "current_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "matches": true
+    }
+  ],
+  "all_selected_sources_match": true,
+  "new_feature_reason_test_count": 26,
+  "retained_case_counts": {
+    "identity": 43,
+    "value": 67,
+    "value_screens": 35,
+    "data_vm": 744,
+    "data_chrome": 299,
+    "preferences": 55,
+    "settings": 6
+  },
+  "scope": "Direct selected financial, identity and settings consumer sources match captured accepted bytes. Feature-flag reason correction has its current26-case packet. History/metric evidence retains original scope. No whole-source or complete consumer-matrix claim; no test, database, benchmark, provider or build executed by this review."
+}

@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/usr/bin/make",
+    "revolut-design-authority"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "actual_seconds": 57.47203150000132,
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "timed_out": false,
+  "pid": 45148,
+  "pgid": 45148,
+  "owned_group_absent": true,
+  "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "Sole-authority hygiene; no visual fidelity certification",
+  "production_release_approval": false
+}

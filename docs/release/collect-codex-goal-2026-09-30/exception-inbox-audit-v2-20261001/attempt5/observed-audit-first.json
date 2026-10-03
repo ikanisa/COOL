@@ -1,0 +1,53 @@
+{
+  "rows": [
+    {
+      "action": "exception.escalation.opened",
+      "due_at": null,
+      "origin": "captured_transition",
+      "source": "exception_escalation_event",
+      "actor_id": "99790000-0000-4000-8000-000000000001",
+      "event_id": "7493ce40-f08b-5718-9a70-8b4056b7aa5e",
+      "revision": 1,
+      "actor_kind": "operator",
+      "request_id": null,
+      "assignee_id": null,
+      "reason_code": "operator_escalation",
+      "recorded_at": "2026-10-01T15:26:38.578128Z",
+      "escalation_id": "4c1adb3c-0ee2-4d86-979b-06d6bd75ee5f",
+      "source_record_id": "a9512ac7-0e9b-4f9b-b1f7-9b72f1f40872",
+      "workflow_revision": null
+    },
+    {
+      "action": "exception.escalation.delivered",
+      "due_at": null,
+      "origin": "captured_transition",
+      "source": "exception_escalation_event",
+      "actor_id": null,
+      "event_id": "15b27127-4167-5689-824d-258facd4b6ad",
+      "revision": 1,
+      "actor_kind": "service",
+      "request_id": null,
+      "assignee_id": null,
+      "reason_code": "operator_escalation",
+      "recorded_at": "2026-10-01T15:26:38.519215Z",
+      "escalation_id": "4c1adb3c-0ee2-4d86-979b-06d6bd75ee5f",
+      "source_record_id": "02b13117-fe0d-458a-ae69-70fa78a47223",
+      "workflow_revision": null
+    }
+  ],
+  "limit": 2,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "b5f6e483-0849-49a7-95fa-f59c87ac207b",
+  "checked_at": "2026-10-01T15:26:38.798585Z",
+  "entity_kind": "exception",
+  "next_cursor": {
+    "event_id": "15b27127-4167-5689-824d-258facd4b6ad",
+    "recorded_at": "2026-10-01T15:26:38.519215Z"
+  },
+  "send_action": false,
+  "contract_version": 2,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T15:27:38.798585Z"
+}

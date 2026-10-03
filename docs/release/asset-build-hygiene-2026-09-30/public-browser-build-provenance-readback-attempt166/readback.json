@@ -1,0 +1,23 @@
+{
+  "accepted158_and_browser159_manifest_maps_equal": true,
+  "actual159_before_build_manifest_sha256": "8b94bd3c08ba5f0a1a813ca0ff5ad4756d3702a44a934073daf4055e5fdbb878",
+  "actual_browser_report_build_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-website-build-attempt158",
+  "actual_static158_build_manifest_sha256": "8b94bd3c08ba5f0a1a813ca0ff5ad4756d3702a44a934073daf4055e5fdbb878",
+  "browser_rerun_needed": false,
+  "corrected_scope": "Actual local Chrome15marketing routes\u00d74viewports and4share states\u00d74viewports on exact accepted static158bytes, with41declared source inputs unchanged;181retained raw PNG captures. Menu/focus/geometry/media/DOM-label checks only, exact-loopback pageHTTP fence. No external service/store/physical device/signing/legal or comprehensive Revolut comparator certification.",
+  "counts": {
+    "pngs": 181,
+    "route_viewport": 60,
+    "share_viewport": 16
+  },
+  "every_served_resource_matches_accepted158": true,
+  "original159_browser_report_sha256": "30e1ab874911e73b8bb85fd5448cf4cbb533ed548605705ffa4f0aa6ec926909",
+  "original159_runner_sha256": "e8e9e026146392e0414cc4c4d957f769597974ff9db8448e8ddc8456b14ea6ea",
+  "original159_validation_sha256": "f05b093168c1cc375d1d9e98bc4a5a8ea3ab97cd5580e0be48155100a8bcbc24",
+  "original_receipt_preserved": true,
+  "original_scope_literal_error": "The cloned159 runner retained the stale descriptive words exact static142bytes, although its actual BUILD/PRIOR fields, browser environment/buildDir and every before/served hash bind158. This is an evidence wording error; the browser used158 build bytes.",
+  "reason_no_rerun": "159 build-before map equals accepted158 map and every served byte hash; actual browser report and preserved argv/environment runner select158, with unchanged source/build and passing76cases.",
+  "served_resource_count": 34,
+  "status": "pass",
+  "verified_at": "2026-10-01T01:07:54.466580+00:00"
+}

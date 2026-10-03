@@ -1,0 +1,7 @@
+{
+  "source_review": "Root limited successor diff review: three retained=False executable hash reads and new review namespace only; prior independent reviewer accepted all unchanged semantics.",
+  "admission_test_cases": 6,
+  "actual_unittest_seconds": 0.032,
+  "observed_terminal_exit_code": 0,
+  "production_release_approval": false
+}

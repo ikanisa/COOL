@@ -1,0 +1,22 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:23:59 GMT",
+    "ETag": "W/\"8eecf876c32c49453c5fce65a1728e8647ad4368eef7a4e60097bee6e0800024\"",
+    "Last-Modified": "Wed, 24 Jun 2026 13:16:57 GMT",
+    "X-RateLimit-Remaining": "39",
+    "X-RateLimit-Reset": "1790890738"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.github.com/repos/JetBrains/kotlin/releases/tags/v2.4.20-Beta1",
+  "requested_at": "2026-10-01T21:23:59.215535+00:00",
+  "response_bytes": 98886,
+  "response_path": "primary/kotlin-fixed-release.response",
+  "response_sha256": "23945cce477044903ffc7546be65a5779a0daf1219d98f982c6943d81dacd31b",
+  "response_url": "https://api.github.com/repos/JetBrains/kotlin/releases/tags/v2.4.20-Beta1",
+  "retrieved_at": "2026-10-01T21:24:00.172126+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

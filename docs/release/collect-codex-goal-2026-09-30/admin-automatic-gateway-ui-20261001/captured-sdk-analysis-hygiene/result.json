@@ -1,0 +1,50 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/admin_automatic_gateway_repository_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 4.785,
+      "terminal": true
+    },
+    {
+      "argv": [
+        "/Users/jeanbosco/Developer/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/core/admin_automatic_gateway_models.dart",
+        "lib/admin/core/admin_automatic_gateway_runtime.dart",
+        "lib/admin/core/admin_automatic_gateway_view.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_investigation_view.dart",
+        "lib/admin/core/admin_gateway_page.dart",
+        "test/admin_automatic_gateway_models_test.dart",
+        "test/admin_automatic_gateway_view_test.dart",
+        "test/admin_automatic_gateway_repository_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 12.993,
+      "terminal": true
+    },
+    {
+      "argv": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "exit_code": 0,
+      "seconds": 63.088,
+      "terminal": true
+    }
+  ],
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false,
+  "inputs_unchanged": true,
+  "input_count": 438
+}

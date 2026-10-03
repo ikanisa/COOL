@@ -1,0 +1,20 @@
+{
+  "actual_seconds": 1.561661,
+  "curl_exit_code": 0,
+  "effective_URL": "https://api.osv.dev/v1/querybatch",
+  "exception": null,
+  "finished_utc": "2026-10-02T12:54:11.141796+00:00",
+  "http_status": 200,
+  "label": "querybatch-000",
+  "method": "POST",
+  "receipt_directory": "requests/004-querybatch-000",
+  "remote_IP": "2a00:1450:4025:2401::79",
+  "request_body_sha256": "bd1579ebb09b0ed698142f948e59fa176175d870a76870d287605fd20a5f1f03",
+  "request_performed": true,
+  "response_bytes_retained": 484,
+  "response_complete": true,
+  "response_sha256": "1bc1861da922a4d0831e4416c41bba377a38c1ab0bafa462ab6813ef620f855a",
+  "ssl_verify_result": 0,
+  "started_utc": "2026-10-02T12:54:09.580166+00:00",
+  "url": "https://api.osv.dev/v1/querybatch"
+}

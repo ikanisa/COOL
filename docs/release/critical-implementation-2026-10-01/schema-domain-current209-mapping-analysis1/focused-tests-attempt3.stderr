@@ -1,0 +1,17 @@
+test_actual34_match_independent_analysis_and_full_catalog_bodies (__main__.LineageTests.test_actual34_match_independent_analysis_and_full_catalog_bodies) ... ok
+test_all49_original_test_bytes_and_assertion_ASTs_preserved (__main__.LineageTests.test_all49_original_test_bytes_and_assertion_ASTs_preserved) ... ok
+test_changed_reviewed_source_program_refuses (__main__.LineageTests.test_changed_reviewed_source_program_refuses) ... ok
+test_drop_before_installer_invalidates_predecessor (__main__.LineageTests.test_drop_before_installer_invalidates_predecessor) ... ok
+test_later_known_definition_replaces_derived_body (__main__.LineageTests.test_later_known_definition_replaces_derived_body) ... ok
+test_later_multi_target_drop_invalidates_all_derived_overloads (__main__.LineageTests.test_later_multi_target_drop_invalidates_all_derived_overloads) ... ok
+test_later_unknown_signature_invalidates_old_derived_name (__main__.LineageTests.test_later_unknown_signature_invalidates_old_derived_name) ... ok
+test_missing_or_overloaded_roster_predecessor_refuses (__main__.LineageTests.test_missing_or_overloaded_roster_predecessor_refuses) ... ok
+test_nonliteral_patch_or_unreviewed_escape_refuses (__main__.LineageTests.test_nonliteral_patch_or_unreviewed_escape_refuses) ... ok
+test_patch_absent_or_duplicate_needle_refuses (__main__.LineageTests.test_patch_absent_or_duplicate_needle_refuses) ... ok
+test_unknown_modes_types_and_quoted_or_duplicate_names_refuse (__main__.LineageTests.test_unknown_modes_types_and_quoted_or_duplicate_names_refuse) ... ok
+test_unknown_wrapper_branch_identifier_and_template_refuse (__main__.LineageTests.test_unknown_wrapper_branch_identifier_and_template_refuse) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.169s
+
+OK

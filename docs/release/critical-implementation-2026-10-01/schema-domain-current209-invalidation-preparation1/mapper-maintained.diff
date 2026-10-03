@@ -1,0 +1,119 @@
+--- maintained/scripts/audits/collect_schema_domain_map.py
++++ proposed/scripts/audits/collect_schema_domain_map.py
+@@ -345,6 +345,8 @@
+     events=[(d["version"],d["definition_offset"],"definition",d) for d in definitions]
+     events += [(a["version"],a["statement_offset"],"alteration",a) for a in alterations]
+     for _,_,kind,event in sorted(events,key=lambda e:(e[0],e[1])):
++        if kind=="alteration" and event["operation"]=="drop-all":
++            state.clear();continue
+         name=(event["schema"],event["name"]);signature=event["signature_types"]
+         if kind=="alteration" and event["operation"]=="drop-name":
+             if event["schema"] is None:
+@@ -366,6 +368,43 @@
+         proof={k:v for k,v in event.items() if k!="statement_offset"}
+         state[new_key]={**declaration,"static_lineage":[*declaration["static_lineage"],proof]}
+     return state
++
++def sql_lineage_uncertainty(text, path, version):
++    """Invalidate unproved effects; do not interpret/evaluate anonymous SQL."""
++    tokens=lex(text,sql=True);result=[]
++    def fence(token,operation,reason,schema=None,name="*",destination=None):
++        result.append({"path":path,"version":version,"line":text.count("\n",0,token.start)+1,
++          "statement_offset":token.start,"schema":schema,"name":name,"signature_types":None,
++          "operation":operation,"destination":destination,"reason":reason,
++          "source_migration_sha256":sha(text.encode())})
++    for i,token in enumerate(tokens):
++        if token.kind!="id":continue
++        command=token.value.lower()
++        if command in {"do","execute","call"} and (i==0 or tokens[i-1].value==";"):
++            if command=="do":
++                if i+1>=len(tokens) or tokens[i+1].kind!="string":raise ValueError("unknown or unterminated DO syntax")
++                block=tokens[i+1];raw=text[block.start:block.end]
++                delimiter=re.match(r"\$(?:[A-Za-z_][A-Za-z_0-9]*)?\$",raw)
++                if not delimiter or not raw.endswith(delimiter[0]) or i+2>=len(tokens) or tokens[i+2].value!=";":raise ValueError("unknown or unterminated DO syntax")
++            fence(token,"drop-all","unproved-anonymous-or-invoked-function-effects")
++            continue
++        if command!="alter" or i+2>=len(tokens) or tokens[i+1].value.lower()!="function":continue
++        j=i+2
++        if tokens[j].kind!="id":
++            fence(token,"drop-all","unsupported-active-ALTER-target");continue
++        schema,name=None,sql_identifier(text,tokens[j]);j+=1
++        if j+1<len(tokens) and tokens[j].value=="." and tokens[j+1].kind=="id":
++            schema,name=name,sql_identifier(text,tokens[j+1]);j+=2
++        signature,closing=sql_signature(text,tokens,j)
++        if signature is not None and schema is not None:continue
++        fence(token,"drop-name","unsupported-or-unqualified-active-ALTER-signature",schema,name)
++        tail=tokens[closing+1:closing+4]
++        if len(tail)==3 and tail[2].kind=="id":
++            if [t.value.lower() for t in tail[:2]]==["rename","to"]:
++                fence(token,"drop-name","unsupported-ALTER-destination",schema,sql_identifier(text,tail[2]))
++            elif [t.value.lower() for t in tail[:2]]==["set","schema"]:
++                fence(token,"drop-name","unsupported-ALTER-destination",sql_identifier(text,tail[2]),name)
++    return result
+ 
+ def function_source_review(obj, definitions, lineage_candidates, matches):
+     """Candidate evidence explains gaps; same bodies never imply name lineage."""
+@@ -511,7 +550,7 @@
+         raw=required_bytes(path); relative=path.relative_to(root).as_posix()
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"maintained-caller-source","caller_group":caller_group(relative)})
+         sites.extend(client_sites(raw.decode("utf-8"),relative,catalog))
+-    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; versions=[]
++    migration_files=sorted((root/"supabase/migrations").glob("*.sql")); definitions=[]; alterations=[]; uncertainty=[]; versions=[]
+     for path in migration_files:
+         if path.is_symlink(): raise ValueError("migration symlink")
+         m=re.fullmatch(r"([0-9]+)_.+\.sql",path.name)
+@@ -520,6 +559,7 @@
+         inputs.append({"path":relative,"sha256":sha(raw),"kind":"original-migration","version":version,"represented_in_catalog":version in catalog["migrations"]})
+         definitions.extend(sql_definitions(raw.decode("utf-8"),relative,version))
+         alterations.extend(sql_static_alterations(raw.decode("utf-8"),relative,version))
++        uncertainty.extend(sql_lineage_uncertainty(raw.decode("utf-8"),relative,version))
+     if versions != sorted(set(versions)): raise ValueError("migration source ordering/duplicates")
+     replay_bound=None
+     if replay_migrations is not None:
+@@ -533,7 +573,10 @@
+     objects=normalize_objects(catalog); matched=[]; sql_references=[]; source_reviews=[]; lineage_matches=[]
+     by_body=collections.defaultdict(list)
+     admitted_definitions=[d for d in definitions if d["version"] in catalog["migrations"]]
+-    lineage=sql_static_lineage(admitted_definitions,[a for a in alterations if a["version"] in catalog["migrations"]])
++    admitted_alterations=[a for a in alterations if a["version"] in catalog["migrations"]]
++    admitted_uncertainty=[a for a in uncertainty if a["version"] in catalog["migrations"]]
++    unfenced_lineage=sql_static_lineage(admitted_definitions,admitted_alterations)
++    lineage=sql_static_lineage(admitted_definitions,[*admitted_alterations,*admitted_uncertainty])
+     for d in definitions:
+         if d["version"] in catalog["migrations"]: by_body[(d["schema"],d["name"],d["prosrc_sha256"])].append(d)
+     for obj in objects:
+@@ -546,6 +589,10 @@
+             candidates=[d for (schema,name,types),d in lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and obj["catalog_row"][3]=="f" and signature is not None and types==signature]
+             matches=[d for d in candidates if d["prosrc_sha256"]==obj["prosrc_sha256"]]
+             review=function_source_review(obj,admitted_definitions,candidates,matches)
++            withdrawn=[d for (schema,name,types),d in unfenced_lineage.items() if (schema,name)==(obj["schema"],obj["name"]) and d["static_lineage"] and types==signature and d["prosrc_sha256"]==obj["prosrc_sha256"]] if not matches else []
++            if withdrawn:
++                review["reason"]="intervening-unproved-function-effects"
++                review["withdrawn_static_lineage_candidates"]=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}} for d in withdrawn]
+             obj["source_match_review"]=review;source_reviews.append(review)
+             if matches:lineage_matches.append(obj["identity"])
+         obj["matched_body_sources"]=[{k:v for k,v in d.items() if k not in {"body","body_offset","definition_offset"}} for d in matches]
+@@ -592,6 +639,7 @@
+              "maintained_source_files":len(sources),"caller_sites_by_kind":dict(collections.Counter(s["kind"] for s in sites)),
+              "functions_with_exact_body_hash_match":len(matched),"functions_without_exact_body_hash_match":len(catalog["functions"])-len(matched),
+              "functions_with_exact_static_lineage_body_hash_match":len(lineage_matches),"function_body_match_review_records":len(source_reviews),
++             "source_lineage_uncertainty_records":len(admitted_uncertainty),
+              "functions_without_exact_body_hash_match_by_scope":dict(collections.Counter(r["source_scope"] for r in source_reviews if not r["resolved"])),
+              "sql_reference_sites":len(sql_references),"unclassified_objects":sum(o["domain"]=="unclassified" for o in objects),
+              "function_objects_without_literal_caller_or_sql_candidate":sum(o["kind"]=="function" and not o["caller_site_indexes"] and not o["sql_reference_indexes"] for o in objects),
+@@ -609,6 +657,7 @@
+           "maintenance_owner":"review-required","business_owner":"unassigned"})
+     doc={"format":FORMAT,"summary":summary,"input_manifest_sha256":sha(canonical(inputs)),"objects":objects,"grants":grants,"caller_sites":sites,"sql_reference_sites":sql_references,"reviewed_caller_seams":reviewed,
+          "domain_summaries":domain_summaries,
++         "source_lineage_uncertainty":admitted_uncertainty,
+          "catalog_supporting_records":{k:v for k,v in catalog.items() if k not in {"schemas","relations","functions","types"}},
+          "local_platform_setup":{"api_schemas":config.get("api",{}).get("schemas"),"api_extra_search_path":config.get("api",{}).get("extra_search_path"),
+            "function_verify_jwt":{k:v.get("verify_jwt","platform-default-unverified") for k,v in config.get("functions",{}).items()},
+@@ -619,6 +668,7 @@
+                         "unresolved_callers":[s for s in sites if s["kind"].startswith("dynamic-") or s["resolution"] in {"unresolved","schema-override-review-required","overload-or-name-ambiguous"}],
+                         "functions_without_exact_body_match":[o["identity"] for o in objects if o["kind"]=="function" and o["source_status"]=="no-exact-body-source-match"],
+                         "function_body_match_review":source_reviews,
++                        "source_lineage_uncertainty":admitted_uncertainty,
+                         "sql_resolution_review":[s for s in sql_references if s["resolution"]!="unique-qualified-name"],
+                         "unrepresented_migration_sources":[r for r in inputs if r["kind"]=="original-migration" and not r["represented_in_catalog"]]})]:
+         (output/name).write_text(json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+"\n")

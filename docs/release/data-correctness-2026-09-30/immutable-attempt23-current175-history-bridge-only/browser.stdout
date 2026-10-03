@@ -1,0 +1,9 @@
+-j/--concurrency was parsed but will be ignored, this option is not supported when running Integration Tests or web tests.
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt23-current175-history-bridge-only/source-export/test/actual_member_history_sql_receipts_test.dart
+00:00 +0: actual SQL positive pages decode and match every requested window
+00:00 +1: actual SQL tie pagination appends complete exact totals without loss
+00:00 +2: actual SQL balances preserve nonzero totals, zero and unknown supporters
+00:00 +3: actual SQL exact maximum payment remains unchanged across JSON decoding
+00:00 +4: actual SQL unsafe precision observations fail closed in client decoders
+00:00 +5: actual committed SQL cursors remain fenced and append exact fresh windows in every sort
+00:00 +6: All tests passed!

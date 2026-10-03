@@ -1,0 +1,646 @@
+{
+  "kind": "receipt_backlog_events_schema_only_synthetic",
+  "started_at": "2026-09-30T20:53:30.669736+00:00",
+  "production_written": false,
+  "provider_called": false,
+  "cases": [
+    {
+      "name": "install preserves nonempty financial/outbox fixture",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new private tables have RLS and no API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "five new RPCs grant only authenticated execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot register monitor",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot register monitor",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "invalid current session refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "monitor current authority rejects unconfirmed phone",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects revoked platform grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects missing notification permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects missing system-health permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects session predates approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "monitor current authority rejects session predates role grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "consumer registration is actor-bound and idempotent",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "no historical event or receipt inserted at migration install",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "paused new confirmed payment posts deterministic nonempty journal",
+      "status": "pass",
+      "detail": "99710000-0000-4000-8000-000000050001"
+    },
+    {
+      "name": "pause captures exactly one immutable eligible queued receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "lifetime primary receipt uniqueness prevents duplicate snapshot enqueue",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "23505",
+        "reason": "duplicate key",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "posting and receipt creation emit two committed UUID events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "idempotent journal replay preserves receipts, balances and events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause refuses assisted collect_claim_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_get_claimed_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_confirm_receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refuses assisted collect_record_send_start",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause refusal does not permanently suppress queued work",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "direct future claim-state path also encounters hard pause guard",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "direct future attempt insertion also encounters hard pause guard",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "resume can claim preexisting paused queue without re-enqueue",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "enabled exact human-confirmation boundary remains available",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause blocks even an old successful claim request replay",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause blocks even an old human confirmation replay",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "pause blocks freshly confirmed durable pre-send authorization",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "enabled pre-send records attempt without contacting a carrier",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause blocks old send-start request replay authority",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_dispatch_paused",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "paused operator can retain uncertainty evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old attempt uncertainty replay remains recordable while paused",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "uncertain transition emits exactly one actionable UUID event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "no consent skips receipt but preserves committed payment event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "app-linked policy does not broaden SMS recipients",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "disabled group policy is eligibility exclusion rather than dispatch pause",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "bounded historical preview has explicit pending-policy refusal",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "preview paired keyset pages avoid duplicates",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "preview reports current consent/app-link/eligible history without contacts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "historical reconcile cannot enqueue while policy pending",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "late allocation produces immutable transition events and posted receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reversal emits event while retaining original receipt payload",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reversed payment suppresses unsafe unsent receipt independently of pause",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "suppression emits actionable event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "event reads expose only redacted immutable IDs/status/version",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "deferred is durable observation but remains pending",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exact ACK request replay returns existing immutable acknowledgement",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "ACK request collision cannot change outcome",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_conflict"
+      }
+    },
+    {
+      "name": "observed UUID progress removes only one event from this consumer",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "independent consumer retains independently unobserved same event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "different actor cannot use another consumer list_receipt_monitor_events_v1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "receipt_consumer_scope_denied"
+      }
+    },
+    {
+      "name": "different actor cannot use another consumer ack_receipt_monitor_event_v1",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "receipt_consumer_scope_denied"
+      }
+    },
+    {
+      "name": "rolled-back ACK never advances durable progress",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "partial batch recovery resumes from remaining unobserved UUIDs",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "invalid bounded event arguments '9fe4c044-2327-4c2d-bf5a-bdf19f4d39a6',0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "invalid bounded event arguments '9fe4c044-2327-4c2d-bf5a-bdf19f4d39a6',51",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "invalid bounded event arguments '9fe4c044-2327-4c2d-bf5a-bdf19f4d39a6',20,null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_monitor_request_invalid"
+      }
+    },
+    {
+      "name": "ephemeral skip does not acknowledge or persist progress",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all monitoring and pending catch-up operations preserve nonempty finances/receipts",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "immutable event evidence cannot be edited",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_event_evidence_immutable",
+        "financial_evidence_preserved": true
+      }
+    },
+    {
+      "name": "revoked consent suppresses newly captured immutable receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "definite not-sent failure and exact outcome replay emit one actionable event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "member-unassigned posting still emits committed payment event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "contact change suppresses old destination without replacing immutable payload",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "later consent never automatically backfills historic recipient",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "per-event ACK cannot skip an earlier-created transaction that commits late",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "business rollback atomically removes its emitted event",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent observation creates one terminal row and both immutable requests",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent pause cannot commit across an open dispatch authorization lock",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "pause commits after prior durable boundary and blocks future authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "concurrent financial posts create distinct immutable receipts and events",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all synthetic posted/reversed journals remain exactly balanced",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "net canonical group balance equals nonempty posted payment value",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "old primary receipt remains byte-for-byte unchanged after all new work",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "source_metadata": {
+    "net": "0",
+    "cron": "off",
+    "count": 153,
+    "latest": "20260930220000"
+  },
+  "known_extra_migration_parity": {
+    "20260930200000": {
+      "normalized_source_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+      "normalized_installed_sha256": "00d33e0df4d8fd02eda2fb5122f4243f506dd40092acae2779648662c2a2ecd8",
+      "exact_normalized_parity": true
+    },
+    "20260930210000": {
+      "normalized_source_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+      "normalized_installed_sha256": "fa64ef1639db0e5623183650889d5dacda7849b5cd603c8e9ec8332b0ebac083",
+      "exact_normalized_parity": true
+    },
+    "20260930220000": {
+      "normalized_source_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+      "normalized_installed_sha256": "2cee2e0313c817044fde7de3acdaf90ae8b997b9849d6e322bcddd81af1fd154",
+      "exact_normalized_parity": true
+    }
+  },
+  "migration_path": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+  "migration_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+  "runner_sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+  "authority_prerequisite": {
+    "relevant_function_sha256": "1cc8ea76115f5a9a93194bbc2ff3c6cc12f5c05adc9791a2ea543c8ef6f2b6ad",
+    "relevant_function_source_parity": true,
+    "whole_migration_parity": true
+  },
+  "database": "collect_receipt_foundation_86ca4e77e617",
+  "source_metadata_after_dump": {
+    "net": "0",
+    "cron": "off",
+    "count": 153,
+    "latest": "20260930220000"
+  },
+  "source_schema_dump_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "application_api_acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+  "restored_schema_dump_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+  "before_install": {
+    "journal": {
+      "rows": 2,
+      "sha256": "051c59228936fa8da9f908e92035e512aef6427bacdbec0fbc5be1a15cd6ab35"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "ff5875eaec0ec6ae2b29ba08fa0dd04aad370e3cded9eb8ec5fae8ca2fb81db6"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "e2c29e592ee51de358827a892256e645c60d7203507b17d1152b063799f89f22"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "04143bb5b04aeaced31f8d80f8c983c66909952807d4fc76d4b61d28666d1ea7"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "268464abc657bd9ed2e0b12e49cb9768a8d9afded0fbb0fe3a8878366a297c19"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "2703e138ca786c58a1842f0a77979054d055ed6aa1b7f8389b609ae6a7dfe812"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "9649ac8852b9eb97b9321148366c8d71ad1f588c49a7000411af235c166da25e"
+    }
+  },
+  "prior_receipt": {
+    "id": "53ac2444-641e-44c8-915b-e3b73f7bf5a4",
+    "state": "queued",
+    "reference": "FOUNDATION-00049999",
+    "amount_rwf": 50,
+    "claimed_by": null,
+    "created_at": "2026-09-30T20:53:33.532051+00:00",
+    "payment_id": "99710000-0000-4000-8000-000000049999",
+    "updated_at": "2026-09-30T20:53:33.532051+00:00",
+    "body_sha256": "bb281ceaa551bad986f71063fb915e0d7e0f1c91f5e9240f9c344a4c9638426c",
+    "claim_token": null,
+    "snapshot_id": "1645e5f8-ce6e-44f4-9ce5-1704398236d1",
+    "message_body": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 50 RWF. Balance yawe: 300 RWF; balance y'itsinda: 300 RWF. Ref: FOUNDATION-00049999.",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_count": 0,
+    "collection_id": "99710000-0000-4000-8000-000000030001",
+    "fence_version": 0,
+    "policy_revision": 1,
+    "claim_expires_at": null,
+    "consent_revision": 1,
+    "destination_e164": "+250788971201",
+    "member_record_id": "99710000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 1,
+    "group_balance_rwf": 300,
+    "destination_sha256": "8cc0b87fb6c94510ba8bc138aa1e0b14cbf1a09ad47a4c1fefc25e2917001db6",
+    "member_balance_rwf": 300,
+    "suppression_reason": null,
+    "destination_revision": 1
+  },
+  "install_exit_code": 0,
+  "after_all": {
+    "journal": {
+      "rows": 14,
+      "sha256": "c28e7573922f12d50883af38126f2825d8819d11480cb2accb362cb323831abd"
+    },
+    "payments": {
+      "rows": 13,
+      "sha256": "dff208229289298dabc130bca00e7894fb50522e2dfc8926f9129e3ed4b173fc"
+    },
+    "sms_outbox": {
+      "rows": 8,
+      "sha256": "cbc49de0191ba79247d26001ad20b919bc089c7c6fd267bb156909202e9944ea"
+    },
+    "sms_attempts": {
+      "rows": 2,
+      "sha256": "a97db141b33c4dbdcf84d4c83fd621ebab7769de27db70449b1a2307cd8c08b3"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 28,
+      "sha256": "26044d664319916e87782aab49ee850fafb3713f1128da5f617d1ffb2543df16"
+    },
+    "momo_balance_snapshots": {
+      "rows": 14,
+      "sha256": "0ddde0265bb7a1610cf92831b6ad212e8f255fdb005b3a4d95f6cd2e2f96f822"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "c047f44b615e126f680cb27e325f28edff80c7497a6dac71923b259cd305fec2"
+    },
+    "member_balances": {
+      "rows": 3,
+      "sha256": "cb5d01819abd58250ab58f299c1c55d74917a9d167e6d11b6a375d48565f36bd"
+    }
+  },
+  "event_count": 29,
+  "status": "pass",
+  "isolated_database_removed": true,
+  "completed_at": "2026-09-30T20:53:51.110640+00:00"
+}

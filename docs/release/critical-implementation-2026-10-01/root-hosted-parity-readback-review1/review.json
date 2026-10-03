@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-02T07:54:15.026379+00:00",
+  "status": "pass",
+  "packet_sha256": "2d1dc0992d06f5fa0f071e80d5632d16fb6b2e3b3258457b776abacc8249acd7",
+  "safe_leaves_checked": 11,
+  "current_input_identities_checked": 273,
+  "fresh_hosted_permission_refused": true,
+  "fresh_hosted_parity": "unobserved",
+  "no_additional_hosted_calls": true,
+  "no_finding_closed": true
+}

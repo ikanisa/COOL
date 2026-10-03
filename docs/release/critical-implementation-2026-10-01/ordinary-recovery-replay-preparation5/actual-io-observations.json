@@ -1,0 +1,265 @@
+{
+  "test_count": 8,
+  "failures": 0,
+  "errors": 0,
+  "observations": [
+    {
+      "case": "test_backpressured_stdin_timeout_retains_deadline_and_group_cleanup",
+      "prefill_bytes": 512,
+      "write_eagain": 16257,
+      "actual_shortwrites": 0,
+      "broken_pipe": 0,
+      "errno": 35,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 27995,
+          "returncode": -9,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import time;time.sleep(3)"
+        ],
+        "status": "refused",
+        "reason": "BOUNDED_TOOL_DEADLINE",
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "test_early_child_exit_preserves_brokenpipe_and_nonzero_exit_contract",
+      "check": false,
+      "prefill_bytes": 512,
+      "write_eagain": 22165,
+      "actual_shortwrites": 0,
+      "broken_pipe": 1,
+      "errno": 35,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28118,
+          "returncode": 7,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;time.sleep(.15);sys.stderr.write(\"early-exit\");sys.exit(7)"
+        ],
+        "exit_code": 7,
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 10,
+        "stderr_sha256": "83d822370192173f36cd1549d492356041975a89c01dee78d9ebeac627aec077"
+      }
+    },
+    {
+      "case": "test_early_child_exit_preserves_brokenpipe_and_nonzero_exit_contract",
+      "check": true,
+      "prefill_bytes": 512,
+      "write_eagain": 57711,
+      "actual_shortwrites": 0,
+      "broken_pipe": 1,
+      "errno": 35,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28123,
+          "returncode": 7,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;time.sleep(.15);sys.stderr.write(\"early-exit\");sys.exit(7)"
+        ],
+        "exit_code": 7,
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 10,
+        "stderr_sha256": "83d822370192173f36cd1549d492356041975a89c01dee78d9ebeac627aec077"
+      }
+    },
+    {
+      "case": "test_other_io_errors_remain_fatal_and_cleanup_is_preserved",
+      "operation": "read",
+      "errno": 5,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28124,
+          "returncode": -9,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;sys.stdout.write(\"ready\");sys.stdout.flush();time.sleep(3)"
+        ],
+        "status": "refused",
+        "reason": "[Errno 5] injected fatal IO",
+        "input_sha256": null,
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "test_other_io_errors_remain_fatal_and_cleanup_is_preserved",
+      "operation": "write",
+      "errno": 36,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28125,
+          "returncode": -9,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;sys.stdout.write(\"ready\");sys.stdout.flush();time.sleep(3)"
+        ],
+        "status": "refused",
+        "reason": "[Errno 36] injected non-retry IO",
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "test_real_stdin_backpressure_and_kernel_shortwrites_preserve_exact_body",
+      "prefill_bytes": 512,
+      "write_eagain": 93062,
+      "actual_shortwrites": 1221,
+      "broken_pipe": 0,
+      "errno": 35,
+      "exact_body": true,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28126,
+          "returncode": 0,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;time.sleep(.15);first=sys.stdin.buffer.read(4096);time.sleep(.15);rest=sys.stdin.buffer.read();data=first+rest;payload=data.lstrip(b\"P\");sys.stdout.buffer.write(payload);sys.stderr.write(str(len(data)-len(payload)))"
+        ],
+        "exit_code": 0,
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 622593,
+        "stdout_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stderr_bytes": 3,
+        "stderr_sha256": "94f8607915dff25f013e45fc0642fb9830b0fb25ab0ab46d477eaf1061def379"
+      }
+    },
+    {
+      "case": "test_real_stdout_readiness_race_retries_without_losing_output",
+      "read_eagain": 1,
+      "errno": 35,
+      "exact_output": true,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28141,
+          "returncode": 0,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;sys.stdout.buffer.write(b\"ready\");sys.stdout.flush();time.sleep(.2);sys.stdout.buffer.write(b\"tail\")"
+        ],
+        "exit_code": 0,
+        "input_sha256": null,
+        "stdout_bytes": 9,
+        "stdout_sha256": "a5c633695708138f5a20a62eefbb25054f23ffcb0c4191f4989fc25b25b64ca8",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "test_retained_original_runner_refuses_same_actual_backpressure",
+      "prefill_bytes": 512,
+      "write_eagain": 1,
+      "actual_shortwrites": 0,
+      "broken_pipe": 0,
+      "errno": 35,
+      "original_failure_observed": true,
+      "process_group_absent": true,
+      "child_completion": [
+        {
+          "pid": 28142,
+          "returncode": -9,
+          "streams_closed": true,
+          "process_group_absent": true
+        }
+      ],
+      "record": {
+        "command": [
+          "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,time;time.sleep(.15);first=sys.stdin.buffer.read(4096);time.sleep(.15);rest=sys.stdin.buffer.read();data=first+rest;payload=data.lstrip(b\"P\");sys.stdout.buffer.write(payload);sys.stderr.write(str(len(data)-len(payload)))"
+        ],
+        "status": "refused",
+        "reason": "[Errno 35] Resource temporarily unavailable",
+        "input_sha256": "9f70e6a3bf6aebc61b2db911516c7669281f17b6fc6fb71baf9c144b5473b11e",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "old_SQL_tests_executed": false,
+  "docker_executed": false
+}

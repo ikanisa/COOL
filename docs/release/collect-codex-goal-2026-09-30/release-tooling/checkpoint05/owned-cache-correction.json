@@ -1,0 +1,11 @@
+{
+  "bytes": 55338,
+  "created_by": "source05 evidence runner importlib snapshot exporter import",
+  "kind": "owned_generated_candidate_cache_removal",
+  "manifest_modified": false,
+  "path": "scripts/qa/__pycache__/collect_release_candidate.cpython-312.pyc",
+  "reason": "Integrity guard refused unlisted Python bytecode before Flutter. Remove only this owned generated artifact; future snapshot imports disable bytecode writes.",
+  "removed_at_utc": "2026-09-30T23:53:23Z",
+  "selected_source_modified": false,
+  "sha256": "56be8cb50da69170f60e01d65bd3059756f53f6e384d00f9d6a1d8121055f71b"
+}

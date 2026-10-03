@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "body": "BuriMunsi: Ubwizigame bwa 100 RWF bwanditswe. Igiteranyo cyawe cyanditswe muri iri tsinda ku 2026-10-02 02:08 CAT: 950 RWF. Ref: CLOSURE-1.",
+  "code": "SUCCESSOR_GRANTED",
+  "route": {
+    "route_kind": "receipt_successor",
+    "approval_id": "cbd7b64f-959b-4cd7-980e-277a03cc6ca0",
+    "route_version": 1,
+    "dispatch_job_id": "4b6097f9-b3fb-45a3-8322-ca904a595263",
+    "primary_receipt_id": "9cdab0be-80ec-4391-9389-b6dfc785a152"
+  },
+  "replay": false,
+  "run_id": "b8e56c17-8ea7-448d-8679-3f0d13de3707",
+  "device_id": "516c3c07-d217-44e1-8968-9ba3a1635732",
+  "issued_at": "2026-10-02T00:09:03.108217Z",
+  "attempt_id": "540aa4ea-9113-4c73-9dce-d5617a15102c",
+  "expires_at": "2026-10-02T00:09:33.108217Z",
+  "request_id": "c97f8630-adb9-4a23-9b16-6062075bbeac",
+  "body_sha256": "a754fc0cc1ec027feeb6fdae32efef3ca0119aa71e4763ba5bf8bdf40fac21b2",
+  "carrier_proof": false,
+  "fence_version": 1,
+  "segment_count": 1,
+  "send_authority": false,
+  "delivery_proven": false,
+  "policy_revision": 2,
+  "protocol_family": "receipt_successor",
+  "contract_version": 1,
+  "destination_e164": "+250788978201",
+  "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2",
+  "sim_revision_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+}

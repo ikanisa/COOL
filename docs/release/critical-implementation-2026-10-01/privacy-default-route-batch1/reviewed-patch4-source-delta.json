@@ -1,0 +1,12 @@
+{
+  "from_attempt": "attempt4",
+  "to_attempt": "attempt5",
+  "test_assertions_changed": false,
+  "changed_inputs": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/app/router.dart",
+      "before_sha256": "b23f3b0cac8e68aac038d7df50be3db2bb5df11ac2d7c561a971fc629620fa55",
+      "after_sha256": "b8c76bcbf2ef449e4f9b7427875857a69b7cd8151d357cf96576795ccfb7a568"
+    }
+  ]
+}

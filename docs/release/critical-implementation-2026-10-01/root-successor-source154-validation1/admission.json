@@ -1,0 +1,21 @@
+{
+  "authorized_at_utc": "2026-10-02T03:16:03.810063+00:00",
+  "scope": "Exclusive private154 preparation and one bounded full canonical test only; no maintained-source promotion, SQL, hosted or provider actions authorized by this receipt.",
+  "review": "Root read all478 patch lines, entire preparer, exact future CLI,31 discovery and9 proposal leaves plus32/10 checksums. All ten additions preserve producer bytes; six new HTTP refusal cases preserve original assertions.",
+  "proposal_sha256": "807bdc7169a82f50dfbf1ba0518e6f540cf1806874bc5357f1822d61c4b7cb9b",
+  "preparer_sha256": "46d0a287d5f984db90df4bfc05a282828825d39c98e0d71d1827577dadd40b23",
+  "plan_sha256": "62851be37c1c2ba3207a358730514101b3c77b753c2bd7624bc6f665e4a326da",
+  "patch_sha256": "f494c649ffd3839b041b3eb663b8d59b2576d23bd4117d9587ef8f735ad2767f",
+  "test_plan_sha256": "252511e945cedcfddd864ae0a44bec778ff37186a48e2e9b5dcd539e851adc4a",
+  "counts": {
+    "current": 144,
+    "private_candidate": 154,
+    "exact_observations": 10,
+    "offline_inputs": 13
+  },
+  "whole_deadline_seconds": 1200,
+  "build_deadline_seconds": 300,
+  "linux_deadline_seconds": 600,
+  "maintained_mutations_authorized": 0,
+  "external_acceptance": false
+}

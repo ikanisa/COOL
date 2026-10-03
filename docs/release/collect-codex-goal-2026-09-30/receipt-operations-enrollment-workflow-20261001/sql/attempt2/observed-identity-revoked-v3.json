@@ -1,0 +1,16 @@
+{
+  "found": true,
+  "identity": {
+    "scope": "rw_receipt_operations",
+    "state": "revoked",
+    "created_at": "2026-10-01T12:53:57.401294Z",
+    "expires_at": "2026-10-02T12:53:56.508296Z",
+    "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+    "revoked_at": "2026-10-01T12:54:19.035376Z",
+    "activated_at": "2026-10-01T12:54:05.511305Z",
+    "principal_id": "412e9799-ac58-4560-a50d-ba6186354a41"
+  },
+  "checked_at": "2026-10-01T12:54:19.147641Z",
+  "contract_version": 3,
+  "sample_valid_until": "2026-10-01T12:55:19.147641Z"
+}

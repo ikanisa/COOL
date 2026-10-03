@@ -1,0 +1,8 @@
+l_sha256": "4805afe14363802e21ddda13f7b115f7bc34cbb221681315b6fa248f6ca882c7", "exit_code": 0}
+{"label": "query", "sql_sha256": "dba5bae619dfbc15c62a0d5aeeb558c951c53aa6d0e0e37da8863263578440a1", "exit_code": 0}
+t
+{"label": "fail-closed predecessor drift collect_ops.queue_receipt_exception_source()", "sql_sha256": "83698634609ac479b440180a7b614195f4b1684d9ceb043a1c91105cb95a14d8", "exit_code": 3}
+ERROR:  42601: syntax error at or near ";"
+LINE 15: begin;
+              ^
+LOCATION:  scanner_yyerror, scan.l:1244

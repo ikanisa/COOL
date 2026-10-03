@@ -1,0 +1,589 @@
+{
+  "account_request_reason_options": {
+    "scope": "runtime_control_eligibility",
+    "family": "account_request_reason_options",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current",
+      "locale": "en",
+      "request_type": "account_deletion"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:02.652133Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "description",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:02.652133Z"
+  },
+  "admin_navigation_items": {
+    "scope": "runtime_control_eligibility",
+    "family": "admin_navigation_items",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:02.909048Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": false,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "icon_key",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:02.909048Z"
+  },
+  "admin_queue_filter_options": {
+    "scope": "runtime_control_eligibility",
+    "family": "admin_queue_filter_options",
+    "blocker": null,
+    "identity": {
+      "id": "99790000-0000-4000-8000-000000050001"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:03.158947Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "display_order",
+      "enabled"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:03.158947Z"
+  },
+  "admin_queue_signals": {
+    "scope": "runtime_control_eligibility",
+    "family": "admin_queue_signals",
+    "blocker": null,
+    "identity": {
+      "id": "99790000-0000-4000-8000-000000050002"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:03.427478Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "icon_key",
+      "label",
+      "display_order",
+      "enabled"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:03.427478Z"
+  },
+  "admin_queue_sla_policies": {
+    "scope": "runtime_control_eligibility",
+    "family": "admin_queue_sla_policies",
+    "blocker": null,
+    "identity": {
+      "queue_key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:03.686311Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "target",
+      "owner",
+      "escalation"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:03.686311Z"
+  },
+  "admin_queue_specs": {
+    "scope": "runtime_control_eligibility",
+    "family": "admin_queue_specs",
+    "blocker": null,
+    "identity": {
+      "rpc_name": "admin_list_qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:03.959907Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": false,
+    "contract_version": 1,
+    "permitted_fields": [
+      "title",
+      "subtitle",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:03.959907Z"
+  },
+  "brand_entities": {
+    "scope": "runtime_control_eligibility",
+    "family": "brand_entities",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:04.241316Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "display_name",
+      "legal_name",
+      "public_url",
+      "admin_url",
+      "app_download_url",
+      "regulatory_footer_note",
+      "metadata",
+      "is_active"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:04.241316Z"
+  },
+  "collection_category_subtypes": {
+    "scope": "runtime_control_eligibility",
+    "family": "collection_category_subtypes",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current",
+      "collection_type_key": "ikimina"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:04.522559Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:04.522559Z"
+  },
+  "collection_purpose_templates": {
+    "scope": "runtime_control_eligibility",
+    "family": "collection_purpose_templates",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current",
+      "collection_type_key": "ikimina"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:04.781305Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:04.781305Z"
+  },
+  "collection_type_catalog": {
+    "scope": "runtime_control_eligibility",
+    "family": "collection_type_catalog",
+    "blocker": null,
+    "identity": {
+      "key": "ikimina"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:05.040381Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "short_purpose",
+      "icon_key",
+      "default_category_subtype",
+      "default_purpose_template_key",
+      "display_order",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:05.040381Z"
+  },
+  "collection_type_country_rules": {
+    "scope": "runtime_control_eligibility",
+    "family": "collection_type_country_rules",
+    "blocker": null,
+    "identity": {
+      "country_code": "RW",
+      "collection_type_key": "ikimina"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:05.317696Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "enabled",
+      "min_suggested_amount_rwf",
+      "max_suggested_amount_rwf",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:05.317696Z"
+  },
+  "feature_flags": {
+    "scope": "runtime_control_eligibility",
+    "family": "feature_flags",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:05.581132Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "enabled",
+      "description",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:05.581132Z"
+  },
+  "notification_channels": {
+    "scope": "runtime_control_eligibility",
+    "family": "notification_channels",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:05.856241Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "label",
+      "description",
+      "platform",
+      "enabled",
+      "display_order",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:05.856241Z"
+  },
+  "notification_event_types": {
+    "scope": "runtime_control_eligibility",
+    "family": "notification_event_types",
+    "blocker": null,
+    "identity": {
+      "key": "security_notice"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:06.141945Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "preference_key",
+      "label",
+      "description",
+      "default_channel_key",
+      "enabled",
+      "display_order",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:06.141945Z"
+  },
+  "notification_template_versions": {
+    "scope": "runtime_control_eligibility",
+    "family": "notification_template_versions",
+    "blocker": null,
+    "identity": {
+      "id": "99790000-0000-4000-8000-000000070001"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:06.426600Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "title_template",
+      "body_template",
+      "status",
+      "effective_at",
+      "metadata"
+    ],
+    "permitted_statuses": [
+      "draft",
+      "published",
+      "archived"
+    ],
+    "sample_valid_until": "2026-10-01T18:38:06.426600Z"
+  },
+  "notification_templates": {
+    "scope": "runtime_control_eligibility",
+    "family": "notification_templates",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:06.695396Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "event_type_key",
+      "locale",
+      "enabled",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:06.695396Z"
+  },
+  "otp_policy": {
+    "scope": "runtime_control_eligibility",
+    "family": "otp_policy",
+    "blocker": null,
+    "identity": {
+      "singleton": true
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:07.016080Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": false,
+    "contract_version": 1,
+    "permitted_fields": [
+      "global_hourly_limit",
+      "global_daily_limit",
+      "enabled"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:07.016080Z"
+  },
+  "payment_entrypoints": {
+    "scope": "runtime_control_eligibility",
+    "family": "payment_entrypoints",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:07.330259Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "country_code",
+      "currency",
+      "network",
+      "label",
+      "code",
+      "display_code",
+      "instructions",
+      "sort_order",
+      "metadata",
+      "is_active"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:07.330259Z"
+  },
+  "policy_document_sections": {
+    "scope": "runtime_control_eligibility",
+    "family": "policy_document_sections",
+    "blocker": null,
+    "identity": {
+      "id": "99790000-0000-4000-8000-000000060002"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:07.622763Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "title",
+      "body",
+      "display_order",
+      "metadata"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:07.622763Z"
+  },
+  "policy_documents": {
+    "scope": "runtime_control_eligibility",
+    "family": "policy_documents",
+    "blocker": null,
+    "identity": {
+      "id": "99790000-0000-4000-8000-000000060001"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:07.958536Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "kind",
+      "locale",
+      "version",
+      "title",
+      "summary",
+      "status",
+      "effective_at",
+      "metadata"
+    ],
+    "permitted_statuses": [
+      "draft",
+      "published",
+      "archived"
+    ],
+    "sample_valid_until": "2026-10-01T18:38:07.958536Z"
+  },
+  "roster_resource_policy": {
+    "scope": "runtime_control_eligibility",
+    "family": "roster_resource_policy",
+    "blocker": null,
+    "identity": {
+      "id": true
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:08.331165Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": false,
+    "contract_version": 1,
+    "permitted_fields": [
+      "actor_daily_requests",
+      "actor_daily_bytes",
+      "actor_active",
+      "global_daily_requests",
+      "global_daily_bytes",
+      "global_active",
+      "actor_daily_cost_units",
+      "global_daily_cost_units",
+      "ai_attempt_cost_units"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:08.331165Z"
+  },
+  "sms_receipt_member_consents": {
+    "scope": "runtime_control_eligibility",
+    "family": "sms_receipt_member_consents",
+    "blocker": null,
+    "identity": {
+      "member_record_id": "99710000-0000-4000-8000-000000040001"
+    },
+    "revision": 2,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:08.704908Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "enabled",
+      "capture_method"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:08.704908Z"
+  },
+  "sms_receipt_policies": {
+    "scope": "runtime_control_eligibility",
+    "family": "sms_receipt_policies",
+    "blocker": null,
+    "identity": {
+      "collection_id": "99710000-0000-4000-8000-000000030001"
+    },
+    "revision": 2,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:08.967430Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "enabled"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:08.967430Z"
+  },
+  "support_channels": {
+    "scope": "runtime_control_eligibility",
+    "family": "support_channels",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:09.274120Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "channel_type",
+      "label",
+      "value",
+      "display_value",
+      "sort_order",
+      "metadata",
+      "is_active"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:09.274120Z"
+  },
+  "system_settings": {
+    "scope": "runtime_control_eligibility",
+    "family": "system_settings",
+    "blocker": null,
+    "identity": {
+      "key": "qa_runtime_current"
+    },
+    "revision": 1,
+    "can_manage": true,
+    "checked_at": "2026-10-01T18:37:09.542706Z",
+    "patch_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "create_allowed": true,
+    "contract_version": 1,
+    "permitted_fields": [
+      "value",
+      "description"
+    ],
+    "permitted_statuses": [],
+    "sample_valid_until": "2026-10-01T18:38:09.542706Z"
+  }
+}

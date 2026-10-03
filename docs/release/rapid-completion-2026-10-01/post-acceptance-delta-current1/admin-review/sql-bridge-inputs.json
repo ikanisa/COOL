@@ -1,0 +1,20 @@
+{
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-current",
+  "inputs_sha256": {
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-complete.json": "44455fea1fb84ed5e8ecab7eb6a7db9d7ed4385b3784dcf1eebb0c176c858a78",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-retained.json": "af9e65828014a76a21a018dcce5da482329c69ca18be9963162e0db9be5b4b06",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-unknown.json": "f8c5c520f7e04af7caf60357b8d2046dc3b6e9f155616b9438e7e046f13ba5fc",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-unavailable.json": "c3d948973836bc4eb4daa060616e444272d3cf92a3cc948115298f07b527c1e5",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-unscoped.json": "0580dfceb27f9d978fcd1dc146f7440c9dc7b758c116d5b87d3873e52a44f9b3",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-first.json": "87311b0a7c2970e82dd092f11b21ec5197779a77118a5bc84cf49ca71bdeec2b",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-last.json": "184fc1ee3e78b0766c73cc297aa42838a621d246d68d2c9bc71c9413481f53ea",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-audit-final.json": "e2e1176858e0623fd38a18b85c751269181d4f82835beb769354d089647c5134",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-inbox-first.json": "ccc4814cc88a2d7433bde955cd5976c96352d39af389e12018b37f1b37dbf950",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-inbox-last.json": "384f2b3852702f858cac99934ffb57842daffb377dff5a7dc9c768d613fe9ba5",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-inbox-foreign.json": "af3c976e4a8a77dc2c9f0d040060f86e60540d5f3cdac684da646a84394da0b3",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/observed-inbox-final.json": "9e923a6ebe7bf977bacb4827ace2dbf97a7c522a0c3d88dee657ecf40e0f3dd5",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/readback.json": "23257146330163a593a9acbcb711a11863b0df779ea732cbb90df77ab2820157",
+    "scripts/tests/fixtures/post_acceptance_inbox_audit_v2/result.json": "6dfee27cf600f95bd33ce0d20e6b4e7bf42dd968b9729e869d898d97fb6c9e5e"
+  },
+  "scope": "Actual retained100-case SQL subset, preserved timestamps/IDs/rows; no SQL execution by this review"
+}

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation1/preserve_exact_caches.py", line 223, in <module>
+    main()
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation1/preserve_exact_caches.py", line 139, in main
+    raise ValueError('cache must remain untracked and ignored')
+ValueError: cache must remain untracked and ignored

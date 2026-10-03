@@ -1,0 +1,187 @@
+--- a/scripts/audits/collect_current_evidence_index.py
++++ b/scripts/audits/collect_current_evidence_index.py
+@@ -107,9 +107,55 @@
+         return parsed
+     deny('unsupported-manifest-shape')
+ 
+-def verify(index,workspace):
++def integrator_decision(index,documents,trusted_pins):
++    declaration=index.get('integrator_original_criterion_decision')
++    if declaration is None:return {'declared':False,'reader_grants_closure':False}
++    if (not isinstance(declaration,dict) or declaration.get('criterion_met') is not True
++            or declaration.get('decision_authority')!='release/QA integrator'
++            or declaration.get('applicability')!='recorded-source-epoch-only'):
++        deny('unsupported-integrator-decision')
++    epoch=declaration.get('reviewed_source_epoch')
++    if not isinstance(epoch,str) or not re.fullmatch('[0-9a-f]{64}',epoch):deny('invalid-integrator-source-epoch')
++    if not isinstance(trusted_pins,dict) or set(trusted_pins)!={'review','checkpoint'}:
++        deny('missing-trusted-integrator-pins')
++    names={key:declaration.get(key+'_document') for key in ('review','checkpoint','reviewed_index','reviewed_summary')}
++    if any(name not in documents for name in names.values()):deny('missing-integrator-decision-document')
++    for key in ('review','checkpoint'):
++        expected=trusted_pins[key]
++        if not isinstance(expected,str) or not re.fullmatch('[0-9a-f]{64}',expected):deny('invalid-trusted-integrator-pin')
++        if index['documents'][names[key]]['sha256']!=expected:deny('untrusted-integrator-receipt:'+key)
++    review=documents[names['review']];checkpoint=documents[names['checkpoint']]
++    if (review.get('PD12_criterion_met') is not True
++            or review.get('integrator_decision')!='original_PD12_current_index_reconciliation_criterion_met_in_declared_scope'
++            or review.get('production_release_approval') is not False
++            or review.get('later_source_epochs_require_new_current_index_binding') is not True
++            or checkpoint.get('PD12_scoped_original_criterion_closed') is not True
++            or 'PD-12' not in checkpoint.get('closed_ids',[])
++            or checkpoint.get('source_epoch')!=epoch
++            or checkpoint.get('production_release_decision')!='NO-GO'):
++        deny('integrator-decision-receipt-semantics-mismatch')
++    review_record=index['documents'][names['review']]
++    if not any(row.get('path')==review_record['path'] and row.get('sha256')==review_record['sha256']
++               for row in checkpoint.get('new_references',[])):
++        deny('integrator-checkpoint-review-binding-mismatch')
++    for key,field in [('reviewed_index','current_index_sha256'),('reviewed_summary','current_summary_sha256')]:
++        if review.get(field)!=index['documents'][names[key]]['sha256']:
++            deny('integrator-reviewed-artifact-binding-mismatch')
++    reviewed_index=documents[names['reviewed_index']]
++    if reviewed_index.get('candidate',{}).get('current_declared_source_manifest_sha256')!=epoch:
++        deny('integrator-reviewed-source-epoch-mismatch')
++    current=index['candidate'].get('current_declared_source_manifest_sha256')
++    return {**declaration,'declared':True,'reader_grants_closure':False,
++            'receipt_digests_match_external_pins':True,
++            'current_declared_epoch_matches_reviewed_epoch':current==epoch,
++            'later_epoch_decision_not_inferred':True,
++            'review_sha256':trusted_pins['review'],'checkpoint_sha256':trusted_pins['checkpoint']}
++
++def verify(index,workspace,integrator_receipt_pins=None):
+     if not isinstance(index,dict) or index.get('format')!=FORMAT:deny('unsupported-index')
+     if not re.fullmatch('[0-9a-f]{64}',index['candidate']['source_manifest_sha256']):deny('invalid-candidate-digest')
++    if index.get('reader_grants_closure',False) is not False or index.get('PD12_closed',False) is not False:
++        deny('unsupported-reader-closure-grant')
+     # These are the current proposal's explicit unknowns. Files/execution receipts
+     # cannot independently grant visual, rights, hosted or package acceptance.
+     expected_unknown={'full_visual_acceptance':'unverified','font_distribution_rights':'unverified',
+@@ -121,6 +167,7 @@
+         raw=reader.read(workspace,record['path'])
+         if digest(raw)!=record['sha256'] or len(raw)!=record['bytes']:deny('document-fence-mismatch:'+name)
+         documents[name]=json_value(raw) if record.get('content','json')=='json' else raw.decode()
++    decision=integrator_decision(index,documents,integrator_receipt_pins)
+     for binding in index['candidate']['identity_bindings']:
+         if pointer(documents[binding['document']],binding['pointer'])!=index['candidate']['source_manifest_sha256']:
+             deny('candidate-source-identity-mismatch')
+@@ -220,20 +267,24 @@
+     return {'format':'collect-current-candidate-evidence-readback-v1','candidate':index['candidate'],
+             'status':'binding-drift-or-contradiction' if errors else 'listed-bindings-checked-with-explicit-limits',
+             'file_sets':set_results,'facts':facts,'evidence':evidence,'errors':errors,
+-            'acceptance_boundaries':expected_unknown,'PD12_closed':False,
++            'acceptance_boundaries':expected_unknown,'PD12_closed':False,'reader_grants_closure':False,
++            'integrator_original_criterion_decision':decision,
+             'integration_state':index.get('integration_state','unverified'),
+             'pending_areas':index.get('pending_areas',[]),
+             'summary_corrections_unapplied':index.get('summary_corrections_unapplied',[]),
+-            'closure_interpretation':'Integrator review and actual original-criterion proof remain required; file existence or matched retained lists do not close PD12.'}
++            'closure_interpretation':'The reader never grants closure. A separately declared integrator original-criterion decision applies only to its externally pinned recorded epoch; later source epochs require current binding and manual integrator review.'}
+ 
+ def main():
+     parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,required=True);parser.add_argument('--index',type=Path,required=True)
++    parser.add_argument('--integrator-review-sha256');parser.add_argument('--integrator-checkpoint-sha256')
+     args=parser.parse_args();root=args.root.absolute()
+     try:
+         relative=args.index.absolute().relative_to(root).as_posix()
+-        result=verify(json_value(Reader().read(root,relative)),root)
++        pins=None if args.integrator_review_sha256 is None and args.integrator_checkpoint_sha256 is None else {
++            'review':args.integrator_review_sha256,'checkpoint':args.integrator_checkpoint_sha256}
++        result=verify(json_value(Reader().read(root,relative)),root,pins)
+     except (EvidenceIndexError,OSError,KeyError,TypeError,ValueError) as error:
+-        print(json.dumps({'status':'verification-not-completed','error':str(error),'PD12_closed':False,'production_release_approval':False},sort_keys=True))
++        print(json.dumps({'status':'verification-not-completed','error':str(error),'PD12_closed':False,'reader_grants_closure':False,'production_release_approval':False},sort_keys=True))
+         return 2
+     print(json.dumps(result,indent=2,sort_keys=True));return 1 if result['errors'] else 0
+ 
+--- a/scripts/tests/collect_current_evidence_index_test.py
++++ b/scripts/tests/collect_current_evidence_index_test.py
+@@ -22,6 +22,32 @@
+             'facts':[{'id':'count','kind':'json-pointer','document':'receipt','pointer':'/count','expected':1}],
+             'evidence':[{'id':'proof','observed_result':'pass','result_binding':{'document':'receipt','pointer':'/status'},'context':'captured-candidate','validation_status':'retained-independent-scoped-readback','independent_receipt':'receipt','file_sets':['source'],'supersedes':[],'scope':'synthetic byte binding','limitations':['No visual or external acceptance']}],
+             'acceptance_boundaries':{'full_visual_acceptance':'unverified','font_distribution_rights':'unverified','hosted_candidate_parity':'unverified','complete_packaged_SBOM':'unverified','production_release_approval':False}}
++
++    def declared_decision_fixture(self,root):
++        index=self.fixture(root);epoch='c'*64
++        reviewed_index={'candidate':{'current_declared_source_manifest_sha256':epoch}}
++        reviewed_summary={'full_visual_acceptance':'unverified'}
++        def document(name,value):
++            raw=json.dumps(value).encode();path=name+'.json';(root/path).write_bytes(raw)
++            index['documents'][name]={'path':path,'sha256':M.digest(raw),'bytes':len(raw)}
++        document('reviewed_index',reviewed_index);document('reviewed_summary',reviewed_summary)
++        review={'PD12_criterion_met':True,
++            'integrator_decision':'original_PD12_current_index_reconciliation_criterion_met_in_declared_scope',
++            'production_release_approval':False,'later_source_epochs_require_new_current_index_binding':True,
++            'current_index_sha256':index['documents']['reviewed_index']['sha256'],
++            'current_summary_sha256':index['documents']['reviewed_summary']['sha256']}
++        document('review',review)
++        checkpoint={'PD12_scoped_original_criterion_closed':True,'closed_ids':['PD-12'],
++            'source_epoch':epoch,'production_release_decision':'NO-GO',
++            'new_references':[{'path':'review.json','sha256':index['documents']['review']['sha256']}]}
++        document('checkpoint',checkpoint)
++        index['reader_grants_closure']=False;index['PD12_closed']=False
++        index['candidate']['current_declared_source_manifest_sha256']=epoch
++        index['integrator_original_criterion_decision']={'criterion_met':True,
++            'decision_authority':'release/QA integrator','applicability':'recorded-source-epoch-only',
++            'reviewed_source_epoch':epoch,'review_document':'review','checkpoint_document':'checkpoint',
++            'reviewed_index_document':'reviewed_index','reviewed_summary_document':'reviewed_summary'}
++        return index,{key:index['documents'][key]['sha256'] for key in ('review','checkpoint')}
+ 
+     def test_matched_list_does_not_become_complete_graph_or_acceptance(self):
+         with tempfile.TemporaryDirectory() as tmp:
+@@ -176,4 +202,55 @@
+                 root=Path(tmp);index=self.fixture(root);index['acceptance_boundaries'][key]=value
+                 with self.assertRaisesRegex(M.EvidenceIndexError,'unsupported-acceptance-claim'):M.verify(index,root)
+ 
++    def test_external_integrator_decision_stays_scoped_and_reader_never_grants(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp);index,pins=self.declared_decision_fixture(root)
++            result=M.verify(index,root,pins);decision=result['integrator_original_criterion_decision']
++            self.assertTrue(decision['declared']);self.assertTrue(decision['criterion_met'])
++            self.assertTrue(decision['current_declared_epoch_matches_reviewed_epoch'])
++            self.assertFalse(result['PD12_closed']);self.assertFalse(result['reader_grants_closure'])
++            self.assertFalse(decision['reader_grants_closure']);self.assertEqual(result['errors'],[])
++            index['candidate']['current_declared_source_manifest_sha256']='d'*64
++            later=M.verify(index,root,pins)['integrator_original_criterion_decision']
++            self.assertEqual(later['reviewed_source_epoch'],'c'*64)
++            self.assertFalse(later['current_declared_epoch_matches_reviewed_epoch'])
++            self.assertTrue(later['later_epoch_decision_not_inferred'])
++
++    def test_declared_decision_requires_external_pins_and_existing_bound_receipts(self):
++        for mode in ['missing-pins','partial-pins','missing-review','missing-checkpoint']:
++            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
++                root=Path(tmp);index,pins=self.declared_decision_fixture(root)
++                if mode=='missing-pins':pins=None
++                elif mode=='partial-pins':pins={'review':pins['review']}
++                else:del index['documents'][mode.removeprefix('missing-')]
++                with self.assertRaisesRegex(M.EvidenceIndexError,'missing-trusted-integrator-pins|missing-integrator-decision-document'):
++                    M.verify(index,root,pins)
++
++    def test_rehashed_forged_decision_receipt_cannot_replace_external_pin(self):
++        for name in ['review','checkpoint']:
++            with self.subTest(receipt=name),tempfile.TemporaryDirectory() as tmp:
++                root=Path(tmp);index,pins=self.declared_decision_fixture(root)
++                value=json.loads((root/(name+'.json')).read_bytes());value['forged_extra_claim']='current-full-release-accepted'
++                raw=json.dumps(value).encode();(root/(name+'.json')).write_bytes(raw)
++                index['documents'][name].update({'sha256':M.digest(raw),'bytes':len(raw)})
++                with self.assertRaisesRegex(M.EvidenceIndexError,'untrusted-integrator-receipt:'+name):M.verify(index,root,pins)
++
++    def test_decision_epoch_artifact_binding_and_no_grant_flags_cannot_be_changed(self):
++        for mode in ['epoch','reviewed-artifact','checkpoint-reference','reader-grant','legacy-grant']:
++            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
++                root=Path(tmp);index,pins=self.declared_decision_fixture(root)
++                if mode=='epoch':index['integrator_original_criterion_decision']['reviewed_source_epoch']='d'*64
++                elif mode=='reviewed-artifact':
++                    raw=json.dumps({'candidate':{'current_declared_source_manifest_sha256':'c'*64},'different':True}).encode()
++                    (root/'reviewed_index.json').write_bytes(raw);index['documents']['reviewed_index'].update({'sha256':M.digest(raw),'bytes':len(raw)})
++                elif mode=='checkpoint-reference':
++                    # This trusted fixture deliberately models a malformed original declaration.
++                    value=json.loads((root/'checkpoint.json').read_bytes());value['new_references']=[]
++                    raw=json.dumps(value).encode();(root/'checkpoint.json').write_bytes(raw)
++                    index['documents']['checkpoint'].update({'sha256':M.digest(raw),'bytes':len(raw)});pins['checkpoint']=M.digest(raw)
++                elif mode=='reader-grant':index['reader_grants_closure']=True
++                else:index['PD12_closed']=True
++                with self.assertRaisesRegex(M.EvidenceIndexError,'integrator-decision-receipt-semantics-mismatch|integrator-reviewed-artifact-binding-mismatch|integrator-checkpoint-review-binding-mismatch|unsupported-reader-closure-grant'):
++                    M.verify(index,root,pins)
++
+ if __name__=='__main__':unittest.main(verbosity=2)

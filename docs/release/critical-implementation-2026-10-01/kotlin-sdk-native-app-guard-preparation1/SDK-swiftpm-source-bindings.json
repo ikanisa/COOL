@@ -1,0 +1,62 @@
+{
+  "packages/flutter_tools/lib/src/macos/swift_package_manager.dart": {
+    "bytes": 18705,
+    "publisher_archive_binding": {
+      "CRC": 1547505334,
+      "bytes": 18705,
+      "compressed_bytes": 4883,
+      "compression_method": 8,
+      "kind": "regular",
+      "publisher_mode": 33188,
+      "safe_materialized_mode": 420,
+      "sha256": "32a568d9f1d05b2f876b3fa8d305c9d74f772110c194ad05a5cf40f0d0daeae0",
+      "source": {
+        "canonical_bytes": 18705,
+        "canonical_sha256": "32a568d9f1d05b2f876b3fa8d305c9d74f772110c194ad05a5cf40f0d0daeae0",
+        "exact_reviewed_CRLF_checkout": false,
+        "official_git_blob_sha1": "6c2d83670af805e64ec5c4d94ebc8bfb57b18f78"
+      }
+    },
+    "sha256": "32a568d9f1d05b2f876b3fa8d305c9d74f772110c194ad05a5cf40f0d0daeae0"
+  },
+  "packages/flutter_tools/lib/src/plugins.dart": {
+    "bytes": 19404,
+    "publisher_archive_binding": {
+      "CRC": 1207708069,
+      "bytes": 19404,
+      "compressed_bytes": 4267,
+      "compression_method": 8,
+      "kind": "regular",
+      "publisher_mode": 33188,
+      "safe_materialized_mode": 420,
+      "sha256": "3ccb1e1b769eda1443344cf18efa2337d9d817aca7d71a496616102a4d31a1a4",
+      "source": {
+        "canonical_bytes": 19404,
+        "canonical_sha256": "3ccb1e1b769eda1443344cf18efa2337d9d817aca7d71a496616102a4d31a1a4",
+        "exact_reviewed_CRLF_checkout": false,
+        "official_git_blob_sha1": "0628199b54c8393e1fd9fc3a026cb88122972664"
+      }
+    },
+    "sha256": "3ccb1e1b769eda1443344cf18efa2337d9d817aca7d71a496616102a4d31a1a4"
+  },
+  "packages/flutter_tools/lib/src/xcode_project.dart": {
+    "bytes": 47389,
+    "publisher_archive_binding": {
+      "CRC": 2759064055,
+      "bytes": 47389,
+      "compressed_bytes": 11667,
+      "compression_method": 8,
+      "kind": "regular",
+      "publisher_mode": 33188,
+      "safe_materialized_mode": 420,
+      "sha256": "44763042a59b41385c993a6f96431be9997d4e3aab59a6e8537c98990d7bdd39",
+      "source": {
+        "canonical_bytes": 47389,
+        "canonical_sha256": "44763042a59b41385c993a6f96431be9997d4e3aab59a6e8537c98990d7bdd39",
+        "exact_reviewed_CRLF_checkout": false,
+        "official_git_blob_sha1": "ab55087b046d230927e0b88f6a86f8f4df8d4f52"
+      }
+    },
+    "sha256": "44763042a59b41385c993a6f96431be9997d4e3aab59a6e8537c98990d7bdd39"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-02T12:01:36.317250+00:00",
+  "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+  "before_sha256": "35d9e2997758ad9614328ce847801aa0126e7387b08023df8dbec24805f7a40c",
+  "after_sha256": "70a7bf33b4556e2579d331ef65f6679884cc48d2b59d55ab0012ee90b28ef5b4",
+  "original_open_ids_unchanged": true,
+  "count": 34,
+  "changes": "readability and observed dependency-download progress only",
+  "native_result_claimed": false
+}

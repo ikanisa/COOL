@@ -1,0 +1,3 @@
+{"name":"invalidEscape","status":400,"body":{"ok":false,"code":"SUPERVISOR_REQUEST_INVALID"},"rpc_calls":0}
+{"name":"oversize","status":413,"body":{"ok":false,"code":"SUPERVISOR_BODY_TOO_LARGE"},"rpc_calls":0}
+{"name":"uppercase-request-uuid","status":400,"body":{"ok":false,"code":"SUPERVISOR_REQUEST_INVALID"},"service_observe_called":false}

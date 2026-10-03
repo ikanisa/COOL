@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select to_jsonb(e)from collect_hybrid.receipt_business_events e where payment_id='50bb68de-a5d9-4d17-81e0-6c8dc7c2d5b5'and event_kind='payment_posted';

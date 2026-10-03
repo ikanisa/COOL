@@ -25,7 +25,8 @@ test("all nine tools preserve command and fencing fields over real stdio and HTT
     await mcp.initialize();
     const catalog = await mcp.request("tools/list", {});
     assert.deepEqual(catalog.result.tools.map((x: {name: string}) => x.name).sort(),
-      [...tools.map(x => x.name), "get_collect_health", "get_notification_status", "list_notification_failures"].sort());
+      [...tools.map(x => x.name), "get_collect_health", "get_notification_status", "list_notification_failures",
+        "begin_supervisor_run", "sample_supervisor_run", "complete_supervisor_run", "get_supervisor_run"].sort());
     assert.equal(fixture.requests.length, 0);
     for (const item of tools) {
       const result = await mcp.request("tools/call", {name: item.name, arguments: item.input});

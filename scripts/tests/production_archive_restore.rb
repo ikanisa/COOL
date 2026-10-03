@@ -2,6 +2,7 @@
 # network-disabled local cluster. Never run providers. Candidate migration
 # rehearsal requires its explicit local-only flag and exact reviewed hashes.
 require_relative '../audits/collect_encrypted_database_backup'
+require_relative '../audits/collect_inactive_restore_overlay'
 
 ROOT = File.expand_path('../..', __dir__)
 DB_REPORT = File.join(ROOT, 'docs/release/ENCRYPTED_PRODUCTION_DATABASE_BACKUP_V2_2026-09-03.json')
@@ -54,8 +55,9 @@ def add_graphql_bootstrap(sql_text, metadata)
   sql_text.sub(marker, "\n#{supplement}#{marker}")
 end
 
-def read_archive(report_path, filename)
-  report = JSON.parse(File.read(report_path))
+def read_archive(report_path, filename, expected_report: nil, worker_document: nil, worker_sha256: nil)
+  report = CollectRecoverySource.parse(CollectRecoverySource.read(report_path))
+  raise 'Source report changed after preflight' if expected_report && report != expected_report
   raise 'Source capture not verified' unless report['project'] == REF &&
     report.dig('archive', 'hash_verified_after_remount') == true && report.dig('cleanup', 'vault_detached') == true
   identifier = report.fetch('vault').fetch('keychain_account')
@@ -65,7 +67,15 @@ def read_archive(report_path, filename)
     mounted = true
     data = File.binread(File.join(info.fetch('mount'), filename))
     raise 'Encrypted source hash mismatch' unless Digest::SHA256.hexdigest(data) == report.fetch('archive').fetch('sha256')
-    [data, report]
+    if worker_document
+      manifest = CollectReceiptWorkerSnapshot.load(info.fetch('mount'), report, worker_document, worker_sha256)
+      references = [report.fetch('worker_snapshot')] + %w[logical objects].flat_map { |stream| manifest.fetch(stream).fetch('pages') }
+      files = references.to_h { |ref| [ref.fetch('name'), CollectReceiptWorkerSnapshot.safe_file(info.fetch('mount'), ref.fetch('name'), ref.fetch('bytes'), ref.fetch('sha256'))] }
+      [data, report, { 'manifest'=>manifest, 'files'=>files }]
+    else
+      raise 'Worker snapshot input cannot be ignored' if report.key?('worker_snapshot')
+      [data, report]
+    end
   ensure
     vault('detach', identifier) if mounted
   end
@@ -119,9 +129,38 @@ def normalized_dump(sql_text)
 end
 
 if $PROGRAM_NAME == __FILE__
-  rehearse = !!ARGV.delete('--rehearse-migrations')
-  abort('Usage: production_archive_restore.rb NEW_REPORT.json [--rehearse-migrations]') unless ARGV.length == 1
-  output = ARGV[0]
+  begin
+    options = CollectRecoverySource.options(ARGV, :restore)
+    source_contract = CollectRecoverySource.selected_contract(options)
+    source_query = source_contract && CollectRecoverySource.query(source_contract)
+    worker_snapshot = options['--worker-snapshot'] == true
+    inactive_overlay = CollectInactiveRestoreOverlay.preflight!(options, source_contract)
+    database_path = options.fetch('--database-report', DB_REPORT)
+    roles_path = options.fetch('--roles-report', ROLE_REPORT)
+    metadata_path = options.fetch('--extension-metadata', GRAPHQL_REPORT)
+    database_input = CollectRecoverySource.parse(CollectRecoverySource.read(database_path))
+    roles_input = CollectRecoverySource.parse(CollectRecoverySource.read(roles_path))
+    metadata_raw = CollectRecoverySource.read(metadata_path)
+    graphql_metadata = CollectRecoverySource.parse(metadata_raw)
+    if source_contract
+      sha256 = options.fetch('--source-contract-sha256')
+      CollectRecoverySource.verify_report!(database_input, source_contract, sha256, 'database')
+      CollectRecoverySource.verify_report!(roles_input, source_contract, sha256, 'global_roles_without_passwords')
+      CollectRecoverySource.verify_extension_metadata!(source_contract, graphql_metadata)
+      if worker_snapshot
+        worker_migration = File.join(ROOT, 'supabase/migrations/20261002070000_receipt_worker_history_storage.sql')
+        CollectReceiptWorkerSnapshot.api_contract!(source_contract, File.binread(worker_migration))
+        raise CollectReceiptWorkerSnapshot::Error, 'Worker snapshot remount association required' unless database_input['worker_snapshot_verified_after_remount'] == true && database_input.dig('cleanup', 'snapshot_clients_removed') == true
+        CollectReceiptWorkerSnapshot.keys!(database_input.fetch('worker_snapshot'), %w[format name bytes sha256 archive source_contract logical_rows logical_sha256 objects objects_sha256])
+      end
+    end
+    raise CollectReceiptWorkerSnapshot::Error, 'Worker snapshot input cannot be ignored' if database_input.key?('worker_snapshot') && !worker_snapshot
+    raise CollectReceiptWorkerSnapshot::Error, 'Global-role snapshot association invalid' if roles_input.key?('worker_snapshot')
+  rescue CollectRecoverySource::Error, CollectReceiptWorkerSnapshot::Error, CollectInactiveRestoreOverlay::Error, SystemCallError, KeyError
+    abort('Restore source preflight refused; verify all explicit inputs and the current contract before vault actions.')
+  end
+  rehearse = options['--rehearse-migrations'] == true
+  output = options.fetch('output')
   raise 'New JSON report required' unless output.end_with?('.json') && !File.exist?(output)
   STDOUT.sync = true
   suffix = Time.now.utc.strftime('%Y%m%dT%H%M%S').downcase + '-' + SecureRandom.hex(3)
@@ -129,16 +168,21 @@ if $PROGRAM_NAME == __FILE__
   evidence_id = 'collect-restore-' + suffix
   report = { started_at: Time.now.utc.iso8601, mode: 'isolated_local_production_archive_restore',
     source_project: REF, container: target, hosted_changes: false, provider_sends: false,
+    source_gate: source_contract ? 'exact_source_and_catalog_contract' : 'historical_archive_comparison',
+    source_input_sha256: { database_report: CollectRecoverySource.digest(database_input),
+      roles_report: CollectRecoverySource.digest(roles_input), extension_metadata: Digest::SHA256.hexdigest(metadata_raw) },
     result: 'IN_PROGRESS', cleanup: {}, limitations: [
       'Storage object bytes and provider configuration are outside this database restore',
       'Global role passwords intentionally omitted from the role archive',
       'Role and database captures were separate snapshots',
       'No off-site disaster recovery, key escrow or owner RPO/RTO acceptance established'] }
+  report[:source_contract] = CollectRecoverySource.association(source_contract, options.fetch('--source-contract-sha256')) if source_contract
   created = false
   mounted = false
   begin
-    archive, database_report = read_archive(DB_REPORT, 'database.dump')
-    roles, role_report = read_archive(ROLE_REPORT, 'roles.sql')
+    archive, database_report, worker_bundle = read_archive(database_path, 'database.dump', expected_report: database_input,
+      worker_document: worker_snapshot ? source_contract : nil, worker_sha256: options['--source-contract-sha256'])
+    roles, role_report = read_archive(roles_path, 'roles.sql', expected_report: roles_input)
     original_roles = roles.dup
     # PostgreSQL 16+ records role ownership against its bootstrap superuser.
     # Match production's bootstrap identity, keeping every ALTER/GRANT intact.
@@ -154,6 +198,7 @@ if $PROGRAM_NAME == __FILE__
     mounted = true
     report[:encrypted_evidence_vault] = evidence.fetch('image')
     log_dir = evidence.fetch('mount')
+    worker_bundle.fetch('files').each { |name, raw| private_write(File.join(log_dir, name), raw) } if worker_bundle
     start = <<~'SH'
       set -eu
       initdb -D /run/collect/data -U supabase_admin --auth-local=trust --auth-host=reject --no-instructions \
@@ -214,7 +259,6 @@ if $PROGRAM_NAME == __FILE__
     restore_sql, error, state = command('docker', 'run', '--rm', '-i', '--read-only', '--network', 'none',
       '--entrypoint', 'pg_restore', IMAGE, '--file=-', input: archive)
     raise 'Archive SQL conversion failed' unless state.success?
-    graphql_metadata = JSON.parse(File.read(GRAPHQL_REPORT))
     restore_sql = add_graphql_bootstrap(restore_sql, graphql_metadata)
     restore_sql = preserve_extension_owners(restore_sql, graphql_metadata, original_roles)
     report[:graphql_bootstrap] = { definition_sha256: graphql_metadata.fetch('definition_sha256'),
@@ -231,7 +275,7 @@ if $PROGRAM_NAME == __FILE__
     raise 'Restored extension versions mismatch' unless installed == graphql_metadata.dig('wrapper', 'installed_extensions')
     report[:extension_versions_match] = true
     raise 'Restored scheduler enabled unexpectedly' unless sql.call("select current_setting('cron.launch_active_jobs')='off';") == 't'
-    puts 'Database restored in one transaction; 97-migration history verified.'
+    puts "Database restored in one transaction; #{report[:migration_count]} captured migrations verified."
     original_sql, error, state = command('docker', 'run', '--rm', '-i', '--read-only', '--network', 'none',
       '--entrypoint', 'pg_restore', IMAGE, '--data-only', '--file=-', input: archive)
     raise 'Source data inspection failed' unless state.success?
@@ -273,6 +317,27 @@ if $PROGRAM_NAME == __FILE__
     raise 'Restored roles inspection failed' unless state.success?
     raise 'Global role attributes/grants differ' unless normalized_dump(original_roles) == normalized_dump(restored_roles)
     report[:roles_comparison] = { match: true, sha256: Digest::SHA256.hexdigest(normalized_dump(original_roles)) }
+    if source_contract
+      restored_catalog_raw = sql.call(source_query)
+      CollectRecoverySource.verify_catalog!(source_contract, CollectRecoverySource.parse(restored_catalog_raw))
+      CollectRecoverySource.selected_contract(options)
+      private_write(File.join(log_dir, 'restored-source-catalog.json'), restored_catalog_raw + "\n")
+      report[:source_catalog_comparison] = { match: true, sha256: source_contract.fetch('catalog_sha256'),
+        compared_before_any_business_policy_changes: true, business_policy_overlay_applied: false,
+        database_data_compared_separately: true }
+    end
+    if worker_bundle
+      raise 'Restored physical worker guards changed' unless sql.call("select current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='' and current_setting('pg_net.database_name')='template1' and current_setting('pg_net.batch_size')='0';") == 't'
+      report[:worker_snapshot_comparison] = CollectReceiptWorkerSnapshot.verify_restored(log_dir, worker_bundle.fetch('manifest'),
+        argv: ['docker', 'exec', '-i', target, 'psql', '-w', '-XqAt', '-h', '/run/collect', '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1'],
+        error_path: File.join(log_dir, 'worker-restored-reader.log'))
+      raise 'Restored physical worker guards changed' unless sql.call("select current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='' and current_setting('pg_net.database_name')='template1' and current_setting('pg_net.batch_size')='0';") == 't'
+    end
+    if inactive_overlay
+      report[:inactive_overlay] = CollectInactiveRestoreOverlay.apply(target: target, options: options, document: source_contract,
+        report: report, directory: log_dir, root: ROOT)
+      raise 'Restored physical worker guards changed' unless sql.call("select current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='' and current_setting('pg_net.database_name')='template1' and current_setting('pg_net.batch_size')='0';") == 't'
+    end
     report[:result] = 'DATABASE_RESTORE_AND_DATA_COMPARISON_PASS_NOT_FULL_RECOVERY_ACCEPTANCE'
     puts 'Table data, sequences, schema/ACLs and global role definitions match.'
     if rehearse
@@ -288,6 +353,7 @@ if $PROGRAM_NAME == __FILE__
     archive&.clear
     roles&.clear
     original_roles&.clear
+    worker_bundle&.fetch('files')&.each_value(&:clear)
     if created
       raw, _, state = command('docker', 'inspect', target)
       begin

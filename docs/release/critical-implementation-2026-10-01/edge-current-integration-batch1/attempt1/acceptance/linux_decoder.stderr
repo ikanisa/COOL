@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt1/source/scripts/tests/verify_roster_decoder.py", line 148, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt1/source/scripts/tests/verify_roster_decoder.py", line 41, in main
+    run(['docker','build','-t',image,'tools/roster-decoder'],output/'build.log',300)
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/edge-current-integration-batch1/attempt1/source/scripts/tests/verify_roster_decoder.py", line 28, in run
+    result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,input=input,timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['docker', 'build', '-t', 'collect_roster_decoder_8df3722bc46c:qa', 'tools/roster-decoder']' timed out after 300 seconds

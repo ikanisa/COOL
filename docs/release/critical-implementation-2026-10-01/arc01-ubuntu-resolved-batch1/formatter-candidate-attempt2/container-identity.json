@@ -1,0 +1,258 @@
+[
+    {
+        "Id": "1f79047d5c46b2e0d76c95b547c42d4c616d45e293ca7832796bd7613b8bef1b",
+        "Created": "2026-10-02T00:40:06.963061593Z",
+        "Path": "/bin/sleep",
+        "Args": [
+            "1800"
+        ],
+        "State": {
+            "Status": "created",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "0001-01-01T00:00:00Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:9f7337c32d1c03ade6f785fb71e018c02cce33b8b88a2c14e3c8edae1328935e",
+        "ResolvConfPath": "",
+        "HostnamePath": "",
+        "HostsPath": "",
+        "LogPath": "",
+        "Name": "/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "Tmpfs": {
+                "/home/arc01": "rw,uid=501,gid=1001,size=64m",
+                "/tmp": "rw,size=256m"
+            },
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 4294967296,
+            "NanoCpus": 3000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 8589934592,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": 256,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/checkout",
+                    "Target": "/work/checkout"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/runtime",
+                    "Target": "/opt/flutter"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/pub-cache",
+                    "Target": "/work/pub-cache"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/harness",
+                    "Target": "/opt/arc01",
+                    "ReadOnly": true
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "1f79047d5c46b2e0d76c95b547c42d4c616d45e293ca7832796bd7613b8bef1b",
+                "LowerDir": "/var/lib/docker/overlay2/151a8c5ae884ba56284c519e58f2ed990a71be1c88538a7b390bdf2f705f802d-init/diff:/var/lib/docker/overlay2/fedos17bzrjl7e6vvkwf9i84q/diff:/var/lib/docker/overlay2/xtvyiir3tdlv1fi81y9ucpqff/diff:/var/lib/docker/overlay2/44nb4bo0rmqkx7ep2p5gnk985/diff:/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/151a8c5ae884ba56284c519e58f2ed990a71be1c88538a7b390bdf2f705f802d/merged",
+                "UpperDir": "/var/lib/docker/overlay2/151a8c5ae884ba56284c519e58f2ed990a71be1c88538a7b390bdf2f705f802d/diff",
+                "WorkDir": "/var/lib/docker/overlay2/151a8c5ae884ba56284c519e58f2ed990a71be1c88538a7b390bdf2f705f802d/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/checkout",
+                "Destination": "/work/checkout",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/runtime",
+                "Destination": "/opt/flutter",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/pub-cache",
+                "Destination": "/work/pub-cache",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800/harness",
+                "Destination": "/opt/arc01",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "1f79047d5c46",
+            "Domainname": "",
+            "User": "arc01",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "DART_SUPPRESS_ANALYTICS=true",
+                "FLUTTER_SUPPRESS_ANALYTICS=true",
+                "PUB_CACHE=/work/pub-cache",
+                "CI=true",
+                "PATH=/opt/flutter/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sleep",
+                "1800"
+            ],
+            "Image": "sha256:9f7337c32d1c03ade6f785fb71e018c02cce33b8b88a2c14e3c8edae1328935e",
+            "Volumes": null,
+            "WorkingDir": "/work/checkout",
+            "Entrypoint": null,
+            "Labels": {
+                "com.collect.arc01.owner": "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

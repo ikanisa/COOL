@@ -1,0 +1,85 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "export-git-init",
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.03,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pub-enforce-offline",
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.67,
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "java-version",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.79,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "dbda36612f632e4fd5e0ec62e9ec30b38c8388c090eaf3db8928353d7f62f1e8"
+    },
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-Ptarget=lib/main.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2606.74,
+      "stdout_sha256": "5f5780ed409570897cf5ce16951f470088b8aadf2d40e689f06499a375106ac8",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    },
+    {
+      "name": "default-signing-refusal",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-Ptarget=lib/main.dart",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 422.8,
+      "stdout_sha256": "2c0c27d7b11e953a881ff5e372c4795f81d80238e9c94d27e725c37aff1adfc6",
+      "stderr_sha256": "e918b30e1b9c700c37dcc53cf48ccb8930c00cdef892a6232fd5aed1690e96f3"
+    },
+    {
+      "name": "production-native-lint",
+      "command": [
+        "./gradlew",
+        ":app:lintProductionRelease",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 2590.8,
+      "stdout_sha256": "1d702a7f031a6c9fd824a454560190e7317da6890e1253335919ebbc39091968",
+      "stderr_sha256": "6fd2366ce3af39fd536f0f5cf362c52b0a9f06f0edea6939ba100cc743045661"
+    }
+  ],
+  "scope": "Actual immutable source export unsigned local Android production-flavour build; no provider, signing, device or store acceptance"
+}

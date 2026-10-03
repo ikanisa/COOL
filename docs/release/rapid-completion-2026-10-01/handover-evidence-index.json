@@ -1,0 +1,79 @@
+{
+  "bindings": [
+    {
+      "observed_status": "pass",
+      "path": "docs/release/gateway-reduced-motion-2026-10-01/root216-current-regressions/validation.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "6397d671ac5b195d9b206cc71def2fd12c9f16c8d48e9b0917bf99f7db544eed"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/gateway-reduced-motion-2026-10-01/root224-current-format/validation.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "b8a0364f7a47f283271500e7c0e6c2fb34987730ca02f387175b128232690e6d"
+    },
+    {
+      "observed_status": "pass",
+      "path": "docs/release/admin-full-coverage-2026-09-30/current-browser-adapters-root227/validation.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "c8a9bc3529bcd749f00ca8af177bd6798dca01c1d9a4656941f58a3bee6990f1"
+    },
+    {
+      "observed_status": "pass_at_captured_source_current_binding_incomplete",
+      "path": "docs/release/rapid-completion-2026-10-01/production-artifact-handover.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "9a15f767bf83fce7262a023f76d5722a05eb73616d7ffe572813d0b9b558097a"
+    },
+    {
+      "observed_status": "stopped",
+      "path": "docs/release/rapid-completion-2026-10-01/stopped-optional-runners.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "6396dbefddcd0fdca889fcbad2d96fbc707c7b9dc98df411ae2959ecaf09997c"
+    },
+    {
+      "observed_status": "incomplete_merge_timeout",
+      "path": "docs/release/rapid-completion-2026-10-01/gateway-manifest-verification.json",
+      "scope": "This packet retains its own source, execution and acceptance limits.",
+      "sha256": "9e20642e00ac510d0537cf71f0ae9ddababd97a08abf3bc61f290f52cb661afd"
+    }
+  ],
+  "captured_at_utc": "2026-10-01T11:25:18.047569+00:00",
+  "full_original_goal_completed": false,
+  "goal_status_at_replan": "usageLimited",
+  "nonessential_active_work_cancelled": true,
+  "original_local_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13",
+    "L18"
+  ],
+  "original_local_open_ids": [
+    "L01",
+    "L03",
+    "L04",
+    "L05",
+    "L07",
+    "L08",
+    "L12",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
+    "L23",
+    "L24"
+  ],
+  "original_local_register_sha256": "b1237ca0056ab90c6df77f897ed0f0a55c99fed5cd27f53be2a052288037b130",
+  "original_production_open_count": 101,
+  "prior_proof_index_sha256": "c46a9c5f06443a5a0790499efb7d3de83f4be869304d2f8327454cc7602d1476",
+  "production_validation_sha256": "8b90494f12c7ec7df7c180355859b0800029a6e4ec4dc47b61df59c2836417a4",
+  "release_decision": "NO-GO",
+  "remaining_work": "Only the essential gates in REPLAN.md remain active; original criteria are preserved.",
+  "status": "packaged_scoped_evidence"
+}

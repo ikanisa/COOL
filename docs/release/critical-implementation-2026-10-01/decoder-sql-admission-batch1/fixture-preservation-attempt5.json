@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-10-01T22:16:19.441433+00:00",
+  "sql_consumer_preservation": {
+    "scripts/tests/roster_fresh_auth_recovery_uat.sql": {
+      "prior_sha256": "8504473f7b0212355be7cf650fba503c4e002e0e112ab08f297df07ad34f8517",
+      "current_sha256": "2baf8a43b60ae4140dd6264504c4e604ed394aca7947dc419605b5ea7268c618",
+      "only_current_chain_count_and_tip_changed_since_actual_attempt4": true
+    },
+    "scripts/tests/roster_resource_final_compatibility_uat.sql": {
+      "prior_sha256": "6b0591b8098bf16c47f98718adb1e015784e50009ef6fae883f637bf6479f487",
+      "current_sha256": "66d06aeeda1e8badce413ecb96e27a4a97f2ac0467122172beda9d1bee3d6377",
+      "only_current_chain_count_and_tip_changed_since_actual_attempt4": true
+    },
+    "scripts/tests/roster_resource_integrity_uat.sql": {
+      "prior_sha256": "710f1bf77578cff998cc80dda8ac0fae20a8493a900523ec57ccd8d9cc3ec9f2",
+      "current_sha256": "8d1aa1706e05e19c14bbfb88cc22d865226a0cbbfe2e7162d005d89dd8143a0e",
+      "only_current_chain_count_and_tip_changed_since_actual_attempt4": true
+    }
+  },
+  "ruby_preservation": {
+    "rejected": {
+      "bytes_unchanged": true,
+      "sha256": "af7e2ca8f9ca6225dbf764cef4e981fc775eb3457d5595c30ffc7ff0e88f247c"
+    },
+    "blocked": {
+      "bytes_unchanged": true,
+      "sha256": "c95f2ba14e53af66f2b9bcc8c5dd3f45853714a2c8089b66037a8bd2d84f51a1"
+    },
+    "worker_start": {
+      "bytes_unchanged": true,
+      "sha256": "37340edaf1272b1fe2da92aba3459d67bbf2d445f0a82cdead8125bb39627626"
+    },
+    "write": {
+      "bytes_unchanged": true,
+      "sha256": "c6e7125e72540e896bc928be50148be054584237af2d1160ac58ffe6236a6538"
+    },
+    "read_until": {
+      "bytes_unchanged": true,
+      "sha256": "474ce64ee6f7412c0e9b27504cbd817e1e3ad856373115de0a55f23c74ee5349"
+    },
+    "start": {
+      "bytes_unchanged": true,
+      "sha256": "accb0cd3bed790467234623d0c8dfdbcf30d04341bb1cabdab78a6981ba05545"
+    },
+    "session": {
+      "bytes_unchanged": true,
+      "sha256": "b77c9f7cc5d1083b29c175b3af95e478de1b28a699dca9fe8a56580c96df1e4f"
+    },
+    "first_six_resource_race_bodies_sha256": "92f37fdeaf4a7180c3e37f418a2a7366edd4c102e43180a0cdb3de62d8f38897",
+    "seven_original_scenarios": [
+      "same_request_never_redispatches",
+      "competing_active_slots_atomically_limited",
+      "concurrent_finish_is_exactly_once_and_not_refunded",
+      "concurrent_verified_source_receipt_is_immutable",
+      "ambiguous_completion_retains_full_charge_and_one_active_slot",
+      "stale_repeatable_read_last_slot_aborts40001",
+      "feature_revocation_fences_waiting_upload_reservation"
+    ],
+    "feature_revocation_change": "Only the obsolete feature-management call is replaced by observed-current-revision request-bound v2 update; original overlap/feature-denial scenario remains.",
+    "cleanup_change": "Only exact fixture-owned governance requests/events and captured prior feature head are added to existing guarded cleanup. Named guards are disabled during QA cleanup after quiet provenance, XID ownership and full catalog checks, then restored; full baseline/control hashes must still match before commit."
+  }
+}

@@ -1,0 +1,494 @@
+--- /dev/null
++++ b/scripts/audits/collect_receipt_worker_snapshot.rb
+@@ -0,0 +1,491 @@
++# One exported read-only snapshot for full database and private worker evidence.
++# The caller retains credential, source-contract, encrypted-volume and isolation gates.
++require 'open3'
++require 'securerandom'
++require 'time'
++require_relative 'collect_recovery_source'
++
++module CollectReceiptWorkerSnapshot
++  FORMAT = 'collect-worker-snapshot-v1'.freeze
++  MIGRATION = '20261002070000'.freeze
++  MIGRATION_SHA = 'c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3'.freeze
++  FAMILIES = %w[scan_receipt transport_observation transport_receipt worker_configuration worker_receipt].freeze
++  HEX = /\A[0-9a-f]{64}\z/
++  ID = /\A[0-9A-Fa-f]{8}-[0-9A-Fa-f]{8}-[0-9]+\z/
++  PAGE_BYTES = 4 * 1024**2 + 65536
++  TOTAL_BYTES = 128 * 1024**2
++  MAX_PAGES = 10000
++  LIFETIME = 900
++  API_NAMES = %w[inventory_page verify_page object_inventory_page verify_object_page].freeze
++  BINDING_KEYS = %w[family original_key codec_version payload_sha256 payload_bytes metadata_sha256 logical_sha256 recorded_at].freeze
++  class Error < RuntimeError; end
++  module_function
++
++  def fail!(message)
++    raise Error, message
++  end
++
++  def keys!(value, keys)
++    fail!('Worker snapshot shape mismatch') unless value.is_a?(Hash) && value.keys.sort == keys.sort
++  end
++
++  def parse(raw, limit: PAGE_BYTES)
++    fail!('Worker snapshot response exceeds limit') unless raw.is_a?(String) && raw.bytesize <= limit
++    CollectRecoverySource.parse(raw)
++  rescue CollectRecoverySource::Error
++    fail!('Worker snapshot JSON invalid')
++  end
++
++  def integer!(value, maximum: nil)
++    fail!('Worker snapshot integer invalid') unless value.is_a?(Integer) && value >= 0 && (!maximum || value <= maximum)
++  end
++
++  def hex!(value)
++    fail!('Worker snapshot digest invalid') unless value.is_a?(String) && HEX.match?(value)
++  end
++
++  def original_key!(family, key)
++    fail!('Worker snapshot original key invalid') unless FAMILIES.include?(family) && key.is_a?(String) &&
++      case family
++      when 'worker_configuration' then /\A[1-9][0-9]{0,18}\z/.match?(key)
++      when 'transport_observation' then /\A[1-9][0-9]{0,18}:[1-9][0-9]{0,18}\z/.match?(key)
++      else /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/.match?(key)
++      end
++  end
++
++  def binding!(value, row)
++    return if value.nil? && row['tier'] == 'hot'
++    keys!(value, BINDING_KEYS)
++    fail!('Worker snapshot binding mismatch') unless value['family'] == row['family'] && value['original_key'] == row['key'] &&
++      value['codec_version'] == 1 && value['logical_sha256'] == row['logical_sha256']
++    %w[payload_sha256 metadata_sha256 logical_sha256].each { |k| hex!(value[k]) }
++    integer!(value['payload_bytes'])
++    fail!('Worker snapshot binding time invalid') unless value['recorded_at'].is_a?(String) &&
++      /\A\d{4}-\d{2}-\d{2}T.*\+00:00\z/.match?(value['recorded_at']) && Time.iso8601(value['recorded_at']).utc_offset.zero?
++  rescue ArgumentError
++    fail!('Worker snapshot binding time invalid')
++  end
++
++  def validate_page!(page, stream, cursor)
++    object = stream == 'objects'
++    expected = %w[contract_version rows checked financial_action send_action] +
++      (object ? %w[last_sha256] : %w[last_family last_key source_scan_complete])
++    keys!(page, expected)
++    fail!('Worker snapshot page contract invalid') unless page['contract_version'] == 1 && page['financial_action'] == false &&
++      page['send_action'] == false && (object || page['source_scan_complete'] == false) && page['rows'].is_a?(Array)
++    integer!(page['checked'], maximum: 25)
++    fail!('Worker snapshot page count mismatch') unless page['checked'] == page['rows'].length
++    last = cursor
++    page['rows'].each do |row|
++      if object
++        keys!(row, %w[sha256 bytes]); hex!(row['sha256']); integer!(row['bytes'])
++        next_key = row['sha256']
++      else
++        keys!(row, %w[family key logical_sha256 binding tier]); original_key!(row['family'], row['key']); hex!(row['logical_sha256'])
++        fail!('Worker snapshot tier invalid') unless %w[hot cold].include?(row['tier'])
++        binding!(row['binding'], row)
++        next_key = [row['family'], row['key']]
++      end
++      fail!('Worker snapshot cursor does not advance') if last && (next_key <=> last) <= 0
++      last = next_key
++    end
++    returned = object ? page['last_sha256'] : [page['last_family'], page['last_key']]
++    if page['rows'].empty?
++      fail!('Worker snapshot terminal cursor invalid') unless returned == (object ? nil : [nil, nil])
++      nil
++    else
++      fail!('Worker snapshot cursor mismatch') unless returned == last
++      last
++    end
++  end
++
++  def literal(value)
++    return 'NULL' if value.nil?
++    fail!('Worker snapshot SQL value invalid') unless value.is_a?(String) && !value.include?("\0")
++    "'" + value.gsub("'", "''") + "'"
++  end
++
++  def page_sql(stream, cursor)
++    if stream == 'logical'
++      pair = cursor || [nil, nil]
++      "SELECT collect_receipt_worker_history.inventory_page(#{literal(pair[0])},#{literal(pair[1])},25);"
++    else
++      "SELECT collect_receipt_worker_history.object_inventory_page(#{literal(cursor)},25);"
++    end
++  end
++
++  # The canonical catalog script is standalone BEGIN/COMMIT. Remove ONLY its
++  # exact pinned outer wrapper so it cannot end the already-exported transaction.
++  def held_catalog_query(query, document)
++    fail!('Worker snapshot catalog query identity mismatch') unless Digest::SHA256.hexdigest(query) == document.fetch('catalog_query_sha256')
++    opening = "BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;\n"
++    ending = "COMMIT;\n"
++    fail!('Worker snapshot catalog transaction wrapper changed') unless query.scan(opening).length == 1 && query.end_with?(ending) && query.scan(/\bCOMMIT;/).length == 1
++    query.sub(opening, '').delete_suffix(ending)
++  end
++
++  def api_contract!(document, migration_source)
++    fail!('Worker snapshot migration identity mismatch') unless Digest::SHA256.hexdigest(migration_source) == MIGRATION_SHA &&
++      document.fetch('migration_files').any? { |r| r['version'] == MIGRATION && r['sha256'] == MIGRATION_SHA }
++    API_NAMES.each do |name|
++      match = /create function collect_receipt_worker_history\.#{name}\([^;]*?as \$\$(.*?)\$\$;/m.match(migration_source)
++      fail!('Worker snapshot source API missing') unless match
++      rows = document.fetch('catalog').fetch('functions').select { |r| r[0] == 'collect_receipt_worker_history' && r[1] == name }
++      fail!('Worker snapshot owner API differs from approved source') unless rows.length == 1 && rows[0][3] == 'f' &&
++        rows[0][4] == 'postgres' && rows[0][5] == true && rows[0][6] == 'v' &&
++        rows[0][10] == ['postgres=X/postgres'] && rows[0][11] == Digest::SHA256.hexdigest(match[1])
++    end
++    true
++  end
++
++  def file_binding(path)
++    real = File.realpath(path)
++    before = File.lstat(real)
++    fail!('Worker snapshot source file invalid') unless before.file?
++    File.open(real, File::RDONLY | File::NOFOLLOW) do |f|
++      now = f.stat
++      fail!('Worker snapshot source changed during open') unless [now.ino, now.dev, now.size] == [before.ino, before.dev, before.size]
++      { 'path'=>File.expand_path(path), 'realpath'=>real, 'bytes'=>now.size, 'sha256'=>Digest::SHA256.new.tap { |digest| digest << f.read(65536) until f.eof? }.hexdigest }
++    end
++  rescue SystemCallError
++    fail!('Worker snapshot source file unavailable')
++  end
++
++  def bindings(paths)
++    (paths + [__FILE__] + $LOADED_FEATURES.select { |p| p.start_with?('/') && File.file?(p) }).uniq.sort.map { |p| file_binding(p) }
++  end
++
++  def verify_bindings!(rows)
++    fail!('Worker snapshot source/tool changed') unless rows.all? { |row| file_binding(row.fetch('path')) == row }
++    pinned = rows.map { |row| row['realpath'] }
++    fail!('Worker snapshot unpinned dependency appeared') unless $LOADED_FEATURES.select { |p| p.start_with?('/') && File.file?(p) }.all? { |p| pinned.include?(File.realpath(p)) }
++  end
++
++  def private_write(path, raw)
++    File.open(path, File::WRONLY | File::CREAT | File::EXCL, 0600) { |f| f.write(raw); f.fsync }
++  end
++
++  def safe_file(directory, name, expected_bytes, sha)
++    fail!('Worker snapshot basename invalid') unless /\A(?:logical|objects)-[0-9]{5}\.json\z/.match?(name) || name == 'worker-snapshot.json'
++    hex!(sha); integer!(expected_bytes, maximum: CollectRecoverySource::LIMIT)
++    path = File.join(directory, name)
++    fail!('Worker snapshot file permissions invalid') unless File.lstat(path).mode & 0777 == 0600
++    raw = CollectRecoverySource.read(File.expand_path(path))
++    fail!('Worker snapshot file byte association mismatch') unless raw.bytesize == expected_bytes && Digest::SHA256.hexdigest(raw) == sha
++    raw
++  rescue SystemCallError, CollectRecoverySource::Error
++    fail!('Worker snapshot file unavailable or invalid')
++  end
++
++  class Session
++    attr_reader :descriptor, :lifecycle
++    def initialize(argv:, input:, error_path:, lifetime: LIFETIME, statement_seconds: 120)
++      @deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + lifetime
++      @statement_seconds = statement_seconds
++      @stdin, @stdout, @stderr, @wait = Open3.popen3(*argv, pgroup: true)
++      @error = File.open(error_path, File::WRONLY | File::CREAT | File::EXCL, 0600)
++      @buffer = ''.b; @error_bytes = 0; @lifecycle = { 'started_at'=>Time.now.utc.iso8601(6), 'ended_successfully'=>false, 'child_reaped'=>false }
++      @stdin.write(input); @stdin.flush
++      control("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; SET LOCAL TIME ZONE 'UTC'; SET LOCAL DateStyle='ISO,YMD'; SET LOCAL idle_in_transaction_session_timeout='30s'; SET LOCAL lock_timeout='10s';")
++      @descriptor = query("SELECT json_build_object('snapshot_id',pg_export_snapshot(),'snapshot',pg_current_snapshot()::text,'database',current_database(),'session_user',session_user,'current_user',current_user,'server_version',current_setting('server_version'),'backend_pid',pg_backend_pid(),'isolation',current_setting('transaction_isolation'),'read_only',current_setting('transaction_read_only'),'exported_at',collect_ops.utc(clock_timestamp()));", limit: 65536)
++      CollectReceiptWorkerSnapshot.keys!(@descriptor, %w[snapshot_id snapshot database session_user current_user server_version backend_pid isolation read_only exported_at])
++      CollectReceiptWorkerSnapshot.fail!('Worker snapshot exported identity invalid') unless @descriptor['database'] == 'postgres' &&
++        @descriptor['current_user'] == 'postgres' && @descriptor['session_user'] == 'postgres' && @descriptor['server_version'].start_with?('17.') &&
++        @descriptor['isolation'] == 'repeatable read' && @descriptor['read_only'] == 'on' && ID.match?(@descriptor['snapshot_id'].to_s)
++    rescue StandardError
++      close
++      raise
++    end
++
++    def request(sql, expected:, limit:)
++      CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder closed') if @closed
++      marker = 'collect_snapshot_' + SecureRandom.hex(16)
++      @stdin.write(sql + "\n\\echo #{marker}\n"); @stdin.flush
++      lines = []; deadline = [@deadline, Process.clock_gettime(Process::CLOCK_MONOTONIC) + @statement_seconds].min
++      loop do
++        while (at = @buffer.index("\n"))
++          line = @buffer.slice!(0, at + 1).strip
++          if line == marker
++            CollectReceiptWorkerSnapshot.fail!('Worker snapshot unexpected query output') unless lines.length == expected
++            return lines
++          end
++          lines << line unless line.empty?
++          CollectReceiptWorkerSnapshot.fail!('Worker snapshot query response exceeds limit') if lines.sum(&:bytesize) > limit || lines.length > expected
++        end
++        remaining = deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC)
++        CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder timed out') if remaining <= 0
++        ready = IO.select([@stdout, @stderr].reject(&:closed?), nil, nil, [remaining, 1].min)
++        next unless ready
++        ready[0].each do |io|
++          chunk = io.read_nonblock(65536, exception: false)
++          if chunk.nil?
++            io.close
++            CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder stopped') if io == @stdout
++          elsif chunk != :wait_readable
++            if io == @stdout
++              @buffer << chunk
++              CollectReceiptWorkerSnapshot.fail!('Worker snapshot query response exceeds limit') if @buffer.bytesize > limit + 65536
++            else
++              @error_bytes += chunk.bytesize
++              CollectReceiptWorkerSnapshot.fail!('Worker snapshot private error exceeds limit') if @error_bytes > 1024**2
++              @error.write(chunk)
++            end
++          end
++        end
++      end
++    rescue IOError, Errno::EPIPE
++      CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder unavailable')
++    end
++
++    def query(sql, limit: PAGE_BYTES)
++      CollectReceiptWorkerSnapshot.parse(request(sql, expected: 1, limit: limit).first, limit: limit)
++    end
++
++    def control(sql)
++      request(sql, expected: 0, limit: 65536)
++    end
++
++    def heartbeat
++      result = query("SELECT json_build_object('isolation',current_setting('transaction_isolation'),'read_only',current_setting('transaction_read_only'),'snapshot',pg_current_snapshot()::text);", limit: 65536)
++      CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder authority changed') unless result == { 'isolation'=>'repeatable read', 'read_only'=>'on', 'snapshot'=>@descriptor['snapshot'] }
++    end
++
++    def remaining
++      @deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC)
++    end
++
++    def finish
++      control('COMMIT;')
++      @lifecycle['ended_successfully'] = true
++      close
++      CollectReceiptWorkerSnapshot.fail!('Worker snapshot holder cleanup failed') unless @lifecycle['child_reaped'] && @wait.value.success?
++    end
++
++    def close
++      return if @closed
++      @closed = true
++      @stdin&.close unless @stdin&.closed?
++      if @wait && !@wait.join(2)
++        Process.kill('TERM', -@wait.pid) rescue nil
++        unless @wait.join(2)
++          Process.kill('KILL', -@wait.pid) rescue nil
++          @wait.join(2)
++        end
++      end
++      @lifecycle ||= {}
++      @lifecycle['child_reaped'] = !!(@wait && !@wait.alive?)
++      @lifecycle['ended_at'] = Time.now.utc.iso8601(6)
++      [@stdout, @stderr].each { |io| io&.close unless io&.closed? }
++      @error&.fsync; @error&.close unless @error&.closed?
++    end
++  end
++
++  def full_dump_argv!(argv, snapshot_id)
++    fail!('Worker snapshot dump command invalid') unless argv.is_a?(Array) && argv.length.between?(1,100) &&
++      argv.all? { |a| a.is_a?(String) && a.bytesize <= 4096 } && argv.include?('pg_dump') &&
++      argv.include?('--snapshot=' + snapshot_id) && argv.include?('--format=custom') &&
++      argv.none? { |arg| %w[-a -s -n -N -t -T].include?(arg) || arg.match?(/\A--(?:exclude|schema|table|data-only|section|filter|no-owner|no-privileges)/) }
++  end
++
++  def dump(session, argv, input, directory)
++    full_dump_argv!(argv, session.descriptor.fetch('snapshot_id'))
++    archive = File.join(directory, 'database.dump'); error = File.join(directory, 'pg-dump.log')
++    file = File.open(archive, File::WRONLY | File::CREAT | File::EXCL, 0600)
++    log = File.open(error, File::WRONLY | File::CREAT | File::EXCL, 0600)
++    stdin, stdout, stderr, wait = Open3.popen3(*argv, pgroup: true)
++    stdin.write(input); stdin.close
++    ios = [stdout, stderr]; bytes = 0; error_bytes = 0; next_heartbeat = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 10
++    until ios.empty?
++      fail!('Worker snapshot dump timed out') if session.remaining <= 0
++      if Process.clock_gettime(Process::CLOCK_MONOTONIC) >= next_heartbeat
++        session.heartbeat; next_heartbeat = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 10
++      end
++      ready = IO.select(ios, nil, nil, [session.remaining, 1].min)
++      next unless ready
++      ready[0].each do |io|
++        chunk = io.read_nonblock(65536, exception: false)
++        if chunk.nil? then ios.delete(io); io.close
++        elsif chunk != :wait_readable
++          if io == stdout then file.write(chunk); bytes += chunk.bytesize
++          else error_bytes += chunk.bytesize; fail!('Worker snapshot dump private error exceeds limit') if error_bytes > 1024**2; log.write(chunk)
++          end
++        end
++      end
++    end
++    fail!('Worker snapshot database dump failed') unless wait.join([session.remaining, 2].min) && wait.value.success? && bytes > 1024
++    file.fsync; log.fsync
++    { 'bytes'=>bytes, 'sha256'=>Digest::SHA256.file(archive).hexdigest }
++  ensure
++    stdin&.close unless stdin&.closed?
++    if wait && wait.alive?
++      Process.kill('TERM', -wait.pid) rescue nil
++      unless wait.join(2) then Process.kill('KILL', -wait.pid) rescue nil; wait.join(2); end
++    end
++    [stdout, stderr, file, log].each { |io| io&.close unless io&.closed? }
++  end
++
++  def capture_stream(session, stream, directory, totals, hook: nil)
++    cursor = nil; descriptors = []; rows = 0; digest = Digest::SHA256.new
++    loop do
++      fail!('Worker snapshot inventory page cap reached') if totals['pages'] >= MAX_PAGES
++      session.heartbeat
++      page = session.query(page_sql(stream, cursor)); raw = JSON.generate(page) + "\n"
++      fail!('Worker snapshot inventory response exceeds limit') if raw.bytesize > PAGE_BYTES
++      next_cursor = validate_page!(page, stream, cursor)
++      totals['pages'] += 1; totals['bytes'] += raw.bytesize
++      fail!('Worker snapshot inventory byte cap reached') if totals['bytes'] > TOTAL_BYTES
++      name = format('%s-%05d.json', stream, descriptors.length)
++      private_write(File.join(directory, name), raw)
++      sha = Digest::SHA256.hexdigest(raw)
++      descriptors << { 'name'=>name, 'bytes'=>raw.bytesize, 'sha256'=>sha, 'cursor_before'=>cursor,
++        'cursor_after'=>next_cursor, 'checked'=>page['checked'] }
++      page['rows'].each { |row| digest << JSON.generate(CollectRecoverySource.canonical(row)) + "\n" }
++      rows += page['checked']; hook&.call(stream, descriptors.length, session)
++      break unless next_cursor
++      cursor = next_cursor
++    end
++    { 'pages'=>descriptors, 'rows'=>rows, 'sha256'=>digest.hexdigest }
++  end
++
++  def capture(argv:, input:, dump_argv:, directory:, document:, contract_sha256:, catalog_query:, source_bindings:, tools:, hook: nil, lifetime: LIFETIME)
++    fail!('Worker snapshot output directory invalid') unless File.directory?(directory) && !File.symlink?(directory)
++    verify_bindings!(source_bindings)
++    session = Session.new(argv: argv, input: input, error_path: File.join(directory, 'snapshot-holder.log'), lifetime: lifetime)
++    held_query = held_catalog_query(catalog_query, document)
++    before = session.query(held_query, limit: CollectRecoverySource::LIMIT)
++    session.heartbeat
++    CollectRecoverySource.verify_catalog!(document, before)
++    private_write(File.join(directory, 'source-catalog-snapshot.json'), JSON.generate(before) + "\n")
++    totals = { 'pages'=>0, 'bytes'=>0 }
++    logical = capture_stream(session, 'logical', directory, totals, hook: hook)
++    objects = capture_stream(session, 'objects', directory, totals, hook: hook)
++    actual_dump_argv = dump_argv + ['--snapshot=' + session.descriptor.fetch('snapshot_id')]
++    archive = dump(session, actual_dump_argv, input, directory)
++    session.heartbeat
++    after = session.query(held_query, limit: CollectRecoverySource::LIMIT)
++    session.heartbeat
++    CollectRecoverySource.verify_catalog!(document, after)
++    session.finish; verify_bindings!(source_bindings)
++    { 'format'=>FORMAT, 'source_contract'=>CollectRecoverySource.association(document, contract_sha256), 'snapshot'=>session.descriptor,
++      'lifecycle'=>session.lifecycle, 'archive'=>archive, 'logical'=>logical, 'objects'=>objects,
++      'source_bindings'=>source_bindings, 'tools'=>tools, 'dump_command'=>actual_dump_argv,
++      'scope'=>{ 'data_visibility'=>'shared_exported_mvcc_snapshot', 'sequences_export_instant'=>false,
++        'global_roles_same_snapshot'=>false, 'durable_inactive_overlay'=>false, 'financial_action'=>false, 'send_action'=>false } }
++  rescue CollectRecoverySource::Error
++    fail!('Worker snapshot source catalog mismatch')
++  ensure
++    session&.close
++  end
++
++  def finalize(draft, directory, document, contract_sha256)
++    verify_bindings!(draft.fetch('source_bindings'))
++    fail!('Worker snapshot draft association invalid') unless draft['source_contract'] == CollectRecoverySource.association(document, contract_sha256)
++    raw = JSON.generate(draft) + "\n"
++    fail!('Worker snapshot manifest exceeds limit') if raw.bytesize > CollectRecoverySource::LIMIT
++    private_write(File.join(directory, 'worker-snapshot.json'), raw)
++    association(draft, raw)
++  end
++
++  def association(manifest, raw)
++    { 'format'=>FORMAT, 'name'=>'worker-snapshot.json', 'bytes'=>raw.bytesize, 'sha256'=>Digest::SHA256.hexdigest(raw),
++      'archive'=>manifest.fetch('archive'), 'source_contract'=>manifest.fetch('source_contract'),
++      'logical_rows'=>manifest.dig('logical', 'rows'), 'logical_sha256'=>manifest.dig('logical', 'sha256'),
++      'objects'=>manifest.dig('objects', 'rows'), 'objects_sha256'=>manifest.dig('objects', 'sha256') }
++  end
++
++  def load(directory, report, document, contract_sha256)
++    expected = report.fetch('worker_snapshot')
++    keys!(expected, %w[format name bytes sha256 archive source_contract logical_rows logical_sha256 objects objects_sha256])
++    raw = safe_file(directory, expected['name'], expected['bytes'], expected['sha256'])
++    manifest = parse(raw, limit: CollectRecoverySource::LIMIT)
++    keys!(manifest, %w[format source_contract snapshot lifecycle archive logical objects source_bindings tools dump_command scope])
++    fail!('Worker snapshot manifest association mismatch') unless expected == association(manifest, raw) && manifest['format'] == FORMAT &&
++      manifest['source_contract'] == CollectRecoverySource.association(document, contract_sha256) &&
++      manifest['archive'] == report.fetch('archive').slice('bytes', 'sha256') &&
++      manifest.dig('lifecycle', 'ended_successfully') == true && manifest.dig('lifecycle', 'child_reaped') == true &&
++      ID.match?(manifest.dig('snapshot', 'snapshot_id').to_s) &&
++      manifest.dig('snapshot', 'isolation') == 'repeatable read' && manifest.dig('snapshot', 'read_only') == 'on' &&
++      manifest.dig('scope', 'sequences_export_instant') == false && manifest.dig('scope', 'global_roles_same_snapshot') == false &&
++      manifest.dig('scope', 'durable_inactive_overlay') == false &&
++      manifest.fetch('dump_command').include?('--snapshot=' + manifest.dig('snapshot', 'snapshot_id'))
++    keys!(manifest['snapshot'], %w[snapshot_id snapshot database session_user current_user server_version backend_pid isolation read_only exported_at])
++    keys!(manifest['lifecycle'], %w[started_at ended_successfully child_reaped ended_at])
++    keys!(manifest['archive'], %w[bytes sha256]); integer!(manifest['archive']['bytes']); hex!(manifest['archive']['sha256'])
++    keys!(manifest['scope'], %w[data_visibility sequences_export_instant global_roles_same_snapshot durable_inactive_overlay financial_action send_action])
++    fail!('Worker snapshot scope/owner differs') unless manifest.dig('scope','data_visibility') == 'shared_exported_mvcc_snapshot' &&
++      manifest.dig('scope','financial_action') == false && manifest.dig('scope','send_action') == false &&
++      manifest.dig('snapshot','database') == 'postgres' && manifest.dig('snapshot','session_user') == 'postgres' && manifest.dig('snapshot','current_user') == 'postgres'
++    full_dump_argv!(manifest['dump_command'], manifest.dig('snapshot','snapshot_id'))
++    fail!('Worker snapshot source binding inventory invalid') unless manifest['source_bindings'].is_a?(Array) && manifest['source_bindings'].length.between?(1,512)
++    manifest['source_bindings'].each do |row|
++      keys!(row, %w[path realpath bytes sha256]); integer!(row['bytes']); hex!(row['sha256'])
++      fail!('Worker snapshot source binding path invalid') unless %w[path realpath].all? { |k| row[k].is_a?(String) && row[k].bytesize <= 4096 && Pathname.new(row[k]).absolute? }
++    end
++    tool_keys = %w[image ruby_version docker_version psql_version pg_dump_version]
++    fixture_keys = %w[snapshot_holder_role archive_role restore_role]
++    fail!('Worker snapshot tool observation invalid') unless manifest['tools'].is_a?(Hash) &&
++      [tool_keys.sort,(tool_keys+fixture_keys).sort].include?(manifest['tools'].keys.sort) &&
++      manifest['tools'].values.all? { |x| x.is_a?(String) && x.bytesize.between?(1,256) }
++    totals = { 'pages'=>0, 'bytes'=>0 }
++    %w[logical objects].each { |stream| read_stream(directory, manifest.fetch(stream), stream, totals) }
++    manifest
++  rescue KeyError, TypeError
++    fail!('Worker snapshot manifest incomplete')
++  end
++
++  def read_stream(directory, metadata, stream, totals)
++    keys!(metadata, %w[pages rows sha256]); integer!(metadata['rows']); hex!(metadata['sha256'])
++    fail!('Worker snapshot stream incomplete') unless metadata['pages'].is_a?(Array) && !metadata['pages'].empty?
++    cursor = nil; digest = Digest::SHA256.new; rows = 0; result = []
++    metadata['pages'].each_with_index do |desc, index|
++      keys!(desc, %w[name bytes sha256 cursor_before cursor_after checked])
++      fail!('Worker snapshot descriptor order invalid') unless desc['name'] == format('%s-%05d.json', stream, index) && desc['cursor_before'] == cursor
++      fail!('Worker snapshot page cap reached') if totals['pages'] >= MAX_PAGES
++      raw = safe_file(directory, desc['name'], desc['bytes'], desc['sha256']); page = parse(raw)
++      next_cursor = validate_page!(page, stream, cursor)
++      fail!('Worker snapshot descriptor mismatch') unless next_cursor == desc['cursor_after'] && desc['checked'] == page['checked'] &&
++        (index == metadata['pages'].length - 1 ? next_cursor.nil? : !next_cursor.nil?)
++      totals['pages'] += 1; totals['bytes'] += raw.bytesize
++      fail!('Worker snapshot inventory byte cap reached') if totals['bytes'] > TOTAL_BYTES
++      page['rows'].each { |row| digest << JSON.generate(CollectRecoverySource.canonical(row)) + "\n" }
++      rows += page['checked']; result << page; cursor = next_cursor
++    end
++    fail!('Worker snapshot stream digest/count mismatch') unless rows == metadata['rows'] && digest.hexdigest == metadata['sha256']
++    result
++  end
++
++  # The caller has already verified the physical isolation and raw archive state.
++  # One persistent read-only RR target transaction verifies and re-enumerates both streams.
++  def verify_restored(directory, manifest, argv:, input: '', error_path:)
++    totals = { 'pages'=>0, 'bytes'=>0 }; counts = {}
++    session = Session.new(argv: argv, input: input, error_path: error_path)
++    %w[logical objects].each do |stream|
++      pages = read_stream(directory, manifest.fetch(stream), stream, totals)
++      pages.each do |page|
++        api = stream == 'logical' ? 'verify_page' : 'verify_object_page'
++        row = session.query("SELECT collect_receipt_worker_history.#{api}(#{literal(JSON.generate(page))}::jsonb);")
++        fail!('Worker snapshot restored verifier result mismatch') unless
++          row == { 'contract_version'=>1, 'verified'=>page['checked'], 'financial_action'=>false, 'send_action'=>false }
++      end
++      cursor = nil; rows = 0; digest = Digest::SHA256.new; index = 0
++      loop do
++        fail!('Worker snapshot restored inventory page cap reached') if index >= MAX_PAGES
++        page = session.query(page_sql(stream, cursor))
++        next_cursor = validate_page!(page, stream, cursor)
++        fail!('Worker snapshot restored exact inventory differs') unless page == pages[index]
++        page['rows'].each { |row| digest << JSON.generate(CollectRecoverySource.canonical(row)) + "\n" }
++        rows += page['checked']; index += 1
++        break unless next_cursor
++        cursor = next_cursor
++      end
++      fail!('Worker snapshot restored set incomplete') unless index == pages.length && rows == manifest.dig(stream, 'rows') && digest.hexdigest == manifest.dig(stream, 'sha256')
++      counts[stream] = rows
++    end
++    session.finish
++    { 'format'=>FORMAT, 'exact_logical_rows'=>counts['logical'], 'exact_objects'=>counts['objects'],
++      'source_state_compared_before_overlay'=>true, 'durable_inactive_overlay'=>false, 'financial_action'=>false, 'send_action'=>false,
++      'reader_lifecycle'=>session.lifecycle }
++  ensure
++    session&.close
++  end
++end

@@ -1,0 +1,16 @@
+NOTICE:  00000: policy "notification preferences own read" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification preferences own upsert" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification preferences own update" for relation "notification_preferences" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own read" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own insert" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification device own update" for relation "notification_device_tokens" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification events own read" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "notification events own update" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:51 GMT",
+    "content-type": "application/json",
+    "etag": "\"j8H6ea7VpCQB95R5yY3DEg\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/pypdfium2/5.2.0/json",
+  "requested_at": "2026-10-01T21:22:50.443966+00:00",
+  "response_bytes": 88511,
+  "response_path": "primary/pypi-pypdfium2-5.2.0.response",
+  "response_sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961",
+  "response_url": "https://pypi.org/pypi/pypdfium2/5.2.0/json",
+  "retrieved_at": "2026-10-01T21:22:51.203209+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

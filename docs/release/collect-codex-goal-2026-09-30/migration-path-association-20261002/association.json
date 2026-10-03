@@ -1,0 +1,92 @@
+{
+  "observed_at": "2026-10-01T22:11:41.924510+00:00",
+  "scope": "Migration/UAT filename association only; exact SQL bodies unchanged; no fresh SQL execution or full-candidate rehearsal",
+  "renames": {
+    "20261001240000_runtime_control_edit_eligibility.sql": "20261002000000_runtime_control_edit_eligibility.sql",
+    "20261001250000_sms_receipt_language_selection.sql": "20261002010000_sms_receipt_language_selection.sql",
+    "20261001260000_receipt_source_busy_deferral.sql": "20261002020000_receipt_source_busy_deferral.sql"
+  },
+  "changes": [
+    {
+      "path": "scripts/tests/runtime_control_edit_eligibility_uat.py",
+      "previous_sha256": "05dcb00461192f7d4fdae26073997f296bf683074048565f2e2d8760cb4f4238",
+      "current_sha256": "c3b1ec42adac59fa114b958cae430f32f106c8291696913e7d84a27dca582511",
+      "filename_literals": [
+        {
+          "from": "20261001240000_runtime_control_edit_eligibility.sql",
+          "to": "20261002000000_runtime_control_edit_eligibility.sql",
+          "occurrences": 1
+        }
+      ],
+      "AST_literal_only": true
+    },
+    {
+      "path": "scripts/tests/sms_receipt_language_uat.py",
+      "previous_sha256": "e4534cc21ff809f153212ca7175a316941172d661d9c9bb06d8390417e7bd266",
+      "current_sha256": "7b902f27b10bb567b44a3c0a6c3a2f855c494413bd33ec58cc5fa4c42381273f",
+      "filename_literals": [
+        {
+          "from": "20261001250000_sms_receipt_language_selection.sql",
+          "to": "20261002010000_sms_receipt_language_selection.sql",
+          "occurrences": 1
+        }
+      ],
+      "AST_literal_only": true
+    },
+    {
+      "path": "scripts/tests/receipt_source_busy_uat.py",
+      "previous_sha256": "f6d3cbbb68eccdd60a101064afc261fe9052003029dd5e66227d5b1867025c57",
+      "current_sha256": "e6696ac1dbc81774904f4ce2aeb55c2885a1a484ed61845111d814caa2d7b1fa",
+      "filename_literals": [
+        {
+          "from": "20261001250000_sms_receipt_language_selection.sql",
+          "to": "20261002010000_sms_receipt_language_selection.sql",
+          "occurrences": 1
+        },
+        {
+          "from": "20261001260000_receipt_source_busy_deferral.sql",
+          "to": "20261002020000_receipt_source_busy_deferral.sql",
+          "occurrences": 1
+        }
+      ],
+      "AST_literal_only": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/runtime_control_edit_eligibility_uat.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "db0da7f8a17bad6d815be89b2dd86ef948f2b454e4bce758176c05da4347edb5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/sms_receipt_language_uat.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "9d588e73231031a3ac39a90c48da54f999b9dff8b84d47599c8bf41b642714c8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/receipt_source_busy_uat.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "c567cc6f199ff1e799f7a518388d46de3ec316b4d499439731f6a23b14397a52",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "migration_SHA256": {
+    "20261002000000_runtime_control_edit_eligibility.sql": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4",
+    "20261002010000_sms_receipt_language_selection.sql": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+    "20261002020000_receipt_source_busy_deferral.sql": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2"
+  }
+}

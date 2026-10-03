@@ -1,0 +1,12 @@
+{
+  "scope": "rw_receipt_operations",
+  "action": "activate",
+  "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+  "request_id": "04ce8aac-7f64-40e6-8a77-2a158fe8106a",
+  "recorded_at": "2026-10-01T12:54:05.517149Z",
+  "principal_id": "412e9799-ac58-4560-a50d-ba6186354a41",
+  "state_at_action": "active",
+  "contract_version": 3,
+  "request_expires_at": "2026-10-01T12:55:35.362201Z",
+  "identity_expires_at": "2026-10-02T12:53:56.508296Z"
+}

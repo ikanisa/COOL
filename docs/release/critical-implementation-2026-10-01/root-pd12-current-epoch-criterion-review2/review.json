@@ -1,0 +1,85 @@
+{
+  "kind": "separate_integrator_PD12_original_criterion_review_for_actual_later_epoch",
+  "captured_at_utc": "2026-10-02T15:45:21.239328+00:00",
+  "original_criterion": "current index machine-checks relevant source/transitive inputs and exact artifacts, and identifies independently validated vs unverified areas without contradictory current-state claims",
+  "criterion_met_in_declared_later_scope": true,
+  "integrator": "root release/QA review",
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "APP_source_epoch": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "reviewed_artifacts": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/current-candidate-evidence-index.json",
+      "sha256": "381f5cbf577ac8cbd4d88a27e3e74b399edde5b1bc456cc6557c51c39e462cf9",
+      "bytes": 96635,
+      "actual_maintained_path": "docs/release/revolut-design/current-candidate-evidence-index.json"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e",
+      "bytes": 11498,
+      "actual_maintained_path": "docs/release/revolut-design/current-candidate-evidence-index.schema.json"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-criterion-review2/acceptance-status.json",
+      "sha256": "528bd8e529d0ceb813d4ec9ecbf5f287e0d285c9ebe85aa9121d6e0c0df8c0e8",
+      "bytes": 25956,
+      "actual_maintained_path": "docs/release/revolut-design/acceptance-status.json"
+    }
+  ],
+  "actual_reader": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/reader-final.json",
+    "sha256": "93f52f34cbf5db621a9491a1817b8d4da31d76251a8715a90c6c92cf7bb29a36",
+    "bytes": 976
+  },
+  "actual_output": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/reader-final.stdout",
+    "sha256": "85aa3be09a3fa6e3fbaf4a25cefabf2aa14830bd3ab92284791e1cd5be301697",
+    "bytes": 50652
+  },
+  "schema_errors": 0,
+  "actual_facts_matched": 133,
+  "actual_file_sets": 33,
+  "actual_reader_exit_code": 1,
+  "expected_archived_Android_drift": [
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/app/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    },
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/build.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    },
+    {
+      "file_set": "archived-abf-vs-current-liveAPP2561",
+      "path": "android/settings.gradle.kts",
+      "reason": "bytes-or-hash-drift"
+    }
+  ],
+  "other_reported_drift_or_unknown_physical_entries": 0,
+  "all_manifest_inventory_completeness_remains": "unknown-captured-list-only",
+  "selected_current2563_and_known2556_tooling5_APP2561_all_listed_hashes_match": true,
+  "reader18tests_reused": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+    "sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf",
+    "bytes": 1313
+  },
+  "required_authority_hygiene": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-current-epoch-integration2/revolut-authority.json",
+    "sha256": "2828a2dd1c986c003ea629bf8336c13a0e3427b122231c665c65937a914cd7be",
+    "bytes": 585
+  },
+  "prior_historical_criterion_decision": {
+    "path": "docs/release/critical-implementation-2026-10-01/root-pd12-original-criterion-review1/review.json",
+    "sha256": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4",
+    "bytes": 2461
+  },
+  "historical_external_pin_declaration_retained_as1c55_only": true,
+  "machine_reader_grants_closure": false,
+  "current_native_whole_pass": false,
+  "full_graph_native_visual_font_provider_package_and_release_acceptance": false,
+  "production_release_approval": false,
+  "later_source_epochs_require_new_current_index_binding": true,
+  "no_new_acceptance_requirement_or_closure_of_other_findings": true
+}

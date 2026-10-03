@@ -1,0 +1,27 @@
+{
+  "applied": false,
+  "files": {
+    "original-source-fences.json": {
+      "bytes": 4377,
+      "sha256": "d0402976f4dd3f7ca6ab9c933d5666d2a7a5b8474b5125a6d5f530bc97fbb4cc"
+    },
+    "original/android/settings.gradle.kts": {
+      "bytes": 840,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "proposed/android/settings.gradle.kts": {
+      "bytes": 1163,
+      "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a"
+    },
+    "settings.diff": {
+      "bytes": 534,
+      "sha256": "d2b2ba8964f0794ff831ebbf068746fc8b8b5245296d8e34bd1fe0254f38417b"
+    },
+    "source-binding-delta.json": {
+      "bytes": 1916,
+      "sha256": "9ec92dd37e74d6c243cff5660766bd9209f39f0c696c231f73519f689547329c"
+    }
+  },
+  "kind": "private_unapplied_candidate3_review_packet",
+  "schema_version": 1
+}

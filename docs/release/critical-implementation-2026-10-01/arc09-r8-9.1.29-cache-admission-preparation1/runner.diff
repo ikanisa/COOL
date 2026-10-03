@@ -1,0 +1,11 @@
+--- original/resolver180/run_resolution.py
++++ proposed/resolver600/run_resolution.py
+@@ -110,7 +110,7 @@
+     command = daemon = None
+     errors = []
+     try:
+-        command = controller.run_process(output, label, argv, 180, project, config['environment_exact'])
++        command = controller.run_process(output, label, argv, 600, project, config['environment_exact'])
+     except BaseException as error:
+         errors.append({'type': type(error).__name__, 'error': str(error)})
+     finally:

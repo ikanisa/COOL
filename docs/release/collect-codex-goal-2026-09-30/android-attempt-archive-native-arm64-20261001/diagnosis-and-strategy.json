@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-01T15:26:00.495909+00:00",
+  "host_machine": "arm64",
+  "preceding_jbr_file_architecture": "Mach-O64x86_64",
+  "diagnostic_source": "../android-attempt-archive/diagnostics/native-attempt6-timeout/compiler-thread-diagnostic.txt",
+  "preceding_main_thread_cpu_seconds": 51.24181,
+  "preceding_elapsed_seconds": 467.55,
+  "preceding_main_state": "RUNNABLE",
+  "preceding_main_stack": "org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt.toRegularClassSymbol",
+  "preceding_jit_threads_cpu_seconds": 38.44857,
+  "causal_limit": "Translation/contention is plausible; this single thread observation does not establish the sole timeout cause, a deadlock, or an out-of-memory failure.",
+  "two_process_observations_no_live_java_gradle_archive_runner": true,
+  "source_and_binary_readback_prior_to_download": {
+    "selected_sources": 36,
+    "binary_pins": 14,
+    "changed": []
+  },
+  "native_jdk_standard_locations_unavailable": true,
+  "cache_correction": {
+    "requested_alias": "/Users/jeanbosco/.codex/tmp/collect-android-native-proof-20261001",
+    "resolved_external": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/tmp/collect-android-native-proof-20261001",
+    "authorized_internal": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001",
+    "internal_mount": "/System/Volumes/Data"
+  },
+  "proof_scope_unchanged": {
+    "product_sources": 15,
+    "shims": 5,
+    "suites": 9,
+    "native_api_sources": 22,
+    "generated_buildconfig": 1,
+    "api": 36
+  }
+}

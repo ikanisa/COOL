@@ -1,0 +1,33 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { format } from "../internal/format.ts";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` is greater than or equal to `expected`.
+ * If not then throw.
+ *
+ * @example
+ * ```ts
+ * import { assertGreaterOrEqual } from "https://deno.land/std@$STD_VERSION/assert/assert_greater_or_equal.ts";
+ *
+ * assertGreaterOrEqual(2, 1); // Doesn't throw
+ * assertGreaterOrEqual(1, 1); // Doesn't throw
+ * assertGreaterOrEqual(0, 1); // Throws
+ * ```
+ */
+export function assertGreaterOrEqual<T>(
+  actual: T,
+  expected: T,
+  msg?: string,
+) {
+  if (actual >= expected) return;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+  throw new AssertionError(
+    msg ?? `Expect ${actualString} >= ${expectedString}`,
+  );
+}
+
+// denoCacheMetadata={"headers":{"cache-control":"public, max-age=31536000, immutable","accept-ranges":"bytes","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","last-modified":"Thu, 27 Aug 2026 16:21:31 GMT","server-timing":"fetchSource;dur=16","cf-cache-status":"HIT","cf-ray":"a43737c04aa599d3-AMS","access-control-allow-origin":"*","content-type":"application/typescript; charset=utf-8","x-frame-options":"DENY","referrer-policy":"strict-origin-when-cross-origin","cross-origin-embedder-policy":"same-origin","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=XUA7xPLJkIm%2BAG0iVHPGo%2Fz1WG","etag":"\"ed5b8e142bf376521c6a5ba5b0f867bf\"","strict-transport-security":"max-age=63072000; includeSubDomains; preload","x-content-type-options":"nosniff","cross-origin-opener-policy":"same-origin","server":"cloudflare,deployd","content-length":"904","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","age":"293294","x-deno-trace-id":"46b472b03bc163a2947f103d466c3a96","access-control-allow-headers":"*","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","access-control-allow-methods":"GET, HEAD","cache-status":"deno; hit","date":"Thu, 01 Oct 2026 00:05:48 GMT","cross-origin-resource-policy":"same-origin"},"url":"https://deno.land/std@0.224.0/assert/assert_greater_or_equal.ts","time":1790910996}

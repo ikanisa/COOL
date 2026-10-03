@@ -1,0 +1,142 @@
+[
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_exception_models_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 0,
+      "\\bexpectLater\\(": 0,
+      "\\bexpect\\(": 28,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 0,
+      "\\btest\\(": 8
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_exception_workflow_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 0,
+      "\\bexpectLater\\(": 0,
+      "\\bexpect\\(": 98,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 17,
+      "\\btest\\(": 11
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_receipt_cancel_models_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 0,
+      "\\bexpectLater\\(": 0,
+      "\\bexpect\\(": 14,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 0,
+      "\\btest\\(": 7
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_receipt_operations_sdk_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 1,
+      "\\bexpectLater\\(": 6,
+      "\\bexpect\\(": 24,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 0,
+      "\\btest\\(": 10
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_receipt_principal_integration_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 4,
+      "\\bexpectLater\\(": 5,
+      "\\bexpect\\(": 163,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 21,
+      "\\btest\\(": 9
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/support/admin_exception_fixture.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 0,
+      "\\bexpectLater\\(": 0,
+      "\\bexpect\\(": 0,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 0,
+      "\\btest\\(": 0
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/core/notification_registration_recovery_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 5,
+      "\\bexpectLater\\(": 0,
+      "\\bexpect\\(": 64,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 8,
+      "\\btest\\(": 9
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_investigation_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 4,
+      "\\bexpectLater\\(": 7,
+      "\\bexpect\\(": 76,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 12,
+      "\\btest\\(": 10
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_receipt_overview_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 3,
+      "\\bexpectLater\\(": 4,
+      "\\bexpect\\(": 80,
+      "\\bmatchesGoldenFile\\(": 0,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 14,
+      "\\btest\\(": 9
+    }
+  },
+  {
+    "all_test_bodies_and_assertions_preserved_except_declared_path_import_and_parent_mkdir_deltas": true,
+    "exact_forward_allowed_delta_reconstruction": true,
+    "path": "test/admin_roster_dialog_test.dart",
+    "tokens_before_and_after": {
+      "\\bdispose\\(": 0,
+      "\\bexpectLater\\(": 4,
+      "\\bexpect\\(": 51,
+      "\\bmatchesGoldenFile\\(": 4,
+      "\\bskip\\s*:": 0,
+      "\\btestWidgets\\(": 8,
+      "\\btest\\(": 0
+    }
+  }
+]

@@ -1,0 +1,252 @@
+{
+  "source_sha256": "49c664da7e5264388d8023b2dc4ca95f80f147a6b3619c38ac26688097688c6c",
+  "root_machine_sha256": "13eaa0d658f82b79be37c0919a0919291cce67bdac5a88099efc2377923f0eab",
+  "errors": [
+    {
+      "name": "actual SDK escalation endpoints read acknowledgement refuses malformed delivery ID before SDK dispatch",
+      "record": {
+        "testID": 1182,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 565136
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after identity-loading",
+      "record": {
+        "testID": 1188,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 597064
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox opens only after matching actual SDK read ACK",
+      "record": {
+        "testID": 1195,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 605125
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-delivery read ACK",
+      "record": {
+        "testID": 1198,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 606618
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK resolved-source read ACK",
+      "record": {
+        "testID": 1199,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 608261
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK private-extra read ACK",
+      "record": {
+        "testID": 1201,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 609591
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK before-delivery read ACK",
+      "record": {
+        "testID": 1202,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 610628
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-version read ACK",
+      "record": {
+        "testID": 1203,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 611913
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK missing-ACK read ACK",
+      "record": {
+        "testID": 1205,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 615095
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox loses actual SDK response without opening or automatic replay",
+      "record": {
+        "testID": 1206,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 616396
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=false",
+      "record": {
+        "testID": 1208,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 618589
+      }
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=true",
+      "record": {
+        "testID": 1210,
+        "result": "error",
+        "skipped": false,
+        "hidden": false,
+        "type": "testDone",
+        "time": 621667
+      }
+    }
+  ],
+  "error_records": [
+    {
+      "testID": 1182,
+      "error": "FormatException: Invalid operational exception evidence.",
+      "stackTrace": "package:collect_app/admin/core/admin_exception_models.dart 4:5   exceptionInvalid\npackage:collect_app/admin/core/admin_exception_models.dart 21:5  exceptionUuid\npackage:collect_app/admin/core/admin_runtime.dart 895:5          AdminRepository.readExceptionEscalation\ntest/admin_exception_workflow_sdk_test.dart 373:22               main.<fn>.<fn>\n",
+      "isFailure": false,
+      "type": "error",
+      "time": 565136
+    },
+    {
+      "testID": 1187,
+      "error": "Expected: throws <Instance of 'AdminSessionChanged'>\n  Actual: <Instance of 'Future<AdminExceptionEscalationSnapshot>'>\n   Which: threw <Instance of 'AdminExceptionDenied'>\n          stack package:collect_app/admin/core/admin_exception_workflow_card.dart 486:9   adminExceptionEscalationInboxProvider.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                _Completer.completeError\n                package:riverpod/src/async_notifier/base.dart 260:11                      FutureHandlerProviderElementMixin.onError\n                package:riverpod/src/async_notifier/base.dart 393:11                      FutureHandlerProviderElementMixin._handleAsync.<fn>\n                package:riverpod/src/async_notifier/base.dart 363:16                      FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                Future.then\n                package:riverpod/src/async_notifier/base.dart 354:16                      FutureHandlerProviderElementMixin.handleFuture.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 335:5                       FutureHandlerProviderElementMixin.handleFuture\n                package:riverpod/src/future_provider/base.dart 116:5                      FutureProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 363:5                         ProviderElementBase._performBuild\n                package:riverpod/src/framework/element.dart 324:7                         ProviderElementBase.flush\n                package:riverpod/src/framework/scheduler.dart 100:41                      ProviderScheduler._performRefresh\n                package:riverpod/src/framework/scheduler.dart 88:5                        ProviderScheduler._task\n                ===== asynchronous gap ===========================\n                dart:async                                                                new Future\n                package:riverpod/src/framework/scheduler.dart 9:3                         _defaultVsync\n                package:riverpod/src/framework/scheduler.dart 80:10                       ProviderScheduler._scheduleTask\n                package:riverpod/src/framework/scheduler.dart 68:5                        ProviderScheduler.scheduleProviderRefresh\n                package:riverpod/src/framework/element.dart 298:26                        ProviderElementBase.invalidateSelf\n                package:riverpod/src/framework/element.dart 602:5                         ProviderElementBase._markDependencyChanged\n                package:riverpod/src/framework/element.dart 568:30                        ProviderElementBase._notifyListeners\n                package:riverpod/src/framework/element.dart 140:7                         ProviderElementBase.setState\n                package:riverpod/src/common.dart 28:7                                     AsyncTransition.asyncTransition\n                package:riverpod/src/async_notifier/base.dart 284:7                       FutureHandlerProviderElementMixin.onData\n                package:riverpod/src/stream_provider/base.dart 205:11                     StreamProviderElement.onData\n                package:riverpod/src/async_notifier/base.dart 390:11                      FutureHandlerProviderElementMixin._handleAsync.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                _MultiStream.listen\n                package:riverpod/src/async_notifier/base.dart 316:26                      FutureHandlerProviderElementMixin.handleStream.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 303:5                       FutureHandlerProviderElementMixin.handleStream\n                package:riverpod/src/stream_provider/base.dart 169:5                      StreamProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_auth_guard.dart 164:29               adminAuthUserIdProvider.<fn>\n                package:riverpod/src/provider/base.dart 59:57                             Provider._create\n                package:riverpod/src/provider/base.dart 345:23                            ProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_runtime.dart 100:7                   adminRepositoryProvider.<fn>\n                package:riverpod/src/provider/base.dart 59:57                             Provider._create\n                package:riverpod/src/provider/base.dart 345:23                            ProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_exception_workflow_card.dart 478:30  adminExceptionEscalationInboxProvider.<fn>\n                package:riverpod/src/future_provider/auto_dispose.dart 46:16              AutoDisposeFutureProvider._create\n                package:riverpod/src/future_provider/base.dart 117:22                     FutureProviderElement.create.<fn>\n                package:riverpod/src/async_notifier/base.dart 341:30                      FutureHandlerProviderElementMixin.handleFuture.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 335:5                       FutureHandlerProviderElementMixin.handleFuture\n                package:riverpod/src/future_provider/base.dart 116:5                      FutureProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 440:40                      ProviderContainer.readProviderElement.<fn>\n                package:riverpod/src/framework/container.dart 475:8                       ProviderContainer.readProviderElement\n                package:riverpod/src/framework/provider_base.dart 79:26                   ProviderBase.addListener\n                package:riverpod/src/framework/container.dart 280:21                      ProviderContainer.listen\n                test/admin_exception_workflow_sdk_test.dart 429:34                        main.<fn>.<fn>\n                \n          which is not an instance of 'AdminSessionChanged'\n",
+      "stackTrace": "package:matcher                                     expectLater\npackage:flutter_test/src/widget_tester.dart 507:8   expectLater\ntest/admin_exception_workflow_sdk_test.dart 434:29  main.<fn>.<fn>\n",
+      "isFailure": true,
+      "type": "error",
+      "time": 566852
+    },
+    {
+      "testID": 1187,
+      "error": "Expected: throws <Instance of 'AdminSessionChanged'>\n  Actual: <Instance of 'Future<AdminExceptionEscalationSnapshot>'>\n   Which: threw <Instance of 'AdminExceptionDenied'>\n          stack package:collect_app/admin/core/admin_exception_workflow_card.dart 486:9   adminExceptionEscalationInboxProvider.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                _Completer.completeError\n                package:riverpod/src/async_notifier/base.dart 260:11                      FutureHandlerProviderElementMixin.onError\n                package:riverpod/src/async_notifier/base.dart 393:11                      FutureHandlerProviderElementMixin._handleAsync.<fn>\n                package:riverpod/src/async_notifier/base.dart 363:16                      FutureHandlerProviderElementMixin.handleFuture.<fn>.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                Future.then\n                package:riverpod/src/async_notifier/base.dart 354:16                      FutureHandlerProviderElementMixin.handleFuture.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 335:5                       FutureHandlerProviderElementMixin.handleFuture\n                package:riverpod/src/future_provider/base.dart 116:5                      FutureProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 363:5                         ProviderElementBase._performBuild\n                package:riverpod/src/framework/element.dart 324:7                         ProviderElementBase.flush\n                package:riverpod/src/framework/scheduler.dart 100:41                      ProviderScheduler._performRefresh\n                package:riverpod/src/framework/scheduler.dart 88:5                        ProviderScheduler._task\n                ===== asynchronous gap ===========================\n                dart:async                                                                new Future\n                package:riverpod/src/framework/scheduler.dart 9:3                         _defaultVsync\n                package:riverpod/src/framework/scheduler.dart 80:10                       ProviderScheduler._scheduleTask\n                package:riverpod/src/framework/scheduler.dart 68:5                        ProviderScheduler.scheduleProviderRefresh\n                package:riverpod/src/framework/element.dart 298:26                        ProviderElementBase.invalidateSelf\n                package:riverpod/src/framework/element.dart 602:5                         ProviderElementBase._markDependencyChanged\n                package:riverpod/src/framework/element.dart 568:30                        ProviderElementBase._notifyListeners\n                package:riverpod/src/framework/element.dart 140:7                         ProviderElementBase.setState\n                package:riverpod/src/common.dart 28:7                                     AsyncTransition.asyncTransition\n                package:riverpod/src/async_notifier/base.dart 284:7                       FutureHandlerProviderElementMixin.onData\n                package:riverpod/src/stream_provider/base.dart 205:11                     StreamProviderElement.onData\n                package:riverpod/src/async_notifier/base.dart 390:11                      FutureHandlerProviderElementMixin._handleAsync.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                                                _MultiStream.listen\n                package:riverpod/src/async_notifier/base.dart 316:26                      FutureHandlerProviderElementMixin.handleStream.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 303:5                       FutureHandlerProviderElementMixin.handleStream\n                package:riverpod/src/stream_provider/base.dart 169:5                      StreamProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_auth_guard.dart 164:29               adminAuthUserIdProvider.<fn>\n                package:riverpod/src/provider/base.dart 59:57                             Provider._create\n                package:riverpod/src/provider/base.dart 345:23                            ProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_runtime.dart 100:7                   adminRepositoryProvider.<fn>\n                package:riverpod/src/provider/base.dart 59:57                             Provider._create\n                package:riverpod/src/provider/base.dart 345:23                            ProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 479:19                      ProviderContainer.readProviderElement\n                package:riverpod/src/framework/element.dart 624:42                        ProviderElementBase._debugAssertCanDependOn.<fn>\n                package:riverpod/src/framework/element.dart 667:8                         ProviderElementBase._debugAssertCanDependOn\n                package:riverpod/src/framework/element.dart 714:12                        ProviderElementBase.watch\n                package:collect_app/admin/core/admin_exception_workflow_card.dart 478:30  adminExceptionEscalationInboxProvider.<fn>\n                package:riverpod/src/future_provider/auto_dispose.dart 46:16              AutoDisposeFutureProvider._create\n                package:riverpod/src/future_provider/base.dart 117:22                     FutureProviderElement.create.<fn>\n                package:riverpod/src/async_notifier/base.dart 341:30                      FutureHandlerProviderElementMixin.handleFuture.<fn>\n                package:riverpod/src/async_notifier/base.dart 388:47                      FutureHandlerProviderElementMixin._handleAsync\n                package:riverpod/src/async_notifier/base.dart 335:5                       FutureHandlerProviderElementMixin.handleFuture\n                package:riverpod/src/future_provider/base.dart 116:5                      FutureProviderElement.create\n                package:riverpod/src/framework/element.dart 426:7                         ProviderElementBase.buildState\n                package:riverpod/src/framework/element.dart 228:5                         ProviderElementBase.mount\n                package:riverpod/src/framework/container.dart 47:11                       _StateReader._create\n                package:riverpod/src/framework/container.dart 35:52                       _StateReader.getElement\n                package:riverpod/src/framework/container.dart 440:40                      ProviderContainer.readProviderElement.<fn>\n                package:riverpod/src/framework/container.dart 475:8                       ProviderContainer.readProviderElement\n                package:riverpod/src/framework/provider_base.dart 79:26                   ProviderBase.addListener\n                package:riverpod/src/framework/container.dart 280:21                      ProviderContainer.listen\n                test/admin_exception_workflow_sdk_test.dart 429:34                        main.<fn>.<fn>\n                \n          which is not an instance of 'AdminSessionChanged'\n",
+      "stackTrace": "package:matcher                                     expectLater\npackage:flutter_test/src/widget_tester.dart 507:8   expectLater\ntest/admin_exception_workflow_sdk_test.dart 434:29  main.<fn>.<fn>\n",
+      "isFailure": true,
+      "type": "error",
+      "time": 566972
+    },
+    {
+      "testID": 1188,
+      "error": "TimeoutException after 0:00:30.000000: Test timed out after 30 seconds. See https://pub.dev/packages/test#timeouts",
+      "stackTrace": "dart:isolate  _RawReceivePort._handleMessage\n",
+      "isFailure": false,
+      "type": "error",
+      "time": 597056
+    },
+    {
+      "testID": 1195,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox opens only after matching actual SDK read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 605122
+    },
+    {
+      "testID": 1198,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK wrong-delivery read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 606613
+    },
+    {
+      "testID": 1199,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK resolved-source read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 608259
+    },
+    {
+      "testID": 1201,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK private-extra read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 609591
+    },
+    {
+      "testID": 1202,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK before-delivery read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 610625
+    },
+    {
+      "testID": 1203,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK wrong-version read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 611911
+    },
+    {
+      "testID": 1205,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox rejects actual SDK missing-ACK read ACK",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 615093
+    },
+    {
+      "testID": 1206,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox loses actual SDK response without opening or automatic replay",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 616380
+    },
+    {
+      "testID": 1208,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox suppresses departed actual SDK read ACK switchBack=false",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 618589
+    },
+    {
+      "testID": 1210,
+      "error": "Test failed. See exception logs above.\nThe test description was: recipient production inbox suppresses departed actual SDK read ACK switchBack=true",
+      "stackTrace": "",
+      "isFailure": false,
+      "type": "error",
+      "time": 621638
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "APP_archived_rows_unchanged": 2558,
+  "APP_map_sha256": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "APP_source_rows": 2561,
+  "actual_admission_proposal": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-root-admission-preparation1/actual-source-admission-proposal.json",
+    "sha256": "68a1396919e5b6f7d2f01055659ebc7155ead70793c3bbfa4a52b5c33ec6e6c1"
+  },
+  "actual_driver_context_probe_Gradle_cache_source_or_network_execution": false,
+  "builder_AST_parse_pass": true,
+  "fence_map_sha256": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "full_AAB_output_root_selected": false,
+  "kind": "actual_private_source_admission_assembly_readback",
+  "maintained_source_rows": 2563,
+  "native_proof_scope_and_42_helper_probe_pins_structurally_unchanged": true,
+  "observed_input_pins": {
+    "actual_aggregate_source_readback": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/aggregate-source-readback.json",
+      "sha256": "1f6dc1acaeadada7ef8fbaedebb49543d3e3ad506c9f86f36e55feb5f17479ca"
+    },
+    "actual_settings_overlay_readback": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+      "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+    },
+    "archived_manifest": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/original-app-manifest.json",
+      "sha256": "d42e15c2ea1cca09d8d9b55075d797af8e00dac62fe41ff945c4fef9148f83f5"
+    },
+    "before_maintained": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/before/maintained/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "before_privateAPP": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/before/privateAPP/android/settings.gradle.kts",
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "current_manifest": {
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json",
+      "sha256": "7f896d80db4f79c8b5f75743ff1dfeb30dd6cc51951f2ac6214ad3eb3c2f8df1"
+    },
+    "current_source_fence": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/final-current-source-fence.json",
+      "sha256": "f5448ce9a3e70623493035eaf37eb600d78c924d977e191e452ab9073b630333"
+    },
+    "r8_artifact_admission": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/r8-artifact-admission.json",
+      "sha256": "d3b8ba4f728952752f55bfeafe230ef62fc253dc47b40692a4b249e74efd7651"
+    },
+    "reviewed_patch_packet": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-r8-9.1.29-preparation1/candidate3-patch-packet.json",
+      "sha256": "35347d9bda9447d2e9467d15962ce3efde8446c3748e5ddbdfa87bc1dae9e30c"
+    }
+  },
+  "production_release_approval": false
+}

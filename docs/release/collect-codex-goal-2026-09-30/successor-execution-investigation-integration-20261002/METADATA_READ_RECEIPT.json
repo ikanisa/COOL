@@ -1,0 +1,10 @@
+{
+  "actual_final_canonical_inputs": 415,
+  "actual_final_drift": [],
+  "included_files_read_before_final_metadata": 103,
+  "legacy_drift_only_unrelated_mount_test_and_runner": true,
+  "product_tests_rerun": false,
+  "reference_rows": 101,
+  "root_command_output_sha256_bindings_verified": true,
+  "status": "all_preseal_included_small_metadata_and_text_read"
+}

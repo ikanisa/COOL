@@ -1,0 +1,8 @@
+{
+  "additional_HTTP_runtime_assertions_planned_not_executed": 6,
+  "entire_original_file_restored_after_removing_only_two_insertions": true,
+  "original_file_sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9",
+  "original_suites_assertions_parity_failures_and_start_once_cleanup_bytes_preserved": true,
+  "restored_file_sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9",
+  "unit_and_canonical_runner_bytes_unchanged": true
+}

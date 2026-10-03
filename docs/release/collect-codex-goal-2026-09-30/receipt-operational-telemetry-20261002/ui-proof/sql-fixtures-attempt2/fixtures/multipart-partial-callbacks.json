@@ -1,0 +1,59 @@
+{
+  "mode": "Live-limited",
+  "scope": "receipt_operations_configured_collections",
+  "alerts": [],
+  "backlog": {
+    "due_deferrals": 0,
+    "unhandled_events": 3,
+    "source_busy_deferrals": 0,
+    "oldest_unhandled_age_seconds": 1
+  },
+  "budgets": {
+    "scope": "global_utc_day",
+    "actions_cap": 2,
+    "utc_day_start": "2026-10-01T00:00:00.000000Z",
+    "actions_reserved": 2,
+    "sms_segments_cap": 2,
+    "sms_segments_reserved": 2
+  },
+  "unknown": {
+    "uncertain_attempts": 0,
+    "callback_conflict_attempts": 0,
+    "started_without_all_sent_callbacks": 0,
+    "observed_sent_without_all_delivery_callbacks": 1
+  },
+  "handling": {
+    "latency_max_ms": 447,
+    "latency_p50_ms": 447,
+    "latency_p95_ms": 447,
+    "events_created_24h": 4,
+    "events_handled_24h": 1
+  },
+  "callbacks": {
+    "expected_segments": 2,
+    "armed_attempts_24h": 1,
+    "conflicting_attempts": 0,
+    "covered_sent_segments": 2,
+    "covered_delivery_segments": 1,
+    "complete_delivery_callback_attempts": 0
+  },
+  "checked_at": "2026-10-01T22:44:58.615096Z",
+  "window_end": "2026-10-01T22:44:58.615096Z",
+  "send_action": false,
+  "window_start": "2026-09-30T22:44:58.615096Z",
+  "emergency_stop": false,
+  "window_seconds": 86400,
+  "policy_revision": 3,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T22:45:58.615096Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only"
+  ],
+  "configured_collection_count": 1
+}

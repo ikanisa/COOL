@@ -1,0 +1,15 @@
+{
+  "status": "busy",
+  "inspected": 0,
+  "checked_at": "2026-10-01T13:02:58.957296Z",
+  "expires_at": "2026-10-01T13:04:28.737324Z",
+  "request_id": "7db5de43-8af3-480e-b95d-527d5e6d584d",
+  "unobserved": 0,
+  "send_action": false,
+  "resend_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "terminal_observed": 0,
+  "observations_added": 0,
+  "source_scan_complete": false
+}

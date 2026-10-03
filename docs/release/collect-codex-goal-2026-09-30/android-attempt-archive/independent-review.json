@@ -1,0 +1,48 @@
+{
+  "scope": "Independent agent read-only, narrowed native archive/authenticated recovery review. No edits, tests, devices, hosted services or builds by the reviewer.",
+  "reviewer": "/root/backend_map/dispatch_guard_review",
+  "initial_findings": [
+    {
+      "finding": "Object-before-index crash could bypass shard metadata repair/capacity accounting before pruning.",
+      "correction": "Re-enter commitColdAttempt; require complete index+catalog before logical pruning; retained hot originals repair through original UUID lookup."
+    },
+    {
+      "finding": "Lookup compaction could upload stale known callbacks again under new UUIDs.",
+      "correction": "Re-read actual active store before callback phase."
+    },
+    {
+      "finding": "Archive ACK parser bypassed strict lexical JSON validation.",
+      "correction": "Shared strict scanner rejects ambiguous ACK bytes before JSONObject."
+    }
+  ],
+  "recheck_three_findings": "No remaining concrete defect found in the narrowed reviewed paths.",
+  "additional_owner_findings": [
+    {
+      "finding": "Server ACK commit/local contradiction window could starve new evidence behind repeated ACK lookup and omit durable stop.",
+      "correction": "Retain immutable encrypted uncompactable ACK and hot originals, stop durably, then mark only exact transport request recorded; raw contradiction reconciles once."
+    },
+    {
+      "finding": "Lost pair of cold control files could appear uninitialized while cold evidence survived.",
+      "correction": "Remaining cold evidence prevents control reset."
+    },
+    {
+      "finding": "Terminal source and pending request preparation had separate mutex intervals.",
+      "correction": "Prepare source, references and durable original request under one process lock; stale snapshot refused."
+    }
+  ],
+  "reviewed_uncompactable_ack_source_sha256": {
+    "GatewayAttemptArchive.kt": "616a9a3f3f9d186f5a9f1dfac92f1f5d0d79b07c4d1b365da54da15a264b4c5b",
+    "GatewayEncryptedStore.kt": "9fbf5e35d032b33aad134ed87a3bb9f1b2391a6f4654b5070bcb7a5b65366495",
+    "GatewayJournal.kt": "367c7c90c7c0536cede856eb243656dfb23de02d2ab488b53c108f042a111911"
+  },
+  "recheck_ack_conflict": "No concrete authority/pruning/recovery defect found in narrowed changed paths. This precedes the final atomic-preparation refinement; final tests separately bind current sources.",
+  "final_atomic_admission_review": {
+    "scope": "Read-only review only of stale snapshot validation and archive request preparation under PROCESS_LOCK; no tests/builds/edits",
+    "finding": "No material defect found",
+    "attempt6_captured_current_equal": true,
+    "sha256": {
+      "GatewayAttemptArchive.kt": "e6bc27a704fe9ac5ce27b74479c92617dedd7baeca4487cda1a82e155057fe13",
+      "GatewaySignedBackend.kt": "652e76751bef39e19c2be7a3ee857f4771d87d4da2c909cf0c531cd1e793f031"
+    }
+  }
+}

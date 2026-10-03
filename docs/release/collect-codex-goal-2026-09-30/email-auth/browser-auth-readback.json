@@ -1,0 +1,16 @@
+{
+  "kind": "read_only_hosted_auth_browser_attempt",
+  "observed_at_utc": "2026-09-30T23:40:30Z",
+  "project_id": "lhbowpbcpwoiparwnwgt",
+  "browser": "Codex In-app Browser",
+  "requested_url": "https://supabase.com/dashboard/project/lhbowpbcpwoiparwnwgt",
+  "status": "BROWSER_SECURITY_CHECK_UNAVAILABLE",
+  "reason": "Saved browser permissions could not be verified; browser permission request was unavailable.",
+  "configuration_observed": false,
+  "configuration_changed": false,
+  "alternate_route_attempted": false,
+  "temporary_tab_closed": true,
+  "account_provisioned": false,
+  "otp_requested": false,
+  "session_restored": false
+}

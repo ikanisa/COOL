@@ -70,23 +70,30 @@ function requiredHash(payload: Record<string, unknown>, key: string): string {
   return value.toLowerCase();
 }
 
-function base(operatorUserId: string) {
+function base(operatorUserId: string, operatorSessionId: string) {
   if (!uuidPattern.test(operatorUserId)) {
     throw new Error("Authenticated operator ID is invalid");
   }
-  return { p_operator_user_id: operatorUserId.toLowerCase() };
+  if (!uuidPattern.test(operatorSessionId)) {
+    throw new Error("Authentication required");
+  }
+  return {
+    p_operator_user_id: operatorUserId.toLowerCase(),
+    p_operator_session_id: operatorSessionId.toLowerCase(),
+  };
 }
 
 export function notificationOperatorCommand(
   action: unknown,
   payload: Record<string, unknown>,
   operatorUserId: string,
+  operatorSessionId: string,
 ): NotificationOperatorCommand {
-  const common = base(operatorUserId);
+  const common = base(operatorUserId, operatorSessionId);
   switch (action as NotificationOperatorAction) {
     case "health":
       return {
-        rpc: "collect_notification_health",
+        rpc: "collect_notification_health_v2",
         permission: "notifications.read",
         sensitive: false,
         params: common,
@@ -104,7 +111,7 @@ export function notificationOperatorCommand(
         throw new OperatorInputError("after_created_at must be an ISO timestamp");
       }
       return {
-        rpc: "collect_list_pending_receipts",
+        rpc: "collect_list_pending_receipts_v2",
         permission: "notifications.read",
         sensitive: false,
         params: {
@@ -118,7 +125,7 @@ export function notificationOperatorCommand(
       const worker = requiredText(payload, "worker_id", 3, 80);
       if (!workerPattern.test(worker)) throw new OperatorInputError("worker_id is invalid");
       return {
-        rpc: "collect_claim_receipt",
+        rpc: "collect_claim_receipt_v2",
         permission: "notifications.manage",
         sensitive: false,
         params: {
@@ -131,7 +138,7 @@ export function notificationOperatorCommand(
     }
     case "get_claimed":
       return {
-        rpc: "collect_get_claimed_receipt",
+        rpc: "collect_get_claimed_receipt_v2",
         permission: "notifications.manage",
         sensitive: true,
         params: {
@@ -148,7 +155,7 @@ export function notificationOperatorCommand(
         );
       }
       return {
-        rpc: "collect_confirm_receipt",
+        rpc: "collect_confirm_receipt_v2",
         permission: "notifications.manage",
         sensitive: true,
         params: {
@@ -166,7 +173,7 @@ export function notificationOperatorCommand(
       };
     case "record_send_start":
       return {
-        rpc: "collect_record_send_start",
+        rpc: "collect_record_send_start_v2",
         permission: "notifications.manage",
         sensitive: true,
         params: {
@@ -189,7 +196,7 @@ export function notificationOperatorCommand(
         throw new OperatorInputError("outcome_note must be 500 characters or fewer");
       }
       return {
-        rpc: "collect_record_observed_outcome",
+        rpc: "collect_record_observed_outcome_v2",
         permission: "notifications.manage",
         sensitive: false,
         params: {
@@ -208,7 +215,7 @@ export function notificationOperatorCommand(
     }
     case "release_claim":
       return {
-        rpc: "collect_release_unsent_claim",
+        rpc: "collect_release_unsent_claim_v2",
         permission: "notifications.manage",
         sensitive: false,
         params: {
@@ -227,7 +234,7 @@ export function notificationOperatorCommand(
         throw new OperatorInputError("mode is invalid");
       }
       return {
-        rpc: "collect_worker_heartbeat",
+        rpc: "collect_worker_heartbeat_v2",
         permission: "notifications.read",
         sensitive: false,
         params: {

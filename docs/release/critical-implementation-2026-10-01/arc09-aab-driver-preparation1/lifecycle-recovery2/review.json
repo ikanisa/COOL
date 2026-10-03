@@ -1,0 +1,63 @@
+{
+  "ARC09_closed": false,
+  "actual_driver_native_Gradle_APP_SDK_sourcefence_DB_provider_or_metadata_actions_here": false,
+  "actual_lifecycle_observation": {
+    "actual_command": "<defunct>",
+    "actual_owned_PID": 94043,
+    "actual_ps_state": "Z",
+    "does_not_prove_exact_old_compile_refused_row": true,
+    "exit_code": 0,
+    "independent_PID_and_PGID_absence_after_reap": true,
+    "source": {
+      "bytes": 973,
+      "mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-gradle-lifecycle-metadata1/observation.json",
+      "sha256": "770aff4b01df5d15ae573003b530fb7af7a5ef250058337685fca67fd884f356"
+    }
+  },
+  "admission": {
+    "bytes": 12517,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/root-admission-template.json",
+    "sha256": "4f909d5de4454e7d0d2a13e559ae370a2d5d0ba271e24cae309d75c32353b83d"
+  },
+  "archive_reader_internal_seconds": 120,
+  "archive_reader_process_seconds": 150,
+  "changes": [
+    "Actual ps parser includes stat/state after lstart; keeps complete raw command string with spaces.",
+    "Known owned samePID/start/PGID terminalZ rows retain current metadata and terminal history without rewriting established command. Z supplies neither absence nor signal authority; final actual PID/group absence remains required.",
+    "Refused wrapper/session/source-bound JAR/private identity transitions retain exact before/current owned rows and actual state; last observed owned rows also retained. Unknown live commands remain refused.",
+    "The qualified completed compile graph is admitted alongside the already qualified runtime graph with actual command/log/source/SDK/protected/rootabsence proof and exact previous runtime-reuse receipt. Both old whole-driver failures stay failed.",
+    "Fresh main invokes only original planned[2] productionRelease AAB; no successful graph command is rerun. Original fresh source/runtime guards, cleanup/whole/build/SBOM/archive bounds remain."
+  ],
+  "compile_reuse_input_count": 15,
+  "driver": {
+    "bytes": 57642,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/run_selected_aab.py",
+    "sha256": "ac231155f02477a6aaf3217f05e1499b1ceb18d3d725e5dc3969d0279e1aa6f3"
+  },
+  "governance_audit_paused_until_actual_AAB": true,
+  "old_compile_refused_row_limit": "The former driver did not retain the rejected current row/state. Stored Java/JAR command matches expected. Terminal Z is a genuine observed macOS lifecycle case; exact original compile refusal cause remains unproved. Both aggregate failures stay failed.",
+  "original42_bindings_unchanged": true,
+  "production_release_approval": false,
+  "reuse_read_copy_bound_seconds_each": 30,
+  "root_reviewed_exact_source": true,
+  "runtime_reuse_input_count": 13,
+  "schema_version": 1,
+  "selected_AAB_build_bound_seconds": 2700,
+  "status": "root-reviewed-43-fixtures-PASS-actual-driver-unexecuted",
+  "tests": {
+    "exit_code": 0,
+    "new_lifecycle_and_compile_tests": 12,
+    "original_unchanged_tests": 31,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/lifecycle-fixture-tests-result.json",
+    "process_and_signal_and_metadata_interfaces_stubbed": true,
+    "seconds": 0.5349751670000842,
+    "sha256": "963afdbdaffd4372512da5f17cc9af5cc64449c2a42cb35bb74aa9f04c50243c",
+    "source_before_after_equal": true,
+    "tests": 43
+  },
+  "utc": "2026-10-02T13:10:52.448716+00:00",
+  "whole_bound_seconds": 5070
+}

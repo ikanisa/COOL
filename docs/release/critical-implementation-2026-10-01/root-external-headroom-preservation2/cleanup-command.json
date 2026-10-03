@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-safe-headroom-preparation1/preserve_exact_caches.py",
+    "--controller-sha256",
+    "70d7dd18dbbf0d9767e2dfdfd2e76c7f6043fe0036bedb1b8848effde0804161",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/external-headroom-preservation2",
+    "--remove-preserved-caches"
+  ],
+  "pid": 45604,
+  "pgid": 45604,
+  "exit_code": 1,
+  "actual_seconds": 0.23470308299874887,
+  "deadline_seconds": 300,
+  "timed_out": false,
+  "owned_group_absent": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "520abebaef6ba7474580a649dbe4221d37e1471c5c23dac8d362fb6d1a9b75a5"
+}

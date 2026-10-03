@@ -1,0 +1,6 @@
+{
+  "current_runner_sha256": "c4080669961c19b955eab557e0cfed76de49b6f3f5bfd3929055e415217004a5",
+  "difference": "Current helper disables Python bytecode writes before importing preserved source. Used bytes reconstructed from this narrow diff and verified against the hash captured in each actual command receipt. MCP source, fixture, package and test inputs unchanged.",
+  "kind": "exact_used_runner_bytes_preserved",
+  "runner_used_sha256": "e9eec5627807ce69b88d9d6b9ded318176ea17287695084652273f31a3b7b5c2"
+}

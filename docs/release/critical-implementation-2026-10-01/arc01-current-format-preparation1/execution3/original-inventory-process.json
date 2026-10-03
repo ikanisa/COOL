@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-f92a68e41bba416a8f40bab2d3667051-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "ruby /opt/arc01/inventory.rb"
+  ],
+  "deadline_seconds": 30,
+  "pid": 43142,
+  "started_at_utc": "2026-10-02T10:46:00.924000+00:00"
+}

@@ -1,0 +1,112 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 18:36:52.124 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 18:36:52.125 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 18:36:52.126 UTC [177] LOG:  database system was shut down at 2026-10-01 18:36:52 UTC
+2026-10-01 18:36:52.128 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 18:36:52.130 UTC [181] LOG:  pg_cron scheduler started
+2026-10-01 18:37:25.919 UTC [3193] WARNING:  there is already a transaction in progress
+2026-10-01 18:37:25.925 UTC [3193] ERROR:  receipt_language_governance_adoption_invalid
+2026-10-01 18:37:25.925 UTC [3193] CONTEXT:  PL/pgSQL function inline_code_block line 4 at RAISE
+2026-10-01 18:37:25.925 UTC [3193] STATEMENT:  do $capture$ begin
+	 if exists(select 1 from pg_temp.receipt_language_adoption a where a.previous_revision is null
+	  or a.previous_revision>=1000000000 or a.old_sha256 is distinct from collect_security.runtime_control_hash(a.old_row))then
+	  raise exception 'receipt_language_governance_adoption_invalid'using errcode='55000';end if;
+	end $capture$;
+2026-10-01 18:37:26.163 UTC [3214] WARNING:  there is already a transaction in progress
+2026-10-01 18:37:26.165 UTC [3214] ERROR:  receipt_language_predecessor_drift:collect_gateway_dispatch.segment_count(text)
+2026-10-01 18:37:26.165 UTC [3214] CONTEXT:  PL/pgSQL function inline_code_block line 20 at RAISE
+2026-10-01 18:37:26.165 UTC [3214] STATEMENT:  do $guard$ declare expected record;oid_value oid;begin
+	 for expected in select * from(values
+	 ('collect_security.runtime_control_spec(text)','8262fe001536479c1d47b2c9b29b9b6c4738024f5e8c2ef57360917e687d8761'),
+	 ('collect_security.runtime_control_check_values(text,jsonb)','9ad11fd161b389f1f4480fd0303dfd3433ff097a9754a4fa7d61fae68035094b'),
+	 ('collect_receipt_policy.render_v2(bigint,bigint,timestamp with time zone,text,text)','ad9aeab9070a7e47635cd2b7b6ec508e7e2d319d62665d7173fa70d0e3c1475e'),
+	 ('collect_receipt_policy.render_snapshot(collect_hybrid.momo_balance_snapshots,integer,text)','fbc4e68a5f2ea3031a0552b4febb322adc9ed576abf746f5be7dfa2bba7b4d36'),
+	 ('collect_receipt_policy.snapshot_is_eligible(collect_hybrid.momo_balance_snapshots)','519c93e37e987d8815133980fc8343b0604223c9234a0c415de9ffe2e333558e'),
+	 ('collect_receipt_policy.body_for_job(collect_hybrid.sms_notification_outbox)','e16049edbd69a3914ecd15cfd54563f54f7d5e3129a452c637aca81d92845411'),
+	 ('collect_receipt_policy.content_is_valid(collect_hybrid.sms_notification_outbox)','e7636567846a564750167f6acf0f9f37f5aeec33ddd7c358b85afd2872556fc9'),
+	 ('collect_hybrid.enqueue_sms_receipt_from_snapshot()','b93c68120a9977b08a0cad6d5448ac2d02d7bf0741431f7efdb4ec00d4bfe394'),
+	 ('collect_hybrid.sms_receipt_job_is_current(uuid)','ee0317da6de4ca4f6a25c864a402cd9d1d80240d79e2f4be7b84f8b0f54ffa1f'),
+	 ('public.admin_get_collect_investigation_v1(text,uuid)','30a6151051d6170772e7db15e980f3fa1b4e84d3e44b96d9195720812c974c8a'),
+	 ('collect_receipt_operations.ensure_snapshot(uuid,boolean,boolean)','12f31699d3055e82b490ac88e786a5d675beea3864fdf8e3c1d6ae907496b53a'),
+	 ('collect_gateway_dispatch.segment_count(text)','d2bf7155304e5855c68b1353647ad7bb7d1beeab01beaf2211920b974197a13d'),
+	 ('collect_hybrid.claim_verified_current_account()','0a0ba27796959b1a5630dc63048da8e90c67adeb47ab156215870e2d6a9341d2')
+	 )v(signature,body_sha256)loop
+	  oid_value:=to_regprocedure(expected.signature);
+	  if oid_value is null or (select encode(extensions.digest(prosrc,'sha256'),'hex') from pg_proc where oid=oid_value)
+	   is distinct from expected.body_sha256 then
+	   raise exception 'receipt_language_predecessor_drift:%',expected.signature using errcode='55000';end if;
+	 end loop;
+	end $guard$;
+2026-10-01 18:37:27.147 UTC [3290] ERROR:  runtime_control_conflict
+2026-10-01 18:37:27.147 UTC [3290] CONTEXT:  PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 22 at RAISE
+2026-10-01 18:37:27.147 UTC [3290] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language":"en"}'::jsonb,1,'Synthetic stale pre-adoption policy');
+2026-10-01 18:37:27.405 UTC [3304] ERROR:  receipt_language_invalid
+2026-10-01 18:37:27.405 UTC [3304] CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+	SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+	PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+2026-10-01 18:37:27.405 UTC [3304] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language": "xx"}'::jsonb,2,'Synthetic unsupported language refusal');
+2026-10-01 18:37:27.572 UTC [3318] ERROR:  receipt_language_invalid
+2026-10-01 18:37:27.572 UTC [3318] CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+	SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+	PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+2026-10-01 18:37:27.572 UTC [3318] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language": "EN"}'::jsonb,2,'Synthetic unsupported language refusal');
+2026-10-01 18:37:27.805 UTC [3332] ERROR:  receipt_language_invalid
+2026-10-01 18:37:27.805 UTC [3332] CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+	SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+	PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+2026-10-01 18:37:27.805 UTC [3332] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language": " fr"}'::jsonb,2,'Synthetic unsupported language refusal');
+2026-10-01 18:37:28.080 UTC [3351] ERROR:  receipt_language_invalid
+2026-10-01 18:37:28.080 UTC [3351] CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+	SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+	PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+2026-10-01 18:37:28.080 UTC [3351] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language": "fr\n"}'::jsonb,2,'Synthetic unsupported language refusal');
+2026-10-01 18:37:28.277 UTC [3365] ERROR:  receipt_language_invalid
+2026-10-01 18:37:28.277 UTC [3365] CONTEXT:  PL/pgSQL function collect_security.runtime_control_check_values(text,jsonb) line 27 at RAISE
+	SQL statement "SELECT collect_security.runtime_control_check_values(p_family,p_patch)"
+	PL/pgSQL function public.admin_update_runtime_control_v1(text,jsonb,jsonb,bigint,text) line 13 at PERFORM
+2026-10-01 18:37:28.277 UTC [3365] STATEMENT:  select public.admin_update_runtime_control_v1('sms_receipt_policies','{"collection_id": "99780000-0000-4000-8000-000000030001"}'::jsonb,'{"receipt_language": "\u00e9"}'::jsonb,2,'Synthetic unsupported language refusal');
+2026-10-01 18:37:35.090 UTC [3980] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.090 UTC [3980] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.090 UTC [3980] STATEMENT:  select collect_gateway_dispatch.segment_count('ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé');
+2026-10-01 18:37:35.149 UTC [3987] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.149 UTC [3987] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.149 UTC [3987] STATEMENT:  select collect_gateway_dispatch.segment_count('é');
+2026-10-01 18:37:35.201 UTC [3994] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.201 UTC [3994] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.201 UTC [3994] STATEMENT:  select collect_gateway_dispatch.segment_count('^');
+2026-10-01 18:37:35.259 UTC [4001] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.259 UTC [4001] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.259 UTC [4001] STATEMENT:  select collect_gateway_dispatch.segment_count('€');
+2026-10-01 18:37:35.336 UTC [4008] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.336 UTC [4008] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.336 UTC [4008] STATEMENT:  select collect_gateway_dispatch.segment_count('😀');
+2026-10-01 18:37:35.416 UTC [4015] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.416 UTC [4015] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.416 UTC [4015] STATEMENT:  select collect_gateway_dispatch.segment_count('
+	');
+2026-10-01 18:37:35.486 UTC [4022] ERROR:  gateway_dispatch_encoding_unsupported
+2026-10-01 18:37:35.486 UTC [4022] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.segment_count(text) line 2 at RAISE
+2026-10-01 18:37:35.486 UTC [4022] STATEMENT:  select collect_gateway_dispatch.segment_count('`');
+2026-10-01 18:37:35.544 UTC [4029] ERROR:  receipt_content_evidence_immutable
+2026-10-01 18:37:35.544 UTC [4029] CONTEXT:  PL/pgSQL function collect_receipt_policy.immutable_evidence() line 2 at RAISE
+2026-10-01 18:37:35.544 UTC [4029] STATEMENT:  update collect_receipt_policy.content_evidence set language='en' where outbox_id='5947d87a-13f6-4493-a187-3a8a47dc4cb3';
+2026-10-01 18:37:35.600 UTC [4036] ERROR:  receipt_content_evidence_immutable
+2026-10-01 18:37:35.600 UTC [4036] CONTEXT:  PL/pgSQL function collect_receipt_policy.immutable_evidence() line 2 at RAISE
+2026-10-01 18:37:35.600 UTC [4036] STATEMENT:  delete from collect_receipt_policy.content_evidence where outbox_id='5947d87a-13f6-4493-a187-3a8a47dc4cb3';
+2026-10-01 18:37:38.174 UTC [4315] ERROR:  gateway_dispatch_source_invalid
+2026-10-01 18:37:38.174 UTC [4315] CONTEXT:  PL/pgSQL function collect_gateway_dispatch.lock_source(uuid) line 18 at RAISE
+	SQL statement "SELECT collect_gateway_dispatch.lock_source(o.id)"
+	PL/pgSQL function public.gateway_arm_dispatch_v2(uuid,uuid,text,jsonb) line 32 at PERFORM
+2026-10-01 18:37:38.174 UTC [4315] STATEMENT:  select public.gateway_arm_dispatch_v2('c3e1aa09-12d0-4f48-aa5d-b6816d2b783a','3c27b902-1ce8-47b2-a381-fa22b7f98163','bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb','{"attempt_id": "c0e0d36e-4ddf-4879-a958-ac277030f001", "fence_version": 1, "body_sha256": "2d7179d98a17ce12ced7c463d5b994d9aad8284c321976f66640bc3895ee0847", "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2", "reservation_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "callbacks": [{"segment_index": 0, "sent_callback_id": "61872f1e-91eb-4065-919b-5fa2ccc7de79", "delivery_callback_id": "0e98d990-7d73-4ee6-84a2-cdb76b01b274"}]}'::jsonb);

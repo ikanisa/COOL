@@ -1,0 +1,102 @@
+--- reviewed-candidate1/verify_candidate_source.py
++++ new-candidate2/verify_candidate2_source.py
+@@ -12,10 +12,12 @@
+ from pathlib import Path
+ 
+ HERE=Path(__file__).resolve().parent
+-CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1')
++CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2')
+ PRISTINE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-authenticated-foundation-batch1')
+ INSTALLED=Path('/Volumes/PRO-G40/Development/Flutter/flutter')
+-WRITER_SHA='c8feb963d8e7cd361c4f4d2790c03ffa01ee3f14c6e64f8f26fd1389a0e3b432'
++FAILED_CANDIDATE=Path('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1')
++ADDITIONAL_PREVIEW_SHA='9a772be6d48982d3700aef3671179ddf2f55ce674891e75faf48f9c621f55a22'
++WRITER_SHA='6f06d64a491c74aa6076c8aa8bea158e58f1443588c126af9e41f6a455775549'
+ ADMISSION_SHA='9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749'
+ PREVIEW_SHA='e61d580116a7fb976733cbf7dc3ae6c6d3b927c5c0bb46f04511ba39e2e01f34'
+ GENERATED_ROOTS=('flutter/packages/flutter_tools/gradle/.gradle','flutter/packages/flutter_tools/gradle/.kotlin','flutter/packages/flutter_tools/gradle/build')
+@@ -25,8 +27,21 @@
+     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+ 
+ 
++def regular_identity(row):
++    # Access time may change from this read; every identity/content field is bound.
++    return (row.st_dev,row.st_ino,row.st_size,row.st_mtime_ns,row.st_ctime_ns,row.st_mode,row.st_nlink)
++
++
++def regular_read_fence(path,before,opened,completed):
++    try:named=path.lstat()
++    except FileNotFoundError as error:raise ValueError('regular reader named leaf disappeared') from error
++    expected=regular_identity(before)
++    if any(regular_identity(row)!=expected for row in (opened,completed,named)):
++        raise ValueError('regular reader final FD/named identity or content metadata race')
++
++
+ def anchors():
+-    writer=HERE/'authenticated_candidate_expansion.py'
++    writer=HERE/'authenticated_candidate2_expansion.py'
+     if sha(writer)!=WRITER_SHA: raise ValueError('exact reviewed derivative writer drift')
+     spec=importlib.util.spec_from_file_location('exact_candidate_writer',writer)
+     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+@@ -35,6 +50,25 @@
+     module.validate_exact_admission(admission)
+     if len(preview['files'])!=3 or preview['reviewed_patch_sha256']!='3b1e88e8291541a4a955eebe17fb576c05e2f1ef73fcc55b68d041c04256fe68':
+         raise ValueError('exact reviewed3 patch identity drift')
++    additional=module.exact_json(HERE.parent/'kotlin-sdk-task-compatibility-plan2/proposed-five-file-delta.json',ADDITIONAL_PREVIEW_SHA)
++    required={
++        'packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt',
++        'packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt',
++        'packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt',
++        'packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt',
++        'packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt',
++    }
++    if set(additional['files'])!=required or set(preview['files'])&required or additional['patch_SHA256']!='1e8afbbacd725d9f0578e69cff2c5c81f6c65a2ac00dca1a7c675c9097d4318e':
++        raise ValueError('not the exact reviewed five-file extension')
++    for name,row in additional['files'].items():
++        original=admission['members']['flutter/'+name]
++        if (row['before_bytes'],row['before_SHA256'])!=(original['bytes'],original['sha256']):
++            raise ValueError('additional reviewed source baseline differs from publisher admission')
++        preview['files'][name]={
++            'RAM_reconstructed_reviewed_after_bytes':row['after_bytes'],
++            'RAM_reconstructed_reviewed_after_sha256':row['RAM_proposed_after_SHA256'],
++        }
++    if len(preview['files'])!=8:raise ValueError('not exactly cumulative eight source deltas')
+     return module,admission,preview
+ 
+ 
+@@ -93,20 +127,21 @@
+                 if observation.st_nlink!=1:raise ValueError('candidate shares writable regular inode')
+                 total+=observation.st_size
+                 if observation.st_size>1024**3 or total>12*1024**3:raise ValueError('candidate expanded byte bound')
+-                for other_root in (PRISTINE,INSTALLED):
++                for other_root in (PRISTINE,INSTALLED,FAILED_CANDIDATE):
+                     other=other_root/path.relative_to(CANDIDATE)
+                     if other.exists() and other.is_file():
+                         previous=other.stat()
+                         if (observation.st_dev,observation.st_ino)==(previous.st_dev,previous.st_ino):
+-                            raise ValueError('candidate/pristine/installed shared inode')
++                            raise ValueError('candidate/pristine/installed/failed-candidate shared inode')
+                 digest=hashlib.sha256();crc=0;count=0
+                 fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
+                 with os.fdopen(fd,'rb') as stream:
+                     opened=os.fstat(stream.fileno())
+-                    if (opened.st_dev,opened.st_ino)!=(observation.st_dev,observation.st_ino):raise ValueError('physical reader identity race')
++                    if regular_identity(opened)!=regular_identity(observation):raise ValueError('physical reader identity race')
+                     for chunk in iter(lambda:stream.read(1024**2),b''):
+                         count+=len(chunk);digest.update(chunk);crc=zlib.crc32(chunk,crc)
+                         if count>observation.st_size:raise ValueError('candidate read byte overrun')
++                    regular_read_fence(path,observation,opened,os.fstat(stream.fileno()))
+                 if count!=observation.st_size:raise ValueError('candidate read length drift')
+                 actual_sha=digest.hexdigest()
+                 if row:
+@@ -133,8 +168,8 @@
+         return {'status':'EXACT_CANDIDATE_SOURCE_DELTA_AND_PHYSICAL_READBACK_PASS','phase':phase,'source_entries':len(source_seen),
+             'allowed_source_deltas':[] if phase=='pristine' else sorted(preview['files']),
+             'retained_publisher_members':len(rows),'generated_output_manifest':generated,'generated_roots_exact':GENERATED_ROOTS,
+-            'retained_physical_manifest':rows,'zero_pristine_installed_shared_inodes':True,'SDK_executed_by_verifier':False,
+-            'scope':'Exact physical/source/allowed3 delta and separately inventoried generated paths. No compiler/ABI/advisory/release acceptance.'}
++            'retained_physical_manifest':rows,'zero_pristine_installed_failed_candidate_shared_inodes':True,'SDK_executed_by_verifier':False,
++            'scope':'Exact physical/source/allowed8 delta and separately inventoried generated paths. No compiler/ABI/advisory/release acceptance.'}
+ 
+ 
+ if __name__=='__main__':

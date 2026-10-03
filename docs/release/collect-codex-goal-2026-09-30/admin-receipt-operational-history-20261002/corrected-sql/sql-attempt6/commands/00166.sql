@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+select not exists(select 1 from collect_receipt_operations.requests where request_id in(select md5('600-cost-request:'||i)::uuid from generate_series(1,60000)i));

@@ -63,9 +63,13 @@ cache_rules = {
   "/flutter_bootstrap.js" => "Cache-Control: no-cache",
   "/custom-sw.js" => "Cache-Control: no-cache",
   "/manifest.json" => "Cache-Control: no-cache",
-  "/main.dart.js" => "Cache-Control: public, max-age=31536000, immutable",
-  "/assets/*" => "Cache-Control: public, max-age=31536000, immutable",
-  "/icons/*" => "Cache-Control: public, max-age=31536000, immutable"
+  "/main.dart.js" => "Cache-Control: no-cache",
+  "/assets/*" => "Cache-Control: no-cache",
+  "/icons/*" => "Cache-Control: no-cache",
+  "/canvaskit/*" => "Cache-Control: no-cache",
+  "/flutter.js" => "Cache-Control: no-cache",
+  "/version.json" => "Cache-Control: no-cache",
+  "/_build/*" => "Cache-Control: public, max-age=31536000, immutable"
 }
 
 cache_rules.each do |route, rule|
@@ -79,6 +83,7 @@ cache_rules.each do |route, rule|
   next_route = next_headers.lines.drop(1).index { |line| line.start_with?("/") }
   route_block = next_route ? next_headers.lines.first(next_route + 1).join : next_headers
   failures << "_headers route #{route} must include #{rule}" unless route_block.include?(rule)
+  failures << "mutable route #{route} must not be immutable" if rule == "Cache-Control: no-cache" && route_block.downcase.include?("immutable")
 end
 
 if headers.match?(/Access-Control-Allow-Origin:\s*\*/i)

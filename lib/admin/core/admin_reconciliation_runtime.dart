@@ -79,14 +79,23 @@ bool _validReconciliationReview(Map<Object?, Object?> raw, String? paymentId) =>
     RegExp(r'^[0-9a-f]{64}$').hasMatch(raw['evidence_sha256'] as String) &&
     raw['proposed_by'] is String &&
     _reconciliationUuid.hasMatch(raw['proposed_by'] as String) &&
-    DateTime.tryParse('${raw['proposed_at']}') != null &&
-    DateTime.tryParse('${raw['occurred_at']}') != null &&
+    _reconciliationTimestamp(raw['proposed_at']) != null &&
+    _reconciliationTimestamp(raw['occurred_at']) != null &&
     (raw['approved_by'] == null ||
         (raw['approved_by'] is String &&
             _reconciliationUuid.hasMatch(raw['approved_by'] as String))) &&
     (raw['status'] != 'approved' ||
         (raw['approved_by'] != null &&
-            DateTime.tryParse('${raw['approved_at']}') != null));
+            _reconciliationTimestamp(raw['approved_at']) != null));
+
+DateTime? _reconciliationTimestamp(Object? value) {
+  if (value == null) return null;
+  try {
+    return exactJsonTimestamp(value, field: 'reconciliation timestamp');
+  } on FormatException {
+    return null;
+  }
+}
 
 String _reconciliationError(Object error) {
   if (error is AdminReconciliationStepUpException) return error.message;
@@ -596,8 +605,8 @@ class _AdminReconciliationPageState
     bool canWrite,
   ) {
     final now = ref.read(adminClockProvider)().toUtc();
-    final proposedAt = DateTime.tryParse('${review['proposed_at']}');
-    final approvedAt = DateTime.tryParse('${review['approved_at']}');
+    final proposedAt = _reconciliationTimestamp(review['proposed_at']);
+    final approvedAt = _reconciliationTimestamp(review['approved_at']);
     var status = '${review['status']}';
     if (status == 'proposed' || status == 'approved') {
       if (proposedAt == null ||
@@ -624,7 +633,9 @@ class _AdminReconciliationPageState
               'legacy_review_required' => 'New independent review required',
               _ => status.replaceAll('_', ' '),
             }),
-            Text('Evidence time: ${review['occurred_at']}'),
+            Text(
+              'Evidence time: ${adminKigaliDateTime(_reconciliationTimestamp(review['occurred_at']))}',
+            ),
             if (_history) Text('Payment: ${review['payment_id']}'),
             const SizedBox(height: 12),
             Wrap(
@@ -1148,15 +1159,5 @@ DateTime? _reconciliationUtc(String raw) {
   ).hasMatch(raw)) {
     return null;
   }
-  final parsed = DateTime.tryParse(raw);
-  if (parsed == null ||
-      parsed.year != int.parse(raw.substring(0, 4)) ||
-      parsed.month != int.parse(raw.substring(5, 7)) ||
-      parsed.day != int.parse(raw.substring(8, 10)) ||
-      parsed.hour != int.parse(raw.substring(11, 13)) ||
-      parsed.minute != int.parse(raw.substring(14, 16)) ||
-      parsed.second != int.parse(raw.substring(17, 19))) {
-    return null;
-  }
-  return parsed;
+  return _reconciliationTimestamp(raw);
 }

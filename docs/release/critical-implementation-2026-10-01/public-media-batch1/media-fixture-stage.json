@@ -1,0 +1,2724 @@
+{
+  "kind": "unapproved_current_media_fixture_source_stage",
+  "scope": "Complete maintained browser fixture source closure, plus four explicitly separate product-content review inputs. This is not a broad release export or full-app/source acceptance.",
+  "started_at_utc": "2026-10-01T22:16:36.065727+00:00",
+  "source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "destination": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1",
+  "copy_safety_tool": "scripts/qa/collect_release_candidate.py",
+  "copy_safety_tool_sha256": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+  "status": "pass",
+  "browser_sources_before": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    ".metadata": "b83a9f8e3ab7d34a92cb349fbf2d6e405527f0bf23e8d725a6d1b93ace3050d6",
+    "analysis_options.yaml": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+    "assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f",
+    "assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14",
+    "assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891",
+    "assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b",
+    "assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47",
+    "assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b",
+    "assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a",
+    "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14",
+    "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c",
+    "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7",
+    "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479",
+    "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849",
+    "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8",
+    "assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b",
+    "assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c",
+    "assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89",
+    "assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb",
+    "assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e",
+    "assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+    "assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344",
+    "assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22",
+    "assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89",
+    "assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c",
+    "assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd",
+    "assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23",
+    "assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0",
+    "assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b",
+    "assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3",
+    "assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa",
+    "assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676",
+    "assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3",
+    "assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1",
+    "assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9",
+    "assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799",
+    "assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8",
+    "assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949",
+    "assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa",
+    "assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc",
+    "assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725",
+    "assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a",
+    "assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf",
+    "assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9",
+    "assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3",
+    "assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63",
+    "assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e",
+    "assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1",
+    "assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496",
+    "assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85",
+    "assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58",
+    "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa",
+    "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae",
+    "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619",
+    "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685",
+    "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f",
+    "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4",
+    "assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2",
+    "assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319",
+    "assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843",
+    "assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3",
+    "assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1",
+    "assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de",
+    "assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a",
+    "assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4",
+    "assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4",
+    "assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695",
+    "assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff",
+    "assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347",
+    "assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67",
+    "assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75",
+    "assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9",
+    "assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6",
+    "assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4",
+    "assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2",
+    "assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e",
+    "assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854",
+    "assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72",
+    "assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f",
+    "assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41",
+    "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
+    "assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8",
+    "assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b",
+    "assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316",
+    "assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa",
+    "assets/marketing/rwanda/banking-together.png": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+    "assets/marketing/rwanda/community-savings.png": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+    "assets/marketing/rwanda/everyday-payments.png": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+    "assets/marketing/rwanda/kigali-hills.png": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+    "assets/marketing/rwanda/kigali-woman-hero.png": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+    "assets/marketing/rwanda/shared-goals.png": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "lib/app/app.dart": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_component_tokens.dart": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+    "lib/app/theme/collect_icons.dart": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/app/theme/collect_radius.dart": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+    "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+    "lib/app/theme/collect_runtime_tokens.dart": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+    "lib/app/theme/collect_runtime_typography.dart": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+    "lib/app/theme/collect_semantic_icons.dart": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "lib/app/theme/collect_theme_controller.dart": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "lib/core/notifications/collect_notification_service.dart": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+    "lib/core/payments/momo_ussd_intent_guard.dart": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+    "lib/core/payments/momo_ussd_launcher.dart": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+    "lib/core/payments/rwanda_momo_number.dart": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+    "lib/core/security/durable_sms_receipt.dart": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+    "lib/core/security/hash_utils.dart": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+    "lib/core/security/phone_normalizer.dart": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+    "lib/core/security/play_integrity_service.dart": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+    "lib/core/security/protected_snapshot_store.dart": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+    "lib/core/security/public_id_generator.dart": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+    "lib/core/security/sms_access_channel.dart": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+    "lib/core/supabase/auth_otp_gateway.dart": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+    "lib/core/supabase/browser_auth_memory.dart": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+    "lib/core/supabase/browser_auth_storage_stub.dart": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+    "lib/core/supabase/browser_auth_storage_web.dart": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+    "lib/core/supabase/realtime_invalidation.dart": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+    "lib/core/supabase/supabase_module.dart": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+    "lib/core/utils/date_format.dart": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+    "lib/core/utils/money_format.dart": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+    "lib/core/widgets/collect_shell.dart": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+    "lib/features/activity/activity_screen.dart": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+    "lib/features/auth/auth_screen.dart": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+    "lib/features/auth/widgets/auth_action_dock.dart": "a1262896d83c63944ba67e6faf4b45cb3cad7e7c945318bf1b138fd408a4adab",
+    "lib/features/auth/widgets/auth_identity_header.dart": "1d1db05f8df2ca89f7057cd1cd45ee4946d9f49543a9efb7cd61a8bd3b55567f",
+    "lib/features/auth/widgets/auth_input_panel.dart": "92248ae71bb0f498c03652a4faac289b730dd8d233f04577e182bc04f26f7ed4",
+    "lib/features/auth/widgets/auth_otp_entry.dart": "1d155f07ca839a62cdf28faa1263545b7cf03e363686d4c3980ec2604cd41d26",
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+    "lib/features/auth/widgets/auth_screen_widgets.dart": "298a82ba484c00576fabb0dd417dd9bcf83a5e7eeb9ca6ece4df3c76fe04e013",
+    "lib/features/collections/collection_create_screen.dart": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+    "lib/features/collections/collection_create_widgets.dart": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+    "lib/features/collections/collection_detail_screen.dart": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+    "lib/features/collections/collection_detail_timeline.dart": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+    "lib/features/collections/collection_manage_screen.dart": "3ff8b19c88b6f1ca0d8308bfb520da930c5e6543f93391aee73af9b7c5592b57",
+    "lib/features/collections/collections_screen.dart": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+    "lib/features/collections/group_creation_platform.dart": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+    "lib/features/collections/group_empty_state.dart": "b10f4238ac48551c5a621c59986ad7d785d8ea56033f6b5c74e6e59aa436e83b",
+    "lib/features/collections/group_invitation_transport.dart": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+    "lib/features/collections/group_link_screen.dart": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+    "lib/features/collections/group_profile_form_controls.dart": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+    "lib/features/collections/group_profile_media.dart": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d",
+    "lib/features/collections/group_profile_screen.dart": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+    "lib/features/collections/group_qr_scanner_screen.dart": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0",
+    "lib/features/collections/group_share_service.dart": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+    "lib/features/collections/share_screen.dart": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+    "lib/features/home/app_share_service.dart": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+    "lib/features/home/home_public_groups_section.dart": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+    "lib/features/home/home_screen.dart": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+    "lib/features/launch/launch_splash_screen.dart": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0",
+    "lib/features/ledger/ledger_screen.dart": "5a0ad3e21f3c1a53cdfc4ea1e66f21bbf161ab6bb9700b9107f254b88cbb7784",
+    "lib/features/payments/contribute_entry_screen.dart": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+    "lib/features/payments/contribution_amount_widgets.dart": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+    "lib/features/payments/contribution_flow_screen.dart": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+    "lib/features/profile/member_profile_gate.dart": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+    "lib/features/profile/profile_edit_screen.dart": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+    "lib/features/profile/profile_edit_widgets.dart": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+    "lib/features/settings/app_permissions_screen.dart": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+    "lib/features/settings/security_hub_header.dart": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/settings/settings_subscreens.dart": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/features/status/connection_recovery_screens.dart": "f3651a8fe3e9ed02da33df1c90a6a99310d19ed72afaee6b4237d92ba9e1174b",
+    "lib/features/status/group_members_screen.dart": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+    "lib/features/status/native_permission_sheets.dart": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+    "lib/features/status/production_state_screens.dart": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54",
+    "lib/l10n/collect_localizations.dart": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+    "lib/shared/models/collect_group_cover.dart": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+    "lib/shared/models/collect_group_cover_catalog.dart": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+    "lib/shared/models/collect_group_cover_catalog_community_projects.dart": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153",
+    "lib/shared/models/collect_group_cover_catalog_education.dart": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc",
+    "lib/shared/models/collect_group_cover_catalog_faith_giving.dart": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07",
+    "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+    "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538",
+    "lib/shared/models/collect_group_cover_catalog_sport_culture.dart": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689",
+    "lib/shared/models/collect_group_cover_catalog_weddings.dart": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91",
+    "lib/shared/models/collect_model_json_helpers.dart": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_payment_json.dart": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+    "lib/shared/models/collect_payment_models.dart": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/shared/models/collect_summary_json.dart": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+    "lib/shared/models/member_history_page.dart": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+    "lib/shared/providers/collect_app_state.dart": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+    "lib/shared/repositories/collect_invitation_protection.dart": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+    "lib/shared/repositories/collect_offline_cache.dart": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+    "lib/shared/repositories/collect_repository_group_actions.dart": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+    "lib/shared/repositories/collect_repository_helpers.dart": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+    "lib/shared/repositories/collect_repository_history.dart": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+    "lib/shared/repositories/collect_repository_live_reader.dart": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+    "lib/shared/repositories/collect_repository_notification_actions.dart": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+    "lib/shared/repositories/collect_repository_providers.dart": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+    "lib/shared/repositories/collect_repository_state.dart": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+    "lib/shared/repositories/pending_shared_group_intent_store.dart": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+    "lib/shared/repositories/runtime_control_contract.dart": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+    "lib/shared/utils/collect_haptics.dart": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+    "lib/shared/utils/collect_share_links.dart": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+    "lib/shared/utils/collect_share_origin.dart": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428",
+    "lib/shared/utils/support_contact.dart": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e",
+    "lib/shared/widgets/collect_action_controls.dart": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c",
+    "lib/shared/widgets/collect_bento_actions.dart": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_components.dart": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+    "lib/shared/widgets/collect_confirmation_sheet.dart": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+    "lib/shared/widgets/collect_data_load_failure.dart": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089",
+    "lib/shared/widgets/collect_display_primitives.dart": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+    "lib/shared/widgets/collect_feature_surfaces.dart": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+    "lib/shared/widgets/collect_financial_amount_entry.dart": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+    "lib/shared/widgets/collect_financial_components.dart": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465",
+    "lib/shared/widgets/collect_financial_ledger.dart": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+    "lib/shared/widgets/collect_financial_money.dart": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+    "lib/shared/widgets/collect_financial_payments.dart": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+    "lib/shared/widgets/collect_form_viewport.dart": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04",
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_group_card_editorial.dart": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+    "lib/shared/widgets/collect_group_card_media.dart": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+    "lib/shared/widgets/collect_group_card_metrics.dart": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+    "lib/shared/widgets/collect_group_cards.dart": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+    "lib/shared/widgets/collect_group_image.dart": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+    "lib/shared/widgets/collect_history_footer.dart": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+    "lib/shared/widgets/collect_inputs.dart": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+    "lib/shared/widgets/collect_selection_controls.dart": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5",
+    "lib/shared/widgets/collect_state_feedback.dart": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48",
+    "lib/shared/widgets/collect_state_illustrations.dart": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+    "lib/shared/widgets/collect_state_panels.dart": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6",
+    "lib/shared/widgets/collect_tone_icon.dart": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+    "lib/shared/widgets/screen_scaffold.dart": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "test/fixtures/collect_repository_fixture.dart": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/LICENSE": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee",
+    "third_party/file_saver/analysis_options.yaml": "0cc2260bd6bd5aa5d78a901f27a2df342ee74f7a253b4d7144c6b41b1edd9f92",
+    "third_party/file_saver/lib/file_saver.dart": "92459914f7c2a57eab55d08c80813d063d4c732799f3278ee544a7f94bc2a244",
+    "third_party/file_saver/lib/file_saver_web.dart": "2602d902c136fe145da6f9f774a750e2aa46786471af473cebcb97f3a1983dc2",
+    "third_party/file_saver/lib/src/models/file.model.dart": "88aee9aa67bc5c0face752e505fcadc8c015c357fc371206ba425bbc2ca114d7",
+    "third_party/file_saver/lib/src/models/link_details.dart": "05b9dc783cfafd6921256ffaf00dd7c6eed7ffd78281f2acc6fe3fc5ec0dba97",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler.dart": "57c7d37bea55110e7f8f15af2b813ed40275b52f75acd6c8cfabb13d9289b58b",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart": "4c169bfa6a1e908a7fed6b4e088734095f051b77bc92c212c5e962107b891f46",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_stub.dart": "af463964d47556991a592b8971c1bbd1a04cc59ceafe38fedc3446594bb59c33",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_web.dart": "02cff8bca0fb694c25d14018f216984766e4038d389a29b1b197e37ec799cc81",
+    "third_party/file_saver/lib/src/saver.dart": "bcb551f81e40b58331deb753e31c3572a6f675cde47f294c8eddaa845bcfce40",
+    "third_party/file_saver/lib/src/utils/file_ops_io.dart": "1c484dc3e5651073320d7a6f78b86f7d4a77c010376a71f7d24d23f7d46ab71a",
+    "third_party/file_saver/lib/src/utils/file_ops_stub.dart": "b8bb4b7eaa1ce62d185f5348cfcc6de089b674f761c8bbd1239e4502b789b707",
+    "third_party/file_saver/lib/src/utils/helpers.dart": "add266bcb58aed7f9244c5cfe440a70cdf35f091c53fcec6e465798b772988e0",
+    "third_party/file_saver/lib/src/utils/mime_types.dart": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+    "third_party/file_saver/lib/src/web_stream_saver_stub.dart": "16530a72352d193a0d5655a5f8c40cfa853bcbef63aa0db34b2fbdece2a56c8e",
+    "third_party/file_saver/lib/src/web_stream_saver_web.dart": "74ad39b107188d6b79000b48e19ebb0f70a3b19db4b0ac6ab108ee999084e1ec",
+    "third_party/file_saver/pubspec.yaml": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+    "third_party/firebase_messaging/COLLECT_FORK.md": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
+    "third_party/firebase_messaging/LICENSE": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8",
+    "third_party/firebase_messaging/UPSTREAM-SHA256.json": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+    "third_party/firebase_messaging/analysis_options.yaml": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19",
+    "third_party/firebase_messaging/lib/firebase_messaging.dart": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba",
+    "third_party/firebase_messaging/lib/src/messaging.dart": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed",
+    "third_party/firebase_messaging/pubspec.yaml": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+    "third_party/gotrue/COLLECT_FORK.md": "bab0d899d903ab6752219c6f804515fbdf5df0ad29569066d1027d231af569d3",
+    "third_party/gotrue/LICENSE": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+    "third_party/gotrue/UPSTREAM-SHA256.json": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+    "third_party/gotrue/analysis_options.yaml": "b2162ecbaf6dffb85075e46e8dd89bfe359a1f5e7803ee5a7ca41ae07cd3af7a",
+    "third_party/gotrue/lib/gotrue.dart": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d",
+    "third_party/gotrue/lib/src/broadcast_stub.dart": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513",
+    "third_party/gotrue/lib/src/broadcast_web.dart": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+    "third_party/gotrue/lib/src/collect_browser_invalidation.dart": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+    "third_party/gotrue/lib/src/constants.dart": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8",
+    "third_party/gotrue/lib/src/fetch.dart": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8",
+    "third_party/gotrue/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+    "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4",
+    "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2",
+    "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f",
+    "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1",
+    "third_party/gotrue/lib/src/gotrue_client.dart": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+    "third_party/gotrue/lib/src/gotrue_mfa_api.dart": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+    "third_party/gotrue/lib/src/gotrue_oauth_api.dart": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de",
+    "third_party/gotrue/lib/src/gotrue_passkey_api.dart": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf",
+    "third_party/gotrue/lib/src/helper.dart": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3",
+    "third_party/gotrue/lib/src/types/api_version.dart": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac",
+    "third_party/gotrue/lib/src/types/auth_exception.dart": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa",
+    "third_party/gotrue/lib/src/types/auth_response.dart": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102",
+    "third_party/gotrue/lib/src/types/auth_state.dart": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a",
+    "third_party/gotrue/lib/src/types/custom_oauth_provider.dart": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde",
+    "third_party/gotrue/lib/src/types/error_code.dart": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15",
+    "third_party/gotrue/lib/src/types/fetch_options.dart": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc",
+    "third_party/gotrue/lib/src/types/gotrue_async_storage.dart": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019",
+    "third_party/gotrue/lib/src/types/jwt.dart": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd",
+    "third_party/gotrue/lib/src/types/mfa.dart": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd",
+    "third_party/gotrue/lib/src/types/passkey.dart": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd",
+    "third_party/gotrue/lib/src/types/session.dart": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34",
+    "third_party/gotrue/lib/src/types/sign_out_reason.dart": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1",
+    "third_party/gotrue/lib/src/types/types.dart": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d",
+    "third_party/gotrue/lib/src/types/user.dart": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343",
+    "third_party/gotrue/lib/src/types/user_attributes.dart": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20",
+    "third_party/gotrue/lib/src/version.dart": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598",
+    "third_party/gotrue/pubspec.yaml": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd",
+    "tool/public_app_media_capture.dart": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/manifest.json": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+    "web/public/layout.css": "c692877603aa32f2ae804f47ec2e1f1a4a78c20e34235b094b49b93ccfe0e41c",
+    "web/public/photography/banking-together-4b392d8a72b7.webp": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+    "web/public/photography/community-savings-acf6c9fee7c7.webp": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa",
+    "web/public/photography/everyday-payments-3aae7f653287.webp": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46",
+    "web/public/photography/kigali-hills-72bbebc09878.webp": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5",
+    "web/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761",
+    "web/public/photography/manifest.json": "9c4ec7255e5af56b8b33219cea9bf0b9f821c23eacfcfe6c6bfbe2644d8e92dc",
+    "web/public/photography/shared-goals-dd2861c45187.webp": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170",
+    "web/public/revolut.css": "15236feb0a5111b49d32048bc684db02041190dbacf0f846ccb47ac857637e69",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+  },
+  "support_inputs": [
+    "content/product/collect_capabilities.json",
+    "scripts/product_capabilities.rb",
+    "scripts/generate_product_capability_content.rb",
+    "scripts/public_static_site_build.rb"
+  ],
+  "source_files": {
+    ".fvmrc": {
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+      "bytes": 26,
+      "mode": 448
+    },
+    ".metadata": {
+      "sha256": "b83a9f8e3ab7d34a92cb349fbf2d6e405527f0bf23e8d725a6d1b93ace3050d6",
+      "bytes": 964,
+      "mode": 448
+    },
+    "analysis_options.yaml": {
+      "sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+      "bytes": 1156,
+      "mode": 448
+    },
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": {
+      "sha256": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+      "bytes": 103231,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": {
+      "sha256": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+      "bytes": 98740,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": {
+      "sha256": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f",
+      "bytes": 151124,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": {
+      "sha256": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14",
+      "bytes": 69836,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": {
+      "sha256": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891",
+      "bytes": 133052,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": {
+      "sha256": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b",
+      "bytes": 107440,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": {
+      "sha256": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47",
+      "bytes": 117548,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": {
+      "sha256": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b",
+      "bytes": 92776,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": {
+      "sha256": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a",
+      "bytes": 77186,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": {
+      "sha256": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14",
+      "bytes": 141452,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "sha256": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c",
+      "bytes": 103282,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": {
+      "sha256": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7",
+      "bytes": 68962,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": {
+      "sha256": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479",
+      "bytes": 105844,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": {
+      "sha256": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849",
+      "bytes": 110826,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": {
+      "sha256": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8",
+      "bytes": 110940,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": {
+      "sha256": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b",
+      "bytes": 92366,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": {
+      "sha256": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c",
+      "bytes": 125592,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": {
+      "sha256": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89",
+      "bytes": 65894,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": {
+      "sha256": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb",
+      "bytes": 84244,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": {
+      "sha256": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e",
+      "bytes": 71940,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": {
+      "sha256": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+      "bytes": 91120,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": {
+      "sha256": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344",
+      "bytes": 51958,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": {
+      "sha256": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22",
+      "bytes": 85336,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": {
+      "sha256": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89",
+      "bytes": 57468,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": {
+      "sha256": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c",
+      "bytes": 112830,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": {
+      "sha256": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd",
+      "bytes": 64730,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": {
+      "sha256": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23",
+      "bytes": 50120,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": {
+      "sha256": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0",
+      "bytes": 80510,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": {
+      "sha256": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b",
+      "bytes": 85256,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": {
+      "sha256": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3",
+      "bytes": 74162,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": {
+      "sha256": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa",
+      "bytes": 87730,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": {
+      "sha256": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676",
+      "bytes": 124558,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": {
+      "sha256": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3",
+      "bytes": 160882,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": {
+      "sha256": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1",
+      "bytes": 109146,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": {
+      "sha256": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9",
+      "bytes": 172526,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": {
+      "sha256": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799",
+      "bytes": 90216,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": {
+      "sha256": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8",
+      "bytes": 104332,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": {
+      "sha256": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949",
+      "bytes": 94484,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "sha256": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa",
+      "bytes": 77456,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": {
+      "sha256": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc",
+      "bytes": 128152,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": {
+      "sha256": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725",
+      "bytes": 87056,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": {
+      "sha256": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a",
+      "bytes": 82244,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": {
+      "sha256": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf",
+      "bytes": 76306,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": {
+      "sha256": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9",
+      "bytes": 10758,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": {
+      "sha256": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3",
+      "bytes": 13022,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": {
+      "sha256": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63",
+      "bytes": 8668,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": {
+      "sha256": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e",
+      "bytes": 11900,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": {
+      "sha256": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1",
+      "bytes": 9242,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": {
+      "sha256": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496",
+      "bytes": 9352,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": {
+      "sha256": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85",
+      "bytes": 8624,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": {
+      "sha256": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58",
+      "bytes": 9004,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": {
+      "sha256": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa",
+      "bytes": 13522,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": {
+      "sha256": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae",
+      "bytes": 11292,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": {
+      "sha256": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619",
+      "bytes": 8522,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": {
+      "sha256": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685",
+      "bytes": 12380,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": {
+      "sha256": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f",
+      "bytes": 10590,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": {
+      "sha256": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4",
+      "bytes": 10680,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": {
+      "sha256": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2",
+      "bytes": 9006,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": {
+      "sha256": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319",
+      "bytes": 9336,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": {
+      "sha256": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843",
+      "bytes": 7944,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": {
+      "sha256": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3",
+      "bytes": 9264,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": {
+      "sha256": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1",
+      "bytes": 9256,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": {
+      "sha256": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de",
+      "bytes": 8782,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": {
+      "sha256": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a",
+      "bytes": 7454,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": {
+      "sha256": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4",
+      "bytes": 9740,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": {
+      "sha256": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4",
+      "bytes": 7082,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": {
+      "sha256": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695",
+      "bytes": 10960,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": {
+      "sha256": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff",
+      "bytes": 7146,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": {
+      "sha256": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347",
+      "bytes": 6796,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": {
+      "sha256": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67",
+      "bytes": 9166,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": {
+      "sha256": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75",
+      "bytes": 7750,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": {
+      "sha256": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9",
+      "bytes": 8956,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": {
+      "sha256": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6",
+      "bytes": 9474,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": {
+      "sha256": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4",
+      "bytes": 10434,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": {
+      "sha256": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2",
+      "bytes": 12170,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": {
+      "sha256": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e",
+      "bytes": 9182,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": {
+      "sha256": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854",
+      "bytes": 14456,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": {
+      "sha256": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72",
+      "bytes": 9408,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": {
+      "sha256": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f",
+      "bytes": 11604,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": {
+      "sha256": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41",
+      "bytes": 9132,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": {
+      "sha256": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
+      "bytes": 7628,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": {
+      "sha256": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8",
+      "bytes": 12852,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": {
+      "sha256": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b",
+      "bytes": 10896,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": {
+      "sha256": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316",
+      "bytes": 7966,
+      "mode": 448
+    },
+    "assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": {
+      "sha256": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa",
+      "bytes": 9740,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/banking-together.png": {
+      "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+      "bytes": 2166126,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/community-savings.png": {
+      "sha256": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+      "bytes": 2426242,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/everyday-payments.png": {
+      "sha256": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+      "bytes": 1941761,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/kigali-hills.png": {
+      "sha256": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+      "bytes": 1897870,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/kigali-woman-hero.png": {
+      "sha256": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+      "bytes": 668684,
+      "mode": 448
+    },
+    "assets/marketing/rwanda/shared-goals.png": {
+      "sha256": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+      "bytes": 2159060,
+      "mode": 448
+    },
+    "assets/typefaces/AeonikPro-Medium.ttf": {
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+      "bytes": 159752,
+      "mode": 420
+    },
+    "assets/typefaces/AeonikPro-Regular.ttf": {
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+      "bytes": 134268,
+      "mode": 420
+    },
+    "assets/typefaces/Inter-Variable.ttf": {
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "bytes": 876576,
+      "mode": 448
+    },
+    "assets/typefaces/OFL-Inter.txt": {
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+      "bytes": 4377,
+      "mode": 448
+    },
+    "content/product/collect_capabilities.json": {
+      "sha256": "e96543eb223285105954d38b6e31a6d1d2dec4e621f70bc4e512c4e7f4bbffcd",
+      "bytes": 46754,
+      "mode": 420
+    },
+    "lib/app/app.dart": {
+      "sha256": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+      "bytes": 16133,
+      "mode": 448
+    },
+    "lib/app/env/app_env.dart": {
+      "sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+      "bytes": 2173,
+      "mode": 448
+    },
+    "lib/app/router.dart": {
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "bytes": 22095,
+      "mode": 448
+    },
+    "lib/app/theme/app_theme.dart": {
+      "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+      "bytes": 365,
+      "mode": 448
+    },
+    "lib/app/theme/collect_colors.dart": {
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+      "bytes": 15171,
+      "mode": 448
+    },
+    "lib/app/theme/collect_component_tokens.dart": {
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+      "bytes": 3980,
+      "mode": 448
+    },
+    "lib/app/theme/collect_icons.dart": {
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+      "bytes": 2698,
+      "mode": 448
+    },
+    "lib/app/theme/collect_motion.dart": {
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+      "bytes": 769,
+      "mode": 448
+    },
+    "lib/app/theme/collect_radius.dart": {
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+      "bytes": 863,
+      "mode": 448
+    },
+    "lib/app/theme/collect_runtime_assets.dart": {
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+      "bytes": 894,
+      "mode": 448
+    },
+    "lib/app/theme/collect_runtime_tokens.dart": {
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+      "bytes": 8988,
+      "mode": 448
+    },
+    "lib/app/theme/collect_runtime_typography.dart": {
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+      "bytes": 581,
+      "mode": 448
+    },
+    "lib/app/theme/collect_semantic_icons.dart": {
+      "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8",
+      "bytes": 1434,
+      "mode": 448
+    },
+    "lib/app/theme/collect_spacing.dart": {
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+      "bytes": 1454,
+      "mode": 448
+    },
+    "lib/app/theme/collect_theme.dart": {
+      "sha256": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+      "bytes": 14130,
+      "mode": 448
+    },
+    "lib/app/theme/collect_theme_controller.dart": {
+      "sha256": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4",
+      "bytes": 2185,
+      "mode": 448
+    },
+    "lib/app/theme/collect_typography.dart": {
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+      "bytes": 8038,
+      "mode": 448
+    },
+    "lib/app/theme/collect_universal_tokens.dart": {
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+      "bytes": 8012,
+      "mode": 448
+    },
+    "lib/core/data/exact_json_values.dart": {
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+      "bytes": 3650,
+      "mode": 420
+    },
+    "lib/core/notifications/collect_notification_service.dart": {
+      "sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+      "bytes": 29313,
+      "mode": 448
+    },
+    "lib/core/payments/momo_ussd_intent_guard.dart": {
+      "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+      "bytes": 1342,
+      "mode": 420
+    },
+    "lib/core/payments/momo_ussd_launcher.dart": {
+      "sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+      "bytes": 1109,
+      "mode": 448
+    },
+    "lib/core/payments/rwanda_momo_number.dart": {
+      "sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+      "bytes": 972,
+      "mode": 448
+    },
+    "lib/core/security/durable_sms_receipt.dart": {
+      "sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+      "bytes": 1934,
+      "mode": 420
+    },
+    "lib/core/security/hash_utils.dart": {
+      "sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+      "bytes": 336,
+      "mode": 448
+    },
+    "lib/core/security/phone_normalizer.dart": {
+      "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+      "bytes": 917,
+      "mode": 448
+    },
+    "lib/core/security/play_integrity_service.dart": {
+      "sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+      "bytes": 5802,
+      "mode": 448
+    },
+    "lib/core/security/protected_snapshot_store.dart": {
+      "sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+      "bytes": 1852,
+      "mode": 420
+    },
+    "lib/core/security/public_id_generator.dart": {
+      "sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+      "bytes": 444,
+      "mode": 448
+    },
+    "lib/core/security/sms_access_channel.dart": {
+      "sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+      "bytes": 6900,
+      "mode": 448
+    },
+    "lib/core/supabase/auth_otp_gateway.dart": {
+      "sha256": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+      "bytes": 1225,
+      "mode": 448
+    },
+    "lib/core/supabase/browser_auth_memory.dart": {
+      "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+      "bytes": 935,
+      "mode": 420
+    },
+    "lib/core/supabase/browser_auth_storage_stub.dart": {
+      "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+      "bytes": 78,
+      "mode": 420
+    },
+    "lib/core/supabase/browser_auth_storage_web.dart": {
+      "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+      "bytes": 907,
+      "mode": 420
+    },
+    "lib/core/supabase/realtime_invalidation.dart": {
+      "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+      "bytes": 7232,
+      "mode": 448
+    },
+    "lib/core/supabase/supabase_module.dart": {
+      "sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+      "bytes": 2038,
+      "mode": 448
+    },
+    "lib/core/utils/date_format.dart": {
+      "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+      "bytes": 445,
+      "mode": 448
+    },
+    "lib/core/utils/money_format.dart": {
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+      "bytes": 1421,
+      "mode": 448
+    },
+    "lib/core/widgets/collect_shell.dart": {
+      "sha256": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+      "bytes": 12465,
+      "mode": 448
+    },
+    "lib/features/activity/activity_screen.dart": {
+      "sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+      "bytes": 10774,
+      "mode": 448
+    },
+    "lib/features/auth/auth_screen.dart": {
+      "sha256": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+      "bytes": 13541,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_action_dock.dart": {
+      "sha256": "a1262896d83c63944ba67e6faf4b45cb3cad7e7c945318bf1b138fd408a4adab",
+      "bytes": 6541,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_identity_header.dart": {
+      "sha256": "1d1db05f8df2ca89f7057cd1cd45ee4946d9f49543a9efb7cd61a8bd3b55567f",
+      "bytes": 2463,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_input_panel.dart": {
+      "sha256": "92248ae71bb0f498c03652a4faac289b730dd8d233f04577e182bc04f26f7ed4",
+      "bytes": 7908,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_otp_entry.dart": {
+      "sha256": "1d155f07ca839a62cdf28faa1263545b7cf03e363686d4c3980ec2604cd41d26",
+      "bytes": 2466,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": {
+      "sha256": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+      "bytes": 4008,
+      "mode": 448
+    },
+    "lib/features/auth/widgets/auth_screen_widgets.dart": {
+      "sha256": "298a82ba484c00576fabb0dd417dd9bcf83a5e7eeb9ca6ece4df3c76fe04e013",
+      "bytes": 388,
+      "mode": 448
+    },
+    "lib/features/collections/collection_create_screen.dart": {
+      "sha256": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+      "bytes": 11390,
+      "mode": 448
+    },
+    "lib/features/collections/collection_create_widgets.dart": {
+      "sha256": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+      "bytes": 8686,
+      "mode": 448
+    },
+    "lib/features/collections/collection_detail_screen.dart": {
+      "sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+      "bytes": 7816,
+      "mode": 448
+    },
+    "lib/features/collections/collection_detail_timeline.dart": {
+      "sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+      "bytes": 4519,
+      "mode": 448
+    },
+    "lib/features/collections/collection_manage_screen.dart": {
+      "sha256": "3ff8b19c88b6f1ca0d8308bfb520da930c5e6543f93391aee73af9b7c5592b57",
+      "bytes": 15486,
+      "mode": 448
+    },
+    "lib/features/collections/collections_screen.dart": {
+      "sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+      "bytes": 11651,
+      "mode": 448
+    },
+    "lib/features/collections/group_creation_platform.dart": {
+      "sha256": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+      "bytes": 2597,
+      "mode": 448
+    },
+    "lib/features/collections/group_empty_state.dart": {
+      "sha256": "b10f4238ac48551c5a621c59986ad7d785d8ea56033f6b5c74e6e59aa436e83b",
+      "bytes": 2676,
+      "mode": 448
+    },
+    "lib/features/collections/group_invitation_transport.dart": {
+      "sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+      "bytes": 4015,
+      "mode": 420
+    },
+    "lib/features/collections/group_link_screen.dart": {
+      "sha256": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+      "bytes": 11402,
+      "mode": 448
+    },
+    "lib/features/collections/group_profile_form_controls.dart": {
+      "sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+      "bytes": 7926,
+      "mode": 448
+    },
+    "lib/features/collections/group_profile_media.dart": {
+      "sha256": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d",
+      "bytes": 5303,
+      "mode": 448
+    },
+    "lib/features/collections/group_profile_screen.dart": {
+      "sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+      "bytes": 10288,
+      "mode": 448
+    },
+    "lib/features/collections/group_qr_scanner_screen.dart": {
+      "sha256": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0",
+      "bytes": 17300,
+      "mode": 448
+    },
+    "lib/features/collections/group_share_service.dart": {
+      "sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+      "bytes": 4576,
+      "mode": 448
+    },
+    "lib/features/collections/share_screen.dart": {
+      "sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+      "bytes": 20041,
+      "mode": 448
+    },
+    "lib/features/home/app_share_service.dart": {
+      "sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+      "bytes": 1797,
+      "mode": 448
+    },
+    "lib/features/home/home_public_groups_section.dart": {
+      "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+      "bytes": 2868,
+      "mode": 448
+    },
+    "lib/features/home/home_screen.dart": {
+      "sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+      "bytes": 7555,
+      "mode": 448
+    },
+    "lib/features/launch/launch_splash_screen.dart": {
+      "sha256": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0",
+      "bytes": 675,
+      "mode": 448
+    },
+    "lib/features/ledger/ledger_screen.dart": {
+      "sha256": "5a0ad3e21f3c1a53cdfc4ea1e66f21bbf161ab6bb9700b9107f254b88cbb7784",
+      "bytes": 14875,
+      "mode": 448
+    },
+    "lib/features/payments/contribute_entry_screen.dart": {
+      "sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+      "bytes": 6771,
+      "mode": 448
+    },
+    "lib/features/payments/contribution_amount_widgets.dart": {
+      "sha256": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+      "bytes": 6129,
+      "mode": 420
+    },
+    "lib/features/payments/contribution_flow_screen.dart": {
+      "sha256": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+      "bytes": 28855,
+      "mode": 448
+    },
+    "lib/features/profile/member_profile_gate.dart": {
+      "sha256": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+      "bytes": 783,
+      "mode": 448
+    },
+    "lib/features/profile/profile_edit_screen.dart": {
+      "sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+      "bytes": 13512,
+      "mode": 448
+    },
+    "lib/features/profile/profile_edit_widgets.dart": {
+      "sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+      "bytes": 9884,
+      "mode": 448
+    },
+    "lib/features/settings/app_permissions_screen.dart": {
+      "sha256": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+      "bytes": 11748,
+      "mode": 448
+    },
+    "lib/features/settings/security_hub_header.dart": {
+      "sha256": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+      "bytes": 4217,
+      "mode": 420
+    },
+    "lib/features/settings/settings_screen.dart": {
+      "sha256": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+      "bytes": 8054,
+      "mode": 448
+    },
+    "lib/features/settings/settings_subscreens.dart": {
+      "sha256": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+      "bytes": 33511,
+      "mode": 448
+    },
+    "lib/features/status/account_legal_screens.dart": {
+      "sha256": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+      "bytes": 12790,
+      "mode": 448
+    },
+    "lib/features/status/connection_recovery_screens.dart": {
+      "sha256": "f3651a8fe3e9ed02da33df1c90a6a99310d19ed72afaee6b4237d92ba9e1174b",
+      "bytes": 8096,
+      "mode": 448
+    },
+    "lib/features/status/group_members_screen.dart": {
+      "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+      "bytes": 17113,
+      "mode": 448
+    },
+    "lib/features/status/native_permission_sheets.dart": {
+      "sha256": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+      "bytes": 9432,
+      "mode": 448
+    },
+    "lib/features/status/production_state_screens.dart": {
+      "sha256": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54",
+      "bytes": 116,
+      "mode": 448
+    },
+    "lib/l10n/collect_localizations.dart": {
+      "sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+      "bytes": 3448,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover.dart": {
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+      "bytes": 4633,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog.dart": {
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+      "bytes": 1536,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_community_projects.dart": {
+      "sha256": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153",
+      "bytes": 2749,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_education.dart": {
+      "sha256": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc",
+      "bytes": 2687,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_faith_giving.dart": {
+      "sha256": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07",
+      "bytes": 4640,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart": {
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+      "bytes": 4138,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart": {
+      "sha256": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538",
+      "bytes": 5977,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_sport_culture.dart": {
+      "sha256": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689",
+      "bytes": 3889,
+      "mode": 448
+    },
+    "lib/shared/models/collect_group_cover_catalog_weddings.dart": {
+      "sha256": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91",
+      "bytes": 3646,
+      "mode": 448
+    },
+    "lib/shared/models/collect_model_json_helpers.dart": {
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+      "bytes": 1332,
+      "mode": 448
+    },
+    "lib/shared/models/collect_models.dart": {
+      "sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+      "bytes": 39421,
+      "mode": 448
+    },
+    "lib/shared/models/collect_payment_json.dart": {
+      "sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+      "bytes": 2193,
+      "mode": 420
+    },
+    "lib/shared/models/collect_payment_models.dart": {
+      "sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+      "bytes": 7307,
+      "mode": 448
+    },
+    "lib/shared/models/collect_profile_country_rules.dart": {
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+      "bytes": 893,
+      "mode": 448
+    },
+    "lib/shared/models/collect_summary_json.dart": {
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+      "bytes": 1961,
+      "mode": 420
+    },
+    "lib/shared/models/member_history_page.dart": {
+      "sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+      "bytes": 10556,
+      "mode": 448
+    },
+    "lib/shared/providers/collect_app_state.dart": {
+      "sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+      "bytes": 12586,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_invitation_protection.dart": {
+      "sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+      "bytes": 2853,
+      "mode": 420
+    },
+    "lib/shared/repositories/collect_offline_cache.dart": {
+      "sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+      "bytes": 20079,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository.dart": {
+      "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+      "bytes": 38608,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": {
+      "sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+      "bytes": 26521,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_group_actions.dart": {
+      "sha256": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+      "bytes": 17657,
+      "mode": 420
+    },
+    "lib/shared/repositories/collect_repository_helpers.dart": {
+      "sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+      "bytes": 1087,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_history.dart": {
+      "sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+      "bytes": 4720,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_live_reader.dart": {
+      "sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+      "bytes": 10426,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_notification_actions.dart": {
+      "sha256": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+      "bytes": 11648,
+      "mode": 420
+    },
+    "lib/shared/repositories/collect_repository_providers.dart": {
+      "sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+      "bytes": 7665,
+      "mode": 448
+    },
+    "lib/shared/repositories/collect_repository_state.dart": {
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+      "bytes": 4188,
+      "mode": 448
+    },
+    "lib/shared/repositories/pending_shared_group_intent_store.dart": {
+      "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+      "bytes": 9185,
+      "mode": 448
+    },
+    "lib/shared/repositories/runtime_control_contract.dart": {
+      "sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+      "bytes": 3678,
+      "mode": 420
+    },
+    "lib/shared/utils/collect_haptics.dart": {
+      "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+      "bytes": 365,
+      "mode": 448
+    },
+    "lib/shared/utils/collect_share_links.dart": {
+      "sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+      "bytes": 796,
+      "mode": 448
+    },
+    "lib/shared/utils/collect_share_origin.dart": {
+      "sha256": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428",
+      "bytes": 502,
+      "mode": 448
+    },
+    "lib/shared/utils/support_contact.dart": {
+      "sha256": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e",
+      "bytes": 692,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_action_controls.dart": {
+      "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c",
+      "bytes": 7194,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_bento_actions.dart": {
+      "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6",
+      "bytes": 11061,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_chrome.dart": {
+      "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+      "bytes": 624,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_components.dart": {
+      "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+      "bytes": 1487,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_confirmation_sheet.dart": {
+      "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+      "bytes": 3727,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_data_load_failure.dart": {
+      "sha256": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089",
+      "bytes": 829,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_display_primitives.dart": {
+      "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+      "bytes": 8515,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_feature_surfaces.dart": {
+      "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+      "bytes": 6498,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_financial_amount_entry.dart": {
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+      "bytes": 14083,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_financial_components.dart": {
+      "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465",
+      "bytes": 771,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_financial_ledger.dart": {
+      "sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+      "bytes": 5148,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_financial_money.dart": {
+      "sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+      "bytes": 12649,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_financial_payments.dart": {
+      "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+      "bytes": 1617,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_form_viewport.dart": {
+      "sha256": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04",
+      "bytes": 1910,
+      "mode": 420
+    },
+    "lib/shared/widgets/collect_foundation.dart": {
+      "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+      "bytes": 18892,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_card_editorial.dart": {
+      "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+      "bytes": 7305,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_card_media.dart": {
+      "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+      "bytes": 3752,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_card_metrics.dart": {
+      "sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+      "bytes": 5029,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_cards.dart": {
+      "sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+      "bytes": 9574,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_image.dart": {
+      "sha256": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+      "bytes": 1763,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_group_photo_picker.dart": {
+      "sha256": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+      "bytes": 22034,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_history_footer.dart": {
+      "sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+      "bytes": 1417,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_inputs.dart": {
+      "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a",
+      "bytes": 5271,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_loading_surfaces.dart": {
+      "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+      "bytes": 19526,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_scaffold_chrome.dart": {
+      "sha256": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+      "bytes": 30301,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_selection_controls.dart": {
+      "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5",
+      "bytes": 1575,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_state_feedback.dart": {
+      "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48",
+      "bytes": 7939,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_state_illustrations.dart": {
+      "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+      "bytes": 3298,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_state_panels.dart": {
+      "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6",
+      "bytes": 641,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_tone_icon.dart": {
+      "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a",
+      "bytes": 1695,
+      "mode": 448
+    },
+    "lib/shared/widgets/collect_top_chrome.dart": {
+      "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+      "bytes": 9407,
+      "mode": 448
+    },
+    "lib/shared/widgets/screen_scaffold.dart": {
+      "sha256": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+      "bytes": 1989,
+      "mode": 448
+    },
+    "pubspec.lock": {
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "bytes": 39236,
+      "mode": 448
+    },
+    "pubspec.yaml": {
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+      "bytes": 2425,
+      "mode": 448
+    },
+    "scripts/generate_product_capability_content.rb": {
+      "sha256": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d",
+      "bytes": 4859,
+      "mode": 420
+    },
+    "scripts/product_capabilities.rb": {
+      "sha256": "b9db797bb819357becee5c206c79d153d9ec43cf8cd809db91597d3d50b67754",
+      "bytes": 8324,
+      "mode": 420
+    },
+    "scripts/public_app_media.rb": {
+      "sha256": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+      "bytes": 25267,
+      "mode": 448
+    },
+    "scripts/public_static_site_build.rb": {
+      "sha256": "8c8010c1521171eb49bfe2f4de59d78425a2cd1ea64dd8bc5085c2d8f86a3e47",
+      "bytes": 80929,
+      "mode": 448
+    },
+    "scripts/qa/asset_manifest_integrity.rb": {
+      "sha256": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+      "bytes": 9379,
+      "mode": 420
+    },
+    "test/fixtures/collect_repository_fixture.dart": {
+      "sha256": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+      "bytes": 8347,
+      "mode": 448
+    },
+    "third_party/file_saver/COLLECT_FORK.md": {
+      "sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+      "bytes": 5239,
+      "mode": 448
+    },
+    "third_party/file_saver/LICENSE": {
+      "sha256": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee",
+      "bytes": 1521,
+      "mode": 448
+    },
+    "third_party/file_saver/analysis_options.yaml": {
+      "sha256": "0cc2260bd6bd5aa5d78a901f27a2df342ee74f7a253b4d7144c6b41b1edd9f92",
+      "bytes": 92,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/file_saver.dart": {
+      "sha256": "92459914f7c2a57eab55d08c80813d063d4c732799f3278ee544a7f94bc2a244",
+      "bytes": 10577,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/file_saver_web.dart": {
+      "sha256": "2602d902c136fe145da6f9f774a750e2aa46786471af473cebcb97f3a1983dc2",
+      "bytes": 5912,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/models/file.model.dart": {
+      "sha256": "88aee9aa67bc5c0face752e505fcadc8c015c357fc371206ba425bbc2ca114d7",
+      "bytes": 1816,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/models/link_details.dart": {
+      "sha256": "05b9dc783cfafd6921256ffaf00dd7c6eed7ffd78281f2acc6fe3fc5ec0dba97",
+      "bytes": 1283,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/platform_handler/platform_handler.dart": {
+      "sha256": "57c7d37bea55110e7f8f15af2b813ed40275b52f75acd6c8cfabb13d9289b58b",
+      "bytes": 732,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart": {
+      "sha256": "4c169bfa6a1e908a7fed6b4e088734095f051b77bc92c212c5e962107b891f46",
+      "bytes": 3160,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_stub.dart": {
+      "sha256": "af463964d47556991a592b8971c1bbd1a04cc59ceafe38fedc3446594bb59c33",
+      "bytes": 173,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_web.dart": {
+      "sha256": "02cff8bca0fb694c25d14018f216984766e4038d389a29b1b197e37ec799cc81",
+      "bytes": 892,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/saver.dart": {
+      "sha256": "bcb551f81e40b58331deb753e31c3572a6f675cde47f294c8eddaa845bcfce40",
+      "bytes": 464,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/utils/file_ops_io.dart": {
+      "sha256": "1c484dc3e5651073320d7a6f78b86f7d4a77c010376a71f7d24d23f7d46ab71a",
+      "bytes": 1826,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/utils/file_ops_stub.dart": {
+      "sha256": "b8bb4b7eaa1ce62d185f5348cfcc6de089b674f761c8bbd1239e4502b789b707",
+      "bytes": 926,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/utils/helpers.dart": {
+      "sha256": "add266bcb58aed7f9244c5cfe440a70cdf35f091c53fcec6e465798b772988e0",
+      "bytes": 3482,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/utils/mime_types.dart": {
+      "sha256": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+      "bytes": 4294,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/web_stream_saver_stub.dart": {
+      "sha256": "16530a72352d193a0d5655a5f8c40cfa853bcbef63aa0db34b2fbdece2a56c8e",
+      "bytes": 469,
+      "mode": 448
+    },
+    "third_party/file_saver/lib/src/web_stream_saver_web.dart": {
+      "sha256": "74ad39b107188d6b79000b48e19ebb0f70a3b19db4b0ac6ab108ee999084e1ec",
+      "bytes": 656,
+      "mode": 448
+    },
+    "third_party/file_saver/pubspec.yaml": {
+      "sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+      "bytes": 951,
+      "mode": 448
+    },
+    "third_party/firebase_messaging/COLLECT_FORK.md": {
+      "sha256": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
+      "bytes": 2308,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/LICENSE": {
+      "sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8",
+      "bytes": 1558,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/UPSTREAM-SHA256.json": {
+      "sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+      "bytes": 19741,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/analysis_options.yaml": {
+      "sha256": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19",
+      "bytes": 197,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/lib/firebase_messaging.dart": {
+      "sha256": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba",
+      "bytes": 1031,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/lib/src/messaging.dart": {
+      "sha256": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed",
+      "bytes": 11245,
+      "mode": 420
+    },
+    "third_party/firebase_messaging/pubspec.yaml": {
+      "sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+      "bytes": 1166,
+      "mode": 420
+    },
+    "third_party/gotrue/COLLECT_FORK.md": {
+      "sha256": "bab0d899d903ab6752219c6f804515fbdf5df0ad29569066d1027d231af569d3",
+      "bytes": 2244,
+      "mode": 420
+    },
+    "third_party/gotrue/LICENSE": {
+      "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+      "bytes": 1065,
+      "mode": 420
+    },
+    "third_party/gotrue/UPSTREAM-SHA256.json": {
+      "sha256": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+      "bytes": 8057,
+      "mode": 420
+    },
+    "third_party/gotrue/analysis_options.yaml": {
+      "sha256": "b2162ecbaf6dffb85075e46e8dd89bfe359a1f5e7803ee5a7ca41ae07cd3af7a",
+      "bytes": 257,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/gotrue.dart": {
+      "sha256": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d",
+      "bytes": 849,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/broadcast_stub.dart": {
+      "sha256": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513",
+      "bytes": 246,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/broadcast_web.dart": {
+      "sha256": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+      "bytes": 1373,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/collect_browser_invalidation.dart": {
+      "sha256": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+      "bytes": 3418,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/constants.dart": {
+      "sha256": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8",
+      "bytes": 2952,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/fetch.dart": {
+      "sha256": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8",
+      "bytes": 6221,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_admin_api.dart": {
+      "sha256": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+      "bytes": 6981,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart": {
+      "sha256": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4",
+      "bytes": 4225,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart": {
+      "sha256": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2",
+      "bytes": 1313,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart": {
+      "sha256": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f",
+      "bytes": 5413,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart": {
+      "sha256": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1",
+      "bytes": 1847,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_client.dart": {
+      "sha256": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+      "bytes": 59198,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_mfa_api.dart": {
+      "sha256": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+      "bytes": 7739,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_oauth_api.dart": {
+      "sha256": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de",
+      "bytes": 11044,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/gotrue_passkey_api.dart": {
+      "sha256": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf",
+      "bytes": 8502,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/helper.dart": {
+      "sha256": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3",
+      "bytes": 2673,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/api_version.dart": {
+      "sha256": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac",
+      "bytes": 1302,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/auth_exception.dart": {
+      "sha256": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa",
+      "bytes": 3471,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/auth_response.dart": {
+      "sha256": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102",
+      "bytes": 2782,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/auth_state.dart": {
+      "sha256": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a",
+      "bytes": 1295,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/custom_oauth_provider.dart": {
+      "sha256": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde",
+      "bytes": 12525,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/error_code.dart": {
+      "sha256": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15",
+      "bytes": 4446,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/fetch_options.dart": {
+      "sha256": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc",
+      "bytes": 515,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/gotrue_async_storage.dart": {
+      "sha256": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019",
+      "bytes": 525,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/jwt.dart": {
+      "sha256": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd",
+      "bytes": 8005,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/mfa.dart": {
+      "sha256": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd",
+      "bytes": 12369,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/passkey.dart": {
+      "sha256": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd",
+      "bytes": 4617,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/session.dart": {
+      "sha256": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34",
+      "bytes": 4749,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/sign_out_reason.dart": {
+      "sha256": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1",
+      "bytes": 820,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/types.dart": {
+      "sha256": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d",
+      "bytes": 9074,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/user.dart": {
+      "sha256": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343",
+      "bytes": 9143,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/types/user_attributes.dart": {
+      "sha256": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20",
+      "bytes": 4802,
+      "mode": 420
+    },
+    "third_party/gotrue/lib/src/version.dart": {
+      "sha256": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598",
+      "bytes": 26,
+      "mode": 420
+    },
+    "third_party/gotrue/pubspec.yaml": {
+      "sha256": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd",
+      "bytes": 781,
+      "mode": 420
+    },
+    "tool/public_app_media_capture.dart": {
+      "sha256": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+      "bytes": 3759,
+      "mode": 420
+    },
+    "web/_headers": {
+      "sha256": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+      "bytes": 1553,
+      "mode": 448
+    },
+    "web/flutter_bootstrap.js": {
+      "sha256": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+      "bytes": 868,
+      "mode": 448
+    },
+    "web/icons/collect-web-512.png": {
+      "sha256": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+      "bytes": 92022,
+      "mode": 448
+    },
+    "web/index.html": {
+      "sha256": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+      "bytes": 1294,
+      "mode": 448
+    },
+    "web/manifest.json": {
+      "sha256": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+      "bytes": 493,
+      "mode": 448
+    },
+    "web/public/layout.css": {
+      "sha256": "c692877603aa32f2ae804f47ec2e1f1a4a78c20e34235b094b49b93ccfe0e41c",
+      "bytes": 12827,
+      "mode": 420
+    },
+    "web/public/photography/banking-together-4b392d8a72b7.webp": {
+      "sha256": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+      "bytes": 196234,
+      "mode": 448
+    },
+    "web/public/photography/community-savings-acf6c9fee7c7.webp": {
+      "sha256": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa",
+      "bytes": 318848,
+      "mode": 448
+    },
+    "web/public/photography/everyday-payments-3aae7f653287.webp": {
+      "sha256": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46",
+      "bytes": 167936,
+      "mode": 448
+    },
+    "web/public/photography/kigali-hills-72bbebc09878.webp": {
+      "sha256": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5",
+      "bytes": 205150,
+      "mode": 448
+    },
+    "web/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp": {
+      "sha256": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761",
+      "bytes": 134032,
+      "mode": 448
+    },
+    "web/public/photography/manifest.json": {
+      "sha256": "9c4ec7255e5af56b8b33219cea9bf0b9f821c23eacfcfe6c6bfbe2644d8e92dc",
+      "bytes": 7355,
+      "mode": 448
+    },
+    "web/public/photography/shared-goals-dd2861c45187.webp": {
+      "sha256": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170",
+      "bytes": 208760,
+      "mode": 448
+    },
+    "web/public/revolut.css": {
+      "sha256": "15236feb0a5111b49d32048bc684db02041190dbacf0f846ccb47ac857637e69",
+      "bytes": 21874,
+      "mode": 448
+    },
+    "web/robots.txt": {
+      "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+      "bytes": 26,
+      "mode": 448
+    }
+  },
+  "approvals": {
+    "trusted_source_verified": false,
+    "reviewed": false,
+    "frozen": false,
+    "owner_approved": false,
+    "signed": false,
+    "production_release_accepted": false
+  },
+  "broad_strict_release_export_required": true,
+  "private_or_ignored_inputs_copied": false,
+  "finished_at_utc": "2026-10-01T22:16:50.640274+00:00",
+  "browser_sources_after": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    ".metadata": "b83a9f8e3ab7d34a92cb349fbf2d6e405527f0bf23e8d725a6d1b93ace3050d6",
+    "analysis_options.yaml": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+    "assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f",
+    "assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14",
+    "assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891",
+    "assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b",
+    "assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47",
+    "assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b",
+    "assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a",
+    "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14",
+    "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c",
+    "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7",
+    "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479",
+    "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849",
+    "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8",
+    "assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b",
+    "assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c",
+    "assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89",
+    "assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb",
+    "assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e",
+    "assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+    "assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344",
+    "assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22",
+    "assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89",
+    "assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c",
+    "assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd",
+    "assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23",
+    "assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0",
+    "assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b",
+    "assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3",
+    "assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa",
+    "assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676",
+    "assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3",
+    "assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1",
+    "assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9",
+    "assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799",
+    "assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8",
+    "assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949",
+    "assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa",
+    "assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc",
+    "assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725",
+    "assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a",
+    "assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf",
+    "assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9",
+    "assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3",
+    "assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63",
+    "assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e",
+    "assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1",
+    "assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496",
+    "assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85",
+    "assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58",
+    "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa",
+    "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae",
+    "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619",
+    "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685",
+    "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f",
+    "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4",
+    "assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2",
+    "assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319",
+    "assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843",
+    "assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3",
+    "assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1",
+    "assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de",
+    "assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a",
+    "assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4",
+    "assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4",
+    "assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695",
+    "assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff",
+    "assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347",
+    "assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67",
+    "assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75",
+    "assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9",
+    "assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6",
+    "assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4",
+    "assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2",
+    "assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e",
+    "assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854",
+    "assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72",
+    "assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f",
+    "assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41",
+    "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
+    "assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8",
+    "assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b",
+    "assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316",
+    "assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa",
+    "assets/marketing/rwanda/banking-together.png": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+    "assets/marketing/rwanda/community-savings.png": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+    "assets/marketing/rwanda/everyday-payments.png": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+    "assets/marketing/rwanda/kigali-hills.png": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+    "assets/marketing/rwanda/kigali-woman-hero.png": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+    "assets/marketing/rwanda/shared-goals.png": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "lib/app/app.dart": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_component_tokens.dart": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+    "lib/app/theme/collect_icons.dart": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/app/theme/collect_radius.dart": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+    "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+    "lib/app/theme/collect_runtime_tokens.dart": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+    "lib/app/theme/collect_runtime_typography.dart": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+    "lib/app/theme/collect_semantic_icons.dart": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "lib/app/theme/collect_theme_controller.dart": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "lib/core/notifications/collect_notification_service.dart": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+    "lib/core/payments/momo_ussd_intent_guard.dart": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+    "lib/core/payments/momo_ussd_launcher.dart": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+    "lib/core/payments/rwanda_momo_number.dart": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+    "lib/core/security/durable_sms_receipt.dart": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+    "lib/core/security/hash_utils.dart": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+    "lib/core/security/phone_normalizer.dart": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+    "lib/core/security/play_integrity_service.dart": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+    "lib/core/security/protected_snapshot_store.dart": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+    "lib/core/security/public_id_generator.dart": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+    "lib/core/security/sms_access_channel.dart": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+    "lib/core/supabase/auth_otp_gateway.dart": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+    "lib/core/supabase/browser_auth_memory.dart": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+    "lib/core/supabase/browser_auth_storage_stub.dart": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+    "lib/core/supabase/browser_auth_storage_web.dart": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+    "lib/core/supabase/realtime_invalidation.dart": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+    "lib/core/supabase/supabase_module.dart": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+    "lib/core/utils/date_format.dart": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+    "lib/core/utils/money_format.dart": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+    "lib/core/widgets/collect_shell.dart": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+    "lib/features/activity/activity_screen.dart": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+    "lib/features/auth/auth_screen.dart": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+    "lib/features/auth/widgets/auth_action_dock.dart": "a1262896d83c63944ba67e6faf4b45cb3cad7e7c945318bf1b138fd408a4adab",
+    "lib/features/auth/widgets/auth_identity_header.dart": "1d1db05f8df2ca89f7057cd1cd45ee4946d9f49543a9efb7cd61a8bd3b55567f",
+    "lib/features/auth/widgets/auth_input_panel.dart": "92248ae71bb0f498c03652a4faac289b730dd8d233f04577e182bc04f26f7ed4",
+    "lib/features/auth/widgets/auth_otp_entry.dart": "1d155f07ca839a62cdf28faa1263545b7cf03e363686d4c3980ec2604cd41d26",
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+    "lib/features/auth/widgets/auth_screen_widgets.dart": "298a82ba484c00576fabb0dd417dd9bcf83a5e7eeb9ca6ece4df3c76fe04e013",
+    "lib/features/collections/collection_create_screen.dart": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+    "lib/features/collections/collection_create_widgets.dart": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+    "lib/features/collections/collection_detail_screen.dart": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+    "lib/features/collections/collection_detail_timeline.dart": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+    "lib/features/collections/collection_manage_screen.dart": "3ff8b19c88b6f1ca0d8308bfb520da930c5e6543f93391aee73af9b7c5592b57",
+    "lib/features/collections/collections_screen.dart": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+    "lib/features/collections/group_creation_platform.dart": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+    "lib/features/collections/group_empty_state.dart": "b10f4238ac48551c5a621c59986ad7d785d8ea56033f6b5c74e6e59aa436e83b",
+    "lib/features/collections/group_invitation_transport.dart": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+    "lib/features/collections/group_link_screen.dart": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+    "lib/features/collections/group_profile_form_controls.dart": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+    "lib/features/collections/group_profile_media.dart": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d",
+    "lib/features/collections/group_profile_screen.dart": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+    "lib/features/collections/group_qr_scanner_screen.dart": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0",
+    "lib/features/collections/group_share_service.dart": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+    "lib/features/collections/share_screen.dart": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+    "lib/features/home/app_share_service.dart": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+    "lib/features/home/home_public_groups_section.dart": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+    "lib/features/home/home_screen.dart": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+    "lib/features/launch/launch_splash_screen.dart": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0",
+    "lib/features/ledger/ledger_screen.dart": "5a0ad3e21f3c1a53cdfc4ea1e66f21bbf161ab6bb9700b9107f254b88cbb7784",
+    "lib/features/payments/contribute_entry_screen.dart": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+    "lib/features/payments/contribution_amount_widgets.dart": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+    "lib/features/payments/contribution_flow_screen.dart": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+    "lib/features/profile/member_profile_gate.dart": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+    "lib/features/profile/profile_edit_screen.dart": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+    "lib/features/profile/profile_edit_widgets.dart": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+    "lib/features/settings/app_permissions_screen.dart": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+    "lib/features/settings/security_hub_header.dart": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/settings/settings_subscreens.dart": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/features/status/connection_recovery_screens.dart": "f3651a8fe3e9ed02da33df1c90a6a99310d19ed72afaee6b4237d92ba9e1174b",
+    "lib/features/status/group_members_screen.dart": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+    "lib/features/status/native_permission_sheets.dart": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+    "lib/features/status/production_state_screens.dart": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54",
+    "lib/l10n/collect_localizations.dart": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+    "lib/shared/models/collect_group_cover.dart": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+    "lib/shared/models/collect_group_cover_catalog.dart": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+    "lib/shared/models/collect_group_cover_catalog_community_projects.dart": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153",
+    "lib/shared/models/collect_group_cover_catalog_education.dart": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc",
+    "lib/shared/models/collect_group_cover_catalog_faith_giving.dart": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07",
+    "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+    "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538",
+    "lib/shared/models/collect_group_cover_catalog_sport_culture.dart": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689",
+    "lib/shared/models/collect_group_cover_catalog_weddings.dart": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91",
+    "lib/shared/models/collect_model_json_helpers.dart": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_payment_json.dart": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+    "lib/shared/models/collect_payment_models.dart": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/shared/models/collect_summary_json.dart": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+    "lib/shared/models/member_history_page.dart": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+    "lib/shared/providers/collect_app_state.dart": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+    "lib/shared/repositories/collect_invitation_protection.dart": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+    "lib/shared/repositories/collect_offline_cache.dart": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+    "lib/shared/repositories/collect_repository_group_actions.dart": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+    "lib/shared/repositories/collect_repository_helpers.dart": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+    "lib/shared/repositories/collect_repository_history.dart": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+    "lib/shared/repositories/collect_repository_live_reader.dart": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+    "lib/shared/repositories/collect_repository_notification_actions.dart": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+    "lib/shared/repositories/collect_repository_providers.dart": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+    "lib/shared/repositories/collect_repository_state.dart": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+    "lib/shared/repositories/pending_shared_group_intent_store.dart": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+    "lib/shared/repositories/runtime_control_contract.dart": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+    "lib/shared/utils/collect_haptics.dart": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+    "lib/shared/utils/collect_share_links.dart": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+    "lib/shared/utils/collect_share_origin.dart": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428",
+    "lib/shared/utils/support_contact.dart": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e",
+    "lib/shared/widgets/collect_action_controls.dart": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c",
+    "lib/shared/widgets/collect_bento_actions.dart": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_components.dart": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+    "lib/shared/widgets/collect_confirmation_sheet.dart": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+    "lib/shared/widgets/collect_data_load_failure.dart": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089",
+    "lib/shared/widgets/collect_display_primitives.dart": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+    "lib/shared/widgets/collect_feature_surfaces.dart": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+    "lib/shared/widgets/collect_financial_amount_entry.dart": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+    "lib/shared/widgets/collect_financial_components.dart": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465",
+    "lib/shared/widgets/collect_financial_ledger.dart": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+    "lib/shared/widgets/collect_financial_money.dart": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+    "lib/shared/widgets/collect_financial_payments.dart": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+    "lib/shared/widgets/collect_form_viewport.dart": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04",
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_group_card_editorial.dart": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+    "lib/shared/widgets/collect_group_card_media.dart": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+    "lib/shared/widgets/collect_group_card_metrics.dart": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+    "lib/shared/widgets/collect_group_cards.dart": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+    "lib/shared/widgets/collect_group_image.dart": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+    "lib/shared/widgets/collect_history_footer.dart": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+    "lib/shared/widgets/collect_inputs.dart": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+    "lib/shared/widgets/collect_selection_controls.dart": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5",
+    "lib/shared/widgets/collect_state_feedback.dart": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48",
+    "lib/shared/widgets/collect_state_illustrations.dart": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+    "lib/shared/widgets/collect_state_panels.dart": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6",
+    "lib/shared/widgets/collect_tone_icon.dart": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+    "lib/shared/widgets/screen_scaffold.dart": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "test/fixtures/collect_repository_fixture.dart": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/LICENSE": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee",
+    "third_party/file_saver/analysis_options.yaml": "0cc2260bd6bd5aa5d78a901f27a2df342ee74f7a253b4d7144c6b41b1edd9f92",
+    "third_party/file_saver/lib/file_saver.dart": "92459914f7c2a57eab55d08c80813d063d4c732799f3278ee544a7f94bc2a244",
+    "third_party/file_saver/lib/file_saver_web.dart": "2602d902c136fe145da6f9f774a750e2aa46786471af473cebcb97f3a1983dc2",
+    "third_party/file_saver/lib/src/models/file.model.dart": "88aee9aa67bc5c0face752e505fcadc8c015c357fc371206ba425bbc2ca114d7",
+    "third_party/file_saver/lib/src/models/link_details.dart": "05b9dc783cfafd6921256ffaf00dd7c6eed7ffd78281f2acc6fe3fc5ec0dba97",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler.dart": "57c7d37bea55110e7f8f15af2b813ed40275b52f75acd6c8cfabb13d9289b58b",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart": "4c169bfa6a1e908a7fed6b4e088734095f051b77bc92c212c5e962107b891f46",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_stub.dart": "af463964d47556991a592b8971c1bbd1a04cc59ceafe38fedc3446594bb59c33",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_web.dart": "02cff8bca0fb694c25d14018f216984766e4038d389a29b1b197e37ec799cc81",
+    "third_party/file_saver/lib/src/saver.dart": "bcb551f81e40b58331deb753e31c3572a6f675cde47f294c8eddaa845bcfce40",
+    "third_party/file_saver/lib/src/utils/file_ops_io.dart": "1c484dc3e5651073320d7a6f78b86f7d4a77c010376a71f7d24d23f7d46ab71a",
+    "third_party/file_saver/lib/src/utils/file_ops_stub.dart": "b8bb4b7eaa1ce62d185f5348cfcc6de089b674f761c8bbd1239e4502b789b707",
+    "third_party/file_saver/lib/src/utils/helpers.dart": "add266bcb58aed7f9244c5cfe440a70cdf35f091c53fcec6e465798b772988e0",
+    "third_party/file_saver/lib/src/utils/mime_types.dart": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+    "third_party/file_saver/lib/src/web_stream_saver_stub.dart": "16530a72352d193a0d5655a5f8c40cfa853bcbef63aa0db34b2fbdece2a56c8e",
+    "third_party/file_saver/lib/src/web_stream_saver_web.dart": "74ad39b107188d6b79000b48e19ebb0f70a3b19db4b0ac6ab108ee999084e1ec",
+    "third_party/file_saver/pubspec.yaml": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+    "third_party/firebase_messaging/COLLECT_FORK.md": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
+    "third_party/firebase_messaging/LICENSE": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8",
+    "third_party/firebase_messaging/UPSTREAM-SHA256.json": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+    "third_party/firebase_messaging/analysis_options.yaml": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19",
+    "third_party/firebase_messaging/lib/firebase_messaging.dart": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba",
+    "third_party/firebase_messaging/lib/src/messaging.dart": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed",
+    "third_party/firebase_messaging/pubspec.yaml": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+    "third_party/gotrue/COLLECT_FORK.md": "bab0d899d903ab6752219c6f804515fbdf5df0ad29569066d1027d231af569d3",
+    "third_party/gotrue/LICENSE": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+    "third_party/gotrue/UPSTREAM-SHA256.json": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+    "third_party/gotrue/analysis_options.yaml": "b2162ecbaf6dffb85075e46e8dd89bfe359a1f5e7803ee5a7ca41ae07cd3af7a",
+    "third_party/gotrue/lib/gotrue.dart": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d",
+    "third_party/gotrue/lib/src/broadcast_stub.dart": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513",
+    "third_party/gotrue/lib/src/broadcast_web.dart": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+    "third_party/gotrue/lib/src/collect_browser_invalidation.dart": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+    "third_party/gotrue/lib/src/constants.dart": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8",
+    "third_party/gotrue/lib/src/fetch.dart": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8",
+    "third_party/gotrue/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+    "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4",
+    "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2",
+    "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f",
+    "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1",
+    "third_party/gotrue/lib/src/gotrue_client.dart": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+    "third_party/gotrue/lib/src/gotrue_mfa_api.dart": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+    "third_party/gotrue/lib/src/gotrue_oauth_api.dart": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de",
+    "third_party/gotrue/lib/src/gotrue_passkey_api.dart": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf",
+    "third_party/gotrue/lib/src/helper.dart": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3",
+    "third_party/gotrue/lib/src/types/api_version.dart": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac",
+    "third_party/gotrue/lib/src/types/auth_exception.dart": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa",
+    "third_party/gotrue/lib/src/types/auth_response.dart": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102",
+    "third_party/gotrue/lib/src/types/auth_state.dart": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a",
+    "third_party/gotrue/lib/src/types/custom_oauth_provider.dart": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde",
+    "third_party/gotrue/lib/src/types/error_code.dart": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15",
+    "third_party/gotrue/lib/src/types/fetch_options.dart": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc",
+    "third_party/gotrue/lib/src/types/gotrue_async_storage.dart": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019",
+    "third_party/gotrue/lib/src/types/jwt.dart": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd",
+    "third_party/gotrue/lib/src/types/mfa.dart": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd",
+    "third_party/gotrue/lib/src/types/passkey.dart": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd",
+    "third_party/gotrue/lib/src/types/session.dart": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34",
+    "third_party/gotrue/lib/src/types/sign_out_reason.dart": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1",
+    "third_party/gotrue/lib/src/types/types.dart": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d",
+    "third_party/gotrue/lib/src/types/user.dart": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343",
+    "third_party/gotrue/lib/src/types/user_attributes.dart": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20",
+    "third_party/gotrue/lib/src/version.dart": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598",
+    "third_party/gotrue/pubspec.yaml": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd",
+    "tool/public_app_media_capture.dart": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/manifest.json": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+    "web/public/layout.css": "c692877603aa32f2ae804f47ec2e1f1a4a78c20e34235b094b49b93ccfe0e41c",
+    "web/public/photography/banking-together-4b392d8a72b7.webp": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+    "web/public/photography/community-savings-acf6c9fee7c7.webp": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa",
+    "web/public/photography/everyday-payments-3aae7f653287.webp": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46",
+    "web/public/photography/kigali-hills-72bbebc09878.webp": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5",
+    "web/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761",
+    "web/public/photography/manifest.json": "9c4ec7255e5af56b8b33219cea9bf0b9f821c23eacfcfe6c6bfbe2644d8e92dc",
+    "web/public/photography/shared-goals-dd2861c45187.webp": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170",
+    "web/public/revolut.css": "15236feb0a5111b49d32048bc684db02041190dbacf0f846ccb47ac857637e69",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+  },
+  "staged_browser_sources": {
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+    ".metadata": "b83a9f8e3ab7d34a92cb349fbf2d6e405527f0bf23e8d725a6d1b93ace3050d6",
+    "analysis_options.yaml": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+    "assets/brand/collect_runtime/app_icons/app-icon-rule.png": "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209",
+    "assets/group_covers/rwanda/covers/rw-01-neighbourhood-ikimina-v1.webp": "16596bb021d0e509d4da8e919949a06e9e6cd26a107a7fc0698ca3f933bc150d",
+    "assets/group_covers/rwanda/covers/rw-02-women-savings-circle-v1.webp": "f978e4916c61bf9d836c03cf09e6148c39323883021835b927161a0423d49d4f",
+    "assets/group_covers/rwanda/covers/rw-03-young-professionals-goal-v1.webp": "116ad0fae64de74c27efe6eebdff4a55e45bd129013ba951d50f143c70523a14",
+    "assets/group_covers/rwanda/covers/rw-04-market-traders-stock-v1.webp": "9bbd1aea30d17ac746d9bf3612b13201dee4093ac6b7f8f5b2190e4a75928891",
+    "assets/group_covers/rwanda/covers/rw-05-moto-riders-shared-goal-v1.webp": "8a15b8a22be606debdf39bb6294d87a8d78a59e52d41d52724565c3108b9bf5b",
+    "assets/group_covers/rwanda/covers/rw-06-farmers-season-inputs-v1.webp": "f8bdbf55afd400f901e449d024bfb01b9c35c36716dceae51b43aa8dc334cc47",
+    "assets/group_covers/rwanda/covers/rw-07-family-home-goal-v1.webp": "a633e61a2bd89ebcfc8b55e9e12ead7b207e898c06b4d3ed555ba26f17681c8b",
+    "assets/group_covers/rwanda/covers/rw-08-craft-cooperative-tools-v1.webp": "6ee42b687d62490624141e427d028555f449c9b6d88e7f9cbc0e8e482315cc4a",
+    "assets/group_covers/rwanda/covers/rw-09-wedding-committee-v2.webp": "02d271c9375bd89db6fef1cf5708df00f522a074c94de879aec5531727aeef14",
+    "assets/group_covers/rwanda/covers/rw-10-gusaba-gukwa-gathering-v2.webp": "1b9646838ec4f142912a173979dbdba3ddd79694c4ec7370e1ff58ac66aff53c",
+    "assets/group_covers/rwanda/covers/rw-11-wedding-attire-preparation-v2.webp": "248131a579d262b125ca026e5402329b61d45ed4a307fe605f167b2736bec0e7",
+    "assets/group_covers/rwanda/covers/rw-12-wedding-reception-table-v2.webp": "cf421df4fe224bfbd0fc183b8ccd68e83d04a63dd128fedcf06bc7dfdf59d479",
+    "assets/group_covers/rwanda/covers/rw-13-new-home-wedding-gift-v2.webp": "85e013fd500c466e19446055dfbb530600a1780f66f3db26983f35f239c3c849",
+    "assets/group_covers/rwanda/covers/rw-14-wedding-day-family-v2.webp": "352f001103ede61b988a1ed7ff0d6806bfa5b96f7eb78859b124c56f71bd5dd8",
+    "assets/group_covers/rwanda/covers/rw-15-church-community-offering-v1.webp": "d640ab62908795ae1d450646e4750b828a937c43ec07f864f2f407227015c65b",
+    "assets/group_covers/rwanda/covers/rw-16-church-building-project-v1.webp": "87a5402b207267dffa2c276bf1fc3abdb5bdd487f352686f920658398d082e5c",
+    "assets/group_covers/rwanda/covers/rw-17-choir-shared-equipment-v1.webp": "1d557455f5e2d651b84a7bbbc0c18a8b97478ebe4924bb42e10d200edc6d3f89",
+    "assets/group_covers/rwanda/covers/rw-18-muslim-community-giving-v1.webp": "cc332ae7bba1966ff8e30ef5634418377748c9fa3244b4598e7f12caff156dbb",
+    "assets/group_covers/rwanda/covers/rw-19-ramadan-community-meal-v1.webp": "0f659537cd26a06c6567805057ed205cdbfabf4bcf6d5b8de3ae5d61eec4ec0e",
+    "assets/group_covers/rwanda/covers/rw-20-community-giving-parcels-v1.webp": "e1611d6249e97d27a7e0cdc12060c2cc23713ad4e8bf061c014e6b3b348e5393",
+    "assets/group_covers/rwanda/covers/rw-21-bereavement-support-v1.webp": "246b0130d58b0c21b18a538296f83e5f52ea4877dc38a07faa3629c66ec5d344",
+    "assets/group_covers/rwanda/covers/rw-22-medical-care-support-v1.webp": "5902526a8161d103f56ecde67575b1f06907d67b46994e0aa2b8ae2fb6e45f22",
+    "assets/group_covers/rwanda/covers/rw-23-health-cover-contribution-v1.webp": "1016262c09ac086fbf80634d19f3d79730da82564a3ad38d7b01d4c9a4159c89",
+    "assets/group_covers/rwanda/covers/rw-24-neighbours-recovery-support-v1.webp": "aa14a19b8e728f0d3b87a12c5c763c868c8ef7c9be49567a89068bd6f4b0564c",
+    "assets/group_covers/rwanda/covers/rw-25-family-everyday-support-v1.webp": "58a70b6ddfb6fbb9afe7e31322f37a62f1de331d5d1c0c0195710e71710019cd",
+    "assets/group_covers/rwanda/covers/rw-26-welcoming-new-baby-v1.webp": "7b4504dbfbac6ca1bb7142615e956d95dc92a7568c57c43e84f1285490cb4d23",
+    "assets/group_covers/rwanda/covers/rw-27-school-supplies-v1.webp": "a2840331a5d98d3915568386827af6400e76da0f582a900b6d8b1cb42e609ac0",
+    "assets/group_covers/rwanda/covers/rw-28-school-meal-support-v1.webp": "f8e12cbe5eb23188b033d168f8b67d3905e20f40650ca25aa558beae79a1171b",
+    "assets/group_covers/rwanda/covers/rw-29-higher-study-support-v1.webp": "4dfc57087ae848246851277a554ed97acb0060c0e60eeb14094daa15f1688bf3",
+    "assets/group_covers/rwanda/covers/rw-30-youth-skills-training-v1.webp": "d1dfe11999bb24ecdbae0a8713844718d324257af50e40e574591edf8c65e1fa",
+    "assets/group_covers/rwanda/covers/rw-31-umuganda-project-tools-v1.webp": "7b648e9aba1ff7332b3b85a767b8fe5b4770f2665e19a1b012b318e719d5f676",
+    "assets/group_covers/rwanda/covers/rw-32-shared-water-point-v1.webp": "7a83f37c246648d5914b1fec7143735b9fa5393982e04e9e560458ccdbbe6ad3",
+    "assets/group_covers/rwanda/covers/rw-33-community-hall-improvement-v1.webp": "4829b6baa89705a7bcc265ce72bd9fc41f0cab4d51012e003acd43f17bd861d1",
+    "assets/group_covers/rwanda/covers/rw-34-tree-planting-neighbours-v1.webp": "44d7d0eaaf1d61e85621d881c67d37b47e8ff9783ceb454b4eccadd68125b2f9",
+    "assets/group_covers/rwanda/covers/rw-35-football-fan-community-v1.webp": "14f6cb23e5811b36622e1f2a516b487b14e291c66e29e1de2bc23cca29807799",
+    "assets/group_covers/rwanda/covers/rw-36-local-team-equipment-v1.webp": "979d5dbc2ef7d2a6bf2e8a9cdc0a3427a0494d1caa22d5571386eeaa33389ee8",
+    "assets/group_covers/rwanda/covers/rw-37-away-match-travel-v1.webp": "89c2ca3194dd62b788b5cc74a363fcb0d0e26761ba02fdb3bd9d9d1e94182949",
+    "assets/group_covers/rwanda/covers/rw-38-cultural-troupe-rehearsal-v1.webp": "5fe2405673f5ee1bd248e21456238943942aa773caf134e005c5e7cd7f6690aa",
+    "assets/group_covers/rwanda/covers/rw-41-buri-munsi-v1.webp": "07b433fe241c336b89c398e657a79f1c30cebe4b15e45e901266d5440ad885cc",
+    "assets/group_covers/rwanda/covers/rw-42-gikundiro-v1.webp": "7fd8694b1788a938eea4a389fb8a8a0a0f9157674a56892db7734df1d334a725",
+    "assets/group_covers/rwanda/covers/rw-43-church-congregation-v1.webp": "8bb1ba86fffb2ed17cd32f4cf236fe3d740c9f339955915bbbed160f19c8bf7a",
+    "assets/group_covers/rwanda/covers/rw-44-football-fans-matchday-v1.webp": "9bf03b74364f1527b346574caea694214182f9835ee4eeced424cc253e50febf",
+    "assets/group_covers/rwanda/thumbs/rw-01-neighbourhood-ikimina-v1.webp": "e1e35f4d6533f0032284f19e63090efb0fdcc39c98826fe8c5f00bf9a6e8e5b9",
+    "assets/group_covers/rwanda/thumbs/rw-02-women-savings-circle-v1.webp": "1df5ff6388a56ce91de15ca013810cdc6c157a0beb2085572f28dab6263477c3",
+    "assets/group_covers/rwanda/thumbs/rw-03-young-professionals-goal-v1.webp": "c3f59188fc8213d769b9e298a169c4f2e02a23571f9aafd959b121f1e3b58a63",
+    "assets/group_covers/rwanda/thumbs/rw-04-market-traders-stock-v1.webp": "979a8a8e68b8c5f86a9e185974183e427c4be01bfbb0873c8f14b03eecf83b5e",
+    "assets/group_covers/rwanda/thumbs/rw-05-moto-riders-shared-goal-v1.webp": "8fe51273fcb27b1cf856fd608837f0219b64ccb9079441e6bc921f4d84ddd4b1",
+    "assets/group_covers/rwanda/thumbs/rw-06-farmers-season-inputs-v1.webp": "1fb1692f43a0d4715870c8ec9a4e426fb37a4a7c9283fe6107547036b3299496",
+    "assets/group_covers/rwanda/thumbs/rw-07-family-home-goal-v1.webp": "0aac9233f97c7cdd08874b6fda43ab6fbcde366b0b71d2418a3afa1786576c85",
+    "assets/group_covers/rwanda/thumbs/rw-08-craft-cooperative-tools-v1.webp": "3480997ca0cd2c634f74eca0d28033b538672a84c7f85096f4cde30e1acd9d58",
+    "assets/group_covers/rwanda/thumbs/rw-09-wedding-committee-v2.webp": "ae996f9bca9c3bde673348136e83407fe95317cec5e0f2f87a1dbeae43c87eaa",
+    "assets/group_covers/rwanda/thumbs/rw-10-gusaba-gukwa-gathering-v2.webp": "f4ba73aefe85fb6f089ee22f4ce234cd98d86697cc328bd24338e3507f4df8ae",
+    "assets/group_covers/rwanda/thumbs/rw-11-wedding-attire-preparation-v2.webp": "672e79e5ee3a92398b22a3d0c95ddf900fc39008ebfa75cbfb14fe17861bc619",
+    "assets/group_covers/rwanda/thumbs/rw-12-wedding-reception-table-v2.webp": "7f55be22f78e5a66929c7169bccb03d6131869f2f0a2d167b0f58c42ce663685",
+    "assets/group_covers/rwanda/thumbs/rw-13-new-home-wedding-gift-v2.webp": "5e11c82437692d7f46d5d94c0e5d1edfa7a172ce9cf898bf2dffb104207cb29f",
+    "assets/group_covers/rwanda/thumbs/rw-14-wedding-day-family-v2.webp": "393100800c7e44e47a9efec95071b619746495bf8772eed51234cc8ff19858f4",
+    "assets/group_covers/rwanda/thumbs/rw-15-church-community-offering-v1.webp": "4105a89bccfbbe7cbfd314019a78af3389ba2a1e8159c89211d113715bf54fd2",
+    "assets/group_covers/rwanda/thumbs/rw-16-church-building-project-v1.webp": "9bcf6cdce2e762e4406d4e3cb896c004b18779d27e569eb0f62bed6b1d79f319",
+    "assets/group_covers/rwanda/thumbs/rw-17-choir-shared-equipment-v1.webp": "cc00c469c44aacf2f4edfa33762fb34ec4e76b2a053c849ef9c820818d5f5843",
+    "assets/group_covers/rwanda/thumbs/rw-18-muslim-community-giving-v1.webp": "6a1e28a58caf68db94c4ff3009b60fc6c90b63d18e919e33e1cdb941db87f9a3",
+    "assets/group_covers/rwanda/thumbs/rw-19-ramadan-community-meal-v1.webp": "6c72f1c26a600c87680cd815501ab606cbc78997753aa861ed3c13b6d9aee8e1",
+    "assets/group_covers/rwanda/thumbs/rw-20-community-giving-parcels-v1.webp": "5af944e344ec89e1e06cce5213fb113507768af569fa7519b0c12437706f10de",
+    "assets/group_covers/rwanda/thumbs/rw-21-bereavement-support-v1.webp": "d62b9de5789abb2565ed2b49abca09628d788753bd399aacea3e04dcef57371a",
+    "assets/group_covers/rwanda/thumbs/rw-22-medical-care-support-v1.webp": "a30ced651c99cfdf90dbd9b3b995d9a833f3ed284bdb179491ce46b62a84fba4",
+    "assets/group_covers/rwanda/thumbs/rw-23-health-cover-contribution-v1.webp": "55c64428b55fd66803e733d769f9ad712b43e09259f1ba06a76696639c1f73c4",
+    "assets/group_covers/rwanda/thumbs/rw-24-neighbours-recovery-support-v1.webp": "68e45ab0246702e697f5c8a326a63bcf3da730744351d6c3536f321297c2d695",
+    "assets/group_covers/rwanda/thumbs/rw-25-family-everyday-support-v1.webp": "ee55c5d0accfd1e3a5a1ff1b05f4b70b859baca0a5b4867849ff2c9c48e8acff",
+    "assets/group_covers/rwanda/thumbs/rw-26-welcoming-new-baby-v1.webp": "cd8f9d225ef59a39956786474edf983d4aec4903351dd86f697e46794b4fd347",
+    "assets/group_covers/rwanda/thumbs/rw-27-school-supplies-v1.webp": "26298a75cba6c8011cfa0e2851e8e346a9b1975a8f1381eb20285333a6daba67",
+    "assets/group_covers/rwanda/thumbs/rw-28-school-meal-support-v1.webp": "5a99a7ea0354886f54a2f5808104c321b3ecbf314a4eb614d82c50bee1b09e75",
+    "assets/group_covers/rwanda/thumbs/rw-29-higher-study-support-v1.webp": "0c229cc60921de82bac2617f4cd79ec8167108393a2935c3ba64f093039461f9",
+    "assets/group_covers/rwanda/thumbs/rw-30-youth-skills-training-v1.webp": "92e468970dd9a690f4294ae581f268f389f119062e8748f3ea2c19d4abcf23f6",
+    "assets/group_covers/rwanda/thumbs/rw-31-umuganda-project-tools-v1.webp": "6aec1b1f4295b8ebc29de8f1d5d37628990d55d80e2a9300faf92ce3b8affcc4",
+    "assets/group_covers/rwanda/thumbs/rw-32-shared-water-point-v1.webp": "829e8be4d5001dd35183b54a3d43d5c280d798d4b39e0f2574041fded95f36d2",
+    "assets/group_covers/rwanda/thumbs/rw-33-community-hall-improvement-v1.webp": "cefae1ab99b516a5362460f74dedc17bc3c21116fe65986ed2e81d0985ced00e",
+    "assets/group_covers/rwanda/thumbs/rw-34-tree-planting-neighbours-v1.webp": "20cec7057115ead15d838738e03e7c85d3b91990c4a759bf2ff59b35397d8854",
+    "assets/group_covers/rwanda/thumbs/rw-35-football-fan-community-v1.webp": "e6279ffd2bd0dd18ff202913a8016fecf717a3f39c93aff8e397f535a4052f72",
+    "assets/group_covers/rwanda/thumbs/rw-36-local-team-equipment-v1.webp": "e8c75df0a973ef0721125e6383de40cb0bb1e989eb7f16b57de3f69134cbed7f",
+    "assets/group_covers/rwanda/thumbs/rw-37-away-match-travel-v1.webp": "5b773c384f7b8622a58747c8117bc3e084e8b524f9b1cf884c39726c4a766c41",
+    "assets/group_covers/rwanda/thumbs/rw-38-cultural-troupe-rehearsal-v1.webp": "f81981c53335ffce2ad350f6c6cd717902338ff2f194ac043546b0043d76fe5c",
+    "assets/group_covers/rwanda/thumbs/rw-41-buri-munsi-v1.webp": "bd2f0dc808d48493cbf5de4cc0c5d9b0bb5c33e2057f425e6f00dfc4c69caeb8",
+    "assets/group_covers/rwanda/thumbs/rw-42-gikundiro-v1.webp": "4bb1fd753b1e202ab1ecbd43a5423aca44ea36b1cdffa4d0befe6b1f1eb3271b",
+    "assets/group_covers/rwanda/thumbs/rw-43-church-congregation-v1.webp": "c73006b4b6708e4a49766666b4f3e0b4b0ce160799f86bfb83d4c10dd140b316",
+    "assets/group_covers/rwanda/thumbs/rw-44-football-fans-matchday-v1.webp": "c302ed0497200953112407a7f781406736fd575252f4bf527714e8fe07d760fa",
+    "assets/marketing/rwanda/banking-together.png": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
+    "assets/marketing/rwanda/community-savings.png": "aafc45da63688d033fb927668d904e0e27874321eeb79df571c9f649967d1466",
+    "assets/marketing/rwanda/everyday-payments.png": "b390d2be84995370ce1ba7355807862d321ae021b978c34cb3af759c027eb444",
+    "assets/marketing/rwanda/kigali-hills.png": "0922dcde370f4517d0023ff9794f1150b0cece95039cefda312aee7244b42378",
+    "assets/marketing/rwanda/kigali-woman-hero.png": "40acc32ecf580147b4d964e8d945bed8bda9feeb4eabf93e434688060a78d3bd",
+    "assets/marketing/rwanda/shared-goals.png": "79a1e6d6cc37016870218f1f1a599bd06de2e5523d352472615f43d175963b82",
+    "assets/typefaces/AeonikPro-Medium.ttf": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+    "assets/typefaces/AeonikPro-Regular.ttf": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+    "assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "assets/typefaces/OFL-Inter.txt": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+    "lib/app/app.dart": "fd4fa8b7bf17a96b84ff6c3a2b16cbb1fe2866bf44f405bb42329a4b60e38871",
+    "lib/app/env/app_env.dart": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+    "lib/app/router.dart": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+    "lib/app/theme/app_theme.dart": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "lib/app/theme/collect_colors.dart": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c",
+    "lib/app/theme/collect_component_tokens.dart": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388",
+    "lib/app/theme/collect_icons.dart": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67",
+    "lib/app/theme/collect_motion.dart": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0",
+    "lib/app/theme/collect_radius.dart": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da",
+    "lib/app/theme/collect_runtime_assets.dart": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6",
+    "lib/app/theme/collect_runtime_tokens.dart": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a",
+    "lib/app/theme/collect_runtime_typography.dart": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5",
+    "lib/app/theme/collect_semantic_icons.dart": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8",
+    "lib/app/theme/collect_spacing.dart": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62",
+    "lib/app/theme/collect_theme.dart": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247",
+    "lib/app/theme/collect_theme_controller.dart": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4",
+    "lib/app/theme/collect_typography.dart": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b",
+    "lib/app/theme/collect_universal_tokens.dart": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910",
+    "lib/core/data/exact_json_values.dart": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+    "lib/core/notifications/collect_notification_service.dart": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+    "lib/core/payments/momo_ussd_intent_guard.dart": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+    "lib/core/payments/momo_ussd_launcher.dart": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+    "lib/core/payments/rwanda_momo_number.dart": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+    "lib/core/security/durable_sms_receipt.dart": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+    "lib/core/security/hash_utils.dart": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+    "lib/core/security/phone_normalizer.dart": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+    "lib/core/security/play_integrity_service.dart": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+    "lib/core/security/protected_snapshot_store.dart": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+    "lib/core/security/public_id_generator.dart": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+    "lib/core/security/sms_access_channel.dart": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+    "lib/core/supabase/auth_otp_gateway.dart": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+    "lib/core/supabase/browser_auth_memory.dart": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+    "lib/core/supabase/browser_auth_storage_stub.dart": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+    "lib/core/supabase/browser_auth_storage_web.dart": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036",
+    "lib/core/supabase/realtime_invalidation.dart": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+    "lib/core/supabase/supabase_module.dart": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+    "lib/core/utils/date_format.dart": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+    "lib/core/utils/money_format.dart": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+    "lib/core/widgets/collect_shell.dart": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2",
+    "lib/features/activity/activity_screen.dart": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+    "lib/features/auth/auth_screen.dart": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+    "lib/features/auth/widgets/auth_action_dock.dart": "a1262896d83c63944ba67e6faf4b45cb3cad7e7c945318bf1b138fd408a4adab",
+    "lib/features/auth/widgets/auth_identity_header.dart": "1d1db05f8df2ca89f7057cd1cd45ee4946d9f49543a9efb7cd61a8bd3b55567f",
+    "lib/features/auth/widgets/auth_input_panel.dart": "92248ae71bb0f498c03652a4faac289b730dd8d233f04577e182bc04f26f7ed4",
+    "lib/features/auth/widgets/auth_otp_entry.dart": "1d155f07ca839a62cdf28faa1263545b7cf03e363686d4c3980ec2604cd41d26",
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart": "4609ece0f4010d6ad241f7275e49654f807979f395fb6f9ad2177cdfec33bec7",
+    "lib/features/auth/widgets/auth_screen_widgets.dart": "298a82ba484c00576fabb0dd417dd9bcf83a5e7eeb9ca6ece4df3c76fe04e013",
+    "lib/features/collections/collection_create_screen.dart": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+    "lib/features/collections/collection_create_widgets.dart": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+    "lib/features/collections/collection_detail_screen.dart": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+    "lib/features/collections/collection_detail_timeline.dart": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+    "lib/features/collections/collection_manage_screen.dart": "3ff8b19c88b6f1ca0d8308bfb520da930c5e6543f93391aee73af9b7c5592b57",
+    "lib/features/collections/collections_screen.dart": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+    "lib/features/collections/group_creation_platform.dart": "f502e78d03ae3f8a1c9431acf7f4c13e9600f8ed51b43a457f05246653995723",
+    "lib/features/collections/group_empty_state.dart": "b10f4238ac48551c5a621c59986ad7d785d8ea56033f6b5c74e6e59aa436e83b",
+    "lib/features/collections/group_invitation_transport.dart": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+    "lib/features/collections/group_link_screen.dart": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+    "lib/features/collections/group_profile_form_controls.dart": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+    "lib/features/collections/group_profile_media.dart": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d",
+    "lib/features/collections/group_profile_screen.dart": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+    "lib/features/collections/group_qr_scanner_screen.dart": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0",
+    "lib/features/collections/group_share_service.dart": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+    "lib/features/collections/share_screen.dart": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+    "lib/features/home/app_share_service.dart": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+    "lib/features/home/home_public_groups_section.dart": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+    "lib/features/home/home_screen.dart": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+    "lib/features/launch/launch_splash_screen.dart": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0",
+    "lib/features/ledger/ledger_screen.dart": "5a0ad3e21f3c1a53cdfc4ea1e66f21bbf161ab6bb9700b9107f254b88cbb7784",
+    "lib/features/payments/contribute_entry_screen.dart": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+    "lib/features/payments/contribution_amount_widgets.dart": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2",
+    "lib/features/payments/contribution_flow_screen.dart": "26899bbf693bb6bfa2c248b7091f467b97f56f80987bad2a9d5e9ad39317ed9a",
+    "lib/features/profile/member_profile_gate.dart": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+    "lib/features/profile/profile_edit_screen.dart": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+    "lib/features/profile/profile_edit_widgets.dart": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+    "lib/features/settings/app_permissions_screen.dart": "e917e99ecbfbf250db90f70c6a5bd590dac6b73ab355eba59cf38d7aee8c8f57",
+    "lib/features/settings/security_hub_header.dart": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+    "lib/features/settings/settings_screen.dart": "3930e7381f9c82a628d400e3fafcc7c71797a42090e3c957d9d0c1579163d4de",
+    "lib/features/settings/settings_subscreens.dart": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+    "lib/features/status/account_legal_screens.dart": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+    "lib/features/status/connection_recovery_screens.dart": "f3651a8fe3e9ed02da33df1c90a6a99310d19ed72afaee6b4237d92ba9e1174b",
+    "lib/features/status/group_members_screen.dart": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+    "lib/features/status/native_permission_sheets.dart": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8",
+    "lib/features/status/production_state_screens.dart": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54",
+    "lib/l10n/collect_localizations.dart": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+    "lib/shared/models/collect_group_cover.dart": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+    "lib/shared/models/collect_group_cover_catalog.dart": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+    "lib/shared/models/collect_group_cover_catalog_community_projects.dart": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153",
+    "lib/shared/models/collect_group_cover_catalog_education.dart": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc",
+    "lib/shared/models/collect_group_cover_catalog_faith_giving.dart": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07",
+    "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+    "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538",
+    "lib/shared/models/collect_group_cover_catalog_sport_culture.dart": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689",
+    "lib/shared/models/collect_group_cover_catalog_weddings.dart": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91",
+    "lib/shared/models/collect_model_json_helpers.dart": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+    "lib/shared/models/collect_models.dart": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+    "lib/shared/models/collect_payment_json.dart": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+    "lib/shared/models/collect_payment_models.dart": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+    "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+    "lib/shared/models/collect_summary_json.dart": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+    "lib/shared/models/member_history_page.dart": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+    "lib/shared/providers/collect_app_state.dart": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+    "lib/shared/repositories/collect_invitation_protection.dart": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+    "lib/shared/repositories/collect_offline_cache.dart": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+    "lib/shared/repositories/collect_repository.dart": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+    "lib/shared/repositories/collect_repository_group_actions.dart": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+    "lib/shared/repositories/collect_repository_helpers.dart": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+    "lib/shared/repositories/collect_repository_history.dart": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+    "lib/shared/repositories/collect_repository_live_reader.dart": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+    "lib/shared/repositories/collect_repository_notification_actions.dart": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+    "lib/shared/repositories/collect_repository_providers.dart": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+    "lib/shared/repositories/collect_repository_state.dart": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+    "lib/shared/repositories/pending_shared_group_intent_store.dart": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+    "lib/shared/repositories/runtime_control_contract.dart": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+    "lib/shared/utils/collect_haptics.dart": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3",
+    "lib/shared/utils/collect_share_links.dart": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+    "lib/shared/utils/collect_share_origin.dart": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428",
+    "lib/shared/utils/support_contact.dart": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e",
+    "lib/shared/widgets/collect_action_controls.dart": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c",
+    "lib/shared/widgets/collect_bento_actions.dart": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6",
+    "lib/shared/widgets/collect_chrome.dart": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772",
+    "lib/shared/widgets/collect_components.dart": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775",
+    "lib/shared/widgets/collect_confirmation_sheet.dart": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368",
+    "lib/shared/widgets/collect_data_load_failure.dart": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089",
+    "lib/shared/widgets/collect_display_primitives.dart": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117",
+    "lib/shared/widgets/collect_feature_surfaces.dart": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83",
+    "lib/shared/widgets/collect_financial_amount_entry.dart": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+    "lib/shared/widgets/collect_financial_components.dart": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465",
+    "lib/shared/widgets/collect_financial_ledger.dart": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+    "lib/shared/widgets/collect_financial_money.dart": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+    "lib/shared/widgets/collect_financial_payments.dart": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+    "lib/shared/widgets/collect_form_viewport.dart": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04",
+    "lib/shared/widgets/collect_foundation.dart": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70",
+    "lib/shared/widgets/collect_group_card_editorial.dart": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+    "lib/shared/widgets/collect_group_card_media.dart": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+    "lib/shared/widgets/collect_group_card_metrics.dart": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+    "lib/shared/widgets/collect_group_cards.dart": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+    "lib/shared/widgets/collect_group_image.dart": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7",
+    "lib/shared/widgets/collect_group_photo_picker.dart": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce",
+    "lib/shared/widgets/collect_history_footer.dart": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+    "lib/shared/widgets/collect_inputs.dart": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a",
+    "lib/shared/widgets/collect_loading_surfaces.dart": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a",
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+    "lib/shared/widgets/collect_selection_controls.dart": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5",
+    "lib/shared/widgets/collect_state_feedback.dart": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48",
+    "lib/shared/widgets/collect_state_illustrations.dart": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992",
+    "lib/shared/widgets/collect_state_panels.dart": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6",
+    "lib/shared/widgets/collect_tone_icon.dart": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a",
+    "lib/shared/widgets/collect_top_chrome.dart": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423",
+    "lib/shared/widgets/screen_scaffold.dart": "af71f8f25446fc08ef879999ac11eafd6ec9331af0b4a10f71d66dfb6c3dff86",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "scripts/public_app_media.rb": "726e872cbcd403d20be72733322a8d78c34e76366a9a8d64bffa1fb3b6be2b9a",
+    "scripts/qa/asset_manifest_integrity.rb": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+    "test/fixtures/collect_repository_fixture.dart": "37c69552a818db22fc21c28df3c57d5df938cf4c75436f59d5461eaf58758a1a",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/LICENSE": "0f0aa9c590e8f42e5e37cc4c69b55041d2786534e3c418ebbb3df7a587518fee",
+    "third_party/file_saver/analysis_options.yaml": "0cc2260bd6bd5aa5d78a901f27a2df342ee74f7a253b4d7144c6b41b1edd9f92",
+    "third_party/file_saver/lib/file_saver.dart": "92459914f7c2a57eab55d08c80813d063d4c732799f3278ee544a7f94bc2a244",
+    "third_party/file_saver/lib/file_saver_web.dart": "2602d902c136fe145da6f9f774a750e2aa46786471af473cebcb97f3a1983dc2",
+    "third_party/file_saver/lib/src/models/file.model.dart": "88aee9aa67bc5c0face752e505fcadc8c015c357fc371206ba425bbc2ca114d7",
+    "third_party/file_saver/lib/src/models/link_details.dart": "05b9dc783cfafd6921256ffaf00dd7c6eed7ffd78281f2acc6fe3fc5ec0dba97",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler.dart": "57c7d37bea55110e7f8f15af2b813ed40275b52f75acd6c8cfabb13d9289b58b",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_all.dart": "4c169bfa6a1e908a7fed6b4e088734095f051b77bc92c212c5e962107b891f46",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_stub.dart": "af463964d47556991a592b8971c1bbd1a04cc59ceafe38fedc3446594bb59c33",
+    "third_party/file_saver/lib/src/platform_handler/platform_handler_web.dart": "02cff8bca0fb694c25d14018f216984766e4038d389a29b1b197e37ec799cc81",
+    "third_party/file_saver/lib/src/saver.dart": "bcb551f81e40b58331deb753e31c3572a6f675cde47f294c8eddaa845bcfce40",
+    "third_party/file_saver/lib/src/utils/file_ops_io.dart": "1c484dc3e5651073320d7a6f78b86f7d4a77c010376a71f7d24d23f7d46ab71a",
+    "third_party/file_saver/lib/src/utils/file_ops_stub.dart": "b8bb4b7eaa1ce62d185f5348cfcc6de089b674f761c8bbd1239e4502b789b707",
+    "third_party/file_saver/lib/src/utils/helpers.dart": "add266bcb58aed7f9244c5cfe440a70cdf35f091c53fcec6e465798b772988e0",
+    "third_party/file_saver/lib/src/utils/mime_types.dart": "2174ad80cb38e050915baf729323f7e4ff82759ac8ee0066947d133a98d5c2bf",
+    "third_party/file_saver/lib/src/web_stream_saver_stub.dart": "16530a72352d193a0d5655a5f8c40cfa853bcbef63aa0db34b2fbdece2a56c8e",
+    "third_party/file_saver/lib/src/web_stream_saver_web.dart": "74ad39b107188d6b79000b48e19ebb0f70a3b19db4b0ac6ab108ee999084e1ec",
+    "third_party/file_saver/pubspec.yaml": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3",
+    "third_party/firebase_messaging/COLLECT_FORK.md": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
+    "third_party/firebase_messaging/LICENSE": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8",
+    "third_party/firebase_messaging/UPSTREAM-SHA256.json": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
+    "third_party/firebase_messaging/analysis_options.yaml": "0fb308bbe319e1862512aab35463518a423b628b953d48f477e673e117407a19",
+    "third_party/firebase_messaging/lib/firebase_messaging.dart": "dd8a29320cf3d45eaed51ef3ce9bf34031f6e9e0ba716181f4e91ce20b07afba",
+    "third_party/firebase_messaging/lib/src/messaging.dart": "37f8ca997aac346e151c32abedfe3e37b8cabd527b834dfd15ce33bb8d1479ed",
+    "third_party/firebase_messaging/pubspec.yaml": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
+    "third_party/gotrue/COLLECT_FORK.md": "bab0d899d903ab6752219c6f804515fbdf5df0ad29569066d1027d231af569d3",
+    "third_party/gotrue/LICENSE": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+    "third_party/gotrue/UPSTREAM-SHA256.json": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+    "third_party/gotrue/analysis_options.yaml": "b2162ecbaf6dffb85075e46e8dd89bfe359a1f5e7803ee5a7ca41ae07cd3af7a",
+    "third_party/gotrue/lib/gotrue.dart": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d",
+    "third_party/gotrue/lib/src/broadcast_stub.dart": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513",
+    "third_party/gotrue/lib/src/broadcast_web.dart": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+    "third_party/gotrue/lib/src/collect_browser_invalidation.dart": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+    "third_party/gotrue/lib/src/constants.dart": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8",
+    "third_party/gotrue/lib/src/fetch.dart": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8",
+    "third_party/gotrue/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+    "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4",
+    "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2",
+    "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f",
+    "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1",
+    "third_party/gotrue/lib/src/gotrue_client.dart": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+    "third_party/gotrue/lib/src/gotrue_mfa_api.dart": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+    "third_party/gotrue/lib/src/gotrue_oauth_api.dart": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de",
+    "third_party/gotrue/lib/src/gotrue_passkey_api.dart": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf",
+    "third_party/gotrue/lib/src/helper.dart": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3",
+    "third_party/gotrue/lib/src/types/api_version.dart": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac",
+    "third_party/gotrue/lib/src/types/auth_exception.dart": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa",
+    "third_party/gotrue/lib/src/types/auth_response.dart": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102",
+    "third_party/gotrue/lib/src/types/auth_state.dart": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a",
+    "third_party/gotrue/lib/src/types/custom_oauth_provider.dart": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde",
+    "third_party/gotrue/lib/src/types/error_code.dart": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15",
+    "third_party/gotrue/lib/src/types/fetch_options.dart": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc",
+    "third_party/gotrue/lib/src/types/gotrue_async_storage.dart": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019",
+    "third_party/gotrue/lib/src/types/jwt.dart": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd",
+    "third_party/gotrue/lib/src/types/mfa.dart": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd",
+    "third_party/gotrue/lib/src/types/passkey.dart": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd",
+    "third_party/gotrue/lib/src/types/session.dart": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34",
+    "third_party/gotrue/lib/src/types/sign_out_reason.dart": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1",
+    "third_party/gotrue/lib/src/types/types.dart": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d",
+    "third_party/gotrue/lib/src/types/user.dart": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343",
+    "third_party/gotrue/lib/src/types/user_attributes.dart": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20",
+    "third_party/gotrue/lib/src/version.dart": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598",
+    "third_party/gotrue/pubspec.yaml": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd",
+    "tool/public_app_media_capture.dart": "de6808d8703087dd4377a2b895179dffe34eb092706a74236d37d04e92e1505b",
+    "web/_headers": "11aef7017dfc6192b5566ea58f0e4214a5fb189c36850c1a045629049a3d9cea",
+    "web/flutter_bootstrap.js": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+    "web/icons/collect-web-512.png": "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9",
+    "web/index.html": "51c5330e1a81387a517fe030e95c389d1085b63a98b5b2f627d60e00cc2d6209",
+    "web/manifest.json": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+    "web/public/layout.css": "c692877603aa32f2ae804f47ec2e1f1a4a78c20e34235b094b49b93ccfe0e41c",
+    "web/public/photography/banking-together-4b392d8a72b7.webp": "4b392d8a72b72e00fd3f4f9c1d558f4bda3060f21229663dc4c1876e634481da",
+    "web/public/photography/community-savings-acf6c9fee7c7.webp": "acf6c9fee7c7eb5c2d823562d8686e32f8acdd7e12efcdf569b89ac998e36dfa",
+    "web/public/photography/everyday-payments-3aae7f653287.webp": "3aae7f653287817c556f3e776ab5be2255ad6031f5f7886d28d28056524c1b46",
+    "web/public/photography/kigali-hills-72bbebc09878.webp": "72bbebc098786ba7de36e757eba6d259c96a72d76d5c3cad2c5931f73a8eb8d5",
+    "web/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp": "eaa4bb6b9ba1dab41e301cc43ddb3b8b6841f8c9187962fcaa63337578251761",
+    "web/public/photography/manifest.json": "9c4ec7255e5af56b8b33219cea9bf0b9f821c23eacfcfe6c6bfbe2644d8e92dc",
+    "web/public/photography/shared-goals-dd2861c45187.webp": "dd2861c45187cf04972e5e2ba3ffe1ea9367b30a3ca47d9c28e8b5179f5b3170",
+    "web/public/revolut.css": "15236feb0a5111b49d32048bc684db02041190dbacf0f846ccb47ac857637e69",
+    "web/robots.txt": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+  },
+  "browser_sources_unchanged": true,
+  "copied_source_file_count": 337,
+  "browser_source_file_count": 333,
+  "runtime_sha256": "a4ad67c1b55404e7ef2eb8013c6c2f405e59e8d5d64c491130409d65602877b3",
+  "stage_manifest_sha256": "2d462b46e05a8ddf1cec53f7185735f3bdf5effc805c05a394c4932c8abd1ec3"
+}

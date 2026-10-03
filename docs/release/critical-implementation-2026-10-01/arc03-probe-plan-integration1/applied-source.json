@@ -1,0 +1,14 @@
+{
+  "applied_at_utc": "2026-10-02T13:50:47.243217+00:00",
+  "owned_proposed_sha256": {
+    "scripts/edge_function_inventory.rb": "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99",
+    "scripts/supabase_production_readiness.sh": "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd",
+    "scripts/tests/edge_function_inventory_test.rb": "3e149e13958f1552cdbf69ac0dd73e43a67011d8b2556f2abd018fe3ca472b95"
+  },
+  "maintained_files_changed": [
+    "scripts/edge_function_inventory.rb",
+    "scripts/supabase_production_readiness.sh",
+    "scripts/tests/edge_function_inventory_test.rb"
+  ],
+  "outside_write_boundary_modified": false
+}

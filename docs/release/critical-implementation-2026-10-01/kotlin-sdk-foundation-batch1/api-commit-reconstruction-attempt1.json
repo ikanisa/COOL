@@ -1,0 +1,9 @@
+{
+  "algorithm": "One insertion of verification payload + Git gpgsig multiline header before first blank line, preserving payload bytes and signature splitlines.",
+  "body_bytes": 1269,
+  "body_sha256": "c9247dfbbfb07eb3b64d340d865d5c0a83d86fe7e2de3978dfa875da299641d8",
+  "expected_commit": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "matched": false,
+  "reconstructed_commit": "324b8204439e7330d1eab74377fcd14eb221d3e1",
+  "scope": "Failed derived canonical reconstruction experiment. API signed payload is not accepted here as a verified canonical raw Git commit. No source acceptance, newline search/blessing, local PGP verification or SDK execution."
+}

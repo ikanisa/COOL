@@ -1,0 +1,66 @@
+{
+  "host_architecture": "arm64",
+  "results": {
+    "flutter-3.44.4-checker-test.kt": {
+      "bytes": 21048,
+      "fetched_utc": "2026-10-01T23:34:32.642821+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt",
+      "http_status": 200,
+      "retained_path": "flutter-3.44.4-checker-test.kt",
+      "sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt"
+    },
+    "flutter-3.44.4-checker.kt": {
+      "bytes": 16176,
+      "fetched_utc": "2026-10-01T23:34:32.642768+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt",
+      "http_status": 200,
+      "retained_path": "flutter-3.44.4-checker.kt",
+      "sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt"
+    },
+    "flutter-3.44.4-license": {
+      "bytes": 1519,
+      "fetched_utc": "2026-10-01T23:34:32.642658+00:00",
+      "final_url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/LICENSE",
+      "http_status": 200,
+      "retained_path": "flutter-3.44.4-license",
+      "sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+      "url": "https://raw.githubusercontent.com/flutter/flutter/3.44.4/LICENSE"
+    },
+    "flutter-tag-3.44.4.json": {
+      "bytes": 339,
+      "fetched_utc": "2026-10-01T23:34:33.867855+00:00",
+      "final_url": "https://api.github.com/repos/flutter/flutter/git/ref/tags/3.44.4",
+      "http_status": 200,
+      "retained_path": "flutter-tag-3.44.4.json",
+      "sha256": "3726e3bd748075412007d786c8c3b05ecd2f80ff94e3d60ddbdfdfc5bb303639",
+      "url": "https://api.github.com/repos/flutter/flutter/git/ref/tags/3.44.4"
+    },
+    "gradle-9.1-compatibility.html": {
+      "bytes": 193443,
+      "fetched_utc": "2026-10-01T23:34:34.222309+00:00",
+      "final_url": "https://docs.gradle.org/9.1.0/userguide/compatibility.html",
+      "http_status": 200,
+      "retained_path": "gradle-9.1-compatibility.html",
+      "sha256": "a217ae5a3aff8be02554029b2df40e26743736e015b67b46789b2b6ad0dbd1c3",
+      "url": "https://docs.gradle.org/9.1.0/userguide/compatibility.html"
+    },
+    "gradle-9.1-kotlin-dsl.html": {
+      "bytes": 267535,
+      "fetched_utc": "2026-10-01T23:34:34.126679+00:00",
+      "final_url": "https://docs.gradle.org/9.1.0/userguide/kotlin_dsl.html",
+      "http_status": 200,
+      "retained_path": "gradle-9.1-kotlin-dsl.html",
+      "sha256": "04926b3920e7bc9ac6da2b8c87a2f5e2d9113c284074a9215d739b9622e119c0",
+      "url": "https://docs.gradle.org/9.1.0/userguide/kotlin_dsl.html"
+    },
+    "releases-macos.json": {
+      "error": "HTTPError",
+      "fetched_utc": "2026-10-01T23:34:32.642379+00:00",
+      "http_status": 404,
+      "url": "https://storage.googleapis.com/flutter_infra_release/flutter/releases/releases_macos.json"
+    }
+  },
+  "scope": "Read-only public primary text/metadata fetches; no SDK archive download, extraction, candidate or installed SDK mutation."
+}

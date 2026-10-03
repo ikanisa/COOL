@@ -43,32 +43,27 @@ abstract final class CollectPublicMarketingTheme {
       displayColor: ink,
       fontFamily: CollectTypography.marketingFontFamily,
     );
-    const button = ButtonStyle(
-      minimumSize: WidgetStatePropertyAll(Size(44, 44)),
-      padding: WidgetStatePropertyAll(
+    final button = ButtonStyle(
+      minimumSize: const WidgetStatePropertyAll(Size(44, 44)),
+      padding: const WidgetStatePropertyAll(
         EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       ),
-      shape: WidgetStatePropertyAll(StadiumBorder()),
+      shape: const WidgetStatePropertyAll(StadiumBorder()),
       textStyle: WidgetStatePropertyAll(
-        TextStyle(
-          fontFamily: CollectTypography.marketingFontFamily,
-          fontSize: 16,
-          height: 22 / 16,
-          fontWeight: FontWeight.w500,
-        ),
+        CollectTypography.marketingControl(ink),
       ),
     );
     return base.copyWith(
       textTheme: text.copyWith(
-        bodyLarge: text.bodyLarge?.copyWith(fontSize: 18, height: 1.5),
-        bodyMedium: text.bodyMedium?.copyWith(fontSize: 18, height: 1.5),
-        titleLarge: text.titleLarge?.copyWith(fontWeight: FontWeight.w500),
-        titleMedium: text.titleMedium?.copyWith(fontWeight: FontWeight.w500),
-        headlineMedium: text.headlineMedium?.copyWith(
-          fontSize: 40,
-          height: 1.05,
-          fontWeight: FontWeight.w500,
+        bodyLarge: CollectTypography.marketingBody(ink),
+        bodyMedium: CollectTypography.marketingBody(ink),
+        titleLarge: text.titleLarge?.copyWith(
+          fontWeight: CollectTypography.weightMedium,
         ),
+        titleMedium: text.titleMedium?.copyWith(
+          fontWeight: CollectTypography.weightMedium,
+        ),
+        headlineMedium: CollectTypography.marketingSectionHeading(ink),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: canvas,

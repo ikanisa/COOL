@@ -1,0 +1,53 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":91695,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":1,"time":2,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":876}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":23,"line":null,"column":null,"url":null},"type":"group","time":877}
+{"test":{"id":3,"name":"unsafe input 0 makes no create RPC and publishes no intent","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":46,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":877}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":912}
+{"test":{"id":4,"name":"unsafe input -1 makes no create RPC and publishes no intent","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":46,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":913}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":914}
+{"test":{"id":5,"name":"unsafe input 9007199254740992 makes no create RPC and publishes no intent","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":46,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":915}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":917}
+{"test":{"id":6,"name":"valid map ACK is bound to submitted group and exact amount","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":62,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":917}
+{"testID":6,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":936}
+{"test":{"id":7,"name":"valid singleton list ACK is bound to submitted group and exact amount","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":62,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":936}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":940}
+{"test":{"id":8,"name":"wrong group ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":940}
+{"testID":8,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":944}
+{"test":{"id":9,"name":"wrong amount ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":944}
+{"testID":9,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":949}
+{"test":{"id":10,"name":"multiple rows ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":949}
+{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":952}
+{"test":{"id":11,"name":"empty rows ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":952}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":955}
+{"test":{"id":12,"name":"null ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":956}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":959}
+{"test":{"id":13,"name":"scalar ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":959}
+{"testID":13,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":962}
+{"test":{"id":14,"name":"inexact amount ACK cannot enter client state or mark membership","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":962}
+{"testID":14,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":964}
+{"test":{"id":15,"name":"late create ACK denied after same-user new session with pinned old request authority","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":112,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":964}
+{"testID":15,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":971}
+{"test":{"id":16,"name":"late create ACK denied after A to B to A original session with pinned old request authority","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":112,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":971}
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":974}
+{"test":{"id":17,"name":"same-session token refresh retains valid intent authority","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":141,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":974}
+{"testID":17,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":977}
+{"test":{"id":18,"name":"503 makes one mutation POST per explicit caller","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":160,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":977}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":980}
+{"test":{"id":19,"name":"transport loss makes one mutation POST per explicit caller","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":160,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":980}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":982}
+{"test":{"id":20,"name":"refresh foreign ID is denied without replacing the immutable request","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":982}
+{"testID":20,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":986}
+{"test":{"id":21,"name":"refresh extra row is denied without replacing the immutable request","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":986}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":988}
+{"test":{"id":22,"name":"refresh inexact count is denied without replacing the immutable request","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":988}
+{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":991}
+{"test":{"id":23,"name":"refresh changed group is denied without replacing the immutable request","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":991}
+{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":994}
+{"test":{"id":24,"name":"refresh changed amount is denied without replacing the immutable request","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":994}
+{"testID":24,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":997}
+{"test":{"id":25,"name":"old-session refresh response cannot publish into fresh same-user state","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":220,"column":3,"url":"file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/contribution_intent_binding_test.dart"},"type":"testStart","time":997}
+{"testID":25,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":1000}
+{"success":true,"type":"done","time":1008}

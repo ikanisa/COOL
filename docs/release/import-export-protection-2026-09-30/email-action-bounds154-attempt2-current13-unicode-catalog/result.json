@@ -1,0 +1,1331 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": {
+        "added": [
+          "collect_admin_access.normalized_operator_reason(text)"
+        ],
+        "changed": {
+          "public.admin_approve_email_operator_v1(uuid, text, text)": [
+            "body"
+          ],
+          "public.admin_revoke_email_operator_v1(uuid, text)": [
+            "body"
+          ],
+          "public.admin_set_operator_email_mode_v1(text)": [
+            "body"
+          ]
+        }
+      },
+      "name": "reason patch preserves identities/defaults/results/owners/ACLs and unrelated routine bodies",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "approve valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 3",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 4",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 5",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 7",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 9",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 10",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 11",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 12",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 13",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 14",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 15",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 16",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 17",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 18",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 19",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 21",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 22",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 23",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 24",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 25",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 26",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 27",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 29",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 30",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 31",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 32",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "approve invalid reason boundary 33",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "effects": {
+          "audit_reasons": [
+            "Synthetic accountable reason"
+          ],
+          "mode": "transition",
+          "target_reason": "Synthetic accountable reason"
+        }
+      },
+      "name": "approve records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "approved",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "effects": {
+          "audit_reasons": [
+            "Audit\tinterior\nreason"
+          ],
+          "mode": "transition",
+          "target_reason": "Audit\tinterior\nreason"
+        }
+      },
+      "name": "approve records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "approve denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "exit_code": 0
+      },
+      "name": "revoke valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 3",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 4",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 5",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 7",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 9",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 10",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 11",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 12",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 13",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 14",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 15",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 16",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 17",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 18",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 19",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 21",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 22",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 23",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 24",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 25",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 26",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 27",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 29",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 30",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 31",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 32",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "revoke invalid reason boundary 33",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "effects": {
+          "audit_reasons": [
+            "Synthetic accountable reason"
+          ],
+          "mode": "transition",
+          "target_reason": "Synthetic target approval"
+        }
+      },
+      "name": "revoke records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "ok": true,
+          "status": "revoked",
+          "user_id": "99710000-0000-4000-8000-000000000002"
+        },
+        "effects": {
+          "audit_reasons": [
+            "Audit\tinterior\nreason"
+          ],
+          "mode": "transition",
+          "target_reason": "Synthetic target approval"
+        }
+      },
+      "name": "revoke records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "revoke denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 500",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "exit_code": 0
+      },
+      "name": "cutover valid reason returns exact current ACK 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 0",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 1",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 2",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 3",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 4",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 5",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 6",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 7",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 8",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 9",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 10",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 11",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 12",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 13",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 14",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 15",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 16",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 17",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 18",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 19",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 20",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 21",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 22",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 23",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 24",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 25",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 26",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 27",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 28",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 29",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 30",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 31",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 32",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3,
+        "intended_error_observed": true,
+        "returned_ack": false
+      },
+      "name": "cutover invalid reason boundary 33",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "effects": {
+          "audit_reasons": [
+            "Synthetic accountable reason"
+          ],
+          "mode": "email",
+          "target_reason": null
+        }
+      },
+      "name": "cutover records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "ack": {
+          "mode": "email",
+          "ok": true,
+          "replay": false
+        },
+        "effects": {
+          "audit_reasons": [
+            "Audit\tinterior\nreason"
+          ],
+          "mode": "email",
+          "target_reason": null
+        }
+      },
+      "name": "cutover records canonical bounded reason while preserving interior whitespace",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies anon",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies service_role",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies ordinary unapproved member",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exit_code": 3
+      },
+      "name": "cutover denies missing manage permission",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "reason helper remains unavailable to every API role and PUBLIC",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "all action probes rollback every synthetic row/control/catalog effect",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "all staged inputs remain byte-identical",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T23:20:05.869195+00:00",
+  "database": "collect_local_uat_32e9775754e14d2f",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_email_admin_action_reason_and_ack_bounds",
+  "migration_sources": {
+    "20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "20260930230400_admin_investigation.sql": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+    "20260930233000_sensitive_admin_authority.sql": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+    "20260930234000_exact_request_amounts.sql": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+    "20260930235000_exact_receipt_history_amounts.sql": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+    "20260930235500_operator_reason_whitespace.sql": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+    "20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+  },
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "rows": [
+      "notifications.read",
+      "notifications.manage"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "645763d6d733494f67a56221cffef29dd14fb69efaed2199e2f12bdd7aa3e17b",
+  "shared_source_written": false,
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "started_at": "2026-09-30T23:17:51.382653+00:00",
+  "status": "pass"
+}

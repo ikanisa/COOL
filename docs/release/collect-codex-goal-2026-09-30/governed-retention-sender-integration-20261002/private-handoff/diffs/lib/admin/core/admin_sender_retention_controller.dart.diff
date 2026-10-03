@@ -1,0 +1,14 @@
+--- predecessor/lib/admin/core/admin_sender_retention_controller.dart
++++ final/lib/admin/core/admin_sender_retention_controller.dart
+@@ -130,8 +130,9 @@
+         return;
+       }
+       if (_valid(g)) {
+-        error =
+-            'The original request requires recovery. No replacement request has been sent.';
++        error = pending == null
++            ? 'Check the maintenance limits and reason before recording a change.'
++            : 'The original request requires recovery. No replacement request has been sent.';
+       }
+     } finally {
+       if (_valid(g)) {

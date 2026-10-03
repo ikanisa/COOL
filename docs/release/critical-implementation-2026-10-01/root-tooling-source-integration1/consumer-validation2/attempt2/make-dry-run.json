@@ -1,0 +1,35 @@
+{
+  "command": [
+    "/usr/bin/make",
+    "-n",
+    "qa-tooling-test"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "elapsed_seconds": 0.055,
+  "exit_code": 0,
+  "output_limit_bytes": 4194304,
+  "pgid": 26376,
+  "pid": 26376,
+  "process_group_absent": true,
+  "residual_group_on_leader_completion": false,
+  "stderr": {
+    "bytes": 0,
+    "device": 16777247,
+    "inode": 17772683,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924126824440626,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 1567,
+    "device": 16777247,
+    "inode": 17772682,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924126864541921,
+    "sha256": "c0c7c73eb2bfb9d792ecdf82465dc9537035c1c81df5bed0ac5c0c3c816aeaa4"
+  },
+  "termination_reason": null,
+  "timeout_seconds": 15
+}

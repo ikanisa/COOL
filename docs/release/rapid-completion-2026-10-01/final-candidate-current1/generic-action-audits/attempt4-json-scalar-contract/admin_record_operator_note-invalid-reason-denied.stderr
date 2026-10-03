@@ -1,0 +1,3 @@
+ERROR:  P0001: Note body is required
+CONTEXT:  PL/pgSQL function admin_record_operator_note(text,uuid,text) line 8 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

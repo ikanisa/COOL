@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/original_row_deletion/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "afa814a02acde552d41576a860c2b671022e7937b32417deedbb4e1f43ccf13e",
+  "executed_sql_sha256": "408b3424a860754078e151ad98dcd6806a93f600cc745846d43b90af1be71854",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 150,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930180000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/local-database-runtime-2026-09-30/staged151-precommit-guards-attempt1/original_row_deletion/guard-probe-source.sql",
+  "reviewed_source_sha256": "2678d527183039693e4075649900ef5a382c3acc68d0ce91ea89e8cbe5346ecc",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 3,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T20:41:00.178498+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

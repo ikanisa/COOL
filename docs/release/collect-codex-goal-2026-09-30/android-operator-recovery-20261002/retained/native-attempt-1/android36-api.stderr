@@ -1,0 +1,9 @@
+source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:25:23: error: property must be initialized or be abstract.
+    @Volatile private var status:Map<String,Any?>=reply("idle","idle")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:25:49: error: syntax error: Expecting a '>'.
+    @Volatile private var status:Map<String,Any?>=reply("idle","idle")
+                                                ^
+source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRecoveryOperator.kt:25:49: error: syntax error: Property getter or setter expected.
+    @Volatile private var status:Map<String,Any?>=reply("idle","idle")
+                                                ^^^^^^^^^^^^^^^^^^^^^^

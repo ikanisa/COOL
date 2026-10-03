@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.FlutterPluginUtilsTest" tests="50" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:31.509Z" hostname="Jeans-Mac-mini.local" time="1.848">
+  <properties/>
+  <testcase name="addTaskForJavaVersion adds task for Java version()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.023"/>
+  <testcase name="shouldProjectSplitPerAbi returns false by default()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.006"/>
+  <testcase name="supportsBuildMode returns true if project should not use local engine()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="buildGradleFile returns groovy build file and logs when both groovy and kotlin exist(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.005"/>
+  <testcase name="getFlutterSourceDirectory returns the flutter source directory()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.187"/>
+  <testcase name="addFlutterDependencies adds libflutter dep but not embedding dep when only dep is dev dep in debug mode()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.817"/>
+  <testcase name="readPropertiesIfExist returns empty Properties when file does not exist(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.006"/>
+  <testcase name="detectLowCompileSdkVersionOrNdkVersion logs no warnings when no plugins have higher sdk or ndk(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.031"/>
+  <testcase name="settingsGradleFile returns groovy settings gradle file when it exists(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.005"/>
+  <testcase name="addTaskForPrintBuildVariants adds task for printing build variants()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.006"/>
+  <testcase name="formatPlatformString returns correct string()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="isProjectVerbose returns true when the property is set to true()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="getFlutterTarget returns the target when the project property is set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.005"/>
+  <testcase name="addApiDependencies adds the dependency with the correct name when no UnknownTaskException()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.008"/>
+  <testcase name="detectLowCompileSdkVersionOrNdkVersion throws IllegalArgumentException when plugin has no name()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.008"/>
+  <testcase name="shouldShrinkResources returns true when property is set to true()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="shouldConfigureFlutterTask returns true when taskname and assembleTask end with Release()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.009"/>
+  <testcase name="addFlutterDependencies adds libflutter and embedding dep when only dep is dev dep in release mode()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.017"/>
+  <testcase name="buildGradleFile returns groovy build gradle file when it exists(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.004"/>
+  <testcase name="shouldConfigureFlutterTask returns true for assemble task()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="forceNdkDownload sets externalNativeBuild properties()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.497"/>
+  <testcase name="toCamelCase handles empty list()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="compareVersionStrings compares last element of version string correctly()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="compareVersionStrings compares first element of version string correctly()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="buildModeFor returns debug if the BuildType is debuggable()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="compareVersionStrings considers rc candidates the same()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.0"/>
+  <testcase name="toCamelCase converts a list of strings to camel case()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="supportsBuildMode returns false if project should use local engine and build mode does not match()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.004"/>
+  <testcase name="getTargetPlatforms the default if property is not set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="addTaskForKGPVersion adds task for KGP version()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.006"/>
+  <testcase name="readPropertiesIfExist returns Properties when file exists(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.009"/>
+  <testcase name="toCamelCase handles single-element list()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="addApiDependencies adds the dependency with the correct name when UnknownTaskException()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.01"/>
+  <testcase name="compareVersionStrings compares middle element of version string correctly()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.0"/>
+  <testcase name="forceNdkDownload skips projects which are already configuring a native build(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.01"/>
+  <testcase name="getTargetPlatforms the value if property is set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="shouldProjectSplitPerAbi returns true when property is set to true()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="getCompileSdkFromProject returns the compileSdk from the project()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="getFlutterTarget returns the default target when it is not set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.007"/>
+  <testcase name="settingsGradleFile returns groovy settings file and logs when both groovy and kotlin exist(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.004"/>
+  <testcase name="getFlutterSourceDirectory throws exception when flutter source directory is not set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="shouldShrinkResources returns true by default()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <testcase name="addFlutterDependencies adds libflutter dependency but not embedding dependency when is a flutter app()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.017"/>
+  <testcase name="getFlutterTarget returns the target from the FlutterExtension when it is set and project property is not set()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.003"/>
+  <testcase name="getTargetPlatforms throws GradleException if property is set to invalid value()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.003"/>
+  <testcase name="detectLowCompileSdkVersionOrNdkVersion logs warnings when plugins have higher sdk and ndk(Path)" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.023"/>
+  <testcase name="isProjectVerbose returns false by default()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="addFlutterDependencies returns early if buildMode is not supported()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.012"/>
+  <testcase name="buildModeFor returns profile if the BuildType has name profile()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.001"/>
+  <testcase name="buildModeFor returns release if the BuildType is not debuggable and not named profile()" classname="com.flutter.gradle.FlutterPluginUtilsTest" time="0.002"/>
+  <system-out><![CDATA[Failed to set backing field (skipping)
+java.lang.IllegalAccessException: class io.mockk.InternalPlatformDsl cannot access a member of class java.io.File (in module java.base) with modifiers "private final"
+	at java.base/jdk.internal.reflect.Reflection.newIllegalAccessException(Unknown Source)
+	at java.base/java.lang.reflect.AccessibleObject.checkAccess(Unknown Source)
+	at java.base/java.lang.reflect.Field.checkAccess(Unknown Source)
+	at java.base/java.lang.reflect.Field.set(Unknown Source)
+	at io.mockk.InternalPlatformDsl.dynamicSetField(InternalPlatformDsl.kt:182)
+	at io.mockk.impl.recording.states.StubbingAwaitingAnswerState.assignFieldIfMockingProperty(StubbingAwaitingAnswerState.kt:68)
+	at io.mockk.impl.recording.states.StubbingAwaitingAnswerState.access$assignFieldIfMockingProperty(StubbingAwaitingAnswerState.kt:9)
+	at io.mockk.impl.recording.states.StubbingAwaitingAnswerState$assignFieldIfMockingProperty$1.invoke(StubbingAwaitingAnswerState.kt:52)
+	at io.mockk.impl.recording.states.StubbingAwaitingAnswerState$assignFieldIfMockingProperty$1.invoke(StubbingAwaitingAnswerState.kt:51)
+	at io.mockk.impl.stub.AnswerAnsweringOpportunity.notifyFirstAnswerHandlers(AnswerAnsweringOpportunity.kt:30)
+	at io.mockk.impl.stub.AnswerAnsweringOpportunity.provideAnswer(AnswerAnsweringOpportunity.kt:21)
+	at io.mockk.MockKStubScope.answers(API.kt:2297)
+	at io.mockk.MockKStubScope.returns(API.kt:2301)
+	at com.flutter.gradle.FlutterPluginUtilsTest.forceNdkDownload sets externalNativeBuild properties(FlutterPluginUtilsTest.kt:1658)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(Unknown Source)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(Unknown Source)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:135)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:110)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:104)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:64)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:194)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

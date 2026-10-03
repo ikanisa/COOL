@@ -1,0 +1,5 @@
+# Current 209-migration ordinary-installer rehearsal
+
+All 37 actual checks passed in 149.722 seconds against one frozen 216-input private candidate. All 209 application migrations ran as postgres NOSUPERUSER after explicit isolated platform preparation. The 124-version synthetic predecessor retained 18 financial, receipt, Auth and approval projections through all 85 pending migrations. Full final clean and populated schema catalogs match byte-for-byte and canonically. Scheduler dispatch stayed disabled; both owned containers were removed. The current 209-version shipping validator also passed.
+
+The prior 208-version proof remains immutable and dated. This packet includes the new retention-control migration without changing its bytes. Local installer CREATE ROLE/CREATE DB/BYPASSRLS and trusted memberships remain explicit; managed hosted parity is unproved. Domain/caller mapping, broader historical data/ACL preservation, committed recovery and roll-forward, and hosted/provider acceptance remain open. Full BE-08 and production acceptance are not closed.

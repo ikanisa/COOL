@@ -1,0 +1,1631 @@
+{
+  "kind": "C34_byte_identical_publication",
+  "files": [
+    {
+      "path": "MANIFEST.json",
+      "bytes": 57162,
+      "mode": "0o644",
+      "sha256": "8c6d90562375adf3f68abee3ecd4ff4399be97e520e42bd7c64f7706fe57ed11"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6466,
+      "mode": "0o644",
+      "sha256": "21ec3e146f3d83a7bcd716adea6779b850703bee67ee904e59e6ecc63b21e64c"
+    },
+    {
+      "path": "backend-uat/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000200_admin_gateway_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001001457_joined_operator_audit.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001004651_receipt_cancel_audit_actor.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/baseline-load.log",
+      "bytes": 1,
+      "mode": "0o644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/c34_restored/container.log",
+      "bytes": 29699,
+      "mode": "0o644",
+      "sha256": "d31ffdbe3790d5e973f01510d642173aab4c7f9cd851b7b113c8454973ccc470"
+    },
+    {
+      "path": "backend-uat/c34_restored/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "backend-uat/c34_restored/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "backend-uat/c34_restored-queries.log",
+      "bytes": 4334980,
+      "mode": "0o644",
+      "sha256": "7e81c1c3e193ac01fdcbc9ebaa7f32c68a356e828a850f61e573f79f734c98bd"
+    },
+    {
+      "path": "backend-uat/c34_restored-queries.sql",
+      "bytes": 128727,
+      "mode": "0o644",
+      "sha256": "a44fa944393ef0b238054495ff299ed818ffda1c21b6ded2ac7587e62965b71a"
+    },
+    {
+      "path": "backend-uat/c34_source/container.log",
+      "bytes": 16391,
+      "mode": "0o644",
+      "sha256": "77e846f393d8ddd72822158f4456c6ffc9d59d4b173dfd951ed339c4a9e785da"
+    },
+    {
+      "path": "backend-uat/c34_source/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "backend-uat/c34_source/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "backend-uat/c34_source-queries.log",
+      "bytes": 2217986,
+      "mode": "0o644",
+      "sha256": "05317a89c1e43973a734dd0f0419f5763ac941210ed57c4df507f4abf0ecb3ba"
+    },
+    {
+      "path": "backend-uat/c34_source-queries.sql",
+      "bytes": 1778288,
+      "mode": "0o644",
+      "sha256": "a5fb7045143f9d00ad0d2ac3542dcb1c5d196025c7aca24118444f29ca43b2bd"
+    },
+    {
+      "path": "backend-uat/captured/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "mode": "0o644",
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "backend-uat/captured/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "mode": "0o644",
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "backend-uat/captured/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "mode": "0o644",
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "backend-uat/captured/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "mode": "0o644",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "backend-uat/captured/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "mode": "0o644",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "backend-uat/captured/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "mode": "0o644",
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "backend-uat/captured/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "mode": "0o644",
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "backend-uat/captured/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "mode": "0o644",
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "backend-uat/captured/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "mode": "0o644",
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "backend-uat/captured/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "mode": "0o644",
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "backend-uat/captured/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "mode": "0o644",
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "backend-uat/captured/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "mode": "0o644",
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "backend-uat/captured/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "mode": "0o644",
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "backend-uat/captured/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "mode": "0o644",
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "backend-uat/captured/android_gateway_identity_uat.py",
+      "bytes": 26672,
+      "mode": "0o644",
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    {
+      "path": "backend-uat/captured/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "mode": "0o644",
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "backend-uat/captured/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "mode": "0o644",
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "backend-uat/captured/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "mode": "0o644",
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "backend-uat/captured/runner.py",
+      "bytes": 34801,
+      "mode": "0o644",
+      "sha256": "890e1d7f477cd05c8867bda4862636dc2a66e42eb2e9f2b981168eebdac788d6"
+    },
+    {
+      "path": "backend-uat/captured/schema153-api-acl.sql",
+      "bytes": 143763,
+      "mode": "0o644",
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "backend-uat/captured/schema153-row-free.sql",
+      "bytes": 1289085,
+      "mode": "0o644",
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "backend-uat/captured/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "mode": "0o644",
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "backend-uat/pg-dump.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/pg-restore-toc.list",
+      "bytes": 263919,
+      "mode": "0o644",
+      "sha256": "32214ec41ec44d824d43d2405e1697f3c9ae4d743f5c3c7f13cf8da22de23c78"
+    },
+    {
+      "path": "backend-uat/pg-restore.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/pg-restore.stdout.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/restored-after-verification-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "backend-uat/restored-after-verification-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "235fa17f871fcb7b522fda7628673e4c6dc7881272ad9fa6c7cf120249ad005e"
+    },
+    {
+      "path": "backend-uat/restored-after-verification-rows.json",
+      "bytes": 92314,
+      "mode": "0o644",
+      "sha256": "bacab472ae66504db8ad449d0e11da909e65d8e076b01175cb4f23108e4dddc8"
+    },
+    {
+      "path": "backend-uat/restored-after-verification-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "backend-uat/restored-audit-exception.json",
+      "bytes": 868,
+      "mode": "0o644",
+      "sha256": "dd181a1089f3a680b95c0e0f2a3b8dc80bc351839c695549b554d454042963eb"
+    },
+    {
+      "path": "backend-uat/restored-audit-gateway_device.json",
+      "bytes": 1654,
+      "mode": "0o644",
+      "sha256": "b703840ba8903f9cd930a1fed7b5c8511072db4e9bc4f6550a3737363e610202"
+    },
+    {
+      "path": "backend-uat/restored-audit-receipt.json",
+      "bytes": 877,
+      "mode": "0o644",
+      "sha256": "78c9674ab2637549bb12409ce0f20cc964a1c99cad6c0e6fcfa37fcd93c0668c"
+    },
+    {
+      "path": "backend-uat/restored-audit-shadow_run.json",
+      "bytes": 1632,
+      "mode": "0o644",
+      "sha256": "873028ad72cce147f62281a3d734fac43ffbb385bdfc0d1d30845fca8ec33f38"
+    },
+    {
+      "path": "backend-uat/restored-audit-supervisor_identity.json",
+      "bytes": 1276,
+      "mode": "0o644",
+      "sha256": "ab3649c7e024fc64397aa04e4591354b6574a5e3317992dd70f26223d95bf6f0"
+    },
+    {
+      "path": "backend-uat/restored-cancel-lookup.json",
+      "bytes": 822,
+      "mode": "0o644",
+      "sha256": "6417173586c2ace60dc651a78151e6e186f76a9b6ebb7529a85913b204e7fafa"
+    },
+    {
+      "path": "backend-uat/restored-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "backend-uat/restored-gateway-owner-lookup.json",
+      "bytes": 830,
+      "mode": "0o644",
+      "sha256": "aa0adb294b7c6017dd6acfd4bd3b3a5ae5c1c12bfda649670ee097049c819db9"
+    },
+    {
+      "path": "backend-uat/restored-gateway-reconcile.json",
+      "bytes": 313,
+      "mode": "0o644",
+      "sha256": "2a27915788eea16432b125f64008c492c08e804f2c9b0ad2027c2c6f82f542f0"
+    },
+    {
+      "path": "backend-uat/restored-policy-current.json",
+      "bytes": 2133,
+      "mode": "0o644",
+      "sha256": "0958ca6a1c30ab8cd9e019eb0f3ebb79ca2005c77249f119e9cd8eba65437cfa"
+    },
+    {
+      "path": "backend-uat/restored-policy-lookup.json",
+      "bytes": 1063,
+      "mode": "0o644",
+      "sha256": "fb7922da6a55153d3a8ad386a42d530a9d4216a039369db04f54784824f798ed"
+    },
+    {
+      "path": "backend-uat/restored-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "235fa17f871fcb7b522fda7628673e4c6dc7881272ad9fa6c7cf120249ad005e"
+    },
+    {
+      "path": "backend-uat/restored-rows.json",
+      "bytes": 92314,
+      "mode": "0o644",
+      "sha256": "bacab472ae66504db8ad449d0e11da909e65d8e076b01175cb4f23108e4dddc8"
+    },
+    {
+      "path": "backend-uat/restored-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "backend-uat/restored-supervisor-reconcile.json",
+      "bytes": 719,
+      "mode": "0o644",
+      "sha256": "d1952e53920d35e37b14ae72d5a92773d7856795d7fa3b914717eba0b7c10593"
+    },
+    {
+      "path": "backend-uat/result.json",
+      "bytes": 24695,
+      "mode": "0o644",
+      "sha256": "7c6efb7130e4681eaaae8c85b453b13a17db05c2fa604c3f2b557133bce72b0a"
+    },
+    {
+      "path": "backend-uat/run.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/run.stdout.log",
+      "bytes": 8891,
+      "mode": "0o644",
+      "sha256": "959495ae6fa3bd4bdb3c1015de0388c023b42635f01258589d18e99a1e8da5e4"
+    },
+    {
+      "path": "backend-uat/source-cancel-receipt.json",
+      "bytes": 527,
+      "mode": "0o644",
+      "sha256": "de51f5451e9e61a766bed17ea7825f6890e6571c795bc076e88f19305dcd057c"
+    },
+    {
+      "path": "backend-uat/source-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "backend-uat/source-gateway-heartbeat.json",
+      "bytes": 156,
+      "mode": "0o644",
+      "sha256": "8121352cb5e32a093962c9ae28da6807d5fe521153ec720eb8d742b82803794b"
+    },
+    {
+      "path": "backend-uat/source-policy-receipt.json",
+      "bytes": 763,
+      "mode": "0o644",
+      "sha256": "5ddd6db6951d58ccdd012075e1ed745f3e00ed2b97210ba821a73fde12ed0939"
+    },
+    {
+      "path": "backend-uat/source-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "235fa17f871fcb7b522fda7628673e4c6dc7881272ad9fa6c7cf120249ad005e"
+    },
+    {
+      "path": "backend-uat/source-rows.json",
+      "bytes": 92314,
+      "mode": "0o644",
+      "sha256": "bacab472ae66504db8ad449d0e11da909e65d8e076b01175cb4f23108e4dddc8"
+    },
+    {
+      "path": "backend-uat/source-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "backend-uat/source-supervisor-health.json",
+      "bytes": 556,
+      "mode": "0o644",
+      "sha256": "11d90c1f3e2c5c173f85f61b89601aeff85a5848f95e41a126f6ab5af303ecc0"
+    },
+    {
+      "path": "backend-uat/synthetic-postgresql.custom.dump",
+      "bytes": 2154175,
+      "mode": "0o600",
+      "sha256": "19bab8fed19ce4785931c1084422d7da130c52487f7ee452c05c651e38a98dac"
+    },
+    {
+      "path": "collect_synthetic_backup_restore_uat.py",
+      "bytes": 34801,
+      "mode": "0o644",
+      "sha256": "890e1d7f477cd05c8867bda4862636dc2a66e42eb2e9f2b981168eebdac788d6"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000200_admin_gateway_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001001457_joined_operator_audit.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001004651_receipt_cancel_audit_actor.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/baseline-load.log",
+      "bytes": 1,
+      "mode": "0o644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "diagnostics/attempt1/c34_source/container.log",
+      "bytes": 16602,
+      "mode": "0o644",
+      "sha256": "87f70c08f221a339f8ff09f6423c7ffab06ed4124272a13c953cfea9a4e858ed"
+    },
+    {
+      "path": "diagnostics/attempt1/c34_source/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt1/c34_source/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt1/c34_source-queries.log",
+      "bytes": 2123098,
+      "mode": "0o644",
+      "sha256": "17083ef35dc18231565331dd2e89c7a7d5c6f696f7259631016a2295bb83b2c8"
+    },
+    {
+      "path": "diagnostics/attempt1/c34_source-queries.sql",
+      "bytes": 1734556,
+      "mode": "0o644",
+      "sha256": "85bfbe3700540e89e264ca178586a5edd38b514c74c0e11e41c26ffe44630686"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "mode": "0o644",
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "mode": "0o644",
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "mode": "0o644",
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "mode": "0o644",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "mode": "0o644",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "mode": "0o644",
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "mode": "0o644",
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "mode": "0o644",
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "mode": "0o644",
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "mode": "0o644",
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "mode": "0o644",
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "mode": "0o644",
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "mode": "0o644",
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "mode": "0o644",
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/android_gateway_identity_uat.py",
+      "bytes": 26672,
+      "mode": "0o644",
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "mode": "0o644",
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "mode": "0o644",
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "mode": "0o644",
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/runner.py",
+      "bytes": 34616,
+      "mode": "0o644",
+      "sha256": "7bb7e6c7f9518a3d5f486ec3c0ff7dbb531a4f4b7caac63ced7879c81fbeb915"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/schema153-api-acl.sql",
+      "bytes": 143763,
+      "mode": "0o644",
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/schema153-row-free.sql",
+      "bytes": 1289085,
+      "mode": "0o644",
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "diagnostics/attempt1/captured/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "mode": "0o644",
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "diagnostics/attempt1/result.json",
+      "bytes": 6769,
+      "mode": "0o644",
+      "sha256": "520abb3a9bc88e5385a70c14d0dde10710fc137f264014a4976bc8873b09845c"
+    },
+    {
+      "path": "diagnostics/attempt1/run.stderr.log",
+      "bytes": 2201,
+      "mode": "0o644",
+      "sha256": "da6085b9442abb08d669a85c680c6f6c2d2b0291c18911535a121593e2e8c0ba"
+    },
+    {
+      "path": "diagnostics/attempt1/run.stdout.log",
+      "bytes": 1459,
+      "mode": "0o644",
+      "sha256": "cb8090644a91b02eb9fdf47c81c84c1f51d26124cfba1639380b11273ddfa7ce"
+    },
+    {
+      "path": "diagnostics/attempt1/source-cancel-receipt.json",
+      "bytes": 527,
+      "mode": "0o644",
+      "sha256": "3152d5cd5af8b006bdf7155cd4e783ef4b71be032293fe6efa531642969e28ad"
+    },
+    {
+      "path": "diagnostics/attempt1/source-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "diagnostics/attempt1/source-gateway-heartbeat.json",
+      "bytes": 156,
+      "mode": "0o644",
+      "sha256": "5edd0dcfb7e50ded5b3d956de1340b51dda2eebd4979b40de64b5a45e45c2e8d"
+    },
+    {
+      "path": "diagnostics/attempt1/source-policy-receipt.json",
+      "bytes": 763,
+      "mode": "0o644",
+      "sha256": "10bcdf58e52180536f7932bb8a434f70a29455c26ad4938597ca72632d6697b2"
+    },
+    {
+      "path": "diagnostics/attempt1/source-supervisor-health.json",
+      "bytes": 556,
+      "mode": "0o644",
+      "sha256": "401a5e8c8a7e40696d2c4f64adf5f0af2877184e92a9cea68aaee8779d215748"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001000200_admin_gateway_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001001457_joined_operator_audit.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/20261001004651_receipt_cancel_audit_actor.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/baseline-load.log",
+      "bytes": 1,
+      "mode": "0o644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_restored/container.log",
+      "bytes": 16391,
+      "mode": "0o644",
+      "sha256": "d99ae79e07b108cd296de8386557b5f71d096783cd240e101c5c242c7a88924e"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_restored/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_restored/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_restored-queries.log",
+      "bytes": 2153388,
+      "mode": "0o644",
+      "sha256": "d657bb55afd0c4b64e730487979d9c4a29818047291954552476125d155c5d63"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_restored-queries.sql",
+      "bytes": 55578,
+      "mode": "0o644",
+      "sha256": "ccad3e09ad211669f785c52b5cf74d2d96b24645614193fe00cf9d18bea5f858"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_source/container.log",
+      "bytes": 16391,
+      "mode": "0o644",
+      "sha256": "6fb80da9a56f71b35c491c501c8cab1d33ec03e24b9e2462685ecbe66f35d427"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_source/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_source/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_source-queries.log",
+      "bytes": 2217983,
+      "mode": "0o644",
+      "sha256": "92ca6f0b8dc5e8b1319dc97a2192cc732c38557770f428251b705b1a00eb3abb"
+    },
+    {
+      "path": "diagnostics/attempt2/c34_source-queries.sql",
+      "bytes": 1778288,
+      "mode": "0o644",
+      "sha256": "291383055ce20f733da1be6c39010e43d42a0137342875be98d90d8d4ede4b3b"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "mode": "0o644",
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "mode": "0o644",
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "mode": "0o644",
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "mode": "0o644",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "mode": "0o644",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "mode": "0o644",
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "mode": "0o644",
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "mode": "0o644",
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "mode": "0o644",
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "mode": "0o644",
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "mode": "0o644",
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "mode": "0o644",
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "mode": "0o644",
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "mode": "0o644",
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/android_gateway_identity_uat.py",
+      "bytes": 26672,
+      "mode": "0o644",
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "mode": "0o644",
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "mode": "0o644",
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "mode": "0o644",
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/runner.py",
+      "bytes": 34674,
+      "mode": "0o644",
+      "sha256": "93a003d0cd688fc9d60107092d23b90f35e778c6c1d63433064d4ca5323c3dc0"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/schema153-api-acl.sql",
+      "bytes": 143763,
+      "mode": "0o644",
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/schema153-row-free.sql",
+      "bytes": 1289085,
+      "mode": "0o644",
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "diagnostics/attempt2/captured/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "mode": "0o644",
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "diagnostics/attempt2/pg-dump.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/pg-restore-toc.list",
+      "bytes": 263919,
+      "mode": "0o644",
+      "sha256": "fc7eb585f26ac86c988b76f931d7142f7273a07cfc94cd3a78bf416a50dffc93"
+    },
+    {
+      "path": "diagnostics/attempt2/pg-restore.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/pg-restore.stdout.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt2/restored-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "diagnostics/attempt2/restored-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "58d12dd5bc28f7b408acd6d9c1c6038ad20e08aa1081e5d5a0d6e2877f9b148e"
+    },
+    {
+      "path": "diagnostics/attempt2/restored-rows.json",
+      "bytes": 92313,
+      "mode": "0o644",
+      "sha256": "108908d67f1f6c2e00337346190be9e69a3b5740daf3a61d78db0e4c7176d5e0"
+    },
+    {
+      "path": "diagnostics/attempt2/restored-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "diagnostics/attempt2/result.json",
+      "bytes": 15467,
+      "mode": "0o644",
+      "sha256": "065b8619abf19f2ae8137eebd310e13165668963e1ada038d4016d45f1709e56"
+    },
+    {
+      "path": "diagnostics/attempt2/run.stderr.log",
+      "bytes": 2403,
+      "mode": "0o644",
+      "sha256": "a78dc1ad83ebdc849af7d23c6202e0c3ec60aaecddfa6d0dfafec682680267a7"
+    },
+    {
+      "path": "diagnostics/attempt2/run.stdout.log",
+      "bytes": 4850,
+      "mode": "0o644",
+      "sha256": "a84a5ec69520f0c72aec01c43d056743bd1e1318be763b9837d0823b41825460"
+    },
+    {
+      "path": "diagnostics/attempt2/source-cancel-receipt.json",
+      "bytes": 527,
+      "mode": "0o644",
+      "sha256": "7caf784db7a5f4ac09a3ac02ec95827fc62be050ca41f2c9b351aef6dcd3700d"
+    },
+    {
+      "path": "diagnostics/attempt2/source-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "diagnostics/attempt2/source-gateway-heartbeat.json",
+      "bytes": 156,
+      "mode": "0o644",
+      "sha256": "5b88dbb095f3137f74acc67ee5b96987a61775d7e1d0099a9bcf9be4770a4741"
+    },
+    {
+      "path": "diagnostics/attempt2/source-policy-receipt.json",
+      "bytes": 763,
+      "mode": "0o644",
+      "sha256": "564f3a1e4abff6fbcd479348617eb1ad15b0e446d2481f6f3bbc666df092b6ba"
+    },
+    {
+      "path": "diagnostics/attempt2/source-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "58d12dd5bc28f7b408acd6d9c1c6038ad20e08aa1081e5d5a0d6e2877f9b148e"
+    },
+    {
+      "path": "diagnostics/attempt2/source-rows.json",
+      "bytes": 92313,
+      "mode": "0o644",
+      "sha256": "108908d67f1f6c2e00337346190be9e69a3b5740daf3a61d78db0e4c7176d5e0"
+    },
+    {
+      "path": "diagnostics/attempt2/source-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "diagnostics/attempt2/source-supervisor-health.json",
+      "bytes": 556,
+      "mode": "0o644",
+      "sha256": "ab1502823084ca1128b58698b8bc6e22cdeb93a4989a87c8dca7691c78762f16"
+    },
+    {
+      "path": "diagnostics/attempt2/synthetic-postgresql.custom.dump",
+      "bytes": 2154225,
+      "mode": "0o600",
+      "sha256": "d2f75bb38eab207a92d3f924a35d51b802b815e23ced4e142b0406905dcd1608"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001000200_admin_gateway_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001001457_joined_operator_audit.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/20261001004651_receipt_cancel_audit_actor.install.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/baseline-load.log",
+      "bytes": 1,
+      "mode": "0o644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_restored/container.log",
+      "bytes": 16391,
+      "mode": "0o644",
+      "sha256": "2a3d04fa47593cc098a4697cf2a85381ab331143e98a7868680edd3264610aaf"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_restored/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_restored/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_restored-queries.log",
+      "bytes": 2155677,
+      "mode": "0o644",
+      "sha256": "6256bc3f997af2f996e03b5052a8f367320d37f5dde829a2cbc3b61abf69effa"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_restored-queries.sql",
+      "bytes": 57198,
+      "mode": "0o644",
+      "sha256": "f5dc5fbb77819dbc6d31b898b833159b14bca570eb6e31cd8310d23a9c42c40b"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_source/container.log",
+      "bytes": 16391,
+      "mode": "0o644",
+      "sha256": "90283cc6a8f420b386d3434be50ed2833e7fc582062c1689ae5571897b53f0d1"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_source/queries.log",
+      "bytes": 444,
+      "mode": "0o644",
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_source/queries.sql",
+      "bytes": 782,
+      "mode": "0o644",
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_source-queries.log",
+      "bytes": 2217988,
+      "mode": "0o644",
+      "sha256": "fb012bbc734c91da56a3092a51a1b1c65ed4a80f872dd9438c9c912fb92cc64c"
+    },
+    {
+      "path": "diagnostics/attempt3/c34_source-queries.sql",
+      "bytes": 1778288,
+      "mode": "0o644",
+      "sha256": "d9ffb9831ec3143f66c0187f2bc1ac95e01f34436c1dedb66ae670bf75eeb938"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "mode": "0o644",
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "mode": "0o644",
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "mode": "0o644",
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "mode": "0o644",
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "mode": "0o644",
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "mode": "0o644",
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "mode": "0o644",
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001000200_admin_gateway_reads.sql",
+      "bytes": 9012,
+      "mode": "0o644",
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "mode": "0o644",
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "mode": "0o644",
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "mode": "0o644",
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001001457_joined_operator_audit.sql",
+      "bytes": 10935,
+      "mode": "0o644",
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "mode": "0o644",
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/20261001004651_receipt_cancel_audit_actor.sql",
+      "bytes": 3408,
+      "mode": "0o644",
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/android_gateway_identity_uat.py",
+      "bytes": 26672,
+      "mode": "0o644",
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "mode": "0o644",
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "mode": "0o644",
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "mode": "0o644",
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/runner.py",
+      "bytes": 34684,
+      "mode": "0o644",
+      "sha256": "99f5439e57794411bdb3cb03226d2d7b62c1e9b0fb59aa3b0ffe817a0f04287d"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/schema153-api-acl.sql",
+      "bytes": 143763,
+      "mode": "0o644",
+      "sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/schema153-row-free.sql",
+      "bytes": 1289085,
+      "mode": "0o644",
+      "sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d"
+    },
+    {
+      "path": "diagnostics/attempt3/captured/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "mode": "0o644",
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "diagnostics/attempt3/pg-dump.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/pg-restore-toc.list",
+      "bytes": 263919,
+      "mode": "0o644",
+      "sha256": "fa6c02983d767cc7641161d96216dd78b66eff0ad88d1263a32f308acd39e9c4"
+    },
+    {
+      "path": "diagnostics/attempt3/pg-restore.stderr.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/pg-restore.stdout.log",
+      "bytes": 0,
+      "mode": "0o644",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt3/restored-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "diagnostics/attempt3/restored-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "d749d5b1837c54d183218a6a71c51aeaa30a4c627c1949267e7c13c94750840f"
+    },
+    {
+      "path": "diagnostics/attempt3/restored-rows.json",
+      "bytes": 92317,
+      "mode": "0o644",
+      "sha256": "a15b7da8812b3d77ed33ab3a2c71c43ea9e63b77c8fead7d8ea24f63c350a278"
+    },
+    {
+      "path": "diagnostics/attempt3/restored-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "diagnostics/attempt3/result.json",
+      "bytes": 15924,
+      "mode": "0o644",
+      "sha256": "820f8e4abf91ec0602b21b62c1b0226c3982b084de3c6f05598cd643fc091ece"
+    },
+    {
+      "path": "diagnostics/attempt3/run.stderr.log",
+      "bytes": 944,
+      "mode": "0o644",
+      "sha256": "71f8ecb8fdfd63c97e9f9261d8e60df22a3b8218101ae51eeac1580a1cb1ae49"
+    },
+    {
+      "path": "diagnostics/attempt3/run.stdout.log",
+      "bytes": 5065,
+      "mode": "0o644",
+      "sha256": "9c489f8cba423e179d2708ced31627f5703978ee2da11fb530184aada25dad05"
+    },
+    {
+      "path": "diagnostics/attempt3/source-cancel-receipt.json",
+      "bytes": 527,
+      "mode": "0o644",
+      "sha256": "07c267c9165a70c0e67864b415af117fdbbeb1f8614eb03573ee9c589feeeb12"
+    },
+    {
+      "path": "diagnostics/attempt3/source-catalog.json",
+      "bytes": 2488211,
+      "mode": "0o644",
+      "sha256": "91631b01b7a9645241da2213fa024d902980c9be8949cd61fa5af905ffc3f815"
+    },
+    {
+      "path": "diagnostics/attempt3/source-gateway-heartbeat.json",
+      "bytes": 156,
+      "mode": "0o644",
+      "sha256": "4bc9eae6356e004e06f7e3bce6f04a60ec097499f5d4bdc40b8104ab2f811b89"
+    },
+    {
+      "path": "diagnostics/attempt3/source-policy-receipt.json",
+      "bytes": 763,
+      "mode": "0o644",
+      "sha256": "23bebd074795113381aac95c90107b52a7f304b2c63a84bb33cdf06d1d08ea31"
+    },
+    {
+      "path": "diagnostics/attempt3/source-projection.json",
+      "bytes": 25256,
+      "mode": "0o644",
+      "sha256": "d749d5b1837c54d183218a6a71c51aeaa30a4c627c1949267e7c13c94750840f"
+    },
+    {
+      "path": "diagnostics/attempt3/source-rows.json",
+      "bytes": 92317,
+      "mode": "0o644",
+      "sha256": "a15b7da8812b3d77ed33ab3a2c71c43ea9e63b77c8fead7d8ea24f63c350a278"
+    },
+    {
+      "path": "diagnostics/attempt3/source-sequences.json",
+      "bytes": 274,
+      "mode": "0o644",
+      "sha256": "39aa0c48c81f656378b7f3be1a1c7118b630ede1a048487e4ba2a703675398d0"
+    },
+    {
+      "path": "diagnostics/attempt3/source-supervisor-health.json",
+      "bytes": 556,
+      "mode": "0o644",
+      "sha256": "88ca640bd49102d7a6bca419bb3b739085af46f03e78f5b0fc2b05709e09ff68"
+    },
+    {
+      "path": "diagnostics/attempt3/synthetic-postgresql.custom.dump",
+      "bytes": 2154223,
+      "mode": "0o600",
+      "sha256": "a4264cd0f9d3f6b8e65f7dc297d5c14be78172dd6faa4cac68b4398d78a53ae7"
+    },
+    {
+      "path": "publication-binding.json",
+      "bytes": 886,
+      "mode": "0o644",
+      "sha256": "588efd769c9aecfc6b5c310f0886f1341ba7fbc11f8cdea326950052b5d712d3"
+    },
+    {
+      "path": "scope-binding.json",
+      "bytes": 4305,
+      "mode": "0o644",
+      "sha256": "41071df14ec57f8ece4eb86794a456bc9b017be4018bb391eb9df84d223cbcb1"
+    }
+  ]
+}

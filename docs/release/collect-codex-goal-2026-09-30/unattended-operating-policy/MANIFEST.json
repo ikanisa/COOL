@@ -1,0 +1,575 @@
+{
+  "kind": "unattended_operating_policy_preparation_v1_evidence",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6934,
+      "sha256": "e70b4afdfdbe796e7095f82bf31e9be0ec21d2c382c20dcd044a21e021166210"
+    },
+    {
+      "path": "backend-uat/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/concurrency.log",
+      "bytes": 2721,
+      "sha256": "41961155f1c378d9843a3a372120927e8fe15a935f77186c9ce02f382e881ec1"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "backend-uat/executed-migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "backend-uat/executed-migrations/collect-unattended-operating-policy-v1.schema.json",
+      "bytes": 14232,
+      "sha256": "242a6702cf284625882d6f962b4e216b2296e0c5c37d58b2f0452b24809e1881"
+    },
+    {
+      "path": "backend-uat/executed-python/android_gateway_identity_uat.py",
+      "bytes": 26672,
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    {
+      "path": "backend-uat/executed-python/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "backend-uat/executed-python/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "backend-uat/executed-python/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "backend-uat/executed-python/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "backend-uat/executed-python/unattended_operating_policy_uat.py",
+      "bytes": 33045,
+      "sha256": "82eb6a561564a7a9f222e7de4f5f013fb92eaee0dfa22386fc5d5e27a43d775e"
+    },
+    {
+      "path": "backend-uat/migration-structural.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/migration-structural.stdout.log",
+      "bytes": 37,
+      "sha256": "081c009d274a113799b7f8cec6097dbc71be520d127920b09fe37d457313de60"
+    },
+    {
+      "path": "backend-uat/observed-clear-future-stop-receipt.json",
+      "bytes": 758,
+      "sha256": "8485be7ba8d761465f6c0423a4eb722bc722b13a695d256527ad524a90d0530a"
+    },
+    {
+      "path": "backend-uat/observed-default-current.json",
+      "bytes": 2099,
+      "sha256": "47fce725c5ef8ff9020d2622b000a9bca843611e7eb0048d0c4b46270261b42e"
+    },
+    {
+      "path": "backend-uat/observed-dry-run-preference-receipt.json",
+      "bytes": 765,
+      "sha256": "7f2f8c0fa1ae5ccd590f55c2817945aa4278d81d316ee4088e7b3d062da0bffb"
+    },
+    {
+      "path": "backend-uat/observed-in-progress-lookup.json",
+      "bytes": 262,
+      "sha256": "07bf474140f15ee15993d28bee20ae8063e0cc486b9bc1d03570314d52a8d02e"
+    },
+    {
+      "path": "backend-uat/observed-independent-fixed-shadow.json",
+      "bytes": 556,
+      "sha256": "4897426cd03039ff79c97865257bebdd6f6a6eecfa87cefbccd34df5bf0760f6"
+    },
+    {
+      "path": "backend-uat/observed-no-op-receipt.json",
+      "bytes": 765,
+      "sha256": "09c151eaff2def674bf0cf2a0199af6a1576e52555c54e661717e6234acd2629"
+    },
+    {
+      "path": "backend-uat/observed-not-recorded-lookup.json",
+      "bytes": 263,
+      "sha256": "3d6ee7a1602eb6fc063458808e5ace06fe89af96e05499c258302463cc59e73d"
+    },
+    {
+      "path": "backend-uat/observed-paused-receipt.json",
+      "bytes": 755,
+      "sha256": "0d1983ecdebead20dd838ad5cc9626e5f2434642fd208d809abcc3037375b968"
+    },
+    {
+      "path": "backend-uat/observed-reauthenticated-lookup.json",
+      "bytes": 1063,
+      "sha256": "10654d2440a0b138192aee7bad8de74e72ec583e74e64b71e0d4f69a050cb295"
+    },
+    {
+      "path": "backend-uat/observed-recorded-lookup.json",
+      "bytes": 1063,
+      "sha256": "2495869c246c0b6f24850554c2e01e88ae21046ca2c14d03daf90fafe5eda498"
+    },
+    {
+      "path": "backend-uat/observed-shadow-preference-receipt.json",
+      "bytes": 763,
+      "sha256": "fbccebbe83a3a0cb5a40cc4d9f513c2a04165c1101103a7902f3a0af91d3afe6"
+    },
+    {
+      "path": "backend-uat/observed-shadow-stopped-receipt.json",
+      "bytes": 756,
+      "sha256": "0fcfe83fc5c91aabf63c3fbd3df6c30d451d4a3e2b27c17e8e0fbd0124fae9dd"
+    },
+    {
+      "path": "backend-uat/observed-stopped-current.json",
+      "bytes": 2133,
+      "sha256": "838c8e0840f3d4164fde8b60b6bdc14290119081afa4c93dfd8d646d5e2317a9"
+    },
+    {
+      "path": "backend-uat/operating_policy/container.log",
+      "bytes": 54787,
+      "sha256": "21c2525cc0f847d8b5ddde0be2cb409ea80b161328089843dedbc10d9cef26d6"
+    },
+    {
+      "path": "backend-uat/operating_policy/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "backend-uat/operating_policy/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "backend-uat/queries.log",
+      "bytes": 949416,
+      "sha256": "26e0b619859dde2834319974ae672fe0607a53d778d63a6844edd83adb4f965f"
+    },
+    {
+      "path": "backend-uat/queries.sql",
+      "bytes": 2960704,
+      "sha256": "17ec87ac3625b5be0ef14b60c0926fbf07bedba83058e6a40b3da047850e9d8b"
+    },
+    {
+      "path": "backend-uat/restore.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "backend-uat/result.json",
+      "bytes": 35739,
+      "sha256": "4947c51c7cc1b26b42d606d92ea83724a8f916e66eb13f4ad39938d0e3748900"
+    },
+    {
+      "path": "backend-uat/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend-uat/stdout.log",
+      "bytes": 6928,
+      "sha256": "cae0603d2d0ef96d8e3212ef2676dfff26928657e69d67f9583acc6ee62b9811"
+    },
+    {
+      "path": "cli-provenance.json",
+      "bytes": 957,
+      "sha256": "71cff951a0f5489212f9e0eead876d8ce6e991c5f591f6a668075e0817358d76"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930211605_android_gateway_identity.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930213000_operator_email_auth.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930220527_operator_email_cutover_guard.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230100_receipt_backlog_events.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230200_admin_receipt_overview.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20260930230300_admin_transaction_lifecycle.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000100_operational_exception_inbox.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000300_admin_exception_reads.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000400_receipt_supervisor_identity.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001000519_safe_unstarted_receipt_cancel.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/20261001003338_unattended_operating_policy.install.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/attempt1/concurrency.log",
+      "bytes": 1704,
+      "sha256": "d7934d5176abb5c34fd311dfffac6dde9d06dcab732fee1a3bf54bf43de262b5"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930211605_android_gateway_identity.sql",
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930213000_operator_email_auth.sql",
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930220527_operator_email_cutover_guard.sql",
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930230100_receipt_backlog_events.sql",
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930230200_admin_receipt_overview.sql",
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20261001000100_operational_exception_inbox.sql",
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20261001000300_admin_exception_reads.sql",
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20261001000400_receipt_supervisor_identity.sql",
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14073,
+      "sha256": "536cd9175de966b1c14f4468385bea2c1ad7bc1a0706d9c7591e013a3b85e781"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-migrations/collect-unattended-operating-policy-v1.schema.json",
+      "bytes": 14232,
+      "sha256": "242a6702cf284625882d6f962b4e216b2296e0c5c37d58b2f0452b24809e1881"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-python/collect_admin_combined_upgrade_uat.py",
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-python/collect_current_release_upgrade_uat.py",
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-python/receipt_backlog_events_uat.py",
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-python/shadow_supervisor_uat.py",
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    {
+      "path": "diagnostics/attempt1/executed-python/unattended_operating_policy_uat.py",
+      "bytes": 28489,
+      "sha256": "9cf35811a777a636f0071ec62dba0ffafdaa9707c1dc1a3fa6b349b586d8e292"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-clear-future-stop-receipt.json",
+      "bytes": 758,
+      "sha256": "138f14839b546eca458206e93398bca4bcc3d180260ce592537e33b0367108a0"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-default-current.json",
+      "bytes": 2099,
+      "sha256": "014e9582569d4f8221e21a7826f7e0527e9c2eac6ebeaecc542943d28d660244"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-dry-run-preference-receipt.json",
+      "bytes": 765,
+      "sha256": "60d9b9c8c4341a0ec8f35e30dec50c47e655728cbab940d3a95dd99839311628"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-in-progress-lookup.json",
+      "bytes": 262,
+      "sha256": "75725d4aa4920969d1b3d4e522048b91df763fc856bef9eeeefe07adc06cb535"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-no-op-receipt.json",
+      "bytes": 765,
+      "sha256": "8d74e6e37b0e10667879032d1ccb2d065a2669deb08b644ce66f5b33b901119f"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-not-recorded-lookup.json",
+      "bytes": 263,
+      "sha256": "0b07db5f8c41dd213e7c6323fc39ac74a46049200febccbdb80fbc8d8d9c48da"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-paused-receipt.json",
+      "bytes": 755,
+      "sha256": "f1faabf8686780422c07bc3ec87b8725d751fc04d578f6f8677138534758abe8"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-recorded-lookup.json",
+      "bytes": 1063,
+      "sha256": "83e97eb8db7d188ba2845425ca11b5cdd9509de12509b485c99786e27267575e"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-shadow-preference-receipt.json",
+      "bytes": 763,
+      "sha256": "53df656807c94535dd0317afc1ee0a20b17ab2178b37d5984a72f74e88f10e1f"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-shadow-stopped-receipt.json",
+      "bytes": 756,
+      "sha256": "e36482cc4fd72666d2954460fd224841d51fc7f889be9d409db60c0a8ee87d12"
+    },
+    {
+      "path": "diagnostics/attempt1/observed-stopped-current.json",
+      "bytes": 2133,
+      "sha256": "f4e98d70ec7391866ff54d01cd9c099da4230bd6d079d616e5c28c4e4977c72e"
+    },
+    {
+      "path": "diagnostics/attempt1/operating_policy/container.log",
+      "bytes": 53502,
+      "sha256": "b7b3b8cb4a6f61a6c9354c3afccc27d991661172f107ebf5c09e3c3cce0ae2eb"
+    },
+    {
+      "path": "diagnostics/attempt1/operating_policy/queries.log",
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    {
+      "path": "diagnostics/attempt1/operating_policy/queries.sql",
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    {
+      "path": "diagnostics/attempt1/queries.log",
+      "bytes": 914355,
+      "sha256": "a55b0c669ae38a960aa5dc58b6243303873c2077252d371443f9339aaa3175ef"
+    },
+    {
+      "path": "diagnostics/attempt1/queries.sql",
+      "bytes": 2917884,
+      "sha256": "50a151fc27388a45c3c98a865297120c3419bea5a03677083a4faae1eee1b877"
+    },
+    {
+      "path": "diagnostics/attempt1/restore.log",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "diagnostics/attempt1/result.json",
+      "bytes": 27093,
+      "sha256": "13eafe19c8c8ba13db3c595bfbb33c7d3d6017dab912c6a7928f17202295b57b"
+    },
+    {
+      "path": "diagnostics/attempt1/stderr.log",
+      "bytes": 1782,
+      "sha256": "ba724b700ad61930d8cd4f58a128de7771b4c5ccb1390acd3123fa3b79948d0c"
+    },
+    {
+      "path": "diagnostics/attempt1/stdout.log",
+      "bytes": 5977,
+      "sha256": "88ff152b09991fb910161ffa4edf13a6084e55755a878f23f34e043ff0ffb016"
+    },
+    {
+      "path": "fixture-validation.json",
+      "bytes": 585,
+      "sha256": "1219d98c220c8b5704f1664acea78f780d32c87837c55837decbf8c755c49a50"
+    },
+    {
+      "path": "publication-binding.json",
+      "bytes": 2966,
+      "sha256": "1c9210a5790b9e3f47de16acd82aa917f0a4caf30e09b02647ede53473f7f1fb"
+    },
+    {
+      "path": "published-source/20261001003338_unattended_operating_policy.sql",
+      "bytes": 14079,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    {
+      "path": "published-source/collect-unattended-operating-policy-v1.CONTRACT.md",
+      "bytes": 7045,
+      "sha256": "671fa8ff0b36ce621e3f8aec84cc387fd49c0228e95aacff438d3bcc4815f4d6"
+    },
+    {
+      "path": "published-source/collect-unattended-operating-policy-v1.fixture.json",
+      "bytes": 2099,
+      "sha256": "47fce725c5ef8ff9020d2622b000a9bca843611e7eb0048d0c4b46270261b42e"
+    },
+    {
+      "path": "published-source/collect-unattended-operating-policy-v1.lookup.fixture.json",
+      "bytes": 1063,
+      "sha256": "2495869c246c0b6f24850554c2e01e88ae21046ca2c14d03daf90fafe5eda498"
+    },
+    {
+      "path": "published-source/collect-unattended-operating-policy-v1.receipt.fixture.json",
+      "bytes": 763,
+      "sha256": "fbccebbe83a3a0cb5a40cc4d9f513c2a04165c1101103a7902f3a0af91d3afe6"
+    },
+    {
+      "path": "published-source/collect-unattended-operating-policy-v1.schema.json",
+      "bytes": 14232,
+      "sha256": "242a6702cf284625882d6f962b4e216b2296e0c5c37d58b2f0452b24809e1881"
+    },
+    {
+      "path": "published-source/unattended_operating_policy_uat.py",
+      "bytes": 33045,
+      "sha256": "82eb6a561564a7a9f222e7de4f5f013fb92eaee0dfa22386fc5d5e27a43d775e"
+    }
+  ]
+}

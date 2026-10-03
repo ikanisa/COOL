@@ -1,0 +1,18 @@
+{
+  "canonical_count": 196,
+  "executed_prerequisite_count": 185,
+  "excluded": {
+    "supabase/migrations/20261001160000_receipt_worker_transport_health.sql": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+    "supabase/migrations/20261001170000_android_attempt_archive.sql": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+    "supabase/migrations/20261001180000_receipt_operations_enrollment_workflow.sql": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+    "supabase/migrations/20261001230000_automatic_gateway_investigation.sql": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+    "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+    "supabase/migrations/20261001234000_play_integrity_admission.sql": "f7602666cdd6d1afa09250c74ae2f09afa0c051990074adc7b04900fc47de275",
+    "supabase/migrations/20261001235000_admin_audit_read_api_only.sql": "9d860d2575b74f3a388dd4ed960cda1ad1d6843b962ab14509c065c2afcabcb4",
+    "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+    "supabase/migrations/20261001240000_runtime_control_edit_eligibility.sql": "4ec60fbbf1c65c3cf14b31ddc245532d578c62ee9f62ec174186633dbdf227c4"
+  },
+  "complete_candidate_rehearsed": false
+}

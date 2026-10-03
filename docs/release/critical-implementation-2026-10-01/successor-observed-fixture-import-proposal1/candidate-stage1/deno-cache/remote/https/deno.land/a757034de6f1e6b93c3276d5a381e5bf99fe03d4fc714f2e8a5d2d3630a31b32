@@ -1,0 +1,25 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { AssertionError } from "./assertion_error.ts";
+
+/** Assertion condition for {@linkcode assertFalse}. */
+export type Falsy = false | 0 | 0n | "" | null | undefined;
+
+/**
+ * Make an assertion, error will be thrown if `expr` have truthy value.
+ *
+ * @example
+ * ```ts
+ * import { assertFalse } from "https://deno.land/std@$STD_VERSION/assert/assert_false.ts";
+ *
+ * assertFalse(false); // Doesn't throw
+ * assertFalse(true); // Throws
+ * ```
+ */
+export function assertFalse(expr: unknown, msg = ""): asserts expr is Falsy {
+  if (expr) {
+    throw new AssertionError(msg);
+  }
+}
+
+// denoCacheMetadata={"headers":{"x-frame-options":"DENY","access-control-allow-headers":"*","server":"cloudflare,deployd","cross-origin-opener-policy":"same-origin","server-timing":"fetchSource;dur=17","date":"Thu, 01 Oct 2026 00:05:48 GMT","referrer-policy":"strict-origin-when-cross-origin","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","cache-status":"deno; hit","x-content-type-options":"nosniff","etag":"\"6d9fed435d2dc27ba476448fa31d5506\"","age":"293294","content-type":"application/typescript; charset=utf-8","x-deno-trace-id":"b06a7a99f1e39e9779a04f07259e6e3b","access-control-allow-origin":"*","cross-origin-embedder-policy":"same-origin","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}","last-modified":"Thu, 27 Aug 2026 16:21:30 GMT","cf-cache-status":"HIT","access-control-allow-methods":"GET, HEAD","strict-transport-security":"max-age=63072000; includeSubDomains; preload","cache-control":"public, max-age=31536000, immutable","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=uZ06zyKF5sudlGLEQ0","content-length":"697","cross-origin-resource-policy":"same-origin","cf-ray":"a43737c04aa299d3-AMS","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","accept-ranges":"bytes"},"url":"https://deno.land/std@0.224.0/assert/assert_false.ts","time":1790910996}

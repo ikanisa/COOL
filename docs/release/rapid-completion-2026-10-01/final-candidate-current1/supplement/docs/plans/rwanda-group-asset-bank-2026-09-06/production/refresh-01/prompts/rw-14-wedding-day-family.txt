@@ -1,0 +1,19 @@
+Use case: photorealistic-natural
+
+Asset type: One original photographic cover for a Collect contribution group. Working concept: Family on the wedding day.
+
+Scene and subjects: A joyful candid Rwandan wedding celebration immediately after the family ceremony in a green garden under a white canopy. A fictional adult bride in an ivory wedding dress and an adult groom in a well-fitted navy suit laugh together while two adult relatives beside them clap and move to music. One older woman wears a vivid emerald umushanana over a simple fitted blouse; another guest wears warm coral. A small lively group of adult guests is softly blurred behind them, with white flowers and real fresh greenery. Capture a spontaneous affectionate moment, animated shoulders and natural eye contact, never a formal line-up or posed group portrait. Keep the four primary full faces and hands closely grouped in the middle, with a clear quiet strip above and below for card overlays.
+
+Materials and details: Natural contemporary Rwandan wedding details, believable cloth folds, actual-looking family interaction and unbranded objects. Umushanana must read as a long flowing skirt with one-shoulder draping over a fitted blouse where described. No theatrical pan-African costume, stiff editorial line-up or identical generated faces. No logos, readable text or financial information.
+
+Lighting and palette: Vibrant but believable colour: rich coral, emerald, turquoise, royal blue, clean ivory and fresh green foliage. Bright natural Rwandan daylight, accurate dark skin tones and lively event atmosphere. Avoid muted brown or beige grading.
+
+Primary focal subject: The couple and nearby relatives.
+
+Style: Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event.
+
+Composition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.
+
+Text: None. Do not render any words, numbers or interface.
+
+Constraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.

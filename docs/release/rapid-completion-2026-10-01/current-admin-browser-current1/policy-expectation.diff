@@ -1,0 +1,11 @@
+--- docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/current_browser_lifecycle.continuation5.mjs	2026-10-01 15:56:25
++++ scripts/qa/current_browser_lifecycle.mjs	2026-10-01 15:58:48
+@@ -288,7 +288,7 @@
+     '/admin/settings': ['Permission required: settings.read', 'missing-permission-denied'],
+     '/admin/feature-flags': ['Permission required: feature_flags.read', 'missing-permission-denied'],
+     '/admin/system-health': [readFailure, 'unavailable-read'],
+-    '/admin/automations': ['Receipt operations policy service is unavailable.', 'unavailable-policy'],
++    '/admin/automations': ['Current platform owner access with user administration, notifications management and system health permissions is required for receipt operations policy.', 'receipt-policy-permission-denied'],
+     '/admin/sms-gateway': ['Gateway read failed', 'invalid-synthetic-read-refused'],
+     '/admin/exceptions': ['Exception read failed', 'invalid-synthetic-read-refused'],
+     '/admin/admin-users': ['Permission required: admin_users.read', 'missing-permission-denied'],

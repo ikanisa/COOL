@@ -1,0 +1,4 @@
+{
+  "first_readback_assumption_rejected": "Raw module integrity was compared to whole cache-file digest; there was no matching whole cached file, and assertion failed after successful cleanup receipt was written. Cache file contains additional metadata bytes.",
+  "corrected_measured_proof": "Exactly one remote cache-file byte prefix matches the actual module integrity. All whole original/copy SHA bindings remain independently unchanged. No cached file or module byte was edited."
+}

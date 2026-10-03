@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-01T10:22:04.123069+00:00",
+  "finished_at": "2026-10-01T10:22:13.430328+00:00",
+  "command": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "scripts/tests/test_collect_operator_email_auth.py",
+    "scripts/tests/supabase_secret_transport_test.py",
+    "-v"
+  ],
+  "python_executable": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+  "python_version": "3.9.6",
+  "python_executable_sha256": "dff595035109e19c43c4b3e73ee08b5f4651e719f25f8b4713f819d28964dc19",
+  "subprocess_path_prefix": "/usr/bin",
+  "exit_code": 0,
+  "test_count": 29,
+  "source_before": {
+    "scripts/collect_operator_email_auth.py": "7ec80b574ed716f55528a2a46ace8efe233f6d48d9d961f9889ac492e42b9349",
+    "scripts/tests/test_collect_operator_email_auth.py": "dbb7dd14de90f5b060087f90d1411282181b7a803ae75435f28d83bd1f18cf8d",
+    "scripts/supabase_apply_auth_hardening.sh": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+    "scripts/tests/supabase_secret_transport_test.py": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+    "scripts/supabase_cli_helpers.sh": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+    "scripts/load_dotenv_strict.sh": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+    "supabase/templates/collect_email_sign_in.html": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+  },
+  "source_after": {
+    "scripts/collect_operator_email_auth.py": "7ec80b574ed716f55528a2a46ace8efe233f6d48d9d961f9889ac492e42b9349",
+    "scripts/tests/test_collect_operator_email_auth.py": "dbb7dd14de90f5b060087f90d1411282181b7a803ae75435f28d83bd1f18cf8d",
+    "scripts/supabase_apply_auth_hardening.sh": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+    "scripts/tests/supabase_secret_transport_test.py": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+    "scripts/supabase_cli_helpers.sh": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+    "scripts/load_dotenv_strict.sh": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c",
+    "supabase/templates/collect_email_sign_in.html": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c"
+  },
+  "source_unchanged": true,
+  "provider_called": false,
+  "prior_run": "prior-helper19/email-focused-tests.json",
+  "counts_added_across_versions": false
+}

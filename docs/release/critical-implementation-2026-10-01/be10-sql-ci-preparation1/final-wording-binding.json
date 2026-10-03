@@ -1,0 +1,10 @@
+{
+  "scope": "one provenance-only wording correction; no runtime constant, consumed admission field, SQL fixture, code or test changes; prior proof inputs retained",
+  "changed_json_field": "runtime.image_acquisition",
+  "before": "Named immutable-version tag may be acquired separately; execution refuses any configID mismatch and never pulls.",
+  "after": "Named version tag acquisition is mutable and separate; execution admits only the exact image configID, refuses mismatches, and never pulls.",
+  "old_manifest_sha256": "e3a5a47ceaa54922d0a564afe6d7730e2ad8fe4999f3d50f4aec95be38ee62ae",
+  "final_manifest_sha256": "062f1f21d8ab847b4c94db4e4c86dc84af668157904e341e92bd9e6385c5f04d",
+  "all_other_JSON_fields_exact": true,
+  "all_other_five_files_exact": true
+}

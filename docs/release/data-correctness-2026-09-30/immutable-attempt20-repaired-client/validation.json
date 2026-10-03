@@ -1,0 +1,109 @@
+{
+  "status": "fail",
+  "whole_system_acceptance": false,
+  "sql_executed_here": false,
+  "provider_calls": false,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "started_utc": "2026-09-30T22:07:16.129216+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group": 16129,
+      "parent_exit_confirmed": true,
+      "termination_errors": [],
+      "seconds": 0.921,
+      "stdout_sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib",
+        "test/data_correctness_contract_test.dart",
+        "test/admin_roster_calendar_test.dart",
+        "test/shared/contribution_intent_binding_test.dart",
+        "test/shared/member_data_authority_test.dart",
+        "test/shared/member_read_integrity_test.dart",
+        "test/shared/member_mutation_session_test.dart",
+        "test/features/member_data_unknown_states_test.dart",
+        "test/features/contribution_flow_session_test.dart",
+        "test/core/momo_ussd_amount_boundary_test.dart",
+        "test/core/momo_ussd_intent_guard_test.dart",
+        "test/core/play_integrity_service_test.dart",
+        "test/core/rwf_amount_input_formatter_test.dart",
+        "test/core/money_format_test.dart",
+        "test/shared/pending_shared_group_intent_store_test.dart",
+        "test/payment_json_integrity_test.dart",
+        "test/payment_intent_decoding_test.dart",
+        "test/payment_event_decoding_test.dart",
+        "test/payment_cache_integrity_test.dart",
+        "test/payment_intent_cache_boundary_test.dart",
+        "test/group_summary_integrity_test.dart",
+        "test/group_summary_decoding_test.dart",
+        "test/group_summary_cache_recovery_test.dart",
+        "test/member_history_page_integrity_test.dart",
+        "test/member_history_controller_integrity_test.dart",
+        "test/shared/member_history_pagination_test.dart",
+        "test/shared/rwanda_momo_history_test.dart",
+        "test/shared/collect_offline_cache_test.dart",
+        "test/shared/collect_repository_test.dart",
+        "test/shared/collect_repository_live_reader_contract_test.dart",
+        "test/shared/collect_profile_country_rules_test.dart",
+        "test/group_list_summary_availability_test.dart",
+        "test/hardening/editorial_summary_availability_test.dart"
+      ],
+      "started_utc": "2026-09-30T22:07:17.051399+00:00",
+      "exit_code": 124,
+      "timed_out": true,
+      "owned_process_group": 16159,
+      "parent_exit_confirmed": true,
+      "termination_errors": [
+        {
+          "signal": "SIGKILL",
+          "errno": 1
+        }
+      ],
+      "seconds": 180.038,
+      "stdout_sha256": "3c1f078a2cddcbf78cb61311b90768bdfd6b07fd3926b8245942f1bbd350af23",
+      "stderr_sha256": "8d447d9b9b9e8db968b8822502772fecdfe8f261214cd09bcedb262689a3bce9"
+    }
+  ],
+  "vm": {
+    "runner_completed_successfully": false,
+    "passed": 0,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "browser": {
+    "runner_completed_successfully": false,
+    "passed": 0,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "live_source_drift": [
+    "lib/admin/core/admin_login_runtime.dart",
+    "test/admin_investigation_view_test.dart",
+    "test/admin_operator_approval_sdk_matrix_test.dart",
+    "test/admin_sensitive_permission_test.dart"
+  ],
+  "export_unchanged": true,
+  "sdk_and_browser_unchanged": true,
+  "inputs_sha256": "d32953672f0fced987330773ab9a36b7e27c7e777dbf35ec91140ba79345f288",
+  "current_source_acceptance": false
+}

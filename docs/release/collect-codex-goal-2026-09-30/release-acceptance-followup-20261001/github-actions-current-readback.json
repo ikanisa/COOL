@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-01T09:41:53.753945+00:00",
+  "raw_errors_retained": false,
+  "reads": [
+    {
+      "available": true,
+      "endpoint": "repos/ikanisa/COOL/actions/permissions",
+      "exit_code": 0,
+      "metadata": {
+        "allowed_actions": "all",
+        "enabled": true
+      }
+    },
+    {
+      "available": true,
+      "endpoint": "repos/ikanisa/COOL/actions/permissions/workflow",
+      "exit_code": 0,
+      "metadata": {
+        "can_approve_pull_request_reviews": true,
+        "default_workflow_permissions": "write"
+      }
+    },
+    {
+      "available": true,
+      "endpoint": "repos/ikanisa/COOL/actions/runs?per_page=1",
+      "exit_code": 0,
+      "latest_run": [
+        {
+          "conclusion": "startup_failure",
+          "created_at": "2026-09-30T17:29:14Z",
+          "event": "pull_request",
+          "head_sha": "03a27f94b7768360749679353c5507a9b1af0498",
+          "id": 36751716611,
+          "status": "completed",
+          "updated_at": "2026-09-30T17:29:14Z"
+        }
+      ],
+      "metadata": {
+        "total_count": 758
+      }
+    }
+  ],
+  "remote_mutations": false,
+  "standard_cli_only": true
+}

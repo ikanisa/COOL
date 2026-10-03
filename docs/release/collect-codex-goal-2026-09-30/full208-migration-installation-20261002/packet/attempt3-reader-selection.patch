@@ -1,0 +1,20 @@
+--- full_candidate_ordinary_rehearsal_attempt2.py
++++ full_candidate_ordinary_rehearsal_attempt3.py
+@@ -89,7 +89,7 @@
+         raise RuntimeError('Frozen sources changed during capture')
+     if len({i["version"] for i in items}) != len(items):
+         raise RuntimeError("Unique migration versions required")
+-    helper_paths = [Path(__file__), Path(replay.__file__), TRANSPORT_PLATFORM, OWNED / 'combined_reader_seam.py']
++    helper_paths = [Path(__file__), Path(replay.__file__), TRANSPORT_PLATFORM, OWNED / 'combined_reader_seam_attempt3.py']
+     helpers = {p: p.read_bytes() for p in helper_paths}
+     for path, body in helpers.items(): (report / path.name).write_bytes(body)
+     platform, provenance = replay.platform_shape()
+@@ -217,7 +217,7 @@
+                     outcome["populated_fixture_ready"] = True
+                     apply(target, items[124:], outcome)
+                     replay.verify_populated(target, evidence, case, len(items))
+-                    reader_path = report / 'combined_reader_seam.py'
++                    reader_path = report / 'combined_reader_seam_attempt3.py'
+                     reader_spec = importlib.util.spec_from_file_location('full_candidate_combined_reader_seam', reader_path)
+                     reader = importlib.util.module_from_spec(reader_spec)
+                     reader_spec.loader.exec_module(reader)

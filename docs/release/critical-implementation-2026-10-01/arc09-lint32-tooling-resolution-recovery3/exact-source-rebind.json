@@ -1,0 +1,139 @@
+{
+  "APP_epoch_context_updated_without_whole_native_or_release_claim": true,
+  "changed_input_rows": [
+    {
+      "after": {
+        "bytes": 390,
+        "original_private_source": {
+          "bytes": 390,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/settings.gradle",
+          "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+        },
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/minimal-project/settings.gradle",
+        "recovery1_private_source": {
+          "bytes": 390,
+          "original_private_source": {
+            "bytes": 390,
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/settings.gradle",
+            "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+          },
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/minimal-project/settings.gradle",
+          "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+        },
+        "recovery2_private_source": {
+          "bytes": 390,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/settings.gradle",
+          "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+        },
+        "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+      },
+      "before": {
+        "bytes": 390,
+        "original_private_source": {
+          "bytes": 390,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/settings.gradle",
+          "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+        },
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/settings.gradle",
+        "recovery1_private_source": {
+          "bytes": 390,
+          "original_private_source": {
+            "bytes": 390,
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/settings.gradle",
+            "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+          },
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/minimal-project/settings.gradle",
+          "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+        },
+        "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+      }
+    },
+    {
+      "after": {
+        "bytes": 13097,
+        "original_private_source": {
+          "bytes": 8090,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+          "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+        },
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery3/minimal-project/build.gradle",
+        "recovery1_private_source": {
+          "bytes": 9891,
+          "original_private_source": {
+            "bytes": 8090,
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+            "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+          },
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/minimal-project/build.gradle",
+          "sha256": "024e70146a7462a36c9e422ab52d7bbb2e2efe3ed175f5183b98fe097f4046c0"
+        },
+        "recovery2_private_source": {
+          "bytes": 12982,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/build.gradle",
+          "sha256": "d766511a650bf85fda1d8fb7b25823f97c787c06dce63dc620c5dfa0201f69ba"
+        },
+        "sha256": "d205c5246f02e110913384e4f249b0855801461b1a1d809b3843fd0041fd1b65"
+      },
+      "before": {
+        "bytes": 12982,
+        "original_private_source": {
+          "bytes": 8090,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+          "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+        },
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery2/minimal-project/build.gradle",
+        "recovery1_private_source": {
+          "bytes": 9891,
+          "original_private_source": {
+            "bytes": 8090,
+            "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32.0.1-cache-preparation1/minimal-project/build.gradle",
+            "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+          },
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-tooling-resolution-recovery1/minimal-project/build.gradle",
+          "sha256": "024e70146a7462a36c9e422ab52d7bbb2e2efe3ed175f5183b98fe097f4046c0"
+        },
+        "sha256": "d766511a650bf85fda1d8fb7b25823f97c787c06dce63dc620c5dfa0201f69ba"
+      }
+    },
+    {
+      "after": {
+        "bytes": 1163,
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts",
+        "recovery2_before_settings": {
+          "bytes": 840,
+          "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts",
+          "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+        },
+        "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a"
+      },
+      "before": {
+        "bytes": 840,
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/settings.gradle.kts",
+        "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+      }
+    },
+    {
+      "after": {
+        "bytes": 1163,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+        "recovery2_before_settings": {
+          "bytes": 840,
+          "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+          "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+        },
+        "sha256": "4e28cd700c06e79ddaa3a7ea03f92db887f4a16a51d2db45c4783e0bae657c5a"
+      },
+      "before": {
+        "bytes": 840,
+        "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/settings.gradle.kts",
+        "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+      }
+    }
+  ],
+  "settings_pin_source": {
+    "bytes": 1320,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-r8-integration1/settings-overlay-readback.json",
+    "sha256": "d2fd017fb981cccd30db7e77086f5e7f05fd64d8c3cbfb6068f06797225d5ff4"
+  },
+  "unchanged_input_rows": 13
+}

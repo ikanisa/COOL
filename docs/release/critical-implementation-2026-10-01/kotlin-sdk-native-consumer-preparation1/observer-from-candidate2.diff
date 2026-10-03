@@ -1,0 +1,97 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/observe-candidate2-runtime.init.gradle
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle
+@@ -6,8 +6,8 @@
+ 
+ // Observes real candidate configurations/classes. Never overrides dependencies,
+ // resolution, versions, repositories, compiler arguments or task outcomes.
+-def candidateRoot = new File('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2')
+-def ownedGradleHome = new File('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1')
++def candidateRoot = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter')
++def ownedGradleHome = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home')
+ def expectedJavaHome = new File('/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home')
+ def primaryModuleFile = new File('/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/public-origin/kgp-module')
+ def primaryModuleSha = '8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43'
+@@ -41,6 +41,72 @@
+ 
+ gradle.projectsEvaluated {
+     def root = gradle.rootProject
++    def exactAppRoot = new File('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android')
++    if (root.projectDir.canonicalFile == exactAppRoot.canonicalFile) {
++        if (gradle.gradleUserHomeDir.canonicalFile != ownedGradleHome.canonicalFile ||
++            new File(System.getProperty('java.home')).canonicalFile != expectedJavaHome.canonicalFile ||
++            gradle.gradleVersion != '9.1.0' || root.findProject(':app') == null) {
++            throw new GradleException('Native observer exact runtime/root restriction differs')
++        }
++        def appliedRows = []
++        root.allprojects.each { project ->
++            ['org.jetbrains.kotlin.android', 'kotlin-android', 'org.jetbrains.kotlin.jvm'].each { id ->
++                def applied = project.plugins.findPlugin(id)
++                if (applied == null || appliedRows.any { it.project == project.path && it.plugin_class == applied.class.name }) return
++                def hierarchy = []
++                for (Class type = applied.class; type != null && type != Object; type = type.superclass) {
++                    def location = type.protectionDomain?.codeSource?.location
++                    def row = [class_name: type.name, package_implementation_version: type.getPackage()?.implementationVersion,
++                               loaded_code_source: location?.toExternalForm()]
++                    if (location?.protocol == 'file') {
++                        def file = new File(location.toURI())
++                        row.loaded_kind = file.isFile() ? 'regular_file' : file.isDirectory() ? 'directory' : 'missing'
++                        if (file.isFile()) { row.actual_bytes = file.length(); row.actual_sha256 = digestFile(file) }
++                    }
++                    hierarchy.add(row)
++                }
++                if (!hierarchy.any { it.package_implementation_version == '2.4.20' } ||
++                    hierarchy.any { it.package_implementation_version != null && it.package_implementation_version != '2.4.20' }) {
++                    throw new GradleException('Actual native applied KGP version is missing or unfixed')
++                }
++                appliedRows.add([project: project.path, plugin_id: id, plugin_class: applied.class.name, actual_class_hierarchy: hierarchy])
++            }
++        }
++        if (appliedRows.isEmpty()) throw new GradleException('No real native KGP classloader observations')
++        println('COLLECT_NATIVE_APPLIED_KOTLIN_BEGIN')
++        println(JsonOutput.toJson([app_root: exactAppRoot.absolutePath, SDK_root: candidateRoot.absolutePath,
++            applied: appliedRows, scope: 'Actual native applied classloader hashes; transformed and raw publisher bytes remain separate.']))
++        println('COLLECT_NATIVE_APPLIED_KOTLIN_END')
++        def app = root.project(':app')
++        ['productionReleaseCompileClasspath', 'productionReleaseRuntimeClasspath'].each { name ->
++            def taskName = name == 'productionReleaseCompileClasspath' ? 'collectProductionCompileGraph' : 'collectProductionRuntimeGraph'
++            app.tasks.register(taskName) {
++                doLast {
++                    def cfg = app.configurations.getByName(name)
++                    def result = cfg.incoming.resolutionResult
++                    if (!result.allDependencies.findAll { it instanceof UnresolvedDependencyResult }.isEmpty()) {
++                        throw new GradleException('Actual strict production configuration has unresolved dependencies')
++                    }
++                    def modules = result.allComponents.findAll { it.id instanceof ModuleComponentIdentifier }.collect {
++                        [group: it.id.group, name: it.id.module, version: it.id.version]
++                    }.sort { a, b -> JsonOutput.toJson(a) <=> JsonOutput.toJson(b) }
++                    def artifacts = cfg.incoming.artifactView {
++                        componentFilter { id -> id instanceof ModuleComponentIdentifier }
++                    }.artifacts.artifacts.collect { artifact ->
++                        def id = artifact.id.componentIdentifier; def file = artifact.file
++                        [group: id.group, name: id.module, version: id.version, file: file.name,
++                         bytes: file.length(), sha256: digestFile(file)]
++                    }.sort { a, b -> JsonOutput.toJson(a) <=> JsonOutput.toJson(b) }
++                    println('COLLECT_NATIVE_PRODUCTION_GRAPH_BEGIN')
++                    println(JsonOutput.toJson([configuration: name, modules: modules, artifacts: artifacts,
++                        project_components: result.allComponents.findAll { !(it.id instanceof ModuleComponentIdentifier) }.collect { it.id.displayName },
++                        scope: 'Actual strictly locked production selected graph; final local plugin outputs and licensing/advisories are separate.']))
++                    println('COLLECT_NATIVE_PRODUCTION_GRAPH_END')
++                }
++            }
++        }
++        return
++    }
+     if (root.projectDir.canonicalFile != new File(candidateRoot, 'packages/flutter_tools/gradle').canonicalFile ||
+         root.name != 'gradle' || root.findProject(':app') != null ||
+         gradle.gradleUserHomeDir.canonicalFile != ownedGradleHome.canonicalFile ||
+@@ -63,6 +129,10 @@
+             }
+         }
+         appliedClasses.add(row)
++    }
++    if (!appliedClasses.any { it.package_implementation_version == '2.4.20' } ||
++        appliedClasses.any { it.package_implementation_version != null && it.package_implementation_version != '2.4.20' }) {
++        throw new GradleException('Actual included SDK applied KGP version is missing or unfixed')
+     }
+     println('COLLECT_CANDIDATE_APPLIED_KOTLIN_BEGIN')
+     println(JsonOutput.toJson([candidate_root: candidateRoot.absolutePath,

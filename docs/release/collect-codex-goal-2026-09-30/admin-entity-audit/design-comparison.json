@@ -1,0 +1,57 @@
+{
+  "authority": {
+    "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md",
+    "sha256": "59ed494b2dd61684a8f2f516385ba601cfa549b7541bc1e9706df50e28fe3e1a",
+    "sole_design_authority": true
+  },
+  "inspected_source": {
+    "cohort": "POS-002 static light Orders; separate POS context",
+    "path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/assets/reference-pos/pos-web-orders.png",
+    "sha256": "90cb24046f88f9f2c98cc5f4890f590446c028289a1f6ff1e06f04e8d16a622d",
+    "current_authenticated_business_comparator": false,
+    "inspection_date": "2026-10-01",
+    "source_capture_date_claimed": false
+  },
+  "typology": "Collect operator record-detail adaptation using existing shared components, quiet groups and readable original evidence identifiers",
+  "route": "/admin/audit-logs/entity/:kind/:id",
+  "capabilities": "Current-owner read only; explicit page/refresh; original correlation IDs; no action controls",
+  "states_tested": [
+    "loading",
+    "loaded",
+    "available_empty",
+    "unavailable_record",
+    "denied",
+    "error",
+    "expired",
+    "identity_loading_and_error",
+    "permission_role_or_session_departure",
+    "paired_cursor_navigation",
+    "detail_return"
+  ],
+  "responsive_widget_evidence": {
+    "widths": [
+      1440,
+      760,
+      320
+    ],
+    "text_scales": [
+      1,
+      1,
+      2
+    ],
+    "header_semantics_asserted": true,
+    "spoken_screen_reader_acceptance": false
+  },
+  "loaded_fonts": [
+    "assets/typefaces/Inter-Variable.ttf",
+    "fonts/MaterialIcons-Regular.otf"
+  ],
+  "remaining_comparator_or_interaction_evidence": [
+    "current authenticated Business detail-history comparator",
+    "real browser keyboard/focus and scroll-return",
+    "spoken assistive technology",
+    "hosted current email-owner read/deployed artifact acceptance"
+  ],
+  "visual_fidelity_100_percent": false,
+  "production_accepted": false
+}

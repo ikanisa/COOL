@@ -1,0 +1,161 @@
+{
+  "status": "prepared_only",
+  "docker_executed": false,
+  "files": [
+    {
+      "path": "DELTA.md",
+      "bytes": 3264,
+      "sha256": "f762afbd9a74890fc7675edada5b3b7bdfeb7cbbdcaf377b38c8add4d853f825"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6750,
+      "sha256": "12280d922911598a65ad4174dd9672a4a91b03d2a2a919c1866351c9a4878fdd"
+    },
+    {
+      "path": "TOC-readback.json",
+      "bytes": 1593,
+      "sha256": "c9ab2f5d540fbc3c9934d25581252e8706bfc817f28a997a4853815cb708f8b8"
+    },
+    {
+      "path": "command-scope-matrix.json",
+      "bytes": 82858,
+      "sha256": "10054538fa59c3bddb364fe5eee98b47dea78edf148b8816e796193e8fe10529"
+    },
+    {
+      "path": "compatibility-source-scope.json",
+      "bytes": 9809,
+      "sha256": "241db05b1495672e523f9cd1fa8a6fae13a795ab8d9eea31bbae543c1a724db3"
+    },
+    {
+      "path": "complete-captured-delta.json",
+      "bytes": 18564,
+      "sha256": "af4b6d725d6815380e313f804a6c5a39b158f6e713c85d390408555e85278f54"
+    },
+    {
+      "path": "focused-tests.json",
+      "bytes": 36207,
+      "sha256": "6c322460ef1005b0581df2a13086dff24a278c346d064e787b50537c60fe36d6"
+    },
+    {
+      "path": "focused-tests.stderr",
+      "bytes": 1465,
+      "sha256": "3a8acb1915bed8657e603c5f8a34c332c8558f1e7ccb46bbd8f955ebab2f1039"
+    },
+    {
+      "path": "focused-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "graphql-source-scope.json",
+      "bytes": 3245,
+      "sha256": "6e5e35e2a96c83b0acc5a518e709b7838ab27c9c0d5d83e733ea667a7ef19f44"
+    },
+    {
+      "path": "graphql-wrapper-query.sql",
+      "bytes": 2966,
+      "sha256": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 35153,
+      "sha256": "2be000958599ff477b581ae028805366f9e82cfe9ff1dbf354cd4eabe1b971a0"
+    },
+    {
+      "path": "preparation-readback.json",
+      "bytes": 147619,
+      "sha256": "80f125d5a4a44f319579318ed441f9387f98f5e439099ab8fae19d622d56d14b"
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 11193,
+      "sha256": "946c6af5b4f0dd911f623283d5f610410b22908c3b84af46b5345291765cf1af"
+    },
+    {
+      "path": "prepare.py.diff",
+      "bytes": 11871,
+      "sha256": "e0ebc7caaf056ad72eac38a48d1076d6cae009e4339741453de1776227c4c795"
+    },
+    {
+      "path": "preservation-after.json",
+      "bytes": 112666,
+      "sha256": "6c7ff290c2bb8787464a18ce7e0aa2d9ed61fe67a79225ebf7fa5c1ab2fa1d3d"
+    },
+    {
+      "path": "preservation-before.json",
+      "bytes": 112666,
+      "sha256": "6c7ff290c2bb8787464a18ce7e0aa2d9ed61fe67a79225ebf7fa5c1ab2fa1d3d"
+    },
+    {
+      "path": "rehearsal.py",
+      "bytes": 70714,
+      "sha256": "13764c672a1eb9615aba718a42669ba692d338c21a210ba57534c0cab6ebe80f"
+    },
+    {
+      "path": "rehearsal.py.diff",
+      "bytes": 15987,
+      "sha256": "8f456e2e31a7b5f13a26079ce0c6431cafe05c3774c575f02c9a990dd524ac14"
+    },
+    {
+      "path": "retained-TOC-proposal.txt",
+      "bytes": 187512,
+      "sha256": "b8b90b019060f71288c8b506e4061da69960cf81741bd1576d9ae44ec029d8c4"
+    },
+    {
+      "path": "retained-failure3-readback.json",
+      "bytes": 59327,
+      "sha256": "942ef69f9e94ac03a1be6431d214ec7f499b7f1728e0807ae3326a3bd9edaa2b"
+    },
+    {
+      "path": "source-graphql-grants-and-transport-index.sql",
+      "bytes": 657,
+      "sha256": "326966a8d55a2023b81d698a29d3009ad11b0872bcda1a65694157fd301b4948"
+    },
+    {
+      "path": "source-graphql-prerequisite.sql",
+      "bytes": 681,
+      "sha256": "f461df9b4171e8abfc7c77d35b62afe0677bf0c428a2b53679a24c5e5c69adda"
+    },
+    {
+      "path": "source-original-check-parity.sql",
+      "bytes": 689,
+      "sha256": "dbb21ec141a4b4723dd994769a17970f92fadcee1f404e356972d634989a3f78"
+    },
+    {
+      "path": "source-role-globals.json",
+      "bytes": 10520,
+      "sha256": "6ff05c4ffdb58ceb179d453eb215455dda761d9806a55037e78d619d190aa8ab"
+    },
+    {
+      "path": "test_rehearsal.py",
+      "bytes": 27317,
+      "sha256": "6048d8f71213dcdbcb43d9d0a06d592c446c01989dea6ab4305c49aa9d400f69"
+    },
+    {
+      "path": "test_rehearsal.py.diff",
+      "bytes": 7963,
+      "sha256": "255ce22248f7571e366f0609549f821e28a691632e411920ac05e79562af2c3c"
+    },
+    {
+      "path": "verification-attempt1-focused-tests.stderr",
+      "bytes": 1465,
+      "sha256": "3bd108a958bb92a7e090f250e35473f1c7895a35360c5eaa0657de532da770c7"
+    },
+    {
+      "path": "verification-attempt1-focused-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification-attempt1-refusal.json",
+      "bytes": 616,
+      "sha256": "19d3d5becc551ab906e6a9c400c962329c6a535d9d168fbf776f54605b4c530a"
+    },
+    {
+      "path": "verify_preparation.py",
+      "bytes": 13378,
+      "sha256": "1d3390d2a570996a7e97139c1bc716ff74b2f34aa274b9611b436c2f03b182f7"
+    }
+  ]
+}

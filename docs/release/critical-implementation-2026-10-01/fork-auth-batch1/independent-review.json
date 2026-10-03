@@ -1,0 +1,13 @@
+{
+  "PRO_G40_readonly_case_alias_rejection_confirmed": true,
+  "gaps_found_and_resolved": [
+    "lexical traversal and hardlink output aliases",
+    "case-insensitive/Unicode filesystem ancestor aliases",
+    "silently ignored unreadable directory traversal",
+    "FIFO file input blocking including replacement after first mode check",
+    "inter-package source/cache drift before combined receipt"
+  ],
+  "review_scope": "Read-only new verifier security/correctness and targeted fixes; not a release audit or approval",
+  "reviewer_found_further_concrete_defect_within_scope": false,
+  "runtime_or_license_files_changed_by_reviewer": false
+}

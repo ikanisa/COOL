@@ -1,0 +1,138 @@
+{
+  "kind": "actual_failed_AAB8_config_probe_packet",
+  "payload_count": 26,
+  "payload_files": [
+    {
+      "bytes": 1483621,
+      "path": "APP-source-before.json",
+      "sha256": "03c98d0229bfaea2c6455803920d185ede03d997e878389b0b67f3ed93e18ce0"
+    },
+    {
+      "bytes": 6880417,
+      "path": "SDK-source-before-built.json",
+      "sha256": "eb998875890ca76691c11c89303262c52997d83e939af4e352937b6ff6b5f291"
+    },
+    {
+      "bytes": 60531,
+      "path": "actual-app-packages-before.json",
+      "sha256": "7262456e70b0d35676d0935199f68a76033cc03994e79b632f58d5382b8538b2"
+    },
+    {
+      "bytes": 117582,
+      "path": "actual-plugin-bindings-before.json",
+      "sha256": "47b1b5806e8f1eb841abf22e2c2a8ae0451b0d624629eefa5b0b3dfd3ad282d5"
+    },
+    {
+      "bytes": 1283,
+      "path": "combined-guard-before-command.json",
+      "sha256": "c0ad58e842ae1c3668472141ee014783be14ec3092e0835ffa9976123d161ebb"
+    },
+    {
+      "bytes": 0,
+      "path": "combined-guard-before-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "combined-guard-before-command.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 5463,
+      "path": "current-APP-overlay-binding.json",
+      "sha256": "243badf988d93318e677b3a20c394ae50d00f42277c15a9ace95220b2b1ef9c4"
+    },
+    {
+      "bytes": 1483621,
+      "path": "failure-diagnostics/APP-source-failure.json",
+      "sha256": "c93acc76da387fb69bc1e8c2baaab5ec18b85155aba5120c6df2d127c8e6d5d8"
+    },
+    {
+      "bytes": 6880417,
+      "path": "failure-diagnostics/SDK-source-failure.json",
+      "sha256": "eb998875890ca76691c11c89303262c52997d83e939af4e352937b6ff6b5f291"
+    },
+    {
+      "bytes": 1284,
+      "path": "failure-diagnostics/actual-failure-guard-command.json",
+      "sha256": "5b211f3b24e2b49a1fda61fe26ed1ed904f8352e00b28ee1eb49c6d232fee6d9"
+    },
+    {
+      "bytes": 0,
+      "path": "failure-diagnostics/actual-failure-guard-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "failure-diagnostics/actual-failure-guard-command.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 164,
+      "path": "failure-diagnostics/failure-diagnostic-summary.json",
+      "sha256": "ef0bdd7613a10f82052bd3e7c18c811e483380d99b1a24035de43da96b8fad73"
+    },
+    {
+      "bytes": 104,
+      "path": "failure-diagnostics/protected-failure.json",
+      "sha256": "f516f6ecf00fe44374f3829a6b4b0ebc7e1f6e116f65173e301d87bcd74f3f59"
+    },
+    {
+      "bytes": 733,
+      "path": "guard-before.json",
+      "sha256": "06edc87550496be46c1dc387dfd3042bd1537cae9666f85770e098685024ac56"
+    },
+    {
+      "bytes": 10167,
+      "path": "production-default-proguard-readback.daemon-readback.json",
+      "sha256": "03850a73ea523140d20150c47ca3a40058ca5bbd02f919aa129018025c1408cc"
+    },
+    {
+      "bytes": 1392,
+      "path": "production-default-proguard-readback.json",
+      "sha256": "ff8d02d38e3b92bc206a414daacf93de77dbc19f46c3be0fb7254cbbf578ba47"
+    },
+    {
+      "bytes": 603,
+      "path": "production-default-proguard-readback.stderr",
+      "sha256": "9f5c81c4abc66dfad18130b20c3e34ba3a60a1b17274ad84bc25dffdc3be1131"
+    },
+    {
+      "bytes": 504,
+      "path": "production-default-proguard-readback.stdout",
+      "sha256": "f4a2637f91b8de598c6d9786822d5136fc2e21d28da6702a07d050e1a23d481e"
+    },
+    {
+      "bytes": 13985,
+      "path": "root-admission-captured.json",
+      "sha256": "014a6264ec4a5931c9da19cff2d997b04f498b42f1edea1145ad2d5df28b82b2"
+    },
+    {
+      "bytes": 1499,
+      "path": "source-fence-before-command.json",
+      "sha256": "119a87c7397055187d72abab35317ce5b0b5913d3aeb8d1b3d4bd403073233fe"
+    },
+    {
+      "bytes": 0,
+      "path": "source-fence-before-command.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 251,
+      "path": "source-fence-before-command.stdout",
+      "sha256": "286829124100aa5aeb2fc5077bfb01df6d3e597e8c7a0c3358818da54d9c2888"
+    },
+    {
+      "bytes": 922154,
+      "path": "source-fence-before.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    },
+    {
+      "bytes": 12705,
+      "path": "terminal.json",
+      "sha256": "ecf3866d1e7e92a25efc926658710f96e26580906857d9b1a8b3d7da17abc054"
+    }
+  ],
+  "production_release_approval": false,
+  "schema_version": 1
+}

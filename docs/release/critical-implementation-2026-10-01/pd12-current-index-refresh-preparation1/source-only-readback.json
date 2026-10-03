@@ -1,0 +1,31 @@
+{
+  "captured_at_utc": "2026-10-02T14:52:39.840956+00:00",
+  "files": [
+    {
+      "Python_AST_compile_only": "PASS",
+      "before_sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+      "path": "scripts/audits/collect_current_evidence_index.py",
+      "proposed_bytes": 19527,
+      "proposed_sha256": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119"
+    },
+    {
+      "Python_AST_compile_only": "PASS",
+      "before_sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6",
+      "path": "scripts/tests/collect_current_evidence_index_test.py",
+      "proposed_bytes": 20337,
+      "proposed_sha256": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736"
+    }
+  ],
+  "maintained_writes": false,
+  "original14_test_bodies_exactly_preserved": true,
+  "proposed_new_test_methods": [
+    "test_decision_epoch_artifact_binding_and_no_grant_flags_cannot_be_changed",
+    "test_declared_decision_requires_external_pins_and_existing_bound_receipts",
+    "test_external_integrator_decision_stays_scoped_and_reader_never_grants",
+    "test_rehashed_forged_decision_receipt_cannot_replace_external_pin"
+  ],
+  "proposed_test_methods": 18,
+  "schema_version": 1,
+  "source_only_patch_sha256": "3cf0cd086f78ac5d509aa1108d61d6027814af3d7a943621b400991271271670",
+  "tests_executed": false
+}

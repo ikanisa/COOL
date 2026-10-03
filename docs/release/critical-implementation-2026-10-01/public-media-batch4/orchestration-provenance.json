@@ -1,0 +1,56 @@
+{
+  "wrappers": [
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/stage_media_fixture.py",
+      "prior_sha256": "9ef0bb885c33359fbcd9fa895b61b95aa7247e07190eaddcbcac3d0402057bd7",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/stage_media_fixture.py",
+      "new_sha256": "9ef0bb885c33359fbcd9fa895b61b95aa7247e07190eaddcbcac3d0402057bd7",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/prepare_stage_bindings.py",
+      "prior_sha256": "b5e27e4580a15e4f63547c22e3258955b638f5efbe6bb48b37e92042f5f32c40",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/prepare_stage_bindings.py",
+      "new_sha256": "b5e27e4580a15e4f63547c22e3258955b638f5efbe6bb48b37e92042f5f32c40",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/run_capture_attempt2.py",
+      "prior_sha256": "64c439609b4393205327e27e635895d741d562d22dfb87590965b9d2dec6e765",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/run_capture.py",
+      "new_sha256": "7864c9afe74023252ff5733951e7079242ceea13025596948b47c035cc56f57a",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/run_public_artifact.py",
+      "prior_sha256": "24f449770c5394bac9503698f1c123f8e4a4a99a444e9a54dff37350be85c42b",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/run_public_artifact.py",
+      "new_sha256": "d9c723d6f4c2f7b1a22f34889e449579665f6d17ebddf271f754f66f6d02b592",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/run_actual_public_routes.py",
+      "prior_sha256": "9f97ead52eecbed55413465b0632611d13f394bdb907376037c8ed07aace4690",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/run_actual_public_routes.py",
+      "new_sha256": "341b8a627a4b7d1c4abab9ac54bcd27317fa10da4329205c2747dd92dc044841",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/run_supplemental_share.py",
+      "prior_sha256": "630616c557fe192dece029f91c762cd92b1fa873627660140b26381640696f5a",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/run_supplemental_share.py",
+      "new_sha256": "e59626f0ac1b29bbea9b04a380ffb5467c3500a41982933447a6a450a053cee3",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    },
+    {
+      "prior_path": "docs/release/critical-implementation-2026-10-01/public-media-batch3/supplemental_share_routes.mjs",
+      "prior_sha256": "51a972e446e74daae1ac612c0501df76e1db1fd5c2f5a426c61516e656c56bd2",
+      "new_path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental_share_routes.mjs",
+      "new_sha256": "51a972e446e74daae1ac612c0501df76e1db1fd5c2f5a426c61516e656c56bd2",
+      "change_scope": "New private/output/receipt paths only; validators, deadlines and assertion behavior unchanged."
+    }
+  ],
+  "production_sources_changed": false,
+  "gates_changed": false,
+  "deadlines_changed": false
+}

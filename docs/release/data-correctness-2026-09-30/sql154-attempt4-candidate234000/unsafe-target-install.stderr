@@ -1,0 +1,5 @@
+ERROR:  23514: check constraint "collections_target_exact_json" of relation "collections" is violated by some row
+SCHEMA NAME:  public
+TABLE NAME:  collections
+CONSTRAINT NAME:  collections_target_exact_json
+LOCATION:  ATRewriteTable, tablecmds.c:6296

@@ -1,0 +1,122 @@
+{
+  "status": "pass",
+  "validated_at_utc": "2026-09-30T16:50:47.886560+00:00",
+  "scope": "Register integrity and scoped local progress; not final whole-system acceptance",
+  "snapshot_revision": 7,
+  "local_snapshot_revision": 5,
+  "original_criteria_preserved": true,
+  "local_criteria_preserved": true,
+  "all_original_ids_preserved": true,
+  "unique_open_rows": 101,
+  "closed_ids": [
+    "G06"
+  ],
+  "local_goal_closed_ids": [
+    "L02",
+    "L06",
+    "L09",
+    "L10",
+    "L11",
+    "L13"
+  ],
+  "priority_counts": {
+    "P0": 24,
+    "P1": 71,
+    "P2": 4,
+    "Crosscutting": 2
+  },
+  "evidence_counts": {
+    "External": 27,
+    "Partial": 67,
+    "Unverified": 7
+  },
+  "source_documents_match": true,
+  "sha256": {
+    "docs/release/local-implementation-register-2026-09-30.json": "d9103c9a7d0d6db61c6d125d122ac3100205edea6055a54f09782e31c2a322fa",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "f55e7f82e6870897d84baae6a3fc0c2dde1849c9a2d2392fdbddbf28db826a65",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "bb0953c9ad4b905cd7510cfbeb18f7f93aa165c51359d5a9923ba181ff0f9455",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "043cbb60c8deebeca3f24c1bd1971f385e92654bdcfc501ccbc872d4de281f4f"
+  },
+  "prior_revision_preserved": {
+    "local-implementation-register-2026-09-30.json": "eab92b64a9160e9b7f2c1ffc2507d2e869774022e4142a23ea2239f7d1ed8e07",
+    "LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "56f60d219a73a0364acf9732644b1760abfe8e97b1bb04ac1905259cc30aaea8",
+    "production-remaining-tasks-2026-09-30.json": "6080a0accd691782280021d438bb9f793e8925d39b29216cd34025cdb15f9208",
+    "PRODUCTION_REMAINING_TASKS_2026-09-30.md": "4abbb6bfc5278ec8f478eb93ee8a62d68ce3aec94e0aeeea973617b49f375381",
+    "production-remaining-tasks-2026-09-30.validation.json": "bc6f770d47bb8ecee6647cc62e0a284273d083ce94b7e42b499d7b9c02c3a158"
+  },
+  "new_scoped_evidence_packets": [
+    {
+      "path": "docs/release/runtime-controls-2026-09-30/sql-runtime-acceptance-attempt1/validation.json",
+      "sha256": "9d111b936b69568ac62395dda1d52e03701633056779c681ac59719f7c3b74df"
+    },
+    {
+      "path": "docs/release/runtime-controls-2026-09-30/client-runtime-attempt2/validation.json",
+      "sha256": "800ae3340f9c180ad4c07fda3ca178cea75f2583ec6f2e27dbdd9a9d454d948c"
+    },
+    {
+      "path": "docs/release/runtime-controls-2026-09-30/notification-ui-runtime-attempt2/validation.json",
+      "sha256": "2ded89f32bf1211f39076a477c3432802ba5ca95e10b34bfbe09611e75a03cc4"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/install148-normal-owner-attempt1/result.json",
+      "sha256": "33e713dfc073899f8d1f7328e77ce0ec9236b840f62909f73ef68665627d5c4c"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/uat148-installed-rollback-attempt1/result.json",
+      "sha256": "7c50e9bb35203c33668c03f9568d50bb1d5235d0908aa1ef3feafdb740270f9c"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/http-frozen-attempt1/report.json",
+      "sha256": "0f947c41d17738ef3f37e363e837659ab0143dd61ecfc094d015042712e93bf1"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/unit-frozen-attempt1/validation.json",
+      "sha256": "79585ed6aabcee45ea3893a77d0e27829dc27f7c298a9aeb5da8a07e6b3b4ddf"
+    },
+    {
+      "path": "docs/release/financial-observability-2026-09-30/health-ui-attempt2/validation.json",
+      "sha256": "23d5387796ebda6326a4648365663681b686208d0b356073ec39b79cb46345de"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/sql-reads148-attempt3/result.json",
+      "sha256": "b3c4732c74415b70632aa3b3c63ef474fc12e04fec13ae3408340c12323fadf5"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/sql-reads148-attempt4-extended/result.json",
+      "sha256": "1b639cc59a59c7c65cb08af31a0e10dcbc2e6dbe3f4243b7a5937a192fc10f5c"
+    },
+    {
+      "path": "docs/release/admin-full-coverage-2026-09-30/acceptance-attempt2/validation.json",
+      "sha256": "556029fc52c76cd8ae0b106bf6443c61b7313b55b947c7e81a4afab7293b4cc1"
+    },
+    {
+      "path": "docs/release/shared-ui-accessibility-2026-09-30/attempt6/browser-evidence/report.json",
+      "sha256": "5d1e10ef180b25ecca3ef601659e40a3a7fd0a3d1111a6992c85e6d7a5642c8a"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt18-ios/artifact-verification.json",
+      "sha256": "6ced85594a3dd7065aaeda899a2eb3e86afb22ab10168da347e16ae28ae94e13"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/wrapper-provenance-attempt16/checksum-verification.json",
+      "sha256": "b2cf95d87bc54e4de023f1760510466fc25488adec6ca0e5d9d78c0fd86fc62b"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/source-inventory-after-wrapper-attempt17/verification.json",
+      "sha256": "dcb34c4c69e7964e235bed8f7a79ea6d5d6e37f40f339fda8e4a3dc7239cc6c3"
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/local-fork-coverage-attempt19/verification.json",
+      "sha256": "fc7d7e49d10d89238491696e8197d3f467c7cd6fa9dea037452b1a5a178b1200"
+    }
+  ],
+  "installed_migration_count": 148,
+  "installed_table_count": 146,
+  "staged_source_versions": [
+    "20260930170000"
+  ],
+  "installed147148source_matches": true,
+  "full_current_source_acceptance": false,
+  "last_complete_clean_replay": 141,
+  "external_state_refreshed": false
+}

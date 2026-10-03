@@ -1,0 +1,72 @@
+{
+  "current_APP_map_sha256": "f997471d3b245173feff3040019f2ae221ab2d3810443b1d517b134eede0b053",
+  "current_whole_test_acceptance": false,
+  "exact_currentrepo_vs_currentAPP_diff": {
+    "scripts/audits/collect_schema_domain_map.py": {
+      "currentrepo": {
+        "bytes": 67708,
+        "mode": 420,
+        "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2"
+      },
+      "privateAPP": {
+        "bytes": 55616,
+        "mode": 420,
+        "sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+      }
+    },
+    "scripts/edge_function_inventory.rb": {
+      "currentrepo": {
+        "bytes": 10855,
+        "mode": 420,
+        "sha256": "fea31a38ba8826243948c7fdc5b33336a673416a580b5484bba053c64f6b9c99"
+      },
+      "privateAPP": {
+        "bytes": 9896,
+        "mode": 420,
+        "sha256": "f73326cc6f05b4df37bdacc2500f480fbccc8850bd3842ae9b723945905e7d6d"
+      }
+    },
+    "scripts/supabase_production_readiness.sh": {
+      "currentrepo": {
+        "bytes": 62206,
+        "mode": 420,
+        "sha256": "ec7da0582391e17f0bfccea454d6eae41f27e778710b48892dd580938edbf5dd"
+      },
+      "privateAPP": {
+        "bytes": 63263,
+        "mode": 420,
+        "sha256": "1af85229371e4918365a2b8160413cb086691155daa2262a8a3ec03988324e40"
+      }
+    },
+    "scripts/tests/collect_schema_domain_map_test.py": {
+      "currentrepo": {
+        "bytes": 42318,
+        "mode": 420,
+        "sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82"
+      },
+      "privateAPP": {
+        "bytes": 31057,
+        "mode": 420,
+        "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+      }
+    },
+    "scripts/tests/edge_function_inventory_test.rb": {
+      "currentrepo": {
+        "bytes": 16855,
+        "mode": 420,
+        "sha256": "3e149e13958f1552cdbf69ac0dd73e43a67011d8b2556f2abd018fe3ca472b95"
+      },
+      "privateAPP": {
+        "bytes": 10634,
+        "mode": 420,
+        "sha256": "53c298cd1b00181ed2183a86962fa75f7778c79e6fac4bccdde11ffef04f619a"
+      }
+    }
+  },
+  "selected_source_count": 2561,
+  "source_fence": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/current-source-fence.json",
+    "sha256": "803e11abe3d7cbbc59ce961d98e3ce3f11ad67083bdc82ce01322de287c56945"
+  },
+  "source_manifest_sha256": "dd030e2ae98b6b847843522bb51321718221c284b8351e8a98091bd1bc1be758"
+}

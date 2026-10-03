@@ -1,21 +1,19 @@
-import 'dart:ui' as ui;
-
-import 'package:file_saver/file_saver.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../app/env/app_env.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/models/collect_models.dart';
 import '../../shared/utils/collect_share_origin.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_empty_state.dart';
 import 'group_share_service.dart';
+import 'group_invitation_transport.dart';
 
 class ShareScreen extends ConsumerStatefulWidget {
   const ShareScreen({required this.collectionId, super.key});
@@ -31,6 +29,43 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
   String? _loadError;
   bool _loading = true;
   bool _rotating = false;
+  int _invitationEpoch = 0;
+  GroupInvitationOutputScope? _sourceScope;
+
+  @override
+  void dispose() {
+    ++_invitationEpoch;
+    _sourceScope?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant ShareScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.collectionId == widget.collectionId) return;
+    ++_invitationEpoch;
+    _sourceScope?.dispose();
+    _sourceScope = null;
+    _shareCode = null;
+    _loading = true;
+    _loadError = null;
+    Future<void>.microtask(_loadShareCode);
+  }
+
+  GroupInvitationOutputScope _beginOutput(
+    BuildContext context, {
+    bool requireOwner = false,
+  }) {
+    if (_sourceScope?.isCurrent != true) {
+      throw StateError('Invitation changed. Refresh before sharing.');
+    }
+    return GroupInvitationOutputScope(
+      context,
+      ref,
+      widget.collectionId,
+      requireOwner: requireOwner,
+    );
+  }
 
   @override
   void initState() {
@@ -42,6 +77,7 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final env = ref.watch(appEnvProvider);
+    ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
@@ -65,7 +101,8 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
         ],
       );
     }
-    if (_loadError != null) {
+    final sourceInvalid = _sourceScope != null && !_sourceScope!.isCurrent;
+    if (_loadError != null || sourceInvalid) {
       return ScreenScaffold(
         title: 'Share group',
         showHeader: false,
@@ -73,7 +110,9 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
           EmptyIllustrationState(
             icon: CollectIcons.lock,
             title: 'Invitation unavailable',
-            message: _loadError!,
+            message:
+                _loadError ??
+                'The invitation changed. Refresh before sharing it.',
             action: CollectButton(
               label: 'Try again',
               icon: Icons.refresh_rounded,
@@ -196,12 +235,7 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
                         CollectButton(
                           label: 'Share link',
                           icon: CollectIcons.share,
-                          onPressed: () => shareGroupDeepLink(
-                            context: context,
-                            ref: ref,
-                            collection: collection,
-                            shareCode: _shareCode,
-                          ),
+                          onPressed: () => _shareLink(context, collection),
                           expand: true,
                         ),
                         CollectSpacing.gap12,
@@ -270,45 +304,66 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
   }
 
   Future<void> _loadShareCode() async {
+    final epoch = ++_invitationEpoch;
+    final groupId = widget.collectionId;
+    _sourceScope?.dispose();
+    _sourceScope = null;
     if (mounted) {
       setState(() {
         _loading = true;
         _loadError = null;
+        _shareCode = null;
       });
     }
+    GroupInvitationOutputScope? scope;
     try {
+      scope = GroupInvitationOutputScope(context, ref, groupId);
       final code = await ref
           .read(collectRepositoryProvider.notifier)
-          .getGroupShareCode(widget.collectionId);
-      if (!mounted) return;
+          .getGroupShareCode(groupId);
+      scope.check();
+      if (!mounted ||
+          epoch != _invitationEpoch ||
+          widget.collectionId != groupId) {
+        return;
+      }
+      _sourceScope = scope;
+      scope = null;
       setState(() {
         _shareCode = code;
         _loading = false;
       });
     } catch (_) {
-      if (!mounted) return;
+      if (!mounted || epoch != _invitationEpoch) return;
       setState(() {
         _loading = false;
-        _loadError = 'The secure group link could not be loaded.';
+        _loadError =
+            'The secure group link could not be loaded. Refresh before sharing.';
       });
+    } finally {
+      scope?.dispose();
     }
   }
 
   Future<void> _rotateShareCode() async {
-    final confirmed = await showCollectConfirmationSheet(
-      context: context,
-      title: 'Replace invitation link?',
-      message:
-          'Every older private link and QR code will stop working. Existing members stay in the group.',
-      cancelLabel: 'Keep current link',
-      confirmLabel: 'Replace link',
-    );
-    if (confirmed != true || !mounted) return;
-    setState(() => _rotating = true);
+    if (_rotating) return;
+    GroupInvitationOutputScope? scope;
     try {
+      scope = _beginOutput(context, requireOwner: true);
+      final confirmed = await showCollectConfirmationSheet(
+        context: context,
+        title: 'Replace invitation link?',
+        message:
+            'Every older private link and QR code will stop working. Existing members stay in the group.',
+        cancelLabel: 'Keep current link',
+        confirmLabel: 'Replace link',
+      );
+      if (confirmed != true || !scope.isCurrent) return;
+      setState(() => _rotating = true);
       final code = await ref
           .read(collectRepositoryProvider.notifier)
           .rotateGroupShareCode(widget.collectionId);
+      scope.check();
       if (!mounted) return;
       setState(() {
         _shareCode = code;
@@ -318,11 +373,74 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
         const SnackBar(content: Text('A new invitation link is ready.')),
       );
     } catch (_) {
-      if (!mounted) return;
-      setState(() => _rotating = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not replace the link.')),
+      if (scope?.isCurrent != true) return;
+      _sourceScope?.dispose();
+      _sourceScope = null;
+      setState(() {
+        _rotating = false;
+        _shareCode = null;
+        _loadError =
+            'The invitation replacement could not be confirmed. Refresh the current invitation before replacing it again.';
+      });
+    } finally {
+      scope?.dispose();
+      if (mounted && _rotating) setState(() => _rotating = false);
+    }
+  }
+
+  Future<void> _shareLink(
+    BuildContext context,
+    CollectCollection collection,
+  ) async {
+    try {
+      if (!context.mounted || _sourceScope?.isCurrent != true) return;
+      await shareGroupDeepLink(
+        context: context,
+        ref: ref,
+        collection: collection,
+        shareCode: _shareCode,
       );
+    } catch (_) {
+      if (!context.mounted || _sourceScope?.isCurrent != true) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'The invitation could not be shared. Refresh and try again.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _confirmSource(GroupInvitationOutputScope scope) async {
+    final expected = _shareCode;
+    final sourceScope = _sourceScope;
+    final epoch = _invitationEpoch;
+    try {
+      final current = await ref
+          .read(collectRepositoryProvider.notifier)
+          .getGroupShareCode(widget.collectionId);
+      scope.check();
+      if (_sourceScope?.isCurrent != true ||
+          expected == null ||
+          current != expected) {
+        throw const FormatException(
+          'The invitation changed. Refresh before sharing.',
+        );
+      }
+    } catch (_) {
+      if (mounted &&
+          epoch == _invitationEpoch &&
+          identical(_sourceScope, sourceScope)) {
+        _sourceScope?.dispose();
+        _sourceScope = null;
+        setState(() {
+          _shareCode = null;
+          _loadError =
+              'The current invitation could not be verified. Refresh before sharing.';
+        });
+      }
+      rethrow;
     }
   }
 
@@ -332,36 +450,59 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
     String filename,
     String text,
   ) async {
+    GroupInvitationOutputScope? scope;
     try {
-      final sharePositionOrigin = collectSharePositionOrigin(context);
-      final bytes = await _qrPngBytes(link);
-      await SharePlus.instance.share(
-        ShareParams(
-          title: 'Group QR',
-          text: text,
-          files: [
-            XFile.fromData(bytes, mimeType: 'image/png', name: '$filename.png'),
-          ],
-          fileNameOverrides: ['$filename.png'],
-          sharePositionOrigin: sharePositionOrigin,
-          downloadFallbackEnabled: true,
-        ),
-      );
-    } catch (_) {
-      await Clipboard.setData(ClipboardData(text: link));
+      scope = _beginOutput(context);
+      await _confirmSource(scope);
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
+      final origin = collectSharePositionOrigin(context);
+      final transport = ref.read(groupInvitationTransportProvider);
+      final bytes = await transport.renderQr(link);
+      scope.check();
+      try {
+        await transport.shareQr(bytes, filename, text, origin);
+      } catch (_) {
+        scope.check();
+        await transport.copyLink(link);
+        if (context.mounted && scope.isCurrent) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
+        }
+      }
+    } catch (_) {
+      if (context.mounted && scope?.isCurrent == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The QR could not be shared. Refresh and try again.'),
+          ),
+        );
+      }
+    } finally {
+      scope?.dispose();
     }
   }
 
   Future<void> _copyLink(BuildContext context, String link) async {
-    await Clipboard.setData(ClipboardData(text: link));
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
+    GroupInvitationOutputScope? scope;
+    try {
+      scope = _beginOutput(context);
+      await _confirmSource(scope);
+      await ref.read(groupInvitationTransportProvider).copyLink(link);
+      if (context.mounted && scope.isCurrent) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Group link copied.')));
+      }
+    } catch (_) {
+      if (context.mounted && scope?.isCurrent == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('The invitation could not be copied.')),
+        );
+      }
+    } finally {
+      scope?.dispose();
+    }
   }
 
   Future<void> _saveQr(
@@ -369,68 +510,33 @@ class _ShareScreenState extends ConsumerState<ShareScreen> {
     String link,
     String filename,
   ) async {
+    GroupInvitationOutputScope? scope;
     try {
-      final bytes = await _qrPngBytes(link);
-      await FileSaver.instance.saveFile(
-        name: filename,
-        bytes: bytes,
-        fileExtension: 'png',
-        mimeType: MimeType.png,
-      );
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('QR saved.')));
+      scope = _beginOutput(context);
+      await _confirmSource(scope);
+      final transport = ref.read(groupInvitationTransportProvider);
+      final bytes = await transport.renderQr(link);
+      scope.check();
+      await transport.saveQr(bytes, filename);
+      if (context.mounted && scope.isCurrent) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(kIsWeb ? 'QR download started.' : 'QR saved.'),
+          ),
+        );
+      }
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Could not save QR.')));
+      if (context.mounted && scope?.isCurrent == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not save QR. Refresh and try again.'),
+          ),
+        );
+      }
+    } finally {
+      scope?.dispose();
     }
   }
-}
-
-Future<Uint8List> _qrPngBytes(String link) async {
-  const size = 1080.0;
-  const qrPadding = 96.0;
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder, const Rect.fromLTWH(0, 0, size, size));
-  final canvasRect = RRect.fromRectAndRadius(
-    const Rect.fromLTWH(0, 0, size, size),
-    const Radius.circular(72),
-  );
-  canvas.drawRRect(canvasRect, Paint()..color = CollectColors.publicWhite);
-  final painter = QrPainter(
-    data: link,
-    version: QrVersions.auto,
-    errorCorrectionLevel: QrErrorCorrectLevel.H,
-    gapless: true,
-    eyeStyle: const QrEyeStyle(
-      eyeShape: QrEyeShape.square,
-      color: CollectColors.publicBlack,
-    ),
-    dataModuleStyle: const QrDataModuleStyle(
-      dataModuleShape: QrDataModuleShape.square,
-      color: CollectColors.publicBlack,
-    ),
-  );
-  const qrRect = Rect.fromLTWH(
-    qrPadding,
-    qrPadding,
-    size - (qrPadding * 2),
-    size - (qrPadding * 2),
-  );
-  canvas.save();
-  canvas.translate(qrRect.left, qrRect.top);
-  painter.paint(canvas, qrRect.size);
-  canvas.restore();
-  final picture = recorder.endRecording();
-  final image = await picture.toImage(size.toInt(), size.toInt());
-  final data = await image.toByteData(format: ui.ImageByteFormat.png);
-  if (data == null) {
-    throw StateError('QR export failed');
-  }
-  return data.buffer.asUint8List();
 }
 
 class _BrandedQrCard extends StatelessWidget {

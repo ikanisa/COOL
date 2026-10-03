@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "design_authority": "revolut-design",
+  "capture_report_sha256": "9c9c28e7b54cfbe554961a295e9cdada75eb43a463fa77c974c37f704af54dd6",
+  "build_manifest_sha256": "3a9cbf961ed6e1977b8e581c387ad13af5233c8bee21af09ccc5fdce1e3fb94f",
+  "runtime_sha256": "d7136f3bd1ffc4e1ddb5003e31d64ae8a1bf5285fb94f0050b52ce6b418bb89c",
+  "reviewed_at": "2026-10-01T18:02:54.041345+00:00",
+  "reviewer": "Codex implementation review",
+  "native_acceptance": false,
+  "review_method": "Fresh final source compiled and captured. Changed Security original inspected directly; six unchanged originals verified byte-identical to separately inspected originals. No capture pixels edited.",
+  "scope": "Current real synthetic member interface previews for website media.",
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+      "reviewed_for_website": true,
+      "notes": "Readable logo/search, whole RWF35,000 total, three actions, synthetic contribution IDs/dates and complete four-item navigation. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    },
+    {
+      "id": "groups",
+      "sha256": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+      "reviewed_for_website": true,
+      "notes": "Readable Groups title, example QA private group card with whole RWF35,000 and count1; complete Home/Groups/Activity/Profile navigation confirmed through lossless source regions. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+      "reviewed_for_website": true,
+      "notes": "Readable title, RWF35,000 balance, group name, four actions and confirmed activity rows. Full navigation is present; individually decoded cell regions inspected directly to avoid tall-image display omissions. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    },
+    {
+      "id": "security",
+      "sha256": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+      "reviewed_for_website": true,
+      "notes": "Actual final PNG inspected directly: teal dotted wave fades into black canvas; centered shield and complete Security title; usable Back control; readable MoMo safety notice and all four security action rows. Matches selected DESK-015/LIVE-013 pattern with Collect terminology."
+    },
+    {
+      "id": "privacy",
+      "sha256": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+      "reviewed_for_website": true,
+      "notes": "Readable policy title/back navigation and complete first policy sections; longer content scrolls below viewport. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    },
+    {
+      "id": "terms",
+      "sha256": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+      "reviewed_for_website": true,
+      "notes": "Readable policy title/back arrow and complete Collect helps groups organize opening phrase confirmed in lossless source region; contribution-provider and WhatsApp sign-in paragraphs readable. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+      "reviewed_for_website": true,
+      "notes": "Readable title/back, three reason options, reason instruction and visibly disabled Submit before any selection. Fresh final compilation produced byte-identical pixels to the separately inspected original."
+    }
+  ],
+  "prior_pixel_review": {
+    "path": ".cache/public-current-design-20261001-state-final/visual-review.json",
+    "sha256": "d648a16ec096f6b705c42a494d19581110239c08656322d35c94f0295388583d"
+  },
+  "image_pixels_edited": false
+}

@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "exact_replacements": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Current checkpoint — 2026-10-02T12:27:50.269711+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**",
+      "new": "Current checkpoint — 2026-10-02T14:14:26.447056+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The captured 2,561-file app passes the unchanged hard size gate, strict fatal-info/warning analysis, 56 telemetry checks, 7 dated source-busy checks and all 1,114 unskipped cases across 41 suites, with zero errors. Three named actual dated SQL decoder cases pass. APP authorship, external libraries and SDK remain unchanged. Earlier failed runs remain failed; portable fixtures and owned screenshot paths resolve their actual causes.",
+      "new": "The prior captured 2,561-file refactor candidate passes its original hard size/strict analysis gates and all 1,114 affected cases across 41 suites, including the 56 telemetry, seven dated source-busy and three actual decoder checks. That proof retains archived source map abf7eb09… and its exact source scope. Later maintained 2,563 source includes new index scripts and reviewed Android Gradle changes; whole acceptance of that source is pending. Earlier failed outcomes remain failed."
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Schema mapping independently verifies five outputs against 1,094 inputs and 667 sources: 718 callers, 2,543 objects, 4,157 grants, 775 literal matches and 127 unresolved mappings. All previous 1,093 bindings and gap records remain unchanged; the added SQL runner introduces no caller. 60 unchanged tests are reused. Original current 209 SQL, 27-case committed recovery and 39-case Linux archive-adapter proofs retain their recorded scope; full domain ownership and system recovery remain open.",
+      "new": "The implemented additive mapper passes 57 tests including eight new cases. Fresh current209 generation and independent verify reflect 1,095 input rows, 668 maintained sources, 718 callers, 2,543 objects and 4,157 grants. All 127 unresolved functions (36 application/public, 91 platform) and transformation reviews remain exact; 34 records carry 37 unproved candidates. Eight caller records change only positions. Ownership/body provenance and full-system recovery remain open; existing 775 matches, 74 classifications, 58 unresolved callers and 84 lineage uncertainties are preserved."
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Fresh whole export/frozen-lock and consumer stages pass. Native8 passes in 1,858.452 seconds within the original 2,700-second bound: 12 unskipped JVM cases across three suites, 20 current production Release classes and three observed flat dependency graphs. APP/SDK source readbacks pass; 68,020 protected original paths remain unchanged. The observed wrapper and separate Gradle daemon groups are absent. A private engine cache stamp was replaced with identical bytes; generated observations are recorded separately. The unsigned AAB and canonical SBOM review is prepared, without package or release acceptance. Kotlin-plugin and Gradle-deprecation warnings remain recorded.",
+      "new": "The prior native8 run on archived source map abf7eb09… passes 12 JVM cases/three suites and 20 Release classes in 1,858.452 seconds within 2,700 seconds, with source/protected and owned-group readbacks. AAB attempt 7 fails in R8 from early default-Proguard capture before a late output override. Two reviewed Gradle fixes are applied to maintained source and an unapproved private APP derivative (manifest 5901e791… / map f997471d…). Attempt 8 stops in its private config probe before graphs/AAB because the included Flutter build has no app; original failure/lifecycle/source guards are preserved. Root-scoped probe correction and actual graph/AAB retry 9 remain pending. Current maintained 2,563 map1c55bbe1… is distinct; no current package/release acceptance is asserted."
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The route-neutral BE-02 evidence-admission proposal is reviewed and uninstalled; the actual evidence route, financial/security policy and custody decision remain pending. BE-08 source review classifies all 36 application body gaps into 13 private moves/renames, 14 public wrappers, two header-copy aliases, five body rewrites and two static renames with unproved intervening effects. No body reconstruction, resolved flags or domain-owner authority is asserted.",
+      "new": "BE-02 payment evidence remains reviewed and uninstalled; route/policy/custody decisions are pending. BE-08 hints are integrated without body/owner resolution claims. ARC-03 manifest-derived probes pass 22 inventory tests / 258 assertions and three existing unsigned regressions. OSV returns no known records for 157 exact Maven versions in its bound earlier runtime graph; 16 local projects and complete package/licence/exploitability acceptance are outside that result. PD-12 index scripts pass 14 tests; reader attempt 1 retains two Android binding errors with 90 facts. Final index reconciliation/root closure review remains pending."
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Current checkpoint — 2026-10-02T12:27:50.269711+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**",
+      "new": "Current checkpoint — 2026-10-02T14:14:26.447056+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**"
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The captured 2,561-file app passes the unchanged hard size gate, strict fatal-info/warning analysis, 56 telemetry checks, 7 dated source-busy checks and all 1,114 unskipped cases across 41 suites, with zero errors. Three named actual dated SQL decoder cases pass. APP authorship, external libraries and SDK remain unchanged. Earlier failed runs remain failed; portable fixtures and owned screenshot paths resolve their actual causes.",
+      "new": "The prior captured 2,561-file refactor candidate passes its original hard size/strict analysis gates and all 1,114 affected cases across 41 suites, including the 56 telemetry, seven dated source-busy and three actual decoder checks. That proof retains archived source map abf7eb09… and its exact source scope. Later maintained 2,563 source includes new index scripts and reviewed Android Gradle changes; whole acceptance of that source is pending. Earlier failed outcomes remain failed."
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Schema mapping independently verifies five outputs against 1,094 inputs and 667 sources: 718 callers, 2,543 objects, 4,157 grants, 775 literal matches and 127 unresolved mappings. All previous 1,093 bindings and gap records remain unchanged; the added SQL runner introduces no caller. 60 unchanged tests are reused. Original current 209 SQL, 27-case committed recovery and 39-case Linux archive-adapter proofs retain their recorded scope; full domain ownership and system recovery remain open.",
+      "new": "The implemented additive mapper passes 57 tests including eight new cases. Fresh current209 generation and independent verify reflect 1,095 input rows, 668 maintained sources, 718 callers, 2,543 objects and 4,157 grants. All 127 unresolved functions (36 application/public, 91 platform) and transformation reviews remain exact; 34 records carry 37 unproved candidates. Eight caller records change only positions. Ownership/body provenance and full-system recovery remain open; existing 775 matches, 74 classifications, 58 unresolved callers and 84 lineage uncertainties are preserved."
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Fresh whole export/frozen-lock and consumer stages pass. Native8 passes in 1,858.452 seconds within the original 2,700-second bound: 12 unskipped JVM cases across three suites, 20 current production Release classes and three observed flat dependency graphs. APP/SDK source readbacks pass; 68,020 protected original paths remain unchanged. The observed wrapper and separate Gradle daemon groups are absent. A private engine cache stamp was replaced with identical bytes; generated observations are recorded separately. The unsigned AAB and canonical SBOM review is prepared, without package or release acceptance. Kotlin-plugin and Gradle-deprecation warnings remain recorded.",
+      "new": "The prior native8 run on archived source map abf7eb09… passes 12 JVM cases/three suites and 20 Release classes in 1,858.452 seconds within 2,700 seconds, with source/protected and owned-group readbacks. AAB attempt 7 fails in R8 from early default-Proguard capture before a late output override. Two reviewed Gradle fixes are applied to maintained source and an unapproved private APP derivative (manifest 5901e791… / map f997471d…). Attempt 8 stops in its private config probe before graphs/AAB because the included Flutter build has no app; original failure/lifecycle/source guards are preserved. Root-scoped probe correction and actual graph/AAB retry 9 remain pending. Current maintained 2,563 map1c55bbe1… is distinct; no current package/release acceptance is asserted."
+    },
+    {
+      "path": "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The route-neutral BE-02 evidence-admission proposal is reviewed and uninstalled; the actual evidence route, financial/security policy and custody decision remain pending. BE-08 source review classifies all 36 application body gaps into 13 private moves/renames, 14 public wrappers, two header-copy aliases, five body rewrites and two static renames with unproved intervening effects. No body reconstruction, resolved flags or domain-owner authority is asserted.",
+      "new": "BE-02 payment evidence remains reviewed and uninstalled; route/policy/custody decisions are pending. BE-08 hints are integrated without body/owner resolution claims. ARC-03 manifest-derived probes pass 22 inventory tests / 258 assertions and three existing unsigned regressions. OSV returns no known records for 157 exact Maven versions in its bound earlier runtime graph; 16 local projects and complete package/licence/exploitability acceptance are outside that result. PD-12 index scripts pass 14 tests; reader attempt 1 retains two Android binding errors with 90 facts. Final index reconciliation/root closure review remains pending."
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Current checkpoint — 2026-10-02T12:27:50.269711+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**",
+      "new": "Current checkpoint — 2026-10-02T14:14:26.447056+00:00. **6 original findings closed; 34 open in full. Production NO-GO; goal active.**"
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The captured 2,561-file app passes the unchanged hard size gate, strict fatal-info/warning analysis, 56 telemetry checks, 7 dated source-busy checks and all 1,114 unskipped cases across 41 suites, with zero errors. Three named actual dated SQL decoder cases pass. APP authorship, external libraries and SDK remain unchanged. Earlier failed runs remain failed; portable fixtures and owned screenshot paths resolve their actual causes.",
+      "new": "The prior captured 2,561-file refactor candidate passes its original hard size/strict analysis gates and all 1,114 affected cases across 41 suites, including the 56 telemetry, seven dated source-busy and three actual decoder checks. That proof retains archived source map abf7eb09… and its exact source scope. Later maintained 2,563 source includes new index scripts and reviewed Android Gradle changes; whole acceptance of that source is pending. Earlier failed outcomes remain failed."
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Schema mapping independently verifies five outputs against 1,094 inputs and 667 sources: 718 callers, 2,543 objects, 4,157 grants, 775 literal matches and 127 unresolved mappings. All previous 1,093 bindings and gap records remain unchanged; the added SQL runner introduces no caller. 60 unchanged tests are reused. Original current 209 SQL, 27-case committed recovery and 39-case Linux archive-adapter proofs retain their recorded scope; full domain ownership and system recovery remain open.",
+      "new": "The implemented additive mapper passes 57 tests including eight new cases. Fresh current209 generation and independent verify reflect 1,095 input rows, 668 maintained sources, 718 callers, 2,543 objects and 4,157 grants. All 127 unresolved functions (36 application/public, 91 platform) and transformation reviews remain exact; 34 records carry 37 unproved candidates. Eight caller records change only positions. Ownership/body provenance and full-system recovery remain open; existing 775 matches, 74 classifications, 58 unresolved callers and 84 lineage uncertainties are preserved."
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "Fresh whole export/frozen-lock and consumer stages pass. Native8 passes in 1,858.452 seconds within the original 2,700-second bound: 12 unskipped JVM cases across three suites, 20 current production Release classes and three observed flat dependency graphs. APP/SDK source readbacks pass; 68,020 protected original paths remain unchanged. The observed wrapper and separate Gradle daemon groups are absent. A private engine cache stamp was replaced with identical bytes; generated observations are recorded separately. The unsigned AAB and canonical SBOM review is prepared, without package or release acceptance. Kotlin-plugin and Gradle-deprecation warnings remain recorded.",
+      "new": "The prior native8 run on archived source map abf7eb09… passes 12 JVM cases/three suites and 20 Release classes in 1,858.452 seconds within 2,700 seconds, with source/protected and owned-group readbacks. AAB attempt 7 fails in R8 from early default-Proguard capture before a late output override. Two reviewed Gradle fixes are applied to maintained source and an unapproved private APP derivative (manifest 5901e791… / map f997471d…). Attempt 8 stops in its private config probe before graphs/AAB because the included Flutter build has no app; original failure/lifecycle/source guards are preserved. Root-scoped probe correction and actual graph/AAB retry 9 remain pending. Current maintained 2,563 map1c55bbe1… is distinct; no current package/release acceptance is asserted."
+    },
+    {
+      "path": "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+      "operation": "replace_exact_once_in_current_prefix",
+      "old": "The route-neutral BE-02 evidence-admission proposal is reviewed and uninstalled; the actual evidence route, financial/security policy and custody decision remain pending. BE-08 source review classifies all 36 application body gaps into 13 private moves/renames, 14 public wrappers, two header-copy aliases, five body rewrites and two static renames with unproved intervening effects. No body reconstruction, resolved flags or domain-owner authority is asserted.",
+      "new": "BE-02 payment evidence remains reviewed and uninstalled; route/policy/custody decisions are pending. BE-08 hints are integrated without body/owner resolution claims. ARC-03 manifest-derived probes pass 22 inventory tests / 258 assertions and three existing unsigned regressions. OSV returns no known records for 157 exact Maven versions in its bound earlier runtime graph; 16 local projects and complete package/licence/exploitability acceptance are outside that result. PD-12 index scripts pass 14 tests; reader attempt 1 retains two Android binding errors with 90 facts. Final index reconciliation/root closure review remains pending."
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_current_table_row",
+      "id": "BE-08",
+      "old": "| BE-08 | P1: the migration chain needs a canonical current-schema review and final reproducibility proof | current 209 mapping and 36 source candidates reviewed; 127 gaps and domain ownership open | Open |",
+      "new": "| BE-08 | P1: the migration chain needs a canonical current-schema review and final reproducibility proof | current209 additive mapper 57 pass 1095 inputs 668 sources 127 unresolved preserved | Open |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_current_table_row",
+      "id": "ARC-03",
+      "old": "| ARC-03 | P1: Edge deploy/readiness inventory is obsolete | current13 local inventory verified fresh hosted permission refused parity unknown | Open |",
+      "new": "| ARC-03 | P1: Edge deploy/readiness inventory is obsolete | current13 manifest derived probes22 inventory3 probe tests pass hosted acceptance open | Open |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_current_table_row",
+      "id": "ARC-09",
+      "old": "| ARC-09 | P1: fork/dependency governance is uneven across ecosystems | current app and native 12 pass; AAB prepared; no package acceptance | Open |",
+      "new": "| ARC-09 | P1: fork/dependency governance is uneven across ecosystems | AAB attempt 7 R8 failed two Gradle fixes applied attempt 8 private probe failed retry 9 pending OSV 157 scoped | Open |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+      "operation": "replace_exact_current_table_row",
+      "id": "PD-12",
+      "old": "| PD-12 | Medium: typography and public acceptance summaries describe superseded input states | current source and failed acceptance checkpoint refreshed artifact and visual index open | Open |",
+      "new": "| PD-12 | Medium: typography and public acceptance summaries describe superseded input states | current index scripts14 tests pass reader attempt 1 two binding drifts final review pending | Open |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "As of 2026-10-02T12:23:31.024197+00:00: **34 of 40 original findings remain open in full. Production NO-GO; implementation goal active.**",
+      "new": "As of 2026-10-02T14:14:26.447056+00:00: **34 of 40 original findings remain open in full. Production NO-GO; implementation goal active.**"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "| BE-08 | Resolve ownership and history across the 209 migrations domain ownership/history/provenance: 127 function mappings, 74 classifications, 58 callers and 84 lineage uncertainties remain; all 36 application body gaps now have identified transformation candidates, with resolution still unproved. |",
+      "new": "| BE-08 | Resolve domain ownership/history/body provenance across 209 migrations: 127 mappings, 74 classifications, 58 callers, 84 lineage uncertainties. Additive mapper 57 tests and fresh 1,095-input / 668-source verification preserve those gaps. |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "| ARC-03 | Verify canonical endpoint deployment/readiness/scheduler inventory against actual deployed staging state. |",
+      "new": "| ARC-03 | Local manifest-derived unsigned probes pass 22 inventory and3 regression tests. Verify actual deployed hashes/migrations/scheduler and approved staging/production positive-denial HTTP behavior. |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "| ARC-09 | Complete dependency/fork licenses, publisher/frozen-resolution/advisory review and artifact-bound AAB/IPA/web SBOM; native checks pass (12 JVM cases, 20 Release classes); unsigned package assembly pending. |",
+      "new": "| ARC-09 | Complete licence/fork/publisher/frozen and AAB/IPA/web SBOM acceptance. AAB attempt 7 R8 failure and attempt 8 private-probe failure are retained; reviewed Gradle fixes await root-scoped probe/graphs/AAB retry 9. Scoped OSV 157 returns no known records. |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "| PD-12 | Complete the current source/dependency/artifact/result evidence index, with superseded results clearly identified. |",
+      "new": "| PD-12 | Current-index scripts pass 14 tests; actual reader attempt 1 has 90 facts and two archivedAPP/currentAndroid binding errors. Complete honest reconciliation/final machine-check and root closure review. |"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "The new app refactor proof passes all 1,114 unskipped cases across 41 suites, the hard size gate, strict analysis and source readbacks. The canonical backend and new SQL CI recipe pass in their recorded scopes. Native checks pass in 1,858.452 seconds within the original 2,700-second bound: 12 unskipped JVM cases, 20 current Release classes, unchanged source/protected inputs, and observed owned Gradle groups absent. The unsigned AAB and artifact-bound SBOM review is prepared; no package acceptance is claimed yet.",
+      "new": "Prior captured app/backend/SQL/native8 results retain their exact scope, including archived app source map abf7eb09…. Maintained ARC-03 tests and57 mapper tests pass; fresh current 209 verification preserves 127 unresolved functions. AAB attempt 7 failed in R8; reviewed Gradle fixes are applied, but attempt 8 stops at a private config probe before graphs/package execution. Root-scoped probe and actual graph/AAB retry 9 remain pending. No package or release acceptance is asserted."
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+      "operation": "replace_exact_once",
+      "old": "Prepared remediation: [payment evidence proposal](be02-evidence-admission-preparation1/README.md) and [36-function provenance review](be08-app-provenance-gap-review1/README.md). Both remain proposed and uninstalled. [Native success readback](root-native8-success-readback1/readback.json) records the completed local scope.\n",
+      "new": "The [payment evidence proposal](be02-evidence-admission-preparation1/README.md) remains reviewed and uninstalled. [BE-08 mapper integration](root-be08-transform-mapper-integration1/readback.json) and [current209 refresh](root-be08-post-integration-current2091/readback.json) record actual additive implementation with unresolved gaps preserved. [ARC-03 integration](arc03-probe-plan-integration1/readback.json) records local probe verification. PD-12 final index review remains pending."
+    }
+  ],
+  "historical_body_must_remain_identical": true
+}

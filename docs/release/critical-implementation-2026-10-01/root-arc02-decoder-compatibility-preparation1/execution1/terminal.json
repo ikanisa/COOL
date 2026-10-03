@@ -1,0 +1,113 @@
+{
+  "ARC02_closed": false,
+  "SQL_or_Pub_or_build_command_executed": false,
+  "actual_cases": [
+    {
+      "actual_decoder_case_pass": true,
+      "actual_done": {
+        "hidden": false,
+        "result": "success",
+        "skipped": false,
+        "testID": 3,
+        "time": 6077,
+        "type": "testDone"
+      },
+      "actual_start": {
+        "column": 3,
+        "groupIDs": [
+          2
+        ],
+        "id": 3,
+        "line": 57,
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "name": "actual SQL deterministic and AI status receipts bind their source, revision and commit",
+        "suiteID": 0,
+        "url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_import_test.dart"
+      },
+      "file": "test/admin_roster_import_test.dart",
+      "name": "actual SQL deterministic and AI status receipts bind their source, revision and commit",
+      "testID": 3
+    },
+    {
+      "actual_decoder_case_pass": true,
+      "actual_done": {
+        "hidden": false,
+        "result": "success",
+        "skipped": false,
+        "testID": 7,
+        "time": 9193,
+        "type": "testDone"
+      },
+      "actual_start": {
+        "column": 3,
+        "groupIDs": [
+          6
+        ],
+        "id": 7,
+        "line": 35,
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "name": "root-owned actual SQL read receipts satisfy the routed contracts",
+        "suiteID": 4,
+        "url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_read_contracts_test.dart"
+      },
+      "file": "test/admin_read_contracts_test.dart",
+      "name": "root-owned actual SQL read receipts satisfy the routed contracts",
+      "testID": 7
+    },
+    {
+      "actual_decoder_case_pass": true,
+      "actual_done": {
+        "hidden": false,
+        "result": "success",
+        "skipped": false,
+        "testID": 11,
+        "time": 9715,
+        "type": "testDone"
+      },
+      "actual_start": {
+        "column": 3,
+        "groupIDs": [
+          10
+        ],
+        "id": 11,
+        "line": 695,
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "name": "actual rollback SQL144 receipts decode staged and completed recovery exactly",
+        "suiteID": 8,
+        "url": "file:///Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_roster_reload_test.dart"
+      },
+      "file": "test/admin_roster_reload_test.dart",
+      "name": "actual rollback SQL144 receipts decode staged and completed recovery exactly",
+      "testID": 11
+    }
+  ],
+  "actual_seconds": 68.744,
+  "current209_SQL_producer_verified": false,
+  "decoder_compatibility_pass": true,
+  "errors": [],
+  "finished_utc": "2026-10-02T09:14:26.748108+00:00",
+  "native_stage_pass": false,
+  "prepared_manifest_sha256": "3baad62066326496c2083dcccb6051d141ea95da340f54056573e995b71dd0e7",
+  "previous_owner": {
+    "previous_failure_reclassified": false,
+    "previous_native_exit_code": 1,
+    "previous_native_stage_pass": false,
+    "previous_owned_groups_absent": true
+  },
+  "production_ready": false,
+  "scope": "private_dated_SQL_decoder_compatibility_only",
+  "source_lock_attested": false,
+  "source_lock_runtime_and_receipt_pre_post_exact": true,
+  "started_utc": "2026-10-02T09:13:18.006000+00:00",
+  "transient_write_and_restore_absence_attested": false,
+  "whole37_suite_executed": false
+}

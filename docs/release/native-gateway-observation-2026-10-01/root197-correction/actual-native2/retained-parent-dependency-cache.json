@@ -1,0 +1,5 @@
+{
+  "path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/.qa_native_dependencies.parent125-retained",
+  "preserved": true,
+  "reason": "Prior task-owned dependency copy retained before fresh current resolution; earlier gate refused reuse as designed"
+}

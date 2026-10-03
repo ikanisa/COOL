@@ -1,0 +1,9 @@
+{
+  "actual_error": "protected-original-metadata.json is in the original consumer preparation, not the native stage preparation",
+  "actual_error_type": "FileNotFoundError",
+  "corrected_using_controller_HERE_definition": true,
+  "fixture_rerun_required_for_reference_only_correction": false,
+  "fixtures_completed_before_failure": 7,
+  "kind": "actual_private_preparation_reference_path_failure",
+  "source_runtime_mutation": false
+}

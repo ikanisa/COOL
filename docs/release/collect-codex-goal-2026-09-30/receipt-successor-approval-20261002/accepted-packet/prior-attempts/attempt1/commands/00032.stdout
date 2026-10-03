@@ -1,0 +1,1 @@
+["id", "root_outbox_id", "original_attempt_id", "request_id", "actor_id", "session_id", "expected_root_revision", "root_revision", "expected_lineage_revision", "lineage_revision", "reason_code", "reason", "proof_sha256", "closed_at"]

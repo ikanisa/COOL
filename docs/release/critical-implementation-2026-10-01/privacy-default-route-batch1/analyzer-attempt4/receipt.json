@@ -1,0 +1,26 @@
+{
+  "started_at": "2026-10-02T00:47:04.061625+00:00",
+  "completed_at": "2026-10-02T00:47:17.346250+00:00",
+  "mode": "analyzer",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/app/router.dart",
+    "lib/shared/repositories/collect_repository.dart",
+    "lib/shared/widgets/screen_scaffold.dart",
+    "lib/features/privacy",
+    "lib/features/settings/security_hub_header.dart",
+    "test/features/privacy",
+    "test/shared/repository_session_fencing_test.dart",
+    "test/features/auth_route_accessibility_regression_test.dart",
+    "test/core/route_inventory_contract_test.dart"
+  ],
+  "exit_code": 0,
+  "input_count": 1345,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_log_sha256": "b42f402c3bb9fee771abdbfd69939d696394ac4ca67d0cb8ffe2010488d69749",
+  "approval": false,
+  "authority_hygiene_is_visual_acceptance": false
+}

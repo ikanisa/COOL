@@ -1,0 +1,279 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+        "rev-parse",
+        "FETCH_HEAD"
+      ],
+      "elapsed_seconds": 0.013,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_bytes": 41,
+      "stdout_sha256": "a4fcd52290cc13611200c22e72d610aab0f2a6c6070313403b146acfe6509a8f",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+        "cat-file",
+        "commit",
+        "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+      ],
+      "elapsed_seconds": 0.012,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_bytes": 1271,
+      "stdout_sha256": "b8ad4686ef429e054b6ce70b2a3de06d5d58175ba53326a0dfb1ae7c7a06f08b",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+        "cat-file",
+        "tree",
+        "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa"
+      ],
+      "elapsed_seconds": 0.012,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_bytes": 1292,
+      "stdout_sha256": "99a02fbeb5a975f7ad275e16f2cc68b4064343c238ab05e74af01a64872de09a",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+        "ls-tree",
+        "-z",
+        "-r",
+        "-t",
+        "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+      ],
+      "elapsed_seconds": 0.022,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_bytes": 2249133,
+      "stdout_sha256": "465bbf9bbbadda406272ca09a6f92cae4a5e8d97135556c29a306ecc5cfdbbdb",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-C",
+        "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+        "fsck",
+        "--strict",
+        "--full",
+        "--no-dangling",
+        "ad70ec4617166f1c38e5d2bfd388af71fda14f06"
+      ],
+      "elapsed_seconds": 0.039,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timeout_seconds": 60
+    }
+  ],
+  "fresh_git_file_identities": {
+    ".git/FETCH_HEAD": {
+      "bytes": 123,
+      "nlink": 1,
+      "sha256": "cd2b70abd487f54861896f9f65487763be09a81bc56a1fac57187d2c1ee18e58"
+    },
+    ".git/HEAD": {
+      "bytes": 23,
+      "nlink": 1,
+      "sha256": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10"
+    },
+    ".git/config": {
+      "bytes": 295,
+      "nlink": 1,
+      "sha256": "fa3876ce9c59ce09b18a1a863d98ebefb741c9c70c788997b6300f9b51d90e6c"
+    },
+    ".git/description": {
+      "bytes": 73,
+      "nlink": 1,
+      "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee"
+    },
+    ".git/hooks/applypatch-msg.sample": {
+      "bytes": 478,
+      "nlink": 1,
+      "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7"
+    },
+    ".git/hooks/commit-msg.sample": {
+      "bytes": 1972,
+      "nlink": 1,
+      "sha256": "efc1401b0e99d1ff51494d154d98b46c1e99059bcd8bf9f73cecde19fd3eb23b"
+    },
+    ".git/hooks/fsmonitor-watchman.sample": {
+      "bytes": 4611,
+      "nlink": 1,
+      "sha256": "9159720099ad5595b8e66645cbfd47763c1e920f46e0b50ae75e642bbec57ef0"
+    },
+    ".git/hooks/post-update.sample": {
+      "bytes": 189,
+      "nlink": 1,
+      "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5"
+    },
+    ".git/hooks/pre-applypatch.sample": {
+      "bytes": 424,
+      "nlink": 1,
+      "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475"
+    },
+    ".git/hooks/pre-commit.sample": {
+      "bytes": 1649,
+      "nlink": 1,
+      "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b"
+    },
+    ".git/hooks/pre-merge-commit.sample": {
+      "bytes": 416,
+      "nlink": 1,
+      "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53"
+    },
+    ".git/hooks/pre-push.sample": {
+      "bytes": 1374,
+      "nlink": 1,
+      "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a"
+    },
+    ".git/hooks/pre-rebase.sample": {
+      "bytes": 4898,
+      "nlink": 1,
+      "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3"
+    },
+    ".git/hooks/pre-receive.sample": {
+      "bytes": 544,
+      "nlink": 1,
+      "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989"
+    },
+    ".git/hooks/prepare-commit-msg.sample": {
+      "bytes": 1492,
+      "nlink": 1,
+      "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619"
+    },
+    ".git/hooks/push-to-checkout.sample": {
+      "bytes": 2783,
+      "nlink": 1,
+      "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f"
+    },
+    ".git/hooks/sendemail-validate.sample": {
+      "bytes": 2308,
+      "nlink": 1,
+      "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92"
+    },
+    ".git/hooks/update.sample": {
+      "bytes": 3650,
+      "nlink": 1,
+      "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106"
+    },
+    ".git/info/exclude": {
+      "bytes": 240,
+      "nlink": 1,
+      "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1"
+    },
+    ".git/objects/pack/pack-b77221cae78dcac77d7d7cd608ff1dd5394c5517.idx": {
+      "bytes": 85324,
+      "nlink": 1,
+      "sha256": "dfc515a3aae53b5cc6ab8c66992651a56aaf53e7175ec695d379f07bb2338237"
+    },
+    ".git/objects/pack/pack-b77221cae78dcac77d7d7cd608ff1dd5394c5517.pack": {
+      "bytes": 620390,
+      "nlink": 1,
+      "sha256": "e3da101355fe0984d8373ce3e87949b77750ce58f66bf247d1b8f682625bfb28"
+    },
+    ".git/objects/pack/pack-b77221cae78dcac77d7d7cd608ff1dd5394c5517.promisor": {
+      "bytes": 82,
+      "nlink": 1,
+      "sha256": "e606e1ae0b30a3992a1bd0421e0e15355d19ea8d2559e21c96e774344a5dcbe9"
+    },
+    ".git/objects/pack/pack-b77221cae78dcac77d7d7cd608ff1dd5394c5517.rev": {
+      "bytes": 12088,
+      "nlink": 1,
+      "sha256": "c1e45300225d8da42c0b7579259ef58f2e933783aeb6703a5cc3d7334312f021"
+    },
+    ".git/shallow": {
+      "bytes": 41,
+      "nlink": 1,
+      "sha256": "a4fcd52290cc13611200c22e72d610aab0f2a6c6070313403b146acfe6509a8f"
+    }
+  },
+  "full_worktree_materialized": false,
+  "lazy_fetch_disabled": true,
+  "local_PGP_signature_verification_performed": false,
+  "metadata_repository": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-metadata-batch2",
+  "negative_results": {
+    "actual_raw_commit_byte_drift_rejected": true,
+    "actual_raw_tree_byte_drift_rejected": true
+  },
+  "observed_utc": "2026-10-02T00:02:38.568646+00:00",
+  "passed": true,
+  "public_remote": "https://github.com/flutter/flutter.git",
+  "publisher_API_entry_set_matches_raw_Git_objects": true,
+  "raw_commit_bytes": 1271,
+  "raw_commit_sha1": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+  "raw_commit_sha256": "b8ad4686ef429e054b6ce70b2a3de06d5d58175ba53326a0dfb1ae7c7a06f08b",
+  "raw_git_entry_count": 19283,
+  "raw_root_tree_sha1": "0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa",
+  "raw_root_tree_sha256": "99a02fbeb5a975f7ad275e16f2cc68b4064343c238ab05e74af01a64872de09a",
+  "scope": "Exact public remote raw commit/tree identity and filtered Git object integrity. Promisor blobs are intentionally absent: fsck is not a proof of full worktree/blob contents. No SDK execution, extraction, patching or acceptance.",
+  "unsafe_links_or_shared_inode_counts": 0
+}

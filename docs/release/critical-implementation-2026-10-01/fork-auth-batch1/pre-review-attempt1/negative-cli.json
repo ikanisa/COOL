@@ -1,0 +1,45 @@
+{
+  "baseline_returncode": 0,
+  "cases": [
+    {
+      "case": "actual_gotrue_reviewed_runtime_second_change",
+      "expected_failure": "Reviewed fork byte drift",
+      "observed_stderr": "Reviewed fork byte drift: lib/src/gotrue_client.dart",
+      "returncode": 1
+    },
+    {
+      "case": "actual_firebase_unchanged_license_loss",
+      "expected_failure": "license/notice loss or mutation",
+      "observed_stderr": "Upstream license/notice loss or mutation",
+      "returncode": 1
+    },
+    {
+      "case": "actual_reviewed_manifest_whitespace_drift",
+      "expected_failure": "Reviewed delta manifest drift",
+      "observed_stderr": "Reviewed delta manifest drift: firebase_messaging",
+      "returncode": 1
+    },
+    {
+      "case": "actual_retained_upstream_manifest_rewrite",
+      "expected_failure": "Retained upstream cache manifest drift",
+      "observed_stderr": "Retained upstream cache manifest drift",
+      "returncode": 1
+    },
+    {
+      "case": "actual_official_archive_appended_bytes",
+      "expected_failure": "Cached official archive content digest mismatch",
+      "observed_stderr": "Cached official archive content digest mismatch",
+      "returncode": 1
+    },
+    {
+      "case": "actual_metadata_foreign_origin",
+      "expected_failure": "Official metadata origin/identity/digest mismatch",
+      "observed_stderr": "Official metadata origin/identity/digest mismatch: gotrue",
+      "returncode": 1
+    }
+  ],
+  "network_used": false,
+  "private_temporary_copy_removed": true,
+  "restored_copy_returncode": 0,
+  "status": "pass_actual_retained_copy_and_official_cache_drift_negatives"
+}

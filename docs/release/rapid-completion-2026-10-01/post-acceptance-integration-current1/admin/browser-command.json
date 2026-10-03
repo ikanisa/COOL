@@ -1,0 +1,19 @@
+{
+  "session_id": 48445,
+  "node_pid_observed": 37358,
+  "argv": [
+    "node",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-harness-current1/scripts/qa/current_browser_lifecycle.mjs",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1/.cache/lifecycle-integration-current1"
+  ],
+  "environment": {
+    "COLLECT_BROWSER_SOURCE_ROOT": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+    "COLLECT_BROWSER_BUILD_ROOT": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-integration-browser-build-current1",
+    "COLLECT_BROWSER_FLUTTER": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter"
+  },
+  "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/lifecycle.stdout",
+  "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/admin/lifecycle.stderr",
+  "fresh_build": true,
+  "retained_report": false,
+  "scope": "One actual lifecycle invocation; child Admin build and Public build recorded by original harness. No VM, SQL, native, provider or deployment commands."
+}

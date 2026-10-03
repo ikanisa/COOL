@@ -1,0 +1,25 @@
+{
+  "status": "pass_scoped_section_readback",
+  "immutable_browser_acceptance_sha256": "586a8b755ab7cd97156941734e0214eb49e3bdb87b465c4825cb50e6d66c3d5e",
+  "current_readback_sha256": "3e00615adce7bf0e41a6744a85a0c8fcdb49f0e11d332e8699a1a5b56c86c76f",
+  "sections": [
+    {
+      "section": "shared_action_scope_and_dialog",
+      "start_marker": "class _AdminActionScope {",
+      "end_marker_excluded": "class AdminDeniedPage extends",
+      "exact_bytes_equal": true,
+      "accepted_sha256": "7a00a2390ae721cc60562073155d2fb38665fb00f307e7e9e2e0e0150f7ca457",
+      "current_sha256": "7a00a2390ae721cc60562073155d2fb38665fb00f307e7e9e2e0e0150f7ca457"
+    },
+    {
+      "section": "shared_identity_revision_providers",
+      "start_marker": "final adminRepositoryProvider =",
+      "end_marker_excluded": "final adminRealtimeTickProvider =",
+      "exact_bytes_equal": true,
+      "accepted_sha256": "205b3e12ab78f669627f3424173b4d65306719ff6601e599e295997854675220",
+      "current_sha256": "205b3e12ab78f669627f3424173b4d65306719ff6601e599e295997854675220"
+    }
+  ],
+  "whole_admin_runtime_file_unchanged": false,
+  "scope": "Exact production identity/revision providers and sticky action scope/dialog bytes remain the accepted Auth14 bytes; other added private providers/methods/imports in the file remain separately reviewed Admin scope. No reexecution/whole current PWA claim."
+}

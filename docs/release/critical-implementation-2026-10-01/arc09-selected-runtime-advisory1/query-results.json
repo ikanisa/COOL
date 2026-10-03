@@ -1,0 +1,6413 @@
+{
+  "advisories": [],
+  "components": [
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.activity",
+        "kind": "module",
+        "name": "activity",
+        "version": "1.12.4"
+      },
+      "graph_component_index": 0,
+      "pagination_complete": true,
+      "query_index": 0,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.activity",
+        "kind": "module",
+        "name": "activity-ktx",
+        "version": "1.12.4"
+      },
+      "graph_component_index": 1,
+      "pagination_complete": true,
+      "query_index": 1,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.annotation",
+        "kind": "module",
+        "name": "annotation",
+        "version": "1.10.0"
+      },
+      "graph_component_index": 2,
+      "pagination_complete": true,
+      "query_index": 2,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.annotation",
+        "kind": "module",
+        "name": "annotation-experimental",
+        "version": "1.4.1"
+      },
+      "graph_component_index": 3,
+      "pagination_complete": true,
+      "query_index": 3,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.annotation",
+        "kind": "module",
+        "name": "annotation-jvm",
+        "version": "1.10.0"
+      },
+      "graph_component_index": 4,
+      "pagination_complete": true,
+      "query_index": 4,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.appcompat",
+        "kind": "module",
+        "name": "appcompat",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 5,
+      "pagination_complete": true,
+      "query_index": 5,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.appcompat",
+        "kind": "module",
+        "name": "appcompat-resources",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 6,
+      "pagination_complete": true,
+      "query_index": 6,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.arch.core",
+        "kind": "module",
+        "name": "core-common",
+        "version": "2.2.0"
+      },
+      "graph_component_index": 7,
+      "pagination_complete": true,
+      "query_index": 7,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.arch.core",
+        "kind": "module",
+        "name": "core-runtime",
+        "version": "2.2.0"
+      },
+      "graph_component_index": 8,
+      "pagination_complete": true,
+      "query_index": 8,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.asynclayoutinflater",
+        "kind": "module",
+        "name": "asynclayoutinflater",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 9,
+      "pagination_complete": true,
+      "query_index": 9,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.browser",
+        "kind": "module",
+        "name": "browser",
+        "version": "1.9.0"
+      },
+      "graph_component_index": 10,
+      "pagination_complete": true,
+      "query_index": 10,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.camera",
+        "kind": "module",
+        "name": "camera-camera2",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 11,
+      "pagination_complete": true,
+      "query_index": 11,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.camera",
+        "kind": "module",
+        "name": "camera-camera2-pipe",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 12,
+      "pagination_complete": true,
+      "query_index": 12,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.camera",
+        "kind": "module",
+        "name": "camera-core",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 13,
+      "pagination_complete": true,
+      "query_index": 13,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.camera",
+        "kind": "module",
+        "name": "camera-lifecycle",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 14,
+      "pagination_complete": true,
+      "query_index": 14,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.camera.featurecombinationquery",
+        "kind": "module",
+        "name": "featurecombinationquery",
+        "version": "1.6.1"
+      },
+      "graph_component_index": 15,
+      "pagination_complete": true,
+      "query_index": 15,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.collection",
+        "kind": "module",
+        "name": "collection",
+        "version": "1.4.2"
+      },
+      "graph_component_index": 16,
+      "pagination_complete": true,
+      "query_index": 16,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.collection",
+        "kind": "module",
+        "name": "collection-jvm",
+        "version": "1.4.2"
+      },
+      "graph_component_index": 17,
+      "pagination_complete": true,
+      "query_index": 17,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.collection",
+        "kind": "module",
+        "name": "collection-ktx",
+        "version": "1.4.2"
+      },
+      "graph_component_index": 18,
+      "pagination_complete": true,
+      "query_index": 18,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.compose.runtime",
+        "kind": "module",
+        "name": "runtime-annotation",
+        "version": "1.9.0"
+      },
+      "graph_component_index": 19,
+      "pagination_complete": true,
+      "query_index": 19,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.compose.runtime",
+        "kind": "module",
+        "name": "runtime-annotation-android",
+        "version": "1.9.0"
+      },
+      "graph_component_index": 20,
+      "pagination_complete": true,
+      "query_index": 20,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.concurrent",
+        "kind": "module",
+        "name": "concurrent-futures",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 21,
+      "pagination_complete": true,
+      "query_index": 21,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.concurrent",
+        "kind": "module",
+        "name": "concurrent-futures-ktx",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 22,
+      "pagination_complete": true,
+      "query_index": 22,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.coordinatorlayout",
+        "kind": "module",
+        "name": "coordinatorlayout",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 23,
+      "pagination_complete": true,
+      "query_index": 23,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.core",
+        "kind": "module",
+        "name": "core",
+        "version": "1.18.0"
+      },
+      "graph_component_index": 24,
+      "pagination_complete": true,
+      "query_index": 24,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.core",
+        "kind": "module",
+        "name": "core-backported-fixes",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 25,
+      "pagination_complete": true,
+      "query_index": 25,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.core",
+        "kind": "module",
+        "name": "core-ktx",
+        "version": "1.18.0"
+      },
+      "graph_component_index": 26,
+      "pagination_complete": true,
+      "query_index": 26,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.core",
+        "kind": "module",
+        "name": "core-viewtree",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 27,
+      "pagination_complete": true,
+      "query_index": 27,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.cursoradapter",
+        "kind": "module",
+        "name": "cursoradapter",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 28,
+      "pagination_complete": true,
+      "query_index": 28,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.customview",
+        "kind": "module",
+        "name": "customview",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 29,
+      "pagination_complete": true,
+      "query_index": 29,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 30,
+      "pagination_complete": true,
+      "query_index": 30,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-android",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 31,
+      "pagination_complete": true,
+      "query_index": 31,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-core",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 32,
+      "pagination_complete": true,
+      "query_index": 32,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-core-android",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 33,
+      "pagination_complete": true,
+      "query_index": 33,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-core-okio",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 34,
+      "pagination_complete": true,
+      "query_index": 34,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-core-okio-jvm",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 35,
+      "pagination_complete": true,
+      "query_index": 35,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 36,
+      "pagination_complete": true,
+      "query_index": 36,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-android",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 37,
+      "pagination_complete": true,
+      "query_index": 37,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-core",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 38,
+      "pagination_complete": true,
+      "query_index": 38,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-core-android",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 39,
+      "pagination_complete": true,
+      "query_index": 39,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-external-protobuf",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 40,
+      "pagination_complete": true,
+      "query_index": 40,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.datastore",
+        "kind": "module",
+        "name": "datastore-preferences-proto",
+        "version": "1.1.7"
+      },
+      "graph_component_index": 41,
+      "pagination_complete": true,
+      "query_index": 41,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.documentfile",
+        "kind": "module",
+        "name": "documentfile",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 42,
+      "pagination_complete": true,
+      "query_index": 42,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.drawerlayout",
+        "kind": "module",
+        "name": "drawerlayout",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 43,
+      "pagination_complete": true,
+      "query_index": 43,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.emoji2",
+        "kind": "module",
+        "name": "emoji2",
+        "version": "1.2.0"
+      },
+      "graph_component_index": 44,
+      "pagination_complete": true,
+      "query_index": 44,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.emoji2",
+        "kind": "module",
+        "name": "emoji2-views-helper",
+        "version": "1.2.0"
+      },
+      "graph_component_index": 45,
+      "pagination_complete": true,
+      "query_index": 45,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.exifinterface",
+        "kind": "module",
+        "name": "exifinterface",
+        "version": "1.4.2"
+      },
+      "graph_component_index": 46,
+      "pagination_complete": true,
+      "query_index": 46,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.fragment",
+        "kind": "module",
+        "name": "fragment",
+        "version": "1.7.1"
+      },
+      "graph_component_index": 47,
+      "pagination_complete": true,
+      "query_index": 47,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.fragment",
+        "kind": "module",
+        "name": "fragment-ktx",
+        "version": "1.7.1"
+      },
+      "graph_component_index": 48,
+      "pagination_complete": true,
+      "query_index": 48,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.interpolator",
+        "kind": "module",
+        "name": "interpolator",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 49,
+      "pagination_complete": true,
+      "query_index": 49,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.legacy",
+        "kind": "module",
+        "name": "legacy-support-core-ui",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 50,
+      "pagination_complete": true,
+      "query_index": 50,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.legacy",
+        "kind": "module",
+        "name": "legacy-support-core-utils",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 51,
+      "pagination_complete": true,
+      "query_index": 51,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-common",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 52,
+      "pagination_complete": true,
+      "query_index": 52,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-common-java8",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 53,
+      "pagination_complete": true,
+      "query_index": 53,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-common-jvm",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 54,
+      "pagination_complete": true,
+      "query_index": 54,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-livedata",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 55,
+      "pagination_complete": true,
+      "query_index": 55,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-livedata-core",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 56,
+      "pagination_complete": true,
+      "query_index": 56,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-livedata-core-ktx",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 57,
+      "pagination_complete": true,
+      "query_index": 57,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-process",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 58,
+      "pagination_complete": true,
+      "query_index": 58,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-runtime",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 59,
+      "pagination_complete": true,
+      "query_index": 59,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-runtime-android",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 60,
+      "pagination_complete": true,
+      "query_index": 60,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-runtime-ktx",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 61,
+      "pagination_complete": true,
+      "query_index": 61,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-runtime-ktx-android",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 62,
+      "pagination_complete": true,
+      "query_index": 62,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-viewmodel",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 63,
+      "pagination_complete": true,
+      "query_index": 63,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-viewmodel-android",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 64,
+      "pagination_complete": true,
+      "query_index": 64,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-viewmodel-ktx",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 65,
+      "pagination_complete": true,
+      "query_index": 65,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-viewmodel-savedstate",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 66,
+      "pagination_complete": true,
+      "query_index": 66,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.lifecycle",
+        "kind": "module",
+        "name": "lifecycle-viewmodel-savedstate-android",
+        "version": "2.10.0"
+      },
+      "graph_component_index": 67,
+      "pagination_complete": true,
+      "query_index": 67,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.loader",
+        "kind": "module",
+        "name": "loader",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 68,
+      "pagination_complete": true,
+      "query_index": 68,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.localbroadcastmanager",
+        "kind": "module",
+        "name": "localbroadcastmanager",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 69,
+      "pagination_complete": true,
+      "query_index": 69,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.media",
+        "kind": "module",
+        "name": "media",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 70,
+      "pagination_complete": true,
+      "query_index": 70,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.navigationevent",
+        "kind": "module",
+        "name": "navigationevent",
+        "version": "1.0.2"
+      },
+      "graph_component_index": 71,
+      "pagination_complete": true,
+      "query_index": 71,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.navigationevent",
+        "kind": "module",
+        "name": "navigationevent-android",
+        "version": "1.0.2"
+      },
+      "graph_component_index": 72,
+      "pagination_complete": true,
+      "query_index": 72,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.preference",
+        "kind": "module",
+        "name": "preference",
+        "version": "1.2.1"
+      },
+      "graph_component_index": 73,
+      "pagination_complete": true,
+      "query_index": 73,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.print",
+        "kind": "module",
+        "name": "print",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 74,
+      "pagination_complete": true,
+      "query_index": 74,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.profileinstaller",
+        "kind": "module",
+        "name": "profileinstaller",
+        "version": "1.4.0"
+      },
+      "graph_component_index": 75,
+      "pagination_complete": true,
+      "query_index": 75,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.recyclerview",
+        "kind": "module",
+        "name": "recyclerview",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 76,
+      "pagination_complete": true,
+      "query_index": 76,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.resourceinspection",
+        "kind": "module",
+        "name": "resourceinspection-annotation",
+        "version": "1.0.1"
+      },
+      "graph_component_index": 77,
+      "pagination_complete": true,
+      "query_index": 77,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.savedstate",
+        "kind": "module",
+        "name": "savedstate",
+        "version": "1.4.0"
+      },
+      "graph_component_index": 78,
+      "pagination_complete": true,
+      "query_index": 78,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.savedstate",
+        "kind": "module",
+        "name": "savedstate-android",
+        "version": "1.4.0"
+      },
+      "graph_component_index": 79,
+      "pagination_complete": true,
+      "query_index": 79,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.savedstate",
+        "kind": "module",
+        "name": "savedstate-ktx",
+        "version": "1.4.0"
+      },
+      "graph_component_index": 80,
+      "pagination_complete": true,
+      "query_index": 80,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.slidingpanelayout",
+        "kind": "module",
+        "name": "slidingpanelayout",
+        "version": "1.2.0"
+      },
+      "graph_component_index": 81,
+      "pagination_complete": true,
+      "query_index": 81,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.startup",
+        "kind": "module",
+        "name": "startup-runtime",
+        "version": "1.1.1"
+      },
+      "graph_component_index": 82,
+      "pagination_complete": true,
+      "query_index": 82,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.swiperefreshlayout",
+        "kind": "module",
+        "name": "swiperefreshlayout",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 83,
+      "pagination_complete": true,
+      "query_index": 83,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.tracing",
+        "kind": "module",
+        "name": "tracing",
+        "version": "1.3.0"
+      },
+      "graph_component_index": 84,
+      "pagination_complete": true,
+      "query_index": 84,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.tracing",
+        "kind": "module",
+        "name": "tracing-android",
+        "version": "1.3.0"
+      },
+      "graph_component_index": 85,
+      "pagination_complete": true,
+      "query_index": 85,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.tracing",
+        "kind": "module",
+        "name": "tracing-ktx",
+        "version": "1.3.0"
+      },
+      "graph_component_index": 86,
+      "pagination_complete": true,
+      "query_index": 86,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.transition",
+        "kind": "module",
+        "name": "transition",
+        "version": "1.4.1"
+      },
+      "graph_component_index": 87,
+      "pagination_complete": true,
+      "query_index": 87,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.vectordrawable",
+        "kind": "module",
+        "name": "vectordrawable",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 88,
+      "pagination_complete": true,
+      "query_index": 88,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.vectordrawable",
+        "kind": "module",
+        "name": "vectordrawable-animated",
+        "version": "1.1.0"
+      },
+      "graph_component_index": 89,
+      "pagination_complete": true,
+      "query_index": 89,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.versionedparcelable",
+        "kind": "module",
+        "name": "versionedparcelable",
+        "version": "1.1.1"
+      },
+      "graph_component_index": 90,
+      "pagination_complete": true,
+      "query_index": 90,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.viewpager",
+        "kind": "module",
+        "name": "viewpager",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 91,
+      "pagination_complete": true,
+      "query_index": 91,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.window",
+        "kind": "module",
+        "name": "window",
+        "version": "1.2.0"
+      },
+      "graph_component_index": 92,
+      "pagination_complete": true,
+      "query_index": 92,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.window",
+        "kind": "module",
+        "name": "window-java",
+        "version": "1.2.0"
+      },
+      "graph_component_index": 93,
+      "pagination_complete": true,
+      "query_index": 93,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "androidx.window.extensions.core",
+        "kind": "module",
+        "name": "core",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 94,
+      "pagination_complete": true,
+      "query_index": 94,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.getkeepsafe.relinker",
+        "kind": "module",
+        "name": "relinker",
+        "version": "1.4.5"
+      },
+      "graph_component_index": 95,
+      "pagination_complete": true,
+      "query_index": 95,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-api",
+        "version": "3.1.0"
+      },
+      "graph_component_index": 96,
+      "pagination_complete": true,
+      "query_index": 96,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-backend-cct",
+        "version": "3.1.9"
+      },
+      "graph_component_index": 97,
+      "pagination_complete": true,
+      "query_index": 97,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.datatransport",
+        "kind": "module",
+        "name": "transport-runtime",
+        "version": "3.1.9"
+      },
+      "graph_component_index": 98,
+      "pagination_complete": true,
+      "query_index": 98,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-base",
+        "version": "18.9.0"
+      },
+      "graph_component_index": 99,
+      "pagination_complete": true,
+      "query_index": 99,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-basement",
+        "version": "18.9.0"
+      },
+      "graph_component_index": 100,
+      "pagination_complete": true,
+      "query_index": 100,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-cloud-messaging",
+        "version": "17.4.0"
+      },
+      "graph_component_index": 101,
+      "pagination_complete": true,
+      "query_index": 101,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-mlkit-barcode-scanning",
+        "version": "18.3.1"
+      },
+      "graph_component_index": 102,
+      "pagination_complete": true,
+      "query_index": 102,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-stats",
+        "version": "17.0.2"
+      },
+      "graph_component_index": 103,
+      "pagination_complete": true,
+      "query_index": 103,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.gms",
+        "kind": "module",
+        "name": "play-services-tasks",
+        "version": "18.4.0"
+      },
+      "graph_component_index": 104,
+      "pagination_complete": true,
+      "query_index": 104,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.odml",
+        "kind": "module",
+        "name": "image",
+        "version": "1.0.0-beta1"
+      },
+      "graph_component_index": 105,
+      "pagination_complete": true,
+      "query_index": 105,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.play",
+        "kind": "module",
+        "name": "core-common",
+        "version": "2.0.4"
+      },
+      "graph_component_index": 106,
+      "pagination_complete": true,
+      "query_index": 106,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.android.play",
+        "kind": "module",
+        "name": "integrity",
+        "version": "1.6.0"
+      },
+      "graph_component_index": 107,
+      "pagination_complete": true,
+      "query_index": 107,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.auto.value",
+        "kind": "module",
+        "name": "auto-value-annotations",
+        "version": "1.6.3"
+      },
+      "graph_component_index": 108,
+      "pagination_complete": true,
+      "query_index": 108,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.code.gson",
+        "kind": "module",
+        "name": "gson",
+        "version": "2.12.0"
+      },
+      "graph_component_index": 109,
+      "pagination_complete": true,
+      "query_index": 109,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.dagger",
+        "kind": "module",
+        "name": "dagger",
+        "version": "2.59"
+      },
+      "graph_component_index": 110,
+      "pagination_complete": true,
+      "query_index": 110,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.errorprone",
+        "kind": "module",
+        "name": "error_prone_annotations",
+        "version": "2.36.0"
+      },
+      "graph_component_index": 111,
+      "pagination_complete": true,
+      "query_index": 111,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-annotations",
+        "version": "17.0.0"
+      },
+      "graph_component_index": 112,
+      "pagination_complete": true,
+      "query_index": 112,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-bom",
+        "version": "34.17.0"
+      },
+      "graph_component_index": 113,
+      "pagination_complete": true,
+      "query_index": 113,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-common",
+        "version": "22.2.0"
+      },
+      "graph_component_index": 114,
+      "pagination_complete": true,
+      "query_index": 114,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-components",
+        "version": "19.0.0"
+      },
+      "graph_component_index": 115,
+      "pagination_complete": true,
+      "query_index": 115,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-datatransport",
+        "version": "18.2.0"
+      },
+      "graph_component_index": 116,
+      "pagination_complete": true,
+      "query_index": 116,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders",
+        "version": "17.0.0"
+      },
+      "graph_component_index": 117,
+      "pagination_complete": true,
+      "query_index": 117,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders-json",
+        "version": "18.0.0"
+      },
+      "graph_component_index": 118,
+      "pagination_complete": true,
+      "query_index": 118,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-encoders-proto",
+        "version": "16.0.0"
+      },
+      "graph_component_index": 119,
+      "pagination_complete": true,
+      "query_index": 119,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-iid-interop",
+        "version": "17.1.0"
+      },
+      "graph_component_index": 120,
+      "pagination_complete": true,
+      "query_index": 120,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-installations",
+        "version": "19.1.2"
+      },
+      "graph_component_index": 121,
+      "pagination_complete": true,
+      "query_index": 121,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-installations-interop",
+        "version": "17.3.0"
+      },
+      "graph_component_index": 122,
+      "pagination_complete": true,
+      "query_index": 122,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-measurement-connector",
+        "version": "19.0.0"
+      },
+      "graph_component_index": 123,
+      "pagination_complete": true,
+      "query_index": 123,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.firebase",
+        "kind": "module",
+        "name": "firebase-messaging",
+        "version": "25.1.1"
+      },
+      "graph_component_index": 124,
+      "pagination_complete": true,
+      "query_index": 124,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.guava",
+        "kind": "module",
+        "name": "listenablefuture",
+        "version": "1.0"
+      },
+      "graph_component_index": 125,
+      "pagination_complete": true,
+      "query_index": 125,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.mlkit",
+        "kind": "module",
+        "name": "barcode-scanning",
+        "version": "17.3.0"
+      },
+      "graph_component_index": 126,
+      "pagination_complete": true,
+      "query_index": 126,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.mlkit",
+        "kind": "module",
+        "name": "barcode-scanning-common",
+        "version": "17.0.0"
+      },
+      "graph_component_index": 127,
+      "pagination_complete": true,
+      "query_index": 127,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.mlkit",
+        "kind": "module",
+        "name": "common",
+        "version": "18.11.0"
+      },
+      "graph_component_index": 128,
+      "pagination_complete": true,
+      "query_index": 128,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.mlkit",
+        "kind": "module",
+        "name": "vision-common",
+        "version": "17.3.0"
+      },
+      "graph_component_index": 129,
+      "pagination_complete": true,
+      "query_index": 129,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.google.mlkit",
+        "kind": "module",
+        "name": "vision-interfaces",
+        "version": "16.3.0"
+      },
+      "graph_component_index": 130,
+      "pagination_complete": true,
+      "query_index": 130,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.squareup.okio",
+        "kind": "module",
+        "name": "okio",
+        "version": "3.4.0"
+      },
+      "graph_component_index": 131,
+      "pagination_complete": true,
+      "query_index": 131,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "com.squareup.okio",
+        "kind": "module",
+        "name": "okio-jvm",
+        "version": "3.4.0"
+      },
+      "graph_component_index": 132,
+      "pagination_complete": true,
+      "query_index": 132,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "io.flutter",
+        "kind": "module",
+        "name": "arm64_v8a_release",
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "graph_component_index": 133,
+      "pagination_complete": true,
+      "query_index": 133,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "io.flutter",
+        "kind": "module",
+        "name": "armeabi_v7a_release",
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "graph_component_index": 134,
+      "pagination_complete": true,
+      "query_index": 134,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "io.flutter",
+        "kind": "module",
+        "name": "flutter_embedding_release",
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "graph_component_index": 135,
+      "pagination_complete": true,
+      "query_index": 135,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "io.flutter",
+        "kind": "module",
+        "name": "x86_64_release",
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "graph_component_index": 136,
+      "pagination_complete": true,
+      "query_index": 136,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "jakarta.inject",
+        "kind": "module",
+        "name": "jakarta.inject-api",
+        "version": "2.0.1"
+      },
+      "graph_component_index": 137,
+      "pagination_complete": true,
+      "query_index": 137,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "javax.inject",
+        "kind": "module",
+        "name": "javax.inject",
+        "version": "1"
+      },
+      "graph_component_index": 138,
+      "pagination_complete": true,
+      "query_index": 138,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains",
+        "kind": "module",
+        "name": "annotations",
+        "version": "23.0.0"
+      },
+      "graph_component_index": 139,
+      "pagination_complete": true,
+      "query_index": 139,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-android-extensions-runtime",
+        "version": "1.9.22"
+      },
+      "graph_component_index": 140,
+      "pagination_complete": true,
+      "query_index": 140,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-parcelize-runtime",
+        "version": "1.9.22"
+      },
+      "graph_component_index": 141,
+      "pagination_complete": true,
+      "query_index": 141,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-stdlib",
+        "version": "2.4.20"
+      },
+      "graph_component_index": 142,
+      "pagination_complete": true,
+      "query_index": 142,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-stdlib-common",
+        "version": "2.4.20"
+      },
+      "graph_component_index": 143,
+      "pagination_complete": true,
+      "query_index": 143,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-stdlib-jdk7",
+        "version": "1.8.0"
+      },
+      "graph_component_index": 144,
+      "pagination_complete": true,
+      "query_index": 144,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlin",
+        "kind": "module",
+        "name": "kotlin-stdlib-jdk8",
+        "version": "1.8.0"
+      },
+      "graph_component_index": 145,
+      "pagination_complete": true,
+      "query_index": 145,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "atomicfu",
+        "version": "0.28.0"
+      },
+      "graph_component_index": 146,
+      "pagination_complete": true,
+      "query_index": 146,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "atomicfu-jvm",
+        "version": "0.28.0"
+      },
+      "graph_component_index": 147,
+      "pagination_complete": true,
+      "query_index": 147,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-android",
+        "version": "1.11.0"
+      },
+      "graph_component_index": 148,
+      "pagination_complete": true,
+      "query_index": 148,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-bom",
+        "version": "1.11.0"
+      },
+      "graph_component_index": 149,
+      "pagination_complete": true,
+      "query_index": 149,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-core",
+        "version": "1.11.0"
+      },
+      "graph_component_index": 150,
+      "pagination_complete": true,
+      "query_index": 150,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.11.0"
+      },
+      "graph_component_index": 151,
+      "pagination_complete": true,
+      "query_index": 151,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-coroutines-play-services",
+        "version": "1.11.0"
+      },
+      "graph_component_index": 152,
+      "pagination_complete": true,
+      "query_index": 152,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-bom",
+        "version": "1.7.3"
+      },
+      "graph_component_index": 153,
+      "pagination_complete": true,
+      "query_index": 153,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-core",
+        "version": "1.7.3"
+      },
+      "graph_component_index": 154,
+      "pagination_complete": true,
+      "query_index": 154,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jetbrains.kotlinx",
+        "kind": "module",
+        "name": "kotlinx-serialization-core-jvm",
+        "version": "1.7.3"
+      },
+      "graph_component_index": 155,
+      "pagination_complete": true,
+      "query_index": 155,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "advisory_ids": [],
+      "graph_component": {
+        "group": "org.jspecify",
+        "kind": "module",
+        "name": "jspecify",
+        "version": "1.0.0"
+      },
+      "graph_component_index": 156,
+      "pagination_complete": true,
+      "query_index": 156,
+      "query_status": "no-known-OSV-records-returned-for-exact-query",
+      "queryability": "exact-Maven-coordinate-version"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":android_file_picker"
+      },
+      "graph_component_index": 157,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":app"
+      },
+      "graph_component_index": 158,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":app_links"
+      },
+      "graph_component_index": 159,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":file_saver"
+      },
+      "graph_component_index": 160,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":firebase_core"
+      },
+      "graph_component_index": 161,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":firebase_messaging"
+      },
+      "graph_component_index": 162,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":flutter_local_notifications"
+      },
+      "graph_component_index": 163,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":flutter_plugin_android_lifecycle"
+      },
+      "graph_component_index": 164,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":image_picker_android"
+      },
+      "graph_component_index": 165,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":jni"
+      },
+      "graph_component_index": 166,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":jni_flutter"
+      },
+      "graph_component_index": 167,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":mobile_scanner"
+      },
+      "graph_component_index": 168,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":permission_handler_android"
+      },
+      "graph_component_index": 169,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":share_plus"
+      },
+      "graph_component_index": 170,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":shared_preferences_android"
+      },
+      "graph_component_index": 171,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    },
+    {
+      "graph_component": {
+        "kind": "project",
+        "path": ":url_launcher_android"
+      },
+      "graph_component_index": 172,
+      "query_index": null,
+      "queryability": "unqueryable-in-this-Maven-graph",
+      "reason": "local project component supplies no Maven group:name/version; plugin/path names do not authorize ecosystem or version inference"
+    }
+  ],
+  "format": "collect-selected-runtime-osv-readback-v1",
+  "public_requests": [
+    {
+      "actual_seconds": 3.343685,
+      "curl_exit_code": 0,
+      "effective_URL": "https://google.github.io/osv.dev/post-v1-querybatch/",
+      "exception": null,
+      "finished_utc": "2026-10-02T12:54:01.670751+00:00",
+      "http_status": 200,
+      "label": "osv-querybatch",
+      "method": "GET",
+      "receipt_directory": "requests/000-osv-querybatch",
+      "remote_IP": "2606:50c0:8001::153",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "request_performed": true,
+      "response_bytes_retained": 30406,
+      "response_complete": true,
+      "response_sha256": "b307c46461aba6fd3efb7f6282656dc376260253847bf9b3df92ecc9615d8f57",
+      "ssl_verify_result": 0,
+      "started_utc": "2026-10-02T12:53:58.327111+00:00",
+      "url": "https://google.github.io/osv.dev/post-v1-querybatch/"
+    },
+    {
+      "actual_seconds": 0.836515,
+      "curl_exit_code": 0,
+      "effective_URL": "https://google.github.io/osv.dev/post-v1-query/",
+      "exception": null,
+      "finished_utc": "2026-10-02T12:54:02.507988+00:00",
+      "http_status": 200,
+      "label": "osv-query",
+      "method": "GET",
+      "receipt_directory": "requests/001-osv-query",
+      "remote_IP": "185.199.111.153",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "request_performed": true,
+      "response_bytes_retained": 33101,
+      "response_complete": true,
+      "response_sha256": "35b087c74e8c1f322276dc193803e9a4142aa40649434224178c570b924a7cc9",
+      "ssl_verify_result": 0,
+      "started_utc": "2026-10-02T12:54:01.671533+00:00",
+      "url": "https://google.github.io/osv.dev/post-v1-query/"
+    },
+    {
+      "actual_seconds": 0.580904,
+      "curl_exit_code": 0,
+      "effective_URL": "https://google.github.io/osv.dev/get-v1-vulns/",
+      "exception": null,
+      "finished_utc": "2026-10-02T12:54:03.089474+00:00",
+      "http_status": 200,
+      "label": "osv-advisory",
+      "method": "GET",
+      "receipt_directory": "requests/002-osv-advisory",
+      "remote_IP": "2606:50c0:8002::153",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "request_performed": true,
+      "response_bytes_retained": 19961,
+      "response_complete": true,
+      "response_sha256": "b602254afdfffbdc21608d4aaeacd46e08282987fced22fc7e118af79c668379",
+      "ssl_verify_result": 0,
+      "started_utc": "2026-10-02T12:54:02.508591+00:00",
+      "url": "https://google.github.io/osv.dev/get-v1-vulns/"
+    },
+    {
+      "actual_seconds": 6.488708,
+      "curl_exit_code": 0,
+      "effective_URL": "https://ossf.github.io/osv-schema/",
+      "exception": null,
+      "finished_utc": "2026-10-02T12:54:09.578841+00:00",
+      "http_status": 200,
+      "label": "osv-schema",
+      "method": "GET",
+      "receipt_directory": "requests/003-osv-schema",
+      "remote_IP": "185.199.110.153",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "request_performed": true,
+      "response_bytes_retained": 226247,
+      "response_complete": true,
+      "response_sha256": "0a1ead4f8ca92fe9f7e3f9f2bfe7f7f3ed416fb4e6efee91e9ae58fff7c1dc14",
+      "ssl_verify_result": 0,
+      "started_utc": "2026-10-02T12:54:03.090183+00:00",
+      "url": "https://ossf.github.io/osv-schema/"
+    },
+    {
+      "actual_seconds": 1.561661,
+      "curl_exit_code": 0,
+      "effective_URL": "https://api.osv.dev/v1/querybatch",
+      "exception": null,
+      "finished_utc": "2026-10-02T12:54:11.141796+00:00",
+      "http_status": 200,
+      "label": "querybatch-000",
+      "method": "POST",
+      "receipt_directory": "requests/004-querybatch-000",
+      "remote_IP": "2a00:1450:4025:2401::79",
+      "request_body_sha256": "bd1579ebb09b0ed698142f948e59fa176175d870a76870d287605fd20a5f1f03",
+      "request_performed": true,
+      "response_bytes_retained": 484,
+      "response_complete": true,
+      "response_sha256": "1bc1861da922a4d0831e4416c41bba377a38c1ab0bafa462ab6813ef620f855a",
+      "ssl_verify_result": 0,
+      "started_utc": "2026-10-02T12:54:09.580166+00:00",
+      "url": "https://api.osv.dev/v1/querybatch"
+    }
+  ],
+  "queries": [
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        0
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.activity:activity"
+        },
+        "version": "1.12.4"
+      },
+      "query_index": 0,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 0
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        1
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.activity:activity-ktx"
+        },
+        "version": "1.12.4"
+      },
+      "query_index": 1,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 1
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        2
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.annotation:annotation"
+        },
+        "version": "1.10.0"
+      },
+      "query_index": 2,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 2
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        3
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.annotation:annotation-experimental"
+        },
+        "version": "1.4.1"
+      },
+      "query_index": 3,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 3
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        4
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.annotation:annotation-jvm"
+        },
+        "version": "1.10.0"
+      },
+      "query_index": 4,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 4
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        5
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.appcompat:appcompat"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 5,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 5
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        6
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.appcompat:appcompat-resources"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 6,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 6
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        7
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.arch.core:core-common"
+        },
+        "version": "2.2.0"
+      },
+      "query_index": 7,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 7
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        8
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.arch.core:core-runtime"
+        },
+        "version": "2.2.0"
+      },
+      "query_index": 8,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 8
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        9
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.asynclayoutinflater:asynclayoutinflater"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 9,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 9
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        10
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.browser:browser"
+        },
+        "version": "1.9.0"
+      },
+      "query_index": 10,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 10
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        11
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.camera:camera-camera2"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 11,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 11
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        12
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.camera:camera-camera2-pipe"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 12,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 12
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        13
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.camera:camera-core"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 13,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 13
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        14
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.camera:camera-lifecycle"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 14,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 14
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        15
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.camera.featurecombinationquery:featurecombinationquery"
+        },
+        "version": "1.6.1"
+      },
+      "query_index": 15,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 15
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        16
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.collection:collection"
+        },
+        "version": "1.4.2"
+      },
+      "query_index": 16,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 16
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        17
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.collection:collection-jvm"
+        },
+        "version": "1.4.2"
+      },
+      "query_index": 17,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 17
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        18
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.collection:collection-ktx"
+        },
+        "version": "1.4.2"
+      },
+      "query_index": 18,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 18
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        19
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.compose.runtime:runtime-annotation"
+        },
+        "version": "1.9.0"
+      },
+      "query_index": 19,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 19
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        20
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.compose.runtime:runtime-annotation-android"
+        },
+        "version": "1.9.0"
+      },
+      "query_index": 20,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 20
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        21
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.concurrent:concurrent-futures"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 21,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 21
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        22
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.concurrent:concurrent-futures-ktx"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 22,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 22
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        23
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.coordinatorlayout:coordinatorlayout"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 23,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 23
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        24
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.core:core"
+        },
+        "version": "1.18.0"
+      },
+      "query_index": 24,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 24
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        25
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.core:core-backported-fixes"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 25,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 25
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        26
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.core:core-ktx"
+        },
+        "version": "1.18.0"
+      },
+      "query_index": 26,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 26
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        27
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.core:core-viewtree"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 27,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 27
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        28
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.cursoradapter:cursoradapter"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 28,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 28
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        29
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.customview:customview"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 29,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 29
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        30
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 30,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 30
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        31
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-android"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 31,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 31
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        32
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-core"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 32,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 32
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        33
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-core-android"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 33,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 33
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        34
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-core-okio"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 34,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 34
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        35
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-core-okio-jvm"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 35,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 35
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        36
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 36,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 36
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        37
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences-android"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 37,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 37
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        38
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences-core"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 38,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 38
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        39
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences-core-android"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 39,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 39
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        40
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences-external-protobuf"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 40,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 40
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        41
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.datastore:datastore-preferences-proto"
+        },
+        "version": "1.1.7"
+      },
+      "query_index": 41,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 41
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        42
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.documentfile:documentfile"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 42,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 42
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        43
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.drawerlayout:drawerlayout"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 43,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 43
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        44
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.emoji2:emoji2"
+        },
+        "version": "1.2.0"
+      },
+      "query_index": 44,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 44
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        45
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.emoji2:emoji2-views-helper"
+        },
+        "version": "1.2.0"
+      },
+      "query_index": 45,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 45
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        46
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.exifinterface:exifinterface"
+        },
+        "version": "1.4.2"
+      },
+      "query_index": 46,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 46
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        47
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.fragment:fragment"
+        },
+        "version": "1.7.1"
+      },
+      "query_index": 47,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 47
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        48
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.fragment:fragment-ktx"
+        },
+        "version": "1.7.1"
+      },
+      "query_index": 48,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 48
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        49
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.interpolator:interpolator"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 49,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 49
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        50
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.legacy:legacy-support-core-ui"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 50,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 50
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        51
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.legacy:legacy-support-core-utils"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 51,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 51
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        52
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-common"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 52,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 52
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        53
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-common-java8"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 53,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 53
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        54
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-common-jvm"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 54,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 54
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        55
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-livedata"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 55,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 55
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        56
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-livedata-core"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 56,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 56
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        57
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-livedata-core-ktx"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 57,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 57
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        58
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-process"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 58,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 58
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        59
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-runtime"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 59,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 59
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        60
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-runtime-android"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 60,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 60
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        61
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-runtime-ktx"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 61,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 61
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        62
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-runtime-ktx-android"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 62,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 62
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        63
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-viewmodel"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 63,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 63
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        64
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-viewmodel-android"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 64,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 64
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        65
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-viewmodel-ktx"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 65,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 65
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        66
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-viewmodel-savedstate"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 66,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 66
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        67
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.lifecycle:lifecycle-viewmodel-savedstate-android"
+        },
+        "version": "2.10.0"
+      },
+      "query_index": 67,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 67
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        68
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.loader:loader"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 68,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 68
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        69
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.localbroadcastmanager:localbroadcastmanager"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 69,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 69
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        70
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.media:media"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 70,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 70
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        71
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.navigationevent:navigationevent"
+        },
+        "version": "1.0.2"
+      },
+      "query_index": 71,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 71
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        72
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.navigationevent:navigationevent-android"
+        },
+        "version": "1.0.2"
+      },
+      "query_index": 72,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 72
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        73
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.preference:preference"
+        },
+        "version": "1.2.1"
+      },
+      "query_index": 73,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 73
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        74
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.print:print"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 74,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 74
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        75
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.profileinstaller:profileinstaller"
+        },
+        "version": "1.4.0"
+      },
+      "query_index": 75,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 75
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        76
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.recyclerview:recyclerview"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 76,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 76
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        77
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.resourceinspection:resourceinspection-annotation"
+        },
+        "version": "1.0.1"
+      },
+      "query_index": 77,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 77
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        78
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.savedstate:savedstate"
+        },
+        "version": "1.4.0"
+      },
+      "query_index": 78,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 78
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        79
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.savedstate:savedstate-android"
+        },
+        "version": "1.4.0"
+      },
+      "query_index": 79,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 79
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        80
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.savedstate:savedstate-ktx"
+        },
+        "version": "1.4.0"
+      },
+      "query_index": 80,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 80
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        81
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.slidingpanelayout:slidingpanelayout"
+        },
+        "version": "1.2.0"
+      },
+      "query_index": 81,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 81
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        82
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.startup:startup-runtime"
+        },
+        "version": "1.1.1"
+      },
+      "query_index": 82,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 82
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        83
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.swiperefreshlayout:swiperefreshlayout"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 83,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 83
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        84
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.tracing:tracing"
+        },
+        "version": "1.3.0"
+      },
+      "query_index": 84,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 84
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        85
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.tracing:tracing-android"
+        },
+        "version": "1.3.0"
+      },
+      "query_index": 85,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 85
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        86
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.tracing:tracing-ktx"
+        },
+        "version": "1.3.0"
+      },
+      "query_index": 86,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 86
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        87
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.transition:transition"
+        },
+        "version": "1.4.1"
+      },
+      "query_index": 87,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 87
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        88
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.vectordrawable:vectordrawable"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 88,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 88
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        89
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.vectordrawable:vectordrawable-animated"
+        },
+        "version": "1.1.0"
+      },
+      "query_index": 89,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 89
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        90
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.versionedparcelable:versionedparcelable"
+        },
+        "version": "1.1.1"
+      },
+      "query_index": 90,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 90
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        91
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.viewpager:viewpager"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 91,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 91
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        92
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.window:window"
+        },
+        "version": "1.2.0"
+      },
+      "query_index": 92,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 92
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        93
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.window:window-java"
+        },
+        "version": "1.2.0"
+      },
+      "query_index": 93,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 93
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        94
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "androidx.window.extensions.core:core"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 94,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 94
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        95
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.getkeepsafe.relinker:relinker"
+        },
+        "version": "1.4.5"
+      },
+      "query_index": 95,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 95
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        96
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.datatransport:transport-api"
+        },
+        "version": "3.1.0"
+      },
+      "query_index": 96,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 96
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        97
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.datatransport:transport-backend-cct"
+        },
+        "version": "3.1.9"
+      },
+      "query_index": 97,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 97
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        98
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.datatransport:transport-runtime"
+        },
+        "version": "3.1.9"
+      },
+      "query_index": 98,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 98
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        99
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-base"
+        },
+        "version": "18.9.0"
+      },
+      "query_index": 99,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 99
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        100
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-basement"
+        },
+        "version": "18.9.0"
+      },
+      "query_index": 100,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 100
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        101
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-cloud-messaging"
+        },
+        "version": "17.4.0"
+      },
+      "query_index": 101,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 101
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        102
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-mlkit-barcode-scanning"
+        },
+        "version": "18.3.1"
+      },
+      "query_index": 102,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 102
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        103
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-stats"
+        },
+        "version": "17.0.2"
+      },
+      "query_index": 103,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 103
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        104
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.gms:play-services-tasks"
+        },
+        "version": "18.4.0"
+      },
+      "query_index": 104,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 104
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        105
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.odml:image"
+        },
+        "version": "1.0.0-beta1"
+      },
+      "query_index": 105,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 105
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        106
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.play:core-common"
+        },
+        "version": "2.0.4"
+      },
+      "query_index": 106,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 106
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        107
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.android.play:integrity"
+        },
+        "version": "1.6.0"
+      },
+      "query_index": 107,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 107
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        108
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.auto.value:auto-value-annotations"
+        },
+        "version": "1.6.3"
+      },
+      "query_index": 108,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 108
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        109
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.code.gson:gson"
+        },
+        "version": "2.12.0"
+      },
+      "query_index": 109,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 109
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        110
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.dagger:dagger"
+        },
+        "version": "2.59"
+      },
+      "query_index": 110,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 110
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        111
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.errorprone:error_prone_annotations"
+        },
+        "version": "2.36.0"
+      },
+      "query_index": 111,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 111
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        112
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-annotations"
+        },
+        "version": "17.0.0"
+      },
+      "query_index": 112,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 112
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        113
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-bom"
+        },
+        "version": "34.17.0"
+      },
+      "query_index": 113,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 113
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        114
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-common"
+        },
+        "version": "22.2.0"
+      },
+      "query_index": 114,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 114
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        115
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-components"
+        },
+        "version": "19.0.0"
+      },
+      "query_index": 115,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 115
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        116
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-datatransport"
+        },
+        "version": "18.2.0"
+      },
+      "query_index": 116,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 116
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        117
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-encoders"
+        },
+        "version": "17.0.0"
+      },
+      "query_index": 117,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 117
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        118
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-encoders-json"
+        },
+        "version": "18.0.0"
+      },
+      "query_index": 118,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 118
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        119
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-encoders-proto"
+        },
+        "version": "16.0.0"
+      },
+      "query_index": 119,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 119
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        120
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-iid-interop"
+        },
+        "version": "17.1.0"
+      },
+      "query_index": 120,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 120
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        121
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-installations"
+        },
+        "version": "19.1.2"
+      },
+      "query_index": 121,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 121
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        122
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-installations-interop"
+        },
+        "version": "17.3.0"
+      },
+      "query_index": 122,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 122
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        123
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-measurement-connector"
+        },
+        "version": "19.0.0"
+      },
+      "query_index": 123,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 123
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        124
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.firebase:firebase-messaging"
+        },
+        "version": "25.1.1"
+      },
+      "query_index": 124,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 124
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        125
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.guava:listenablefuture"
+        },
+        "version": "1.0"
+      },
+      "query_index": 125,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 125
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        126
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.mlkit:barcode-scanning"
+        },
+        "version": "17.3.0"
+      },
+      "query_index": 126,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 126
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        127
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.mlkit:barcode-scanning-common"
+        },
+        "version": "17.0.0"
+      },
+      "query_index": 127,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 127
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        128
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.mlkit:common"
+        },
+        "version": "18.11.0"
+      },
+      "query_index": 128,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 128
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        129
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.mlkit:vision-common"
+        },
+        "version": "17.3.0"
+      },
+      "query_index": 129,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 129
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        130
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.google.mlkit:vision-interfaces"
+        },
+        "version": "16.3.0"
+      },
+      "query_index": 130,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 130
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        131
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.squareup.okio:okio"
+        },
+        "version": "3.4.0"
+      },
+      "query_index": 131,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 131
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        132
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "com.squareup.okio:okio-jvm"
+        },
+        "version": "3.4.0"
+      },
+      "query_index": 132,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 132
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        133
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "io.flutter:arm64_v8a_release"
+        },
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "query_index": 133,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 133
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        134
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "io.flutter:armeabi_v7a_release"
+        },
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "query_index": 134,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 134
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        135
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "io.flutter:flutter_embedding_release"
+        },
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "query_index": 135,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 135
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        136
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "io.flutter:x86_64_release"
+        },
+        "version": "1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030"
+      },
+      "query_index": 136,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 136
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        137
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "jakarta.inject:jakarta.inject-api"
+        },
+        "version": "2.0.1"
+      },
+      "query_index": 137,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 137
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        138
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "javax.inject:javax.inject"
+        },
+        "version": "1"
+      },
+      "query_index": 138,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 138
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        139
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains:annotations"
+        },
+        "version": "23.0.0"
+      },
+      "query_index": 139,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 139
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        140
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-android-extensions-runtime"
+        },
+        "version": "1.9.22"
+      },
+      "query_index": 140,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 140
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        141
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-parcelize-runtime"
+        },
+        "version": "1.9.22"
+      },
+      "query_index": 141,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 141
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        142
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-stdlib"
+        },
+        "version": "2.4.20"
+      },
+      "query_index": 142,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 142
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        143
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-stdlib-common"
+        },
+        "version": "2.4.20"
+      },
+      "query_index": 143,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 143
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        144
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+        },
+        "version": "1.8.0"
+      },
+      "query_index": 144,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 144
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        145
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+        },
+        "version": "1.8.0"
+      },
+      "query_index": 145,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 145
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        146
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:atomicfu"
+        },
+        "version": "0.28.0"
+      },
+      "query_index": 146,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 146
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        147
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:atomicfu-jvm"
+        },
+        "version": "0.28.0"
+      },
+      "query_index": 147,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 147
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        148
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-coroutines-android"
+        },
+        "version": "1.11.0"
+      },
+      "query_index": 148,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 148
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        149
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-coroutines-bom"
+        },
+        "version": "1.11.0"
+      },
+      "query_index": 149,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 149
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        150
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+        },
+        "version": "1.11.0"
+      },
+      "query_index": 150,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 150
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        151
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
+        },
+        "version": "1.11.0"
+      },
+      "query_index": 151,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 151
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        152
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-coroutines-play-services"
+        },
+        "version": "1.11.0"
+      },
+      "query_index": 152,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 152
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        153
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-serialization-bom"
+        },
+        "version": "1.7.3"
+      },
+      "query_index": 153,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 153
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        154
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-serialization-core"
+        },
+        "version": "1.7.3"
+      },
+      "query_index": 154,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 154
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        155
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm"
+        },
+        "version": "1.7.3"
+      },
+      "query_index": 155,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 155
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    },
+    {
+      "advisory_ids": [],
+      "errors": [],
+      "graph_component_indexes": [
+        156
+      ],
+      "pagination_complete": true,
+      "query": {
+        "package": {
+          "ecosystem": "Maven",
+          "name": "org.jspecify:jspecify"
+        },
+        "version": "1.0.0"
+      },
+      "query_index": 156,
+      "responses": [
+        {
+          "receipt_directory": "requests/004-querybatch-000",
+          "request_page_token": null,
+          "result": {},
+          "result_position": 156
+        }
+      ],
+      "status": "no-known-OSV-records-returned-for-exact-query"
+    }
+  ],
+  "summary": {
+    "AAB_built": false,
+    "ARC09_closed": false,
+    "Maven_query_count": 157,
+    "distinct_returned_advisory_ids": 0,
+    "exploitability_established": false,
+    "finished_utc": "2026-10-02T12:54:11.142910+00:00",
+    "graph_components": 173,
+    "license_approval": false,
+    "official_details_retained": 0,
+    "packaged_SBOM_complete": false,
+    "project_unqueryable_count": 16,
+    "public_request_count": 5,
+    "query_status_counts": {
+      "no-known-OSV-records-returned-for-exact-query": 157
+    },
+    "security_acceptance": false,
+    "started_utc": "2026-10-02T12:53:58.326663+00:00",
+    "whole_public_actual_seconds": 12.816335
+  }
+}

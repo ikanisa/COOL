@@ -1,0 +1,134 @@
+{
+  "actual_blocking_races": 0,
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "candidate_installed_in_shared_source": false,
+  "cases": [
+    {
+      "name": "legacy transition role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "legacy transition approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email transition approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email transition approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover role committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover role committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover Auth session committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover Auth session committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover approval committed revoke denies fresh Read Committed RLS read",
+      "status": "pass"
+    },
+    {
+      "name": "email cutover approval committed revoke precedes established-snapshot RLS read",
+      "observed": "40001",
+      "status": "pass"
+    },
+    {
+      "name": "legacy-only identity denied after email cutover",
+      "status": "pass"
+    }
+  ],
+  "completed_at": "2026-09-30T21:53:04.366931+00:00",
+  "database": "collect_local_uat_a0451270a8e44b8f",
+  "email_migration_sha256": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "actual_admin_public_table_rls_snapshot",
+  "migration_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "positive_controls": 9,
+  "provider_called": false,
+  "schema_only_sha256": "5026c3fb7a67bc4de40020d2c4974dc1fab722edb39db8842d6a511f77e91876",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "source_unchanged": true,
+  "started_at": "2026-09-30T21:52:45.214012+00:00",
+  "status": "pass"
+}

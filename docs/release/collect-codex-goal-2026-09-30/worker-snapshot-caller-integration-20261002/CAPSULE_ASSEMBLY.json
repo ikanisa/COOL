@@ -1,0 +1,12 @@
+{
+  "prepublication_verifier_refusal": {
+    "actual_terminal_chunk": "6ec256",
+    "cause": "Assembly excluded nested selected-packet/SEAL.json when updating payload membership by basename. Strict verifier refused that metadata association.",
+    "correction": "Exclude only two capsule-root seal/manifest paths; nested accepted seal remains a bound payload member.",
+    "exit_code": 1,
+    "verifier_source_unchanged": true
+  },
+  "retained_initial_seal": "PRELIMINARY_ASSOCIATION.json preserves first seal/manifest and terminal receipt before root supplied session31668.",
+  "scope": "Capsule metadata assembly only; no product/test/restore changes.",
+  "selected_fixture_alias_binding": "Two private500/700 fixture basenames are preserved and bound by unique real migration version/source hash, not assumed canonical filenames."
+}

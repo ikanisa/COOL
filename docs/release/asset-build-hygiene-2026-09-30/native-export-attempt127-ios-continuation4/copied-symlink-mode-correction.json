@@ -1,0 +1,344 @@
+{
+  "status": "pass",
+  "exact_copied_tree_matches_preserved_cache": true,
+  "binary_bytes_and_symlink_targets_changed": false,
+  "corrections": [
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/ios-arm64_x86_64-maccatalyst/absl.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/ios-arm64_x86_64-maccatalyst/absl.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/ios-arm64_x86_64-maccatalyst/absl.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/ios-arm64_x86_64-maccatalyst/absl.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/ios-arm64_x86_64-maccatalyst/absl.framework/absl",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/absl"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/macos-arm64_x86_64/absl.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/macos-arm64_x86_64/absl.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/macos-arm64_x86_64/absl.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/macos-arm64_x86_64/absl.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "abseil-cpp-binary/absl/absl.xcframework/macos-arm64_x86_64/absl.framework/absl",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/absl"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/ios-arm64_x86_64-maccatalyst/FirebaseFirestoreInternal.framework/FirebaseFirestoreInternal",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/FirebaseFirestoreInternal"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/ios-arm64_x86_64-maccatalyst/FirebaseFirestoreInternal.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/ios-arm64_x86_64-maccatalyst/FirebaseFirestoreInternal.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/ios-arm64_x86_64-maccatalyst/FirebaseFirestoreInternal.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/ios-arm64_x86_64-maccatalyst/FirebaseFirestoreInternal.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/macos-arm64_x86_64/FirebaseFirestoreInternal.framework/FirebaseFirestoreInternal",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/FirebaseFirestoreInternal"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/macos-arm64_x86_64/FirebaseFirestoreInternal.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/macos-arm64_x86_64/FirebaseFirestoreInternal.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/macos-arm64_x86_64/FirebaseFirestoreInternal.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternal.xcframework/macos-arm64_x86_64/FirebaseFirestoreInternal.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/ios-arm64_x86_64-maccatalyst/grpc.framework/grpc",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/grpc"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/grpc/grpc.xcframework/macos-arm64_x86_64/grpc.framework/grpc",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/grpc"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/ios-arm64_x86_64-maccatalyst/grpcpp.framework/grpcpp",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/grpcpp"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/grpcpp/grpcpp.xcframework/macos-arm64_x86_64/grpcpp.framework/grpcpp",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/grpcpp"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/ios-arm64_x86_64-maccatalyst/openssl_grpc.framework/openssl_grpc",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/openssl_grpc"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/Headers",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/Modules",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/PrivateHeaders",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/PrivateHeaders"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/Resources",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/Versions/Current",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "A"
+    },
+    {
+      "path": "grpc-binary/openssl_grpc/openssl_grpc.xcframework/macos-arm64_x86_64/openssl_grpc.framework/openssl_grpc",
+      "before_mode": 493,
+      "after_mode": 511,
+      "target": "Versions/Current/openssl_grpc"
+    }
+  ],
+  "scope": "Task-owned copied cache links only; strict byte/mode/path binding retained"
+}

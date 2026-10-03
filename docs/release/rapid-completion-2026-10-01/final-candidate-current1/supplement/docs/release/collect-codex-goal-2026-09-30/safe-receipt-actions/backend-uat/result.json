@@ -1,0 +1,1342 @@
+{
+  "kind": "offline_safe_receipt_action_v1_schema153_subset",
+  "started_at": "2026-10-01T00:21:53.763548+00:00",
+  "production_written": false,
+  "shared_database_written": false,
+  "source_rows_copied": false,
+  "provider_called": false,
+  "sms_sent": false,
+  "signed_jwt_or_auth_provider_tested": false,
+  "full_hosted_upgrade_tested_here": false,
+  "draft_preparation_only": false,
+  "cases": [
+    {
+      "name": "supabase/migrations/20260930213000_operator_email_auth.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930220527_operator_email_cutover_guard.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230100_receipt_backlog_events.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230200_admin_receipt_overview.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930211605_android_gateway_identity.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001000100_operational_exception_inbox.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001000300_admin_exception_reads.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql preserves nonempty financial/receipt records",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "install does not backfill revision heads or cancellation evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private schema and tables have no API grants with RLS enabled",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "private helpers are unavailable to all API roles",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "three public actions grant only authenticated execution",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot execute inspect",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "anon cannot execute cancel",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "anon cannot execute lookup",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "service_role cannot execute inspect",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "service_role cannot execute cancel",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "service_role cannot execute lookup",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses unverified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses unverified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses unverified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses wrong verified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses wrong verified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses wrong verified email",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses revoked email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses revoked email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses revoked email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses expired email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses expired email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses expired email approval",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses revoked role grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses revoked role grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses revoked role grant",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses expired session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses expired session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses expired session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses banned account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses banned account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses banned account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses anonymous account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses anonymous account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses anonymous account",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses approval after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses approval after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses approval after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses grant after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses grant after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses grant after current session",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses missing payments.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses missing payments.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses missing payments.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses missing notifications.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses missing notifications.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses missing notifications.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses missing system_health.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses missing system_health.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses missing system_health.read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel independently requires notifications.manage",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "phone-only transition owner cannot use new actions",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "receipt_action_current_email_owner_required",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "inspect refuses stale Repeatable Read snapshot",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "receipt_action_snapshot_retry",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses stale Repeatable Read snapshot",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "receipt_action_snapshot_retry",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lookup refuses stale Repeatable Read snapshot",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "40001",
+        "reason": "receipt_action_snapshot_retry",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "null inspect input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "null lookup input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "null request input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "null job input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "zero revision input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "exhausted expected revision input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "unknown reason input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "blank reason input is refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_input_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "preexisting pristine receipt has implicit revision1 and positive eligibility",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read-only inspect does not create heads or change source evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "missing receipt has no fabricated state/revision/eligibility",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "manual cancel preserves all immutable financial/payload/transport evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "first preexisting UPDATE advances1\u21922 and preserves original primary row",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "cancelled receipt is terminal and clearly ineligible",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "original UUID lookup binds immutable acknowledged result",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "same original actor/input UUID replay returns byte-equivalent receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "different owner lookup cannot disclose original actor action",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "different owner cannot reuse original action UUID",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_request_conflict",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "original UUID changed reason conflicts without source mutation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "receipt_action_request_conflict",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "fresh UUID cannot cancel the already suppressed receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "authenticated has no direct revisions read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "authenticated has no direct cancellations read",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "immutable action cannot be rewritten",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_evidence_retained",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "immutable action cannot be deleted",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_evidence_retained",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancelled primary cannot be returned to the queue",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_manual_cancellation_final",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancelled primary cannot be deleted",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "P0001",
+        "reason": "SMS notification evidence is retained",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "lifetime primary identity still rejects duplicate retained receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "23505",
+        "reason": null,
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "new pending receipt starts physical revision1 under paused dispatch",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unclassified receiving source does not expose row state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unclassified receiving source cannot be cancelled",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "actual linked Rwanda raw/parsed payment is positively scoped",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked outgoing exposes no guessed Rwanda receipt state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked outgoing cancellation is refused despite a valid receiving route",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "linked nonpayment exposes no guessed Rwanda receipt state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked nonpayment cancellation is refused despite a valid receiving route",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "linked receiving provider conflict exposes no guessed Rwanda receipt state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked receiving provider conflict cancellation is refused despite a valid receiving route",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "linked receiving hash conflict exposes no guessed Rwanda receipt state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked receiving hash conflict cancellation is refused despite a valid receiving route",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "linked receiving user conflict exposes no guessed Rwanda receipt state",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "linked receiving user conflict cancellation is refused despite a valid receiving route",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_unavailable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses awaiting_confirmation state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses send_started state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses uncertain state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses observed_sent state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses failed_no_send state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancel refuses suppressed state with no retry or reset",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with fence history is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with nonzero attempt count is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with stray claim token is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with stray worker identity is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with stray claim expiry is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "queued receipt with sent timestamp is ambiguous and refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "claim request history alone makes pristine-looking queue ineligible",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "approval history alone makes pristine-looking queue ineligible",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "corrupt body digest is refused without accepting ambiguous snapshot evidence",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "corrupt destination digest is refused without accepting ambiguous snapshot evidence",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "ambiguous receipt reference is refused without accepting ambiguous snapshot evidence",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "internally consistent body with mismatched payment reference is ineligible",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "expected revision detects even a no-op intervening outbox update",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_source_changed",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "physical revisions cannot be decremented",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_revision_invalid",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "exhausted revision has explicit ineligible inspection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "revision exhaustion rolls back a source UPDATE rather than overflowing",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_action_revision_exhausted",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "real assisted claim and cancellation serialize on actual outbox row",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "held cancellation authority gives bounded lookup refusal without outcome disclosure",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55P03",
+        "reason": "receipt_action_authority_busy",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "claim winning race refuses stale cancellation and retains awaiting confirmation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual previously claimed/released queue is ineligible",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "released queue cannot be cancelled under its current revision",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "actual claim waits behind committed-intent cancellation",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "cancellation winning race prevents claim and creates no transport attempt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "uncertain caller manually reconciles exact original UUID after commit",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "request-lock branch returns in_progress with no receipt after authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "manual lookup after uncommitted request has no fabricated result",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "real assisted confirmation/start/outcome leaves immutable failed_no_send evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual failed_no_send attempt is ineligible for cancellation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "privileged-looking reopened queue cannot erase prior actual transport history",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "receipt_not_cancellable",
+        "source_evidence_unchanged": true
+      }
+    },
+    {
+      "name": "cancellation with a live session waits on actual locked source",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "natural session expiry after source wait refuses cancellation without a receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "durable original receipt survives originating session deletion",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "new current session can safely replay immutable original result",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all retained journals remain canonical balanced pairs",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "no gateway arm or operator heartbeat is manufactured",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "executed auxiliary Python bytes remain stable after the run",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "executed runner bytes remain stable after the run",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "executed_helper_sha256": {
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+  },
+  "runner_sha256": "182db28e76c98bebf784cdedb93f0b7a3c3a367a04033821666b08d798421d95",
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+  },
+  "schema_sha256": "ac3e5b3d3cc82788f90d6ac8de0897a227dbf936d4862a360b2116af44217088",
+  "target": {
+    "container_id": "b64318a5886f78e6b12729e9c941e4ae08691df3695d659fd6f4bf69a81022bb",
+    "container_name": "collect_current_rehearsal_safe_receipt_0f090782b7e1",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "baseline": {
+    "schema_sha256": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "acl_sha256": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577",
+    "captured_migration_count": 153,
+    "no_rows_copied": true,
+    "not_attested": "Complete managed-host Auth/platform/source parity; this is the retained schema153 subset"
+  },
+  "before_install": {
+    "journal": {
+      "rows": 2,
+      "sha256": "80c2068238b2b02251d11f20bcbc96d155a2dfe145d9c6817c5c0c7a8131bf06"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "b86f2ef6e18e05f920e92682dfcbb9037c221258319a952292f0531057edd7c4"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "36818cfef18ad8ed9b98ca4dde2bc8342eb9dab8ba0dad4b69d2663d55c5498f"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "40444ba14c4b0b2a314e5bf803243bcc7bb84c71ab19e1dd130c20fa88f6e7bd"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "650eb8b54af761ff2df720ca556fc379e986cbc8970da5d13f5defd4ee2904a3"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "b785a8bcdd34afa4cdec75ff0df434068da82ed80274c54de165bad97df5533a"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "1c30210352e07d59ce2ac9f0d1aba00f84174576590b0418e6ea2c859b47e6f7"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "26968899c99336425b5b17121187af1c2089ad89e735b78185b61f51f05f8fcc"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parsed_payment_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "final_source_fingerprint": {
+    "journal": {
+      "rows": 30,
+      "sha256": "2f811caca215c9f71a6ccdd96bc2204c7b6aa3348b149fa5cc10562d64323b7d"
+    },
+    "payments": {
+      "rows": 30,
+      "sha256": "90085adfe8e60f3acecab856beeac4f55ba27fe9af65347e770e9b259b404175"
+    },
+    "sms_outbox": {
+      "rows": 29,
+      "sha256": "9d2cae53d96bcc2f27affa162ea64db884760ace71c90b11ee480231104dc040"
+    },
+    "sms_attempts": {
+      "rows": 1,
+      "sha256": "ff4eec56cb3cbc86681336a92bf22b04c08f589659ba54205963fe530e295a17"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 60,
+      "sha256": "f331642c10ce83b1c869801324e96ad5f5e7761506600d4675ab492ef9f13743"
+    },
+    "momo_balance_snapshots": {
+      "rows": 30,
+      "sha256": "cdafef893ff07d0ddebbd9ee4604f71653947eb3c6e85494ae363bb6832d4e08"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "1e42c5068f4a7b106852120c67a587b8217caa400db0b930522795554c016ede"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "f2c0910cde42a347776232b7e4c2860343884bc054d7fdfed563e0969dd4bd54"
+    },
+    "payment_provider_confirmations": {
+      "rows": 30,
+      "sha256": "1e0a04c448909790e5a363c35538b7f4cb5cdd1e76ed17861e29f8523494d408"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_payment_sms": {
+      "rows": 1,
+      "sha256": "5b97099ff5614b836da44234a1e52d7f2d68a94572b13eca15db27e8c7b23ad6"
+    },
+    "parsed_payment_events": {
+      "rows": 1,
+      "sha256": "2456fb07610288cbcfb783826e5512f930ccfae8bd94758cc175843e0f2c3e5f"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_notification_claim_requests": {
+      "rows": 2,
+      "sha256": "598e0a5584367d752e117ef42587b2d06834b470d7a4d4808fb270d3f753c02e"
+    },
+    "sms_notification_confirmations": {
+      "rows": 1,
+      "sha256": "b9c11e943804fd50c6756e09bc34fa2105209881e0b4a51a9404c82c275d822a"
+    }
+  },
+  "source_after_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+  },
+  "helper_source_drift": [],
+  "status": "pass",
+  "isolated_database_removed": true,
+  "case_count": 147,
+  "completed_at": "2026-10-01T00:28:20.989030+00:00"
+}

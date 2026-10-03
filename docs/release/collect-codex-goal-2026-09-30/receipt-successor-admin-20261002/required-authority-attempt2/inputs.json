@@ -1,0 +1,150 @@
+{
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint.dart": {
+    "sha256": "3ab0bf747354349d1b2ff375994599fc5153b0a8750a8b7e994f2c1614648762",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint_stub.dart": {
+    "sha256": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint_stub.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint_web.dart": {
+    "sha256": "2aa002583e641648c5cddf7ecc116357f1c51ff6a898475cccfcfc8f74d653f3",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_checkpoint_web.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_controller.dart": {
+    "sha256": "6de89f2b119571b8e3e2b5616ad7b3036759101f4930813160e169fee660e449",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_controller.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_host.dart": {
+    "sha256": "2fec6b4fd5ad68ca1d9f6632ee12e661da5abc14f9c5924cf497f0eb15cadd4d",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_host.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_models.dart": {
+    "sha256": "fa80e93d179436d21244006268ad7affb2cec2e97a6d5cc9b2991c23d26880c3",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_models.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_sdk.dart": {
+    "sha256": "1302dacf889572a87d89aed0090b7cfd3ac733f4a4da71e54c243e6e63079c28",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_sdk.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_view.dart": {
+    "sha256": "9d606f780d28cd3c43dc9010765e79f2ec9b9e99aff8fae5c734b9b0340f793d",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_receipt_successor_view.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_checkpoint_browser_test.dart": {
+    "sha256": "c03ea538e86c8ca3a4611b5c0476b01b887e820608dcd3b649cec793b0b1349d",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_checkpoint_browser_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_host_test.dart": {
+    "sha256": "f4756e0a6f58764f5c47640ae172c7d80b6127afc9d986b951da029763f12fdc",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_host_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_models_test.dart": {
+    "sha256": "4fb1f2789f5ffe19af6eb25657a03cc78da465067316d492afbebaacb8675767",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_models_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_sdk_controller_test.dart": {
+    "sha256": "b8ee85291f6b14e86ac8b3ad66f63f5e2dedc4f4d720e586b0e1327b3856acdf",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_sdk_controller_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart": {
+    "sha256": "ab8fa319c8cb6777e48a6d91ff90e5fa77698c21c77404fb0425fb9e04455d78",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_view_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_approval_read.json": {
+    "sha256": "0e55010a15c4945f91e9ccecb3846bbc2819551ed717b4e969c5f5c55e89abcd",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_approval_read.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_approval_receipt.json": {
+    "sha256": "f08dd44240ffaaac751a774fac7bf125eaab1eca027c7951f4a552022db1e2fa",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_approval_receipt.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_closure_inspection.json": {
+    "sha256": "9c6f62efbb90329302eff5132a98c1467f56d87b4d8730b0855e46e8a3772c0a",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_closure_inspection.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_closure_receipt.json": {
+    "sha256": "73e059edf6d9aa618ecf525cccb10b4a9082b4848b53def95b558ad9abb8b1a4",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_closure_receipt.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_lineage_pages.json": {
+    "sha256": "026d1f128952b147468604dc29aa41e3b5d7f4effe83b49ff19fd706121d384f",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_lineage_pages.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_retry_preview.json": {
+    "sha256": "1bbb8b84334ae689d9d9b8d8e4068fde0ee6a9d14b606d38077023b336611f5b",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_retry_preview.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_revocation_receipt.json": {
+    "sha256": "1fb9884d55cfe22ff2acfe4531cfd02e8c9db455562fcdbe24c1c30cb66fc428",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/fixtures/successor_revocation_receipt.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/support/successor_fixture.dart": {
+    "sha256": "1c6da1bc800030f25eb80fd09b0fa274859e616f7b186f04075b1c1da95d041d",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/support/successor_fixture.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_integration_test.dart": {
+    "sha256": "cfff4c6cd4a88deef1aaaf6d4f512229561fff9ff0b7e1ea6084e14e12efbf59",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_successor_integration_test.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_investigation_view.dart": {
+    "sha256": "cad59f5d940b4ec7d75ea7c77666bb5248c94904e4793181db88f351a27ad255",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/admin/core/admin_investigation_view.dart"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md": {
+    "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/AGENTS.md"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile": {
+    "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/Makefile"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py": {
+    "sha256": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/authority.json": {
+    "sha256": "688fb530bd218f387691291f0ba9fbcfbaf69c865bc1d0c7896e57777fb9e731",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/authority.json"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/app/theme/app_theme.dart": {
+    "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/app/theme/app_theme.dart"
+  },
+  "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md": {
+    "sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+    "resolved_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md"
+  },
+  "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md": {
+    "sha256": "3243d4de659c1cb9b89dda537219facc1023ac0ff71aadd7da98d6ade3e3d6fb",
+    "resolved_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/web-patterns.md"
+  },
+  "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md": {
+    "sha256": "e89b52c1fed430ed418315edd60d5ef716d414c2c9c99787c6b5bdbd0189dcfc",
+    "resolved_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/component-contracts.md"
+  },
+  "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/source-and-mac-validation.md": {
+    "sha256": "78661cfc56fd3120aa5ccfa7f45a6eaf64437da316027d7a1f5691fed5c4d2dd",
+    "resolved_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/source-and-mac-validation.md"
+  },
+  "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/typography.md": {
+    "sha256": "e06cfa02ca30c558f5e341a30f1f74cfa61327a63a957c57497c7ae11e808e8b",
+    "resolved_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/references/typography.md"
+  },
+  "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3": {
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "resolved_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3"
+  },
+  "/usr/bin/make": {
+    "sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9",
+    "resolved_path": "/usr/bin/make"
+  },
+  "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/usr/bin/python3": {
+    "sha256": "dff595035109e19c43c4b3e73ee08b5f4651e719f25f8b4713f819d28964dc19",
+    "resolved_path": "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9"
+  },
+  "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-root-integration-20261002/run_authority.py": {
+    "sha256": "d4dc2dacb87b7d07cba5abd2261acf6867a641ae480ab379c023b81a5589e73b",
+    "resolved_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-root-integration-20261002/run_authority.py"
+  }
+}

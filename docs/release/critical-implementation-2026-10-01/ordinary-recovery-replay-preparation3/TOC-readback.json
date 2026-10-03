@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "retained_actual2_listing_sha256": "13b23be2652a5f50d0e1f0bb978f19bb98ffd3e254bb77aba615d714f5e4c5ed",
+  "reconstructed_logical_TOC_sha256": "5f978843168bab1588c7acc8f3e3562b706319c59ba7de1b6e0cce19f2c3bc69",
+  "proposal_sha256": "177d485e411331027f96a804797ec1f9822b412eebeb70e8867407b4396b7b21",
+  "original_prerequisite_comments_exactly_match_retained_actual_record": true,
+  "newly_commented_entries": [
+    "24; 2615 16563 SCHEMA - graphql_public supabase_admin"
+  ],
+  "changed_line": 31,
+  "every_other_line_unchanged": true,
+  "every_ACL_data_history_and_other_DDL_entry_retained": true,
+  "reconstruction_is_readonly_derivation_not_new_pg_restore_list": true,
+  "docker_executed": false
+}

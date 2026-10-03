@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-01T15:35:17.393702+00:00",
+  "changes": {
+    "original_source": [],
+    "copied_source": [],
+    "original_binary": [],
+    "copied_binary": [],
+    "shims": [],
+    "tools": [],
+    "native_source_inventory": []
+  },
+  "tools_sha256": {
+    ".cache/android-attempt-archive-native-arm64-20261001/prepare_stage.py": "50d6e24843a10e0964a9fd5b86d93e7b024d35b7180e625beb5ef46d2b6f9432",
+    ".cache/android-attempt-archive-native-arm64-20261001/resume_and_stage.py": "0ace63e6d04bca1b5ae665b3336b3ff55505d5626b4e3a919224be3b7d325ce6",
+    ".cache/android-attempt-archive-native-arm64-20261001/run_proof.py": "a850f69098e2396c1c42b052a5e619953213ac5d13eef3152a9b53daadbbfefa"
+  },
+  "staging_sha256": "df1fe9adc288374e5baa618d81c99732f7f363bae69fa90d63c1fb3bc2ebfe02",
+  "jdk_manifest_sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a"
+}

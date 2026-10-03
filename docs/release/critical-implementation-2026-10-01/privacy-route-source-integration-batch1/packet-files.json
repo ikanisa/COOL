@@ -1,0 +1,20 @@
+{
+  "files": {
+    "README.md": "30a67a6e85862593bd2826bf3ddc2e19a75fc980e4cb9437505b8e0a101713b7",
+    "before/content/product/collect_capabilities.json": "a6c4c0c824ccc5c69874520b1722a66d92d21bccc45022c6f89c4a126eda9599",
+    "before/docs/release/public-website-current-content-contract.json": "758e36201378c6992fc53e43d85f3f03943539160258c486c27a6acce44217f8",
+    "before/lib/features/landing/public_capability_content.dart": "d4e317dde5f2895fbc85da662dd1fd11c7e90b44e6a3c30c843fa1e40a0b3672",
+    "before/lib/features/landing/public_marketing_page_content.dart": "97b15eaf956d935db0575a20b068d90b706406aa32f8d7cfea880d0b9df25142",
+    "before/lib/features/settings/security_hub_header.dart": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec",
+    "final-current-bindings.json": "22087e9f159832a6ba8a1d46a63cf646df55679fd945508f8c890b186ba88d6a",
+    "generator.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generator.stdout": "ff8004db9b2959c214c57959e78fb67d31d84dbab9915eaaf1145d67db656dd4",
+    "metadata-originals.json": "f11d81fd8810631bc6aacb5550ec26d7a61fef20260b9ec204910ae08db36a04",
+    "metadata-reconciliation.json": "838bdafe7ba956e084df6ba85dcb16f5ece712f8c57c4b1447ba5c90921a88bf",
+    "reconcile_metadata.py": "f0fbf3df55de32b20db9aff8ef81d4a7f361b2b292776310496ecbfe3ee94b9c",
+    "reviewed-security-heading-delta.diff": "d4af131a5d628b44a26ea84f4f5418df5f059582461f2cc9735699939d7a31c8",
+    "reviewed-three-source-delta.diff": "6d9b21e5d09cd64551cb5f57e0f56debb0ed11d375016720e66012aca973e389",
+    "reviewed-three-source-identities.json": "5e4618ec341188041835de7afddaa413bea160c1945a7a105b5509b2204fa07c"
+  },
+  "scope": "Root source/metadata integration and independently read back local default consumer proof; current public runtime pending."
+}

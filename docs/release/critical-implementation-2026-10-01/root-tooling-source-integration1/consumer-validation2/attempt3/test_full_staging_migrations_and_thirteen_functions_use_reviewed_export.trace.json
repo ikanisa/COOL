@@ -1,0 +1,1222 @@
+{
+  "exit_code": 0,
+  "calls": [
+    [
+      "projects",
+      "list",
+      "-o",
+      "json"
+    ],
+    [
+      "link",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "db",
+      "push",
+      "--dry-run",
+      "--skip-vault"
+    ],
+    [
+      "db",
+      "push",
+      "--skip-vault"
+    ],
+    [
+      "functions",
+      "list",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "-o",
+      "json"
+    ],
+    [
+      "functions",
+      "delete",
+      "stripe-webhook",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--yes"
+    ],
+    [
+      "functions",
+      "deploy",
+      "auth-send-whatsapp-otp",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-notification-operator",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-android-gateway",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-successor-gateway",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-supervisor",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "collect-receipt-exception-worker",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "dispatch-notifications",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "ingest-payment-sms",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "parse-payment-sms",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "prepare-roster-import",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "reconciliation-finalize",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "deploy",
+      "send-notification",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "--no-verify-jwt"
+    ],
+    [
+      "functions",
+      "deploy",
+      "verify-play-integrity",
+      "--project-ref",
+      "abcdefghijklmnopqrst"
+    ],
+    [
+      "functions",
+      "list",
+      "--project-ref",
+      "abcdefghijklmnopqrst",
+      "-o",
+      "json"
+    ]
+  ],
+  "events": [
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "projects",
+        "list",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "link",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "db",
+        "push",
+        "--dry-run",
+        "--skip-vault"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "db",
+        "push",
+        "--skip-vault"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "list",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "-o",
+        "json"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "delete",
+        "stripe-webhook",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--yes"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "auth-send-whatsapp-otp",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-notification-operator",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-android-gateway",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-successor-gateway",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-supervisor",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "collect-receipt-exception-worker",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "dispatch-notifications",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "ingest-payment-sms",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "parse-payment-sms",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "prepare-roster-import",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "reconciliation-finalize",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "send-notification",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "--no-verify-jwt"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "deploy",
+        "verify-play-integrity",
+        "--project-ref",
+        "abcdefghijklmnopqrst"
+      ]
+    },
+    {
+      "kind": "query",
+      "query": "select current_setting('server_version_num')::integer as server_version_num;"
+    },
+    {
+      "kind": "query",
+      "query": "select version, name from supabase_migrations.schema_migrations order by version;"
+    },
+    {
+      "kind": "supabase",
+      "args": [
+        "functions",
+        "list",
+        "--project-ref",
+        "abcdefghijklmnopqrst",
+        "-o",
+        "json"
+      ]
+    }
+  ],
+  "controller_receipt": {
+    "approval_id": "aa768e5a-81b0-42be-bba8-36dbbbf4c6bf",
+    "approval_sha256": "fa9c0817b792eccd7e2f97b586ab6241f33c3b9292e4fba2a37334a678fa3faf",
+    "approved_operations": [
+      "migrations",
+      "retired_functions",
+      "edge_functions"
+    ],
+    "attempt_id": "8cbe67fc-80d0-48a1-af6b-a1ae93f76f8d",
+    "automatic_retries": 0,
+    "backend_manifest_sha256": "f421d445edc8ede88d2b394e71db8d42723d774083aaea3f882c79a2ab701840",
+    "candidate_manifest_sha256": "133f94a9ee7653421a719f437a4b4852f136e1de74586e0a1d33c14d43141ca6",
+    "execution": {
+      "runtime_metadata": "generated target-bound link plus explicitly validated CLI cache names",
+      "source": "private verified copy of reviewed export",
+      "worktree_executed": false
+    },
+    "finished_at_utc": "2026-10-02T07:07:57.370231+00:00",
+    "human_identity_authenticated": false,
+    "kind": "collect_backend_delivery_receipt",
+    "migration_versions_before": [],
+    "operations": [
+      {
+        "elapsed_seconds": 0.078,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "edge_inventory",
+        "output_bytes": 97,
+        "output_sha256": "cde3cadd5b8dad14527950d5b8f43b799562a6e77a2f86ffdcb4e83988f38109",
+        "started_at_utc": "2026-10-02T07:06:44.383986+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.005,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_validation",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:06:44.991998+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.04,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "frozen_cached_handler_closure",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:06:45.549669+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.396,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:06:46.118727+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.078,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "project_visibility",
+        "output_bytes": 33,
+        "output_sha256": "56aa77eec8d16c0bd4601497e6d7594a93c082acefe2953b129eccfaabc8b01b",
+        "started_at_utc": "2026-10-02T07:06:49.033913+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "isolated_target_link",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:06:49.820012+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.172,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_pre_readback",
+        "output_bytes": 3,
+        "output_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "started_at_utc": "2026-10-02T07:06:50.417910+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_dry_run",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:06:53.109497+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.174,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:06:54.232451+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.073,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "migration_apply_direct",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:06:56.932338+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.119,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_readback",
+        "output_bytes": 14951,
+        "output_sha256": "732d84fd6beeae7394991d3719158f56611b7d4cd630bd42585ed12b3a350054",
+        "started_at_utc": "2026-10-02T07:06:57.526849+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "retired_function_inventory",
+        "output_bytes": 50,
+        "output_sha256": "e5967cd7b536566bb97d069b76295df01753cc3852035864fd1e06bf1e860fef",
+        "started_at_utc": "2026-10-02T07:07:00.160001+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.126,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:01.270227+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.074,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "delete_retired:stripe-webhook",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:03.920063+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.272,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:05.032864+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:auth-send-whatsapp-otp",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:07.829304+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.528,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:08.927986+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.073,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-notification-operator",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:11.973187+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.139,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:13.084211+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-android-gateway",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:15.774348+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.243,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:16.922773+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-successor-gateway",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:19.725783+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.182,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:20.848625+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-supervisor",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:23.550183+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.143,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:24.703277+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.072,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:collect-receipt-exception-worker",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:27.363516+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.179,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:28.501938+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.075,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:dispatch-notifications",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:31.197256+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.462,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:32.324314+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.075,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:ingest-payment-sms",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:35.334469+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.122,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:36.460719+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:parse-payment-sms",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:39.124925+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.064,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:40.257686+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:prepare-roster-import",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:42.839601+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.091,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:43.949845+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.077,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:reconciliation-finalize",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:46.544296+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.081,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:47.639915+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:send-notification",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:50.327054+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.123,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "postgres_server_compatibility",
+        "output_bytes": 33,
+        "output_sha256": "3d16d6a03e25eccf8385857d1fe19bc5b9037f655f1b165260d18ac48b89a200",
+        "started_at_utc": "2026-10-02T07:07:51.413791+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.076,
+        "exit_code": 0,
+        "mutating": true,
+        "name": "deploy_function:verify-play-integrity",
+        "output_bytes": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "started_at_utc": "2026-10-02T07:07:54.046753+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 2.059,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "migration_readback",
+        "output_bytes": 14951,
+        "output_sha256": "732d84fd6beeae7394991d3719158f56611b7d4cd630bd42585ed12b3a350054",
+        "started_at_utc": "2026-10-02T07:07:54.637173+00:00",
+        "status": "acknowledged"
+      },
+      {
+        "elapsed_seconds": 0.072,
+        "exit_code": 0,
+        "mutating": false,
+        "name": "function_readback",
+        "output_bytes": 755,
+        "output_sha256": "ed10f87b69bb75f52ed0b7f641f2ebad50ffb3be6621f2a28e323996227e0329",
+        "started_at_utc": "2026-10-02T07:07:57.235951+00:00",
+        "status": "acknowledged"
+      }
+    ],
+    "production_release_accepted": false,
+    "readback": {
+      "functions": {
+        "matches_candidate_scope": true,
+        "observed_auth_modes": {
+          "auth-send-whatsapp-otp": false,
+          "collect-android-gateway": false,
+          "collect-notification-operator": true,
+          "collect-receipt-exception-worker": false,
+          "collect-receipt-successor-gateway": false,
+          "collect-receipt-supervisor": false,
+          "dispatch-notifications": false,
+          "ingest-payment-sms": true,
+          "parse-payment-sms": false,
+          "prepare-roster-import": true,
+          "reconciliation-finalize": true,
+          "send-notification": false,
+          "verify-play-integrity": true
+        }
+      },
+      "migrations": {
+        "matches_candidate": true,
+        "versions": [
+          "202605230001",
+          "202605230002",
+          "202605230003",
+          "202605230004",
+          "202605230005",
+          "202605230006",
+          "202605230007",
+          "202605230008",
+          "202605230009",
+          "202605230010",
+          "202605230011",
+          "202605230012",
+          "202605230013",
+          "202605230014",
+          "202605230015",
+          "202605230016",
+          "202605230017",
+          "20260523203132",
+          "20260523204235",
+          "20260523205502",
+          "20260523210723",
+          "20260523212244",
+          "20260523213113",
+          "202605250001",
+          "202605270001",
+          "20260531162852",
+          "20260531190000",
+          "20260601230000",
+          "20260602050000",
+          "20260607130500",
+          "20260608090000",
+          "20260611111500",
+          "20260611113000",
+          "20260611114500",
+          "20260611171920",
+          "20260611184934",
+          "20260612103000",
+          "20260612110000",
+          "20260612111500",
+          "20260612113000",
+          "20260619003000",
+          "20260622090000",
+          "20260626193000",
+          "20260627143000",
+          "20260627171000",
+          "20260627183000",
+          "20260627184500",
+          "20260627190000",
+          "20260627191000",
+          "20260701090000",
+          "20260701100000",
+          "20260703170000",
+          "20260703224559",
+          "20260703225455",
+          "20260704100000",
+          "20260704110000",
+          "20260704120000",
+          "20260704133000",
+          "20260730134500",
+          "20260804150000",
+          "20260805120000",
+          "20260808093000",
+          "20260812073431",
+          "20260812080000",
+          "20260812090000",
+          "20260812100000",
+          "20260812110000",
+          "20260815050900",
+          "20260815051035",
+          "20260815054500",
+          "20260815062536",
+          "20260815071500",
+          "20260815082500",
+          "20260815083000",
+          "20260815083500",
+          "20260815084000",
+          "20260815084500",
+          "20260815085000",
+          "20260820160000",
+          "20260820162240",
+          "20260820185500",
+          "20260828100000",
+          "20260831084239",
+          "20260831084646",
+          "20260831095454",
+          "20260901134820",
+          "20260901135728",
+          "20260901141842",
+          "20260901160000",
+          "20260901183000",
+          "20260901193000",
+          "20260901194500",
+          "20260901200000",
+          "20260901210000",
+          "20260901220000",
+          "20260901223000",
+          "20260901230000",
+          "20260902073741",
+          "20260902075721",
+          "20260902081017",
+          "20260902081830",
+          "20260902083940",
+          "20260902090210",
+          "20260902091314",
+          "20260902093609",
+          "20260902100046",
+          "20260902120435",
+          "20260902120555",
+          "20260902134420",
+          "20260902140151",
+          "20260902212721",
+          "20260903083947",
+          "20260903084000",
+          "20260903085000",
+          "20260903090000",
+          "20260903090500",
+          "20260903091000",
+          "20260903091500",
+          "20260903092000",
+          "20260903092500",
+          "20260903200322",
+          "20260903201326",
+          "20260906093000",
+          "20260906160000",
+          "20260914165641",
+          "20260914213600",
+          "20260925190000",
+          "20260928150000",
+          "20260928160000",
+          "20260928170000",
+          "20260928171000",
+          "20260928172000",
+          "20260928174000",
+          "20260929110000",
+          "20260929120000",
+          "20260929130000",
+          "20260929140000",
+          "20260929150000",
+          "20260929160000",
+          "20260929170000",
+          "20260929180000",
+          "20260930100000",
+          "20260930110000",
+          "20260930120000",
+          "20260930130000",
+          "20260930140000",
+          "20260930150000",
+          "20260930160000",
+          "20260930170000",
+          "20260930180000",
+          "20260930200000",
+          "20260930210000",
+          "20260930211605",
+          "20260930213000",
+          "20260930220000",
+          "20260930220527",
+          "20260930230000",
+          "20260930230100",
+          "20260930230200",
+          "20260930230300",
+          "20260930230400",
+          "20260930233000",
+          "20260930234000",
+          "20260930235000",
+          "20260930235500",
+          "20260930235600",
+          "20260930235700",
+          "20261001000100",
+          "20261001000200",
+          "20261001000300",
+          "20261001000400",
+          "20261001000519",
+          "20261001001457",
+          "20261001003338",
+          "20261001004651",
+          "20261001095000",
+          "20261001100000",
+          "20261001110000",
+          "20261001120000",
+          "20261001130000",
+          "20261001140000",
+          "20261001150000",
+          "20261001160000",
+          "20261001170000",
+          "20261001180000",
+          "20261001190000",
+          "20261001200000",
+          "20261001210000",
+          "20261001220000",
+          "20261001230000",
+          "20261001233000",
+          "20261001234000",
+          "20261001235000",
+          "20261001235500",
+          "20261002000000",
+          "20261002010000",
+          "20261002020000",
+          "20261002030000",
+          "20261002031500",
+          "20261002040000",
+          "20261002041000",
+          "20261002042000",
+          "20261002043000",
+          "20261002044000",
+          "20261002050000",
+          "20261002060000",
+          "20261002070000",
+          "20261002080000",
+          "20261002090000"
+        ]
+      },
+      "postgresql": {
+        "client_sha256": "9ca00291fda9ace9944905369d4711030bb42f00008c7e3dfb7fb4b5b2046abe",
+        "client_version": "17.6",
+        "human_review_authenticated": false,
+        "manifest_sha256": "282eec41f5577b61e6c518bff610b534ee34babcc9b116f22a413b990d9e18b9",
+        "observed_after_target_bound_read": true,
+        "operation": "migration",
+        "server_version_num": 170006
+      }
+    },
+    "schema_version": 1,
+    "started_at_utc": "2026-10-02T07:06:42.108635+00:00",
+    "status": "delivered_and_read_back",
+    "target": {
+      "environment": "staging",
+      "project_ref": "abcdefghijklmnopqrst",
+      "url": "https://abcdefghijklmnopqrst.supabase.co"
+    },
+    "toolchain": {
+      "deno": {
+        "binary_sha256": "ac9da3a80bf94255aabed114f294aa83ec5dc7ae694395448f4de5644645a80b",
+        "version": "2.5.6"
+      },
+      "postgresql": {
+        "manifest_sha256": "282eec41f5577b61e6c518bff610b534ee34babcc9b116f22a413b990d9e18b9"
+      },
+      "supabase": {
+        "binary_sha256": "7483e49e5f433973ce491795564417c7640511e58935ba0ebb6491dce19251a6",
+        "version": "2.114.0"
+      },
+      "supabase_go": {
+        "binary_sha256": "56c064702b1c61b402fae12bd5551bf335d4e81195e20f39f41cdbe6737c61fa",
+        "version": "2.114.0"
+      }
+    }
+  }
+}

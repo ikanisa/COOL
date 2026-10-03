@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"state": "uncertain", "replay": false, "callback_id": "b6a5709f-8cab-4458-b395-19ac88655ab1", "recorded_at": "2026-10-02T03:37:51.768898Z", "carrier_proof": false, "sent_observations": 1, "delivery_observations": 0, "conflicting_observations": true}

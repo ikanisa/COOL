@@ -1,0 +1,2 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_app_media.rb:176:in `screens': App screenshots need recapturing: runtime changed (RuntimeError)
+	from scripts/public_static_site_build.rb:1868:in `<main>'

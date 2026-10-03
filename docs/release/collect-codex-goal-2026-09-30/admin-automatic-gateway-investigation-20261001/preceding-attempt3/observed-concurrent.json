@@ -1,0 +1,63 @@
+[
+  {
+    "ok": false,
+    "code": "ATTEMPT_ALREADY_ACKNOWLEDGED",
+    "replay": false,
+    "device_id": "221bb315-060a-4b8e-a256-8a8a20b85b70",
+    "attempt_id": "781a3991-ebbf-4527-9167-8c1146ddaad1",
+    "receipt_id": null,
+    "request_id": "cc2093ba-fb3b-4327-9b51-db0a1493d1bb",
+    "body_sha256": "1bb962bd1c9e688217233cbe5629c51bd7522b7172a19bc4d714572a83ddae98",
+    "recorded_at": "2026-10-01T17:30:56.689715Z",
+    "carrier_proof": false,
+    "evidence_kind": null,
+    "fence_version": 1,
+    "segment_count": 2,
+    "archive_ack_id": null,
+    "send_authority": false,
+    "delivery_proven": false,
+    "callback_requests": null,
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+  },
+  {
+    "ok": true,
+    "code": null,
+    "replay": false,
+    "device_id": "221bb315-060a-4b8e-a256-8a8a20b85b70",
+    "attempt_id": "781a3991-ebbf-4527-9167-8c1146ddaad1",
+    "receipt_id": "08ebd672-5425-430b-81dd-f685785d61b6",
+    "request_id": "e448b08d-1394-4443-b214-5d4efc9978e2",
+    "body_sha256": "1bb962bd1c9e688217233cbe5629c51bd7522b7172a19bc4d714572a83ddae98",
+    "recorded_at": "2026-10-01T17:30:56.683492Z",
+    "carrier_proof": false,
+    "evidence_kind": "complete_framework_callback_observations",
+    "fence_version": 1,
+    "segment_count": 2,
+    "archive_ack_id": "40a9da6f-0ccd-4ef6-9382-fcc7198c4a17",
+    "send_authority": false,
+    "delivery_proven": false,
+    "callback_requests": [
+      {
+        "request_id": "a69662a4-88a1-4ef3-8a92-05661100b31b",
+        "callback_id": "dbd75b3d-f4f3-4197-b375-ac969a3d91c5",
+        "request_sha256": "548123bbc2c95aa142f8ca0af1c079239c6656bcde68a3f2f06e43331d018b92"
+      },
+      {
+        "request_id": "79a1b000-c98a-4baa-b3a0-84c2acdc1425",
+        "callback_id": "5d074f95-a74c-41db-a7dc-b350138faed2",
+        "request_sha256": "e273071bb4f68465e35957b306307db5290c2d2c62695a17492ccee481e23cfc"
+      },
+      {
+        "request_id": "8991a7e4-ffd6-4671-b443-274e3752c421",
+        "callback_id": "23a9be9f-7574-4be7-beb2-543b7c898e75",
+        "request_sha256": "c5473db1bc3cae58b7856b8e43e1f9e5ea62dbf5d592774da9655a82d324d64f"
+      },
+      {
+        "request_id": "36502049-b562-4958-96c3-756f8547493f",
+        "callback_id": "54aba6b6-545f-4654-ae41-117e081c8713",
+        "request_sha256": "1ea440cfa2fe079f8aaab6e8ca49b2fafb615eff8fe3d1c5f14f11ec843b3521"
+      }
+    ],
+    "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+  }
+]

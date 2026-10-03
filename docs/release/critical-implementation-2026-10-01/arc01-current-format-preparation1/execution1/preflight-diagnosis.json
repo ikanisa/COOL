@@ -1,0 +1,8 @@
+{
+  "first_attempt_formatter_or_make_executed": false,
+  "first_attempt_container_created": false,
+  "cause": "Asset-only cupertino_icons has an actual valid generated package root but no lib directory; the added lib-directory check was not part of the acceptance criterion.",
+  "cleanup_diagnosis": "Docker reported exact error: no such object: owned name with exit 1 and [] and empty owner listing; first driver required incorrect capitalization.",
+  "failure_preserved": true,
+  "driver_preimage_reconstructed_from_exact_successor_diff": true
+}

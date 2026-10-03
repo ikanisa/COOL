@@ -1,0 +1,8 @@
+{
+  "at_utc": "2026-10-02T00:40:06.614900+00:00",
+  "removed": true,
+  "proof": "Structured empty inspect result, owner-filtered list exit0/empty, original stop/remove exit0",
+  "original_false_observation_retained": "container-cleanup.json",
+  "structured_readback": "cleanup-diagnostic-readback.json",
+  "pub_run_repeated": false
+}

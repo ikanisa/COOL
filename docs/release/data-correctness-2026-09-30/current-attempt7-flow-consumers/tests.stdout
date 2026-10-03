@@ -1,0 +1,58 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart
+00:00 +0 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart [E]
+  Failed to load "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart":
+  Compilation failed for testPath=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: test/features/contribution_flow_session_test.dart:126:40: Error: Undefined name 'TextField'.
+      await tester.enterText(find.byType(TextField), '5000');
+                                         ^^^^^^^^^
+  .
+00:00 +0 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart
+00:00 +0 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 1009:11   DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 193:5      _RawReceivePort._handleMessage
+  
+00:00 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (setUpAll)
+00:00 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent complete aggregates remain unknown despite partial owned rows
+00:00 +1 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks empty partial ownership as incomplete
+00:00 +2 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks partial positive ownership as incomplete
+00:00 +3 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent group ledger page cannot claim no confirmed activity
+00:00 +4 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history
+00:00 +5 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: refreshing retained roster removes previous IDs and amounts before reply
+00:01 +6 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (tearDownAll)
+00:01 +6 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart
+00:01 +6 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-02-30T12:00:00Z cannot acquire a fresh TTL
+00:01 +7 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28T11:00:00 cannot acquire a fresh TTL
+00:01 +8 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28 cannot acquire a fresh TTL
+00:01 +9 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 0000-07-28T11:00:00Z cannot acquire a fresh TTL
+00:01 +10 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: invalid invitation timestamp 2026-07-28T11:00:00+24:00 cannot acquire a fresh TTL
+00:01 +11 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: impossible calendar date cannot normalize into the current TTL window
+00:01 +12 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: writing a DateTime instant serializes UTC and preserves exact TTL
+00:01 +13 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: pending group intent survives a store and controller recreation
+00:01 +14 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a signed-out invitation binds once and rejects another account
+00:01 +15 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a stale same-slug completion cannot clear a later invitation
+00:01 +16 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: duplicate warm App Links keep the visible intent generation
+00:01 +17 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: stale, malformed, and oversized pending intents fail closed
+00:01 +18 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: only the matching completed intent can clear persisted recovery
+00:01 +19 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: a persistence failure does not expose an in-memory-only intent
+00:01 +20 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: slug normalization accepts only bounded canonical URL segments
+00:01 +21 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: external app links accept only the canonical Collect group origin
+00:01 +22 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/pending_shared_group_intent_store_test.dart: app sharing links route only canonical app and invite targets
+00:01 +23 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart

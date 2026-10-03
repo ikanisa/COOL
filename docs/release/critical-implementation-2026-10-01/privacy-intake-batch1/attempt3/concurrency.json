@@ -1,0 +1,146 @@
+[
+  {
+    "name": "duplicate_uuid",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_duplicate_uuid_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_duplicate_uuid_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 0,
+    "expected_error": null
+  },
+  {
+    "name": "equivalent_uuid",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_equivalent_uuid_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_equivalent_uuid_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 0,
+    "expected_error": null
+  },
+  {
+    "name": "payload_conflict",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_payload_conflict_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_payload_conflict_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 3,
+    "expected_error": "privacy_request_conflict"
+  },
+  {
+    "name": "subject_conflict",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_subject_conflict_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_subject_conflict_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 3,
+    "expected_error": "privacy_request_conflict"
+  },
+  {
+    "name": "revocation_wins",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_revocation_wins_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_revocation_wins_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 3,
+    "expected_error": "privacy_request_session_required"
+  },
+  {
+    "name": "intake_wins",
+    "status": "pass",
+    "actual_overlap": [
+      {
+        "app": "privacy_qa_intake_wins_a",
+        "observed": {
+          "wait": "PgSleep",
+          "state": "active",
+          "wait_type": "Timeout"
+        }
+      },
+      {
+        "app": "privacy_qa_intake_wins_b",
+        "observed": {
+          "wait": "advisory",
+          "state": "active",
+          "wait_type": "Lock"
+        }
+      }
+    ],
+    "second_exit": 0,
+    "expected_error": null
+  }
+]

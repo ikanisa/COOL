@@ -1,0 +1,24 @@
+{
+  "actual_prior_observer_error": {
+    "error": "Command '['/usr/sbin/lsof', '-a', '-p', '25343', '-Fpin']' timed out after 2 seconds",
+    "type": "ValueError"
+  },
+  "captured_at_utc": "2026-10-02T15:07:36.168653+00:00",
+  "fresh_exact_owned_absence_probes": [
+    {
+      "PGID_absent": true,
+      "PID_absent": true,
+      "pid": 25318
+    },
+    {
+      "PGID_absent": true,
+      "PID_absent": true,
+      "pid": 25343
+    }
+  ],
+  "new_R8_resolution_is_separate_task": true,
+  "original_failure_not_relabelled_pass": true,
+  "prior_readback_sha256": "ad0d119ddb4d659f1afbe8faa52c9641b6efa319ccbb4e4e1a68b5e48949c1bd",
+  "production_release_approval": false,
+  "signals_sent": false
+}

@@ -1,0 +1,7 @@
+erations.backlog_results USING btree (snapshot_id, recorded_at DESC, run_id DESC) WHERE (NOT business_handled)"}
+{"label": "2000 declared immutable worker/query-only history fixtures", "sql_sha256": "28ce4f0dbee9cce1480ce1adcea8eaf919892009705e64654034fa3b2519a9e4", "exit_code": 0}
+{"label": "query", "sql_sha256": "9df9facdfe725c5c9af169769b19c4c8593ba66201592be160ef505634bccff0", "exit_code": 3}
+ERROR:  42601: syntax error at or near "desclimit"
+LINE 1: ...t_worker_jobs order by created_at desc,request_id desclimit ...
+                                                             ^
+LOCATION:  scanner_yyerror, scan.l:1244

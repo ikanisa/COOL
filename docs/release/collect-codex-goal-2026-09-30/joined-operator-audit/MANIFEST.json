@@ -1,0 +1,288 @@
+{
+  "kind": "joined_operator_audit_local_subset",
+  "files": {
+    "README.md": {
+      "bytes": 3921,
+      "sha256": "edc4f58c98d27da06d1751f89e28cc7b8602db58710c766f702bfbc30938d595"
+    },
+    "cli-provenance.json": {
+      "bytes": 394,
+      "sha256": "a2c8347a81986ae8afb014fab9ad68885c7d665a7b1fe901fb370ada956ee161"
+    },
+    "earlier-fixture-failures/attempt1/executed-runner.py": {
+      "bytes": 20641,
+      "sha256": "b5fcd963ac48fdcecc7dbe4f0482784c8e3d19972abc09f926ef74a0cd77fb43"
+    },
+    "earlier-fixture-failures/attempt1/queries.log": {
+      "bytes": 1519,
+      "sha256": "494b770e3034c1dfd1ba34ade8db0b16436072172bc66aee29635b5d54caf71e"
+    },
+    "earlier-fixture-failures/attempt1/queries.sql": {
+      "bytes": 1439163,
+      "sha256": "cc2656150dff2279212f1748de7256100a69dd18ac867b6ac383ebb3fc667f0c"
+    },
+    "earlier-fixture-failures/attempt1/result.json": {
+      "bytes": 3757,
+      "sha256": "6903b249926b3effb71324f7fdfa2ff1cc0508579f4c9cbbf5e7f096c23a3ede"
+    },
+    "earlier-fixture-failures/attempt2/console.log": {
+      "bytes": 1292,
+      "sha256": "83225fcf4be38f0024ca7de3a54fd9eb272fd8c79abf018a54ba1092cf87558e"
+    },
+    "earlier-fixture-failures/attempt2/executed-runner.py": {
+      "bytes": 20892,
+      "sha256": "1e3a88394010c16b876150ac2c1f6d818ae79360bf69de89c6ae2564ce6f200f"
+    },
+    "earlier-fixture-failures/attempt2/queries.log": {
+      "bytes": 7595,
+      "sha256": "62fe1da7587c79c5c9eac4a84798af80d5f59c593d41f85e427523d08bf4fcf6"
+    },
+    "earlier-fixture-failures/attempt2/queries.sql": {
+      "bytes": 1441068,
+      "sha256": "000ba87e6f36cd2ffbc67de3b8c1e52f06d06b6b7f3fe3e741b3b120e44772ae"
+    },
+    "earlier-fixture-failures/attempt2/result.json": {
+      "bytes": 3757,
+      "sha256": "d22fb64ce78116641872dfbe627456132f417338dd2e0be1e88b6bacc9b149b8"
+    },
+    "earlier-fixture-failures/attempt3/console.log": {
+      "bytes": 4683,
+      "sha256": "133494d8a63deae73fffdab14e4cd12f2ccc8d5f19a997fad04aeb79887762f2"
+    },
+    "earlier-fixture-failures/attempt3/executed-runner.py": {
+      "bytes": 21053,
+      "sha256": "2e27da1a30e52f4ac5fdd07f00be7fdea9a276d9d3e8fdabf2999ac7f3c445c0"
+    },
+    "earlier-fixture-failures/attempt3/queries.log": {
+      "bytes": 86390,
+      "sha256": "fab058f04a920ac09282eeb5a8d7b61eb7d0cec7172fd63f5a023bc265f63bb7"
+    },
+    "earlier-fixture-failures/attempt3/queries.sql": {
+      "bytes": 1695472,
+      "sha256": "7cb685796510755e2168e8558221da59b859e14f1bdf3974574803902b0fdc75"
+    },
+    "earlier-fixture-failures/attempt3/result.json": {
+      "bytes": 11279,
+      "sha256": "29532d687e8c6b28795be48ea86b689099b148214e0f3d185db789e4a2305097"
+    },
+    "earlier-fixture-failures/attempt4/console.log": {
+      "bytes": 1739,
+      "sha256": "394fe50b3d3c44d38ec8528caa45636271c615616fa2be49e754ae29d4b53aa1"
+    },
+    "earlier-fixture-failures/attempt4/executed-runner.py": {
+      "bytes": 23572,
+      "sha256": "9489293d493cd3cb5af64617e9b01d0ba66b9e4e1bc445b972c8991f39cfc2dc"
+    },
+    "earlier-fixture-failures/attempt4/queries.log": {
+      "bytes": 7607,
+      "sha256": "7e61786b1b86d2135799e17bb610fae0b9bb84a70b899f33045263424facb497"
+    },
+    "earlier-fixture-failures/attempt4/queries.sql": {
+      "bytes": 1440768,
+      "sha256": "cd46b17b94f3ba349f154f574eb1ad4144100dbd31e32d7eb795642dab741c29"
+    },
+    "earlier-fixture-failures/attempt4/result.json": {
+      "bytes": 4053,
+      "sha256": "7dc851544f61fbbb48386a4e3abe3fd86ca6c02e3dcb5b8a9aa3eedf98b18f5c"
+    },
+    "publication.json": {
+      "bytes": 1509,
+      "sha256": "84d6cd07432a29a1f2d4124fc67953a0e29b5bbd811ea5ce8bab5239d2427ede"
+    },
+    "selected-source/contracts/collect-operator-entity-audit-v1.CONTRACT.md": {
+      "bytes": 3005,
+      "sha256": "0bf86913b2536703295ee200840f732334eb042a9c3a81e75f0551c0f9c7c9ba"
+    },
+    "selected-source/contracts/collect-operator-entity-audit-v1.schema.json": {
+      "bytes": 5600,
+      "sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60"
+    },
+    "selected-source/scripts/tests/joined_operator_audit_uat.py": {
+      "bytes": 23558,
+      "sha256": "c8ee741de3ee0ed67753ac26c144884456a0931541ee18abd75a0bc6e5f45abd"
+    },
+    "selected-source/supabase/migrations/20261001001457_joined_operator_audit.sql": {
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    "sql-attempt5/20260930211605_android_gateway_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20260930213000_operator_email_auth.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20260930220527_operator_email_cutover_guard.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20260930230100_receipt_backlog_events.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20260930230200_admin_receipt_overview.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20260930230300_admin_transaction_lifecycle.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20261001000100_operational_exception_inbox.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20261001000300_admin_exception_reads.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20261001000400_receipt_supervisor_identity.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20261001000519_safe_unstarted_receipt_cancel.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/20261001001457_joined_operator_audit.install.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sql-attempt5/concurrency.log": {
+      "bytes": 89,
+      "sha256": "7b555bf81ef7629b0228d2b75b3195745052559ea6f49efbfcc80729d1ad2a39"
+    },
+    "sql-attempt5/executed-migrations/20260930211605_android_gateway_identity.sql": {
+      "bytes": 26951,
+      "sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+    },
+    "sql-attempt5/executed-migrations/20260930213000_operator_email_auth.sql": {
+      "bytes": 20002,
+      "sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92"
+    },
+    "sql-attempt5/executed-migrations/20260930220527_operator_email_cutover_guard.sql": {
+      "bytes": 3921,
+      "sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346"
+    },
+    "sql-attempt5/executed-migrations/20260930230100_receipt_backlog_events.sql": {
+      "bytes": 37881,
+      "sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626"
+    },
+    "sql-attempt5/executed-migrations/20260930230200_admin_receipt_overview.sql": {
+      "bytes": 3725,
+      "sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6"
+    },
+    "sql-attempt5/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": {
+      "bytes": 11105,
+      "sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+    },
+    "sql-attempt5/executed-migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24054,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    "sql-attempt5/executed-migrations/20261001000300_admin_exception_reads.sql": {
+      "bytes": 7090,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    "sql-attempt5/executed-migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "sql-attempt5/executed-migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    "sql-attempt5/executed-migrations/20261001001457_joined_operator_audit.sql": {
+      "bytes": 10935,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    "sql-attempt5/executed-migrations/collect-operator-entity-audit-v1.schema.json": {
+      "bytes": 5600,
+      "sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60"
+    },
+    "sql-attempt5/executed-python/android_gateway_identity_uat.py": {
+      "bytes": 26672,
+      "sha256": "d1ec4270e803af4da255fd6c469034f7353c5fceea662ce394da7af7e95b8ce8"
+    },
+    "sql-attempt5/executed-python/collect_admin_combined_upgrade_uat.py": {
+      "bytes": 34672,
+      "sha256": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2"
+    },
+    "sql-attempt5/executed-python/collect_current_release_upgrade_uat.py": {
+      "bytes": 32062,
+      "sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b"
+    },
+    "sql-attempt5/executed-python/joined_operator_audit_uat.py": {
+      "bytes": 23599,
+      "sha256": "fc32019fa4bd981ce3b2eaf08f904329d80e3ed154963bd1e0c40cb2f0d10f05"
+    },
+    "sql-attempt5/executed-python/operational_exception_inbox_uat.py": {
+      "bytes": 30148,
+      "sha256": "236be45f10ce592ea657c19707af09360a296680d81c277e405cd1afbf44643d"
+    },
+    "sql-attempt5/executed-python/receipt_backlog_events_uat.py": {
+      "bytes": 43343,
+      "sha256": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba"
+    },
+    "sql-attempt5/executed-python/shadow_supervisor_uat.py": {
+      "bytes": 41765,
+      "sha256": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+    },
+    "sql-attempt5/joined_audit/container.log": {
+      "bytes": 30361,
+      "sha256": "a1fdb044fec565650e81459aec9acd1aebc0e9c725a284ac32f002c49248b5d2"
+    },
+    "sql-attempt5/joined_audit/queries.log": {
+      "bytes": 444,
+      "sha256": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c"
+    },
+    "sql-attempt5/joined_audit/queries.sql": {
+      "bytes": 782,
+      "sha256": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b"
+    },
+    "sql-attempt5/observed-exception.json": {
+      "bytes": 1278,
+      "sha256": "a6a0b8f1596b75487eb0e1fa2734234381f7c103922198a6a6ee677578d0e4b0"
+    },
+    "sql-attempt5/observed-expiry.json": {
+      "bytes": 855,
+      "sha256": "8d6110a9870ab629ef9392e44573e4834464b84aa86d5fb9b5f7dd2a4a4d09a1"
+    },
+    "sql-attempt5/observed-gateway.json": {
+      "bytes": 1257,
+      "sha256": "3edba86daafdfc25c2dab39563b94bcd3c6999a78541979c02416f21d9c7790b"
+    },
+    "sql-attempt5/observed-receipt.json": {
+      "bytes": 877,
+      "sha256": "e78aca5add288bd4c6920a6b2b68854cc071e95eb0746ffce357eddc780a1474"
+    },
+    "sql-attempt5/observed-shadow.json": {
+      "bytes": 1641,
+      "sha256": "9c43a632728a539341d282f501d35a7e160e3aa2a666c7bd7e5e171acbd3d684"
+    },
+    "sql-attempt5/observed-supervisor.json": {
+      "bytes": 1274,
+      "sha256": "2ee09edd617ad97af0ec74ce7c18d7dc3c29362986340bc30f13543263a00b2c"
+    },
+    "sql-attempt5/queries.log": {
+      "bytes": 112319,
+      "sha256": "315932ac05020a0c170a5415628ffe9f2df25f40b9593b6651a9900395517109"
+    },
+    "sql-attempt5/queries.sql": {
+      "bytes": 1713885,
+      "sha256": "6d61f389f79a201e47b063e55363a328171ea26c962d08a16baa133d06807d3b"
+    },
+    "sql-attempt5/result.json": {
+      "bytes": 12785,
+      "sha256": "129ca7db6a9594df81d9fda1aef660ead51a74d25827e3f9403d3f9264fd969e"
+    },
+    "sql-attempt5-console.log": {
+      "bytes": 4039,
+      "sha256": "86778ae08a1bcda2934f6897e4bb91f47266ccf3e125aef419b97439b938c313"
+    }
+  },
+  "file_count": 70,
+  "production_ready": false,
+  "hosted_acceptance": false
+}

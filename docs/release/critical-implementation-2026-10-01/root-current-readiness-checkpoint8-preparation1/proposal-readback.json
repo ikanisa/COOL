@@ -1,0 +1,12 @@
+{
+  "status": "consistent_private_delta_plan",
+  "captured_at_utc": "2026-10-02T14:14:26.447056+00:00",
+  "canonical_files_written": false,
+  "canonical_and_doc_inputs_unchanged": 7,
+  "evidence_reference_count": 18,
+  "exact_markdown_replacements": 26,
+  "closed": 6,
+  "open": 34,
+  "PD12_closure_pending": true,
+  "retry9_pending": true
+}

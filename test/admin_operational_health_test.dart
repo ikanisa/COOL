@@ -13,7 +13,7 @@ Map<String, dynamic> _actual() {
   final fixture =
       jsonDecode(
             File(
-              'test/fixtures/admin_operational_health148.json',
+              'test/fixtures/admin_operational_health150.json',
             ).readAsStringSync(),
           )
           as Map;
@@ -24,6 +24,48 @@ Map<String, dynamic> _alert(Map<String, dynamic> data, String code) =>
     (data['alerts'] as List).cast<Map<String, dynamic>>().singleWhere(
       (alert) => alert['code'] == code,
     );
+
+Map<String, dynamic> _withMetrics(Map<String, int?> changes) {
+  final data = _actual();
+  final metrics = data['metrics'] as Map;
+  metrics.addAll(changes);
+  for (final alias in const {
+    'parser_pending_sms': 'sms_pending',
+    'failed_sms_parse': 'sms_failed_24h',
+    'unallocated_events': 'unallocated_events',
+    'queued_notifications': 'push_queued',
+    'processing_notifications': 'push_processing',
+    'failed_notifications': 'push_failed',
+  }.entries) {
+    data[alias.key] = metrics[alias.value];
+  }
+  const applicability = {
+    'receipt_parse_age': 'sms_pending',
+    'payment_review_age': 'payments_review',
+    'push_queue_age': 'push_due',
+    'receipt_telemetry_stale': 'durable_receipts_24h',
+    'push_scheduler_stale': 'push_due',
+  };
+  for (final raw in data['alerts'] as List) {
+    final alert = raw as Map;
+    final queue = applicability[alert['code']];
+    final value = metrics[alert['metric']] as int?;
+    alert['state'] = queue != null && metrics[queue] == 0
+        ? 'not_applicable'
+        : value == null
+        ? 'unknown'
+        : value >= (alert['threshold'] as int)
+        ? 'attention'
+        : 'ok';
+  }
+  final states = (data['alerts'] as List).map((a) => (a as Map)['state']);
+  data['health_status'] = states.contains('attention')
+      ? 'attention'
+      : states.contains('unknown')
+      ? 'unknown'
+      : 'ok';
+  return data;
+}
 
 void main() {
   test(
@@ -57,10 +99,11 @@ void main() {
   test(
     'backlog boundary is inclusive and attention outranks missing telemetry',
     () {
-      final data = _actual();
+      final data = _withMetrics({'sms_pending': 99});
       final metrics = data['metrics'] as Map;
-      metrics['sms_pending'] = 99;
-      data['parser_pending_sms'] = 99;
+      expect(metrics['sms_pending_age_seconds'], isNull);
+      expect(_alert(data, 'receipt_parse_backlog')['state'], 'ok');
+      expect(_alert(data, 'receipt_parse_age')['state'], 'unknown');
       expect(AdminOperationalHealth.parse(data).status, 'unknown');
       metrics['sms_pending'] = 100;
       data['parser_pending_sms'] = 100;
@@ -313,4 +356,126 @@ void main() {
       },
     );
   }
+
+  for (final rule in AdminOperationalHealth.rules.entries) {
+    testWidgets(
+      '${rule.key} response is read-only, reachable at2x and expires',
+      (tester) async {
+        final data = _withMetrics({
+          rule.value.$1: rule.value.$2,
+          if (rule.value.$3 != null) rule.value.$3!: 1,
+        });
+        var now = AdminOperationalHealth.parse(data).checkedAt;
+        var refreshes = 0;
+        await mount(
+          tester,
+          data,
+          clock: () => now,
+          refresh: () => refreshes++,
+          scale: 2,
+        );
+        expect(_alert(data, rule.key)['state'], 'attention');
+        final response = find.byKey(ValueKey('health-response-${rule.key}'));
+        await tester.ensureVisible(response);
+        await tester.pumpAndSettle();
+        expect(response.hitTestable(), findsOneWidget);
+        final text = tester.widget<Text>(response);
+        expect(text.data, AdminOperationalHealth.responses[rule.key]);
+        expect(find.byType(CollectButton), findsOneWidget);
+        expect(refreshes, 0);
+        expect(tester.takeException(), isNull);
+        now = now.add(const Duration(seconds: 60));
+        await tester.pump(const Duration(seconds: 1));
+        expect(response, findsNothing);
+        expect(find.text('Measurements'), findsNothing);
+        expect(refreshes, 0);
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
+  testWidgets('unknown guidance requires an explicit refresh without acting', (
+    tester,
+  ) async {
+    final data = _withMetrics({
+      'durable_receipts_24h': 1,
+      'receipt_telemetry_age_seconds': null,
+    });
+    var refreshes = 0;
+    await mount(
+      tester,
+      data,
+      clock: () => AdminOperationalHealth.parse(data).checkedAt,
+      refresh: () => refreshes++,
+      scale: 2,
+    );
+    final response = find.byKey(
+      const ValueKey('health-response-receipt_telemetry_stale'),
+    );
+    await tester.ensureVisible(response);
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<Text>(response).data,
+      startsWith('Refresh the sample before deciding whether to act. '),
+    );
+    expect(refreshes, 0);
+    await tester.ensureVisible(find.text('Refresh health'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Refresh health').hitTestable());
+    expect(refreshes, 1);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('below-threshold and empty queues offer no incident guidance', (
+    tester,
+  ) async {
+    final data = _withMetrics({
+      'sms_pending': 0,
+      'sms_failed_24h': 0,
+      'sms_expired_parse_leases': 0,
+      'unallocated_events': 0,
+      'payments_review': 0,
+      'reconciliation_open': 0,
+      'push_due': 0,
+      'push_expired_leases': 0,
+      'push_missing_leases': 0,
+      'push_failed_24h': 0,
+      'durable_receipts_24h': 0,
+    });
+    var refreshes = 0;
+    await mount(
+      tester,
+      data,
+      clock: () => AdminOperationalHealth.parse(data).checkedAt,
+      refresh: () => refreshes++,
+    );
+    for (final code in AdminOperationalHealth.rules.keys) {
+      expect(find.byKey(ValueKey('health-response-$code')), findsNothing);
+    }
+    expect(find.text('No threshold exceeded'), findsOneWidget);
+    expect(refreshes, 0);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'server-supplied response instructions are rejected and redacted',
+    (tester) async {
+      final data = _actual();
+      _alert(data, 'receipt_parse_backlog')['response'] = 'PRIVATE_CANARY';
+      var refreshes = 0;
+      await mount(
+        tester,
+        data,
+        clock: DateTime.now,
+        refresh: () => refreshes++,
+      );
+      expect(find.text('Health unavailable'), findsOneWidget);
+      expect(find.textContaining('PRIVATE_CANARY'), findsNothing);
+      for (final code in AdminOperationalHealth.rules.keys) {
+        expect(find.byKey(ValueKey('health-response-$code')), findsNothing);
+      }
+      expect(refreshes, 0);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "-W",
+    "error::ResourceWarning",
+    "docs/release/collect-codex-goal-2026-09-30/release-tooling/test_admin_checkpoint.py"
+  ],
+  "exit_code": 0,
+  "log_sha256": "56502758a2ffa7c6f32b12d50ab0ecddc0e377029d7eafc66bfe1215846ad073",
+  "runner_sha256": "c27498b128954e3bbd734fe14b25a9d856b27af638c4bb9d55326972f88375a2",
+  "test_source_sha256": "917f00498dafeddeb3196fd4c337d6eecdf65f20b508cdc2a4e2f404c18d84fc",
+  "scope": "Seven synthetic checkpoint source/failure checks; no Flutter, network or hosted mutation",
+  "performed_at_utc": "2026-09-30T22:49:05Z"
+}

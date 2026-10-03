@@ -1,0 +1,14 @@
+{
+  "all_named_source_fences_rechecked": true,
+  "driver_tracker_original58_reused_sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5",
+  "kind": "actual_private_minimal_derivative_readback",
+  "new_Gradle_process_network_or_cache_mutations": false,
+  "new_runner_AST_parse_pass": true,
+  "original36_R8_admission_fixtures_reused_sha256": "a3e7bfdc1bad64290f6eb1a8184aa9a0f3169c399dca469435666c4c6c678471",
+  "runner_exact_original_except_authorized180_to600": true,
+  "unchanged_project_and_helper_bytes": {
+    "driver/android_build_overlay.py": "00ce52587ca4d43a617e9960f5935e04323fd0d9f1ef1fc85c12d3d2ede6472d",
+    "minimal-project/build.gradle": "15464ce9ceaa9c2aeda1532a891c05c3deb1b576da34892af0c1195db10c19f1",
+    "minimal-project/settings.gradle": "32a440d700ea15f7b263cf3d7c81a3be19079b336bef4df4585b34a684a7075b"
+  }
+}

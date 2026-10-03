@@ -1,0 +1,50 @@
+{
+  "kind": "current_combined_credential_free_bridge_checks",
+  "captured_at": "2026-10-01T11:33:24.149753+00:00",
+  "commands": [
+    {
+      "name": "typescript",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/tools/collect-notification-mcp/node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "started_at": "2026-10-01T11:33:20.522666+00:00",
+      "finished_at": "2026-10-01T11:33:20.917614+00:00",
+      "exit_code": 0,
+      "timeout_seconds": 60
+    },
+    {
+      "name": "node",
+      "command": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_runner.test.ts",
+        "src/unattended_profile.test.ts"
+      ],
+      "started_at": "2026-10-01T11:33:20.918221+00:00",
+      "finished_at": "2026-10-01T11:33:24.140640+00:00",
+      "exit_code": 0,
+      "timeout_seconds": 60
+    }
+  ],
+  "source_inputs": 78,
+  "source_unchanged": true,
+  "source_delta": [],
+  "node_path": "/Volumes/PRO-G40/Development/Node/bin/node",
+  "node_sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+  "tsc_sha256": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+  "hardware_helper_sha256": "37802afb34207aa00b76ab1ab733ca949044d73556eda970d1260f10db68706b",
+  "environment_keys": [
+    "LANG",
+    "PATH",
+    "PYTHONDONTWRITEBYTECODE"
+  ],
+  "source_freeze": false,
+  "hosted_calls": 0,
+  "keychain_calls": 0,
+  "otp_requests": 0,
+  "live_sender_calls": 0,
+  "production_acceptance": false
+}

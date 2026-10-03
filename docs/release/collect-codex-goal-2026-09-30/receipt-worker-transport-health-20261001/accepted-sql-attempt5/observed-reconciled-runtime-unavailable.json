@@ -1,0 +1,15 @@
+{
+  "status": "runtime_unavailable",
+  "inspected": 0,
+  "checked_at": "2026-10-01T13:02:57.922754Z",
+  "expires_at": "2026-10-01T13:04:27.719590Z",
+  "request_id": "bf96a7f3-88b2-444e-bd52-782ef47b46a6",
+  "unobserved": 0,
+  "send_action": false,
+  "resend_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "terminal_observed": 0,
+  "observations_added": 0,
+  "source_scan_complete": false
+}

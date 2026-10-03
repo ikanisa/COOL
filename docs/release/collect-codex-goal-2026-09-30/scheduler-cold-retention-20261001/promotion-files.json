@@ -1,0 +1,125 @@
+{
+  "contract_version": 1,
+  "canonical_source_writes": 0,
+  "files": [
+    {
+      "path": "scripts/tests/unattended_launchd_preparation_test.py",
+      "staged_sha256": "3e06976d2e23c2ae950064d5fbd704ac8ef7c8564cda33d10049c4d9cb0c49c0",
+      "canonical_before_sha256": "a89eeb6aaa944f744eac078ae8dce6e58f93c117cc5c9b28afb2e330f7d686b3",
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py",
+      "staged_sha256": "0eb8f6740f99dd2e8f08a59d290a79abe526aec0d46f9c846893b90d10fa25ae",
+      "canonical_before_sha256": "efdd7871e3a0e134e77ad4effcc4a262ea3d8483fc4ae051b5db39b237d9fd2c",
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_deployment.ts",
+      "staged_sha256": "1519670a43f654eb5ea986f28fda5645d00dbbe58bb5fb3a9668c2f5169477a3",
+      "canonical_before_sha256": "3fda830ac0e1ed1573b2c9ef95559c86f9981a4ea3efde160db36a1a2bf7cc9a",
+      "stage_baseline_sha256": "3fda830ac0e1ed1573b2c9ef95559c86f9981a4ea3efde160db36a1a2bf7cc9a",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_disable_evidence.ts",
+      "staged_sha256": "82f72edc342ea34ea7355eecb0f33b262d6c92b2e0408c8e69f511ec49b6dbe2",
+      "canonical_before_sha256": null,
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_host_tick.ts",
+      "staged_sha256": "d7b644b9fb09a96f608f437bf45f7105ca1684b95f6b052dd5251aef3e964ed3",
+      "canonical_before_sha256": "dbdc86dd69dbb778a57ede83829ca9e9c589a65866177e4a12f3f432561d3942",
+      "stage_baseline_sha256": "dbdc86dd69dbb778a57ede83829ca9e9c589a65866177e4a12f3f432561d3942",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_journal.ts",
+      "staged_sha256": "7c4c9ba7a77e23cdee631a39e1cf854f1f675b70623d405944fcbba1453e47f9",
+      "canonical_before_sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "stage_baseline_sha256": "97be213b589e3ed55ca6d3f9b192ce74d9d2f736ebaa76c35b2fff147f960a21",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_retained.ts",
+      "staged_sha256": "559819220b3503ddb0ad13af669cf878bb00107b0c88accae0b86a3fb042c5b6",
+      "canonical_before_sha256": null,
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_retention.test.ts",
+      "staged_sha256": "6edc01ed529b1b391d33a87ac2b8b91caafd916f40b81bb36d66716b73c4ed8b",
+      "canonical_before_sha256": null,
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_retention.ts",
+      "staged_sha256": "af82b70696813c47285b2577d64598290411d506e40b192abbf4ecb176128038",
+      "canonical_before_sha256": null,
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_runner.ts",
+      "staged_sha256": "968eacea72b62629d56b18b8039c75ee0eafebf5a75db4e497c87f934f26e2cd",
+      "canonical_before_sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61",
+      "stage_baseline_sha256": "7fe54c112c5c5be7ea2ab8585dd63db89fcdfe5e475cfd5db472e240163d7a61",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_schedule_cli.ts",
+      "staged_sha256": "ca4ec88b7bfd04d5010cad62a2e8e654a4faa2892631225b7f0787d699e7eebd",
+      "canonical_before_sha256": "4ebed38861326f3ff5e94780a7999a6e04f9fe22f2f2caf6ee89d8dd0639dd22",
+      "stage_baseline_sha256": "4ebed38861326f3ff5e94780a7999a6e04f9fe22f2f2caf6ee89d8dd0639dd22",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler.ts",
+      "staged_sha256": "ab38a0174b5c9b3baffae5737674152d13d679c6107ee3db4b5b0f2364e482ea",
+      "canonical_before_sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c",
+      "stage_baseline_sha256": "fde68e1ce659f32f9413d567f37a1e0773a8da41efba3e1be60785c3c4dbf65c",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts",
+      "staged_sha256": "478899bda28af1cd251e734ba35a24e8d036d2e20776a472a3dbfe1661f15381",
+      "canonical_before_sha256": "8483c516aa9bf01e78c42f7213c546382bd4354a4288b87d87641669e3325ef4",
+      "stage_baseline_sha256": "8483c516aa9bf01e78c42f7213c546382bd4354a4288b87d87641669e3325ef4",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_control.ts",
+      "staged_sha256": "2ba0966311f6cf18e26acaa18240f957c86e455aadade7b601c22d24db92ce89",
+      "canonical_before_sha256": "cc10e7c0d507d28e6101d803343b4bc4671d73af68d2f8c9506fe7e13d833e8b",
+      "stage_baseline_sha256": "cc10e7c0d507d28e6101d803343b4bc4671d73af68d2f8c9506fe7e13d833e8b",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_scheduler_storage.ts",
+      "staged_sha256": "c2fc593ff533f5aa3e1c6164c1fd7aa4beba13295a2e77b4822277e48450acbe",
+      "canonical_before_sha256": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e",
+      "stage_baseline_sha256": "d1f767232aa248a7973a082a6defe57fb7f3c9ba50c632d7d7fb9a08984fe11e",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_store.ts",
+      "staged_sha256": "be1248643b4c0640d5e70c6f4769a6a6f737e5b54a0caa9bad9fc728549248e1",
+      "canonical_before_sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "stage_baseline_sha256": "7e31fdd8414f42f7111022f720bd2855c08e9a0e33f252b198be7665179f31e7",
+      "stage_baseline_canonical_match": true
+    },
+    {
+      "path": "tools/collect-notification-mcp/src/unattended_store_names.ts",
+      "staged_sha256": "e89decb24c7d00f298be154eb4d0e65dee6fbdca09cca62a3b839d4491a1635c",
+      "canonical_before_sha256": null,
+      "stage_baseline_sha256": null,
+      "stage_baseline_canonical_match": null
+    }
+  ]
+}

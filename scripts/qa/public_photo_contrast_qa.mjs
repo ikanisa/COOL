@@ -4,6 +4,7 @@
 // the photo or mistaking a transparent ancestor's CSS color for its backdrop.
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 
 const load = await import(process.env.PLAYWRIGHT_CORE_PATH || '/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.js');
 const {chromium} = load.default || load;
@@ -11,7 +12,7 @@ const base = process.env.PUBLIC_CONTRAST_URL || 'http://127.0.0.1:4188';
 const output = process.env.PUBLIC_PHOTO_CONTRAST_OUT || '.cache/revolut-design-20260906/website-photo-contrast';
 const widths = [320, 390, 430, 720, 721, 800, 1100, 1101, 1440];
 await mkdir(output, {recursive: true});
-const browser = await chromium.launch({executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true});
+const browser = await chromium.launch({executablePath: process.env.PUBLIC_WEBSITE_CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true});
 const results = [];
 try {
   for (const width of widths) {
@@ -24,7 +25,7 @@ try {
     const selectors = [
       '.hero h1', '.hero-intro', '.hero-actions .cta-app',
       '.hero-actions .cta-group', '.hero-actions .cta-touch',
-      '.site-header .brand strong', '.site-header .nav-link',
+      '.site-header .brand strong', '.site-header .brand small', '.site-header .nav-link',
       '.site-header .cta-app', '.site-header .menu-button',
     ];
     for (const selector of selectors) for (const [index, target] of (await page.locator(selector).all()).entries()) {
@@ -111,10 +112,18 @@ const cssResponse = await fetch(base + '/revolut.css');
 if (!cssResponse.ok) throw new Error(`Cannot bind rendered CSS: ${cssResponse.status}`);
 const renderedCss = await cssResponse.text();
 const sourceCss = await readFile('web/public/revolut.css', 'utf8');
+// The static builder adds the verified WebP image-set and picture delivery
+// selectors. Compare the exact same transformation, rather than treating those
+// delivery rules as a change to the source palette or typography.
+const expectedCss = execFileSync('ruby', ['-r', './scripts/public_photography', '-e',
+  'print PublicPhotography.new(Dir.pwd).prepare_css(File.read("web/public/revolut.css"))'],
+  {encoding: 'utf8'});
 const failures = results.filter(result => result.status !== 'pass');
 const report = {status: failures.length ? 'fail' : 'pass', checkedAt: new Date().toISOString(), baseUrl: base,
   method: 'Minimum WCAG luminance ratio over every rendered background pixel in each text line rectangle, with glyph fill hidden and original image crops and scrims preserved. Conservative bounds include non-glyph pixels; this is not a screen-reader or native app test.',
-  sourceCssMatchesRendered: renderedCss === sourceCss,
+  sourceCssMatchesRendered: renderedCss === expectedCss,
+  sourceCssSha256: createHash('sha256').update(sourceCss).digest('hex'),
+  expectedBuildCssSha256: createHash('sha256').update(expectedCss).digest('hex'),
   renderedCssSha256: createHash('sha256').update(renderedCss).digest('hex'),
   failures: failures.length, results};
 await writeFile(`${output}/report.json`, JSON.stringify(report, null, 2) + '\n');

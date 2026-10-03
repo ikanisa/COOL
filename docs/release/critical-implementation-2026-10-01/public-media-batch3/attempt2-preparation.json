@@ -1,0 +1,17 @@
+{
+  "prepared_at_utc": "2026-10-02T00:08:30.282875+00:00",
+  "source_delta_from_failed_attempt1": {
+    "scripts/qa/public_browser_app_media.mjs": {
+      "before": "53b3eede1771162eb7f9edb04ff0d9b98a1b412493619f040e1fbdf3113ef5bc",
+      "after": "0bbb116f123b4a856f469a5635cd3eecc7275ec643560f9f0fd684346b0a7956"
+    }
+  },
+  "source_count": 344,
+  "runtime_sha256": "73392c8058f0efdae888ca5862fd160b4b4d93ca9d71de214c05443ac728ed49",
+  "fresh_stage": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch3-attempt2",
+  "reuse_failed_build": false,
+  "failed_attempt_retained": true,
+  "owner_marker_review_receipt": "docs/release/critical-implementation-2026-10-01/privacy-ui-integration-batch1/capture-marker-change.json",
+  "owner_marker_review_receipt_sha256": "361b235e1a6fd4bd47dffff53acae5e54942b266f81be9f5684754ff4a06646b",
+  "scope": "Only reviewed obsolete marker source delta; actual no-service state retained, no provider/form simulation or gate weakening."
+}

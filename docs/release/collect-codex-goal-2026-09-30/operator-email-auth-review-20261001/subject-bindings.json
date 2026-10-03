@@ -1,0 +1,23 @@
+{
+  "reviewed_helper_sha256": "645bd7f40400fe9dff8dbd78cd3aebebee60bba3b615a7e479a79d4263022e62",
+  "copied_inputs": [
+    {
+      "path": "scripts/tests/test_collect_operator_email_auth.py",
+      "sha256": "3e0dc6cf045b8ae958ab18ca15aaa1c1f0f330595bee959da02cf6972030d5af"
+    },
+    {
+      "path": "scripts/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4"
+    },
+    {
+      "path": "scripts/tests/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686"
+    },
+    {
+      "path": "scripts/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed"
+    }
+  ],
+  "copy_only_unreviewed_candidate": true,
+  "no_hosted_calls": true
+}

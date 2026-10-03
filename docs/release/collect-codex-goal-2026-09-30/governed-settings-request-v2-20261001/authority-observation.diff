@@ -1,0 +1,92 @@
+--- current require_roster_actor_authority email body
++++ private v2 bounded observation
+@@ -1,44 +1,57 @@
+-'s row locks, session age, explicit role and permission evidence.
+-create or replace function collect_hybrid.require_roster_actor_authority(
+- p_actor uuid,p_session uuid,p_role_name text,p_permission_names text[])
+-returns void language plpgsql security definer set search_path='' as $$
+-declare u auth.users;s auth.sessions;role_uuid uuid;permission text;mode_value text;approval_time timestamptz;
++(p_family text,p_audit boolean default false) returns jsonb
++language plpgsql security definer set search_path='' as $$
++declare spec jsonb:=collect_security.runtime_control_v2_spec(p_family);sid uuid;u auth.users;s auth.sessions;
++ role_uuid uuid;mode_value text;approval_time timestamptz;approval_expiry timestamptz;permission text;required text[];manage text[];can_manage boolean:=true;
+ begin
+- perform public._lock_notification_session_gate();
+- perform pg_advisory_xact_lock(hashtext('collect_admin_combined_roster'));
+- if p_actor is null or p_session is null or p_role_name is null or p_role_name !~ '^[a-z_]+$'
+-  or p_permission_names is null or cardinality(p_permission_names) not between 1 and 30
+-  or exists(select 1 from unnest(p_permission_names)n where n is null or n !~ '^[a-z_]+(\.[a-z_]+)+$') then
+-  raise exception 'roster_actor_unavailable' using errcode='42501';end if;
++ if current_setting('transaction_isolation')<>'read committed' then raise exception 'runtime_control_read_committed_required' using errcode='25001';end if;
++ if not pg_try_advisory_xact_lock_shared(193517,141) then raise exception 'runtime_control_authority_unavailable' using errcode='42501';end if;
++ begin
++  lock table collect_admin_access.operator_auth_policy,collect_admin_access.email_approvals,collect_admin_access.whatsapp_approvals,
++   public.admin_user_roles,public.admin_roles,public.admin_role_permissions,public.admin_permissions in share mode nowait;
++ exception when lock_not_available then raise exception 'runtime_control_authority_unavailable' using errcode='42501';end;
++ sid:=public._lock_notification_registration_session();
++ required:=array[case when p_audit then 'audit.read' else spec->>'read_permission' end];
++ manage:=array[spec->>'permission'];
++ if spec ? 'additional_permission' then manage:=array_append(manage,spec->>'additional_permission');end if;
++ if exists(select 1 from unnest(required||manage)n where n is null or n !~ '^[a-z_]+(\.[a-z_]+)+$')
++  or exists(select 1 from unnest(required||manage)n where not exists(select 1 from public.admin_permissions p where p.name=n)) then
++  raise exception 'runtime_control_registry_invalid' using errcode='55000';end if;
+  select mode into mode_value from collect_admin_access.operator_auth_policy where id for share;
+- select * into u from auth.users where id=p_actor for share;
+- select * into s from auth.sessions where id=p_session and user_id=p_actor for share;
++ if mode_value is null or mode_value not in('email','transition') then raise exception 'runtime_control_authority_invalid' using errcode='55000';end if;
++ select * into u from auth.users where id=auth.uid() for share;
++ select * into s from auth.sessions where id=sid and user_id=auth.uid() for share;
+  if u.id is null or s.id is null or s.created_at is null or not isfinite(s.created_at)
+-  or s.created_at>clock_timestamp() or s.aal::text not in ('aal1','aal2') or s.aal is null
+-  or (s.not_after is not null and (not isfinite(s.not_after) or s.not_after<=clock_timestamp()))
+-  or u.deleted_at is not null or coalesce(u.is_anonymous,false)
+-  or (u.banned_until is not null and u.banned_until>clock_timestamp()) then
+-  raise exception 'roster_actor_unavailable' using errcode='42501';end if;
++  or s.created_at>clock_timestamp() or s.aal::text not in('aal1','aal2') or s.aal is null
++  or s.not_after is not null and (not isfinite(s.not_after) or s.not_after<=clock_timestamp())
++  or u.deleted_at is not null or coalesce(u.is_anonymous,false) or u.banned_until>clock_timestamp() then
++  raise exception 'runtime_control_session_required' using errcode='42501';end if;
+  if u.email_confirmed_at is not null then
+-  select approved_at into approval_time from collect_admin_access.email_approvals a
+-   where a.user_id=p_actor and a.email=lower(btrim(u.email)) and a.revoked_at is null
++  select approved_at,expires_at into approval_time,approval_expiry from collect_admin_access.email_approvals a
++   where a.user_id=auth.uid() and a.email=lower(btrim(u.email)) and a.revoked_at is null
+     and (a.expires_at is null or a.expires_at>clock_timestamp()) for share;
+  end if;
+  if approval_time is null and mode_value='transition' and u.phone_confirmed_at is not null
+-  and not exists(select 1 from collect_admin_access.email_approvals where user_id=p_actor) then
+-  select approved_at into approval_time from collect_admin_access.whatsapp_approvals a
+-   where a.user_id=p_actor and a.phone_e164='+'||ltrim(u.phone,'+') and a.revoked_at is null
++  and not exists(select 1 from collect_admin_access.email_approvals where user_id=auth.uid()) then
++  select approved_at,expires_at into approval_time,approval_expiry from collect_admin_access.whatsapp_approvals a
++   where a.user_id=auth.uid() and a.phone_e164='+'||ltrim(u.phone,'+') and a.revoked_at is null
+     and (a.expires_at is null or a.expires_at>clock_timestamp()) for share;
+  end if;
+- select r.id into role_uuid from public.admin_user_roles ur
+-  join public.admin_roles r on r.id=ur.role_id and r.name=p_role_name
+-  where ur.user_id=p_actor and ur.revoked_at is null and s.created_at>=ur.created_at
+-   and approval_time is not null and s.created_at>=approval_time
+-  order by ur.created_at for share of ur,r;
+- if role_uuid is null then raise exception 'roster_actor_unavailable' using errcode='42501';end if;
+- for permission in select distinct n from unnest(p_permission_names)n order by n loop
++ select r.id into role_uuid from public.admin_user_roles ur join public.admin_roles r on r.id=ur.role_id and r.name='platform_owner'
++  where ur.user_id=auth.uid() and ur.revoked_at is null and s.created_at>=ur.created_at
++   and approval_time is not null and s.created_at>=approval_time order by ur.created_at for share of ur,r;
++ if role_uuid is null then raise exception 'runtime_control_permission_required' using errcode='42501';end if;
++ for permission in select distinct n from unnest(required||manage)n order by n loop
+   perform 1 from public.admin_role_permissions where role_id=role_uuid and permission_name=permission for share;
+-  if not found then raise exception 'roster_actor_unavailable' using errcode='42501';end if;
++  if not found then
++   if permission=any(required) then raise exception 'runtime_control_permission_required' using errcode='42501';end if;
++   can_manage:=false;
++  end if;
+  end loop;
+-end $$;
++ -- Authority times can elapse during a real row wait. Revalidate every clock
++ -- predicate after the last permission lock, preserving the locked evidence.
++ if approval_expiry is not null and approval_expiry<=clock_timestamp()
++  or not public._notification_session_is_live(sid,auth.uid())
++  or not collect_admin_access.approved_identity(auth.uid()) then raise exception 'runtime_control_session_required' using errcode='42501';end if;
++ return jsonb_build_object('session_id',sid,'can_manage',can_manage);
++end$$;
+ 

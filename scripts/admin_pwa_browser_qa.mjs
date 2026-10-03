@@ -2,6 +2,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import {observeCollectDiagnostics, collectDiagnosticSourceSnapshot, sanitizeCollectDiagnosticLog} from './qa/collect_diagnostic_observer.mjs';
 
 const [targetUrl, evidenceDirArgument] = process.argv.slice(2);
 
@@ -44,11 +45,10 @@ const allRoutes = [
     minimumAccessibilityNodes: 8,
     minimumKeyboardStops: 2,
     requiredLabels: [
-      'WhatsApp phone\n+250',
-      'Phone number',
-      'Send admin WhatsApp OTP',
+      'Operator email',
+      'Send admin email code',
     ],
-    requiredInteractiveNames: ['Phone number', 'Send WhatsApp OTP'],
+    requiredInteractiveNames: ['Operator email', 'Send code'],
   },
   {
     path: '/admin/denied',
@@ -77,19 +77,14 @@ const allRoutes = [
     path: '/admin/groups',
     requiredLabels: [
       'Collect admin workspace',
-      'Search',
+      'Search admin queue Search',
     ],
-    requiredLabelPrefixes: ['Admin records table, '],
-    desktopRequiredLabels: [
-      'Group',
-      'Access',
-      'Owner',
-      'Members',
-      'Route',
-      'Payee',
-      'State',
-      'Created',
-      'Manage',
+    requiredLabelPrefixes: [
+      'Admin records table, ',
+      'Group page summary, ',
+      'Members:',
+      'Route:',
+      'Payee:',
     ],
   },
   {
@@ -105,7 +100,7 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Members admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
@@ -113,7 +108,6 @@ const allRoutes = [
       'Country',
       'Payment profile',
       'Groups',
-      'Admin access',
       'Updated',
       'Open',
     ],
@@ -123,17 +117,22 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Users admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
       'WhatsApp',
       'Country',
       'Payment profile',
-      'Admin access',
       'Updated',
       'Open',
     ],
+  },
+  {
+    path: '/admin/users/user-1',
+    minimumKeyboardStops: 1,
+    requiredLabels: ['Collect admin workspace', 'Users admin section'],
+    requiredLabelSuffixes: [' detail panel'],
   },
   {
     path: '/admin/members/user-1',
@@ -149,7 +148,7 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Payees admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
     requiredInteractiveNames: ['Create payee'],
@@ -159,18 +158,19 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Transactions admin section',
-      'Search',
+      'Search admin queue Search',
     ],
-    requiredLabelPrefixes: ['Admin records table, '],
-    desktopRequiredLabels: [
-      'Reference',
-      'Rail',
-      'MoMo number',
-      'Destination',
-      'Status',
-      'Amount',
-      'Received',
-      'Open',
+    requiredLabelPrefixes: [
+      'Admin records table, ',
+      'Transaction page summary, ',
+      'Receipt sender:',
+      'Destination:',
+      'Verification:',
+      'Allocation:',
+      'Ledger:',
+      'Notification:',
+      'Amount:',
+      'Received:',
     ],
   },
   {
@@ -186,16 +186,17 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Reconciliations admin section',
-      'Search',
     ],
-    requiredLabelPrefixes: ['Admin records table, '],
+    requiredLabelFragments: ['Payment review access required'],
+    requiredDisabledNames: ['Refresh reconciliations'],
+    evidenceState: 'Synthetic account does not satisfy the current payment-review authority check; reconciliation evidence remains hidden.',
   },
   {
     path: '/admin/ledgers',
     requiredLabels: [
       'Collect admin workspace',
       'Ledgers admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
   },
@@ -204,7 +205,7 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'SMS receipts admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
     desktopRequiredLabels: [
@@ -228,7 +229,7 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Notifications admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
   },
@@ -246,25 +247,34 @@ const allRoutes = [
     requiredLabels: [
       'Collect admin workspace',
       'Audit logs admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
+  },
+  {
+    path: '/admin/audit-logs/entity/gateway_device/99810000-0000-4000-8000-000000000001',
+    minimumKeyboardStops: 1,
+    requiredLabels: ['Collect admin workspace'],
+    requiredLabelFragments: ['Action history access denied'],
+    evidenceState: 'Synthetic evidence account lacks current platform-owner history authority; private actions remain hidden.',
   },
   {
     path: '/admin/settings',
     requiredLabels: [
       'Collect admin workspace',
       'Settings admin section',
-      'Search',
+      'Admin access recovery actions',
     ],
-    requiredLabelPrefixes: ['Admin records table, '],
+    requiredLabelFragments: ['Admin access required'],
+    requiredInteractiveNames: ['Return to operations', 'Admin sign-in'],
+    evidenceState: 'Synthetic admin account has no current platform-owner Settings authority; governed controls and retention evidence remain hidden.',
   },
   {
     path: '/admin/feature-flags',
     requiredLabels: [
       'Collect admin workspace',
       'Feature flags admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
   },
@@ -274,19 +284,50 @@ const allRoutes = [
       'Collect admin workspace',
       'System health admin section',
     ],
-    requiredLabelSuffixes: [' detail panel'],
+    requiredLabelFragments: ['Health unavailable'],
+    requiredInteractiveNames: ['Refresh health'],
+    evidenceState: 'Synthetic health sample fails current validation; no healthy system state is inferred.',
+  },
+  {
+    path: '/admin/automations',
+    requiredLabels: ['Collect admin workspace', 'Automations admin section'],
+    requiredInteractiveNames: ['Refresh status'],
+  },
+  {
+    path: '/admin/automations/runs/e805bb70-90fe-4aa7-9a49-3883bbf3607c',
+    requiredLabels: ['Collect admin workspace', 'Automations admin section'],
+    requiredLabelFragments: [
+      'A current platform owner with payment, notification and system health read access is required.',
+    ],
+    requiredInteractiveNames: ['Back to Automations'],
+    requiredDisabledNames: ['Refresh run evidence'],
+    evidenceState: 'Valid synthetic run link has no current platform-owner session authority; no run or source evidence is inferred.',
+  },
+  {
+    path: '/admin/sms-gateway',
+    requiredLabels: ['Collect admin workspace', 'SMS Gateway admin section'],
+    requiredLabelFragments: ['Gateway service unavailable'],
+    requiredInteractiveNames: ['Refresh devices'],
+    evidenceState: 'Unsupported synthetic service; no device state inferred.',
+  },
+  {
+    path: '/admin/exceptions',
+    requiredLabels: ['Collect admin workspace', 'Exceptions admin section',
+      'Exception service unavailable'],
+    requiredInteractiveNames: ['Refresh inbox'],
+    evidenceState: 'Unsupported synthetic service; no exception outcome inferred.',
   },
   {
     path: '/admin/admin-users',
     requiredLabels: [
       'Collect admin workspace',
       'Admin users admin section',
-      'Search',
+      'Search admin queue Search',
     ],
     requiredLabelPrefixes: ['Admin records table, '],
   },
   {
-    path: '/admin/admin-users/admin-user-1',
+    path: '/admin/admin-users/99740000-0000-4000-8000-000000000001',
     requiredLabels: [
       'Collect admin workspace',
       'Admin users admin section',
@@ -350,6 +391,11 @@ function requiredLabelEvidence(route, viewport, accessibleLabels) {
   const suffixes = (route.requiredLabelSuffixes || []).map(
     normalizeAccessibleLabel,
   );
+  // Flutter combines live-region notices with their explanation into one node.
+  // Only explicitly declared notice fragments allow that merged presentation.
+  const fragments = (route.requiredLabelFragments || []).map(
+    normalizeAccessibleLabel,
+  );
   const exactMatch = (required) =>
     available.some(
       (label) => label === required || label === `${required} ${required}`,
@@ -361,18 +407,54 @@ function requiredLabelEvidence(route, viewport, accessibleLabels) {
   const missingSuffixes = suffixes.filter(
     (required) => !available.some((label) => label.endsWith(required)),
   );
+  const missingFragments = fragments.filter(
+    (required) => !available.some((label) => label.includes(required)),
+  );
   return {
     passed:
       missingExact.length === 0 &&
       missingPrefixes.length === 0 &&
-      missingSuffixes.length === 0,
+      missingSuffixes.length === 0 &&
+      missingFragments.length === 0,
     exact,
     prefixes,
     suffixes,
+    fragments,
     missingExact,
     missingPrefixes,
     missingSuffixes,
+    missingFragments,
   };
+}
+
+async function scrollRequiredEvidence(page, route, viewport, initialLabels, initialAccessibility) {
+  const labels = new Set(initialLabels);
+  const interactiveNodes = [...initialAccessibility.focusableInteractiveNodes];
+  const scrollRecords = [];
+  const complete = () =>
+    requiredLabelEvidence(route, viewport, [...labels]).passed &&
+    (route.requiredInteractiveNames || []).every((name) =>
+      interactiveNodes.some((node) => node.name === name),
+    );
+  const size = page.viewportSize();
+  if (size) await page.mouse.move(size.width * 0.8, size.height * 0.72);
+  for (let attempt = 0; attempt < 12 && !complete(); attempt += 1) {
+    await page.mouse.wheel(0, Math.max(400, (size?.height || 740) * 0.75));
+    await page.waitForTimeout(150);
+    const visibleLabels = await page.evaluate(() =>
+      [...document.querySelectorAll('[aria-label], flt-semantics')]
+        .map((element) =>
+          (element.getAttribute('aria-label') || element.textContent?.trim() || '')
+            .replace(/\s+/g, ' '),
+        )
+        .filter(Boolean),
+    );
+    visibleLabels.forEach((label) => labels.add(label));
+    const accessibility = await accessibilitySnapshot(page);
+    interactiveNodes.push(...accessibility.focusableInteractiveNodes);
+    scrollRecords.push({ attempt: attempt + 1, visibleLabels, accessibility });
+  }
+  return { accessibleLabels: [...labels], interactiveNodes, scrollRecords };
 }
 
 async function loadPlaywright() {
@@ -382,6 +464,37 @@ async function loadPlaywright() {
   );
   const loaded = await import(`file://${modulePath}`);
   return { modulePath, playwright: loaded.default || loaded };
+}
+
+async function disabledControlSnapshot(page, requiredNames) {
+  if (!requiredNames?.length) return null;
+  const session = await page.context().newCDPSession(page);
+  try {
+    await session.send('Accessibility.enable');
+    const { nodes } = await session.send('Accessibility.getFullAXTree');
+    const controls = nodes.filter((node) =>
+      !node.ignored && node.role?.value === 'button' &&
+      requiredNames.includes(node.name?.value),
+    ).map((node) => ({
+      name: node.name?.value,
+      role: node.role?.value,
+      disabled: (node.properties || []).some((property) =>
+        property.name === 'disabled' && property.value?.value === true,
+      ),
+      focusable: (node.properties || []).some((property) =>
+        property.name === 'focusable' && property.value?.value === true,
+      ),
+    }));
+    return {
+      requiredNames,
+      controls,
+      passed: requiredNames.every((name) => controls.some((control) =>
+        control.name === name && control.disabled && !control.focusable,
+      )),
+    };
+  } finally {
+    await session.detach();
+  }
 }
 
 function routeName(path) {
@@ -886,8 +999,8 @@ async function keyboardOpenMobileNavigation(page) {
 
 async function keyboardOpenFirstGroupRecord(page) {
   const prepared = await focusSemanticControl(page, {
-    labelPrefix: 'Open Verified group',
-    textPrefix: 'Open Verified group',
+    label: 'Open Buri Munsi',
+    textPrefix: 'Open Buri Munsi',
   });
   if (!prepared) return false;
   await page.keyboard.press('Enter');
@@ -1173,18 +1286,18 @@ async function keyboardActivateDeniedSignIn(page) {
 }
 
 async function keyboardAdvanceAdminLogin(page) {
-  const phoneInput = page.locator(
-    'input[aria-label="Phone number"], input[aria-label="WhatsApp phone"]',
+  const emailInput = page.locator(
+    'input[aria-label="Operator email"]',
   );
   try {
-    await phoneInput.waitFor({ state: 'attached', timeout: 5_000 });
-    await phoneInput.fill('788 767 816');
+    await emailInput.waitFor({ state: 'attached', timeout: 5_000 });
+    await emailInput.fill('operator@collect.example');
   } catch (_) {
     return false;
   }
   const prepared = await focusSemanticControl(page, {
-    label: 'Send admin WhatsApp OTP',
-    textPrefix: 'Send WhatsApp OTP',
+    label: 'Send admin email code',
+    textPrefix: 'Send code',
   });
   if (!prepared) return false;
   await page.keyboard.press('Enter');
@@ -1402,9 +1515,12 @@ async function auditRoute(browser, route, viewport) {
   });
   const consoleMessages = [];
   const pageErrors = [];
+  const diagnosticFailures = [];
+  observeCollectDiagnostics(page, diagnostic => diagnosticFailures.push(diagnostic));
   page.on('console', (message) => {
     if (['error', 'warning', 'assert'].includes(message.type())) {
-      consoleMessages.push({
+      const safe = sanitizeCollectDiagnosticLog({level: message.type(), text: message.text()});
+      consoleMessages.push(safe.diagnostic ? {type: safe.level, text: safe.text, diagnostic: safe.diagnostic} : {
         type: message.type(),
         text: message.text(),
         url: message.location().url || '',
@@ -1468,6 +1584,12 @@ async function auditRoute(browser, route, viewport) {
     await page.screenshot({ path: screenshotPath, fullPage: false });
     const accessibility = await accessibilitySnapshot(page);
     const interactiveTargets = await interactiveTargetSnapshot(page);
+    const disabledControls = await disabledControlSnapshot(
+      page, route.requiredDisabledNames,
+    );
+    const requiredEvidence = await scrollRequiredEvidence(
+      page, route, viewport, browserState.accessibleLabels, accessibility,
+    );
     await resetForKeyboardInteraction(page, url);
     const focusRecords = await keyboardTraversal(page);
     const focusLabels = [...new Set(focusRecords.map((item) => item.label))];
@@ -1477,7 +1599,7 @@ async function auditRoute(browser, route, viewport) {
     const labelEvidence = requiredLabelEvidence(
       route,
       viewport,
-      browserState.accessibleLabels,
+      requiredEvidence.accessibleLabels,
     );
 
     const checks = {
@@ -1513,7 +1635,7 @@ async function auditRoute(browser, route, viewport) {
       requiredInteractiveNamesPresent:
         !route.requiredInteractiveNames ||
         route.requiredInteractiveNames.every((name) =>
-          accessibility.focusableInteractiveNodes.some(
+          requiredEvidence.interactiveNodes.some(
             (node) => node.name === name,
           ),
         ),
@@ -1523,16 +1645,21 @@ async function auditRoute(browser, route, viewport) {
         interactiveTargets.violations.length === 0,
       persistentHeaderControlsAccessible:
         route.expectsNavigation === false ||
-        ['Country scope:', 'Operator menu', 'Operations overview'].every(
+        (browserState.accessibleLabels.some(
+          (label) => label.includes('Rwanda operations'),
+        ) && ['Operator menu', 'Operations overview'].every(
           (name) => accessibility.focusableInteractiveNodes.some(
             (node) => node.name.includes(name),
           ),
-        ),
+        )),
       keyboardTraversal:
         focusLabels.length >= (route.minimumKeyboardStops ?? 2),
       noBrowserErrors:
-        consoleMessages.length === 0 && pageErrors.length === 0,
+        consoleMessages.length === 0 && pageErrors.length === 0 && diagnosticFailures.length === 0,
     };
+    if (disabledControls) {
+      checks.requiredDisabledControlsRemainInert = disabledControls.passed;
+    }
 
     let keyboardGroupsNavigation = null;
     if (route.path === '/admin' && !viewport.compact) {
@@ -1604,6 +1731,7 @@ async function auditRoute(browser, route, viewport) {
 
     return {
       route: route.path,
+      evidenceState: route.evidenceState ?? 'Synthetic evidence-mode route',
       viewport: viewport.name,
       url,
       screenshotPath,
@@ -1616,7 +1744,9 @@ async function auditRoute(browser, route, viewport) {
         labels: browserState.labels.filter(Boolean),
       },
       requiredLabelEvidence: labelEvidence,
+      scrolledRequiredEvidence: requiredEvidence,
       accessibility,
+      disabledControls,
       interactiveTargets,
       focusRecords,
       focusLabels,
@@ -1630,6 +1760,7 @@ async function auditRoute(browser, route, viewport) {
       keyboardAdvancesAdminLogin,
       consoleMessages,
       pageErrors,
+      diagnosticFailures,
     };
   } finally {
     await page.close();
@@ -1644,6 +1775,7 @@ const browser = await playwright.chromium.launch({
   headless: true,
 });
 const results = [];
+const diagnosticObserverSourcesBefore = await collectDiagnosticSourceSnapshot(import.meta.url);
 try {
   for (const viewport of viewports) {
     for (const route of routes) {
@@ -1659,6 +1791,10 @@ const failures = results.flatMap((result) =>
     (failure) => `${result.route} ${result.viewport}: ${failure}`,
   ),
 );
+const diagnosticObserverSourcesAfter = await collectDiagnosticSourceSnapshot(import.meta.url);
+if (JSON.stringify(diagnosticObserverSourcesBefore) !== JSON.stringify(diagnosticObserverSourcesAfter)) {
+  failures.push('Diagnostic observer sources changed');
+}
 const releaseAdmissible =
   !filteredRun &&
   routes.length === allRoutes.length &&
@@ -1668,6 +1804,8 @@ const report = {
   status:
     failures.length > 0 ? 'fail' : releaseAdmissible ? 'pass' : 'pass_partial',
   generatedAt: new Date().toISOString(),
+  diagnostic_observer_sources_before: diagnosticObserverSourcesBefore,
+  diagnostic_observer_sources_after: diagnosticObserverSourcesAfter,
   targetUrl,
   playwrightCore: modulePath,
   executablePath,

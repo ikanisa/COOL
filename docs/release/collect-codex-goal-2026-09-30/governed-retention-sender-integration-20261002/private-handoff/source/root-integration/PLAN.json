@@ -1,0 +1,29 @@
+[
+  {
+    "canonical_path": "lib/admin/core/admin_runtime.dart",
+    "base_sha256": "7b8ccb9969714ebfe59e6fe9ed932cb9c0366760ec18b3a3291b5aa7f4550755",
+    "staged_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/source/lib/admin/core/admin_runtime.dart",
+    "staged_sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+    "patch": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/admin_runtime.dart.patch",
+    "patch_sha256": "922b0998b9fbbc91b1d0a17f2683c8acadcbff919cc62db4b08fc4b93f3ffa8e",
+    "classification": "proposed root-owned integration; actual caller/route acceptance pending root review"
+  },
+  {
+    "canonical_path": "lib/admin/core/admin_governed_settings_page.dart",
+    "base_sha256": "477bd223943ca17cb84ec8f005e50697c5d724ecc3577e7ab002509c7348b90b",
+    "staged_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/source/lib/admin/core/admin_governed_settings_page.dart",
+    "staged_sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9",
+    "patch": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/admin_governed_settings_page.dart.patch",
+    "patch_sha256": "f1d55810808762e19b5fc8964f752db1cb25ffbac718d81179af1869bee082e0",
+    "classification": "proposed root-owned integration; actual caller/route acceptance pending root review"
+  },
+  {
+    "canonical_path": "lib/admin/core/admin_receipt_operations_card.dart",
+    "base_sha256": "0fb788576b006d56e06dee7a1a0c6389806045bfc6fc347df70621ee74cc39ab",
+    "staged_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/source/lib/admin/core/admin_receipt_operations_card.dart",
+    "staged_sha256": "28c491368673825071dcb64f06e4bd8086f14670238b958a42e6993b1775de6e",
+    "patch": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-governed-sender-retention-20261002/implementation/root-integration/admin_receipt_operations_card.dart.patch",
+    "patch_sha256": "094f95a932ba97b9d9ae788cb02bd32bd41e9434d5b721c0d3fb62a1ee617217",
+    "classification": "proposed root-owned integration; actual caller/route acceptance pending root review"
+  }
+]

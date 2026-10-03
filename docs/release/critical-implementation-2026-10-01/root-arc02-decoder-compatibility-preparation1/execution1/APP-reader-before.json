@@ -1,0 +1,26 @@
+{
+  "actual_seconds": 12.079,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1/run_decoder_compatibility.py",
+    "--prepared-manifest-sha256",
+    "3baad62066326496c2083dcccb6051d141ea95da340f54056573e995b71dd0e7",
+    "--observe-app",
+    "before"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-arc02-decoder-compatibility-preparation1",
+  "deadline_seconds": 300,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T09:13:53.378043+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 59197,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T09:13:41.299733+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

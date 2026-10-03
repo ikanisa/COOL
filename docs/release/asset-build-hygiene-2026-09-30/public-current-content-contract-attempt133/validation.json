@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "actual_tests": 21,
+  "actual_assertions": 25,
+  "source_sha256": {
+    "scripts/qa/public_content_contract.rb": "31b30f93a71a12cc6852450a23a0257d71f36f69d04e7a512520864841e72235",
+    "scripts/tests/public_content_contract_test.rb": "9fe7e9085ca20c308b6d17931dbabc9a265d81a424df19b21c2322b92e2e1413",
+    "scripts/public_website_quality_gate.sh": "e74b7fa2dd9839ea54b75635c81ad48d7cccb38a58faddc56bee938964f4fa36",
+    "scripts/public_website_live_gate.sh": "0509a16c489b66b3a813a75a95f10ee01211da0d8be24130100c74cd0e6e0523",
+    "docs/release/public-website-current-content-contract.json": "f5d03515e68dd38f95b9770a3fabe417b7d58215380e8ee171be6fcfe70f3abc"
+  },
+  "sources_unchanged": true,
+  "historical_baseline_unchanged": true,
+  "historical15_exact_hash_comparison": "../public-historical-content-review-attempt121/content-comparison.json",
+  "local_and_live_gate_source_aligned": true,
+  "hosted_requests_made": false,
+  "scope": "Meaningful current-contract copy/route/source/review mutation refusal tests and shell syntax. Actual fresh full-site gate/preview byte checks are separate attempt134; engineering-only review, no legal/publication/design certification."
+}

@@ -1,0 +1,12 @@
+NOTICE:  00000: constraint "notification_device_tokens_provider_check" of relation "notification_device_tokens" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_device_tokens_environment_check" of relation "notification_device_tokens" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_events_deep_link_check" of relation "notification_events" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: constraint "notification_events_copy_length_check" of relation "notification_events" does not exist, skipping
+LOCATION:  ATExecDropConstraint, tablecmds.c:12655
+NOTICE:  00000: trigger "queue_notification_event_deliveries_trigger" for relation "notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "enqueue_contribution_confirmation_notification_trigger" for relation "payments" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

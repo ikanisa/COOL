@@ -1,0 +1,18 @@
+{
+  "completed_at_utc": "2026-10-01T20:38:42.272356+00:00",
+  "task": "ARC08 pinned CLI prerequisite + ARC05 executable closure follow-up",
+  "status": "local prerequisite and controller repair verified",
+  "supabase_bin": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase",
+  "supabase_go_binary": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/toolchain/supabase/2.114.0/darwin-arm64/supabase-go",
+  "controller_sha256": "8b28c6053ed18ed09bb4f1312590090966cbed3a67fea0c05e353d4cd9a5a5b2",
+  "operator_contract_sha256": "479868a81cab642e5aeb65f2975fef8a9a5bfe6351b73e42b551184db753b803",
+  "controller_proof_sha256": "c74ddfd8c78c18d87a758bee2b9d4aeb78b4f20848c51c75f88b6ae5928ed2c6",
+  "integrity_receipt_sha256": "5c9e5a99c3b96a7390c977679fd59c237a89d8691621ddd5b0337a7d3fc41fc9",
+  "tests_passed": 30,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "project_operations_performed_by_this_task": false,
+  "real_approval_created": false,
+  "authenticated_publisher_provenance": false,
+  "global_final_source_freeze": false
+}

@@ -1,0 +1,62 @@
+{
+  "borrowed_bound_process_helper": {
+    "bytes": 11276,
+    "device": 16777247,
+    "inode": 17774595,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790924398638565519,
+    "sha256": "090e339bff636b1226cf83ea7533d5fe6d69446112f4acfd5f53957c2b9bacb1"
+  },
+  "consumer_script": {
+    "bytes": 6023,
+    "device": 16777247,
+    "inode": 17860929,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925599068850748,
+    "sha256": "0777091984c4ec09dd329f460306fd842e8c3d95b38857b142be91cfb6c2bae5"
+  },
+  "credential_inheritance": false,
+  "environment": {
+    "GIT_CONFIG_GLOBAL": "/dev/null",
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PATH": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin:/Volumes/PRO-G40/Development/Node/bin:/bin:/usr/bin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/private/tmp"
+  },
+  "node": {
+    "bytes": 121304480,
+    "device": 16777247,
+    "inode": 2038730,
+    "links": 1,
+    "mode": 493,
+    "mtime_ns": 1790013655000000000,
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  },
+  "node_path": "/Volumes/PRO-G40/Development/Node/bin/node",
+  "postgres_local_probe_C_locale_and_one_second_fixture_bound_unchanged": true,
+  "python": {
+    "bytes": 18041888,
+    "device": 16777247,
+    "inode": 1824150,
+    "links": 1,
+    "mode": 493,
+    "mtime_ns": 1790065819921462013,
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "python_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "real_provider_docker_database_download_execution": false,
+  "runner": {
+    "bytes": 8618,
+    "device": 16777247,
+    "inode": 17861026,
+    "links": 1,
+    "mode": 420,
+    "mtime_ns": 1790925654549084794,
+    "sha256": "49ade296e7c210d270880b20e1e5cb578c9f9ce726042cf216cb491e11ba611e"
+  }
+}

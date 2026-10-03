@@ -1,0 +1,73 @@
+{
+  "kind": "frozen185_generic_admin_audit_acceptance",
+  "status": "pass",
+  "accepted_result": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/generic-action-audits/attempt4-json-scalar-contract/result.json",
+  "accepted_result_sha256": "47ac1f103fb3f6f666cc2b43b90bde7f49fa4a0392197a453198bdc900917c65",
+  "accepted_runner_sha256": "dc8c212e03e7dfc11865257c32cb8b0e614331d3a8da6d5b9dd5ccd04caddb40",
+  "actual_check_count": 59,
+  "actual_generic_action_count": 12,
+  "actual_current_migration_count": 185,
+  "baseline_schema_count": 154,
+  "appended_stage_count": 31,
+  "exact_durable_attributed_audits_for_all12": true,
+  "frozen_consumed_inputs_unchanged": true,
+  "all_shared_tables_catalog_cron_preserved": true,
+  "isolated_database_removed": true,
+  "scheduler_readback": {
+    "cron": "off",
+    "history": 0,
+    "net": "0",
+    "queued": 0
+  },
+  "hosted_called": false,
+  "provider_called": false,
+  "source_rows_copied": false,
+  "runtime_or_migrations_written": false,
+  "actual_actions": [
+    "admin_create_collect_payee",
+    "admin_create_platform_public_group",
+    "admin_record_operator_note",
+    "admin_set_collect_payee_status",
+    "admin_set_group_active",
+    "admin_set_user_access",
+    "admin_update_collect_payee",
+    "admin_update_collection_support_status",
+    "admin_update_platform_public_group_metadata",
+    "approve_payment_reconciliation_v2",
+    "propose_payment_reconciliation_v2",
+    "reconciliation-finalize"
+  ],
+  "prior_failures": [
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/generic-action-audits/result.json",
+      "sha256": "e6b1fbcb009dbd3d9590fd216c2bdaa8e612b139dc94c0a5f140f49422cbe0af",
+      "status": "failed",
+      "clone_removed": true,
+      "shared_preserved": true,
+      "failure": "ERROR:  42501: Admin permission collections.moderate required\nCONTEXT:  PL/pgSQL function public.assert_admin_permission(text) line 8 at RAISE\nSQL statement \"SELECT public.assert_admin_permission('collections.moderate')\"\nPL/pgSQL function admin_create_platform_public_group(text,text,text,text,text,text,text,text,text) line 17 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/generic-action-audits/attempt2-exact-required-catalog/result.json",
+      "sha256": "a71bfe4c6a2609c4b12980ac69214ccd51d17d69c583ad2a9423ebe1269277db",
+      "status": "failed",
+      "clone_removed": true,
+      "shared_preserved": true,
+      "failure": "ERROR:  P0001: notification_template_not_found\nCONTEXT:  PL/pgSQL function enqueue_notification_template_event(uuid,text,jsonb,uuid,text,text) line 30 at RAISE\nSQL statement \"SELECT public.enqueue_notification_template_event(\n    owner_user_id,\n    'group.update.default',\n    jsonb_build_object('group', current_row.title),\n    p_collection_id,\n    '/groups/' || p_collection_id::text,\n    'en'\n  )\"\nPL/pgSQL function admin_update_collection_support_status(uuid,text,text) line 42 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n"
+    },
+    {
+      "path": "docs/release/rapid-completion-2026-10-01/final-candidate-current1/generic-action-audits/attempt3-exact-foundation-catalog/result.json",
+      "sha256": "e7bd5f5f67179b4e209a3692570134a94572ffe0788907257d25d775eea256a7",
+      "status": "failed",
+      "clone_removed": true,
+      "shared_preserved": true,
+      "failure": "Extra data: line 1 column 2 (char 1)"
+    }
+  ],
+  "limits": [
+    "Synthetic current email-approved SQL role/session claims, not signed JWT/email delivery.",
+    "Private network-none local mechanics and durable audit readbacks; no provider/hosted/native/device authority.",
+    "Actual service finalizer and authenticated authorizer exercised; Edge HTTP deployment not exercised.",
+    "No new full migration replay: exact accepted schema154 plus31 frozen suffix stages.",
+    "Finalizer reason is prior immutable maker/checker evidence; note audit stores ID instead of raw body."
+  ]
+}

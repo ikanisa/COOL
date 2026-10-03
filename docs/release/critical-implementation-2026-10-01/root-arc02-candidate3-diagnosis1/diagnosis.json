@@ -1,0 +1,61 @@
+{
+  "SDK_after_diagnostic_pass": true,
+  "app_full_structural_guard_pass": false,
+  "authored2517_source_only_unchanged": true,
+  "captured_at_utc": "2026-10-02T10:43:41.753833+00:00",
+  "error_firstlines": {
+    "Expected: <29>": 1,
+    "Failed to load \"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_exception_sdk_provider_state_test.dart\": Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "Failed to load \"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_exception_workflow_sdk_test.dart\": Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-workflow.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "Failed to load \"/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_receipt_operations_sdk_test.dart\": Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-configure.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "LateInitializationError: Local 'container' has not been initialized.": 28,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-action-receipt.json' (OS Error: No such file or directory, errno = 2)": 6,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-filtered.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/observed-recorded-lookup.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-v3.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-v3.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-active-v3.json' (OS Error: No such file or directory, errno = 2)": 29,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-pages-v3.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-v3.json' (OS Error: No such file or directory, errno = 2)": 13,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-cancelled-action.json' (OS Error: No such file or directory, errno = 2)": 7,
+    "PathNotFoundException: Cannot open file, path = 'docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/observed-preexisting-eligible-inspection.json' (OS Error: No such file or directory, errno = 2)": 1,
+    "Test failed. See exception logs above.": 3
+  },
+  "external_libraries_unchanged": true,
+  "failed_attempt_terminal_sha256": "63d393334a427063cd7029213d41d3f678597e5ef278a7b35782e6a446cb6436",
+  "failed_tests_by_suite": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_exception_repository_test.dart": 8,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_exception_sdk_provider_state_test.dart": 1,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_exception_workflow_sdk_test.dart": 1,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_pwa_test.dart": 1,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_receipt_cancel_repository_test.dart": 8,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_receipt_operations_sdk_test.dart": 1,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_receipt_principal_integration_test.dart": 45,
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/test/admin_route_access_test.dart": 3
+  },
+  "generated_outputs_observed_separately": [
+    {
+      "bytes": 36284,
+      "device": 16777232,
+      "inode": 60394729,
+      "mode": 420,
+      "mtime_ns": 1790937276516358090,
+      "nlink": 1,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/docs/release/notification-recovery-ui-2026-09-30/settings-large-light.png",
+      "sha256": "8d99758225aa0203a001edd2444972bce00f1f15f8d0f4c0dc3f3e93bf4eea1c"
+    },
+    {
+      "bytes": 22798,
+      "device": 16777232,
+      "inode": 60394730,
+      "mode": 420,
+      "mtime_ns": 1790937276560823003,
+      "nlink": 1,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/docs/release/notification-recovery-ui-2026-09-30/settings-dark.png",
+      "sha256": "72b781bcc01d10113f24431c34019cc8f2baf2f6d195bd90eda821bacd73b455"
+    }
+  ],
+  "no_next_native_or_release_admission": true,
+  "original_after_reader_failed": true,
+  "original_failure_remains_failed": true
+}

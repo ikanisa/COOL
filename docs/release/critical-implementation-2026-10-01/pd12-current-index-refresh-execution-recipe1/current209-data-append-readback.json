@@ -1,0 +1,68 @@
+{
+  "actual_artifact_payloads_independently_hash_verified": 14,
+  "added_documents": {
+    "BE08-current209-artifacts": {
+      "bytes": 2318,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/packet-files.json",
+      "sha256": "ac6b4a91b81391f3f4af2e069a51b7a7dfc55a2cdacdca6b83d68427331beb19"
+    },
+    "BE08-current209-coverage": {
+      "bytes": 1400,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generated-current209/coverage.json",
+      "sha256": "045743fdf7fc88ff5a4adcde4415b339f2cd8a977c07658fd0417d41d29265b5"
+    },
+    "BE08-current209-generation": {
+      "bytes": 1525,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/generation.json",
+      "sha256": "87846690651c819c62c9b65abf6206fd9e1e3ad9fe9ae96c4fd656fcba3f326f"
+    },
+    "BE08-current209-independent-semantics": {
+      "bytes": 876,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/independent-semantic-verification.json",
+      "sha256": "fc38ddcb55ba50ee92aace98dc11ad9c8d47c6ac3ce9b987869aa3ea643f45e1"
+    },
+    "BE08-current209-readback": {
+      "bytes": 3332,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-post-r8-reader-current2091/readback.json",
+      "sha256": "7f86a9c7747bb46ca55e3f4a764a2384cabdcf4cf2caee868bdf8e118af60ed5"
+    }
+  },
+  "added_facts": 16,
+  "fact_count": 130,
+  "file_set_count": 33,
+  "final_outputs": [
+    {
+      "bytes": 24810,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data2/acceptance-status.json",
+      "sha256": "f2ee485a0a7d04c2c2f799b39e3131d2d6da2de54e6438129264e708ced6305e"
+    },
+    {
+      "bytes": 95047,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data2/current-candidate-evidence-index.json",
+      "sha256": "21ae44c248fd508dccb38c26b5f6751f631fcc75e6259eabcd16c1ffce3be25a"
+    },
+    {
+      "bytes": 11498,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data2/current-candidate-evidence-index.schema.json",
+      "sha256": "c51219cc40f5efba28d4a935d2dceef73e3cd845f5625ecacb934992c420d33e"
+    }
+  ],
+  "final_proposed_maintained_data": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data2",
+  "kind": "private_data_append_of_actual_current209_readback",
+  "live_summary_record_fences_future_applied_summary": true,
+  "maintained_data_modified": false,
+  "manual_current_epoch_decision_granted": false,
+  "original_26_file_set_ids_retained": true,
+  "original_helper_outputs_preserved": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data1",
+  "reader_executed": false,
+  "recorded_at_utc": "2026-10-02T15:33:45.935882+00:00",
+  "root_current209_packet_sha256": "ac6b4a91b81391f3f4af2e069a51b7a7dfc55a2cdacdca6b83d68427331beb19",
+  "root_reader_and_manual_current_epoch_review_pending": true,
+  "source_domains_retained_at": "docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-execution-recipe1/generated-data1/source-domains.json",
+  "source_or_helper_modified": false
+}

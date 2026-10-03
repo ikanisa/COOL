@@ -1,0 +1,10 @@
+{
+  "status": "SETUP_FAILED",
+  "command": "python3 docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/run_node_checks.py checks-final",
+  "exit_code": 1,
+  "observed_failure": "FileNotFoundError while recording nonexistent tools/collect-notification-mcp/package-lock.json",
+  "actual_lock": "tools/collect-notification-mcp/pnpm-lock.yaml",
+  "test_commands_started": false,
+  "raw_output_retained": "tool transcript only",
+  "pass_claim": false
+}

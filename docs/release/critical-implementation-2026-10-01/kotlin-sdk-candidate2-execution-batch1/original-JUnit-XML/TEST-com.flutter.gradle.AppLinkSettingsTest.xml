@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.AppLinkSettingsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:16.690Z" hostname="Jeans-Mac-mini.local" time="0.147">
+  <properties/>
+  <testcase name="canCreateThenEditDeeplinks()" classname="com.flutter.gradle.AppLinkSettingsTest" time="0.03"/>
+  <testcase name="canCreateAppLinkSettingsJson()" classname="com.flutter.gradle.AppLinkSettingsTest" time="0.114"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

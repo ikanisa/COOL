@@ -1,0 +1,16 @@
+{
+  "drift": {},
+  "failed_formatter_paths_before_sha256": {
+    "lib/admin/core/admin_receipt_repository.dart": "a29c1a4db7f3e5efd26f0a2f736d86c0d187a01965677ddf2a1f896fb24e05e5",
+    "test/admin_receipt_history_labels_capture_test.dart": "237fb482065317736b3dafcb9b4f37c76da628dbd40c9bf6f185c6124c5f5baa",
+    "test/admin_sender_retention_browser_test.dart": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+    "test/admin_sender_retention_controller_test.dart": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+    "test/admin_sender_retention_models_test.dart": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0"
+  },
+  "failure_reason": "Original Make observed five current files requiring formatting; source unchanged.",
+  "first_710_make_pass_claim": false,
+  "maintained_source_changed_during_capture_or_failed_proof": false,
+  "malformed_and_restored_phases_executed": false,
+  "owned_container_removed": true,
+  "source_inputs": 863
+}

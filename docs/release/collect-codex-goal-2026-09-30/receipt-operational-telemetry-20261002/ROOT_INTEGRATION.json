@@ -1,0 +1,104 @@
+{
+  "integrated_at": "2026-10-01T22:54:00.637069+00:00",
+  "changes": [
+    {
+      "path": "supabase/migrations/20261002030000_receipt_operational_telemetry.sql",
+      "old_sha256": null,
+      "new_sha256": "008a0507e583c7fc57f64ac3f8db70fb8e27936cae2c7d313fd8fcc3ca2eb00c",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_exception_models.dart",
+      "old_sha256": "d5fc9be9c24266c2ad8d9e48ee78b0eb05485785e1e068f501225f21cbbbaa28",
+      "new_sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_models.dart",
+      "old_sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33",
+      "new_sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_card.dart",
+      "old_sha256": "0258aba7d968bd1d92413d32b0f13dc494fc2b5808d403c179c2e2afcc607116",
+      "new_sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_telemetry.dart",
+      "old_sha256": null,
+      "new_sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+      "promotion_mode": 420
+    },
+    {
+      "path": "scripts/tests/admin_receipt_operational_telemetry_test.dart",
+      "old_sha256": null,
+      "new_sha256": "fc7e96f83d783c66f7e09ecb85312f44e8ab36494cf38ecd6d589269aff32526",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "old_sha256": "702fbdf480b9b5d0745d60a761dbedec2b3a367ce8548674ddc85c962b7574aa",
+      "new_sha256": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "old_sha256": "bf540811148900a3c80bb76d70d1a2142c8874c7058eec518ba230ae96061184",
+      "new_sha256": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "old_sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "new_sha256": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_overview_runtime.dart",
+      "old_sha256": "071653ee4b8252f16c2e300fd3101ebb7b6d2cdf8ffd9705a902144febe7027a",
+      "new_sha256": "a0373df0ab1956fd42201007b808a739b6611f892d5484bd90b1c894cf95ec87",
+      "promotion_mode": 448
+    },
+    {
+      "path": "lib/admin/core/admin_automations_page.dart",
+      "old_sha256": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31",
+      "new_sha256": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+      "promotion_mode": 420
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_telemetry_card.dart",
+      "old_sha256": null,
+      "new_sha256": "2489e5656cbd83ef09378137836f93c942a358572091a5fedb68567a3fb14bdb",
+      "promotion_mode": 420
+    },
+    {
+      "path": "test/admin_receipt_telemetry_test.dart",
+      "old_sha256": null,
+      "new_sha256": "323216859ac1af7e89d09550fc3f3a2cc80b83a9377cffd4601673d41593be8e",
+      "promotion_mode": 420
+    }
+  ],
+  "source_readback_all_match": true,
+  "unchanged_product_consumers": 285,
+  "main_sql_cases": 67,
+  "separate_freshness_cases": 3,
+  "actual_model_cases_including_56_boundaries": 84,
+  "sdk_provider_widget_cases": 24,
+  "analysis_files": 11,
+  "direct_backend_packet_members": 29,
+  "exact_verified_raw_archive_members": 12373,
+  "delegated_archive_verification_reused": true,
+  "font_bindings": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app/assets/typefaces/Inter-Variable.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app/build/unit_test_assets/fonts/MaterialIcons-Regular.otf": "d9865b671a09d683d13a863089d8825e0f61a37696ce5d7d448bc8023aa62453"
+  },
+  "canonical_backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/canonical-before-receipt-telemetry-20261002",
+  "hosted_deployed": false,
+  "five_read_MCP_profile_changed": false,
+  "sampler_enabled": false,
+  "whole_candidate_pass": false,
+  "design_scope": "official static Business/operator image pattern adaptation; actual390/1440 Inter/MaterialIcons captures inspected; authenticated direct comparator and actual reader acceptance unverified",
+  "sole_design_authority_gate": "pending post-promotion gate"
+}

@@ -1,0 +1,10 @@
+{
+  "path": "tools/roster-decoder/README.md",
+  "old_sha256": "4ac4603360e7b0573e69bca8b27682515a27412c5ff4b87685ecfb7014d87432",
+  "current_sha256": "6012e40affbe5c7f9e3ae5f886cf0603d043c2747fc093f546d134924553cf00",
+  "patch_sha256": "9b44f808c71232bad0c7f98048f954bcf4afd54aa3fa2528f4f789418dbcf17b",
+  "reason": "Root intentionally documented its reviewed bounded --acquire helper CLI; sixteen inserted documentation lines only. Root confirmed exact scoped reconciliation. No runtime/policy guard or approval change.",
+  "original_readback_preserved": "source-readback.json",
+  "all_other_31_inputs_unchanged": true,
+  "schema_or_policy_change": false
+}

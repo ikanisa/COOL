@@ -1,0 +1,63 @@
+--- attempt3/lib/app/router.dart
++++ attempt4/lib/app/router.dart
+@@ -33,6 +33,7 @@
+ final appRouterProvider = Provider<GoRouter>((ref) {
+   final refresh = _CollectRouterRefresh();
+   String? privacyRouteOwner;
++  var privacyRouteInvalidated = false;
+   ref.onDispose(refresh.dispose);
+   ref.listen(collectAuthenticatedUserIdProvider, (_, _) => refresh.notify());
+   ref.listen(
+@@ -46,17 +47,19 @@
+     (_, _) => refresh.notify(),
+   );
+ 
+-  return createAppRouter(
++  final router = createAppRouter(
+     refreshListenable: refresh,
+     routeRedirect: (state) {
+       final collectState = ref.read(collectRepositoryProvider);
+       if (state.uri.path == '/settings/account/delete') {
++        if (privacyRouteInvalidated) return '/auth';
+         final liveOwner = ref
+             .read(supabaseClientProvider)
+             ?.auth
+             .currentUser
+             ?.id;
+         if (privacyRouteOwner != null && liveOwner != privacyRouteOwner) {
++          privacyRouteInvalidated = true;
+           privacyRouteOwner = null;
+           return '/auth';
+         }
+@@ -73,8 +76,6 @@
+           return null;
+         }
+         privacyRouteOwner = null;
+-      } else {
+-        privacyRouteOwner = null;
+       }
+       return collectAuthenticationRedirect(
+         uri: state.uri,
+@@ -83,6 +84,22 @@
+       );
+     },
+   );
++  // Redirect evaluation can overlap another Auth refresh. Keep a departed
++  // owner's route invalid until navigation actually leaves the privacy URI;
++  // an intermediate redirect evaluation must not grant that URI to a new user.
++  void releasePrivacyRoute() {
++    if (router.routeInformationProvider.value.uri.path !=
++        '/settings/account/delete') {
++      privacyRouteOwner = null;
++      privacyRouteInvalidated = false;
++    }
++  }
++
++  router.routeInformationProvider.addListener(releasePrivacyRoute);
++  ref.onDispose(
++    () => router.routeInformationProvider.removeListener(releasePrivacyRoute),
++  );
++  return router;
+ });
+ 
+ const collectRoutePaths = <String>[

@@ -1,0 +1,100 @@
+{
+  "status": "SEALED_PRIVATE_PROPOSAL_ROOT_REVIEW_REQUIRED",
+  "observed_at": "2026-10-02T02:10:14.453384+00:00",
+  "source_current_unchanged": true,
+  "shared_promotion": false,
+  "production_acceptance": false,
+  "whole_BE13_closed": false,
+  "maintained_source_inputs": 22,
+  "private_candidate_inputs": 25,
+  "changed_files": [
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "base_sha256": null,
+      "candidate_sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75",
+      "candidate_bytes": 6203,
+      "patch_sha256": "8e3057a19299766a5e39e4bcec7c08d3718f363b78660cf3f3637d173f5afb7e"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "base_sha256": null,
+      "candidate_sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a",
+      "candidate_bytes": 6485,
+      "patch_sha256": "b4fb531717c497b0a75f2b76d96ccebbbeaa1e12c439f0939b272c1a9749a2a8"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts",
+      "base_sha256": null,
+      "candidate_sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3",
+      "candidate_bytes": 2960,
+      "patch_sha256": "5b972a99d742bd59ec6745f01a863735af9660136c5b0f6f090aefc712124297"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "base_sha256": "677d49de6093bdc28091ca4e3536a3c2e2daef351a7bf19e117d361dc72af781",
+      "candidate_sha256": "bab8e476b5e81875b6e4c6975cb900e8cf329f263df3909facb3b3b9cb975659",
+      "candidate_bytes": 17140,
+      "patch_sha256": "ada9540ef86969fd6613e052496ebbe23eaea9e27eb752b6dc3de8b8f9797dca"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "base_sha256": "1598577d433d464749e4b760bb1c9a149e4b637b99c6e39be657ce29e6c7bad7",
+      "candidate_sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134",
+      "candidate_bytes": 24077,
+      "patch_sha256": "d8e4b9a998daadd0b86acf53be65c16219ef6d4e0fec07480779070305744cd3"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "base_sha256": "c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d",
+      "candidate_sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def",
+      "candidate_bytes": 54480,
+      "patch_sha256": "0cbd07608f1bf8c9c27636750e0fbba0e95a3bca7d554af68cfb776e70e46775"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "base_sha256": "7d5b3064a3b2764d7571c1c69ba5a673268bb86d0547d455455870ddb583afdb",
+      "candidate_sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9",
+      "candidate_bytes": 962,
+      "patch_sha256": "9469b4935b9166827d2118af3dbc222200ab977d2fa3c02a5d03bca0f1a6bcfe"
+    }
+  ],
+  "candidate_patch": {
+    "path": "full-candidate.patch",
+    "sha256": "920b476e03097439515b4f171f3c59827154c22e604c7ab818ce00414d51a9f1"
+  },
+  "proposal": {
+    "path": "proposal.json",
+    "sha256": "bebd637d8a9bc41e13a0706b048bced774b2a989537dd6d608f7ef696fa49d27"
+  },
+  "actual_final_private_tests": {
+    "passed": 213,
+    "failed": 0
+  },
+  "new_handler_cases": 53,
+  "new_validator_cases": 25,
+  "existing_decoder_unit_cases": 26,
+  "original_regressions_preserved": 109,
+  "old_source_actual_baseline": {
+    "passed": 112,
+    "failed": 50
+  },
+  "full7_defaultlint_and_format": true,
+  "frozen_cached_only_type_compile": true,
+  "real_linux_codec_http_executed": false,
+  "provider_calls": 0,
+  "hosted_sql_calls": 0,
+  "evidence_index": {
+    "path": "evidence-index.json",
+    "sha256": "f90b86b4a6868bab67f0babc76b403af05f6220b67ef88adcaf96a1f712bf201",
+    "indexed_leaves": 213
+  },
+  "open_gates": [
+    "root full-source review and explicit promotion authorization",
+    "fresh full canonical signed Linux decoder HTTP acceptance after promotion",
+    "actual approved processor/project/region/retention facts and deployment activation",
+    "durable immutable attempt-policy lineage",
+    "source retention/erasure and Admin disclosure corrections",
+    "provider accuracy/spend controls and hosted/native/whole production readiness"
+  ],
+  "normalization_boundary": "Root reviewed and requires exact effective configuration() values: immutable9 primitive fields, preserving existing runtime model/API-key/decoderURL trim/default normalization. Underlying environment whitespace normalized to the same effective bytes is outside this comparison. Policy/hash/org/project/build/signing-secret remain exact untrimmed values. No broader raw-environment claim."
+}

@@ -1,0 +1,8 @@
+{
+  "all_thirteen_candidates_present": true,
+  "expected_observed_five_differences": true,
+  "golden_acceptance_before_review": false,
+  "incorrect_inherited_motion_labels_excluded": true,
+  "original_broad_validation_status": "fail",
+  "original_status_retained": true
+}

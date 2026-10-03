@@ -1,0 +1,92 @@
+Group Savings | Collect by IKANISA
+Skip to content
+Collect
+by IKANISA
+Menu
+Group Savings
+Insurance
+CRaaS
+Community Groups
+Our Partners
+Trust & Security
+Get the App
+Create a group on Android
+Email Collect support
+Your group already has trust. Collect adds structure.
+Your group keeps its own governance. Collect adds Rwanda MoMo contribution records, with pending, review and reconciled states shown separately.
+Get the App
+Create a group on Android
+Email Collect support
+Collect interface preview · Example data
+Trusted savings should not remain invisible.
+Many groups still depend on cash, notebooks, spreadsheets, WhatsApp messages or one person's mobile-money account. This makes reconciliation difficult, weakens transparency and prevents years of savings discipline from becoming a recognised financial record.
+Manual contribution tracking
+Missing or disputed records
+Cash-handling and fraud risk
+No independent member statements
+Capital repeatedly distributed rather than accumulated
+Limited visibility for banks and other partners
+How Collect works
+01
+Create the group
+Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.
+02
+Invite members
+Use a private link or QR code. Member operations require a complete Rwanda MoMo profile.
+03
+Approve in USSD
+Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt.
+04
+Review the record
+A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.
+05
+Future directions
+Partner-led credit and insurance are not available through the current app. Contact IKANISA for information.
+Features for groups that save together
+Transparent group ledger
+Reconciled contributions are allocated to the authorized member and group.
+Member records
+Members review personal contribution activity within their permissions.
+Group purpose
+Groups keep their own agreed contribution purpose and rules.
+Role controls
+Authorized group roles see appropriate records; private details remain protected.
+Purpose-based goals
+A group can contribute toward school fees, assets or emergencies. Naming a purpose does not provide insurance, credit or an investment product.
+Basic-phone plans
+A standalone basic-phone Collect journey is planned and is not currently available. The app’s Android USSD handoff is not a basic-phone Collect service.
+No custody
+Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.
+Credit direction
+Loans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.
+From rotation to accumulation - keep the trust, grow the capital.
+Groups choose their own rotation or accumulation rules. Collect records contributions; it does not hold group capital, establish collateral, provide investments or promise credit. Any financial arrangement needs separate supported provider terms.
+Each group chooses its rules.
+Collect does not force groups to abandon their existing culture or governance.
+Do more with your group savings.
+Business working-capital readiness
+Insurance and compliance savings
+School-fee and family goals
+Agricultural inputs and equipment
+Property and construction
+Moto-taxi insurance and licensing
+Green mobility and productive assets
+Emergency and resilience funds
+Give every contribution a clear purpose and a trusted record.
+Get the App
+Create a group on Android
+Email Collect support
+Collect by IKANISA
+IKANISA Ltd.
+IKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.
+Support:
+info@ikanisa.com
+·
+WhatsApp
++250 795 588 248
+© YEAR IKANISA Ltd.. All rights reserved.
+Privacy
+Terms
+Account deletion
+Data deletion
+Trust

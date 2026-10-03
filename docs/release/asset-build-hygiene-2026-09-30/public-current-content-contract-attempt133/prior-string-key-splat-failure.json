@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "exit_code": 1,
+  "source_sha256": "ab6b4ab2d96660423e373115895054a80d5d6dc42ec6886e0d315c72ae9afc16",
+  "reason": "Installed Ruby2.6 refuses string keys in ** Hash splat; prior actual positive-control failure retained."
+}

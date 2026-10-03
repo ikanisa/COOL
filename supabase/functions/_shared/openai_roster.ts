@@ -60,7 +60,7 @@ const rosterSchema = {
 export function buildRosterResponsesRequest(
   model: string,
   sourceType: AiRosterSource,
-  filename: string,
+  _filename: string,
   mimeType: string,
   contentBase64: string,
 ): Record<string, unknown> {
@@ -72,7 +72,7 @@ export function buildRosterResponsesRequest(
     }
     : {
       type: "input_file",
-      filename,
+      filename: "collect-roster.pdf",
       file_data: `data:${mimeType};base64,${contentBase64}`,
     };
   return {

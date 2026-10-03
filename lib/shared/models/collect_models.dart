@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../core/data/exact_json_values.dart';
+
 import 'collect_profile_country_rules.dart';
 export 'collect_profile_country_rules.dart';
 
@@ -60,7 +62,7 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Contribution rails',
     body:
-        'Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or OTPs.',
+        'Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or payment provider OTPs. Your WhatsApp sign-in code is only for signing in to Collect.',
   ),
   CollectPolicySection(
     title: 'Group ownership',
@@ -566,8 +568,11 @@ class CollectProfile {
         ?.trim()
         .toUpperCase();
     return CollectProfile(
-      id: json['id'] as String,
-      publicId: json['public_id'] as String,
+      id: exactJsonIdentifier(json['id'], field: 'profile.id'),
+      publicId: exactJsonIdentifier(
+        json['public_id'],
+        field: 'profile.public_id',
+      ),
       whatsappPhone: whatsappPhone,
       countryCode: countryCode,
       currencyCode: storedCurrency?.length == 3
@@ -709,9 +714,14 @@ class CollectCollection {
             ? 'rwanda_momo'
             : 'unavailable');
     return CollectCollection(
-      id: json['id'] as String,
-      slug: json['slug'] as String,
-      creatorUserId: (json['creator_user_id'] as String?) ?? '',
+      id: exactJsonIdentifier(json['id'], field: 'collection.id'),
+      slug: exactJsonIdentifier(json['slug'], field: 'collection.slug'),
+      creatorUserId: json['creator_user_id'] == null
+          ? ''
+          : exactJsonIdentifier(
+              json['creator_user_id'],
+              field: 'collection.creator_user_id',
+            ),
       title: json['title'] as String,
       description: (json['description'] as String?) ?? '',
       collectionType: CollectionType.fromJson(
@@ -749,7 +759,13 @@ class CollectCollection {
           ((json['is_public'] as bool?) == true
               ? 'public_approved'
               : 'private'),
-      suggestedAmountRwf: (json['suggested_amount_rwf'] as num?)?.toInt(),
+      suggestedAmountRwf: json['suggested_amount_rwf'] == null
+          ? null
+          : exactJsonInteger(
+              json['suggested_amount_rwf'],
+              field: 'collection.suggested_amount_rwf',
+              minimum: 1,
+            ),
       moderationStatus:
           (json['moderation_status'] as String?) ?? 'not_requested',
       createdAt: _dateTime(json['created_at']),
@@ -864,8 +880,7 @@ class CollectionSummary {
     if (json.containsKey('balances')) {
       final balances = json['balances'];
       final count = json['supporter_count'];
-      if (balances is! List ||
-          (count != null && (count is! int || count < 0))) {
+      if (balances is! List) {
         throw const FormatException('Invalid group balances');
       }
       final totals = <String, int>{};
@@ -873,19 +888,23 @@ class CollectionSummary {
       for (final row in balances) {
         if (row is! Map ||
             row['currency'] != 'RWF' ||
-            row['amount_raised_minor'] is! int ||
-            row['current_user_balance_minor'] is! int ||
             totals.containsKey(row['currency'])) {
           throw const FormatException('Invalid settlement balance');
         }
         final currency = row['currency'] as String;
-        totals[currency] = row['amount_raised_minor'] as int;
-        own[currency] = row['current_user_balance_minor'] as int;
+        totals[currency] = _summaryInteger(
+          row['amount_raised_minor'],
+          'amount_raised_minor',
+        );
+        own[currency] = _summaryInteger(
+          row['current_user_balance_minor'],
+          'current_user_balance_minor',
+        );
       }
       return CollectionSummary.multiCurrency(
         totals: totals,
         ownBalances: own,
-        supporterCount: count as int?,
+        supporterCount: _summaryContributorCount(count),
         emptyCurrency: _summaryCurrency(json['currency']),
       );
     }
@@ -987,9 +1006,17 @@ class NotificationEvent {
 
   factory NotificationEvent.fromJson(Map<String, dynamic> json) {
     return NotificationEvent(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      collectionId: json['collection_id'] as String?,
+      id: exactJsonIdentifier(json['id'], field: 'notification.id'),
+      userId: exactJsonIdentifier(
+        json['user_id'],
+        field: 'notification.user_id',
+      ),
+      collectionId: json['collection_id'] == null
+          ? null
+          : exactJsonIdentifier(
+              json['collection_id'],
+              field: 'notification.collection_id',
+            ),
       type: (json['type'] as String?) ?? 'group_update',
       title: (json['title'] as String?) ?? 'Notification',
       body: (json['body'] as String?) ?? '',
@@ -1062,8 +1089,6 @@ class CollectMember {
           'viewer',
         }.contains(role) ||
         !const {'active', 'invited', 'removed', 'left'}.contains(status) ||
-        joinedAt is! String ||
-        DateTime.tryParse(joinedAt) == null ||
         !const {'own', 'shared', 'hidden'}.contains(scope) ||
         amounts is! List) {
       throw const FormatException('Invalid member roster');
@@ -1072,12 +1097,14 @@ class CollectMember {
     for (final row in amounts) {
       if (row is! Map ||
           row['currency'] != 'RWF' ||
-          row['amount_minor'] is! int ||
-          (row['amount_minor'] as int) <= 0 ||
           totals.containsKey(row['currency'])) {
         throw const FormatException('Invalid member contributions');
       }
-      totals[row['currency'] as String] = row['amount_minor'] as int;
+      totals[row['currency'] as String] = exactJsonInteger(
+        row['amount_minor'],
+        field: 'member.amount_minor',
+        minimum: 1,
+      );
     }
     if ((scope == 'hidden' && totals.isNotEmpty) ||
         (scope == 'shared' && totals.isEmpty)) {
@@ -1087,7 +1114,7 @@ class CollectMember {
       publicId: publicId,
       role: role as String,
       status: status as String,
-      joinedAt: DateTime.parse(joinedAt),
+      joinedAt: exactJsonTimestamp(joinedAt, field: 'member.joined_at'),
       amountScope: scope as String,
       contributionTotals: Map.unmodifiable(totals),
     );
@@ -1116,12 +1143,22 @@ class OwnerGroupHealth {
 
   factory OwnerGroupHealth.fromJson(Map<String, dynamic> json) {
     return OwnerGroupHealth(
-      collectionId: json['collection_id'] as String,
+      collectionId: exactJsonIdentifier(
+        json['collection_id'],
+        field: 'health.collection_id',
+      ),
       smsAccessEnabled: (json['sms_access_enabled'] as bool?) ?? false,
       receiverConfigured: (json['receiver_configured'] as bool?) ?? false,
-      pendingPaymentIntents:
-          (json['pending_payment_intents'] as num?)?.toInt() ?? 0,
-      needsReviewEvents: (json['needs_review_events'] as num?)?.toInt() ?? 0,
+      pendingPaymentIntents: exactJsonInteger(
+        json['pending_payment_intents'],
+        field: 'health.pending_payment_intents',
+        minimum: 0,
+      ),
+      needsReviewEvents: exactJsonInteger(
+        json['needs_review_events'],
+        field: 'health.needs_review_events',
+        minimum: 0,
+      ),
       lastSyncedAt: json['last_synced_at'] == null
           ? null
           : _dateTime(json['last_synced_at']),

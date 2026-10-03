@@ -1,0 +1,47 @@
+{
+  "commands": [
+    {
+      "name": "view-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "test/admin_receipt_operational_history_test.dart",
+        "test/admin_receipt_history_labels_capture_test.dart",
+        "test/admin_entity_audit_links_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app",
+      "exit_code": 0
+    },
+    {
+      "name": "analysis",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "lib/admin/admin_router.dart",
+        "lib/admin/core/admin_receipt_operational_history_view.dart",
+        "lib/admin/core/admin_receipt_operational_history_models.dart",
+        "lib/admin/core/admin_receipt_operational_history_runtime.dart",
+        "lib/admin/core/admin_receipt_operational_history_sdk.dart",
+        "lib/admin/core/admin_entity_audit.dart",
+        "lib/admin/core/admin_entity_audit_page.dart",
+        "lib/admin/core/admin_receipt_repository.dart",
+        "lib/admin/core/admin_repository_base.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_automatic_gateway_view.dart",
+        "lib/admin/core/admin_automations_page.dart",
+        "test/admin_receipt_history_labels_capture_test.dart",
+        "test/admin_receipt_operational_history_test.dart",
+        "test/admin_entity_audit_links_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app",
+      "exit_code": 0
+    }
+  ],
+  "binding_count": 5721,
+  "source_dependency_tool_drift": [],
+  "scope": "Current canonical history/capture/joined-audit consumers with actual SQL DTO fixtures and synthetic session; no hosted/actual reader/full comparator acceptance",
+  "status": "passed"
+}

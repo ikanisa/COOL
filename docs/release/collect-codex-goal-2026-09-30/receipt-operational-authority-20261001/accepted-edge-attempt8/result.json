@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "passed": 87,
+  "failed": 0,
+  "source_unchanged": true,
+  "source_sha256_after": {
+    "supabase/functions/collect-receipt-supervisor/handler.ts": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8",
+    "supabase/functions/collect-receipt-supervisor/operations_contract.ts": "57342ba4ba1ebc1b7d0ec62be3d04e3c4fda28ec8a12b2b76b54ed5c4e779efd",
+    "supabase/functions/collect-receipt-supervisor/handler_test.ts": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc",
+    "supabase/functions/collect-receipt-supervisor/wire_test.ts": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d",
+    "supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c",
+    "supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9",
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-proof.json": "89b6aa7373f44c3970a33e24903650a7c84a8a8830eead55c67d78a2a46a12da",
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-health.json": "8104cf3e34948ecceac3eab72cd06c95edd19e6a99306013135a148f3bb97f27",
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-reconciled.json": "ce78a3c22640c87806fff0f03534b61ad94e7f4134c98cddc134efb120cec3c9",
+    "supabase/functions/collect-receipt-supervisor/fixtures/observed-operations-v2.json": "7fd53271ab6de9349276651e6cc9eede6db8317cd255f7687c2fc05dab4d8a74",
+    "scripts/tests/receipt_operational_edge_uat.py": "4f483a9818f78966fdb354277d4cc90975f26a1200870949107c0e67746b86eb"
+  },
+  "finished_at": "2026-10-01T11:38:19.033094+00:00",
+  "status": "pass"
+}

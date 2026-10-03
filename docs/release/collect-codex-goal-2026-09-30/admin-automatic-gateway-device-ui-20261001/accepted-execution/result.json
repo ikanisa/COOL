@@ -1,0 +1,34 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter",
+        "expanded",
+        "test/admin_automatic_gateway_device_view_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 4.214,
+      "terminal": true
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "test/admin_automatic_gateway_device_view_test.dart"
+      ],
+      "exit_code": 0,
+      "seconds": 10.568,
+      "terminal": true
+    }
+  ],
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false,
+  "inputs_unchanged": true,
+  "input_count": 440
+}

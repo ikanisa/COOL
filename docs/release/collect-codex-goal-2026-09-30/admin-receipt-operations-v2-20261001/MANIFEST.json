@@ -1,0 +1,1137 @@
+{
+  "kind": "local_ui_evidence_manifest",
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 3260,
+      "sha256": "2064393635dfeb33f17567127eda253d835309b13900b7c28de5ce980c5d140f"
+    },
+    {
+      "path": "analysis-final/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "analysis-final/analysis.stdout.log",
+      "size_bytes": 586,
+      "sha256": "4901f360e5dae2c6ddde661302ac321459c95185ad40bcdb03ddfd4e0f473d1a"
+    },
+    {
+      "path": "analysis-final/commands.json",
+      "size_bytes": 1374,
+      "sha256": "0baae8419f5000f2670d00610289d96a42fbc2524006928c9f7487f14ccd0fc8"
+    },
+    {
+      "path": "analysis-final/hygiene.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "analysis-final/hygiene.stdout.log",
+      "size_bytes": 32,
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "path": "analysis-final/receipt.json",
+      "size_bytes": 2045,
+      "sha256": "5f939cc5de52a508e705fc889ef2144b065ddc095f39936273337d06828ed0ce"
+    },
+    {
+      "path": "analysis-final/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "analysis-final/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "attempt1/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/analysis.stdout.log",
+      "size_bytes": 1062,
+      "sha256": "e56f89800e105ab41c4e54cf1377982d2032474573f2c73aa7b2bae3f7972434"
+    },
+    {
+      "path": "attempt1/commands.json",
+      "size_bytes": 1107,
+      "sha256": "52a8c66f87e93ee3c1477d240f095451e8134099aaa1aa892d27b03136942ba0"
+    },
+    {
+      "path": "attempt1/receipt.json",
+      "size_bytes": 1750,
+      "sha256": "9bdb564960a91fa82322b0b3313589e306e07ef81f652911f096398085bdd31e"
+    },
+    {
+      "path": "attempt1/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "5587eaf91629a2d8ce957cc0ce8ecd71b5319f2162f1548a71c519e453df55ec"
+    },
+    {
+      "path": "attempt1/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "5587eaf91629a2d8ce957cc0ce8ecd71b5319f2162f1548a71c519e453df55ec"
+    },
+    {
+      "path": "attempt2/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/analysis.stdout.log",
+      "size_bytes": 586,
+      "sha256": "4901f360e5dae2c6ddde661302ac321459c95185ad40bcdb03ddfd4e0f473d1a"
+    },
+    {
+      "path": "attempt2/commands.json",
+      "size_bytes": 1676,
+      "sha256": "4446c589f2db4d66be8cb20f269a758d3d8dcd73970d1a8b8cc644aabc91dbb5"
+    },
+    {
+      "path": "attempt2/receipt.json",
+      "size_bytes": 2355,
+      "sha256": "2a109ad13e39fdcf7fd886b7ceacd15238d8170d5f638ad830cd0cb4df8f5a0b"
+    },
+    {
+      "path": "attempt2/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "41f5d49c5b1909e26589c66756c6654925562f9d2c57afc40bf22f9c149d184b"
+    },
+    {
+      "path": "attempt2/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "41f5d49c5b1909e26589c66756c6654925562f9d2c57afc40bf22f9c149d184b"
+    },
+    {
+      "path": "attempt2/vm.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt2/vm.stdout.log",
+      "size_bytes": 84408,
+      "sha256": "edac56702900337ee8eadc5331484ab89576ccc37bfc411010d36a6e07c012f2"
+    },
+    {
+      "path": "attempt3/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/analysis.stdout.log",
+      "size_bytes": 586,
+      "sha256": "4901f360e5dae2c6ddde661302ac321459c95185ad40bcdb03ddfd4e0f473d1a"
+    },
+    {
+      "path": "attempt3/commands.json",
+      "size_bytes": 1676,
+      "sha256": "5c7a5a7dbf34a7487b9e796827ece1580bc18a8f565bbf8b085166a82b9fd08f"
+    },
+    {
+      "path": "attempt3/receipt.json",
+      "size_bytes": 2355,
+      "sha256": "bd209b6e960a38dc16527250f4f1868102fd5a2ec4fccae5ef46708dce092c7c"
+    },
+    {
+      "path": "attempt3/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "f7d447b7f519573d3bb12cc3c600affce91d73c7332586b9a4921e91693fc82d"
+    },
+    {
+      "path": "attempt3/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "f7d447b7f519573d3bb12cc3c600affce91d73c7332586b9a4921e91693fc82d"
+    },
+    {
+      "path": "attempt3/vm.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt3/vm.stdout.log",
+      "size_bytes": 39025,
+      "sha256": "2f71fe36d6d635b49484535c9a9d5a09deaad3e3742ff974b80c12f4e2f63d6e"
+    },
+    {
+      "path": "attempt4/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt4/analysis.stdout.log",
+      "size_bytes": 786,
+      "sha256": "727591fcad80b28cec7581f5c0ede42e12d0b428deb54bd477add5d451c990a5"
+    },
+    {
+      "path": "attempt4/commands.json",
+      "size_bytes": 1107,
+      "sha256": "bf18c6441d8018597be7300f1423d0f050296ac0a770bde69c32a0dbc92de7ff"
+    },
+    {
+      "path": "attempt4/receipt.json",
+      "size_bytes": 1750,
+      "sha256": "912efb58a4d93cef37e5828e5edc5e3255f8fa4e3d4740a10a89f1b8f11202ae"
+    },
+    {
+      "path": "attempt4/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "aa40124a57e7ebd8988e8bffd1218ac741de37f6b9ac42105bdd4ba94335232a"
+    },
+    {
+      "path": "attempt4/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "aa40124a57e7ebd8988e8bffd1218ac741de37f6b9ac42105bdd4ba94335232a"
+    },
+    {
+      "path": "attempt5/analysis.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/analysis.stdout.log",
+      "size_bytes": 586,
+      "sha256": "4901f360e5dae2c6ddde661302ac321459c95185ad40bcdb03ddfd4e0f473d1a"
+    },
+    {
+      "path": "attempt5/commands.json",
+      "size_bytes": 1676,
+      "sha256": "c915ab60ab14f297d83264f32b0aa23ad33827925c84f5055265c6a591e9224c"
+    },
+    {
+      "path": "attempt5/receipt.json",
+      "size_bytes": 2355,
+      "sha256": "1ba72c25fd82a7a571d9ada57b1418a41383a841afc97145ca064d067108e635"
+    },
+    {
+      "path": "attempt5/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "attempt5/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "attempt5/vm.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt5/vm.stdout.log",
+      "size_bytes": 16446,
+      "sha256": "f8478a8a41680c592da70f432c90558863d67ab603fe4aae08d0a8fb1233b3f2"
+    },
+    {
+      "path": "browser1/browser.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser1/browser.stdout.log",
+      "size_bytes": 252,
+      "sha256": "5818a59f0d00d780367bdc3572f83d3648de19196c2f6cbe5521d0ef50a577ca"
+    },
+    {
+      "path": "browser1/commands.json",
+      "size_bytes": 453,
+      "sha256": "23c037a5d3271c846879a306776e95f2c596f313e705ec7c133ce2d7ea62ecf6"
+    },
+    {
+      "path": "browser1/receipt.json",
+      "size_bytes": 1107,
+      "sha256": "1aa16b24f490876fefff811c7f1c7163c029c9113c3e11e568d2efab7e3b562f"
+    },
+    {
+      "path": "browser1/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "browser1/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "capture1/captures/operations-dark-1440.png",
+      "size_bytes": 137245,
+      "sha256": "f6b5003ad67194ef8c579fd67d844ad9ea506d4bf97fae413985c907f84fd8be"
+    },
+    {
+      "path": "capture1/captures/operations-dark-360.png",
+      "size_bytes": 152177,
+      "sha256": "e400d3bb9e422da0617d2a2515de0659aa58c03ae492ab3c70d07e8ad1c5f9ea"
+    },
+    {
+      "path": "capture1/captures/operations-light-1440.png",
+      "size_bytes": 137245,
+      "sha256": "f6b5003ad67194ef8c579fd67d844ad9ea506d4bf97fae413985c907f84fd8be"
+    },
+    {
+      "path": "capture1/captures/operations-light-360.png",
+      "size_bytes": 152177,
+      "sha256": "e400d3bb9e422da0617d2a2515de0659aa58c03ae492ab3c70d07e8ad1c5f9ea"
+    },
+    {
+      "path": "capture1/captures.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capture1/captures.stdout.log",
+      "size_bytes": 270,
+      "sha256": "e4bb0ba2150aed3d0ebcce14adc1e8f516068c4cc76fe1abd3032a7ff45ebaff"
+    },
+    {
+      "path": "capture1/commands.json",
+      "size_bytes": 512,
+      "sha256": "738ac564152cd0eb7d734209aebb924212683eaa93ab1657d4b09129706376d7"
+    },
+    {
+      "path": "capture1/receipt.json",
+      "size_bytes": 1193,
+      "sha256": "d9599cecbdecd1d4b69e0bdce93ea4b1325e5e19fdbdb81c6db4df6bec47ba27"
+    },
+    {
+      "path": "capture1/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "capture1/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "84464d5a18e71569c8bc19e7f116b2ecdb2551046a39493d2069e79b341d3f9d"
+    },
+    {
+      "path": "capture2/captures/operations-dark-1440.png",
+      "size_bytes": 133179,
+      "sha256": "bcf12ca751714b9d11b1e826947253cb5ba23aebb9accb31e86e879af27c77c6"
+    },
+    {
+      "path": "capture2/captures/operations-dark-360.png",
+      "size_bytes": 140091,
+      "sha256": "a1fae7be3ed4f85f34ab5da59e035bac45923e80cc1506d526eb28dbfd6c56ad"
+    },
+    {
+      "path": "capture2/captures/operations-light-1440.png",
+      "size_bytes": 168241,
+      "sha256": "4abbf6703c86f99075438bcc52e4035244766c1648b3eb78e5b67cb543c42ed2"
+    },
+    {
+      "path": "capture2/captures/operations-light-360.png",
+      "size_bytes": 179614,
+      "sha256": "e93bdb4044767e7de233e48f735c39b25291ecfe0a505a4f8d53ea57124f9bd1"
+    },
+    {
+      "path": "capture2/captures.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capture2/captures.stdout.log",
+      "size_bytes": 270,
+      "sha256": "e4bb0ba2150aed3d0ebcce14adc1e8f516068c4cc76fe1abd3032a7ff45ebaff"
+    },
+    {
+      "path": "capture2/commands.json",
+      "size_bytes": 512,
+      "sha256": "460f929a962bca3a775461e9ffcadacc14d7f79717f740e5541e5c6b82e2b16d"
+    },
+    {
+      "path": "capture2/receipt.json",
+      "size_bytes": 1193,
+      "sha256": "4440c8c145ea305abf264406d8769255c0c4dbc2ad1d8554f04f069313f6728c"
+    },
+    {
+      "path": "capture2/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "capture2/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "capture3/captures/operations-dark-1440.png",
+      "size_bytes": 133179,
+      "sha256": "bcf12ca751714b9d11b1e826947253cb5ba23aebb9accb31e86e879af27c77c6"
+    },
+    {
+      "path": "capture3/captures/operations-dark-360.png",
+      "size_bytes": 140091,
+      "sha256": "a1fae7be3ed4f85f34ab5da59e035bac45923e80cc1506d526eb28dbfd6c56ad"
+    },
+    {
+      "path": "capture3/captures/operations-light-1440.png",
+      "size_bytes": 168241,
+      "sha256": "4abbf6703c86f99075438bcc52e4035244766c1648b3eb78e5b67cb543c42ed2"
+    },
+    {
+      "path": "capture3/captures/operations-light-360.png",
+      "size_bytes": 179614,
+      "sha256": "e93bdb4044767e7de233e48f735c39b25291ecfe0a505a4f8d53ea57124f9bd1"
+    },
+    {
+      "path": "capture3/captures.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capture3/captures.stdout.log",
+      "size_bytes": 270,
+      "sha256": "0731e7929ad02a1560ba5ae685bff13628a84eb0b5a605bb2c7af222ba0a672d"
+    },
+    {
+      "path": "capture3/commands.json",
+      "size_bytes": 512,
+      "sha256": "6a67cb3309db775346aceeb486397bc52537d6cb8ed6b6500a005169fa5a67b2"
+    },
+    {
+      "path": "capture3/receipt.json",
+      "size_bytes": 1193,
+      "sha256": "4fab834e01506f1c33a30aab7b52987ec1a88c414c5a77af42aafb71bf1ce1ea"
+    },
+    {
+      "path": "capture3/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "capture3/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "5bc7e29c3e80a84ce9338690fa02e8c53c56fa56f6a8268ec94e3b81ebdb9398"
+    },
+    {
+      "path": "capture4/captures/operations-dark-1440.png",
+      "size_bytes": 165237,
+      "sha256": "393e15091c04c8930428c2b411683ec893e74e822803c2340596633f863cf766"
+    },
+    {
+      "path": "capture4/captures/operations-dark-360.png",
+      "size_bytes": 176553,
+      "sha256": "b0468b28b63848cd27ef892f79f5a92a4118b2e3259899a7733d47ef5d8fcd1c"
+    },
+    {
+      "path": "capture4/captures/operations-light-1440.png",
+      "size_bytes": 168241,
+      "sha256": "4abbf6703c86f99075438bcc52e4035244766c1648b3eb78e5b67cb543c42ed2"
+    },
+    {
+      "path": "capture4/captures/operations-light-360.png",
+      "size_bytes": 179614,
+      "sha256": "e93bdb4044767e7de233e48f735c39b25291ecfe0a505a4f8d53ea57124f9bd1"
+    },
+    {
+      "path": "capture4/captures.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capture4/captures.stdout.log",
+      "size_bytes": 270,
+      "sha256": "4d8769d93495a737e9663497598c6a6ccbcc05018da1748cf25f595d5ab41406"
+    },
+    {
+      "path": "capture4/commands.json",
+      "size_bytes": 512,
+      "sha256": "bf318f14e199fbb25a65ef52e64bc1c2fc802f050d88545838070116abd85f9c"
+    },
+    {
+      "path": "capture4/receipt.json",
+      "size_bytes": 1193,
+      "sha256": "fce9f9efa93b8bd14fd1b3564991c07fcabac879f2612604a8be65cc2945902f"
+    },
+    {
+      "path": "capture4/sources-after.json",
+      "size_bytes": 15809,
+      "sha256": "aea9e75d3dd10da48b46c4f5801bfb06cca827e16ecd1eafa937a7cf3b709407"
+    },
+    {
+      "path": "capture4/sources-before.json",
+      "size_bytes": 15809,
+      "sha256": "aea9e75d3dd10da48b46c4f5801bfb06cca827e16ecd1eafa937a7cf3b709407"
+    },
+    {
+      "path": "run_checks.py",
+      "size_bytes": 4413,
+      "sha256": "142430d6824b3e1f946db33c775268215205e9114b1cc454f10d0667bd4f4f34"
+    },
+    {
+      "path": "source/lib/admin/admin_app.dart",
+      "size_bytes": 868,
+      "sha256": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9"
+    },
+    {
+      "path": "source/lib/admin/admin_router.dart",
+      "size_bytes": 10617,
+      "sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276"
+    },
+    {
+      "path": "source/lib/admin/admin_shell.dart",
+      "size_bytes": 44244,
+      "sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_action_contracts.dart",
+      "size_bytes": 7442,
+      "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253"
+    },
+    {
+      "path": "source/lib/admin/core/admin_auth_guard.dart",
+      "size_bytes": 6190,
+      "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_automations_page.dart",
+      "size_bytes": 16728,
+      "sha256": "4310cd4e02f23578b8bdcc05d0ef6cb4fd3e7900d2353b862e8e45f57ddf5b46"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_formatters.dart",
+      "size_bytes": 4684,
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_runtime.dart",
+      "size_bytes": 38218,
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_detail_specs.dart",
+      "size_bytes": 12015,
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea"
+    },
+    {
+      "path": "source/lib/admin/core/admin_display_formatters.dart",
+      "size_bytes": 1997,
+      "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829"
+    },
+    {
+      "path": "source/lib/admin/core/admin_email_otp.dart",
+      "size_bytes": 1316,
+      "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit.dart",
+      "size_bytes": 10999,
+      "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_link.dart",
+      "size_bytes": 1057,
+      "sha256": "ad110b34d0a4039951676b034c433f9f8e2bf5797d93db8ba871ebd0361afdef"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_page.dart",
+      "size_bytes": 13681,
+      "sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912"
+    },
+    {
+      "path": "source/lib/admin/core/admin_entity_audit_runtime.dart",
+      "size_bytes": 1697,
+      "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_error_boundary.dart",
+      "size_bytes": 3125,
+      "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_evidence_mode.dart",
+      "size_bytes": 22003,
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint.dart",
+      "size_bytes": 1975,
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint_stub.dart",
+      "size_bytes": 116,
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_checkpoint_web.dart",
+      "size_bytes": 986,
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_models.dart",
+      "size_bytes": 14940,
+      "sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_page.dart",
+      "size_bytes": 29999,
+      "sha256": "478bca7ebaf7cb18f630abf6df4fd39a67acfdd0ed2f3d4404a9080637b3127c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_runtime.dart",
+      "size_bytes": 4007,
+      "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_workflow_card.dart",
+      "size_bytes": 23143,
+      "sha256": "f5b87c324190fe01c9a4ea1341c781c107521d447dbd2aff445ade402577d7ee"
+    },
+    {
+      "path": "source/lib/admin/core/admin_exception_workflow_models.dart",
+      "size_bytes": 20490,
+      "sha256": "f3a9e14a90c44165901985bd9948843930b8ed0aa074bc11795b595c168ccb33"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint.dart",
+      "size_bytes": 3915,
+      "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint_stub.dart",
+      "size_bytes": 110,
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_checkpoint_web.dart",
+      "size_bytes": 971,
+      "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_contracts.dart",
+      "size_bytes": 8356,
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_dialogs.dart",
+      "size_bytes": 4489,
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_models.dart",
+      "size_bytes": 13628,
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_page.dart",
+      "size_bytes": 35416,
+      "sha256": "fec178c3e180f350ca18d14fc3cae900cf868b354020c452c566865c7d8fa078"
+    },
+    {
+      "path": "source/lib/admin/core/admin_gateway_runtime.dart",
+      "size_bytes": 3400,
+      "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_group_runtime.dart",
+      "size_bytes": 13183,
+      "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_investigation.dart",
+      "size_bytes": 18098,
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_investigation_view.dart",
+      "size_bytes": 22641,
+      "sha256": "aa86fda7d8cfe67b7f87ffaadc85d4c6de8e2e0cfb776ffd34ccef203d0ba8c4"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_paging.dart",
+      "size_bytes": 3686,
+      "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_runtime.dart",
+      "size_bytes": 31085,
+      "sha256": "86c69da4b84486f8054eb61f0b9a8119888cd21421ad2f6aba67ba0555101921"
+    },
+    {
+      "path": "source/lib/admin/core/admin_list_specs.dart",
+      "size_bytes": 22187,
+      "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183"
+    },
+    {
+      "path": "source/lib/admin/core/admin_login_runtime.dart",
+      "size_bytes": 23457,
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_models.dart",
+      "size_bytes": 10471,
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_card.dart",
+      "size_bytes": 5521,
+      "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_models.dart",
+      "size_bytes": 7317,
+      "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operating_policy_runtime.dart",
+      "size_bytes": 1599,
+      "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operation_components.dart",
+      "size_bytes": 21731,
+      "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operation_tables.dart",
+      "size_bytes": 27052,
+      "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operational_health.dart",
+      "size_bytes": 16347,
+      "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292"
+    },
+    {
+      "path": "source/lib/admin/core/admin_operator_approval.dart",
+      "size_bytes": 4827,
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_overview_components.dart",
+      "size_bytes": 28760,
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+    },
+    {
+      "path": "source/lib/admin/core/admin_overview_runtime.dart",
+      "size_bytes": 34759,
+      "sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40"
+    },
+    {
+      "path": "source/lib/admin/core/admin_payee_runtime.dart",
+      "size_bytes": 13134,
+      "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_platform_access.dart",
+      "size_bytes": 17093,
+      "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c"
+    },
+    {
+      "path": "source/lib/admin/core/admin_read_contracts.dart",
+      "size_bytes": 14844,
+      "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_card.dart",
+      "size_bytes": 24268,
+      "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint.dart",
+      "size_bytes": 1718,
+      "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart",
+      "size_bytes": 129,
+      "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_checkpoint_web.dart",
+      "size_bytes": 1007,
+      "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_models.dart",
+      "size_bytes": 10561,
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_cancel_runtime.dart",
+      "size_bytes": 3131,
+      "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_card.dart",
+      "size_bytes": 19154,
+      "sha256": "0fb788576b006d56e06dee7a1a0c6389806045bfc6fc347df70621ee74cc39ab"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint.dart",
+      "size_bytes": 4915,
+      "sha256": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+      "size_bytes": 141,
+      "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+      "size_bytes": 3589,
+      "sha256": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_models.dart",
+      "size_bytes": 13697,
+      "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_operations_runtime.dart",
+      "size_bytes": 10570,
+      "sha256": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3"
+    },
+    {
+      "path": "source/lib/admin/core/admin_receipt_overview.dart",
+      "size_bytes": 4951,
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_models.dart",
+      "size_bytes": 1919,
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_runtime.dart",
+      "size_bytes": 38720,
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+    },
+    {
+      "path": "source/lib/admin/core/admin_reconciliation_step_up.dart",
+      "size_bytes": 10303,
+      "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02"
+    },
+    {
+      "path": "source/lib/admin/core/admin_repository_base.dart",
+      "size_bytes": 6514,
+      "sha256": "af6c58ca2d18ce31e29ac6b21c6e116a4f63f4ddb6af1e1caf6ff1608a628b8d"
+    },
+    {
+      "path": "source/lib/admin/core/admin_review_credentials.dart",
+      "size_bytes": 168,
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint.dart",
+      "size_bytes": 3781,
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint_stub.dart",
+      "size_bytes": 98,
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_checkpoint_web.dart",
+      "size_bytes": 683,
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_dialog.dart",
+      "size_bytes": 27073,
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_import.dart",
+      "size_bytes": 56694,
+      "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f"
+    },
+    {
+      "path": "source/lib/admin/core/admin_roster_models.dart",
+      "size_bytes": 34778,
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+    },
+    {
+      "path": "source/lib/admin/core/admin_runtime.dart",
+      "size_bytes": 40494,
+      "sha256": "01d9ce8d8287e073a31d01fa4b76b6f5f873689bfdee9c59f0308ce392c708f0"
+    },
+    {
+      "path": "source/lib/admin/core/admin_shadow_runs.dart",
+      "size_bytes": 27159,
+      "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+    },
+    {
+      "path": "source/lib/admin/core/admin_sms_queue_health.dart",
+      "size_bytes": 2639,
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+    },
+    {
+      "path": "source/lib/admin/core/admin_transaction_lifecycle.dart",
+      "size_bytes": 3481,
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    {
+      "path": "source/lib/admin/core/roster_file_parser.dart",
+      "size_bytes": 3081,
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+    },
+    {
+      "path": "source/lib/admin/core/roster_xlsx_preflight.dart",
+      "size_bytes": 26641,
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_confirm_dialog.dart",
+      "size_bytes": 3792,
+      "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_data_table.dart",
+      "size_bytes": 19359,
+      "sha256": "c576ff90753838fc0cc5800efa7943354180d4a69eae43988cf9322c72cabf87"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_empty_state.dart",
+      "size_bytes": 2131,
+      "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_filter_bar.dart",
+      "size_bytes": 7945,
+      "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_loading_state.dart",
+      "size_bytes": 600,
+      "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_page.dart",
+      "size_bytes": 4596,
+      "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_sensitive_data_gate.dart",
+      "size_bytes": 4105,
+      "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183"
+    },
+    {
+      "path": "source/lib/admin/shared/components/admin_status_chip.dart",
+      "size_bytes": 6482,
+      "sha256": "ac955a6f8262abffededaba22596003e1301e65d8b90fd889283c7ee1ebd690a"
+    },
+    {
+      "path": "source/lib/app/theme/app_theme.dart",
+      "size_bytes": 365,
+      "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde"
+    },
+    {
+      "path": "source/lib/app/theme/collect_colors.dart",
+      "size_bytes": 15171,
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+    },
+    {
+      "path": "source/lib/app/theme/collect_component_tokens.dart",
+      "size_bytes": 3980,
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388"
+    },
+    {
+      "path": "source/lib/app/theme/collect_icons.dart",
+      "size_bytes": 2698,
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67"
+    },
+    {
+      "path": "source/lib/app/theme/collect_motion.dart",
+      "size_bytes": 769,
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0"
+    },
+    {
+      "path": "source/lib/app/theme/collect_radius.dart",
+      "size_bytes": 863,
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_assets.dart",
+      "size_bytes": 894,
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_tokens.dart",
+      "size_bytes": 8988,
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a"
+    },
+    {
+      "path": "source/lib/app/theme/collect_runtime_typography.dart",
+      "size_bytes": 665,
+      "sha256": "bb059029512358157a87b3939c2c2f76d857ca4567ca7efb207a023f1eb2d74f"
+    },
+    {
+      "path": "source/lib/app/theme/collect_semantic_icons.dart",
+      "size_bytes": 1434,
+      "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8"
+    },
+    {
+      "path": "source/lib/app/theme/collect_spacing.dart",
+      "size_bytes": 1454,
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62"
+    },
+    {
+      "path": "source/lib/app/theme/collect_theme.dart",
+      "size_bytes": 13754,
+      "sha256": "5345bf17e6bb478a4644b3c55025a40731c104b1ea7e28634db6d105cf7a82f4"
+    },
+    {
+      "path": "source/lib/app/theme/collect_theme_controller.dart",
+      "size_bytes": 2185,
+      "sha256": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4"
+    },
+    {
+      "path": "source/lib/app/theme/collect_typography.dart",
+      "size_bytes": 8038,
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b"
+    },
+    {
+      "path": "source/lib/app/theme/collect_universal_tokens.dart",
+      "size_bytes": 8012,
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910"
+    },
+    {
+      "path": "source/lib/core/data/exact_json_values.dart",
+      "size_bytes": 3650,
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+    },
+    {
+      "path": "source/lib/core/supabase/auth_otp_gateway.dart",
+      "size_bytes": 1225,
+      "sha256": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_memory.dart",
+      "size_bytes": 935,
+      "sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_storage_stub.dart",
+      "size_bytes": 78,
+      "sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04"
+    },
+    {
+      "path": "source/lib/core/supabase/browser_auth_storage_web.dart",
+      "size_bytes": 907,
+      "sha256": "2e677d4c944133b4d3ce5e4f2919370f6532391d2c7b01539b275cf089c69036"
+    },
+    {
+      "path": "source/lib/core/supabase/realtime_invalidation.dart",
+      "size_bytes": 7232,
+      "sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907"
+    },
+    {
+      "path": "source/lib/core/supabase/supabase_module.dart",
+      "size_bytes": 2038,
+      "sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a"
+    },
+    {
+      "path": "source/pubspec.lock",
+      "size_bytes": 39236,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    {
+      "path": "source/pubspec.yaml",
+      "size_bytes": 2232,
+      "sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+    },
+    {
+      "path": "source/supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "size_bytes": 51801,
+      "sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40"
+    },
+    {
+      "path": "source/test/admin_action_session_test.dart",
+      "size_bytes": 14184,
+      "sha256": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_card_test.dart",
+      "size_bytes": 14353,
+      "sha256": "23e00a1f86020ebeede67677126ff69fa5875608faa1c6dc1675fc665a958fa0"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_checkpoint_browser_test.dart",
+      "size_bytes": 1758,
+      "sha256": "dfa33b042fe15bd0174dc082df6cb96237517a7320c3ac621388a09870fc7647"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_checkpoint_test.dart",
+      "size_bytes": 4490,
+      "sha256": "7e0479b96b72c70753bd9374596b57c199cb902b2f3ba992a5db9737f29edb3b"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_models_test.dart",
+      "size_bytes": 9761,
+      "sha256": "59888a05f2267754788a125938a48dda6e0807b3bdf3597a38de14d6a23e8bda"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_runtime_test.dart",
+      "size_bytes": 10447,
+      "sha256": "dbb2fe21c4d0f245091fa4153abc122eaf2d7a7b84528dab84f2f32123fec788"
+    },
+    {
+      "path": "source/test/admin_receipt_operations_sdk_test.dart",
+      "size_bytes": 9905,
+      "sha256": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-configure.json",
+      "size_bytes": 243,
+      "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-expired-global_policy.json",
+      "size_bytes": 255,
+      "sha256": "8da5eb290310e42cb70860f91a0d72e56077da9449e2b86d2d3b6da5daeab054"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-expired-owner_request.json",
+      "size_bytes": 255,
+      "sha256": "b07d07eb66a09734bc85628f25f69c26f020ede0ad0b6047cc570c27a56de094"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-progress.json",
+      "size_bytes": 254,
+      "sha256": "c45b4b7e04aa008ac17ac831a19fa65ecc0ec004abb21faac70b92e8d8ab935a"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-recorded.json",
+      "size_bytes": 530,
+      "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-stop-lookup.json",
+      "size_bytes": 529,
+      "sha256": "b05c0941a6d545d6f71f17f74f3cdfb7fcf5811beace3400fd70ddf80ad1e6e2"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-owner-stop.json",
+      "size_bytes": 242,
+      "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/observed-policy-default.json",
+      "size_bytes": 531,
+      "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de"
+    },
+    {
+      "path": "source/test/fixtures/admin_receipt_operations_v2/provenance.json",
+      "size_bytes": 2667,
+      "sha256": "3ce75fced64bd2cda48b373e01de9cde89eb366c07197554a58fa3ce0691d6bc"
+    },
+    {
+      "path": "source/test/support/admin_receipt_operations_fixture.dart",
+      "size_bytes": 3370,
+      "sha256": "c8d08e33d124783fad907a97812432654e20709ea9d5caeb200cb0a4822a3abf"
+    },
+    {
+      "path": "verification.json",
+      "size_bytes": 33362,
+      "sha256": "6559b64286696ff5cdf3036e64bc2b8fff7e03dc2c7cd98d6be1c3268a7a7b5c"
+    }
+  ],
+  "listed_files": 226,
+  "scope": "Source bytes and local UI checks/captures; no hosted acceptance or source trust."
+}

@@ -16,7 +16,7 @@ class PublicPhotography
   end
 
   def self.asset_version(root)
-    paths = %w[scripts/public_static_site_build.rb scripts/public_photography.rb web/public/revolut.css web/public/photography/manifest.json]
+    paths = %w[scripts/public_static_site_build.rb scripts/public_photography.rb web/public/layout.css web/public/revolut.css web/public/photography/manifest.json]
     digest = Digest::SHA256.hexdigest(paths.map { |file| "#{file}\0#{Digest::SHA256.file(File.join(root, file)).hexdigest}\n" }.join)
     "collect-static-#{digest[0, 16]}"
   end

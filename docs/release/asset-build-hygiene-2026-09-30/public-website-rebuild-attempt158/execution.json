@@ -1,0 +1,39 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "public-static-build",
+      "command": [
+        "ruby",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.16,
+      "stdout_sha256": "7d2e511aaa4283d6261663891fe3f54ce73ce47ecaacee9e4bf8b2b7b4b8dd68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "public-quality-gate",
+      "command": [
+        "bash",
+        "scripts/public_website_quality_gate.sh",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.12,
+      "stdout_sha256": "88cf0ea46e2b5b29decb23884d8856e3e236524de2e343dd19a6e37b775634b0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sole-design-authority",
+      "command": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 80.83,
+      "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

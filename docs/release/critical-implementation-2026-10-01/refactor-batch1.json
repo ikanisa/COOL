@@ -1,0 +1,478 @@
+{
+  "task": "ARC02",
+  "started_utc": "2026-10-01T19:51:30.216886+00:00",
+  "before": {
+    "lib/shared/repositories/collect_repository.dart": {
+      "sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "lines": 1830,
+      "mtime_ns": 1790859974201484381
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86",
+      "lines": 1501,
+      "mtime_ns": 1790876202234264539
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f",
+      "lines": 1554,
+      "mtime_ns": 1790807179883780554
+    },
+    "lib/admin/admin_shell.dart": {
+      "sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f",
+      "lines": 1237,
+      "mtime_ns": 1790813902393820378
+    }
+  },
+  "checks": [
+    {
+      "name": "affected-analyzer",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_roster_gateway.dart",
+        "lib/admin/core/admin_roster_upload.dart",
+        "lib/admin/admin_shell_navigation.dart",
+        "lib/admin/core/admin_receipt_repository.dart",
+        "lib/admin/core/admin_exception_repository.dart",
+        "lib/shared/repositories/collect_repository_notification_actions.dart",
+        "lib/shared/repositories/collect_repository_group_actions.dart",
+        "test/admin_pwa_test.dart",
+        "test/security_hygiene_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.273,
+      "log": "refactor-batch1-analyze.log"
+    },
+    {
+      "name": "affected-analyzer-after-override-annotation",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_roster_gateway.dart",
+        "lib/admin/core/admin_roster_upload.dart",
+        "lib/admin/admin_shell_navigation.dart",
+        "lib/admin/core/admin_receipt_repository.dart",
+        "lib/admin/core/admin_exception_repository.dart",
+        "lib/shared/repositories/collect_repository_notification_actions.dart",
+        "lib/shared/repositories/collect_repository_group_actions.dart",
+        "test/admin_pwa_test.dart",
+        "test/security_hygiene_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.6,
+      "log": "refactor-batch1-analyze-final.log"
+    },
+    {
+      "name": "affected-existing-sdk-and-widget-tests",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=4",
+        "test/admin_route_access_test.dart",
+        "test/admin_permission_refresh_test.dart",
+        "test/admin_header_accessibility_test.dart",
+        "test/admin_pwa_test.dart",
+        "test/shared/collect_repository_test.dart",
+        "test/shared/member_mutation_session_test.dart",
+        "test/shared/group_owner_controls_test.dart",
+        "test/shared/group_admin_api_test.dart",
+        "test/shared/group_join_account_boundary_test.dart",
+        "test/shared/group_invitation_protection_test.dart",
+        "test/shared/member_roster_test.dart",
+        "test/shared/notification_preference_runtime_test.dart",
+        "test/core/notification_registration_recovery_test.dart",
+        "test/core/notification_account_isolation_test.dart",
+        "test/shared/repository_session_fencing_test.dart",
+        "test/admin_roster_import_test.dart",
+        "test/admin_roster_transport_test.dart",
+        "test/admin_roster_gateway_expiry_test.dart",
+        "test/admin_roster_authority_scope_test.dart",
+        "test/admin_roster_declared_read_dispatch_test.dart",
+        "test/admin_roster_upload_admission_test.dart",
+        "test/admin_roster_dialog_test.dart",
+        "test/admin_roster_reload_test.dart",
+        "test/admin_action_session_test.dart",
+        "test/admin_read_contracts_test.dart",
+        "test/admin_gateway_repository_test.dart",
+        "test/admin_automatic_gateway_repository_test.dart",
+        "test/admin_exception_repository_test.dart",
+        "test/admin_exception_sdk_provider_state_test.dart",
+        "test/admin_exception_workflow_sdk_test.dart",
+        "test/admin_exception_followup_sdk_test.dart",
+        "test/admin_exception_history_v2_sdk_test.dart",
+        "test/admin_receipt_operations_sdk_test.dart",
+        "test/admin_receipt_principal_integration_test.dart",
+        "test/admin_receipt_cancel_repository_test.dart",
+        "test/admin_receipt_overview_test.dart",
+        "test/admin_investigation_test.dart",
+        "--reporter=expanded",
+        "--file-reporter=json:docs/release/critical-implementation-2026-10-01/refactor-batch1-tests.events.jsonl"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 42.484,
+      "test_file_count": 37,
+      "test_results": {
+        "passed": 1064,
+        "skipped": 3,
+        "failed": 2
+      },
+      "test_source_hashes": {
+        "test/admin_route_access_test.dart": "6d197779dc7a265cb12a6565447bffcba389f137101db954f765475a1b106e26",
+        "test/admin_permission_refresh_test.dart": "1d22568467bd0f33519121c17b6008256859e0946d8da0d21586258304e790d6",
+        "test/admin_header_accessibility_test.dart": "c40123ccf394c2eba642527f34252d088bdbc006bcad9759488730910726432c",
+        "test/admin_pwa_test.dart": "b3cadd5780347e79113838e32ee3488be9b72e596e2a2325796c195fe3b13e5d",
+        "test/shared/collect_repository_test.dart": "0bc730d647e10a15ffc6080ae6cce3f6285cd086305fbb557dcd8b3cc5664593",
+        "test/shared/member_mutation_session_test.dart": "833fa290de15d1c36dc7479061261123f5053dcf59db9ff9be8751edc0f34650",
+        "test/shared/group_owner_controls_test.dart": "86767131b30af0332d6c77dad3a72a981e31ce9a99e860a4c645ef120b44a1ed",
+        "test/shared/group_admin_api_test.dart": "851e234b0a03b408d3577c825e94b29fb022e884247cdf1a2bb3dddc70c222da",
+        "test/shared/group_join_account_boundary_test.dart": "cfa90d08e09804ff31dfa0288253aa77859abaa1a6ae138cd506065cf6386a5a",
+        "test/shared/group_invitation_protection_test.dart": "eea79b77bc5cdd6b3d1518a497753587dd502b5f02ab3ee1cbbdf76383f32a36",
+        "test/shared/member_roster_test.dart": "ae20c66a6d78eca7a04027d5955fe5e81ca61c09d6b281d452b930211f05d4dc",
+        "test/shared/notification_preference_runtime_test.dart": "18ac172b73e2791d8aa7820b5b1580124a233c013e4321ebb71a183a30bfeeda",
+        "test/core/notification_registration_recovery_test.dart": "239a9a0d9494feec14058a45a98db24cd77378f26e26d755c71e6c9d929bc0dd",
+        "test/core/notification_account_isolation_test.dart": "ca4e9cb2e549032282afc75e656471e4359a3ab052126cfae5d13117cc86aff0",
+        "test/shared/repository_session_fencing_test.dart": "9439166cd7424f9b39b573ce3e68bdf81897f3689663c8768aa7d05b909a2968",
+        "test/admin_roster_import_test.dart": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03",
+        "test/admin_roster_transport_test.dart": "22bd3dddd2898d93431225bdb5e7cc5bc0797b67a193929027f19dfcc7a3d078",
+        "test/admin_roster_gateway_expiry_test.dart": "899fee6f9df08c4b9efb61358fc04970f1011cbbc49668f88f6377c803f84769",
+        "test/admin_roster_authority_scope_test.dart": "0a16beac4864772af412e51b2f45f0051fad34010733477f2606f458f6d2dac2",
+        "test/admin_roster_declared_read_dispatch_test.dart": "413b66c38446e186bf40cabe92e1054f4a66e55b00a874ebccca4a0c5855480d",
+        "test/admin_roster_upload_admission_test.dart": "8fede243fe4718b231b8d642d4ab452e5d36c516e4922b48321d87b9275038a4",
+        "test/admin_roster_dialog_test.dart": "511e2f407efabdade5432fbec2b54d5e35813d1bcf42028983dc45c2abd67582",
+        "test/admin_roster_reload_test.dart": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2",
+        "test/admin_action_session_test.dart": "c8b97fa9126aa70ea0324e6b393e5a3063b8a10861a8000b55150e00e429a4da",
+        "test/admin_read_contracts_test.dart": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886",
+        "test/admin_gateway_repository_test.dart": "0d8ae808f26774ba9d00c964d9700ad76a8b63720a9e83ee96f124f1bb7887fc",
+        "test/admin_automatic_gateway_repository_test.dart": "e9c30edcd715f270a90e30d1fd1f30d4c8a4257a8d4b7e1fe2aebf4960718428",
+        "test/admin_exception_repository_test.dart": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540",
+        "test/admin_exception_sdk_provider_state_test.dart": "6f9ee018687088c43f0982b3e4d09823c0a43ccb85c0b9d6c0ce91a7cb958486",
+        "test/admin_exception_workflow_sdk_test.dart": "61b3fa26707f11e1cce39f52a90942ce8cdfe8ee48af8e9dc3439d34a2e3daed",
+        "test/admin_exception_followup_sdk_test.dart": "6371c6240bb8f2df5de436e9dbd3b60973f53c648c47f3a6b839281c17c405cd",
+        "test/admin_exception_history_v2_sdk_test.dart": "230aea711172debcf5745e83bf7dc3ef8b521a39f0c2304c524407d2a5ecd1e8",
+        "test/admin_receipt_operations_sdk_test.dart": "318b3e7bcf5777aa43a1258293eac7653d6e453f615585f69666e5acdc20848e",
+        "test/admin_receipt_principal_integration_test.dart": "c6d054fa1485f33dd079279cc8f9658f9e8e8f55773a7bf7e01938d2e7b4457f",
+        "test/admin_receipt_cancel_repository_test.dart": "f3eee3bde52c0440d10ae999cb7e660c67ebc3c109afae941dce425aa2068344",
+        "test/admin_receipt_overview_test.dart": "3a9c50d106b5c4f2f2f4922d3f51b17b7c2cd64ad566e483b3228b9776d7839f",
+        "test/admin_investigation_test.dart": "ad13dc60b22527165586c539c8683cac6605931e2fca8c37d88575de7389bd73"
+      },
+      "log": "refactor-batch1-tests.log",
+      "events": "refactor-batch1-tests.events.jsonl",
+      "failing_test_names": [
+        "synthetic dark Overview at320px enlarged text remains scrollable",
+        "synthetic light Overview at320px enlarged text remains scrollable"
+      ]
+    },
+    {
+      "name": "affected-security-source-consumers",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "test/security_hygiene_test.dart",
+        "--name",
+        "native notification runtime is wired|mobile runtime does not wire fixture",
+        "--reporter=expanded",
+        "--file-reporter=json:docs/release/critical-implementation-2026-10-01/refactor-batch1-security.events.jsonl"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.033,
+      "log": "refactor-batch1-security.log",
+      "events": "refactor-batch1-security.events.jsonl"
+    },
+    {
+      "name": "format-readback",
+      "command": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_roster_gateway.dart",
+        "lib/admin/core/admin_roster_upload.dart",
+        "lib/admin/admin_shell_navigation.dart",
+        "lib/admin/core/admin_receipt_repository.dart",
+        "lib/admin/core/admin_exception_repository.dart",
+        "lib/shared/repositories/collect_repository_notification_actions.dart",
+        "lib/shared/repositories/collect_repository_group_actions.dart",
+        "test/admin_pwa_test.dart",
+        "test/security_hygiene_test.dart"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.446,
+      "log": "refactor-batch1-format-readback.log"
+    },
+    {
+      "name": "diff-whitespace-readback",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_roster_gateway.dart",
+        "lib/admin/core/admin_roster_upload.dart",
+        "lib/admin/admin_shell_navigation.dart",
+        "lib/admin/core/admin_receipt_repository.dart",
+        "lib/admin/core/admin_exception_repository.dart",
+        "lib/shared/repositories/collect_repository_notification_actions.dart",
+        "lib/shared/repositories/collect_repository_group_actions.dart",
+        "test/admin_pwa_test.dart",
+        "test/security_hygiene_test.dart",
+        "scripts/tests/admin_full_coverage_inventory.py",
+        "scripts/tests/runtime_control_inventory.py",
+        "scripts/tests/admin_read_gateway_gate.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.029,
+      "log": "refactor-batch1-diff-whitespace-readback.log"
+    },
+    {
+      "name": "ci-module-size-threshold-readback",
+      "examined_modules": 358,
+      "hard_limit": 1200,
+      "hard_limit_violations": [],
+      "warning_threshold": 500,
+      "warning_count": 54,
+      "passed": true
+    },
+    {
+      "name": "admin-source-inventory-after-navigation-extraction",
+      "command": [
+        "python3",
+        "scripts/tests/admin_full_coverage_inventory.py",
+        "--output",
+        "docs/release/critical-implementation-2026-10-01/refactor-batch1-admin-source-inventory"
+      ],
+      "exit_code": 0,
+      "validation": {
+        "passed": true,
+        "routes": 28,
+        "endpoints": 119,
+        "active_endpoints": 90,
+        "providers": 55,
+        "dialogs": 16,
+        "callbacks": 277,
+        "api_call_sites": 147,
+        "declaration_discovery": 1163,
+        "sources": 452,
+        "source_unchanged": true,
+        "inventory_sha256": "db9fcf4ee1f5885ef6b7e9581465a414814a77d6dcc78dea07612eb02f7636f5",
+        "complete_Admin_acceptance": false
+      },
+      "artifact": "refactor-batch1-admin-source-inventory/validation.json"
+    },
+    {
+      "name": "changed-python-source-syntax",
+      "paths": [
+        "scripts/tests/admin_full_coverage_inventory.py",
+        "scripts/tests/runtime_control_inventory.py",
+        "scripts/tests/admin_read_gateway_gate.py"
+      ],
+      "passed": true,
+      "method": "compile each current source string without execution or bytecode writes"
+    }
+  ],
+  "state": "ARC02 implemented; focused proof completed with two unchanged Overview layout failures delegated to root",
+  "changed_source_paths": [
+    "lib/shared/repositories/collect_repository.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_roster_import.dart",
+    "lib/admin/admin_shell.dart",
+    "lib/admin/core/admin_roster_gateway.dart",
+    "lib/admin/core/admin_roster_upload.dart",
+    "lib/admin/admin_shell_navigation.dart",
+    "lib/admin/core/admin_receipt_repository.dart",
+    "lib/admin/core/admin_exception_repository.dart",
+    "lib/shared/repositories/collect_repository_notification_actions.dart",
+    "lib/shared/repositories/collect_repository_group_actions.dart"
+  ],
+  "affected_consumer_paths": [
+    "test/admin_pwa_test.dart",
+    "test/security_hygiene_test.dart",
+    "scripts/tests/admin_full_coverage_inventory.py",
+    "scripts/tests/runtime_control_inventory.py",
+    "scripts/tests/admin_read_gateway_gate.py"
+  ],
+  "verification_source": {
+    "lib/shared/repositories/collect_repository.dart": {
+      "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+      "lines": 1092
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+      "lines": 1133
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b",
+      "lines": 1052
+    },
+    "lib/admin/admin_shell.dart": {
+      "sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+      "lines": 918
+    },
+    "lib/admin/core/admin_roster_gateway.dart": {
+      "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183",
+      "lines": 378
+    },
+    "lib/admin/core/admin_roster_upload.dart": {
+      "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636",
+      "lines": 129
+    },
+    "lib/admin/admin_shell_navigation.dart": {
+      "sha256": "525110030352b7594639f5759c105929b2e48576a4f8dce054adb6a06d25460f",
+      "lines": 322
+    },
+    "lib/admin/core/admin_receipt_repository.dart": {
+      "sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "lines": 214
+    },
+    "lib/admin/core/admin_exception_repository.dart": {
+      "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a",
+      "lines": 176
+    },
+    "lib/shared/repositories/collect_repository_notification_actions.dart": {
+      "sha256": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+      "lines": 313
+    },
+    "lib/shared/repositories/collect_repository_group_actions.dart": {
+      "sha256": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+      "lines": 486
+    },
+    "test/admin_pwa_test.dart": {
+      "sha256": "b3cadd5780347e79113838e32ee3488be9b72e596e2a2325796c195fe3b13e5d",
+      "lines": 676
+    },
+    "test/security_hygiene_test.dart": {
+      "sha256": "ac6a28b3358f1613a181ea823726e80380aa281037eff6aaa517b3d2e539bae1",
+      "lines": 669
+    },
+    "scripts/tests/admin_full_coverage_inventory.py": {
+      "sha256": "3669d6515dff9928ca1d7f983dc27dbfb7726d9b823a6c863ac7f895690160b9",
+      "lines": 336
+    },
+    "scripts/tests/runtime_control_inventory.py": {
+      "sha256": "8b2cbc5c43cc9dfe9c168039e09c46f6cff03a24b5e3fdb51aa640863159bf86",
+      "lines": 180
+    },
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "sha256": "364da33c324252f7b4f5a70b43fe8cfc036c25b5e3079ce33d944aeb449ce130",
+      "lines": 376
+    }
+  },
+  "after": {
+    "lib/shared/repositories/collect_repository.dart": {
+      "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+      "lines": 1092,
+      "mtime_ns": 1790884290219434992
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "784b9880e70e5df50f44b913fa05fad774cb7662008e9f09ab4159fe036d3c42",
+      "lines": 1133,
+      "mtime_ns": 1790884377728611260
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "sha256": "ebd6c1945ac053cbb427df9fba078cdc7062dfb4c89fc595771bc5269939209b",
+      "lines": 1052,
+      "mtime_ns": 1790884290217726646
+    },
+    "lib/admin/admin_shell.dart": {
+      "sha256": "019f60d5d65cbeffdeae05e23218092cf15970874de9f85515a11ef021c51a12",
+      "lines": 918,
+      "mtime_ns": 1790884290218246525
+    },
+    "lib/admin/core/admin_roster_gateway.dart": {
+      "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183",
+      "lines": 378,
+      "mtime_ns": 1790884290217349810
+    },
+    "lib/admin/core/admin_roster_upload.dart": {
+      "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636",
+      "lines": 129,
+      "mtime_ns": 1790884290217440436
+    },
+    "lib/admin/admin_shell_navigation.dart": {
+      "sha256": "525110030352b7594639f5759c105929b2e48576a4f8dce054adb6a06d25460f",
+      "lines": 322,
+      "mtime_ns": 1790884290217957648
+    },
+    "lib/admin/core/admin_receipt_repository.dart": {
+      "sha256": "7f766c6e6c71fdd305a7d2e332d7a0faaa6ffba1afb9e36c54855435b02bd768",
+      "lines": 214,
+      "mtime_ns": 1790884339311580787
+    },
+    "lib/admin/core/admin_exception_repository.dart": {
+      "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a",
+      "lines": 176,
+      "mtime_ns": 1790884339313181882
+    },
+    "lib/shared/repositories/collect_repository_notification_actions.dart": {
+      "sha256": "fe031e3716e96e52de9809f47dc5842eede7cd6f60a4f92befd0398a6cb62f72",
+      "lines": 313,
+      "mtime_ns": 1790884339292618062
+    },
+    "lib/shared/repositories/collect_repository_group_actions.dart": {
+      "sha256": "ba6461dfd564df41312e1baaff586e86297cc2f98cf1b8691bb440a6a3babcb8",
+      "lines": 486,
+      "mtime_ns": 1790884339297230930
+    },
+    "test/admin_pwa_test.dart": {
+      "sha256": "b3cadd5780347e79113838e32ee3488be9b72e596e2a2325796c195fe3b13e5d",
+      "lines": 676,
+      "mtime_ns": 1790884339220859944
+    },
+    "test/security_hygiene_test.dart": {
+      "sha256": "ac6a28b3358f1613a181ea823726e80380aa281037eff6aaa517b3d2e539bae1",
+      "lines": 669,
+      "mtime_ns": 1790884339221458074
+    },
+    "scripts/tests/admin_full_coverage_inventory.py": {
+      "sha256": "3669d6515dff9928ca1d7f983dc27dbfb7726d9b823a6c863ac7f895690160b9",
+      "lines": 336,
+      "mtime_ns": 1790884339221893827
+    },
+    "scripts/tests/runtime_control_inventory.py": {
+      "sha256": "8b2cbc5c43cc9dfe9c168039e09c46f6cff03a24b5e3fdb51aa640863159bf86",
+      "lines": 180,
+      "mtime_ns": 1790884339222500332
+    },
+    "scripts/tests/admin_read_gateway_gate.py": {
+      "sha256": "364da33c324252f7b4f5a70b43fe8cfc036c25b5e3079ce33d944aeb449ce130",
+      "lines": 376,
+      "mtime_ns": 1790884339222917501
+    }
+  },
+  "owned_sources_unchanged_during_verification": true,
+  "toolchain": {
+    "flutter": "3.44.4",
+    "dart": "3.12.2",
+    "flutter_path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter"
+  },
+  "completed_utc": "2026-10-01T19:57:07.343639+00:00",
+  "implementation_complete": true,
+  "full_targeted_test_batch_passed": false,
+  "remaining_findings": [
+    {
+      "path": "lib/admin/core/admin_overview_runtime.dart",
+      "line": 696,
+      "finding": "Attention compact-row reference/status row overflows by 66 pixels at 320px with enlarged text in both dark/light existing tests",
+      "owner": "root",
+      "affected_test": "test/admin_receipt_overview_test.dart",
+      "included_in_refactor": false
+    }
+  ]
+}

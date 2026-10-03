@@ -1,0 +1,49 @@
+{
+  "actual_binary_network_output_or_shared_cache_writes": false,
+  "actual_main_prefix_preflight": {
+    "actual_controller_sha256": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d",
+    "actual_current_selected_module_count": 69,
+    "actual_seconds": 0.024789959003101103,
+    "all211_actual_source_rows_and_real_runtime_bytes_qualified": true,
+    "all67_actual_plan_variant_guards_qualified": true,
+    "executed_actual_main_statements": 16,
+    "first_output_assignment_and_all_following_statements_not_executed": true,
+    "network_or_binary_acquisition_calls": 0,
+    "output_absent_before_and_after": true,
+    "result": {
+      "Python_bytes": 18041888,
+      "actual_selected_modules": 69,
+      "graph_errors": [],
+      "input_rows": 211,
+      "plan_counts": {
+        "Maven_fallback": 60,
+        "excluded_duplicate_or_POM_components": 2,
+        "module_declared": 7,
+        "selected_modules": 69,
+        "unique_JARs": 67
+      }
+    },
+    "root_original_failure_not_relabelled": true,
+    "source_fences_sha256": "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b",
+    "status": "PASS_ACTUAL_MAIN_INPUT_PREFIX_ONLY",
+    "unaffected11fixture_suite_not_rerun": true
+  },
+  "all211_source_rows_match": true,
+  "controller_sha256": "f1787bf41d8f85e0fb7d63919fea5355f56ac13a9758be7d2c9c85caa83baa3d",
+  "exact_pinned_Python_bytes": 18041888,
+  "full_graph_admission": false,
+  "old_sealed_preparation_and_failed_root_attempt_unchanged": true,
+  "original11limited_fixture_suite_valid_unaffected_not_rerun": true,
+  "output_binaries1_absent": true,
+  "plan_unchanged_sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+  "rebinding_private_HERE_rows": 4,
+  "references_before_unchanged": true,
+  "remaining": "Root actualbinary acquisition then review/standard blob admission/normal full Gradle comparison/lint/AAB/license/release",
+  "schema_version": 1,
+  "sole_behavioral_change": "runtime stable_read bound8MiB replaced with exact fenced18041888-byte Python file",
+  "source_fences_sha256": "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b",
+  "status": "PASS_PRIVATE_RUNTIME_BOUND_RECOVERY2_ONLY",
+  "unchanged_external_input_rows": 207,
+  "unchanged_scope": "67JARs/128MiBeach512MiBtotal/global180+separatecleanup2/4workers30srequests/publisherchecksums/modulehashsize/ContentLength/safeJAR/partialfailure/lifecyclepolicy",
+  "worker_unchanged_sha256": "a58716dab4b38a1055c3082800889849a018a426d5b8f7e2068c0faac9e220e4"
+}

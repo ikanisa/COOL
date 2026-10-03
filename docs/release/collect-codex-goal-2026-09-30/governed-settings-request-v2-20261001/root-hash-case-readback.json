@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "manifest_members": 195,
+  "actual_distinct_case_events": 223,
+  "recovered_source_bound_EXPLAIN": 1,
+  "unchanged_transitive_inputs_including_feature": 12,
+  "baseline_inputs": 2,
+  "blocking_observations": 9,
+  "runner_equivalences": {
+    "status": "pass",
+    "equivalences": 7,
+    "node_counts": [
+      30,
+      106,
+      55,
+      78,
+      19,
+      4,
+      24
+    ]
+  },
+  "tools_and_image_match": true,
+  "owned_targets_absent": 7,
+  "canonical_promoted": false
+}

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/test_aab_readback.py"
+  ],
+  "timeout_seconds": 30,
+  "exit_code": 0,
+  "elapsed_seconds": 0.19998354199924506,
+  "source_before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py": "dcfb197839883bf5e95d196571d95100cac747ac1af5a6a155c5333f5964537c",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/test_aab_readback.py": "f7dff0080c1842ae9bc939144d38b6de45151e1f8e76e3590c4db3c7c6ec9d05"
+  },
+  "source_after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/aab_readback.py": "dcfb197839883bf5e95d196571d95100cac747ac1af5a6a155c5333f5964537c",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-reader-preparation1/test_aab_readback.py": "f7dff0080c1842ae9bc939144d38b6de45151e1f8e76e3590c4db3c7c6ec9d05"
+  },
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "7070df331de6fb5084f403975a189cdc77ad0127ca7edc2c45107d87b1a69463",
+  "synthetic_only": true,
+  "actual_APP_SDK_or_AAB_read": false,
+  "actual_build_performed": false,
+  "source_unchanged": true
+}

@@ -1,0 +1,32 @@
+{
+  "check": "Python ast.parse only; code not imported or executed",
+  "files": [
+    {
+      "path": "collect_schema_domain_map.py.proposed",
+      "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+      "status": "syntax-parsed-only"
+    },
+    {
+      "path": "collect_schema_domain_map_test.py.proposed",
+      "sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82",
+      "status": "syntax-parsed-only"
+    }
+  ],
+  "format": "be08-private-draft-syntax-receipt-v1",
+  "maintained_source_writes": 0,
+  "mapper_added_lines": 164,
+  "mapper_runs": 0,
+  "proposed_tests": [
+    "test_finite_inventory_hints_are_name_only_and_do_not_admit_overloads",
+    "test_header_alias_records_source_destination_and_exact_source_hashes",
+    "test_replacement_hints_preserve_order_and_raw_e_string_expression",
+    "test_literal_signature_candidate_cannot_attach_to_different_overload",
+    "test_strings_comments_and_nonliteral_targets_do_not_generate_hints",
+    "test_wrapper_template_or_argument_drift_remains_unrecognized",
+    "test_dynamic_hints_preserve_all_existing_semantics_and_uncertainty",
+    "test_transformation_hint_tamper_is_rejected_by_full_semantic_readback"
+  ],
+  "replay_runs": 0,
+  "test_runs": 0,
+  "tests_added_lines": 137
+}

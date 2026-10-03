@@ -1,0 +1,42 @@
+{
+  "added_functions": [
+    "sql_identifier",
+    "sql_signature",
+    "sql_static_alterations",
+    "sql_static_lineage",
+    "function_source_review"
+  ],
+  "all_original32_test_class_function_ASTs_unchanged": true,
+  "changed_existing_function_ASTs": [
+    "sql_definitions",
+    "build"
+  ],
+  "maintained_generator_base_sha256": "96a218f211f3ca95e98c87aa934365adbc8e2ebd5c1f944d0400569a105051c9",
+  "maintained_promotion_not_applied": true,
+  "private_generator_sha256": "fc734112fe564479d42042717efbd2a915efbf372915fe4eae0119bb8f7d4cef",
+  "seams_bytes_match_maintained": true,
+  "source_output_dynamic_evaluation": false,
+  "unchanged_existing_function_ASTs": [
+    "sha",
+    "canonical",
+    "required_bytes",
+    "required_json",
+    "admit_catalog_paths",
+    "domain",
+    "Token",
+    "lex",
+    "caller_group",
+    "source_exclusion",
+    "maintained_sources",
+    "function_id",
+    "targets",
+    "client_sites",
+    "sql_sites",
+    "acl_entries",
+    "admit",
+    "normalize_objects",
+    "normalized_grants",
+    "verify_bundle",
+    "main"
+  ]
+}

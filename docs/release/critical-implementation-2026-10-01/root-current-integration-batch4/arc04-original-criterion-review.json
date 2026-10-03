@@ -1,0 +1,29 @@
+{
+  "status": "fulfilled_original_local_criterion",
+  "checked_at_utc": "2026-10-02T03:25:05.723692+00:00",
+  "finding": "ARC-04",
+  "original_requirement_preserved": [
+    "**Acceptance:** fresh-cache clean-runner compilation and tests with exact lock/runtime and denied unexpected network/provider access, plus a corrupted-lock negative case; evidence-dependent tests consume a generated, immutable packet rather than silently skipping or borrowing an unexplained dated directory."
+  ],
+  "components": {
+    "fresh_cache_clean_runner": "Current154 full recipe began with empty exclusive Deno cache and passed all original and added suites.",
+    "exact_lock_runtime": "Deno2.5.6 and frozen nested lock enforced; actual bytes/runtime pins recorded.",
+    "unexpected_network_provider_denied": "Units and HTTP run with loopback network allowlists and no run permission; frozen/cached graph and real Linux network/memory isolation probes retained; no provider/database calls.",
+    "corrupt_lock_negative": "Original real imported digest corruption was rejected with exit10 under OS network denial. Current runtime, lock and dvmrc pins remain equal, so valid proof is reused. Unsupported argument diagnostic is excluded.",
+    "generated_immutable_observations": "Original worker packet validates generator/helper/migration/result origins and manifest hash. Ten added observations bind actual completed producer stdout and SQL input; all25 handler tests executed on exact retained bytes. No ignored suites or unexplained fixture substitution.",
+    "current_source_agreement": "Exact11 promotion leaves all154 maintained source hashes equal to accepted private graph; all other original guards unchanged.",
+    "cleanup": "Exact owned task image removed after zero container readback; supervisor/processes absent."
+  },
+  "evidence": {
+    "full_current154_packet": "506057f500a37d5a3f799645cc803d11727a8520373f1ce4d7a61c8dd4f4033d",
+    "original_canonical_and_real_negative_packet": "b1bbd91e078226a18892bd79bfa28245f244ad5ace20284617b86fea488a9b9c",
+    "observation_origins_packet": "1737e9f9b1e322e6a0c11546c2045518bcf7b83325d89895a26a32a8d4f297d1"
+  },
+  "current_pins": {
+    "supabase/functions/deno.lock": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+    ".dvmrc": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+  },
+  "independent_reviewer": "/root/successor_consumer_prep",
+  "reviewer_conclusion": "Original local criterion satisfied; no remaining component found. Independent548 artifacts/549 checksum rows and source154 agreement pass.",
+  "closure_scope": "Complete original ARC-04 local CI/lock/runner contract only. No hosted execution, current SQL, native/artifact, processor lifecycle or production readiness criterion is added or inferred."
+}

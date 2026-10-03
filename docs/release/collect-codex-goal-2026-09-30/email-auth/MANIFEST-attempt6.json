@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-09-30T22:11:50.728617+00:00",
+  "scope": "Current email and cutover guard SQL attempt6 plus prepared Auth plan; CLI/Admin evidence is separate",
+  "status": "pass",
+  "cases": 67,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+  },
+  "runner_sha256": "a6370ac5cac0456f569073288c6370ba3393834e76e1ae1dcf7fb91a6460c988",
+  "files": {
+    "sql-attempt6/20260930213000_operator_email_auth.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt6/20260930220527_operator_email_cutover_guard.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt6/20260930230100_receipt_backlog_events.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt6/20260930230200_admin_receipt_overview.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt6/20260930230300_admin_transaction_lifecycle.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt6/concurrency.log": "661ae125966431a5ca678c586f780c8cadf7cdf0dacb88e4e0947338834d7a8e",
+    "sql-attempt6/console.log": "bb44c3411d695cb0391bda610a9bd7ee0f7fcc413fc43c2c125846c0223de1fc",
+    "sql-attempt6/executed-migrations/20260930213000_operator_email_auth.sql": "676b1deacb6c290c7e7a8856a77e74f7b93c542e03bf153eb489a28953491f7a",
+    "sql-attempt6/executed-migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "sql-attempt6/executed-migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "sql-attempt6/executed-migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "sql-attempt6/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "sql-attempt6/executed-runner.py": "a6370ac5cac0456f569073288c6370ba3393834e76e1ae1dcf7fb91a6460c988",
+    "sql-attempt6/observed-scope-list.json": "cffe31c8b5bdf27aa5d021fb36e4c25b69a5049967e8f2c2931223e3ab649e83",
+    "sql-attempt6/queries.log": "d0d58b9bdd8d61072fc1f7588a93cd05f8b031d8879150fbc743ed80699caa3a",
+    "sql-attempt6/result.json": "e0c40bc9307693e9c3042207195587e08f0ad05646ee50f9a7d96fe2c93a62ee",
+    "hosted-auth-readback.json": "c888ee1aa53dd4ac2e23b717f3b01c40e8778e3dd118d0cae70198395aa20cc0",
+    "hosted-auth-readback-attempt2.json": "9672d5c12da39188723c791222eccd91db7ce2252f1119b3d3d6e1fb1d8abdac",
+    "prepared-hosted-plan.json": "dfe426967fba72f5c2841e1e8271302ccb23e6fd6280135a459197f0a1f96156",
+    "design-authority-current.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+    "design-authority-current.result.json": "109091deb1064b0a87a9910779668a916a285c88ec5d244fd0c5694da967fbee"
+  },
+  "additional_local_sources": {
+    "supabase/templates/collect_email_sign_in.html": "b0ae81c739e2d8b9f124d9cf72eeae78cade5d16999e2dd1b8130a53fd0c393c",
+    "supabase/config.toml": "2fa7c562397348c02a7a4de2c78d72e3501cf751c0dfdfd3943845a2143e61d2"
+  },
+  "additional_local_sources_scope": "Configuration source only, not an executed Auth provider/hosted proof"
+}

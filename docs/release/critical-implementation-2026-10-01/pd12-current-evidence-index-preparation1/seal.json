@@ -1,0 +1,14 @@
+{
+  "original_PD12_closed": false,
+  "packet_filename": "packet-files.json",
+  "packet_sha256": "743b43f6630d8d58537abfde5b011682453c06588dbf31300ec616d590d2609d",
+  "payload_count": 16,
+  "private_Python_AST_only": true,
+  "proposed_test_methods": 14,
+  "role": "Immutable private PD12 implementation proposal, not acceptance",
+  "sealed_at_utc": "2026-10-02T13:41:23.018494+00:00",
+  "source_domains": "archived2561/abf private execution versus current known2556 and separately bound named tooling5",
+  "source_manifest_sha256": "abf7eb091e48c96bc268d0e406935f5cc6eac4ebeca9159ee0aa3ca83e5d9191",
+  "source_or_APP_SDK_or_provider_mutation": false,
+  "tests_and_binding_consumer_run": false
+}

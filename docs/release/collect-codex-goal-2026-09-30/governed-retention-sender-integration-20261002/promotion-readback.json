@@ -1,0 +1,24 @@
+{
+  "matched": 19,
+  "paths": [
+    "lib/admin/core/admin_sender_picker.dart",
+    "lib/admin/core/admin_sender_retention_sdk.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+    "lib/admin/core/admin_sender_retention_models.dart",
+    "lib/admin/core/admin_sender_retention_host.dart",
+    "lib/admin/core/admin_sender_retention_controller.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint.dart",
+    "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+    "lib/admin/core/admin_sender_retention_view.dart",
+    "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+    "test/admin_sender_retention_browser_test.dart",
+    "test/admin_sender_retention_controller_test.dart",
+    "test/admin_sender_retention_models_test.dart",
+    "test/admin_sender_retention_view_test.dart",
+    "test/support/retention_api_fixture.dart",
+    "test/support/retention_fixture.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_governed_settings_page.dart",
+    "lib/admin/core/admin_receipt_operations_card.dart"
+  ]
+}

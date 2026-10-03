@@ -1,0 +1,11 @@
+{
+  "captured_at_utc": "2026-10-02T00:06:20.950808+00:00",
+  "batch_sha256": "f68f726c813a87e941678dc5e4e759282560714ea2625a58eea6aaaba82ce3d3",
+  "seal_sha256": "01e0b32a408ea39d229f017f3b665352f991f08e575b9c1486739268c52246be",
+  "artifact_bindings_checked": 54,
+  "current_final_source_inputs_checked": 358,
+  "unexplained_errors": [],
+  "actual_widget_passed": 25,
+  "actual_analyzer_issues": 0,
+  "scope": "Source and byte readback of sealed actual-route synthetic fixture; no hosted/provider/device/erasure/fidelity acceptance."
+}

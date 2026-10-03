@@ -1,0 +1,36 @@
+[
+  {
+    "command": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+      "analyze",
+      "lib/admin/core/admin_operating_policy_models.dart",
+      "lib/admin/core/admin_operating_policy_runtime.dart",
+      "lib/admin/core/admin_operating_policy_card.dart",
+      "lib/admin/core/admin_automations_page.dart",
+      "test/admin_operating_policy_models_test.dart",
+      "test/admin_operating_policy_runtime_test.dart",
+      "test/support/admin_operating_policy_fixture.dart"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 10.4514901638031,
+    "completion_marker": true,
+    "bound_inputs": 148,
+    "source_unchanged": true
+  },
+  {
+    "command": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "--reporter=expanded",
+      "test/admin_operating_policy_models_test.dart",
+      "test/admin_operating_policy_runtime_test.dart"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 61.610923051834106,
+    "completion_marker": false,
+    "bound_inputs": 148,
+    "source_unchanged": true
+  }
+]

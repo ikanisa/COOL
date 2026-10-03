@@ -1,0 +1,1070 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:collect:shadow-supervisor:v1",
+  "title": "Collect manual shadow supervisor RPC results v1",
+  "description": "Shapes only. Cross-field semantics are normative in accompanying contract.md. No actor/session/member/recipient/body/provider-reference is exported.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/begin"
+    },
+    {
+      "$ref": "#/$defs/busy"
+    },
+    {
+      "$ref": "#/$defs/sample_result"
+    },
+    {
+      "$ref": "#/$defs/finish"
+    },
+    {
+      "$ref": "#/$defs/get"
+    },
+    {
+      "$ref": "#/$defs/history"
+    }
+  ],
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "health_status",
+        "alert_counts",
+        "sms_queue",
+        "checks_recorded",
+        "samples_recorded",
+        "business_mutations",
+        "provider_sends"
+      ],
+      "properties": {
+        "health_status": {
+          "enum": [
+            "ok",
+            "unknown",
+            "attention"
+          ]
+        },
+        "alert_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ok",
+            "unknown",
+            "attention",
+            "not_applicable"
+          ],
+          "properties": {
+            "ok": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "unknown": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "attention": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "not_applicable": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "sms_queue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "queued",
+            "awaiting_confirmation",
+            "send_started",
+            "uncertain",
+            "suppressed",
+            "active_workers"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "queued": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "awaiting_confirmation": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "send_started": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "uncertain": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "suppressed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "active_workers": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "checks_recorded": {
+          "const": 13
+        },
+        "samples_recorded": {
+          "const": 1
+        },
+        "business_mutations": {
+          "const": 0
+        },
+        "provider_sends": {
+          "const": 0
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "request_id",
+        "fence_version",
+        "status",
+        "started_at",
+        "lease_expires_at",
+        "sampled_at",
+        "completed_at",
+        "summary"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "request_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "status": {
+          "enum": [
+            "running",
+            "completed",
+            "expired"
+          ]
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lease_expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sampled_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/summary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "system_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "auth",
+        "alerts",
+        "metrics",
+        "database",
+        "scheduler",
+        "checked_at",
+        "health_status",
+        "window_seconds",
+        "evidence_limits",
+        "contract_version",
+        "failed_sms_parse",
+        "threshold_version",
+        "parser_pending_sms",
+        "sample_valid_until",
+        "unallocated_events",
+        "failed_notifications",
+        "queued_notifications",
+        "processing_notifications"
+      ],
+      "properties": {
+        "id": {
+          "const": "system"
+        },
+        "auth": {
+          "const": "authenticated"
+        },
+        "alerts": {
+          "type": "array",
+          "minItems": 13,
+          "maxItems": 13,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "state",
+              "metric",
+              "threshold"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "state": {
+                "enum": [
+                  "ok",
+                  "unknown",
+                  "attention",
+                  "not_applicable"
+                ]
+              },
+              "metric": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            }
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "push_due",
+            "push_failed",
+            "push_queued",
+            "sms_pending",
+            "reversals_24h",
+            "push_retry_24h",
+            "sms_failed_24h",
+            "sms_parsed_24h",
+            "payments_review",
+            "push_failed_24h",
+            "push_processing",
+            "push_attempts_24h",
+            "unallocated_events",
+            "finality_processing",
+            "payments_posted_24h",
+            "push_expired_leases",
+            "push_latency_p95_ms",
+            "push_missing_leases",
+            "reconciliation_open",
+            "durable_receipts_24h",
+            "push_due_age_seconds",
+            "receipt_rejected_24h",
+            "finality_processed_24h",
+            "sms_pending_age_seconds",
+            "sms_expired_parse_leases",
+            "push_provider_accepts_24h",
+            "receipt_ack_generated_24h",
+            "payment_review_age_seconds",
+            "push_scheduler_age_seconds",
+            "receipt_ack_latency_mean_ms",
+            "receipt_telemetry_age_seconds"
+          ],
+          "properties": {
+            "push_due": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_queued": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sms_pending": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "reversals_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_retry_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sms_failed_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sms_parsed_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "payments_review": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_failed_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_processing": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_attempts_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "unallocated_events": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "finality_processing": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "payments_posted_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_expired_leases": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_latency_p95_ms": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "push_missing_leases": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "reconciliation_open": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "durable_receipts_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_due_age_seconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "receipt_rejected_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "finality_processed_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sms_pending_age_seconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sms_expired_parse_leases": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "push_provider_accepts_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "receipt_ack_generated_24h": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "payment_review_age_seconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "push_scheduler_age_seconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "receipt_ack_latency_mean_ms": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "receipt_telemetry_age_seconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "database": {
+          "const": "reachable"
+        },
+        "scheduler": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "configuration_verified"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "enabled",
+                "disabled",
+                "unknown"
+              ]
+            },
+            "configuration_verified": {
+              "const": false
+            }
+          }
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "health_status": {
+          "enum": [
+            "ok",
+            "unknown",
+            "attention"
+          ]
+        },
+        "window_seconds": {
+          "const": 86400
+        },
+        "evidence_limits": {
+          "const": [
+            "ACK generation does not prove device receipt.",
+            "Provider acceptance does not prove user delivery.",
+            "Scheduler activation does not prove provider configuration."
+          ]
+        },
+        "contract_version": {
+          "const": 1
+        },
+        "failed_sms_parse": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "threshold_version": {
+          "const": 1
+        },
+        "parser_pending_sms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sample_valid_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "unallocated_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "failed_notifications": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "queued_notifications": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "processing_notifications": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_id",
+        "checked_at",
+        "system_health",
+        "sms_queue",
+        "summary",
+        "content_sha256"
+      ],
+      "properties": {
+        "sample_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "system_health": {
+          "$ref": "#/$defs/system_health"
+        },
+        "sms_queue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "queued",
+            "awaiting_confirmation",
+            "send_started",
+            "uncertain",
+            "suppressed",
+            "active_workers",
+            "oldest_queued_at",
+            "observed_at"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "queued": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "awaiting_confirmation": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "send_started": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "uncertain": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "suppressed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "active_workers": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "oldest_queued_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "summary": {
+          "$ref": "#/$defs/summary"
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "fence_version",
+        "active_run_id",
+        "lease_expires_at"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "idle",
+            "active",
+            "expired"
+          ]
+        },
+        "fence_version": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "active_run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lease_expires_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "begin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "ok",
+        "outcome",
+        "replayed",
+        "run"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "ok": {
+          "const": true
+        },
+        "outcome": {
+          "enum": [
+            "started",
+            "replayed"
+          ]
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "run": {
+          "$ref": "#/$defs/run"
+        }
+      }
+    },
+    "busy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "ok",
+        "outcome",
+        "reason_code",
+        "request_id",
+        "retry_after_seconds"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "ok": {
+          "const": false
+        },
+        "outcome": {
+          "const": "busy"
+        },
+        "reason_code": {
+          "const": "shadow_run_busy"
+        },
+        "request_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        }
+      }
+    },
+    "sample_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "ok",
+        "outcome",
+        "replayed",
+        "run_id",
+        "fence_version",
+        "sample"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "ok": {
+          "const": true
+        },
+        "outcome": {
+          "const": "sampled"
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "run_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "sample": {
+          "$ref": "#/$defs/sample"
+        }
+      }
+    },
+    "finish": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "ok",
+        "outcome",
+        "replayed",
+        "run"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "ok": {
+          "const": true
+        },
+        "outcome": {
+          "const": "completed"
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "run": {
+          "$ref": "#/$defs/run"
+        }
+      }
+    },
+    "get": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "found",
+        "run"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "found": {
+          "type": "boolean"
+        },
+        "run": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/run"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "mode",
+        "scope",
+        "checked_at",
+        "lease",
+        "rows",
+        "total",
+        "next_cursor"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": 1
+        },
+        "mode": {
+          "const": "shadow"
+        },
+        "scope": {
+          "const": "collect_platform"
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lease": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "fence_version",
+            "active_run_id",
+            "lease_expires_at"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "idle",
+                "active",
+                "expired"
+              ]
+            },
+            "fence_version": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000
+            },
+            "active_run_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "lease_expires_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/run"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "started_at",
+                "run_id"
+              ],
+              "properties": {
+                "started_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "run_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

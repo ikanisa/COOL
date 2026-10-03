@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "code": "SOURCE_BUSY",
+      "payment_id": "c49e4cd1-bdcf-4f68-a3de-982330e5c4c9",
+      "receipt_id": null,
+      "request_id": null,
+      "evidence_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "recorded_at": "2026-10-02T01:23:00.859249Z",
+      "snapshot_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "exception_ids": [],
+      "source_status": "available",
+      "business_handled": false,
+      "transaction_sms_id": "6d5a8208-0067-4d4d-9ca2-18134cf31c39"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "94bd4e8c-5587-4790-b977-067ae7fc6d48",
+  "status": "partial",
+  "section": "backlog_results",
+  "checked_at": "2026-10-02T01:23:08.718967Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T01:24:08.718967Z"
+}

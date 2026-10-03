@@ -1,0 +1,17 @@
+{
+  "runner_sha256": "d15bb5d57f98e598e6abab64903cbca53b6468da7a1eda26e88e925fefd01b59",
+  "reviewed_proof_sha256": "a624a3036426e67b1db62364308a5d75e4752faee177ea906219503e21ff4426",
+  "source_count": 174,
+  "stage_count": 20,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_generated_query_benchmark_uat.py",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/generated-query-benchmark-2026-10-01/current20-attempt4-1000-10000",
+    "--reviewed-stages",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt18-current20-policy-audit-actor/result.json",
+    "--volumes",
+    "1000,10000"
+  ],
+  "started_at": "2026-10-01T00:44:53.675231+00:00"
+}

@@ -1,6 +1,6 @@
 # Collect product contract: Rwanda MoMo USSD
 
-Collect is a Rwanda-only group-contribution system. Members use RWF and MTN MoMo or Airtel Money USSD. Collect is a technology and record-keeping service; it does not operate a wallet, hold deposits, or receive a member's MoMo PIN or OTP.
+Collect is a Rwanda-only group-contribution system. Members use RWF and MTN MoMo or Airtel Money USSD. Collect is a technology and record-keeping service; it does not operate a wallet, hold deposits, or receive a member's MoMo PIN or payment provider OTP. A WhatsApp sign-in code is used only to sign in to Collect.
 
 ## Member identity and groups
 

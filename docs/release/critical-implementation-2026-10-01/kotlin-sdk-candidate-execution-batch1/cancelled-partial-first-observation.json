@@ -1,0 +1,7 @@
+{
+  "status": "PREMUTATION_SAFEGUARD_STOP",
+  "error": "partial drift",
+  "cause": "stat equality included atime changed by read; content/identity comparison now excludes only atime",
+  "source_target_copy_occurred": false,
+  "partial_rename_occurred": false
+}

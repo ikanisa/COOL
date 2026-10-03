@@ -1,0 +1,8 @@
+{
+  "export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-supabase-inventory-correction-20261001",
+  "base_export": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-full-flutter-current-local-20261001-resumption1",
+  "current_test_sha256": "6556a41a82a5acf9136113c928a3c7c7795a71007b2582576b875334494a0452",
+  "prior_test_sha256": "9b28f9fa575a00d417dbaf29f94650bfb593ab5ab4a77f5d65b205e5b76d6cd2",
+  "only_change": "Exact source inventory now includes the implemented twelfth scheduler-only receipt worker; no wildcard or weakened retired-payment restrictions.",
+  "original_failure_retained": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/full-flutter-unmet-continuation1/validation.json"
+}

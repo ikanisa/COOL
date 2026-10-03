@@ -1,0 +1,19 @@
+JUnit version 4.13.2
+..............................E.......
+Time: 327.692
+There was 1 failure:
+1) callbackReceiptAcknowledgementsStayHotUntilActualAttemptArchiveClosesThem(app.cool.mobile.gateway.GatewayAttemptArchiveTest)
+app.cool.mobile.gateway.GatewayStateException: gateway_response_invalid
+	at app.cool.mobile.gateway.GatewayWireKt.requireKeys(GatewayWire.kt:46)
+	at app.cool.mobile.gateway.GatewayDispatchWireKt.validateCallbackResult(GatewayDispatchWire.kt:165)
+	at app.cool.mobile.gateway.GatewayDispatchWireKt.validateGatewayDispatchResultV2(GatewayDispatchWire.kt:210)
+	at app.cool.mobile.gateway.GatewayDispatchWireKt.validateGatewayDispatchResultV2$default(GatewayDispatchWire.kt:191)
+	at app.cool.mobile.gateway.GatewayArchiveAcknowledgement$Companion.validateArchivedGatewayResult(GatewayJournalArchive.kt:104)
+	at app.cool.mobile.gateway.GatewayArchiveAcknowledgement$Companion.direct(GatewayJournalArchive.kt:77)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.callbackReceiptAcknowledgementsStayHotUntilActualAttemptArchiveClosesThem$lambda$0(GatewayAttemptArchiveTest.kt:332)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.withStore(GatewayAttemptArchiveTest.kt:26)
+	at app.cool.mobile.gateway.GatewayAttemptArchiveTest.callbackReceiptAcknowledgementsStayHotUntilActualAttemptArchiveClosesThem(GatewayAttemptArchiveTest.kt:324)
+
+FAILURES!!!
+Tests run: 37,  Failures: 1
+

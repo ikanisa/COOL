@@ -1,0 +1,13 @@
+# Maintained consumer validation environment
+
+This packet executes actual maintained delivery consumers after root integration. It does not modify maintained source or establish real provider, database, human approval or release acceptance. Root's `current-source-after-review-corrections.json`, not the initial integration digest list, supplies the twelve reviewed source hashes.
+
+The first bounded attempt omitted the required local Node directory from its deliberately clean PATH. All 27 selected consumers and four additional probes stopped during fixture setup with `CANDIDATE_NODE_REQUIRED`. Those actual errors, command receipts, source identities and terminal group checks remain in the packet root.
+
+Attempt2 added the exact installed Node directory and recorded its binary identity and version. Its complete 27-case result was 17 passes, nine failures and one error; the four additional probes produced one pass, two failures and one error. Consumers requiring the edge inventory stopped before requests under `LC_ALL=C`. Passing early-refusal cases in that run are not treated as proof of later write/drift behavior.
+
+The recorded read-only `/usr/bin/ruby scripts/edge_function_inventory.rb auth-check` diagnostic reproduced `invalid byte sequence in US-ASCII` with the ASCII caller locale. Changing only the caller locale to `en_US.UTF-8` made the unchanged maintained inventory pass, with thirteen active endpoints and auth configuration agreeing. These diagnostics perform local source reads only.
+
+Attempt3 therefore keeps the clean credential-free environment and exact Python/Node paths while selecting UTF-8 for repository consumers. The PostgreSQL module continues to scrub its own local version-probe environment to `LC_ALL=C`; its original one-second fixture deadline and all maintained assertions are unchanged. This caller-locale prerequisite is recorded as an observed runtime limitation, not hidden by a source change or weakened check.
+
+Attempt3's additional four probes retain synthetic controller receipts and call/event traces before returning and fixture cleanup. The 27-case cohort's attempted capture hook runs from `addSuccess`, which unittest calls after registered cleanups: successful case artifacts are therefore empty and do not supply retained call traces. Independent review caught this proof defect while the cohort was live. The live runner remains immutable; passing maintained assertions remain actual evidence, and empty artifacts are not presented as successful trace retention. The maintained test-method ASTs remain unchanged. The final outcome is supplied by terminal result files; no pass is implied merely by writing this document.

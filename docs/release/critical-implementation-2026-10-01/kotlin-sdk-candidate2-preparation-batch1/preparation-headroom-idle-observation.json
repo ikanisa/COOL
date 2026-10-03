@@ -1,0 +1,19 @@
+{
+  "actual_free_bytes": 16819986432,
+  "authenticated_expanded_bytes": 4244148641,
+  "candidate2_absent": true,
+  "candidate2_independent_original_source_generated_outputs_transfer": false,
+  "headroom_sufficient": true,
+  "minimum_start_free_bytes": 6391632289,
+  "new_controller_sha256": "f1485b07efa314c53728469e174f863c88064e413ef23c8bf9c87817aa2cf2c3",
+  "new_execution_packet_absent": true,
+  "reserved_minimum_after_expansion_bytes": 2147483648,
+  "same_owned_Gradlehome_old_daemon_PID_observations": [
+    {
+      "PID": 17361,
+      "current_process": "",
+      "owned_log": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1/daemon/9.1.0/daemon-17361.out.log"
+    }
+  ],
+  "source_application_or_SDK_execution": false
+}

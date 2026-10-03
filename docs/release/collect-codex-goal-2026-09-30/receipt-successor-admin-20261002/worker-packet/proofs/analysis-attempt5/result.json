@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-01T23:16:03.587480+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/admin/core/admin_receipt_successor_view.dart",
+    "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart",
+    "lib/admin/core/admin_receipt_successor_checkpoint_web.dart",
+    "lib/admin/core/admin_receipt_successor_sdk.dart",
+    "lib/admin/core/admin_receipt_successor_host.dart",
+    "lib/admin/core/admin_receipt_successor_models.dart",
+    "lib/admin/core/admin_receipt_successor_controller.dart",
+    "lib/admin/core/admin_receipt_successor_checkpoint.dart",
+    "test/admin_receipt_successor_host_test.dart",
+    "test/admin_receipt_successor_checkpoint_browser_test.dart",
+    "test/admin_receipt_successor_sdk_controller_test.dart",
+    "test/admin_receipt_successor_view_test.dart",
+    "test/admin_receipt_successor_models_test.dart",
+    "test/support/successor_fixture.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-workflows-20261001/slice2_admin/runtime",
+  "mode": "analysis",
+  "source_sha256": "0e133975778b75af5820dba816df9b21dc17e1bd182dc1c0c5ee0044115973ca",
+  "runtime_closure_sha256": "63a0fbe2405713e8567298a1c7a839ca9d9572a6f0290c01a106bd0a76852aa6",
+  "dependencies_sha256": "d10185d12ebbfc8df9e166dc84e1407450d850f88c127eb8ccd931301777d517",
+  "tools": {
+    "runner": "0b7db3456c0cca7789e4aef56f5be5a13a0807828168c6683b2ba81d34269fee",
+    "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "python": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a"
+  },
+  "exit_code": 1,
+  "elapsed_seconds": 11.099476791998313,
+  "completed_at": "2026-10-01T23:16:14.704516+00:00",
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "dependencies_unchanged": true
+}

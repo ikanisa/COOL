@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-01T23:36:10.134430+00:00",
+  "native_results": {
+    "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/native-results.json",
+    "sha256": "b401af5e7c4cefd293d737e7ca5a62ed92ffd3f89f8992a33afd7628874c177d"
+  },
+  "packet_manifest": {
+    "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/packet-files.json",
+    "sha256": "f46174a0d5f8090ab8965341f8b9e498a7ffd98e3e06d947bbc8bf22b604db14"
+  },
+  "source_freeze": {
+    "path": "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/source-freeze.json",
+    "sha256": "8f8e7903066131ccff29853038d5488aac5a2a0504eb8ce6993ed95ab2cc40c9"
+  },
+  "packet_leaves_checked": 83,
+  "packet_leaf_errors": [],
+  "owned_sources_checked": 8,
+  "owned_source_errors": [],
+  "frozen_compile_input_count": 752,
+  "native_unit_totals": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 12
+  },
+  "scope": "Scoped authenticated KGP2.4.20 declaration/fork remediation, strict controlled graphs, real native Kotlin compilation and 12 production-debug JVM units on the retained frozen source. Not full ARC09 or current product/release acceptance.",
+  "current_checkout_is_the_frozen_candidate": false,
+  "production_release_approval": false,
+  "sdk_build_component_remediation_complete": false
+}

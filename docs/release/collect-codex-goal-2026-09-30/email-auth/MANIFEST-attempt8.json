@@ -1,0 +1,45 @@
+{
+  "captured_at": "2026-09-30T22:32:07.459440+00:00",
+  "scope": "Current five-migration email/scope SQL subset in a task-owned offline container, plus separate read-only hosted Auth observations",
+  "status": "pass",
+  "cases": 68,
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850"
+  },
+  "runner_sha256": "6563b3e60b6ad0ea4a1b536e161f84882e65f34fdea6f1383a4a59203830ccca",
+  "target_guard_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "files": {
+    "sql-attempt8/20260930213000_operator_email_auth.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt8/20260930220527_operator_email_cutover_guard.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt8/20260930230100_receipt_backlog_events.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt8/20260930230200_admin_receipt_overview.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt8/20260930230300_admin_transaction_lifecycle.install.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sql-attempt8/concurrency.log": "661ae125966431a5ca678c586f780c8cadf7cdf0dacb88e4e0947338834d7a8e",
+    "sql-attempt8/executed-migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "sql-attempt8/executed-migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "sql-attempt8/executed-migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "sql-attempt8/executed-migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "sql-attempt8/executed-migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "sql-attempt8/executed-runner.py": "6563b3e60b6ad0ea4a1b536e161f84882e65f34fdea6f1383a4a59203830ccca",
+    "sql-attempt8/executed-target-guard.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "sql-attempt8/observed-scope-list.json": "d832a5c7df617406004be1bdd5f433cd151fc41ff4a04d2434ef693163209a53",
+    "sql-attempt8/queries.log": "8bddbd66363759e3a5dbd98fc9998147d0c8ad51935e35b1bd9310684271326e",
+    "sql-attempt8/result.json": "86f7d57f28360c442956f452dd183624ce59303fbeb4190788430f4947c10546",
+    "sql-attempt8/root_email_subset/container.log": "00544072a35b2724827bfa5c21c8aa906d1db0161f6a23f28b7e3a38b9eb49f9",
+    "sql-attempt8/root_email_subset/queries.log": "7cc2caf7178d0ac01d750beced6c6496a7b542d1d5a10bb5ec8a2c5dde6c155c",
+    "sql-attempt8/root_email_subset/queries.sql": "34ea975cb062381c1e7ba34222a913371f2d31d8e04500ee8f9d5f2309cae91b",
+    "public-auth-settings-readback.json": "dff29ac14786847aaf47c05c20339ea27d77343402fef52eb2a98fc4d90ffbb6",
+    "hosted-auth-readback-attempt2.json": "9672d5c12da39188723c791222eccd91db7ce2252f1119b3d3d6e1fb1d8abdac"
+  },
+  "limits": {
+    "provider_runtime_verified": false,
+    "smtp_or_template_verified": false,
+    "hosted_config_applied": false,
+    "full_app_upgrade_tested_by_this_packet": false,
+    "managed_host_installer_privileges_verified": false
+  }
+}

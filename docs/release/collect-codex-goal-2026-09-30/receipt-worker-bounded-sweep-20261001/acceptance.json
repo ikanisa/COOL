@@ -1,0 +1,60 @@
+{
+  "status": "pass",
+  "scope": "local staged bounded source-sweep and evidence/latest query-cost slice",
+  "checked_at": "2026-10-01T16:26:56.672664+00:00",
+  "accepted_attempt": 5,
+  "passing_checks": 39,
+  "manifest_is_file_integrity_only": true,
+  "migration_sha256": "5a242eb7f80a92879f3164c23d3b66d34315f20d1674c6ba7cb31d51ec0b64a5",
+  "proof_result_sha256": "d6f5a2b185717c39c81f8dc5d00b2b3df7487364bd0741108f9682229fac3940",
+  "docker_cli_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+  "docker_cli_sha256_at_seal": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+  "postgres_server": "17.6",
+  "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+  "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+  "all_five_owned_targets_absent": true,
+  "source_bindings_current": true,
+  "rejections": [
+    {
+      "attempt": "attempt1",
+      "raw_attempt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/attempt1",
+      "query_log_sha256": "5ccf0a5c560daf8cdcf6f2aa4d09bce6a42a7660d9339002418587610797b292",
+      "error": "installer-only immutable duplicate-history run anchors: ERROR:  23514: new row for relation \"runs\" violates check constraint \"runs_check\"\nDETAIL:  Failing row contains (997a0000-0000-4000-8000-000000000046, 1c50a489-a0a8-4176-8eea-3780eb0e68f3, c8403339-5061-46c9-89db-566167f9b510, 46, 1, Shadow, {99780000-0000-4000-8000-000000030001}, null, 2026-10-01 16:20:09.075261+00, 2026-10-01 16:22:09.075262+00, f, null).\nSCHEMA NAME:  collect_receipt_operations\nTABLE NAME:  runs\nCONSTRAINT NAME:  runs_check\nLOCATION:  ExecConstraints, execMain.c:2033\n",
+      "task_container_removed": true
+    },
+    {
+      "attempt": "attempt2",
+      "raw_attempt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/attempt2",
+      "query_log_sha256": "beaa208ea9d155e5cf2c9069aef74673011e07cee9d355dee95ea9cb47330438",
+      "error": "drift refuses atomically for collect_ops.queue_receipt_exception_source()",
+      "task_container_removed": true
+    },
+    {
+      "attempt": "attempt3",
+      "raw_attempt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/attempt3",
+      "query_log_sha256": "766f31c525e67218193ec704485c0d603c3124a2225b3165d1f327fc01890374",
+      "error": "2000 declared immutable worker/query-only history fixtures: ERROR:  42601: syntax error at or near \")\"\nLINE 1: ...alized(select clock_timestamp()-interval '1 day'at)insert in...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+      "task_container_removed": true
+    },
+    {
+      "attempt": "attempt4",
+      "raw_attempt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/worker-bounded-sweep-20261001/attempt4",
+      "query_log_sha256": "15ddb75296d4c1015cd8855093c4766ca03c8813887b9caf2c8fd17437f3d0f8",
+      "error": "query: ERROR:  42601: syntax error at or near \"desclimit\"\nLINE 1: ...t_worker_jobs order by created_at desc,request_id desclimit ...\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n",
+      "task_container_removed": true
+    }
+  ],
+  "canonical_source_written": false,
+  "hosted_written": false,
+  "sms_sent": false,
+  "complete_retention": false,
+  "whole_current_candidate_replayed": false,
+  "acceptance_limits": [
+    "177 unchanged captured fixture migrations plus 110000/120000/140000/150000 and staged210000",
+    "fixture bootstrap locally normalized; new migration and changed-body checks actual NOSUPERUSER",
+    "1100 genuine synthetic canonical postings; 2000 latest-query anchors explicitly installer fixtures",
+    "one complete passing39 check execution; rejected preceding attempts not summed",
+    "one-time historical backfill/index creation holds producer table locks; hosted duration/capacity unmeasured",
+    "worker hot/cold maintenance/export/restore and total-count query costs remain separate"
+  ]
+}

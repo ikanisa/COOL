@@ -1,0 +1,65 @@
+{
+  "packets": [
+    {
+      "packet": "sql154-positive-history-attempt2",
+      "result_sha256": "36b17dfef5357a778e2a8bbd9b65aff18e3b3afaac775cd4d771e955530691d0",
+      "status": "failed",
+      "passed": 39,
+      "failed": 4,
+      "shared_preserved": true,
+      "clones_removed": true,
+      "runner_inputs_unchanged": true,
+      "recorder_sources_unchanged": true
+    },
+    {
+      "packet": "sql154-positive-history-attempt4-candidate235000",
+      "result_sha256": "5ad2bfd38efd76041889b579b7b6cc110640d1358f6fa35032c9ef27c24120bc",
+      "status": "failed",
+      "passed": 64,
+      "failed": 1,
+      "shared_preserved": true,
+      "clones_removed": true,
+      "runner_inputs_unchanged": true,
+      "recorder_sources_unchanged": true
+    },
+    {
+      "packet": "sql154-positive-history-attempt5-candidate235000",
+      "result_sha256": "4ba0576df7222c21e315d39adc85cf7deb02fdec395afd5b1df8d5922259763d",
+      "status": "pass_scoped",
+      "passed": 65,
+      "failed": 0,
+      "shared_preserved": true,
+      "clones_removed": true,
+      "runner_inputs_unchanged": true,
+      "recorder_sources_unchanged": true
+    },
+    {
+      "packet": "sql154-positive-history-attempt6-full-current167",
+      "result_sha256": "b7cf118a6db0bfb3e62af5135d74ea379dfbddaa83b8215acad8d006d193075a",
+      "status": "pass_scoped",
+      "passed": 67,
+      "failed": 0,
+      "shared_preserved": true,
+      "clones_removed": true,
+      "runner_inputs_unchanged": true,
+      "recorder_sources_unchanged": true
+    }
+  ],
+  "accepted_receipt_patch_sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+  "shared_installed_count": 154,
+  "shared_latest": "20260930230000",
+  "candidate_installed_shared": false,
+  "provider_truth": false,
+  "current_client_bridge_pending": false,
+  "client_bridge": {
+    "packet": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1",
+    "validation_sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee",
+    "vm_passed": 744,
+    "chrome_passed": 299,
+    "runner_failures": 0,
+    "original_recorder_failure_preserved": true,
+    "immutable_export_inputs": 6170,
+    "current_source_acceptance": false,
+    "current_new_stage_alignment_pending": true
+  }
+}

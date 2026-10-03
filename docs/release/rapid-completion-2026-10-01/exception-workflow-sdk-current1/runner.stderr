@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/run.py", line 28, in <module>
+    if 'admin_exception_workflow_sdk_test.dart' in names.get(d.get('testID'),'') or (d.get('type')=='testStart' and 'admin_exception_workflow_sdk_test.dart' in d['test'].get('url','')):records.append(d)
+                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable

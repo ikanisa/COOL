@@ -1,0 +1,47 @@
+{
+  "Makefile": {
+    "bytes": 18142,
+    "device": 16777247,
+    "inode": 17481833,
+    "mode": 420,
+    "mtime_ns": 1790933916958590944,
+    "nlink": 1,
+    "sha256": "8c578295aeb40de8a55563a0c9116deb554c71181d3b21bde0b66bc0e2df665c"
+  },
+  "scripts/audits/collect_schema_domain_caller_seams.json": {
+    "bytes": 13792,
+    "device": 16777247,
+    "inode": 17481835,
+    "mode": 420,
+    "mtime_ns": 1790923108379492286,
+    "nlink": 1,
+    "sha256": "7288cf27614bfff4a19b3e364141c5de181362cf6a5562b990859cdf5e6ee2bc"
+  },
+  "scripts/audits/collect_schema_domain_map.py": {
+    "bytes": 55616,
+    "device": 16777247,
+    "inode": 17481834,
+    "mode": 420,
+    "mtime_ns": 1790933916958083208,
+    "nlink": 1,
+    "sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+  },
+  "scripts/tests/collect_schema_domain_map_test.py": {
+    "bytes": 31057,
+    "device": 16777247,
+    "inode": 17481836,
+    "mode": 420,
+    "mtime_ns": 1790926585636731856,
+    "nlink": 1,
+    "sha256": "ed9698015a6b290bf4af3f877fa6ca5ce37da9555ce175f76e3ecfa06f990ce4"
+  },
+  "scripts/tests/collect_schema_lineage_invalidation_test.py": {
+    "bytes": 7013,
+    "device": 16777247,
+    "inode": 17976560,
+    "mode": 420,
+    "mtime_ns": 1790933916958290577,
+    "nlink": 1,
+    "sha256": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+  }
+}

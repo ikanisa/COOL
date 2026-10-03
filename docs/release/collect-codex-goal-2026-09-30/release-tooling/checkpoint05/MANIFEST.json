@@ -1,0 +1,201 @@
+{
+  "approvals": {
+    "frozen": false,
+    "owner_approved": false,
+    "production_release_accepted": false,
+    "reviewed": false,
+    "trusted_source_verified": false
+  },
+  "artifact_bytes": 66227496,
+  "artifact_file_count": 155,
+  "artifact_manifest_sha256": "66cf116e6dd35260f7e80fceb3c9cdd48bed33585f08e81c9168925bcc1bdd5b",
+  "configured_admin_compilation": "pass",
+  "contract_version": 1,
+  "created_at_utc": "2026-10-01T00:22:52Z",
+  "excluded_from_file_table": [
+    "MANIFEST.json",
+    "MANIFEST.sha256",
+    "manifest-readback.json"
+  ],
+  "file_count": 39,
+  "files": {
+    "README.md": {
+      "bytes": 5917,
+      "sha256": "c7c9585bd456544e9c3637065a53b60c9119de7680b207fe7ec29ac89bb80d8e"
+    },
+    "admin-attempt01/admin05-build-blocked.json": {
+      "bytes": 323,
+      "sha256": "d83d4a83d65c06ea495db99ae7096203998290921ab87adac691591139eb70f9"
+    },
+    "admin05-configured-build.json": {
+      "bytes": 27584,
+      "sha256": "d8da99acfcce82929bb67b693e31f912a2079f9b91ac69096591cae6aa7f15de"
+    },
+    "admin05-configured-build.log": {
+      "bytes": 808,
+      "sha256": "5003169c446444f3bc8199f7dccb6c6545fd4ee8d766d1bbc8dbfc65e1656723"
+    },
+    "admin05-configured-build.result.json": {
+      "bytes": 1682,
+      "sha256": "2d0fe484a2eb4363c05078934c8fc937bee7a5c5b1f72ce556a3a684d037d533"
+    },
+    "admin05-dependency-binding.json": {
+      "bytes": 941,
+      "sha256": "5cec946f2d401c7c45c3da55a7297c855d5ebdfb3da4dd6ea39bb771b00f6d8c"
+    },
+    "admin05-pub-offline.log": {
+      "bytes": 208,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    "admin05-pub-offline.result.json": {
+      "bytes": 1188,
+      "sha256": "1ae506506300e15769bfd86e8cd0275116b6a9db90ef2c2c8206111976f67403"
+    },
+    "capture-status.json": {
+      "bytes": 3846,
+      "sha256": "ccc46ad759fd4f48ae5762a737ebb339c0ce1247f5749e5af82a7f70f1056da6"
+    },
+    "export-thread-sample.txt": {
+      "bytes": 67099,
+      "sha256": "6bc656f2aae646006c239dcf595ecbbc6b2f8344ae2ef99d55ce3a01dc2db1aa"
+    },
+    "included-feature-source.json": {
+      "bytes": 7916,
+      "sha256": "316d90fc5356802462a5f7523b3fd40de62c31817c245ab0e8ed435653b745c2"
+    },
+    "later-current-source-delta.json": {
+      "bytes": 20403,
+      "sha256": "41bcf40b7995839bd1b4d667b192fefdd780d92a356e2036b102de6d69e07eea"
+    },
+    "mcp-attempt01/mcp-dependency-binding.json": {
+      "bytes": 274757,
+      "sha256": "aa04f4f453664c7871287ff839a6503f08f233fe28f7a15dbe4576d260f2a90a"
+    },
+    "mcp-attempt01/mcp-node-version.log": {
+      "bytes": 9,
+      "sha256": "b7677d3ec37ee1897ba07dc2cfe8292fe421c9ac93396cca5bbece486d1a2a41"
+    },
+    "mcp-attempt01/mcp-node-version.result.json": {
+      "bytes": 1139,
+      "sha256": "48dbf1f5edb5421e8eb458a05d3008a2422006ebfb066aada4c3278c6955d351"
+    },
+    "mcp-attempt01/mcp-offline-install.log": {
+      "bytes": 725,
+      "sha256": "c91f0f2814cabb3711a6edf4600ce86c7fbd0cf67fb80dd6d49d567dbba1af29"
+    },
+    "mcp-attempt01/mcp-offline-install.result.json": {
+      "bytes": 1376,
+      "sha256": "99e8a70e2a6245adf61bdc5656c609513ea1d0b3db8776cf669c3b918e8a6a11"
+    },
+    "mcp-attempt01/mcp-snapshot-tests.log": {
+      "bytes": 9042,
+      "sha256": "fdceaac45b6356bff7557aae4e90b355b42b8fec9428279aa4669e5c56aaed51"
+    },
+    "mcp-attempt01/mcp-snapshot-tests.result.json": {
+      "bytes": 3565,
+      "sha256": "94ffef3df9979a32d248924707e1bab0265422e79517778ffe0604c0f9863a6c"
+    },
+    "mcp-attempt01/mcp-typescript-check.log": {
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "mcp-attempt01/mcp-typescript-check.result.json": {
+      "bytes": 1247,
+      "sha256": "a53dde1a0949f74f5e3c45e676cd0b306a3db0e863afc2b2776bce5dae50fd17"
+    },
+    "mcp-attempt01/mcp-workcopy-prepare.json": {
+      "bytes": 8801,
+      "sha256": "544c33805a2424bb1947dc7cb8283a81229682e444d4dca2afd2bd3e4ba3f3d9"
+    },
+    "mcp-attempt02-runner-used.py": {
+      "bytes": 11120,
+      "sha256": "e9eec5627807ce69b88d9d6b9ded318176ea17287695084652273f31a3b7b5c2"
+    },
+    "mcp-dependency-binding.json": {
+      "bytes": 275494,
+      "sha256": "7fe6f16852f41116aeffc74603e4f227c23488df65c3d37c2656afe8016dcf5b"
+    },
+    "mcp-host-read-only-discovery.json": {
+      "bytes": 3175,
+      "sha256": "5712a4db119dd99ba61665dce6db5e32fbf153c9d60e74501e522d82d4079616"
+    },
+    "mcp-node-version.log": {
+      "bytes": 9,
+      "sha256": "b7677d3ec37ee1897ba07dc2cfe8292fe421c9ac93396cca5bbece486d1a2a41"
+    },
+    "mcp-node-version.result.json": {
+      "bytes": 1149,
+      "sha256": "72636a715cbee9de509964090fc675ac21b09bd6784c64255e9d9eb57c2b6d55"
+    },
+    "mcp-offline-install.log": {
+      "bytes": 725,
+      "sha256": "cd28dbfb381ed4a187149a5925388fe062369804aef677e16ae97b0d60966387"
+    },
+    "mcp-offline-install.result.json": {
+      "bytes": 1386,
+      "sha256": "54b3e5b91bb1bbb82abd9c3092cf5997d873c16b330fd4d7bd2b1feae90d5477"
+    },
+    "mcp-runner-provenance.json": {
+      "bytes": 512,
+      "sha256": "af4d4453ff5ca01699cae33a37ed412ceabb561bfa9a3a9c8300aa763ac108a1"
+    },
+    "mcp-snapshot-tests.log": {
+      "bytes": 7775,
+      "sha256": "d08f40522251f3ed0f74128cf210162dc695eaf10827ca172fe91e6d99047880"
+    },
+    "mcp-snapshot-tests.result.json": {
+      "bytes": 3735,
+      "sha256": "93af0c8c7efea1de9d5f9b1ccd2b7eab14cad0c2de3eeec9c5f4dbb47a386753"
+    },
+    "mcp-snapshot-verification.json": {
+      "bytes": 8691,
+      "sha256": "1a43416f20240e09412aac2fcd86a03457563fd7f654404644e4707990349180"
+    },
+    "mcp-typescript-check.log": {
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "mcp-typescript-check.result.json": {
+      "bytes": 1257,
+      "sha256": "c3f8849026493a79783fbd1c5474b6132ace9d2efd45f8aa1d70491787e83368"
+    },
+    "mcp-workcopy-prepare.json": {
+      "bytes": 9691,
+      "sha256": "426aa004f0c5c7cc92ff36bc6681e4e448e4671452c62c9ad3dc67a68bf8abd1"
+    },
+    "owned-cache-correction.json": {
+      "bytes": 594,
+      "sha256": "a92636e21132288ebbc29deba74de94155d30495265877953e4b0ec3f0f91a32"
+    },
+    "source-export.json": {
+      "bytes": 2619,
+      "sha256": "b87ee8671b88971d0c6e1d9ef8b6d0fc53be263ddec122db240a20f102eea07d"
+    },
+    "workcopy-prepare.json": {
+      "bytes": 1257,
+      "sha256": "da806b1a042c22fd5e9d4dbfd29fb24c4450c96980d7e5913938cc90bcb2c6fc"
+    }
+  },
+  "hosted_mutations": 0,
+  "kind": "unapproved_non_atomic_implementation_checkpoint_evidence",
+  "migration_count": 167,
+  "otp_requests": 0,
+  "production_ready": false,
+  "provider_sends": 0,
+  "scope": "Exact local capture, configured compilation and snapshot synthetic checks only. Failed attempts are retained; test counts are not combined across attempts or snapshots.",
+  "snapshot_mcp_tests": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 80,
+    "skipped": 0,
+    "test_files": 16,
+    "tests": 80,
+    "todo": 0
+  },
+  "snapshot_mcp_typescript": "pass",
+  "source_bytes": 152968562,
+  "source_current_tree_accepted": false,
+  "source_file_count": 1784,
+  "source_manifest_sha256": "1e54a8ad509c48f412dff970cc0694c0ff40191a5e3e891c8cd7622287be43d9",
+  "total_bytes": 767795
+}

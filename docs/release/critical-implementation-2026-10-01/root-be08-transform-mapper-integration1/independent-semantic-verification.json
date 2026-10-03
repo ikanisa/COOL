@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+    "--root",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-transform-mapper-integration1/generated-current209",
+    "--verify"
+  ],
+  "exit_code": 0,
+  "actual_seconds": 4.078233458989416,
+  "deadline_seconds": 30,
+  "stdout_sha256": "af8e196a55b594a653383ca6c6e108d2d405ef15994eaec446c19384480a941a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

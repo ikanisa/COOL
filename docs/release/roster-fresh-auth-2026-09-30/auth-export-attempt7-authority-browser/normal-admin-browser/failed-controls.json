@@ -1,0 +1,44 @@
+[
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  },
+  {
+    "role": "checkbox",
+    "label": "Recover this saved editor into my fresh sign-in and review every page again.",
+    "checked": "true",
+    "disabled": "true"
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": null
+  },
+  {
+    "role": "button",
+    "label": null,
+    "checked": null,
+    "disabled": "true"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "files": 558,
+  "bytes": 37728392,
+  "manifest_sha256": "d595808a692de2875b4aadf4536da3e977e7557de41fdec47e39343067cd29d8",
+  "accepted_domain_cases": 100,
+  "accepted_affected_cases": 37,
+  "source_bindings_separate": true,
+  "actual_task_targets_absent": 9
+}

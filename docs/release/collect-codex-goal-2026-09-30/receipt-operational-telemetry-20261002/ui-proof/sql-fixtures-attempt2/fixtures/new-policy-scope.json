@@ -1,0 +1,132 @@
+{
+  "mode": "Paused",
+  "scope": "receipt_operations_configured_collections",
+  "alerts": [
+    {
+      "id": "89393f84-3b45-45a6-a6a8-dbb3dab02c5c",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "ACTION_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "policy",
+      "exception_id": "e0de4b43-19f6-456b-9fe5-8225bae50e9d",
+      "response_code": "review_limits"
+    },
+    {
+      "id": "196a3cec-24ab-4c6d-b82d-9600ce47885d",
+      "status": "clear",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "BACKLOG_AGED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "policy",
+      "exception_id": null,
+      "response_code": "investigate_backlog"
+    },
+    {
+      "id": "cc2a22f7-2c56-4c58-b3d2-1544f7b3e0e3",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "DELIVERY_CALLBACK_GAP",
+      "source_id": "5ce571a5-a64c-4266-a1b2-88b2bae47011",
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "attempt",
+      "exception_id": "891cbaea-b963-455f-8202-2492af7fb6fa",
+      "response_code": "investigate_attempt"
+    },
+    {
+      "id": "debc22d7-6d50-405b-ab78-a9dcf1605803",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "HANDLING_LATENCY_HIGH",
+      "source_id": "d8fdf5f1-281e-4786-8ac0-8634f1dd57eb",
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "handled_event",
+      "exception_id": "742f3dfc-9178-4fd2-81fd-6e39399ea53c",
+      "response_code": "investigate_handling"
+    },
+    {
+      "id": "f292474a-9470-4687-a9cd-deb8d45d74e7",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SEND_OUTCOME_UNKNOWN",
+      "source_id": "5ce571a5-a64c-4266-a1b2-88b2bae47011",
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "attempt",
+      "exception_id": "9cf93a53-0c59-4d28-845e-9c73f5b0e8f6",
+      "response_code": "reconcile_unknown"
+    },
+    {
+      "id": "cf738778-ec77-4136-a277-ce2c15ffb02b",
+      "status": "active",
+      "episode": 1,
+      "revision": 1,
+      "rule_code": "SMS_BUDGET_EXHAUSTED",
+      "source_id": null,
+      "observed_at": "2026-10-01T22:45:12.186909Z",
+      "source_kind": "policy",
+      "exception_id": "79c3b536-6a90-4736-9b0b-c64808e945ee",
+      "response_code": "review_limits"
+    }
+  ],
+  "backlog": {
+    "due_deferrals": 0,
+    "unhandled_events": 0,
+    "source_busy_deferrals": 0,
+    "oldest_unhandled_age_seconds": null
+  },
+  "budgets": {
+    "scope": "global_utc_day",
+    "actions_cap": 2,
+    "utc_day_start": "2026-10-01T00:00:00.000000Z",
+    "actions_reserved": 2,
+    "sms_segments_cap": 2,
+    "sms_segments_reserved": 2
+  },
+  "unknown": {
+    "uncertain_attempts": 1,
+    "callback_conflict_attempts": 1,
+    "started_without_all_sent_callbacks": 2,
+    "observed_sent_without_all_delivery_callbacks": 0
+  },
+  "handling": {
+    "latency_max_ms": 612056,
+    "latency_p50_ms": 12212,
+    "latency_p95_ms": 612056,
+    "events_created_24h": 13,
+    "events_handled_24h": 13
+  },
+  "callbacks": {
+    "expected_segments": 2,
+    "armed_attempts_24h": 1,
+    "conflicting_attempts": 1,
+    "covered_sent_segments": 1,
+    "covered_delivery_segments": 1,
+    "complete_delivery_callback_attempts": 0
+  },
+  "checked_at": "2026-10-01T22:45:12.186909Z",
+  "window_end": "2026-10-01T22:45:12.186909Z",
+  "send_action": false,
+  "window_start": "2026-09-30T22:45:12.186909Z",
+  "emergency_stop": true,
+  "window_seconds": 86400,
+  "policy_revision": 4,
+  "contract_version": 1,
+  "financial_action": false,
+  "sample_valid_until": "2026-10-01T22:46:12.186909Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only"
+  ],
+  "configured_collection_count": 1
+}

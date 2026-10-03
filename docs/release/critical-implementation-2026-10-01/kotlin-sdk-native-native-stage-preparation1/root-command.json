@@ -1,0 +1,25 @@
+{
+  "SDK_reader_bound_seconds": 300,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py",
+    "--stage",
+    "native",
+    "--prepared-manifest-sha256",
+    "ROOT_PINNED_NATIVE_PROPOSAL_MANIFEST_SHA256",
+    "--root-review-sha256",
+    "ROOT_PINNED_NATIVE_RECEIPT_SHA256"
+  ],
+  "automatic_advance": false,
+  "configuration": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json",
+  "live_free_floor_bytes": 4294967296,
+  "native_argv_cwd_environment_unchanged": true,
+  "native_bound_seconds": 2700,
+  "production_release_approval": false,
+  "raw_gradle_copy_bound_seconds": 300,
+  "receipt_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-native-stage-review1/native-admission.json",
+  "remaining_gates": "Actual Gradle/JVM/native outcomes and all-flavor/ABI followthrough remain unobserved. No native admission before whole app-lock PASS.",
+  "scope": "Root command only after the actual whole predecessor gate and separate reviewed native receipt. No command was executed."
+}

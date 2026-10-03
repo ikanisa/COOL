@@ -1,0 +1,5 @@
+{
+  "path": "test/admin_receipt_cancel_sdk_authority_test.dart",
+  "sha256": "1f30886435b3c609ad1b1ee417929a4c254314e3650577f8a2c219eb89fa28f0",
+  "scope": "Bounded wait must observe actual SDK refresh rather than only preceding success callback; exact two requests and privacy/uncertainty expectations retained"
+}

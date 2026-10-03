@@ -1,0 +1,12 @@
+{
+  "actual_seconds": 0.02835729200160131,
+  "at_utc": "2026-10-02T14:20:24.939446+00:00",
+  "check_schema": "pass",
+  "index_sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca",
+  "iter_errors": [],
+  "no_remote_resolver_or_provider_calls": true,
+  "schema_sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244",
+  "source_changes": false,
+  "status": "pass",
+  "validator": "jsonschema.Draft202012Validator"
+}

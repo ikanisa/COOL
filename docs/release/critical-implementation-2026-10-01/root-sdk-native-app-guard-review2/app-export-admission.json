@@ -1,0 +1,28 @@
+{
+  "checked_packet_leaves": 33,
+  "current12_authority_sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae",
+  "current_source_export_authorized": true,
+  "errors": [],
+  "execution_stage_admissions": {
+    "app-export": true,
+    "app-lock": false,
+    "foundation": false,
+    "native": false,
+    "sdk-lock": false,
+    "startup": false
+  },
+  "native_admitted": false,
+  "packet_manifest_sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c",
+  "private_snapshot_exclusive": true,
+  "production_release_approval": false,
+  "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+  "required_reviewed_guard_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+  "required_source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+  "source_lock_attested": false,
+  "source_scope_held_for_strict_export": false,
+  "strict_current_source_comparison_required": true,
+  "transient_write_and_restore_absence_attested": false,
+  "at_utc": "2026-10-02T08:18:44.630223+00:00",
+  "root_preparation_review_sha256": "f4cdbc0f0053064d309501ea33bfdbddb04f976c98c00393fd3221d4f002e928",
+  "preservation_readback_sha256": "f0b96b6e901a98b4c325a7787c54969b8d38f237c35dd4aff7d5cc77fc4b6025"
+}

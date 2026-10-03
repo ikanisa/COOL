@@ -1,0 +1,1582 @@
+{
+  "kind": "member_financial_controls_bounded_resumption",
+  "observed_at_utc": "2026-10-01T13:57:30.415657+00:00",
+  "status": "member_freshness_fixed_current_Admin_1000_10000_actual_query_scope_pass_other_named_owner_release_gaps_retained",
+  "supersedes_preliminary_review": "../member-financial-current1.json/md were written before actual missing-cache failure was identified. Their zero-defect/no-edits/whole SDK closure equality summary is superseded here. Original preliminary bytes are retained.",
+  "ownership": "Member Realtime/cache and nonAdmin financial/runtime consumers plus owned Admin query benchmark tool/tests/evidence; no lib/admin, Android/build, runtime SQL/migration or canonical register mutation.",
+  "source_writes": [
+    "lib/shared/repositories/collect_repository.dart",
+    "test/shared/member_realtime_sdk_session_test.dart",
+    "scripts/tests/current_admin_query_benchmark_uat.py",
+    "scripts/tests/current_admin_query_benchmark_test.py"
+  ],
+  "sql_build_provider_executed": {
+    "private_synthetic_sql": true,
+    "shared_sql_writes": false,
+    "build": false,
+    "hosted_or_provider": false
+  },
+  "realtime": {
+    "original_actual_SDK_cases": 18,
+    "original32_source_closure_current_bindings": {
+      "lib/app/env/app_env.dart": {
+        "accepted_sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+        "current_sha256": "031ed729e7e81fe8646b4454f409600a371269bd2cd571409bbf3f3f47722035",
+        "matches": true
+      },
+      "lib/core/data/exact_json_values.dart": {
+        "accepted_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+        "current_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+        "matches": true
+      },
+      "lib/core/security/durable_sms_receipt.dart": {
+        "accepted_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+        "current_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+        "matches": true
+      },
+      "lib/core/security/hash_utils.dart": {
+        "accepted_sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+        "current_sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6",
+        "matches": true
+      },
+      "lib/core/security/phone_normalizer.dart": {
+        "accepted_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+        "current_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+        "matches": true
+      },
+      "lib/core/security/play_integrity_service.dart": {
+        "accepted_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+        "current_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+        "matches": true
+      },
+      "lib/core/security/protected_snapshot_store.dart": {
+        "accepted_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+        "current_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+        "matches": true
+      },
+      "lib/core/security/public_id_generator.dart": {
+        "accepted_sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+        "current_sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2",
+        "matches": true
+      },
+      "lib/core/security/sms_access_channel.dart": {
+        "accepted_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+        "current_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+        "matches": true
+      },
+      "lib/core/supabase/browser_auth_memory.dart": {
+        "accepted_sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+        "current_sha256": "9e6d878a80d81d515741690da054235a39b70fb1818e1862e9e164e6ffa3ace9",
+        "matches": true
+      },
+      "lib/core/supabase/browser_auth_storage_stub.dart": {
+        "accepted_sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+        "current_sha256": "f2032aaf770c7032877a8b95d45fee8b39123d8910b6953f99d3813d6b12bf04",
+        "matches": true
+      },
+      "lib/core/supabase/realtime_invalidation.dart": {
+        "accepted_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+        "current_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+        "matches": true
+      },
+      "lib/core/supabase/supabase_module.dart": {
+        "accepted_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+        "current_sha256": "21f1ce2cde294f2f56bb9ba5e69fd276b81881d10616dfbe6351c4474cac2f7a",
+        "matches": true
+      },
+      "lib/shared/models/collect_model_json_helpers.dart": {
+        "accepted_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+        "current_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+        "matches": true
+      },
+      "lib/shared/models/collect_models.dart": {
+        "accepted_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+        "current_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+        "matches": true
+      },
+      "lib/shared/models/collect_payment_json.dart": {
+        "accepted_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+        "current_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+        "matches": true
+      },
+      "lib/shared/models/collect_payment_models.dart": {
+        "accepted_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+        "current_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+        "matches": true
+      },
+      "lib/shared/models/collect_profile_country_rules.dart": {
+        "accepted_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+        "current_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+        "matches": true
+      },
+      "lib/shared/models/collect_summary_json.dart": {
+        "accepted_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+        "current_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+        "matches": true
+      },
+      "lib/shared/models/member_history_page.dart": {
+        "accepted_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+        "current_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_invitation_protection.dart": {
+        "accepted_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+        "current_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_offline_cache.dart": {
+        "accepted_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+        "current_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository.dart": {
+        "accepted_sha256": "672fe187f8bd5afb2066bb3725eac9257416ffc55c0dc237fe41f578364029e2",
+        "current_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+        "matches": false
+      },
+      "lib/shared/repositories/collect_repository_contribution_actions.dart": {
+        "accepted_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+        "current_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository_helpers.dart": {
+        "accepted_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+        "current_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository_history.dart": {
+        "accepted_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+        "current_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository_live_reader.dart": {
+        "accepted_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+        "current_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository_providers.dart": {
+        "accepted_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+        "current_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+        "matches": true
+      },
+      "lib/shared/repositories/collect_repository_state.dart": {
+        "accepted_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+        "current_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+        "matches": true
+      },
+      "lib/shared/repositories/runtime_control_contract.dart": {
+        "accepted_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+        "current_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+        "matches": true
+      },
+      "test/shared/member_realtime_sdk_session_test.dart": {
+        "accepted_sha256": "a445366869e1aca5670e8b14b15b0937237e0a2e7e6030602daca3e127db3dae",
+        "current_sha256": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565",
+        "matches": false
+      },
+      "test/shared/realtime_invalidation_recovery_test.dart": {
+        "accepted_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b",
+        "current_sha256": "b452be98459fbbf06f5d56d17268ed03c834b5aaf8d4fa9af997e6a47d54d62b",
+        "matches": true
+      }
+    },
+    "current_original32_exact_matches": 30,
+    "original_topic_session_and_test_bodies_reconstruct_byte_exact": true,
+    "modified_catch_proof": {
+      "prior": {
+        "argv": [
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+          "test",
+          "--no-pub",
+          "--concurrency=1",
+          "--reporter=expanded",
+          "--plain-name",
+          "actual member SDK retained rows stay stale when failed refresh has no readable cache",
+          "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-prior.machine.jsonl",
+          "test/shared/member_realtime_sdk_session_test.dart"
+        ],
+        "exit_code": 1,
+        "timed_out": false,
+        "seconds": 35.548,
+        "stdout_sha256": "fa395c0009e60c25f58cba84623cf231ce87b31fd72b9d9e7fc5cad38866d782",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_binding": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-prior-inputs.json"
+      },
+      "final": {
+        "argv": [
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+          "test",
+          "--no-pub",
+          "--concurrency=1",
+          "--reporter=expanded",
+          "--name",
+          "^(actual member SDK retained rows|(?!(actual member SDK)).*)",
+          "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-final.machine.jsonl",
+          "test/shared/member_realtime_sdk_session_test.dart",
+          "test/shared/realtime_invalidation_recovery_test.dart",
+          "test/shared/collect_offline_cache_test.dart"
+        ],
+        "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+        "exit_code": 0,
+        "timed_out": false,
+        "seconds": 5.218,
+        "root_and_export_stable": true,
+        "source_binding": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-final-inputs-before.json",
+        "stdout_sha256": "f4b4605cc062061aad8c953dacee8f8513409c2dc3996d099e87698bc635ca50",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "event_errors": [],
+      "runner_done": {
+        "success": true,
+        "type": "done",
+        "time": 3915
+      },
+      "named_cases": [
+        {
+          "name": "actual member SDK retained rows stay stale when failed refresh has no readable cache",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "join and rejoin reconcile missed events once per connection",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "duplicate IDs and irrelevant areas cannot multiply refreshes",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "event bursts keep one read in flight and one trailing read",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "sustained events pause after two reads before a new window",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "permission revocation clears live and cached private data",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "profile for another account cannot restore the old cache",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "member catalogue removal replaces private state and cache",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "account switch drops the first owner before reloading",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "profile cache preserves number and leading-zero MoMo code",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "cached RWF summary survives and foreign totals are discarded",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "mixed legacy history does not erase cached Rwanda balances",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "legacy cached names are stripped without deleting the profile",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "default cache discards the retired payment snapshot",
+          "result": "success",
+          "skipped": false
+        },
+        {
+          "name": "Rwanda cache round trip preserves MoMo route and receiver",
+          "result": "success",
+          "skipped": false
+        }
+      ],
+      "source_closure_files": 35,
+      "static_checks": [
+        {
+          "name": "freshness-format",
+          "argv": [
+            "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/dart",
+            "format",
+            "--output=none",
+            "--set-exit-if-changed",
+            "lib/shared/repositories/collect_repository.dart",
+            "test/shared/member_realtime_sdk_session_test.dart"
+          ],
+          "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+          "exit_code": 1,
+          "seconds": 0.525,
+          "stdout_sha256": "220599ac392558e5a0e01af00734ebe63b66e9e062b0f114515fb10342796fd6",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "freshness-analysis",
+          "argv": [
+            "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+            "analyze",
+            "--no-pub",
+            "--fatal-infos",
+            "--fatal-warnings",
+            "lib/shared/repositories/collect_repository.dart",
+            "test/shared/member_realtime_sdk_session_test.dart"
+          ],
+          "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-member-financial-controls-resumption1",
+          "exit_code": 0,
+          "seconds": 9.599,
+          "stdout_sha256": "632afe4b28cb6ebab1769c5d81fb964358bcb204332de7e6e055d7b73ddcb248",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "final_format": {
+        "argv": [
+          "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/dart",
+          "format",
+          "--output=none",
+          "--set-exit-if-changed",
+          "lib/shared/repositories/collect_repository.dart",
+          "test/shared/member_realtime_sdk_session_test.dart"
+        ],
+        "exit_code": 0,
+        "root_and_export_sha256": {
+          "lib/shared/repositories/collect_repository.dart": {
+            "root": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+            "export": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3"
+          },
+          "test/shared/member_realtime_sdk_session_test.dart": {
+            "root": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565",
+            "export": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565"
+          }
+        },
+        "tested_test_before_format_sha256": "8f3ba24e22272e7984dc9151fdb1b634ec5600ca347cbf45a173f3b757b138cc",
+        "format_only_diff": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/freshness-format-only.diff",
+        "scope": "Only added expect expression whitespace wrapped; runtime unchanged. Prior test and analyzer results bind preformat exact bytes; no behavior pass inferred from untaken rerun."
+      },
+      "defect": "After prior private read, generic failed refresh without readable cache retained rows/time while usingStaleCache=false. Current catch derives stale flag from retained readable state; new actualSDK503 regression proves retained rows/time, blocked history query with zero new reads and successful reconnect fresh state. Initial empty/read-denied behavior stays in existing branches.",
+      "binding_limit": "Runtime tested exact736f0715; added test was formatted only after pass (exact diff retained), final54092caf. Original SDK18 remains original capture; no new broad18 pass claimed; root final complete Flutter owns integration.",
+      "native_browser_limit": "Plain synthetic cache + actualSDK Auth/PostgREST MockClient + actual loopbackPhoenix; no hostedRLS/signedJWT/provider/native protected-storage/device proof."
+    },
+    "accepted_artifact_integrity": {
+      "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/tests.stdout": {
+        "recorded_sha256": "ed5259af43192477fb5e328ae27e8f73f3b3baf15cf3d86f682dd67036dbc12c",
+        "actual_sha256": "ed5259af43192477fb5e328ae27e8f73f3b3baf15cf3d86f682dd67036dbc12c",
+        "matches": true
+      },
+      "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/tests.stderr": {
+        "recorded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "matches": true
+      },
+      "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/analysis.stdout": {
+        "recorded_sha256": "65f39701ab441480edcc19d8d4588f9fe01f7c67834b36beb55ac7af8ec3cf85",
+        "actual_sha256": "65f39701ab441480edcc19d8d4588f9fe01f7c67834b36beb55ac7af8ec3cf85",
+        "matches": true
+      },
+      "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/analysis.stderr": {
+        "recorded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "matches": true
+      }
+    },
+    "config_equivalence": {
+      "package_config_declared_names_URI_language_generator_versions": {
+        "accepted": true,
+        "root": true,
+        "export": true
+      },
+      "plugins_without_only_path_and_date_created": {
+        "accepted": true,
+        "root": true,
+        "export": true
+      },
+      "literal_hash_differences_preserved": {
+        "root": {
+          "pubspec.yaml": {
+            "accepted_sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8",
+            "actual_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+          },
+          "pubspec.lock": {
+            "accepted_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+            "actual_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+          },
+          ".dart_tool/package_config.json": {
+            "accepted_sha256": "ee480305945cdbf326f7c49a6726c63adc667764a8650322450a9d82ea7efeee",
+            "actual_sha256": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10"
+          },
+          ".flutter-plugins-dependencies": {
+            "accepted_sha256": "ecbccd607b90490d0f786dd044797e163696570e102cdd18ed4844bad9c8db89",
+            "actual_sha256": "b49574f49d8665854d5e147ec403fb8ba09eaea2ba7d11631fee5fd9e4eb9573"
+          },
+          "analysis_options.yaml": {
+            "accepted_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+            "actual_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440"
+          },
+          ".fvmrc": {
+            "accepted_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+            "actual_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+          }
+        },
+        "export": {
+          "pubspec.yaml": {
+            "accepted_sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8",
+            "actual_sha256": "1233f3b539e19cb61612e60316957169d4a7d304a58e49b7b13474f717c6b63c"
+          },
+          "pubspec.lock": {
+            "accepted_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+            "actual_sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+          },
+          ".dart_tool/package_config.json": {
+            "accepted_sha256": "ee480305945cdbf326f7c49a6726c63adc667764a8650322450a9d82ea7efeee",
+            "actual_sha256": "3a31fca2ce8f76c53a7a4b76706ea096d096f977e63ba4da259855138fff9d83"
+          },
+          ".flutter-plugins-dependencies": {
+            "accepted_sha256": "ecbccd607b90490d0f786dd044797e163696570e102cdd18ed4844bad9c8db89",
+            "actual_sha256": "295080f35d3cecc8986618bb5578353e5672f9be595615c9776ffc88f54f652d"
+          },
+          "analysis_options.yaml": {
+            "accepted_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440",
+            "actual_sha256": "77e11bad1e8e33aa3a25428330d8ab70dce66f1c16a41c21c55b9a539d713440"
+          },
+          ".fvmrc": {
+            "accepted_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756",
+            "actual_sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+          }
+        }
+      },
+      "scope": "Aeonik declaration removal is the only pubspec source delta, licensedInter separately accepted; lock/analyzer/FVM stable. Package roots/date-created relocated, normalized graph/declaration equal; runtime dependency bytes bound below. No literal whole config equality claim."
+    },
+    "selected97_dependency_bindings": {
+      "realtime_client": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/realtime_client-2.13.0",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/realtime_client-2.13.0",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/realtime_client-2.13.0",
+        "runtime_files_sha256": {
+          "lib/realtime_client.dart": "02a39bb846be12eb6b93e31cc9f2bcd9897be9a02666f07124f553132caa7759",
+          "lib/src/constants.dart": "ec3399201e6c79c6101bc6734d17655153d8b6648c598561eddc3061ba29151c",
+          "lib/src/message.dart": "4d2dd35fd062ea219372788ff1bd9561113e875057b726e061711541c9c85087",
+          "lib/src/push.dart": "1725c359ac8a90706493c0032ba1310dc682f8b6eafef0ba10ce59a9a7dc5555",
+          "lib/src/realtime_channel.dart": "76d181b7db1e4dce6e15714074b97e798c5a7cff2e2664fed1204d341c5a2452",
+          "lib/src/realtime_client.dart": "7ea345e03be4b54d3967e4a5a18ce40c0cef739151298a51295e42f7304262f2",
+          "lib/src/realtime_presence.dart": "d6e5f7505f82fd5eef3f0005bb88a8a4146d0cb005cfba6bf6d60cb121de23fa",
+          "lib/src/retry_timer.dart": "17a9420e90691a8f077650c263b71b818af2c36d078d61013abd4dbb7b4d5e56",
+          "lib/src/serializer.dart": "5ea91bce9f11ec8279cb06ed1b798fc8b088182f6b0b0b31903fed07124e5db7",
+          "lib/src/transformers.dart": "2efd8d5b6f2eb9a8eda74b2f72d4be8edddaa8cf72d6c2aec36b279895bdec5e",
+          "lib/src/types.dart": "d8e66d86b6b5b1fd949e00f36405764f024dba83914eb17023ee3507f9f4b67e",
+          "lib/src/version.dart": "c7f8c5d1f155fa29b009c87089b7487391f4daec10002c797031b13d62852c20",
+          "lib/src/websocket/websocket.dart": "796b5afbe6321020e1b90db0f4d1b5743e37d369de15e899ca21ca381b0a576c",
+          "lib/src/websocket/websocket_io.dart": "2d16100b7f2ca94b7b5b15805f7f38f10ec3f56c09ced4343da0ca5295441447",
+          "lib/src/websocket/websocket_stub.dart": "7bb283345f827029715387172d77bc54ac2a9322498001a76e478f3f72721beb",
+          "lib/src/websocket/websocket_web.dart": "1389261d55f3bf98a806b41510ea005a7df843635461d9a20224aed9394811ca",
+          "pubspec.yaml": "6e0b9a5458491d5df1354ed823e658e12534925a8a585295898edc287a105575"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      },
+      "supabase": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase-2.16.0",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/supabase-2.16.0",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase-2.16.0",
+        "runtime_files_sha256": {
+          "lib/src/api_key.dart": "e6e0404236e0b4f57201783f5d29523ae9d084e30b363e48972ac78fc153ade1",
+          "lib/src/auth_http_client.dart": "685d647d24f1018ebf4fb29f6c3cddef5664aeade24e5aa8a3a230d390e09ac5",
+          "lib/src/auth_user.dart": "f4c5d5fe8665490c9fcafb695d9e64bb9b3073800e8c9da637d38e151f7fd126",
+          "lib/src/constants.dart": "30dd2c1737cb461a855b4675d657a057853acdfd6225788164a63ead8ba10921",
+          "lib/src/counter.dart": "5591a03ddbae4ec1b4cf634cbfc1e26b4d90616053e6804ac5d306ece6303635",
+          "lib/src/realtime_client_options.dart": "313c177634218dcc1974eac67b13d30491eb2b9be3eca0fb180260c5671cb617",
+          "lib/src/remove_subscription_result.dart": "0ffffa150e62b095e109fa5d89fec5efd90bbb7d99a6d7fb659d11a23f5f54a6",
+          "lib/src/supabase_client.dart": "b9958440b59a335ad96c240bf00d84f48ea459f85563a645233987e5ec764191",
+          "lib/src/supabase_client_options.dart": "dab12959e7b0c17277d774d3b302d4b7f1d425db31b6daaad3b294a946aba49b",
+          "lib/src/supabase_event_types.dart": "034cb7a89020a42d895094ce4116de8ca215b620037f3c47ad3fec331aa6ca36",
+          "lib/src/supabase_query_builder.dart": "240bc37bf064c72c42ce23485aa9988f8009796a9843b4ec0d1a4d706f25ab1b",
+          "lib/src/supabase_query_schema.dart": "b23fe37d326c6e91bfc510576c16bc17f27361889bdbc410afbbc7fdad667484",
+          "lib/src/supabase_realtime_error.dart": "625bf04b8288132fc6711105c5fa17affacb420ebcd6f3b0b095f64ed874642d",
+          "lib/src/supabase_stream_builder.dart": "c0b2be48e0b2c905ed1f59aa9f07c45fb9e1015e9d4f6d668b30e41b3992f8d5",
+          "lib/src/supabase_stream_filter_builder.dart": "db4ef8ebd4d2260b0b82395432e2ea972924adbd22a9ddb1bccf6d54ea7ff34c",
+          "lib/src/trace_http_client.dart": "13ee60978e2ab6cb3cfccc93a830c957e24bc72e247fc51df981c0a16e40cca8",
+          "lib/src/trace_propagation.dart": "6467225de5c62f628b59c8ac9940de1e1f69a1bb6a0580f6b3b79242d7f9d217",
+          "lib/src/version.dart": "c96af1781d2d80f67091851254c781ed57c062a65fb0a239e4a76d7f498ccd7c",
+          "lib/supabase.dart": "f8e985c9cd7176cd3b73ae7f805d57cf7c78d5198c0fa9a0de18f4de5dfea966",
+          "pubspec.yaml": "83b9ddaff2aa64900c4e1ed95b1c5503281d7a7b2cf2e30b4fc427c121436cad"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      },
+      "supabase_flutter": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase_flutter-2.17.1",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/supabase_flutter-2.17.1",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/supabase_flutter-2.17.1",
+        "runtime_files_sha256": {
+          "lib/src/clear_auth_url_parameters.dart": "0485b67f906bd2f50c32528ca54af63213a11339a58a92695e2593e0c55f4522",
+          "lib/src/clear_auth_url_parameters_stub.dart": "ae53aa8b91578672ece43d9917d2e4c3864e9afa241e35b2be97e49741e0588f",
+          "lib/src/clear_auth_url_parameters_web.dart": "a30106323432fece7217a6253701e553dde843158fec8857d003d38c64f772a6",
+          "lib/src/constants.dart": "fae7d3669e3d0a1cfafb67286523475a2c836bed11da5bb2cb141939105b515c",
+          "lib/src/flutter_go_true_client_options.dart": "d719b2d87e9dbb73bc22f5524753dc60d479e7b90e07e658268d83a5006e03df",
+          "lib/src/hot_restart_cleanup_stub.dart": "885012460ad1af082936583b5cff3b3a0a573ee51941d0233299c214f4d267cc",
+          "lib/src/hot_restart_cleanup_web.dart": "03fec030589edd4eac4ba098fb1cf860a17ae323a830372562b8d20a5fb93096",
+          "lib/src/local_storage.dart": "90c46b783f1a3f9c5afaf523d54143892bf2b629daae70788b413b5702522e2f",
+          "lib/src/local_storage_stub.dart": "f47328f0d525416c18385ea72e790b1f35e09dbdcda6c9d7bc8b017b971b019f",
+          "lib/src/local_storage_web.dart": "dedfa88583dcb4954a45c4f65b736445b0e729737906951a9645ac27df34ddee",
+          "lib/src/passkey/passkey_options_mapper.dart": "f70d4c1afaa764e3702a41e1a3b093486aaf61a362213b5dbe9d3e0c91cd6ced",
+          "lib/src/supabase.dart": "b476360d65d7bcbe3f54b655ba749fadf2563e3fc80902b651d0d7ab2442c843",
+          "lib/src/supabase_auth.dart": "f1eceb88ee0449cd8a5a1ada256633232919b7ea7987e3308c94c3cd205c902b",
+          "lib/src/supabase_passkey.dart": "f7b6e94cd698ac43f38abf0a066e94f171ff028494db213dc44dad45d8fcafbe",
+          "lib/src/version.dart": "c22b680ca6d47b10b334dd898ee83c21a611dba4437ddf91879d095df7ed4997",
+          "lib/supabase_flutter.dart": "1b0c7b2602ca64323e292a258b9b6caf3010796a9ecbab530061ca1336d61916",
+          "pubspec.yaml": "b1a684e4b6bbe0d5c80666aa1f3a932ed3a6e5fd8145d81dfb57a1eabe15ace7"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      },
+      "http": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/http-1.6.0",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/http-1.6.0",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/http-1.6.0",
+        "runtime_files_sha256": {
+          "lib/browser_client.dart": "583d9ce60e3317163cf9f58be9ca89cc45e794d4eae79db97cc4a165a426f238",
+          "lib/http.dart": "24549df12986350e3422b952ee2177214211ecd51d0b168500c1e7cdd2f48753",
+          "lib/io_client.dart": "69ada3b2ff5439841b1591199c02e4909becb62985c85a29a34d06f9cb6582e7",
+          "lib/retry.dart": "c96e8af072ce9266c3b27dace12b220a0c56ff8b39fc4c64d33348146d4811cd",
+          "lib/src/abortable.dart": "dc9e047f295a543df477e82f670de6732f0fea68c5929b426792edbd102291f1",
+          "lib/src/base_client.dart": "b37fd7824949598fb69911dddc8b500c07e411c9a98d9224387d5366e050b608",
+          "lib/src/base_request.dart": "faefcac1dcabc3a6d48680719a9e1d3cca01ca97bbe41b93f223ce3459ed2a82",
+          "lib/src/base_response.dart": "ee41f26a27ab9bd5bd8572a9d1f2e56781eecac177d436852f520fbc17986928",
+          "lib/src/boundary_characters.dart": "eb6849edc040c42be731bc0678f260f907521681a677e43314ce392222ae21ac",
+          "lib/src/browser_client.dart": "aa4bebe611143318cf8f2ff68599fa4c8c07a8a7cdb0e4e6390eb36a7a432c27",
+          "lib/src/byte_stream.dart": "fb19d16de7c10cad4fda432488a688204b2b44271f1ede42e89e34d2ba659950",
+          "lib/src/client.dart": "56b4e930b3d7c5c176a7f7d0102a172b69f36fa51a14b18df24a507e37d626d4",
+          "lib/src/client_stub.dart": "9018650d811ff1c5f9c7a2bdb7ec5e40292bfb79d082c46cfb0a391a37348d8b",
+          "lib/src/exception.dart": "4b47d2f6299cff987567998093b2d5fc0b1f55057a074fb2d37cfc5e1f454610",
+          "lib/src/io_client.dart": "fceaee3aa9190704b390fd31ccb4422a73caf37f048371c7e9fb4a5739e315ed",
+          "lib/src/io_streamed_response.dart": "ae23e376611ad6045ec0e3c1b1b8b77a1803608e6f9695e1d985ec5a8de8345d",
+          "lib/src/mock_client.dart": "3e9d8d18a2be5c689b3a75576923eed6bba63b02c7e8c24949a69b05d405af23",
+          "lib/src/multipart_file.dart": "5c0a491186a2283eddfed509f722c333b4545dbc8b902d06562ea8291aca4a90",
+          "lib/src/multipart_file_io.dart": "d381b4d0b8467289648f8a1fdd6130024e2534832966188f17e690df595ccaa3",
+          "lib/src/multipart_file_stub.dart": "53bfd3e4202ec6b7b98b1c106f6e5c49f00ff5325dad800d202990df82f95511",
+          "lib/src/multipart_request.dart": "d67d902f9eab2cb104a8c94ab98915f0ff69817386e0f1edfcd42f9c47f742b5",
+          "lib/src/request.dart": "fe8f1fa595a2941924878e4aac1d2100c572f005214713af6aa5644cf408e4b7",
+          "lib/src/response.dart": "2467d8d97815a27b0c6ff566a67017e99e9184e674a2fbdb70e6b042e108c385",
+          "lib/src/streamed_request.dart": "f509792993498ef2774a2bd4becb7360d774ff9dc5ab5a9b11bcfb984d3498e6",
+          "lib/src/streamed_response.dart": "f18da6b3e6392b801a0639d6d1b642fad7d12ed900fcc3a7a9ea334397f3faed",
+          "lib/src/utils.dart": "0ce23e711ca29b34938e684cc51a6150beea6f87d4c46588ce5c4dbfb202ec38",
+          "lib/testing.dart": "668beb7ded7fb75d2c8279fe2315934704cea593e7ff40120beec359931c8b18",
+          "pubspec.yaml": "ab9b20099e285fcabbdb52188d8a9205adee7eeb9b51f00727206edeb1e72420"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      },
+      "shared_preferences": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences-2.5.5",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/shared_preferences-2.5.5",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/shared_preferences-2.5.5",
+        "runtime_files_sha256": {
+          "lib/shared_preferences.dart": "93de3b849b0a07f68ba7b681fbf2d8860cd23202690a8ea34176cc7e1769ea57",
+          "lib/src/shared_preferences_async.dart": "85d6d33e94b745365919e09ea614aea303baca07d4c766df7d6c991f44e6007b",
+          "lib/src/shared_preferences_devtools_extension_data.dart": "34d1a0f8a9018511564fdb938155e942270fa3d203eb03efd3edab14222a8516",
+          "lib/src/shared_preferences_legacy.dart": "7ccdf3738704630a3d5d947ac73989403b167f3c6aa114b475e8e106f5de1045",
+          "lib/util/legacy_to_async_migration_util.dart": "f0538ffd68dba5a35551f7124f15ce29ae49d18fc5b6c19878191785df5f1aa2",
+          "pubspec.yaml": "526cccbd0abd50c6c8b8ae06172c8563bb3db96a1ae2840a74a7062d0dc884c2"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      },
+      "flutter_riverpod": {
+        "accepted_source_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_riverpod-2.6.1",
+        "consumed_root": "/Users/jeanbosco/.pub-cache/hosted/pub.dev/flutter_riverpod-2.6.1",
+        "consumed_export_root": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/pub-cache-hygiene-20260930/hosted/pub.dev/flutter_riverpod-2.6.1",
+        "runtime_files_sha256": {
+          "lib/flutter_riverpod.dart": "a3d74c7c0deae45c141b0f990699676763ee344cdb700d94eaf1d499ef3f9a95",
+          "lib/src/builders.dart": "e23c825f4bd862639507ef4613f7ec721bbe89d94cd393497cfdb86db71235b5",
+          "lib/src/change_notifier_provider/auto_dispose.dart": "8c004358db00b46f13e9c355cf830e1895a991b26cee50079326f5c6346349ae",
+          "lib/src/change_notifier_provider/base.dart": "01f645faa63d81ba909212a382cd1d03e5fe68342e1cebeff25cd63be47c4888",
+          "lib/src/change_notifier_provider.dart": "41e383e9812c4783ce8ff868290324c8bea2db6ba0a412eada766caca8e94fd1",
+          "lib/src/consumer.dart": "f453fef8e65669d8c19c697a1c8d4f6d1a6e9e8db0c1f78e24975495191b9f2a",
+          "lib/src/framework.dart": "c8e6d8aacff1c0433fecb4cafcd12f389464959ccbab64156181b8961e417447",
+          "lib/src/internals.dart": "2d8ed78315a15af6a20b9b4a8e4e4c382c6192ce04e08b8d1e9ea2e09c2f77b3",
+          "pubspec.yaml": "18573f6c68d41a8a2f3842d10c9c89e567e108ac3fd1927dd5c8d02b0b4bbf2a"
+        },
+        "matches_accepted": {
+          "root": true,
+          "export": true
+        }
+      }
+    },
+    "vendor_auth34_files_sha256": {
+      "third_party/gotrue/lib/gotrue.dart": "afae6d4e1b084d1c121ca98a0087d10ef486fb23d124ff5d511cd29366734b3d",
+      "third_party/gotrue/lib/src/broadcast_stub.dart": "8a9cdd61cc1b036c3c665c6d7893b593b4e1ecef56e965732d20c8b5638a6513",
+      "third_party/gotrue/lib/src/broadcast_web.dart": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+      "third_party/gotrue/lib/src/collect_browser_invalidation.dart": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+      "third_party/gotrue/lib/src/constants.dart": "131679776dde45e8f9e0603080812dac4508eb3c79b412acdc219abadc6453a8",
+      "third_party/gotrue/lib/src/fetch.dart": "91f10515d02dd3187385b264af6df63319da164bf28cfca309475cd8cb7df1f8",
+      "third_party/gotrue/lib/src/gotrue_admin_api.dart": "8e25c8c32b7266b6c2395ed485af68d969403899729b026a9f4a698002b59831",
+      "third_party/gotrue/lib/src/gotrue_admin_custom_providers_api.dart": "6497aa41d949b43e388c6d381a69d4dfc3faf7e859dc14771bfedea94d9fb3c4",
+      "third_party/gotrue/lib/src/gotrue_admin_mfa_api.dart": "0bec1d51d21698b1b9e8faebfdd59f9fc80c914fe0be0ba8d8ef4e6e4a17aed2",
+      "third_party/gotrue/lib/src/gotrue_admin_oauth_api.dart": "6b2c04939ce8e50aaa241bd19c9abe65898e7f6ad546720248c096d47a15758f",
+      "third_party/gotrue/lib/src/gotrue_admin_passkey_api.dart": "e1c8f1783c1be9f9a55edbe22d9f43bb79271f9be1f7ea561eef24f0bab2cce1",
+      "third_party/gotrue/lib/src/gotrue_client.dart": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+      "third_party/gotrue/lib/src/gotrue_mfa_api.dart": "a6014a6eaf8878f1d2c73b630b57e1eb408f0ef07f8f7116c32d3eac19bf6b5e",
+      "third_party/gotrue/lib/src/gotrue_oauth_api.dart": "0eb351b0af051deebdf909e9b1e5b2982c4be0c8cf6efa7f32a91ee03f98f6de",
+      "third_party/gotrue/lib/src/gotrue_passkey_api.dart": "9fc8301d629c7a8bbd80352f44cf6d55b855d924473a375294493bc6487957bf",
+      "third_party/gotrue/lib/src/helper.dart": "cc27ea3afb8b30bb46101f293bc1abdf06d9e22ad89965afdd5a5b5d5a3ff1f3",
+      "third_party/gotrue/lib/src/types/api_version.dart": "dc0f3ea30563473ef6bd045ecee3e11cdd09fedff6e494be0bac5bc74a0d3eac",
+      "third_party/gotrue/lib/src/types/auth_exception.dart": "43833048e8261a91b10884e61daabd80ba5afe9627015c620da35d16a0b261fa",
+      "third_party/gotrue/lib/src/types/auth_response.dart": "d3f8b59543cd7de4dfb26511816446fa26620837847e9eb6409027359583a102",
+      "third_party/gotrue/lib/src/types/auth_state.dart": "f506f12f18024585c61156671d347aa9909b97c4bcafa92efc3c83b18853cd7a",
+      "third_party/gotrue/lib/src/types/custom_oauth_provider.dart": "c9942ac90d295ceb2a1f719075ef82baf2d22b257a3cbb59b5006135d8690cde",
+      "third_party/gotrue/lib/src/types/error_code.dart": "00b1845c91bc51f12a01120ea5d93748d59c8522f2a7d5ca5a6c97ef5c893f15",
+      "third_party/gotrue/lib/src/types/fetch_options.dart": "fb5e70f4f5e46d7bc17e146bbd1912ee123ff61e2c1b268a6ea2ee0ee1e33fbc",
+      "third_party/gotrue/lib/src/types/gotrue_async_storage.dart": "05384d8524033042833f8b849c758c4ab93e2c2bceedb1ee2f747e7a852ee019",
+      "third_party/gotrue/lib/src/types/jwt.dart": "644f3535b9b91343c1e16aaab0eff1d3801dc850988e698f06e8cd4574f08ddd",
+      "third_party/gotrue/lib/src/types/mfa.dart": "a9e41a4f3d25c290b53cb2bd22a6fb760790a0b65c12c9fe9bca79858e26b2dd",
+      "third_party/gotrue/lib/src/types/passkey.dart": "65a2541c7e147fc20806a0942f8a58e22c839c25d7a66480e1690fbca8ade9fd",
+      "third_party/gotrue/lib/src/types/session.dart": "041ffeafbffe55c1292631181ed137b9eb506e644467f1e2a13cd63cb4c0ee34",
+      "third_party/gotrue/lib/src/types/sign_out_reason.dart": "61ff1200cbf763372a503a14168691fee1a8de628a32a1479629990fd4cacaa1",
+      "third_party/gotrue/lib/src/types/types.dart": "5540866e2e8dd6dfa3a85ce97696d02be1201eca5de84ec9bf65b21a69eb725d",
+      "third_party/gotrue/lib/src/types/user.dart": "16d40a5903a15b0f83a2dc4ecc3d981e07a14d063234db27a2313f9d14733343",
+      "third_party/gotrue/lib/src/types/user_attributes.dart": "26cd1a2c35804229526df454cf976d586e94a313690492958036a6f8a4800c20",
+      "third_party/gotrue/lib/src/version.dart": "c8266f142b4d55f63d51ba4a794dc7a2c5d50e2d4b48a11a45fadd1c21e9c598",
+      "third_party/gotrue/pubspec.yaml": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd"
+    },
+    "vendor_auth_matches": {
+      "root": true,
+      "export": true
+    },
+    "selected_toolchain_bindings": {
+      "bin/flutter": {
+        "accepted_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+        "used_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+        "matches": true
+      },
+      "bin/cache/dart-sdk/bin/dart": {
+        "accepted_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+        "used_sha256": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a",
+        "matches": true
+      },
+      "bin/cache/flutter_tools.snapshot": {
+        "accepted_sha256": "03f256b87096b0c30d7dc7774871dbf5bbf1391720b7fa2007ca99100b7c2fd3",
+        "used_sha256": "03f256b87096b0c30d7dc7774871dbf5bbf1391720b7fa2007ca99100b7c2fd3",
+        "matches": true
+      }
+    },
+    "toolchain_scope": "Flutter3.44.4/Dart3.12.2 declaration and exact selected executable/snapshot hashes; original2823 full manifest retained, no repeated exhaustive SDK inventory."
+  },
+  "financial_consumers": {
+    "matrix_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/consumer-current-rebind-attempt3-all-current-delegated/consumer-matrix.json",
+    "matrix_sha256": "e505cda35787cd92381a7cc4ac1803f70b9b6667b5954f26dd043e3f4653eb23",
+    "nonAdmin_count": 75,
+    "exact_matches": 72,
+    "bindings": [
+      {
+        "path": "lib/app/router.dart",
+        "matrix_sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+        "current_sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+        "matches": true
+      },
+      {
+        "path": "lib/core/data/exact_json_values.dart",
+        "matrix_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+        "current_sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223",
+        "matches": true
+      },
+      {
+        "path": "lib/core/notifications/collect_notification_service.dart",
+        "matrix_sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+        "current_sha256": "be26704cd15a63da801474afd897106f648da82f26af4231332f95903f7c94b4",
+        "matches": true
+      },
+      {
+        "path": "lib/core/payments/momo_ussd_intent_guard.dart",
+        "matrix_sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+        "current_sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069",
+        "matches": true
+      },
+      {
+        "path": "lib/core/payments/momo_ussd_launcher.dart",
+        "matrix_sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+        "current_sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+        "matches": true
+      },
+      {
+        "path": "lib/core/payments/rwanda_momo_number.dart",
+        "matrix_sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+        "current_sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a",
+        "matches": true
+      },
+      {
+        "path": "lib/core/security/durable_sms_receipt.dart",
+        "matrix_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+        "current_sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e",
+        "matches": true
+      },
+      {
+        "path": "lib/core/security/phone_normalizer.dart",
+        "matrix_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+        "current_sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8",
+        "matches": true
+      },
+      {
+        "path": "lib/core/security/play_integrity_service.dart",
+        "matrix_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+        "current_sha256": "fe94385058db4952da7bb38c6f31ebcde829806f5be1594c2cd7253d346d1e3d",
+        "matches": true
+      },
+      {
+        "path": "lib/core/security/protected_snapshot_store.dart",
+        "matrix_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+        "current_sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0",
+        "matches": true
+      },
+      {
+        "path": "lib/core/security/sms_access_channel.dart",
+        "matrix_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+        "current_sha256": "8633758cc0a5174668b4817ccf7a3e97704e761afcb4c7f5b99880ba19252981",
+        "matches": true
+      },
+      {
+        "path": "lib/core/supabase/realtime_invalidation.dart",
+        "matrix_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+        "current_sha256": "1bf60f0edee6fad3e63202ab9dd0777b9fae2f0c83b8dfb9663547c036ce8907",
+        "matches": true
+      },
+      {
+        "path": "lib/core/utils/date_format.dart",
+        "matrix_sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+        "current_sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28",
+        "matches": true
+      },
+      {
+        "path": "lib/core/utils/money_format.dart",
+        "matrix_sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+        "current_sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5",
+        "matches": true
+      },
+      {
+        "path": "lib/features/activity/activity_screen.dart",
+        "matrix_sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+        "current_sha256": "f06140d069949e39f57a7e370ac32bb30da83bc9ca678287916c9608aaba5477",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collection_create_screen.dart",
+        "matrix_sha256": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+        "current_sha256": "94ea463139da63e4c38b60f48b2601ce379e23128ebfa24ebe87c95e70ee0884",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collection_create_widgets.dart",
+        "matrix_sha256": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+        "current_sha256": "342bf58512b1aefd372c4c1e824e05098287dac35a713e9cb4b5181d71d31fa0",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collection_detail_screen.dart",
+        "matrix_sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+        "current_sha256": "ce0806fb5762d57058c4740d6a656e19d1541176addb3949ce5dbbb229ddbb1f",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collection_detail_timeline.dart",
+        "matrix_sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+        "current_sha256": "53da69c5335a860c3ac972435ee608ac6cad8cd8efcb4232cece2de95d696e6e",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collection_manage_screen.dart",
+        "matrix_sha256": "c58e53bc686919d265ff7f03e6e9533692c52b6206a7ea253f2535f6fccd47ca",
+        "current_sha256": "c58e53bc686919d265ff7f03e6e9533692c52b6206a7ea253f2535f6fccd47ca",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/collections_screen.dart",
+        "matrix_sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+        "current_sha256": "c3f46c19c762bb72d786c61d2b9318bb160599f45d68f28770363e6d61509ed7",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/group_invitation_transport.dart",
+        "matrix_sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+        "current_sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/group_link_screen.dart",
+        "matrix_sha256": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+        "current_sha256": "1dd0bd685d4554125cc71281b001d15c784c87e9a7766b9321485f64c0f29f02",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/group_profile_form_controls.dart",
+        "matrix_sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+        "current_sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/group_profile_screen.dart",
+        "matrix_sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+        "current_sha256": "18db7e6aff94b27f647ba70671cd1242c9760a8762da2dcb105d88887d9f8fd2",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/group_share_service.dart",
+        "matrix_sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+        "current_sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522",
+        "matches": true
+      },
+      {
+        "path": "lib/features/collections/share_screen.dart",
+        "matrix_sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+        "current_sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae",
+        "matches": true
+      },
+      {
+        "path": "lib/features/home/app_share_service.dart",
+        "matrix_sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+        "current_sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e",
+        "matches": true
+      },
+      {
+        "path": "lib/features/home/home_public_groups_section.dart",
+        "matrix_sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+        "current_sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa",
+        "matches": true
+      },
+      {
+        "path": "lib/features/home/home_screen.dart",
+        "matrix_sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+        "current_sha256": "63f0cc217f3b375fa03dd8a5dfb647ac04d9e9ca08440915b3ff3ca6e7998dfc",
+        "matches": true
+      },
+      {
+        "path": "lib/features/landing/collect_landing_page.dart",
+        "matrix_sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+        "current_sha256": "6df8ca149525f4fc0d80d01f9809a28da685c35b8e62c61ebe9429de85b32348",
+        "matches": true
+      },
+      {
+        "path": "lib/features/landing/public_policy_page_content.dart",
+        "matrix_sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+        "current_sha256": "e278060dc3a88efe599a01ad9f6d99846c5cb2856b98e1b84027226167d42bb7",
+        "matches": true
+      },
+      {
+        "path": "lib/features/ledger/ledger_screen.dart",
+        "matrix_sha256": "d821e6e84a9d564f40d05dacb05ec21a2b3fe60640dc9935590cdffa377fb583",
+        "current_sha256": "d821e6e84a9d564f40d05dacb05ec21a2b3fe60640dc9935590cdffa377fb583",
+        "matches": true
+      },
+      {
+        "path": "lib/features/payments/contribute_entry_screen.dart",
+        "matrix_sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+        "current_sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d",
+        "matches": true
+      },
+      {
+        "path": "lib/features/payments/contribution_flow_screen.dart",
+        "matrix_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+        "current_sha256": "3684928550f37a558de89d04aef6da9fadf058c60ca30bc6e73307e74d84cace",
+        "matches": true
+      },
+      {
+        "path": "lib/features/profile/member_profile_gate.dart",
+        "matrix_sha256": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+        "current_sha256": "b07813f237e6570acb341049281534d145dcbbd34d619210725347c4588e1f87",
+        "matches": true
+      },
+      {
+        "path": "lib/features/profile/profile_edit_screen.dart",
+        "matrix_sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+        "current_sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a",
+        "matches": true
+      },
+      {
+        "path": "lib/features/profile/profile_edit_widgets.dart",
+        "matrix_sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+        "current_sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e",
+        "matches": true
+      },
+      {
+        "path": "lib/features/settings/settings_subscreens.dart",
+        "matrix_sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+        "current_sha256": "e42366d7ce41536eef24a4b8b83c2c1b6f21201b84bdda766508cd30e8283b0b",
+        "matches": true
+      },
+      {
+        "path": "lib/features/status/group_members_screen.dart",
+        "matrix_sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+        "current_sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650",
+        "matches": true
+      },
+      {
+        "path": "lib/gateway/gateway_app.dart",
+        "matrix_sha256": "d1bd3b435c84c2f3230b538665c98f980b31c9bf7ba6e03474c7d4df1f100f39",
+        "current_sha256": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0",
+        "matches": false
+      },
+      {
+        "path": "lib/gateway/gateway_platform.dart",
+        "matrix_sha256": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328",
+        "current_sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4",
+        "matches": false
+      },
+      {
+        "path": "lib/l10n/collect_localizations.dart",
+        "matrix_sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+        "current_sha256": "460f48b9ba5dd021c86790a9007f22054a9dae56f48431c70983eb4c38492b59",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_group_cover.dart",
+        "matrix_sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+        "current_sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_group_cover_catalog.dart",
+        "matrix_sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+        "current_sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart",
+        "matrix_sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+        "current_sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_model_json_helpers.dart",
+        "matrix_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+        "current_sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_models.dart",
+        "matrix_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+        "current_sha256": "e443ace7834bc8f0ed86b6c0a6a5848212bbc49c087ac681aa7d4846e4fb6d59",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_payment_json.dart",
+        "matrix_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+        "current_sha256": "d976f3a50e521bbe9e50099ca5530ec468530aee968f1dfd026efd3ce29ac23e",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_payment_models.dart",
+        "matrix_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+        "current_sha256": "0c9a7ee81854b817e752302bcdf877f7c2055dcef6d05f490706afdd03c5aec8",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_profile_country_rules.dart",
+        "matrix_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+        "current_sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/collect_summary_json.dart",
+        "matrix_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+        "current_sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/models/member_history_page.dart",
+        "matrix_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+        "current_sha256": "c2a60688a8002471caf8e9d664ad7fc17126c39a71a326623e9b5f4b9c1863d2",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/providers/collect_app_state.dart",
+        "matrix_sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+        "current_sha256": "f0c7f13521368b5201505320f69e7320bfd4a8ea09f82183d697e6ac05b61197",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_invitation_protection.dart",
+        "matrix_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+        "current_sha256": "5e48113c1695484678fed9a166f7ac7a582e4bd7af60ec0b1f63f21cb6259ef9",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_offline_cache.dart",
+        "matrix_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+        "current_sha256": "56d68320e5684acb906b3509dcb423fe7f4c22872b0a9fff6da010e8c4fb077f",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository.dart",
+        "matrix_sha256": "327cfbd76c3113ef305ce0e1dad1e1f5251864e94b85bf8f12b84ebbc95fcdb9",
+        "current_sha256": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+        "matches": false
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_contribution_actions.dart",
+        "matrix_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+        "current_sha256": "7e772ba1bd6768f3f9a2901389347289d4972b31dac79190dc8b77d89823e0c1",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_helpers.dart",
+        "matrix_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+        "current_sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_history.dart",
+        "matrix_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+        "current_sha256": "b6d37f5c01a976b12c58eb61fdb168dd855341b63180b4f7cafd909dbe60ee74",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+        "matrix_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+        "current_sha256": "583913beeb5f537d1e8e029e9ea4cb2e125ca54b3d9583285538e6041b1c3c37",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_providers.dart",
+        "matrix_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+        "current_sha256": "79254cc526486ec5ea5326b4cab60214124d3a966e068e82412533aac1256710",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/collect_repository_state.dart",
+        "matrix_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+        "current_sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/pending_shared_group_intent_store.dart",
+        "matrix_sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+        "current_sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/repositories/runtime_control_contract.dart",
+        "matrix_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+        "current_sha256": "e1358f5376208c154425450fc2ca0ade6975dc965546b55e7adc13bcfd894e6d",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/utils/collect_share_links.dart",
+        "matrix_sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+        "current_sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_financial_amount_entry.dart",
+        "matrix_sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+        "current_sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_financial_ledger.dart",
+        "matrix_sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+        "current_sha256": "3846d5d625b7d61d51c14ea51b797249c09c2c98bca944f0d84d4a65b1daf70e",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_financial_money.dart",
+        "matrix_sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+        "current_sha256": "0e691756bfc431dfe07d7d59da1dc8ca0a12e1e1fb07a53df47c8b59675559fd",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_financial_payments.dart",
+        "matrix_sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+        "current_sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_group_card_editorial.dart",
+        "matrix_sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+        "current_sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_group_card_media.dart",
+        "matrix_sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+        "current_sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_group_card_metrics.dart",
+        "matrix_sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+        "current_sha256": "e899fb5668c71e9047eac82aeb9489ef23f76e10549981590cd48cd7f755708c",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_group_cards.dart",
+        "matrix_sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+        "current_sha256": "945d95b712aa5c2ffb159fcccbd6d530050fdafaa1cffaefa67c20f5da4865b5",
+        "matches": true
+      },
+      {
+        "path": "lib/shared/widgets/collect_history_footer.dart",
+        "matrix_sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+        "current_sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83",
+        "matches": true
+      }
+    ],
+    "repository_disposition": "One demonstrated generic failed-refresh freshness flag defect corrected in current15-case packet; accepted SDK18 original topic/session bodies reconstruct byte-for-byte, but no whole modified repository equality claim.",
+    "remaining_changed_consumers": [
+      "lib/gateway/gateway_app.dart",
+      "lib/gateway/gateway_platform.dart"
+    ],
+    "owner": "Gateway app/platform current binding belongs to the native/UI owner. No remaining changed member financial consumer was found.",
+    "named_delegated_current_consumers": {
+      "lib/admin/core/admin_receipt_operations_checkpoint.dart": "58f436678b420dee2972e58652ea06a230d900dc0ae5c909b92e1ffe1e37c559",
+      "lib/admin/core/admin_receipt_operations_checkpoint_web.dart": "cb6040948d184ccf4ad2303344a66218029321ec04e12a4ad88e0eb64760c71b",
+      "lib/admin/core/admin_receipt_operations_runtime.dart": "301ad7547aada5bb89785874843fb8a231be2178c8e48984061708d822060aa3",
+      "lib/admin/core/admin_receipt_operations_models.dart": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2",
+      "lib/admin/core/admin_receipt_operations_card.dart": "0fb788576b006d56e06dee7a1a0c6389806045bfc6fc347df70621ee74cc39ab",
+      "lib/admin/core/admin_exception_page.dart": "24e1892d0f43d23571cb4bc270e4801c964efe621594019525ee08e84bf31015",
+      "lib/admin/core/admin_receipt_cancel_card.dart": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f",
+      "lib/admin/core/admin_investigation.dart": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b",
+      "lib/admin/core/admin_gateway_page.dart": "fec178c3e180f350ca18d14fc3cae900cf868b354020c452c566865c7d8fa078",
+      "lib/admin/core/admin_exception_models.dart": "636f397b62c37a97669587a9df3203b2e1ce1a7e736410fcd2fcea85d8d775f5",
+      "lib/admin/core/admin_operational_health.dart": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+      "lib/gateway/gateway_app.dart": "5aac90d958e9a33e1eb395d364256db7673d4b1a7225a3a8c9d88826737aadd0",
+      "lib/gateway/gateway_platform.dart": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4"
+    },
+    "delegate_limits": "Exact source observations only. Admin and native owners must bind latest controls/decode/freshness to affected cases; no test failure or whole consumer acceptance inferred just from file drift."
+  },
+  "runtime26_server_families": {
+    "retained_result_sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183",
+    "accepted108_assertions_78_actual_blockers": false,
+    "21_sources": {
+      "20260930211605_android_gateway_identity.sql": {
+        "accepted_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "actual_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+        "matches": true
+      },
+      "20260930213000_operator_email_auth.sql": {
+        "accepted_sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "actual_sha256": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+        "matches": true
+      },
+      "20260930220527_operator_email_cutover_guard.sql": {
+        "accepted_sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "actual_sha256": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+        "matches": true
+      },
+      "20260930230100_receipt_backlog_events.sql": {
+        "accepted_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "actual_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+        "matches": true
+      },
+      "20260930230200_admin_receipt_overview.sql": {
+        "accepted_sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "actual_sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+        "matches": true
+      },
+      "20260930230300_admin_transaction_lifecycle.sql": {
+        "accepted_sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "actual_sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+        "matches": true
+      },
+      "20260930230400_admin_investigation.sql": {
+        "accepted_sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+        "actual_sha256": "1360760521245089df8c90265877e951777f09f9422a3e2e15bac3619c0e089b",
+        "matches": true
+      },
+      "20260930233000_sensitive_admin_authority.sql": {
+        "accepted_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+        "actual_sha256": "657ac0272f388661f3b5d13c9ed601e2bc8ef66080888d5573075d755b8567b1",
+        "matches": true
+      },
+      "20260930234000_exact_request_amounts.sql": {
+        "accepted_sha256": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+        "actual_sha256": "0ca10f9a069c83f12bc1c1f4529cac2d31579e6132d98382fb57921585b790ba",
+        "matches": true
+      },
+      "20260930235000_exact_receipt_history_amounts.sql": {
+        "accepted_sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+        "actual_sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+        "matches": true
+      },
+      "20260930235500_operator_reason_whitespace.sql": {
+        "accepted_sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+        "actual_sha256": "b1dcbf12cd154bdcb1a6631099eae7e3e974b6b6c8610469045f6729fa5ad67f",
+        "matches": true
+      },
+      "20260930235600_runtime_control_reason_whitespace.sql": {
+        "accepted_sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+        "actual_sha256": "915c373f4335f56b093f585e706ed0d8b6bd798d45db314d427c64e08ac9fdef",
+        "matches": true
+      },
+      "20260930235700_sensitive_reason_whitespace.sql": {
+        "accepted_sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+        "actual_sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+        "matches": true
+      },
+      "20261001000100_operational_exception_inbox.sql": {
+        "accepted_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "actual_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "matches": true
+      },
+      "20261001000200_admin_gateway_reads.sql": {
+        "accepted_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+        "actual_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+        "matches": true
+      },
+      "20261001000300_admin_exception_reads.sql": {
+        "accepted_sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+        "actual_sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+        "matches": true
+      },
+      "20261001000400_receipt_supervisor_identity.sql": {
+        "accepted_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+        "actual_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+        "matches": true
+      },
+      "20261001000519_safe_unstarted_receipt_cancel.sql": {
+        "accepted_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+        "actual_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+        "matches": true
+      },
+      "20261001001457_joined_operator_audit.sql": {
+        "accepted_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+        "actual_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+        "matches": true
+      },
+      "20261001003338_unattended_operating_policy.sql": {
+        "accepted_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+        "actual_sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669",
+        "matches": true
+      },
+      "20261001004651_receipt_cancel_audit_actor.sql": {
+        "accepted_sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+        "actual_sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+        "matches": true
+      }
+    },
+    "inventory_actual_sha256": "50494a260d5f1a1db23b026d60a5959b80956f10118c57bd5a200f377bbaf782",
+    "inventory_recorded_sha256": "50494a260d5f1a1db23b026d60a5959b80956f10118c57bd5a200f377bbaf782",
+    "bundle_actual_sha256": "f6f08eb1525f273c741122fcd29a46dbeacc58362d979d670b296d9f9da38394",
+    "bundle_recorded_sha256": "f6f08eb1525f273c741122fcd29a46dbeacc58362d979d670b296d9f9da38394",
+    "scope": "Unchanged exact21 migration family bodies reuse actual26 races; no additional race run/current broad migration/client claim. Independent future receipt-policy functions/client changes require respective owners."
+  },
+  "history_benchmarks": {
+    "actual_four_arm_checks_per_volume": 455,
+    "published_checks_per_volume": 146,
+    "volumes": [
+      1000,
+      10000
+    ],
+    "published_optimization_sha256": "2e36bc6083723b78dd82b4666ba7ca2f28e99c61d0554dd8a4c8b88492f61da0",
+    "matches_published_acceptance": true,
+    "harness_delta": "staged_bundle_upgrade_uat.py now adds published index and receipt-policy stages/private guards/one content-policy control. This is a source-set extension, not a query benchmark defect. Keep accepted original runner/source binding.",
+    "current_policy_limit": "Later receipt_financial_policy SQL differs from frozen177 input. Existing published history proof remains query-specific and does not claim current receipt-policy acceptance. No full-summary removal or latency SLO is claimed.",
+    "bound_artifact_integrity": {
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/result.json": {
+        "recorded_sha256": "b90134a378d5cc5266a9af8f33d795e8d3b8f491db4c7b5b2080e9deca0e3253",
+        "actual_sha256": "b90134a378d5cc5266a9af8f33d795e8d3b8f491db4c7b5b2080e9deca0e3253",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/volume-1000/published-current/results.json": {
+        "recorded_sha256": "bb542f5cfc182dcfbd9714ca96a4eb9e5654c84270fdebd77d636fa8db386a27",
+        "actual_sha256": "bb542f5cfc182dcfbd9714ca96a4eb9e5654c84270fdebd77d636fa8db386a27",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/volume-1000/queue-intent-measurements.json": {
+        "recorded_sha256": "8fc9f1038138b0532c36d045e9502c5e15e135de57704d19f6fdcd2b9a456e81",
+        "actual_sha256": "8fc9f1038138b0532c36d045e9502c5e15e135de57704d19f6fdcd2b9a456e81",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt3-frozen177-execution/volume-1000/result.json": {
+        "recorded_sha256": "dc2cdaeaf7dbe48a0209faad530f80c0c1406c099c85f3a0bdbfd112a828312f",
+        "actual_sha256": "dc2cdaeaf7dbe48a0209faad530f80c0c1406c099c85f3a0bdbfd112a828312f",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/result.json": {
+        "recorded_sha256": "10178d3d2cbcf3348b0a5296f9967cfbf841293f966c2f6d990ccaf1fc4212aa",
+        "actual_sha256": "10178d3d2cbcf3348b0a5296f9967cfbf841293f966c2f6d990ccaf1fc4212aa",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/volume-10000/published-current/results.json": {
+        "recorded_sha256": "4d433804ecc2745dfc59cbfa2e9bba21fb91a8fd1360040ccc6a4d924321f83d",
+        "actual_sha256": "4d433804ecc2745dfc59cbfa2e9bba21fb91a8fd1360040ccc6a4d924321f83d",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/volume-10000/queue-intent-measurements.json": {
+        "recorded_sha256": "96ea23d8a19757f5cfb96ced3cb6aa3fa98b46c351fae481d77607ba69230744",
+        "actual_sha256": "96ea23d8a19757f5cfb96ced3cb6aa3fa98b46c351fae481d77607ba69230744",
+        "matches": true
+      },
+      "docs/release/generated-query-benchmark-2026-10-01/published-global-history-attempt4-frozen177-volume10000/volume-10000/result.json": {
+        "recorded_sha256": "3b84310b817f7b9639925194e9b8ddaba1c0641e22fe3508fd12a349291abbb6",
+        "actual_sha256": "3b84310b817f7b9639925194e9b8ddaba1c0641e22fe3508fd12a349291abbb6",
+        "matches": true
+      }
+    },
+    "current_receipt_policy_delta": {
+      "accepted_source_sha256": "87c23eb0e1ed6635bc56b2788e9c40a65f42df3f3b8a2e90fb925c505d30044d",
+      "current_source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "function_body_differences": [
+        "public.collect_record_send_start"
+      ],
+      "functions_declared": [
+        "collect_receipt_policy.immutable_evidence",
+        "collect_receipt_policy.render_v2",
+        "collect_receipt_policy.render_snapshot",
+        "collect_receipt_policy.body_for_job",
+        "collect_receipt_policy.snapshot_is_eligible",
+        "collect_receipt_policy.content_is_valid",
+        "collect_receipt_policy.content_is_current",
+        "collect_receipt_policy.verify_new_content",
+        "collect_hybrid.enqueue_sms_receipt_from_snapshot",
+        "collect_hybrid.sms_receipt_job_is_current",
+        "public.collect_claim_receipt",
+        "public.collect_record_send_start",
+        "collect_hybrid.guard_receipt_dispatch_transition",
+        "collect_receipt_actions.ineligible_reason",
+        "public.admin_get_collect_investigation_v1",
+        "public.admin_receipt_content_policy_v1"
+      ],
+      "direct_read_effect": "Exact frozen177 diff adds only public.collect_record_send_start override, with current savings-collection and allocation-membership SHARE locks at durable pre-send fence. All other receipt-policy function bodies reconstruct unchanged; no member history/recent-intent/admin_list_notifications/Admin Gateway/Exceptions list read is redeclared. This write-side send-start lock correction does not affect the already-tested posting producer or history/notification read query body; current send-start concurrency/authority acceptance stays with root/backend owner. New Admin query volume proof is independent.",
+      "exact_diff": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/current-receipt-policy-vs-frozen177.diff",
+      "exact_diff_sha256": "95b0622bd293ac5a426f10dcc323d1882feb60f77556898d69e1c63a8944286e"
+    },
+    "new_admin_volume_gap": {
+      "source_sha256": {
+        "supabase/migrations/20261001000200_admin_gateway_reads.sql": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+        "supabase/migrations/20261001000300_admin_exception_reads.sql": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+        "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+        "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca"
+      },
+      "functions": [
+        "public.admin_list_gateway_devices_v1(integer,timestamptz,uuid)",
+        "public.admin_list_operational_exceptions_v2(boolean,integer,timestamptz,uuid,text)"
+      ],
+      "smallest_proof": "Frozen candidate only: isolated synthetic Gateway identities/observations/owner receipts and exception categories/revisions/action records at1000/10000; actual authenticated APIs, first/middle/deep/tied keys/terminal cursors, exact full Gateway total, per-page latest/ack projections; diagnostic preflight before seeding then real nested-plan buffers, all triggers intact and clone removed/shared tables/catalog/cron unchanged. No invented sort or exception full-count API; sampled anchors distinguished from full cursor chain.",
+      "prior_gap": "Existing455+146 member/history/notification proofs do not run these actual new endpoints at1k/10k. Existing small actualSQL proofs cover paired cursor, genuine total, strict order/no duplicate, latest health/actions/nonzero callback/action state; do not claim large-volume behavior.",
+      "resolution": {
+        "status": "pass_scoped",
+        "actual_cases": 104,
+        "terminal_receipt": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/admin-benchmark-terminal.json",
+        "terminal_sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190",
+        "limits": [
+          "Actual list query read fixtures, no enrollment/source/financial producer authority.",
+          "Sampled anchors rather than complete cursor chain; paired ties/order/terminal tested.",
+          "Zero callback fixture rows: no large nonzero callback aggregation claim.",
+          "Exact Gateway total; Exceptions has no total-count API; only supported descending sort.",
+          "Local three samples and nested buffers do not approve hosted p95/p99/SLO/device capacity.",
+          "The original aggregate attempt3 remains failed because its single-transaction10000 seed exhausted the lock table; only its independently successful1000 volume is reused.",
+          "Platform bootstrap is disclosed local fixture normalization; no managed hosted platform owner/ACL currentness attested.",
+          "Currentness binds named consumed sources and accepted query scope; no whole mutable checkout currentness claim."
+        ]
+      }
+    }
+  },
+  "health_observability": {
+    "unchanged_semantic_migration_bindings": {
+      "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+      "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "supabase/migrations/20260930180000_operational_health_authority.sql": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747"
+    },
+    "retained_alert_assertions": 180,
+    "retained_metric_writer_cases": 5,
+    "retained_metric_writer_races": 4,
+    "retained_health_authority_races": 6,
+    "retained_performance_assertions": 32,
+    "retained_ui_cases": 55,
+    "changed_Admin_UI_path": "lib/admin/core/admin_operational_health.dart",
+    "accepted_ui_sha256": "d9306e827fb7c9288c9ff3e5016e8f17f01ddcb17119921b76a6ca10204b00b3",
+    "current_ui_sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292",
+    "unchanged_ui_test_and_SQL_fixture": true,
+    "delegated_gap": "Admin owner must bind the changed health UI and its supported read-only response/expiry behavior. Existing55 UI proof explicitly does not rehearse operator mutation actions.",
+    "dated_recorder_limits": "Health/metric recorder harnesses changed after the retained acceptance; reuse the original immutable proofs for unchanged semantic migrations, not as a current harness pass.",
+    "semantic_current_match": {
+      "supabase/migrations/20260930160000_redacted_operational_health.sql": true,
+      "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": true,
+      "supabase/migrations/20260930180000_operational_health_authority.sql": true
+    }
+  },
+  "existing_proof_integrity": {
+    "docs/release/cache-session-2026-10-01/accepted-current-proof.json": {
+      "recorded_sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776",
+      "actual_sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776",
+      "matches": true
+    },
+    "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/validation.json": {
+      "recorded_sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca",
+      "actual_sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca",
+      "matches": true
+    },
+    "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json": {
+      "recorded_sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee",
+      "actual_sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee",
+      "matches": true
+    },
+    "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt3-root-title-lookup/result.json": {
+      "recorded_sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2",
+      "actual_sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2",
+      "matches": true
+    },
+    "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json": {
+      "recorded_sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4",
+      "actual_sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4",
+      "matches": true
+    },
+    "docs/release/runtime-controls-2026-10-01/current21-full26-races-attempt1/result.json": {
+      "recorded_sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183",
+      "actual_sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183",
+      "matches": true
+    },
+    "docs/release/financial-observability-2026-09-30/alert-matrix150-rollback-attempt1/result.json": {
+      "recorded_sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa",
+      "actual_sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa",
+      "matches": true
+    },
+    "docs/release/financial-observability-2026-09-30/metric-concurrency150-attempt1/validation.json": {
+      "recorded_sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c",
+      "actual_sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c",
+      "matches": true
+    },
+    "docs/release/financial-observability-2026-09-30/health-authority-concurrency150-attempt1/validation.json": {
+      "recorded_sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213",
+      "actual_sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213",
+      "matches": true
+    },
+    "docs/release/financial-observability-2026-09-30/performance150-rollback-attempt1/result.json": {
+      "recorded_sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3",
+      "actual_sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3",
+      "matches": true
+    },
+    "docs/release/financial-observability-2026-09-30/ui150-responses-attempt3-consistent-age/validation.json": {
+      "recorded_sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca",
+      "actual_sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca",
+      "matches": true
+    }
+  },
+  "remaining_owned_work": [
+    "Execute bounded actualAdmin volumes only once root passes final full-current ordinary receipt + authoritative platform prerequisites; member/lib source stays frozen."
+  ],
+  "delegated_dependencies": [
+    "Admin: newer receipt-operation checkpoints/runtime/model/card, exception/Gateway/investigation/cancel decoder/card and changed healthUI affected-case binding.",
+    "Root/native: Gateway app/platform source acceptance.",
+    "Root/backend owner: current receipt-policy/producer/full migration integration.",
+    "Root: final complete current frozen candidate Flutter/source acceptance and canonical register dispositions."
+  ],
+  "limits": "Local selected execution/equivalence only. No deployment/provider/signedAuth/productiondevice/store/release authorization or whole task closure inferred.",
+  "bounded_Admin_benchmark_harness": {
+    "source_sha256": {
+      "scripts/tests/current_admin_query_benchmark_uat.py": "030c69b2ea892e3e46045b08ca9914e19d8e8e563d46507608884b27495bbdea",
+      "scripts/tests/current_admin_query_benchmark_test.py": "40163be327c6e5512af8416fe2b473fce8e59142efa50fa3cd9995598782f975"
+    },
+    "offline_admission_validation": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "current_admin_query_benchmark_test"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests",
+      "exit_code": 0,
+      "seconds": 0.431,
+      "source_sha256": {
+        "scripts/tests/current_admin_query_benchmark_uat.py": "d3bcfe5a7ff74c055cd2eac006d83afea20d39c237b2920d3c97cdf275ae015f",
+        "scripts/tests/current_admin_query_benchmark_test.py": "64f3440be83176b95e310d8d3dae557c993bfff9daada6db0bff764d47a0aec3",
+        "scripts/tests/current_generated_query_benchmark_uat.py": "77165c4a2f3ceda97f1dd5a001e7b05959f7aa0d33cc926286c8d9ea1e5a6901",
+        "scripts/tests/current_generated_query_benchmark_test.py": "8751c50eddb820b43672640b33d3c7e87901ba9c09c556f874fee85ba80cba9f"
+      },
+      "source_stable": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0d6653413f55f7cf64dbfab59b6b29c640ade8e63585414ab2a44a0892a5ed0a",
+      "sql_or_docker_executed": false,
+      "actual_1000_10000_benchmark_executed": false
+    },
+    "offline_cases_passed": 7,
+    "actual_volume_executed": true,
+    "execution_owner": "Authorized member/financial worker on root terminal ordinary installer receipt",
+    "expected_command": [
+      "python3",
+      "scripts/tests/current_admin_query_benchmark_uat.py",
+      "--output",
+      "docs/release/generated-query-benchmark-2026-10-01/admin-current-candidate-volumes1",
+      "--reviewed-upgrade",
+      "<root-final-passing-ordinary-installer-result.json>"
+    ],
+    "preflight_dependency": "Root terminal full-current ordinary clean/populated receipt with exact complete dynamic current source_inventory and both-phase per-migration pass/NOSUPERUSER/no canonical predecessor change/quiet scheduler/removed targets, plus platform_prerequisite_sha256 binding authoritative scripts/sql/receipt_transport_platform_prerequisites.sql. Root integrates owner/definer assertions, owner-only revokes/index and exact7column reads. No staged23 run required.",
+    "limits": [
+      "Trusted private synthetic read fixtures; no enrollment/signature/operational producer authority claimed.",
+      "ActualGateway/Exceptions first/middle/deep/terminal; fivecategories+active/inactive; exact full Gatewaytotal; Exceptions API has no total.",
+      "Supported descending ordering only; known tied keys/latest-owner and health/current-revision action state.",
+      "Sampled anchor windows; existing small chain/no duplicate proof separate.",
+      "Zero callbackrows atvolume: existing nonzero small callback proof separate; no1k/10k callback observation claim.",
+      "Exact nestedrelational plan+buffers rejects publicwrapper/actor-only evidence; diagnostic failure preserved; preflight before volumefixtures.",
+      "Sharedschema154 read only, clonedatabase writes only; all productiontriggers intact; cleanup/source preservation mandatory."
+    ],
+    "full_ordinary_receipt_admission_validation": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "current_admin_query_benchmark_test.FullReceiptAdmissionTest"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests",
+      "exit_code": 0,
+      "seconds": 0.327,
+      "source_sha256": {
+        "scripts/tests/current_admin_query_benchmark_uat.py": "57c259815567a23041a282c30c09e000e47540d382274043e621ae3051172bd5",
+        "scripts/tests/current_admin_query_benchmark_test.py": "40163be327c6e5512af8416fe2b473fce8e59142efa50fa3cd9995598782f975"
+      },
+      "source_stable": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "670a39115e7523a8984e4842e16547cb2094b03fad392b037b4b9dc8b2656e62",
+      "sql_or_docker_executed": false,
+      "actual_volume_executed": false
+    },
+    "new_full_receipt_cases_passed": 7,
+    "setup": "Exact schema154/ACL restore in fresh network-none targets; all185 source-bound migrations reflected,31 appended under actual NOSUPERUSER. Dump-named schemas/public reset; two legacy platform extension grant hooks temporarily disabled only during extension install and restored immediately; exact local trusted net metadata and canonical owner prerequisite bound. Every application/constraint trigger active; no server lock-capacity change.10k read fixtures use500-device transactions. Shared154 remains read-only and all private targets removed.",
+    "adapter_source_binding_limit": "Historical7+7 offline test receipts retained at their recorded source hashes. Actual canonical source guard failure retained; affected2 platform admission cases pass at f2ed9aa6 source. Admission function bodies unchanged in final573f78 source; actual final receipt/clone/10k execution separately bound.1k actual52 pass reused only through14 unchanged functions,201 unchanged transitive inputs and byte-exact rendered fixture. No blanket old-run/current-source equality claim.",
+    "current_sources_sha256": {
+      "scripts/tests/current_admin_query_benchmark_uat.py": "573f78fdf6c8ce926081f158ac364df8efb329068ab65290c12dcc5054409d92",
+      "scripts/tests/current_admin_query_benchmark_test.py": "99889081c468b640155c1a53bd754008aa5afaaacec5e8616ce8e36055cd5e4a",
+      "lib/shared/repositories/collect_repository.dart": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "test/shared/member_realtime_sdk_session_test.dart": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565"
+    },
+    "actual_terminal_receipt": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/admin-benchmark-terminal.json",
+    "actual_terminal_receipt_sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190",
+    "preflight_dependency_satisfied": true
+  },
+  "all_current_owned_member_runtime_tests_frozen": true,
+  "current_admin_actual_query_acceptance": {
+    "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/admin-benchmark-terminal.json",
+    "sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190",
+    "current_owned_sources_sha256": {
+      "scripts/tests/current_admin_query_benchmark_uat.py": "573f78fdf6c8ce926081f158ac364df8efb329068ab65290c12dcc5054409d92",
+      "scripts/tests/current_admin_query_benchmark_test.py": "99889081c468b640155c1a53bd754008aa5afaaacec5e8616ce8e36055cd5e4a",
+      "lib/shared/repositories/collect_repository.dart": "736f07157e3d82013c11f6e69f44feaf0358f09f678f150ca2690f53e7e79cc3",
+      "test/shared/member_realtime_sdk_session_test.dart": "54092cafb40656fdb21a199a3b7774559053169ecb41b6357b44d2ac76e00565"
+    }
+  }
+}

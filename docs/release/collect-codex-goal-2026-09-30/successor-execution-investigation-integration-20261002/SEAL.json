@@ -1,0 +1,10 @@
+{
+  "created_at": "2026-10-02T02:33:43.943616+00:00",
+  "payload_bytes": 1609540,
+  "payload_manifest_sha256": "6ab10e8913ae6f81655d3a58ffec93ed439c01e8149fd040bbf5d5c526be6979",
+  "payload_member_count": 109,
+  "peer_review_complete": true,
+  "product_tests_rerun": false,
+  "scope": "Exact16 canonical source/3originals; SQL49 explicit composition + retained17/6 Admin + correction13 + freshmount7/reusedlegacy8 + separatehygiene12; no summed aggregate or fullUI/hosted/device acceptance",
+  "status": "sealed_exact_finite_integration_capsule"
+}

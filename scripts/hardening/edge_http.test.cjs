@@ -12,9 +12,22 @@ require(path.join(process.env.COLLECT_EDGE_BUILD,'dispatch-notifications/index'+
 require(path.join(process.env.COLLECT_EDGE_BUILD,'collect-notification-operator/index'+moduleSuffix));const operatorHandler=handler;
 const owner='11111111-1111-4111-8111-111111111111',envelope='22222222-2222-4222-8222-222222222222',cap='33333333-3333-4333-8333-333333333333',raw='44444444-4444-4444-8444-444444444444';
 global.__user={user:{id:owner}};
+const operatorSession='11111111-1111-4111-8111-111111111199';
+const operatorAuthorization='Bearer e30.'+Buffer.from(JSON.stringify({sub:owner,session_id:operatorSession,role:'authenticated'})).toString('base64url')+'.synthetic';
 async function otpRequest(){const body=JSON.stringify({user:{phone:'+250788123456'},sms:{otp:'123456'}}),id='hook_test';const key=await crypto.subtle.importKey('raw',Buffer.from(secret,'base64'),{name:'HMAC',hash:'SHA-256'},false,['sign']);const sig=Buffer.from(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(`${id}.${now}.${body}`))).toString('base64');return new Request('https://edge.test',{method:'POST',headers:{'webhook-id':id,'webhook-timestamp':String(now),'webhook-signature':'v1,'+sig},body});}
 function receiptRequest(auth=true){return new Request('https://edge.test',{method:'POST',headers:{'content-type':'application/json',...(auth?{authorization:'Bearer test'}:{})},body:JSON.stringify({raw_sender:'M-Money',raw_body:'receipt',native_capability:cap,client_envelope_id:envelope,receiver_momo_number:'+250788123456',received_at_device:'2026-09-27T10:00:00Z'})});}
-function setup(reservation='reserved'){const calls=[];global.__service={rpc:async(name,p)=>{calls.push(name);if(name==='reserve_signed_otp_v3')return{data:reservation==='throttled'?'throttled':{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:cap,state:({reserved:'reserved',already_sent:'accepted',unresolved:'ambiguous'})[reservation]||reservation,revision:1,can_send:reservation==='reserved'},error:null};if(name==='begin_signed_otp_v3')return{data:{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:p.p_attempt_id,state:'sending',revision:p.p_revision+1,can_send:false,started:true},error:null};if(name==='record_signed_otp_v3')return{data:{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:p.p_attempt_id,state:p.p_outcome,revision:p.p_revision+1,can_send:false},error:null};if(name==='attested_sms_contract_version')return{data:2,error:null};if(name==='accept_attested_receipt_v2')return{data:{stored:true,contract_version:2,raw_sms_id:raw,owner_user_id:owner,client_envelope_id:envelope,body_sha256:p.p_body_hash},error:null};throw new Error('unexpected RPC')}};return calls;}
+// Current enum-only metrics are a separate dependency from the receipt RPCs
+// asserted below. Validate their payload/abort boundary without provider IO.
+function withReceiptMetric(service){const rpc=service.rpc;service.rpc=(name,...args)=>{
+  if(name==='record_operational_metric_v1'){
+    const params=args[0];assert.deepEqual(Object.keys(params).sort(),['p_duration_ms','p_event_code']);
+    assert.ok(['receipt_ack_generated','receipt_rejected','receipt_processing_accepted','receipt_processing_deferred'].includes(params.p_event_code));
+    assert.ok(params.p_duration_ms===null||(Number.isInteger(params.p_duration_ms)&&params.p_duration_ms>=0&&params.p_duration_ms<=120000));
+    return{abortSignal:async signal=>{assert.ok(signal instanceof AbortSignal);return{data:true,error:null}}};
+  }
+  return rpc.call(service,name,...args);
+};return service;}
+function setup(reservation='reserved'){const calls=[];global.__service={rpc:async(name,p)=>{calls.push(name);if(name==='reserve_signed_otp_v3')return{data:reservation==='throttled'?'throttled':{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:cap,state:({reserved:'reserved',already_sent:'accepted',unresolved:'ambiguous'})[reservation]||reservation,revision:1,can_send:reservation==='reserved'},error:null};if(name==='begin_signed_otp_v3')return{data:{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:p.p_attempt_id,state:'sending',revision:p.p_revision+1,can_send:false,started:true},error:null};if(name==='record_signed_otp_v3')return{data:{contract_version:3,hook_id:p.p_hook_id,payload_hash:p.p_payload_hash,attempt_id:p.p_attempt_id,state:p.p_outcome,revision:p.p_revision+1,can_send:false},error:null};if(name==='attested_sms_contract_version')return{data:2,error:null};if(name==='accept_attested_receipt_v2')return{data:{stored:true,contract_version:2,raw_sms_id:raw,owner_user_id:owner,client_envelope_id:envelope,body_sha256:p.p_body_hash},error:null};throw new Error('unexpected RPC')}};global.__service=withReceiptMetric(global.__service);return calls;}
 async function fetchMock(fn,body){const original=global.fetch;let count=0;global.fetch=async(...args)=>{count++;return fn(...args)};try{return await body(()=>count)}finally{global.fetch=original}}
 test('OTP GET rejected without provider or DB',async()=>{const c=setup();assert.equal((await otpHandler(new Request('https://edge.test'))).status,405);assert.equal(c.length,0)});
 test('OTP static header rejected',async()=>{const c=setup();const r=await otpHandler(new Request('https://edge.test',{method:'POST',headers:{'x-hook-secret':secret},body:'{}'}));assert.equal(r.status,401);assert.equal(c.length,0)});
@@ -27,7 +40,7 @@ test('OTP missing provider id cannot become success',async()=>{setup();await fet
 test('Receipt auth failure does not store',async()=>{const c=setup();assert.equal((await receiptHandler(receiptRequest(false))).status,401);assert.equal(c.length,0)});
 test('Receipt owner-bound v2 ACK returned',async()=>{setup();await fetchMock(async()=>new Response('{"ok":true}'),async()=>{const r=await receiptHandler(receiptRequest());assert.equal(r.status,200);const p=await r.json();assert.equal(p.receipt.owner_user_id,owner);assert.equal(p.evidence_level,'sms_observed');assert.equal(p.payment_confirmed,undefined);assert.equal(r.headers.get('cache-control'),'no-store')})});
 test('Receipt parsing failure retains retry state',async()=>{setup();await fetchMock(async()=>new Response('{"error":"private exception"}',{status:503}),async()=>{const r=await receiptHandler(receiptRequest());assert.equal(r.status,503);const body=await r.json();assert.equal(body.receipt,undefined);assert.equal(body.error,'receipt_stored_processing_retry')})});
-test('Receipt legacy version is not a fallback',async()=>{const names=[];global.__service={rpc:async name=>{names.push(name);return{data:1,error:null}}};assert.equal((await receiptHandler(receiptRequest())).status,503);assert.deepEqual(names,['attested_sms_contract_version'])});
+test('Receipt legacy version is not a fallback',async()=>{const names=[];global.__service=withReceiptMetric({rpc:async name=>{names.push(name);return{data:1,error:null}}});assert.equal((await receiptHandler(receiptRequest())).status,503);assert.deepEqual(names,['attested_sms_contract_version'])});
 
 for(const [label,result] of [
   ['missing RPC',{data:null,error:{code:'PGRST202',message:'missing synthetic RPC'}}],
@@ -37,8 +50,8 @@ for(const [label,result] of [
   ['text version',{data:'2',error:null}],
 ])test('Receipt and parser fail closed on '+label,async()=>{
   const calls=[];
-  global.__service={rpc:async name=>{calls.push(name);assert.equal(name,'attested_sms_contract_version');return result},
-    from:()=>{throw new Error('must not read or mutate SMS evidence')}};
+  global.__service=withReceiptMetric({rpc:async name=>{calls.push(name);assert.equal(name,'attested_sms_contract_version');return result},
+    from:()=>{throw new Error('must not read or mutate SMS evidence')}});
   await fetchMock(async()=>{throw new Error('must not invoke the parser or provider')},async count=>{
     const receipt=await receiptHandler(receiptRequest());
     assert.equal(receipt.status,503);
@@ -69,7 +82,7 @@ function parserService(leaseCompleted,{existingEvent=false}={}){
       };return query;
     },
   };
-  return{service,calls};
+  return{service:withReceiptMetric(service),calls};
 }
 test('Parser rejects missing internal authorization before any database call',async()=>{const d=parserService(true);global.__service=d.service;assert.equal((await parserHandler(parserRequest(false))).status,401);assert.equal(d.calls.length,0)});
 test('Parser stale lease never reports accepted processing or allocates money',async()=>{const d=parserService(false);global.__service=d.service;const response=await parserHandler(parserRequest());assert.equal(response.status,503);assert.equal((await response.json()).error,'receipt_parse_lease_lost');assert.ok(d.calls.includes('complete_lease'));assert.ok(!d.calls.includes('allocate_parsed_payment_event'))});
@@ -87,8 +100,18 @@ async function integritySetup(license='LICENSED') {
  const hash=await smsIntegrityRequestHash(sms);
  const payload={action:'sms.ingest',subject_id:owner,nonce:cap,sms_permission_granted:true,sms_access_enabled:true,request_hash:hash,receiver_momo_number_hash:sms.receiverMomoNumberHash,integrity_token:'unit-test-only',sms_request:{client_envelope_id:envelope,raw_sender:sms.rawSender,raw_body_sha256:sms.rawBodySha256,received_at_device:sms.receivedAtDevice}};
  const decoded={requestDetails:{requestPackageName:'app.cool.mobile',requestHash:hash,timestampMillis:String(Date.now())},appIntegrity:{packageName:'app.cool.mobile',appRecognitionVerdict:'PLAY_RECOGNIZED',versionCode:'23',certificateSha256Digest:['CERT']},accountDetails:{appLicensingVerdict:license},deviceIntegrity:{deviceRecognitionVerdict:['MEETS_DEVICE_INTEGRITY']}};
- const request=new Request('https://edge.test',{method:'POST',headers:{authorization:'Bearer test','content-type':'application/json'},body:JSON.stringify(payload)});
- const urls=[];let minted=0;global.__service={rpc:async name=>{assert.equal(name,'mint_native_action_capability');minted++;return{data:cap,error:null}}};
+ const request=new Request('https://edge.test',{method:'POST',headers:{authorization:operatorAuthorization,'content-type':'application/json'},body:JSON.stringify(payload)});
+ const tokenHash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(payload.integrity_token));
+ const tokenSha=Buffer.from(tokenHash).toString('hex');
+ const result={status:'pass',action:payload.action,request_hash:hash,package_name:'app.cool.mobile',app_verdict:'PLAY_RECOGNIZED',device_verdicts:['MEETS_DEVICE_INTEGRITY'],native_capability:cap,capability_expires_at:new Date(Date.now()+240000).toISOString()};
+ const receipt=state=>({contract_version:1,reservation_id:raw,actor_id:owner,session_id:operatorSession,nonce:cap,action:payload.action,request_hash:hash,token_sha256:tokenSha,state,can_call:true,expires_at:new Date(Date.now()+180000).toISOString(),result:null});
+ const urls=[];let minted=0;global.__service={rpc:(name,params)=>({abortSignal:async signal=>{
+  assert.ok(signal instanceof AbortSignal);assert.equal(params.p_actor_id,owner);assert.equal(params.p_session_id,operatorSession);
+  if(name==='reserve_play_integrity_admission_v1')return{data:receipt('reserved'),error:null};
+  if(name==='begin_play_integrity_admission_v1')return{data:receipt(params.p_phase+'_started'),error:null};
+  if(name==='finish_play_integrity_admission_v1')return{data:{ok:true,state:params.p_outcome},error:null};
+  assert.equal(name,'complete_play_integrity_admission_v1');minted++;return{data:result,error:null};
+ }})};
  const fetcher=async(url,options)=>{
    urls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal);
    if(url==='https://oauth2.googleapis.com/token'){
@@ -128,7 +151,7 @@ test('Notification endpoints suppress SQL and provider exception text',async()=>
 test('Operator error response suppresses internal SQL text',async()=>{
   global.__service={rpc:async()=>({data:null,error:new Error('SQL SECRET from admin_current_user')})};
   const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-    headers:{authorization:'Bearer unit','content-type':'application/json'},
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
     body:JSON.stringify({action:'health'})}));
   assert.equal(response.status,503);
   assert.deepEqual(await response.json(),{error:'service_unavailable'});
@@ -141,7 +164,7 @@ test('Operator rejects invalid input with a fixed 400 code',async()=>{
   }};
   for(const payload of [{action:'execute_sql',sql:'select secret'}, {action:'list_pending',limit:0}]){
     const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-      headers:{authorization:'Bearer unit','content-type':'application/json'},
+      headers:{authorization:operatorAuthorization,'content-type':'application/json'},
       body:JSON.stringify(payload)}));
     assert.equal(response.status,400);
     assert.deepEqual(await response.json(),{error:'invalid_request'});
@@ -154,7 +177,7 @@ test('Operator permission denial does not disclose internal ACL names',async()=>
     return {data:{permissions:[]},error:null};
   }};
   const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-    headers:{authorization:'Bearer unit','content-type':'application/json'},
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
     body:JSON.stringify({action:'health'})}));
   assert.equal(response.status,403);
   assert.deepEqual(await response.json(),{error:'forbidden'});
@@ -164,7 +187,7 @@ test('Operator rejects oversized input before permission or service RPCs',async(
   const calls=[];
   global.__service={rpc:async name=>{calls.push(name);throw new Error('unexpected RPC')}};
   const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-    headers:{authorization:'Bearer unit','content-type':'application/json'},
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
     body:JSON.stringify({action:'health',padding:'x'.repeat(17000)})}));
   assert.equal(response.status,413);
   assert.deepEqual(await response.json(),{error:'payload_too_large'});
@@ -173,18 +196,51 @@ test('Operator rejects oversized input before permission or service RPCs',async(
 
 test('Operator authorized health action still returns its result',async()=>{
   const calls=[];
-  global.__service={rpc:async name=>{
+  global.__service={rpc:async (name,params)=>{
     calls.push(name);
     if(name==='admin_current_user')return {data:{permissions:['notifications.read']},error:null};
-    assert.equal(name,'collect_notification_health');
+    assert.equal(name,'collect_notification_health_v2');
+    assert.deepEqual(params,{p_operator_user_id:owner,p_operator_session_id:operatorSession});
     return {data:{pending:0},error:null};
   }};
   const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-    headers:{authorization:'Bearer unit','content-type':'application/json'},
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
     body:JSON.stringify({action:'health'})}));
   assert.equal(response.status,200);
   assert.deepEqual(await response.json(),{ok:true,action:'health',result:{pending:0}});
-  assert.deepEqual(calls,['admin_current_user','collect_notification_health']);
+  assert.deepEqual(calls,['admin_current_user','collect_notification_health_v2']);
+});
+
+for(const [label,claims] of [
+  ['missing session',{sub:owner,role:'authenticated'}],
+  ['different subject',{sub:cap,session_id:operatorSession,role:'authenticated'}],
+  ['service role',{sub:owner,session_id:operatorSession,role:'service_role'}],
+])test('Operator rejects '+label+' before ACL or service mutation',async()=>{
+  const calls=[];
+  global.__service={rpc:async name=>{calls.push(name);throw new Error('must not reach a database RPC')}};
+  const authorization='Bearer e30.'+Buffer.from(JSON.stringify(claims)).toString('base64url')+'.synthetic';
+  const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
+    headers:{authorization,'content-type':'application/json'},body:JSON.stringify({action:'health',operator_user_id:owner,operator_session_id:operatorSession})}));
+  assert.equal(response.status,401);
+  assert.deepEqual(await response.json(),{error:'authentication_required'});
+  assert.deepEqual(calls,[]);
+});
+
+test('Operator preserves database originating-session refusal after a successful ACL read',async()=>{
+  const calls=[];
+  global.__service={rpc:async (name,params)=>{
+    calls.push(name);
+    if(name==='admin_current_user')return {data:{permissions:['notifications.read']},error:null};
+    assert.equal(name,'collect_notification_health_v2');
+    assert.equal(params.p_operator_session_id,operatorSession);
+    return {data:null,error:{code:'42501',message:'private originating-session state'}};
+  }};
+  const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
+    body:JSON.stringify({action:'health',operator_user_id:cap,operator_session_id:cap})}));
+  assert.equal(response.status,403);
+  assert.deepEqual(await response.json(),{error:'forbidden'});
+  assert.deepEqual(calls,['admin_current_user','collect_notification_health_v2']);
 });
 
 test('Operator keeps state conflicts distinct from outages without exposing SQL text',async()=>{
@@ -192,7 +248,7 @@ test('Operator keeps state conflicts distinct from outages without exposing SQL 
     ? {data:{permissions:['notifications.manage']},error:null}
     : {data:null,error:{code:'P0001',message:'stale claim with private SQL details'}}};
   const response=await operatorHandler(new Request('https://edge.test',{method:'POST',
-    headers:{authorization:'Bearer unit','content-type':'application/json'},
+    headers:{authorization:operatorAuthorization,'content-type':'application/json'},
     body:JSON.stringify({action:'claim',job_id:raw,worker_id:'worker-1',request_id:cap})}));
   assert.equal(response.status,409);
   assert.deepEqual(await response.json(),{error:'conflict'});

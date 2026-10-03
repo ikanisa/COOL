@@ -1,0 +1,116 @@
+{
+  "prepared_at_utc": "2026-10-02T02:15:09.762799+00:00",
+  "classification": "read_only_proposal_not_applied_not_approved_not_hosted_activation",
+  "current_expected_failure": {
+    "command": [
+      "/usr/bin/ruby",
+      "scripts/edge_function_inventory.rb",
+      "auth-check"
+    ],
+    "deadline_seconds": 20,
+    "exit_code": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "ab40cae2f1ab13915ef76e4ca232c73bc92f12dd9e9744eb510f5b1fa8bb9887",
+    "expected_inventory_failure_observed": true
+  },
+  "current_inventory": {
+    "repo_manifest": 12,
+    "config": 13,
+    "source": 13,
+    "literal_http_loader": 12
+  },
+  "proposed_entry": {
+    "name": "collect-receipt-successor-gateway",
+    "status": "active",
+    "auth": "device_signature",
+    "verify_jwt": false,
+    "caller": "dedicated enrolled Android P-256 device key; exact receipt_successor family and audience",
+    "rollout": "default-disabled successor configuration; original request/route/approval and current run/arm fences; observation and archive never prove delivery",
+    "required_secrets": []
+  },
+  "required_builtin_runtime_environment": [
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "additional_dedicated_operator_managed_secrets": [],
+  "wire_namespace": {
+    "version": 1,
+    "family": "receipt_successor",
+    "audience": "collect-receipt-successor-gateway",
+    "sql_registry_family": "receipt_successor_v1",
+    "methods": [
+      "POST"
+    ],
+    "signature_headers": [
+      "X-Collect-Gateway-Key-Id",
+      "X-Collect-Gateway-Signature"
+    ],
+    "actions": {
+      "dispatch_grant": "gateway_receipt_successor_grant_v1",
+      "arm_dispatch": "gateway_receipt_successor_arm_v1",
+      "reconcile": "gateway_receipt_successor_reconcile_v1",
+      "callback": "gateway_receipt_successor_callback_v1",
+      "attempt_status": "gateway_receipt_successor_attempt_status_v1",
+      "archive_attempt": "gateway_receipt_successor_archive_v1"
+    }
+  },
+  "write_plan": [
+    {
+      "owner": "root after reviewed source-owner reconciliation",
+      "paths": [
+        "contracts/edge-functions.json"
+      ],
+      "change": "Add exact thirteenth supported device_signature entry; active remains intended repository inventory, not hosted assertion."
+    },
+    {
+      "owner": "root proposed inventory consumer boundary",
+      "paths": [
+        "scripts/edge_function_inventory.rb",
+        "scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "change": "Retain all existing modes/JWT and inventory denials; require successor fixed family/audience and exact six action/RPC map plus actual index handler/service wiring. Test wrong namespace/action RPC/signature/key ID/JWT setting/missing source/duplicates; validate actual13 entries/eight custom-auth entries without losing discovered parity."
+    },
+    {
+      "owner": "human-owned gateway boundary, coordination required",
+      "paths": [
+        "supabase/functions/collect-receipt-successor-gateway/fixtures/**"
+      ],
+      "change": "Supply the ten actual declared observations with exact immutable SQL runner/helper/migration/origin completion/hash manifest and regular-file checks. No invented observed fixture or test success. Future source count discovers all ten JSON inputs."
+    },
+    {
+      "owner": "root proposed HTTP verification consumer boundary",
+      "paths": [
+        "scripts/qa/edge_http_runtime_uat.ts"
+      ],
+      "change": "Add actual literal successor import to frozen graph, keep config/source/loader exact parity and start-once/cleanup; use dedicated successor method/error/schema assertions and real P-256 synthetic key/RPC transport for six actions. Preserve all existing checks and provider denials."
+    },
+    {
+      "owner": "root proposed readiness/test consumer boundary",
+      "paths": [
+        "scripts/supabase_production_readiness.sh",
+        "scripts/tests/supabase_delivery_contract_test.py"
+      ],
+      "change": "Add unsigned JSON POST {} probe400 GATEWAY_REQUEST_INVALID, thirteen coverage/readback and missing-new-endpoint refusal; preserve old probes/secrets/denials. No signed dispatch/readiness mutation."
+    }
+  ],
+  "handler_behavior_negatives_to_verify": [
+    "missing signatures and bearer-only requests must never authorize action RPC",
+    "wrong registered key/device/SPKI hash/certificate result or altered raw bytes reject",
+    "out-of-window or impossible UTC timestamp rejects",
+    "cross-family or wrong audience and unknown action rejects before key lookup",
+    "duplicate JSON keys, extra fields/route aliases, malformed DER/base64/UTF8, content encoding/BOM, >8192-byte body and stalled stream reject",
+    "grant and arm revoked/pending state reject; own late observation/reconciliation may retain nonauthorizing facts",
+    "same original mutation UUID/body/action is redacted replay; changed hash/device/action/family/route refuses",
+    "expired grant/arm, altered reservation/route/callback originals or unexpected reply fields return unknown/refused without authority",
+    "actual final arm only may carry send_authority true; callback/status/archive/reconcile never do",
+    "bounded action timeout invokes once; response loss requires original-UUID reconciliation and no automatic new request/retry"
+  ],
+  "gate_plan": "After genuine fixture/source and root AI guard integration, freeze newly discovered current source set and run a fresh complete maintained canonical gate. Exact counts come from actual completed summaries. Do not relabel prior137/519 packet or skip missing imports.",
+  "deploy_runner_change_required": false,
+  "deploy_runner_reason": "Existing typed manifest drives flags/closure/deployed readback; separate immutable candidate/target/operation approval and drift checks already apply.",
+  "legacy_consumer_observation": "collect_edge_function_local_gate.rb still binds11 historical endpoints including retired banks; never claim that historical contract/mock-test result as current source acceptance.",
+  "source_and_sql_writes_performed": 0,
+  "handler_or_database_execution_performed": false,
+  "network_or_hosted_operations_performed": false,
+  "external_activation_approval_created": false
+}

@@ -1,0 +1,188 @@
+{
+  "actual_adb": {
+    "observed_at_utc": "2026-10-01T09:41:30.362477+00:00",
+    "reason": "device_not_connected",
+    "status": "blocked",
+    "target_count": 0
+  },
+  "carrier_or_delivery_accepted": false,
+  "deployment_verified": false,
+  "device_mutations": 0,
+  "device_runner": {
+    "scope": "Synthetic parser/command safety only",
+    "status": "pass",
+    "tests": 9
+  },
+  "enrollment_verified": false,
+  "final_actual_adb": {
+    "observed_at_utc": "2026-10-01T09:56:54.133711+00:00",
+    "reason": "device_not_connected",
+    "status": "blocked",
+    "target_count": 0
+  },
+  "initial_failed_and_prior_scopes_retained": true,
+  "keystore_real_device_accepted": false,
+  "kind": "android_gateway_current_local_device_acceptance_evidence",
+  "live_auth_or_backend_calls": 0,
+  "live_sms_invocations": 0,
+  "native_jvm": {
+    "fake_sender_and_backend": true,
+    "physical": false,
+    "report": "native-jvm-attempt2/validation.json",
+    "status": "pass",
+    "tests": 39
+  },
+  "owner_release_approved": false,
+  "packaging": {
+    "apk_built": false,
+    "completion_marker": false,
+    "deadline_seconds": 120,
+    "dependency_readiness": "blocked",
+    "selected_source_changes": [],
+    "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+    "status": "unverified",
+    "timed_out": true
+  },
+  "peer_review": {
+    "kind": "narrow_read_only_agent_review",
+    "material_no_send_privacy_or_acceptance_issues": false,
+    "review_execution": "No device, Flutter, Gradle or backend calls by reviewer.",
+    "reviewer": "mcp_adapter",
+    "scope": [
+      "read-only device runner",
+      "local-only probe",
+      "README",
+      "DEVICE_ACCEPTANCE.md"
+    ]
+  },
+  "permissions_granted": 0,
+  "physical_installed": false,
+  "probe": {
+    "analysis_files": 3,
+    "inputs_stable": true,
+    "physical": false,
+    "status": "pass",
+    "tests": 5
+  },
+  "production_ready": false,
+  "remaining": [
+    "Organization-owned authorized physical handset",
+    "Full restricted-flavor APK/dependency/signing/installed parity evidence",
+    "Actual native local permission/network/SIM/radio/probe observations",
+    "Keystore/process-death/power-loss/privacy/MDM acceptance",
+    "Hosted approved enrollment and current bounded authority",
+    "Controlled real provider/callback/multipart acceptance in a separate authorized stage",
+    "Installed selected-skill UI/accessibility/comparator review",
+    "Owner release acceptance"
+  ],
+  "reviewed_frozen_source": false,
+  "source_inputs": {
+    ".fvmrc": {
+      "bytes": 26,
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    },
+    "android/app/build.gradle.kts": {
+      "bytes": 16213,
+      "sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9"
+    },
+    "android/app/src/internal_gateway/AndroidManifest.xml": {
+      "bytes": 1882,
+      "sha256": "c778027823da007569079e2dd5e5b28237c4aaf126f8eda4b33dcc5c971041f6"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": {
+      "bytes": 886,
+      "sha256": "a18761d4017c51c09f6497be00c0180d2d6ccee8d57cde4d36dbde4d5b26d8a1"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": {
+      "bytes": 2474,
+      "sha256": "660b19c973006145e0176344c0a16c230cb8dc3b2612c21aff72b32d5c244e20"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": {
+      "bytes": 10211,
+      "sha256": "c94d51cae03d4adad79316cd268412ac1475143d8afc6c462e6d10620807ea72"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": {
+      "bytes": 1809,
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": {
+      "bytes": 1898,
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": {
+      "bytes": 6021,
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "bytes": 13419,
+      "sha256": "7a653e5788ceb07a8d40a7ee15ddd91f4950d8325126404ad7a59ba15bab2049"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "bytes": 10378,
+      "sha256": "b8346512be48d74c548fe9b3982500b18d6ce62f9573f10e7d29aac1e983f150"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "bytes": 11769,
+      "sha256": "a2c2604420b813a1ebd7230ac701e5e4f013b32a5227410412c4ad37beb96124"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": {
+      "bytes": 1596,
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": {
+      "bytes": 2482,
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": {
+      "bytes": 4069,
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788"
+    },
+    "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayWire.kt": {
+      "bytes": 4173,
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3"
+    },
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": {
+      "bytes": 13914,
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e"
+    },
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt": {
+      "bytes": 6348,
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236"
+    },
+    "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt": {
+      "bytes": 4571,
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8"
+    },
+    "integration_test/gateway_device_no_send_test.dart": {
+      "bytes": 735,
+      "sha256": "f16626a308917a4b4d66c18b813ac1346c095a853e0c646c26017aa5bd74f3ea"
+    },
+    "integration_test/gateway_device_probe.dart": {
+      "bytes": 3763,
+      "sha256": "f309fb8fc1bce16b4843a7ab643a9a1db1d56746ce96a9550680fa34c83ce95e"
+    },
+    "lib/gateway/gateway_platform.dart": {
+      "bytes": 5554,
+      "sha256": "5bdf5042b3fe6f9ed9cac68c75c4a6bc17f255cbc93a8390b6ba482c6f296328"
+    },
+    "pubspec.lock": {
+      "bytes": 39236,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "scripts/android_gateway_device_acceptance.py": {
+      "bytes": 9335,
+      "sha256": "67357b38420e12d26582a7ac568276fc3a0b3a55ea44139a54442126ac684754"
+    },
+    "scripts/tests/test_android_gateway_device_acceptance.py": {
+      "bytes": 6084,
+      "sha256": "aa2e06a08a8ae506c0470cbf94e6698379db18b456ae960332c4e3bf0b004103"
+    },
+    "test/gateway/gateway_device_probe_test.dart": {
+      "bytes": 4487,
+      "sha256": "19c1a13276893732a667880ffd55c35086a5fbbadaffe5fe8c14170ca2802422"
+    }
+  },
+  "status": "local_scoped_tests_pass_physical_and_packaging_blocked",
+  "test_counts_aggregated_across_attempts": false,
+  "written_at_utc": "2026-10-01T09:54:54.306922+00:00"
+}

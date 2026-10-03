@@ -1,0 +1,62 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--name=Group header and confirmed hero|quick action words stay whole|bottom navigation retains|Members search keeps focus",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/core-interface-current1/shared.machine.jsonl",
+        "test/features/shared_chrome_accessibility_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "shared-core-only",
+      "parent_exit_confirmed": true,
+      "process_group": 45989,
+      "seconds": 19.381,
+      "sha256": "f5983b50e10f0a0c8034986042c42cfcf2fe6a57b15497f219592dc7eeca3224",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/core-interface-current1/admin-header.machine.jsonl",
+        "test/admin_header_accessibility_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "admin-header-only",
+      "parent_exit_confirmed": true,
+      "process_group": 46566,
+      "seconds": 6.656,
+      "sha256": "d25c53066dd1e018d6d84e9683622515d4443894ac409cd2e2da69123a2e2e09",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/core-interface-current1/keyboard.machine.jsonl",
+        "test/features/collect_surface_keyboard_focus_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "keyboard-five-only",
+      "parent_exit_confirmed": true,
+      "process_group": 47038,
+      "seconds": 5.71,
+      "sha256": "506d0392e5103f9f2d03c4c0e0c0f27c86d748cc1f9666a7f4c66dd64273091d",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ]
+}

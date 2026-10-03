@@ -1,0 +1,20 @@
+{
+  "kind": "storage#object",
+  "id": "flutter_infra_release/flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/darwin-arm64/artifacts.zip/1782261087391248",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdarwin-arm64%2Fartifacts.zip",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/flutter_infra_release/o/flutter%2Fa10d8ac38de835021c8d2f920dbf50a920ccc030%2Fdarwin-arm64%2Fartifacts.zip?generation=1782261087391248&alt=media",
+  "name": "flutter/a10d8ac38de835021c8d2f920dbf50a920ccc030/darwin-arm64/artifacts.zip",
+  "bucket": "flutter_infra_release",
+  "generation": "1782261087391248",
+  "metageneration": "1",
+  "contentType": "application/zip",
+  "storageClass": "STANDARD",
+  "size": "35904435",
+  "md5Hash": "bSAqXrSInIDzsk02/Fl2Jw==",
+  "crc32c": "AEEy3Q==",
+  "etag": "CJCci/jPnpUDEAE=",
+  "timeCreated": "2026-06-24T00:31:27.520Z",
+  "updated": "2026-06-24T00:31:27.520Z",
+  "timeStorageClassUpdated": "2026-06-24T00:31:27.520Z",
+  "timeFinalized": "2026-06-24T00:31:27.520Z"
+}

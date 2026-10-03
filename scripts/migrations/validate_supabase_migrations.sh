@@ -11,15 +11,27 @@ if [ ! -d "$migrations_dir" ]; then
   exit 1
 fi
 
-duplicates="$(
-  find "$migrations_dir" -maxdepth 1 -type f -name '*.sql' -print |
-    sed -E 's#^.*/([0-9]{12}).*#\1#' |
-    sort |
-    uniq -d
-)"
+shopt -s nullglob
+migration_files=("$migrations_dir"/*.sql)
+migration_versions=()
+for migration_file in "${migration_files[@]}"; do
+  migration_name="${migration_file##*/}"
+  if [ ! -f "$migration_file" ] || [ -L "$migration_file" ]; then
+    printf 'Supabase migration must be a regular file: %q\n' "$migration_name" >&2
+    exit 1
+  fi
+  if [[ ! "$migration_name" =~ ^([0-9]{12}|[0-9]{14})_[a-zA-Z0-9_]+\.sql$ ]]; then
+    printf 'Invalid Supabase migration filename: %q\n' "$migration_name" >&2
+    exit 1
+  fi
+  # Keep applied legacy IDs intact and compare every digit of newer versions.
+  migration_versions+=("${BASH_REMATCH[1]}")
+done
+
+duplicates="$(printf '%s\n' "${migration_versions[@]}" | LC_ALL=C sort | uniq -d)"
 
 if [ -n "$duplicates" ]; then
-  echo "Duplicate Supabase migration version prefixes:" >&2
+  echo "Duplicate complete Supabase migration versions:" >&2
   echo "$duplicates" >&2
   exit 1
 fi

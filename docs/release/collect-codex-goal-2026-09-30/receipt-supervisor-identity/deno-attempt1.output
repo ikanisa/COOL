@@ -1,0 +1,66 @@
+running 48 tests from ./.cache/receipt-supervisor-preparation/handler_test.ts
+real signed P256 health maps only to narrow service RPCs ... ok (359ms)
+pending identity can prove key but cannot read health ... ok (11ms)
+closed signed protocol refuses audience before key lookup ... ok (6ms)
+closed signed protocol refuses version before key lookup ... ok (6ms)
+closed signed protocol refuses send before key lookup ... ok (18ms)
+closed signed protocol refuses enqueue before key lookup ... ok (19ms)
+closed signed protocol refuses member before key lookup ... ok (463ms)
+closed signed protocol refuses unknownField before key lookup ... ok (48ms)
+closed signed protocol refuses stale before key lookup ... ok (3ms)
+closed signed protocol refuses future before key lookup ... ok (2ms)
+closed signed protocol refuses date before key lookup ... ok (4ms)
+closed signed protocol refuses payload before key lookup ... ok (6ms)
+closed signed protocol refuses reconcile before key lookup ... ok (7ms)
+strict byte parser refuses duplicate ... ok (9ms)
+strict byte parser refuses extraText ... ok (5ms)
+strict byte parser refuses bom ... ok (2ms)
+strict byte parser refuses nested ... ok (3ms)
+signed bytes cannot be modified without losing proof ... ok (10ms)
+gateway signature envelope cannot authorize supervisor calls ... ok (6ms)
+strict key readback refuses revoked ... ok (89ms)
+strict key readback refuses scope ... ok (52ms)
+strict key readback refuses keyHash ... ok (48ms)
+strict key readback refuses expiry ... ok (52ms)
+strict key readback refuses spki ... ok (6ms)
+strict key readback refuses secret ... ok (11ms)
+post-proof malformed outcome remains unknown: send ... ok (7ms)
+post-proof malformed outcome remains unknown: finance ... ok (3ms)
+post-proof malformed outcome remains unknown: handled ... ok (38ms)
+post-proof malformed outcome remains unknown: mode ... ok (9ms)
+post-proof malformed outcome remains unknown: principal ... FAILED (283ms)
+post-proof malformed outcome remains unknown: request ... ok (13ms)
+post-proof malformed outcome remains unknown: fraction ... ok (10ms)
+post-proof malformed outcome remains unknown: overflow ... ok (22ms)
+post-proof malformed outcome remains unknown: foreignExpiry ... ok (21ms)
+post-proof malformed outcome remains unknown: futureObservation ... ok (8ms)
+post-proof malformed outcome remains unknown: renewedSample ... ok (10ms)
+post-proof malformed outcome remains unknown: privateField ... ok (4ms)
+reconciliation uses original request UUID and historical observation ... ok (14ms)
+lookup not_recorded conveys no receipt or replay ... ok (67ms)
+lookup in_progress conveys no receipt or replay ... ok (3ms)
+mismatched reconciled receipt stays unknown ... ok (2ms)
+readback outage aborts within deadline before service action ... ok (81ms)
+uncertain post-proof response aborts without retry ... ok (78ms)
+backend 42501 is redacted ... ok (4ms)
+backend 55P03 is redacted ... ok (6ms)
+backend 22023 is redacted ...error: Test failed
+ ok (73ms)
+backend unknown is redacted ... ok (12ms)
+method query and malformed DER are rejected before database ... ok (28ms)
+
+ ERRORS 
+
+post-proof malformed outcome remains unknown: principal => ./.cache/receipt-supervisor-preparation/handler_test.ts:102:7
+error: Error: assertion_failed
+function assert(v:unknown):asserts v{if(!v)throw Error("assertion_failed");}
+                                                 ^
+    at assert (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-supervisor-preparation/handler_test.ts:11:50)
+    at equal (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-supervisor-preparation/handler_test.ts:12:37)
+    at file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-supervisor-preparation/handler_test.ts:103:111
+
+ FAILURES 
+
+post-proof malformed outcome remains unknown: principal => ./.cache/receipt-supervisor-preparation/handler_test.ts:102:7
+
+FAILED | 47 passed | 1 failed (2s)

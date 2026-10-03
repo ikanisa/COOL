@@ -1,0 +1,83 @@
+{
+  "status": "pass",
+  "started_at_utc": "2026-10-02T02:56:36.549011+00:00",
+  "finished_at_utc": "2026-10-02T02:57:21.178442+00:00",
+  "elapsed_seconds": 44.629333124998084,
+  "runner_contract_tests": 77,
+  "types": 86,
+  "unit_files": 32,
+  "unit_tests": 643,
+  "unit_steps": 32,
+  "unit_failed": 0,
+  "unit_ignored": 0,
+  "HTTP_checks": 103,
+  "HTTP_failed": 0,
+  "Linux_cases": 32,
+  "signed_Linux_HTTP": {
+    "tests_passed": 14,
+    "tests_failed": 0,
+    "tests_ignored": 0
+  },
+  "regressions": {
+    "tests_passed": 212,
+    "tests_failed": 0,
+    "tests_ignored": 0
+  },
+  "security": {
+    "tests_passed": 6,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "network_none_requested": true,
+    "image_id": "sha256:4a39d0295cfe755a1d94d347e78f9ef39d91e0ab084f78d70e6bd424ae104086",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--name",
+      "collect_roster_decoder_9ad9f7507801_dependency_security",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--cap-drop",
+      "ALL",
+      "--memory",
+      "896m",
+      "--cpus",
+      "2",
+      "--pids-limit",
+      "32",
+      "--tmpfs",
+      "/tmp:rw,noexec,nosuid,size=16m",
+      "--mount",
+      "type=bind,src=/Volumes/PRO-G40/Development/Codex-Candidates/COOL-EDGE-AI-INPUTS-20261002-PREPARATION4/source/tools/roster-decoder/test_dependency_security.py,dst=/app/test_dependency_security.py,readonly",
+      "sha256:4a39d0295cfe755a1d94d347e78f9ef39d91e0ab084f78d70e6bd424ae104086",
+      "python",
+      "-I",
+      "/app/test_dependency_security.py"
+    ],
+    "log_sha256": "98d7585338b60f8d17ee02b704e5764606ef42d61522805d3ae34084627d3a2f"
+  },
+  "fresh_image_id": "sha256:4a39d0295cfe755a1d94d347e78f9ef39d91e0ab084f78d70e6bd424ae104086",
+  "fresh_image_tag": "collect_roster_decoder_9ad9f7507801:qa",
+  "decoder_build_sha256": "c611c70789da9d975927bbe43a7b2ecd153a189b670a1890e004d3292c5806f4",
+  "actual_fresh_image_toolchain": {
+    "python": "3.12.14",
+    "packages": {
+      "Pillow": "12.3.0",
+      "pypdf": "6.19.0",
+      "pypdfium2": "5.2.0",
+      "openpyxl": "3.1.5",
+      "defusedxml": "0.7.1",
+      "et-xmlfile": "2.0.0"
+    }
+  },
+  "whole_build_Linux_deadlines": [
+    1200,
+    300,
+    600
+  ],
+  "current_SQL_executed": false,
+  "current_checkout_acceptance": false
+}

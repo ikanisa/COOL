@@ -1,0 +1,29 @@
+{
+  "backup": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-offline-backups-20260930/performance150-rollback-attempt1/before.dump",
+  "backup_archive_decodable": true,
+  "backup_sha256": "7b0f850f49fdb4882beafe2c1c57e7cf2eaa26cc7ab961d9ac27f36d226a7dcb",
+  "executed_sql_sha256": "cafa28a6a03786638cc87f13e6ae8b78f496e13494724e1963d2134e767769be",
+  "hosted_writes": false,
+  "identity": {
+    "busy": 0,
+    "count": 150,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930180000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "provider_calls": false,
+  "recorder_sha256": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+  "reviewed_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/operational_health_performance_uat.sql",
+  "reviewed_source_sha256": "478c39a7ead103266f15f5d1ac60d20207cabef81334008717949a85621be0bc",
+  "schema_version": 1,
+  "sequences_restored": false,
+  "sql_return_code": 0,
+  "sql_role": "postgres",
+  "started_at_utc": "2026-09-30T19:48:29.130616+00:00",
+  "telemetry_helper_sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+}

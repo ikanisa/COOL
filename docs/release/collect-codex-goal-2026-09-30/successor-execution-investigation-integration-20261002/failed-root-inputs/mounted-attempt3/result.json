@@ -1,0 +1,37 @@
+{
+  "status": "failed",
+  "commands": [
+    {
+      "name": "flutter-test",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/admin_receipt_successor_execution_mount_test.dart"
+      ],
+      "started_at": "2026-10-02T02:20:31.760541+00:00",
+      "finished_at": "2026-10-02T02:20:53.507673+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "2da303037e8375793bfccf2eaa438f32f561a82b9b3634924783b088e35a1aff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_receipt_successor_view.dart",
+        "test/admin_receipt_successor_execution_mount_test.dart"
+      ],
+      "started_at": "2026-10-02T02:20:53.507713+00:00",
+      "finished_at": "2026-10-02T02:20:59.635728+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "507d3a16d683313e9a18d09fe0b8a878e4dd7b9cc2f57081c54b7e85d8165750",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual canonical mounted caller and affected legacy review; real pinned SDK/Auth/HTTP with declared synthetic Auth/transport and adapted join fixtures; no hosted/full visual acceptance"
+}

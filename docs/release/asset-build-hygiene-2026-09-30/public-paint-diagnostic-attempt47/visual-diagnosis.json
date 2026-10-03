@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "kind": "correction_of_initial_visual_inspection_findings",
+  "reviewed_at": "2026-09-30T20:20:46.021165+00:00",
+  "diagnosis_sha256": "5bfb61506519b418eaf3abc363c2ec7d8fb068d3cad2eb789bede0f77373b13c",
+  "actual_capture_count": 18,
+  "headed_headless_before_after_and_settled_images_identical": true,
+  "route_sha256": {
+    "group-detail": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "terms": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752",
+    "privacy": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb"
+  },
+  "initial_findings_retracted": [
+    "Apparently empty group-detail navigation capsule",
+    "Apparently empty Terms Back capsule",
+    "Apparently omitted initial Collect word in Terms text"
+  ],
+  "corrected_observation": "Direct high-detail rereading of the unchanged actual PNGs shows all four navigation controls, the Terms Back arrow and the complete Collect helps groups organize phrase. Pixel analysis also confirms foreground glyph pixels in the allegedly empty regions. No runtime paint correction is supported.",
+  "network_counter_scope_correction": "The initial network_calls field is not a count of local HTTP resource traffic. Actual local responses are independently byte-bound in resources, and every attempted remote request was intercepted and aborted before HTTP. Only the recognized engine fallback Roboto URL was attempted remotely.",
+  "source_files_changed": false,
+  "capture_pixels_edited": false,
+  "native_device_or_comprehensive_design_acceptance": false,
+  "scope": "Readability and actual paint diagnosis of retained source-bound browser previews only; no whole-app visual or native acceptance"
+}

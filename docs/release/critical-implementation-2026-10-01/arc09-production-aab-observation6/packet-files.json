@@ -1,0 +1,58 @@
+{
+  "schema": "failed-preflight-packet-v1",
+  "files": {
+    "SDK-source-before-built.json": {
+      "bytes": 6880418,
+      "sha256": "82e8b778646bbaf599ce1036e8e0f1e38a8ed89bb3dc2d43a8a51375e7314f09"
+    },
+    "combined-guard-before-command.json": {
+      "bytes": 1277,
+      "sha256": "b45bdcca6a8982994325f78c6e48f7f198a29c80df05251be4720a8b3e5204f3"
+    },
+    "combined-guard-before-command.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "combined-guard-before-command.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "failure-diagnostics/actual-failure-guard-command.json": {
+      "bytes": 1262,
+      "sha256": "760c9820a488ccf325942e9346ee9eb5b841ed8e44b2f18beac6ca85be353d8c"
+    },
+    "failure-diagnostics/actual-failure-guard-command.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "failure-diagnostics/actual-failure-guard-command.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "root-admission-captured.json": {
+      "bytes": 12517,
+      "sha256": "d3162320e906ebb4952ea71566829dbb9e830b408f0d3e103db358377ab79455"
+    },
+    "source-fence-before-command.json": {
+      "bytes": 1473,
+      "sha256": "41a12bf9765d658e26b18df9c7d8601231c381a62c099d9e133b31e8481d57c7"
+    },
+    "source-fence-before-command.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-fence-before-command.stdout": {
+      "bytes": 251,
+      "sha256": "67fad70278ec987630a4d08ccd2eadbf943b4c1c9396b23921d976451bca7fc8"
+    },
+    "source-fence-before.json": {
+      "bytes": 921482,
+      "sha256": "cad745616cfad09d78e3c02b5d594c797e0f4c9852027d6087dfe71b80f24fb4"
+    },
+    "terminal.json": {
+      "bytes": 1865,
+      "sha256": "05181d4fbeb6819537400955c9d0e6e87d67543651bbc61acc18a2a66370805b"
+    }
+  },
+  "original_status": "fail"
+}

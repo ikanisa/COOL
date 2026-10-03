@@ -1,0 +1,14 @@
+{
+  "actual_seconds": 0.45605879100912716,
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+    "-cp",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/r8-9.1.29-publisher-acquisition1/r8-9.1.29.jar",
+    "com.android.tools.r8.R8",
+    "--version"
+  ],
+  "deadline_seconds": 5,
+  "exit_code": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "b1298b72472c1aca6f0f076142c975d0b0891c184929448d99713d6a4802494b"
+}

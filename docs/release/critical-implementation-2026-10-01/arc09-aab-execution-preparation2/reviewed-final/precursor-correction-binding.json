@@ -1,0 +1,57 @@
+{
+  "actual_execution": false,
+  "all_guard_and_tooling_files_byte_equal": true,
+  "all_original_command_argv_cwd_deadlines_equal": true,
+  "corrected_command_matrix_sha256": "8a7f527a48c91ef02bb7287c33e085cc0495d3585df2ea28af414313ba96095d",
+  "exact_changes": [
+    {
+      "after": {
+        "label": "production-runtime-graph-observation",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph-observation.stdout"
+      },
+      "argv_cwd_deadline_unchanged": true,
+      "before": {
+        "label": "production-runtime-graph",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-runtime-graph.stdout"
+      }
+    },
+    {
+      "after": {
+        "label": "production-compile-graph-observation",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph-observation.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph-observation.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph-observation.stdout"
+      },
+      "argv_cwd_deadline_unchanged": true,
+      "before": {
+        "label": "production-compile-graph",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/production-compile-graph.stdout"
+      }
+    },
+    {
+      "after": {
+        "label": "aab-integrity-readback-command",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-integrity-readback-command.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-integrity-readback-command.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-integrity-readback-command.stdout"
+      },
+      "argv_cwd_deadline_unchanged": true,
+      "before": {
+        "label": "aab-readback",
+        "process_receipt": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-readback.json",
+        "stderr": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-readback.stderr",
+        "stdout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation1/aab-readback.stdout"
+      }
+    }
+  ],
+  "original_command_matrix_sha256": "e0032c6d6f53b4a54ee7c95cb0d0a84dc52a899f2fa7326c79c185389796376e",
+  "precursor_all_leaf_bytes_modes_preserved": true,
+  "precursor_manifest_sha256": "44452c92ba374aba64738965ceba9755d2be6e5de7f40e4eda9d0102a9fbcc57",
+  "precursor_packet_sha256": "f46b79757950309e461434bc5d1e3269e3812ed962a8fdc2ee1f42fde9c7007b"
+}

@@ -1,0 +1,6 @@
+{
+  "status": "collector_syntax_refusal_before_execution",
+  "reason": "Missing whitespace in conditional expression in first inline collector; Python parsed no statements and made no file changes.",
+  "actual_rehearsal_status": "pass",
+  "rehearsal_rerun": false
+}

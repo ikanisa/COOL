@@ -1,0 +1,352 @@
+{
+  "kind": "current_native_ios_original_visual_review",
+  "reviewed_at": "2026-10-01T18:05:03.646618+00:00",
+  "status": "pass",
+  "design_authority": "revolut-design",
+  "scope": "Seven authentic iOS debug routes at 390x844 logical pixels, dark theme, normal text scale and synthetic repository data. All seven originals manually inspected; navigation/Terms original-pixel OCR, lossless regions, current compiler dependencies and actual installed bundle checked. Auth confirmation and photo picker changes are source-bound here and receive their separate interaction/widget review.",
+  "capture_report_sha256": "527bf63f21c98ff8aafc026e00b46f8f9ed5bbb6bd6e9dadc939864cb52f7e5c",
+  "source_export_sha256": "865f82e2c267907675d9d86faf421aa53354bb6c27e7d6eee341527fc3cb2141",
+  "compiled_input_binding_sha256": "c23398d044761af9089691274f5bd36a9feafefdaecc41002a1ba82d8530ea21",
+  "native_compiled_input_fingerprint_sha256": "5107662dea7115b8a31158ae0c81f8c0d436b302b463a2c8b742152b81e22c5d",
+  "installed_bundle_readback_sha256": "7a8861e0c6028f4d90cfc13518e5e21403b88639167c4b7b45d7e14ffac88b4d",
+  "current_compiled_source_input_count": 465,
+  "installed_bundle_file_count": 204,
+  "current_compiled_inputs_match": true,
+  "original_capture_count": 7,
+  "inspected_originals": [
+    {
+      "id": "home",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/home.png",
+      "sha256": "b301a13c87362d2e2638808951d2bef7ee5b9e82447769e58dad6d05b928ffc2",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/home",
+      "marker_asserted": "RWF 35,000",
+      "visible_ocr_marker": "RWF 35,000",
+      "original_image_inspected": true,
+      "ocr_observation_count": 20
+    },
+    {
+      "id": "groups",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/groups.png",
+      "sha256": "769853f8b44df85e124f175de4bcb5ee30bb9fe911ccd40a509b13a5f37533ff",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/groups",
+      "marker_asserted": "Groups",
+      "visible_ocr_marker": "QA private group",
+      "original_image_inspected": true,
+      "ocr_observation_count": 12
+    },
+    {
+      "id": "group-detail",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/group-detail.png",
+      "sha256": "37e1638df16c74ee072d148bf28b8dd28a5c56a6c4b0aa076d29b98210c359b4",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/groups/qa-private-group",
+      "marker_asserted": "QA private group",
+      "visible_ocr_marker": "QA private group",
+      "original_image_inspected": true,
+      "ocr_observation_count": 24
+    },
+    {
+      "id": "security",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/security.png",
+      "sha256": "d294d9e057cae31c280c95add529093f7899f0e1f756ed2758fa6d01fac219c1",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/settings/security",
+      "marker_asserted": "Approve payments in MoMo",
+      "visible_ocr_marker": "Approve payments in MoMo",
+      "original_image_inspected": true,
+      "ocr_observation_count": 10
+    },
+    {
+      "id": "privacy",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/privacy.png",
+      "sha256": "2f6d97174373397ed548746af1cf037411b3f34faa8330ef030a1f721f40bb88",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/settings/legal/privacy",
+      "marker_asserted": "Data we collect",
+      "visible_ocr_marker": "Data we collect",
+      "original_image_inspected": true,
+      "ocr_observation_count": 25
+    },
+    {
+      "id": "terms",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/terms.png",
+      "sha256": "326b8be70d67c0ab806b2b2a49e8324fe6bf432f8d95b17db6e8068017c88498",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/settings/legal/terms",
+      "marker_asserted": "Using Collect",
+      "visible_ocr_marker": "Using Collect",
+      "original_image_inspected": true,
+      "ocr_observation_count": 25
+    },
+    {
+      "id": "account-deletion",
+      "path": ".cache/revolut-design-20260930/native-media/display-final-20261001-attempt11/screenshots/account-deletion.png",
+      "sha256": "b86001211406c78acf44b3254e1436a92765f35c2a168a0614b061800fad4f17",
+      "width": 1170,
+      "height": 2532,
+      "route_asserted": "/settings/account/delete",
+      "marker_asserted": "Select a reason to submit.",
+      "visible_ocr_marker": "Select a reason to submit.",
+      "original_image_inspected": true,
+      "ocr_observation_count": 8
+    }
+  ],
+  "original_pixel_ocr_sha256": "afbb41f3ce7fa56b5c9b3f050850bd5cc5e46f8da2b01ba073a49f54ad365635",
+  "original_pixel_ocr_method": "Apple Vision accurate English OCR of unchanged original PNGs",
+  "navigation_pixel_and_text_evidence": [
+    {
+      "id": "home",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "2d9082aff800fe3f9a476acb687b2b8d2759c93114c5233ca5291c8c99229f41",
+      "foreground_pixel_counts": {
+        "Home": 2234,
+        "Groups": 1422,
+        "Activity": 1102,
+        "Profile": 1613
+      },
+      "original_ocr_labels": [
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11921684560595955,
+            0.05628586996650842,
+            0.07603171584952592,
+            0.012428260339191533
+          ],
+          "text": "Home"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.3396226407557005,
+            0.05668604670953237,
+            0.09119496793828458,
+            0.011627906871632954
+          ],
+          "text": "Groups"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930813398206,
+            0.055232558031823364,
+            0.0974842756222456,
+            0.013081395418911401
+          ],
+          "text": "Activity"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8018493209110418,
+            0.0566295659045819,
+            0.08183595054170001,
+            0.011740868313805941
+          ],
+          "text": "Profile"
+        }
+      ]
+    },
+    {
+      "id": "groups",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "447149420fc79541415f3ee299775f747d3a2b40cee252e0cea163d38575c73a",
+      "foreground_pixel_counts": {
+        "Home": 1166,
+        "Groups": 2149,
+        "Activity": 1102,
+        "Profile": 1613
+      },
+      "original_ocr_labels": [
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11949685629618628,
+            0.05813953504809399,
+            0.07547169872838208,
+            0.010174418324354506
+          ],
+          "text": "Home"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.33647798655994643,
+            0.055232558322521164,
+            0.0974842756222456,
+            0.013081395418911401
+          ],
+          "text": "Groups"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930813398206,
+            0.055232558031823364,
+            0.0974842756222456,
+            0.013081395418911401
+          ],
+          "text": "Activity"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8018493209110418,
+            0.0566295659045819,
+            0.08183595054170001,
+            0.011740868313805941
+          ],
+          "text": "Profile"
+        }
+      ]
+    },
+    {
+      "id": "group-detail",
+      "pixel_rectangle": [
+        48,
+        2250,
+        1122,
+        2430
+      ],
+      "rgba_region_sha256": "9f0e47c302695b45d6c2d39abd99e904b0c655712362d6e197bd77e8b2b8a95e",
+      "foreground_pixel_counts": {
+        "Home": 1166,
+        "Groups": 2149,
+        "Activity": 1102,
+        "Profile": 1613
+      },
+      "original_ocr_labels": [
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.11609068642669207,
+            0.0562969614450235,
+            0.07913938343015492,
+            0.012406077241822189
+          ],
+          "text": "Home"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.33333333322386177,
+            0.05377906976593605,
+            0.10062892946422614,
+            0.014534883966189849
+          ],
+          "text": "Groups"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.5628930836955599,
+            0.05377906971748647,
+            0.10062892946422608,
+            0.014534883966189738
+          ],
+          "text": "Activity"
+        },
+        {
+          "confidence": 1,
+          "normalized_box_bottom_left": [
+            0.8018046204845846,
+            0.05656153600575797,
+            0.08192535139556623,
+            0.011876928109505025
+          ],
+          "text": "Profile"
+        }
+      ]
+    }
+  ],
+  "terms_original_opening": [
+    {
+      "confidence": 1,
+      "normalized_box_bottom_left": [
+        0.08176100119338744,
+        0.7223538707994057,
+        0.5786163590912127,
+        0.020537124802527673
+      ],
+      "text": "Collect helps groups organize"
+    }
+  ],
+  "bundle_font_manifest_sha256": "09f6dfd530223797cf977022e9297c66fe32cff024350b1c32bf85b96b45bbca",
+  "bundle_fonts": [
+    {
+      "family": "Inter",
+      "weight": null,
+      "asset": "assets/typefaces/Inter-Variable.ttf",
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "installed_and_retained_bundle_verified": true
+    },
+    {
+      "family": "Aeonik Pro",
+      "weight": 400,
+      "asset": "assets/typefaces/AeonikPro-Regular.ttf",
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+      "installed_and_retained_bundle_verified": true
+    },
+    {
+      "family": "Aeonik Pro",
+      "weight": 500,
+      "asset": "assets/typefaces/AeonikPro-Medium.ttf",
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+      "installed_and_retained_bundle_verified": true
+    }
+  ],
+  "visual_findings": [
+    "Collect identity, full amount hierarchy, circular actions, floating navigation, quiet content cards and legal body hierarchy remain legible.",
+    "All four navigation labels are present in Home, Groups and group detail original pixels; OCR and lossless region hashes resolve viewer glyph omissions.",
+    "Terms original opening contains the complete Collect helps groups organize text.",
+    "Security now includes the selected teal patterned header and preserves the real MoMo security rows.",
+    "The deletion form presents full reason labels and a legible disabled Submit control."
+  ],
+  "material_capture_defects": [],
+  "native_network_attempts": 0,
+  "simulator_restored_shutdown": true,
+  "completion_claim": "Seven current native captures and installed bundle/source binding are complete and legibility-verified within this capture scope.",
+  "security_header_reference_review": {
+    "selected_reference_originals": [
+      {
+        "source_id": "DESK-015",
+        "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.27.00.png",
+        "sha256": "8c19bf9862bc18267477db0fd0d7dc4156462b89adfdc419d0dad31d5cf8f76d",
+        "original_inspected": true
+      },
+      {
+        "source_id": "LIVE-013",
+        "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/native-current-20260905/013-security-hub.jpg",
+        "sha256": "274df6617b36d555e1b1c21fd82b273aaba32674ecce216577bc5f111676ee5e",
+        "original_inspected": true
+      }
+    ],
+    "current_runtime_source_sha256": {
+      "lib/features/settings/settings_subscreens.dart": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644",
+      "lib/features/settings/security_hub_header.dart": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec"
+    },
+    "findings": [
+      "The current native header uses the selected teal dotted-wave field fading into the dark canvas, a centered Security title/shield and circular Back control.",
+      "The source incident/product actions remain source evidence; Collect keeps its actual supported MoMo security settings and identity."
+    ],
+    "material_header_findings": []
+  }
+}

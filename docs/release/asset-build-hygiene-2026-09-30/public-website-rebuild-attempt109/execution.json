@@ -1,0 +1,28 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "public-static-build",
+      "command": [
+        "ruby",
+        "scripts/public_static_site_build.rb"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.85,
+      "stdout_sha256": "baa0474988c57e55dacebeb8c4a4a2f6eccff4d2bb83e669315197705189b840",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "public-quality-gate",
+      "command": [
+        "bash",
+        "scripts/public_website_quality_gate.sh",
+        "--json"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 6.78,
+      "stdout_sha256": "42869a893c3688607461c0934a06060f56886ed027ff6407a8193ce53d5b2a3c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

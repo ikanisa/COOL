@@ -1,0 +1,23 @@
+{
+  "actual_seconds": 61.44111104100011,
+  "argv": [
+    "make",
+    "revolut-design-authority"
+  ],
+  "build_DB_provider_run": false,
+  "cleanup": [],
+  "deadline_seconds": 120,
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-02T14:17:41.947426+00:00",
+  "original_failed_or_unknown_capture_retained": true,
+  "owned_group_absent": true,
+  "pgid": 13114,
+  "pid": 13114,
+  "retry_authorized_by_root": true,
+  "scope": "Sole design authority reference hygiene; no visual fidelity certification",
+  "started_at_utc": "2026-10-02T14:16:40.506051+00:00",
+  "status": "pass",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "timed_out": false
+}

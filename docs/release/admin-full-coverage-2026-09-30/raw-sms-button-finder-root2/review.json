@@ -1,0 +1,8 @@
+{
+  "failed_packet": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt53-root-raw-sms-refresh/validation.json",
+  "finding": "The exact detail-provider future completed, so the failure persists beyond loading. Production uses FilledButton.icon, whose runtime class is a FilledButton subclass. widgetWithText(FilledButton) matches exact runtime type and cannot find it. Match the FilledButton ancestor by subtype, preserving disabled control, privacy and write-count assertions.",
+  "earlier_timing_hypothesis_sufficient": false,
+  "production_source_changed": false,
+  "assertions_removed": false,
+  "source_before_sha256": "08781e936a4f331894d21b73368ed9bedd1245f7b16d16137ff1062918b50c56"
+}

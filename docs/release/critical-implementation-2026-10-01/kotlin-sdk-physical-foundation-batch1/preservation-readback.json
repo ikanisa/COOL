@@ -1,0 +1,224 @@
+{
+  "all_selected_shared_source_unchanged": true,
+  "full_shared_SDK_clean_or_publisher_authentication_claimed": false,
+  "no_bootstrap_patch_source_pin_lock_or_release_write": true,
+  "owned_repo_inputs": {
+    "android/app/build.gradle.kts": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df",
+    "android/app/gradle.lockfile": "b6460f5358a436118c2341a46da9c04ba48eaf71a07282ffe7833380b4c53b29",
+    "android/settings.gradle.kts": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d",
+    "scripts/supply_chain/verify_file_saver_fork.py": "4853ad472e22c229f82b20149d73acb3d87fdb2416a8e70706b196218527bd26",
+    "scripts/tests/file_saver_fork_provenance_test.py": "19d61d3012e7bf9738c3e4c0f1b43df5a44eadf98550328899f775903b8e890d",
+    "third_party/file_saver/COLLECT_FORK.md": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
+    "third_party/file_saver/COLLECT_FORK_DELTA.json": "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9",
+    "third_party/file_saver/android/build.gradle": "185a624e7e5c6b9f9b49a4b7c93ff4734d1ba67b3585c9b6b96d57176ec802e4"
+  },
+  "prior_sealed_packets": {
+    "kotlin-dependency-batch1": {
+      "manifest_sha256": "f46174a0d5f8090ab8965341f8b9e498a7ffd98e3e06d947bbc8bf22b604db14",
+      "unchanged_leaves": 83
+    },
+    "kotlin-sdk-candidate-plan1": {
+      "manifest_sha256": "dd9752cf113a7a9ec82978be9574fc8f9268a4f8d892086b4c307768e3db0e31",
+      "unchanged_leaves": 20
+    },
+    "kotlin-sdk-expansion-admission-batch1": {
+      "manifest_sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed",
+      "unchanged_leaves": 13
+    },
+    "kotlin-sdk-foundation-batch1": {
+      "manifest_sha256": "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e",
+      "unchanged_leaves": 97
+    }
+  },
+  "shared_current_pubspec_lock_sha256": "7770f8a0ac33bb32da1d9119676161a824e7164b860d2ac0568a4a3979a9d7f1",
+  "shared_installed_Gradle_source_selected_paths": {
+    "packages/flutter_tools/gradle/src/main/kotlin/AgpCommonExtensionWrapper.kt": {
+      "current_sha256": "cc03704f34b01bc8f192afe194c75382c78c65f3bf028a5452199b9e704a78de",
+      "prior_sha256": "cc03704f34b01bc8f192afe194c75382c78c65f3bf028a5452199b9e704a78de",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/AppLinkSettings.kt": {
+      "current_sha256": "b29aadd4b4790fad75e54f86b03a0eb859d0df5b1e240a51e0dae9910d82f735",
+      "prior_sha256": "b29aadd4b4790fad75e54f86b03a0eb859d0df5b1e240a51e0dae9910d82f735",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/BaseApplicationNameHandler.kt": {
+      "current_sha256": "a4ce2196411a716eccd3f1dfc4dfdbba72f7614a2b21e6d30a1de2333ab3c5a2",
+      "prior_sha256": "a4ce2196411a716eccd3f1dfc4dfdbba72f7614a2b21e6d30a1de2333ab3c5a2",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt": {
+      "current_sha256": "5640a2f351c3130da1c8d89a584f8503a9f163bc9df2fd2f9eb28838c9ffe55c",
+      "prior_sha256": "5640a2f351c3130da1c8d89a584f8503a9f163bc9df2fd2f9eb28838c9ffe55c",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt": {
+      "current_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "prior_sha256": "bca81fa88eb4b72546665bfb5af4929c5a0996bf7a24651ac7e9924c5492c6b6",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterAppPluginLoaderPlugin.kt": {
+      "current_sha256": "4cc53d34ca996bd9e672163fe51774a92f465aa8906792a4438a0fd9cc740748",
+      "prior_sha256": "4cc53d34ca996bd9e672163fe51774a92f465aa8906792a4438a0fd9cc740748",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt": {
+      "current_sha256": "a8ca02d55798c200d766e245dae9df20565cb9d638d4887b51bf617abac938a1",
+      "prior_sha256": "a8ca02d55798c200d766e245dae9df20565cb9d638d4887b51bf617abac938a1",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt": {
+      "current_sha256": "f8fc0e97adf2c492ed519bee5fb2b6cc2d00e6ff8ccd42a78f6ba506cac5fa80",
+      "prior_sha256": "f8fc0e97adf2c492ed519bee5fb2b6cc2d00e6ff8ccd42a78f6ba506cac5fa80",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginConstants.kt": {
+      "current_sha256": "d367a170e6eefaf38a2eabeb35b62a247faee1e3bd14cde2ac1ccbf86afc1910",
+      "prior_sha256": "d367a170e6eefaf38a2eabeb35b62a247faee1e3bd14cde2ac1ccbf86afc1910",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt": {
+      "current_sha256": "4edac47ab150a5e3f6c1ffb7b75bada24e5e5e96bd2e568caf5551cf51d4945d",
+      "prior_sha256": "4edac47ab150a5e3f6c1ffb7b75bada24e5e5e96bd2e568caf5551cf51d4945d",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/IntentFilterCheck.kt": {
+      "current_sha256": "285f5eb814fac14259115e420c9188cfb4bb5e95eac07ff387adfcc31d736c2a",
+      "prior_sha256": "285f5eb814fac14259115e420c9188cfb4bb5e95eac07ff387adfcc31d736c2a",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/NativePluginLoaderReflectionBridge.kt": {
+      "current_sha256": "ad3144370bcc6b7afeace047b0a16de4739dcd57c4388a498dfd28a0472d5d4c",
+      "prior_sha256": "ad3144370bcc6b7afeace047b0a16de4739dcd57c4388a498dfd28a0472d5d4c",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/VersionFetcher.kt": {
+      "current_sha256": "d4857c2237b4ff9457ac04ad8203842600174573bf8ea66f42f984db2622ac94",
+      "prior_sha256": "d4857c2237b4ff9457ac04ad8203842600174573bf8ea66f42f984db2622ac94",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/VersionUtils.kt": {
+      "current_sha256": "dd669d4b44917ecf451604a40dbf87cb65d74c4ce5587ae451d98d12c22955b1",
+      "prior_sha256": "dd669d4b44917ecf451604a40dbf87cb65d74c4ce5587ae451d98d12c22955b1",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt": {
+      "current_sha256": "2e0aabbee4b6699ded8fb75fa38347d1fe6d1c719051a2177bfc6ea7595b4817",
+      "prior_sha256": "2e0aabbee4b6699ded8fb75fa38347d1fe6d1c719051a2177bfc6ea7595b4817",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt": {
+      "current_sha256": "27dd5ea0f0938f3d1cfb54b992601b39cbf25ae8f20bfe2da771d2ebbb630c56",
+      "prior_sha256": "27dd5ea0f0938f3d1cfb54b992601b39cbf25ae8f20bfe2da771d2ebbb630c56",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTaskHelper.kt": {
+      "current_sha256": "2436cca453b4a1ac7720b3a951f6bce8fc668e966d577d4b256c2d8a96ff43f7",
+      "prior_sha256": "2436cca453b4a1ac7720b3a951f6bce8fc668e966d577d4b256c2d8a96ff43f7",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt": {
+      "current_sha256": "0804d0e089a75f95a671e097c216469984128ac327a5490548ed439d59613e2b",
+      "prior_sha256": "0804d0e089a75f95a671e097c216469984128ac327a5490548ed439d59613e2b",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTaskHelper.kt": {
+      "current_sha256": "c09653face63e9e272d6280d1e95e6b170353cedef62019c36b9b71ff147fc39",
+      "prior_sha256": "c09653face63e9e272d6280d1e95e6b170353cedef62019c36b9b71ff147fc39",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt": {
+      "current_sha256": "93dc5805d863e1df88f1b297a18dc1eedd619c7e80bfdaa37b7edbf9dd506920",
+      "prior_sha256": "93dc5805d863e1df88f1b297a18dc1eedd619c7e80bfdaa37b7edbf9dd506920",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTaskHelper.kt": {
+      "current_sha256": "117ff398ef94af8ce4fe83ecb227da5ccb2a2d4e6bcdeb05f1392f7e5343ef22",
+      "prior_sha256": "117ff398ef94af8ce4fe83ecb227da5ccb2a2d4e6bcdeb05f1392f7e5343ef22",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/scripts/CMakeLists.txt": {
+      "current_sha256": "1cd4fd6c4b9131b249743965e5611770424b9a0b12602126b2239b5e3b3b0265",
+      "prior_sha256": "1cd4fd6c4b9131b249743965e5611770424b9a0b12602126b2239b5e3b3b0265",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/main/scripts/native_plugin_loader.gradle.kts": {
+      "current_sha256": "e0aac9eefc8581ea6d28e6c1284f0b92e03727aaf0453ac4b8a2b8689a13e686",
+      "prior_sha256": "e0aac9eefc8581ea6d28e6c1284f0b92e03727aaf0453ac4b8a2b8689a13e686",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/AppLinkSettingsTest.kt": {
+      "current_sha256": "d1537a9c84b8bd6598ec9cf763b2031169205118ca4422708382ff2b35eccf0d",
+      "prior_sha256": "d1537a9c84b8bd6598ec9cf763b2031169205118ca4422708382ff2b35eccf0d",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/BaseApplicationNameHandlerTest.kt": {
+      "current_sha256": "8f21e88162286fd88dbb2631cc5446cc198cfc043b594e739b13bbac7ff72aad",
+      "prior_sha256": "8f21e88162286fd88dbb2631cc5446cc198cfc043b594e739b13bbac7ff72aad",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt": {
+      "current_sha256": "525fc434a271b6540e4665e6a3bb48c7250d751c4c060198ec7fdf7559abe648",
+      "prior_sha256": "525fc434a271b6540e4665e6a3bb48c7250d751c4c060198ec7fdf7559abe648",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/DependencyVersionCheckerTest.kt": {
+      "current_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "prior_sha256": "2f16c56dc059cd5e859355a0eee30f2d39a388ed3a4513792e203b1c0c23e849",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterExtensionTest.kt": {
+      "current_sha256": "a9aa201709d657bec30dc5910be7a1c10ac13f11998b9250e23fe81ea359e4ee",
+      "prior_sha256": "a9aa201709d657bec30dc5910be7a1c10ac13f11998b9250e23fe81ea359e4ee",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginTest.kt": {
+      "current_sha256": "dc76dabfc66aa998efcb4afb644389fe223ef8b9ed65c588c76150a19b310eb3",
+      "prior_sha256": "dc76dabfc66aa998efcb4afb644389fe223ef8b9ed65c588c76150a19b310eb3",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt": {
+      "current_sha256": "24da3bc6b5c6942446ea897c73ed3d505dfffad9b58dc9eb1fdea8e65549c1ad",
+      "prior_sha256": "24da3bc6b5c6942446ea897c73ed3d505dfffad9b58dc9eb1fdea8e65549c1ad",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/IntentFilterCheckTest.kt": {
+      "current_sha256": "386524f8031c306fe67c1d008d0d2aaa3a1d40362d2d88374412a99d37118168",
+      "prior_sha256": "386524f8031c306fe67c1d008d0d2aaa3a1d40362d2d88374412a99d37118168",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionFetcherTest.kt": {
+      "current_sha256": "74fa18f4a1dd465b1beb21662aee9ba09edfb076ea5e016ed0025ad24ea70369",
+      "prior_sha256": "74fa18f4a1dd465b1beb21662aee9ba09edfb076ea5e016ed0025ad24ea70369",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/VersionUtilsTest.kt": {
+      "current_sha256": "790abc8a24ced7c06e0f3efa8ca55fca2f3e063ac3e8a4ff02461d647e1f361f",
+      "prior_sha256": "790abc8a24ced7c06e0f3efa8ca55fca2f3e063ac3e8a4ff02461d647e1f361f",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/plugins/PluginHandlerTest.kt": {
+      "current_sha256": "5a4b7b28f038d39e7c2322923e2abe191d5fc68822c59d73b27c86ffb708f7c5",
+      "prior_sha256": "5a4b7b28f038d39e7c2322923e2abe191d5fc68822c59d73b27c86ffb708f7c5",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/BaseFlutterTaskHelperTest.kt": {
+      "current_sha256": "4e8c4947c8071539b01ffeb521fb2da86d7b521d5fa8fd0346f03a8ebeb58f8c",
+      "prior_sha256": "4e8c4947c8071539b01ffeb521fb2da86d7b521d5fa8fd0346f03a8ebeb58f8c",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/DeepLinkJsonFromManifestTaskTest.kt": {
+      "current_sha256": "596013e3cc19ca54766f42eb9371fa7e678da37b14e6dfd689c911692b0606eb",
+      "prior_sha256": "596013e3cc19ca54766f42eb9371fa7e678da37b14e6dfd689c911692b0606eb",
+      "unchanged": true
+    },
+    "packages/flutter_tools/gradle/src/test/kotlin/tasks/FlutterTaskHelperTest.kt": {
+      "current_sha256": "c52df12d70480e198217fc3a6cb1458172a7651d3d7776d0561e883bf9b0f86d",
+      "prior_sha256": "c52df12d70480e198217fc3a6cb1458172a7651d3d7776d0561e883bf9b0f86d",
+      "unchanged": true
+    }
+  },
+  "shared_lock_matches_prior_observed_modified_lock": true,
+  "this_task_modified_shared_SDK": false,
+  "unchanged_prior_leaves_total": 213
+}

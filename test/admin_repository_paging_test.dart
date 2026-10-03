@@ -12,6 +12,7 @@ class _RpcRepository extends AdminRepository {
   Future<Map<String, dynamic>> rpcMap(
     String rpcName, {
     Map<String, dynamic>? params,
+    bool automaticRetry = true,
   }) {
     requests.add((rpc: rpcName, params: Map.of(params ?? {})));
     return respond();

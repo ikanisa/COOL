@@ -1,0 +1,28 @@
+{
+  "AST_valid": true,
+  "driver_executed": false,
+  "new_driver": {
+    "bytes": 42170,
+    "mode": 256,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/reviewed-final/run_selected_aab.py",
+    "sha256": "ae640dc65b87e3638d397d915cc89abc7a91e7bf5d796f53b5b92c7038cc390e"
+  },
+  "new_tests_run": false,
+  "parent_review": "Root explicitly identified spontaneous daemon shutdown condition as unnecessary relative to original bounded owned cleanup criterion. Revision accepts proven owned absence after exact verified bounded cleanup and retains required-stop observation.",
+  "predecessor_driver": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/run_selected_aab.py",
+    "sha256": "2d02812554a5ff04d552c03f48175d8189bc3dd4e15e2f904656e663afd4360a"
+  },
+  "predecessor_leaf_bytes_modes_hashes_unchanged": true,
+  "predecessor_packet": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/packet-files.json",
+    "sha256": "927741352a68aba1f7983123d46e0626ffe33868e71f87b89719434a315810a9"
+  },
+  "schema_version": 1,
+  "source_changes": {
+    "RELEASE_namespace": "HERE.parents[1] for exclusive reviewed-final child",
+    "invocation_condition": "owned_daemons_absent; original command process_success still required",
+    "retained_observation": "spontaneous_daemon_shutdown and separate_daemon_required_stop"
+  },
+  "utc": "2026-10-02T12:33:57.660449+00:00"
+}

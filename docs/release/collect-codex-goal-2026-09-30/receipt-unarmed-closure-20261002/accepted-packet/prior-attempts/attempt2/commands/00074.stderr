@@ -1,0 +1,4 @@
+NOTICE:  00000: policy "account deletion own read" for relation "mobile_account_deletion_requests" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: policy "support requests own read" for relation "mobile_support_requests" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

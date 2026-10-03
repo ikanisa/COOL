@@ -1,0 +1,21 @@
+{
+  "scope": "source-file comparison only, not full207 SQL/recovery replay",
+  "selected_fixture_count": 205,
+  "canonical_observed_count": 207,
+  "same_version_source_mismatch": [],
+  "selected_not_in_current": [],
+  "current_not_in_selected": [
+    {
+      "path": "supabase/migrations/20261002042000_privacy_current_request_status.sql",
+      "version": "20261002042000",
+      "bytes": 1080,
+      "sha256": "5364235b6130348a89ca5f863f61ebb7e29bdd8e3f26015c966b3cc9ef80ce11"
+    },
+    {
+      "path": "supabase/migrations/20261002080000_receipt_repeat_run_recovery.sql",
+      "version": "20261002080000",
+      "bytes": 16746,
+      "sha256": "7c71dd8eb98e42f7aaf1697715277b5fcc245ce7ff7982f99f200c0f0ed07998"
+    }
+  ]
+}

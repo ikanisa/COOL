@@ -1,0 +1,23 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "status": "processed",
+    "inspected": 1,
+    "checked_at": "2026-10-01T13:02:39.209402Z",
+    "expires_at": "2026-10-01T13:04:08.964367Z",
+    "request_id": "72581d63-ab3c-443a-a6f1-453f634134e7",
+    "unobserved": 1,
+    "send_action": false,
+    "resend_action": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "terminal_observed": 0,
+    "observations_added": 1,
+    "source_scan_complete": false
+  },
+  "checked_at": "2026-10-01T13:02:40.884096Z",
+  "expires_at": "2026-10-01T13:04:08.964367Z",
+  "request_id": "72581d63-ab3c-443a-a6f1-453f634134e7",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T13:03:40.884096Z"
+}

@@ -1,0 +1,25 @@
+{
+  "actual_command": [
+    "ruby",
+    "scripts/public_static_site_build.rb"
+  ],
+  "actual_exit_code": 1,
+  "observed_at_utc": "2026-10-01T23:45:54.755010+00:00",
+  "output": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/public-share-ui-current-20261002-batch1-full-build-denial",
+  "observed_status": "rejected_stale_media",
+  "source_before": {
+    "scripts/public_static_site_build.rb": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+    "web/public/revolut.css": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7",
+    "scripts/public_app_media.rb": "1b11ea1d3796a74ac2d7822237fc987c27f10983425baeb46dbc309ea610c74b",
+    "web/public/app-screens/manifest.json": "fbcdb8602e4c5f85992ecb64eb79d8cda61da88335884480d893242dc47b4e0f"
+  },
+  "source_after": {
+    "scripts/public_static_site_build.rb": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9",
+    "web/public/revolut.css": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7",
+    "scripts/public_app_media.rb": "1b11ea1d3796a74ac2d7822237fc987c27f10983425baeb46dbc309ea610c74b",
+    "web/public/app-screens/manifest.json": "fbcdb8602e4c5f85992ecb64eb79d8cda61da88335884480d893242dc47b4e0f"
+  },
+  "listed_inputs_unchanged": true,
+  "scope": "Real complete current-source builder attempted once after CSS source correction; no stale-media override or gate weakening. Fresh final source/media/content binding remains required.",
+  "full_current_static_acceptance": false
+}

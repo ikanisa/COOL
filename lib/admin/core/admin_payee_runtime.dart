@@ -7,7 +7,7 @@ class _AdminPayeeWorkspaceActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final canManage = _adminHasPermission(identity, 'receivers.manage');
     if (!canManage) return const SizedBox.shrink();
     return Semantics(
@@ -65,9 +65,8 @@ Future<void> createAdminPayee(
   final reason = TextEditingController();
   var collectionId = candidateResult.rows.first.id;
   var network = 'mtn_momo';
-  final submitted = await showDialog<bool>(
+  final submitted = await _showAdminFormDialog<bool>(
     context: context,
-    animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => _AdminSessionDialog(
       scope: scope,
       child: StatefulBuilder(
@@ -231,9 +230,8 @@ Future<void> editAdminPayee(
   final formKey = GlobalKey<FormState>();
   final label = TextEditingController(text: row.title);
   final reason = TextEditingController();
-  final submitted = await showDialog<bool>(
+  final submitted = await _showAdminFormDialog<bool>(
     context: context,
-    animationStyle: CollectMotion.animationStyle(context),
     builder: (dialogContext) => _AdminSessionDialog(
       scope: scope,
       child: AlertDialog(

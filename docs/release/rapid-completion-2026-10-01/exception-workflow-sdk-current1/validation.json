@@ -1,0 +1,281 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "label": "pub",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 15.933,
+      "stdout_sha256": "df36ba3f394f70ab1d9d44b0af31ed83e767734e12dd63b9daeba06fecb3024f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "format",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 0.836,
+      "stdout_sha256": "c3bcc35222b18b2e9aab96a1ebd0350c9c73fade030cdbddf7b75d7a11c7c95f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "analysis",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 1,
+      "seconds": 90.745,
+      "stdout_sha256": "974ee47654872ca85e6c4840f5cbd46526fe84e86cfbb869cc5479df619dca76",
+      "stderr_sha256": "071f4992a21b82721ef9f1b2c870ac3ffdd6da474471a410e12397941da4b24d"
+    },
+    {
+      "label": "cases39",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=json",
+        "--concurrency=1",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 156.556,
+      "stdout_sha256": "5c06fabbcb38220469cfc94e5fec3b010a8fb262c8a0a1b4cc467914873d6d7c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "cases": [
+    {
+      "name": "actual SDK reads strict workflow with current session header",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK binds expiring action to exact source and workflow revisions",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "denial and uncertain server response each perform one mutation attempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "false send and mismatched receipt claims reject without retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "session replacement suppresses a pending old action response",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "request lookup is a single read and never replays original action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 pins exact POST body and captured recipient Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 denied makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 503 makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 response-loss makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 same-session refresh keeps the original request Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 signed-out caller makes no SDK request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 pins exact POST body and captured recipient Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 denied makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 503 makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 response-loss makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 same-session refresh keeps the original request Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 signed-out caller makes no SDK request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints read acknowledgement refuses malformed delivery ID before SDK dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider denies missing payments.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider denies missing notifications.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider denies missing system_health.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after permission-loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after identity-loading",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints escalation provider rejects contradictory SDK projection and private extras",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox opens only after matching actual SDK read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-delivery read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK resolved-source read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK private-extra read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK before-delivery read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-version read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK missing-ACK read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox loses actual SDK response without opening or automatic replay",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=true",
+      "result": "success",
+      "skipped": false
+    }
+  ],
+  "case_count": 39,
+  "errors": [],
+  "final": {
+    "success": true,
+    "type": "done",
+    "time": 119960
+  },
+  "export_drift": [],
+  "sdk_unchanged": true,
+  "runtime_base": "root fullVM immutable snapshot; new peer principal changes intentionally excluded",
+  "live_runtime_drift": [
+    "lib/admin/core/admin_automations_page.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/core/admin_runtime.dart"
+  ],
+  "test_sha256": "9901ce81235983eecb790a6d10088b05fd81e2a3ec44ffdc41df56b0c63caf09",
+  "current_owned_test_matches": true,
+  "scope": "39 actual locked SDK/provider/production inbox cases; no whole live Admin closure"
+}

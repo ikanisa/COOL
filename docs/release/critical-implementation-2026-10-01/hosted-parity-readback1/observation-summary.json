@@ -1,0 +1,39 @@
+{
+  "status": "fresh_hosted_access_refused_static_and_dated_analysis_only",
+  "target_ref": "lhbowpbcpwoiparwnwgt",
+  "source_inputs": 273,
+  "source_inputs_unchanged": true,
+  "current_migrations": 209,
+  "current_functions": 13,
+  "local_static_inventory_check_pass": true,
+  "exact_project_metadata_calls": 1,
+  "exact_project_metadata_successes": 0,
+  "permission_refusals": 1,
+  "further_hosted_calls": 0,
+  "sql_calls": 0,
+  "public_endpoint_probes": 0,
+  "project_list_selection": false,
+  "token_refresh": false,
+  "downloads": false,
+  "secrets_keys_logs_customer_auth_rows_requested": false,
+  "external_mutations": 0,
+  "current_hosted_metadata_migrations_functions_catalog_server_parity": "unknown",
+  "actual_pg_client_or_toolchain_manifest_approval": false,
+  "current_hosted_runtime_acceptance": false,
+  "open_findings": [
+    "BE-01",
+    "BE-03",
+    "BE-10",
+    "ARC-03"
+  ],
+  "production_ready": false,
+  "not_inferred": [
+    "outage",
+    "authentication cause",
+    "current missing migrations",
+    "current retired endpoints",
+    "fresh function/JWT/bundle parity",
+    "approved hosted target/toolchain",
+    "production release acceptance"
+  ]
+}

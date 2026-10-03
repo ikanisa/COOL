@@ -1,0 +1,15 @@
+{
+  "files": {
+    "README.md": "a42b028421736f86c9088e55c183d3333fe38d3125bc2d98b9f06c9cda04e25c",
+    "authenticated_candidate_expansion.py": "c8feb963d8e7cd361c4f4d2790c03ffa01ee3f14c6e64f8f26fd1389a0e3b432",
+    "candidate-next-command.json": "a1caea5efe1886f2740e76c61b85e8dbec6a895ee60243aeddbaee7ba011176d",
+    "candidate-observer-exact.diff": "f2e376c048a0977d9a57337fb0b407ef4a479c84d42f8c1d9a3be3306ee8ff72",
+    "candidate-writer-exact.diff": "43debc4680549b77b5a24851a0b1b01e16032627891c0bcda051fd7a3c085eaf",
+    "candidate_preparation_negative_tests.py": "ebc30b2b7dc212fa617662bce76da11ee71a6fd9a2e6c4352e9cf3676ca6f44d",
+    "observe-candidate-runtime.init.gradle": "434a2ca92144d95a0bad5de9ec3ec4326512a952c5d408b72855c49f5b1342d7",
+    "preparation-negatives.stdout": "d6644ded628dfe4139c8bd03a76666491040b7f8fb38439760645ce975330b9b",
+    "preparation-validation.json": "245f8e573597695912db7ca9ea2303626a2bc98e0c809bfdb254cd40756e2ad1",
+    "verify_candidate_source.py": "5687aebd2da236a794a392893bacd738c936f05b6f1896f079047a668ff488d7"
+  },
+  "scope": "Prepared exact destination-only derivative writer and source/runtime observers, explicit future command and meaningful actual-source byte negatives. No materialization/patch/SDK execution."
+}

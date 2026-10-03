@@ -1,0 +1,5 @@
+{
+  "status": "failed-interrupted",
+  "reason": "Pinned PostgREST requires response.request; widget-start await also needs real-async harness entry. Owned Flutter child20381 interrupted withSIGINT after five SDK errors and pending widget startup; process exit0 has no terminal success and is not acceptance.",
+  "source_unchanged_before_interruption": true
+}

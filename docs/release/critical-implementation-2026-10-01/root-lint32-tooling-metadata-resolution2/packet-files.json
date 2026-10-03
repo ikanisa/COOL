@@ -1,0 +1,61 @@
+{
+  "no_Gradle_generated_cache_claim": true,
+  "payload_files": [
+    {
+      "bytes": 10203,
+      "path": "exact-lint32-tooling-metadata.daemon-readback.json",
+      "sha256": "0031da76563923e19d3fc46ea342c8792a644d47e2618dfa4831eae18ea0b215"
+    },
+    {
+      "bytes": 1488,
+      "path": "exact-lint32-tooling-metadata.json",
+      "sha256": "c701487300a9b9a2a936592a124a27262a3538ed7daa89d6d0f5112540f1a282"
+    },
+    {
+      "bytes": 736,
+      "path": "exact-lint32-tooling-metadata.stderr",
+      "sha256": "f4048c3cf0b715b56f211fa4312d089078bcc0ebacbdbfd85de90021a2384113"
+    },
+    {
+      "bytes": 350,
+      "path": "exact-lint32-tooling-metadata.stdout",
+      "sha256": "c85222193781192fd05cfd0b1ece96db0589848daa8d7410c07a193da5603636"
+    },
+    {
+      "bytes": 12982,
+      "path": "minimal-project/build.gradle",
+      "sha256": "d766511a650bf85fda1d8fb7b25823f97c787c06dce63dc620c5dfa0201f69ba"
+    },
+    {
+      "bytes": 390,
+      "path": "minimal-project/settings.gradle",
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    {
+      "bytes": 16284,
+      "path": "readback.json",
+      "sha256": "f8318da86812e85480ec9e3c96eebd53b839fbf47dab57162a7e1b39a8b13ebb"
+    },
+    {
+      "bytes": 396243,
+      "path": "selected-tooling-graph.json",
+      "sha256": "96b5948e34520b67226745ea94e1ca78bd3cdf1bd050378b2893694d424abb26"
+    },
+    {
+      "bytes": 1871,
+      "path": "selected-tooling-graph.json.checkpoint-0.json",
+      "sha256": "1e583f8a33ad59ab99c1f6d8fa3dfe85a9f2b689e7af87075d3367b53e00c929"
+    },
+    {
+      "bytes": 339659,
+      "path": "selected-tooling-graph.json.checkpoint-1.json",
+      "sha256": "248277403bd4334e8ff1f97433df3fc4f2deabb09adf54afa4d2d26581a44569"
+    },
+    {
+      "bytes": 396243,
+      "path": "selected-tooling-graph.json.checkpoint-2.json",
+      "sha256": "96b5948e34520b67226745ea94e1ca78bd3cdf1bd050378b2893694d424abb26"
+    }
+  ],
+  "status": "ACTUAL_FAILED_METADATA_RESOLUTION_PRESERVED"
+}

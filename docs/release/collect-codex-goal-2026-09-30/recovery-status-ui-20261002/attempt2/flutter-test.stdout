@@ -1,0 +1,58 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_recovery_test.dart
+00:00 +0: closed recovery DTO denies malformed fields and activation claims
+00:00 +1: native maintenance uses separate strict channel and original trusted fingerprint
+00:00 +2: native start refuses mismatched operation response
+00:00 +3: recovery route remains accessible after ordinary signing initialization fails
+00:00 +4: export blocks duplicate work and reports verified hash without resuming
+00:00 +5: trusted lowercase digest gates restore and opaque output stays explicit
+00:00 +6: validated restore remains inactive and requires re-enrollment
+00:00 +7: picker cancellation retains evidence and permits a later explicit operation
+00:00 +8: closing the page cancels pending native maintenance
+00:00 +9: export storage refusal announces recovery without automatically repeating it
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+A SemanticsHandle was active at the end of the test.
+All SemanticsHandle instances must be disposed by calling dispose() on the SemanticsHandle.
+
+When the exception was thrown, this was the stack:
+#0      WidgetTester._verifySemanticsHandlesWereDisposed (package:flutter_test/src/widget_tester.dart:1074:7)
+#1      WidgetTester._endOfTestVerifications (package:flutter_test/src/widget_tester.dart:1063:5)
+#2      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1968:22)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  export storage refusal announces recovery without automatically repeating it
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +9 -1: export storage refusal announces recovery without automatically repeating it [E]
+  Test failed. See exception logs above.
+  The test description was: export storage refusal announces recovery without automatically repeating it
+  
+00:00 +9 -1: restore storage refusal announces recovery without automatically repeating it
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+A SemanticsHandle was active at the end of the test.
+All SemanticsHandle instances must be disposed by calling dispose() on the SemanticsHandle.
+
+When the exception was thrown, this was the stack:
+#0      WidgetTester._verifySemanticsHandlesWereDisposed (package:flutter_test/src/widget_tester.dart:1074:7)
+#1      WidgetTester._endOfTestVerifications (package:flutter_test/src/widget_tester.dart:1063:5)
+#2      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1968:22)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  restore storage refusal announces recovery without automatically repeating it
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +9 -2: restore storage refusal announces recovery without automatically repeating it [E]
+  Test failed. See exception logs above.
+  The test description was: restore storage refusal announces recovery without automatically repeating it
+  
+00:01 +9 -2: narrow large-text recovery remains scrollable with labeled controls
+00:01 +10 -2: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_recovery_test.dart: export storage refusal announces recovery without automatically repeating it
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/gateway/gateway_recovery_test.dart: restore storage refusal announces recovery without automatically repeating it

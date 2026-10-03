@@ -1,0 +1,14 @@
+{
+  "main": {
+    "session_id": 28967,
+    "exit_code": 0,
+    "result_sha256": "29a5bbba3c81d39eda78b157256ad7fd52414e68e4a3deb1157d1351e7656001"
+  },
+  "ordinary_cron": {
+    "session_id": 96318,
+    "exit_code": 0,
+    "result_sha256": "be2290167946a665f39232af17e6e39cc7c52b69f81479265374dca570fc57b8"
+  },
+  "prior_failed_sessions_reaped": true,
+  "main_and_probe_sources_unchanged": true
+}

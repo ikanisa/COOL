@@ -1,0 +1,27 @@
+// Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
+// This module is browser compatible.
+import { format } from "../internal/format.ts";
+import { AssertionError } from "./assertion_error.ts";
+
+/**
+ * Make an assertion that `actual` is greater than `expected`.
+ * If not then throw.
+ *
+ * @example
+ * ```ts
+ * import { assertGreater } from "https://deno.land/std@$STD_VERSION/assert/assert_greater.ts";
+ *
+ * assertGreater(2, 1); // Doesn't throw
+ * assertGreater(1, 1); // Throws
+ * assertGreater(0, 1); // Throws
+ * ```
+ */
+export function assertGreater<T>(actual: T, expected: T, msg?: string) {
+  if (actual > expected) return;
+
+  const actualString = format(actual);
+  const expectedString = format(expected);
+  throw new AssertionError(msg ?? `Expect ${actualString} > ${expectedString}`);
+}
+
+// denoCacheMetadata={"headers":{"cross-origin-opener-policy":"same-origin","age":"293294","cache-control":"public, max-age=31536000, immutable","accept-ranges":"bytes","content-security-policy":"default-src 'none'; style-src 'unsafe-inline'; sandbox","strict-transport-security":"max-age=63072000; includeSubDomains; preload","access-control-allow-origin":"*","access-control-allow-methods":"GET, HEAD","x-frame-options":"DENY","via":"HTTP/2 ams.vultr.prod.deno-cluster.net","cf-cache-status":"HIT","report-to":"{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=rFtXxGxYrwMPVh","server":"cloudflare,deployd","access-control-allow-headers":"*","x-deno-trace-id":"a9b4ed132ade8433392c9bff598b57ea","cache-status":"deno; hit","date":"Thu, 01 Oct 2026 00:05:48 GMT","content-length":"821","x-content-type-options":"nosniff","server-timing":"fetchSource;dur=16","last-modified":"Thu, 27 Aug 2026 16:21:30 GMT","cf-ray":"a43737c04a9f99d3-AMS","content-type":"application/typescript; charset=utf-8","cross-origin-resource-policy":"same-origin","etag":"\"3fffb3fc74317769c9c63be945df4293\"","referrer-policy":"strict-origin-when-cross-origin","cross-origin-embedder-policy":"same-origin","nel":"{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"},"url":"https://deno.land/std@0.224.0/assert/assert_greater.ts","time":1790910996}

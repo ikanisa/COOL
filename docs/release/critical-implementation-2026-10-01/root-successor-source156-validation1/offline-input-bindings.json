@@ -1,0 +1,209 @@
+{
+  "network_acquisition_performed": false,
+  "private": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/root-successor-source156-validation1-private/inputs",
+  "private_before": {
+    "primary/defusedxml-0.7.1-pypi.json": {
+      "bytes": 35962,
+      "mode": 292,
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a"
+    },
+    "primary/et-xmlfile-2.0.0-pypi.json": {
+      "bytes": 4816,
+      "mode": 292,
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0"
+    },
+    "primary/openpyxl-3.1.5-pypi.json": {
+      "bytes": 4748,
+      "mode": 292,
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e"
+    },
+    "primary/pillow-12.3.0-pypi.json": {
+      "bytes": 84184,
+      "mode": 292,
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0"
+    },
+    "primary/pypdf-6.19.0-pypi.json": {
+      "bytes": 9248,
+      "mode": 292,
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f"
+    },
+    "primary/pypdfium2-5.2.0-pypi.json": {
+      "bytes": 88511,
+      "mode": 292,
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961"
+    },
+    "publisher-inputs.json": {
+      "bytes": 4004,
+      "mode": 292,
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74"
+    },
+    "wheels/defusedxml-0.7.1-py2.py3-none-any.whl": {
+      "bytes": 25604,
+      "mode": 292,
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"
+    },
+    "wheels/et_xmlfile-2.0.0-py3-none-any.whl": {
+      "bytes": 18059,
+      "mode": 292,
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa"
+    },
+    "wheels/openpyxl-3.1.5-py2.py3-none-any.whl": {
+      "bytes": 250910,
+      "mode": 292,
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2"
+    },
+    "wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl": {
+      "bytes": 6266838,
+      "mode": 292,
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9"
+    },
+    "wheels/pypdf-6.19.0-py3-none-any.whl": {
+      "bytes": 395480,
+      "mode": 292,
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14"
+    },
+    "wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl": {
+      "bytes": 2979235,
+      "mode": 292,
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec"
+    }
+  },
+  "publisher_sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74",
+  "regular_files": 13,
+  "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/successor-observed-fixture-import-proposal1/candidate-stage1/inputs",
+  "source_after": {
+    "primary/defusedxml-0.7.1-pypi.json": {
+      "bytes": 35962,
+      "mode": 292,
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a"
+    },
+    "primary/et-xmlfile-2.0.0-pypi.json": {
+      "bytes": 4816,
+      "mode": 292,
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0"
+    },
+    "primary/openpyxl-3.1.5-pypi.json": {
+      "bytes": 4748,
+      "mode": 292,
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e"
+    },
+    "primary/pillow-12.3.0-pypi.json": {
+      "bytes": 84184,
+      "mode": 292,
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0"
+    },
+    "primary/pypdf-6.19.0-pypi.json": {
+      "bytes": 9248,
+      "mode": 292,
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f"
+    },
+    "primary/pypdfium2-5.2.0-pypi.json": {
+      "bytes": 88511,
+      "mode": 292,
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961"
+    },
+    "publisher-inputs.json": {
+      "bytes": 4004,
+      "mode": 292,
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74"
+    },
+    "wheels/defusedxml-0.7.1-py2.py3-none-any.whl": {
+      "bytes": 25604,
+      "mode": 292,
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"
+    },
+    "wheels/et_xmlfile-2.0.0-py3-none-any.whl": {
+      "bytes": 18059,
+      "mode": 292,
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa"
+    },
+    "wheels/openpyxl-3.1.5-py2.py3-none-any.whl": {
+      "bytes": 250910,
+      "mode": 292,
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2"
+    },
+    "wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl": {
+      "bytes": 6266838,
+      "mode": 292,
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9"
+    },
+    "wheels/pypdf-6.19.0-py3-none-any.whl": {
+      "bytes": 395480,
+      "mode": 292,
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14"
+    },
+    "wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl": {
+      "bytes": 2979235,
+      "mode": 292,
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec"
+    }
+  },
+  "source_before": {
+    "primary/defusedxml-0.7.1-pypi.json": {
+      "bytes": 35962,
+      "mode": 292,
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a"
+    },
+    "primary/et-xmlfile-2.0.0-pypi.json": {
+      "bytes": 4816,
+      "mode": 292,
+      "sha256": "807b439c620d04dc8b1680d18d462233b4c4711d11a32a2e6d74b47949af9bf0"
+    },
+    "primary/openpyxl-3.1.5-pypi.json": {
+      "bytes": 4748,
+      "mode": 292,
+      "sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e"
+    },
+    "primary/pillow-12.3.0-pypi.json": {
+      "bytes": 84184,
+      "mode": 292,
+      "sha256": "63159d6013cf20f98ff9caeb8b0b210b7f5877975587f4265397ffb0fd8c72a0"
+    },
+    "primary/pypdf-6.19.0-pypi.json": {
+      "bytes": 9248,
+      "mode": 292,
+      "sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f"
+    },
+    "primary/pypdfium2-5.2.0-pypi.json": {
+      "bytes": 88511,
+      "mode": 292,
+      "sha256": "22dfe030fe342b361339636207554a91903b49587d448c9128ca87f557a71961"
+    },
+    "publisher-inputs.json": {
+      "bytes": 4004,
+      "mode": 292,
+      "sha256": "58ba030a43beab73906753486051c6a3499a00a70bfa1c9e018a0fb4554cfa74"
+    },
+    "wheels/defusedxml-0.7.1-py2.py3-none-any.whl": {
+      "bytes": 25604,
+      "mode": 292,
+      "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"
+    },
+    "wheels/et_xmlfile-2.0.0-py3-none-any.whl": {
+      "bytes": 18059,
+      "mode": 292,
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa"
+    },
+    "wheels/openpyxl-3.1.5-py2.py3-none-any.whl": {
+      "bytes": 250910,
+      "mode": 292,
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2"
+    },
+    "wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl": {
+      "bytes": 6266838,
+      "mode": 292,
+      "sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9"
+    },
+    "wheels/pypdf-6.19.0-py3-none-any.whl": {
+      "bytes": 395480,
+      "mode": 292,
+      "sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14"
+    },
+    "wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl": {
+      "bytes": 2979235,
+      "mode": 292,
+      "sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec"
+    }
+  },
+  "source_copy_sha_mode_equal": true
+}

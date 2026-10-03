@@ -1,0 +1,4 @@
+{
+  "status": "failed-interrupted",
+  "reason": "Awaiting a provider Future created in the Flutter fake-async zone from runAsync waits on fake-zone completion. Interrupt owned Flutter child22524; no terminal success. Use bounded alternating real-async delay and fake-zone pumps; keep shipping provider15s timeout unchanged."
+}

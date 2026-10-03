@@ -1,0 +1,14 @@
+{
+  "observed_at_utc": "2026-10-02T03:04:13.052267+00:00",
+  "canonical_invocations": 1,
+  "canonical_result_unchanged": "pass",
+  "evidence_only_corrections": [
+    "Attempt1 schema mismatch: exact SHA/size/mode preparation fields now compared, all leaves preserved.",
+    "Attempt2 actual No such container diagnostic did not match the narrower No such object classifier. Original traceback and exact stderr retained; independent exact target diagnostic plus successful zero-container query now proves scoped absence."
+  ],
+  "attempt1_source_and_transcribed_diagnostic_retained": true,
+  "attempt2_actual_stdout_stderr_retained": true,
+  "complete_original_and_copied_outputs_identical": true,
+  "private_source_and_cache_unchanged_after_gate": true,
+  "final_owned_cleanup": "pass"
+}

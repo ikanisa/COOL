@@ -1,0 +1,24 @@
+{
+  "history_defines_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt23-current175-history-bridge-only/source-export/.qa_actual_history_defines.json",
+  "history_defines_source_sha256": "c37ee2f7c22284722d2e1c91353d938e4f03f4e4906be1aa31e30aeeb4eb9a6a",
+  "receipts": {
+    "ADMIN_READ_SQL_RECEIPTS": {
+      "sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/receipt-policy-preference-current-attempt14/actual-read-receipts.stdout"
+    },
+    "ROSTER_FRESH_SQL_RECEIPTS": {
+      "sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-fresh-auth-2026-09-30/uat149-installed-rollback-attempt3-exact-ack/stdout"
+    },
+    "ROSTER_RELOAD_SQL_RECEIPTS": {
+      "sha256": "a0b41c9caca78597c8aa1ad250c2ae8a75e43da934ecb6aca6a5e623fc8377af",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/stdout"
+    },
+    "ROSTER_SQL_RECEIPTS": {
+      "sha256": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+      "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/roster-import-provenance-2026-09-30/receipts142.stdout"
+    }
+  },
+  "scope": "Separately dated genuine synthetic SQL receipts as decoder compatibility inputs; no current installation claim",
+  "sql_executed": false
+}

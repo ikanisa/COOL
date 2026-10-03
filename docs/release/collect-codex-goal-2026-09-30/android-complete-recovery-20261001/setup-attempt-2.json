@@ -1,0 +1,6 @@
+{
+  "status": "fail",
+  "phase": "private_shim_copy",
+  "native_commands_started": false,
+  "cause": "copied immutable Build shim retained read-only mode; successor mutates owned copy only"
+}

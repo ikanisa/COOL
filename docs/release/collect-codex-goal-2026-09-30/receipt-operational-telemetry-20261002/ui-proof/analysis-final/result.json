@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "analyze",
+    "lib/admin/core/admin_receipt_telemetry_card.dart",
+    "lib/admin/core/admin_receipt_operational_telemetry.dart",
+    "lib/admin/core/admin_receipt_repository.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_overview_runtime.dart",
+    "lib/admin/core/admin_automations_page.dart",
+    "lib/admin/core/admin_exception_models.dart",
+    "lib/admin/core/admin_exception_workflow_models.dart",
+    "lib/admin/core/admin_exception_workflow_card.dart",
+    "test/admin_receipt_telemetry_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app",
+  "exit_code": 0,
+  "sources_unchanged": true,
+  "source_bindings": {
+    "lib/admin/core/admin_receipt_telemetry_card.dart": "2489e5656cbd83ef09378137836f93c942a358572091a5fedb68567a3fb14bdb",
+    "lib/admin/core/admin_receipt_operational_telemetry.dart": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27",
+    "lib/admin/core/admin_receipt_repository.dart": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+    "lib/admin/core/admin_repository_base.dart": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+    "lib/admin/core/admin_runtime.dart": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+    "lib/admin/core/admin_overview_runtime.dart": "a0373df0ab1956fd42201007b808a739b6611f892d5484bd90b1c894cf95ec87",
+    "lib/admin/core/admin_automations_page.dart": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+    "lib/admin/core/admin_exception_models.dart": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f",
+    "lib/admin/core/admin_exception_workflow_models.dart": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85",
+    "lib/admin/core/admin_exception_workflow_card.dart": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7",
+    "test/admin_receipt_telemetry_test.dart": "323216859ac1af7e89d09550fc3f3a2cc80b83a9377cffd4601673d41593be8e"
+  },
+  "finished_at": "2026-10-01T22:43:36.278299+00:00"
+}

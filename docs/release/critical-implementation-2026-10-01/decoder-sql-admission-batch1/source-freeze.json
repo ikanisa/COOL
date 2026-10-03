@@ -1,0 +1,7 @@
+{
+  "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+  "scripts/tests/roster_fresh_auth_recovery_uat.sql": "5b9692e2c19359b543407a45a7ab2b2292eb32b557d393601a487a10f84832c9",
+  "scripts/tests/roster_resource_concurrency_uat.rb": "796c7ad5162571d0fae25f82660bcabeb24f002875520a56c0f9e5b7ea2cd700",
+  "scripts/tests/roster_resource_final_compatibility_uat.sql": "9a4a9e7e6c237076125e6aa9615de7d07b1cb54b7a6f21b569db5a5c4626ac09",
+  "scripts/tests/roster_resource_integrity_uat.sql": "91da7af34a5e494f1d2f493390b7612a4c74f1829843b1c681453011de24a7a5"
+}

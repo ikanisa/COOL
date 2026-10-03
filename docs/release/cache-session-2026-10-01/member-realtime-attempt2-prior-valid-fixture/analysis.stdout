@@ -1,0 +1,5 @@
+Analyzing collect_repository.dart, realtime_invalidation.dart, member_realtime_sdk_session_test.dart, realtime_invalidation_recovery_test.dart...
+
+   info - test/shared/member_realtime_sdk_session_test.dart:172:11 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+
+1 issue found.

@@ -1,0 +1,2447 @@
+{
+  "actual_readback_sha256": "8b6caf02f7ed28afab84d95c7668ff712ffebe4e45652f5057f5a91ae0798e06",
+  "all_actual_sources_held_FD": true,
+  "plan_sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+  "sources": [
+    {
+      "bytes": 9472433,
+      "coordinate": {
+        "group": "com.android.tools.analytics-library",
+        "name": "protos",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 9472433,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/protos/32.0.1/9c34962e3c99fb653218a524115e9c26b56a43ec/protos-32.0.1.jar",
+        "sha1": "9c34962e3c99fb653218a524115e9c26b56a43ec",
+        "sha256": "a108eb689d8dd056e5b218436aafd97234b976a0943a446ac36751c6ab9e1da1",
+        "stat_identity": [
+          16777232,
+          60173000,
+          9472433,
+          33188,
+          1,
+          1790930267923408788,
+          1790930267985675048
+        ]
+      },
+      "hashes": {
+        "sha1": "9c34962e3c99fb653218a524115e9c26b56a43ec",
+        "sha256": "a108eb689d8dd056e5b218436aafd97234b976a0943a446ac36751c6ab9e1da1"
+      },
+      "identity": [
+        16777232,
+        60562577,
+        9472433,
+        33024,
+        1,
+        1790967951859119686,
+        1790968345515994918
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0006/body"
+    },
+    {
+      "bytes": 128686,
+      "coordinate": {
+        "group": "com.android.tools.analytics-library",
+        "name": "shared",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 128686,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/shared/32.0.1/9c1a7eba0486e4ac60639d55f7e9418572905ca7/shared-32.0.1.jar",
+        "sha1": "9c1a7eba0486e4ac60639d55f7e9418572905ca7",
+        "sha256": "bb78407f373fd94d617fd2c6513c5f3c03583a0f380437742a5e75c0b6c56b46",
+        "stat_identity": [
+          16777232,
+          60172085,
+          128686,
+          33188,
+          1,
+          1790930236729687901,
+          1790930236731296418
+        ]
+      },
+      "hashes": {
+        "sha1": "9c1a7eba0486e4ac60639d55f7e9418572905ca7",
+        "sha256": "bb78407f373fd94d617fd2c6513c5f3c03583a0f380437742a5e75c0b6c56b46"
+      },
+      "identity": [
+        16777232,
+        60562578,
+        128686,
+        33024,
+        1,
+        1790967949775640273,
+        1790968345516027501
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0008/body"
+    },
+    {
+      "bytes": 47030,
+      "coordinate": {
+        "group": "com.android.tools.analytics-library",
+        "name": "tracker",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 47030,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.analytics-library/tracker/32.0.1/3d31c3f8cfa04ab6e52fb5ea2090dcadeb38e93e/tracker-32.0.1.jar",
+        "sha1": "3d31c3f8cfa04ab6e52fb5ea2090dcadeb38e93e",
+        "sha256": "4032259dcc31f98734d50fdc7d6ce63d799205ff2a1ba05a31959af3301d2a52",
+        "stat_identity": [
+          16777232,
+          60172060,
+          47030,
+          33188,
+          1,
+          1790930235693724057,
+          1790930235695136285
+        ]
+      },
+      "hashes": {
+        "sha1": "3d31c3f8cfa04ab6e52fb5ea2090dcadeb38e93e",
+        "sha256": "4032259dcc31f98734d50fdc7d6ce63d799205ff2a1ba05a31959af3301d2a52"
+      },
+      "identity": [
+        16777232,
+        60562568,
+        47030,
+        33024,
+        1,
+        1790967948975161463,
+        1790968345515979251
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0005/body"
+    },
+    {
+      "bytes": 10680,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "annotations",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 10680,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/annotations/32.0.1/a9a04a78f42fdb0276a0fc7fd538890f856a9753/annotations-32.0.1.jar",
+        "sha1": "a9a04a78f42fdb0276a0fc7fd538890f856a9753",
+        "sha256": "3b4bb9620c17d19e5bd91ac1988080553573b4c3b739fdd92416f42f2daf3e78",
+        "stat_identity": [
+          16777232,
+          60173277,
+          10680,
+          33188,
+          1,
+          1790930283998758674,
+          1790930283999391123
+        ]
+      },
+      "hashes": {
+        "sha1": "a9a04a78f42fdb0276a0fc7fd538890f856a9753",
+        "sha256": "3b4bb9620c17d19e5bd91ac1988080553573b4c3b739fdd92416f42f2daf3e78"
+      },
+      "identity": [
+        16777232,
+        60562569,
+        10680,
+        33024,
+        1,
+        1790967948751006518,
+        1790968345516011126
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0007/body"
+    },
+    {
+      "bytes": 721157,
+      "coordinate": {
+        "group": "com.android.tools.build",
+        "name": "aapt2-proto",
+        "version": "9.0.1-14304508"
+      },
+      "destination": {
+        "bytes": 721157,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/aapt2-proto/9.0.1-14304508/acf00ea97102064130c6fce33ed18eef59bc692e/aapt2-proto-9.0.1-14304508.jar",
+        "sha1": "acf00ea97102064130c6fce33ed18eef59bc692e",
+        "sha256": "2335bab7fd8269ee98d3843410c4a5553d31dd71f9a22f49b21a676d3139c882",
+        "stat_identity": [
+          16777232,
+          60172820,
+          721157,
+          33188,
+          1,
+          1790930248780023845,
+          1790930248792387406
+        ]
+      },
+      "hashes": {
+        "md5": "f50b0fcb3852dfdb5e2e755165e70b12",
+        "sha1": "acf00ea97102064130c6fce33ed18eef59bc692e",
+        "sha256": "2335bab7fd8269ee98d3843410c4a5553d31dd71f9a22f49b21a676d3139c882",
+        "sha512": "8287f9436f93b37cdbadb0f4ccb6ec0b89ff62b9d20411c36ebf30de7f9675ee17f9b9e0345efe67135bd159d13f8f538095d3c16d1003df050bc8edb490f7ac"
+      },
+      "identity": [
+        16777232,
+        60562588,
+        721157,
+        33024,
+        1,
+        1790967951258980529,
+        1790968345516088710
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0011/body"
+    },
+    {
+      "bytes": 143902,
+      "coordinate": {
+        "group": "com.android.tools.build",
+        "name": "builder-model",
+        "version": "9.0.1"
+      },
+      "destination": {
+        "bytes": 143902,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/builder-model/9.0.1/2161f7c31c482f9f8e6b763fd74097dc6ef316a0/builder-model-9.0.1.jar",
+        "sha1": "2161f7c31c482f9f8e6b763fd74097dc6ef316a0",
+        "sha256": "c99bcc1b0922173510cb19d3f960df0f5de203ce2e29c5705cfa659fbdffcd69",
+        "stat_identity": [
+          16777232,
+          60171985,
+          143902,
+          33188,
+          1,
+          1790930230452476060,
+          1790930230453908580
+        ]
+      },
+      "hashes": {
+        "md5": "7d2db341a728a137693ec1dcacc0cdbc",
+        "sha1": "2161f7c31c482f9f8e6b763fd74097dc6ef316a0",
+        "sha256": "c99bcc1b0922173510cb19d3f960df0f5de203ce2e29c5705cfa659fbdffcd69",
+        "sha512": "0439d498b6a6695ae67c22897b9974bfadcacb233e8736efa7a82e9aa38585eaf85309c27f24962478c5be08b3a687aa22819467dd1c336195a30de8eec7f156"
+      },
+      "identity": [
+        16777232,
+        60562591,
+        143902,
+        33024,
+        1,
+        1790967951258982445,
+        1790968345516108585
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0012/body"
+    },
+    {
+      "bytes": 267052,
+      "coordinate": {
+        "group": "com.android.tools.build",
+        "name": "manifest-merger",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 267052,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/32.0.1/12320f1d3451aaf3bacb5696577bf09633906e35/manifest-merger-32.0.1.jar",
+        "sha1": "12320f1d3451aaf3bacb5696577bf09633906e35",
+        "sha256": "4a5b42b4d2fc36f2dbf95e366672821e8bceecf34fecf11a3d70a99792e10857",
+        "stat_identity": [
+          16777232,
+          60172047,
+          267052,
+          33188,
+          1,
+          1790930233697929374,
+          1790930233699458475
+        ]
+      },
+      "hashes": {
+        "md5": "133eba19c5660bbe07acc801476ea6b0",
+        "sha1": "12320f1d3451aaf3bacb5696577bf09633906e35",
+        "sha256": "4a5b42b4d2fc36f2dbf95e366672821e8bceecf34fecf11a3d70a99792e10857",
+        "sha512": "924f0fbef8c43433e56dc261cdbb960fd2e609d8fb62299205fd9d752ae2b4f35062f860049643934012827382e8dd9c9b96fe8a3eecaa7db9f0f593576143a5"
+      },
+      "identity": [
+        16777232,
+        60562609,
+        267052,
+        33024,
+        1,
+        1790967952543650441,
+        1790968345516148044
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0014/body"
+    },
+    {
+      "bytes": 593269,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "common",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 593269,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/common/32.0.1/a52916564e9e266511977593047df643e310f4c3/common-32.0.1.jar",
+        "sha1": "a52916564e9e266511977593047df643e310f4c3",
+        "sha256": "2867635adf3709fd658d4af7d4632185cac298086e9209462be29dee0c724672",
+        "stat_identity": [
+          16777232,
+          60172673,
+          593269,
+          33188,
+          1,
+          1790930242594048322,
+          1790930242617184136
+        ]
+      },
+      "hashes": {
+        "sha1": "a52916564e9e266511977593047df643e310f4c3",
+        "sha256": "2867635adf3709fd658d4af7d4632185cac298086e9209462be29dee0c724672"
+      },
+      "identity": [
+        16777232,
+        60562617,
+        593269,
+        33024,
+        1,
+        1790967954029967519,
+        1790968345516208294
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0017/body"
+    },
+    {
+      "bytes": 682229,
+      "coordinate": {
+        "group": "com.android.tools.ddms",
+        "name": "ddmlib",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 682229,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/32.0.1/584caac000885d98336d49a91d30e79c6a766d55/ddmlib-32.0.1.jar",
+        "sha1": "584caac000885d98336d49a91d30e79c6a766d55",
+        "sha256": "e207999e9b6074d0dd99687c89b56517514a062d319bc1fea427ddae876d7773",
+        "stat_identity": [
+          16777232,
+          60172088,
+          682229,
+          33188,
+          1,
+          1790930241893793739,
+          1790930241902273277
+        ]
+      },
+      "hashes": {
+        "sha1": "584caac000885d98336d49a91d30e79c6a766d55",
+        "sha256": "e207999e9b6074d0dd99687c89b56517514a062d319bc1fea427ddae876d7773"
+      },
+      "identity": [
+        16777232,
+        60562616,
+        682229,
+        33024,
+        1,
+        1790967953877259785,
+        1790968345516227919
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0018/body"
+    },
+    {
+      "bytes": 61019,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "dvlib",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 61019,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/dvlib/32.0.1/fdab6ded43b8df38e9fcdfcae627b8be0b093ff3/dvlib-32.0.1.jar",
+        "sha1": "fdab6ded43b8df38e9fcdfcae627b8be0b093ff3",
+        "sha256": "2449554f04eee2d47120089ee1bd49154a7c1e0dd7384acfc5b5db9ceba50e28",
+        "stat_identity": [
+          16777232,
+          60172669,
+          61019,
+          33188,
+          1,
+          1790930242230330529,
+          1790930242232310958
+        ]
+      },
+      "hashes": {
+        "sha1": "fdab6ded43b8df38e9fcdfcae627b8be0b093ff3",
+        "sha256": "2449554f04eee2d47120089ee1bd49154a7c1e0dd7384acfc5b5db9ceba50e28"
+      },
+      "identity": [
+        16777232,
+        60562618,
+        61019,
+        33024,
+        1,
+        1790967953539928189,
+        1790968345516288628
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0021/body"
+    },
+    {
+      "bytes": 36091904,
+      "coordinate": {
+        "group": "com.android.tools.external.com-intellij",
+        "name": "intellij-core",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 36091904,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.external.com-intellij/intellij-core/32.0.1/9c0eb597408295ba28d6bb4f080d390c6a389ad0/intellij-core-32.0.1.jar",
+        "sha1": "9c0eb597408295ba28d6bb4f080d390c6a389ad0",
+        "sha256": "9d743e8c6beac38be457c65215fa70bbd8e8c2b1d7d384c998dc11be27e9dd7e",
+        "stat_identity": [
+          16777232,
+          60486606,
+          36091904,
+          33188,
+          1,
+          1790953298529938532,
+          1790953298800336414
+        ]
+      },
+      "hashes": {
+        "sha1": "9c0eb597408295ba28d6bb4f080d390c6a389ad0",
+        "sha256": "9d743e8c6beac38be457c65215fa70bbd8e8c2b1d7d384c998dc11be27e9dd7e"
+      },
+      "identity": [
+        16777232,
+        60562638,
+        36091904,
+        33024,
+        1,
+        1790967967693284661,
+        1790968345516307419
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0022/body"
+    },
+    {
+      "bytes": 51542838,
+      "coordinate": {
+        "group": "com.android.tools.external.com-intellij",
+        "name": "kotlin-compiler",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.external.com-intellij/kotlin-compiler/32.0.1/53a4fbba217d5ca3155534e410c5bf8c82377f32/kotlin-compiler-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "53a4fbba217d5ca3155534e410c5bf8c82377f32",
+        "sha256": "e7fce4a57cf748501c5fe1325e91099d829753a00ced1df987eeaa60f7725890"
+      },
+      "identity": [
+        16777232,
+        60567486,
+        51542838,
+        33024,
+        1,
+        1790968210321219896,
+        1790968345550742034
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-kotlin-compiler-recovery1/body"
+    },
+    {
+      "bytes": 1876536,
+      "coordinate": {
+        "group": "com.android.tools.external.org-jetbrains",
+        "name": "uast",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.external.org-jetbrains/uast/32.0.1/3497026d8d909538da7139577e62987a93e4cba4/uast-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "3497026d8d909538da7139577e62987a93e4cba4",
+        "sha256": "5c786e9b25259e1692e98c69ac88d8f85ef0ec4c7b9d2680e44ffeec80fb99dc"
+      },
+      "identity": [
+        16777232,
+        60562644,
+        1876536,
+        33024,
+        1,
+        1790967957228702600,
+        1790968345516404295
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0027/body"
+    },
+    {
+      "bytes": 122409,
+      "coordinate": {
+        "group": "com.android.tools.layoutlib",
+        "name": "layoutlib-api",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 122409,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/32.0.1/d5e5c1e46fa46286923ae59536a01812c7edcec6/layoutlib-api-32.0.1.jar",
+        "sha1": "d5e5c1e46fa46286923ae59536a01812c7edcec6",
+        "sha256": "00d18f9511c00adbc785801b4def8af527dbd047bb2ac73d2d720ed5c5c577ee",
+        "stat_identity": [
+          16777232,
+          60172099,
+          122409,
+          33188,
+          1,
+          1790930246666048629,
+          1790930246668601132
+        ]
+      },
+      "hashes": {
+        "sha1": "d5e5c1e46fa46286923ae59536a01812c7edcec6",
+        "sha256": "00d18f9511c00adbc785801b4def8af527dbd047bb2ac73d2d720ed5c5c577ee"
+      },
+      "identity": [
+        16777232,
+        60562658,
+        122409,
+        33024,
+        1,
+        1790967958413352667,
+        1790968345516426295
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0028/body"
+    },
+    {
+      "bytes": 1504853,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint-api",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/32.0.1/b13cd8157ccde7a7569a5d6ac5042c50bafeb294/lint-api-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "b13cd8157ccde7a7569a5d6ac5042c50bafeb294",
+        "sha256": "f087d5664837a13be9cb3d87659b2160104b5f5836edbda5bcbd4c2f6b4932e9"
+      },
+      "identity": [
+        16777232,
+        60562667,
+        1504853,
+        33024,
+        1,
+        1790967961391651800,
+        1790968345516521545
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0030/body"
+    },
+    {
+      "bytes": 7707245,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint-checks",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/32.0.1/ba57b0d55acb67198db2b621c37e79bcb389a424/lint-checks-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "ba57b0d55acb67198db2b621c37e79bcb389a424",
+        "sha256": "d95564402e607f57fb4ccb917ddd05b3ae248dd8a21e077eed7016f7a4d2088a"
+      },
+      "identity": [
+        16777232,
+        60562676,
+        7707245,
+        33024,
+        1,
+        1790967964492264847,
+        1790968345516596546
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0032/body"
+    },
+    {
+      "bytes": 66373,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint-gradle",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-gradle/32.0.1/e94477130a764e008c4c171775a2a2e216109ad0/lint-gradle-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "e94477130a764e008c4c171775a2a2e216109ad0",
+        "sha256": "0abdb1b1cd9a0bb7b9488500646a016f2c053bb31ba427645d6bf563feb93821"
+      },
+      "identity": [
+        16777232,
+        60562685,
+        66373,
+        33024,
+        1,
+        1790967965533993491,
+        1790968345516638963
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0034/body"
+    },
+    {
+      "bytes": 175647,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint-model",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 175647,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-model/32.0.1/6cec8c011318f48fadf3aab30c1017b38deda4e1/lint-model-32.0.1.jar",
+        "sha1": "6cec8c011318f48fadf3aab30c1017b38deda4e1",
+        "sha256": "c8a3aefbeaa9e046afada13c657dc89f2873cdf60e2dfa3034ff9e616b6a7b4e",
+        "stat_identity": [
+          16777232,
+          60171967,
+          175647,
+          33188,
+          1,
+          1790930235913794538,
+          1790930235916373082
+        ]
+      },
+      "hashes": {
+        "sha1": "6cec8c011318f48fadf3aab30c1017b38deda4e1",
+        "sha256": "c8a3aefbeaa9e046afada13c657dc89f2873cdf60e2dfa3034ff9e616b6a7b4e"
+      },
+      "identity": [
+        16777232,
+        60562695,
+        175647,
+        33024,
+        1,
+        1790967967524726551,
+        1790968345516695671
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0037/body"
+    },
+    {
+      "bytes": 9554,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint-typedef-remover",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 9554,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint-typedef-remover/32.0.1/33f5d5dd14dd3c4525aa8dff70f7653f317136d1/lint-typedef-remover-32.0.1.jar",
+        "sha1": "33f5d5dd14dd3c4525aa8dff70f7653f317136d1",
+        "sha256": "0710eba41387b5d9fbdaaf061e52cb9a56e40cdda5a01db37d1497fee019aa78",
+        "stat_identity": [
+          16777232,
+          60172853,
+          9554,
+          33188,
+          1,
+          1790930250139822507,
+          1790930250141031821
+        ]
+      },
+      "hashes": {
+        "sha1": "33f5d5dd14dd3c4525aa8dff70f7653f317136d1",
+        "sha256": "0710eba41387b5d9fbdaaf061e52cb9a56e40cdda5a01db37d1497fee019aa78"
+      },
+      "identity": [
+        16777232,
+        60562711,
+        9554,
+        33024,
+        1,
+        1790967969044256813,
+        1790968345516714880
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0038/body"
+    },
+    {
+      "bytes": 1047475,
+      "coordinate": {
+        "group": "com.android.tools.lint",
+        "name": "lint",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.lint/lint/32.0.1/5ce18eb0f19475f7cae3bc6056cf9854f79b818d/lint-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "5ce18eb0f19475f7cae3bc6056cf9854f79b818d",
+        "sha256": "19aae336327a8c8d0be71221009b4da51a741db7a525b7c8d1d2f2578042fb9c"
+      },
+      "identity": [
+        16777232,
+        60562716,
+        1047475,
+        33024,
+        1,
+        1790967971157985878,
+        1790968345516770630
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0041/body"
+    },
+    {
+      "bytes": 186631,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "play-sdk-proto",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/play-sdk-proto/32.0.1/68d20e37b2ea7fd91d00efe494a4562cec8bc451/play-sdk-proto-32.0.1.jar"
+      },
+      "hashes": {
+        "sha1": "68d20e37b2ea7fd91d00efe494a4562cec8bc451",
+        "sha256": "c6fc15a5c203064cfd2c8a176fdeac72ae0a2d743ec47a2e66a0238d8d870b6b"
+      },
+      "identity": [
+        16777232,
+        60562719,
+        186631,
+        33024,
+        1,
+        1790967970376976148,
+        1790968345516789421
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0042/body"
+    },
+    {
+      "bytes": 267656,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "repository",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 267656,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/repository/32.0.1/3474db781889e615462157397b43c31fdc19ad24/repository-32.0.1.jar",
+        "sha1": "3474db781889e615462157397b43c31fdc19ad24",
+        "sha256": "a7a21557650dd695cb2f612ee3fafdba822d816dbe3418d0ed5aa90fc992b08a",
+        "stat_identity": [
+          16777232,
+          60172057,
+          267656,
+          33188,
+          1,
+          1790930235372578490,
+          1790930235375905815
+        ]
+      },
+      "hashes": {
+        "sha1": "3474db781889e615462157397b43c31fdc19ad24",
+        "sha256": "a7a21557650dd695cb2f612ee3fafdba822d816dbe3418d0ed5aa90fc992b08a"
+      },
+      "identity": [
+        16777232,
+        60562730,
+        267656,
+        33024,
+        1,
+        1790967971906202887,
+        1790968345516822505
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0044/body"
+    },
+    {
+      "bytes": 1780440,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "sdk-common",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 1780440,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdk-common/32.0.1/47b560b0f876ab9dcfbea37d5a748dd0689f2a01/sdk-common-32.0.1.jar",
+        "sha1": "47b560b0f876ab9dcfbea37d5a748dd0689f2a01",
+        "sha256": "87023b13be78618d08ce3615bd7b8c98af8c2eb5e1ad7912bc305e4f516c00a4",
+        "stat_identity": [
+          16777232,
+          60172051,
+          1780440,
+          33188,
+          1,
+          1790930234351370212,
+          1790930234363722315
+        ]
+      },
+      "hashes": {
+        "sha1": "47b560b0f876ab9dcfbea37d5a748dd0689f2a01",
+        "sha256": "87023b13be78618d08ce3615bd7b8c98af8c2eb5e1ad7912bc305e4f516c00a4"
+      },
+      "identity": [
+        16777232,
+        60562738,
+        1780440,
+        33024,
+        1,
+        1790967974278829346,
+        1790968345516875797
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0047/body"
+    },
+    {
+      "bytes": 1793320,
+      "coordinate": {
+        "group": "com.android.tools",
+        "name": "sdklib",
+        "version": "32.0.1"
+      },
+      "destination": {
+        "bytes": 1793320,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/sdklib/32.0.1/a6a0aebfb98af763756ab0967bb9061bb841dd88/sdklib-32.0.1.jar",
+        "sha1": "a6a0aebfb98af763756ab0967bb9061bb841dd88",
+        "sha256": "e0374dde0b08d80c92ce1fc223e661d2d165b83324babe4f3368b71f654f4cd6",
+        "stat_identity": [
+          16777232,
+          60172054,
+          1793320,
+          33188,
+          1,
+          1790930234940219450,
+          1790930234971324060
+        ]
+      },
+      "hashes": {
+        "sha1": "a6a0aebfb98af763756ab0967bb9061bb841dd88",
+        "sha256": "e0374dde0b08d80c92ce1fc223e661d2d165b83324babe4f3368b71f654f4cd6"
+      },
+      "identity": [
+        16777232,
+        60562742,
+        1793320,
+        33024,
+        1,
+        1790967974328670830,
+        1790968345516893005
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0048/body"
+    },
+    {
+      "bytes": 19936,
+      "coordinate": {
+        "group": "com.google.code.findbugs",
+        "name": "jsr305",
+        "version": "3.0.2"
+      },
+      "destination": {
+        "bytes": 19936,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar",
+        "sha1": "25ea2e8b0c338a877313bd4672d3fe056ea78f0d",
+        "sha256": "766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7",
+        "stat_identity": [
+          16777232,
+          60173425,
+          19936,
+          33188,
+          1,
+          1790930291322322996,
+          1790930291324448338
+        ]
+      },
+      "hashes": {
+        "sha1": "25ea2e8b0c338a877313bd4672d3fe056ea78f0d",
+        "sha256": "766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7"
+      },
+      "identity": [
+        16777232,
+        60562750,
+        19936,
+        33024,
+        1,
+        1790967974509367276,
+        1790968345516926005
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0050/body"
+    },
+    {
+      "bytes": 298435,
+      "coordinate": {
+        "group": "com.google.code.gson",
+        "name": "gson",
+        "version": "2.11.0"
+      },
+      "destination": {
+        "bytes": 298435,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.11.0/527175ca6d81050b53bdd4c457a6d6e017626b0e/gson-2.11.0.jar",
+        "sha1": "527175ca6d81050b53bdd4c457a6d6e017626b0e",
+        "sha256": "57928d6e5a6edeb2abd3770a8f95ba44dce45f3b23b7a9dc2b309c581552a78b",
+        "stat_identity": [
+          16777232,
+          60165605,
+          298435,
+          33188,
+          1,
+          1790929967355985158,
+          1790929967366412841
+        ]
+      },
+      "hashes": {
+        "sha1": "527175ca6d81050b53bdd4c457a6d6e017626b0e",
+        "sha256": "57928d6e5a6edeb2abd3770a8f95ba44dce45f3b23b7a9dc2b309c581552a78b"
+      },
+      "identity": [
+        16777232,
+        60562772,
+        298435,
+        33024,
+        1,
+        1790967975545029814,
+        1790968345517072506
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0058/body"
+    },
+    {
+      "bytes": 19370,
+      "coordinate": {
+        "group": "com.google.errorprone",
+        "name": "error_prone_annotations",
+        "version": "2.28.0"
+      },
+      "destination": {
+        "bytes": 19370,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.28.0/59fc00087ce372de42e394d2c789295dff2d19f0/error_prone_annotations-2.28.0.jar",
+        "sha1": "59fc00087ce372de42e394d2c789295dff2d19f0",
+        "sha256": "f3fc8a3a0a4020706a373b00e7f57c2512dd26d1f83d28c7d38768f8682b231e",
+        "stat_identity": [
+          16777232,
+          60173379,
+          19370,
+          33188,
+          1,
+          1790930288202891303,
+          1790930288203993619
+        ]
+      },
+      "hashes": {
+        "sha1": "59fc00087ce372de42e394d2c789295dff2d19f0",
+        "sha256": "f3fc8a3a0a4020706a373b00e7f57c2512dd26d1f83d28c7d38768f8682b231e"
+      },
+      "identity": [
+        16777232,
+        60562760,
+        19370,
+        33024,
+        1,
+        1790967974973014786,
+        1790968345516998214
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0054/body"
+    },
+    {
+      "bytes": 4740,
+      "coordinate": {
+        "group": "com.google.guava",
+        "name": "failureaccess",
+        "version": "1.0.2"
+      },
+      "destination": {
+        "bytes": 4740,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.2/c4a06a64e650562f30b7bf9aaec1bfed43aca12b/failureaccess-1.0.2.jar",
+        "sha1": "c4a06a64e650562f30b7bf9aaec1bfed43aca12b",
+        "sha256": "8a8f81cf9b359e3f6dfa691a1e776985c061ef2f223c9b2c80753e1b458e8064",
+        "stat_identity": [
+          16777232,
+          60173440,
+          4740,
+          33188,
+          1,
+          1790930292509219708,
+          1790930292509817908
+        ]
+      },
+      "hashes": {
+        "sha1": "c4a06a64e650562f30b7bf9aaec1bfed43aca12b",
+        "sha256": "8a8f81cf9b359e3f6dfa691a1e776985c061ef2f223c9b2c80753e1b458e8064"
+      },
+      "identity": [
+        16777232,
+        60562764,
+        4740,
+        33024,
+        1,
+        1790967975192367014,
+        1790968345517020422
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0055/body"
+    },
+    {
+      "bytes": 3079289,
+      "coordinate": {
+        "group": "com.google.guava",
+        "name": "guava",
+        "version": "33.3.1-jre"
+      },
+      "destination": {
+        "bytes": 3079289,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/guava/33.3.1-jre/852f8b363da0111e819460021ca693cacca3e8db/guava-33.3.1-jre.jar",
+        "sha1": "852f8b363da0111e819460021ca693cacca3e8db",
+        "sha256": "4bf0e2c5af8e4525c96e8fde17a4f7307f97f8478f11c4c8e35a0e3298ae4e90",
+        "stat_identity": [
+          16777232,
+          60173025,
+          3079289,
+          33188,
+          1,
+          1790930272526480548,
+          1790930272538515531
+        ]
+      },
+      "hashes": {
+        "sha1": "852f8b363da0111e819460021ca693cacca3e8db",
+        "sha256": "4bf0e2c5af8e4525c96e8fde17a4f7307f97f8478f11c4c8e35a0e3298ae4e90"
+      },
+      "identity": [
+        16777232,
+        60562783,
+        3079289,
+        33024,
+        1,
+        1790967977983419341,
+        1790968345517089631
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0059/body"
+    },
+    {
+      "bytes": 2199,
+      "coordinate": {
+        "group": "com.google.guava",
+        "name": "listenablefuture",
+        "version": "9999.0-empty-to-avoid-conflict-with-guava"
+      },
+      "destination": {
+        "bytes": 2199,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+        "sha1": "b421526c5f297295adef1c886e5246c39d4ac629",
+        "sha256": "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99",
+        "stat_identity": [
+          16777232,
+          60173444,
+          2199,
+          33188,
+          1,
+          1790930292928047745,
+          1790930292928550946
+        ]
+      },
+      "hashes": {
+        "sha1": "b421526c5f297295adef1c886e5246c39d4ac629",
+        "sha256": "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99"
+      },
+      "identity": [
+        16777232,
+        60562784,
+        2199,
+        33024,
+        1,
+        1790967975973547204,
+        1790968345517121006
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0061/body"
+    },
+    {
+      "bytes": 12467,
+      "coordinate": {
+        "group": "com.google.j2objc",
+        "name": "j2objc-annotations",
+        "version": "3.0.0"
+      },
+      "destination": {
+        "bytes": 12467,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/3.0.0/7399e65dd7e9ff3404f4535b2f017093bdb134c7/j2objc-annotations-3.0.0.jar",
+        "sha1": "7399e65dd7e9ff3404f4535b2f017093bdb134c7",
+        "sha256": "88241573467ddca44ffd4d74aa04c2bbfd11bf7c17e0c342c94c9de7a70a7c64",
+        "stat_identity": [
+          16777232,
+          60173429,
+          12467,
+          33188,
+          1,
+          1790930291455043182,
+          1790930291455650423
+        ]
+      },
+      "hashes": {
+        "sha1": "7399e65dd7e9ff3404f4535b2f017093bdb134c7",
+        "sha256": "88241573467ddca44ffd4d74aa04c2bbfd11bf7c17e0c342c94c9de7a70a7c64"
+      },
+      "identity": [
+        16777232,
+        60562789,
+        12467,
+        33024,
+        1,
+        1790967976433169464,
+        1790968345517136590
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0062/body"
+    },
+    {
+      "bytes": 206691,
+      "coordinate": {
+        "group": "com.google.jimfs",
+        "name": "jimfs",
+        "version": "1.1"
+      },
+      "destination": {
+        "bytes": 206691,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.jimfs/jimfs/1.1/8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c/jimfs-1.1.jar",
+        "sha1": "8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c",
+        "sha256": "c4828e28d7c0a930af9387510b3bada7daa5c04d7c25a75c7b8b081f1c257ddd",
+        "stat_identity": [
+          16777232,
+          60173019,
+          206691,
+          33188,
+          1,
+          1790930269336934548,
+          1790930269343327993
+        ]
+      },
+      "hashes": {
+        "sha1": "8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c",
+        "sha256": "c4828e28d7c0a930af9387510b3bada7daa5c04d7c25a75c7b8b081f1c257ddd"
+      },
+      "identity": [
+        16777232,
+        60562812,
+        206691,
+        33024,
+        1,
+        1790967979292841973,
+        1790968345517198257
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0066/body"
+    },
+    {
+      "bytes": 1875414,
+      "coordinate": {
+        "group": "com.google.protobuf",
+        "name": "protobuf-java",
+        "version": "3.25.5"
+      },
+      "destination": {
+        "bytes": 1875414,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.25.5/5ae5c9ec39930ae9b5a61b32b93288818ec05ec1/protobuf-java-3.25.5.jar",
+        "sha1": "5ae5c9ec39930ae9b5a61b32b93288818ec05ec1",
+        "sha256": "8540247fad9e06baefa8fb45eb313802d019f485f14300e0f9d6b556ed88e753",
+        "stat_identity": [
+          16777232,
+          60173012,
+          1875414,
+          33188,
+          1,
+          1790930285659301339,
+          1790930285666902265
+        ]
+      },
+      "hashes": {
+        "sha1": "5ae5c9ec39930ae9b5a61b32b93288818ec05ec1",
+        "sha256": "8540247fad9e06baefa8fb45eb313802d019f485f14300e0f9d6b556ed88e753"
+      },
+      "identity": [
+        16777232,
+        60562800,
+        1875414,
+        33024,
+        1,
+        1790967978152202120,
+        1790968345517183006
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0065/body"
+    },
+    {
+      "bytes": 27156,
+      "coordinate": {
+        "group": "com.sun.istack",
+        "name": "istack-commons-runtime",
+        "version": "3.0.8"
+      },
+      "destination": {
+        "bytes": 27156,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.sun.istack/istack-commons-runtime/3.0.8/d6a97364045aa6b99bf2d3c566a3f98599c2d296/istack-commons-runtime-3.0.8.jar",
+        "sha1": "d6a97364045aa6b99bf2d3c566a3f98599c2d296",
+        "sha256": "4ffabb06be454a05e4398e20c77fa2b6308d4b88dfbef7ca30a76b5b7d5505ef",
+        "stat_identity": [
+          16777232,
+          60173305,
+          27156,
+          33188,
+          1,
+          1790930286018598575,
+          1790930286019506436
+        ]
+      },
+      "hashes": {
+        "sha1": "d6a97364045aa6b99bf2d3c566a3f98599c2d296",
+        "sha256": "4ffabb06be454a05e4398e20c77fa2b6308d4b88dfbef7ca30a76b5b7d5505ef"
+      },
+      "identity": [
+        16777232,
+        60562815,
+        27156,
+        33024,
+        1,
+        1790967978997291316,
+        1790968345517243715
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0069/body"
+    },
+    {
+      "bytes": 317195,
+      "coordinate": {
+        "group": "com.sun.xml.fastinfoset",
+        "name": "FastInfoset",
+        "version": "1.2.16"
+      },
+      "destination": {
+        "bytes": 317195,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.sun.xml.fastinfoset/FastInfoset/1.2.16/4eb6a0adad553bf759ffe86927df6f3b848c8bea/FastInfoset-1.2.16.jar",
+        "sha1": "4eb6a0adad553bf759ffe86927df6f3b848c8bea",
+        "sha256": "056f3a1e144409f21ed16afc26805f58e9a21f3fce1543c42d400719d250c511",
+        "stat_identity": [
+          16777232,
+          60173308,
+          317195,
+          33188,
+          1,
+          1790930286230995381,
+          1790930286233201056
+        ]
+      },
+      "hashes": {
+        "sha1": "4eb6a0adad553bf759ffe86927df6f3b848c8bea",
+        "sha256": "056f3a1e144409f21ed16afc26805f58e9a21f3fce1543c42d400719d250c511"
+      },
+      "identity": [
+        16777232,
+        60562823,
+        317195,
+        33024,
+        1,
+        1790967979743265052,
+        1790968345517267049
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0070/body"
+    },
+    {
+      "bytes": 372687,
+      "coordinate": {
+        "group": "commons-codec",
+        "name": "commons-codec",
+        "version": "1.17.1"
+      },
+      "destination": {
+        "bytes": 372687,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/commons-codec/commons-codec/1.17.1/973638b7149d333563584137ebf13a691bb60579/commons-codec-1.17.1.jar",
+        "sha1": "973638b7149d333563584137ebf13a691bb60579",
+        "sha256": "f9f6cb103f2ddc3c99a9d80ada2ae7bf0685111fd6bffccb72033d1da4e6ff23",
+        "stat_identity": [
+          16777232,
+          60173447,
+          372687,
+          33188,
+          1,
+          1790930293595509578,
+          1790930293597279760
+        ]
+      },
+      "hashes": {
+        "sha1": "973638b7149d333563584137ebf13a691bb60579",
+        "sha256": "f9f6cb103f2ddc3c99a9d80ada2ae7bf0685111fd6bffccb72033d1da4e6ff23"
+      },
+      "identity": [
+        16777232,
+        60562836,
+        372687,
+        33024,
+        1,
+        1790967980110438671,
+        1790968345517335882
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0074/body"
+    },
+    {
+      "bytes": 508826,
+      "coordinate": {
+        "group": "commons-io",
+        "name": "commons-io",
+        "version": "2.16.1"
+      },
+      "destination": {
+        "bytes": 508826,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/commons-io/commons-io/2.16.1/377d592e740dc77124e0901291dbfaa6810a200e/commons-io-2.16.1.jar",
+        "sha1": "377d592e740dc77124e0901291dbfaa6810a200e",
+        "sha256": "f41f7baacd716896447ace9758621f62c1c6b0a91d89acee488da26fc477c84f",
+        "stat_identity": [
+          16777232,
+          60172914,
+          508826,
+          33188,
+          1,
+          1790930253586742752,
+          1790930253589054967
+        ]
+      },
+      "hashes": {
+        "sha1": "377d592e740dc77124e0901291dbfaa6810a200e",
+        "sha256": "f41f7baacd716896447ace9758621f62c1c6b0a91d89acee488da26fc477c84f"
+      },
+      "identity": [
+        16777232,
+        60562834,
+        508826,
+        33024,
+        1,
+        1790967980267104447,
+        1790968345517310590
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0073/body"
+    },
+    {
+      "bytes": 61829,
+      "coordinate": {
+        "group": "commons-logging",
+        "name": "commons-logging",
+        "version": "1.2"
+      },
+      "destination": {
+        "bytes": 61829,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar",
+        "sha1": "4bfc12adfe4842bf07b657f0369c4cb522955686",
+        "sha256": "daddea1ea0be0f56978ab3006b8ac92834afeefbd9b7e4e6316fca57df0fa636",
+        "stat_identity": [
+          16777232,
+          60173454,
+          61829,
+          33188,
+          1,
+          1790930294674188731,
+          1790930294676365156
+        ]
+      },
+      "hashes": {
+        "sha1": "4bfc12adfe4842bf07b657f0369c4cb522955686",
+        "sha256": "daddea1ea0be0f56978ab3006b8ac92834afeefbd9b7e4e6316fca57df0fa636"
+      },
+      "identity": [
+        16777232,
+        60562845,
+        61829,
+        33024,
+        1,
+        1790967980306798490,
+        1790968345517377507
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0076/body"
+    },
+    {
+      "bytes": 44399,
+      "coordinate": {
+        "group": "jakarta.activation",
+        "name": "jakarta.activation-api",
+        "version": "1.2.1"
+      },
+      "destination": {
+        "bytes": 44399,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/1.2.1/562a587face36ec7eff2db7f2fc95425c6602bc1/jakarta.activation-api-1.2.1.jar",
+        "sha1": "562a587face36ec7eff2db7f2fc95425c6602bc1",
+        "sha256": "8b0a0f52fa8b05c5431921a063ed866efaa41dadf2e3a7ee3e1961f2b0d9645b",
+        "stat_identity": [
+          16777232,
+          60173334,
+          44399,
+          33188,
+          1,
+          1790930288758570672,
+          1790930288759429117
+        ]
+      },
+      "hashes": {
+        "sha1": "562a587face36ec7eff2db7f2fc95425c6602bc1",
+        "sha256": "8b0a0f52fa8b05c5431921a063ed866efaa41dadf2e3a7ee3e1961f2b0d9645b"
+      },
+      "identity": [
+        16777232,
+        60562865,
+        44399,
+        33024,
+        1,
+        1790967981820828694,
+        1790968345517501508
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0081/body"
+    },
+    {
+      "bytes": 115498,
+      "coordinate": {
+        "group": "jakarta.xml.bind",
+        "name": "jakarta.xml.bind-api",
+        "version": "2.3.2"
+      },
+      "destination": {
+        "bytes": 115498,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/jakarta.xml.bind/jakarta.xml.bind-api/2.3.2/8d49996a4338670764d7ca4b85a1c4ccf7fe665d/jakarta.xml.bind-api-2.3.2.jar",
+        "sha1": "8d49996a4338670764d7ca4b85a1c4ccf7fe665d",
+        "sha256": "69156304079bdeed9fc0ae3b39389f19b3cc4ba4443bc80508995394ead742ea",
+        "stat_identity": [
+          16777232,
+          60173301,
+          115498,
+          33188,
+          1,
+          1790930285892398747,
+          1790930285893525646
+        ]
+      },
+      "hashes": {
+        "sha1": "8d49996a4338670764d7ca4b85a1c4ccf7fe665d",
+        "sha256": "69156304079bdeed9fc0ae3b39389f19b3cc4ba4443bc80508995394ead742ea"
+      },
+      "identity": [
+        16777232,
+        60562864,
+        115498,
+        33024,
+        1,
+        1790967982362306275,
+        1790968345517518091
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0082/body"
+    },
+    {
+      "bytes": 2497,
+      "coordinate": {
+        "group": "javax.inject",
+        "name": "javax.inject",
+        "version": "1"
+      },
+      "destination": {
+        "bytes": 2497,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar",
+        "sha1": "6975da39a7040257bd51d21a231b76c915872d38",
+        "sha256": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff",
+        "stat_identity": [
+          16777232,
+          60173036,
+          2497,
+          33188,
+          1,
+          1790930272801761480,
+          1790930272802213890
+        ]
+      },
+      "hashes": {
+        "sha1": "6975da39a7040257bd51d21a231b76c915872d38",
+        "sha256": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+      },
+      "identity": [
+        16777232,
+        60562855,
+        2497,
+        33024,
+        1,
+        1790967980861582420,
+        1790968345517476966
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0080/body"
+    },
+    {
+      "bytes": 2735878,
+      "coordinate": {
+        "group": "net.java.dev.jna",
+        "name": "jna-platform",
+        "version": "5.6.0"
+      },
+      "destination": {
+        "bytes": 2735878,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.6.0/d18424ffb8bbfd036d71bcaab9b546858f2ef986/jna-platform-5.6.0.jar",
+        "sha1": "d18424ffb8bbfd036d71bcaab9b546858f2ef986",
+        "sha256": "9ecea8bf2b1b39963939d18b70464eef60c508fed8820f9dcaba0c35518eabf7",
+        "stat_identity": [
+          16777232,
+          60173280,
+          2735878,
+          33188,
+          1,
+          1790930285278145395,
+          1790930285287598084
+        ]
+      },
+      "hashes": {
+        "sha1": "d18424ffb8bbfd036d71bcaab9b546858f2ef986",
+        "sha256": "9ecea8bf2b1b39963939d18b70464eef60c508fed8820f9dcaba0c35518eabf7"
+      },
+      "identity": [
+        16777232,
+        60562871,
+        2735878,
+        33024,
+        1,
+        1790967983279745359,
+        1790968345517557883
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0084/body"
+    },
+    {
+      "bytes": 1509440,
+      "coordinate": {
+        "group": "net.java.dev.jna",
+        "name": "jna",
+        "version": "5.6.0"
+      },
+      "destination": {
+        "bytes": 1509440,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.6.0/330f2244e9030119ab3030fc3fededc86713d9cc/jna-5.6.0.jar",
+        "sha1": "330f2244e9030119ab3030fc3fededc86713d9cc",
+        "sha256": "5557e235a8aa2f9766d5dc609d67948f2a8832c2d796cea9ef1d6cbe0b3b7eaf",
+        "stat_identity": [
+          16777232,
+          60173457,
+          1509440,
+          33188,
+          1,
+          1790930296179094933,
+          1790930296184109024
+        ]
+      },
+      "hashes": {
+        "sha1": "330f2244e9030119ab3030fc3fededc86713d9cc",
+        "sha256": "5557e235a8aa2f9766d5dc609d67948f2a8832c2d796cea9ef1d6cbe0b3b7eaf"
+      },
+      "identity": [
+        16777232,
+        60562885,
+        1509440,
+        33024,
+        1,
+        1790967986506116523,
+        1790968345517610800
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0087/body"
+    },
+    {
+      "bytes": 43858,
+      "coordinate": {
+        "group": "net.sf.kxml",
+        "name": "kxml2",
+        "version": "2.3.0"
+      },
+      "destination": {
+        "bytes": 43858,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar",
+        "sha1": "ccbc77a5fd907ef863c29f3596c6f54ffa4e9442",
+        "sha256": "f264dd9f79a1fde10ce5ecc53221eff24be4c9331c830b7d52f2f08a7b633de2",
+        "stat_identity": [
+          16777232,
+          60173039,
+          43858,
+          33188,
+          1,
+          1790930272945113838,
+          1790930272946063615
+        ]
+      },
+      "hashes": {
+        "sha1": "ccbc77a5fd907ef863c29f3596c6f54ffa4e9442",
+        "sha256": "f264dd9f79a1fde10ce5ecc53221eff24be4c9331c830b7d52f2f08a7b633de2"
+      },
+      "identity": [
+        16777232,
+        60562895,
+        43858,
+        33024,
+        1,
+        1790967984838347907,
+        1790968345517665426
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0090/body"
+    },
+    {
+      "bytes": 1087319,
+      "coordinate": {
+        "group": "org.apache.commons",
+        "name": "commons-compress",
+        "version": "1.27.1"
+      },
+      "destination": {
+        "bytes": 1087319,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.27.1/a19151084758e2fbb6b41eddaa88e7b8ff4e6599/commons-compress-1.27.1.jar",
+        "sha1": "a19151084758e2fbb6b41eddaa88e7b8ff4e6599",
+        "sha256": "293d80f54b536b74095dcd7ea3cf0a29bbfc3402519281332495f4420d370d16",
+        "stat_identity": [
+          16777232,
+          60172885,
+          1087319,
+          33188,
+          1,
+          1790930252655154900,
+          1790930252661284890
+        ]
+      },
+      "hashes": {
+        "sha1": "a19151084758e2fbb6b41eddaa88e7b8ff4e6599",
+        "sha256": "293d80f54b536b74095dcd7ea3cf0a29bbfc3402519281332495f4420d370d16"
+      },
+      "identity": [
+        16777232,
+        60562886,
+        1087319,
+        33024,
+        1,
+        1790967985380874541,
+        1790968345517647884
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0089/body"
+    },
+    {
+      "bytes": 674238,
+      "coordinate": {
+        "group": "org.apache.commons",
+        "name": "commons-lang3",
+        "version": "3.16.0"
+      },
+      "destination": {
+        "bytes": 674238,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.16.0/3eb54effe40946dfb06dc5cd6c7ce4116cd51ea4/commons-lang3-3.16.0.jar",
+        "sha1": "3eb54effe40946dfb06dc5cd6c7ce4116cd51ea4",
+        "sha256": "08709dd74d602b705ce4017d26544210056a4ba583d5b20c09373406fe7a00f8",
+        "stat_identity": [
+          16777232,
+          60173451,
+          674238,
+          33188,
+          1,
+          1790930294499808096,
+          1790930294503748077
+        ]
+      },
+      "hashes": {
+        "sha1": "3eb54effe40946dfb06dc5cd6c7ce4116cd51ea4",
+        "sha256": "08709dd74d602b705ce4017d26544210056a4ba583d5b20c09373406fe7a00f8"
+      },
+      "identity": [
+        16777232,
+        60562907,
+        674238,
+        33024,
+        1,
+        1790967987855876454,
+        1790968345517698759
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0092/body"
+    },
+    {
+      "bytes": 767140,
+      "coordinate": {
+        "group": "org.apache.httpcomponents",
+        "name": "httpclient",
+        "version": "4.5.6"
+      },
+      "destination": {
+        "bytes": 767140,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.6/1afe5621985efe90a92d0fbc9be86271efbe796f/httpclient-4.5.6.jar",
+        "sha1": "1afe5621985efe90a92d0fbc9be86271efbe796f",
+        "sha256": "c03f813195e7a80e3608d0ddd8da80b21696a4c92a6a2298865bf149071551c7",
+        "stat_identity": [
+          16777232,
+          60486600,
+          767140,
+          33188,
+          1,
+          1790953276057408971,
+          1790953276063237864
+        ]
+      },
+      "hashes": {
+        "sha1": "1afe5621985efe90a92d0fbc9be86271efbe796f",
+        "sha256": "c03f813195e7a80e3608d0ddd8da80b21696a4c92a6a2298865bf149071551c7"
+      },
+      "identity": [
+        16777232,
+        60562906,
+        767140,
+        33024,
+        1,
+        1790967986045340918,
+        1790968345517736426
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0094/body"
+    },
+    {
+      "bytes": 327891,
+      "coordinate": {
+        "group": "org.apache.httpcomponents",
+        "name": "httpcore",
+        "version": "4.4.16"
+      },
+      "destination": {
+        "bytes": 327891,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.16/51cf043c87253c9f58b539c9f7e44c8894223850/httpcore-4.4.16.jar",
+        "sha1": "51cf043c87253c9f58b539c9f7e44c8894223850",
+        "sha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f",
+        "stat_identity": [
+          16777232,
+          60173201,
+          327891,
+          33188,
+          1,
+          1790930282979693822,
+          1790930282983660387
+        ]
+      },
+      "hashes": {
+        "sha1": "51cf043c87253c9f58b539c9f7e44c8894223850",
+        "sha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f"
+      },
+      "identity": [
+        16777232,
+        60562917,
+        327891,
+        33024,
+        1,
+        1790967986925297232,
+        1790968345517791384
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0097/body"
+    },
+    {
+      "bytes": 41794,
+      "coordinate": {
+        "group": "org.apache.httpcomponents",
+        "name": "httpmime",
+        "version": "4.5.6"
+      },
+      "destination": {
+        "bytes": 41794,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.5.6/164343da11db817e81e24e0d9869527e069850c9/httpmime-4.5.6.jar",
+        "sha1": "164343da11db817e81e24e0d9869527e069850c9",
+        "sha256": "0b2b1102c18d3c7e05a77214b9b7501a6f6056174ae5604e0e256776eda7553e",
+        "stat_identity": [
+          16777232,
+          60172910,
+          41794,
+          33188,
+          1,
+          1790930253708181652,
+          1790930253709013306
+        ]
+      },
+      "hashes": {
+        "sha1": "164343da11db817e81e24e0d9869527e069850c9",
+        "sha256": "0b2b1102c18d3c7e05a77214b9b7501a6f6056174ae5604e0e256776eda7553e"
+      },
+      "identity": [
+        16777232,
+        60562927,
+        41794,
+        33024,
+        1,
+        1790967987250327823,
+        1790968345517842051
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0099/body"
+    },
+    {
+      "bytes": 1134345,
+      "coordinate": {
+        "group": "org.bouncycastle",
+        "name": "bcpkix-jdk18on",
+        "version": "1.79"
+      },
+      "destination": {
+        "bytes": 1134345,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk18on/1.79/7693cec3b8779b74b35466dcaeeaac7409872954/bcpkix-jdk18on-1.79.jar",
+        "sha1": "7693cec3b8779b74b35466dcaeeaac7409872954",
+        "sha256": "3639a24ddf9ba4b7eba0659b44770e91eba816421888e571f285aadefe532cd6",
+        "stat_identity": [
+          16777232,
+          60173042,
+          1134345,
+          33188,
+          1,
+          1790930274162772040,
+          1790930274168126333
+        ]
+      },
+      "hashes": {
+        "sha1": "7693cec3b8779b74b35466dcaeeaac7409872954",
+        "sha256": "3639a24ddf9ba4b7eba0659b44770e91eba816421888e571f285aadefe532cd6"
+      },
+      "identity": [
+        16777232,
+        60562931,
+        1134345,
+        33024,
+        1,
+        1790967989244109665,
+        1790968345517869593
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0100/body"
+    },
+    {
+      "bytes": 8575537,
+      "coordinate": {
+        "group": "org.bouncycastle",
+        "name": "bcprov-jdk18on",
+        "version": "1.79"
+      },
+      "destination": {
+        "bytes": 8575537,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk18on/1.79/4d8e2732bcee15f1db93df266c3f5b70ce5cac21/bcprov-jdk18on-1.79.jar",
+        "sha1": "4d8e2732bcee15f1db93df266c3f5b70ce5cac21",
+        "sha256": "0d81ecc3124536b539bce9aa3fe9621b7f84c9cee371b635a5b31c78b79ab1da",
+        "stat_identity": [
+          16777232,
+          60173050,
+          8575537,
+          33188,
+          1,
+          1790930282051100050,
+          1790930282114045091
+        ]
+      },
+      "hashes": {
+        "sha1": "4d8e2732bcee15f1db93df266c3f5b70ce5cac21",
+        "sha256": "0d81ecc3124536b539bce9aa3fe9621b7f84c9cee371b635a5b31c78b79ab1da"
+      },
+      "identity": [
+        16777232,
+        60562941,
+        8575537,
+        33024,
+        1,
+        1790967993664099157,
+        1790968345517973135
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0103/body"
+    },
+    {
+      "bytes": 705999,
+      "coordinate": {
+        "group": "org.bouncycastle",
+        "name": "bcutil-jdk18on",
+        "version": "1.79"
+      },
+      "destination": {
+        "bytes": 705999,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.bouncycastle/bcutil-jdk18on/1.79/ecfc5aef97cc7676ea0de5c53c407b9f533f0ad5/bcutil-jdk18on-1.79.jar",
+        "sha1": "ecfc5aef97cc7676ea0de5c53c407b9f533f0ad5",
+        "sha256": "c70b88ada58938cbc2f005d40329054078bcfa1149e6ffc03e9242eb6ab21836",
+        "stat_identity": [
+          16777232,
+          60173045,
+          705999,
+          33188,
+          1,
+          1790930275102239771,
+          1790930275106278585
+        ]
+      },
+      "hashes": {
+        "sha1": "ecfc5aef97cc7676ea0de5c53c407b9f533f0ad5",
+        "sha256": "c70b88ada58938cbc2f005d40329054078bcfa1149e6ffc03e9242eb6ab21836"
+      },
+      "identity": [
+        16777232,
+        60562942,
+        705999,
+        33024,
+        1,
+        1790967990293161636,
+        1790968345518005094
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0104/body"
+    },
+    {
+      "bytes": 231525,
+      "coordinate": {
+        "group": "org.checkerframework",
+        "name": "checker-qual",
+        "version": "3.43.0"
+      },
+      "destination": {
+        "bytes": 231525,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.43.0/9425eee39e56b116d2b998b7c2cebcbd11a3c98b/checker-qual-3.43.0.jar",
+        "sha1": "9425eee39e56b116d2b998b7c2cebcbd11a3c98b",
+        "sha256": "3fbc2e98f05854c3df16df9abaa955b91b15b3ecac33623208ed6424640ef0f6",
+        "stat_identity": [
+          16777232,
+          60173432,
+          231525,
+          33188,
+          1,
+          1790930292015731017,
+          1790930292017215828
+        ]
+      },
+      "hashes": {
+        "md5": "4f56e65c8f302ca8b4cb384c9b4a53b6",
+        "sha1": "9425eee39e56b116d2b998b7c2cebcbd11a3c98b",
+        "sha256": "3fbc2e98f05854c3df16df9abaa955b91b15b3ecac33623208ed6424640ef0f6",
+        "sha512": "823ea28e3c822ff48e4e985a421fa0b53ca3419e2c0635c3d4d0a9822399b6491780e26a9161d4733857c97987bff2d725ff4453b2c22ed412eef46ea27f5d84"
+      },
+      "identity": [
+        16777232,
+        60562949,
+        231525,
+        33024,
+        1,
+        1790967989518861853,
+        1790968345518072427
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0106/body"
+    },
+    {
+      "bytes": 8053888,
+      "coordinate": {
+        "group": "org.codehaus.groovy",
+        "name": "groovy",
+        "version": "3.0.22"
+      },
+      "destination": {
+        "bytes": 8053888,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/3.0.22/8403cbf38ed86f9fde3abbf0d2548642ddfebd00/groovy-3.0.22.jar",
+        "sha1": "8403cbf38ed86f9fde3abbf0d2548642ddfebd00",
+        "sha256": "c92c92c4b9b183f9981ba7399f36592e5e3ad6f4cdac7101b5a22cc17998d13f",
+        "stat_identity": [
+          16777232,
+          60486591,
+          8053888,
+          33188,
+          1,
+          1790953275297911762,
+          1790953275344258229
+        ]
+      },
+      "hashes": {
+        "sha1": "8403cbf38ed86f9fde3abbf0d2548642ddfebd00",
+        "sha256": "c92c92c4b9b183f9981ba7399f36592e5e3ad6f4cdac7101b5a22cc17998d13f"
+      },
+      "identity": [
+        16777232,
+        60562958,
+        8053888,
+        33024,
+        1,
+        1790967992878557588,
+        1790968345518190053
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0109/body"
+    },
+    {
+      "bytes": 1013367,
+      "coordinate": {
+        "group": "org.glassfish.jaxb",
+        "name": "jaxb-runtime",
+        "version": "2.3.2"
+      },
+      "destination": {
+        "bytes": 1013367,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar",
+        "sha1": "5528bc882ea499a09d720b42af11785c4fc6be2a",
+        "sha256": "e6e0a1e89fb6ff786279e6a0082d5cef52dc2ebe67053d041800737652b4fd1b",
+        "stat_identity": [
+          16777232,
+          60172937,
+          1013367,
+          33188,
+          1,
+          1790930261115542071,
+          1790930261140297444
+        ]
+      },
+      "hashes": {
+        "sha1": "5528bc882ea499a09d720b42af11785c4fc6be2a",
+        "sha256": "e6e0a1e89fb6ff786279e6a0082d5cef52dc2ebe67053d041800737652b4fd1b"
+      },
+      "identity": [
+        16777232,
+        60562963,
+        1013367,
+        33024,
+        1,
+        1790967990636394253,
+        1790968345518227095
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0110/body"
+    },
+    {
+      "bytes": 72080,
+      "coordinate": {
+        "group": "org.glassfish.jaxb",
+        "name": "txw2",
+        "version": "2.3.2"
+      },
+      "destination": {
+        "bytes": 72080,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.glassfish.jaxb/txw2/2.3.2/ce5be7da2e442c25ec14c766cb60cb802741727b/txw2-2.3.2.jar",
+        "sha1": "ce5be7da2e442c25ec14c766cb60cb802741727b",
+        "sha256": "4a6a9f483388d461b81aa9a28c685b8b74c0597993bf1884b04eddbca95f48fe",
+        "stat_identity": [
+          16777232,
+          60173302,
+          72080,
+          33188,
+          1,
+          1790930286747952798,
+          1790930286748839285
+        ]
+      },
+      "hashes": {
+        "sha1": "ce5be7da2e442c25ec14c766cb60cb802741727b",
+        "sha256": "4a6a9f483388d461b81aa9a28c685b8b74c0597993bf1884b04eddbca95f48fe"
+      },
+      "identity": [
+        16777232,
+        60562970,
+        72080,
+        33024,
+        1,
+        1790967991054720328,
+        1790968345518330178
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0113/body"
+    },
+    {
+      "bytes": 29371,
+      "coordinate": {
+        "group": "org.jetbrains",
+        "name": "annotations",
+        "version": "23.0.0"
+      },
+      "destination": {
+        "bytes": 29371,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains/annotations/23.0.0/8cc20c07506ec18e0834947b84a864bfc094484e/annotations-23.0.0.jar",
+        "sha1": "8cc20c07506ec18e0834947b84a864bfc094484e",
+        "sha256": "7b0f19724082cbfcbc66e5abea2b9bc92cf08a1ea11e191933ed43801eb3cd05",
+        "stat_identity": [
+          16777232,
+          60191638,
+          29371,
+          33188,
+          1,
+          1790930717608715951,
+          1790930717609941474
+        ]
+      },
+      "hashes": {
+        "sha1": "8cc20c07506ec18e0834947b84a864bfc094484e",
+        "sha256": "7b0f19724082cbfcbc66e5abea2b9bc92cf08a1ea11e191933ed43801eb3cd05"
+      },
+      "identity": [
+        16777232,
+        60562977,
+        29371,
+        33024,
+        1,
+        1790967991319057030,
+        1790968345518402554
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0115/body"
+    },
+    {
+      "bytes": 3298629,
+      "coordinate": {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-reflect",
+        "version": "2.2.10"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/2.2.10/98d0ca9819d98cb3aa5c0a25793830b6659feee2/kotlin-reflect-2.2.10.jar"
+      },
+      "hashes": {
+        "sha1": "98d0ca9819d98cb3aa5c0a25793830b6659feee2",
+        "sha256": "c48db4f8cd1bfd67f72d59255065fb41bfda43ca2942dac4d9deb897aa126ba4"
+      },
+      "identity": [
+        16777232,
+        60562988,
+        3298629,
+        33024,
+        1,
+        1790967996058933892,
+        1790968345518491846
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0117/body"
+    },
+    {
+      "bytes": 945,
+      "coordinate": {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk7",
+        "version": "2.2.10"
+      },
+      "destination": {
+        "bytes": 945,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/2.2.10/18cc96ae090a71726822631e1808c7d329faab5d/kotlin-stdlib-jdk7-2.2.10.jar",
+        "sha1": "18cc96ae090a71726822631e1808c7d329faab5d",
+        "sha256": "cf95eccc6cc784dff479dee0b8834f3584b93292cc5d91972e82f5d7b9e13e3b",
+        "stat_identity": [
+          16777232,
+          60172808,
+          945,
+          33188,
+          1,
+          1790930246789917284,
+          1790930246793237150
+        ]
+      },
+      "hashes": {
+        "sha1": "18cc96ae090a71726822631e1808c7d329faab5d",
+        "sha256": "cf95eccc6cc784dff479dee0b8834f3584b93292cc5d91972e82f5d7b9e13e3b"
+      },
+      "identity": [
+        16777232,
+        60562993,
+        945,
+        33024,
+        1,
+        1790967993307236938,
+        1790968345518532138
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0118/body"
+    },
+    {
+      "bytes": 951,
+      "coordinate": {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk8",
+        "version": "2.2.10"
+      },
+      "destination": {
+        "bytes": 951,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/2.2.10/80cc9a776a058eeda7053731350bc41af8858a5a/kotlin-stdlib-jdk8-2.2.10.jar",
+        "sha1": "80cc9a776a058eeda7053731350bc41af8858a5a",
+        "sha256": "8974bfdd08b1d81843fe8d11f0729ab6e5b3c1f88d671ebe0c006358129ce149",
+        "stat_identity": [
+          16777232,
+          60172676,
+          951,
+          33188,
+          1,
+          1790930242762524381,
+          1790930242764029566
+        ]
+      },
+      "hashes": {
+        "sha1": "80cc9a776a058eeda7053731350bc41af8858a5a",
+        "sha256": "8974bfdd08b1d81843fe8d11f0729ab6e5b3c1f88d671ebe0c006358129ce149"
+      },
+      "identity": [
+        16777232,
+        60563003,
+        951,
+        33024,
+        1,
+        1790967993776888471,
+        1790968345518643430
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0121/body"
+    },
+    {
+      "bytes": 1750374,
+      "coordinate": {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "2.2.10"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.10/30de6faa127a4a012db8e71bf1b9c0a99b1402b2/kotlin-stdlib-2.2.10.jar"
+      },
+      "hashes": {
+        "md5": "ab998b5a8873e563556557820409af83",
+        "sha1": "30de6faa127a4a012db8e71bf1b9c0a99b1402b2",
+        "sha256": "9c67cc79efd6b9215b49d2a4308f5f3433537376c7c88e89bdd6729bd096e61a",
+        "sha512": "4bfdea9c22f5d73691c74e602acc04d5c1552e38c09b7dbbd31909c0c557c7720106c6802678ba92563a72d3560fdea0f32fa5639d99bdf752ddd303c30c2fd5"
+      },
+      "identity": [
+        16777232,
+        60563028,
+        1750374,
+        33024,
+        1,
+        1790967997121012125,
+        1790968345519037473
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0127/body"
+    },
+    {
+      "bytes": 1463587,
+      "coordinate": {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.9.0"
+      },
+      "destination": {
+        "bytes": 1463587,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.9.0/9beade4c1c1569e4f36cbd2c37e02e3e41502601/kotlinx-coroutines-core-jvm-1.9.0.jar",
+        "sha1": "9beade4c1c1569e4f36cbd2c37e02e3e41502601",
+        "sha256": "ad89c2892235e670f222d819cb3d81188143cb19a05b59df9889ae4269f5c70a",
+        "stat_identity": [
+          16777232,
+          60172679,
+          1463587,
+          33188,
+          1,
+          1790930248146310081,
+          1790930248154982115
+        ]
+      },
+      "hashes": {
+        "md5": "7c086c3f6dbf92d46634a45f7727a3f6",
+        "sha1": "9beade4c1c1569e4f36cbd2c37e02e3e41502601",
+        "sha256": "ad89c2892235e670f222d819cb3d81188143cb19a05b59df9889ae4269f5c70a",
+        "sha512": "78c77268ec81ee580c9481ae35b667912e186e11576acc669ad4e8c17041506db5ba8adae439b50685a7cedf58755f0df7f2aa82ad1350e499431b13e6752a1a"
+      },
+      "identity": [
+        16777232,
+        60563013,
+        1463587,
+        33024,
+        1,
+        1790967994877132856,
+        1790968345518765139
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0124/body"
+    },
+    {
+      "bytes": 38099,
+      "coordinate": {
+        "group": "org.jvnet.staxex",
+        "name": "stax-ex",
+        "version": "1.8.1"
+      },
+      "destination": {
+        "bytes": 38099,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.jvnet.staxex/stax-ex/1.8.1/78011e483a21102fb4858f3e8f269a677e50aa23/stax-ex-1.8.1.jar",
+        "sha1": "78011e483a21102fb4858f3e8f269a677e50aa23",
+        "sha256": "20522549056e9e50aa35ef0b445a2e47a53d06be0b0a9467d704e2483ffb049a",
+        "stat_identity": [
+          16777232,
+          60173296,
+          38099,
+          33188,
+          1,
+          1790930285666430814,
+          1790930285668588906
+        ]
+      },
+      "hashes": {
+        "sha1": "78011e483a21102fb4858f3e8f269a677e50aa23",
+        "sha256": "20522549056e9e50aa35ef0b445a2e47a53d06be0b0a9467d704e2483ffb049a"
+      },
+      "identity": [
+        16777232,
+        60563014,
+        38099,
+        33024,
+        1,
+        1790967994433754059,
+        1790968345518930640
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0125/body"
+    },
+    {
+      "bytes": 35151,
+      "coordinate": {
+        "group": "org.ow2.asm",
+        "name": "asm-analysis",
+        "version": "9.8"
+      },
+      "destination": {
+        "bytes": 35151,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.8/b9747a320844b6cb1eacd90d8ecfd260a16c01d3/asm-analysis-9.8.jar",
+        "sha1": "b9747a320844b6cb1eacd90d8ecfd260a16c01d3",
+        "sha256": "e640732fbcd3c6271925a504f125e38384688f4dfbbf92c8622dfcee0d09edb9",
+        "stat_identity": [
+          16777232,
+          60172922,
+          35151,
+          33188,
+          1,
+          1790930254224375039,
+          1790930254225581604
+        ]
+      },
+      "hashes": {
+        "sha1": "b9747a320844b6cb1eacd90d8ecfd260a16c01d3",
+        "sha256": "e640732fbcd3c6271925a504f125e38384688f4dfbbf92c8622dfcee0d09edb9"
+      },
+      "identity": [
+        16777232,
+        60563054,
+        35151,
+        33024,
+        1,
+        1790967997322780793,
+        1790968345519323683
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0134/body"
+    },
+    {
+      "bytes": 73498,
+      "coordinate": {
+        "group": "org.ow2.asm",
+        "name": "asm-commons",
+        "version": "9.8"
+      },
+      "destination": {
+        "bytes": 73498,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.8/36e4d212970388e5bd2c5180292012502df461bb/asm-commons-9.8.jar",
+        "sha1": "36e4d212970388e5bd2c5180292012502df461bb",
+        "sha256": "3301a1c1cb4c59fcc5292648dac1d7c5aed4c0f067dfbe88873b8cdfe77404f4",
+        "stat_identity": [
+          16777232,
+          60172919,
+          73498,
+          33188,
+          1,
+          1790930253779590647,
+          1790930253780757338
+        ]
+      },
+      "hashes": {
+        "sha1": "36e4d212970388e5bd2c5180292012502df461bb",
+        "sha256": "3301a1c1cb4c59fcc5292648dac1d7c5aed4c0f067dfbe88873b8cdfe77404f4"
+      },
+      "identity": [
+        16777232,
+        60563029,
+        73498,
+        33024,
+        1,
+        1790967995285873038,
+        1790968345519100849
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0129/body"
+    },
+    {
+      "bytes": 51934,
+      "coordinate": {
+        "group": "org.ow2.asm",
+        "name": "asm-tree",
+        "version": "9.8"
+      },
+      "destination": {
+        "kind": "absent",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.8/018419ca5b77a2f81097c741e7872e6ab8d2f40d/asm-tree-9.8.jar"
+      },
+      "hashes": {
+        "sha1": "018419ca5b77a2f81097c741e7872e6ab8d2f40d",
+        "sha256": "14b7880cb7c85eed101e2710432fc3ffb83275532a6a894dc4c4095d49ad59f1"
+      },
+      "identity": [
+        16777232,
+        60563043,
+        51934,
+        33024,
+        1,
+        1790967996942544620,
+        1790968345519189891
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0131/body"
+    },
+    {
+      "bytes": 126113,
+      "coordinate": {
+        "group": "org.ow2.asm",
+        "name": "asm",
+        "version": "9.8"
+      },
+      "destination": {
+        "bytes": 126113,
+        "kind": "exact-existing",
+        "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm/9.8/dc19ecb3f7889b7860697215cae99c0f9b6f6b4b/asm-9.8.jar",
+        "sha1": "dc19ecb3f7889b7860697215cae99c0f9b6f6b4b",
+        "sha256": "876eab6a83daecad5ca67eb9fcabb063c97b5aeb8cf1fca7a989ecde17522051",
+        "stat_identity": [
+          16777232,
+          60172929,
+          126113,
+          33188,
+          1,
+          1790930257059435063,
+          1790930257060709502
+        ]
+      },
+      "hashes": {
+        "sha1": "dc19ecb3f7889b7860697215cae99c0f9b6f6b4b",
+        "sha256": "876eab6a83daecad5ca67eb9fcabb063c97b5aeb8cf1fca7a989ecde17522051"
+      },
+      "identity": [
+        16777232,
+        60563045,
+        126113,
+        33024,
+        1,
+        1790967996917123602,
+        1790968345519263599
+      ],
+      "source": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/requests/0133/body"
+    }
+  ],
+  "status": "PASS_ALL67_BEFORE_ANY_CACHE_WRITE",
+  "total_bytes": 157111917
+}

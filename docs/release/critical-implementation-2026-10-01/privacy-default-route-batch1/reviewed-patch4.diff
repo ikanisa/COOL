@@ -1,0 +1,22 @@
+--- attempt4/lib/app/router.dart
++++ attempt5/lib/app/router.dart
+@@ -88,16 +88,16 @@
+   // owner's route invalid until navigation actually leaves the privacy URI;
+   // an intermediate redirect evaluation must not grant that URI to a new user.
+   void releasePrivacyRoute() {
+-    if (router.routeInformationProvider.value.uri.path !=
++    if (router.routerDelegate.currentConfiguration.uri.path !=
+         '/settings/account/delete') {
+       privacyRouteOwner = null;
+       privacyRouteInvalidated = false;
+     }
+   }
+ 
+-  router.routeInformationProvider.addListener(releasePrivacyRoute);
++  router.routerDelegate.addListener(releasePrivacyRoute);
+   ref.onDispose(
+-    () => router.routeInformationProvider.removeListener(releasePrivacyRoute),
++    () => router.routerDelegate.removeListener(releasePrivacyRoute),
+   );
+   return router;
+ });

@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "scope": "Byte-identical reviewed interface previews; design and release acceptance remain open.",
+  "native_capture_passed": false,
+  "runtime_sha256": "e5dbe2383ddeb6388859caeeec928e356b162ae4ddc17d623722c311e0fedf58",
+  "published": {
+    "account-deletion-337d4042cdfe.png": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+    "group-detail-5b3e6f6b695c.png": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "groups-a31269baf19b.png": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+    "home-368da90e69cc.png": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+    "privacy-57252d6e00f7.png": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+    "security-cee237570184.png": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+    "terms-71f5644e1234.png": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+  },
+  "old_media_preserved": {
+    "account-deletion-337d4042cdfe.png": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+    "group-detail-5b3e6f6b695c.png": "5b3e6f6b695cbe497a2d9b8f72760e7937d0ef7c30a101cf1340020c9f35e698",
+    "groups-a31269baf19b.png": "a31269baf19b25bfc95159fed1528bf59abab098a9966b36e586f534eeb0c3bb",
+    "home-368da90e69cc.png": "368da90e69cc945a6ecb7457d511aeb9238404f96b7d616f2060d7d4d9c09a22",
+    "privacy-57252d6e00f7.png": "57252d6e00f7b160ada8a9c766238acffab16a934722911739794b17ad3067fb",
+    "security-cee237570184.png": "cee237570184b3b7114417975866f7b3fa71e1f8cbc090a018334e3f47017e6f",
+    "terms-71f5644e1234.png": "71f5644e123451daf5d5b61c651eef8004aed58b6e19bf543a2f9f695562a752"
+  }
+}

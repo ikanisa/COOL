@@ -26,10 +26,14 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--dart', required=True)
     p.add_argument('--output', required=True)
+    p.add_argument('--timeout', type=int, default=120)
     args = p.parse_args()
+    if not 1 <= args.timeout <= 300:
+        p.error('--timeout must be within 1..300 seconds')
     output = pathlib.Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     before = snapshot()
+    (output / 'source-before.json').write_text(json.dumps(before, indent=2) + '\n')
     original = ROOT / '.dart_tool/package_config.json'
     config = json.loads(original.read_text())
     for package in config['packages']:
@@ -48,11 +52,33 @@ def main():
     package_config = output / 'package_config.json'
     package_config.write_text(json.dumps(config, indent=2) + '\n')
     argv = [str(pathlib.Path(args.dart).resolve(strict=True)), f'--packages={package_config}', str(ROOT / 'scripts/tests/admin_ast_inventory.dart'), str(ROOT)]
-    run = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True, timeout=40)
+    try:
+        run = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True, timeout=args.timeout)
+    except subprocess.TimeoutExpired as error:
+        def decoded(value):
+            return value.decode(errors='replace') if isinstance(value, bytes) else value or ''
+        (output / 'stdout').write_text(decoded(error.stdout))
+        (output / 'stderr').write_text(decoded(error.stderr))
+        after = snapshot()
+        (output / 'source-after.json').write_text(json.dumps(after, indent=2) + '\n')
+        (output / 'validation.json').write_text(json.dumps({
+            'status': 'fail', 'reason': 'parser_process_timeout', 'argv': argv,
+            'timeout_seconds': args.timeout, 'source_unchanged': before == after,
+            'source_count': len(before), 'semantic_reachability_verified': False,
+            'inventory_produced': False, 'database_called': False, 'provider_called': False,
+        }, indent=2) + '\n')
+        return 1
     (output / 'stdout').write_text(run.stdout)
     (output / 'stderr').write_text(run.stderr)
     if run.returncode:
-        raise RuntimeError(f'AST parser failed; see {output}/stderr')
+        after = snapshot()
+        (output / 'source-after.json').write_text(json.dumps(after, indent=2) + '\n')
+        (output / 'validation.json').write_text(json.dumps({
+            'status': 'fail', 'reason': 'parser_process_failure', 'argv': argv,
+            'exit_code': run.returncode, 'source_unchanged': before == after,
+            'inventory_produced': False, 'semantic_reachability_verified': False,
+        }, indent=2) + '\n')
+        return 1
     data = json.loads(run.stdout)
     after = snapshot()
     (output / 'source-before.json').write_text(json.dumps(before, indent=2) + '\n')

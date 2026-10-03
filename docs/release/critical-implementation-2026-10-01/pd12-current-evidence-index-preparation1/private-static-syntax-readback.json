@@ -1,0 +1,751 @@
+{
+  "PD12_closed": false,
+  "all_document_fences_consistent": true,
+  "all_static_values_consistent": true,
+  "at_utc": "2026-10-02T13:40:12.748666+00:00",
+  "document_fences_static_read": [
+    {
+      "bytes_match": true,
+      "id": "acceptance-summary",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/captured-acceptance-status.before-proposal.json",
+      "sha256": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/execution-packet-files.json",
+      "sha256": "db514609ad4f2dfd434a822bfb279ab64875a52748366803680303d6e3e9de6e"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-before",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/app-before.json",
+      "sha256": "d6a9390b2fcc46d11bb7b9a9ee133bf9fc7f0258d5dabc0fffb3d751f2d8358a"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-binding",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/export-source-binding.json",
+      "sha256": "0bad50e24b58427074045c8db05dd1e0536bccf34fccf35d4939f5ff1610070c"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-failed3",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance3/terminal.json",
+      "sha256": "63d393334a427063cd7029213d41d3f678597e5ef278a7b35782e6a446cb6436"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-plan",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/plan.json",
+      "sha256": "9de964cb75f0f03a1cee7e56be4d4fb56e12e4fbdd61319c60b876ab2178afc5"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-root-acceptance",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/root-acceptance.json",
+      "sha256": "e2a72e7ecddc88730b4d999b60d0ef7cb21eba28a264d082497c279c51c0a530"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-scope",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-native-warm-export8-readback1/actual-app-source.json",
+      "sha256": "100af8cd1aa6cafbe61bf5975c509a0deb8bdf7e8f4b6d92d24c13d5a7ff99f5"
+    },
+    {
+      "bytes_match": true,
+      "id": "app-terminal",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc02-current-candidate-acceptance5/terminal.json",
+      "sha256": "22d37a5f52394e344c9c14615274cb6158a5096af0efee0ef88438c9d6c49e0c"
+    },
+    {
+      "bytes_match": true,
+      "id": "backend-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/SHA256SUMS",
+      "sha256": "d794eda0e1fb64cd86c623f7b307e8b2b03b90df79490a56ef20247c4959bd12"
+    },
+    {
+      "bytes_match": true,
+      "id": "backend-composition",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-backend-ci-composition-readback1/readback.json",
+      "sha256": "21322d5485736c5e811f7fdec5c42092419043216b7573eac30c693c3df94b8f"
+    },
+    {
+      "bytes_match": true,
+      "id": "backend-result",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-successor-source156-validation1/result.json",
+      "sha256": "dee5c13743d8461ff73850b295c3bd11e5e75ecc8fa70cee2e0bf8809c2be0c5"
+    },
+    {
+      "bytes_match": true,
+      "id": "current-projection",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/current-relevant-source-projection.json",
+      "sha256": "9daf2436a2c00b23e559022d45243ef6928a287b3a062c1cd7d06b0bacdf49c6"
+    },
+    {
+      "bytes_match": true,
+      "id": "font-copy-historical",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/revolut-design/verification/public-content-font-adapter-review.json",
+      "sha256": "b10b2ec1522ffebd3af45d0f857550e9423bb094a2005d92e0ee767e68493c9e"
+    },
+    {
+      "bytes_match": true,
+      "id": "get-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/public-legal-live-readback1/packet-files.json",
+      "sha256": "a128caf2269b6dc406901be7c46ab09ae6207b03d8ae9766c7fa2ad0112b416c"
+    },
+    {
+      "bytes_match": true,
+      "id": "get-independent",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-public-provider-readback-review1/review.json",
+      "sha256": "979ea63845c66fec849418f2bc2f47db0bd5a919e34909ce663559ff833a734f"
+    },
+    {
+      "bytes_match": true,
+      "id": "native-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/packet-files.json",
+      "sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e"
+    },
+    {
+      "bytes_match": true,
+      "id": "native-readback",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    {
+      "bytes_match": true,
+      "id": "native-sdk-physical-captured",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/SDK-source-after-built.json",
+      "sha256": "9c4f3af4328812907e8bddbf995b941407a5a2bed349145b50855538c6038052"
+    },
+    {
+      "bytes_match": true,
+      "id": "osv-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/packet-files.json",
+      "sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247"
+    },
+    {
+      "bytes_match": true,
+      "id": "osv-independent",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-selected-advisory-readback1/readback.json",
+      "sha256": "192fc17d75616c4ae63b56e7030dff1950031de8c80bdfca90c00c9c2b2b4f00"
+    },
+    {
+      "bytes_match": true,
+      "id": "osv-results",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-selected-runtime-advisory1/query-results.json",
+      "sha256": "0c07342e37d9b7b6d01a093b6f48dc0a6c2874b12f4a954e070d6420fa31854a"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/evidence-files.json",
+      "sha256": "7978afc42ba2eaa1990d779a49efb66bdf1a6fb33c5b2fe5a916ed898b6e60fb"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-batch",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/batch.json",
+      "sha256": "b1fe2972c3a0bd63c41d4cdbefede83a1643d47fff6cdcbb39865b18bd786f95"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-final",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/final-readback.json",
+      "sha256": "7dd2ca7b6079669392a5ba01c4a67b569ac8f0212074750fe85f08865cad5685"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-independent",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/independent-packet-readback.json",
+      "sha256": "a65885dcef11f3fd60c81877da52a8ca4c7da8f3d926f5e4663842f9b9c5e923"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-static-execution",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/static-build-execution.json",
+      "sha256": "826c9d0b623bbc115765094752e9b79c1b28846f34f78f30d25bf7171714e20e"
+    },
+    {
+      "bytes_match": true,
+      "id": "public-visual-scoped",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-public4-arc10-integration-batch1/public-share-original-visual-review.json",
+      "sha256": "ba38551102de7a34b9b8c7359c3f6a10dc0f94a87929d0a6b13bf5fc8aa7bb97"
+    },
+    {
+      "bytes_match": true,
+      "id": "report",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-review-2026-10-01/product-design.md",
+      "sha256": "dd57786c230fb43501c5dfba66644f8d809ce1b46640f037a87ef698dd75c3f3"
+    },
+    {
+      "bytes_match": true,
+      "id": "runtime-graph",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/production-runtime-graph.json",
+      "sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056"
+    },
+    {
+      "bytes_match": true,
+      "id": "runtime-readback",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback1/readback.json",
+      "sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+    },
+    {
+      "bytes_match": true,
+      "id": "sql-artifacts",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/packet-files.json",
+      "sha256": "3ca42ee701ad57dc4ebc328153f4ebd8f81910117261a14d8149187e4ebee34d"
+    },
+    {
+      "bytes_match": true,
+      "id": "sql-inputs",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/execution-inputs.json",
+      "sha256": "3c4f5a2c8e447b05faaa11ec1827e6ca3fd2abe53756de0322be8d6d563df8c6"
+    },
+    {
+      "bytes_match": true,
+      "id": "sql-verification",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-sql-ci-readback1/verification.json",
+      "sha256": "cbd1d03efb0ef0c3ee303ef77a8a446baddaecaeaf961ccf3d424963137a2530"
+    },
+    {
+      "bytes_match": true,
+      "id": "typography-css",
+      "matches_current_bytes_at_private_read": true,
+      "path": "web/public/revolut.css",
+      "sha256": "95a7d270cde43ca8e052505cb7dece257c13319959b96a356245c9922eb3e0b7"
+    },
+    {
+      "bytes_match": true,
+      "id": "typography-dart",
+      "matches_current_bytes_at_private_read": true,
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "sha256": "2d003652341f895b5f9cdd1f7fbe3e118dab1db57c9c5579423bf19dee2841f5"
+    },
+    {
+      "bytes_match": true,
+      "id": "typography-declaration",
+      "matches_current_bytes_at_private_read": true,
+      "path": "pubspec.yaml",
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+    },
+    {
+      "bytes_match": true,
+      "id": "typography-source-fences",
+      "matches_current_bytes_at_private_read": true,
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-preparation1/typography-current-source-fences.json",
+      "sha256": "cf5c6a9c8231c06762740f53c18eaec550483320c3e02ad3a684d7b58454c290"
+    }
+  ],
+  "filesystem_binding_consumer_run": false,
+  "index_JSON_parse": "pass",
+  "maintained_write": false,
+  "manifest_shape_counts": [
+    {
+      "declared_count": 2561,
+      "id": "app-authored2561",
+      "matches": true,
+      "retained_manifest_count": 2561
+    },
+    {
+      "declared_count": 41,
+      "id": "app-execution41leaves",
+      "matches": true,
+      "retained_manifest_count": 41
+    },
+    {
+      "declared_count": 3337,
+      "id": "app-external-library3337",
+      "matches": true,
+      "retained_manifest_count": 3337
+    },
+    {
+      "declared_count": 156,
+      "id": "backend156-composition",
+      "matches": true,
+      "retained_manifest_count": 156
+    },
+    {
+      "declared_count": 559,
+      "id": "backend559leaves",
+      "matches": true,
+      "retained_manifest_count": 559
+    },
+    {
+      "declared_count": 2556,
+      "id": "current-known-captured2556",
+      "matches": true,
+      "retained_manifest_count": 2556
+    },
+    {
+      "declared_count": 40,
+      "id": "liveGET40leaves",
+      "matches": true,
+      "retained_manifest_count": 40
+    },
+    {
+      "declared_count": 46,
+      "id": "native46leaves",
+      "matches": true,
+      "retained_manifest_count": 46
+    },
+    {
+      "declared_count": 3,
+      "id": "public3-static-toolchain",
+      "matches": true,
+      "retained_manifest_count": 3
+    },
+    {
+      "declared_count": 344,
+      "id": "public344media-source",
+      "matches": true,
+      "retained_manifest_count": 344
+    },
+    {
+      "declared_count": 4,
+      "id": "public4-private-resolution",
+      "matches": true,
+      "retained_manifest_count": 4
+    },
+    {
+      "declared_count": 4,
+      "id": "public4-reviewed-production-leaves",
+      "matches": true,
+      "retained_manifest_count": 4
+    },
+    {
+      "declared_count": 55,
+      "id": "public55-static-artifacts",
+      "matches": true,
+      "retained_manifest_count": 55
+    },
+    {
+      "declared_count": 66,
+      "id": "public66-static-inputs",
+      "matches": true,
+      "retained_manifest_count": 66
+    },
+    {
+      "declared_count": 704,
+      "id": "public704-evidence-leaves",
+      "matches": true,
+      "retained_manifest_count": 704
+    },
+    {
+      "declared_count": 51,
+      "id": "selectedOSV51payloads",
+      "matches": true,
+      "retained_manifest_count": 51
+    },
+    {
+      "declared_count": 5,
+      "id": "separate-named-tooling5",
+      "matches": true,
+      "retained_manifest_count": 5
+    },
+    {
+      "declared_count": 219,
+      "id": "sql219inputs",
+      "matches": true,
+      "retained_manifest_count": 219
+    },
+    {
+      "declared_count": 669,
+      "id": "sql669leaves",
+      "matches": true,
+      "retained_manifest_count": 669
+    },
+    {
+      "declared_count": 7,
+      "id": "typography-leaves",
+      "matches": true,
+      "retained_manifest_count": 7
+    }
+  ],
+  "pinned_fact_values": [
+    {
+      "id": "original-PD12-criterion",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-current-pass",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-source-count",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "affected-suites41",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-successful-unskipped1114",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-zero-failed-skipped",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-independent-scope-acceptance",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "failed-attempts-retained",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "app-historical-failed3",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native12-tests",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-zero-failures",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-zero-errors",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-zero-skips",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native20-classes",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-actual-copied-readback",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-readback-had-no-package",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "native-readback-no-packaged-SBOM",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SDK-retained-source-count",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "backend-actual-pass",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "backend156",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "backend-unit668",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "backend-HTTP109",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "backend155-unchanged",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "CIcomposition-only-new-job",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "dated-CIcomposition-SQL-pending-retained",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL-local-pass",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL-original37",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL-cases-not-expanded",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL209-set",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL219-source-binding",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL418-applications",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "SQL-remote-CI-unrun",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public4-fresh-capture",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public4-originals-unaltered",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public55-files",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public-independent344",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public-quality55",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public-browser104",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public-whole-candidate-unaccepted",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "public-oldbatch3-superseded",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "GET-provider-binding-unverified",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "GET-current-artifact-unpublished",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "GET-three404",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "GET-request-outcome-unverified",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime-graph-exit0",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime41seconds-retained",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime173components",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime995edges",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime141hashrecords",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "runtime-whole-monitor-failure-preserved",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "dated-runtime-capture-AAB-unbuilt",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-exact-graph-bound",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV157exact",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV157empty",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV16-unqueryable",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-HTTP200",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-TLSverified",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-not-packageSBOM",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-not-security-approval",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "OSV-not-licence-approval",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "summary-Aeonik",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "summary-native-Inter",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "summary-rights-unverified",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "summary-visual-unverified",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "current-dart-Inter",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "current-dart-Aeonik",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "current-css-Aeonik",
+      "pinned_document_value_matches_proposed_fact": true
+    },
+    {
+      "id": "current-pubspec-Aeonik-face",
+      "pinned_document_value_matches_proposed_fact": true
+    }
+  ],
+  "python_AST": [
+    {
+      "AST_parse": "pass",
+      "executable_code_or_test_run": false,
+      "path": "collect_current_evidence_index.py.proposed",
+      "sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1",
+      "test_methods": 0
+    },
+    {
+      "AST_parse": "pass",
+      "executable_code_or_test_run": false,
+      "path": "collect_current_evidence_index_test.py.proposed",
+      "sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6",
+      "test_methods": 14
+    }
+  ],
+  "result_pointer_values": [
+    {
+      "id": "app-failed3",
+      "retained_value_matches": true
+    },
+    {
+      "id": "app2561-current1114-41",
+      "retained_value_matches": true
+    },
+    {
+      "id": "native12-20",
+      "retained_value_matches": true
+    },
+    {
+      "id": "backend-CI-pending-dated",
+      "retained_value_matches": true
+    },
+    {
+      "id": "backend156",
+      "retained_value_matches": true
+    },
+    {
+      "id": "SQL219-209-37",
+      "retained_value_matches": true
+    },
+    {
+      "id": "public-font-copy15-historical",
+      "retained_value_matches": true
+    },
+    {
+      "id": "public-summary-stale-media-dated",
+      "retained_value_matches": true
+    },
+    {
+      "id": "public4-local",
+      "retained_value_matches": true
+    },
+    {
+      "id": "public-GET-dated",
+      "retained_value_matches": true
+    },
+    {
+      "id": "selected-runtime-graph",
+      "retained_value_matches": true
+    },
+    {
+      "id": "selected-runtime-OSV157",
+      "retained_value_matches": true
+    },
+    {
+      "id": "typography-current-declarations",
+      "retained_value_matches": true
+    },
+    {
+      "id": "current-relevant-known-inputs",
+      "retained_value_matches": true
+    }
+  ],
+  "role": "Private AST/JSON/pinned-document static read only; not verifier execution, tests or acceptance.",
+  "schema_JSON_parse": "pass",
+  "schema_scope": "JSON syntax and structural review only; external JSON-schema engine not run.",
+  "tests_run": false
+}

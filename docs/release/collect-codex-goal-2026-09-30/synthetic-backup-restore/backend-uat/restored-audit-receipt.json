@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "action": "receipt.cancel_unstarted",
+      "source": "receipt_cancellation",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+      "revision": 2,
+      "request_id": "aa88004b-c989-4d42-bea1-77505c20c872",
+      "reason_code": "operator_cancelled",
+      "recorded_at": "2026-10-01T01:10:34.698888Z",
+      "fence_version": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "7d77592a-b618-4adf-8702-9a00e8837145",
+  "checked_at": "2026-10-01T01:11:09.060432Z",
+  "entity_kind": "receipt",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T01:12:09.060432Z",
+  "historical_shadow_audit_backfilled": false
+}

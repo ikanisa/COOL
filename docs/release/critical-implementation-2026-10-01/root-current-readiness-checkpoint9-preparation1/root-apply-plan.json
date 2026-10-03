@@ -1,0 +1,46 @@
+{
+  "kind": "root_owned_guarded_checkpoint9_apply_plan",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation1/integrate_checkpoint9.py",
+    "--controller-sha256",
+    "5a300638a250952f3114cf5b78ba788cfbd451f535eaf00a8044c69accd51aff",
+    "--admission-sha256",
+    "81ab05146e1d7058e78ec3fb340af5b0b0ef110b8aaf57400ff6d222f8897b1b",
+    "--apply",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-integration9"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_outer_bound_seconds": 60,
+  "only_written_canonical_paths": [
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md",
+    "docs/release/critical-implementation-2026-10-01/CURRENT_OPEN_FINDINGS_2026-10-02.md",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md",
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json",
+    "docs/release/local-implementation-register-2026-09-30.json",
+    "docs/release/production-remaining-tasks-2026-09-30.json"
+  ],
+  "exact_root_output_fresh_required": true,
+  "private_proposal_canonical_apply_executed": false,
+  "source_epoch": "0843bf6a287e35284487a2f44f33f2740191809d18f2982a8eab2eb3e3796ada",
+  "APP_epoch": "46a85b4c758bee9613fed36fa7b18ea376ef24d5d3d4a94b9eeec1b251efdb11",
+  "production_release_approval": false,
+  "goal_status": "active",
+  "closed": 7,
+  "open": 33,
+  "no_new_acceptance_gates_or_finding_contracts": true,
+  "review": "Review canonical.diff and proposed seven files. Root command verifies exact original hashes/modes,26 evidence references,11 affected live inputs and all preservation/count invariants before any write; preserves root before copies; repeats validation; writes only seven files under root ownership; verifies bytes/modes after; records attempted/complete paths and actual hashes if partial failure. Drift refuses and requires source-appropriate proposal rebinding.",
+  "checks_reused": "Mapper69, PD12reader18, ARC03 inventories/probes and historical tracker58/artifact36/probe7 remain their existing scoped evidence; no duplicate suite/build call.",
+  "actual_private_verification": {
+    "path": "verification-command.json",
+    "sha256": "f0a10b139e3b9ddabceb0bc5073e5529b2464cd81b29723d199f1b6f72dfdee7",
+    "exit_code": 0,
+    "seconds": 0.04244829200615641,
+    "writes": false
+  },
+  "full_AAB_admission_is_only_prepared": "Exact admission edeafcf3\u2026 assembled actual0.070737959s; no AAB execution occurred in that receipt. No claim that AAB10 has started or completed."
+}

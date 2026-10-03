@@ -1,0 +1,2207 @@
+{
+  "observed_at_utc": "2026-10-01T22:36:27.844693+00:00",
+  "tables_indexed": [
+    "raw_payment_sms",
+    "raw_payment_evidence",
+    "parsed_payment_events",
+    "mobile_account_deletion_requests",
+    "mobile_support_requests",
+    "roster_import_sources",
+    "roster_import_extractions",
+    "roster_import_revisions",
+    "roster_import_results",
+    "roster_import_commits",
+    "roster_import_recovery_intents",
+    "roster_import_editor_drafts",
+    "roster_recovery_transfers",
+    "roster_resource_reservations",
+    "roster_resource_completions",
+    "roster_source_verifications",
+    "sms_notification_outbox",
+    "sms_notification_claim_requests",
+    "sms_notification_confirmations",
+    "sms_notification_attempts",
+    "assisted_sms_session_evidence",
+    "momo_journal_entries",
+    "momo_journal_lines",
+    "momo_balance_snapshots",
+    "collect_gateway.devices",
+    "collect_gateway.requests",
+    "collect_gateway_dispatch.requests",
+    "collect_gateway_dispatch.attempts",
+    "collect_gateway_dispatch.arms",
+    "collect_gateway_dispatch.callbacks",
+    "collect_gateway_archive.requests",
+    "collect_gateway_archive.acknowledgements",
+    "collect_ops.exception_workflows",
+    "collect_ops.exception_escalations",
+    "collect_ops.exception_inbox_deliveries",
+    "collect_ops.exception_inbox_reads"
+  ],
+  "latest_textual_candidates_with_dependencies": [
+    {
+      "function": "public.post_payment_from_event",
+      "source": "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+      "line": 18,
+      "source_sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e898629ca637e72f4ec82665b39c656916ce6c18a1854390b3786251fbb1ea19",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.allocate_parsed_payment_event",
+      "source": "supabase/migrations/20260928171000_strict_intent_sms_match.sql",
+      "line": 165,
+      "source_sha256": "76881df09407ac72dbddd8c4c61bec9748c385df7ca7bae72656b4fa75fd55d0",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "14afbe87cdbbb5fb6c2e300d0029d40d3521b91fd355765a12cb3b58a96ea70d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_payment_events",
+      "source": "supabase/migrations/20260612110000_admin_payment_event_server_paging.sql",
+      "line": 1,
+      "source_sha256": "5732ac67f350810c383f5ab628fdc5014159e5d8aa88c47d4319ef9490574b1c",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "247e22b18718f9aa6ac5bfce3b03c33e7c5c211ae9cc6c12c126bbd9e61d0eea",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_unallocated",
+      "source": "supabase/migrations/20260612110000_admin_payment_event_server_paging.sql",
+      "line": 111,
+      "source_sha256": "5732ac67f350810c383f5ab628fdc5014159e5d8aa88c47d4319ef9490574b1c",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "05aac26eb42367fbd6e8e90992420092b045a37cdb85aed9729cfb9c7f282716",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_sms_metadata",
+      "source": "supabase/migrations/20260815054500_close_group_journey_database_lint.sql",
+      "line": 4,
+      "source_sha256": "4c1e110c25050c70c6ad93c3ac0911cf53a685c9b654cc257ee0e217f732d609",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f607acb01ef71af4f0e924aa78e54c0d75b0ebdd32b5a35554e8ca2341f6dde3",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_payment_event",
+      "source": "supabase/migrations/202605270001_sms_first_group_payment_intents.sql",
+      "line": 885,
+      "source_sha256": "ef5db47741c6c58351121ce5aac01071c6f5f041e4ba595aa2a76027de4eb559",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9c74d7227f59d5b14884ce169125921a22d9162fe808b8807ebb88c7003be7d8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_sms_metadata",
+      "source": "supabase/migrations/202605230008_admin_panel.sql",
+      "line": 603,
+      "source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "72b5990dd473acf0cac75080c30a75f88bf5b2289f4c1144fdc5150585b7c73f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_system_health",
+      "source": "supabase/migrations/20260930180000_operational_health_authority.sql",
+      "line": 4,
+      "source_sha256": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "momo_journal_entries"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c0eee975087a7b9e01d5ac9aa37cdf5b3185eeac6baab0795e1d999a42741731",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_manual_allocate_payment",
+      "source": "supabase/migrations/20260831095454_collect_admin_operations_model.sql",
+      "line": 646,
+      "source_sha256": "63fab20f08c7b4689047359a0ccfd772e8ca319a5b962b295403acdcbaf67907",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "5944349cd28a2c00a40f3bd344a8d3f13b129fc5ea1470bb16c27d4c39c1b523",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_reparse_payment_event",
+      "source": "supabase/migrations/202605230008_admin_panel.sql",
+      "line": 686,
+      "source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "5016e71311b1949d8a14ab998158933ab2793a9a02d6b54251226ccca7481518",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_reveal_raw_sms",
+      "source": "supabase/migrations/20260930235700_sensitive_reason_whitespace.sql",
+      "line": 13,
+      "source_sha256": "aa4cac884d2800f8e6cbf7b9555fec8aaa6b812dcd8839cdc45b3bed6d214b57",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "28751c6bf63013cd1eebb131abcb3b815fa816a3bbf8ed936ba3c750ed5aaf78",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.request_account_deletion",
+      "source": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+      "line": 82,
+      "source_sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e",
+      "mentions": [
+        "mobile_account_deletion_requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "90d2016bbce0fc366022033936458c8f63e608b59f23f422d8b1d9b3cf37c239",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.create_mobile_support_request",
+      "source": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+      "line": 112,
+      "source_sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e",
+      "mentions": [
+        "mobile_support_requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9847db24cadaa3128f2bb64e0e9e9712ffefc06cfc7ab016161004d5ba8d6093",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.get_owner_group_health",
+      "source": "supabase/migrations/20260531190000_mobile_production_state_support.sql",
+      "line": 232,
+      "source_sha256": "388cb82d99427d96cc1f9ea6ac5fd886804720e5ca495f0e98f4b2ff4b89c09e",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "bcd7c13273baef3fad0bb6d814746660513041d9a70935352ae4cbfb23e85fb7",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_record_operator_note",
+      "source": "supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql",
+      "line": 3,
+      "source_sha256": "940100ff300429f242ce5faf56830c13ea2209ac2c7f7055b4af4d0242a30837",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "99a172e044777b5d00c12e01e4955981a68379e8bf14a4dd62041884dc1602f2",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.check_sms_ingest_rate_limit",
+      "source": "supabase/migrations/20260815050900_harden_momo_sms_standalone_posting.sql",
+      "line": 90,
+      "source_sha256": "ca586cfc047f82ecb6d295aac98d9bdf27dde97d12c9df720ddfcf5acfe14f93",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "3ff708ab24fa4e9633c89d52c706f44632185ada787f2f187c76bde774d53d2b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.confirm_provider_payment",
+      "source": "supabase/migrations/20260930235000_exact_receipt_history_amounts.sql",
+      "line": 70,
+      "source_sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "5400c411b7bdd50d719bd13bdcd9dfe85fbf97ed69b91b8dbdbe93d8e2322943",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.claim_raw_payment_sms_for_parse",
+      "source": "supabase/migrations/20260815083500_claim_sms_parser_work.sql",
+      "line": 17,
+      "source_sha256": "afaaf50c46bd57476e6be992444e8776c57518cdb073c3172d982ae0fb96b91c",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4cab560132d473aa2770ebf8be9720aa71fabb6f0dc3ffe5de3feb3a3ea0fa4b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.ingest_raw_payment_sms",
+      "source": "supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql",
+      "line": 23,
+      "source_sha256": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "126baa1491c436e9723211233694a0597c2bae2239d4f351cc0ee0c91f191825",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.ingest_bank_evidence",
+      "source": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+      "line": 825,
+      "source_sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e",
+      "mentions": [
+        "raw_payment_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "029fcf35bc9e4299e4060ecf4d383ed7fb07f84d75586a3eb66d2baedd68daf0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_bank_evidence",
+      "source": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+      "line": 2507,
+      "source_sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e",
+      "mentions": [
+        "raw_payment_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b1e794c970cf7b1515886c7224693a8318fab1a07c481a955d83bdc02e338db3",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_bank_evidence",
+      "source": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+      "line": 2552,
+      "source_sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e",
+      "mentions": [
+        "raw_payment_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "32c1c9cd85fd9bb08a985ba374d4635919d9f53f82e2ef0a9eb513f765cc4e15",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_reveal_raw_bank_evidence",
+      "source": "supabase/migrations/20260820162240_bank_transfer_only_financial_control_plane.sql",
+      "line": 2574,
+      "source_sha256": "d9bd7856776d3aabf6a50e546399e825d52d02b065599e8f455aa3ae3668986e",
+      "mentions": [
+        "raw_payment_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "8d56cd2862319fc227e87680baae78f2d3ab466b031af74cd02fd801049f53d5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_collect_transactions",
+      "source": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "line": 107,
+      "source_sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "91e6a9b6d0f8fae54f2e68e74f2220286696250547c489fd5f8de8e560e667fc",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_collect_transaction",
+      "source": "supabase/migrations/20260831095454_collect_admin_operations_model.sql",
+      "line": 273,
+      "source_sha256": "63fab20f08c7b4689047359a0ccfd772e8ca319a5b962b295403acdcbaf67907",
+      "mentions": [
+        "raw_payment_sms",
+        "raw_payment_evidence",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "863aa4247039635ecf8200d758274716bb3a66c4df7d1f5a705679745fb3ad46",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_collect_reconciliations",
+      "source": "supabase/migrations/20260831095454_collect_admin_operations_model.sql",
+      "line": 373,
+      "source_sha256": "63fab20f08c7b4689047359a0ccfd772e8ca319a5b962b295403acdcbaf67907",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4223f6098fa4f1b7a0273f498da102e377956155b0e6bf92d2bac0b82719415e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_collect_ledgers",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 2243,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "momo_journal_entries",
+        "momo_journal_lines"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b3147ba0005a50a8ea6fb70f4f14d9754e4ef0e557ab93cb35b8c4007d5c968f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.ingest_attested_raw_payment_sms",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 150,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "ab510e048ce211f0f25a5174bf06f99d6e67d534be2f057ac70a5086fcdc6b71",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.assert_momo_journal_balanced",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 874,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "momo_journal_entries",
+        "momo_journal_lines"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "610c5a5888349d99ed2c0974fe7a4d9bda5eb53d6b89981d3897309ffc6a72bc",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.post_momo_receipt",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 918,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "parsed_payment_events",
+        "momo_journal_entries",
+        "momo_journal_lines",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "36d00c5f200d17af0a60830d4f2ecb66c755b68dc1a957739fb415889966dda7",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.finalize_attested_payment_sms",
+      "source": "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql",
+      "line": 52,
+      "source_sha256": "f91c7caa730da9022dfdc2ebfab9fa9d4fa8d32910a66b1d848b91a2cc8373d7",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a681f70d6d4c88833eea31fe9a037af747bc7142c0d676b95392f01f1a46ff6d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.post_direct_ussd_payment",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 1560,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a432429561e26bef27447c026c634bdb01150600d76ca8893d7ba238e70548d8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_reverse_momo_payment",
+      "source": "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+      "line": 1978,
+      "source_sha256": "1f1a77a04bd0e9e369a134f49a6022e5645fe28798603fd94d316c115774744f",
+      "mentions": [
+        "momo_journal_entries",
+        "momo_journal_lines",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9330b5b497d739ef3f0cdbb439b18038e6ffa00119ce14cbae731f47a13e9631",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.sms_receipt_job_is_current",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 378,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "36ea9b00a6e9ca7e868a7488973969160f2a2547068baf85936c6dd538252f88",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.enqueue_sms_receipt_from_snapshot",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 282,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "db29b4f94d6a3bd027b4947d1c8ec9ad973a9ae8625cea9f4ebfdd72ce4cdd78",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_notification_health",
+      "source": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+      "line": 547,
+      "source_sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "7e11c335db4184e1cfaf8e1e37a9859d160e165348c647bf4467687db05a3eb8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_list_pending_receipts",
+      "source": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+      "line": 575,
+      "source_sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "832911e3234d7e48ec8b26bc8dc267379fdb0c898d4384d0f9e8c54abb16db5b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_claim_receipt",
+      "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "line": 166,
+      "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_claim_requests",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "5c7a0afdc91325f288f62558a04bfc9517027746ac8253cc0acac59aeb1fc63f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_get_claimed_receipt",
+      "source": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "line": 540,
+      "source_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "206df02517aa8b4a2e82bab855f88d0be48d7257604aad5393fbceca98540f0d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_confirm_receipt",
+      "source": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "line": 586,
+      "source_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_confirmations"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "86839bd4eb46c5453efe7a54a7ed5440d2a54f1c4255d975bcd542e992adffe8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_record_send_start",
+      "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "line": 275,
+      "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_confirmations",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "996f68fb5bf6e349da8eca271b6a3ed5ffab87dd7467436384c96a5c512b342e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_record_observed_outcome",
+      "source": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+      "line": 932,
+      "source_sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "30ceebc00336a5f75a1e5e63262d39fbdc22526bdc201c1d51dec32bb18acc7d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_release_unsent_claim",
+      "source": "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+      "line": 996,
+      "source_sha256": "bd0867eefc49cfe1bfb024dd4759f48023769ae1ae41dcba443b1c7146a844f9",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_confirmations",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "bc5e2ff144d488fde5242b91846e7ef02b6fddfff6dd7e09f144886c89ce01cf",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_hybrid_sms_receipts",
+      "source": "supabase/migrations/20260903090500_admin_sms_receipt_queue.sql",
+      "line": 3,
+      "source_sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c0f20a74e638e80403591665630a35d9d1ab132bc228384c6ff3166093714c04",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_hybrid_sms_receipt",
+      "source": "supabase/migrations/20260903090500_admin_sms_receipt_queue.sql",
+      "line": 90,
+      "source_sha256": "9048c2079b4222086ab004f25fa7f5441eb3082094a72ed3d53ff2761e074d7a",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b202e1e5a7480719e56508881efb3ac89d5670f55c01c541a16e2a36f72ef377",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.claim_verified_current_account",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 154,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4bafcad99c47a51635997d6a21a934e0a5ff749e4a5f2bb0b4fea45f420afce8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.require_confirmed_intent_payer",
+      "source": "supabase/migrations/20260928170000_confirmed_momo_payer_posting.sql",
+      "line": 118,
+      "source_sha256": "f7f644d1d3c129d1b89c658737760db2d86fcd9b78bcb43b8225eb4b67ff1182",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "93176b00a12d2232eb708164937d5ad79594e3df788f00c20483b508a0a87010",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.accept_attested_receipt_v2",
+      "source": "supabase/migrations/20260928174000_attested_receipt_v2_contract.sql",
+      "line": 7,
+      "source_sha256": "f91c7caa730da9022dfdc2ebfab9fa9d4fa8d32910a66b1d848b91a2cc8373d7",
+      "mentions": [
+        "raw_payment_sms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "ab4e3b26cec890b8e747375ebdb9ae6afb96cb74fb74a549f0e888a3ba7487a9",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.reject_bound_provider_payment",
+      "source": "supabase/migrations/20260929130000_provider_finality_content_binding.sql",
+      "line": 153,
+      "source_sha256": "96ac54d5084d42211296cc32351997a31817befa1d5f1e134429c429969c408c",
+      "mentions": [
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c76ee25933bae030d9a2d8e1c8f29aa79331503bb6a01a740e09784319a66cd5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.get_payment_reconciliation_v2",
+      "source": "supabase/migrations/20260929170000_governed_reconciliation_workflow.sql",
+      "line": 265,
+      "source_sha256": "83979496df7d78474662b7d0b812405ae70336983c7722195cec9c28b4cdc142",
+      "mentions": [
+        "parsed_payment_events",
+        "momo_journal_entries"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "492116a472e16d7541eb5a1cedb1e8865e6cf9af3428520d9e36acb2eed2e5d8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_revision_receipt",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 162,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_revisions",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "68c0d213b89dbc96d178dae9589f4085359823c67c98273f549614f0d1886322",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.create_roster_import_source",
+      "source": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "line": 185,
+      "source_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "mentions": [
+        "roster_import_sources",
+        "roster_resource_reservations",
+        "roster_resource_completions",
+        "roster_source_verifications"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "de08840b3b3e9eb1ba17be233f43d56868b7a126a4c3d54e8679a4c822e8a2be",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.complete_roster_import_preview",
+      "source": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "line": 270,
+      "source_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_extractions",
+        "roster_import_revisions",
+        "roster_import_results"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "0e019f066ebf82ddcdc07be1244d259e2f86efbe595c6279d315bae69d175996",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.fail_roster_import_preview",
+      "source": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "line": 310,
+      "source_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_results"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "6ab48dd63f8c1dc96c898dca3b772d9fe8d5ca133679e78d0cab3428984987b5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_review_roster_import",
+      "source": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "line": 333,
+      "source_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4d221bb5ae4e9dcd91c0e35fcd3affab4d0e920d46d0b372f86be705c433a5af",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_commit_roster_import",
+      "source": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "line": 364,
+      "source_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "ddbcb0f6808f32263fc1f4cd2826c4979ac621d0a7adc73f1d18b4d0bb63b6ed",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_roster_import",
+      "source": "supabase/migrations/20260930100000_roster_import_provenance.sql",
+      "line": 424,
+      "source_sha256": "75a315d8a41c2c19f62f2fcd4557e27cb7c14e3f9ebe251f57b18e748d7349d7",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_results",
+        "roster_import_commits"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e7bdff357d3fddae5e26ada9db3895926ad84e397050d60221a4af302f55e810",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_save_roster_import_draft",
+      "source": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "line": 98,
+      "source_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits",
+        "roster_import_editor_drafts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "676a249429d02cc61c1716eeaf5d855afbcafa8067f03a0df9b507bd0a110759",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_stage_roster_import_intent",
+      "source": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "line": 126,
+      "source_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_commits",
+        "roster_import_recovery_intents"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f60aa7ba4dd58e99677e5ecb4479a065178c2a4ebbb5abba61f9d658ea535ea4",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_execute_roster_import_intent",
+      "source": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "line": 155,
+      "source_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "mentions": [
+        "roster_import_recovery_intents"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "db320b42a42eb6fe9597ab00ef0dd2c6ad832b9572bdee46c40eefbbed1059b0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_recover_roster_import",
+      "source": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "line": 175,
+      "source_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits",
+        "roster_import_recovery_intents",
+        "roster_import_editor_drafts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "7184174d3b691e09f7afe8a10565d5c82612bf9bbe29dccebcb4986fef555295",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.purge_expired_roster_recovery",
+      "source": "supabase/migrations/20260930120000_roster_import_reload_recovery.sql",
+      "line": 219,
+      "source_sha256": "751be9afb6a1da5e221160b0201b0c3b7c532dc56f170f630ca03870929455b9",
+      "mentions": [
+        "roster_import_recovery_intents",
+        "roster_import_editor_drafts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "562af6b2734e8593d833f1a21101fdc08cfde58b0dfbb83afb11e25e9630f4c7",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.reserve_roster_resources",
+      "source": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "line": 58,
+      "source_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_results",
+        "roster_resource_reservations",
+        "roster_resource_completions"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "aa2855a0228f18d69c962b12eb455abf59e95e3d8fb36fa46101ceb8002533d7",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.verify_roster_source_integrity",
+      "source": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "line": 121,
+      "source_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "mentions": [
+        "roster_resource_reservations",
+        "roster_resource_completions",
+        "roster_source_verifications"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e678afeb2a40d4cc92fecc6a4d585d5e1d19611140f6fd0e9beef3d814d3d2b9",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.finish_roster_resources",
+      "source": "supabase/migrations/20260930140000_roster_resource_integrity.sql",
+      "line": 159,
+      "source_sha256": "d68f8fc45eb92b7ca34ac710548f105b926bfe9026e3214f0e8b030075026f4b",
+      "mentions": [
+        "roster_resource_reservations",
+        "roster_resource_completions"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f9396ec9b32eb9bc5153cb79a8aaf2bebf7b6492a6c02b08709a8538bce6d198",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_recovery_root",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 95,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f909783b9a26f9ad0bc34b8b56104717857663e6e887e6822c5209a65020e6d0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_recovery_leaf",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 120,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "2e51018da2adcc7d588f314632b4396b6a56ec5cebcbedc649d2018ec9f58f01",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_original_proof",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 149,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_resource_reservations",
+        "roster_source_verifications"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e90de89a4115bfa2ca5d5cf3b58a042aa535cdfe12f5543feae9195f73e6008b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_interrupted_etag",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 184,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits",
+        "roster_import_recovery_intents",
+        "roster_import_editor_drafts",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9b3b7b190bb8fae9718ffa3c121b4d618b552a0dea77bbc69c3184c4c977456c",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.require_interrupted_roster",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 196,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_commits"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "8883c9ee658ff3f3eb95918dff5d4b9d9045e6af2c4689d0afa0514d04e7ccd6",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_interrupted_roster_imports",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 218,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_commits",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9e9b59feb7154d5a921532f67de0dbfb84954a854050cc114304791309e45e19",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_interrupted_draft",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 253,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_revisions",
+        "roster_import_editor_drafts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a48b3b4ade94a85fa70df4cf8ed4db0a138dcce0d617e8fe560e99c9c2aaa93b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_inspect_interrupted_roster_import",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 275,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4cf983a6fcaa1c9b023e01c0ceceb8e656c15f81605515e65e5e15f747d7694f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.roster_transfer_ack",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 293,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "dac3d4945a675573b3c8cd32eb388b642f1de3e3d282a95f88f2ab4e621f1aed",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_transfer_interrupted_roster_import",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 303,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_revisions",
+        "roster_import_results",
+        "roster_import_recovery_intents",
+        "roster_import_editor_drafts",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "97292e475a918f22b8ec8f1403c29d31d31d5c2c48ab18709d85c93be8cf0e6d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_roster_transfer_status",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 372,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "74cb4c6f63a2ff35a52eb6482f6715aa008ae83dd74f9221f3962e78cf4da915",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_interrupted_roster_commit_status",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 382,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_commits"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "26b06eb73c118bb03f813002178034bf5baf1e514f2ba503e50cdea1d775d16d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.guard_roster_recovery_descendant",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 396,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_import_sources",
+        "roster_import_extractions",
+        "roster_import_revisions",
+        "roster_import_results",
+        "roster_import_commits",
+        "roster_import_recovery_intents",
+        "roster_import_editor_drafts",
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "54302bc293b02cc366dda1b2a197efe69d6f2f89a53c55321b81aae6c3c86191",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.guard_roster_service_recovery",
+      "source": "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql",
+      "line": 475,
+      "source_sha256": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+      "mentions": [
+        "roster_recovery_transfers"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "63ee68b195afe2433df38f596814d1b4eb7293133f7129218e6fc2190303f2e5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.sample_collect_shadow_run_v1",
+      "source": "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+      "line": 243,
+      "source_sha256": "cea3af48586bc2f26906e07fe14f001aa629354272c215ee0b9c6e6c980a1424",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b53189bf8433b375b7d1d1bcdc5aa1e9e1bdfaa9e250d567fcc48ccb940a2243",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway.bind_arm",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 112,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "sms_notification_attempts",
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a355231b33ae2ea420423dc05dd0ce76949bfc225e474147ea8fb5133886e842",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway.replay",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 162,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a2e8a0aafeae3b44649f5cb9270875dcecfe7105cf505640aeefc57a7df2adc6",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_enroll_gateway_device_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 177,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c16b295b420860fa9f570f2c5f1d27ee85c30fa01abfc19aff59badef2cb3f6e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway.change_device",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 213,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "179456ae5388901e38ea61b84e61f98263d437152d4d834dea6a1ef75fb374e8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_device_key_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 249,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "fe874d74fe4379da9d94065583de0c4067102f0bc349232181d067735ee9af15",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_heartbeat_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 256,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices",
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "28756df10f2b0607de00779d79587370df9e97631b3631d5a251a3f5d8ce082a",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_reconcile_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 283,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices",
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d1c249a9327aba80ba9f0a88a29de341e9c4d732a07ae579d856973bc2d8e9cc",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_dispatch_grant_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 292,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices",
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "97d7ef59f73db68509e87f27cc61d0e7f9a10f355dd01c8cbf255dd255b13c20",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_callback_v1",
+      "source": "supabase/migrations/20260930211605_android_gateway_identity.sql",
+      "line": 305,
+      "source_sha256": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+      "mentions": [
+        "collect_gateway.devices",
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f2a6419e9bdf047481ca00d60fd708fc1620b452af31cff3812be96db651592d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.guard_receipt_dispatch_transition",
+      "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "line": 381,
+      "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a81abd13f4af43416d665b3059f03a9cbb20d15652d3ef05e4ded02c8e6dedb6",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.receipt_backlog_preview_row",
+      "source": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "line": 258,
+      "source_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "mentions": [
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "28323355fe394bca4b9d00ce1c4fde6e960bf435f50122298af08b792007c567",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_preview_receipt_backlog_v1",
+      "source": "supabase/migrations/20260930230100_receipt_backlog_events.sql",
+      "line": 287,
+      "source_sha256": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "89d578129a3f984c5b048316a3998e13288f3556a52681fe33ad302c3b30594b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_receipt_overview_v1",
+      "source": "supabase/migrations/20260930230200_admin_receipt_overview.sql",
+      "line": 17,
+      "source_sha256": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "da1e5b46e7a97148b4adab6ea09638b32f16b295d1082977014f08c059e0b181",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_security.rwanda_sms_scope",
+      "source": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "line": 23,
+      "source_sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c0319a91be6a2dc9ce70e0ad9c49b413625dd1ae48c8d6b2b721a9474efa52c5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_security.transaction_lifecycle",
+      "source": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql",
+      "line": 49,
+      "source_sha256": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "sms_notification_outbox",
+        "momo_journal_entries",
+        "momo_journal_lines",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9f7475cb08870b814b64f20092b8eba6edb174ca6876e4fec76fcc8547807b36",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_collect_investigation_v1",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 393,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "sms_notification_outbox",
+        "sms_notification_confirmations",
+        "sms_notification_attempts",
+        "momo_journal_entries",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a62378fd976bac266553492cc513a41d81199c3aa5cb68a9d4db3c449efa082d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.payment_scope",
+      "source": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "line": 103,
+      "source_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "2506a115b06523a7842906098c516a5071bba869d8064b9640d2841036ad3bbf",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.capture_source",
+      "source": "supabase/migrations/20261001000100_operational_exception_inbox.sql",
+      "line": 194,
+      "source_sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f5d5698b0d085bdfdd5097c3f5562acfca9c84cabfe41f1ebb1b1fc7be0cef13",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway.public_identity",
+      "source": "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+      "line": 26,
+      "source_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "18a9843d2c7700b4f1cb2157f0135cb670c52371b47130fc000d121c89c57311",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_gateway_devices_v1",
+      "source": "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+      "line": 44,
+      "source_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a190d834b5067ab07d638b78ecbeaf9c2e8bbc4065317232566b1b67f6fa7f96",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_gateway_owner_request_v1",
+      "source": "supabase/migrations/20261001000200_admin_gateway_reads.sql",
+      "line": 103,
+      "source_sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d941181f2fc875d2e7f7209b3e439b173cab0e5a6baeb611e37f9b913c3c563d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.transaction_sms_id",
+      "source": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "line": 248,
+      "source_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "887cf4b3db907101d6ccdd14cb6549220a2ae01820c5b01f60ee9b9467cd6aaf",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_supervisor.distinct_identity_key",
+      "source": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "line": 70,
+      "source_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4c2e25141ca1fb3825dd6fed9f3ca1c0deb4a7a6bc4591d17a1bdbf0cf96a1bc",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_enroll_receipt_supervisor_v1",
+      "source": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "line": 129,
+      "source_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "0e28e997ef4ee41de8c9655a306ca9100e9f3b8eb738c915ce2503c3eac3b68c",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.receipt_supervisor_observe_v1",
+      "source": "supabase/migrations/20261001000400_receipt_supervisor_identity.sql",
+      "line": 242,
+      "source_sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b9de6596088015dbe841f68645ff9be4a6deeda88f26b16ef6d8e62c74cce15a",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_actions.rwanda_source",
+      "source": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "line": 75,
+      "source_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "ae342e8affceb99a0419d2e524949fc7a2da2fd58bb97e3f9eb0fa165e4d23de",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_actions.ineligible_reason",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 313,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_claim_requests",
+        "sms_notification_confirmations",
+        "sms_notification_attempts",
+        "momo_journal_entries",
+        "momo_journal_lines",
+        "momo_balance_snapshots",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d6d680e16926b906e3b60c6dbd3851b74f7bd20fef1ea4387ccab43f88be3c49",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_inspect_unstarted_receipt_v1",
+      "source": "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql",
+      "line": 132,
+      "source_sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "0e2464353b1da1c96f6290530e533ba9ff52a2bda86d878d1d2c782c904004f2",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_cancel_unstarted_receipt_v1",
+      "source": "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql",
+      "line": 5,
+      "source_sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d0b2d00c8bcc7f409031ffe62c3b6a781f3c4b908b7162ec6d278b8d91c26442",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_operator_entity_audit_v1",
+      "source": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+      "line": 91,
+      "source_sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "10794bc9a8f67dcc503b2a34c43399ce81e6540afedad96768892a8b331ed931",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.render_snapshot",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 123,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "49016d3b02519914ab7215b7122e338f129ff61db50b5af52712612bf2fe1edf",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.body_for_job",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 135,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "313ded3c90b7d1e54027779069f23cfcd0be0bb6d6783d9df2d66625aaa0da4a",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.snapshot_is_eligible",
+      "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "line": 66,
+      "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "mentions": [
+        "momo_journal_entries",
+        "momo_journal_lines",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "7f8cd8d7bfe4917ae29e43f986d932617eb44cd10acd692097cc2e0daf779d87",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.content_is_valid",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 141,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "11f456b5666d8f847d18331f61661d622f94305a7a761c5400f65ea3e2b4aa16",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.content_is_current",
+      "source": "supabase/migrations/20261001100000_receipt_financial_policy.sql",
+      "line": 103,
+      "source_sha256": "cfddaa7700550de824616dacff772352fe15d98af1b3022c4479311f929f83e0",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f8de73a3690a86e141f877400df6f91cf01474f5f072bf418c22a3b2b39116d3",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_configure_receipt_operations_v2",
+      "source": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "line": 149,
+      "source_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e100cd2647ad85c44c7b933d95908a50abf550e6f0dbcaf82aaa888d46a1f9d4",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_operations.reserve_budget",
+      "source": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "line": 264,
+      "source_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a72e06d8475f725410f7757efdf8129216b755844d4b30a6ff087d6795b8d4ca",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_operations.ensure_snapshot",
+      "source": "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+      "line": 26,
+      "source_sha256": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "4f731ce5a1ca22ec552f9900b84d7a12dc3a3485db814e984b9e50c7596e6cd5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.receipt_operations_execute_v2",
+      "source": "supabase/migrations/20261001110000_receipt_operational_authority.sql",
+      "line": 331,
+      "source_sha256": "743e4362ea5eab756d2665a2fe9a1840d593baac1348e1d61042b024288cfe40",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "443e527fbfdf9bf5bcaf681ecc5eef490b701ec34f448a0ff617f5ae969862f0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_operations.reserve_dispatch",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 299,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a722eb18513c79876ce93ef753c4eb065c2e6f69d2a3a90fcbd0484aa6a5bc57",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.workflow_projection",
+      "source": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "line": 89,
+      "source_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "mentions": [
+        "collect_ops.exception_workflows",
+        "collect_ops.exception_escalations",
+        "collect_ops.exception_inbox_deliveries",
+        "collect_ops.exception_inbox_reads"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "19a1d6b6ac76a589256dd7af306cce77a1cf006d76ccb25ab8d1adc754a352e5",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_act_exception_workflow_v1",
+      "source": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "line": 115,
+      "source_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "mentions": [
+        "collect_ops.exception_workflows",
+        "collect_ops.exception_escalations"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "863ccd43f2f9621a63c9158cc74049d14e1ea52027f2638b1b3177cc45054618",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.process_exception_escalations_v1",
+      "source": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "line": 198,
+      "source_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "mentions": [
+        "collect_ops.exception_workflows",
+        "collect_ops.exception_escalations",
+        "collect_ops.exception_inbox_deliveries"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "182adc82502a390e3723cc0f47a1c72666af33f9bf76b6a5293cdf71539f7ccb",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_exception_escalation_inbox_v1",
+      "source": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "line": 240,
+      "source_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "mentions": [
+        "collect_ops.exception_escalations",
+        "collect_ops.exception_inbox_deliveries",
+        "collect_ops.exception_inbox_reads"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "103cd7b6bc081483999ef0dafdf9422ad843850e28091f8f194060304b7194be",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_read_exception_escalation_v1",
+      "source": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql",
+      "line": 258,
+      "source_sha256": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+      "mentions": [
+        "collect_ops.exception_inbox_deliveries",
+        "collect_ops.exception_inbox_reads"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "08e1730a8f0cf85de8343b333ef08ccb14da15d31c0de9e936740e13897f9187",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.request_lock",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 53,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "80b596d7391684206c86566878732b6dbc9a0c2fa30bd4a97e9c1b5d8b3d7720",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.replay",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 62,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway_dispatch.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "11bdeb8ae646711977f5a9a070638528f279d638d28d07887cfff43303c6fe19",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.store",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 69,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway_dispatch.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "9280f99f7b625a2f1a0987a24e0f48dec934448505f3412c55573d7ab9e61a9f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.ready_health",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 72,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "22f58ab912aec904541fe747ebf64399bc89a295bb15b18d40c6e01b74c2b3ab",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.lock_source",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 80,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "6f505d61d752f294638baf65873e39d709fb94ba298461c6ddba70e6f0947e22",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_dispatch_grant_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 105,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_claim_requests",
+        "sms_notification_confirmations",
+        "sms_notification_attempts",
+        "collect_gateway.devices",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b44479b67d41a6bd54c9942f07f32a895064afaf3c5323beb3d956e5399b4b78",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_arm_dispatch_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 144,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_claim_requests",
+        "sms_notification_confirmations",
+        "sms_notification_attempts",
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "581af288b5986a78bbdaa4e109d646e1c677a6612953cb2cd509d3feb4594576",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.status",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 188,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms",
+        "collect_gateway_dispatch.callbacks"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "371fbf0745c7e272ded2d3af963e6febf7c76d91fffd54e299cc9a865f858222",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_callback_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 198,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway.devices",
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms",
+        "collect_gateway_dispatch.callbacks"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "777d2feecec34d7042961e2d95b7b2c563b16423e86ee9bc9a77c8a1a0cb3cb0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_reconcile_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 236,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway.devices",
+        "collect_gateway_dispatch.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "7318857e694ea35baab0f0cbfc3626673f77b32ac861a87781100dbe6e7f1f90",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_attempt_status_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 245,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "0f1d10daeeb1f26950daebd0ecebf92fca511c1b5cc86373fcc7977dc6791ed1",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.cross_version_request",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 256,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "collect_gateway.requests",
+        "collect_gateway_dispatch.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "894d2a18f62b08cbc7394aa9c1ca327782cc82ecb25f6df0c0f8b95155945e6c",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.outbox_guard",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 263,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_attempts",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "8d40287ef6884c354d67adefd1a4232f78f6b74f910619ad6630e534e3829701",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.verify_attempt",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 276,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts",
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms",
+        "collect_gateway_dispatch.callbacks"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d5feaa5986509d90864cedfe97d25bb6cae84b721ca71fc0168e6d206d701733",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_gateway_receipt_attempt_v2",
+      "source": "supabase/migrations/20261001130000_android_dispatch_authority.sql",
+      "line": 353,
+      "source_sha256": "3861523896fb20febb9bfaf4b8f08164f4606c2e9938b7ccd3a8b5408ec02d9c",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "103e08af58317b860ab0e40d510c9c95a34d46225faba160564926772a6840c2",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.receipt_exception_run_budget_available",
+      "source": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "line": 120,
+      "source_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "b83bf47cec72897c22362cf54d9fb212506ef3183de96093c5af1cfaa948d3ca",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.receipt_exception_quota_available",
+      "source": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "line": 138,
+      "source_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "mentions": [
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d987255a20401e5265593786588ff3a881ebd4fdba7793d53c8168e0b75776e9",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.capture_receipt_backlog_budget_refusal",
+      "source": "supabase/migrations/20261001140000_receipt_deferral_exceptions.sql",
+      "line": 153,
+      "source_sha256": "2bee8ec6bc4cb4323366badb6886987bf364072ee4562fa6751fc0dff6ff1d16",
+      "mentions": [
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f7d625218855dd6b2b249165de11140943a49bd018e6119af9965a40b6f9c308",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.receipt_exception_source",
+      "source": "supabase/migrations/20261002020000_receipt_source_busy_deferral.sql",
+      "line": 78,
+      "source_sha256": "fe529b7b48ba0e57a5dccf5f0c38eb72cb67a0976d4a074fbdbfcb9a4cdb3cd2",
+      "mentions": [
+        "parsed_payment_events",
+        "sms_notification_outbox",
+        "momo_balance_snapshots"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "7d059ad2a518542fef4b9a5a37a6b02728bdae09261afb30a83df88fe274d8d6",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_archive.cross_request",
+      "source": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "line": 20,
+      "source_sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "mentions": [
+        "collect_gateway.requests",
+        "collect_gateway_dispatch.requests",
+        "collect_gateway_archive.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "bf0ddec804d9eb928d65910b5a181837404b3dc78af1be12e4f394da60f2837b",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_archive.require_request",
+      "source": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "line": 30,
+      "source_sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "mentions": [
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "dcfd5215ddfb6457b11d4841d0002fe0b2eda88264f42c58572b3083dd80a75e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_archive_attempt_v3",
+      "source": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "line": 35,
+      "source_sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway.devices",
+        "collect_gateway.requests",
+        "collect_gateway_dispatch.requests",
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms",
+        "collect_gateway_dispatch.callbacks",
+        "collect_gateway_archive.requests",
+        "collect_gateway_archive.acknowledgements"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "d648bdd6a33297ded537e699218605c6a91d2ab800f2733b9227ac33ebaf6e00",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.gateway_archive_lookup_v3",
+      "source": "supabase/migrations/20261001170000_android_attempt_archive.sql",
+      "line": 93,
+      "source_sha256": "e78813916efb3ac77468d3fb66f1b243045ea5bf4457bd8b68566f4ba9e85fc2",
+      "mentions": [
+        "collect_gateway_archive.requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "48e67239bdda1db857338543b0e3ae8cc844b7b7c8e5ff6a9904ed4233565cd7",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_ops.capture_escalation_event",
+      "source": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "line": 32,
+      "source_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "mentions": [
+        "collect_ops.exception_escalations"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "732d26861498fd58faf3afb4f1a6887f08712983ebe9487eb38b51048d734e32",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_operator_audit.exception_scope_v2",
+      "source": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "line": 86,
+      "source_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "mentions": [
+        "raw_payment_sms",
+        "parsed_payment_events",
+        "sms_notification_outbox",
+        "momo_balance_snapshots",
+        "collect_gateway.devices"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c9958e9e13c6a936b272ddf5e6d51f3e0e544bcaaaf99791a5844ffaa2accb15",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_exception_entity_audit_v2",
+      "source": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "line": 128,
+      "source_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "mentions": [
+        "collect_ops.exception_escalations"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "8ff5197632107a1c01ec52d36d562ff119d64ef60a0f86572bd6f0ff8c103843",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_exception_escalation_inbox_v2",
+      "source": "supabase/migrations/20261001200000_exception_inbox_audit_v2.sql",
+      "line": 189,
+      "source_sha256": "7f6aea2058be51ae93b4f25d0dc0463b05f13476d6e41093a355bdc6871033d7",
+      "mentions": [
+        "collect_ops.exception_escalations",
+        "collect_ops.exception_inbox_deliveries",
+        "collect_ops.exception_inbox_reads"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c4b20bbae029ee1b8d084dba752198e472fda334e7f7ac3da7cc05f38387ebd3",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_gateway_dispatch.admin_attempt_projection",
+      "source": "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+      "line": 15,
+      "source_sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+      "mentions": [
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "3493a6134b33ceeb1bc3bc51c45675e008cef7c7e81d520a1cec86483833842d",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_get_gateway_receipt_investigation_v3",
+      "source": "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+      "line": 28,
+      "source_sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway_dispatch.requests",
+        "collect_gateway_dispatch.attempts",
+        "collect_gateway_dispatch.arms",
+        "collect_gateway_dispatch.callbacks",
+        "collect_gateway_archive.requests",
+        "collect_gateway_archive.acknowledgements"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "f0d1eb559f5e928d4f2cddc8a24a129c5c2b22d8cc92fd22666b8a3c79239121",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.admin_list_gateway_device_attempts_v3",
+      "source": "supabase/migrations/20261001230000_automatic_gateway_investigation.sql",
+      "line": 135,
+      "source_sha256": "5fc3252d80386ddd81c1c94f5f6a924da3e032a3595aae4b834ef4b3a72f6d30",
+      "mentions": [
+        "sms_notification_outbox",
+        "collect_gateway.devices",
+        "collect_gateway_dispatch.attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "c3e8513ad59525da3dfc5703be6d29239eb59347ba4d61d268dcf03f731ac4ae",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_security.require_assisted_sms_capability_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 63,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "assisted_sms_session_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "e83af3ba6044b1f33ff7f0fa219aef005eee0b992fe83d4996e2cfaaffbb301f",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_security.record_assisted_sms_capability_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 79,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "assisted_sms_session_evidence"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "804b1f703df545313867780de0b8b5b1db91cb544ef0ad3b1ff811ff7166dfb0",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_claim_receipt_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 148,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_claim_requests"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "efa7f7a84b4b50872888d2d1ed80d993139ce8e359f1fa8a7dab00b431c42ddc",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_get_claimed_receipt_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 191,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "49ed8298c729c5dceddf009bd19edad6617a2fcb3b8762752a59e6c1d9ad81b8",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_confirm_receipt_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 224,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "beb13b9896ed7b098e18975a17bfa008e1cda80a92a6b1a82c1ba1bcf6ae938e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_record_send_start_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 263,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "sms_notification_outbox",
+        "sms_notification_attempts"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "bd3455685f00458977d316922f6e8fea80a96d4a6f849f67fecd440ec1e30e75",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "public.collect_release_unsent_claim_v2",
+      "source": "supabase/migrations/20261001233000_assisted_sms_originating_session_fence.sql",
+      "line": 336,
+      "source_sha256": "671cd6f87a72277b0cd9df80aa76d5436dd6f62deebf6fa853d699410ac805c6",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "8c114af93ba6548b27b70609f90abb59ff666a9a060cbd6a1ed4a5e6d5fc179e",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_hybrid.verify_roster_source_integrity_guarded_149",
+      "source": "supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql",
+      "line": 14,
+      "source_sha256": "b7977c519ac758c02a91ddd22828110c92cde975cf8be8393ab616d412ef2254",
+      "mentions": [
+        "roster_resource_reservations",
+        "roster_resource_completions",
+        "roster_source_verifications"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "39d673df06c99990d466a6f2fc4fb4494a8d34f9a26c214f6bbda0d62ab9a10c",
+      "effective_catalog_verified": false
+    },
+    {
+      "function": "collect_receipt_policy.language_for_job",
+      "source": "supabase/migrations/20261002010000_sms_receipt_language_selection.sql",
+      "line": 117,
+      "source_sha256": "ee3168ff191a9ba9a623fb4d31ca2b1d3f354f44d0d617824786e41fdc8f1d8e",
+      "mentions": [
+        "sms_notification_outbox"
+      ],
+      "dollar_body_extracted": true,
+      "definition_sha256": "a543792299b159cbd5c6c0c2a939fba590e4111b1f2108ec1fe5147df05f4de9",
+      "effective_catalog_verified": false
+    }
+  ],
+  "unparsed_function_candidates": [],
+  "limits": "Anchored explicit CREATE FUNCTION candidates with dollar-quoted bodies. Last textual candidate is a source pointer, not an effective catalog or overload inventory. Dynamic aliases, CREATE inside DO/format, DROP FUNCTION, grants, indirect calls and views need separate catalog review. No database executed."
+}

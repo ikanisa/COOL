@@ -1,0 +1,41 @@
+{
+  "cron": {
+    "state": "inactive",
+    "job_id": 16,
+    "schedule": "* * * * *",
+    "command_sha256": "765ed6e1d6b8067b3fc886d80c66f2e7111aa6e1613e517d466167ecc5e19674"
+  },
+  "scope": "rw_receipt_retention_controls",
+  "actor_id": "99780000-0000-4000-8000-000000000001",
+  "retention": {
+    "protocol_sha256": "c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3",
+    "cold_expiry_allowed": false,
+    "raw_financial_expiry_allowed": false,
+    "unknown_outcome_hold_required": true,
+    "late_callback_bindings_retained": true
+  },
+  "checked_at": "2026-10-02T03:04:40.175997Z",
+  "session_id": "99780000-0000-4000-8000-000000010001",
+  "configuration": {
+    "enabled": false,
+    "revision": 7,
+    "byte_limit": 1048576,
+    "updated_at": "2026-10-02T03:04:39.047398Z",
+    "batch_limit": 12
+  },
+  "contract_version": 1,
+  "mutation_allowed": false,
+  "platform_policies": {
+    "android": {
+      "observed_at": null,
+      "verification_state": "release_declared",
+      "specification_sha256": "e72be359be948dd74ec1d84ce83aa8238e13a93d9abe5a7e9d639d157722ab1c"
+    },
+    "scheduler": {
+      "observed_at": null,
+      "verification_state": "release_declared",
+      "specification_sha256": "559819220b3503ddb0ad13af669cf878bb00107b0c88accae0b86a3fb042c5b6"
+    }
+  },
+  "sample_valid_until": "2026-10-02T03:05:40.175997Z"
+}

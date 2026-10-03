@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.flutter.gradle.FlutterExtensionTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-02T01:34:23.601Z" hostname="Jeans-Mac-mini.local" time="0.007">
+  <properties/>
+  <testcase name="getVersionCode() throws GradleException when flutterVersion is not an integer()" classname="com.flutter.gradle.FlutterExtensionTest" time="0.001"/>
+  <testcase name="getVersionName() throws GradleException when flutterVersionName is not set()" classname="com.flutter.gradle.FlutterExtensionTest" time="0.001"/>
+  <testcase name="getVersionCode() throws GradleException when flutterVersion is not set()" classname="com.flutter.gradle.FlutterExtensionTest" time="0.0"/>
+  <testcase name="getVersionName() returns flutterVersionName without error when set()" classname="com.flutter.gradle.FlutterExtensionTest" time="0.001"/>
+  <testcase name="getVersionCode() returns flutterVersion without error when set and is a number()" classname="com.flutter.gradle.FlutterExtensionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

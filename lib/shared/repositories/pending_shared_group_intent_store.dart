@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../core/data/exact_json_values.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -70,11 +72,13 @@ class PendingSharedGroupIntentStore {
       }
 
       final slug = normalizePendingSharedGroupSlug(decoded['slug'] as String);
-      final capturedAt = DateTime.tryParse(decoded['captured_at'] as String);
+      final capturedAt = exactJsonTimestamp(
+        decoded['captured_at'],
+        field: 'invitation.captured_at',
+      );
       final intentId = decoded['intent_id'] as String;
       final owner = decoded['owner_user_id'];
       if (slug == null ||
-          capturedAt == null ||
           !_uuidPattern.hasMatch(intentId) ||
           (owner != null &&
               (owner is! String || !_uuidPattern.hasMatch(owner)))) {
@@ -149,7 +153,10 @@ class PendingSharedGroupIntentStore {
         'slug': intent.slug,
         'intent_id': intent.intentId,
         'owner_user_id': intent.ownerUserId,
-        'captured_at': intent.capturedAt.toIso8601String(),
+        'captured_at': exactJsonTimestamp(
+          intent.capturedAt,
+          field: 'invitation.captured_at',
+        ).toIso8601String(),
       }),
     );
   }

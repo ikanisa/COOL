@@ -1,0 +1,80 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: v1 snapshot refuses a different valid retention protocol hash
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: v1 intent refuses a different valid retention protocol hash
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: real closed11 producer read 560630683
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: real closed11 producer read 400758212
+00:00 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: real closed11 producer read 1024172912
+00:00 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: real closed11 producer read 516106579
+00:00 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: exact real configure/recovery producer intent yields portable SQL fingerprint
+00:00 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: all source intent binding fields alter or refuse the fingerprint
+00:00 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: closed read shapes and impossible authority claims refuse
+00:00 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: recorded bindings and exact revision/cron/time cannot be replaced
+00:00 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: unavailable cron is distinct from absent with exactly null fields
+00:00 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_models_test.dart: protected DTOs are deeply immutable
+00:00 +12: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart
+00:00 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: invalid local draft has no original request and remains correctable
+00:00 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: SDK rejects drifted v1 protocol authority before any configure call
+00:00 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: SDK binds real actor/session producer and disables automatic replay by one call seam
+00:00 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: durable original checkpoint precedes mutation and clears only after exact recorded receipt
+00:00 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: failed durable storage prevents any server mutation
+00:00 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: uncertain response blocks new UUID and recovers only the original
+00:00 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: authoritative read denial clears protected state AdminSessionChanged Your Admin session changed. Reopen this page before continuing.
+00:00 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: authoritative read denial clears protected state AuthException AuthException(message: expired, statusCode: null, code: null)
+00:00 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: authoritative read denial clears protected state PostgrestException PostgrestException(message: denied, code: 42501, details: null, hint: null)
+00:00 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: authoritative read denial clears protected state PostgrestException PostgrestException(message: expired, code: PGRST301, details: null, hint: null)
+00:00 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: recovery denial redacts UI but leaves durable original then fresh refresh recovers
+00:00 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: departed mutation cannot clear a retained original or publish into new controller
+00:00 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: delayed predeadline absence remains pending after the client deadline
+00:00 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: expired original authoritative lookup permits clear and demands fresh read before replacement
+00:00 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_controller_test.dart: same actor different session cannot use retained mutation intent
+00:00 +27: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart
+00:01 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: actual-font compact and wide labelled maintenance states and captures
+00:01 +28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: enlarged compact keyboard refresh and meaningful labels remain usable
+00:02 +29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: valid read without manage preserves observed evidence but disables action
+00:02 +30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: host uses exact owner floor and existing no-retry rpc consumer
+00:02 +31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: finite sender page resolves real active identity and keeps unresolved IDs blocked
+00:02 +32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart: primary selector reorders only allowed IDs preserving standby membership
+00:02 +33: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart
+00:03 +33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: authenticated Settings route mounts retention through the actual repository
+00:04 +34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: mounted original save uses one checkpoint and one non-retried RPC
+00:05 +35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: uncertain mounted save retains its original without an automatic retry
+00:06 +36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: mounted recovery submits exact retained UUID, fingerprint and intent
+00:07 +37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: read-only, denied and expired mounted controls cannot create a request
+00:09 +38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: identity loss fences a held mounted read and erases typed reason
+00:10 +39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: sign-out fences a held mounted read and preserves its retained original
+00:12 +40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: mounted sender selection reorders only its allowlist through existing v2 policy
+00:13 +41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: sender denial blocks configuration while independent emergency stop remains usable
+00:15 +42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: sender evidence expiring during review prevents a policy request
+00:16 +43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_mount_test.dart: duplicate pasted sender IDs remain visible and deny configuration without crashing
+00:17 +44: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart
+00:17 +44: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: actual authenticated Settings route uses dedicated typed workspace
+00:19 +45: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: typed editor captures immutable preview and one durable original save
+00:19 +46: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: nullable field clear is explicit and invalid reason never opens preview
+00:20 +47: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: integer input error denies preparation and unsafe original expiry denies save
+00:20 +48: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: permission refresh removes draft dialog immediately and late future cannot restore it
+00:21 +49: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: uncertain response exposes original lookup action and no resend control
+00:21 +50: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: independent audit view works for known identity without settings.read
+00:21 +51: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: expired current sample disables editor until explicit refresh
+00:21 +52: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: history pages use paired immutable cursor and retain newer navigation
+00:22 +53: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: narrow 320.0 large-text 1.0 labels and keyboard controls do not overflow
+00:22 +54: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_governed_settings_widget_test.dart: narrow 450.0 large-text 2.0 labels and keyboard controls do not overflow
+00:22 +55: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart
+00:22 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: (setUpAll)
+00:22 +55: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: configured controls retain actual modes and boundaries without sender proof
+00:23 +56: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: missing role hides controls and never starts a policy read
+00:23 +57: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: missing admin_users.manage hides controls and never starts a policy read
+00:23 +58: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: missing notifications.manage hides controls and never starts a policy read
+00:23 +59: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: missing system_health.read hides controls and never starts a policy read
+00:23 +60: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: loading and redacted failed observations offer bounded recovery
+00:23 +61: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: expired observations label emergency stop unverified and disable mutations
+00:23 +62: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: an unresolved configuration keeps its original request visible and permits only a distinct stop
+00:23 +63: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: unknown emergency stop prevents stacking another stop UUID
+00:24 +64: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: authority loss clears the reason dialog immediately and cannot resurrect its draft
+00:24 +65: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: capability loss and restoration in the same session clears typed scope IDs
+00:24 +66: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: theme false width 1440.0 reflows at enlarged text without overflow
+00:24 +67: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: theme false width 360.0 reflows at enlarged text without overflow
+00:24 +68: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: theme true width 1440.0 reflows at enlarged text without overflow
+00:24 +69: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: theme true width 360.0 reflows at enlarged text without overflow
+00:24 +70: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: optional source-bound light/dark captures render through actual shared theme
+00:24 +71: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_receipt_operations_card_test.dart: (tearDownAll)
+00:24 +71: All tests passed!

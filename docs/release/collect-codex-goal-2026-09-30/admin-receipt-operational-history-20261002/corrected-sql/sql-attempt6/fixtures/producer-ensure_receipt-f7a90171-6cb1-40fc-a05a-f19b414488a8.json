@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "code": "RECEIPT_EXISTS",
+  "action": "ensure_receipt",
+  "run_id": "7168565d-69e8-4415-aa47-c59123ecaa3e",
+  "event_id": "b47db7a1-a882-4225-a0ba-cdd2a9b024ae",
+  "receipt_id": "563c8730-0e2d-4dfb-9364-4dc29ac3d867",
+  "request_id": "f7a90171-6cb1-40fc-a05a-f19b414488a8",
+  "observed_at": "2026-10-02T00:46:55.357783Z",
+  "principal_id": "07eb4d13-d1c1-49b2-bb44-a3da7b9551fb",
+  "fence_version": 1,
+  "source_version": 1,
+  "business_handled": true,
+  "contract_version": 2
+}

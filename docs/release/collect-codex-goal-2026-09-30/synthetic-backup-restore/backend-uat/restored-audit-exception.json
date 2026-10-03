@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "action": "exception.acknowledge",
+      "source": "exception_action",
+      "actor_id": "99710000-0000-4000-8000-000000000001",
+      "event_id": "5277cf8b-1af9-431f-8763-4733e739f110",
+      "revision": 1,
+      "request_id": "5277cf8b-1af9-431f-8763-4733e739f110",
+      "reason_code": "review_started",
+      "recorded_at": "2026-10-01T01:10:35.846300Z",
+      "fence_version": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_operator_entity_audit",
+  "status": "available",
+  "entity_id": "8a8aa77e-4e1b-4878-bf42-eddfd1f68dea",
+  "checked_at": "2026-10-01T01:11:09.392449Z",
+  "entity_kind": "exception",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-01T01:12:09.392449Z",
+  "historical_shadow_audit_backfilled": false
+}

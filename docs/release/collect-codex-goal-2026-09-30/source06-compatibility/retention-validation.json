@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "sql_checks": 36,
+  "actual_json_schema_checks": 11,
+  "migrations_per_phase": 175,
+  "pending_after_hosted124": 51,
+  "final_migration_executions": 350,
+  "preserved_predecessor_projection_categories": 19,
+  "task_targets_removed": true,
+  "source06_marker_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "wrapper_sha256": "b952d71ee6b9a2e2ef19df0b3cf4d54fd42d1188fd083e25459d4edd56761711",
+  "executed_helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+  "inputs_captured_before_execution": true,
+  "source_drift": false,
+  "initial_assertion_hardening_pass_retained": true,
+  "python_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "jsonschema_version": "4.26.0",
+  "application_sources_changed": false,
+  "published_c34_runner_outside_source06": true,
+  "hosted_or_runtime_acceptance": false,
+  "checked_at": "2026-10-01T08:56:57.833046+00:00"
+}

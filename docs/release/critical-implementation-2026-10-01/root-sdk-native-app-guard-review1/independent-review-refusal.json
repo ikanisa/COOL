@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-10-02T08:00:44.748811+00:00",
+  "status": "no_stage_admission_due_to_independent_review_findings",
+  "prior_root_preparation_review_sha256": "5fb1edb4b3486a77ed432c92ae63a289ccf2ed78f5165c6a5bae84a68b319530",
+  "sealed_preparation1_unchanged": true,
+  "actual_whole_app_lock_still_failed": true,
+  "findings": [
+    "Both iOS registrants absent skips rendering verification.",
+    "All SwiftPM links absent skips expected membership and copy proof.",
+    "Expected iOS plugin set derived from generated metadata can shrink after consistent omission."
+  ],
+  "required_fix": "Eager whole generated-output membership and independent locked/reviewed source platform-plugin derivation in preparation2.",
+  "stage_admissions_created": false,
+  "preservation_executed": false,
+  "native_admitted": false
+}

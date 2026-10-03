@@ -1,0 +1,67 @@
+{
+  "status": "six_exact_canonical_changes_integrated_and_current_units_passed",
+  "canonical_sha256": {
+    "scripts/audits/collect_receipt_worker_snapshot.rb": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d",
+    "scripts/audits/collect_recovery_source.rb": "8a5d497cd75ecc2eaddf3c6195648c5e664f524b4688c87d2b2fdb083a49aeb0",
+    "scripts/audits/collect_encrypted_database_backup.rb": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada",
+    "scripts/tests/production_archive_restore.rb": "1d2d12d076b76d02d6a36b41cb0a0830188607119b3efca020f96009ea362867",
+    "docs/platform/CURRENT_CANDIDATE_RECOVERY.md": "52f26823f6b3b7cafe67e44fc12bd25c62ab9a7e6997b335be630cbf8727a8ca",
+    "scripts/tests/collect_worker_snapshot_test.rb": "c274e3e48415dc2ea2a3a7bccf7c2aab9d2d3fa681e633ce0f8f9dcbc2c7ab9b"
+  },
+  "modified_originals_preserved": 4,
+  "unit_cases": 33,
+  "unit_assertions": 155,
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "scripts/tests/collect_worker_snapshot_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "898a4887a044eb71d8aa86f42962990bf7e32b83acec1c32fb1bef8acfc6116d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "scripts/tests/collect_recovery_source_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f8c4ceb730271e7345cbfef7cd38123f1c77e15f9d57bdc9d8ccdaf3f9bae9d0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "scripts/tests/collect_encrypted_database_backup_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "0e67da434b649f288bab4a1da2afc04774fae105dc348f1d5b6ab36301173579",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "scripts/tests/production_archive_restore_test.rb",
+        "--seed",
+        "1042"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d435e4980dfd4d34e5c5909e71f126a513a36c10d79bbf31d86c4ea2551bd2ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "SQL_checks_reused": 38,
+  "selected_SQL_cohort": 205,
+  "canonical_migration_observation": 207,
+  "full_current_recovery": false,
+  "durable_business_inactive_overlay": false,
+  "hosted": false,
+  "timestamp": "2026-10-02T02:07:15.593353+00:00"
+}

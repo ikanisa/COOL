@@ -1,0 +1,120 @@
+{
+  "scope": "Only14 finite runner/test/fixture files. Root separately integrates admitted9modified+2new product modules; these are not included here.",
+  "entries": [
+    {
+      "target": "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewaySuccessorTest.kt",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewaySuccessorTest.kt",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "1a0f3b7a11064a4a58e43a05228ae7f1a02445475e8e736679e9a51bbab0394a",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_archive_jvm.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_archive_jvm.py",
+      "kind": "modify",
+      "base_sha256": "f5a0082b67285328b9e72ce0ee12a2e6f6409189176cc74f39339f30d6bcbeec",
+      "sha256": "b0bfe5ea92292d618a2c449e82fce01585f5c6e368bbf8d3dde59cc4b2fcdf39",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_attempt_archive_jvm.py",
+      "kind": "modify",
+      "base_sha256": "3e566f880c07201a7d152e0aac1816eb1b39177d703775e5b9e7554f3a296a53",
+      "sha256": "4a7f31b19f38179eec4ab9c14e826ac63c120e8863aa9cbfcb450634a2b7dc63",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_background_jvm.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_background_jvm.py",
+      "kind": "modify",
+      "base_sha256": "e4c27d5a4e38382190ec26e7cafb573c3f54ffb856bd52a6de37f0459869d637",
+      "sha256": "efbef85e8d7884cd9788804e0deef8a8e422567ad734fa2df30f844d1719aa3c",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_dispatch_jvm.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_dispatch_jvm.py",
+      "kind": "modify",
+      "base_sha256": "47f3030d909b53f3b72a05bd75bb08750d62779052a8eacc7f63318591ed94c5",
+      "sha256": "63ecae7cb36d24b366eb83408ce016ac905050caac4d1e7c08c575a9db6d4860",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_native_tools.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_native_tools.py",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "436f2aaad5ddec85121e46b5dea6094a944b2d5471fd87256d6648b49ee11bc3",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/android_gateway_successor_jvm.py",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/android_gateway_successor_jvm.py",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "0f1b43a7ebb87ac9eeb13338d82f250d1d65d159765cc1230b7f9788899e9102",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-exact-successor-archive-ack.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "2e63c7feceaf45b0f116079ff0faf86bbaf9a7bea18952036c71d20dddd134ac",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-conflicting-status.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "2a81608ef03e1742177b36e57dcd68a4caf125c00dad910b57aa346c3c570dde",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-late-original-request-recovery.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "496b1138b44f808e624fe2e7eb5229e6aa9d9f516633224607e124ee7742fbbf",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-multipart-callbacks.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "a303622a3def0763da094074469d8d340c14ab49f51cdbecaec0d76c822ffd13",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-arm.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-arm.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "4c8d914824ad403986114fc2bae8317c08ab8ae301c5a52a8ca6b1d500c96c23",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/observed-successor-grant.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "93f338c820962065fef0d6a471ebb90a853c9889f072dad79f7dabb7264974f7",
+      "mode": "0o644"
+    },
+    {
+      "target": "scripts/tests/fixtures/android_gateway_successor_v1/producer-association.json",
+      "proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-native-runner-adaptation-20261002/promote/scripts/tests/fixtures/android_gateway_successor_v1/producer-association.json",
+      "kind": "add",
+      "base_sha256": null,
+      "sha256": "613d609a7c0211f09f69d5a54596944d483968a3304454db29bdd9617a906efa",
+      "mode": "0o644"
+    }
+  ],
+  "canonical_written": false,
+  "runtime_copied": false,
+  "sealed_800_modified": false
+}

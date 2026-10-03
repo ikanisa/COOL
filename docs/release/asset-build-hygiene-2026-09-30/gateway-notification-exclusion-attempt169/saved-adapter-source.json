@@ -1,0 +1,5 @@
+{
+  "android/app/build.gradle.kts": "ecddcc5745d93c6c9c6ee23e9e9dc5c92cec581ad17a7751845c1bb180091e1c",
+  "android/gradle/CollectPluginRegistrant.java": "66f330f0c98b048013259a7a8cc211224a91381366e972673a2676421c5f4551",
+  "scripts/tests/CollectPluginRegistrantTest.java": "9113a67007a58c820d911bbe755e4e22063e1f3e14f65d18df1be5df37b77c4b"
+}

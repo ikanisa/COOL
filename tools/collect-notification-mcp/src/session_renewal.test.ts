@@ -1,6 +1,6 @@
 import {test} from "node:test";
 import assert from "node:assert/strict";
-import {loginSession, productionOrigin, resolveStoredSession, type SessionStore} from "./session_renewal.ts";
+import {loginSession, productionOrigin, requireCurrentEmailIdentity, resolveStoredSession, type SessionStore} from "./session_renewal.ts";
 
 const now = 1800000000000;
 const environment = {COLLECT_SUPABASE_URL: productionOrigin, COLLECT_OPERATOR_SESSION_RENEWAL: "keychain"};
@@ -152,4 +152,91 @@ test("OTP login retains renewal only with explicit opt-in and a valid session id
   assert.equal((stored as Record<string, unknown>).refresh_token, next.refresh_token);
   assert.equal(Object.hasOwn(loginSession(fresh, prior.anon_key, {COLLECT_SUPABASE_URL: productionOrigin}), "refresh_token"), false);
   assert.throws(() => loginSession({...fresh, refresh_token: undefined}, prior.anon_key, environment), /REAUTHENTICATION_REQUIRED/);
+});
+
+const emailSubject = "99740000-0000-4000-8000-000000000001";
+const email = "info@ikanisa.com";
+const emailPrior = {...prior, access_token: jwt({...claims, sub: emailSubject})};
+const emailNext = {...next, access_token: jwt({...claims, sub: emailSubject, exp: now / 1000 + 3600})};
+const verifiedEmail = () => ({id: emailSubject, email, email_confirmed_at: new Date(now - 1000).toISOString()});
+
+test("selected-email renew checks current GoTrue identity before health and rotated-token persistence", async () => {
+  const state = memoryStore(emailPrior);
+  const requests: Array<{url: string; method: string | undefined}> = [];
+  const fetcher: typeof fetch = async (url, init) => {
+    assert.equal(state.writes.length, 1);
+    requests.push({url: String(url), method: init?.method});
+    assert.equal(init?.redirect, "error");
+    assert.equal(init?.cache, "no-store");
+    if (String(url).endsWith("/auth/v1/user")) {
+      assert.equal(init?.body, undefined);
+      assert.equal(new Headers(init?.headers).get("authorization"), `Bearer ${emailNext.access_token}`);
+      return Response.json({...verifiedEmail(), email: " INFO@IKANISA.COM "});
+    }
+    return requests.length === 1 ? Response.json(emailNext) : Response.json({ok: true, result: {enabled: false}});
+  };
+  const runtime = await resolveStoredSession(state.store, environment, fetcher, () => now, {refreshNow: true, requiredEmail: email});
+  assert.equal(runtime.COLLECT_OPERATOR_ACCESS_TOKEN, emailNext.access_token);
+  assert.deepEqual(requests.map(r => r.url), [
+    `${productionOrigin}/auth/v1/token?grant_type=refresh_token`,
+    `${productionOrigin}/auth/v1/user`,
+    `${productionOrigin}/functions/v1/collect-notification-operator`,
+  ]);
+  assert.equal(requests[1]?.method, "GET");
+  assert.equal(state.writes.length, 2);
+});
+
+test("wrong email, old approved phone, unconfirmed email and changed Auth subject retain the tombstone without replay", async () => {
+  for (const identity of [
+    {...verifiedEmail(), email: "PRIVATE_CANARY@example.com"},
+    {id: emailSubject, email: null, phone: "+250788123456", phone_confirmed_at: new Date(now - 1000).toISOString()},
+    {...verifiedEmail(), email_confirmed_at: null},
+    {...verifiedEmail(), id: "99740000-0000-4000-8000-000000000002"},
+    {...verifiedEmail(), email_confirmed_at: new Date(now + 1000).toISOString()},
+    {...verifiedEmail(), email_confirmed_at: "2026-02-30T00:00:00Z"},
+    {...verifiedEmail(), email_confirmed_at: "PRIVATE_TOKEN_CANARY"},
+  ]) {
+    const state = memoryStore(emailPrior);let calls = 0;
+    const fetcher: typeof fetch = async () => ++calls === 1 ? Response.json(emailNext) : Response.json(identity);
+    await assert.rejects(resolveStoredSession(state.store, environment, fetcher, () => now, {refreshNow: true, requiredEmail: email}), /^Error: OPERATOR_SESSION_REAUTHENTICATION_REQUIRED$/);
+    assert.equal(calls, 2);
+    assert.deepEqual(state.current(), {origin: productionOrigin, version: 2, refresh_pending: true});
+    await assert.rejects(resolveStoredSession(state.store, environment, fetcher, () => now, {refreshNow: true, requiredEmail: email}), /^Error: OPERATOR_SESSION_REAUTHENTICATION_REQUIRED$/);
+    assert.equal(calls, 2);
+  }
+});
+
+test("a selected-email fresh session still needs the current Auth identity and performs no renewal writes", async () => {
+  const state = memoryStore({...emailPrior, access_token: emailNext.access_token});let calls = 0;
+  await resolveStoredSession(state.store, environment, async (url) => {
+    calls++;assert.equal(String(url), `${productionOrigin}/auth/v1/user`);return Response.json(verifiedEmail());
+  }, () => now, {requiredEmail: email});
+  assert.equal(calls, 1);
+  assert.deepEqual(state.writes, []);
+});
+
+test("current-email identity refuses redirects, revoked auth, oversized or malformed bodies with one safe failure", async () => {
+  for (const failure of [
+    () => new Response("PRIVATE_TOKEN_CANARY", {status: 403}),
+    () => new Response("PRIVATE_TOKEN_CANARY", {status: 302}),
+    () => Response.json({...verifiedEmail(), id: undefined}),
+    () => new Response("not-json", {headers: {"content-type": "application/json"}}),
+    () => new Response("{}", {headers: {"content-type": "application/json", "content-length": "65537"}}),
+    () => new Response(JSON.stringify({private: "x".repeat(65537)}), {headers: {"content-type": "application/json"}}),
+  ]) {
+    let calls = 0;
+    await assert.rejects(requireCurrentEmailIdentity(emailPrior, emailSubject, email, async () => {calls++;return failure();}, () => now), /^Error: OPERATOR_SESSION_REAUTHENTICATION_REQUIRED$/);
+    assert.equal(calls, 1);
+  }
+});
+
+test("current-email identity timeout and stalled body are bounded and never retried", async () => {
+  let calls = 0;
+  await assert.rejects(requireCurrentEmailIdentity(emailPrior, emailSubject, email, async () => {
+    calls++;return new Promise<Response>(() => {});
+  }, () => now, 15), /^Error: OPERATOR_SESSION_REAUTHENTICATION_REQUIRED$/);
+  await assert.rejects(requireCurrentEmailIdentity(emailPrior, emailSubject, email, async () => {
+    calls++;return new Response(new ReadableStream({start(controller) {controller.enqueue(new TextEncoder().encode('{"id":'));}}), {headers: {"content-type": "application/json"}});
+  }, () => now, 15), /^Error: OPERATOR_SESSION_REAUTHENTICATION_REQUIRED$/);
+  assert.equal(calls, 2);
 });

@@ -1,0 +1,65 @@
+{
+  "status": "pass_scoped",
+  "sql_executed": false,
+  "candidate_runtime_acceptance_complete": false,
+  "scope": "Offline guard validation over actual captured index metadata; final guarded function source is restored to captured baseline only for this index-only assertion. This does not replace actual comparison runtime acceptance.",
+  "inputs": {
+    "docs/release/generated-query-benchmark-2026-10-01/index-catalog-verifier-correction-root1/runner-proposed.py": "089192835bbfbd1920d7b77c16c503e1bce03909a1f6b33b840538940c8a4b21",
+    "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt2-root-1000-10000/volume-1000/before-candidate-catalog.json": "8e7b17656b8c77095904316e4f671d9bb6ca52dd86dbd011a2c3dcd1148c5e3d",
+    "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt2-root-1000-10000/volume-1000/final-candidate-catalog.json": "91dd91072d7fabd16c8a7d3bf6cd2118d6081ec18a5c76c75c71addf1c176db3"
+  },
+  "expected_added_objects": [
+    "column:payments_history_global_highest_idx.amount_rwf",
+    "column:payments_history_global_highest_idx.id",
+    "column:payments_history_global_highest_idx.posted_at",
+    "column:payments_history_global_lowest_idx.amount_rwf",
+    "column:payments_history_global_lowest_idx.id",
+    "column:payments_history_global_lowest_idx.posted_at",
+    "column:payments_history_global_newest_idx.id",
+    "column:payments_history_global_newest_idx.posted_at",
+    "column:payments_history_global_oldest_idx.id",
+    "column:payments_history_global_oldest_idx.posted_at",
+    "index:payments_history_global_highest_idx",
+    "index:payments_history_global_lowest_idx",
+    "index:payments_history_global_newest_idx",
+    "index:payments_history_global_oldest_idx",
+    "relation:public.payments_history_global_highest_idx",
+    "relation:public.payments_history_global_lowest_idx",
+    "relation:public.payments_history_global_newest_idx",
+    "relation:public.payments_history_global_oldest_idx"
+  ],
+  "cases": [
+    {
+      "name": "all18 actual physical index metadata entries match exact expected definitions/types/owner ACL",
+      "passed": true
+    },
+    {
+      "name": "extra index refused",
+      "passed": true
+    },
+    {
+      "name": "new index public grant refused",
+      "passed": true
+    },
+    {
+      "name": "new index wrong column type refused",
+      "passed": true
+    },
+    {
+      "name": "new index predicate change refused",
+      "passed": true
+    },
+    {
+      "name": "existing API attribute change refused",
+      "passed": true
+    },
+    {
+      "name": "removed existing object refused",
+      "passed": true
+    },
+    {
+      "name": "invalid new index refused",
+      "passed": true
+    }
+  ]
+}

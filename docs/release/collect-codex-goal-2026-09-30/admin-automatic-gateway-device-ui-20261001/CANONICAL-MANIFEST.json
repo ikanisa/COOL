@@ -1,0 +1,57 @@
+{
+  "self_excluded": true,
+  "files": {
+    "README.md": {
+      "sha256": "27ce6e0b0f4d54d334b3cc45e90bb80ad26cd27dbbfe26f999c260f87a988865",
+      "bytes": 1158
+    },
+    "accepted-execution/command-0.log": {
+      "sha256": "be962bdcf4866302d2de7db26ee7fdea9ed32366a72f771e0390b5b63063b96c",
+      "bytes": 697
+    },
+    "accepted-execution/command-1.log": {
+      "sha256": "e8977c2decb664020ae1f4c978a5474dd9b7a7d9f8c667f2b3a5b8bcf46d2fa8",
+      "bytes": 96
+    },
+    "accepted-execution/inputs-after.json": {
+      "sha256": "c6bf48dfc7ee2dc64d259a5fd84baf1c14cb77afded21172c55a13e7414cdac6",
+      "bytes": 52609
+    },
+    "accepted-execution/inputs-before.json": {
+      "sha256": "c6bf48dfc7ee2dc64d259a5fd84baf1c14cb77afded21172c55a13e7414cdac6",
+      "bytes": 52609
+    },
+    "accepted-execution/result.json": {
+      "sha256": "402eaf3368198946e9e669f782b3db103d268b4cce65ee3ac17a978a4343d4c9",
+      "bytes": 761
+    },
+    "canonical-source-association.json": {
+      "sha256": "a5b1cf8056e527ee57182c65bbc4d032c6fadd423387b66c3ae4f7826ba7f067",
+      "bytes": 749
+    },
+    "canonical-sources/test/admin_automatic_gateway_device_view_test.dart": {
+      "sha256": "464b184e15d41b44501523c7845580d3f0e5b69c8cb49878e1f71a21902ef7f0",
+      "bytes": 7742
+    },
+    "canonical-sources/test/fixtures/admin_automatic_gateway_observed/admin-directory-first.json": {
+      "sha256": "47a0a9dff4d99da467db7e2ece798c722f5c59d78cbfbc798aad4faffe2bffa5",
+      "bytes": 1220
+    },
+    "canonical-sources/test/fixtures/admin_automatic_gateway_observed/admin-filtered-empty-directory.json": {
+      "sha256": "6cf92548741d6d47ea0ba7ba9e3083641a43a3cd4027f5e6d24dca16447436b2",
+      "bytes": 474
+    },
+    "rejected-fixture-execution/command-0.log": {
+      "sha256": "f526ab5fff3b2b56c6b961fff3145af1403e7d89548d921d2f66e91d2b7765f4",
+      "bytes": 6504
+    },
+    "rejected-fixture-execution/inputs-before.json": {
+      "sha256": "b9c362852b82e93000c6e9df603e8d1218a345c24652924c7799675898d627ea",
+      "bytes": 52609
+    },
+    "rejected-fixture-execution/result.json": {
+      "sha256": "ce3226e6e9cea099e27c62138f911d5a12881026032e0e071b09fc7c3d032604",
+      "bytes": 433
+    }
+  }
+}

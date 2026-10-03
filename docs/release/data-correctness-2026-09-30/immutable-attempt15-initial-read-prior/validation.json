@@ -1,0 +1,142 @@
+{
+  "status": "fail",
+  "command": {
+    "name": "initial-read",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/tests.machine.jsonl",
+      "test/shared/member_read_integrity_test.dart"
+    ],
+    "started_utc": "2026-09-30T21:19:32.108818+00:00",
+    "exit_code": 1,
+    "timed_out": false,
+    "owned_process_group": 97655,
+    "parent_exit_confirmed": true,
+    "termination_errors": [],
+    "seconds": 12.918,
+    "stdout_sha256": "5a7265441b09dca874c6e81e2135fb462cf8ecae30917c8b976d99da9f8d55d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tests": {
+    "runner_completed_successfully": false,
+    "passed": 6,
+    "failed": 11,
+    "errors": 0,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "production SDK read rejects foreign profile before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects duplicate group before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects inexact pending count before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects inexact modern total before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects foreign event before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "production SDK read rejects duplicate event before publishing finance/notifications",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after get_current_member_profile across same-user new-session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after get_current_member_profile across A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_user_collections across same-user new-session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_user_collections across A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_recent_intents across same-user new-session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_recent_intents across A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_history_page across same-user new-session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_history_page across A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_collection_balances across same-user new-session",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read stops after list_current_member_collection_balances across A to B to A",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      },
+      {
+        "name": "initial read retains captured Bearer across same-session refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/data-correctness-2026-09-30/immutable-attempt15-initial-read-prior/source-export/test/shared/member_read_integrity_test.dart",
+        "result": "failure",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "source_unchanged": true,
+  "export_unchanged": true,
+  "sdk_unchanged": true,
+  "inputs_sha256": "591b1cf5a7f2f204ad59343ebe43a7c8e9d0785ee9ba299e5cbbda2d523401d6",
+  "whole_system_acceptance": false
+}

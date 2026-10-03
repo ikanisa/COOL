@@ -1,0 +1,4 @@
+NOTICE:  42710: extension "pgcrypto" already exists, skipping
+LOCATION:  CreateExtension, extension.c:1791
+NOTICE:  00000: trigger "on_auth_user_created_collect_profile" for relation "auth.users" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-20261002-deabfee579f3-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "make format-check"
+  ],
+  "deadline_seconds": 90,
+  "pid": 70681,
+  "started_at_utc": "2026-10-02T00:12:31.799453+00:00"
+}

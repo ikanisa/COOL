@@ -1,0 +1,65 @@
+{
+  "blocking_finding": "Durable local disable during the newly added storage-admission await is not rechecked before runner invocation.",
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "elapsed_seconds": 0.483,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "name": "typecheck",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "src/unattended_scheduler_control.test.ts"
+      ],
+      "elapsed_seconds": 9.425,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "name": "affected-module",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3eefb24be7ec40e24d4d176b52fdc532f2595791e9c27208f0fab12b7b1d6b96"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-post-acceptance-review-20261001-current1/scripts/tests/unattended_launchd_preparation_test.py"
+      ],
+      "elapsed_seconds": 1.764,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "name": "python-preparation",
+      "stderr_sha256": "35d950b3c04332543ac42eb99dffc608a4b9c90caebe9b6fab8b5b2b1e6259aa",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Development/Node/bin/node",
+        "--experimental-strip-types",
+        "--test",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/mcp-review/disable-during-admission-reproducer.test.ts"
+      ],
+      "elapsed_seconds": 0.743,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "name": "disable-during-admission",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "89a19dabd2fefc9d4ffcce72c359a2990a3e5d5c49b136fe3ecea35d5e46ec39"
+    }
+  ],
+  "dependency_changes": [],
+  "prior390_proof": "docs/release/rapid-completion-2026-10-01/current-mcp-all-modules-terminal1/validation.json",
+  "production_release_claim": false,
+  "real_launchd_keychain_auth_provider_calls": false,
+  "source_changes": [],
+  "status": "checks_pass_blocking_race_reproduced",
+  "unaffected_modules_reused": 28
+}

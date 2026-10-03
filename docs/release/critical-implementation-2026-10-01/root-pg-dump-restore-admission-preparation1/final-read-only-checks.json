@@ -1,0 +1,32 @@
+{
+  "scope": "Current final candidate5 read-only input/syntax fences after exact36-case proof; no maintained writes or additional execution",
+  "python_runtime_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "python_runtime_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "python_runtime_binary_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "syntax": [
+    {
+      "path": "candidate5/scripts/qa/pg_archive_admission.py",
+      "sha256": "48bd219d4aa40d888a87819f68764bb0dbf82c50a3e23de4333925da3a11c576",
+      "python_AST_parsed": true
+    },
+    {
+      "path": "candidate5/scripts/tests/test_pg_archive_admission.py",
+      "sha256": "c53e619e2a7c734813e2564684fc25269810adc62f951c4e5fb8e0509643d322",
+      "python_AST_parsed": true
+    },
+    {
+      "path": "candidate5/scripts/qa/postgres_admission.py",
+      "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92",
+      "python_AST_parsed": true
+    },
+    {
+      "path": "run_latest_focused.py",
+      "sha256": "61da002a437108b3437c2f2520fca2497397e4663f6ee7105a4feafd96359f1b",
+      "python_AST_parsed": true
+    }
+  ],
+  "maintained19_final_hash_mode_matches": true,
+  "final_preservation_sha256": "7422919b9197be6a112509a879c6b0199190e5c97f6bfe89b26f460942a86875",
+  "four_file_diff_sha256": "7111663b1e1682eb6bb4e34dc8297acca1b24c0eac3e8eb833ca6473cd9b7412",
+  "no_canonical_register_or_mobile_source_write": true
+}

@@ -1,0 +1,171 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/test.before.dart	2026-10-01 15:50:02
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_exception_workflow_sdk_test.dart	2026-10-01 15:50:02
+@@ -30,10 +30,11 @@
+   }
+ }
+ 
+-Future<void> _mountSdkInbox(
++Future<void> _withSdkInbox(
+   WidgetTester tester,
+   SupabaseClient client,
+   DateTime checkedAt,
++  Future<void> Function() exercise,
+ ) async {
+   final container = ProviderContainer(
+     overrides: [
+@@ -42,23 +43,31 @@
+       adminClockProvider.overrideWithValue(() => checkedAt),
+     ],
+   );
+-  addTearDown(container.dispose);
+-  await tester.pumpWidget(
+-    UncontrolledProviderScope(
+-      container: container,
+-      child: MaterialApp(
+-        theme: CollectTheme.light(),
+-        home: const Scaffold(
+-          body: SingleChildScrollView(child: AdminExceptionEscalationInbox()),
++  try {
++    await tester.pumpWidget(
++      UncontrolledProviderScope(
++        container: container,
++        child: MaterialApp(
++          theme: CollectTheme.light(),
++          home: const Scaffold(
++            body: SingleChildScrollView(child: AdminExceptionEscalationInbox()),
++          ),
+         ),
+       ),
+-    ),
+-  );
+-  await _settleSdk(tester);
+-  await tester.tap(find.text('Your escalation inbox'));
+-  await _settleSdk(tester);
+-  expect(find.text('Open exception follow-up'), findsWidgets);
+-  await tester.ensureVisible(find.text('Open exception follow-up').first);
++    );
++    await _settleSdk(tester);
++    await tester.tap(find.text('Your escalation inbox'));
++    await _settleSdk(tester);
++    expect(find.text('Open exception follow-up'), findsWidgets);
++    await tester.ensureVisible(find.text('Open exception follow-up').first);
++    await exercise();
++  } finally {
++    // The uncontrolled container owns the real Auth expiry timer. Dispose it
++    // before Flutter verifies widget invariants, including assertion failures.
++    await tester.pumpWidget(const SizedBox.shrink());
++    container.dispose();
++    await tester.pump();
++  }
+ }
+ 
+ void main() {
+@@ -369,8 +378,8 @@
+     test(
+       'read acknowledgement refuses malformed delivery ID before SDK dispatch',
+       () async {
+-        await expectLater(
+-          repository.readExceptionEscalation('not-a-uuid'),
++        expect(
++          () => repository.readExceptionEscalation('not-a-uuid'),
+           throwsFormatException,
+         );
+         expect(requests, isEmpty);
+@@ -433,7 +442,7 @@
+           addTearDown(keep.close);
+           final assertion = expectLater(
+             container.read(adminExceptionEscalationInboxProvider.future),
+-            throwsA(isA<AdminSessionChanged>()),
++            throwsA(isA<AdminExceptionDenied>()),
+           );
+           await started.future;
+           final loading = Completer<AdminIdentity?>();
+@@ -462,9 +471,19 @@
+             isTrue,
+           );
+           held.complete(auth.response(inbox));
++          if (departure == 'identity-loading') {
++            // Riverpod follows the replacement identity future. While it is
++            // unresolved, the old HTTP projection must remain unpublished.
++            await Future<void>.delayed(Duration.zero);
++            await Future<void>.delayed(Duration.zero);
++            final state = container.read(adminExceptionEscalationInboxProvider);
++            expect(state.isLoading, isTrue);
++            expect(state.asData, isNull);
++            expect(requests, hasLength(1));
++            loading.complete(null);
++          }
+           await assertion;
+           expect(requests, hasLength(1));
+-          if (!loading.isCompleted) loading.complete(null);
+         },
+       );
+     }
+@@ -554,7 +573,7 @@
+       'recipient production inbox opens only after matching actual SDK read ACK',
+       (tester) async {
+         respond = validUiResponse;
+-        await _mountSdkInbox(tester, client, sample.checkedAt);
++        await _withSdkInbox(tester, client, sample.checkedAt, () async {
+         await tester.tap(find.text('Open exception follow-up').first);
+         await _settleSdk(tester);
+         expect(find.text('Close follow-up'), findsOneWidget);
+@@ -575,6 +594,7 @@
+           isFalse,
+         );
+         await evidence.close(tester);
++          });
+       },
+     );
+ 
+@@ -612,7 +632,7 @@
+               request.url.path.endsWith('admin_read_exception_escalation_v1')
+               ? auth.response(ack)
+               : validUiResponse(request);
+-          await _mountSdkInbox(tester, client, sample.checkedAt);
++          await _withSdkInbox(tester, client, sample.checkedAt, () async {
+           await tester.tap(find.text('Open exception follow-up').first);
+           await _settleSdk(tester);
+           expect(find.text('Close follow-up'), findsNothing);
+@@ -640,6 +660,7 @@
+             isFalse,
+           );
+           await evidence.close(tester);
++          });
+         },
+       );
+     }
+@@ -653,7 +674,7 @@
+           }
+           return validUiResponse(request);
+         };
+-        await _mountSdkInbox(tester, client, sample.checkedAt);
++        await _withSdkInbox(tester, client, sample.checkedAt, () async {
+         await tester.tap(find.text('Open exception follow-up').first);
+         await _settleSdk(tester);
+         expect(find.text('Close follow-up'), findsNothing);
+@@ -680,6 +701,7 @@
+           isFalse,
+         );
+         await evidence.close(tester);
++          });
+       },
+     );
+ 
+@@ -692,7 +714,7 @@
+               request.url.path.endsWith('admin_read_exception_escalation_v1')
+               ? held.future
+               : validUiResponse(request);
+-          await _mountSdkInbox(tester, client, sample.checkedAt);
++          await _withSdkInbox(tester, client, sample.checkedAt, () async {
+           await tester.tap(find.text('Open exception follow-up').first);
+           await _settleSdk(tester);
+           expect(
+@@ -727,6 +749,7 @@
+             hasLength(1),
+           );
+           await evidence.close(tester);
++          });
+         },
+       );
+     }

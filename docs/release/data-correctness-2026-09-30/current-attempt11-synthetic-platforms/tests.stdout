@@ -1,0 +1,82 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: (setUpAll)
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Continue to MoMo": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart:171:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart line 171
+The test description was:
+  replacement same-user session clears completed prepared payment
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment [E]
+  Test failed. See exception logs above.
+  The test description was: replacement same-user session clears completed prepared payment
+  
+00:02 +0 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preparation reply cannot rebuild a payment after replacement session
+00:02 +1 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: old preflight reply cannot launch USSD after replacement session
+00:02 +2 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: current captured session completes existing payment workflow
+00:03 +3 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: (tearDownAll)
+00:03 +3 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart
+00:03 +3 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: create current production SDK workflow remains valid and pinned
+00:03 +4 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: create rejects late ACK after replacement session with original Bearer
+00:03 +5 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: create rejects late ACK after A to B to A with original Bearer
+00:03 +6 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile current production SDK workflow remains valid and pinned
+00:03 +7 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile rejects late ACK after replacement session with original Bearer
+00:03 +8 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile rejects late ACK after A to B to A with original Bearer
+00:03 +9 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: group profile current production SDK workflow remains valid and pinned
+00:03 +10 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: group profile rejects late ACK after replacement session with original Bearer
+00:03 +11 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: group profile rejects late ACK after A to B to A with original Bearer
+00:03 +12 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: join current production SDK workflow remains valid and pinned
+00:03 +13 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: join rejects late ACK after replacement session with original Bearer
+00:03 +14 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: join rejects late ACK after A to B to A with original Bearer
+00:03 +15 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: promote current production SDK workflow remains valid and pinned
+00:03 +16 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: promote rejects late ACK after replacement session with original Bearer
+00:03 +17 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: promote rejects late ACK after A to B to A with original Bearer
+00:03 +18 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: archive current production SDK workflow remains valid and pinned
+00:03 +19 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: archive rejects late ACK after replacement session with original Bearer
+00:03 +20 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: archive rejects late ACK after A to B to A with original Bearer
+00:03 +21 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: transfer current production SDK workflow remains valid and pinned
+00:03 +22 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: transfer rejects late ACK after replacement session with original Bearer
+00:03 +23 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: transfer rejects late ACK after A to B to A with original Bearer
+00:03 +24 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: notification current production SDK workflow remains valid and pinned
+00:03 +25 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: notification rejects late ACK after replacement session with original Bearer
+00:03 +26 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: notification rejects late ACK after A to B to A with original Bearer
+00:03 +27 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile ACK cannot forge immutable id
+00:03 +28 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile ACK cannot forge immutable public_id
+00:03 +29 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: profile ACK cannot forge immutable whatsapp_phone
+00:03 +30 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: create scoped fetch cannot return a forged group owner
+00:03 +31 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: group profile scoped fetch cannot return a forged group owner
+00:03 +32 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: join scoped fetch must confirm current membership
+00:03 +33 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: creation stops after native permission await changes session
+00:03 +34 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: creation capability calendar 2030-02-30T12:00:00Z fails before create RPC
+00:03 +35 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: creation capability calendar 2030-01-01T00:00:00 fails before create RPC
+00:03 +36 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: creation capability calendar 0000-01-01T00:00:00Z fails before create RPC
+00:03 +37 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/shared/member_mutation_session_test.dart: notification optimistic state cannot relabel a foreign event
+00:03 +38 -1: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart
+00:04 +38 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (setUpAll)
+00:04 +38 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent complete aggregates remain unknown despite partial owned rows
+00:04 +39 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks empty partial ownership as incomplete
+00:06 +40 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: supported-group filter marks partial positive ownership as incomplete
+00:06 +41 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent group ledger page cannot claim no confirmed activity
+00:06 +42 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent group activity page cannot claim no contributions
+00:06 +43 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: absent activity page cannot be shown as zero confirmed history
+00:06 +44 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: refreshing retained roster removes previous IDs and amounts before reply
+00:07 +45 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/member_data_unknown_states_test.dart: (tearDownAll)
+00:07 +45 -1: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/contribution_flow_session_test.dart: replacement same-user session clears completed prepared payment

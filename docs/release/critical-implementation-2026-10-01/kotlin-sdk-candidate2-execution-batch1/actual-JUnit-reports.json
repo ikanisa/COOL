@@ -1,0 +1,1430 @@
+{
+  "actual_XML_suite_count": 16,
+  "all_actual_case_names": [
+    {
+      "classname": "com.flutter.gradle.AppLinkSettingsTest",
+      "error": false,
+      "failure": false,
+      "name": "canCreateThenEditDeeplinks()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.AppLinkSettingsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.AppLinkSettingsTest",
+      "error": false,
+      "failure": false,
+      "name": "canCreateAppLinkSettingsJson()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.AppLinkSettingsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.BaseApplicationNameHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "setBaseName defaults to correct value()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.BaseApplicationNameHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.BaseApplicationNameHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "setBaseName respects Flutter tool property()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.BaseApplicationNameHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "canCreateDeeplinkJsonWithIntentFilter()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "equals should return false for unequal objects()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "equals should return false for other of different type()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "equals should throw NullPointerException for null other()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "equals should return true for equal objects()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "stable fixed KGP passes the Collect candidate minimum without warning()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "KGP version in error range results in DependencyValidationException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "AGP version in warn range results in warning logs()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "min SDK version in error range results in DependencyValidationException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "AGP version in error range results in DependencyValidationException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "Java version in error range results in error logs()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "min SDK version in warn range results in warning logs()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "checkMinSdkVersion logs warning when in warning range for min SDK version()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "previous SDK and application KGP versions fail the Collect candidate minimum()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "Gradle version in warn range results in warning logs()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "Gradle version in error range results in DependencyValidationException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "checkMinSdkVersion throws error when in error range for min SDK version()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterExtensionTest",
+      "error": false,
+      "failure": false,
+      "name": "getVersionCode() throws GradleException when flutterVersion is not an integer()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterExtensionTest",
+      "error": false,
+      "failure": false,
+      "name": "getVersionName() throws GradleException when flutterVersionName is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterExtensionTest",
+      "error": false,
+      "failure": false,
+      "name": "getVersionCode() throws GradleException when flutterVersion is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterExtensionTest",
+      "error": false,
+      "failure": false,
+      "name": "getVersionName() returns flutterVersionName without error when set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterExtensionTest",
+      "error": false,
+      "failure": false,
+      "name": "getVersionCode() returns flutterVersion without error when set and is a number()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginTest",
+      "error": false,
+      "failure": false,
+      "name": "FlutterPlugin apply() adds expected tasks(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginTest",
+      "error": false,
+      "failure": false,
+      "name": "copyFlutterAssets task sets filePermissions correctly(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "logs app and plugin warning when legacy KGP configuration is applied in both app and plugins(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "logs app warning when KGP is only applied in app(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "logs app and plugin warning when KGP is applied in both app and plugins(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "does not log when migrated to Built-in Kotlin(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "logs plugin warning when KGP is only applied in one plugin(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests",
+      "error": false,
+      "failure": false,
+      "name": "logs when KGP is applied but fails to apply(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests",
+      "error": false,
+      "failure": false,
+      "name": "Regexes are successful when multiple plugins are applied()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests",
+      "error": false,
+      "failure": false,
+      "name": "KGP regex on single line apply()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests",
+      "error": false,
+      "failure": false,
+      "name": "Regexes fail when multiple plugins are applied()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests",
+      "error": false,
+      "failure": false,
+      "name": "AGP lib regex on single line apply()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests",
+      "error": false,
+      "failure": false,
+      "name": "AGP app regex on single line apply()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addTaskForJavaVersion adds task for Java version()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldProjectSplitPerAbi returns false by default()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "supportsBuildMode returns true if project should not use local engine()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "buildGradleFile returns groovy build file and logs when both groovy and kotlin exist(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getFlutterSourceDirectory returns the flutter source directory()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addFlutterDependencies adds libflutter dep but not embedding dep when only dep is dev dep in debug mode()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "readPropertiesIfExist returns empty Properties when file does not exist(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "detectLowCompileSdkVersionOrNdkVersion logs no warnings when no plugins have higher sdk or ndk(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "settingsGradleFile returns groovy settings gradle file when it exists(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addTaskForPrintBuildVariants adds task for printing build variants()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "formatPlatformString returns correct string()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "isProjectVerbose returns true when the property is set to true()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getFlutterTarget returns the target when the project property is set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addApiDependencies adds the dependency with the correct name when no UnknownTaskException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "detectLowCompileSdkVersionOrNdkVersion throws IllegalArgumentException when plugin has no name()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldShrinkResources returns true when property is set to true()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldConfigureFlutterTask returns true when taskname and assembleTask end with Release()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addFlutterDependencies adds libflutter and embedding dep when only dep is dev dep in release mode()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "buildGradleFile returns groovy build gradle file when it exists(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldConfigureFlutterTask returns true for assemble task()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "forceNdkDownload sets externalNativeBuild properties()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "toCamelCase handles empty list()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "compareVersionStrings compares last element of version string correctly()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "compareVersionStrings compares first element of version string correctly()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "buildModeFor returns debug if the BuildType is debuggable()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "compareVersionStrings considers rc candidates the same()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "toCamelCase converts a list of strings to camel case()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "supportsBuildMode returns false if project should use local engine and build mode does not match()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getTargetPlatforms the default if property is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addTaskForKGPVersion adds task for KGP version()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "readPropertiesIfExist returns Properties when file exists(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "toCamelCase handles single-element list()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addApiDependencies adds the dependency with the correct name when UnknownTaskException()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "compareVersionStrings compares middle element of version string correctly()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "forceNdkDownload skips projects which are already configuring a native build(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getTargetPlatforms the value if property is set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldProjectSplitPerAbi returns true when property is set to true()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getCompileSdkFromProject returns the compileSdk from the project()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getFlutterTarget returns the default target when it is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "settingsGradleFile returns groovy settings file and logs when both groovy and kotlin exist(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getFlutterSourceDirectory throws exception when flutter source directory is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "shouldShrinkResources returns true by default()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addFlutterDependencies adds libflutter dependency but not embedding dependency when is a flutter app()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getFlutterTarget returns the target from the FlutterExtension when it is set and project property is not set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "getTargetPlatforms throws GradleException if property is set to invalid value()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "detectLowCompileSdkVersionOrNdkVersion logs warnings when plugins have higher sdk and ndk(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "isProjectVerbose returns false by default()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "addFlutterDependencies returns early if buildMode is not supported()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "buildModeFor returns profile if the BuildType has name profile()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.FlutterPluginUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "buildModeFor returns release if the BuildType is not debuggable and not named profile()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.IntentFilterCheckTest",
+      "error": false,
+      "failure": false,
+      "name": "canCreateIntentFilterJson()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.IntentFilterCheckTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionFetcherTest",
+      "error": false,
+      "failure": false,
+      "name": "getGradleVersion returns version when gradleVersion has hyphen()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionFetcherTest",
+      "error": false,
+      "failure": false,
+      "name": "getKGPVersion returns version from KotlinAndroidPluginWrapper()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionFetcherTest",
+      "error": false,
+      "failure": false,
+      "name": "getAGPVersion returns version when agpVersion is set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionFetcherTest",
+      "error": false,
+      "failure": false,
+      "name": "getGradleVersion returns version when gradleVersion is set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionFetcherTest",
+      "error": false,
+      "failure": false,
+      "name": "getKGPVersion returns version when kotlin_version is set()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "expanded_examples()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.VersionUtilsTest",
+      "error": false,
+      "failure": false,
+      "name": "handles_documentation_examples()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.VersionUtilsTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "pluginSupportsAndroidPlatform returns true when android directory exists with gradle build file(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "getPluginListWithoutDevDependencies removes dev dependencies from list()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "configurePlugins uses addAll for app plugins(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "pluginSupportsAndroidPlatform returns false when gradle build file does not exist(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "configurePlugins adds plugin project and configures its dependencies(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "configurePlugins creates individual build types for library plugins(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "configurePlugins throws IllegalArgumentException when plugin has null dependencies(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "configurePlugins throws IllegalArgumentException when plugin has no name(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.plugins.PluginHandlerTest",
+      "error": false,
+      "failure": false,
+      "name": "getPluginListWithoutDevDependencies does not modify list without dev dependencies()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "generateRuleNames returns correct rule names when buildMode is not debug and deferredComponents is true()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "buildBundle calls the correct methods()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "generateRuleNames returns correct rule names when buildMode is debug()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "generateRuleNames returns correct rule names when buildMode is not debug and deferredComponents is false()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "checkPreConditions throws a GradleException when sourceDir is null()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "createSpecActionFromTask creates the correct build configurations when properties are null()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "createSpecActionFromTask creates the correct build configurations when properties are non-null()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "checkPreConditions throws a GradleException when sourceDir is not a directory()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getDependencyFiles returns a FileCollection of dependency file(s)()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "checkPreConditions does not throw a GradleException and intermediateDir is valid()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "metaDataDeepLinkingEnabledTrue()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "deepLinkWithAutoVerify()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "metaDataDeepLinkingEnabledFalse()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "basicDeepLink()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "noApplicationInManifest()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "metaDataDeepLinkingEnabledInvalidValue()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "metaDataDeepLinkingNoValue()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "multipleIntentFilters()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "applicationNoDeepLinkingElements()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "malformedManifestXML()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "multipleActivitiesWithDeepLinks()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "createAppLinkSettingsFileCreation()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "intentFilterMissingHostInData()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+      "error": false,
+      "failure": false,
+      "name": "multiplePathTypes()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getSnapshots returns correct CopySpec for release build()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getSourceFiles returns files when dependenciesFile exists(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getSnapshots returns correct CopySpec for debug build()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getOutputFiles returns files when dependenciesFile exists(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getSourceFiles correctly replaces escaped spaces(Path)",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getAssetsDirectory returns correct path()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    },
+    {
+      "classname": "com.flutter.gradle.tasks.FlutterTaskHelperTest",
+      "error": false,
+      "failure": false,
+      "name": "getAssets returns correct CopySpec()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    }
+  ],
+  "meaningful_old_version_and_stable_and_NPE_cases": [
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "previous SDK and application KGP versions fail the Collect candidate minimum()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DependencyVersionCheckerTest",
+      "error": false,
+      "failure": false,
+      "name": "stable fixed KGP passes the Collect candidate minimum without warning()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "classname": "com.flutter.gradle.DeeplinkTest",
+      "error": false,
+      "failure": false,
+      "name": "equals should throw NullPointerException for null other()",
+      "skipped": false,
+      "top_level_source_family": "com.flutter.gradle.DeeplinkTest"
+    }
+  ],
+  "old_version_claim_source": "Exact reviewed source plus actual executed test case, not source-string-only acceptance.",
+  "old_versions_exercised_in_actual_named_rejection_test": [
+    "2.0.0",
+    "2.2.20",
+    "2.3.20"
+  ],
+  "status": "ACTUAL_ALL14_SOURCE_FAMILIES_JUNIT_PASS",
+  "suite_report_hashes": [
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 2
+      },
+      "report": {
+        "bytes": 563,
+        "device": 16777247,
+        "inode": 17154333,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.AppLinkSettingsTest.xml",
+        "sha256": "6188189ca434e6e9bc92f671542ecfae34356839b4b63e34855147775544de9b"
+      },
+      "suite_name": "com.flutter.gradle.AppLinkSettingsTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 2
+      },
+      "report": {
+        "bytes": 1223,
+        "device": 16777247,
+        "inode": 17154327,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.BaseApplicationNameHandlerTest.xml",
+        "sha256": "9d3d54b4cf10ee392029a70dddcdb71569d26444013c5f86e071c16b0daa4409"
+      },
+      "suite_name": "com.flutter.gradle.BaseApplicationNameHandlerTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "report": {
+        "bytes": 967,
+        "device": 16777247,
+        "inode": 17154319,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.DeeplinkTest.xml",
+        "sha256": "ea8a225c9ed249b2c250b2a0730cd65aaee33a100b3d41418f178f1871e4fc0e"
+      },
+      "suite_name": "com.flutter.gradle.DeeplinkTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 12
+      },
+      "report": {
+        "bytes": 129215,
+        "device": 16777247,
+        "inode": 17154323,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.DependencyVersionCheckerTest.xml",
+        "sha256": "16d8dc87a0fd974d1a509f9e9ad7071706a40ce4889cb90bdba29432876d1160"
+      },
+      "suite_name": "com.flutter.gradle.DependencyVersionCheckerTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "report": {
+        "bytes": 1143,
+        "device": 16777247,
+        "inode": 17154325,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterExtensionTest.xml",
+        "sha256": "b33f35bb219816bbc70d8474afb0852ed29a583c7ddf873a68ab4458644567e2"
+      },
+      "suite_name": "com.flutter.gradle.FlutterExtensionTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 2
+      },
+      "report": {
+        "bytes": 606,
+        "device": 16777247,
+        "inode": 17154329,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginTest.xml",
+        "sha256": "b71133d85891084e2a6d0e18ecea206b005042502112e4d817e99a82f7f9d58b"
+      },
+      "suite_name": "com.flutter.gradle.FlutterPluginTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 6
+      },
+      "report": {
+        "bytes": 1711,
+        "device": 16777247,
+        "inode": 17154330,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests.xml",
+        "sha256": "9b1c6d7282f0feb663f894976887b1a6b64180d269d8ee5634e6fbb073bde478"
+      },
+      "suite_name": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$DetectApplyingKotlinGradlePluginTests"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "report": {
+        "bytes": 1326,
+        "device": 16777247,
+        "inode": 17154334,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests.xml",
+        "sha256": "25799dfcb4349d0fdfdc4f5dad72765d3bd6e40f5c069abefbfe3c6c3f9f44eb"
+      },
+      "suite_name": "com.flutter.gradle.FlutterPluginUtilsTest$SupportBuiltInKotlinTests$TestApplyingPluginsRegexTests"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 50
+      },
+      "report": {
+        "bytes": 18589,
+        "device": 16777247,
+        "inode": 17154332,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.FlutterPluginUtilsTest.xml",
+        "sha256": "0ba2db8d2fe883878dbe71e586f932df8dd76553b20a0326c1e8ba8d7582017c"
+      },
+      "suite_name": "com.flutter.gradle.FlutterPluginUtilsTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "report": {
+        "bytes": 447,
+        "device": 16777247,
+        "inode": 17154324,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.IntentFilterCheckTest.xml",
+        "sha256": "1064621396eac9d7574da98c41376dbfa871d90b196a537276750a7fa1c9c603"
+      },
+      "suite_name": "com.flutter.gradle.IntentFilterCheckTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "report": {
+        "bytes": 1057,
+        "device": 16777247,
+        "inode": 17154320,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.VersionFetcherTest.xml",
+        "sha256": "cb8ee5e463406c26900526fcc4bd646db09c55c8e7d8c07f2e9b9b6b7d07f39d"
+      },
+      "suite_name": "com.flutter.gradle.VersionFetcherTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 2
+      },
+      "report": {
+        "bytes": 546,
+        "device": 16777247,
+        "inode": 17154321,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.VersionUtilsTest.xml",
+        "sha256": "3ca5ed5201a451f162904c7c591cce5a7f84cfa7a3ca07ba7bb730b987219b63"
+      },
+      "suite_name": "com.flutter.gradle.VersionUtilsTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 9
+      },
+      "report": {
+        "bytes": 1874,
+        "device": 16777247,
+        "inode": 17154326,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.plugins.PluginHandlerTest.xml",
+        "sha256": "1145e642745121a908113aa46962ce71458ff74b99078445eb6601c8d61dae6f"
+      },
+      "suite_name": "com.flutter.gradle.plugins.PluginHandlerTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 10
+      },
+      "report": {
+        "bytes": 2131,
+        "device": 16777247,
+        "inode": 17154335,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.BaseFlutterTaskHelperTest.xml",
+        "sha256": "94056ca2d9e2f914dc82828b18a20c481364db07cd63cfb11bca60a25e2aae1e"
+      },
+      "suite_name": "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 14
+      },
+      "report": {
+        "bytes": 2347,
+        "device": 16777247,
+        "inode": 17154331,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest.xml",
+        "sha256": "f57488adf7bf08b88d9e787da404673834efdfea626b6a279ad5249d9a3f5440"
+      },
+      "suite_name": "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest"
+    },
+    {
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 7
+      },
+      "report": {
+        "bytes": 1369,
+        "device": 16777247,
+        "inode": 17154322,
+        "nlink": 1,
+        "path": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2/packages/flutter_tools/gradle/build/test-results/test/TEST-com.flutter.gradle.tasks.FlutterTaskHelperTest.xml",
+        "sha256": "25a8052cc106b55e1eddb65c651975fd681cb1cda71e8e37804a598d1db47857"
+      },
+      "suite_name": "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+    }
+  ],
+  "top_level_source_families": [
+    "com.flutter.gradle.AppLinkSettingsTest",
+    "com.flutter.gradle.BaseApplicationNameHandlerTest",
+    "com.flutter.gradle.DeeplinkTest",
+    "com.flutter.gradle.DependencyVersionCheckerTest",
+    "com.flutter.gradle.FlutterExtensionTest",
+    "com.flutter.gradle.FlutterPluginTest",
+    "com.flutter.gradle.FlutterPluginUtilsTest",
+    "com.flutter.gradle.IntentFilterCheckTest",
+    "com.flutter.gradle.VersionFetcherTest",
+    "com.flutter.gradle.VersionUtilsTest",
+    "com.flutter.gradle.plugins.PluginHandlerTest",
+    "com.flutter.gradle.tasks.BaseFlutterTaskHelperTest",
+    "com.flutter.gradle.tasks.DeepLinkJsonFromManifestTaskTest",
+    "com.flutter.gradle.tasks.FlutterTaskHelperTest"
+  ],
+  "totals": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 137
+  }
+}

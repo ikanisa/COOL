@@ -1,0 +1,6 @@
+{
+  "cached_binary_binding_sha256": "f48825b33f0fae13f52f26f7d560521b5db7a0d2d24ca2bca88b094c95e9b4cb",
+  "preserved_failed_execution_sha256": "d2a6206c992ade5ccca6928e3fd710e80f9d27e51298800c0f2f9a5e1844eadc",
+  "resolver_state_before_sha256": "0283f84609dd01ea14af8d02d65401f0befd29509a53638d9d8163a1d6b5a347",
+  "scope": "Config-only already resolved locked13 checkouts/9 binary artifacts in this fresh export. Validate/bind that complete actual cache with accepted helper instead of replacing it with another cache. No Flutter config, pub, resolver or native compilation repeated."
+}

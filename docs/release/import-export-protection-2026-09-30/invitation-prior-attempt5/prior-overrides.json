@@ -1,0 +1,5 @@
+{
+  "prior_source_sha256": "1059ae6aaa657e84d95a3690d2e2b19d57f9fca9d7037a47434739b052295ba8",
+  "prior_methods_sha256": "a28ab8f1e0794ddee2b9724c1e796d8f70e84cbd031087de3bd82a8a76dc6317",
+  "scope": "Only prior invitation methods substituted; fixture fixes/current shared co-resident source preserved"
+}

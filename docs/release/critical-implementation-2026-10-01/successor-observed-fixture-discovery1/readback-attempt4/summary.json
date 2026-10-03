@@ -1,0 +1,30 @@
+{
+  "started_at": "2026-10-02T03:02:02.971841+00:00",
+  "finished_at": "2026-10-02T03:02:12.455435+00:00",
+  "status": "readback_pass",
+  "errors": [],
+  "drift": [],
+  "read_input_count": 6261,
+  "observations_imported": 0,
+  "runtime_tests_executed": 0,
+  "contained_exact_filename_match_count": 267,
+  "discovered_file_count": 267,
+  "sealed_packet_artifact_counts": {
+    "first_job": 3941,
+    "callback_archive": 1827,
+    "edge": 71,
+    "index": 73
+  },
+  "producer_checks": {
+    "first_job": 52,
+    "callback_archive": 22
+  },
+  "producer_command_counts": {
+    "first_job": 166,
+    "callback_archive": 94
+  },
+  "current_canonical_source_count": 144,
+  "proposed_source_count": 154,
+  "maintained_destinations_all_absent": true,
+  "permission_boundary": "Read only original packets and maintained inputs; writes only this NEW discovery directory."
+}

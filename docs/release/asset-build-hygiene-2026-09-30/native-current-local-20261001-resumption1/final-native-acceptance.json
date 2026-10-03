@@ -1,0 +1,105 @@
+{
+  "aeonik_absent": true,
+  "assets": {
+    "captured_runtime_reachability": "257/257",
+    "captured_source_resource_license_rows": 93,
+    "current_native_target_closures": {
+      "gateway": 27,
+      "production": 148
+    },
+    "decoded_rasters": 91,
+    "unresolved_bundled_assets": 0
+  },
+  "captured_final_manifest_sha256": "dba11a4a0deb5822c528c92d770c79d50fa705037f5f23fbd8aed08bcc907fdd",
+  "captured_final_source": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1",
+  "evidence_sha256": {
+    "gateway-archive-final/affected-archive-jvm/validation.json": "2e9692471e3ef496526b09f88138f2044d44d8f7d1101262ce9db32986e4dd87",
+    "gateway-archive-final/artifact-verification.json": "cd5975f5b4f79293951315037f1be60b98cb54e97d4019594ee0cad53d10c4d6",
+    "gateway-archive-final/current-compiler-input-readback.json": "a180fb4cc56e225616c5375b1a28c0158882159a0109bda604490391c6185e17",
+    "gateway-archive-final/execution.json": "eaebafc2751ea2d489496e7b1678f173a885a4b085337d0e8e56a09c43565dd1",
+    "gateway-archive-final/final-flat-native-inputs.json": "5fac8ad45ee031b0d98e44f5fbc55c790ff0a8c6a03107fc7d8439fa905ae3a4",
+    "gateway-archive-final/font-license-artifact-readback.json": "e943d07ffa26111d78b0de83197c82d523e0daf6fec9c87be156d2ba6c917043",
+    "gateway-archive-final/warning-dispositions.json": "886809418bdb9b165a106425f7483e80c096833f632a167d681436620faf2ff2",
+    "gateway/artifact-verification.json": "8e8972dd17160f7cc0625f33e5cff99f7e882be374c339e9733fb6cbfa4fb9df",
+    "gateway/execution-recorder-continuation1.json": "17433ed17bf569e01ad8240ae03844edbc799cd3c656eb5c9c258700f6a3c2df",
+    "gateway/gateway-standalone/validation.json": "a34cda445da5240a7a4dcb327dd492d3dcd1cc1b1b504dcbdcb427349c5a3b84",
+    "gateway/jvm-tests.json": "3c583a6de484ca0f608de16122f86cb664b099e5aed654e4ca484ed29c211b4f",
+    "gateway/observed-sbom-validation.json": "ee6b557cb3fef05bdf6736ec195481581e6cdf8464b83d626538744c123a328f",
+    "generated-native-input-classification/focused-tests.json": "0e241337e9428c0f7f0d9b2ab241d5b8042587459c7ef10497aca823797c4b67",
+    "ios/artifact-verification.json": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+    "ios/current-compiler-input-readback.json": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e",
+    "ios/execution-continuation1.json": "69f9448048398a9a22098c689135a06483c1d255735a4afa018aa5e6d2a77abe",
+    "ios/font-license-artifact-readback.json": "53b48b8b7bfc35f3333a5805a1dfca212abd6044ec7add90f991d526fbf730d9",
+    "ios/warning-dispositions.json": "80a50031262b7dd1327bc91121b505ea11351bf22fa821f586bb313be474d3b3",
+    "production/artifact-verification.json": "fced15a0291843159012c06a2fc5ee72b0d9f932220b5102a63ae134889e4d6a",
+    "production/current-compiler-input-readback.json": "4b74e21b99eed8e4c4278ecab0f18878ff124dc12d8d0de5ef395496da5eb187",
+    "production/execution-recorder-continuation1.json": "74775334916d42823900e30453a71f7608b2e4359562aa080c7891c8131aafb8",
+    "production/observed-sbom-validation.json": "4e476883e756d23cb00f23daa21e4ebf9221e04ec018ec67b75b205ade0a0305",
+    "production/warning-dispositions.json": "5259aac67367e89cca3a747066360deda2575712df63ebbf56a01dac18efd28e",
+    "supply-chain/declared-asset-readback.json": "d701b0ac383524e3aeb00a5bf81b2a142bc7c56f0f977979d2112a79e6a7dee7",
+    "supply-chain/final-source-dependency-equivalence.json": "431e394b61773dfff522b9a280a011aef6273bd11568f595c92745900a260b2e",
+    "supply-chain/frozen-runtime-reachability.json": "7c7a2ad1ed119318a3f10b4c1e8d71cedb5a4c71ca301a5bc66776a8dcafab12",
+    "supply-chain/source-sbom.cdx.json": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236",
+    "supply-chain/validation.json": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b"
+  },
+  "gateway": {
+    "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-gateway-archive-final/app-internal_gateway-release-unsigned.apk",
+    "bytes": 82314294,
+    "final_affected_archive_recovery_cases": 145,
+    "full_final_jvm_union_claimed": false,
+    "initial_gradle_jvm_cases": 141,
+    "initial_standalone_cases": 186,
+    "lint_errors": 0,
+    "lint_warnings": 40,
+    "sha256": "cf8a18020375787d83754012d788f468771003398fc3a5a55e03a8fb40aaf3c0",
+    "source_map": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/gateway-archive-final/final-flat-native-inputs.json"
+  },
+  "gateway_notification_native_plugins_and_POST_NOTIFICATIONS_absent": true,
+  "generated_recorder_correction": {
+    "actual_generated_jni_files_separately_hashed": 588,
+    "focused_cases": 3,
+    "native_commands_repeated": false,
+    "unchanged_non_generated_package_files": 6538
+  },
+  "inter_full_ofl_in_compiled_notices": true,
+  "inter_present": true,
+  "ios": {
+    "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+    "bundle_files": 197,
+    "bundle_manifest_sha256": "4745a6c0649ed6b737a418ac51e68a68d18301218401c7478b62b2a3a45e1f08",
+    "current_compiler_resource_inputs": 462,
+    "main_executable_sha256": "16ead5455b6d3896fb6ccd3c7efc39a4f190a418cff28e126aae0a696b1ca675",
+    "reviewed_warning_strings": 23
+  },
+  "kind": "current_captured_local_unsigned_native_engineering_acceptance",
+  "live_owned_processes": [],
+  "production": {
+    "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/artifacts-native-current-local-20261001-resumption1-production/app-production-release-unsigned.apk",
+    "bytes": 96406209,
+    "jvm_cases": 12,
+    "jvm_failures_errors_skips": 0,
+    "lint_errors": 0,
+    "lint_warnings": 37,
+    "sha256": "f02d1f96cc3823e76ebea44ef9ebb78fc5947c19cf58e19ce0e49f2843e21a0a"
+  },
+  "repository_source_writes_finished": true,
+  "sbom": {
+    "gateway_observed_components": 187,
+    "observed_reproduction_schema_pass": true,
+    "production_observed_components": 200,
+    "source_components": 686,
+    "source_reproduction_schema_pass": true
+  },
+  "scope": "Exact captured final source/native consumer scope; original broad-currentness false and post-recorder failure retained. Native controls/harness counts reported separately, never summed as unique final tests. Source/observed SBOM scopes remain distinct. No whole mutable-repository, signed/provider/device/store/legal/visual100 acceptance.",
+  "status": "pass",
+  "toolchain": {
+    "android_build_tools": "37.0.0",
+    "android_sdk": "36",
+    "dart": "3.12.2",
+    "flutter": "3.44.4",
+    "flutter_framework": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "iphoneos_sdk": "27.0",
+    "xcode": "27.0 (27A266a)"
+  },
+  "unsigned": true
+}

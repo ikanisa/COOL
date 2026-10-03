@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "python3",
+    "scripts/qa/collect_release_candidate.py",
+    "export",
+    "--destination",
+    "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-final-local-candidate-20261001-current1",
+    "--flutter-sdk",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192",
+    "--report",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/final-candidate-current1/export.json"
+  ],
+  "exit_code": 0
+}

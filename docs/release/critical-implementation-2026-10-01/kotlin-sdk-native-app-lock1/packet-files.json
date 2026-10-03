@@ -1,0 +1,75 @@
+{
+  "status": "sealed",
+  "files": [
+    {
+      "path": "observed-control/SDK-readback-startup.json",
+      "bytes": 1100,
+      "sha256": "3e2add19300e2e214a50a774c3ef3a2f2812a0dc220318a77074ed5fcdaf8710"
+    },
+    {
+      "path": "observed-control/SDK-readback-startup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observed-control/SDK-readback-startup.stdout",
+      "bytes": 758,
+      "sha256": "1c7d4f2ff32c607c1d1400b2af280eb2db07dc2d42e14387445697b5afcf1872"
+    },
+    {
+      "path": "observed-control/SDK-source-startup.json",
+      "bytes": 6797044,
+      "sha256": "b91c1460a260ea102b623475ac63b0ec3f8953b1b98dfc7259d2364229993488"
+    },
+    {
+      "path": "observed-control/actual-command.json",
+      "bytes": 794,
+      "sha256": "591c91a746baee673a409dbe86a2b2ca897a301381aa3e645c7c646761cc5994"
+    },
+    {
+      "path": "observed-control/actual-command.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observed-control/actual-command.stdout",
+      "bytes": 3349,
+      "sha256": "44060f88af324595dd0d9c0e9f238a8c0a781971788fef01aea77e5ac26cd428"
+    },
+    {
+      "path": "observed-control/actual-failure-SDK-source.json",
+      "bytes": 6797047,
+      "sha256": "84c056c8b51fb3de0254a5f94dad6479878598550f9daf3422e0ee100645006b"
+    },
+    {
+      "path": "observed-control/failure-source-readback.json",
+      "bytes": 1111,
+      "sha256": "b06b07f28a763488e9129640d95b496777c8399f48c1dafd393d7c7156794248"
+    },
+    {
+      "path": "observed-control/failure-source-readback.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observed-control/failure-source-readback.stdout",
+      "bytes": 761,
+      "sha256": "7aa65997848d92b9264c38b216a244ab27c1af831e247af4a8c20f623e6c3d7b"
+    },
+    {
+      "path": "observed-control/start.json",
+      "bytes": 1545,
+      "sha256": "54ec771b8a5a5a4c901be3cf9b48f494d0e69a89f3b09f262afa643c00e66dde"
+    },
+    {
+      "path": "observed-control/terminal.json",
+      "bytes": 1764,
+      "sha256": "5146dbf3a78a535ab834c50442b96af9c5179ffe4ad26a3250d6a97676623968"
+    },
+    {
+      "path": "readback.json",
+      "bytes": 763554,
+      "sha256": "52d586c66a60e7fb342bac3d2db2c79aead93791b4b093e0d33441944b0893bc"
+    }
+  ]
+}

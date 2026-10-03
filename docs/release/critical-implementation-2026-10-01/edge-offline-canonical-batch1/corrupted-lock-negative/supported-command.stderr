@@ -1,0 +1,12 @@
+Download https://deno.land/std@0.224.0/assert/mod.ts
+error: Integrity check failed for remote specifier. The source code is invalid, as it does not match the expected hash in the lock file.
+
+  Specifier: https://deno.land/std@0.224.0/assert/mod.ts
+  Actual: 48b8cb8a619ea0b7958ad7ee9376500fe902284bb36f0e32c598c3dc34cbd6f3
+  Expected: 0000000000000000000000000000000000000000000000000000000000000000
+
+This could be caused by:
+  * the lock file may be corrupt
+  * the source itself may be corrupt
+
+Investigate the lockfile; delete it to regenerate the lockfile or --reload to reload the source code from the server.

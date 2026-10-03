@@ -1,0 +1,21 @@
+{
+  "ARC09_closed": false,
+  "Gradle_mapper_tests_or_financial_provider_execution": false,
+  "Maven_query_count": 157,
+  "all_request_response_hashes_equal": true,
+  "automatic_retries": 0,
+  "complete_packaged_SBOM": false,
+  "format": "collect-selected-runtime-advisory-seal-v1",
+  "license_approval": false,
+  "maintained_source_APP_SDK_DB_mutations": 0,
+  "packet_files_path": "packet-files.json",
+  "packet_files_sha256": "45fa1b7e43f76f6b7749211e9d2fdd8ca727b65a6fb43e52668b4682916d7247",
+  "payload_count": 51,
+  "project_unqueryable_count": 16,
+  "returned_advisory_IDs": 0,
+  "sealed_utc": "2026-10-02T12:57:42.195512+00:00",
+  "security_acceptance": false,
+  "source_graph_and_readback_equal": true,
+  "source_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+  "source_readback_sha256": "963d7adc640466274bbd5487278726f85a5067387ed4abda03e309d7593c9a67"
+}

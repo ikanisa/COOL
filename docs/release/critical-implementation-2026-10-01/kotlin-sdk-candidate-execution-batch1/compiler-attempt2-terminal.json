@@ -1,0 +1,11 @@
+{
+  "Flutter_script_bootstrap_Dart_app_build_executed": false,
+  "candidate_promoted": false,
+  "compiler_error": {
+    "public_error": "actual stage failure retained: sdk-compiler-runtime-attempt2",
+    "type": "RuntimeError"
+  },
+  "complete_source_readback_error": null,
+  "production_release_approval": false,
+  "status": "ACTUAL_FAILURE_RETAINED__NO_ACCEPTANCE"
+}

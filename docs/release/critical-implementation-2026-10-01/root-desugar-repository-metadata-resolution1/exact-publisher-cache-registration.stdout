@@ -1,0 +1,8 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Task :resolveExactPublisherJar
+EXACT_PUBLISHER_JAR /Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/desugar_jdk_libs/2.1.4/34c5d10b7a184e8c340dd967ea9481e448f7b89e/desugar_jdk_libs-2.1.4.jar SHA256=d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28
+
+BUILD SUCCESSFUL in 12s
+1 actionable task: 1 executed

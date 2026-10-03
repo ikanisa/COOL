@@ -1,0 +1,12 @@
+NOTICE:  00000: function admin_manage_admin_user_roles(uuid,text,pg_catalog.bool,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_feature_flag(text,pg_catalog.bool,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_receiver(uuid,pg_catalog.bool,text,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_manage_system_setting(text,jsonb,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function admin_update_user_status(uuid,text,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: function hash_phone(text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

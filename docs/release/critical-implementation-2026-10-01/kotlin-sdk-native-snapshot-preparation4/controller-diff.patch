@@ -1,0 +1,11 @@
+--- /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation3/run_native_consumer.py
++++ /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/run_native_consumer.py
+@@ -23,7 +23,7 @@
+ BASE = Path('/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1')
+ SDK = BASE / 'flutter'
+ APP = BASE / 'app-source'
+-AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review3'
++AUTH_DIR = RELEASE / 'root-sdk-native-snapshot-review4'
+ ORIGINAL_PREPARATION_MANIFEST = '9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc'
+ SOURCE_FENCE = AUTH_DIR / 'source-fence.json'
+ STAGES = ('foundation', 'sdk-lock', 'startup', 'app-export', 'app-lock', 'native')

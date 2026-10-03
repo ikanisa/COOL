@@ -1,0 +1,22 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 01 Oct 2026 21:22:50 GMT",
+    "ETag": "W/\"22a7bb1591f511d0c7a43d8c580f04aff9cc8e7719b8a4ba796892c4c757673e\"",
+    "Last-Modified": "Wed, 12 Aug 2026 19:25:24 GMT",
+    "X-RateLimit-Remaining": "44",
+    "X-RateLimit-Reset": "1790890738"
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://api.github.com/advisories?ecosystem=maven&affects=org.jetbrains.kotlin%3Akotlin-gradle-plugin%402.1.0&per_page=100&type=reviewed",
+  "requested_at": "2026-10-01T21:22:49.276110+00:00",
+  "response_bytes": 3669,
+  "response_path": "primary/github-affected-org.jetbrains.kotlin_kotlin-gradle-plugin-2.1.0.response",
+  "response_sha256": "cc3b479b9e7b9fa38bfe8db72a59c46c9fe45629c7a4e327120b7de9a10544a9",
+  "response_url": "https://api.github.com/advisories?ecosystem=maven&affects=org.jetbrains.kotlin%3Akotlin-gradle-plugin%402.1.0&per_page=100&type=reviewed",
+  "retrieved_at": "2026-10-01T21:22:50.098085+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

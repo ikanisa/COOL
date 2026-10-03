@@ -1,0 +1,68 @@
+{
+  "captured_utc": "2026-10-01T17:43:05.155576+00:00",
+  "scope": "final readback of original2224selectedpaths; additions are recorded by earlier source-readback and specialist evidence",
+  "changed_from_1728_baseline": [
+    {
+      "path": "integration_test/mobile_material_state_matrix_device_uat_test.dart",
+      "change": "content_or_target_changed",
+      "after": "b9c513254beaef302c65114820cbe7e5dd3287d4cd98569a584c5cdad979c8c6"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_page.dart",
+      "change": "content_or_target_changed",
+      "after": "e7436487b84d88a459e4264f9d79ca6b83fdc7ea7da926dd21c7d5bbafda3c98"
+    },
+    {
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "change": "content_or_target_changed",
+      "after": "31c06dc7df0ec4a2758e29cb2b7318a3c86d876113497803eb3a69f347805f8b"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "change": "content_or_target_changed",
+      "after": "2309fc46b4a3c5af0442770ff938f3124ac209d052bf3d3eea67dd0fda730509"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "change": "content_or_target_changed",
+      "after": "686a6e350ecaf33a23df9d3614ffb025931f6e6fb1b9fdfd3c0380b00d365f86"
+    },
+    {
+      "path": "scripts/admin_pwa_browser_qa.mjs",
+      "change": "content_or_target_changed",
+      "after": "27f942bb5b1e5fc142943e90dac7abe98e201ac1a71e145c04a454df095876e3"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "change": "content_or_target_changed",
+      "after": "4e744b453e1ac3ddaa7c0032eda548ee94007a486a7fe18971ce3b3ae8d71f90"
+    },
+    {
+      "path": "scripts/public_website_quality_gate.sh",
+      "change": "content_or_target_changed",
+      "after": "3a054e626e52e28dd3951d2123683388653b1aeb6eced77f198bcabd181b572e"
+    },
+    {
+      "path": "scripts/public_website_route_rendered_qa.js",
+      "change": "content_or_target_changed",
+      "after": "777e3325d1958dd36babcc8e4b4b435ccf7db9f6198f993da51946ea58b83f3e"
+    },
+    {
+      "path": "web/public/app-screens/capture-provenance.json",
+      "change": "content_or_target_changed",
+      "after": "7e8097b5bb38ed0fb22c97a72bc22aec991e2e3dea5e0b47f9da2b55183beb1f"
+    },
+    {
+      "path": "web/public/app-screens/manifest.json",
+      "change": "content_or_target_changed",
+      "after": "4801939a6e04eeefe284526ca32e9257c6bf3485e3ed6b1b4a28da38df95b144"
+    },
+    {
+      "path": "web/public/layout.css",
+      "change": "content_or_target_changed",
+      "after": "c692877603aa32f2ae804f47ec2e1f1a4a78c20e34235b094b49b93ccfe0e41c"
+    }
+  ],
+  "source_stable": false,
+  "release_freeze_established": false
+}

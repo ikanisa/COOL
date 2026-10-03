@@ -1,0 +1,12 @@
+{
+  "prior_26_case_proof_valid_for_its_private_inputs": true,
+  "canonical_association_failed_paths": [
+    "lib/app/router.dart",
+    "lib/features/settings/security_hub_header.dart",
+    "lib/features/landing/public_capability_content.dart",
+    "lib/features/landing/public_marketing_page_content.dart",
+    "lib/shared/repositories/collect_repository.dart",
+    "lib/shared/widgets/screen_scaffold.dart"
+  ],
+  "resolution": "Preserved canonical user edits; fresh copied current lib/test graph and affected view/audit checks required"
+}

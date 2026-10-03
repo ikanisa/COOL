@@ -1,0 +1,734 @@
+{
+  "kind": "receipt",
+  "scope": "rwanda_momo",
+  "payment": {
+    "times": {
+      "ingested_at": "2026-09-30T22:04:04.291829+00:00",
+      "payment_posted_at": "2026-09-30T22:04:04.297648+00:00",
+      "parsed_recorded_at": "2026-09-30T22:04:04.294368+00:00",
+      "received_at_device": "2026-09-29T22:04:04.291826+00:00",
+      "provider_confirmed_at": "2026-09-30T22:04:04.297648+00:00",
+      "rejection_occurred_at": null,
+      "rejection_recorded_at": null,
+      "allocation_recorded_at": null,
+      "confirmation_recorded_at": "2026-09-30T22:04:04.290035+00:00"
+    },
+    "event_id": "99760000-0000-4000-8000-000000020002",
+    "journals": [
+      {
+        "id": "61075221-89ac-4661-b297-125c6aa5b9e5",
+        "snapshot": {
+          "id": "3f4ea005-452b-4657-a3a8-b6a8a5726ae4",
+          "delta_rwf": "500",
+          "captured_at": "2026-09-30T22:04:04.290035+00:00",
+          "group_balance_rwf": "800",
+          "member_balance_rwf": "800"
+        },
+        "posted_at": "2026-09-30T22:04:04.290035+00:00",
+        "amount_rwf": "500",
+        "entry_type": "receipt"
+      }
+    ],
+    "lifecycle": {
+      "ledger": "posted",
+      "allocation": "allocated",
+      "notification": "send_started",
+      "verification": "confirmation_recorded",
+      "evidence_limit": "confirmation_record_is_not_external_settlement_proof",
+      "contract_version": 1
+    },
+    "payment_id": "99760000-0000-4000-8000-000000030002",
+    "raw_sms_id": "99760000-0000-4000-8000-000000010002",
+    "collection_id": "99710000-0000-4000-8000-000000030001",
+    "current_balances": {
+      "group_rwf": "500",
+      "member_rwf": "500",
+      "group_updated_at": "2026-09-30T22:04:16.772728+00:00",
+      "member_updated_at": "2026-09-30T22:04:16.772728+00:00"
+    },
+    "member_record_id": "99710000-0000-4000-8000-000000040001"
+  },
+  "receipt": {
+    "id": "618a8ddc-5216-48ad-b22b-236dd0828b8c",
+    "state": "send_started",
+    "attempts": [
+      {
+        "id": "827c3713-b13c-408c-8440-c0a40cec10d7",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.891046+00:00",
+        "attempt_number": 61,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "116e4ad4-1b54-4abe-a417-0ecbe3fcd62f",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.885635+00:00",
+        "attempt_number": 60,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "a9ae2fcc-f4d3-4477-82a4-7cece37afe88",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.846835+00:00",
+        "attempt_number": 59,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "b8e9ee7a-19b8-49be-a60d-761ff40236c6",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.826026+00:00",
+        "attempt_number": 58,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "cf196dc1-f060-40a7-b623-f95d11d256e0",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.82538+00:00",
+        "attempt_number": 57,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f807ae89-412f-47ea-a5f5-071dad5e14cf",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.824132+00:00",
+        "attempt_number": 56,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "26b003ec-144f-413e-81be-bf4434536647",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.822514+00:00",
+        "attempt_number": 55,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "bb2992d1-ea60-4a14-ac5e-ad11c1a9299d",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.821988+00:00",
+        "attempt_number": 54,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "bfea1912-c7a3-4e6a-ad91-704fcc6e447c",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.82118+00:00",
+        "attempt_number": 53,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "7c1cc564-14f4-49a4-b288-a16a482e6c5e",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.820091+00:00",
+        "attempt_number": 52,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "91ad5822-e2ff-494a-8f39-df5399d18ec0",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.819307+00:00",
+        "attempt_number": 51,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f0575ca7-2617-4945-940d-4306da3f8658",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.8188+00:00",
+        "attempt_number": 50,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "5ff10831-48e0-4cf3-9b39-53382589e3f0",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.818119+00:00",
+        "attempt_number": 49,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "25539aea-7c0e-466c-b72b-93b0dd6177bb",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.817346+00:00",
+        "attempt_number": 48,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "92554c3a-8519-4502-9049-da1baef793f4",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.815696+00:00",
+        "attempt_number": 47,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "8a0b6d74-aa98-41bf-8745-01666d010591",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.814684+00:00",
+        "attempt_number": 46,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "d5578532-10ca-4637-82a6-37c288b5c73c",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.813598+00:00",
+        "attempt_number": 45,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f307c186-00bf-473c-8a06-96f2324bbe5e",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.812502+00:00",
+        "attempt_number": 44,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "fb34e545-bdd8-42dc-948c-a7555f461634",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.811349+00:00",
+        "attempt_number": 43,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "88f5a563-76ec-4418-bd54-2f378a04f888",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.810563+00:00",
+        "attempt_number": 42,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "6d652494-590c-4494-a142-f7e2b352702c",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.807292+00:00",
+        "attempt_number": 41,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f7fb939a-2db7-46e9-991f-6dcd577629c0",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.80622+00:00",
+        "attempt_number": 40,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "daaaf241-e4c6-4a40-a8f6-e8db9883cf67",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.804876+00:00",
+        "attempt_number": 39,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f75c9e8d-ad6f-4592-8106-b604dc4a61a9",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.796375+00:00",
+        "attempt_number": 38,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f470bb24-80ae-416e-99e7-7efc3bf3b0db",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.794315+00:00",
+        "attempt_number": 37,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "5023cc42-387c-485b-816a-e02abc1bf4fb",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.79311+00:00",
+        "attempt_number": 36,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "f3c634e8-2813-481e-ad41-0a3aa091821e",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.790876+00:00",
+        "attempt_number": 35,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "66321d32-a5c6-4e00-bdb0-eecd69734dc2",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.789293+00:00",
+        "attempt_number": 34,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "2761b2b8-783b-424e-964f-52175bcde695",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.780948+00:00",
+        "attempt_number": 33,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "507e0acb-45f0-43d6-ac71-68705ff1927c",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.779919+00:00",
+        "attempt_number": 32,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "0b5c1205-3feb-4b52-90ea-a4ae604666c3",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.779219+00:00",
+        "attempt_number": 31,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "037c5e6f-d580-4cc8-985f-466e689daed6",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.778209+00:00",
+        "attempt_number": 30,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "823e44e1-e44e-4619-b84f-d581836fc5a9",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.777102+00:00",
+        "attempt_number": 29,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "23fd619a-2dc7-4d9a-aa4c-90df36eb0808",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.775794+00:00",
+        "attempt_number": 28,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "edd191b7-4d15-4287-aa48-fbdd28c85c3f",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.774443+00:00",
+        "attempt_number": 27,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "66fee2ab-a5be-4f5c-9492-fd3203a00267",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.77339+00:00",
+        "attempt_number": 26,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "2d873d75-fbcc-46ec-8aae-c3bdc5cd5e8d",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.772414+00:00",
+        "attempt_number": 25,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "21d3a709-7edb-465a-bc5a-cb5fe6ba21c6",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.771357+00:00",
+        "attempt_number": 24,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "0fc32101-f9d0-404b-a467-b8441e15602a",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.768885+00:00",
+        "attempt_number": 23,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "8309ee88-bfb1-402a-a7f0-726cada07a26",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.768515+00:00",
+        "attempt_number": 22,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "d5865cd8-3f57-440b-b68d-c4b05be50691",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.767715+00:00",
+        "attempt_number": 21,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "6c1f235e-e0a7-4d50-a92f-d94014a3f4f7",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.766779+00:00",
+        "attempt_number": 20,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "8d5edd28-271c-4e66-b435-da849170f4dc",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.765783+00:00",
+        "attempt_number": 19,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "1fa335ba-cef5-4a69-bf69-6dec87311d5f",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.764915+00:00",
+        "attempt_number": 18,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "89744465-4a13-4791-a145-863ae3172e1a",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.764562+00:00",
+        "attempt_number": 17,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "ad845ee0-16de-41fd-8fba-fb54f4cef907",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.764192+00:00",
+        "attempt_number": 16,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "cb376424-84c6-4197-bde6-2aed32f68072",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.763722+00:00",
+        "attempt_number": 15,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "0e2700af-8f8c-492e-8e4f-488af93c9600",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.762592+00:00",
+        "attempt_number": 14,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "e6ec2e6d-e082-47ea-8bd5-eaf17fb42ca8",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.760838+00:00",
+        "attempt_number": 13,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      },
+      {
+        "id": "5cd33b5d-e4ac-436d-a6de-54157db43fdc",
+        "state": "uncertain",
+        "outcome_at": "2026-09-30T22:04:18.759539+00:00",
+        "attempt_number": 12,
+        "send_started_at": "2026-09-30T22:04:18.567307+00:00"
+      }
+    ],
+    "approvals": [
+      {
+        "id": "746eac12-026b-4fbd-8fbe-206604bfb25e",
+        "expires_at": "2026-09-30T22:06:18.295309+00:00",
+        "approved_at": "2026-09-30T22:04:18.295309+00:00",
+        "consumed_at": "2026-09-30T22:04:18.572884+00:00"
+      },
+      {
+        "id": "d5a4c0b1-348b-4fc4-841c-455ece5fbfb5",
+        "expires_at": "2026-09-30T23:04:18.74448+00:00",
+        "approved_at": "2026-09-30T22:04:16.74446+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "84b9baae-406a-4349-be79-c1edf88692a2",
+        "expires_at": "2026-09-30T23:04:18.74995+00:00",
+        "approved_at": "2026-09-30T22:04:15.749933+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "d346c14e-59dd-48e1-9393-41715191426c",
+        "expires_at": "2026-09-30T23:04:18.751219+00:00",
+        "approved_at": "2026-09-30T22:04:14.751213+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "ad535991-c0c1-4979-a1d8-8fe982d2a94b",
+        "expires_at": "2026-09-30T23:04:18.752525+00:00",
+        "approved_at": "2026-09-30T22:04:13.752518+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "85e820c3-2a81-4e2e-a39c-6eb5e4e8b692",
+        "expires_at": "2026-09-30T23:04:18.753431+00:00",
+        "approved_at": "2026-09-30T22:04:12.753424+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "a4d74aac-f199-404e-adb9-a3a8db892c9c",
+        "expires_at": "2026-09-30T23:04:18.75429+00:00",
+        "approved_at": "2026-09-30T22:04:11.754283+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "76c76c49-8fcf-4050-8c67-a97303e5dfde",
+        "expires_at": "2026-09-30T23:04:18.755307+00:00",
+        "approved_at": "2026-09-30T22:04:10.755299+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "b42be91f-9927-4dcb-af0d-7d41937d6e25",
+        "expires_at": "2026-09-30T23:04:18.755754+00:00",
+        "approved_at": "2026-09-30T22:04:09.755747+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "d1efcded-7b77-4114-9433-882cd41ba475",
+        "expires_at": "2026-09-30T23:04:18.756972+00:00",
+        "approved_at": "2026-09-30T22:04:08.756955+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "3dbd3c55-34e6-4c15-8230-cd4c828e43b3",
+        "expires_at": "2026-09-30T23:04:18.758072+00:00",
+        "approved_at": "2026-09-30T22:04:07.758052+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "1b4feb95-6cad-4385-8ae7-f8e59800e2dc",
+        "expires_at": "2026-09-30T23:04:18.759012+00:00",
+        "approved_at": "2026-09-30T22:04:06.758994+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "a8e39301-4dcd-4d18-92a1-dd2d11e42cf5",
+        "expires_at": "2026-09-30T23:04:18.760234+00:00",
+        "approved_at": "2026-09-30T22:04:05.760219+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "2b96b092-eb73-4ad0-a596-9f20e0751ed7",
+        "expires_at": "2026-09-30T23:04:18.761441+00:00",
+        "approved_at": "2026-09-30T22:04:04.761402+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "e18d63d5-7bcb-4fc5-b297-9dfaa6be7be0",
+        "expires_at": "2026-09-30T23:04:18.763201+00:00",
+        "approved_at": "2026-09-30T22:04:03.763194+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "81a64fec-aa2c-4fd8-a562-9fd57d4da02d",
+        "expires_at": "2026-09-30T23:04:18.763931+00:00",
+        "approved_at": "2026-09-30T22:04:02.763923+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "2228079a-2853-45f7-9a33-92a1e92b36cf",
+        "expires_at": "2026-09-30T23:04:18.764377+00:00",
+        "approved_at": "2026-09-30T22:04:01.764371+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "ff301478-9cea-47eb-bb08-89461a84503f",
+        "expires_at": "2026-09-30T23:04:18.764719+00:00",
+        "approved_at": "2026-09-30T22:04:00.764713+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "3efb40ac-6f2f-4bb5-b42d-d0ecc5fc7178",
+        "expires_at": "2026-09-30T23:04:18.765291+00:00",
+        "approved_at": "2026-09-30T22:03:59.765275+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "0c7a6f53-bb8b-431c-925d-97d335225cf4",
+        "expires_at": "2026-09-30T23:04:18.76631+00:00",
+        "approved_at": "2026-09-30T22:03:58.766293+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "574457f4-71a2-4527-aecc-68c2bcf0e474",
+        "expires_at": "2026-09-30T23:04:18.76727+00:00",
+        "approved_at": "2026-09-30T22:03:57.767255+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "3360a5bc-81ff-4ac1-918b-17c8e7c3529e",
+        "expires_at": "2026-09-30T23:04:18.768249+00:00",
+        "approved_at": "2026-09-30T22:03:56.768241+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "775d9f4c-1d2a-4353-9a22-3805c088ab72",
+        "expires_at": "2026-09-30T23:04:18.768705+00:00",
+        "approved_at": "2026-09-30T22:03:55.768698+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "ca8eeade-504a-4966-bb3b-bfb56f424662",
+        "expires_at": "2026-09-30T23:04:18.770759+00:00",
+        "approved_at": "2026-09-30T22:03:54.770743+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "ed3c6dae-03f5-4eac-bfba-7a49dacac755",
+        "expires_at": "2026-09-30T23:04:18.771883+00:00",
+        "approved_at": "2026-09-30T22:03:53.771867+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "2f1a53e7-bbcc-49be-a8f7-8e66d0fb29f6",
+        "expires_at": "2026-09-30T23:04:18.77289+00:00",
+        "approved_at": "2026-09-30T22:03:52.772874+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "49948f24-dff4-48b6-9eea-526d43f70577",
+        "expires_at": "2026-09-30T23:04:18.773882+00:00",
+        "approved_at": "2026-09-30T22:03:51.773867+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "7656e879-a932-4a6b-9371-1dcd7d1ca04e",
+        "expires_at": "2026-09-30T23:04:18.775244+00:00",
+        "approved_at": "2026-09-30T22:03:50.775229+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "3faa1927-354f-409e-9175-99c804608814",
+        "expires_at": "2026-09-30T23:04:18.776448+00:00",
+        "approved_at": "2026-09-30T22:03:49.776441+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "01edeb63-2f3b-44b7-9247-0971df02fd63",
+        "expires_at": "2026-09-30T23:04:18.777696+00:00",
+        "approved_at": "2026-09-30T22:03:48.77768+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "5e9bbfbf-0a55-4d1a-a4e0-4aec88d330cb",
+        "expires_at": "2026-09-30T23:04:18.778693+00:00",
+        "approved_at": "2026-09-30T22:03:47.778676+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "82b28efa-98a6-4dd0-bac6-7c2872fca301",
+        "expires_at": "2026-09-30T23:04:18.779482+00:00",
+        "approved_at": "2026-09-30T22:03:46.779472+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "f12cb57c-612e-48de-9b47-877997094d46",
+        "expires_at": "2026-09-30T23:04:18.780456+00:00",
+        "approved_at": "2026-09-30T22:03:45.780441+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "1bda7d34-9a22-48f9-9815-fc0cb5913512",
+        "expires_at": "2026-09-30T23:04:18.784733+00:00",
+        "approved_at": "2026-09-30T22:03:44.784409+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "102983e3-5602-4eef-804b-b0ab75c1e0f9",
+        "expires_at": "2026-09-30T23:04:18.789928+00:00",
+        "approved_at": "2026-09-30T22:03:43.789905+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "1e82680e-8c1e-4143-a3b7-85d909e03f6f",
+        "expires_at": "2026-09-30T23:04:18.792527+00:00",
+        "approved_at": "2026-09-30T22:03:42.792473+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "6e6ba92f-ee55-4835-96c8-8ca05e149366",
+        "expires_at": "2026-09-30T23:04:18.793692+00:00",
+        "approved_at": "2026-09-30T22:03:41.793677+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "b97e5fff-6eac-4ee7-b79e-fad60092ac28",
+        "expires_at": "2026-09-30T23:04:18.794917+00:00",
+        "approved_at": "2026-09-30T22:03:40.794898+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "919cdabc-d660-4b84-9c20-d187e84ca3e0",
+        "expires_at": "2026-09-30T23:04:18.802496+00:00",
+        "approved_at": "2026-09-30T22:03:39.802489+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "113060d1-cff6-431d-b5b5-42e2c577aa55",
+        "expires_at": "2026-09-30T23:04:18.805769+00:00",
+        "approved_at": "2026-09-30T22:03:38.805749+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "a0e20650-23f8-420a-a803-5eb8ef8f16c8",
+        "expires_at": "2026-09-30T23:04:18.806513+00:00",
+        "approved_at": "2026-09-30T22:03:37.806506+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "bcadf262-e6bf-4fff-bf5c-1285e19fbddb",
+        "expires_at": "2026-09-30T23:04:18.808066+00:00",
+        "approved_at": "2026-09-30T22:03:36.808051+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "11ff4e4c-0d1e-46f2-858c-5ce49f4597b7",
+        "expires_at": "2026-09-30T23:04:18.810836+00:00",
+        "approved_at": "2026-09-30T22:03:35.810829+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "863811e1-bd93-4cc3-b186-da53d82f6601",
+        "expires_at": "2026-09-30T23:04:18.811847+00:00",
+        "approved_at": "2026-09-30T22:03:34.811829+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "40365ce2-489b-467d-847a-190ff8eb2d10",
+        "expires_at": "2026-09-30T23:04:18.813081+00:00",
+        "approved_at": "2026-09-30T22:03:33.813065+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "4f346203-a70a-49c8-9ae4-26179d1b4b1c",
+        "expires_at": "2026-09-30T23:04:18.814217+00:00",
+        "approved_at": "2026-09-30T22:03:32.814201+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "6206b3e6-780d-4f2d-9f9e-88714777600b",
+        "expires_at": "2026-09-30T23:04:18.815228+00:00",
+        "approved_at": "2026-09-30T22:03:31.815213+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "0e3124b5-4d4a-4ce2-bb9b-6fee1fcb2a67",
+        "expires_at": "2026-09-30T23:04:18.81687+00:00",
+        "approved_at": "2026-09-30T22:03:30.816863+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "298c2e90-fef5-4369-9a43-79348a8af4cd",
+        "expires_at": "2026-09-30T23:04:18.817763+00:00",
+        "approved_at": "2026-09-30T22:03:29.817757+00:00",
+        "consumed_at": null
+      },
+      {
+        "id": "f69b5744-f8ac-4b61-844f-31b9235bd40b",
+        "expires_at": "2026-09-30T23:04:18.818409+00:00",
+        "approved_at": "2026-09-30T22:03:28.818403+00:00",
+        "consumed_at": null
+      }
+    ],
+    "amount_rwf": "500",
+    "created_at": "2026-09-30T22:04:04.290035+00:00",
+    "payment_id": "99760000-0000-4000-8000-000000030002",
+    "updated_at": "2026-09-30T22:04:18.573563+00:00",
+    "snapshot_id": "3f4ea005-452b-4657-a3a8-b6a8a5726ae4",
+    "template_key": "buri_munsi.payment_received",
+    "attempt_total": 61,
+    "collection_id": "99710000-0000-4000-8000-000000030001",
+    "approval_total": 61,
+    "preview_source": "immutable_posting_snapshot",
+    "member_record_id": "99710000-0000-4000-8000-000000040001",
+    "observed_sent_at": null,
+    "template_version": 1,
+    "group_balance_rwf": "800",
+    "masked_destination": "+250\u2022\u2022\u2022201",
+    "member_balance_rwf": "800",
+    "snapshot_captured_at": "2026-09-30T22:04:04.290035+00:00",
+    "masked_snapshot_preview": "BuriMunsi: Twakiriye ubwizigame bwawe bwa 500 RWF. Balance yawe: 800 RWF; balance y'itsinda: 800 RWF. Ref: snapshot-a5726ae4."
+  },
+  "target_id": "618a8ddc-5216-48ad-b22b-236dd0828b8c",
+  "checked_at": "2026-09-30T22:04:19.796594+00:00",
+  "history_limit": 50,
+  "payment_state": "available",
+  "receipt_state": "available",
+  "contract_version": 1,
+  "sample_valid_until": "2026-09-30T22:05:19.796594+00:00"
+}

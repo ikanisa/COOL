@@ -1,0 +1,35 @@
+--- predecessor/lib/admin/core/admin_sender_retention_models.dart
++++ final/lib/admin/core/admin_sender_retention_models.dart
+@@ -10,6 +10,14 @@
+     retentionInvalid();
+   }
+   return value;
++}
++
++// Contract v1 configures the exact shipping700 lossless maintenance protocol.
++// Changing that producer requires a newly admitted consumer contract.
++const _retentionProtocolV1 =
++    'c653c5b4ebfa6dfaea114d3f47cd2cd4efa2581c20c82e28a27c318cf35d3cf3';
++void _retentionProtocol(Object? value) {
++  if (retentionHash(value) != _retentionProtocolV1) retentionInvalid();
+ }
+ 
+ String retentionUtc(DateTime value) =>
+@@ -125,7 +133,7 @@
+         retention['late_callback_bindings_retained'] != true) {
+       retentionInvalid();
+     }
+-    retentionHash(retention['protocol_sha256']);
++    _retentionProtocol(retention['protocol_sha256']);
+     r['retention'] = retention;
+     final policies = _object(r['platform_policies'], {'scheduler', 'android'});
+     for (final key in policies.keys) {
+@@ -207,7 +215,7 @@
+     r['expected_revision'] = _int(r['expected_revision'], 1, 999999999);
+     r['batch_limit'] = _int(r['batch_limit'], 1, 25);
+     r['byte_limit'] = _int(r['byte_limit'], 1, 4194304);
+-    retentionHash(r['protocol_sha256']);
++    _retentionProtocol(r['protocol_sha256']);
+     cancelInstant(r['expires_at']);
+     final reason = r['reason'];
+     if (r['enabled'] is! bool ||

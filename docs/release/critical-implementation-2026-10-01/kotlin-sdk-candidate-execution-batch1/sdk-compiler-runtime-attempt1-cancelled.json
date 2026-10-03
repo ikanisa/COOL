@@ -1,0 +1,31 @@
+{
+  "before_controlled_child": "64664 61323 64664 13:17 Ss   /Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle --no-daemon --no-build-cache --console=plain --max-workers=2 --no-configuration-cache -Pkotlin.compiler.execution.strategy=in-process -I /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/observe-candidate-runtime.init.gradle --rerun-tasks compileKotlin compileTestKotlin validatePlugins test jar collectSdkRuntimeGraph",
+  "before_controlled_main": "61323 86284 61323 13:54 Ss   python3 -I -B docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-execution-batch1/run_candidate_workflow.py",
+  "cancellation_observation_seconds": 0.279,
+  "compile_failure_claimed": false,
+  "logs": {
+    "sdk-compiler-runtime-attempt1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sdk-compiler-runtime-attempt1.stdout": {
+      "bytes": 143,
+      "sha256": "107b28c4d163a01acbc7bdf7b51eb03a914103a1ea305f68090385c9eaa447ff"
+    }
+  },
+  "partial_download_preserved": true,
+  "pass": false,
+  "reason": "materially incomplete repeat transfer; separately authenticated exact publisher ZIP available",
+  "recorded_utc": "2026-10-02T01:03:24.123445+00:00",
+  "remaining_process_group_members": [],
+  "same_command_related_container_started": false,
+  "scope": "only owned workflow parent and its verified SDK child process group; no other process/cache touched",
+  "signals": {
+    "child_group": "SIGTERM",
+    "child_group_SIGKILL_used": false,
+    "main": "SIGTERM before child to prevent generic failure attribution"
+  },
+  "status": "EXPLICIT_OWNER_AUTHORIZED_EARLY_CANCELLATION",
+  "terminal_utc": "2026-10-02T01:03:24.402561+00:00",
+  "timed_out": false
+}

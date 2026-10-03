@@ -1,0 +1,1 @@
+Prepared bounded original Make proof runner. Final current-source capture and execution are held until root signals its integrated batch and current three-file hashes. No maintained source writes are allowed here. Initial preparation packet remains immutable.

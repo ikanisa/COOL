@@ -1,0 +1,17 @@
+{
+  "design_authority": "revolut-design",
+  "verified_at": "2026-10-01T18:02:57.639592+00:00",
+  "source_sha256": "89873857d0d07e88d041b1318c3840bc38108567a8134f16061d630ba55784ee",
+  "actual_project_input_count": 321,
+  "current_source_drift": [],
+  "compiled_input_proof": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/admin-browser-current-complete/current-source-binding.json",
+    "sha256": "99726b76d75f2eac5ccf3c428def4e0bc3c626916a60fcf47fa20144786bd158"
+  },
+  "non_imported_member_files_checked": [
+    "lib/features/settings/settings_subscreens.dart",
+    "lib/features/settings/security_hub_header.dart",
+    "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart",
+    "lib/shared/widgets/collect_group_photo_picker.dart"
+  ]
+}

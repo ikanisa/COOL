@@ -1,0 +1,77 @@
+{
+  "status": "READ_ONLY_PROPOSAL_NOT_IMPLEMENTED",
+  "source_mutations": [],
+  "recommended_scope": "default-deny PDF/image AI upload requests before reservation; preserve deterministic imports and immutable old evidence; no Admin/shared gateway/SQL/provider policy edits",
+  "new_config_names": [
+    "ROSTER_AI_APPROVAL_JSON",
+    "ROSTER_AI_APPROVAL_SHA256",
+    "OPENAI_ORGANIZATION_ID",
+    "OPENAI_PROJECT_ID"
+  ],
+  "production_source_boundaries": [
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy.ts",
+      "action": "new isolated technical validator and fixed endpoint constant; exact schema,8KiB UTF8 bound,canonical JSON no duplicates,whole JSON SHA pin,calendar-valid active window,exact runtime org/project/model/decoder URL/build match,all required processor/region/retention evidence refs; generic existing PublicError roster_extraction_unavailable503 only"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/index.ts",
+      "current_lines": "10-15",
+      "action": "add four optional server-only configuration values; no defaults that authorize AI; preserve current model default/key/decoder getters"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler.ts",
+      "current_lines": "306-314,329-342,466-495",
+      "action": "validate source.ai policy before reserve; capture immutable configuration; recheck same policy/config/window immediately before new decoder and before provider after held ACK; use same fixed Responses URL and explicit approved organization/project headers; preserve body/schema/bytes/store:false/tool-free request and existing failure/budget contracts"
+    }
+  ],
+  "new_validator_contract": {
+    "name": "requireRosterAiDispatchApproval",
+    "input": "server configuration + optional deterministic clock for unit tests",
+    "output": "immutable parsed technical policy containing whole policy SHA,approval ID,window and approved tuple; never returned to caller",
+    "denial": "existing roster_extraction_unavailable HTTP503; no policy/key/ref content in public error or logs",
+    "followup_name": "requireUnchangedRosterAiDispatchApproval",
+    "followup": "reread deps.configuration; validate current tuple/time; require same pinned policy and original key/signing-secret values before external calls; no distributed/live vendor revocation guarantee"
+  },
+  "test_boundaries": [
+    {
+      "path": "supabase/functions/_shared/roster_ai_dispatch_policy_test.ts",
+      "action": "new meaningful strict policy/window/digest/tuple tests using a clearly synthetic approval record,not asserted human approval"
+    },
+    {
+      "path": "supabase/functions/prepare-roster-import/handler_test.ts",
+      "action": "extend existing fixture with synthetic matching server config; retain all109 cases/filename checks,add real handler denial/held-boundary/replay/success/error tests; preserve exact fixturePromise timing"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_integration_test.ts",
+      "action": "add only synthetic valid policy/config to PDF/image integrated fixtures so existing actual loopback codec cases continue; XLSX path remains policy-independent"
+    }
+  ],
+  "intentional_replay_behavior": "recommended preflight rejects AI upload replay if policy is disabled/absent/expired; historical rows remain intact and separate guarded read/recovery APIs unchanged. With active matching policy, original finished/failed replay still never dispatches again. This availability effect must be reviewed,not described as unchanged.",
+  "alternative_replay_placement": "gate only source.ai and budget.state=reserved just before decoder preserves cached preview while current policy disabled,but denied new AI requests already consume an existing charged reservation. No SQL/quota change is proposed; root must select placement explicitly if preferring this alternative.",
+  "budget_effect": "preflight denial creates no reservation/source; policy expiry/revocation after initially valid reservation retains current failed charge; provider uncertainty keeps ambiguous lease/full charge; no refunds/retry changes",
+  "unchanged": [
+    "deterministic text/csv/txt parsing",
+    "XLSX original verification/decoder path",
+    "original internal filename/hash/size custody",
+    "fixed collect-roster.pdf outbound filename",
+    "provider bytes/MIME/model request schema/store:false/tools absent",
+    "real Auth/SID/SQL gate/feature flag",
+    "strict preview/source receipt contracts",
+    "current quota/reservation/error/replay mechanics except explicit preflight availability decision"
+  ],
+  "not_closed": [
+    "actual signed owner/vendor processor/project/region/retention acceptance",
+    "runtime configured key actually belongs to approved account/project",
+    "residency/log retention/account entitlements",
+    "approved model snapshot/capability/evaluation",
+    "immutable per-attempt policy lineage",
+    "hosted provisioning/readback/rollout",
+    "complete BE13/production acceptance"
+  ],
+  "lineage_constraint": "existing SQL p_ai_metadata permits exactly provider,model,prompt_version; adding approval ID/hash now would fail real SQL. A separately owned/versioned immutable attempt-policy binding and recovery compatibility migration is required before claiming approved per-attempt lineage. No SQL/metadata schema patch included in minimum guard slice.",
+  "deploy_constraint": "existing immutable backend release approval binds candidate/source/target/toolchain/operation scope,not AI processing approvals. Function deploy does not provision or verify these config values. Current secret-name readiness cannot prove policy content/project/region/retention; separate reviewed provisioning and redacted current readback needed.",
+  "new_policy_tests_executed": false,
+  "new_policy_type_or_lint_proof": false,
+  "actual_owner_policy_values_selected": false,
+  "vendor_calls": 0
+}

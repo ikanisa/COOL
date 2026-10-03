@@ -1,0 +1,62 @@
+{
+  "current12_authority": "Root separately verifies this authority SHA and its complete 12 after_sha256 map; controller enforces full source-fence comparisons.",
+  "final_packet_digest_and_count": "Root reads the finalized packet-files.json, verifies every safe leaf, and substitutes exact digest/count. Required digest strings are 64 lowercase hex; errors must be empty.",
+  "fresh_export_rule": "app-lock accepts only a fresh actual stage_pass:true app-export terminal whose prepared_manifest_sha256 equals finalized preparation2, plus its independently read export binding. Old snapshot4 export and pub child PASS cannot be used.",
+  "no_later_stage_admission": true,
+  "root_review_directory": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-sdk-native-app-guard-review2",
+  "scope": "Schema/templates only: no actual stage receipts and no admission issued. Root separately reviews and creates one exact receipt per stage in review2.",
+  "source_fence_copy": "Root may copy already-captured review1/source-fence.json byte-exact to review2/source-fence.json when current source remains unchanged; expected SHA is 22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd. Controller compares actual source before and after export.",
+  "templates_not_receipts": {
+    "app-export": {
+      "checked_packet_leaves": "ROOT_CHECKED_FINAL_LEAF_COUNT",
+      "current12_authority_sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae",
+      "current_source_export_authorized": true,
+      "errors": [],
+      "execution_stage_admissions": {
+        "app-export": true,
+        "app-lock": false,
+        "foundation": false,
+        "native": false,
+        "sdk-lock": false,
+        "startup": false
+      },
+      "native_admitted": false,
+      "packet_manifest_sha256": "ROOT_PINNED_FINAL_PACKET_SHA256",
+      "private_snapshot_exclusive": true,
+      "production_release_approval": false,
+      "required_predecessor_terminal_sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45",
+      "required_reviewed_guard_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+      "required_source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+      "source_lock_attested": false,
+      "source_scope_held_for_strict_export": false,
+      "strict_current_source_comparison_required": true,
+      "transient_write_and_restore_absence_attested": false
+    },
+    "app-lock": {
+      "checked_packet_leaves": "ROOT_CHECKED_FINAL_LEAF_COUNT",
+      "current12_authority_sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae",
+      "current_source_export_authorized": true,
+      "errors": [],
+      "execution_stage_admissions": {
+        "app-export": false,
+        "app-lock": true,
+        "foundation": false,
+        "native": false,
+        "sdk-lock": false,
+        "startup": false
+      },
+      "native_admitted": false,
+      "packet_manifest_sha256": "ROOT_PINNED_FINAL_PACKET_SHA256",
+      "private_snapshot_exclusive": true,
+      "production_release_approval": false,
+      "required_app_export_binding_sha256": "ROOT_PINNED_FRESH_PREPARATION2_EXPORT_BINDING_SHA256",
+      "required_predecessor_terminal_sha256": "ROOT_PINNED_FRESH_PREPARATION2_WHOLE_EXPORT_TERMINAL_SHA256",
+      "required_reviewed_guard_sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a",
+      "required_source_fence_sha256": "22a874efbf0e971dcce816939a0f59c9cc64b25cd90e27fca0d37a9b6fb923cd",
+      "source_lock_attested": false,
+      "source_scope_held_for_strict_export": false,
+      "strict_current_source_comparison_required": true,
+      "transient_write_and_restore_absence_attested": false
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    ".cache/receipt-worker-snapshot-root-integration-20261002/integrate.py"
+  ],
+  "canonical_product_tests_rerun_by_capsule_worker": false,
+  "canonical_unit_assertions": 155,
+  "canonical_unit_cases": 33,
+  "observed_exit_code": 0,
+  "observed_session_id": 31668,
+  "observed_terminal_chunk": "c022b4",
+  "originating_agent": "/root",
+  "root_provided_terminal_timestamp_UTC": "2026-10-02T02:07:15Z",
+  "root_runner_sha256": "e0aade092545a6053bb39f70ba1a759c1647e76ca47e1f08efd65840b6f5a2ec",
+  "source": "Root supplied actual session31668 and terminalc022b4 exit0; four current logs/results independently read and hash-verified. Initial chunk was not retained and is not inferred.",
+  "status": "completed"
+}

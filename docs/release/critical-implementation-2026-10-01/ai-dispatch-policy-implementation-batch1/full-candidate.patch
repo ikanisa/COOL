@@ -1,0 +1,1552 @@
+--- /dev/null
++++ b/supabase/functions/_shared/roster_ai_dispatch_policy.ts
+@@ -0,0 +1,188 @@
++import {
++  objectValue,
++  PublicError,
++  SHA256,
++  UUID,
++  zonedInstant,
++} from "./production_contract.ts";
++import { rosterSha256 } from "./roster_provenance.ts";
++
++export const ROSTER_OPENAI_RESPONSES_ENDPOINT =
++  "https://api.openai.com/v1/responses";
++
++export type RosterAiConfiguration = {
++  model: string;
++  apiKey: string | undefined;
++  decoderUrl?: string;
++  decoderSecret?: string;
++  decoderBuildSha256?: string;
++  aiApprovalJson?: string;
++  aiApprovalSha256?: string;
++  openAiOrganizationId?: string;
++  openAiProjectId?: string;
++};
++export type RosterAiDispatchApproval = Readonly<{
++  policySha256: string;
++  organizationId: string;
++  projectId: string;
++  approvedAt: number;
++  validUntil: number;
++}>;
++const configurationFields = [
++  "model",
++  "apiKey",
++  "decoderUrl",
++  "decoderSecret",
++  "decoderBuildSha256",
++  "aiApprovalJson",
++  "aiApprovalSha256",
++  "openAiOrganizationId",
++  "openAiProjectId",
++] as const;
++const policyFields = [
++  "schema_version",
++  "purpose",
++  "enabled",
++  "status",
++  "approval_id",
++  "approval_evidence_sha256",
++  "approved_at",
++  "valid_until",
++  "provider",
++  "organization_id",
++  "project_id",
++  "responses_endpoint",
++  "model",
++  "processing_region_evidence_ref",
++  "retention_evidence_ref",
++  "decoder_processor_evidence_ref",
++  "decoder_region_evidence_ref",
++  "decoder_retention_evidence_ref",
++  "decoder_url",
++  "decoder_build_sha256",
++];
++const identifier = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/;
++const encoder = new TextEncoder();
++function unavailable(): never {
++  throw new PublicError("roster_extraction_unavailable", 503);
++}
++export function snapshotRosterAiConfiguration(
++  value: RosterAiConfiguration,
++): Readonly<RosterAiConfiguration> {
++  return Object.freeze({
++    model: value.model,
++    apiKey: value.apiKey,
++    decoderUrl: value.decoderUrl,
++    decoderSecret: value.decoderSecret,
++    decoderBuildSha256: value.decoderBuildSha256,
++    aiApprovalJson: value.aiApprovalJson,
++    aiApprovalSha256: value.aiApprovalSha256,
++    openAiOrganizationId: value.openAiOrganizationId,
++    openAiProjectId: value.openAiProjectId,
++  });
++}
++function validWindow(approvedAt: number, validUntil: number): void {
++  const now = Date.now();
++  if (
++    !Number.isFinite(now) || approvedAt > now || validUntil <= now ||
++    approvedAt >= validUntil
++  ) unavailable();
++}
++/** Validates a represented server record, never legal/vendor acceptance. */
++export async function prepareRosterAiDispatchApproval(
++  config: Readonly<RosterAiConfiguration>,
++): Promise<RosterAiDispatchApproval> {
++  try {
++    const raw = config.aiApprovalJson;
++    if (
++      typeof raw !== "string" || encoder.encode(raw).length > 8192 ||
++      typeof config.aiApprovalSha256 !== "string" ||
++      !SHA256.test(config.aiApprovalSha256)
++    ) return unavailable();
++    const policy = objectValue(JSON.parse(raw));
++    // Canonical compact bytes also reject duplicated keys and ambiguous JSON.
++    if (
++      JSON.stringify(policy) !== raw.trim() ||
++      Object.keys(policy).length !== policyFields.length ||
++      policyFields.some((field) => !(field in policy)) ||
++      policy.schema_version !== 1 ||
++      policy.purpose !== "collect_roster_pdf_image_extraction" ||
++      policy.enabled !== true || policy.status !== "approved" ||
++      policy.provider !== "openai" ||
++      policy.responses_endpoint !== ROSTER_OPENAI_RESPONSES_ENDPOINT ||
++      typeof policy.approval_id !== "string" ||
++      !UUID.test(policy.approval_id) ||
++      typeof policy.approval_evidence_sha256 !== "string" ||
++      !SHA256.test(policy.approval_evidence_sha256) ||
++      typeof policy.decoder_build_sha256 !== "string" ||
++      !SHA256.test(policy.decoder_build_sha256)
++    ) return unavailable();
++    for (
++      const field of [
++        "organization_id",
++        "project_id",
++        "model",
++        "processing_region_evidence_ref",
++        "retention_evidence_ref",
++        "decoder_processor_evidence_ref",
++        "decoder_region_evidence_ref",
++        "decoder_retention_evidence_ref",
++      ]
++    ) {
++      if (
++        typeof policy[field] !== "string" || !identifier.test(policy[field])
++      ) {
++        return unavailable();
++      }
++    }
++    const approvedAt = zonedInstant(policy.approved_at);
++    const validUntil = zonedInstant(policy.valid_until);
++    if (approvedAt === null || validUntil === null) return unavailable();
++    if (
++      typeof policy.decoder_url !== "string" ||
++      encoder.encode(policy.decoder_url).length > 2048 ||
++      policy.organization_id !== config.openAiOrganizationId ||
++      policy.project_id !== config.openAiProjectId ||
++      policy.model !== config.model ||
++      policy.decoder_url !== config.decoderUrl ||
++      policy.decoder_build_sha256 !== config.decoderBuildSha256
++    ) return unavailable();
++    const endpoint = new URL(policy.decoder_url);
++    if (
++      endpoint.username || endpoint.password || endpoint.search ||
++      endpoint.hash ||
++      endpoint.pathname !== "/decode" ||
++      (endpoint.protocol !== "https:" &&
++        !(endpoint.protocol === "http:" &&
++          ["127.0.0.1", "localhost", "roster-decoder"].includes(
++            endpoint.hostname,
++          )))
++    ) return unavailable();
++    const digest = await rosterSha256(encoder.encode(raw));
++    if (digest !== config.aiApprovalSha256) return unavailable();
++    const starts = Date.parse(approvedAt), ends = Date.parse(validUntil);
++    // The SHA await must complete before the final current-window check.
++    validWindow(starts, ends);
++    return Object.freeze({
++      policySha256: digest,
++      organizationId: policy.organization_id as string,
++      projectId: policy.project_id as string,
++      approvedAt: starts,
++      validUntil: ends,
++    });
++  } catch {
++    return unavailable();
++  }
++}
++/** Call synchronously at actual fetch entry, after all signing/validation awaits. */
++export function assertRosterAiDispatchApproval(
++  original: Readonly<RosterAiConfiguration>,
++  approval: RosterAiDispatchApproval,
++  current: RosterAiConfiguration,
++): void {
++  if (
++    configurationFields.some((field) => original[field] !== current[field]) ||
++    original.aiApprovalSha256 !== approval.policySha256
++  ) unavailable();
++  validWindow(approval.approvedAt, approval.validUntil);
++}
+--- /dev/null
++++ b/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts
+@@ -0,0 +1,202 @@
++import { assertEquals } from "./test_assert.ts";
++import { PublicError } from "./production_contract.ts";
++import { rosterSha256 } from "./roster_provenance.ts";
++import {
++  assertRosterAiDispatchApproval,
++  prepareRosterAiDispatchApproval,
++  type RosterAiConfiguration,
++  snapshotRosterAiConfiguration,
++} from "./roster_ai_dispatch_policy.ts";
++import {
++  SYNTHETIC_ROSTER_AI_CONFIGURATION,
++  syntheticRosterAiApproval,
++} from "./roster_ai_dispatch_test_fixture.ts";
++const encoder = new TextEncoder();
++function configuration(): RosterAiConfiguration {
++  return {
++    ...SYNTHETIC_ROSTER_AI_CONFIGURATION,
++    model: "fixture-model",
++    apiKey: "synthetic-not-a-real-key",
++    decoderUrl: "http://localhost/decode",
++    decoderSecret: "synthetic-secret-not-a-real-signing-key",
++    decoderBuildSha256: "d".repeat(64),
++  };
++}
++async function denied(run: () => unknown): Promise<void> {
++  try {
++    await run();
++  } catch (error) {
++    assertEquals(error instanceof PublicError, true);
++    const publicError = error as PublicError;
++    assertEquals(publicError.code, "roster_extraction_unavailable");
++    assertEquals(publicError.status, 503);
++    assertEquals(publicError.message, "roster_extraction_unavailable");
++    return;
++  }
++  throw new Error("Expected safe default-deny response");
++}
++Deno.test("AI policy snapshot copies immutable primitive configuration without freezing caller", async () => {
++  const current = configuration(),
++    snapshot = snapshotRosterAiConfiguration(current);
++  assertEquals(Object.isFrozen(current), false);
++  assertEquals(Object.isFrozen(snapshot), true);
++  const approved = await prepareRosterAiDispatchApproval(snapshot);
++  assertEquals(Object.isFrozen(approved), true);
++  assertEquals(Object.keys(approved).sort(), [
++    "approvedAt",
++    "organizationId",
++    "policySha256",
++    "projectId",
++    "validUntil",
++  ]);
++  current.apiKey = "changed-synthetic-key";
++  assertEquals(snapshot.apiKey, "synthetic-not-a-real-key");
++  await denied(() =>
++    assertRosterAiDispatchApproval(snapshot, approved, current)
++  );
++});
++for (
++  const [label, raw] of [
++    ["array", "[]"],
++    ["null", "null"],
++    ["scalar", "true"],
++    ["malformed", "{"],
++    [
++      "duplicate enabled key",
++      SYNTHETIC_ROSTER_AI_CONFIGURATION.aiApprovalJson.replace(
++        '"enabled":true',
++        '"enabled":false,"enabled":true',
++      ),
++    ],
++    [
++      "noncanonical interior whitespace",
++      SYNTHETIC_ROSTER_AI_CONFIGURATION.aiApprovalJson.replace(
++        '"enabled":true',
++        '"enabled": true',
++      ),
++    ],
++    ["too many bytes", "é".repeat(4097)],
++  ] as const
++) {
++  Deno.test(`AI policy ${label} never authorizes dispatch`, async () => {
++    const config = configuration();
++    config.aiApprovalJson = raw;
++    config.aiApprovalSha256 = await rosterSha256(encoder.encode(raw));
++    await denied(() =>
++      prepareRosterAiDispatchApproval(snapshotRosterAiConfiguration(config))
++    );
++  });
++}
++for (
++  const [label, patch] of [
++    ["invalid approval ID", { approval_id: "not-an-approval-id" }],
++    ["invalid approval evidence digest", {
++      approval_evidence_sha256: "F".repeat(64),
++    }],
++    ["missing field", { decoder_retention_evidence_ref: undefined }],
++    ["invalid evidence reference", {
++      retention_evidence_ref: "record\nAuthorization: secret",
++    }],
++    ["wrong schema", { schema_version: 2 }],
++    ["impossible calendar", { approved_at: "2026-02-30T00:00:00Z" }],
++    ["no timezone", { approved_at: "2020-01-01T00:00:00" }],
++    ["reversed window", {
++      approved_at: "2099-01-01T00:00:00Z",
++      valid_until: "2020-01-01T00:00:00Z",
++    }],
++    ["window equal", {
++      approved_at: "2020-01-01T00:00:00Z",
++      valid_until: "2020-01-01T00:00:00Z",
++    }],
++  ] as const
++) {
++  Deno.test(`AI policy ${label} stays default denied`, async () => {
++    const config = configuration();
++    Object.assign(
++      config,
++      await syntheticRosterAiApproval(
++        config.model,
++        config.decoderUrl,
++        config.decoderBuildSha256,
++        patch,
++      ),
++    );
++    await denied(() =>
++      prepareRosterAiDispatchApproval(snapshotRosterAiConfiguration(config))
++    );
++  });
++}
++for (
++  const url of [
++    "http://foreign.invalid/decode",
++    "https://user:password@decoder.invalid/decode",
++    "https://decoder.invalid/decode?token=synthetic",
++    "https://decoder.invalid/decode#fragment",
++    "https://decoder.invalid/not-decode",
++    "file:///decode",
++  ]
++) {
++  Deno.test(`AI policy matching but unsafe decoder tuple rejects ${new URL(url).protocol}`, async () => {
++    const config = configuration();
++    config.decoderUrl = url;
++    Object.assign(
++      config,
++      await syntheticRosterAiApproval(
++        config.model,
++        url,
++        config.decoderBuildSha256,
++      ),
++    );
++    await denied(() =>
++      prepareRosterAiDispatchApproval(snapshotRosterAiConfiguration(config))
++    );
++  });
++}
++Deno.test("AI policy exact beginning permits dispatch and exact expiration denies it synchronously", async () => {
++  const originalNow = Date.now, config = configuration();
++  const starts = Date.parse("2026-10-02T00:00:00Z"), ends = starts + 60000;
++  Object.assign(
++    config,
++    await syntheticRosterAiApproval(
++      config.model,
++      config.decoderUrl,
++      config.decoderBuildSha256,
++      {
++        approved_at: new Date(starts).toISOString(),
++        valid_until: new Date(ends).toISOString(),
++      },
++    ),
++  );
++  const snapshot = snapshotRosterAiConfiguration(config);
++  try {
++    Date.now = () => starts;
++    const approval = await prepareRosterAiDispatchApproval(snapshot);
++    assertRosterAiDispatchApproval(snapshot, approval, config);
++    Date.now = () => ends - 1;
++    assertRosterAiDispatchApproval(snapshot, approval, config);
++    Date.now = () => ends;
++    await denied(() =>
++      assertRosterAiDispatchApproval(snapshot, approval, config)
++    );
++  } finally {
++    Date.now = originalNow;
++  }
++});
++Deno.test("AI policy whole JSON pin binds its original UTF8 bytes including outer whitespace", async () => {
++  const config = configuration();
++  config.aiApprovalJson += "\n";
++  await denied(() =>
++    prepareRosterAiDispatchApproval(snapshotRosterAiConfiguration(config))
++  );
++  config.aiApprovalSha256 = await rosterSha256(
++    encoder.encode(config.aiApprovalJson),
++  );
++  const approval = await prepareRosterAiDispatchApproval(
++    snapshotRosterAiConfiguration(config),
++  );
++  assertRosterAiDispatchApproval(
++    snapshotRosterAiConfiguration(config),
++    approval,
++    config,
++  );
++});
+--- /dev/null
++++ b/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts
+@@ -0,0 +1,57 @@
++import { rosterSha256 } from "./roster_provenance.ts";
++
++// Synthetic tests only. These values assert no actual owner/vendor approval.
++export const SYNTHETIC_ROSTER_AI_POLICY = {
++  "schema_version": 1,
++  "purpose": "collect_roster_pdf_image_extraction",
++  "enabled": true,
++  "status": "approved",
++  "approval_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
++  "approval_evidence_sha256":
++    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
++  "approved_at": "2020-01-01T00:00:00Z",
++  "valid_until": "2099-01-01T00:00:00Z",
++  "provider": "openai",
++  "organization_id": "org_synthetic",
++  "project_id": "proj_synthetic",
++  "responses_endpoint": "https://api.openai.com/v1/responses",
++  "model": "fixture-model",
++  "processing_region_evidence_ref": "synthetic-region-evidence",
++  "retention_evidence_ref": "synthetic-retention-evidence",
++  "decoder_processor_evidence_ref": "synthetic-decoder-processor",
++  "decoder_region_evidence_ref": "synthetic-decoder-region",
++  "decoder_retention_evidence_ref": "synthetic-decoder-retention",
++  "decoder_url": "http://localhost/decode",
++  "decoder_build_sha256":
++    "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
++};
++export const SYNTHETIC_ROSTER_AI_CONFIGURATION = Object.freeze({
++  aiApprovalJson:
++    '{"schema_version":1,"purpose":"collect_roster_pdf_image_extraction","enabled":true,"status":"approved","approval_id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","approval_evidence_sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","approved_at":"2020-01-01T00:00:00Z","valid_until":"2099-01-01T00:00:00Z","provider":"openai","organization_id":"org_synthetic","project_id":"proj_synthetic","responses_endpoint":"https://api.openai.com/v1/responses","model":"fixture-model","processing_region_evidence_ref":"synthetic-region-evidence","retention_evidence_ref":"synthetic-retention-evidence","decoder_processor_evidence_ref":"synthetic-decoder-processor","decoder_region_evidence_ref":"synthetic-decoder-region","decoder_retention_evidence_ref":"synthetic-decoder-retention","decoder_url":"http://localhost/decode","decoder_build_sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}',
++  aiApprovalSha256:
++    "e08fe77aef61ad8391c0807f1a74589246036651ede18a162751c838d2775a0e",
++  openAiOrganizationId: "org_synthetic",
++  openAiProjectId: "proj_synthetic",
++});
++export async function syntheticRosterAiApproval(
++  model: string,
++  decoderUrl: string | undefined,
++  decoderBuildSha256: string | undefined,
++  patch: Record<string, unknown> = {},
++) {
++  const aiApprovalJson = JSON.stringify({
++    ...SYNTHETIC_ROSTER_AI_POLICY,
++    model,
++    decoder_url: decoderUrl,
++    decoder_build_sha256: decoderBuildSha256,
++    ...patch,
++  });
++  return {
++    aiApprovalJson,
++    aiApprovalSha256: await rosterSha256(
++      new TextEncoder().encode(aiApprovalJson),
++    ),
++    openAiOrganizationId: "org_synthetic",
++    openAiProjectId: "proj_synthetic",
++  };
++}
+--- a/supabase/functions/_shared/roster_decoder_integration_test.ts
++++ b/supabase/functions/_shared/roster_decoder_integration_test.ts
+@@ -4,6 +4,7 @@
+ import { readRosterSource, rosterSha256 } from "./roster_provenance.ts";
+ import { createRosterImportHandler } from "../prepare-roster-import/handler.ts";
+ import { normalizeRosterCandidates } from "./roster_import.ts";
++import { syntheticRosterAiApproval } from "./roster_ai_dispatch_test_fixture.ts";
+ 
+ const endpoint = Deno.env.get("ROSTER_DECODER_TEST_URL");
+ const secret = Deno.env.get("ROSTER_DECODER_TEST_SECRET");
+@@ -96,6 +97,13 @@
+ // Actual Linux codec + signed HTTP + unmodified upload handler. Auth/SQL/provider
+ // acknowledgements are recording fixtures; real SQL is tested separately by the
+ // guarded146 packet, and these tests never reach a provider or hosted service.
++function fixturePromise<T>(body: () => T): Promise<T> {
++  try {
++    return Promise.resolve(body());
++  } catch (error) {
++    return Promise.reject(error);
++  }
++}
+ async function integratedHandler(input: Awaited<ReturnType<typeof source>>) {
+   const actor = "99690000-0000-4000-8000-000000000001";
+   const session = "99690000-0000-4000-8000-000000000011";
+@@ -105,176 +113,185 @@
+   const hash = await rosterSha256(input.bytes);
+   const derivedHash = input.derived ? await rosterSha256(input.derived) : null;
+   let registered = false;
++  const approval = input.ai
++    ? await syntheticRosterAiApproval("synthetic-model", endpoint, buildSha256)
++    : {};
+   const handler = createRosterImportHandler({
+-    authenticate: async () => ({ id: actor }),
++    authenticate: () => fixturePromise(() => ({ id: actor })),
+     configuration: () => ({
++      ...approval,
+       model: "synthetic-model",
+       apiKey: "synthetic-never-transmitted",
+       decoderUrl: endpoint,
+       decoderSecret: secret,
+       decoderBuildSha256: buildSha256,
+     }),
+-    fetch: async (url) => {
+-      calls.push("synthetic_provider");
+-      assertEquals(url, "https://api.openai.com/v1/responses");
+-      assertEquals(registered, true);
+-      return new Response(JSON.stringify({
+-        id: "resp_synthetic_fixture",
+-        object: "response",
+-        status: "completed",
+-        error: null,
+-        incomplete_details: null,
+-        output: [{
+-          id: "msg_synthetic_fixture",
+-          type: "message",
+-          role: "assistant",
++    fetch: (url, init) =>
++      fixturePromise(() => {
++        calls.push("synthetic_provider");
++        const headers = new Headers(init?.headers);
++        assertEquals(headers.get("OpenAI-Organization"), "org_synthetic");
++        assertEquals(headers.get("OpenAI-Project"), "proj_synthetic");
++        assertEquals(url, "https://api.openai.com/v1/responses");
++        assertEquals(registered, true);
++        return new Response(JSON.stringify({
++          id: "resp_synthetic_fixture",
++          object: "response",
+           status: "completed",
+-          content: [{
+-            type: "output_text",
+-            annotations: [],
+-            text: JSON.stringify({
+-              rows: [
+-                {
+-                  source_row: 1,
+-                  member_name: "Élodie Niyonzima",
+-                  momo_name: "ÉLODIE NIYONZIMA",
+-                  momo_number: "0789969001",
+-                  confidence: 1,
+-                },
+-                {
+-                  source_row: 2,
+-                  member_name: "Aline Uwase",
+-                  momo_name: "ALINE UWASE",
+-                  momo_number: "0789969002",
+-                  confidence: 1,
+-                },
+-              ],
+-            }),
++          error: null,
++          incomplete_details: null,
++          output: [{
++            id: "msg_synthetic_fixture",
++            type: "message",
++            role: "assistant",
++            status: "completed",
++            content: [{
++              type: "output_text",
++              annotations: [],
++              text: JSON.stringify({
++                rows: [
++                  {
++                    source_row: 1,
++                    member_name: "Élodie Niyonzima",
++                    momo_name: "ÉLODIE NIYONZIMA",
++                    momo_number: "0789969001",
++                    confidence: 1,
++                  },
++                  {
++                    source_row: 2,
++                    member_name: "Aline Uwase",
++                    momo_name: "ALINE UWASE",
++                    momo_number: "0789969002",
++                    confidence: 1,
++                  },
++                ],
++              }),
++            }],
+           }],
+-        }],
+-      }));
+-    },
+-    rpc: async (name, args) => {
+-      calls.push(name);
+-      if (name === "reserve_roster_resources") {
++        }));
++      }),
++    rpc: (name, args) =>
++      fixturePromise(() => {
++        calls.push(name);
++        if (name === "reserve_roster_resources") {
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: reservation,
++              request_id: input.requestId,
++              actor_id: actor,
++              session_id: session,
++              source_sha256: hash,
++              state: "reserved",
++              replayed: false,
++              expires_at: "2099-01-01T00:00:00Z",
++            },
++          };
++        }
++        if (name === "verify_roster_source_integrity") {
++          assertEquals(args.p_decoder_build_sha256, buildSha256);
++          assertEquals(typeof args.p_decoder_receipt_sha256, "string");
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: reservation,
++              source_sha256: hash,
++              derived_sha256: derivedHash,
++              decoder_receipt_sha256: args.p_decoder_receipt_sha256,
++              verified: true,
++            },
++          };
++        }
++        if (name === "create_roster_import_source") {
++          assertEquals(calls.slice(0, 3), [
++            "reserve_roster_resources",
++            "verify_roster_source_integrity",
++            "create_roster_import_source",
++          ]);
++          registered = true;
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              request_id: input.requestId,
++              import_id: importId,
++              source_sha256: hash,
++              source_size: input.bytes.length,
++              source_kind: input.kind,
++              extraction_id: extractionId,
++              expires_at: "2099-01-01T00:00:00Z",
++              derived_sha256: derivedHash,
++              derived_assurance: input.kind === "xlsx"
++                ? "client_derived_tsv"
++                : null,
++              state: "awaiting_preview",
++              replayed: false,
++              completed_preview: null,
++              error_code: null,
++            },
++          };
++        }
++        if (name === "finish_roster_resources") {
++          return {
++            error: null,
++            data: {
++              contract_version: 1,
++              ok: true,
++              reservation_id: reservation,
++              outcome: args.p_outcome,
++              charged: true,
++            },
++          };
++        }
++        assertEquals(name, "complete_roster_import_preview");
+         return {
+           error: null,
+           data: {
+             contract_version: 1,
+             ok: true,
+-            reservation_id: reservation,
+-            request_id: input.requestId,
+-            actor_id: actor,
+-            session_id: session,
++            import_id: importId,
+             source_sha256: hash,
+-            state: "reserved",
+-            replayed: false,
++            source_kind: input.kind,
++            source_receipt: {
++              request_id: input.requestId,
++              source_size: input.bytes.length,
++              client_filename: input.filename,
++              declared_mime: input.mime,
++              detected_type: input.detected,
++              derived_sha256: derivedHash,
++              derived_assurance: input.kind === "xlsx"
++                ? "client_derived_tsv"
++                : null,
++              extraction_id: extractionId,
++              ai_consent: input.ai,
++              consent_version: input.ai ? "roster-ai-extraction-v1" : null,
++              parser_version: "collect-roster-parser-v1",
++              schema_version: "collect-roster-rows-v1",
++            },
++            revision_id: crypto.randomUUID(),
++            parent_revision_id: null,
++            revision_number: 1,
++            reviewed_rows_sha256: "a".repeat(64),
++            ...normalizeRosterCandidates(
++              args.p_candidates as Parameters<
++                typeof normalizeRosterCandidates
++              >[0],
++            ),
++            can_submit: false,
++            requires_human_review: true,
++            processing_method: input.ai
++              ? "openai_structured_extraction"
++              : "deterministic",
++            model: input.ai ? "synthetic-model" : null,
+             expires_at: "2099-01-01T00:00:00Z",
+           },
+         };
+-      }
+-      if (name === "verify_roster_source_integrity") {
+-        assertEquals(args.p_decoder_build_sha256, buildSha256);
+-        assertEquals(typeof args.p_decoder_receipt_sha256, "string");
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            reservation_id: reservation,
+-            source_sha256: hash,
+-            derived_sha256: derivedHash,
+-            decoder_receipt_sha256: args.p_decoder_receipt_sha256,
+-            verified: true,
+-          },
+-        };
+-      }
+-      if (name === "create_roster_import_source") {
+-        assertEquals(calls.slice(0, 3), [
+-          "reserve_roster_resources",
+-          "verify_roster_source_integrity",
+-          "create_roster_import_source",
+-        ]);
+-        registered = true;
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            request_id: input.requestId,
+-            import_id: importId,
+-            source_sha256: hash,
+-            source_size: input.bytes.length,
+-            source_kind: input.kind,
+-            extraction_id: extractionId,
+-            expires_at: "2099-01-01T00:00:00Z",
+-            derived_sha256: derivedHash,
+-            derived_assurance: input.kind === "xlsx"
+-              ? "client_derived_tsv"
+-              : null,
+-            state: "awaiting_preview",
+-            replayed: false,
+-            completed_preview: null,
+-            error_code: null,
+-          },
+-        };
+-      }
+-      if (name === "finish_roster_resources") {
+-        return {
+-          error: null,
+-          data: {
+-            contract_version: 1,
+-            ok: true,
+-            reservation_id: reservation,
+-            outcome: args.p_outcome,
+-            charged: true,
+-          },
+-        };
+-      }
+-      assertEquals(name, "complete_roster_import_preview");
+-      return {
+-        error: null,
+-        data: {
+-          contract_version: 1,
+-          ok: true,
+-          import_id: importId,
+-          source_sha256: hash,
+-          source_kind: input.kind,
+-          source_receipt: {
+-            request_id: input.requestId,
+-            source_size: input.bytes.length,
+-            client_filename: input.filename,
+-            declared_mime: input.mime,
+-            detected_type: input.detected,
+-            derived_sha256: derivedHash,
+-            derived_assurance: input.kind === "xlsx"
+-              ? "client_derived_tsv"
+-              : null,
+-            extraction_id: extractionId,
+-            ai_consent: input.ai,
+-            consent_version: input.ai ? "roster-ai-extraction-v1" : null,
+-            parser_version: "collect-roster-parser-v1",
+-            schema_version: "collect-roster-rows-v1",
+-          },
+-          revision_id: crypto.randomUUID(),
+-          parent_revision_id: null,
+-          revision_number: 1,
+-          reviewed_rows_sha256: "a".repeat(64),
+-          ...normalizeRosterCandidates(
+-            args.p_candidates as Parameters<
+-              typeof normalizeRosterCandidates
+-            >[0],
+-          ),
+-          can_submit: false,
+-          requires_human_review: true,
+-          processing_method: input.ai
+-            ? "openai_structured_extraction"
+-            : "deterministic",
+-          model: input.ai ? "synthetic-model" : null,
+-          expires_at: "2099-01-01T00:00:00Z",
+-        },
+-      };
+-    },
++      }),
+   });
+   const claims = base64(
+     new TextEncoder().encode(
+@@ -414,7 +431,7 @@
+     );
+     const reservation = crypto.randomUUID(), calls: string[] = [];
+     const handler = createRosterImportHandler({
+-      authenticate: async () => ({ id: actor }),
++      authenticate: () => fixturePromise(() => ({ id: actor })),
+       configuration: () => ({
+         model: "synthetic-model",
+         apiKey: "synthetic-never-used",
+@@ -422,43 +439,45 @@
+         decoderSecret: secret,
+         decoderBuildSha256: buildSha256,
+       }),
+-      fetch: async () => {
+-        calls.push("provider");
+-        throw new Error("Forbidden provider dispatch");
+-      },
+-      rpc: async (name, args) => {
+-        calls.push(name);
+-        if (name === "reserve_roster_resources") {
+-          return {
+-            error: null,
+-            data: {
+-              contract_version: 1,
+-              ok: true,
+-              reservation_id: reservation,
+-              request_id: input.requestId,
+-              actor_id: actor,
+-              session_id: session,
+-              source_sha256: args.p_source_sha256,
+-              state: "reserved",
+-              replayed: false,
+-              expires_at: new Date(Date.now() + 180000).toISOString(),
+-            },
+-          };
+-        }
+-        if (name === "finish_roster_resources") {
+-          return {
+-            error: null,
+-            data: {
+-              contract_version: 1,
+-              ok: true,
+-              reservation_id: reservation,
+-              outcome: args.p_outcome,
+-              charged: true,
+-            },
+-          };
+-        }
+-        throw new Error("Unverified source reached durable create");
+-      },
++      fetch: () =>
++        fixturePromise(() => {
++          calls.push("provider");
++          throw new Error("Forbidden provider dispatch");
++        }),
++      rpc: (name, args) =>
++        fixturePromise(() => {
++          calls.push(name);
++          if (name === "reserve_roster_resources") {
++            return {
++              error: null,
++              data: {
++                contract_version: 1,
++                ok: true,
++                reservation_id: reservation,
++                request_id: input.requestId,
++                actor_id: actor,
++                session_id: session,
++                source_sha256: args.p_source_sha256,
++                state: "reserved",
++                replayed: false,
++                expires_at: new Date(Date.now() + 180000).toISOString(),
++              },
++            };
++          }
++          if (name === "finish_roster_resources") {
++            return {
++              error: null,
++              data: {
++                contract_version: 1,
++                ok: true,
++                reservation_id: reservation,
++                outcome: args.p_outcome,
++                charged: true,
++              },
++            };
++          }
++          throw new Error("Unverified source reached durable create");
++        }),
+     });
+     const claims = base64(
+       new TextEncoder().encode(
+--- a/supabase/functions/prepare-roster-import/handler.ts
++++ b/supabase/functions/prepare-roster-import/handler.ts
+@@ -30,6 +30,14 @@
+ } from "../_shared/roster_response_policy.ts";
+ import { decodeRosterSource } from "../_shared/roster_decoder.ts";
+ import { rosterBudgetReceipt } from "../_shared/roster_resource_budget.ts";
++import {
++  assertRosterAiDispatchApproval,
++  prepareRosterAiDispatchApproval,
++  ROSTER_OPENAI_RESPONSES_ENDPOINT,
++  type RosterAiConfiguration,
++  type RosterAiDispatchApproval,
++  snapshotRosterAiConfiguration,
++} from "../_shared/roster_ai_dispatch_policy.ts";
+ 
+ type Result = {
+   data: unknown;
+@@ -38,13 +46,7 @@
+ export type RosterHandlerDependencies = {
+   authenticate(authorization: string | null): Promise<{ id: string }>;
+   rpc(name: string, args: Record<string, unknown>): Promise<Result>;
+-  configuration(): {
+-    model: string;
+-    apiKey: string | undefined;
+-    decoderUrl?: string;
+-    decoderSecret?: string;
+-    decoderBuildSha256?: string;
+-  };
++  configuration(): RosterAiConfiguration;
+   fetch?: typeof fetch;
+   decoderFetch?: typeof fetch;
+ };
+@@ -303,7 +305,8 @@
+       const derivedHash = source.derived
+         ? await rosterSha256(source.derived)
+         : null;
+-      const config = deps.configuration();
++      const config = snapshotRosterAiConfiguration(deps.configuration());
++      let approval: RosterAiDispatchApproval | null = null;
+       let model: string | null = null;
+       if (source.ai) {
+         try {
+@@ -311,6 +314,10 @@
+         } catch {
+           throw new PublicError("roster_extraction_unavailable", 503);
+         }
++        approval = await prepareRosterAiDispatchApproval(config);
++        // Hash validation has settled. Fresh configuration and time are checked
++        // synchronously before any reservation or external work can start.
++        assertRosterAiDispatchApproval(config, approval, deps.configuration());
+       }
+       const budget = rosterBudgetReceipt(
+         await rpc(deps, "reserve_roster_resources", {
+@@ -329,17 +336,45 @@
+       if (budget.state === "reserved") {
+         reservationId = budget.reservation_id;
+         if (["xlsx", "image", "pdf"].includes(source.kind)) {
+-          const decoded = await decodeRosterSource(
+-            source,
+-            hash,
+-            reservationId,
+-            {
+-              url: config.decoderUrl,
+-              secret: config.decoderSecret,
+-              buildSha256: config.decoderBuildSha256,
+-            },
+-            deps.decoderFetch,
+-          );
++          let approvalDenied = false;
++          const decoderFetch: typeof fetch | undefined = approval
++            ? (input, init) => {
++              try {
++                // decodeRosterSource has finished its awaited HMAC before this
++                // actual fetch entry. No await follows the fresh check.
++                assertRosterAiDispatchApproval(
++                  config,
++                  approval!,
++                  deps.configuration(),
++                );
++              } catch (error) {
++                approvalDenied = true;
++                throw error;
++              }
++              return (deps.decoderFetch ?? fetch)(input, init);
++            }
++            : deps.decoderFetch;
++          let decoded: Awaited<ReturnType<typeof decodeRosterSource>>;
++          try {
++            decoded = await decodeRosterSource(
++              source,
++              hash,
++              reservationId,
++              {
++                url: config.decoderUrl,
++                secret: config.decoderSecret,
++                buildSha256: config.decoderBuildSha256,
++              },
++              decoderFetch,
++            );
++          } catch (error) {
++            // The decoder adapter sanitizes fetch errors. Preserve a local
++            // approval denial without changing genuine decoder error behavior.
++            if (approvalDenied) {
++              throw new PublicError("roster_extraction_unavailable", 503);
++            }
++            throw error;
++          }
+           const verified = record(
+             await rpc(deps, "verify_roster_source_integrity", {
+               p_reservation_id: reservationId,
+@@ -467,31 +502,37 @@
+         if (!config.apiKey) {
+           throw new PublicError("roster_extraction_unavailable", 503);
+         }
++        const init: RequestInit = {
++          method: "POST",
++          headers: {
++            authorization: `Bearer ${config.apiKey}`,
++            "content-type": "application/json",
++            "OpenAI-Organization": approval!.organizationId,
++            "OpenAI-Project": approval!.projectId,
++          },
++          body: JSON.stringify(
++            buildRosterResponsesRequest(
++              model!,
++              source.kind as "pdf" | "image",
++              source.filename!,
++              source.mime,
++              source.base64!,
++            ),
++          ),
++          signal: AbortSignal.timeout(60_000),
++          redirect: "error",
++        };
++        // Source ACK and decoder awaits have settled. Recheck the same approval,
++        // raw configuration and current window directly before the fetch.
++        assertRosterAiDispatchApproval(config, approval!, deps.configuration());
+         let response: Response;
+         // Once a provider request can leave this process, an error does not
+         // prove it was unbilled/stopped. Keep its active lease and full charge.
+         budgetOutcome = "ambiguous";
+         try {
+           response = await (deps.fetch ?? fetch)(
+-            "https://api.openai.com/v1/responses",
+-            {
+-              method: "POST",
+-              headers: {
+-                authorization: `Bearer ${config.apiKey}`,
+-                "content-type": "application/json",
+-              },
+-              body: JSON.stringify(
+-                buildRosterResponsesRequest(
+-                  model!,
+-                  source.kind as "pdf" | "image",
+-                  source.filename!,
+-                  source.mime,
+-                  source.base64!,
+-                ),
+-              ),
+-              signal: AbortSignal.timeout(60_000),
+-              redirect: "error",
+-            },
++            ROSTER_OPENAI_RESPONSES_ENDPOINT,
++            init,
+           );
+         } catch (error) {
+           throw new PublicError(
+--- a/supabase/functions/prepare-roster-import/handler_test.ts
++++ b/supabase/functions/prepare-roster-import/handler_test.ts
+@@ -1,4 +1,8 @@
+ import { assertEquals } from "../_shared/test_assert.ts";
++import {
++  SYNTHETIC_ROSTER_AI_CONFIGURATION,
++  syntheticRosterAiApproval,
++} from "../_shared/roster_ai_dispatch_test_fixture.ts";
+ import {
+   canonicalRwandaMomoNumber,
+   normalizeRosterCandidates,
+@@ -151,6 +155,7 @@
+     authError: false,
+     apiKey: "synthetic-key",
+     replay: false,
++    configurationPatch: {} as Record<string, unknown>,
+   };
+   const deps: RosterHandlerDependencies = {
+     authenticate: () =>
+@@ -160,11 +165,13 @@
+         return { id: ACTOR };
+       }),
+     configuration: () => ({
++      ...SYNTHETIC_ROSTER_AI_CONFIGURATION,
+       model: "fixture-model",
+       apiKey: state.apiKey,
+       decoderUrl: "http://localhost/decode",
+       decoderSecret: DECODER_SECRET,
+       decoderBuildSha256: "d".repeat(64),
++      ...state.configurationPatch,
+     }),
+     rpc: (name, args) =>
+       fixturePromise(() => {
+@@ -1180,3 +1187,430 @@
+   assertEquals(f.events.filter((x) => x === "provider").length, 1);
+   assertEquals(f.calls.length, 3);
+ });
++
++// AI dispatch policy cases use synthetic approval assertions only.
++function policyEffects(f: ReturnType<typeof fixture>) {
++  const rpcCalls: Call[] = [];
++  let decoderCalls = 0, providerCalls = 0;
++  const originalRpc = f.deps.rpc;
++  const originalDecoder = f.deps.decoderFetch!;
++  const originalProvider = f.deps.fetch!;
++  f.deps.rpc = (name, args) => {
++    rpcCalls.push({ name, args });
++    return originalRpc(name, args);
++  };
++  f.deps.decoderFetch = (input, init) => {
++    decoderCalls++;
++    return originalDecoder(input, init);
++  };
++  f.deps.fetch = (input, init) => {
++    providerCalls++;
++    return originalProvider(input, init);
++  };
++  return {
++    rpcCalls,
++    get decoderCalls() {
++      return decoderCalls;
++    },
++    get providerCalls() {
++      return providerCalls;
++    },
++    finishes: () =>
++      rpcCalls.filter((call) => call.name === "finish_roster_resources"),
++  };
++}
++async function replacePolicy(
++  f: ReturnType<typeof fixture>,
++  patch: Record<string, unknown>,
++) {
++  f.state.configurationPatch = {
++    ...f.state.configurationPatch,
++    ...await syntheticRosterAiApproval(
++      "fixture-model",
++      "http://localhost/decode",
++      "d".repeat(64),
++      patch,
++    ),
++  };
++}
++function deniedBeforeEffects(effects: ReturnType<typeof policyEffects>) {
++  assertEquals(effects.rpcCalls.length, 0);
++  assertEquals(effects.decoderCalls, 0);
++  assertEquals(effects.providerCalls, 0);
++  assertEquals(effects.finishes().length, 0);
++}
++for (
++  const [label, patch] of [
++    ["absent approval", { aiApprovalJson: undefined }],
++    ["absent digest", { aiApprovalSha256: undefined }],
++    ["malformed JSON", { aiApprovalJson: "{" }],
++    ["oversized JSON", { aiApprovalJson: "x".repeat(8193) }],
++    ["unbound digest", { aiApprovalSha256: "0".repeat(64) }],
++    ["missing organization", { openAiOrganizationId: undefined }],
++    ["wrong organization", { openAiOrganizationId: "org_wrong" }],
++    ["wrong project", { openAiProjectId: "proj_wrong" }],
++    ["wrong model", { model: "different-model" }],
++    ["wrong decoder URL", { decoderUrl: "https://foreign.invalid/decode" }],
++    ["wrong decoder build", { decoderBuildSha256: "a".repeat(64) }],
++  ] as const
++) {
++  Deno.test(`AI dispatch policy ${label} blocks all charged/external effects`, async () => {
++    const f = fixture(), effects = policyEffects(f);
++    f.state.configurationPatch = patch;
++    await errorResponse(
++      await f.handler(request(ai())),
++      503,
++      "roster_extraction_unavailable",
++    );
++    deniedBeforeEffects(effects);
++  });
++}
++for (
++  const [label, patch] of [
++    ["disabled", { enabled: false }],
++    ["not approved", { status: "pending" }],
++    ["string boolean", { enabled: "true" }],
++    ["wrong purpose", { purpose: "unrelated_feature" }],
++    ["wrong processor", { provider: "unapproved" }],
++    ["foreign endpoint", {
++      responses_endpoint: "https://foreign.invalid/v1/responses",
++    }],
++    ["regional endpoint unsupported", {
++      responses_endpoint: "https://eu.api.openai.com/v1/responses",
++    }],
++    ["expired", { valid_until: "2020-01-02T00:00:00Z" }],
++    ["future", { approved_at: "2098-01-01T00:00:00Z" }],
++    ["missing region evidence", { processing_region_evidence_ref: "" }],
++    ["missing retention evidence", { retention_evidence_ref: "" }],
++    ["missing decoder processor evidence", {
++      decoder_processor_evidence_ref: "",
++    }],
++    ["unknown field", { unexpected: true }],
++  ] as const
++) {
++  Deno.test(`AI dispatch policy ${label} is denied despite consent and key`, async () => {
++    const f = fixture(), effects = policyEffects(f);
++    await replacePolicy(f, patch);
++    await errorResponse(
++      await f.handler(request(ai())),
++      503,
++      "roster_extraction_unavailable",
++    );
++    deniedBeforeEffects(effects);
++  });
++}
++Deno.test("AI dispatch policy cannot be authorized by caller fields", async () => {
++  const f = fixture(), effects = policyEffects(f);
++  f.state.configurationPatch = { aiApprovalJson: undefined };
++  await errorResponse(
++    await f.handler(request(ai({ approval: true }))),
++    400,
++    "roster_unexpected_field",
++  );
++  deniedBeforeEffects(effects);
++});
++Deno.test("AI dispatch policy approved tuple selects request scope without changing data/body custody", async () => {
++  const f = fixture(), effects = policyEffects(f), original = f.deps.fetch!;
++  f.deps.fetch = (url, init) => {
++    assertEquals(url, "https://api.openai.com/v1/responses");
++    const headers = new Headers(init?.headers);
++    assertEquals(headers.get("OpenAI-Organization"), "org_synthetic");
++    assertEquals(headers.get("OpenAI-Project"), "proj_synthetic");
++    const body = JSON.parse(String(init?.body));
++    assertEquals(body.model, "fixture-model");
++    assertEquals(body.store, false);
++    assertEquals(body.tools, undefined);
++    assertEquals(body.max_output_tokens, 12000);
++    assertEquals(
++      body.input[0].content[1].image_url,
++      `data:image/png;base64,${PNG}`,
++    );
++    return original(url, init);
++  };
++  assertEquals((await f.handler(request(ai()))).status, 200);
++  assertEquals(effects.decoderCalls, 1);
++  assertEquals(effects.providerCalls, 1);
++  assertEquals(effects.finishes()[0].args.p_outcome, "preview_ready");
++  assertEquals(f.calls[0].args.p_ai_metadata, {
++    provider: "openai",
++    model: "fixture-model",
++    prompt_version: "roster-extraction-v1",
++  });
++  assertEquals(
++    JSON.stringify(f.calls).includes("synthetic-region-evidence"),
++    false,
++  );
++});
++Deno.test("AI dispatch policy preflight preserves deterministic and XLSX paths without approval", async () => {
++  const zip = new Uint8Array(52);
++  const view = new DataView(zip.buffer);
++  view.setUint32(0, 0x04034b50, true);
++  view.setUint32(30, 0x06054b50, true);
++  view.setUint16(38, 1, true);
++  view.setUint16(40, 1, true);
++  view.setUint32(46, 30, true);
++  for (
++    const input of [pasted(), {
++      contract_version: 1,
++      request_id: REQUEST,
++      source_type: "csv",
++      filename: "fixture.csv",
++      mime_type: "text/csv",
++      content_base64: base64(TEXT),
++    }, {
++      contract_version: 1,
++      request_id: REQUEST,
++      source_type: "txt",
++      filename: "fixture.txt",
++      mime_type: "text/plain",
++      content_base64: base64(TEXT),
++    }, {
++      contract_version: 1,
++      request_id: REQUEST,
++      source_type: "xlsx",
++      filename: "fixture.xlsx",
++      mime_type:
++        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
++      content_base64: base64(zip),
++      derived_content: TEXT,
++    }]
++  ) {
++    const f = fixture(), effects = policyEffects(f);
++    f.state.configurationPatch = { aiApprovalJson: undefined };
++    assertEquals((await f.handler(request(input))).status, 200);
++    assertEquals(effects.providerCalls, 0);
++    assertEquals(effects.decoderCalls, input.source_type === "xlsx" ? 1 : 0);
++  }
++});
++for (
++  const [label, patch] of [
++    ["raw approval bytes", {
++      aiApprovalJson: SYNTHETIC_ROSTER_AI_CONFIGURATION.aiApprovalJson + "\n",
++    }],
++    ["raw policy digest", { aiApprovalSha256: "a".repeat(64) }],
++    ["model", { model: "different-model" }],
++    ["organization", { openAiOrganizationId: "org_other" }],
++    ["project", { openAiProjectId: "proj_other" }],
++    ["decoder URL", { decoderUrl: "https://other.invalid/decode" }],
++    ["decoder build", { decoderBuildSha256: "a".repeat(64) }],
++    ["API key", { apiKey: "rotated-synthetic-key" }],
++    ["signing secret", {
++      decoderSecret: "rotated-synthetic-signing-secret-of-32bytes",
++    }],
++  ] as const
++) {
++  Deno.test(`AI dispatch policy ${label} drift during held source ACK blocks provider and records failed charge`, async () => {
++    const f = fixture(), effects = policyEffects(f), originalRpc = f.deps.rpc;
++    let release!: () => void, entered!: () => void;
++    const barrier = new Promise<void>((resolve) => release = resolve),
++      reached = new Promise<void>((resolve) => entered = resolve);
++    f.deps.rpc = async (name, args) => {
++      if (name === "create_roster_import_source") {
++        entered();
++        await barrier;
++      }
++      return await originalRpc(name, args);
++    };
++    const pending = f.handler(request(ai()));
++    await reached;
++    f.state.configurationPatch = patch;
++    release();
++    await errorResponse(await pending, 503, "roster_extraction_unavailable");
++    assertEquals(effects.decoderCalls, 1);
++    assertEquals(effects.providerCalls, 0);
++    assertEquals(
++      f.calls.at(-1)?.args.p_error_code,
++      "roster_extraction_unavailable",
++    );
++    assertEquals(effects.finishes()[0].args.p_outcome, "failed");
++  });
++}
++Deno.test("AI dispatch policy revocation during held reserve blocks decoder with existing failed charge", async () => {
++  const f = fixture(), effects = policyEffects(f), originalRpc = f.deps.rpc;
++  let release!: () => void, entered!: () => void;
++  const barrier = new Promise<void>((resolve) => release = resolve),
++    reached = new Promise<void>((resolve) => entered = resolve);
++  f.deps.rpc = async (name, args) => {
++    if (name === "reserve_roster_resources") {
++      entered();
++      await barrier;
++    }
++    return await originalRpc(name, args);
++  };
++  const pending = f.handler(request(ai()));
++  await reached;
++  f.state.configurationPatch = { aiApprovalJson: undefined };
++  release();
++  await errorResponse(await pending, 503, "roster_extraction_unavailable");
++  assertEquals(effects.decoderCalls, 0);
++  assertEquals(effects.providerCalls, 0);
++  assertEquals(f.calls.length, 0);
++  assertEquals(effects.finishes()[0].args.p_outcome, "failed");
++});
++async function heldCryptoPolicyBoundary(
++  kind: "digest" | "hmac",
++  expire: boolean,
++  patch: Record<string, unknown> = { aiApprovalJson: undefined },
++) {
++  const f = fixture(), effects = policyEffects(f);
++  const originalNow = Date.now;
++  const until = originalNow() + 60000;
++  if (expire) {
++    await replacePolicy(f, { valid_until: new Date(until).toISOString() });
++  }
++  const raw = (f.deps.configuration() as unknown as Record<string, unknown>)
++    .aiApprovalJson;
++  const originalDigest = crypto.subtle.digest.bind(crypto.subtle),
++    originalSign = crypto.subtle.sign.bind(crypto.subtle);
++  let release!: () => void, entered!: () => void, held = false;
++  const barrier = new Promise<void>((resolve) => release = resolve),
++    reached = new Promise<void>((resolve) => entered = resolve);
++  if (kind === "digest") {
++    crypto.subtle.digest = async (algorithm, data) => {
++      const result = await originalDigest(algorithm, data);
++      if (!held && new TextDecoder().decode(data) === raw) {
++        held = true;
++        entered();
++        await barrier;
++      }
++      return result;
++    };
++  } else {
++    crypto.subtle.sign = async (algorithm, key, data) => {
++      const result = await originalSign(algorithm, key, data);
++      if (
++        !held && new TextDecoder().decode(data).includes('"content_base64"')
++      ) {
++        held = true;
++        entered();
++        await barrier;
++      }
++      return result;
++    };
++  }
++  const pending = f.handler(request(ai()));
++  try {
++    const reachedBeforeCompletion = await Promise.race([
++      reached.then(() => true),
++      pending.then(() => false),
++    ]);
++    assertEquals(reachedBeforeCompletion, true);
++    if (expire) Date.now = () => until;
++    else f.state.configurationPatch = patch;
++    release();
++    await errorResponse(await pending, 503, "roster_extraction_unavailable");
++    assertEquals(effects.decoderCalls, 0);
++    assertEquals(effects.providerCalls, 0);
++    if (kind === "digest") deniedBeforeEffects(effects);
++    else assertEquals(effects.finishes()[0].args.p_outcome, "failed");
++  } finally {
++    release();
++    await pending;
++    crypto.subtle.digest = originalDigest;
++    crypto.subtle.sign = originalSign;
++    Date.now = originalNow;
++  }
++}
++for (const kind of ["digest", "hmac"] as const) {
++  for (const expire of [false, true]) {
++    Deno.test(`AI dispatch policy ${expire ? "expiry" : "revocation"} after actual held ${kind} prevents transmission`, async () => {
++      await heldCryptoPolicyBoundary(kind, expire);
++    });
++  }
++}
++Deno.test("AI dispatch policy active replay remains immutable and revoked upload replay has no new effects", async () => {
++  const f = fixture(), effects = policyEffects(f);
++  const first = await (await f.handler(request(ai()))).json();
++  f.state.replay = true;
++  const second = await (await f.handler(request(ai()))).json();
++  assertEquals(second, first);
++  assertEquals(effects.decoderCalls, 1);
++  assertEquals(effects.providerCalls, 1);
++  const previous = effects.rpcCalls.length;
++  f.state.configurationPatch = { aiApprovalJson: undefined };
++  await errorResponse(
++    await f.handler(request(ai())),
++    503,
++    "roster_extraction_unavailable",
++  );
++  assertEquals(effects.rpcCalls.length, previous);
++  assertEquals(effects.providerCalls, 1);
++  assertEquals(
++    f.calls.filter((call) => call.name === "complete_roster_import_preview")
++      .length,
++    1,
++  );
++});
++Deno.test("AI dispatch policy approved provider uncertainty retains ambiguous charge and no automatic retry", async () => {
++  const f = fixture(), effects = policyEffects(f);
++  f.state.fetchError = new Error("private synthetic provider transport");
++  await errorResponse(
++    await f.handler(request(ai())),
++    502,
++    "roster_extraction_failed",
++  );
++  assertEquals(effects.decoderCalls, 1);
++  assertEquals(effects.providerCalls, 1);
++  assertEquals(effects.finishes()[0].args.p_outcome, "ambiguous");
++});
++
++for (
++  const [label, patch] of [
++    ["policy digest", { aiApprovalSha256: "a".repeat(64) }],
++    ["model", { model: "different-model" }],
++    ["organization", { openAiOrganizationId: "org_other" }],
++    ["project", { openAiProjectId: "proj_other" }],
++    ["decoder URL", { decoderUrl: "https://other.invalid/decode" }],
++    ["decoder build", { decoderBuildSha256: "a".repeat(64) }],
++    ["API key", { apiKey: "rotated-synthetic-key" }],
++    ["signing secret", {
++      decoderSecret: "rotated-synthetic-signing-secret-of-32bytes",
++    }],
++  ] as const
++) {
++  Deno.test(`AI dispatch policy ${label} drift after awaited HMAC stops decoder entry`, async () => {
++    await heldCryptoPolicyBoundary("hmac", false, patch);
++  });
++}
++for (
++  const boundary of [
++    "reserve_roster_resources",
++    "create_roster_import_source",
++  ] as const
++) {
++  Deno.test(`AI dispatch policy expiry during held ${boundary} prevents next transmission`, async () => {
++    const f = fixture(),
++      effects = policyEffects(f),
++      originalRpc = f.deps.rpc,
++      originalNow = Date.now;
++    const until = originalNow() + 60000;
++    await replacePolicy(f, { valid_until: new Date(until).toISOString() });
++    let release!: () => void, entered!: () => void;
++    const barrier = new Promise<void>((resolve) => release = resolve),
++      reached = new Promise<void>((resolve) => entered = resolve);
++    f.deps.rpc = async (name, args) => {
++      if (name === boundary) {
++        entered();
++        await barrier;
++      }
++      return await originalRpc(name, args);
++    };
++    const pending = f.handler(request(ai()));
++    try {
++      await reached;
++      Date.now = () => until;
++      release();
++      await errorResponse(await pending, 503, "roster_extraction_unavailable");
++      assertEquals(
++        effects.decoderCalls,
++        boundary === "reserve_roster_resources" ? 0 : 1,
++      );
++      assertEquals(effects.providerCalls, 0);
++      assertEquals(effects.finishes()[0].args.p_outcome, "failed");
++    } finally {
++      release();
++      await pending;
++      Date.now = originalNow;
++    }
++  });
++}
+--- a/supabase/functions/prepare-roster-import/index.ts
++++ b/supabase/functions/prepare-roster-import/index.ts
+@@ -13,5 +13,9 @@
+     decoderUrl: Deno.env.get("ROSTER_DECODER_URL")?.trim(),
+     decoderSecret: Deno.env.get("ROSTER_DECODER_SECRET"),
+     decoderBuildSha256: Deno.env.get("ROSTER_DECODER_BUILD_SHA256"),
++    aiApprovalJson: Deno.env.get("ROSTER_AI_APPROVAL_JSON"),
++    aiApprovalSha256: Deno.env.get("ROSTER_AI_APPROVAL_SHA256"),
++    openAiOrganizationId: Deno.env.get("OPENAI_ORGANIZATION_ID"),
++    openAiProjectId: Deno.env.get("OPENAI_PROJECT_ID"),
+   }),
+ }));

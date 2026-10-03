@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#000000",
-  "description": "EUR group contributions by SEPA bank transfer with daily reconciliation.",
+  "description": "Rwanda group contributions in RWF through MTN MoMo and Airtel Money USSD, with contribution records and reconciliation.",
   "orientation": "portrait-primary",
   "icons": [
     {

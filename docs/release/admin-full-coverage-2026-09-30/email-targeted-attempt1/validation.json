@@ -1,0 +1,51 @@
+{
+  "passed": false,
+  "exit_code": 1,
+  "argv": [
+    "python3",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export/scripts/tests/admin_read_gateway_gate.py",
+    "--flutter",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "--output",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/acceptance",
+    "--phase",
+    "acceptance",
+    "--sql-receipts",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/actual-read-receipts.stdout",
+    "--sql-actor",
+    "99690000-0000-4000-8000-000000000001",
+    "--test-timeout",
+    "300",
+    "--capture-operations",
+    "--test-file",
+    "test/admin_email_login_test.dart",
+    "--test-file",
+    "test/admin_email_transport_session_test.dart",
+    "--test-file",
+    "test/admin_login_recovery_test.dart"
+  ],
+  "source_export": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/email-targeted-attempt1/source-export",
+  "copied_source_exact_and_stable": true,
+  "export_source_unchanged": true,
+  "transport_dependencies_unchanged": true,
+  "transport_dependencies_sha256": "9c00696d6c6b4eb7c5de350e5f9a4f25414271e9c70fa982f4382a85e9f54af2",
+  "original_source_unchanged_during_tests": false,
+  "original_source_drift": [
+    "lib/admin/core/admin_login_runtime.dart",
+    "test/admin_email_login_test.dart",
+    "test/admin_pwa_test.dart"
+  ],
+  "input_count": 816,
+  "acceptance_sha256": "fbab3c7966785b054b5ded36d1b3b2fd3bf7dcb9c4b92200298d6c587f494dd7",
+  "test_count": null,
+  "analysis_clean": false,
+  "receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "database_called": false,
+  "provider_called": false,
+  "dated_roster_sql149_receipt": null,
+  "synthetic_visual_captures": {
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-dark-synthetic.png": "c45f0a6aa447d7f4cbcd7efe75d28622f1018f953ce88f14475f8af5cd9fcd55",
+    "docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-light-synthetic.png": "707f34eb1a1936f71ef75a13ae0399d1174af461b33c49d656541cdf8e0aabf5"
+  },
+  "scope": "Exported Flutter runtime, tests, assets and owned forks; actual148 SQL read receipts are immutable read inputs, and SQL is not executed or covered by the Flutter source inventory. Original drift is separately reported; no hosted, visual fidelity or persisted audit claim"
+}

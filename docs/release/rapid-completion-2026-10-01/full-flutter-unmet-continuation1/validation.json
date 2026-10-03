@@ -1,0 +1,71 @@
+{
+  "status": "fail",
+  "command": {
+    "argv": [
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=4",
+      "--dart-define-from-file=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/full-flutter-current-resumption1/decoder-defines.json",
+      "--reporter=expanded",
+      "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/full-flutter-unmet-continuation1/vm.machine.jsonl",
+      "test/payment_intent_decoding_test.dart",
+      "test/payment_json_integrity_test.dart",
+      "test/persona_uat_smoke_test.dart",
+      "test/release_docs_test.dart",
+      "test/security_hygiene_test.dart",
+      "test/shared/collect_offline_cache_test.dart",
+      "test/shared/collect_profile_country_rules_test.dart",
+      "test/shared/collect_repository_live_reader_contract_test.dart",
+      "test/shared/collect_repository_read_contract_test.dart",
+      "test/shared/collect_repository_test.dart",
+      "test/shared/collect_share_links_test.dart",
+      "test/shared/collect_share_origin_test.dart",
+      "test/shared/contribution_intent_binding_test.dart",
+      "test/shared/group_admin_api_test.dart",
+      "test/shared/group_invitation_protection_test.dart",
+      "test/shared/group_join_account_boundary_test.dart",
+      "test/shared/group_owner_controls_test.dart",
+      "test/shared/live_group_data_test.dart",
+      "test/shared/member_data_authority_test.dart",
+      "test/shared/member_history_pagination_test.dart",
+      "test/shared/member_mutation_session_test.dart",
+      "test/shared/member_profile_gate_test.dart",
+      "test/shared/member_read_integrity_test.dart",
+      "test/shared/member_realtime_sdk_session_test.dart",
+      "test/shared/member_roster_test.dart",
+      "test/shared/notification_preference_runtime_test.dart",
+      "test/shared/pending_shared_group_intent_store_test.dart",
+      "test/shared/realtime_invalidation_recovery_test.dart",
+      "test/shared/repository_session_fencing_test.dart",
+      "test/shared/rwanda_momo_history_test.dart",
+      "test/supabase_contract_test.dart"
+    ],
+    "exit_code": 1,
+    "timed_out": false,
+    "process_group": 27514,
+    "termination_errors": [],
+    "parent_exit_confirmed": true,
+    "seconds": 47.928,
+    "sha256": "4e80f0bc8ee5b723aaa61d0f1bd94217285ac2a8dc9dd1d0846ccce513aab6f1"
+  },
+  "machine_summary": {
+    "runner_completed_successfully": false,
+    "passed": 606,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [
+      {
+        "name": "Edge Function source inventory contains Rwanda MoMo support only",
+        "source": "file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-full-flutter-current-local-20261001-resumption1/test/supabase_contract_test.dart"
+      }
+    ],
+    "event_errors": []
+  },
+  "export_drift": [],
+  "sdk_drift": [],
+  "generated_binding_drift": [],
+  "scope": "Only incomplete/unstarted VM file gates, unchanged immutable source and toolchain; original whole40-minute timeout/failures remain retained. Partial PaymentIntent file runs once to finish its108 declared cases."
+}

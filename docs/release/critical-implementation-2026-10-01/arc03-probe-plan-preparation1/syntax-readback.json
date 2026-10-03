@@ -1,0 +1,45 @@
+{
+  "at_utc": "2026-10-02T13:31:17.734184+00:00",
+  "status": "pass",
+  "checks": [
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc03-probe-plan-preparation1/proposed/scripts/edge_function_inventory.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": "",
+      "actual_seconds": 0.069015,
+      "deadline_seconds": 10
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc03-probe-plan-preparation1/proposed/scripts/tests/edge_function_inventory_test.rb"
+      ],
+      "exit_code": 0,
+      "stdout": "Syntax OK\n",
+      "stderr": "",
+      "actual_seconds": 0.052479,
+      "deadline_seconds": 10
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "-n",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc03-probe-plan-preparation1/proposed/scripts/supabase_production_readiness.sh"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "actual_seconds": 0.005113,
+      "deadline_seconds": 10
+    }
+  ],
+  "actual_tests_run": false,
+  "maintained_source_fences_unchanged": true,
+  "fence_count": 36
+}

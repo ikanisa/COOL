@@ -1,0 +1,113 @@
+{
+  "format": "collect-be08-private-semantic-parity-v1",
+  "comparison_baseline": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-be08-post-integration-current2091/generated-current209",
+  "coverage_all_fields_equal": true,
+  "schema_all_existing_semantics_equal_except_documented_candidate_metadata_and_generator_binding": true,
+  "gaps_all_existing_semantics_equal_except_documented_candidate_metadata": true,
+  "unresolved127_list_exactly_equal": true,
+  "summary": {
+    "acceptance": "draft-with-open-mappings",
+    "business_owner_assignments_verified": false,
+    "caller_sites_by_kind": {
+      "dynamic-rpc-call": 38,
+      "dynamic-symbol-template": 7,
+      "edge-http-route-reference": 14,
+      "edge-invoke": 7,
+      "function-literal-reference": 527,
+      "realtime-table": 1,
+      "relation-sdk": 7,
+      "rpc-call": 117
+    },
+    "catalog_matches_current_migration_names": true,
+    "catalog_migrations": 209,
+    "catalog_objects_by_kind": {
+      "function": 902,
+      "relation": 997,
+      "schema": 38,
+      "type": 606
+    },
+    "catalog_only_migrations": [],
+    "dynamic_or_unresolved_caller_sites": 58,
+    "function_body_match_review_records": 127,
+    "function_objects_without_literal_caller_or_sql_candidate": 309,
+    "functions_with_exact_body_hash_match": 775,
+    "functions_with_exact_static_lineage_body_hash_match": 0,
+    "functions_without_exact_body_hash_match": 127,
+    "functions_without_exact_body_hash_match_by_scope": {
+      "application-schema-or-public": 36,
+      "platform-schema": 91
+    },
+    "maintained_source_files": 668,
+    "normalized_grant_entries": 4157,
+    "peer_catalogs_equal": true,
+    "replayed_migration_bytes_match": true,
+    "reviewed_caller_seams": 18,
+    "runtime_call_graph_complete": false,
+    "source_lineage_uncertainty_records": 84,
+    "source_migrations": 209,
+    "source_only_migrations": [],
+    "sql_reference_sites": 4754,
+    "unclassified_objects": 74
+  },
+  "caller_sites": 718,
+  "objects": 2543,
+  "inputs": 1095,
+  "transformation_candidates": 37,
+  "recognized_literal_recipes": 7,
+  "computed_literal_body_candidates": 3,
+  "computed_hash_matching_candidates": 3,
+  "uncomputed_ambiguous_predecessor_candidates": [
+    {
+      "identity": "public.admin_list_receipt_operation_evidence_v1(p_run_id uuid, p_section text, p_limit integer, p_before_at timestamp with time zone, p_before_id text)",
+      "line": 154,
+      "reason": "literal-predecessor-not-unique",
+      "predecessor_definition_count": 0
+    },
+    {
+      "identity": "public.receipt_operations_execute_v2(p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb)",
+      "line": 77,
+      "reason": "literal-predecessor-not-unique",
+      "predecessor_definition_count": 0
+    },
+    {
+      "identity": "public.receipt_operations_execute_v2(p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb)",
+      "line": 118,
+      "reason": "literal-predecessor-not-unique",
+      "predecessor_definition_count": 0
+    },
+    {
+      "identity": "public.receipt_operations_execute_v2(p_principal_id uuid, p_request_id uuid, p_key_sha256 text, p_request_sha256 text, p_issued_at timestamp with time zone, p_action text, p_payload jsonb)",
+      "line": 124,
+      "reason": "literal-predecessor-not-unique",
+      "predecessor_definition_count": 0
+    }
+  ],
+  "private_manifest_changes": {
+    "removed": [
+      {
+        "kind": "generator-proposal",
+        "path": "scripts/audits/collect_schema_domain_map.py",
+        "sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2"
+      },
+      {
+        "kind": "reviewed-caller-seams",
+        "path": "scripts/audits/collect_schema_domain_caller_seams.json",
+        "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077"
+      }
+    ],
+    "added": [
+      {
+        "kind": "generator-proposal",
+        "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/audits/collect_schema_domain_map.py",
+        "sha256": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4"
+      },
+      {
+        "kind": "reviewed-caller-seams",
+        "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/audits/collect_schema_domain_caller_seams.json",
+        "sha256": "538066a32db342b049fa61e55b0adc77df64a3f2e1d4593442d7629584a4d077"
+      }
+    ],
+    "unchanged_shared_count": 1093,
+    "changed_shared": []
+  }
+}

@@ -1,0 +1,3 @@
+ERROR:  22023: reconciliation_invalid_evidence
+CONTEXT:  PL/pgSQL function public.propose_payment_reconciliation_v2(uuid,text,text,timestamp with time zone,text) line 11 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

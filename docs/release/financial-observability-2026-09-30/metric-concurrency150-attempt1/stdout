@@ -1,0 +1,149 @@
+{
+  "kind": "actual150_metric_concurrency",
+  "installed_count": 150,
+  "started_at": "2026-09-30T18:11:10Z",
+  "controls_before": "d1540d44a768a42d6c6044e71eb77188b9dea245eecdef215eaaf529548aded2",
+  "source_sha256": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac",
+  "tracked_transaction_ids": [
+    "3475",
+    "3476",
+    "3477",
+    "3478",
+    "3479",
+    "3480",
+    "3481",
+    "3482",
+    "3483",
+    "3484",
+    "3485",
+    "3486",
+    "3488"
+  ],
+  "status": "pass",
+  "cases": [
+    {
+      "name": "holder_rollback_waiter_records_once",
+      "status": "pass",
+      "blocking": {
+        "pid": 3670,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          3663
+        ]
+      },
+      "observed": {
+        "events": 1,
+        "max_ms": 20,
+        "measured": 1,
+        "total_ms": 20
+      }
+    },
+    {
+      "name": "commit_then_unmeasured_waiter_rollback",
+      "status": "pass",
+      "blocking": {
+        "pid": 3670,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          3663
+        ]
+      },
+      "observed": {
+        "events": 2,
+        "max_ms": 10,
+        "measured": 1,
+        "total_ms": 10
+      },
+      "cleanup_attribution": [
+        {
+          "max": 10,
+          "code": "receipt_ack_generated",
+          "xmin": "3477",
+          "events": 1,
+          "duration": 10,
+          "measured": 1
+        }
+      ]
+    },
+    {
+      "name": "both_commits_preserve_count_duration_max",
+      "status": "pass",
+      "blocking": {
+        "pid": 3670,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          3663
+        ]
+      },
+      "observed": {
+        "events": 2,
+        "max_ms": 20,
+        "measured": 2,
+        "total_ms": 30
+      },
+      "cleanup_attribution": [
+        {
+          "max": 20,
+          "code": "receipt_ack_generated",
+          "xmin": "3481",
+          "events": 2,
+          "duration": 30,
+          "measured": 2
+        }
+      ]
+    },
+    {
+      "name": "independent_codes_do_not_block",
+      "status": "pass",
+      "blocking_pids": [
+
+      ],
+      "observed": {
+        "events": 1,
+        "max_ms": 0,
+        "measured": 0,
+        "total_ms": 0
+      }
+    },
+    {
+      "name": "concurrent_integer_limit_denies_without_corruption",
+      "status": "pass",
+      "blocking": {
+        "pid": 3670,
+        "wait_type": "Lock",
+        "wait_event": "transactionid",
+        "blocking_pids": [
+          3663
+        ]
+      },
+      "observed": {
+        "events": 9007199254740991,
+        "max_ms": 0,
+        "measured": 0,
+        "total_ms": 0
+      },
+      "cleanup_attribution": [
+        {
+          "max": 0,
+          "code": "receipt_ack_generated",
+          "xmin": "3485",
+          "events": 9007199254740991,
+          "duration": 0,
+          "measured": 0
+        }
+      ]
+    }
+  ],
+  "cases_passed": 5,
+  "blocking_races": 4,
+  "all_tables_restored": true,
+  "all_controls_restored": true,
+  "worker_sessions_remaining": 0,
+  "finished_at": "2026-09-30T18:11:17Z",
+  "source_only": false,
+  "provider_called": false,
+  "hosted_called": false
+}

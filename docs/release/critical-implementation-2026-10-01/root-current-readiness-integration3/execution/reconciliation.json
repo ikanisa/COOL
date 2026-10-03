@@ -1,0 +1,107 @@
+{
+  "status": "pass",
+  "captured_at_utc": "2026-10-02T09:06:48.193004+00:00",
+  "before_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "03f5b083e96bd49951e05f70db2b1625a0800e99f713cae1adff6797d5bcc38d",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "df40437dc2708ade51ee3da89cf23595418877e9a02f6f60eca0c0e4c2745f8d",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "11ffff62b0d57891d1036dc7d801b18caa8e6370ebf7e556081337747b3577b0",
+    "docs/release/local-implementation-register-2026-09-30.json": "aff045cbf36524cd35a639f32b242473414d5bf9177fc6574ab8180d9ce81b31",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "da5c23c04d17269ddc71b87f9cebcd04dcbe3a5db28436817d306b262fc06e39"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "bf02f10765715120eb91e1d808891bebf8306fb4566e131d0a1cfa83770d18ab",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "639b2fcd0b5872bb2957dcfdc5dd2ca44924de89250281aefaeca3ecbb77f46c",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "35f8ae7f8bd123514c3f3a587a18c34a605eff0c3c1a33a52b27edd66ee537c8",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "f74b98b5f19563ea38445a803aee28dd8b6ba98d800f32f7c638dcce25d0ea6a",
+    "docs/release/local-implementation-register-2026-09-30.json": "2248f7e2b4365d4e93519925c144dd2c29fe40dae848db3c9f2081f80ecbe9c4",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "4f8301f514edf844cd871ed5f121b60cd9dac035b865177ef97a3b3cc345cf02"
+  },
+  "original40_titles_criteria_status_and_closures_preserved": true,
+  "original102_and24_item_sha256": {
+    "docs/release/production-remaining-tasks-2026-09-30.json": "404b4e7bc68b609af872e02b9523e4d8713a476a1b7b25549c7748df38c9b56f",
+    "docs/release/local-implementation-register-2026-09-30.json": "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980"
+  },
+  "closed_ids": [
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_findings_open": 37,
+  "ledger_sha256": "bf02f10765715120eb91e1d808891bebf8306fb4566e131d0a1cfa83770d18ab",
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "checkpoint": {
+    "captured_at_utc": "2026-10-02T09:06:48.193004+00:00",
+    "input_path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-integration3/checkpoint-input.final.json",
+    "input_sha256": "6c1e2e7603c5a55ae62eeb608aa8d0304be4f32f68bd3e1b31a8896ef8562c11",
+    "references": [
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution4/packet-files.json",
+        "sha256": "2ee27affe5c488155729fb7a5bad0b20e975dd63d5753a988f5577efaec48975"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-preparation5/packet-files.json",
+        "sha256": "ee79028e37a0cbf9272584705994341b86304eb886a2631dfc8819126eb814f2"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/hosted-parity-readback1/packet-files.json",
+        "sha256": "2d1dc0992d06f5fa0f071e80d5632d16fb6b2e3b3258457b776abacc8249acd7"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-hosted-parity-readback-review1/review.json",
+        "sha256": "2fd7f34978a36fcc8c322714514f0dc773d8e2f0dcbc9951ccd2625d50297d2e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/packet-files.json",
+        "sha256": "c75e8a35ea208f855217b11b73492eb9e58b8f9341286c353b9b62c0b70553ba"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/readback.json",
+        "sha256": "e5a5164f14636855cfa86be25fac2c7b218e7dfc40c5eb0a89afbe5589f968f9"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/ordinary-recovery-replay-execution5/actual-result.json",
+        "sha256": "8ea040fcc835d24671c568cb039b217f61a76b3745ff7ae4f024bf149631efa7"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-guard2-readback1/packet-files.json",
+        "sha256": "e295da23c5c70fcbf0ae57c3330e7097de1b3b60043a39cf7bddd4e7dca7146d"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-guard2-readback1/readback.json",
+        "sha256": "042a5941f7f3a94f853081b93b87ab36f7e19e48ae3b13496f05716232c8931e"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-native-failure-readback1/packet-files.json",
+        "sha256": "a1f281aeb715153cc3d043212b1fb5046b351409e970028dd22cbdb2c00ec814"
+      },
+      {
+        "path": "docs/release/critical-implementation-2026-10-01/root-native-failure-readback1/readback.json",
+        "sha256": "4a87ce1fde1444209234b674a718826bdad78b4c339c3448c3e4e8624b40f064"
+      }
+    ],
+    "recovery5": "scoped_local_pass27",
+    "hosted_parity": "unknown_permission_refused",
+    "native_guard_cases": [
+      42,
+      42
+    ],
+    "native_reader_pass": true,
+    "whole_export": "pass",
+    "whole_app_lock": "pass",
+    "whole_native": "failed",
+    "native_admitted": true,
+    "native_packages_built": false,
+    "all_flavor_ABI_artifact_completeness": false,
+    "closed_ids": [
+      "ARC-04",
+      "PD-02",
+      "PD-14"
+    ],
+    "full_findings_open": 37,
+    "release_decision": "NO-GO",
+    "goal_status": "active"
+  },
+  "tests_rerun": false
+}

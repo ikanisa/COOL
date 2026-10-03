@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "docker",
+    "exec",
+    "collect-arc01-ubuntu-resolved-20261002-35c1bc3c8800-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "make format-check"
+  ],
+  "completed_at_utc": "2026-10-02T00:40:32.273311+00:00",
+  "deadline_seconds": 120,
+  "elapsed_seconds": 5.991611792000185,
+  "exit_code": 0,
+  "log_sha256": "3e7e29ff9986a38102cd85f368e91ee67435669231ce6ce0b11baba8db56398c",
+  "started_at_utc": "2026-10-02T00:40:26.281842+00:00",
+  "timed_out": false
+}

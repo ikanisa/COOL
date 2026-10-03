@@ -1,0 +1,45 @@
+{
+  "associated_unchanged_scopes": {
+    "existing_scheduler": 16,
+    "new_execution": false,
+    "python_preparation": 12,
+    "receipt": "scope-association.json"
+  },
+  "bound_inputs_unchanged_before_after": true,
+  "cadence_verified": false,
+  "carrier_delivery_verified": false,
+  "changed_product_paths": {
+    "scripts/tests/unattended_launchd_preparation_test.py": "3fe7e90e1711c433f76b79c0de420cf07e68303ff32e435f214b4559861ff43b",
+    "tools/collect-notification-mcp/package.json": "d8773681ef14a850e495e2bf3ff23b21b1cb31fb60c22834c32804715c6a27c7",
+    "tools/collect-notification-mcp/scripts/prepare_unattended_launchd.py": "e3254ed956a6e2462f0fab3ac55519c3df98411e8fc31763e5c6e3944556f233",
+    "tools/collect-notification-mcp/src/unattended_deployment.ts": "655093a710a35bc6c5fe290a65f9f7449d51362296df6b0cdad6dc0071ee6649",
+    "tools/collect-notification-mcp/src/unattended_host_tick.ts": "be77e8f91ead0583a9a8f70a87d354b9950faefd8378e0d91d0e30d6f94b050f",
+    "tools/collect-notification-mcp/src/unattended_schedule_cli.ts": "4ebed38861326f3ff5e94780a7999a6e04f9fe22f2f2caf6ee89d8dd0639dd22",
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts": "143170bb1e7238a987fec2b30038b80e4b2c0f21884e9196ce763d4f4ec23f2a",
+    "tools/collect-notification-mcp/src/unattended_scheduler_control.ts": "a3c0d043618523d06f900705dea273a1fb0d0d66766d37a03dd92749522da9e3"
+  },
+  "current_affected_tests": {
+    "cancelled": 0,
+    "failed": 0,
+    "passed": 43,
+    "receipt": "attempt3-urgent-stop/verification.json",
+    "skipped": 0,
+    "tsc_exit_code": 0
+  },
+  "dependencies_and_node": 1608,
+  "full_current_history_acceptance": "open",
+  "host_job_installed": false,
+  "host_job_observation_or_control_executed": false,
+  "host_job_started": false,
+  "hosted_calls": false,
+  "implementation_status": "implemented locally; governed host acceptance outstanding",
+  "installed_codex_five_read_profile_changed": false,
+  "keychain_calls": false,
+  "production_accepted": false,
+  "recorded_at": "2026-10-01T14:22:40.354036Z",
+  "scope": "bounded local receipt scheduler operating tools",
+  "sealed_historical_packets_changed": false,
+  "sender_actions": 0,
+  "source_inputs": 91,
+  "whole_suite_current_aggregate_claimed": false
+}

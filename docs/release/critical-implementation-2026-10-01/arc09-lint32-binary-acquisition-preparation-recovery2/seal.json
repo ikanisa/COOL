@@ -1,0 +1,7 @@
+{
+  "SHA256SUMS_sha256": "daae22fb2fb09a7c46af4ab9bd32e845850cdab25734ec79908c24c0bd89e3a0",
+  "file_mode": "0400",
+  "packet_files_sha256": "c3ad53037ab66a7a359d28129bcfa77b5632fea1d9d9df7868bd968e72607740",
+  "payload_files": 12,
+  "static_readback_sha256": "c073baff4c804114f3e86ccdd927a8dbf6e93093c37e07148d63d9b1ca738272"
+}

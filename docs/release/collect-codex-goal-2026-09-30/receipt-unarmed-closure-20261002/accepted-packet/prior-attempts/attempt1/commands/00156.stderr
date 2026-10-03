@@ -1,0 +1,2 @@
+NOTICE:  00000: trigger "enforce_active_contributor_membership_trigger" for relation "public.payment_intents" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

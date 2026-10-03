@@ -1,0 +1,26 @@
+{
+  "SDK_resolution_requested": true,
+  "actual_PID": 32692,
+  "actual_seconds": 43.472,
+  "argv_exact": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/run_native_consumer.py",
+    "--stage",
+    "sdk-lock",
+    "--prepared-manifest-sha256",
+    "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc",
+    "--root-review-sha256",
+    "f27501095ec77a819b9835dd9b9ee48c9034e3219745105bd3247b5b6ef44ff3"
+  ],
+  "controller_exit_code": 0,
+  "controller_stderr_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "controller_stdout_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "finished_UTC": "2026-10-02T02:46:36.241566+00:00",
+  "no_retry": true,
+  "sdk_resolution_deadline_seconds": 1200,
+  "source_readback_deadline_seconds": 300,
+  "started_UTC": "2026-10-02T02:45:52.770133+00:00",
+  "startup_export_app_Gradle_native_requested": false
+}

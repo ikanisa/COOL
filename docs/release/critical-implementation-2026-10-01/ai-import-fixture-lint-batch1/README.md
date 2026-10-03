@@ -1,0 +1,23 @@
+The proposed change addresses the three pre-existing `require-await` findings in `prepare-roster-import/handler_test.ts`. This proposal has passed private-source verification. Application to the shared test file is pending root review; no production, Admin, provider, policy, SQL, quota, or legal source change is proposed.
+
+The current test-file base SHA is `572d7d8b00ba433a4733ad452a2808f0e5d68c32d8f8804694ae717d2ce8222b`. The formatted candidate SHA is `c4e75c3d2d75056ed05c57e5e85d0ff07253422549778d434ccd76594b3fbe8d`; the exact patch SHA is `08eac394c084c03cdc42a17ab90c38c924a93a10c0c5125c4d45ca177bf01105`. `proposal.json`, `proposed-fixture.patch`, and `proposed-handler_test.ts` contain the reviewable proposal.
+
+A private `fixturePromise<T>(body: () => T): Promise<T>` calls `body()` synchronously inside `try`, returns `Promise.resolve(value)`, and returns `Promise.reject(error)` on a thrown exception. Only the existing `authenticate`, `rpc`, and `fetch` declarations use it. Their events, assertions, state changes, return predicates and thrown error values stay in the same order. No body contains `await`. The independently signed decoder fixture has real awaited work and remains unchanged.
+
+This preserves the relevant callback timing: the body executes in the calling stack before the callback returns a Promise; thrown exceptions become rejections rather than escaping synchronously. It adds no artificial yield, deferred `.then`, lint exclusion, or suppression. The current callback returns are ordinary actor/RPC objects and a `Response`, never an existing Promise or thenable. This conclusion does not claim arbitrary future Promise identity equivalence: `Promise.resolve(existingPromise)` can retain that Promise's identity where an `async` function creates a different Promise. Type checking and current regressions establish the actual present callback contract.
+
+Deno formatting indents the wrapped RPC body, adds braces to its existing single-line `sourceError` return, and wraps the existing consent assertion with a trailing argument comma. `body-preservation.json` records exact original/candidate token digests after these explicitly listed formatting normalizations. That comparison preserves literal values and order; it is a scoped lexical comparison, not a general AST equivalence proof. Every test-case body, including the newly strengthened internal/outbound filename assertions, is byte-identical. The suffix beginning with `async function errorResponse(` remains byte-identical.
+
+The exact candidate was copied into a physically separate private 18-file import closure under `.cache/ai-import-fixture-lint-batch1/proposal/source`. `proposal-verification.json` binds the shared baseline and private candidate before and after all checks, the pinned Deno binary, executed verifier, and 87 pre-existing cached remote source files. Pinned Deno 2.5.6 (`a371e0605be5039a91a079a802d66b22c124a42e31573e43136c93c2b362f1c0`) was used, with `--no-config --cached-only --no-prompt --frozen` and the unchanged checked-in lock for compilation/tests. No runtime network, environment, read, or run permission was granted. The source tree was physically copied without hard links. Synthetic dependency functions made no live provider or database calls.
+
+| Actual private-candidate check | Result |
+| --- | --- |
+| Four affected test entries, `deno test --no-run` type compilation | PASS |
+| Existing full affected regression cohort | 109 passed, 0 failed |
+| Default lint over the helper, helper tests, and handler tests | PASS, no exclusions |
+| Format check over all three files | PASS |
+| Shared 18 inputs, private 18 inputs, binary, verifier and 87 cached sources before/after | Identical |
+
+All four exact commands and original stdout/stderr are retained. The initial proposal metadata script incorrectly expected byte equality after simple dedenting; the formatter's explicit braces/comma changes caused that assertion to fail. `proposal-preparation-failure.json` and the executed original preparation runner preserve it. The corrected preparation comparison records these narrow formatting changes rather than filtering a test or lint failure. The shared source was not mutated by either preparation script.
+
+`previous-packet-readback.json` rehashes every indexed leaf in the sealed AI filename-minimization packet. Its original full three-file lint failure remains unchanged and historical. This proposed follow-up would resolve those three fixture lint findings only. Processor/region/retention approvals, truthful Admin disclosure, material source minimization, real extraction evaluation, spend controls, native/hosted acceptance, and full BE-13/production readiness remain open.

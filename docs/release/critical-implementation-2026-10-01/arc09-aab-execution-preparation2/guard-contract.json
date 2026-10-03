@@ -1,0 +1,43 @@
+{
+  "environment": "Reuse exact warm8 config.environment_exact whitelist; no inherited provider/signing/env credentials or altered HOME/SDK paths. Gradle --offline and sdkDownload=false restrict those acquisitions, without asserting universal OS network isolation.",
+  "final_output_preservation": "Build/graph failure and original receipt bytes remain preserved. Root copies only completed stable selected AAB and immutable evidence into its new owned packet, proves copy SHA/bytes/CRC and no shared writable inode, then archive reader compares supplied files before/after. No overwrite of active Gradle output or old preparation.",
+  "free_space": "Reuse existing controller live floor4294967296; root records current physical headroom before admitting selected writes. No fabricated source lease or zero-transient-write attestation.",
+  "guard_readbacks": "4 controlled combined invocations: maintained source fence before/after and combined APP/SDK/protected/runtime before/after, 300s each. Preserve finite receipts and failed current observations.",
+  "module_loading": "Capture exact pinned bytes into modules as warm8 does; wire controller.reader, controller.require_pass, guards.load_metadata and fence.metadata to captured validated modules. Do not invoke run_stage.py with a nonexistent aab stage or mutate its stage choices. Root owns a narrowly reviewed next-stage driver using existing boundary functions.",
+  "native_terminal_is_not_yet_observed_here": true,
+  "no_tests_or_builds_rerun_by_this_preparation": true,
+  "owned_process_cleanup": "start_new_session process group only; original TERM5/KILL5/reap5 plus finite residue observation. Genuine exit0 still fails on residual group, timeout, headroom failure or group-probe refusal; never gradle --stop, pkill/global kill, cache deletion or restoration of protected originals.",
+  "reuse_captured_modules_from_warm8": {
+    "controller": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py",
+      "sha256": "167d48b4e756043a87621feffcabccb41aca108232cfb943914b69fc5b090fe7"
+    },
+    "guards": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/consumer_guards.py",
+      "sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a"
+    },
+    "reader": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/publisher_metadata.py",
+      "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+    },
+    "run_stage_py": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-native-warm-retry-preparation8/run_stage.py",
+      "sha256": "803bf024a36e008c390aec7bd7405836afd6831a85008bad606b0ae0e556b93c"
+    },
+    "source_fence": {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/source_fence.py",
+      "sha256": "5c70fe6e6f946846325df052a0ff42a2fadae53c22ed719faf6b1e7fd7f7b7ea"
+    }
+  },
+  "run_process": "Reuse exact pinned controller.run_process and guards.process_success for each declared command; retain complete exclusive stdout/stderr/process JSON and actual before/after guard records.",
+  "source_guards_before_after": [
+    "fence verify root against actual root-pinned review8 source-fence.json; keep index/identity/selection/excluded upstream QA semantics and record any source drift rather than claiming current maintained-source acceptance",
+    "guards.app_readback(built, export_manifest_file_sha256) preserves every authored source/lock/mode, generated registrant/SwiftPM provenance and private signing refusals",
+    "guards.require_lock(APP/pubspec.lock, original_app_lock_sha256) and bind unchanged APP/android/app/gradle.lockfile bytes",
+    "guards.package_config(APP/.dart_tool/package_config.json,(SDK,APP,BASE/pub-cache)) and guards.plugin_metadata(APP/.flutter-plugins-dependencies); retain generated metadata hashes, not whole installed-package artifact attestation",
+    "controller.source_readback(owned_output,built,env,before/after) uses original exact source/delta/physical SDK reader; guards.require_lock SDK/packages/flutter_tools/pubspec.lock at its existing locked SHA",
+    "controller.protected_metadata() compares original path device/inode/mode/link/mtime/ctime metadata; any mismatch is refusal, without repairing protected originals",
+    "check exact pinned Python/JDK/Node binaries and published raw Gradle source+exclusive owned ZIP copies; standard wrapper authentication retained; no global Gradle/SDK/pub cache copy or acquisition",
+    "hash reviewed supply-chain observer/exporter/validator/schema files and actual fonts/licenses at admission and after completion"
+  ]
+}

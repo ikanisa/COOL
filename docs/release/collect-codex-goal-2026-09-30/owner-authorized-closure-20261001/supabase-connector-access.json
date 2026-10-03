@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-01T10:03:27.908536+00:00",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "tools": [
+    {
+      "tool": "supabase_execute_sql",
+      "operation": "read-only aggregate of migration count and selected operator account/verified count",
+      "status": "PERMISSION_DENIED",
+      "protocol_code": -32600
+    },
+    {
+      "tool": "supabase_get_project",
+      "operation": "project metadata read",
+      "status": "PERMISSION_DENIED",
+      "protocol_code": -32600
+    }
+  ],
+  "query_result_observed": false,
+  "operator_account_rechecked": false,
+  "configuration_changed": false,
+  "migrations_applied": false,
+  "otp_requested": false,
+  "alternate_credentials_accessed": false
+}

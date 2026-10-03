@@ -1,0 +1,57 @@
+{
+  "at_utc": "2026-10-02T00:10:00.855693+00:00",
+  "status": "PUBLISHER_CHECKSUM_AND_IMAGE_ID_VERIFIED",
+  "commands": {
+    "dart_download": {
+      "argv": [
+        "curl",
+        "--fail",
+        "--location",
+        "--connect-timeout",
+        "15",
+        "--max-time",
+        "240",
+        "--retry",
+        "0",
+        "--silent",
+        "--show-error",
+        "--dump-header",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc01-ubuntu-batch1/acquisition-attempt1/dart-download-headers.txt",
+        "--write-out",
+        "%{url_effective} %{response_code} %{size_download}\n",
+        "--output",
+        "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/dartsdk-linux-arm64-release.zip",
+        "https://storage.googleapis.com/dart-archive/channels/stable/release/3.12.2/sdk/dartsdk-linux-arm64-release.zip"
+      ],
+      "started_at_utc": "2026-10-02T00:08:15.564197+00:00",
+      "completed_at_utc": "2026-10-02T00:09:58.411202+00:00",
+      "deadline_seconds": 260,
+      "elapsed_seconds": 102.8487255839973,
+      "exit_code": 0,
+      "timed_out": false,
+      "log_sha256": "de213f271f9fd0fff042894616d36bd9ad5fa111668499994a9a9a16ba32f92f"
+    },
+    "ubuntu_pull": {
+      "argv": [
+        "docker",
+        "pull",
+        "--platform",
+        "linux/arm64",
+        "ubuntu@sha256:11dc1ccb427f0464a2369e645454c272bb0baece7357c892ba69d313b3a332cf"
+      ],
+      "started_at_utc": "2026-10-02T00:08:15.564373+00:00",
+      "completed_at_utc": "2026-10-02T00:08:22.666896+00:00",
+      "deadline_seconds": 150,
+      "elapsed_seconds": 7.102803875000973,
+      "exit_code": 0,
+      "timed_out": false,
+      "log_sha256": "75fca2b2c6cf671e89790bca0eef6c2c65b0585a454310567d1ae450e80e5c9e"
+    }
+  },
+  "archive_sha256": "f82c83ece7d168047550dfd4a664e4071ac7c488bddb72dc43102c22d7e0b518",
+  "archive_bytes": 230513702,
+  "runtime": "/Volumes/PRO-G40/Temporary/collect-arc01-ubuntu-20261002-deabfee579f3/runtime",
+  "dart_executable_sha256": "fb412292fb1a32d96320a6fb5d7bd6a8abb88cff18053ca6d09c4a4805646b6f",
+  "ubuntu_image_id": "sha256:8494c74ca40fca88c433937d0d3a9cfd3ffee8e57d0a517ce68788d85c6b4b48",
+  "ubuntu_manifest": "ubuntu@sha256:11dc1ccb427f0464a2369e645454c272bb0baece7357c892ba69d313b3a332cf"
+}

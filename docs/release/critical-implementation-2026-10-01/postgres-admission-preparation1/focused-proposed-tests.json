@@ -1,0 +1,28 @@
+[
+  {
+    "name": "test_postgres_admission.py",
+    "command": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate/scripts/tests/test_postgres_admission.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate",
+    "exit_code": 0,
+    "elapsed_seconds": 12.153,
+    "timeout_seconds": 120,
+    "source_sha256": "2cc4636476c6783318d4c1ab1cebec54ceb665c25334b51357000cf5ead0b0ac"
+  },
+  {
+    "name": "supabase_secret_transport_test.py",
+    "command": [
+      "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "-B",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate/scripts/tests/supabase_secret_transport_test.py"
+    ],
+    "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate",
+    "exit_code": 0,
+    "elapsed_seconds": 5.907,
+    "timeout_seconds": 120,
+    "source_sha256": "da345c197a8c46cd7702222028d4c63092be4b737927c7924c62b0c730291dde"
+  }
+]

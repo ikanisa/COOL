@@ -1,0 +1,64 @@
+{
+  "captured_at_utc": "2026-10-02T12:27:50.269711+00:00",
+  "before_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "072f4becde5486049ad1fd567d4b29c635213da78c3532a8ee8349252bc1dc2e",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "1954b50d7b269ed2f24b0f16378f36dc32a07466fc1262d90a98bab5afe759df",
+    "docs/release/local-implementation-register-2026-09-30.json": "096370dde01e5eda07bdbb5adc19cc0adee4d553cc1b83f4d8b9bcf1264aa431",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "bdb7ed00ac3bce11c3155096a33d4e9730bd958f778c1817e8c0c20e3898c311",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "e3ce942e30aebfbfed36ef373089b29a0650c72d8dacc06f149d4f9ef631b989",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "c2d3481fc171ea4c6d0853eaeb68641706fca3f408fd062c9652bc8760e06883"
+  },
+  "after_sha256": {
+    "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "9c0edad7b072e98837283b0e962008c047b43e68bcc54ac0cb11369f12d8659e",
+    "docs/release/production-remaining-tasks-2026-09-30.json": "ee3280cd9beccc48868eb8e6a07e7e2a95eff627211d8d65f1e5e2aa3690466d",
+    "docs/release/local-implementation-register-2026-09-30.json": "b49c9392705a8b634fbb8e94778db989e5bd9574c5078eac446ca6e4e9e29a78",
+    "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "54ccde6b51e294f386d4be1c9d9e71cdba24790cab8528efc31020a3bdd96280",
+    "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "9e47598b3ae3ea6862bfe009496775a49d4bae6745c14c3c8d32a6f33842001e",
+    "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "3f53827b331e409914558b666655d8c61519d37b14a8e761602d31042ea3b0a0"
+  },
+  "contracts40_unchanged": true,
+  "original102_and24_arrays_equal": true,
+  "closed_ids": [
+    "BE-10",
+    "ARC-01",
+    "ARC-02",
+    "ARC-04",
+    "PD-02",
+    "PD-14"
+  ],
+  "full_open": 34,
+  "release_decision": "NO-GO",
+  "goal_status": "active",
+  "new_references": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/packet-files.json",
+      "sha256": "78480a63008db7a457c554fdb1db2ae9f427b8aac06c45879cd6090f7bc7bd4e"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-native8-success-readback1/readback.json",
+      "sha256": "286ed033cb83e9426bb2f232519a52e0538815bb185dd1be9dd3406302acc2de"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/be02-evidence-admission-preparation1/SHA256SUMS",
+      "sha256": "e7f5155b30275bf86d6cc7564bfdd1200fffb829136c3bb6dd692a1bc41c4269"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be02-proposal-review1/review.json",
+      "sha256": "dda9fc2a3d920b988a83e91ade3de6b3eab05c9c1ded468768f67a351edd81fe"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/be08-app-provenance-gap-review1/SHA256SUMS",
+      "sha256": "6dc5701077566b3e890eb5165ecd4c05b31b3441967ef26896eb86e2b6daa54b"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-be08-classification-review1/review-and-path-correction.json",
+      "sha256": "973e7ca993726004fc391714850e0663b324fd17755febd2364799a0afe6f48a"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-aab-execution-preparation2/reviewed-final/SHA256SUMS",
+      "sha256": "3ec4e4c71bb88efd0bccd227882b6c569563978fda4ba6eb6adf9aa3bede4964"
+    }
+  ],
+  "native_whole_stage": "pass",
+  "native_packages_built": false
+}

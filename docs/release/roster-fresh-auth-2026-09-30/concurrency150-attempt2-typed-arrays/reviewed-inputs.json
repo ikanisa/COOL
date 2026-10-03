@@ -1,0 +1,8 @@
+{
+  "scripts/tests/local_offline_verification.py": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89",
+  "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+  "scripts/tests/roster_fresh_auth_concurrency_uat.rb": "f2d9f52d858a67759fa20eedee48207617388d9967174175166a0cafef2b37dc",
+  "scripts/tests/run_roster_fresh_auth_acceptance.py": "13b44d66578673d9ea8655f3c08ed1034e445f17ad5d0a91948212cd23a66ca7",
+  "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "53e5591e5901acc345101c5113a0c75b7b993011b5743119a59f52c883ceb00d",
+  "supabase/migrations/20260930180000_operational_health_authority.sql": "d81f9bf124ff51dc33579fdf6b59e55229eb3e152c87528a8e372fc491ab0747"
+}

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "scope": "Strict actual recorder observer regressions; no route publication/native acceptance",
+  "actual_helper_regressions": 5,
+  "source_sha256": {
+    "scripts/qa/public_browser_app_media.mjs": "a8bd3f5eccf0a01e8f50f46dd7b63d460c92fdd4b667126790dea269219fa910",
+    "scripts/tests/public_browser_served_resource_test.mjs": "0e55a1b85798f8224efac67b36df3adec6e3f5b4ce82f635d025af0ea8647acc"
+  },
+  "actual_existing_build_probe": "actual-resource-probe2.stdout",
+  "actual_existing_build_probe_exit_code": 0,
+  "prior_uncaught_capture_failure_preserved": "../public-capture-execution-attempt77",
+  "missing_body_and_mismatch_remain_failed_observations": true
+}

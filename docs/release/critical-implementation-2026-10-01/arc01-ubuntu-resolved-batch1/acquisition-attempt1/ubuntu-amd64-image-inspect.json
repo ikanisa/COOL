@@ -1,0 +1,42 @@
+[
+    {
+        "Architecture": "amd64",
+        "Config": {
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Created": "2026-09-11T11:44:06.579973371Z",
+        "DockerVersion": "26.1.3",
+        "GraphDriver": {
+            "Data": {
+                "MergedDir": "/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/merged",
+                "UpperDir": "/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/diff",
+                "WorkDir": "/var/lib/docker/overlay2/21f95eb834bfbef4e80fdcab55b6c5f2f4fabff0f89c4ad21872720aa4cd873b/work"
+            },
+            "Name": "overlay2"
+        },
+        "Id": "sha256:6232b38791000e3818b58d8847b5a8f5612d606929e01156dd8febc423e0f2ef",
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        },
+        "Os": "linux",
+        "RepoDigests": [
+            "ubuntu@sha256:496754492fb28b4d3049432f2ca787449331e23fb14f0dd3fffea86bf5a93eb4"
+        ],
+        "RepoTags": [],
+        "RootFS": {
+            "Layers": [
+                "sha256:65e5d715ea720349e6475f91651a0956279fc295a45fd73aa04f1cec046281a1"
+            ],
+            "Type": "layers"
+        },
+        "Size": 78180170
+    }
+]

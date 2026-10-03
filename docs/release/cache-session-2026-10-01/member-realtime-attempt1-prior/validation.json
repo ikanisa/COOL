@@ -1,0 +1,179 @@
+{
+  "status": "fail",
+  "whole_system_acceptance": false,
+  "sql_executed": false,
+  "hosted_called": false,
+  "provider_called": false,
+  "declared_tests": [
+    "test/shared/member_realtime_sdk_session_test.dart",
+    "test/shared/realtime_invalidation_recovery_test.dart"
+  ],
+  "commands": [
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/tests.machine.jsonl",
+        "test/shared/member_realtime_sdk_session_test.dart",
+        "test/shared/realtime_invalidation_recovery_test.dart"
+      ],
+      "started_utc": "2026-10-01T00:14:30.606803+00:00",
+      "exit_code": 1,
+      "timed_out": false,
+      "owned_process_group": 6915,
+      "parent_exit_confirmed": true,
+      "termination_errors": [],
+      "seconds": 49.985,
+      "stdout_sha256": "95df9a0d7d3d04cc510f23b8b22a71d778cd9c92c636e15b3ec7206a0ffb02fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/core/supabase/realtime_invalidation.dart",
+        "test/shared/member_realtime_sdk_session_test.dart",
+        "test/shared/realtime_invalidation_recovery_test.dart"
+      ],
+      "started_utc": "2026-10-01T00:15:20.592331+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "owned_process_group": 9111,
+      "parent_exit_confirmed": true,
+      "termination_errors": [],
+      "seconds": 12.556,
+      "stdout_sha256": "90bbc2798df07b9cad347efb5d585049cba483aefbceda0617e73cd7df0b5f5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "machine": {
+    "runner_completed_successfully": false,
+    "passed": 8,
+    "failed": 0,
+    "errors": 10,
+    "skipped": 0,
+    "named_results": [
+      {
+        "name": "actual member SDK current join and duplicate/irrelevant frames yield one refresh",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK failed binding rejoins and reconciles missed membership reduction",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK replacement session cancels pending and late departed frames",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK same-user A-B-A cancels pending and late departed frames",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK account switch cancels pending and late departed frames",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK same-session token refresh preserves live channel and current writes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK old in-flight refresh cannot republish old account/cache",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK revoked read clears private cache and departed frames cannot restore it offline",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK logout cancels pending work and leaves no private cache",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "actual member SDK repository disposal cancels pending channel callbacks",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/member_realtime_sdk_session_test.dart",
+        "result": "error",
+        "skipped": false
+      },
+      {
+        "name": "join and rejoin reconcile missed events once per connection",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "duplicate IDs and irrelevant areas cannot multiply refreshes",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "event bursts keep one read in flight and one trailing read",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "sustained events pause after two reads before a new window",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "permission revocation clears live and cached private data",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "profile for another account cannot restore the old cache",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "member catalogue removal replaces private state and cache",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      },
+      {
+        "name": "account switch drops the first owner before reloading",
+        "source": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt1-prior/source-export/test/shared/realtime_invalidation_recovery_test.dart",
+        "result": "success",
+        "skipped": false
+      }
+    ],
+    "unfinished": [],
+    "event_errors": []
+  },
+  "export_unchanged": true,
+  "sdk_unchanged": true,
+  "live_source_drift": [],
+  "inputs_sha256": "474f044a55ee96281f5dfb592d3e82b64242150c5cf4f7a11680cc566379b7e4",
+  "current_source_acceptance": false
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+    "--packages=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app/.dart_tool/package_config.json",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app/scripts/tests/admin_receipt_operational_telemetry_test.dart",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/sql-fixtures-attempt1/fixtures"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app",
+  "exit_code": 255,
+  "inputs_unchanged": true,
+  "frozen_file_count": 1468,
+  "fixture_source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-operational-telemetry-20261001/sql-attempt13/observations",
+  "source_binding_sha256": "aabdcbdb37b1c2121dc642fa74030284e4b98505ec3b1dc6571d309075ef7a63",
+  "compiled_widget_claim": false,
+  "checked_at": "2026-10-01T22:43:06.607545+00:00"
+}

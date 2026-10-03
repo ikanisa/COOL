@@ -1,0 +1,59 @@
+{
+  "additional_proof": {
+    "admission_module_tests": 28,
+    "existing_make_portable_tool_consumer": 1,
+    "management_and_readiness_ordering": 3,
+    "qa_make_dry_run": "new module command plus all existing 29 commands retained",
+    "secret_transport_tests": 5
+  },
+  "candidate2_complete_delivery_outcome": {
+    "elapsed_seconds": 832.031,
+    "failed": 1,
+    "failure": "new assertion expected pre-admission hash error while the earlier post-admission identity guard correctly refused drift before first write",
+    "passed": 44,
+    "tests": 45
+  },
+  "claims_not_made": [
+    "a single green45-case final run",
+    "production readiness",
+    "a live server observation",
+    "authentication of a reviewer",
+    "actual migration or restore execution",
+    "Supabase/PostgreSQL/Docker/provider execution or package downloads during test proofs"
+  ],
+  "corrected_new_assertion": {
+    "elapsed_seconds": 15.118,
+    "other_semantics_changed": false,
+    "passed": true,
+    "tests": 1
+  },
+  "explicit_remaining_gaps": [
+    "actual PostgreSQL client publisher provenance and external compatibility review/manifest provisioning",
+    "real matrix-bound immutable migration and restore rehearsals",
+    "Supabase embedded database client/image provenance",
+    "pg_dump/pg_restore adapters and archive compatibility",
+    "Python/Ruby/bash/OS runtime provenance and TLS/server topology/change controls outside this PostgreSQL binary admission",
+    "hosted/provider/device/store/legal/release approval requirements"
+  ],
+  "final_proposal": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate3",
+  "invariants": {
+    "bounded_execution": "bounded pipes/timeouts, owned process group cleanup; output limits and generic failures; real credentials not in arguments/receipts",
+    "client_identity": "exact absolute path, regular one-link bytes/hash/mode/identity, exact version; no PATH selection/fallback/install",
+    "first_write_refusal": "client/manifest/main/companion/source/target drift and incompatible server stop later writes",
+    "local_probe_credentials": "version probes receive PATH/LC_ALL/PYTHONDONTWRITEBYTECODE only; invalid raw output is not echoed",
+    "maintained_source": "396 original inputs unchanged, new destinations absent, no promotion",
+    "original_release_guards": "source/candidate/target/time/operation/approval bindings and no automatic retry retained; database scopes additionally require postgres manifest hash; edge-only three-member shape preserved",
+    "remote_observation_order": "first read-only version query must occur before observed server compatibility is asserted; rechecked before controller mutations and every managed database request",
+    "source_cohort": "only psql17.6/server170006, query and migration; a manifest cannot widen clients/versions/ranges/restore",
+    "target": "exact reviewed tuple/project before direct query; Management API uses same approved project/reference helpers",
+    "whole_manifest_hash_binding": "required, maximum16KiB, duplicate and unknown fields refused; digest binding does not authenticate review"
+  },
+  "kind": "postgres_admission_private_invariant_review",
+  "original_baseline": {
+    "delivery": 34,
+    "passed": true,
+    "secret_transport": 5
+  },
+  "production_execution_code_identical_to_fully_executed_candidate2": true,
+  "schema_version": 1
+}

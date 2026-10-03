@@ -451,49 +451,58 @@ class LoadingStatePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      label: 'Loading: $title',
-      child: CollectCard(
-        emphasis: CollectCardEmphasis.flat,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final panel = Semantics(
+          container: true,
+          liveRegion: true,
+          label: 'Loading: $title',
+          child: CollectCard(
+            emphasis: CollectCardEmphasis.flat,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CollectToneIcon(icon: icon, tone: CollectStatusTone.info),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        softWrap: true,
-                        style: Theme.of(context).textTheme.titleSmall,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CollectToneIcon(icon: icon, tone: CollectStatusTone.info),
+                    CollectSpacing.gapW12,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            softWrap: true,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          CollectSpacing.gap4,
+                          Text(
+                            message,
+                            softWrap: true,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
                       ),
-                      CollectSpacing.gap4,
-                      Text(
-                        message,
-                        softWrap: true,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+                CollectSpacing.gap16,
+                LoadingSkeleton(
+                  lines: lines,
+                  semanticsLabel: 'Loading placeholder for $title',
+                  showCard: false,
                 ),
               ],
             ),
-            CollectSpacing.gap16,
-            LoadingSkeleton(
-              lines: lines,
-              semanticsLabel: 'Loading placeholder for $title',
-              showCard: false,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+        // Loading panels also appear directly in bounded workspaces. Preserve
+        // the full text and skeleton when enlarged text exceeds that space.
+        return constraints.hasBoundedHeight
+            ? SingleChildScrollView(child: panel)
+            : panel;
+      },
     );
   }
 }

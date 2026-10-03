@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "scope": "Original media fixture source stage refreshed by complete source/current readback before fresh corrected-recorder compilation; full337 source files and333 browser graph unchanged. Not broad release acceptance.",
+  "stage": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1",
+  "stage_manifest_sha256": "2d462b46e05a8ddf1cec53f7185735f3bdf5effc805c05a394c4932c8abd1ec3",
+  "source_files_verified": 337,
+  "first_capture_failure_report": ".cache/public-media-current-20261001-batch1/capture-report.json",
+  "first_capture_failure_sha256": "0826d37b8aef6311a87cfa79bbad8f3fb8b5adc96e7077704c09c3ef67cdd1de",
+  "first_failure": "page.waitForFunction: Timeout 90000ms exceeded.",
+  "recorder_sha256": "c10a17008c7e3a1abf17156dd6e58cea49552e4000787415cdd6d9694693eeac",
+  "production_bootstrap_sha256": "393c9f72910cee24a0ccec810e428c792d298060c7dafc52947c0086f9afc6e0",
+  "correction": "Configure generated loopback fixture only using exact current Admin marker contract; record raw/configured SHA and keep worker disabled.",
+  "new_capture_directory": ".cache/public-media-current-20261001-batch1-attempt2",
+  "native_acceptance": false
+}

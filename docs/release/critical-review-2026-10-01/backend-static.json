@@ -1,0 +1,20 @@
+[
+  {
+    "name": "migration-static",
+    "command": [
+      "bash",
+      "scripts/migrations/validate_supabase_migrations.sh"
+    ],
+    "exit_code": 0,
+    "output": "Supabase migration validation passed\n"
+  },
+  {
+    "name": "edge-auth-static",
+    "command": [
+      "bash",
+      "scripts/collect_edge_auth_contract_uat.sh"
+    ],
+    "exit_code": 1,
+    "output": "[collect-edge-auth-uat][FAIL]\n  - JWT verification disabled for unexpected functions: collect-android-gateway, collect-receipt-exception-worker, collect-receipt-supervisor\n  - Missing expected Edge Functions: ingest-bank-email, ingest-bank-sms, ingest-bank-statement\n  - Unexpected Edge Functions: collect-android-gateway, collect-receipt-exception-worker, collect-receipt-supervisor, reconciliation-finalize\n  - auth-send-whatsapp-otp must verify SEND_SMS_HOOK_SECRET\n  - auth-send-whatsapp-otp must verify Standard Webhooks signatures\n  - auth-send-whatsapp-otp must return 401 for unauthorized hook delivery\n  - ingest-bank-email source file is missing\n  - ingest-bank-sms source file is missing\n  - ingest-bank-statement source file is missing\n  - ingest-payment-sms must return 401 for missing user auth\n  - parse-payment-sms must import authErrorStatus\n  - parse-payment-sms must return authStatus instead of generic 500 for auth failures\n  - prepare-roster-import must return 401 for missing user auth\n  - send-notification must call requireInternalRequest(req)\n  - send-notification must import authErrorStatus\n  - send-notification must return authStatus instead of generic 500 for auth failures\n"
+  }
+]

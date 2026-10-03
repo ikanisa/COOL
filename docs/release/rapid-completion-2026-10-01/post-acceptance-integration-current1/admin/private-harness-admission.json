@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "original_harness_sha256": "272be89ba8dd3c56dced0d2848ae74466e21a07d435105be541521801b6b7b90",
+  "corrected_harness_sha256": "8bdd5718369d7d61e24cafe96b83c86289a2e561d5105bfb1c773c598abf139c",
+  "patch_sha256": "625aa1fd64073094d619dbdb586237598159852d3bf5f79ac9b65f24fb7be34d",
+  "source_harness_in_build_unchanged": true,
+  "cause": "DOM focus/geometry was insufficient before SDK semantics-frame input activation. Actual named-field pointer focus, foreground page and two frame settlement preserve exact keyboard/value assertion.",
+  "application_changed": false,
+  "js_value_injection": false,
+  "assertions_weakened": false,
+  "public_admin_bundles_reused_under_hash_guard": true,
+  "admin_or_public_rebuild": false
+}

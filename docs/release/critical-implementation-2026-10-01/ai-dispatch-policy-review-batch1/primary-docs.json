@@ -1,0 +1,17 @@
+{
+  "prior_primary_research": "sealed ai-import-review-batch1 README read on2026-10-02; no re-fetch of unchanged data-controls/file-input/structured-output pages",
+  "new_primary_lookup": {
+    "url": "https://developers.openai.com/api/reference/overview",
+    "observed_at": "2026-10-02T01:42:14.433280+00:00",
+    "relevant_lines": [
+      533,
+      541,
+      546,
+      547,
+      605
+    ],
+    "paraphrase": "Server bearer credentials remain required. For multi-organization or legacy project selection,explicit OpenAI-Organization/OpenAI-Project headers identify request usage scope. This is not proof of actual Collect project/key membership or residency. Pinned model versions and evaluations reduce snapshot variation."
+  },
+  "data_controls_limit": "store:false is request application-state behavior; actual abuse-monitoring/log retention and residency require vendor/account/owner evidence. No DPA/account/project control read was performed.",
+  "file_input_limit": "full PDF text/page-image processing can incur input costs; current no-provider-cost proof exists only for mocks. No policy duration/region/model fact selected."
+}

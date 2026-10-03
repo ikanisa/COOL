@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "started_at": "2026-10-01T00:43:09.634256+00:00",
+  "prior_sha256": "b59afa12e2c34941ac86798f3b8e23d7225d3bf9dcf7228a59d238cdecbe1043",
+  "current_sha256": "3293441977b18b332f45d567bf0de80960816306480bd805c520acc158174f09",
+  "network_helper_sha256": "70d36c8e1cee505dd3564c7cd73d57525ab790456d54bc6c29cccecbb9e4fbc3",
+  "scope": "QA-only exact loopback HTTP fence; seven actual real-Chrome positive/negative checks and zero forbidden-server arrivals. No website runtime/style/API changes.",
+  "actual_browser_receipt_sha256": "95506d1fcc3fee5da7df8a85a6fb7e6581b5a2be51cd5f2ea82bcc364e7cab8f"
+}

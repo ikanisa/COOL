@@ -1,0 +1,77 @@
+{
+  "actual_resolved_compiler_JAR_comparison_pending": true,
+  "compiler_independent_published_module_SHA256_available": false,
+  "compiler_module404_retained": true,
+  "compiler_published_JAR_SHA1": "23b042894dcabe39edd0f8bd30b7be0f25fe9933",
+  "core_KGP_strong_publisher_module_anchor": "8a88cf52de5fb9c829730b0f5aec1fcd35633e697871e256230f09903c74dd43",
+  "passed": true,
+  "primary_metadata_records": {
+    "compiler": {
+      "POM_identity": {
+        "artifactId": "kotlin-compiler-embeddable",
+        "groupId": "org.jetbrains.kotlin",
+        "version": "2.4.20"
+      },
+      "POM_sha1": "f430b290536dd753888f3f1ae020a991f42b8722",
+      "POM_sha256": "269d98cc4c68670c11e4aeb404e1c7c6f31b782321908d7268ba25cd236d59b2",
+      "actual_and_published_sha1_match": true,
+      "dependencies": [
+        {
+          "artifactId": "kotlin-build-tools-api",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlin-stdlib",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlin-script-runtime",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlin-reflect",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "1.6.10"
+        },
+        {
+          "artifactId": "kotlin-daemon-embeddable",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core-jvm",
+          "groupId": "org.jetbrains.kotlinx",
+          "version": "1.8.0"
+        }
+      ],
+      "licenses": [
+        {
+          "name": "Apache-2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+      ]
+    },
+    "jvm-marker": {
+      "POM_identity": {
+        "artifactId": "org.jetbrains.kotlin.jvm.gradle.plugin",
+        "groupId": "org.jetbrains.kotlin.jvm",
+        "version": "2.4.20"
+      },
+      "POM_sha1": "8ff3cef18602b35ef60c71fbd82b9d1cdca3145e",
+      "POM_sha256": "97ffd2004e0be1df8f80f28f451b9f6aaaed08b6ff37e6979df825cbc314a4dd",
+      "actual_and_published_sha1_match": true,
+      "dependencies": [
+        {
+          "artifactId": "kotlin-gradle-plugin",
+          "groupId": "org.jetbrains.kotlin",
+          "version": "2.4.20"
+        }
+      ],
+      "licenses": []
+    }
+  },
+  "scope": "Independent primary JVMmarker target/POM checksums and compiler POM/license/JAR SHA1 metadata. No compiled or resolved compiler artifact acceptance yet; SHA1 is not claimed as independently published SHA256."
+}

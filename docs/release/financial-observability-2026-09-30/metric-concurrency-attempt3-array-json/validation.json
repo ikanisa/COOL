@@ -1,0 +1,49 @@
+{
+  "actual_blocking_races": 4,
+  "actual_cases": 5,
+  "all_table_catalog_cron_fingerprints_restored": true,
+  "case_checkpoint_sha256": "4c0feab6e7bf387bac91c6851bc479ef47bdc0c07620f565762055b863382c34",
+  "command": [
+    "ruby",
+    "-EUTF-8:UTF-8",
+    "scripts/tests/operational_metric_concurrency_uat.rb"
+  ],
+  "guard": {
+    "busy": 0,
+    "count": 148,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930160000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "hosted_called": false,
+  "provider_called": false,
+  "return_code": 0,
+  "scope": "Actual ordinary-owner/service RPC telemetry writer races and attribution-controlled committed cleanup; not Admin permission races or final whole-system acceptance",
+  "sequences_restored": false,
+  "source_after": {
+    "scripts/tests/local_offline_verification.py": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/operational_metric_concurrency_uat.rb": "18402a22292a11f3c7e08561c6bd4b1f68045a9b32b992f42b04763461a32e6f",
+    "scripts/tests/run_operational_metric_acceptance.py": "3fb4119c6799d325d63ff03764b29e53e72e33eba65e2115fb7cdd0c7b1aa3cc",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+  },
+  "source_before": {
+    "scripts/tests/local_offline_verification.py": "74821f793f1b714eeb20d130c6de6c00aa319a6b7a8d61cae04261228bd8162c",
+    "scripts/tests/notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "scripts/tests/operational_metric_concurrency_uat.rb": "18402a22292a11f3c7e08561c6bd4b1f68045a9b32b992f42b04763461a32e6f",
+    "scripts/tests/run_operational_metric_acceptance.py": "3fb4119c6799d325d63ff03764b29e53e72e33eba65e2115fb7cdd0c7b1aa3cc",
+    "scripts/tests/runtime_control_concurrency_uat.rb": "8a4fd34839105f991f3b08d69583cb780f794f986216d7294f4f2b50a2a02419",
+    "supabase/migrations/20260930160000_redacted_operational_health.sql": "5dbbed9e4858f360347f7a4f3b2debeb87586eec15e19dca46be656eeab6f3ac"
+  },
+  "source_unchanged": true,
+  "status": "pass",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "be541063823950450da068fe8f865cb93431ead97cd1949af4d57e9ee6155c66",
+  "table_count": 146
+}

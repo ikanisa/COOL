@@ -1,0 +1,11 @@
+--- reviewed-candidate1/observe-candidate-runtime.init.gradle
++++ new-candidate2/observe-candidate2-runtime.init.gradle
+@@ -6,7 +6,7 @@
+ 
+ // Observes real candidate configurations/classes. Never overrides dependencies,
+ // resolution, versions, repositories, compiler arguments or task outcomes.
+-def candidateRoot = new File('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1')
++def candidateRoot = new File('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2')
+ def ownedGradleHome = new File('/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1')
+ def expectedJavaHome = new File('/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home')
+ def primaryModuleFile = new File('/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/public-origin/kgp-module')

@@ -1,0 +1,5 @@
+{
+  "path": "scripts/qa/native_source_export.py",
+  "sha256": "b09487e6e1921ddc01acd44c3aadd36c7f87b66b64f87c5a4aa17f74a78ce84d",
+  "scope": "Prior actual isolated-export implementation retained before public build-caller coverage correction"
+}

@@ -1,0 +1,59 @@
+{
+  "status": "running",
+  "commands": [
+    {
+      "name": "copy-pinned-artifacts",
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages/artifacts",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/artifacts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.31,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "copy-pinned-checkouts",
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages/checkouts",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/checkouts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.55,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "copy-pinned-repositories",
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages/repositories",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/repositories"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.52,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "copy-pinned-workspace-state-json",
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt18-ios/build/ios/SourcePackages/workspace-state.json",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt127-ios/build/ios/SourcePackages/workspace-state.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "prior_config_binding_sha256": "8c5571e5d9ece248152040a72dbe86bd739cee4f8579fe01ebf8ee16d443c116",
+  "scope": "Actual unsigned source-bound iOS build continued after unchanged retained config-only; original failed prebuild packet preserved"
+}

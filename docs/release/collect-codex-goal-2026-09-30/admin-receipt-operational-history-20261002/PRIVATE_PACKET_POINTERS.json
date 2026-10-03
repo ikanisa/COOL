@@ -1,0 +1,47 @@
+{
+  "scope": "Full predecessor and rejected SQL/consumer attempts remain unchanged at these local private packets; selected accepted proof and failure metadata are copied here. This is a scoped integration packet, not a self-contained complete candidate.",
+  "original_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002",
+  "corrected_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-cost-correction-20261002",
+  "prior_root_review_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-root-review-20261002",
+  "prior_root_final_view_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-final-view-20261002",
+  "original_sql_attempts": 11,
+  "corrected_sql_attempts": {
+    "1": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_843d7f92614c",
+      "removed": true,
+      "error": "declared rollback-only120k retained request density and20k ambiguity fixtures; actual authenticated readers with nested EXPLAIN instrumentation: ERROR:  42601: syntax error at or near \"(\"\nLINE 1: ...('600-cost-request:'||i)::uuidfrom generate_series(1,512)i);\n                                                             ^\nLOCATION:  scanner_yyerror, scan.l:1244\n"
+    },
+    "2": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_fb9135a03f75",
+      "removed": true,
+      "error": "declared rollback-only120k retained request density and20k ambiguity fixtures; actual authenticated readers with nested EXPLAIN instrumentation: s\": 0,\n        \"Local Written Blocks\": 0,\n        \"Temp Read Blocks\": 0,\n        \"Temp Written Blocks\": 0,\n        \"Plans\": [\n          {\n            \"Node Type\": \"Function Scan\",\n            \"Parent Relationship\": \"Outer\",\n            \"Parallel Aware\": false,\n            \"Async Capable\": false,\n            \"Function Name\": \"unnest\",\n            \"Alias\": \"n\",\n            \"Startup Cost\": 0.00,\n            \"Total Cost\": 0.10,\n            \"Plan Rows\": 10,\n            \"Plan Width\": 32,\n            \"Actual Rows\": 3,\n            \"Actual Loops\": 1,\n            \"Shared Hit Blocks\": 0,\n            \"Shared Read Blocks\": 0,\n            \"Shared Dirtied Blocks\": 0,\n            \"Shared Written Blocks\": 0,\n            \"Local Hit Blocks\": 0,\n            \"Local Read Blocks\": 0,\n            \"Local Dirtied Blocks\": 0,\n            \"Local Written Blocks\": 0,\n            \"Temp Read Blocks\": 0,\n            \"Temp Written Blocks\": 0\n          }\n        ]\n      }\n    ]\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 0.537 ms  plan:\n{\n  \"Query Text\": \"SELECT collect_hybrid.require_roster_actor_authority(auth.uid(),sid,'platform_owner',permissions)\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.28,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 4,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 26,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 0.721 ms  plan:\n{\n  \"Query Text\": \"SELECT collect_ops.actor(false)\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.26,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 16,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 30,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nLOG:  00000: duration: 2377.652 ms  plan:\n{\n  \"Query Text\": \"select jsonb_build_object('probe','service-head','response',public.admin_get_operator_entity_audit_v1('receipt_operation_run','dc7d827e-e0ae-4eff-9591-7f59c59f5268',10,null,null));\",\n  \"Plan\": {\n    \"Node Type\": \"Result\",\n    \"Parallel Aware\": false,\n    \"Async Capable\": false,\n    \"Startup Cost\": 0.00,\n    \"Total Cost\": 0.26,\n    \"Plan Rows\": 1,\n    \"Plan Width\": 32,\n    \"Actual Rows\": 1,\n    \"Actual Loops\": 1,\n    \"Shared Hit Blocks\": 9539,\n    \"Shared Read Blocks\": 0,\n    \"Shared Dirtied Blocks\": 0,\n    \"Shared Written Blocks\": 0,\n    \"Local Hit Blocks\": 0,\n    \"Local Read Blocks\": 0,\n    \"Local Dirtied Blocks\": 0,\n    \"Local Written Blocks\": 0,\n    \"Temp Read Blocks\": 0,\n    \"Temp Written Blocks\": 0\n  }\n}\nLOCATION:  explain_ExecutorEnd, auto_explain.c:431\nERROR:  42501: permission denied for schema collect_ops\nLINE 1: ...c.label,'cursor',jsonb_build_object('recorded_at',collect_op...\n                                                             ^\nLOCATION:  aclcheck_error, aclchk.c:2843\n"
+    },
+    "3": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_d5caed7f05d0",
+      "removed": true,
+      "error": "all actual service head/deep/tie plans use four bounded ordered run-action index seeks"
+    },
+    "4": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_115e28fd8e93",
+      "removed": true,
+      "error": "all actual service head/deep/tie plans use four bounded ordered run-action index seeks"
+    },
+    "5": {
+      "status": "failed",
+      "container": "collect_current_rehearsal_operational_history_d6a8be21643f",
+      "removed": true,
+      "error": "'probe'"
+    },
+    "6": {
+      "status": "passed",
+      "container": "collect_current_rehearsal_operational_history_317d3b010f2b",
+      "removed": true,
+      "error": null
+    }
+  },
+  "counting": "Do not sum predecessor, failed-command completed prefixes or overlapping scopes into the current passing 70-case command or 63-case SQL command."
+}

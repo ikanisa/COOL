@@ -1,0 +1,9 @@
+{
+  "source_hashes": {
+    "supabase/migrations/20260930170000_roster_fresh_auth_recovery.sql": "06e1f0af20feafeaa979e911ba9795452d5005adeaac0f9039c0148902430703",
+    "scripts/tests/roster_fresh_auth_recovery_uat.sql": "daae6d656a7c77b8d39e8f34c53479faf911ca4c0e084a653867e71196538d64",
+    "scripts/qa/browser_auth_reference/validate.mjs": "a0d4ba905bc0af0615c5df1b97baf9844c6aac4f87b670b06953ce3e1ea123c4",
+    "tool/qa/browser_auth_reference_fixture.dart": "4768392b8e6f07d1ffe4c4f3922a4748b662568533b7e317856a452d3d5e953c"
+  },
+  "scope": "Unexecuted initial149 draft retained before quota-fence and acceptance expansion"
+}

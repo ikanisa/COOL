@@ -1,0 +1,35 @@
+{
+  "scope": "current Admin receipt-worker health, Automations and receipt-deferral integration",
+  "commands": [
+    {
+      "command": [
+        "dart",
+        "analyze",
+        "lib/admin/core/admin_receipt_worker_card.dart",
+        "lib/admin/core/admin_receipt_worker_health.dart",
+        "test/admin_receipt_worker_health_test.dart"
+      ],
+      "returncode": 0,
+      "duration_seconds": 5.9
+    },
+    {
+      "command": [
+        "flutter",
+        "test",
+        "--no-pub",
+        "test/admin_receipt_worker_health_test.dart",
+        "test/admin_automations_test.dart",
+        "test/admin_receipt_deferral_test.dart",
+        "--reporter",
+        "json"
+      ],
+      "returncode": 1,
+      "duration_seconds": 27.37
+    }
+  ],
+  "inputs": 2490,
+  "changed_inputs": [],
+  "hosted_verified": false,
+  "physical_device_verified": false,
+  "full_candidate_regression": false
+}

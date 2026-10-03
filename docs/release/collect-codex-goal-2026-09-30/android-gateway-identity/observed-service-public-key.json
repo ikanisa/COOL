@@ -1,0 +1,8 @@
+{
+  "state": "pending",
+  "device_id": "7d822ff3-fcd7-452c-aa24-ec73a5ee4839",
+  "key_sha256": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+  "installation_id": "99e84262-899f-49cf-93a8-f20ccc8b48e8",
+  "public_key_spki_base64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaxfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpZP40Li/hp/m47n60p8D54WK84zV2sxXs7LtkBoN79R9Q==",
+  "signing_certificate_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "frozen_private_reviewable",
+  "manifest_sha256": "ad22e8755431f00750ecf58647daef81d03153a504b78cfe9a2e4eed6b318777",
+  "promotion_sha256": "ae0aecb3fa347398d1ed64da32942cf3041aefe50b7d5c818625a81f7a625672",
+  "accepted_receipt_sha256": "0cbccf0824baefbc34e8849954b954f2140257e3383f65a277c3f4efe17b695a",
+  "member_count": 825,
+  "root_owns_promotion": true
+}

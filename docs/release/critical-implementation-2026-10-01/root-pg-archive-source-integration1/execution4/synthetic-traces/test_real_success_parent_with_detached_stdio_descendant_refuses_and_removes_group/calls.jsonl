@@ -1,0 +1,1 @@
+{"tool": "genuine_detached_stdio_process", "stage": "runner_refusal", "parent_pgid": 90920, "descendant_pid": 90922, "owned_group_absent": true, "elapsed_seconds": 0.6254738749994431, "operation_bound_seconds": 2, "cleanup_bound_seconds": 5}

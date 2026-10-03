@@ -1,0 +1,23 @@
+{
+  "contracts/collect-receipt-content-v2/observed-investigation-v2.json": "54dcd6a4c42d8486e906b8f5115ec443e7bc0e43fc8a5c59acf7b04b8b38850d",
+  "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-workflow.json": "04fb9b76ef51c650d5ab1480bd140d1bffcaa95ce7c2a69ebc73b26f3e17bae7",
+  "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-inbox.json": "a7d5090882a5e81509f8fdbc4c2084a04e6d03de9feaa4a3667708670fe06341",
+  "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned.json": "5050c7c492b807ef313efcd83852e66e962aba02e142a74c052c31adcfb2a591",
+  "docs/release/collect-codex-goal-2026-09-30/exception-lifecycle-20261001/attempt6/observed-unassigned-resolved.json": "e50a36c7d3062b6b12b9cb4608e8b35ac0e87aef9247bec68e93614431cabd57",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-configure.json": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-stop.json": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-owner-lookup-recorded.json": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-operational-authority-20261001/accepted-sql-attempt7/observed-policy-default.json": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-health.json": "aceac370910f256ad1e1ad19a433bad79092332234ec3ba8a4e66b9cb25f5fa9",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-unknown-health.json": "2909b5b18e820f6729a19aafe63ee3c8567f29a32820ecd2e5f95f28c3ac91d1",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-quota-health.json": "b5effde730f972ec90707b91f9704baf962a4b824b0f288207e19360e1fba828",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-exception-worker-20261001/accepted-sql-attempt8/observed-worker-unobserved-health.json": "b1d822cd55878b9fb354ef39f1ebe3c76cae41d88779f21de11ad6bc6a8c5141",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-deferred.json": "b118a1d0d95870aba849d05cef557cdd763a1fb123548de8bbda733405ca1c22",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-source-cleared.json": "25c067f537c51685fc269725d7c972a7c5e676027ff4e15cda86ac27648b8255",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-handled.json": "7ceb11e8f52bf1549ee411f5feefd157b3774c1bd4ca4c2226650aa06242ce0f",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-superseded.json": "8b5fa6c4eb5ab83837eca5af3c8de7b059762fa8cdb3a267380aecf3530d885d",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-backlog-deferred.json": "a4c2bd2f07cab5c2fb2d58de2c481e47509419acf3504156e4adbc596b7539cc",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-detail-backlog-handled.json": "27dc149ab1dd42b23bfba8857429e65a1502f25dc68cf83332e40187a1b0d52b",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-event-inbox.json": "fe16afcad66ba658551b759392c64eaabfbe7512d15b9be3125c76cae99b166c",
+  "docs/release/collect-codex-goal-2026-09-30/receipt-deferral-exceptions-20261001/accepted-sql-attempt5/observed-backlog-inbox.json": "b72e5dc01f507a589c26d89cb176c304270d9fe9a86b4d2d053d8cd0ceb7361d"
+}

@@ -1,6 +1,6 @@
 # Collect
 
-Collect is a Rwanda-only Flutter and Supabase group-contribution platform. Contributions use whole Rwandan francs through MTN MoMo or Airtel Money USSD. Collect never holds member funds or asks for a MoMo PIN or OTP.
+Collect is a Rwanda-only Flutter and Supabase group-contribution platform. Contributions use whole Rwandan francs through MTN MoMo or Airtel Money USSD. Collect never holds member funds or asks for a MoMo PIN or payment provider OTP. A WhatsApp sign-in code is used only to sign in to Collect.
 
 The member app, Admin PWA, public website, and Supabase contribution APIs share the Rwanda MoMo scope. The current product contract is [docs/PRODUCT.md](docs/PRODUCT.md).
 

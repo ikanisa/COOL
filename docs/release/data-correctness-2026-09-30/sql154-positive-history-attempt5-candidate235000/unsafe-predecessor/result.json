@@ -1,0 +1,73 @@
+{
+  "actual_proof": {
+    "actual_finalizer_receipt": {
+      "evidence_level": "independently_reconciled",
+      "payment_id": "99640000-0000-4000-8000-000000048890",
+      "payment_status": "posted",
+      "replayed": false,
+      "review_id": "d579b765-a8db-4c80-8cc1-d5c609f8fc8b"
+    },
+    "catalog_unchanged": true,
+    "genuine_prepatch_api_posting": true,
+    "payment_input": {
+      "amount": 9007199254740992,
+      "anonymity": "public_id",
+      "contributor": "99640000-0000-4000-8000-000000000003",
+      "date": "2026-09-29T12:00:00+00:00",
+      "group": "99640000-0000-4000-8000-000000020005",
+      "id": "99640000-0000-4000-8000-000000048890",
+      "transaction": "SYNTH-UNSAFE-48890"
+    },
+    "production_triggers_preserved": true,
+    "provider_truth": false,
+    "rows_and_controls_unchanged": true,
+    "sql_error": "ERROR:  23514: check constraint \"payments_posted_amount_exact_json\" of relation \"payments\" is violated by some row\nSCHEMA NAME:  public\nTABLE NAME:  payments\nCONSTRAINT NAME:  payments_posted_amount_exact_json\nLOCATION:  ATRewriteTable, tablecmds.c:6296\n",
+    "unsafe_status_directly_written": false
+  },
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [],
+  "database": "collect_local_uat_3636937478f34adf",
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "kind": "synthetic_genuine_unsafe_posted_predecessor_atomic_migration_abort",
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_only_sha256": "c9c353bae4e580ea95f6c0a01e1673f021d1a453910ba4af42d2658625ccd605",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "pass_scoped"
+}

@@ -1,0 +1,116 @@
+{
+  "status": "prepared_only",
+  "docker_executed": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6185,
+      "sha256": "8f19439c3dde210eae69749edd308d5c67bf8f1ff0f5adfd97d0c370b2b6f2c2"
+    },
+    {
+      "path": "TOC-readback.json",
+      "bytes": 722,
+      "sha256": "898494fa57e473d81e4ba5933121bf20b5110845255c33ebb98fb19d99576d38"
+    },
+    {
+      "path": "command-scope-matrix.json",
+      "bytes": 52326,
+      "sha256": "4a3518bfba03c82d6ee098cdfaa67100023becc53b4bf5e86611502f2734110b"
+    },
+    {
+      "path": "focused-tests.json",
+      "bytes": 34168,
+      "sha256": "d6846b96039f68b93da736fe65567dae88d6f8c396b10503670a7107edaf8e9d"
+    },
+    {
+      "path": "focused-tests.stderr",
+      "bytes": 1421,
+      "sha256": "827d1db780b934761a3eccfe5a35d0e24885301968f0eb658df2520f4aba8a04"
+    },
+    {
+      "path": "focused-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "graphql-source-scope.json",
+      "bytes": 3245,
+      "sha256": "6e5e35e2a96c83b0acc5a518e709b7838ab27c9c0d5d83e733ea667a7ef19f44"
+    },
+    {
+      "path": "graphql-wrapper-query.sql",
+      "bytes": 2966,
+      "sha256": "65a7ec813e6ef7749b6ae56111d9f5be051a5bacb4c4eceecc6e9af823302adc"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 34109,
+      "sha256": "e956c9131d5b3cf6d886f52d1ef0a5c66b62cdc0190c3f62f01d8daae2c75206"
+    },
+    {
+      "path": "preparation-readback.json",
+      "bytes": 106760,
+      "sha256": "02b3835ae62d9b9d63a6d10b0c994aad22d800d555d6c3e0fc9c45ea5bae317a"
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 7313,
+      "sha256": "bd3be22e67406666acb0c563d3bd46272eaacac45918987dc6647a7190a82931"
+    },
+    {
+      "path": "preservation-after.json",
+      "bytes": 72887,
+      "sha256": "03bea6ef7678f0a4da102ee9415a4321df7609dce6f93fc9ed4f48487da8a6cd"
+    },
+    {
+      "path": "preservation-before.json",
+      "bytes": 72887,
+      "sha256": "03bea6ef7678f0a4da102ee9415a4321df7609dce6f93fc9ed4f48487da8a6cd"
+    },
+    {
+      "path": "rehearsal.py",
+      "bytes": 57967,
+      "sha256": "34dc23443cbe9bc5b6da35f2938136c502ce9e744a85638788ad05ceba4203cb"
+    },
+    {
+      "path": "rehearsal.py.diff",
+      "bytes": 17317,
+      "sha256": "c57073ab0ae13e1c7f40f1c7aa8b7cc82f4e6cea31041413c583fb00bfb45a1c"
+    },
+    {
+      "path": "retained-TOC-proposal.txt",
+      "bytes": 187512,
+      "sha256": "177d485e411331027f96a804797ec1f9822b412eebeb70e8867407b4396b7b21"
+    },
+    {
+      "path": "retained-failure2-readback.json",
+      "bytes": 29976,
+      "sha256": "03783dfd9540f3900fb0020466e9cef50f874a797aa8aa909bf1df5715faa0f4"
+    },
+    {
+      "path": "source-graphql-prerequisite.sql",
+      "bytes": 681,
+      "sha256": "f461df9b4171e8abfc7c77d35b62afe0677bf0c428a2b53679a24c5e5c69adda"
+    },
+    {
+      "path": "source-role-globals.json",
+      "bytes": 10520,
+      "sha256": "6ff05c4ffdb58ceb179d453eb215455dda761d9806a55037e78d619d190aa8ab"
+    },
+    {
+      "path": "test_rehearsal.py",
+      "bytes": 19699,
+      "sha256": "1d460eda3289f5842afadb6e64169027c64972c882775bcc9a9def91999236c9"
+    },
+    {
+      "path": "test_rehearsal.py.diff",
+      "bytes": 7590,
+      "sha256": "a8727915e86f0dc55f355a4a5b7a3ba96504b841c9131e23c3440eb034c8985c"
+    },
+    {
+      "path": "verify_preparation.py",
+      "bytes": 11699,
+      "sha256": "a38d90ddc12bb4efefeb0adec4d330b2ed5f1cee6d8fb293910497ee44ee0f98"
+    }
+  ]
+}

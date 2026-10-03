@@ -1,0 +1,6 @@
+lib/shared/repositories/collect_repository_live_reader.dart:135:12: Error: A value of type '({List<dynamic> items, int pendingCount})' can't be returned from an async function with return type 'Future<({List<PaymentIntentModel> items, int pendingCount})>'.
+ - 'List' is from 'dart:core'.
+ - 'Future' is from 'dart:async'.
+ - 'PaymentIntentModel' is from 'package:collect_app/shared/models/collect_models.dart' ('lib/shared/models/collect_models.dart').
+    return (
+           ^

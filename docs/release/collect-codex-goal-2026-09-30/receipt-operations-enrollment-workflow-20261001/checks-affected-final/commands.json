@@ -1,0 +1,63 @@
+[
+  {
+    "name": "tsc",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "started_at": "2026-10-01T13:15:43.560454+00:00",
+    "completed_at": "2026-10-01T13:15:44.178918+00:00",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "executed_here": false,
+    "associated_from": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/checks-final-attempt3",
+    "exact_prior_input_count": 101,
+    "source_dependency_node_readback": true
+  },
+  {
+    "name": "node",
+    "command": [
+      "/Volumes/PRO-G40/Development/Node/bin/node",
+      "--experimental-strip-types",
+      "--test",
+      "src/unattended_client.test.ts",
+      "src/unattended_journal.test.ts",
+      "src/unattended_profile.test.ts",
+      "src/unattended_runner.test.ts",
+      "src/unattended_scheduler.test.ts",
+      "src/unattended_stdio.test.ts",
+      "src/unattended_store.test.ts",
+      "src/unattended_enrollment.test.ts",
+      "src/unattended_enrollment_observed.test.ts"
+    ],
+    "timeout_seconds": 90,
+    "exit_code": 0,
+    "started_at": "2026-10-01T13:23:36.023674+00:00",
+    "completed_at": "2026-10-01T13:23:51.945371+00:00",
+    "log_sha256": "b52a039d274f69554af643a7b6d53f63697f78bb25431a9632d9f98b5cbec675",
+    "counts": {
+      "tests": 180,
+      "pass": 180,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  {
+    "name": "swift-compile",
+    "command": [
+      "/Volumes/PRO-G40/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "src/unattended_keychain.swift",
+      "-o",
+      "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/checks-affected-final/unattended-keychain-self-test"
+    ],
+    "timeout_seconds": 90,
+    "exit_code": 1,
+    "started_at": "2026-10-01T13:23:51.948042+00:00",
+    "completed_at": "2026-10-01T13:23:52.527803+00:00",
+    "log_sha256": "c500265c35987141e5dc26dde211fd6930e3223d25341a3729ca9cb5a41184ac"
+  }
+]

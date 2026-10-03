@@ -1,0 +1,174 @@
+{
+  "status": "pass",
+  "captured_at": "2026-10-01T20:39:15Z",
+  "parsed_source_preservation": [
+    {
+      "check": "all deletion rights/retention/product/contact clauses",
+      "status": "pass",
+      "before_sha256": "f1828df564105e9f095d53a0145759b6ab244a14ae389e740b49f48646fc5c26",
+      "after_sha256": "f1828df564105e9f095d53a0145759b6ab244a14ae389e740b49f48646fc5c26"
+    },
+    {
+      "check": "support verification-field names/labels/types/flags/options",
+      "status": "pass",
+      "before_sha256": "a00b15211fe72c146f1708d2dfb2350620acd47d3b00692027b5f3cc43aea4b8",
+      "after_sha256": "a00b15211fe72c146f1708d2dfb2350620acd47d3b00692027b5f3cc43aea4b8"
+    },
+    {
+      "check": "all privacy clauses/date outside corrected request/cookie navigation fields",
+      "status": "pass",
+      "before_sha256": "436a33ec8558af31de4376f421445aa5ae985f2802baabbeee212c311631b129",
+      "after_sha256": "436a33ec8558af31de4376f421445aa5ae985f2802baabbeee212c311631b129"
+    },
+    {
+      "check": "all Terms clauses/date outside app-menu/cookie destination fields",
+      "status": "pass",
+      "before_sha256": "8099508724d1b9147ef368961aa0f16244bed3ba4c2bb1a3212a5dc42407e765",
+      "after_sha256": "8099508724d1b9147ef368961aa0f16244bed3ba4c2bb1a3212a5dc42407e765"
+    },
+    {
+      "check": "exact authored bundle mirror privacy",
+      "status": "pass",
+      "before_sha256": "8eac39685ec5f4df7ea395eca52a60e758882d255277e493e50eabe2d7c882f5",
+      "after_sha256": "8eac39685ec5f4df7ea395eca52a60e758882d255277e493e50eabe2d7c882f5"
+    },
+    {
+      "check": "exact authored bundle mirror terms",
+      "status": "pass",
+      "before_sha256": "ef27529775a322e950fb3938c335f15049b4e7d075b000f2837f17d5ed2bbb51",
+      "after_sha256": "ef27529775a322e950fb3938c335f15049b4e7d075b000f2837f17d5ed2bbb51"
+    },
+    {
+      "check": "exact authored bundle mirror delete_account",
+      "status": "pass",
+      "before_sha256": "d01b9c185c9dc826154567795c5b741a3af6cfda434e34fb07619b22c52e15ce",
+      "after_sha256": "d01b9c185c9dc826154567795c5b741a3af6cfda434e34fb07619b22c52e15ce"
+    },
+    {
+      "check": "bundle site metadata/contacts/current base routes",
+      "status": "pass",
+      "before_sha256": "3372497a64372d10ade06bb6caaf91448e7f918f073eb6757a2c97ee2ef467ac",
+      "after_sha256": "3372497a64372d10ade06bb6caaf91448e7f918f073eb6757a2c97ee2ef467ac"
+    }
+  ],
+  "immutable_historical_evidence": [
+    {
+      "path": "docs/release/public-website-content-baseline.json",
+      "sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json",
+      "sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/revolut-design/verification/current-legal-presentation-20261001/content-comparison.json",
+      "sha256": "11ce6f501e281bdd71f9a934e8c2a16d9576e8e30c492f9e8227a89368558940",
+      "unchanged": true
+    }
+  ],
+  "current_contract_load": {
+    "contract_sha256": "4d390debc4a7df2735ac2350bfbe4b1de26919d46f053732ff261cf60e3e290a",
+    "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+    "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+    "current_comparison_sha256": "ff7828feb1dc6a219e11a8a3a1e3775ab8bce5ad2a5d3d3d7085533de68b1048",
+    "current_comparison_file": "docs/release/critical-implementation-2026-10-01/legal-batch1/content-comparison.json",
+    "reviewed_source_count": 6,
+    "legal_release_approved": false,
+    "publication_approved": false
+  },
+  "comparison_text_hash_checks": [
+    {
+      "route": "/",
+      "status": "pass",
+      "sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/account-deletion/",
+      "status": "pass",
+      "sha256": "38beb124b64999c966b22987a988f402b6d5c9b514e261b11640f4aa10686902",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    },
+    {
+      "route": "/community-groups/",
+      "status": "pass",
+      "sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "evidence_mode": "unchanged_prior_reviewed_product_text_reused"
+    },
+    {
+      "route": "/craas/",
+      "status": "pass",
+      "sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/credit-readiness/",
+      "status": "pass",
+      "sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/data-deletion/",
+      "status": "pass",
+      "sha256": "53a05f02fb862322f5a25322e15dbdb3a22435b5d764fd9e7f8bb30240d88341",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    },
+    {
+      "route": "/group-savings/",
+      "status": "pass",
+      "sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "evidence_mode": "unchanged_prior_reviewed_product_text_reused"
+    },
+    {
+      "route": "/insurance/",
+      "status": "pass",
+      "sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/our-partners/",
+      "status": "pass",
+      "sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/partners/",
+      "status": "pass",
+      "sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/privacy/",
+      "status": "pass",
+      "sha256": "8abf7ac2f5ee37a3a478a36a8bc6f92c2ca3804ed9911e93c90790c26a567eac",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    },
+    {
+      "route": "/protection/",
+      "status": "pass",
+      "sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "evidence_mode": "actual_current_full_page_html"
+    },
+    {
+      "route": "/security/",
+      "status": "pass",
+      "sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    },
+    {
+      "route": "/terms/",
+      "status": "pass",
+      "sha256": "33576a761a30bb597abaf9102cbfdd63ecd59bb7d85c4623fa8e60b098517a1b",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    },
+    {
+      "route": "/trust/",
+      "status": "pass",
+      "sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "evidence_mode": "actual_current_legal_fragment_in_unchanged_reviewed_page_text"
+    }
+  ],
+  "scope": "Draft source and exact local visible-delta engineering review only. Preserves original dates/substantive clauses and support field definitions; does not approve their legal substance or operational fulfilment."
+}

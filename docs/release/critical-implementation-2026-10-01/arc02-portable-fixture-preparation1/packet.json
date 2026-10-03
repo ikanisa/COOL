@@ -1,0 +1,10 @@
+{
+  "kind": "collect_private_preparation_packet_seal",
+  "manifest": "PACKET.sha256",
+  "manifest_sha256": "6d50327e73646edfb71214919e7d9001640feea5476cba39510158c4125e5a78",
+  "no_maintained_source_or_APP_SDK_mutation_by_preparation": true,
+  "proposed_source_paths": 49,
+  "scope": "Private proposal and static preservation evidence; root owns formatting/integration/actual current41 proof.",
+  "sealed_regular_leaf_bytes": 516855,
+  "sealed_regular_leaf_count": 70
+}

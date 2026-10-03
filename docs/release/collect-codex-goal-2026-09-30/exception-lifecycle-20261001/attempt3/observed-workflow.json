@@ -1,0 +1,52 @@
+{
+  "due_at": "2026-10-01T11:12:14.192836Z",
+  "status": "source_cleared",
+  "overdue": false,
+  "checked_at": "2026-10-01T11:12:16.422425Z",
+  "assignee_id": "99790000-0000-4000-8000-000000000001",
+  "escalations": [
+    {
+      "id": "34ecf9b6-9d2a-4c11-ab1b-18bfa0f9142d",
+      "state": "obsolete",
+      "read_at": null,
+      "queued_at": "2026-10-01T11:12:15.001864Z",
+      "delivered_at": null,
+      "recipient_id": "99790000-0000-4000-8000-000000000001",
+      "source_revision": 7
+    },
+    {
+      "id": "eb620a76-c0da-4811-9792-139de2192872",
+      "state": "delivered",
+      "read_at": null,
+      "queued_at": "2026-10-01T11:12:14.611715Z",
+      "delivered_at": "2026-10-01T11:12:14.616753Z",
+      "recipient_id": "99790000-0000-4000-8000-000000000001",
+      "source_revision": 5
+    },
+    {
+      "id": "b8153fc5-3500-4b70-bd28-1f793fa371ed",
+      "state": "delivered",
+      "read_at": null,
+      "queued_at": "2026-10-01T11:12:12.879784Z",
+      "delivered_at": "2026-10-01T11:12:13.208173Z",
+      "recipient_id": "99790000-0000-4000-8000-000000000001",
+      "source_revision": 3
+    },
+    {
+      "id": "7d869571-5315-4e4e-b958-a6c7750e63b6",
+      "state": "delivered",
+      "read_at": "2026-10-01T11:12:11.528472Z",
+      "queued_at": "2026-10-01T11:12:10.275920Z",
+      "delivered_at": "2026-10-01T11:12:11.146150Z",
+      "recipient_id": "99790000-0000-4000-8000-000000000001",
+      "source_revision": 1
+    }
+  ],
+  "exception_id": "d076955c-6c1b-47ce-8211-0c46fe24b85d",
+  "source_active": false,
+  "source_revision": 8,
+  "contract_version": 1,
+  "workflow_revision": 8,
+  "sample_valid_until": "2026-10-01T11:13:16.422425Z",
+  "recipient_available": true
+}

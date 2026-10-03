@@ -1,0 +1,11 @@
+{
+  "scope": "Unpublished refined candidate; four-arm runtime/correctness/benefit acceptance pending",
+  "runtime_verified": false,
+  "published_migration": false,
+  "source": {
+    "scripts/tests/current_generated_history_index_candidate_uat.py": "66e14596fbd194eefb3f37e84e5851e092984fde185cdc6223d689dfdfb096c5",
+    ".cache/history-query-performance-candidates/history-primary-seek-title-exists.sql": "80f59269a4d9b3bbc06073d52841ea15978e3292194e82dc8481eff6eeadbb24"
+  },
+  "prior_failed_actual_1000_comparison": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt2-root-1000-10000/result.json",
+  "required_schema_invariant": "Validated immediate payments.collection_id FK to collections.id, NOT NULL, ON DELETE RESTRICT; all catalog/API/ACL attributes unchanged"
+}

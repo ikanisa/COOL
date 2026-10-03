@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "command": {
+    "name": "focused-tests",
+    "argv": [
+      "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+      "test",
+      "--no-pub",
+      "--concurrency=1",
+      "test/admin_roster_fresh_auth_test.dart",
+      "--reporter",
+      "expanded"
+    ],
+    "started_utc": "2026-09-30T18:11:58.588668+00:00",
+    "exit_code": 0,
+    "stdout_sha256": "a84a0d95c06de7d7733776b66eda106ddd66760140ab795abfb494fc896bf8dd",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "immutable_export_input_manifest": "../auth-export-attempt4/inputs.json",
+  "database_calls": 0,
+  "whole_L01_complete": false
+}

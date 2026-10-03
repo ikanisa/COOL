@@ -1,0 +1,43 @@
+{
+  "applicable_dart_count": 670,
+  "arc01_complete": false,
+  "current_root_acceptance": false,
+  "dependency_inputs_compared": 171,
+  "finding": "ARC-01",
+  "make_executed": false,
+  "prior_seals_independently_verified": {
+    "arc01-ubuntu-batch1": {
+      "changed_paths": [],
+      "files_verified": 85,
+      "seal_sha256": "7e2102592e9e38d1b0184baa7c630e84e95ef366a590a756399bc3ce8234d435",
+      "unexpected_paths": []
+    },
+    "arc01-ubuntu-resolved-batch1": {
+      "changed_paths": [],
+      "files_verified": 117,
+      "seal_sha256": "b8c2b013291f59918cd594769d6162404293b8b695228e7d2a849c30067cb052",
+      "unexpected_paths": []
+    }
+  },
+  "private_source_bytes_still_exact": true,
+  "private_source_formatted": false,
+  "pub_repeated": false,
+  "receipt_sha256": {
+    "README.md": "30cf658bb6b1d4f3577cb1bee83285d7e128e160ae392597be7ee2c8bf873583",
+    "frozen-preparation-readback.json": "5a40c7c2acbf3a6159a173769b7a946437e94005c02c8f1cda5490bda6ad8af6",
+    "reusable-private-pub-cache-readback.json": "8adc5aebd5e06a35f50379f15e2d81f643b2147615d71c4d37b215e42e3c2aa6",
+    "reuse-eligibility-and-hold.json": "03afe3303a4535a42b5c320343eef2d66874be7ac5adbae1d8356a95118698c9",
+    "reuse-eligibility-attempt1-failure.json": "b2b1276cbb91afe124d1134f7b6c9d7d6f39e67aa2e1f42a7fd6a85695bd0790",
+    "source-export-attempt1/source-inventory.json": "063755eea90c376df56da7cdb910c9b1c2594500d63fbacda7d93452ea3feac2"
+  },
+  "remaining": "Parent-coordinated final source freeze and safe other-chat source integration; final current source/Make proof stays held.",
+  "reuse_eligible_for_exact_existing_sdk_and_canonical_pub_inputs": true,
+  "root_drift_since_capture_paths": [
+    "lib/features/settings/security_hub_header.dart"
+  ],
+  "root_source_edited": false,
+  "sealed_at_utc": "2026-10-02T00:47:10.787177+00:00",
+  "source_capture_at_utc": "2026-10-02T00:43:56.415220+00:00",
+  "source_inputs": 823,
+  "status": "PREPARATORY_EXPORT_FROZEN_FINAL_ACCEPTANCE_HELD"
+}

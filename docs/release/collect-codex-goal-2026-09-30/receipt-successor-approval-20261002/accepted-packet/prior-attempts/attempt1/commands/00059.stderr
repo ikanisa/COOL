@@ -1,0 +1,36 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 22:41:29.744 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:41:29.745 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:41:29.747 UTC [177] LOG:  database system was shut down at 2026-10-01 22:41:29 UTC
+2026-10-01 22:41:29.750 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 22:41:29.754 UTC [181] LOG:  pg_cron scheduler started
+2026-10-01 22:41:36.889 UTC [485] ERROR:  receipt_successor_source_changed
+2026-10-01 22:41:36.889 UTC [485] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 33 at RAISE
+2026-10-01 22:41:36.889 UTC [485] STATEMENT:  select public.admin_approve_receipt_successor_v1('8665c840-7257-435a-b419-04c3c32e9972','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','2026-10-01T22:42:36.285740Z'::timestamptz,'definitely_not_invoked','Synthetic exact current immutable retry approval');
+2026-10-01 22:41:36.975 UTC [492] ERROR:  receipt_successor_preview_expired
+2026-10-01 22:41:36.975 UTC [492] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 26 at RAISE
+2026-10-01 22:41:36.975 UTC [492] STATEMENT:  select public.admin_approve_receipt_successor_v1('9df670f1-5b4e-4611-a3c4-01f33511373a','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'52b667b701baa655345e614fe269fc94edf3471e46296d8146dc55c784eef4d4','2020-01-01T00:00:00Z'::timestamptz,'definitely_not_invoked','Synthetic exact current immutable retry approval');
+2026-10-01 22:41:37.054 UTC [499] ERROR:  receipt_successor_preview_expired
+2026-10-01 22:41:37.054 UTC [499] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 26 at RAISE
+2026-10-01 22:41:37.054 UTC [499] STATEMENT:  select public.admin_approve_receipt_successor_v1('aedcec94-4178-4de4-aa6c-20bdbd0f0c30','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'52b667b701baa655345e614fe269fc94edf3471e46296d8146dc55c784eef4d4','2099-01-01T00:00:00Z'::timestamptz,'definitely_not_invoked','Synthetic exact current immutable retry approval');
+2026-10-01 22:41:37.145 UTC [506] ERROR:  receipt_successor_input_invalid
+2026-10-01 22:41:37.145 UTC [506] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 11 at RAISE
+2026-10-01 22:41:37.145 UTC [506] STATEMENT:  select public.admin_approve_receipt_successor_v1('05da4090-f37c-49fb-93b4-7c0fafb04c4a','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'52b667b701baa655345e614fe269fc94edf3471e46296d8146dc55c784eef4d4','2026-10-01T22:42:36.285740Z'::timestamptz,'send_failed','Synthetic exact current immutable retry approval');
+2026-10-01 22:41:37.239 UTC [513] ERROR:  receipt_successor_input_invalid
+2026-10-01 22:41:37.239 UTC [513] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 11 at RAISE
+2026-10-01 22:41:37.239 UTC [513] STATEMENT:  select public.admin_approve_receipt_successor_v1('e6f41395-5766-4ebe-9065-64b76834f50f','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'52b667b701baa655345e614fe269fc94edf3471e46296d8146dc55c784eef4d4','2026-10-01T22:42:36.285740Z'::timestamptz,'definitely_not_invoked','short');
+2026-10-01 22:41:37.488 UTC [534] ERROR:  receipt_successor_source_changed
+2026-10-01 22:41:37.488 UTC [534] CONTEXT:  PL/pgSQL function public.admin_approve_receipt_successor_v1(uuid,uuid,text,uuid,bigint,bigint,text,timestamp with time zone,text,text) line 33 at RAISE
+2026-10-01 22:41:37.488 UTC [534] STATEMENT:  select public.admin_approve_receipt_successor_v1('37065ab2-23f8-42c8-8592-688ad2d90ad6','bfacdeb0-4e21-495a-a4ae-d6a8a28f98f5','retry_uninvoked','3b667c36-1810-4e8b-9401-4a48377be47d',2,2,'52b667b701baa655345e614fe269fc94edf3471e46296d8146dc55c784eef4d4','2026-10-01T22:42:36.285740Z'::timestamptz,'definitely_not_invoked','Synthetic exact current immutable retry approval');

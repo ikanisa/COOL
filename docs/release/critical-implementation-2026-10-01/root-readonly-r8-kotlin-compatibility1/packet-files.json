@@ -1,0 +1,41 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 823,
+      "mode": 256,
+      "sha256": "3926fcfac7829844ceec0691f50ed7de81bc06ba08c86f40064999158a8e0322"
+    },
+    "actual-version-command.json": {
+      "bytes": 5056,
+      "mode": 256,
+      "sha256": "7dc332173b82b2da31cc65fcc3a2286a89317ff65116bd4092b1ed53f855245b"
+    },
+    "bounded-provider-jar-scan.json": {
+      "bytes": 763,
+      "mode": 256,
+      "sha256": "098856f827656dc34a54f165e2fc4b01c84d1e3470e52a4944a3d6df2177988f"
+    },
+    "compatibility-readback.json": {
+      "bytes": 3267,
+      "mode": 256,
+      "sha256": "466274700da49c1382d6618fdce963e79894604c09c342212b1e68df4f0b0ff2"
+    },
+    "r8-version.properties": {
+      "bytes": 156,
+      "mode": 256,
+      "sha256": "ebde9ea5be9d080618751e86e3b117d2c2bda7c584e9d7b506fcff79ac9d5859"
+    },
+    "r8-version.stderr": {
+      "bytes": 0,
+      "mode": 256,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "r8-version.stdout": {
+      "bytes": 107,
+      "mode": 256,
+      "sha256": "4f64dc7a8981883f68fd02ea9d0ecbc4faf2c711133203baa633ae6334a5593a"
+    }
+  },
+  "kind": "bounded_readonly_R8_Kotlin_compatibility_evidence",
+  "schema_version": 1
+}

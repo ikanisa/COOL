@@ -1,0 +1,93 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "name": "toolchain",
+      "parent_exit_confirmed": true,
+      "process_group": 11438,
+      "seconds": 0.407,
+      "sha256": "b81ad2d20e244d6ab84ba32bc8aa09ce9fec24cb459ce1fe7be75ebebdf24892",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "exit_code": 0,
+      "name": "pub",
+      "parent_exit_confirmed": true,
+      "process_group": 11483,
+      "seconds": 1.222,
+      "sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "lib/admin/core/admin_exception_workflow_models.dart",
+        "lib/admin/core/admin_exception_workflow_card.dart",
+        "test/admin_exception_workflow_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "format",
+      "parent_exit_confirmed": true,
+      "process_group": 11542,
+      "seconds": 0.072,
+      "sha256": "a8665628d3d8dc8a51632550dfb214cf87c098912f4250420d0df700431790e6",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "lib/admin/core/admin_exception_workflow_models.dart",
+        "lib/admin/core/admin_exception_workflow_card.dart",
+        "test/admin_exception_workflow_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "selected-analysis",
+      "parent_exit_confirmed": true,
+      "process_group": 11546,
+      "seconds": 6.98,
+      "sha256": "096772df8ba9f87ef5f7e57c24f1170777b72620fbd3abb28f5087a7bffba668",
+      "termination_errors": [],
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-gateway-motion-root192/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "--name=checkpoint privacy|checkpoint recovery|a fresh negative lookup before expiry|persisted reviewed assignment|unknown response survives widget|storage failure prevents|session replacement during identity recheck",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/admin-checkpoint-current3/tests.machine.jsonl",
+        "test/admin_exception_workflow_test.dart"
+      ],
+      "exit_code": 0,
+      "name": "affected-checkpoint-tests",
+      "parent_exit_confirmed": true,
+      "process_group": 12180,
+      "seconds": 15.435,
+      "sha256": "989b49e97b53ede2d77ae104d3c195bd923ac985e75de21798ae94da1f8158bd",
+      "termination_errors": [],
+      "timed_out": false
+    }
+  ]
+}

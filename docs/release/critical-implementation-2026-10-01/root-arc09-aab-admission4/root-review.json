@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-02T13:24:49.125904+00:00",
+  "status": "PASS",
+  "driver_sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8",
+  "admission_sha256": "9b557322112f9cd4ae350a253c413c3362c969d00ba86499c041c622981d400d",
+  "packet_sha256": "d9561517f03f773cf23102b38ed01966ef2c42c9508b1d7a174f564eefca0313",
+  "verified_proposal_payloads": 21,
+  "prepared_pins": 42,
+  "completed_runtime_reuse_pins": 13,
+  "completed_compile_reuse_pins": 15,
+  "actual_stub_metadata_fixtures": 58,
+  "fixture_receipt_sha256": "8dffe0b974f1415e9e6ee37ae47316617abd70fe4cb3c28855dc44acaf1211b5",
+  "failed_stage3_readback_sha256": "b02f20a53f3d67074aab74769cfc75591d1c8041fe02f1b77d4339dc5686ec37",
+  "private_publisher_dependency_admission_sha256": "6662c6b359f0de84c9686880b9870d4aaca8ae9449f128e684e73082aa52b913",
+  "cache_jar_sha256": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+  "graph_commands_rerun": false,
+  "actual_stage": "AAB_only_then_SBOM_source_artifact_readback",
+  "production_release_approval": false,
+  "ARC09_closed": false
+}

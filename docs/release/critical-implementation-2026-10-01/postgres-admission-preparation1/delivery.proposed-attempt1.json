@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "elapsed_seconds": 898.811,
+  "timeout_seconds": 900,
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate/scripts/tests/supabase_delivery_contract_test.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate"
+}

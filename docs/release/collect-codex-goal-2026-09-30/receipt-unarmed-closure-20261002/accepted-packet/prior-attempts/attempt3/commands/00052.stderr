@@ -1,0 +1,24 @@
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+psql:/docker-entrypoint-initdb.d/migrations/00-extension.sql:1: NOTICE:  schema "extensions" already exists, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:59: NOTICE:  event trigger "pgrst_ddl_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220126121436_finer-postgrest-triggers.sql:64: NOTICE:  event trigger "pgrst_drop_watch" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:5: NOTICE:  function graphql_public.graphql(text,text,jsonb) does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:90: NOTICE:  event trigger "issue_pg_graphql_access" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220317095840_pg_graphql.sql:143: NOTICE:  event trigger "issue_graphql_placeholder" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:3: NOTICE:  event trigger "api_restart" does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220321174452_fix-postgrest-alter-type-event-trigger.sql:4: NOTICE:  function extensions.notify_api_restart() does not exist, skipping
+psql:/docker-entrypoint-initdb.d/migrations/20220404205710_pg_graphql-on-by-default.sql:142: NOTICE:  extension "pg_graphql" does not exist, skipping
+2026-10-01 22:23:47.690 UTC [1] LOG:  starting PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+2026-10-01 22:23:47.691 UTC [1] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2026-10-01 22:23:47.692 UTC [177] LOG:  database system was shut down at 2026-10-01 22:23:47 UTC
+2026-10-01 22:23:47.695 UTC [1] LOG:  database system is ready to accept connections
+2026-10-01 22:23:47.698 UTC [181] LOG:  pg_cron scheduler started
+2026-10-01 22:23:54.818 UTC [440] ERROR:  receipt_successor_request_conflict
+2026-10-01 22:23:54.818 UTC [440] CONTEXT:  PL/pgSQL function public.admin_close_unarmed_receipt_v1(uuid,uuid,bigint,bigint,text,text) line 15 at RAISE
+2026-10-01 22:23:54.818 UTC [440] STATEMENT:  select public.admin_close_unarmed_receipt_v1('8f32fc83-b12c-41ed-9028-ae8d4ce65a42','8621f57f-d134-43c0-b9ad-ece9703774e5',1,1,'definitely_not_invoked','Different accountable closure reason');
+2026-10-01 22:23:55.397 UTC [489] ERROR:  SMS notification payload and ledger snapshot are immutable
+2026-10-01 22:23:55.397 UTC [489] CONTEXT:  PL/pgSQL function collect_hybrid.protect_sms_outbox_core() line 32 at RAISE
+2026-10-01 22:23:55.397 UTC [489] STATEMENT:  update collect_hybrid.sms_notification_outbox set state='queued',suppression_reason=null where id='8621f57f-d134-43c0-b9ad-ece9703774e5';

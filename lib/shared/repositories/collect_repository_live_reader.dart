@@ -9,12 +9,19 @@ class _CollectLiveReader {
 
   final SupabaseClient? _supabase;
 
-  Future<CollectProfile?> fetchProfile(String userId) async {
+  Future<CollectProfile?> fetchProfile(
+    String userId, {
+    String? accessToken,
+  }) async {
     final supabase = _supabase;
     if (supabase == null) return null;
     final currentUser = supabase.auth.currentUser;
     if (currentUser == null || currentUser.id != userId) return null;
-    final row = await supabase.rpc<dynamic>('get_current_member_profile');
+    var request = supabase.rpc<dynamic>('get_current_member_profile');
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final row = await request;
     if (row == null) return null;
     final profile = CollectProfile.fromJson(
       Map<String, dynamic>.from(row as Map),
@@ -54,8 +61,10 @@ class _CollectLiveReader {
     return profile;
   }
 
-  Future<List<CollectCollection>> fetchCollections() async {
-    return _fetchMemberCollections();
+  Future<List<CollectCollection>> fetchCollections({
+    String? accessToken,
+  }) async {
+    return _fetchMemberCollections(accessToken: accessToken);
   }
 
   Future<List<CollectCollection>> fetchPublicCollections() async {
@@ -63,15 +72,19 @@ class _CollectLiveReader {
         .from('public_collections_view')
         .select()
         .order('created_at', ascending: false);
-    return [
-      for (final row in rows)
-        CollectCollection.fromJson(Map<String, dynamic>.from(row as Map)),
-    ];
+    return _collectionRows(rows);
   }
 
-  Future<CollectCollection> fetchCollection(String id) async {
-    final collections = await _fetchMemberCollections(collectionId: id);
-    if (collections.length != 1) {
+  Future<CollectCollection> fetchCollection(
+    String id, {
+    String? accessToken,
+  }) async {
+    exactJsonIdentifier(id, field: 'group.id');
+    final collections = await _fetchMemberCollections(
+      collectionId: id,
+      accessToken: accessToken,
+    );
+    if (collections.length != 1 || collections.single.id != id) {
       throw StateError('Group is not available');
     }
     return collections.single;
@@ -79,22 +92,49 @@ class _CollectLiveReader {
 
   Future<List<CollectCollection>> _fetchMemberCollections({
     String? collectionId,
+    String? accessToken,
   }) async {
-    final response = await _supabase!.rpc<dynamic>(
+    var request = _supabase!.rpc<dynamic>(
       'list_current_user_collections',
       params: {'p_collection_id': ?collectionId},
     );
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final response = await request;
     if (response is! List) {
       throw const FormatException('Group response is unavailable');
     }
-    return [
-      for (final row in response)
-        CollectCollection.fromJson(Map<String, dynamic>.from(row as Map)),
-    ];
+    return _collectionRows(response);
   }
 
-  Future<List<Map<String, dynamic>>> _financialRows(String rpc) async {
-    final response = await _supabase!.rpc<dynamic>(rpc);
+  List<CollectCollection> _collectionRows(List<dynamic> rows) {
+    final seen = <String>{};
+    final collections = <CollectCollection>[];
+    for (final row in rows) {
+      if (row is! Map || row.keys.any((key) => key is! String)) {
+        throw const FormatException('Invalid group response');
+      }
+      final collection = CollectCollection.fromJson(
+        Map<String, dynamic>.from(row),
+      );
+      if (!seen.add(collection.id)) {
+        throw const FormatException('Duplicate group response');
+      }
+      collections.add(collection);
+    }
+    return List.unmodifiable(collections);
+  }
+
+  Future<List<Map<String, dynamic>>> _financialRows(
+    String rpc, {
+    String? accessToken,
+  }) async {
+    var request = _supabase!.rpc<dynamic>(rpc);
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final response = await request;
     if (response is! List || response.any((row) => row is! Map)) {
       throw const FormatException('Financial history is unavailable');
     }
@@ -102,29 +142,49 @@ class _CollectLiveReader {
   }
 
   Future<({List<PaymentIntentModel> items, int pendingCount})>
-  fetchRecentIntents({String? intentId}) async {
-    final response = await _supabase!.rpc<dynamic>(
+  fetchRecentIntents({String? intentId, String? accessToken}) async {
+    if (intentId != null) exactJsonIdentifier(intentId, field: 'intent.id');
+    var request = _supabase!.rpc<dynamic>(
       'list_current_member_recent_intents',
       params: {'p_intent_id': ?intentId},
     );
-    if (response is! Map ||
-        response['pending_count'] is! int ||
-        (response['pending_count'] as int) < 0) {
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final response = await request;
+    if (response is! Map) {
       throw const FormatException('Invalid intent response');
     }
     final rows = _pageRows(response);
     _validatePaymentRows(rows, intents: true);
+    final items = [for (final row in rows) PaymentIntentModel.fromJson(row)];
+    if (intentId != null &&
+        (items.length > 1 || items.any((item) => item.id != intentId))) {
+      throw const FormatException('Intent response does not match the request');
+    }
     return (
-      items: [for (final row in rows) PaymentIntentModel.fromJson(row)],
-      pendingCount: response['pending_count'] as int,
+      items: List<PaymentIntentModel>.unmodifiable(items),
+      pendingCount: exactJsonInteger(
+        response['pending_count'],
+        field: 'intent.pending_count',
+        minimum: 0,
+      ),
     );
   }
 
   Future<MemberHistoryPage> fetchHistoryPage(
     MemberHistoryQuery query, {
     Map<String, dynamic>? cursor,
+    String? accessToken,
   }) async {
-    final response = await _supabase!.rpc<dynamic>(
+    if (query.collectionId != null) {
+      exactJsonIdentifier(query.collectionId, field: 'history.collection_id');
+    }
+    if (query.search.trim().length > 80 ||
+        !const {'newest', 'oldest', 'highest', 'lowest'}.contains(query.sort)) {
+      throw const FormatException('Invalid history query');
+    }
+    var request = _supabase!.rpc<dynamic>(
       'list_current_member_history_page',
       params: {
         'p_collection_id': ?query.collectionId,
@@ -134,6 +194,10 @@ class _CollectLiveReader {
         'p_limit': 50,
       },
     );
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final response = await request;
     final rows = _pageRows(response);
     _validatePaymentRows(rows, intents: false);
     final page = MemberHistoryPage.fromJson(
@@ -186,9 +250,12 @@ class _CollectLiveReader {
     }
   }
 
-  Future<Map<String, CollectionSummary>> fetchCollectionSummaries() async {
+  Future<Map<String, CollectionSummary>> fetchCollectionSummaries({
+    String? accessToken,
+  }) async {
     final rows = await _financialRows(
       'list_current_member_collection_balances',
+      accessToken: accessToken,
     );
     if (rows.any(
           (row) => row['collection_id'] is! String || row['balances'] is! List,
@@ -198,7 +265,12 @@ class _CollectLiveReader {
     }
     return {
       for (final row in rows)
-        row['collection_id'] as String: CollectionSummary.fromJson(row),
+        exactJsonIdentifier(
+          row['collection_id'],
+          field: 'summary.collection_id',
+        ): CollectionSummary.fromJson(
+          row,
+        ),
     };
   }
 
@@ -218,19 +290,31 @@ class _CollectLiveReader {
   }
 
   Future<List<NotificationEvent>> fetchNotificationEvents(
-    CollectProfile? profile,
-  ) async {
+    CollectProfile? profile, {
+    String? accessToken,
+  }) async {
     final supabase = _supabase;
     if (supabase == null || profile == null) return const [];
-    final rows = await supabase
+    var request = supabase
         .from('notification_events')
         .select()
         .eq('user_id', profile.id)
         .order('created_at', ascending: false)
         .limit(100);
-    return [
-      for (final row in rows)
-        NotificationEvent.fromJson(Map<String, dynamic>.from(row as Map)),
-    ];
+    if (accessToken != null) {
+      request = request.setHeader('Authorization', 'Bearer $accessToken');
+    }
+    final rows = await request;
+    final ids = <String>{};
+    final events = <NotificationEvent>[];
+    for (final row in rows) {
+      // Postgrest's typed select has already required String-keyed maps.
+      final event = NotificationEvent.fromJson(Map<String, dynamic>.from(row));
+      if (event.userId != profile.id || !ids.add(event.id)) {
+        throw const _CollectAccessMismatch();
+      }
+      events.add(event);
+    }
+    return List.unmodifiable(events);
   }
 }

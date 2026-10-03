@@ -1,0 +1,19 @@
+{
+  "SDK_stage_core_validator_changed": false,
+  "actual_SDK_stage_was_not_retried": true,
+  "actual_error": "retained publisher source/binary/mode/inode changed during startup",
+  "actual_error_type": "ValueError",
+  "actual_exit_code": 1,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-startup1/collect_startup.py"
+  ],
+  "failed_collector_SHA256": "6c6da8f9db818ded30227bed75267fb2218ef988af1dbda254ad788ac7c721af",
+  "failure_was_extra_collector_inode_comparison": true,
+  "observation_source": "Actual exec_command return for read-only collector invocation, retained without re-execution.",
+  "observed_UTC": "2026-10-02T02:53:15.340153+00:00",
+  "partial_receipt_copies_retained": true,
+  "tool_wall_time_seconds": 0.191668958
+}

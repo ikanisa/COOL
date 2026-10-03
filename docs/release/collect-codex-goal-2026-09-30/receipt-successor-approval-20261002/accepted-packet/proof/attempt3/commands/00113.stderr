@@ -1,0 +1,3 @@
+ERROR:  55P03: receipt_successor_source_busy
+CONTEXT:  PL/pgSQL function public.admin_inspect_receipt_successor_v1(uuid,text,uuid) line 21 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

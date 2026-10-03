@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+update auth.sessions set not_after=clock_timestamp()+interval '2 hours'where id='99780000-0000-4000-8000-000000010001'and user_id='99780000-0000-4000-8000-000000000001';

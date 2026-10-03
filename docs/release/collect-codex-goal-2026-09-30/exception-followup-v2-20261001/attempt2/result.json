@@ -1,0 +1,679 @@
+{
+  "kind": "exception_followup_v2_schema153_subset",
+  "status": "pass",
+  "cases": [
+    {
+      "name": "supabase/migrations/20260930213000_operator_email_auth.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930220527_operator_email_cutover_guard.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230100_receipt_backlog_events.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230200_admin_receipt_overview.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20260930211605_android_gateway_identity.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001000100_operational_exception_inbox.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001120000_operational_exception_lifecycle.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "supabase/migrations/20261001190000_exception_followup_v2.sql installs and preserves nonempty finance/primary receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v1 action SQL definition remains byte identical",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v1 transition-approved WhatsApp owner remains authorized",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 explicitly refuses legacy transition identity select public.admin_list_exception_followup_operators_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_followup_email_owner_required"
+      }
+    },
+    {
+      "name": "v2 explicitly refuses legacy transition identity select public.admin_get_exception_workflow_request_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_followup_email_owner_required"
+      }
+    },
+    {
+      "name": "v2 explicitly refuses legacy transition identity select public.admin_act_exception_workflow_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_followup_email_owner_required"
+      }
+    },
+    {
+      "name": "directory has exactly minimal redacted fields and60s TTL",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "paired25 keyset traverses31eligible operators without duplicates",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory requires no generic admin_users permission",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory rejects invalid bounds/pair 0",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "directory rejects invalid bounds/pair 26",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "directory rejects invalid bounds/pair null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "directory rejects invalid bounds/pair 25,clock_timestamp(),null",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "directory rejects invalid bounds/pair 25,null,'99880000-0000-4000-8000-000000000001'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "directory rejects invalid bounds/pair 25,'infinity','99880000-0000-4000-8000-000000000001'",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_directory_input_invalid"
+      }
+    },
+    {
+      "name": "empty eligible page is explicit without invented count",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "anon cannot execute v2 select public.admin_list_exception_followup_operators_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot execute v2 select public.admin_act_exception_workflow_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "anon cannot execute v2 select public.admin_get_exception_workflow_request_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot execute v2 select public.admin_list_exception_followup_operators_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot execute v2 select public.admin_act_exception_workflow_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "service_role cannot execute v2 select public.admin_get_exception_workflow_request_v2",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "new private helpers have no API execute or schema grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses revoked approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses revoked grant",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses banned actor",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses payments.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses notifications.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory current authority refuses system_health.read",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "repeatable read cannot retain stale authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "serializable cannot retain stale authority",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "unchanged v1 transition identity can still mutate through its original contract",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "assign another eligible operator/custom deadline binds exact Python SHA256",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual v1 workflow projection retains selected other operator/custom deadline",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 exact replay adds no revision or audit action",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v1 replay remains its exact old version1 receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "original lookup proves exact immutable request fingerprint and receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 recorded lookup rechecks expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 original action replay rechecks expired session",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 recorded lookup rechecks revoked email approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "v2 original action replay rechecks revoked email approval",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "altered assignee_id changes exact intent fingerprint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reused UUID refuses altered assignee_id",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "altered due_at changes exact intent fingerprint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reused UUID refuses altered due_at",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "altered reason_code changes exact intent fingerprint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reused UUID refuses altered reason_code",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "altered expires_at changes exact intent fingerprint",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "reused UUID refuses altered expires_at",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_conflict"
+      }
+    },
+    {
+      "name": "lookup refuses wrong fingerprint before returning receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_request_conflict"
+      }
+    },
+    {
+      "name": "lookup refuses wrong expiry before returning receipt",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_followup_request_conflict"
+      }
+    },
+    {
+      "name": "another eligible current actor cannot discover original actor receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "expired absent request reports server time without authorizing replay",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "expired absent action cannot be reenrolled",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_request_expired"
+      }
+    },
+    {
+      "name": "action requires mutation authority notifications.manage",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "read does not require mutation authority notifications.manage",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "stale workflow revision remains refused byv1 domain",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55000",
+        "reason": "exception_workflow_source_changed"
+      }
+    },
+    {
+      "name": "custom past deadline refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_deadline_invalid"
+      }
+    },
+    {
+      "name": "custom deadline beyond30days refused",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "22023",
+        "reason": "exception_workflow_deadline_invalid"
+      }
+    },
+    {
+      "name": "custom deadline within30day domain actually persists",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "directory selection never overrides later recipient revocation",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": "exception_workflow_recipient_unavailable"
+      }
+    },
+    {
+      "name": "later directory excludes revoked selection",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "original lookup behind actual pending action returns bounded authority_busy",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "55P03",
+        "reason": "exception_followup_authority_busy"
+      }
+    },
+    {
+      "name": "manual original UUID read after commit reconciles without reenrollment",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "in_progress retains original fingerprint/expiry without state or receipt",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "actual concurrent revocation fences stale selected recipient",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception_workflow_requests remains private RLS without API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception_inbox_deliveries remains private RLS without API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "exception_inbox_reads remains private RLS without API direct grants",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "immutable original request cannot be edited",
+      "status": "pass",
+      "detail": {
+        "sqlstate": "42501",
+        "reason": null
+      }
+    },
+    {
+      "name": "even fixture table owner cannot rewrite retained request",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "public audit attributes actual owner and retains original request link",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all follow-up operations preserve nonempty financial/primary/send evidence",
+      "status": "pass",
+      "detail": true
+    },
+    {
+      "name": "all follow-up operations preserve the exact recorded raw-SMS source",
+      "status": "pass",
+      "detail": true
+    }
+  ],
+  "hosted_called": false,
+  "shared_database_written": false,
+  "source_rows_copied": false,
+  "carrier_called": false,
+  "auth_provider_tested": false,
+  "full_candidate_tested": false,
+  "fixture_limitations": [
+    "Local installer postgres superuser normalization",
+    "Owner-normalized retained schema153 plus captured additive subset",
+    "SET LOCAL authenticated role and synthetic JWT claims; no signed JWT",
+    "Mock cron catalog only; scheduler/net/provider runtime untested"
+  ],
+  "source_sha256": {
+    "supabase/migrations/20260930213000_operator_email_auth.sql": "7d2093a9470ece13ffebf4b5f9bc23e2ea5c563efc4993ea7dd774f5c2623a92",
+    "supabase/migrations/20260930220527_operator_email_cutover_guard.sql": "a656d0ad433505d9ee059239ca10f99606d6fafbb59e5741b2f6fe715d7e1346",
+    "supabase/migrations/20260930230100_receipt_backlog_events.sql": "543ee1a606c3498d254066fcfe356598e1fe50efc54760ff036596395c15b626",
+    "supabase/migrations/20260930230200_admin_receipt_overview.sql": "7c8f379d265dec98c6986660672c371f8f25efe3500f1e3d542d8bf44ba617f6",
+    "supabase/migrations/20260930230300_admin_transaction_lifecycle.sql": "9c4d31eb1846318e10ae1d65bb9c6c6307d4b39dd9d5cb7a9f76e32244cd8850",
+    "supabase/migrations/20260930211605_android_gateway_identity.sql": "d245e5235097f1b80d61addcb9479f12ac86c44008aa1d18c173fccca7a3ffca",
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633",
+    "supabase/migrations/20261001120000_operational_exception_lifecycle.sql": "f1bb40b7bd2718cda7b0710c3aea1162210921dcd0b42b79615a5b2a79d25653",
+    "supabase/migrations/20261001190000_exception_followup_v2.sql": "18994064a277e26c4dec5cd9713829195d52dad58b4d8deb4127710ddb4999d7",
+    "scripts/tests/shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9",
+    "scripts/tests/receipt_backlog_events_uat.py": "10bc5b416b745387a5bce012b5fe432259396b9b7052d80ea87cce66d8bfb0ba",
+    "scripts/tests/collect_admin_combined_upgrade_uat.py": "f1bfa15c37fc09dc5d00d4e12823d747b614821332871b9309ba1dc11df964a2",
+    "scripts/tests/collect_current_release_upgrade_uat.py": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "scripts/tests/exception_followup_v2_uat.py": "50b92ab03a0b5e3e34472b485a8c59de9fd8af06db5b5254b9fada5adea2594b"
+  },
+  "baseline_sha256": {
+    "schema-only.sql": "77262947961ac1a724195ea77bdb98088cebd30caecc625ded1d4a93ccbf6d3d",
+    "api-acl.sql": "b430b8a2fb061f4422e8a53029a530a3d59f82f162507c8ae97e28541f52b577"
+  },
+  "tool": {
+    "docker_path": "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "docker_sha256": "3faaaf3fa0844deb6a22a997280940f02b486cca9833e6bdb72cbc9fff91ab34",
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "image": "public.ecr.aws/supabase/postgres:17.6.1.095",
+    "image_id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"
+  },
+  "target": {
+    "container_id": "1382c5ebd1eedcf84164b85a832018bbf321bdc282d2c8a37b4b869a2d9c10d1",
+    "container_name": "collect_current_rehearsal_exception_followup_v2_2b2b42920e07",
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "guard": {
+      "network": "none",
+      "published_ports": false,
+      "labels_verified": true,
+      "net": "0",
+      "cron": "off",
+      "listen": "",
+      "server": "17.6"
+    },
+    "task_container_removed": true
+  },
+  "v1_action_definition_sha256": "b7f3300d7f1615a7b1d5702032bc4b6a90fa10ff5a53e41c2c5b9d583c0dcdb6",
+  "lookup_busy_seconds": 0.176,
+  "financial_before": {
+    "journal": {
+      "rows": 2,
+      "sha256": "deb14952d16d6942ebd2078dfd41aacf6add287958fb477037ce2a9d5872c52b"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "3aa0f585ecdfcecd32e7f150664b7ddbcb95e961f47ab762fd0efabdb30cea81"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "83a07be993c065b5074745de8e02dc7738e7de0be9361312e2b9f41aeb44c819"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "680f3cb041b93774e064918452d66dc9716c7d2ec34e8ea86e3e0b0822e2ac51"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "2006148e96fbdcdbd2aae5d4e621fedc82ad6f081e49d27e032ef94ca5621537"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "b5145e630f8f15ad571872e949b7a246a1c486bc74686da99a706f388d17447d"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "c034cfc68bb20a194982fc144600f0a4c5281ddac98dcb69afa08c4377da337a"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "5923e8e609b61b1a2c06eabb8d09c1d056d79f62296219875f0987dda3b03618"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "financial_after": {
+    "journal": {
+      "rows": 2,
+      "sha256": "deb14952d16d6942ebd2078dfd41aacf6add287958fb477037ce2a9d5872c52b"
+    },
+    "payments": {
+      "rows": 2,
+      "sha256": "3aa0f585ecdfcecd32e7f150664b7ddbcb95e961f47ab762fd0efabdb30cea81"
+    },
+    "sms_outbox": {
+      "rows": 1,
+      "sha256": "83a07be993c065b5074745de8e02dc7738e7de0be9361312e2b9f41aeb44c819"
+    },
+    "sms_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_attempts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sms_heartbeats": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "push_deliveries": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "momo_journal_lines": {
+      "rows": 4,
+      "sha256": "680f3cb041b93774e064918452d66dc9716c7d2ec34e8ea86e3e0b0822e2ac51"
+    },
+    "momo_balance_snapshots": {
+      "rows": 2,
+      "sha256": "2006148e96fbdcdbd2aae5d4e621fedc82ad6f081e49d27e032ef94ca5621537"
+    },
+    "collection_balances": {
+      "rows": 1,
+      "sha256": "b5145e630f8f15ad571872e949b7a246a1c486bc74686da99a706f388d17447d"
+    },
+    "member_balances": {
+      "rows": 1,
+      "sha256": "c034cfc68bb20a194982fc144600f0a4c5281ddac98dcb69afa08c4377da337a"
+    },
+    "payment_provider_confirmations": {
+      "rows": 2,
+      "sha256": "5923e8e609b61b1a2c06eabb8d09c1d056d79f62296219875f0987dda3b03618"
+    },
+    "payment_provider_rejections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "payment_allocations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "sources_unchanged": true,
+  "finished_at": "2026-10-01T14:49:58.043442+00:00"
+}

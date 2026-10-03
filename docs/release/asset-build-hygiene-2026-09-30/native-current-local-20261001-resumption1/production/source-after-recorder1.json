@@ -1,0 +1,6 @@
+{
+  "checked_input_count": 1103,
+  "immutable_parent_drift": [],
+  "scope": "Exact original non-generated application/native/dependency bytes; generated .cxx changes separately inventoried.",
+  "working_copy_drift": {}
+}

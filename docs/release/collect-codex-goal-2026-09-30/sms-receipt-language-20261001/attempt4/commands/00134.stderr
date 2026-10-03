@@ -1,0 +1,2 @@
+NOTICE:  00000: trigger "disable_invalid_notification_device_trigger" for relation "notification_delivery_attempts" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

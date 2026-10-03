@@ -1,0 +1,9 @@
+docs/release/collect-codex-goal-2026-09-30/android-gateway/android-api-attempt02/source/android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt:130:94: warning: 'static field GET_SIGNATURES: Int' is deprecated. Deprecated in Java.
+            else activity.packageManager.getPackageInfo(activity.packageName, PackageManager.GET_SIGNATURES)
+                                                                                             ^^^^^^^^^^^^^^
+docs/release/collect-codex-goal-2026-09-30/android-gateway/android-api-attempt02/source/android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt:131:108: warning: 'field signatures: Array<(out) Signature!>?' is deprecated. Deprecated in Java.
+        val certificates = if (Build.VERSION.SDK_INT >= 28) info.signingInfo?.apkContentsSigners else info.signatures
+                                                                                                           ^^^^^^^^^^
+docs/release/collect-codex-goal-2026-09-30/android-gateway/android-api-attempt02/source/android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt:15:29: warning: 'static fun getSmsManagerForSubscriptionId(p0: Int): SmsManager!' is deprecated. Deprecated in Java.
+            else SmsManager.getSmsManagerForSubscriptionId(subscription)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

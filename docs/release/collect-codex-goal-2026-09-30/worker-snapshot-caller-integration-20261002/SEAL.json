@@ -1,0 +1,22 @@
+{
+  "canonical_unit_assertions": 155,
+  "canonical_unit_cases": 33,
+  "durable_business_inactive_overlay": false,
+  "format": "worker-snapshot-caller-integration-capsule-v1",
+  "full_current_recovery": false,
+  "hosted": false,
+  "initial_chunk_not_recorded": true,
+  "new_product_tests_or_restore_runs": false,
+  "payload_bytes": 1744719,
+  "payload_manifest_sha256": "cc82b565bbea55d7a0376008faf3ee12e570196344f693e3fa4436c3fc5dba1c",
+  "payload_member_count": 52,
+  "preserved_originals": 4,
+  "production_GO": false,
+  "reused_selected_SQL_checks": 38,
+  "reused_selected_migrations": 205,
+  "root_integrated_source_files": 6,
+  "sealed_at": "2026-10-02T02:19:14.438732+00:00",
+  "terminal_chunk": "c022b4",
+  "terminal_exit_code": 0,
+  "terminal_session_id": 31668
+}

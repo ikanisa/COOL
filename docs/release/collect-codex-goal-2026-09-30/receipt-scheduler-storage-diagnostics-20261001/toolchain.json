@@ -1,0 +1,20 @@
+{
+  "before_after_unchanged": true,
+  "credential_environment_inherited": false,
+  "dependency_files_and_node": 1608,
+  "node": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "version": "v24.19.0"
+  },
+  "python": {
+    "initial_binary_hash_not_captured": true,
+    "path": "/usr/bin/python3",
+    "sha256_observed_after_run": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9",
+    "version": "3.9.6"
+  },
+  "typescript": {
+    "compiler_bound_in_dependency_manifests": true,
+    "version": "7.0.2"
+  }
+}

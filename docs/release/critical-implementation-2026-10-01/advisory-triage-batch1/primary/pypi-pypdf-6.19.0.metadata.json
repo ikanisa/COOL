@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:50 GMT",
+    "content-type": "application/json",
+    "etag": "\"jv0R15aYR6ScofvwVLo5mg\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/pypdf/6.19.0/json",
+  "requested_at": "2026-10-01T21:22:50.099793+00:00",
+  "response_bytes": 9248,
+  "response_path": "primary/pypi-pypdf-6.19.0.response",
+  "response_sha256": "9eca4c2315cec5fcb72f58ed96752dabd6711ba84603eb53160caa19eefe8c7f",
+  "response_url": "https://pypi.org/pypi/pypdf/6.19.0/json",
+  "retrieved_at": "2026-10-01T21:22:50.443629+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

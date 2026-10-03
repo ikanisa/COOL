@@ -9,30 +9,9 @@ cd "$ROOT_DIR"
 # shellcheck source=scripts/load_dotenv_strict.sh
 . "$ROOT_DIR/scripts/load_dotenv_strict.sh"
 
-EXPECTED_FUNCTIONS=(
-  auth-send-whatsapp-otp
-  collect-notification-operator
-  dispatch-notifications
-  ingest-payment-sms
-  parse-payment-sms
-  prepare-roster-import
-  send-notification
-  verify-play-integrity
-)
-
-REQUIRED_SECRETS=(
-  WHATSAPP_CLOUD_API_TOKEN
-  WHATSAPP_PHONE_NUMBER_ID
-  WHATSAPP_AUTH_TEMPLATE_NAME
-  SEND_SMS_HOOK_SECRET
-  INTERNAL_FUNCTION_SECRET
-  APNS_KEY_ID
-  APNS_TEAM_ID
-  APNS_BUNDLE_ID
-  APNS_PRIVATE_KEY_BASE64
-  FCM_SERVICE_ACCOUNT_JSON
-  GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
-)
+# shellcheck source=scripts/edge_function_inventory.sh
+. "$ROOT_DIR/scripts/edge_function_inventory.sh"
+collect_load_edge_inventory
 
 # AI extraction is a gated optional roster-import enhancement. Deterministic
 # text/CSV preparation has no provider dependency, and the hosted function
@@ -477,17 +456,17 @@ check_hybrid_sms_notification_contract() {
 
   local violations
   violations="$(db_query "
-    with operator_routines(routine_name) as (
+    with operator_routines(legacy_name, routine_name, signature, legacy_signature) as (
       values
-        ('collect_notification_health'),
-        ('collect_list_pending_receipts'),
-        ('collect_claim_receipt'),
-        ('collect_get_claimed_receipt'),
-        ('collect_confirm_receipt'),
-        ('collect_record_send_start'),
-        ('collect_record_observed_outcome'),
-        ('collect_release_unsent_claim'),
-        ('collect_worker_heartbeat')
+        ('collect_notification_health', 'collect_notification_health_v2', 'public.collect_notification_health_v2(uuid,uuid)', 'public.collect_notification_health(uuid)'),
+        ('collect_list_pending_receipts', 'collect_list_pending_receipts_v2', 'public.collect_list_pending_receipts_v2(uuid,uuid,integer,timestamptz)', 'public.collect_list_pending_receipts(uuid,integer,timestamptz)'),
+        ('collect_claim_receipt', 'collect_claim_receipt_v2', 'public.collect_claim_receipt_v2(uuid,uuid,uuid,text,uuid)', 'public.collect_claim_receipt(uuid,uuid,text,uuid)'),
+        ('collect_get_claimed_receipt', 'collect_get_claimed_receipt_v2', 'public.collect_get_claimed_receipt_v2(uuid,uuid,uuid,uuid,integer)', 'public.collect_get_claimed_receipt(uuid,uuid,uuid,integer)'),
+        ('collect_confirm_receipt', 'collect_confirm_receipt_v2', 'public.collect_confirm_receipt_v2(uuid,uuid,uuid,uuid,integer,integer,text,uuid)', 'public.collect_confirm_receipt(uuid,uuid,uuid,integer,integer,text,uuid)'),
+        ('collect_record_send_start', 'collect_record_send_start_v2', 'public.collect_record_send_start_v2(uuid,uuid,uuid,uuid,integer,uuid)', 'public.collect_record_send_start(uuid,uuid,uuid,integer,uuid)'),
+        ('collect_record_observed_outcome', 'collect_record_observed_outcome_v2', 'public.collect_record_observed_outcome_v2(uuid,uuid,uuid,text,text,text)', 'public.collect_record_observed_outcome(uuid,uuid,text,text,text)'),
+        ('collect_release_unsent_claim', 'collect_release_unsent_claim_v2', 'public.collect_release_unsent_claim_v2(uuid,uuid,uuid,uuid,integer,text)', 'public.collect_release_unsent_claim(uuid,uuid,uuid,integer,text)'),
+        ('collect_worker_heartbeat', 'collect_worker_heartbeat_v2', 'public.collect_worker_heartbeat_v2(uuid,uuid,text,uuid,text,jsonb)', 'public.collect_worker_heartbeat(uuid,text,uuid,text,jsonb)')
     ), issues(issue) as (
       select 'missing hybrid SMS notification feature flag'
       where not exists (
@@ -554,24 +533,23 @@ check_hybrid_sms_notification_contract() {
           and trigger_row.tgenabled <> 'D'
       )
       union all
-      select 'missing service_role EXECUTE on ' || expected.routine_name
+      select 'missing session-bound operator routine: ' || expected.signature
       from operator_routines expected
-      where not exists (
-        select 1
-        from information_schema.routine_privileges grant_row
-        where grant_row.specific_schema = 'public'
-          and grant_row.routine_name = expected.routine_name
-          and grant_row.grantee = 'service_role'
-          and grant_row.privilege_type = 'EXECUTE'
-      )
+      where to_regprocedure(expected.signature) is null
       union all
-      select 'forbidden client EXECUTE on ' || grant_row.routine_name
-      from information_schema.routine_privileges grant_row
-      join operator_routines expected
-        on expected.routine_name = grant_row.routine_name
-      where grant_row.specific_schema = 'public'
-        and grant_row.grantee in ('PUBLIC', 'anon', 'authenticated')
-        and grant_row.privilege_type = 'EXECUTE'
+      select 'missing service_role EXECUTE on ' || expected.signature
+      from operator_routines expected
+      where not coalesce(has_function_privilege('service_role', to_regprocedure(expected.signature), 'EXECUTE'), false)
+      union all
+      select 'forbidden client EXECUTE on ' || expected.signature || ': ' || client.role_name
+      from operator_routines expected
+      cross join (values ('anon'), ('authenticated')) client(role_name)
+      where coalesce(has_function_privilege(client.role_name, to_regprocedure(expected.signature), 'EXECUTE'), false)
+      union all
+      select 'forbidden sessionless EXECUTE on ' || expected.legacy_signature || ': ' || client.role_name
+      from operator_routines expected
+      cross join (values ('anon'), ('authenticated'), ('service_role')) client(role_name)
+      where coalesce(has_function_privilege(client.role_name, to_regprocedure(expected.legacy_signature), 'EXECUTE'), false)
       union all
       select 'exact Buri Munsi SMS receipt template differs'
       where collect_hybrid.render_buri_munsi_receipt(1000, 2000, 3000, 'READY-1') <>
@@ -903,7 +881,10 @@ check_sql_privileges() {
     ),
     required_service_function_grants(routine_name) as (
       values
-        ('mint_native_action_capability'),
+        ('reserve_play_integrity_admission_v1'),
+        ('begin_play_integrity_admission_v1'),
+        ('complete_play_integrity_admission_v1'),
+        ('finish_play_integrity_admission_v1'),
         ('claim_raw_payment_sms_for_parse'),
         ('ingest_raw_payment_sms'),
         ('allocate_parsed_payment_event')
@@ -932,6 +913,8 @@ check_sql_privileges() {
             'admin_bootstrap_whatsapp_approval', 'admin_bootstrap_platform_owner'
           ))
           or (grantee = 'service_role' and routine_name = 'check_sms_ingest_rate_limit')
+          or (grantee in ('PUBLIC', 'anon', 'authenticated', 'service_role')
+            and routine_name = 'mint_native_action_capability')
         )
     )
     select issue from unexpected_table_grants
@@ -1089,64 +1072,14 @@ check_rwanda_momo_sql_privileges() {
 
 check_edge_function_auth_contract() {
   log "checking Edge Function auth contract"
-  ruby <<'RUBY'
-expected = {
-  "auth-send-whatsapp-otp" => :webhook,
-  "collect-notification-operator" => :user,
-  "dispatch-notifications" => :internal,
-  "ingest-payment-sms" => :user,
-  "parse-payment-sms" => :internal,
-  "prepare-roster-import" => :user,
-  "send-notification" => :internal,
-  "verify-play-integrity" => :user,
-}
-
-issues = []
-config = File.read("supabase/config.toml")
-disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*=\s*false/m).flatten.sort
-no_verify_functions = [
-  "auth-send-whatsapp-otp",
-  "dispatch-notifications",
-  "parse-payment-sms",
-  "send-notification",
-]
-issues << "JWT verification disabled for unexpected functions: #{(disabled - no_verify_functions).join(", ")}" unless (disabled - no_verify_functions).empty?
-issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
-%w[dispatch-notifications send-notification].each do |name|
-  issues << "#{name} must have verify_jwt=false because custom internal authorization is authoritative" unless disabled.include?(name)
-end
-
-expected.each do |name, mode|
-  path = "supabase/functions/#{name}/index.ts"
-  source = File.read(path)
-  case mode
-  when :webhook
-    issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
-    issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
-  when :internal
-    issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
-  when :user
-    issues << "#{name} must require an authenticated user" unless source.include?("requireUser(")
-    user_auth_401 =
-      (source.include?('message === "Authentication required"') && source.include?("401")) ||
-      source.include?("authErrorStatus(error)")
-    issues << "#{name} must return 401 for missing user auth" unless user_auth_401
-  end
-end
-
-deploy = File.read("scripts/supabase_deploy.sh")
-issues << "deploy script must deploy HMAC and internal endpoints with --no-verify-jwt" unless deploy.include?('NO_VERIFY_JWT_FUNCTIONS=(') && deploy.include?("dispatch-notifications") && deploy.include?("--no-verify-jwt")
-
-if issues.any?
-  warn issues.join("\n")
-  exit 1
-end
-RUBY
+  ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" auth-check
 }
 
 check_functions() {
   log "checking deployed Edge Function endpoints"
-  local inventory
+  local inventory probe_plan
+  probe_plan="$(ruby "$ROOT_DIR/scripts/edge_function_inventory.rb" denial-probes)" ||
+    fail "Edge Function denial probe plan refused"
   if inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
     local actual expected
     actual="$(ruby -r json -e 'puts JSON.parse(STDIN.read).map { |fn| fn["name"] }.compact.sort' <<< "$inventory")"
@@ -1160,25 +1093,27 @@ check_functions() {
   fi
 
   local base_url="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1"
-  local response status body
+  local response status body fn expected_status expected_error
 
-  response="$(collect_curl_secret_header x-hook-secret "$SEND_SMS_HOOK_SECRET" -sS -w '\n%{http_code}' \
-    -X POST "$base_url/auth-send-whatsapp-otp" \
-    -H 'content-type: application/json' \
-    --data '{"user":{"phone":"+250788123456"},"sms":{}}')"
-  status="${response##*$'\n'}"
-  body="${response%$'\n'*}"
-  [[ "$status" == "400" ]] || fail "auth-send-whatsapp-otp probe expected HTTP 400, got $status"
-  [[ "$body" == *'Invalid OTP hook payload'* ]] || fail "auth-send-whatsapp-otp probe did not reach hook code"
-
-  local fn
-  for fn in collect-notification-operator ingest-payment-sms parse-payment-sms prepare-roster-import verify-play-integrity; do
-    status="$(curl -sS -o /dev/null -w '%{http_code}' \
-      -X POST "$base_url/$fn" \
-      -H 'content-type: application/json' \
-      --data '{}')"
-    [[ "$status" == "401" ]] || fail "$fn unauthenticated probe expected HTTP 401, got $status"
-  done
+  # Derive every unsigned probe from the reviewed manifest auth mode. The
+  # request stays empty JSON with no webhook, device, supervisor or worker
+  # signature, bearer credential, OTP or provider-capable authority.
+  while IFS=$'\t' read -r fn expected_status expected_error; do
+    if [[ -z "$expected_error" ]]; then
+      status="$(curl -sS -o /dev/null -w '%{http_code}' \
+        -X POST "$base_url/$fn" \
+        -H 'content-type: application/json' --data '{}')"
+      [[ "$status" == "$expected_status" ]] ||
+        fail "$fn unauthenticated probe expected HTTP $expected_status, got $status"
+    else
+      response="$(curl -sS -w '\n%{http_code}' -X POST "$base_url/$fn" \
+        -H 'content-type: application/json' --data '{}')"
+      status="${response##*$'\n'}"
+      body="${response%$'\n'*}"
+      [[ "$status" == "$expected_status" && "$body" == *"$expected_error"* ]] ||
+        fail "$fn unsigned negative probe did not reach its rejection boundary"
+    fi
+  done <<< "$probe_plan"
 }
 
 check_secrets() {
@@ -1338,12 +1273,28 @@ check_platform_settings() {
 
 main() {
   supabase_cli --version >/dev/null
-  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
-    psql_cli --version >/dev/null
-  fi
   require_cmd ruby
   load_env
   check_target_binding
+  # Require the reviewed client before any linked/direct/fallback requests.
+  psql_cli --version >/dev/null
+  python3 -B "$ROOT_DIR/scripts/qa/postgres_admission.py" project "$SUPABASE_PROJECT_REF"
+  local server_version
+  server_version="$(db_query "select current_setting('server_version_num')::integer as server_version_num;")"
+  COLLECT_POSTGRES_SERVER_VERSION="$server_version" python3 -B - "$ROOT_DIR/scripts/qa" <<'PY'
+import os, sys
+sys.path.insert(0, sys.argv[1])
+import postgres_admission as pg
+try:
+    admission = pg.Admission.from_environment()
+    admission.project(os.environ["SUPABASE_PROJECT_REF"])
+    value = os.environ["COLLECT_POSTGRES_SERVER_VERSION"]
+    if not pg.re.fullmatch(r"[0-9]{6}", value):
+        raise pg.Refused("PG_SERVER_RESPONSE_INVALID")
+    admission.server(int(value))
+except (pg.Refused, ValueError, KeyError):
+    sys.exit("[supabase-ready][FAIL] PostgreSQL admission or server matrix refused")
+PY
 
   log "checking linked project $SUPABASE_PROJECT_REF"
   if ! SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o json \

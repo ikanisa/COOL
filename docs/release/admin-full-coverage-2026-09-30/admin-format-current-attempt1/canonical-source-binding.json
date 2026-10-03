@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "formatter_exit_code": 0,
+  "comparison": {
+    "lib/admin/admin_shell.dart": {
+      "formatted_immutable_before_sha256": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+      "saved_current_sha256": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+      "same": true
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "formatted_immutable_before_sha256": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+      "saved_current_sha256": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+      "same": true
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "formatted_immutable_before_sha256": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551",
+      "saved_current_sha256": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551",
+      "same": true
+    }
+  },
+  "scope": "Pinned formatter canonicalization of retained pre-edit bytes equals current saved bytes. This is source-format equivalence; source hashes remain different and original failed packets are not relabelled."
+}

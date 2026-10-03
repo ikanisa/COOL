@@ -1,0 +1,885 @@
+{
+  "canonical_register": {
+    "captured_at_utc": "2026-10-01T11:04:25.659174+00:00",
+    "path": "docs/release/local-implementation-register-2026-09-30.json",
+    "sha256": "b1237ca0056ab90c6df77f897ed0f0a55c99fed5cd27f53be2a052288037b130",
+    "snapshot_revision": 13,
+    "verification_rule": "Close an item only with authoritative current source and complete matching-scope local implementation/runtime evidence; dated scoped passes do not imply whole-system acceptance."
+  },
+  "captured_at_utc": "2026-10-01T14:23:17.545838+00:00",
+  "commands_executed_for_this_ledger": [
+    "Read exact revision13 acceptance rows and selected existing JSON receipt fields/hashes.",
+    "Create this JSON/Markdown evidence ledger only. No tests,SQL,builds,source scans,cleanup or runtime mutations."
+  ],
+  "decision_rules": [
+    "Use actual terminal receipts and exact transitive/source/dependency/toolchain/artifact bindings; a hash or count alone is not acceptance.",
+    "Retain original failures and timeouts. Selected corrections/unchanged-case reuse are separate explicit scopes.",
+    "Disclosed synthetic/provider/signing/hosted/design/device limits are retained; they do not automatically generate optional new local workload.",
+    "No production readiness,100% visual fidelity,mutable whole-checkout parity,hosted/provider/device/store delivery or external approval is inferred.",
+    "Root owns canonical closure and finite final candidate composition. This ledger does not change any task status."
+  ],
+  "external_release_limits": "Local evidence only. Signing, hosted/provider/device/store and human release approval remain distinct from local completion.",
+  "gates": {
+    "G_ADMIN": {
+      "owner": "/root/admin_matrix_finish150 and /root",
+      "required": "Current route/action/provider/identity/health/settings state and sensitive-action case maps, current source/guarded whitespace-format bind. Use current principal PASS and preserved failures.",
+      "status": "finite_owner_scope_binder_pending"
+    },
+    "G_BROWSER_ARTIFACT": {
+      "not_a_new_optional_gate": true,
+      "owner": "/root and browser owner",
+      "required": "The89-check base production bundle excludes later principal runtime. Final source candidate/artifact closure must explicitly bind accepted production bundle and any reachable new overlay; existing15 browser component cases prove only their named behaviors.",
+      "status": "candidate_composition_dependency"
+    },
+    "G_NATIVE": {
+      "observed": "Current source SBOM supply-chain validation PASS; production/gateway execution packets still report running at final ledger read. iOS actual462-input/artifact proof is terminal PASS.",
+      "owner": "/root/asset_build_finish150 and /root",
+      "required": "Existing current native owner final Android/Gateway artifacts/lint/JVM/warning dispositions/observed graph+SBOM with six changed Gateway sources accounted. iOS compiled scope already PASS.",
+      "status": "terminal_android_gateway_delta_and_supply_chain_binding_pending"
+    },
+    "G_SOURCE": {
+      "owner": "/root",
+      "required": "One declared immutable source/lock/toolchain/build/test packet with exact overlay/exclusion maps and byte hashes, final named acceptance bindings and canonical status reconciliation. Active human-owned mutable source may diverge; no whole-checkout-currentness claim.",
+      "status": "final_frozen_candidate_and_canonical_register_pending"
+    },
+    "G_VM": {
+      "observed": "Initial deadline4325passes/14known harness failures/1unfinished per root; continuation606passes/1stale inventory failure, none unfinished; inventory correction7PASS; principal current46PASS+436 unchanged reused+15 browser.",
+      "owner": "/root",
+      "required": "Bind the completed immutable fullVMbase +31-file continuation +7-case inventory correction +corrected39 SDK/Overview/current-principal affected packets into230-module acceptance. No fullVM restart.",
+      "status": "final_named_case_union_pending"
+    }
+  },
+  "items": [
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Actual recovery/CAS/transfer/exact import audit and both final email-approval revocation orders are demonstrated. Production storage/session privacy is demonstrated within named captures.",
+      "evidence": [
+        "roster144",
+        "roster_email25",
+        "browser_base89",
+        "checkpoint_scrub8"
+      ],
+      "exact_local_acceptance": "Implement144 server/client recovery with session-bound reference-only browser storage, exact serialized payload hashes, bounded private drafts/intents, explicit save/recovery/resumption, request replay, expiry/purge and CAS conflict tests. No private rows, reasons, titles, bytes or Auth tokens in browser storage.",
+      "goal_item": 1,
+      "id": "L01",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "A01/P07",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind complete requested144/149 recovery, bounds/quota/expiry/purge/client cases to the final Admin source map;25 email cases alone do not replace all older recovery cases.",
+      "title": "Roster browser-reload recovery"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Session/dialog/departure suppression and legacy-private checkpoint scrub are proved in captured scope. Current principal integration executes exact request/session negatives and reuses unchanged named browser cases.",
+      "evidence": [
+        "admin_session83",
+        "checkpoint_scrub8",
+        "principal_current",
+        "sdk39_initial",
+        "fullvm_continuation"
+      ],
+      "exact_local_acceptance": "Fence every Admin provider, request and dialog with session generation, pinned request authorization, A-to-B-to-A sticky invalidation, expiry and Auth-stream error/done handling. Clear stale private state and suppress old success/freshness side effects.",
+      "goal_item": 3,
+      "id": "L03",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "S09/U06",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Publish exact current provider/dialog/request source and named-case union, including corrected39 SDK harness. No demonstrated new session bug is being added to scope.",
+      "title": "Admin session isolation"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Exact operation parameters/ACK identity, owner lookup failure/uncertainty, replay/deadline and audit contracts are demonstrated by client and actual SQL cases.",
+      "evidence": [
+        "admin_session83",
+        "principal_current",
+        "principal_sql92",
+        "roster_email25",
+        "sdk39_initial"
+      ],
+      "exact_local_acceptance": "Inventory every sensitive action and validate its exact response contract, typed fields, request-bound IDs/status and immutable route facts before success. Reject null/malformed/stale/mismatched responses and preserve uncertain outcomes.",
+      "goal_item": 4,
+      "id": "L04",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "S09/A09",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind sensitive action inventory and exact response cases across final enabled current actions; preserve the original39 aggregate formatting failure.",
+      "title": "Operation acknowledgements"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Existing28-route inventory/base browser execution and current principal loading, denial, expiry, redacted failure, paging, recovery and action cases are available.",
+      "evidence": [
+        "browser_base89",
+        "principal_current",
+        "principal_sql92",
+        "fullvm_initial",
+        "fullvm_continuation"
+      ],
+      "exact_local_acceptance": "Enumerate every local route/action/data source and prove allowed, denied, revoked, loading, empty, failure and durable audited-result behavior. Include grant/export/reveal/retry/reason flows.",
+      "goal_item": 5,
+      "id": "L05",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "U06",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Current route/action/data-source inventory and matching named state/audit cases require final owner binder.89 base browser checks explicitly do not certify every route/state.",
+      "title": "Complete Admin route/action matrix"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Client and Edge redacted error cases, malformed/private principal replies and fail-closed lookup are proved in their exact input scopes; local secret replacement remains historical source-backed evidence.",
+      "evidence": [
+        "admin_session83",
+        "principal_current",
+        "sdk39_initial",
+        "edge552",
+        "principal_sql92"
+      ],
+      "exact_local_acceptance": "Exercise secrets, phone/receipt data, provider/SQL details and malformed SDK errors across client/Edge/log/export surfaces. Verify only stable actionable messages and redacted structured telemetry reach users.",
+      "goal_item": 7,
+      "id": "L07",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "S07",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Final error/export/log consumer coverage binding remains; no new secret/provider-data defect was demonstrated in this ledger review.",
+      "title": "Error redaction"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Actual email roster25 plus both observed revocation orders;92 current principal authorization/replay/deadline/audit cases. Historical126 sensitive API/8 races and19 RLS snapshot cases remain valid only in matched definitions.",
+      "evidence": [
+        "roster_email25",
+        "principal_sql92",
+        "member_scope",
+        "ordinary185"
+      ],
+      "exact_local_acceptance": "Run anonymous/member/operator/service and cross-group negative tests, raw-SMS isolation, effective grants/RLS and both concurrent revocation orders against final local definitions.",
+      "goal_item": 8,
+      "id": "L08",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "S08",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind final anonymous/member/operator/service/cross-group/raw-SMS and all relevant revocation definitions to the accepted role proofs; installer preservation checks are not a substitute for functional role cases.",
+      "title": "Local role and cross-group authorization"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Exact roster import/commit/audit and principal permission/reason/replay/audit contracts are actual SQL tested; historical resource/formula/Unicode/sensitive action proofs remain available.",
+      "evidence": [
+        "roster_email25",
+        "principal_sql92",
+        "member_scope",
+        "fullvm_initial",
+        "fullvm_continuation"
+      ],
+      "exact_local_acceptance": "Test formula injection, row/resource bounds, data minimization, redaction, permission denial, accountable reasons and durable import/export/reveal/grant/retry audit.",
+      "goal_item": 12,
+      "id": "L12",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "A09",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind final CSV/formula/resource/data-minimization and sensitive action client/server cases to current source. No optional new export workflow is inferred.",
+      "title": "Import/export and sensitive-action protection"
+    },
+    {
+      "canonical_revision13_status": "pending",
+      "covered_criteria": "Genuine1k/10k actual history455 and146 per-volume proofs cover existing all432 windows/sorts/scopes/concurrent4 sorts/queue shrink. Current Admin104 additionally proves order, cursor, owner, health/action aggregation and Gateway count at both volumes.",
+      "evidence": [
+        "history455",
+        "history146",
+        "admin_query104",
+        "member_scope"
+      ],
+      "exact_local_acceptance": "Benchmark realistic generated volumes, all sorts/scopes/page depths and concurrent paging. Correct ordering, excessive scanning, whole-history reconstruction, aggregation growth and queue-shrink behavior.",
+      "goal_item": 14,
+      "id": "L14",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "D01-D04/D07",
+      "pending_gates": [
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Requested actual volume/query corrections are evidenced. Final source acceptance must retain exact read-body/transitive maps. Sampled new Admin anchors and zero callback fixtures are disclosed limits, not automatically new stress-workflow tasks.",
+      "title": "Generated-dataset query benchmarks"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "744 VM/299 actual Chrome correctness,72 actual postings/history and6VM/6Chrome SQL decoder bridge are preserved at matched scope; current principal immutable IDs/cursors/ACK fields and current query owner/count facts are separately tested.",
+      "evidence": [
+        "data744_299",
+        "member_scope",
+        "principal_current",
+        "principal_sql92",
+        "admin_query104"
+      ],
+      "exact_local_acceptance": "Audit every consumer and modern/legacy RPC/cache/input path for immutable identity, collision/forgery denial, complete versus partial/absent/stale/zero totals, exact integer bounds, aliases, IDs and valid calendar/timezone behavior.",
+      "goal_item": 15,
+      "id": "L15",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "D05-D08",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_NATIVE",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind newer Admin and Gateway current consumers to the existing correctness inventory and their affected cases; no rerun of unchanged data744/299 is required.",
+      "title": "Identity/totals/money/ID/date correctness"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "18 actual SDK/Phoenix duplicate/missed/reconnect/session cases reuse exact transitive inputs. One demonstrated no-readable-cache503 stale/freshness defect was corrected and15 affected SDK/coordinator/cache cases passed; final runtime736f0715\u2026 was captured before the final suites.",
+      "evidence": [
+        "member_sdk18",
+        "cache_current",
+        "member_scope",
+        "fullvm_initial",
+        "fullvm_continuation"
+      ],
+      "exact_local_acceptance": "Automate duplicate/missed Realtime events, reconnect/offline revocation, bounded refresh, stale completion and account/session switching. No wrong-account private cache or misleading freshness.",
+      "goal_item": 16,
+      "id": "L16",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "D10/P07",
+      "pending_gates": [
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Finish only the root final named-case/source union for integration. The owned member runtime and tests are frozen; no extra Realtime benchmark is required.",
+      "title": "Cache/reconnect/session isolation"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Historical120 widgets/25 actual Chrome205 assertions plus13 affected current core/header/keyboard cases; actual licensed Inter8+1 tests and reviewed public golden2 pass. Current principal affected interface cases are available.",
+      "evidence": [
+        "core13",
+        "font_initial",
+        "font_final",
+        "font_review",
+        "design_authority",
+        "principal_current"
+      ],
+      "exact_local_acceptance": "Fix compact320x568/enlarged2x text, keyboard reachability, focus, semantic labels and financial/recovery wording through shared components. Preserve Collect workflows and test meaningful affected states.",
+      "goal_item": 17,
+      "id": "L17",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "U02/U04/U05",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind the current affected surface/state cases and source. Sole-authority hygiene does not certify100% Revolut/native/Business visual fidelity; unsampled external comparators remain explicitly unverified, not substituted.",
+      "title": "Shared Revolut interface corrections"
+    },
+    {
+      "canonical_revision13_status": "complete",
+      "covered_criteria": "Original full26-check/16-case production browser/PWA criterion is accepted in captured scope. Current base browser89 passes with exact source stability; principal15 actual browser cases are current/reused under stated conditions.",
+      "evidence": [
+        "browser_historical_complete",
+        "browser_base89",
+        "principal_current"
+      ],
+      "exact_local_acceptance": "Build/serve distinct public/Admin artifacts and test route/auth/bundle isolation, updates/failures, offline, real multiple tabs, logout/revocation/session switch and cache invalidation in a local browser.",
+      "goal_item": 18,
+      "id": "L18",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "U07/U08",
+      "pending_gates": [
+        "G_BROWSER_ARTIFACT",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Current base production Admin build explicitly excludes later principal runtime. Final candidate must bind the production artifact to its reachable principal overlay or explicitly retain the accepted base candidate; component Chrome cases alone do not prove final release bundle compilation.",
+      "title": "Actual local browser/PWA lifecycle"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "180 alerts, metric and authority races,1k/10k/50k/2000-write diagnostics and55 read-only UI response/expiry cases are preserved with unchanged semantic SQL definitions. Current scheduler-control tail typechecks/tests PASS.",
+      "evidence": [
+        "health_alert180",
+        "health_metric_races",
+        "health_authority_races",
+        "health_perf",
+        "health_ui55",
+        "principal_current",
+        "mcp_scheduler_tail",
+        "mcp_current390"
+      ],
+      "exact_local_acceptance": "Implement queue age, ACK/parse/unmatched/reconciliation/reversal and push lease/completion/scheduler health metrics. Test redaction, alert thresholds, missing/stale health and local response procedures.",
+      "goal_item": 19,
+      "id": "L19",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "O06",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind the newer operational-health/principal/scheduler consumers and their supported local response cases to existing inventory; historical read-only response evidence is not blanket operator mutation evidence.",
+      "title": "Redacted financial/receipt/push observability"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Actual26-family108 assertion/78 observed blocking-race receipt PASS with unchanged21 migration bodies. FeatureFlag17+9 cases validate Unicode reason boundaries and preserved shared defaults; current principal and scheduler derivative cases are available.",
+      "evidence": [
+        "runtime26_108",
+        "feature_reason26",
+        "member_scope",
+        "principal_current",
+        "mcp_scheduler_tail",
+        "mcp_current390"
+      ],
+      "exact_local_acceptance": "Inventory dynamic settings/copy, validate types/ranges/versions, enforce caller permissions and audit updates/conflicts. Preserve stable application strings as code.",
+      "goal_item": 20,
+      "id": "L20",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "A08",
+      "pending_gates": [
+        "G_ADMIN",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Bind final dynamic settings/copy inventory and consumer cases. Actual runtime26 receipt is authoritative; prior reuse helper false boolean is a reporting error, not an actual108-case failure.",
+      "title": "Mutable settings/copy governance"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Current264/264 reachability proof and licensed Inter/excluded Aeonik decision are available; seven missing asset reconciliation and actual158 served-asset/amended provenance proofs remain preserved.",
+      "evidence": [
+        "reachability264",
+        "font_final",
+        "font_review",
+        "prior_proof_index",
+        "source_sbom_current"
+      ],
+      "exact_local_acceptance": "Produce reachability evidence, reconcile seven indexed missing assets and remove only demonstrably unused code/assets/dependencies. Preserve licensed/provenance decisions and run affected local regressions.",
+      "goal_item": 21,
+      "id": "L21",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "A05/A07",
+      "pending_gates": [
+        "G_NATIVE",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Final owner asset/provenance/source map and affected public/native regressions remain to bind. No new deletion or dynamic reachability claim is authorized by this ledger.",
+      "title": "Proven asset/code/dependency cleanup"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Current iOS unsigned artifact and462 real compiler inputs pass; enforced Dart/Edge locks, fatal selected analysis/format and current MCP347+terminal scheduler tail are available. Known vendor warnings require their individual dispositions, not a false zero-warning claim. Current reproducible source SBOM and all29-module390-case MCP aggregate pass; Android actual graph/artifact remains pending.",
+      "evidence": [
+        "ios_artifact",
+        "ios_inputs462",
+        "reachability264",
+        "edge552",
+        "mcp347",
+        "mcp_scheduler_tail",
+        "inventory_correction7",
+        "principal_current",
+        "prior_proof_index",
+        "mcp_current390",
+        "source_sbom_current"
+      ],
+      "exact_local_acceptance": "Reconcile exact pinned-runtime locks and inventories, generate local SBOMs, fix formatting/analyzer/native lint including40 recorded warnings, and prove clean-checkout builds without undeclared ignored/private files.",
+      "goal_item": 22,
+      "id": "L22",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "Q01/Q02/Q07",
+      "pending_gates": [
+        "G_NATIVE",
+        "G_VM",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Finish current Android/Gateway delta artifact/lint/JVM/graph/SBOM receipts and final locks/format/inventory binder. Review accepted vendor warnings separately from unfixed fatal lint; earlier four fatal Android API/permission errors must be addressed by current terminal flavor lint proof.",
+      "title": "Locks/inventory/SBOM/build hygiene"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Current185 clean+populated ordinary installer PASS36/370 applications with canonical predecessor preservation. Terminal scoped Edge/MCP/principal/browser/iOS plus accepted auth/ACK/finality/reversal/concurrency proofs are available; initial Flutter and correction failures retained. All29 current MCP modules now have terminal390 unique cases with exact unchanged input bindings.",
+      "evidence": [
+        "ordinary185",
+        "staged23",
+        "fullvm_initial",
+        "fullvm_continuation",
+        "inventory_correction7",
+        "principal_current",
+        "edge552",
+        "mcp347",
+        "mcp_scheduler_tail",
+        "browser_base89",
+        "ios_artifact",
+        "member_scope",
+        "mcp_current390"
+      ],
+      "exact_local_acceptance": "Run final frozen migration-set clean and populated upgrades, rollback/roll-forward and incompatible-client tests. Execute full local Dart/native/Edge/database/browser suites and critical auth/ACK/finality/reversal/session concurrency/mutation coverage. Preserve financial/receipt baselines.",
+      "goal_item": 23,
+      "id": "L23",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "D09/Q03/Q06",
+      "pending_gates": [
+        "G_VM",
+        "G_NATIVE",
+        "G_ADMIN",
+        "G_BROWSER_ARTIFACT",
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Root must finalize230-module VM named-case union/affected corrections and current native/source bindings. Ordinary install36 and staged86 receipts alone do not label rollback/roll-forward/incompatible-client tests: map existing genuine receipts if that criterion is asserted; no new broad replay is requested here.",
+      "title": "Final-set integrated local verification"
+    },
+    {
+      "canonical_revision13_status": "in_progress",
+      "covered_criteria": "Exact commands/source/dependency/toolchain/artifact hashes and dated failures are preserved in scoped packets. This18-item ledger records revision13 criteria without changing canonical status.",
+      "evidence": [
+        "prior_proof_index",
+        "member_scope",
+        "admin_query104",
+        "ordinary185",
+        "principal_current",
+        "mcp347",
+        "mcp_scheduler_tail",
+        "ios_inputs462",
+        "mcp_current390",
+        "source_sbom_current"
+      ],
+      "exact_local_acceptance": "Package source/lock/toolchain/build/test/log hashes and exact commands/exclusions against one final local source set. Preserve dated failures and earlier evidence, refresh this24-item register and reconcile historical versus current packets.",
+      "goal_item": 24,
+      "id": "L24",
+      "ledger_assessment": "substantive_scoped_proofs_available_final_binding_pending",
+      "new_runtime_defect_identified_by_this_review": false,
+      "parent_ids": "G07/A10",
+      "pending_gates": [
+        "G_SOURCE"
+      ],
+      "remaining_exact_acceptance_binding": "Root must compose and byte-verify the declared immutable candidate/allowed overlays, exact acceptance bindings, exclusions and updated canonical registers. Mutable shared-checkout equality is explicitly not claimed.",
+      "title": "Bound evidence and handover register"
+    }
+  ],
+  "kind": "requested18_actual_proof_and_acceptance_ledger",
+  "local_implementation_action_from_this_review": "No newly demonstrated runtime defect requires an independent code change. Remaining work is the finitely owned terminal artifact/source/case binding and explicit named rollback/roll-forward/incompatible-client mapping if asserted; do not expand into optional benchmark or broad re-run.",
+  "ownership": "Only this new ledger directory; no canonical register/runtime/tests/source/old evidence changed.",
+  "proof_count": 44,
+  "proofs": {
+    "admin_essential": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/admin-essential-review.json",
+      "reported_status": "pass",
+      "scope": "Enabled exception dialog/session/checkpoint corrections only; not whole role/route/import matrix.",
+      "sha256": "592ce009d25c11a4a6dd69b55a832ec89e0dbe1a5f59521eef0b0e3ac902e80f"
+    },
+    "admin_query104": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/admin-benchmark-terminal.json",
+      "reported_status": "pass_scoped",
+      "scope": "104 current Admin Gateway/Exceptions cases across genuine1k/10k fixtures; strict paging/order, owner/health/current actions/count and real CTE diagnostics; preserved setup failures.",
+      "sha256": "12f4c4744447b47b8ad1e3fc645d90cb7fdee20bdd76852540451b501103e190"
+    },
+    "admin_session83": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/admin-session-current1/validation.json",
+      "reported_status": "pass",
+      "scope": "83 captured actual session/dialog tests; four-file scope and its exact source/dependency map.",
+      "sha256": "6931a7fcb6af3d49c0cf0a87df3adcbe00f74ba06dedd51253304ede3f3a81d1"
+    },
+    "browser_base89": {
+      "available": true,
+      "new_principal_runtime_excluded": true,
+      "path": "docs/release/rapid-completion-2026-10-01/current-admin-browser-current1/browser-acceptance.json",
+      "reported_status": "pass",
+      "scope": "89 current base route/lifecycle checks;28 signed-out/28 authenticated routes, declared principal runtime excluded; no all-route-state or fidelity claim.",
+      "sha256": "bbbfdad645d68e3ea42219293ca6798647f397d6c95f1072fba4a6aa35d3b7c7",
+      "source_inputs_stable": true
+    },
+    "browser_historical_complete": {
+      "available": true,
+      "path": "docs/release/local-progress-2026-09-30/current177-browser-closure-root222/browser-local-closure-proof.json",
+      "reported_status": "complete",
+      "scope": "Original complete browser/PWA criterion,26 checks/16 lifecycle cases and distinct production Admin/Public at exact captured source.",
+      "sha256": "9103efb1697841719e51d4c1a6ed26217ea3015e9063cca31e1b600e5cf1b2f9"
+    },
+    "cache_current": {
+      "available": true,
+      "path": "docs/release/cache-session-2026-10-01/accepted-current-proof.json",
+      "reported_status": "pass_scoped_current_member_realtime",
+      "scope": "Accepted member cache/session scope, no global currentness inferred.",
+      "sha256": "b373b987d501206d511d60817d1637e9bf8e01181724814534284aa2aa0c3776"
+    },
+    "checkpoint_scrub8": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/admin-checkpoint-scrub-current4/validation.json",
+      "reported_status": "pass",
+      "scope": "Eight actual legacy checkpoint scrub/quarantine cases, including capability and identity departure; no actor UUID retained.",
+      "sha256": "5702856e9f96ee5fc834914c0c07280e2d0ea46b196fba17c0a112877bc14b97"
+    },
+    "core13": {
+      "available": true,
+      "export_drift": {},
+      "path": "docs/release/rapid-completion-2026-10-01/core-interface-current1/validation.json",
+      "reported_status": "pass",
+      "scope": "Seven changed coreview compact/enlarged cases, one Admin header and five keyboard focus cases; actual Inter loaded.",
+      "sha256": "167502d5efe8fc4773c65fd0fdb056c9a74553cfe902549894c43f7de6cc6acf"
+    },
+    "data744_299": {
+      "available": true,
+      "path": "docs/release/data-correctness-2026-09-30/immutable-attempt22-post-run-completion1/validation.json",
+      "reported_status": "pass",
+      "scope": "744 VM/299 actual Chrome correctness cases at captured source; bound transitive reuse and changed consumers handled separately.",
+      "sha256": "3c09e151b06324b22e324e6688d394bcaa1eff4bfb493f6bcaf8325546e18aee"
+    },
+    "design_authority": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/revolut-authority-current1.json",
+      "reported_status": "pass",
+      "scope": "PASS sole Revolut authority hygiene; no visual fidelity certification.",
+      "sha256": "387d0e7884c60f9677e33a70144089f27d290196f3e192628ee67485ef6f55ba"
+    },
+    "edge552": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/current-edge-units-resumption2-declared-fixtures/validation.json",
+      "reported_status": "pass",
+      "scope": "552 unit cases/29 files; enforced lock, declared decoder fixtures, exact unchanged source; no provider/SQL execution.",
+      "sha256": "a8ad47864833e08d9a0969584f4a8cfdd5919d2ba1ff55e7806eb45d5a240e3a",
+      "source_unchanged": true
+    },
+    "feature_reason26": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/feature-reason-current1/validation.json",
+      "reported_status": "pass",
+      "scope": "17 production feature-flag reason cases plus nine shared default/focus cases.",
+      "sdk_unchanged": true,
+      "sha256": "887522f1b12ed998c81780cfe27edad5c5577f81a80030851990ba99412f6cc8"
+    },
+    "font_final": {
+      "available": true,
+      "export_drift": {},
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/final-validation.json",
+      "reported_status": "pass",
+      "scope": "Two affected reviewed public golden/manifest tests PASS with unchanged tolerance; twelve other baselines unchanged.",
+      "sha256": "8e0a1326b0eb9f54f08e48e4b82645edaa9b0e581a08358102c4bcc102c87d04"
+    },
+    "font_initial": {
+      "available": true,
+      "export_drift": {},
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/validation.json",
+      "reported_status": "pass_pending_public_golden_review",
+      "scope": "Eight real Inter landing cases and single font contract/source-only Ruby case; initial public mismatch retained.",
+      "sha256": "910d4b3e79ad00cb50e5ae652698a4a6fb70b22df4e98a405f9d729789fe348f"
+    },
+    "font_review": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/public-golden-review.json",
+      "reported_status": "visually_reviewed_and_published",
+      "scope": "Root inspected and accepted explicit Inter font difference before publishing only public baseline and manifest line.",
+      "sha256": "b838cd7d6874fdbd81e539668b8f06ff83ee2a9c88f92a5a75329fe1bc59abdd"
+    },
+    "fullvm_continuation": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/full-flutter-unmet-continuation1/validation.json",
+      "reported_status": "fail",
+      "scope": "31 unmet VM files finished,606 passes/1 stale inventory expectation failure; no unfinished/source/SDK/binding drift. Original FAIL retained.",
+      "sha256": "3d6a9bd1264b1ceb1cc4b9777195a7e41f91bb13fb98a2153faa186bfbbede11"
+    },
+    "fullvm_initial": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/full-flutter-current-resumption1/execution.json",
+      "reported_status": "running",
+      "scope": "Full immutable base command packet; terminal initial deadline supplied by root:4325 passes,14 known harness failures,1 unfinished. Final named-case/module union is root-owned.",
+      "sha256": "392fceb58019c420268ec74021524afcafab99b48611daa45f0d3c22fb1dfb75"
+    },
+    "health_alert180": {
+      "available": true,
+      "path": "docs/release/financial-observability-2026-09-30/alert-matrix150-rollback-attempt1/result.json",
+      "reported_status": "pass",
+      "scope": "180 redacted health/threshold/stale/missing alert assertions; rollback preservation.",
+      "sha256": "7afffe8147ed7bfc8850caa50efaa8a391871365ca2b7bfa1b25edbc118152aa"
+    },
+    "health_authority_races": {
+      "available": true,
+      "path": "docs/release/financial-observability-2026-09-30/health-authority-concurrency150-attempt1/validation.json",
+      "reported_status": "pass",
+      "scope": "Six health authority races in matched source scope.",
+      "sha256": "21902c0aa2b334fa976a0e0efec9c5243c17bf7798260bcab34a0fc7ea35f213",
+      "source_unchanged": true
+    },
+    "health_metric_races": {
+      "available": true,
+      "path": "docs/release/financial-observability-2026-09-30/metric-concurrency150-attempt1/validation.json",
+      "reported_status": "pass",
+      "scope": "Five metric writer cases/four observed races in matched source scope.",
+      "sha256": "6ef74768b5a0bec33dc6e684d87d85b10f1f1e4dde7f2d83dbdb524c6289700c",
+      "source_unchanged": true
+    },
+    "health_perf": {
+      "available": true,
+      "path": "docs/release/financial-observability-2026-09-30/performance150-rollback-attempt1/result.json",
+      "reported_status": "pass",
+      "scope": "32 assertions/60 actual reads at1k/10k/50k plus2000 metric writes;17 business families and149 tables preserved.",
+      "sha256": "fbc59e8abef2164f3a091ac289091f1799dbcc9230674ee4e283d23c7d634df3"
+    },
+    "health_ui55": {
+      "available": true,
+      "path": "docs/release/financial-observability-2026-09-30/ui150-responses-attempt3-consistent-age/validation.json",
+      "reported_status": "pass",
+      "scope": "55 immutable UI cases, all13 read-only response/2x expiry cases; changed current health consumers require exact scope binder.",
+      "sha256": "c4aaabd3951340dc1a19b701a13010210d27982f633688824d8166c44cf2d5ca"
+    },
+    "history146": {
+      "available": true,
+      "path": "docs/release/generated-query-benchmark-2026-10-01/published-history-two-volume-acceptance-root193/validation.json",
+      "reported_status": "pass_scoped",
+      "scope": "146 published-history checks per1k/10k volume; exact pending counts, six notification pages, rollback queue shrink and four concurrent sorts.",
+      "sha256": "c393c6349cbe02a0ab90d95cbabf47b4015f590297a1a5daec0991a1acac10f4"
+    },
+    "history455": {
+      "available": true,
+      "path": "docs/release/generated-query-benchmark-2026-10-01/current21-index-candidate-attempt3-root-title-lookup/result.json",
+      "reported_status": "pass_scoped",
+      "scope": "455 checks per genuine1k/10k volume, all432 byte-equivalent scope/sort/paging windows and actual scan/buffer reduction.",
+      "sha256": "c200e68e01fedfb6dd7370a8aa39d6df78fee57c1cc87350f0fc6781e5022ae2"
+    },
+    "inventory_correction7": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/supabase-inventory-correction1/validation.json",
+      "reported_status": "pass",
+      "scope": "Only exact inventory expectation correction plus existing restrictions;7 cases PASS, source current, base scope preserved.",
+      "sha256": "256a42c08e217c5313fc186711de2b7aa9c952af7ebdb06da1d70cc11cebb6db"
+    },
+    "ios_artifact": {
+      "available": true,
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/artifact-verification.json",
+      "reported_status": "pass",
+      "scope": "Unsigned local QA iOS terminal artifact197 files/41,328,785 bytes,23 unique warning strings; broad unrelated root drift disclosed.",
+      "sha256": "315b12cc19b5e097871e45c5568a959f4d0a848eb0dc147a8537671b472376a9",
+      "source_unchanged": true
+    },
+    "ios_inputs462": {
+      "available": true,
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/current-compiler-input-readback.json",
+      "reachable_or_native_source_drift": {},
+      "reported_status": "pass",
+      "scope": "462 actual compiler/resource inputs root-current,148-file native Dart closure excludes Admin; unrelated Android/Admin drift does not invalidate this iOS scope.",
+      "sha256": "5f3de1297a1906bd380a6a0be3cc08ca02c359d9a5205cca5db6ef8fc83f468e"
+    },
+    "mcp347": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/current-mcp-terminal-rebind1/validation.json",
+      "reported_status": "pass",
+      "scope": "347 named-case union/28 captured modules;231 unchanged runtime/decoder inputs; original timeout retained, scheduler tail separate.",
+      "sha256": "0a134a4eecbaca5f90662fa9df1f3db5c1086f69a207ece410f7cca1f6af6374"
+    },
+    "mcp_current390": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/current-mcp-all-modules-terminal1/validation.json",
+      "reported_status": "pass",
+      "scope": "All29 current Node modules PASS390 unique cases:347 base +43 actual current scheduler-control cases; typecheck0, unchanged runtime/Edge/SQL decoder input bindings, original timeout/tail failures preserved.",
+      "sha256": "f00a5270358b61f1720dd6c9aa402c3316c3912bd16eeeac67fc7d807395d986",
+      "source_unchanged_now": true
+    },
+    "mcp_scheduler_tail": {
+      "available": true,
+      "current_input_drift": [],
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/current-mcp-scheduler-tail4-current-links/result.json",
+      "reported_status": "pass",
+      "scope": "Terminal current scheduler-control derivative PASS typecheck and cases; exact capture/source input maps unchanged. Earlier tails1/2/3 retained.",
+      "sha256": "d9294a42b686b416481fe16f5275f6a8b09a59a155cc7a2a30f23173d178ffc5"
+    },
+    "member_scope": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/reuse-gap-manifest.json",
+      "reported_status": "member_freshness_fixed_current_Admin_1000_10000_actual_query_scope_pass_other_named_owner_release_gaps_retained",
+      "scope": "Historical member/data/query/health/runtime-family proof source/dependency relevance; runtime26 helper boolean is a reporting error and is superseded here by actual result fields.",
+      "sha256": "6fe8dd1c6cf03656361f4ac3211237e5f60492ab1460db56e9c6d0e030a4e330"
+    },
+    "member_sdk18": {
+      "available": true,
+      "path": "docs/release/cache-session-2026-10-01/member-realtime-attempt4-current-fatal-analysis/validation.json",
+      "reported_status": "pass",
+      "scope": "18 actual locked SDK/Phoenix loopback cases, with unchanged transitive inputs and exact reconstruction of the two changed member files documented in member_scope.",
+      "sdk_unchanged": true,
+      "sha256": "411959a574e35edc1577dcefd205c34584d407f1f90a9c5fb8cbd732788b4fca"
+    },
+    "ordinary185": {
+      "all_task_containers_removed": true,
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/ordinary-installer-current-resumption3-private-platform/result.json",
+      "reported_status": "pass",
+      "scope": "PASS36 checks,185 clean +185 populated actual migrations,370 applications; exact185 captured source map, canonical platform prerequisite and predecessor preservation; task containers removed.",
+      "sha256": "6aa1729f789d2df9ca1f3df586a5b915b246ca24dd8b0c882d1d4976007f6f9d"
+    },
+    "principal_current": {
+      "available": true,
+      "current_changed_inputs_match": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/principal-integration-current2/validation.json",
+      "reported_status": "pass",
+      "scope": "Current principal integration: 46 executed cases; exact unchanged 436 prior remaining cases and 15 named actual browser cases reused with declared conditions; no whole mutable Admin/server claim.",
+      "sdk_unchanged": true,
+      "sha256": "410784cbb2323350d3961a55210dd00fbe8dc3ee8d0d098ba152dd763e9b5303"
+    },
+    "principal_initial_failure": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/principal-admin-overlay-current1/validation.json",
+      "reported_status": "fail",
+      "scope": "Original overlay failure retained; successful cases require the later exact-input reuse/selected correction binding.",
+      "sdk_unchanged": true,
+      "sha256": "eec7672c4b89558057d5fe95f726406eece4a8f1bb1a7aab0a37bc4124f2439c"
+    },
+    "principal_sql92": {
+      "available": true,
+      "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/result.json",
+      "reported_status": "pass",
+      "scope": "92 actual additive enrollment/authority/replay/deadline/audit SQL cases; exact two migration hashes and prerequisite clone; no real signing/provider/hosted claim.",
+      "sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13"
+    },
+    "prior_proof_index": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/prior-proof-index.json",
+      "reported_status": null,
+      "scope": "Immutable historical passes and failures with hashes, including initial Flutter4450/17 failure, native warning reviews and exact browser/visual/JVM scopes.",
+      "sha256": "c46a9c5f06443a5a0790499efb7d3de83f4be869304d2f8327454cc7602d1476"
+    },
+    "reachability264": {
+      "available": true,
+      "path": "docs/release/rapid-completion-2026-10-01/current-reachability-resumption2-vendor.json",
+      "reported_status": "audited",
+      "scope": "264/264 conservative declared runtime reachable sources, audited/current--check per root; no dynamic execution or deletion authorization.",
+      "sha256": "20987c951d866f0409ad93fb634b5690193485059e302229a951132dbb2f3eda"
+    },
+    "roster144": {
+      "available": true,
+      "path": "docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/validation.json",
+      "reported_status": null,
+      "scope": "Dated actual144 roster client/server reload proof; reuse within matched source scope only.",
+      "sha256": "b8d9953db98cc605691c505f97fffb6695e949d4d264ee60fb5201ba8bf72064",
+      "source_unchanged": true
+    },
+    "roster_email25": {
+      "available": true,
+      "current_consumed_source_matches": true,
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/validation.json",
+      "reported_status": "pass",
+      "scope": "25 actual email-approved roster API/authority/recovery/CAS/audit cases and both observed revocation orders; exact accepted attempt5, not failed top-level setup result.",
+      "sha256": "7de3991aed4ea7c2a3ce8e51994c6abd8d61dedb8a3c35ac6a7d2ebb03635dae"
+    },
+    "runtime26_108": {
+      "available": true,
+      "path": "docs/release/runtime-controls-2026-10-01/current21-full26-races-attempt1/result.json",
+      "reported_status": "pass",
+      "scope": "Actual PASS108 assertions/78 observed blocking overlaps/26 families; unchanged21 migration bodies; not whole client consumer acceptance.",
+      "sha256": "1e00881a21cf9945064f56eacf5918f0d0d8348b76410a4eece4978e53ad8183"
+    },
+    "sdk39_initial": {
+      "available": true,
+      "export_drift": [],
+      "path": "docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/validation.json",
+      "reported_status": "fail",
+      "scope": "39 cases succeeded but packet status FAIL due fatal formatting check; do not promote the aggregate to PASS.",
+      "sdk_unchanged": true,
+      "sha256": "38b0e5ee7f7a0912b654928ba19d1f2f8e8898ef415aa09d0ccb634004f7b1a8"
+    },
+    "source_sbom_current": {
+      "additional_inputs_unchanged": true,
+      "available": true,
+      "inventory_sha256": "41567d4fbd4a109ce4672a92742e38090d3003cfd912e277ea7840cf6db6e129",
+      "native_source_unchanged": true,
+      "path": "docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/supply-chain/validation.json",
+      "reported_status": "pass",
+      "scope": "PASS reproducible declarations/assets/fork integrity +CycloneDX schema with exact stable native/additional input scope; actual Android graph/APK and iOS bundle remain separately bound, unknown license labels explicit.",
+      "sha256": "0b26ab66e33a6aac70a4e79581be30c27cea2b6f49513eb1504134369f1c798b",
+      "source_sbom_sha256": "e6f9c9710f99c18a12b00c664f510fd8e8543defa029baf27cccdce68c380236"
+    },
+    "staged23": {
+      "available": true,
+      "path": "docs/release/local-database-runtime-2026-09-30/staged-bundle154-attempt24-current23-final-policy/result.json",
+      "reported_status": "pass",
+      "scope": "Dated current23/177-source86-check SQL staged and financial preservation scope; not a current185 functional suite.",
+      "sha256": "df1fb753be6f9cb75052aa79272910d86bd7741b88699a40a56df8b69971cf68"
+    }
+  },
+  "reporting_corrections": [
+    {
+      "field": "runtime26_server_families.accepted108_assertions_78_actual_blockers",
+      "issue": "False helper boolean contradicts actual original PASS108/78/26 receipt; ledger relies on actual result. Original packet retained unchanged.",
+      "path": "docs/release/rapid-completion-2026-10-01/member-financial-controls-resumption1/reuse-gap-manifest.json"
+    },
+    {
+      "issue": "Top-level original setup failure is retained; accepted passing receipt is attempt5-exact-inspection-contract/result.json via validation.json.",
+      "path": "docs/release/rapid-completion-2026-10-01/e1-roster-final-email-current1/result.json"
+    },
+    {
+      "issue": "Initial pending golden review/expected mismatch remains; final-validation.json separately records2 passing reviewed golden/manifest cases.",
+      "path": "docs/release/rapid-completion-2026-10-01/font-rights-current1/validation.json"
+    },
+    {
+      "issue": "39 successful cases do not erase aggregate FAIL from fatal formatter. Root current corrected case union supplies final acceptance.",
+      "path": "docs/release/rapid-completion-2026-10-01/exception-workflow-sdk-current1/validation.json"
+    }
+  ],
+  "requested_ids": [
+    "L01",
+    "L03",
+    "L04",
+    "L05",
+    "L07",
+    "L08",
+    "L12",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
+    "L23",
+    "L24"
+  ],
+  "schema_version": 1,
+  "status": "frozen_initial_handover_finite_root_bindings_pending",
+  "workspace": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL"
+}

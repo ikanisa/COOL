@@ -1,0 +1,255 @@
+--- reviewed/scripts/tests/roster_wheelhouse_test.py
++++ final/scripts/tests/roster_wheelhouse_test.py
+@@ -6,10 +6,14 @@
+ import os
+ from pathlib import Path
+ import stat
++import ssl
++import subprocess
+ import sys
+ import tempfile
++import time
+ import unittest
+ from unittest.mock import patch
++from unittest.mock import MagicMock
+ 
+ ROOT = Path(__file__).resolve().parents[2]
+ sys.path.insert(0, str(ROOT / "scripts/qa"))
+@@ -361,5 +365,237 @@
+             os.umask(original)
+ 
+ 
++class PublisherContract(unittest.TestCase):
++    # Reuse the fixture builder only; do not duplicate its test cases.
++    setUp = WheelhouseContract.setUp
++    seal = WheelhouseContract.seal
++    row = WheelhouseContract.row
++    denied = WheelhouseContract.denied
++
++    def acquire(self):
++        return wheelhouse.acquire_publisher_inputs(lock_file=self.decoder / "requirements.lock",
++            lock_sha256=self.document["lock_sha256"], destination=self.destination)
++
++    def synthetic_fetch(self, **args):
++        package = next(p for p in self.payloads if args["path"].name.startswith(p + "-") or args["path"].name.startswith(p.replace("-", "_") + "-"))
++        raw = body(self.releases[package]) if args["path"].name.endswith(".json") else self.payloads[package]
++        wheelhouse.write_new(args["path"].parent, args["path"].name, raw)
++        return wheelhouse.read_file(args["path"], wheelhouse.Budget(), args["maximum"])
++
++    def test_separate_producer_selects_exact_lock_bytes_and_pins_all_twelve_observations(self):
++        with patch.object(wheelhouse, "fetch_owned", side_effect=self.synthetic_fetch) as fetch:
++            result = self.acquire()
++        self.assertEqual(result["status"], "pass")
++        self.assertEqual(result["wheel_count"], 6)
++        self.assertEqual(len(result["requests"]), 12)
++        self.assertEqual(fetch.call_count, 12)
++        self.assertTrue(all(r["status"] == "pass" for r in result["requests"]))
++        self.assertEqual(result["request_retries"], 0)
++        self.assertEqual(result["redirects_followed"], 0)
++        self.assertFalse(result["package_installation_performed"])
++        self.assertFalse(result["docker_execution_performed"])
++        receipt = Path(result["publisher_receipt"])
++        self.assertEqual(sha(receipt.read_bytes()), result["publisher_sha256"])
++        # This actual producer output is accepted by the separate real copier.
++        copy = wheelhouse.prepare_build_context(decoder_directory=self.decoder,
++            wheel_source=result["wheel_source"], publisher_receipt=receipt,
++            publisher_sha256=result["publisher_sha256"], metadata_directory=result["metadata_directory"],
++            destination=self.base / "another-context")
++        self.assertEqual(copy["wheel_count"], 6)
++        for call in fetch.call_args_list:
++            args = call.kwargs
++            self.assertLessEqual(args["timeout"], 45 if args["path"].name.endswith(".json") else 60)
++            if not args["path"].name.endswith(".json"):
++                self.assertIsNotNone(args["expected_sha"])
++                self.assertIsNotNone(args["expected_size"])
++
++    def test_producer_wrong_external_lock_pin_denies_before_fetch_or_output(self):
++        with patch.object(wheelhouse, "fetch_owned") as fetch:
++            self.denied("publisher_lock_mismatch", lambda: wheelhouse.acquire_publisher_inputs(
++                lock_file=self.decoder / "requirements.lock", lock_sha256="0" * 64, destination=self.destination))
++        fetch.assert_not_called(); self.assertFalse(self.destination.exists())
++
++    def test_missing_locked_release_wheel_denies_and_retains_original_failure(self):
++        first = sorted(self.releases)[0]; self.releases[first]["urls"][0]["digests"]["sha256"] = "0" * 64
++        with patch.object(wheelhouse, "fetch_owned", side_effect=self.synthetic_fetch) as fetch:
++            self.denied("publisher_locked_wheel_missing_or_duplicate", self.acquire)
++        self.assertEqual(fetch.call_count, 1)
++        self.assertFalse((self.destination / "publisher-inputs.json").exists())
++        result = json.loads((self.destination / "acquisition-result.json").read_text())
++        self.assertEqual(result["status"], "fail"); self.assertEqual(len(result["requests"]), 1)
++        self.assertEqual(result["code"], "publisher_locked_wheel_missing_or_duplicate")
++        self.assertTrue(list((self.destination / "primary").iterdir()))
++
++    def test_producer_native_wrong_architecture_from_primary_is_rejected(self):
++        row = self.releases["pillow"]["urls"][0]
++        row["filename"] = row["filename"].replace("aarch64", "x86_64")
++        with patch.object(wheelhouse, "fetch_owned", side_effect=self.synthetic_fetch):
++            self.denied("linux_cp312_aarch64_wheel_required", self.acquire)
++        self.assertFalse((self.destination / "publisher-inputs.json").exists())
++
++    def test_failed_transport_never_retries_or_mints_pass_receipt(self):
++        def fail(**args):
++            (args["path"].parent / args["path"].name).write_bytes(b"partial private response")
++            raise wheelhouse.WheelhouseError("publisher_request_deadline")
++        with patch.object(wheelhouse, "fetch_owned", side_effect=fail) as fetch:
++            self.denied("publisher_request_deadline", self.acquire)
++        self.assertEqual(fetch.call_count, 1)
++        self.assertFalse((self.destination / "publisher-inputs.json").exists())
++        result = json.loads((self.destination / "acquisition-result.json").read_text())
++        self.assertEqual(result["code"], "publisher_request_deadline")
++        self.assertEqual(result["request_retries"], 0)
++
++    def test_changed_lock_after_actual_synthetic_downloads_denies_receipt(self):
++        calls = []
++        def mutate(**args):
++            observed = self.synthetic_fetch(**args); calls.append(args)
++            if len(calls) == 12:
++                (self.decoder / "requirements.lock").write_bytes(b"changed reviewed source")
++            return observed
++        with patch.object(wheelhouse, "fetch_owned", side_effect=mutate):
++            self.denied("input_changed_during_acquisition", self.acquire)
++        self.assertFalse((self.destination / "publisher-inputs.json").exists())
++
++    def test_whole_deadline_stops_before_next_request_and_retains_failure(self):
++        clock = [0]
++        def fetch(**args):
++            observed = self.synthetic_fetch(**args); clock[0] = 301; return observed
++        with patch.object(wheelhouse.time, "monotonic", side_effect=lambda: clock[0]), \
++                patch.object(wheelhouse, "fetch_owned", side_effect=fetch) as requests:
++            self.denied("publisher_whole_deadline", self.acquire)
++        self.assertEqual(requests.call_count, 1)
++        self.assertFalse((self.destination / "publisher-inputs.json").exists())
++
++    def response(self, data, status=200, headers=None):
++        response = MagicMock(); response.status = status
++        values = {"Content-Length": str(len(data)), **(headers or {})}
++        response.getheader.side_effect = lambda key, default=None: values.get(key, default)
++        response.read.side_effect = [data, b""]
++        return response
++
++    def fetch(self, response, **overrides):
++        args = {"url": self.row()["wheel_url"], "destination": self.base / "downloaded.whl",
++                "maximum": wheelhouse.MAX_WHEEL, "expected_sha": self.row()["sha256"], "expected_size": self.row()["size"], **overrides}
++        with patch.object(wheelhouse.http.client, "HTTPSConnection") as connection:
++            connection.return_value.getresponse.return_value = response
++            result = wheelhouse.publisher_fetch(**args)
++        return result, connection
++
++    def test_one_direct_tls_verified_request_has_no_auth_proxy_redirect_or_retry(self):
++        result, connection = self.fetch(self.response(self.payloads["pillow"]))
++        self.assertEqual(result["sha256"], self.row()["sha256"])
++        self.assertEqual(result["redirects_followed"], 0)
++        self.assertEqual(result["request_count"], 1)
++        args, kwargs = connection.call_args
++        self.assertEqual(args, ("files.pythonhosted.org", 443)); self.assertEqual(kwargs["timeout"], 10)
++        self.assertEqual(kwargs["context"].verify_mode, ssl.CERT_REQUIRED)
++        self.assertTrue(kwargs["context"].check_hostname)
++        request = connection.return_value.request.call_args
++        self.assertEqual(request.args[0], "GET")
++        self.assertEqual(set(request.kwargs["headers"]), {"User-Agent", "Accept-Encoding", "Connection"})
++        connection.return_value.close.assert_called_once()
++
++    def test_redirect_is_denied_without_body_file_or_second_request(self):
++        with patch.object(wheelhouse.http.client, "HTTPSConnection") as connection:
++            response = self.response(b"redirect", status=302, headers={"Location": "https://example.invalid/secret"})
++            connection.return_value.getresponse.return_value = response
++            self.denied("publisher_http_status_denied", lambda: wheelhouse.publisher_fetch(
++                self.row()["wheel_url"], self.base / "redirect.whl", wheelhouse.MAX_WHEEL))
++            self.assertEqual(connection.call_count, 1); response.read.assert_not_called()
++        self.assertFalse((self.base / "redirect.whl").exists())
++
++    def test_bad_origin_and_control_characters_refuse_before_connection(self):
++        urls = ("http://pypi.org/pypi/pillow/12.3.0/json", "https://pypi.org.evil/pypi/pillow/12.3.0/json",
++                "https://user:password@pypi.org/pypi/pillow/12.3.0/json", "https://[broken/packages/wheel",
++                self.row()["wheel_url"] + "?credential=secret", self.row()["wheel_url"] + "\n")
++        with patch.object(wheelhouse.http.client, "HTTPSConnection") as connection:
++            for index, url in enumerate(urls):
++                with self.subTest(index=index):
++                    self.denied("invalid_publisher_url", lambda: wheelhouse.publisher_fetch(url, self.base / "bad", 100))
++        connection.assert_not_called()
++
++    def test_encoded_oversized_wrong_length_and_wrong_hash_bodies_deny(self):
++        variants = ((self.payloads["pillow"], {"Content-Encoding": "gzip"}, "publisher_content_encoding_denied", {}),
++                    (self.payloads["pillow"], {"Content-Length": "9999999999"}, "publisher_content_length_denied", {}),
++                    (self.payloads["pillow"], {"Content-Length": "invalid"}, "publisher_content_length_denied", {}),
++                    (b"X" * self.row()["size"], {}, "publisher_body_identity_mismatch", {}),
++                    (b"body exceeds limit", {}, "publisher_body_limit", {"maximum": 10, "expected_size": None, "expected_sha": None}))
++        for index, (data, headers, code, overrides) in enumerate(variants):
++            with self.subTest(index=index):
++                response = self.response(data, headers=headers)
++                if code == "publisher_body_limit": response.getheader.side_effect = lambda key, default=None: default
++                self.denied(code, lambda: self.fetch(response, destination=self.base / f"download-{index}", **overrides))
++
++    def test_truncated_body_retains_partial_file_without_success(self):
++        response = self.response(self.payloads["pillow"][:-1], headers={"Content-Length": str(self.row()["size"])})
++        target = self.base / "truncated.whl"
++        self.denied("publisher_body_identity_mismatch", lambda: self.fetch(response, destination=target))
++        self.assertEqual(target.read_bytes(), self.payloads["pillow"][:-1])
++
++    def test_real_owned_request_deadline_reaps_without_losing_partial_diagnostics(self):
++        stdout, stderr = self.base / "request.stdout", self.base / "request.stderr"
++        pid_file = self.base / "child-pid"
++        script = ("import subprocess,sys,time; from pathlib import Path; "
++                  "p=subprocess.Popen([sys.executable,'-c','import time;time.sleep(30)']); "
++                  "Path(sys.argv[1]).write_text(str(p.pid)); "
++                  "print('synthetic partial request',flush=True);time.sleep(30)")
++        command = [sys.executable, "-c", script, str(pid_file)]
++        self.denied("publisher_request_deadline", lambda: wheelhouse.bounded_fetch_process(command, stdout, stderr, 0.2))
++        self.assertIn("synthetic partial request", stdout.read_text())
++        self.assertIn("child_reaped=true", stderr.read_text())
++        self.assertTrue(pid_file.exists())
++        for _ in range(20):
++            status = subprocess.run(["ps", "-p", pid_file.read_text(), "-o", "stat="], capture_output=True, text=True).stdout.strip()
++            if not status or status.startswith("Z"): break
++            time.sleep(0.05)
++        self.assertTrue(not status or status.startswith("Z"), status)
++
++    def test_actual_cli_acquisition_requires_explicit_lock_and_forbids_mixed_mode(self):
++        for arguments in (["--acquire"], ["--acquire", "--lock-file", str(self.decoder / "requirements.lock"),
++            "--lock-sha256", self.document["lock_sha256"], "--wheel-source", str(self.source)]):
++            completed = subprocess.run([sys.executable, "-B", str(ROOT / "scripts/qa/roster_wheelhouse.py"),
++                *arguments, "--destination", str(self.destination)], capture_output=True, text=True, timeout=10)
++            self.assertEqual(completed.returncode, 2); self.assertFalse(self.destination.exists())
++
++    def test_acquisition_supervisor_enforces_actual_300s_group_boundary_and_pinned_result(self):
++        results = []
++        def completed(command, stdout, stderr, timeout, **options):
++            self.assertEqual(timeout, 300)
++            self.assertEqual(options["deadline_code"], "publisher_whole_deadline")
++            self.assertIn("--acquire-worker", command)
++            self.assertNotIn("--acquire", command)
++            with patch.object(wheelhouse, "fetch_owned", side_effect=self.synthetic_fetch):
++                result = self.acquire(); results.append(result)
++            stdout.write_bytes(body(result)); stderr.write_bytes(b"")
++        with patch.object(wheelhouse, "bounded_fetch_process", side_effect=completed):
++            observed = wheelhouse.supervise_acquisition(lock_file=self.decoder / "requirements.lock",
++                lock_sha256=self.document["lock_sha256"], destination=self.destination)
++        self.assertEqual(observed, results[0])
++        proof = self.destination.with_name(self.destination.name + "-supervision")
++        self.assertEqual(json.loads((proof / "supervision-result.json").read_text())["status"], "pass")
++
++    def test_supervisor_denies_self_reported_partial_pass_without_receipt(self):
++        def forged(command, stdout, stderr, timeout, **options):
++            stdout.write_bytes(body({"status": "pass", "wheel_count": 6, "lock_sha256": self.document["lock_sha256"], "requests": []}))
++            stderr.write_bytes(b"")
++        with patch.object(wheelhouse, "bounded_fetch_process", side_effect=forged):
++            self.denied("publisher_acquisition_receipt_invalid", lambda: wheelhouse.supervise_acquisition(
++                lock_file=self.decoder / "requirements.lock", lock_sha256=self.document["lock_sha256"], destination=self.destination))
++
++    def test_single_https_child_remains_in_outer_supervised_group(self):
++        row = self.row(); path = self.base / "owned-child.whl"
++        def finished(command, stdout, stderr, timeout, **options):
++            self.assertIs(options["own_process_group"], False)
++            self.assertIn("--expected-sha256", command)
++            self.assertIn("--expected-size", command)
++            wheelhouse.write_new(path.parent, path.name, self.payloads["pillow"])
++            stdout.write_bytes(body({"sha256": row["sha256"], "size": row["size"], "tls_origin": "files.pythonhosted.org",
++                                     "redirects_followed": 0, "request_count": 1})); stderr.write_bytes(b"")
++        with patch.object(wheelhouse, "bounded_fetch_process", side_effect=finished):
++            observed = wheelhouse.fetch_owned(url=row["wheel_url"], path=path, maximum=wheelhouse.MAX_WHEEL,
++                log_directory=self.base, ordinal=1, timeout=60, expected_sha=row["sha256"], expected_size=row["size"])
++        self.assertEqual(observed.sha256, row["sha256"])
++
++
+ if __name__ == "__main__":
+     unittest.main()

@@ -1,0 +1,575 @@
+{
+  "all_original_HTTP_bytes_restored_from_two_insertions": true,
+  "artifact_count": 110,
+  "artifacts": {
+    "README.md": {
+      "bytes": 4337,
+      "mode": 420,
+      "sha256": "d272c71f7252f17a63db8dc4a74d43672a3410d5b46bfab0fa784d7a294435a4"
+    },
+    "candidate/source/scripts/qa/edge_http_runtime_uat.ts": {
+      "bytes": 50849,
+      "mode": 448,
+      "sha256": "91a81690ba15582a9ff11b314dbd493c9f015eca03512334a15649287f3b4e42"
+    },
+    "copy-readback.json": {
+      "bytes": 30891,
+      "mode": 420,
+      "sha256": "52e277d32e7da8389346c5ceaffcda7afc7c96d8eb3a4919bd1817aa43cbdafe"
+    },
+    "current-discovery.json": {
+      "bytes": 5745,
+      "mode": 420,
+      "sha256": "24c522bb27af074f6dd82f070906333d9209e464508596661dcad2bbf557da5f"
+    },
+    "full-candidate.patch": {
+      "bytes": 3431,
+      "mode": 420,
+      "sha256": "886f205107153ff17d9c54eafc03416be714510264299f6f4e52d2ebb168c4ab"
+    },
+    "inputs/.dvmrc": {
+      "bytes": 6,
+      "mode": 448,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    "inputs/contracts/edge-functions.json": {
+      "bytes": 4243,
+      "mode": 420,
+      "sha256": "292677b34edc622f88777eb165b01bf5236c1dd485bad3a704ca354487feb9d2"
+    },
+    "inputs/scripts/qa/edge_http_runtime_uat.ts": {
+      "bytes": 48433,
+      "mode": 448,
+      "sha256": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9"
+    },
+    "inputs/scripts/qa/run_edge_ci.py": {
+      "bytes": 14349,
+      "mode": 420,
+      "sha256": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2"
+    },
+    "inputs/scripts/qa/run_edge_http_uat.py": {
+      "bytes": 6603,
+      "mode": 448,
+      "sha256": "44885852f7f0825b0613e5c686f3769a00948d79bca42a77cf1c3a16acefb925"
+    },
+    "inputs/scripts/qa/run_edge_unit_tests.py": {
+      "bytes": 9611,
+      "mode": 420,
+      "sha256": "ccae6baa8876a0f1fd59adabdf3e93edb4ef5d8d6a0e252920628491c8f22fa3"
+    },
+    "inputs/scripts/tests/edge_runner_contract_test.py": {
+      "bytes": 11776,
+      "mode": 420,
+      "sha256": "6418240166f1bb34503226d0d0756b935aebda0d47ac055310f9b9d5c2569b72"
+    },
+    "inputs/scripts/tests/play_integrity_handler_test.ts": {
+      "bytes": 20920,
+      "mode": 420,
+      "sha256": "41f181641d75cb9b56460ded224df53f76581c9fe7fa1a36f1b79d38b3a419b6"
+    },
+    "inputs/supabase/config.toml": {
+      "bytes": 16173,
+      "mode": 448,
+      "sha256": "83a22ae258f38f80ebcf6d343d788f6d15c629a2f96f758e3de65c3a1fb26392"
+    },
+    "inputs/supabase/functions/_shared/apns.ts": {
+      "bytes": 4779,
+      "mode": 448,
+      "sha256": "a3a0b4c44b32ed89a373ee939a934bfe4831fad3aaf641a8499391234fbe655d"
+    },
+    "inputs/supabase/functions/_shared/apns_test.ts": {
+      "bytes": 4140,
+      "mode": 448,
+      "sha256": "f206b3385fe803f4c056f12c706a60e7d3c2b20d6d48bde30fc63f955315284b"
+    },
+    "inputs/supabase/functions/_shared/buri_munsi_receipt.ts": {
+      "bytes": 1339,
+      "mode": 448,
+      "sha256": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb"
+    },
+    "inputs/supabase/functions/_shared/cors.ts": {
+      "bytes": 1247,
+      "mode": 448,
+      "sha256": "e95f4b253ffd641732f4d776b32dc2d6af750c670ef16d1ddf52e10e944d029d"
+    },
+    "inputs/supabase/functions/_shared/fcm.ts": {
+      "bytes": 6937,
+      "mode": 448,
+      "sha256": "00d82b7814046cc2412b0ae0f817f27195d3cd24ff35ca392fe1747b492029a6"
+    },
+    "inputs/supabase/functions/_shared/fcm_test.ts": {
+      "bytes": 5961,
+      "mode": 448,
+      "sha256": "6f4ec8c1eabfcc99161f1ea99eaa53f395f798c1e044462d187204747bbbffbb"
+    },
+    "inputs/supabase/functions/_shared/hash.ts": {
+      "bytes": 1444,
+      "mode": 448,
+      "sha256": "5d9df19f81dcf0531dac3d3febd22672c855f0a35e20e14b2bf20565ae034719"
+    },
+    "inputs/supabase/functions/_shared/hmac.ts": {
+      "bytes": 1466,
+      "mode": 448,
+      "sha256": "ccc93d81d0b446c7404d45e5021d34805e755dad167f55f86e202e78fe1c3ace"
+    },
+    "inputs/supabase/functions/_shared/hmac_test.ts": {
+      "bytes": 593,
+      "mode": 448,
+      "sha256": "f107f802e955ca20380312ee0282f57cacb79bce19593fd01606f0f66bc7178b"
+    },
+    "inputs/supabase/functions/_shared/integrity_admission.ts": {
+      "bytes": 3661,
+      "mode": 420,
+      "sha256": "e199493ea1dc150bc3472ad38d2ea906ee118e102bc8631b035d8b52dbea077c"
+    },
+    "inputs/supabase/functions/_shared/integrity_admission_test.ts": {
+      "bytes": 5343,
+      "mode": 420,
+      "sha256": "999c093490077ab1b16dea805ee3c8a7ab38359f1b3078aa283d0ca3395d138d"
+    },
+    "inputs/supabase/functions/_shared/integrity_policy.ts": {
+      "bytes": 1824,
+      "mode": 420,
+      "sha256": "abda535ac2d637ee51bc1bb030dfc3a2655223fa444d3b6f9ad8bd0d90d2a807"
+    },
+    "inputs/supabase/functions/_shared/momo_sms_hybrid_test.ts": {
+      "bytes": 5800,
+      "mode": 448,
+      "sha256": "d627b98b5cb655673df3a682e65c51f82b4eeb280cf73f7fed506abab18c58dd"
+    },
+    "inputs/supabase/functions/_shared/momo_sms_parser.ts": {
+      "bytes": 5241,
+      "mode": 448,
+      "sha256": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1"
+    },
+    "inputs/supabase/functions/_shared/momo_sms_parser_test.ts": {
+      "bytes": 875,
+      "mode": 448,
+      "sha256": "e7881a50eff5982b47b73896775e93edc524c1c405b3bf8c72babd4ba7f7a365"
+    },
+    "inputs/supabase/functions/_shared/notification_operator.ts": {
+      "bytes": 8111,
+      "mode": 448,
+      "sha256": "58418544d493e3395e0a6023108588d083e2357dec5ddc3d4d331cc71e9f5ca2"
+    },
+    "inputs/supabase/functions/_shared/notification_operator_test.ts": {
+      "bytes": 4375,
+      "mode": 448,
+      "sha256": "43b289314873f366d3fa6846d3b8909e1b4b6de4bba874909fa85cf751dba88c"
+    },
+    "inputs/supabase/functions/_shared/notification_retry.ts": {
+      "bytes": 2063,
+      "mode": 420,
+      "sha256": "f69fc92f86f183562b5dd003f7a27ba2875dd1c13ef3da877e04bfc899637f4f"
+    },
+    "inputs/supabase/functions/_shared/notification_retry_test.ts": {
+      "bytes": 1509,
+      "mode": 420,
+      "sha256": "48216fa3b103ecc38f2d9bfa92a6930ffb9367694e4d60da2f8e94516fbed520"
+    },
+    "inputs/supabase/functions/_shared/openai_roster.ts": {
+      "bytes": 3317,
+      "mode": 448,
+      "sha256": "035bb83a7c7b5c2c035844618f24f331b05d5dedf45ee7fa4ed3f51193a35f9c"
+    },
+    "inputs/supabase/functions/_shared/openai_roster_test.ts": {
+      "bytes": 4582,
+      "mode": 448,
+      "sha256": "1998d2ee3e55ebfe3506872944ade88c650461514914a60d5e85806a58636c28"
+    },
+    "inputs/supabase/functions/_shared/operational_metrics.ts": {
+      "bytes": 1637,
+      "mode": 420,
+      "sha256": "01a52ef3869faa672b9e3fa5d3ec34fbbd89344985012f6c24ea3c0ebd8fccdd"
+    },
+    "inputs/supabase/functions/_shared/operational_metrics_test.ts": {
+      "bytes": 2627,
+      "mode": 420,
+      "sha256": "088e4ee450f6f4221283d98131a802067b066c442d026af2eacf6955725b4a38"
+    },
+    "inputs/supabase/functions/_shared/play_integrity_binding.ts": {
+      "bytes": 1480,
+      "mode": 448,
+      "sha256": "bf0f1a1e3da1971f04dc857ed016e6470b5d7dd38a68143f5d888cc8241710f9"
+    },
+    "inputs/supabase/functions/_shared/play_integrity_binding_test.ts": {
+      "bytes": 1756,
+      "mode": 448,
+      "sha256": "8128a2f0662e28cb744514a70a87ff326a74ab206c92778e7344c68bd713e50c"
+    },
+    "inputs/supabase/functions/_shared/production_contract.ts": {
+      "bytes": 5120,
+      "mode": 420,
+      "sha256": "ce76a678fb61fa69368acdd23185b403f4481d20dc68ac7e0ef9d69fc8f7abc1"
+    },
+    "inputs/supabase/functions/_shared/raw_sms_input.ts": {
+      "bytes": 453,
+      "mode": 448,
+      "sha256": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239"
+    },
+    "inputs/supabase/functions/_shared/receipt_ingestion.ts": {
+      "bytes": 1906,
+      "mode": 420,
+      "sha256": "a932be7f256a35de599dd0179d9aa586ede41aff4cb5cb0c54ebcbac245b9fa2"
+    },
+    "inputs/supabase/functions/_shared/roster_ai_dispatch_policy.ts": {
+      "bytes": 6203,
+      "mode": 420,
+      "sha256": "9787570029febd43d2ef875c0e5bfa298ffb90fd292dcb5bdf1050231a7ecb75"
+    },
+    "inputs/supabase/functions/_shared/roster_ai_dispatch_policy_test.ts": {
+      "bytes": 6485,
+      "mode": 420,
+      "sha256": "1e8080fa5fe7b4e0679ef714d1d5fc572530116c1a74deffada5bddb4c3b668a"
+    },
+    "inputs/supabase/functions/_shared/roster_ai_dispatch_test_fixture.ts": {
+      "bytes": 2960,
+      "mode": 420,
+      "sha256": "e5e88d31205d44daa07769b69e439d028aefa829f8ed89a6099bc9b78b65f2a3"
+    },
+    "inputs/supabase/functions/_shared/roster_decoder.ts": {
+      "bytes": 8205,
+      "mode": 420,
+      "sha256": "d91966ea21705aa50dc6daeb6316961ee02ec10e2685ee746cddf2aa5b82efdb"
+    },
+    "inputs/supabase/functions/_shared/roster_decoder_integration_test.ts": {
+      "bytes": 17140,
+      "mode": 420,
+      "sha256": "bab8e476b5e81875b6e4c6975cb900e8cf329f263df3909facb3b3b9cb975659"
+    },
+    "inputs/supabase/functions/_shared/roster_decoder_test.ts": {
+      "bytes": 6181,
+      "mode": 420,
+      "sha256": "1c45764e93d64198e3a39a9dfe17d26acd5e800e59407765cf9e4ffada6bbc1e"
+    },
+    "inputs/supabase/functions/_shared/roster_file_policy.ts": {
+      "bytes": 8127,
+      "mode": 420,
+      "sha256": "a1243087788852e2c95607c3ed9d14439d9a09da3a9663984391c35392f8fd75"
+    },
+    "inputs/supabase/functions/_shared/roster_file_policy_test.ts": {
+      "bytes": 6694,
+      "mode": 420,
+      "sha256": "c50986d1f939c481fc323b499a25e6e107eb3fb6fd4610bd9e390268721615e8"
+    },
+    "inputs/supabase/functions/_shared/roster_import.ts": {
+      "bytes": 7987,
+      "mode": 448,
+      "sha256": "82256e964e7c728be5de5b2e6f52f7218fb4dafaab16ecb7a3e705f9c50c31e0"
+    },
+    "inputs/supabase/functions/_shared/roster_import_test.ts": {
+      "bytes": 2317,
+      "mode": 448,
+      "sha256": "eb012174e0ca8d5c5fc35207634ecc99fbf219121d0d0d92a6579ef4bac71089"
+    },
+    "inputs/supabase/functions/_shared/roster_provenance.ts": {
+      "bytes": 7593,
+      "mode": 420,
+      "sha256": "2bf1b36adaec2211bea8929bfa73b4dd21944d04550c5493e614bfda1f563629"
+    },
+    "inputs/supabase/functions/_shared/roster_resource_budget.ts": {
+      "bytes": 1982,
+      "mode": 420,
+      "sha256": "0b4e2c057a68f0264d94319ffb18c45665f463ca15f696f248ac128939cdfb99"
+    },
+    "inputs/supabase/functions/_shared/roster_response_policy.ts": {
+      "bytes": 8416,
+      "mode": 420,
+      "sha256": "dbb25899e8b2dec31371e43a642d62644570b25f282ebdc62e42da5947deae5e"
+    },
+    "inputs/supabase/functions/_shared/roster_response_policy_test.ts": {
+      "bytes": 11038,
+      "mode": 420,
+      "sha256": "08e8ded5f85f59fc10c2246d4b3d2ce3fecf42677476f176dc96064d31ab754b"
+    },
+    "inputs/supabase/functions/_shared/signed_sms_hook.ts": {
+      "bytes": 1943,
+      "mode": 420,
+      "sha256": "b545aad644e1f018d1528f69f3fd2dfe566006d41a1476fd7534cb57427b0ea6"
+    },
+    "inputs/supabase/functions/_shared/supabase.ts": {
+      "bytes": 1265,
+      "mode": 448,
+      "sha256": "5c29f6ca9351b428cec4aa5d72ea07e3e2eb1235f9d6ffb5bfc2e209c15040b4"
+    },
+    "inputs/supabase/functions/_shared/test_assert.ts": {
+      "bytes": 326,
+      "mode": 448,
+      "sha256": "8d11146f9ee2593138cec69414dd2159bfb31ca5194de3ad2074708a5b576648"
+    },
+    "inputs/supabase/functions/auth-send-whatsapp-otp/handler.ts": {
+      "bytes": 11307,
+      "mode": 420,
+      "sha256": "69c8c8f15069f3de6cc323091759cf56d6c46ca74084c448272930ed68b0de30"
+    },
+    "inputs/supabase/functions/auth-send-whatsapp-otp/handler_test.ts": {
+      "bytes": 19958,
+      "mode": 420,
+      "sha256": "69f6ee76b873d01efe683c6d50848885fcc7da4b933828a5a21998a7aad8b93b"
+    },
+    "inputs/supabase/functions/auth-send-whatsapp-otp/index.ts": {
+      "bytes": 357,
+      "mode": 448,
+      "sha256": "607221029ae4e1fe43a9210e6925868d0146d30df5896875393d5e80584108a2"
+    },
+    "inputs/supabase/functions/collect-android-gateway/archive_v3.ts": {
+      "bytes": 5418,
+      "mode": 420,
+      "sha256": "f08dd4ff4975d80ea295bb9911ff74c47f0710995b1e3c52e35623a6515edf9b"
+    },
+    "inputs/supabase/functions/collect-android-gateway/archive_v3_test.ts": {
+      "bytes": 9484,
+      "mode": 420,
+      "sha256": "7f2d0e6ccaf8394dbe75b015946a5fa5ddee9a56e6b1657a8cb031028ebdf950"
+    },
+    "inputs/supabase/functions/collect-android-gateway/dispatch_observed_test.ts": {
+      "bytes": 6493,
+      "mode": 420,
+      "sha256": "1b8bebb2e7d153dc6f1545e80bf81f2ae12f1de9f132d850c8f5011447a281fe"
+    },
+    "inputs/supabase/functions/collect-android-gateway/dispatch_v2_test.ts": {
+      "bytes": 21812,
+      "mode": 420,
+      "sha256": "d1e4a998fb3d30c5c21ac157cc134594e063ca673322ead28374fa4aefa05d5e"
+    },
+    "inputs/supabase/functions/collect-android-gateway/handler.ts": {
+      "bytes": 27054,
+      "mode": 420,
+      "sha256": "d1570430607a916e0006d8aa90c09b8671a4e1e890ece4c93b6803fd849e2344"
+    },
+    "inputs/supabase/functions/collect-android-gateway/handler_test.ts": {
+      "bytes": 15662,
+      "mode": 420,
+      "sha256": "2fef0754f073a34f47b36bab5f433a49e78bc907c839fcad165e380610a22801"
+    },
+    "inputs/supabase/functions/collect-android-gateway/index.ts": {
+      "bytes": 404,
+      "mode": 420,
+      "sha256": "9d9e3d9253c8ba016dbaf673ae2d2b5e747674e6c25096e7d8cfd89c2371acf8"
+    },
+    "inputs/supabase/functions/collect-notification-operator/index.ts": {
+      "bytes": 3051,
+      "mode": 448,
+      "sha256": "98cd544eb99267d9fa55a9d095768c6414f5ac9e2b504055618d6aae3cbb9a72"
+    },
+    "inputs/supabase/functions/collect-receipt-exception-worker/handler.ts": {
+      "bytes": 10378,
+      "mode": 420,
+      "sha256": "a7707c8888178194c3f050fcdbdddd060d65e246fb2d7280e903faaebbb3cb99"
+    },
+    "inputs/supabase/functions/collect-receipt-exception-worker/handler_test.ts": {
+      "bytes": 10775,
+      "mode": 420,
+      "sha256": "f0ceb3321444a4d498b851b8635a8e97eacdc409353e73a17368ca584f075685"
+    },
+    "inputs/supabase/functions/collect-receipt-exception-worker/index.ts": {
+      "bytes": 600,
+      "mode": 420,
+      "sha256": "fd40a8d1058289b32141ecdc17693142dc14f3d408251ce3cbc736224b5df84e"
+    },
+    "inputs/supabase/functions/collect-receipt-exception-worker/observed_test.ts": {
+      "bytes": 931,
+      "mode": 420,
+      "sha256": "a20efe8bc124c9606e20b4d6f75b37a9d2f45fba899e1fc9745e418b7938ab15"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler.ts": {
+      "bytes": 9031,
+      "mode": 420,
+      "sha256": "1eb7fee293391e86b8b58678a7f18d93b1a30190d063116a9f1118cbc6bfb760"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/handler_test.ts": {
+      "bytes": 15936,
+      "mode": 420,
+      "sha256": "1f747c5edfc677ce9fbde90f107b3e13188155b21986e7188f92b72bae39b176"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/index.ts": {
+      "bytes": 417,
+      "mode": 420,
+      "sha256": "e86cff886e574082eafdf0f25261c9f5eeffdf6aa96e2c5b7e38bcc43cef0142"
+    },
+    "inputs/supabase/functions/collect-receipt-successor-gateway/wire.ts": {
+      "bytes": 13374,
+      "mode": 420,
+      "sha256": "081d6c33da90713c50bb9399f2411304a00e8e3c448918c21bd5490d6deebe14"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/handler.ts": {
+      "bytes": 18100,
+      "mode": 420,
+      "sha256": "e5e7f7d22d0be46d874c1186390eaf9ad2e1c115480212e4401cfd5b71ed4ab8"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/handler_test.ts": {
+      "bytes": 11780,
+      "mode": 420,
+      "sha256": "2423e30c128a8ad2b5e2efe768ca792c30b47444444c9249731b4c2aafb815bc"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/index.ts": {
+      "bytes": 411,
+      "mode": 420,
+      "sha256": "56eb7b8aaa8a30b869b54212abb8c7b6ff2d8411b72904bbbedc9f32cdf7cb15"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/operations_contract.ts": {
+      "bytes": 8735,
+      "mode": 420,
+      "sha256": "8a81c75cd4f8de1b220bc788529f0cff10c17c35bb6ab80e4602d619659651c5"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/operations_contract_test.ts": {
+      "bytes": 11092,
+      "mode": 420,
+      "sha256": "95d17ddafac6c63831ccbdf2cc16a0c92a733ce476b8119a0c938194a5e2772c"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/operations_wire_test.ts": {
+      "bytes": 1148,
+      "mode": 420,
+      "sha256": "b3d1e54f973435edef276314bd6a79bcdc50ce1e7635d243a0609a41707097b9"
+    },
+    "inputs/supabase/functions/collect-receipt-supervisor/wire_test.ts": {
+      "bytes": 1169,
+      "mode": 420,
+      "sha256": "dab45eb3d52d430f094a57fbc458323d9b1164242cce6367fd0361ecbd98124d"
+    },
+    "inputs/supabase/functions/deno.lock": {
+      "bytes": 7115,
+      "mode": 420,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    "inputs/supabase/functions/dispatch-notifications/dispatcher.ts": {
+      "bytes": 3673,
+      "mode": 420,
+      "sha256": "f643d1cc43452b43d58e9d3ba33f09618c5381bdfe2993dcd37e50dd4781adc8"
+    },
+    "inputs/supabase/functions/dispatch-notifications/dispatcher_test.ts": {
+      "bytes": 8163,
+      "mode": 420,
+      "sha256": "9796a6726faa92e6bcfb4752f128a744842d3218875d7d6acc16fb030534630d"
+    },
+    "inputs/supabase/functions/dispatch-notifications/index.ts": {
+      "bytes": 4960,
+      "mode": 448,
+      "sha256": "9fef471080b54925f86f1ad80b15a336f7279a663b58c4d11f49af9cdcf56472"
+    },
+    "inputs/supabase/functions/ingest-payment-sms/index.ts": {
+      "bytes": 3669,
+      "mode": 448,
+      "sha256": "66d70d3ec115e1ab492efff0bccf330f25bdbf4f23cd7490e763ead67fc39c36"
+    },
+    "inputs/supabase/functions/parse-payment-sms/index.ts": {
+      "bytes": 6538,
+      "mode": 448,
+      "sha256": "695e3a39a5cf771d426eaa0e6511ff58f81202c15be171732044f39673fe7ca9"
+    },
+    "inputs/supabase/functions/prepare-roster-import/handler.ts": {
+      "bytes": 24077,
+      "mode": 420,
+      "sha256": "4702f557256dedbb52ece1b76f9977aa46dfe4a0aa003790307a8012088c4134"
+    },
+    "inputs/supabase/functions/prepare-roster-import/handler_test.ts": {
+      "bytes": 54480,
+      "mode": 420,
+      "sha256": "d93bd75ebb91d17ccc89609628f9ef49822814b52d584259b752967892313def"
+    },
+    "inputs/supabase/functions/prepare-roster-import/index.ts": {
+      "bytes": 962,
+      "mode": 448,
+      "sha256": "8a13feae3fb7668490663a9dcd24439a9959b080260d060fb886ebad14e0c5e9"
+    },
+    "inputs/supabase/functions/reconciliation-finalize/handler.ts": {
+      "bytes": 3691,
+      "mode": 420,
+      "sha256": "c5bc3ce5107289170a8d9afc568c54b5390c44a580a890cf19676cbd15bcf116"
+    },
+    "inputs/supabase/functions/reconciliation-finalize/handler_test.ts": {
+      "bytes": 6815,
+      "mode": 420,
+      "sha256": "f681e5a29be57236958ec2edfcf7f8b23af4b0f5b1b31ab142475406c05094c0"
+    },
+    "inputs/supabase/functions/reconciliation-finalize/index.ts": {
+      "bytes": 736,
+      "mode": 420,
+      "sha256": "e32b41481dc3bd1818d0ce20455c93b03518504897627bbdef4d5d3b2664046c"
+    },
+    "inputs/supabase/functions/send-notification/handler.ts": {
+      "bytes": 7034,
+      "mode": 420,
+      "sha256": "8d027672d2449e85ecbb10b18cf055898696bbc1aaaed3d1a55fec01866fd57c"
+    },
+    "inputs/supabase/functions/send-notification/handler_test.ts": {
+      "bytes": 6323,
+      "mode": 420,
+      "sha256": "1b0fc69d8729192ce2d5fd3bb77d09c5292af124ede4caeec05db87f63b3c458"
+    },
+    "inputs/supabase/functions/send-notification/index.ts": {
+      "bytes": 558,
+      "mode": 448,
+      "sha256": "ae0acee84332b3a2f35b15c4a1197c3913a6a291ce3c81648dc2563beff97cc6"
+    },
+    "inputs/supabase/functions/verify-play-integrity/index.ts": {
+      "bytes": 14989,
+      "mode": 448,
+      "sha256": "3e5f2fb1ba52241aa2906f6ce97c04a81b6a97e33479a06a12400bbc5137b7ed"
+    },
+    "prepare.py": {
+      "bytes": 13336,
+      "mode": 420,
+      "sha256": "d16faa8f2c98dec187f220b7abe2345ccccf5985fdf2c0cae915afcf44a9fb2f"
+    },
+    "preservation.json": {
+      "bytes": 477,
+      "mode": 420,
+      "sha256": "383dd2b0807100f2e769b0446f0b80d5d4e70f94a40a1864abf6058c9d54f75d"
+    },
+    "proposal.json": {
+      "bytes": 3734,
+      "mode": 420,
+      "sha256": "d7bb8c7447df0b19507103df7c41dbd8b3a68ee042a729c3d2126cc1f3cc8cc1"
+    },
+    "refusal-branch-insertion.txt": {
+      "bytes": 2288,
+      "mode": 420,
+      "sha256": "3da7c14e594d4a54c218a9591db8acccf47f4fd05210cde5cfcb9bbc99534788"
+    },
+    "registration-insertion.txt": {
+      "bytes": 128,
+      "mode": 420,
+      "sha256": "1a0f826d5331dcd79f80bc80e287f7abfc86f4c6f541ae08d96af757be3102ac"
+    },
+    "seal.py": {
+      "bytes": 3561,
+      "mode": 420,
+      "sha256": "5e8e1863cc9c9033fccde19b6febb1bb0575c4668c093e5fe7aa8f71d4858009"
+    },
+    "source-after.json": {
+      "bytes": 30832,
+      "mode": 420,
+      "sha256": "3b1952c690a4de666e60141bb36776c8baa295d45100980904d480d256578612"
+    },
+    "source-before.json": {
+      "bytes": 30832,
+      "mode": 420,
+      "sha256": "3b1952c690a4de666e60141bb36776c8baa295d45100980904d480d256578612"
+    },
+    "source-guard-at-seal.json": {
+      "bytes": 679,
+      "mode": 420,
+      "sha256": "3f1dd01845d95ed0cdfa73bf5d2531df41b75682301500e69abc5f464a3ac09e"
+    }
+  },
+  "base_SHA": "27fcd434f5a4c5c30d298c1df2e1e059c22e206e82ec42e6a84523f9c12293c9",
+  "candidate_SHA": "91a81690ba15582a9ff11b314dbd493c9f015eca03512334a15649287f3b4e42",
+  "candidate_loader_count": 13,
+  "current_loader_count": 12,
+  "dynamic_unit_entryfiles": 33,
+  "maintained_inputs": 96,
+  "maintained_source_writes": 0,
+  "missing_observed_imports": 10,
+  "new_assertions_executed": false,
+  "new_planned_HTTP_assertions": 6,
+  "patch_SHA": "886f205107153ff17d9c54eafc03416be714510264299f6f4e52d2ebb168c4ab",
+  "provider_or_hosted_operations": false,
+  "sealed_at_utc": "2026-10-02T02:49:09.527879+00:00",
+  "shared_promotion": false,
+  "source_config_manifest_count": 13,
+  "status": "private_one_file_HTTP_proposal_not_executed_or_promoted",
+  "successor_declared_tests": 25,
+  "type_or_handler_or_SQL_or_native_execution": false,
+  "unit_filtering_or_generated_observations": false
+}

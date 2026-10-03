@@ -1,0 +1,4 @@
+Analyzing admin_exception_workflow_sdk_test.dart...             
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • test/admin_exception_workflow_sdk_test.dart:739:17 • curly_braces_in_flow_control_structures
+

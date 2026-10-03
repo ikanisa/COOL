@@ -1,0 +1,13 @@
+{
+  "captured_at_utc": "2026-10-01T21:55:04.036641+00:00",
+  "inputs": {
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "fastlane/Fastfile": "41ba63b58bed2db080796388d9d239c15d31ae66e6ff1158fea8ca73f676fb86",
+    "scripts/qa/ios_delivery_guard.py": "0a0b0bdf3789919fe5cc36715fd64dfe0c56b7151f7f33f9a45433ce7eace81a",
+    "scripts/qa/collect_release_candidate.py": "1cf2c61c09099b6249895bd3887532cf1672a3f69c3eb4c23cb58c52d94aa690",
+    "scripts/tests/ios_fastlane_offline_harness.rb": "3d27b7ae024d578391bd04c7e714193039440a336a006fe97643e61829f12f54",
+    "scripts/tests/ios_delivery_contract_test.py": "9a848f539a78da5e0078360820ab258e6dd9069e2b7bdbf8869a7ff12461d646",
+    "scripts/tests/ruby_dependency_security_test.rb": "9040650d9cb73bf355b89f3b141dcdf96ced1f448a96384cff1e8515cafcad92"
+  },
+  "source_scope": "Only these noncredential implementation/tests copied; generated synthetic test fixture repositories created in networkless container"
+}

@@ -1,0 +1,21 @@
+{
+  "observed_at_utc": "2026-10-01T10:12:43.011981+00:00",
+  "locks": [
+    {
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/.upgrade_lock",
+      "present": false
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/lockfile",
+      "open_process_count": 0,
+      "command_exit_code": 1
+    }
+  ],
+  "sdk": {
+    "version": "3.44.4",
+    "revision": "ad70ec4617166f1c38e5d2bfd388af71fda14f06",
+    "metadata_sha256": "03719f5610cc1f1767d906786ee1543bc76ab0aa859c7cf2d474a466e44a7936",
+    "launcher_sha256": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d"
+  },
+  "scope": "Read-only current startup-lock observation only; no process stopped or SDK changed."
+}

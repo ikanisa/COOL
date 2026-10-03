@@ -1,0 +1,11 @@
+{
+  "final_flat_native_inputs_sha256": "5fac8ad45ee031b0d98e44f5fbc55c790ff0a8c6a03107fc7d8439fa905ae3a4",
+  "final_native_source_sha256": "8adb7be3f0b86b0ad78e655ab64e5350531f31b84acc973b079c7ed58ddc384d",
+  "native_inputs": 89,
+  "original_final_native_acceptance_sha256": "3ecf31c736a246c7b1fbc7a491c6a9d8d4c5f846168ca9c9cf9dd03a652bfec1",
+  "real_json_init_parent_sha256": "fe80586162c40f739dfe7a49895a2c084b090cc0c44eefac1c1ddd8b817e9aa3",
+  "real_json_init_sha256": "e4b93072a500cdfcad1c9873bdc47c3034c967c90aa83950c8ea0fab4dbe75f0",
+  "release_apk_sha256": "cf8a18020375787d83754012d788f468771003398fc3a5a55e03a8fb40aaf3c0",
+  "scope": "Exactly accepted final six-file derivative; full Gateway JVM verification only.",
+  "source_inputs": 1103
+}

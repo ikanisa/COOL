@@ -1,0 +1,103 @@
+{
+  "phase": "acceptance",
+  "source_unchanged": true,
+  "source_count": 549,
+  "commands": [
+    {
+      "name": "toolchain",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 17207,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 0.926,
+      "sha256": "d4055adcf73908397f3b70e373b72e44e6fea1bf3e6c9e877121bdb1c423309a"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--dart-define=ADMIN_READ_SQL_RECEIPTS=/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/actual-read-receipts.stdout",
+        "--dart-define=ADMIN_READ_SQL_ACTOR=99690000-0000-4000-8000-000000000001",
+        "test/admin_private_provider_authority_test.dart",
+        "--plain-name",
+        "production detail hides loaded private content after permission loss",
+        "--concurrency=2",
+        "--reporter",
+        "expanded",
+        "--file-reporter=json:/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/private-loaded-diagnostic-attempt9/acceptance/tests.machine.jsonl"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 17268,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 38.648,
+      "sha256": "69d7d0f85aba3dd3a3f722cea56cb72eec82fcc9cadd17a53e9da4bbf76508f0"
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "lib/admin/core/admin_runtime.dart",
+        "lib/admin/core/admin_read_contracts.dart",
+        "lib/admin/admin_shell.dart",
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_action_contracts.dart",
+        "lib/admin/core/admin_reconciliation_models.dart",
+        "lib/admin/core/admin_roster_import.dart",
+        "lib/admin/core/admin_auth_guard.dart",
+        "test/support/admin_read_fixture.dart",
+        "test/admin_private_provider_authority_test.dart"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group": 19679,
+      "termination_errors": [],
+      "parent_exit_confirmed": true,
+      "seconds": 6.511,
+      "sha256": "5eda600f7e8b386e898f0cbb391d6b6d75dd707a9d743b3d79a253d2b1f4bb2a"
+    }
+  ],
+  "test_files": [
+    "test/admin_private_provider_authority_test.dart"
+  ],
+  "source_drift": [],
+  "test_count": 2,
+  "skipped_test_count": 0,
+  "analysis_clean": true,
+  "machine_summary": {
+    "runner_completed_successfully": true,
+    "passed": 2,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unfinished": [],
+    "failures": [],
+    "event_errors": []
+  },
+  "test_gate_passed": true,
+  "browser_checkpoint_passed": null,
+  "required_browser_checkpoint_cases": {},
+  "browser_checkpoint_machine_summary": null,
+  "browser_checkpoint_machine_sha256": null,
+  "actual_roster_sql149_decoder_required": false,
+  "actual_roster_sql149_decoder_passed": null,
+  "database_called": false,
+  "provider_called": false,
+  "synthetic_visual_capture_requested": false,
+  "scope": "actual locked Supabase SDK with synthetic MockClient and localhost HTTP/WebSocket transport; synthetic Auth records; actual locked PlatformFile interface with instrumented bounded streams",
+  "actual_sql_receipt_sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+  "actual_roster_sql149_receipt_sha256": null,
+  "machine_test_log_sha256": "096fe153fa694151fa8beb57e01b28feff6bc194f27ccd8c8704cbf52ced4a24",
+  "source_before_sha256": "03984933c435b5b89a8dffe0930986730ca0afd04557b449494269b6719bd41e",
+  "source_after_sha256": "03984933c435b5b89a8dffe0930986730ca0afd04557b449494269b6719bd41e"
+}

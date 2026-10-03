@@ -1,0 +1,191 @@
+{
+  "status": "pass",
+  "observed_at_utc": "2026-10-02T11:32:52.232661+00:00",
+  "scope": "One actual maintained local ordinary clean/populated SQL recipe; full BE10/production/hosted acceptance remains open",
+  "outer_bound_seconds": 650,
+  "outer_elapsed_seconds": 158.37366408399976,
+  "recipe_elapsed_seconds": 158.25320424999518,
+  "original_inner_bounds": {
+    "whole": 600,
+    "execution": 540,
+    "cleanup": 60
+  },
+  "actual_case_count": 37,
+  "cases_exact_original37": true,
+  "source219_before_after_captured_exact": true,
+  "original216_unchanged": true,
+  "current209_migration_set_exact": true,
+  "migration_applications": 418,
+  "actual_NOSUPERUSER_before_all418_migrations": true,
+  "populated_85_forward_migrations_preserve_each_18_projections": true,
+  "final_clean_populated_complete_catalog_bytes_equal": true,
+  "image": {
+    "Id": "sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a",
+    "Os": "linux",
+    "Architecture": "arm64"
+  },
+  "phases": {
+    "clean": {
+      "applied_migrations": 209,
+      "actual_installer": {
+        "create_db": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": true,
+        "current_role": "postgres",
+        "current_user": "postgres"
+      },
+      "guard": {
+        "network": "none",
+        "published_ports": false,
+        "labels_verified": true,
+        "net": "0",
+        "cron": "off",
+        "listen": "",
+        "server": "17.6"
+      },
+      "scheduler_readback": {
+        "net": "0",
+        "cron": "off",
+        "history": 0
+      },
+      "effective_catalogs": {
+        "final": {
+          "path": "ordinary_clean/final-effective-catalog.json",
+          "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c",
+          "canonical_sha256": "b7f6cedbfeac9561a771851ea33b1d641f70405c36c4a9106ea7bfc7c8327bab",
+          "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+          "migrations": 209,
+          "counts": {
+            "roles": 30,
+            "types": 606,
+            "columns": 3756,
+            "indexes": 704,
+            "schemas": 38,
+            "policies": 153,
+            "settings": 8,
+            "triggers": 369,
+            "functions": 902,
+            "relations": 997,
+            "extensions": 8,
+            "migrations": 209,
+            "constraints": 1720,
+            "memberships": 23,
+            "default_acls": 21,
+            "dependencies": 9883,
+            "event_triggers": 8
+          },
+          "table_rows_exported": false,
+          "managed_hosted_parity": false
+        }
+      },
+      "task_container_removed": true
+    },
+    "populated": {
+      "applied_migrations": 209,
+      "actual_installer": {
+        "create_db": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": true,
+        "current_role": "postgres",
+        "current_user": "postgres"
+      },
+      "guard": {
+        "network": "none",
+        "published_ports": false,
+        "labels_verified": true,
+        "net": "0",
+        "cron": "off",
+        "listen": "",
+        "server": "17.6"
+      },
+      "scheduler_readback": {
+        "net": "0",
+        "cron": "off",
+        "history": 0
+      },
+      "effective_catalogs": {
+        "predecessor": {
+          "path": "ordinary_populated/predecessor-effective-catalog.json",
+          "sha256": "6219ca6b2169115eb663e6497f190e9116535b01071ddb5728df5596d432ec2d",
+          "canonical_sha256": "31b4d1ae357afcf8f093ce5417beb50724005734d9d1cf2f1896a777a393c404",
+          "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+          "migrations": 124,
+          "counts": {
+            "roles": 30,
+            "types": 308,
+            "columns": 2042,
+            "indexes": 360,
+            "schemas": 17,
+            "policies": 153,
+            "settings": 8,
+            "triggers": 101,
+            "functions": 381,
+            "relations": 503,
+            "extensions": 8,
+            "migrations": 124,
+            "constraints": 712,
+            "memberships": 23,
+            "default_acls": 21,
+            "dependencies": 4826,
+            "event_triggers": 8
+          },
+          "table_rows_exported": false,
+          "managed_hosted_parity": false
+        },
+        "final": {
+          "path": "ordinary_populated/final-effective-catalog.json",
+          "sha256": "4516b26ba34a426a2d97af40e7f2675d9a8f55de274f159b6da40fded1c0084c",
+          "canonical_sha256": "b7f6cedbfeac9561a771851ea33b1d641f70405c36c4a9106ea7bfc7c8327bab",
+          "query_sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b",
+          "migrations": 209,
+          "counts": {
+            "roles": 30,
+            "types": 606,
+            "columns": 3756,
+            "indexes": 704,
+            "schemas": 38,
+            "policies": 153,
+            "settings": 8,
+            "triggers": 369,
+            "functions": 902,
+            "relations": 997,
+            "extensions": 8,
+            "migrations": 209,
+            "constraints": 1720,
+            "memberships": 23,
+            "default_acls": 21,
+            "dependencies": 9883,
+            "event_triggers": 8
+          },
+          "table_rows_exported": false,
+          "managed_hosted_parity": false
+        }
+      },
+      "task_container_removed": true
+    }
+  },
+  "cleanup_exact_target_absence": [
+    {
+      "name": "collect_current_rehearsal_ordinary_clean_4900bba4ae97",
+      "verified_absent": true
+    },
+    {
+      "name": "collect_current_rehearsal_ordinary_populated_8ee71568f24d",
+      "verified_absent": true
+    }
+  ],
+  "cleanup_fallback_required": false,
+  "outer_and_four_tracked_groups_absent": true,
+  "expected_absence_inspect_exit1_is_successful_readback": true,
+  "secrets_or_real_customer_rows_copied": false,
+  "image_acquisition_network_provider_APP_SDK_source_writes": false,
+  "full_BE10_closed": false,
+  "new_Linux_CI_recipe_run": false,
+  "retained_prior37_27_39_not_rerun": true,
+  "validation_sha256": "382927e0bedee3d92d243b027237f956187b717104075997801327999b850d2e",
+  "actual_result_sha256": "b79ecfa23da0792ca70da8c48d2ba4d6a417e92cc7ddabff694335412370e399",
+  "outer_result_sha256": "d59e0b55e1523292d376fcffc6d453c2bc4f8453ab3346fc65b86917baba6955",
+  "cache_artifact_count": 879
+}

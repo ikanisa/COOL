@@ -1,0 +1,7 @@
+{
+  "packet_files_sha256": "2439a48af28a63ce829a85d731dcf8941f7399b60a80d7032d9626cfb70928de",
+  "production_release_approval": false,
+  "readback_sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf",
+  "reader_grants_closure": false,
+  "schema_version": 1
+}

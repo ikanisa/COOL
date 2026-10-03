@@ -1,0 +1,2 @@
+ERROR:  42501: permission denied for function finalize_approved_reconciliation_v2
+LOCATION:  aclcheck_error, aclchk.c:2843

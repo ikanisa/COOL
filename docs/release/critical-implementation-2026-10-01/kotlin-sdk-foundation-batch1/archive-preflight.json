@@ -1,0 +1,972 @@
+{
+  "SDK_executed": false,
+  "Unix_type_counts": {
+    "0o100000": 18234,
+    "0o120000": 17,
+    "0o40000": 4164
+  },
+  "archive_extracted": false,
+  "archive_sha256": "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042",
+  "archive_stat_matches_authenticated_complete_readback": true,
+  "competing_UI_design_skill_count": 0,
+  "compression_counts": {
+    "0": 4859,
+    "8": 17556
+  },
+  "deadline_seconds": 180,
+  "elapsed_seconds": 2.582,
+  "enough_headroom": true,
+  "entry_count": 22415,
+  "expanded_bytes": 4244148641,
+  "free_bytes_now": 41564536832,
+  "maximum_member_bytes": 500999381,
+  "metadata": {
+    "admitted": true,
+    "expanded_bytes": 4244148641,
+    "issues": [],
+    "links": [
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Resources",
+        "target": "Versions/Current/Resources"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A",
+        "target": "A"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Headers",
+        "target": "Versions/Current/Headers"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Modules",
+        "target": "Versions/Current/Modules"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/FlutterMacOS",
+        "target": "Versions/Current/FlutterMacOS"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Resources",
+        "target": "Versions/Current/Resources"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A",
+        "target": "A"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Headers",
+        "target": "Versions/Current/Headers"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Modules",
+        "target": "Versions/Current/Modules"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/FlutterMacOS",
+        "target": "Versions/Current/FlutterMacOS"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Resources",
+        "target": "Versions/Current/Resources"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A",
+        "target": "A"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Headers",
+        "target": "Versions/Current/Headers"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/Modules",
+        "target": "Versions/Current/Modules"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": true,
+        "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+        "publisher_tree_link": false,
+        "resolved_target": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/A/FlutterMacOS",
+        "target": "Versions/Current/FlutterMacOS"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": false,
+        "path": "flutter/.claude/skills",
+        "publisher_tree_link": true,
+        "resolved_target": "flutter/.agents/skills",
+        "target": "../.agents/skills"
+      },
+      {
+        "contained": true,
+        "explicitly_reviewed_cache_link": false,
+        "path": "flutter/engine/src/flutter/lib/web_ui/test/ui/paragraph_performance_test.dart",
+        "publisher_tree_link": true,
+        "resolved_target": "flutter/engine/src/flutter/lib/web_ui/test/webparagraph/paragraph_performance_test.dart",
+        "target": "../webparagraph/paragraph_performance_test.dart"
+      }
+    ]
+  },
+  "negative_results": [
+    {
+      "case": "actual_duplicate_member",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "duplicate archive identity",
+          "kind": "member_rejected",
+          "path": "flutter/LICENSE"
+        }
+      ]
+    },
+    {
+      "case": "actual_parent_traversal",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "unsafe archive path",
+          "kind": "member_rejected",
+          "path": "flutter/../outside"
+        }
+      ]
+    },
+    {
+      "case": "actual_absolute_member",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "unsafe archive path",
+          "kind": "member_rejected",
+          "path": "/outside/LICENSE"
+        }
+      ]
+    },
+    {
+      "case": "actual_NFC_case_alias",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "NFC/case alias",
+          "kind": "member_rejected",
+          "path": "flutter/license"
+        }
+      ]
+    },
+    {
+      "case": "actual_FIFO_member",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "special or inconsistent archive file type",
+          "kind": "member_rejected",
+          "path": "flutter/LICENSE"
+        }
+      ]
+    },
+    {
+      "case": "actual_oversized_member_and_total",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "bytes": 18202790834,
+          "kind": "total_size_bound"
+        }
+      ]
+    },
+    {
+      "case": "actual_encrypted_member",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "encrypted archive member",
+          "kind": "member_rejected",
+          "path": "flutter/LICENSE"
+        }
+      ]
+    },
+    {
+      "case": "actual_unreviewed_compression",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "unreviewed compression method",
+          "kind": "member_rejected",
+          "path": "flutter/LICENSE"
+        }
+      ]
+    },
+    {
+      "case": "actual_external_object_store_pointer",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "external object-store alternates forbidden",
+          "kind": "member_rejected",
+          "path": "flutter/.git/objects/info/alternates"
+        }
+      ]
+    },
+    {
+      "case": "actual_symlink_parent_collision",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "kind": "ancestor_collision",
+          "parent": "flutter/.claude/skills",
+          "path": "flutter/.claude/skills/unreviewed"
+        }
+      ]
+    },
+    {
+      "case": "actual_tracked_symlink_escape",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "symlink target escapes publisher root",
+          "kind": "link_rejected",
+          "path": "flutter/.claude/skills"
+        }
+      ]
+    },
+    {
+      "case": "actual_cached_framework_cycle",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "symlink cycle",
+          "kind": "link_rejected",
+          "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current"
+        }
+      ]
+    },
+    {
+      "case": "actual_cached_framework_target_drift",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "error": "symlink target missing from archive",
+          "kind": "link_rejected",
+          "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current"
+        }
+      ]
+    },
+    {
+      "case": "actual_extra_internally_contained_framework_alias",
+      "rejected": true,
+      "specific_findings": [
+        {
+          "kind": "unreviewed_extra_link",
+          "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Surprise",
+          "target": "Versions/Current/Headers"
+        }
+      ]
+    },
+    {
+      "case": "actual_source_executable_mode_drift",
+      "mode_mismatches": [
+        {
+          "actual": "0o100755",
+          "expected": "100644",
+          "path": "flutter/LICENSE"
+        }
+      ],
+      "rejected": true
+    },
+    {
+      "case": "actual_license_member_loss",
+      "missing": [
+        "flutter/LICENSE"
+      ],
+      "rejected": true
+    },
+    {
+      "case": "actual_expanded_license_byte_drift",
+      "changed_identity": {
+        "actual_blob_sha1": "c2fb66da062cd38c48e45d74553bb3da9b63bbfb",
+        "actual_bytes": 1526,
+        "actual_sha256": "9eceb8c8f42978fc85144b74ffc8fb8185452d9b3103f2e3a28d6ecac3f38a5d",
+        "expected_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+        "expected_bytes": 1519,
+        "path": "flutter/LICENSE"
+      },
+      "rejected": true
+    },
+    {
+      "case": "actual_unreviewed_source_exceptions_block_writer_admission",
+      "error": "unreviewed archive/link/source exceptions prohibit expansion",
+      "filesystem_writes": false,
+      "rejected": true
+    }
+  ],
+  "original_tree_only_plan_issue_count": 15,
+  "original_tree_only_plan_issues": [
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+      "target": "A"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+      "target": "Versions/Current/FlutterMacOS"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+      "target": "A"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+      "target": "Versions/Current/FlutterMacOS"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+      "target": "Versions/Current/Resources"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+      "target": "A"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+      "target": "Versions/Current/Headers"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+      "target": "Versions/Current/Modules"
+    },
+    {
+      "kind": "unreviewed_extra_link",
+      "path": "flutter/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+      "target": "Versions/Current/FlutterMacOS"
+    }
+  ],
+  "patch_applied": false,
+  "recorded_utc": "2026-10-02T00:16:09.404906+00:00",
+  "remaining_admission_error": "unreviewed archive/link/source exceptions prohibit expansion",
+  "required_headroom_bytes": 6391632289,
+  "root": "flutter",
+  "schema_version": 1,
+  "scope": "Actual bounded ZIP metadata, link targets and all tracked-source bytes read in RAM only. No filesystem expansion, SDK execution, instruction/skill registration or production acceptance.",
+  "skills": [
+    {
+      "Git_blob_sha1": "b918d7146c834b85e671a9552a87f20299334c19",
+      "bytes": 2150,
+      "classification": "technical Dart/Flutter commit release lookup",
+      "competing_UI_design_authority": false,
+      "path": "flutter/.agents/skills/find-release/SKILL.md",
+      "registered_or_executed": false,
+      "sha256": "f4ee509ca961eafebc1da10dcc4ff5f70af3bb69d7d3a7dbd7cbe96b14469aa2"
+    }
+  ],
+  "source_comparison": {
+    "changed": [
+      {
+        "actual_blob_sha1": "ea3fd83b56575771382c060bc4bf197644f9f5b5",
+        "actual_bytes": 1965,
+        "actual_sha256": "c9ca7f8b003e19f290951d79fb5e403e4782137a3f1d2b21d02ff531cea7e73e",
+        "expected_blob_sha1": "0bcd226dbdf9fd13418cc951a3d30da1d8c125db",
+        "expected_bytes": 1916,
+        "path": "flutter/bin/dart.bat"
+      },
+      {
+        "actual_blob_sha1": "bf2c40c8b8c411bea9534d096fdad9823d2e2082",
+        "actual_bytes": 3427,
+        "actual_sha256": "d0718f626198f76ae34480f0c3f8c7a50cdf9e81bded0a82ef7fe565a9e0238b",
+        "expected_blob_sha1": "64a913ea1960a82dc4b33d5d60d1fcec337d5236",
+        "expected_bytes": 3348,
+        "path": "flutter/bin/flutter-dev.bat"
+      },
+      {
+        "actual_blob_sha1": "db58b54b7ee04a6ba32e99502e4af8f971ed55b1",
+        "actual_bytes": 3080,
+        "actual_sha256": "f83bfed7ecd10fd1afd8ce19c0b0119d2c80e24fbf26f4ff4f63c1cc5f75dcd5",
+        "expected_blob_sha1": "246cbb5d3fd0dc80c5fb8fab879cff170d6d4dd7",
+        "expected_bytes": 3006,
+        "path": "flutter/bin/flutter.bat"
+      },
+      {
+        "actual_blob_sha1": "be2cdaec034267ae3f7be4d8d928a469d9c07ec8",
+        "actual_bytes": 3848,
+        "actual_sha256": "5a65cc90ae6df3d241ce51f63d3689b733afc18fa52ac6b1d376a762c8007d29",
+        "expected_blob_sha1": "275af26df3648fce5566d39645ff39ad3cce9928",
+        "expected_bytes": 3764,
+        "path": "flutter/bin/internal/content_aware_hash.ps1"
+      },
+      {
+        "actual_blob_sha1": "683c0b1574fe7080b0be1f45e95b5da0c5e103e3",
+        "actual_bytes": 562,
+        "actual_sha256": "f4014bd05cc24391ff28f7bd5b22949cc80f0bb66ab9eda512c9c3997f0283e0",
+        "expected_blob_sha1": "921624d5b0cb8d6f791f3f438da9c1a9b38ef5fe",
+        "expected_bytes": 549,
+        "path": "flutter/bin/internal/exit_with_errorlevel.bat"
+      },
+      {
+        "actual_blob_sha1": "9c6e0f73c371518d2d8c6304e9efa0770e943339",
+        "actual_bytes": 2922,
+        "actual_sha256": "1db22f519548c7e208d9ca9399b9bf5a642c4090382aad629c15a58b72be69c1",
+        "expected_blob_sha1": "a4789942c2b1f2d9ed54340fd5ce264a81239365",
+        "expected_bytes": 2856,
+        "path": "flutter/bin/internal/last_engine_commit.ps1"
+      },
+      {
+        "actual_blob_sha1": "3760deae5e00b9157e67e140bb2b620eb4d4064e",
+        "actual_bytes": 10433,
+        "actual_sha256": "b1b8a1b696ecd1265c0cfdc1408c340f0d8351c0e1624710bb8fbf1ab218d4db",
+        "expected_blob_sha1": "1a55bffb11b98bfd647e327256b0eb787b5aa772",
+        "expected_bytes": 10193,
+        "path": "flutter/bin/internal/shared.bat"
+      },
+      {
+        "actual_blob_sha1": "b29915e0a72037f6c09bc07cf5e50c17c0c70583",
+        "actual_bytes": 5525,
+        "actual_sha256": "80b35d02219b9b2f59adac3f04f47ee95d8a7680656585fab7b3c84e939bdf65",
+        "expected_blob_sha1": "318ef62add853afbebedca0a194e6170047beee5",
+        "expected_bytes": 5398,
+        "path": "flutter/bin/internal/update_dart_sdk.ps1"
+      },
+      {
+        "actual_blob_sha1": "ccf400625f1b3ab7582c2f63249b3634f9202e34",
+        "actual_bytes": 3760,
+        "actual_sha256": "f2a743b9b0532ad7c22b1ea1fbfb80e1a946674a58327034c08b5471842c18bc",
+        "expected_blob_sha1": "2eed1b0723d8203cdc01019e2bebd4ce1604d9b0",
+        "expected_bytes": 3665,
+        "path": "flutter/bin/internal/update_engine_version.ps1"
+      },
+      {
+        "actual_blob_sha1": "8bea95f1193e463edf91f721390fcc44a57bff1d",
+        "actual_bytes": 3182,
+        "actual_sha256": "0b37f40c9400ab0b405f480487abe2535329dd2f97ef43d60bcc9c5a814fccf9",
+        "expected_blob_sha1": "9b5eba68d5484f612acbff61acc936088ee450f1",
+        "expected_bytes": 3061,
+        "path": "flutter/dev/a11y_assessments/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "6d171eb69ee5257fac069dad2eae674a4993502e",
+        "actual_bytes": 3185,
+        "actual_sha256": "330a600e4317cf77e07719ef7be1a53a5b9fe370544c314dc96882dcb3ec124a",
+        "expected_blob_sha1": "43a6726c33f6dc949a19e4c3c1989a2b4418a7ca",
+        "expected_bytes": 3064,
+        "path": "flutter/dev/benchmarks/complex_layout/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "5f46e378b06c3f481916c23b3e42a839fc525a12",
+        "actual_bytes": 798,
+        "actual_sha256": "f0a58bebfed5919cd1f817e5f2897d6259ed6bd1b41ea9c0604cc9924f8ebee3",
+        "expected_blob_sha1": "1536db554a2875fa147ec242ef3affe6bbf192b0",
+        "expected_bytes": 775,
+        "path": "flutter/dev/customer_testing/ci.bat"
+      },
+      {
+        "actual_blob_sha1": "cedda1638bd62566bf7375d0414854d373790ff5",
+        "actual_bytes": 2988,
+        "actual_sha256": "0eadc8ffe1c56f91b948e477979e6d3fb99ca43913fa5613300d8be2542e95bb",
+        "expected_blob_sha1": "b9e1c0939940ed7b7f5b80a7fd93a21acf38977c",
+        "expected_bytes": 2871,
+        "path": "flutter/dev/integration_tests/data_asset_app/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "c6d66d79d3861b7328426318e5fa3d2128e43428",
+        "actual_bytes": 3188,
+        "actual_sha256": "aa998749709cffa9675f78618250c168f69d49a50905a74be8a5b1b8a32b4f98",
+        "expected_blob_sha1": "79f936a2f5dbf4163ca9610f0a0d99c71cd06042",
+        "expected_bytes": 3067,
+        "path": "flutter/dev/integration_tests/flutter_gallery/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "d6e61e1d4e820a283427fa6f3357a6205c25b8d0",
+        "actual_bytes": 3127,
+        "actual_sha256": "cc4837637e736953cdcb91cadc84f51e50e8f3de9b4b128dd75bc85dc37fc408",
+        "expected_blob_sha1": "f74da7eb54f26fe6c500c7e17efb05ba05996a8f",
+        "expected_bytes": 3006,
+        "path": "flutter/dev/integration_tests/ui/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "058c9889751809590d186cf24a334d4c64f5b5e8",
+        "actual_bytes": 3177,
+        "actual_sha256": "45279d4c33e66fb55524f7ac499453d5eeaca575d78adefdbce261c08bc596b6",
+        "expected_blob_sha1": "9101e691326232bbf05c55ac4835e92215ed6b0f",
+        "expected_bytes": 3056,
+        "path": "flutter/dev/integration_tests/windowing_test/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "c1a82e368c8a0650e4449a0dcf00ce088d42ca4a",
+        "actual_bytes": 3201,
+        "actual_sha256": "5d9909cceeb0525549fc467427eb9699a22b0ebebbad9ac07196c7e56dc676e4",
+        "expected_blob_sha1": "b2671cacb8c68644d021b216ba95bb090b41db89",
+        "expected_bytes": 3080,
+        "path": "flutter/dev/integration_tests/windows_startup_test/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "ae1cdb1188eb081f2a3644b85731fbd251e9a62d",
+        "actual_bytes": 3166,
+        "actual_sha256": "da2f175907cb2d9fff28aad1cb4b54e8426f6a6f40e7fe81830a7f997d76e2cd",
+        "expected_blob_sha1": "7d70f92ec37af17e3389e818b913945f001cea49",
+        "expected_bytes": 3045,
+        "path": "flutter/dev/manual_tests/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "284c83c42e62567d5d4266da083450495454b58a",
+        "actual_bytes": 784,
+        "actual_sha256": "579ba6c6dbcebf8f7c019e5fa2eade37fa3d118a1244857dea0866c13591a887",
+        "expected_blob_sha1": "46ed331d7abad969de53f42ecf782be6806b0e68",
+        "expected_bytes": 762,
+        "path": "flutter/dev/tools/format.bat"
+      },
+      {
+        "actual_blob_sha1": "8be1498ab387034e9f0c1080d01aac6824bd26d5",
+        "actual_bytes": 1634,
+        "actual_sha256": "f927d9d491c08fbb98bfd6d31b5a290a083862420edb84d4662635fdbd31f7d1",
+        "expected_blob_sha1": "b5d90f7caafb80b98e9be448dee32751e060fc0a",
+        "expected_bytes": 1591,
+        "path": "flutter/engine/src/flutter/bin/et.bat"
+      },
+      {
+        "actual_blob_sha1": "6da361157d40117412c16b704390593ad8180ced",
+        "actual_bytes": 1500,
+        "actual_sha256": "e2da73a42b61242f97af72c558401891090196e3b90582830e9cb4f41b558bbb",
+        "expected_blob_sha1": "b8c5d8ad71a48e23f2d3c263c2b216e95fcd4588",
+        "expected_bytes": 1460,
+        "path": "flutter/engine/src/flutter/ci/format.bat"
+      },
+      {
+        "actual_blob_sha1": "b56b9320477b8c5900f32a6806afb7ddf22337b4",
+        "actual_bytes": 978,
+        "actual_sha256": "a01541ce394ff810b29a5684fef2d6d9fe56541fb14dd5a91fba8a8d9372c026",
+        "expected_blob_sha1": "4d13b43786ee802df7544a52b6222b2e6245cd3c",
+        "expected_bytes": 947,
+        "path": "flutter/engine/src/flutter/lib/web_ui/dev/felt.bat"
+      },
+      {
+        "actual_blob_sha1": "03b48d1365123c2fb7661b205bb79a44f2d1e0b2",
+        "actual_bytes": 29,
+        "actual_sha256": "d26e9eb05f4e254bb5c0b7bb99d85b0481cb441ef452cf5ee4220c0b35f7999e",
+        "expected_blob_sha1": "adf7d8953ee459d228a864924ccfe9af70efd50c",
+        "expected_bytes": 28,
+        "path": "flutter/engine/src/flutter/tools/gn.bat"
+      },
+      {
+        "actual_blob_sha1": "edfda78335054d6373b73747ad6e8de3c2dc8159",
+        "actual_bytes": 660,
+        "actual_sha256": "dff2369c3f0a39da300006589c90092c4f7639ab0007e0cd39c857b9b6c08703",
+        "expected_blob_sha1": "e75ae51364a32db82683b34b9f6f322bb2f3a6ec",
+        "expected_bytes": 644,
+        "path": "flutter/engine/src/flutter/tools/yapf.bat"
+      },
+      {
+        "actual_blob_sha1": "8d46438b8901b01335eb2078b09d90b4254809c7",
+        "actual_bytes": 3236,
+        "actual_sha256": "72e9095a54011c076f294e338d7799ae0daad202b8db6e0923f08e7648de2a5e",
+        "expected_blob_sha1": "34a087abcbc73e1c0cc602afcf1c1745d588c24d",
+        "expected_bytes": 3115,
+        "path": "flutter/examples/api/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "8f54589f4ea30c58e1c0af7945544d828fbd2d8f",
+        "actual_bytes": 3185,
+        "actual_sha256": "d60d27f75f377632e4fcf92ef76cfcc377cb571c7bbc46b4a79698346b664a15",
+        "expected_blob_sha1": "1683efd58f2f55e262b36eedfbed02e16b25392d",
+        "expected_bytes": 3064,
+        "path": "flutter/examples/flutter_view/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "11fb1a27cce7da4b0e3c1119712688550c977584",
+        "actual_bytes": 3181,
+        "actual_sha256": "3a4ac532739d4318d2b0bd4616254fe223446ac427ea3b4871b1183a83350a39",
+        "expected_blob_sha1": "fb3a7ba2fc2d911a53dfcef353549ab2717f3422",
+        "expected_bytes": 3060,
+        "path": "flutter/examples/hello_world/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "5a33bde61b398ddcafe711761e20eacd9a55e230",
+        "actual_bytes": 3161,
+        "actual_sha256": "1b30991ca01685953862972f5a9e6dd41a7c4079ee1e31faab04eb71f4328da9",
+        "expected_blob_sha1": "a3740660d8bc0f37273336b22b501d3c93d56892",
+        "expected_bytes": 3040,
+        "path": "flutter/examples/layers/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "a7da9cad83ccbe1d0f9877e8ba7f2e93813e09ef",
+        "actual_bytes": 2993,
+        "actual_sha256": "a45ba15f79773c7a54db240d883474742f62297f0ec16ba089aa41bd35ac436f",
+        "expected_blob_sha1": "d9d3832510220d30aef49ae62cd9e0fa326f7645",
+        "expected_bytes": 2882,
+        "path": "flutter/examples/multiple_windows/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "66e11ee9f436eea02dcaba07c6bd52ad26eaf8a8",
+        "actual_bytes": 2912,
+        "actual_sha256": "64669afc7b62ed824ac962e7885de97c7be2f73bf8c5cb4647b063dc2ed56290",
+        "expected_blob_sha1": "7f604a7b067cb7116df88f46bd12dfda16534a83",
+        "expected_bytes": 2801,
+        "path": "flutter/examples/platform_channel/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "d9d83c4f73acfcad6e03a98284d6b0ef7f2d8bac",
+        "actual_bytes": 3189,
+        "actual_sha256": "89f21fc0bf29e88206c40ba8891d0d8f6490155f79897fc8f91c2325db3eda2f",
+        "expected_blob_sha1": "ab09dd472f3f5350e2c1b77140e22020f50391ab",
+        "expected_bytes": 3068,
+        "path": "flutter/examples/platform_view/windows/runner/Runner.rc"
+      },
+      {
+        "actual_blob_sha1": "58307645c597b27c28d0ea0aa3d73865aa4a680c",
+        "actual_bytes": 1731,
+        "actual_sha256": "551d742a340deb6d041cf0664ba813e2fbab0bd8f8617500a1a4678a08b30ce4",
+        "expected_blob_sha1": "e88b8e7f15aca18f3063a3138e3710b303505368",
+        "expected_bytes": 1693,
+        "path": "flutter/flutter_console.bat"
+      },
+      {
+        "actual_blob_sha1": "23a402d9b85751fbc6522f0ff55a73b668fa22ef",
+        "actual_bytes": 368,
+        "actual_sha256": "314e44db292d9977ea0108b11b75d17f41632caaafbad888acfc0a60eeb92525",
+        "expected_blob_sha1": "7140f90b9e3cf4f48575fd0702cc692ef61e46d7",
+        "expected_bytes": 359,
+        "path": "flutter/packages/flutter_tools/bin/tool_backend.bat"
+      }
+    ],
+    "expected_leaf_source_entries": 15660,
+    "license_file_comparisons": [
+      {
+        "actual_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+        "actual_bytes": 1519,
+        "actual_sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+        "expected_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+        "expected_bytes": 1519,
+        "path": "flutter/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "29cbda1675e70f016c63f6517f589eb5b518ab2e",
+        "actual_bytes": 2327,
+        "actual_sha256": "2b51fa5841010c99e17e52da19201846d188d959f4d9c7c71e6f6ca08979965c",
+        "expected_blob_sha1": "29cbda1675e70f016c63f6517f589eb5b518ab2e",
+        "expected_bytes": 2327,
+        "path": "flutter/dev/integration_tests/ui/lib/license_check.dart"
+      },
+      {
+        "actual_blob_sha1": "a620cc17791a6885bf9679cf70745d6098ef0624",
+        "actual_bytes": 2010,
+        "actual_sha256": "270fcca306504d3dcdd61ba2cda5beade9e7bed595d5851b85861c4e007fed5c",
+        "expected_blob_sha1": "a620cc17791a6885bf9679cf70745d6098ef0624",
+        "expected_bytes": 2010,
+        "path": "flutter/dev/integration_tests/ui/test_driver/license_check_test.dart"
+      },
+      {
+        "actual_blob_sha1": "972bb2edb099e58b6a1939fa57f8e74391159c0c",
+        "actual_bytes": 1559,
+        "actual_sha256": "7a209dd1b94cabdb5ea9c6f9164b9546ffa5daaa671e7767d49510db055f5c51",
+        "expected_blob_sha1": "972bb2edb099e58b6a1939fa57f8e74391159c0c",
+        "expected_bytes": 1559,
+        "path": "flutter/engine/src/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "c6823b81eb845db89cee59cbbc7ee0b0b63d86ec",
+        "actual_bytes": 1519,
+        "actual_sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9",
+        "expected_blob_sha1": "c6823b81eb845db89cee59cbbc7ee0b0b63d86ec",
+        "expected_bytes": 1519,
+        "path": "flutter/engine/src/flutter/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "e692756879962f0153a310efde58296fd9fe2f20",
+        "actual_bytes": 1344,
+        "actual_sha256": "b6639cf9ab5d8543e44aca04d59dce4a087ff462803f3e424d3b0e3cb0437a60",
+        "expected_blob_sha1": "e692756879962f0153a310efde58296fd9fe2f20",
+        "expected_bytes": 1344,
+        "path": "flutter/engine/src/flutter/build/secondary/third_party/protobuf/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "c44e4156e8d746d3ceecff96c73ebf4f8d939613",
+        "actual_bytes": 955,
+        "actual_sha256": "778b443c884dddd81dc0fc0bda8f61194ccecc6211210ca8180c5bb4518cbd80",
+        "expected_blob_sha1": "c44e4156e8d746d3ceecff96c73ebf4f8d939613",
+        "expected_bytes": 955,
+        "path": "flutter/engine/src/flutter/ci/builders/standalone/linux_license.json"
+      },
+      {
+        "actual_blob_sha1": "ac2a2bf3078f2d7bfe85204ddadf06815b7e4b9f",
+        "actual_bytes": 3486,
+        "actual_sha256": "6788397d37ed1065626ecd72671ac6d64fc903e94edc2cc08ecf031916c24e16",
+        "expected_blob_sha1": "ac2a2bf3078f2d7bfe85204ddadf06815b7e4b9f",
+        "expected_bytes": 3486,
+        "path": "flutter/engine/src/flutter/ci/licenses_cpp.sh"
+      },
+      {
+        "actual_blob_sha1": "524dfcf49413fa9271970cd2e4d2d8b4ec711b8f",
+        "actual_bytes": 3039,
+        "actual_sha256": "b2aa8777e1b9ecd7bcecfea8621914dae4874df67258fb1a8b1ef88ca21a470e",
+        "expected_blob_sha1": "524dfcf49413fa9271970cd2e4d2d8b4ec711b8f",
+        "expected_bytes": 3039,
+        "path": "flutter/engine/src/flutter/lib/web_ui/dev/licenses.dart"
+      },
+      {
+        "actual_blob_sha1": "934d23a7593a9063acc428b8d7e6f3a5502846bc",
+        "actual_bytes": 1285117,
+        "actual_sha256": "82a5f93f918f99ff82af18c8be176c709dc812cb3f5e1e1cd93847bdeb0f9369",
+        "expected_blob_sha1": "934d23a7593a9063acc428b8d7e6f3a5502846bc",
+        "expected_bytes": 1285117,
+        "path": "flutter/engine/src/flutter/sky/packages/sky_engine/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "76755ac7a175c0806a55ad3e9baa3873b544f0f3",
+        "actual_bytes": 1481,
+        "actual_sha256": "f34787ef0342c614b667186a6ec2f5d6b9d650e30142a2788a589a89743e88e9",
+        "expected_blob_sha1": "76755ac7a175c0806a55ad3e9baa3873b544f0f3",
+        "expected_bytes": 1481,
+        "path": "flutter/engine/src/flutter/third_party/accessibility/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "b93be90515ccd0b9daedaa589e42bf5929693f1f",
+        "actual_bytes": 1088,
+        "actual_sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+        "expected_blob_sha1": "b93be90515ccd0b9daedaa589e42bf5929693f1f",
+        "expected_bytes": 1088,
+        "path": "flutter/engine/src/flutter/third_party/spring_animation/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "25145d88bd42173b13892ff4689dbedcf5116dd9",
+        "actual_bytes": 1099,
+        "actual_sha256": "5b0574c0388ddcfc1225898c70a602b172a4fcb39348be5a5481775c23d667b4",
+        "expected_blob_sha1": "25145d88bd42173b13892ff4689dbedcf5116dd9",
+        "expected_bytes": 1099,
+        "path": "flutter/engine/src/flutter/third_party/test_shaders/selman/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "c6823b81eb845db89cee59cbbc7ee0b0b63d86ec",
+        "actual_bytes": 1519,
+        "actual_sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9",
+        "expected_blob_sha1": "c6823b81eb845db89cee59cbbc7ee0b0b63d86ec",
+        "expected_bytes": 1519,
+        "path": "flutter/engine/src/flutter/third_party/tonic/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "0ac28ee234d232ac0691f39cebf95bf6b2a763a5",
+        "actual_bytes": 1088,
+        "actual_sha256": "9480271317925265e806a9a196aaa33410a962fa9d4d1e248a4a5187bc8c9df9",
+        "expected_blob_sha1": "0ac28ee234d232ac0691f39cebf95bf6b2a763a5",
+        "expected_bytes": 1088,
+        "path": "flutter/engine/src/flutter/third_party/web_locale_keymap/License.txt"
+      },
+      {
+        "actual_blob_sha1": "fe1395fa338b68d182b9a68c665ebbebf9e148cf",
+        "actual_bytes": 130,
+        "actual_sha256": "9b9d3707cf29fb7a6276178876ef3699374cc5357061ed145bac9c3ce6919eee",
+        "expected_blob_sha1": "fe1395fa338b68d182b9a68c665ebbebf9e148cf",
+        "expected_bytes": 130,
+        "path": "flutter/engine/src/flutter/tools/licenses_cpp/data/licenses/freetype_license.txt"
+      },
+      {
+        "actual_blob_sha1": "b4fd8266ea321fa1f1b4d6d1016ae8dcb9639b71",
+        "actual_bytes": 23003,
+        "actual_sha256": "8f873172603e23658efd8008e09ac5c8de9a4a81cd182be162b937703bb4a65e",
+        "expected_blob_sha1": "b4fd8266ea321fa1f1b4d6d1016ae8dcb9639b71",
+        "expected_bytes": 23003,
+        "path": "flutter/engine/src/flutter/tools/licenses_cpp/src/license_checker.cc"
+      },
+      {
+        "actual_blob_sha1": "ef7637bd465b707c140f03d2e9fd6f717c8d3c59",
+        "actual_bytes": 1583,
+        "actual_sha256": "26887b81164a00624a842039ab62843e74a8fb09a453c311bae0226060abc98a",
+        "expected_blob_sha1": "ef7637bd465b707c140f03d2e9fd6f717c8d3c59",
+        "expected_bytes": 1583,
+        "path": "flutter/engine/src/flutter/tools/licenses_cpp/src/license_checker.h"
+      },
+      {
+        "actual_blob_sha1": "bf947c674a2ff2d87e49b66d3b7d1754daff151d",
+        "actual_bytes": 28029,
+        "actual_sha256": "5d710fa9c9c5657e9cfd108aa34549bd66fe2de4aa38dc527a5baa226446c563",
+        "expected_blob_sha1": "bf947c674a2ff2d87e49b66d3b7d1754daff151d",
+        "expected_bytes": 28029,
+        "path": "flutter/engine/src/flutter/tools/licenses_cpp/src/license_checker_unittests.cc"
+      },
+      {
+        "actual_blob_sha1": "fb9f3588489fa930fc7ef59c02c47081d9837fe4",
+        "actual_bytes": 2235,
+        "actual_sha256": "323758e77d43ad45d265f5cc7668bae2b237261e6e83f445baf4b7a5911b965c",
+        "expected_blob_sha1": "fb9f3588489fa930fc7ef59c02c47081d9837fe4",
+        "expected_bytes": 2235,
+        "path": "flutter/engine/src/flutter/tools/licenses_cpp/src/license_file_compare.cc"
+      },
+      {
+        "actual_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+        "actual_bytes": 1519,
+        "actual_sha256": "a598db94b6290ffbe10b5ecf911057b6a943351c727fdda9e5f2891d68700a20",
+        "expected_blob_sha1": "aea51a336a305bd31e4e50af448679ed0c73b95e",
+        "expected_bytes": 1519,
+        "path": "flutter/packages/flutter/LICENSE"
+      },
+      {
+        "actual_blob_sha1": "287124759d1eb111297c629844c6a5c094c893ad",
+        "actual_bytes": 13403,
+        "actual_sha256": "76aa54cca224759df46c49aa9dfdb1a0c292f16ac80dea03eb7c820c330a5a48",
+        "expected_blob_sha1": "287124759d1eb111297c629844c6a5c094c893ad",
+        "expected_bytes": 13403,
+        "path": "flutter/packages/flutter/lib/src/foundation/licenses.dart"
+      },
+      {
+        "actual_blob_sha1": "eeb24066194c3e71cf234ce960ee15ca126aac14",
+        "actual_bytes": 5193,
+        "actual_sha256": "fcd3c11f1fbdeb47c3c7a61102f1cc732f205d9c01106b5e148a8f35488c26d7",
+        "expected_blob_sha1": "eeb24066194c3e71cf234ce960ee15ca126aac14",
+        "expected_bytes": 5193,
+        "path": "flutter/packages/flutter/test/foundation/licenses_test.dart"
+      },
+      {
+        "actual_blob_sha1": "820d36781d3225e4db8de6c6b06ea8e5ecd1f37f",
+        "actual_bytes": 5673,
+        "actual_sha256": "35ec0f1d1b50d7ba364135d354675e924a52d58503d9cac59b1045c11c3ba006",
+        "expected_blob_sha1": "820d36781d3225e4db8de6c6b06ea8e5ecd1f37f",
+        "expected_bytes": 5673,
+        "path": "flutter/packages/flutter_tools/lib/src/license_collector.dart"
+      },
+      {
+        "actual_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "actual_bytes": 29,
+        "actual_sha256": "422e0de8e3275febf5c41a5ccf891f68f16bc40e1b5dca26e50913b307ef794e",
+        "expected_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "expected_bytes": 29,
+        "path": "flutter/packages/flutter_tools/templates/package/LICENSE.tmpl"
+      },
+      {
+        "actual_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "actual_bytes": 29,
+        "actual_sha256": "422e0de8e3275febf5c41a5ccf891f68f16bc40e1b5dca26e50913b307ef794e",
+        "expected_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "expected_bytes": 29,
+        "path": "flutter/packages/flutter_tools/templates/package_ffi/LICENSE.tmpl"
+      },
+      {
+        "actual_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "actual_bytes": 29,
+        "actual_sha256": "422e0de8e3275febf5c41a5ccf891f68f16bc40e1b5dca26e50913b307ef794e",
+        "expected_blob_sha1": "ba75c69f7f2175380928fff6693b797e2373e603",
+        "expected_bytes": 29,
+        "path": "flutter/packages/flutter_tools/templates/plugin_shared/LICENSE.tmpl"
+      },
+      {
+        "actual_blob_sha1": "588dca40472cabdc76801cbae2e0dd025f4c224a",
+        "actual_bytes": 20451,
+        "actual_sha256": "44a2d2bde79cc9043e48ad24999d694f30bc91bfc8cf5d037623bc7b7041bcb7",
+        "expected_blob_sha1": "588dca40472cabdc76801cbae2e0dd025f4c224a",
+        "expected_bytes": 20451,
+        "path": "flutter/packages/flutter_tools/test/general.shard/license_collector_test.dart"
+      }
+    ],
+    "matched": 15627,
+    "missing": [],
+    "mode_mismatches": [],
+    "passed": false,
+    "selected_comparisons": {
+      "flutter/.agents/skills/find-release/SKILL.md": {
+        "actual_blob_sha1": "b918d7146c834b85e671a9552a87f20299334c19",
+        "actual_bytes": 2150,
+        "actual_sha256": "f4ee509ca961eafebc1da10dcc4ff5f70af3bb69d7d3a7dbd7cbe96b14469aa2",
+        "expected_blob_sha1": "b918d7146c834b85e671a9552a87f20299334c19",
+        "expected_bytes": 2150,
+        "path": "flutter/.agents/skills/find-release/SKILL.md"
+      },
+      "flutter/pubspec.lock": {
+        "actual_blob_sha1": "04fdb5b8219ff9c3e0cb789661a8b139a5777e80",
+        "actual_bytes": 33832,
+        "actual_sha256": "8a222709b6362ff30eb8d943139bd8fe5d5cc33b20f99b84a5977faa4930c9c1",
+        "expected_blob_sha1": "04fdb5b8219ff9c3e0cb789661a8b139a5777e80",
+        "expected_bytes": 33832,
+        "path": "flutter/pubspec.lock"
+      }
+    },
+    "source_bytes_read_in_memory": 149804963
+  },
+  "strict_source_and_link_admission": false
+}

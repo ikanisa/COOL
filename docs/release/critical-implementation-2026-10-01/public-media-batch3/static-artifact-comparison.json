@@ -1,0 +1,145 @@
+{
+  "scope": "Exact dated batch2 vs current batch3 local artifact bytes. New runtime/media metadata and assigned app/share copy/disabled styles are actual differences; equality/delta does not grant production acceptance.",
+  "before_file_count": 55,
+  "after_file_count": 55,
+  "delta": [
+    {
+      "path": "account-deletion/index.html",
+      "before": "c10b889752cd593baf2e006e9c28099c839695f09534550e26c93b6826371077",
+      "after": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+      "kind": "changed"
+    },
+    {
+      "path": "app/index.html",
+      "before": "9a8a7671ebb86b5de04e604d180714e0a7e4198fbbce5d5fbe88c470342a8f0d",
+      "after": "49d8b6ff00d25a35785c56dbfbb47c07d4f029343a11a8b5737d25396660a0b7",
+      "kind": "changed"
+    },
+    {
+      "path": "assets/app-screens/account-deletion-337d4042cdfe.png",
+      "before": "337d4042cdfe484ece234860cd371959d2142c63c980b6d5c6d3b22a221ad7c8",
+      "after": null,
+      "kind": "removed"
+    },
+    {
+      "path": "assets/app-screens/account-deletion-abd540ec627f.png",
+      "before": null,
+      "after": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "kind": "added"
+    },
+    {
+      "path": "c/index.html",
+      "before": "e27c523858ec213890766a9398fcf33fbfaee7cbd68ea349c6bc1b4127479b6f",
+      "after": "085480e010abefc0955748a8c07b5e5eecd14b126ddfa44c6150d117da0ff87c",
+      "kind": "changed"
+    },
+    {
+      "path": "community-groups/index.html",
+      "before": "0ac2750477694fc375734b4acf016365291616e6616e16e5ac6059dca052f8be",
+      "after": "16dcc79f2a78e3a198e0c127ba14fac312dfbf5c13a538840c28c0f06648730d",
+      "kind": "changed"
+    },
+    {
+      "path": "craas/index.html",
+      "before": "e3c06208b514acf01578d648a262973ee2c2beaf10f4b2db66ac8ce790bc96e2",
+      "after": "02a10478df73b131a156565599b92f7716973abe60be582b553013637ca1d571",
+      "kind": "changed"
+    },
+    {
+      "path": "credit-readiness/index.html",
+      "before": "61df7a404ceba2a933ccff22ee927a2d1796e5b4774beb4333db8b3c53e1da9f",
+      "after": "f59066e85d4bedbc06e539c589ed69d4e285932e3a1a3d9d959cf8d8b8525f8b",
+      "kind": "changed"
+    },
+    {
+      "path": "data-deletion/index.html",
+      "before": "22370783b305983e230c102f9af401fd2d0074d606e08f3c0780af59366718ec",
+      "after": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+      "kind": "changed"
+    },
+    {
+      "path": "group-link/index.html",
+      "before": "e27c523858ec213890766a9398fcf33fbfaee7cbd68ea349c6bc1b4127479b6f",
+      "after": "085480e010abefc0955748a8c07b5e5eecd14b126ddfa44c6150d117da0ff87c",
+      "kind": "changed"
+    },
+    {
+      "path": "group-savings/index.html",
+      "before": "57112220a03d661550b098d13a74140e184695c273c7d188455aee01c2016503",
+      "after": "a2c5873f7679db0ca50c04db73197f9ffd1ecc4afe9c1617d088256cdbd568a5",
+      "kind": "changed"
+    },
+    {
+      "path": "index.html",
+      "before": "6c50f9042bf832034e3b3266bc24834ee4c877f435c60fa15be3337188c3029d",
+      "after": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+      "kind": "changed"
+    },
+    {
+      "path": "insurance/index.html",
+      "before": "a863c7a9d6ad2499692ac35ea876d377f38dddf1e909905a51b487a54b4dfa5f",
+      "after": "7d1e265caab31ae68dc830f345cc9bc361fdb1048de9673eb326cd4db42db0ee",
+      "kind": "changed"
+    },
+    {
+      "path": "our-partners/index.html",
+      "before": "d8d0897f279a6a22e7786cc4d05286a60adc0afa0cc341a412f6eec60430f004",
+      "after": "111617d970e775189b1ad0b6f13f9227c40cb9c337f7ad13c976a12aecd599fa",
+      "kind": "changed"
+    },
+    {
+      "path": "partners/index.html",
+      "before": "afecdfa3c3d3c98495b8469fb1b3a682bf0c8c46955df63e911caa22fbe3b322",
+      "after": "feedd1212355b1f1bb90ad15afec472f567af9bc3e1a1dc756b31b4c5e0feb83",
+      "kind": "changed"
+    },
+    {
+      "path": "privacy/index.html",
+      "before": "5475e93047ed01ed79fd61dbdbe5c504b2ccdb620645f1fc61d6817bf4314a18",
+      "after": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+      "kind": "changed"
+    },
+    {
+      "path": "protection/index.html",
+      "before": "0809108792e3d32a4fc51c2dd7a10d99ee71975773688542c57f5ee745cdf710",
+      "after": "dbbf1f88b8c76d60dd5c14c6585c754e0c4119bfb3978c13534836a5ce826e9e",
+      "kind": "changed"
+    },
+    {
+      "path": "revolut.css",
+      "before": "0efa4ab43bc9a49bbe30fa7e0a225fd454bc8b54073afb5b401f30c6ed33786b",
+      "after": "22940794187fdc25ec165432d05a62c566649fbd518331531dc8b3907f745db0",
+      "kind": "changed"
+    },
+    {
+      "path": "security/index.html",
+      "before": "385b79fd42dfb981c8328e5070d3d1cb4f61cea6b037dfb8d8484efaf81a22bb",
+      "after": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+      "kind": "changed"
+    },
+    {
+      "path": "sitemap.xml",
+      "before": "f72d733d7a24495ad80e5d5f177486240110e70b31b5ca0dc00cbd6660e5c2cd",
+      "after": "c4b1e8cd9640b83eabb413938754706c2150f66c658c047bf21607d208a46c92",
+      "kind": "changed"
+    },
+    {
+      "path": "terms/index.html",
+      "before": "4c38f2d0e4d4c6d11857953a3ae220b7a80c9f4564f02faf3b81f2de0b40f4b0",
+      "after": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+      "kind": "changed"
+    },
+    {
+      "path": "trust/index.html",
+      "before": "9bbd48870dd062dbf077670aafa557c403d40ba886eb315cadd5d32b84a7916c",
+      "after": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+      "kind": "changed"
+    },
+    {
+      "path": "version.json",
+      "before": "914d196b5a4bce02915f8cc484779ef862d35f31cc740d92f35c0154d29405f6",
+      "after": "0b4671a8abecb814627de5deb5f0ca9f27836fd6fe2d24bb3680f831c6da0bbd",
+      "kind": "changed"
+    }
+  ]
+}

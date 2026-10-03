@@ -1,0 +1,14 @@
+{
+  "cli_version": "2.84.2",
+  "generated_path": "supabase/migrations/20261001001457_joined_operator_audit.sql",
+  "command": [
+    "/Volumes/PRO-G40/Development/User-Developer/supabase_2_84_2_codex/supabase",
+    "migration",
+    "new",
+    "joined_operator_audit",
+    "--workdir",
+    ".cache/joined-operator-audit-preparation"
+  ],
+  "created_before_sql_edit": true,
+  "published": false
+}

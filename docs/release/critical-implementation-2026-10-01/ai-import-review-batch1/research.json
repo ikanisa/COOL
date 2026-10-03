@@ -1,0 +1,35 @@
+{
+  "observed_at": "2026-10-02",
+  "method": "Official primary pages opened with web tool; no provider/account API calls",
+  "sources": [
+    {
+      "title": "Data controls in the OpenAI platform",
+      "url": "https://developers.openai.com/api/docs/guides/your-data",
+      "sections": [
+        "Types of data stored",
+        "Data retention controls for abuse monitoring",
+        "Responses API",
+        "Image and file inputs",
+        "Data residency controls"
+      ],
+      "scope": "Application state, monitoring and region controls differ; no actual Collect project/account approval readback"
+    },
+    {
+      "title": "File inputs",
+      "url": "https://developers.openai.com/api/docs/guides/file-inputs",
+      "sections": [
+        "How it works",
+        "Usage considerations"
+      ],
+      "scope": "PDF text and images contribute input tokens; 12000 output cap alone is not invoice control"
+    },
+    {
+      "title": "Structured model outputs",
+      "url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+      "sections": [
+        "Handling mistakes"
+      ],
+      "scope": "Schema compliance does not establish factual roster accuracy"
+    }
+  ]
+}

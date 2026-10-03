@@ -1,0 +1,86 @@
+{
+  "status": "pass",
+  "commands": [
+    {
+      "name": "java-version",
+      "command": [
+        "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+        "-version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.02,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "dbda36612f632e4fd5e0ec62e9ec30b38c8388c090eaf3db8928353d7f62f1e8"
+    },
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3036.08,
+      "stdout_sha256": "b737623eb6e904d671cd4036a3fc568062049a1ed52338ae15d06bc08aa0bfb9",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2",
+      "retained_from": "docs/release/asset-build-hygiene-2026-09-30/native-export-attempt26-android",
+      "reexecuted": false
+    },
+    {
+      "name": "production-native-lint",
+      "command": [
+        "./gradlew",
+        ":app:lintProductionRelease",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 325.65,
+      "stdout_sha256": "42e2576511d8155608808bd9d65cabf92d69d288783c42df3849553eb336f5f3",
+      "stderr_sha256": "762b7b12c2a930f27ca2427cf327d73cd2f434fcb8c6dbe3899916b543dab87e"
+    },
+    {
+      "name": "dev-native-jvm",
+      "command": [
+        "./gradlew",
+        ":app:testDevDebugUnitTest",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 208.7,
+      "stdout_sha256": "511f95e2563ff095a6c2a41ee2fd04019955e3afd3270b638f92a6f0366903da",
+      "stderr_sha256": "d0dd0e818559c06262b314f8502761fc5e06221023fd4861a8ab59a17010d2d2"
+    },
+    {
+      "name": "apk-signature",
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.4,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1413af210d1627fde4f14e31934eb5d9d031684e4f7a5c3371a74b3bdeb8764c"
+    },
+    {
+      "name": "apk-manifest",
+      "command": [
+        "/Users/jeanbosco/Library/Android/sdk/build-tools/37.0.0/aapt2",
+        "dump",
+        "badging",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt23/build/app/outputs/apk/production/release/app-production-release-unsigned.apk"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "stdout_sha256": "1f57a6058495182a16b35b60c2f410778b418af06037ca477a8047f7226dcefe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual immutable source export unsigned local Android production-flavour build; no provider, signing, device or store acceptance",
+  "artifact_verification_sha256": "0c2438aed4709506c8f40ff05775b541d5cb576c15a5ddd7dfdb7d9b80639bb0"
+}

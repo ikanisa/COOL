@@ -1,0 +1,722 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": {
+        "only_reviewed_pg_dump_normalization": true,
+        "raw_catalogs_retained": true
+      },
+      "name": "schema clone retains exact normalized application catalog and column ACLs",
+      "status": "pass"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-all-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-all-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-all-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-readable-private-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-readable-private-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-readable-private-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-unreadable-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-unreadable-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-unreadable-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-anonymous-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-anonymous-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-anonymous-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-private-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-private-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-private-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-transactions-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-transactions-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-own-transactions-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-hidden-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-hidden-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-hidden-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-empty-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-empty-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-newest-empty-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-all-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-all-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-all-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-readable-private-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-readable-private-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-readable-private-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-unreadable-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-unreadable-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-unreadable-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-anonymous-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-anonymous-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-anonymous-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-private-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-private-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-private-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-transactions-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-transactions-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-own-transactions-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-hidden-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-hidden-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-hidden-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-empty-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-empty-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-oldest-empty-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-all-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-all-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-all-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-readable-private-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-readable-private-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-readable-private-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-unreadable-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-unreadable-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-unreadable-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-anonymous-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-anonymous-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-anonymous-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-private-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-private-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-private-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-transactions-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-transactions-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-own-transactions-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-hidden-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-hidden-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-hidden-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-empty-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-empty-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-highest-empty-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-all-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-all-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-all-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-readable-private-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-readable-private-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-readable-private-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-unreadable-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-unreadable-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-unreadable-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-anonymous-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-anonymous-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-anonymous-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-private-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-private-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-private-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-transactions-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-transactions-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-own-transactions-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-hidden-title-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-hidden-title-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-hidden-title-deep",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-empty-first",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-empty-middle",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "history-lowest-empty-deep",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "preserved": true
+      },
+      "name": "all generated history measurements preserve financial fingerprints",
+      "status": "pass"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "actual intent recent complete count and request ownership",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "actual intent exact-old complete count and request ownership",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "actual intent forged complete count and request ownership",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "actual intent foreign complete count and request ownership",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "preserved": true
+      },
+      "name": "recent intent probes preserve all financial rows",
+      "status": "pass"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_desc first exact page",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_desc middle exact page",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_desc deep exact page",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_asc first exact page",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_asc middle exact page",
+      "status": "failed"
+    },
+    {
+      "error": "Password for user supabase_admin: \npsql: error: connection to server on socket \"/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  password authentication failed for user \"supabase_admin\"\n",
+      "name": "notification created_at_asc deep exact page",
+      "status": "failed"
+    },
+    {
+      "detail": {
+        "preserved": true
+      },
+      "name": "notification reads preserve financial and notification fingerprints",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "empty_page": true,
+        "exact_zero_total": true,
+        "rollback_preserved": true
+      },
+      "name": "notification queue shrink retains known zero and restores every row",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "actual_public_workflow": true,
+        "committed_fresh_count": 835,
+        "repeatable_read_not_claimed": true,
+        "stale_cursor_denial": {
+          "reason": "History changed",
+          "sqlstate": "P0001"
+        },
+        "uncommitted_read_kept_old_consistent_revision": true
+      },
+      "name": "genuine concurrent posting rejects committed stale cursor and accepts refreshed totals",
+      "status": "pass"
+    }
+  ],
+  "database": "collect_local_uat_991151f283a84410",
+  "genuine_fixture": {
+    "actual": {
+      "confirmations": 1000,
+      "disabled_user_triggers": 0,
+      "journal": 1000,
+      "ledger": 2000,
+      "posted": 1000,
+      "posted_active_ops": 0,
+      "unbalanced": 0
+    },
+    "direct_posted_write": false,
+    "independent_provider_truth": false,
+    "production_triggers_preserved": true,
+    "public_api_route": true,
+    "rows": 1000
+  },
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "3c79caae768a3912a78bf5d94072ab343bf039ea10e5fc9fcdc92506cae3a9f9",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "failed",
+  "volume": 1000
+}

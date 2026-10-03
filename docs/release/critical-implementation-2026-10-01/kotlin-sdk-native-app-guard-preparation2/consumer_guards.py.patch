@@ -1,0 +1,269 @@
+--- immutable-preparation1/consumer_guards.py
++++ private-preparation2/consumer_guards.py
+@@ -25,8 +25,9 @@
+     'ios/Flutter/Generated.xcconfig', 'ios/Flutter/flutter_export_environment.sh',
+     'ios/Runner/GeneratedPluginRegistrant.h', 'ios/Runner/GeneratedPluginRegistrant.m'}
+ IOS_REGISTRANTS = ('ios/Runner/GeneratedPluginRegistrant.h', 'ios/Runner/GeneratedPluginRegistrant.m')
+-PLUGIN_BINDINGS_SHA256 = '7b53e8f2ccfde71e77ab2df7b8cfe2495822d34b8ce1e89ed4dcf4119eb24707'
++PLUGIN_BINDINGS_SHA256 = '9fee5c0601debd04eadd28d6521253bdd589f4fbbad66d60ee0b2f34738a9095'
+ SDK_PLUGIN_SOURCE_HASHES = {
++    'packages/flutter_tools/lib/src/package_graph.dart': '61e04e4e6db25721b7c7671c9d90ba6d693fec4f195c91dfcd463f34b7ac28dd',
+     'packages/flutter_tools/lib/src/flutter_plugins.dart': 'e144c562723c65fbe1de6e62f90cb923d4f0154b41a4afb4b71b882c9db6604b',
+     'packages/flutter_tools/lib/src/platform_plugins.dart': '18289943e5a3b113fd70811f944416a181e34da66301f3e22578fc00200a251b',
+     'packages/integration_test/pubspec.yaml': '7d967d43522ee820d94aad81adead9dfbf6c7d90387d595265c683b27e92a776',
+@@ -126,7 +127,7 @@
+                   if len(line)-len(line.lstrip()) == indent and not line[indent:].startswith('- ')]
+         result = {}
+         for index, (i, value) in enumerate(direct):
+-            match = re.fullmatch(r'([A-Za-z_][A-Za-z_0-9]*):(?:[ ]+(.*))?', value.rstrip())
++            match = re.fullmatch(r'([A-Za-z_][A-Za-z_0-9-]*):(?:[ ]+(.*))?', value.rstrip())
+             if not match or match[1] in result: raise ValueError('unsupported or duplicate YAML mapping key')
+             stop = direct[index+1][0] if index+1 < len(direct) else end
+             result[match[1]] = (match[2] or '', i+1, stop)
+@@ -175,11 +176,81 @@
+     return result
+ 
+ 
++class BoundReads(dict):
++    def __init__(self):
++        super().__init__(); self.identities = {}
++
++
++def final_input_readback(reads):
++    for name, digest in reads.items():
++        if (load_metadata().stable_read(Path(name))[0]['sha256'] != digest
++                or node_identity(Path(name)) != reads.identities[name]):
++            raise ValueError('complete locked input bytes/identity changed during readback')
++
++
++def dependency_names(body, section):
++    """Explicit dependency keys only; no alias or nonempty flow mapping."""
++    raw = yaml_mapping(body).get(section)
++    if raw is None: return []
++    if raw[0].strip() == '{}': return []
++    return list(yaml_mapping(body, (section,)))
++
++
++def expected_plugin_platforms(resolved, app_name):
++    """Pinned nativeOrDart selection for this cohort; ambiguous choices fail."""
++    app_body = resolved[app_name]['pubspec']
++    direct = set(dependency_names(app_body, 'dependencies'))
++    dependency_graph = {name: dependency_names(row['pubspec'], 'dependencies') for name, row in resolved.items()}
++    reachable = {app_name}; pending = [*direct, *dependency_names(app_body, 'dev_dependencies')]
++    while pending:
++        name = pending.pop()
++        if name in reachable: continue
++        if name not in resolved: raise ValueError('locked dependency absent from complete configuration')
++        reachable.add(name); pending.extend(dependency_graph[name])
++    # The immutable current cohort has no unused resolved package; omit nothing silently.
++    if reachable != set(resolved): raise ValueError('complete configuration dependency closure differs')
++    plugin_sources = {name: row for name, row in resolved.items()
++                      if yaml_mapping(row['pubspec'], ('flutter', 'plugin'))}
++    expected = {}
++    for platform in ('ios','android','macos','linux','windows','web'):
++        candidates = {}; defaults = {}
++        for name, row in plugin_sources.items():
++            body = row['pubspec']; plugin = yaml_mapping(body, ('flutter','plugin'))
++            if 'platforms' not in plugin: raise ValueError('unreviewed legacy plugin source format')
++            platforms = yaml_mapping(body, ('flutter','plugin','platforms'))
++            if platform not in platforms: continue
++            fields = yaml_mapping(body, ('flutter','plugin','platforms',platform))
++            default = yaml_scalar(body, ('flutter','plugin','platforms',platform,'default_package'))
++            implements = yaml_scalar(body, ('flutter','plugin','implements'))
++            if default is not None:
++                if implements not in (None,'',name): raise ValueError('conflicting source default/implements')
++                # Pinned Plugin._fromMultiPlatformYaml records defaults only for native platforms.
++                if platform != 'web': defaults[name] = default
++                continue
++            # Plugin._providesImplementationForPlatform: present platform without default_package.
++            if not fields: raise ValueError('unreviewed empty plugin platform source')
++            key = implements or name
++            candidates.setdefault(key, []).append(name)
++        selected = []
++        for name, values in candidates.items():
++            # The reviewed actual cohort has one candidate per implementation key.
++            # Conservatively reject future ambiguous/direct/default precedence changes.
++            if len(values) != 1: raise ValueError('ambiguous complete plugin implementation selection')
++            selected.append(values[0])
++        for name, default in defaults.items():
++            if name not in candidates or default not in candidates[name]:
++                raise ValueError('default plugin absent from complete source candidates')
++        expected[platform] = sorted(selected)
++    return expected, plugin_sources
++
++
+ def locked_plugins(path):
+-    """Bind each listed plugin to exact configuration, lock and reviewed pubspec."""
+-    metadata = load_metadata(); reads = {}
++    """Derive the full plugin universe from all locked configuration pubspecs."""
++    metadata = load_metadata(); reads = BoundReads()
+     def remember(source):
+-        row, body = metadata.stable_read(source, True); reads[str(source)] = row['sha256']; return row, body
++        before = node_identity(source); row, body = metadata.stable_read(source, True)
++        if node_identity(source) != before: raise ValueError('complete locked input identity raced')
++        reads[str(source)] = row['sha256']; reads.identities[str(source)] = before; return row, body
+     first, _ = remember(path); data = read_json(path, first['sha256'])
+     if not isinstance(data.get('plugins'), dict) or any(not isinstance(v, list) for v in data['plugins'].values()):
+         raise ValueError('plugin metadata/list type differs')
+@@ -187,30 +258,47 @@
+     first, _ = remember(config_path); config = package_config(config_path, (APP, PUB, SDK))
+     if config['file_sha256'] != first['sha256']: raise ValueError('package configuration changed during binding')
+     packages = {row['name']: Path(row['exact_root']) for row in config['packages']}
+-    _, lock = remember(APP / 'pubspec.lock')
++    lock_row, lock = remember(APP / 'pubspec.lock')
+     sources = read_json(HERE / 'plugin-source-bindings.json', PLUGIN_BINDINGS_SHA256)
+-    if sources.get('format') != 'collect-exact-locked-plugin-pubspec-bindings-v1':
++    if sources.get('format') != 'collect-complete-locked-package-pubspec-bindings-v2':
+         raise ValueError('plugin source review binding format')
++    if set(packages) != set(sources['sources']): raise ValueError('complete reviewed package configuration membership differs')
++    if lock_row['sha256'] != sources['expected_app_lock_sha256']: raise ValueError('complete reviewed app lock differs')
++    app_name = sources['expected_app_name']
++    if packages.get(app_name) != APP: raise ValueError('complete configuration app source root differs')
++    if set(yaml_mapping(lock, ('packages',))) != set(packages) - {app_name}:
++        raise ValueError('lock/configuration full package membership differs')
++    for row in config['packages']:
++        if row['package_uri'] != sources['sources'][row['name']]['package_uri']:
++            raise ValueError('complete reviewed package URI differs')
+     sdk_sources = sdk_plugin_sources()
+-    for relative, (row, _) in sdk_sources.items(): reads[str(SDK / relative)] = row['sha256']
++    for relative, (row, _) in sdk_sources.items():
++        reads[str(SDK / relative)] = row['sha256']; reads.identities[str(SDK / relative)] = node_identity(SDK / relative)
+     resolved = {}
+-    for name in {row.get('name') for values in data.get('plugins', {}).values() for row in values if isinstance(row, dict)}:
++    for name in packages:
+         if not isinstance(name, str) or name not in sources['sources'] or name not in packages:
+             raise ValueError('plugin absent from exact reviewed locked package bindings')
+         binding = sources['sources'][name]; root = packages[name]
+-        allowed = (APP, PUB)
+-        if root.is_relative_to(SDK):
+-            if name != 'integration_test' or root != SDK / 'packages/integration_test':
+-                raise ValueError('SDK plugin binding permits only exact integration_test')
+-            allowed = (SDK / 'packages/integration_test',)
+-        safe_directory(root, allowed)
+-        if str(root) != binding['exact_root']: raise ValueError('reviewed plugin package root changed')
+         row, pubspec = remember(root / 'pubspec.yaml')
+         if (row['sha256'], row['bytes']) != (binding['pubspec_sha256'], binding['pubspec_bytes']):
+             raise ValueError('reviewed plugin pubspec bytes changed')
++        is_plugin = bool(yaml_mapping(pubspec, ('flutter','plugin')))
++        allowed = (APP, PUB)
++        if root.is_relative_to(SDK):
++            if is_plugin and (name != 'integration_test' or root != SDK / 'packages/integration_test'):
++                raise ValueError('SDK plugin binding permits only exact integration_test')
++            allowed = (SDK,) if not is_plugin else (SDK / 'packages/integration_test',)
++        safe_directory(root, allowed)
++        if str(root) != binding['exact_root']: raise ValueError('reviewed plugin package root changed')
++        if name == app_name:
++            if row['sha256'] != sources['expected_app_pubspec_sha256'] or yaml_scalar(pubspec,('name',)) != name:
++                raise ValueError('complete reviewed app pubspec differs')
++            resolved[name] = {'root':root,'pubspec':pubspec,'pubspec_sha256':row['sha256'],'locked_version':None,
++                              'reviewed_ios_swiftpm_manifest':None}
++            continue
+         version = yaml_scalar(lock, ('packages', name, 'version'))
+         pubspec_version = yaml_scalar(pubspec, ('version',))
+-        if name == 'integration_test' and root == SDK / 'packages/integration_test' and pubspec_version is None:
++        if root.is_relative_to(SDK) and pubspec_version is None:
+             pubspec_version = '0.0.0'
+         if (yaml_scalar(pubspec, ('name',)) != name
+                 or pubspec_version != version):
+@@ -228,13 +316,32 @@
+             safe_relative(relative)
+             if root != APP / relative: raise ValueError('path plugin differs from exact lock binding')
+         elif source == 'sdk':
+-            if (name != 'integration_test' or root != SDK / 'packages/integration_test'
++            exact_sdk_root = SDK / 'bin/cache/pkg/sky_engine' if name == 'sky_engine' else SDK / 'packages' / name
++            if (root != exact_sdk_root or (is_plugin and name != 'integration_test')
+                     or yaml_scalar(lock, ('packages', name, 'description')) != 'flutter'):
+                 raise ValueError('unreviewed SDK plugin lock source')
+         else: raise ValueError('unreviewed plugin lock source')
+         resolved[name] = {'root': root, 'pubspec': pubspec, 'pubspec_sha256': row['sha256'], 'locked_version': version,
+                           'reviewed_ios_swiftpm_manifest': binding.get('ios_swiftpm_manifest')}
+-    return data, resolved, reads, sdk_sources
++    expected_platforms, plugin_sources = expected_plugin_platforms(resolved, app_name)
++    if set(data['plugins']) != set(expected_platforms): raise ValueError('complete platform plugin keys differ')
++    for platform, expected_names in expected_platforms.items():
++        values = data['plugins'][platform]
++        if any(not isinstance(row,dict) for row in values): raise ValueError('invalid platform plugin row')
++        if [row.get('name') for row in values] != expected_names:
++            raise ValueError('complete source-derived platform plugin membership differs: ' + platform)
++        for row in values:
++            body = resolved[row['name']]['pubspec']
++            if platform != 'web':
++                native = (yaml_scalar(body,('flutter','plugin','platforms',platform,'pluginClass')) is not None
++                          or yaml_scalar(body,('flutter','plugin','platforms',platform,'ffiPlugin')) == 'true')
++                if row.get('native_build') is not native: raise ValueError('source-derived native plugin flag differs')
++            shared = yaml_scalar(body,('flutter','plugin','platforms',platform,'sharedDarwinSource'))
++            if shared not in (None,'true','false'): raise ValueError('source-derived Darwin source flag unsupported')
++            if (shared == 'true') != (row.get('shared_darwin_source') is True):
++                raise ValueError('source-derived Darwin source flag differs')
++    final_input_readback(reads)
++    return data, {name:resolved[name] for name in plugin_sources}, reads, sdk_sources
+ 
+ 
+ def plugin_metadata(path):
+@@ -256,9 +363,9 @@
+             if root != bound['root']: raise ValueError('plugin metadata/package_config path differs')
+             rows.append({'platform': platform, 'name': name, 'exact_path': str(root),
+                          'pubspec_sha256': bound['pubspec_sha256'], 'locked_version': bound['locked_version']})
+-    for name, digest in reads.items():
+-        if load_metadata().stable_read(Path(name))[0]['sha256'] != digest: raise ValueError('plugin input changed during readback')
++    final_input_readback(reads)
+     return {'rows': rows, 'file_sha256': reads[str(path)], 'input_sha256': reads,
++            'input_identities':reads.identities, 'complete_locked_package_source_count':len(read_json(HERE / 'plugin-source-bindings.json',PLUGIN_BINDINGS_SHA256)['sources']),
+             'only_exact_locked_plugin_roots': True, 'SDK_plugin_exception': 'integration_test only'}
+ 
+ 
+@@ -301,8 +408,7 @@
+         expected = render(template_name)
+         if body != expected: raise ValueError('generated iOS registrant differs from pinned SDK/locked plugin rendering: ' + name)
+         results[name] = {'actual': row, 'rendered_sha256': hashlib.sha256(expected).hexdigest(), 'template': template_name}
+-    for name, digest in reads.items():
+-        if load_metadata().stable_read(Path(name))[0]['sha256'] != digest: raise ValueError('registrant input drift during render readback')
++    final_input_readback(reads)
+     for name, proof in results.items():
+         if load_metadata().stable_read(APP / name)[0] != proof['actual']:
+             raise ValueError('generated registrant identity changed during final readback')
+@@ -359,7 +465,7 @@
+         if pin['relative_path'] != relative: raise ValueError('locked SwiftPM manifest platform/name differs')
+         proof, body = load_metadata().stable_read(manifest, True)
+         if (proof['sha256'],proof['bytes']) != (pin['sha256'],pin['bytes']): raise ValueError('reviewed SwiftPM manifest bytes changed')
+-        reads[str(manifest)] = proof['sha256']; target = manifest.parent
++        reads[str(manifest)] = proof['sha256']; reads.identities[str(manifest)] = node_identity(manifest); target = manifest.parent
+         safe_directory(target,(root,))
+         replacements = [(match[0], '"../' + resolved[match[1]]['root'].name + '"')
+                         for match in re.finditer(r'"\.\.\/([^"]+)"',body.decode('utf-8'))
+@@ -397,8 +503,7 @@
+         if link in result: raise ValueError('SwiftPM computed link name collision')
+         result[link] = {'name':name,'target':str(target),'target_identity':node_identity(target),
+                         'package_root':str(root),'pubspec_sha256':bound['pubspec_sha256']}
+-    for source, digest in reads.items():
+-        if load_metadata().stable_read(Path(source))[0]['sha256'] != digest: raise ValueError('SwiftPM pinned input drift')
++    final_input_readback(reads)
+     return {'expected_links':result,'copy_provenance':copy_proofs,'input_sha256':reads,'generated_links_traversed':False}
+ 
+ 
+@@ -475,7 +580,9 @@
+         if (actual['sha256'], actual['bytes'], actual['mode']) != (row['sha256'], row['bytes'], row['mode']):
+             raise ValueError('exported authored source/lock/mode changed: ' + name)
+         observed[name] = actual
+-    aliases = set(); total = 0; swiftpm = None; generated_links = {}
++    aliases = set(); total = 0
++    swiftpm = None
++    generated_links = {}
+     source_directories = {part.as_posix() for name in expected for part in safe_relative(name).parents if part != Path('.')}
+     for parent, directories, files in os.walk(APP, followlinks=False):
+         for item in directories + files:
+@@ -511,7 +618,13 @@
+     if len(observed) != manifest['file_count']: raise ValueError('app source file count differs')
+     if metadata.stable_read(manifest_path)[0]['sha256'] != expected_manifest_sha256:
+         raise ValueError('export manifest changed during source readback')
+-    ios = ios_registrants() if any(name in generated for name in IOS_REGISTRANTS) else None
++    # Compute unconditionally after the structural scan, including when no link was seen.
++    # Original unsafe path/symlink refusals retain their precedence and exception behavior.
++    if phase != 'app-export': swiftpm = swiftpm or swiftpm_links()
++    # Both generated registrants are required even if neither appears in the scan.
++    ios = ios_registrants() if phase != 'app-export' else None
++    if ios and not set(IOS_REGISTRANTS).issubset(generated):
++        raise ValueError('required generated iOS registrant membership differs')
+     if ios and any(generated[name] != proof['actual'] for name, proof in ios['generated_files'].items()):
+         raise ValueError('generated registrant changed between app scan and render proof')
+     if metadata.stable_read(manifest_path)[0]['sha256'] != expected_manifest_sha256:

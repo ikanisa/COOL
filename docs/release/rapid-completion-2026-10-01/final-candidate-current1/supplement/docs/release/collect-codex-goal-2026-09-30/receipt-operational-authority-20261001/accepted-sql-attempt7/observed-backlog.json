@@ -1,0 +1,12 @@
+{
+  "action": "reconcile_backlog",
+  "run_id": "45b8f4aa-5897-4648-95c3-92d8f472ccf5",
+  "handled": 1,
+  "deferred": 0,
+  "examined": 1,
+  "request_id": "9069b57f-fa0c-48e2-ade3-7cbbe7cd4829",
+  "observed_at": "2026-10-01T11:36:34.015183Z",
+  "principal_id": "b30c9b79-6e24-420b-9d22-5f18cbf9ccaa",
+  "fence_version": 3,
+  "contract_version": 2
+}

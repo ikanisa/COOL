@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"ok": true, "code": "RECEIPT_ENQUEUED", "action": "ensure_receipt", "run_id": "213f6268-20d5-402a-90d8-69526a236b60", "event_id": "2ccca7d3-ba72-4230-bbce-b6040b9518ac", "receipt_id": "898a883e-0f5e-4765-a856-f9aa3c47715b", "request_id": "ed509f31-bdeb-4c47-a3cd-29e171144ae6", "observed_at": "2026-10-01T21:49:13.709348Z", "principal_id": "e3a569ea-ecd1-4da7-bd89-c4414b5dee05", "fence_version": 3, "source_version": 1, "business_handled": true, "contract_version": 2}

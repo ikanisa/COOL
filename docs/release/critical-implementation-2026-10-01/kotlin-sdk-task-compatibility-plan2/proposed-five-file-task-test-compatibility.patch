@@ -1,0 +1,113 @@
+--- a/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt
++++ b/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt
+@@ -9,6 +9,7 @@
+ import org.gradle.api.tasks.Internal
+ import org.gradle.api.tasks.Optional
+ import org.gradle.api.tasks.OutputFiles
++import org.gradle.work.DisableCachingByDefault
+ import java.io.File
+ 
+ // IMPORTANT: Do not add logic to the methods in this class directly,
+@@ -18,6 +19,7 @@
+  * Base implementation of a Gradle task. Gradle tasks can not be instantiated for testing,
+  * so this class delegates all logic to [BaseFlutterTaskHelper].
+  */
++@DisableCachingByDefault(because = "Task invokes Flutter tooling with local SDK and engine state that is not fully represented as cacheable inputs.")
+ open class BaseFlutterTask : DefaultTask() {
+     @Internal
+     var flutterRoot: File? = null
+--- a/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt
++++ b/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt
+@@ -10,7 +10,10 @@
+ import org.gradle.api.tasks.Input
+ import org.gradle.api.tasks.InputFile
+ import org.gradle.api.tasks.OutputFile
++import org.gradle.api.tasks.PathSensitive
++import org.gradle.api.tasks.PathSensitivity
+ import org.gradle.api.tasks.TaskAction
++import org.gradle.work.DisableCachingByDefault
+ 
+ /**
+  * Create a json file of deeplink settings from an AndroidManifest.
+@@ -19,9 +22,11 @@
+  * designed for modification. The task is responsible for an exact copy of the input
+  * manifest being used for the output manifest.
+ */
++@DisableCachingByDefault(because = "Task copies merged manifest and generates deep-link metadata; shared-cache behavior is not established.")
+ abstract class DeepLinkJsonFromManifestTask : DefaultTask() {
+     // Input property to receive the manifest file
+     @get:InputFile
++    @get:PathSensitive(PathSensitivity.ABSOLUTE)
+     abstract val manifestFile: RegularFileProperty
+ 
+     // In the past for this task namespace was the ApplicationId.
+--- a/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt
++++ b/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt
+@@ -10,7 +10,10 @@
+ import org.gradle.api.tasks.Internal
+ import org.gradle.api.tasks.OutputDirectory
+ import org.gradle.api.tasks.OutputFiles
++import org.gradle.api.tasks.PathSensitive
++import org.gradle.api.tasks.PathSensitivity
+ import org.gradle.api.tasks.TaskAction
++import org.gradle.work.DisableCachingByDefault
+ import java.io.File
+ 
+ // IMPORTANT: Do not add logic to the methods in this class directly,
+@@ -20,6 +23,7 @@
+  * Flutter's implementation of a Gradle task. Gradle tasks can not be instantiated for testing,
+  * so this class delegates all logic to [FlutterTaskHelper].
+  */
++@DisableCachingByDefault(because = "Flutter compilation delegates to external tooling with local SDK and engine state.")
+ abstract class FlutterTask : BaseFlutterTask() {
+     @get:OutputDirectory
+     val outputDirectory: File?
+@@ -40,6 +44,7 @@
+         get() = FlutterTaskHelper.getSnapshots(project, flutterTask = this)
+ 
+     @get:InputFiles
++    @get:PathSensitive(PathSensitivity.ABSOLUTE)
+     val sourceFiles: FileCollection
+         get() = FlutterTaskHelper.getSourceFiles(project, flutterTask = this)
+ 
+--- a/packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt
++++ b/packages/flutter_tools/gradle/src/test/kotlin/DeeplinkTest.kt
+@@ -4,9 +4,9 @@
+ 
+ package com.flutter.gradle
+ 
+-import org.gradle.internal.impldep.org.junit.Assert.assertThrows
+ import kotlin.test.Test
+ import kotlin.test.assertContains
++import kotlin.test.assertFailsWith
+ import kotlin.test.assertFalse
+ import kotlin.test.assertTrue
+ 
+@@ -41,7 +41,7 @@
+         val deeplink1 = Deeplink("scheme1", "host1", "path1", IntentFilterCheck())
+         val deeplink2 = null
+ 
+-        assertThrows(NullPointerException::class.java) { deeplink1.equals(deeplink2) }
++        assertFailsWith<NullPointerException> { deeplink1.equals(deeplink2) }
+     }
+ 
+     @Test
+--- a/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt
++++ b/packages/flutter_tools/gradle/src/test/kotlin/FlutterPluginUtilsTest.kt
+@@ -32,8 +32,6 @@
+ import org.gradle.api.invocation.Gradle
+ import org.gradle.api.logging.Logger
+ import org.gradle.api.plugins.PluginManager
+-import org.gradle.internal.impldep.junit.framework.TestCase.assertFalse
+-import org.gradle.internal.impldep.junit.framework.TestCase.assertTrue
+ import org.jetbrains.kotlin.gradle.plugin.extraProperties
+ import org.junit.jupiter.api.Nested
+ import org.junit.jupiter.api.assertThrows
+@@ -46,6 +44,7 @@
+ import kotlin.test.assertContains
+ import kotlin.test.assertEquals
+ import kotlin.test.assertFalse
++import kotlin.test.assertTrue
+ 
+ class FlutterPluginUtilsTest {
+     companion object {

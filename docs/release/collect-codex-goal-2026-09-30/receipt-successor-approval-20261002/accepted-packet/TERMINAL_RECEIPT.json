@@ -1,0 +1,9 @@
+{
+  "command": "python3 .cache/receipt-successor-workflows-20261001/slice2/approval_uat.py --report-dir .cache/receipt-successor-workflows-20261001/slice2/attempt3",
+  "observed_exec_session_id": 64291,
+  "observed_initial_chunk_id": "c24466",
+  "observed_terminal_write_stdin_chunk_id": "a89572",
+  "observed_terminal_exit_code": 0,
+  "observed_case_stdout": "54 actual PASS lines returned by terminal tool. This is recorded tool metadata; subprocess stdout/stderr and exact test results are separately retained.",
+  "result_sha256": "6c607c2c69de628e5f9f484fd49b635b38ae6cd93987b6caa2e6eab9b10a69e4"
+}

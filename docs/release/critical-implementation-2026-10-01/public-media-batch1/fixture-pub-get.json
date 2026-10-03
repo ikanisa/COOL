@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "scope": "Successful pinned Flutter pub get --offline --enforce-lockfile in the private media fixture only; current/exact browser graph and locks unchanged; local package/plugin roots point to this fixture. No broad release/source/native acceptance.",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "pub",
+    "get",
+    "--offline",
+    "--enforce-lockfile"
+  ],
+  "cwd": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1",
+  "exit_code": 0,
+  "source_graph_files": 333,
+  "source_graph_unchanged": true,
+  "lock_hashes": {
+    "pubspec.yaml": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2",
+    "pubspec.lock": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+    ".fvmrc": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+  },
+  "resolved_local_package_roots": {
+    "collect_app": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1",
+    "file_saver": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1/third_party/file_saver",
+    "gotrue": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1/third_party/gotrue",
+    "firebase_messaging": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/reports/collect-media-fixture-sources/20261002-batch1/third_party/firebase_messaging"
+  },
+  "generated_binding_sha256": {
+    ".dart_tool/package_config.json": "a46e7b34a7aba703deb4d0eab5709121f1f90c89628c1fc90c155ae2adba5d10",
+    ".flutter-plugins-dependencies": "03b94b76fffd3a7b3aafac088d00ab4da9ac29f8729ab5c234442e6e32b233ca"
+  },
+  "logs": {
+    "fixture-pub-get.stdout": "daf3aabb5b420dc980dc1be237a8977c4fe7453cdf3674b6f4d2ff62e84c11a2",
+    "fixture-pub-get.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native_acceptance": false
+}

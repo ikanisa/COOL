@@ -1,0 +1,4 @@
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.notification_events" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523
+NOTICE:  00000: trigger "app_realtime_event_trigger" for relation "public.notification_deliveries" does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

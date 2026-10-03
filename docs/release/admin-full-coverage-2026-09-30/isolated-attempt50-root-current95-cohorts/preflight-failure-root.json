@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "failed_preflight",
+  "recorded_at_utc": "2026-10-01T09:01:22.789438+00:00",
+  "exit_code": 1,
+  "tests_executed": false,
+  "failure": "FileNotFoundError resolving result.json beside a copied receipt path",
+  "incorrect_roster_argument": "docs/release/admin-full-coverage-2026-09-30/isolated-attempt47-final-current-admin/actual-roster149-receipts.stdout",
+  "verified_original_roster_argument": "docs/release/roster-fresh-auth-2026-09-30/uat149-installed-rollback-attempt3-exact-ack/stdout",
+  "original_stdout_sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+  "original_result_sha256": "f8d0f7b27d684412e945d9ccdb0adb6ec5252c4efacb948da86e4672633e293e",
+  "source_changed_for_correction": false
+}

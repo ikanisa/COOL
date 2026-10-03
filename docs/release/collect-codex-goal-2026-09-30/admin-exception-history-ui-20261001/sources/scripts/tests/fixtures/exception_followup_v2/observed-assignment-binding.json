@@ -1,0 +1,11 @@
+{
+  "request_id": "d12efd7d-cd8b-4558-bfeb-609dfc288dab",
+  "exception_id": "60929c9a-098e-4f5b-977e-1f42af23666f",
+  "source_revision": 1,
+  "workflow_revision": 0,
+  "action": "assign",
+  "assignee_id": "99880000-0000-4000-8000-000000000001",
+  "due_at": "2026-10-01T16:49:51.653103Z",
+  "reason_code": "review_started",
+  "expires_at": "2026-10-01T14:51:21.686684Z"
+}

@@ -1,0 +1,3 @@
+test/features/contribution_flow_session_test.dart:126:40: Error: Undefined name 'TextField'.
+    await tester.enterText(find.byType(TextField), '5000');
+                                       ^^^^^^^^^

@@ -1,0 +1,33 @@
+--- android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt original candidate
++++ android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt final archive correction
+@@ -173,7 +173,16 @@
+     }
+     @Test fun callbacksArrivingBeforeCompactionInvalidateSnapshot() = withStore { store, _, _ ->
+         val a = attempt();val p = prepare(store, a);assertTrue(GatewayJournal(store).record(callback(a)))
+-        refuse("gateway_archive_attempt_unresolved") { acknowledge(store, p) };assertEquals(1, store.read().attempts.size)
++        acknowledge(store, p)
++        assertEquals(1, store.read().attempts.size);assertEquals(3, store.readRequests().getJSONArray("requests").length())
++        assertNull(store.readColdAttempt(a.attemptId));assertTrue(store.coldStop())
++        assertEquals(p.original.requestId, GatewayStoredRequest.parse(store.readUncompactableAck(a.attemptId)!!.getJSONObject("archive_request")).requestId)
++        refuse("gateway_archived_conflict_pending") { GatewayJournal(store).resume() }
++    }
++    @Test fun staleKnownSnapshotCannotPrepareAnArchiveAfterCurrentSourceContradicts() = withStore { store, _, _ ->
++        val a = attempt();prepare(store, a);assertTrue(GatewayJournal(store).record(callback(a)))
++        refuse("gateway_archive_source_conflict") { GatewayAttemptArchive(store).payload(a) }
++        assertEquals(1, store.read().attempts.size);assertTrue(store.coldStop())
+     }
+     @Test fun atomicFailurePreservesOriginalUnknownIdentityAndActiveAttempt() = withStore { store, _, reopen ->
+         val p = prepare(store);AtomicFileFaults.failFinishOnce = true
+@@ -234,6 +243,12 @@
+         val a = attempt();acknowledge(store, prepare(store, a));File(directory, "cold-index-${sha256(a.attemptId).take(2)}.bin").delete()
+         refuse("gateway_cold_archive_missing") { reopen().hasArchivedAttempt(a.attemptId) }
+     }
++    @Test fun missingBothControlFilesNeverErasesEstablishedLateConflictStop() = withStore { store, directory, reopen ->
++        val a = attempt();acknowledge(store, prepare(store, a));GatewayJournal(store).record(callback(a))
++        File(directory, "cold-marker.bin").delete();File(directory, "cold-control.bin").delete()
++        refuse("gateway_cold_archive_missing") { reopen().coldStop() }
++        refuse("gateway_cold_archive_missing") { GatewayJournal(reopen()).resume() }
++    }
+     @Test fun lateConflictOnArchiveFirstRestartRoutesToDurableColdEvidence() = withStore { store, _, reopen ->
+         val a = attempt();val p = prepare(store, a)
+         val cold = JSONObject().put("contract_version", 3).put("attempt", archiveAttemptJson(a)).put("archive_request", p.original.row).put("acknowledgement", p.ack)

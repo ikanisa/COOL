@@ -1,0 +1,39 @@
+{
+  "actual_seconds": 0.5349751670000842,
+  "command": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/test_lifecycle_metadata.py"
+  ],
+  "exit_code": 0,
+  "no_unchanged_reader_tests_rerun": true,
+  "original31_test_source_unchanged": true,
+  "real_ps_lsof_signals_Gradle_APP_SDK_sourcefence_DB_or_provider_actions": false,
+  "reported_test_seconds": 0.376,
+  "runtime_sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+  "scope": "original31 ownership/reuse fixtures plus12 actual-root-captured Z/parser/identity/refusal/absence/compile-reuse cases; process/signal/metadata interfaces stubbed, actual frozen documentation reused only to temporary owned copies",
+  "source_after": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "captured-lifecycle-fixture.json": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "4f909d5de4454e7d0d2a13e559ae370a2d5d0ba271e24cae309d75c32353b83d",
+    "run_selected_aab.py": "ac231155f02477a6aaf3217f05e1499b1ceb18d3d725e5dc3969d0279e1aa6f3",
+    "test_lifecycle_metadata.py": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "source_before": {
+    "captured-fixture.json": "fa6703eda85d3861f9573b76ec58ff4064ad1bc266e272fbd7b5c48a78ef41c5",
+    "captured-lifecycle-fixture.json": "46d81e54383106c25340ba565eb8e0f0f40ce277acbb7e68ce0109f0aba96e63",
+    "prepared-input-pins.json": "771c21bd0a44953a4010bffd0eb0b7583ae91f98469143d66ed23982c324401e",
+    "root-admission-template.json": "4f909d5de4454e7d0d2a13e559ae370a2d5d0ba271e24cae309d75c32353b83d",
+    "run_selected_aab.py": "ac231155f02477a6aaf3217f05e1499b1ceb18d3d725e5dc3969d0279e1aa6f3",
+    "test_lifecycle_metadata.py": "b83ea220b82cef4a673075925732aa0c1d8249aa46b13a1e7e4f2f0294e3edc3",
+    "test_owned_metadata.py": "33db34e912594e0c85cf7e6e6a1a8fd6ae255bba9e77eea733013f9a89a5694c"
+  },
+  "source_unchanged": true,
+  "stderr_sha256": "705124a900dfb84fcf792b141fb5f632522099fe6e2a325c128801f22b0bdbc1",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tests_count": 43,
+  "timeout_seconds": 30
+}

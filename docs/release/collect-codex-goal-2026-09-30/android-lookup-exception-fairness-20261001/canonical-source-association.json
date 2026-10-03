@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "integrated_at": "2026-10-01T18:10:00.100836+00:00",
+  "scope": "bounded read-only transport failure fairness; no new retry or send authority",
+  "worker_manifest_sha256": "eab8b28b69c8ff2c8791346e806aba34e511f74244bd6610f7b668767c0c44f4",
+  "worker_members": 88,
+  "composed_unique_method_events": 33,
+  "prior_unchanged_method_events": 6,
+  "current_method_events": 27,
+  "whole_corrected_seven_case_command_relabelled": false,
+  "native_API_source_count": 24,
+  "canonical_files": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "e130b07747dcf13ca18e96ce7be7cab99ab451608aa9fdf25d41c0e529cce6f8",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": "7f85fa1b2abb949d1b0f8ec5f0b1b8f4399e555640c4019d53d8c170281aba96",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt": "6a17533df754e0072d0be0c04182cf56828f748ad26e82f7e34fd9a3185fbb3b",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "4851cc39044484a1384b87690da5051291077845f5fc7cbfcf2c2266af1125f4"
+  },
+  "source_inputs": 42,
+  "verified_JDK_entries": 550,
+  "verified_dependencies": 14,
+  "verified_compiled_artifacts": 255,
+  "selector_AST_literal_additions_only": 2,
+  "old_canonical_bytes_preserved_at": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/android-lookup-fairness-canonical-before-20261001",
+  "hosted_called": false,
+  "device_used": false,
+  "sms_sent": false,
+  "full_candidate": false
+}

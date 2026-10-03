@@ -1,0 +1,144 @@
+{
+  "Python": {
+    "bytes": 18041888,
+    "captured_mode": 493,
+    "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "physical_regular_nlink1": true,
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+  },
+  "config_sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353",
+  "fixed_pool": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1",
+  "full_graph_admission": false,
+  "global_work_seconds": 180,
+  "inputs": [
+    {
+      "bytes": 18962,
+      "captured_mode": 420,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-verified-blob-admission-preparation1/admit_verified_blobs.py",
+      "physical_regular_nlink1": true,
+      "sha256": "d066f367878a3712660a394e6b36fc25bd05ad246ab04e0c97ddd09c869a8170"
+    },
+    {
+      "bytes": 5558,
+      "captured_mode": 420,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-verified-blob-admission-preparation1/admission_fixtures.py",
+      "physical_regular_nlink1": true,
+      "sha256": "4bab8f27178599da27ae6c4d3eed5dd6cf1c2164b2e3d5570739a4970b2e079c"
+    },
+    {
+      "bytes": 59166,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/run_selected_aab.py",
+      "physical_regular_nlink1": true,
+      "sha256": "76f587c54d8cfcb91d0ce584f4ee69ac99905b1ad313402ac2c82ce2fa6ed4f8"
+    },
+    {
+      "bytes": 5704,
+      "captured_mode": 420,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/publisher_metadata.py",
+      "physical_regular_nlink1": true,
+      "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+    },
+    {
+      "bytes": 6532,
+      "captured_mode": 420,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json",
+      "physical_regular_nlink1": true,
+      "sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353"
+    },
+    {
+      "bytes": 218102,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation1/plan.json",
+      "physical_regular_nlink1": true,
+      "sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593"
+    },
+    {
+      "bytes": 51078,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-lint32-binary-acquisition-preparation-recovery2/source-fences.json",
+      "physical_regular_nlink1": true,
+      "sha256": "19444ed1dd7368334e2a26f8ce560f64cc8b799b142b4295f054a373488ef92b"
+    },
+    {
+      "bytes": 180066,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/readback.json",
+      "physical_regular_nlink1": true,
+      "sha256": "8b6caf02f7ed28afab84d95c7668ff712ffebe4e45652f5057f5a91ae0798e06"
+    },
+    {
+      "bytes": 329,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-combined-publisher-binaries1/packet-files.json",
+      "physical_regular_nlink1": true,
+      "sha256": "7a182cc04a4f0919284439fd4708b9fcb80763dcba279be802a07ea74ed51893"
+    },
+    {
+      "bytes": 3630,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/readback.json",
+      "physical_regular_nlink1": true,
+      "sha256": "3143b0a358b20d1b3a21a7aee52fbe15e688a8c0c5fa110f277b58ffebbab9b1"
+    },
+    {
+      "bytes": 770,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-kotlin-compiler-binary-recovery1/packet-files.json",
+      "physical_regular_nlink1": true,
+      "sha256": "5dab1e55725b723e7a4e4fe8d37b7b1f6c9173841a6734b72809cb204a20d8ea"
+    },
+    {
+      "bytes": 897946,
+      "captured_mode": 256,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/readback.json",
+      "physical_regular_nlink1": true,
+      "sha256": "a1f97ca1a72ccf76b73fe7945c66144286e452f85d3fca37e6fb4dbe2c1ff67b"
+    },
+    {
+      "bytes": 56209,
+      "captured_mode": 256,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/packet-files.json",
+      "physical_regular_nlink1": true,
+      "sha256": "2ce7eead8677ac19f3d70ac0e331bb4b6e3010163abf1c8a245bba3a9a179426"
+    },
+    {
+      "bytes": 475,
+      "captured_mode": 256,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-kotlin-compiler-recovery1/packet-files.json",
+      "physical_regular_nlink1": true,
+      "sha256": "7d4d6b927fcded1ef0f3207cbdbb4abd28153bc840c5319cbe0f45a7b4f0e934"
+    },
+    {
+      "bytes": 377894,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/selected-tooling-graph.json",
+      "physical_regular_nlink1": true,
+      "sha256": "0460f8c4c1f5585478a0ac01fc5f31d114ae02a9afd4537b4debc841c5d7b84d"
+    },
+    {
+      "bytes": 529,
+      "captured_mode": 256,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-lint32-tooling-metadata-resolution3/prior-selected-metadata-parity.json",
+      "physical_regular_nlink1": true,
+      "sha256": "c13012f49bbf5677ab58de3bfaa1471c8148006bfe970f3043f4aab314c027b0"
+    },
+    {
+      "bytes": 18041888,
+      "captured_mode": 493,
+      "path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+      "physical_regular_nlink1": true,
+      "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e"
+    },
+    {
+      "bytes": 33792,
+      "captured_mode": 493,
+      "path": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java",
+      "physical_regular_nlink1": true,
+      "sha256": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4"
+    }
+  ],
+  "only67_exact_publisher_JAR_blobs_copyable": true,
+  "schema_version": 1,
+  "source_readbacks_sealed_before_capture": true
+}

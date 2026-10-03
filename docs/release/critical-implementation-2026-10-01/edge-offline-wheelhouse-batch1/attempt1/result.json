@@ -1,0 +1,31 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "scripts/tests/edge_runner_contract_test.py",
+    "-v"
+  ],
+  "source_before": {
+    "scripts/qa/roster_wheelhouse.py": "58a7c3673150edfdfb8ff1fa81bceaa7744fc87299aa6d666b3f0636b579ff3d",
+    "scripts/tests/roster_wheelhouse_test.py": "48c3502e9f593a82da5aa7ed882e7ef2859d49d08aad0992abcdb55abfbc11e1",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "9a2e2ac9e959883d6a78d524689cb92d623c2b44fc903cbe824dd05c11f5bd60"
+  },
+  "started_at": "2026-10-02T01:32:04.500410+00:00",
+  "deadline_seconds": 60,
+  "scope": "Actual file/byte/schema/command/parser contract tests; synthetic transport inputs only. No Docker/network/install.",
+  "exit_code": 1,
+  "elapsed_seconds": 2.6196810840010585,
+  "finished_at": "2026-10-02T01:32:07.120971+00:00",
+  "source_after": {
+    "scripts/qa/roster_wheelhouse.py": "58a7c3673150edfdfb8ff1fa81bceaa7744fc87299aa6d666b3f0636b579ff3d",
+    "scripts/tests/roster_wheelhouse_test.py": "48c3502e9f593a82da5aa7ed882e7ef2859d49d08aad0992abcdb55abfbc11e1",
+    "tools/roster-decoder/Dockerfile": "465ba2deca5a06e24d885f5a5f923f06be8b29cd532c7968bf3e0491b612194a",
+    "scripts/tests/verify_roster_decoder.py": "8eee0c54dd4b3e463bd50fe84b01d7738ce34a5f1db9fd96b3980fc8484d48f5",
+    "scripts/qa/run_edge_ci.py": "3f209fb9e308eaeb4d623a094ed8caad8dd0cc8dd6b2f8f0df4f41068ae425f2",
+    "scripts/tests/edge_runner_contract_test.py": "9a2e2ac9e959883d6a78d524689cb92d623c2b44fc903cbe824dd05c11f5bd60"
+  },
+  "source_unchanged": true
+}

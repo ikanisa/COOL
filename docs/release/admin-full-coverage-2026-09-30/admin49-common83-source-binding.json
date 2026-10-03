@@ -1,0 +1,40 @@
+{
+  "admin_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/admin-full-coverage-2026-09-30/isolated-attempt49-current-admin-gateway",
+  "common_manifest": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/local-source-acceptance-attempt83/source-export.json",
+  "common_manifest_sha256": "b123149da02824c0e8a8417023b3ed120477bf085c0bde11c1b5f1fa7ec22f5f",
+  "admin_manifest_sha256": "38bec2d9365ccbe3a410f9c09c89596eadadef3a1ec04f8c5a693bc4d537cad8",
+  "shared_input_count": 809,
+  "differences": [
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "admin": "bc80f14aeea99192bbd362d4198448d75d32c846bcd78ffefd0f061c1c7e60e5",
+      "common": "6983d0c69960df0a25c0199751e977e30fe354f781348dd45a4c0a78700e1f29",
+      "pinned_formatter_canonical_equivalence": true
+    },
+    {
+      "path": "lib/admin/core/admin_action_contracts.dart",
+      "admin": "ccad98b50274f6758804e432137d224921148b0c27f8490ceaf0da7917597ef4",
+      "common": "8551e744877d540423e5e5461c0ecd52f0b398427bb27f31a87b8380b85ee8f1",
+      "pinned_formatter_canonical_equivalence": true
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "admin": "3d365b69359dc2f5b4811d287a2c343bd247a022d50904c0e98daca718b64711",
+      "common": "9a8aeee1a42cd4d00b2e9dae089be538d7a112aca4fc57424c2338a12fa75551",
+      "pinned_formatter_canonical_equivalence": true
+    },
+    {
+      "path": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "admin": "235c140f52def63c71c8a8d96a917f9fea49e18f5384b60b0b6efdf10fb3c869",
+      "common": "22717560dd89596f8aaa449bc40b2e31421f6e383f0180a08cd4c5175bcf921a",
+      "pinned_formatter_canonical_equivalence": false
+    }
+  ],
+  "admin_selected_inputs_missing_from_common": [
+    "third_party/gotrue/example/README.md",
+    "third_party/gotrue/example/main.dart"
+  ],
+  "scope": "Current common83 overlap includes runtime and declared tests. Formatting equivalence is explicit; compile-corrected SDK fixture still needs its current acceptance. Missing gotrue example sources are nonproduction fork examples. Native/SQL inputs are outside this client proof.",
+  "runtime_differences_without_formatter_equivalence": [],
+  "acceptance_claim": false
+}

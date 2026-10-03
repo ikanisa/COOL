@@ -1,0 +1,16 @@
+{
+  "status": "visually_reviewed_and_published",
+  "old_sha256": "ba9800f9380e2084857642e625a0165963bef0beee94eb1ca8ea114364813835",
+  "current_sha256": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4",
+  "viewport": [
+    1440,
+    900
+  ],
+  "platform": "Flutter Android test variant; actual licensed Inter loaded",
+  "reference_context": "September 2026 public marketing composition, distinct from native/Business references",
+  "review": "Inter changes glyph widths and paragraph wrapping. Heading remains three lines, body remains three lines, controls and copy remain visible; hero, own logo, Rwanda scene, colors, hierarchy and routes retained. Selected skill explicitly permits this licensed fallback. Only the affected public baseline is changed.",
+  "full_revolut_font_fidelity_claimed": false,
+  "comparison_tolerance_changed": false,
+  "old_baseline_retained": "public_home_desktop-before-aeonik.png",
+  "manifest_rows_changed": 1
+}

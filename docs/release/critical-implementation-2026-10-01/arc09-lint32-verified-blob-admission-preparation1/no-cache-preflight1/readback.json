@@ -1,0 +1,47 @@
+{
+  "Gradle_process_observations": [
+    {
+      "active_private_Gradle_rows": [],
+      "observed_utc": "2026-10-02T19:19:17.592550+00:00",
+      "observer_error": null,
+      "private_Gradle_active": false,
+      "process_table_count": 998,
+      "root_serialization_required_between_observations": true
+    },
+    {
+      "active_private_Gradle_rows": [],
+      "observed_utc": "2026-10-02T19:19:17.970757+00:00",
+      "observer_error": null,
+      "private_Gradle_active": false,
+      "process_table_count": 998,
+      "root_serialization_required_between_observations": true
+    },
+    {
+      "active_private_Gradle_rows": [],
+      "observed_utc": "2026-10-02T19:19:18.038360+00:00",
+      "observer_error": null,
+      "private_Gradle_active": false,
+      "process_table_count": 998,
+      "root_serialization_required_between_observations": true
+    }
+  ],
+  "actual_actions": [],
+  "actual_attempts": [],
+  "actual_partial_manifest": [],
+  "actual_readback_sha256": "8b6caf02f7ed28afab84d95c7668ff712ffebe4e45652f5057f5a91ae0798e06",
+  "actual_seconds": 0.5455607920011971,
+  "all67_inputs_unchanged": true,
+  "errors": [],
+  "existing_mismatches_not_overwritten_or_deleted": true,
+  "full_graph_admission": false,
+  "lint_AAB_license_release_claim": false,
+  "metadata_POM_version_dependency_source_writes": false,
+  "normal_full_Gradle_artifact_components_edges_POM_variant_comparison_required": true,
+  "only_standard_files2_1_JAR_blob_destinations_written": true,
+  "plan_sha256": "690a27a55f7d0ffbedfdcdc48e0977dc8366b6e52049f0b3542ae4d6a02f9593",
+  "preflight_only": true,
+  "preparation_sha256": "02a8664b563a321839d0bd2ede60da671b66920a9410d3452e8e6a457933b633",
+  "schema_version": 1,
+  "status": "PASS_ALL67_NO_CACHE_WRITE_PREFLIGHT",
+  "work_seconds": 180
+}

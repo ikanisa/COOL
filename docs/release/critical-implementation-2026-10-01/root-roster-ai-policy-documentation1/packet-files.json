@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-roster-ai-policy-documentation1/document.md",
+      "bytes": 4144,
+      "sha256": "74fb10fee5c9db1358c86689c958cc2e43386c89555cf23b56b0bbb1c183482f"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/root-roster-ai-policy-documentation1/review.json",
+      "bytes": 1253,
+      "sha256": "4590b24b43e89c342c9fce09b49a944420dac0b99f814c68b3b4d480c335fef6"
+    }
+  ],
+  "scope": "Source-bound operator documentation and official data-control source review; no policy/account/deployment approval."
+}

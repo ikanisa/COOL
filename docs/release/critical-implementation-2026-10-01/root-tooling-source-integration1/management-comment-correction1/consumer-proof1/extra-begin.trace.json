@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Migration still contains a transaction terminator after normalization: /private/tmp/tmpd4q4l3am/migrations/20990101000000_private_extra_boundary.sql\n",
+  "query_calls": [
+    "select version, name from supabase_migrations.schema_migrations order by version;"
+  ],
+  "write_observed": false,
+  "source": "actual maintained helper; only query transports overridden locally",
+  "capture_position": "inside the test body before TemporaryDirectory exits"
+}

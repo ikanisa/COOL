@@ -1,0 +1,23 @@
+{
+  "reviewed_at_utc": "2026-10-02T01:11:01.799053+00:00",
+  "reviewer": "root independent original-pixel inspection",
+  "images": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/app-direct_mobile_390x844.png",
+      "sha256": "6ad4ff0ae993b9fcbe1601ef9c7bb8004edd506dd463596e7c7545b99f4d8d5d"
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/public-media-batch4/supplemental-share-routes/group-c-direct_compact_320x740.png",
+      "sha256": "a8cde7ff7f3b6bd1b650b8c4c70577f52bc5fd49b71ebcdbef286d6157849993"
+    }
+  ],
+  "observed": [
+    "Generic /app/ top at390px uses truthful Open Collect copy, visible app/store/copy actions and Collect own identity; no unsupported valid-group claim.",
+    "Invalid /c/ top at320px visibly names invalid link and mutes native Open in Collect; supported store and copy controls remain available. Text is legible in inspected original viewport. Lower content requires ordinary scrolling."
+  ],
+  "limits": [
+    "Two original top viewport observations only; no executed installed/native/store journey or comprehensive Revolut visual acceptance.",
+    "Marketing/native comparator contexts remain distinct. Exact counterpart and owner task acceptance remain unverified."
+  ],
+  "production_release_approved": false
+}

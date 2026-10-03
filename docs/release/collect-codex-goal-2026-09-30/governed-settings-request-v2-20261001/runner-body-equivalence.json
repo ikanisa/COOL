@@ -1,0 +1,44 @@
+[
+  {
+    "name": "attempt6 all25 family loop and entire original no-op/permission/auth negative body",
+    "status": "pass",
+    "normalized_ast_sha256": "b597d35647307997ff52e2befc7d0c39758168ee71f668a0c594d2be14dbbd9a",
+    "nodes": 30
+  },
+  {
+    "name": "attempt7 exact deadline/concurrency/insertion fence body before original failed expiry fixture",
+    "status": "pass",
+    "normalized_ast_sha256": "13e259744a2a5d2918d4dc7418cb4bf25a69e0b3e4e3db25a5e39171dada10d7",
+    "nodes": 106
+  },
+  {
+    "name": "attempt8 actual approval expiry/publication/identity/catalog/history body before diagnostic parse",
+    "status": "pass",
+    "normalized_ast_sha256": "4c3781df65f936640f7a24eaa212141ad693c03148aacdc5122be028fd82f659",
+    "nodes": 55
+  },
+  {
+    "name": "attempt6 entire fixture/install/get/make/fingerprint/lookup common setup",
+    "status": "pass",
+    "normalized_ast_sha256": "6fd8796590b32b30d3290cc96efaae912b47b780b6dcbbf9d5a8882fd6fab970",
+    "nodes": 78
+  },
+  {
+    "name": "attempt6 all module import/global DTO constants and quote/hash/time helpers",
+    "status": "pass",
+    "normalized_ast_sha256": "75af394676a3378328fa2faf89e638679113612794c14eeea1ca26c22dfc5ed6",
+    "nodes": 19
+  },
+  {
+    "name": "attempt7 all common session/blocking/snapshot race helpers",
+    "status": "pass",
+    "normalized_ast_sha256": "d1cafbcfd178df86e1a44fd485f85e15a0571f8281cd16b7a5a9ad430639f3df",
+    "nodes": 4
+  },
+  {
+    "name": "final9 new exact original-input/create/sensitive boundary body now included in default full scope",
+    "status": "pass",
+    "normalized_ast_sha256": "3082f4b41db955e92a54149af537a72183b71fa9d355e99687ae0add0023ab40",
+    "nodes": 24
+  }
+]

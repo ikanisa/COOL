@@ -1,0 +1,17 @@
+repositories {
+    google {
+        content { includeModule('com.android.tools', 'desugar_jdk_libs_configuration') }
+    }
+}
+configurations { exactPublisherJar { transitive = false } }
+dependencies { exactPublisherJar 'com.android.tools:desugar_jdk_libs_configuration:2.1.4' }
+tasks.register('resolveExactPublisherJar') {
+    doLast {
+        def resolved = configurations.exactPublisherJar.resolve()
+        if (resolved.size() != 1) throw new GradleException('Unexpected dependency scope')
+        def artifact = resolved.first()
+        def hash = java.security.MessageDigest.getInstance('SHA-256').digest(artifact.bytes).encodeHex().toString()
+        if (hash != '5d770c1ba225c2cdf09086bf662954ae765ee481f901b02cd7b1dc3c8077c3f4') throw new GradleException('Publisher bytes differ')
+        println('EXACT_PUBLISHER_JAR ' + artifact.canonicalPath + ' SHA256=' + hash)
+    }
+}

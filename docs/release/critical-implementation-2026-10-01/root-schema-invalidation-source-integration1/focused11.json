@@ -1,0 +1,22 @@
+{
+  "actual_seconds": 1.007,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_lineage_invalidation_test.py"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "deadline_seconds": 30,
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T09:39:07.074992+00:00",
+  "headroom_failure": false,
+  "owned_process_group_absent": true,
+  "pid": 96919,
+  "residual_process_group_required_stop": false,
+  "spawned": true,
+  "started_utc": "2026-10-02T09:39:06.068083+00:00",
+  "stderr_sha256": "b17db91b115683919433e1c6452f2b03cd0b7475eef767553970f4830c3f2b88",
+  "stdout_sha256": "e1c15cb08ec4560d9834ebcf7506889bc76b75d64b1fcd234da809e2477c23b4",
+  "timed_out": false
+}

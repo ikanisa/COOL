@@ -1,0 +1,16 @@
+{
+  "status": "verified_in_isolation",
+  "live_source_write_performed": false,
+  "live_peer_independently_contains_exact_value_comparison": true,
+  "original_rejection": "Canonical Python preparation sorts identity JSON members; identical exact identities had different insertion order. JSON.stringify equality rejected28 fixtures at the common setup boundary.",
+  "proposal_actual_cases": 39,
+  "proposal_typecheck_exit": 0,
+  "proposal_runtime_source_sha256": "bf323bd3b17d789d0d2099af48f8c922d758363dac1bcfa15d8f8c75b8701449",
+  "whole_live_current_acceptance": false,
+  "later_peer_delta": "Dependency-link schema, runtime-link binding and Python preparer changed during the proposal run; retained in original source guard. Requires one eventual complete-current new29th cohort.",
+  "original_failed_packets": [
+    "current-mcp-scheduler-tail1",
+    "current-mcp-scheduler-tail2-complete-imports"
+  ],
+  "proposal_result_sha256": "e403c47a3e848b61f677ab108c4a329f555c54225e5026f05f7b7273343cd6c0"
+}

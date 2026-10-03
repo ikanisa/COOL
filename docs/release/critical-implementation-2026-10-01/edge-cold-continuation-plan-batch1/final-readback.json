@@ -1,0 +1,263 @@
+{
+  "at_utc": "2026-10-02T01:17:19.507461+00:00",
+  "prior_inputs": [
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/batch.json",
+      "before_sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d",
+      "after_sha256": "ddd65f0df3ee6d51cb1d97f2709bc90cf237fe12df8367eacff1e2a3ff82ac9d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/README.md",
+      "before_sha256": "7db7586cca7cb75e6e8ba191fbe22ec647bb4d3e91dedf434d0673ecdf807dc6",
+      "after_sha256": "7db7586cca7cb75e6e8ba191fbe22ec647bb4d3e91dedf434d0673ecdf807dc6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt1/canonical-batch.json",
+      "before_sha256": "8fafe28d169407371cdf9c91b5f69349c652ef3fbae614816071c1719ac1e400",
+      "after_sha256": "8fafe28d169407371cdf9c91b5f69349c652ef3fbae614816071c1719ac1e400",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/canonical-batch.json",
+      "before_sha256": "57d5e7c444eaf9077fc4430a4935eed095ca60bcc652ef98bc56e2e5070d6067",
+      "after_sha256": "57d5e7c444eaf9077fc4430a4935eed095ca60bcc652ef98bc56e2e5070d6067",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/validation.json",
+      "before_sha256": "1df80296cbba6bda6053cdfac0818ad3abf9fe5c56581040a169d026e801a1d2",
+      "after_sha256": "1df80296cbba6bda6053cdfac0818ad3abf9fe5c56581040a169d026e801a1d2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/linux-decoder/validation.json",
+      "before_sha256": "a1a9826ffb4034f2d9acf2c8c4e402fe2c1a993caccd74f7ec929c352d7624ca",
+      "after_sha256": "a1a9826ffb4034f2d9acf2c8c4e402fe2c1a993caccd74f7ec929c352d7624ca",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/edge-current-integration-batch1/attempt2/acceptance/linux-decoder/build.log",
+      "before_sha256": "e4ac904b2855cbf51123960c25795774d35731849584d97e3f68e074937aa0a7",
+      "after_sha256": "e4ac904b2855cbf51123960c25795774d35731849584d97e3f68e074937aa0a7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/result.json",
+      "before_sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792",
+      "after_sha256": "5ce783d190b00225e6e09fc6a2a722f2eaf5c6976872307625065c6901602792",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-download-transport-batch1/probe.py",
+      "before_sha256": "ecfb4d6f23459ae41b81cec944f99fad71b84219d46d87aaae7f8e4bf9cf2949",
+      "after_sha256": "ecfb4d6f23459ae41b81cec944f99fad71b84219d46d87aaae7f8e4bf9cf2949",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/batch.json",
+      "before_sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d",
+      "after_sha256": "73db3507b6e21def1affaf95669f55ae5ea5bb4dfd5097345d32df62dae5dc7d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/acceptance.json",
+      "before_sha256": "087aec8a83438cfd86b1efc77ecf8005a7f13686d29a3ef01be693301067b574",
+      "after_sha256": "087aec8a83438cfd86b1efc77ecf8005a7f13686d29a3ef01be693301067b574",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/installed-package-versions.stdout",
+      "before_sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "after_sha256": "92a93931af7553dc56a0683d6d07719e21b39bc8b2dd826202f3f19826a473ec",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/validation.json",
+      "before_sha256": "09b015a87f96df00494458d0b776c289da99c00bb0ef1d7b41575e5f19c6223c",
+      "after_sha256": "09b015a87f96df00494458d0b776c289da99c00bb0ef1d7b41575e5f19c6223c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/edge-decoder-integration.log",
+      "before_sha256": "626692eeb830a16ed945d2bfbab516cd626376af627a8678e2d6cbb2b13bc73b",
+      "after_sha256": "626692eeb830a16ed945d2bfbab516cd626376af627a8678e2d6cbb2b13bc73b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/attempt2/linux-acceptance/regressions.log",
+      "before_sha256": "d59aa3bc6f53f1bb3add2d3d168cefb514a8afee7b45da47d63e943da4db269f",
+      "after_sha256": "d59aa3bc6f53f1bb3add2d3d168cefb514a8afee7b45da47d63e943da4db269f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/wheel-provenance.json",
+      "before_sha256": "24e0069f93225e2669c0d627389624105313092607b68faf652159acfb266f54",
+      "after_sha256": "24e0069f93225e2669c0d627389624105313092607b68faf652159acfb266f54",
+      "unchanged": true
+    },
+    {
+      "path": "docs/release/critical-implementation-2026-10-01/decoder-dependency-batch1/fixture-generator-environment.json",
+      "before_sha256": "9c76826483bc0c9ea4fb63769a53da4e6108ed388896b77efe915fb362462845",
+      "after_sha256": "9c76826483bc0c9ea4fb63769a53da4e6108ed388896b77efe915fb362462845",
+      "unchanged": true
+    }
+  ],
+  "all_prior_input_bytes_unchanged": true,
+  "current_affected_sources": [
+    {
+      "path": "tools/roster-decoder/requirements.lock",
+      "before_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "after_sha256": "569d1913883a375ee21d46dd7ca90f132c2cd59da594d9944a483a756ef12a16",
+      "unchanged": true
+    },
+    {
+      "path": "tools/roster-decoder/requirements.in",
+      "before_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "after_sha256": "0b4242ebdfc6dd9daf996f1128c48951aa74402df40f635349c2f7828a3ff267",
+      "unchanged": true
+    },
+    {
+      "path": "tools/roster-decoder/Dockerfile",
+      "before_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "after_sha256": "6bbb1e4d699b4627f0f4044f046d9636fc66e2a8318876653997ff182bd3d68a",
+      "unchanged": true
+    },
+    {
+      "path": "tools/roster-decoder/decoder.py",
+      "before_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "after_sha256": "d1a7b3c0833cfd91251b41f316c7ecdf852c90c8e96f0068365eea512ddbb8df",
+      "unchanged": true
+    },
+    {
+      "path": "tools/roster-decoder/server.py",
+      "before_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "after_sha256": "87d3d98d094ffdbd1e35d2a6fe2f6a9d6406d5e09dcbf2b205d56e78e3d112c4",
+      "unchanged": true
+    },
+    {
+      "path": "tools/roster-decoder/test_dependency_security.py",
+      "before_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "after_sha256": "ccae3a8ab702a9edb09e0496b0f7900b5220c09f26764a36726590a7fb2c51ed",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/tests/verify_roster_decoder.py",
+      "before_sha256": "e2f102db709793c14b897db9f829e09b427e9ae2822b6f7152d5f931f9a914d6",
+      "after_sha256": "e2f102db709793c14b897db9f829e09b427e9ae2822b6f7152d5f931f9a914d6",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/qa/run_edge_ci.py",
+      "before_sha256": "426341b52e71b3a14ff57fd6d29fdadeeafab5019abe7d504b73d7886cc74461",
+      "after_sha256": "426341b52e71b3a14ff57fd6d29fdadeeafab5019abe7d504b73d7886cc74461",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/tests/edge_runner_contract_test.py",
+      "before_sha256": "a2eb2404cd3b4425696d3b3cb0aada6d0f99a7f061c5a910916c044d00ad657e",
+      "after_sha256": "a2eb2404cd3b4425696d3b3cb0aada6d0f99a7f061c5a910916c044d00ad657e",
+      "unchanged": true
+    },
+    {
+      "path": ".dvmrc",
+      "before_sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "after_sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "before_sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+      "after_sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382",
+      "unchanged": true
+    }
+  ],
+  "all_current_affected_source_bytes_unchanged": true,
+  "wheel_readback": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/defusedxml-0.7.1-py2.py3-none-any.whl",
+      "before_sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+      "after_sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/et_xmlfile-2.0.0-py3-none-any.whl",
+      "before_sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa",
+      "after_sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "before_sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2",
+      "after_sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pillow-12.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "before_sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+      "after_sha256": "d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pypdf-6.19.0-py3-none-any.whl",
+      "before_sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14",
+      "after_sha256": "7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pypdfium2-5.2.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "before_sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec",
+      "after_sha256": "6ed15a3f58d6ee4905f0d0a731e30b381b457c30689512589c7f57950b0cdcec",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "before_sha256": "ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7",
+      "after_sha256": "ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7",
+      "unchanged": true
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/decoder-dependency-batch1/wheels/pypdfium2-5.2.0-py3-none-macosx_11_0_arm64.whl",
+      "before_sha256": "73523ae69cd95c084c1342096893b2143ea73c36fdde35494780ba431e6a7d6e",
+      "after_sha256": "73523ae69cd95c084c1342096893b2143ea73c36fdde35494780ba431e6a7d6e",
+      "unchanged": true
+    }
+  ],
+  "all_eight_available_wheel_bytes_and_identity_unchanged": true,
+  "current_canonical_drift_same_as_initial_readback": true,
+  "current_canonical_drift": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "dated_sha256": "1be3c6e9f8dfbca9fab940df2f765b89818b6ca2e20d387978906c7258388583",
+      "current_sha256": "a838c0c2a34bc1a5cdaf2f1c21c194cf967137fc11ab4add0e187b5aa3a850a4"
+    }
+  ],
+  "transport_original_artifacts": [
+    {
+      "path": "docker_default_network.stdout",
+      "matches": true
+    },
+    {
+      "path": "host.stdout",
+      "matches": true
+    },
+    {
+      "path": "host.stderr",
+      "matches": true
+    },
+    {
+      "path": "docker_default_network.stderr",
+      "matches": true
+    },
+    {
+      "path": "probe.py",
+      "matches": true
+    }
+  ],
+  "all_transport_original_artifacts_match": true,
+  "source_cache_receipt_or_ci_mutation_performed": false,
+  "downloads_or_installs_or_gate_runs_performed": false,
+  "docker_metadata_read_only": true,
+  "production_release_approved": false
+}

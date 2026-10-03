@@ -1,0 +1,419 @@
+{
+  "$defs": {
+    "digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "reference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "type": "string"
+        },
+        "pointer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "document",
+        "pointer"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "PD12_closed": {
+      "const": false
+    },
+    "acceptance_boundaries": {
+      "const": {
+        "complete_packaged_SBOM": "unverified",
+        "font_distribution_rights": "unverified",
+        "full_visual_acceptance": "unverified",
+        "hosted_candidate_parity": "unverified",
+        "production_release_approval": false
+      }
+    },
+    "candidate": {
+      "properties": {
+        "archived_candidate_current_repository_equivalence": {
+          "const": false
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity_bindings": {
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_file_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_manifest_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_scope": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source_manifest_sha256",
+        "identity_bindings",
+        "source_scope"
+      ],
+      "type": "object"
+    },
+    "closure_owner": {
+      "const": "release/QA integrator"
+    },
+    "documents": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "content": {
+            "enum": [
+              "json",
+              "text"
+            ]
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "$ref": "#/$defs/digest"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "bytes",
+          "content"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "context": {
+            "type": "string"
+          },
+          "file_sets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "independent_receipt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "observed_result": {},
+          "result_binding": {
+            "$ref": "#/$defs/reference"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "supersedes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "validation_status": {
+            "enum": [
+              "retained-independent-scoped-readback",
+              "source-receipt-only"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "observed_result",
+          "result_binding",
+          "context",
+          "validation_status",
+          "independent_receipt",
+          "file_sets",
+          "supersedes",
+          "scope",
+          "limitations"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "facts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "document": {
+            "type": "string"
+          },
+          "expected": {},
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "json-pointer",
+              "text-includes"
+            ]
+          },
+          "pointer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "document",
+          "pointer",
+          "expected"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "file_sets": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "binding_domain": {
+            "enum": [
+              "archived-tested-candidate",
+              "current-listed-inputs",
+              "current-relevant-listed-inputs",
+              "separate-maintained-tooling",
+              "captured-artifact"
+            ]
+          },
+          "closed_inventory": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "basis_document": {
+                    "type": "string"
+                  },
+                  "directories": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "include_patterns": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "basis_document",
+                  "directories",
+                  "include_patterns"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "digest_overrides": {
+            "additionalProperties": {
+              "$ref": "#/$defs/reference"
+            },
+            "type": "object"
+          },
+          "document": {
+            "type": "string"
+          },
+          "expected_count": {
+            "maximum": 50000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "pointer": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "source",
+              "transitive-input",
+              "artifact",
+              "verification-tooling"
+            ]
+          },
+          "scope": {
+            "type": "string"
+          },
+          "shape": {
+            "enum": [
+              "map-metadata",
+              "map-digest",
+              "list-metadata",
+              "checksum-lines"
+            ]
+          },
+          "unproved_symlink_bindings": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "document",
+          "pointer",
+          "shape",
+          "expected_count",
+          "resource",
+          "prefix",
+          "role",
+          "scope",
+          "binding_domain",
+          "closed_inventory"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "format": {
+      "const": "collect-current-candidate-evidence-index-v1"
+    },
+    "integration_state": {
+      "enum": [
+        "unapplied-private-proposal",
+        "applied-pending-actual-readback",
+        "actual-index-readback-retained"
+      ]
+    },
+    "pending_areas": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "area",
+          "state",
+          "reason"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "recorded_at_utc": {
+      "type": "string"
+    },
+    "resources": {
+      "additionalProperties": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "scope_relations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "excluded_exact_paths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "original_document": {
+            "type": "string"
+          },
+          "original_pointer": {
+            "type": "string"
+          },
+          "projected_document": {
+            "type": "string"
+          },
+          "projected_pointer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "original_document",
+          "original_pointer",
+          "projected_document",
+          "projected_pointer",
+          "excluded_exact_paths"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "summary_corrections_unapplied": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "format",
+    "integration_state",
+    "candidate",
+    "resources",
+    "documents",
+    "file_sets",
+    "facts",
+    "evidence",
+    "acceptance_boundaries",
+    "pending_areas",
+    "PD12_closed"
+  ],
+  "title": "Collect current candidate evidence index proposal",
+  "type": "object"
+}

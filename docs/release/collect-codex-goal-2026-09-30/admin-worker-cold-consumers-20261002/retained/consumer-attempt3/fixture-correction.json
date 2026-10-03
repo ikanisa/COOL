@@ -1,0 +1,3 @@
+{
+  "reason": "All8 SDK and2 pending-session widget cases passed; six card assertions ran before the actual asynchronous SDK decode/provider future had completed. Await that exact provider future under real-async harness before asserting settled UI; original DTO/query remains unchanged. Detail original job and scan IDs are the same actual UUID, so both actual SelectableText fields must be counted."
+}

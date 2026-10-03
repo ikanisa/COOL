@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "check": "negative_unit_suite",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/pub_fork_origin_test.py"
+      ],
+      "log": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/tests.log",
+      "log_sha256": "de85ad5d7abe81833e1730acda70875d4318dbb0ba1af60faeee26ac32943321",
+      "returncode": 0
+    },
+    {
+      "check": "offline_current_forks",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/supply_chain/verify_pub_forks.py",
+        "verify",
+        "--cache-dir",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/fork-auth-batch1/fetched-official",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/fork-auth-batch1/comparison.json"
+      ],
+      "log": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/verify.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0
+    },
+    {
+      "check": "python_syntax",
+      "command": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-m",
+        "py_compile",
+        "scripts/supply_chain/verify_pub_forks.py",
+        "scripts/tests/pub_fork_origin_test.py"
+      ],
+      "log": "docs/release/critical-implementation-2026-10-01/fork-auth-batch1/syntax.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0
+    }
+  ],
+  "created_utc": "2026-10-01T21:17:22.096328+00:00",
+  "input_count": 130,
+  "inputs_unchanged": true
+}

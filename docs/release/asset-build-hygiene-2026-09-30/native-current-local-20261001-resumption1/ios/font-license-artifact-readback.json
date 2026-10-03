@@ -1,0 +1,10 @@
+{
+  "complete_inter_license_present_in_compiled_notices": true,
+  "compressed_notice_sha256": "046b6b15fb01cae4a37c8edd17ba441dc094b62f2a523611996129d660dbd782",
+  "compression": "gzip",
+  "font_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "inter_ofl_sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "notices_path": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app/Frameworks/App.framework/flutter_assets/NOTICES.Z",
+  "scope": "Full retained OFL-Inter text present in actual compiled notice payload alongside exact Inter font bytes; other image/package license approvals remain separately explicit.",
+  "status": "pass"
+}

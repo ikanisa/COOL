@@ -1,0 +1,5 @@
+{
+  "before_sha256": "6d4c35540b7473db99fc51e5bc193c4f8f58ec461dc6ebf9ecbd10420e40d906",
+  "after_sha256": "aad84880ca056d7b64d5964290805ffb41c2b18a8b44187356ad2de09aaf57d7",
+  "scope": "Activate actual Flutter semantics before first signed-out route assertion; retained production bundle unchanged"
+}

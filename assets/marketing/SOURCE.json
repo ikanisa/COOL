@@ -1,26 +1,10 @@
 {
   "cohort": "Collect Rwanda editorial collection, 2026-09-05",
-  "source": "Owner-directed original built-in image generation (2026-09-05); Aeonik typefaces retained from the Revolut public homepage",
-  "typeface_source": "https://www.revolut.com/",
+  "source": "Owner-directed original built-in image generation (2026-09-05); supplied Aeonik Pro marketing typography restored under owner implementation authorization (2026-10-01)",
+  "typeface_source": "Supplied full Aeonik Pro 1.007 faces from the private collection; actual provenance retained below. Product and financial typography retain Inter.",
   "image_source": "Owner-directed original built-in image generation, 2026-09-05",
   "authority": "revolut-design skill for product design; owner-directed Rwanda imagery for runtime assets",
   "files": [
-    {
-      "path": "assets/typefaces/AeonikPro-Medium.ttf",
-      "source_filename": "29743adaf2380513.woff2",
-      "source_sha256": "84c864840f6aa107dc9ae6f0c3e588eb8d1f88696949a63362a89f328158ba6f",
-      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
-      "operation": "WOFF2 decompression to sfnt; no glyph changes",
-      "scope": "public marketing only"
-    },
-    {
-      "path": "assets/typefaces/AeonikPro-Regular.ttf",
-      "source_filename": "c064293ff7b94e55.woff2",
-      "source_sha256": "4a470b7f273906c503b0315b232fe0762762ea864ee535f6ed0e951415d69660",
-      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
-      "operation": "WOFF2 decompression to sfnt; no glyph changes",
-      "scope": "public marketing only"
-    },
     {
       "path": "assets/marketing/rwanda/banking-together.png",
       "sha256": "17d6ee3543238dda295b18356a46ba5d5d2d0e71a4b3d8896662d3cb476fcae0",
@@ -94,5 +78,51 @@
       "retained_at": ".cache/revolut-design-20260905/source-artwork/revolut-editorial.png"
     }
   ],
-  "owner_image_instruction": "Replace the public portrait with a young adult Rwandan woman and add Rwanda-relevant finance, banking, community and people assets for app and web."
+  "owner_image_instruction": "Replace the public portrait with a young adult Rwandan woman and add Rwanda-relevant finance, banking, community and people assets for app and web.",
+  "typeface_runtime": {
+    "marketing_family": "Aeonik Pro",
+    "marketing_weights": [
+      400,
+      500
+    ],
+    "product_family": "Inter",
+    "product_license": "assets/typefaces/OFL-Inter.txt",
+    "product_asset": "assets/typefaces/Inter-Variable.ttf",
+    "native_font_family_selected": "Inter",
+    "selected_source": "September 2026 UK marketing heading/control 500; body400 target adaptation. Actual supplied metadata weights are registered without synthesis."
+  },
+  "typefaces": [
+    {
+      "path": "assets/typefaces/AeonikPro-Medium.ttf",
+      "source_filename": "29743adaf2380513.woff2",
+      "source_sha256": "84c864840f6aa107dc9ae6f0c3e588eb8d1f88696949a63362a89f328158ba6f",
+      "sha256": "eda1b3c735c8bcea6012b07b39c568c3db088e68a033cd8bfb893af89af03eb5",
+      "operation": "WOFF2 decompression to sfnt; no glyph changes",
+      "scope": "public marketing only",
+      "runtime": true,
+      "retained_at": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/typography/collect-website-derived-20261001/AeonikPro-Medium.ttf",
+      "source": "https://www.revolut.com/",
+      "family": "Aeonik Pro",
+      "weight": 500,
+      "version": "1.007",
+      "classification": "Supplied full Pro face; distinct from owner download Aeonik TRIAL 2.000",
+      "authorization": "Owner-directed local implementation of the selected marketing roles; no license certification inferred."
+    },
+    {
+      "path": "assets/typefaces/AeonikPro-Regular.ttf",
+      "source_filename": "c064293ff7b94e55.woff2",
+      "source_sha256": "4a470b7f273906c503b0315b232fe0762762ea864ee535f6ed0e951415d69660",
+      "sha256": "7db95b259a98942759e20545770046f4fd2afe9740527cd0c676ec90dfbd4fef",
+      "operation": "WOFF2 decompression to sfnt; no glyph changes",
+      "scope": "public marketing only",
+      "runtime": true,
+      "retained_at": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/typography/collect-website-derived-20261001/AeonikPro-Regular.ttf",
+      "source": "https://www.revolut.com/",
+      "family": "Aeonik Pro",
+      "weight": 400,
+      "version": "1.007",
+      "classification": "Supplied full Pro face; distinct from owner download Aeonik TRIAL 2.000",
+      "authorization": "Owner-directed local implementation of the selected marketing roles; no license certification inferred."
+    }
+  ]
 }

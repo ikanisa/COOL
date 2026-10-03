@@ -1,0 +1,16 @@
+{
+  "data_helper_not_executed": true,
+  "future_epoch_data_refused_pending_actual_fields": true,
+  "maintained_data_or_canonical_writes_by_this_agent": false,
+  "packet_files_filename": "packet-files.json",
+  "packet_files_sha256": "858fb7a1a46c25a4b04696258e906fd8b977337030f24bedb15387754b7fd93d",
+  "payload_count": 17,
+  "production_release_approval": false,
+  "reader_grants_closure": false,
+  "schema_version": 1,
+  "sealed_at_utc": "2026-10-02T15:10:48.972982+00:00",
+  "source_changes_applied_by_root_only": [
+    "scripts/audits/collect_current_evidence_index.py",
+    "scripts/tests/collect_current_evidence_index_test.py"
+  ]
+}

@@ -1,0 +1,18 @@
+test_actual_archived_native_source_and_exact_proposed_two_rows (__main__.OverlayFixtures.test_actual_archived_native_source_and_exact_proposed_two_rows) ... ok
+test_adding_a43rd_pin_instead_of_declared_overlay_is_refused (__main__.OverlayFixtures.test_adding_a43rd_pin_instead_of_declared_overlay_is_refused) ... ok
+test_archived_export8_source_binding_cannot_be_replaced (__main__.OverlayFixtures.test_archived_export8_source_binding_cannot_be_replaced) ... ok
+test_archived_native_source_binding_cannot_be_rewritten (__main__.OverlayFixtures.test_archived_native_source_binding_cannot_be_rewritten) ... ok
+test_changed_main_consumers_use_current_fence_and_fresh_graphs (__main__.OverlayFixtures.test_changed_main_consumers_use_current_fence_and_fresh_graphs) ... ok
+test_claimed_current_manifest_approval_is_refused (__main__.OverlayFixtures.test_claimed_current_manifest_approval_is_refused) ... ok
+test_current_APP_guard_uses_current_hash_and_keeps_archived_export (__main__.OverlayFixtures.test_current_APP_guard_uses_current_hash_and_keeps_archived_export) ... ok
+test_current_source_member_removal_is_refused (__main__.OverlayFixtures.test_current_source_member_removal_is_refused) ... ok
+test_exact_existing42_pin_amendment_is_accepted (__main__.OverlayFixtures.test_exact_existing42_pin_amendment_is_accepted) ... ok
+test_one_missing_overlay_change_is_refused (__main__.OverlayFixtures.test_one_missing_overlay_change_is_refused) ... ok
+test_stale_affected_pin_is_refused (__main__.OverlayFixtures.test_stale_affected_pin_is_refused) ... ok
+test_third_authored_source_change_is_refused (__main__.OverlayFixtures.test_third_authored_source_change_is_refused) ... ok
+test_unrelated_prepared_pin_change_is_refused (__main__.OverlayFixtures.test_unrelated_prepared_pin_change_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.233s
+
+OK

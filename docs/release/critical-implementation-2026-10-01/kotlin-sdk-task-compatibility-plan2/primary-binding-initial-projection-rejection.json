@@ -1,0 +1,7 @@
+{
+  "actual_cause": "Exact Kotlin JUnit5 module descriptor projects parent component kotlin-test through component.url and parent available-at; initial validator incorrectly expected flat kotlin-test-junit5 component.",
+  "exception": "ValueError: publisher exact existing test component identity differs",
+  "no_new_acquisition_or_source_or_SDK_execution": true,
+  "producer": "bind_primary_api_and_existing_tests.py",
+  "status": "ACTUAL_REVIEW_VALIDATOR_REJECTION_RETAINED"
+}

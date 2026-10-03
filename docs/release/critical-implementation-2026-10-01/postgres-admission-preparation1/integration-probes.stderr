@@ -1,0 +1,8 @@
+test_management_fallback_checks_exact_version_before_each_sql_write (__main__.AdditionalOrdering.test_management_fallback_checks_exact_version_before_each_sql_write) ... ok
+test_readiness_unknown_manifest_project_refuses_before_first_query (__main__.AdditionalOrdering.test_readiness_unknown_manifest_project_refuses_before_first_query) ... ok
+test_readiness_incompatible_server_stops_after_exact_read_before_later_requests (__main__.AdditionalOrdering.test_readiness_incompatible_server_stops_after_exact_read_before_later_requests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 136.625s
+
+OK

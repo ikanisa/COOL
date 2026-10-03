@@ -1,0 +1,70 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "cases": [],
+  "failure": "declared owner-only cron/net platform prerequisites in fresh private postgres: ERROR:  42704: role \"supabase_functions_admin\" does not exist\nCONTEXT:  SQL statement \"GRANT USAGE ON SCHEMA net TO supabase_functions_admin, postgres, anon, authenticated, service_role\"\nPL/pgSQL function grant_pg_net_access() line 11 at SQL statement\nLOCATION:  get_role_oid, acl.c:5444\n",
+  "isolated_database_removed": true,
+  "local_empty_target_schema_reset": [
+    "_realtime",
+    "auth",
+    "collect_admin_access",
+    "collect_auth_security",
+    "collect_hybrid",
+    "collect_member_actions",
+    "collect_profile_access",
+    "collect_security",
+    "extensions",
+    "pgbouncer",
+    "private",
+    "realtime",
+    "storage",
+    "supabase_functions",
+    "supabase_migrations",
+    "vault",
+    "public"
+  ],
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "status": "failed",
+  "target": {
+    "container_id": "34ec9ca81ed15761d69d6039145725ec94703f6f3d1e2fee20137d32c54fb7a4",
+    "container_name": "collect_current_rehearsal_schema154_private_2aae8c1c3f46",
+    "guard": {
+      "cron": "off",
+      "labels_verified": true,
+      "listen": "",
+      "net": "0",
+      "network": "none",
+      "published_ports": false,
+      "server": "17.6"
+    },
+    "installer_normalization": "Task-local postgres superuser for schema-only owner-normalized DDL; managed hosted installer privileges not attested",
+    "task_container_removed": true
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_admin_query_benchmark_uat.py\", line 532, in main\n    with private_clone(report, evidence, baseline, platform_body) as db:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/current_admin_query_benchmark_uat.py\", line 160, in private_clone\n    target.sql('create extension if not exists pg_cron with schema pg_catalog;'\n  File \"/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_release_upgrade_uat.py\", line 108, in sql\n    raise RuntimeError(label + ': ' + result.stderr[-3500:])\nRuntimeError: declared owner-only cron/net platform prerequisites in fresh private postgres: ERROR:  42704: role \"supabase_functions_admin\" does not exist\nCONTEXT:  SQL statement \"GRANT USAGE ON SCHEMA net TO supabase_functions_admin, postgres, anon, authenticated, service_role\"\nPL/pgSQL function grant_pg_net_access() line 11 at SQL statement\nLOCATION:  get_role_oid, acl.c:5444\n\n",
+  "triggers_disabled": false,
+  "trusted_synthetic_private_read_fixture": true,
+  "volume": 1000
+}

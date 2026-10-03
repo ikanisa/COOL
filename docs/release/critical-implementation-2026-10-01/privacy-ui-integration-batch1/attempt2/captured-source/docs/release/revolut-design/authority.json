@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "design_authority": "revolut-design",
+  "scope": [
+    "member_app",
+    "admin",
+    "public_website"
+  ],
+  "authority_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "surface_references": {
+    "member_app": [
+      "references/mobile-patterns.md",
+      "references/screen-typologies.md",
+      "references/current-native-atlas.md"
+    ],
+    "admin": [
+      "references/web-patterns.md",
+      "references/component-contracts.md",
+      "references/source-and-mac-validation.md"
+    ],
+    "public_website": [
+      "references/web-patterns.md",
+      "references/tokens.md",
+      "references/state-theme-desktop-followup.md"
+    ]
+  },
+  "role": "Product adapter and provenance only; visual rules live in the selected skill.",
+  "fidelity_status": "unverified"
+}

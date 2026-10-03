@@ -1,0 +1,7 @@
+{
+  "hypothesis_validated": false,
+  "experiment_result": "failed 39 suite with5failures3errors, version deadlines and EPERM cleanup retained",
+  "maintained_test_restored_sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6",
+  "timeouts_weakened": false,
+  "no_additional_blind_suite_retry_admitted": true
+}

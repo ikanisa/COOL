@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "scope": "Reuse exact current product71-case VM and clean18-file analysis from attempt6; actual six-case capture-fixture tail, authority regressions and full sole-authority check. No fresh whole-candidate aggregate.",
+  "preceding_result": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-retention-root-integration-20261002/attempt6/result.json",
+  "retained_inputs": 2478,
+  "declared_source_changes": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/revolut_design_authority.py",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/admin_sender_retention_view_test.dart"
+  ],
+  "commands": [
+    {
+      "name": "capture-fixture",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+        "test",
+        "--no-pub",
+        "--concurrency=1",
+        "--reporter=expanded",
+        "test/admin_sender_retention_view_test.dart"
+      ],
+      "started_at": "2026-10-02T04:14:16.797307+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "9cfef6e7ceee813b3d04fa8dbe3af206171dd25da9c7f8c773ceb2a25143a7cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "capture-analysis",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Flutter/flutter/bin/cache/dart-sdk/bin/dart",
+        "analyze",
+        "--fatal-infos",
+        "test/admin_sender_retention_view_test.dart"
+      ],
+      "started_at": "2026-10-02T04:14:20.620469+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "504b51bc117ae89b8a022e1b635ba3a61576d5798fd24d99b9e99e666de07dd5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "authority-regressions",
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "scripts/tests/revolut_design_authority_test.py"
+      ],
+      "started_at": "2026-10-02T04:14:23.061071+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "7ec580543a8cc85e0e4d0b04ad949f11eaa519faee1a4fd6b50c59d2916b45ed"
+    },
+    {
+      "name": "design-authority",
+      "argv": [
+        "make",
+        "revolut-design-authority"
+      ],
+      "started_at": "2026-10-02T04:14:23.132820+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "captured_inputs": 2492,
+  "input_drift": [],
+  "link_drift": []
+}

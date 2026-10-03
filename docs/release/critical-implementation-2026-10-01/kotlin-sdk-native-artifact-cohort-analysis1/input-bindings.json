@@ -1,0 +1,177 @@
+{
+  "APP_SDK_control_inspected": false,
+  "files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 23831,
+      "mode": 448,
+      "sha256": "9ea409d2ef908441ecb72de72dc052f35d99133449952cc7df8549533612a624"
+    },
+    ".github/workflows/ios-app-store.yml": {
+      "bytes": 13430,
+      "mode": 448,
+      "sha256": "20e3b0fd536babc70844b06ccdbd90495df2bd2e6cbff5db24bcac010cc1ef85"
+    },
+    "AGENTS.md": {
+      "bytes": 1648,
+      "mode": 448,
+      "sha256": "12642acf1baacb3b50b791fcad543618f096ed9567e6afaa5c9a58dc6b870128"
+    },
+    "android/app/build.gradle.kts": {
+      "bytes": 24380,
+      "mode": 448,
+      "sha256": "f18435fb7f55cce1f838d1a9c5fa4acaf9985432480d24a098960952ed76b0df"
+    },
+    "android/app/src/internal_gateway/AndroidManifest.xml": {
+      "bytes": 2558,
+      "mode": 420,
+      "sha256": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63"
+    },
+    "android/app/src/internal_receiver/AndroidManifest.xml": {
+      "bytes": 748,
+      "mode": 448,
+      "sha256": "df1b5db3e6929e0b31165ff80cb253dfe6c00e11630b3c2b674656ae504a1d48"
+    },
+    "android/app/src/main/AndroidManifest.xml": {
+      "bytes": 5323,
+      "mode": 448,
+      "sha256": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e"
+    },
+    "android/build.gradle.kts": {
+      "bytes": 886,
+      "mode": 448,
+      "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "bytes": 340,
+      "mode": 420,
+      "sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1"
+    },
+    "android/settings.gradle.kts": {
+      "bytes": 840,
+      "mode": 448,
+      "sha256": "3c06abd940c572639def32654d82f851002cf8ed23f4cdac4416e97fc5bd862d"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/consumer_guards.py": {
+      "bytes": 41565,
+      "mode": 420,
+      "sha256": "f38cbad5ab95c7aa9adfa0b9ddae5cf5902666c89aa6548525edb75be3465e4a"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/packet-files.json": {
+      "bytes": 4077,
+      "mode": 420,
+      "sha256": "8ece97ba597d8a96eac8817dbb227e6ad53255d44b21b095ceabb1aa6d82935c"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-app-guard-preparation2/plugin-source-bindings.json": {
+      "bytes": 61058,
+      "mode": 420,
+      "sha256": "9fee5c0601debd04eadd28d6521253bdd589f4fbbad66d60ee0b2f34738a9095"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-plan1/README.md": {
+      "bytes": 12973,
+      "mode": 420,
+      "sha256": "05ac1fc8af083783dbdab85c74af3f28c694d59169aa020fc67e013895e4ce39"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/observe_native_consumer.init.gradle": {
+      "bytes": 14372,
+      "mode": 420,
+      "sha256": "359c745502fd4f3159c26f01f4cbe35fe4c952cb4384bc75d034755f3ff17241"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/packet-files.json": {
+      "bytes": 2956,
+      "mode": 420,
+      "sha256": "a9345a6c699794117e6e3a9bb6e06d4c3e34f1db7fb680a79c7b09f45bcf3452"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/proposed-commands.json": {
+      "bytes": 6532,
+      "mode": 420,
+      "sha256": "696a87e401485c5a86205e752aec934a29ede3ae0c3b86beee7ff7cd97501353"
+    },
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-native-stage-preparation1/run_native_consumer.py": {
+      "bytes": 31226,
+      "mode": 420,
+      "sha256": "167d48b4e756043a87621feffcabccb41aca108232cfb943914b69fc5b090fe7"
+    },
+    "docs/release/critical-implementation-2026-10-01/root-tooling-source-integration1/current-source-after-drop-correction.json": {
+      "bytes": 1620,
+      "mode": 420,
+      "sha256": "3d2e02e3acafe61bc3d6a7f98858c0c4f0442e1f4f253dc594a341116bca07ae"
+    },
+    "ios/Podfile": {
+      "bytes": 2210,
+      "mode": 448,
+      "sha256": "59305a73dfde47d853f6f785d3878fd1038c5cec8527e0fb47303e797da8b5cb"
+    },
+    "ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme": {
+      "bytes": 4777,
+      "mode": 448,
+      "sha256": "222a9ac128ac1b4bdd985f1ce27aba86d855955de274e3447031875a6a661096"
+    },
+    "pubspec.lock": {
+      "bytes": 39236,
+      "mode": 448,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "pubspec.yaml": {
+      "bytes": 2425,
+      "mode": 448,
+      "sha256": "ea8946311928730e4122c1ca9183f09847f590ef919421e88f43a4304f25fee2"
+    },
+    "scripts/admin_pwa_release_build.sh": {
+      "bytes": 9158,
+      "mode": 448,
+      "sha256": "dbca2f536bacb436578bb34dfe7530b1d7691760a2c014be16d8a06a442e6948"
+    },
+    "scripts/android_manifest_permissions.rb": {
+      "bytes": 1485,
+      "mode": 448,
+      "sha256": "b184e8f65cae63d39e21004149eb81ca720559ebd4e69bc916bf393f71c05cb6"
+    },
+    "scripts/android_play_store_build.sh": {
+      "bytes": 8955,
+      "mode": 448,
+      "sha256": "f9c30d71b28a8861ca5512aa768607559d72939df1fb771df2e94a62e112fe0f"
+    },
+    "scripts/audits/collect_native_cutover_artifacts.rb": {
+      "bytes": 4909,
+      "mode": 448,
+      "sha256": "a025aea5e1c46553a792bc48a047f870ee4439ee81de8482ff318aac783b6061"
+    },
+    "scripts/ios_app_store_build.sh": {
+      "bytes": 2866,
+      "mode": 448,
+      "sha256": "f0e551b58d26b8c779c1d566447a82e814f397c8dab1362d55109a8fb78495ef"
+    },
+    "scripts/qa/native_build_provenance.rb": {
+      "bytes": 4677,
+      "mode": 420,
+      "sha256": "e2af106e1d707b7241d1ac29ee30125f2dcb6f2833eb1be9ebef1b57ba249ac0"
+    },
+    "scripts/release_artifact_manifest.sh": {
+      "bytes": 9065,
+      "mode": 448,
+      "sha256": "d7b2618d24a771d2ea5202c3761ea499ec720191f4fcf0b3121c739472ed5166"
+    },
+    "scripts/supply_chain/gradle_observed_sbom.py": {
+      "bytes": 6470,
+      "mode": 420,
+      "sha256": "4486bceefb98f55a6fb5573f3952b4aa5ed266ea1118884c7e75085dffc320eb"
+    },
+    "scripts/supply_chain/gradle_runtime_inventory.init.gradle": {
+      "bytes": 5209,
+      "mode": 420,
+      "sha256": "539aed32f7815145c5d6bbfcd5ee4bfa2dc38e98a6a922460654347eb59d11a6"
+    },
+    "scripts/supply_chain/inventory.py": {
+      "bytes": 35274,
+      "mode": 420,
+      "sha256": "b4ee5595f54dd67aaccbfd211d29a2de654b0d836c417d8be2fc29002ddd84e7"
+    },
+    "scripts/supply_chain/source_sbom.py": {
+      "bytes": 8095,
+      "mode": 420,
+      "sha256": "df0061cf747584466a6d5db25840a4db56db7abedcc6e38619b258f15b7dad51"
+    }
+  },
+  "kind": "analysis_input_bytes_NOT_runtime_readback",
+  "protected_68020_current_readback_claimed": false
+}

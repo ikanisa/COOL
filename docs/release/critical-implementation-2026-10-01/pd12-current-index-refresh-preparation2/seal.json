@@ -1,0 +1,14 @@
+{
+  "data_helper_not_executed": true,
+  "future_AAB_result_required_for_source_refresh": false,
+  "maintained_data_or_canonical_writes_by_this_agent": false,
+  "packet_files_filename": "packet-files.json",
+  "packet_files_sha256": "d8f17787a81bd5f3b9a63cf2ccdd8e6ba60883f4abaa422ac4728c5b9fa0ae4b",
+  "payload_count": 18,
+  "production_release_approval": false,
+  "reader_grants_closure": false,
+  "schema_version": 1,
+  "sealed_at_utc": "2026-10-02T15:14:24.172765+00:00",
+  "source_APP_Android3_fields_refused_until_actual": true,
+  "source_only_delta_applied_by_root_unchanged": true
+}

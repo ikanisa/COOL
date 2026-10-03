@@ -1,0 +1,10 @@
+{
+  "actual_coverage_cases": 16,
+  "checks": 26,
+  "current_captured_input_count": 1114,
+  "id": "L18",
+  "report_sha256": "1e4b0fd571b2864b42207056a7fbb85c01e878e82fb87fa6926d3f269ca8bb36",
+  "scope": "Original local browser/PWA criterion only; current root218 normal Admin/Public rebuild with explicit compiler/fixture/build inputs; original dated failures preserved; no whole L01, hosted, physical-device, design or production closure",
+  "scoped_acceptance_sha256": "2a360b3686a5d1e563893efe1b39e27ce212f8105be563f3fcfce878fb127ec0",
+  "status": "complete"
+}

@@ -38,6 +38,8 @@ end
 index = File.exist?(index_path) ? File.read(index_path) : ""
 service_worker = File.exist?(service_worker_path) ? File.read(service_worker_path) : ""
 bootstrap = File.exist?(bootstrap_path) ? File.read(bootstrap_path) : ""
+asset_base = bootstrap[/var adminAssetBase = '(_build\/[0-9a-f]{64}\/)'\s*;/, 1]
+failures << "bootstrap must bind a content-versioned asset base" unless asset_base
 
 expected = {
   "name" => "Collect Admin",
@@ -52,7 +54,7 @@ end
 
 icons = Array(manifest["icons"])
 expected_icon = {
-  "src" => "icons/collect-web-512.png",
+  "src" => "#{asset_base}icons/collect-web-512.png",
   "sizes" => "512x512",
   "type" => "image/png",
   "purpose" => "any maskable"
@@ -61,12 +63,12 @@ failures << "manifest must use exactly the official Collect PNG icon" unless ico
 
 failures << "index title must identify Collect Admin" unless index.include?("<title>Collect Admin</title>")
 failures << "index description must identify the admin console" unless index.include?("Collect platform operations console.")
-failures << "index must use the official Collect PNG favicon" unless index.include?('<link rel="icon" href="icons/collect-web-512.png" type="image/png">')
+failures << "index must use the versioned official Collect PNG favicon" unless asset_base && index.include?("<link rel=\"icon\" href=\"#{asset_base}icons/collect-web-512.png\" type=\"image/png\">")
 failures << "index must load flutter_bootstrap.js" unless index.include?("flutter_bootstrap.js")
 failures << "index must not register the service worker inline under strict CSP" if index.include?("navigator.serviceWorker.register")
 bootstrap_registers_admin_worker =
   bootstrap.include?("var adminServiceWorkerVersion = 'collect-admin-") &&
-  bootstrap.include?("navigator.serviceWorker.register('custom-sw.js?v=' + adminServiceWorkerVersion)")
+  bootstrap.include?("navigator.serviceWorker.register('custom-sw.js', { updateViaCache: 'none' })")
 failures << "flutter_bootstrap.js must register the Admin PWA service worker" unless bootstrap_registers_admin_worker
 failures << "flutter_bootstrap.js must not contain an unreplaced Admin PWA service-worker placeholder" if bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
 if File.exist?(File.join(build_dir, "flutter_bootstrap.js"))
@@ -83,15 +85,16 @@ service_worker_required = {
   "credential-free static precache" => "credentials: 'omit'",
   "redirect-rejecting static precache" => "redirect: 'error'",
   "same-URL static response check" => "new URL(response.url).href !== expected.href",
-  "install skip waiting" => "self.skipWaiting()",
-  "activate clients claim" => "self.clients.claim()",
+  "precache content binding" => "CACHE_HASHES",
+  "precache SHA-256 check" => "crypto.subtle.digest('SHA-256'",
+  "failed install waits for writes" => "Promise.allSettled",
   "fetch handler" => "self.addEventListener('fetch'",
   "navigation fallback" => "request.mode === 'navigate'",
   "Admin PWA shell" => "const SHELL_URL = new URL('./', self.location.href).href",
   "static cache boundary" => "ASSET_URLS.has(url.href)",
   "version-specific cache lookup" => "cache.match(key, { ignoreSearch: true })",
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
-  "Admin PWA bundle" => "./main.dart.js",
+  "Admin PWA bundle" => "#{asset_base}main.dart.js",
   "Admin PWA manifest" => "./manifest.json"
 }
 service_worker_required.each do |label, marker|
@@ -99,6 +102,32 @@ service_worker_required.each do |label, marker|
 end
 if service_worker.match?(/registration\.unregister|unregister\(\)/)
   failures << "custom-sw.js must not unregister itself"
+end
+failures << "custom-sw.js must retain natural update waiting" if service_worker.match?(/\bskipWaiting\s*\(/)
+failures << "custom-sw.js must not claim an open operator page" if service_worker.match?(/\bclients\.claim\s*\(/)
+if asset_base
+  %w[entrypointBaseUrl assetBase].each do |setting|
+    failures << "bootstrap must use the versioned #{setting}" unless bootstrap.include?("#{setting}: adminAssetBase")
+  end
+  failures << "bootstrap must use versioned CanvasKit" unless bootstrap.include?("canvasKitBaseUrl: adminAssetBase + 'canvaskit/'")
+  begin
+    urls = JSON.parse(service_worker[/const CACHE_URLS = (\[.*?\]);/m, 1].to_s)
+    hashes = JSON.parse(service_worker[/const CACHE_HASHES = (\{.*?\});/m, 1].to_s)
+    failures << "cache URL and hash inventories must match" unless urls.sort == hashes.keys.sort
+    urls.each do |url|
+      unless url == "./" || (url.start_with?("./") && !url.include?("..") && !url.include?("\\") && !url.include?("?"))
+        failures << "cache manifest has an invalid static path"
+        next
+      end
+      path = File.join(build_dir, url == "./" ? "index.html" : url.delete_prefix("./"))
+      failures << "cache manifest bytes differ: #{url}" unless File.file?(path) && !File.symlink?(path) && Digest::SHA256.file(path).hexdigest == hashes[url]
+    end
+    failures << "runtime bundle must be versioned in the precache" unless urls.include?("./#{asset_base}main.dart.js") && !urls.include?("./main.dart.js")
+    versioned_main = File.join(build_dir, asset_base, "main.dart.js")
+    failures << "versioned runtime bundle differs from the compiled bundle" unless File.file?(versioned_main) && File.file?(main_js_path) && Digest::SHA256.file(versioned_main).hexdigest == Digest::SHA256.file(main_js_path).hexdigest
+  rescue JSON::ParserError, TypeError => error
+    failures << "cache manifest must contain parseable URLs and content hashes: #{error.message}"
+  end
 end
 
 sensitive_matches = []

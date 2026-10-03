@@ -1,0 +1,39 @@
+{
+  "started_utc": "2026-10-02T19:05:47.154786+00:00",
+  "actual_outer_seconds": 50.21690162499726,
+  "owned_PID_PGID": 31865,
+  "owned_controller_group_absent": true,
+  "exit_code": 1,
+  "observation_timeout": false,
+  "status": "FAIL_OR_INCOMPLETE",
+  "actual_internal_readback": {
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/lint32-selected-publisher-binaries1/readback.json",
+    "sha256": "a1f97ca1a72ccf76b73fe7945c66144286e452f85d3fca37e6fb4dbe2c1ff67b",
+    "bytes": 897946
+  },
+  "full_graph_admission": false,
+  "shared_Gradle_cache_writes": 0,
+  "production_release_approval": false,
+  "actual_seconds": 50.14503279099881,
+  "requests": 134,
+  "body_bytes": 122611308,
+  "owned_processes_absent": true,
+  "owned_lifecycle_complete": true,
+  "unreaped_or_unqualified_owned_groups": [],
+  "complete_artifacts": 66,
+  "artifact_errors": [
+    {
+      "coordinate": {
+        "group": "com.android.tools.external.com-intellij",
+        "name": "kotlin-compiler",
+        "version": "32.0.1"
+      },
+      "errors": [
+        {
+          "error": "HTTP request failed; preserved exact receipt",
+          "type": "ValueError"
+        }
+      ]
+    }
+  ]
+}

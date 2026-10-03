@@ -1,5 +1,6 @@
 // Explicit offline native fixture for unchanged Collect route captures.
 // This target is never imported from lib or shipped as a production entrypoint.
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:collect_app/app/app.dart';
@@ -42,6 +43,11 @@ void main() {
     'seven current native routes provide authentic app media',
     (tester) async {
       await binding.convertFlutterSurfaceToImage();
+      final displayCapture =
+          const bool.fromEnvironment('COLLECT_NATIVE_OS_CAPTURE')
+          ? _NativeDisplayCapture()
+          : null;
+      await displayCapture?.initialize();
       for (final spec in _routes) {
         FocusManager.instance.primaryFocus?.unfocus();
         await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
@@ -87,6 +93,11 @@ void main() {
           await tester.pump(const Duration(milliseconds: 100));
         }
         await binding.takeScreenshot(spec.id);
+        if (displayCapture != null) {
+          // UIKit hierarchy captures are retained as diagnostics. The host also
+          // captures the actual simulator display while this route stays open.
+          await tester.runAsync(() => displayCapture.capture(spec));
+        }
         // Actual runtime route and marker assertions precede every capture.
         // ignore: avoid_print
         print(
@@ -103,6 +114,53 @@ void main() {
     },
     timeout: const Timeout(Duration(minutes: 5)),
   );
+}
+
+// A debug-fixture-only file handshake keeps the asserted route on screen until
+// the host's simctl screenshot finishes. It uses no transport or app service.
+class _NativeDisplayCapture {
+  final directory = Directory(
+    '${Directory.systemTemp.path}/collect-native-media-display',
+  );
+  final runId = DateTime.now().microsecondsSinceEpoch.toString();
+
+  Future<void> initialize() async {
+    if (directory.existsSync()) await directory.delete(recursive: true);
+    await directory.create(recursive: true);
+  }
+
+  Future<void> capture(_MediaRoute spec) async {
+    // Allow the raster thread and OS compositor to complete in real time.
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    final ready = File('${directory.path}/${spec.id}.ready.json');
+    final temporary = File('${ready.path}.tmp');
+    await temporary.writeAsString(
+      jsonEncode({
+        'run_id': runId,
+        'id': spec.id,
+        'route': spec.route,
+        'marker': spec.marker,
+        'capture_kind': 'native_ios_simulator_display',
+      }),
+      flush: true,
+    );
+    await temporary.rename(ready.path);
+    final acknowledgment = File('${directory.path}/${spec.id}.ack.json');
+    final deadline = DateTime.now().add(const Duration(seconds: 40));
+    while (DateTime.now().isBefore(deadline)) {
+      if (acknowledgment.existsSync()) {
+        final data = jsonDecode(await acknowledgment.readAsString());
+        if (data is Map &&
+            data['run_id'] == runId &&
+            data['id'] == spec.id &&
+            data['status'] == 'captured') {
+          return;
+        }
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    }
+    throw StateError('Native display capture timed out for ${spec.id}.');
+  }
 }
 
 class _MediaRoute {

@@ -1,10 +1,11 @@
 import 'admin_models.dart';
+import '../../core/data/exact_json_values.dart';
 
 // These are wire contracts of the installed Admin read RPCs. DTO presentation
 // defaults must never certify a malformed server response as an empty queue.
 final _uuid = RegExp(r'^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$');
 final _symbol = RegExp(r'^[a-z][a-z0-9_.-]*$');
-const _maximumInteger = 9007199254740991;
+const _maximumInteger = maxExactJsonInteger;
 
 Never _invalid() => throw const FormatException('Invalid Admin read response.');
 
@@ -242,25 +243,13 @@ enum _Field {
 }
 
 bool _timestamp(Object? value) {
-  if (value is! String || value.length > 64) return false;
-  final match = RegExp(
-    r'^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$',
-  ).firstMatch(value);
-  if (match == null || DateTime.tryParse(value) == null) return false;
-  final year = int.parse(match[1]!),
-      month = int.parse(match[2]!),
-      day = int.parse(match[3]!);
-  final date = DateTime.utc(year, month, day);
-  return date.year == year &&
-      date.month == month &&
-      date.day == day &&
-      int.parse(match[4]!) <= 23 &&
-      int.parse(match[5]!) <= 59 &&
-      int.parse(match[6]!) <= 59 &&
-      (!RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(value) ||
-          (int.parse(value.substring(value.length - 5, value.length - 3)) <=
-                  23 &&
-              int.parse(value.substring(value.length - 2)) <= 59));
+  if (value is! String) return false;
+  try {
+    exactJsonTimestamp(value, field: 'Admin read timestamp');
+    return true;
+  } on FormatException {
+    return false;
+  }
 }
 
 bool _field(Object? value, _Field type) => switch (type) {

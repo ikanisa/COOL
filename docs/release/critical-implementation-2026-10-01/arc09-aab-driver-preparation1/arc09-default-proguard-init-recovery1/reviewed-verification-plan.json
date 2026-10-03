@@ -1,0 +1,57 @@
+{
+  "argv": [
+    "/bin/bash",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android/gradlew",
+    "-p",
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/android",
+    "--offline",
+    "--no-daemon",
+    "--no-build-cache",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-PcollectUnsignedLocalQa=true",
+    "-Ptarget-platform=android-arm,android-arm64,android-x64",
+    "-Ptarget=lib/main.dart",
+    "-Pandroid.builder.sdkDownload=false",
+    "--init-script",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/arc09-default-proguard-init-recovery1/verify-default-proguard.init.gradle",
+    ":app:collectVerifyDefaultProguardDirectory"
+  ],
+  "cwd": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source",
+  "deadline_seconds": 300,
+  "does_not_prove": [
+    "R8 success",
+    "AAB success",
+    "Signing",
+    "Full source equality with archived abf",
+    "Production readiness"
+  ],
+  "environment_note": "Keep the original pinned JAVA_HOME, Flutter SDK, PUB_CACHE and remaining stage environment from the admitted AAB7 command. Do not infer a new environment from this partial mapping.",
+  "executed": false,
+  "expected_task_scope": [
+    ":app:extractProguardFiles",
+    ":app:collectVerifyDefaultProguardDirectory"
+  ],
+  "next_affected_verification": "One controlled local AAB retry after successful narrow readback and refreshed source admission. Do not run full SDK, native JVM or application test suites solely for this directory ordering change.",
+  "preconditions": [
+    "Seal AAB7 original failure and verify no owned process remains.",
+    "Check original-source-fences.json against both maintained and private APP files before mutation.",
+    "Apply only the proposed two files to maintained source and exact APP copies.",
+    "Refresh actual source-export/admission bindings while retaining archived abf evidence.",
+    "Use existing finite process ownership, cleanup and source/protected guards; do not spawn unmanaged Gradle."
+  ],
+  "preserve_prior_controlled_environment": true,
+  "proves": [
+    "All concrete release default ProGuard rule paths use the same configured app directory.",
+    "The actual extractor output covers the expected regular file.",
+    "Shrinking remains enabled and generated default file hash/size is observed."
+  ],
+  "required_environment_values": {
+    "COLLECT_ANDROID_BUILD_ROOT": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build",
+    "GRADLE_USER_HOME": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home"
+  },
+  "result_parser": "Capture and parse exactly one COLLECT_DEFAULT_PROGUARD_READBACK= JSON line after exit zero; retain stdout, stderr, actual command and process cleanup result.",
+  "root_owned_only": true,
+  "schema_version": 1
+}

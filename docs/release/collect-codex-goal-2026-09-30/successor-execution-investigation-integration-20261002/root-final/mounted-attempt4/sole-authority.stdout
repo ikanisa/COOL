@@ -1,0 +1,4 @@
+[revolut-design-authority] fail
+  competing_reference_declarations_present
+  docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/negative-fixtures/preparation-attempt2/test_actual_outward_package_lib_and_pubspec_symlinks_rejected/owned/pubspec.yaml:symlinked_reference
+  docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/negative-fixtures/preparation-attempt3/test_actual_outward_package_lib_and_pubspec_symlinks_rejected/owned/pubspec.yaml:symlinked_reference

@@ -1,0 +1,83 @@
+{
+  "excluded_source_count": 200,
+  "later_promotion_note": "Promoting scripts/qa/run_sql_ci.py would add a maintained mapper source, so the existing strict --verify would detect a source-set change. It remains private for this held run.",
+  "maintained_source_count": 666,
+  "mapper_sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4",
+  "pending_SQL_CI_runner_dependency_overlap": true,
+  "pending_SQL_CI_runner_not_promoted": true,
+  "scope": [
+    {
+      "current_admitted_maintained_input": false,
+      "exists": true,
+      "explicit_mapper_input": false,
+      "path": ".github/workflows/ci.yml",
+      "source_exclusion_reason": "non-source-extension",
+      "under_scan_root": false,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": false,
+      "explicit_mapper_input": false,
+      "path": "scripts/qa/run_sql_ci.py",
+      "source_exclusion_reason": null,
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": true
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": false,
+      "explicit_mapper_input": false,
+      "path": "scripts/tests/fixtures/ordinary_installer_v1/manifest.json",
+      "source_exclusion_reason": "non-source-extension",
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": false,
+      "explicit_mapper_input": false,
+      "path": "scripts/tests/fixtures/ordinary_installer_v1/platform-bootstrap.sql",
+      "source_exclusion_reason": "non-source-extension",
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": false,
+      "explicit_mapper_input": false,
+      "path": "scripts/tests/fixtures/ordinary_installer_v1/predecessor.json",
+      "source_exclusion_reason": "non-source-extension",
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": false,
+      "explicit_mapper_input": false,
+      "path": "scripts/tests/sql_ci_runner_test.py",
+      "source_exclusion_reason": "test-generated-cache-or-evidence-directory",
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": true,
+      "explicit_mapper_input": false,
+      "path": "scripts/tests/admin_receipt_source_busy_test.dart",
+      "source_exclusion_reason": "test-generated-cache-or-evidence-directory",
+      "under_scan_root": true,
+      "would_be_admitted_if_promoted": false
+    },
+    {
+      "current_admitted_maintained_input": false,
+      "exists": true,
+      "explicit_mapper_input": false,
+      "path": "test/support/test_capture_paths.dart",
+      "source_exclusion_reason": "test-generated-cache-or-evidence-directory",
+      "under_scan_root": false,
+      "would_be_admitted_if_promoted": false
+    }
+  ],
+  "workflow_and_SQL_fixture_metadata_overlap": false
+}

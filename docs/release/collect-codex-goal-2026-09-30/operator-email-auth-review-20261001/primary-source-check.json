@@ -1,0 +1,13 @@
+{
+  "url": "https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook",
+  "checked_at": "2026-10-01T10:17:09.459434+00:00",
+  "method": "web tool direct primary-document open",
+  "supported_claim": "With email enabled and the Send Email Auth Hook enabled, the hook handles email and SMTP is not used.",
+  "page_section": "Email sending behavior",
+  "tool_observed_lines": [
+    323,
+    332
+  ],
+  "management_or_auth_endpoint_calls": 0,
+  "full_page_saved": false
+}

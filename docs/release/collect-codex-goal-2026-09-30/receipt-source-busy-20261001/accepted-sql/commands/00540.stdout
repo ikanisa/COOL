@@ -1,0 +1,2 @@
+{"role":"service_role"}
+{"seeded": 0, "status": "processed", "cleared": 1, "pending": 0, "refused": 0, "activated": 0, "processed": 2, "unchanged": 1, "checked_at": "2026-10-01T21:49:13.889785Z", "expires_at": "2026-10-01T21:50:53.877275Z", "request_id": "4e812199-31a8-4371-98c9-98e482e252bc", "scan_epoch": 1, "scan_phase": "receipt_backlog", "send_action": false, "contract_version": 1, "financial_action": false, "observations_added": 1, "source_scan_complete": false}

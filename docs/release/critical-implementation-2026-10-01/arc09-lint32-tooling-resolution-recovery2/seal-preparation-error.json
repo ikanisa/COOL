@@ -1,0 +1,4 @@
+{
+  "preserved_error": "FileNotFoundError while recording installed public API source; ArtifactResolutionQuery is under artifacts/query, not artifacts root. No runtime or proposed source changes; corrected source path obtained by bounded rg --files.",
+  "source_fences_still_match": true
+}

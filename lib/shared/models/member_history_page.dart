@@ -1,4 +1,5 @@
 import 'collect_models.dart';
+import '../../core/data/exact_json_values.dart';
 
 /// A page and aggregates for the entire matching history, never just its rows.
 class MemberHistoryPage {
@@ -13,7 +14,7 @@ class MemberHistoryPage {
   });
 
   // Transport precision shared by native and web, not a payment/product limit.
-  static const _maxExactInteger = 9007199254740991;
+  static const _maxExactInteger = maxExactJsonInteger;
   static final _revisionPattern = RegExp(r'^[a-f0-9]{32}$');
 
   final List<Contribution> items;
@@ -56,7 +57,10 @@ class MemberHistoryPage {
       value is int && value.isFinite && value >= 0 && value <= _maxExactInteger;
 
   static bool _identifier(Object? value) =>
-      value is String && value.isNotEmpty && value.trim() == value;
+      value is String &&
+      value.isNotEmpty &&
+      value.trim() == value &&
+      !RegExp(r'[\u0000-\u001F\u007F]').hasMatch(value);
 
   static Map<String, int> _amounts(Object? value) {
     if (value is! Map ||
@@ -115,6 +119,38 @@ class MemberHistoryPage {
                 ownTotals.values.any((amount) => amount != 0) ||
                 ownCollectionIds.isNotEmpty))) {
       throw const FormatException('Invalid history aggregates');
+    }
+    var loaded = 0;
+    var loadedOwn = 0;
+    final loadedOwnIds = <String>{};
+    for (final row in items) {
+      final total = totals['RWF'] ?? 0;
+      final ownTotal = ownTotals['RWF'] ?? 0;
+      // Subtract before adding so even a forged page cannot exceed the exact
+      // integer transport bound during accumulation on JavaScript.
+      if (row.amountMinor > total - loaded) {
+        throw const FormatException('History rows exceed the complete total');
+      }
+      loaded += row.amountMinor;
+      if (row.isCurrentUserContribution) {
+        if (!ownCollectionIds.contains(row.collectionId) ||
+            row.amountMinor > ownTotal - loadedOwn) {
+          throw const FormatException(
+            'History ownership does not match its aggregates',
+          );
+        }
+        loadedOwn += row.amountMinor;
+        loadedOwnIds.add(row.collectionId);
+      }
+    }
+    if (items.length == totalCount &&
+        (loaded != (totals['RWF'] ?? 0) ||
+            loadedOwn != (ownTotals['RWF'] ?? 0) ||
+            loadedOwnIds.length != ownCollectionIds.length ||
+            !loadedOwnIds.containsAll(ownCollectionIds))) {
+      throw const FormatException(
+        'Complete history does not match its aggregates',
+      );
     }
     final cursor = _cursor(nextCursor, revision);
     if (cursor != null &&
@@ -232,6 +268,7 @@ class MemberHistoryPage {
       revision: revision,
       nextCursor: _cursor(next.nextCursor, revision),
     );
+    result._validate();
     if (query != null) result._validateOrder(query.sort);
     return result;
   }

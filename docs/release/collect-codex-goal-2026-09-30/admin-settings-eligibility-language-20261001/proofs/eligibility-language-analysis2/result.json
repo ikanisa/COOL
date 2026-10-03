@@ -1,0 +1,43 @@
+{
+  "started_at": "2026-10-01T21:55:26.882390+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "lib/admin/core/admin_governed_settings_models.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_web.dart",
+    "lib/admin/core/admin_governed_settings_runtime.dart",
+    "lib/admin/core/admin_governed_settings_controller.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint_stub.dart",
+    "lib/admin/core/admin_governed_settings_page.dart",
+    "lib/admin/core/admin_governed_settings_registry.dart",
+    "lib/admin/core/admin_governed_settings_sdk.dart",
+    "lib/admin/core/admin_governed_settings_checkpoint.dart",
+    "lib/admin/core/admin_runtime.dart",
+    "lib/admin/core/admin_repository_base.dart",
+    "lib/admin/admin_router.dart",
+    "test/admin_governed_settings_eligibility_test.dart",
+    "test/admin_governed_settings_eligibility_widget_test.dart",
+    "test/support/settings_eligibility_fixture.dart",
+    "test/support/settings_fixture.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "mode": "analysis",
+  "source_sha256": "7ca91ef91decea175f5959236e1dc5a418ea5591c3fad5470c941a336ec55583",
+  "runtime_closure_sha256": "6defce134d31b8d228330bf5e300230548db85860fb7cbeb10ea9d5bc2949497",
+  "dependencies_sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+  "tools": {
+    "runner": "9331eff2d779035074ceae20b6fe862046f856f303796c7e3d15d213383750cd",
+    "python_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "python": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a"
+  },
+  "prior_runtime_scope": "current canonical lib overlay frozen in current-canonical-overlay-inputs.json with9 staged governedSettingsmodules",
+  "exit_code": 0,
+  "elapsed_seconds": 41.47691733300053,
+  "completed_at": "2026-10-01T21:56:08.379477+00:00",
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "dependencies_unchanged": true
+}

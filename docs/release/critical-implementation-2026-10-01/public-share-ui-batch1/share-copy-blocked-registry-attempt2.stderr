@@ -1,0 +1,9 @@
+/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/product_capabilities.rb:66:in `block in validate!': Capability source changed: lib/features/status/account_legal_screens.dart (RuntimeError)
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/product_capabilities.rb:64:in `each'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/product_capabilities.rb:64:in `validate!'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/product_capabilities.rb:38:in `initialize'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_static_site_build.rb:15:in `new'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/public_static_site_build.rb:15:in `<class:ShareCopyTest>'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/share_copy_test.rb:11:in `module_eval'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/share_copy_test.rb:11:in `<class:ShareCopyTest>'
+	from /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/public-share-ui-batch1/share_copy_test.rb:5:in `<main>'

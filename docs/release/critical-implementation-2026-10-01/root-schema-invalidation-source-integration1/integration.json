@@ -1,0 +1,22 @@
+{
+  "proposal_packet_sha256": "e875b00e61bf8ed9f00aca906fea51b2631343a3c16c4413c6683be7f12e97de",
+  "promoted": [
+    {
+      "before_sha256": "9d9f2aa6ec76cc17d72c3ad2d69cf6e0415aaadb87fb4bac1b64f1cf584a396a",
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "proposed_bytes": 55616,
+      "proposed_sha256": "28e74753b5d501d66e7b7b37af39fe6f048f1e0c57ff196fc5a4341df1221dd4"
+    },
+    {
+      "before_sha256": null,
+      "path": "scripts/tests/collect_schema_lineage_invalidation_test.py",
+      "proposed_bytes": 7013,
+      "proposed_sha256": "7d4ffacb9b66dedaf12b07bf867b2bdc77de6134ce0867990c2f857a56c2c58a"
+    }
+  ],
+  "Makefile_before_sha256": "36cd23c1b3efc7d5064268f0306989558f0feeb40a83a98854b14e3ac5ace78a",
+  "Makefile_after_sha256": "8c578295aeb40de8a55563a0c9116deb554c71181d3b21bde0b66bc0e2df665c",
+  "root_review": "Minimal recognized uncertainty barriers withdraw2 actual unsupported chains; no SQL execution, transformation engine or helper. Literal body-hash evidence is unchanged. General runtime interpretation and ownership acceptance remain unproved.",
+  "validation_pending": true,
+  "production_release_approval": false
+}

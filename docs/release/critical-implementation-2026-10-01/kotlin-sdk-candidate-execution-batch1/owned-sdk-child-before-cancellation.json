@@ -1,0 +1,8 @@
+[
+  {
+    "pid": 64664,
+    "ppid": 61323,
+    "pgid": 64664,
+    "command": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -jar /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradle/wrapper/gradle-wrapper.jar -p /Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle --no-daemon --no-build-cache --console=plain --max-workers=2 --no-configuration-cache -Pkotlin.compiler.execution.strategy=in-process -I /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/observe-candidate-runtime.init.gradle --rerun-tasks compileKotlin compileTestKotlin validatePlugins test jar collectSdkRuntimeGraph"
+  }
+]

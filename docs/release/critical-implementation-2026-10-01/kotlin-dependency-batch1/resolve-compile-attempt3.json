@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "bash",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/kotlin-dependency-batch1/native-source/android",
+    "--no-daemon",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-I",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/observe-kotlin.init.gradle",
+    "-PcollectUnsignedLocalQa=true",
+    ":app:dependencies",
+    "--configuration",
+    "productionReleaseCompileClasspath",
+    "--write-locks"
+  ],
+  "elapsed_seconds": 1800.05,
+  "exit_code": null,
+  "log_sha256": "1a9668c5fca8d1ebc5f62d90523a3c22498909129da889804e1a3e57d1e66008",
+  "runner_sha256": "3da8d6c6aae368e17511102d7f6226db96a6edfdd51617fa262e4fcf8f4fab35",
+  "scope": "Task-local Gradle cache and copied source; unsigned source checks only. No credentials, signing keystore, provider operation, installation, deployment or production approval.",
+  "timed_out": true
+}

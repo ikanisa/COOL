@@ -1,0 +1,96 @@
+{
+  "aeonik_absent": true,
+  "artifact": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app",
+  "bundle_bytes": 41328785,
+  "bundle_file_count": 197,
+  "bundle_identifier": "app.cool.mobile",
+  "bundle_manifest_sha256": "4745a6c0649ed6b737a418ac51e68a68d18301218401c7478b62b2a3a45e1f08",
+  "captured_native_inputs_current": false,
+  "commands": [
+    {
+      "command": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "--deep",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app"
+      ],
+      "exit_code": 1,
+      "name": "artifact-signature",
+      "stderr_sha256": "cfd8e39b2a59a74360b0bac188676ea00d09bb83179100ac16e9ee579d55be18",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "xcrun",
+        "vtool",
+        "-show-build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-ios/build/ios/DerivedData/Build/Products/Release-production-iphoneos/Collect.app/Collect"
+      ],
+      "exit_code": 0,
+      "name": "artifact-platform",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fba7e6c5e8ba39a5dd01159ce54abd7b6624f01c33edb7201edbabf03870be62"
+    }
+  ],
+  "inter_font_sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  "inter_license_sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  "kind": "local_unsigned_native_qa_artifact",
+  "live_captured_native_input_drift": {
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": {
+      "candidate": "7ff291403e64467543541296d56062e015ff19cfeb3ee27ece62120a173c40ef",
+      "live": "e6bc27a704fe9ac5ce27b74479c92617dedd7baeca4487cda1a82e155057fe13"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": {
+      "candidate": "d2408cf66dc3c1333eab085c7b946aca032f6a743d05968ad9b3f7a11aa907df",
+      "live": "9fbf5e35d032b33aad134ed87a3bb9f1b2391a6f4654b5070bcb7a5b65366495"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": {
+      "candidate": "75fe1313605c380aaf86756b59cfd26bf0347d36894709a1e22eaf1fa3de330f",
+      "live": "367c7c90c7c0536cede856eb243656dfb23de02d2ab488b53c108f042a111911"
+    },
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": {
+      "candidate": "f269cd60e940734cd86f42816c89cd44fe38bfea1d41fd718749f52076d50cb1",
+      "live": "652e76751bef39e19c2be7a3ee857f4771d87d4da2c909cf0c531cd1e793f031"
+    },
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt": {
+      "candidate": "fe6d54b57616d1c9414131286560f218ed09e272ff511acc844db1260925ab23",
+      "live": "0c264f9f8dace9b126b0529b60f69c84c41281906bc5258a1965d4c80c5d2947"
+    },
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": {
+      "candidate": "efb528b66fe9c677d11295fb5c94682fd23a604b25d952eebb12eaa423b806b5",
+      "live": "d9cf53edc830b0ce9b3d564454aa00fc0c7be42f68d4c8df20d82abd2986c3e5"
+    },
+    "lib/admin/core/admin_automations_page.dart": {
+      "candidate": "36ca21c52aa7ea9311d74de04da041b459bddd3a0f70586957cd5b2a6aff0432",
+      "live": "bab22cf31532475b01c283234df9b25225ddc8ef1be047b90bd44dc189299b31"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "candidate": "21995741a267497737654e4b75ab221c17abf29fa0094dc66a6479aed3c79939",
+      "live": "6e649929ec3e8015ddf1f80b7abd86d325dc9b7c1941a8230148555f280381f8"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "candidate": "2b5f4fd442a6c62e6b7567b13393e3f7f91e1c9032937f936c44c27612c48e5f",
+      "live": "87b48d375cf3324bb4ea24d41ab6dc89417c0d4e1a7458cd08c82e1b4bee1973"
+    }
+  },
+  "main_executable_sha256": "16ead5455b6d3896fb6ccd3c7efc39a4f190a418cff28e126aae0a696b1ca675",
+  "native_execution": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-current-local-20261001-resumption1/ios/execution-continuation1.json",
+  "native_execution_sha256": "69f9448048398a9a22098c689135a06483c1d255735a4afa018aa5e6d2a77abe",
+  "platform": "ios",
+  "qa_marker": {
+    "kind": "local_unsigned_native_qa",
+    "provider_configuration": false,
+    "signing": false,
+    "store_acceptance": false
+  },
+  "scope": "Exact frozen root candidate and recorded generated/cache compiler inputs. No signed release, device/provider/hosted/store or whole mutable-repository acceptance.",
+  "sdk": "iphoneos27.0",
+  "source_export_sha256": "fb80ec01b3c677b186c3dadcc2248f829b0fb3671be8d0086d51c899e95a0cd7",
+  "source_file_count": 1103,
+  "source_unchanged": true,
+  "status": "pass",
+  "unique_warning_count": 23,
+  "unsigned_verified": true,
+  "version": "1.2.4+23"
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "independent_corrected_auth_guard_review",
+  "observed_at": "2026-10-01T10:28:46.633628+00:00",
+  "subject_sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+  "guards": {
+    "invalid_active_hook_blocks_patch": true,
+    "untyped_selected_canary_refused_without_reflection": true,
+    "numeric_booleans_cannot_be_accepted": true,
+    "unrelated_type_change_is_uncertain_and_never_retried": true,
+    "nullable_active_transport_remains_unknown": true
+  },
+  "all_guards_pass": true,
+  "scope": "Five injected guard checks; not the owner31-test suite or hosted acceptance",
+  "hosted_calls": 0,
+  "credential_accesses": 0,
+  "otp_requests": 0,
+  "source_edits": 0,
+  "production_acceptance": false
+}

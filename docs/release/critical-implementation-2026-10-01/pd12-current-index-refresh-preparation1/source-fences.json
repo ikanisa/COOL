@@ -1,0 +1,164 @@
+{
+  "canonical_counter_or_contract_changes_by_this_agent": false,
+  "captured_at_utc": "2026-10-02T15:10:48.966518+00:00",
+  "current_data_schema_or_status_applied": false,
+  "future_source_APP_Android3_AAB_fields": "PENDING_explicit_actual_inputs",
+  "known_document_fences": {
+    "AAB9-failed-artifacts": {
+      "bytes": 7262,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation9/packet-files.json",
+      "sha256": "6941dce1a915d99b944ad6b0ef180f4eaa163eb8d00760d375dde8c394bb325d"
+    },
+    "AAB9-retained-current-graphs": {
+      "bytes": 1435,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-current-graph-readback9/readback.json",
+      "sha256": "03ede40616ca460ed9ae1df88068022ccb60212e59e9d9a27d4fcc065d78955d"
+    },
+    "AAB9-root-failure": {
+      "bytes": 1428,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-aab-failure-readback9/readback.json",
+      "sha256": "9d37428faf8456d946b62e18ea746786cf15557f4d2ef433646845cfd8be3755"
+    },
+    "BE08-literal-artifacts": {
+      "bytes": 4857,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/packet-files.json",
+      "sha256": "feeac33b1af1ccd2f1cc6972a26967e4db46457d554f9c932722d4a7977278fa"
+    },
+    "BE08-literal-readback": {
+      "bytes": 10741,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/be08-literal-replacement-integration1/final-integration-readback.json",
+      "sha256": "948be415892f90808a42f812cbc5a4d3c680e0b0a1bad163ffa392da482ca5bb"
+    },
+    "PD12-decision-reader-artifacts": {
+      "bytes": 842,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/packet-files.json",
+      "sha256": "2439a48af28a63ce829a85d731dcf8941f7399b60a80d7032d9626cfb70928de"
+    },
+    "PD12-decision-reader-integration": {
+      "bytes": 1313,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/readback.json",
+      "sha256": "a3cd6667e042c88f5d72c9e7372dda2dd3259ff76aa2f68ac3063342eb79fedf"
+    },
+    "PD12-decision-reader-test-log": {
+      "bytes": 3231,
+      "content": "text",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-decision-reader-integration1/maintained-tests.stderr",
+      "sha256": "8fbbd5b7f5ba784000b3478262e73e67395c79b41206832cf55c441a8ed6443d"
+    },
+    "PD12-original-criterion-review": {
+      "bytes": 2461,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-pd12-original-criterion-review1/review.json",
+      "sha256": "22712311d208f663c3441ea7653062904158bd828df558b3f543d4b4d17092f4"
+    },
+    "PD12-reviewed-index-epoch1c55": {
+      "bytes": 72863,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    "PD12-reviewed-root-fence-epoch1c55": {
+      "bytes": 922154,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-arc09-early-build-root-integration1/final-current-source-fence.json",
+      "sha256": "64c05d428e272987ae2ae796e1b5fe01ac46bc55dff37197b0980b614a740c2d"
+    },
+    "PD12-reviewed-summary-epoch1c55": {
+      "bytes": 23201,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/pd12-current-evidence-index-integration1/after/docs/release/revolut-design/acceptance-status.json",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    },
+    "readiness-checkpoint8": {
+      "bytes": 4144,
+      "content": "json",
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-integration8/receipt.json",
+      "sha256": "d97783a187ea844818d72ba7bd5e0b872a00e94d3c119cb5864fcde743a18804"
+    }
+  },
+  "maintained_observed_now": [
+    {
+      "bytes": 19527,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_current_evidence_index.py",
+      "role": "observed-current-source-or-data",
+      "sha256": "447c8c053e90824b440204b302354b3545e7a8aca63a1077ce99c45081f90119"
+    },
+    {
+      "bytes": 20337,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_current_evidence_index_test.py",
+      "role": "observed-current-source-or-data",
+      "sha256": "0f259d90b65bb0f247bbc8f8eb045c20bae0bcc293e66b6288a8d3ac76aab736"
+    },
+    {
+      "bytes": 78306,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/audits/collect_schema_domain_map.py",
+      "role": "observed-current-source-or-data",
+      "sha256": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4"
+    },
+    {
+      "bytes": 54727,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/collect_schema_domain_map_test.py",
+      "role": "observed-current-source-or-data",
+      "sha256": "3bb435cd79cc23414039e8c447460be88487a2097ba24035d1233d007971b343"
+    },
+    {
+      "bytes": 10061,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.schema.json",
+      "role": "observed-current-source-or-data",
+      "sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244"
+    },
+    {
+      "bytes": 72863,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "role": "observed-current-source-or-data",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    {
+      "bytes": 23201,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/revolut-design/acceptance-status.json",
+      "role": "observed-current-source-or-data",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    }
+  ],
+  "preserved_before_inputs": [
+    {
+      "bytes": 23201,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/before/docs/release/revolut-design/acceptance-status.json",
+      "role": "preserved-original-before-byte-copy",
+      "sha256": "05e5b360d2cdb53e7c0f83289dcf0101f898fa34d7a16c32855e10fe14817a89"
+    },
+    {
+      "bytes": 72863,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/before/docs/release/revolut-design/current-candidate-evidence-index.json",
+      "role": "preserved-original-before-byte-copy",
+      "sha256": "8483e7103599386a1073245245483b6ac58018c0b66e10ca55025e7b4260d7ca"
+    },
+    {
+      "bytes": 10061,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/before/docs/release/revolut-design/current-candidate-evidence-index.schema.json",
+      "role": "preserved-original-before-byte-copy",
+      "sha256": "4fc7534a1d2464a51ae9e28d0c9962ce1ae2b2d48e6d59ac8e6c3a7b13c51244"
+    },
+    {
+      "bytes": 15461,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/before/scripts/audits/collect_current_evidence_index.py",
+      "role": "preserved-original-before-byte-copy",
+      "sha256": "aa835962b9bacf75ccc77d4afe2a561e80570af7bd6d2ef96abd0d1c6ad829d1"
+    },
+    {
+      "bytes": 14151,
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/pd12-current-index-refresh-preparation1/before/scripts/tests/collect_current_evidence_index_test.py",
+      "role": "preserved-original-before-byte-copy",
+      "sha256": "e89a2833d3a055f741d853f6465c87827220ea9f68456d391d819deec74f60d6"
+    }
+  ],
+  "schema_version": 1,
+  "source_only_changes_applied_by_root": true
+}

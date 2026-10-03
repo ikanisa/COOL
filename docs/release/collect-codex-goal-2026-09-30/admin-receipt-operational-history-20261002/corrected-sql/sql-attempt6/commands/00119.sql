@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;set local role service_role;select set_config('request.jwt.claims','{"role":"service_role"}',true);select public.process_receipt_deferral_exceptions_v1('aaf89157-32c0-47a4-be52-777b13d3a127',25,clock_timestamp()+interval '100 seconds');commit;

@@ -1,0 +1,23 @@
+{
+  "ARC02_closed": false,
+  "Pub_SQL_provider_build_executed": false,
+  "SDK_executed": false,
+  "current209_SQL_producer_verified": false,
+  "decoder_compatibility_pass": false,
+  "execution_output_separate": "execution1",
+  "files": {
+    "Dart-source-closure-at-preparation.json": "331ab7decf64017a36b922dbc212e4ba173446651d3b72b06c4546a615a960ab",
+    "README.md": "a0963a1dcc26ac773b0cfd7ecfed94090a509de4dfba0a327519831d73c6922e",
+    "execution-plan.json": "45ace0016a03adfc0fffadbc9ea5c54ee7653fcad05d54043e743d1577afc4da",
+    "preparation-static-review.json": "1fb2404a04269cd9882acee376f44e088bdd07b96844e1aa91456717688e36bd",
+    "receipts/admin148.stdout": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+    "receipts/roster142.stdout": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+    "receipts/roster144.stdout": "a0b41c9caca78597c8aa1ad250c2ae8a75e43da934ecb6aca6a5e623fc8377af",
+    "run_decoder_compatibility.py": "4d9ca29245a49dafb785e7d03e738eabba4842176524205d8e4c4ac2dc6b38c7"
+  },
+  "kind": "sealed_preparation_only",
+  "leaf_count": 8,
+  "production_ready": false,
+  "root_review_pending": true,
+  "tests_executed": false
+}

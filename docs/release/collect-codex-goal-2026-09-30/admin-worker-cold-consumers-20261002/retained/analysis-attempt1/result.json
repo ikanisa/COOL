@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "analyze",
+    "--no-pub",
+    "test/admin_worker_cold_consumer_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app",
+  "started_at": "2026-10-02T01:13:43.614483+00:00",
+  "finished_at": "2026-10-02T01:13:50.842381+00:00",
+  "exit_code": 0,
+  "source_tool_dependency_fixture_inputs": 5835,
+  "all_inputs_unchanged": true,
+  "canonical_fixture_inputs": 466,
+  "canonical_fixture_unchanged": true,
+  "terminal": null,
+  "cases": [],
+  "scope": "Targeted analysis of the new consumer test with captured current canonical transitive inputs; no production source edit",
+  "prior_model14_duplicated": false,
+  "production_source_changed": false,
+  "status": "passed"
+}

@@ -1,0 +1,761 @@
+{
+  "failed_child_exit_zero": true,
+  "failed_stage_pass": false,
+  "forthcoming_sanctioned_schema_promotion_requires_fresh_root_source_fence": true,
+  "inputs": {
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/export-source-binding.json": {
+      "bytes": 1226,
+      "ctime_ns": 1790924855741051107,
+      "device": 16777232,
+      "inode": 59936553,
+      "mode": 33188,
+      "mtime_ns": 1790924855741051107,
+      "nlink": 1,
+      "sha256": "337f6149620c752473da75a9f6b56a9b5176182ec68a1759b5425115a1d7128c"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-export/terminal.json": {
+      "bytes": 416,
+      "ctime_ns": 1790924855742217848,
+      "device": 16777232,
+      "inode": 59936554,
+      "mode": 33188,
+      "mtime_ns": 1790924855742217848,
+      "nlink": 1,
+      "sha256": "c713dbbc06e360d25bceb3728137015acd9b07b7886d07af6dab2b9f6d879464"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-lock/actual-command.json": {
+      "bytes": 794,
+      "ctime_ns": 1790925219603678348,
+      "device": 16777232,
+      "inode": 59957619,
+      "mode": 33188,
+      "mtime_ns": 1790925219603678348,
+      "nlink": 1,
+      "sha256": "591c91a746baee673a409dbe86a2b2ca897a301381aa3e645c7c646761cc5994"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/app-lock/terminal.json": {
+      "bytes": 1764,
+      "ctime_ns": 1790925230771232794,
+      "device": 16777232,
+      "inode": 59957645,
+      "mode": 33188,
+      "mtime_ns": 1790925230771232794,
+      "nlink": 1,
+      "sha256": "5146dbf3a78a535ab834c50442b96af9c5179ffe4ad26a3250d6a97676623968"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/foundation/terminal.json": {
+      "bytes": 354,
+      "ctime_ns": 1790908584583688815,
+      "device": 16777232,
+      "inode": 58787826,
+      "mode": 33188,
+      "mtime_ns": 1790908584583688815,
+      "nlink": 1,
+      "sha256": "cd987c5c877f3d3e6867dd0c84ef6531e9611c5e81288e763ac61ccb675da9cf"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/sdk-lock/terminal.json": {
+      "bytes": 352,
+      "ctime_ns": 1790909196233757331,
+      "device": 16777232,
+      "inode": 58850414,
+      "mode": 33188,
+      "mtime_ns": 1790909196233757331,
+      "nlink": 1,
+      "sha256": "04a61fe35f8e836e5bd8ca483408350856786fc5bca58f085bf1580e4b6fc92e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.control/startup/terminal.json": {
+      "bytes": 351,
+      "ctime_ns": 1790909475232745858,
+      "device": 16777232,
+      "inode": 58900831,
+      "mode": 33188,
+      "mtime_ns": 1790909475232745858,
+      "nlink": 1,
+      "sha256": "28468e2cbb49e40f7f25416cd28dcb6b133b2142fa00e2ad5bce64b44b646a45"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.collect-release-candidate.json": {
+      "bytes": 432088,
+      "ctime_ns": 1790924789847699571,
+      "device": 16777232,
+      "inode": 59933391,
+      "mode": 33188,
+      "mtime_ns": 1790924789847699571,
+      "nlink": 1,
+      "sha256": "ca1b8d5cd82869c1424f297c02a5b157d93d48e7570bbee22c161e02808566fb"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.dart_tool/package_config.json": {
+      "bytes": 40215,
+      "ctime_ns": 1790925218764550515,
+      "device": 16777232,
+      "inode": 59957506,
+      "mode": 33188,
+      "mtime_ns": 1790925218764550515,
+      "nlink": 1,
+      "sha256": "b72e5dfd23e5878a0de3a673599b3a4575d26370a75d9dd0babd9e3438d79e27"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/.flutter-plugins-dependencies": {
+      "bytes": 21458,
+      "ctime_ns": 1790925219208202077,
+      "device": 16777232,
+      "inode": 59957511,
+      "mode": 33188,
+      "mtime_ns": 1790925219208202077,
+      "nlink": 1,
+      "sha256": "709e2ea07ef3aa5f783ebad40a2a989ba484a476cf2a124cd19ae1cd0b313d95"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/ios/Runner/GeneratedPluginRegistrant.h": {
+      "bytes": 378,
+      "ctime_ns": 1790925219310729193,
+      "device": 16777232,
+      "inode": 59957525,
+      "mode": 33188,
+      "mtime_ns": 1790925219310729193,
+      "nlink": 1,
+      "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/ios/Runner/GeneratedPluginRegistrant.m": {
+      "bytes": 3578,
+      "ctime_ns": 1790925219311496627,
+      "device": 16777232,
+      "inode": 59957526,
+      "mode": 33188,
+      "mtime_ns": 1790925219311496627,
+      "nlink": 1,
+      "sha256": "3b2ac015fc041af99a572e0d9f0d698e1353dd6d1db75f2d024f38453e29dad6"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/pubspec.lock": {
+      "bytes": 39236,
+      "ctime_ns": 1790924767182075534,
+      "device": 16777232,
+      "inode": 59929957,
+      "mode": 33216,
+      "mtime_ns": 1790924767182062326,
+      "nlink": 1,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/file_saver/pubspec.yaml": {
+      "bytes": 951,
+      "ctime_ns": 1790924767447093152,
+      "device": 16777232,
+      "inode": 59931479,
+      "mode": 33216,
+      "mtime_ns": 1790924767447071153,
+      "nlink": 1,
+      "sha256": "c88077004e9f354f6ba7f4832f354d0e82aa95aaba33db20dc215f424021f2b3"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/third_party/firebase_messaging/pubspec.yaml": {
+      "bytes": 1166,
+      "ctime_ns": 1790924767458984227,
+      "device": 16777232,
+      "inode": 59931551,
+      "mode": 33188,
+      "mtime_ns": 1790924767458970977,
+      "nlink": 1,
+      "sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/flutter_plugins.dart": {
+      "bytes": 65728,
+      "ctime_ns": 1790908560024933418,
+      "device": 16777232,
+      "inode": 58786494,
+      "mode": 33188,
+      "mtime_ns": 1790908560024903002,
+      "nlink": 1,
+      "sha256": "e144c562723c65fbe1de6e62f90cb923d4f0154b41a4afb4b71b882c9db6604b"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/lib/src/platform_plugins.dart": {
+      "bytes": 20787,
+      "ctime_ns": 1790908560038127320,
+      "device": 16777232,
+      "inode": 58786592,
+      "mode": 33188,
+      "mtime_ns": 1790908560038111695,
+      "nlink": 1,
+      "sha256": "18289943e5a3b113fd70811f944416a181e34da66301f3e22578fc00200a251b"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/integration_test/pubspec.yaml": {
+      "bytes": 597,
+      "ctime_ns": 1790908560186117339,
+      "device": 16777232,
+      "inode": 58787737,
+      "mode": 33188,
+      "mtime_ns": 1790908560186111172,
+      "nlink": 1,
+      "sha256": "7d967d43522ee820d94aad81adead9dfbf6c7d90387d595265c683b27e92a776"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/android_file_picker-1.1.0/pubspec.yaml": {
+      "bytes": 909,
+      "ctime_ns": 1790924945054770514,
+      "device": 16777232,
+      "inode": 59946700,
+      "mode": 33188,
+      "mtime_ns": 1790924945054770514,
+      "nlink": 1,
+      "sha256": "e0577541d4b04ede07be0e10c9d3695aadeb83902c418c7f59e72f52440bd633"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links-7.2.1/pubspec.yaml": {
+      "bytes": 988,
+      "ctime_ns": 1790924938123078919,
+      "device": 16777232,
+      "inode": 59941390,
+      "mode": 33188,
+      "mtime_ns": 1790924938123078919,
+      "nlink": 1,
+      "sha256": "731801f96b18ed92ede7d5808837a260a8826db157d0320731e6b1361c70391e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_linux-1.0.3/pubspec.yaml": {
+      "bytes": 590,
+      "ctime_ns": 1790924948525330026,
+      "device": 16777232,
+      "inode": 59949031,
+      "mode": 33188,
+      "mtime_ns": 1790924948525330026,
+      "nlink": 1,
+      "sha256": "a179af248c3c4a1d400cba53180602682a08fca176350aa1e4e0ca16bd01133a"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/app_links_web-1.0.4/pubspec.yaml": {
+      "bytes": 592,
+      "ctime_ns": 1790924947342655583,
+      "device": 16777232,
+      "inode": 59948540,
+      "mode": 33188,
+      "mtime_ns": 1790924947342655583,
+      "nlink": 1,
+      "sha256": "fb070392c6efe5670554cf3c2ab0a7a9cb38dd94757b48a6117dcc76e6d5e6d0"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_darwin-1.1.0/pubspec.yaml": {
+      "bytes": 1027,
+      "ctime_ns": 1790924942106313135,
+      "device": 16777232,
+      "inode": 59944315,
+      "mode": 33188,
+      "mtime_ns": 1790924942106313135,
+      "nlink": 1,
+      "sha256": "ce10f8159c0bdbd21080c3b4d97e5976a293b562ef976e9a410a9bd49e79714c"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_linux-1.1.0/pubspec.yaml": {
+      "bytes": 816,
+      "ctime_ns": 1790924947198273532,
+      "device": 16777232,
+      "inode": 59948529,
+      "mode": 33188,
+      "mtime_ns": 1790924947198273532,
+      "nlink": 1,
+      "sha256": "76b395df655790af65e1b17442fd21cec1261aefd07b14beeae309defbe2b3b1"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_picker_web-3.1.0/pubspec.yaml": {
+      "bytes": 895,
+      "ctime_ns": 1790924943768189124,
+      "device": 16777232,
+      "inode": 59945506,
+      "mode": 33188,
+      "mtime_ns": 1790924943768189124,
+      "nlink": 1,
+      "sha256": "a1dea82e63884a2b02e37017db229a6fde4f2da4b582e7d7d9dea5d6ce1ce070"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_linux-0.9.4/pubspec.yaml": {
+      "bytes": 762,
+      "ctime_ns": 1790924948082106576,
+      "device": 16777232,
+      "inode": 59948775,
+      "mode": 33188,
+      "mtime_ns": 1790924948082106576,
+      "nlink": 1,
+      "sha256": "0b50a443f4c686a27474da253e90676d8d76d8a89494870b498b6e945bd06f87"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_macos-0.9.5/pubspec.yaml": {
+      "bytes": 762,
+      "ctime_ns": 1790924950603003385,
+      "device": 16777232,
+      "inode": 59949244,
+      "mode": 33188,
+      "mtime_ns": 1790924950603003385,
+      "nlink": 1,
+      "sha256": "82d67a3ec2e3d40dac71c0c787fa6564dee78de3feb7132df2e303d74085569e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+5/pubspec.yaml": {
+      "bytes": 775,
+      "ctime_ns": 1790924948551369033,
+      "device": 16777232,
+      "inode": 59949040,
+      "mode": 33188,
+      "mtime_ns": 1790924948551369033,
+      "nlink": 1,
+      "sha256": "c8c00ff3bd9dac143b3db91b896fa830614454196493b65cc46ef97bd5f304ae"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core-4.13.0/pubspec.yaml": {
+      "bytes": 1179,
+      "ctime_ns": 1790924937506891265,
+      "device": 16777232,
+      "inode": 59940786,
+      "mode": 33188,
+      "mtime_ns": 1790924937506891265,
+      "nlink": 1,
+      "sha256": "4dc4e2d34b528d96302bd00a8a907169df83ce87995d4c630af2465c54ded93c"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_core_web-3.10.0/pubspec.yaml": {
+      "bytes": 702,
+      "ctime_ns": 1790924941784579788,
+      "device": 16777232,
+      "inode": 59943821,
+      "mode": 33188,
+      "mtime_ns": 1790924941784579788,
+      "nlink": 1,
+      "sha256": "ae31e2ec1bd7078673f70ee41dfde8c48114781a7b75128c6da13de307dc0f3e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/firebase_messaging_web-4.2.4/pubspec.yaml": {
+      "bytes": 895,
+      "ctime_ns": 1790924937427632461,
+      "device": 16777232,
+      "inode": 59940719,
+      "mode": 33188,
+      "mtime_ns": 1790924937427632461,
+      "nlink": 1,
+      "sha256": "b7764ae3b53ad742ceccc1b9f37b1a2350d5fe4e1bdbf3d7cf1d50cba69107f2"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications-22.3.0/pubspec.yaml": {
+      "bytes": 1572,
+      "ctime_ns": 1790924939170895738,
+      "device": 16777232,
+      "inode": 59941866,
+      "mode": 33188,
+      "mtime_ns": 1790924939170895738,
+      "nlink": 1,
+      "sha256": "15bd10c45ad9bb5c48b18a13b7db926ae8e30375b7c320154daf1af54a8d59cd"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.1/pubspec.yaml": {
+      "bytes": 816,
+      "ctime_ns": 1790924944225407466,
+      "device": 16777232,
+      "inode": 59946325,
+      "mode": 33188,
+      "mtime_ns": 1790924944225407466,
+      "nlink": 1,
+      "sha256": "858aff63424b293d7cb0fd37af83cc6932f3725f7c9b1aba70b0257fde19df2c"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_web-1.0.0/pubspec.yaml": {
+      "bytes": 830,
+      "ctime_ns": 1790924942732066924,
+      "device": 16777232,
+      "inode": 59944995,
+      "mode": 33188,
+      "mtime_ns": 1790924942732066924,
+      "nlink": 1,
+      "sha256": "378cb98b79ba9b81dd9d2f424f7d8941b89df90cc161915577c7c3bf2bbf673b"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.1.1/pubspec.yaml": {
+      "bytes": 802,
+      "ctime_ns": 1790924941783192424,
+      "device": 16777232,
+      "inode": 59943811,
+      "mode": 33188,
+      "mtime_ns": 1790924941783192424,
+      "nlink": 1,
+      "sha256": "af48aef2ff2ad2b6793e37e60e2720a6eea6114b045182103401045dd0791ee7"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.35/pubspec.yaml": {
+      "bytes": 732,
+      "ctime_ns": 1790924945383229268,
+      "device": 16777232,
+      "inode": 59947016,
+      "mode": 33188,
+      "mtime_ns": 1790924945383229268,
+      "nlink": 1,
+      "sha256": "cc0ef3b95f7966a6a6cc14f5ef819b20f2b50671213cee9fd746f0c27154da52"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/gtk-2.2.0/pubspec.yaml": {
+      "bytes": 611,
+      "ctime_ns": 1790924952805665153,
+      "device": 16777232,
+      "inode": 59949526,
+      "mode": 33188,
+      "mtime_ns": 1790924952805665153,
+      "nlink": 1,
+      "sha256": "e9429829b8e37bffd88c109bf9857b8bbd073e0fd62801273bcb23bde56933e6"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19/pubspec.yaml": {
+      "bytes": 883,
+      "ctime_ns": 1790924944380370768,
+      "device": 16777232,
+      "inode": 59946423,
+      "mode": 33261,
+      "mtime_ns": 1790924944377322417,
+      "nlink": 1,
+      "sha256": "817a12950099262a7a662b769fa763e956bc2fd309fbe48619bba8f1797ac2f3"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_for_web-3.1.1/pubspec.yaml": {
+      "bytes": 813,
+      "ctime_ns": 1790924943884925347,
+      "device": 16777232,
+      "inode": 59946147,
+      "mode": 33188,
+      "mtime_ns": 1790924943884925347,
+      "nlink": 1,
+      "sha256": "3a0078fec6c2e42e403fd9b081ad8a0f00ebd97f583978af130383481fdd6a3c"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+6/pubspec.yaml": {
+      "bytes": 758,
+      "ctime_ns": 1790924948006845074,
+      "device": 16777232,
+      "inode": 59948701,
+      "mode": 33261,
+      "mtime_ns": 1790924948002335318,
+      "nlink": 1,
+      "sha256": "c040aa5f2ab8bf9c467864f92d04322ef2df19c40db391d416006b4b681a14e8"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_linux-0.2.2/pubspec.yaml": {
+      "bytes": 788,
+      "ctime_ns": 1790924944939652821,
+      "device": 16777232,
+      "inode": 59946640,
+      "mode": 33188,
+      "mtime_ns": 1790924944939652821,
+      "nlink": 1,
+      "sha256": "f3329298b24ffa77dc92b072d765445b2acd1052aba8bec7d1c6da2e5e303574"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_macos-0.2.2+1/pubspec.yaml": {
+      "bytes": 790,
+      "ctime_ns": 1790924941783284631,
+      "device": 16777232,
+      "inode": 59943812,
+      "mode": 33188,
+      "mtime_ns": 1790924941783284631,
+      "nlink": 1,
+      "sha256": "397be5ca627877a432dcc6c98d7ff4641797e715d5620a8ed690057092af5dca"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/image_picker_windows-0.2.2/pubspec.yaml": {
+      "bytes": 798,
+      "ctime_ns": 1790924943239863833,
+      "device": 16777232,
+      "inode": 59945371,
+      "mode": 33188,
+      "mtime_ns": 1790924943239863833,
+      "nlink": 1,
+      "sha256": "fb86001be85cb4897bb0931621cfa294a2c8575f2061fcee571f91ce72384a97"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni-1.0.3/pubspec.yaml": {
+      "bytes": 1519,
+      "ctime_ns": 1790924945497179679,
+      "device": 16777232,
+      "inode": 59947624,
+      "mode": 33188,
+      "mtime_ns": 1790924945497179679,
+      "nlink": 1,
+      "sha256": "6a3d1e82323e5dede5f8d62a4a450e5ce74a64564e65ccbdd62f4e07819d23dd"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/jni_flutter-1.0.2/pubspec.yaml": {
+      "bytes": 995,
+      "ctime_ns": 1790924945249900965,
+      "device": 16777232,
+      "inode": 59946813,
+      "mode": 33188,
+      "mtime_ns": 1790924945249900965,
+      "nlink": 1,
+      "sha256": "f3a1ec611eb0e6ee495bb94ae95543b249fe039f9bc75fedbf552aa1d17ce2e5"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/mobile_scanner-7.4.0/pubspec.yaml": {
+      "bytes": 1280,
+      "ctime_ns": 1790925015131619552,
+      "device": 16777232,
+      "inode": 59953343,
+      "mode": 33188,
+      "mtime_ns": 1790925015131619552,
+      "nlink": 1,
+      "sha256": "0e26545debea85d1335a8ab4582415e504787a79b67c355dcdf3e9c4fcbd3eee"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_android-2.3.1/pubspec.yaml": {
+      "bytes": 754,
+      "ctime_ns": 1790924950162044001,
+      "device": 16777232,
+      "inode": 59949152,
+      "mode": 33188,
+      "mtime_ns": 1790924950162044001,
+      "nlink": 1,
+      "sha256": "b80824aedcb8e0ea192403de0dc01c501b22dc2f627588dffb78093f5064dc89"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/pubspec.yaml": {
+      "bytes": 810,
+      "ctime_ns": 1790924947536894790,
+      "device": 16777232,
+      "inode": 59948549,
+      "mode": 33188,
+      "mtime_ns": 1790924947536894790,
+      "nlink": 1,
+      "sha256": "2453954d9201ce4a90a5d26705c4b089c3997a9b943e1c7dc7a95893c262c75d"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_linux-2.2.2/pubspec.yaml": {
+      "bytes": 749,
+      "ctime_ns": 1790924949083958792,
+      "device": 16777232,
+      "inode": 59949112,
+      "mode": 33188,
+      "mtime_ns": 1790924949083958792,
+      "nlink": 1,
+      "sha256": "a08c2fedbf2d91706abd2896a7aff8336bce698cc5ef77486f257e12e6ff38dd"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/pubspec.yaml": {
+      "bytes": 712,
+      "ctime_ns": 1790924945286596556,
+      "device": 16777232,
+      "inode": 59946914,
+      "mode": 33188,
+      "mtime_ns": 1790924945286596556,
+      "nlink": 1,
+      "sha256": "df8b451e532d00b0d4930523d60bede9ae04e0c2356291c38b7c7c30404a6296"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_android-13.0.1/pubspec.yaml": {
+      "bytes": 627,
+      "ctime_ns": 1790924942203795423,
+      "device": 16777232,
+      "inode": 59944401,
+      "mode": 33188,
+      "mtime_ns": 1790924942203795423,
+      "nlink": 1,
+      "sha256": "df859673aa22aa16bae95eb7b62defc0a2806ca030525a9693c1cec9ee358b92"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_apple-9.5.0/pubspec.yaml": {
+      "bytes": 669,
+      "ctime_ns": 1790924942706527746,
+      "device": 16777232,
+      "inode": 59944885,
+      "mode": 33188,
+      "mtime_ns": 1790924942706527746,
+      "nlink": 1,
+      "sha256": "8ba50ffee4152e31a59a508d88014052fee2b3a14e80c5035278c347dcfec190"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_html-0.1.4+1/pubspec.yaml": {
+      "bytes": 754,
+      "ctime_ns": 1790924946366644709,
+      "device": 16777232,
+      "inode": 59948122,
+      "mode": 33188,
+      "mtime_ns": 1790924946366644709,
+      "nlink": 1,
+      "sha256": "16b1a69f568f47a702943342768e443991467e11edfc7e80312f4f77167434f1"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/permission_handler_windows-0.2.2/pubspec.yaml": {
+      "bytes": 616,
+      "ctime_ns": 1790924942912461863,
+      "device": 16777232,
+      "inode": 59945124,
+      "mode": 33188,
+      "mtime_ns": 1790924942912461863,
+      "nlink": 1,
+      "sha256": "fc8c43398d94282f95aa7ef97668be1be0ac820667efdadd29d9984cf161de1d"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/share_plus-13.3.0/pubspec.yaml": {
+      "bytes": 1464,
+      "ctime_ns": 1790924937627326792,
+      "device": 16777232,
+      "inode": 59941060,
+      "mode": 33188,
+      "mtime_ns": 1790924937627326792,
+      "nlink": 1,
+      "sha256": "5cb3eeeda094d59f947015cf0435da3ce340013d060d0e4dce36a90456be63b9"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/pubspec.yaml": {
+      "bytes": 871,
+      "ctime_ns": 1790924942971718030,
+      "device": 16777232,
+      "inode": 59945197,
+      "mode": 33188,
+      "mtime_ns": 1790924942971718030,
+      "nlink": 1,
+      "sha256": "8f86a250683f42679c2b77206b9931a07aa0e36a33450651d0e505daa1cc8433"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.6/pubspec.yaml": {
+      "bytes": 988,
+      "ctime_ns": 1790924940757714891,
+      "device": 16777232,
+      "inode": 59942890,
+      "mode": 33188,
+      "mtime_ns": 1790924940757714891,
+      "nlink": 1,
+      "sha256": "c6da5d5908727bcf6b74e5381131cd18abbd87033df934a289196307b07e5122"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1/pubspec.yaml": {
+      "bytes": 839,
+      "ctime_ns": 1790924940869297154,
+      "device": 16777232,
+      "inode": 59943072,
+      "mode": 33188,
+      "mtime_ns": 1790924940869297154,
+      "nlink": 1,
+      "sha256": "40b9f7c760097e8e6b284755641fff514af265cbe50eca5d335f68fd79b74c50"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_web-2.4.3/pubspec.yaml": {
+      "bytes": 823,
+      "ctime_ns": 1790924941142015004,
+      "device": 16777232,
+      "inode": 59943339,
+      "mode": 33188,
+      "mtime_ns": 1790924941142015004,
+      "nlink": 1,
+      "sha256": "2cafb88cb05a4debe328c441e82ed11d550237054b694f68842773943f38530e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1/pubspec.yaml": {
+      "bytes": 840,
+      "ctime_ns": 1790924941153127252,
+      "device": 16777232,
+      "inode": 59943406,
+      "mode": 33188,
+      "mtime_ns": 1790924941153127252,
+      "nlink": 1,
+      "sha256": "bfac6c030216a487e6212b2a74cc58c8e29ef628640989015d9b9abf8a92162b"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_android-6.3.32/pubspec.yaml": {
+      "bytes": 886,
+      "ctime_ns": 1790924944010858832,
+      "device": 16777232,
+      "inode": 59946245,
+      "mode": 33188,
+      "mtime_ns": 1790924944010858832,
+      "nlink": 1,
+      "sha256": "292260e741dc6887d9076e9afa53569bdf98980b2607796c1c772aecb22f7e51"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/pubspec.yaml": {
+      "bytes": 824,
+      "ctime_ns": 1790924946445454808,
+      "device": 16777232,
+      "inode": 59948148,
+      "mode": 33188,
+      "mtime_ns": 1790924946445454808,
+      "nlink": 1,
+      "sha256": "391a5d4ed9bd1670dcffe7654f72b19b16cb1e7f3f67360d0968d78a18c82d9e"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/pubspec.yaml": {
+      "bytes": 756,
+      "ctime_ns": 1790924942191031022,
+      "device": 16777232,
+      "inode": 59944336,
+      "mode": 33188,
+      "mtime_ns": 1790924942191031022,
+      "nlink": 1,
+      "sha256": "eaa7e71c939f9bf9e6c4701cc153d38f85b8569b5c34a9da0d5b03da036a7327"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/pubspec.yaml": {
+      "bytes": 798,
+      "ctime_ns": 1790924945978766832,
+      "device": 16777232,
+      "inode": 59948004,
+      "mode": 33188,
+      "mtime_ns": 1790924945978766832,
+      "nlink": 1,
+      "sha256": "f7126738872122c5424c4e5e8afc7e101b5c24e3d3fd806397776fe6a6a85af6"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_web-2.4.3/pubspec.yaml": {
+      "bytes": 774,
+      "ctime_ns": 1790924943673251608,
+      "device": 16777232,
+      "inode": 59945471,
+      "mode": 33188,
+      "mtime_ns": 1790924943673251608,
+      "nlink": 1,
+      "sha256": "2ea3837b05bcc98c02e1738d7afe0f7cd75fda98b8e525b6ba8375812aa23afe"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/pubspec.yaml": {
+      "bytes": 767,
+      "ctime_ns": 1790924943877359281,
+      "device": 16777232,
+      "inode": 59946067,
+      "mode": 33188,
+      "mtime_ns": 1790924943877359281,
+      "nlink": 1,
+      "sha256": "ed92778de29da17b3a6770d2f95cba3a37ab02b9e108050de3788a25a635d9d8"
+    },
+    "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/pub-cache/hosted/pub.dev/windows_file_picker-1.2.0/pubspec.yaml": {
+      "bytes": 846,
+      "ctime_ns": 1790924941668874224,
+      "device": 16777232,
+      "inode": 59943727,
+      "mode": 33188,
+      "mtime_ns": 1790924941668874224,
+      "nlink": 1,
+      "sha256": "13781b08b4644ce71b695d4cbb10d0c240c4fea9cd49814c030df5825bd39a03"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/consumer_guards.py": {
+      "bytes": 11536,
+      "ctime_ns": 1790907889417860707,
+      "device": 16777247,
+      "inode": 17178081,
+      "mode": 33188,
+      "mtime_ns": 1790907889417860707,
+      "nlink": 1,
+      "sha256": "f8ab32c78b0b499f8822b62ba79a8491effc67fad810187a22ac38d5ea2023aa"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/packet-files.json": {
+      "bytes": 3914,
+      "ctime_ns": 1790908295656178991,
+      "device": 16777247,
+      "inode": 17212892,
+      "mode": 33188,
+      "mtime_ns": 1790908295656178991,
+      "nlink": 1,
+      "sha256": "9f08883dc0db884cee715d30e1c0efda31f5285d614aae0acc69da7418dc73bc"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/publisher_metadata.py": {
+      "bytes": 5704,
+      "ctime_ns": 1790907292193284942,
+      "device": 16777247,
+      "inode": 17169683,
+      "mode": 33188,
+      "mtime_ns": 1790907292193284942,
+      "nlink": 1,
+      "sha256": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/test_preparation.py": {
+      "bytes": 24984,
+      "ctime_ns": 1790907935185719435,
+      "device": 16777247,
+      "inode": 17187946,
+      "mode": 33188,
+      "mtime_ns": 1790907935185719435,
+      "nlink": 1,
+      "sha256": "e95c100c54b6faad81a30d3581fe536db9a03b980b2eafc2236f1f1fb6b456ea"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/packet-files.json": {
+      "bytes": 2588,
+      "ctime_ns": 1790924459162438429,
+      "device": 16777247,
+      "inode": 17774748,
+      "mode": 33188,
+      "mtime_ns": 1790924459162438429,
+      "nlink": 1,
+      "sha256": "d40ce77be6faa0afe514dba1ea1193f33eb69f904b852732d028ae0705e1b47d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/proposed-commands.json": {
+      "bytes": 6417,
+      "ctime_ns": 1790924381464235792,
+      "device": 16777247,
+      "inode": 17774459,
+      "mode": 33188,
+      "mtime_ns": 1790924381464235792,
+      "nlink": 1,
+      "sha256": "7e316b3d9e7616ba1ab2afccf8deda12939537b2f19a7b5e8c741d4f71f56ef6"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/run_native_consumer.py": {
+      "bytes": 28950,
+      "ctime_ns": 1790924381464044043,
+      "device": 16777247,
+      "inode": 17774462,
+      "mode": 33188,
+      "mtime_ns": 1790924381464044043,
+      "nlink": 1,
+      "sha256": "1883898dd19ec544fa9e5a923a90706bd7620206bd8ea249eceeee092d63687b"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation4/source_fence.py": {
+      "bytes": 13961,
+      "ctime_ns": 1790924381463860336,
+      "device": 16777247,
+      "inode": 17774464,
+      "mode": 33188,
+      "mtime_ns": 1790924381463860336,
+      "nlink": 1,
+      "sha256": "7a18fb3e4418909e619f9a0388d2709d316b60c1c84b503ac00b370be2b777f8"
+    }
+  },
+  "only_new_generated_paths": [
+    "ios/Runner/GeneratedPluginRegistrant.h",
+    "ios/Runner/GeneratedPluginRegistrant.m"
+  ]
+}

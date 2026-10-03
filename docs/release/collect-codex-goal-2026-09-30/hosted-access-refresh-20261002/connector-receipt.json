@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-01 23:20:22 UTC",
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "operation": "Supabase connector get_project",
+  "read_only": true,
+  "authorized_by_retained_user_scope": true,
+  "is_error": true,
+  "error_text": "{\"error\":{\"name\":\"ProtocolError\",\"message\":\"MCP error -32600: You do not have permission to perform this action\"}}",
+  "credentials_inspected": false,
+  "hosted_configuration_written": false
+}

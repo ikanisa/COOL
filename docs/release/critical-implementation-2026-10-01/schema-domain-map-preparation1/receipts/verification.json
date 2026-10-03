@@ -1,0 +1,60 @@
+{
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation1/test_schema_domain_map.py"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 0.066,
+      "exit_code": 0,
+      "name": "parser-admission-coverage-tests",
+      "started_at_utc": "2026-10-02T06:24:10.578095+00:00",
+      "stderr_sha256": "341e6e924eb20c93499802413fe156318ba7656951f5eab1902d37984b4141ab",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation1/generate_schema_domain_map.py",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_clean/final-effective-catalog.json",
+        "--catalog",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/ordinary_populated/final-effective-catalog.json",
+        "--replay-migrations",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/ordinary-schema-catalog209-execution1/observed-output/captured-migrations",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation1/generated-current209",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 3.052,
+      "exit_code": 0,
+      "name": "generate-current209",
+      "started_at_utc": "2026-10-02T06:24:10.643827+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "40f469b2417a92665190f2406c36e3e3fa76a68fb6a448c57868ddf4d42888b6"
+    },
+    {
+      "command": [
+        "python3",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation1/generate_schema_domain_map.py",
+        "--output",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation1/generated-current209",
+        "--verify",
+        "--require-current"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 0.218,
+      "exit_code": 0,
+      "name": "fresh-input-and-coverage-readback",
+      "started_at_utc": "2026-10-02T06:24:13.695443+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ee2b21d66b4d8d4b6aabe1d968dbf3b30d999dfaea82d0196bf4e08efe8c54d5"
+    }
+  ],
+  "generator_sha256": "5c643ed467c9c40debbf5a59acc13300765772a9ccaae9a2466d7ed19061bd92",
+  "status": "PASS",
+  "test_count": 19,
+  "tests_sha256": "0f5242cc8ee03876c99985fff7a617b4942cb91128d59ab93df05606e04f3307"
+}

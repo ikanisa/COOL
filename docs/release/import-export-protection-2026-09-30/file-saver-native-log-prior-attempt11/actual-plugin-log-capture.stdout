@@ -1,0 +1,2 @@
+FAIL: unrecognized method does not enter routine logs
+FAIL: argument exception does not enter routine logs

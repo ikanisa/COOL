@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../profile/member_profile_gate.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +13,7 @@ import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_form_viewport.dart' as forms;
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
+import 'contribution_amount_widgets.dart';
 
 class ContributionFlowScreen extends ConsumerWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
@@ -22,12 +22,11 @@ class ContributionFlowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final state = ref.watch(collectRepositoryProvider);
+    final repository = ref.watch(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(collectionId);
     if (collection == null) return const MissingGroupStateScreen();
-    return switch (collection.contributionRailFor(
-      ref.watch(collectRepositoryProvider).currentProfile,
-    )) {
+    return switch (collection.contributionRailFor(state.currentProfile)) {
       'rwanda_momo' => _RwandaMomoContributionFlow(collectionId: collectionId),
       _ => _UnavailableContributionRoute(collection: collection),
     };
@@ -77,8 +76,12 @@ class _RwandaMomoContributionFlow extends ConsumerStatefulWidget {
 class _RwandaMomoContributionFlowState
     extends ConsumerState<_RwandaMomoContributionFlow> {
   final _amount = TextEditingController();
+  final _amountFocus = FocusNode();
   PaymentIntentModel? _intent;
   String? _preparedProfileId;
+  CollectRepository? _preparedRepository;
+  int? _preparedSessionGeneration;
+  int _flowGeneration = 0;
   bool _working = false;
   bool _ussdOpened = false;
   String? _error;
@@ -86,18 +89,31 @@ class _RwandaMomoContributionFlowState
   @override
   void dispose() {
     _amount.dispose();
+    _amountFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<String?>(
-      collectRepositoryProvider.select((state) => state.currentProfile?.id),
+    final repository = ref.watch(collectRepositoryProvider.notifier);
+    ref.listen<(CollectRepository, int, String?)>(
+      collectRepositoryProvider.select(
+        (state) => (
+          repository,
+          repository.sessionGeneration,
+          state.currentProfile?.id,
+        ),
+      ),
       (previous, next) {
-        if (previous != next && _intent != null) {
+        if (previous != next) {
+          ++_flowGeneration;
           setState(() {
             _intent = null;
             _preparedProfileId = null;
+            _preparedRepository = null;
+            _preparedSessionGeneration = null;
+            _amount.clear();
+            _working = false;
             _ussdOpened = false;
             _error = null;
           });
@@ -105,7 +121,6 @@ class _RwandaMomoContributionFlowState
       },
     );
     final l10n = CollectLocalizations.of(context);
-    final repository = ref.read(collectRepositoryProvider.notifier);
     final collection = repository.maybeCollectionById(widget.collectionId);
     if (collection == null) return const MissingGroupStateScreen();
     if (collection.isArchived) {
@@ -177,6 +192,7 @@ class _RwandaMomoContributionFlowState
                     if (isAmountStep) ...[
                       _NativeAmountEntry(
                         controller: _amount,
+                        focusNode: _amountFocus,
                         errorText: amountError,
                         onSubmitted: _prepare,
                         onPreset: _setAmount,
@@ -251,6 +267,8 @@ class _RwandaMomoContributionFlowState
                     : () => setState(() {
                         _intent = null;
                         _preparedProfileId = null;
+                        _preparedRepository = null;
+                        _preparedSessionGeneration = null;
                         _ussdOpened = false;
                         _error = null;
                       }),
@@ -278,6 +296,8 @@ class _RwandaMomoContributionFlowState
 
   Future<void> _prepare() async {
     if (_working || _intent != null) return;
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final sessionGeneration = repository.sessionGeneration;
     final preparedProfileId = ref
         .read(collectRepositoryProvider)
         .currentProfile
@@ -300,74 +320,90 @@ class _RwandaMomoContributionFlowState
           context,
         ).text('enterAmountAboveZero'),
       );
+      _amountFocus.requestFocus();
       return;
     }
     setState(() {
       _working = true;
       _error = null;
     });
+    final operation = ++_flowGeneration;
+    bool current() =>
+        mounted &&
+        operation == _flowGeneration &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == sessionGeneration &&
+        ref.read(collectRepositoryProvider).currentProfile?.id ==
+            preparedProfileId;
     try {
       await requireMemberProfileReady(context, ref);
-      if (!mounted) return;
-      final intent = await ref
-          .read(collectRepositoryProvider.notifier)
-          .createPaymentIntent(
-            PaymentIntentDraft(
-              collectionId: widget.collectionId,
-              amountRwf: amount,
-            ),
-          );
-      if (mounted) {
+      if (!current()) return;
+      final intent = await repository.createPaymentIntent(
+        PaymentIntentDraft(
+          collectionId: widget.collectionId,
+          amountRwf: amount,
+        ),
+      );
+      if (current()) {
         setState(() {
           _intent = intent;
           _preparedProfileId = preparedProfileId;
+          _preparedRepository = repository;
+          _preparedSessionGeneration = sessionGeneration;
         });
       }
     } catch (error) {
-      if (mounted) setState(() => _error = _safeFlowError(error));
+      if (current()) setState(() => _error = _safeFlowError(error));
     } finally {
-      if (mounted) setState(() => _working = false);
+      if (current()) setState(() => _working = false);
     }
   }
 
   Future<void> _openUssd() async {
     final intent = _intent;
     if (intent == null) return;
+    final repository = _preparedRepository;
+    final sessionGeneration = _preparedSessionGeneration;
+    final preparedProfileId = _preparedProfileId;
+    final operation = ++_flowGeneration;
+    bool current() =>
+        mounted &&
+        operation == _flowGeneration &&
+        repository != null &&
+        preparedProfileId != null &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == sessionGeneration &&
+        ref.read(collectRepositoryProvider).currentProfile?.id ==
+            preparedProfileId;
     setState(() {
       _working = true;
       _error = null;
     });
     var preflightConfirmed = false;
     try {
-      if (_preparedProfileId == null ||
-          ref.read(collectRepositoryProvider).currentProfile?.id !=
-              _preparedProfileId) {
+      if (!current()) {
         throw StateError('Account changed');
       }
       // This live RPC rechecks account, membership, expiry and the active
       // receiver. The recent-intents history RPC intentionally retains old
       // receivers and cannot authorize opening a payment prompt.
-      final current = await ref
-          .read(collectRepositoryProvider.notifier)
-          .createPaymentIntent(
-            PaymentIntentDraft(
-              collectionId: widget.collectionId,
-              amountRwf: intent.expectedAmountRwf,
-            ),
-          );
-      if (!mounted) return;
-      if (ref.read(collectRepositoryProvider).currentProfile?.id !=
-          _preparedProfileId) {
-        throw StateError('Account changed');
-      }
+      final rechecked = await repository!.createPaymentIntent(
+        PaymentIntentDraft(
+          collectionId: widget.collectionId,
+          amountRwf: intent.expectedAmountRwf,
+        ),
+      );
+      if (!current()) return;
       if (!preparedMomoIntentStillActionable(
         intent,
-        current,
+        rechecked,
         now: DateTime.now(),
       )) {
         setState(() {
           _intent = null;
           _preparedProfileId = null;
+          _preparedRepository = null;
+          _preparedSessionGeneration = null;
           _ussdOpened = false;
           _error = CollectLocalizations.of(
             context,
@@ -376,20 +412,25 @@ class _RwandaMomoContributionFlowState
         return;
       }
       preflightConfirmed = true;
-      final receiver = current.receiverMomoNumber.replaceAll(RegExp(r'\D'), '');
+      final receiver = rechecked.receiverMomoNumber.replaceAll(
+        RegExp(r'\D'),
+        '',
+      );
       final opened = await const MomoUssdLauncher().launch(
         receiver: receiver,
-        amountRwf: current.expectedAmountRwf,
-        provider: current.momoNetwork,
+        amountRwf: rechecked.expectedAmountRwf,
+        provider: rechecked.momoNetwork,
       );
       if (!opened) throw StateError('MoMo USSD could not open.');
-      if (mounted) setState(() => _ussdOpened = true);
+      if (current()) setState(() => _ussdOpened = true);
     } catch (error) {
-      if (mounted) {
+      if (current()) {
         setState(() {
           if (!preflightConfirmed) {
             _intent = null;
             _preparedProfileId = null;
+            _preparedRepository = null;
+            _preparedSessionGeneration = null;
             _ussdOpened = false;
           }
           _error = preflightConfirmed
@@ -400,7 +441,7 @@ class _RwandaMomoContributionFlowState
         });
       }
     } finally {
-      if (mounted) setState(() => _working = false);
+      if (current()) setState(() => _working = false);
     }
   }
 
@@ -458,6 +499,7 @@ class _NativeContributionAppBar extends StatelessWidget {
 class _NativeAmountEntry extends StatelessWidget {
   const _NativeAmountEntry({
     required this.controller,
+    required this.focusNode,
     required this.errorText,
     required this.onSubmitted,
     required this.onPreset,
@@ -465,6 +507,7 @@ class _NativeAmountEntry extends StatelessWidget {
   });
 
   final TextEditingController controller;
+  final FocusNode focusNode;
   final String? errorText;
   final VoidCallback onSubmitted;
   final ValueChanged<int> onPreset;
@@ -496,30 +539,15 @@ class _NativeAmountEntry extends StatelessWidget {
             color: colors.surfaceReadable,
             borderRadius: CollectRadius.cardLargeBorder,
           ),
-          child: Semantics(
-            textField: true,
+          child: ContributionAmountInput(
+            controller: controller,
+            focusNode: focusNode,
             label: l10n.text('contributionAmount'),
-            child: _NativeCurrencyInput(
-              currency: 'RWF',
-              hint: '0',
-              controller: controller,
-              keyboardType: TextInputType.number,
-              formatter: const RwfAmountInputFormatter(),
-              onChanged: onChanged,
-              onSubmitted: onSubmitted,
-            ),
+            errorText: errorText,
+            onChanged: onChanged,
+            onSubmitted: onSubmitted,
           ),
         ),
-        if (errorText != null) ...[
-          CollectSpacing.gap8,
-          Text(
-            errorText!,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colors.dangerForeground,
-              fontWeight: CollectTypography.weightSemibold,
-            ),
-          ),
-        ],
         CollectSpacing.gap20,
         Text(
           l10n.text('quickAmounts'),
@@ -623,14 +651,7 @@ class _NativeAmountReview extends StatelessWidget {
           ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
         ),
         CollectSpacing.gap16,
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            formatRwf(amountRwf),
-            style: CollectTypography.amountHero(colors.textPrimary),
-          ),
-        ),
+        ContributionAmountValue(amountRwf: amountRwf),
       ],
     );
   }
@@ -784,32 +805,41 @@ class _NativeMomoStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Container(
-      padding: const EdgeInsets.all(CollectSpacing.x4),
-      decoration: BoxDecoration(
-        color: isError ? colors.dangerContainer : colors.infoContainer,
-        borderRadius: CollectRadius.cardBorder,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            isError ? CollectIcons.warning : CollectIcons.sms,
-            size: 20,
-            color: isError ? colors.dangerForeground : colors.infoForeground,
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: '$title. $message',
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.all(CollectSpacing.x4),
+          decoration: BoxDecoration(
+            color: isError ? colors.dangerContainer : colors.infoContainer,
+            borderRadius: CollectRadius.cardBorder,
           ),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Theme.of(context).textTheme.titleSmall),
-                CollectSpacing.gap4,
-                Text(message, style: Theme.of(context).textTheme.bodySmall),
-              ],
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                isError ? CollectIcons.warning : CollectIcons.sms,
+                size: 20,
+                color: isError
+                    ? colors.dangerForeground
+                    : colors.infoForeground,
+              ),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.titleSmall),
+                    CollectSpacing.gap4,
+                    Text(message, style: Theme.of(context).textTheme.bodySmall),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -863,95 +893,6 @@ class _NativeContributionBottomBar extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-/// Keep the entire monetary value visible; horizontal clipping can change its
-/// apparent magnitude. Large text gets a separate currency line and a measured
-/// type size rather than a cramped prefix beside a scrolling amount.
-class _NativeCurrencyInput extends StatelessWidget {
-  const _NativeCurrencyInput({
-    required this.currency,
-    required this.hint,
-    required this.controller,
-    required this.keyboardType,
-    required this.formatter,
-    required this.onChanged,
-    required this.onSubmitted,
-  });
-
-  final String currency;
-  final String hint;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final TextInputFormatter formatter;
-  final VoidCallback onChanged;
-  final VoidCallback onSubmitted;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final scaler = MediaQuery.textScalerOf(context);
-    final label = Text(
-      currency,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: colors.textMuted,
-        fontWeight: CollectTypography.weightSemibold,
-      ),
-    );
-    final field = LayoutBuilder(
-      builder: (context, constraints) {
-        var style = CollectTypography.amountHero(colors.textPrimary);
-        final value = controller.text.isEmpty ? hint : controller.text;
-        final painter = TextPainter(
-          textDirection: TextDirection.ltr,
-          textScaler: scaler,
-        );
-        // Leave room for the cursor; recalculate after typing and preset changes.
-        final available = (constraints.maxWidth - 4).clamp(
-          1.0,
-          double.infinity,
-        );
-        for (var attempt = 0; attempt < 40; attempt++) {
-          painter.text = TextSpan(text: value, style: style);
-          painter.layout();
-          if (painter.width <= available) break;
-          style = style.copyWith(fontSize: style.fontSize! * 0.94);
-        }
-        painter.dispose();
-        return TextField(
-          controller: controller,
-          autofocus: true,
-          keyboardType: keyboardType,
-          textInputAction: TextInputAction.done,
-          inputFormatters: [formatter],
-          onChanged: (_) => onChanged(),
-          style: style,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: style.copyWith(color: colors.textMuted),
-            border: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.zero,
-          ),
-          onSubmitted: (_) => onSubmitted(),
-        );
-      },
-    );
-    if (scaler.scale(1) >= 1.3) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [label, CollectSpacing.gap4, field],
-      );
-    }
-    return Row(
-      children: [
-        label,
-        CollectSpacing.gapW12,
-        Expanded(child: field),
-      ],
     );
   }
 }

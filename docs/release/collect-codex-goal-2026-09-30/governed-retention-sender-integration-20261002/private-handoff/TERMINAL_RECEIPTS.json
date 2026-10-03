@@ -1,0 +1,137 @@
+{
+  "analysis-contract1": {
+    "exit": 0,
+    "items": 5,
+    "result_sha256": "a9203032feac38a265a7b5a7d5685530da0acda727db911c23bd2a069869cd36",
+    "session": 95304,
+    "terminal": "1997ef",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "analysis-store1": {
+    "exit": 0,
+    "items": 2,
+    "result_sha256": "d7663a6fcdc8d11ef86e520b255cbf519b4eb6c3535b21436a8d8d840938d5e5",
+    "session": 11839,
+    "terminal": "e7483c",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "analysis-ui1": {
+    "exit": 0,
+    "items": 4,
+    "result_sha256": "8b08e6ce5fccc9f03c1c021b54e85976be7feb806924ad6a01a39f0cbadc5618",
+    "session": 20724,
+    "terminal": "fa2c3e",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "browser-store-correction1": {
+    "cases": 6,
+    "exit": 0,
+    "result_sha256": "18494b109fd845e9620e9eff8145a804764ae02a85b5a2c3c7476a0733b6ce62",
+    "scope": "store correction with predecessor model",
+    "session": 81336,
+    "terminal": "c5ae4d",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "browser-store-correction2": {
+    "cases": 6,
+    "exit": 0,
+    "result_sha256": "825f85d80db3716c5bee929b85c42b7d11e7ea3e59ad5b654f1bba012238bb1b",
+    "scope": "six actual Chrome/Web Locks store cases on exact final model and store",
+    "session": 78001,
+    "terminal": "aec1f4",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "browser-store-failure1": {
+    "exit": 1,
+    "result_sha256": "bad373de910859f20b0bf591e27db8b03aa2b55dc1620b1de8fa9967a96ca231",
+    "scope": "four original cases passed; two actual resurrection/race negatives failed",
+    "session": 55505,
+    "terminal": "b0aced",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "protocol-correction1": {
+    "cases": 26,
+    "exit": 0,
+    "result_sha256": "07806f082bfd4e5ce0d3b2dd28af70e75678639c884b96c24c85aff03ec6c04f",
+    "scope": "12 strict models+14 SDK/controller, exact final model",
+    "session": 67350,
+    "terminal": "93cf59",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "protocol-failure1": {
+    "exit": 1,
+    "result_sha256": "29f9269d476ca65b82263884a710e005f71e463c1cbe860a3b030e66b85cbc12",
+    "scope": "three actual wrong-valid64 protocol negatives failed; original23 cases passed",
+    "session": 66806,
+    "terminal": "39adb5",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "validation-correction1": {
+    "cases": 21,
+    "exit": 0,
+    "result_sha256": "b57008bda5841d214d37e7b19a5b30f64c78eb055b7e37963764b6b42dac53cc",
+    "scope": "15 actual controller+6 actual widget/host cases on exact final product",
+    "session": 93077,
+    "terminal": "fd3c57",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  },
+  "validation-failure1": {
+    "cases": 1,
+    "exit": 1,
+    "result_sha256": "4cae8f2c1e0c6edfa9b7220a5b40fd7f6836d4ea74129063393ca3d43f4bdd37",
+    "scope": "local invalid draft wrongly claimed original recovery",
+    "session": 95223,
+    "terminal": "bc2228",
+    "unchanged_inputs": {
+      "canonical_unchanged": true,
+      "dependencies_unchanged": true,
+      "runtime_unchanged": true,
+      "source_unchanged": true
+    }
+  }
+}

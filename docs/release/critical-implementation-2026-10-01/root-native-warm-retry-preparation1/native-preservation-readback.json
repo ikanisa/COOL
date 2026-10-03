@@ -1,0 +1,42 @@
+{
+  "SDK_and_warm_pub_Gradle_caches_moved": false,
+  "archive": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/.failed-attempts/native-20261002-attempt1-4f29efa7b455497ca02031e23d0f8b54",
+  "protected_originals": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "raw_symlinks_followed": false,
+  "results": {
+    "app-export-control": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 25,
+      "renamed_root_ctime_after": 1790933875427861921,
+      "renamed_root_ctime_before": 1790929483759340243
+    },
+    "app-lock-control": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 17,
+      "renamed_root_ctime_after": 1790933875445115355,
+      "renamed_root_ctime_before": 1790929618541539614
+    },
+    "app-source": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 4868,
+      "renamed_root_ctime_after": 1790933874725992544,
+      "renamed_root_ctime_before": 1790929597824060095
+    },
+    "native-build": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 714,
+      "renamed_root_ctime_after": 1790933875668232162,
+      "renamed_root_ctime_before": 1790931557171733969
+    },
+    "native-control": {
+      "all_bytes_and_other_identities_exact": true,
+      "nodes": 15,
+      "renamed_root_ctime_after": 1790933875459568554,
+      "renamed_root_ctime_before": 1790931778362131553
+    }
+  },
+  "stage_admitted": false
+}

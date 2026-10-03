@@ -1,0 +1,22 @@
+{
+  "SQL_or_database_execution": false,
+  "after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/collect_schema_domain_map.py": "fc734112fe564479d42042717efbd2a915efbf372915fe4eae0119bb8f7d4cef",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/focused_tests.py": "93f2dda89fb1810714e54fc8803cc80bf5526cd9f6c446ca67dc29384230a14f",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/original_tests.py": "2a97e7be1a067b501f59048937316d0135f4c4251f4c2604bf9101b1a9a6f080"
+  },
+  "before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/collect_schema_domain_map.py": "fc734112fe564479d42042717efbd2a915efbf372915fe4eae0119bb8f7d4cef",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/focused_tests.py": "93f2dda89fb1810714e54fc8803cc80bf5526cd9f6c446ca67dc29384230a14f",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/schema-domain-map-preparation3/original_tests.py": "2a97e7be1a067b501f59048937316d0135f4c4251f4c2604bf9101b1a9a6f080"
+  },
+  "errors": 0,
+  "failures": 0,
+  "fixture_parent": "/private/tmp",
+  "focused_cases": 12,
+  "inputs_unchanged": true,
+  "original_cases": 32,
+  "seconds": 0.179275,
+  "skips": 0,
+  "tests": 44
+}

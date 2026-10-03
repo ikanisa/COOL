@@ -1,0 +1,74 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK current join and duplicate/irrelevant frames yield one refresh
+00:02 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK failed binding rejoins and reconciles missed membership reduction
+00:05 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK replacement session cancels pending and late departed frames
+00:06 +2 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK replacement session cancels pending and late departed frames [E]
+  Expected: <4>
+    Actual: <5>
+  A departed socket frame cannot refresh a replacement authority scope
+  
+  package:matcher                                          expect
+  package:flutter_test/src/widget_tester.dart 473:18       expect
+  test/shared/member_realtime_sdk_session_test.dart 395:9  main.<fn>
+  
+00:06 +2 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK same-user A-B-A cancels pending and late departed frames
+00:08 +2 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK same-user A-B-A cancels pending and late departed frames [E]
+  Expected: <4>
+    Actual: <5>
+  A departed socket frame cannot refresh a replacement authority scope
+  
+  package:matcher                                          expect
+  package:flutter_test/src/widget_tester.dart 473:18       expect
+  test/shared/member_realtime_sdk_session_test.dart 395:9  main.<fn>
+  
+00:08 +2 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK account switch cancels pending and late departed frames
+00:09 +2 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK account switch cancels pending and late departed frames [E]
+  Expected: <4>
+    Actual: <5>
+  A departed socket frame cannot refresh a replacement authority scope
+  
+  package:matcher                                          expect
+  package:flutter_test/src/widget_tester.dart 473:18       expect
+  test/shared/member_realtime_sdk_session_test.dart 395:9  main.<fn>
+  
+00:09 +2 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK same-session token refresh preserves live channel and current writes
+00:10 +3 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK old in-flight refresh cannot republish old account/cache
+00:12 +3 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK old in-flight refresh cannot republish old account/cache [E]
+  Expected: <22>
+    Actual: <29>
+  The old pipeline must stop before its next scoped read
+  
+  package:matcher                                          expect
+  package:flutter_test/src/widget_tester.dart 473:18       expect
+  test/shared/member_realtime_sdk_session_test.dart 464:7  main.<fn>
+  
+00:12 +3 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK revoked read clears private cache and departed frames cannot restore it offline
+00:13 +4 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK logout cancels pending work and leaves no private cache
+00:15 +5 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK repository disposal cancels pending channel callbacks
+00:15 +5 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK repository disposal cancels pending channel callbacks [E]
+  Bad state: Tried to use CollectRepository after `dispose` was called.
+  
+  Consider checking `mounted`.
+  
+  package:state_notifier/state_notifier.dart 175:9          StateNotifier._debugIsMounted.<fn>
+  package:state_notifier/state_notifier.dart 182:6          StateNotifier._debugIsMounted
+  package:state_notifier/state_notifier.dart 197:12         StateNotifier.state
+  test/shared/member_realtime_sdk_session_test.dart 285:74  _Probe.until
+  
+00:15 +5 -5: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart
+00:18 +5 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: join and rejoin reconcile missed events once per connection
+00:18 +6 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: duplicate IDs and irrelevant areas cannot multiply refreshes
+00:18 +7 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: event bursts keep one read in flight and one trailing read
+00:18 +8 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: sustained events pause after two reads before a new window
+00:18 +9 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: permission revocation clears live and cached private data
+00:19 +10 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: profile for another account cannot restore the old cache
+00:19 +11 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: member catalogue removal replaces private state and cache
+00:19 +12 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/realtime_invalidation_recovery_test.dart: account switch drops the first owner before reloading
+00:25 +13 -5: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK account switch cancels pending and late departed frames
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK old in-flight refresh cannot republish old account/cache
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK replacement session cancels pending and late departed frames
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK repository disposal cancels pending channel callbacks
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/cache-session-2026-10-01/member-realtime-attempt2-prior-valid-fixture/source-export/test/shared/member_realtime_sdk_session_test.dart: actual member SDK same-user A-B-A cancels pending and late departed frames

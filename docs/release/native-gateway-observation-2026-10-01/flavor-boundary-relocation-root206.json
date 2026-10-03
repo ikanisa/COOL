@@ -1,0 +1,95 @@
+{
+  "scope": "Move privileged Gateway implementation and its JVM suite exclusively into the existing internal_gateway flavor. Customer/receiver/dev source sets retain no Gateway implementation. No new permissions or lint suppressions.",
+  "files": [
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt",
+      "sha256": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt",
+      "sha256": "5d7b8c730b33eef826d6edafafeae72b714128505f0757d4165c6b3c9be9cb9b"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt",
+      "sha256": "e8ceb5ec21dce5799c54e377099f686e4a27d7de3d56b64617136c5f2317efe6"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt",
+      "sha256": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt",
+      "sha256": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt",
+      "sha256": "02f62f6c2a8d6d53e06eccc1dfe9102e6078bf1a2b1e9f87146ac12e3b65a830"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt",
+      "sha256": "7a653e5788ceb07a8d40a7ee15ddd91f4950d8325126404ad7a59ba15bab2049"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt",
+      "sha256": "b8346512be48d74c548fe9b3982500b18d6ce62f9573f10e7d29aac1e983f150"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt",
+      "sha256": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+      "sha256": "a2c2604420b813a1ebd7230ac701e5e4f013b32a5227410412c4ad37beb96124"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt",
+      "sha256": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt",
+      "sha256": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt",
+      "sha256": "26803e969e4db45850279409b8d0df11afb6061f49431851729c960783a53788"
+    },
+    {
+      "old": "android/app/src/main/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+      "new": "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt",
+      "sha256": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3"
+    },
+    {
+      "old": "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+      "new": "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservationTest.kt",
+      "sha256": "d4fc5c1119eb4469e00c356b096b73f4e200fe9452f17dba2375063f727b794f"
+    },
+    {
+      "old": "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+      "new": "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt",
+      "sha256": "bc19473d193a4477aefeeff6b1da7a12965d1fd8ef402e199784d1f62d11fe0e"
+    },
+    {
+      "old": "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+      "new": "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransportTest.kt",
+      "sha256": "8766a45f24be6b0049d7677e03d3b08c4115e3c8021c38602957a9146085c236"
+    },
+    {
+      "old": "android/app/src/test/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+      "new": "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayWireTest.kt",
+      "sha256": "1b60c220e3a6e54615576c953ee77851217d451e67aa59df1b62add61433a0a8"
+    }
+  ]
+}

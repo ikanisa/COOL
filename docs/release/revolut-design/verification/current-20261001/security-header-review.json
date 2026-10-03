@@ -1,0 +1,85 @@
+{
+  "design_authority": "revolut-design",
+  "reviewed_at": "2026-10-01T18:03:54.664930+00:00",
+  "status": "focused_header_checks_and_pixel_review_pass",
+  "runtime": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/features/settings/settings_subscreens.dart",
+      "sha256": "889ca7475a5b363ba77db872cb81a549b7736d032bd531e916b35dfa0a46d644"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/lib/features/settings/security_hub_header.dart",
+      "sha256": "e1fa5306c59f8635092fb103a25db826bd7b7d416c84f91966cec400ec8256ec"
+    }
+  ],
+  "focused_test": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/test/features/security_hub_header_test.dart",
+    "sha256": "2770229723d9def98b37ec72b0f024ee682bcbdb55e28817cc60f1bbbd738cd9"
+  },
+  "test_execution": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/execution.json",
+    "sha256": "ebf564bedd72d92d4556e96a2ba8a075c09896503606d23c0d013fe59d61b114"
+  },
+  "test_log": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/test.stdout",
+    "sha256": "c2797a4383d2634c868a629069ae3cfe3da2a36986fca97be4d9fad2c9a92718"
+  },
+  "analyzer": {
+    "command": ".cache/flutter-sdk-isolated-asset-attempt23/bin/flutter analyze --no-pub lib/features/settings/security_hub_header.dart lib/features/settings/settings_subscreens.dart test/features/security_hub_header_test.dart",
+    "exit_code": 0,
+    "result": "No issues found (9.3s) from final saved source"
+  },
+  "source_references_inspected": [
+    {
+      "id": "DESK-015",
+      "name": "security-hub",
+      "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/user-desktop-20260905/Screenshot 2026-09-05 at 12.27.00.png",
+      "sha256": "8c19bf9862bc18267477db0fd0d7dc4156462b89adfdc419d0dad31d5cf8f76d",
+      "size": [
+        408,
+        857
+      ]
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/ChatGPT/Revolut/private/native-current-20260905/013-security-hub.jpg",
+      "sha256": "274df6617b36d555e1b1c21fd82b273aaba32674ecce216577bc5f111676ee5e",
+      "id": "LIVE-013",
+      "name": "security-hub",
+      "size": [
+        406,
+        890
+      ]
+    }
+  ],
+  "source_measurement": "DESK-015 repeated dot sample RGB43,67,66 from x35..350/y65..220; screenshot-derived sample, not an exported token.",
+  "adaptation": "Procedural wave, native Inter, Collect security content/actions. Light/high contrast use semantic canvas roles; narrow3.2x title wraps fully.",
+  "header_pixels_inspected": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/dark-320.0-3.2.png",
+      "sha256": "150ebf1f0a90224eb2e36b4c658e0b025b565351cafae7cf985d0e14855ae959"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/dark-390.0-1.0.png",
+      "sha256": "4eea62abc482016bb31a9b72286f9577841817feca4ec549ab47550ef1f28cbb"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/dark-390.0-3.2.png",
+      "sha256": "a5fc66f71662d252429b2935ff9dc88ed70cdfacd8ddde621b1f3a5fb741e889"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/light-320.0-3.2.png",
+      "sha256": "ce8b23955f719b6bbec724a2f9f6353104d2bd2e6c632fc22424bc102ad4b3b7"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/light-390.0-1.0.png",
+      "sha256": "925ef975cfa0f8c568c586ce38d9f4ea4cd171adadad0dfe6f7d380f8a1dc747"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/revolut-design-20260930/security-header-current/captures/light-390.0-3.2.png",
+      "sha256": "2f16ede606f881907db594606ffcb5f3c82a02bc130dec9fc7485597f301ce14"
+    }
+  ],
+  "checks": "Six light/dark\u00d7390@1.0,390@3.2,320@3.2: no render exception, full title bounds, heading semantics, Back48 target and actual callback.",
+  "material_findings": [],
+  "scope_limit": "Focused header; complete current Security route is separately checked by fresh matrix and installed native capture."
+}

@@ -1,0 +1,6 @@
+{
+  "before_sha256": "818f693a301485aad0be0f582f6d4a740839434a8fb03e68e440698eb9e55d5c",
+  "after_sha256": "eec7e43ab9706d9bee028bd83e2bd69269c75a377b139ca5d37729c9b0480d87",
+  "scope": "Only independent runtime config/detail provider authority fences and their explicit detail permission map. Prior 9 positive controls and 52 failing authority probes retained in attempt3.",
+  "sql_executed": false
+}

@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;delete from public.admin_role_permissions where permission_name='payments.read';set local role authenticated;select set_config('request.jwt.claims','{"sub": "99780000-0000-4000-8000-000000000001", "session_id": "99780000-0000-4000-8000-000000010001", "role": "authenticated", "aal": "aal1"}',true);select public.admin_get_receipt_operation_run_v1('7168565d-69e8-4415-aa47-c59123ecaa3e');rollback;

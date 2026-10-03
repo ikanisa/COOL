@@ -1,0 +1,9 @@
+{
+  "candidate_identical": true,
+  "inputs_sha256": {
+    "test/goldens/GOLDEN_MANIFEST.sha256": "602324d40471dcaff33a38c460d453522355c89d4d6d0c9734051c0f08c945ea",
+    "test/goldens/baselines/public_home_desktop.png": "42cdb1152ed2f6b392d2eb465cc7ada88de1b6e54eaa796fe757137a4636bbf4"
+  },
+  "only_two_publication_files_overlaid": true,
+  "other_twelve_baselines_not_changed": true
+}

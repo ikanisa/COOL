@@ -1,0 +1,8 @@
+{
+  "status": "completed_readback",
+  "actual_output_files": 475,
+  "actual_output_bytes": 14140477,
+  "actual_regressions": 212,
+  "independent_owned_cleanup": "pass",
+  "canonical_invocations": 1
+}

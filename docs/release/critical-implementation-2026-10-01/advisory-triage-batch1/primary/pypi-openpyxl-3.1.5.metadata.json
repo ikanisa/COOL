@@ -1,0 +1,19 @@
+{
+  "authentication": "none",
+  "headers": {
+    "Date": "Thu, 01 Oct 2026 21:22:51 GMT",
+    "content-type": "application/json",
+    "etag": "\"613m8pVlKAOjycMnKLblSQ\""
+  },
+  "method": "GET",
+  "request_sha256": null,
+  "request_url": "https://pypi.org/pypi/openpyxl/3.1.5/json",
+  "requested_at": "2026-10-01T21:22:50.716049+00:00",
+  "response_bytes": 4748,
+  "response_path": "primary/pypi-openpyxl-3.1.5.response",
+  "response_sha256": "6a922b57aebf0a54ec276b48bab917fa6684a5822e2d40a465972098d46be12e",
+  "response_url": "https://pypi.org/pypi/openpyxl/3.1.5/json",
+  "retrieved_at": "2026-10-01T21:22:51.277823+00:00",
+  "status": 200,
+  "tls_certificate_verification": "Python default trust store, hostname verification enabled"
+}

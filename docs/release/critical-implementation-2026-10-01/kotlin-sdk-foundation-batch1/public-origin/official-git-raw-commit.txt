@@ -1,0 +1,29 @@
+tree 0af5ce62e3cd8dc4f9441177c3f7db1b26f423fa
+parent db3d82ae7bea9c664fd6cd7526c3e67956e5ae48
+author walley892 <evanwall@buffalo.edu> 1782324426 -0700
+committer GitHub <noreply@github.com> 1782324426 +0000
+gpgsig -----BEGIN PGP SIGNATURE-----
+ 
+ wsFcBAABCAAQBQJqPBzKCRC1aQ7uu5UhlAAAb/oQABUgzulL0B2zO9FeGX7mkQOn
+ bHBVBzehTEfsArzzuLHa+XqBZ0wfDiiVVsRD8bshz5m8NM5XFiJWy0v3965fltvl
+ 8/8vdn8/pS17fRGkKDHGQvvn0M8ygJRNNxCEBWGmWeXAf/Xg5TkoQFztzuGZhebG
+ pktxL5LsRuImMOsnh1DJ0PoxGGkB/mUe60juqDJ317o0CqZ18cyzvd3JH43A4af1
+ XFsK1IWC0Kf0+bm+3NK7x/Ko7I1WKSSkKB4UR0zY7jtgY9zXmXKiy/JvHFR21Gpu
+ XIuUBKFZ6yzMvhDeTjNqKqNli/5TsMfHXZ4RE741V46/9ZftC8Kyw9QHTn5OAAdN
+ yd6paKo7iVZYfOfYKsshfD8B3vftqNNU51cDLwLOVFa+DCtaMDnM0Ert5Tkug3tK
+ lTaaiYPcPPEubnS1PTq9dagZ5cbnmxs477rbQglGSbvnPbqjXOsul2zYywLELsV2
+ NcQeZueGB2Wk5NjjwHOh73tZkk/Ox7AD8vJuM7lValyhNRaOCBh6p0dTca/FFaZj
+ cSnqxdbv5NxBG9OVD3uzncLwPhoxb7lQUmQ1k3U0kuTq3yHb49Qz5kMj34T0JXVP
+ GplOYTJ3SU9kY3NsNG+DLXPToxN/KgOdFHnu93UcXxm+Qb5Cyy1fOxRhvmGvRODH
+ 5FsskJUZJiEoiU4Cwv1H
+ =pK82
+ -----END PGP SIGNATURE-----
+ 
+
+update changelog for 3.44.4 (#188513)
+
+Updates the changelog for 3.44.4 stable hotfix.
+
+Includes https://github.com/flutter/flutter/pull/188460
+
+Excluded https://github.com/flutter/flutter/pull/188457 because it's an internal CI change

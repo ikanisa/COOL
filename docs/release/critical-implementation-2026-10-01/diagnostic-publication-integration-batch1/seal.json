@@ -1,0 +1,18 @@
+{
+  "sealed_at_utc": "2026-10-01T23:23:47.740791+00:00",
+  "files": {
+    "python-binding.log": "2f1b44a2886200abd0eca45c28dd509e5e84cc3aa6a0f59ad7aad7e8446f23a2",
+    "result.json": "f37fdeb26f135c666b46775d2d326f00b8a61860f3a80157333358422f261d51",
+    "ruby-browser-media.log": "e95fdef8ffe78ab4fc0b653817cb78fe6d0c3366f53fde34e8da3ca5570d7cbc",
+    "ruby-capability-denials.log": "39bc22e7122299ed68bb6724b069d2d970613675021dc099423044ffae6a4696",
+    "ci-policy-sources.log": "9f7360353f2892159c7a623b26deb42896c03bd15665ef3a5a5a01ce40e34c53",
+    "node-diagnostic-contracts.log": "6164dc3274c4b9fa2002079578566037c20223866091053966c1af94aba0de67",
+    "python-file-saver-provenance.log": "0919de1659578726f19776617daf5dfd146499569c64aa0dbb943a51d4178839",
+    "ci-policy-tests.log": "86538e9d33b91fa54d8308b4a75c2c6368772e47cf91e852ee8fb576d0a1efbf",
+    "ruby-native-provenance.log": "ac620f73953303b8155f49cabfa868c1b8906a64e0c56efa272f56f114754f48",
+    "node-bootstrap.log": "1ec51653f67f82baa416d8fb4a653bc7f92f0de5aec7e009a7980dba110a0af7",
+    "python-publisher.log": "c856748ef024ba2ae578cdc84ab8dfa23051f34462a1e6afd9101d8e10e3009b",
+    "python-preservation.log": "1411491edaa76314fdc5c8cac152264fe8c7bdc2ba94fae702dd5b819c1b5dfd"
+  },
+  "scope": "Bound local validator/CI integration tests only; fresh capture and full release acceptance separate."
+}

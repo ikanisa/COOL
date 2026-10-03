@@ -1,0 +1,3 @@
+# Maintained rehearsal enhancement
+
+The maintained ordinary-installer runner was extended to capture the complete unchanged recovery catalog at the 124-version predecessor and both 208-version final boundaries, bind catalog versions/query/hashes, and require full final catalog equality. Existing ordinary authority, financial data preservation, disabled scheduler, source and cleanup assertions remain. No application migration or catalog query was edited. Before copies, exact after runner and the 215-input candidate copy contract are retained. The separate execution packet contains the actual pass.

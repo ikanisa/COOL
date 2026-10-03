@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T00:15:13.251029+00:00",
+  "scope": "C12 Admin exceptions implementation",
+  "source_binding": {
+    "contracts/collect-admin-exception-action-v1.fixture.json": {
+      "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0",
+      "bytes": 356
+    },
+    "contracts/collect-admin-exception-action-v2.fixture.json": {
+      "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5",
+      "bytes": 632
+    },
+    "contracts/collect-admin-exception-v2.fixture.json": {
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b",
+      "bytes": 3702
+    },
+    "contracts/collect-admin-exception-v2.schema.json": {
+      "sha256": "41b28ba0b393f945cab31d4b1214a1e5006682a5e7045905b3e6e26c46f381bd",
+      "bytes": 7774
+    },
+    "lib/admin/admin_router.dart": {
+      "sha256": "909def7d8559b0bdaf8112efdad081e74473b88143a80c0d6971ef7ea5a9a7d4",
+      "bytes": 10301
+    },
+    "lib/admin/admin_shell.dart": {
+      "sha256": "7ce7e3c99ec6378d72b3d31582e03d188bb63ab3f750d0c77b4abc68d2dad2c2",
+      "bytes": 44179
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "sha256": "240fe3f69ff211f7d4228a1ab8eaccaee75874c9732c11bd1f6f508515a91e6c",
+      "bytes": 7422
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e",
+      "bytes": 1975
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a",
+      "bytes": 116
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df",
+      "bytes": 986
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1",
+      "bytes": 14940
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "sha256": "4ac2590fa31970ab89f6dfb0976aa138e640f971c1d07b690d10e7ecbe498ccd",
+      "bytes": 29407
+    },
+    "lib/admin/core/admin_exception_runtime.dart": {
+      "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2",
+      "bytes": 4007
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "sha256": "b2b947558aec6bd1393e2168c1e0fa3d110b2a8a31cb4d68f07bbc81b899f71f",
+      "bytes": 4293
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "sha256": "b4037e7586459a48c217b174386e68f53b946d541cdb536700d203c172c54b63",
+      "bytes": 35030
+    },
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": {
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b",
+      "bytes": 7090
+    },
+    "test/admin_exception_checkpoint_browser_test.dart": {
+      "sha256": "40af729ecc19d93ec9322c44a3f1eb258a4c6d898d2ef19b6595c3b9ec8f6641",
+      "bytes": 1543
+    },
+    "test/admin_exception_models_test.dart": {
+      "sha256": "e23babd7f5f2dd8a8e9e3c512e7a4b74fce0baa01b4424eedde8b886cf47710d",
+      "bytes": 9911
+    },
+    "test/admin_exception_page_test.dart": {
+      "sha256": "8747804976b839e05ae41f8361521c6ccb10d8ffb1f6adefaad1f8ee5b301f67",
+      "bytes": 27724
+    },
+    "test/admin_exception_repository_test.dart": {
+      "sha256": "0c91f453281951430c397d3df0bf3c303ec4129bc450eb875fe53e7ab2fc3540",
+      "bytes": 7518
+    },
+    "test/admin_exception_sdk_provider_state_test.dart": {
+      "sha256": "6f9ee018687088c43f0982b3e4d09823c0a43ccb85c0b9d6c0ce91a7cb958486",
+      "bytes": 15537
+    }
+  },
+  "shared_source_freeze": false,
+  "source05_contains_this_workflow": false,
+  "local_checks": {
+    "distinct_c12_cases": 71,
+    "model_cases": {
+      "passed": 33,
+      "log": "vm-tests-attempt1.log",
+      "note": "passed before later interrupted page failure"
+    },
+    "sdk_cases": {
+      "passed": 9,
+      "log": "vm-tests-attempt1.log"
+    },
+    "current_page_suite": {
+      "passed": 28,
+      "failed": 0,
+      "log": "page-tests-final.log"
+    },
+    "actual_browser_adapter": {
+      "passed": 1,
+      "failed": 0,
+      "log": "browser-checkpoint-tests.log",
+      "scope": "isolated Chrome for Testing sessionStorage; no hosted Auth or personal profile"
+    },
+    "existing_admin_regressions": {
+      "passed": 33,
+      "failed": 0,
+      "log": "current-admin-regressions.log"
+    },
+    "analysis": {
+      "files": 15,
+      "issues": 0,
+      "log": "analysis-current.log"
+    },
+    "sole_design_authority": {
+      "passed": true,
+      "log": "design-authority-current.log",
+      "certifies_visual_fidelity": false
+    }
+  },
+  "retained_failed_attempts": [
+    "vm-tests-attempt1.log",
+    "page-tests-attempt2.log",
+    "browser-checkpoint-attempt1.log",
+    "analysis-final.log"
+  ],
+  "captures": {
+    "files": [
+      "exceptions-dark-synthetic.png",
+      "exceptions-light-synthetic.png"
+    ],
+    "size": [
+      1440,
+      2200
+    ],
+    "source": "synthetic UI fixture using actual isolated SQL response",
+    "actual_logo_fonts": true,
+    "visually_inspected": true,
+    "authenticated_reference_compared": false,
+    "physical_device_evidence": false
+  },
+  "backend_evidence": {
+    "cases_passed": 87,
+    "packet": "../exception-reads-v2",
+    "source": "actual isolated synthetic-database SQL; selected publication byte-equal to cached tested source"
+  },
+  "production_accepted": false,
+  "design_fidelity_accepted": false,
+  "whole_collect_accepted": false,
+  "remaining": [
+    "exact later release candidate and build",
+    "hosted SQL/menu/current Auth readback",
+    "authenticated visual route/state comparators",
+    "browser keyboard and reader task acceptance",
+    "installed/platform/physical device evidence",
+    "controlled operational acceptance"
+  ]
+}

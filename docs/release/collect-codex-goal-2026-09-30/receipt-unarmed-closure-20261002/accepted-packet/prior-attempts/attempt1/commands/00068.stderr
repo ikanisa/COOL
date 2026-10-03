@@ -1,0 +1,2 @@
+NOTICE:  00000: function create_contribution_intent(uuid,pg_catalog.int8,text) does not exist, skipping
+LOCATION:  does_not_exist_skipping, dropcmds.c:523

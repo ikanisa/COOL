@@ -1,0 +1,10 @@
+supabase/functions/collect-receipt-supervisor/handler.ts(85,13): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(85,26): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(85,49): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(86,44): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(87,15): error TS18048: 'size' is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(88,15): error TS2532: Object is possibly 'undefined'.
+supabase/functions/collect-receipt-supervisor/handler.ts(89,56): error TS2532: Object is possibly 'undefined'.
+tools/collect-notification-mcp/src/supervisor_client.test.ts(36,16): error TS18046: 'result.result' is of type 'unknown'.
+tools/collect-notification-mcp/src/supervisor_client.test.ts(43,16): error TS2571: Object is of type 'unknown'.
+tools/collect-notification-mcp/src/supervisor_client.test.ts(88,18): error TS18046: 'response.result' is of type 'unknown'.

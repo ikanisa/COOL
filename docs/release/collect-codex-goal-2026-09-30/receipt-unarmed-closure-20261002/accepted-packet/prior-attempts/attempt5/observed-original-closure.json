@@ -1,0 +1,21 @@
+{
+  "scope": "rw_receipt_successors",
+  "action": "close_unarmed",
+  "outbox_id": "12f28d0d-6e96-41c5-a770-6bc2047064f8",
+  "closure_id": "39d4232c-7a67-471e-9575-b994f439de08",
+  "request_id": "e6bdbe11-5a3f-4bf0-9e45-05b8a28cbfe1",
+  "proof_class": "never_armed_closed",
+  "reason_code": "definitely_not_invoked",
+  "recorded_at": "2026-10-01T22:27:01.071231Z",
+  "send_action": false,
+  "proof_sha256": "6e51ad12573e0a72afc4795f7bd84971877d4781dec5073501e7173f25d905cb",
+  "carrier_proof": false,
+  "root_revision": 2,
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "lineage_revision": 2,
+  "expected_root_revision": 1,
+  "primary_receipt_retained": true,
+  "expected_lineage_revision": 1
+}

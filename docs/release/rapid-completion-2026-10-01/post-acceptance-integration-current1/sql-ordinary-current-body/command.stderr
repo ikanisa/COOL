@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-integration-current1/sql-ordinary-current-body/run-current-body.py", line 99, in <module>
+    if installed.returncode: raise RuntimeError('predecessor setup '+path+': '+installed.stderr[-3500:])
+RuntimeError: predecessor setup supabase/migrations/20261001000300_admin_exception_reads.sql: ERROR:  23503: insert or update on table "admin_navigation_items" violates foreign key constraint "admin_navigation_items_required_permission_fkey"
+DETAIL:  Key (required_permission)=(payments.read) is not present in table "admin_permissions".
+SCHEMA NAME:  public
+TABLE NAME:  admin_navigation_items
+CONSTRAINT NAME:  admin_navigation_items_required_permission_fkey
+LOCATION:  ri_ReportViolation, ri_triggers.c:2599
+

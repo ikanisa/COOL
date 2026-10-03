@@ -1,0 +1,341 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "json",
+    "test/admin_worker_cold_consumer_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app",
+  "started_at": "2026-10-02T01:14:04.413510+00:00",
+  "finished_at": "2026-10-02T01:14:08.002293+00:00",
+  "exit_code": 0,
+  "source_tool_dependency_fixture_inputs": 5835,
+  "all_inputs_unchanged": true,
+  "canonical_fixture_inputs": 466,
+  "canonical_fixture_unchanged": true,
+  "terminal": {
+    "success": true,
+    "type": "done",
+    "time": 2485
+  },
+  "cases": [
+    {
+      "test": {
+        "id": 3,
+        "name": "SDK health pre exact RPC parameters captured Bearer and actual SQL result",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 375,
+        "column": 7,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 4,
+        "name": "SDK health post exact RPC parameters captured Bearer and actual SQL result",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 375,
+        "column": 7,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 5,
+        "name": "SDK health exact observed55000 refuses one invocation without absence or retry",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 389,
+        "column": 5,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 6,
+        "name": "SDK pending reconstructed health read rejects departed session after response",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 412,
+        "column": 5,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 7,
+        "name": "Actual health card shows fresh reconstructed original evidence via repository",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 433,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 8,
+        "name": "Actual health card initial observed55000 stays unverified without private errors",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 446,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 9,
+        "name": "Actual health healthy to failed refresh clears stale evidence while pending and after55000",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 461,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 10,
+        "name": "Actual health pending reconstructed response cannot cross session departure",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 506,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 11,
+        "name": "SDK detail pre exact RPC parameters captured Bearer and actual SQL result",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 375,
+        "column": 7,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 12,
+        "name": "SDK detail post exact RPC parameters captured Bearer and actual SQL result",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 375,
+        "column": 7,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 13,
+        "name": "SDK detail exact observed55000 refuses one invocation without absence or retry",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 389,
+        "column": 5,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 14,
+        "name": "SDK pending reconstructed detail read rejects departed session after response",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 412,
+        "column": 5,
+        "url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 15,
+        "name": "Actual detail card shows fresh reconstructed original evidence via repository",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 433,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 16,
+        "name": "Actual detail card initial observed55000 stays unverified without private errors",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 446,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 17,
+        "name": "Actual detail healthy to failed refresh clears stale evidence while pending and after55000",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 461,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    },
+    {
+      "test": {
+        "id": 18,
+        "name": "Actual detail pending reconstructed response cannot cross session departure",
+        "suiteID": 0,
+        "groupIDs": [
+          2
+        ],
+        "metadata": {
+          "skip": false,
+          "skipReason": null
+        },
+        "line": 174,
+        "column": 5,
+        "url": "package:flutter_test/src/widget_tester.dart",
+        "root_line": 506,
+        "root_column": 5,
+        "root_url": "file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-worker-cold-consumer-20261002/validation-app/test/admin_worker_cold_consumer_test.dart"
+      },
+      "result": "success"
+    }
+  ],
+  "scope": "Actual current canonical Admin repository/provider/cards with exact SQL12 outputs via synthetic authenticated Supabase MockClient HTTP adapter; no hosted PostgREST/GoTrue acceptance",
+  "prior_model14_duplicated": false,
+  "production_source_changed": false,
+  "status": "passed"
+}

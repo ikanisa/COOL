@@ -1,0 +1,24 @@
+{
+  "baseline_update_count": 5,
+  "design_fidelity_or_owner_acceptance": false,
+  "elapsed_seconds": 22.51,
+  "exit_code": 0,
+  "machine_summary": {
+    "errors": 0,
+    "event_errors": [],
+    "failed": 0,
+    "failures": [],
+    "passed": 14,
+    "runner_completed_successfully": true,
+    "skipped": 0,
+    "unfinished": []
+  },
+  "parent_pre_review_sha256": "46ad4a99bc90bce5646cb6230fa4359f514607ac86eddfbc1456525c9e61dbdf",
+  "precision_tolerance_unchanged": 0.0005,
+  "root_baselines_published": false,
+  "scope": "Implementing-agent review of intentional product/layout changes and thirteen isolated regression captures; no native/design/store/production acceptance",
+  "source_drift": {},
+  "status": "pass",
+  "test_log_sha256": "84f4fc3eb8c7700f96c6910203ec9921ca4adbfa8c60a7b8469741ca76600cfc",
+  "unchanged_baseline_count": 8
+}

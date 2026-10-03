@@ -1,0 +1,60 @@
+{
+  "scope": "Read-only exact final diff applicability and two affected shell syntax checks; no source mutations or further tests",
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+        "apply",
+        "--check",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/integration.diff"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "bound_seconds": 15,
+      "elapsed_seconds": 0.025477292001596652,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "-n",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate5/scripts/supabase_cli_helpers.sh"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "bound_seconds": 15,
+      "elapsed_seconds": 0.006774374996894039,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "-n",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-pg-dump-restore-admission-preparation1/candidate5/scripts/supabase_logical_backup.sh"
+      ],
+      "env": {
+        "PATH": "/bin:/usr/bin",
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "bound_seconds": 15,
+      "elapsed_seconds": 0.00458329200046137,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "all_pass": true
+}

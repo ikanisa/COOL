@@ -1,0 +1,7 @@
+{
+  "status": "corrected_pending_sql_acceptance",
+  "previous_sha256": "966c43f38644f864e23c9d853a4b4cb1c59337808e08de6161a26f1be149a6c4",
+  "current_sha256": "c3ae5ed350da19b30158d9d13e51c5ae9c02256eb7b09f36b47ca5de02630a04",
+  "outer_statement_terminators_added": 4,
+  "function_body_changes_from_prior": false
+}

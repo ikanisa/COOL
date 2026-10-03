@@ -1,0 +1,48 @@
+{
+  "actual_seconds": 12.275,
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/test_preparation.py"
+  ],
+  "executed_preparation_source_SHA256_after": {
+    "apply_native_consumer_cumulative8.py": "aafa57dc4b6604326aa1d89a5069a4640a46a52eeb98b084d312cb7827ff9386",
+    "authenticated_native_consumer_expansion.py": "9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12",
+    "consumer_guards.py": "ad9392de41ece8e5ef505e6201c8f3a25faa3a3715e6a7336805bdae1bc97672",
+    "observe_native_consumer.init.gradle": "359c745502fd4f3159c26f01f4cbe35fe4c952cb4384bc75d034755f3ff17241",
+    "proposed-commands.json": "b09cc69f47c9e339d9cd43b57a0a008229c87990a54321f75d529cde0cd2fd18",
+    "publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "run_native_consumer.py": "235bdf67aabb30899c5173214c34bf5e4d1da82d238f39424aa4507e215aacea",
+    "test_preparation.py": "a3f4130adc9cd65db47e83fd6b305842e76f2bbb796f31ced08fd09927ab8c8b",
+    "verify_native_consumer_source.py": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+  },
+  "executed_preparation_source_SHA256_before": {
+    "apply_native_consumer_cumulative8.py": "aafa57dc4b6604326aa1d89a5069a4640a46a52eeb98b084d312cb7827ff9386",
+    "authenticated_native_consumer_expansion.py": "9296d04a6246de4d73e1c93f4f10f20d731eb352225230d1d444cb1f71ef4f12",
+    "consumer_guards.py": "ad9392de41ece8e5ef505e6201c8f3a25faa3a3715e6a7336805bdae1bc97672",
+    "observe_native_consumer.init.gradle": "359c745502fd4f3159c26f01f4cbe35fe4c952cb4384bc75d034755f3ff17241",
+    "proposed-commands.json": "b09cc69f47c9e339d9cd43b57a0a008229c87990a54321f75d529cde0cd2fd18",
+    "publisher_metadata.py": "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25",
+    "run_native_consumer.py": "235bdf67aabb30899c5173214c34bf5e4d1da82d238f39424aa4507e215aacea",
+    "test_preparation.py": "a3f4130adc9cd65db47e83fd6b305842e76f2bbb796f31ced08fd09927ab8c8b",
+    "verify_native_consumer_source.py": "f9306d4eef77f280df62f713087af0df4b28643501a7f6434bea40929ca61487"
+  },
+  "executed_preparation_source_unchanged": true,
+  "exit_code": 0,
+  "fixed_deadline_seconds": 180,
+  "protected_originals_after": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "protected_originals_before": {
+    "no_original_metadata_restoration_performed": true,
+    "protected_metadata_paths_unchanged": 68020
+  },
+  "python_executable": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+  "scope": "actual final local preparation negatives; no SDK/pub/Gradle/extraction invoked",
+  "started_utc": "2026-10-02T02:18:53.784871+00:00",
+  "stderr_SHA256": "e237eee51a200e761bf71b8a460ded525dbb547c5cdf695129c31f00d8947d24",
+  "stdout_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false
+}

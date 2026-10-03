@@ -1,0 +1,40 @@
+{
+  "status": "sealed_for_root_review",
+  "promotion_files": 21,
+  "actual_new_cases": 23,
+  "cases": {
+    "VM_SDK_models_controller_widgets_host": 21,
+    "actual_current_Chrome_checkpoint": 2
+  },
+  "analysis": {
+    "items": 14,
+    "result": "No issues found",
+    "exit_code": 0
+  },
+  "acceptance_result_sha256": "ce2041921ab694fb2c234c98e706fed5555e59b09a1efe1e8ed59d384f1db24c",
+  "analysis_result_sha256": "8f487bc25465bfd44d5579bba0798df894007b7b22b6266ff3f992f8c9cb06e7",
+  "browser_result_sha256": "67909da4333bd23c7ad5ab68bdeb55cc6dae5e8a0016d1e87aa9225554dd2755",
+  "same_final_VM_analysis_source": "da7363689197d428234ba06c34bcf4ce4cfef962fb499802297776c0e9b57cb7",
+  "same_final_VM_analysis_runtime": "d7801c71b2d581dd1966881e8991b2495f1a16ea328e05bd9e8e9e4676d57354",
+  "dependencies": {
+    "entries": 1464,
+    "vector": "d10185d12ebbfc8df9e166dc84e1407450d850f88c127eb8ccd931301777d517",
+    "current_browser_reuse": "browser-reuse-association.json"
+  },
+  "runtime_files": 694,
+  "actual_consumed_Dart_files": 192,
+  "canonical_bindings_checked_before_after": 667,
+  "canonical_drift": false,
+  "failure_retention": "Raw prior commands/source copies/results retained, including incomplete exit0 interrupted run. No superseded or partial case counts added.",
+  "fixture_producers": "integration/FIXTURE_PRODUCERS.json",
+  "integration_note": "integration/ROOT_INTEGRATION.md",
+  "scope": "Admin closure/exact immutable approval/revocation/history/original-request recovery, bound actual repository no-retry adapter. Root owns canonical investigation hook.",
+  "no_execution_authority": true,
+  "selected_design_authority_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "rendered_artifact": "proof-artifacts/receipt-review-1440.png",
+  "visual_limits": "Actual local Inter/geometry capture and named heading/key/2x compact states. Material icon font substitution in widget harness remains; authenticated comparator/reader/full route acceptance unverified. Root runs make authority after promotion.",
+  "hosted": false,
+  "device": false,
+  "SMS": false,
+  "production_release": "not_accepted"
+}

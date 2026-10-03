@@ -280,7 +280,7 @@ page:
   - id: closing-or-deleting
     heading: 17. Closing or deleting your account
     request_channels:
-    - In the app under Settings → Privacy and Security → Delete Account
+    - In the app under Settings → Security → Delete data
     - Online at /account-deletion
     - By contacting info@ikanisa.com
     before_deletion_you_may_need_to:
@@ -349,7 +349,7 @@ page:
     links:
       privacy_policy: /privacy
       account_deletion: /account-deletion
-      cookie_policy: /cookies
+      cookie_policy: /privacy/#cookies
   - id: complaints
     heading: 23. Complaints
     details:

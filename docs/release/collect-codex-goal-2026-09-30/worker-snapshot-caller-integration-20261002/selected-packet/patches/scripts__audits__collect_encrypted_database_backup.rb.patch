@@ -1,0 +1,135 @@
+--- a/scripts/audits/collect_encrypted_database_backup.rb
++++ b/scripts/audits/collect_encrypted_database_backup.rb
+@@ -3,6 +3,8 @@
+ # is the explicitly approved single-IP network rule, removed in ensure.
+ require_relative 'collect_backup_network_probe'
+ require_relative 'collect_recovery_source'
++require_relative 'collect_receipt_worker_snapshot'
++require 'rbconfig'
+ require 'open3'
+ require 'digest'
+ require 'securerandom'
+@@ -113,7 +115,12 @@
+     options = CollectRecoverySource.options(ARGV, :backup)
+     source_contract = CollectRecoverySource.selected_contract(options)
+     source_query = source_contract && CollectRecoverySource.query(source_contract)
+-  rescue CollectRecoverySource::Error
++    worker_snapshot = options['--worker-snapshot'] == true
++    if worker_snapshot
++      worker_migration_path = File.join(CollectBackupNetworkProbe::ROOT, 'supabase/migrations/20261002070000_receipt_worker_history_storage.sql')
++      CollectReceiptWorkerSnapshot.api_contract!(source_contract, File.binread(worker_migration_path))
++    end
++  rescue CollectRecoverySource::Error, CollectReceiptWorkerSnapshot::Error, SystemCallError
+     abort('Backup source preflight refused; supply valid arguments and a matching contract path/hash before credentials.')
+   end
+   roles_only = options['--roles-only'] == true
+@@ -139,11 +146,12 @@
+       'Recovery key remains in this Mac Keychain; independent key escrow still needed'] }
+   if source_contract
+     report[:source_contract] = CollectRecoverySource.association(source_contract, options.fetch('--source-contract-sha256'))
+-    report[:limitations] << 'Before/after catalog observations are separate snapshots; pg_dump provides its own data snapshot'
++    report[:limitations] << (worker_snapshot ? 'Worker inventories and full pg_dump use one exported MVCC snapshot; sequences and global-role export remain separate observations; durable inactive overlay absent' : 'Before/after catalog observations are separate snapshots; pg_dump provides its own data snapshot')
+   end
+   mounted = false
+   may_have_added_rule = false
+   original = nil
++  snapshot_clients = []
+   begin
+     project = api(token, '')
+     raise 'Authenticated project mismatch' unless project['id'] == REF && project['name'] == 'COOL' && project['status'] == 'ACTIVE_HEALTHY'
+@@ -206,20 +214,43 @@
+       raise 'Unexpected historical source migration state' unless report[:source_check]['database'] == 'postgres' && report[:source_check]['migrations'] == 97
+     end
+     puts 'Read-only production database connection verified; starting logical capture.'
+-    if roles_only
+-      out, err, status = command(*common, '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
+-        'pg_dumpall', '-w', '-h', host, '-p', '5432', '-U', user, '-l', 'postgres',
+-        '--roles-only', '--no-role-passwords', input: client_input)
++    archive = File.join(mount, roles_only ? 'roles.sql' : 'database.dump')
++    if worker_snapshot
++      snapshot_clients = ["collect-snapshot-holder-#{SecureRandom.hex(8)}", "collect-snapshot-dump-#{SecureRandom.hex(8)}"]
++      docker_binary = ENV.fetch('PATH').split(File::PATH_SEPARATOR).map { |d| File.join(d, 'docker') }.find { |p| File.file?(p) && File.executable?(p) }
++      raise 'Snapshot Docker executable unavailable' unless docker_binary
++      tools = { 'image'=>IMAGE, 'ruby_version'=>RUBY_DESCRIPTION, 'docker_version'=>command(docker_binary, '--version').first.strip }
++      %w[psql pg_dump].each do |tool|
++        version, _, state = command(docker_binary, 'run', '--rm', '--read-only', '--network', 'none', '--entrypoint', tool, IMAGE, '--version')
++        raise 'Snapshot PostgreSQL tool observation failed' unless state.success? && version.match?(/PostgreSQL\) 17\./)
++        tools[tool + '_version'] = version.strip
++      end
++      source_bindings = CollectReceiptWorkerSnapshot.bindings([__FILE__, worker_migration_path,
++        CollectRecoverySource::QUERY_PATH, File.join(__dir__, 'collect_recovery_source.rb'),
++        File.join(__dir__, 'collect_backup_network_probe.rb'), RbConfig.ruby, docker_binary])
++      holder = common + ['--name', snapshot_clients[0], '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
++        'psql', *connect, '-XqAt', '-v', 'ON_ERROR_STOP=1']
++      dumper = common + ['--name', snapshot_clients[1], '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
++        'pg_dump', *connect, '--format=custom', '--lock-wait-timeout=10s']
++      snapshot_draft = CollectReceiptWorkerSnapshot.capture(argv: holder, input: client_input, dump_argv: dumper,
++        directory: mount, document: source_contract, contract_sha256: options.fetch('--source-contract-sha256'),
++        catalog_query: source_query, source_bindings: source_bindings, tools: tools)
+     else
+-      out, err, status = command(*common, '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
+-        'pg_dump', *connect, '--format=custom', '--lock-wait-timeout=10s', input: client_input)
+-    end
+-    private_write(File.join(mount, 'pg-dump.log'), err)
+-    raise failure_class(err) unless status.success?
+-    archive = File.join(mount, roles_only ? 'roles.sql' : 'database.dump')
+-    raise 'Role export unexpectedly contains password clauses' if roles_only && out.match?(/\bPASSWORD\s+(?:'|NULL)/i)
+-    private_write(archive, out)
+-    out.clear
++      if roles_only
++        out, err, status = command(*common, '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
++          'pg_dumpall', '-w', '-h', host, '-p', '5432', '-U', user, '-l', 'postgres',
++          '--roles-only', '--no-role-passwords', input: client_input)
++      else
++        out, err, status = command(*common, '--entrypoint', 'sh', IMAGE, '-c', CLIENT_BOOTSTRAP, 'sh',
++          'pg_dump', *connect, '--format=custom', '--lock-wait-timeout=10s', input: client_input)
++      end
++      private_write(File.join(mount, 'pg-dump.log'), err)
++      raise failure_class(err) unless status.success?
++      archive = File.join(mount, roles_only ? 'roles.sql' : 'database.dump')
++      raise 'Role export unexpectedly contains password clauses' if roles_only && out.match?(/\bPASSWORD\s+(?:'|NULL)/i)
++      private_write(archive, out)
++      out.clear
++    end
+     report[:archive] = { bytes: File.size(archive), sha256: Digest::SHA256.file(archive).hexdigest }
+     raise 'Empty database archive' unless report[:archive][:bytes] > 1024
+     if roles_only
+@@ -252,6 +283,9 @@
+       private_write(File.join(mount, 'source-catalog-after.json'), out)
+       report[:source_catalog_after_matches] = true
+     end
++    if worker_snapshot
++      report[:worker_snapshot] = CollectReceiptWorkerSnapshot.finalize(snapshot_draft, mount, source_contract, options.fetch('--source-contract-sha256'))
++    end
+     client_input.clear
+     report[:cleanup][:credential_tmpfs_destroyed_with_clients] = true
+     vault('detach', identifier)
+@@ -260,6 +294,10 @@
+     mounted = true
+     raise 'Archive differs after encrypted-volume remount' unless Digest::SHA256.file(archive).hexdigest == report[:archive][:sha256]
+     report[:archive][:hash_verified_after_remount] = true
++    if worker_snapshot
++      CollectReceiptWorkerSnapshot.load(mount, JSON.parse(JSON.generate(report)), source_contract, options.fetch('--source-contract-sha256'))
++      report[:worker_snapshot_verified_after_remount] = true
++    end
+     report[:result] = 'DATABASE_ARCHIVE_CAPTURED_NOT_FULL_RECOVERY_ACCEPTANCE'
+     puts 'Logical capture verified after encrypted read-only remount.'
+   rescue StandardError => error
+@@ -268,6 +306,17 @@
+     report[:error] = error.message.gsub(token, '[redacted]').gsub(source.password.to_s, '[redacted]')
+     puts "Backup attempt stopped: #{report[:error]}"
+   ensure
++    begin
++      snapshot_clients.each do |name|
++        command('docker', 'rm', '--force', name)
++        _, _, state = command('docker', 'inspect', name)
++        report[:cleanup][:snapshot_clients_removed] = false if state.success?
++      end
++      report[:cleanup][:snapshot_clients_removed] = true if !snapshot_clients.empty? && !report[:cleanup].key?(:snapshot_clients_removed)
++    rescue StandardError
++      report[:cleanup][:snapshot_clients_removed] = false
++    end
++    report[:result] = 'FAILED_NO_MIGRATIONS_APPLIED' if report[:cleanup][:snapshot_clients_removed] == false
+     begin
+       if may_have_added_rule
+         current = configuration(wait_network(token))

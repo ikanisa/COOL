@@ -1,0 +1,1 @@
+{"artifact_bytes_match_receipt":true,"artifact_mismatches":[],"corrected_serialization":"sorted keys, compact separators, trailing newline","reason":"checker_used_indented_json_instead_of_reviewed_compact_canonical_serialization","status":"incomplete"}

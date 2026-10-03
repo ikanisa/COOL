@@ -1,0 +1,5 @@
+{
+  "path": "scripts/tests/current_ordinary_installer_rehearsal.py",
+  "sha256": "5e38203f3a41672f03d3ab45b0cc0b6a54a6f45b4d221af8d42d14d21875cec7",
+  "scope": "Preserved runner before narrow platform extension owner correction; no runtime source mutation"
+}

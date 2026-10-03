@@ -1,0 +1,46 @@
+{
+  "kind": "private_unexecuted_lint32_targeted_resolution_preparation",
+  "payload_files": [
+    {
+      "bytes": 8083,
+      "path": "README.md",
+      "sha256": "b585495839b5bb5adc1863321699c9e223abd6f4b2a5ab841da2e0b3a1abc935"
+    },
+    {
+      "bytes": 1929,
+      "path": "commands.json",
+      "sha256": "f8d90fbbc3099663feeb60d7f1cc6fa09d64a2f65e7ccd8ce6832953762b190d"
+    },
+    {
+      "bytes": 8090,
+      "path": "minimal-project/build.gradle",
+      "sha256": "de993774633b4770eddf69850aa24e3f36a69b553ff5784b07563b03f6ba9e1e"
+    },
+    {
+      "bytes": 390,
+      "path": "minimal-project/settings.gradle",
+      "sha256": "b83d9d890e119c15217f34534746a28bb8470935d54c97eb2b8ae5fec5857105"
+    },
+    {
+      "bytes": 16093,
+      "path": "read_publisher_provenance.py",
+      "sha256": "0e9f4ad268cd2faf5d3b427fee1a0fcdf596d9bd47837f4ed293873bebea81ae"
+    },
+    {
+      "bytes": 8462,
+      "path": "run_resolution.py",
+      "sha256": "7aacec28779a0c94302be789803958ae3d2ae28679c3ed4516131b93e9f719c3"
+    },
+    {
+      "bytes": 7935,
+      "path": "source-fences.json",
+      "sha256": "5aea3cf743b22c73a1c5cae4103c9fe8dbcf891e1a2ab99dd9fd6d843c9ecf25"
+    },
+    {
+      "bytes": 973,
+      "path": "static-readback.json",
+      "sha256": "02509347ae6039cd519a9c96e604d760ab1d83ef80bc5b8cc770efdebad4b728"
+    }
+  ],
+  "schema_version": 1
+}

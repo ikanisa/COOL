@@ -1,0 +1,5 @@
+{
+  "before_sha256": "90249cc5f74991dc65b06b5d3add89d59f50208e60bd6ff09d6e883edcd6db1f",
+  "after_sha256": "fb3c06daa5e3d430911c4b32c3793298f6725c2d321bb7b5f5848ad93eb9e804",
+  "scope": "Only current fixture SDK listener/future creation in one real loop; prior12 bounded stuck first widget retained. No policy semantics changed."
+}

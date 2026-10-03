@@ -1,0 +1,366 @@
+{
+  "scope": "synthetic_recovery_source_catalog_and_dump_roundtrip",
+  "hosted_changes": false,
+  "credentials_read": false,
+  "production_vault_opened": false,
+  "candidate_replay": false,
+  "image": "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a",
+  "source_bindings": {
+    "scripts/audits/collect_recovery_source.rb": "b2bf30b8fed163d28ea66ea63f43814c7f5e87325fa70497152d23cc19d6215c",
+    "scripts/sql/collect_recovery_source_catalog.sql": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+    "scripts/audits/collect_encrypted_database_backup.rb": "0e2e9e6b00481f8ec1071c2705178e15ebe45cb513fdd312e359a69b201ec8f1",
+    "scripts/tests/production_archive_restore.rb": "4803d40aa5380a54a7b0d1988f5085207d192de5ef522e29056b9cb0a66e59ec",
+    "scripts/tests/collect_recovery_source_test.rb": "cb6a40d2db1c029dec6d7bfc2506cc91b53a1be5c1b52982ce65aaab5e748839",
+    "scripts/tests/collect_encrypted_database_backup_test.rb": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6",
+    "scripts/tests/production_archive_restore_test.rb": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a",
+    "scripts/tests/collect_recovery_source_catalog_uat.rb": "c034fdd95319e6ed06c07d0cebce51ea6537f441a7ff1f347d0ad973da2dfb41"
+  },
+  "cases": [
+    "source_network_none_tmpfs_no_ports",
+    "restore_network_none_tmpfs_no_ports",
+    "actual_postgresql17_catalog_query_and_closed_shapes",
+    "all_application_schemas_including_worker_seen",
+    "body_default_configuration_values_are_hashed",
+    "repeat_read_catalog_is_stable",
+    "business_row_changes_do_not_masquerade_as_schema_identity",
+    "table_acl_drift_refused"
+  ],
+  "commands": [
+    {
+      "index": 1,
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 2,
+      "argv": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "collect-catalog-source-86496d1c3e",
+        "--label",
+        "collect.recovery=catalog-86496d1c3e",
+        "--network",
+        "none",
+        "--read-only",
+        "--cap-drop=ALL",
+        "--security-opt=no-new-privileges",
+        "--memory",
+        "512m",
+        "--memory-swap",
+        "512m",
+        "--user",
+        "101:102",
+        "--tmpfs",
+        "/run/collect:rw,noexec,nosuid,size=256m,mode=0700,uid=101,gid=102",
+        "--tmpfs",
+        "/tmp:rw,noexec,nosuid,size=32m,mode=1777",
+        "--entrypoint",
+        "sh",
+        "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a",
+        "-c",
+        "set -eu\ninitdb -D /run/collect/data -U supabase_admin --auth-local=trust --auth-host=reject --no-instructions \\\n  --encoding=UTF8 --locale-provider=icu --icu-locale=en-US --locale=en_US.UTF-8\nexec postgres -D /run/collect/data -c listen_addresses='' -c unix_socket_directories=/run/collect \\\n  -c log_statement=none -c log_min_error_statement=panic -c log_error_verbosity=terse\n"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 3,
+      "argv": [
+        "docker",
+        "inspect",
+        "collect-catalog-source-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 4,
+      "argv": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "collect-catalog-restore-86496d1c3e",
+        "--label",
+        "collect.recovery=catalog-86496d1c3e",
+        "--network",
+        "none",
+        "--read-only",
+        "--cap-drop=ALL",
+        "--security-opt=no-new-privileges",
+        "--memory",
+        "512m",
+        "--memory-swap",
+        "512m",
+        "--user",
+        "101:102",
+        "--tmpfs",
+        "/run/collect:rw,noexec,nosuid,size=256m,mode=0700,uid=101,gid=102",
+        "--tmpfs",
+        "/tmp:rw,noexec,nosuid,size=32m,mode=1777",
+        "--entrypoint",
+        "sh",
+        "sha256:3f8ad1de081c241b0ed59468590ed789453f352daeff3bc4dff2b169b3bbf43a",
+        "-c",
+        "set -eu\ninitdb -D /run/collect/data -U supabase_admin --auth-local=trust --auth-host=reject --no-instructions \\\n  --encoding=UTF8 --locale-provider=icu --icu-locale=en-US --locale=en_US.UTF-8\nexec postgres -D /run/collect/data -c listen_addresses='' -c unix_socket_directories=/run/collect \\\n  -c log_statement=none -c log_min_error_statement=panic -c log_error_verbosity=terse\n"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 5,
+      "argv": [
+        "docker",
+        "inspect",
+        "collect-catalog-restore-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 6,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "b549e97e85bbc4c23266ee9c66d172f13cb66a0256ddbcfd8f11275542744477",
+      "exit_code": 0
+    },
+    {
+      "index": 7,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+      "exit_code": 0
+    },
+    {
+      "index": 8,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+      "exit_code": 0
+    },
+    {
+      "index": 9,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "1d99072db6f18dfd913254583100fcc026ab1578f67f1bde817dcdc86350e98c",
+      "exit_code": 0
+    },
+    {
+      "index": 10,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+      "exit_code": 0
+    },
+    {
+      "index": 11,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "a277760e3a06f53573265413f5144b675e2fa766b1fa83a9692a9528de3cd3f9",
+      "exit_code": 0
+    },
+    {
+      "index": 12,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+      "exit_code": 0
+    },
+    {
+      "index": 13,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "025f333f0c47a6a6df719364bdc75db660d0a6b86e52e10efdf51951a1abc24e",
+      "exit_code": 0
+    },
+    {
+      "index": 14,
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "collect-catalog-source-86496d1c3e",
+        "psql",
+        "-XqAt",
+        "-h",
+        "/run/collect",
+        "-U",
+        "supabase_admin",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "stdin_sha256": "31adc7e73e5a9be1ccda7ae60de20275c1a41ca7b3f178488e6d88e1ffbd0613",
+      "exit_code": 0
+    },
+    {
+      "index": 15,
+      "argv": [
+        "docker",
+        "inspect",
+        "collect-catalog-restore-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 16,
+      "argv": [
+        "docker",
+        "rm",
+        "-f",
+        "collect-catalog-restore-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 17,
+      "argv": [
+        "docker",
+        "inspect",
+        "collect-catalog-source-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "index": 18,
+      "argv": [
+        "docker",
+        "rm",
+        "-f",
+        "collect-catalog-source-86496d1c3e"
+      ],
+      "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    }
+  ],
+  "cleanup": {
+    "collect-catalog-restore-86496d1c3e": "removed",
+    "collect-catalog-source-86496d1c3e": "removed"
+  },
+  "result": "FAILED",
+  "error": "Observed recovery source catalog differs from contract"
+}

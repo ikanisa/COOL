@@ -1,0 +1,47 @@
+{
+  "bytecode_observation": "javap -c -p com.android.build.gradle.ProguardFiles showed getDefaultProguardFileDir immediately calling DirectoryProperty.get() and Directory.getAsFile(); read-only inspection only.",
+  "failure": "AAB7 missing concrete ProGuard configuration path, not missing class analysis.",
+  "failure_stderr": {
+    "path": "docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation7/production-release-aab.stderr",
+    "sha256": "3dd1d1682f9c1ecc455aa01163dd6a76ac4c5235bc4716e2c24114622941558b"
+  },
+  "generated_default_file_observed": {
+    "bytes": 3201,
+    "device": 16777232,
+    "inode": 60461534,
+    "mode": 420,
+    "mtime_ns": 1790948497730509495,
+    "nlink": 1,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/native-build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+    "sha256": "0c2037f6eca949ee82dad4ade741ad1e3fcb7a5d98e4b31d08be89b26cf0d7d0"
+  },
+  "inference": "Flutter plugin application captures the old app directory before the module-level override, while the extractor later uses the relocated app directory.",
+  "pinned_agp_jar": {
+    "bytes": 12504360,
+    "device": 16777232,
+    "inode": 60171938,
+    "mode": 420,
+    "mtime_ns": 1790930225365985417,
+    "nlink": 1,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.0.1/deed1c3dbd07acda9c98008cffe1fa8c03348fcd/gradle-9.0.1.jar",
+    "sha256": "b212aa992a9a2ff4c374ba323e8d49d113f2c55ce1dbc153d3a6f38f18ff3086"
+  },
+  "pinned_flutter_plugin_source": {
+    "bytes": 41140,
+    "device": 16777232,
+    "inode": 58786216,
+    "lines": "213-225",
+    "mode": 420,
+    "mtime_ns": 1790908559986587247,
+    "nlink": 1,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt",
+    "sha256": "f8fc0e97adf2c492ed519bee5fb2b6cc2d00e6ff8ccd42a78f6ba506cac5fa80"
+  },
+  "primary_sources": [
+    "https://github.com/flutter/flutter/blob/3.44.4/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt#L213-L225",
+    "https://developer.android.com/topic/performance/app-optimization/keep-rules-overview"
+  ],
+  "schema_version": 1,
+  "stale_expected_path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/app-source/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1",
+  "stale_path_absent_when_inspected": true
+}

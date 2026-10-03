@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "kind": "unchanged_actual_pixel_readback_resolves_tall_image_interpretation",
+  "initial_apparent_findings": [
+    "Group-detail navigation capsule appeared empty",
+    "Groups navigation appeared to omit Activity/Profile",
+    "Terms appeared to omit initial Collect word"
+  ],
+  "corrected_observation": "The actual unmodified PNG pixels contain complete Home/Groups/Activity/Profile navigation, Terms Back arrow and Collect helps groups organize. Direct viewing of lossless unchanged source regions confirms those glyphs. All seven full images are byte-identical to directly reviewed prior current Inter images. No source, font or browser settling correction is supported.",
+  "foreground_pixel_readback_sha256": "55dd267aa8053d1dcd500f89958e304479fa6b88eee1646d28869c3c3667f8be",
+  "lossless_region_receipt_sha256": "be529943fbf35bdc7f403b193a5f365df8cbc3a25488bba6c8aca9da5e392e23",
+  "historical_same_interpretation_diagnosis": "docs/release/asset-build-hygiene-2026-09-30/public-paint-diagnostic-attempt47/visual-diagnosis.json",
+  "published_image_pixels_edited": false,
+  "extra_capture_runs": 0,
+  "reviewed_at": "2026-10-01T13:16:14.706556+00:00"
+}

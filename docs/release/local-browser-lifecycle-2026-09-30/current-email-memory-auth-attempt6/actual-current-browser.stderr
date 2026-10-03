@@ -1,0 +1,18 @@
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('textbox', { name: 'OTP code', exact: true })
+    - locator resolved to <input disabled type="text" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="OTP code" data-semantics-role="text-field" aria-description="Six digit email one-time password for admin sign-in."/>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+

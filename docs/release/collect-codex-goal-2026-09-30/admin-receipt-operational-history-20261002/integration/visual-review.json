@@ -1,0 +1,59 @@
+{
+  "frames": {
+    "run-1440-dark.png": {
+      "sha256": "5fdfdddfc5ccc4c304a66be93a46dfb57021f73254e7f95da2507d045f7deecf",
+      "width": 1440,
+      "height": 1200,
+      "inspected_current_final_frame": true
+    },
+    "run-1440-light.png": {
+      "sha256": "60fa6e71183d1508b71dc226ba72052f69c28868a4028deec7183d2f91d0d90c",
+      "width": 1440,
+      "height": 1200,
+      "inspected_current_final_frame": true
+    },
+    "run-390-dark.png": {
+      "sha256": "68a8de5c17effadeac62a89646d47e682a4c5b426113909628d3cf8bb59d3a49",
+      "width": 390,
+      "height": 1200,
+      "inspected_current_final_frame": false
+    },
+    "run-390-light.png": {
+      "sha256": "f94bdc58efc533dfe09460d6bcd3c76ceb55dc44aa47522e44e095487ec4c8d6",
+      "width": 390,
+      "height": 1200,
+      "inspected_current_final_frame": false
+    },
+    "usage-1440-dark.png": {
+      "sha256": "cb3a6d840d7899a414472b9543bbf118943a442da3be1b22440bb9be034116b3",
+      "width": 1440,
+      "height": 1200,
+      "inspected_current_final_frame": false
+    },
+    "usage-1440-light.png": {
+      "sha256": "fc8c5a99d5e2699636f1324ca9387beb616a2cda00b18462150468dfebf01a3a",
+      "width": 1440,
+      "height": 1200,
+      "inspected_current_final_frame": false
+    },
+    "usage-390-dark.png": {
+      "sha256": "df86f4b7ddc57b8ef41944173936a725136516819489c3f87b71a515af3380f0",
+      "width": 390,
+      "height": 1200,
+      "inspected_current_final_frame": true
+    },
+    "usage-390-light.png": {
+      "sha256": "2d192619ebd58a94fa8bddb01d7b98ab2ba4abcc2eee9d875c8b622c1fc6350a",
+      "width": 390,
+      "height": 1200,
+      "inspected_current_final_frame": true
+    }
+  },
+  "scope": "Four inspected final frames; eight actual captures from four passing render cases. Remaining route/state/comparator/reader acceptance open. Dense text presentation remains a visual difference.",
+  "reference": {
+    "path": "/Users/jeanbosco/Documents/ChatGPT/Revolut/private/qa/source-mac-20260906/analytics-desktop-photo.png",
+    "sha256": "a9fbb5ec32edc96ce77883ee5e98f887dfdca1352175a8b21c8d56d8e89be087",
+    "cohort": "Static Business/dashboard pattern reference inspected in preceding root review; no exact authenticated route comparator claim",
+    "artwork_copied": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "SDK_executed": false,
+  "candidate_and_gradle_home_absent": true,
+  "candidate_promoted": false,
+  "next_command_sha256": "a1caea5efe1886f2740e76c61b85e8dbec6a895ee60243aeddbaee7ba011176d",
+  "observer_sha256": "434a2ca92144d95a0bad5de9ec3ec4326512a952c5d408b72855c49f5b1342d7",
+  "packet_leaf_files": 10,
+  "packet_manifest_sha256": "1a788b56e4c61299f1981bdc83dff5201f8d742880c987f0f8c49dd22c06f551",
+  "production_release_approval": false,
+  "recorded_utc": "2026-10-02T00:47:12.544728+00:00",
+  "source_patch_applied": false,
+  "source_validator_sha256": "5687aebd2da236a794a392893bacd738c936f05b6f1896f079047a668ff488d7",
+  "status": "CANDIDATE_WRITER_RUNTIME_SOURCE_PREPARATION_FROZEN__NO_WRITES_OR_SDK_EXECUTION",
+  "writer_sha256": "c8feb963d8e7cd361c4f4d2790c03ffa01ee3f14c6e64f8f26fd1389a0e3b432"
+}

@@ -1,0 +1,37 @@
+{
+  "actual_deadline_seconds": 2700,
+  "argv": [
+    "bash",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/android/gradlew",
+    "-p",
+    "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle",
+    "--no-daemon",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-I",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate-preparation-batch1/observe-candidate-runtime.init.gradle",
+    "--rerun-tasks",
+    "compileKotlin",
+    "compileTestKotlin",
+    "validatePlugins",
+    "test",
+    "jar",
+    "collectSdkRuntimeGraph"
+  ],
+  "cwd": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1/packages/flutter_tools/gradle",
+  "environment_overrides": {
+    "GRADLE_USER_HOME": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1",
+    "JAVA_HOME": "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+  },
+  "exact_frozen_command_sha256": "a1caea5efe1886f2740e76c61b85e8dbec6a895ee60243aeddbaee7ba011176d",
+  "new_source_dependency_or_argv_deltas": false,
+  "previous_explicit_cancellation_sha256": "caa1cb8060f1e278fbb2c4e680e3dd227250a2a31e87d09679361f654f7805e5",
+  "raw_publisher_zip_copy_receipt_sha256": "d12cd5ee666b557b1056dd4f681e6b572f265bc81612a477900cbcf9e85b9ac0",
+  "recorded_utc": "2026-10-02T01:04:46.128543+00:00",
+  "runner_sha256": "db9d1aeee239c3241b48e1c08dcb69b804d9fce778196ab3d63156e30691a5b1",
+  "shared_extracted_or_module_caches_copied": false,
+  "unchanged_stage_runner_sha256": "7e2cefbaaed856764e893d715984a7c1b0089e13eb878a366855f800b352b349"
+}

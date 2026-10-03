@@ -1,0 +1,26 @@
+--- scripts/tests/admin_receipt_operational_telemetry_test.dart
++++ scripts/tests/admin_receipt_operational_telemetry_test.dart
+@@ -1,9 +1,9 @@
+ import 'dart:convert';
+ import 'dart:io';
+ 
+-import '../../lib/admin/core/admin_exception_models.dart';
+-import '../../lib/admin/core/admin_exception_workflow_models.dart';
+-import '../../lib/admin/core/admin_receipt_operational_telemetry.dart';
++import 'package:collect_app/admin/core/admin_exception_models.dart';
++import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
++import 'package:collect_app/admin/core/admin_receipt_operational_telemetry.dart';
+ 
+ Map<String, dynamic> _copy(Map<String, dynamic> value) =>
+     Map<String, dynamic>.from(jsonDecode(jsonEncode(value)) as Map);
+@@ -236,7 +236,9 @@
+   mutate('zero alert episode refuses', (d) => d['alerts'][0]['episode'] = 0);
+   mutate(
+     'duplicate alert rules refuse',
+-    (d) => (d['alerts'] as List).add(_copy(d['alerts'][0])),
++    (d) => (d['alerts'] as List).add(
++      _copy(d['alerts'][0] as Map<String, dynamic>),
++    ),
+   );
+   mutate(
+     'unavailable code cannot accompany apparent zero/healthy metrics',

@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-02T13:29:43.119477+00:00",
+  "status": "successful_exact_dependency_resolution_independently_qualified",
+  "original_helper_assertion_failed": true,
+  "original_observer_error_preserved": {
+    "error": "recognized live Gradle daemon has ambiguous private-home open-file evidence",
+    "type": "ValueError"
+  },
+  "actual_command_exit_code": 0,
+  "actual_command_seconds": 13.089,
+  "exact_resolved_publisher_JAR_sha256": "d7604feeef3a771d5d616b68fcc2c42f516243311ea286cfd41e1962829a6d28",
+  "private_cache_destination": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/desugar_jdk_libs/2.1.4/34c5d10b7a184e8c340dd967ea9481e448f7b89e/desugar_jdk_libs-2.1.4.jar",
+  "command_sha256": "680ea82e778607287e8f025cfae08253720352f734bf8a73faeb4bc74f821269",
+  "stdout_sha256": "7e6ae4e4e5b0761fd45bd4425d23068db40dde3e77d08308984a3a80efcf1ad7",
+  "daemon_observation_sha256": "e1b335564db17af42af4007a770d5980940287291115467f189d31dfccb211cd",
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 99590,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 99607,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 99590,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 99607,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "matching_live_process_rows": [],
+  "dependency_scope": "one exact module, transitive=false, official Google Maven",
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

@@ -1,0 +1,1326 @@
+{
+  "/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+    "sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/",
+      "title": "Collect by IKANISA | Microsavings and Group Savings",
+      "h1": "Microsavings and group savings for daily earners",
+      "ids": [
+        "site-nav",
+        "content",
+        "market-context-heading",
+        "daily-rhythm-heading",
+        "ibimina-heading",
+        "rwanda-community-heading",
+        "credit-boundary-heading",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/kigali-woman-hero.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/marketing/rwanda/community-savings.png",
+          "alt": "A community planning its savings together"
+        },
+        {
+          "src": "/assets/marketing/rwanda/everyday-payments.png",
+          "alt": "A shop owner and customer using their phones"
+        },
+        {
+          "src": "/assets/marketing/rwanda/banking-together.png",
+          "alt": "A business owner discussing a financial plan"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "rwanda-story",
+          "label": "Save together ↗"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "rwanda-story",
+          "label": "Everyday progress ↗"
+        },
+        {
+          "href": "/craas/",
+          "class": "rwanda-story",
+          "label": "Prepare for your next step ↗"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "",
+          "label": "Explore Group Savings"
+        },
+        {
+          "href": "/craas/",
+          "class": "",
+          "label": "Read the CRaaS plans"
+        },
+        {
+          "href": "/insurance/",
+          "class": "",
+          "label": "Read the insurance plans"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Collect by IKANISA | Microsavings and Group Savings\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nMicrosavings and group savings for daily earners\nCollect helps ibimina, community groups and daily earners keep clearer Rwanda MoMo contribution records. Credit readiness and insurance remain planned directions with separate provider requirements.\nGet the App\nCreate a group on Android\nEmail Collect support\nSave together\n↗\nEveryday progress\n↗\nPrepare for your next step\n↗\nFinance built around real income\nPeople earn daily. Finance still works monthly.\nAround 90% of employment in Rwanda is informal. Many people earn small, irregular amounts each day, while conventional savings, credit and insurance products are structured around monthly salaries, larger deposits and lump-sum repayments.\n96%\nRwandan adults financially included\n85%\nAdults saved formally or informally\n72%\nAdults using informal mechanisms\n24%\nAdults using formal borrowing\nFrom contributions to clearer records, with future service directions kept separate\n01\nSave\nUse the eligible Android app for Rwanda MoMo USSD contributions.\n02\nBuild a record\nReview pending and reconciled group activity.\n03\nPreparation plans\nCredit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.\n04\nCredit direction\nLoans, bank deposits, collateral arrangements and loan repayments are provider-dependent directions, not services available through the current Collect app. No lender arrangement, eligibility or approval is promised.\n05\nProtection direction\nInsurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.\n06\nGroup goals\nKeep a stated contribution purpose; no investment or finance return is promised.\nEverything Collect brings together\nGroup Savings\nKeep Rwanda MoMo group records. Provider charges may apply.\nExplore Group Savings\nCredit Readiness\nCredit Readiness-as-a-Service is a planned service direction. No active Collect intake or coordinated preparation service is offered here. Contact IKANISA to ask about the plans.\nRead the CRaaS plans\nInsurance\nInsurance and claims support are planned, provider-dependent directions. No insurer, policy enrollment, premium collection, proof of cover or claims journey is available through Collect here.\nRead the insurance plans\nBuilt for people who earn, save, and borrow differently\nIbimina\nRotating and accumulating groups that need readable activity records.\nDaily earners\nPeople saving in small amounts around daily or irregular income.\nMSMEs\nMSMEs can keep group-contribution records. Coordinated loan preparation and specialist services remain planned.\nPayments work. Financial progress still does not.\nDaily-income mismatch\n90% of employment is informal, yet finance is designed around monthly salaries and lump-sum payments.\nInvisible group savings\n52% of adults save through ibimina, but many records remain manual and cannot support formal credit.\nCredit-readiness gap\nRwanda has extensive payment agents, but no scalable last-mile service helping MSMEs prepare complete, bank-ready loan files.\nMicroinsurance gap\nPremiums and claims processes rarely match small, irregular daily incomes.\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": ""
+    }
+  },
+  "/privacy/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+    "sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/privacy/",
+      "title": "Privacy Policy | Collect by IKANISA",
+      "h1": "Your data. Your choice. Your financial journey.",
+      "ids": [
+        "site-nav",
+        "content",
+        "who-we-are",
+        "scope",
+        "data-we-collect",
+        "account-and-contact-information",
+        "identity-and-verification-information",
+        "group-savings-information",
+        "transaction-and-ledger-information",
+        "credit-readiness-information",
+        "insurance-information",
+        "device-and-technical-information",
+        "communications",
+        "sources",
+        "uses",
+        "legal-bases",
+        "sharing",
+        "members-of-your-group",
+        "banks-and-financial-institutions",
+        "insurers",
+        "professional-service-providers",
+        "technology-and-operational-providers",
+        "regulators-and-public-authorities",
+        "business-transfers",
+        "international-transfers",
+        "ai",
+        "retention",
+        "rights",
+        "account-and-data-deletion",
+        "delete-your-account-in-the-collect-app",
+        "delete-your-account-through-the-website",
+        "what-happens-after-a-deletion-request",
+        "what-may-need-to-happen-first",
+        "what-account-deletion-does-not-do",
+        "data-we-may-retain",
+        "security",
+        "cookies",
+        "children",
+        "marketing",
+        "changes",
+        "contact",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/privacy-57252d6e00f7.png",
+          "alt": "The Privacy Policy screen in the Collect app"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "/privacy/#sharing",
+          "class": "legal-inline-link",
+          "label": "Read about service providers and data sharing"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+privacy+request",
+          "class": "legal-inline-link",
+          "label": "Email info@ikanisa.com about a privacy request"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "legal-inline-link",
+          "label": "Open the account-deletion page"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "/privacy/#cookies",
+          "class": "legal-inline-link",
+          "label": "Read about cookies and website analytics"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Privacy Policy | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nPRIVACY AND TRUST\nYour data. Your choice. Your financial journey.\nCollect uses personal data to operate your account, maintain accurate group-savings records, protect the platform, support credit readiness and connect you with financial products you choose to explore.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nLast updated: 8 August 2026\nPrivacy At A Glance\nWe collect only what we need\nWe collect information needed to operate Collect, protect accounts, maintain financial records and deliver requested services.\nYou control partner access\nWe do not send your credit-readiness documents to a bank, insurer or professional service provider without an appropriate legal basis and, where required, your instruction or consent.\nAI assists—it does not make final financial decisions\nCollect may help organise information, identify missing documents and prepare applications. Banks and insurers retain final decision-making authority.\nYou can access, correct, export or request deletion\nYou can manage certain information in the app or contact us to exercise your legal rights.\nYour funds are not held by Collect\nSavings and financial products are provided through licensed financial institutions under their own regulatory obligations.\n1. Who we are\nCollect is operated by:\nLegal Entity\nIKANISA\nEmail\ninfo@ikanisa.com\nFor the personal data described in this Policy, IKANISA acts as the data controller unless another organisation is identified as the controller. A partner bank, insurer or professional service provider may act as a separate data controller for the products and services it provides.\n2. What this Policy covers\nThis Policy applies when you:\nVisit the Collect website\nUse the Collect Android or iOS application\nCreate or join a savings group\nUse credit-readiness services\nSubmit documents for a loan application\nExpress interest in an insurance product\nContact customer support\nParticipate in a pilot, event or survey\nApply to become a bank, community or service partner\nPartner banks, insurers and other external organisations may provide separate privacy notices for their services.\n3. Personal data we may collect\nAccount and contact information\nFull name\nTelephone number\nEmail address\nCountry and address\nDate of birth\nPreferred language\nProfile photograph\nAccount username and authentication details\nIdentity and verification information\nWhere required:\nRwanda National ID\nIdentity-document image\nProof of address\nTax or business-identification numbers\nKYC and KYB verification results\nSanctions, fraud or compliance screening results\nGroup-savings information\nGroup name and purpose\nGroup membership and role\nContribution schedule\nIndividual and group balances\nContribution history\nMissed or late contributions\nGroup rules, approvals and mandates\nCollateral instructions and member consent\nGroup communications and support records\nTransaction and ledger information\nContribution amount, date and reference\nMoMo and USSD confirmation and reconciliation\nPayer and recipient identifiers\nTransaction status\nRefunds, reversals and reconciliations\nRepayment records\nPurpose-based savings goals\nCollect processes Rwanda MoMo and USSD confirmation evidence to maintain accurate contribution and ledger records. The public app does not read SMS inbox history.\nCredit-readiness information\nBusiness profile and ownership information\nRequested loan amount and purpose\nIncome and repayment information\nBank statements and financial records\nCash-flow projections\nBusiness plans\nTax and registration documents\nCollateral documents\nValuation and notarial records\nApplication checklists\nReadiness assessments\nDocuments submitted to or received from service providers\nInsurance information\nWhere you request an insurance service:\nProduct interest and eligibility information\nPremium-payment records\nPolicy and certificate information\nRenewal dates\nClaim-notification information\nSupporting claim documents\nThe licensed insurer determines what information is required for underwriting and claims.\nDevice and technical information\nDevice type and operating system\nIP address\nApp version\nDevice identifiers\nLogin date and time\nSecurity and fraud signals\nCrash and performance logs\nWebsite browser and cookie information\nCommunications\nSupport enquiries\nCall, email or chat records\nComplaints\nSurvey responses\nMarketing preferences\nFeedback and product-research participation\n4. How we obtain personal data\nWe may obtain information:\nDirectly from you\nFrom your savings group or authorised group leader\nFrom a partner bank or custodian\nFrom an insurer\nFrom a professional service provider you instruct us to coordinate\nFrom identity, KYC, fraud or compliance providers\nFrom publicly available official registers\nAutomatically from your device when you use Collect\nWhere another person provides information about you, we may ask that person to confirm that they are authorised to do so.\n5. How we use personal data\nWe use personal data to:\nCreate and secure your account\nVerify identity and eligibility\nCreate and administer savings groups\nReconcile contributions and update ledgers\nSend statements and transaction confirmations\nSupport savings goals and repayment schedules\nPrepare credit-readiness checklists\nReview and organise loan documents\nCoordinate requested professional services\nPrepare bank-review-ready application files\nConnect you to partner banks and insurers\nSupport collateral and group-consent workflows\nPrevent fraud, misuse and unauthorised access\nMeet legal and regulatory obligations\nResolve complaints and disputes\nImprove product accessibility and performance\nSend service messages and, where permitted, marketing communications\nProduce aggregated and de-identified statistics\nWe do not use personal data for an unrelated purpose without an appropriate legal basis.\n6. Our legal bases\nDepending on the service and your location, we process personal data because:\nIt is necessary to provide the service you requested\nYou have given consent\nWe must comply with a legal or regulatory obligation\nProcessing is necessary to protect you, another person or the platform\nWe or a partner have a legitimate interest that does not override your rights\nProcessing is necessary to establish, exercise or defend a legal claim\nYou may withdraw consent where processing depends on consent. Withdrawal does not affect processing that was lawful before withdrawal.\n7. How information is shared\nMembers of your group\nGroup members and authorised leaders may see information required for group transparency, such as:\nYour name or approved member identifier\nContribution status\nAmount attributed to your group record\nGroup role\nApprovals and votes\nYour private identity documents, business records and credit-readiness documents are not automatically visible to other members.\nBanks and financial institutions\nWe may share information with a partner bank when you:\nOpen or link an account\nContribute to bank-held savings\nRequest a collateral arrangement\nApply for credit\nAuthorise a bank-ready file handoff\nUse a repayment service\nThe bank independently determines its KYC, eligibility, credit and retention requirements.\nInsurers\nWe share relevant information when you request a quotation, policy, premium-finance arrangement or claims support.\nProfessional service providers\nAt your request, we may coordinate accountants, notaries, valuers, tax advisers, lawyers, business-plan specialists and registration providers.\nTechnology and operational providers\nWe may use providers supporting:\nCloud hosting\nCommunications\nPayment technology\nIdentity verification\nSecurity and fraud prevention\nAnalytics\nDocument storage\nCustomer support\nProviders may only use information according to their contract and applicable law.\nRegulators and public authorities\nWe may disclose data where legally required, including for regulatory supervision, fraud prevention, law enforcement, court orders or protection of legal rights.\nBusiness transfers\nIf IKANISA is restructured, merged, financed or sold, relevant data may be transferred subject to confidentiality, lawful processing and notice requirements.\n8. Data processing location\nCollect serves Rwanda users. Service providers may process data outside Rwanda under appropriate legal, contractual, organisational and technical safeguards where applicable.\nRead about service providers and data sharing\n9. AI and automated processing\nCollect may use artificial intelligence to:\nGuide application intake\nMap lender requirements\nExtract or organise document information\nIdentify missing or inconsistent information\nGenerate a preparation checklist\nPrepare a draft application summary\nSupport fraud and security monitoring\nApprove or reject a loan\nSet final loan pricing\nApprove or reject an insurance claim\nIssue an insurance policy\nFinal lending decisions remain with the partner lender. Insurance decisions remain with the licensed insurer. You may request human support, challenge inaccurate information and ask for correction of your records.\nCollect does not use customers' private financial documents to train publicly available AI models.\n10. How long we retain information\nWe keep personal data only for as long as needed to:\nOperate your account and requested services\nMaintain accurate group and transaction records\nMeet KYC, AML, accounting, tax and regulatory requirements\nPrevent fraud and protect security\nResolve disputes\nEstablish or defend legal claims\nEnforce agreements\nRetention periods may differ by data type and partner. When a retention period ends, information is securely deleted, destroyed or irreversibly anonymised. Some records may be retained after account deletion where required by law, contract, fraud-prevention requirements or an active legal dispute.\n11. Your privacy rights\nDepending on applicable law, you may request to:\nAccess personal data we hold about you\nReceive a copy of your data\nCorrect inaccurate or incomplete information\nExport data in a structured format\nObject to certain processing\nRestrict processing\nWithdraw consent\nStop direct marketing\nRequest deletion\nChallenge a decision based solely on automated processing\nAsk who has received your data\nComplain to a data-protection authority\nEmail\ninfo@ikanisa.com\nPrivacy requests\nEmail info@ikanisa.com about a privacy request\nWe may need to verify your identity before completing a request.\n12. Account deletion and data deletion\nDelete your account in the Collect app\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nSettings → Security → Delete data\nRequest deletion without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nOpen the account-deletion page\nEmail:\ninfo@ikanisa.com\nWhat happens after a deletion request\nWe verify that the request comes from the account holder\nWe explain any outstanding steps\nWe restrict ordinary use of the account\nWe delete or anonymise eligible personal data\nWe notify relevant service providers where required\nWe confirm completion\nWe aim to respond within 30 days or within the period required by applicable law.\nWhat may need to happen first\nWithdraw or transfer any available balance through the partner institution\nResolve pending contributions or reversals\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nAddress an unresolved dispute or fraud investigation\nWhat account deletion does not do\nCancel a loan\nRemove a repayment obligation\nCancel an insurance policy\nCancel a subscription purchased through an app store\nRemove records held independently by a bank or insurer\nData we may retain\nFinancial transaction and audit records\nKYC and AML obligations\nAccounting or tax compliance\nFraud and security prevention\nLegal claims\nRegulatory reporting\nProtecting the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted information may remain temporarily in secured backups until those backups are overwritten under our backup schedule.\n13. Security and trust\nWe use safeguards designed to protect personal data, including:\nEncryption in transit and at rest\nRole-based access controls\nAuthentication and session controls\nAudit logs\nSecure development and testing\nVendor due diligence\nSegregation of customer and operational data\nIncident monitoring and response\nEmployee confidentiality and training\nData minimisation\nBackup and recovery controls\nNo technology system is completely risk-free. If a breach affects your rights or legally requires notification, we will notify affected users and the appropriate authority.\nWe do not sell personal data.\nWe do not hold customer deposits on Collect’s balance sheet.\nWe do not make final loan or insurance decisions.\nWe explain when a partner will receive your information.\nWe provide routes to access, correct and delete eligible data.\nWe limit group-member visibility to information needed for group operation.\nWe document important processing and partner access.\n14. Cookies and website analytics\nWe may use:\nEssential cookies\nSecurity cookies\nPreference cookies\nPerformance and analytics cookies\nMarketing cookies, where consent is required\nFor questions about cookies and website technologies described in this notice, contact info@ikanisa.com.\nRead about cookies and website analytics\n15. Children\nCollect is not intended for people under the minimum age required by applicable law, except where a specific youth product is lawfully offered with verified consent from a parent or guardian. We do not knowingly create an ordinary financial account for a child without the required authorisation.\n16. Marketing\nYou may opt out of marketing communications at any time by selecting Unsubscribe, changing app communication settings or contacting info@ikanisa.com. We may still send essential security, transaction, policy or service communications.\n17. Changes to this Policy\nWe may update this Policy as Collect, our partners or legal requirements change. Material changes will be communicated through the app, website, email, SMS or another appropriate channel. The latest version will always show its effective date.\n18. Contact and complaints\nEmail\ninfo@ikanisa.com\nYou may also lodge a complaint with the competent data-protection authority.\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "Last updated: 8 August 2026\nPrivacy At A Glance\nWe collect only what we need\nWe collect information needed to operate Collect, protect accounts, maintain financial records and deliver requested services.\nYou control partner access\nWe do not send your credit-readiness documents to a bank, insurer or professional service provider without an appropriate legal basis and, where required, your instruction or consent.\nAI assists—it does not make final financial decisions\nCollect may help organise information, identify missing documents and prepare applications. Banks and insurers retain final decision-making authority.\nYou can access, correct, export or request deletion\nYou can manage certain information in the app or contact us to exercise your legal rights.\nYour funds are not held by Collect\nSavings and financial products are provided through licensed financial institutions under their own regulatory obligations.\n1. Who we are\nCollect is operated by:\nLegal Entity\nIKANISA\nEmail\ninfo@ikanisa.com\nFor the personal data described in this Policy, IKANISA acts as the data controller unless another organisation is identified as the controller. A partner bank, insurer or professional service provider may act as a separate data controller for the products and services it provides.\n2. What this Policy covers\nThis Policy applies when you:\nVisit the Collect website\nUse the Collect Android or iOS application\nCreate or join a savings group\nUse credit-readiness services\nSubmit documents for a loan application\nExpress interest in an insurance product\nContact customer support\nParticipate in a pilot, event or survey\nApply to become a bank, community or service partner\nPartner banks, insurers and other external organisations may provide separate privacy notices for their services.\n3. Personal data we may collect\nAccount and contact information\nFull name\nTelephone number\nEmail address\nCountry and address\nDate of birth\nPreferred language\nProfile photograph\nAccount username and authentication details\nIdentity and verification information\nWhere required:\nRwanda National ID\nIdentity-document image\nProof of address\nTax or business-identification numbers\nKYC and KYB verification results\nSanctions, fraud or compliance screening results\nGroup-savings information\nGroup name and purpose\nGroup membership and role\nContribution schedule\nIndividual and group balances\nContribution history\nMissed or late contributions\nGroup rules, approvals and mandates\nCollateral instructions and member consent\nGroup communications and support records\nTransaction and ledger information\nContribution amount, date and reference\nMoMo and USSD confirmation and reconciliation\nPayer and recipient identifiers\nTransaction status\nRefunds, reversals and reconciliations\nRepayment records\nPurpose-based savings goals\nCollect processes Rwanda MoMo and USSD confirmation evidence to maintain accurate contribution and ledger records. The public app does not read SMS inbox history.\nCredit-readiness information\nBusiness profile and ownership information\nRequested loan amount and purpose\nIncome and repayment information\nBank statements and financial records\nCash-flow projections\nBusiness plans\nTax and registration documents\nCollateral documents\nValuation and notarial records\nApplication checklists\nReadiness assessments\nDocuments submitted to or received from service providers\nInsurance information\nWhere you request an insurance service:\nProduct interest and eligibility information\nPremium-payment records\nPolicy and certificate information\nRenewal dates\nClaim-notification information\nSupporting claim documents\nThe licensed insurer determines what information is required for underwriting and claims.\nDevice and technical information\nDevice type and operating system\nIP address\nApp version\nDevice identifiers\nLogin date and time\nSecurity and fraud signals\nCrash and performance logs\nWebsite browser and cookie information\nCommunications\nSupport enquiries\nCall, email or chat records\nComplaints\nSurvey responses\nMarketing preferences\nFeedback and product-research participation\n4. How we obtain personal data\nWe may obtain information:\nDirectly from you\nFrom your savings group or authorised group leader\nFrom a partner bank or custodian\nFrom an insurer\nFrom a professional service provider you instruct us to coordinate\nFrom identity, KYC, fraud or compliance providers\nFrom publicly available official registers\nAutomatically from your device when you use Collect\nWhere another person provides information about you, we may ask that person to confirm that they are authorised to do so.\n5. How we use personal data\nWe use personal data to:\nCreate and secure your account\nVerify identity and eligibility\nCreate and administer savings groups\nReconcile contributions and update ledgers\nSend statements and transaction confirmations\nSupport savings goals and repayment schedules\nPrepare credit-readiness checklists\nReview and organise loan documents\nCoordinate requested professional services\nPrepare bank-review-ready application files\nConnect you to partner banks and insurers\nSupport collateral and group-consent workflows\nPrevent fraud, misuse and unauthorised access\nMeet legal and regulatory obligations\nResolve complaints and disputes\nImprove product accessibility and performance\nSend service messages and, where permitted, marketing communications\nProduce aggregated and de-identified statistics\nWe do not use personal data for an unrelated purpose without an appropriate legal basis.\n6. Our legal bases\nDepending on the service and your location, we process personal data because:\nIt is necessary to provide the service you requested\nYou have given consent\nWe must comply with a legal or regulatory obligation\nProcessing is necessary to protect you, another person or the platform\nWe or a partner have a legitimate interest that does not override your rights\nProcessing is necessary to establish, exercise or defend a legal claim\nYou may withdraw consent where processing depends on consent. Withdrawal does not affect processing that was lawful before withdrawal.\n7. How information is shared\nMembers of your group\nGroup members and authorised leaders may see information required for group transparency, such as:\nYour name or approved member identifier\nContribution status\nAmount attributed to your group record\nGroup role\nApprovals and votes\nYour private identity documents, business records and credit-readiness documents are not automatically visible to other members.\nBanks and financial institutions\nWe may share information with a partner bank when you:\nOpen or link an account\nContribute to bank-held savings\nRequest a collateral arrangement\nApply for credit\nAuthorise a bank-ready file handoff\nUse a repayment service\nThe bank independently determines its KYC, eligibility, credit and retention requirements.\nInsurers\nWe share relevant information when you request a quotation, policy, premium-finance arrangement or claims support.\nProfessional service providers\nAt your request, we may coordinate accountants, notaries, valuers, tax advisers, lawyers, business-plan specialists and registration providers.\nTechnology and operational providers\nWe may use providers supporting:\nCloud hosting\nCommunications\nPayment technology\nIdentity verification\nSecurity and fraud prevention\nAnalytics\nDocument storage\nCustomer support\nProviders may only use information according to their contract and applicable law.\nRegulators and public authorities\nWe may disclose data where legally required, including for regulatory supervision, fraud prevention, law enforcement, court orders or protection of legal rights.\nBusiness transfers\nIf IKANISA is restructured, merged, financed or sold, relevant data may be transferred subject to confidentiality, lawful processing and notice requirements.\n8. Data processing location\nCollect serves Rwanda users. Service providers may process data outside Rwanda under appropriate legal, contractual, organisational and technical safeguards where applicable.\nRead about service providers and data sharing\n9. AI and automated processing\nCollect may use artificial intelligence to:\nGuide application intake\nMap lender requirements\nExtract or organise document information\nIdentify missing or inconsistent information\nGenerate a preparation checklist\nPrepare a draft application summary\nSupport fraud and security monitoring\nApprove or reject a loan\nSet final loan pricing\nApprove or reject an insurance claim\nIssue an insurance policy\nFinal lending decisions remain with the partner lender. Insurance decisions remain with the licensed insurer. You may request human support, challenge inaccurate information and ask for correction of your records.\nCollect does not use customers' private financial documents to train publicly available AI models.\n10. How long we retain information\nWe keep personal data only for as long as needed to:\nOperate your account and requested services\nMaintain accurate group and transaction records\nMeet KYC, AML, accounting, tax and regulatory requirements\nPrevent fraud and protect security\nResolve disputes\nEstablish or defend legal claims\nEnforce agreements\nRetention periods may differ by data type and partner. When a retention period ends, information is securely deleted, destroyed or irreversibly anonymised. Some records may be retained after account deletion where required by law, contract, fraud-prevention requirements or an active legal dispute.\n11. Your privacy rights\nDepending on applicable law, you may request to:\nAccess personal data we hold about you\nReceive a copy of your data\nCorrect inaccurate or incomplete information\nExport data in a structured format\nObject to certain processing\nRestrict processing\nWithdraw consent\nStop direct marketing\nRequest deletion\nChallenge a decision based solely on automated processing\nAsk who has received your data\nComplain to a data-protection authority\nEmail\ninfo@ikanisa.com\nPrivacy requests\nEmail info@ikanisa.com about a privacy request\nWe may need to verify your identity before completing a request.\n12. Account deletion and data deletion\nDelete your account in the Collect app\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nSettings → Security → Delete data\nRequest deletion without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nOpen the account-deletion page\nEmail:\ninfo@ikanisa.com\nWhat happens after a deletion request\nWe verify that the request comes from the account holder\nWe explain any outstanding steps\nWe restrict ordinary use of the account\nWe delete or anonymise eligible personal data\nWe notify relevant service providers where required\nWe confirm completion\nWe aim to respond within 30 days or within the period required by applicable law.\nWhat may need to happen first\nWithdraw or transfer any available balance through the partner institution\nResolve pending contributions or reversals\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nAddress an unresolved dispute or fraud investigation\nWhat account deletion does not do\nCancel a loan\nRemove a repayment obligation\nCancel an insurance policy\nCancel a subscription purchased through an app store\nRemove records held independently by a bank or insurer\nData we may retain\nFinancial transaction and audit records\nKYC and AML obligations\nAccounting or tax compliance\nFraud and security prevention\nLegal claims\nRegulatory reporting\nProtecting the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted information may remain temporarily in secured backups until those backups are overwritten under our backup schedule.\n13. Security and trust\nWe use safeguards designed to protect personal data, including:\nEncryption in transit and at rest\nRole-based access controls\nAuthentication and session controls\nAudit logs\nSecure development and testing\nVendor due diligence\nSegregation of customer and operational data\nIncident monitoring and response\nEmployee confidentiality and training\nData minimisation\nBackup and recovery controls\nNo technology system is completely risk-free. If a breach affects your rights or legally requires notification, we will notify affected users and the appropriate authority.\nWe do not sell personal data.\nWe do not hold customer deposits on Collect’s balance sheet.\nWe do not make final loan or insurance decisions.\nWe explain when a partner will receive your information.\nWe provide routes to access, correct and delete eligible data.\nWe limit group-member visibility to information needed for group operation.\nWe document important processing and partner access.\n14. Cookies and website analytics\nWe may use:\nEssential cookies\nSecurity cookies\nPreference cookies\nPerformance and analytics cookies\nMarketing cookies, where consent is required\nFor questions about cookies and website technologies described in this notice, contact info@ikanisa.com.\nRead about cookies and website analytics\n15. Children\nCollect is not intended for people under the minimum age required by applicable law, except where a specific youth product is lawfully offered with verified consent from a parent or guardian. We do not knowingly create an ordinary financial account for a child without the required authorisation.\n16. Marketing\nYou may opt out of marketing communications at any time by selecting Unsubscribe, changing app communication settings or contacting info@ikanisa.com. We may still send essential security, transaction, policy or service communications.\n17. Changes to this Policy\nWe may update this Policy as Collect, our partners or legal requirements change. Material changes will be communicated through the app, website, email, SMS or another appropriate channel. The latest version will always show its effective date.\n18. Contact and complaints\nEmail\ninfo@ikanisa.com\nYou may also lodge a complaint with the competent data-protection authority."
+    }
+  },
+  "/terms/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+    "sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/terms/",
+      "title": "Terms of Use | Collect by IKANISA",
+      "h1": "Clear rules for using Collect.",
+      "ids": [
+        "site-nav",
+        "content",
+        "about",
+        "eligibility",
+        "what-collect-provides",
+        "what-collect-does-not-provide",
+        "account",
+        "savings-and-payments",
+        "group-savings",
+        "group-collateral",
+        "craas",
+        "ai",
+        "professional-service-providers",
+        "loans",
+        "insurance",
+        "fees",
+        "acceptable-use",
+        "suspension",
+        "closing-or-deleting",
+        "intellectual-property",
+        "availability",
+        "statements-and-financial-information",
+        "liability",
+        "privacy",
+        "complaints",
+        "changes",
+        "governing-law",
+        "contact",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/terms-71f5644e1234.png",
+          "alt": "The Terms and Conditions screen in the Collect app"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy Policy"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account Deletion"
+        },
+        {
+          "href": "/privacy/#cookies",
+          "class": "",
+          "label": "Cookie Policy"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Terms of Use | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nTERMS OF USE\nClear rules for using Collect.\nThese Terms explain what Collect provides, what regulated partners provide, your responsibilities and the rules governing your use of the website, app and related services.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nEffective date: 20 June 2026\nImportant Summary\nCollect is a financial-technology and service-orchestration platform.\nCollect does not accept deposits unless separately authorised.\nSavings are held by licensed financial institutions.\nCollect does not guarantee a loan, loan price or insurance cover.\nPartner lenders make final credit decisions.\nLicensed insurers issue policies and decide claims.\nGroup collateral may expose pledged savings if a borrower defaults.\nYou must provide accurate information and protect your account.\nYou may request account deletion, but deletion does not cancel financial obligations.\n1. About these Terms\nLegal Entity\nIKANISA\nBy creating an account or using Collect, you agree to these Terms and the Privacy Policy.\nGroup rules\nRwanda MoMo and USSD contribution terms\nLoan agreements\nCollateral agreements\nInsurance policies\nMoMo payment confirmation terms\nProfessional-service agreements\nProduct-specific disclosures\nWhere a partner’s regulated product terms conflict with these general Terms, the partner’s product agreement governs that product.\n2. Who may use Collect\nYou may use Collect if you:\nMeet the applicable minimum age\nHave legal capacity to enter into an agreement\nProvide accurate registration information\nComplete required identity checks\nAre not prohibited from using the service by law\nUse Collect for lawful purposes\nCountry\nResidency\nAge\nGroup membership\nPartner availability\nCredit eligibility\nRegulatory status\n3. What Collect provides\nMobile-app access and MoMo USSD handoff\nGroup creation and administration\nMember and group ledgers\nContribution and transaction records\nSavings-goal tools\nStatements and notifications\nCredit-readiness guidance\nDocument checklists\nProfessional-service coordination\nBank-ready application preparation\nPartner-bank handoff\nInsurance-product discovery\nPartner integrations\nRepayment orchestration\nCustomer and group support\nFeatures may differ by country, partner, device or pilot programme.\n4. What Collect does not provide\nUnless separately licensed and expressly stated, Collect is not:\nA bank\nA deposit-taking institution\nA lender\nA payment institution\nAn insurer\nA broker\nA credit bureau\nA legal, tax, accounting or investment adviser\nCredit approval\nInsurance approval\nA particular interest rate\nA particular loan amount\nInvestment performance\nSavings returns\nClaim payment\nProduct availability\n5. Your account\nYou must:\nProvide complete and accurate information\nKeep information current\nProtect passwords, PINs and verification codes\nPrevent unauthorised device access\nNotify us promptly of suspected misuse\nUse only your own identity and authorised accounts\nYou are responsible for activity conducted through your account unless the activity resulted from a failure for which Collect is legally responsible. We may require additional verification before processing a sensitive instruction.\n6. Savings and payments\nCollect may prepare a MoMo USSD handoff, reconcile confirmed payments and display contributions.\nYou authorise each transfer in your banking app; Collect does not initiate, sign or execute it.\nCustomer funds are transferred to and held or processed through licensed financial institutions.\nPartner confirmation\nSettlement\nReconciliation\nCompliance checks\nReversal\nError correction\nYou must verify transfer references and notify us promptly if a record appears incorrect. Collect ledger information does not replace the official account record held by the regulated financial institution.\n7. Group savings\nFollow the group’s approved rules\nMake contributions according to the agreed schedule\nRespect group decisions\nProvide accurate payment references\nReview statements and report errors\nAvoid coercion, fraud or misuse of group funds\nAct within their authority\nApply group rules consistently\nProtect member information\nAvoid unauthorised withdrawals or changes\nMaintain appropriate approvals\nDisclose conflicts of interest\nTransfer administrative control when required\nCollect may provide technology and records but does not replace the group’s governance obligations.\n8. Group collateral\nWhere a partner bank offers a group-backed loan:\nThe bank determines eligibility\nThe group must approve the collateral arrangement\nThe pledged amount and enforcement rules must be documented\nThe individual borrower remains responsible for repayment\nPledged group savings may be applied following default\nMembers must understand the potential loss before consenting\nSaving through Collect does not automatically create collateral or guarantee credit. Collect will not describe savings as pledged until the partner bank and relevant group have completed the required documentation.\n9. Credit Readiness-as-a-Service\nCapturing the financing need\nMapping product requirements\nIdentifying document gaps\nOrganising documents\nCoordinating professional services\nPreparing an application summary\nPackaging a file for partner review\nCredit approval\nA promise of funding\nA credit score issued by a credit bureau\nLegal, accounting or tax advice\nThe partner bank conducts its own analysis and may request additional information.\n10. AI-assisted services\nGuidance\nDocument classification\nChecklist generation\nData extraction\nConsistency checks\nDraft summaries\nSecurity monitoring\nAI output may contain errors and must be reviewed.\nYou remain responsible for checking information before submission. Collect may require human review before handing a file to a partner.\nCollect does not use AI as the final authority for loan approval, insurance underwriting or claims decisions.\n11. Professional service providers\nAccountants\nBookkeepers\nBusiness-plan specialists\nNotaries\nTax advisers\nValuers\nLawyers\nRegistration providers\nInsurance advisers\nScope\nPrice\nEstimated completion time\nRequired documents\nRefund or cancellation rules\nUnless expressly stated, these providers are independent. Collect is not responsible for professional advice delivered independently by the provider, except where applicable law provides otherwise.\n12. Loans\nKYC and compliance requirements\nCredit assessment\nAffordability analysis\nCollateral requirements\nPricing\nTerms\nApproval\nDisbursement\nCollection and recovery procedures\nDeleting Collect, leaving a savings group or changing a telephone number does not cancel a loan. You must read and accept the partner lender’s agreement before borrowing.\n13. Insurance\nInsurance products are issued by licensed insurers.\nEligibility\nPricing\nPolicy wording\nUnderwriting\nExclusions\nClaims decisions\nClaims payment\nCollect may support product discovery, premium workflows, digital records, reminders and claims notification. A premium payment does not create cover until confirmed according to the insurer’s terms.\n14. Fees\nCollect will display applicable fees before you accept a paid service.\nCredit-readiness fees\nProfessional-service fees\nPartner-product fees\nMoMo service fees\nMoMo provider charges\nBank or insurer charges\nA zero-fee savings statement applies only to the specific user charge described. A MoMo provider may impose separate charges unless waived under the product terms.\n15. Acceptable use\nYou must not use Collect to:\nCommit fraud\nImpersonate another person\nLaunder money\nFinance illegal activity\nManipulate group records\nSubmit false documents\nMisuse another person’s data\nBypass security controls\nIntroduce malicious code\nHarass or exploit group members\nUse automated tools without authorisation\nInfringe intellectual-property rights\nViolate sanctions or applicable law\nWe may investigate suspected misuse and cooperate with authorised authorities.\n16. Suspension and restriction\nProtect your account\nInvestigate fraud\nRespond to a partner or regulator\nCorrect an operational error\nEnforce these Terms\nAddress unpaid fees\nPrevent harm to a group\nComply with law\nWhere appropriate, we will explain the reason and provide a route to challenge the action. Suspension of Collect does not suspend obligations owed to a bank, insurer, group or service provider.\n17. Closing or deleting your account\nIn the app under Settings → Security → Delete data\nOnline at /account-deletion\nBy contacting info@ikanisa.com\nResolve pending transactions\nTransfer group leadership\nDownload statements\nComplete or cancel an active application\nAddress an investigation or dispute\nA loan\nAn insurance policy\nA group obligation\nA professional-service agreement\nA legal or regulatory record\nWe may retain records where legally required. Eligible data will be deleted or anonymised according to the Privacy Policy.\n18. Intellectual property\nCollect, IKANISA, software, interfaces, trademarks, designs and original content are owned by or licensed to IKANISA.\nWe grant you a limited, personal, non-exclusive, revocable right to use Collect for its intended purpose.\nYou may not copy, reverse engineer, resell, modify or commercially exploit Collect without written permission.\nYou retain ownership of documents and content you provide, but grant us permission to process them to deliver requested services.\n19. Service availability\nMobile networks\nBanks\nBanking services\nInsurers\nApp stores\nInternet providers\nMaintenance\nSecurity incidents\nEvents outside reasonable control\nWe may change or discontinue features, subject to applicable notice and contractual requirements.\n20. Statements and financial information\nBalances, readiness indicators, projections and status information displayed by Collect may depend on data received from partners. You should report errors promptly.\nA loan offer\nFinancial advice\nInvestment advice\nInsurance advice\nA guaranteed return\nA guaranteed eligibility decision\n21. Limitation of liability\nNothing in these Terms excludes liability that cannot legally be excluded.\nA partner’s independent credit decision\nAn insurer’s underwriting or claim decision\nInvestment losses\nFalse information supplied by a user\nIndependent professional advice\nNetwork or partner outages outside our control\nLosses caused by unauthorised account access resulting from your failure to protect credentials\n22. Privacy\nOur Privacy Policy explains how we collect, use, share, retain and delete personal data.\nPrivacy Policy\nAccount Deletion\nCookie Policy\n23. Complaints\nEmail\ninfo@ikanisa.com\nA complaint concerning a bank, loan or insurance policy may also need to be submitted to the relevant regulated partner. You retain the right to contact the relevant regulator, data-protection authority or court.\n24. Changes to these Terms\nNew features\nNew partners\nLegal changes\nSecurity requirements\nOperational changes\nWe will provide reasonable notice of material changes. Continuing to use Collect after the effective date means you accept the updated Terms, except where law requires a different form of consent.\n25. Governing law\nThese Terms are governed by the laws of Rwanda. Disputes will be handled by the competent Rwandan court or dispute-resolution forum, subject to mandatory legal rights.\n26. Contact\nBrand\nCollect by IKANISA\nLegal Entity\nIKANISA\nEmail\ninfo@ikanisa.com\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "Effective date: 20 June 2026\nImportant Summary\nCollect is a financial-technology and service-orchestration platform.\nCollect does not accept deposits unless separately authorised.\nSavings are held by licensed financial institutions.\nCollect does not guarantee a loan, loan price or insurance cover.\nPartner lenders make final credit decisions.\nLicensed insurers issue policies and decide claims.\nGroup collateral may expose pledged savings if a borrower defaults.\nYou must provide accurate information and protect your account.\nYou may request account deletion, but deletion does not cancel financial obligations.\n1. About these Terms\nLegal Entity\nIKANISA\nBy creating an account or using Collect, you agree to these Terms and the Privacy Policy.\nGroup rules\nRwanda MoMo and USSD contribution terms\nLoan agreements\nCollateral agreements\nInsurance policies\nMoMo payment confirmation terms\nProfessional-service agreements\nProduct-specific disclosures\nWhere a partner’s regulated product terms conflict with these general Terms, the partner’s product agreement governs that product.\n2. Who may use Collect\nYou may use Collect if you:\nMeet the applicable minimum age\nHave legal capacity to enter into an agreement\nProvide accurate registration information\nComplete required identity checks\nAre not prohibited from using the service by law\nUse Collect for lawful purposes\nCountry\nResidency\nAge\nGroup membership\nPartner availability\nCredit eligibility\nRegulatory status\n3. What Collect provides\nMobile-app access and MoMo USSD handoff\nGroup creation and administration\nMember and group ledgers\nContribution and transaction records\nSavings-goal tools\nStatements and notifications\nCredit-readiness guidance\nDocument checklists\nProfessional-service coordination\nBank-ready application preparation\nPartner-bank handoff\nInsurance-product discovery\nPartner integrations\nRepayment orchestration\nCustomer and group support\nFeatures may differ by country, partner, device or pilot programme.\n4. What Collect does not provide\nUnless separately licensed and expressly stated, Collect is not:\nA bank\nA deposit-taking institution\nA lender\nA payment institution\nAn insurer\nA broker\nA credit bureau\nA legal, tax, accounting or investment adviser\nCredit approval\nInsurance approval\nA particular interest rate\nA particular loan amount\nInvestment performance\nSavings returns\nClaim payment\nProduct availability\n5. Your account\nYou must:\nProvide complete and accurate information\nKeep information current\nProtect passwords, PINs and verification codes\nPrevent unauthorised device access\nNotify us promptly of suspected misuse\nUse only your own identity and authorised accounts\nYou are responsible for activity conducted through your account unless the activity resulted from a failure for which Collect is legally responsible. We may require additional verification before processing a sensitive instruction.\n6. Savings and payments\nCollect may prepare a MoMo USSD handoff, reconcile confirmed payments and display contributions.\nYou authorise each transfer in your banking app; Collect does not initiate, sign or execute it.\nCustomer funds are transferred to and held or processed through licensed financial institutions.\nPartner confirmation\nSettlement\nReconciliation\nCompliance checks\nReversal\nError correction\nYou must verify transfer references and notify us promptly if a record appears incorrect. Collect ledger information does not replace the official account record held by the regulated financial institution.\n7. Group savings\nFollow the group’s approved rules\nMake contributions according to the agreed schedule\nRespect group decisions\nProvide accurate payment references\nReview statements and report errors\nAvoid coercion, fraud or misuse of group funds\nAct within their authority\nApply group rules consistently\nProtect member information\nAvoid unauthorised withdrawals or changes\nMaintain appropriate approvals\nDisclose conflicts of interest\nTransfer administrative control when required\nCollect may provide technology and records but does not replace the group’s governance obligations.\n8. Group collateral\nWhere a partner bank offers a group-backed loan:\nThe bank determines eligibility\nThe group must approve the collateral arrangement\nThe pledged amount and enforcement rules must be documented\nThe individual borrower remains responsible for repayment\nPledged group savings may be applied following default\nMembers must understand the potential loss before consenting\nSaving through Collect does not automatically create collateral or guarantee credit. Collect will not describe savings as pledged until the partner bank and relevant group have completed the required documentation.\n9. Credit Readiness-as-a-Service\nCapturing the financing need\nMapping product requirements\nIdentifying document gaps\nOrganising documents\nCoordinating professional services\nPreparing an application summary\nPackaging a file for partner review\nCredit approval\nA promise of funding\nA credit score issued by a credit bureau\nLegal, accounting or tax advice\nThe partner bank conducts its own analysis and may request additional information.\n10. AI-assisted services\nGuidance\nDocument classification\nChecklist generation\nData extraction\nConsistency checks\nDraft summaries\nSecurity monitoring\nAI output may contain errors and must be reviewed.\nYou remain responsible for checking information before submission. Collect may require human review before handing a file to a partner.\nCollect does not use AI as the final authority for loan approval, insurance underwriting or claims decisions.\n11. Professional service providers\nAccountants\nBookkeepers\nBusiness-plan specialists\nNotaries\nTax advisers\nValuers\nLawyers\nRegistration providers\nInsurance advisers\nScope\nPrice\nEstimated completion time\nRequired documents\nRefund or cancellation rules\nUnless expressly stated, these providers are independent. Collect is not responsible for professional advice delivered independently by the provider, except where applicable law provides otherwise.\n12. Loans\nKYC and compliance requirements\nCredit assessment\nAffordability analysis\nCollateral requirements\nPricing\nTerms\nApproval\nDisbursement\nCollection and recovery procedures\nDeleting Collect, leaving a savings group or changing a telephone number does not cancel a loan. You must read and accept the partner lender’s agreement before borrowing.\n13. Insurance\nInsurance products are issued by licensed insurers.\nEligibility\nPricing\nPolicy wording\nUnderwriting\nExclusions\nClaims decisions\nClaims payment\nCollect may support product discovery, premium workflows, digital records, reminders and claims notification. A premium payment does not create cover until confirmed according to the insurer’s terms.\n14. Fees\nCollect will display applicable fees before you accept a paid service.\nCredit-readiness fees\nProfessional-service fees\nPartner-product fees\nMoMo service fees\nMoMo provider charges\nBank or insurer charges\nA zero-fee savings statement applies only to the specific user charge described. A MoMo provider may impose separate charges unless waived under the product terms.\n15. Acceptable use\nYou must not use Collect to:\nCommit fraud\nImpersonate another person\nLaunder money\nFinance illegal activity\nManipulate group records\nSubmit false documents\nMisuse another person’s data\nBypass security controls\nIntroduce malicious code\nHarass or exploit group members\nUse automated tools without authorisation\nInfringe intellectual-property rights\nViolate sanctions or applicable law\nWe may investigate suspected misuse and cooperate with authorised authorities.\n16. Suspension and restriction\nProtect your account\nInvestigate fraud\nRespond to a partner or regulator\nCorrect an operational error\nEnforce these Terms\nAddress unpaid fees\nPrevent harm to a group\nComply with law\nWhere appropriate, we will explain the reason and provide a route to challenge the action. Suspension of Collect does not suspend obligations owed to a bank, insurer, group or service provider.\n17. Closing or deleting your account\nIn the app under Settings → Security → Delete data\nOnline at /account-deletion\nBy contacting info@ikanisa.com\nResolve pending transactions\nTransfer group leadership\nDownload statements\nComplete or cancel an active application\nAddress an investigation or dispute\nA loan\nAn insurance policy\nA group obligation\nA professional-service agreement\nA legal or regulatory record\nWe may retain records where legally required. Eligible data will be deleted or anonymised according to the Privacy Policy.\n18. Intellectual property\nCollect, IKANISA, software, interfaces, trademarks, designs and original content are owned by or licensed to IKANISA.\nWe grant you a limited, personal, non-exclusive, revocable right to use Collect for its intended purpose.\nYou may not copy, reverse engineer, resell, modify or commercially exploit Collect without written permission.\nYou retain ownership of documents and content you provide, but grant us permission to process them to deliver requested services.\n19. Service availability\nMobile networks\nBanks\nBanking services\nInsurers\nApp stores\nInternet providers\nMaintenance\nSecurity incidents\nEvents outside reasonable control\nWe may change or discontinue features, subject to applicable notice and contractual requirements.\n20. Statements and financial information\nBalances, readiness indicators, projections and status information displayed by Collect may depend on data received from partners. You should report errors promptly.\nA loan offer\nFinancial advice\nInvestment advice\nInsurance advice\nA guaranteed return\nA guaranteed eligibility decision\n21. Limitation of liability\nNothing in these Terms excludes liability that cannot legally be excluded.\nA partner’s independent credit decision\nAn insurer’s underwriting or claim decision\nInvestment losses\nFalse information supplied by a user\nIndependent professional advice\nNetwork or partner outages outside our control\nLosses caused by unauthorised account access resulting from your failure to protect credentials\n22. Privacy\nOur Privacy Policy explains how we collect, use, share, retain and delete personal data.\nPrivacy Policy\nAccount Deletion\nCookie Policy\n23. Complaints\nEmail\ninfo@ikanisa.com\nA complaint concerning a bank, loan or insurance policy may also need to be submitted to the relevant regulated partner. You retain the right to contact the relevant regulator, data-protection authority or court.\n24. Changes to these Terms\nNew features\nNew partners\nLegal changes\nSecurity requirements\nOperational changes\nWe will provide reasonable notice of material changes. Continuing to use Collect after the effective date means you accept the updated Terms, except where law requires a different form of consent.\n25. Governing law\nThese Terms are governed by the laws of Rwanda. Disputes will be handled by the competent Rwandan court or dispute-resolution forum, subject to mandatory legal rights.\n26. Contact\nBrand\nCollect by IKANISA\nLegal Entity\nIKANISA\nEmail\ninfo@ikanisa.com"
+    }
+  },
+  "/account-deletion/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+    "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/account-deletion/",
+      "title": "Delete Your Collect Account | Collect by IKANISA",
+      "h1": "Delete your Collect account.",
+      "ids": [
+        "site-nav",
+        "content",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+          "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Delete Your Collect Account | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nACCOUNT AND DATA DELETION\nDelete your Collect account.\nYou may request deletion of your Collect account and associated eligible personal data.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nDeleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.\nDelete in the app\nSettings → Security → Delete data\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nDelete without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nEmail:\ninfo@ikanisa.com\nRequest Account Deletion\nSupport may ask for the following information to verify and process your request.\nFull name\nRegistered telephone number\nRegistered email address\nCountry\nReason for deletion\nIdentity-verification method\nSMS verification\nEmail verification\nIdentity document verification\nSupport-assisted verification\nI understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation or other product provided by a third party.\nWhat happens next\nWe verify your identity.\nWe review pending transactions and group responsibilities.\nWe tell you if any action is required.\nWe delete or anonymise eligible data.\nWe retain only records required by law or necessary for security, fraud prevention, disputes and regulatory compliance.\nWe confirm when the process is complete.\nWe aim to respond within 30 days or within the period required by applicable law.\nYou may need to complete these steps first\nWithdraw or transfer any available balance through the relevant partner institution\nResolve pending contributions, reversals or disputes\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nDownload any statements you wish to keep\nAddress an active fraud, security or legal investigation\nData we may retain\nFinancial transaction and audit records\nKYC and AML records\nAccounting and tax records\nFraud and security records\nRecords needed to resolve disputes or legal claims\nRegulatory reports\nLedger entries needed to protect the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.\nProducts provided by partners\nTo cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.\nNeed help?\nEmail\ninfo@ikanisa.com\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.\nDelete in the app\nSettings → Security → Delete data\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nDelete without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nEmail:\ninfo@ikanisa.com\nRequest Account Deletion\nSupport may ask for the following information to verify and process your request.\nFull name\nRegistered telephone number\nRegistered email address\nCountry\nReason for deletion\nIdentity-verification method\nSMS verification\nEmail verification\nIdentity document verification\nSupport-assisted verification\nI understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation or other product provided by a third party.\nWhat happens next\nWe verify your identity.\nWe review pending transactions and group responsibilities.\nWe tell you if any action is required.\nWe delete or anonymise eligible data.\nWe retain only records required by law or necessary for security, fraud prevention, disputes and regulatory compliance.\nWe confirm when the process is complete.\nWe aim to respond within 30 days or within the period required by applicable law.\nYou may need to complete these steps first\nWithdraw or transfer any available balance through the relevant partner institution\nResolve pending contributions, reversals or disputes\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nDownload any statements you wish to keep\nAddress an active fraud, security or legal investigation\nData we may retain\nFinancial transaction and audit records\nKYC and AML records\nAccounting and tax records\nFraud and security records\nRecords needed to resolve disputes or legal claims\nRegulatory reports\nLedger entries needed to protect the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.\nProducts provided by partners\nTo cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.\nNeed help?\nEmail\ninfo@ikanisa.com"
+    }
+  },
+  "/data-deletion/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+    "sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/data-deletion/",
+      "title": "Data Deletion | Collect by IKANISA",
+      "h1": "Data deletion and retention",
+      "ids": [
+        "site-nav",
+        "content",
+        "account-and-data-deletion",
+        "delete-your-account-in-the-collect-app",
+        "delete-your-account-through-the-website",
+        "what-happens-after-a-deletion-request",
+        "what-may-need-to-happen-first",
+        "what-account-deletion-does-not-do",
+        "data-we-may-retain",
+        "what-happens-next",
+        "retained-data-summary",
+        "products-provided-by-partners",
+        "need-help",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/account-deletion-abd540ec627f.png",
+          "alt": "Collect account deletion request unavailable without a configured signed-in service, with a Get help action"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "#account-and-data-deletion",
+          "class": "",
+          "label": "12. Account deletion and data deletion"
+        },
+        {
+          "href": "#what-happens-next",
+          "class": "",
+          "label": "What happens next"
+        },
+        {
+          "href": "#retained-data-summary",
+          "class": "",
+          "label": "Data we may retain"
+        },
+        {
+          "href": "#products-provided-by-partners",
+          "class": "",
+          "label": "Products provided by partners"
+        },
+        {
+          "href": "#need-help",
+          "class": "",
+          "label": "Need help?"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "legal-inline-link",
+          "label": "Open the account-deletion page"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "legal-inline-link",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Data Deletion | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nACCOUNT AND DATA DELETION\nData deletion and retention\nYou may request deletion of eligible personal data. Some records may be retained where required by law or necessary for security, fraud prevention, disputes, regulatory compliance, or ledger integrity.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nOn this page\n12. Account deletion and data deletion\nWhat happens next\nData we may retain\nProducts provided by partners\nNeed help?\nDeleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.\n12. Account deletion and data deletion\nDelete your account in the Collect app\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nSettings → Security → Delete data\nRequest deletion without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nOpen the account-deletion page\nEmail:\ninfo@ikanisa.com\nWhat happens after a deletion request\nWe verify that the request comes from the account holder\nWe explain any outstanding steps\nWe restrict ordinary use of the account\nWe delete or anonymise eligible personal data\nWe notify relevant service providers where required\nWe confirm completion\nWe aim to respond within 30 days or within the period required by applicable law.\nWhat may need to happen first\nWithdraw or transfer any available balance through the partner institution\nResolve pending contributions or reversals\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nAddress an unresolved dispute or fraud investigation\nWhat account deletion does not do\nCancel a loan\nRemove a repayment obligation\nCancel an insurance policy\nCancel a subscription purchased through an app store\nRemove records held independently by a bank or insurer\nData we may retain\nFinancial transaction and audit records\nKYC and AML obligations\nAccounting or tax compliance\nFraud and security prevention\nLegal claims\nRegulatory reporting\nProtecting the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted information may remain temporarily in secured backups until those backups are overwritten under our backup schedule.\nWhat happens next\nWe verify your identity.\nWe review pending transactions and group responsibilities.\nWe tell you if any action is required.\nWe delete or anonymise eligible data.\nWe retain only records required by law or necessary for security, fraud prevention, disputes and regulatory compliance.\nWe confirm when the process is complete.\nWe aim to respond within 30 days or within the period required by applicable law.\nData we may retain\nFinancial transaction and audit records\nKYC and AML records\nAccounting and tax records\nFraud and security records\nRecords needed to resolve disputes or legal claims\nRegulatory reports\nLedger entries needed to protect the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.\nProducts provided by partners\nTo cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.\nNeed help?\nEmail:\ninfo@ikanisa.com\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "On this page\n12. Account deletion and data deletion\nWhat happens next\nData we may retain\nProducts provided by partners\nNeed help?\nDeleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.\n12. Account deletion and data deletion\nDelete your account in the Collect app\nOpen Collect and sign in.\nGo to Settings.\nSelect Security.\nSelect Delete data.\nSelect a reason for your request.\nSelect Submit.\nReview the confirmation and select Submit.\nSettings → Security → Delete data\nRequest deletion without the app\nContact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.\nOpen the account-deletion page\nEmail:\ninfo@ikanisa.com\nWhat happens after a deletion request\nWe verify that the request comes from the account holder\nWe explain any outstanding steps\nWe restrict ordinary use of the account\nWe delete or anonymise eligible personal data\nWe notify relevant service providers where required\nWe confirm completion\nWe aim to respond within 30 days or within the period required by applicable law.\nWhat may need to happen first\nWithdraw or transfer any available balance through the partner institution\nResolve pending contributions or reversals\nTransfer a group-administrator role\nComplete or cancel an active credit-readiness handoff\nAddress an unresolved dispute or fraud investigation\nWhat account deletion does not do\nCancel a loan\nRemove a repayment obligation\nCancel an insurance policy\nCancel a subscription purchased through an app store\nRemove records held independently by a bank or insurer\nData we may retain\nFinancial transaction and audit records\nKYC and AML obligations\nAccounting or tax compliance\nFraud and security prevention\nLegal claims\nRegulatory reporting\nProtecting the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted information may remain temporarily in secured backups until those backups are overwritten under our backup schedule.\nWhat happens next\nWe verify your identity.\nWe review pending transactions and group responsibilities.\nWe tell you if any action is required.\nWe delete or anonymise eligible data.\nWe retain only records required by law or necessary for security, fraud prevention, disputes and regulatory compliance.\nWe confirm when the process is complete.\nWe aim to respond within 30 days or within the period required by applicable law.\nData we may retain\nFinancial transaction and audit records\nKYC and AML records\nAccounting and tax records\nFraud and security records\nRecords needed to resolve disputes or legal claims\nRegulatory reports\nLedger entries needed to protect the rights of other group members\nWhere a ledger entry affects other members, the transaction record may remain while your profile is deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily in secured backups until those backups are overwritten.\nProducts provided by partners\nTo cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner has expressly enabled that workflow.\nNeed help?\nEmail:\ninfo@ikanisa.com"
+    }
+  },
+  "/trust/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+    "sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/trust/",
+      "title": "Trust and Security | Collect by IKANISA",
+      "h1": "Security and trust",
+      "ids": [
+        "site-nav",
+        "content",
+        "how-collect-protects-customer-information",
+        "what-collect-will-not-do",
+        "partner-and-regulated-product-boundary",
+        "customer-rights-and-deletion-support",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-cee237570184.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link active",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Trust and Security | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nSecurity and trust\nCollect uses safeguards designed to protect personal data and gives customers clear routes to access, correct and delete eligible data.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nHow Collect protects customer information\nCollect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible.\nPersonal data is not sold.\nCustomer funds are not held on Collect's own balance sheet.\nBanks and insurers make their own regulated decisions.\nCustomer deletion and correction routes are available through app and support channels.\nWhat Collect will not do\nCollect does not make final loan, pricing, policy or claim decisions for regulated providers, and it does not expose private credit-readiness documents to group members.\nNo public training of private customer financial documents.\nNo sale of personal data.\nNo public promise of automatic credit, insurance or payout approval.\nNo unrestricted access to sensitive support records.\nPartner and regulated-product boundary\nCollect supports records, preparation, communication and customer-requested workflows. Licensed banks, insurers or approved providers remain responsible for their own KYC, AML/CFT, eligibility, pricing, approval, disbursement, claim and regulatory obligations.\nProvider review remains separate from Collect public marketing copy.\nFunds are handled through regulated financial-service partners where approved arrangements apply.\nPartner handoff requires an appropriate legal basis and customer workflow.\nCustomer rights and deletion support\nCustomers can request access, correction, account deletion or data deletion. Some ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention.\nUse the in-app account deletion request where available.\nContact WhatsApp support at +250 795 588 248.\nEmail info@ikanisa.com for privacy or deletion questions.\nSupport can confirm request status and explain retained record categories.\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "How Collect protects customer information\nCollect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible.\nPersonal data is not sold.\nCustomer funds are not held on Collect's own balance sheet.\nBanks and insurers make their own regulated decisions.\nCustomer deletion and correction routes are available through app and support channels.\nWhat Collect will not do\nCollect does not make final loan, pricing, policy or claim decisions for regulated providers, and it does not expose private credit-readiness documents to group members.\nNo public training of private customer financial documents.\nNo sale of personal data.\nNo public promise of automatic credit, insurance or payout approval.\nNo unrestricted access to sensitive support records.\nPartner and regulated-product boundary\nCollect supports records, preparation, communication and customer-requested workflows. Licensed banks, insurers or approved providers remain responsible for their own KYC, AML/CFT, eligibility, pricing, approval, disbursement, claim and regulatory obligations.\nProvider review remains separate from Collect public marketing copy.\nFunds are handled through regulated financial-service partners where approved arrangements apply.\nPartner handoff requires an appropriate legal basis and customer workflow.\nCustomer rights and deletion support\nCustomers can request access, correction, account deletion or data deletion. Some ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention.\nUse the in-app account deletion request where available.\nContact WhatsApp support at +250 795 588 248.\nEmail info@ikanisa.com for privacy or deletion questions.\nSupport can confirm request status and explain retained record categories."
+    }
+  },
+  "/security/": {
+    "path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+    "sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba",
+    "page": {
+      "canonical": "https://collect.ikanisa.com/security/",
+      "title": "Security | Collect by IKANISA",
+      "h1": "Security, privacy and trust controls.",
+      "ids": [
+        "site-nav",
+        "content",
+        "how-collect-protects-customer-information",
+        "what-collect-will-not-do",
+        "partner-and-regulated-product-boundary",
+        "customer-rights-and-deletion-support",
+        "start",
+        "start-heading"
+      ],
+      "images": [
+        {
+          "src": "/icons/collect.png",
+          "alt": ""
+        },
+        {
+          "src": "/assets/app-screens/security-cee237570184.png",
+          "alt": "Collect security settings and MoMo payment safety information"
+        }
+      ],
+      "links": [
+        {
+          "href": "#content",
+          "class": "skip-link",
+          "label": "Skip to content"
+        },
+        {
+          "href": "/",
+          "class": "brand",
+          "label": "Collect by IKANISA"
+        },
+        {
+          "href": "/group-savings/",
+          "class": "nav-link",
+          "label": "Group Savings"
+        },
+        {
+          "href": "/insurance/",
+          "class": "nav-link",
+          "label": "Insurance"
+        },
+        {
+          "href": "/craas/",
+          "class": "nav-link",
+          "label": "CRaaS"
+        },
+        {
+          "href": "/community-groups/",
+          "class": "nav-link",
+          "label": "Community Groups"
+        },
+        {
+          "href": "/our-partners/",
+          "class": "nav-link",
+          "label": "Our Partners"
+        },
+        {
+          "href": "/trust/",
+          "class": "nav-link",
+          "label": "Trust & Security"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button secondary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button primary cta-app",
+          "label": "Get the App"
+        },
+        {
+          "href": "https://play.google.com/store/apps/details?id=app.cool.mobile",
+          "class": "button ghost on-light cta-group",
+          "label": "Create a group on Android"
+        },
+        {
+          "href": "mailto:info@ikanisa.com",
+          "class": "button ghost on-light cta-touch",
+          "label": "Email Collect support"
+        },
+        {
+          "href": "mailto:info@ikanisa.com?subject=Collect+support",
+          "class": "",
+          "label": "info@ikanisa.com"
+        },
+        {
+          "href": "https://wa.me/250795588248?text=Hello+IKANISA%2C+I+am+contacting+you+from+the+Collect+website.",
+          "class": "whatsapp-contact",
+          "label": "WhatsApp +250 795 588 248"
+        },
+        {
+          "href": "/privacy/",
+          "class": "",
+          "label": "Privacy"
+        },
+        {
+          "href": "/terms/",
+          "class": "",
+          "label": "Terms"
+        },
+        {
+          "href": "/account-deletion/",
+          "class": "",
+          "label": "Account deletion"
+        },
+        {
+          "href": "/data-deletion/",
+          "class": "",
+          "label": "Data deletion"
+        },
+        {
+          "href": "/trust/",
+          "class": "",
+          "label": "Trust"
+        }
+      ],
+      "visible_text": "Security | Collect by IKANISA\nSkip to content\nCollect\nby IKANISA\nMenu\nGroup Savings\nInsurance\nCRaaS\nCommunity Groups\nOur Partners\nTrust & Security\nGet the App\nCreate a group on Android\nEmail Collect support\nGet the App\nSecurity, privacy and trust controls.\nCollect uses safeguards designed to protect personal data and gives customers clear routes to access, correct and delete eligible data.\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect interface preview · Example data\nHow Collect protects customer information\nCollect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible.\nPersonal data is not sold.\nCustomer funds are not held on Collect's own balance sheet.\nBanks and insurers make their own regulated decisions.\nCustomer deletion and correction routes are available through app and support channels.\nWhat Collect will not do\nCollect does not make final loan, pricing, policy or claim decisions for regulated providers, and it does not expose private credit-readiness documents to group members.\nNo public training of private customer financial documents.\nNo sale of personal data.\nNo public promise of automatic credit, insurance or payout approval.\nNo unrestricted access to sensitive support records.\nPartner and regulated-product boundary\nCollect supports records, preparation, communication and customer-requested workflows. Licensed banks, insurers or approved providers remain responsible for their own KYC, AML/CFT, eligibility, pricing, approval, disbursement, claim and regulatory obligations.\nProvider review remains separate from Collect public marketing copy.\nFunds are handled through regulated financial-service partners where approved arrangements apply.\nPartner handoff requires an appropriate legal basis and customer workflow.\nCustomer rights and deletion support\nCustomers can request access, correction, account deletion or data deletion. Some ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention.\nUse the in-app account deletion request where available.\nContact WhatsApp support at +250 795 588 248.\nEmail info@ikanisa.com for privacy or deletion questions.\nSupport can confirm request status and explain retained record categories.\nDownload\nCollect\nor Get in Touch\nGet the App\nCreate a group on Android\nEmail Collect support\nCollect by IKANISA\nIKANISA Ltd.\nIKANISA Ltd. is a technology company. Collect records group contributions; it is not a bank or wallet and does not hold customer funds. Credit and insurance directions require separate licensed-provider arrangements and are not available through the current app.\nSupport:\ninfo@ikanisa.com\n·\nWhatsApp\n+250 795 588 248\n© 2026 IKANISA Ltd.. All rights reserved.\nPrivacy\nTerms\nAccount deletion\nData deletion\nTrust",
+      "legal_text": "How Collect protects customer information\nCollect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible.\nPersonal data is not sold.\nCustomer funds are not held on Collect's own balance sheet.\nBanks and insurers make their own regulated decisions.\nCustomer deletion and correction routes are available through app and support channels.\nWhat Collect will not do\nCollect does not make final loan, pricing, policy or claim decisions for regulated providers, and it does not expose private credit-readiness documents to group members.\nNo public training of private customer financial documents.\nNo sale of personal data.\nNo public promise of automatic credit, insurance or payout approval.\nNo unrestricted access to sensitive support records.\nPartner and regulated-product boundary\nCollect supports records, preparation, communication and customer-requested workflows. Licensed banks, insurers or approved providers remain responsible for their own KYC, AML/CFT, eligibility, pricing, approval, disbursement, claim and regulatory obligations.\nProvider review remains separate from Collect public marketing copy.\nFunds are handled through regulated financial-service partners where approved arrangements apply.\nPartner handoff requires an appropriate legal basis and customer workflow.\nCustomer rights and deletion support\nCustomers can request access, correction, account deletion or data deletion. Some ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention.\nUse the in-app account deletion request where available.\nContact WhatsApp support at +250 795 588 248.\nEmail info@ikanisa.com for privacy or deletion questions.\nSupport can confirm request status and explain retained record categories."
+    }
+  }
+}

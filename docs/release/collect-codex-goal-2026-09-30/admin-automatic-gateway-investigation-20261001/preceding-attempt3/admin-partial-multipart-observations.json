@@ -1,0 +1,129 @@
+{
+  "arm": {
+    "armed_at": "2026-10-01T17:30:52.858485Z",
+    "expires_at": "2026-10-01T17:31:22.616109Z",
+    "request_id": "f453434e-5233-4308-a722-a2152af8824b",
+    "health_observation_id": "d2110549-a298-411f-8f73-4d075005f977"
+  },
+  "rows": [
+    {
+      "code": null,
+      "action": "callback",
+      "source": "callback",
+      "tp_status": null,
+      "request_id": "a69662a4-88a1-4ef3-8a92-05661100b31b",
+      "callback_id": "dbd75b3d-f4f3-4197-b375-ac969a3d91c5",
+      "occurred_at": "2026-10-01T17:30:53.789501Z",
+      "recorded_at": "2026-10-01T17:30:53.869093Z",
+      "result_code": -1,
+      "callback_kind": "sent",
+      "segment_index": 0
+    },
+    {
+      "code": "CALLBACK_EVIDENCE_INCOMPLETE",
+      "action": "archive_attempt",
+      "source": "archive",
+      "tp_status": null,
+      "request_id": "2bc34aa7-5fb2-414f-a315-29139052b3bf",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:30:53.360270Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    },
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "arm_dispatch",
+      "source": "arm",
+      "tp_status": null,
+      "request_id": "f453434e-5233-4308-a722-a2152af8824b",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:30:52.872389Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    },
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "dispatch_grant",
+      "source": "grant",
+      "tp_status": null,
+      "request_id": "5f27f0ad-3a9c-4f81-a264-df4aa0f4826b",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:30:52.617195Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "available",
+  "attempt": {
+    "state": "send_started",
+    "run_id": "a4abe82c-aa3b-44d0-ac98-7607efd107ae",
+    "device_id": "221bb315-060a-4b8e-a256-8a8a20b85b70",
+    "issued_at": "2026-10-01T17:30:52.616109Z",
+    "attempt_id": "781a3991-ebbf-4527-9167-8c1146ddaad1",
+    "expires_at": "2026-10-01T17:31:22.616109Z",
+    "receipt_id": "08ebd672-5425-430b-81dd-f685785d61b6",
+    "updated_at": "2026-10-01T17:30:53.869093Z",
+    "principal_id": "48adb09d-ae74-4478-9e6f-ccceeabece5a",
+    "fence_version": 1,
+    "segment_count": 2,
+    "policy_revision": 2,
+    "grant_request_id": "5f27f0ad-3a9c-4f81-a264-df4aa0f4826b",
+    "health_observation_id": "d2110549-a298-411f-8f73-4d075005f977"
+  },
+  "checked_at": "2026-10-01T17:30:53.959156Z",
+  "receipt_id": "08ebd672-5425-430b-81dd-f685785d61b6",
+  "archive_ack": null,
+  "next_cursor": null,
+  "carrier_proof": false,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "history_complete": false,
+  "expected_callbacks": [
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "5d074f95-a74c-41db-a7dc-b350138faed2",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 0,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": true,
+      "callback_id": "dbd75b3d-f4f3-4197-b375-ac969a3d91c5",
+      "result_code": -1,
+      "callback_kind": "sent",
+      "segment_index": 0,
+      "has_observation": true
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "54aba6b6-545f-4654-ae41-117e081c8713",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 1,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "23a9be9f-7574-4be7-beb2-543b7c898e75",
+      "result_code": null,
+      "callback_kind": "sent",
+      "segment_index": 1,
+      "has_observation": false
+    }
+  ],
+  "sample_valid_until": "2026-10-01T17:31:53.959156Z"
+}

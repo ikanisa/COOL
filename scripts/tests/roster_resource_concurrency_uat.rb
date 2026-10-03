@@ -6,15 +6,17 @@ require 'timeout'
 # SOURCE ONLY until root invokes the explicit exact-fixture guard below.
 # Committed synthetic races require guarded restoration, unlike rollback UAT.
 ROOT = File.expand_path('../..', __dir__)
-PROJECT = 'collect_fin_concurrency_qa_20260929'
-CONTAINER = "supabase_db_#{PROJECT}"
+TARGET_MODE = ENV['COLLECT_ROSTER_TARGET_MODE']
+PROJECT = TARGET_MODE == 'offline_current_chain' ? ENV.fetch('COLLECT_ROSTER_TARGET_CONTAINER') : 'collect_fin_concurrency_qa_20260929'
+CONTAINER = TARGET_MODE == 'offline_current_chain' ? PROJECT : "supabase_db_#{PROJECT}"
+OFFLINE_IMAGE_ID = 'sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a'
 PREFIX = '99700000'
 ACTOR = "#{PREFIX}-0000-4000-8000-000000000001"
 CONTROLLER = "#{PREFIX}-0000-4000-8000-000000000002"
 CONTROL_SESSION = "#{PREFIX}-0000-4000-8000-000000000012"
 WORKER_A = 'collect_roster_146_a'
 WORKER_B = 'collect_roster_146_b'
-MIGRATION = 'supabase/migrations/20260930140000_roster_resource_integrity.sql'
+MIGRATION = 'supabase/migrations/20261001235500_roster_decoder_toolchain_admission.sql'
 MIGRATION_SHA = ENV.fetch('COLLECT_ROSTER_RESOURCE_MIGRATION_SHA')
 SCHEMAS = "'public','private','collect_hybrid','collect_security','collect_admin_access','collect_auth_security','collect_member_actions','collect_profile_access','auth','realtime','supabase_migrations'"
 IMMUTABLE = {
@@ -22,6 +24,12 @@ IMMUTABLE = {
   'collect_hybrid.roster_resource_completions'=>'roster_resource_immutable',
   'collect_hybrid.roster_source_verifications'=>'roster_resource_immutable'
 }.freeze
+GOVERNANCE_CLEANUP = {
+  'public.feature_flags'=>'runtime_control_governance',
+  'collect_security.runtime_control_events'=>'runtime_control_event_immutable',
+  'collect_security.runtime_control_requests'=>'runtime_control_request_immutable'
+}.freeze
+CLEANUP_GUARDS = IMMUTABLE.merge(GOVERNANCE_CLEANUP).freeze
 PSQL = ['docker','exec','-i',CONTAINER,'psql','-XqAt','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres'].freeze
 TRACKED_XIDS = []
 CHECKPOINT = {}
@@ -107,7 +115,9 @@ def owned_xids_sql
     'public.audit_logs'=>"actor_user_id in ('#{ACTOR}','#{CONTROLLER}')",
     'collect_hybrid.roster_resource_reservations'=>"actor_id='#{ACTOR}' and request_id::text like '#{PREFIX}-%'",
     'collect_hybrid.roster_resource_completions'=>"reservation_id in (select id from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}')",
-    'collect_hybrid.roster_source_verifications'=>"reservation_id in (select id from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}')"
+    'collect_hybrid.roster_source_verifications'=>"reservation_id in (select id from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}')",
+    'collect_security.runtime_control_requests'=>"actor_id='#{CONTROLLER}' and request_id in ('#{id(900)}','#{id(901)}') and family='feature_flags' and identity=jsonb_build_object('key','hybrid_member_onboarding')",
+    'collect_security.runtime_control_events'=>"actor_id='#{CONTROLLER}' and id in (select event_id from collect_security.runtime_control_requests where actor_id='#{CONTROLLER}' and request_id in ('#{id(900)}','#{id(901)}'))"
   }
   owned_groups="select collection_id from collect_hybrid.roster_import_commits where actor_id='#{ACTOR}' and request_id::text like '#{PREFIX}-%' and response->>'mode'='create'"
   scopes['public.collections']="id in (#{owned_groups})"
@@ -181,13 +191,13 @@ def session(n)
   query("insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal) values('#{sid}','#{ACTOR}',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');",transaction:true)
   sid
 end
-def cleanup_sql(tables:, before_sql:, controls_before:, flag_sql:, xids_sql:, trigger_guard:, residual_baseline_sql:)
+def cleanup_sql(tables:, before_sql:, controls_before:, flag_sql:, head_sql:, xids_sql:, trigger_guard:, residual_baseline_sql:)
   <<~SQL
-        -- QA ONLY: exactly the three named resource guards, with rollback on
+        -- QA ONLY: exactly the named resource and governance guards, with rollback on
         -- any failure and complete baseline/control comparison before COMMIT.
         select pg_advisory_xact_lock(193517,141);
         set local lock_timeout='5s';
-        lock table #{IMMUTABLE.keys.join(',')},public.app_realtime_events in access exclusive mode;
+        lock table #{CLEANUP_GUARDS.keys.join(',')},collect_security.runtime_control_heads,public.app_realtime_events in access exclusive mode;
         #{trigger_guard}
         create temp table roster_qa_group_cleanup on commit drop as
           select distinct c.collection_id as id from collect_hybrid.roster_import_commits c
@@ -207,13 +217,13 @@ def cleanup_sql(tables:, before_sql:, controls_before:, flag_sql:, xids_sql:, tr
             'collect_hybrid.member_records'::regclass,'collect_hybrid.member_momo_identities'::regclass,
             'public.collections'::regclass,'public.collection_members'::regclass,'public.collection_share_secrets'::regclass,
             'collect_hybrid.group_creation_requests'::regclass,'collect_hybrid.roster_batches'::regclass,
-            #{IMMUTABLE.keys.map { |x| "'#{x}'::regclass" }.join(',')},'public.audit_logs'::regclass,'public.feature_flags'::regclass,'collect_hybrid.roster_import_editor_drafts'::regclass];
+            #{CLEANUP_GUARDS.keys.map { |x| "'#{x}'::regclass" }.join(',')},'public.audit_logs'::regclass,'collect_hybrid.roster_import_editor_drafts'::regclass];
         begin
           if current_user<>'postgres' or current_setting('cron.launch_active_jobs')<>'off' or current_setting('pg_net.batch_size')<>'0'
-            or (select count(*) from supabase_migrations.schema_migrations)<>146
-            or (select max(version) from supabase_migrations.schema_migrations)<>'20260930140000'
+            or (select count(*) from supabase_migrations.schema_migrations)<>197
+            or (select max(version) from supabase_migrations.schema_migrations)<>'20261002020000'
             or exists(select 1 from pg_stat_activity where pid<>pg_backend_pid() and backend_type='client backend' and state<>'idle') then
-            raise exception 'Quiet exact146 cleanup precondition lost'; end if;
+            raise exception 'Quiet exact197 cleanup precondition lost'; end if;
           if exists(select 1 from pg_trigger where tgrelid='public.app_realtime_events'::regclass and not tgisinternal)
             or exists(select 1 from pg_constraint where contype='f' and confrelid='public.app_realtime_events'::regclass) then
             raise exception 'Unknown telemetry guard/reference'; end if;
@@ -236,7 +246,40 @@ def cleanup_sql(tables:, before_sql:, controls_before:, flag_sql:, xids_sql:, tr
             if referenced then raise exception 'Unknown synthetic FK/reference from %',fk.child; end if;
           end loop;
         end $$;
-        #{IMMUTABLE.map { |t,n| "alter table #{t} disable trigger #{n};" }.join("\n")}
+        do $$ declare
+          baseline_head collect_security.runtime_control_heads:=jsonb_populate_record(null::collect_security.runtime_control_heads,#{head_sql});
+          current_head collect_security.runtime_control_heads;owned_event_count bigint;
+        begin
+          select * into current_head from collect_security.runtime_control_heads
+            where family='feature_flags' and identity=jsonb_build_object('key','hybrid_member_onboarding') for update;
+          if current_head.family is null or baseline_head.family is distinct from current_head.family
+            or baseline_head.identity is distinct from current_head.identity then
+            raise exception 'Captured feature governance head required'; end if;
+          if exists(select 1 from collect_security.runtime_control_requests where
+              (actor_id='#{CONTROLLER}' and (request_id not in ('#{id(900)}','#{id(901)}')
+                or family<>'feature_flags' or identity<>current_head.identity or session_id<>'#{CONTROL_SESSION}'))
+              or (request_id in ('#{id(900)}','#{id(901)}') and actor_id<>'#{CONTROLLER}'))
+            or exists(select 1 from collect_security.runtime_control_events e where e.actor_id='#{CONTROLLER}'
+              and (e.family<>'feature_flags' or e.identity_sha256<>collect_security.runtime_control_hash(current_head.identity)
+                or e.session_id is distinct from '#{CONTROL_SESSION}'::uuid or e.authority<>'live_operator'
+                or not exists(select 1 from collect_security.runtime_control_requests r
+                  where r.actor_id='#{CONTROLLER}' and r.request_id in ('#{id(900)}','#{id(901)}') and r.event_id=e.id))) then
+            raise exception 'Unattributed synthetic governance request/event'; end if;
+          select count(*) into owned_event_count from collect_security.runtime_control_events where actor_id='#{CONTROLLER}';
+          if current_head.revision<>baseline_head.revision+owned_event_count
+            or current_head.content_sha256 is distinct from
+              (select collect_security.runtime_control_hash(to_jsonb(f)) from public.feature_flags f where key='hybrid_member_onboarding') then
+            raise exception 'Feature governance revision includes an unknown writer'; end if;
+        end $$;
+        create temp table roster_qa_control_events on commit drop as
+          select event_id as id from collect_security.runtime_control_requests
+            where actor_id='#{CONTROLLER}' and request_id in ('#{id(900)}','#{id(901)}') and event_id is not null;
+        #{CLEANUP_GUARDS.map { |t,n| "alter table #{t} disable trigger #{n};" }.join("\n")}
+        delete from collect_security.runtime_control_requests where actor_id='#{CONTROLLER}' and request_id in ('#{id(900)}','#{id(901)}');
+        delete from collect_security.runtime_control_events where actor_id='#{CONTROLLER}' and id in (select id from roster_qa_control_events);
+        update collect_security.runtime_control_heads set (revision,content_sha256,updated_at)=(
+          select h.revision,h.content_sha256,h.updated_at from jsonb_populate_record(null::collect_security.runtime_control_heads,#{head_sql}) h)
+          where family='feature_flags' and identity=jsonb_build_object('key','hybrid_member_onboarding');
         delete from collect_hybrid.roster_source_verifications where reservation_id in (select id from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}');
         delete from collect_hybrid.roster_resource_completions where reservation_id in (select id from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}');
         delete from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}' and request_id::text like '#{PREFIX}-%';
@@ -275,7 +318,7 @@ def cleanup_sql(tables:, before_sql:, controls_before:, flag_sql:, xids_sql:, tr
           end loop;
           delete from collect_hybrid.member_records where id=any(members) and linked_user_id is null;
         end $$;
-        #{IMMUTABLE.map { |t,n| "alter table #{t} enable trigger #{n};" }.join("\n")}
+        #{CLEANUP_GUARDS.map { |t,n| "alter table #{t} enable trigger #{n};" }.join("\n")}
         delete from public.app_realtime_events where xmin::text in (#{xids_sql}) or xmin::text=pg_current_xact_id()::text;
         do $$ begin
           if (#{digest_sql(tables)}) is distinct from (#{before_sql}) then
@@ -289,24 +332,34 @@ end
 
 if __FILE__ == $PROGRAM_NAME
 
+raise 'Unknown roster target mode' unless [nil, 'offline_current_chain'].include?(TARGET_MODE)
 raise 'Set COLLECT_ROSTER_PROVENANCE_QA=isolated_clone' unless ENV['COLLECT_ROSTER_PROVENANCE_QA']=='isolated_clone'
 raise 'New absolute COLLECT_ROSTER_CHECKPOINT path required' unless CHECKPOINT_PATH && CHECKPOINT_PATH.start_with?('/') && !File.exist?(CHECKPOINT_PATH) && !File.symlink?(CHECKPOINT_PATH) && Dir.exist?(File.dirname(CHECKPOINT_PATH))
-raise 'Explicit frozen146 SHA required' unless MIGRATION_SHA.match?(/\A[a-f0-9]{64}\z/)
-raise 'Frozen migration146 changed' unless Digest::SHA256.file(File.join(ROOT,MIGRATION)).hexdigest==MIGRATION_SHA
+raise 'Explicit frozen194 SHA required' unless MIGRATION_SHA.match?(/\A[a-f0-9]{64}\z/)
+raise 'Frozen admission migration194 changed' unless Digest::SHA256.file(File.join(ROOT,MIGRATION)).hexdigest==MIGRATION_SHA
 raw,err,status=Open3.capture3('docker','inspect',CONTAINER)
 raise err unless status.success?
 container=JSON.parse(raw).fetch(0); labels=container.fetch('Config').fetch('Labels')
-ports=container.fetch('HostConfig').fetch('PortBindings').fetch('5432/tcp')
-config=File.read(File.join(ROOT,'.cache/financial-concurrency-20260929/supabase/config.toml'))
-db=config[/^\[db\]\s*\n(.*?)(?=^\[|\z)/m,1]
-raise 'Exact task fixture provenance required' unless container.dig('State','Running') && labels['com.supabase.cli.project']==PROJECT &&
-  labels['com.docker.compose.project']==PROJECT && config.match?(/^project_id = "#{PROJECT}"$/) && db&.match?(/^port = 55722$/) &&
-  !ports.empty? && ports.all? { |v| v['HostPort']=='55722' }
+if TARGET_MODE == 'offline_current_chain'
+  host=container.fetch('HostConfig')
+  raise 'Exact task-owned offline target provenance required' unless
+    CONTAINER.match?(/\Acollect_current_rehearsal_decoder_admission_[a-f0-9]{12}\z/) &&
+    container.dig('State','Running') && container.fetch('Image')==OFFLINE_IMAGE_ID &&
+    labels['collect.rehearsal.owner']==CONTAINER && host.fetch('NetworkMode')=='none' &&
+    (host['PortBindings'].nil? || host['PortBindings'].empty?)
+else
+  ports=container.fetch('HostConfig').fetch('PortBindings').fetch('5432/tcp')
+  config=File.read(File.join(ROOT,'.cache/financial-concurrency-20260929/supabase/config.toml'))
+  db=config[/^\[db\]\s*\n(.*?)(?=^\[|\z)/m,1]
+  raise 'Exact task fixture provenance required' unless container.dig('State','Running') && labels['com.supabase.cli.project']==PROJECT &&
+    labels['com.docker.compose.project']==PROJECT && config.match?(/^project_id = "#{PROJECT}"$/) && db&.match?(/^port = 55722$/) &&
+    !ports.empty? && ports.all? { |v| v['HostPort']=='55722' }
+end
 query(<<~SQL)
   do $$ begin
     if current_database()<>'postgres' or current_user<>'postgres' or current_setting('cron.launch_active_jobs')<>'off'
-      or current_setting('pg_net.batch_size')<>'0' or (select count(*) from supabase_migrations.schema_migrations)<>146
-      or (select max(version) from supabase_migrations.schema_migrations)<>'20260930140000'
+      or current_setting('pg_net.batch_size')<>'0' or (select count(*) from supabase_migrations.schema_migrations)<>197
+      or (select max(version) from supabase_migrations.schema_migrations)<>'20261002020000'
       or exists(select 1 from auth.users where id::text like '#{PREFIX}-%' or phone in ('250788970001','250788970002'))
       or exists(select 1 from auth.sessions where id::text like '#{PREFIX}-%')
       or exists(select 1 from public.profiles where id::text like '#{PREFIX}-%' or momo_number like '%789970%')
@@ -314,12 +367,14 @@ query(<<~SQL)
       or exists(select 1 from collect_hybrid.member_momo_identities where momo_number like '+250789970%')
       or exists(select 1 from collect_hybrid.roster_import_sources where request_id::text like '#{PREFIX}-%' or actor_id in ('#{ACTOR}','#{CONTROLLER}'))
       or exists(select 1 from collect_hybrid.roster_resource_reservations where request_id::text like '#{PREFIX}-%' or actor_id in ('#{ACTOR}','#{CONTROLLER}'))
+      or exists(select 1 from collect_security.runtime_control_requests where request_id::text like '#{PREFIX}-%' or actor_id in ('#{ACTOR}','#{CONTROLLER}'))
+      or exists(select 1 from collect_security.runtime_control_events where actor_id in ('#{ACTOR}','#{CONTROLLER}'))
       or exists(select 1 from public.notification_device_tokens) or exists(select 1 from public.notification_deliveries)
       or exists(select 1 from pg_stat_activity where application_name in ('#{WORKER_A}','#{WORKER_B}')) then
-      raise exception 'Exact isolated146, inactive providers and unused9970 namespace required'; end if;
+      raise exception 'Exact isolated197, inactive providers and unused9970 namespace required'; end if;
   end $$;
 SQL
-triggers=IMMUTABLE.map { |table,name| "('#{table}'::regclass,'#{name}')" }.join(',')
+triggers=CLEANUP_GUARDS.map { |table,name| "('#{table}'::regclass,'#{name}')" }.join(',')
 trigger_guard=<<~SQL
   do $$ declare x record; begin
     for x in select * from (values #{triggers}) expected(relation,name) loop
@@ -332,12 +387,14 @@ SQL
 query(trigger_guard)
 tables=snapshot_tables; before=query(digest_sql(tables)+';'); controls_before=query(controls_sql+';')
 flag=JSON.parse(query("select to_jsonb(f) from public.feature_flags f where key='hybrid_member_onboarding';"))
+head=JSON.parse(query("select to_jsonb(h) from collect_security.runtime_control_heads h where family='feature_flags' and identity=jsonb_build_object('key','hybrid_member_onboarding');"))
+raise 'Existing feature governance head required' unless head.is_a?(Hash) && head['revision'].is_a?(Integer) && head['revision']>0
 financial=%w[public.payments public.ledger_entries collect_hybrid.momo_journal_entries collect_hybrid.momo_journal_lines collect_hybrid.collection_balances collect_hybrid.member_balances]
 financial_before=query(digest_sql(financial)+';')
 baseline_fingerprints=JSON.parse(query(fingerprints_sql(tables)+';'))
 CHECKPOINT.merge!('phase'=>'baseline_before_seed','source_sha256'=>Digest::SHA256.file(__FILE__).hexdigest,
   'migration_sha256'=>MIGRATION_SHA,'fixture'=>PROJECT,'baseline_tables'=>tables,'baseline_sha256'=>before,
-  'baseline_fingerprints'=>baseline_fingerprints,'controls_sha256'=>controls_before,'feature_flag'=>flag)
+  'baseline_fingerprints'=>baseline_fingerprints,'controls_sha256'=>controls_before,'feature_flag'=>flag,'feature_governance_head'=>head)
 # O_EXCL prevents replacing an earlier run's checkpoint, even after the guard.
 File.open(CHECKPOINT_PATH,File::WRONLY|File::CREAT|File::EXCL,0600) { |f| f.write(JSON.pretty_generate(CHECKPOINT)+"\n"); f.flush; f.fsync }
 workers=[]; seeded=false; failure=nil; cleanup_failure=nil; result=nil; observed=[]; acknowledgements=[]
@@ -356,7 +413,10 @@ begin
       from (values('#{ACTOR}'::uuid),('#{CONTROLLER}'::uuid)) a(id) cross join public.admin_roles r where r.name='platform_owner';
     insert into auth.sessions(id,user_id,created_at,updated_at,not_after,aal)
       values('#{CONTROL_SESSION}','#{CONTROLLER}',clock_timestamp(),clock_timestamp(),clock_timestamp()+interval '1 hour','aal1');
-    update public.feature_flags set enabled=true where key='hybrid_member_onboarding';
+    #{actor(CONTROL_SESSION,CONTROLLER)}
+    select public.admin_update_runtime_control_v2('#{id(900)}','feature_flags','{"key":"hybrid_member_onboarding"}',
+      '{"enabled":true}',#{head.fetch('revision')},'Synthetic roster feature enable fixture',clock_timestamp()+interval '90 seconds');
+    reset role;
   SQL
   a=worker_start(WORKER_A,workers); b=worker_start(WORKER_B,workers)
   sid=session(1)
@@ -379,7 +439,7 @@ begin
   write(a,"commit; select 'FINISH_COMMITTED';\n");read_until(a,'FINISH_COMMITTED');second=result_from(read_until(b,'FINISH_REPLAY'))
   raise 'Finish replay mismatch' unless first==second && first.fetch('charged')
   verify="public.verify_roster_source_integrity('#{second_id}','#{ACTOR}','#{sid}','#{'b'*64}','#{'d'*64}','collect-roster-decoder-v1'," \
-    "'{\"python\":\"3.12\",\"pillow\":\"12.0.0\",\"pypdfium2\":\"5.2.0\",\"pypdf\":\"6.7.0\",\"openpyxl\":\"3.1.5\",\"defusedxml\":\"0.7.1\"}'," \
+    "'{\"python\":\"3.12\",\"pillow\":\"12.3.0\",\"pypdfium2\":\"5.2.0\",\"pypdf\":\"6.19.0\",\"openpyxl\":\"3.1.5\",\"defusedxml\":\"0.7.1\"}'," \
     "'{\"frames\":1,\"pages\":0,\"pixels\":100,\"expanded_bytes\":400}')"
   start(a,"#{service} select 'RESULT:'||#{verify}::text; select 'VERIFY_HELD';")
   first=result_from(read_until(a,'VERIFY_HELD'))
@@ -408,13 +468,16 @@ begin
   write(a,"commit; select 'RR_WINNER_COMMITTED';\n");read_until(a,'RR_WINNER_COMMITTED');read_until(b,'RR_STALE_DENIED')
   charged=JSON.parse(query("select jsonb_build_object('requests',count(*),'cost_units',sum(cost_units),'bytes',sum(source_bytes)) from collect_hybrid.roster_resource_reservations where actor_id='#{ACTOR}';"))
   raise 'Stale RR overbooked or altered charges' unless charged=={'requests'=>4,'cost_units'=>40000,'bytes'=>400}
-  start(a,"#{actor(CONTROL_SESSION,CONTROLLER)} select public.admin_set_feature_flag('hybrid_member_onboarding',false,'Synthetic upload revocation test'); select 'REVOKE_HELD';")
+  feature_observed=result_from(query("#{actor(CONTROL_SESSION,CONTROLLER)} select 'RESULT:'||public.admin_get_runtime_control_v2('feature_flags','{\"key\":\"hybrid_member_onboarding\"}')::text;",transaction:true))
+  raise 'Current reviewed feature must be enabled before revocation' unless feature_observed.fetch('value').fetch('enabled')==true
+  start(a,"#{actor(CONTROL_SESSION,CONTROLLER)} select public.admin_update_runtime_control_v2('#{id(901)}','feature_flags','{\"key\":\"hybrid_member_onboarding\"}',"+
+    "'{\"enabled\":false}',#{feature_observed.fetch('revision')},'Synthetic upload revocation test',clock_timestamp()+interval '90 seconds'); select 'REVOKE_HELD';")
   read_until(a,'REVOKE_HELD')
   start(b,"#{service} #{rejected(reserve.call(4),'55000','roster_feature_disabled')} commit; select 'RESERVE_REVOKED';")
   observed << {scenario:'feature_revocation_fences_waiting_upload_reservation',state:blocked(b,a)}
   write(a,"commit; select 'REVOKE_COMMITTED';\n");read_until(a,'REVOKE_COMMITTED');read_until(b,'RESERVE_REVOKED')
   raise 'Resource tests changed financial data' unless query(digest_sql(financial)+';')==financial_before
-  result={status:'pass',fixture:PROJECT,migration_count:146,worker_sessions:2,provider_calls:0,hosted_auth_requests:0,
+  result={status:'pass',fixture:PROJECT,migration_count:197,worker_sessions:2,provider_calls:0,hosted_auth_requests:0,
     scenarios:observed,charges:charged,financial_rows_unchanged:true,
     source_sha256:Digest::SHA256.file(__FILE__).hexdigest,migration_sha256:MIGRATION_SHA}
 rescue StandardError => e
@@ -446,14 +509,14 @@ ensure
       save_checkpoint
       xids=(TRACKED_XIDS+owned_xids).uniq.map { |x| lit(x) }.join(',')
       query(cleanup_sql(tables:tables,before_sql:lit(before),controls_before:controls_before,
-        flag_sql:lit(flag.to_json)+'::jsonb',xids_sql:xids,trigger_guard:trigger_guard,
+        flag_sql:lit(flag.to_json)+'::jsonb',head_sql:lit(head.to_json)+'::jsonb',xids_sql:xids,trigger_guard:trigger_guard,
         residual_baseline_sql:lit(baseline_fingerprints.to_json)+'::jsonb'),transaction:true)
       after=query(digest_sql(tables)+';'); controls_after=query(controls_sql+';')
       raise 'Post-cleanup baseline mismatch' unless after==before && controls_after==controls_before
       if result
         result.merge!(baseline_tables:tables,baseline_table_count:tables.length,baseline_sha256_before:before,baseline_sha256_after:after,
           controls_sha256_before:controls_before,controls_sha256_after:controls_after,synthetic_graph_removed:true,worker_sessions_remaining:0,
-          qa_only_temporarily_disabled_triggers:IMMUTABLE,captured_transaction_ids:TRACKED_XIDS.uniq,owned_row_xid_attribution:attribution,checkpoint_path:CHECKPOINT_PATH,
+          qa_only_temporarily_disabled_triggers:CLEANUP_GUARDS,captured_transaction_ids:TRACKED_XIDS.uniq,owned_row_xid_attribution:attribution,checkpoint_path:CHECKPOINT_PATH,
           telemetry_disposition:'Only observed top-level and exact owned-row child XIDs plus cleanup XID removed; all pre-existing rows retained.',
           sequence_counters_restored:false,sequence_note:'PostgreSQL nextval counters are not rolled back or reset.')
       end

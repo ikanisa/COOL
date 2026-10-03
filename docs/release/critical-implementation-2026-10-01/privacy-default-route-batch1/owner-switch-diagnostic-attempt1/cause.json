@@ -1,0 +1,36 @@
+{
+  "diagnostic_only": true,
+  "accepted_production_source": false,
+  "actual_exit_code": 1,
+  "all587_recorded_inputs_equal": true,
+  "same_request_state_identity_across_owner_departure": true,
+  "observed_sequence": [
+    {
+      "log_line": 18,
+      "observation": "Guard observes different live owner and invalidates privacy route."
+    },
+    {
+      "log_line": 22,
+      "observation": "Delegate settles auth, while requested URI is still privacy with encoded-state identity789965720; latch is released."
+    },
+    {
+      "log_line": 24,
+      "observation": "B loading refresh notifies with the identical old requested state; no fresh go/push operation."
+    },
+    {
+      "log_line": 28,
+      "observation": "Old request reparses into held splash with next=privacy."
+    },
+    {
+      "log_line": 30,
+      "observation": "B full profile refresh captures the current-profile owner on the old privacy request."
+    },
+    {
+      "log_line": 34,
+      "observation": "Delegate settles privacy again with the same requested state."
+    }
+  ],
+  "scope_limit": "One synthetic locked-SDK loopback owner-switch diagnostic, no hosted/device/provider/legal acceptance.",
+  "original_test_restored_sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c",
+  "no_assertion_weakening": true
+}

@@ -1,0 +1,74 @@
+{
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "00784ea4a1d6f56af7769541e6087e8e6768aae1463f9fe06d5ac0e1318581fc",
+      "bytes": 2897
+    },
+    {
+      "path": "captured-source/lib/admin/core/admin_reconciliation_step_up.dart",
+      "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02",
+      "bytes": 10303
+    },
+    {
+      "path": "captured-source/lib/admin/core/admin_roster_gateway.dart",
+      "sha256": "ab4de5b5a5ea4a0f0143531068f8c9128d31348f65b47c89b5d66a4d2ebf3183",
+      "bytes": 14265
+    },
+    {
+      "path": "captured-source/lib/admin/core/admin_runtime.dart",
+      "sha256": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+      "bytes": 38219
+    },
+    {
+      "path": "captured-source/lib/app/router.dart",
+      "sha256": "4d32b070ca9449f3c854dfec9686b5c42da582c1978008dcb2accf45260e724f",
+      "bytes": 22095
+    },
+    {
+      "path": "captured-source/lib/core/supabase/auth_otp_gateway.dart",
+      "sha256": "7a1ff33821bc1617bb257762a10581289e2ef8aedc57224112d7ab14478660b2",
+      "bytes": 1225
+    },
+    {
+      "path": "captured-source/lib/features/auth/auth_screen.dart",
+      "sha256": "177c5618bf6a0404df2c91cd901728f7038bb58dbf99c5b5d403af5a22e01fd4",
+      "bytes": 13541
+    },
+    {
+      "path": "captured-source/lib/features/status/account_legal_screens.dart",
+      "sha256": "486ab743bfb26c301828b5adb66f86267c4614b4b4c29718942348b23519ed82",
+      "bytes": 12790
+    },
+    {
+      "path": "captured-source/lib/shared/repositories/collect_repository.dart",
+      "sha256": "c967dd8c9b318c427942b5aa8ed1321133f8050e4e20fa76d21c2fcd05e3dad1",
+      "bytes": 38608
+    },
+    {
+      "path": "captured-source/pubspec.lock",
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b",
+      "bytes": 39236
+    },
+    {
+      "path": "captured-source/test/admin_reconciliation_step_up_test.dart",
+      "sha256": "48f01d85d9abd894a6d91a7a22698e87c936a3e600648962caf0958f383a2e8f",
+      "bytes": 11861
+    },
+    {
+      "path": "captured-source/test/admin_roster_fresh_auth_test.dart",
+      "sha256": "75300b969947cb1370334b7a3acaab8a8575e4e99b05e46501c2c208fbaa9d95",
+      "bytes": 13421
+    },
+    {
+      "path": "captured-source/test/features/auth_error_recovery_test.dart",
+      "sha256": "da349ea3bf54e07badd8aa2ab1716350611b83f0b7756de3c663fe40f34c47c3",
+      "bytes": 4534
+    },
+    {
+      "path": "discovery.json",
+      "sha256": "d94397aae98ed66b37cecc6cc0f52c8c18a3a9659cb53db3a9807823550570a4",
+      "bytes": 5848
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+Generated from retained result.json; this is not a captured console transcript.
+PASS supabase/migrations/20260930213000_operator_email_auth.sql preserves empty canonical business tables
+PASS supabase/migrations/20260930230100_receipt_backlog_events.sql preserves empty canonical business tables
+PASS supabase/migrations/20260930230300_admin_transaction_lifecycle.sql preserves empty canonical business tables
+PASS supabase/migrations/20260930230400_admin_investigation.sql preserves empty canonical business tables
+PASS current shared authority accepts verified email owner without phone confirmation
+PASS empty investigation target returns missing sections without invented data
+PASS actual posted transaction exposes separately authorized payment and receipt evidence
+PASS receipt reconstruction is explicitly bound to matching immutable posting snapshot
+PASS historical receipt balance remains300 while separately updated current balance is800
+PASS actual event and posting times stay distinct from observation read time
+PASS actual journal and receipt snapshot values match canonical posting
+PASS investigation exposes no stored body hashes credentials reference or operator identity
+PASS known route parse failure retains supported observation without invented posting
+PASS known route pending parse retains supported observation without invented posting
+PASS verified matching Rwanda profile wallet retains supported observation without invented posting
+PASS unknown receiving hash is unclassified and exposes no section data
+PASS nonpayment parsed event is unclassified and exposes no section data
+PASS unknown network currency and direction is unclassified and exposes no section data
+PASS outgoing event is unclassified and exposes no section data
+PASS cross-receiver user is unclassified and exposes no section data
+PASS mismatched parsed receiving hash is unclassified and exposes no section data
+PASS mismatched parsed receiving provider is unclassified and exposes no section data
+PASS current transaction list includes only known route/wallet observations
+PASS anon cannot call investigation read
+PASS service_role cannot call investigation read
+PASS private helper is unavailable to API roles: collect_security.rwanda_sms_scope(uuid)
+PASS private helper is unavailable to API roles: collect_security.transaction_lifecycle(uuid,boolean)
+PASS private helper is unavailable to API roles: collect_security.transaction_read_authority(text)
+PASS private source table has RLS and no direct authenticated grant: sms_notification_outbox
+PASS private source table has RLS and no direct authenticated grant: sms_notification_confirmations
+PASS private source table has RLS and no direct authenticated grant: sms_notification_attempts
+PASS private source table has RLS and no direct authenticated grant: momo_journal_entries
+PASS private source table has RLS and no direct authenticated grant: momo_balance_snapshots
+PASS private source table has RLS and no direct authenticated grant: member_balances
+PASS private source table has RLS and no direct authenticated grant: collection_balances
+PASS invalid investigation target null,'99760000-0000-4000-8000-000000010001'
+PASS invalid investigation target 'unsafe','99760000-0000-4000-8000-000000010001'
+PASS invalid investigation target 'transaction',null
+PASS transaction payment authority works independently from denied receipt read
+PASS receipt read works independently while current balances and payment journal are denied
+PASS receipt target still requires receipt authority
+PASS transaction target still requires payment authority
+PASS current email authority denies email approval revoked
+PASS current email authority denies email unverified
+PASS current email authority denies email changed
+PASS current email authority denies role grant revoked
+PASS current email authority denies session expired
+PASS unverified fallback wallet cannot classify pending raw as Rwanda
+PASS clean and populated investigation reads leave sixteen business fingerprints unchanged
+PASS mismatched snapshot values refuse preview reconstruction
+PASS snapshot fault injection restores every business byte
+PASS compensating reversal yields two actual journals while retaining original receipt snapshot
+PASS approval and attempt history bounds retain50 rows with exact61 totals
+PASS latest bounded histories are deterministic and preserve actual timestamps
+PASS bounded approval and attempt rows expose only approved safe fields
+PASS bounded history reads cannot modify populated source evidence
+PASS all nonempty receipt/reversal journals retain exactly balanced canonical lines

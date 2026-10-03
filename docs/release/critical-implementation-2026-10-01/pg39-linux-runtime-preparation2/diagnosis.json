@@ -1,0 +1,76 @@
+{
+  "actual39_execution": false,
+  "at_utc": "2026-10-02T10:18:47.049393+00:00",
+  "failed_preparation1_preserved": true,
+  "inference": "Repeated constructor failures are consistent with local runtime/startup or scheduling delays. Exact macOS timing and EPERM cause are not proven by retained traces.",
+  "observations": [
+    {
+      "finding": "Constructor probe_clients timed out under unchanged 1-second version_seconds before any database request.",
+      "source": "root-pg-archive-source-integration1/execution4/maintained-archive-tests.stderr"
+    },
+    {
+      "finding": "Only two psql version rows; current probe_clients ordering makes the next uncompleted probe pg_dump --version.",
+      "source": "root-pg-archive-source-integration1/execution4/synthetic-traces/test_partial_profiles_keep_exact_scope_and_reject_mixed_full_capture/calls.jsonl"
+    },
+    {
+      "finding": "Numeric-server test accepts any Refused then expects a server row. Earlier refusal can satisfy Refused while leaving that row absent; this run did not retain classified cause.",
+      "source": "root-pg-archive-source-integration1/execution2/maintained-archive-tests.stderr"
+    },
+    {
+      "finding": "Lazy-import experiment failed more version-timeout cases and a PermissionError from actual os.killpg(pgid,0); it was withdrawn.",
+      "source": "root-pg-archive-fixture-startup-correction1/execution1/maintained-archive-tests.stderr"
+    },
+    {
+      "finding": "group_exists recognizes only ESRCH as absence. EPERM remains fatal; changing it to absence would weaken the required control.",
+      "source": "scripts/qa/pg_archive_admission.py"
+    }
+  ],
+  "observed_current_sources": [
+    {
+      "bytes": 17725,
+      "mode": 420,
+      "path": "scripts/qa/postgres_admission.py",
+      "sha256": "9af50d207472eb8a69d5f7c712928b17305fcfb705408f42ad652c39b8bdac92"
+    },
+    {
+      "bytes": 27208,
+      "mode": 420,
+      "path": "scripts/qa/pg_archive_admission.py",
+      "sha256": "95f5c3d24bc723d4e570699a6a71af113bdcb5c6af91555e4f6c63f01076eb80"
+    },
+    {
+      "bytes": 35649,
+      "mode": 420,
+      "path": "scripts/tests/test_pg_archive_admission.py",
+      "sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6"
+    },
+    {
+      "bytes": 2364,
+      "mode": 448,
+      "path": "scripts/supabase_logical_backup.sh",
+      "sha256": "2c092decf96df58fcf21848b79a30c4a9684894ca4b7be25567b9af52bbf6329"
+    },
+    {
+      "bytes": 13715,
+      "mode": 420,
+      "path": "scripts/supabase_cli_helpers.sh",
+      "sha256": "eabf3811b33b106fc50d54dc6cd2188be3de6338f9bcf95339c97a8d616aba74"
+    },
+    {
+      "bytes": 2479,
+      "mode": 448,
+      "path": "scripts/load_dotenv_strict.sh",
+      "sha256": "d25d050d1eab8fd4224fbc31a1b73677a8ade27f4a75819016923c05ededbc7c"
+    },
+    {
+      "bytes": 8,
+      "mode": 420,
+      "path": ".supabase-cli-version",
+      "sha256": "779028f7bc7ac325b341015fb858bd8b710bafd2c74db29f26eb71cc8523ece3"
+    }
+  ],
+  "preparation2_correction": "Restore all15 copied APFS symlink modes with no-follow chmod; require exact1721-entry runtime inventory equality. All regular-file bytes and raw symlink targets already matched in preparation1.",
+  "recommended_maintained_source_delta": null,
+  "runtime_import_smoke_pass": true,
+  "strategy": "One separately admitted Linux environment attempt using exact original source/39 assertions and CPython3.12.14. This changes environment, not controls; pass would prove that environment only."
+}

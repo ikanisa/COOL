@@ -1,0 +1,7 @@
+{
+  "command": "make revolut-design-authority",
+  "tool_session_id": 66554,
+  "exit_code": 0,
+  "observed_at_utc": "2026-10-01T23:06:29.263653+00:00",
+  "scope": "Actual completed authority hygiene check after startup components were added; no visual fidelity acceptance."
+}

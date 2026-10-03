@@ -4,6 +4,7 @@ import * as z from "zod/v4";
 
 import { callNotificationOperator } from "./operator_client.ts";
 import { callOperationalRead } from "./operational_client.ts";
+import { callShadowRpc } from "./shadow_client.ts";
 
 const uuid = z.string().uuid();
 const sha256 = z.string().regex(/^[0-9a-f]{64}$/);
@@ -26,6 +27,25 @@ function createServer() {
   );
 
   const readOnlyAnnotations = {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true};
+  const telemetryAnnotations = {readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true};
+  const shadowId = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  const shadowFence = z.strictObject({run_id: shadowId, fence_version: z.number().int().min(1).max(1_000_000_000)});
+  server.registerTool("begin_supervisor_run", {
+    description: "Explicitly begin one manual shadow-monitor run with a fixed server lease using a retained request ID. Mutates private operational lease/run telemetry only. BUSY creates no run; a repeated request never restarts a terminal run. Requires the current approved platform-owner session. This does not start a scheduler or authorize business/sender actions.",
+    inputSchema: z.strictObject({request_id: shadowId}), annotations: telemetryAnnotations,
+  }, async input => toolResult(await callShadowRpc("begin", input)));
+  server.registerTool("sample_supervisor_run", {
+    description: "Persist one server-derived health and SMS queue aggregate sample under the original shadow run/session/fence. Writes operational telemetry only. No recipient, text, amount, tenant, health result or completion count can be supplied. Never retry after a transport-unknown outcome.",
+    inputSchema: shadowFence, annotations: telemetryAnnotations,
+  }, async input => toolResult(await callShadowRpc("sample", input)));
+  server.registerTool("complete_supervisor_run", {
+    description: "Complete a current shadow run using its original session and unexpired fence after a validated persisted sample. Writes operational completion telemetry only; the backend derives counts. This proves a manual telemetry run, not scheduling, receipt delivery or financial processing. Unknown outcomes require read-only reconciliation.",
+    inputSchema: shadowFence, annotations: telemetryAnnotations,
+  }, async input => toolResult(await callShadowRpc("complete", input)));
+  server.registerTool("get_supervisor_run", {
+    description: "Read the original actor's shadow run by retained request ID for reconciliation, including after a fresh approved sign-in. Does not acquire, restart, sample or complete a run. Aggregate summary is historical evidence, with timestamps; it does not establish current health or a scheduled Codex run.",
+    inputSchema: z.strictObject({request_id: shadowId}), annotations: readOnlyAnnotations,
+  }, async input => toolResult(await callShadowRpc("get", input)));
   server.registerTool(
     "get_collect_health",
     {

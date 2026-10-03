@@ -213,15 +213,19 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
-max_frequency = "1s"
+max_frequency = "60s"
 # Number of characters used in the email OTP.
 otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
-otp_expiry = 3600
+otp_expiry = 600
+
+[auth.email.template.magic_link]
+subject = "Collect sign-in code"
+content_path = "./templates/collect_email_sign_in.html"
 
 # Use a production-ready SMTP server
 # [auth.email.smtp]
@@ -383,6 +387,19 @@ verify_jwt = false
 [functions.collect-notification-operator]
 verify_jwt = true
 
+# Dedicated device-key signature boundary; no Supabase credentials on handset.
+[functions.collect-android-gateway]
+verify_jwt = false
+
+# Dedicated scheduler secret plus scheduled-job authority; no operator or handset credentials.
+[functions.collect-receipt-exception-worker]
+verify_jwt = false
+
+# Dedicated P-256 request proof replaces user JWT authentication here. The
+# handler exposes only prove-key, shadow health and original-request lookup.
+[functions.collect-receipt-supervisor]
+verify_jwt = false
+
 [functions.ingest-payment-sms]
 verify_jwt = true
 
@@ -430,3 +447,7 @@ s3_secret_key = "env(S3_SECRET_KEY)"
 # declarative_schema_path = "./database"
 # JSON string passed through to pg-delta SQL formatting.
 # format_options = "{\"keywordCase\":\"upper\",\"indent\":2,\"maxWidth\":80,\"commaStyle\":\"trailing\"}"
+
+# Device P-256 request authentication is checked by the successor handler.
+[functions.collect-receipt-successor-gateway]
+verify_jwt = false

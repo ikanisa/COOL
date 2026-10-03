@@ -1,0 +1,27 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":59894,"type":"start","time":0}
+{"suite":{"id":0,"platform":"chrome","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_exception_checkpoint_browser_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_exception_checkpoint_browser_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2}
+{"count":4,"time":7,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":7650}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":7655}
+{"test":{"id":3,"name":"real browser sessionStorage retains only owner-bound same-tab reviewed references across adapter recreation","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":28,"column":17,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/admin_exception_checkpoint_browser_test.dart.js"},"type":"testStart","time":7656}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":7677}
+{"suite":{"id":4,"platform":"chrome","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_gateway_checkpoint_browser_test.dart"},"type":"suite","time":7683}
+{"test":{"id":5,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_gateway_checkpoint_browser_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":7683}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9532}
+{"group":{"id":6,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":9532}
+{"test":{"id":7,"name":"real same-tab browser adapter retains reviewed fingerprints after recreation and isolates owners","suiteID":4,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":29,"column":17,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/admin_gateway_checkpoint_browser_test.dart.js"},"type":"testStart","time":9533}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9538}
+{"suite":{"id":8,"platform":"chrome","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_receipt_cancel_checkpoint_browser_test.dart"},"type":"suite","time":9539}
+{"test":{"id":9,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_receipt_cancel_checkpoint_browser_test.dart","suiteID":8,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":9539}
+{"testID":9,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":12218}
+{"group":{"id":10,"suiteID":8,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":12219}
+{"test":{"id":11,"name":"actual same-tab storage persists exact original intent across adapter recreation and isolates owners","suiteID":8,"groupIDs":[10],"metadata":{"skip":false,"skipReason":null},"line":28,"column":17,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/admin_receipt_cancel_checkpoint_browser_test.dart.js"},"type":"testStart","time":12219}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12226}
+{"suite":{"id":12,"platform":"chrome","path":"/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_roster_bookmark_browser_test.dart"},"type":"suite","time":12228}
+{"test":{"id":13,"name":"loading /Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/test/admin_roster_bookmark_browser_test.dart","suiteID":12,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":12228}
+{"testID":13,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":16165}
+{"group":{"id":14,"suiteID":12,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":16166}
+{"test":{"id":15,"name":"actual browser sessionStorage retains only bounded schema references across adapter recreation","suiteID":12,"groupIDs":[14],"metadata":{"skip":false,"skipReason":null},"line":29,"column":17,"url":"file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root216-current-regressions/admin_roster_bookmark_browser_test.dart.js"},"type":"testStart","time":16166}
+{"testID":15,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":16173}
+{"success":true,"type":"done","time":16182}

@@ -1,0 +1,15 @@
+{
+  "expected_current_three_file_sha256": {
+    "lib/admin/core/admin_runtime.dart": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+    "scripts/tests/admin_receipt_source_busy_test.dart": "d195407bf6fa5bd9e4626d18e3b2ad9d0c24b7b02ec4e296a2b70826693f1073",
+    "test/features/runtime_component_contract_test.dart": "4833cc76b86ba6d56c310d7da3fd532b8118b30e7d049556767c58386b1eede5"
+  },
+  "private_candidate_correction_paths": [
+    "lib/admin/core/admin_runtime.dart",
+    "scripts/tests/admin_receipt_source_busy_test.dart",
+    "test/features/runtime_component_contract_test.dart"
+  ],
+  "private_root": "/Volumes/PRO-G40/Temporary/collect-arc01-current-f92a68e41bba416a8f40bab2d3667051",
+  "root_checkout": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "root_source_edits_authorized": false
+}

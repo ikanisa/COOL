@@ -1,0 +1,3 @@
+ERROR:  55P03: restore_stop_busy
+CONTEXT:  PL/pgSQL function inline_code_block line 34 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3911

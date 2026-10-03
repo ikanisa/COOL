@@ -1,0 +1,10 @@
+{
+  "argv": ["/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3", "-I", "-B", "docs/release/critical-implementation-2026-10-01/schema-domain-current209-mapping-analysis1/analyze_mappings.py"],
+  "exit_code": 1,
+  "error_type": "AttributeError",
+  "error": "'list' object has no attribute 'items'",
+  "cause": "The independently root-sealed baseline packet uses an explicit leaf row list, not a name/hash mapping. The private reader refused before producing any mapping or input readback.",
+  "correction": "Read the exact root-bound list path/bytes/sha256 fields; preserve the baseline seal and all input hashes.",
+  "maintained_or_canonical_mutations": false,
+  "SQL_or_provider_execution": false
+}

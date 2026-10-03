@@ -1,0 +1,20 @@
+{
+  "actual_linux_checked_files": 2,
+  "actual_linux_format_changes": 0,
+  "at_utc": "2026-10-02T11:24:52.207526+00:00",
+  "current_readiness_decision_owner": "root",
+  "formatter_controls_unchanged_count": 14,
+  "full_original_make_negative_restored_packet_unchanged": true,
+  "new_full_make_or_negative_restored_execution_claim": false,
+  "other_unchanged_applicable_dart_inputs": 708,
+  "owned_container_removed": true,
+  "owned_subprocess_group_ids": [
+    65262,
+    65264,
+    65265
+  ],
+  "owned_subprocess_groups_absent": true,
+  "root_dart_and_controls_before_after_unchanged": true,
+  "status": "CURRENT_STYLE_COMPOSITION_READBACK_PASS",
+  "unchanged_upstream_excluded_dart_inputs": 68
+}

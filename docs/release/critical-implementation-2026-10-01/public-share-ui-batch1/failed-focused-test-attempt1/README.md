@@ -1,0 +1,1 @@
+The first focused test used an overbroad SEPA regular expression, which matched the word separately in truthful app copy. The production source and44-case browser suite were correct. Original test bytes/results are retained here; only that test is rerun after adding word boundaries. Other passed maintained tests are retained without repetition.

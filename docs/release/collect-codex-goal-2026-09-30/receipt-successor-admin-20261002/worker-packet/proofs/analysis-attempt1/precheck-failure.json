@@ -1,0 +1,7 @@
+{
+  "exit_code": 1,
+  "chunk_id": "2b890d",
+  "phase": "dependency capture before Flutter launch",
+  "actual_error": "FileNotFoundError Chrome framework old154.0.8037.59 absent; current framework154.0.8037.93 verified",
+  "fix": "capture exact Current resolved framework path; no application test executed"
+}

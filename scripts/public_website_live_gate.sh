@@ -440,30 +440,27 @@ check(
   { "retired_language_failures" => retired_language_failures },
 )
 
-# Use the same already-reviewed content authority as the local quality gate.
-baseline_content_hashes = JSON.parse(File.read(File.join(ARGV.fetch(3), 'docs/release/public-website-content-baseline.json'))).fetch('hashes')
-content_hash_failures = baseline_content_hashes.each_with_object([]) do |(route, expected_hash), failures|
-  html = responses.fetch(route).fetch(:body).dup.force_encoding("UTF-8").gsub(/<script\b.*?<\/script>/mi, " ").gsub(/<style\b.*?<\/style>/mi, " ")
-  # Match the reviewed responsive-content normalization in the local gate.
-  if html.include?('class="mobile-menu-actions"')
-    html = html.sub(%r{<div class="header-actions">\s*<a[^>]*>Get the App</a>\s*</div>}, "")
-  end
-  visible_text = CGI.unescapeHTML(html.gsub(/<[^>]+>/, "\n")).lines.map { |line| line.gsub(/\s+/, " ").strip }.reject(&:empty?).join("\n").gsub(/© \d{4}/, "© YEAR")
-  actual_hash = Digest::SHA256.hexdigest(visible_text)
-  failures << { "route" => route, "expected" => expected_hash, "actual" => actual_hash } unless actual_hash == expected_hash
-end
+# Share the reviewed current product-copy contract with the local quality gate.
+# This source check grants no hosted, visual, legal or publication acceptance.
+require File.expand_path('scripts/qa/public_content_contract', ARGV.fetch(3))
+current_content = PublicContentContract.evaluate(
+  root: ARGV.fetch(3),
+  pages: responses.transform_values { |row| row.fetch(:body).dup.force_encoding("UTF-8") },
+  routes: sitemap_routes
+)
+
 audit_added_routes = ["/subprocessors/", "/privacy-request/", "/cookies/"]
 audit_added_route_statuses = audit_added_routes.to_h do |route|
   response, = fetch("#{base_url}#{route}")
   [route, response.code.to_i]
 end
-pre_audit_content_ok = sitemap_routes.sort == baseline_content_hashes.keys.sort && content_hash_failures.empty? && audit_added_route_statuses.values.all? { |status| status == 404 }
+pre_audit_content_ok = current_content['status'] == 'pass' && audit_added_route_statuses.values.all? { |status| status == 404 }
 check(
   checks,
   "pre_audit_content_parity",
   pre_audit_content_ok,
-  "All live routes match the governed bank-only visible-content baseline and audit-added routes are absent.",
-  { "hash_failures" => content_hash_failures, "sitemap_routes" => sitemap_routes.sort, "audit_added_route_statuses" => audit_added_route_statuses },
+  "Live route copy matches the reviewed current Collect product contract and unreviewed extra routes are absent.",
+  current_content.merge("sitemap_routes" => sitemap_routes.sort, "audit_added_route_statuses" => audit_added_route_statuses),
 )
 
 check(

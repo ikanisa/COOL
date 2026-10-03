@@ -1,0 +1,56 @@
+{
+  "all_github_methods": "GET",
+  "capability_results": {
+    "automated_security_fixes": {
+      "enabled": true,
+      "http_status": 200,
+      "paused": false
+    },
+    "branch_protection": {
+      "http_status": 403,
+      "reason_code": "API_PLAN_OR_VISIBILITY_RESTRICTION"
+    },
+    "code_scanning_default_setup": {
+      "http_status": 403,
+      "reason_code": "API_ADVANCED_SECURITY_REQUIRED"
+    },
+    "dependabot_alerts_enabled": {
+      "dependabot_alerts_api_reports_enabled": true,
+      "http_status": 204
+    },
+    "rulesets": {
+      "http_status": 403,
+      "reason_code": "API_PLAN_OR_VISIBILITY_RESTRICTION"
+    }
+  },
+  "checked_at_utc": "2026-10-01T08:56:35.342741+00:00",
+  "collaborator_lists_requested": false,
+  "current_security_or_source_acceptance_gate_closed": false,
+  "default_branch": "main",
+  "default_branch_protected_observed": false,
+  "direct_browser_or_keychain_access": false,
+  "exported_source_remote_file_parity_or_review_attested": false,
+  "features_or_permissions_changed": false,
+  "github_read_requests": 7,
+  "kind": "narrow_readonly_source_access_preflight",
+  "new_source_or_secret_scan_performed": false,
+  "normal_cli_auth_credential_storage_internals_attested": false,
+  "production_source_trust_approved": false,
+  "push_deployment_or_messages_sent": false,
+  "raw_tokens_collaborator_names_headers_bodies_or_errors_retained": false,
+  "remote_commit_reference_matches_source06_base_head": true,
+  "remote_default_branch_sha": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "repository_private": true,
+  "secret_scanning_or_code_alert_contents_requested": false,
+  "snapshot_limits": [
+    "GitHub metadata is a dated authenticated read, not a setting-change receipt.",
+    "403 protection/ruleset and code-scanning responses limit capability visibility; unavailable metadata is not inferred disabled.",
+    "Main protected:false comes from the successful branch API; ruleset inventory remains unavailable.",
+    "Dependabot enabled status does not attest alert review, scan completeness or vulnerability remediation.",
+    "No blanket source authenticity, credential absence, private-data clearance or whole-system acceptance follows."
+  ],
+  "source06_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "source06_recorded_base_head": "df1150ea118aa5dcc9ecb880c71873423081bffe",
+  "standard_github_cli_access_verified": true,
+  "viewer_admin_permission_observed": true
+}

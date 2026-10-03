@@ -1,0 +1,2946 @@
+{
+  "all_source_tables_catalog_cron_preserved": true,
+  "api_acl_sha256": "38f1c5e5a2523c6ac738efeeef4898a92f44ffa6facb81e3b3ac877a5bc4e441",
+  "api_column_acl_sha256": "8db317907b99514ce9dfbb643190de6e50fcd2cd5526e6e3e2f2b047187a7a1d",
+  "cases": [
+    {
+      "detail": {},
+      "name": "published function and four index catalogs exactly match the accepted candidate",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses nullable collection",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses deferred foreign key",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses unvalidated foreign key",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "reason": "Member history requires validated immediate collection integrity",
+        "sqlstate": "55000"
+      },
+      "name": "migration integrity prerequisite refuses wrong delete action",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "all rejected prerequisite probes roll back catalog and genuine financial data",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-newest-all-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-newest-all-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-newest-all-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-readable-private-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-readable-private-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-readable-private-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-newest-own-unreadable-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-newest-own-unreadable-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-newest-own-unreadable-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-anonymous-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-anonymous-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-anonymous-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-private-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-private-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-newest-private-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-transactions-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-transactions-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-newest-own-transactions-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-hidden-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-hidden-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-hidden-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-empty-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-empty-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-newest-empty-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-oldest-all-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-oldest-all-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-oldest-all-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-readable-private-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-readable-private-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-readable-private-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-oldest-own-unreadable-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-oldest-own-unreadable-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-oldest-own-unreadable-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-anonymous-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-anonymous-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-anonymous-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-private-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-private-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-oldest-private-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-transactions-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-transactions-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-oldest-own-transactions-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-hidden-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-hidden-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-hidden-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-empty-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-empty-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-oldest-empty-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-highest-all-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-highest-all-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-highest-all-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-readable-private-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-readable-private-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-readable-private-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-highest-own-unreadable-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-highest-own-unreadable-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-highest-own-unreadable-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-anonymous-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-anonymous-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-anonymous-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-private-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-private-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-highest-private-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-transactions-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-transactions-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-highest-own-transactions-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-hidden-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-hidden-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-hidden-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-empty-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-empty-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-highest-empty-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-lowest-all-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-lowest-all-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 834
+      },
+      "name": "published-current history-lowest-all-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-readable-private-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-readable-private-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-readable-private-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-lowest-own-unreadable-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-lowest-own-unreadable-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 167
+      },
+      "name": "published-current history-lowest-own-unreadable-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-anonymous-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-anonymous-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-anonymous-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-private-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-private-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 500
+      },
+      "name": "published-current history-lowest-private-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-transactions-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-transactions-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 50,
+        "total_count": 334
+      },
+      "name": "published-current history-lowest-own-transactions-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-hidden-title-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-hidden-title-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-hidden-title-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-empty-first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-empty-middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_authorized_ids_ties_count_sums_cursor_and_privacy": true,
+        "returned": 0,
+        "total_count": 0
+      },
+      "name": "published-current history-lowest-empty-deep",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "published first-page query hashes match baseline; every generated-label/cursor response is independently checked",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 5.805,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 834,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 166,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 88.83
+            }
+          ],
+          "root_hits": 117,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 4.685,
+          "payment_rows_examined": 61,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1)))",
+              "Index Name": "payments_history_global_newest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 10,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 41,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 215.46
+            }
+          ],
+          "root_hits": 49,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit newest first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 5.038,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 417,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at < '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000499'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 332,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 583,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 96.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 3.511,
+          "payment_rows_examined": 62,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at < '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000499'::uuid))))",
+              "Index Cond": "(posted_at <= '2026-09-29 12:02:46+00'::timestamp with time zone)",
+              "Index Name": "payments_history_global_newest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 166,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 11,
+              "Rows Removed by Index Recheck": 0,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 46,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 176.62
+            }
+          ],
+          "root_hits": 54,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit newest middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 3.421,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at < '2026-09-29 12:00:20+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:00:20+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000063'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 42,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 950,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 96.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 3.973,
+          "payment_rows_examined": 63,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Exact Heap Blocks": 3,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at < '2026-09-29 12:00:20+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:00:20+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000063'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Lossy Heap Blocks": 0,
+              "Node Type": "Bitmap Heap Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 3,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 63,
+                  "Async Capable": false,
+                  "Index Cond": "(posted_at <= '2026-09-29 12:00:20+00'::timestamp with time zone)",
+                  "Index Name": "payments_history_global_oldest_idx",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "Bitmap Index Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "Outer",
+                  "Plan Rows": 63,
+                  "Plan Width": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 2,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 4.75
+                },
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Recheck Cond": "((posted_at <= '2026-09-29 12:00:20+00'::timestamp with time zone) AND (status = 'posted'::text) AND (currency = 'RWF'::text))",
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 13,
+              "Rows Removed by Index Recheck": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 39,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 5.58,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 68.06
+            }
+          ],
+          "root_hits": 53,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit newest deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 3.73,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 834,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 166,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 88.83
+            }
+          ],
+          "root_hits": 117,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 4.377,
+          "payment_rows_examined": 61,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1)))",
+              "Index Name": "payments_history_global_oldest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 10,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 39,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 199.46
+            }
+          ],
+          "root_hits": 47,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit oldest first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 1.704,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 417,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at > '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000500'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 334,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 583,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 96.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 3.732,
+          "payment_rows_examined": 63,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at > '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000500'::uuid))))",
+              "Index Cond": "(posted_at >= '2026-09-29 12:02:46+00'::timestamp with time zone)",
+              "Index Name": "payments_history_global_oldest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 168,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 12,
+              "Rows Removed by Index Recheck": 0,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 42,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 169.19
+            }
+          ],
+          "root_hits": 50,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit oldest middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 2.662,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at > '2026-09-29 12:05:13+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:05:13+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000940'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 40,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 950,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 96.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 2.245,
+          "payment_rows_examined": 61,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Exact Heap Blocks": 3,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((posted_at > '2026-09-29 12:05:13+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:05:13+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000940'::uuid))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Lossy Heap Blocks": 0,
+              "Node Type": "Bitmap Heap Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 2,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 61,
+                  "Async Capable": false,
+                  "Index Cond": "(posted_at >= '2026-09-29 12:05:13+00'::timestamp with time zone)",
+                  "Index Name": "payments_history_global_oldest_idx",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "Bitmap Index Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "Outer",
+                  "Plan Rows": 62,
+                  "Plan Width": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 2,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 4.74
+                },
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Recheck Cond": "((posted_at >= '2026-09-29 12:05:13+00'::timestamp with time zone) AND (status = 'posted'::text) AND (currency = 'RWF'::text))",
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 11,
+              "Rows Removed by Index Recheck": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 39,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 5.57,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 68.02
+            }
+          ],
+          "root_hits": 53,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit oldest deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 4.404,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 834,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 166,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 88.83
+            }
+          ],
+          "root_hits": 117,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 1.806,
+          "payment_rows_examined": 60,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1)))",
+              "Index Name": "payments_history_global_highest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 9,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 96,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 296.72
+            }
+          ],
+          "root_hits": 104,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit highest first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 3.48,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 417,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf < '118'::bigint) OR ((amount_rwf = '118'::bigint) AND ((posted_at < '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000500'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 329,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 583,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 101.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 1.918,
+          "payment_rows_examined": 74,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf < '118'::bigint) OR ((amount_rwf = '118'::bigint) AND ((posted_at < '2026-09-29 12:02:46+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:46+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000500'::uuid))))))",
+              "Index Cond": "(amount_rwf <= '118'::bigint)",
+              "Index Name": "payments_history_global_highest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 169,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 23,
+              "Rows Removed by Index Recheck": 0,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 110,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 274.65
+            }
+          ],
+          "root_hits": 113,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit highest middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 4.193,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf < '102'::bigint) OR ((amount_rwf = '102'::bigint) AND ((posted_at < '2026-09-29 12:00:50+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:00:50+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000151'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 39,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 950,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 101.33
+            }
+          ],
+          "root_hits": 122,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 3.007,
+          "payment_rows_examined": 82,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Exact Heap Blocks": 29,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf < '102'::bigint) OR ((amount_rwf = '102'::bigint) AND ((posted_at < '2026-09-29 12:00:50+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:00:50+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000151'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Lossy Heap Blocks": 0,
+              "Node Type": "Bitmap Heap Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 3,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 82,
+                  "Async Capable": false,
+                  "Index Cond": "(amount_rwf <= '102'::bigint)",
+                  "Index Name": "payments_history_global_lowest_idx",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "Bitmap Index Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "Outer",
+                  "Plan Rows": 82,
+                  "Plan Width": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 2,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 4.89
+                },
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Recheck Cond": "((amount_rwf <= '102'::bigint) AND (status = 'posted'::text) AND (currency = 'RWF'::text))",
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 32,
+              "Rows Removed by Index Recheck": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 65,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 5.72,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 69.48
+            }
+          ],
+          "root_hits": 74,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit highest deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 4.415,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 834,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 166,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 88.83
+            }
+          ],
+          "root_hits": 112,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 3.549,
+          "payment_rows_examined": 60,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1)))",
+              "Index Name": "payments_history_global_lowest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 667,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 9,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 96,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 296.72
+            }
+          ],
+          "root_hits": 99,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit lowest first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 8.49,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 417,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf > '118'::bigint) OR ((amount_rwf = '118'::bigint) AND ((posted_at < '2026-09-29 12:02:58+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:58+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000537'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 329,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 583,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 101.33
+            }
+          ],
+          "root_hits": 117,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 22.592,
+          "payment_rows_examined": 74,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 51,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf > '118'::bigint) OR ((amount_rwf = '118'::bigint) AND ((posted_at < '2026-09-29 12:02:58+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:02:58+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000537'::uuid))))))",
+              "Index Cond": "(amount_rwf >= '118'::bigint)",
+              "Index Name": "payments_history_global_lowest_idx",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Index Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 169,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 23,
+              "Rows Removed by Index Recheck": 0,
+              "Scan Direction": "Forward",
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 111,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 1.11,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 274.61
+            }
+          ],
+          "root_hits": 114,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit lowest middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "baseline": {
+          "duration_ms": 5.78,
+          "payment_rows_examined": 1000,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Filter": "((status = 'posted'::text) AND (currency = 'RWF'::text) AND ((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf > '134'::bigint) OR ((amount_rwf = '134'::bigint) AND ((posted_at < '2026-09-29 12:01:13+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:01:13+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000220'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Node Type": "Seq Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 40,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 950,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 102,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 0.83,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 101.33
+            }
+          ],
+          "root_hits": 117,
+          "root_reads": 0
+        },
+        "published": {
+          "duration_ms": 8.55,
+          "payment_rows_examined": 81,
+          "payment_scans": [
+            {
+              "Actual Loops": 1,
+              "Actual Rows": 50,
+              "Alias": "payment",
+              "Async Capable": false,
+              "Exact Heap Blocks": 30,
+              "Filter": "(((contributor_user_id = '99640000-0000-4000-8000-000000000001'::uuid) OR (ANY (collection_id = (hashed SubPlan 2).col1))) AND ((amount_rwf > '134'::bigint) OR ((amount_rwf = '134'::bigint) AND ((posted_at < '2026-09-29 12:01:13+00'::timestamp with time zone) OR ((posted_at = '2026-09-29 12:01:13+00'::timestamp with time zone) AND (id > '99740000-0000-4000-8000-000000000220'::uuid))))))",
+              "Local Dirtied Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Written Blocks": 0,
+              "Lossy Heap Blocks": 0,
+              "Node Type": "Bitmap Heap Scan",
+              "Parallel Aware": false,
+              "Parent Relationship": "Outer",
+              "Plan Rows": 3,
+              "Plan Width": 100,
+              "Plans": [
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 81,
+                  "Async Capable": false,
+                  "Index Cond": "(amount_rwf >= '134'::bigint)",
+                  "Index Name": "payments_history_global_lowest_idx",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "Bitmap Index Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "Outer",
+                  "Plan Rows": 81,
+                  "Plan Width": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 2,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 4.88
+                },
+                {
+                  "Actual Loops": 1,
+                  "Actual Rows": 3,
+                  "Alias": "readable",
+                  "Async Capable": false,
+                  "CTE Name": "readable",
+                  "Local Dirtied Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Node Type": "CTE Scan",
+                  "Parallel Aware": false,
+                  "Parent Relationship": "SubPlan",
+                  "Plan Rows": 37,
+                  "Plan Width": 16,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Hit Blocks": 34,
+                  "Shared Read Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Startup Cost": 0.0,
+                  "Subplan Name": "SubPlan 2",
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Total Cost": 0.74
+                }
+              ],
+              "Recheck Cond": "((amount_rwf >= '134'::bigint) AND (status = 'posted'::text) AND (currency = 'RWF'::text))",
+              "Relation Name": "payments",
+              "Rows Removed by Filter": 31,
+              "Rows Removed by Index Recheck": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Hit Blocks": 66,
+              "Shared Read Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Startup Cost": 5.72,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Total Cost": 69.55
+            }
+          ],
+          "root_hits": 75,
+          "root_reads": 0
+        }
+      },
+      "name": "published candidate retains scan/buffer benefit lowest deep",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "published history plans bound windows to51 and avoid legacy whole-history reconstruction",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "published read matrix preserves every financial/control fingerprint",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "bounded_returned": 50,
+        "complete_pending_count": 1000
+      },
+      "name": "current recent-intent ownership/count recent",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "bounded_returned": 1,
+        "complete_pending_count": 1000
+      },
+      "name": "current recent-intent ownership/count exact-old",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "bounded_returned": 0,
+        "complete_pending_count": 1000
+      },
+      "name": "current recent-intent ownership/count forged",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "bounded_returned": 0,
+        "complete_pending_count": 0
+      },
+      "name": "current recent-intent ownership/count foreign",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "current intent reads preserve every financial/control fingerprint",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 0,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_desc first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 416,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_desc middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 808,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_desc deep",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 0,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_asc first",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 416,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_asc middle",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "complete_count": 833,
+        "offset": 808,
+        "returned": 25
+      },
+      "name": "current notification queue created_at_asc deep",
+      "status": "pass"
+    },
+    {
+      "detail": {},
+      "name": "current notification reads preserve every financial/control fingerprint",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_zero_total": true,
+        "fixture": "Rollback-only queue deletion, no production deletion API claimed"
+      },
+      "name": "current queue shrink returns known zero and restores every row",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_fresh_first_middle_deep": true,
+        "genuine_writer": true,
+        "repeatable_read_claimed": false,
+        "sort": "newest",
+        "stale_refused": true,
+        "uncommitted_invisible": true
+      },
+      "name": "final candidate actual concurrent cursor newest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_fresh_first_middle_deep": true,
+        "genuine_writer": true,
+        "repeatable_read_claimed": false,
+        "sort": "oldest",
+        "stale_refused": true,
+        "uncommitted_invisible": true
+      },
+      "name": "final candidate actual concurrent cursor oldest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_fresh_first_middle_deep": true,
+        "genuine_writer": true,
+        "repeatable_read_claimed": false,
+        "sort": "highest",
+        "stale_refused": true,
+        "uncommitted_invisible": true
+      },
+      "name": "final candidate actual concurrent cursor highest",
+      "status": "pass"
+    },
+    {
+      "detail": {
+        "exact_fresh_first_middle_deep": true,
+        "genuine_writer": true,
+        "repeatable_read_claimed": false,
+        "sort": "lowest",
+        "stale_refused": true,
+        "uncommitted_invisible": true
+      },
+      "name": "final candidate actual concurrent cursor lowest",
+      "status": "pass"
+    }
+  ],
+  "database": "collect_local_uat_822180d0b5914359",
+  "diagnostic_preflight": {
+    "actual": {
+      "actor": "99640000-0000-4000-8000-000000000001",
+      "api_role": "authenticated",
+      "preflight": true,
+      "session": "99640000-0000-4000-8000-000000010001",
+      "session_user": "postgres"
+    },
+    "attempted_before_dataset_posting": true,
+    "nested_plan_acceptance_claimed": false,
+    "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_stdout_sha256": "d4a3edd5358e34fa12b9491160f5fa1923a0f2a2e926714397dc5377d7a78509"
+  },
+  "genuine_fixture": {
+    "actual": {
+      "confirmations": 1000,
+      "disabled_user_triggers": 0,
+      "journal": 1000,
+      "ledger": 2000,
+      "posted": 1000,
+      "posted_active_ops": 0,
+      "unbalanced": 0
+    },
+    "direct_posted_write": false,
+    "independent_provider_truth": false,
+    "production_triggers_preserved": true,
+    "public_api_route": true,
+    "rows": 1000
+  },
+  "hosted_called": false,
+  "isolated_database_removed": true,
+  "owner_normalization": "No-owner restore; API ACLs reconstructed exactly",
+  "provider_called": false,
+  "recorder_source_sha256": {
+    "local_offline_verification.py": "4ef6dc91bc2ceeb588b1af22234c4a8d2197d70358d0ec44c1dcb9e5e84fe0f9",
+    "local_schema_uat.py": "3eb9f751c98e2e4296aa9673f276a260adeada61d73c0db8c21287c064c5ae24",
+    "notification_upgrade_telemetry.py": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93",
+    "shadow_supervisor_uat.py": "366737361b54c3ce01aee5dbe1503a2fc9c8d8429cce6ec84ffb5f13218716f9"
+  },
+  "recorder_sources_unchanged": true,
+  "schema_clone_reference_catalog": {
+    "actor_authority_granted": false,
+    "payment_seed_sha256": "9aa76a10949629bf69def3e8105989c79a2c3b69a7995ef6d66ddfc15d21b2c2",
+    "payment_source": "202605230008_admin_panel.sql",
+    "payment_source_sha256": "cd579d24bc9b092fff80476533e1242bf99439e281931485f6504444a31af783",
+    "rows": [
+      "notifications.read",
+      "notifications.manage",
+      "payments.read"
+    ],
+    "seed_sha256": "52c267dfb65ef37caa4e97a745a2a1e5a1b718f99eea2be2440ed199ddcb76f7",
+    "source": "20260815062536_complete_admin_operations_control_plane.sql",
+    "source_rows_copied": false,
+    "source_sha256": "33116a8b778fe7fefdb22e41885796c250c79e6718299a4eae605e9f5b1804f5"
+  },
+  "schema_only_sha256": "22fd8ec1bbc8ebb215da4e82b3de205c7de1e17e138dc43ee537cfca06891617",
+  "signed_jwt_tested": false,
+  "source_guard": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_guard_after": {
+    "busy": 0,
+    "count": 154,
+    "cron": "off",
+    "cron_dml": false,
+    "database": "postgres",
+    "latest": "20260930230000",
+    "net": "0",
+    "stats_visible": true,
+    "superuser": false,
+    "user": "postgres"
+  },
+  "source_rows_copied": false,
+  "source_table_count": 153,
+  "status": "pass_scoped",
+  "volume": 1000
+}

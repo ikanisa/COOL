@@ -1,0 +1,9 @@
+{
+  "actual_initial_reader_error": "document-fence-mismatch:live-index-schema",
+  "before_index_sha256": "ce06b7c494b19a9d205c96c73eb5d1f15b9e318592d78f38f859a6c5a7950b19",
+  "after_index_sha256": "8c599ade6f3fa8b8b0ee53ed892ca8a55e16f634630d729a424ceda15fbcdf80",
+  "only_data_change": "documents.live-index-schema actual maintained SHA256/bytes",
+  "source_or_schema_changes": false,
+  "schema_errors": 0,
+  "actual_documents80_checked_only_schema_binding_mismatched": true
+}

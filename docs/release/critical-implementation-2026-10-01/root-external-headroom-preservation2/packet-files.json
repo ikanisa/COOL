@@ -1,0 +1,20 @@
+{
+  "OS_immutable_flag_attested": false,
+  "payload_files": [
+    {
+      "bytes": 847,
+      "path": "cleanup-command.json",
+      "sha256": "abcf35f6aadb574430555d332be0513224558561e97568547ebf32e5f8f7f689"
+    },
+    {
+      "bytes": 528,
+      "path": "cleanup.stderr",
+      "sha256": "520abebaef6ba7474580a649dbe4221d37e1471c5c23dac8d362fb6d1a9b75a5"
+    },
+    {
+      "bytes": 0,
+      "path": "cleanup.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

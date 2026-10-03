@@ -1,0 +1,44 @@
+[
+  {
+    "diff": "diffs/lib/admin/core/admin_sender_retention_checkpoint_web.dart.diff",
+    "final_sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5",
+    "path": "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+    "predecessor_sha256": "38e611a483e9d76c98915d648eb8935f3480a29782f40d521a836ed3ddea185c"
+  },
+  {
+    "diff": "diffs/lib/admin/core/admin_sender_retention_controller.dart.diff",
+    "final_sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1",
+    "path": "lib/admin/core/admin_sender_retention_controller.dart",
+    "predecessor_sha256": "c735806de2a1bfa997a31936951bb6066d9448b209082c6d76159a3999d0b8bb"
+  },
+  {
+    "diff": "diffs/lib/admin/core/admin_sender_retention_models.dart.diff",
+    "final_sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e",
+    "path": "lib/admin/core/admin_sender_retention_models.dart",
+    "predecessor_sha256": "c705cfd88954704ded8fea079b772da26cc2f03920d4fd6a0753554d6a4c382e"
+  },
+  {
+    "diff": "diffs/scripts/run_admin_checks.py.diff",
+    "final_sha256": "09da2835c60f66e04fcf26f2072a8bd65db001839a6cc2d59d29a756b85d9a82",
+    "path": "scripts/run_admin_checks.py",
+    "predecessor_sha256": "cf80e220ca28dc3bb18636b3fb29ce82567118a31db0a886d9867a1324f035ee"
+  },
+  {
+    "diff": "diffs/test/admin_sender_retention_browser_test.dart.diff",
+    "final_sha256": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+    "path": "test/admin_sender_retention_browser_test.dart",
+    "predecessor_sha256": "853016292b08437ae32d2edefab25ea26d7d6bd486bc44c010f50ba9148f8389"
+  },
+  {
+    "diff": "diffs/test/admin_sender_retention_controller_test.dart.diff",
+    "final_sha256": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+    "path": "test/admin_sender_retention_controller_test.dart",
+    "predecessor_sha256": "0eed93a12431449cd096909455a0789574b44ed5e5082a078b38fa795c602ec7"
+  },
+  {
+    "diff": "diffs/test/admin_sender_retention_models_test.dart.diff",
+    "final_sha256": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0",
+    "path": "test/admin_sender_retention_models_test.dart",
+    "predecessor_sha256": "de98453946ec8a55d57028b2de257c8c4fe2b3a2ca48e681fe8c90ebc2378f58"
+  }
+]

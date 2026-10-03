@@ -271,7 +271,11 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.byTooltip('Members'), findsOneWidget);
-      expect(find.text('42'), findsOneWidget);
+      expect(find.text('42 members'), findsOneWidget);
+      final memberField = tester
+          .widgetList<Semantics>(find.byType(Semantics))
+          .singleWhere((widget) => widget.properties.label == 'Members');
+      expect(memberField.properties.value, '42 members');
       expect(tester.takeException(), isNull);
     },
   );

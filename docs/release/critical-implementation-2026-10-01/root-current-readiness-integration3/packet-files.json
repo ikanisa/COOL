@@ -1,0 +1,60 @@
+{
+  "status": "sealed_draft_not_executed",
+  "scope": "One root-reviewed register updater and one input contract; native final bindings intentionally absent",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5058,
+      "sha256": "683f3d57f623ca4f38079bd18cd42904abdd4ce53c605e5a251416ab140e7a76"
+    },
+    {
+      "path": "checkpoint-input.json",
+      "bytes": 2394,
+      "sha256": "b502750b38c8aebb9d263a3b0fdb9b226947711bd2b96e62cf2037fac4fe25cf"
+    },
+    {
+      "path": "update_registers.py",
+      "bytes": 24282,
+      "sha256": "15a1deea15fb817a36ca7327d3d562f00217d287b752905e40e54d1894977c46"
+    }
+  ],
+  "draft_validation": {
+    "syntax_AST_parse_only": "pass",
+    "input_JSON_parse": "pass",
+    "narrow_read_only_semantic_review": "pass_after_three_native_scope_corrections",
+    "original_counts": [
+      40,
+      102,
+      24
+    ],
+    "original_item_sha256": {
+      "production-remaining-tasks-2026-09-30.json": "404b4e7bc68b609af872e02b9523e4d8713a476a1b7b25549c7748df38c9b56f",
+      "local-implementation-register-2026-09-30.json": "0f336b290f279a168800d4e9b8b462e91f32b36111cec3bdbcfa14b2ce4c9980"
+    },
+    "closed_ids": [
+      "ARC-04",
+      "PD-02",
+      "PD-14"
+    ],
+    "full_findings_open": 37,
+    "release_decision": "NO-GO",
+    "goal_status": "active",
+    "fixed_evidence_refs_verified": 7,
+    "starting_authority": {
+      "path": "docs/release/critical-implementation-2026-10-01/root-current-readiness-historical-labels1/label-result.json",
+      "sha256": "99b9ccf4f64931c9e2e81dccc2a0a1aca1a519a5a50825dbac7d1bf951a74c08"
+    },
+    "canonical_sha256_before_and_after": {
+      "docs/release/critical-implementation-2026-10-01/implementation-ledger.json": "c2ae6b2f12bdfc46a9248a613d596c6fb97d60f0464fe0e2008c558fa6e4bbea",
+      "docs/release/critical-implementation-2026-10-01/IMPLEMENTATION_REGISTER.md": "03f5b083e96bd49951e05f70db2b1625a0800e99f713cae1adff6797d5bcc38d",
+      "docs/release/production-remaining-tasks-2026-09-30.json": "df40437dc2708ade51ee3da89cf23595418877e9a02f6f60eca0c0e4c2745f8d",
+      "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md": "11ffff62b0d57891d1036dc7d801b18caa8e6370ebf7e556081337747b3577b0",
+      "docs/release/local-implementation-register-2026-09-30.json": "aff045cbf36524cd35a639f32b242473414d5bf9177fc6574ab8180d9ce81b31",
+      "docs/release/LOCAL_IMPLEMENTATION_REGISTER_2026-09-30.md": "da5c23c04d17269ddc71b87f9cebcd04dcbe3a5db28436817d306b262fc06e39"
+    },
+    "updater_imported_or_executed": false,
+    "canonical_mutations": false,
+    "tests_rerun": false,
+    "execution_directory_exists": false
+  }
+}

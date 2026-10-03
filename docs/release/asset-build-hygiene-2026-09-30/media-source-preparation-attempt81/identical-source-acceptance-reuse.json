@@ -1,0 +1,8 @@
+{
+  "accepted_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/media-source-preparation-attempt76",
+  "accepted_execution_sha256": "31a1ce731e7fa7224a617dfa08802c799391aba26a7ad5c5f1b6ef98cd5dbcda",
+  "accepted_source_manifest_sha256": "ed46ed356083e74b6bfc6bc0b50cf418d2756101b8643efef9e3e2daca9c822d",
+  "complete_graph_identical": true,
+  "graph_inputs": 329,
+  "reason": "Only the separately bound recorder error handling changed; all runtime/asset/fork/web/helper bytes equal the accepted complete graph. No repeat of unchanged Dart format/analysis."
+}

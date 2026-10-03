@@ -1,0 +1,347 @@
+{
+  "status": "passed",
+  "scope": "13 new owner/result boundary +6 exact caller branch synthetic adapter +13 original source contract +7 original restore function cases using minimal exact staged/current runtime. No encrypted Vault/full restore or hosted acceptance.",
+  "before": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/docs/platform/INACTIVE_RESTORE_OVERLAY.md": {
+      "bytes": 6210,
+      "sha256": "2bad43001655698de9cfff6441dba23c632cf5890ba32729eed04390eb2d328f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_receipt_worker_snapshot.rb": {
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_recovery_source.rb": {
+      "bytes": 12861,
+      "sha256": "3a548f7b587234153496120d0b5883259b008fe1a45816fe3bd6d7117b0aaebe"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_inactive_restore_overlay.rb": {
+      "bytes": 11607,
+      "sha256": "f056cc9da956f6845a0fc003cf7bcecda45d48ebdcadf22fd76b611ec0b1953f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_encrypted_database_backup.rb": {
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_backup_network_probe.rb": {
+      "bytes": 4709,
+      "sha256": "de8a344ff55a4d880193b19d4ef39b2a999db206037939268b4c5c54ce18e84a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_encrypted_database_backup_test.rb": {
+      "bytes": 1761,
+      "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_recovery_source_test.rb": {
+      "bytes": 10123,
+      "sha256": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore_test.rb": {
+      "bytes": 4644,
+      "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore.rb": {
+      "bytes": 25183,
+      "sha256": "087c9325a768d9b3551790525f974230458e40079d9eb787438b708a0544ac9d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_caller_test.rb": {
+      "bytes": 4019,
+      "sha256": "cde5dd0c5c3ec90f441b9037acbb55daa7b8ba6adc0a0d4660a9862e5e8fc7e9"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_overlay_test.rb": {
+      "bytes": 6718,
+      "sha256": "4a3dceaa9b56cc28054c47cc4a23073ce3ca2eebe0603179e1626bdead773c81"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/sql/collect_inactive_restore_overlay.sql": {
+      "bytes": 25680,
+      "sha256": "556ec1f13ae0d331d5495ac85c545a076b40946f082cceabf2b67738117384b3"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/sql/collect_recovery_source_catalog.sql": {
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    "/usr/bin/ruby": {
+      "bytes": 134912,
+      "sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/run_affected_units.py": {
+      "bytes": 2104,
+      "sha256": "db04bd814c608ec549abbaec8e6c56650514c9024041bb7dbdd70087f9ad0416"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_overlay_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "c5a100b29e73893e01afaf3c0fc865f9d493f4cd3e2fda445b37eff955dbf5f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": [
+        [
+          "13",
+          "87",
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_caller_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "11df922efb6b790d9efeb27ea40ef3fb6d4923f7e53acb8a85491f9d0f642c07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": [
+        [
+          "6",
+          "16",
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_recovery_source_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "84e472cefe48bbf23e16c4bdce361d0c7a6d54658a52085493c664a5fdba568a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": [
+        [
+          "13",
+          "59",
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "cc4bfa17ea5ee2bcae9cd27dd581247719e63e90ff6d0ebea6bd641cf566686d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": [
+        [
+          "7",
+          "25",
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_receipt_worker_snapshot.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_recovery_source.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_inactive_restore_overlay.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_encrypted_database_backup.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_backup_network_probe.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_encrypted_database_backup_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_recovery_source_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_caller_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    },
+    {
+      "argv": [
+        "/usr/bin/ruby",
+        "-c",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_overlay_test.rb"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "exit_code": 0,
+      "stdout_sha256": "bbafef10c22b9323fa5589564990f57fbf57f9a632381d5e765dc5a3b25b4a1b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": []
+    }
+  ],
+  "after": {
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/docs/platform/INACTIVE_RESTORE_OVERLAY.md": {
+      "bytes": 6210,
+      "sha256": "2bad43001655698de9cfff6441dba23c632cf5890ba32729eed04390eb2d328f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_receipt_worker_snapshot.rb": {
+      "bytes": 28274,
+      "sha256": "1032dcd0a9241bd574a923bc99b02676fe025d8c3a59537bb206ec9e949d3c1d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_recovery_source.rb": {
+      "bytes": 12861,
+      "sha256": "3a548f7b587234153496120d0b5883259b008fe1a45816fe3bd6d7117b0aaebe"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_inactive_restore_overlay.rb": {
+      "bytes": 11607,
+      "sha256": "f056cc9da956f6845a0fc003cf7bcecda45d48ebdcadf22fd76b611ec0b1953f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_encrypted_database_backup.rb": {
+      "bytes": 19957,
+      "sha256": "0feb1f4b5e534e1cd72f737522cc0c05682af6cba2e94060480afc88b5bd2ada"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/audits/collect_backup_network_probe.rb": {
+      "bytes": 4709,
+      "sha256": "de8a344ff55a4d880193b19d4ef39b2a999db206037939268b4c5c54ce18e84a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_encrypted_database_backup_test.rb": {
+      "bytes": 1761,
+      "sha256": "f4e881fffedcac81bb765c152f1008f31a523572d6e03c892b42a1aec75185d6"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_recovery_source_test.rb": {
+      "bytes": 10123,
+      "sha256": "3b01f1c4101aafbb191d60cf3fc178f83c0a2527ace6d08a0db00dac2c90564a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore_test.rb": {
+      "bytes": 4644,
+      "sha256": "ce9a9144282e88b07a49a927a0bf1e6f3e779d8cb19f74151faeae5731632d5a"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/production_archive_restore.rb": {
+      "bytes": 25183,
+      "sha256": "087c9325a768d9b3551790525f974230458e40079d9eb787438b708a0544ac9d"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_caller_test.rb": {
+      "bytes": 4019,
+      "sha256": "cde5dd0c5c3ec90f441b9037acbb55daa7b8ba6adc0a0d4660a9862e5e8fc7e9"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/tests/collect_inactive_restore_overlay_test.rb": {
+      "bytes": 6718,
+      "sha256": "4a3dceaa9b56cc28054c47cc4a23073ce3ca2eebe0603179e1626bdead773c81"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/sql/collect_inactive_restore_overlay.sql": {
+      "bytes": 25680,
+      "sha256": "556ec1f13ae0d331d5495ac85c545a076b40946f082cceabf2b67738117384b3"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/validation-current/scripts/sql/collect_recovery_source_catalog.sql": {
+      "bytes": 9766,
+      "sha256": "fc70ead29d7c3cb95f2c550fc0ffc2192f5a34634ae29b3b9e79ab5bf26f200b"
+    },
+    "/usr/bin/ruby": {
+      "bytes": 134912,
+      "sha256": "4d57327e7abe67e1c3f84a0869f4239b3324a3d7ea20a70077450e688282fe4f"
+    },
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-inactive-recovery-overlay-20261002/run_affected_units.py": {
+      "bytes": 2104,
+      "sha256": "db04bd814c608ec549abbaec8e6c56650514c9024041bb7dbdd70087f9ad0416"
+    }
+  },
+  "unchanged": true
+}

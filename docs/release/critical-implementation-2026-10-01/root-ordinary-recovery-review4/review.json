@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "at_utc": "2026-10-02T07:53:08.020701+00:00",
+  "packet_sha256": "2c8dece4c8913c2962c3343536fc6f7f0f950c61e73dfa6e9f556fdd3ba56ded",
+  "checked_safe_leaves": 31,
+  "checked_frozen_inputs": 222,
+  "current216_source_hashes_unchanged": true,
+  "prior_AST_changes": [
+    "main"
+  ],
+  "original25_test_AST_unchanged": true,
+  "new9_focused_proof_verified": true,
+  "complete_diff_and_exact_transactions_reviewed": true,
+  "whole_bounds": [
+    600,
+    540,
+    60
+  ],
+  "full_catalog_comparator_unchanged": true,
+  "additional_archive_omissions": [],
+  "scope": "owned_networkless_synthetic_fixture_only",
+  "human_owner_or_release_approval": false,
+  "production_ready": false,
+  "execution_admission_sha256": "ae3a2ca6d1563aa5133d8bbab0178575d891f73eca94fe069880afc7d9117d77"
+}

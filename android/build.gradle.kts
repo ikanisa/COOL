@@ -11,9 +11,20 @@ val newBuildDir: Directory =
         .get()
 rootProject.layout.buildDirectory.value(newBuildDir)
 
+// Configure the app output root before its plugins are applied. Flutter resolves
+// its default ProGuard file during plugin application, so a later module-level
+// override would leave that rule pointing at the previous build directory.
+val collectAndroidBuildRoot =
+    providers.environmentVariable("COLLECT_ANDROID_BUILD_ROOT").orNull
+
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
+    if (project.name == "app" && !collectAndroidBuildRoot.isNullOrBlank()) {
+        project.layout.buildDirectory.set(
+            project.file(collectAndroidBuildRoot).resolve("app"),
+        )
+    } else {
+        project.layout.buildDirectory.value(newBuildDir.dir(project.name))
+    }
 }
 subprojects {
     project.evaluationDependsOn(":app")

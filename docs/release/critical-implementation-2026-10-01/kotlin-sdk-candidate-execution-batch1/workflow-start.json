@@ -1,0 +1,11 @@
+{
+  "actual_free_bytes": 26227761152,
+  "authorization_sha256": "d7e90aa36f58ec39cdc062b6dcbf16fe7d141e679525a5333aa172a296510e04",
+  "candidate": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate1",
+  "command_sha256": "a1caea5efe1886f2740e76c61b85e8dbec6a895ee60243aeddbaee7ba011176d",
+  "no_pristine_shared_SDK_or_repo_pin_lock_write": true,
+  "owned_gradle_home": "/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/private-gradle/sdk-kotlin-2.4.20-candidate1",
+  "prep_manifest_sha256": "1a788b56e4c61299f1981bdc83dff5201f8d742880c987f0f8c49dd22c06f551",
+  "recorded_utc": "2026-10-02T00:49:30.514553+00:00",
+  "runner_sha256": "7e2cefbaaed856764e893d715984a7c1b0089e13eb878a366855f800b352b349"
+}

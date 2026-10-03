@@ -1,0 +1,90 @@
+{
+  "source_kind": "actual_isolated_sql_outputs",
+  "hosted_execution": false,
+  "private_key_included": false,
+  "sql_attempt": "attempt3",
+  "sql_assertions": 92,
+  "migration_sha256": "8dabd0d922c71941c93ec1f51ead09683250d05cfe0d5f8505794ce606ab7b95",
+  "files": [
+    {
+      "name": "observed-activate-lookup-v3.json",
+      "sha256": "e3eff82c4d4fc6581ddcde2bfa224c76be0c75cc27c063a6d08f557a15575a90",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-lookup-v3.json"
+    },
+    {
+      "name": "observed-activate-v3.json",
+      "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-v3.json"
+    },
+    {
+      "name": "observed-enroll-input-v3.json",
+      "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-input-v3.json"
+    },
+    {
+      "name": "observed-enroll-lookup-v3.json",
+      "sha256": "d5a2192cf0e29158d04eb6a915f175f95d04228d2aa2c06013fe9ce477a1a480",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-lookup-v3.json"
+    },
+    {
+      "name": "observed-enroll-v3.json",
+      "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-v3.json"
+    },
+    {
+      "name": "observed-identity-active-v3.json",
+      "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-active-v3.json"
+    },
+    {
+      "name": "observed-identity-expired-active-v3.json",
+      "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-expired-active-v3.json"
+    },
+    {
+      "name": "observed-identity-pages-v3.json",
+      "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-pages-v3.json"
+    },
+    {
+      "name": "observed-identity-revoked-v3.json",
+      "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-revoked-v3.json"
+    },
+    {
+      "name": "observed-in-progress-v3.json",
+      "sha256": "4372c688b26e17901ea27efb7532bae1ec96b4bf6370ae39ab18c314cdbd3f03",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-in-progress-v3.json"
+    },
+    {
+      "name": "observed-not-recorded-v3.json",
+      "sha256": "bb131c98cce62b137e1eff642e6b524b8618bdce17c6263a9229a4b7c5c5f962",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-not-recorded-v3.json"
+    },
+    {
+      "name": "observed-revoke-expired-active-v3.json",
+      "sha256": "b013dc8afc0996d76773af46782a314d8489004b543c6507987f05d109d2daaa",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-expired-active-v3.json"
+    },
+    {
+      "name": "observed-revoke-expired-pending-v3.json",
+      "sha256": "9a7e8df4db3336ea94a70f8786e37299f33a1acdb7e91be6e4ba47568b4d0caf",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-expired-pending-v3.json"
+    },
+    {
+      "name": "observed-revoke-input-v3.json",
+      "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-input-v3.json"
+    },
+    {
+      "name": "observed-revoke-lookup-v3.json",
+      "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-lookup-v3.json"
+    },
+    {
+      "name": "observed-revoke-v3.json",
+      "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-v3.json"
+    }
+  ]
+}

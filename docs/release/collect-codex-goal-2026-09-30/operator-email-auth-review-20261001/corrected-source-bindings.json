@@ -1,0 +1,35 @@
+{
+  "inputs": [
+    {
+      "source": "scripts/collect_operator_email_auth.py",
+      "copy": "corrected-subject/collect_operator_email_auth.py",
+      "sha256": "a6edff976eee3f65ce9cbccdbe84dfc2f2c1e99f78d26b09f2f69a676dc0df05",
+      "readback_exact": true
+    },
+    {
+      "source": "scripts/tests/test_collect_operator_email_auth.py",
+      "copy": "corrected-subject/test_collect_operator_email_auth.py",
+      "sha256": "05f9909d8e85320b3d27e8398fb91c6b1263c68a43375fb4f2f982f11479c864",
+      "readback_exact": true
+    },
+    {
+      "source": "scripts/supabase_apply_auth_hardening.sh",
+      "copy": "corrected-subject/supabase_apply_auth_hardening.sh",
+      "sha256": "fa4e73125258a55f023d91321346c96bcab705859d1ae2cbbcae6d9744e780c4",
+      "readback_exact": true
+    },
+    {
+      "source": "scripts/tests/supabase_secret_transport_test.py",
+      "copy": "corrected-subject/supabase_secret_transport_test.py",
+      "sha256": "64bdc746bfcb57bbcfe35b9f670b0156193e8eb3f23a4c2f7766402c6681a686",
+      "readback_exact": true
+    },
+    {
+      "source": "scripts/supabase_cli_helpers.sh",
+      "copy": "corrected-subject/supabase_cli_helpers.sh",
+      "sha256": "9f0207a11e2157fbcd9eb59e31970aebf5ee72e89e5ab1eb553179910675d1ed",
+      "readback_exact": true
+    }
+  ],
+  "scope": "Read-only review copies; no production freeze or hosted proof"
+}

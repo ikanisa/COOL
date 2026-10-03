@@ -1,0 +1,6 @@
+pub 0
+format 1
+analysis 0
+vm 1
+chrome 0
+{"status": "fail", "vm": 482, "chrome": 15, "export_drift": [], "sdk_same": true, "overlay_drift": ["test/admin_receipt_principal_integration_test.dart"]}

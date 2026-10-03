@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "phase": "python_compile",
+  "source_sha256": "1e19f3fbc45dd86806e135eab7b7291a26532968f17a54f8b98516088493e990",
+  "error": "assignment expression cannot be used in a comprehension iterable expression",
+  "sql_executed": false
+}

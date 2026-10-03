@@ -1,0 +1,14 @@
+test_dump_integrity_and_substitutions (__main__.ArchiveTests.test_dump_integrity_and_substitutions) ... ok
+test_preinstalled_extension_entries_keep_all_data_history_and_acl (__main__.ArchiveTests.test_preinstalled_extension_entries_keep_all_data_history_and_acl) ... ok
+test_changed_unknown_duplicate_hook_or_wrapper_refused (__main__.GraphQLSourceTests.test_changed_unknown_duplicate_hook_or_wrapper_refused) ... ok
+test_exact_frozen_hook_body_identity_and_extension_membership (__main__.GraphQLSourceTests.test_exact_frozen_hook_body_identity_and_extension_membership) ... ok
+test_forged_scope_sql_or_provenance_refused (__main__.GraphQLSourceTests.test_forged_scope_sql_or_provenance_refused) ... ok
+test_readonly_function_projection_keeps_exact_expressions (__main__.GraphQLSourceTests.test_readonly_function_projection_keeps_exact_expressions) ... ok
+test_restore_plan_is_exact_and_existing_mismatch_refuses (__main__.GraphQLSourceTests.test_restore_plan_is_exact_and_existing_mismatch_refuses) ... ok
+test_toc_comments_only_exact_schema_and_keeps_wrapper_acl (__main__.GraphQLSourceTests.test_toc_comments_only_exact_schema_and_keeps_wrapper_acl) ... ok
+test_unknown_source_identity_attributes_and_provenance_refused (__main__.GraphQLSourceTests.test_unknown_source_identity_attributes_and_provenance_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.221s
+
+OK

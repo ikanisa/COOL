@@ -1,0 +1,101 @@
+# frozen_string_literal: true
+
+require 'cgi'
+require 'digest'
+require 'json'
+
+# Collect product-copy evidence. The owner-selected revolut-design skill remains
+# the sole visual authority; these receipts confer no legal/publication approval.
+module PublicContentContract
+  BASELINE = 'docs/release/public-website-content-baseline.json'
+  CURRENT = 'docs/release/public-website-current-content-contract.json'
+  REVIEW = 'docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json'
+  SOURCES = %w[
+    scripts/public_static_site_build.rb docs/PRODUCT.md
+    content/legal/collect_legal_pages_bundle.yaml
+    content/legal/collect_privacy_policy.yaml
+    content/legal/collect_terms_of_use.yaml
+    content/legal/collect_delete_account.yaml
+  ].freeze
+  SHA256 = /\A[0-9a-f]{64}\z/
+
+  def self.read_regular(root, name)
+    raise 'Unsafe content evidence path' unless name.is_a?(String) && !name.start_with?('/') && !name.split('/').include?('..')
+
+    path = File.join(root, name)
+    cursor = root
+    name.split('/').each do |part|
+      cursor = File.join(cursor, part)
+      raise 'Aliased content evidence path' if File.symlink?(cursor)
+    end
+    raise 'Missing content evidence file' unless File.file?(path)
+
+    File.binread(path)
+  end
+
+  def self.visible_text(html)
+    text = html.gsub(/<script\b.*?<\/script>/mi, ' ').gsub(/<style\b.*?<\/style>/mi, ' ')
+    if text.include?('class="mobile-menu-actions"')
+      text = text.sub(%r{<div class="header-actions">\s*<a[^>]*>Get the App</a>\s*</div>}, '')
+    end
+    CGI.unescapeHTML(text.gsub(/<[^>]+>/, "\n")).lines
+      .map { |line| line.gsub(/\s+/, ' ').strip }.reject(&:empty?)
+      .join("\n").gsub(/© \d{4}/, '© YEAR')
+  end
+
+  def self.load(root)
+    baseline_bytes = read_regular(root, BASELINE)
+    baseline = JSON.parse(baseline_bytes)
+    contract_bytes = read_regular(root, CURRENT)
+    contract = JSON.parse(contract_bytes)
+    raise 'Unreviewed current content contract' unless contract['schema_version'] == 1 && contract['status'] == 'local_engineering_reviewed'
+    raise 'Historical content baseline changed' unless Digest::SHA256.hexdigest(baseline_bytes) == contract['historical_baseline_sha256']
+    hashes = contract.fetch('hashes')
+    old_hashes = baseline.fetch('hashes')
+    raise 'Content route catalog changed without review' unless hashes.is_a?(Hash) && hashes.keys.sort == old_hashes.keys.sort && !hashes.empty?
+    raise 'Malformed content digest' unless (hashes.values + old_hashes.values).all? { |value| value.is_a?(String) && value.match?(SHA256) }
+    raise 'Content contract falsely grants release approval' unless contract['legal_release_approved'] == false && contract['publication_approved'] == false
+    sources = contract.fetch('reviewed_source_sha256')
+    raise 'Incomplete reviewed content source inventory' unless sources.is_a?(Hash) && sources.keys.sort == SOURCES.sort
+    source_changes = sources.keys.sort.map do |name|
+      expected = sources[name]
+      raise 'Malformed content source digest' unless expected.is_a?(String) && expected.match?(SHA256)
+      actual = Digest::SHA256.hexdigest(read_regular(root, name))
+      { 'path' => name, 'expected' => expected, 'actual' => actual } unless actual == expected
+    end.compact
+    raise 'Reviewed product/content source changed' unless source_changes.empty?
+    review_bytes = read_regular(root, REVIEW)
+    raise 'Historical comparison evidence changed' unless Digest::SHA256.hexdigest(review_bytes) == contract['historical_comparison_sha256']
+    review = JSON.parse(review_bytes)
+    rows = review.fetch('routes')
+    raise 'Incomplete historical/current comparison' unless review['status'] == 'pass' && rows.is_a?(Array) && rows.map { |row| row['route'] }.sort == hashes.keys.sort
+    rows.each do |row|
+      route = row.fetch('route')
+      unless row['historical_matches_baseline'] == true && row['historical_sha256'] == old_hashes[route] && row['current_sha256'] == hashes[route]
+        raise 'Current content digest is absent from the explicit historical review'
+      end
+    end
+    { 'hashes' => hashes, 'contract_sha256' => Digest::SHA256.hexdigest(contract_bytes),
+      'historical_baseline_sha256' => Digest::SHA256.hexdigest(baseline_bytes),
+      'historical_comparison_sha256' => Digest::SHA256.hexdigest(review_bytes),
+      'reviewed_source_count' => sources.length, 'legal_release_approved' => false, 'publication_approved' => false }
+  end
+
+  def self.evaluate(root:, pages:, routes:)
+    contract = load(root)
+    expected = contract.fetch('hashes')
+    failures = expected.map do |route, digest|
+      html = pages[route]
+      actual = html.is_a?(String) ? Digest::SHA256.hexdigest(visible_text(html)) : nil
+      { 'route' => route, 'expected' => digest, 'actual' => actual } unless actual == digest
+    end.compact
+    routes_ok = routes.sort == expected.keys.sort && routes.uniq.length == routes.length
+    { 'status' => routes_ok && failures.empty? ? 'pass' : 'fail',
+      'expected_routes' => expected.keys.sort, 'generated_routes' => routes.sort,
+      'hash_failures' => failures, **contract.reject { |key, _| key == 'hashes' },
+      'scope' => 'Exact locally reviewed Collect Rwanda-only product copy and source inputs. Historical baseline retained; no visual, legal, publication or hosted availability acceptance.' }
+  rescue JSON::ParserError, KeyError, TypeError, RuntimeError => e
+    { 'status' => 'fail', 'evidence_error' => e.message,
+      'scope' => 'Content evidence is incomplete or changed; no release approval inferred.' }
+  end
+end

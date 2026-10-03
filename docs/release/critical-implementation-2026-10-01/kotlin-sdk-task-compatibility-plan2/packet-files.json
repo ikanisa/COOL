@@ -1,0 +1,26 @@
+{
+  "file_count": 20,
+  "files": {
+    "README.md": "bb04af3819a7d410e86e507bf7e552eafa1fec9ccaa394ad50c9839ac2bc3eac",
+    "bind_primary_api_and_existing_tests.py": "f8ccf6421e4614f070c278743e4d896d84f02a6eda712bd8ebdf577bc77ada26",
+    "complete_primary_api_binding.py": "f11266769636683522b3816904b38428db15007ac2e941fb272d9575fe4937ef",
+    "complete_primary_api_binding_attempt2.py": "42014dbd1d2439fae0123fae1dd44a846d6cea77102d42faf6577ed140d581a0",
+    "consumer-source-review.json": "2b9a5fefb2d29543545164cfe68f2c9e0adc26bd10525958e0452b786c8b969f",
+    "prepare_five_file_proposal.py": "a1c69f80043bceb7ddaed0d72a47dc5f445b8b6d65f07a715e8103fa51682eb2",
+    "primary-api-existing-dependency-binding.json": "e11dde008205bff5584506fe7aff136511a82e8ae284d708d1069f98f3444a79",
+    "primary-binding-initial-projection-rejection.json": "4774811e01491b8656bef506e0ccb73652755ed96923918e686f984900cfb6c8",
+    "primary-binding-runtime-engine-observation.json": "6d1ca159f80cd80a38209ef615e860de7749e1f1c852979582e5ab4db47c7a70",
+    "proposed-five-file-delta.json": "9a772be6d48982d3700aef3671179ddf2f55ce674891e75faf48f9c621f55a22",
+    "proposed-five-file-task-test-compatibility.patch": "1e8afbbacd725d9f0578e69cff2c5c81f6c65a2ac00dca1a7c675c9097d4318e",
+    "public-origin/Gradle-9.1.0-DisableCachingByDefault.java": "80e05f1513e2e3cc7f4d3ea1f07190014b3a206878519948ac2107da5ee75d07",
+    "public-origin/Gradle-9.1.0-PathSensitive.java": "b6249af27daec53f2c0d5edbeabfb77192d934b53071c4d4e5fb4645ccf429ed",
+    "public-origin/Gradle-9.1.0-PathSensitivity.java": "1439afc5a9489db8a28c39d8ec21720580b4f824d90ba161a246ed0c7604f6ff",
+    "public-origin/kotlin-assertFailsWith.html": "e617fa03c7593384c9b41012c166ea43b185743af20c82a29daf992aef9ecab2",
+    "public-origin/kotlin-assertTrue.html": "77bb5ed0ed0c044ffa96b7a820b3a3fbd2bb60c65c98d635bffa64aa67f2bceb",
+    "public-origin/kotlin-test-junit5.module": "7b0b9a68debb4750ad920a430c7be087f69705d47125f5056e8787ffdc2a76ad",
+    "public-origin/kotlin-test-junit5.pom": "18c4e3def0568ed351feed96245e42b4ed14104d1d559c3cec8740837b4ae6b5",
+    "public-origin/kotlin-test.module": "0d3008eef3e2931524308e21f40ef88a1cd54be1d5fdcfc02a4cdf2599fe2d0c",
+    "public-origin/primary-api-origin-index.json": "47213761c3fd4765ecb946b4cea4aa9f37f77808ed56fa0f740f1be5989e59e9"
+  },
+  "scope": "Five exact upstream task/test RAM-only proposal, real failures preserved, exact primary API/variant and consumer source attribution; no source application/SDK execution"
+}

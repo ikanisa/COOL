@@ -1,0 +1,692 @@
+{
+  "scope": "Collect × Codex, full Admin operations workflows and the unattended payment-to-receipt target",
+  "counts_are_not_additive_with_master_register": true,
+  "items": [
+    {
+      "id": "C01",
+      "stage": "Release foundation",
+      "kind": "Integration and verification",
+      "task": "Freeze one reviewed release candidate.",
+      "closure": "Preserve concurrent work, agree the trusted origin and accountable owners, integrate compatible changes, pin dependencies/toolchains and retain source/artifact hashes from a clean checkout.",
+      "master_ids": [
+        "G04",
+        "G05",
+        "G07",
+        "G08",
+        "G09",
+        "G10",
+        "Q01",
+        "Q07",
+        "Q09"
+      ],
+      "evidence": [
+        "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md"
+      ]
+    },
+    {
+      "id": "C02",
+      "stage": "Manual monitoring release",
+      "kind": "Blocked authentication",
+      "task": "Restore the approved operator session.",
+      "closure": "Complete normal local sign-in without putting OTPs/tokens in chat; verify current approval, role, permissions, Keychain handling, expiry and revocation. Retained probe is SHADOW_SESSION_REQUIRED.",
+      "master_ids": [
+        "S05",
+        "S09",
+        "A01"
+      ],
+      "evidence": [
+        "docs/release/collect-codex-shadow-2026-09-30/live-read-only-reconciliation.log",
+        "scripts/collect_operator_login.py"
+      ]
+    },
+    {
+      "id": "C03",
+      "stage": "Manual monitoring release",
+      "kind": "Packaging and verification",
+      "task": "Verify the deployed MCP installation and tool inventory.",
+      "closure": "Pin the local bridge/runtime and supported installation, reload/discover the five allowed reads, exclude unrestricted controls and duplicate connections, and verify safe error/redaction behavior. A plugin is optional packaging; HTTP/OAuth is required only if remote HTTP is selected.",
+      "master_ids": [
+        "G07",
+        "S07",
+        "S08",
+        "Q01",
+        "A10"
+      ],
+      "evidence": [
+        "tools/collect-notification-mcp/README.md",
+        "docs/release/collect-codex-shadow-2026-09-30/host-profile-readback.json"
+      ]
+    },
+    {
+      "id": "C04",
+      "stage": "Manual monitoring release",
+      "kind": "Deployment and verification",
+      "task": "Deploy compatible backend contracts and navigation.",
+      "closure": "Refresh the hosted baseline, rehearse clean and populated upgrades plus rollback/roll-forward, deploy reviewed prerequisites/navigation/shadow contracts, and read back exact bodies, RLS, grants, Auth, flags and cron. Verify retirement of unsupported legacy bank execution.",
+      "master_ids": [
+        "D09",
+        "O01",
+        "S08",
+        "S10",
+        "X02"
+      ],
+      "evidence": [
+        "supabase/migrations/20260930200000_admin_automation_navigation.sql",
+        "supabase/migrations/20260930210000_shadow_supervisor_runs.sql",
+        "docs/release/hosted-readback-2026-09-30/SECURITY_TRIAGE.md"
+      ]
+    },
+    {
+      "id": "C05",
+      "stage": "Manual monitoring release",
+      "kind": "Build and deployment",
+      "task": "Build and host the latest Admin bundle.",
+      "closure": "Compile current source including shadow history; verify production configuration, configured navigation/deep links, authenticated/public separation, headers and cache/upgrade/logout behavior. The retained earlier build excludes history.",
+      "master_ids": [
+        "Q05",
+        "U07",
+        "U08",
+        "A10"
+      ],
+      "evidence": [
+        "docs/release/collect-codex-shadow-2026-09-30/README.md",
+        "lib/main_admin.dart"
+      ]
+    },
+    {
+      "id": "C06",
+      "stage": "Manual monitoring release",
+      "kind": "Live verification",
+      "task": "Validate every enabled MCP read against the hosted backend.",
+      "closure": "Exercise health, pending work, exact receipt status and failures with authorized nonempty test evidence; prove denied/cross-scope/replaced-session/stale/malformed/deadline behavior and no unintended writes. An empty failure page does not validate exact receipt lookup.",
+      "master_ids": [
+        "S07",
+        "S08",
+        "S09",
+        "Q06",
+        "A09"
+      ],
+      "evidence": [
+        "docs/release/collect-codex-2026-09-30/README.md",
+        "tools/collect-notification-mcp/src/server.ts"
+      ]
+    },
+    {
+      "id": "C07",
+      "stage": "Manual monitoring release",
+      "kind": "Live verification",
+      "task": "Run and reconcile a real manual shadow lifecycle.",
+      "closure": "Prove begin/sample/finish/history with the approved identity, durable records, BUSY, expiry, fence loss, session replacement, unknown-response lookup and server-derived counters. Confirm only telemetry changes; completion must not imply current health or message delivery.",
+      "master_ids": [
+        "S09",
+        "Q06",
+        "O06",
+        "A01",
+        "A09"
+      ],
+      "evidence": [
+        "docs/release/collect-codex-shadow-2026-09-30/validation.json",
+        "lib/admin/core/admin_shadow_runs.dart"
+      ]
+    },
+    {
+      "id": "C08",
+      "stage": "Release foundation",
+      "kind": "Integrated acceptance",
+      "task": "Rerun complete acceptance on the frozen candidate.",
+      "closure": "Run full Flutter/native/Edge/database/browser suites, representative populated upgrades and negative/concurrency cases; retain exact logs, exclusions and source bindings. Scoped test counts cannot close whole-system gates.",
+      "master_ids": [
+        "Q02",
+        "Q03",
+        "Q06",
+        "D09",
+        "S08",
+        "S09"
+      ],
+      "evidence": [
+        "docs/release/admin-full-coverage-2026-09-30/README.md",
+        "docs/release/collect-codex-shadow-2026-09-30/validation.json"
+      ]
+    },
+    {
+      "id": "C09",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete the operations Overview.",
+      "closure": "Add posted-today payment/value metrics, receipt age, definite failures and unknown outcomes; separate ingestion, telephony, internet and supervisor freshness; link real policy-based alerts to filtered worklists and isolate partial failures.",
+      "master_ids": [
+        "O06",
+        "U06",
+        "A08"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_overview_runtime.dart",
+        "supabase/migrations/20260902081017_hybrid_admin_overview_metrics.sql"
+      ]
+    },
+    {
+      "id": "C10",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Separate transaction lifecycle states.",
+      "closure": "Expose provider reference, payer/intended member/group and independent verification, allocation, ledger and notification states; preserve pagination/filter/scope correctness. The current transaction table has one aggregate Status column.",
+      "master_ids": [
+        "D07",
+        "F01",
+        "F09",
+        "U06"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_operation_tables.dart"
+      ]
+    },
+    {
+      "id": "C11",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete transaction investigation.",
+      "closure": "Join ingestion→parse→verification→allocation→posting→receipt→attempt→delivery evidence; distinguish posting-time receipt snapshots from current balances, show permitted/blocked actions and version conflicts, and preserve audited privileged raw-evidence reveal.",
+      "master_ids": [
+        "F01",
+        "F10",
+        "S09",
+        "U06",
+        "A09"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_detail_runtime.dart",
+        "lib/admin/core/admin_reconciliation_runtime.dart"
+      ]
+    },
+    {
+      "id": "C12",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete a cross-service exception inbox.",
+      "closure": "Cover member/group ambiguity, unsupported parsing, verification differences, missing contacts, gateway outages and uncertain sends with category, age, owner, severity, evidence, exact previews and governed approval. Reuse existing financial reconciliation.",
+      "master_ids": [
+        "F09",
+        "F10",
+        "U06",
+        "A09",
+        "O09"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_reconciliation_runtime.dart"
+      ]
+    },
+    {
+      "id": "C13",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete notification investigation and permitted actions.",
+      "closure": "Display immutable payload/version/snapshot context, masked destination, segment estimate, attempts/journal/per-part callbacks and original/resend/correction links. Add only backend-authorized cancellation/retry/resend; unknown outcomes lead to investigation.",
+      "master_ids": [
+        "S09",
+        "U06",
+        "A09",
+        "O05"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_detail_specs.dart",
+        "lib/admin/core/admin_detail_runtime.dart",
+        "lib/admin/core/admin_list_specs.dart"
+      ]
+    },
+    {
+      "id": "C14",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Add a real SMS Gateway/provider operations page.",
+      "closure": "Bind identity/ownership/build/SIM or provider status, internet/telephony/permissions, local/server backlog, journal, heartbeat and lifecycle to real services. Enrollment/revoke/allowlisted test actions require backend authority. No fake online or delivery badge.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S09",
+        "U06",
+        "O06"
+      ],
+      "evidence": [
+        "lib/admin/admin_router.dart"
+      ]
+    },
+    {
+      "id": "C15",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete Automations status, runs, policy and access.",
+      "closure": "Add effective modes/caps, actual runner/cadence ownership, unacknowledged work, last attempt versus success, execution location, actions/exceptions and audit links. Keep Run now/schedule editing absent until backed by the selected integration.",
+      "master_ids": [
+        "S09",
+        "O05",
+        "O06",
+        "A08",
+        "A09"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_automations_page.dart",
+        "lib/admin/core/admin_shadow_runs.dart"
+      ]
+    },
+    {
+      "id": "C16",
+      "stage": "Full operations UI",
+      "kind": "Implementation",
+      "task": "Complete joined audit and governed domain settings.",
+      "closure": "Link payment/posting/receipt/attempt/run/real actor; implement approved balance/disclosure/template/language/recipient/sender-limit/device/retention settings with permission, version, reason and audit checks. Reuse existing governed toggles.",
+      "master_ids": [
+        "S09",
+        "A08",
+        "A09",
+        "P05",
+        "P10"
+      ],
+      "evidence": [
+        "lib/admin/admin_router.dart",
+        "lib/admin/core/admin_list_runtime.dart"
+      ]
+    },
+    {
+      "id": "C17",
+      "stage": "Full operations UI",
+      "kind": "Implementation and acceptance",
+      "task": "Finish shared UX and selected-skill acceptance.",
+      "closure": "Fix remaining icon-only specialized headings and incomplete offline/stale/partial states; verify configured navigation and all declared routes/actions/roles/session transitions, keyboard/screen-reader, light/dark/narrow/doubled text and live-update stability. Obtain applicable Business/operator comparators and owner acceptance.",
+      "master_ids": [
+        "U01",
+        "U02",
+        "U03",
+        "U04",
+        "U05",
+        "U06",
+        "U07",
+        "U08",
+        "X01"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_operation_components.dart",
+        "lib/admin/core/admin_overview_components.dart",
+        "docs/release/revolut-design/acceptance-status.json"
+      ]
+    },
+    {
+      "id": "C18",
+      "stage": "Unattended target",
+      "kind": "Policy and verification",
+      "task": "Approve financial and receipt semantics.",
+      "closure": "Approve provider/statement evidence or an explicit constrained assurance policy, reference scope, payer-versus-member/group allocation, savings/balance definitions, late intent, fees/corrections/reversals, verified recipients, consent/group disclosure, languages and segment costs. Preserve existing atomic posting/journals/snapshots and current fixed-template uniqueness.",
+      "master_ids": [
+        "F01",
+        "F02",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "P09",
+        "P10"
+      ],
+      "evidence": [
+        "supabase/migrations/20260903084000_hybrid_direct_ussd_financial_core.sql",
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql"
+      ]
+    },
+    {
+      "id": "C19",
+      "stage": "Unattended target",
+      "kind": "Design and implementation",
+      "task": "Implement safe pause/resume and missed-receipt reconciliation.",
+      "closure": "The disabled SMS flag currently skips outbox creation. Define dispatch pause versus deliberate suppression, preserve eligible durable work and implement controlled catch-up/backfill without contacting opted-out/app-linked members or blindly sending historical receipts.",
+      "master_ids": [
+        "F01",
+        "O05",
+        "A08",
+        "A09"
+      ],
+      "evidence": [
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql"
+      ]
+    },
+    {
+      "id": "C20",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Create a dedicated unattended operational identity.",
+      "closure": "Separate device/human/supervisor credentials, define server-derived allowed scope, constrain every entity reference and revocation/renewal path, and deny financial authority, unrestricted SMS/SQL/shell/OTP access. Current manual platform-owner authority remains separate.",
+      "master_ids": [
+        "S01",
+        "S08",
+        "S09",
+        "S10",
+        "A04"
+      ],
+      "evidence": [
+        "tools/collect-notification-mcp/src/server.ts",
+        "supabase/migrations/20260930210000_shadow_supervisor_runs.sql"
+      ]
+    },
+    {
+      "id": "C21",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Add committed business events and durable consumer acknowledgements.",
+      "closure": "Emit posting/late-allocation/reversal/actionable-failure events; use commit-safe progress or per-event ACK, bounded batches, partial recovery and periodic reconciliation. Creation-time pending pagination is not a durable acknowledgement contract.",
+      "master_ids": [
+        "F08",
+        "D03",
+        "O05",
+        "Q06"
+      ],
+      "evidence": [
+        "tools/collect-notification-mcp/src/server.ts"
+      ]
+    },
+    {
+      "id": "C22",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Add constrained ensure/enqueue-receipt services and MCP tools.",
+      "closure": "Accept only transaction ID, expected version and operational run reference; derive recipient/text/balances/policy server-side. Revalidate scope, posting, contact, consent, version, lease/fence, pause/caps and lifetime uniqueness; return stable business reason codes and existing receipt identity.",
+      "master_ids": [
+        "F01",
+        "F08",
+        "F09",
+        "S08",
+        "S09",
+        "A09"
+      ],
+      "evidence": [
+        "tools/collect-notification-mcp/src/server.ts",
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql"
+      ]
+    },
+    {
+      "id": "C23",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Add safe retry, cancellation, correction and intentional-resend operations.",
+      "closure": "Retry only definitely-unsent policy-eligible attempts with version/fence checks; investigate uncertainty without transport switching or blind replay. Restrict cancellation to safely unstarted work. Keep corrections/resends linked, reasoned and approved; template changes must not recreate primary receipts.",
+      "master_ids": [
+        "F08",
+        "F10",
+        "S09",
+        "O05",
+        "A09"
+      ],
+      "evidence": [
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql",
+        "tools/collect-notification-mcp/src/server.ts"
+      ]
+    },
+    {
+      "id": "C24",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Add durable operational exception services.",
+      "closure": "Deduplicate bounded reason-coded exceptions by entity/event, track assignment/escalation/resolution and audit lineage, and expose minimal-data MCP actions without accepting raw untrusted SMS as instructions.",
+      "master_ids": [
+        "S07",
+        "A02",
+        "A09",
+        "O09"
+      ],
+      "evidence": [
+        "tools/collect-notification-mcp/src/server.ts"
+      ]
+    },
+    {
+      "id": "C25",
+      "stage": "Unattended target",
+      "kind": "Implementation",
+      "task": "Add an action-supervisor lease and validated completion contract.",
+      "closure": "Bind approved scope, principal, batch and every permitted side effect to an expiring fenced run; acknowledge only durable handled events and derive action/exception counters on the server. Manual health sampling is not event-processing completion.",
+      "master_ids": [
+        "S09",
+        "Q06",
+        "O05",
+        "O06"
+      ],
+      "evidence": [
+        "supabase/migrations/20260930210000_shadow_supervisor_runs.sql"
+      ]
+    },
+    {
+      "id": "C26",
+      "stage": "Unattended target",
+      "kind": "Policy and implementation",
+      "task": "Enforce operating modes, limits and emergency stop.",
+      "closure": "Store/enforce Shadow, Dry-run, Live-limited, Live and Paused policies with per-run/group/device/global action/SMS caps and audited human resume. Pause blocks new dispatch authority while ingestion continues; it cannot recall carrier handoff.",
+      "master_ids": [
+        "S09",
+        "O05",
+        "O08",
+        "A08"
+      ],
+      "evidence": [
+        "lib/admin/core/admin_automations_page.dart",
+        "supabase/migrations/20260903090000_hybrid_sms_notification_outbox.sql"
+      ]
+    },
+    {
+      "id": "C27",
+      "stage": "Unattended target",
+      "kind": "Choice and implementation",
+      "task": "Choose and implement one approved automatic sender.",
+      "closure": "Implement organization-owned Android gateway OR authorized SMS-provider adapter. Bind short-lived authorization to receipt/attempt/payload/scope/device/fence; persist pre-send journal and callbacks, authenticate/idempotently process per-part results and preserve uncertainty. Current Android inbound receiver and assisted Apple Messages workflow are not unattended senders.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S01",
+        "O05",
+        "P04",
+        "P09"
+      ],
+      "evidence": [
+        "android/app/src/main/AndroidManifest.xml",
+        "tools/collect-notification-mcp/src/server.ts"
+      ]
+    },
+    {
+      "id": "C28",
+      "stage": "Unattended target",
+      "kind": "Implementation and verification",
+      "task": "Implement sender enrollment, revocation and independent health.",
+      "closure": "Expose actual credentials/build/ownership, selected SIM/subscription where applicable, permission/telephony/internet, local journal/backlog and heartbeat; prove revoked devices cannot send and lost callbacks reconcile with the original journal/provider.",
+      "master_ids": [
+        "M01",
+        "M02",
+        "S08",
+        "S09",
+        "O06"
+      ],
+      "evidence": [
+        "android/app/src/main/AndroidManifest.xml",
+        "lib/admin/admin_router.dart"
+      ]
+    },
+    {
+      "id": "C29",
+      "stage": "Unattended target",
+      "kind": "Implementation and verification",
+      "task": "Configure a real scheduler and recovery runner.",
+      "closure": "Choose a Collect-owned deterministic checker or supported always-on Codex runner; prove host availability, cadence/runtime/quota, overlap, bounded batches, stale runs, disconnections and recovery. Remote HTTP/OAuth is conditional on the chosen hosting. Existing push scheduling is separate from SMS/Codex scheduling.",
+      "master_ids": [
+        "S10",
+        "O05",
+        "O08",
+        "O09"
+      ],
+      "evidence": [
+        "supabase/migrations/20260929160000_notification_retry_schedule.sql",
+        "docs/release/collect-codex-shadow-2026-09-30/README.md"
+      ]
+    },
+    {
+      "id": "C30",
+      "stage": "Production operations",
+      "kind": "Instrumentation and acceptance",
+      "task": "Measure real latency, capacity, health and cost.",
+      "closure": "Finish pipeline/gateway/supervisor metric coverage, actionable alerts and operator drills; measure ingestion→posting→queue→sent, queue age, delivery coverage, unknowns, duplicate suppression, allocation/reconciliation differences, p95/p99/backlog drain and measured SMS/OTP/AI budgets. Existing database metrics need final integration and representative volume.",
+      "master_ids": [
+        "D01",
+        "D02",
+        "D04",
+        "D07",
+        "O06",
+        "O07",
+        "O08",
+        "O09"
+      ],
+      "evidence": [
+        "supabase/migrations/20260930160000_redacted_operational_health.sql",
+        "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md"
+      ]
+    },
+    {
+      "id": "C31",
+      "stage": "Production operations",
+      "kind": "End-to-end acceptance",
+      "task": "Execute the complete payment/receipt failure matrix.",
+      "closure": "Use representative authorized financial evidence and real allowlisted devices/providers: duplicates, concurrent posting, late allocation, multipart uncertainty, crash after send/lost ACK, journal restart, permission/network/power loss, queue repetition, pause, reversals, cross-scope access, prompt injection and restore. Prove normal payment/receipt processing when Codex is offline.",
+      "master_ids": [
+        "F01",
+        "F02",
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "Q06",
+        "Q10"
+      ],
+      "evidence": [
+        "docs/release/financial-core-2026-09-28/README.md",
+        "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt"
+      ]
+    },
+    {
+      "id": "C32",
+      "stage": "Production operations",
+      "kind": "External decisions and verification",
+      "task": "Close privacy, financial, carrier/provider and distribution prerequisites.",
+      "closure": "Obtain accountable regulatory/privacy/vendor/hosting/inference/retention decisions and disclosures for actual flows, verified contacts/group totals and lawful processing. Confirm selected sender commercial terms, consent, rate/segment costs and applicable distribution/permission approval through actual owners.",
+      "master_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "M01",
+        "F02"
+      ],
+      "evidence": [
+        "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md"
+      ]
+    },
+    {
+      "id": "C33",
+      "stage": "Whole Collect release",
+      "kind": "Build, security and external acceptance",
+      "task": "Complete source trust, supply-chain, signing and store/device acceptance.",
+      "closure": "Refresh sharing/exposure and redacted secret scans; rotate evidenced exposed credentials. Regenerate locks/inventory/SBOM/provenance and license/asset reviews from frozen source; build/sign/install exact Android/iOS bytes, run real USSD/SMS/Integrity/push/privacy/key-loss journeys and refresh store-console evidence. Do not restore retired assets or diaspora/Stripe requirements.",
+      "master_ids": [
+        "G01",
+        "G02",
+        "G03",
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q07",
+        "Q08",
+        "Q09",
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06",
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "A05",
+        "A06",
+        "A07",
+        "X01",
+        "X02"
+      ],
+      "evidence": [
+        "docs/release/asset-build-hygiene-2026-09-30/README.md",
+        "docs/release/GO_NO_GO_DECISION.md"
+      ]
+    },
+    {
+      "id": "C34",
+      "stage": "Production operations",
+      "kind": "Recovery acceptance",
+      "task": "Prove actual disaster recovery and upgrade recovery.",
+      "closure": "Approve RPO/RTO; restore database, Auth, roles/grants/configuration, receipt/ledger evidence, independent Storage objects, sender journals/keys and external evidence in isolation. Reconcile balances and pending work, measure recovery time and verify off-site recovery and version compatibility.",
+      "master_ids": [
+        "O02",
+        "O03",
+        "D09",
+        "Q10",
+        "M05"
+      ],
+      "evidence": [
+        "docs/release/PRODUCTION_ARCHIVE_RESTORE_V7_2026-09-03.json"
+      ]
+    },
+    {
+      "id": "C35",
+      "stage": "Production operations",
+      "kind": "Operational acceptance",
+      "task": "Complete accountable operations and incident runbooks.",
+      "closure": "Assign on-call/support/finance/security/release owners; rehearse sender/provider/OTP/Codex outages, stuck or corrupt queues, compromise, wrong allocation, uncertain sends, emergency pause and rollback. Retain operator handover, contacts, audit retention and evidence export procedures.",
+      "master_ids": [
+        "G10",
+        "O09",
+        "P10",
+        "A10"
+      ],
+      "evidence": [
+        "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md"
+      ]
+    },
+    {
+      "id": "C36",
+      "stage": "Production release",
+      "kind": "Pilot and accountable acceptance",
+      "task": "Complete an allowlisted capped pilot and release decision.",
+      "closure": "Progress shadow→allowlisted sends→capped group pilot with daily independent reconciliation, support/monitoring, stop/rollback criteria and documented outcomes. Bind deployment/signed hashes/locks/tests/exclusions/policy decisions to one handover and obtain accountable GO before expansion.",
+      "master_ids": [
+        "O10",
+        "Q10",
+        "G07",
+        "G09",
+        "G10",
+        "A10"
+      ],
+      "evidence": [
+        "docs/release/GO_NO_GO_DECISION.md",
+        "docs/release/PRODUCTION_REMAINING_TASKS_2026-09-30.md"
+      ]
+    }
+  ],
+  "owner_design_scope_amendment": {
+    "as_of": "2026-10-01",
+    "scope": "Sole revolut-design authority; separately named mobile checklist and its mandatory gates removed at owner request. Previous integrity claims for changed bytes are withdrawn. Existing technical observations retain their dated scope."
+  }
+}

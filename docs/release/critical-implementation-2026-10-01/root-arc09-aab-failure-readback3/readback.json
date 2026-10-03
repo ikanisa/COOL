@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-02T13:23:36.601280+00:00",
+  "status": "genuine_offline_bundle_failure_preserved",
+  "failed_packet_sha256": "5df301e0786d3533e0c047d8e86999c978dfbe2b03dc967fa9265c3f3b25da18",
+  "terminal_sha256": "39353b9ea428a4d4bf95fa7879d6d9e00692ecdfb8af307fcb364f216e52a61f",
+  "command_sha256": "5c519ac85dfe621ea082670a1789f69e89369643d17c819de7bc70a8a3e100f6",
+  "exit_code": 1,
+  "actual_seconds": 43.285,
+  "missing_artifact": "com.android.tools:desugar_jdk_libs:2.1.4 JAR",
+  "exact_refused_wrapper_row_retained": true,
+  "refused_row_kind": "same PID/start/PGID with unavailable argv (java), state Ss",
+  "independent_absence": [
+    {
+      "kind": "pid",
+      "id": 95283,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pid",
+      "id": 95302,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 95283,
+      "state": "ESRCH_absent"
+    },
+    {
+      "kind": "pgid",
+      "id": 95302,
+      "state": "ESRCH_absent"
+    }
+  ],
+  "matching_live_process_rows": [],
+  "failure_guard_command_exit_code": 0,
+  "source_readbacks": {
+    "APP-source": {
+      "readback_completed": true
+    },
+    "SDK-source": {
+      "readback_completed": true
+    },
+    "protected": {
+      "readback_completed": true
+    }
+  },
+  "protected_paths_unchanged": 68020,
+  "old_whole_failure_preserved": true,
+  "AAB_built": false,
+  "ARC09_closed": false,
+  "production_release_approval": false
+}

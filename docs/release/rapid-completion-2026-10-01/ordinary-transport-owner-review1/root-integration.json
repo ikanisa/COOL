@@ -1,0 +1,9 @@
+{
+  "migration": "supabase/migrations/20261001160000_receipt_worker_transport_health.sql",
+  "before_sha256": "e3e1e56a32160db25d903d6cb436279c47e684b1b7e594ff342071e9882c1096",
+  "after_sha256": "7307a061e03243b82bd98d94eff5b2b83dc457dcb8dae47580c642ccc144191d",
+  "platform_prerequisite": "scripts/sql/receipt_transport_platform_prerequisites.sql",
+  "platform_prerequisite_sha256": "f5c7b3a18ae3bc5da46b4de98398c4504ac04ca27c404b47fc6fcd725ebbb64f",
+  "proof_sha256": "742d61c3bd1322e5623a2ac27f15c4c711197dba2d2cbeb0be01807c4b3efc58",
+  "shared_database_written": false
+}

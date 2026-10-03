@@ -1,0 +1,8 @@
+{
+  "export_binding_sha256": "6e354fc3e71d1d698cdeb2656522547d2e6230ff505a465d8cb681ca50f85ba3",
+  "predecessor_terminal_sha256": "c6dfd10391d6d720e643e5bb2f4694145e78315a5c132d65aea432bde5af4709",
+  "production_release_approval": false,
+  "script_sha256": "143be6f145c8db9c71651c26d26fd458a59b377d392a69530757d5bdc990d7ff",
+  "source_fence_sha256": "26551abe8cfac6a260eb4ec233d25d5771d138e3c3c110e743fef45bf57a6f3a",
+  "stage": "app-lock"
+}

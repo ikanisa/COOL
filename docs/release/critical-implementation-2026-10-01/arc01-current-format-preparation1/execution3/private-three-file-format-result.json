@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect-arc01-current-f92a68e41bba416a8f40bab2d3667051-format",
+    "/bin/bash",
+    "-euo",
+    "pipefail",
+    "-c",
+    "\"$DART\" format lib/admin/core/admin_runtime.dart scripts/tests/admin_receipt_source_busy_test.dart test/features/runtime_component_contract_test.dart"
+  ],
+  "completed_at_utc": "2026-10-02T10:46:02.380748+00:00",
+  "deadline_seconds": 90,
+  "elapsed_seconds": 0.6027600839952356,
+  "exit_code": 0,
+  "log_sha256": "8c9c6f7a19a3ec6064d0e009b0126aa3f7ac78b8e30a694e97b2c00a09415b41",
+  "started_at_utc": "2026-10-02T10:46:01.778020+00:00",
+  "timed_out": false
+}

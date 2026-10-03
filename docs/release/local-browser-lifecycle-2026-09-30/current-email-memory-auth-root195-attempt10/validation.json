@@ -1,0 +1,98 @@
+{
+  "actual_browser_report": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root195-attempt10/report.json",
+  "actual_browser_return_code": 1,
+  "checkout_input_drift": {},
+  "checks": 9,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root195-current-browser",
+      "elapsed_seconds": 0.34,
+      "exit_code": 0,
+      "name": "export-git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root195-current-browser",
+      "elapsed_seconds": 2.42,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4f5effb55519ad86d8ad7e7eda769ef25237fda3dbbeb0685c6ae6c6b69d7deb"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-browser-root195/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-root195-current-browser",
+      "elapsed_seconds": 12.58,
+      "exit_code": 0,
+      "name": "pub-enforce-offline",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/qa/current_browser_lifecycle.mjs",
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/local-browser-lifecycle-20261001/current-email-memory-auth-root195-attempt10"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "elapsed_seconds": 256.49,
+      "exit_code": 1,
+      "name": "actual-current-browser",
+      "stderr_sha256": "5c6340996f8cc7366cb38c00682fdc34da06ecbf257142acf877cfd66e66d0f2",
+      "stdout_sha256": "cc103dc91a5763cd27b62b612a9a3c70b875362a64abe30da1854a2f537cafa5"
+    }
+  ],
+  "completed_at": "2026-10-01T10:33:24.660719+00:00",
+  "coverage": {
+    "account_switch": false,
+    "email_sign_in": true,
+    "exact_departure_denies": false,
+    "failed_update": false,
+    "installed_pwa": false,
+    "legacy_broadcast_refused": true,
+    "legacy_cache_migration": false,
+    "mismatched_departure_refused": false,
+    "offline_signed_out": false,
+    "private_logout": false,
+    "public_admin_separation": false,
+    "reference_only_storage": true,
+    "reload_requires_sign_in": true,
+    "static_cache_privacy": false,
+    "tabs_do_not_adopt_sign_in": true,
+    "warm_update": false
+  },
+  "database_commands_executed": false,
+  "errors": 1,
+  "export_drift": [
+    ".dart_tool/package_config.json",
+    ".flutter-plugins-dependencies"
+  ],
+  "provider_credentials_supplied": false,
+  "report_sha256": "d3fda2a1e4955f92bab9ae3fee37ba83dc19239e2641a2cf70cb7e11e6974cb2",
+  "retained_source_binding_sha256": "0cb19e2293c275d2db48bf9195243b3034a3eef962153d6b17884e6439908867",
+  "runtime_executables_unchanged": true,
+  "scope": "Actual current normal Admin/Public entrypoints and browser lifecycle including installed standalone PWA offline; no SQL/provider/physical-device/design or whole repository/release acceptance",
+  "source_input_count": 2583,
+  "source_inputs_current": true,
+  "status": "fail",
+  "synthetic_browser_profile_excluded_from_repo": true,
+  "whole_L01_complete": false,
+  "whole_L18_original_local_criterion_complete": false
+}

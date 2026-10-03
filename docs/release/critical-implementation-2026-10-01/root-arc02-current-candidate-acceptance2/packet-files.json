@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "exact-size-gate.sh",
+      "sha256": "d99c3d5ccb77990ae092a9d25b87f96ad9a95328df1b082bfeb752800edfa911",
+      "bytes": 901
+    },
+    {
+      "path": "plan-before-fresh-app-lock.json",
+      "sha256": "36384ee089428c45ce0aa070d68274d98d4b127c4f037c0ac1587cb3e680bd3e",
+      "bytes": 4563
+    },
+    {
+      "path": "plan.json",
+      "sha256": "8344b46601078b0817e36941456068cdda2a95092f8602b2d1f2b11c6fd8fc00",
+      "bytes": 4563
+    },
+    {
+      "path": "run_checks.py",
+      "sha256": "0051ae36883a194548f8352ee8bfbe758591cbd1af98f15ee2d731d082f31900",
+      "bytes": 9271
+    }
+  ]
+}

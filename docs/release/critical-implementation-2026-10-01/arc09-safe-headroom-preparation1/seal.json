@@ -1,0 +1,7 @@
+{
+  "SHA256SUMS_sha256": "fb4b1618081c06d4d64cfc70ced7f4e1f9ba0e75ec7ec29a5bcbc8035e48fdae",
+  "actual_cleanup_executed": false,
+  "packet_sha256": "d726f10027966fb58e4719e29e372af9d497bd3705fd9845f3fc59239cb2b37c",
+  "payload_files": 6,
+  "sealed_modes": "all files 0400"
+}

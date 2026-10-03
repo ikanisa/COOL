@@ -1,0 +1,28 @@
+{
+  "format": "collect-be08-maintained-literal-replacement-integration-before-v1",
+  "paths": [
+    {
+      "path": "scripts/audits/collect_schema_domain_map.py",
+      "before_sha256": "02c7427d8cf7ae62f1cf0e671748e9a7226e540dba45928d608f407416819db2",
+      "after_sha256": "bbf78e003736bb023e65efe1b5301b7c71159e9bb508462f90bafdffd16a7dd4",
+      "before_bytes": 67708,
+      "after_bytes": 78306,
+      "mode": 420,
+      "mtime_ns": 1790948907716340281,
+      "private_proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/audits/collect_schema_domain_map.py"
+    },
+    {
+      "path": "scripts/tests/collect_schema_domain_map_test.py",
+      "before_sha256": "00f1a870c31c4721530bbc4c6959d4e4be0b548e5bbe0538822009283be76c82",
+      "after_sha256": "3bb435cd79cc23414039e8c447460be88487a2097ba24035d1233d007971b343",
+      "before_bytes": 42318,
+      "after_bytes": 54727,
+      "mode": 420,
+      "mtime_ns": 1790948907716701025,
+      "private_proposed_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/be08-literal-replacement-preparation1/proposal/scripts/tests/collect_schema_domain_map_test.py"
+    }
+  ],
+  "ownership": "exactly two maintained source paths",
+  "reviewed_packet_sha256": "df352bfe7e198283d8ba3ae5ffc4429e76487b670aaf786284d8bc029288cc9f",
+  "reviewed_patch_sha256": "9c45a4bf5004a897beff4212ce01370b32d0afc27ad078e6a83d4627def7a6f0"
+}

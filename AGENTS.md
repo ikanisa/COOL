@@ -15,12 +15,15 @@ Web marketing and Business/operator references are distinct from native UI.
 ## Remove competing references
 
 Do not add or restore another design skill, visual specification, generated
-mockup or legacy palette as a design reference. Delete obsolete competing
-references rather than retaining them as an alternative design system.
+mockup or legacy palette as a design reference. When reference cleanup is within the authorized task, remove obsolete
+appearance authority from active source. Preserve factual, provenance,
+security, operational and release evidence in mixed records, and preserve
+immutable recovery archives and captured source bytes. Such records never
+become an alternative design system.
 Collect logos, artwork, product requirements and regression captures remain
 product evidence. Runtime tokens and components are adapters of the selected
 skill, not independent design rules.
 
 Run `make revolut-design-authority` after changes to references, themes or shared
 components. This checks sole-authority hygiene; it does not certify visual
-fidelity. Use the skill's `MOBILE-DESIGN-100` rule for mobile acceptance.
+fidelity. Use the selected Revolut skill directly for implementation and review.

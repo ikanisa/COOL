@@ -1,0 +1,68 @@
+{
+  "APP_compilation_or_AAB_acceptance": false,
+  "actual_compiler_readback": {
+    "R8_class": "com.android.tools.r8.R8",
+    "R8_classloader": "org.gradle.internal.classloader.VisitableURLClassLoader$InstrumentingVisitableURLClassLoader",
+    "R8_classloader_identity": 723603553,
+    "R8_selected_from_AGP_tool_classloader": true,
+    "app_compilation_executed_by_this_task": false,
+    "coordinate": "com.android.tools:r8:9.1.29",
+    "invoked_arguments": [
+      "--version"
+    ],
+    "invoked_declaring_class": "com.android.tools.r8.R8",
+    "invoked_method": "public static void com.android.tools.r8.R8.main(java.lang.String[])",
+    "invoked_method_name": "main",
+    "invoked_modifiers": 9,
+    "invoked_parameter_types": [
+      "[Ljava.lang.String;"
+    ],
+    "invoked_return_type": "void",
+    "provider": {
+      "bytes": 56139715,
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar",
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    },
+    "resolved_artifact": {
+      "bytes": 56139715,
+      "md5_hex": "60e153b8c1dba4d97e9b1ef2d75c2e61",
+      "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar",
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    },
+    "tool_class": "com.android.builder.dexing.R8Tool",
+    "tool_classloader": "org.gradle.internal.classloader.VisitableURLClassLoader$InstrumentingVisitableURLClassLoader",
+    "tool_classloader_identity": 723603553,
+    "version": "9.1.29",
+    "version_method_invoked": true,
+    "version_stdout": "R8 9.1.29 (build 7130940ccb0c41990c77906b3d4f0a4412acb501 from go/r8bot (luci-r8-custom-ci-archive-0-alg6))\n"
+  },
+  "kind": "actual_R8_classloader_provider_observation",
+  "production_release_approval": false,
+  "provider": {
+    "bytes": 56139715,
+    "path": "/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/gradle-home/caches/modules-2/files-2.1/com.android.tools/r8/9.1.29/6e698c383d0e970e130e1787cd47bf1682725f6a/r8-9.1.29.jar",
+    "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+  },
+  "root_transformed_provider_admission_claimed": false,
+  "source_artifact_sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a",
+  "stable_readback": {
+    "provider": {
+      "bytes": 56139715,
+      "device": 16777232,
+      "inode": 60487256,
+      "mode": 420,
+      "mtime_ns": 1790953944534058026,
+      "nlink": 1,
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    },
+    "resolved_artifact": {
+      "bytes": 56139715,
+      "device": 16777232,
+      "inode": 60487256,
+      "mode": 420,
+      "mtime_ns": 1790953944534058026,
+      "nlink": 1,
+      "sha256": "9a7d1e9e4c2d3ee05482b9695df5f4d8f92c22ebb74603d6be4eab0505467f1a"
+    }
+  }
+}

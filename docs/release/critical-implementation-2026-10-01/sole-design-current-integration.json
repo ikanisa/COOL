@@ -1,0 +1,69 @@
+{
+  "checked_at_utc": "2026-10-01T20:50:56.548875+00:00",
+  "required_command": "make revolut-design-authority",
+  "exit_code": 0,
+  "log": "docs/release/critical-implementation-2026-10-01/revolut-authority-current-integration.log",
+  "log_sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+  "selected_revision_command": "python3 scripts/qa/revolut_design_authority.py --verify-skill --json",
+  "selected_revision_exit_code": 0,
+  "selected_revision_result": {
+    "status": "pass",
+    "design_authority": "revolut-design",
+    "scope": [
+      "admin",
+      "member_app",
+      "public_website"
+    ],
+    "skill_revision_check": "verified",
+    "reference_files_scanned": 68493,
+    "retired_references": [],
+    "competing_declarations": [],
+    "failures": [],
+    "visual_acceptance": "unverified"
+  },
+  "source_hashes": {
+    "AGENTS.md": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497",
+    "Makefile": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860",
+    "scripts/qa/revolut_design_authority.py": "6e7c020f129968cfb246a5f945e99d226247cfe9bec27ea087ac97c12383c924",
+    "docs/release/revolut-design/authority.json": "688fb530bd218f387691291f0ba9fbcfbaf69c865bc1d0c7896e57777fb9e731",
+    "docs/release/revolut-design/route-inventory.json": "9370881f8b22d8da7bc8888af330f3e78c4200e0b978997d62f927c172ed334d",
+    "docs/release/revolut-design/acceptance-status.json": "de5e77d49582f3754a747f6dbf4ff8daf3fab0bbb2df1039f2bb89bf4e194f1d"
+  },
+  "selected_skill_path": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md",
+  "selected_skill_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "active_removed_rule_search": {
+    "command_scope": [
+      "AGENTS.md",
+      "Makefile",
+      ".github",
+      "scripts",
+      "lib",
+      "test",
+      "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design",
+      "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/AGENTS.md"
+    ],
+    "patterns": [
+      "mobile-design-100",
+      "mobile-design-gate",
+      "mobile-design-contract"
+    ],
+    "exit_code": 1,
+    "matches": 0,
+    "meaning": "No current named rule/gate reference in the stated active scope; historical evidence/chat/Git and other computer discovery are separately bounded"
+  },
+  "meaning": "Sole-authority hygiene and exact selected skill revision only. No whole-product visual, interaction, device or release acceptance.",
+  "automation_prompt_rule_readback": {
+    "checked_at_utc": "2026-10-01T20:52:07.738375+00:00",
+    "scope": "19 current automation.toml files under Codex-Home/automations",
+    "matches": 0,
+    "exit_code": 1,
+    "patterns": [
+      "MOBILE-DESIGN-100",
+      "mobile-design-gate",
+      "mobile-design-contract",
+      "world-class-uiux-design",
+      "worldclass-ux-research-and-design-critique"
+    ],
+    "mutated": false
+  }
+}

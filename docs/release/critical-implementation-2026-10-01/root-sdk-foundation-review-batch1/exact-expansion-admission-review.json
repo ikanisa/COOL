@@ -1,0 +1,12 @@
+{
+  "admission_sha256": "9d22ab7c56ffdeb8d0b3b9c64022bd481403f86ff449ff4c257e8124ffcc3749",
+  "artifacts": 13,
+  "authorized_local_next_step": "Fresh independent expansion and full physical verification into the exact absent destination; retain failures/partial owned directory, no reuse or shared SDK mutation.",
+  "checked_at_utc": "2026-10-02T00:29:03.757014+00:00",
+  "code_sha256": "938591c4396092ac7cffe0081d656dd7be92d3a100232ee4867f5f5cdda3b0c5",
+  "errors": [],
+  "packet_sha256": "5129232e7b15d12f0483d5a6832e512002b91bf905d191413b228c94b15ad8ed",
+  "review_scope": "Exact admitted archive, exclusive fresh writes, all physical bytes/modes/CRC/source/links/licenses/installed-SDK inode checks under fixed deadline. No SDK execution/bootstrap/patch/selection or production approval.",
+  "root_reviewed_actual_writer_and_full_readback_source": true,
+  "schema_version": 1
+}

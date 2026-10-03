@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/security/protected_snapshot_store.dart';
+import '../../core/data/exact_json_values.dart';
 import '../models/collect_models.dart';
 import '../models/member_history_page.dart';
 
@@ -75,6 +76,11 @@ class CollectOfflineCache {
     if (raw == null || raw.trim().isEmpty) return null;
     try {
       final payload = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+      // Validate structure before legacy geography filtering; malformed rows
+      // must never disappear into a fabricated empty financial window.
+      for (final field in ['collections', 'payment_intents', 'contributions']) {
+        _snapshotRows(payload, field);
+      }
       bool rwandaRow(Object? row, {bool collection = false}) {
         if (row is! Map) return false;
         final currency = row[collection ? 'settlement_currency' : 'currency'];
@@ -308,35 +314,46 @@ class CollectOfflineSnapshot {
   }
 
   factory CollectOfflineSnapshot.fromJson(Map<String, dynamic> json) {
-    final contributions = [
-      for (final row in _list(json['contributions']))
-        Contribution.fromJson(Map<String, dynamic>.from(row as Map)),
+    final collections = [
+      for (final row in _snapshotRows(json, 'collections'))
+        CollectCollection.fromJson(row),
     ];
+    final intents = [
+      for (final row in _snapshotRows(json, 'payment_intents'))
+        PaymentIntentModel.fromJson(row),
+    ];
+    final contributions = [
+      for (final row in _snapshotRows(json, 'contributions'))
+        Contribution.fromJson(row),
+    ];
+    _uniqueSnapshotIds(collections.map((row) => row.id), 'collections');
+    _uniqueSnapshotIds(intents.map((row) => row.id), 'payment_intents');
+    _uniqueSnapshotIds(contributions.map((row) => row.id), 'contributions');
     return CollectOfflineSnapshot(
-      savedAt: _dateTime(json['saved_at']),
+      savedAt: exactJsonTimestamp(json['saved_at'], field: 'snapshot.saved_at'),
       currentProfile: json['current_profile'] == null
           ? null
           : CollectProfile.fromJson(
-              Map<String, dynamic>.from(json['current_profile'] as Map),
+              _snapshotMap(json['current_profile'], 'current_profile'),
             ),
-      collections: [
-        for (final row in _list(json['collections']))
-          CollectCollection.fromJson(Map<String, dynamic>.from(row as Map)),
-      ],
-      paymentIntents: [
-        for (final row in _list(json['payment_intents']))
-          PaymentIntentModel.fromJson(Map<String, dynamic>.from(row as Map)),
-      ],
-      contributions: contributions,
+      collections: List.unmodifiable(collections),
+      paymentIntents: List.unmodifiable(intents),
+      contributions: List.unmodifiable(contributions),
       historyPage: json['history_page'] == null
           ? null
           : MemberHistoryPage.fromJson(
-              Map<String, dynamic>.from(json['history_page'] as Map),
+              _snapshotMap(json['history_page'], 'history_page'),
               contributions,
             ),
-      pendingIntentCount: json['pending_intent_count'] as int?,
-      collectionSummaries: _cachedCollectionSummaries(
-        json['collection_summaries'],
+      pendingIntentCount: json['pending_intent_count'] == null
+          ? null
+          : exactJsonInteger(
+              json['pending_intent_count'],
+              field: 'snapshot.pending_intent_count',
+              minimum: 0,
+            ),
+      collectionSummaries: Map.unmodifiable(
+        _cachedCollectionSummaries(json['collection_summaries']),
       ),
     );
   }
@@ -386,6 +403,7 @@ Map<String, CollectionSummary> _cachedCollectionSummaries(Object? value) {
     final row = entry.value;
     if (row is! Map || row.keys.any((key) => key is! String)) continue;
     try {
+      exactJsonIdentifier(entry.key, field: 'snapshot.summary.collection_id');
       result[entry.key] = CollectionSummary.fromJson(
         Map<String, dynamic>.from(row),
       );
@@ -408,14 +426,33 @@ Map<String, Object?> _map(Object? value) {
       : const {};
 }
 
-DateTime _dateTime(Object? value) {
-  if (value is! String ||
-      !RegExp(r'(Z|[+-][0-9]{2}:[0-9]{2})$').hasMatch(value)) {
-    throw const FormatException('Missing or invalid snapshot timestamp');
+Map<String, dynamic> _snapshotMap(Object? value, String field) {
+  if (value is! Map || value.keys.any((key) => key is! String)) {
+    throw FormatException('Invalid snapshot field: $field');
   }
-  final parsed = DateTime.tryParse(value);
-  if (parsed == null) throw const FormatException('Invalid snapshot timestamp');
-  return parsed.toUtc();
+  return Map<String, dynamic>.from(value);
+}
+
+List<Map<String, dynamic>> _snapshotRows(
+  Map<String, dynamic> json,
+  String field,
+) {
+  // Older explicit migration snapshots may omit a window. That absence conveys
+  // no complete aggregate; present malformed data is always denied.
+  if (!json.containsKey(field)) return const [];
+  final value = json[field];
+  if (value is! List) throw FormatException('Invalid snapshot field: $field');
+  return [for (final row in value) _snapshotMap(row, field)];
+}
+
+void _uniqueSnapshotIds(Iterable<String> ids, String field) {
+  final seen = <String>{};
+  for (final id in ids) {
+    exactJsonIdentifier(id, field: field);
+    if (!seen.add(id)) {
+      throw FormatException('Duplicate snapshot field: $field');
+    }
+  }
 }
 
 Map<String, dynamic> _profileToJson(CollectProfile profile) {
@@ -435,7 +472,11 @@ Map<String, dynamic> _collectionToJson(CollectCollection collection) {
   return {
     'id': collection.id,
     'slug': collection.slug,
-    'creator_user_id': collection.creatorUserId,
+    // Public projections can legitimately omit owner identity. Persist absence
+    // as absence rather than an invalid empty immutable identifier.
+    'creator_user_id': collection.creatorUserId.isEmpty
+        ? null
+        : collection.creatorUserId,
     'title': collection.title,
     'description': collection.description,
     'collection_type': collection.collectionType.storageValue,

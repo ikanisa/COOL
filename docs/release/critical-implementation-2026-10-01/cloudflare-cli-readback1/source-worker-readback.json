@@ -1,0 +1,270 @@
+{
+  "schema": "collect-source-worker-readonly-v1",
+  "startedAt": "2026-10-02T06:32:54.586Z",
+  "accountId": "2209b915a85b1c11cee79b7806c6e73b",
+  "accountDiscoveryReceiptSha256": "0cff40a52c68ab09f6f804c5e6c843ebc1f708e983aaca13c8e98c3a66afa7bd",
+  "service": "collect-public",
+  "targetHostname": "collect.ikanisa.com",
+  "priorDomainRead": "403 Authentication error code10000",
+  "existingOAuthUnexpiredAtStart": true,
+  "tokenCaptured": false,
+  "authRefreshed": false,
+  "readOnly": true,
+  "runtime": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "version": "v24.19.0",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef",
+    "scriptSha256": "06c2ac7ff98f28ba7a968685617bc4f17819221bc4a5b534a9d9ad3aa853e7bf"
+  },
+  "sourceInputsBefore": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497"
+    },
+    {
+      "path": ".github/workflows/public-website.yml",
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0"
+    },
+    {
+      "path": "deploy/public.wrangler.jsonc",
+      "sha256": "259fb934475e833e97cfc9d289161e4d4165f6b44987d51973cdb312e40036cb"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "sha256": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9"
+    },
+    {
+      "path": "scripts/public_website_ci_gate.sh",
+      "sha256": "45a36e610b33a8244d872b123e889f49d22ea03e4bd08974204eca2e44f3487a"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/version.json",
+      "sha256": "008ac28df730142dff0bce1dc3b313f5b30110a1a7a28e2cce6abe3eba4bee62"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/manifest.json",
+      "sha256": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+      "sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+      "sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+      "sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+      "sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+      "sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+      "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+      "sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37"
+    }
+  ],
+  "providerReads": [
+    {
+      "method": "GET",
+      "endpoint": "/accounts/2209b915a85b1c11cee79b7806c6e73b/workers/scripts/collect-public/deployments?per_page=5",
+      "startedAt": "2026-10-02T06:32:54.668Z",
+      "httpStatus": 200,
+      "responseBytes": 2814,
+      "responseSha256": "78cb41698e74fa70b96e234efc75c06e09e8b65957c8638c2e6258530e1f090f",
+      "providerSuccess": true,
+      "errors": [],
+      "facts": {
+        "deployments": [
+          {
+            "id": "f52b6b24-e892-4435-aa15-2179a1585d8c",
+            "createdOn": "2026-09-07T06:41:18.009965Z",
+            "source": "wrangler",
+            "strategy": "percentage",
+            "versions": [
+              {
+                "versionId": "29d7cc2a-f3ea-4fae-8ac2-3805a60d4065",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "id": "f606e89b-39d9-4117-a178-91887b69e699",
+            "createdOn": "2026-09-07T06:29:43.84439Z",
+            "source": "wrangler",
+            "strategy": "percentage",
+            "versions": [
+              {
+                "versionId": "f3a5b1b5-ec26-4df2-abe7-82ec3e1ba4b2",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "id": "e34a8197-340d-4ad5-bcc4-c4b9063c41ae",
+            "createdOn": "2026-09-06T12:54:58.065242Z",
+            "source": "wrangler",
+            "strategy": "percentage",
+            "versions": [
+              {
+                "versionId": "453a68f9-31ee-41cc-b7c3-c7eaf8f2febb",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "id": "97589ff5-6ba6-4882-87da-f38e617b616a",
+            "createdOn": "2026-09-06T12:21:36.453159Z",
+            "source": "wrangler",
+            "strategy": "percentage",
+            "versions": [
+              {
+                "versionId": "1a9f290f-a8f3-462c-a88e-30effd09a502",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "id": "b1d78f95-50ab-4fcd-b855-e339c2bcd493",
+            "createdOn": "2026-09-06T12:12:17.482522Z",
+            "source": "wrangler",
+            "strategy": "percentage",
+            "versions": [
+              {
+                "versionId": "5ab829d7-5c38-4416-bfc8-aba76d069c95",
+                "percentage": 100
+              }
+            ]
+          }
+        ]
+      },
+      "finishedAt": "2026-10-02T06:32:56.053Z"
+    },
+    {
+      "method": "GET",
+      "endpoint": "/zones?name=ikanisa.com&per_page=50",
+      "startedAt": "2026-10-02T06:32:54.690Z",
+      "httpStatus": 200,
+      "responseBytes": 135,
+      "responseSha256": "d02d53ee755ae3594c31a347d9c888f0aed6625c7dac895ec75f12689d3df4e3",
+      "providerSuccess": true,
+      "errors": [],
+      "facts": {
+        "zones": []
+      },
+      "finishedAt": "2026-10-02T06:32:55.764Z"
+    }
+  ],
+  "criteriaRetained": [
+    "Provider account, exact custom-domain service mapping and active deployment identity must be read back independently.",
+    "Current batch4 artifact deployment equality is not established by deployment metadata or HTTP headers.",
+    "Production readiness, original Revolut comparison, browser interactions, native evidence and release acceptance remain separate required criteria."
+  ],
+  "status": "source_worker_active_deployment_read_back",
+  "limitations": [
+    "Worker deployment identity alone cannot bind the collect.ikanisa.com hostname or establish local batch4 asset equality.",
+    "The preceding custom-domain API read was403. Any route records here are independently read, not a replacement claim of custom-domain success."
+  ],
+  "activeDeployment": {
+    "id": "f52b6b24-e892-4435-aa15-2179a1585d8c",
+    "createdOn": "2026-09-07T06:41:18.009965Z",
+    "source": "wrangler",
+    "strategy": "percentage",
+    "versions": [
+      {
+        "versionId": "29d7cc2a-f3ea-4fae-8ac2-3805a60d4065",
+        "percentage": 100
+      }
+    ]
+  },
+  "routeMappings": [],
+  "finishedAt": "2026-10-02T06:32:56.053Z",
+  "durationMilliseconds": 1467,
+  "sourceInputsAfter": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "0160399e0988796783edb29da32732926fa0d569dc5edb718fc0ba3735288497"
+    },
+    {
+      "path": ".github/workflows/public-website.yml",
+      "sha256": "82e436b0be3ee17de46e0ff7b993fcb0e9654252fa2771b90409c631e54e60b0"
+    },
+    {
+      "path": "deploy/public.wrangler.jsonc",
+      "sha256": "259fb934475e833e97cfc9d289161e4d4165f6b44987d51973cdb312e40036cb"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "ca5e721125544b816132eb9b5ae12d8039ebf3c483b39ba25bbdd819d7480860"
+    },
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "sha256": "52c17ab8b9b852ec3655be75b4406310d3c209927195919cdca525bd7291c0b9"
+    },
+    {
+      "path": "scripts/public_website_ci_gate.sh",
+      "sha256": "45a36e610b33a8244d872b123e889f49d22ea03e4bd08974204eca2e44f3487a"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/version.json",
+      "sha256": "008ac28df730142dff0bce1dc3b313f5b30110a1a7a28e2cce6abe3eba4bee62"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/manifest.json",
+      "sha256": "d9ba9c38a3c9023854a99e6704ac680117949df3192d7cb33511980705ff6281"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/index.html",
+      "sha256": "d68d67f4872e306ad1f70f4e1d2f622f9483595507e29d6ad8c56a521d9463c7"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/privacy/index.html",
+      "sha256": "69d2c62483464853ce3aaea31c2644faeb0f3f07cb8a33f97278e805524b60bf"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/terms/index.html",
+      "sha256": "0f4579ddad161ccc15c66d77df15ec359ea9a22f8201b81c44c32a7fce2db865"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/security/index.html",
+      "sha256": "480c6ce3dce875ab7707cd1cef9720f626022d794d09ace9954db338a6c25cba"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/trust/index.html",
+      "sha256": "be358ecf81444c158a85a967a9ccad46a0f09d7aec5fe089931c196f2bfbdcf8"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/account-deletion/index.html",
+      "sha256": "561d5c31a860531c0567b595ae0777647eccc325c640370937389f02d6eef328"
+    },
+    {
+      "path": ".cache/public-static-current-20261002-batch4-attempt1/data-deletion/index.html",
+      "sha256": "1068add8aa1e1e624919578b03191b9eaa8ce3604013cf1d942b9c7e3fca0b37"
+    }
+  ],
+  "selectedInputsByteStable": true,
+  "providerStateMutated": false,
+  "bounds": {
+    "maximumRequestMilliseconds": 10000,
+    "totalDeadlineMilliseconds": 45000,
+    "responseBytes": 524288,
+    "method": "GET only",
+    "redirects": false,
+    "retries": false,
+    "zoneLimit": 2
+  }
+}

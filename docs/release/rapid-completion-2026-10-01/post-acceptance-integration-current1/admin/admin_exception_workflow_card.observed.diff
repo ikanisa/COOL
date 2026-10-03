@@ -1,0 +1,249 @@
+--- reviewed/lib/admin/core/admin_exception_workflow_card.dart
++++ observed/lib/admin/core/admin_exception_workflow_card.dart
+@@ -1,4 +1,38 @@
+ part of 'admin_runtime.dart';
++
++/// A navigation departure remains invalid even when the router returns to the
++/// same URI before a delayed response or dialog transition completes.
++class _ExceptionNavigationOrigin {
++  _ExceptionNavigationOrigin(BuildContext context)
++    : _context = context,
++      _route = ModalRoute.of(context),
++      _router = GoRouter.maybeOf(context) {
++    _configuration = _router?.routerDelegate.currentConfiguration;
++    _router?.routerDelegate.addListener(_observe);
++  }
++
++  final BuildContext _context;
++  final ModalRoute<dynamic>? _route;
++  final GoRouter? _router;
++  Object? _configuration;
++  bool _departed = false;
++
++  void _observe() {
++    if (_router?.routerDelegate.currentConfiguration != _configuration ||
++        _route?.isActive == false) {
++      _departed = true;
++    }
++  }
++
++  bool get isRetained {
++    _observe();
++    return !_departed && _context.mounted && _route?.isActive != false;
++  }
++
++  bool get isCurrent => isRetained && _route?.isCurrent != false;
++
++  void dispose() => _router?.routerDelegate.removeListener(_observe);
++}
+ 
+ Future<void> _showAdminExceptionFollowUp(
+   BuildContext context,
+@@ -7,54 +41,61 @@
+ ) async {
+   if (!scope.isCurrent) return;
+   final router = GoRouter.maybeOf(context);
+-  final openHistory = await _showAdminFormDialog<bool>(
+-    context: context,
+-    builder: (dialogContext) => _AdminSessionDialog(
+-      scope: scope,
+-      child: Dialog(
+-        child: ConstrainedBox(
+-          constraints: const BoxConstraints(maxWidth: 560),
+-          child: SingleChildScrollView(
+-            child: Padding(
+-              padding: const EdgeInsets.all(24),
+-              child: Column(
+-                mainAxisSize: MainAxisSize.min,
+-                children: [
+-                  AdminExceptionWorkflowCard(
+-                    exceptionId: exceptionId,
+-                    showHistory: router != null,
+-                    onOpenHistory: () {
+-                      if (!scope.isCurrent ||
+-                          ModalRoute.of(dialogContext)?.isCurrent != true) {
+-                        return;
+-                      }
+-                      Navigator.pop(dialogContext, true);
+-                    },
+-                  ),
+-                  const SizedBox(height: 16),
+-                  TextButton(
+-                    onPressed: () => Navigator.pop(dialogContext),
+-                    child: const Text('Close follow-up'),
+-                  ),
+-                ],
++  final origin = _ExceptionNavigationOrigin(context);
++  try {
++    if (!origin.isCurrent) return;
++    final openHistory = await _showAdminFormDialog<bool>(
++      context: context,
++      builder: (dialogContext) => _AdminSessionDialog(
++        scope: scope,
++        child: Dialog(
++          child: ConstrainedBox(
++            constraints: const BoxConstraints(maxWidth: 560),
++            child: SingleChildScrollView(
++              child: Padding(
++                padding: const EdgeInsets.all(24),
++                child: Column(
++                  mainAxisSize: MainAxisSize.min,
++                  children: [
++                    AdminExceptionWorkflowCard(
++                      exceptionId: exceptionId,
++                      showHistory: router != null,
++                      onOpenHistory: () {
++                        if (!scope.isCurrent ||
++                            !origin.isRetained ||
++                            ModalRoute.of(dialogContext)?.isCurrent != true) {
++                          return;
++                        }
++                        Navigator.pop(dialogContext, true);
++                      },
++                    ),
++                    const SizedBox(height: 16),
++                    TextButton(
++                      onPressed: () => Navigator.pop(dialogContext),
++                      child: const Text('Close follow-up'),
++                    ),
++                  ],
++                ),
+               ),
+             ),
+           ),
+         ),
+       ),
+-    ),
+-  );
+-  if (openHistory == true &&
+-      router != null &&
+-      context.mounted &&
+-      scope.isCurrent &&
+-      adminEntityAuditCanRead(
+-        _adminResolvedIdentity(scope.ref.read(adminIdentityProvider)),
+-        AdminAuditEntityKind.exception,
+-      )) {
+-    router.push(
+-      adminEntityAuditPath(AdminAuditEntityKind.exception, exceptionId),
+     );
++    if (openHistory == true &&
++        router != null &&
++        origin.isCurrent &&
++        scope.isCurrent &&
++        adminEntityAuditCanRead(
++          _adminResolvedIdentity(scope.ref.read(adminIdentityProvider)),
++          AdminAuditEntityKind.exception,
++        )) {
++      router.push(
++        adminEntityAuditPath(AdminAuditEntityKind.exception, exceptionId),
++      );
++    }
++  } finally {
++    origin.dispose();
+   }
+ }
+ 
+@@ -156,9 +197,7 @@
+           if (saved != null) {
+             Object? decoded;
+             try {
+-              if (saved.length <= 16384 && utf8.encode(saved).length <= 16384) {
+-                decoded = jsonDecode(saved);
+-              }
++              decoded = jsonDecode(saved);
+             } catch (_) {
+               // Unknown bytes remain blocked after privacy sanitization.
+             }
+@@ -880,6 +919,7 @@
+ class _EscalationInboxState
+     extends ConsumerState<AdminExceptionEscalationInbox> {
+   bool _expanded = false, _busy = false;
++  int _openingEpoch = 0;
+   String? _message;
+   Object? _scope;
+   AdminExceptionEscalationInboxQuery _query =
+@@ -896,6 +936,7 @@
+ 
+   @override
+   void dispose() {
++    _openingEpoch++;
+     _timer?.cancel();
+     super.dispose();
+   }
+@@ -920,6 +961,7 @@
+       ref.watch(adminRepositoryProvider),
+     );
+     if (_scope != scope) {
++      _openingEpoch++;
+       _scope = scope;
+       _previous.clear();
+       _query = const AdminExceptionEscalationInboxQuery();
+@@ -939,7 +981,10 @@
+       type: MaterialType.transparency,
+       child: ExpansionTile(
+         title: const Text('Your escalation inbox'),
+-        onExpansionChanged: (value) => setState(() => _expanded = value),
++        onExpansionChanged: (value) => setState(() {
++          if (!value) _openingEpoch++;
++          _expanded = value;
++        }),
+         children: [
+           if (_expanded)
+             Padding(
+@@ -984,6 +1029,7 @@
+                       AdminEntityAuditLink(
+                         kind: AdminAuditEntityKind.exception,
+                         id: row.exceptionId,
++                        enabled: !_busy,
+                       ),
+                       const SizedBox(height: 12),
+                     ],
+@@ -1031,9 +1077,22 @@
+   }
+ 
+   Future<void> _open(AdminExceptionInboxDelivery row) async {
+-    if (_busy) return;
++    if (_busy || !_expanded) return;
+     final scope = _AdminActionScope(ref);
+     final query = _query;
++    final epoch = _openingEpoch;
++    final origin = _ExceptionNavigationOrigin(context);
++    bool isCurrent() =>
++        mounted &&
++        scope.isCurrent &&
++        query == _query &&
++        epoch == _openingEpoch &&
++        _expanded &&
++        origin.isCurrent;
++    if (!isCurrent()) {
++      origin.dispose();
++      return;
++    }
+     setState(() {
+       _busy = true;
+       _message = null;
+@@ -1048,7 +1107,7 @@
+       final raw = await scope.repository
+           .readExceptionEscalationCurrent(row.id)
+           .timeout(const Duration(seconds: 15));
+-      if (!mounted || !scope.isCurrent || query != _query) return;
++      if (!mounted || !isCurrent()) return;
+       AdminExceptionEscalationReadReceipt.parse(
+         raw,
+         escalationId: row.id,
+@@ -1057,13 +1116,14 @@
+       ref.invalidate(adminExceptionEscalationInboxPageProvider(query));
+       await _showAdminExceptionFollowUp(context, scope, row.exceptionId);
+     } catch (_) {
+-      if (mounted && scope.isCurrent) {
++      if (isCurrent()) {
+         setState(
+           () => _message =
+               'Opening could not be recorded. Refresh the inbox to check its durable read acknowledgement.',
+         );
+       }
+     } finally {
++      origin.dispose();
+       if (mounted) setState(() => _busy = false);
+     }
+   }

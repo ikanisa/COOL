@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/admin_receipt_telemetry_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-telemetry-ui-20261002/validation-app",
+  "exit_code": 0,
+  "source_unchanged": true,
+  "source_count": 302,
+  "finished_at": "2026-10-01T22:40:47.328443+00:00",
+  "scope": "synthetic SDK and provider/widget fixtures; no actual SQL, hosted, browser or carrier acceptance"
+}

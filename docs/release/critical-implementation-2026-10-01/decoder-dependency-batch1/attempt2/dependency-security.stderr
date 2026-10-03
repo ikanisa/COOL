@@ -1,0 +1,11 @@
+test_benign_font_mapping_preserved (__main__.HostilePdf.test_benign_font_mapping_preserved) ... ok
+test_oversized_destination_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_destination_token_rejected_from_actual_pdf) ... ok
+test_oversized_source_token_rejected_from_actual_pdf (__main__.HostilePdf.test_oversized_source_token_rejected_from_actual_pdf) ... ok
+test_distant_alpha_composite_has_no_visible_write_or_is_rejected (__main__.SignedImageCoordinates.test_distant_alpha_composite_has_no_visible_write_or_is_rejected) ... ok
+test_distant_crop_is_transparent_or_rejected (__main__.SignedImageCoordinates.test_distant_crop_is_transparent_or_rejected) ... ok
+test_inverted_signed_box_rejected_without_destination_write (__main__.SignedImageCoordinates.test_inverted_signed_box_rejected_without_destination_write) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.105s
+
+OK

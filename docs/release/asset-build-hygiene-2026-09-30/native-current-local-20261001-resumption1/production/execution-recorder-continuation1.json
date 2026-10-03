@@ -1,0 +1,104 @@
+{
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "-q"
+      ],
+      "elapsed_seconds": 0.13,
+      "exit_code": 0,
+      "name": "git-init",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "elapsed_seconds": 0.63,
+      "exit_code": 0,
+      "name": "flutter-version",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ca3ea62aecbcde586049908164758acda09b107d4169f72fdb45cc272817d02b"
+    },
+    {
+      "command": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-asset-attempt23/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "elapsed_seconds": 7.7,
+      "exit_code": 0,
+      "name": "pub-enforce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2239fc1daf1414688e1e3e099e6ec89496a3dfffe0cfd8a2c7859e60402580d2"
+    },
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/android/.gradle",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/android/.gradle"
+      ],
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "name": "clone-cache-android-.gradle",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "cp",
+        "-cR",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-attempt125-android/build",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/build"
+      ],
+      "elapsed_seconds": 9.1,
+      "exit_code": 0,
+      "name": "clone-cache-build",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "-I",
+        "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-native-current-local-20261001-resumption1-production/scripts/supply_chain/gradle_runtime_inventory.init.gradle",
+        ":app:assembleProductionRelease",
+        ":app:lintProductionRelease",
+        ":app:testDevDebugUnitTest",
+        ":app:collectRuntimeGraph",
+        "-Ptarget=lib/main.dart",
+        "-PcollectUnsignedLocalQa=true",
+        "-PcollectInventoryConfiguration=productionReleaseRuntimeClasspath",
+        "-x",
+        ":app:compileFlutterBuildDevDebug",
+        "--offline",
+        "--no-daemon",
+        "--max-workers=2",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 3422.24,
+      "exit_code": 0,
+      "name": "unsigned-native-build-lint-jvm-graph",
+      "stderr_sha256": "98d991fe6115975bf174327f05510ff59d82e048f4281ee38ec1aa3c33ebc577",
+      "stdout_sha256": "b35acbb6949ee94e3932b50ad68486caab8ba0b222a9e18b89be74e3b889a6d2"
+    }
+  ],
+  "corrected_helper_sha256": "3945ac09976373c2585f92d4e9f8719512da84fb3a3a8e596a45a17e35a63e25",
+  "error": null,
+  "generated_native_outputs_sha256": "2d497d0db2383e9712822ea85363219b4cf3044814a311194ed86f3d8e64b9f6",
+  "non_generated_package_inputs_after_sha256": "6c4ba8fea0ac5ab63fd9b84ad128dfc5197352352b4e069be5ac9f4a58b92035",
+  "original_failed_execution_sha256": "f9429843d108dd09aae006ee2c0ed358105e841e5e4ebf74a8e95cabe38791fc",
+  "pid": 67083,
+  "scope": "Original actual native commands all succeeded; additive source recorder correction only. Generated CMake/Ninja changes preserved explicitly; no native rebuild or source/compiler binding bypass.",
+  "source_after_sha256": "6abaea8a4c259cfc532bd3c91f1828017421ede2b646404accf33685909b4c2c",
+  "source_manifest_sha256": "38c1bd75691d7cd57ae1e66b8b0094be1d90ffdec768f7878e4ab84046f486a7",
+  "stage": "native-sequence-and-corrected-source-recorder-terminal",
+  "status": "pass"
+}

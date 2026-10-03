@@ -1,0 +1,18 @@
+{
+  "base600": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/promote/supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+    "sha256": "918a20bb19a8dca6b5de7701bd13f963c5fd25c65f0229bc7d5e13d82238eeff"
+  },
+  "corrected600": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-cost-correction-20261002/promote/supabase/migrations/20261002060000_admin_receipt_operational_history.sql",
+    "sha256": "51dadca756c13d90d2985eb5ccfafddca2592ba42cdd284ea9fe360ef93b8a07"
+  },
+  "unchanged_packet_manifest": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-20261002/manifest.json",
+    "sha256": "c3fcfe525bea229fa4b1a58c10fbdb996d17f2e655fcd53ed83015c30386d18d"
+  },
+  "patch": {
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-cost-correction-20261002/patches/600-cost-correction.patch",
+    "sha256": "c1f8710cb20d9626bcaaa694489e342ac09a20a113dca5a21ec9f9fc2166354f"
+  }
+}

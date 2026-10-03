@@ -105,6 +105,51 @@ void main() {
   });
   tearDown(() => client.dispose());
 
+  for (final operation in ['propose', 'approve', 'finalize']) {
+    for (final failure in ['network', '503']) {
+      test(
+        '$operation $failure performs one explicit transport attempt',
+        () async {
+          Future<Object?> call() => switch (operation) {
+            'propose' => repository.proposePaymentReconciliation({
+              'p_payment_id': paymentId,
+              'p_reason': 'Synthetic independent evidence',
+            }),
+            'approve' => repository.approvePaymentReconciliation(
+              reviewId,
+              'Synthetic independent evidence',
+            ),
+            _ => repository.finalizePaymentReconciliation(
+              reviewId,
+              paymentId: paymentId,
+            ),
+          };
+          var attempts = 0;
+          respond = (_) async {
+            attempts++;
+            if (attempts == 1) {
+              if (failure == 'network') {
+                throw http.ClientException('Synthetic response lost');
+              }
+              return json({'message': 'Synthetic unavailable'}, 503);
+            }
+            return json(switch (operation) {
+              'propose' => reviewId,
+              'approve' => true,
+              _ => finalization(),
+            });
+          };
+          await expectLater(call(), throwsA(isA<Exception>()));
+          expect(requests, hasLength(1));
+          expect(attempts, 1);
+          await call();
+          expect(requests, hasLength(2));
+          expect(attempts, 2);
+        },
+      );
+    }
+  }
+
   for (final (status, replay) in [
     ('posted', false),
     ('posted', true),

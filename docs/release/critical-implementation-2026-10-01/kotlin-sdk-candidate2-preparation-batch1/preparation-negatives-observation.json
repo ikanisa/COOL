@@ -1,0 +1,19 @@
+{
+  "actual_command": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/candidate2_preparation_negative_tests.py"
+  ],
+  "actual_in_place_FD_mutation_and_named_leaf_swap_rejected": true,
+  "actual_test_methods": 15,
+  "all8_real_original_reviewed_after_and_mutated_after_bytes_checked": true,
+  "license_loss_unreviewed_helper_delta_reviewed_manifest_and_writer_drift_rejected": true,
+  "observation_source": "Actual unified exec tool chunk1b026d, retained tool output; no rerun or fabricated raw output",
+  "observed_unified_exec_exit_code": 0,
+  "source_application_or_SDK_execution": false,
+  "status": "ACTUAL_PREPARATION_NEGATIVES_PASS",
+  "test_code_SHA256": "89f28e361bba76ed7b818c8b88c82b653c17b5a05c20f241df725900c1a5c8a6",
+  "unittest_actual_seconds": 1.037,
+  "validator_SHA256": "ffbcf5f5863f9b770a8492b7f702d64deaeb47a16951c6dd61952d2346eefad3"
+}

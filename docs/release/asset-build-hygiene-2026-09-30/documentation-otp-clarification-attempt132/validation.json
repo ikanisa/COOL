@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "checked_at": "2026-10-01T00:28:43.139429+00:00",
+  "changes": {
+    "README.md": {
+      "before_sha256": "f8f798b9b21c2907b7294d3d7aee116c5f88704176a74be73c432a37fc524187",
+      "after_sha256": "2ca253898dd8910fc8d105463452cceecdc9dcde4a8c86b9808e88be31caf81a",
+      "exact_before_bytes_preserved": "docs/release/asset-build-hygiene-2026-09-30/documentation-otp-clarification-attempt132/README.md.before",
+      "replacement_count": 1
+    },
+    "docs/PRODUCT.md": {
+      "before_sha256": "8b0ca2dcf2662e6643a522bbde1330e24cf14e163acce676034f34770d55e394",
+      "after_sha256": "ce88e9a7801f97c41a8d1103423d40342de15ad0416e900c12eae0b20e8b4d8c",
+      "exact_before_bytes_preserved": "docs/release/asset-build-hygiene-2026-09-30/documentation-otp-clarification-attempt132/docs__PRODUCT.md.before",
+      "replacement_count": 1
+    }
+  },
+  "scope": "Only ambiguous payment-OTP wording clarified consistently with existing WhatsApp sign-in; no financial finality, legal assertion, runtime, capability or release authorization change."
+}

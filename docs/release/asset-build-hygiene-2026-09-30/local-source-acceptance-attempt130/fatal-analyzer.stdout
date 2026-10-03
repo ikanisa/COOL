@@ -1,0 +1,7 @@
+Analyzing export-attempt130...                                  
+
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/admin/core/admin_entity_audit.dart:215:74 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/admin/core/admin_entity_audit.dart:226:79 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/admin/core/admin_entity_audit.dart:231:83 • curly_braces_in_flow_control_structures
+  error • Target of URI doesn't exist: 'package:collect_app/admin/core/admin_entity_audit_page.dart'. Try creating the file referenced by the URI, or try using a URI for a file that does exist • lib/admin/core/admin_runtime.dart:76:6 • uri_does_not_exist
+

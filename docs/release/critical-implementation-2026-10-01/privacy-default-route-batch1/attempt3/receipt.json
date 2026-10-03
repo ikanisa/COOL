@@ -1,0 +1,20 @@
+{
+  "started_at": "2026-10-02T00:28:33.524609+00:00",
+  "completed_at": "2026-10-02T00:28:41.669838+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "test/features/privacy/privacy_default_route_integration_test.dart"
+  ],
+  "exit_code": 1,
+  "source_count": 587,
+  "source_before_after_equal": true,
+  "changed_inputs": [],
+  "actual_test_log_sha256": "ded1ae5037c03d527b0828388cb21b4d797d3f7d0aa48591fd6afc6bbbfdfe91",
+  "test_source_sha256": "e769c56144e728c681afecebe90971df4e8c8d52a2f6fc12b12388909f056b6c",
+  "production_approval": false,
+  "hosted_native_acceptance": false
+}

@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-10-01T21:53:11.362777+00:00",
+  "command": [
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter=expanded",
+    "test/admin_governed_settings_eligibility_test.dart",
+    "test/admin_governed_settings_eligibility_widget_test.dart"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-governed-settings-ui-20261001/runtime",
+  "mode": "acceptance",
+  "source_sha256": "d5db8d016991d6c7afb2c173067fffc48e92e1a71059e0b3070d88c5d33e802a",
+  "runtime_closure_sha256": "5b692604bcae9d9b15b3020bf85bb9f918583787d8625105a144bc6cf24157ca",
+  "dependencies_sha256": "1f56d0d5f2ee039be4f39ebe483abd72641218035e025f9c90b361706875e071",
+  "tools": {
+    "flutter": "7d486c33b30a0cf1ea5146231c68bb8f966cdb4e087c5cd8b37e14513f536e7d",
+    "dart": "a204237fda7acf53d165ac921c760910c05a2e3fa4e165145d95c4b6e822fd3a"
+  },
+  "prior_runtime_scope": "current canonical lib overlay frozen in current-canonical-overlay-inputs.json with9 staged governedSettingsmodules",
+  "exit_code": 0,
+  "elapsed_seconds": 18.431937708000987,
+  "completed_at": "2026-10-01T21:53:29.797851+00:00",
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "dependencies_unchanged": true
+}

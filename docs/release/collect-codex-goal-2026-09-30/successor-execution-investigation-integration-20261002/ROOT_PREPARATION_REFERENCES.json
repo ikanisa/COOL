@@ -1,0 +1,33 @@
+{
+  "status": "unsealed_root_preparation_only",
+  "rows": [
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/plan.json",
+      "capsule_path": "root-preparation/plan.json",
+      "bytes": 4128,
+      "sha256": "354d326ada82c52095f741506c53269337b3cf3b25b13584848bd1c99d16e836",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/integrate.py",
+      "capsule_path": "root-preparation/integrate.py",
+      "bytes": 6788,
+      "sha256": "0bb5c523040753bfc690b895a1cf63edf3e23eabc76b9fc1a0f459a378c3565f",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "capsule_path": "root-preparation/originals/lib/admin/core/admin_receipt_successor_view.dart",
+      "bytes": 20587,
+      "sha256": "9d606f780d28cd3c43dc9010765e79f2ec9b9e99aff8fae5c734b9b0340f793d",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance"
+    },
+    {
+      "original_private_path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-execution-root-integration-20261002/migration-freeze.json",
+      "capsule_path": "root-preparation/migration-freeze.json",
+      "bytes": 55372,
+      "sha256": "d5747f242b224c05be86096e98de8bd9bbf908f9b502765162359778ed4b2cf8",
+      "scope": "Historical root13-file plan/original parent and full208 source freeze; not final caller acceptance"
+    }
+  ]
+}

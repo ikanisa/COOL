@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Volumes/PRO-G40/Applications/Docker.app/Contents/Resources/bin/docker",
+    "exec",
+    "collect_current_rehearsal_operational_history_317d3b010f2b",
+    "pg_isready",
+    "-U",
+    "postgres",
+    "-d",
+    "postgres"
+  ],
+  "input_sha256": null,
+  "started_at": "2026-10-02T00:46:49.863143Z",
+  "finished_at": "2026-10-02T00:46:49.913272Z",
+  "exit_code": 0
+}

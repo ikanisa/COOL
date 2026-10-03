@@ -1,0 +1,301 @@
+✔ scheduler operating CLI invalid input refuses before side effects [] (1.394417ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate"] (0.146625ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","relative","--request-id","99850000-0000-4000-8000-000000000001"] (0.059458ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["status","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001"] (0.283ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","/p","--request-id","PRIVATE_CREDENTIAL_CANARY"] (0.336667ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["activate","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001","--url","https://other.invalid"] (0.113ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["reconcile","--deployment","/p","--request-id","99850000-0000-4000-8000-000000000001","--lookup-id","99850000-0000-4000-8000-000000000001"] (0.2175ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["prepare","--deployment","/p","--profile","/p","--max-events","11"] (0.2275ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["prepare","--deployment","/p","--profile","/p","--interval-seconds","59"] (0.120667ms)
+✔ scheduler operating CLI invalid input refuses before side effects ["status","--deployment","/p","--deployment","/q"] (0.222542ms)
+✔ scheduler prepare parser is bounded and never implies activation (0.264125ms)
+✖ real preparation is inactive and gated tick performs no operation before explicit activation (1271.691833ms)
+✖ explicit activation validates fresh owner and records original before each exact launchctl command (1105.928166ms)
+✖ default current source/Node binding refuses another private prepared runtime (1087.404875ms)
+✖ unknown bootstrap is manually reconciled from exact job, never replayed (1085.92225ms)
+✖ unknown enable with absent job stays unknown and cannot acquire bootstrap authority (1095.015167ms)
+✖ concurrent activation originals have one exclusive claim and one daemon mutation sequence (1266.936875ms)
+✖ urgent disable racing activation prevents the later bootstrap (844.328208ms)
+✖ original operation deadline is rechecked after enable and never extended (870.081084ms)
+✖ failed exclusive bootstrap journal publication permits no daemon bootstrap (1004.966084ms)
+✖ disable latches before IPC, survives uncertain bootout and remains manually reconcilable (1086.955584ms)
+✖ local disabled latch does not falsely prove a loaded process was stopped (798.941042ms)
+✖ disable and status remain available without owner credentials after helper drift (928.394833ms)
+✖ profile-permission fails deployment activation before owner or mutation (801.048167ms)
+✖ profile-bytes fails deployment activation before owner or mutation (1192.621792ms)
+✖ helper-bytes fails deployment activation before owner or mutation (1021.699917ms)
+✖ wrapper-bytes fails deployment activation before owner or mutation (616.889375ms)
+✖ runtime-bytes fails deployment activation before owner or mutation (1095.297667ms)
+✖ symlink fails deployment activation before owner or mutation (1131.251875ms)
+✖ hardlink fails deployment activation before owner or mutation (1084.4625ms)
+✖ manifest-permission fails deployment activation before owner or mutation (1696.646583ms)
+✖ expired service identity refuses activation without owner/daemon mutations (1450.217458ms)
+✖ wrong-key owner validation refuses local activation (1588.409417ms)
+✖ wrong-session owner validation refuses local activation (2011.864166ms)
+✖ stale owner validation refuses local activation (1502.736708ms)
+✖ timeout owner validation refuses local activation (1149.280916ms)
+✖ timed out original command never automatically advances or retries after restart (1385.506959ms)
+✖ record replacement or malformed bootstrap claim cannot permit a tick (1117.01525ms)
+✖ foreign job arguments or duplicate override entries remain unverified and redacted (883.117167ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 11
+ℹ fail 28
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32976.082958
+
+✖ failing tests:
+
+test at src/unattended_scheduler_control.test.ts:79:1
+✖ real preparation is inactive and gated tick performs no operation before explicit activation (1271.691833ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:80:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:88:1
+✖ explicit activation validates fresh owner and records original before each exact launchctl command (1105.928166ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:89:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:108:1
+✖ default current source/Node binding refuses another private prepared runtime (1087.404875ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:109:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:115:1
+✖ unknown bootstrap is manually reconciled from exact job, never replayed (1085.92225ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:116:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:127:1
+✖ unknown enable with absent job stays unknown and cannot acquire bootstrap authority (1095.015167ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:128:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:137:1
+✖ concurrent activation originals have one exclusive claim and one daemon mutation sequence (1266.936875ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:138:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:144:1
+✖ urgent disable racing activation prevents the later bootstrap (844.328208ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:145:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:155:1
+✖ original operation deadline is rechecked after enable and never extended (870.081084ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:156:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:165:1
+✖ failed exclusive bootstrap journal publication permits no daemon bootstrap (1004.966084ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:166:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:172:1
+✖ disable latches before IPC, survives uncertain bootout and remains manually reconcilable (1086.955584ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:173:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:188:1
+✖ local disabled latch does not falsely prove a loaded process was stopped (798.941042ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:189:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:198:1
+✖ disable and status remain available without owner credentials after helper drift (928.394833ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:199:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ profile-permission fails deployment activation before owner or mutation (801.048167ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ profile-bytes fails deployment activation before owner or mutation (1192.621792ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ helper-bytes fails deployment activation before owner or mutation (1021.699917ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ wrapper-bytes fails deployment activation before owner or mutation (616.889375ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ runtime-bytes fails deployment activation before owner or mutation (1095.297667ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ symlink fails deployment activation before owner or mutation (1131.251875ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ hardlink fails deployment activation before owner or mutation (1084.4625ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:208:3
+✖ manifest-permission fails deployment activation before owner or mutation (1696.646583ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:209:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:223:1
+✖ expired service identity refuses activation without owner/daemon mutations (1450.217458ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:224:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:230:3
+✖ wrong-key owner validation refuses local activation (1588.409417ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:231:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:230:3
+✖ wrong-session owner validation refuses local activation (2011.864166ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:231:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:230:3
+✖ stale owner validation refuses local activation (1502.736708ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:231:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:230:3
+✖ timeout owner validation refuses local activation (1149.280916ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:231:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:246:1
+✖ timed out original command never automatically advances or retries after restart (1385.506959ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:247:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:255:1
+✖ record replacement or malformed bootstrap claim cannot permit a tick (1117.01525ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:256:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_scheduler_control.test.ts:264:1
+✖ foreign job arguments or duplicate override entries remain unverified and redacted (883.117167ms)
+  Error: SCHEDULER_DEPLOYMENT_UNVERIFIED
+      at loadSchedulerDeployment (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_deployment.ts:126:18)
+      at async fixture (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:37:22)
+      at async TestContext.<anonymous> (file:///Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/export-mcp-current-local-20261001-scheduler-tail2/tools/collect-notification-mcp/src/unattended_scheduler_control.test.ts:265:13)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

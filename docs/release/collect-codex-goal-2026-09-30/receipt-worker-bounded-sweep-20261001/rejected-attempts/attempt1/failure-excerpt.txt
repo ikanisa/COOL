@@ -1,0 +1,8 @@
+9fe9e2a2b7e71aacb27cd3", "request_id": "f4b058ab-3aa2-4023-9d64-81d5eb846800", "recorded_at": "2026-10-01T16:20:08.994355Z", "principal_id": "c8403339-5061-46c9-89db-566167f9b510", "state_at_action": "pending", "contract_version": 2}
+{"label": "installer-only immutable duplicate-history run anchors", "sql_sha256": "57978d0ac37970142058626d380e4aeb024f964a7df8d86f925b41a5c8fcf375", "exit_code": 3}
+ERROR:  23514: new row for relation "runs" violates check constraint "runs_check"
+DETAIL:  Failing row contains (997a0000-0000-4000-8000-000000000046, 1c50a489-a0a8-4176-8eea-3780eb0e68f3, c8403339-5061-46c9-89db-566167f9b510, 46, 1, Shadow, {99780000-0000-4000-8000-000000030001}, null, 2026-10-01 16:20:09.075261+00, 2026-10-01 16:22:09.075262+00, f, null).
+SCHEMA NAME:  collect_receipt_operations
+TABLE NAME:  runs
+CONSTRAINT NAME:  runs_check
+LOCATION:  ExecConstraints, execMain.c:2033

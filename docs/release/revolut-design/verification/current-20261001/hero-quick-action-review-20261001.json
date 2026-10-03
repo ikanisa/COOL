@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-01T17:27:28.556246+00:00",
+  "design_authority": "revolut-design",
+  "kind": "Shared hero quick-action accessibility correction",
+  "finding": "At enlarged 3.2x text, the two-column action row split single words and truncated the longer Contribute & Join label.",
+  "implementation": "Columns reduce to the existing balanced two-column pattern, then full-width actions when the longest measured word needs more space. Labels keep natural complete height. Real action callbacks and semantics remain.",
+  "source_anchors": [
+    "LIVE-020",
+    "LIVE-032",
+    "references/component-contracts.md",
+    "references/pwa-and-accessibility.md"
+  ],
+  "comparison_kind": "Native quick-action pattern with explicit large-text reflow adaptation",
+  "inputs_sha256": {
+    "lib/shared/widgets/collect_scaffold_chrome.dart": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b",
+    "test/features/hero_quick_action_reflow_test.dart": "85f36ea58f4c374dc5f92d412cfffa507ca681e690f48e4f0cd08ffb5fd94328"
+  },
+  "verification": {
+    "before": "Normal-scale case passed; enlarged real-font case failed for truncated label.",
+    "after": "4 affected tests pass: 320px 1x and3.2x actual Inter word geometry and action taps, existing amount layout and semantic action consumers.",
+    "analysis": "No issues found",
+    "authority": "pass"
+  },
+  "logs": [
+    {
+      "path": ".cache/revolut-design-20260930/hero-reflow-before.log",
+      "sha256": "cc7dd694e06fced781f173b2eb69580c6f5866fe99599d6861296dc47bb9cff9"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/hero-reflow-affected-final.log",
+      "sha256": "75fb181914017c568826dc6ce54e0b4d3f0b41d744d8be065a34451d285e9c4b"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/hero-reflow-analysis.log",
+      "sha256": "56f8496aec6885daaa6da2f033b78cf1f6dd317c911156bc32b19a554311dd41"
+    },
+    {
+      "path": ".cache/revolut-design-20260930/authority-after-hero.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    }
+  ],
+  "open_material_findings": []
+}

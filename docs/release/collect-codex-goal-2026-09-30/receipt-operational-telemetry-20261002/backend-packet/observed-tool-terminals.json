@@ -1,0 +1,130 @@
+{
+  "scope": "Observed outer tool results; raw nested command receipts retained in each stage; no failed checks included in accepted counts",
+  "entries": [
+    {
+      "evidence_path": "sql-attempt2",
+      "exec_session_id": 26531,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt3",
+      "exec_session_id": 97238,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt4",
+      "exec_session_id": 57081,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt5",
+      "exec_session_id": 19127,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt6",
+      "exec_session_id": 53067,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt7",
+      "exec_session_id": 67231,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt8",
+      "exec_session_id": 41574,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt9",
+      "exec_session_id": 97366,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt10",
+      "exec_session_id": 19863,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt11",
+      "exec_session_id": 89802,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt12",
+      "exec_session_id": 22838,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "sql-attempt13",
+      "exec_session_id": 29769,
+      "observed_terminal_exit_code": 0
+    },
+    {
+      "evidence_path": "freshness-tail1",
+      "exec_session_id": 48143,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "freshness-tail2",
+      "exec_session_id": 50242,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "freshness-tail3",
+      "exec_session_id": 67051,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "freshness-tail4",
+      "exec_session_id": 56182,
+      "observed_terminal_exit_code": 0
+    },
+    {
+      "evidence_path": "freshness-tail5",
+      "exec_session_id": 89218,
+      "observed_terminal_exit_code": 0
+    },
+    {
+      "evidence_path": "tail-checkpoint",
+      "exec_session_id": 93377,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "admin/brace-tail/initial-followup",
+      "exec_session_id": 71622,
+      "observed_terminal_exit_code": 1
+    },
+    {
+      "evidence_path": "admin/brace-tail/corrected-boundaries",
+      "exec_session_id": 66833,
+      "observed_terminal_exit_code": 0
+    },
+    {
+      "evidence_path": "sql-attempt1",
+      "exec_session_id": null,
+      "observed_terminal_exit_code": null,
+      "explicit_exec_reap_claim": false,
+      "result_status": "failed",
+      "retained_target_cleanup": true
+    },
+    {
+      "evidence_path": "sql-attempt12 pre-run syntax invocation",
+      "exec_session_id": null,
+      "synchronous_terminal_exit_code": 1,
+      "chunk_id": "a315a3",
+      "error": "Python fixture string quoting syntax; corrected before target creation; no SQL cases claimed"
+    },
+    {
+      "evidence_path": "sql-attempt14",
+      "exec_session_id": 7871,
+      "observed_terminal_exit_code": 0
+    },
+    {
+      "evidence_path": "freshness-tail6",
+      "exec_session_id": 1659,
+      "observed_terminal_exit_code": 0
+    }
+  ]
+}

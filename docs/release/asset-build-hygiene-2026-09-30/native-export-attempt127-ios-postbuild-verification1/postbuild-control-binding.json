@@ -1,0 +1,12 @@
+{
+  "original_packet": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/asset-build-hygiene-2026-09-30/native-export-attempt127-ios-continuation4",
+  "original_wrapper_failure_sha256": "610ede1ad25b3412a8bfba4ed70c09428e1959debbbbff3293f7bd63938378ba",
+  "actual_compilation_log_sha256": "b47741486c48cd04d28a626fe9a391236850cef738cf9ddb22c0e58e40131f79",
+  "before_binding_sha256": "624109852359d21c921436925c7f3b3518b8b68708066648eb7c8a8a116d7a3b",
+  "original_verifier_sha256": "a5aa5c04bd93e0c25a8f194147f9812a88cfe58524b4aeef54d0122e3b533829",
+  "corrected_verifier_sha256": "fb370f6180915be2462d10ba6e2e8fe28f6e6c2c9777491ac3c361e5f3d2bc63",
+  "accepted_pure35_controls_sha256": "8de8c11018aa7a6ee8d32ccf77cda1da25c8709a3b2c3284579097986248501b",
+  "compiler_or_artifact_inputs_mutated": false,
+  "compilation_reexecuted": false,
+  "permitted_verifier_change": "Compare the same complete unique dependency/artifact rows independent of resolver serialization order; full metadata and binary-tree checks remain."
+}

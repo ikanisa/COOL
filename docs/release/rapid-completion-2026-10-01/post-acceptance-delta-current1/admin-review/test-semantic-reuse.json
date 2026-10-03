@@ -1,0 +1,8 @@
+{
+  "only_changed_input_between_runs": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+  "before_sha256": "80f5222710207351dfafab60e4bd7579f05e7d64588410b718a4d6d83fc3eb9c",
+  "after_sha256": "2f62de33d18795795764eef5059f60aa6889e550dc9900d616b8db750c24a723",
+  "imported_helpers_before_main_unchanged": true,
+  "helper_section_sha256": "e0af98671a4bd6ed47498dd9a6755ef91522d2aaf0ec8849e6bdaa87bbddee4a",
+  "scope": "Only the false foreign-delivery UUID in main() changed; imported fixture helpers and all runtime/SDK/package/SQL-observation inputs remain exact."
+}
